@@ -101,6 +101,18 @@ int SCHED_CONFIG::parse(FILE* f) {
             char hostname[256];
             gethostname(hostname, 256);
             if (!strcmp(hostname, db_host)) strcpy(db_host, "localhost");
+            if (!strlen(replica_db_host)) {
+                strcpy(replica_db_host, db_host);
+            }
+            if (!strlen(replica_db_name)) {
+                strcpy(replica_db_name, db_name);
+            }
+            if (!strlen(replica_db_user)) {
+                strcpy(replica_db_user, db_user);
+            }
+            if (!strlen(replica_db_passwd)) {
+                strcpy(replica_db_passwd, db_passwd);
+            }
             return 0;
         }
         if (xp.parse_str(tag, "master_url", master_url, sizeof(master_url))) continue;
@@ -109,6 +121,10 @@ int SCHED_CONFIG::parse(FILE* f) {
         if (xp.parse_str(tag, "db_user", db_user, sizeof(db_user))) continue;
         if (xp.parse_str(tag, "db_passwd", db_passwd, sizeof(db_passwd))) continue;
         if (xp.parse_str(tag, "db_host", db_host, sizeof(db_host))) continue;
+        if (xp.parse_str(tag, "replica_db_name", replica_db_name, sizeof(replica_db_name))) continue;
+        if (xp.parse_str(tag, "replica_db_user", replica_db_user, sizeof(replica_db_user))) continue;
+        if (xp.parse_str(tag, "replica_db_passwd", replica_db_passwd, sizeof(replica_db_passwd))) continue;
+        if (xp.parse_str(tag, "replica_db_host", replica_db_host, sizeof(replica_db_host))) continue;
         if (xp.parse_str(tag, "project_dir", project_dir, sizeof(project_dir))) continue;
         if (xp.parse_int(tag, "shmem_key", shmem_key)) continue;
         if (xp.parse_str(tag, "key_dir", key_dir, sizeof(key_dir))) continue;

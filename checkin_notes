@@ -343,3 +343,17 @@ Charlie 28 Jan 2011
         boinc.xcodeproj/
             project.pbxproj
  
+David  28 Jan 2011
+    - back end: allow the specification of a read-only DB replica
+        (in config.xml) to include DB name, user, and password.
+    - back end: add read-only replica info to SCHED_CONFIG,
+        so that C++ programs can use the replica
+        (currently only PHP code can use it)
+    - db_dump: use the read-only DB replica if it exists.
+
+    html/inc/
+        boinc_db.inc
+        db.inc
+    sched/
+        sched_config.cpp,h
+        db_dump.cpp

@@ -47,6 +47,10 @@ struct SCHED_CONFIG {
     char db_user[256];
     char db_passwd[256];
     char db_host[256];
+    char replica_db_name[256];
+    char replica_db_user[256];
+    char replica_db_passwd[256];
+    char replica_db_host[256];
     int shmem_key;
     char project_dir[256];
     char key_dir[256];

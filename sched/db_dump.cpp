@@ -838,10 +838,10 @@ int main(int argc, char** argv) {
         exit(1);
     }
     retval = boinc_db.open(
-        config.db_name,
-        db_host?db_host:config.db_host,
-        config.db_user,
-        config.db_passwd
+        config.replica_db_name,
+        db_host?db_host:config.replica_db_host,
+        config.replica_db_user,
+        config.replica_db_passwd
     );
     if (retval) {
         log_messages.printf(MSG_CRITICAL, "Can't open DB\n");

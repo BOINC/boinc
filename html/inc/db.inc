@@ -26,9 +26,19 @@ function db_init_aux($try_replica=false) {
     $config = get_config();
     $user = parse_config($config, "<db_user>");
     $pass = parse_config($config, "<db_passwd>");
+    $db_name = parse_config($config, "<db_name>");
     $host = null;
-    if ($try_replica == true) {
-      $host = parse_config($config, "<replica_db_host>");
+    if ($try_replica) {
+        $x = parse_config($config, "<replica_db_host>");
+        if ($x) {
+            $host = $x;
+            $x = parse_config($config, "<replica_db_user>");
+            if ($x) $user = $x;
+            $x = parse_config($config, "<replica_db_passwd>");
+            if ($x) $pass = $x;
+            $x = parse_config($config, "<replica_db_name>");
+            if ($x) $db_name = $x;
+        }
     }
     if ($host == null) {
         $host = parse_config($config, "<db_host>");
@@ -40,7 +50,6 @@ function db_init_aux($try_replica=false) {
     if (!$link) {
         return 1;
     }
-    $db_name = parse_config($config, "<db_name>");
     if (!mysql_select_db($db_name, $link)) {
         echo "selecting $db_name\n";
         return 2;

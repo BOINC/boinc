@@ -40,6 +40,12 @@ class BoincDb extends DbConn {
         }
         $instance = new DbConn();
         if ($readonly && $replica_host) {
+            $x = parse_config($config, '<replica_db_user>');
+            if ($x) $user = $x;
+            $x = parse_config($config, '<replica_db_passwd>');
+            if ($x) $passwd = $x;
+            $x = parse_config($config, '<replica_db_name>');
+            if ($x) $name = $x;
             $retval = $instance->init_conn($user, $passwd, $replica_host, $name);
             if ($retval) {
                 self::$instance = $instance;
