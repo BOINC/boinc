@@ -297,8 +297,7 @@ CSimpleTaskPanel::CSimpleTaskPanel( wxWindow* parent ) :
 	
     // TODO: Standard Mac progress indicator's animation uses lots of CPU 
     // time, and also triggers unnecessary Erase events.  Should we use a 
-    // non-standard progress indicator on Mac?  See also workarounds in 
-    // CSimplePanelBase::OnEraseBackground(), CSimpleGUIPanel::OnEraseBackground().
+    // non-standard progress indicator on Mac?
 	m_ProgressBar = new wxGauge( this, wxID_ANY, 100, wxDefaultPosition, wxDefaultSize, wxGA_HORIZONTAL );
 	m_ProgressBar->SetValue( 50 );
     GetTextExtent(wxT("0"), &w, &h);
