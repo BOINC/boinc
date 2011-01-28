@@ -124,6 +124,11 @@ void CSimpleProjectCommandPopupButton::OnProjectCommandsButton(wxMouseEvent& /*e
     
     m_RemoveProjectMenuItem->Enable(!project->attached_via_acct_mgr);
 
+#ifdef __WXMAC__
+    // Disable tooltips on Mac while menus are popped up because they cover menus
+    wxToolTip::Enable(false);
+#endif
+
 	PopupMenu(m_ProjectCommandsPopUpMenu);
 }
 

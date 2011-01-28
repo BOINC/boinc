@@ -131,6 +131,11 @@ void CSimpleTaskPopupButton::OnTasksCommandButton(wxMouseEvent& /*event*/) {
 
     m_AbortMenuItem->Enable(enableAbort);
 
+#ifdef __WXMAC__
+    // Disable tooltips on Mac while menus are popped up because they cover menus
+    wxToolTip::Enable(false);
+#endif
+
 	PopupMenu(m_TaskCommandPopUpMenu);
 
 

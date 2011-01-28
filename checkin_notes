@@ -323,6 +323,8 @@ Charlie 28 Jan 2011
     - MGR: Use our control IDs instead of wxID_HELP for Help buttons 
         for Mac accessibility (wxID_HELP makes a bitmap button on 
         Macs which VoiceOver screen reader can't read.)
+    - MGR: Disable tooltips on Mac while new simple GUI menus are 
+        popped up because they cover menus.
        
     clientgui/
         DlgAdvPreferences.cpp
@@ -330,6 +332,14 @@ Charlie 28 Jan 2011
         sg_BoincSimpleFrame.cpp
         sg_DlgMessages.cpp
         sg_DlgPreferences.cpp
+        sg_ProjectCommandPopup.cpp
+        sg_ProjectWebSitesPopup.cpp
+        sg_TaskCommandPopup.cpp
         wizardex.cpp
         SkinManager.cpp
+        mac/
+            MacBitmapComboBox.cpp, .h
+     mac_build/
+        boinc.xcodeproj/
+            project.pbxproj
  

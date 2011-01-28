@@ -90,6 +90,11 @@ void CSimpleProjectWebSitesPopupButton::RebuildMenu() {
 
 
 void CSimpleProjectWebSitesPopupButton::OnProjectWebSiteButton(wxMouseEvent& WXUNUSED(event)) {
+#ifdef __WXMAC__
+    // Disable tooltips on Mac while menus are popped up because they cover menus
+    wxToolTip::Enable(false);
+#endif
+
 	PopupMenu(m_ProjectWebSitesPopUpMenu);
 }
 

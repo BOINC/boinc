@@ -442,6 +442,11 @@ void CNewSimpleFrame::OnRefreshView(CFrameEvent& WXUNUSED(event)) {
     if (dlgMsgsPtr) {
         dlgMsgsPtr->OnRefresh();
     }
+    
+#ifdef __WXMAC__
+    // We disabled tooltips on Mac while menus were popped up because they cover menus
+    wxToolTip::Enable(true);
+#endif
 
     bAlreadyRunning = false;
 

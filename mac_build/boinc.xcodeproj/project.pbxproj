@@ -200,6 +200,7 @@
 		DD7475520D86273300860636 /* coproc.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD7475500D86273300860636 /* coproc.cpp */; };
 		DD7748B50A356D6C0025D05E /* SetupSecurity.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD7748B40A356D6C0025D05E /* SetupSecurity.cpp */; };
 		DD7749680A3596380025D05E /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD1929D80918A2F100C31BCF /* Security.framework */; };
+		DD77A71812F2D1C9006B82E9 /* MacBitmapComboBox.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD77A71612F2D1C9006B82E9 /* MacBitmapComboBox.cpp */; };
 		DD7A5D8312EEBE5E0006268E /* sg_TaskCommandPopup.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD7A5D8212EEBE5E0006268E /* sg_TaskCommandPopup.cpp */; };
 		DD7A5D9F12EEBFC20006268E /* sg_ProjectWebSitesPopup.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD7A5D9E12EEBFC20006268E /* sg_ProjectWebSitesPopup.cpp */; };
 		DD7A5DAB12EEC37B0006268E /* sg_ProjectCommandPopup.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD7A5DAA12EEC37B0006268E /* sg_ProjectCommandPopup.cpp */; };
@@ -306,7 +307,6 @@
 		DDBC6CA50D5D458700564C49 /* boinc_ss_logo.png in Resources */ = {isa = PBXBuildFile; fileRef = DDBC6CA40D5D458700564C49 /* boinc_ss_logo.png */; };
 		DDBD51760C169B770074905B /* LoginItemAPI.c in Sources */ = {isa = PBXBuildFile; fileRef = DD1277BE081F3E73007B5DE1 /* LoginItemAPI.c */; };
 		DDBE74390C03B1C600453BB8 /* cs_platforms.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDBE74380C03B1C600453BB8 /* cs_platforms.cpp */; };
-		DDBEABA212DB1E930087252D /* MacBitmapComboBox.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDBEABA112DB1E930087252D /* MacBitmapComboBox.cpp */; };
 		DDC06AB410A3E93F00C8D9A5 /* url.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDC06AB210A3E93F00C8D9A5 /* url.cpp */; };
 		DDC06AB810A3E97700C8D9A5 /* url.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDC06AB210A3E93F00C8D9A5 /* url.cpp */; };
 		DDC06ABC10A3E98D00C8D9A5 /* url.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDC06AB210A3E93F00C8D9A5 /* url.cpp */; };
@@ -829,6 +829,8 @@
 		DD7475500D86273300860636 /* coproc.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = coproc.cpp; sourceTree = "<group>"; };
 		DD7748980A356C880025D05E /* SetUpSecurity */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = SetUpSecurity; sourceTree = BUILT_PRODUCTS_DIR; };
 		DD7748B40A356D6C0025D05E /* SetupSecurity.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SetupSecurity.cpp; path = ../clientgui/mac/SetupSecurity.cpp; sourceTree = SOURCE_ROOT; };
+		DD77A71612F2D1C9006B82E9 /* MacBitmapComboBox.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MacBitmapComboBox.cpp; sourceTree = "<group>"; };
+		DD77A71712F2D1C9006B82E9 /* MacBitmapComboBox.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MacBitmapComboBox.h; sourceTree = "<group>"; };
 		DD7A5D8112EEBDF30006268E /* sg_TaskCommandPopup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = sg_TaskCommandPopup.h; path = ../clientgui/sg_TaskCommandPopup.h; sourceTree = SOURCE_ROOT; };
 		DD7A5D8212EEBE5E0006268E /* sg_TaskCommandPopup.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = sg_TaskCommandPopup.cpp; path = ../clientgui/sg_TaskCommandPopup.cpp; sourceTree = SOURCE_ROOT; };
 		DD7A5D9D12EEBFC20006268E /* sg_ProjectWebSitesPopup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = sg_ProjectWebSitesPopup.h; path = ../clientgui/sg_ProjectWebSitesPopup.h; sourceTree = SOURCE_ROOT; };
@@ -944,8 +946,6 @@
 		DDBDF4A90987091800464F83 /* ValidateEmailAddress.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = ValidateEmailAddress.cpp; path = ../clientgui/ValidateEmailAddress.cpp; sourceTree = SOURCE_ROOT; };
 		DDBDF4AA0987091800464F83 /* ValidateEmailAddress.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = ValidateEmailAddress.h; path = ../clientgui/ValidateEmailAddress.h; sourceTree = SOURCE_ROOT; };
 		DDBE74380C03B1C600453BB8 /* cs_platforms.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = cs_platforms.cpp; sourceTree = "<group>"; };
-		DDBEABA012DB1E930087252D /* MacBitmapComboBox.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MacBitmapComboBox.h; path = ../clientgui/MacBitmapComboBox.h; sourceTree = "<group>"; };
-		DDBEABA112DB1E930087252D /* MacBitmapComboBox.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MacBitmapComboBox.cpp; path = ../clientgui/MacBitmapComboBox.cpp; sourceTree = "<group>"; };
 		DDC06AB210A3E93F00C8D9A5 /* url.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = url.cpp; path = ../lib/url.cpp; sourceTree = SOURCE_ROOT; };
 		DDC06AB310A3E93F00C8D9A5 /* url.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = url.h; path = ../lib/url.h; sourceTree = SOURCE_ROOT; };
 		DDC132F10E2DAB1B0014D305 /* AsyncRPC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AsyncRPC.h; sourceTree = "<group>"; };
@@ -1771,8 +1771,8 @@
 				DD1F0ACD0822069E00AFC5FA /* MacGUI.pch */,
 				DDA99BF31099AF18002F8E9B /* MacAccessiblity.cpp */,
 				DD29728E10BB657A00DF3C2E /* MacAccessiblity.h */,
-				DDBEABA112DB1E930087252D /* MacBitmapComboBox.cpp */,
-				DDBEABA012DB1E930087252D /* MacBitmapComboBox.h */,
+				DD77A71612F2D1C9006B82E9 /* MacBitmapComboBox.cpp */,
+				DD77A71712F2D1C9006B82E9 /* MacBitmapComboBox.h */,
 				DD2F32F707F2A88B00645DDC /* MacSysMenu.cpp */,
 				DDA9D3BB09189A8C0060E7A7 /* Mac_GUI.cpp */,
 				DD2F32EF07F2A83E00645DDC /* MacSysMenu.h */,
@@ -2636,13 +2636,13 @@
 				DD4FA25D121828E400154856 /* BOINCHtmlLBox.cpp in Sources */,
 				DD4FA2621218290600154856 /* BOINCVListBox.cpp in Sources */,
 				DDD0697312D70C9400120920 /* sg_TaskPanel.cpp in Sources */,
-				DDBEABA212DB1E930087252D /* MacBitmapComboBox.cpp in Sources */,
 				DDC321AE12E45162006CB55F /* sg_PanelBase.cpp in Sources */,
 				DDDD6D8012E4611300C258A0 /* sg_ProjectPanel.cpp in Sources */,
 				DD7A5D8312EEBE5E0006268E /* sg_TaskCommandPopup.cpp in Sources */,
 				DD7A5D9F12EEBFC20006268E /* sg_ProjectWebSitesPopup.cpp in Sources */,
 				DD7A5DAB12EEC37B0006268E /* sg_ProjectCommandPopup.cpp in Sources */,
 				DD7A5E5012EEE3A20006268E /* sg_BoincSimpleFrame.cpp in Sources */,
+				DD77A71812F2D1C9006B82E9 /* MacBitmapComboBox.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
