@@ -286,7 +286,6 @@ Charlie 27 Jan 2011
         AdvancedFrame.cpp, .h
         BOINCGUIApp.cpp, .h
         Events.h
-        MacBitmapComboBox.cpp, .h (new)
         sg_BoincSimpleFrame.cpp, .h (new)
         sg_CustomControls.cpp, .h
         sg_TaskPanel.cpp, .h (new)
@@ -296,6 +295,8 @@ Charlie 27 Jan 2011
         sg_ProjectWebSitesPopup.cpp, .h (new)
         sg_TaskCommandPopup.cpp, .h (new)
         SkinManager.cpp
+        mac/
+            MacBitmapComboBox.cpp, .h (new)
         res/
             RedDot16.xpm (new)
             YellowDot16.xpm (new)
