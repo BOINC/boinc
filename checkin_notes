@@ -357,3 +357,19 @@ David  28 Jan 2011
     sched/
         sched_config.cpp,h
         db_dump.cpp
+
+David  28 Jan 2011
+    - new script sched/transitioner_catchup.php: transitions all WUs
+        that need it, then exits.
+        For big projects coming up after an outage, run this before bin/start
+        to minimize startup overload
+    - tweaks to PHP libraries to allow them to be used
+        by scripts anywhere in the dir hierarchy
+
+    sched/
+        transitioner_catchup.php
+    html/inc/
+        boinc_db.inc
+        util_basics.inc
+    py/Boinc/
+        setup_project.py

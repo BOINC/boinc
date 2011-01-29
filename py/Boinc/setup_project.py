@@ -368,7 +368,7 @@ sys.path.insert(0, os.path.join('%s', 'py'))
     map(lambda (s): install(builddir('sched',s), dir('cgi-bin',s)),
         [ 'cgi', 'file_upload_handler'])
     map(lambda (s): install(builddir('sched',s), dir('bin',s)),
-        [ 'make_work', 'feeder', 'transitioner',
+        [ 'make_work', 'feeder', 'transitioner', 'transitioner_catchup.php',
           'sample_bitwise_validator', 'sample_trivial_validator',
           'file_deleter', 'sample_dummy_assimilator',
           'sample_assimilator', 'sample_work_generator',

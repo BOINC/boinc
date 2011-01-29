@@ -20,11 +20,13 @@
 // doesn't pull in translation.inc etc.
 
 function web_stopped() {
-    return file_exists("../../stop_web");
+    $d = dirname(__FILE__);
+    return file_exists("$d/../../stop_web");
 }
 
 function sched_stopped() {
-    return file_exists("../../stop_sched");
+    $d = dirname(__FILE__);
+    return file_exists("$d/../../stop_sched");
 }
 
 function show_page($x, $y) {
@@ -64,7 +66,8 @@ $g_config = null;
 function get_config() {
     global $g_config;
     if ($g_config == null) {
-       $g_config = file_get_contents("../../config.xml");
+        $d = dirname(__FILE__);
+        $g_config = file_get_contents("$d/../../config.xml");
     }
     return $g_config;
 }
@@ -115,7 +118,7 @@ function parse_bool($xml, $tag) {
     return false;
 }
 
-// look for a particular element in the ../../config.xml file
+// look for a particular element in the config file
 //
 function parse_config($config, $tag) {
     $element = parse_element($config, $tag);
