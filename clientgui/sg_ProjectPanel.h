@@ -63,8 +63,8 @@ class CSimpleProjectPanel : public CSimplePanelBase
         void OnWizardUpdate();
         void OnProjectWebSiteButton(wxCommandEvent& /*event*/);
         void UpdateProjectList();
-        std::string CSimpleProjectPanel::GetProjectIconLoc(char* project_url);
-        wxBitmap* CSimpleProjectPanel::GetProjectSpecificBitmap(char* project_url);
+        std::string GetProjectIconLoc(char* project_url);
+        wxBitmap* GetProjectSpecificBitmap(char* project_url);
 
 	protected:
 		CTransparentStaticText*             m_myProjectsLabel;
@@ -82,6 +82,7 @@ class CSimpleProjectPanel : public CSimplePanelBase
         double                              m_Project_last_rpc_time;
         wxString                            m_sAddProjectToolTip;
         wxString                            m_sSynchronizeToolTip;
+        double                              m_fDisplayedCredit;
 };
 
 #endif //__sg_ProjectPanel__

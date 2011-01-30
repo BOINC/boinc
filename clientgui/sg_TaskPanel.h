@@ -21,7 +21,6 @@
 
 #define SELECTBYRESULTNAME 0
 
-#include "sg_CustomControls.h"
 #include "sg_PanelBase.h"
 
 
@@ -89,7 +88,6 @@ class CSimpleTaskPanel : public CSimplePanelBase
         void Update();
         wxRect GetProgressRect() { return m_ProgressRect; }
         void ReskinInterface();
-        void EllipseStringIfNeeded(wxString& s, wxWindow *win);	
 
 	private:
         void OnTaskSelection(wxCommandEvent &event);
@@ -104,7 +102,6 @@ class CSimpleTaskPanel : public CSimplePanelBase
 		bool Suspended();
 		bool ProjectUpdateScheduled();
 		void DisplayIdleState();
-        void UpdateStaticText(CTransparentStaticText **whichText, wxString s);
         void OnPulseProgressIndicator(wxTimerEvent& event);
 
 	protected:

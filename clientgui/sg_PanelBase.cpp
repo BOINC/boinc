@@ -143,3 +143,40 @@ void CSimplePanelBase::OnEraseBackground(wxEraseEvent& event) {
     dc->SetPen(oldPen);
     dc->SetBrush(oldBrush);
 }
+
+
+void CSimplePanelBase::UpdateStaticText(CTransparentStaticText **whichText, wxString s) {
+    EllipseStringIfNeeded(s, *whichText);
+    if ((*whichText)->GetLabel() != s) {
+        (*whichText)->SetLabel(s);
+        (*whichText)->SetName(s);   // For accessibility on Windows
+    }
+}
+
+
+void CSimplePanelBase::EllipseStringIfNeeded(wxString& s, wxWindow *win) {
+    int x, y;
+    int w, h;
+    wxSize sz = GetSize();
+    win->GetPosition(&x, &y);
+    int maxWidth = sz.GetWidth() - x - SIDEMARGINS;
+    
+    win->GetTextExtent(s, &w, &h);
+    
+    // Adapted from ellipis code in wxRendererGeneric::DrawHeaderButtonContents()
+    if (w > maxWidth) {
+        int ellipsisWidth;
+        win->GetTextExtent( wxT("..."), &ellipsisWidth, NULL);
+        if (ellipsisWidth > maxWidth) {
+            s.Clear();
+            w = 0;
+        } else {
+            do {
+                s.Truncate( s.length() - 1 );
+                win->GetTextExtent( s, &w, &h);
+            } while (((w + ellipsisWidth) > maxWidth) && s.length() );
+            s.append( wxT("...") );
+            w += ellipsisWidth;
+        }
+    }
+}

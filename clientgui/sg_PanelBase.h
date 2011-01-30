@@ -18,6 +18,7 @@
 #ifndef __sg_PanelBase__
 #define __sg_PanelBase__
 
+#include "sg_CustomControls.h" 
 #include "sg_BoincSimpleFrame.h"
 
 
@@ -69,14 +70,6 @@ class CSimplePanelBase : public wxPanel
     DECLARE_DYNAMIC_CLASS( CSimplePanelBase )
     DECLARE_EVENT_TABLE()
 
-	private:
-        void MakeBGBitMap();
-        void OnEraseBackground(wxEraseEvent& event);
-
-	protected:
-        wxBitmap                    m_TaskPanelBGBitMap;
-        bool                        m_GotBGBitMap;
-	
 	public:
         CSimplePanelBase();
 		CSimplePanelBase( wxWindow* parent);
@@ -84,6 +77,15 @@ class CSimplePanelBase : public wxPanel
 
     void ReskinInterface();
     virtual wxRect GetProgressRect() { return wxRect(0, 0, 0, 0); }
+    void UpdateStaticText(CTransparentStaticText **whichText, wxString s);
+    void EllipseStringIfNeeded(wxString& s, wxWindow *win);
+
+	protected:
+        void MakeBGBitMap();
+        void OnEraseBackground(wxEraseEvent& event);
+
+        wxBitmap                    m_TaskPanelBGBitMap;
+        bool                        m_GotBGBitMap;
 };
 
 #endif //__sg_PanelBase__

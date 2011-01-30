@@ -129,7 +129,8 @@ CSimpleProjectPanel::CSimpleProjectPanel( wxWindow* parent ) :
 #endif
     
     // Make sure m_TotalCreditValue string is large enough 
-    str.Printf(_("%s: %0.2f"), m_sTotalWorkDoneString.c_str(), 9999999999.99);
+    m_fDisplayedCredit = 9999999999.99;
+    str.Printf(_("%s: %0.2f"), m_sTotalWorkDoneString.c_str(), m_fDisplayedCredit);
 	m_TotalCreditValue = new CTransparentStaticText( this, wxID_ANY, str, wxDefaultPosition, wxDefaultSize, wxST_NO_AUTORESIZE );
 	m_TotalCreditValue->Wrap( -1 );
 	m_TotalCreditValue->Enable( false );
@@ -246,9 +247,12 @@ void CSimpleProjectPanel::UpdateInterface() {
 
             m_ProjectWebSitesButton->Enable();
             
-            str.Printf(_("%s: %0.2f"), m_sTotalWorkDoneString.c_str(), project->user_total_credit);
-            m_TotalCreditValue->SetLabel(str);
-            m_TotalCreditValue->SetName(str);   // For accessibility on Windows
+            if (m_fDisplayedCredit != project->user_total_credit) {
+                m_fDisplayedCredit = project->user_total_credit;
+                str.Printf(_("%s: %0.2f"), m_sTotalWorkDoneString.c_str(), m_fDisplayedCredit);
+                UpdateStaticText(&m_TotalCreditValue, str);
+                m_TotalCreditValue->SetName(str);   // For accessibility on Windows
+            }
             projName = m_ProjectSelectionCtrl->GetStringSelection();
             str.Printf(_("Pop up a menu of websites for project %s"), projName.c_str());
             m_ProjectWebSitesButton->SetToolTip(str);
@@ -257,7 +261,8 @@ void CSimpleProjectPanel::UpdateInterface() {
         } else {
             m_ProjectWebSitesButton->Disable();
             m_CurrentSelectedProjectURL[0] = '\0';
-            m_TotalCreditValue->SetLabel(wxEmptyString);
+            m_fDisplayedCredit = -1.0;
+            UpdateStaticText(&m_TotalCreditValue, wxEmptyString);
             m_TotalCreditValue->SetName(wxEmptyString);   // For accessibility on Windows
             m_ProjectWebSitesButton->SetToolTip(wxEmptyString);
             m_ProjectCommandsButton->SetToolTip(wxEmptyString);
