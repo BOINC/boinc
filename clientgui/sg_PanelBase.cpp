@@ -123,7 +123,7 @@ void CSimplePanelBase::OnEraseBackground(wxEraseEvent& event) {
     if (!m_GotBGBitMap) {
         MakeBGBitMap();
     }
-
+//return;
     dc->DrawBitmap(m_TaskPanelBGBitMap, 0, 0);
     wxPen oldPen= dc->GetPen();
     wxBrush oldBrush = dc->GetBrush();

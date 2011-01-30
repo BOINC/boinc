@@ -183,6 +183,9 @@ BEGIN_EVENT_TABLE(CSimpleTaskPanel, CSimplePanelBase)
 //    EVT_BUTTON(ID_TASKSCOMMANDBUTTON, CSimpleTaskPanel::OnTasksCommand)
 //    EVT_LEFT_DOWN(CSimpleTaskPanel::OnTasksCommand)
     EVT_TIMER(ID_SIMPLE_PROGRESSPULSETIMER, CSimpleTaskPanel::OnPulseProgressIndicator)
+#ifdef __WXMAC__
+    EVT_ERASE_BACKGROUND(CSimpleTaskPanel::OnEraseBackground)    
+#endif
 END_EVENT_TABLE()
 
 #if TESTBIGICONPOPUP
@@ -210,6 +213,7 @@ CSimpleTaskPanel::CSimpleTaskPanel( wxWindow* parent ) :
     m_CurrentTaskSelection = -1;
     m_sNoProjectsString = _("You don't have any projects.  Please Add a Project.");
     m_sNotAvailableString = _("Not available");
+    m_progressBarRect = NULL;
 
     SetFont(wxFont(SMALL_FONT,wxSWISS,wxNORMAL,wxNORMAL,false,wxT("Arial")));
     
@@ -297,7 +301,8 @@ CSimpleTaskPanel::CSimpleTaskPanel( wxWindow* parent ) :
 	
     // TODO: Standard Mac progress indicator's animation uses lots of CPU 
     // time, and also triggers unnecessary Erase events.  Should we use a 
-    // non-standard progress indicator on Mac?
+    // non-standard progress indicator on Mac?  See also optimizations in 
+    // CSimpleGUIPanel::OnEraseBackground and CSimpleTaskPanel::OnEraseBackground.
 	m_ProgressBar = new wxGauge( this, wxID_ANY, 100, wxDefaultPosition, wxDefaultSize, wxGA_HORIZONTAL );
 	m_ProgressBar->SetValue( 50 );
     GetTextExtent(wxT("0"), &w, &h);
@@ -350,6 +355,10 @@ CSimpleTaskPanel::~CSimpleTaskPanel()
     
     m_pulseTimer->Stop(); 
     delete m_pulseTimer;
+    
+    if (m_progressBarRect) {
+        delete m_progressBarRect;
+    }
 }
 
 
@@ -893,3 +902,23 @@ void CSimpleTaskPanel::DisplayIdleState() {
 		}
 	}
 }
+
+
+#ifdef __WXMAC__
+// Avoid unnecessary drawing due to Mac progress indicator's animation
+void CSimpleTaskPanel::OnEraseBackground(wxEraseEvent& event) {
+    wxRect clipRect;
+    wxDC *dc = event.GetDC();
+     
+    if (m_progressBarRect == NULL) {
+        m_progressBarRect = new wxRect(m_ProgressBar->GetRect());
+        m_progressBarRect->Inflate(1, 0);
+    }
+    dc->GetClippingBox(&clipRect.x, &clipRect.y, &clipRect.width, &clipRect.height);
+    if (clipRect.IsEmpty() || m_progressBarRect->Contains(clipRect)) {
+        return;
+    }
+
+    CSimplePanelBase::OnEraseBackground(event);
+}
+#endif

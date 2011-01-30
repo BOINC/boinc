@@ -288,12 +288,12 @@ Charlie 27 Jan 2011
         Events.h
         sg_BoincSimpleFrame.cpp, .h (new)
         sg_CustomControls.cpp, .h
-        sg_TaskPanel.cpp, .h (new)
         sg_PanelBase.cpp, .h (new)
         sg_ProjectCommandPopup.cpp, .h (new)
         sg_ProjectPanel.cpp, .h (new)
         sg_ProjectWebSitesPopup.cpp, .h (new)
         sg_TaskCommandPopup.cpp, .h (new)
+        sg_TaskPanel.cpp, .h (new)
         SkinManager.cpp
         mac/
             MacBitmapComboBox.cpp, .h (new)
@@ -373,3 +373,19 @@ David  28 Jan 2011
         util_basics.inc
     py/Boinc/
         setup_project.py
+
+Charlie 29 Jan 2011
+    - MGR: Code cleanup.
+    
+    clientgui/
+        sg_PanelBase.cpp, .h
+        sg_ProjectPanel.cpp, .h
+        sg_TaskPanel.cpp, .h
+
+Charlie 30 Jan 2011
+    - MGR: New Simple GUI optimization.
+    
+    clientgui/
+        sg_BoincSimpleFrame.cpp
+        sg_PanelBase.cpp
+        sg_TaskPanel.cpp, .h

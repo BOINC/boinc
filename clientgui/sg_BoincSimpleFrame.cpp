@@ -582,7 +582,6 @@ CSimpleGUIPanel::CSimpleGUIPanel(wxWindow* parent) :
     m_oldWorkCount = 0;
     m_bNewNoticeAlert = false;
     m_bNoticesButtonIsRed = false;
-    m_bisPaused = false;
     
 	checkForNewNoticesTimer = new wxTimer(this, ID_SIMPLEMESSAGECHECKTIMER);
 	checkForNewNoticesTimer->Start(5000); 
@@ -635,6 +634,7 @@ CSimpleGUIPanel::CSimpleGUIPanel(wxWindow* parent) :
     
     mainSizer->Fit(GetParent());
     
+    m_bisPaused = false;
     m_PauseResumeButton->SetLabel(m_sPauseString);
     m_PauseResumeButton->SetToolTip(m_sPauseButtonToolTip);
 
@@ -727,6 +727,7 @@ void CSimpleGUIPanel::OnFrameRender() {
     wxASSERT(pDoc);
     int                 workCount = pDoc->GetSimpleGUIWorkCount();
 	CC_STATUS           status;
+    bool                isPaused;
 
     // OnFrameRender() may be called while SimpleGUI initialization is 
     // in progress due to completion of a periodic get_messages RPC, 
@@ -748,11 +749,13 @@ void CSimpleGUIPanel::OnFrameRender() {
             // Show resume or pause as appropriate
             pDoc->GetCoreClientStatus(status);
 
-            m_bisPaused = (RUN_MODE_NEVER == status.task_mode);
-            m_PauseResumeButton->SetLabel(m_bisPaused ? m_sResumeString : m_sPauseString);
-            m_PauseResumeButton->SetToolTip(m_bisPaused ? m_sResumeButtonToolTip : m_sPauseButtonToolTip);
+            isPaused = (RUN_MODE_NEVER == status.task_mode);
+            if (isPaused != m_bisPaused) {
+                m_bisPaused = isPaused;
+                m_PauseResumeButton->SetLabel(m_bisPaused ? m_sResumeString : m_sPauseString);
+                m_PauseResumeButton->SetToolTip(m_bisPaused ? m_sResumeButtonToolTip : m_sPauseButtonToolTip);
+            }
             m_PauseResumeButton->Enable();
-
 		    UpdateProjectView();
 	    } else {
             m_PauseResumeButton->SetToolTip(wxEmptyString);
@@ -913,7 +916,15 @@ void CSimpleGUIPanel::OnPaint(wxPaintEvent& event) {
 
 void CSimpleGUIPanel::OnEraseBackground(wxEraseEvent& event) {
     wxDC *dc = event.GetDC();
+    
+#ifdef __WXMAC__
+    // Avoid unnecessary drawing due to Mac progress indicator's animation
+    wxRect clipRect;
+    wxRect taskRect = m_taskPanel->GetRect();
+    dc->GetClippingBox(&clipRect.x, &clipRect.y, &clipRect.width, &clipRect.height);
+    if (clipRect.IsEmpty() || taskRect.Contains(clipRect)) {
+        return;
+    }
+#endif
     dc->DrawBitmap(m_bmpBg, 0, 0);
 }
-
-

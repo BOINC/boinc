@@ -51,7 +51,7 @@ class CSlideShowPanel : public wxPanel
         void OnSlideShowTimer(wxTimerEvent& WXUNUSED(event));
         void AdvanceSlideShow(bool changeSlide);
         void OnPaint(wxPaintEvent& WXUNUSED(event));
-        
+                
     private:
         wxTimer*                    m_ChangeSlideTimer;
         wxBitmap                    m_SlideBitmap;
@@ -105,6 +105,10 @@ class CSimpleTaskPanel : public CSimplePanelBase
         void OnPulseProgressIndicator(wxTimerEvent& event);
 
 	protected:
+#ifdef __WXMAC__
+        void OnEraseBackground(wxEraseEvent& event);
+#endif
+        wxRect*                     m_progressBarRect;
 		CTransparentStaticText*     m_myTasksLabel;
 		CBOINCBitmapComboBox*       m_TaskSelectionCtrl;
 		CTransparentStaticText*     m_TaskProjectLabel;
