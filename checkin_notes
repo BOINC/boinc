@@ -389,3 +389,9 @@ Charlie 30 Jan 2011
         sg_BoincSimpleFrame.cpp
         sg_PanelBase.cpp
         sg_TaskPanel.cpp, .h
+
+Charlie 30 Jan 2011
+    Fix compile break on Linux.
+    
+    clientgui/
+        sg_DlgPreferences.cpp

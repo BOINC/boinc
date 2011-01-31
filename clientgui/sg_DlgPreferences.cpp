@@ -469,11 +469,10 @@ void CPanelPreferences::CreateControls()
 #ifdef wxUSE_TOOLTIPS
 	itemButton46->SetToolTip(new wxToolTip(_("Get help with BOINC")));
 #endif
-    itemBoxSizer44->Add(itemButton46, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 #else
-    wxContextHelpButton* itemButton45 = new wxContextHelpButton(this);
-    itemBoxSizer44->Add(itemButton45, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
+    wxContextHelpButton* itemButton46 = new wxContextHelpButton(this);
 #endif
+    itemBoxSizer44->Add(itemButton46, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 #endif
 
     // Set validators
