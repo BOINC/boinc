@@ -125,6 +125,7 @@ class CSimpleTaskPanel : public CSimplePanelBase
 		wxButton*                   m_TaskCommandsButton;
         wxRect                      m_ProgressRect;
         int                         m_oldWorkCount;
+        int                         m_iPctDoneX10;
 		time_t                      error_time;
         wxBitmap                    m_GreenDot;
         wxBitmap                    m_YellowDot;

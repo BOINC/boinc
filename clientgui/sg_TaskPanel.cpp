@@ -304,7 +304,8 @@ CSimpleTaskPanel::CSimpleTaskPanel( wxWindow* parent ) :
     // non-standard progress indicator on Mac?  See also optimizations in 
     // CSimpleGUIPanel::OnEraseBackground and CSimpleTaskPanel::OnEraseBackground.
 	m_ProgressBar = new wxGauge( this, wxID_ANY, 100, wxDefaultPosition, wxDefaultSize, wxGA_HORIZONTAL );
-	m_ProgressBar->SetValue( 50 );
+    m_iPctDoneX10 = 1000;
+	m_ProgressBar->SetValue( 100 );
     GetTextExtent(wxT("0"), &w, &h);
     m_ProgressBar->SetMinSize(wxSize(245, h));
     m_ProgressBar->SetToolTip(_("This task's progress"));
@@ -400,8 +401,11 @@ void CSimpleTaskPanel::Update() {
             m_TimeRemainingValue->Hide();
             m_ProgressValueText->Hide();
             m_TaskCommandsButton->Hide();
-            m_ProgressBar->Pulse();
-            m_pulseTimer->Start(100); 
+            if (m_iPctDoneX10 >= 0) {
+                m_iPctDoneX10 = -1;
+                m_ProgressBar->Pulse();
+                m_pulseTimer->Start(100);
+            }
         }
         
         DisplayIdleState();
@@ -456,11 +460,19 @@ void CSimpleTaskPanel::Update() {
 //                f = result->final_elapsed_time;
                 UpdateStaticText(&m_ElapsedTimeValue, GetElapsedTimeString(f));
                 UpdateStaticText(&m_TimeRemainingValue, GetTimeRemainingString(result->estimated_cpu_time_remaining));
-                float percNum = result->fraction_done * 100.0;
-                m_ProgressBar->SetValue(percNum);
-                m_pulseTimer->Stop(); 
-                s.Printf(_("%.1lf%%"), percNum);
-                UpdateStaticText(&m_ProgressValueText, s);
+                int pctDoneX10 = result->fraction_done * 1000.0;
+                if (m_iPctDoneX10 != pctDoneX10) {
+                    if (m_iPctDoneX10 < 0) {
+                        m_pulseTimer->Stop();
+                    }
+                    int pctDone = pctDoneX10 / 10;
+                    if (pctDone != (m_iPctDoneX10 / 10)) {
+                        m_ProgressBar->SetValue(pctDone);
+                    }
+                    s.Printf(_("%d.%d%%"), pctDoneX10 / 10, pctDoneX10 % 10 );
+                    m_iPctDoneX10 = pctDoneX10;
+                    UpdateStaticText(&m_ProgressValueText, s);
+                }
                 UpdateStaticText(&m_StatusValueText, GetStatusString(result));
             } else {
                 UpdateStaticText(&m_TaskProjectName, m_sNotAvailableString);
@@ -469,8 +481,11 @@ void CSimpleTaskPanel::Update() {
 #endif
                 UpdateStaticText(&m_ElapsedTimeValue, GetElapsedTimeString(-1.0));
                 UpdateStaticText(&m_TimeRemainingValue, GetTimeRemainingString(-1.0));
-                m_ProgressBar->Pulse();
-                m_pulseTimer->Start(100); 
+                if (m_iPctDoneX10 >= 0) {
+                    m_iPctDoneX10 = -1;
+                    m_ProgressBar->Pulse();
+                    m_pulseTimer->Start(100);
+                }
                 UpdateStaticText(&m_ProgressValueText, wxEmptyString);
                 UpdateStaticText(&m_StatusValueText, GetStatusString(NULL));
             }

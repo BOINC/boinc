@@ -391,7 +391,15 @@ Charlie 30 Jan 2011
         sg_TaskPanel.cpp, .h
 
 Charlie 30 Jan 2011
-    Fix compile break on Linux.
+    - MGR: Fix compile break on Linux.
     
     clientgui/
         sg_DlgPreferences.cpp
+
+Charlie 31 Jan 2011
+    - MGR: Update Makefile.
+    - MGR: New Simple GUI optimization.
+
+    clientgui/
+        Makefile.am
+        sg_TaskPanel.cpp, .h
