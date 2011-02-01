@@ -403,3 +403,11 @@ Charlie 31 Jan 2011
     clientgui/
         Makefile.am
         sg_TaskPanel.cpp, .h
+
+Charlie 31 Jan 2011
+    - Mac: Add info about dual-GPU Powerbooks to ReadMe files.
+    
+    mac_installer/
+        GR-ReadMe.rtf
+        PTP-ReadMe.rtf
+        ReadMe.rtf
