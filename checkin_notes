@@ -442,6 +442,7 @@ Charlie 1 Feb 2011
         sg_BoincSimpleFrame.cpp
         sg_DlgMessages.cpp
         sg_DlgPreferences.cpp
+        sg_ProjectsComponent.cpp
      mac_build/
         boinc.xcodeproj/
             project.pbxproj
