@@ -159,6 +159,10 @@ function cache_need_to_regenerate($path, $max_age){
 
 // Returns cached data or false if nothing was found
 function get_cached_data($max_age, $params=""){
+    global $no_cache;
+
+    if ($no_cache) return;
+
     $path = get_path($params);
     cache_check_diskspace();
     if ($max_age) {

@@ -411,3 +411,12 @@ Charlie 31 Jan 2011
         GR-ReadMe.rtf
         PTP-ReadMe.rtf
         ReadMe.rtf
+
+David  1 Feb 2011
+    - client: make "wrong URL" message not be a notice
+    - web: fix caching problem when PHP not installed as Apache module
+
+    html/inc/
+        cache.inc
+    client/
+        cs_scheduler.cpp
