@@ -420,3 +420,13 @@ David  1 Feb 2011
         cache.inc
     client/
         cs_scheduler.cpp
+
+Charlie 1 Feb 2011
+    - Mac: Localize items in Mac's BOINC menu.
+    
+    clientgui/
+        AdvancedFrame.cpp
+        sg_BoincSimpleFrame.cpp
+        mac/
+            MacGUI.pch
+            Mac_GUI.cpp

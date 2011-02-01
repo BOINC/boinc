@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2011 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -22,7 +22,9 @@
 
 #include <unistd.h>
 #include "sandbox.h"
-
+#include "miofile.h"
+#include "BOINCGUIApp.h"
+#include "SkinManager.h"
 
 // Determine if the currently logged-in user is auhorized to 
 // perform operations which have potential security risks.  
@@ -65,4 +67,61 @@ Boolean Mac_Authorize()
     }
         
     return sIsAuthorized;
+}
+
+
+// Localize the items in the Mac's BOINC menu
+void MacLocalizeBOINCMenu() {
+    MenuRef BOINCMenu;
+    MenuItemIndex itemIndex;
+    wxString originalText;
+    CFStringRef localizedText;
+    CFStringRef menuItemString;
+    OSStatus err;
+    UInt16 count;
+    CSkinAdvanced*     pSkinAdvanced = wxGetApp().GetSkinManager()->GetAdvanced();
+    wxASSERT(pSkinAdvanced);
+    
+    GetIndMenuItemWithCommandID(NULL, kHICommandAbout, 1, &BOINCMenu, &itemIndex);
+    originalText.Printf(_("About %s"), pSkinAdvanced->GetApplicationShortName().c_str());
+    localizedText = CFStringCreateWithCString(NULL, originalText.char_str(), kCFStringEncodingUTF8);
+    SetMenuItemTextWithCFString(BOINCMenu, itemIndex, localizedText);
+
+    GetIndMenuItemWithCommandID(NULL, kHICommandPreferences, 1, &BOINCMenu, &itemIndex);
+    originalText = _("Preferences…");
+    localizedText = CFStringCreateWithCString(NULL, originalText.char_str(), kCFStringEncodingUTF8);
+    SetMenuItemTextWithCFString(BOINCMenu, itemIndex, localizedText);
+
+    originalText = _("Services");
+    localizedText = CFStringCreateWithCString(NULL, originalText.char_str(), kCFStringEncodingUTF8);
+    count = CountMenuItems(BOINCMenu);
+    for (itemIndex=1; itemIndex<=count; ++itemIndex) {
+        err = CopyMenuItemTextAsCFString(BOINCMenu, itemIndex, &menuItemString);
+        if (err == noErr) {
+            if (CFStringCompare(menuItemString, CFSTR("Services"), 0) == kCFCompareEqualTo) {
+                SetMenuItemTextWithCFString(BOINCMenu, itemIndex, localizedText);
+                break;
+            }
+        }
+    }
+
+    GetIndMenuItemWithCommandID(NULL, kHICommandHide, 1, &BOINCMenu, &itemIndex);
+    originalText.Printf(_("Hide %s"), pSkinAdvanced->GetApplicationShortName().c_str());
+    localizedText = CFStringCreateWithCString(NULL, originalText.char_str(), kCFStringEncodingUTF8);
+    SetMenuItemTextWithCFString(BOINCMenu, itemIndex, localizedText);
+
+    GetIndMenuItemWithCommandID(NULL, kHICommandHideOthers, 1, &BOINCMenu, &itemIndex);
+    originalText = _("Hide Others");
+    localizedText = CFStringCreateWithCString(NULL, originalText.char_str(), kCFStringEncodingUTF8);
+    SetMenuItemTextWithCFString(BOINCMenu, itemIndex, localizedText);
+
+    GetIndMenuItemWithCommandID(NULL, kHICommandShowAll, 1, &BOINCMenu, &itemIndex);
+    originalText = _("Show All");
+    localizedText = CFStringCreateWithCString(NULL, originalText.char_str(), kCFStringEncodingUTF8);
+    SetMenuItemTextWithCFString(BOINCMenu, itemIndex, localizedText);
+
+    GetIndMenuItemWithCommandID(NULL, kHICommandQuit, 1, &BOINCMenu, &itemIndex);
+    originalText.Printf(_("Quit %s"), pSkinAdvanced->GetApplicationShortName().c_str());
+    localizedText = CFStringCreateWithCString(NULL, originalText.char_str(), kCFStringEncodingUTF8);
+    SetMenuItemTextWithCFString(BOINCMenu, itemIndex, localizedText);
 }

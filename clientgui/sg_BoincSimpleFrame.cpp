@@ -231,6 +231,7 @@ CNewSimpleFrame::CNewSimpleFrame(wxString title, wxIcon* icon, wxIcon* icon32, w
 
 #ifdef __WXMAC__
     m_pMenubar->MacInstallMenuBar();
+    MacLocalizeBOINCMenu();
 
     // Enable Mac OS X's standard Preferences menu item (handled in MacSysMenu.cpp)
     EnableMenuCommand(NULL, kHICommandPreferences);

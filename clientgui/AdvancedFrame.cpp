@@ -718,6 +718,7 @@ bool CAdvancedFrame::CreateMenu() {
     SetMenuBar(m_pMenubar);
 #ifdef __WXMAC__
     m_pMenubar->MacInstallMenuBar();
+    MacLocalizeBOINCMenu();
 #endif
     if (m_pOldMenubar) {
         delete m_pOldMenubar;
