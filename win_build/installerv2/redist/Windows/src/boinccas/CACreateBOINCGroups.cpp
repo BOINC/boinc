@@ -69,12 +69,21 @@ UINT CACreateBOINCGroups::OnExecution()
     BOOL             bBOINCUsersCreated = FALSE;
     BOOL             bBOINCProjectsCreated = FALSE;
     tstring          strUserSID;
+    tstring          strUsersGroupName;
     tstring          strBOINCMasterAccountUsername;
     tstring          strBOINCProjectAccountUsername;
     tstring          strEnableProtectedApplicationExecution;
+    PSID             pAdminSID = NULL;
+    PSID             pInstallingUserSID = NULL;
+    PSID             pBOINCMasterSID = NULL;
+    PSID             pBOINCProjectSID = NULL;
+    SID_IDENTIFIER_AUTHORITY SIDAuthNT = SECURITY_NT_AUTHORITY;
 
 
     uiReturnValue = GetProperty( _T("UserSID"), strUserSID );
+    if ( uiReturnValue ) return uiReturnValue;
+
+    uiReturnValue = GetProperty( _T("GROUPALIAS_USERS"), strUsersGroupName );
     if ( uiReturnValue ) return uiReturnValue;
 
     uiReturnValue = GetProperty( _T("BOINC_MASTER_USERNAME"), strBOINCMasterAccountUsername );
@@ -85,6 +94,68 @@ UINT CACreateBOINCGroups::OnExecution()
 
     uiReturnValue = GetProperty( _T("ENABLEPROTECTEDAPPLICATIONEXECUTION2"), strEnableProtectedApplicationExecution );
     if ( uiReturnValue ) return uiReturnValue;
+
+
+    // Create a SID for the BUILTIN\Administrators group.
+    if(!AllocateAndInitializeSid(
+                     &SIDAuthNT, 2,
+                     SECURITY_BUILTIN_DOMAIN_RID,
+                     DOMAIN_ALIAS_RID_ADMINS,
+                     0, 0, 0, 0, 0, 0,
+                     &pAdminSID)) 
+    {
+        LogMessage(
+            INSTALLMESSAGE_ERROR,
+            NULL, 
+            NULL,
+            NULL,
+            GetLastError(),
+            _T("AllocateAndInitializeSid Error for BUILTIN\\Administrators")
+        );
+        return ERROR_INSTALL_FAILURE;
+    }
+
+    // Create a SID for the current logged in user.
+    if(!ConvertStringSidToSid(strUserSID.c_str(), &pInstallingUserSID)) 
+    {
+        LogMessage(
+            INSTALLMESSAGE_ERROR,
+            NULL, 
+            NULL,
+            NULL,
+            GetLastError(),
+            _T("ConvertStringSidToSid Error for installing user")
+        );
+        return ERROR_INSTALL_FAILURE;
+    }
+
+    // Create a SID for the 'boinc_master' user account.
+    if(!GetAccountSid(NULL, strBOINCMasterAccountUsername.c_str(), &pBOINCMasterSID))
+    {
+        LogMessage(
+            INSTALLMESSAGE_ERROR,
+            NULL, 
+            NULL,
+            NULL,
+            GetLastError(),
+            _T("GetAccountSid Error for 'boinc_master' user account")
+        );
+        return ERROR_INSTALL_FAILURE;
+    }
+
+    // Create a SID for the 'boinc_project' user account.
+    if(!GetAccountSid(NULL, strBOINCProjectAccountUsername.c_str(), &pBOINCProjectSID))
+    {
+        LogMessage(
+            INSTALLMESSAGE_ERROR,
+            NULL, 
+            NULL,
+            NULL,
+            GetLastError(),
+            _T("GetAccountSid Error for 'boinc_master' user account")
+        );
+        return ERROR_INSTALL_FAILURE;
+    }
 
 
     // Create the 'boinc_admins' group if needed
@@ -119,32 +190,7 @@ UINT CACreateBOINCGroups::OnExecution()
 
     // If we just created the 'boinc_admins' local group then we need to populate
     //   it with the default accounts.
-    PSID                         pAdminSID = NULL;
-    PSID                         pInstallingUserSID = NULL;
-    PSID                         pBOINCMasterSID = NULL;
     LOCALGROUP_MEMBERS_INFO_0    lgrmiAdmins;
-    SID_IDENTIFIER_AUTHORITY     SIDAuthNT = SECURITY_NT_AUTHORITY;
-
-
-    // Create a SID for the BUILTIN\Administrators group.
-    if(!AllocateAndInitializeSid(
-                     &SIDAuthNT, 2,
-                     SECURITY_BUILTIN_DOMAIN_RID,
-                     DOMAIN_ALIAS_RID_ADMINS,
-                     0, 0, 0, 0, 0, 0,
-                     &pAdminSID)) 
-    {
-        LogMessage(
-            INSTALLMESSAGE_ERROR,
-            NULL, 
-            NULL,
-            NULL,
-            GetLastError(),
-            _T("AllocateAndInitializeSid Error for BUILTIN\\Administrators")
-        );
-        return ERROR_INSTALL_FAILURE;
-    }
-
     lgrmiAdmins.lgrmi0_sid = pAdminSID;
 
     nasReturnValue = NetLocalGroupAddMembers(
@@ -163,23 +209,6 @@ UINT CACreateBOINCGroups::OnExecution()
             NULL,
             nasReturnValue,
             _T("Failed to add user to the 'boinc_admins' group (Administrator).")
-        );
-        return ERROR_INSTALL_FAILURE;
-    }
-
-    if(pAdminSID != NULL) FreeSid(pAdminSID);
-
-
-    // Create a SID for the current logged in user.
-    if(!ConvertStringSidToSid(strUserSID.c_str(), &pInstallingUserSID)) 
-    {
-        LogMessage(
-            INSTALLMESSAGE_ERROR,
-            NULL, 
-            NULL,
-            NULL,
-            GetLastError(),
-            _T("ConvertStringSidToSid Error for installing user")
         );
         return ERROR_INSTALL_FAILURE;
     }
@@ -206,23 +235,6 @@ UINT CACreateBOINCGroups::OnExecution()
         return ERROR_INSTALL_FAILURE;
     }
 
-    if(pInstallingUserSID != NULL) HeapFree(GetProcessHeap(), 0, pInstallingUserSID);
-
-
-    // Create a SID for the 'boinc_master' user account.
-    if(!GetAccountSid(NULL, strBOINCMasterAccountUsername.c_str(), &pBOINCMasterSID))
-    {
-        LogMessage(
-            INSTALLMESSAGE_ERROR,
-            NULL, 
-            NULL,
-            NULL,
-            GetLastError(),
-            _T("GetAccountSid Error for 'boinc_master' user account")
-        );
-        return ERROR_INSTALL_FAILURE;
-    }
-
     lgrmiAdmins.lgrmi0_sid = pBOINCMasterSID;
 
     nasReturnValue = NetLocalGroupAddMembers(
@@ -244,8 +256,6 @@ UINT CACreateBOINCGroups::OnExecution()
         );
         return ERROR_INSTALL_FAILURE;
     }
-
-    if(pBOINCMasterSID != NULL) HeapFree(GetProcessHeap(), 0, pBOINCMasterSID);
 
 
     // Create the 'boinc_users' group if needed
@@ -309,36 +319,20 @@ UINT CACreateBOINCGroups::OnExecution()
         bBOINCProjectsCreated = TRUE;
     }
 
-    // If we just created the 'boinc_projects' local group or the user has enabled 
-    //   protected application execution then we need to add the 'boinc_project'
-    //   account to the local group.
+    // If the user has enabled protected application execution then we need to add the 'boinc_project'
+    //   account to the local group and the 'Users' local group.  As an aside 'boinc_master' is also added
+    //   to the 'Users' group.
     if (_T("1") == strEnableProtectedApplicationExecution) {
 
-        PSID                         pBOINCProjectSID = NULL;
-        LOCALGROUP_MEMBERS_INFO_0    lgrmiProjects;
-        SID_IDENTIFIER_AUTHORITY     SIDAuthWorld = SECURITY_WORLD_SID_AUTHORITY;
+        LOCALGROUP_MEMBERS_INFO_0    lgrmiMembers;
 
-        // Create a SID for the 'boinc_project' user account.
-        if(!GetAccountSid(NULL, strBOINCProjectAccountUsername.c_str(), &pBOINCProjectSID))
-        {
-            LogMessage(
-                INSTALLMESSAGE_ERROR,
-                NULL, 
-                NULL,
-                NULL,
-                GetLastError(),
-                _T("GetAccountSid Error for 'boinc_master' user account")
-            );
-            return ERROR_INSTALL_FAILURE;
-        }
-
-        lgrmiProjects.lgrmi0_sid = pBOINCProjectSID;
+        lgrmiMembers.lgrmi0_sid = pBOINCProjectSID;
 
         nasReturnValue = NetLocalGroupAddMembers(
             NULL,
             _T("boinc_projects"),
             0,
-            (LPBYTE)&lgrmiProjects,
+            (LPBYTE)&lgrmiMembers,
             1
         );
 
@@ -354,9 +348,48 @@ UINT CACreateBOINCGroups::OnExecution()
             return ERROR_INSTALL_FAILURE;
         }
 
-        if(pBOINCProjectSID != NULL) FreeSid(pBOINCProjectSID);
-    }
+        nasReturnValue = NetLocalGroupAddMembers(
+            NULL,
+            strUsersGroupName.c_str(),
+            0,
+            (LPBYTE)&lgrmiMembers,
+            1
+        );
 
+        if ((NERR_Success != nasReturnValue) && (ERROR_MEMBER_IN_ALIAS != nasReturnValue)) {
+            LogMessage(
+                INSTALLMESSAGE_ERROR,
+                NULL, 
+                NULL,
+                NULL,
+                nasReturnValue,
+                _T("Failed to add user to the 'Users' group (boinc_project).")
+            );
+            return ERROR_INSTALL_FAILURE;
+        }
+
+        lgrmiMembers.lgrmi0_sid = pBOINCMasterSID;
+
+        nasReturnValue = NetLocalGroupAddMembers(
+            NULL,
+            strUsersGroupName.c_str(),
+            0,
+            (LPBYTE)&lgrmiMembers,
+            1
+        );
+
+        if ((NERR_Success != nasReturnValue) && (ERROR_MEMBER_IN_ALIAS != nasReturnValue)) {
+            LogMessage(
+                INSTALLMESSAGE_ERROR,
+                NULL, 
+                NULL,
+                NULL,
+                nasReturnValue,
+                _T("Failed to add user to the 'Users' group (boinc_master).")
+            );
+            return ERROR_INSTALL_FAILURE;
+        }
+    }
 
     SetProperty( _T("BOINC_ADMINS_GROUPNAME"), _T("boinc_admins") );
     SetProperty( _T("BOINC_USERS_GROUPNAME"), _T("boinc_users") );
@@ -365,6 +398,11 @@ UINT CACreateBOINCGroups::OnExecution()
     if (bBOINCAdminsCreated || bBOINCUsersCreated || bBOINCProjectsCreated) {
         RebootWhenFinished();
     }
+
+    if(pAdminSID != NULL) FreeSid(pAdminSID);
+    if(pInstallingUserSID != NULL) FreeSid(pInstallingUserSID);
+    if(pBOINCMasterSID != NULL) FreeSid(pBOINCMasterSID);
+    if(pBOINCProjectSID != NULL) FreeSid(pBOINCProjectSID);
 
     return ERROR_SUCCESS;
 }
