@@ -115,9 +115,12 @@ void CPanelMessages::CreateControls()
 {
     CPanelMessages* itemDialog1 = this;
     CSkinSimple* pSkinSimple = wxGetApp().GetSkinManager()->GetSimple();
+    CSkinAdvanced*     pSkinAdvanced = wxGetApp().GetSkinManager()->GetAdvanced();
 
     wxASSERT(pSkinSimple);
     wxASSERT(wxDynamicCast(pSkinSimple, CSkinSimple));
+    wxASSERT(pSkinAdvanced);
+    wxASSERT(wxDynamicCast(pSkinAdvanced, CSkinAdvanced));
 
     wxFlexGridSizer* itemFlexGridSizer2 = new wxFlexGridSizer(2, 1, 0, 0);
     itemFlexGridSizer2->AddGrowableRow(0);
@@ -168,7 +171,9 @@ void CPanelMessages::CreateControls()
 		itemButton45->SetBitmapSelected(*pSkinSimple->GetHelpButton()->GetBitmapClicked());
 	}
 #ifdef wxUSE_TOOLTIPS
-	itemButton45->SetToolTip(new wxToolTip(_("Get help with BOINC")));
+    wxString helpTip;
+    helpTip.Printf(_("Get help with %s"), pSkinAdvanced->GetApplicationShortName().c_str());
+    itemButton45->SetToolTip(helpTip);
 #endif
     itemBoxSizer4->Add(itemButton45, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 #else
@@ -314,6 +319,8 @@ BEGIN_EVENT_TABLE( CDlgMessages, wxDialog )
     EVT_HELP(wxID_ANY, CDlgMessages::OnHelp)
     EVT_SHOW( CDlgMessages::OnShow )
     EVT_BUTTON( wxID_OK, CDlgMessages::OnOK )
+	EVT_SIZE(CDlgMessages::OnSize)
+    EVT_MOVE(CDlgMessages::OnMove)
 ////@end CDlgMessages event table entries
 END_EVENT_TABLE()
 
@@ -606,3 +613,17 @@ void CDlgMessages::RestoreWindowDimensions() {
 #endif  // ! __WXMAC__
 }
 
+void CDlgMessages::OnSize(wxSizeEvent& event) {
+    if (IsShown()) {
+        SaveWindowDimensions();
+    }
+    event.Skip();
+}
+
+
+void CDlgMessages::OnMove(wxMoveEvent& event) {
+    if (IsShown()) {
+        SaveWindowDimensions();
+    }
+    event.Skip();
+}

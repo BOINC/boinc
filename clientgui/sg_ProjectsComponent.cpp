@@ -88,11 +88,15 @@ CProjectsComponent::~CProjectsComponent() {
 
 void CProjectsComponent::CreateComponent()
 {
-	Freeze();
     CSkinSimple* pSkinSimple = wxGetApp().GetSkinManager()->GetSimple();
+    CSkinAdvanced*     pSkinAdvanced = wxGetApp().GetSkinManager()->GetAdvanced();
 
     wxASSERT(pSkinSimple);
     wxASSERT(wxDynamicCast(pSkinSimple, CSkinSimple));
+    wxASSERT(pSkinAdvanced);
+    wxASSERT(wxDynamicCast(pSkinAdvanced, CSkinAdvanced));
+
+	Freeze();
 
 	//Set Background color
     SetBackgroundColour(*pSkinSimple->GetBackgroundImage()->GetBackgroundColor());
@@ -134,7 +138,9 @@ void CProjectsComponent::CreateComponent()
     btnSynchronize->Show(false);
 
     /// Help
-	wxToolTip *ttHelp = new wxToolTip(_("Get help with BOINC"));
+    wxString helpTip;
+    helpTip.Printf(_("Get help with %s"), pSkinAdvanced->GetApplicationShortName().c_str());
+	wxToolTip *ttHelp = new wxToolTip(helpTip);
 	btnHelp=new wxBitmapButton(
         this,
         ID_SIMPLE_HELP,

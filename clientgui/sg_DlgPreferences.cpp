@@ -268,9 +268,12 @@ bool CPanelPreferences::Create()
 void CPanelPreferences::CreateControls()
 {
     CSkinSimple* pSkinSimple = wxGetApp().GetSkinManager()->GetSimple();
+    CSkinAdvanced*     pSkinAdvanced = wxGetApp().GetSkinManager()->GetAdvanced();
 
     wxASSERT(pSkinSimple);
     wxASSERT(wxDynamicCast(pSkinSimple, CSkinSimple));
+    wxASSERT(pSkinAdvanced);
+    wxASSERT(wxDynamicCast(pSkinAdvanced, CSkinAdvanced));
 
     CPanelPreferences* itemDialog1 = this;
 
@@ -505,7 +508,9 @@ void CPanelPreferences::CreateControls()
 		itemButton46->SetBitmapSelected(*pSkinSimple->GetHelpButton()->GetBitmapClicked());
 	}
 #ifdef wxUSE_TOOLTIPS
-	itemButton46->SetToolTip(new wxToolTip(_("Get help with BOINC")));
+    wxString helpTip;
+    helpTip.Printf(_("Get help with %s"), pSkinAdvanced->GetApplicationShortName().c_str());
+	itemButton46->SetToolTip(helpTip);
 #endif
     itemBoxSizer44->Add(itemButton46, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 #else

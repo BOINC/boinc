@@ -8494,3 +8494,29 @@ Charlie 1 Feb 2011
         mac/
             MacGUI.pch
             Mac_GUI.cpp
+
+Charlie  12 Nov 2010
+    - MGR: Save window dimensions and position on SIZE and MOVE events
+        to make sure changes are recorded even if the window is minimized
+        (iconized) when exiting BOINC.
+
+    clientgui/
+        AdvancedFrame.cpp, .h
+        DlgEventLog.cpp, .h
+        sg_DlgMessages.cpp, .h
+
+
+Charlie 1 Feb 2011
+    - MGR: Use branded short application name in Help tooltips instead 
+        of always using "BOINC".
+    - Mac: Eliminate unused source files Localization.cpp, .h from Mac 
+        project.
+
+    clientgui/
+        DlgEventLog.cpp
+        sg_DlgMessages.cpp
+        sg_DlgPreferences.cpp
+        sg_ProjectsComponent.cpp
+     mac_build/
+        boinc.xcodeproj/
+            project.pbxproj

@@ -72,6 +72,8 @@ BEGIN_EVENT_TABLE( CDlgEventLog, wxDialog )
     EVT_BUTTON(ID_COPYSELECTED, CDlgEventLog::OnMessagesCopySelected)
     EVT_BUTTON(ID_TASK_MESSAGES_FILTERBYPROJECT, CDlgEventLog::OnMessagesFilter)
     EVT_BUTTON(ID_SIMPLE_HELP, CDlgEventLog::OnButtonHelp)
+	EVT_SIZE(CDlgEventLog::OnSize)
+    EVT_MOVE(CDlgEventLog::OnMove)
     EVT_CLOSE(CDlgEventLog::OnClose)
 ////@end CDlgEventLog event table entries
 END_EVENT_TABLE()
@@ -241,6 +243,11 @@ bool CDlgEventLog::Create( wxWindow* parent, wxWindowID id, const wxString& capt
 
 void CDlgEventLog::CreateControls()
 {
+    CSkinAdvanced*     pSkinAdvanced = wxGetApp().GetSkinManager()->GetAdvanced();
+
+    wxASSERT(pSkinAdvanced);
+    wxASSERT(wxDynamicCast(pSkinAdvanced, CSkinAdvanced));
+
     wxFlexGridSizer* itemFlexGridSizer2 = new wxFlexGridSizer(2, 1, 0, 0);
     itemFlexGridSizer2->AddGrowableRow(0);
     itemFlexGridSizer2->AddGrowableCol(0);
@@ -296,11 +303,11 @@ void CDlgEventLog::CreateControls()
     itemBoxSizer4->Add(itemButton45, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 #else
 	wxButton* itemButton45 = new wxButton(this, ID_SIMPLE_HELP, _("Help"), wxDefaultPosition, wxDefaultSize);
-    itemButton45->SetHelpText(
-        _("Get help with BOINC")
-    );
+    wxString helpTip;
+    helpTip.Printf(_("Get help with %s"), pSkinAdvanced->GetApplicationShortName().c_str());
+    itemButton45->SetHelpText(helpTip);
 #ifdef wxUSE_TOOLTIPS
-	itemButton45->SetToolTip(_("Get help with BOINC"));
+	itemButton45->SetToolTip(helpTip);
 #endif
     itemBoxSizer4->Add(itemButton45, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 #endif
@@ -678,6 +685,18 @@ void CDlgEventLog::SetWindowDimensions() {
         pConfig->Write(wxT("Width"), GetSize().x);
         pConfig->Write(wxT("Height"), GetSize().y);
     }
+}
+
+
+void CDlgEventLog::OnSize(wxSizeEvent& event) {
+    SetWindowDimensions();
+    event.Skip();
+}
+
+
+void CDlgEventLog::OnMove(wxMoveEvent& event) {
+    SetWindowDimensions();
+    event.Skip();
 }
     
 
