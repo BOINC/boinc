@@ -430,3 +430,18 @@ Charlie 1 Feb 2011
         mac/
             MacGUI.pch
             Mac_GUI.cpp
+
+Charlie 1 Feb 2011
+    - MGR: Use branded short application name in Help tooltips instead 
+        of always using "BOINC".
+    - Mac: Eliminate unused source files Localization.cpp, .h from Mac 
+        project.
+
+    clientgui/
+        DlgEventLog.cpp
+        sg_BoincSimpleFrame.cpp
+        sg_DlgMessages.cpp
+        sg_DlgPreferences.cpp
+     mac_build/
+        boinc.xcodeproj/
+            project.pbxproj

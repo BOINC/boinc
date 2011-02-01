@@ -268,9 +268,12 @@ bool CPanelPreferences::Create()
 void CPanelPreferences::CreateControls()
 {
     CSkinSimple* pSkinSimple = wxGetApp().GetSkinManager()->GetSimple();
+    CSkinAdvanced*     pSkinAdvanced = wxGetApp().GetSkinManager()->GetAdvanced();
 
     wxASSERT(pSkinSimple);
     wxASSERT(wxDynamicCast(pSkinSimple, CSkinSimple));
+    wxASSERT(pSkinAdvanced);
+    wxASSERT(wxDynamicCast(pSkinAdvanced, CSkinAdvanced));
 
     CPanelPreferences* itemDialog1 = this;
 
@@ -467,7 +470,9 @@ void CPanelPreferences::CreateControls()
 #ifdef __WXMAC__
     wxButton* itemButton46 = new wxButton( this, ID_SIMPLE_HELP, _("Help"), wxDefaultPosition, wxDefaultSize, 0 );
 #ifdef wxUSE_TOOLTIPS
-	itemButton46->SetToolTip(new wxToolTip(_("Get help with BOINC")));
+    wxString helpTip;
+    helpTip.Printf(_("Get help with %s"), pSkinAdvanced->GetApplicationShortName().c_str());
+	itemButton46->SetToolTip(helpTip);
 #endif
 #else
     wxContextHelpButton* itemButton46 = new wxContextHelpButton(this);

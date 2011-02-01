@@ -578,6 +578,11 @@ CSimpleGUIPanel::CSimpleGUIPanel(wxWindow* parent) :
 {
     wxLogTrace(wxT("Function Start/End"), wxT("CSimpleGUIPanel::CSimpleGUIPanel - Overloaded Constructor Function Begin"));
 
+    CSkinAdvanced*     pSkinAdvanced = wxGetApp().GetSkinManager()->GetAdvanced();
+
+    wxASSERT(pSkinAdvanced);
+    wxASSERT(wxDynamicCast(pSkinAdvanced, CSkinAdvanced));
+
     m_taskPanel = NULL;
     m_projPanel = NULL;
     m_oldWorkCount = 0;
@@ -625,7 +630,10 @@ CSimpleGUIPanel::CSimpleGUIPanel(wxWindow* parent) :
 
     m_HelpButton = new wxButton( this, ID_SIMPLE_HELP, _("Help"), wxDefaultPosition, wxDefaultSize, 0 );
 	buttonsSizer->Add( m_HelpButton, 0, wxEXPAND | wxALIGN_RIGHT, 0 );
-    m_HelpButton->SetToolTip( _("Get help with BOINC"));
+
+    wxString helpTip;
+    helpTip.Printf(_("Get help with %s"), pSkinAdvanced->GetApplicationShortName().c_str());
+    m_HelpButton->SetToolTip(helpTip);
 
 	mainSizer->Add( buttonsSizer, 0, wxLEFT | wxRIGHT | wxEXPAND, 2 * SIDEMARGINS );
 	mainSizer->AddSpacer(10);
