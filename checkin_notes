@@ -8525,6 +8525,12 @@ Charlie 1 Feb 2011
         boinc.xcodeproj/
             project.pbxproj
 
+David  1 Feb 2011
+    - client: make "wrong URL" message not be a notice
+
+    client/
+        cs_scheduler.cpp
+
 Rom    1 Feb 2011
     - WINSETUP: Avoid a 0xc0000135 error by giving the boinc_master and
         boinc_project membership in the 'Users' group.  Dynamic linking
@@ -8537,4 +8543,3 @@ Rom    1 Feb 2011
     win_build/installerv2/redist/Windows/x64/
         boinccas.dll
         boinccas95.dll
-
