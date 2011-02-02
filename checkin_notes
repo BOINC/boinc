@@ -1,5 +1,3 @@
-<<<<<<< .working
-<<<<<<< .working
 David  3 Jan 2010
     - client: ATI available RAM wasn't being detected correctly
 
@@ -8478,6 +8476,23 @@ Rom    25 Jan 2011
         configure.ac
         version.h
 
+Charlie  12 Nov 2010
+    - MGR: Save window dimensions and position on SIZE and MOVE events
+        to make sure changes are recorded even if the window is minimized
+        (iconized) when exiting BOINC.
+
+    clientgui/
+        AdvancedFrame.cpp, .h
+        DlgEventLog.cpp, .h
+        sg_DlgMessages.cpp, .h
+
+David  25 Jan 2011
+    - client: accept <options/> and <log_flags/> in cc_config.xml
+    - client: reset log flags (as well as options) when rereading cc_config.xml
+
+    client/
+        log_flags.cpp,h
+
 Charlie 31 Jan 2011
     - Mac: Add info about dual-GPU Powerbooks to ReadMe files.
     
@@ -8494,17 +8509,6 @@ Charlie 1 Feb 2011
         mac/
             MacGUI.pch
             Mac_GUI.cpp
-
-Charlie  12 Nov 2010
-    - MGR: Save window dimensions and position on SIZE and MOVE events
-        to make sure changes are recorded even if the window is minimized
-        (iconized) when exiting BOINC.
-
-    clientgui/
-        AdvancedFrame.cpp, .h
-        DlgEventLog.cpp, .h
-        sg_DlgMessages.cpp, .h
-
 
 Charlie 1 Feb 2011
     - MGR: Use branded short application name in Help tooltips instead 
@@ -8533,3 +8537,4 @@ Rom    1 Feb 2011
     win_build/installerv2/redist/Windows/x64/
         boinccas.dll
         boinccas95.dll
+

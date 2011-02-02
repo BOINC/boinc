@@ -47,6 +47,10 @@ LOG_FLAGS log_flags;
 CONFIG config;
 
 LOG_FLAGS::LOG_FLAGS() {
+    init();
+}
+
+void LOG_FLAGS::init() {
     memset(this, 0, sizeof(LOG_FLAGS));
     // on by default (others are off by default)
     //
@@ -468,6 +472,8 @@ int CONFIG::parse(FILE* f) {
             parse_options(xp);
             continue;
         }
+        if (!strcmp(tag, "options/")) continue;
+        if (!strcmp(tag, "log_flags/")) continue;
         msg_printf_notice(NULL, false,
             "http://boinc.berkeley.edu/manager_links.php?target=notice&controlid=config",
             "%s: <%s>",
@@ -490,6 +496,7 @@ int read_config_file(bool init) {
     if (!init) {
         msg_printf(NULL, MSG_INFO, "Re-reading cc_config.xml");
         config.clear();
+        log_flags.init();
     }
     f = boinc_fopen(CONFIG_FILE, "r");
     if (!f) return ERR_FOPEN;
