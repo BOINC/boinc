@@ -1,3 +1,4 @@
 #! /bin/sh
 
-xgettext --keyword=_ -C -o ../locale/templates/BOINC-Manager.pot *.cpp clientgui/msw/*.cpp clientgui/mac/*.cpp clientgui/gtk/*.cpp
+xgettext --keyword=_ -C -o ../locale/templates/BOINC-Manager.pot *.cpp msw/*.cpp mac/*.cpp gtk/*.cpp
+ 
