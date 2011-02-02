@@ -6,16 +6,19 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BOINC Manager 5.10 Japanese\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-11-19 14:53-0500\n"
+"POT-Creation-Date: 2011-02-02 12:27-0500\n"
 "PO-Revision-Date: 2010-09-28 11:36+0200\n"
 "Last-Translator: Gen Hayase <gen0215@gmail.com>\n"
 "Language-Team: \n"
-"Language: ja\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: ja\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Generator: Pootle 2.1.1\n"
+"X-Poedit-SearchPath-1: clientgui/msw\n"
+"X-Poedit-SearchPath-2: clientgui/mac\n"
+"X-Poedit-SearchPath-3: clientgui/gtk\n"
 "X-Poedit-SearchPath-0: clientgui\n"
 "X-Poedit-SourceCharset: utf-8\n"
 "X-Poedit-Basepath: C:\\Src\\BOINCSVN\\branches\\boinc_core_release_6_12\n"
@@ -77,13 +80,11 @@ msgstr ""
 msgid "Find login information"
 msgstr "ログオン情報を探す"
 
-#: clientgui/AccountInfoPage.cpp:435
-#: clientgui/AccountInfoPage.cpp:635
+#: clientgui/AccountInfoPage.cpp:435 clientgui/AccountInfoPage.cpp:635
 msgid "&Password:"
 msgstr "パスワード(&P)："
 
-#: clientgui/AccountInfoPage.cpp:442
-#: clientgui/AccountInfoPage.cpp:659
+#: clientgui/AccountInfoPage.cpp:442 clientgui/AccountInfoPage.cpp:659
 msgid "Choose a &password:"
 msgstr "パスワードを決めて入力(&P)："
 
@@ -138,22 +139,33 @@ msgstr "アカウント・マネージャを更新"
 
 #: clientgui/AccountInfoPage.cpp:575
 #, fuzzy
-msgid "Add account manager"
+msgid "Use account manager"
 msgstr "アカウント・マネージャを更新"
 
 #: clientgui/AccountInfoPage.cpp:583
 #, c-format
-msgid "The minimum password length for this project is %d. Please enter a different password."
-msgstr "このプロジェクトでは、パスワードの最短長は %d 文字です。 別のパスワードを入力して下さい。"
+msgid ""
+"The minimum password length for this project is %d. Please enter a different "
+"password."
+msgstr ""
+"このプロジェクトでは、パスワードの最短長は %d 文字です。 別のパスワードを入力"
+"して下さい。"
 
 #: clientgui/AccountInfoPage.cpp:589
 #, c-format
-msgid "The minimum password length for this account manager is %d. Please enter a different password."
-msgstr "このアカウント・マネージャでは、パスワードの最短長は %d 文字です。別のパスワードを入力して下さい。"
+msgid ""
+"The minimum password length for this account manager is %d. Please enter a "
+"different password."
+msgstr ""
+"このアカウント・マネージャでは、パスワードの最短長は %d 文字です。別のパス"
+"ワードを入力して下さい。"
 
 #: clientgui/AccountInfoPage.cpp:601
-msgid "The password and confirmation password do not match. Please type them again."
-msgstr "確認のために二回入力していただいたパスワードが異なっています。 再度入力してください。"
+msgid ""
+"The password and confirmation password do not match. Please type them again."
+msgstr ""
+"確認のために二回入力していただいたパスワードが異なっています。 再度入力してく"
+"ださい。"
 
 #: clientgui/AccountManagerInfoPage.cpp:248
 msgid "Choose an account manager"
@@ -199,341 +211,343 @@ msgstr "接続しました"
 msgid "Disconnected"
 msgstr "接続を切りました"
 
-#: clientgui/AdvancedFrame.cpp:314
+#: clientgui/AdvancedFrame.cpp:316
 #, c-format
 msgid "Close the %s window"
 msgstr "この %s ウィンドーを閉じる"
 
-#: clientgui/AdvancedFrame.cpp:317
+#: clientgui/AdvancedFrame.cpp:319
 msgid "&Close Window"
 msgstr "ウィンドーを閉じる（&C)"
 
-#: clientgui/AdvancedFrame.cpp:328
-#: clientgui/AdvancedFrame.cpp:335
-#: clientgui/AdvancedFrame.cpp:342
+#: clientgui/AdvancedFrame.cpp:330 clientgui/AdvancedFrame.cpp:337
+#: clientgui/AdvancedFrame.cpp:344
 #, c-format
 msgid "Exit %s"
 msgstr "%s を終了する"
 
-#: clientgui/AdvancedFrame.cpp:357
+#: clientgui/AdvancedFrame.cpp:359
 msgid "&Notices\tCtrl+Shift+N"
 msgstr "お知らせ(&N)\tCtrl+Shift+N"
 
-#: clientgui/AdvancedFrame.cpp:358
+#: clientgui/AdvancedFrame.cpp:360
 msgid "Display notices"
 msgstr "お知らせを表示する"
 
-#: clientgui/AdvancedFrame.cpp:363
+#: clientgui/AdvancedFrame.cpp:365
 msgid "&Projects\tCtrl+Shift+P"
 msgstr "プロジェクト(&P)\tCtrl+Shift+P"
 
-#: clientgui/AdvancedFrame.cpp:364
+#: clientgui/AdvancedFrame.cpp:366
 msgid "Display projects"
 msgstr "プロジェクトを表示"
 
-#: clientgui/AdvancedFrame.cpp:369
+#: clientgui/AdvancedFrame.cpp:371
 msgid "&Tasks\tCtrl+Shift+T"
 msgstr "タスク(&T)\tCtrl+Shift+T"
 
-#: clientgui/AdvancedFrame.cpp:370
+#: clientgui/AdvancedFrame.cpp:372
 msgid "Display tasks"
 msgstr "タスクを表示"
 
-#: clientgui/AdvancedFrame.cpp:375
+#: clientgui/AdvancedFrame.cpp:377
 msgid "Trans&fers\tCtrl+Shift+X"
 msgstr "転送(&F)\tCtrl+Shift+X"
 
-#: clientgui/AdvancedFrame.cpp:376
+#: clientgui/AdvancedFrame.cpp:378
 msgid "Display transfers"
 msgstr "転送を表示"
 
-#: clientgui/AdvancedFrame.cpp:381
+#: clientgui/AdvancedFrame.cpp:383
 msgid "&Statistics\tCtrl+Shift+S"
 msgstr "統計(&S)\tCtrl+Shift+S"
 
-#: clientgui/AdvancedFrame.cpp:382
+#: clientgui/AdvancedFrame.cpp:384
 msgid "Display statistics"
 msgstr "統計を表示"
 
-#: clientgui/AdvancedFrame.cpp:387
+#: clientgui/AdvancedFrame.cpp:389
 msgid "&Disk usage\tCtrl+Shift+D"
 msgstr "ディスク(&D)使用量\tCtrl+Shift+D"
 
-#: clientgui/AdvancedFrame.cpp:388
+#: clientgui/AdvancedFrame.cpp:390
 msgid "Display disk usage"
 msgstr "ディスク使用量を表示"
 
-#: clientgui/AdvancedFrame.cpp:395
+#: clientgui/AdvancedFrame.cpp:397
 msgid "Simple &View...\tCtrl+Shift+V"
 msgstr "簡易表示(&V)...\tCtrl+Shift+V"
 
-#: clientgui/AdvancedFrame.cpp:396
+#: clientgui/AdvancedFrame.cpp:398
 msgid "Display the simple graphical interface."
 msgstr "簡易グラフィックインタフェースで表示します"
 
-#: clientgui/AdvancedFrame.cpp:416
+#: clientgui/AdvancedFrame.cpp:418
 #, fuzzy
 msgid "&Add project or account manager..."
 msgstr "プロジェクトまたはアカウント・マネージャに接続(&A)..."
 
-#: clientgui/AdvancedFrame.cpp:417
+#: clientgui/AdvancedFrame.cpp:419
 msgid "Volunteer for any or all of 30+ projects in many areas of science"
-msgstr "ボランティアで参加しましょう。科学の多分野に渡る30以上のプロジェクトにどれにでもいくつでも参加できます。"
+msgstr ""
+"ボランティアで参加しましょう。科学の多分野に渡る30以上のプロジェクトにどれに"
+"でもいくつでも参加できます。"
 
-#: clientgui/AdvancedFrame.cpp:421
+#: clientgui/AdvancedFrame.cpp:423
 #, c-format
 msgid "&Synchronize with %s"
 msgstr "%s に同期(&S)"
 
-#: clientgui/AdvancedFrame.cpp:425
+#: clientgui/AdvancedFrame.cpp:427
 #, c-format
 msgid "Get current settings from %s"
 msgstr "%s から現在の設定を取り出します"
 
-#: clientgui/AdvancedFrame.cpp:435
+#: clientgui/AdvancedFrame.cpp:437
 msgid "&Add project..."
 msgstr ""
 
-#: clientgui/AdvancedFrame.cpp:436
+#: clientgui/AdvancedFrame.cpp:438
 #, fuzzy
 msgid "Add a project"
 msgstr "全てのプロジェクト"
 
-#: clientgui/AdvancedFrame.cpp:439
+#: clientgui/AdvancedFrame.cpp:441
 #, c-format
 msgid "S&top using %s..."
 msgstr "%s を使うのを止める(&T)..."
 
-#: clientgui/AdvancedFrame.cpp:445
+#: clientgui/AdvancedFrame.cpp:447
 msgid "Remove this computer from account manager control."
 msgstr "このクライアントをアカウント・マネージャの制御からはずします"
 
-#: clientgui/AdvancedFrame.cpp:450
+#: clientgui/AdvancedFrame.cpp:452
 msgid "Display and network &options..."
 msgstr "表示とネットワークのオプション(&O)..."
 
-#: clientgui/AdvancedFrame.cpp:451
+#: clientgui/AdvancedFrame.cpp:453
 #, fuzzy
 msgid "Configure display options and proxy settings"
 msgstr "GUI オプションとプロキシの設定をします"
 
-#: clientgui/AdvancedFrame.cpp:455
+#: clientgui/AdvancedFrame.cpp:457
 msgid "Computing &preferences..."
 msgstr "計算に関するプレファレンス(&P)..."
 
-#: clientgui/AdvancedFrame.cpp:456
+#: clientgui/AdvancedFrame.cpp:458
 msgid "Configure computing preferences"
 msgstr "計算に関するプレファレンス (好みの設定)を指定する"
 
-#: clientgui/AdvancedFrame.cpp:464
+#: clientgui/AdvancedFrame.cpp:466
 msgid "&Run always"
 msgstr "常時稼働(&R)"
 
-#: clientgui/AdvancedFrame.cpp:465
+#: clientgui/AdvancedFrame.cpp:467
 msgid "Allow work regardless of preferences"
 msgstr "プレファレンス (好みの設定) に関わらず仕事をさせます"
 
-#: clientgui/AdvancedFrame.cpp:469
+#: clientgui/AdvancedFrame.cpp:471
 msgid "Run based on &preferences"
 msgstr "プレファレンスに従って稼働(&P)"
 
-#: clientgui/AdvancedFrame.cpp:470
+#: clientgui/AdvancedFrame.cpp:472
 msgid "Allow work according to preferences"
 msgstr "プレファレンス (好みの設定) に従って仕事をさせます"
 
-#: clientgui/AdvancedFrame.cpp:474
+#: clientgui/AdvancedFrame.cpp:476
 msgid "&Suspend"
 msgstr "一時停止(&S)"
 
-#: clientgui/AdvancedFrame.cpp:475
+#: clientgui/AdvancedFrame.cpp:477
 msgid "Stop work regardless of preferences"
 msgstr "プレファレンス (好みの設定) に関わらず仕事を停止します"
 
-#: clientgui/AdvancedFrame.cpp:500
+#: clientgui/AdvancedFrame.cpp:502
 msgid "Use GPU always"
 msgstr "常時 GPU を使う"
 
-#: clientgui/AdvancedFrame.cpp:501
+#: clientgui/AdvancedFrame.cpp:503
 msgid "Allow GPU work regardless of preferences"
 msgstr "プレファレンス (好みの設定) に関わらず GPU に仕事をさせます"
 
-#: clientgui/AdvancedFrame.cpp:505
+#: clientgui/AdvancedFrame.cpp:507
 msgid "Use GPU based on preferences"
 msgstr "プレファレンスに従って GPUを使用"
 
-#: clientgui/AdvancedFrame.cpp:506
+#: clientgui/AdvancedFrame.cpp:508
 msgid "Allow GPU work according to preferences"
 msgstr "プレファレンス (好みの設定) に従って GPU に仕事をさせます"
 
-#: clientgui/AdvancedFrame.cpp:510
+#: clientgui/AdvancedFrame.cpp:512
 msgid "Suspend GPU"
 msgstr "GPU の使用を一時停止"
 
-#: clientgui/AdvancedFrame.cpp:511
+#: clientgui/AdvancedFrame.cpp:513
 msgid "Stop GPU work regardless of preferences"
 msgstr "プレファレンス (好みの設定) に関わらず GPU の仕事を停止します"
 
-#: clientgui/AdvancedFrame.cpp:535
+#: clientgui/AdvancedFrame.cpp:537
 msgid "Network activity always available"
 msgstr "ネットワークをいつでも使用"
 
-#: clientgui/AdvancedFrame.cpp:536
+#: clientgui/AdvancedFrame.cpp:538
 msgid "Allow network activity regardless of preferences"
 msgstr "プレファレンス (好みの設定) に関わらずネットワークアクセスを許します"
 
-#: clientgui/AdvancedFrame.cpp:540
+#: clientgui/AdvancedFrame.cpp:542
 msgid "Network activity based on preferences"
 msgstr "プレファレンスに従ってネットワークを使用"
 
-#: clientgui/AdvancedFrame.cpp:541
+#: clientgui/AdvancedFrame.cpp:543
 msgid "Allow network activity according to preferences"
 msgstr "プレファレンス (好みの設定) に従ってネットワークアクセスを許します"
 
-#: clientgui/AdvancedFrame.cpp:545
+#: clientgui/AdvancedFrame.cpp:547
 msgid "Network activity suspended"
 msgstr "ネットワークの使用を一時停止"
 
-#: clientgui/AdvancedFrame.cpp:546
+#: clientgui/AdvancedFrame.cpp:548
 msgid "Stop BOINC network activity"
 msgstr "BOINC によるネットワークアクセスを停止します"
 
-#: clientgui/AdvancedFrame.cpp:556
+#: clientgui/AdvancedFrame.cpp:558
 #, c-format
 msgid "Connect to another computer running %s"
 msgstr "%s が稼動している別のコンピュータに接続します"
 
-#: clientgui/AdvancedFrame.cpp:561
+#: clientgui/AdvancedFrame.cpp:563
 msgid "Select computer..."
 msgstr "コンピュータの選択..."
 
-#: clientgui/AdvancedFrame.cpp:566
+#: clientgui/AdvancedFrame.cpp:568
 msgid "Shut down connected client..."
 msgstr "接続しているクライアントをシャットダウン..."
 
-#: clientgui/AdvancedFrame.cpp:567
+#: clientgui/AdvancedFrame.cpp:569
 msgid "Shut down the currently connected client"
 msgstr "現在接続しているクライアントをシャットダウンさせます"
 
-#: clientgui/AdvancedFrame.cpp:571
+#: clientgui/AdvancedFrame.cpp:573
 msgid "Run CPU &benchmarks"
 msgstr "CPU ベンチマークを実行(&B)"
 
-#: clientgui/AdvancedFrame.cpp:572
+#: clientgui/AdvancedFrame.cpp:574
 msgid "Runs BOINC CPU benchmarks"
 msgstr "BOINC の CPU ベンチマークを実行します"
 
-#: clientgui/AdvancedFrame.cpp:576
+#: clientgui/AdvancedFrame.cpp:578
 msgid "Do network communication"
 msgstr "通信を今すぐ実施(&C)"
 
-#: clientgui/AdvancedFrame.cpp:577
+#: clientgui/AdvancedFrame.cpp:579
 msgid "Do all pending network communication"
 msgstr "保留されているネットワーク通信を実行します"
 
-#: clientgui/AdvancedFrame.cpp:581
+#: clientgui/AdvancedFrame.cpp:583
 msgid "Read config file"
 msgstr "設定ファイルを読み込む"
 
-#: clientgui/AdvancedFrame.cpp:582
+#: clientgui/AdvancedFrame.cpp:584
 msgid "Read configuration info from cc_config.xml"
 msgstr "cc_config.xml から設定情報を読み込みます"
 
-#: clientgui/AdvancedFrame.cpp:586
+#: clientgui/AdvancedFrame.cpp:588
 msgid "Read local prefs file"
 msgstr "ローカル・プレファレンスファイルを読み込む"
 
-#: clientgui/AdvancedFrame.cpp:587
+#: clientgui/AdvancedFrame.cpp:589
 msgid "Read preferences from global_prefs_override.xml."
-msgstr "global_prefs_override.xml からプレファレンス (好みの設定) を読み込みます"
+msgstr ""
+"global_prefs_override.xml からプレファレンス (好みの設定) を読み込みます"
 
-#: clientgui/AdvancedFrame.cpp:592
+#: clientgui/AdvancedFrame.cpp:594
 #, c-format
 msgid "Launch another instance of %s..."
 msgstr ""
 
-#: clientgui/AdvancedFrame.cpp:596
+#: clientgui/AdvancedFrame.cpp:598
 #, c-format
 msgid "Launch another %s"
 msgstr ""
 
-#: clientgui/AdvancedFrame.cpp:606
+#: clientgui/AdvancedFrame.cpp:608
 msgid "Event Log...\tCtrl+Shift+E"
 msgstr ""
 
-#: clientgui/AdvancedFrame.cpp:607
+#: clientgui/AdvancedFrame.cpp:609
 msgid "Display diagnostic messages."
 msgstr "診断メッセージを表示する"
 
-#: clientgui/AdvancedFrame.cpp:617
+#: clientgui/AdvancedFrame.cpp:619
 #, c-format
 msgid "%s &help"
 msgstr "%s のヘルプ(&H)"
 
-#: clientgui/AdvancedFrame.cpp:623
+#: clientgui/AdvancedFrame.cpp:625
 #, c-format
 msgid "Show information about %s"
 msgstr "%s の情報を表示します"
 
-#: clientgui/AdvancedFrame.cpp:635
+#: clientgui/AdvancedFrame.cpp:637
 #, c-format
 msgid "&%s help"
 msgstr "&%s のヘルプ"
 
-#: clientgui/AdvancedFrame.cpp:641
+#: clientgui/AdvancedFrame.cpp:643
 #, c-format
 msgid "Show information about the %s"
 msgstr "%s の情報を表示します"
 
-#: clientgui/AdvancedFrame.cpp:653
+#: clientgui/AdvancedFrame.cpp:655
 #, c-format
 msgid "%s &website"
 msgstr "%s ウェブサイト(&W)"
 
-#: clientgui/AdvancedFrame.cpp:659
+#: clientgui/AdvancedFrame.cpp:661
 #, c-format
 msgid "Show information about BOINC and %s"
 msgstr "BOINC および %s の情報を表示します"
 
-#: clientgui/AdvancedFrame.cpp:671
+#: clientgui/AdvancedFrame.cpp:673
 #, c-format
 msgid "&About %s..."
 msgstr "%s について(&A)..."
 
-#: clientgui/AdvancedFrame.cpp:677
+#: clientgui/AdvancedFrame.cpp:679
 msgid "Licensing and copyright information."
 msgstr "ライセンスと著作権情報"
 
-#: clientgui/AdvancedFrame.cpp:684
+#: clientgui/AdvancedFrame.cpp:686
 msgid "&File"
 msgstr "ファイル(&F)"
 
-#: clientgui/AdvancedFrame.cpp:688
+#: clientgui/AdvancedFrame.cpp:690
 msgid "&View"
 msgstr "表示(&V)"
 
-#: clientgui/AdvancedFrame.cpp:692
+#: clientgui/AdvancedFrame.cpp:694
 msgid "&Tools"
 msgstr "ツール(&T)"
 
-#: clientgui/AdvancedFrame.cpp:696
+#: clientgui/AdvancedFrame.cpp:698
 msgid "&Activity"
 msgstr "アクティビティ(&A)"
 
-#: clientgui/AdvancedFrame.cpp:700
+#: clientgui/AdvancedFrame.cpp:702
 msgid "A&dvanced"
 msgstr "高度な操作(&D)"
 
-#: clientgui/AdvancedFrame.cpp:704
+#: clientgui/AdvancedFrame.cpp:706
 msgid "&Help"
 msgstr "ヘルプ(&H)"
 
-#: clientgui/AdvancedFrame.cpp:1168
+#: clientgui/AdvancedFrame.cpp:1183
 #, c-format
 msgid "%s - Stop using %s"
 msgstr ""
 
 # Case of Detaching from an account manager
-#: clientgui/AdvancedFrame.cpp:1173
+#: clientgui/AdvancedFrame.cpp:1188
 #, c-format
 msgid ""
 "If you stop using %s,\n"
@@ -548,22 +562,26 @@ msgstr ""
 "\n"
 "%s を使うのをやめますか？"
 
-#: clientgui/AdvancedFrame.cpp:1359
+#: clientgui/AdvancedFrame.cpp:1374
 #, c-format
 msgid "%s - Language Selection"
 msgstr "%s - 言語の選択"
 
-#: clientgui/AdvancedFrame.cpp:1366
+#: clientgui/AdvancedFrame.cpp:1381
 #, c-format
-msgid "The %s's default language has been changed, in order for this change to take affect you must restart the %s."
-msgstr "%s の言語設定を切り換えました。切り換えの効果を出すためには、この %s を再起動しなければなりません。"
+msgid ""
+"The %s's default language has been changed, in order for this change to take "
+"affect you must restart the %s."
+msgstr ""
+"%s の言語設定を切り換えました。切り換えの効果を出すためには、この %s を再起動"
+"しなければなりません。"
 
-#: clientgui/AdvancedFrame.cpp:1496
+#: clientgui/AdvancedFrame.cpp:1511
 #, c-format
 msgid "%s - Shut down the current client..."
 msgstr "%s - 現在接続しているクライアントをシャットダウンします..."
 
-#: clientgui/AdvancedFrame.cpp:1505
+#: clientgui/AdvancedFrame.cpp:1520
 #, c-format
 msgid ""
 "%s will shut down the current client\n"
@@ -572,29 +590,28 @@ msgstr ""
 "%s は、現在接続しているクライアントをシャットダウンし、\n"
 "別の計算機に接続するよう促します。"
 
-#: clientgui/AdvancedFrame.cpp:1823
+#: clientgui/AdvancedFrame.cpp:1838
 #, c-format
 msgid "%s"
 msgstr "%s"
 
 # Case for attaching to an account manager
-#: clientgui/AdvancedFrame.cpp:1832
-#, c-format
+#: clientgui/AdvancedFrame.cpp:1847
 #, fuzzy, c-format
 msgid "%s has successfully added %s"
 msgstr "%s は %s へ参加することに成功しました。"
 
-#: clientgui/AdvancedFrame.cpp:1972
+#: clientgui/AdvancedFrame.cpp:1987
 #, c-format
 msgid "%s - (%s)"
 msgstr "%s - (%s)"
 
-#: clientgui/AdvancedFrame.cpp:1976
+#: clientgui/AdvancedFrame.cpp:1991
 #, c-format
 msgid "Connecting to %s"
 msgstr "%s に接続処理中"
 
-#: clientgui/AdvancedFrame.cpp:1979
+#: clientgui/AdvancedFrame.cpp:1994
 #, c-format
 msgid "Connected to %s (%s)"
 msgstr "%s (%s)に接続済み"
@@ -662,7 +679,8 @@ msgstr "%s - 接続に異常が発生しました"
 #: clientgui/BOINCBaseFrame.cpp:512
 msgid ""
 "You currently are not authorized to manage the client.\n"
-"Please contact your administrator to add you to the 'boinc_users' local user group."
+"Please contact your administrator to add you to the 'boinc_users' local user "
+"group."
 msgstr ""
 "現在のところあなたにはこのクライアントを管理する権限がありません。\n"
 "管理者に連絡して、'boinc_users' ローカルユーザグループにあなたを\n"
@@ -674,7 +692,8 @@ msgid ""
 "Make sure you start this program in the same directory as the client."
 msgstr ""
 "稼動中のクライアントに接続する際に、認証に失敗しました。\n"
-"このプログラムを起動するとき、クライアントと同じディレクトリから起動したか確かめてください。"
+"このプログラムを起動するとき、クライアントと同じディレクトリから起動したか確"
+"かめてください。"
 
 #: clientgui/BOINCBaseFrame.cpp:523
 msgid "Authorization failed connecting to running client."
@@ -707,7 +726,8 @@ msgstr "%s - デーモンの開始に失敗しました"
 #, c-format
 msgid ""
 "%s is not able to start a %s client.\n"
-"Please launch the Control Panel->Administative Tools->Services applet and start the BOINC service."
+"Please launch the Control Panel->Administative Tools->Services applet and "
+"start the BOINC service."
 msgstr ""
 "%s は %s クライアントを開始することができません。\n"
 "コントロールパネルから、管理ツールのサービスを開いて、\n"
@@ -731,12 +751,16 @@ msgstr "%s - 接続状態"
 #, c-format
 msgid ""
 "%s is not currently connected to a %s client.\n"
-"Please use the 'Advanced\\Select Computer...' menu option to connect up to a %s client.\n"
+"Please use the 'Advanced\\Select Computer...' menu option to connect up to a "
+"%s client.\n"
 "To connect up to your local computer please use 'localhost' as the host name."
 msgstr ""
-"%s は現在 %s クライアントと繋がっていません。メニューの [高度な操作(D)] から\n"
-"[コンピュータの選択...] へ進み、接続する %s クライアントのコンピュータを選びます。\n"
-"あなたの操作しているコンピュータ自身に接続するには、「コンピュータ名 (ホスト名)」の欄に localhost と入力して下さい。"
+"%s は現在 %s クライアントと繋がっていません。メニューの [高度な操作(D)] か"
+"ら\n"
+"[コンピュータの選択...] へ進み、接続する %s クライアントのコンピュータを選び"
+"ます。\n"
+"あなたの操作しているコンピュータ自身に接続するには、「コンピュータ名 (ホスト"
+"名)」の欄に localhost と入力して下さい。"
 
 #: clientgui/BOINCBaseView.cpp:773
 msgid "Web sites"
@@ -825,10 +849,12 @@ msgstr ""
 #: clientgui/BOINCGUIApp.cpp:329
 #, c-format
 msgid ""
-"BOINC ownership or permissions are not set properly; please reinstall BOINC.\n"
+"BOINC ownership or permissions are not set properly; please reinstall "
+"BOINC.\n"
 "(Error code %d)"
 msgstr ""
-"BOINC 関連ファイルの所有権あるいはパーミッションの設定が不適切です。 BOINC を\n"
+"BOINC 関連ファイルの所有権あるいはパーミッションの設定が不適切です。 BOINC "
+"を\n"
 "再インストールして下さい。 (エラーコード %d)"
 
 #: clientgui/BOINCGUIApp.cpp:374
@@ -845,7 +871,8 @@ msgstr "BOINC マネージャ"
 
 #: clientgui/BOINCGUIApp.cpp:526
 msgid "BOINC Manager was started by the operating system automatically"
-msgstr "BOINC マネージャはオペレーティング・システムにより自動的に起動されました。"
+msgstr ""
+"BOINC マネージャはオペレーティング・システムにより自動的に起動されました。"
 
 #: clientgui/BOINCGUIApp.cpp:528
 msgid "Startup BOINC so only the system tray icon is visible"
@@ -882,7 +909,9 @@ msgstr "BOINC のユーザとアクセス許可についてのセキュリティ
 
 #: clientgui/BOINCGUIApp.cpp:538
 msgid "set skin debugging mode to enable skin manager error messages"
-msgstr "skin マネージャのエラーメッセージを有効にするために、skin debugging モードにします"
+msgstr ""
+"skin マネージャのエラーメッセージを有効にするために、skin debugging モードに"
+"します"
 
 #: clientgui/BOINCGUIApp.cpp:539
 msgid "multiple instances of BOINC Manager allowed"
@@ -992,10 +1021,8 @@ msgstr ""
 "\n"
 "[終了] をクリックして閉じて下さい。"
 
-#: clientgui/CompletionErrorPage.cpp:225
-#: clientgui/CompletionPage.cpp:222
-#: clientgui/CompletionPage.cpp:242
-#: clientgui/CompletionPage.cpp:273
+#: clientgui/CompletionErrorPage.cpp:225 clientgui/CompletionPage.cpp:222
+#: clientgui/CompletionPage.cpp:242 clientgui/CompletionPage.cpp:273
 msgid "Click Finish to close."
 msgstr "[終了] をクリックして閉じて下さい。"
 
@@ -1071,15 +1098,12 @@ msgstr ""
 "(C) 2003-2010 University of California, Berkeley.\n"
 "All Rights Reserved."
 
-#: clientgui/DlgAbout.cpp:183
-#: clientgui/DlgAbout.cpp:187
+#: clientgui/DlgAbout.cpp:183 clientgui/DlgAbout.cpp:187
 msgid "Berkeley Open Infrastructure for Network Computing"
 msgstr "Berkeley Open Infrastructure for Network Computing"
 
-#: clientgui/DlgAbout.cpp:199
-#: clientgui/DlgExitMessage.cpp:172
-#: clientgui/DlgGenericMessage.cpp:120
-#: clientgui/DlgOptions.cpp:383
+#: clientgui/DlgAbout.cpp:199 clientgui/DlgExitMessage.cpp:172
+#: clientgui/DlgGenericMessage.cpp:120 clientgui/DlgOptions.cpp:383
 #: clientgui/DlgSelectComputer.cpp:162
 msgid "&OK"
 msgstr "&OK"
@@ -1106,7 +1130,8 @@ msgstr "検証エラー"
 
 #: clientgui/DlgAdvPreferences.cpp:761
 msgid "Do you really want to clear all local preferences ?"
-msgstr "本当にローカルなプレファレンス (好みの設定) を全てクリアしてもよいですか？"
+msgstr ""
+"本当にローカルなプレファレンス (好みの設定) を全てクリアしてもよいですか？"
 
 #: clientgui/DlgAdvPreferences.cpp:762
 msgid "Confirmation"
@@ -1125,7 +1150,8 @@ msgid ""
 msgstr ""
 "ここでは、このコンピュータだけに適用するプレファレンスを変更します。\n"
 "変更をするならば、OKをクリックしてください。\n"
-"プロジェクトウェブサイトで設定した値に戻すなら、[クリア]をクリックしてください。"
+"プロジェクトウェブサイトで設定した値に戻すなら、[クリア]をクリックしてくださ"
+"い。"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:64
 msgid "Clear"
@@ -1133,7 +1159,9 @@ msgstr "クリア"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:65
 msgid "clear all local preferences and close the dialog"
-msgstr "このコンピュータだけに適用するプレファレンス（好みの設定）を全てクリアして、ダイアログを終了します。"
+msgstr ""
+"このコンピュータだけに適用するプレファレンス（好みの設定）を全てクリアして、"
+"ダイアログを終了します。"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:80
 msgid "processor usage"
@@ -1159,8 +1187,7 @@ msgstr "すべての値を保存して、ダイアログを終了します"
 msgid "close the dialog without saving"
 msgstr "保存をしないでダイアログを終了します"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:108
-#: clientgui/DlgEventLog.cpp:298
+#: clientgui/DlgAdvPreferencesBase.cpp:108 clientgui/DlgEventLog.cpp:305
 msgid "Help"
 msgstr "ヘルプ"
 
@@ -1177,7 +1204,8 @@ msgid "While computer is on batteries"
 msgstr "バッテリ駆動時の稼動"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:138
-msgid "check this if you want this computer to do work while it runs on batteries"
+msgid ""
+"check this if you want this computer to do work while it runs on batteries"
 msgstr "バッテリ稼動時にも計算を実行する場合はチェックしてください"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:144
@@ -1185,23 +1213,31 @@ msgid "While computer is in use"
 msgstr "コンピュータを使っている最中の稼動"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:147
-msgid "check this if you want this computer to do work even when you're using it"
-msgstr "あなたがコンピュータ利用中でも計算を実行する場合は、ここにチェックを入れます。"
+msgid ""
+"check this if you want this computer to do work even when you're using it"
+msgstr ""
+"あなたがコンピュータ利用中でも計算を実行する場合は、ここにチェックを入れま"
+"す。"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:153
 msgid "Use GPU while computer is in use"
 msgstr "コンピュータ利用中に GPU を使う"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:156
-msgid "check this if you want your GPU to do work even when you're using the computer"
-msgstr "あなたがコンピュータを利用中でも、GPU を計算に使うならばここにチェックを入れます"
+msgid ""
+"check this if you want your GPU to do work even when you're using the "
+"computer"
+msgstr ""
+"あなたがコンピュータを利用中でも、GPU を計算に使うならばここにチェックを入れ"
+"ます"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:168
 msgid "Only after computer has been idle for"
 msgstr "アイドル時間が次の時間を超えた時のみ計算を実行します"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:178
-msgid "do work only after you haven't used the computer for this number of minutes"
+msgid ""
+"do work only after you haven't used the computer for this number of minutes"
 msgstr "指定した時間(分)の間、コンピュータを操作しなかった場合のみ計算をします"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:183
@@ -1386,7 +1422,9 @@ msgstr "イメージファイルの検証をスキップする"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:443
 msgid "check this if your Internet provider modifies image files"
-msgstr "インターネットプロバイダが画像ファイルを変更する場合はチェックを入れてください。"
+msgstr ""
+"インターネットプロバイダが画像ファイルを変更する場合はチェックを入れてくださ"
+"い。"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:451
 msgid "Connect options"
@@ -1397,8 +1435,12 @@ msgid "Confirm before connecting to internet"
 msgstr "インターネットに接続する前に確認する"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:455
-msgid "if checked, a confirmation dialog will be displayed before trying to connect to the Internet"
-msgstr "チェックを入れると、インターネットに接続する前に確認ダイアログが表示されます。"
+msgid ""
+"if checked, a confirmation dialog will be displayed before trying to connect "
+"to the Internet"
+msgstr ""
+"チェックを入れると、インターネットに接続する前に確認ダイアログが表示されま"
+"す。"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:459
 msgid "Disconnect when done"
@@ -1424,8 +1466,7 @@ msgstr "ネットワーク使用開始時刻"
 msgid "network usage stop hour"
 msgstr "ネットワーク使用終了時刻"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:572
-#: clientgui/DlgItemProperties.cpp:214
+#: clientgui/DlgAdvPreferencesBase.cpp:572 clientgui/DlgItemProperties.cpp:214
 msgid "Disk usage"
 msgstr "ディスク領域"
 
@@ -1443,7 +1484,9 @@ msgstr "最低限の未使用領域"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:594
 msgid "BOINC leaves at least this amount of disk space free (in Gigabytes)"
-msgstr "BOINC は、ディスク空き容量がこの値を下まわるところまでは使いません(単位はギガバイト)"
+msgstr ""
+"BOINC は、ディスク空き容量がこの値を下まわるところまでは使いません(単位はギガ"
+"バイト)"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:598
 msgid "Gigabytes disk space free"
@@ -1493,73 +1536,74 @@ msgstr "一時停止時にアプリケーションをメモリ上に残す"
 msgid "if checked, suspended work units are left in memory"
 msgstr "チェックをいれると、休止中のワークユニットはメモリに残ります"
 
-#: clientgui/DlgEventLog.cpp:192
+#: clientgui/DlgEventLog.cpp:194
 #, c-format
 msgid "%s - Event Log"
 msgstr "%s - イベント・ログ"
 
-#: clientgui/DlgEventLog.cpp:205
+#: clientgui/DlgEventLog.cpp:207
 msgid "Project"
 msgstr "プロジェクト"
 
-#: clientgui/DlgEventLog.cpp:206
+#: clientgui/DlgEventLog.cpp:208
 msgid "Time"
 msgstr "日時"
 
-#: clientgui/DlgEventLog.cpp:207
+#: clientgui/DlgEventLog.cpp:209
 msgid "Message"
 msgstr "メッセージ"
 
-#: clientgui/DlgEventLog.cpp:256
-#: clientgui/DlgEventLog.cpp:320
+#: clientgui/DlgEventLog.cpp:263 clientgui/DlgEventLog.cpp:327
 msgid "Show only this project"
 msgstr "このプロジェクトだけを表示"
 
-#: clientgui/DlgEventLog.cpp:260
+#: clientgui/DlgEventLog.cpp:267
 msgid "Copy All"
 msgstr "すべてコピー"
 
-#: clientgui/DlgEventLog.cpp:262
-#: clientgui/DlgEventLog.cpp:266
+#: clientgui/DlgEventLog.cpp:269 clientgui/DlgEventLog.cpp:273
 msgid "Copy all the messages to the clipboard."
 msgstr "全メッセージをクリップボードにコピーします"
 
-#: clientgui/DlgEventLog.cpp:271
+#: clientgui/DlgEventLog.cpp:278
 msgid "Copy Selected"
 msgstr "選択部分をコピー"
 
-#: clientgui/DlgEventLog.cpp:274
-#: clientgui/DlgEventLog.cpp:282
-msgid "Copy the selected messages to the clipboard. You can select multiple messages by holding down the shift or command key while clicking on messages."
-msgstr "選択したメッセージをクリップボードにコピーします。シフトまたはコマンドキーを押しながらクリックすることで複数のメッセージを選択できます。"
-
-#: clientgui/DlgEventLog.cpp:276
-#: clientgui/DlgEventLog.cpp:284
-msgid "Copy the selected messages to the clipboard. You can select multiple messages by holding down the shift or control key while clicking on messages."
+#: clientgui/DlgEventLog.cpp:281 clientgui/DlgEventLog.cpp:289
+msgid ""
+"Copy the selected messages to the clipboard. You can select multiple "
+"messages by holding down the shift or command key while clicking on messages."
 msgstr ""
-"選択したメッセージをクリップボードにコピーします。シフトまたはコントロールキーを押しながら、メッセージをクリックすれば複数のメッセージを選択状態にできま"
-"す。 "
+"選択したメッセージをクリップボードにコピーします。シフトまたはコマンドキーを"
+"押しながらクリックすることで複数のメッセージを選択できます。"
 
-#: clientgui/DlgEventLog.cpp:291
+#: clientgui/DlgEventLog.cpp:283 clientgui/DlgEventLog.cpp:291
+msgid ""
+"Copy the selected messages to the clipboard. You can select multiple "
+"messages by holding down the shift or control key while clicking on messages."
+msgstr ""
+"選択したメッセージをクリップボードにコピーします。シフトまたはコントロール"
+"キーを押しながら、メッセージをクリックすれば複数のメッセージを選択状態にでき"
+"ます。 "
+
+#: clientgui/DlgEventLog.cpp:298
 msgid "Close"
 msgstr "閉じる"
 
-#: clientgui/DlgEventLog.cpp:300
-#: clientgui/DlgEventLog.cpp:303
-msgid "Get help with BOINC"
-msgstr "BOINC に関して手助けを求める"
+#: clientgui/DlgEventLog.cpp:307
+#, c-format
+msgid "Get help with %s"
+msgstr ""
 
-#: clientgui/DlgEventLog.cpp:314
+#: clientgui/DlgEventLog.cpp:321
 msgid "Show all messages"
 msgstr "全メッセージを表示"
 
-#: clientgui/DlgEventLog.cpp:315
-#: clientgui/DlgEventLog.cpp:317
+#: clientgui/DlgEventLog.cpp:322 clientgui/DlgEventLog.cpp:324
 msgid "Show messages for all projects"
 msgstr "すべてのプロジェクトのメッセージを表示"
 
-#: clientgui/DlgEventLog.cpp:321
-#: clientgui/DlgEventLog.cpp:323
+#: clientgui/DlgEventLog.cpp:328 clientgui/DlgEventLog.cpp:330
 msgid "Show only the messages for the selected project"
 msgstr "選択したプロジェクトのメッセージだけを表示"
 
@@ -1604,16 +1648,15 @@ msgstr ""
 
 #: clientgui/DlgExitMessage.cpp:153
 msgid "Stop running science applications when exiting the Manager"
-msgstr "マネージャ・プログラムと同時に、今実行中の科学計算アプリケーションも終了する"
+msgstr ""
+"マネージャ・プログラムと同時に、今実行中の科学計算アプリケーションも終了する"
 
 #: clientgui/DlgExitMessage.cpp:164
 msgid "Remember this decision and do not show this dialog."
 msgstr "この決定を記憶して再びこのダイアログを表示しない"
 
-#: clientgui/DlgExitMessage.cpp:177
-#: clientgui/DlgGenericMessage.cpp:125
-#: clientgui/DlgOptions.cpp:388
-#: clientgui/DlgSelectComputer.cpp:167
+#: clientgui/DlgExitMessage.cpp:177 clientgui/DlgGenericMessage.cpp:125
+#: clientgui/DlgOptions.cpp:388 clientgui/DlgSelectComputer.cpp:167
 msgid "&Cancel"
 msgstr "キャンセル(&C)"
 
@@ -1629,8 +1672,7 @@ msgstr "閉じる(&C)"
 msgid "Properties of project "
 msgstr "プロジェクトのプロパティ 　"
 
-#: clientgui/DlgItemProperties.cpp:200
-#: clientgui/DlgOptions.cpp:205
+#: clientgui/DlgItemProperties.cpp:200 clientgui/DlgOptions.cpp:205
 msgid "General"
 msgstr "一般"
 
@@ -1670,22 +1712,16 @@ msgstr "コンピュータ ID"
 msgid "Non CPU intensive"
 msgstr "CPU を集中的に使わない"
 
-#: clientgui/DlgItemProperties.cpp:216
-#: clientgui/DlgItemProperties.cpp:217
-#: clientgui/DlgItemProperties.cpp:218
-#: clientgui/DlgItemProperties.cpp:219
-#: clientgui/DlgItemProperties.cpp:220
-#: clientgui/DlgItemProperties.cpp:221
+#: clientgui/DlgItemProperties.cpp:216 clientgui/DlgItemProperties.cpp:217
+#: clientgui/DlgItemProperties.cpp:218 clientgui/DlgItemProperties.cpp:219
+#: clientgui/DlgItemProperties.cpp:220 clientgui/DlgItemProperties.cpp:221
 #: clientgui/DlgItemProperties.cpp:222
 msgid "yes"
 msgstr "はい"
 
-#: clientgui/DlgItemProperties.cpp:216
-#: clientgui/DlgItemProperties.cpp:217
-#: clientgui/DlgItemProperties.cpp:218
-#: clientgui/DlgItemProperties.cpp:219
-#: clientgui/DlgItemProperties.cpp:220
-#: clientgui/DlgItemProperties.cpp:221
+#: clientgui/DlgItemProperties.cpp:216 clientgui/DlgItemProperties.cpp:217
+#: clientgui/DlgItemProperties.cpp:218 clientgui/DlgItemProperties.cpp:219
+#: clientgui/DlgItemProperties.cpp:220 clientgui/DlgItemProperties.cpp:221
 #: clientgui/DlgItemProperties.cpp:222
 msgid "no"
 msgstr "いいえ"
@@ -1732,8 +1768,7 @@ msgstr "計算機"
 msgid "Scheduling"
 msgstr "スケジューリング"
 
-#: clientgui/DlgItemProperties.cpp:242
-#: clientgui/DlgItemProperties.cpp:252
+#: clientgui/DlgItemProperties.cpp:242 clientgui/DlgItemProperties.cpp:252
 #: clientgui/DlgItemProperties.cpp:263
 msgid "Project preference"
 msgstr "プロジェクトごとのプレファレンス"
@@ -1840,45 +1875,47 @@ msgstr ""
 msgid "Estimated task size"
 msgstr "処理完了までの想定時間"
 
-#: clientgui/DlgItemProperties.cpp:314
+#: clientgui/DlgItemProperties.cpp:312
+msgid "Max RAM usage"
+msgstr ""
+
+#: clientgui/DlgItemProperties.cpp:315
 msgid "CPU time at last checkpoint"
 msgstr "最新のチェックポイントでの CPU 時間"
 
-#: clientgui/DlgItemProperties.cpp:315
-#: clientgui/DlgItemProperties.cpp:330
+#: clientgui/DlgItemProperties.cpp:316 clientgui/DlgItemProperties.cpp:331
 msgid "CPU time"
 msgstr "CPU時間"
 
-#: clientgui/DlgItemProperties.cpp:317
-#: clientgui/DlgItemProperties.cpp:331
+#: clientgui/DlgItemProperties.cpp:318 clientgui/DlgItemProperties.cpp:332
 msgid "Elapsed time"
 msgstr "経過時間"
 
-#: clientgui/DlgItemProperties.cpp:319
+#: clientgui/DlgItemProperties.cpp:320
 msgid "Estimated time remaining"
 msgstr "処理完了までの想定時間"
 
-#: clientgui/DlgItemProperties.cpp:320
+#: clientgui/DlgItemProperties.cpp:321
 msgid "Fraction done"
 msgstr "仕事の計算完了率"
 
-#: clientgui/DlgItemProperties.cpp:321
+#: clientgui/DlgItemProperties.cpp:322
 msgid "Virtual memory size"
 msgstr "仮想メモリの大きさ"
 
-#: clientgui/DlgItemProperties.cpp:322
+#: clientgui/DlgItemProperties.cpp:323
 msgid "Working set size"
 msgstr "ワーキング・セットの大きさ"
 
-#: clientgui/DlgItemProperties.cpp:324
+#: clientgui/DlgItemProperties.cpp:325
 msgid "Directory"
 msgstr "ディレクトリ"
 
-#: clientgui/DlgItemProperties.cpp:327
+#: clientgui/DlgItemProperties.cpp:328
 msgid "Process ID"
 msgstr "プロセスID"
 
-#: clientgui/DlgItemProperties.cpp:401
+#: clientgui/DlgItemProperties.cpp:402
 msgid "Local: "
 msgstr "Local:"
 
@@ -1951,33 +1988,27 @@ msgstr "HTTP プロキシサーバ経由で接続する"
 msgid "HTTP Proxy Server Configuration"
 msgstr "HTTP プロキシサーバの設定"
 
-#: clientgui/DlgOptions.cpp:267
-#: clientgui/DlgOptions.cpp:331
+#: clientgui/DlgOptions.cpp:267 clientgui/DlgOptions.cpp:331
 msgid "Address:"
 msgstr "アドレス："
 
-#: clientgui/DlgOptions.cpp:275
-#: clientgui/DlgOptions.cpp:339
+#: clientgui/DlgOptions.cpp:275 clientgui/DlgOptions.cpp:339
 msgid "Port:"
 msgstr "ポート番号："
 
-#: clientgui/DlgOptions.cpp:283
-#: clientgui/DlgOptions.cpp:347
+#: clientgui/DlgOptions.cpp:283 clientgui/DlgOptions.cpp:347
 msgid "Don't use proxy for:"
 msgstr "プロキシを使わない対象:"
 
-#: clientgui/DlgOptions.cpp:290
-#: clientgui/DlgOptions.cpp:354
+#: clientgui/DlgOptions.cpp:290 clientgui/DlgOptions.cpp:354
 msgid "Leave these blank if not needed"
 msgstr "プロキシを必要としない場合は空欄のままにしてください"
 
-#: clientgui/DlgOptions.cpp:296
-#: clientgui/DlgOptions.cpp:360
+#: clientgui/DlgOptions.cpp:296 clientgui/DlgOptions.cpp:360
 msgid "User Name:"
 msgstr "プロキシのユーザ名："
 
-#: clientgui/DlgOptions.cpp:304
-#: clientgui/DlgOptions.cpp:368
+#: clientgui/DlgOptions.cpp:304 clientgui/DlgOptions.cpp:368
 #: clientgui/DlgSelectComputer.cpp:151
 msgid "Password:"
 msgstr "パスワード："
@@ -2014,8 +2045,7 @@ msgstr ""
 msgid "Host name:"
 msgstr "計算機名 (ホスト名)："
 
-#: clientgui/Localization.cpp:31
-#: clientgui/Localization.cpp:69
+#: clientgui/Localization.cpp:31 clientgui/Localization.cpp:69
 msgid "Message boards"
 msgstr "掲示板"
 
@@ -2027,15 +2057,12 @@ msgstr "SETI@home の掲示版で他の参加者と連絡をとる"
 msgid "Ask questions and report problems"
 msgstr "質問をしたり、問題の発生報告をする"
 
-#: clientgui/Localization.cpp:39
-#: clientgui/Localization.cpp:81
-#: clientgui/Localization.cpp:111
-#: clientgui/Localization.cpp:129
+#: clientgui/Localization.cpp:39 clientgui/Localization.cpp:81
+#: clientgui/Localization.cpp:111 clientgui/Localization.cpp:129
 msgid "Your account"
 msgstr "あなたのアカウント"
 
-#: clientgui/Localization.cpp:41
-#: clientgui/Localization.cpp:87
+#: clientgui/Localization.cpp:41 clientgui/Localization.cpp:87
 #: clientgui/Localization.cpp:113
 msgid "View your account information and credit totals"
 msgstr "あなたのアカウント情報と功績 (credit) の総計を表示する"
@@ -2046,20 +2073,19 @@ msgstr "あなたのプレファレンス"
 
 #: clientgui/Localization.cpp:45
 msgid "View and modify your SETI@home account profile and preferences"
-msgstr "あなたの SETI@home アカウントのプロファイルとプレファレンス (好みの設定) を表示・修正する"
+msgstr ""
+"あなたの SETI@home アカウントのプロファイルとプレファレンス (好みの設定) を表"
+"示・修正する"
 
-#: clientgui/Localization.cpp:47
-#: clientgui/Localization.cpp:89
+#: clientgui/Localization.cpp:47 clientgui/Localization.cpp:89
 msgid "Your results"
 msgstr "あなたのリザルト"
 
-#: clientgui/Localization.cpp:49
-#: clientgui/Localization.cpp:91
+#: clientgui/Localization.cpp:49 clientgui/Localization.cpp:91
 msgid "View your last week (or more) of computational results and work"
 msgstr "先週 (およびそれ以前）の計算について、リザルトと仕事を表示する"
 
-#: clientgui/Localization.cpp:51
-#: clientgui/Localization.cpp:93
+#: clientgui/Localization.cpp:51 clientgui/Localization.cpp:93
 msgid "Your computers"
 msgstr "あなたのコンピュータ"
 
@@ -2067,13 +2093,11 @@ msgstr "あなたのコンピュータ"
 msgid "View a listing of all the computers on which you are running SETI@Home"
 msgstr "SETI@Home に参加させているコンピュータ全ての一覧を表示"
 
-#: clientgui/Localization.cpp:55
-#: clientgui/Localization.cpp:97
+#: clientgui/Localization.cpp:55 clientgui/Localization.cpp:97
 msgid "Your team"
 msgstr "所属チーム"
 
-#: clientgui/Localization.cpp:57
-#: clientgui/Localization.cpp:99
+#: clientgui/Localization.cpp:57 clientgui/Localization.cpp:99
 msgid "View information about your team"
 msgstr "あなたの所属するチームの情報を表示する"
 
@@ -2094,7 +2118,8 @@ msgid "Read a detailed description of the Einstein@Home screensaver"
 msgstr "Einstein@Home スクリーンセイバーについての詳細を表示"
 
 #: clientgui/Localization.cpp:71
-msgid "Correspond with admins and other users on the Einstein@Home message boards"
+msgid ""
+"Correspond with admins and other users on the Einstein@Home message boards"
 msgstr "Einstein@Home 掲示板で、管理者と参加者に連絡"
 
 #: clientgui/Localization.cpp:73
@@ -2115,14 +2140,16 @@ msgstr "Einstein@Home の 問題とバグ報告の掲示板へのリンク"
 
 #: clientgui/Localization.cpp:83
 msgid "View and modify your Einstein@Home account profile and preferences"
-msgstr "Einstein@Home のあなたのアカウントとプレファレンス (好みの設定) の表示・変更"
+msgstr ""
+"Einstein@Home のあなたのアカウントとプレファレンス (好みの設定) の表示・変更"
 
 #: clientgui/Localization.cpp:85
 msgid "Account summary"
 msgstr "アカウントの要約"
 
 #: clientgui/Localization.cpp:95
-msgid "View a listing of all the computers on which you are running Einstein@Home"
+msgid ""
+"View a listing of all the computers on which you are running Einstein@Home"
 msgstr "あなたが稼動させている Einstein@Home の全コンピュータの一覧"
 
 #: clientgui/Localization.cpp:101
@@ -2130,8 +2157,12 @@ msgid "LIGO project"
 msgstr "LIGO プロジェクト"
 
 #: clientgui/Localization.cpp:103
-msgid "The home page of the Laser Interferometer Gravitational-wave Observatory (LIGO) project"
-msgstr "LIGO プロジェクトのホームページ(Laser Interferometer Gravitational-wave Observatory)"
+msgid ""
+"The home page of the Laser Interferometer Gravitational-wave Observatory "
+"(LIGO) project"
+msgstr ""
+"LIGO プロジェクトのホームページ(Laser Interferometer Gravitational-wave "
+"Observatory)"
 
 #: clientgui/Localization.cpp:105
 msgid "GEO-600 project"
@@ -2141,8 +2172,7 @@ msgstr "GEO-600 プロジェクト"
 msgid "The home page of the GEO-600 project"
 msgstr "GEO-600 プロジェクトの ホームページ"
 
-#: clientgui/Localization.cpp:115
-#: clientgui/Localization.cpp:133
+#: clientgui/Localization.cpp:115 clientgui/Localization.cpp:133
 msgid "Team"
 msgstr "チーム"
 
@@ -2288,13 +2318,11 @@ msgstr "ダウンロード失敗"
 msgid "Downloading"
 msgstr "ダウンロード処理中"
 
-#: clientgui/MainDocument.cpp:2429
-#: clientgui/MainDocument.cpp:2487
+#: clientgui/MainDocument.cpp:2429 clientgui/MainDocument.cpp:2487
 msgid " (suspended - "
 msgstr "(一時停止中 - "
 
-#: clientgui/MainDocument.cpp:2431
-#: clientgui/MainDocument.cpp:2489
+#: clientgui/MainDocument.cpp:2431 clientgui/MainDocument.cpp:2489
 msgid ")"
 msgstr ")"
 
@@ -2334,8 +2362,7 @@ msgstr "（常時 CPU を使用するわけではありません）"
 msgid "Waiting to run"
 msgstr "実行待機"
 
-#: clientgui/MainDocument.cpp:2466
-#: clientgui/MainDocument.cpp:2472
+#: clientgui/MainDocument.cpp:2466 clientgui/MainDocument.cpp:2472
 msgid "Ready to start"
 msgstr "開始まで待機"
 
@@ -2449,8 +2476,7 @@ msgid "%s; received from %s; on %s"
 msgstr ""
 
 # This string is the default action of objects specified for GetDefaultAction. I'm not sure it is meaningful to be translated, that is, is it a string to be read by human?
-#: clientgui/NoticeListCtrl.cpp:271
-#: clientgui/ProjectListCtrl.cpp:283
+#: clientgui/NoticeListCtrl.cpp:271 clientgui/ProjectListCtrl.cpp:283
 msgid "Click"
 msgstr "クリック"
 
@@ -2468,7 +2494,9 @@ msgstr "プロジェクトを選んでください"
 
 #: clientgui/ProjectInfoPage.cpp:260
 msgid "To choose a project, click its name or type its URL below."
-msgstr "プロジェクトを選択するには、その名前をクリックするか、あるいは下の欄に URL を入力してください。"
+msgstr ""
+"プロジェクトを選択するには、その名前をクリックするか、あるいは下の欄に URL を"
+"入力してください。"
 
 #: clientgui/ProjectInfoPage.cpp:263
 msgid "Project &URL:"
@@ -2476,13 +2504,18 @@ msgstr "プロジェクトの &URL："
 
 #: clientgui/ProjectInfoPage.cpp:391
 #, fuzzy
-msgid "This project may not have work for your type of computer.  Do you want to add it anyway?"
-msgstr "このプロジェクトにはあなたのコンピュータに適合する仕事がないかもしれません。 それでも、続けたいですか？"
+msgid ""
+"This project may not have work for your type of computer.  Do you want to "
+"add it anyway?"
+msgstr ""
+"このプロジェクトにはあなたのコンピュータに適合する仕事がないかもしれません。 "
+"それでも、続けたいですか？"
 
 #: clientgui/ProjectInfoPage.cpp:415
 #, fuzzy
 msgid "You already added this project. Please choose a different project."
-msgstr "すでに指定したプロジェクトには参加済みです。別のプロジェクトを選んで下さい。"
+msgstr ""
+"すでに指定したプロジェクトには参加済みです。別のプロジェクトを選んで下さい。"
 
 #: clientgui/ProjectListCtrl.cpp:67
 msgid "Project List"
@@ -2597,8 +2630,7 @@ msgstr "プロキシ設定"
 msgid "HTTP proxy"
 msgstr "HTTP プロキシ"
 
-#: clientgui/ProxyPage.cpp:337
-#: clientgui/ProxyPage.cpp:357
+#: clientgui/ProxyPage.cpp:337 clientgui/ProxyPage.cpp:357
 msgid "Server:"
 msgstr "サーバ："
 
@@ -2676,7 +2708,7 @@ msgstr "処理する仕事が不足"
 msgid "Unable to connect to the core client"
 msgstr "コア・クライアントに接続不可"
 
-#: clientgui/sg_DlgMessages.cpp:361
+#: clientgui/sg_DlgMessages.cpp:368
 #, c-format
 msgid "%s - Messages"
 msgstr "%s - メッセージ"
@@ -2789,86 +2821,82 @@ msgstr "30"
 msgid "60"
 msgstr "60"
 
-#: clientgui/sg_DlgPreferences.cpp:283
+#: clientgui/sg_DlgPreferences.cpp:286
 msgid "Skin"
 msgstr "スキン"
 
-#: clientgui/sg_DlgPreferences.cpp:290
+#: clientgui/sg_DlgPreferences.cpp:293
 msgid "Skin:"
 msgstr "スキン:"
 
-#: clientgui/sg_DlgPreferences.cpp:306
+#: clientgui/sg_DlgPreferences.cpp:309
 msgid "Preferences"
 msgstr "プレファレンス"
 
-#: clientgui/sg_DlgPreferences.cpp:323
+#: clientgui/sg_DlgPreferences.cpp:326
 msgid "I want to customize my preferences for this computer only."
-msgstr "このコンピュータについてだけ私のプレファレンス（好みの設定）を変更したい。"
+msgstr ""
+"このコンピュータについてだけ私のプレファレンス（好みの設定）を変更したい。"
 
-#: clientgui/sg_DlgPreferences.cpp:332
+#: clientgui/sg_DlgPreferences.cpp:335
 msgid "Customized Preferences"
 msgstr "カスタマイズしたプレファレンス"
 
-#: clientgui/sg_DlgPreferences.cpp:348
+#: clientgui/sg_DlgPreferences.cpp:351
 msgid "Do work only between:"
 msgstr "動作許容時間帯:"
 
-#: clientgui/sg_DlgPreferences.cpp:370
+#: clientgui/sg_DlgPreferences.cpp:373
 msgid "Connect to internet only between:"
 msgstr "インターネット接続を許可する時間帯:"
 
-#: clientgui/sg_DlgPreferences.cpp:392
-#: clientgui/sg_DlgPreferences.cpp:409
+#: clientgui/sg_DlgPreferences.cpp:395 clientgui/sg_DlgPreferences.cpp:412
 msgid "Use no more than:"
 msgstr "使用上限:"
 
-#: clientgui/sg_DlgPreferences.cpp:405
+#: clientgui/sg_DlgPreferences.cpp:408
 msgid "of disk space"
 msgstr "まで（ディスク領域）"
 
-#: clientgui/sg_DlgPreferences.cpp:422
+#: clientgui/sg_DlgPreferences.cpp:425
 msgid "of the processor"
 msgstr "まで（プロセッサ）"
 
-#: clientgui/sg_DlgPreferences.cpp:426
+#: clientgui/sg_DlgPreferences.cpp:429
 msgid "Do work while on battery?"
 msgstr "バッテリー動作時に仕事をさせるか?"
 
-#: clientgui/sg_DlgPreferences.cpp:439
+#: clientgui/sg_DlgPreferences.cpp:442
 msgid "Do work after idle for:"
 msgstr "アイドル時間が次の時間を超えたときのみ仕事をする:"
 
-#: clientgui/sg_DlgPreferences.cpp:677
-#: clientgui/sg_DlgPreferences.cpp:680
-#: clientgui/sg_DlgPreferences.cpp:748
-#: clientgui/sg_DlgPreferences.cpp:752
-#: clientgui/sg_DlgPreferences.cpp:764
-#: clientgui/sg_DlgPreferences.cpp:768
-#: clientgui/sg_DlgPreferences.cpp:926
-#: clientgui/sg_DlgPreferences.cpp:937
+#: clientgui/sg_DlgPreferences.cpp:682 clientgui/sg_DlgPreferences.cpp:685
+#: clientgui/sg_DlgPreferences.cpp:753 clientgui/sg_DlgPreferences.cpp:757
+#: clientgui/sg_DlgPreferences.cpp:769 clientgui/sg_DlgPreferences.cpp:773
+#: clientgui/sg_DlgPreferences.cpp:931 clientgui/sg_DlgPreferences.cpp:942
 msgid "Anytime"
 msgstr "常時"
 
-#: clientgui/sg_DlgPreferences.cpp:784
+#: clientgui/sg_DlgPreferences.cpp:789
 #, c-format
 msgid "%d MB"
 msgstr "%d MB"
 
-#: clientgui/sg_DlgPreferences.cpp:786
+#: clientgui/sg_DlgPreferences.cpp:791
 #, c-format
 msgid "%4.2f GB"
 msgstr "%4.2f GB"
 
-#: clientgui/sg_DlgPreferences.cpp:827
+#: clientgui/sg_DlgPreferences.cpp:832
 #, c-format
 msgid "%d%%"
 msgstr "%d%%"
 
-#: clientgui/sg_DlgPreferences.cpp:863
+#: clientgui/sg_DlgPreferences.cpp:868
 msgid "0 (Run Always)"
 msgstr "0 (常時稼動)"
 
-#: clientgui/sg_DlgPreferences.cpp:866
+#: clientgui/sg_DlgPreferences.cpp:871
 #, c-format
 msgid "%d"
 msgstr "%d"
@@ -2880,7 +2908,9 @@ msgstr "一時停止状態： 他の仕事の計算を実行中"
 #: clientgui/sg_ImageButton.cpp:92
 #, fuzzy
 msgid "Paused: User initiated.  Click 'Resume' to continue"
-msgstr "一時停止状態： 参加者による停止の指示。 継続するには、「再開(Resume)」をクリック"
+msgstr ""
+"一時停止状態： 参加者による停止の指示。 継続するには、「再開(Resume)」をク"
+"リック"
 
 #: clientgui/sg_ImageButton.cpp:94
 msgid "Paused: User active"
@@ -2910,32 +2940,32 @@ msgstr "一時停止状態： アプリケーション開始が遅延"
 msgid "Click to show project graphics"
 msgstr "プロジェクトのグラフィクス表示はここをクリック"
 
-#: clientgui/sg_ProjectsComponent.cpp:119
+#: clientgui/sg_ProjectsComponent.cpp:123
 msgid "Synchronize projects with account manager system"
 msgstr "アカウント・マネージャでプロジェクトに同期"
 
-#: clientgui/sg_ProjectsComponent.cpp:190
-#: clientgui/sg_ProjectsComponent.cpp:201
+#: clientgui/sg_ProjectsComponent.cpp:196
+#: clientgui/sg_ProjectsComponent.cpp:207
 msgid "Open a window to view messages"
 msgstr "メッセージ・ウィンドウを開く"
 
-#: clientgui/sg_ProjectsComponent.cpp:219
+#: clientgui/sg_ProjectsComponent.cpp:225
 msgid "Stop all activity"
 msgstr "全ての活動を停止する"
 
-#: clientgui/sg_ProjectsComponent.cpp:231
+#: clientgui/sg_ProjectsComponent.cpp:237
 msgid "Resume activity"
 msgstr "活動を再開する"
 
-#: clientgui/sg_ProjectsComponent.cpp:248
+#: clientgui/sg_ProjectsComponent.cpp:254
 msgid "Open a window to set your preferences"
 msgstr "プレファレンスの設定ウィンドウを開く"
 
-#: clientgui/sg_ProjectsComponent.cpp:265
+#: clientgui/sg_ProjectsComponent.cpp:271
 msgid "Switch to the BOINC advanced view"
 msgstr "BOINC 詳細表示に切り替える"
 
-#: clientgui/sg_ProjectsComponent.cpp:292
+#: clientgui/sg_ProjectsComponent.cpp:298
 msgid "My Projects:"
 msgstr "あなたのプロジェクト:"
 
@@ -2944,19 +2974,16 @@ msgstr "あなたのプロジェクト:"
 msgid "%s. Work done by %s: %0.2f"
 msgstr "%s - %s により %0.2f まで仕事が完了"
 
-#: clientgui/sg_StatImageLoader.cpp:154
-#: clientgui/sg_StatImageLoader.cpp:217
+#: clientgui/sg_StatImageLoader.cpp:138 clientgui/sg_StatImageLoader.cpp:198
 msgid "Remove Project"
 msgstr "プロジェクト離脱"
 
-#: clientgui/sg_StatImageLoader.cpp:211
-#, c-format
+#: clientgui/sg_StatImageLoader.cpp:192
 #, fuzzy, c-format
 msgid "Are you sure you want to remove project '%s'?"
 msgstr "プロジェクト '%s' をリセットしてよろしいですか？"
 
-#: clientgui/sg_ViewTabPage.cpp:140
-#: clientgui/sg_ViewTabPage.cpp:280
+#: clientgui/sg_ViewTabPage.cpp:140 clientgui/sg_ViewTabPage.cpp:280
 #, c-format
 msgid "%.1lf"
 msgstr "%.1lf"
@@ -2978,8 +3005,7 @@ msgstr "グラフィクスを表示"
 msgid "Application: "
 msgstr "アプリケーション: "
 
-#: clientgui/sg_ViewTabPage.cpp:449
-#: clientgui/sg_ViewTabPage.cpp:453
+#: clientgui/sg_ViewTabPage.cpp:449 clientgui/sg_ViewTabPage.cpp:453
 msgid "Time Remaining: "
 msgstr "残り時間: "
 
@@ -3037,10 +3063,10 @@ msgstr "アカウント・キーを入力し、次に進んでください。"
 
 #: clientgui/ValidateAccountKey.cpp:71
 msgid "Invalid Account Key; please enter a valid Account Key"
-msgstr "アカウント・キーが正しくありません。正しいアカウント・キーを入力して下さい"
+msgstr ""
+"アカウント・キーが正しくありません。正しいアカウント・キーを入力して下さい"
 
-#: clientgui/ValidateAccountKey.cpp:82
-#: clientgui/ValidateEmailAddress.cpp:86
+#: clientgui/ValidateAccountKey.cpp:82 clientgui/ValidateEmailAddress.cpp:86
 msgid "Validation conflict"
 msgstr "無効な値を検出"
 
@@ -3050,7 +3076,9 @@ msgstr "電子メールアドレスを指定してください"
 
 #: clientgui/ValidateEmailAddress.cpp:75
 msgid "Invalid email address; please enter a valid email address"
-msgstr "電子メールアドレスが正しくありません。正しい電子メールアドレスを入力して下さい"
+msgstr ""
+"電子メールアドレスが正しくありません。正しい電子メールアドレスを入力して下さ"
+"い"
 
 #: clientgui/ValidateURL.cpp:69
 msgid "Missing URL"
@@ -3066,17 +3094,13 @@ msgstr ""
 "例：\n"
 "\t http://www.example.com/"
 
-#: clientgui/ValidateURL.cpp:83
-#: clientgui/ValidateURL.cpp:87
-#: clientgui/ValidateURL.cpp:91
-#: clientgui/ValidateURL.cpp:103
-#: clientgui/ValidateURL.cpp:107
-#: clientgui/ValidateURL.cpp:110
+#: clientgui/ValidateURL.cpp:83 clientgui/ValidateURL.cpp:87
+#: clientgui/ValidateURL.cpp:91 clientgui/ValidateURL.cpp:103
+#: clientgui/ValidateURL.cpp:107 clientgui/ValidateURL.cpp:110
 msgid "Invalid URL"
 msgstr "不正な URL"
 
-#: clientgui/ValidateURL.cpp:84
-#: clientgui/ValidateURL.cpp:88
+#: clientgui/ValidateURL.cpp:84 clientgui/ValidateURL.cpp:88
 #: clientgui/ValidateURL.cpp:92
 msgid ""
 "Please specify a valid URL.\n"
@@ -3087,8 +3111,7 @@ msgstr ""
 "例：\n"
 "\t http://boincproject.example.com"
 
-#: clientgui/ValidateURL.cpp:104
-#: clientgui/ValidateURL.cpp:108
+#: clientgui/ValidateURL.cpp:104 clientgui/ValidateURL.cpp:108
 #, c-format
 msgid "'%s' does not contain a valid host name."
 msgstr "'%s' に、有効なホスト名が含まれていません。"
@@ -3110,8 +3133,7 @@ msgstr "全メッセージをコピー"
 msgid "Copy selected messages"
 msgstr "選択したメッセージをコピー"
 
-#: clientgui/ViewMessages.cpp:107
-#: clientgui/ViewMessages.cpp:503
+#: clientgui/ViewMessages.cpp:107 clientgui/ViewMessages.cpp:503
 msgid "Show only the messages for the selected project."
 msgstr "選択したプロジェクトのメッセージだけを表示"
 
@@ -3144,23 +3166,23 @@ msgid "Update"
 msgstr "更新"
 
 #: clientgui/ViewProjects.cpp:174
-msgid "Report all completed tasks, get latest credit, get latest preferences, and possibly get more tasks."
-msgstr "完了したタスクを報告し、最新の功績 (credit) とプレファレンス (好みの設定) を取得し、可能であれば更にタスクを取得します。"
+msgid ""
+"Report all completed tasks, get latest credit, get latest preferences, and "
+"possibly get more tasks."
+msgstr ""
+"完了したタスクを報告し、最新の功績 (credit) とプレファレンス (好みの設定) を"
+"取得し、可能であれば更にタスクを取得します。"
 
-#: clientgui/ViewProjects.cpp:180
-#: clientgui/ViewProjects.cpp:712
-#: clientgui/ViewWork.cpp:198
-#: clientgui/ViewWork.cpp:738
+#: clientgui/ViewProjects.cpp:180 clientgui/ViewProjects.cpp:712
+#: clientgui/ViewWork.cpp:198 clientgui/ViewWork.cpp:738
 msgid "Suspend"
 msgstr "一時停止"
 
-#: clientgui/ViewProjects.cpp:181
-#: clientgui/ViewProjects.cpp:712
+#: clientgui/ViewProjects.cpp:181 clientgui/ViewProjects.cpp:712
 msgid "Suspend tasks for this project."
 msgstr "このプロジェクトが実行しているタスクを一時的に停止します。"
 
-#: clientgui/ViewProjects.cpp:187
-#: clientgui/ViewProjects.cpp:731
+#: clientgui/ViewProjects.cpp:187 clientgui/ViewProjects.cpp:731
 msgid "No new tasks"
 msgstr "タスクの新規取得禁止"
 
@@ -3173,10 +3195,13 @@ msgid "Reset project"
 msgstr "プロジェクトをリセット"
 
 #: clientgui/ViewProjects.cpp:195
-msgid "Delete all files and tasks associated with this project, and get new tasks.  You can update the project first to report any completed tasks."
+msgid ""
+"Delete all files and tasks associated with this project, and get new tasks.  "
+"You can update the project first to report any completed tasks."
 msgstr ""
-"このプロジェクトに関係するすべてのファイルとタスクを削除し新しいタスクを取得します。 "
-"完了した仕事を報告するには、先にプロジェクトを最新状態に「更新」してください。"
+"このプロジェクトに関係するすべてのファイルとタスクを削除し新しいタスクを取得"
+"します。 完了した仕事を報告するには、先にプロジェクトを最新状態に「更新」して"
+"ください。"
 
 #: clientgui/ViewProjects.cpp:201
 msgid "Remove"
@@ -3184,13 +3209,15 @@ msgstr ""
 
 #: clientgui/ViewProjects.cpp:202
 #, fuzzy
-msgid "Remove this project.  Tasks in progress will be lost (use 'Update' first to report any completed tasks)."
+msgid ""
+"Remove this project.  Tasks in progress will be lost (use 'Update' first to "
+"report any completed tasks)."
 msgstr ""
-"このコンピュータをこのプロジェクトから離脱させます。作業中のタスクは消えてしまいます。 "
-"(完了したタスクを報告するため、離脱する前にプロジェクトの「更新」を行ってください)"
+"このコンピュータをこのプロジェクトから離脱させます。作業中のタスクは消えてし"
+"まいます。 (完了したタスクを報告するため、離脱する前にプロジェクトの「更新」"
+"を行ってください)"
 
-#: clientgui/ViewProjects.cpp:208
-#: clientgui/ViewWork.cpp:212
+#: clientgui/ViewProjects.cpp:208 clientgui/ViewWork.cpp:212
 msgid "Properties"
 msgstr "プロパティ"
 
@@ -3198,8 +3225,7 @@ msgstr "プロパティ"
 msgid "Show project details."
 msgstr "プロジェクトの詳細を表示"
 
-#: clientgui/ViewProjects.cpp:219
-#: clientgui/ViewStatistics.cpp:442
+#: clientgui/ViewProjects.cpp:219 clientgui/ViewStatistics.cpp:442
 msgid "Account"
 msgstr "アカウント"
 
@@ -3211,8 +3237,7 @@ msgstr "終了した仕事量"
 msgid "Avg. work done"
 msgstr "終了した仕事量の平均"
 
-#: clientgui/ViewProjects.cpp:224
-#: clientgui/ViewTransfers.cpp:187
+#: clientgui/ViewProjects.cpp:224 clientgui/ViewTransfers.cpp:187
 #: clientgui/ViewWork.cpp:224
 msgid "Status"
 msgstr "状態"
@@ -3259,13 +3284,11 @@ msgstr "プロジェクトをリセット"
 msgid "Removing project..."
 msgstr "プロジェクトの作業を再開させています..."
 
-#: clientgui/ViewProjects.cpp:542
-#: clientgui/ViewWork.cpp:551
+#: clientgui/ViewProjects.cpp:542 clientgui/ViewWork.cpp:551
 msgid "Launching browser..."
 msgstr "ブラウザを起動中..."
 
-#: clientgui/ViewProjects.cpp:708
-#: clientgui/ViewWork.cpp:732
+#: clientgui/ViewProjects.cpp:708 clientgui/ViewWork.cpp:732
 msgid "Resume"
 msgstr "再開"
 
@@ -3376,124 +3399,117 @@ msgstr "計算機の平均功績/日"
 msgid "Last update: %.0f days ago"
 msgstr "最終更新： %.0f 日前"
 
-#: clientgui/ViewStatistics.cpp:1969
+#: clientgui/ViewStatistics.cpp:1966
 msgid "Show user total"
 msgstr "参加者の合計功績を表示"
 
-#: clientgui/ViewStatistics.cpp:1970
+#: clientgui/ViewStatistics.cpp:1967
 msgid "Show total credit for user"
 msgstr "参加者の合計功績 (credit) を表示します"
 
-#: clientgui/ViewStatistics.cpp:1976
+#: clientgui/ViewStatistics.cpp:1973
 msgid "Show user average"
 msgstr "参加者の平均功績/日を表示"
 
-#: clientgui/ViewStatistics.cpp:1977
+#: clientgui/ViewStatistics.cpp:1974
 msgid "Show average credit for user"
 msgstr "参加者の平均功績 (credit)/日を表示します"
 
-#: clientgui/ViewStatistics.cpp:1983
+#: clientgui/ViewStatistics.cpp:1980
 msgid "Show host total"
 msgstr "計算機の合計功績を表示"
 
-#: clientgui/ViewStatistics.cpp:1984
+#: clientgui/ViewStatistics.cpp:1981
 msgid "Show total credit for host"
 msgstr "計算機の合計功績 (credit) を表示します"
 
-#: clientgui/ViewStatistics.cpp:1990
+#: clientgui/ViewStatistics.cpp:1987
 msgid "Show host average"
 msgstr "計算機の平均功績/日を表示"
 
-#: clientgui/ViewStatistics.cpp:1991
+#: clientgui/ViewStatistics.cpp:1988
 msgid "Show average credit for host"
 msgstr "計算機の平均功績 (credit)/日を表示します"
 
-#: clientgui/ViewStatistics.cpp:2000
+#: clientgui/ViewStatistics.cpp:1997
 msgid "< &Previous project"
 msgstr "< 前のプロジェクト(&P)"
 
-#: clientgui/ViewStatistics.cpp:2001
+#: clientgui/ViewStatistics.cpp:1998
 msgid "Show chart for previous project"
 msgstr "前のプロジェクトの図を表示します"
 
-#: clientgui/ViewStatistics.cpp:2006
+#: clientgui/ViewStatistics.cpp:2003
 msgid "&Next project >"
 msgstr "次のプロジェクト(&N) >"
 
-#: clientgui/ViewStatistics.cpp:2007
+#: clientgui/ViewStatistics.cpp:2004
 msgid "Show chart for next project"
 msgstr "次のプロジェクトの図を表示します"
 
-#: clientgui/ViewStatistics.cpp:2013
-#: clientgui/ViewStatistics.cpp:2410
+#: clientgui/ViewStatistics.cpp:2010 clientgui/ViewStatistics.cpp:2407
 msgid "Hide project list"
 msgstr ""
 
-#: clientgui/ViewStatistics.cpp:2014
-#: clientgui/ViewStatistics.cpp:2410
+#: clientgui/ViewStatistics.cpp:2011 clientgui/ViewStatistics.cpp:2407
 msgid "Use entire area for graphs"
 msgstr ""
 
-#: clientgui/ViewStatistics.cpp:2019
+#: clientgui/ViewStatistics.cpp:2016
 msgid "Mode view"
 msgstr "表示モード"
 
-#: clientgui/ViewStatistics.cpp:2023
+#: clientgui/ViewStatistics.cpp:2020
 msgid "One project"
 msgstr "ひとつのプロジェクト"
 
-#: clientgui/ViewStatistics.cpp:2024
+#: clientgui/ViewStatistics.cpp:2021
 msgid "Show one chart with selected project"
 msgstr "選択したプロジェクトの図を表示します"
 
-#: clientgui/ViewStatistics.cpp:2030
+#: clientgui/ViewStatistics.cpp:2027
 msgid "All projects (separate)"
 msgstr ""
 
-#: clientgui/ViewStatistics.cpp:2031
+#: clientgui/ViewStatistics.cpp:2028
 msgid "Show all projects, one chart per project"
 msgstr "全てのプロジェクトを個別の図に表示します"
 
-#: clientgui/ViewStatistics.cpp:2037
+#: clientgui/ViewStatistics.cpp:2034
 msgid "All projects (together)"
 msgstr ""
 
-#: clientgui/ViewStatistics.cpp:2038
+#: clientgui/ViewStatistics.cpp:2035
 msgid "Show one chart with all projects"
 msgstr "全てのプロジェクトをひとつの図に表示します"
 
-#: clientgui/ViewStatistics.cpp:2044
+#: clientgui/ViewStatistics.cpp:2041
 #, fuzzy
 msgid "All projects (sum)"
 msgstr "全てのプロジェクト (あわせて表示)"
 
-#: clientgui/ViewStatistics.cpp:2045
+#: clientgui/ViewStatistics.cpp:2042
 #, fuzzy
 msgid "Show one chart with sum of projects"
 msgstr "全てのプロジェクトをひとつの図に表示します"
 
-#: clientgui/ViewStatistics.cpp:2073
+#: clientgui/ViewStatistics.cpp:2070
 msgid "Statistics"
 msgstr "統計情報"
 
-#: clientgui/ViewStatistics.cpp:2097
-#: clientgui/ViewStatistics.cpp:2118
-#: clientgui/ViewStatistics.cpp:2139
-#: clientgui/ViewStatistics.cpp:2161
-#: clientgui/ViewStatistics.cpp:2182
-#: clientgui/ViewStatistics.cpp:2203
-#: clientgui/ViewStatistics.cpp:2224
-#: clientgui/ViewStatistics.cpp:2245
-#: clientgui/ViewStatistics.cpp:2266
-#: clientgui/ViewStatistics.cpp:2290
+#: clientgui/ViewStatistics.cpp:2094 clientgui/ViewStatistics.cpp:2115
+#: clientgui/ViewStatistics.cpp:2136 clientgui/ViewStatistics.cpp:2158
+#: clientgui/ViewStatistics.cpp:2179 clientgui/ViewStatistics.cpp:2200
+#: clientgui/ViewStatistics.cpp:2221 clientgui/ViewStatistics.cpp:2242
+#: clientgui/ViewStatistics.cpp:2263 clientgui/ViewStatistics.cpp:2287
 msgid "Updating charts..."
 msgstr "図を更新しています..."
 
-#: clientgui/ViewStatistics.cpp:2414
+#: clientgui/ViewStatistics.cpp:2411
 msgid "Show project list"
 msgstr ""
 
-#: clientgui/ViewStatistics.cpp:2414
+#: clientgui/ViewStatistics.cpp:2411
 msgid "Uses smaller area for graphs"
 msgstr ""
 
@@ -3510,17 +3526,19 @@ msgid "Abort Transfer"
 msgstr "ファイル転送を中止"
 
 #: clientgui/ViewTransfers.cpp:171
-msgid "Click 'Abort transfer' to delete the file from the transfer queue. This will prevent you from being granted credit for this result."
+msgid ""
+"Click 'Abort transfer' to delete the file from the transfer queue. This will "
+"prevent you from being granted credit for this result."
 msgstr ""
-"ファイル転送の待ち行列からこのファイルを削除するには、「ファイル転送を中止」をクリックします。 この場合、対応するリザルトについての功績 "
-"(credit) は付与されなくなります。"
+"ファイル転送の待ち行列からこのファイルを削除するには、「ファイル転送を中止」"
+"をクリックします。 この場合、対応するリザルトについての功績 (credit) は付与さ"
+"れなくなります。"
 
 #: clientgui/ViewTransfers.cpp:182
 msgid "File"
 msgstr "ファイル名"
 
-#: clientgui/ViewTransfers.cpp:183
-#: clientgui/ViewWork.cpp:223
+#: clientgui/ViewTransfers.cpp:183 clientgui/ViewWork.cpp:223
 msgid "Progress"
 msgstr "進捗状況"
 
@@ -3603,13 +3621,11 @@ msgstr "ダウンロード保留中"
 msgid " (project backoff: "
 msgstr " (プロジェクトとの通信待機: "
 
-#: clientgui/ViewWork.cpp:184
-#: clientgui/ViewWork.cpp:714
+#: clientgui/ViewWork.cpp:184 clientgui/ViewWork.cpp:714
 msgid "Show active tasks"
 msgstr "活動中のタスクを表示する"
 
-#: clientgui/ViewWork.cpp:185
-#: clientgui/ViewWork.cpp:715
+#: clientgui/ViewWork.cpp:185 clientgui/ViewWork.cpp:715
 msgid "Show only active tasks."
 msgstr "活動中のタスクだけを表示する。"
 
@@ -3627,7 +3643,9 @@ msgstr "中止"
 
 #: clientgui/ViewWork.cpp:206
 msgid "Abandon work on the result. You will get no credit for it."
-msgstr "このリザルトの仕事を放棄します。このリザルトについて功績 (credit) を受けとることはできません。"
+msgstr ""
+"このリザルトの仕事を放棄します。このリザルトについて功績 (credit) を受けとる"
+"ことはできません。"
 
 #: clientgui/ViewWork.cpp:213
 msgid "Show task details."
@@ -3742,7 +3760,8 @@ msgstr ""
 #, fuzzy
 msgid ""
 "You have chosen to add a new BOINC project.  Adding a new\n"
-"project means that you will be connecting your computer to a new organization.\n"
+"project means that you will be connecting your computer to a new "
+"organization.\n"
 "If this is what you wanted to do, please click on\n"
 "the 'Next' button below.\n"
 "\n"
@@ -3754,17 +3773,22 @@ msgid ""
 "To change which research applications are sent to you from\n"
 "World Community Grid then please click on the following button:"
 msgstr ""
-"これから、新たな BOINC プロジェクトに参加しようとしています。 新たなプロジェクトに\n"
+"これから、新たな BOINC プロジェクトに参加しようとしています。 新たなプロジェ"
+"クトに\n"
 "参加するということは、あなたのコンピュータを新たな組織に接続することを意味\n"
 "します。 これがあなたののぞむ事でしたら、以下にある、「次へ(Next)」ボタン\n"
 "をクリックして下さい。\n"
 "\n"
-"World Community Grid のようなプロジェクトでは、複数種類の研究アプリケーションを\n"
-"実行します。あなたのコンピュータへもってきて動作させる研究アプリケーションを変更\n"
-"したいときは、そのプロジェクトのウェブサイトへ行って、そこで選択してあった内容を変更\n"
+"World Community Grid のようなプロジェクトでは、複数種類の研究アプリケーション"
+"を\n"
+"実行します。あなたのコンピュータへもってきて動作させる研究アプリケーションを"
+"変更\n"
+"したいときは、そのプロジェクトのウェブサイトへ行って、そこで選択してあった内"
+"容を変更\n"
 "してください。\n"
 "\n"
-"World Community Grid から送られて来る研究アプリケーションを変更するには、以下の\n"
+"World Community Grid から送られて来る研究アプリケーションを変更するには、以下"
+"の\n"
 "ボタンをクリックします:"
 
 #: clientgui/WelcomePage.cpp:286
@@ -3783,8 +3807,7 @@ msgstr "本当にキャンセルしますか？"
 msgid "Question"
 msgstr "お答えください"
 
-#: clientgui/wizardex.cpp:377
-#: clientgui/wizardex.cpp:553
+#: clientgui/wizardex.cpp:377 clientgui/wizardex.cpp:553
 msgid "&Next >"
 msgstr "次へ(&N) >"
 
@@ -3821,7 +3844,9 @@ msgid "Pie Ctrl"
 msgstr "Pie Ctrl"
 
 #: clientgui/mac/MacAccessiblity.cpp:257
-msgid "for accessibility support, please select advanced from the view menu or type command shift a"
+msgid ""
+"for accessibility support, please select advanced from the view menu or type "
+"command shift a"
 msgstr ""
 
 #: clientgui/mac/MacAccessiblity.cpp:302
@@ -3869,8 +3894,7 @@ msgstr ""
 msgid "list is empty"
 msgstr ""
 
-#: clientgui/mac/MacAccessiblity.cpp:858
-#: clientgui/mac/MacAccessiblity.cpp:870
+#: clientgui/mac/MacAccessiblity.cpp:858 clientgui/mac/MacAccessiblity.cpp:870
 #, c-format
 msgid "; row %d; "
 msgstr ""
@@ -3909,6 +3933,33 @@ msgstr ""
 msgid "row %d of %d; "
 msgstr ""
 
+#: clientgui/mac/Mac_GUI.cpp:91
+#, fuzzy
+msgid "Preferences…"
+msgstr "プレファレンス"
+
+#: clientgui/mac/Mac_GUI.cpp:95
+msgid "Services"
+msgstr ""
+
+#: clientgui/mac/Mac_GUI.cpp:109
+#, c-format
+msgid "Hide %s"
+msgstr ""
+
+#: clientgui/mac/Mac_GUI.cpp:114
+msgid "Hide Others"
+msgstr ""
+
+#: clientgui/mac/Mac_GUI.cpp:119
+msgid "Show All"
+msgstr ""
+
+#: clientgui/mac/Mac_GUI.cpp:124
+#, fuzzy, c-format
+msgid "Quit %s"
+msgstr "%s を終了する(&Q)"
+
 #: clientgui/DlgAdvPreferences.h:29
 msgid "specify work start and stop hours in format HH:MM-HH:MM"
 msgstr ""
@@ -3916,6 +3967,9 @@ msgstr ""
 #: clientgui/DlgAdvPreferences.h:30
 msgid "specify network usage start and stop hours in format HH:MM-HH:MM"
 msgstr ""
+
+#~ msgid "Get help with BOINC"
+#~ msgstr "BOINC に関して手助けを求める"
 
 #~ msgid "Event Log..."
 #~ msgstr "イベント・ログ..."
