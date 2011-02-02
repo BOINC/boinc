@@ -462,3 +462,9 @@ Rom    1 Feb 2011
     win_build/installerv2/redist/Windows/x64/
         boinccas.dll
         boinccas95.dll
+
+David  1 Feb 2011
+    - create_work: add -d option
+
+    tools/
+        create_work.cpp

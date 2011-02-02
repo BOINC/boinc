@@ -124,6 +124,10 @@ int main(int argc, const char** argv) {
     while (i < argc) {
         if (arg(argv, i, "appname")) {
             strcpy(app.name, argv[++i]);
+        } else if (arg(argv, i, "d")) {
+            int dl = atoi(argv[++i]);
+            log_messages.set_debug_level(dl);
+            if (dl ==4) g_print_queries = true;
         } else if (arg(argv, i, "wu_name")) {
             strcpy(wu.name, argv[++i]);
         } else if (arg(argv, i, "wu_template")) {
