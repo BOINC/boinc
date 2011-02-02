@@ -10,12 +10,12 @@ msgstr ""
 "PO-Revision-Date: 2010-08-12 14:56-0700\n"
 "Last-Translator: Miha P <miha@wolfey.si>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: sl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || "
-"n%100==4 ? 2 : 3);\n"
+"Language: sl\n"
+"Plural-Forms: nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n"
+"%100==4 ? 2 : 3);\n"
 "X-Generator: Pootle 1.2.1\n"
 "X-Poedit-SourceCharset: utf-8\n"
 
@@ -758,8 +758,8 @@ msgid ""
 "resources and the second will get 2/3. %2"
 msgstr ""
 "Delitev virov %1 Določi delež virov vašega računalnika, ki so dodeljeni temu "
-"projektu. Primer: če sodelujete v dveh BOINC projektih z delitvijo virov "
-"100 in 200, bo prvi dobil 1/3 vaših virov in drugi 2/3. %2"
+"projektu. Primer: če sodelujete v dveh BOINC projektih z delitvijo virov 100 "
+"in 200, bo prvi dobil 1/3 vaših virov in drugi 2/3. %2"
 
 #: ../inc/prefs.inc:300
 msgid "Use CPU %1 Enforced by version 6.10+ %2"
@@ -771,7 +771,8 @@ msgstr "Uporabi ATI grafični procesor %1 Velja za različice od 6.10 dalje %2"
 
 #: ../inc/prefs.inc:324
 msgid "Use NVIDIA GPU %1 Enforced by version 6.10+ %2"
-msgstr "Uporabi NVIDIA grafični procesor %1 Velja za različice od 6.10 dalje %2"
+msgstr ""
+"Uporabi NVIDIA grafični procesor %1 Velja za različice od 6.10 dalje %2"
 
 #: ../inc/prefs.inc:338
 msgid ""
@@ -962,8 +963,7 @@ msgid ""
 "are displayed only to logged-in users.  We apologize for this inconvenience."
 msgstr ""
 "Da bi preprečili smetenje, so profili uporabnikov s povprečjem točk manj kot "
-"%1 prikazani le prijavljenim uporabnikom.  Opravičujemo se za to "
-"nevšečnost."
+"%1 prikazani le prijavljenim uporabnikom.  Opravičujemo se za to nevšečnost."
 
 #: ../inc/profile.inc:191
 msgid "User is banished"
@@ -1954,7 +1954,8 @@ msgstr "Ustvarjanje računov je onemogočeno"
 
 #: ../user/create_account_form.php:41
 msgid "Account creation is currently disabled. Please try again later."
-msgstr "Ustvarjanje računov je trenutno onemogočeno. Prosim, poskusite kasneje."
+msgstr ""
+"Ustvarjanje računov je trenutno onemogočeno. Prosim, poskusite kasneje."
 
 #: ../user/create_account_form.php:50
 #, fuzzy
@@ -1963,8 +1964,8 @@ msgid ""
 "select Add Project, and enter an email address and password."
 msgstr ""
 "OPOMBA: Če uporabljate BOINC različico 5.2 ali novejšo z BOINC Upraviteljem, "
-"ne uporabljajte tega obrazca. Samo poženite BOINC, izberite Pripni projet "
-"in vnesi naslov elektronske pošte in geslo."
+"ne uporabljajte tega obrazca. Samo poženite BOINC, izberite Pripni projet in "
+"vnesi naslov elektronske pošte in geslo."
 
 #: ../user/create_account_form.php:66
 msgid ""
@@ -2019,8 +2020,8 @@ msgid ""
 "To replace it, click the \"Browse\" button and select a JPEG or PNG file (%1 "
 "or less)."
 msgstr ""
-"Da jo zamenjate, kliknite gumb \"Brskaj\" in izberite JPEG ali PNG datoteko (%"
-"1 ali manjšo)."
+"Da jo zamenjate, kliknite gumb \"Brskaj\" in izberite JPEG ali PNG datoteko "
+"(%1 ali manjšo)."
 
 #: ../user/create_profile.php:67
 msgid "To remove it from your profile, check this box:"
@@ -2068,8 +2069,8 @@ msgstr ""
 #: ../user/create_profile.php:211
 msgid "Your ReCaptcha response was not correct.  Please try again."
 msgstr ""
-"Vaš \"Recaptcha\" odgovor na vsebino slike ni bil pravilen.  Prosim, poskusite "
-"znova."
+"Vaš \"Recaptcha\" odgovor na vsebino slike ni bil pravilen.  Prosim, "
+"poskusite znova."
 
 #: ../user/create_profile.php:220
 msgid ""
@@ -2135,7 +2136,8 @@ msgstr "Naložite lahko aplikacije iz večih kategorij."
 #: ../user/download_network.php:31
 msgid ""
 "These applications are not endorsed by %1 and you use them at your own risk."
-msgstr "Te aplikacije %1 ne podpira. Lahko jo uporabljate na lastno odgvornost."
+msgstr ""
+"Te aplikacije %1 ne podpira. Lahko jo uporabljate na lastno odgvornost."
 
 #: ../user/download_network.php:33
 msgid ""
@@ -2580,7 +2582,8 @@ msgstr "Računalniki, ki pripadajo %1"
 
 #: ../user/hosts_user.php:54
 msgid "This user has chosen not to show information about their computers."
-msgstr "Ta uporabnik je izbral, da ne prikaže informacij o svojih računalnikih."
+msgstr ""
+"Ta uporabnik je izbral, da ne prikaže informacij o svojih računalnikih."
 
 #: ../user/info.php:22 ../user/sample_index.php:47
 msgid "Read our rules and policies"
@@ -2736,8 +2739,8 @@ msgid ""
 "1."
 msgstr ""
 "%1 ne prevzema nikakeršne pravne odgovornosti za škodo na vašem računalniku, "
-"izgubo podatkov ali kateregakoli dogodka ali stanja, ki se lahko pripeti "
-"kot rezultat sodelovanja v %1."
+"izgubo podatkov ali kateregakoli dogodka ali stanja, ki se lahko pripeti kot "
+"rezultat sodelovanja v %1."
 
 #: ../user/info.php:54
 msgid "Other BOINC projects"
@@ -2761,8 +2764,7 @@ msgid ""
 "own risk."
 msgstr ""
 "Ti projekti niso povezani s/z %1 in ne moremo jamčiti za njihovo varnostno "
-"prakso ali narave njihovih raziskav.  Uporabljajte jih na lastno "
-"odgovornost."
+"prakso ali narave njihovih raziskav.  Uporabljajte jih na lastno odgovornost."
 
 #: ../user/language_select.php:42
 msgid "Language selection"
@@ -3283,7 +3285,8 @@ msgstr ""
 msgid ""
 "You can also get your current statistics in the form of a \"signature image"
 "\":"
-msgstr "Vaše trenutne statistike lahko dobite tudi v obliki \"slikovni podpis\":"
+msgstr ""
+"Vaše trenutne statistike lahko dobite tudi v obliki \"slikovni podpis\":"
 
 #: ../user/stats.php:41
 msgid ""
@@ -3395,7 +3398,8 @@ msgstr "Odstraniti članov"
 
 #: ../user/team_admins.php:51
 msgid "If a Team Admin quits the team, they cease to be a Team Admin."
-msgstr "Če administrator ekipe zapusti ekipo, preneha biti administrator ekipe."
+msgstr ""
+"Če administrator ekipe zapusti ekipo, preneha biti administrator ekipe."
 
 #: ../user/team_admins.php:52
 msgid ""
@@ -4105,8 +4109,7 @@ msgstr "Ime ekipe"
 #: ../user/team_search.php:127
 msgid "No teams were found matching your criteria. Try another search."
 msgstr ""
-"Ni bilo najdenih ekip, ki bi ustrezale vašim pogojem. Poskusite iskati "
-"znova."
+"Ni bilo najdenih ekip, ki bi ustrezale vašim pogojem. Poskusite iskati znova."
 
 #: ../user/team_search.php:129
 msgid "Or you can %1create a new team%2."

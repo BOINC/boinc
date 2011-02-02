@@ -6,14 +6,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-12-18 09:11-0800\n"
+"POT-Creation-Date: 2011-01-26 13:27-0800\n"
 "PO-Revision-Date: 2010-08-28 04:26-0700\n"
 "Last-Translator: David M <davidcomp2 at telefonica dot net>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: es\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Pootle 1.2.1\n"
 
@@ -21,7 +21,7 @@ msgstr ""
 msgid "error"
 msgstr "error"
 
-#: client_msgs.cpp:77
+#: client_msgs.cpp:79
 #, fuzzy
 msgid "Message from server"
 msgstr "Mensaje del servidor del proyecto:"
@@ -35,8 +35,7 @@ msgstr ""
 #: client_state.cpp:414
 msgid "Couldn't write state file; check directory permissions"
 msgstr ""
-"No se pudo escribir en el archivo state; compruebe los permisos de la "
-"carpeta"
+"No se pudo escribir en el archivo state; compruebe los permisos de la carpeta"
 
 #: cs_cmdline.cpp:284
 msgid "The HTTP_PROXY environment variable must specify an HTTP proxy"
@@ -69,19 +68,19 @@ msgstr "Descargarlo."
 msgid "Can't resolve hostname in remote_hosts.cfg"
 msgstr "No se puede resolver el nombre del host en remote_host.cfg"
 
-#: log_flags.cpp:69 log_flags.cpp:324 log_flags.cpp:457
+#: log_flags.cpp:73 log_flags.cpp:328 log_flags.cpp:461
 msgid "Unexpected text in cc_config.xml"
 msgstr "Texto inesperado en cc_config.xml"
 
-#: log_flags.cpp:113 log_flags.cpp:429 log_flags.cpp:474
+#: log_flags.cpp:117 log_flags.cpp:433 log_flags.cpp:480
 msgid "Unrecognized tag in cc_config.xml"
 msgstr "Etiqueta no reconocida en cc_config.xml"
 
-#: log_flags.cpp:448
+#: log_flags.cpp:452
 msgid "Missing start tag in cc_config.xml"
 msgstr "Etiqueta de inicio perdida en cc_config.xml"
 
-#: log_flags.cpp:482
+#: log_flags.cpp:488
 msgid "Missing end tag in cc_config.xml"
 msgstr "Etiqueta de fin perdida en cc_config.xml"
 
@@ -147,7 +146,8 @@ msgstr ""
 
 #: ../sched/sched_send.cpp:1311
 msgid "An NVIDIA or ATI GPU is required to run tasks for this project"
-msgstr "Es necesario una GPU NVIDIA o ATI para ejecutar tareas de este proyecto"
+msgstr ""
+"Es necesario una GPU NVIDIA o ATI para ejecutar tareas de este proyecto"
 
 #: ../sched/sched_send.cpp:1316
 msgid "An NVIDIA GPU is required to run tasks for this project"

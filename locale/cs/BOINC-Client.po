@@ -6,14 +6,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-12-18 09:11-0800\n"
-"PO-Revision-Date: 2011-01-02 19:50+0200\n"
-"Last-Translator: Martin <martin.suchan@email.cz>\n"
+"POT-Creation-Date: 2011-01-26 13:27-0800\n"
+"PO-Revision-Date: 2011-01-26 21:13+0100\n"
+"Last-Translator: Martin Suchan <martin.suchan@email.cz>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: cs\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: cs\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 "X-Generator: Pootle 2.1.1\n"
 
@@ -21,7 +21,7 @@ msgstr ""
 msgid "error"
 msgstr "chyba"
 
-#: client_msgs.cpp:77
+#: client_msgs.cpp:79
 msgid "Message from server"
 msgstr "Zpráva ze serveru"
 
@@ -35,7 +35,8 @@ msgstr ""
 
 #: client_state.cpp:414
 msgid "Couldn't write state file; check directory permissions"
-msgstr "Nelze zapsat stavový soubor, zkontrolujte práva zápisu v cílové složce."
+msgstr ""
+"Nelze zapsat stavový soubor, zkontrolujte práva zápisu v cílové složce."
 
 #: cs_cmdline.cpp:284
 msgid "The HTTP_PROXY environment variable must specify an HTTP proxy"
@@ -70,19 +71,19 @@ msgstr "Stáhnout."
 msgid "Can't resolve hostname in remote_hosts.cfg"
 msgstr "Nelze rozeznat adresu hostitele v remote_hosts.cfg"
 
-#: log_flags.cpp:69 log_flags.cpp:324 log_flags.cpp:457
+#: log_flags.cpp:73 log_flags.cpp:328 log_flags.cpp:461
 msgid "Unexpected text in cc_config.xml"
 msgstr "Nečekaný text v cc_config.xml"
 
-#: log_flags.cpp:113 log_flags.cpp:429 log_flags.cpp:474
+#: log_flags.cpp:117 log_flags.cpp:433 log_flags.cpp:480
 msgid "Unrecognized tag in cc_config.xml"
 msgstr "Nečekaný tag v cc_config.xml"
 
-#: log_flags.cpp:448
+#: log_flags.cpp:452
 msgid "Missing start tag in cc_config.xml"
 msgstr "Chybějící startovní tag v cc_config.xml"
 
-#: log_flags.cpp:482
+#: log_flags.cpp:488
 msgid "Missing end tag in cc_config.xml"
 msgstr "Chybějící koncový tag v cc_config.xml"
 
@@ -177,8 +178,7 @@ msgid ""
 "Tasks for NVIDIA GPU are available, but your preferences are set to not "
 "accept them"
 msgstr ""
-"Jsou dostupné úkoly pro nVidia GPU, ale vaše nastavení je nedovoluje "
-"přijímat"
+"Jsou dostupné úkoly pro nVidia GPU, ale vaše nastavení je nedovoluje přijímat"
 
 #: ../sched/sched_send.cpp:1465
 msgid ""
@@ -202,7 +202,7 @@ msgstr "Váš soubor app_info.xml neobsahuje použitelnou verzi"
 
 #: ../sched/sched_version.cpp:709
 msgid "is not available for"
-msgstr "není dostupné pro"
+msgstr "není dostupná pro"
 
 #~ msgid "Notice from BOINC"
 #~ msgstr "Zpráva od systému BOINC"

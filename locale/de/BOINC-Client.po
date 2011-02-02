@@ -6,14 +6,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-12-18 09:11-0800\n"
+"POT-Creation-Date: 2011-01-26 13:27-0800\n"
 "PO-Revision-Date: 2010-10-26 21:29+0200\n"
 "Last-Translator: Christian <djangofett@gmx.net>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: de\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Pootle 2.1.1\n"
 
@@ -21,7 +21,7 @@ msgstr ""
 msgid "error"
 msgstr "Fehler"
 
-#: client_msgs.cpp:77
+#: client_msgs.cpp:79
 #, fuzzy
 msgid "Message from server"
 msgstr "Nachricht vom Projektserver:"
@@ -70,19 +70,19 @@ msgstr "Bitte Herunterladen."
 msgid "Can't resolve hostname in remote_hosts.cfg"
 msgstr "Rechnername in remote_hosts.cfg konnte nicht aufgelöst werden."
 
-#: log_flags.cpp:69 log_flags.cpp:324 log_flags.cpp:457
+#: log_flags.cpp:73 log_flags.cpp:328 log_flags.cpp:461
 msgid "Unexpected text in cc_config.xml"
 msgstr "Unerwarteter Text in cc_config.xml"
 
-#: log_flags.cpp:113 log_flags.cpp:429 log_flags.cpp:474
+#: log_flags.cpp:117 log_flags.cpp:433 log_flags.cpp:480
 msgid "Unrecognized tag in cc_config.xml"
 msgstr "Nicht erkanntes Tag in cc_config.xml"
 
-#: log_flags.cpp:448
+#: log_flags.cpp:452
 msgid "Missing start tag in cc_config.xml"
 msgstr "Fehlendes Starttag in cc_config.xml"
 
-#: log_flags.cpp:482
+#: log_flags.cpp:488
 msgid "Missing end tag in cc_config.xml"
 msgstr "Fehlendes Endetag in cc_config.xml"
 
@@ -171,7 +171,8 @@ msgstr "Der Computertyp wird von diesem Projekt nicht unterstützt."
 
 #: ../sched/sched_send.cpp:1449
 msgid "Newer BOINC version required; please install current version"
-msgstr "Neuere BOINC Version benötigt. Bitte die neueste Software installieren."
+msgstr ""
+"Neuere BOINC Version benötigt. Bitte die neueste Software installieren."
 
 #: ../sched/sched_send.cpp:1459
 msgid ""

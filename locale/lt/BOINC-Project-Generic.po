@@ -7,13 +7,13 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2010-10-06 13:10 PDT\n"
-"PO-Revision-Date: 2010-09-19 20:09+0200\n"
+"PO-Revision-Date: 2011-01-25 22:51+0200\n"
 "Last-Translator: Rytis Slatkevičius <rytis.s@gmail.com>\n"
 "Language-Team: \n"
-"Language: lt\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: lt\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && (n%"
 "100<10 || n%100>=20) ? 1 : 2);\n"
 "X-Generator: Pootle 2.1.1\n"
@@ -1039,9 +1039,8 @@ msgid "Completed, marked as invalid"
 msgstr ""
 
 #: ../inc/result.inc:128
-#, fuzzy
 msgid "Completed, can't validate"
-msgstr "Užbaigta ir patikrinta"
+msgstr "Užbaigta, nepavyko patikrinti"
 
 #: ../inc/result.inc:129
 msgid "Completed, validation inconclusive"
@@ -1231,12 +1230,11 @@ msgstr "Būsena"
 
 #: ../inc/result.inc:287
 msgid "Run time<br />(sec)"
-msgstr "Veikimo trukmė<br />(sek.)"
+msgstr "Užtrukta laiko<br />(sek.)"
 
 #: ../inc/result.inc:288
-#, fuzzy
 msgid "CPU time<br />(sec)"
-msgstr "Veikimo trukmė<br />(sek.)"
+msgstr "Procesoriaus laikas<br />(sek.)"
 
 #: ../inc/result.inc:289 ../inc/result.inc:393
 msgid "Credit"
@@ -1249,17 +1247,16 @@ msgid "Application"
 msgstr "Programa"
 
 #: ../inc/result.inc:380
-#, fuzzy
 msgid "Workunit"
 msgstr "Užduočių rinkinys"
 
 #: ../inc/result.inc:383
 msgid "Received"
-msgstr ""
+msgstr "Priimta"
 
 #: ../inc/result.inc:384
 msgid "Server state"
-msgstr ""
+msgstr "Būsena serveryje"
 
 #: ../inc/result.inc:385
 msgid "Outcome"
@@ -1267,7 +1264,7 @@ msgstr ""
 
 #: ../inc/result.inc:386
 msgid "Client state"
-msgstr ""
+msgstr "Būsena kliente"
 
 #: ../inc/result.inc:387
 msgid "Exit status"
@@ -1275,11 +1272,11 @@ msgstr ""
 
 #: ../inc/result.inc:389
 msgid "Report deadline"
-msgstr ""
+msgstr "Galutinis atlikimo terminas"
 
 #: ../inc/result.inc:390
 msgid "Run time"
-msgstr "Veikimo trukmė"
+msgstr "Užtrukta laiko"
 
 #: ../inc/result.inc:391
 msgid "CPU time"
@@ -1287,7 +1284,7 @@ msgstr "Centrinio procesoriaus laikas"
 
 #: ../inc/result.inc:392
 msgid "Validate state"
-msgstr ""
+msgstr "Patikrinimo būsena"
 
 # ########################################
 # Apps page (apps.php)
@@ -2021,8 +2018,8 @@ msgid ""
 "To replace it, click the \"Browse\" button and select a JPEG or PNG file (%1 "
 "or less)."
 msgstr ""
-"Kad jį pakeistumėte, spustėlėkite mygtuką \"ieškoti\" ir pasirinkite JPEG arba "
-"PNG failą (%1 arba mažesnę)."
+"Kad jį pakeistumėte, spustėlėkite mygtuką \"ieškoti\" ir pasirinkite JPEG "
+"arba PNG failą (%1 arba mažesnę)."
 
 #: ../user/create_profile.php:67
 msgid "To remove it from your profile, check this box:"
@@ -2880,7 +2877,8 @@ msgstr "Tikrai blokuoti %1?"
 msgid ""
 "Are you really sure you want to block user %1 from sending you private "
 "messages?"
-msgstr "Ar tikrai norite uždrausti vartotojui %1 siųsti jums asmenines žinutes?"
+msgstr ""
+"Ar tikrai norite uždrausti vartotojui %1 siųsti jums asmenines žinutes?"
 
 #: ../user/pm.php:238
 msgid "Please note that you can only block a limited amount of users."
@@ -3084,8 +3082,9 @@ msgid "Server software version: %1"
 msgstr ""
 
 #: ../user/server_status.php:224
+#, fuzzy
 msgid "Server status"
-msgstr ""
+msgstr "Būsena serveryje"
 
 #: ../user/server_status.php:226
 msgid "Program"
@@ -3149,15 +3148,17 @@ msgstr ""
 
 #: ../user/server_status.php:318
 msgid "Workunits waiting for validation"
-msgstr ""
+msgstr "Užduočių rinkiniai, laukiantys patikrinimo"
 
 #: ../user/server_status.php:323
+#, fuzzy
 msgid "Workunits waiting for assimilation"
-msgstr ""
+msgstr "Užduočių rinkiniai, laukiantys patikrinimo"
 
 #: ../user/server_status.php:328
+#, fuzzy
 msgid "Workunits waiting for file deletion"
-msgstr ""
+msgstr "Užduočių rinkiniai, laukiantys patikrinimo"
 
 #: ../user/server_status.php:333
 msgid "Tasks waiting for file deletion"
@@ -3198,14 +3199,12 @@ msgid "application"
 msgstr "programa"
 
 #: ../user/server_status.php:398
-#, fuzzy
 msgid "unsent"
-msgstr "Neišsiųsta"
+msgstr "neišsiųsta"
 
 #: ../user/server_status.php:398
-#, fuzzy
 msgid "in progress"
-msgstr "Vykdomas"
+msgstr "vykdoma"
 
 #: ../user/server_status.php:398
 msgid "avg runtime of last 100 results in h (min-max)"
@@ -3488,7 +3487,7 @@ msgstr ""
 
 #: ../user/team_create_form.php:25 ../user/team_create_form.php:30
 msgid "Create a team"
-msgstr "Sukurti naują komandą"
+msgstr "Sukurti komandą"
 
 #: ../user/team_create_form.php:28
 msgid ""
@@ -3852,7 +3851,7 @@ msgstr ""
 
 #: ../user/team_manage.php:30
 msgid "Member list:"
-msgstr ""
+msgstr "Narių sąrašas"
 
 #: ../user/team_manage.php:31 ../user/team_manage.php:35
 msgid "HTML"
@@ -3938,7 +3937,7 @@ msgstr ""
 
 #: ../user/team_manage.php:93
 msgid "Team %1 deleted"
-msgstr ""
+msgstr "Komanda %1 ištrinta"
 
 #: ../user/team_members.php:33
 msgid "Limit exceeded:  Can only display the first 1000 members."
@@ -4078,7 +4077,7 @@ msgstr ""
 
 #: ../user/user_search.php:102 ../user/user_search.php:158
 msgid "Joined"
-msgstr ""
+msgstr "Prisijungė"
 
 #: ../user/user_search.php:113
 msgid "Search type"
@@ -4142,7 +4141,7 @@ msgstr "Dalyvių paieškos rezultatai"
 
 #: ../user/userw.php:35
 msgid "User not found!"
-msgstr ""
+msgstr "Dalyvis nerastas!"
 
 #: ../user/userw.php:42
 msgid "Account Data<br/>for %1<br/>Time:"
@@ -4271,11 +4270,11 @@ msgstr ""
 
 #: ../user/workunit.php:33
 msgid "Workunit %1"
-msgstr ""
+msgstr "Užduočių rinkinys %1"
 
 #: ../user/workunit.php:37
 msgid "name"
-msgstr "vardas"
+msgstr "pavadinimas"
 
 #: ../user/workunit.php:39
 msgid "created"
@@ -4287,7 +4286,7 @@ msgstr ""
 
 #: ../user/workunit.php:44
 msgid "granted credit"
-msgstr ""
+msgstr "suteiktas kreditas"
 
 #: ../user/workunit.php:52
 msgid "suppressed pending completion"
@@ -4315,7 +4314,7 @@ msgstr ""
 
 #: ../project.sample/project.inc:49
 msgid "Main page"
-msgstr ""
+msgstr "Pagrindinis puslapis"
 
 #: ../project.sample/project.inc:51
 msgid "Copyright"

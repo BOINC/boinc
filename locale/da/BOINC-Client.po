@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-12-18 09:11-0800\n"
+"POT-Creation-Date: 2011-01-26 13:27-0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -20,7 +20,7 @@ msgstr ""
 msgid "error"
 msgstr ""
 
-#: client_msgs.cpp:77
+#: client_msgs.cpp:79
 msgid "Message from server"
 msgstr ""
 
@@ -65,19 +65,19 @@ msgstr ""
 msgid "Can't resolve hostname in remote_hosts.cfg"
 msgstr ""
 
-#: log_flags.cpp:69 log_flags.cpp:324 log_flags.cpp:457
+#: log_flags.cpp:73 log_flags.cpp:328 log_flags.cpp:461
 msgid "Unexpected text in cc_config.xml"
 msgstr ""
 
-#: log_flags.cpp:113 log_flags.cpp:429 log_flags.cpp:474
+#: log_flags.cpp:117 log_flags.cpp:433 log_flags.cpp:480
 msgid "Unrecognized tag in cc_config.xml"
 msgstr ""
 
-#: log_flags.cpp:448
+#: log_flags.cpp:452
 msgid "Missing start tag in cc_config.xml"
 msgstr ""
 
-#: log_flags.cpp:482
+#: log_flags.cpp:488
 msgid "Missing end tag in cc_config.xml"
 msgstr ""
 

@@ -6,23 +6,23 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-12-18 09:11-0800\n"
+"POT-Creation-Date: 2011-01-26 13:27-0800\n"
 "PO-Revision-Date: 2010-08-15 13:09-0700\n"
 "Last-Translator: Miha P <miha@wolfey.si>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: sl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || "
-"n%100==4 ? 2 : 3);\n"
+"Language: sl\n"
+"Plural-Forms: nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n"
+"%100==4 ? 2 : 3);\n"
 "X-Generator: Pootle 1.2.1\n"
 
 #: acct_mgr.cpp:411 acct_mgr.cpp:421
 msgid "error"
 msgstr "napaka"
 
-#: client_msgs.cpp:77
+#: client_msgs.cpp:79
 #, fuzzy
 msgid "Message from server"
 msgstr "Sporočilo strežnika projekta:"
@@ -68,19 +68,19 @@ msgstr "Prenesite jo."
 msgid "Can't resolve hostname in remote_hosts.cfg"
 msgstr "Ni mogoče razrešiti ime gostitelja v remote_hosts.cfg"
 
-#: log_flags.cpp:69 log_flags.cpp:324 log_flags.cpp:457
+#: log_flags.cpp:73 log_flags.cpp:328 log_flags.cpp:461
 msgid "Unexpected text in cc_config.xml"
 msgstr "Nepričakovano besedilo v cc_config.xml"
 
-#: log_flags.cpp:113 log_flags.cpp:429 log_flags.cpp:474
+#: log_flags.cpp:117 log_flags.cpp:433 log_flags.cpp:480
 msgid "Unrecognized tag in cc_config.xml"
 msgstr "Neprepoznana značka v cc_config.xml"
 
-#: log_flags.cpp:448
+#: log_flags.cpp:452
 msgid "Missing start tag in cc_config.xml"
 msgstr "Manjkajoča začetna značka v cc_config.xml"
 
-#: log_flags.cpp:482
+#: log_flags.cpp:488
 msgid "Missing end tag in cc_config.xml"
 msgstr "Manjkajoča končna značka v cc_config.xml"
 
