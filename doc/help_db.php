@@ -118,6 +118,7 @@ function vol_lookup($id) {
 }
 
 function vol_lookup_email($email) {
+    $email = mysql_real_escape_string($email);
     $result = mysql_query("select * from volunteer where email_addr='$email'");
     if (!$result) return null;
     $vol = mysql_fetch_object($result);
@@ -126,6 +127,7 @@ function vol_lookup_email($email) {
 }
 
 function vol_lookup_name($name) {
+    $name = mysql_real_escape_string($name);
     $result = mysql_query("select * from volunteer where name='$name'");
     if (!$result) return null;
     $vol = mysql_fetch_object($result);

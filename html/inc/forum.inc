@@ -853,6 +853,17 @@ function delete_post($post, $thread, $forum) {
     }
 }
 
+function delete_posts_user($user) {
+    $pp = BoincPost::enum("userid=$user->id");
+    foreach ($pp as $p) {
+        $t = BoincThread::lookup_id($p->thread);
+        $f = BoincForum::lookup_id($t->forum);
+        if ($t && $f) {
+            delete_post($p, $t, $f);
+        }
+    }
+}
+
 function move_post($post, $old_thread, $old_forum, $new_thread, $new_forum) {
     $post->update("thread=$new_thread->id");
     $old_thread->update("replies=replies-1");

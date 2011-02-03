@@ -110,6 +110,11 @@ function delete_user_pictures($userid) {
     }
 }
 
+function delete_profile($user) {
+    delete_user_pictures($user->id);
+    BoincProfile::delete_aux("userid=$user->id");
+}
+
 function scale_image(
     $image, $origWidth, $origHeight, $targetWidth, $targetHeight
 ) {
