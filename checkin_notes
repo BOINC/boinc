@@ -468,3 +468,13 @@ David  1 Feb 2011
 
     tools/
         create_work.cpp
+
+Rom    3 Feb 2011
+    - MGR: Enable the volunteer configurable 'shutdown core client' feature
+        on exit for Linux.  It was orginally supposed to be enabled when
+        the balloon features were enabled, but got lost in ifdef hell.
+        (From "Lee")
+        
+    clientgui/
+        DlgExitMessage.cpp
+        MainDocument.cpp

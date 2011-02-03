@@ -147,7 +147,7 @@ void CDlgExitMessage::CreateControls()
 
     itemFlexGridSizer4->Add(5, 5, 0, wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
-#ifdef __WXMSW__
+#ifndef __WXMAC__
 
     strAlwaysExitMessage.Printf(
         _("Stop running science applications when exiting the Manager")
