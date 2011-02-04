@@ -496,3 +496,14 @@ Charlie 3 Feb 2011
         
     clientgui/
         BOINCGUIApp.cpp
+
+David  4 Feb 2011
+    - client/manager: show venue in project properties
+
+    clientgui/
+        DlgItemProperties.cpp
+    client/
+        client_types.cpp
+    lib/
+        gui_rpc_client.h
+        gui_rpc_client_ops.cpp

@@ -216,7 +216,11 @@ void CDlgItemProperties::renderInfos(PROJECT* project_in) {
 	addProperty(_("Non CPU intensive"),project->non_cpu_intensive ? _("yes") : _("no"));
 	addProperty(_("Suspended via GUI"),project->suspended_via_gui ? _("yes") : _("no"));
 	addProperty(_("Don't request more work"),project->dont_request_more_work ? _("yes") : _("no"));
-	addProperty(_("Scheduler call in progress"),project->scheduler_rpc_in_progress ? _("yes") : _("no"));
+    if (strlen(project->venue)) {
+        addProperty(_("Host location"),wxString(project->venue, wxConvUTF8));
+    }
+
+	//addProperty(_("Scheduler call in progress"),project->scheduler_rpc_in_progress ? _("yes") : _("no"));
 	addProperty(_("Added via account manager"),project->attached_via_acct_mgr ? _("yes") : _("no"));
 	addProperty(_("Remove when tasks done"),project->detach_when_done ? _("yes") : _("no"));
 	addProperty(_("Ended"),project->ended ? _("yes") : _("no"));
