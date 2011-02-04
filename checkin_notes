@@ -490,3 +490,9 @@ David  3 Feb 2011
             profile.inc
         user/
             weak_auth.php
+
+Charlie 3 Feb 2011
+    - MGR: Eliminate unnecessary #ifdef.
+        
+    clientgui/
+        BOINCGUIApp.cpp
