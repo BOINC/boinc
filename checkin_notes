@@ -507,3 +507,8 @@ David  4 Feb 2011
     lib/
         gui_rpc_client.h
         gui_rpc_client_ops.cpp
+
+David  7 Feb 2011
+    - manager: msg tweak
+    client/
+        CompletionErrorPage.cpp
