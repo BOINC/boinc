@@ -853,8 +853,10 @@ function delete_post($post, $thread, $forum) {
     }
 }
 
-function delete_posts_user($user) {
-    $pp = BoincPost::enum("userid=$user->id");
+// delete all forum records related to user
+//
+function forum_delete_user($user) {
+    $pp = BoincPost::enum("user=$user->id");
     foreach ($pp as $p) {
         $t = BoincThread::lookup_id($p->thread);
         $f = BoincForum::lookup_id($t->forum);
@@ -862,6 +864,12 @@ function delete_posts_user($user) {
             delete_post($p, $t, $f);
         }
     }
+    $ss = BoincSubscription::enum("userid=$user->id");
+    foreach ($ss as $s) {
+        BoincSubscription::delete($s->userid, $s->threadid);
+    }
+    $p = BoincForumPrefs::lookup_userid($user->id);
+    $p->delete();
 }
 
 function move_post($post, $old_thread, $old_forum, $new_thread, $new_forum) {

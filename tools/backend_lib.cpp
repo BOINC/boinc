@@ -309,7 +309,7 @@ static int process_wu_template(
             found = true;
             out += "<workunit>\n";
             if (command_line) {
-                fprintf(stderr, "appending command line: %s\n", command_line.c_str());
+                //fprintf(stderr, "appending command line: %s\n", command_line);
                 out += "<command_line>\n";
                 out += command_line;
                 out += "\n</command_line>\n";
@@ -359,7 +359,7 @@ static int process_wu_template(
                 fprintf(stderr, "Can't specify command line twice");
                 return ERR_XML_PARSE;
             }
-            fprintf(stderr, "parsed command line: %s\n", cmdline);
+            //fprintf(stderr, "parsed command line: %s\n", cmdline);
             out += "<command_line>\n";
             out += cmdline;
             out += "\n</command_line>\n";
@@ -410,7 +410,7 @@ static int process_wu_template(
         );
         return ERR_BUFFER_OVERFLOW;
     }
-    fprintf(stderr, "copying to xml_doc: %s\n", out.c_str());
+    //fprintf(stderr, "copying to xml_doc: %s\n", out.c_str());
     strcpy(wu.xml_doc, out.c_str());
     return 0;
 }

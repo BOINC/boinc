@@ -527,7 +527,35 @@ Rom    8 Feb 2011
         
         TODO: There is still an issue if the manager attempts to write to
           stderr when the BOINC Manager log files are redirected to a
-          directory in which the user doesn't have access too.
+          directory the user doesn't have access to.
           
     clientgui/
         SkinManager.cpp
+
+David  8 Feb 2011
+    - user web: add "delete account" feature.
+        This allows a user to delete all traces of themselves from a project.
+        Namely:
+        - clear fields of user record: email_addr, authenticator,
+            name, country, postal_code
+            Note: record is not deleted
+        - clear the domain_name and last_ip_addr fields of hosts
+            Note: records are not deleted
+        - quit team
+        - delete private messages sent and received
+        - delete forum posts, subscriptions, and forum prefs
+        - delete profile and associated images
+    - server: compile fix
+
+    html/
+        inc/
+            pm.inc
+            host.inc
+            forum.inc
+            user.inc
+            util.inc
+        user/
+            delete_account.php
+            stats.php
+    tools/
+        backend_lib.cpp

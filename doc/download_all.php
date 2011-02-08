@@ -199,7 +199,7 @@ if ($xml) {
             <h3>Other platforms</h3>
             If your computer is not of one of these types, you can
             <ul>
-            <li> <a href=\"trac/wiki/AnonymousPlatform\">make your own client software</a> or
+            <li> <a href=\"wiki/Anonymous_platform\">make your own client software</a> or
             <li> <a href=\"trac/wiki/DownloadOther\">download executables from a third-party site</a>
                 (available for Solaris/Opteron, Linux/Opteron, Linux/PPC, HP-UX, and FreeBSD, and others).
             </ul>

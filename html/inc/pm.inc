@@ -204,5 +204,12 @@ function pm_rss($notify, &$title, &$msg, &$url) {
     $url = URL_BASE."pm.php";
 }
 
+function pm_delete_user($user) {
+    $mm = BoincPrivateMessage::enum("userid=$user->id or senderid=$user->id");
+    foreach ($mm as $m) {
+        $m->delete();
+    }
+}
+
 $cvs_version_tracker[]="\$Id: pm.inc 14019 2007-11-01 23:04:39Z davea $";
 ?>

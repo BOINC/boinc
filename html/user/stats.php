@@ -22,8 +22,9 @@ require_once('../inc/util.inc');
 require_once('../inc/stats_sites.inc');
 page_head(tra('Statistics and leaderboards'));
 
+start_table();
 echo "
-<p>"
+<tr><td>"
 . tra("Statistics for %1",PROJECT).":
 <ul>
 <li><a href=\"top_users.php\">" . tra("Top participants")."</a>
@@ -40,5 +41,7 @@ shuffle($sig_sites);
 site_list($sig_sites);
 echo tra("Additionally you can get your individual statistics summed across all BOINC projects from several sites; see your %1home page%2.", "<a href=\"home.php\">","</a>");
 
+echo "</td></tr>";
+end_table();
 page_tail();
 ?>

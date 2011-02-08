@@ -680,6 +680,15 @@ function show_user_hosts($userid, $private, $show_all, $sort, $rev) {
     }
 }
 
+// remove user-specific info from a user's hosts
+//
+function anonymize_hosts($user) {
+    $hosts = BoincHost::enum("userid=$user->id");
+    foreach ($hosts as $h) {
+        $h->update("domain_name='', last_ip_addr=''");
+    }
+}
+
 $cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit
 
 ?>

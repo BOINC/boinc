@@ -113,9 +113,9 @@ function show_other_projects($user, $personal) {
     if (count($user->projects) > 1) {
         usort($user->projects, "cmp");
         if ($personal) {
-            echo "<h3>".tra("Projects in which you are participating")."</h3>";
+            echo "<h2>".tra("Projects in which you are participating")."</h2>";
         } else {
-            echo "<h3>".tra("Projects in which %1 is participating", $user->name)."</h3>";
+            echo "<h2>".tra("Projects in which %1 is participating", $user->name)."</h2>";
         }
         start_table();
         row_heading_array(array(
@@ -414,6 +414,7 @@ function show_account_private($user) {
     end_table();
     show_other_projects($user, true);
     project_user_page_private($user);
+    echo "<a href=delete_account.php>Delete account</a>\n";
     echo "</td><td valign=top>";
     start_table();
     show_community_private($user);
