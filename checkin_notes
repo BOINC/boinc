@@ -8552,6 +8552,16 @@ Rom    25 Jan 2011
         configure.ac
         version.h
 
+Rom    3 Feb 2011
+    - MGR: Enable the volunteer configurable 'shutdown core client' feature
+        on exit for Linux.  It was orginally supposed to be enabled when
+        the balloon features were enabled, but got lost in ifdef hell.
+        (From "Lee")
+        
+    clientgui/
+        DlgExitMessage.cpp
+        MainDocument.cpp
+
 Rom    8 Feb 2011
     - MGR: Fix a bug that is several years old, appears to have been
         introduced during the Unicode conversion phase for Windows. Passing
