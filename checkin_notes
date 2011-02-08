@@ -518,3 +518,16 @@ David  7 Feb 2011
 
     client/
         cs_cmdline.cpp
+
+Rom    8 Feb 2011
+    - MGR: Fix a bug that is several years old, appears to have been
+        introduced during the Unicode conversion phase for Windows. Passing
+        a wide character string into an narrow character function causes
+        a NULL reference exception.
+        
+        TODO: There is still an issue if the manager attempts to write to
+          stderr when the BOINC Manager log files are redirected to a
+          directory in which the user doesn't have access too.
+          
+    clientgui/
+        SkinManager.cpp

@@ -1302,8 +1302,8 @@ bool CSkinManager::ReloadSkin(wxLocale* pLocale, wxString strSkin) {
         }
     }
 
-    if (retval) {
-        fprintf(stderr, "Skin Manager: Failed to load skin '%s'.\n", (char *)ConstructSkinFileName().c_str());
+    if (retval && show_error_msgs) {
+        fprintf(stderr, "Skin Manager: Failed to load skin '%s'.\n", (const char *)ConstructSkinFileName().mb_str(wxConvUTF8));
     }
 
     InitializeDelayedValidation();
