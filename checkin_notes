@@ -8597,3 +8597,11 @@ Rom    8 Feb 2011
           
     clientgui/
         SkinManager.cpp
+
+Rom    8 Feb 2011
+    - Tag for 6.12.14 release, all platforms
+      boinc_core_release_6_12_14
+
+    /
+        configure.ac
+        version.h
