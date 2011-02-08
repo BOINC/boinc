@@ -286,6 +286,7 @@ int PROJECT::parse(MIOFILE& in) {
         if (parse_bool(buf, "no_cpu_pref", no_cpu_pref)) continue;
         if (parse_bool(buf, "no_cuda_pref", no_cuda_pref)) continue;
         if (parse_bool(buf, "no_ati_pref", no_ati_pref)) continue;
+        if (parse_str(buf, "venue", venue, sizeof(venue))) continue;
     }
     return ERR_XML_PARSE;
 }
@@ -335,6 +336,7 @@ void PROJECT::clear() {
     no_cpu_pref = false;
     no_cuda_pref = false;
     no_ati_pref = false;
+    strcpy(venue, "");
 }
 
 APP::APP() {

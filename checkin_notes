@@ -8562,6 +8562,17 @@ Rom    3 Feb 2011
         DlgExitMessage.cpp
         MainDocument.cpp
 
+David  4 Feb 2011
+    - client/manager: show venue in project properties
+
+    clientgui/
+        DlgItemProperties.cpp
+    client/
+        client_types.cpp
+    lib/
+        gui_rpc_client.h
+        gui_rpc_client_ops.cpp
+
 Rom    8 Feb 2011
     - MGR: Fix a bug that is several years old, appears to have been
         introduced during the Unicode conversion phase for Windows. Passing

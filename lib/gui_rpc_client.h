@@ -159,6 +159,7 @@ public:
     bool no_cpu_pref;
     bool no_cuda_pref;
     bool no_ati_pref;
+    char venue[256];
 
     // NOTE: if you add any data items above,
     // update parse(), and clear() to include them!!
