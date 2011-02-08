@@ -512,3 +512,9 @@ David  7 Feb 2011
     - manager: msg tweak
     client/
         CompletionErrorPage.cpp
+
+David  7 Feb 2011
+    - client: don't crash if omit cmdline port#.  Fixes #1040
+
+    client/
+        cs_cmdline.cpp
