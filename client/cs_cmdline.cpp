@@ -168,7 +168,8 @@ void CLIENT_STATE::parse_cmdline(int argc, char** argv) {
             if (i == argc-1) show_options = true;
             else file_xfer_giveup_period = atoi(argv[++i]);
         } else if (ARG(gui_rpc_port)) {
-            cmdline_gui_rpc_port = atoi(argv[++i]);
+            if (i == argc-1) show_options = true;
+            else cmdline_gui_rpc_port = atoi(argv[++i]);
         } else if (ARG(help)) {
             print_options(argv[0]);
             exit(0);
