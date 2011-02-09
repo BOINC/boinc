@@ -359,7 +359,7 @@ static int process_wu_template(
                 fprintf(stderr, "Can't specify command line twice");
                 return ERR_XML_PARSE;
             }
-            //fprintf(stderr, "parsed command line: %s\n", cmdline);
+            //fprintf(stderr, "parsed command line: %s\n", cmdline.c_str());
             out += "<command_line>\n";
             out += cmdline;
             out += "\n</command_line>\n";

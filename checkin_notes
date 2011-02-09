@@ -559,3 +559,18 @@ David  8 Feb 2011
             stats.php
     tools/
         backend_lib.cpp
+
+David  8 Feb 2011
+    - create_work and possibly other back-end programs:
+        fix bug that corrupted WU command lines.
+        The problem: we were using strcpy(p, p+n) to delete the
+        first n characters of p.
+        This is incorrect - the behavior of strcpy() is undefined
+        if its args overlap.
+        On some systems (e.q. AQUA's server) it does wacky things.
+
+    tools/
+        backend_lib.cpp
+    lib/
+        str_util.cpp,h
+        parse.cpp

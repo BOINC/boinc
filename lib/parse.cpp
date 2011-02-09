@@ -266,7 +266,7 @@ bool remove_element(char* buf, const char* start, const char* end) {
     if (!p) return false;
     q = strstr(p+strlen(start), end);
     if (!q) return false;
-    strcpy(p, q+strlen(end));
+    strcpy_overlap(p, q+strlen(end));
     return true;
 }
 
@@ -490,7 +490,7 @@ int XML_PARSER::scan_comment() {
             return XML_PARSE_COMMENT;
         }
         if (strlen(buf) > 32) {
-            strcpy(buf, buf+16);
+            strcpy_overlap(buf, buf+16);
             p = buf;
         }
     }
