@@ -16,11 +16,11 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-
-
 require_once('../inc/util.inc');
 require_once('../inc/stats_sites.inc');
 page_head(tra('Statistics and leaderboards'));
+
+check_get_args(array());
 
 start_table();
 echo "

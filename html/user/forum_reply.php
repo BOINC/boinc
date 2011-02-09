@@ -24,6 +24,8 @@ require_once('../inc/forum.inc');
 require_once('../inc/bbcode_html.inc');
 require_once('../inc/akismet.inc');
 
+check_get_args(array("thread", "sort", "filter", "post", "nowrap", "no_quote", "tnow", "ttok"));
+
 $logged_in_user = get_logged_in_user(true);
 BoincForumPrefs::lookup($logged_in_user);
 check_banished($logged_in_user);
@@ -36,6 +38,8 @@ $filter = get_str('filter', true);
 $content = post_str('content', true);
 $preview = post_str("preview", true);
 $parent_post_id = get_int('post', true);
+$nowrap = get_str("nowrap",true);
+
 $parent_post = null;
 if ($parent_post_id) {
     $parent_post = BoincPost::lookup_id($parent_post_id);
@@ -112,7 +116,7 @@ if ($preview == tra("Preview")) {
 start_forum_table(array(tra("Author"), tra("Message")));
 
 show_message_row($thread, $parent_post);
-show_posts($thread, $forum, $sort_style, $filter, $logged_in_user, true);
+show_posts($thread, $forum, $sort_style, $filter, $logged_in_user, $nowrap, true);
 end_table();
 
 page_tail();

@@ -32,6 +32,8 @@ require_once("../inc/host.inc");
 require_once("../inc/profile.inc");
 require_once("../inc/pm.inc");
 
+check_get_args(array("cmd"));
+
 function delete_account($user) {
     $x = "deleted_".time()."_".random_string();
     $retval = $user->update("email_addr='$x', authenticator='$x', name='', country='', postal_code='', has_profile=0");

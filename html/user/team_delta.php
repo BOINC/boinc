@@ -17,10 +17,11 @@
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
 
-
 require_once("../inc/boinc_db.inc");
 require_once("../inc/user.inc");
 require_once("../inc/team.inc");
+
+check_get_args(array("xml", "teamid"));
 
 $xml = get_int('xml', true);
 

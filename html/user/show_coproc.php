@@ -3,6 +3,8 @@
 require_once("../inc/util.inc");
 require_once("../inc/boinc_db.inc");
 
+check_get_args(array("mode"));
+
 // show the results of ops/analyze_coproc_log.php
 
 function filename($mode) {

@@ -20,6 +20,8 @@ require_once("../inc/db.inc");
 require_once("../inc/util.inc");
 require_once("../inc/team.inc");
 
+check_get_args(array());
+
 db_init();
 $user = get_logged_in_user(true);
 

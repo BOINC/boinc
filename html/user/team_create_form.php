@@ -20,6 +20,8 @@ require_once("../inc/boinc_db.inc");
 require_once("../inc/util.inc");
 require_once("../inc/team.inc");
 
+check_get_args(array());
+
 $user = get_logged_in_user();
 
 page_head(tra("Create a team"));

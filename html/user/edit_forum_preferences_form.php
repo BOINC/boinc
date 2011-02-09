@@ -20,7 +20,10 @@
 // forum preferences.  It relies upon edit_forum_preferences_action.php
 // to do anything.
 
+require_once("../inc/util.inc");
 require_once("../inc/forum.inc");
+
+check_get_args(array());
 
 $user = get_logged_in_user();
 BoincForumPrefs::lookup($user);

@@ -20,6 +20,10 @@ require_once("../inc/util.inc");
 require_once("../inc/host.inc");
 require_once("../inc/boinc_db.inc");
 
+check_get_args(array("confirmed", "tnow", "ttok"));
+
+$confirmed = get_str("confirmed", true);
+
 db_init();
 
 function merge_name($list) {
@@ -62,7 +66,7 @@ $user = get_logged_in_user();
 
 page_head("Merge computers by name");
 
-if ($_GET['confirmed']) {
+if ($confirmed) {
     check_tokens($user->authenticator);
     merge_by_name($user->id);
     echo "

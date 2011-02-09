@@ -20,6 +20,8 @@ require_once("../inc/boinc_db.inc");
 require_once("../inc/util.inc");
 require_once("../inc/host.inc");
 
+check_get_args(array("hostid", "detail"));
+
 $user = get_logged_in_user();
 
 $hostid = get_int("hostid");

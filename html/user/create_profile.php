@@ -21,6 +21,8 @@
 require_once("../inc/profile.inc");
 require_once("../inc/akismet.inc");
 
+check_get_args(array());
+
 // output a select form item with the given name,
 // from a list of newline-delineated items from the text file.
 // If $selection is provided, and if it matches one of the entries in the file,

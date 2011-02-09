@@ -20,6 +20,7 @@ require_once("../inc/db.inc");
 require_once("../inc/util.inc");
 require_once("../inc/cache.inc");
 
+check_get_args(array());
 
 start_cache(3600);
 page_head(tra("Download BOINC add-on software"));

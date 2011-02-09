@@ -20,6 +20,8 @@
 require_once("../inc/util.inc");
 require_once("../inc/translation.inc");
 
+check_get_args(array("set_lang"));
+
 $languages = getSupportedLanguages();
 if (!is_array($languages)) {
     error_page("Language selection not enabled.  Project admins must run the update_translations.php script.");

@@ -19,6 +19,8 @@
 require_once("../inc/util.inc");
 require_once("../inc/cert.inc");
 
+check_get_args(array("border"));
+
 $user = get_logged_in_user();
 $team = BoincTeam::lookup_id($user->teamid);
 if (!$team) error_page("no team");
@@ -28,7 +30,8 @@ $today = date('j F Y', time(0));
 
 credit_to_ops($team->total_credit, $ops, $unit);
 
-$border=$_GET["border"];
+$border = get_str("border", true);
+
 if ($border=="no") {
     $border = 0;
 } else {

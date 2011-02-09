@@ -24,6 +24,8 @@
 require_once('../inc/forum.inc');
 require_once('../inc/bbcode_html.inc');
 
+check_get_args(array("id", "tnow", "ttok"));
+
 $logged_in_user = get_logged_in_user();
 BoincForumPrefs::lookup($logged_in_user);
 

@@ -20,6 +20,8 @@ require_once("../inc/util.inc");
 require_once("../inc/uotd.inc");
 require_once("../inc/profile.inc");
 
+check_get_args(array());
+
 db_init();
 
 $profile = get_current_uotd();

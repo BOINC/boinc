@@ -22,6 +22,8 @@ require_once("../inc/util.inc");
 require_once("../inc/profile.inc");
 require_once("../inc/uotd.inc");
 
+check_get_args(array("cmd"));
+
 db_init();
 
 $option = get_str('cmd', true);

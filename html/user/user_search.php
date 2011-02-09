@@ -20,6 +20,8 @@ require_once("../inc/boinc_db.inc");
 require_once("../inc/util.inc");
 require_once("../inc/user.inc");
 
+check_get_args(array("search_string", "search_type", "country", "profile", "team", "action"));
+
 // We have indices on id, name, total credit, and RAC.
 // So we provide the following searches:
 // - new users in last N days (1, 7)

@@ -20,6 +20,8 @@ require_once("../inc/boinc_db.inc");
 require_once("../inc/util.inc");
 require_once("../inc/translation.inc");
 
+check_get_args(array("xml"));
+
 $platforms = BoincPlatform::enum("deprecated=0");
 
 $xml = get_str('xml', true);

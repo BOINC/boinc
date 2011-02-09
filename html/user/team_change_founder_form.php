@@ -23,6 +23,8 @@ require_once("../inc/util.inc");
 require_once("../inc/team.inc");
 require_once("../inc/boinc_db.inc");
 
+check_get_args(array("teamid"));
+
 $user = get_logged_in_user();
 
 $teamid = get_int("teamid");

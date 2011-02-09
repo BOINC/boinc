@@ -18,6 +18,8 @@
 
 require_once("../inc/util.inc");
 
+check_get_args(array("st"));
+
 $st = get_str("st", true);
 
 page_head("PayPal - Transaction Completed");

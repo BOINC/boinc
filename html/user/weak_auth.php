@@ -19,6 +19,8 @@
 require_once("../inc/util.inc");
 require_once("../inc/user.inc");
 
+check_get_args(array());
+
 $url = parse_config(get_config(), "<master_url>");
 
 $user = get_logged_in_user();

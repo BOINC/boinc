@@ -20,6 +20,8 @@ require_once("../inc/db.inc");
 require_once("../inc/util.inc");
 require_once("../inc/user.inc");
 
+check_get_args(array());
+
 page_head("Forgot your account info?");
 
 echo "

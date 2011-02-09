@@ -21,6 +21,8 @@ require_once("../inc/util.inc");
 require_once("../inc/email.inc");
 require_once("../inc/team.inc");
 
+check_get_args(array("xml", "creditonly", "teamid", "account_key", "plain"));
+
 $xml = get_int('xml', true);
 if ($xml) {
     $creditonly = get_int('creditonly', true);

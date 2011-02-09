@@ -20,6 +20,8 @@ require_once("../inc/boinc_db.inc");
 require_once("../inc/util.inc");
 require_once("../inc/profile.inc");
 
+check_get_args(array("delete"));
+
 function delete_profile($user) {
     $result = BoincProfile::delete_aux("userid = $user->id");
     if (!$result) {

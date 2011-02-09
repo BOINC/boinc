@@ -21,7 +21,7 @@ require_once("../inc/db.inc");
 require_once("../inc/util.inc");
 require_once("../inc/prefs.inc");
 
-check_get_args(array("action", "subset", "venue", "cols"));
+check_get_args(array("action", "subset", "venue", "cols", "tnow", "ttok"));
 
 db_init();
 

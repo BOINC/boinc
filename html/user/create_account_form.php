@@ -21,6 +21,8 @@ require_once('../inc/util.inc');
 require_once('../inc/countries.inc');
 require_once('../inc/translation.inc');
 
+check_get_args(array("next_url", "teamid"));
+
 $next_url = sanitize_local_url(get_str('next_url', true));
 
 if (defined('SECURE_URL_BASE')

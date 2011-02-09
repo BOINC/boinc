@@ -19,6 +19,8 @@
 require_once("../inc/util.inc");
 require_once("../inc/news.inc");
 
+check_get_args(array());
+
 page_head("News archive");
 
 show_old_news(0, 0);

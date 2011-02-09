@@ -21,6 +21,8 @@ require_once("../inc/team.inc");
 require_once("../inc/sanitize_html.inc");
 require_once("../inc/boinc_db.inc");
 
+check_get_args(array());
+
 $user = get_logged_in_user();
 $teamid = post_int("teamid");
 $team = BoincTeam::lookup_id($teamid);

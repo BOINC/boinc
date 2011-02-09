@@ -18,6 +18,8 @@
 
 require_once('../inc/forum.inc');
 
+check_get_args(array("action", "thread"));
+
 $logged_in_user = get_logged_in_user();
 BoincForumPrefs::lookup($logged_in_user);
 

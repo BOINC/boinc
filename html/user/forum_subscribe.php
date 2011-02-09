@@ -22,6 +22,8 @@
 
 require_once('../inc/forum.inc');
 
+check_get_args(array("action", "thread", "tnow", "ttok"));
+
 $action = get_str('action');
 $threadid = get_int('thread');
 $thread = BoincThread::lookup_id($threadid);

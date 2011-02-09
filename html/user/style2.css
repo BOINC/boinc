@@ -36,19 +36,16 @@ input.btn {
 }
 
 h1 {
-    font-size: x-large;
     font-weight: bold;
     color: white;
 }
 
 h2 {
-    font-size: large;
     font-weight: bold;
     margin: 4px;
 }
 
 h3, h4 {
-    font-size: small;
     font-weight: bold;
 }
 

@@ -22,6 +22,8 @@ require_once("../inc/util.inc");
 require_once("../inc/boinc_db.inc");
 require_once("../inc/result.inc");
 
+check_get_args(array("wuid"));
+
 BoincDb::get(true);
 
 $wuid = get_int("wuid");

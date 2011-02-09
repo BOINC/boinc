@@ -20,6 +20,8 @@ require_once("../inc/boinc_db.inc");
 require_once("../inc/util.inc");
 require_once("../inc/team.inc");
 
+check_get_args(array());
+
 $user = get_logged_in_user();
 $team = BoincTeam::lookup_id($user->teamid);
 if (!$team) {

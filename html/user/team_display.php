@@ -16,12 +16,12 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-
-
 require_once("../inc/cache.inc");
 require_once("../inc/util.inc");
 require_once("../inc/boinc_db.inc");
 require_once("../inc/team.inc");
+
+check_get_args(array("teamid"));
 
 $teamid = get_int("teamid");
 $team = BoincTeam::lookup_id($teamid);

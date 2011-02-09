@@ -21,6 +21,8 @@
 require_once('../inc/forum.inc');
 require_once('../inc/util.inc');
 
+check_get_args(array("post", "choice"));
+
 $config = get_config();
 if (parse_bool($config, "no_forum_rating")) {
     page_head("Rating offline");

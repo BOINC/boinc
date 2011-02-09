@@ -29,6 +29,8 @@ require_once("../inc/team.inc");
 require_once("../inc/email.inc");
 require_once("../inc/pm.inc");
 
+check_get_args(array());
+
 $user = get_logged_in_user();
 if (!$user->teamid) {
     error_page(tra("You must be a member of a team to access this page."));

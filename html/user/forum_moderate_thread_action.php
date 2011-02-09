@@ -19,6 +19,8 @@
 require_once("../inc/forum.inc");
 require_once("../inc/forum_email.inc");
 
+check_get_args(array("action", "thread", "tnow", "ttok"));
+
 $logged_in_user = get_logged_in_user();
 check_tokens($logged_in_user->authenticator);
 BoincForumPrefs::lookup($logged_in_user);

@@ -33,6 +33,8 @@ require_once("../inc/user.inc");
 require_once("../inc/forum.inc");
 require_once("../project/project.inc");
 
+check_get_args(array("auth", "userid", "format"));
+
 $auth = get_str("auth", true);
 if (!$auth) {
     $id = get_int("userid");

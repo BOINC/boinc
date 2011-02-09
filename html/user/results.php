@@ -22,6 +22,8 @@ require_once("../inc/boinc_db.inc");
 require_once("../inc/util.inc");
 require_once("../inc/result.inc");
 
+check_get_args(array("hostid", "userid", "offset", "appid", "state", "show_names"));
+
 $config = get_config();
 if (!parse_bool($config, "show_results")) {
     error_page(tra("This feature is turned off temporarily"));

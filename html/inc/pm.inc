@@ -27,7 +27,7 @@ function pm_header() {
     echo "</div>\n";
 }
 
-function pm_form($error = null) {
+function pm_form($replyto, $userid, $error = null) {
     global $bbcode_html, $bbcode_js;
     global $g_logged_in_user;
     page_head(tra("Send private message"),'','','', $bbcode_js);
@@ -40,9 +40,6 @@ function pm_form($error = null) {
         echo "</div>\n";
     }
     
-    $replyto = get_int("replyto", true);
-    $userid = get_int("userid", true);
-    
     $subject = null;
     $content = null;
     if ($replyto) {
@@ -53,7 +50,7 @@ function pm_form($error = null) {
         $content = "[quote]".$message->content."[/quote]\n";
         $userid = $message->senderid;
         $user = BoincUser::lookup_id($userid);
-        if ($user != null) {
+        if ($user) {
             $writeto = $userid." (".$user->name.")";
         }
         $subject = $message->subject;

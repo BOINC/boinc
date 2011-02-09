@@ -20,6 +20,8 @@ require_once("../inc/boinc_db.inc");
 require_once("../inc/util.inc");
 require_once("../inc/user.inc");
 
+check_get_args(array());
+
 $auth = post_str("auth", true);
 $email_addr = strtolower(post_str("email_addr", true));
 

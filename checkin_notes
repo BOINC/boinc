@@ -595,3 +595,15 @@ David  9 Feb 2011
 	- user web: make all forum tables full-width
 	html/inc/
 		forum.inc
+
+David  9 Feb 2011
+    - user web: finish dealing with get args spam
+
+    html/
+        user/
+            *.php
+        inc/
+            pm.inc
+            prefs.inc
+            forum.inc
+            util.inc

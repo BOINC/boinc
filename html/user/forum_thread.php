@@ -22,8 +22,11 @@
 require_once('../inc/util.inc');
 require_once('../inc/forum.inc');
 
+check_get_args(array("id", "sort", "nowrap", "filter"));
+
 $threadid = get_int('id');
 $sort_style = get_int('sort', true);
+$nowrap = get_int('nowrap', true);
 $filter = get_str('filter', true);
 
 if ($filter != "false"){
@@ -247,7 +250,9 @@ echo "<input type=\"submit\" value=\"Sort\">
 $headings = array(array(tra("Author"),"authorcol"), array(tra("Message"),""));
 
 start_forum_table($headings, "id=\"thread\" cellspacing=0");
-show_posts($thread, $forum, $sort_style, $filter, $logged_in_user, true);
+show_posts(
+    $thread, $forum, $sort_style, $filter, $logged_in_user, $nowrap, true
+);
 end_table();
 
 if ($reply_url) {

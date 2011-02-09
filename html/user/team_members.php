@@ -20,6 +20,8 @@ require_once("../inc/util.inc");
 require_once("../inc/team.inc");
 require_once("../inc/cache.inc");
 
+check_get_args(array("sort_by", "offset", "teamid"));
+
 if (isset($_GET["sort_by"])) {
     $sort_by = $_GET["sort_by"];
 } else {

@@ -19,9 +19,12 @@
 require_once("../inc/boinc_db.inc");
 require_once("../inc/util.inc");
 
+check_get_args(array("hostid", "venue"));
+
 $user = get_logged_in_user();
 
-$venue = get_venue("venue");
+$venue = get_str("venue");
+check_venue($venue);
 $hostid = get_int("hostid");
 
 $host = BoincHost::lookup_id($hostid);

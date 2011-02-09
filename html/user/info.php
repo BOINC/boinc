@@ -19,6 +19,8 @@
 require_once('../inc/util.inc');
 require_once('../inc/translation.inc');
 
+check_get_args(array());
+
 page_head(tra("Read our rules and policies"));
 
 $show_default = true;

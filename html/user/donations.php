@@ -18,6 +18,8 @@
 
 require_once("../inc/util.inc");
 
+check_get_args(array());
+
 if (!defined("PAYPAL_ADDRESS")) {
     error_page("This project is not accepting donations.");
 }

@@ -19,6 +19,8 @@
 require_once("../inc/forum.inc");
 require_once("../inc/forum_email.inc");
 
+check_get_args(array("id", "action", "tnow", "ttok"));
+
 function mod_comment() {
     $x = "";
     $reason = post_str('reason', true);

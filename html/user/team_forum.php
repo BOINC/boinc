@@ -22,6 +22,8 @@ require_once("../inc/util.inc");
 require_once("../inc/team.inc");
 require_once("../inc/forum_db.inc");
 
+check_get_args(array("tnow", "ttok", "teamid", "cmd"));
+
 function create_confirm($user, $team) {
     page_head(tra("Create Message Board"));
     echo tra("You may create a message board for use by %1.", $team->name)."

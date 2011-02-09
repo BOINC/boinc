@@ -23,6 +23,8 @@ require_once('../inc/forum.inc');
 require_once('../inc/pm.inc');
 require_once('../inc/time.inc');
 
+check_get_args(array("read", "return", "tnow", "ttok"));
+
 $user = get_logged_in_user(false);
 
 // Process request to mark all posts as read

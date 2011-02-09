@@ -21,6 +21,8 @@ require_once("../inc/util.inc");
 require_once("../inc/email.inc");
 require_once("../project/project.inc");
 
+check_get_args(array());
+
 function email_sent_message($email_addr) {
     if (defined('EMAIL_FROM')) {
         $email_from = EMAIL_FROM;

@@ -21,6 +21,8 @@
 require_once("../inc/forum_db.inc");
 require_once("../inc/profile.inc");
 
+check_get_args(array("userid", "action"));
+
 // see if there's already a request,
 // and whether the notification record is there
 //

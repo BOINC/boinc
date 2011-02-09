@@ -20,6 +20,8 @@ require_once("../inc/boinc_db.inc");
 require_once("../inc/util.inc");
 require_once("../inc/team.inc");
 
+check_get_args(array("tnow", "ttok", "userid", "email_addr", "teamid", "action"));
+
 function show_admin($user, $admin) {
     $admin_user = BoincUser::lookup_id($admin->userid);
     $tokens = url_tokens($user->authenticator);

@@ -16,12 +16,12 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-
-
 require_once("../inc/util.inc");
 require_once("../inc/db.inc");
 require_once("../inc/wap.inc");
 require_once("../inc/cache.inc");
+
+check_get_args(array("id"));
 
 function show_credit_wap($user) {
     $retstr = "<br/>User TotCred: " . format_credit($user->total_credit) . "<br/>";

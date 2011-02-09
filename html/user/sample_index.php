@@ -26,6 +26,8 @@ require_once("../inc/translation.inc");
 require_once("../inc/text_transform.inc");
 require_once("../project/project.inc");
 
+check_get_args(array());
+
 function show_nav() {
     $config = get_config();
     $master_url = parse_config($config, "<master_url>");

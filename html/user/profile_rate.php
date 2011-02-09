@@ -19,6 +19,8 @@
 require_once("../inc/util.inc");
 require_once("../inc/boinc_db.inc");
 
+check_get_args(array("userid", "vote"));
+
 $userid = get_int('userid');
 $vote = get_str('vote');
 

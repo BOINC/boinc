@@ -16,12 +16,12 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-
-
 // Use this file you can vote for a thread.
 // It simply votes for the first post in the thread.
 
 require_once('../inc/forum.inc');
+
+check_get_args(array("id"));
 
 $threadid = get_int('id');
 $thread = BoincThread::lookup_id($threadid);

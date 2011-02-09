@@ -20,6 +20,8 @@ include_once("../inc/db.inc");
 include_once("../inc/util.inc");
 include_once("../inc/team.inc");
 
+check_get_args(array());
+
 page_head("Teams");
 
 echo "<p>".tra("%1 participants may form %2teams%3.", PROJECT, "<b>", "</b>") ."

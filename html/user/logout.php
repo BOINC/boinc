@@ -19,6 +19,8 @@
 include_once("../inc/db.inc");
 include_once("../inc/util.inc");
 
+check_get_args(array("tnow", "ttok"));
+
 $user = get_logged_in_user();
 
 if ($user) {

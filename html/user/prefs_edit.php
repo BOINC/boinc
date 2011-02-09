@@ -16,8 +16,6 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-
-
 include_once("../inc/db.inc");
 include_once("../inc/util.inc");
 include_once("../inc/prefs.inc");
@@ -30,7 +28,6 @@ $action = sanitize_tags(get_str("action", true));
 $subset = sanitize_tags(get_str("subset"));
 $venue = sanitize_tags(get_str("venue", true));
 $columns = get_str("cols", true);
-$x = "";
 $c = $columns?"&cols=$columns":"";
 check_subset($subset);
 
@@ -45,7 +42,6 @@ if ($action) {
             $title = tra("Edit %1 preferences", subset_name($subset));
             if ($venue) $title = "$title for $venue";
             page_head($title);
-            $x = $venue?"&venue=$venue":"";
 
             echo PREFS_FORM_DESC1;
             echo PREFS_FORM_ERROR_DESC;
@@ -71,7 +67,6 @@ if ($action) {
             $title = tra("Edit %1 preferences", subset_name($subset));
             if ($venue) $title = tra("%1 for %2", $title, $venue);
             page_head($title);
-            $x = $venue?"&venue=$venue":"";
 
             echo PREFS_FORM_ERROR_DESC;
 
@@ -100,7 +95,6 @@ if ($action) {
     $title = tra("Edit %1 preferences", subset_name($subset));
     if ($venue) $title = tra("%1 for %2", $title, $venue);
     page_head($title);
-    $x = $venue?"&venue=$venue":"";
 
     if ($subset == "global") {
         echo PREFS_FORM_DESC1;
@@ -116,7 +110,7 @@ if ($action) {
     }
     print_prefs_form("edit", $subset, $venue, $user, $prefs, $columns);
 }
-echo "<a href=prefs.php?subset=$subset$x$c>".tra("Back to preferences")."</a>\n";
+echo "<a href=prefs.php?subset=$subset$c>".tra("Back to preferences")."</a>\n";
 page_tail();
 
 $cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit

@@ -20,6 +20,8 @@ require_once("../inc/util.inc");
 require_once("../inc/team.inc");
 require_once("../inc/boinc_db.inc");
 
+check_get_args(array("tnow", "ttok"));
+
 $user = get_logged_in_user();
 
 $teamid = post_int("teamid");

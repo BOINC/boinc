@@ -21,6 +21,8 @@ require_once("../inc/util.inc");
 require_once("../inc/email.inc");
 require_once("../inc/user.inc");
 
+check_get_args(array());
+
 $user = get_logged_in_user();
 
 $email_addr = strtolower(post_str("email_addr"));

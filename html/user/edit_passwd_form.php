@@ -19,6 +19,8 @@
 require_once("../inc/db.inc");
 require_once("../inc/util.inc");
 
+check_get_args(array());
+
 db_init();
 
 $user = get_logged_in_user(false);

@@ -19,6 +19,8 @@
 require_once("../inc/boinc_db.inc");
 require_once("../inc/xml.inc");
 
+check_get_args(array("hostid", "account_key", "venue"));
+
 xml_header();
 
 $db = BoincDb::get();

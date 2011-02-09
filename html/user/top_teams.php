@@ -21,6 +21,8 @@ require_once("../inc/util.inc");
 require_once("../inc/team.inc");
 require_once("../inc/db.inc");
 
+check_get_args(array("sort_by", "type", "offset"));
+
 $config = get_config();
 $teams_per_page = parse_config($config, "<teams_per_page>");
 if (!$teams_per_page) {

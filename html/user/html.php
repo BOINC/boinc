@@ -19,6 +19,8 @@
 
 require_once("../inc/util.inc");
 
+check_get_args(array());
+
 page_head("Allowed HTML tags");
 
 echo "

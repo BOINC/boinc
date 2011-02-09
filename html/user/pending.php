@@ -22,6 +22,8 @@ require_once("../inc/util.inc");
 require_once("../inc/boinc_db.inc");
 require_once("../inc/xml.inc");
 
+check_get_args(array("format", "authenticator"));
+
 BoincDb::get(true);
 
 $config = get_config();

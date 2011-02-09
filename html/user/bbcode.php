@@ -18,6 +18,8 @@
 
 require_once("../inc/util.inc");
 
+check_get_args(array());
+
 page_head("BBCode tags");
 echo "<p>
 BBCode tags let you format text in your profile and message-board postings.

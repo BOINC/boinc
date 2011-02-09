@@ -20,18 +20,20 @@ require_once("../inc/util.inc");
 require_once("../inc/cert.inc");
 require_once("../inc/user.inc");
 
+check_get_args(array("border"));
+
 $user = get_logged_in_user();
 
 $join = date('j F Y', $user->create_time);
 $today = date('j F Y', time(0));
 
-$border=$_GET["border"];
+$border = get_str("border", true);
+
 if ($border=="no") {
     $border = 0;
 } else {
     $border=8;
 }
-
 
 $title_font = "\"Optima,ZapfChancery\"";
 $font = "\"Optima,Lucida Bright,Times New Roman\"";

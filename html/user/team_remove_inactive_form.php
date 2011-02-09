@@ -20,6 +20,8 @@ require_once("../inc/boinc_db.inc");
 require_once("../inc/util.inc");
 require_once("../inc/team.inc");
 
+check_get_args(array("teamid"));
+
 ini_set("memory_limit", "1024M");
 
 $logged_in_user = get_logged_in_user();

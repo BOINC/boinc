@@ -22,6 +22,8 @@
 
 require_once('../inc/forum.inc');
 
+check_get_args(array("forumid"));
+
 page_head(tra("Forum search"));
 
 start_table();

@@ -16,14 +16,14 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-
-
 // search for posts or a thread.
 // Takes input from forum_search.php
  
 require_once('../inc/time.inc');
 require_once('../inc/text_transform.inc');
 require_once('../inc/forum.inc');
+
+check_get_args(array());
 
 // Searches for the keywords in the $keyword_list array in thread titles.
 // Optionally filters by forum, user, time, or hidden if specified.

@@ -17,8 +17,11 @@
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
 
+require_once("../inc/util.inc");
 require_once("../inc/forum_db.inc");
 require_once("../inc/forum_banishment_vote.inc");
+
+check_get_args(array("action", "tnow", "ttok"));
 
 $config = get_config();
 

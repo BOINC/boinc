@@ -23,6 +23,8 @@
 
 require_once('../inc/forum.inc');
 
+check_get_args(array("id", "action", "userid"));
+
 $logged_in_user = get_logged_in_user();
 BoincForumPrefs::lookup($logged_in_user);
 $postid = get_int('id');

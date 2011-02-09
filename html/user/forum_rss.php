@@ -31,6 +31,8 @@ require_once("../project/project.inc");
 require_once("../inc/boinc_db.inc");
 require_once("../inc/forum_rss.inc");
 
+check_get_args(array("forumid", "setup", "userid", "ndays", "truncate", "threads_only"));
+
 $forumid = get_int('forumid');
 $forum = BoincForum::lookup_id($forumid);
 if (!$forum) error_page("no such forum");

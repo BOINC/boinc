@@ -21,6 +21,8 @@ require_once("../inc/user.inc");
 require_once("../inc/boinc_db.inc");
 require_once("../inc/forum.inc");
 
+check_get_args(array());
+
 // show the home page of logged-in user
 
 $user = get_logged_in_user();

@@ -23,6 +23,8 @@ require_once('../inc/time.inc');
 require_once('../inc/forum.inc');
 require_once('../inc/pm.inc');
 
+check_get_args(array("id", "sort", "start"));
+
 $id = get_int("id");
 $sort_style = get_int("sort", true);
 $start = get_int("start", true);
@@ -127,7 +129,7 @@ page_tail();
 //
 function show_forum($forum, $start, $sort_style, $user) {
     $gotoStr = "";
-    $nav = show_page_nav($forum, $start);
+    $nav = show_page_nav($forum, $sort_style, $start);
     if ($nav) {
         $gotoStr = "<div align=\"right\">$nav</div><br>";
     }

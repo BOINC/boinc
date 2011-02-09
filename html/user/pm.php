@@ -22,6 +22,11 @@ require_once("../inc/pm.inc");
 require_once("../inc/forum.inc");
 require_once("../inc/akismet.inc");
 
+check_get_args(array("replyto", "userid", "action", "sent", "id", "tnow", "ttok"));
+
+$replyto = get_int("replyto", true);
+$userid = get_int("userid", true);
+
 function show_block_link($userid) {
     echo " <a href=\"pm.php?action=block&amp;id=$userid\">";
     show_image(REPORT_POST_IMAGE, "Block messages from this user",  "Block user", REPORT_POST_IMAGE_HEIGHT);
@@ -150,8 +155,9 @@ function do_read($logged_in_user) {
 }
 
 function do_new($logged_in_user) {
+    global $replyto, $userid;
     check_banished($logged_in_user);
-    pm_form();
+    pm_form($replyto, $userid);
 }
 
 function do_delete($logged_in_user) {
@@ -165,6 +171,7 @@ function do_delete($logged_in_user) {
 }
 
 function do_send($logged_in_user) {
+    global $replyto, $userid;
     check_banished($logged_in_user);
     check_tokens($logged_in_user->authenticator);
 
@@ -173,13 +180,13 @@ function do_send($logged_in_user) {
     $content = post_str("content", true);
 
     if (post_str("preview", true) == tra("Preview")) {
-        pm_form();
+        pm_form($replyto, $userid);
     }
     if (($to == null) || ($subject == null) || ($content == null)) {
-        pm_form(tra("You need to fill all fields to send a private message"));
+        pm_form($replyto, $userid, tra("You need to fill all fields to send a private message"));
     } else {
         if (!akismet_check($logged_in_user, $content)) {
-            pm_form("Your message was flagged as spam
+            pm_form($replyto, $userid, "Your message was flagged as spam
                 by the Akismet anti-spam system.
                 Please modify your text and try again."
             );
@@ -196,19 +203,19 @@ function do_send($logged_in_user) {
                 $userid = $user[0];
                 $user = lookup_user_id($userid);
                 if ($user == null) {
-                    pm_form(tra("Could not find user with id %1", $userid));
+                    pm_form($replyto, $userid, tra("Could not find user with id %1", $userid));
                 }
             } else {
                 $user = lookup_user_name($username);
                 if ($user == null) {
-                    pm_form(tra("Could not find user with username %1", $username));
+                    pm_form($replyto, $userid, tra("Could not find user with username %1", $username));
                 } elseif ($user == -1) { // Non-unique username
-                    pm_form(tra("%1 is not a unique username; you will have to use user ID", $username));
+                    pm_form($replyto, $userid, tra("%1 is not a unique username; you will have to use user ID", $username));
                 }
             }
             BoincForumPrefs::lookup($user);
             if (is_ignoring($user, $logged_in_user)) {
-                pm_form(tra("User %1 (ID: %2) is not accepting private messages from you.", $user->name, $user->id));
+                pm_form($replyto, $userid, tra("User %1 (ID: %2) is not accepting private messages from you.", $user->name, $user->id));
             }
             if ($userids[$user->id] == null) {
                 $userlist[] = $user;

@@ -18,8 +18,9 @@
 
 require_once("../inc/util.inc");
 
+check_get_args(array("field"));
 
-$field = $_GET["field"];
+$field = get_str("field");
 
 switch($field) {
 case "result_server_state":

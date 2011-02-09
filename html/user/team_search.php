@@ -21,6 +21,8 @@ include_once("../inc/util.inc");
 include_once("../inc/team.inc");
 include_once("../inc/team_types.inc");
 
+check_get_args(array("keywords", "active", "country", "type", "submit"));
+
 // Merge list1 into list2.
 // list entries are of the form id => team,
 // where team includes a field "refcnt".
@@ -143,11 +145,12 @@ function search($params) {
 }
 
 $user = get_logged_in_user(false);
-if (isset($_GET['submit'])) {
+$submit = get_str("submit", true);
+if ($submit) {
     $params = null;
     $params->keywords = get_str('keywords', true);
-    $params->country = $_GET['country'];
-    $params->type = $_GET['type'];
+    $params->country = get_str("country", true);
+    $params->type = get_str("type", true);
     $params->active = get_str('active', true);
     page_head(tra("Team search results"));
     search($params);

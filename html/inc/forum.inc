@@ -225,7 +225,7 @@ function start_forum_table($headings, $extra) {
 // return a string containing a paged navigation bar 
 // for the given forum.  The default start place is 0. 
 //
-function show_page_nav($forum, $start=0){
+function show_page_nav($forum, $sort, $start=0){
     // How many pages to potentially show before and after this one:
     $preshow = 5; $postshow = 10;
     $navbar = "";
@@ -235,8 +235,7 @@ function show_page_nav($forum, $start=0){
         $curpage = ceil($start / THREADS_PER_PAGE);
         // If this is not the first page, display "previous"
         if ($curpage > 0){
-            $navbar = '<a href="forum_forum.php?id='.get_int("id").'&start='.(($curpage-1)*THREADS_PER_PAGE);
-            $sort = get_int("sort",true);
+            $navbar = '<a href="forum_forum.php?id='.$forum->id.'&start='.(($curpage-1)*THREADS_PER_PAGE);
             if ($sort) $navbar.='&sort='.$sort;
             $navbar.= '"> &lt;-- Previous</a> ';
         }
@@ -249,8 +248,7 @@ function show_page_nav($forum, $start=0){
             if ($i == $curpage+1){
                 $navbar.="<em>";
             }
-            $navbar.='<a href="forum_forum.php?id='.get_int("id").'&start='.(($i-1)*THREADS_PER_PAGE);
-            $sort = get_int("sort",true);
+            $navbar.='<a href="forum_forum.php?id='.$forum->id.'&start='.(($i-1)*THREADS_PER_PAGE);
             if ($sort) $navbar.='&sort='.$sort;
             $navbar.='">'.$i.'</a> | ';
             if ($i == $curpage+1){$navbar.="</em>";}
@@ -258,8 +256,7 @@ function show_page_nav($forum, $start=0){
 
         // If there is a next page
         if ($curpage+1 < $total){
-            $navbar.= '<a href="forum_forum.php?id='.get_int("id").'&start='.(($curpage+1)*THREADS_PER_PAGE);
-            $sort = get_int("sort",true);
+            $navbar.= '<a href="forum_forum.php?id='.$forum->id.'&start='.(($curpage+1)*THREADS_PER_PAGE);
             if ($sort) $navbar.='&sort='.$sort;
             $navbar.= '"> Next --&gt;</a>';
         }
@@ -299,10 +296,8 @@ function can_reply($thread, $forum, $user) {
 }
 
 function should_show_post(
-    $logged_in_user, $postcount, $postnumber, $post, $sort_style, $last_visit
+    $logged_in_user, $postcount, $postnumber, $post, $sort_style, $last_visit, $nowrap
 ){
-    $no_wraparound = get_str("nowrap",true);
-
     // If no user logged in, display everything (useful for Google bots etc)
     //
     if (!$logged_in_user) return true;
@@ -314,7 +309,7 @@ function should_show_post(
     
     // If the user has asked to display all the posts just display them
     //
-    if ($no_wraparound) return true;
+    if ($nowrap) return true;
     
     // If it is enabled and we havent yet hit the limit, simply display all
     if ($postcount < $logged_in_user->prefs->minimum_wrap_postcount) return true;
@@ -348,7 +343,7 @@ function should_show_post(
 // Show the posts in a thread for a user.
 //
 function show_posts(
-    $thread, $forum, $sort_style, $filter, $logged_in_user, $show_controls=true
+    $thread, $forum, $sort_style, $filter, $logged_in_user, $nowrap, $show_controls=true
 ) {
     $n = 1;
     $first_unread_post = null;
@@ -375,7 +370,6 @@ function show_posts(
     }
 
     $postnumber=0; $previous_post=0;
-    $no_wraparound = get_str("nowrap",true);
     foreach ($posts as $post){
         $postnumber++;
         if (should_show_post(

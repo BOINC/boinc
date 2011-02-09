@@ -16,11 +16,11 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-
-
 require_once("../inc/util.inc");
 require_once("../inc/user.inc");
 require_once("../inc/boinc_db.inc");
+
+check_get_args(array("code", "userid"));
 
 $code = get_str("code");
 $userid = get_int('userid');

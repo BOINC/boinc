@@ -515,7 +515,8 @@ function undo_magic_quotes($x) {
 function check_get_args($args) {
     foreach ($_GET as $key => $val) {
         if (!in_array($key, $args)) {
-            Header("Location: missing404.html");
+            Header("Location: extra_arg_$key.html");
+            die;
         }
     }
 }
@@ -525,9 +526,14 @@ function get_int($name, $optional=false) {
     if (isset($_GET[$name])) $x = $_GET[$name];
     if (!is_numeric($x)) {
         if ($optional) {
+            if ($x) {
+                Header("Location: non_num_arg.html");
+                die;
+            }
             return null;
         } else {
-            error_page("missing or bad parameter: $name; supplied: ".htmlspecialchars($x));
+            Header("Location: missing_arg.html");
+            die;
         }
     }
     return (int)$x;
@@ -556,15 +562,6 @@ function get_str($name, $optional=false) {
         $x = $_GET[$name];
     }
     return undo_magic_quotes($x);
-}
-
-function get_venue($name) {
-    $x = $_GET[$name];
-    if ($x == "") return $x;
-    if ($x == "home") return $x;
-    if ($x == "work") return $x;
-    if ($x == "school") return $x;
-    error_page("no such venue: $x");
 }
 
 function post_str($name, $optional=false) {

@@ -19,6 +19,8 @@
 require_once("../inc/db.inc");
 require_once("../inc/util.inc");
 
+check_get_args(array("next_url"));
+
 $next_url = sanitize_local_url(get_str('next_url', true));
 
 if (defined('SECURE_URL_BASE')

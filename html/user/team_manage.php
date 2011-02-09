@@ -20,6 +20,8 @@ require_once("../inc/boinc_db.inc");
 require_once("../inc/util.inc");
 require_once("../inc/team.inc");
 
+check_get_args(array("teamid", "action"));
+
 function show_admin_page($user, $team) {
     page_head(tra("Team administration for %1", $team->name));
     echo "

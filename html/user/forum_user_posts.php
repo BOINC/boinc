@@ -21,6 +21,8 @@ require_once('../inc/time.inc');
 require_once('../inc/forum.inc');
 require_once('../inc/user.inc');
 
+check_get_args(array("userid", "offset"));
+
 $userid = get_int("userid");
 $offset = get_int("offset", true);
 if (!$offset) $offset=0;

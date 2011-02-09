@@ -20,6 +20,8 @@ include_once("../inc/db.inc");
 include_once("../inc/util.inc");
 include_once("../inc/prefs.inc");
 
+check_get_args(array("subset", "venue", "confirmed", "cols", "tnow", "ttok"));
+
 db_init();
 
 $user = get_logged_in_user();

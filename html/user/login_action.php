@@ -21,6 +21,8 @@ require_once("../inc/util.inc");
 require_once("../inc/email.inc");
 require_once("../inc/user.inc");
 
+check_get_args(array("id", "t", "h", "key"));
+
 $next_url = $_POST["next_url"];
 $next_url = sanitize_local_url($next_url);
 if (strlen($next_url) == 0) $next_url = "home.php";

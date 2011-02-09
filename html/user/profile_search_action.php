@@ -19,6 +19,8 @@
 require_once("../inc/boinc_db.inc");
 require_once("../inc/util.inc");
 
+check_get_args(array("search_string", "offset"));
+
 function show_profile_link2($profile, $n) {
     $user = lookup_user_id($profile->userid);
     echo "<tr><td>".user_links($user)."</td><td>".date_str($user->create_time)."</td><td>$user->country</td><td>".(int)$user->total_credit."</td><td>".(int)$user->expavg_credit."</td></tr>\n";

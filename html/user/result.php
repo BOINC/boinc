@@ -22,6 +22,8 @@ require_once("../inc/db.inc");
 require_once("../inc/util.inc");
 require_once("../inc/result.inc");
 
+check_get_args(array("resultid"));
+
 $resultid = get_int("resultid");
 $result = lookup_result($resultid);
 if (!$result) {

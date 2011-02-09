@@ -20,6 +20,8 @@ require_once("../inc/db.inc");
 require_once("../inc/util.inc");
 require_once("../inc/countries.inc");
 
+check_get_args(array("tnow", "ttok"));
+
 db_init();
 $user = get_logged_in_user();
 check_tokens($user->authenticator);

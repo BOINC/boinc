@@ -24,6 +24,7 @@
 require_once('../inc/forum.inc');
 require_once('../inc/forum_email.inc');
 
+check_get_args(array("post", "submit", "reason", "tnow", "ttok"));
 
 $postId = get_int('post');
 

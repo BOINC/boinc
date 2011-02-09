@@ -54,6 +54,8 @@ require_once("../inc/xml.inc");
 require_once("../inc/cache.inc");
 require_once("../inc/translation.inc");
 
+check_get_args(array("xml"));
+
 $xml = get_int("xml", true);
 
 $cache_args = $languages_in_use[0];

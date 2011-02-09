@@ -21,6 +21,8 @@ require_once("../inc/user.inc");
 require_once("../inc/util.inc");
 require_once("../inc/countries.inc");
 
+check_get_args(array("tnow", "ttok"));
+
 $user = get_logged_in_user();
 check_tokens($user->authenticator);
 
