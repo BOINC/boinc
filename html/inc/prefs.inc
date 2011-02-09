@@ -110,7 +110,7 @@ $cpu_prefs = array(
     ),
     new PREF_NUM(
         tra(
-            "Suspend work if CPU usage is above %1 0 means no restriction<br>Enforced by version 6.10.30+ %2",
+            "Suspend work when non-BOINC CPU usage is above %1 0 means no restriction<br>Enforced by version 6.10.30+ %2",
             "<br><span class=note>",
             "</span>"
         ),

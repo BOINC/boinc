@@ -24,6 +24,7 @@ xml_header();
 $retval = db_init_xml();
 if ($retval) xml_error($retval);
 
+check_get_args(array("account_key"));
 $auth = get_str("account_key");
 
 $user = lookup_user_auth($auth);

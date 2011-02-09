@@ -574,3 +574,19 @@ David  8 Feb 2011
     lib/
         str_util.cpp,h
         parse.cpp
+
+David  9 Feb 2011
+    - user web: apparently if you put links of the form
+        http://setiathome.berkeley.edu/help.php?key=Viagra.uk
+        all over the web, Google will list "Viagra.uk" in your site outline (why??).
+        Preliminary checkin for dealing with this.
+
+    html/
+        inc/
+            prefs.inc
+            util.inc
+        user/
+            view_profile.php
+            account_finish.php
+            am_get_info.php
+            add_venue.php

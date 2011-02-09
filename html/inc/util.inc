@@ -510,6 +510,16 @@ function undo_magic_quotes($x) {
     return $x;
 }
 
+// check for bogus GET args
+//
+function check_get_args($args) {
+    foreach ($_GET as $key => $val) {
+        if (!in_array($key, $args)) {
+            Header("Location: missing404.html");
+        }
+    }
+}
+
 function get_int($name, $optional=false) {
     $x=null;
     if (isset($_GET[$name])) $x = $_GET[$name];

@@ -18,6 +18,8 @@
 
 require_once("../inc/profile.inc");
 
+check_get_args(array("userid"));
+
 $userid = get_int('userid');
 $user = BoincUser::lookup_id($userid);
 if (!$user) {
