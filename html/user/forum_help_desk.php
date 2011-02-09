@@ -53,11 +53,14 @@ foreach ($categories as $category) {
     }
 
     $forums = BoincForum::enum("parent_type=0 and category=$category->id order by orderID");
+	$i = 1;
     foreach ($forums as $forum) {
+		$j = $i % 2;
+		$i++;
         echo "
-        <tr class=\"row1\">
+        <tr class=\"row$j\">
         <td>
-            <b><a href=\"forum_forum.php?id=$forum->id\">$forum->title</a></b>
+            <a href=\"forum_forum.php?id=$forum->id\">$forum->title</a>
             <br><span class=\"smalltext\">", $forum->description, "</span>
         </td>
         <td class=\"numbers\">", $forum->threads, "</td>

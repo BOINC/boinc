@@ -57,9 +57,7 @@ function show_forum_summary($forum, $i) {
     echo "
         <tr class=\"row$j\">
         <td>
-            <em>
             <a href=\"forum_forum.php?id=$forum->id\">$t</a>
-            </em>
             <br><span class=\"smalltext\">$d</span>
         </td>
         <td class=\"numbers\">$forum->threads</td>

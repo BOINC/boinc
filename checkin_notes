@@ -607,3 +607,14 @@ David  9 Feb 2011
             prefs.inc
             forum.inc
             util.inc
+
+David  9 Feb 2011
+	- user web: appearance tweaks
+
+	html/
+		inc/
+			forum.inc
+		user/
+			forum_help_desk.php
+			forum_index.php
+			white.css

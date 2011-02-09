@@ -122,15 +122,6 @@ input[type="text"]:focus, input[type="password"]:focus, select:focus, textarea:f
 	border-color: #eee;
 }
 
-#thread, #catview {
-	background: #0069A1 url(./img/forum_bg.png) repeat-x;
-}
-
-#thread th, #catview th {
-	background-color: transparent;
-	color: #fff;
-}
-
 #catview .row0 {
 	background-color: #eee;
 }
@@ -141,11 +132,11 @@ input[type="text"]:focus, input[type="password"]:focus, select:focus, textarea:f
 
 #catview tr.row0:hover,
 #catview tr.row1:hover {
-	background-color: #D1E4EF
+	background-color: #ddddff
 }
 
 td.category {
- color: #fff;
+   background-color: #ddd;
 }
 
 td.postheader {

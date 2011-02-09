@@ -33,16 +33,14 @@ define('CREATE_TIME_OLD',6);
 define('POST_SCORE',7);
 
 // names for the above
-$thread_sort_styles[CREATE_TIME_OLD] = "Oldest post first";
-$thread_sort_styles[CREATE_TIME_NEW] = "Newest post first";
-$thread_sort_styles[POST_SCORE] = "Highest rated posts first";
+$thread_sort_styles[CREATE_TIME_OLD] = tra("Oldest first");
+$thread_sort_styles[CREATE_TIME_NEW] = tra("Newest first");
+$thread_sort_styles[POST_SCORE] = tra("Highest rated posts first");
 
-$forum_sort_styles[MODIFIED_NEW] = "Newest reply first";
-//$forum_sort_styles[MODIFIED_OLD] = "Oldest reply first";
-$forum_sort_styles[VIEWS_MOST] = "Most views first";
-$forum_sort_styles[REPLIES_MOST] = "Most posts first";
-$forum_sort_styles[CREATE_TIME_NEW] = "Newest first";
-//$forum_sort_styles[CREATE_TIME_OLD] = "Oldest first";
+$forum_sort_styles[MODIFIED_NEW] = tra("Newest post first");
+$forum_sort_styles[VIEWS_MOST] = tra("Most views first");
+$forum_sort_styles[REPLIES_MOST] = tra("Most posts first");
+$forum_sort_styles[CREATE_TIME_NEW] = tra("Newest first");
 
 // values for thread.status
 define('THREAD_SOLVED', 1);
