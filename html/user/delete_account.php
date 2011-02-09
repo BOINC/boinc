@@ -70,7 +70,11 @@ if ($cmd == "delete") {
         No jobs will be issued to any computers attached
         to this account.
         <p>
-        Are you sure you want to delete your account?
+        <b>This cannot be undone.
+        Once your account has been deleted, you cannot get it back.
+        <p>
+        Are you sure you want to delete your account?</b>
+        <p>
     ";
     show_button("delete_account.php?cmd=delete", "Yes", "Delete this account");
     show_button("index.php", "No", "Do not delete this account");
