@@ -199,10 +199,10 @@ function show_team_forum_title($forum, $thread=null, $link_thread=false) {
 
 // Start the forum table, output the proper headings and such.
 //
-function start_forum_table($headings, $extra="width=\"100%\"") {
+function start_forum_table($headings, $extra) {
     $span = null;
     
-    start_table($extra);
+    start_table($extra." width=\"100%\"");
     echo "<tr>";
 
     for ($i=0; $i<count($headings); $i++) {

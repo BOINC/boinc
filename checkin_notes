@@ -590,3 +590,8 @@ David  9 Feb 2011
             account_finish.php
             am_get_info.php
             add_venue.php
+
+David  9 Feb 2011
+	- user web: make all forum tables full-width
+	html/inc/
+		forum.inc
