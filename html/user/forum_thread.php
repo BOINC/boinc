@@ -26,7 +26,7 @@ check_get_args(array("id", "sort", "nowrap", "filter"));
 
 $threadid = get_int('id');
 $sort_style = get_int('sort', true);
-$nowrap = get_int('nowrap', true);
+$nowrap = get_str('nowrap', true);
 $filter = get_str('filter', true);
 
 if ($filter != "false"){
