@@ -372,9 +372,8 @@ function show_posts(
         $postnumber++;
         if (should_show_post(
             $logged_in_user, $postcount, $postnumber, $post,
-            $sort_style, $last_visit)
-        ) {
-
+            $sort_style, $last_visit, $nowrap
+		)) {
             if ($postnumber!=$previous_post+1){
                 // A number of posts were hidden, display a way to unhide them:
                 //

@@ -618,3 +618,9 @@ David  9 Feb 2011
 			forum_help_desk.php
 			forum_index.php
 			white.css
+
+David  9 Feb 2011
+	- user web: fix "nowrap" post display
+
+	html/inc/
+		forum.inc
