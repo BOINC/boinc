@@ -31,8 +31,8 @@ check_get_args(array());
 function show_nav() {
     $config = get_config();
     $master_url = parse_config($config, "<master_url>");
-    echo "<div id=\"mainnav\">
-        <h2>About ".PROJECT."</h2>
+    echo "<div class=\"mainnav\">
+        <h2 class=headline>About ".PROJECT."</h2>
         XXX is a research project that uses Internet-connected
         computers to do research in XXX.
         You can participate by downloading and running a free program
@@ -44,7 +44,7 @@ function show_nav() {
         <li> [Link to page describing your research in detail]
         <li> [Link to page listing project personnel, and an email address]
         </ul>
-        <h2>Join ".PROJECT."</h2>
+        <h2 class=headline>Join ".PROJECT."</h2>
         <ul>
         <li><a href=\"info.php\">".tra("Read our rules and policies")."</a>
         <li> This project uses BOINC.
@@ -57,7 +57,7 @@ function show_nav() {
             <a target=\"_new\" href=\"http://boinc.berkeley.edu/wiki/BOINC_Help\">get help here</a>.
         </ul>
 
-        <h2>Returning participants</h2>
+        <h2 class=headline>Returning participants</h2>
         <ul>
         <li><a href=\"home.php\">Your account</a> - view stats, modify preferences
         <li><a href=server_status.php>Server status</a>
@@ -66,7 +66,7 @@ function show_nav() {
         <li> <a href=\"apps.php\">".tra("Applications")."</a>
 
         </ul>
-        <h2>".tra("Community")."</h2>
+        <h2 class=headline>".tra("Community")."</h2>
         <ul>
         <li><a href=\"profile_menu.php\">".tra("Profiles")."</a>
         <li><a href=\"user_search.php\">User search</a>
@@ -104,7 +104,7 @@ include 'schedulers.txt';
 echo "
     </head><body>
     <span class=page_title>".PROJECT."</span>
-    <table cellpadding=\"8\" cellspacing=\"4\">
+    <table cellpadding=\"8\" cellspacing=\"4\" class=bordered>
     <tr><td rowspan=\"2\" valign=\"top\" width=\"40%\">
 ";
 
@@ -129,8 +129,8 @@ if (!$stopped) {
     $profile = get_current_uotd();
     if ($profile) {
         echo "
-            <td id=\"uotd\">
-            <h2>".tra("User of the day")."</h2>
+            <td class=uotd>
+            <h2 class=headline>".tra("User of the day")."</h2>
         ";
         show_uotd($profile);
         echo "</td></tr>\n";
@@ -138,8 +138,8 @@ if (!$stopped) {
 }
 
 echo "
-    <tr><td id=\"news\">
-    <h2>News</h2>
+    <tr><td class=news>
+    <h2 class=headline>News</h2>
     <p>
 ";
 include("motd.php");

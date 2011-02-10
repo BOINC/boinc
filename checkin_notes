@@ -619,8 +619,31 @@ David  9 Feb 2011
 			forum_index.php
 			white.css
 
-David  9 Feb 2011
+David  10 Feb 2011
 	- user web: fix "nowrap" post display
 
 	html/inc/
 		forum.inc
+
+David  10 Feb 2011
+    - user web: CSS cleanup.
+        Use classes instead of IDs.
+        white.css and black.css are cleaned up; style2.css needs work
+
+    html/
+        inc/
+            pm.inc
+            forum.inc
+            user.inc
+            util.inc
+        user/
+            pm.php
+            sample_index.php
+            forum_thread.php
+            main.css
+            forum_help_desk.php
+            friend.php
+            forum_forum.php
+            forum_index.php
+            style2.css
+            white.css

@@ -1,4 +1,40 @@
-/*   General   */
+/*
+main.css - general stylesheet for BOINC web pages
+
+No colors are defined here.
+Put colors in a separate stylesheet (e.g., white.css, style2.css)
+
+Use classes, not IDs.
+
+We use the following classes:
+
+table.bordered
+    a table with a border around it
+td.bordered
+    bordered table cell (admin pages only)
+td.heading
+    table cell acting as heading
+td.fieldname
+td.fieldvalue
+    table cells with name/value pairs
+td.fieldname_error
+td.fieldvalue_error
+    same, but colored to show error
+td.row0, row1
+    rows with alternating colors
+td.highlighted_row0, highlighted_row1
+    same, but highlighted
+
+... a bunch for message boards; see below
+
+In the home page:
+
+td.news
+td.uotd
+h2.headline
+div.mainnav
+
+*/
 
 a, a:link, a:visited, a:active {
     text-decoration: none;
@@ -27,8 +63,7 @@ hr {
     margin: 8px 2px;
 }
 
-img,
-img.userimg {
+img {
     border: none;
 }
 
@@ -61,11 +96,6 @@ td.bordered {
     border-style: solid;
 }
 
-td.indent {
-    border-left-width: 4px;
-    border-left-style: solid;
-}
-
 td.heading {
     font-weight: bold;
     margin: 4px 0;
@@ -92,15 +122,8 @@ td.fieldvalue_error {
     font-weight: bold;
 }
 
-td.navbar {
-    border: none;
-    text-align: center;
-    vertical-align: middle;
-}
-
 td.friend {
     text-align: center;
-    vertical-align: middle;
 }
 
 .row0,
@@ -110,18 +133,12 @@ td.friend {
     text-align: left;
 }
 
-#catview img.userimg,
-#thread img.userimg {
-    float: left;
-    padding: 0 2px;
-}
-
 /*   Buttons etc.   */
 
 input[type="button"],
 input[type="submit"],
 .btn {
-    padding: 4px 8px;
+    padding: 4px 4px;
     margin: 2px;
     border-width: 1px;
     border-style: solid;
@@ -137,10 +154,9 @@ input[type="submit"],
     /* IE6 doesn't understand [type=XXXX] so we use class "button" */
 
 a.button {
-
     line-height: 2.4em;
-    padding: 4px 8px;
-    margin: 0 4px;
+    padding: 4px 4px;
+    margin: 0px 0px;
     border-width: 1px;
     border-style: solid;
     font-size: 13px;
@@ -165,27 +181,15 @@ input[type="text"], input[type="password"], select, textarea {
     border-style: solid;
     margin: 2px 4px;
     padding: 3px;
-#font-size: 14px;
     -moz-border-radius: 5px;
     -webkit-border-radius: 5px;
     -khtml-border-radius: 5px;
     border-radius: 5px;
 }
 
-.actionlist {
-    display: inline;
-    list-style: none;
-    margin: 0;
-    padding: 0;
-}
-
-.actionlist li {
-    display: inline;
-}
-
 /*   Main Page   */
 
-#news {
+td.news {
     border-width: 2px;
     border-style: solid;
     padding: 10px;
@@ -196,24 +200,11 @@ input[type="text"], input[type="password"], select, textarea {
     border-radius: 10px;
 }
 
-#news h2,
-#uotd h2,
-#mainnav h2 {
-    margin-top: 0;
-    font-size: 1.2em;
-    font-weight: bold;
-}
-
-#news h3 {
-    font-size: 1em;
-    margin-bottom: 2px;
-}
-
-#news p {
+h2.headline {
     margin-top: 0;
 }
 
-#uotd {
+td.uotd {
     border-width: 2px;
     border-style: solid;
     padding: 10px;
@@ -362,15 +353,6 @@ blockquote.postbody {
     font-style: italic;
 }
 
-#thread, #catview {
-    width: 100%;
-    border: 0;
-}
-
-#catview {
-    padding: 4px 6px 6px;
-}
-
 .forum_toplinks td {
     vertical-align: middle;
 }
@@ -427,14 +409,11 @@ span.inboxunread {
     font-size: 1.1em;
 }
 
-#preview {
+div.pm_preview {
     border-width: 2px;
     border-style: solid;
     margin: 1em;
     padding: 0.2em;
-}
-
-#preview .header {
     font-weight: bold;
     font-size: 1.3em;
     border-bottom-width: 1px;

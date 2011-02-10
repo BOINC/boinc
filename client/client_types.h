@@ -125,13 +125,8 @@ struct FILE_INFO {
         // gzip file and add .gz to name
 };
 
-// Describes a connection between a file and a workunit, result, or application
-
-// In the first two cases,
-// the app will either use open() or fopen() to access the file
-// (in which case "open_name" is the name it will use)
-// or the app will be connected by the given fd (in which case fd is nonzero)
-
+// Describes a connection between a file and a workunit, result, or app version
+//
 struct FILE_REF {
     char file_name[256];
         // physical name

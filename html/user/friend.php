@@ -131,10 +131,9 @@ function handle_query($user) {
     if (strlen($friend->message)) {
         echo "<p>".tra("%1 says: %2", $srcuser->name, $friend->message)."</p>";
     }
-    echo "
-        <p><ul class=\"actionlist\">";
-    show_actionlist_button("friend.php?action=accept&userid=".$srcid, tra("Accept friendship"), tra("Click accept if %1 is in fact a friend", $srcuser->name));
-    show_actionlist_button("friend.php?action=ignore&userid=".$srcid, tra("Decline"), tra("Click decline if %1 is not a friend", $srcuser->name));
+    echo "<p>";
+    show_button("friend.php?action=accept&userid=".$srcid, tra("Accept friendship"), tra("Click accept if %1 is in fact a friend", $srcuser->name));
+    show_button("friend.php?action=ignore&userid=".$srcid, tra("Decline"), tra("Click decline if %1 is not a friend", $srcuser->name));
     echo "    <p>
     ";
     page_tail();
@@ -222,9 +221,9 @@ function handle_cancel_confirm($user) {
     page_head(tra("Cancel friendship?"));
     echo tra("Are you sure you want to cancel your friendship with %1?",$destuser->name) ."
         <p>
-    <ul class=\"actionlist\">";
-    show_actionlist_button("friend.php?action=cancel&userid=$destid", tra("Yes"), tra("Cancel friendship"));
-    show_actionlist_button("home.php", tra("No"), tra("Stay friends"));
+    ;
+    show_button("friend.php?action=cancel&userid=$destid", tra("Yes"), tra("Cancel friendship"));
+    show_button("home.php", tra("No"), tra("Stay friends"));
     echo "</ul>";
     page_tail();
 }

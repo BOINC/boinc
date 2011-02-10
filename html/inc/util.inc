@@ -445,7 +445,7 @@ function friend_links($user) {
         }
         $title = tra("View the profile of %1", $user->name);
         $alt = tra("Profile");
-        $x .= ' <a href="'.URL_BASE.'view_profile.php?userid='.$user->id.'"><img class="userimg" title="'.$title.'" src="'.$img_url.'" alt="'.$alt.'"></a><br>';
+        $x .= ' <a href="'.URL_BASE.'view_profile.php?userid='.$user->id.'"><img title="'.$title.'" src="'.$img_url.'" alt="'.$alt.'"></a><br>';
     }
     $x .= " <a href=\"".URL_BASE."show_user.php?userid=".$user->id."\">".$user->name."</a>";
     if ($user->donated == 1) {
@@ -464,7 +464,7 @@ function user_links($user) {
     $x = "";
     if ($user->has_profile) {
         $img_url = URL_BASE."img/head_20.png";
-        $x .= ' <a href="'.URL_BASE.'view_profile.php?userid='.$user->id.'"><img class="userimg" title="View the profile of '.$user->name.'" src="'.$img_url.'" alt="Profile"></a>';
+        $x .= ' <a href="'.URL_BASE.'view_profile.php?userid='.$user->id.'"><img title="View the profile of '.$user->name.'" src="'.$img_url.'" alt="Profile"></a>';
     }
     $x .= " <a href=\"".URL_BASE."show_user.php?userid=".$user->id."\">".$user->name."</a>";
     if ($user->donated == 1) {
@@ -671,7 +671,7 @@ function current_url() {
 // @param class The optional CSS class of the button. Defaults to a standard button
 //
 function show_button($url, $text, $desc, $class="button") {
-    echo "<a href=\"".$url."\" title=\"".addslashes($desc)."\" class=\"".$class."\">".$text."</a>";
+    echo "<a href=\"".$url."\" title=\"".addslashes($desc)."\" class=\"".$class."\">".$text."</a>\n";
 }
 
 // When multiple buttons (or actions) are presented in a list you can

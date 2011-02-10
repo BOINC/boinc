@@ -134,7 +134,14 @@ function show_forum($forum, $start, $sort_style, $user) {
         $gotoStr = "<div align=\"right\">$nav</div><br>";
     }
     echo $gotoStr; // Display the navbar
-    start_forum_table(array("", tra("Threads"), tra("Posts"), tra("Author"), tra("Views"), "<nobr>".tra("Last post")."</nobr>"), "id=\"catview\" cellspacing=0");
+    start_forum_table(array(
+        "",
+        tra("Threads"),
+        tra("Posts"),
+        tra("Author"),
+        tra("Views"),
+        "<nobr>".tra("Last post")."</nobr>")
+    );
 
     $sticky_first = !$user || !$user->prefs->ignore_sticky_posts;
 

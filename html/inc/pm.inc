@@ -34,8 +34,8 @@ function pm_form($replyto, $userid, $error = null) {
     
     if (post_str("preview", true) == tra("Preview")) {
         $options = new output_options;
-        echo "<div id=\"preview\">\n";
-        echo "<div class=\"header\">".tra("Preview")."</div>\n";
+        echo tra("Preview");
+        echo "<div class=\"pm_preview\">\n";
         echo output_transform(post_str("content", true), $options);
         echo "</div>\n";
     }

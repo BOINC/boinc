@@ -8,6 +8,10 @@ a:hover {
     color: #00A0E3;    
 }
 
+a.button {
+    background-color: white;
+}
+
 body {
     background-color: #F0F8FF;
     font-family: "Trebuchet MS", Verdana, Arial, Sans Serif;
@@ -50,10 +54,6 @@ h3, h4 {
 }
 
 img {
-    border: 0px;
-}
-
-img.userimg {
     border: 0px;
 }
 
@@ -211,16 +211,6 @@ tr.message {
     font-style: italic;
 }
 
-#thread {
-    width: 100%;
-    table-layout: fixed;
-    overflow: overflow;
-}
-
-#threadauthor input {
-    background-color: white;
-}
-
 td.lastpost {
     background-color: white;
 }
@@ -334,28 +324,14 @@ span.news_title {
    white-space: normal;
 }
 
-#news {
+td.news {
     background-color: #eeeeee;
     text-align: justify;
     padding: 10px;
     border: 1px solid grey;
 }
 
-#news h2, #uotd h2, #mainnav h2 {
-    font-size: 1.2em;
-    font-weight: bold;
-}
-
-#news h3 {
-    font-size: 1em;
-    margin: 2px 0px;
-}
-
-#news p {
-    margin-top: 0px;
-}
-
-#uotd {
+td.uotd {
     background-color: #eeeeee;
     padding: 10px;
     border: 1px solid grey;
@@ -377,20 +353,7 @@ span.news_title {
     font-size: 1.1em;
 }
 
-#preview {
-    border: 2px solid #cccccc;
-    background-color: #eeeeee;
-    margin: 1em;
-    padding: 0.2em;
-}
-
-#preview .header {
-    font-weight: bold;
-    font-size: 1.3em;
-    border-bottom: 1px solid #cccccc;
-}
-
-#mainnav {
+div.mainnav {
     text-align: justfy;
     padding: 6px;
 }

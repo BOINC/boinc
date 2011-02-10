@@ -150,7 +150,7 @@ function show_forum_title($category, $forum, $thread, $link_thread=false) {
     $top_url = $is_helpdesk?"forum_help_desk.php":"forum_index.php";
 
     if (!$forum && !$thread) {
-        echo "<span class=\"title\">$where</span>";
+        echo "<span class=\"title\">$where</span>\n";
 
     } else if ($forum && !$thread) {
         echo "<span class=title>";
@@ -195,8 +195,6 @@ function show_team_forum_title($forum, $thread=null, $link_thread=false) {
     echo "</span>";
 }
 
-// Start the forum table, output the proper headings and such.
-//
 function start_forum_table($headings, $extra) {
     $span = null;
     
@@ -215,7 +213,7 @@ function start_forum_table($headings, $extra) {
             $class = "heading";
             $span="";
         }
-        echo "<th class=$class$span>$title</th>";
+        echo "<th class=$class$span>$title</th>\n";
     }
     echo "</tr>\n";
 }
@@ -309,7 +307,8 @@ function should_show_post(
     //
     if ($nowrap) return true;
     
-    // If it is enabled and we havent yet hit the limit, simply display all
+    // If it is enabled and we haven't yet hit the limit, display all
+    //
     if ($postcount < $logged_in_user->prefs->minimum_wrap_postcount) return true;
     
     // display the post if it is the first post
@@ -574,21 +573,17 @@ function show_post(
 
     echo " <a href=\"forum_thread.php?id=".$thread->id."&nowrap=true#$post->id\">Message ".$post->id."</a> - ";
     if ($post->hidden) echo "<font color=red>[hidden] </font>";
-    echo "
-        Posted: ", pretty_time_str($post->timestamp);
-    ;
+    echo "Posted: ", pretty_time_str($post->timestamp), " ";
 
     if ($post->parent_post) {
         echo " - in response to <a href=\"forum_thread.php?id=".$thread->id."&nowrap=true#".$post->parent_post."\">Message ".$post->parent_post."</a>.";
     }
-    echo " <ul class=\"actionlist\">";
     if ($can_edit && $controls != NO_CONTROLS) {
-        show_actionlist_button("forum_edit.php?id=".$post->id."$tokens", "Edit", "Edit this message");
+        show_button("forum_edit.php?id=".$post->id."$tokens", "Edit", "Edit this message");
     }
     if (is_moderator($logged_in_user, $forum)) {
         show_post_moderation_links($config, $logged_in_user, $post, $forum, $tokens);
     }
-    echo "</ul>";
     if ($post->modified) {
         echo "<br>Last modified: ", pretty_time_Str($post->modified);
     }
@@ -634,12 +629,11 @@ function show_post(
             echo "</a>";
         }
         if (($controls == FORUM_CONTROLS) && (can_reply($thread, $forum, $logged_in_user))) {
-            echo "&nbsp;&nbsp;&nbsp;&nbsp;<ul class=\"actionlist\">";
+            echo "&nbsp;&nbsp;&nbsp;&nbsp;";
             $url = "forum_reply.php?thread=" . $thread->id . "&post=" . $post->id . "&no_quote=1#input";
-            show_actionlist_button($url, "Reply", "Post a reply to this message");
+            show_button($url, "Reply", "Post a reply to this message");
             $url = "forum_reply.php?thread=" . $thread->id . "&post=" . $post->id . "#input";
-            show_actionlist_button($url, "Quote", "Post a reply by quoting this message");
-            echo "</ul>";
+            show_button($url, "Quote", "Post a reply by quoting this message");
         }
         echo "</td></tr>";
     } else {
@@ -1002,27 +996,27 @@ function show_post_moderation_links(
     $moderators_vote_to_ban = parse_bool($config, "moderators_vote_to_ban");
 
     if ($post->hidden) {
-        show_actionlist_button("forum_moderate_post_action.php?action=unhide&id=".$post->id."$tokens", "Unhide", "Unhide this post");
+        show_button("forum_moderate_post_action.php?action=unhide&id=".$post->id."$tokens", "Unhide", "Unhide this post");
     } else {
-        show_actionlist_button("forum_moderate_post.php?action=hide&id=".$post->id."$tokens", "Hide", "Hide this post");
+        show_button("forum_moderate_post.php?action=hide&id=".$post->id."$tokens", "Hide", "Hide this post");
     }
 
-    show_actionlist_button(
+    show_button(
         "forum_moderate_post.php?action=move&id=".$post->id."$tokens",
         "Move", "Move post to a different thread"
     );
 
     if ($forum->parent_type == 0) {
         if ($logged_in_user->prefs->privilege(S_ADMIN) || ($logged_in_user->prefs->privilege(S_MODERATOR) && $moderators_allowed_to_ban)) {
-            show_actionlist_button("forum_moderate_post.php?action=banish_user&id=".$post->id."&userid=".$post->user."$tokens", "Banish author", "Banish author");
+            show_button("forum_moderate_post.php?action=banish_user&id=".$post->id."&userid=".$post->user."$tokens", "Banish author", "Banish author");
         }
         if ($logged_in_user->prefs->privilege(S_MODERATOR) && $moderators_vote_to_ban) {
             require_once("../inc/forum_banishment_vote.inc");
             if (vote_is_in_progress($post->user)) {
-                show_actionlist_button("forum_banishment_vote.php?action=yes&userid=".$post->user, "Vote to banish author", "Vote to banish author");
-                show_actionlist_button("forum_banishment_vote.php?action=no&userid=".$post->user, "Vote not to banish author", "Vote not to banish author");
+                show_button("forum_banishment_vote.php?action=yes&userid=".$post->user, "Vote to banish author", "Vote to banish author");
+                show_button("forum_banishment_vote.php?action=no&userid=".$post->user, "Vote not to banish author", "Vote not to banish author");
             } else {
-                show_actionlist_button("forum_banishment_vote.php?action=start&userid=".$post->user, "Start vote to banish author", "Start vote to banish author");
+                show_button("forum_banishment_vote.php?action=start&userid=".$post->user, "Start vote to banish author", "Start vote to banish author");
             }
         }
     }
@@ -1110,7 +1104,7 @@ function is_moderator($user, $forum) {
 }
 
 function show_thread_and_context_header() {
-    start_forum_table(array(tra("Thread"), tra("Posts"), tra("Author"), tra("Views"), "<nobr>".tra("Last post")."</nobr>"), "id=\"thread\" cellspacing=0");
+    start_forum_table(array(tra("Thread"), tra("Posts"), tra("Author"), tra("Views"), "<nobr>".tra("Last post")."</nobr>"));
 }
 
 // show a 1-line summary of thread and its forum.

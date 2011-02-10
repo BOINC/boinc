@@ -147,13 +147,13 @@ echo "
     <form action=\"forum_thread.php\">
     <table width=\"100%\" cellspacing=0 cellpadding=0>
     <tr class=\"forum_toplinks\">
-    <td><ul class=\"actionlist\">
+    <td>
 ";
 
 $reply_url = "";
 if (can_reply($thread, $forum, $logged_in_user)) {
     $reply_url = "forum_reply.php?thread=".$thread->id."#input";
-    show_actionlist_button(
+    show_button(
         $reply_url,
         tra("Post to thread"),
         tra("Add a new message to this thread")
@@ -166,14 +166,14 @@ if ($is_subscribed) {
         "userid=$logged_in_user->id and type=$type and opaque=$thread->id"
     );
     $url = "forum_subscribe.php?action=unsubscribe&thread=".$thread->id."$tokens";
-    show_actionlist_button(
+    show_button(
         $url,
         tra("Unsubscribe"),
         tra("You are subscribed to this thread.  Click here to unsubscribe.")
     );
 } else {
     $url = "forum_subscribe.php?action=subscribe&thread=".$thread->id."$tokens";
-    show_actionlist_button(
+    show_button(
         $url,
         tra("Subscribe"),
         tra("Click to get email when there are new posts in this thread")
@@ -184,58 +184,57 @@ if ($is_subscribed) {
 //
 if (is_moderator($logged_in_user, $forum)) {
     if ($thread->hidden){
-        show_actionlist_button(
+        show_button(
             "forum_moderate_thread_action.php?action=unhide&thread=".$thread->id."$tokens",
             tra("Unhide"),
             tra("Unhide this thread")
         );
     } else {
-        show_actionlist_button(
+        show_button(
             "forum_moderate_thread.php?action=hide&thread=".$thread->id,
             tra("Hide"),
             tra("Hide this thread")
         );
     }
     if ($thread->sticky){
-        show_actionlist_button(
+        show_button(
             "forum_moderate_thread_action.php?action=desticky&thread=".$thread->id."$tokens",
             tra("Make unsticky"),
             tra("Make this thread not sticky")
         );
     } else {
-        show_actionlist_button(
+        show_button(
             "forum_moderate_thread_action.php?action=sticky&thread=".$thread->id."$tokens",
             tra("Make sticky"),
             tra("Make this thread sticky")
         );
     }
     if ($thread->locked) {
-        show_actionlist_button(
+        show_button(
             "forum_moderate_thread_action.php?action=unlock&amp;thread=".$thread->id."$tokens",
             tra("Unlock"),
             tra("Unlock this thread")
         );
     } else {
-        show_actionlist_button(
+        show_button(
             "forum_moderate_thread.php?action=lock&thread=".$thread->id."$tokens",
             tra("Lock"),
             tra("Lock this thread")
         );
     }
     if ($forum->parent_type == 0) {
-        show_actionlist_button(
+        show_button(
             "forum_moderate_thread.php?action=move&thread=".$thread->id."$tokens",
             tra("Move"),
             tra("Move this thread to a different forum")
         );
     }
-    show_actionlist_button(
+    show_button(
         "forum_moderate_thread.php?action=title&thread=".$thread->id."$tokens",
         tra("Edit title"),
         tra("Edit thread title")
     );
 }
-echo "</ul>"; //End of action list
 
 // Display a box that allows the user to select sorting of the posts
 echo "</td><td align=\"right\">
