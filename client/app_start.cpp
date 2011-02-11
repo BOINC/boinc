@@ -272,6 +272,32 @@ int ACTIVE_TASK::write_app_init_file() {
     return retval;
 }
 
+// Given a logical name of the form D1/D2/.../Dn/F,
+// create the directories D1 ... Dn in the slot dir
+//
+static int create_dirs_for_logical_name(
+    const char* name, const char* slot_dir
+) {
+    char buf[1024];
+    char dir_path[1024];
+    int retval;
+
+    strcpy(buf, name);
+    strcpy(dir_path, slot_dir);
+    char* p = buf;
+    while (1) {
+        char* q = strstr(p, "/");
+        if (!q) break;
+        *q = 0;
+        strcat(dir_path, "/");
+        strcat(dir_path, p);
+        retval = boinc_mkdir(dir_path);
+        if (retval) return retval;
+        p = q+1;
+    }
+    return 0;
+}
+
 // set up a file reference, given a slot dir and project dir.
 // This means:
 // 1) copy the file to slot dir, if reference is by copy
@@ -284,10 +310,13 @@ static int setup_file(
     char link_path[256], rel_file_path[256];
     int retval;
 
-    sprintf(link_path,
-        "%s/%s",
-        slot_dir, strlen(fref.open_name)?fref.open_name:fip->name
-    );
+    if (strlen(fref.open_name)) {
+        create_dirs_for_logical_name(fref.open_name, slot_dir);
+        sprintf(link_path, "%s/%s", slot_dir, fref.open_name);
+    } else {
+        sprintf(link_path, "%s/%s", slot_dir, fip->name);
+    }
+
     sprintf(rel_file_path, "../../%s", file_path );
 
     // if anonymous platform, this is called even if not first time,
@@ -902,7 +931,7 @@ int ACTIVE_TASK::start(bool first_time) {
             }
 #endif
         }
-        sprintf(buf, "../../%s", exec_path );
+        sprintf(buf, "../../%s", exec_path);
         if (g_use_sandbox) {
             char switcher_path[100];
             sprintf(switcher_path, "../../%s/%s",

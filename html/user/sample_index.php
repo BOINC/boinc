@@ -79,12 +79,6 @@ function show_nav() {
     ";
 }
 
-$caching = false;
-
-if ($caching) {
-    start_cache(INDEX_PAGE_TTL);
-}
-
 $stopped = web_stopped();
 $rssname = PROJECT . " RSS 2.0" ;
 $rsslink = URL_BASE . "rss_main.php";
@@ -149,12 +143,6 @@ echo "
     </tr></table>
 ";
 
-
-if ($caching) {
-    page_tail_main(true);
-    end_cache(INDEX_PAGE_TTL);
-} else {
-    page_tail_main();
-}
+page_tail_main();
 
 ?>

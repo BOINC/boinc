@@ -647,3 +647,14 @@ David  10 Feb 2011
             forum_index.php
             style2.css
             white.css
+
+David  10 Feb 2011
+    - client: if a logical filename contains /'s,
+        create the needed dirs under the slot dir
+    - user web: pages with translatable text should not be cached.
+        Fix this for home page; there are some others
+
+    client/
+        app_start.cpp
+    html/user/
+        sample_index.php
