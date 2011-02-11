@@ -187,6 +187,21 @@ span.highlight {
 	color: #090;
 }
 
+div.pm_preview {
+    border-width: 2px;
+    border-style: solid;
+    margin: 1em;
+    padding: 0.2em;
+    font-weight: bold;
+    font-size: 1.1em;
+    border-bottom-width: 1px;
+    border-bottom-style: solid;
+
+	border-color: #ccc;
+	background-color: #eee;
+	border-bottom-color:  #ccc;
+}
+
 /*   Server Status Page   */
 
 td.running { background-color: #9aff4f; }

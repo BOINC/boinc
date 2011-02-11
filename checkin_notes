@@ -659,8 +659,15 @@ David  10 Feb 2011
     html/user/
         sample_index.php
 
-David  10 Feb 2011
+David  11 Feb 2011
     - manager: project properties: if no venue, show "default"
 
     clientgui/
         DlgItemProperties.cpp
+
+David  11 Feb 2011
+	- user web: style tweaks
+	html/user/
+		forum_post.php
+		main.css
+		white.css
