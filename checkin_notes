@@ -680,3 +680,10 @@ David  11 Feb 2011
 			delete_account.php
 		inc/
 			user.inc
+
+David  11 Feb 2011
+	- user web: bug fixes
+	html/user/
+		team_quit_action.php
+		team_manage.php
+		forum_moderate_post.php

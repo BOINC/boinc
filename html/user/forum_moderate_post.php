@@ -23,9 +23,10 @@
 
 require_once('../inc/forum.inc');
 
-check_get_args(array("id", "action", "userid"));
+check_get_args(array("id", "action", "userid", "tnow", "ttok"));
 
 $logged_in_user = get_logged_in_user();
+check_tokens($logged_in_user->authenticator);
 BoincForumPrefs::lookup($logged_in_user);
 $postid = get_int('id');
 $post = BoincPost::lookup_id($postid);
