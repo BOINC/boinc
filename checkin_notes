@@ -658,3 +658,9 @@ David  10 Feb 2011
         app_start.cpp
     html/user/
         sample_index.php
+
+David  10 Feb 2011
+    - manager: project properties: if no venue, show "default"
+
+    clientgui/
+        DlgItemProperties.cpp
