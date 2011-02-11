@@ -671,3 +671,12 @@ David  11 Feb 2011
 		forum_post.php
 		main.css
 		white.css
+
+David  11 Feb 2011
+	- user web: disable "delete account" feature
+
+	html/
+		user/
+			delete_account.php
+		inc/
+			user.inc

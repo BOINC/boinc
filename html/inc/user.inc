@@ -417,7 +417,7 @@ function show_account_private($user) {
     end_table();
     show_other_projects($user, true);
     project_user_page_private($user);
-    echo "<a href=delete_account.php>Delete account</a>\n";
+    //echo "<a href=delete_account.php>Delete account</a>\n";
     echo "</td><td valign=top>";
     start_table();
     show_community_private($user);
