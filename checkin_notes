@@ -703,3 +703,9 @@ David  13 Feb 2011
 	html/user/
 		forum_moderate_thread.php
 		add_venue.phhp
+
+David  13 Feb 2011
+    - user web: bug fix
+
+    html/user/
+        forum_reply.php

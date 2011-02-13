@@ -107,10 +107,11 @@ echo "<p>";
 
 if ($preview == tra("Preview")) {
     $options = new output_options;
-    echo "<div id=\"preview\">\n";
-    echo "<div class=\"header\">".tra("Preview")."</div>\n";
-    echo output_transform($content, $options);
-    echo "</div>\n";
+    echo tra("Preview");
+    echo "<div class=\"pm_preview\">"
+        .output_transform($content, $options)
+        ."</div>\n"
+    ;
 }
 
 start_forum_table(array(tra("Author"), tra("Message")));
