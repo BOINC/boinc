@@ -687,3 +687,12 @@ David  11 Feb 2011
 		team_quit_action.php
 		team_manage.php
 		forum_moderate_post.php
+
+David  13 Feb 2011
+    - user web: fix venue change
+    html/
+        inc/
+            prefs.inc
+            util.inc
+        user/
+            host_venue_action.php

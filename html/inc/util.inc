@@ -87,10 +87,13 @@ function get_logged_in_user($must_be_logged_in=true) {
         $g_logged_in_user = BoincUser::lookup("authenticator='$authenticator'");
     }
     if ($must_be_logged_in && !$g_logged_in_user) {
-        $next_url = $_SERVER['REQUEST_URI'];
-        $n = strrpos($next_url, "/");
-        if ($n) {
-            $next_url = substr($next_url, $n+1);
+        $next_url = '';
+        if (array_key_exists('REQUEST_URI', $_SERVER)) {
+            $next_url = $_SERVER['REQUEST_URI'];
+            $n = strrpos($next_url, "/");
+            if ($n) {
+                $next_url = substr($next_url, $n+1);
+            }
         }
         Header("Location: login_form.php?next_url=$next_url");
         exit;

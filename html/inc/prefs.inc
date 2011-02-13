@@ -425,6 +425,7 @@ function get_disk_space_config() {
 }
 
 function check_venue($x) {
+    if ($x == "") return;
     if ($x == "home") return;
     if ($x == "work") return;
     if ($x == "school") return;
