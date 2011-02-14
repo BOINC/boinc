@@ -48,12 +48,14 @@ body {
     margin: 5px 10px;
 }
 
-h1, h2 {
+h1 {
     font-weight: normal;
+    margin: 10px;
 }
 
-h1 {
-    margin: 10px;
+h2 {
+    font-weight: normal;
+    font-size: 20px;
 }
 
 h3, h4 { font-weight: bold; }
@@ -217,6 +219,11 @@ td.uotd {
 
 /*   Forum   */
 
+#thread {
+    table-layout: fixed;
+    overflow: visible;
+}
+
 td.category , tr.subtitle{
     border: none;
     font-weight: bold;
@@ -357,7 +364,7 @@ blockquote.postbody {
     vertical-align: middle;
 }
 
-span.page_title {
+div.page_title {
     font-size: 24px;
     margin: 20px;
 }

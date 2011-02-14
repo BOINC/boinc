@@ -737,3 +737,9 @@ David  14 Feb 2011
 			white.css
 			add_venue.php
 			forum_edit.php
+
+David  14 Feb 2011
+	- user web: fixes
+    html/user/
+        sample_index.php
+        main.css

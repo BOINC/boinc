@@ -97,7 +97,7 @@ echo "<html>
 include 'schedulers.txt';
 echo "
     </head><body>
-    <span class=page_title>".PROJECT."</span>
+    <div class=page_title>".PROJECT."</div>
     <table cellpadding=\"8\" cellspacing=\"4\" class=bordered>
     <tr><td rowspan=\"2\" valign=\"top\" width=\"40%\">
 ";
