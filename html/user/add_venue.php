@@ -79,7 +79,7 @@ if ($action) {
         } else {
             $prefs->$venue = $new_prefs;
             project_prefs_update($user, $prefs);
-            Header("Location: prefs.php?subset=$subset&c");
+            Header("Location: prefs.php?subset=$subset$c");
         }
     }
 } else {

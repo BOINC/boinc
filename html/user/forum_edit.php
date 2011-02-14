@@ -100,8 +100,8 @@ case 1:
 
 if ($preview == tra("Preview")) {
     $options = null;
-    echo "<div id=\"preview\">\n";
-    echo "<div class=\"header\">".tra("Preview")."</div>\n";
+	echo "<h2>".tra("Preview")."</h2>\n";
+    echo "<div class=pm_preview>";
     echo output_transform($content, $options);
     echo "</div>\n";
 }

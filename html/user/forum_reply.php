@@ -107,7 +107,7 @@ echo "<p>";
 
 if ($preview == tra("Preview")) {
     $options = new output_options;
-    echo tra("Preview");
+    echo "<h2>".tra("Preview")."</h2>\n";
     echo "<div class=\"pm_preview\">"
         .output_transform($content, $options)
         ."</div>\n"

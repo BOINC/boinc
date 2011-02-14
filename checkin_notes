@@ -724,3 +724,16 @@ David  14 Feb 2011
     - user web: fix [img] BBcode problem
     html/inc/
         text_transform.inc
+
+David  14 Feb 2011
+	- user web: various fixes
+	html/
+		inc/
+			prefs.inc
+		user/
+			main.css
+			prefs_remove.php
+			forum_reply.php
+			white.css
+			add_venue.php
+			forum_edit.php

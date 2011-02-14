@@ -31,7 +31,7 @@ $subset = get_str("subset");
 $venue = get_str("venue");
 $confirmed = get_str("confirmed", true);
 $columns = get_int("cols", true);
-$c = $columns?"&amp;cols=$columns":"";
+$c = $columns?"&cols=$columns":"";
 
 if ($confirmed) {
     if ($subset == "global") {
@@ -51,7 +51,7 @@ if ($confirmed) {
         tra("Are you sure you want to delete your separate %1 preferences for %2?", subset_name($subset), $venue).
         "</p><br><br>\n";
     show_button(
-        "prefs_remove.php?subset=$subset&amp;venue=$venue&amp;confirmed=yes$c$tokens",
+        "prefs_remove.php?subset=$subset&venue=$venue&confirmed=yes$c$tokens",
         tra("Yes"), tra("Remove preferences")
     );
     show_button("prefs.php?subset=$subset$c", tra("Cancel"), tra("Cancel"));

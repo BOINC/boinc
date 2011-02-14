@@ -687,10 +687,10 @@ function row_links($subset, $prefs) {
     $pre_add  = "<a href=add_venue.php?venue=";
     $pre_edit  = "<a href=prefs_edit.php?venue=";
     $pre_remove = "<a href=prefs_remove.php?venue=";
-    $post_add = "&amp;subset=$subset&cols=1$tokens>".tra("Add")."</a>";
-    $post_edit = "&amp;subset=$subset&cols=1$tokens>".tra("Edit")."</a>";
-    $post_remove = "&amp;subset=$subset&cols=1$tokens>".tra("Remove")."</a>";
-    $gen = "<a href=prefs_edit.php?subset=$subset&amp;cols=1$tokens>".tra("Edit")."</a>";
+    $post_add = "&subset=$subset&cols=1$tokens>".tra("Add")."</a>";
+    $post_edit = "&subset=$subset&cols=1$tokens>".tra("Edit")."</a>";
+    $post_remove = "&subset=$subset&cols=1$tokens>".tra("Remove")."</a>";
+    $gen = "<a href=prefs_edit.php?subset=$subset&cols=1$tokens>".tra("Edit")."</a>";
 
     $hom  = isset($prefs->home) ? $pre_edit."home".$post_edit : $pre_add."home".$post_add;
     $schl = isset($prefs->school) ? $pre_edit."school".$post_edit : $pre_add."school".$post_add;
@@ -815,11 +815,11 @@ function prefs_display_venue($prefs, $venue, $subset) {
             prefs_show_project($x);
             prefs_show_project_specific($x);
         }
-        row2("<br>", "<a href=prefs_edit.php?venue=$venue&amp;subset=$subset$tokens>".tra("Edit preferences")."</a> | <a href=prefs_remove.php?venue=$venue&amp;subset=$subset$tokens>".tra("Remove")."</a>");
+        row2("<br>", "<a href=prefs_edit.php?venue=$venue&subset=$subset$tokens>".tra("Edit preferences")."</a> | <a href=prefs_remove.php?venue=$venue&subset=$subset$tokens>".tra("Remove")."</a>");
         end_table();
         echo "</td></tr>\n";
     } else {
-        row1("<a href=add_venue.php?venue=$venue&amp;subset=$subset$tokens>".tra("Add separate preferences for %1", $venue)."</a>", 2, "heading");
+        row1("<a href=add_venue.php?venue=$venue&subset=$subset$tokens>".tra("Add separate preferences for %1", $venue)."</a>", 2, "heading");
     }
 }
 
