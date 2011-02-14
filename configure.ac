@@ -549,6 +549,13 @@ fi
 
 AM_CONDITIONAL(BUILD_GRAPHICS_API, [ test "$have_glut" = yes ])
 
+dnl check for X screen saver lib
+AC_CHECK_LIB([Xss], [XScreenSaverAllocInfo], [have_Xss="yes"], [have_Xss="no"])
+AC_CHECK_HEADER([X11/extensions/scrnsaver.h], [have_Xss="yes"], [have_Xss="no"])
+if test "$have_Xss" == no; then
+    AC_MSG_WARN([libxss missing, disabling X ScreenSaver user idle detection])
+fi
+
 dnl --------------------------------------------------------------------------------
 dnl put double-inclusion protection into config.h
 AH_TOP([
@@ -790,6 +797,13 @@ if test "${ac_cv_func_res_init}" != "yes" ; then
   ])
 fi
 LIBS=$svlibs
+
+if test "$have_Xss" == yes; then
+    SAH_CHECK_LIB([Xss],[XScreenSaverAllocInfo],[
+        AC_DEFINE([HAVE_XSS],[1],[Define to 1 if you have xss library])
+        CLIENTLIBS="${sah_lib_last} ${CLIENTLIBS}"])
+    echo DEBUG: CLIENTLIBS=${CLIENTLIBS} >&5
+fi
 
 SAH_CHECK_LIB([resolv],[res_query],[
     AC_DEFINE([HAVE_RESOLV],[1],[Define to 1 if you have the resolv library])

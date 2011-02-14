@@ -149,6 +149,10 @@ mach_port_t gEventHandle = NULL;
 #define _SC_PAGESIZE _SC_PAGE_SIZE
 #endif
 
+#if HAVE_XSS
+#include <X11/extensions/scrnsaver.h>
+#endif
+
 // The following is intended to be true both on Linux
 // and Debian GNU/kFreeBSD (see trac #521)
 //
@@ -1679,7 +1683,33 @@ bool interrupts_idle(time_t t) {
     }
     return last_irq < t;
 }
-#endif
+
+#if HAVE_XSS
+// Ask the X server for user idle time (using XScreenSaver API)
+// Returns true if the idle_treshold is smaller than the
+// idle time of the user (means: true = user is idle)
+bool xss_idle(long idle_treshold) {
+    static XScreenSaverInfo* xssInfo = NULL;
+    static Display* disp = NULL;
+    
+    long idle_time = 0;
+    
+    if(disp != NULL) {
+        XScreenSaverQueryInfo(disp, DefaultRootWindow(disp), xssInfo);
+        idle_time = xssInfo->idle / 1000; // xssInfo->idle is in ms
+    } else {
+        disp = XOpenDisplay(NULL);
+        // XOpenDisplay may return NULL if there is no running X
+        // or DISPLAY points to wrong/invalid display
+        if(disp != NULL) {
+            xssInfo = XScreenSaverAllocInfo();
+        }
+    }
+
+    return idle_treshold < idle_time;
+}
+#endif // HAVE_XSS
+#endif // LINUX_LIKE_SYSTEM
 
 bool HOST_INFO::users_idle(bool check_all_logins, double idle_time_to_run) {
     time_t idle_time = time(0) - (long) (60 * idle_time_to_run);
@@ -1701,6 +1731,13 @@ bool HOST_INFO::users_idle(bool check_all_logins, double idle_time_to_run) {
     if (!interrupts_idle(idle_time)) {
         return false;
     }
+
+#if HAVE_XSS
+    if (!xss_idle((long)(idle_time_to_run * 60))) {
+        return false;
+    }
+#endif
+
 #else
     // We should find out which of the following are actually relevant
     // on which systems (if any)

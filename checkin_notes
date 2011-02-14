@@ -743,3 +743,10 @@ David  14 Feb 2011
     html/user/
         sample_index.php
         main.css
+
+David  14 Feb 2011
+    - client, linux: use X server for idle detection if available
+
+    configure.ac
+    client/
+        hostinfo_unix.cpp
