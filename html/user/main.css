@@ -423,6 +423,9 @@ div.pm_preview {
     padding: 0.2em;
     border-bottom-width: 1px;
     border-bottom-style: solid;
+
+    line-height: 140%;
+    padding: 4px 12px;
 }
 
 /*   IE hack   */
