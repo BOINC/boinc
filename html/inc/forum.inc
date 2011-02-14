@@ -884,6 +884,7 @@ function unhide_thread($thread, $forum) {
     if (!$ret) return $ret;
     $forum->update("threads=threads+1, posts=posts+$thread->replies+1");
     update_forum_timestamp($forum);
+    return true;
 }
 
 function move_thread($thread, $old_forum, $new_forum) {
