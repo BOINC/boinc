@@ -709,3 +709,8 @@ David  13 Feb 2011
 
     html/user/
         forum_reply.php
+
+David  13 Feb 2011
+    - user web: bug fix
+    html/user/
+		forum_banishment_vote_action.php
