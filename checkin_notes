@@ -719,3 +719,8 @@ David  14 Feb 2011
     - user web: bug fix
     html/user/
         pm.php
+
+David  14 Feb 2011
+    - user web: fix [img] BBcode problem
+    html/inc/
+        text_transform.inc
