@@ -22,7 +22,7 @@ require_once("../inc/pm.inc");
 require_once("../inc/forum.inc");
 require_once("../inc/akismet.inc");
 
-check_get_args(array("replyto", "userid", "action", "sent", "id", "tnow", "ttok"));
+check_get_args(array("replyto", "deleted", "userid", "action", "sent", "id", "tnow", "ttok"));
 
 $replyto = get_int("replyto", true);
 $userid = get_int("userid", true);
