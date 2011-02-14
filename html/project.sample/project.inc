@@ -37,7 +37,7 @@ function project_banner($title, $prefix) {
 
     echo "
         <p>
-        <span class=\"page_title\">$title</span>
+        <div class=\"page_title\">$title</div>
         <p>
     ";
 }

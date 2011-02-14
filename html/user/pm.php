@@ -86,14 +86,14 @@ function do_inbox($logged_in_user) {
             <input type=hidden name=action value=delete_selected>
         ";
         echo form_tokens($logged_in_user->authenticator);
-        start_table();
+        start_table("id=thread width=100%");
         echo "<tr><th>".tra("Subject")."</th><th>".tra("Sender and date")."</th><th>".tra("Message")."</th></tr>\n";
         $i = 0;
         foreach($msgs as $msg) {
             $i++;
             $class = ($i%2)? "row0": "row1";
             echo "<tr class=$class>\n";
-            $checkbox = "<input type=\"checkbox\" name=\"pm_select[]\" value=\"".$msg->id."\">";
+            $checkbox = "<input type=\"checkbox\" name=\"pm_select\" value=\"".$msg->id."\">";
             if (!$msg->opened) {
                 $msg->update("opened=1");
             }
