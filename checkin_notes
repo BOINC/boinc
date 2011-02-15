@@ -789,3 +789,11 @@ David  15 Feb 2011
         transitioner.cpp
         sched_resend.cpp
         
+David  15 Feb 2011
+    - file upload handler: if client-reported offset is less than file size,
+        don't just print an error message;
+        lseek() back to the offset point.
+        Otherwise we can end up with duplication in the file.
+
+    sched/
+        file_upload_handler.cpp

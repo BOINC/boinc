@@ -196,6 +196,7 @@ int copy_socket_to_file(FILE* in, char* path, double offset, double nbytes) {
         );
     }
     if (sbuf.st_size > offset) {
+        lseek(fd, offset, SEEK_SET);
         log_messages.printf(MSG_CRITICAL,
             "file %s length on disk %d bytes; host upload starting at %.0f bytes.\n",
              this_filename, (int)sbuf.st_size, offset
