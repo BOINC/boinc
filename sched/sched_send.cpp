@@ -1107,7 +1107,7 @@ int add_result_to_reply(
             );
         }
     }
-    retval = result.mark_as_sent(old_server_state);
+    retval = result.mark_as_sent(old_server_state, config.report_grace_period);
     if (retval == ERR_DB_NOT_FOUND) {
         log_messages.printf(MSG_CRITICAL,
             "[RESULT#%d] [HOST#%d]: CAN'T SEND, already sent to another host\n",
@@ -1128,7 +1128,9 @@ int add_result_to_reply(
         );
     }
 
-    retval = update_wu_transition_time(wu, result.report_deadline);
+    retval = update_wu_transition_time(
+        wu, result.report_deadline + config.report_grace_period
+    );
     if (retval) {
         log_messages.printf(MSG_CRITICAL,
             "add_result_to_reply: can't update WU transition time: %d\n",

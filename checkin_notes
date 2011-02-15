@@ -768,3 +768,24 @@ Charlie 15 Feb 2011
     mac_installer/
         PostInstall.cpp
         uninstall.cpp
+
+David  15 Feb 2011
+    - transitioner: fix bug that could cause file deletion to not be done
+        for some WUs
+    - back end: fix the way "report grace period" is implemented
+        old: result.report_deadline (i.e. what's in the DB) and
+            the deadline sent to the client are the same.
+            Some confusing and incorrect logic in the transitioner
+            tries to provide the desired semantics.
+        new: result.report_deadline is the deadline sent to the client,
+            plus the grace period.
+            No logic in the transitioner is needed.
+
+    db/
+        boinc_db.cpp,h
+    sched
+        sched_config.cpp,h
+        sched_send.cpp
+        transitioner.cpp
+        sched_resend.cpp
+        

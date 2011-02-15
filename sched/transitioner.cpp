@@ -226,7 +226,7 @@ int handle_wu(
 
     // Scan this WU's results, and
     // 1) count those in various server states;
-    // 2) identify time-out results and update their server state and outcome
+    // 2) identify timed-out results and update their server state and outcome
     // 3) find the max result suffix (in case need to generate new ones)
     // 4) see if we have a new result to validate
     //    (outcome SUCCESS and validate_state INIT)
@@ -513,7 +513,7 @@ int handle_wu(
                     all_over_and_ready_to_assimilate = false;
                 }
             } else if (res_item.res_outcome == RESULT_OUTCOME_NO_REPLY) {
-                if ((res_item.res_report_deadline + config.grace_period_hours*3600) > now) {
+                if (now < res_item.res_report_deadline) {
                     all_over_and_validated = false;
                 }
             }
@@ -523,9 +523,8 @@ int handle_wu(
         }
     }
 
-    // If we are deferring assimilation until all results are over
-    // and validated then when that happens we need to make sure
-    // that it gets advanced to assimilate ready
+    // If we are deferring assimilation until all results are over and validated,
+    // when that happens make sure that WU state is advanced to assimilate ready
     // the items.size is a kludge
     //
     if (all_over_and_ready_to_assimilate
@@ -535,145 +534,121 @@ int handle_wu(
     ) {
         wu_item.assimilate_state = ASSIMILATE_READY;
         log_messages.printf(MSG_NORMAL,
-            "[WU#%d %s] Deferred assimililation now set to ASSIMILATE_STATE_READY\n",
+            "[WU#%d %s] Deferred assimilation now set to ASSIMILATE_STATE_READY\n",
             wu_item.id, wu_item.name
         );
     }
+
     // if WU is assimilated, trigger file deletion
     //
-    if (wu_item.assimilate_state == ASSIMILATE_DONE
-        && ((most_recently_returned + config.delete_delay_hours*3600) < now)
-    ) {
-        // can delete input files if all results OVER
-        //
-        if (all_over_and_validated && wu_item.file_delete_state == FILE_DELETE_INIT) {
-            wu_item.file_delete_state = FILE_DELETE_READY;
-            log_messages.printf(MSG_DEBUG,
-                "[WU#%d %s] ASSIMILATE_DONE: file_delete_state:=>READY\n",
-                wu_item.id, wu_item.name
-            );
-        }
-
-        // output of error results can be deleted immediately;
-        // output of success results can be deleted if validated
-        //
-        for (i=0; i<items.size(); i++) {
-            TRANSITIONER_ITEM& res_item = items[i];
-
-            // can delete canonical result outputs only if all successful
-            // results have been validated
+    double deferred_file_delete_time = 0;
+    if (wu_item.assimilate_state == ASSIMILATE_DONE) {
+        if (now >= (most_recently_returned + config.delete_delay)) {
+            // can delete input files if all results OVER
             //
-            if (((int)i == canonical_result_index) && !all_over_and_validated) {
-                continue;
-            }
-
-            if (!res_item.res_id) continue;
-            do_delete = false;
-            switch(res_item.res_outcome) {
-            case RESULT_OUTCOME_CLIENT_ERROR:
-                do_delete = true;
-                break;
-            case RESULT_OUTCOME_SUCCESS:
-                do_delete = (res_item.res_validate_state != VALIDATE_STATE_INIT);
-                break;
-            }
-            if (do_delete && res_item.res_file_delete_state == FILE_DELETE_INIT) {
-                log_messages.printf(MSG_NORMAL,
-                    "[WU#%d %s] [RESULT#%d %s] file_delete_state:=>READY\n",
-                    wu_item.id, wu_item.name, res_item.res_id, res_item.res_name
+            if (all_over_and_validated && wu_item.file_delete_state == FILE_DELETE_INIT) {
+                wu_item.file_delete_state = FILE_DELETE_READY;
+                log_messages.printf(MSG_DEBUG,
+                    "[WU#%d %s] ASSIMILATE_DONE: file_delete_state:=>READY\n",
+                    wu_item.id, wu_item.name
                 );
-                res_item.res_file_delete_state = FILE_DELETE_READY;
+            }
 
-                retval = transitioner.update_result(res_item);
-                if (retval) {
-                    log_messages.printf(MSG_CRITICAL,
-                        "[WU#%d %s] [RESULT#%d %s] result.update(): %s\n",
-                        wu_item.id, wu_item.name, res_item.res_id,
-                        res_item.res_name, boincerror(retval)
+            // output of error results can be deleted immediately;
+            // output of success results can be deleted if validated
+            //
+            for (i=0; i<items.size(); i++) {
+                TRANSITIONER_ITEM& res_item = items[i];
+
+                // can delete canonical result outputs only if all successful
+                // results have been validated
+                //
+                if (((int)i == canonical_result_index) && !all_over_and_validated) {
+                    continue;
+                }
+
+                if (!res_item.res_id) continue;
+                do_delete = false;
+                switch(res_item.res_outcome) {
+                case RESULT_OUTCOME_CLIENT_ERROR:
+                    do_delete = true;
+                    break;
+                case RESULT_OUTCOME_SUCCESS:
+                    do_delete = (res_item.res_validate_state != VALIDATE_STATE_INIT);
+                    break;
+                }
+                if (do_delete && res_item.res_file_delete_state == FILE_DELETE_INIT) {
+                    log_messages.printf(MSG_NORMAL,
+                        "[WU#%d %s] [RESULT#%d %s] file_delete_state:=>READY\n",
+                        wu_item.id, wu_item.name, res_item.res_id, res_item.res_name
                     );
+                    res_item.res_file_delete_state = FILE_DELETE_READY;
+
+                    retval = transitioner.update_result(res_item);
+                    if (retval) {
+                        log_messages.printf(MSG_CRITICAL,
+                            "[WU#%d %s] [RESULT#%d %s] result.update(): %s\n",
+                            wu_item.id, wu_item.name, res_item.res_id,
+                            res_item.res_name, boincerror(retval)
+                        );
+                    }
                 }
             }
+        } else {
+            deferred_file_delete_time = most_recently_returned + config.delete_delay;
+            log_messages.printf(MSG_DEBUG,
+                "[WU#%d %s] deferring file deletion for %.0f seconds\n",
+                wu_item.id,
+                wu_item.name,
+                deferred_file_delete_time - now
+            );
         }
-    } else if (wu_item.assimilate_state == ASSIMILATE_DONE) {
-        log_messages.printf(MSG_DEBUG,
-            "[WU#%d %s] not checking for results ready for delete because deferred delete time has not expired.  That will occur in %.0f seconds\n",
-            wu_item.id,
-            wu_item.name,
-            most_recently_returned + config.delete_delay_hours*3600-now
-        );
     }
 
-    // compute next transition time = minimum timeout of in-progress results
+    // Compute next transition time.
+    // This is the min of
+    // - timeouts of in-progress results
+    // - deferred file deletion time
+    // - safety net
+    //
+    // It is then adjusted to deal with transitioner congestion
     //
     if (wu_item.canonical_resultid || wu_item.error_mask) {
         wu_item.transition_time = INT_MAX;
     } else {
-        // If there is no canonical result and no WU-level error,
+        // Safety net: if there is no canonical result and no WU-level error,
         // make sure that the transitioner will process this WU again.
-        // In principle this is not needed, but it makes
-        // the BOINC back-end more robust.
+        // In principle this is not needed,
+        // but it makes the BOINC back-end more robust.
         //
         const int ten_days = 10*86400;
         int long_delay = (int)(1.5*wu_item.delay_bound);
         wu_item.transition_time = (long_delay > ten_days) ? long_delay : ten_days;
         wu_item.transition_time += time(0);
     }
-    int max_grace_or_delay_time = 0;  
+
+    // handle timeout of in-progress results
+    //
     for (i=0; i<items.size(); i++) {
         TRANSITIONER_ITEM& res_item = items[i];
         if (!res_item.res_id) continue;
         if (res_item.res_server_state == RESULT_SERVER_STATE_IN_PROGRESS) {
-            // In cases where a result has been RESENT to a host, the
-            // report deadline time may be EARLIER than
-            // sent_time + delay_bound
-            // because the sent_time has been updated with the later
-            // "resend" time.
-            //
-            // x = res_item.res_sent_time + wu_item.delay_bound;
             x = res_item.res_report_deadline;
             if (x < wu_item.transition_time) {
                 wu_item.transition_time = x;
             }
-        } else if (res_item.res_server_state == RESULT_SERVER_STATE_OVER) {
-            if (res_item.res_outcome == RESULT_OUTCOME_NO_REPLY) {
-                // Transition again after the grace period has expired
-                //
-                x = res_item.res_report_deadline + config.grace_period_hours*3600;
-                if (x > now) {
-                    if (x > max_grace_or_delay_time) {
-                        max_grace_or_delay_time = x;
-                    }
-                }
-            } else if (res_item.res_outcome == RESULT_OUTCOME_SUCCESS
-                || res_item.res_outcome == RESULT_OUTCOME_CLIENT_ERROR
-                || res_item.res_outcome == RESULT_OUTCOME_VALIDATE_ERROR
-            ) {
-                // Transition again after deferred delete period has expired
-                //
-                x = res_item.res_received_time + config.delete_delay_hours*3600;
-                if (x > now) {
-                    if (x > max_grace_or_delay_time && res_item.res_received_time > 0) {
-                        max_grace_or_delay_time = x;
-                    }
-                }
-            }
         }
     }
 
-    // If either of the grace period or delete delay is less than
-    // the next transition time then use that value
+    // handle deferred file deletion
     //
-    if (max_grace_or_delay_time < wu_item.transition_time
-        && max_grace_or_delay_time > now
-        && ninprogress == 0
+    if (deferred_file_delete_time
+        && deferred_file_delete_time < wu_item.transition_time
     ) {
-        wu_item.transition_time = max_grace_or_delay_time;
-        log_messages.printf(MSG_NORMAL,
-            "[WU#%d %s] Delaying transition due to grace period or delete delay.  New transition time: %d\n",
-            wu_item.id, wu_item.name, wu_item.transition_time
-        );
+        wu_item.transition_time = deferred_file_delete_time;
     }
-    
+
+    // Handle transitioner overload.
     // If transition time is in the past,
     // the system is bogged down and behind schedule.
     // Delay processing of the WU by an amount DOUBLE the amount we are behind,

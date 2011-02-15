@@ -177,7 +177,7 @@ bool resend_lost_work() {
                 );
             }
             result.report_deadline = time(0)-1;
-            retval = result.mark_as_sent(result.server_state);
+            retval = result.mark_as_sent(result.server_state, config.report_grace_period);
             if (retval) {
                 log_messages.printf(MSG_CRITICAL,
                     "resend_lost_work: can't update result deadline: %s\n",
@@ -186,7 +186,9 @@ bool resend_lost_work() {
                 continue;
             }
 
-            retval = update_wu_transition_time(wu, result.report_deadline);
+            retval = update_wu_transition_time(
+                wu, result.report_deadline+config.report_grace_period
+            );
             if (retval) {
                 log_messages.printf(MSG_CRITICAL,
                     "resend_lost_result: can't update WU transition time: %s\n",

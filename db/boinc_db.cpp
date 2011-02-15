@@ -914,15 +914,21 @@ void DB_RESULT::db_print_values(char* buf){
 // The "... and server_state=%d" is a safeguard against
 // the case where another scheduler tries to send this result at the same time
 //
-int DB_RESULT::mark_as_sent(int old_server_state) {
+int DB_RESULT::mark_as_sent(int old_server_state, double report_grace_period) {
     char query[MAX_QUERY_LEN];
     int retval;
 
     sprintf(query,
         "update result set server_state=%d, hostid=%d, userid=%d, sent_time=%d, report_deadline=%d, flops_estimate=%.15e, app_version_id=%d  where id=%d and server_state=%d",
-        server_state, hostid, userid, sent_time, report_deadline,
-        flops_estimate, app_version_id,
-        id, old_server_state
+        server_state,
+        hostid,
+        userid,
+        sent_time,
+        report_deadline + report_grace_period,
+        flops_estimate,
+        app_version_id,
+        id,
+        old_server_state
     );
     retval = db->do_query(query);
     if (retval) return retval;

@@ -73,6 +73,7 @@ int SCHED_CONFIG::parse(FILE* f) {
     XML_PARSER xp(&mf);
     int retval, itemp;
     regex_t re;
+    double x;
 
     mf.init_file(f);
 
@@ -154,8 +155,15 @@ int SCHED_CONFIG::parse(FILE* f) {
         if (xp.parse_int(tag, "reliable_priority_on_over", reliable_priority_on_over)) continue;
         if (xp.parse_int(tag, "reliable_priority_on_over_except_error", reliable_priority_on_over_except_error)) continue;
         if (xp.parse_int(tag, "reliable_on_priority", reliable_on_priority)) continue;
-        if (xp.parse_int(tag, "grace_period_hours", grace_period_hours)) continue;
-        if (xp.parse_int(tag, "delete_delay_hours", delete_delay_hours)) continue;
+        if (xp.parse_double(tag, "grace_period_hours", x)) {
+            report_grace_period = x*3600;
+            continue;
+        }
+        if (xp.parse_double(tag, "report_grace_period", report_grace_period)) continue;
+        if (xp.parse_double(tag, "delete_delay_hours", x)) {
+            delete_delay = x*3600;
+            continue;
+        }
         if (xp.parse_bool(tag, "distinct_beta_apps", distinct_beta_apps)) continue;
         if (xp.parse_bool(tag, "ended", ended)) continue;
         if (xp.parse_int(tag, "shmem_work_items", shmem_work_items)) continue;
