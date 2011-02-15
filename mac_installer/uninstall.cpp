@@ -208,10 +208,16 @@ static OSStatus DoUninstall(void) {
     system ("rm -rf \"/Applications/Progress\\ Thru\\ Processors\\ Desktop.app\"");
     system ("rm -rf \"/Library/Screen Savers/Progress\\ Thru\\ Processors.saver\"");
 
-
+    // Delete any receipt from an older installer (which had 
+    // a wrapper application around the installer package.)
     system ("rm -rf /Library/Receipts/GridRepublic.pkg");
     system ("rm -rf /Library/Receipts/Progress\\ Thru\\ Processors.pkg");
     system ("rm -rf /Library/Receipts/BOINC.pkg");
+
+    // Delete any receipt from a newer installer (a bare package.) 
+    system ("rm -rf /Library/Receipts/GridRepublic\\ Installer.pkg");
+    system ("rm -rf /Library/Receipts/Progress\\ Thru\\ Processors\\ Installer.pkg");
+    system ("rm -rf /Library/Receipts/BOINC\\ Installer.pkg");
 
     // Phase 5: Set BOINC Data owner and group to logged in user
     // We don't customize BOINC Data directory name for branding

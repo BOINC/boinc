@@ -164,21 +164,21 @@ int main(int argc, char *argv[])
     brandName[0] = "BOINC";
     saverName[0] = "BOINCSaver";
     saverNameEscaped[0] = "BOINCSaver";
-    receiptNameEscaped[0] = "/Library/Receipts/BOINC.pkg";
+    receiptNameEscaped[0] = "/Library/Receipts/BOINC\\ Installer.pkg";
 
     appName[1] = "/Applications/GridRepublic Desktop.app";
     appNameEscaped[1] = "/Applications/GridRepublic\\ Desktop.app";
     brandName[1] = "GridRepublic";
     saverName[1] = "GridRepublic";
     saverNameEscaped[1] = "GridRepublic";
-    receiptNameEscaped[1] = "/Library/Receipts/GridRepublic.pkg";
+    receiptNameEscaped[1] = "/Library/Receipts/GridRepublic\\ Installer.pkg";
 
     appName[2] = "/Applications/Progress Thru Processors Desktop.app";
     appNameEscaped[2] = "/Applications/Progress\\ Thru\\ Processors\\ Desktop.app";
     brandName[2] = "Progress Thru Processors";
     saverName[2] = "Progress Thru Processors";
     saverNameEscaped[2] = "Progress\\ Thru\\ Processors";
-    receiptNameEscaped[2] = "/Library/Receipts/Progress\\ Thru\\ Processors.pkg";
+    receiptNameEscaped[2] = "/Library/Receipts/Progress\\ Thru\\ Processors\\ Installer.pkg";
 
     ::GetCurrentProcess (&ourProcess);
 
