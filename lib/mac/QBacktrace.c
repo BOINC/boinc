@@ -109,6 +109,12 @@ First checked in.
 
 /////////////////////////////////////////////////////////////////
 
+// Compatibility with OS 10.5 SDK and later
+#if __DARWIN_UNIX03
+#undef __DARWIN_UNIX03
+#endif
+#define __DARWIN_UNIX03 0
+
 // Our Prototypes
 
 #include "QBacktrace.h"
@@ -139,6 +145,7 @@ First checked in.
 // We want both PowerPC and Intel thread state information.
 // By default, the system only gives us the one that's appropriate 
 // for our machine.  So we include both here.
+
 
 #include <mach/ppc/thread_status.h>
 #include <mach/i386/thread_status.h>

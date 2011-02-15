@@ -106,6 +106,12 @@ First checked in.
 
 /////////////////////////////////////////////////////////////////
 
+// Compatibility with OS 10.5 SDK and later
+#if __DARWIN_UNIX03
+#undef __DARWIN_UNIX03
+#endif
+#define __DARWIN_UNIX03 0
+
 #include "config.h"
 #include "QCrashReport.h"
 #include "mac_backtrace.h"

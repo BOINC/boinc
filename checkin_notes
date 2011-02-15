@@ -750,3 +750,11 @@ David  14 Feb 2011
     configure.ac
     client/
         hostinfo_unix.cpp
+
+Charlie 15 Feb 2011
+    Mac: Make backtrace compile properly with OS 10.5 and OS 10.6 SDKs.
+    
+    lib/
+        QBacktrace.c
+        QCrashReport.c
+ 
