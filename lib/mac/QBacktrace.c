@@ -110,9 +110,10 @@ First checked in.
 /////////////////////////////////////////////////////////////////
 
 // Compatibility with OS 10.5 SDK and later
-#if __DARWIN_UNIX03
+#ifdef __DARWIN_UNIX03
 #undef __DARWIN_UNIX03
 #endif
+#define _NONSTD_SOURCE 1
 #define __DARWIN_UNIX03 0
 
 // Our Prototypes
@@ -1581,14 +1582,14 @@ static int IntelHandleLeaf(QBTContext *context, QTMAddr *pcPtr, QTMAddr *framePt
 #ifdef __LP64__
         case x86_THREAD_STATE64:
 
-            pc = ((const x86_thread_state64_t *) context->threadState)->__rip;
-            sp = ((const x86_thread_state64_t *) context->threadState)->__rsp;
-            fp = ((const x86_thread_state64_t *) context->threadState)->__rbp;
+            pc = ((const x86_thread_state64_t *) context->threadState)->rip;
+            sp = ((const x86_thread_state64_t *) context->threadState)->rsp;
+            fp = ((const x86_thread_state64_t *) context->threadState)->rbp;
             break;
         case x86_THREAD_STATE32:
-            pc = ((const x86_thread_state32_t *) context->threadState)->__eip;
-            sp = ((const x86_thread_state32_t *) context->threadState)->__esp;
-            fp = ((const x86_thread_state32_t *) context->threadState)->__ebp;
+            pc = ((const x86_thread_state32_t *) context->threadState)->eip;
+            sp = ((const x86_thread_state32_t *) context->threadState)->esp;
+            fp = ((const x86_thread_state32_t *) context->threadState)->ebp;
             break;
 #else
         case x86_THREAD_STATE64:
@@ -2492,8 +2493,8 @@ extern int QBTCreateThreadStateSelf(
         state = (x86_thread_state64_t *) calloc(1, sizeof(*state));
         if (state != NULL) {
 #ifdef __LP64__
-            state->__rip = (uintptr_t) pc;
-            state->__rbp = (uintptr_t) fp;
+            state->rip = (uintptr_t) pc;
+            state->rbp = (uintptr_t) fp;
 #else
             state->rip = (uintptr_t) pc;
             state->rbp = (uintptr_t) fp;

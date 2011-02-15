@@ -107,9 +107,10 @@ First checked in.
 /////////////////////////////////////////////////////////////////
 
 // Compatibility with OS 10.5 SDK and later
-#if __DARWIN_UNIX03
+#ifdef __DARWIN_UNIX03
 #undef __DARWIN_UNIX03
 #endif
+#define _NONSTD_SOURCE 1
 #define __DARWIN_UNIX03 0
 
 #include "config.h"
@@ -988,10 +989,10 @@ Thread 0 crashed with PPC Thread State:
 
         regBase = (const unsigned int *) &state->r0;
 #else
-        fprintf(f, "  srr0: 0x%08x srr1: 0x%08x                vrsave: 0x%08x\n", state->__srr0, state->__srr1, state->__vrsave);
-        fprintf(f, "   xer: 0x%08x   lr: 0x%08x  ctr: 0x%08x   mq: 0x%08x\n", state->__xer, state->__lr, state->__ctr, state->__mq);
+        fprintf(f, "  srr0: 0x%08x srr1: 0x%08x                vrsave: 0x%08x\n", state->srr0, state->srr1, state->vrsave);
+        fprintf(f, "   xer: 0x%08x   lr: 0x%08x  ctr: 0x%08x   mq: 0x%08x\n", state->xer, state->lr, state->ctr, state->mq);
 
-        regBase = (const unsigned int *) &state->__r0;
+        regBase = (const unsigned int *) &state->r0;
 #endif
         for (reg = 0; reg < 32; reg++) {
             if ((reg % 4) == 0) {
@@ -1052,10 +1053,10 @@ Thread 0 crashed with PPC Thread State 64:
 
         regBase = (const unsigned long long *) &state->r0;
 #else
-        fprintf(f, "  srr0: 0x%016llx srr1: 0x%016llx                        vrsave: 0x%016x\n", state->__srr0, state->__srr1, state->__vrsave);
-        fprintf(f, "    cr: 0x%08x          xer: 0x%016llx   lr: 0x%016llx  ctr: 0x%016llx\n", state->__cr, state->__xer, state->__lr, state->__ctr);
+        fprintf(f, "  srr0: 0x%016llx srr1: 0x%016llx                        vrsave: 0x%016x\n", state->srr0, state->srr1, state->vrsave);
+        fprintf(f, "    cr: 0x%08x          xer: 0x%016llx   lr: 0x%016llx  ctr: 0x%016llx\n", state->cr, state->xer, state->lr, state->ctr);
 
-        regBase = (const unsigned long long *) &state->__r0;
+        regBase = (const unsigned long long *) &state->r0;
 #endif
         for (reg = 0; reg < 32; reg++) {
             if ((reg % 4) == 0) {
@@ -1113,7 +1114,7 @@ Thread 0 crashed with X86 Thread State (32-bit):
 #ifndef __LP64__
         regBase = (const unsigned int *) &state->eax;
 #else
-        regBase = (const unsigned int *) &state->__eax;
+        regBase = (const unsigned int *) &state->eax;
 #endif
         for (reg = 0; reg < 16; reg++) {
             if ((reg % 4) == 0) {
@@ -1169,7 +1170,7 @@ Unknown thread crashed with X86 Thread State (64-bit):
 #ifndef __LP64__
         regBase = (const unsigned long long *) &state->rax;
 #else
-        regBase = (const unsigned long long *) &state->__rax;
+        regBase = (const unsigned long long *) &state->rax;
 #endif
         for (reg = 0; reg < 18; reg++) {
             fprintf(f, "%5s: 0x%08llx", kRegNames[reg], regBase[reg]);
