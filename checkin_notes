@@ -831,3 +831,11 @@ David  16 Feb 2011
 
     client/
         client_types.cpp
+
+David  16 Feb 2011
+    - client: fix bug in mechanism that defers work request until
+        pending uploads are finished.
+        Due to a typo, this was not being done.
+
+    client/
+        cs_scheduler.cpp
