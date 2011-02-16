@@ -8616,3 +8616,10 @@ Charlie 15 Feb 2011
     mac_installer/
         PostInstall.cpp
         uninstall.cpp
+
+Charlie 16 Feb 2011
+    Mac: More thorough error checking and recovery in code which localizes 
+        items in Mac's BOINC menu.
+    
+        mac/
+            Mac_GUI.cpp
