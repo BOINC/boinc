@@ -812,3 +812,9 @@ Charlie 16 Feb 2011
     
         mac/
             Mac_GUI.cpp
+
+David  16 Feb 2011
+    - user web: fixes to private message functions
+
+    html/user/
+        pm.php

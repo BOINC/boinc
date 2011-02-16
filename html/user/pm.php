@@ -86,14 +86,14 @@ function do_inbox($logged_in_user) {
             <input type=hidden name=action value=delete_selected>
         ";
         echo form_tokens($logged_in_user->authenticator);
-        start_table("id=thread width=100%");
+        start_table();
         echo "<tr><th>".tra("Subject")."</th><th>".tra("Sender and date")."</th><th>".tra("Message")."</th></tr>\n";
         $i = 0;
         foreach($msgs as $msg) {
             $i++;
             $class = ($i%2)? "row0": "row1";
             echo "<tr class=$class>\n";
-            $checkbox = "<input type=\"checkbox\" name=\"pm_select\" value=\"".$msg->id."\">";
+            $checkbox = "<input type=checkbox name=pm_select_$msg->id>";
             if (!$msg->opened) {
                 $msg->update("opened=1");
             }
@@ -268,10 +268,14 @@ function do_confirmedblock($logged_in_user) {
 
 function do_delete_selected($logged_in_user) {
     check_tokens($logged_in_user->authenticator);
-    foreach ($_POST["pm_select"] as $id) {
-        $id = BoincDb::escape_string($id);
-        $msg = BoincPrivateMessage::lookup_id($id);
-        if ($msg && $msg->userid == $logged_in_user->id) {
+
+    $msgs = BoincPrivateMessage::enum(
+        "userid=$logged_in_user->id"
+    );
+    foreach($msgs as $msg) {
+        $x = "pm_select_$msg->id";
+        if ($_POST[$x]) {
+            $msg = BoincPrivateMessage::lookup_id($msg->id);
             $msg->delete();
         }
     }
