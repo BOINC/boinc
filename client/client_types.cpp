@@ -1969,6 +1969,9 @@ void RESULT::clear_uploaded_flags() {
 bool PROJECT::some_download_stalled() {
 #ifndef SIM
     unsigned int i;
+
+    if (!download_backoff.ok_to_transfer()) return true;
+
     for (i=0; i<gstate.pers_file_xfers->pers_file_xfers.size(); i++) {
         PERS_FILE_XFER* pfx = gstate.pers_file_xfers->pers_file_xfers[i];
         if (pfx->fip->project != this) continue;
@@ -1987,9 +1990,11 @@ bool RESULT::some_download_stalled() {
     unsigned int i;
     FILE_INFO* fip;
     PERS_FILE_XFER* pfx;
+    bool some_file_missing = false;
 
     for (i=0; i<wup->input_files.size(); i++) {
         fip = wup->input_files[i].file_info;
+        if (fip->status != FILE_PRESENT) some_file_missing = true;
         pfx = fip->pers_file_xfer;
         if (pfx && pfx->next_request_time > gstate.now) {
             return true;
@@ -1997,10 +2002,15 @@ bool RESULT::some_download_stalled() {
     }
     for (i=0; i<avp->app_files.size(); i++) {
         fip = avp->app_files[i].file_info;
+        if (fip->status != FILE_PRESENT) some_file_missing = true;
         pfx = fip->pers_file_xfer;
         if (pfx && pfx->next_request_time > gstate.now) {
             return true;
         }
+    }
+
+    if (some_file_missing && !project->download_backoff.ok_to_transfer()) {
+        return true;
     }
 #endif
     return false;
