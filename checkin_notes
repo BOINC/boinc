@@ -797,3 +797,11 @@ David  15 Feb 2011
 
     sched/
         file_upload_handler.cpp
+
+David  15 Feb 2011
+    - update_versions: if FILE.file_ref_info contains <open_name>,
+        use that instead of physical name.
+        This lets you have logical names with slashes
+
+    py/Boinc/
+        tools.py

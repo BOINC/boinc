@@ -238,15 +238,18 @@ def process_app_version(
     first = True
     for exec_file in exec_files + non_exec_files:
         file_base = os.path.basename(exec_file)
+        extra = file_ref_infos.get(exec_file)
         open_name = get_kludge_open_name(file_base)
+        if extra and '<open_name>' in extra:
+            open_name = False;
         url_filename = get_kludge_url_filename(file_base)
         xml_doc += '    <file_ref>\n'
         xml_doc += '       <file_name>%s</file_name>\n' % url_filename
         if first:
             xml_doc += '       <main_program/>\n'
         else:
-            xml_doc += '       <open_name>%s</open_name>\n' % open_name
-        extra = file_ref_infos.get(exec_file)
+            if open_name:
+                xml_doc += '       <open_name>%s</open_name>\n' % open_name
         if extra:
             if not extra.endswith('\n'):
                 extra += '\n'
