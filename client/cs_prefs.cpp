@@ -127,7 +127,7 @@ int CLIENT_STATE::check_suspend_processing() {
                 return SUSPEND_REASON_NO_RECENT_INPUT;
             }
         }
-        if (exclusive_app_running) {
+        if (now - exclusive_app_running < EXCLUSIVE_APP_WAIT) {
             return SUSPEND_REASON_EXCLUSIVE_APP_RUNNING;
         }
         if (global_prefs.suspend_cpu_usage && non_boinc_cpu_usage*100 > global_prefs.suspend_cpu_usage) {
@@ -159,7 +159,7 @@ int CLIENT_STATE::check_suspend_processing() {
             gpu_suspend_reason = SUSPEND_REASON_USER_REQ;
             break;
         default:
-            if (exclusive_gpu_app_running) {
+            if (now - exclusive_gpu_app_running < EXCLUSIVE_APP_WAIT) {
                 gpu_suspend_reason = SUSPEND_REASON_EXCLUSIVE_APP_RUNNING;
                 break;
             }

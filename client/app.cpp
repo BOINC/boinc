@@ -71,8 +71,8 @@
 using std::max;
 using std::min;
 
-bool exclusive_app_running;
-bool exclusive_gpu_app_running;
+double exclusive_app_running = 0;
+double exclusive_gpu_app_running = 0;
 int gpu_suspend_reason;
 double non_boinc_cpu_usage;
 
@@ -330,22 +330,22 @@ void ACTIVE_TASK_SET::get_memory_usage() {
         }
     }
 
-    exclusive_app_running = false;
-    bool old_egar = exclusive_gpu_app_running;
-    exclusive_gpu_app_running = false;
+    exclusive_app_running = 0;
+    double old_egar = exclusive_gpu_app_running;
+    exclusive_gpu_app_running = 0;
     for (i=0; i<config.exclusive_apps.size(); i++) {
         if (app_running(piv, config.exclusive_apps[i].c_str())) {
-            exclusive_app_running = true;
+            exclusive_app_running = gstate.now;
             break;
         }
     }
     for (i=0; i<config.exclusive_gpu_apps.size(); i++) {
         if (app_running(piv, config.exclusive_gpu_apps[i].c_str())) {
-            exclusive_gpu_app_running = true;
+            exclusive_gpu_app_running = gstate.now;
             break;
         }
     }
-    if (old_egar != exclusive_gpu_app_running) {
+    if ((old_egar==0) != (exclusive_gpu_app_running==0)) {
         gstate.request_schedule_cpus("Exclusive GPU app status changed");
     }
 

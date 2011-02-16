@@ -280,8 +280,8 @@ public:
     int parse(MIOFILE&);
 };
 
-extern bool exclusive_app_running;
-extern bool exclusive_gpu_app_running;
+extern double exclusive_app_running;    // last time an exclusive app was running
+extern double exclusive_gpu_app_running;
 extern int gpu_suspend_reason;
 extern double non_boinc_cpu_usage;
 

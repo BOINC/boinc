@@ -839,3 +839,13 @@ David  16 Feb 2011
 
     client/
         cs_scheduler.cpp
+
+David  16 Feb 2011
+    - client: when exclusive app mechanism is used (CPU or GPU)
+        wait for 30 secs after excl app exits
+        before restarting computation
+
+    client/
+        app.cpp,h
+        client_state.h
+        cs_prefs.cpp

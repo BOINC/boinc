@@ -557,6 +557,10 @@ extern void print_suspend_tasks_message(int);
 
 //////// MISC
 
+#define EXCLUSIVE_APP_WAIT   30
+    // if "exclusive app" feature used,
+    // wait this long after app exits before restarting jobs
+
 #define DAILY_XFER_HISTORY_PERIOD   60
 
 #define MAX_STD   (86400)
