@@ -92,7 +92,10 @@ void MacLocalizeBOINCMenu() {
         strlcpy(originalCharStr, originalText.utf8_str(), sizeof(originalCharStr));
         if (originalCharStr[0]) {
             localizedText = CFStringCreateWithCString(NULL, originalCharStr, kCFStringEncodingUTF8);
-            SetMenuItemTextWithCFString(BOINCMenu, itemIndex, localizedText);
+            if (localizedText) {
+                SetMenuItemTextWithCFString(BOINCMenu, itemIndex, localizedText);
+                CFRelease( localizedText );
+            }
         }
     }
     
@@ -103,7 +106,10 @@ void MacLocalizeBOINCMenu() {
         strlcpy(originalCharStr, originalText.utf8_str(), sizeof(originalCharStr));
         if (originalCharStr[0]) {
             localizedText = CFStringCreateWithCString(NULL, originalCharStr, kCFStringEncodingUTF8);
-            SetMenuItemTextWithCFString(BOINCMenu, itemIndex, localizedText);
+            if (localizedText) {
+                SetMenuItemTextWithCFString(BOINCMenu, itemIndex, localizedText);
+                CFRelease( localizedText );
+            }
         }
     }
     
@@ -113,14 +119,17 @@ void MacLocalizeBOINCMenu() {
         if (originalCharStr[0]) {
         localizedText = CFStringCreateWithCString(NULL, originalCharStr, kCFStringEncodingUTF8);
         count = CountMenuItems(BOINCMenu);
-        for (itemIndex=1; itemIndex<=count; ++itemIndex) {
-            err = CopyMenuItemTextAsCFString(BOINCMenu, itemIndex, &menuItemString);
-            if (err == noErr) {
-                if (CFStringCompare(menuItemString, CFSTR("Services"), 0) == kCFCompareEqualTo) {
-                    SetMenuItemTextWithCFString(BOINCMenu, itemIndex, localizedText);
-                    break;
+        if (localizedText) {
+            for (itemIndex=1; itemIndex<=count; ++itemIndex) {
+                err = CopyMenuItemTextAsCFString(BOINCMenu, itemIndex, &menuItemString);
+                if (err == noErr) {
+                    if (CFStringCompare(menuItemString, CFSTR("Services"), 0) == kCFCompareEqualTo) {
+                        SetMenuItemTextWithCFString(BOINCMenu, itemIndex, localizedText);
+                        break;
+                    }
                 }
             }
+            CFRelease( localizedText );
         }
     }
     
@@ -131,7 +140,10 @@ void MacLocalizeBOINCMenu() {
         strlcpy(originalCharStr, originalText.utf8_str(), sizeof(originalCharStr));
         if (originalCharStr[0]) {
             localizedText = CFStringCreateWithCString(NULL, originalCharStr, kCFStringEncodingUTF8);
-            SetMenuItemTextWithCFString(BOINCMenu, itemIndex, localizedText);
+            if (localizedText) {
+                SetMenuItemTextWithCFString(BOINCMenu, itemIndex, localizedText);
+                CFRelease( localizedText );
+            }
         }
     }
 
@@ -142,7 +154,10 @@ void MacLocalizeBOINCMenu() {
         strlcpy(originalCharStr, originalText.utf8_str(), sizeof(originalCharStr));
         if (originalCharStr[0]) {
             localizedText = CFStringCreateWithCString(NULL, originalCharStr, kCFStringEncodingUTF8);
-            SetMenuItemTextWithCFString(BOINCMenu, itemIndex, localizedText);
+            if (localizedText) {
+                SetMenuItemTextWithCFString(BOINCMenu, itemIndex, localizedText);
+                CFRelease( localizedText );
+            }
         }
     }
     
@@ -153,7 +168,10 @@ void MacLocalizeBOINCMenu() {
         strlcpy(originalCharStr, originalText.utf8_str(), sizeof(originalCharStr));
         if (originalCharStr[0]) {
             localizedText = CFStringCreateWithCString(NULL, originalCharStr, kCFStringEncodingUTF8);
-            SetMenuItemTextWithCFString(BOINCMenu, itemIndex, localizedText);
+            if (localizedText) {
+                SetMenuItemTextWithCFString(BOINCMenu, itemIndex, localizedText);
+                CFRelease( localizedText );
+            }
         }
     }
     
@@ -164,7 +182,10 @@ void MacLocalizeBOINCMenu() {
         strlcpy(originalCharStr, originalText.utf8_str(), sizeof(originalCharStr));
         if (originalCharStr[0]) {
             localizedText = CFStringCreateWithCString(NULL, originalCharStr, kCFStringEncodingUTF8);
-            SetMenuItemTextWithCFString(BOINCMenu, itemIndex, localizedText);
+            if (localizedText) {
+                SetMenuItemTextWithCFString(BOINCMenu, itemIndex, localizedText);
+                CFRelease( localizedText );
+            }
         }
     }
 }
