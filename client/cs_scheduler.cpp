@@ -451,8 +451,8 @@ bool CLIENT_STATE::scheduler_rpc_poll() {
                     "[wfd] deferring work fetch; upload active, started %d sec ago",
                     (int)(gstate.now - p->last_upload_start)
                 );
-                return false;
             }
+            return false;
         }
         scheduler_op->init_op_project(p, RPC_REASON_NEED_WORK);
         return true;
