@@ -850,7 +850,7 @@ David  16 Feb 2011
         client_state.h
         cs_prefs.cpp
 
-Charlie 16 Feb 2011
+Charlie 17 Feb 2011
     Mac: Additional error checking and release created objects in code 
         which localizes items in Mac's BOINC menu.
     
