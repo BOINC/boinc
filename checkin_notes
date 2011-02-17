@@ -8642,3 +8642,9 @@ Charlie 17 Feb 2011
     mac_installer/
         make_GridRepublic.sh
         make_ProgThruProc.sh
+
+David  10 Feb 2011
+    - manager: project properties: if no venue, show "default"
+
+    clientgui/
+        DlgItemProperties.cpp
