@@ -8648,3 +8648,16 @@ David  10 Feb 2011
 
     clientgui/
         DlgItemProperties.cpp
+
+David  16 Feb 2011
+    - client: fix work-fetch bug.
+        The change in [21877] caused tasks in "download stalled" state
+        to be skipped in RR simulation,
+        and therefore to not be counted in the work buffer.
+        However, "download stalled" was not being evaluated correctly;
+        it was considering only per-file backoff, not project-wide backoff.
+    - client: another work-fetch bug:
+        don't fetch work from a project in project-wide download backoff.
+
+    client/
+        client_types.cpp
