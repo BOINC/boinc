@@ -856,3 +856,15 @@ Charlie 17 Feb 2011
     
         mac/
             Mac_GUI.cpp
+
+Charlie 17 Feb 2011
+    - Mac installer: update branded build scripts to eliminate wrapper 
+        application around install package (as was done for BOINC 6.12.7).
+    
+    clientgui/
+        res/
+            MacPTPPkgIcon.zip (new)
+            MacGRPkgIcon.zip (new)     
+    mac_installer/
+        make_GridRepublic.sh
+        make_ProgThruProc.sh
