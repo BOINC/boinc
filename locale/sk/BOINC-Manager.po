@@ -7,13 +7,13 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 5.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-02-01 21:46-0500\n"
-"PO-Revision-Date: 2010-11-20 16:47+0200\n"
+"PO-Revision-Date: 2011-02-09 23:14+0200\n"
 "Last-Translator: aceman <acelists@atlas.sk>\n"
 "Language-Team: BOINC SK\n"
+"Language: sk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: sk\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 "X-Generator: Pootle 2.1.1\n"
 "X-Poedit-SearchPath-1: clientgui/msw\n"
@@ -23,8 +23,6 @@ msgstr ""
 "X-Poedit-SourceCharset: utf-8\n"
 "X-Poedit-Basepath: C:\\Src\\BOINCSVN\\trunk\\boinc\n"
 "X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
-"X-Poedit-Country: UNITED STATES\n"
-"X-Poedit-Language: English\n"
 
 #: clientgui/AccountInfoPage.cpp:386
 msgid "Identify your account "
@@ -134,9 +132,8 @@ msgid "Update account manager"
 msgstr "Aktualizovať správcu konta"
 
 #: clientgui/AccountInfoPage.cpp:575
-#, fuzzy
 msgid "Use account manager"
-msgstr "Pridať správcu konta"
+msgstr "Použiť správcu konta"
 
 #: clientgui/AccountInfoPage.cpp:583
 #, c-format
@@ -275,12 +272,11 @@ msgstr "Zobraziť jednoduché grafické rozhranie."
 
 #: clientgui/AdvancedFrame.cpp:415
 msgid "New Simple View..."
-msgstr ""
+msgstr "Nové jednoduché zobrazenie..."
 
 #: clientgui/AdvancedFrame.cpp:416
-#, fuzzy
 msgid "Display the new simple graphical interface."
-msgstr "Zobraziť jednoduché grafické rozhranie."
+msgstr "Zobraziť nové jednoduché grafické rozhranie."
 
 #: clientgui/AdvancedFrame.cpp:426
 msgid "&Add project or account manager..."
@@ -1577,7 +1573,7 @@ msgstr "Zatvoriť"
 #: clientgui/DlgEventLog.cpp:307
 #, c-format
 msgid "Get help with %s"
-msgstr ""
+msgstr "Získať pomoc s %s"
 
 #: clientgui/DlgEventLog.cpp:321
 msgid "Show all messages"
@@ -1856,7 +1852,7 @@ msgstr "Odhadovaná veľkosť úlohy"
 
 #: clientgui/DlgItemProperties.cpp:312
 msgid "Max RAM usage"
-msgstr ""
+msgstr "Max.použitá pamäť"
 
 #: clientgui/DlgItemProperties.cpp:315
 msgid "CPU time at last checkpoint"
@@ -2622,22 +2618,20 @@ msgid "Advanced View...\tCtrl+Shift+A"
 msgstr "Pokročilé zobrazenie...\t Ctrl+Shift+A"
 
 #: clientgui/sg_BoincSimpleFrame.cpp:121
-#, fuzzy
 msgid "Display the advanced graphical interface."
-msgstr "Zobraziť jednoduché grafické rozhranie."
+msgstr "Zobraziť pokročilé grafické rozhranie."
 
 #: clientgui/sg_BoincSimpleFrame.cpp:126
 msgid "Old Simple View..."
-msgstr ""
+msgstr "Staré jednoduché zobrazenie..."
 
 #: clientgui/sg_BoincSimpleFrame.cpp:127
-#, fuzzy
 msgid "Display the old simple graphical interface."
-msgstr "Zobraziť jednoduché grafické rozhranie."
+msgstr "Zobraziť staré jednoduché grafické rozhranie."
 
 #: clientgui/sg_BoincSimpleFrame.cpp:138
 msgid "Manager Settings..."
-msgstr ""
+msgstr "Nastavenia Správcu..."
 
 #: clientgui/sg_BoincSimpleFrame.cpp:166 clientgui/sg_BoincSimpleGUI.cpp:147
 #, c-format
@@ -2645,9 +2639,8 @@ msgid "&%s"
 msgstr "&%s"
 
 #: clientgui/sg_BoincSimpleFrame.cpp:596
-#, fuzzy
 msgid "Pause"
-msgstr "Pozastavené"
+msgstr "Pozastaviť"
 
 #: clientgui/sg_BoincSimpleFrame.cpp:597
 msgid "Resume"
@@ -2667,7 +2660,7 @@ msgstr "Oznamy"
 
 #: clientgui/sg_BoincSimpleFrame.cpp:617
 msgid "Open a window to view notices from projects or BOINC"
-msgstr ""
+msgstr "Otvoriť okno zobrazujúce oznamy z projektov a BOINC"
 
 #: clientgui/sg_BoincSimpleGUI.cpp:120
 msgid "Display the advanced (accessible) graphical interface."
@@ -3058,17 +3051,16 @@ msgid "Remove Project"
 msgstr "Odstrániť projekt"
 
 #: clientgui/sg_ProjectPanel.cpp:70
-#, fuzzy
 msgid "Add Project"
-msgstr "Pripojiť sa k projektu"
+msgstr "Pridať projekt"
 
 #: clientgui/sg_ProjectPanel.cpp:71
 msgid "Synchronize"
-msgstr ""
+msgstr "Sychronizovať"
 
 #: clientgui/sg_ProjectPanel.cpp:72
 msgid "My total work done this Project"
-msgstr ""
+msgstr "Moja celková práca pre tento projekt"
 
 #: clientgui/sg_ProjectPanel.cpp:75 clientgui/sg_ProjectsComponent.cpp:123
 msgid "Synchronize projects with account manager system"
@@ -3080,31 +3072,30 @@ msgstr "Moje projekty:"
 
 #: clientgui/sg_ProjectPanel.cpp:123
 msgid "Select a project to access with the controls below"
-msgstr ""
+msgstr "Zvoľte projekt na zobrazenie s ovládačmi dolu"
 
 #: clientgui/sg_ProjectPanel.cpp:133 clientgui/sg_ProjectPanel.cpp:252
 #, c-format
 msgid "%s: %0.2f"
-msgstr ""
+msgstr "%s: %0.2f"
 
 #: clientgui/sg_ProjectPanel.cpp:145
-#, fuzzy
 msgid "Project Web Sites"
-msgstr "Webstránka projektu"
+msgstr "Webstránky projektu"
 
 #: clientgui/sg_ProjectPanel.cpp:149
 msgid "Project Commands"
-msgstr ""
+msgstr "Príkazy projektu"
 
 #: clientgui/sg_ProjectPanel.cpp:257
 #, c-format
 msgid "Pop up a menu of websites for project %s"
-msgstr ""
+msgstr "Zobraziť menu webových stránok projektu %s"
 
 #: clientgui/sg_ProjectPanel.cpp:259
 #, c-format
 msgid "Pop up a menu of commands to apply to project %s"
-msgstr ""
+msgstr "Zobraziť menu príkazov pre projekt %s"
 
 #: clientgui/sg_ProjectsComponent.cpp:196
 #: clientgui/sg_ProjectsComponent.cpp:207
@@ -3157,13 +3148,13 @@ msgid "Suspend work for this task."
 msgstr "Pozastaviť prácu na tejto úlohe."
 
 #: clientgui/sg_TaskCommandPopup.cpp:240
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Are you sure you want to abort this task '%s'?\n"
 "(Progress: %.1lf%%, Status: %s)"
 msgstr ""
 "Ste si istý že chcete zrušiť túto úlohu '%s'?\n"
-"(Priebeh: %s %%, Stav: %s)"
+"(Priebeh: %.1lf%%, Stav: %s)"
 
 #: clientgui/sg_TaskCommandPopup.cpp:245
 msgid "Abort task"
@@ -3171,64 +3162,64 @@ msgstr "Zrušiť úlohu"
 
 #: clientgui/sg_TaskPanel.cpp:215
 msgid "Not available"
-msgstr ""
+msgstr "Nie je k dispozícii"
 
 #: clientgui/sg_TaskPanel.cpp:226
 msgid "My Tasks:"
-msgstr ""
+msgstr "Moje úlohy:"
 
 #: clientgui/sg_TaskPanel.cpp:243
 msgid "Select a task to access"
-msgstr ""
+msgstr "Zvoliť úlohu"
 
 #: clientgui/sg_TaskPanel.cpp:254
 msgid "From Project:"
-msgstr ""
+msgstr "Z projektu:"
 
 #: clientgui/sg_TaskPanel.cpp:311
 msgid "This task's progress"
-msgstr ""
+msgstr "Priebeh tejto úlohy"
 
 #: clientgui/sg_TaskPanel.cpp:332
 msgid "Task Commands"
-msgstr ""
+msgstr "Príkazy pre úlohu"
 
 #: clientgui/sg_TaskPanel.cpp:333
 msgid "Pop up a menu of commands to apply to this task"
-msgstr ""
+msgstr "Zobraziť menu príkazov pre túto úlohu"
 
 #: clientgui/sg_TaskPanel.cpp:448
-#, fuzzy, c-format
+#, c-format
 msgid "Application: %s"
-msgstr "Aplikácia: "
+msgstr "Aplikácia: %s"
 
 #: clientgui/sg_TaskPanel.cpp:472
 #, c-format
 msgid "%d.%d%%"
-msgstr ""
+msgstr "%d.%d%%"
 
 #: clientgui/sg_TaskPanel.cpp:480
 msgid "Application: Not available"
-msgstr ""
+msgstr "Aplikácia: Nie je k dispozícii"
 
 #: clientgui/sg_TaskPanel.cpp:588
 msgid "Not Available"
-msgstr ""
+msgstr "Nie je k dispozícii"
 
 #: clientgui/sg_TaskPanel.cpp:603
-#, fuzzy, c-format
+#, c-format
 msgid "Elapsed Time: %s"
-msgstr "Uplynutý čas: "
+msgstr "Uplynutý čas: %s"
 
 #: clientgui/sg_TaskPanel.cpp:617
-#, fuzzy, c-format
+#, c-format
 msgid "Time Remaining: %s"
-msgstr "Zostávajúci čas: "
+msgstr "Zostávajúci čas: %s"
 
 #: clientgui/sg_TaskPanel.cpp:632
 #, c-format
 msgid "Status: %s"
-msgstr ""
+msgstr "Stav: %s"
 
 #: clientgui/sg_ViewTabPage.cpp:140 clientgui/sg_ViewTabPage.cpp:280
 #, c-format
@@ -4033,31 +4024,30 @@ msgid "row %d of %d; "
 msgstr "riadok %d z %d; "
 
 #: clientgui/mac/Mac_GUI.cpp:91
-#, fuzzy
 msgid "Preferences…"
-msgstr "Preferencie"
+msgstr "Preferencie…"
 
 #: clientgui/mac/Mac_GUI.cpp:95
 msgid "Services"
-msgstr ""
+msgstr "Služby"
 
 #: clientgui/mac/Mac_GUI.cpp:109
 #, c-format
 msgid "Hide %s"
-msgstr ""
+msgstr "Skryť %s"
 
 #: clientgui/mac/Mac_GUI.cpp:114
 msgid "Hide Others"
-msgstr ""
+msgstr "Skryť ostatné"
 
 #: clientgui/mac/Mac_GUI.cpp:119
 msgid "Show All"
-msgstr ""
+msgstr "Zobraziť všetky"
 
 #: clientgui/mac/Mac_GUI.cpp:124
-#, fuzzy, c-format
+#, c-format
 msgid "Quit %s"
-msgstr "&Opustiť %s"
+msgstr "Ukončiť %s"
 
 #: clientgui/DlgAdvPreferences.h:29
 msgid "specify work start and stop hours in format HH:MM-HH:MM"

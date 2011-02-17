@@ -7,13 +7,13 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2010-08-10 12:43 PDT\n"
-"PO-Revision-Date: 2010-10-20 02:05+0200\n"
+"PO-Revision-Date: 2011-02-09 04:03+0200\n"
 "Last-Translator: Xavier <xmormur@telepolis.com>\n"
 "Language-Team: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
+"Language: ca\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: ca\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Pootle 2.1.1\n"
 "X-Poedit-SearchPath-0: doc\n"
@@ -355,7 +355,7 @@ msgstr "i"
 
 #: index.php:164
 msgid "Help wanted"
-msgstr "Es busca ajuda"
+msgstr "Cercar ajuda"
 
 #: index.php:166
 msgid "Programming"
@@ -379,7 +379,7 @@ msgstr "Desenvolupament de programari"
 
 #: index.php:173
 msgid "APIs for add-on software"
-msgstr "API's per a complaments de programari"
+msgstr "API's per a complements de programari"
 
 #: index.php:207
 msgid "Browser default"

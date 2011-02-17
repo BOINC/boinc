@@ -7,13 +7,13 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-02-01 21:46-0500\n"
-"PO-Revision-Date: 2011-01-30 11:51+0200\n"
+"PO-Revision-Date: 2011-02-14 23:24+0200\n"
 "Last-Translator: Sami Nordlund <sami.nordlund@kolumbus.fi>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: fi\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: fi\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Pootle 2.1.1\n"
 "X-Poedit-SearchPath-1: clientgui/msw\n"
@@ -23,8 +23,6 @@ msgstr ""
 "X-Poedit-SourceCharset: utf-8\n"
 "X-Poedit-Basepath: C:\\Src\\BOINCSVN\\trunk\\boinc\n"
 "X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
-"X-Poedit-Country: UNITED STATES\n"
-"X-Poedit-Language: English\n"
 
 #: clientgui/AccountInfoPage.cpp:386
 msgid "Identify your account "
@@ -135,9 +133,8 @@ msgid "Update account manager"
 msgstr "Päivitä tilihallitsija"
 
 #: clientgui/AccountInfoPage.cpp:575
-#, fuzzy
 msgid "Use account manager"
-msgstr "Lisää tilihallitsija"
+msgstr "Käytä tilihallitsijaa"
 
 #: clientgui/AccountInfoPage.cpp:583
 #, c-format
@@ -1475,7 +1472,7 @@ msgstr "Paketin tarkistuspiste levylle joka"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:620
 msgid "seconds"
-msgstr "sekunti"
+msgstr "sekuntia"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:630
 #, no-c-format
@@ -1711,9 +1708,8 @@ msgid "Added via account manager"
 msgstr "Lisätty tilihallitsijan kautta"
 
 #: clientgui/DlgItemProperties.cpp:221
-#, fuzzy
 msgid "Remove when tasks done"
-msgstr "Poistuu paketin valmistuttua"
+msgstr "Poista pakettien valmistuttua"
 
 #: clientgui/DlgItemProperties.cpp:222
 msgid "Ended"
@@ -1842,7 +1838,7 @@ msgstr "Arvioitu työpaketin koko"
 
 #: clientgui/DlgItemProperties.cpp:312
 msgid "Max RAM usage"
-msgstr ""
+msgstr "Suurin keskusmuistin käyttö"
 
 #: clientgui/DlgItemProperties.cpp:315
 msgid "CPU time at last checkpoint"
@@ -3040,13 +3036,12 @@ msgid "Remove Project"
 msgstr "Poista projekti"
 
 #: clientgui/sg_ProjectPanel.cpp:70
-#, fuzzy
 msgid "Add Project"
-msgstr "Liity projektiin"
+msgstr "Lisää projekti"
 
 #: clientgui/sg_ProjectPanel.cpp:71
 msgid "Synchronize"
-msgstr ""
+msgstr "Synkronisoi"
 
 #: clientgui/sg_ProjectPanel.cpp:72
 msgid "My total work done this Project"
@@ -3076,7 +3071,7 @@ msgstr "Projektin nettisivu"
 
 #: clientgui/sg_ProjectPanel.cpp:149
 msgid "Project Commands"
-msgstr ""
+msgstr "Projektin komennot"
 
 #: clientgui/sg_ProjectPanel.cpp:257
 #, c-format
@@ -3154,7 +3149,7 @@ msgstr "Hylkää paketti"
 
 #: clientgui/sg_TaskPanel.cpp:215
 msgid "Not available"
-msgstr ""
+msgstr "Ei saatavissa"
 
 #: clientgui/sg_TaskPanel.cpp:226
 msgid "My Tasks:"
@@ -3166,7 +3161,7 @@ msgstr ""
 
 #: clientgui/sg_TaskPanel.cpp:254
 msgid "From Project:"
-msgstr ""
+msgstr "Projektilta:"
 
 #: clientgui/sg_TaskPanel.cpp:311
 msgid "This task's progress"
@@ -3181,9 +3176,9 @@ msgid "Pop up a menu of commands to apply to this task"
 msgstr ""
 
 #: clientgui/sg_TaskPanel.cpp:448
-#, fuzzy, c-format
+#, c-format
 msgid "Application: %s"
-msgstr "Sovellus:"
+msgstr "Sovellus: %s"
 
 #: clientgui/sg_TaskPanel.cpp:472
 #, c-format
@@ -3192,26 +3187,26 @@ msgstr ""
 
 #: clientgui/sg_TaskPanel.cpp:480
 msgid "Application: Not available"
-msgstr ""
+msgstr "Sovellus: Ei saatavilla"
 
 #: clientgui/sg_TaskPanel.cpp:588
 msgid "Not Available"
-msgstr ""
+msgstr "Ei saatavilla"
 
 #: clientgui/sg_TaskPanel.cpp:603
-#, fuzzy, c-format
+#, c-format
 msgid "Elapsed Time: %s"
-msgstr "Kulunut aika:"
+msgstr "Kulunut aika: %s"
 
 #: clientgui/sg_TaskPanel.cpp:617
-#, fuzzy, c-format
+#, c-format
 msgid "Time Remaining: %s"
-msgstr "Aikaa jäljellä:"
+msgstr "Aikaa jäljellä: %s"
 
 #: clientgui/sg_TaskPanel.cpp:632
-#, c-format
+#, c-format, fuzzy
 msgid "Status: %s"
-msgstr ""
+msgstr "Tila: %s"
 
 #: clientgui/sg_ViewTabPage.cpp:140 clientgui/sg_ViewTabPage.cpp:280
 #, c-format

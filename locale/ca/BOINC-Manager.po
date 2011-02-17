@@ -7,13 +7,13 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 6.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-02-01 21:46-0500\n"
-"PO-Revision-Date: 2010-11-21 14:05+0200\n"
+"PO-Revision-Date: 2011-02-09 04:05+0200\n"
 "Last-Translator: Xavier <xmormur@telepolis.com>\n"
 "Language-Team: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
+"Language: ca\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: ca\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Pootle 2.1.1\n"
 "X-Poedit-SearchPath-1: clientgui/msw\n"
@@ -23,8 +23,6 @@ msgstr ""
 "X-Poedit-SourceCharset: utf-8\n"
 "X-Poedit-Basepath: C:\\Src\\BOINCSVN\\trunk\\boinc\n"
 "X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
-"X-Poedit-Country: UNITED STATES\n"
-"X-Poedit-Language: English\n"
 
 #: clientgui/AccountInfoPage.cpp:386
 msgid "Identify your account "
@@ -135,9 +133,8 @@ msgid "Update account manager"
 msgstr "Actualitzar el administrador de comptes"
 
 #: clientgui/AccountInfoPage.cpp:575
-#, fuzzy
 msgid "Use account manager"
-msgstr "Afegeix un compte d'administrador"
+msgstr "Utilitzar l'administrador de comptes"
 
 #: clientgui/AccountInfoPage.cpp:583
 #, c-format
@@ -280,12 +277,11 @@ msgstr "Mostrar la interfície gràfica senzilla."
 
 #: clientgui/AdvancedFrame.cpp:415
 msgid "New Simple View..."
-msgstr ""
+msgstr "Nova vista senzilla..."
 
 #: clientgui/AdvancedFrame.cpp:416
-#, fuzzy
 msgid "Display the new simple graphical interface."
-msgstr "Mostrar la interfície gràfica senzilla."
+msgstr "Mostrar la nova interfície gràfica senzilla."
 
 #: clientgui/AdvancedFrame.cpp:426
 msgid "&Add project or account manager..."
@@ -1588,7 +1584,7 @@ msgstr "Tancar"
 #: clientgui/DlgEventLog.cpp:307
 #, c-format
 msgid "Get help with %s"
-msgstr ""
+msgstr "Obtenir ajuda amb %s"
 
 #: clientgui/DlgEventLog.cpp:321
 msgid "Show all messages"
@@ -1870,7 +1866,7 @@ msgstr "Mida estimada de la tasca"
 
 #: clientgui/DlgItemProperties.cpp:312
 msgid "Max RAM usage"
-msgstr ""
+msgstr "Ús màxim de RAM"
 
 #: clientgui/DlgItemProperties.cpp:315
 msgid "CPU time at last checkpoint"
@@ -2644,22 +2640,20 @@ msgid "Advanced View...\tCtrl+Shift+A"
 msgstr "Vista Avançada...\tCTRL+SHIFT+A"
 
 #: clientgui/sg_BoincSimpleFrame.cpp:121
-#, fuzzy
 msgid "Display the advanced graphical interface."
-msgstr "Mostrar la interfície gràfica senzilla."
+msgstr "Mostrar la interfície gràfica avançada."
 
 #: clientgui/sg_BoincSimpleFrame.cpp:126
 msgid "Old Simple View..."
-msgstr ""
+msgstr "Vista senzilla anterior..."
 
 #: clientgui/sg_BoincSimpleFrame.cpp:127
-#, fuzzy
 msgid "Display the old simple graphical interface."
-msgstr "Mostrar la interfície gràfica senzilla."
+msgstr "Mostrar la interfície gràfica senzilla anterior."
 
 #: clientgui/sg_BoincSimpleFrame.cpp:138
 msgid "Manager Settings..."
-msgstr ""
+msgstr "Gestor de la Configuració..."
 
 #: clientgui/sg_BoincSimpleFrame.cpp:166 clientgui/sg_BoincSimpleGUI.cpp:147
 #, c-format
@@ -2667,9 +2661,8 @@ msgid "&%s"
 msgstr "&%s"
 
 #: clientgui/sg_BoincSimpleFrame.cpp:596
-#, fuzzy
 msgid "Pause"
-msgstr "En pausa"
+msgstr "Pausa"
 
 #: clientgui/sg_BoincSimpleFrame.cpp:597
 msgid "Resume"
@@ -2689,7 +2682,7 @@ msgstr "Notícies"
 
 #: clientgui/sg_BoincSimpleFrame.cpp:617
 msgid "Open a window to view notices from projects or BOINC"
-msgstr ""
+msgstr "Obrir una finestra per veure les notícies del's projectes o BOINC"
 
 #: clientgui/sg_BoincSimpleGUI.cpp:120
 msgid "Display the advanced (accessible) graphical interface."
@@ -3080,17 +3073,16 @@ msgid "Remove Project"
 msgstr "Eliminar el Projecte"
 
 #: clientgui/sg_ProjectPanel.cpp:70
-#, fuzzy
 msgid "Add Project"
-msgstr "Afegir un projecte"
+msgstr "Afegeix un projecte"
 
 #: clientgui/sg_ProjectPanel.cpp:71
 msgid "Synchronize"
-msgstr ""
+msgstr "Sincronitzar"
 
 #: clientgui/sg_ProjectPanel.cpp:72
 msgid "My total work done this Project"
-msgstr ""
+msgstr "El meu treball total realitzat aquest projecte"
 
 #: clientgui/sg_ProjectPanel.cpp:75 clientgui/sg_ProjectsComponent.cpp:123
 msgid "Synchronize projects with account manager system"
@@ -3103,31 +3095,30 @@ msgstr "Els meus projectes:"
 
 #: clientgui/sg_ProjectPanel.cpp:123
 msgid "Select a project to access with the controls below"
-msgstr ""
+msgstr "Seleccioneu un projecte per a l'accés amb els controls de baix"
 
 #: clientgui/sg_ProjectPanel.cpp:133 clientgui/sg_ProjectPanel.cpp:252
 #, c-format
 msgid "%s: %0.2f"
-msgstr ""
+msgstr "%s: %0.2f"
 
 #: clientgui/sg_ProjectPanel.cpp:145
-#, fuzzy
 msgid "Project Web Sites"
-msgstr "Lloc Web del Projecte"
+msgstr "Llocs Web del Projecte"
 
 #: clientgui/sg_ProjectPanel.cpp:149
 msgid "Project Commands"
-msgstr ""
+msgstr "Comandaments del Projecte"
 
 #: clientgui/sg_ProjectPanel.cpp:257
 #, c-format
 msgid "Pop up a menu of websites for project %s"
-msgstr ""
+msgstr "Obre un menú dels llocs web del projecte %s"
 
 #: clientgui/sg_ProjectPanel.cpp:259
 #, c-format
 msgid "Pop up a menu of commands to apply to project %s"
-msgstr ""
+msgstr "Obre un menú d'ordres per aplicar al projecte %s"
 
 #: clientgui/sg_ProjectsComponent.cpp:196
 #: clientgui/sg_ProjectsComponent.cpp:207
@@ -3180,13 +3171,13 @@ msgid "Suspend work for this task."
 msgstr "Aturar el treball d'aquesta tasca."
 
 #: clientgui/sg_TaskCommandPopup.cpp:240
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Are you sure you want to abort this task '%s'?\n"
 "(Progress: %.1lf%%, Status: %s)"
 msgstr ""
 "Està segur de voler avortar aquesta tasca '%s'?\n"
-"(Progrés: %s, Estat: %s)"
+"(Progrés: %.1lf%%, Estat: %s)"
 
 #: clientgui/sg_TaskCommandPopup.cpp:245
 msgid "Abort task"
@@ -3194,64 +3185,64 @@ msgstr "Avortar la tasca"
 
 #: clientgui/sg_TaskPanel.cpp:215
 msgid "Not available"
-msgstr ""
+msgstr "No disponible"
 
 #: clientgui/sg_TaskPanel.cpp:226
 msgid "My Tasks:"
-msgstr ""
+msgstr "Les meves Tasques:"
 
 #: clientgui/sg_TaskPanel.cpp:243
 msgid "Select a task to access"
-msgstr ""
+msgstr "Seleccioneu una tasca per accedir-hi"
 
 #: clientgui/sg_TaskPanel.cpp:254
 msgid "From Project:"
-msgstr ""
+msgstr "Del Projecte:"
 
 #: clientgui/sg_TaskPanel.cpp:311
 msgid "This task's progress"
-msgstr ""
+msgstr "Progrés d'aquesta tasca"
 
 #: clientgui/sg_TaskPanel.cpp:332
 msgid "Task Commands"
-msgstr ""
+msgstr "Ordres de la tasca"
 
 #: clientgui/sg_TaskPanel.cpp:333
 msgid "Pop up a menu of commands to apply to this task"
-msgstr ""
+msgstr "Obre un menú d'ordres per aplicar a aquesta tasca"
 
 #: clientgui/sg_TaskPanel.cpp:448
-#, fuzzy, c-format
+#, c-format
 msgid "Application: %s"
-msgstr "Aplicació: "
+msgstr "Aplicació: %s"
 
 #: clientgui/sg_TaskPanel.cpp:472
-#, c-format
+#, c-format, 
 msgid "%d.%d%%"
-msgstr ""
+msgstr "%d.%d%%"
 
 #: clientgui/sg_TaskPanel.cpp:480
 msgid "Application: Not available"
-msgstr ""
+msgstr "Aplicació: No disponible"
 
 #: clientgui/sg_TaskPanel.cpp:588
 msgid "Not Available"
-msgstr ""
+msgstr "No Disponible"
 
 #: clientgui/sg_TaskPanel.cpp:603
-#, fuzzy, c-format
+#, c-format
 msgid "Elapsed Time: %s"
-msgstr "Temps Transcorregut: "
+msgstr "Temps Transcorregut: %s"
 
 #: clientgui/sg_TaskPanel.cpp:617
-#, fuzzy, c-format
+#, c-format
 msgid "Time Remaining: %s"
-msgstr "Temps per Finalitzar: "
+msgstr "Temps per Finalitzar: %s"
 
 #: clientgui/sg_TaskPanel.cpp:632
 #, c-format
 msgid "Status: %s"
-msgstr ""
+msgstr "Estat: %s"
 
 #: clientgui/sg_ViewTabPage.cpp:140 clientgui/sg_ViewTabPage.cpp:280
 #, c-format
@@ -4058,31 +4049,30 @@ msgid "row %d of %d; "
 msgstr "fila %d de %d; "
 
 #: clientgui/mac/Mac_GUI.cpp:91
-#, fuzzy
 msgid "Preferences…"
-msgstr "Preferències"
+msgstr "Preferències…"
 
 #: clientgui/mac/Mac_GUI.cpp:95
 msgid "Services"
-msgstr ""
+msgstr "Serveis"
 
 #: clientgui/mac/Mac_GUI.cpp:109
 #, c-format
 msgid "Hide %s"
-msgstr ""
+msgstr "Amaga %s"
 
 #: clientgui/mac/Mac_GUI.cpp:114
 msgid "Hide Others"
-msgstr ""
+msgstr "Amaga Altres"
 
 #: clientgui/mac/Mac_GUI.cpp:119
 msgid "Show All"
-msgstr ""
+msgstr "Mostra Tot"
 
 #: clientgui/mac/Mac_GUI.cpp:124
-#, fuzzy, c-format
+#, c-format
 msgid "Quit %s"
-msgstr "&Sortir de %s"
+msgstr "Sortir de %s"
 
 #: clientgui/DlgAdvPreferences.h:29
 msgid "specify work start and stop hours in format HH:MM-HH:MM"

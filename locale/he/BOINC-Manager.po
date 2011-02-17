@@ -7,13 +7,13 @@ msgstr ""
 "Project-Id-Version: BOINC 6.10.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-02-01 21:46-0500\n"
-"PO-Revision-Date: 2010-11-22 08:50+0200\n"
-"Last-Translator: Dima <dima666@012.net.il>\n"
+"PO-Revision-Date: 2011-02-09 22:43+0200\n"
+"Last-Translator: Ido Schwartz <dj_legolas1@hotmail.com>\n"
 "Language-Team: IOPanel.net\n"
+"Language: he\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: he\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Pootle 2.1.1\n"
 "X-Poedit-SearchPath-1: clientgui/msw\n"
@@ -23,8 +23,6 @@ msgstr ""
 "X-Poedit-SourceCharset: utf-8\n"
 "X-Poedit-Basepath: C:\\Src\\BOINCSVN\\trunk\\boinc\n"
 "X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
-"X-Poedit-Country: UNITED STATES\n"
-"X-Poedit-Language: English\n"
 
 #: clientgui/AccountInfoPage.cpp:386
 msgid "Identify your account "
@@ -134,9 +132,8 @@ msgid "Update account manager"
 msgstr "עדכן מנהל חשבונות"
 
 #: clientgui/AccountInfoPage.cpp:575
-#, fuzzy
 msgid "Use account manager"
-msgstr "הוסף מנהל חשבונות"
+msgstr "השתמש במנהל חשבונות"
 
 #: clientgui/AccountInfoPage.cpp:583
 #, c-format
@@ -273,13 +270,13 @@ msgid "Display the simple graphical interface."
 msgstr "הצג ממשק גרפי פשוט."
 
 #: clientgui/AdvancedFrame.cpp:415
+#, fuzzy
 msgid "New Simple View..."
-msgstr ""
+msgstr "תצוגה פשוטה חדשה..."
 
 #: clientgui/AdvancedFrame.cpp:416
-#, fuzzy
 msgid "Display the new simple graphical interface."
-msgstr "הצג ממשק גרפי פשוט."
+msgstr "הצג את הממשק הגרפי הפשוט החדש."
 
 #: clientgui/AdvancedFrame.cpp:426
 msgid "&Add project or account manager..."
@@ -2595,13 +2592,14 @@ msgid "Display the advanced graphical interface."
 msgstr "הצג ממשק גרפי פשוט."
 
 #: clientgui/sg_BoincSimpleFrame.cpp:126
+#, fuzzy
 msgid "Old Simple View..."
-msgstr ""
+msgstr "תצוגה פשוטה ישנה..."
 
 #: clientgui/sg_BoincSimpleFrame.cpp:127
 #, fuzzy
 msgid "Display the old simple graphical interface."
-msgstr "הצג ממשק גרפי פשוט."
+msgstr "הצג את הממשק גרפי הפשוט הישן."
 
 #: clientgui/sg_BoincSimpleFrame.cpp:138
 msgid "Manager Settings..."
@@ -2635,7 +2633,7 @@ msgstr "התראות"
 
 #: clientgui/sg_BoincSimpleFrame.cpp:617
 msgid "Open a window to view notices from projects or BOINC"
-msgstr ""
+msgstr "פתח חלון לצפיה בהתראות מהפרוייקטים או מ-BOINC"
 
 #: clientgui/sg_BoincSimpleGUI.cpp:120
 msgid "Display the advanced (accessible) graphical interface."
@@ -3029,8 +3027,9 @@ msgid "Add Project"
 msgstr "הוסף פרוייקט"
 
 #: clientgui/sg_ProjectPanel.cpp:71
+#, fuzzy
 msgid "Synchronize"
-msgstr ""
+msgstr "סנכרן"
 
 #: clientgui/sg_ProjectPanel.cpp:72
 msgid "My total work done this Project"
@@ -3054,9 +3053,8 @@ msgid "%s: %0.2f"
 msgstr ""
 
 #: clientgui/sg_ProjectPanel.cpp:145
-#, fuzzy
 msgid "Project Web Sites"
-msgstr "אתר הפרוייקט"
+msgstr "אתרי הפרוייקט"
 
 #: clientgui/sg_ProjectPanel.cpp:149
 msgid "Project Commands"
