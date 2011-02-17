@@ -7,13 +7,13 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 6.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-02-02 12:27-0500\n"
-"PO-Revision-Date: 2010-11-21 17:47+0200\n"
+"PO-Revision-Date: 2011-02-09 21:56+0200\n"
 "Last-Translator: Rene <oskamjr@wanadoo.nl>\n"
 "Language-Team: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
+"Language: nl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: nl\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Pootle 2.1.1\n"
 "X-Poedit-SearchPath-1: clientgui/msw\n"
@@ -23,8 +23,6 @@ msgstr ""
 "X-Poedit-SourceCharset: utf-8\n"
 "X-Poedit-Basepath: C:\\Src\\BOINCSVN\\branches\\boinc_core_release_6_12\n"
 "X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
-"X-Poedit-Country: UNITED STATES\n"
-"X-Poedit-Language: English\n"
 
 #: clientgui/AccountInfoPage.cpp:386
 msgid "Identify your account "
@@ -135,9 +133,8 @@ msgid "Update account manager"
 msgstr "Accountmanager bijwerken"
 
 #: clientgui/AccountInfoPage.cpp:575
-#, fuzzy
 msgid "Use account manager"
-msgstr "Account manager toevoegen"
+msgstr "Account manager gebruiken"
 
 #: clientgui/AccountInfoPage.cpp:583
 #, c-format
@@ -1564,7 +1561,7 @@ msgstr "Sluiten"
 #: clientgui/DlgEventLog.cpp:307
 #, c-format
 msgid "Get help with %s"
-msgstr ""
+msgstr "Hulp krijgen bij %s"
 
 #: clientgui/DlgEventLog.cpp:321
 msgid "Show all messages"
@@ -1843,7 +1840,7 @@ msgstr "Geschatte grootte van de taak"
 
 #: clientgui/DlgItemProperties.cpp:312
 msgid "Max RAM usage"
-msgstr ""
+msgstr "Maximaal RAM gebruik"
 
 #: clientgui/DlgItemProperties.cpp:315
 msgid "CPU time at last checkpoint"
@@ -3873,31 +3870,30 @@ msgid "row %d of %d; "
 msgstr "rij %d van %d; "
 
 #: clientgui/mac/Mac_GUI.cpp:91
-#, fuzzy
 msgid "Preferences…"
-msgstr "Voorkeuren"
+msgstr "Voorkeuren..."
 
 #: clientgui/mac/Mac_GUI.cpp:95
 msgid "Services"
-msgstr ""
+msgstr "Services"
 
 #: clientgui/mac/Mac_GUI.cpp:109
 #, c-format
 msgid "Hide %s"
-msgstr ""
+msgstr "Verberg %s"
 
 #: clientgui/mac/Mac_GUI.cpp:114
 msgid "Hide Others"
-msgstr ""
+msgstr "Verberg Andere"
 
 #: clientgui/mac/Mac_GUI.cpp:119
 msgid "Show All"
-msgstr ""
+msgstr "Alles Zichtbaar"
 
 #: clientgui/mac/Mac_GUI.cpp:124
-#, fuzzy, c-format
+#, c-format
 msgid "Quit %s"
-msgstr "%s &Sluiten"
+msgstr "%s Sluiten"
 
 #: clientgui/DlgAdvPreferences.h:29
 msgid "specify work start and stop hours in format HH:MM-HH:MM"

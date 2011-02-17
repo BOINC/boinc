@@ -7,13 +7,13 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-02-02 12:27-0500\n"
-"PO-Revision-Date: 2011-01-30 12:05+0200\n"
+"PO-Revision-Date: 2011-02-14 23:23+0200\n"
 "Last-Translator: Sami Nordlund <sami.nordlund@kolumbus.fi>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: fi\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: fi\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Pootle 2.1.1\n"
 "X-Poedit-SearchPath-1: clientgui/msw\n"
@@ -23,8 +23,6 @@ msgstr ""
 "X-Poedit-SourceCharset: utf-8\n"
 "X-Poedit-Basepath: C:\\Src\\BOINCSVN\\branches\\boinc_core_release_6_12\n"
 "X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
-"X-Poedit-Country: UNITED STATES\n"
-"X-Poedit-Language: English\n"
 
 #: clientgui/AccountInfoPage.cpp:386
 msgid "Identify your account "
@@ -135,9 +133,8 @@ msgid "Update account manager"
 msgstr "Päivitä tilihallitsija"
 
 #: clientgui/AccountInfoPage.cpp:575
-#, fuzzy
 msgid "Use account manager"
-msgstr "Lisää tilihallitsija"
+msgstr "Käytä tilihallitsijaa"
 
 #: clientgui/AccountInfoPage.cpp:583
 #, c-format
@@ -1466,7 +1463,7 @@ msgstr "Paketin tarkistuspiste levylle joka"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:619
 msgid "seconds"
-msgstr "sekunti"
+msgstr "sekuntia"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:629
 #, no-c-format
@@ -1702,9 +1699,8 @@ msgid "Added via account manager"
 msgstr "Lisätty tilihallitsijan kautta"
 
 #: clientgui/DlgItemProperties.cpp:221
-#, fuzzy
 msgid "Remove when tasks done"
-msgstr "Poistuu paketin valmistuttua"
+msgstr "Poista pakettien valmistuttua"
 
 #: clientgui/DlgItemProperties.cpp:222
 msgid "Ended"
@@ -1833,7 +1829,7 @@ msgstr "Arvioitu työpaketin koko"
 
 #: clientgui/DlgItemProperties.cpp:312
 msgid "Max RAM usage"
-msgstr ""
+msgstr "Suurin keskusmuistin käyttö"
 
 #: clientgui/DlgItemProperties.cpp:315
 msgid "CPU time at last checkpoint"
@@ -3857,9 +3853,8 @@ msgid "row %d of %d; "
 msgstr "rivi %d %d:sta; "
 
 #: clientgui/mac/Mac_GUI.cpp:91
-#, fuzzy
 msgid "Preferences…"
-msgstr "Asetukset"
+msgstr "Asetukset..."
 
 #: clientgui/mac/Mac_GUI.cpp:95
 msgid "Services"
@@ -3868,15 +3863,15 @@ msgstr ""
 #: clientgui/mac/Mac_GUI.cpp:109
 #, c-format
 msgid "Hide %s"
-msgstr ""
+msgstr "Piilota %s"
 
 #: clientgui/mac/Mac_GUI.cpp:114
 msgid "Hide Others"
-msgstr ""
+msgstr "Piilota muut"
 
 #: clientgui/mac/Mac_GUI.cpp:119
 msgid "Show All"
-msgstr ""
+msgstr "Näytä kaikki"
 
 #: clientgui/mac/Mac_GUI.cpp:124
 #, c-format
