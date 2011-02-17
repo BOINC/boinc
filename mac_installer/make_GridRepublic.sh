@@ -19,7 +19,7 @@
 
 ##
 # Script to convert Macintosh BOINC installer to GridRepublic Desktop installer
-# updated 4/16/10 by Charlie Fenton
+# updated 2/17/11 by Charlie Fenton for BOINC 6.12.7 and later
 ##
 
 ## Usage:
@@ -28,14 +28,13 @@
 ##     the Uninstall BOINC application to be converted
 ##     GR_ReadMe.rtf
 ##     gridrepublic.icns
-##     GR_install.icns
+##     MacGRPkgIcon.zip
 ##     GR_uninstall.icns
 ##     COPYING
-##     COPYING.LESSER (for version 6.3.x and later only)
+##     COPYING.LESSER
 ##     COPYRIGHT
 ##     skins directory containing GridRepublic skin (optional)
 ##     acct_mgr_url.xml (to have BOINC automatically connect to Account Manager)
-##     PostInstall.app (needed only for version 6.2.x or earlier)
 ##     gridrepublic.tiff (for screensaver coordinator)
 ##     gridrepublic_ss_logo.png (for screensaver coordinator)
 ##     GR_saver directory containing GridRepublic default screensaver and associated files, including:
@@ -66,7 +65,7 @@ README_FILE="GR-ReadMe.rtf"
 ## BRANDING_FILE="GR-Branding"
 BRANDING_INFO="BrandId=1"
 ICNS_FILE="gridrepublic.icns"
-INSTALLER_ICNS_FILE="GR_install.icns"
+INSTALLER_ICNS_FILE="MacGRPkgIcon.zip"
 UNINSTALLER_ICNS_FILE="GR_uninstall.icns"
 SAVER_DIR="GR_saver"
 SAVER_SYSPREF_ICON="gridrepublic.tiff"
@@ -74,7 +73,7 @@ SAVER_LOGO="gridrepublic_ss_logo.png"
 BRAND_NAME="GridRepublic"
 MANAGER_NAME="GridRepublic Desktop"
 LC_BRAND_NAME="gridrepublic"
-SOURCE_PKG_PATH="BOINC Installer.app/Contents/Resources/BOINC.pkg/Contents"
+SOURCE_PKG_PATH="BOINC Installer.pkg/Contents"
 
 if [ $# -lt 3 ]; then
 echo "Usage:"
@@ -132,24 +131,18 @@ else
 fi
 
 # Create the installer's preinstall and preupgrade scripts from the standard preinstall script
-# Older versions of BOINC installer did not use preinstall and preupgrade scripts, so check first
-if [ -f "${SOURCE_PKG_PATH}/Resources/preinstall" ]; then
-    cp -fp "${SOURCE_PKG_PATH}/Resources/preinstall" "${SCRIPTS_PATH}/"
+cp -fp "${SOURCE_PKG_PATH}/Resources/preinstall" "${SCRIPTS_PATH}/"
 
-    sed -i "" s/BOINCManager/"${MANAGER_NAME}"/g "${SCRIPTS_PATH}/preinstall"
-    sed -i "" s/BOINCSaver/"${BRAND_NAME}"/g "${SCRIPTS_PATH}/preinstall"
+sed -i "" s/BOINCManager/"${MANAGER_NAME}"/g "${SCRIPTS_PATH}/preinstall"
+sed -i "" s/BOINCSaver/"${BRAND_NAME}"/g "${SCRIPTS_PATH}/preinstall"
 
-    cp -fp "${SCRIPTS_PATH}/preinstall" "${SCRIPTS_PATH}/preupgrade"
-fi
+cp -fp "${SCRIPTS_PATH}/preinstall" "${SCRIPTS_PATH}/preupgrade"
 
 cp -fp "${SOURCE_PKG_PATH}/Resources/postinstall" "${SCRIPTS_PATH}/"
 cp -fp "${SOURCE_PKG_PATH}/Resources/postupgrade" "${SCRIPTS_PATH}/"
-if [ "$1" = "6" ] && [ "$2" = "2" ]; then
-    cp -fpR "PostInstall.app" "${IR_PATH}/"
-else
-    cp -fpR "${SOURCE_PKG_PATH}/Resources/PostInstall.app" "${IR_PATH}/"
-    cp -fpR "${SOURCE_PKG_PATH}/Resources/WaitPermissions.app" "${IR_PATH}/"
-fi
+
+cp -fpR "${SOURCE_PKG_PATH}/Resources/PostInstall.app" "${IR_PATH}/"
+
 cp -fp "${SOURCE_PKG_PATH}/Resources/all_projects_list.xml" "${IR_PATH}/"
 
 ##### We've decided not to customize BOINC Data directory name for branding
@@ -184,6 +177,7 @@ sudo mv -f "${PR_PATH}/Applications/${MANAGER_NAME}.app/Contents/MacOS/BOINCMana
 # Update the Manager's info.plist, InfoPlist.strings files
 sudo sed -i "" s/BOINCManager/"${MANAGER_NAME}"/g "${PR_PATH}/Applications/${MANAGER_NAME}.app/Contents/Info.plist"
 sudo sed -i "" s/BOINCMgr.icns/"${ICNS_FILE}"/g "${PR_PATH}/Applications/${MANAGER_NAME}.app/Contents/Info.plist"
+# InfoPlist.strings file uses UTF-16 encoding
 sudo chmod a+w "${PR_PATH}/Applications/${MANAGER_NAME}.app/Contents/Resources/English.lproj/InfoPlist.strings"
 sudo iconv -f UTF-16 -t UTF-8 "${PR_PATH}/Applications/${MANAGER_NAME}.app/Contents/Resources/English.lproj/InfoPlist.strings" > "${PR_PATH}/tempUTF81"
 sudo sed -i "" s/BOINC/"${MANAGER_NAME}"/g "${PR_PATH}/tempUTF81"
@@ -207,6 +201,7 @@ sudo mv -f "${PR_PATH}/Library/Screen Savers/${BRAND_NAME}.saver/Contents/MacOS/
 
 # Update screensaver coordinator's info.plist, InfoPlist.strings files
 sudo sed -i "" s/BOINCSaver/"${BRAND_NAME}"/g "${PR_PATH}/Library/Screen Savers/${BRAND_NAME}.saver/Contents/Info.plist"
+# InfoPlist.strings file uses UTF-16 encoding
 sudo chmod a+w "${PR_PATH}/Library/Screen Savers/${BRAND_NAME}.saver/Contents/Resources/English.lproj/InfoPlist.strings"
 sudo iconv -f UTF-16 -t UTF-8 "${PR_PATH}/Library/Screen Savers/${BRAND_NAME}.saver/Contents/Resources/English.lproj/InfoPlist.strings" > "${PR_PATH}/tempUTF82"
 sudo sed -i "" s/BOINC/"${BRAND_NAME}"/g "${PR_PATH}/tempUTF82"
@@ -234,6 +229,7 @@ sudo mv -f "${NEW_DIR_PATH}/${LC_BRAND_NAME}_$1.$2.$3_macOSX_universal/extras/Un
 # Update Uninstall application's info.plist, InfoPlist.strings files
 sudo sed -i "" s/BOINC/"${BRAND_NAME}"/g "${NEW_DIR_PATH}/${LC_BRAND_NAME}_$1.$2.$3_macOSX_universal/extras/Uninstall ${BRAND_NAME}.app/Contents/Info.plist"
 sudo sed -i "" s/MacUninstaller.icns/"${UNINSTALLER_ICNS_FILE}"/g "${NEW_DIR_PATH}/${LC_BRAND_NAME}_$1.$2.$3_macOSX_universal/extras/Uninstall ${BRAND_NAME}.app/Contents/Info.plist"
+# InfoPlist.strings file uses UTF-16 encoding
 sudo chmod a+w "${NEW_DIR_PATH}/${LC_BRAND_NAME}_$1.$2.$3_macOSX_universal/extras/Uninstall ${BRAND_NAME}.app/Contents/Resources/English.lproj/InfoPlist.strings"
 sudo iconv -f UTF-16 -t UTF-8 "${NEW_DIR_PATH}/${LC_BRAND_NAME}_$1.$2.$3_macOSX_universal/extras/Uninstall ${BRAND_NAME}.app/Contents/Resources/English.lproj/InfoPlist.strings" > "${PR_PATH}/tempUTF83"
 sudo sed -i "" s/BOINC/"${BRAND_NAME}"/g "${PR_PATH}/tempUTF83"
@@ -272,12 +268,10 @@ sudo cp -fp "COPYRIGHT" "${NEW_DIR_PATH}/${LC_BRAND_NAME}_$1.$2.$3_macOSX_univer
 sudo chown -R 501:admin "${NEW_DIR_PATH}/${LC_BRAND_NAME}_$1.$2.$3_macOSX_universal/extras/COPYRIGHT.txt"
 sudo chmod -R 644 "${NEW_DIR_PATH}/${LC_BRAND_NAME}_$1.$2.$3_macOSX_universal/extras/COPYRIGHT.txt"
 
-# COPYING.LESSER is part of GNU License v3, included only with BOINC 6.3.x and later
-if [ -f "COPYING.LESSER" ]; then
-    sudo cp -fp "COPYING.LESSER" "${NEW_DIR_PATH}/${LC_BRAND_NAME}_$1.$2.$3_macOSX_universal/extras/COPYING.LESSER.txt"
-    sudo chown -R 501:admin "${NEW_DIR_PATH}/${LC_BRAND_NAME}_$1.$2.$3_macOSX_universal/extras/COPYING.LESSER.txt"
-    sudo chmod -R 644 "${NEW_DIR_PATH}/${LC_BRAND_NAME}_$1.$2.$3_macOSX_universal/extras/COPYING.LESSER.txt"
-fi
+# COPYING.LESSER is part of GNU License v3
+sudo cp -fp "COPYING.LESSER" "${NEW_DIR_PATH}/${LC_BRAND_NAME}_$1.$2.$3_macOSX_universal/extras/COPYING.LESSER.txt"
+sudo chown -R 501:admin "${NEW_DIR_PATH}/${LC_BRAND_NAME}_$1.$2.$3_macOSX_universal/extras/COPYING.LESSER.txt"
+sudo chmod -R 644 "${NEW_DIR_PATH}/${LC_BRAND_NAME}_$1.$2.$3_macOSX_universal/extras/COPYING.LESSER.txt"
 
 # Make temporary copies of Pkg-Info.plist and Description.plist for PackageMaker and update for this branding
 sudo cp -fp "${SOURCE_PKG_PATH}/Info.plist" "${NEW_DIR_PATH}/Pkg-Info.plist"
@@ -299,39 +293,24 @@ plutil -convert xml1 "`pwd`/${NEW_DIR_PATH}/Pkg-Info.plist"
 defaults write "`pwd`/${NEW_DIR_PATH}/Description" "IFPkgDescriptionTitle" "$MANAGER_NAME"
 plutil -convert xml1 "`pwd`/${NEW_DIR_PATH}/Description.plist"
 
-# Copy the installer wrapper application "${BRAND_NAME} Installer.app"
-sudo cp -fpR "BOINC Installer.app" "${NEW_DIR_PATH}/${LC_BRAND_NAME}_$1.$2.$3_macOSX_universal/${BRAND_NAME} Installer.app"
-sudo rm -dfR "${NEW_DIR_PATH}/${LC_BRAND_NAME}_$1.$2.$3_macOSX_universal/${BRAND_NAME} Installer.app/Contents/Resources/BOINC.pkg"
-
-# Update the installer wrapper application's info.plist, InfoPlist.strings files
-sudo sed -i "" s/BOINC/"${BRAND_NAME}"/g "${NEW_DIR_PATH}/${LC_BRAND_NAME}_$1.$2.$3_macOSX_universal/${BRAND_NAME} Installer.app/Contents/Info.plist"
-sudo sed -i "" s/MacInstaller.icns/"${INSTALLER_ICNS_FILE}"/g "${NEW_DIR_PATH}/${LC_BRAND_NAME}_$1.$2.$3_macOSX_universal/${BRAND_NAME} Installer.app/Contents/Info.plist"
-sudo chmod a+w "${NEW_DIR_PATH}/${LC_BRAND_NAME}_$1.$2.$3_macOSX_universal/${BRAND_NAME} Installer.app/Contents/Resources/English.lproj/InfoPlist.strings"
-sudo iconv -f UTF-16 -t UTF-8 "${NEW_DIR_PATH}/${LC_BRAND_NAME}_$1.$2.$3_macOSX_universal/${BRAND_NAME} Installer.app/Contents/Resources/English.lproj/InfoPlist.strings" > "${PR_PATH}/tempUTF84"
-sudo sed -i "" s/BOINC/"${MANAGER_NAME}"/g "${PR_PATH}/tempUTF84"
-sudo iconv -f UTF-8 -t UTF-16 "${PR_PATH}/tempUTF84" > "${NEW_DIR_PATH}/${LC_BRAND_NAME}_$1.$2.$3_macOSX_universal/${BRAND_NAME} Installer.app/Contents/Resources/English.lproj/InfoPlist.strings"
-sudo rm -f "${PR_PATH}/tempUTF84"
-
-# Replace the installer wrapper application's MacInstaller.icns file
-sudo cp -fp "${INSTALLER_ICNS_FILE}" "${NEW_DIR_PATH}/${LC_BRAND_NAME}_$1.$2.$3_macOSX_universal/${BRAND_NAME} Installer.app/Contents/Resources/${INSTALLER_ICNS_FILE}"
-sudo rm -f "${NEW_DIR_PATH}/${LC_BRAND_NAME}_$1.$2.$3_macOSX_universal/${BRAND_NAME} Installer.app/Contents/Resources/MacInstaller.icns"
-
-# Rename the installer wrapper application's executable inside the bundle
-sudo mv -f "${NEW_DIR_PATH}/${LC_BRAND_NAME}_$1.$2.$3_macOSX_universal/${BRAND_NAME} Installer.app/Contents/MacOS/BOINC Installer" "${NEW_DIR_PATH}/${LC_BRAND_NAME}_$1.$2.$3_macOSX_universal/${BRAND_NAME} Installer.app/Contents/MacOS/${BRAND_NAME} Installer"
-
-# Build the installer package inside the wrapper application's bundle
+# Build the installer package
 if [ "$PACKAGEMAKER_VERSION" = "3" ]; then
     # Packagemaker Version 3
-##  /Developer/usr/bin/packagemaker -r ../BOINC_Installer/Pkg_Root -e ../BOINC_Installer/Installer\ Resources/ -s ../BOINC_Installer/Installer\ Scripts/ -f mac_build/Pkg-Info.plist -t "BOINC Manager" -n "$1.$2.$3" -b -o ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_universal/BOINC\ Installer.app/Contents/Resources/BOINC.pkg
-    /Developer/usr/bin/packagemaker -r "${PR_PATH}" -e "${IR_PATH}" -s "${SCRIPTS_PATH}" -f "${NEW_DIR_PATH}/Pkg-Info.plist" -t "${MANAGER_NAME}" -n "$1.$2.$3" -b -o "${NEW_DIR_PATH}/${LC_BRAND_NAME}_$1.$2.$3_macOSX_universal/${BRAND_NAME} Installer.app/Contents/Resources/${BRAND_NAME}.pkg"
+##  /Developer/usr/bin/packagemaker -r ../BOINC_Installer/Pkg_Root -e ../BOINC_Installer/Installer\ Resources/ -s ../BOINC_Installer/Installer\ Scripts/ -f mac_build/Pkg-Info.plist -t "BOINC Manager" -n "$1.$2.$3" -b -o ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_universal/BOINC\ Installer.pkg
+    /Developer/usr/bin/packagemaker -r "${PR_PATH}" -e "${IR_PATH}" -s "${SCRIPTS_PATH}" -f "${NEW_DIR_PATH}/Pkg-Info.plist" -t "${MANAGER_NAME}" -n "$1.$2.$3" -b -o "${NEW_DIR_PATH}/${LC_BRAND_NAME}_$1.$2.$3_macOSX_universal/${BRAND_NAME} Installer.pkg"
     # Remove TokenDefinitions.plist and IFPkgPathMappings in Info.plist, which would cause installer to find a previous copy of ${MANAGER_NAME} and install there
-    sudo rm -f "${NEW_DIR_PATH}/${LC_BRAND_NAME}_$1.$2.$3_macOSX_universal/${BRAND_NAME} Installer.app/Contents/Resources/${BRAND_NAME}.pkg/Contents/Resources/TokenDefinitions.plist"
-    defaults delete "`pwd`/${NEW_DIR_PATH}/${LC_BRAND_NAME}_$1.$2.$3_macOSX_universal/${BRAND_NAME} Installer.app/Contents/Resources/${BRAND_NAME}.pkg/Contents/Info" IFPkgPathMappings
+    sudo rm -f "${NEW_DIR_PATH}/${LC_BRAND_NAME}_$1.$2.$3_macOSX_universal/${BRAND_NAME} Installer.pkg/Contents/Resources/TokenDefinitions.plist"
+    defaults delete "`pwd`/${NEW_DIR_PATH}/${LC_BRAND_NAME}_$1.$2.$3_macOSX_universal/${BRAND_NAME} Installer.pkg/Contents/Info" IFPkgPathMappings
 else
     # Packagemaker Version 2
-##  /Developer/Tools/packagemaker -build -p ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_universal/BOINC\ Installer.app/Contents/Resources/BOINC.pkg -f ../BOINC_Installer/Pkg_Root -r ../BOINC_Installer/Installer\ Resources/ -i mac_build/Pkg-Info.plist -d mac_Installer/Description.plist -ds 
-    /Developer/Tools/packagemaker -build -p "${NEW_DIR_PATH}/${LC_BRAND_NAME}_$1.$2.$3_macOSX_universal/${BRAND_NAME} Installer.app/Contents/Resources/${BRAND_NAME}.pkg" -f "${PR_PATH}" -r "${IR_PATH}" -i "${NEW_DIR_PATH}/Pkg-Info.plist" -d "${NEW_DIR_PATH}/Description.plist" -ds 
+##  /Developer/Tools/packagemaker -build -p ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_universal/BOINC\ Installer.pkg -f ../BOINC_Installer/Pkg_Root -r ../BOINC_Installer/Installer\ Resources/ -i mac_build/Pkg-Info.plist -d mac_Installer/Description.plist -ds 
+    /Developer/Tools/packagemaker -build -p "${NEW_DIR_PATH}/${LC_BRAND_NAME}_$1.$2.$3_macOSX_universal/${BRAND_NAME} Installer.pkg" -f "${PR_PATH}" -r "${IR_PATH}" -i "${NEW_DIR_PATH}/Pkg-Info.plist" -d "${NEW_DIR_PATH}/Description.plist" -ds 
 fi
+
+# Add our custom icon to installer package
+ditto -xk "${INSTALLER_ICNS_FILE}" "${NEW_DIR_PATH}/${LC_BRAND_NAME}_$1.$2.$3_macOSX_universal/${BRAND_NAME} Installer.pkg"
+SetFile -a CE "${NEW_DIR_PATH}/${LC_BRAND_NAME}_$1.$2.$3_macOSX_universal/${BRAND_NAME} Installer.pkg"
+SetFile -a V  "${NEW_DIR_PATH}/${LC_BRAND_NAME}_$1.$2.$3_macOSX_universal/${BRAND_NAME} Installer.pkg/"Icon*
 
 ## for debugging
 ## if [  $? -ne 0 ]; then
@@ -344,12 +323,6 @@ fi
 ## echo ""
 ## fi
 
-# Allow the installer wrapper application to modify the package's Info.plist file
-sudo chmod u+w,g+w,o+w "${NEW_DIR_PATH}/${LC_BRAND_NAME}_$1.$2.$3_macOSX_universal/${BRAND_NAME} Installer.app/Contents/Resources/${BRAND_NAME}.pkg/Contents/Info.plist"
-
-# Update the installer wrapper application's creation date
-sudo touch "${NEW_DIR_PATH}/${LC_BRAND_NAME}_$1.$2.$3_macOSX_universal/${BRAND_NAME} Installer.app"
-
 # Remove temporary copies of Pkg-Info.plist and Description.plist
 sudo rm ${NEW_DIR_PATH}/Pkg-Info.plist
 sudo rm ${NEW_DIR_PATH}/Description.plist
@@ -361,15 +334,16 @@ sudo rm -dfR "${SCRIPTS_PATH}"
 
 # Compress the products
 cd ${NEW_DIR_PATH}
-zip -rqy ${LC_BRAND_NAME}_$1.$2.$3_macOSX_universal.zip ${LC_BRAND_NAME}_$1.$2.$3_macOSX_universal
+## Use ditto instead of zip utility to preserve resource forks and Finder attributes (custom icon, hide extension) 
+ditto -ck --sequesterRsrc --keepParent "${LC_BRAND_NAME}_$1.$2.$3_macOSX_universal" "${LC_BRAND_NAME}_$1.$2.$3_macOSX_universal.zip"
 ##### We've decided not to create branded command-line executables; they are identical to standard ones
-#### zip -rqy ${LC_BRAND_NAME}_$1.$2.$3_universal-apple-darwin.zip ${LC_BRAND_NAME}_$1.$2.$3_universal-apple-darwin
+#### ditto -ck --sequesterRsrc --keepParent "${LC_BRAND_NAME}_$1.$2.$3_universal-apple-darwin" "${LC_BRAND_NAME}_$1.$2.$3_universal-apple-darwin.zip"
 ##### We've decided not to create branded symbol table file; it is identical to standard one
-#### zip -rqy ${LC_BRAND_NAME}_$1.$2.$3_macOSX_SymbolTables.zip ${LC_BRAND_NAME}_$1.$2.$3_macOSX_SymbolTables
+#### ditto -ck --sequesterRsrc --keepParent "${LC_BRAND_NAME}_$1.$2.$3_macOSX_SymbolTables" "${LC_BRAND_NAME}_$1.$2.$3_macOSX_SymbolTables.zip"
 
 # Force Finder to recognize changed icons by deleting the uncompressed products and expanding the zip file 
-sudo rm -dfR ${LC_BRAND_NAME}_$1.$2.$3_macOSX_universal
-open ${LC_BRAND_NAME}_$1.$2.$3_macOSX_universal.zip
+sudo rm -dfR "${LC_BRAND_NAME}_$1.$2.$3_macOSX_universal"
+open "${LC_BRAND_NAME}_$1.$2.$3_macOSX_universal.zip"
 
 popd
 exit 0
