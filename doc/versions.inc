@@ -200,7 +200,7 @@ $l64 = array(
 $l612ubuntu = array(
 	"num"=>"6.12.15",
 	"status"=>"Development version",
-	"file"=>"boinc_6.15.14_i686-pc-linux-gnu.sh",
+	"file"=>"boinc_6.12.15_i686-pc-linux-gnu.sh",
 	"date"=>"18 Feb 2011",
 	"type"=>"sea",
 );
