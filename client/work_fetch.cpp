@@ -33,8 +33,8 @@
 
 using std::vector;
 
-bool use_rec = false;
-bool use_hyst_fetch = false;
+bool use_rec = true;
+bool use_hyst_fetch = true;
 
 RSC_WORK_FETCH cuda_work_fetch;
 RSC_WORK_FETCH ati_work_fetch;

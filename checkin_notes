@@ -868,3 +868,12 @@ Charlie 17 Feb 2011
     mac_installer/
         make_GridRepublic.sh
         make_ProgThruProc.sh
+
+David  17 Feb 2011
+    - file upload handler: fix faulty bug fix of 2/15
+    - client: make REC-based scheduling and hysteresis the defaults
+
+    client/
+        work_fetch.cpp
+    sched/
+        file_upload_handler.cpp
