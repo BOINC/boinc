@@ -325,13 +325,9 @@ bool NOTICES::remove_dups(NOTICE& n) {
         } else if (same_text(n, n2)) {
             int min_diff = 0;
 
-            // show a given system notice (client or scheduler)
-            // at most once a week
+            // show a given scheduler notice at most once a week
             //
             if (!strcmp(n.category, "scheduler")) {
-                min_diff = 7*86400;
-            }
-            if (!strcmp(n.category, "client")) {
                 min_diff = 7*86400;
             }
 
@@ -471,6 +467,7 @@ void NOTICES::remove_network_msg() {
         NOTICE& n = *i;
         if (!strcmp(n.description.c_str(), NEED_NETWORK_MSG)) {
             i = notices.erase(i);
+            gstate.gui_rpcs.set_notice_refresh();
         } else {
             ++i;
         }
@@ -581,7 +578,7 @@ int RSS_FEED::parse_items(XML_PARSER& xp, int& nitems) {
     bool is_tag;
     nitems = 0;
     int ntotal = 0, nerror = 0;
-    int func_ret = ERR_XML_PARSE;
+    int retval, func_ret = ERR_XML_PARSE;
 
     notices.clear_keep();
 
@@ -620,6 +617,16 @@ int RSS_FEED::parse_items(XML_PARSER& xp, int& nitems) {
                 }
             }
             continue;
+        }
+        if (xp.parse_int(tag, "error_num", retval)) {
+            if (log_flags.notice_debug) {
+                msg_printf(0,MSG_INFO,
+                    "[notice] RSS fetch returned error %d (%s)",
+                    retval,
+                    boincerror(retval)
+                );
+            }
+            return retval;
         }
     }
     notices.unkeep(url);

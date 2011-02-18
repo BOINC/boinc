@@ -592,9 +592,9 @@ David  9 Feb 2011
             add_venue.php
 
 David  9 Feb 2011
-	- user web: make all forum tables full-width
-	html/inc/
-		forum.inc
+    - user web: make all forum tables full-width
+    html/inc/
+        forum.inc
 
 David  9 Feb 2011
     - user web: finish dealing with get args spam
@@ -609,21 +609,21 @@ David  9 Feb 2011
             util.inc
 
 David  9 Feb 2011
-	- user web: appearance tweaks
+    - user web: appearance tweaks
 
-	html/
-		inc/
-			forum.inc
-		user/
-			forum_help_desk.php
-			forum_index.php
-			white.css
+    html/
+        inc/
+            forum.inc
+        user/
+            forum_help_desk.php
+            forum_index.php
+            white.css
 
 David  10 Feb 2011
-	- user web: fix "nowrap" post display
+    - user web: fix "nowrap" post display
 
-	html/inc/
-		forum.inc
+    html/inc/
+        forum.inc
 
 David  10 Feb 2011
     - user web: CSS cleanup.
@@ -666,27 +666,27 @@ David  11 Feb 2011
         DlgItemProperties.cpp
 
 David  11 Feb 2011
-	- user web: style tweaks
-	html/user/
-		forum_post.php
-		main.css
-		white.css
+    - user web: style tweaks
+    html/user/
+        forum_post.php
+        main.css
+        white.css
 
 David  11 Feb 2011
-	- user web: disable "delete account" feature
+    - user web: disable "delete account" feature
 
-	html/
-		user/
-			delete_account.php
-		inc/
-			user.inc
+    html/
+        user/
+            delete_account.php
+        inc/
+            user.inc
 
 David  11 Feb 2011
-	- user web: bug fixes
-	html/user/
-		team_quit_action.php
-		team_manage.php
-		forum_moderate_post.php
+    - user web: bug fixes
+    html/user/
+        team_quit_action.php
+        team_manage.php
+        forum_moderate_post.php
 
 David  13 Feb 2011
     - user web: fix venue change
@@ -698,11 +698,11 @@ David  13 Feb 2011
             host_venue_action.php
 
 David  13 Feb 2011
-	- user web: bug fixes
+    - user web: bug fixes
 
-	html/user/
-		forum_moderate_thread.php
-		add_venue.phhp
+    html/user/
+        forum_moderate_thread.php
+        add_venue.phhp
 
 David  13 Feb 2011
     - user web: bug fix
@@ -713,7 +713,7 @@ David  13 Feb 2011
 David  13 Feb 2011
     - user web: bug fix
     html/user/
-		forum_banishment_vote_action.php
+        forum_banishment_vote_action.php
 
 David  14 Feb 2011
     - user web: bug fix
@@ -726,20 +726,20 @@ David  14 Feb 2011
         text_transform.inc
 
 David  14 Feb 2011
-	- user web: various fixes
-	html/
-		inc/
-			prefs.inc
-		user/
-			main.css
-			prefs_remove.php
-			forum_reply.php
-			white.css
-			add_venue.php
-			forum_edit.php
+    - user web: various fixes
+    html/
+        inc/
+            prefs.inc
+        user/
+            main.css
+            prefs_remove.php
+            forum_reply.php
+            white.css
+            add_venue.php
+            forum_edit.php
 
 David  14 Feb 2011
-	- user web: fixes
+    - user web: fixes
     html/user/
         sample_index.php
         main.css
@@ -877,3 +877,20 @@ David  17 Feb 2011
         work_fetch.cpp
     sched/
         file_upload_handler.cpp
+
+David  17 Feb 2011
+    - client: when detach project, remove its RSS feeds from list
+    - client: remove once-per-week limit for client-generated notices;
+        need to show "network connection required" more often
+    - client: when remove "network conn required" notice
+        (because now have conn)
+        set the flag that says complete notice list is being sent
+    - client: if RSS feed fetch returns <error_num>,
+        show the corresponding message rather than "XML parse error"
+
+    client/
+        client_state.cpp
+        cs_notice.cpp
+        gui_rpc_server_ops.cpp
+        http_curl.cpp
+        net_stats.cpp,h

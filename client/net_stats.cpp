@@ -207,6 +207,10 @@ void NET_STATUS::got_http_error() {
     show_ref_message = true;
 }
 
+void NET_STATUS::http_op_succeeded() {
+    need_physical_connection = false;
+}
+
 void NET_STATUS::contact_reference_site() {
     if (log_flags.network_status_debug) {
         msg_printf(0, MSG_INFO,

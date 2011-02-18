@@ -1380,7 +1380,7 @@ int GUI_RPC_CONN::handle_rpc() {
         send(sock, p, n, 0);
         p[n-1]=0;   // replace 003 with NULL
         if (log_flags.gui_rpc_debug) {
-            if (n > 50) p[50] = 0;
+            if (n > 128) p[128] = 0;
             msg_printf(0, MSG_INFO,
                 "[gui_rpc] GUI RPC reply: '%s'\n", p
             );

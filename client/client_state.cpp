@@ -1813,6 +1813,8 @@ int CLIENT_STATE::detach_project(PROJECT* project) {
         );
     }
 
+    rss_feeds.update_feed_list();
+
     delete project;
     write_state_file();
 

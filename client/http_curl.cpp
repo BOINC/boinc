@@ -980,7 +980,7 @@ void HTTP_OP::handle_messages(CURLMsg *pcurlMsg) {
                 http_op_retval = ERR_HTTP_ERROR;
             }
         }
-        net_status.need_physical_connection = false;
+        net_status.http_op_succeeded();
     } else {
         strcpy(error_msg, curl_easy_strerror(CurlResult));
         switch(CurlResult) {
