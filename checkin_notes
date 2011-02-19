@@ -8687,3 +8687,11 @@ Rom    16 Feb 2011
     /
         configure.ac
         version.h
+
+Charlie 18 Feb 2011
+    - Mac: Update link to NVIA CUDA Mac driver download page.
+    
+    mac_installer/
+        GR-ReadMe.rtf
+        PTP-ReadMe.rtf
+        ReadMe.rtf
