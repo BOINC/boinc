@@ -905,3 +905,11 @@ Rom    18 Feb 2011
         
     lib/
         win_util.cpp
+
+Charlie 18 Feb 2011
+    - Mac: Update link to NVIA CUDA Mac driver download page
+    
+    mac_installer/
+        GR-ReadMe.rtf
+        PTP-ReadMe.rtf
+        ReadMe.rtf
