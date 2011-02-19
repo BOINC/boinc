@@ -56,7 +56,7 @@ struct GET_PROJECT_CONFIG_OP: public GUI_HTTP_OP {
         gui_http = p;
     }
     virtual ~GET_PROJECT_CONFIG_OP(){}
-    int do_rpc(string url);
+    int do_rpc(std::string url);
     virtual void handle_reply(int http_op_retval);
 };
 
