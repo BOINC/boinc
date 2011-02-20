@@ -937,3 +937,12 @@ David  19 Feb 2011
 
     samples/wrapper/
         wrapper.cpp
+
+David  19 Feb 2011
+    - wrapper: add optional <setenv> element in <task> elements;
+        specifies an environment variable assignment;
+        macro-substitute project dir for $PROJECT_DIR.
+        From Carl Christensen
+
+    samples/wrapper/
+        wrapper.cpp

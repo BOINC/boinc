@@ -63,6 +63,7 @@ struct TASK {
     string application;
     string exec_dir;
         // optional execution directory; macro-substituted for $PROJECT_DIR
+    vector<string> vsetenv;  // vector of strings for environment variables 
     string stdin_filename;
     string stdout_filename;
     string stderr_filename;
@@ -89,6 +90,8 @@ struct TASK {
     struct stat last_stat;
 #endif
     bool stat_first;
+
+    int parse_wrapper_macros(char* buf, const int len);
     int parse(XML_PARSER&);
     bool poll(int& status);
     int run(int argc, char** argv);
@@ -121,19 +124,49 @@ struct TASK {
         if (frac > 1) return 1;
         return frac;
     }
+
+    void set_up_env_vars(char*** env_vars, const int nvars) {
+        *env_vars = new char*[nvars+1];
+            // need one more than the # of vars, for a NULL ptr at the end
+        memset(*env_vars, 0x00, sizeof(char*) * (nvars+1));
+        // get all environment vars for this task
+        for (int i = 0; i < nvars; i++) {
+            (*env_vars)[i] = (char*) vsetenv[i].c_str();
+        }
+    }
 };
 
 vector<TASK> tasks;
 APP_INIT_DATA aid;
 bool graphics = false;
 
+// macro replacement in wrapper strings from job.xml
+// for example PROJECT_DIR can be replaced in exec_dir and environment variables
+//
+int TASK::parse_wrapper_macros(char* buf, const int iLen = 8192) {
+    char* buf2 = new char[iLen];
+    while (1) {
+        char* p = strstr(buf, "$PROJECT_DIR");
+        if (!p) break;
+        strcpy(buf2, p+strlen("$PROJECT_DIR"));
+        if (strlen(aid.project_dir) > 0) {
+            strcpy(p, aid.project_dir);
+        } else {
+            strcpy(p, ".");
+        }
+        strcat(p, buf2);
+    }
+    delete [] buf2;
+}
+
 int TASK::parse(XML_PARSER& xp) {
-    char tag[1024], buf[8192], buf2[8192];
+    char tag[1024], buf[8192];
     bool is_tag;
 
     weight = 1;
     final_cpu_time = 0;
     stat_first = true;
+
     while (!xp.get(tag, sizeof(tag), is_tag)) {
         if (!is_tag) {
             fprintf(stderr, "%s TASK::parse(): unexpected text %s\n",
@@ -146,32 +179,20 @@ int TASK::parse(XML_PARSER& xp) {
         }
         else if (xp.parse_string(tag, "application", application)) continue;
         else if (xp.parse_str(tag, "exec_dir", buf, sizeof(buf))) {
-            while (1) {
-                char* p = strstr(buf, "$PROJECT_DIR");
-                if (!p) break;
-                strcpy(buf2, p+strlen("$PROJECT_DIR"));
-                if (strlen(aid.project_dir) > 0) {
-                    strcpy(p, aid.project_dir);
-                } else {
-                    strcpy(p, ".");
-                }
-                strcat(p, buf2);
-            }
+            parse_wrapper_macros(buf, 8192);
             exec_dir = buf;
-            //fprintf(stderr, "Found exec_dir = %s\n", exec_dir.c_str());
-           continue;  
+            continue;  
+        }
+        else if (xp.parse_str(tag, "setenv", buf, sizeof(buf))) {
+            parse_wrapper_macros(buf, 8192);
+            vsetenv.push_back(buf);
+            continue;
         }
         else if (xp.parse_string(tag, "stdin_filename", stdin_filename)) continue;
         else if (xp.parse_string(tag, "stdout_filename", stdout_filename)) continue;
         else if (xp.parse_string(tag, "stderr_filename", stderr_filename)) continue;
         else if (xp.parse_str(tag, "command_line", buf, sizeof(buf))) {
-            while (1) {
-                char* p = strstr(buf, "$PROJECT_DIR");
-                if (!p) break;
-                strcpy(buf2, p+strlen("$PROJECT_DIR"));
-                strcpy(p, aid.project_dir);
-                strcat(p, buf2);
-            }
+            parse_wrapper_macros(buf, 8192);
             command_line = buf;
             continue;
         }
@@ -336,6 +357,14 @@ int TASK::run(int argct, char** argvt) {
         startup_info.hStdError = win_fopen(STDERR_FILE, "a");
     }
 
+    // setup environment vars if needed
+    //
+    int nvars = vsetenv.size();
+    char** env_vars = NULL;
+    if (nvars > 0) {
+        set_up_env_vars(&env_vars, nvars);
+    }
+
     if (!CreateProcess(
         app_path,
         (LPSTR)command.c_str(),
@@ -343,7 +372,7 @@ int TASK::run(int argct, char** argvt) {
         NULL,
         TRUE,        // bInheritHandles
         CREATE_NO_WINDOW|IDLE_PRIORITY_CLASS,
-        NULL,
+        (LPVOID) env_vars,
         exec_dir.empty()?NULL:exec_dir.c_str(),
         &startup_info,
         &process_info
@@ -353,6 +382,7 @@ int TASK::run(int argct, char** argvt) {
         fprintf(stderr, "can't run app: %s\n", error_msg);
         return ERR_EXEC;
     }
+    if (env_vars) delete [] env_vars;
     pid_handle = process_info.hProcess;
     pid = process_info.dwProcessId;
     thread_handle = process_info.hThread;
@@ -409,10 +439,21 @@ int TASK::run(int argct, char** argvt) {
             );
 #endif
         }
-        retval = execv(app_path, argv);
+
+        // setup environment variables (if any)
+        //
+        const int nvars = vsetenv.size();
+        char** env_vars = NULL;
+        if (nvars > 0) {
+            set_up_env_vars(&env_vars, nvars);
+            retval = execve(app_path, argv, env_vars);
+        } else {
+            retval = execv(app_path, argv);
+        }
+        if (env_vars) delete [] env_vars; // never really gets here after the execve
         perror("execv() failed: ");
         exit(ERR_EXEC);
-    }
+    }  // pid = 0 i.e. child proc of the fork
 #endif
     wall_cpu_time = 0;
     suspended = false;
