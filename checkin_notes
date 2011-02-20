@@ -928,3 +928,12 @@ David  18 Feb 2011
 		cs_notice.cpp,h
 		gui_rpc_server.h
 		gui_rpc_server_ops.cpp
+
+David  19 Feb 2011
+    - wrapper: add optional <exec_dir> element in <task> elements;
+        specifies a directory to run app in.
+        macro-substitute project dir for $PROJECT_DIR.
+        From Carl Christensen, more or less
+
+    samples/wrapper/
+        wrapper.cpp

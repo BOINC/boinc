@@ -61,6 +61,8 @@ using std::string;
 
 struct TASK {
     string application;
+    string exec_dir;
+        // optional execution directory; macro-substituted for $PROJECT_DIR
     string stdin_filename;
     string stdout_filename;
     string stderr_filename;
@@ -93,7 +95,7 @@ struct TASK {
     void kill();
     void stop();
     void resume();
-	double cpu_time();
+    double cpu_time();
     inline bool has_checkpointed() {
         bool changed = false;
         if (checkpoint_filename.size() == 0) return false;
@@ -143,6 +145,22 @@ int TASK::parse(XML_PARSER& xp) {
             return 0;
         }
         else if (xp.parse_string(tag, "application", application)) continue;
+        else if (xp.parse_str(tag, "exec_dir", buf, sizeof(buf))) {
+            while (1) {
+                char* p = strstr(buf, "$PROJECT_DIR");
+                if (!p) break;
+                strcpy(buf2, p+strlen("$PROJECT_DIR"));
+                if (strlen(aid.project_dir) > 0) {
+                    strcpy(p, aid.project_dir);
+                } else {
+                    strcpy(p, ".");
+                }
+                strcat(p, buf2);
+            }
+            exec_dir = buf;
+            //fprintf(stderr, "Found exec_dir = %s\n", exec_dir.c_str());
+           continue;  
+        }
         else if (xp.parse_string(tag, "stdin_filename", stdin_filename)) continue;
         else if (xp.parse_string(tag, "stdout_filename", stdout_filename)) continue;
         else if (xp.parse_string(tag, "stderr_filename", stderr_filename)) continue;
@@ -211,43 +229,43 @@ int parse_job_file() {
 // We need to use CreateFile() to get them.  Ugh.
 //
 HANDLE win_fopen(const char* path, const char* mode) {
-	SECURITY_ATTRIBUTES sa;
-	memset(&sa, 0, sizeof(sa));
-	sa.nLength = sizeof(sa);
-	sa.bInheritHandle = TRUE;
+    SECURITY_ATTRIBUTES sa;
+    memset(&sa, 0, sizeof(sa));
+    sa.nLength = sizeof(sa);
+    sa.bInheritHandle = TRUE;
 
-	if (!strcmp(mode, "r")) {
-		return CreateFile(
-			path,
-			GENERIC_READ,
-			FILE_SHARE_READ,
-			&sa,
-			OPEN_EXISTING,
-			0, 0
-		);
-	} else if (!strcmp(mode, "w")) {
-		return CreateFile(
-			path,
-			GENERIC_WRITE,
-			FILE_SHARE_WRITE,
-			&sa,
-			OPEN_ALWAYS,
-			0, 0
-		);
-	} else if (!strcmp(mode, "a")) {
-		HANDLE hAppend = CreateFile(
-			path,
-			GENERIC_WRITE,
-			FILE_SHARE_WRITE,
-			&sa,
-			OPEN_ALWAYS,
-			0, 0
-		);
+    if (!strcmp(mode, "r")) {
+        return CreateFile(
+            path,
+            GENERIC_READ,
+            FILE_SHARE_READ,
+            &sa,
+            OPEN_EXISTING,
+            0, 0
+        );
+    } else if (!strcmp(mode, "w")) {
+        return CreateFile(
+            path,
+            GENERIC_WRITE,
+            FILE_SHARE_WRITE,
+            &sa,
+            OPEN_ALWAYS,
+            0, 0
+        );
+    } else if (!strcmp(mode, "a")) {
+        HANDLE hAppend = CreateFile(
+            path,
+            GENERIC_WRITE,
+            FILE_SHARE_WRITE,
+            &sa,
+            OPEN_ALWAYS,
+            0, 0
+        );
         SetFilePointer(hAppend, 0, NULL, FILE_END);
         return hAppend;
-	} else {
-		return 0;
-	}
+    } else {
+        return 0;
+    }
 }
 #endif
 
@@ -303,14 +321,14 @@ int TASK::run(int argct, char** argvt) {
     // pass std handles to app
     //
     startup_info.dwFlags = STARTF_USESTDHANDLES;
-	if (stdout_filename != "") {
-		boinc_resolve_filename_s(stdout_filename.c_str(), stdout_path);
-		startup_info.hStdOutput = win_fopen(stdout_path.c_str(), "a");
-	}
-	if (stdin_filename != "") {
-		boinc_resolve_filename_s(stdin_filename.c_str(), stdin_path);
-		startup_info.hStdInput = win_fopen(stdin_path.c_str(), "r");
-	}
+    if (stdout_filename != "") {
+        boinc_resolve_filename_s(stdout_filename.c_str(), stdout_path);
+        startup_info.hStdOutput = win_fopen(stdout_path.c_str(), "a");
+    }
+    if (stdin_filename != "") {
+        boinc_resolve_filename_s(stdin_filename.c_str(), stdin_path);
+        startup_info.hStdInput = win_fopen(stdin_path.c_str(), "r");
+    }
     if (stderr_filename != "") {
         boinc_resolve_filename_s(stderr_filename.c_str(), stderr_path);
         startup_info.hStdError = win_fopen(stderr_path.c_str(), "a");
@@ -323,10 +341,10 @@ int TASK::run(int argct, char** argvt) {
         (LPSTR)command.c_str(),
         NULL,
         NULL,
-        TRUE,		// bInheritHandles
+        TRUE,        // bInheritHandles
         CREATE_NO_WINDOW|IDLE_PRIORITY_CLASS,
         NULL,
-        NULL,
+        exec_dir.empty()?NULL:exec_dir.c_str(),
         &startup_info,
         &process_info
     )) {
@@ -344,9 +362,9 @@ int TASK::run(int argct, char** argvt) {
     char progname[256];
     char* argv[256];
     char arglist[4096];
-	FILE* stdout_file;
-	FILE* stdin_file;
-	FILE* stderr_file;
+    FILE* stdout_file;
+    FILE* stdin_file;
+    FILE* stderr_file;
 
     pid = fork();
     if (pid == -1) {
@@ -354,35 +372,43 @@ int TASK::run(int argct, char** argvt) {
         return ERR_FORK;
     }
     if (pid == 0) {
-		// we're in the child process here
-		//
-		// open stdout, stdin if file names are given
-		// NOTE: if the application is restartable,
-		// we should deal with atomicity somehow
-		//
-		if (stdout_filename != "") {
-			boinc_resolve_filename_s(stdout_filename.c_str(), stdout_path);
-			stdout_file = freopen(stdout_path.c_str(), "a", stdout);
-			if (!stdout_file) return ERR_FOPEN;
-		}
-		if (stdin_filename != "") {
-			boinc_resolve_filename_s(stdin_filename.c_str(), stdin_path);
-			stdin_file = freopen(stdin_path.c_str(), "r", stdin);
-			if (!stdin_file) return ERR_FOPEN;
-		}
+        // we're in the child process here
+        //
+        // open stdout, stdin if file names are given
+        // NOTE: if the application is restartable,
+        // we should deal with atomicity somehow
+        //
+        if (stdout_filename != "") {
+            boinc_resolve_filename_s(stdout_filename.c_str(), stdout_path);
+            stdout_file = freopen(stdout_path.c_str(), "a", stdout);
+            if (!stdout_file) return ERR_FOPEN;
+        }
+        if (stdin_filename != "") {
+            boinc_resolve_filename_s(stdin_filename.c_str(), stdin_path);
+            stdin_file = freopen(stdin_path.c_str(), "r", stdin);
+            if (!stdin_file) return ERR_FOPEN;
+        }
         if (stderr_filename != "") {
             boinc_resolve_filename_s(stderr_filename.c_str(), stderr_path);
             stderr_file = freopen(stderr_path.c_str(), "a", stderr);
             if (!stderr_file) return ERR_FOPEN;
         }
 
-		// construct argv
+        // construct argv
         // TODO: use malloc instead of stack var
         //
         argv[0] = app_path;
         strlcpy(arglist, command_line.c_str(), sizeof(arglist));
         argc = parse_command_line(arglist, argv+1);
         setpriority(PRIO_PROCESS, 0, PROCESS_IDLE_PRIORITY);
+        if (!exec_dir.empty()) {
+            int retval = chdir(exec_dir.c_str());
+#if 0
+            fprintf(stderr, "%s change to directory for task: %s\n",
+                retval ? "Failed to" : "Successful", exec_dir.c_str()
+            );
+#endif
+        }
         retval = execv(app_path, argv);
         perror("execv() failed: ");
         exit(ERR_EXEC);
