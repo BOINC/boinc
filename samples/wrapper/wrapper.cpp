@@ -91,7 +91,7 @@ struct TASK {
 #endif
     bool stat_first;
 
-    int parse_wrapper_macros(char* buf, const int len);
+    void macro_substitute(char* buf, const int len);
     int parse(XML_PARSER&);
     bool poll(int& status);
     int run(int argc, char** argv);
@@ -143,7 +143,7 @@ bool graphics = false;
 // macro replacement in wrapper strings from job.xml
 // for example PROJECT_DIR can be replaced in exec_dir and environment variables
 //
-int TASK::parse_wrapper_macros(char* buf, const int iLen = 8192) {
+void TASK::macro_substitute(char* buf, const int iLen = 8192) {
     char* buf2 = new char[iLen];
     while (1) {
         char* p = strstr(buf, "$PROJECT_DIR");
@@ -179,12 +179,12 @@ int TASK::parse(XML_PARSER& xp) {
         }
         else if (xp.parse_string(tag, "application", application)) continue;
         else if (xp.parse_str(tag, "exec_dir", buf, sizeof(buf))) {
-            parse_wrapper_macros(buf, 8192);
+            macro_substitute(buf, 8192);
             exec_dir = buf;
             continue;  
         }
         else if (xp.parse_str(tag, "setenv", buf, sizeof(buf))) {
-            parse_wrapper_macros(buf, 8192);
+            macro_substitute(buf, 8192);
             vsetenv.push_back(buf);
             continue;
         }
@@ -192,7 +192,7 @@ int TASK::parse(XML_PARSER& xp) {
         else if (xp.parse_string(tag, "stdout_filename", stdout_filename)) continue;
         else if (xp.parse_string(tag, "stderr_filename", stderr_filename)) continue;
         else if (xp.parse_str(tag, "command_line", buf, sizeof(buf))) {
-            parse_wrapper_macros(buf, 8192);
+            macro_substitute(buf, 8192);
             command_line = buf;
             continue;
         }

@@ -271,7 +271,7 @@ void CLIENT_STATE::check_suspend_network() {
         if (!recent_rpc) network_suspended = true;
         network_suspend_reason = SUSPEND_REASON_TIME_OF_DAY;
     }
-    if (exclusive_app_running) {
+    if (now - exclusive_app_running < EXCLUSIVE_APP_WAIT) {
         file_xfers_suspended = true;
         if (!recent_rpc) network_suspended = true;
         network_suspend_reason = SUSPEND_REASON_EXCLUSIVE_APP_RUNNING;

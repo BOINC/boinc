@@ -946,3 +946,20 @@ David  19 Feb 2011
 
     samples/wrapper/
         wrapper.cpp
+
+David  19 Feb 2011
+	- client: make "wait 30 sec after exclusive app exits" apply to network too
+	- client: fix bug in "wait 30 sec after exclusive app exits" logic
+	- client: fix compile warning and possible bug in is_remote_desktop()
+	- win: remove wrappture_example from solution
+		(until Hubzereo guys get their win lib working)
+
+	client/
+		app.cpp
+		cs_prefs.cpp
+	lib/
+		win_util.cpp
+	samples/wrapper/
+		wrapper.cpp
+	win_build/
+		boinc.sln
