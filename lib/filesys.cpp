@@ -750,13 +750,13 @@ int get_filesystem_info(double &total_space, double &free_space, char*) {
     if (pGetDiskFreeSpaceEx) {
         ULARGE_INTEGER TotalNumberOfFreeBytes;
         ULARGE_INTEGER TotalNumberOfBytes;
-        ULARGE_INTEGER TotalNumberOfBytesFreeToCaller;
+        ULARGE_INTEGER FreeBytesAvailable;
         pGetDiskFreeSpaceEx(
-            buf, &TotalNumberOfBytesFreeToCaller, &TotalNumberOfBytes,
+            buf, &FreeBytesAvailable, &TotalNumberOfBytes,
             &TotalNumberOfFreeBytes
         );
         signed __int64 uMB;
-        uMB = TotalNumberOfFreeBytes.QuadPart / (1024 * 1024);
+        uMB = FreeBytesAvailable.QuadPart / (1024 * 1024);
         free_space = uMB * 1024.0 * 1024.0;
         uMB = TotalNumberOfBytes.QuadPart / (1024 * 1024);
         total_space = uMB * 1024.0 * 1024.0;

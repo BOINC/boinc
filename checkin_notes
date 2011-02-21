@@ -969,3 +969,10 @@ David  20 Feb 2011
 
     samples/wrapper/
         wrapper.cpp
+
+David  20 Feb 2011
+    - client: fix disk-space accounting bug when user quotas in use
+        (Windows)
+
+    lib/
+        filesys.cpp
