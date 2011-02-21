@@ -963,3 +963,9 @@ David  19 Feb 2011
 		wrapper.cpp
 	win_build/
 		boinc.sln
+
+David  20 Feb 2011
+    - wrapper: Windows fixes
+
+    samples/wrapper/
+        wrapper.cpp

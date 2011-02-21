@@ -125,6 +125,28 @@ struct TASK {
         return frac;
     }
 
+#ifdef _WIN32
+    void set_up_env_vars(char** env_vars, const int nvars) {
+        int bufsize = 0;
+        int len = 0;
+        for (int j = 0; j < nvars; j++) {
+             bufsize += (1 + vsetenv[j].length());
+        }
+        bufsize++; // add a final byte for array null ptr
+        *env_vars = new char[bufsize];
+        memset(env_vars, 0x00, sizeof(char) * bufsize);
+        char* p = *env_vars;
+        // copy each env string to a buffer for the process
+        for (vector<string>::iterator it = vsetenv.begin();
+            it != vsetenv.end() && len < bufsize-1;
+            it++
+        ) {
+            strncpy(p, it->c_str(), it->length());
+            len = strlen(p);
+            p += len + 1; // move pointer ahead
+        }
+    }
+#else
     void set_up_env_vars(char*** env_vars, const int nvars) {
         *env_vars = new char*[nvars+1];
             // need one more than the # of vars, for a NULL ptr at the end
@@ -134,6 +156,7 @@ struct TASK {
             (*env_vars)[i] = (char*) vsetenv[i].c_str();
         }
     }
+#endif
 };
 
 vector<TASK> tasks;
@@ -360,7 +383,7 @@ int TASK::run(int argct, char** argvt) {
     // setup environment vars if needed
     //
     int nvars = vsetenv.size();
-    char** env_vars = NULL;
+    char* env_vars = NULL;
     if (nvars > 0) {
         set_up_env_vars(&env_vars, nvars);
     }
@@ -380,6 +403,7 @@ int TASK::run(int argct, char** argvt) {
         char error_msg[1024];
         windows_error_string(error_msg, sizeof(error_msg));
         fprintf(stderr, "can't run app: %s\n", error_msg);
+        if (env_vars) delete [] env_vars;
         return ERR_EXEC;
     }
     if (env_vars) delete [] env_vars;
