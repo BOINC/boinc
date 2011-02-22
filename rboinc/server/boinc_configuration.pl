@@ -45,23 +45,6 @@ return {
     ENCODE_EXECUTABLE => "$cgi/etc/encodeinput",
     ENCODE_CODE => -1,
 
-# File extension table. The funny layout is to simplify XML-ing &
-# lookups later.  The server will send this list to the client. The
-# client will NOT download files if a file with the same name exists,
-# OR one with the appended extensions.
-    ALIAS_TABLE => [
-	{ Extension => "_0",
-	  Alias => [ ".log", ".log.gz", ".log.gz.bad" ] },
-	{ Extension => "_1",
-	  Alias => [ ".coor" ] },
-	{ Extension => "_2",
-	  Alias => [ ".vel" ] },
-	{ Extension => "_3",
-	  Alias => [ ".idx" ] },
-	{ Extension => "_4",
-	  Alias => [ ".dcd", ".dcd.gz", ".dcd.gz.bad" ] },
-	],
-
 
 # Directory for miscellaneous files (eg. defaults)
     ETC_DIR => "$cgi/etc",

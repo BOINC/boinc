@@ -22,7 +22,7 @@ License along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 =cut
 
 
-# $Id: boinc_lib.pl 356 2010-03-02 15:00:31Z toni $
+# $Id: boinc_lib.pl 735 2011-02-22 19:16:59Z toni $
 
 use XML::Simple;
 use LWP::UserAgent;
@@ -117,6 +117,25 @@ sub parseWuTemplate {
     }
     return $p;
 }
+
+
+
+# Parse result name and split into components 
+sub parseResultName {
+    my $n=shift;
+    my ($name,$user,$group,$step,$maxsteps,$rnd,$ext) = ($n=~/^(.+)-(.+)_(.+)-(.+)-(.+)-(.+)_(.+)$/);
+    my $r={
+	name => $name,
+	user => $user,
+	group => $group,
+	step => $step,
+	maxsteps => $maxsteps,
+	rnd => $rnd,
+	ext => $ext
+    };
+    return $r;
+}
+
 
 
 

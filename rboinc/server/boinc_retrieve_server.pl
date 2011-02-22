@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# $Id: boinc_retrieve_server.pl 354 2010-03-02 14:56:33Z toni $
+# $Id: boinc_retrieve_server.pl 736 2011-02-22 19:17:34Z toni $
 
 # The remote-boinc server-side perl script. Should run as a CGI in an
 # Apache2 instance.
@@ -148,8 +148,9 @@ do { #  ???
 	    voidAnswer();
 	} elsif ($action eq 'get_dav_url') {
 	    handleGetDavUrl();
-	} elsif ($action eq 'get_wu_template') {
-	    handleGetWuTemplate($form->{application});
+	} elsif ($action eq 'get_wu_template') { 
+            # action slightly misnomed - will get both
+	    handleGetTemplate($form->{application});
 	} elsif ($action eq 'retrieve') {
 	    my $form_group=$form->{group};
 	    my $form_name=$form->{name};
@@ -201,7 +202,7 @@ exit(0);
 sub handleGetDavUrl {
     my $oh={};
     $oh->{DavUrl}=$config->{DAV_URL};
-    $oh->{ServerRevision}='$Revision: 354 $';
+    $oh->{ServerRevision}='$Revision: 736 $';
 
     my $xr=XMLout($oh, RootName => $xmlroot, AttrIndent => 1);
 
@@ -214,19 +215,24 @@ sub handleGetDavUrl {
 
 ##################################################
 
-sub handleGetWuTemplate {
+# Get wu and result templates
+sub handleGetTemplate {
     my $app=shift;
     my $thash=parse_wu_template($app);
+    my $rhash=parse_result_template($app);
 
-    my $oh={};
-    $oh->{WuTemplate}=$thash;
-    $oh->{ServerRevision}='$Revision: 354 $';
+    my $oh={
+	WuTemplate => $thash,
+	ResultTemplate => $rhash,
+	ServerRevision => '$Revision: 736 $'
+    };
 
     my $xr=XMLout($oh, RootName => $xmlroot, AttrIndent => 1);
 
     print $response_header;
     print $xr;
 }
+
 
 
 
@@ -424,7 +430,7 @@ sub sendRemoveSuccess {
     my $r={};
     $r->{Success}->{NumberRemoved}=$nr;
     $r->{Success}->{NumberKept}=$nk;
-    $r->{ServerRevision}='$Revision: 354 $';
+    $r->{ServerRevision}='$Revision: 736 $';
 
     my $xr=XMLout($r, RootName => $xmlroot, AttrIndent => 1);
 
@@ -492,14 +498,18 @@ sub handleRetrieve {
 # TODO: find files to be downloaded
 
     my @flist;
-    if($name) {
+    my $aliastable;
+    if($name) {			# name given
 	@flist=glob("$groupdir/$name-$group-*");
+	$aliastable=getAliasTable($name,$group);
 	if(-r "$groupdir/$name/metadata_file") {
 	    push @flist,"$groupdir/$name/metadata_file";
 	    $metadata++;
 	}
-    } else {
+    } else {			# name not given 
 	@flist=glob("$groupdir/*-$group-*");
+	my $tmp=parseResultName(basename($flist[0])); # NAME of first retrieved item
+	$aliastable=getAliasTable($tmp->{name},$group);
     }
 
     if(! scalar @flist) {
@@ -515,25 +525,14 @@ sub handleRetrieve {
 	symlink $f,"$retrdir/$bn";
     }
 
-
-    sendRetrieveSuccess($random_id,\@blist,$expouts,$metadata);
-
-}
-
-
-sub sendRetrieveSuccess {
-    my $reason=shift;
-    my $rblist=shift;
-    my $eo=shift;
-    my $meta=shift;
-
+    # Send response
     my $r={};
-    $r->{Success}->{Directory}=$reason;
-    $r->{Success}->{FinalOutputs}=$eo;
-    $r->{Success}->{MetadataFileCount}=$meta;
-    $r->{AliasTable}={File=>$config->{ALIAS_TABLE}};
-    $r->{FileList}={File=>$rblist};
-    $r->{ServerRevision}='$Revision: 354 $';
+    $r->{Success}->{Directory}=$random_id;
+    $r->{Success}->{FinalOutputs}=$expouts;
+    $r->{Success}->{MetadataFileCount}=$metadata;
+    $r->{AliasTable}={File=>$aliastable};
+    $r->{FileList}={File=>\@blist};
+    $r->{ServerRevision}='$Revision: 736 $';
 
     my $xr=XMLout($r, RootName => $xmlroot, AttrIndent => 1);
 
@@ -541,6 +540,29 @@ sub sendRetrieveSuccess {
     print $xr;
 }
 
+
+
+
+# Make alias table for given group, name (from template)
+sub getAliasTable {
+    my $name=shift;
+    my $group=shift;
+    my $groupdir=$config->{WORKFLOW_DIR}."/$group";
+    my $desc=XMLin("$groupdir/$name/$xml_description_file");
+    my $app=$desc->{Template};
+    my $tpl=parse_result_template($app);
+    my @ata=();
+    my $i=0;
+    while ($tpl->{file_info}->[$i]) {
+	my $ext="_$i";
+	my $aliases=$tpl->{file_info}->[$i]->{rboinc}->{aliases};
+	my @alist=split(' ',$aliases);
+	push(@ata, { Extension => $ext,
+		     Alias => \@alist } );
+	$i++;
+    }
+    return \@ata;
+}
 
 
 
@@ -628,7 +650,7 @@ sub handleGridStatus {
     die "invalid user supplied" if(! isUserValid($user));
 
     my $cmd=<<"EOL";
-echo "call mon_status('$user')" | mysql -t -p XXX YYY
+echo "call mon_status('$user')" | mysql -t -pc0c4c0la LUNA
 EOL
     my $list=`$cmd`;
 
@@ -706,7 +728,7 @@ sub sendSuccess {
     my $m=shift;
     my $r=shift || {};
     $r->{Success}->{Message}=$m;
-    $r->{ServerRevision}='$Revision: 354 $';
+    $r->{ServerRevision}='$Revision: 736 $';
 
     my $xr=XMLout($r, RootName => $xmlroot, AttrIndent => 1);
 

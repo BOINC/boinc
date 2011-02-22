@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# $Id: boinc_authentication.pl 355 2010-03-02 14:56:57Z toni $
+# $Id: boinc_authentication.pl 736 2011-02-22 19:17:34Z toni $
 
 
 =head1 NAME
@@ -173,56 +173,43 @@ sub isNameReserved {
 
 # Template-handling
 
+# Parse a template and return it as a hash
+sub parse_template {
+    my $tpl=shift;
+    
+    if(!isTagValid($tpl)) {
+	die "Invalid character in application request";
+    }
+
+    # Read the template's content
+    my $tfile=$config->{PROJECT_DIR}."/templates/";
+    $tfile=$tfile.$tpl;
+
+    open F,"<$tfile" or die "Error opening template: $!";
+    my @lines=<F>;
+    close F;
+    my $ttext=join "",@lines;
+    
+    # Add the root element, otherwise ill-formed
+    my $txml=XMLin("<opt>$ttext</opt>",
+		   ForceArray => ["file_ref"]);
+    return $txml;
+}
+
 
 # Parse the wu template and return it as an hash
 sub parse_wu_template {
     my $tpl=shift;
-    
-    if(!isTagValid($tpl)) {
-	die "Invalid character in application request";
-    }
-
-    # Read the template's content
-    my $tfile=$config->{PROJECT_DIR}."/templates/";
-    $tfile=$tfile."rboinc_".$tpl."_wu";
-
-    open F,"<$tfile" or die "Error opening template: $!";
-    my @lines=<F>;
-    close F;
-    my $ttext=join "",@lines;
-    
-    # Add the root element, otherwise ill-formed
-    my $txml=XMLin("<opt>$ttext</opt>",
-		   ForceArray => ["file_ref"]);
-    return $txml;
-
+    return parse_template("rboinc_".$tpl."_wu");
 }
-
-
 
 # Parse the wu template and return it as an hash
 sub parse_result_template {
     my $tpl=shift;
-    
-    if(!isTagValid($tpl)) {
-	die "Invalid character in application request";
-    }
-
-    # Read the template's content
-    my $tfile=$config->{PROJECT_DIR}."/templates/";
-    $tfile=$tfile."rboinc_".$tpl."_result";
-
-    open F,"<$tfile" or die "Error opening template: $!";
-    my @lines=<F>;
-    close F;
-    my $ttext=join "",@lines;
-    
-    # Add the root element, otherwise ill-formed
-    my $txml=XMLin("<opt>$ttext</opt>",
-		   ForceArray => ["file_ref"]);
-    return $txml;
-
+    return parse_template("rboinc_".$tpl."_result");
 }
+
+
 
 
 
@@ -286,6 +273,26 @@ EOF
     return $scr;
 }
 
+
+
+
+
+
+# Parse result name and split into components 
+sub parseResultName {
+    my $n=shift;
+    my ($name,$user,$group,$step,$maxsteps,$rnd,$ext) = ($n=~/^(.+)-(.+)_(.+)-(.+)-(.+)-(.+)_(.+)$/);
+    my $r={
+	name => $name,
+	user => $user,
+	group => $group,
+	step => $step,
+	maxsteps => $maxsteps,
+	rnd => $rnd,
+	ext => $ext
+    };
+    return $r;
+}
 
 
 1;

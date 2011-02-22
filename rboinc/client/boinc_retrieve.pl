@@ -22,7 +22,7 @@ License along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 =cut
 
 
-# $Id: boinc_retrieve.pl 356 2010-03-02 15:00:31Z toni $
+# $Id: boinc_retrieve.pl 735 2011-02-22 19:16:59Z toni $
 
 use strict;
 
@@ -37,6 +37,7 @@ use HTTP::Request::Common qw(POST);
 use HTTP::DAV;
 use LWP::UserAgent;
 use File::Basename;
+use File::Spec;
 use Pod::Usage;
 use Error qw(:try);
 
@@ -58,6 +59,7 @@ my $group='';
 
 my $name='';
 my $into='',
+my $intotree='',
 our $verbose='';
 my $quiet='';
 my $keep='';
@@ -79,6 +81,7 @@ GetOptions(
 
     'name=s' => \$name,
     'into=s' => \$into,
+    'intotree=s' => \$intotree,
     'verbose' => \$verbose,
     'quiet' => \$quiet,
     'keep'  => \$keep,
@@ -105,6 +108,9 @@ pod2usage(1) if $help;
 checkMandatoryArguments(["group","url"]) or exit 1;
 my $cgi_url = "$url/$cgi_retrieve";
 
+if($intotree) {
+   $into=$intotree;
+}
 
 
 
@@ -235,6 +241,8 @@ sub handleGridStatus {
 ########################################
 # Handle retrieve action
 
+# TODO -intotree, rename
+
 
 sub handleRetrieve {
 
@@ -276,24 +284,32 @@ sub handleRetrieve {
     logInfo("Connecting to DAV server");
     my $dav = new HTTP::DAV;
     $dav->open( -url=> $dav_url )
-	or die("Couldn’t open $dav_url: " .$dav->message . "\n");
+	or die("Couldn't open $dav_url: " .$dav->message . "\n");
     $dav->cwd($dav_dir)              
-	or die("Couldn’t set remote directory $dav_dir: " .$dav->message . "\n");
+	or die("Couldn't set remote directory $dav_dir: " .$dav->message . "\n");
 
     my $ndone=0;
     my $nskip=0;
     my @skiplist=();
     my $nexpected=scalar @$rfilelist;
     foreach my $fn (@$rfilelist) {
-	if( fileOrAliasExists($fn,$aliasTable) ) {
+	my $targetfn=$fn;
+	if($intotree) {
+	    my $tmp=parseResultName($fn);
+	    my $name=$tmp->{name};
+	    mkdir $name;	# may well fail if dir exists
+	    $targetfn=File::Spec->catfile($name,$fn); # OS indepen
+	}
+	if( fileOrAliasExists($targetfn,$aliasTable) ) {
 	    if(!$quiet && $nskip==0) {
 		print "Warning: some files are present locally and will not be overwritten.\n";
 	    }
 	    $nskip++;
 	    push @skiplist,$fn;
 	} else {
+	    $targetfn = $targetfn . aliasExtension($fn,$aliasTable);
 	    $dav->get(-url => $fn,
-		      -to => ".") and
+		      -to => $targetfn) and
 			  $ndone++;
 	}
 	if(!$quiet) {
@@ -329,10 +345,7 @@ sub handleRetrieve {
 	    my $mess=$ex->text();
     	    print STDERR "Error requesting removal of remote files: $mess; continuing.\n";
 	}
-
-
     }
-
 
 
 
@@ -345,6 +358,34 @@ sub handleRetrieve {
     }
     $dav->cwd("..");
     $dav->delete($dav_dir);
+
+}
+
+
+
+# Return the first extension defined in the alias table
+
+sub aliasExtension {
+    my $fn=shift;
+    my $at=shift;
+
+    # Extract trailing number
+    $fn=~/_([0-9]+)$/;
+    my $fileExt=$1;
+
+    my $newExt="";
+
+    # iterate over the alias list
+    my $rAliasList=$at->{File};
+    foreach my $curAlias ( @$rAliasList ) {
+	if($curAlias->{Extension} eq "_$fileExt") {
+	    # if alias for current extension, return first Alias
+	    $newExt=$curAlias->{Alias}->[0];
+	    logInfo("Found suffix $fileExt -> $newExt");
+	    last;
+	}
+    }
+    return $newExt;
 
 }
 
@@ -507,6 +548,7 @@ boinc_retrieve [options]
 
     -name NAME           Retrieve only a specific job and its metadata
     -into DIR            Put files into specified directory (default ".")
+    -intotree DIR        Put files into specified directory, with NAMEs in subdirs
     -verbose             Be verbose
     -quiet               Hide download progress indicator
     -keep                Do not remove retrieved files from server 
