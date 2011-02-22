@@ -512,7 +512,7 @@ void TASK::kill() {
 #ifdef _WIN32
     TerminateProcess(pid_handle, -1);
 #else
-    ::kill(pid, SIGKILL);
+    ::kill(pid, SIGTERM);
 #endif
 }
 

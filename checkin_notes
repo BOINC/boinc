@@ -982,3 +982,14 @@ Charlie 21 Feb 2011
         
 	client/
 		cs_notice.cpp
+
+David  21 Feb 2011
+    - client: add cpu_sched debug messages for anti-domino-effect
+        and anti-thrasing mechanisms
+    - wrapper: to kill an app, use SIGTERM instead of SIGKILL
+    client/
+        acct_mgr.cpp
+        cpu_sched.cpp
+    samples/wrapper/
+        wrapper.cpp
+    

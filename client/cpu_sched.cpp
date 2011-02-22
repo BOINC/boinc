@@ -366,31 +366,31 @@ RESULT* CLIENT_STATE::largest_debt_project_best_result() {
         PROJECT* p = projects[i];
         if (!p->next_runnable_result) continue;
         if (p->non_cpu_intensive) continue;
-if (use_rec) {
-        if (first || project_priority(p)> best_debt) {
-            first = false;
-            best_project = p;
-            best_debt = project_priority(p);
+        if (use_rec) {
+            if (first || project_priority(p)> best_debt) {
+                first = false;
+                best_project = p;
+                best_debt = project_priority(p);
+            }
+        } else {
+            if (first || p->cpu_pwf.anticipated_debt > best_debt) {
+                first = false;
+                best_project = p;
+                best_debt = p->cpu_pwf.anticipated_debt;
+            }
         }
-} else {
-        if (first || p->cpu_pwf.anticipated_debt > best_debt) {
-            first = false;
-            best_project = p;
-            best_debt = p->cpu_pwf.anticipated_debt;
-        }
-}
     }
     if (!best_project) return NULL;
 
-if (!use_rec) {
-    if (log_flags.cpu_sched_debug) {
-        msg_printf(best_project, MSG_INFO,
-            "[cpu_sched] highest debt: %f %s",
-            best_project->cpu_pwf.anticipated_debt,
-            best_project->next_runnable_result->name
-        );
+    if (!use_rec) {
+        if (log_flags.cpu_sched_debug) {
+            msg_printf(best_project, MSG_INFO,
+                "[cpu_sched] highest debt: %f %s",
+                best_project->cpu_pwf.anticipated_debt,
+                best_project->next_runnable_result->name
+            );
+        }
     }
-}
     RESULT* rp = best_project->next_runnable_result;
     best_project->next_runnable_result = 0;
     return rp;
@@ -418,11 +418,11 @@ RESULT* first_coproc_result(int rsc_type) {
         if (!rp->runnable()) continue;
         if (rp->project->non_cpu_intensive) continue;
         if (rp->already_selected) continue;
-if (use_rec) {
-        std = project_priority(rp->project);
-} else {
-        std = rp->project->anticipated_debt(rsc_type);
-}
+        if (use_rec) {
+                std = project_priority(rp->project);
+        } else {
+                std = rp->project->anticipated_debt(rsc_type);
+        }
         if (!best) {
             best = rp;
             best_std = std;
@@ -706,20 +706,20 @@ void CLIENT_STATE::adjust_debts() {
         work_fetch.accumulate_inst_sec(atp, elapsed_time);
     }
 
-if (use_rec) {
-    update_rec();
-} else {
-    cpu_work_fetch.update_long_term_debts();
-    cpu_work_fetch.update_short_term_debts();
-    if (host_info.have_cuda()) {
-        cuda_work_fetch.update_long_term_debts();
-        cuda_work_fetch.update_short_term_debts();
+    if (use_rec) {
+        update_rec();
+    } else {
+        cpu_work_fetch.update_long_term_debts();
+        cpu_work_fetch.update_short_term_debts();
+        if (host_info.have_cuda()) {
+            cuda_work_fetch.update_long_term_debts();
+            cuda_work_fetch.update_short_term_debts();
+        }
+        if (host_info.have_ati()) {
+            ati_work_fetch.update_long_term_debts();
+            ati_work_fetch.update_short_term_debts();
+        }
     }
-    if (host_info.have_ati()) {
-        ati_work_fetch.update_long_term_debts();
-        ati_work_fetch.update_short_term_debts();
-    }
-}
 
     reset_debt_accounting();
 }
@@ -792,16 +792,16 @@ static bool schedule_if_possible(
     }
     proc_rsc.schedule(rp, atp);
 
-if (use_rec) {
-    adjust_rec_temp(rp);
-} else {
-    // project STD at end of time slice
-    //
-    double dt = gstate.global_prefs.cpu_scheduling_period();
-    rp->project->cpu_pwf.anticipated_debt -= dt*rp->avp->avg_ncpus/cpu_work_fetch.ninstances;
-    rp->project->cuda_pwf.anticipated_debt -= dt*rp->avp->ncudas/cuda_work_fetch.ninstances;
-    rp->project->ati_pwf.anticipated_debt -= dt*rp->avp->natis/ati_work_fetch.ninstances;
-}
+    if (use_rec) {
+        adjust_rec_temp(rp);
+    } else {
+        // project STD at end of time slice
+        //
+        double dt = gstate.global_prefs.cpu_scheduling_period();
+        rp->project->cpu_pwf.anticipated_debt -= dt*rp->avp->avg_ncpus/cpu_work_fetch.ninstances;
+        rp->project->cuda_pwf.anticipated_debt -= dt*rp->avp->ncudas/cuda_work_fetch.ninstances;
+        rp->project->ati_pwf.anticipated_debt -= dt*rp->avp->natis/ati_work_fetch.ninstances;
+    }
     return true;
 }
 
@@ -819,16 +819,32 @@ static void promote_once_ran_edf() {
             RESULT* rp = atp->result;
             PROJECT* p = rp->project;
             if (p->deadlines_missed(rp->avp->rsc_type())) {
+                if (log_flags.cpu_sched) {
+                    msg_printf(p, MSG_INFO,
+                        "[cpu_sched] domino prevention: mark %s as deadline miss",
+                        rp->name
+                    );
+                }
                 rp->rr_sim_misses_deadline = true;
             }
         }
         if (gstate.now - atp->last_deadline_miss_time < gstate.global_prefs.cpu_scheduling_period()) {
+            if (log_flags.cpu_sched) {
+                RESULT* rp = atp->result;
+                PROJECT* p = rp->project;
+                msg_printf(p, MSG_INFO,
+                    "[cpu_sched] trashing prevention: mark %s as deadline miss",
+                    rp->name
+                );
+            }
             atp->result->rr_sim_misses_deadline = true;
         }
     }
 }
 
-void add_coproc_jobs(vector<RESULT*>& run_list, int rsc_type, PROC_RESOURCES& proc_rsc) {
+void add_coproc_jobs(
+    vector<RESULT*>& run_list, int rsc_type, PROC_RESOURCES& proc_rsc
+) {
     ACTIVE_TASK* atp;
     RESULT* rp;
     bool can_run;
@@ -909,9 +925,9 @@ void CLIENT_STATE::make_run_list(vector<RESULT*>& run_list) {
 
     // set temporary variables
     //
-if (use_rec) {
-    project_priority_init();
-}
+    if (use_rec) {
+        project_priority_init();
+    }
     for (i=0; i<results.size(); i++) {
         rp = results[i];
         rp->already_selected = false;
@@ -920,11 +936,11 @@ if (use_rec) {
     for (i=0; i<projects.size(); i++) {
         p = projects[i];
         p->next_runnable_result = NULL;
-if (!use_rec) {
-        p->cpu_pwf.anticipated_debt = p->cpu_pwf.short_term_debt;
-        p->cuda_pwf.anticipated_debt = p->cuda_pwf.short_term_debt;
-        p->ati_pwf.anticipated_debt = p->ati_pwf.short_term_debt;
-}
+    if (!use_rec) {
+            p->cpu_pwf.anticipated_debt = p->cpu_pwf.short_term_debt;
+            p->cuda_pwf.anticipated_debt = p->cuda_pwf.short_term_debt;
+            p->ati_pwf.anticipated_debt = p->ati_pwf.short_term_debt;
+    }
         p->cpu_pwf.deadlines_missed_copy = p->cpu_pwf.deadlines_missed;
         p->cuda_pwf.deadlines_missed_copy = p->cuda_pwf.deadlines_missed;
         p->ati_pwf.deadlines_missed_copy = p->ati_pwf.deadlines_missed;
