@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# $Id: boinc_authentication.pl 736 2011-02-22 19:17:34Z toni $
+# $Id$
 
 
 =head1 NAME

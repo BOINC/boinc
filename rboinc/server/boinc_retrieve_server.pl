@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# $Id: boinc_retrieve_server.pl 736 2011-02-22 19:17:34Z toni $
+# $Id$
 
 # The remote-boinc server-side perl script. Should run as a CGI in an
 # Apache2 instance.

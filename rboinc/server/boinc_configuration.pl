@@ -1,7 +1,7 @@
 # Site-specific configuration constants (used by the server side
 # component). 
 #
-# $Id: boinc_configuration.pl 356 2010-03-02 15:00:31Z toni $
+# $Id$
 
 
 

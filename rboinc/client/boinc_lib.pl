@@ -22,7 +22,7 @@ License along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 =cut
 
 
-# $Id: boinc_lib.pl 735 2011-02-22 19:16:59Z toni $
+# $Id$
 
 use XML::Simple;
 use LWP::UserAgent;

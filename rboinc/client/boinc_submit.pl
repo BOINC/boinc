@@ -22,7 +22,7 @@ License along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 =cut
 
 
-# $Id: boinc_submit.pl 356 2010-03-02 15:00:31Z toni $
+# $Id$
 
 use strict;
 
