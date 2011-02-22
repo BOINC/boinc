@@ -45,5 +45,8 @@ extern void procinfo_app(PROCINFO&, std::vector<PROCINFO>&, char* graphics_exec_
 extern void procinfo_other(PROCINFO&, std::vector<PROCINFO>&);
 	// After getting mem usage for all BOINC apps,
 	// call this to get mem usage for everything else
+extern void get_descendants(int pid, std::vector<int>& pids);
+extern bool any_process_exists(std::vector<int>& pids);
+extern void kill_all(std::vector<int>& pids);
 
 #endif

@@ -114,8 +114,16 @@ int procinfo_setup(vector<PROCINFO>& pi) {
 
     while (1) {
         memset(&p, 0, sizeof(p));
-        c = fscanf(fd, "%d%d%d%d%ld%d%d:%lf ", &p.id, &p.parentid, &real_mem, 
-                    &virtual_mem, &p.page_fault_count, &priority, &hours, &p.user_time);
+        c = fscanf(fd, "%d%d%d%d%ld%d%d:%lf ",
+            &p.id,
+            &p.parentid,
+            &real_mem, 
+            &virtual_mem,
+            &p.page_fault_count,
+            &priority,
+            &hours,
+            &p.user_time
+        );
         if (c < 7) break;
         if (fgets(p.command, sizeof(p.command) , fd) == NULL) break;
         lf = strchr(p.command, '\n');
@@ -185,19 +193,4 @@ void add_proc_totals(PROCINFO& pi, vector<PROCINFO>& piv, int pid, char* graphic
 //
 void procinfo_app(PROCINFO& pi, vector<PROCINFO>& piv, char* graphics_exec_file) {
 	add_proc_totals(pi, piv, pi.id, graphics_exec_file, 0, 0);
-}
-
-void procinfo_other(PROCINFO& pi, vector<PROCINFO>& piv) {
-    unsigned int i;
-
-    memset(&pi, 0, sizeof(pi));
-    for (i=0; i<piv.size(); i++) {
-        PROCINFO& p = piv[i];
-        if (p.is_boinc_app) continue;
-        if (p.is_low_priority) continue;
-
-        pi.user_time += p.user_time;
-        pi.swap_size += p.swap_size;
-        pi.working_set_size += p.working_set_size;
-    }
 }

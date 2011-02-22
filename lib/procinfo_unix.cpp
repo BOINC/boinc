@@ -16,6 +16,8 @@
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
 
+// process-enumeration stuff for Unix other than Mac OS X
+
 #include "config.h"
 
 #ifdef HAVE_PROCFS_H
@@ -32,7 +34,9 @@
 #include <string.h>
 #include <ctype.h>
 #include <sys/types.h>
+#include <sys/wait.h>
 #include <dirent.h>
+#include <signal.h>
 
 #ifdef HAVE_UNISTD_H
 #include <unistd.h>
@@ -306,21 +310,5 @@ void procinfo_app(
         if (!strcmp(p.command, graphics_exec_file)) {
             p.is_boinc_app = true;
         }
-    }
-}
-
-void procinfo_other(PROCINFO& pi, vector<PROCINFO>& piv) {
-    unsigned int i;
-
-    memset(&pi, 0, sizeof(pi));
-    for (i=0; i<piv.size(); i++) {
-        PROCINFO& p = piv[i];
-        if (p.is_boinc_app) continue;
-        if (p.is_low_priority) continue;
-
-        pi.kernel_time += p.kernel_time;
-        pi.user_time += p.user_time;
-        pi.swap_size += p.swap_size;
-        pi.working_set_size += p.working_set_size;
     }
 }

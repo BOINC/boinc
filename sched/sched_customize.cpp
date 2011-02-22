@@ -441,14 +441,22 @@ static inline bool app_plan_opencl_ati(
 
 static inline bool app_plan_vbox32(SCHEDULER_REQUEST& sreq, HOST_USAGE& hu) {
     if (strlen(sreq.host.virtualbox_version) == 0) return false;
-    // may need version check
+    int n, maj, min, rel;
+    n = sscanf(sreq.host.virtualbox_version, "%d.%d.%d", &maj, &min, &rel);
+    if (n != 3) return false;
+    if (maj < 3) return false;
+    if (maj == 3 and min < 2) return false;
     return true;
 }
 
 static inline bool app_plan_vbox64(SCHEDULER_REQUEST& sreq, HOST_USAGE& hu) {
     if (strlen(sreq.host.virtualbox_version) == 0) return false;
     if (!is_64b_platform(sreq.platform.name)) return false;
-    // may need version check
+    int n, maj, min, rel;
+    n = sscanf(sreq.host.virtualbox_version, "%d.%d.%d", &maj, &min, &rel);
+    if (n != 3) return false;
+    if (maj < 3) return false;
+    if (maj == 3 and min < 2) return false;
     return true;
 }
 

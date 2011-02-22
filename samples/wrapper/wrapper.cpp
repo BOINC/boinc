@@ -126,6 +126,10 @@ struct TASK {
     }
 
 #ifdef _WIN32
+    // Windows uses a "null-terminated sequence of null-terminated strings"
+    // to represent env vars.
+    // I guess arg/argv didn't cut it for them.
+    //
     void set_up_env_vars(char** env_vars, const int nvars) {
         int bufsize = 0;
         int len = 0;
@@ -134,7 +138,7 @@ struct TASK {
         }
         bufsize++; // add a final byte for array null ptr
         *env_vars = new char[bufsize];
-        memset(env_vars, 0x00, sizeof(char) * bufsize);
+        memset(*env_vars, 0, sizeof(char) * bufsize);
         char* p = *env_vars;
         // copy each env string to a buffer for the process
         for (vector<string>::iterator it = vsetenv.begin();
@@ -510,9 +514,25 @@ bool TASK::poll(int& status) {
 
 void TASK::kill() {
 #ifdef _WIN32
-    TerminateProcess(pid_handle, -1);
+    // on Win, just kill all our descendants
+    //
+    vector<int> descendants;
+    get_descendants(GetCurrentProcessId(), descendants);
+    kill_all(descendants);
 #else
+    // on Unix, ask main process nicely.
+    // it descendants still exist after 10 sec, use the nuclear option
+    //
     ::kill(pid, SIGTERM);
+    for (int i=0; i<10; i++) {
+        vector<int> descendants;
+        get_descendants(getpid(), descendants);
+        if (!any_process_exists(descendants)) {
+            return;
+        }
+        sleep(1);
+    }
+    kill_all(descendants);
 #endif
 }
 

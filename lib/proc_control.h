@@ -15,6 +15,7 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
+#ifdef _WIN32
 extern HANDLE sandbox_account_interactive_token;
 extern HANDLE sandbox_account_service_token;
 
@@ -24,3 +25,7 @@ extern void get_sandbox_account_service_token();
 extern int run_app_windows(
     const char* path, const char* cdir, int argc, char *const argv[], HANDLE&
 );
+#endif
+
+extern void kill_all(vector<int>&);
+extern bool any_process_exists(vector<int>&);
