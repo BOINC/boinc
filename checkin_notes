@@ -1014,3 +1014,12 @@ David  21 Feb 2011
         Makefile.am
     samples/wrapper/
         wrapper.cpp
+
+David  21 Feb 2011
+    - client: send <?xml version="1.0" encoding="UTF-8" ?>
+        at start of scheduler and account manager requests.
+
+    client/
+        cs_scheduler.cpp
+        acct_mgr.cpp
+        cpu_sched.cpp

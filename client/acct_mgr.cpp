@@ -93,6 +93,7 @@ int ACCT_MGR_OP::do_rpc(
     FILE* f = boinc_fopen(ACCT_MGR_REQUEST_FILENAME, "w");
     if (!f) return ERR_FOPEN;
     fprintf(f,
+        "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\n"
         "<acct_mgr_request>\n"
         "   <name>%s</name>\n"
         "   <password_hash>%s</password_hash>\n"

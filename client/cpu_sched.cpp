@@ -289,7 +289,7 @@ static inline bool finished_time_slice(ACTIVE_TASK* atp) {
 // 3. results with active tasks that have no process
 // 4. results with no active task
 //
-// TODO: this is called in a loop over NCPUs, which is silly. 
+// TODO: this is called in a loop over NCPUs, which is silly.
 // Should call it once, and have it make an ordered list per project.
 //
 void CLIENT_STATE::assign_results_to_projects() {
@@ -502,7 +502,7 @@ static RESULT* earliest_deadline_result(int rsc_type) {
         } else {
             only_deadline_misses = false;
         }
-        
+
         if (only_deadline_misses && !rp->rr_sim_misses_deadline) {
             continue;
         }
@@ -1180,7 +1180,7 @@ static inline void increment_pending_usage(
 
 // check the GPU assignment for a currently-running app.
 // Note: don't check available RAM.
-// It may not be known (e.g. NVIDIA) and in any case, 
+// It may not be known (e.g. NVIDIA) and in any case,
 // if the app is still running, it has enough RAM
 //
 static inline bool current_assignment_ok(
@@ -1520,7 +1520,7 @@ static inline void assign_coprocs(vector<RESULT*>& jobs) {
 //     This function sets each task's next_scheduler_state,
 //     and at the end it starts/resumes and preempts tasks
 //     based on scheduler_state and next_scheduler_state.
-// 
+//
 bool CLIENT_STATE::enforce_run_list(vector<RESULT*>& run_list) {
     unsigned int i;
     vector<ACTIVE_TASK*> preemptable_tasks;
@@ -1645,7 +1645,7 @@ bool CLIENT_STATE::enforce_run_list(vector<RESULT*>& run_list) {
                 }
                 continue;
             }
-        
+
             // Don't run a multithread app if usage would be #CPUS+1 or more.
             // Multithread apps don't run well on an overcommitted system.
             // Allow usage of #CPUS + fraction,
@@ -1877,8 +1877,8 @@ bool CLIENT_STATE::enforce_run_list(vector<RESULT*>& run_list) {
 }
 
 // trigger CPU scheduling.
-// Called when a result is completed, 
-// when new results become runnable, 
+// Called when a result is completed,
+// when new results become runnable,
 // or when the user performs a UI interaction
 // (e.g. suspending or resuming a project or result).
 //
