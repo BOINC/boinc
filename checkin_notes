@@ -1032,3 +1032,12 @@ David  21 Feb 2011
         sched_types.cpp
     client/
         cs_scheduler.cpp
+
+Charlie 22 Feb 2011
+    - Mac: Fix compile error; add new procinfo.cpp to XCode Project.
+
+    lib/
+        procinfo.cpp
+     mac_build/
+        boinc.xcodeproj/
+            project.pbxproj

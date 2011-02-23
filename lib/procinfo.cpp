@@ -23,6 +23,10 @@
 #include <string.h>
 #endif
 
+#ifdef __APPLE__
+#include <signal.h>
+#endif
+
 #include "procinfo.h"
 
 using std::vector;
