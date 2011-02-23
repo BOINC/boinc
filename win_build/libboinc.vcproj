@@ -1001,6 +1001,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\lib\procinfo.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\lib\proxy_info.cpp"
 				>
 			</File>

@@ -39,9 +39,9 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <unistd.h>
-#include "procinfo.h"
 #endif
 
+#include "procinfo.h"
 #include "boinc_api.h"
 #include "diagnostics.h"
 #include "filesys.h"
