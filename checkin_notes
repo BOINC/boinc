@@ -1061,9 +1061,20 @@ David  22 Feb 2011
         cpu_sched.cpp
         client_state.h
 
-David  22 Feb 2011
+David  23 Feb 2011
     - client: finish [22902] (pass user ID, team ID to apps).
         Forgot to parse them in scheduler reply.
 
     client/
         scheduler_op.cpp
+
+David  23 Feb 2011
+    - scheduler: fix nasty bug introduced in [23040]
+        that caused no jobs to be sent.
+
+    db/
+        boinc_db.cpp,h
+    sched/
+        sched_config.cpp,h
+        sched_resend.cpp
+        

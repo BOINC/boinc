@@ -758,7 +758,7 @@ class DB_RESULT : public DB_BASE, public RESULT {
 public:
     DB_RESULT(DB_CONN* p=0);
     int get_id();
-    int mark_as_sent(int old_server_state, double report_grace_period);
+    int mark_as_sent(int old_server_state, int report_grace_period);
     void db_print(char*);
     void db_print_values(char*);
     void db_parse(MYSQL_ROW &row);

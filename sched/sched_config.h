@@ -58,7 +58,7 @@ struct SCHED_CONFIG {
     char download_dir[256];
     char upload_url[256];
     char upload_dir[256];
-    double report_grace_period;
+    int report_grace_period;
         // grace period for reporting results;
         // server's report deadline is client's deadline + this
     double delete_delay;

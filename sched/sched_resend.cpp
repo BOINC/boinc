@@ -187,7 +187,7 @@ bool resend_lost_work() {
             }
 
             retval = update_wu_transition_time(
-                wu, result.report_deadline+config.report_grace_period
+                wu, result.report_deadline + config.report_grace_period
             );
             if (retval) {
                 log_messages.printf(MSG_CRITICAL,

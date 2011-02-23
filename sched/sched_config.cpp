@@ -156,10 +156,10 @@ int SCHED_CONFIG::parse(FILE* f) {
         if (xp.parse_int(tag, "reliable_priority_on_over_except_error", reliable_priority_on_over_except_error)) continue;
         if (xp.parse_int(tag, "reliable_on_priority", reliable_on_priority)) continue;
         if (xp.parse_double(tag, "grace_period_hours", x)) {
-            report_grace_period = x*3600;
+            report_grace_period = (int)(x*3600);
             continue;
         }
-        if (xp.parse_double(tag, "report_grace_period", report_grace_period)) continue;
+        if (xp.parse_int(tag, "report_grace_period", report_grace_period)) continue;
         if (xp.parse_double(tag, "delete_delay_hours", x)) {
             delete_delay = x*3600;
             continue;

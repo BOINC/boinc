@@ -914,7 +914,7 @@ void DB_RESULT::db_print_values(char* buf){
 // The "... and server_state=%d" is a safeguard against
 // the case where another scheduler tries to send this result at the same time
 //
-int DB_RESULT::mark_as_sent(int old_server_state, double report_grace_period) {
+int DB_RESULT::mark_as_sent(int old_server_state, int report_grace_period) {
     char query[MAX_QUERY_LEN];
     int retval;
 
