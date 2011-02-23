@@ -108,7 +108,6 @@ int CLIENT_STATE::make_scheduler_request(PROJECT* p) {
 
     mf.init_file(f);
     fprintf(f,
-        "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\n"
         "<scheduler_request>\n"
         "    <authenticator>%s</authenticator>\n"
         "    <hostid>%d</hostid>\n"

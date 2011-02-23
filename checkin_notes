@@ -1023,3 +1023,12 @@ David  21 Feb 2011
         cs_scheduler.cpp
         acct_mgr.cpp
         cpu_sched.cpp
+
+David  21 Feb 2011
+    - client: don't send <?xml to scheduler; it doesn't expect it
+    - scheduler: handle optional <?xml
+
+    sched/
+        sched_types.cpp
+    client/
+        cs_scheduler.cpp

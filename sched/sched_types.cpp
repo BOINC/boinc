@@ -219,8 +219,13 @@ const char* SCHEDULER_REQUEST::parse(FILE* fin) {
     allow_multiple_clients = -1;
     coprocs.clear();
 
+    // TODO: use XML_PARSER FOR THIS
+
     if (!fgets(buf, sizeof(buf), fin)) {
         return "fgets() failed";
+    }
+    if (strstr(buf, "<?xml")) {
+        fgets(buf, sizeof(buf), fin);
     }
     if (!match_tag(buf, "<scheduler_request>")) return "no start tag";
     while (fgets(buf, sizeof(buf), fin)) {
