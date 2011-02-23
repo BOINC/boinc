@@ -27,5 +27,5 @@ extern int run_app_windows(
 );
 #endif
 
-extern void kill_all(vector<int>&);
-extern bool any_process_exists(vector<int>&);
+extern void kill_all(std::vector<int>&);
+extern bool any_process_exists(std::vector<int>&);
