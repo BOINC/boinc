@@ -904,6 +904,10 @@ int SCHEDULER_REPLY::parse(FILE* in, PROJECT* project) {
             got_rss_feeds = true;
             parse_rss_feed_descs(mf, sr_feeds);
             continue;
+        } else if (parse_int(buf, "<userid>", project->userid)) {
+            continue;
+        } else if (parse_int(buf, "<teamid>", project->teamid)) {
+            continue;
         } else if (match_tag(buf, "<!--")) {
             continue;
         } else if (strlen(buf)>1){

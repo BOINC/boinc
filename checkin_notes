@@ -1060,3 +1060,10 @@ David  22 Feb 2011
     client/
         cpu_sched.cpp
         client_state.h
+
+David  22 Feb 2011
+    - client: finish [22902] (pass user ID, team ID to apps).
+        Forgot to parse them in scheduler reply.
+
+    client/
+        scheduler_op.cpp
