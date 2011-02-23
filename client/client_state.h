@@ -549,6 +549,9 @@ extern void print_suspend_tasks_message(int);
 #define MAX_EXIT_TIME   15
     // if an app takes this long to exit, kill it
 
+#define MAX_STARTUP_TIME    10
+    // if app startup takes longer than this, quit loop
+
 //////// NETWORK
 
 #define CONNECT_ERROR_PERIOD    600.0

@@ -1858,6 +1858,20 @@ bool CLIENT_STATE::enforce_run_list(vector<RESULT*>& run_list) {
         }
         atp->scheduler_state = CPU_SCHED_SCHEDULED;
         swap_left -= atp->procinfo.swap_size;
+
+        // if we've been in this loop for > 10 secs,
+        // break out of it and arrange for another schedule()
+        // so that we don't miss GUI RPCs, heartbeats etc.
+        //
+        if (dtime() - now > MAX_STARTUP_TIME) {
+            if (log_flags.cpu_sched_debug) {
+                msg_printf(0, MSG_INFO,
+                    "[cpu_sched] app startup took %f secs", dtime() - now
+                );
+            }
+            request_schedule_cpus("slow app startup");
+            break;
+        }
     }
     if (action) {
         set_client_state_dirty("enforce_cpu_schedule");
