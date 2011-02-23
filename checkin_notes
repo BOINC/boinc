@@ -983,7 +983,7 @@ Charlie 21 Feb 2011
 	client/
 		cs_notice.cpp
 
-David  21 Feb 2011
+David  22 Feb 2011
     - client: add cpu_sched debug messages for anti-domino-effect
         and anti-thrasing mechanisms
     - wrapper: to kill an app, use SIGTERM instead of SIGKILL
@@ -993,7 +993,7 @@ David  21 Feb 2011
     samples/wrapper/
         wrapper.cpp
 
-David  21 Feb 2011
+David  22 Feb 2011
     - wrapper: improve and bullet-proof the way we kill apps.
         Win: enumerate all descendants, and kill them all TerminateProcess().
         Unix:
@@ -1015,7 +1015,7 @@ David  21 Feb 2011
     samples/wrapper/
         wrapper.cpp
 
-David  21 Feb 2011
+David  22 Feb 2011
     - client: send <?xml version="1.0" encoding="UTF-8" ?>
         at start of scheduler and account manager requests.
 
@@ -1024,7 +1024,7 @@ David  21 Feb 2011
         acct_mgr.cpp
         cpu_sched.cpp
 
-David  21 Feb 2011
+David  22 Feb 2011
     - client: don't send <?xml to scheduler; it doesn't expect it
     - scheduler: handle optional <?xml
 
@@ -1041,3 +1041,12 @@ Charlie 22 Feb 2011
      mac_build/
         boinc.xcodeproj/
             project.pbxproj
+
+David  22 Feb 2011
+    - client: wait 15 seconds (instead of 5) for an app to exit
+        before killing it.
+        Apparently some apps take ~10 sec on slow computers.
+
+    client/
+        client_state.h
+        app_control.cpp
