@@ -532,6 +532,8 @@ void TASK::kill() {
         }
         sleep(1);
     }
+    vector<int> descendants;
+    get_descendants(getpid(), descendants);
     kill_all(descendants);
 #endif
 }
