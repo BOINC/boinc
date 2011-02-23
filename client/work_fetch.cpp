@@ -1121,18 +1121,17 @@ void WORK_FETCH::compute_shares() {
 void WORK_FETCH::request_string(char* buf) {
     char buf2[256];
     sprintf(buf,
-        "[work_fetch] request: %.2f sec CPU (%.2f sec, %.2f)",
-        cpu_work_fetch.req_secs,
+        "[work_fetch] request: CPU (%.2f sec, %.2f inst)",
         cpu_work_fetch.req_secs, cpu_work_fetch.req_instances
     );
     if (gstate.host_info.have_cuda()) {
-        sprintf(buf2, " NVIDIA GPU (%.2f sec, %.2f)",
+        sprintf(buf2, " NVIDIA GPU (%.2f sec, %.2f inst)",
             cuda_work_fetch.req_secs, cuda_work_fetch.req_instances
         );
         strcat(buf, buf2);
     }
     if (gstate.host_info.have_ati()) {
-        sprintf(buf2, " ATI GPU (%.2f sec, %.2f)",
+        sprintf(buf2, " ATI GPU (%.2f sec, %.2f inst)",
             ati_work_fetch.req_secs, ati_work_fetch.req_instances
         );
         strcat(buf, buf2);
