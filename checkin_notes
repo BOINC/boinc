@@ -1134,3 +1134,15 @@ David  24 Feb 2011
 
     samples/wrapper/
         wrapper.cpp
+
+David  24 Feb 2011
+    - client: remove auto update stuff from makefiles.
+        This feature is mothballed.
+
+    client/
+        client_state.cpp,h
+        scheduler_op.cpp,h
+        file_names.cpp
+        cs_scheduler.cpp
+        cs_statefile
+        Makefile.am

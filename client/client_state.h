@@ -84,7 +84,9 @@ struct CLIENT_STATE {
     GUI_RPC_CONN_SET gui_rpcs;
 #endif
     GUI_HTTP gui_http;
+#ifdef ENABLE_AUTO_UPDATE
     AUTO_UPDATE auto_update;
+#endif
     LOOKUP_WEBSITE_OP lookup_website_op;
     GET_CURRENT_VERSION_OP get_current_version_op;
     GET_PROJECT_LIST_OP get_project_list_op;

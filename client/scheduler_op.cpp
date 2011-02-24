@@ -42,8 +42,6 @@
 #include "main.h"
 #include "scheduler_op.h"
 
-//#define ENABLE_AUTO_UPDATE
-
 using std::vector;
 
 SCHEDULER_OP::SCHEDULER_OP(HTTP_OP_SET* h) {

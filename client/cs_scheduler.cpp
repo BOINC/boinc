@@ -979,11 +979,13 @@ int CLIENT_STATE::handle_scheduler_reply(PROJECT* project, char* scheduler_url) 
         project->rpc_seqno = 0;
     }
 
+#ifdef ENABLE_AUTO_UPDATE
     if (sr.auto_update.present) {
         if (!sr.auto_update.validate_and_link(project)) {
             auto_update = sr.auto_update;
         }
     }
+#endif
 
     project->link_project_files(true);
 

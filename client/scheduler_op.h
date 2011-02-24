@@ -21,7 +21,7 @@
 #include <vector>
 
 #include "client_types.h"
-#include "auto_update.h"
+//#include "auto_update.h"
 #include "http_curl.h"
 #include "prefs.h"
 
@@ -125,7 +125,9 @@ struct SCHEDULER_REPLY {
     int send_time_stats_log;
     int send_job_log;
     int scheduler_version;
+#ifdef ENABLE_AUTO_UPDATE
     AUTO_UPDATE auto_update;
+#endif
     double cpu_backoff;
     double cuda_backoff;
     double ati_backoff;

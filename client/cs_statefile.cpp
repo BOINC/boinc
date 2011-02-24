@@ -485,7 +485,7 @@ int CLIENT_STATE::parse_state_file_aux(const char* fname) {
         if (parse_str(buf, "<newer_version>", newer_version)) {
             continue;
         }
-#ifndef SIM
+#ifdef ENABLE_AUTO_UPDATE
         if (match_tag(buf, "<auto_update>")) {
             if (!project) {
                 msg_printf(NULL, MSG_INTERNAL_ERROR,
@@ -706,9 +706,11 @@ int CLIENT_STATE::write_state(MIOFILE& f) {
             if (results[i]->project == p) results[i]->write(f, false);
         }
         p->write_project_files(f);
+#ifdef ENABLE_AUTO_UPDATE
         if (auto_update.present && auto_update.project==p) {
             auto_update.write(f);
         }
+#endif
     }
     active_tasks.write(f);
     f.printf(

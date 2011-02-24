@@ -79,11 +79,15 @@ void get_pathname(FILE_INFO* fip, char* path, int len) {
     // an associated PROJECT.
     //
     if (p) {
+#ifdef ENABLE_AUTO_UPDATE
         if (fip->is_auto_update_file) {
             boinc_version_dir(*p, gstate.auto_update.version, buf);
         } else {
             get_project_dir(p, buf, sizeof(buf));
         }
+#else
+        get_project_dir(p, buf, sizeof(buf));
+#endif
         snprintf(path, len, "%s/%s", buf, fip->name);
     } else {
         strlcpy(path, fip->name, len);

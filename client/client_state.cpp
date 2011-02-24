@@ -541,7 +541,9 @@ int CLIENT_STATE::init() {
         all_projects_list_check_time = 0;
     }
 
+#ifdef ENABLE_AUTO_UPDATE
     auto_update.init();
+#endif
 
     http_ops->cleanup_temp_files();
 
@@ -792,7 +794,9 @@ bool CLIENT_STATE::poll_slow_events() {
     // and handle_finished_apps() must be done before schedule_cpus()
 
     check_project_timeout();
-    //auto_update.poll();
+#ifdef ENABLE_AUTO_UPDATE
+    auto_update.poll();
+#endif
     POLL_ACTION(active_tasks           , active_tasks.poll      );
     POLL_ACTION(garbage_collect        , garbage_collect        );
     POLL_ACTION(gui_http               , gui_http.poll          );
@@ -1199,6 +1203,7 @@ bool CLIENT_STATE::garbage_collect_always() {
         }
     }
 
+#ifdef ENABLE_AUTO_UPDATE
     // reference-count auto update files
     //
     if (auto_update.present) {
@@ -1206,6 +1211,7 @@ bool CLIENT_STATE::garbage_collect_always() {
             auto_update.file_refs[i].file_info->ref_cnt++;
         }
     }
+#endif
 
     // Scan through RESULTs.
     // delete RESULTs that have been reported and acked.
