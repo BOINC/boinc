@@ -492,10 +492,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\client\auto_update.cpp"
-				>
-			</File>
-			<File
 				RelativePath="..\lib\boinc_win.cpp"
 				>
 				<FileConfiguration
@@ -778,10 +774,6 @@
 			</File>
 			<File
 				RelativePath="..\client\app.h"
-				>
-			</File>
-			<File
-				RelativePath="..\client\auto_update.h"
 				>
 			</File>
 			<File
