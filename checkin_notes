@@ -1119,3 +1119,9 @@ David  24 Feb 2011
         cpu_sched.cpp
     html/user/
         host_delete.cpp
+
+David  24 Feb 2011
+    - user web: fix "friend" functions
+
+    html/user/
+        friend.php

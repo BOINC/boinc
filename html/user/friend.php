@@ -219,8 +219,10 @@ function handle_cancel_confirm($user) {
     $destuser = BoincUser::lookup_id($destid);
     if (!$destuser) error_page(tra("No such user"));
     page_head(tra("Cancel friendship?"));
-    echo tra("Are you sure you want to cancel your friendship with %1?",$destuser->name) ."
-        <p>
+    echo
+        tra("Are you sure you want to cancel your friendship with %1?",
+            $destuser->name
+        ) ."<p>\n"
     ;
     show_button("friend.php?action=cancel&userid=$destid", tra("Yes"), tra("Cancel friendship"));
     show_button("home.php", tra("No"), tra("Stay friends"));
