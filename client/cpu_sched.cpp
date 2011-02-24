@@ -826,6 +826,7 @@ static void promote_once_ran_edf() {
                     );
                 }
                 rp->rr_sim_misses_deadline = true;
+                continue;
             }
         }
         if (gstate.now - atp->last_deadline_miss_time < gstate.global_prefs.cpu_scheduling_period()) {
@@ -833,7 +834,7 @@ static void promote_once_ran_edf() {
                 RESULT* rp = atp->result;
                 PROJECT* p = rp->project;
                 msg_printf(p, MSG_INFO,
-                    "[cpu_sched] trashing prevention: mark %s as deadline miss",
+                    "[cpu_sched] thrashing prevention: mark %s as deadline miss",
                     rp->name
                 );
             }

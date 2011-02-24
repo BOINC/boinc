@@ -20,9 +20,10 @@ require_once("../inc/boinc_db.inc");
 require_once("../inc/util.inc");
 require_once("../inc/host.inc");
 
-check_get_args(array("hostid"));
+check_get_args(array("hostid", "ttok", "tnow"));
 
 $user = get_logged_in_user();
+check_tokens($user->authenticator);
 
 $hostid = get_int("hostid");
 $host = BoincHost::lookup_id($hostid);

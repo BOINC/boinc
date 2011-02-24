@@ -148,9 +148,9 @@ bool resend_lost_work() {
             continue;
         }
 
+        APP* app = ssp->lookup_app(wu.appid);
         bavp = get_app_version(wu, false, false);
         if (!bavp) {
-            APP* app = ssp->lookup_app(wu.appid);
             log_messages.printf(MSG_CRITICAL,
                 "[HOST#%d] can't resend [RESULT#%d]: no app version for %s\n",
                 g_reply->host.id, result.id, app->name
@@ -166,9 +166,13 @@ bool resend_lost_work() {
         // so that the transitioner does 'the right thing'.
         //
         if (
-            wu.error_mask ||
-            wu.canonical_resultid ||
-            possibly_give_result_new_deadline(result, wu, *bavp)
+            wu.error_mask
+            || wu.canonical_resultid
+            || wu_is_infeasible_fast(
+                wu, result.server_state, result.priority, result.report_deadline,
+                *app, *bavp
+            )
+            || possibly_give_result_new_deadline(result, wu, *bavp)
         ) {
             if (config.debug_resend) {
                 log_messages.printf(MSG_NORMAL,

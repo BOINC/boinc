@@ -1087,3 +1087,26 @@ David  23 Feb 2011
 		cs_notice.cpp
 		pers_file_xfer.cpp
 		work_fetch.cpp
+
+David  24 Feb 2011
+    - scheduler: fix a problem with job resend.
+        When we first send a job, we pick an app version,
+        then call wu_is_infeasible_fast()
+        to see if the host is able to run the job with that app version.
+        In addition to checking disk space etc.
+        this calls wu_is_infeasible_custom() to do project-specific checks
+        (e.g. for SETI@home: don't use GPUs for VLAR jobs).
+
+        However, when we resend a job, we pick an app version
+        (possibly different from the original one)
+        and send the job without any checking.
+        So, for example, we might send a VLAR job to a GPU,
+        or send a job to a host with insufficient disk space
+        (because free space has changed since original send).
+
+        Solution: call wu_is_infeasible_fast() before resending a job,
+        and if it returns true, mark the job as done and don't resend it.
+
+    sched/
+        sched_send.cpp
+        sched_resend.cpp

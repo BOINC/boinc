@@ -577,6 +577,7 @@ static inline void update_estimated_delay(BEST_APP_VERSION& bav, double dt) {
 // Actually, return two: optimistic (lower) and pessimistic (higher).
 // If the deadline check with the optimistic bound fails,
 // try the pessimistic bound.
+// TODO: clean up this mess
 //
 static void get_delay_bound_range(
     WORKUNIT& wu,
