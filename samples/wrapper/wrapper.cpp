@@ -288,6 +288,7 @@ int start_daemons(int argc, char** argv) {
         int retval = task.run(argc, argv);
         if (retval) return retval;
     }
+    return 0;
 }
 
 void kill_daemons() {
