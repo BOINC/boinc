@@ -74,6 +74,9 @@ struct TASK {
     string command_line;
     double weight;
         // contribution of this task to overall fraction done
+    bool is_daemon;
+
+    // dynamic stuff follows
     double final_cpu_time;
     double starting_cpu;
         // how much CPU time was used by tasks before this in the job file
@@ -164,6 +167,7 @@ struct TASK {
 };
 
 vector<TASK> tasks;
+vector<TASK> daemons;
 APP_INIT_DATA aid;
 bool graphics = false;
 
@@ -193,6 +197,7 @@ int TASK::parse(XML_PARSER& xp) {
     weight = 1;
     final_cpu_time = 0;
     stat_first = true;
+    pid = 0;
 
     while (!xp.get(tag, sizeof(tag), is_tag)) {
         if (!is_tag) {
@@ -226,6 +231,7 @@ int TASK::parse(XML_PARSER& xp) {
         else if (xp.parse_string(tag, "checkpoint_filename", checkpoint_filename)) continue;
         else if (xp.parse_string(tag, "fraction_done_filename", fraction_done_filename)) continue;
         else if (xp.parse_double(tag, "weight", weight)) continue;
+        else if (xp.parse_bool(tag, "daemon", is_daemon)) continue;
     }
     return ERR_XML_PARSE;
 }
@@ -264,12 +270,35 @@ int parse_job_file() {
             TASK task;
             int retval = task.parse(xp);
             if (!retval) {
-                tasks.push_back(task);
+                if (task.is_daemon) {
+                    daemons.push_back(task);
+                } else {
+                    tasks.push_back(task);
+                }
             }
         }
     }
     fclose(f);
     return ERR_XML_PARSE;
+}
+
+int start_daemons(int argc, char** argv) {
+    for (unsigned int i=0; i<daemons.size(); i++) {
+        TASK& task = daemons[i];
+        int retval = task.run(argc, argv);
+        if (retval) return retval;
+    }
+}
+
+void kill_daemons() {
+    vector<int> daemon_pids;
+    for (unsigned int i=0; i<daemons.size(); i++) {
+        TASK& task = daemons[i];
+        if (task.pid) {
+            daemon_pids.push_back(task.pid);
+        }
+    }
+    kill_all(daemon_pids);
 }
 
 #ifdef _WIN32
@@ -478,7 +507,6 @@ int TASK::run(int argct, char** argvt) {
         } else {
             retval = execv(app_path, argv);
         }
-        if (env_vars) delete [] env_vars; // never really gets here after the execve
         perror("execv() failed: ");
         exit(ERR_EXEC);
     }  // pid = 0 i.e. child proc of the fork
@@ -512,7 +540,10 @@ bool TASK::poll(int& status) {
     return false;
 }
 
+// kill this task (gracefully if possible) and any other subprocesses
+//
 void TASK::kill() {
+    kill_daemons();
 #ifdef _WIN32
     // on Win, just kill all our descendants
     //
@@ -556,6 +587,21 @@ void TASK::resume() {
     suspended = false;
 }
 
+double TASK::cpu_time() {
+#ifdef _WIN32
+    double x;
+    int retval = boinc_process_cpu_time(pid_handle, x);
+    if (retval) return wall_cpu_time;
+    return x;
+#elif defined(__APPLE__)
+    // There's no easy way to get another process's CPU time in Mac OS X
+    //
+    return wall_cpu_time;
+#else
+    return linux_cpu_time(pid);
+#endif
+}
+
 void poll_boinc_messages(TASK& task) {
     BOINC_STATUS status;
     boinc_get_status(&status);
@@ -580,21 +626,6 @@ void poll_boinc_messages(TASK& task) {
             task.resume();
         }
     }
-}
-
-double TASK::cpu_time() {
-#ifdef _WIN32
-    double x;
-    int retval = boinc_process_cpu_time(pid_handle, x);
-    if (retval) return wall_cpu_time;
-    return x;
-#elif defined(__APPLE__)
-    // There's no easy way to get another process's CPU time in Mac OS X
-    //
-    return wall_cpu_time;
-#else
-    return linux_cpu_time(pid);
-#endif
 }
 
 void send_status_message(
@@ -679,6 +710,13 @@ int main(int argc, char** argv) {
         total_weight += tasks[i].weight;
     }
 
+    retval = start_daemons(argc, argv);
+    if (retval) {
+        fprintf(stderr, "start_daemons(): %d\n", retval);
+        kill_daemons();
+        boinc_finish(retval);
+    }
+
     // loop over tasks
     //
     for (i=0; i<tasks.size(); i++) {
@@ -705,6 +743,7 @@ int main(int argc, char** argv) {
                     // as recoverable, and restart us.
                     // We don't want this, so return an 8-bit error code.
                     //
+                    kill_daemons();
                     boinc_finish(EXIT_CHILD_FAILED);
                 }
                 break;
@@ -723,6 +762,7 @@ int main(int argc, char** argv) {
         write_checkpoint(i+1, checkpoint_cpu_time);
         weight_completed += task.weight;
     }
+    kill_daemons();
     boinc_finish(0);
 }
 

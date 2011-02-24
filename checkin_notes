@@ -1125,3 +1125,12 @@ David  24 Feb 2011
 
     html/user/
         friend.php
+
+David  24 Feb 2011
+    - wrapper: add "daemon" feature.
+        A task descriptor may contain <daemon>.
+        Daemons are started before regular tasks,
+        run concurrently with them, and are killed on exit.
+
+    samples/wrapper/
+        wrapper.cpp
