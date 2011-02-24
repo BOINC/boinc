@@ -1146,3 +1146,11 @@ David  24 Feb 2011
         cs_scheduler.cpp
         cs_statefile
         Makefile.am
+
+David  24 Feb 2011
+    - wrapper: fixes from Carl
+
+    lib/
+        procinfo_win.cpp
+    samples/wrapper/
+        wrapper.cpp

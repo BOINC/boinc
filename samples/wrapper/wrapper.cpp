@@ -198,6 +198,7 @@ int TASK::parse(XML_PARSER& xp) {
     final_cpu_time = 0;
     stat_first = true;
     pid = 0;
+    is_daemon = false;
 
     while (!xp.get(tag, sizeof(tag), is_tag)) {
         if (!is_tag) {

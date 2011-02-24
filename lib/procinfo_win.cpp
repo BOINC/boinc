@@ -201,8 +201,9 @@ void procinfo_other(PROCINFO& pi, vector<PROCINFO>& piv) {
 
 void kill_all(vector<int>& pids) {
     for (unsigned int i=0; i<pids.size(); i++) {
-        HANDLE h = OpenProcess(0, false, pids[i]);
+        HANDLE h = OpenProcess(READ_CONTROL | PROCESS_TERMINATE, false, pids[i]);
         if (h == NULL) continue;
         TerminateProcess(h, 0);
+        CloseHandle(h);
     }
 }
