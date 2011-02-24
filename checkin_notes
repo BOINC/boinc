@@ -1110,3 +1110,12 @@ David  24 Feb 2011
     sched/
         sched_send.cpp
         sched_resend.cpp
+
+David  24 Feb 2011
+    - user web: fix "host delete" function
+    - client: fix msg typo
+
+    client/
+        cpu_sched.cpp
+    html/user/
+        host_delete.cpp
