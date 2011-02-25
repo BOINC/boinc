@@ -404,7 +404,6 @@
 		DDE586B310FC8E9B00DFA887 /* mfile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD344BD207C5B1150043025C /* mfile.cpp */; };
 		DDF5F85A10DD05DB006A50CD /* notice.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDE1372D10DC5E8D00161D6B /* notice.cpp */; };
 		DDF5F85B10DD05E4006A50CD /* notice.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDE1372D10DC5E8D00161D6B /* notice.cpp */; };
-		DDF9A32F0B2E3D4D00091FCB /* auto_update.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDF9A32D0B2E3D4D00091FCB /* auto_update.cpp */; };
 		DDFA60E20CB3391C0037B88C /* gfx_switcher in Resources */ = {isa = PBXBuildFile; fileRef = DDFA60D40CB337D40037B88C /* gfx_switcher */; };
 		DDFA60E40CB3396C0037B88C /* gfx_switcher.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDFA60E30CB3396C0037B88C /* gfx_switcher.cpp */; };
 		DDFA61520CB347500037B88C /* app_ipc.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AA8B6B1B046C364400A80164 /* app_ipc.cpp */; };
@@ -1016,8 +1015,6 @@
 		DDF1F4A409822F8A00482C89 /* GR-Branding */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text; name = "GR-Branding"; path = "../mac_installer/GR-Branding"; sourceTree = SOURCE_ROOT; };
 		DDF3028907CCCE2C00701169 /* BOINCMgr.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = BOINCMgr.icns; path = ../clientgui/res/BOINCMgr.icns; sourceTree = SOURCE_ROOT; };
 		DDF9385407E28906004DC076 /* checkin_notes */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text; name = checkin_notes; path = ../checkin_notes; sourceTree = SOURCE_ROOT; };
-		DDF9A32D0B2E3D4D00091FCB /* auto_update.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = auto_update.cpp; sourceTree = "<group>"; };
-		DDF9A32E0B2E3D4D00091FCB /* auto_update.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = auto_update.h; path = ../client/auto_update.h; sourceTree = SOURCE_ROOT; };
 		DDFA60D40CB337D40037B88C /* gfx_switcher */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = gfx_switcher; sourceTree = BUILT_PRODUCTS_DIR; };
 		DDFA60E30CB3396C0037B88C /* gfx_switcher.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = gfx_switcher.cpp; path = ../clientscr/gfx_switcher.cpp; sourceTree = SOURCE_ROOT; };
 		DDFE84E10B60CD66009B43D9 /* DlgAdvPreferences.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = DlgAdvPreferences.cpp; path = ../clientgui/DlgAdvPreferences.cpp; sourceTree = SOURCE_ROOT; };
@@ -1663,8 +1660,6 @@
 				DD344B4807C5AC4C0043025C /* app_control.cpp */,
 				DD344B4907C5AC4C0043025C /* app_graphics.cpp */,
 				DD344B5A07C5AC9F0043025C /* app_start.cpp */,
-				DDF9A32D0B2E3D4D00091FCB /* auto_update.cpp */,
-				DDF9A32E0B2E3D4D00091FCB /* auto_update.h */,
 				DD6617870A3FFD8C00FFEBEB /* check_security.cpp */,
 				F54B8FC302AC0A0C01FB7237 /* check_state.cpp */,
 				DD344B6C07C5AD270043025C /* client_msgs.cpp */,
@@ -2934,7 +2929,6 @@
 				DD6617880A3FFD8C00FFEBEB /* check_security.cpp in Sources */,
 				DD431F240A415EE70060585A /* SetupSecurity.cpp in Sources */,
 				DDB693500ABFE9C600689FD8 /* procinfo_mac.cpp in Sources */,
-				DDF9A32F0B2E3D4D00091FCB /* auto_update.cpp in Sources */,
 				DD7BF7E40B8E7B5000A009F7 /* str_util.cpp in Sources */,
 				DD7BF7E80B8E7BBE00A009F7 /* work_fetch.cpp in Sources */,
 				DDA6BD120BD4551F008F7921 /* mac_backtrace.cpp in Sources */,

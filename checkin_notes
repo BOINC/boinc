@@ -1154,3 +1154,11 @@ David  24 Feb 2011
         procinfo_win.cpp
     samples/wrapper/
         wrapper.cpp
+
+Charlie 24 Feb 2011
+    - Mac: Remove auto_update.cpp, auto_update.h from XCode Project.
+
+     mac_build/
+        boinc.xcodeproj/
+            project.pbxproj
+
