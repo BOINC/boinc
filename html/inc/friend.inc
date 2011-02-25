@@ -36,7 +36,7 @@ function friend_notify_accept_email_line($notify) {
 function friend_notify_req_web_line($notify) {
     $user = BoincUser::lookup_id($notify->opaque);
     return "
-        <a href=friend.php?action=query&userid=$notify->opaque>Friendship request</a> from $user->name
+        <a href=friend.php?action=query&userid=$notify->opaque>Friendship request</a> from <a href=show_user.php?userid=$user->id>$user->name</a>
     ";
 }
 

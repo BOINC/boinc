@@ -87,7 +87,7 @@ if ($format=="xml"){
 
     $logged_in_user = get_logged_in_user(false);
 
-    page_head(tra("Account data for %1", $user->name));
+    page_head($user->name);
     start_table();
     echo "<tr><td valign=top>";
     start_table();

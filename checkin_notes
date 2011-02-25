@@ -1162,3 +1162,15 @@ Charlie 24 Feb 2011
         boinc.xcodeproj/
             project.pbxproj
 
+David  25 Feb 2011
+    - user web:
+        - in friend request notification, link to user page
+        - in user page, show ID
+        - remove "Account data for " in page title
+
+    html/
+        inc/
+            user.inc
+            friend.in
+        user/
+            show_user.php
