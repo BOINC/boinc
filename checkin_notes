@@ -6697,3 +6697,11 @@ Rom    25 Feb 2011
 
     win_build/installerv2/
         Progress.ism
+
+Rom    25 Feb 2011
+    - Tag for 6.8.25 release, all platforms
+      boinc_core_release_6_8_25
+
+    /
+        configure.ac
+        version.h
