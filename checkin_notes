@@ -6690,3 +6690,10 @@ Rom    3 Aug 2010
     /
         configure.ac
         version.h
+
+Rom    25 Feb 2011
+    - WINSETUP: Upgrade to InstallShield 2011 to take care of the RT_MANIFEST not
+        containing the admin privs requirement.
+
+    win_build/installerv2/
+        Progress.ism
