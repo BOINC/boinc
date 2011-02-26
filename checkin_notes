@@ -1181,3 +1181,9 @@ Rytis  26 Feb 2011
     
     html/user/
         workunit.php
+
+David  26 Feb 2011
+	- user web: fix wrong user ID
+
+	html/inc/
+		user.inc
