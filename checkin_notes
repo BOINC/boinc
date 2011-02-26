@@ -1174,3 +1174,10 @@ David  25 Feb 2011
             friend.in
         user/
             show_user.php
+
+Rytis  26 Feb 2011
+    - user web: add a config option to always show workunit details when using
+        adaptive replication.
+    
+    html/user/
+        workunit.php
