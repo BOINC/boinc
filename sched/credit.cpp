@@ -36,11 +36,12 @@
 #include "credit.h"
 
 // TODO: delete
-double fpops_to_credit(double fpops, double intops) {
-    // TODO: use fp_weight if specified in config file
-    double fpc = (fpops/1e9)*COBBLESTONE_FACTOR/SECONDS_PER_DAY;
-    double intc = (intops/1e9)*COBBLESTONE_FACTOR/SECONDS_PER_DAY;
-    return std::max(fpc, intc);
+double fpops_to_credit(double fpops) {
+    return (fpops/1e9)*COBBLESTONE_FACTOR/SECONDS_PER_DAY;
+}
+
+double cpu_time_to_credit(double cpu_time, HOST& host) {
+    return fpops_to_credit(cpu_time*host.p_fpops);
 }
 
 // Grant the host (and associated user and team)
@@ -48,9 +49,7 @@ double fpops_to_credit(double fpops, double intops) {
 // Update the user and team records,
 // but not the host record (caller must update)
 //
-int grant_credit(
-    DB_HOST& host, double start_time, double cpu_time, double credit
-) {
+int grant_credit(DB_HOST& host, double start_time, double credit) {
     DB_USER user;
     DB_TEAM team;
     int retval;

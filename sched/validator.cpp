@@ -260,10 +260,7 @@ int handle_wu(
                     wu, rv, app, app_versions, havv, max_granted_credit, credit
                 );
                 result.granted_credit = canonical_result.granted_credit;
-                grant_credit(
-                    host, result.sent_time, result.cpu_time,
-                    result.granted_credit
-                );
+                grant_credit(host, result.sent_time, result.granted_credit);
                 break;
             case VALIDATE_STATE_INVALID:
                 update_result = true;
@@ -428,9 +425,7 @@ int handle_wu(
                         );
                     }
                     result.granted_credit = credit;
-                    grant_credit(
-                        host, result.sent_time, result.cpu_time, credit
-                    );
+                    grant_credit(host, result.sent_time, credit);
                     log_messages.printf(MSG_NORMAL,
                         "[RESULT#%d %s] Valid; granted %f credit [HOST#%d]\n",
                         result.id, result.name, result.granted_credit,

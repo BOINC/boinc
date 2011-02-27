@@ -14,7 +14,8 @@
 //
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
-//
+
+
 // trickle_handler - framework for trickle-up message handler
 //
 //  --variety variety
@@ -40,51 +41,9 @@
 #include "sched_config.h"
 #include "sched_util.h"
 #include "sched_msgs.h"
+#include "trickle_handler.h"
 
 char variety[256];
-
-extern int handle_trickle(MSG_FROM_HOST&);
-
-// The following is an example.
-// It echoes whatever the app sent us, as a trickle-down message.
-// Replace it with your own function.
-//
-// Note: you're passed the host ID (in mfh.hostid).
-// From this you can get the HOST and USER records with
-// DB_HOST host;
-// DB_USER user;
-// host.lookup_id(mfh.hostid);
-// user.lookup_id(host.userid);
-//
-// Then you can modify and update these as needed, e.g. to grant credit.
-// (in that case you may also need update the team).
-// See is_valid() in validator.cpp.
-//
-int handle_trickle(MSG_FROM_HOST& mfh) {
-    int retval;
-
-    printf(
-        "got trickle-up \n%s\n\n",
-        mfh.xml
-    );
-    DB_MSG_TO_HOST mth;
-    mth.clear();
-    mth.create_time = time(0);
-    mth.hostid = mfh.hostid;
-    strcpy(mth.variety, mfh.variety);
-    mth.handled = false;
-    sprintf(mth.xml,
-        "<trickle_down>\n"
-        "%s"
-        "</trickle_down>\n",
-        mfh.xml
-    );
-    retval = mth.insert();
-    if (retval) {
-        printf("insert failed: %s\n", boincerror(retval));
-    }
-    return 0;
-}
 
 // make one pass through trickle_ups with handled == 0
 // return true if there were any

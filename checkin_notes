@@ -1187,3 +1187,17 @@ David  26 Feb 2011
 
 	html/inc/
 		user.inc
+
+David  26 Feb 2011
+    - back end: add two example trickle handlers:
+        trickle_credit: grants credit based on CPU time reported in msg
+        trickle_echo: echoes trickle-up as a trickle-down
+
+    sched/
+        trickle_handler.cpp, h (new)
+        sched_result.cpp
+        trickle_credit.cpp
+        credit.cpp,h
+        trickle_echo.cpp
+        validator.cpp
+        Makefile.am

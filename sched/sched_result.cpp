@@ -331,35 +331,8 @@ int handle_results() {
             }
         }
 
-
         srip->exit_status = rp->exit_status;
         srip->app_version_num = rp->app_version_num;
-
-        // TODO: this is outdated, and doesn't belong here
-
-        if (rp->fpops_cumulative || rp->intops_cumulative) {
-            srip->claimed_credit = fpops_to_credit(rp->fpops_cumulative, rp->intops_cumulative);
-            if (config.debug_credit) {
-                log_messages.printf(MSG_NORMAL,
-                    "[credit] [RESULT#%d] claimed credit %.2f based on fpops_cumulative\n",
-                    srip->id, srip->claimed_credit
-                );
-            }
-        } else if (rp->fpops_per_cpu_sec || rp->intops_per_cpu_sec) {
-            srip->claimed_credit = fpops_to_credit(
-                rp->fpops_per_cpu_sec*srip->cpu_time,
-                rp->intops_per_cpu_sec*srip->cpu_time
-            );
-            if (config.debug_credit) {
-                log_messages.printf(MSG_NORMAL,
-                    "[credit] [RESULT#%d] claimed credit %.2f based on fpops_per_cpu_sec\n",
-                    srip->id, srip->claimed_credit
-                );
-            }
-        } else {
-            srip->claimed_credit = 0;
-        }
-
         srip->server_state = RESULT_SERVER_STATE_OVER;
 
         strlcpy(srip->stderr_out, rp->stderr_out, sizeof(srip->stderr_out));

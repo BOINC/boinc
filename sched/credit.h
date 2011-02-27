@@ -47,9 +47,8 @@
 extern double fpops_to_credit(double fpops, double intops);
     // credit that should be granted for a given number of
     // floating-point and integer ops
-extern int grant_credit(
-    DB_HOST& host, double start_time, double cpu_time, double credit
-);
+extern double cpu_time_to_credit(double cpu_time, HOST&);
+extern int grant_credit(DB_HOST& host, double start_time, double credit);
 
 extern int update_av_scales(struct SCHED_SHMEM*);
 extern int assign_credit_set(

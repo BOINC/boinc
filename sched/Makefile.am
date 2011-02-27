@@ -114,7 +114,8 @@ sched_PROGRAMS = \
     sample_work_generator \
     single_job_assimilator \
     transitioner \
-    trickle_handler \
+    trickle_credit \
+    trickle_echo \
     update_stats
 
 cgi_PROGRAMS= \
@@ -228,8 +229,11 @@ db_dump_LDADD = $(SERVERLIBS)
 db_purge_SOURCES = db_purge.cpp
 db_purge_LDADD = $(SERVERLIBS)
 
-trickle_handler_SOURCES = trickle_handler.cpp
-trickle_handler_LDADD = $(SERVERLIBS)
+trickle_credit_SOURCES = trickle_credit.cpp trickle_handler.cpp
+trickle_credit_LDADD = $(SERVERLIBS)
+
+trickle_echo_SOURCES = trickle_echo.cpp trickle_handler.cpp
+trickle_echo_LDADD = $(SERVERLIBS)
 
 update_stats_SOURCES = update_stats.cpp
 update_stats_LDADD = $(SERVERLIBS)
