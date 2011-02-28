@@ -23,10 +23,12 @@
 
 require_once('../inc/forum.inc');
 
-check_get_args(array("id"));
+check_get_args(array("id", "action"));
 
 $threadid = get_int('id');
 $thread = BoincThread::lookup_id($threadid);
+if (!$thread) error_page("no such thread");
+
 $logged_in_user = get_logged_in_user();
 
 $owner = BoincUser::lookup_id($thread->owner);

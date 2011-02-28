@@ -407,6 +407,8 @@ create table thread (
     owner               integer     not null,
         -- user ID of creator
     status              integer     not null,
+        -- whether a question has been answered
+        -- News forum: it set, don't export as notice
     title               varchar(254) not null,
     timestamp           integer     not null,
         -- time of last new or modified post

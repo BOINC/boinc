@@ -72,7 +72,7 @@ $notifies = BoincNotify::enum("userid = $userid $since_clause");
 $forum = news_forum();
 if ($forum) {
     $threads = BoincThread::enum(
-        "forum = $forum->id and hidden=0 $since_clause"
+        "forum = $forum->id and hidden=0 and status=0 $since_clause"
     );
 }
 

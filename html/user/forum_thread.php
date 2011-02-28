@@ -21,6 +21,7 @@
 
 require_once('../inc/util.inc');
 require_once('../inc/forum.inc');
+require_once('../inc/news.inc');
 
 check_get_args(array("id", "sort", "nowrap", "filter"));
 
@@ -122,21 +123,21 @@ if ($forum->parent_type == 0) {
             if ($thread->owner == $logged_in_user->id){
                 if ($thread->replies !=0) {
                     // Show a "this question has been answered" to the author
-                    echo "<div class=\"helpdesk_note\">
-                        <form action=\"forum_thread_status.php\"><input type=\"hidden\" name=\"id\" value=\"".$thread->id."\">
-                        <input type=\"submit\" value=\"".tra("My question was answered")."\">
-                        </form>
-                        " . tra("If your question has been adequately answered please click here to close it!") . "
-                        </div>"
-                    ;
+                    echo "<p>";
+                    show_button(
+                        "forum_thread_status.php?id=$thread->id&action=set",
+                        tra("My question was answered"),
+                        tra("Click here if your question has been adequately answered") 
+                    );
                 }
             } else {
-                // and a "I also got this question" to everyone else if they havent already told so
-                echo "<div class=\"helpdesk_note\">
-                <form action=\"forum_thread_vote.php\"><input type=\"hidden\" name=\"id\" value=\"".$thread->id."\">
-                <input type=\"submit\" value=\"".tra("I've also got this question")."\">
-                </form>
-                </div>";
+                // and a "I also got this question" to everyone else
+                echo "<p>";
+                show_button(
+                    "forum_thread_vote.php?id=$thread->id",
+                    tra("I've also got this question"),
+                    tra("I've also got this question")
+                );
             }
         }
     }
@@ -234,6 +235,24 @@ if (is_moderator($logged_in_user, $forum)) {
         tra("Edit title"),
         tra("Edit thread title")
     );
+}
+
+// let admins decide whether a news item should be exported as notice
+//
+if (is_news_forum($forum) && ($logged_in_user->id == $thread->owner)) {
+    if ($thread->status) {
+        show_button(
+            "forum_thread_status.php?action=clear&id=$thread->id",
+            "Export",
+            "Export this news item as a Notice"
+        );
+    } else {
+        show_button(
+            "forum_thread_status.php?action=set&id=$thread->id",
+            "Don't export",
+            "Don't export this news item as a Notice"
+        );
+    }
 }
 
 // Display a box that allows the user to select sorting of the posts
