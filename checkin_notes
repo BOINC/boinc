@@ -1202,7 +1202,7 @@ David  26 Feb 2011
         validator.cpp
         Makefile.am
 
-David  26 Feb 2011
+David  28 Feb 2011
     - user web: add a feature allowing project admins to control
         whether news items are exported as notices.
         The creator of a news item is shown a "Don't export" or "Export"
@@ -1218,3 +1218,12 @@ David  26 Feb 2011
             forum_thread.php
             notices.php
             forum_thread_status.php
+
+David  28 Feb 2011
+    - user web: bug fix to the last checkin
+    - boinccmd: fix --get_project_config operation
+
+    html/user;
+        forum_thread_status.php
+    client/
+        boinc_cmd.cpp

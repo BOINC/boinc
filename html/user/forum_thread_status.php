@@ -33,18 +33,23 @@ $logged_in_user = get_logged_in_user();
 
 $owner = BoincUser::lookup_id($thread->owner);
 if ($logged_in_user->id == $owner->id){ 
-    $ret = $thread->update("status=".THREAD_SOLVED);
+    $action = get_str("action");
+    if ($action == "set") {
+        $ret = $thread->update("status=1");
+    } else {
+        $ret = $thread->update("status=0");
+    }
     if (!$ret){
         error_page("Could not update the status of the thread: ".$thread->id);
     }
 } else {
-    error_page("You must be the owner of the thread to do this");
+    error_page("You must be the creator of the thread to update its status");
 }
 
 // --------------
 
-page_head("Status of the thread");
-echo "<p>The status has been updated. Thank you!</p>";
+page_head("Thread status updated");
+echo "<p>The status has been updated.</p>";
 echo "<p><a href=\"forum_thread.php?nowrap=true&id=".$thread->id."\">Return to the thread</a></p>";
 page_tail();
 ?>
