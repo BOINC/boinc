@@ -1241,3 +1241,12 @@ Rom    2 Mar 2011
 
     clientgui/
         NoticeListCtrl.cpp, .h
+
+David  2 Mar 2011
+	- manager: show notice create time rather than arrival time
+	- client: don't show "need network" notice if we don't need it
+
+	clientgui/
+		NoticeListCtrl.cpp
+	client/
+		cs_notice.cpp

@@ -484,7 +484,9 @@ void NOTICES::write(int seqno, GUI_RPC_CONN& grpc, MIOFILE& fout, bool public_on
     unsigned int i;
     MIOFILE mf;
 
-    if (net_status.network_status() != NETWORK_STATUS_WANT_CONNECTION) {
+    switch (net_status.network_status()) {
+    case NETWORK_STATUS_ONLINE:
+    case NETWORK_STATUS_WANT_DISCONNECT:
         remove_network_msg();
     }
     if (log_flags.notice_debug) {
