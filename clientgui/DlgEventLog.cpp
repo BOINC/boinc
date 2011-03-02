@@ -847,6 +847,10 @@ wxListItemAttr* CDlgEventLog::OnListGetItemAttr(long item) const {
     wxInt32         index       = GetFilteredMessageIndex(item);
     MESSAGE*        message     = wxGetApp().GetDocument()->message(index);
 
+    // If we are using some theme where the default background color isn't
+    //   white, then our whole system is boned. Use defaults instead.
+    if (wxSystemSettings::GetColour(wxSYS_COLOUR_WINDOW) != wxColor(wxT("WHITE"))) return NULL;
+
     if (message) {
         switch(message->priority) {
         case MSG_USER_ALERT:

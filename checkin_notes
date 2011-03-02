@@ -1272,3 +1272,12 @@ Rom    2 Mar 2011
     
     clientgui/
         ViewNotices.cpp
+
+Rom    2 Mar 2011
+    - MGR: Disable our color scheme is a non-white background is selected
+        for the current theme. My commit on 3 Mar 2010 wasn't good enough
+        for High-Contrast themes.
+        
+    clientgui/
+        BOINCBaseView.cpp
+        DlgEventLog.cpp
