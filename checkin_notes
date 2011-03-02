@@ -1260,3 +1260,9 @@ David  2 Mar 2011
 
     client/
         cs_notice.cpp,h
+
+Rom    2 Mar 2011
+    - MGR: Turn -boincargs into a string instead of an option.
+
+    clientgui/
+        BOINCGUIApp.cpp
