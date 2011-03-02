@@ -1233,3 +1233,11 @@ David  2 Mar 2011
 
 	html/user/
 		friend.php
+
+Rom    2 Mar 2011
+    - MGR: Properly handle the case where the only notice in the manager
+        is the 'no notice' notice and then we transition to a single notice
+        from another source.
+
+    clientgui/
+        NoticeListCtrl.cpp, .h
