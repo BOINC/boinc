@@ -1227,3 +1227,9 @@ David  28 Feb 2011
         forum_thread_status.php
     client/
         boinc_cmd.cpp
+
+David  2 Mar 2011
+	- user web: show date/time on friend request page
+
+	html/user/
+		friend.php

@@ -126,8 +126,9 @@ function handle_query($user) {
     $friend = BoincFriend::lookup($srcid, $user->id);
     if (!$friend) error_page(tra("Request not found"));
     page_head(tra("Friend request"));
+	echo time_str($friend->create_time)."<p>\n";
     $x = user_links($srcuser, true);
-    echo tra("%1 has added you as a friend.", $x);
+    echo tra("%1 has requested friendship with you.", $x);
     if (strlen($friend->message)) {
         echo "<p>".tra("%1 says: %2", $srcuser->name, $friend->message)."</p>";
     }
