@@ -1266,3 +1266,9 @@ Rom    2 Mar 2011
 
     clientgui/
         BOINCGUIApp.cpp
+
+Rom    2 Mar 2011
+    - MGR: Turn off the task pane for the notices tab.
+    
+    clientgui/
+        ViewNotices.cpp

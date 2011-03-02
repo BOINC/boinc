@@ -51,27 +51,20 @@ CViewNotices::CViewNotices(wxNotebook* pNotebook) :
     //
     // Setup View
     //
-    wxFlexGridSizer* itemFlexGridSizer = new wxFlexGridSizer(2, 0, 0);
-    wxASSERT(itemFlexGridSizer);
+    SetAutoLayout(TRUE);
 
-    itemFlexGridSizer->AddGrowableRow(0);
-    itemFlexGridSizer->AddGrowableCol(1);
-
-    m_pTaskPane = new CBOINCTaskCtrl(this, ID_TASK_NOTIFICATIONSVIEW, DEFAULT_TASK_FLAGS);
-    wxASSERT(m_pTaskPane);
+    wxBoxSizer *pSizer = new wxBoxSizer(wxVERTICAL);
+    wxASSERT(pSizer);
 
 	m_pHtmlListPane = new CNoticeListCtrl(this);
 	wxASSERT(m_pHtmlListPane);
 
-    itemFlexGridSizer->Add(m_pTaskPane, 1, wxGROW|wxALL, 1);
-    itemFlexGridSizer->Add(m_pHtmlListPane, 1, wxGROW|wxALL, 1);
+    pSizer->Add(m_pHtmlListPane, 1, wxGROW|wxALL, 1);
 
-    SetSizer(itemFlexGridSizer);
+    SetSizer(pSizer);
 
     Layout();
 
-    // Create Task Pane Items
-    m_pTaskPane->UpdateControls();
 }
 
 
