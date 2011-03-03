@@ -9041,3 +9041,10 @@ Rom    2 Mar 2011
     clientgui/
         BOINCBaseView.cpp
         DlgEventLog.cpp
+
+David  2 Mar 2011
+	- client: in deciding whether to remove the "need network" notice,
+		we were using the wrong (too high-level) interface
+
+	client/
+		cs_notice.cpp
