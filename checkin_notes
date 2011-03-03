@@ -8964,3 +8964,13 @@ David  22 Feb 2011
     client/
         client_state.h
         app_control.cpp
+
+David  22 Feb 2011
+    - client: in the loop that starts up apps,
+        check if we've been in the loop for 10 sec.
+        If so, break out of it and reschedule.
+        Avoid starving GUI RPCs and heartbeats.
+
+    client/
+        cpu_sched.cpp
+        client_state.h
