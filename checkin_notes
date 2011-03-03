@@ -8919,24 +8919,26 @@ Rom    18 Feb 2011
         win_util.cpp
 
 David  18 Feb 2011
-	- client: more notice-related fixes.
-		I'm working on this case:
-		- start up
-		- disconnect (produces notice)
-		- reconnect (removes notice)
-		The client is now doing the right thing.
-		The manager is not.
+    - client: more notice-related fixes.
+        I'm working on this case:
+        - start up
+        - disconnect (produces notice)
+        - reconnect (removes notice)
+        The client is now doing the right thing.
+        The manager is not.
 
-	client/
-		acct_setup.h
-		cs_notice.cpp,h
-		gui_rpc_server.h
-		gui_rpc_server_ops.cpp
+    client/
+        acct_setup.h
+        cs_notice.cpp,h
+        gui_rpc_server.h
+        gui_rpc_server_ops.cpp
 
 David  19 Feb 2011
-	- client: make "wait 30 sec after exclusive app exits" apply to network too
-	- client: fix bug in "wait 30 sec after exclusive app exits" logic
-	- client: fix compile warning and possible bug in is_remote_desktop()
+    - client: make "wait 30 sec after exclusive app exits" apply to network too
+    - client: fix bug in "wait 30 sec after exclusive app exits" logic
+    - client: fix compile warning and possible bug in is_remote_desktop()
+    - win: remove wrappture_example from solution
+        (until Hubzereo guys get their win lib working)
 
 	client/
 		app.cpp
@@ -8945,10 +8947,10 @@ David  19 Feb 2011
 		win_util.cpp
 
 Charlie 21 Feb 2011
-	- client: fix compiler warning.
+    - client: fix compiler warning.
         
-	client/
-		cs_notice.cpp
+    client/
+        cs_notice.cpp
 
 David  22 Feb 2011
     - client: surround the opaque field in a CDATA block.
@@ -8983,14 +8985,14 @@ David  22 Feb 2011
         scheduler_op.cpp
         
 David  23 Feb 2011
-	- client: on finish upload, trigger work fetch
-		(since we may have been waiting for upload finish)
-	- client: fix crash: if remove an RSS feed, remove its active HTTP op if any.
+    - client: on finish upload, trigger work fetch
+        (since we may have been waiting for upload finish)
+    - client: fix crash: if remove an RSS feed, remove its active HTTP op if any.
 
-	client/
-		cs_notice.cpp
-		pers_file_xfer.cpp
-		work_fetch.cpp
+    client/
+        cs_notice.cpp
+        pers_file_xfer.cpp
+        work_fetch.cpp
 
 Rom    2 Mar 2011
     - MGR: Properly handle the case where the only notice in the manager
@@ -9001,10 +9003,20 @@ Rom    2 Mar 2011
         NoticeListCtrl.cpp, .h
 
 David  2 Mar 2011
-	- manager: show notice create time rather than arrival time
-	- client: don't show "need network" notice if we don't need it
+    - manager: show notice create time rather than arrival time
+    - client: don't show "need network" notice if we don't need it
 
-	clientgui/
-		NoticeListCtrl.cpp
-	client/
-		cs_notice.cpp
+    clientgui/
+        NoticeListCtrl.cpp
+    client/
+        cs_notice.cpp
+
+David  2 Mar 2011
+    - client: when get a bunch of notices from RSS feed,
+        sort them by create time before appending to notice list.
+        This ensures that, in the Notices tab,
+        notices are ordered decreasing create time within an RSS feed
+        (though not necessarily across feeds)
+
+    client/
+        cs_notice.cpp,h

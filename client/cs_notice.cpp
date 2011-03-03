@@ -588,6 +588,10 @@ void RSS_FEED::write(MIOFILE& fout) {
     );
 }
 
+static inline bool create_time_asc(NOTICE n1, NOTICE n2) {
+    return n1.create_time < n2.create_time;
+}
+
 // parse the actual RSS feed.
 //
 int RSS_FEED::parse_items(XML_PARSER& xp, int& nitems) {
@@ -596,6 +600,7 @@ int RSS_FEED::parse_items(XML_PARSER& xp, int& nitems) {
     nitems = 0;
     int ntotal = 0, nerror = 0;
     int retval, func_ret = ERR_XML_PARSE;
+    vector<NOTICE> new_notices;
 
     notices.clear_keep();
 
@@ -629,9 +634,7 @@ int RSS_FEED::parse_items(XML_PARSER& xp, int& nitems) {
                 n.keep = true;
                 strcpy(n.feed_url, url);
                 strcpy(n.project_name, project_name);
-                if (notices.append(n)) {
-                    nitems++;
-                }
+                new_notices.push_back(n);
             }
             continue;
         }
@@ -644,6 +647,16 @@ int RSS_FEED::parse_items(XML_PARSER& xp, int& nitems) {
                 );
             }
             return retval;
+        }
+    }
+
+    //  sort new notices by increasing create time, and append them
+    //
+    std::sort(new_notices.begin(), new_notices.end(), create_time_asc);
+    for (unsigned int i=0; i<new_notices.size(); i++) {
+        NOTICE& n = new_notices[i];
+        if (notices.append(n)) {
+            nitems++;
         }
     }
     notices.unkeep(url);

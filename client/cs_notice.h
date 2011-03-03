@@ -72,7 +72,11 @@ struct NOTICES {
     bool remove_dups(NOTICE&);
     void remove_network_msg();
     void clear_keep();
+        // prior to parsing an RSS feed, we mark all notices as "don't keep".
+        // We clear this flag if the notice is present in the feed.
     void unkeep(const char* url);
+        // called after parsing an RSS feed,
+        // to remove notices that weren't in the feed.
 };
 
 extern NOTICES notices;
