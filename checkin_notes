@@ -8883,7 +8883,7 @@ Rom    16 Feb 2011
         version.h
 
 Charlie 18 Feb 2011
-    - Mac: Update link to NVIA CUDA Mac driver download page.
+    - Mac: Update link to NVIDIA CUDA Mac driver download page.
     
     mac_installer/
         GR-ReadMe.rtf
@@ -8943,3 +8943,9 @@ David  19 Feb 2011
 		cs_prefs.cpp
 	lib/
 		win_util.cpp
+
+Charlie 21 Feb 2011
+	- client: fix compiler warning.
+        
+	client/
+		cs_notice.cpp

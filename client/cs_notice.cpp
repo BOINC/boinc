@@ -489,7 +489,7 @@ void NOTICES::write(int seqno, GUI_RPC_CONN& grpc, MIOFILE& fout, bool public_on
     }
     if (log_flags.notice_debug) {
         msg_printf(0, MSG_INFO, "NOTICES::write: seqno %d, refresh %s, %d notices",
-            seqno, grpc.get_notice_refresh()?"true":"false", notices.size()
+            seqno, grpc.get_notice_refresh()?"true":"false", (int)notices.size()
         );
     }
     fout.printf("<notices>\n");
