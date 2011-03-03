@@ -135,7 +135,7 @@ CBOINCBaseView::CBOINCBaseView(
         wxSystemSettings::GetColour(wxSYS_COLOUR_WINDOWTEXT),
         wxColour(240, 240, 240),
         wxNullFont
-        );
+    );
 #endif
 }
 
@@ -274,6 +274,11 @@ wxListItemAttr* CBOINCBaseView::FireOnListGetItemAttr(long item) const {
 
 
 wxListItemAttr* CBOINCBaseView::OnListGetItemAttr(long item) const {
+
+    // If we are using some theme where the default background color isn't
+    //   white, then our whole system is boned. Use defaults instead.
+    if (wxSystemSettings::GetColour(wxSYS_COLOUR_WINDOW) != wxColor(wxT("WHITE"))) return NULL;
+
     return item % 2 ? m_pGrayBackgroundAttr : m_pWhiteBackgroundAttr;
 }
 #endif
