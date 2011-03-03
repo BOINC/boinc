@@ -67,7 +67,6 @@ Commands:\n\
  --get_messages [ seqno ]           show messages > seqno\n\
  --get_notices [ seqno ]            show notices > seqno\n\
  --get_project_config URL\n\
- --get_project_config_poll\n\
  --get_project_status               show status of all attached projects\n\
  --get_proxy_settings\n\
  --get_simple_gui_info              show status of projects and active tasks\n\
@@ -472,13 +471,23 @@ int main(int argc, char** argv) {
     } else if (!strcmp(cmd, "--get_project_config")) {
         char* gpc_url = next_arg(argc, argv,i);
         retval = rpc.get_project_config(string(gpc_url));
-    } else if (!strcmp(cmd, "--get_project_config_poll")) {
-        PROJECT_CONFIG pc;
-        retval = rpc.get_project_config_poll(pc);
-        if (retval) {
-            printf("retval: %d\n", retval);
-        } else {
-            pc.print();
+        if (!retval) {
+            while (1) {
+                PROJECT_CONFIG pc;
+                retval = rpc.get_project_config_poll(pc);
+                if (retval) {
+                    printf("poll status: %s\n", boincerror(retval));
+                } else {
+                    if (pc.error_num) {
+                        printf("poll status: %s\n", boincerror(pc.error_num));
+                        if (pc.error_num != ERR_IN_PROGRESS) break;
+                        boinc_sleep(1);
+                    } else {
+                        pc.print();
+                        break;
+                    }
+                }
+            }
         }
     } else if (!strcmp(cmd, "--lookup_account")) {
         ACCOUNT_IN lai;

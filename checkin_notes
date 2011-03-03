@@ -9066,3 +9066,9 @@ Rom    16 Feb 2011
     /
         configure.ac
         version.h
+
+David  28 Feb 2011
+    - boinccmd: fix --get_project_config operation
+
+    client/
+        boinc_cmd.cpp
