@@ -412,6 +412,10 @@ bool CNoticeListCtrl::Create( wxWindow* parent )
 #endif
 ////@end CNoticeListCtrl creation
 
+    // Display the empty notice notification until we have some
+    // notices to display.
+    m_bDisplayEmptyNotice = true;
+
     return TRUE;
 }
 
@@ -472,7 +476,7 @@ wxString CNoticeListCtrl::OnGetItem(size_t i) const {
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
 
 
-    if (pDoc->GetNoticeCount() <= 0) {
+    if (m_bDisplayEmptyNotice) {
         strBuffer = wxT("<table border=0 cellpadding=5><tr><td>");
         strBuffer += _("There are no notices at this time.");
         strBuffer += wxT("</font></td></tr></table><hr>");
@@ -533,8 +537,6 @@ wxString CNoticeListCtrl::OnGetItem(size_t i) const {
         strBuffer += wxT("</font></td></tr></table><hr>");
     }
 
-
-    
     return strBuffer;
 }
 
@@ -553,6 +555,7 @@ bool CNoticeListCtrl::UpdateUI()
     // Call Freeze() / Thaw() only when actually needed; 
     // otherwise it causes unnecessary redraws
     if (pDoc->GetNoticeCount() <= 0) {
+        m_bDisplayEmptyNotice = true;
         Freeze();
         SetItemCount(1);
         Thaw();
@@ -560,14 +563,17 @@ bool CNoticeListCtrl::UpdateUI()
     }
     
     if (
+        pDoc->notices.complete ||
         ((int)GetItemCount() != pDoc->GetNoticeCount()) ||
-        pDoc->notices.complete
+        ((pDoc->GetNoticeCount() > 0) && (m_bDisplayEmptyNotice == true))
     ) {
+        pDoc->notices.complete = false;
+        m_bDisplayEmptyNotice = false;
         Freeze();
         SetItemCount(pDoc->GetNoticeCount());
-        pDoc->notices.complete = false;
         Thaw();
     }
+
 #ifdef __WXMAC__
     // Enable accessibility only after drawing the page 
     // to avoid a mysterious crash bug

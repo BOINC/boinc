@@ -8991,3 +8991,11 @@ David  23 Feb 2011
 		cs_notice.cpp
 		pers_file_xfer.cpp
 		work_fetch.cpp
+
+Rom    2 Mar 2011
+    - MGR: Properly handle the case where the only notice in the manager
+        is the 'no notice' notice and then we transition to a single notice
+        from another source.
+
+    clientgui/
+        NoticeListCtrl.cpp, .h
