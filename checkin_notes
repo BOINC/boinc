@@ -8949,3 +8949,9 @@ Charlie 21 Feb 2011
         
 	client/
 		cs_notice.cpp
+
+David  21 Feb 2011
+    - client: surround the opaque field in a CDATA block.
+
+    client/
+        acct_mgr.cpp

@@ -179,13 +179,13 @@ int ACCT_MGR_OP::do_rpc(
     MIOFILE mf;
     mf.init_file(f);
     gstate.host_info.write(mf, !config.suppress_net_info, true);
-	if (strlen(gstate.acct_mgr_info.opaque)) {
-		fprintf(f,
-			"   <opaque>\n%s\n"
-			"   </opaque>\n",
-			gstate.acct_mgr_info.opaque
-		);
-	}
+    if (strlen(gstate.acct_mgr_info.opaque)) {
+        fprintf(f,
+            "   <opaque>\n<![CDATA[\n%s\n]]>\n"
+            "   </opaque>\n",
+            gstate.acct_mgr_info.opaque
+        );
+    }
     fprintf(f, "</acct_mgr_request>\n");
     fclose(f);
     sprintf(buf, "%srpc.php", url);
