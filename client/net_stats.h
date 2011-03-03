@@ -87,6 +87,7 @@ public:
     int network_status();
     void network_available();
     void got_http_error();
+    void http_op_succeeded();
     NET_STATUS() {
         need_physical_connection = false;
         have_sporadic_connection = false;
