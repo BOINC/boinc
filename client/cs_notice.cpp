@@ -28,6 +28,7 @@
 #include "parse.h"
 #include "url.h"
 #include "filesys.h"
+#include "str_util.h"
 
 #include "client_state.h"
 #include "client_msgs.h"
