@@ -15,6 +15,9 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
+#ifndef _GUI_RPC_SERVER_
+#define _GUI_RPC_SERVER_
+
 #include "network.h"
 #include "acct_setup.h"
 
@@ -35,6 +38,7 @@
 #define AU_MGR_QUIT_SENT    3
 
 #define GUI_RPC_REQ_MSG_SIZE    4096
+
 class GUI_RPC_CONN {
 public:
     int sock;
@@ -58,10 +62,21 @@ public:
     GET_PROJECT_CONFIG_OP get_project_config_op;
     LOOKUP_ACCOUNT_OP lookup_account_op;
     CREATE_ACCOUNT_OP create_account_op;
+private:
     bool notice_refresh;
         // next time we get a get_notices RPC,
         // send a -1 seqno, then the whole list
-
+public:
+    void set_notice_refresh() {
+        notice_refresh = true;
+    }
+    void clear_notice_refresh() {
+        if (!notice_refresh) return;
+        notice_refresh = false;
+    }
+    bool get_notice_refresh() {
+        return notice_refresh;
+    }
     GUI_RPC_CONN(int);
     ~GUI_RPC_CONN();
     int handle_rpc();
@@ -104,7 +119,9 @@ public:
     bool poll();
     void set_notice_refresh() {
         for (unsigned int i=0; i<gui_rpcs.size(); i++) {
-            gui_rpcs[i]->notice_refresh = true;
+            gui_rpcs[i]->set_notice_refresh();
         }
     }
 };
+
+#endif

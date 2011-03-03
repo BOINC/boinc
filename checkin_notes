@@ -8917,3 +8917,18 @@ Rom    18 Feb 2011
         
     lib/
         win_util.cpp
+
+David  18 Feb 2011
+	- client: more notice-related fixes.
+		I'm working on this case:
+		- start up
+		- disconnect (produces notice)
+		- reconnect (removes notice)
+		The client is now doing the right thing.
+		The manager is not.
+
+	client/
+		acct_setup.h
+		cs_notice.cpp,h
+		gui_rpc_server.h
+		gui_rpc_server_ops.cpp

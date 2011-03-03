@@ -56,13 +56,14 @@
 
 #include "gui_http.h"
 #include "client_types.h"
+#include "gui_rpc_server.h"
 
 #include "notice.h"
 
 struct NOTICES {
     std::deque<NOTICE> notices;
         // stored newest (i.e. highest seqno) message first
-    void write(int seqno, MIOFILE&, bool public_only, bool notice_refresh);
+    void write(int seqno, GUI_RPC_CONN&, MIOFILE&, bool public_only);
     bool append(NOTICE&);
     void init();
     void init_rss();
