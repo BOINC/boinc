@@ -8932,3 +8932,14 @@ David  18 Feb 2011
 		cs_notice.cpp,h
 		gui_rpc_server.h
 		gui_rpc_server_ops.cpp
+
+David  19 Feb 2011
+	- client: make "wait 30 sec after exclusive app exits" apply to network too
+	- client: fix bug in "wait 30 sec after exclusive app exits" logic
+	- client: fix compile warning and possible bug in is_remote_desktop()
+
+	client/
+		app.cpp
+		cs_prefs.cpp
+	lib/
+		win_util.cpp
