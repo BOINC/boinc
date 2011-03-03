@@ -9058,3 +9058,11 @@ Rom    3 Mar 2011
         BOINCDialupManager.cpp
         BOINCTaskBar.cpp
         DlgOptions.cpp
+
+Rom    16 Feb 2011
+    - Tag for 6.12.16 release, all platforms
+      boinc_core_release_6_12_16
+
+    /
+        configure.ac
+        version.h
