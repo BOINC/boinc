@@ -466,7 +466,7 @@ wxString CNoticeListCtrl::OnGetItem(size_t i) const {
     wxString strDescription = wxEmptyString;
     wxString strProjectName = wxEmptyString;
     wxString strURL = wxEmptyString;
-    wxString strArrivalTime = wxEmptyString;
+    wxString create_time = wxEmptyString;
     wxString strBuffer = wxEmptyString;
     wxString strTemp = wxEmptyString;
     wxDateTime dtBuffer;
@@ -506,8 +506,8 @@ wxString CNoticeListCtrl::OnGetItem(size_t i) const {
         strDescription = wxString(np->description.c_str(), wxConvUTF8);
         pDoc->LocalizeNoticeText(strDescription, true);
 
-        dtBuffer.Set((time_t)np->arrival_time);
-        strArrivalTime = dtBuffer.Format();
+        dtBuffer.Set((time_t)np->create_time);
+        create_time = dtBuffer.Format();
 
         strBuffer = wxT("<table border=0 cellpadding=5><tr><td>");
 
@@ -523,7 +523,7 @@ wxString CNoticeListCtrl::OnGetItem(size_t i) const {
 
         strBuffer += wxT("<br><font size=-2 color=#8f8f8f>");
 
-        strBuffer += strArrivalTime;
+        strBuffer += create_time;
 
         if (!strURL.IsEmpty()) {
             strTemp.Printf(
