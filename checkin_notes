@@ -8981,3 +8981,13 @@ David  22 Feb 2011
 
     client/
         scheduler_op.cpp
+        
+David  23 Feb 2011
+	- client: on finish upload, trigger work fetch
+		(since we may have been waiting for upload finish)
+	- client: fix crash: if remove an RSS feed, remove its active HTTP op if any.
+
+	client/
+		cs_notice.cpp
+		pers_file_xfer.cpp
+		work_fetch.cpp

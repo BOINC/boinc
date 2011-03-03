@@ -836,6 +836,7 @@ void RSS_FEEDS::update_feed_list() {
             // cancel op if active
             //
             if (rss_feed_op.rfp == &(*iter)) {
+                gstate.http_ops->remove(&rss_feed_op.gui_http->http_op);
                 rss_feed_op.rfp = NULL;
             }
             if (log_flags.notice_debug) {

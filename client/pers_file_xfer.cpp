@@ -196,7 +196,7 @@ bool PERS_FILE_XFER::poll() {
     // copy bytes_xferred for use in GUI
     //
     last_bytes_xferred = fxp->bytes_xferred;
-    if (fxp->is_upload) {
+    if (is_upload) {
         last_bytes_xferred += fxp->file_offset;
     }
 
@@ -283,6 +283,11 @@ bool PERS_FILE_XFER::poll() {
             delete fxp;
             fxp = NULL;
         }
+
+        if (is_upload && !fip->project->uploading()) {
+            gstate.request_work_fetch("project finished uploading");
+        }
+
         return true;
     }
     return false;
