@@ -848,7 +848,7 @@ void chdir_to_data_dir() {
 
 
 // return true if running under remote desktop
-// (in which case CUDA apps don't work)
+// (in which case CUDA and Stream apps don't work)
 //
 typedef BOOL (__stdcall *tWTSQSI)( IN HANDLE, IN DWORD, IN DWORD, OUT LPTSTR*, OUT DWORD* );
 typedef VOID (__stdcall *tWTSFM)( IN PVOID );
@@ -859,6 +859,7 @@ bool is_remote_desktop() {
     static tWTSFM pWTSFM = NULL;
     LPTSTR pBuf = NULL;
     DWORD dwLength;
+    USHORT usProtocol, usConnectionState;
 
     if (!wtsapi32lib) {
         wtsapi32lib = LoadLibrary(_T("wtsapi32.dll"));
@@ -868,14 +869,15 @@ bool is_remote_desktop() {
         }
     }
 
-    // WTSQuerySessionInformation(
-    //   WTS_CURRENT_SERVER_HANDLE,
-    //   WTS_CURRENT_SESSION,
-    //   WTSClientProtocolType,
-    //   &pBuf,
-    //   &dwLength
-    // );
     if (pWTSQSI) {
+
+        // WTSQuerySessionInformation(
+        //   WTS_CURRENT_SERVER_HANDLE,
+        //   WTS_CURRENT_SESSION,
+        //   WTSClientProtocolType,
+        //   &pBuf,
+        //   &dwLength
+        // );
         if (pWTSQSI(
             (HANDLE)NULL,
             (DWORD)-1,
@@ -883,10 +885,35 @@ bool is_remote_desktop() {
             &pBuf,
             &dwLength
         )) {
-            USHORT prot = *(USHORT*)pBuf;
+            usProtocol = *(USHORT*)pBuf;
             pWTSFM(pBuf);
-            if (prot == 2) return true;
         }
+
+        // WTSQuerySessionInformation(
+        //   WTS_CURRENT_SERVER_HANDLE,
+        //   WTS_CURRENT_SESSION,
+        //   WTSConnectState,
+        //   &pBuf,
+        //   &dwLength
+        // );
+        if (pWTSQSI(
+            (HANDLE)NULL,
+            (DWORD)-1,
+            (DWORD)8,
+            &pBuf,
+            &dwLength
+        )) {
+            usConnectionState = *(USHORT*)pBuf;
+            pWTSFM(pBuf);
+        }
+
+        // RDP Session implies Remote Desktop
+        if (usProtocol == 2) return true;
+
+        // Fast User Switching keeps the protocol set to the console but changes
+        // the connected state to disconnected.
+        if ((usProtocol == 0) && (usConnectionState == 4)) return true;
+
     }
 
     return false;

@@ -8906,3 +8906,14 @@ David  17 Feb 2011
         gui_rpc_server_ops.cpp
         http_curl.cpp
         net_stats.cpp,h
+
+Rom    18 Feb 2011
+    - client: Fast User Switching does not change the session protocol
+        to RDP when the active session is put into the background and
+        a new one is brought into the foreground.  It appears it is safe
+        to use the connected state in addition to the protocol
+        to detect when the session is no longer capable of processing
+        GPU work
+        
+    lib/
+        win_util.cpp
