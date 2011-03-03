@@ -226,7 +226,7 @@ int CBOINCDialUpManager::Connect() {
 
 
     tsLastDialupRequest = wxDateTime::Now() - m_dtLastDialupRequest;
-    if ((tsLastDialupRequest.GetMinutes() >= pFrame->GetReminderFrequency()) && (pFrame->GetReminderFrequency() != 0)) {
+    if ((tsLastDialupRequest.GetMinutes() >= (pFrame->GetReminderFrequency() * 60)) && (pFrame->GetReminderFrequency() != 0)) {
         wxLogTrace(wxT("Function Status"), wxT("CBOINCDialUpManager::Connect - Begin connection process"));
         m_dtLastDialupRequest = wxDateTime::Now();
 
