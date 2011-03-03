@@ -48,7 +48,6 @@
 #include "BOINCTaskBar.h"
 #include "BOINCBaseFrame.h"
 #include "AdvancedFrame.h"
-#include "sg_BoincSimpleGUI.h"
 #include "DlgExitMessage.h"
 #include "DlgEventLog.h"
 #include "procinfo.h"
@@ -997,16 +996,6 @@ bool CBOINCGUIApp::SetActiveGUI(int iGUISelection, bool bShowWindow) {
                 wxPoint(iLeft, iTop),
                 wxSize(iWidth, iHeight)
             );
-        } else if (BOINC_NEWSIMPLEGUI == iGUISelection){
-            // Initialize the simple gui window
-            pNewFrame = new CNewSimpleFrame(
-                m_pSkinManager->GetAdvanced()->GetApplicationName(), 
-                m_pSkinManager->GetAdvanced()->GetApplicationIcon(),
-                m_pSkinManager->GetAdvanced()->GetApplicationIcon32(),
-                wxPoint(iLeft, iTop),
-                wxSize(iWidth, iHeight)
-            );
-
         } else {
             // Initialize the simple gui window
             pNewFrame = new CSimpleFrame(

@@ -1288,3 +1288,22 @@ David  2 Mar 2011
 
 	client/
 		cs_notice.cpp
+
+Charlie 3 Mar 2011
+    - MGR: Remove the old SimpleGUi from the projects.  The following 
+        source files are no longer used; they have been removed from the 
+        builds, but have not yet been deleted from the SVN repository:
+        sg_BoincSimpleGUI.cpp,.h, sg_ClientStateIndicator.cpp,.h, 
+        sg_ImageButton.cpp,.h, sg_ImageLoader.cpp,.h, sg_ProgressBar.cpp,.h, 
+        sg_ProjectsComponent.cpp,.h, sg_StatImageLoader.cpp,.h, 
+        sg_ViewTabPage.cpp,.h
+        
+    clientgui/
+        AdvancedFrame.cpp, .h
+        BOINCGUIApp.cpp, .h
+        Events.h
+        Makefile.am
+        sg_BoincSimpleFrame.cpp, .h
+     mac_build/
+        boinc.xcodeproj/
+            project.pbxproj

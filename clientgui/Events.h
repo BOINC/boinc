@@ -150,26 +150,17 @@
 #define ID_SIMPLEFRAME                          6500
 #define ID_SIMPLEMESSAGECHECKTIMER              6501
 #define ID_SIMPLE_HELP                          6601
-#define ID_SIMPLE_MESSAGES                      6602
-#define ID_SIMPLE_MESSAGES_ALERT                6603
-#define ID_SIMPLE_SUSPEND                       6604
-#define ID_SIMPLE_RESUME                        6605
-#define ID_SIMPLE_PREFERENCES                   6606
-#define ID_SIMPLE_MESSAGESVIEW                  6607
-#define ID_SIMPLE_PROGRESSPULSETIMER            6608
-
-//
-// New Simple GUI
-//
-#define ID_SGTASKSELECTOR                       12001
-#define ID_TASKSCOMMANDBUTTON                   12002
-#define ID_ADDROJECTBUTTON                      12101
-#define ID_SGPROJECTSELECTOR                    12102
-#define ID_PROJECTWEBSITESBUTTON                12103
-#define ID_PROJECTCOMMANDBUTTON                 12104
-#define ID_SGNOTICESBUTTON                      12201
-#define ID_SGPAUSERESUMEBUTTON                  12202
-#define ID_SGOPTIONS                            12301
+#define ID_SIMPLE_MESSAGESVIEW                  6602
+#define ID_SIMPLE_PROGRESSPULSETIMER            6603
+#define ID_SGTASKSELECTOR                       6604
+#define ID_TASKSCOMMANDBUTTON                   6605
+#define ID_ADDROJECTBUTTON                      6606
+#define ID_SGPROJECTSELECTOR                    6607
+#define ID_PROJECTWEBSITESBUTTON                6608
+#define ID_PROJECTCOMMANDBUTTON                 6609
+#define ID_SGNOTICESBUTTON                      6610
+#define ID_SGPAUSERESUMEBUTTON                  6611
+#define ID_SGOPTIONS                            6612
 
 //
 // Taskbar/System Tray

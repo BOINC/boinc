@@ -37,7 +37,6 @@
 ///
 #define BOINC_ADVANCEDGUI                   1
 #define BOINC_SIMPLEGUI                     2
-#define BOINC_NEWSIMPLEGUI                  3
 
 
 class wxLogBOINC;

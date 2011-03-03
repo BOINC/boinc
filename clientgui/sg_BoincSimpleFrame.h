@@ -95,15 +95,15 @@ private:
 
 
 // Define a new frame
-class CNewSimpleFrame : public CBOINCBaseFrame
+class CSimpleFrame : public CBOINCBaseFrame
 {
-    DECLARE_DYNAMIC_CLASS(CNewSimpleFrame)
+    DECLARE_DYNAMIC_CLASS(CSimpleFrame)
 
 public:
-    CNewSimpleFrame();
-    CNewSimpleFrame(wxString title, wxIcon* icon, wxIcon* icon32, wxPoint position, wxSize size);
+    CSimpleFrame();
+    CSimpleFrame(wxString title, wxIcon* icon, wxIcon* icon32, wxPoint position, wxSize size);
 
-   ~CNewSimpleFrame();
+   ~CSimpleFrame();
 
     void OnChangeGUI( wxCommandEvent& event );
     void OnPreferences( wxCommandEvent& event );

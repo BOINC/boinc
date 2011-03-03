@@ -49,39 +49,36 @@
 #include "DlgEventLog.h"
 #include "DlgAbout.h"
 
-#define ID_OLDSG 6121   /* CAF TEMPORARY */
 
+IMPLEMENT_DYNAMIC_CLASS(CSimpleFrame, CBOINCBaseFrame)
 
-IMPLEMENT_DYNAMIC_CLASS(CNewSimpleFrame, CBOINCBaseFrame)
-
-BEGIN_EVENT_TABLE(CNewSimpleFrame, CBOINCBaseFrame)
-    EVT_SIZE(CNewSimpleFrame::OnSize)
-    EVT_MENU(ID_CHANGEGUI, CNewSimpleFrame::OnChangeGUI)
-    EVT_MENU(ID_OLDSG, CNewSimpleFrame::OnOldSG)    /* CAF TEMPORARY */
-    EVT_HELP(wxID_ANY, CNewSimpleFrame::OnHelp)
-    EVT_FRAME_CONNECT(CNewSimpleFrame::OnConnect)
-    EVT_FRAME_RELOADSKIN(CNewSimpleFrame::OnReloadSkin)
-    EVT_FRAME_NOTIFICATION(CNewSimpleFrame::OnNotification)
-    EVT_MENU(ID_PREFERENCES, CNewSimpleFrame::OnPreferences)
-    EVT_MENU(ID_SGOPTIONS, CNewSimpleFrame::OnOptions)
-    EVT_MENU(ID_HELPBOINC, CNewSimpleFrame::OnHelpBOINC)
-    EVT_MENU(ID_HELPBOINCMANAGER, CNewSimpleFrame::OnHelpBOINC)
-    EVT_MENU(ID_HELPBOINCWEBSITE, CNewSimpleFrame::OnHelpBOINC)
-    EVT_MENU(wxID_ABOUT, CNewSimpleFrame::OnHelpAbout)
+BEGIN_EVENT_TABLE(CSimpleFrame, CBOINCBaseFrame)
+    EVT_SIZE(CSimpleFrame::OnSize)
+    EVT_MENU(ID_CHANGEGUI, CSimpleFrame::OnChangeGUI)
+    EVT_HELP(wxID_ANY, CSimpleFrame::OnHelp)
+    EVT_FRAME_CONNECT(CSimpleFrame::OnConnect)
+    EVT_FRAME_RELOADSKIN(CSimpleFrame::OnReloadSkin)
+    EVT_FRAME_NOTIFICATION(CSimpleFrame::OnNotification)
+    EVT_MENU(ID_PREFERENCES, CSimpleFrame::OnPreferences)
+    EVT_MENU(ID_SGOPTIONS, CSimpleFrame::OnOptions)
+    EVT_MENU(ID_HELPBOINC, CSimpleFrame::OnHelpBOINC)
+    EVT_MENU(ID_HELPBOINCMANAGER, CSimpleFrame::OnHelpBOINC)
+    EVT_MENU(ID_HELPBOINCWEBSITE, CSimpleFrame::OnHelpBOINC)
+    EVT_MENU(wxID_ABOUT, CSimpleFrame::OnHelpAbout)
 END_EVENT_TABLE()
 
 
-CNewSimpleFrame::CNewSimpleFrame() {
-    wxLogTrace(wxT("Function Start/End"), wxT("CNewSimpleFrame::CNewSimpleFrame - Default Constructor Function Begin"));
-    wxLogTrace(wxT("Function Start/End"), wxT("CNewSimpleFrame::CNewSimpleFrame - Default Constructor Function End"));
+CSimpleFrame::CSimpleFrame() {
+    wxLogTrace(wxT("Function Start/End"), wxT("CSimpleFrame::CSimpleFrame - Default Constructor Function Begin"));
+    wxLogTrace(wxT("Function Start/End"), wxT("CSimpleFrame::CSimpleFrame - Default Constructor Function End"));
 }
 
 
-CNewSimpleFrame::CNewSimpleFrame(wxString title, wxIcon* icon, wxIcon* icon32, wxPoint position, wxSize size) : 
+CSimpleFrame::CSimpleFrame(wxString title, wxIcon* icon, wxIcon* icon32, wxPoint position, wxSize size) : 
     CBOINCBaseFrame((wxFrame *)NULL, ID_SIMPLEFRAME, title, position, size,
                     wxMINIMIZE_BOX | wxSYSTEM_MENU | wxCAPTION | wxCLOSE_BOX | wxCLIP_CHILDREN)
 {
-    wxLogTrace(wxT("Function Start/End"), wxT("CNewSimpleFrame::CNewSimpleFrame - Overloaded Constructor Function Begin"));
+    wxLogTrace(wxT("Function Start/End"), wxT("CSimpleFrame:: - Overloaded Constructor Function Begin"));
 
     // Initialize Application
     wxIconBundle icons;
@@ -121,12 +118,6 @@ CNewSimpleFrame::CNewSimpleFrame(wxString title, wxIcon* icon, wxIcon* icon32, w
         _("Display the advanced graphical interface.")
     );
 
-    menuTools->Append(      /* CAF TEMPORARY */
-        ID_OLDSG,
-        _("Old Simple View..."),
-        _("Display the old simple graphical interface.")
-    );
-    
     menuTools->Append(
         ID_PREFERENCES,
         _("Computing &preferences..."),
@@ -249,19 +240,19 @@ CNewSimpleFrame::CNewSimpleFrame(wxString title, wxIcon* icon, wxIcon* icon32, w
 }
 
 
-CNewSimpleFrame::~CNewSimpleFrame() {
-    wxLogTrace(wxT("Function Start/End"), wxT("CNewSimpleFrame::CNewSimpleFrame - Destructor Function Begin"));
+CSimpleFrame::~CSimpleFrame() {
+    wxLogTrace(wxT("Function Start/End"), wxT("CSimpleFrame::CSimpleFrame - Destructor Function Begin"));
 
     SaveState();
     
     if (m_pAccelTable)
         delete m_pAccelTable;
 
-    wxLogTrace(wxT("Function Start/End"), wxT("CNewSimpleFrame::CNewSimpleFrame - Destructor Function End"));
+    wxLogTrace(wxT("Function Start/End"), wxT("CSimpleFrame::CSimpleFrame - Destructor Function End"));
 }
 
 
-bool CNewSimpleFrame::SaveState() {
+bool CSimpleFrame::SaveState() {
 	CBOINCBaseFrame::SaveState();
     wxConfigBase*   pConfig = wxConfigBase::Get(FALSE);
 	wxString        strBaseConfigLocation = wxString(wxT("/Simple"));
@@ -286,13 +277,13 @@ bool CNewSimpleFrame::SaveState() {
 }
 
 
-bool CNewSimpleFrame::RestoreState() {
+bool CSimpleFrame::RestoreState() {
 	CBOINCBaseFrame::RestoreState();
     return true;
 }
 
 
-int CNewSimpleFrame::_GetCurrentViewPage() {
+int CSimpleFrame::_GetCurrentViewPage() {
     if (isMessagesDlgOpen()) {
         return VW_SGUI | VW_SMSG;
     } else {
@@ -302,27 +293,17 @@ int CNewSimpleFrame::_GetCurrentViewPage() {
 }
 
 
-void CNewSimpleFrame::OnChangeGUI(wxCommandEvent& WXUNUSED(event)) {
-    wxLogTrace(wxT("Function Start/End"), wxT("CNewSimpleFrame::OnChangeGUI - Function Begin"));
+void CSimpleFrame::OnChangeGUI(wxCommandEvent& WXUNUSED(event)) {
+    wxLogTrace(wxT("Function Start/End"), wxT("CSimpleFrame::OnChangeGUI - Function Begin"));
 
     wxGetApp().SetActiveGUI(BOINC_ADVANCEDGUI, true);
 
-    wxLogTrace(wxT("Function Start/End"), wxT("CNewSimpleFrame::OnChangeGUI - Function End"));
+    wxLogTrace(wxT("Function Start/End"), wxT("CSimpleFrame::OnChangeGUI - Function End"));
 }
 
 
-/* CAF TEMPORARY */
-void CNewSimpleFrame::OnOldSG(wxCommandEvent& WXUNUSED(event)) {
-    wxLogTrace(wxT("Function Start/End"), wxT("CNewSimpleFrame::OnNewSG - Function Begin"));
-
-    wxGetApp().SetActiveGUI(BOINC_SIMPLEGUI, true);
-
-    wxLogTrace(wxT("Function Start/End"), wxT("CNewSimpleFrame::OnNewSG - Function End"));
-}
-
-
-void CNewSimpleFrame::OnPreferences(wxCommandEvent& WXUNUSED(event)) {
-    wxLogTrace(wxT("Function Start/End"), wxT("CNewSimpleFrame::OnPreferences - Function Begin"));
+void CSimpleFrame::OnPreferences(wxCommandEvent& WXUNUSED(event)) {
+    wxLogTrace(wxT("Function Start/End"), wxT("CSimpleFrame::OnPreferences - Function Begin"));
 
 	m_pBackgroundPanel->SetDlgOpen(true);
 
@@ -331,12 +312,12 @@ void CNewSimpleFrame::OnPreferences(wxCommandEvent& WXUNUSED(event)) {
 
     m_pBackgroundPanel->SetDlgOpen(false);
 
-    wxLogTrace(wxT("Function Start/End"), wxT("CNewSimpleFrame::OnPreferences - Function End"));
+    wxLogTrace(wxT("Function Start/End"), wxT("CSimpleFrame::OnPreferences - Function End"));
 }
 
 
-void CNewSimpleFrame::OnOptions(wxCommandEvent& WXUNUSED(event)) {
-    wxLogTrace(wxT("Function Start/End"), wxT("CNewSimpleFrame::OnOptions - Function Begin"));
+void CSimpleFrame::OnOptions(wxCommandEvent& WXUNUSED(event)) {
+    wxLogTrace(wxT("Function Start/End"), wxT("CSimpleFrame::OnOptions - Function Begin"));
 
 	m_pBackgroundPanel->SetDlgOpen(true);
 
@@ -344,13 +325,13 @@ void CNewSimpleFrame::OnOptions(wxCommandEvent& WXUNUSED(event)) {
 
     m_pBackgroundPanel->SetDlgOpen(false);
 
-    wxLogTrace(wxT("Function Start/End"), wxT("CNewSimpleFrame::OnOptions - Function End"));
+    wxLogTrace(wxT("Function Start/End"), wxT("CSimpleFrame::OnOptions - Function End"));
 }
 
 
 // TODO: Create ID_HELPBOINCMANAGER web page for each organization for new BOINC version
-void CNewSimpleFrame::OnHelpBOINC(wxCommandEvent& event) {
-    wxLogTrace(wxT("Function Start/End"), wxT("CNewSimpleFrame::OnHelpBOINC - Function Begin"));
+void CSimpleFrame::OnHelpBOINC(wxCommandEvent& event) {
+    wxLogTrace(wxT("Function Start/End"), wxT("CSimpleFrame::OnHelpBOINC - Function Begin"));
 
     if (IsShown()) {
     	wxString strURL = wxGetApp().GetSkinManager()->GetAdvanced()->GetOrganizationHelpUrl();
@@ -365,12 +346,12 @@ void CNewSimpleFrame::OnHelpBOINC(wxCommandEvent& event) {
 		wxLaunchDefaultBrowser(wxurl);
     }
 
-    wxLogTrace(wxT("Function Start/End"), wxT("CNewSimpleFrame::OnHelpBOINC - Function End"));
+    wxLogTrace(wxT("Function Start/End"), wxT("CSimpleFrame::OnHelpBOINC - Function End"));
 }
 
 
-void CNewSimpleFrame::OnHelpAbout(wxCommandEvent& /*event*/) {
-    wxLogTrace(wxT("Function Start/End"), wxT("CNewSimpleFrame::OnHelpAbout - Function Begin"));
+void CSimpleFrame::OnHelpAbout(wxCommandEvent& /*event*/) {
+    wxLogTrace(wxT("Function Start/End"), wxT("CSimpleFrame::OnHelpAbout - Function Begin"));
 
 	m_pBackgroundPanel->SetDlgOpen(true);
 
@@ -379,12 +360,12 @@ void CNewSimpleFrame::OnHelpAbout(wxCommandEvent& /*event*/) {
 
     m_pBackgroundPanel->SetDlgOpen(false);
 
-    wxLogTrace(wxT("Function Start/End"), wxT("CNewSimpleFrame::OnHelpAbout - Function End"));
+    wxLogTrace(wxT("Function Start/End"), wxT("CSimpleFrame::OnHelpAbout - Function End"));
 }
 
 
-void CNewSimpleFrame::OnHelp(wxHelpEvent& event) {
-    wxLogTrace(wxT("Function Start/End"), wxT("CNewSimpleFrame::OnHelp - Function Begin"));
+void CSimpleFrame::OnHelp(wxHelpEvent& event) {
+    wxLogTrace(wxT("Function Start/End"), wxT("CSimpleFrame::OnHelp - Function Begin"));
 
     if (IsShown()) {
     	wxString strURL = wxGetApp().GetSkinManager()->GetAdvanced()->GetOrganizationHelpUrl();
@@ -399,21 +380,21 @@ void CNewSimpleFrame::OnHelp(wxHelpEvent& event) {
         wxLaunchDefaultBrowser(wxurl);
     }
 
-    wxLogTrace(wxT("Function Start/End"), wxT("CNewSimpleFrame::OnHelp - Function End"));
+    wxLogTrace(wxT("Function Start/End"), wxT("CSimpleFrame::OnHelp - Function End"));
 }
 
 
-void CNewSimpleFrame::OnReloadSkin(CFrameEvent& WXUNUSED(event)) {
-    wxLogTrace(wxT("Function Start/End"), wxT("CNewSimpleFrame::OnReloadSkin - Function Start"));
+void CSimpleFrame::OnReloadSkin(CFrameEvent& WXUNUSED(event)) {
+    wxLogTrace(wxT("Function Start/End"), wxT("CSimpleFrame::OnReloadSkin - Function Start"));
     
     m_pBackgroundPanel->ReskinInterface();
 
-    wxLogTrace(wxT("Function Start/End"), wxT("CNewSimpleFrame::OnReloadSkin - Function End"));
+    wxLogTrace(wxT("Function Start/End"), wxT("CSimpleFrame::OnReloadSkin - Function End"));
 }
 
 
-void CNewSimpleFrame::OnNotification(CFrameEvent& WXUNUSED(event)) {
-    wxLogTrace(wxT("Function Start/End"), wxT("CNewSimpleFrame::OnNotification - Function Begin"));
+void CSimpleFrame::OnNotification(CFrameEvent& WXUNUSED(event)) {
+    wxLogTrace(wxT("Function Start/End"), wxT("CSimpleFrame::OnNotification - Function Begin"));
 
 	CDlgMessages dlg(GetParent());
 
@@ -426,12 +407,12 @@ void CNewSimpleFrame::OnNotification(CFrameEvent& WXUNUSED(event)) {
     m_pBackgroundPanel->SetDlgOpen(false);
     SetMsgsDlgOpen(NULL);
 
-    wxLogTrace(wxT("Function Start/End"), wxT("CNewSimpleFrame::OnNotification - Function End"));
+    wxLogTrace(wxT("Function Start/End"), wxT("CSimpleFrame::OnNotification - Function End"));
 }
 
 
-void CNewSimpleFrame::OnRefreshView(CFrameEvent& WXUNUSED(event)) {
-    wxLogTrace(wxT("Function Start/End"), wxT("CNewSimpleFrame::OnRefreshView - Function Start"));
+void CSimpleFrame::OnRefreshView(CFrameEvent& WXUNUSED(event)) {
+    wxLogTrace(wxT("Function Start/End"), wxT("CSimpleFrame::OnRefreshView - Function Start"));
     
     static bool bAlreadyRunning = false;
     
@@ -451,12 +432,12 @@ void CNewSimpleFrame::OnRefreshView(CFrameEvent& WXUNUSED(event)) {
 
     bAlreadyRunning = false;
 
-    wxLogTrace(wxT("Function Start/End"), wxT("CNewSimpleFrame::OnRefreshView - Function End"));
+    wxLogTrace(wxT("Function Start/End"), wxT("CSimpleFrame::OnRefreshView - Function End"));
 }
 
 
-void CNewSimpleFrame::OnProjectsAttachToProject() {
-    wxLogTrace(wxT("Function Start/End"), wxT("CNewSimpleFrame::OnProjectsAttachToProject - Function Begin"));
+void CSimpleFrame::OnProjectsAttachToProject() {
+    wxLogTrace(wxT("Function Start/End"), wxT("CSimpleFrame::OnProjectsAttachToProject - Function Begin"));
 
     CMainDocument* pDoc     = wxGetApp().GetDocument();
 
@@ -482,12 +463,12 @@ void CNewSimpleFrame::OnProjectsAttachToProject() {
         ShowNotCurrentlyConnectedAlert();
     }
 
-    wxLogTrace(wxT("Function Start/End"), wxT("CNewSimpleFrame::OnProjectsAttachToProject - Function End"));
+    wxLogTrace(wxT("Function Start/End"), wxT("CSimpleFrame::OnProjectsAttachToProject - Function End"));
 }
 
 
-void CNewSimpleFrame::OnConnect(CFrameEvent& WXUNUSED(event)) {
-    wxLogTrace(wxT("Function Start/End"), wxT("CNewSimpleFrame::OnConnect - Function Begin"));
+void CSimpleFrame::OnConnect(CFrameEvent& WXUNUSED(event)) {
+    wxLogTrace(wxT("Function Start/End"), wxT("CSimpleFrame::OnConnect - Function Begin"));
     
     CMainDocument*     pDoc = wxGetApp().GetDocument();
     CWizardAttach*     pWizard = NULL;
@@ -550,7 +531,7 @@ void CNewSimpleFrame::OnConnect(CFrameEvent& WXUNUSED(event)) {
         m_pBackgroundPanel->UpdateProjectView();
 	}
 
-    wxLogTrace(wxT("Function Start/End"), wxT("CNewSimpleFrame::OnConnect - Function End"));
+    wxLogTrace(wxT("Function Start/End"), wxT("CSimpleFrame::OnConnect - Function End"));
 }
 
 
@@ -666,10 +647,6 @@ CSimpleGUIPanel::~CSimpleGUIPanel()
 {
     wxLogTrace(wxT("Function Start/End"), wxT("CSimpleGUIPanel::CSimpleGUIPanel - Destructor Function Begin"));
     
-#ifdef __WXMAC__
-//    RemoveMacAccessibilitySupport();  /* CAF */
-#endif    
-
     checkForNewNoticesTimer->Stop();
 	delete checkForNewNoticesTimer;
     m_bmpBg = wxNullBitmap; // Deletes old bitmap via reference counting
@@ -721,16 +698,16 @@ void CSimpleGUIPanel::ReskinInterface() {
 void CSimpleGUIPanel::OnProjectsAttachToProject() {
     wxLogTrace(wxT("Function Start/End"), wxT("CSimpleGUIPanel::OnProjectsAttachToProject - Function Begin"));
 	
-    CNewSimpleFrame* pFrame = wxDynamicCast(GetParent(), CNewSimpleFrame);
+    CSimpleFrame* pFrame = wxDynamicCast(GetParent(), CSimpleFrame);
     wxASSERT(pFrame);
 
     pFrame->OnProjectsAttachToProject();
 
-    wxLogTrace(wxT("Function Start/End"), wxT("CNewSimpleFrame::OnProjectsAttachToProject - Function End"));
+    wxLogTrace(wxT("Function Start/End"), wxT("CSimpleFrame::OnProjectsAttachToProject - Function End"));
 }
 
 
-// called from CNewSimpleFrame::OnRefreshView()
+// called from CSimpleFrame::OnRefreshView()
 void CSimpleGUIPanel::OnFrameRender() {
     CMainDocument*      pDoc = wxGetApp().GetDocument();
     wxASSERT(pDoc);
@@ -788,17 +765,6 @@ void CSimpleGUIPanel::OnFrameRender() {
         m_oldWorkCount = workCount;
         
         m_taskPanel->Update();
-            
-#ifdef __WXMAC__
-        //Accessibility
-        // Hide all but top level view from accessibility support so that 
-        // the screen reader will tell user to switch to advanced view.
-//        if (oldSimpleGUIWorkCount != workCount) { /* CAF */
-//            oldSimpleGUIWorkCount = workCount;
-//            HIViewRef simple = (HIViewRef)GetHandle();
-//            AccessibilityIgnoreAllChildren(simple, 1);
-//        }
-#endif
     }
 }
 
@@ -841,12 +807,12 @@ void CSimpleGUIPanel::OnShowNotices(wxCommandEvent& /*event*/) {
 	CDlgMessages dlg(GetParent());
     SetDlgOpen(true);
     
-    ((CNewSimpleFrame*)GetParent())->SetMsgsDlgOpen(&dlg);
+    ((CSimpleFrame*)GetParent())->SetMsgsDlgOpen(&dlg);
     
     dlg.ShowModal();
 
     SetDlgOpen(false);
-    ((CNewSimpleFrame*)GetParent())->SetMsgsDlgOpen(NULL);
+    ((CSimpleFrame*)GetParent())->SetMsgsDlgOpen(NULL);
 }
 
 

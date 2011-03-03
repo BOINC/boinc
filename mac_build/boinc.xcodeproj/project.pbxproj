@@ -55,7 +55,6 @@
 		DD1AFEAF0A512D8700EE5B82 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 20286C33FDCF999611CA2CEA /* Carbon.framework */; };
 		DD1AFEB00A512D8700EE5B82 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD1929D80918A2F100C31BCF /* Security.framework */; };
 		DD1AFEE80A51301C00EE5B82 /* Installer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD1AFEE70A51301C00EE5B82 /* Installer.cpp */; };
-		DD1C82310AF372D900F709AC /* sg_CustomControls.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD1C822F0AF372D900F709AC /* sg_CustomControls.cpp */; };
 		DD205A1A0BAF596E0008D473 /* ProjectListCtrl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD205A180BAF596E0008D473 /* ProjectListCtrl.cpp */; };
 		DD21B49D0D750FC600AFFEE5 /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DDFE854A0B60CFD0009B43D9 /* AppKit.framework */; };
 		DD247AF90AEA308A0034104A /* SkinManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD247AF70AEA308A0034104A /* SkinManager.cpp */; };
@@ -129,15 +128,10 @@
 		DD3E15220A774397007E0084 /* SetupSecurity.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD7748B40A356D6C0025D05E /* SetupSecurity.cpp */; };
 		DD3E15230A774397007E0084 /* AdvancedFrame.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD9C94A00A5A3A4100AB0D10 /* AdvancedFrame.cpp */; };
 		DD3E15240A774397007E0084 /* BOINCBaseFrame.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD9C94A20A5A3A4100AB0D10 /* BOINCBaseFrame.cpp */; };
-		DD3E15250A774397007E0084 /* sg_BoincSimpleGUI.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDCAD7D10A6C603A0086C7EE /* sg_BoincSimpleGUI.cpp */; };
 		DD3E15260A774397007E0084 /* sg_DlgPreferences.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDCAD7D30A6C603A0086C7EE /* sg_DlgPreferences.cpp */; };
-		DD3E15270A774397007E0084 /* sg_ImageLoader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDCAD7D50A6C603A0086C7EE /* sg_ImageLoader.cpp */; };
-		DD3E15290A774397007E0084 /* sg_StatImageLoader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDCAD7D90A6C603A0086C7EE /* sg_StatImageLoader.cpp */; };
-		DD3E152A0A774397007E0084 /* sg_ViewTabPage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDCAD7DB0A6C603A0086C7EE /* sg_ViewTabPage.cpp */; };
 		DD3E152C0A774397007E0084 /* wxFlatNotebook.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDCE78300A70BD55008218B6 /* wxFlatNotebook.cpp */; };
 		DD3E152D0A774397007E0084 /* app_ipc.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AA8B6B1B046C364400A80164 /* app_ipc.cpp */; };
 		DD3E152E0A774397007E0084 /* proxy_info.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD344BEF07C5B1770043025C /* proxy_info.cpp */; };
-		DD3E152F0A774397007E0084 /* sg_ProjectsComponent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDCE783E0A70BF72008218B6 /* sg_ProjectsComponent.cpp */; };
 		DD3E15310A774397007E0084 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 20286C33FDCF999611CA2CEA /* Carbon.framework */; };
 		DD3E15320A774397007E0084 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DDE2552B07C62F3E008E7D6E /* IOKit.framework */; };
 		DD3E15330A774397007E0084 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD1929D80918A2F100C31BCF /* Security.framework */; };
@@ -164,10 +158,6 @@
 		DD4329910BA63DEC007CDF2A /* str_util.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD7BF7D70B8E7A9800A009F7 /* str_util.cpp */; };
 		DD46885A0C1661970089F500 /* uninstall.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD4688590C1661970089F500 /* uninstall.cpp */; };
 		DD48091F081A66F100A174AA /* BOINCSaver.nib in Resources */ = {isa = PBXBuildFile; fileRef = DD48091E081A66F100A174AA /* BOINCSaver.nib */; };
-		DD4C56160AD389A2009E23C6 /* sg_ClientStateIndicator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD4C560A0AD389A2009E23C6 /* sg_ClientStateIndicator.cpp */; };
-		DD4C56180AD389A2009E23C6 /* sg_DlgMessages.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD4C560C0AD389A2009E23C6 /* sg_DlgMessages.cpp */; };
-		DD4C561A0AD389A2009E23C6 /* sg_ImageButton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD4C560E0AD389A2009E23C6 /* sg_ImageButton.cpp */; };
-		DD4C561C0AD389A2009E23C6 /* sg_ProgressBar.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD4C56100AD389A2009E23C6 /* sg_ProgressBar.cpp */; };
 		DD4E704C0BCDAC360010A522 /* browser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD4E70490BCDAC360010A522 /* browser.cpp */; };
 		DD4EC65A08A0A7AF009AA08F /* gui_rpc_client_ops.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD73E34E08A0694000656EB1 /* gui_rpc_client_ops.cpp */; };
 		DD4EC65B08A0A83F009AA08F /* gui_rpc_client_print.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD73E34F08A0694100656EB1 /* gui_rpc_client_print.cpp */; };
@@ -206,7 +196,6 @@
 		DD7A5D8312EEBE5E0006268E /* sg_TaskCommandPopup.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD7A5D8212EEBE5E0006268E /* sg_TaskCommandPopup.cpp */; };
 		DD7A5D9F12EEBFC20006268E /* sg_ProjectWebSitesPopup.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD7A5D9E12EEBFC20006268E /* sg_ProjectWebSitesPopup.cpp */; };
 		DD7A5DAB12EEC37B0006268E /* sg_ProjectCommandPopup.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD7A5DAA12EEC37B0006268E /* sg_ProjectCommandPopup.cpp */; };
-		DD7A5E5012EEE3A20006268E /* sg_BoincSimpleFrame.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDAFA7AC12D4834D00997329 /* sg_BoincSimpleFrame.cpp */; };
 		DD7AEB4A0C87CE1300AC3B5C /* screensaver.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD7AEB490C87CE1300AC3B5C /* screensaver.cpp */; };
 		DD7BF7DA0B8E7A9800A009F7 /* str_util.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD7BF7D70B8E7A9800A009F7 /* str_util.cpp */; };
 		DD7BF7E10B8E7B3700A009F7 /* str_util.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD7BF7D70B8E7A9800A009F7 /* str_util.cpp */; };
@@ -214,6 +203,9 @@
 		DD7BF7E60B8E7B6C00A009F7 /* str_util.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD7BF7D70B8E7A9800A009F7 /* str_util.cpp */; };
 		DD7BF7E80B8E7BBE00A009F7 /* work_fetch.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD7BF7E70B8E7BBE00A009F7 /* work_fetch.cpp */; };
 		DD7DD79B0B8BFA4000B11279 /* ViewResources.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD81C42307C5D1D70098A04D /* ViewResources.cpp */; };
+		DD80632D131FAA4100DC8971 /* sg_BoincSimpleFrame.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDAFA7AC12D4834D00997329 /* sg_BoincSimpleFrame.cpp */; };
+		DD806336131FAD9A00DC8971 /* sg_CustomControls.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD1C822F0AF372D900F709AC /* sg_CustomControls.cpp */; };
+		DD806339131FADE700DC8971 /* sg_DlgMessages.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD4C560C0AD389A2009E23C6 /* sg_DlgMessages.cpp */; };
 		DD85AE4B0F5D284D0031F7AC /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD1929D80918A2F100C31BCF /* Security.framework */; };
 		DD867B7510DCE77700128AB4 /* notice.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDE1372D10DC5E8D00161D6B /* notice.cpp */; };
 		DD89163D0F3B182700DE5B1C /* ss_app.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD89163C0F3B182700DE5B1C /* ss_app.cpp */; };
@@ -747,14 +739,8 @@
 		DD4688430C165F3C0089F500 /* Uninstaller-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Uninstaller-Info.plist"; sourceTree = "<group>"; };
 		DD4688590C1661970089F500 /* uninstall.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = uninstall.cpp; path = ../mac_installer/uninstall.cpp; sourceTree = SOURCE_ROOT; };
 		DD48091E081A66F100A174AA /* BOINCSaver.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = BOINCSaver.nib; path = ../clientscr/res/BOINCSaver.nib; sourceTree = SOURCE_ROOT; };
-		DD4C560A0AD389A2009E23C6 /* sg_ClientStateIndicator.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = sg_ClientStateIndicator.cpp; path = ../clientgui/sg_ClientStateIndicator.cpp; sourceTree = SOURCE_ROOT; };
-		DD4C560B0AD389A2009E23C6 /* sg_ClientStateIndicator.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = sg_ClientStateIndicator.h; path = ../clientgui/sg_ClientStateIndicator.h; sourceTree = SOURCE_ROOT; };
 		DD4C560C0AD389A2009E23C6 /* sg_DlgMessages.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = sg_DlgMessages.cpp; path = ../clientgui/sg_DlgMessages.cpp; sourceTree = SOURCE_ROOT; };
 		DD4C560D0AD389A2009E23C6 /* sg_DlgMessages.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = sg_DlgMessages.h; path = ../clientgui/sg_DlgMessages.h; sourceTree = SOURCE_ROOT; };
-		DD4C560E0AD389A2009E23C6 /* sg_ImageButton.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = sg_ImageButton.cpp; path = ../clientgui/sg_ImageButton.cpp; sourceTree = SOURCE_ROOT; };
-		DD4C560F0AD389A2009E23C6 /* sg_ImageButton.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = sg_ImageButton.h; path = ../clientgui/sg_ImageButton.h; sourceTree = SOURCE_ROOT; };
-		DD4C56100AD389A2009E23C6 /* sg_ProgressBar.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = sg_ProgressBar.cpp; path = ../clientgui/sg_ProgressBar.cpp; sourceTree = SOURCE_ROOT; };
-		DD4C56110AD389A2009E23C6 /* sg_ProgressBar.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = sg_ProgressBar.h; path = ../clientgui/sg_ProgressBar.h; sourceTree = SOURCE_ROOT; };
 		DD4E70490BCDAC360010A522 /* browser.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = browser.cpp; sourceTree = "<group>"; };
 		DD4E704A0BCDAC360010A522 /* browser.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = browser.h; path = ../clientgui/browser.h; sourceTree = SOURCE_ROOT; };
 		DD4EC60F08A0A083009AA08F /* texture.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = texture.cpp; sourceTree = "<group>"; };
@@ -859,7 +845,6 @@
 		DD81C41607C5D13E0098A04D /* MainDocument.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = MainDocument.cpp; path = ../clientgui/MainDocument.cpp; sourceTree = SOURCE_ROOT; };
 		DD81C41707C5D13E0098A04D /* stdwx.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = stdwx.cpp; path = ../clientgui/stdwx.cpp; sourceTree = SOURCE_ROOT; };
 		DD81C42307C5D1D70098A04D /* ViewResources.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = ViewResources.cpp; path = ../clientgui/ViewResources.cpp; sourceTree = SOURCE_ROOT; };
-		DD81C42507C5D1D70098A04D /* ViewMessages.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = ViewMessages.cpp; path = ../clientgui/ViewMessages.cpp; sourceTree = SOURCE_ROOT; };
 		DD81C42607C5D1D70098A04D /* ValidateURL.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = ValidateURL.cpp; path = ../clientgui/ValidateURL.cpp; sourceTree = SOURCE_ROOT; };
 		DD81C42707C5D1D70098A04D /* ValidateAccountKey.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = ValidateAccountKey.cpp; path = ../clientgui/ValidateAccountKey.cpp; sourceTree = SOURCE_ROOT; };
 		DD81C43407C5D2240098A04D /* BOINCBaseView.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = BOINCBaseView.h; path = ../clientgui/BOINCBaseView.h; sourceTree = SOURCE_ROOT; };
@@ -874,7 +859,6 @@
 		DD81C44F07C5D2470098A04D /* MainDocument.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = MainDocument.h; path = ../clientgui/MainDocument.h; sourceTree = SOURCE_ROOT; };
 		DD81C45007C5D2470098A04D /* LogBOINC.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = LogBOINC.h; path = ../clientgui/LogBOINC.h; sourceTree = SOURCE_ROOT; };
 		DD81C45B07C5D2880098A04D /* stdwx.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = stdwx.h; path = ../clientgui/stdwx.h; sourceTree = SOURCE_ROOT; };
-		DD81C46407C5D29F0098A04D /* ViewMessages.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = ViewMessages.h; path = ../clientgui/ViewMessages.h; sourceTree = SOURCE_ROOT; };
 		DD81C46507C5D29F0098A04D /* ValidateURL.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = ValidateURL.h; path = ../clientgui/ValidateURL.h; sourceTree = SOURCE_ROOT; };
 		DD81C46607C5D29F0098A04D /* ValidateAccountKey.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = ValidateAccountKey.h; path = ../clientgui/ValidateAccountKey.h; sourceTree = SOURCE_ROOT; };
 		DD81C47207C5D2BF0098A04D /* ViewResources.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = ViewResources.h; path = ../clientgui/ViewResources.h; sourceTree = SOURCE_ROOT; };
@@ -959,21 +943,11 @@
 		DDC63EEF0985B89600383FD2 /* DlgGenericMessage.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = DlgGenericMessage.cpp; path = ../clientgui/DlgGenericMessage.cpp; sourceTree = SOURCE_ROOT; };
 		DDC63EF00985B89600383FD2 /* DlgGenericMessage.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = DlgGenericMessage.h; path = ../clientgui/DlgGenericMessage.h; sourceTree = SOURCE_ROOT; };
 		DDC836E50EDEA5DB001C2EF9 /* TermsOfUsePage.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TermsOfUsePage.cpp; path = ../clientgui/TermsOfUsePage.cpp; sourceTree = SOURCE_ROOT; };
-		DDCAD7D10A6C603A0086C7EE /* sg_BoincSimpleGUI.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = sg_BoincSimpleGUI.cpp; path = ../clientgui/sg_BoincSimpleGUI.cpp; sourceTree = SOURCE_ROOT; };
-		DDCAD7D20A6C603A0086C7EE /* sg_BoincSimpleGUI.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = sg_BoincSimpleGUI.h; path = ../clientgui/sg_BoincSimpleGUI.h; sourceTree = SOURCE_ROOT; };
 		DDCAD7D30A6C603A0086C7EE /* sg_DlgPreferences.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = sg_DlgPreferences.cpp; path = ../clientgui/sg_DlgPreferences.cpp; sourceTree = SOURCE_ROOT; };
 		DDCAD7D40A6C603A0086C7EE /* sg_DlgPreferences.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = sg_DlgPreferences.h; path = ../clientgui/sg_DlgPreferences.h; sourceTree = SOURCE_ROOT; };
-		DDCAD7D50A6C603A0086C7EE /* sg_ImageLoader.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = sg_ImageLoader.cpp; path = ../clientgui/sg_ImageLoader.cpp; sourceTree = SOURCE_ROOT; };
-		DDCAD7D60A6C603A0086C7EE /* sg_ImageLoader.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = sg_ImageLoader.h; path = ../clientgui/sg_ImageLoader.h; sourceTree = SOURCE_ROOT; };
-		DDCAD7D90A6C603A0086C7EE /* sg_StatImageLoader.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = sg_StatImageLoader.cpp; path = ../clientgui/sg_StatImageLoader.cpp; sourceTree = SOURCE_ROOT; };
-		DDCAD7DA0A6C603A0086C7EE /* sg_StatImageLoader.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = sg_StatImageLoader.h; path = ../clientgui/sg_StatImageLoader.h; sourceTree = SOURCE_ROOT; };
-		DDCAD7DB0A6C603A0086C7EE /* sg_ViewTabPage.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = sg_ViewTabPage.cpp; path = ../clientgui/sg_ViewTabPage.cpp; sourceTree = SOURCE_ROOT; };
-		DDCAD7DC0A6C603A0086C7EE /* sg_ViewTabPage.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = sg_ViewTabPage.h; path = ../clientgui/sg_ViewTabPage.h; sourceTree = SOURCE_ROOT; };
 		DDCE78300A70BD55008218B6 /* wxFlatNotebook.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = wxFlatNotebook.cpp; path = ../clientgui/common/wxFlatNotebook.cpp; sourceTree = SOURCE_ROOT; };
 		DDCE78310A70BD55008218B6 /* wxFlatNotebook.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = wxFlatNotebook.h; path = ../clientgui/common/wxFlatNotebook.h; sourceTree = SOURCE_ROOT; };
 		DDCE78320A70BD55008218B6 /* wxFNBDropTarget.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = wxFNBDropTarget.h; path = ../clientgui/common/wxFNBDropTarget.h; sourceTree = SOURCE_ROOT; };
-		DDCE783E0A70BF72008218B6 /* sg_ProjectsComponent.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = sg_ProjectsComponent.cpp; path = ../clientgui/sg_ProjectsComponent.cpp; sourceTree = SOURCE_ROOT; };
-		DDCE783F0A70BF72008218B6 /* sg_ProjectsComponent.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = sg_ProjectsComponent.h; path = ../clientgui/sg_ProjectsComponent.h; sourceTree = SOURCE_ROOT; };
 		DDCF84060E1B7C0A005EDC45 /* DlgItemProperties.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DlgItemProperties.cpp; sourceTree = "<group>"; };
 		DDCF84070E1B7C0A005EDC45 /* DlgItemProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DlgItemProperties.h; sourceTree = "<group>"; };
 		DDD0697112D70C9400120920 /* sg_TaskPanel.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = sg_TaskPanel.cpp; path = ../clientgui/sg_TaskPanel.cpp; sourceTree = SOURCE_ROOT; };
@@ -1437,40 +1411,24 @@
 				DD81C41707C5D13E0098A04D /* stdwx.cpp */,
 				DDAFA7AC12D4834D00997329 /* sg_BoincSimpleFrame.cpp */,
 				DDAFA7AD12D4834D00997329 /* sg_BoincSimpleFrame.h */,
-				DDCAD7D10A6C603A0086C7EE /* sg_BoincSimpleGUI.cpp */,
-				DDCAD7D20A6C603A0086C7EE /* sg_BoincSimpleGUI.h */,
-				DD4C560A0AD389A2009E23C6 /* sg_ClientStateIndicator.cpp */,
-				DD4C560B0AD389A2009E23C6 /* sg_ClientStateIndicator.h */,
 				DD1C822F0AF372D900F709AC /* sg_CustomControls.cpp */,
 				DD1C82300AF372D900F709AC /* sg_CustomControls.h */,
 				DD4C560C0AD389A2009E23C6 /* sg_DlgMessages.cpp */,
 				DD4C560D0AD389A2009E23C6 /* sg_DlgMessages.h */,
 				DDCAD7D30A6C603A0086C7EE /* sg_DlgPreferences.cpp */,
 				DDCAD7D40A6C603A0086C7EE /* sg_DlgPreferences.h */,
-				DD4C560E0AD389A2009E23C6 /* sg_ImageButton.cpp */,
-				DD4C560F0AD389A2009E23C6 /* sg_ImageButton.h */,
-				DDCAD7D50A6C603A0086C7EE /* sg_ImageLoader.cpp */,
-				DDCAD7D60A6C603A0086C7EE /* sg_ImageLoader.h */,
 				DDC321AC12E45162006CB55F /* sg_PanelBase.cpp */,
 				DDC321AD12E45162006CB55F /* sg_PanelBase.h */,
-				DD4C56100AD389A2009E23C6 /* sg_ProgressBar.cpp */,
-				DD4C56110AD389A2009E23C6 /* sg_ProgressBar.h */,
 				DDDD6D7E12E4611300C258A0 /* sg_ProjectPanel.cpp */,
 				DDDD6D7F12E4611300C258A0 /* sg_ProjectPanel.h */,
 				DD7A5DAA12EEC37B0006268E /* sg_ProjectCommandPopup.cpp */,
 				DD7A5DA712EEC33F0006268E /* sg_ProjectCommandPopup.h */,
-				DDCE783E0A70BF72008218B6 /* sg_ProjectsComponent.cpp */,
-				DDCE783F0A70BF72008218B6 /* sg_ProjectsComponent.h */,
-				DD7A5D9D12EEBFC20006268E /* sg_ProjectWebSitesPopup.h */,
 				DD7A5D9E12EEBFC20006268E /* sg_ProjectWebSitesPopup.cpp */,
-				DDCAD7D90A6C603A0086C7EE /* sg_StatImageLoader.cpp */,
-				DDCAD7DA0A6C603A0086C7EE /* sg_StatImageLoader.h */,
+				DD7A5D9D12EEBFC20006268E /* sg_ProjectWebSitesPopup.h */,
 				DD7A5D8212EEBE5E0006268E /* sg_TaskCommandPopup.cpp */,
 				DD7A5D8112EEBDF30006268E /* sg_TaskCommandPopup.h */,
 				DDD0697112D70C9400120920 /* sg_TaskPanel.cpp */,
 				DDD0697212D70C9400120920 /* sg_TaskPanel.h */,
-				DDCAD7DB0A6C603A0086C7EE /* sg_ViewTabPage.cpp */,
-				DDCAD7DC0A6C603A0086C7EE /* sg_ViewTabPage.h */,
 				DD247AF70AEA308A0034104A /* SkinManager.cpp */,
 				DD247AF80AEA308A0034104A /* SkinManager.h */,
 				DD81C45B07C5D2880098A04D /* stdwx.h */,
@@ -1484,8 +1442,6 @@
 				DDBDF4AA0987091800464F83 /* ValidateEmailAddress.h */,
 				DD81C42607C5D1D70098A04D /* ValidateURL.cpp */,
 				DD81C46507C5D29F0098A04D /* ValidateURL.h */,
-				DD81C42507C5D1D70098A04D /* ViewMessages.cpp */,
-				DD81C46407C5D29F0098A04D /* ViewMessages.h */,
 				DDE1373B10DC60BB00161D6B /* ViewNotices.cpp */,
 				DDE1373C10DC60BB00161D6B /* ViewNotices.h */,
 				DDD52DC40C03CAE6009B5FC0 /* ViewProjects.cpp */,
@@ -2580,22 +2536,12 @@
 				DD3E15220A774397007E0084 /* SetupSecurity.cpp in Sources */,
 				DD3E15230A774397007E0084 /* AdvancedFrame.cpp in Sources */,
 				DD3E15240A774397007E0084 /* BOINCBaseFrame.cpp in Sources */,
-				DD3E15250A774397007E0084 /* sg_BoincSimpleGUI.cpp in Sources */,
 				DD3E15260A774397007E0084 /* sg_DlgPreferences.cpp in Sources */,
-				DD3E15270A774397007E0084 /* sg_ImageLoader.cpp in Sources */,
-				DD3E15290A774397007E0084 /* sg_StatImageLoader.cpp in Sources */,
-				DD3E152A0A774397007E0084 /* sg_ViewTabPage.cpp in Sources */,
 				DD3E152C0A774397007E0084 /* wxFlatNotebook.cpp in Sources */,
 				DD3E152D0A774397007E0084 /* app_ipc.cpp in Sources */,
 				DD3E152E0A774397007E0084 /* proxy_info.cpp in Sources */,
-				DD3E152F0A774397007E0084 /* sg_ProjectsComponent.cpp in Sources */,
-				DD4C56160AD389A2009E23C6 /* sg_ClientStateIndicator.cpp in Sources */,
-				DD4C56180AD389A2009E23C6 /* sg_DlgMessages.cpp in Sources */,
-				DD4C561A0AD389A2009E23C6 /* sg_ImageButton.cpp in Sources */,
-				DD4C561C0AD389A2009E23C6 /* sg_ProgressBar.cpp in Sources */,
 				DD67F8140ADB9DD000B0015E /* wxPieCtrl.cpp in Sources */,
 				DD247AF90AEA308A0034104A /* SkinManager.cpp in Sources */,
-				DD1C82310AF372D900F709AC /* sg_CustomControls.cpp in Sources */,
 				DDFE84E50B60CD66009B43D9 /* DlgAdvPreferences.cpp in Sources */,
 				DDFE84E70B60CD66009B43D9 /* DlgAdvPreferencesBase.cpp in Sources */,
 				DD7DD79B0B8BFA4000B11279 /* ViewResources.cpp in Sources */,
@@ -2637,10 +2583,12 @@
 				DD7A5D8312EEBE5E0006268E /* sg_TaskCommandPopup.cpp in Sources */,
 				DD7A5D9F12EEBFC20006268E /* sg_ProjectWebSitesPopup.cpp in Sources */,
 				DD7A5DAB12EEC37B0006268E /* sg_ProjectCommandPopup.cpp in Sources */,
-				DD7A5E5012EEE3A20006268E /* sg_BoincSimpleFrame.cpp in Sources */,
 				DD77A71812F2D1C9006B82E9 /* MacBitmapComboBox.cpp in Sources */,
 				DDAEB54012F8295800EDEDBE /* LogBOINC.cpp in Sources */,
 				DD2B6C8013149177005D6F3E /* procinfo.cpp in Sources */,
+				DD80632D131FAA4100DC8971 /* sg_BoincSimpleFrame.cpp in Sources */,
+				DD806336131FAD9A00DC8971 /* sg_CustomControls.cpp in Sources */,
+				DD806339131FADE700DC8971 /* sg_DlgMessages.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

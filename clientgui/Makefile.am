@@ -85,23 +85,15 @@ boincmgr_SOURCES = \
     ProxyInfoPage.cpp \
     ProxyPage.cpp \
     sg_BoincSimpleFrame.cpp \
-    sg_BoincSimpleGUI.cpp \
-    sg_ClientStateIndicator.cpp \
     sg_CustomControls.cpp \
     sg_DlgMessages.cpp \
     sg_DlgPreferences.cpp \
-    sg_ImageButton.cpp \
-    sg_ImageLoader.cpp \
     sg_PanelBase.cpp \
-    sg_ProgressBar.cpp \
-    sg_ProjectsComponent.cpp \
     sg_ProjectCommandPopup.cpp \
     sg_ProjectPanel.cpp \
     sg_ProjectWebSitesPopup.cpp \
-    sg_StatImageLoader.cpp \
     sg_TaskCommandPopup.cpp \
     sg_TaskPanel.cpp \
-    sg_ViewTabPage.cpp \
     SkinManager.cpp \
     stdwx.cpp \
     TermsOfUsePage.cpp \
