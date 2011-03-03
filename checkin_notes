@@ -1309,3 +1309,13 @@ Charlie 3 Mar 2011
             project.pbxproj
     win_build/
         boincmgr.vcproj
+
+Rom    3 Mar 2011
+    - MGR: Change the reminder frequency interval to hours and adjust the min/max
+        values to 0/24.  Default value is now 6 hours between notification reminders.
+        
+    clientgui/
+        BOINCBaseFrame.cpp
+        BOINCDialupManager.cpp
+        BOINCTaskBar.cpp
+        DlgOptions.cpp
