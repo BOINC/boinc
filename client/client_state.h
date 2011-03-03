@@ -546,6 +546,9 @@ extern void print_suspend_tasks_message(int);
     // debt is adjusted at least this often,
     // since adjust_debts() is called from enforce_schedule()
 
+#define MAX_EXIT_TIME   15
+    // if an app takes this long to exit, kill it
+
 //////// NETWORK
 
 #define CONNECT_ERROR_PERIOD    600.0

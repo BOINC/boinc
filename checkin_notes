@@ -8950,8 +8950,17 @@ Charlie 21 Feb 2011
 	client/
 		cs_notice.cpp
 
-David  21 Feb 2011
+David  22 Feb 2011
     - client: surround the opaque field in a CDATA block.
 
     client/
         acct_mgr.cpp
+
+David  22 Feb 2011
+    - client: wait 15 seconds (instead of 5) for an app to exit
+        before killing it.
+        Apparently some apps take ~10 sec on slow computers.
+
+    client/
+        client_state.h
+        app_control.cpp

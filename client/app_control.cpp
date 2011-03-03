@@ -816,9 +816,9 @@ void ACTIVE_TASK_SET::request_reread_app_info() {
 int ACTIVE_TASK_SET::exit_tasks(PROJECT* proj) {
     request_tasks_exit(proj);
 
-    // Wait 5 seconds for them to exit normally; if they don't then kill them
+    // Wait 15 seconds for them to exit normally; if they don't then kill them
     //
-    if (wait_for_exit(5, proj)) {
+    if (wait_for_exit(MAX_EXIT_TIME, proj)) {
         kill_tasks(proj);
     }
     wait_for_exit(5, proj);
