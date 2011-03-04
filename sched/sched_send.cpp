@@ -1350,7 +1350,7 @@ static void send_user_messages() {
     if (!config.locality_scheduling && !config.locality_scheduler_fraction && !config.matchmaker) {
         if (g_wreq->njobs_sent && !g_wreq->user_apps_only) {
             g_reply->insert_message(
-                "No work can be sent for the applications you have selected",
+                "No tasks are available for the applications you have selected",
                 "low"
             );
 
@@ -1364,7 +1364,7 @@ static void send_user_messages() {
                     if (app) {
                         char explanation[256];
                         sprintf(explanation,
-                            "No work is available for %s",
+                            "No tasks are available for %s",
                             find_user_friendly_name(g_wreq->preferred_apps[i].appid)
                         );
                         g_reply->insert_message( explanation, "low");
@@ -1378,11 +1378,11 @@ static void send_user_messages() {
                 g_reply->insert_message(g_wreq->no_work_messages.at(j));
             }
             g_reply->insert_message(
-                "Your preferences allow work from applications other than those selected",
+                "Your preferences allow tasks from applications other than those selected",
                 "low"
             );
             g_reply->insert_message(
-                "Sending work from other applications", "low"
+                "Sending tasks from other applications", "low"
             );
         }
     }
@@ -1391,7 +1391,7 @@ static void send_user_messages() {
     //
     if (g_wreq->njobs_sent == 0) {
         g_reply->set_delay(DELAY_NO_WORK_TEMP);
-        g_reply->insert_message("No work sent", "low");
+        g_reply->insert_message("No tasks sent", "low");
 
         // Tell the user about applications with no work
         //
@@ -1400,7 +1400,7 @@ static void send_user_messages() {
                 APP* app = ssp->lookup_app(g_wreq->preferred_apps[i].appid);
                 // don't write message if the app is deprecated
                 if (app != NULL) {
-                    sprintf(buf, "No work is available for %s",
+                    sprintf(buf, "No tasks are available for %s",
                         find_user_friendly_name(
                             g_wreq->preferred_apps[i].appid
                         )
@@ -1417,8 +1417,8 @@ static void send_user_messages() {
         }
         if (g_wreq->no_allowed_apps_available) {
             g_reply->insert_message(
-                _("No work available for the applications you have selected.  Please check your project preferences on the web site."),
-                "notice"
+                _("No tasks are available for the applications you have selected."),
+                "low"
             );
         }
         if (g_wreq->speed.insufficient) {
@@ -1454,25 +1454,25 @@ static void send_user_messages() {
             );
             g_reply->set_delay(DELAY_NO_WORK_PERM);
             log_messages.printf(MSG_NORMAL,
-                "Not sending work because newer client version required\n"
+                "Not sending tasks because newer client version required\n"
             );
         }
         if (g_wreq->no_cuda_prefs) {
             g_reply->insert_message(
                 _("Tasks for NVIDIA GPU are available, but your preferences are set to not accept them"),
-                "notice"
+                "low"
             );
         }
         if (g_wreq->no_ati_prefs) {
             g_reply->insert_message(
                 _("Tasks for ATI GPU are available, but your preferences are set to not accept them"),
-                "notice"
+                "low"
             );
         }
         if (g_wreq->no_cpu_prefs) {
             g_reply->insert_message(
                 _("Tasks for CPU are available, but your preferences are set to not accept them"),
-                "notice"
+                "low"
             );
         }
         DB_HOST_APP_VERSION* havp = quota_exceeded_version();

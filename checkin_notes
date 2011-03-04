@@ -1355,3 +1355,19 @@ David  3 Mar 2011
 
     clientgui/
         DlgAbout.cpp
+
+David  4 Mar 2011
+    - scheduler: if we're not sending jobs because of user prefs
+        (no CPU, no GPU, selected apps)
+        send a message, not a notice.
+        Assume the user knew what they were doing,
+        and doesn't want to be nagged.
+    - scheduler: check for the existence of an app version
+        before checking for user selected-app prefs.
+        This prevents sending "no jobs available for selected apps"
+        message when no app versions exist for non-selected apps
+    - scheduler: use "tasks" instead of "work" in user messages
+
+    sched/
+        sched_array.cpp
+        sched_send.cpp
