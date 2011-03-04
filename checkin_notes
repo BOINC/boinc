@@ -1343,3 +1343,9 @@ David  3 Mar 2011
     client/
         rr_sim.cpp
         client_types.h
+
+Charlie 3 Mar 2011
+    - MGR: reduce duration of notifications on Mac from 15 to 5 seconds.
+
+    clientgui/
+        BOINCTaskBar.cpp
