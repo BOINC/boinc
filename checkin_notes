@@ -9072,3 +9072,9 @@ David  28 Feb 2011
 
     client/
         boinc_cmd.cpp
+
+Charlie 3 Mar 2011
+    - MGR: reduce duration of notifications on Mac from 15 to 5 seconds.
+
+    clientgui/
+        BOINCTaskBar.cpp
