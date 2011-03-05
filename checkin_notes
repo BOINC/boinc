@@ -1371,3 +1371,9 @@ David  4 Mar 2011
     sched/
         sched_array.cpp
         sched_send.cpp
+
+David  4 Mar 2011
+    - client: fix spurious error when removing a notice RSS feed
+
+    client/
+        cs_notice.cpp
