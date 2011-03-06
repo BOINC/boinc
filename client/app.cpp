@@ -321,9 +321,11 @@ void ACTIVE_TASK_SET::get_memory_usage() {
         pi.page_fault_rate = pf/diff;
         if (log_flags.mem_usage_debug) {
             msg_printf(atp->result->project, MSG_INFO,
-                "[mem_usage] %s: RAM %.2fMB, page %.2fMB, %.2f page faults/sec, user CPU %.3f, kernel CPU %.3f",
+                "[mem_usage] %s: WS %.2fMB, smoothed %.2fMB page %.2fMB, %.2f page faults/sec, user CPU %.3f, kernel CPU %.3f",
                 atp->result->name,
-                pi.working_set_size/MEGA, pi.swap_size/MEGA,
+                pi.working_set_size/MEGA,
+                pi.working_set_size_smoothed/MEGA,
+                pi.swap_size/MEGA,
                 pi.page_fault_rate,
                 pi.user_time, pi.kernel_time
             );

@@ -1377,3 +1377,12 @@ David  4 Mar 2011
 
     client/
         cs_notice.cpp
+
+David  6 Mar 2011
+    - client: print smoothed as well as instantaneous WSS
+    - manager: make RPC reason strings translatable
+
+    client/
+        app.cpp
+    clientgui/
+        ViewProjects.cpp

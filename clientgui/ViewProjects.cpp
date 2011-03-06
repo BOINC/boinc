@@ -1043,6 +1043,18 @@ wxInt32 CViewProjects::FormatResourceShare(float fBuffer, float fBufferPercent, 
     return 0;
 }
 
+wxString rpc_reason_string_translated(int reason) {
+    switch (reason) {
+    case RPC_REASON_USER_REQ: return _("Requested by user");
+    case RPC_REASON_NEED_WORK: return _("To fetch work");
+    case RPC_REASON_RESULTS_DUE: return _("To report completed tasks");
+    case RPC_REASON_TRICKLE_UP: return _("To send trickle-up message");
+    case RPC_REASON_ACCT_MGR_REQ: return _("Requested by account manager");
+    case RPC_REASON_INIT: return _("Project initialization");
+    case RPC_REASON_PROJECT_REQ: return _("Requested by project");
+    default: return _("Unknown reason");
+    }
+}
 
 void CViewProjects::GetDocStatus(wxInt32 item, wxString& strBuffer) const {
     PROJECT* project = NULL;
@@ -1067,7 +1079,9 @@ void CViewProjects::GetDocStatus(wxInt32 item, wxString& strBuffer) const {
         }
         if (project->sched_rpc_pending) {
             append_to_status(strBuffer, _("Scheduler request pending"));
-            append_to_status(strBuffer, wxString(rpc_reason_string(project->sched_rpc_pending), wxConvUTF8));
+            append_to_status(strBuffer,
+                rpc_reason_string_translated(project->sched_rpc_pending)
+            );
         }
         if (project->scheduler_rpc_in_progress) {
             append_to_status(strBuffer, _("Scheduler request in progress"));
