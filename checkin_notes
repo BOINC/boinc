@@ -9073,6 +9073,30 @@ David  28 Feb 2011
     client/
         boinc_cmd.cpp
 
+David  3 Mar 2011
+    - client: fix inaccuracy in RR simulation reported by Bill Barber.
+        The problem arises when there are jobs of projects
+        with widely differing resource shares,
+        and results in an overestimation of saturated time.
+
+        Old: at the start of simulation, call WORK_FETCH::compute_shares() 
+            to get resources of runnable projects.
+            Use these throughout the simulation.
+
+        Problem: suppose you have 2 runnable projects;
+            P1 has large RS, P2 has small RS.
+            P1's jobs finish quickly.
+            P2's jobs then are running alone,
+            but their FLOPS is scaled (incorrectly) by P2's small RS.
+
+        Solution: recompute relative CPU resource share within the
+            simulation loop,
+            and compute it over the projects that have actives jobs
+            in the simulation.
+    client/
+        rr_sim.cpp
+        client_types.h
+
 Charlie 3 Mar 2011
     - MGR: reduce duration of notifications on Mac from 15 to 5 seconds.
 
