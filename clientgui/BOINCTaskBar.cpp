@@ -98,6 +98,7 @@ CTaskBarIcon::CTaskBarIcon(wxString title, wxIcon* icon, wxIcon* iconDisconnecte
     m_bMouseButtonPressed = false;
 
     m_dtLastNotificationAlertExecuted = wxDateTime((time_t)0);
+    m_iLastNotificationUnreadMessageCount = 0;
 #ifdef __WXMAC__
     m_pNotificationRequest = NULL;
 #endif
@@ -747,7 +748,9 @@ void CTaskBarIcon::UpdateNoticeStatus() {
         && (pFrame->GetReminderFrequency() != 0)
     ) {
 
-        if (pDoc->GetUnreadNoticeCount()) {
+        if (pDoc->GetUnreadNoticeCount() 
+            && (pDoc->GetUnreadNoticeCount() != m_iLastNotificationUnreadMessageCount)
+        ) {
 #ifdef __WXMAC__
             // Delay notification while user is inactive
             // NOTE: This API requires OS 10.4 or later
@@ -759,6 +762,7 @@ void CTaskBarIcon::UpdateNoticeStatus() {
 #endif
             // Update cached info
             m_dtLastNotificationAlertExecuted = wxDateTime::Now();
+            m_iLastNotificationUnreadMessageCount = pDoc->GetUnreadNoticeCount();
 
             if (IsBalloonsSupported()) {
                 // Display balloon

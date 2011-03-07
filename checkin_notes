@@ -1406,3 +1406,11 @@ Rom    7 Mar 2011
     
     clientgui/
         DlgOptions.cpp, .h
+
+Rom    7 Mar 2011
+    - MGR: Handle the 'always' option by only popping a new balloon if the
+        unread notice count differs from the last time we popped a
+        balloon.
+        
+    clientgui/
+        BOINCTaskBar.cpp, .h
