@@ -577,22 +577,22 @@ bool CDlgOptions::ReadSettings() {
 
     switch(pFrame->GetReminderFrequency()) {
         case 1:
-            m_ReminderFrequencyCtrl->SetSelection(1);
+            m_ReminderFrequencyCtrl->SetSelection(0);
             break;
         case 60:
-            m_ReminderFrequencyCtrl->SetSelection(2);
+            m_ReminderFrequencyCtrl->SetSelection(1);
             break;
         case 360:
-            m_ReminderFrequencyCtrl->SetSelection(3);
+            m_ReminderFrequencyCtrl->SetSelection(2);
             break;
         case 1440:
-            m_ReminderFrequencyCtrl->SetSelection(4);
+            m_ReminderFrequencyCtrl->SetSelection(3);
             break;
         case 10080:
-            m_ReminderFrequencyCtrl->SetSelection(5);
+            m_ReminderFrequencyCtrl->SetSelection(4);
             break;
         case 0:
-            m_ReminderFrequencyCtrl->SetSelection(6);
+            m_ReminderFrequencyCtrl->SetSelection(5);
             break;
     }
 
@@ -692,22 +692,22 @@ bool CDlgOptions::SaveSettings() {
     pFrame->SetSelectedLanguage(m_LanguageSelectionCtrl->GetSelection());
 
     switch(m_ReminderFrequencyCtrl->GetSelection()) {
-        case 1:
+        case 0:
             pFrame->SetReminderFrequency(1);
             break;
-        case 2:
+        case 1:
             pFrame->SetReminderFrequency(60);
             break;
-        case 3:
+        case 2:
             pFrame->SetReminderFrequency(360);
             break;
-        case 4:
+        case 3:
             pFrame->SetReminderFrequency(1440);
             break;
-        case 5:
+        case 4:
             pFrame->SetReminderFrequency(10080);
             break;
-        case 6:
+        case 5:
             pFrame->SetReminderFrequency(0);
             break;
     }

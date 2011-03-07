@@ -1400,3 +1400,9 @@ Rom    7 Mar 2011
         BOINCBaseFrame.cpp, .h
         BOINCTaskBar.cpp
         DlgOptions.cpp, .h
+
+Rom    7 Mar 2011
+    - MGR: ComboBox's are zero index based.
+    
+    clientgui/
+        DlgOptions.cpp, .h
