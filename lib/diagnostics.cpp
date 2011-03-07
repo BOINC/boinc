@@ -232,21 +232,22 @@ int diagnostics_init(
 
     if (flags & BOINC_DIAG_REDIRECTSTDERROVERWRITE) {
         stderr_file = freopen(stderr_log, "w", stderr);
-        if (NULL == stderr_file) {
+        if (!stderr_file) {
             return ERR_FOPEN;
         }
+        setbuf(stderr_file, 0);
     }
 
     if (flags & BOINC_DIAG_REDIRECTSTDOUT) {
         stdout_file = freopen(stdout_log, "a", stdout);
-        if (NULL == stdout_file) {
+        if (!stdout_file) {
             return ERR_FOPEN;
         }
     }
 
     if (flags & BOINC_DIAG_REDIRECTSTDOUTOVERWRITE) {
         stdout_file = freopen(stdout_log, "w", stdout);
-        if (NULL == stdout_file) {
+        if (!stdout_file) {
             return ERR_FOPEN;
         }
     }
