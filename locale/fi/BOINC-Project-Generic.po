@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2010-10-06 13:10 PDT\n"
-"PO-Revision-Date: 2011-01-11 22:13+0200\n"
+"PO-Revision-Date: 2011-02-20 21:36+0200\n"
 "Last-Translator: Sami Nordlund <sami.nordlund@kolumbus.fi>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -700,7 +700,7 @@ msgid ""
 "Confirm before connecting to Internet? %1 Matters only if you have a modem, "
 "ISDN or VPN connection %2"
 msgstr ""
-"Vahvista ennen Internet-yhteyden avaamista? %1 Vaikutusta jos on modeemi-, "
+"Vahvista ennen internetyhteyden avaamista? %1 Vaikutusta jos on modeemi-, "
 "ISDN- tai VPN-yhteys %2"
 
 #: ../inc/prefs.inc:241
@@ -751,7 +751,7 @@ msgid ""
 "resources and the second will get 2/3. %2"
 msgstr ""
 "Resurssien jako %1 Määrittää koneesi resurssit tälle projektille. Esim.: jos "
-"osallistus kahteen BOINC-projektiin resurssijaolla 100 ja 200, ensimmäinen "
+"osallistut kahteen BOINC-projektiin resurssijaolla 100 ja 200, ensimmäinen "
 "saa 1/3 koneen resursseista ja toinen 2/3. %2"
 
 #: ../inc/prefs.inc:300
@@ -1829,15 +1829,15 @@ msgstr "Pyyntöä ei voida käsitellä"
 
 #: ../inc/util.inc:209
 msgid "hours"
-msgstr ""
+msgstr "tuntia"
 
 #: ../inc/util.inc:212
 msgid "min"
-msgstr ""
+msgstr "min"
 
 #: ../inc/util.inc:215
 msgid "sec"
-msgstr ""
+msgstr "sek"
 
 #: ../inc/util.inc:371
 msgid "Link has timed out. Please click Back, refresh the page, and try again."
@@ -3613,7 +3613,7 @@ msgstr "Tiimin keskustelupalsta"
 
 #: ../user/team_forum.php:66
 msgid "Discussion among members of %1"
-msgstr ""
+msgstr "Keskustelua %1 -jäsenten kanssa"
 
 #: ../user/team_forum.php:69
 msgid "Minimum time between posts (seconds)"
@@ -3761,7 +3761,7 @@ msgstr "Olet nyt tiimin %1 perustaja."
 
 #: ../user/team_founder_transfer_form.php:42
 msgid "You requested the foundership of %1 on %2."
-msgstr ""
+msgstr "Pyysit %1 perustajuutta %2."
 
 #: ../user/team_founder_transfer_form.php:45
 msgid ""
@@ -3870,7 +3870,7 @@ msgstr "Hakutulokset haulle \"%1\""
 
 #: ../user/team_lookup.php:86
 msgid "You may view these teams' members, statistics, and information."
-msgstr ""
+msgstr "Voit katsoa näiden tiimien jäseniä, tilastoja ja tietoja."
 
 #: ../user/team_lookup.php:96
 msgid "More than 100 teams match your search. The first 100 are shown."
@@ -3885,7 +3885,7 @@ msgstr ""
 
 #: ../user/team_manage.php:24
 msgid "Team administration for %1"
-msgstr ""
+msgstr "%1 -tiimin ylläpitäjät"
 
 #: ../user/team_manage.php:27
 msgid "Edit team info"
@@ -4029,7 +4029,7 @@ msgstr "Eroa tiimistä"
 
 #: ../user/team_remove_inactive_action.php:29
 msgid "Removing users from %1"
-msgstr ""
+msgstr "Poistetaan käyttäjiä tiimistä %1"
 
 #: ../user/team_remove_inactive_action.php:37
 msgid "%1 is not a member of %2"
@@ -4041,7 +4041,7 @@ msgstr "%1 on poistettu"
 
 #: ../user/team_remove_inactive_form.php:30
 msgid "Remove members from %1"
-msgstr ""
+msgstr "Poista jäseniä tiimistä %1"
 
 #: ../user/team_remove_inactive_form.php:37
 msgid "Remove?"
@@ -4204,7 +4204,7 @@ msgstr "Käyttäjää ei löytynyt!"
 
 #: ../user/userw.php:42
 msgid "Account Data<br/>for %1<br/>Time:"
-msgstr ""
+msgstr "Tilitiedot<br/>%1<br/>Aika:"
 
 #: ../user/userw.php:46
 msgid "Team:"

@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2010-10-06 13:10 PDT\n"
-"PO-Revision-Date: 2011-01-03 00:00+0200\n"
+"PO-Revision-Date: 2011-02-27 20:42+0200\n"
 "Last-Translator: Morris83 <zara-83@libero.it>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -297,8 +297,9 @@ msgid "Average download rate"
 msgstr "velocità media di download"
 
 #: ../inc/host.inc:163
+#, fuzzy
 msgid "Average turnaround time"
-msgstr ""
+msgstr "Tempo medio di ritorno"
 
 #: ../inc/host.inc:163
 msgid "%1 days"
@@ -641,7 +642,7 @@ msgstr "Cambia applicazione ogni %1(consigliato: 60 minuti%2"
 
 #: ../inc/prefs.inc:146
 msgid "On multiprocessors, use at most"
-msgstr ""
+msgstr "Su sistemi multiprocessore, usa al massimo"
 
 #: ../inc/prefs.inc:148
 msgid "processors"
@@ -859,9 +860,8 @@ msgid "bad subset: %1"
 msgstr ""
 
 #: ../inc/prefs.inc:617
-#, fuzzy
 msgid "Default"
-msgstr "Cancella"
+msgstr "Predefinito"
 
 #: ../inc/prefs.inc:649 ../inc/prefs.inc:652 ../inc/prefs.inc:995
 #: ../inc/prefs_util.inc:93 ../inc/prefs_util.inc:108
@@ -893,44 +893,41 @@ msgstr "Rimuovi"
 
 #: ../inc/prefs.inc:790
 msgid "Computing"
-msgstr ""
+msgstr "Computazione"
 
 #: ../inc/prefs.inc:801
 msgid "Separate preferences for %1"
-msgstr ""
+msgstr "Preferenze separate per %1"
 
 #: ../inc/prefs.inc:810 ../inc/prefs.inc:885
-#, fuzzy
 msgid "Edit preferences"
-msgstr "Preferenze per %1"
+msgstr "Modifica le Preferenze"
 
 #: ../inc/prefs.inc:814
 msgid "Add separate preferences for %1"
-msgstr ""
+msgstr "Aggiungi le preferenze separate per %1"
 
 #: ../inc/prefs.inc:822 ../inc/prefs.inc:867
 msgid "(Switch View)"
-msgstr ""
+msgstr "(Cambia Visuale)"
 
 #: ../inc/prefs.inc:824 ../inc/prefs.inc:870
-#, fuzzy
 msgid "Combined preferences"
-msgstr "Preferenze di elaborazione"
+msgstr "Preferenze combinate"
 
 #: ../inc/prefs.inc:829
 msgid "Project specific settings"
-msgstr ""
+msgstr "Impostazioni specifiche per il progetto"
 
 #: ../inc/prefs.inc:837 ../inc/prefs.inc:879
 msgid "Primary (default) preferences"
-msgstr ""
+msgstr "Impostazioni principali (predefinite)"
 
 #: ../inc/prefs.inc:846 ../user/add_venue.php:43 ../user/add_venue.php:68
 #: ../user/prefs_edit.php:45 ../user/prefs_edit.php:71
 #: ../user/prefs_edit.php:100
-#, fuzzy
 msgid "Edit %1 preferences"
-msgstr "Preferenze per %1"
+msgstr "Modifica le preferenze per %1"
 
 #: ../inc/prefs.inc:860
 msgid ""
@@ -938,24 +935,26 @@ msgid ""
 "             On computers participating in multiple projects, the most "
 "recently modified preferences will be used."
 msgstr ""
+"Queste si applicano a tutti i progetti BOINC ai quali partecipi. <br>\n"
+"                                                     Sui computer che "
+"partecipano a progetti multipli, verranno utilizzate le preferenze "
+"modificate più recentemente."
 
 #: ../inc/prefs.inc:864
 msgid "Preferences last modified:"
-msgstr ""
+msgstr "Ultima modifica delle preferenze:"
 
 #: ../inc/prefs.inc:914
-#, fuzzy
 msgid "Add preferences"
-msgstr "Preferenze per %1"
+msgstr "Aggiungi le preferenze"
 
 #: ../inc/prefs.inc:918
-#, fuzzy
 msgid "Update preferences"
-msgstr "Preferenze per %1"
+msgstr "Aggiorna le preferenze"
 
 #: ../inc/prefs.inc:1006 ../inc/prefs.inc:1015
 msgid "Default computer location"
-msgstr ""
+msgstr "Posizione del computer predefinita"
 
 #: ../inc/prefs.inc:1166
 #, fuzzy
@@ -971,12 +970,16 @@ msgid ""
 "Your profile will be made visible to other people as soon as it has been "
 "approved by the project. This may take up to a few days."
 msgstr ""
+"Il tuo profile verrà reso visibile agli altri utenti non appena viene "
+"approvato dal progetto. Questo potrebbe richiedere alcuni giorni."
 
 #: ../inc/profile.inc:92
 msgid ""
 "Your profile has been marked as unacceptable. It is not visible to other "
 "people. Please change it."
 msgstr ""
+"Il tuo profilo è stato considerato inacettabile. Non è visibile agli altri "
+"utenti. Per favore modificalo."
 
 #: ../inc/profile.inc:167 ../user/friend.php:103 ../user/friend.php:160
 msgid "Database error"
@@ -987,14 +990,17 @@ msgid ""
 "To prevent spam, profiles of users with an average credit of less than %1 "
 "are displayed only to logged-in users.  We apologize for this inconvenience."
 msgstr ""
+"Per evitare lo spam, i profili degli utenti con un credito medio inferiore a "
+"%1 vengono mostrati solo agli utenti connessi. Ci scusiamo per questo "
+"inconveniente."
 
 #: ../inc/profile.inc:191
 msgid "User is banished"
-msgstr ""
+msgstr "L'utente è bandito."
 
 #: ../inc/profile.inc:205
 msgid "No profile exists for that user ID."
-msgstr ""
+msgstr "Non esiste alcun profilo con questo ID utente."
 
 #: ../inc/profile.inc:213 ../user/create_profile.php:309
 msgid "Edit your profile"
@@ -1022,80 +1028,79 @@ msgstr "Questo profilo %1non mi piace%2"
 
 #: ../inc/result.inc:29
 msgid "Anonymous platform"
-msgstr ""
+msgstr "Piattaforma anonima"
 
 #: ../inc/result.inc:43
 msgid "NVIDIA GPU"
-msgstr ""
+msgstr "GPU NVIDIA"
 
 #: ../inc/result.inc:44
-#, fuzzy
 msgid "ATI GPU"
-msgstr "GPU"
+msgstr "GPU ATI"
 
 #: ../inc/result.inc:51
 msgid "Not in DB"
-msgstr ""
+msgstr "Non è nel DB"
 
 #: ../inc/result.inc:77
 msgid "pending"
-msgstr ""
+msgstr "non assegnato"
 
 #: ../inc/result.inc:99
 msgid "All"
-msgstr ""
+msgstr "Tutti"
 
 #: ../inc/result.inc:100 ../inc/result.inc:120 ../inc/result.inc:159
 msgid "In progress"
-msgstr ""
+msgstr "In corso"
 
 #: ../inc/result.inc:101 ../user/workunit.php:64
 msgid "Pending"
-msgstr ""
+msgstr "Non assegnato"
 
 #: ../inc/result.inc:102 ../inc/result.inc:202
 msgid "Valid"
-msgstr ""
+msgstr "Valido"
 
 #: ../inc/result.inc:103 ../inc/result.inc:205
 msgid "Invalid"
-msgstr ""
+msgstr "Invalido"
 
 #: ../inc/result.inc:104 ../inc/result.inc:145
 msgid "Error"
-msgstr ""
+msgstr "Errore"
 
 #: ../inc/result.inc:118 ../inc/result.inc:157
 msgid "Inactive"
-msgstr ""
+msgstr "Non attivo"
 
 #: ../inc/result.inc:119 ../inc/result.inc:158
 msgid "Unsent"
-msgstr ""
+msgstr "Non mandato"
 
 #: ../inc/result.inc:125
 msgid "Completed, waiting for validation"
-msgstr ""
+msgstr "Completato, in attesa di validazione"
 
 #: ../inc/result.inc:126
 msgid "Completed and validated"
-msgstr ""
+msgstr "Completato e validato"
 
 #: ../inc/result.inc:127
 msgid "Completed, marked as invalid"
-msgstr ""
+msgstr "Completato, indicato come non valido"
 
 #: ../inc/result.inc:128
 msgid "Completed, can't validate"
-msgstr ""
+msgstr "Completato, impossibile da validare"
 
 #: ../inc/result.inc:129
 msgid "Completed, validation inconclusive"
-msgstr ""
+msgstr "Completato, validazione inconclusiva"
 
 #: ../inc/result.inc:130
 msgid "Completed, too late to validate"
-msgstr ""
+msgstr "Completato, troppo tardi per validarlo"
 
 #: ../inc/result.inc:132
 msgid "Completed"
@@ -1103,94 +1108,92 @@ msgstr "Completato"
 
 #: ../inc/result.inc:133 ../inc/result.inc:169
 msgid "Couldn't send"
-msgstr ""
+msgstr "Non poteva essere inviato"
 
 #: ../inc/result.inc:136 ../inc/result.inc:193
 msgid "Cancelled by server"
-msgstr ""
+msgstr "Cancellato dal server"
 
 #: ../inc/result.inc:139
 msgid "Error while downloading"
-msgstr ""
+msgstr "Errore durante lo scaricamento"
 
 #: ../inc/result.inc:141
 msgid "Error while computing"
-msgstr ""
+msgstr "Errore durante l'elaborazione"
 
 #: ../inc/result.inc:142
 msgid "Error while uploading"
-msgstr ""
+msgstr "Errore durante l'invio dei dati"
 
 #: ../inc/result.inc:143 ../inc/result.inc:195
 msgid "Aborted by user"
-msgstr ""
+msgstr "Interrotto dall'utente"
 
 #: ../inc/result.inc:146
 msgid "Timed out - no response"
-msgstr ""
+msgstr "Scaduto - nessuna risposta"
 
 #: ../inc/result.inc:147 ../inc/result.inc:176
 msgid "Didn't need"
-msgstr ""
+msgstr "Non era necessario"
 
 #: ../inc/result.inc:148 ../inc/result.inc:177
 msgid "Validate error"
-msgstr ""
+msgstr "Errore di validazione"
 
 #: ../inc/result.inc:149 ../inc/result.inc:178
 msgid "Abandoned"
-msgstr ""
+msgstr "Abbandonato"
 
 #: ../inc/result.inc:160
 msgid "Over"
-msgstr ""
+msgstr "Terminato"
 
 #: ../inc/result.inc:168
 msgid "Success"
 msgstr "Successo"
 
 #: ../inc/result.inc:172
-#, fuzzy
 msgid "Computation error"
-msgstr "Computer"
+msgstr "Errore di elaborazione"
 
 #: ../inc/result.inc:174
 msgid "Redundant result"
-msgstr ""
+msgstr "Risultato ridondante"
 
 #: ../inc/result.inc:175
 msgid "No reply"
-msgstr ""
+msgstr "Nessuna ripsosta"
 
 #: ../inc/result.inc:185
 msgid "New"
-msgstr ""
+msgstr "Nuovo"
 
 #: ../inc/result.inc:186
 msgid "Downloading"
-msgstr "Download"
+msgstr "Scaricamento in corso"
 
 #: ../inc/result.inc:187
 #, fuzzy
 msgid "Processing"
-msgstr "Uso del processore"
+msgstr "In processamento"
 
 #: ../inc/result.inc:188
 msgid "Compute error"
-msgstr ""
+msgstr "Errore di computazione"
 
 #: ../inc/result.inc:189
 msgid "Uploading"
-msgstr "invio"
+msgstr "Invio dati"
 
 #: ../inc/result.inc:190
-#, fuzzy
 msgid "Done"
-msgstr "Nessuno"
+msgstr "Finito"
 
 #: ../inc/result.inc:201
 msgid "Initial"
-msgstr ""
+msgstr "Inizio"
 
 #: ../inc/result.inc:207
 msgid "Not necessary"
@@ -1198,15 +1201,16 @@ msgstr "Non necessario"
 
 #: ../inc/result.inc:208
 msgid "Workunit error - check skipped"
-msgstr ""
+msgstr "Errore nellìattività - ignorato il controllo"
 
 #: ../inc/result.inc:209
+#, fuzzy
 msgid "Checked, but no consensus yet"
-msgstr ""
+msgstr "Controllato, ma ancora nessun consenso"
 
 #: ../inc/result.inc:210
 msgid "Task was reported too late to validate"
-msgstr ""
+msgstr "Il lavoro è stato riportato troppo tardi per la validazione"
 
 #: ../inc/result.inc:218
 msgid "Couldn't send result"
@@ -1214,19 +1218,20 @@ msgstr "Non posso mandare il risultato"
 
 #: ../inc/result.inc:222
 msgid "Too many errors (may have bug)"
-msgstr ""
+msgstr "Troppi errori (può avere problemi)"
 
 #: ../inc/result.inc:226
+#, fuzzy
 msgid "Too many results (may be nondeterministic)"
-msgstr ""
+msgstr "Troppi risultati (possono essere non determinanti)"
 
 #: ../inc/result.inc:230
 msgid "Too many total results"
-msgstr ""
+msgstr "Troppi risultati totali"
 
 #: ../inc/result.inc:234
 msgid "WU cancelled"
-msgstr ""
+msgstr "Lavoro cancellato"
 
 #: ../inc/result.inc:238
 msgid "Unrecognized Error: %1"
@@ -1234,7 +1239,7 @@ msgstr "Errore non riconosciuto: %1"
 
 #: ../inc/result.inc:265
 msgid "Task name"
-msgstr ""
+msgstr "Nome del lavoro"
 
 #: ../inc/result.inc:265 ../inc/result.inc:270 ../inc/result.inc:273
 #: ../inc/result.inc:276
@@ -1243,21 +1248,19 @@ msgstr "clicca per i dettagli"
 
 #: ../inc/result.inc:265
 msgid "Show IDs"
-msgstr ""
+msgstr "Mostra gli ID"
 
 #: ../inc/result.inc:270
 msgid "Show names"
 msgstr "Visualizza nomi"
 
 #: ../inc/result.inc:273
-#, fuzzy
 msgid "Task"
-msgstr "Elaborazioni"
+msgstr "Lavori"
 
 #: ../inc/result.inc:276
-#, fuzzy
 msgid "Work unit"
-msgstr "Lavoro %1"
+msgstr "Lavoro"
 
 #: ../inc/result.inc:279
 #, fuzzy
@@ -1266,15 +1269,15 @@ msgstr "Computer"
 
 #: ../inc/result.inc:282 ../inc/result.inc:382
 msgid "Sent"
-msgstr "Mandati"
+msgstr "Mandato"
 
 #: ../inc/result.inc:283
 msgid "Time reported<br />or deadline"
-msgstr ""
+msgstr "Tempo riporato<br> o scadenza"
 
 #: ../inc/result.inc:284
 msgid "explain"
-msgstr ""
+msgstr "spiega"
 
 #: ../inc/result.inc:286 ../user/server_status.php:226
 msgid "Status"
@@ -1282,32 +1285,29 @@ msgstr "Stato"
 
 #: ../inc/result.inc:287
 msgid "Run time<br />(sec)"
-msgstr ""
+msgstr "Tempo di elaborazione<br>(sec)"
 
 #: ../inc/result.inc:288
 msgid "CPU time<br />(sec)"
-msgstr ""
+msgstr "Tempo CPU<br />(sec)"
 
 #: ../inc/result.inc:289 ../inc/result.inc:393
-#, fuzzy
 msgid "Credit"
-msgstr "Crea"
+msgstr "Crediti"
 
 # ########################################
 # Apps page (apps.php)
 #: ../inc/result.inc:290
-#, fuzzy
 msgid "Application"
-msgstr "Applicazioni"
+msgstr "Applicazione"
 
 #: ../inc/result.inc:380
-#, fuzzy
 msgid "Workunit"
-msgstr "Lavoro %1"
+msgstr "Lavoro"
 
 #: ../inc/result.inc:383
 msgid "Received"
-msgstr ""
+msgstr "Ricevuto"
 
 #: ../inc/result.inc:384
 msgid "Server state"
@@ -1315,23 +1315,25 @@ msgstr "Stato server"
 
 #: ../inc/result.inc:385
 msgid "Outcome"
-msgstr ""
+msgstr "Risultato"
 
 #: ../inc/result.inc:386
 msgid "Client state"
 msgstr "Stato client"
 
 #: ../inc/result.inc:387
+#, fuzzy
 msgid "Exit status"
-msgstr ""
+msgstr "Stato di uscita"
 
 #: ../inc/result.inc:389
+#, fuzzy
 msgid "Report deadline"
-msgstr ""
+msgstr "Scadenza del report"
 
 #: ../inc/result.inc:390
 msgid "Run time"
-msgstr ""
+msgstr "Tempo di elaborazione"
 
 #: ../inc/result.inc:391
 msgid "CPU time"
@@ -1339,12 +1341,11 @@ msgstr "Tempo CPU"
 
 #: ../inc/result.inc:392
 msgid "Validate state"
-msgstr ""
+msgstr "Stato di validazione"
 
 #: ../inc/result.inc:394
-#, fuzzy
 msgid "Application version"
-msgstr "versione applicazione"
+msgstr "versione dell'applicazione"
 
 #: ../inc/result.inc:396
 msgid "Stderr output"
