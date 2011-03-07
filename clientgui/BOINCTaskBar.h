@@ -112,6 +112,7 @@ private:
     bool       m_bMouseButtonPressed;
 
     wxDateTime m_dtLastNotificationAlertExecuted;
+    int        m_iLastNotificationUnreadMessageCount;
 
     void       ResetTaskBar();
     void       DisplayContextMenu();
