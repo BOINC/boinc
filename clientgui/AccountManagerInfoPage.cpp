@@ -278,6 +278,14 @@ void CAccountManagerInfoPage::OnPageChanged( wxWizardExEvent& event ) {
                 true
             );
         }
+
+        // Pre select the first element
+        if (m_pProjectListCtrl->GetItemCount()) {
+            m_pProjectListCtrl->SetSelection(0);
+            m_strProjectURL = m_pProjectListCtrl->GetItem(0)->GetURL();
+            m_bProjectSupported = m_pProjectListCtrl->GetItem(0)->IsPlatformSupported();
+        }
+
         m_bAccountManagerListPopulated = true;
     }
 
