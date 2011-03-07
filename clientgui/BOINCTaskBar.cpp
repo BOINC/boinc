@@ -743,7 +743,7 @@ void CTaskBarIcon::UpdateNoticeStatus() {
     // Repeat notification for unread notices at user-selected reminder frequency
     wxTimeSpan tsLastNotificationDisplayed = wxDateTime::Now() - m_dtLastNotificationAlertExecuted;
     if (
-        (tsLastNotificationDisplayed.GetMinutes() >= (pFrame->GetReminderFrequency() * 60)) 
+        (tsLastNotificationDisplayed.GetMinutes() >= pFrame->GetReminderFrequency()) 
         && (pFrame->GetReminderFrequency() != 0)
     ) {
 
