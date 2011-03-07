@@ -344,9 +344,11 @@ void CProjectInfoPage::OnPageChanged( wxWizardExEvent& event ) {
         }
 
         // Pre select the first element
-        m_pProjectListCtrl->SetSelection(0);
-        m_strProjectURL = m_pProjectListCtrl->GetItem(0)->GetURL();
-        m_bProjectSupported = m_pProjectListCtrl->GetItem(0)->IsPlatformSupported();
+        if (m_pProjectListCtrl->GetItemCount()) {
+            m_pProjectListCtrl->SetSelection(0);
+            m_strProjectURL = m_pProjectListCtrl->GetItem(0)->GetURL();
+            m_bProjectSupported = m_pProjectListCtrl->GetItem(0)->IsPlatformSupported();
+        }
 
         TransferDataToWindow();
 

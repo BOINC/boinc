@@ -1848,3 +1848,12 @@ Rom    1 July 2010
     /
         configure.ac
         version.h
+
+Rom    7 Mar 2011
+    - MGR: Don't attempt to set the project or account manager if the project
+        list control does not contain any items.  This can cause a crash
+        if the all_projects_list.xml is empty.
+        
+    clientgui/
+        AccountManagerInfoPage.cpp
+        ProjectInfoPage.cpp
