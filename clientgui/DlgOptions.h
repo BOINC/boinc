@@ -113,12 +113,6 @@ public:
 
 ////@begin CDlgOptions event handler declarations
 
-    /// wxEVT_COMMAND_NOTEBOOK_PAGE_CHANGED event handler for ID_NOTEBOOK
-    void OnNotebookPageChanged( wxNotebookEvent& event );
-
-    /// wxEVT_UPDATE_UI event handler for ID_NOTEBOOK
-    void OnNotebookUpdate( wxUpdateUIEvent& event );
-
     /// wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_DIALUPSETDEFAULT
     void OnDialupSetDefaultClick( wxCommandEvent& event );
 
@@ -137,10 +131,10 @@ public:
     /// wxEVT_UPDATE_UI event handler for ID_ENABLESOCKSPROXYCTRL
     void OnEnableSOCKSProxyCtrlUpdate( wxUpdateUIEvent& event );
 
-////@end CDlgOptions event handler declarations
+    /// wxEVT_COMMAND_BUTTON_CLICKED event handler for wxID_OK
+    void OnOK( wxCommandEvent& event );
 
-    wxString GetDefaultDialupConnection() const;
-    void SetDefaultDialupConnection(wxString value);
+////@end CDlgOptions event handler declarations
 
 ////@begin CDlgOptions member function declarations
 
@@ -154,9 +148,18 @@ public:
     /// Should we show tooltips?
     static bool ShowToolTips();
 
+    wxString GetDefaultDialupConnection() const;
+    void SetDefaultDialupConnection(wxString value);
+
+    bool UpdateControlStates();
+
+    bool ReadSettings();
+    bool SaveSettings();
+
+private:
 ////@begin CDlgOptions member variables
     wxComboBox* m_LanguageSelectionCtrl;
-    wxSlider* m_ReminderFrequencyCtrl;
+    wxComboBox* m_ReminderFrequencyCtrl;
     wxCheckBox* m_EnableBOINCManagerAutoStartCtrl;
     wxCheckBox* m_EnableBOINCManagerExitMessageCtrl;
     wxStaticBoxSizer* m_DialupStaticBoxCtrl;
@@ -178,6 +181,7 @@ public:
 	wxTextCtrl* m_HTTPNoProxiesCtrl;
 	wxTextCtrl* m_SOCKSNoProxiesCtrl;
 ////@end CDlgOptions member variables
+    bool m_bRetrievedProxyConfiguration;
 };
 
 #endif

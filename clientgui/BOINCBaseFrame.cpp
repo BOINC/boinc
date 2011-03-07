@@ -829,7 +829,7 @@ bool CBOINCBaseFrame::RestoreState() {
     pConfig->SetPath(strBaseConfigLocation);
 
     pConfig->Read(wxT("Language"), &m_iSelectedLanguage, 0L);
-    pConfig->Read(wxT("ReminderFrequencyV3"), &m_iReminderFrequency, 6L);
+    pConfig->Read(wxT("ReminderFrequencyV3"), &m_iReminderFrequency, 360L);
 
     pConfig->Read(wxT("NetworkDialupConnectionName"), &m_strNetworkDialupConnectionName, wxEmptyString);
 

@@ -290,6 +290,7 @@ void CTaskBarIcon::OnRButtonUp(wxTaskBarIconEvent& WXUNUSED(event)) {
 
 
 #ifdef __WXMSW__
+
 void CTaskBarIcon::OnShutdown(wxTaskBarIconExEvent& event) {
     wxLogTrace(wxT("Function Start/End"), wxT("CTaskBarIcon::OnShutdown - Function Begin"));
 
@@ -299,7 +300,8 @@ void CTaskBarIcon::OnShutdown(wxTaskBarIconExEvent& event) {
 
     wxLogTrace(wxT("Function Start/End"), wxT("CTaskBarIcon::OnShutdown - Function End"));
 }
-void CTaskBarIcon::OnAppRestore(wxTaskBarIconExEvent& event) {
+
+void CTaskBarIcon::OnAppRestore(wxTaskBarIconExEvent&) {
     wxLogTrace(wxT("Function Start/End"), wxT("CTaskBarIcon::OnAppRestore - Function Begin"));
 
     ResetTaskBar();
@@ -307,6 +309,7 @@ void CTaskBarIcon::OnAppRestore(wxTaskBarIconExEvent& event) {
 
     wxLogTrace(wxT("Function Start/End"), wxT("CTaskBarIcon::OnAppRestore - Function End"));
 }
+
 #endif
 
 

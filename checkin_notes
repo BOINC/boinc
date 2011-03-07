@@ -9120,3 +9120,17 @@ David  6 Mar 2011
         app.cpp
     clientgui/
         ViewProjects.cpp
+
+Rom    7 Mar 2011
+    - MGR: Refactor part of the Options dialog out of the Advanced Frame
+        code.
+    - MGR: Change the Reminder Frequency option in the Options dialog to
+        a combo box.
+        
+    TODO: Change the taskbar logic to handle the 'always' case.
+    
+    clientgui/
+        AdvancedFrame.cpp
+        BOINCBaseFrame.cpp, .h
+        BOINCTaskBar.cpp
+        DlgOptions.cpp, .h
