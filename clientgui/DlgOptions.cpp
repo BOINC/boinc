@@ -29,6 +29,9 @@
 #include "BOINCGUIApp.h"
 #include "DlgOptions.h"
 #include "SkinManager.h"
+#include "MainDocument.h"
+#include "BOINCBaseFrame.h"
+#include "BOINCDialupManager.h"
 
 ////@begin includes
 ////@end includes
@@ -49,8 +52,6 @@ IMPLEMENT_DYNAMIC_CLASS(CDlgOptions, wxDialog)
 BEGIN_EVENT_TABLE(CDlgOptions, wxDialog)
 
 ////@begin CDlgOptions event table entries
-    EVT_NOTEBOOK_PAGE_CHANGED( ID_NOTEBOOK, CDlgOptions::OnNotebookPageChanged )
-    EVT_UPDATE_UI( ID_NOTEBOOK, CDlgOptions::OnNotebookUpdate )
 #if defined(__WXMSW__)
     EVT_BUTTON( ID_DIALUPSETDEFAULT, CDlgOptions::OnDialupSetDefaultClick )
     EVT_BUTTON( ID_DIALUPCLEARDEFAULT, CDlgOptions::OnDialupClearDefaultClick )
@@ -59,6 +60,7 @@ BEGIN_EVENT_TABLE(CDlgOptions, wxDialog)
     EVT_UPDATE_UI( ID_ENABLEHTTPPROXYCTRL, CDlgOptions::OnEnableHTTPProxyCtrlUpdate )
     EVT_CHECKBOX( ID_ENABLESOCKSPROXYCTRL, CDlgOptions::OnEnableSOCKSProxyCtrlClick )
     EVT_UPDATE_UI( ID_ENABLESOCKSPROXYCTRL, CDlgOptions::OnEnableSOCKSProxyCtrlUpdate )
+    EVT_BUTTON( wxID_OK, CDlgOptions::OnOK )
 ////@end CDlgOptions event table entries
 
 END_EVENT_TABLE()
@@ -67,12 +69,10 @@ END_EVENT_TABLE()
  * CDlgOptions constructors
  */
 
-CDlgOptions::CDlgOptions()
-{
+CDlgOptions::CDlgOptions() {
 }
 
-CDlgOptions::CDlgOptions(wxWindow* parent, wxWindowID id, const wxString& caption, const wxPoint& pos, const wxSize& size, long style)
-{
+CDlgOptions::CDlgOptions(wxWindow* parent, wxWindowID id, const wxString& caption, const wxPoint& pos, const wxSize& size, long style) {
     Create(parent, id, caption, pos, size, style);
 }
 
@@ -80,8 +80,7 @@ CDlgOptions::CDlgOptions(wxWindow* parent, wxWindowID id, const wxString& captio
  * CDlgToolsOptions creator
  */
 
-bool CDlgOptions::Create(wxWindow* parent, wxWindowID id, const wxString& caption, const wxPoint& pos, const wxSize& size, long style)
-{
+bool CDlgOptions::Create(wxWindow* parent, wxWindowID id, const wxString& caption, const wxPoint& pos, const wxSize& size, long style) {
 ////@begin CDlgOptions member initialisation
     m_LanguageSelectionCtrl = NULL;
     m_ReminderFrequencyCtrl = NULL;
@@ -107,8 +106,8 @@ bool CDlgOptions::Create(wxWindow* parent, wxWindowID id, const wxString& captio
     m_SOCKSPasswordCtrl = NULL;
 	m_HTTPNoProxiesCtrl = NULL;
 	m_SOCKSNoProxiesCtrl = NULL;
-
 ////@end CDlgOptions member initialisation
+    m_bRetrievedProxyConfiguration = false;
 
     wxString strCaption = caption;
     if (strCaption.IsEmpty()) {
@@ -119,15 +118,17 @@ bool CDlgOptions::Create(wxWindow* parent, wxWindowID id, const wxString& captio
         strCaption.Printf(_("%s - Options"), pSkinAdvanced->GetApplicationName().c_str());
     }
 
-////@begin CDlgOptions creation
     SetExtraStyle(GetExtraStyle()|wxWS_EX_BLOCK_EVENTS);
     wxDialog::Create( parent, id, strCaption, pos, size, style );
 
     CreateControls();
+
+    ReadSettings();
+
     GetSizer()->Fit(this);
     GetSizer()->SetSizeHints(this);
     Centre();
-////@end CDlgOptions creation
+
     return TRUE;
 }
 
@@ -135,8 +136,7 @@ bool CDlgOptions::Create(wxWindow* parent, wxWindowID id, const wxString& captio
  * Control creation for CDlgToolsOptions
  */
 
-void CDlgOptions::CreateControls()
-{    
+void CDlgOptions::CreateControls() {    
 ////@begin CDlgOptions content construction
     CDlgOptions* itemDialog1 = this;
 
@@ -159,23 +159,18 @@ void CDlgOptions::CreateControls()
 
     wxString* m_LanguageSelectionCtrlStrings = NULL;
     m_LanguageSelectionCtrl = new wxComboBox;
-    m_LanguageSelectionCtrl->Create( itemPanel4, ID_LANGUAGESELECTION, _T(""), wxDefaultPosition, wxDefaultSize, 0, m_LanguageSelectionCtrlStrings, wxCB_READONLY );
+    m_LanguageSelectionCtrl->Create( itemPanel4, ID_LANGUAGESELECTION, wxT(""), wxDefaultPosition, wxDefaultSize, 0, m_LanguageSelectionCtrlStrings, wxCB_READONLY );
     if (ShowToolTips())
         m_LanguageSelectionCtrl->SetToolTip(_("What language should BOINC use?"));
     itemFlexGridSizer6->Add(m_LanguageSelectionCtrl, 0, wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
     wxStaticText* itemStaticText9 = new wxStaticText;
-    itemStaticText9->Create( itemPanel4, wxID_STATIC, _("Notice reminder interval:\n(hours; 0 means no reminders)"), wxDefaultPosition, wxDefaultSize, wxALIGN_RIGHT );
+    itemStaticText9->Create( itemPanel4, wxID_STATIC, _("Notice reminder interval:"), wxDefaultPosition, wxDefaultSize, wxALIGN_RIGHT );
     itemFlexGridSizer6->Add(itemStaticText9, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
-    m_ReminderFrequencyCtrl = new wxSlider;
-    m_ReminderFrequencyCtrl->Create( itemPanel4, ID_REMINDERFREQUENCY, 6, 0, 24, wxDefaultPosition,
-#if defined(__WXMSW__) || defined(__WXMAC__)        
-                                     wxDefaultSize, 
-#else
-                                     wxSize(150, 40),
-#endif
-                                     wxSL_HORIZONTAL|wxSL_LABELS);
+    wxString* m_ReminderFrequencyCtrlStrings = NULL;
+    m_ReminderFrequencyCtrl = new wxComboBox;
+    m_ReminderFrequencyCtrl->Create( itemPanel4, ID_REMINDERFREQUENCY, wxT(""), wxDefaultPosition, wxDefaultSize, 0, m_ReminderFrequencyCtrlStrings, wxCB_READONLY);
     if (ShowToolTips())
         m_ReminderFrequencyCtrl->SetToolTip(_("How often should BOINC remind you of new notices?"));
     itemFlexGridSizer6->Add(m_ReminderFrequencyCtrl, 0, wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
@@ -240,7 +235,7 @@ void CDlgOptions::CreateControls()
     itemFlexGridSizer22->Add(m_DialupDefaultConnectionTextCtrl, 0, wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
     m_DialupDefaultConnectionCtrl = new wxStaticText;
-    m_DialupDefaultConnectionCtrl->Create( itemPanel11, ID_DIALUPDEFAULTCONNECTION, _T(""), wxDefaultPosition, wxDefaultSize, 0 );
+    m_DialupDefaultConnectionCtrl->Create( itemPanel11, ID_DIALUPDEFAULTCONNECTION, wxT(""), wxDefaultPosition, wxDefaultSize, 0 );
     itemFlexGridSizer22->Add(m_DialupDefaultConnectionCtrl, 0, wxGROW|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
     itemNotebook3->AddPage(itemPanel11, _("Connections"));
@@ -268,7 +263,7 @@ void CDlgOptions::CreateControls()
     itemFlexGridSizer32->Add(itemStaticText33, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
     m_HTTPAddressCtrl = new wxTextCtrl;
-    m_HTTPAddressCtrl->Create( itemPanel27, ID_HTTPADDRESSCTRL, _T(""), wxDefaultPosition, wxSize(150, -1), 0 );
+    m_HTTPAddressCtrl->Create( itemPanel27, ID_HTTPADDRESSCTRL, wxT(""), wxDefaultPosition, wxSize(150, -1), 0 );
     itemFlexGridSizer32->Add(m_HTTPAddressCtrl, 0, wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
     wxStaticText* itemStaticText35 = new wxStaticText;
@@ -276,7 +271,7 @@ void CDlgOptions::CreateControls()
     itemFlexGridSizer32->Add(itemStaticText35, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
     m_HTTPPortCtrl = new wxTextCtrl;
-    m_HTTPPortCtrl->Create( itemPanel27, ID_HTTPPORTCTRL, _T(""), wxDefaultPosition, wxSize(50, -1), 0 );
+    m_HTTPPortCtrl->Create( itemPanel27, ID_HTTPPORTCTRL, wxT(""), wxDefaultPosition, wxSize(50, -1), 0 );
     itemFlexGridSizer32->Add(m_HTTPPortCtrl, 0, wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
 	wxStaticText* itemStaticText62 = new wxStaticText;
@@ -284,7 +279,7 @@ void CDlgOptions::CreateControls()
     itemFlexGridSizer32->Add(itemStaticText62, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
 	m_HTTPNoProxiesCtrl = new wxTextCtrl;
-	m_HTTPNoProxiesCtrl->Create(itemPanel27,ID_HTTPNOPROXYCTRL,_T(""),wxDefaultPosition,wxSize(150,-1),0);
+	m_HTTPNoProxiesCtrl->Create(itemPanel27,ID_HTTPNOPROXYCTRL,wxT(""),wxDefaultPosition,wxSize(150,-1),0);
 	itemFlexGridSizer32->Add(m_HTTPNoProxiesCtrl,0, wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
     wxStaticBox* itemStaticBoxSizer37Static = new wxStaticBox(itemPanel27, wxID_ANY, _("Leave these blank if not needed"));
@@ -297,7 +292,7 @@ void CDlgOptions::CreateControls()
     itemFlexGridSizer38->Add(itemStaticText39, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
     m_HTTPUsernameCtrl = new wxTextCtrl;
-    m_HTTPUsernameCtrl->Create( itemPanel27, ID_HTTPUSERNAMECTRL, _T(""), wxDefaultPosition, wxSize(175, -1), 0 );
+    m_HTTPUsernameCtrl->Create( itemPanel27, ID_HTTPUSERNAMECTRL, wxT(""), wxDefaultPosition, wxSize(175, -1), 0 );
     itemFlexGridSizer38->Add(m_HTTPUsernameCtrl, 0, wxGROW|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
     wxStaticText* itemStaticText41 = new wxStaticText;
@@ -305,7 +300,7 @@ void CDlgOptions::CreateControls()
     itemFlexGridSizer38->Add(itemStaticText41, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
     m_HTTPPasswordCtrl = new wxTextCtrl;
-    m_HTTPPasswordCtrl->Create( itemPanel27, ID_HTTPPASSWORDCTRL, _T(""), wxDefaultPosition, wxDefaultSize, wxTE_PASSWORD );
+    m_HTTPPasswordCtrl->Create( itemPanel27, ID_HTTPPASSWORDCTRL, wxT(""), wxDefaultPosition, wxDefaultSize, wxTE_PASSWORD );
     itemFlexGridSizer38->Add(m_HTTPPasswordCtrl, 0, wxGROW|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
     itemNotebook3->AddPage(itemPanel27, _("HTTP Proxy"));
@@ -332,7 +327,7 @@ void CDlgOptions::CreateControls()
     itemFlexGridSizer48->Add(itemStaticText49, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
     m_SOCKSAddressCtrl = new wxTextCtrl;
-    m_SOCKSAddressCtrl->Create( itemPanel43, ID_SOCKSADDRESSCTRL, _T(""), wxDefaultPosition, wxSize(150, -1), 0 );
+    m_SOCKSAddressCtrl->Create( itemPanel43, ID_SOCKSADDRESSCTRL, wxT(""), wxDefaultPosition, wxSize(150, -1), 0 );
     itemFlexGridSizer48->Add(m_SOCKSAddressCtrl, 0, wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
     wxStaticText* itemStaticText51 = new wxStaticText;
@@ -340,7 +335,7 @@ void CDlgOptions::CreateControls()
     itemFlexGridSizer48->Add(itemStaticText51, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
     m_SOCKSPortCtrl = new wxTextCtrl;
-    m_SOCKSPortCtrl->Create( itemPanel43, ID_SOCKSPORTCTRL, _T(""), wxDefaultPosition, wxSize(50, -1), 0 );
+    m_SOCKSPortCtrl->Create( itemPanel43, ID_SOCKSPORTCTRL, wxT(""), wxDefaultPosition, wxSize(50, -1), 0 );
     itemFlexGridSizer48->Add(m_SOCKSPortCtrl, 0, wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
 	wxStaticText* itemStaticText63 = new wxStaticText;
@@ -348,7 +343,7 @@ void CDlgOptions::CreateControls()
     itemFlexGridSizer48->Add(itemStaticText63, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
 	m_SOCKSNoProxiesCtrl = new wxTextCtrl;
-	m_SOCKSNoProxiesCtrl->Create(itemPanel43,ID_SOCKSNOPROXYCTRL,_T(""),wxDefaultPosition,wxSize(150,-1),0);
+	m_SOCKSNoProxiesCtrl->Create(itemPanel43,ID_SOCKSNOPROXYCTRL,wxT(""),wxDefaultPosition,wxSize(150,-1),0);
 	itemFlexGridSizer48->Add(m_SOCKSNoProxiesCtrl,0, wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
     wxStaticBox* itemStaticBoxSizer53Static = new wxStaticBox(itemPanel43, wxID_ANY, _("Leave these blank if not needed"));
@@ -361,7 +356,7 @@ void CDlgOptions::CreateControls()
     itemFlexGridSizer54->Add(itemStaticText55, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
     m_SOCKSUsernameCtrl = new wxTextCtrl;
-    m_SOCKSUsernameCtrl->Create( itemPanel43, ID_SOCKSUSERNAMECTRL, _T(""), wxDefaultPosition, wxSize(175, -1), 0 );
+    m_SOCKSUsernameCtrl->Create( itemPanel43, ID_SOCKSUSERNAMECTRL, wxT(""), wxDefaultPosition, wxSize(175, -1), 0 );
     itemFlexGridSizer54->Add(m_SOCKSUsernameCtrl, 0, wxGROW|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
     wxStaticText* itemStaticText57 = new wxStaticText;
@@ -369,7 +364,7 @@ void CDlgOptions::CreateControls()
     itemFlexGridSizer54->Add(itemStaticText57, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
     m_SOCKSPasswordCtrl = new wxTextCtrl;
-    m_SOCKSPasswordCtrl->Create( itemPanel43, ID_SOCKSPASSWORDCTRL, _T(""), wxDefaultPosition, wxDefaultSize, wxTE_PASSWORD );
+    m_SOCKSPasswordCtrl->Create( itemPanel43, ID_SOCKSPASSWORDCTRL, wxT(""), wxDefaultPosition, wxDefaultSize, wxTE_PASSWORD );
     itemFlexGridSizer54->Add(m_SOCKSPasswordCtrl, 0, wxGROW|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
     itemNotebook3->AddPage(itemPanel43, _("SOCKS Proxy"));
@@ -388,27 +383,9 @@ void CDlgOptions::CreateControls()
     itemButton61->Create( itemDialog1, wxID_CANCEL, _("&Cancel"), wxDefaultPosition, wxDefaultSize, 0 );
     itemBoxSizer59->Add(itemButton61, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
+    // Set validators
+
 ////@end CDlgOptions content construction
-}
-
-
-/*!
- * wxEVT_COMMAND_NOTEBOOK_PAGE_CHANGED event handler for ID_NOTEBOOK
- */
-
-void CDlgOptions::OnNotebookPageChanged(wxNotebookEvent& event)
-{
-    event.Skip();
-}
-
-
-/*!
- * wxEVT_UPDATE_UI event handler for ID_NOTEBOOK
- */
-
-void CDlgOptions::OnNotebookUpdate(wxUpdateUIEvent& event)
-{
-    event.Skip();
 }
 
 
@@ -417,8 +394,7 @@ void CDlgOptions::OnNotebookUpdate(wxUpdateUIEvent& event)
  * wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_DIALUPSETDEFAULT
  */
 
-void CDlgOptions::OnDialupSetDefaultClick( wxCommandEvent& WXUNUSED(event) )
-{
+void CDlgOptions::OnDialupSetDefaultClick( wxCommandEvent& WXUNUSED(event) ) {
     m_DialupDefaultConnectionCtrl->SetLabel(m_DialupConnectionsCtrl->GetStringSelection());
 }
 
@@ -427,11 +403,11 @@ void CDlgOptions::OnDialupSetDefaultClick( wxCommandEvent& WXUNUSED(event) )
  * wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_DIALUPCLEARDEFAULT
  */
 
-void CDlgOptions::OnDialupClearDefaultClick( wxCommandEvent& WXUNUSED(event) )
-{
+void CDlgOptions::OnDialupClearDefaultClick( wxCommandEvent& WXUNUSED(event) ) {
     m_DialupDefaultConnectionCtrl->SetLabel(wxEmptyString);
 }
 #endif      // __WXMSW__
+
 
 /*!
  * wxEVT_COMMAND_CHECKBOX_CLICKED event handler for ID_ENABLEHTTPPROXYCTRL
@@ -522,26 +498,21 @@ void CDlgOptions::OnEnableSOCKSProxyCtrlUpdate(wxUpdateUIEvent& event) {
 }
 
 
-#if defined(__WXMSW__)
-wxString CDlgOptions::GetDefaultDialupConnection() const
-{
-    return m_DialupDefaultConnectionCtrl->GetLabel(); 
-}
+/*!
+ * wxEVT_COMMAND_BUTTON_CLICKED event handler for wxID_OK
+ */
 
-
-void CDlgOptions::SetDefaultDialupConnection(wxString value)
-{
-    m_DialupDefaultConnectionCtrl->SetLabel(value);
+void CDlgOptions::OnOK( wxCommandEvent& WXUNUSED(event) ) {
+    SaveSettings();
+    EndModal(wxID_OK);
 }
-#endif      // __WXMSW__
 
 
 /*!
  * Should we show tooltips?
  */
 
-bool CDlgOptions::ShowToolTips()
-{
+bool CDlgOptions::ShowToolTips() {
     return TRUE;
 }
 
@@ -550,12 +521,8 @@ bool CDlgOptions::ShowToolTips()
  * Get bitmap resources
  */
 
-wxBitmap CDlgOptions::GetBitmapResource( const wxString& WXUNUSED(name) )
-{
-    // Bitmap retrieval
-////@begin CDlgOptions bitmap retrieval
+wxBitmap CDlgOptions::GetBitmapResource( const wxString& WXUNUSED(name) ) {
     return wxNullBitmap;
-////@end CDlgOptions bitmap retrieval
 }
 
 
@@ -563,11 +530,223 @@ wxBitmap CDlgOptions::GetBitmapResource( const wxString& WXUNUSED(name) )
  * Get icon resources
  */
 
-wxIcon CDlgOptions::GetIconResource( const wxString& WXUNUSED(name) )
-{
-    // Icon retrieval
-////@begin CDlgOptions icon retrieval
+wxIcon CDlgOptions::GetIconResource( const wxString& WXUNUSED(name) ) {
     return wxNullIcon;
-////@end CDlgOptions icon retrieval
+}
+
+
+#ifdef __WXMSW__
+
+wxString CDlgOptions::GetDefaultDialupConnection() const {
+    return m_DialupDefaultConnectionCtrl->GetLabel(); 
+}
+
+void CDlgOptions::SetDefaultDialupConnection(wxString value) {
+    m_DialupDefaultConnectionCtrl->SetLabel(value);
+}
+
+#endif
+
+
+bool CDlgOptions::ReadSettings() {
+    CMainDocument*      pDoc = wxGetApp().GetDocument();
+    CBOINCBaseFrame*    pFrame = wxGetApp().GetFrame();
+    CSkinAdvanced*      pSkinAdvanced = wxGetApp().GetSkinManager()->GetAdvanced();
+    wxString            strBuffer = wxEmptyString;
+    wxArrayString       astrDialupConnections;
+
+
+    wxASSERT(pDoc);
+    wxASSERT(pFrame);
+    wxASSERT(pSkinAdvanced);
+    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
+    wxASSERT(wxDynamicCast(pFrame, CBOINCBaseFrame));
+    wxASSERT(wxDynamicCast(pSkinAdvanced, CSkinAdvanced));
+
+
+    // General Tab
+    m_LanguageSelectionCtrl->Append(wxGetApp().GetSupportedLanguages());
+    m_LanguageSelectionCtrl->SetSelection(pFrame->GetSelectedLanguage());
+
+    m_ReminderFrequencyCtrl->Append(_("always"));
+    m_ReminderFrequencyCtrl->Append(_("1 hour"));
+    m_ReminderFrequencyCtrl->Append(_("6 hours"));
+    m_ReminderFrequencyCtrl->Append(_("1 day"));
+    m_ReminderFrequencyCtrl->Append(_("1 week"));
+    m_ReminderFrequencyCtrl->Append(_("never"));
+
+    switch(pFrame->GetReminderFrequency()) {
+        case 1:
+            m_ReminderFrequencyCtrl->SetSelection(1);
+            break;
+        case 60:
+            m_ReminderFrequencyCtrl->SetSelection(2);
+            break;
+        case 360:
+            m_ReminderFrequencyCtrl->SetSelection(3);
+            break;
+        case 1440:
+            m_ReminderFrequencyCtrl->SetSelection(4);
+            break;
+        case 10080:
+            m_ReminderFrequencyCtrl->SetSelection(5);
+            break;
+        case 0:
+            m_ReminderFrequencyCtrl->SetSelection(6);
+            break;
+    }
+
+    //m_ReminderFrequencyCtrl->SetValue(m_iReminderFrequency);
+
+    m_EnableBOINCManagerExitMessageCtrl->SetValue(wxGetApp().GetBOINCMGRDisplayExitMessage() != 0);
+#ifdef __WXMSW__
+    m_EnableBOINCManagerAutoStartCtrl->SetValue(!wxGetApp().GetBOINCMGRDisableAutoStart());
+
+    // Connection Tab
+    if (pFrame) {
+        pFrame->GetDialupManager()->GetISPNames(astrDialupConnections);
+
+        m_DialupConnectionsCtrl->Append(astrDialupConnections);
+        SetDefaultDialupConnection(pFrame->GetDialupConnectionName());
+    } else {
+        m_DialupSetDefaultCtrl->Disable();
+        m_DialupClearDefaultCtrl->Disable();
+    }
+#endif
+
+    // Proxy Tabs
+    m_bRetrievedProxyConfiguration = (0 == pDoc->GetProxyConfiguration());
+    if(!m_bRetrievedProxyConfiguration) {
+        // We were unable to get the proxy configuration, so disable
+        //   the controls
+        m_EnableHTTPProxyCtrl->Enable(false);
+        m_EnableSOCKSProxyCtrl->Enable(false);
+    } else {
+        m_EnableHTTPProxyCtrl->Enable(true);
+        m_EnableSOCKSProxyCtrl->Enable(true);
+    }
+
+    m_EnableHTTPProxyCtrl->SetValue(pDoc->proxy_info.use_http_proxy);
+    m_HTTPAddressCtrl->SetValue(wxString(pDoc->proxy_info.http_server_name.c_str(), wxConvUTF8));
+    m_HTTPUsernameCtrl->SetValue(wxString(pDoc->proxy_info.http_user_name.c_str(), wxConvUTF8));
+    m_HTTPPasswordCtrl->SetValue(wxString(pDoc->proxy_info.http_user_passwd.c_str(), wxConvUTF8));
+	m_HTTPNoProxiesCtrl->SetValue(wxString(pDoc->proxy_info.noproxy_hosts.c_str(), wxConvUTF8));
+    strBuffer.Printf(wxT("%d"), pDoc->proxy_info.http_server_port);
+    m_HTTPPortCtrl->SetValue(strBuffer);
+
+    m_EnableSOCKSProxyCtrl->SetValue(pDoc->proxy_info.use_socks_proxy);
+    m_SOCKSAddressCtrl->SetValue(wxString(pDoc->proxy_info.socks_server_name.c_str(), wxConvUTF8));
+    m_SOCKSUsernameCtrl->SetValue(wxString(pDoc->proxy_info.socks5_user_name.c_str(), wxConvUTF8));
+    m_SOCKSPasswordCtrl->SetValue(wxString(pDoc->proxy_info.socks5_user_passwd.c_str(), wxConvUTF8));
+	m_SOCKSNoProxiesCtrl->SetValue(wxString(pDoc->proxy_info.noproxy_hosts.c_str(),wxConvUTF8));
+    strBuffer.Printf(wxT("%d"), pDoc->proxy_info.socks_server_port);
+    m_SOCKSPortCtrl->SetValue(strBuffer);
+
+    return true;
+}
+
+
+bool CDlgOptions::SaveSettings() {
+    CMainDocument*      pDoc = wxGetApp().GetDocument();
+    CBOINCBaseFrame*    pFrame = wxGetApp().GetFrame();
+    CSkinAdvanced*      pSkinAdvanced = wxGetApp().GetSkinManager()->GetAdvanced();
+    int                 iBuffer = 0;
+    wxString            strBuffer = wxEmptyString;
+
+
+    wxASSERT(pDoc);
+    wxASSERT(pFrame);
+    wxASSERT(pSkinAdvanced);
+    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
+    wxASSERT(wxDynamicCast(pFrame, CBOINCBaseFrame));
+    wxASSERT(wxDynamicCast(pSkinAdvanced, CSkinAdvanced));
+
+
+    // General Tab
+    if (pFrame->GetSelectedLanguage() != m_LanguageSelectionCtrl->GetSelection()) {
+        wxString strDialogTitle;
+        wxString strDialogMessage;
+
+        // %s is the application name
+        //    i.e. 'BOINC Manager', 'GridRepublic Manager'
+        strDialogTitle.Printf(
+            _("%s - Language Selection"),
+            pSkinAdvanced->GetApplicationName().c_str()
+        );
+
+        // %s is the application name
+        //    i.e. 'BOINC Manager', 'GridRepublic Manager'
+        strDialogMessage.Printf(
+            _("The %s's default language has been changed, in order for this change to take affect you must restart the %s."),
+            pSkinAdvanced->GetApplicationName().c_str(),
+            pSkinAdvanced->GetApplicationName().c_str()
+        );
+
+        pFrame->ShowAlert(
+            strDialogTitle,
+            strDialogMessage,
+            wxOK | wxICON_INFORMATION
+        );
+    }
+
+    pFrame->SetSelectedLanguage(m_LanguageSelectionCtrl->GetSelection());
+
+    switch(m_ReminderFrequencyCtrl->GetSelection()) {
+        case 1:
+            pFrame->SetReminderFrequency(1);
+            break;
+        case 2:
+            pFrame->SetReminderFrequency(60);
+            break;
+        case 3:
+            pFrame->SetReminderFrequency(360);
+            break;
+        case 4:
+            pFrame->SetReminderFrequency(1440);
+            break;
+        case 5:
+            pFrame->SetReminderFrequency(10080);
+            break;
+        case 6:
+            pFrame->SetReminderFrequency(0);
+            break;
+    }
+
+    wxGetApp().SetBOINCMGRDisplayExitMessage(m_EnableBOINCManagerExitMessageCtrl->GetValue());
+#ifdef __WXMSW__
+    wxGetApp().SetBOINCMGRDisableAutoStart(!m_EnableBOINCManagerAutoStartCtrl->GetValue());
+
+    // Connection Tab
+    pFrame->SetDialupConnectionName(GetDefaultDialupConnection());
+#endif
+
+    // Proxy Tabs
+    if (m_bRetrievedProxyConfiguration) {
+        pDoc->proxy_info.use_http_proxy = m_EnableHTTPProxyCtrl->GetValue();
+        pDoc->proxy_info.http_server_name = (const char*)m_HTTPAddressCtrl->GetValue().mb_str();
+        pDoc->proxy_info.http_user_name = (const char*)m_HTTPUsernameCtrl->GetValue().mb_str();
+        pDoc->proxy_info.http_user_passwd = (const char*)m_HTTPPasswordCtrl->GetValue().mb_str();
+		if(pDoc->proxy_info.use_http_proxy) {
+			pDoc->proxy_info.noproxy_hosts = (const char*)m_HTTPNoProxiesCtrl->GetValue().mb_str();
+		}
+        strBuffer = m_HTTPPortCtrl->GetValue();
+        strBuffer.ToLong((long*)&iBuffer);
+        pDoc->proxy_info.http_server_port = iBuffer;
+
+        pDoc->proxy_info.use_socks_proxy = m_EnableSOCKSProxyCtrl->GetValue();
+        pDoc->proxy_info.socks_server_name = (const char*)m_SOCKSAddressCtrl->GetValue().mb_str();
+        pDoc->proxy_info.socks5_user_name = (const char*)m_SOCKSUsernameCtrl->GetValue().mb_str();
+        pDoc->proxy_info.socks5_user_passwd = (const char*)m_SOCKSPasswordCtrl->GetValue().mb_str();
+		if(pDoc->proxy_info.use_socks_proxy) {
+			pDoc->proxy_info.noproxy_hosts = (const char*)m_SOCKSNoProxiesCtrl->GetValue().mb_str();
+		}
+        strBuffer = m_SOCKSPortCtrl->GetValue();
+        strBuffer.ToLong((long*)&iBuffer);
+        pDoc->proxy_info.socks_server_port = iBuffer;
+
+        pDoc->SetProxyConfiguration();
+    }
+
+    return true;
 }
 

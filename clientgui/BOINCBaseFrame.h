@@ -64,8 +64,13 @@ public:
 
     int                 GetCurrentViewPage();
     virtual void        UpdateNoticesTabText();
-    int                 GetReminderFrequency() { return m_iReminderFrequency; }
     wxString            GetDialupConnectionName() { return m_strNetworkDialupConnectionName; }
+    void                SetDialupConnectionName(wxString val) { m_strNetworkDialupConnectionName = val; }
+    CBOINCDialUpManager* GetDialupManager() { return m_pDialupManager; }
+    int                 GetReminderFrequency() { return m_iReminderFrequency; }
+    void                SetReminderFrequency(int val) { m_iReminderFrequency = val; }
+    int                 GetSelectedLanguage() { return m_iSelectedLanguage; }
+    void                SetSelectedLanguage(int val) { m_iSelectedLanguage = val; }
 
     void                FireInitialize();
     void                FireRefreshView();

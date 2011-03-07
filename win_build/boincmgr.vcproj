@@ -738,6 +738,18 @@
 			Name="Simple"
 			>
 			<File
+				RelativePath="..\clientgui\sg_BoincSimpleFrame.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\clientgui\sg_BoincSimpleFrame.h"
+				>
+			</File>
+			<File
+				RelativePath="..\clientgui\sg_CustomControls.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\clientgui\sg_DlgMessages.cpp"
 				>
 			</File>
@@ -753,70 +765,54 @@
 				RelativePath="..\clientgui\sg_DlgPreferences.h"
 				>
 			</File>
-			<Filter
-				Name="Prototype"
+			<File
+				RelativePath="..\clientgui\sg_PanelBase.cpp"
 				>
-				<File
-					RelativePath="..\clientgui\sg_BoincSimpleFrame.cpp"
-					>
-				</File>
-				<File
-					RelativePath="..\clientgui\sg_BoincSimpleFrame.h"
-					>
-				</File>
-				<File
-					RelativePath="..\clientgui\sg_CustomControls.cpp"
-					>
-				</File>
-				<File
-					RelativePath="..\clientgui\sg_PanelBase.cpp"
-					>
-				</File>
-				<File
-					RelativePath="..\clientgui\sg_PanelBase.h"
-					>
-				</File>
-				<File
-					RelativePath="..\clientgui\sg_ProjectCommandPopup.cpp"
-					>
-				</File>
-				<File
-					RelativePath="..\clientgui\sg_ProjectCommandPopup.h"
-					>
-				</File>
-				<File
-					RelativePath="..\clientgui\sg_ProjectPanel.cpp"
-					>
-				</File>
-				<File
-					RelativePath="..\clientgui\sg_ProjectPanel.h"
-					>
-				</File>
-				<File
-					RelativePath="..\clientgui\sg_ProjectWebSitesPopup.cpp"
-					>
-				</File>
-				<File
-					RelativePath="..\clientgui\sg_ProjectWebSitesPopup.h"
-					>
-				</File>
-				<File
-					RelativePath="..\clientgui\sg_TaskCommandPopup.cpp"
-					>
-				</File>
-				<File
-					RelativePath="..\clientgui\sg_TaskCommandPopup.h"
-					>
-				</File>
-				<File
-					RelativePath="..\clientgui\sg_TaskPanel.cpp"
-					>
-				</File>
-				<File
-					RelativePath="..\clientgui\sg_TaskPanel.h"
-					>
-				</File>
-			</Filter>
+			</File>
+			<File
+				RelativePath="..\clientgui\sg_PanelBase.h"
+				>
+			</File>
+			<File
+				RelativePath="..\clientgui\sg_ProjectCommandPopup.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\clientgui\sg_ProjectCommandPopup.h"
+				>
+			</File>
+			<File
+				RelativePath="..\clientgui\sg_ProjectPanel.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\clientgui\sg_ProjectPanel.h"
+				>
+			</File>
+			<File
+				RelativePath="..\clientgui\sg_ProjectWebSitesPopup.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\clientgui\sg_ProjectWebSitesPopup.h"
+				>
+			</File>
+			<File
+				RelativePath="..\clientgui\sg_TaskCommandPopup.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\clientgui\sg_TaskCommandPopup.h"
+				>
+			</File>
+			<File
+				RelativePath="..\clientgui\sg_TaskPanel.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\clientgui\sg_TaskPanel.h"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="libboinc"
