@@ -9148,3 +9148,11 @@ Rom    7 Mar 2011
         
     clientgui/
         BOINCTaskBar.cpp, .h
+
+Rom    16 Feb 2011
+    - Tag for 6.12.17 release, all platforms
+      boinc_core_release_6_12_17
+
+    /
+        configure.ac
+        version.h
