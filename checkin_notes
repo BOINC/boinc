@@ -8606,8 +8606,6 @@ Rom    8 Feb 2011
         configure.ac
         version.h
 
-<<<<<<< .working
-=======
 David  8 Feb 2011
     - create_work and possibly other back-end programs:
         fix bug that corrupted WU command lines.
@@ -8799,7 +8797,6 @@ David  14 Feb 2011
     client/
         hostinfo_unix.cpp
 
->>>>>>> .merge-right.r23063
 Charlie 15 Feb 2011
     Mac Installer: Fix the code which deletes installer receipts to use  
         the current package name (which changed when I eliminated the 
@@ -9108,3 +9105,9 @@ David  3 Mar 2011
 
     clientgui/
         DlgAbout.cpp
+
+David  4 Mar 2011
+    - client: fix spurious error when removing a notice RSS feed
+
+    client/
+        cs_notice.cpp
