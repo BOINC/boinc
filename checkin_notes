@@ -9165,3 +9165,10 @@ Rom    7 Mar 2011
     clientgui/
         AccountManagerInfoPage.cpp
         ProjectInfoPage.cpp
+
+Rom    7 Mar 2011
+    - Backout change set [23175], it prevents work-fetch with 6.12 scheduler.
+    
+    client/
+        rr_sim.cpp
+        client_types.h

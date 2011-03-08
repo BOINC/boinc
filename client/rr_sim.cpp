@@ -122,27 +122,6 @@ struct RR_SIM_STATUS {
         active_atis = 0;
     }
     ~RR_SIM_STATUS() {}
-
-    // compute shares of projects with active CPU jobs
-    //
-    inline void get_cpu_shares() {
-        unsigned int i;
-        for (i=0; i<gstate.projects.size(); i++) {
-            gstate.projects[i]->rr_sim_cpu_share = 0;
-        }
-        for (i=0; i<active.size(); i++) {
-            PROJECT* p = active[i]->project;
-            p->rr_sim_cpu_share = p->resource_share;
-        }
-        double sum=0;
-        for (i=0; i<gstate.projects.size(); i++) {
-            sum += gstate.projects[i]->rr_sim_cpu_share;
-        }
-        if (!sum) sum=1;
-        for (i=0; i<gstate.projects.size(); i++) {
-            gstate.projects[i]->rr_sim_cpu_share /= sum;
-        }
-    }
 };
 
 void RR_SIM_PROJECT_STATUS::activate(RESULT* rp) {
@@ -189,7 +168,7 @@ void set_rrsim_flops(RESULT* rp) {
 
     // if the project's total CPU usage is more than its share, scale
     //
-    double share_cpus = p->rr_sim_cpu_share*gstate.ncpus;
+    double share_cpus = p->cpu_pwf.runnable_share*gstate.ncpus;
     if (!share_cpus) share_cpus = gstate.ncpus;
         // deal with projects w/ resource share = 0
     double r2 = r1;
@@ -332,13 +311,13 @@ void CLIENT_STATE::rr_simulation() {
         if (ati_work_fetch.nidle_now < 0) ati_work_fetch.nidle_now = 0;
     }
 
+    work_fetch.compute_shares();
+
     // Simulation loop.  Keep going until all work done
     //
     double buf_end = now + work_buf_total();
     double sim_now = now;
     while (sim_status.active.size()) {
-
-        sim_status.get_cpu_shares();
 
         // compute finish times and see which result finishes first
         //
