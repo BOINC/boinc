@@ -979,6 +979,7 @@ PROJECT* WORK_FETCH::choose_project() {
     gstate.compute_nuploading_results();
 
     gstate.rr_simulation();
+    compute_shares();
 if (use_rec) {
     project_priority_init();
 } else {

@@ -1429,3 +1429,9 @@ Charlie 7 Mar 2011
     
     clientgui/
         DlgOptions.cpp
+
+David  7 Mar 2011
+	- client: fix to [23162] that broke work fetch
+
+	client/
+		work_fetch.cpp
