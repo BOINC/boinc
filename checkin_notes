@@ -9172,3 +9172,11 @@ Rom    7 Mar 2011
     client/
         rr_sim.cpp
         client_types.h
+
+Rom    7 Feb 2011
+    - Tag for 6.12.18 release, all platforms
+      boinc_core_release_6_12_18
+
+    /
+        configure.ac
+        version.h
