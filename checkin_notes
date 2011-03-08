@@ -1423,3 +1423,9 @@ Rom    7 Mar 2011
     clientgui/
         AccountManagerInfoPage.cpp
         ProjectInfoPage.cpp
+
+Charlie 7 Mar 2011
+    - MGR: Fix compiler warning.
+    
+    clientgui/
+        DlgOptions.cpp

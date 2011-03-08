@@ -551,17 +551,14 @@ void CDlgOptions::SetDefaultDialupConnection(wxString value) {
 bool CDlgOptions::ReadSettings() {
     CMainDocument*      pDoc = wxGetApp().GetDocument();
     CBOINCBaseFrame*    pFrame = wxGetApp().GetFrame();
-    CSkinAdvanced*      pSkinAdvanced = wxGetApp().GetSkinManager()->GetAdvanced();
     wxString            strBuffer = wxEmptyString;
     wxArrayString       astrDialupConnections;
 
 
     wxASSERT(pDoc);
     wxASSERT(pFrame);
-    wxASSERT(pSkinAdvanced);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
     wxASSERT(wxDynamicCast(pFrame, CBOINCBaseFrame));
-    wxASSERT(wxDynamicCast(pSkinAdvanced, CSkinAdvanced));
 
 
     // General Tab
