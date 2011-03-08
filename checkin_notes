@@ -1435,3 +1435,10 @@ David  7 Mar 2011
 
 	client/
 		work_fetch.cpp
+
+David  8 Mar 2011
+    - client: don't put CDATA around account manager opaque data
+        in request msg
+
+    client/
+        acct_mgr.cpp
