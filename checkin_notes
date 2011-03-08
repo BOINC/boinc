@@ -1857,3 +1857,11 @@ Rom    7 Mar 2011
     clientgui/
         AccountManagerInfoPage.cpp
         ProjectInfoPage.cpp
+
+Rom    8 Mar 2011
+    - Tag for 6.10.59 release, all platforms
+      boinc_core_release_6_10_59
+
+    /
+        configure.ac
+        version.h
