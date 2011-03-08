@@ -9180,3 +9180,9 @@ Rom    7 Feb 2011
     /
         configure.ac
         version.h
+
+Charlie 7 Mar 2011
+    - MGR: Fix compiler warning.
+    
+    clientgui/
+        DlgOptions.cpp
