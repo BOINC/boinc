@@ -1290,7 +1290,7 @@ David  2 Mar 2011
 		cs_notice.cpp
 
 Charlie 3 Mar 2011
-    - MGR: Remove the old SimpleGUi from the projects.  The following 
+    - MGR: Remove the old SimpleGUI from the projects.  The following 
         source files are no longer used; they have been removed from the 
         builds, but have not yet been deleted from the SVN repository:
         sg_BoincSimpleGUI.cpp,.h, sg_ClientStateIndicator.cpp,.h, 
@@ -1442,3 +1442,66 @@ David  8 Mar 2011
 
     client/
         acct_mgr.cpp
+
+Charlie 10 Mar 2011
+    - MGR: Remove from Skin Manager items no longer used by SimpleGUI.
+        The following source files are no longer used; they have been 
+        removed from the builds, but have not yet been deleted from the 
+        SVN repository: 
+        
+    clientgui/
+        common/
+            wxFlatNotebook.cpp,.h, 
+            wxFNBDropTarget.h
+        res/
+            skins/
+                default/
+                    graphic/
+                        spacer_image.xpm
+                        state_indicator_background_image.xpm
+                        connecting_indicator_image.xpm
+                        error_indicator_image.xpm
+                        workunit_active_image.xpm
+                        workunit_suspended_image.xpm
+                        workunit_tab_area_background_image.xpm
+                        workunit_area_background_image.xpm
+                        workunit_animation_background_image.xpm
+                        workunit_gauge_background_image.xpm
+                        workunit_gauge_progress_indicator_image.xpm
+                        project_area_background_image.xpm
+                        attach_project_button.xpm
+                        attach_project_clicked_button.xpm
+                        help_button.xpm
+                        help_clicked_button.xpm
+                        right_arrow_button.xpm
+                        right_arrow_clicked_button.xpm
+                        left_arrow_button.xpm
+                        left_arrow_clicked_button.xpm
+                        save_button.xpm
+                        save_clicked_button.xpm
+                        synchronize_button.xpm
+                        synchronize_clicked_button.xpm
+                        cancel_button.xpm
+                        cancel_clicked_button.xpm
+                        close_button.xpm
+                        close_clicked_button.xpm
+                        copy_all_button.xpm
+                        copy_all_clicked_button.xpm
+                        copy_button.xpm
+                        copy_clicked_button.xpm
+                        messages_link_image.xpm
+                        messages_alert_link_image.xpm
+                        suspend_link_image.xpm
+                        resume_link_image.xpm
+                        preferences_link_image.xpm
+                        advanced_link_image.xpm
+                        
+        The following files have been modified:
+        
+    clientgui/
+        BOINCGUIApp.cpp
+        SkinManager.cpp, .h
+        sg_DlgPreferences.cpp
+     mac_build/
+        boinc.xcodeproj/
+            project.pbxproj

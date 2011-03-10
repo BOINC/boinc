@@ -353,10 +353,7 @@ bool CBOINCGUIApp::OnInit() {
 
     // Load desired manager skin
     m_pConfig->Read(wxT("Skin"), &strDesiredSkinName, m_pSkinManager->GetDefaultSkinName());
-    m_pSkinManager->ReloadSkin(
-        m_pLocale, 
-        strDesiredSkinName
-    );
+    m_pSkinManager->ReloadSkin(strDesiredSkinName);
 
 
 #ifdef __WXMSW__

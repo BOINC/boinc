@@ -129,7 +129,6 @@
 		DD3E15230A774397007E0084 /* AdvancedFrame.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD9C94A00A5A3A4100AB0D10 /* AdvancedFrame.cpp */; };
 		DD3E15240A774397007E0084 /* BOINCBaseFrame.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD9C94A20A5A3A4100AB0D10 /* BOINCBaseFrame.cpp */; };
 		DD3E15260A774397007E0084 /* sg_DlgPreferences.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDCAD7D30A6C603A0086C7EE /* sg_DlgPreferences.cpp */; };
-		DD3E152C0A774397007E0084 /* wxFlatNotebook.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDCE78300A70BD55008218B6 /* wxFlatNotebook.cpp */; };
 		DD3E152D0A774397007E0084 /* app_ipc.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AA8B6B1B046C364400A80164 /* app_ipc.cpp */; };
 		DD3E152E0A774397007E0084 /* proxy_info.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD344BEF07C5B1770043025C /* proxy_info.cpp */; };
 		DD3E15310A774397007E0084 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 20286C33FDCF999611CA2CEA /* Carbon.framework */; };
@@ -945,9 +944,6 @@
 		DDC836E50EDEA5DB001C2EF9 /* TermsOfUsePage.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TermsOfUsePage.cpp; path = ../clientgui/TermsOfUsePage.cpp; sourceTree = SOURCE_ROOT; };
 		DDCAD7D30A6C603A0086C7EE /* sg_DlgPreferences.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = sg_DlgPreferences.cpp; path = ../clientgui/sg_DlgPreferences.cpp; sourceTree = SOURCE_ROOT; };
 		DDCAD7D40A6C603A0086C7EE /* sg_DlgPreferences.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = sg_DlgPreferences.h; path = ../clientgui/sg_DlgPreferences.h; sourceTree = SOURCE_ROOT; };
-		DDCE78300A70BD55008218B6 /* wxFlatNotebook.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = wxFlatNotebook.cpp; path = ../clientgui/common/wxFlatNotebook.cpp; sourceTree = SOURCE_ROOT; };
-		DDCE78310A70BD55008218B6 /* wxFlatNotebook.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = wxFlatNotebook.h; path = ../clientgui/common/wxFlatNotebook.h; sourceTree = SOURCE_ROOT; };
-		DDCE78320A70BD55008218B6 /* wxFNBDropTarget.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = wxFNBDropTarget.h; path = ../clientgui/common/wxFNBDropTarget.h; sourceTree = SOURCE_ROOT; };
 		DDCF84060E1B7C0A005EDC45 /* DlgItemProperties.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DlgItemProperties.cpp; sourceTree = "<group>"; };
 		DDCF84070E1B7C0A005EDC45 /* DlgItemProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DlgItemProperties.h; sourceTree = "<group>"; };
 		DDD0697112D70C9400120920 /* sg_TaskPanel.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = sg_TaskPanel.cpp; path = ../clientgui/sg_TaskPanel.cpp; sourceTree = SOURCE_ROOT; };
@@ -1517,9 +1513,6 @@
 		DDCE78220A70BD29008218B6 /* common */ = {
 			isa = PBXGroup;
 			children = (
-				DDCE78300A70BD55008218B6 /* wxFlatNotebook.cpp */,
-				DDCE78310A70BD55008218B6 /* wxFlatNotebook.h */,
-				DDCE78320A70BD55008218B6 /* wxFNBDropTarget.h */,
 				DD40E75D0ADB87BC00214518 /* wxPieCtrl.cpp */,
 				DD40E75E0ADB87BC00214518 /* wxPieCtrl.h */,
 			);
@@ -2537,7 +2530,6 @@
 				DD3E15230A774397007E0084 /* AdvancedFrame.cpp in Sources */,
 				DD3E15240A774397007E0084 /* BOINCBaseFrame.cpp in Sources */,
 				DD3E15260A774397007E0084 /* sg_DlgPreferences.cpp in Sources */,
-				DD3E152C0A774397007E0084 /* wxFlatNotebook.cpp in Sources */,
 				DD3E152D0A774397007E0084 /* app_ipc.cpp in Sources */,
 				DD3E152E0A774397007E0084 /* proxy_info.cpp in Sources */,
 				DD67F8140ADB9DD000B0015E /* wxPieCtrl.cpp in Sources */,

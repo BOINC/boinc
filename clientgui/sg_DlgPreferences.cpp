@@ -942,13 +942,11 @@ bool CPanelPreferences::SavePreferenceSettings() {
 
 bool CPanelPreferences::SaveSkinSettings() {
     CSkinManager* pSkinManager = wxGetApp().GetSkinManager();
-    wxLocale* pLocale = wxGetApp().GetLocale();
 
     wxASSERT(pSkinManager);
-    wxASSERT(pLocale);
     wxASSERT(wxDynamicCast(pSkinManager, CSkinManager));
 
-    pSkinManager->ReloadSkin(pLocale, m_strSkinSelector);
+    pSkinManager->ReloadSkin(m_strSkinSelector);
 
     return true;
 }
