@@ -1451,7 +1451,8 @@ Charlie 10 Mar 2011
         
     clientgui/
         common/
-            wxFlatNotebook.cpp,.h, 
+            wxFlatNotebook.cpp,.h
+            wxFlatNotebookImages.h
             wxFNBDropTarget.h
         res/
             skins/
@@ -1505,3 +1506,5 @@ Charlie 10 Mar 2011
      mac_build/
         boinc.xcodeproj/
             project.pbxproj
+    win_build/
+        boincmgr.vcproj
