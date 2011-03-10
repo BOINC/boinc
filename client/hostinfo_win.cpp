@@ -312,8 +312,7 @@ typedef BOOL (WINAPI *PGPI)(DWORD, DWORD, DWORD, DWORD, PDWORD);
 
 int get_os_information(
     char* os_name, int /*os_name_size*/, char* os_version, int os_version_size
-)
-{
+) {
     // This code snip-it was copied straight out of the MSDN Platform SDK
     //   Getting the System Version example and modified to dump the output
     //   into os_name.
@@ -358,12 +357,10 @@ int get_os_information(
     // Windows is a Microsoft OS
     strcpy(os_name, "Microsoft ");
 
-    switch (osvi.dwPlatformId)
-    {
+    switch (osvi.dwPlatformId) {
         case VER_PLATFORM_WIN32_NT:
 
-            if ( osvi.dwMajorVersion == 6 && osvi.dwMinorVersion == 1 )
-            {
+            if ( osvi.dwMajorVersion == 6 && osvi.dwMinorVersion == 1 ) {
                 if( osvi.wProductType == VER_NT_WORKSTATION ) {
                     strcat(os_name, "Windows 7");
                 } else {
@@ -372,8 +369,7 @@ int get_os_information(
                 pGPI( 6, 1, 0, 0, &dwType);
             }
 
-            if ( osvi.dwMajorVersion == 6 && osvi.dwMinorVersion == 0 )
-            {
+            if ( osvi.dwMajorVersion == 6 && osvi.dwMinorVersion == 0 ) {
                 if( osvi.wProductType == VER_NT_WORKSTATION ) {
                     strcat(os_name, "Windows Vista");
                 } else {
@@ -382,8 +378,7 @@ int get_os_information(
                 pGPI( 6, 0, 0, 0, &dwType);
             }
 
-            if ( osvi.dwMajorVersion == 5 && osvi.dwMinorVersion == 2 )
-            {
+            if ( osvi.dwMajorVersion == 5 && osvi.dwMinorVersion == 2 ) {
                 if( osvi.wProductType == VER_NT_WORKSTATION) {
                     strcat(os_name, "Windows XP");
                 } else {
@@ -395,13 +390,11 @@ int get_os_information(
                 }
             }
 
-            if ( osvi.dwMajorVersion == 5 && osvi.dwMinorVersion == 1 )
-            {
+            if ( osvi.dwMajorVersion == 5 && osvi.dwMinorVersion == 1 ) {
                 strcat(os_name, "Windows XP");
             }
 
-            if ( osvi.dwMajorVersion == 5 && osvi.dwMinorVersion == 0 )
-            {
+            if ( osvi.dwMajorVersion == 5 && osvi.dwMinorVersion == 0 ) {
                 strcat(os_name, "Windows 2000");
             }
 
@@ -414,18 +407,15 @@ int get_os_information(
 
         case VER_PLATFORM_WIN32_WINDOWS:
 
-            if (osvi.dwMajorVersion == 4 && osvi.dwMinorVersion == 0)
-            {
+            if (osvi.dwMajorVersion == 4 && osvi.dwMinorVersion == 0) {
                 strcat(os_name, "Windows 95");
             }
 
-            if (osvi.dwMajorVersion == 4 && osvi.dwMinorVersion == 10)
-            {
+            if (osvi.dwMajorVersion == 4 && osvi.dwMinorVersion == 10) {
                 strcat( os_name, "Windows 98");
             }
 
-            if (osvi.dwMajorVersion == 4 && osvi.dwMinorVersion == 90)
-            {
+            if (osvi.dwMajorVersion == 4 && osvi.dwMinorVersion == 90) {
                 strcat( os_name, "Windows Millennium");
             }
 
@@ -439,11 +429,11 @@ int get_os_information(
 
 
     snprintf( szVersion, sizeof(szVersion), ", (%.2u.%.2u.%.4u.%.2u)",
-        osvi.dwMajorVersion, osvi.dwMinorVersion, (osvi.dwBuildNumber & 0xFFFF), 0 );
+        osvi.dwMajorVersion, osvi.dwMinorVersion, (osvi.dwBuildNumber & 0xFFFF), 0
+    );
 
 
-    switch (osvi.dwPlatformId)
-    {
+    switch (osvi.dwPlatformId) {
         // Test for the Windows NT product family.
         case VER_PLATFORM_WIN32_NT:
 
@@ -632,8 +622,7 @@ int get_os_information(
                     }
                 }
 
-                switch (si.wProcessorArchitecture)
-                {
+                switch (si.wProcessorArchitecture) {
                     case PROCESSOR_ARCHITECTURE_INTEL:
                         strcat(szSKU, "x86 ");
                         break;
@@ -693,8 +682,8 @@ int get_os_information(
             }
 
             // Display service pack (if any) and build number.
-            if( osvi.dwMajorVersion == 4 && lstrcmpi( osvi.szCSDVersion, "Service Pack 6" ) == 0 )
-            {
+            if( osvi.dwMajorVersion == 4 && lstrcmpi( osvi.szCSDVersion, "Service Pack 6" ) == 0
+            ) {
                 HKEY hKey;
                 LONG lRet;
 
@@ -1006,12 +995,22 @@ int get_processor_features(char* vendor, char* features, int features_size) {
 
 // Returns the CPU count
 //
+typedef DWORD (WINAPI *GAPC)(WORD);
 int get_processor_count(int& processor_count) {
-    SYSTEM_INFO SystemInfo;
-    memset( &SystemInfo, NULL, sizeof( SystemInfo ) );
-    ::GetSystemInfo( &SystemInfo );
+    GAPC gapc = (GAPC) GetProcAddress(
+        GetModuleHandle(_T("kernel32.dll")),
+        "GetActiveProcessorCount"
+    );
 
-    processor_count = SystemInfo.dwNumberOfProcessors;
+    if (gapc) {
+        processor_count = gapc(ALL_PROCESSOR_GROUPS);
+    } else {
+        SYSTEM_INFO SystemInfo;
+        memset( &SystemInfo, NULL, sizeof( SystemInfo ) );
+        ::GetSystemInfo( &SystemInfo );
+
+        processor_count = SystemInfo.dwNumberOfProcessors;
+    }
     return 0;
 }
 

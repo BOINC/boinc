@@ -1516,3 +1516,13 @@ Bernd  10 Mar 2011
         record host, remote and branch names
 
     generate_svn_version.sh
+
+David  10 Mar 2011
+    - client (Win): if available, use GetActiveProcessorCount()
+        rather than GetSystemInfo() to get the # of CPUs.
+        GetSystemInfo() returns the # of CPUs in the caller's
+        processor group, which is always <= 64 even on hosts
+        with > 64 CPUs
+
+    client/
+        hostinfo_win.cpp
