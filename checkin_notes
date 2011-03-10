@@ -1508,3 +1508,11 @@ Charlie 10 Mar 2011
             project.pbxproj
     win_build/
         boincmgr.vcproj
+
+Bernd  10 Mar 2011
+    - unix build system: generate_svn_version
+      - extended support for git repos:
+        generate numeric version from last commit date,
+        record host, remote and branch names
+
+    generate_svn_version.sh
