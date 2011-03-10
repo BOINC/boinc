@@ -319,6 +319,12 @@ void CProjectInfoPage::OnPageChanged( wxWizardExEvent& event ) {
                     }
                 }
             }
+            // if project didn't export platform list,
+            // assume it supports this platform
+            //
+            if (project_platforms.size() == 0) {
+                bSupportedPlatformFound = true;
+            }
 
             wxLogTrace(
                 wxT("Function Status"),

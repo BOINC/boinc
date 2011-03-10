@@ -1526,3 +1526,13 @@ David  10 Mar 2011
 
     client/
         hostinfo_win.cpp
+
+David  10 Mar 2011
+	- manager: Add Project wizard:
+		if a project has old server software and
+		doesn't export platform list (e.g. Superlink)
+		don't show a confusing "this project may not support
+		your type of computer" message;
+
+	clientgui/
+		ProjectInfoPage.cpp
