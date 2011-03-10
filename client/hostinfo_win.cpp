@@ -996,6 +996,9 @@ int get_processor_features(char* vendor, char* features, int features_size) {
 // Returns the CPU count
 //
 typedef DWORD (WINAPI *GAPC)(WORD);
+#ifndef ALL_PROCESSOR_GROUPS
+#define ALL_PROCESSOR_GROUPS 0xffff
+#endif
 int get_processor_count(int& processor_count) {
     GAPC gapc = (GAPC) GetProcAddress(
         GetModuleHandle(_T("kernel32.dll")),
