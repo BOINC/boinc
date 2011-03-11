@@ -1536,3 +1536,9 @@ David  10 Mar 2011
 
 	clientgui/
 		ProjectInfoPage.cpp
+
+Charlie 11 Mar 2011
+    - MGR: Fill in initial URL on Account Manager Wizard Selection page.
+    
+    clientgui/
+        AccountManagerInfoPage.cpp

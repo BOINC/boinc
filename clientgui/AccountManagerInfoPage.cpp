@@ -286,6 +286,8 @@ void CAccountManagerInfoPage::OnPageChanged( wxWizardExEvent& event ) {
             m_bProjectSupported = m_pProjectListCtrl->GetItem(0)->IsPlatformSupported();
         }
 
+        TransferDataToWindow();
+
         m_bAccountManagerListPopulated = true;
     }
 
