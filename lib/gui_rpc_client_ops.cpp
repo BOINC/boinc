@@ -175,12 +175,12 @@ ALL_PROJECTS_LIST::~ALL_PROJECTS_LIST() {
 
 bool compare_project_list_entry(const PROJECT_LIST_ENTRY* a, const PROJECT_LIST_ENTRY* b) 
 {
-    return a->name < b->name;
+    return strcasecmp(a->name.c_str(), b->name.c_str()) < 0;
 }
 
 bool compare_am_list_entry(const AM_LIST_ENTRY* a, const AM_LIST_ENTRY* b) 
 {
-    return a->name < b->name;
+    return strcasecmp(a->name.c_str(), b->name.c_str()) < 0;
 }
 
 void ALL_PROJECTS_LIST::shuffle() {
