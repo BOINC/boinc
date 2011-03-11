@@ -9186,3 +9186,9 @@ Charlie 7 Mar 2011
     
     clientgui/
         DlgOptions.cpp
+
+Charlie 11 Mar 2011
+    - lib: Make sorts of projects and account mangers case-insensitive.
+
+    lib/
+        gui_rpc_client_ops.cpp
