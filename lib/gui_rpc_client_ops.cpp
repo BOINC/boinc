@@ -175,12 +175,20 @@ ALL_PROJECTS_LIST::~ALL_PROJECTS_LIST() {
 
 bool compare_project_list_entry(const PROJECT_LIST_ENTRY* a, const PROJECT_LIST_ENTRY* b) 
 {
+#ifdef _WIN32
+    return _stricmp(a->name.c_str(), b->name.c_str()) < 0;
+#else
     return strcasecmp(a->name.c_str(), b->name.c_str()) < 0;
+#endif
 }
 
 bool compare_am_list_entry(const AM_LIST_ENTRY* a, const AM_LIST_ENTRY* b) 
 {
+#ifdef _WIN32
+    return _stricmp(a->name.c_str(), b->name.c_str()) < 0;
+#else
     return strcasecmp(a->name.c_str(), b->name.c_str()) < 0;
+#endif
 }
 
 void ALL_PROJECTS_LIST::shuffle() {
