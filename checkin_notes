@@ -9188,7 +9188,10 @@ Charlie 7 Mar 2011
         DlgOptions.cpp
 
 Charlie 11 Mar 2011
+    - MGR: Fill in initial URL on Account Manager Wizard Selection page.
     - lib: Make sorts of projects and account mangers case-insensitive.
 
+    clientgui/
+        AccountManagerInfoPage.cpp
     lib/
         gui_rpc_client_ops.cpp
