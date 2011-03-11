@@ -1556,3 +1556,9 @@ Charlie 11 Mar 2011
             project.pbxproj
     win_build/
         boincmgr.vcproj
+
+Charlie 11 Mar 2011
+    - MGR: Fix compiler warning.
+
+    clientgui/
+        sg_BoincSimpleFrame.cpp

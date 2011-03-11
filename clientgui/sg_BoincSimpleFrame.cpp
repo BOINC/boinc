@@ -861,7 +861,7 @@ void CSimpleGUIPanel::OnHelp(wxCommandEvent& WXUNUSED(event)) {
 }
 
 
-void CSimpleGUIPanel::OnPaint(wxPaintEvent& event) {
+void CSimpleGUIPanel::OnPaint(wxPaintEvent& WXUNUSED(event)) {
 	wxPaintDC myDC(this);
 
     if (m_bNewNoticeAlert) {
