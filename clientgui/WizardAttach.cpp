@@ -54,6 +54,7 @@
 #include "AlreadyExistsPage.h"
 #include "ProxyInfoPage.h"
 #include "ProxyPage.h"
+#include "UserDisagreesPage.h"
 
 
 /*!
@@ -111,6 +112,7 @@ bool CWizardAttach::Create( wxWindow* parent, wxWindowID id, const wxString& /* 
     m_ErrAlreadyExistsPage = NULL;
     m_ErrProxyInfoPage = NULL;
     m_ErrProxyPage = NULL;
+    m_ErrUnavailablePage = NULL;
 ////@end CWizardAttach member initialisation
   
     // Cancel Checking
@@ -247,6 +249,11 @@ void CWizardAttach::CreateControls()
     m_ErrProxyPage->Create( itemWizard1 );
     GetPageAreaSizer()->Add(m_ErrProxyPage);
 
+    m_ErrUserDisagreesPage = new CErrUserDisagreesPage;
+    m_ErrUserDisagreesPage->Create( itemWizard1 );
+    GetPageAreaSizer()->Add(m_ErrUserDisagreesPage);
+
+
 ////@end CWizardAttach content construction
 
     wxLogTrace(wxT("Function Status"), wxT("CWizardAttach::CreateControls - Begin Page Map"));
@@ -340,6 +347,11 @@ void CWizardAttach::CreateControls()
         wxT("Function Status"),
         wxT("CWizardAttach::CreateControls -     m_ErrProxyPage = id: '%d', location: '%p', height: '%d', width: '%d'"),
         m_ErrProxyPage->GetId(), m_ErrProxyPage, m_ErrProxyPage->GetBestSize().GetHeight(), m_ErrProxyPage->GetBestSize().GetWidth()
+    );
+    wxLogTrace(
+        wxT("Function Status"),
+        wxT("CWizardAttach::CreateControls -     m_ErrUserDisagreesPage = id: '%d', location: '%p', height: '%d', width: '%d'"),
+        m_ErrUserDisagreesPage->GetId(), m_ErrUserDisagreesPage, m_ErrUserDisagreesPage->GetBestSize().GetHeight(), m_ErrUserDisagreesPage->GetBestSize().GetWidth()
     );
 
     wxLogTrace(wxT("Function Status"), wxT("CWizardAttach::CreateControls - End Page Map"));
@@ -488,7 +500,8 @@ bool CWizardAttach::HasNextPage( wxWizardPageEx* page )
     bNoNextPageDetected |= (page == m_ErrUnavailablePage);
     bNoNextPageDetected |= (page == m_ErrNoInternetConnectionPage);
     bNoNextPageDetected |= (page == m_ErrAlreadyExistsPage);
- 
+    bNoNextPageDetected |= (page == m_ErrUserDisagreesPage);
+    
     if (bNoNextPageDetected)
         return false;
     return true;
@@ -590,6 +603,9 @@ wxWizardPageEx* CWizardAttach::_PushPageTransition( wxWizardPageEx* pCurrentPage
         if (ID_ERRPROXYPAGE == ulPageID)
             pPage = m_ErrProxyPage;
  
+        if (ID_ERRUSERDISAGREESPAGE == ulPageID)
+            pPage = m_ErrUserDisagreesPage;
+ 
         if (pPage) {
             if (m_PageTransition.size() == 0) {
                 m_PageTransition.push(NULL);
@@ -645,6 +661,8 @@ void CWizardAttach::_ProcessCancelEvent( wxWizardExEvent& event ) {
     bCancelWithoutNextPage |= (page == m_ErrNotDetectedPage);
     bCancelWithoutNextPage |= (page == m_ErrUnavailablePage);
     bCancelWithoutNextPage |= (page == m_ErrNoInternetConnectionPage);
+    bCancelWithoutNextPage |= (page == m_ErrUserDisagreesPage);
+    
     if (IsAttachToProjectWizard) {
         bCancelWithoutNextPage |= (page == m_ErrAlreadyExistsPage);
     } else {

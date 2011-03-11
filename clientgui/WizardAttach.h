@@ -34,7 +34,6 @@
 
 // Generic Pages
 #define ID_WELCOMEPAGE 10100
-#define ID_TERMSOFUSEPAGE 10113
 #define ID_ACCOUNTINFOPAGE 10102
 #define ID_COMPLETIONPAGE 10103
 #define ID_COMPLETIONERRORPAGE 10104
@@ -45,6 +44,8 @@
 #define ID_ERRALREADYEXISTSPAGE 10110
 #define ID_ERRPROXYINFOPAGE 10111
 #define ID_ERRPROXYPAGE 10112
+#define ID_TERMSOFUSEPAGE 10113
+#define ID_ERRUSERDISAGREESPAGE 10114
 
 // Attach to Project Wizard Pages
 #define ID_PROJECTINFOPAGE 10200
@@ -141,6 +142,7 @@ class CErrNotFoundPage;
 class CErrAlreadyExistsPage;
 class CErrProxyInfoPage;
 class CErrProxyPage;
+class CErrUserDisagreesPage;
 class CProjectInfoPage;
 class CProjectPropertiesPage;
 class CProjectProcessingPage;
@@ -277,6 +279,7 @@ public:
     CErrAlreadyExistsPage* m_ErrAlreadyExistsPage;
     CErrProxyInfoPage* m_ErrProxyInfoPage;
     CErrProxyPage* m_ErrProxyPage;
+    CErrUserDisagreesPage* m_ErrUserDisagreesPage;
 ////@end CWizardAttachProject member variables
 
     /// Wizard Detection

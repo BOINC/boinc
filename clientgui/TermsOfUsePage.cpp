@@ -162,7 +162,7 @@ wxWizardPageEx* CTermsOfUsePage::GetNext() const
     } else if (GetUserAgrees()) {
         return PAGE_TRANSITION_NEXT(ID_ACCOUNTINFOPAGE);
     } else {
-        return PAGE_TRANSITION_NEXT(ID_COMPLETIONERRORPAGE);
+        return PAGE_TRANSITION_NEXT(ID_ERRUSERDISAGREESPAGE);
     }
     return NULL;
 }

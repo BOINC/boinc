@@ -60,7 +60,6 @@ boincmgr_SOURCES = \
     CompletionErrorPage.cpp \
     CompletionPage.cpp \
     common/wxPieCtrl.cpp \
-    common/wxFlatNotebook.cpp \
     DlgAbout.cpp 		\
     DlgAdvPreferences.cpp \
     DlgAdvPreferencesBase.cpp \
@@ -98,6 +97,7 @@ boincmgr_SOURCES = \
     stdwx.cpp \
     TermsOfUsePage.cpp \
     UnavailablePage.cpp \
+    UserDisagreesPage.cpp \
     ValidateAccountKey.cpp \
     ValidateEmailAddress.cpp \
     ValidateURL.cpp \

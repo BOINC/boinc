@@ -1539,6 +1539,15 @@ David  10 Mar 2011
 
 Charlie 11 Mar 2011
     - MGR: Fill in initial URL on Account Manager Wizard Selection page.
+    - MGR: Add a new page to Attach Wizard to be displayed if the user 
+        rejects the Terms of Use.
     
     clientgui/
         AccountManagerInfoPage.cpp
+        Makefile.am
+        TermsOfUsePage.cpp
+        UserDisagreesPage.cpp, .h (new)
+        WizardAttach.cpp, .h
+     mac_build/
+        boinc.xcodeproj/
+            project.pbxproj
