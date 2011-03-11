@@ -112,7 +112,7 @@ bool CWizardAttach::Create( wxWindow* parent, wxWindowID id, const wxString& /* 
     m_ErrAlreadyExistsPage = NULL;
     m_ErrProxyInfoPage = NULL;
     m_ErrProxyPage = NULL;
-    m_ErrUnavailablePage = NULL;
+    m_ErrUserDisagreesPage = NULL;
 ////@end CWizardAttach member initialisation
   
     // Cancel Checking
