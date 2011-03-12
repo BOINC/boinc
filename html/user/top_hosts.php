@@ -73,7 +73,7 @@ if ($cacheddata){
     $data = store_to_hosts($cacheddata);
 } else {
     $data = get_top_hosts($offset,$sort_by);
-    set_cache_data(hosts_to_store($data), $cache_args);
+    set_cached_data(TOP_PAGES_TTL, hosts_to_store($data), $cache_args);
 };
 
 

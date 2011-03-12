@@ -60,7 +60,7 @@ if ($get_from_db) {
     $team->new_members = new_member_list($teamid);
     $team->admins = admin_list($teamid);
     $team->founder = BoincUser::lookup_id($team->userid);
-    set_cache_data(serialize($team), $cache_args);
+    set_cached_data(TEAM_PAGE_TTL, serialize($team), $cache_args);
 }
 
 if (!$team) {

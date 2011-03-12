@@ -40,7 +40,7 @@ if ($cacheddata){
 } else {
     // Need to generate a new bunch of data
     $community_links_object = get_community_links_object($user);
-    set_cache_data(serialize($community_links_object), $cache_args);
+    set_cached_data(USER_PROFILE_TTL, serialize($community_links_object), $cache_args);
 }
 
 page_head(tra("Profile: %1", $user->name));

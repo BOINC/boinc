@@ -22,6 +22,7 @@ define("COPYRIGHT_HOLDER", "REPLACE WITH COPYRIGHT HOLDER");
 define("SYS_ADMIN_EMAIL", "admin@$master_url");
 define("UOTD_ADMIN_EMAIL", "admin@$master_url");
     // who gets user of the day pool running low e-mails?
+//define("MEMCACHE_SERVERS", "127.0.0.1:11211");
 
 // Email addresses separated by pipe ( | ) that will receive user reported 
 // offensive forum posts.

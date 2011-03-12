@@ -94,7 +94,7 @@ if ($offset < ITEM_LIMIT) {
             $team->nusers = team_count_members($team->id);
         }
         //save data in cache
-        set_cache_data(teams_to_store($data),$cache_args);
+        set_cached_data(TOP_PAGES_TTL, teams_to_store($data), $cache_args);
     }
 } else {
     error_page(tra("Limit exceeded - Sorry, first %1 items only", ITEM_LIMIT));

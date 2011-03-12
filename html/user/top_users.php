@@ -106,7 +106,7 @@ if ($offset < ITEM_LIMIT) {
 
         //save data in cache
         //
-        set_cache_data(serialize($data),$cache_args);
+        set_cached_data(TOP_PAGES_TTL, serialize($data),$cache_args);
     }
 } else {
     error_page(tra("Limit exceeded - Sorry, first %1 items only", ITEM_LIMIT));

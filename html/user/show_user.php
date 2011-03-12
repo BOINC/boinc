@@ -79,7 +79,7 @@ if ($format=="xml"){
 
         $data->user = $user;
         $data->clo = $community_links;
-        set_cache_data(serialize($data), $cache_args);
+        set_cached_data(USER_PAGE_TTL, serialize($data), $cache_args);
     }
     if (!$user->id) {
         error_page("No such user found - please check the ID and try again.");

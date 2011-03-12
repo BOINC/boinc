@@ -164,30 +164,45 @@ function get_cached_data($max_age, $params=""){
     if ($no_cache) return;
 
     $path = get_path($params);
-    cache_check_diskspace();
     if ($max_age) {
-        $regenerate=cache_need_to_regenerate($path, $max_age);
-        if (!$regenerate) {
-            return file_get_contents($path);
+        if (defined('MEMCACHE_SERVERS')) {
+            $cache = BoincMemcache::get()->get($path);
+            if ($cache) {
+                return $cache->content;
+            }
+        } else {
+            cache_check_diskspace();
+            $regenerate=cache_need_to_regenerate($path, $max_age);
+            if (!$regenerate) {
+                return file_get_contents($path);
+            }
         }
     }
     return false; //No data was cached, just return
 }
 
 function start_cache($max_age, $params=""){
-    global $no_cache, $caching;
+    global $no_cache, $caching, $memcache;
 
     if ($no_cache) return;
     $caching = true;
 
-    $path = get_path($params);
-    $lastmodified = @filemtime($path);
-    cache_check_diskspace(); //Check free disk space once in a while
-
     if ($max_age) {
+        $path = get_path($params);
+        if (defined('MEMCACHE_SERVERS')) {
+            $cache = BoincMemcache::get()->get($path);
+            if ($cache) {
+                $regenerate = false;
+                $lastmodified = abs($cache->timestamp);
+            } else {
+                $regenerate = true;
+            }
+        } else {
+            $lastmodified = @filemtime($path);
+            cache_check_diskspace(); //Check free disk space once in a while
+            $regenerate = cache_need_to_regenerate($path, $max_age);
+        }
         //Is the stored version too old, do we need to regenerate it?
-        //
-        $regenerate = cache_need_to_regenerate($path, $max_age);
         if ($regenerate){
             // If cached version is too old (or non-existent)
             // generate the page and write to cache
@@ -211,6 +226,10 @@ function start_cache($max_age, $params=""){
             Header("Last-Modified: " . gmdate("D, d M Y H:i:s",$lastmodified) . " GMT");
             Header("Expires: " . gmdate("D, d M Y H:i:s",$lastmodified+$max_age) . " GMT");
             Header("Cache-Control: public, max-age=" . $max_age );
+            if ($cache->content) {
+                echo $cache->content;
+                exit;
+            }
             if (!@readfile($path)) {
                 //echo "can't read $path; lastmod $lastmodified\n";
                 @unlink($path);
@@ -234,24 +253,36 @@ function end_cache($max_age,$params=""){
     }
     if ($max_age) {
         $path = get_path($params);
-        $fhandle=fopen($path, "w");
-        $page=ob_get_contents();
-        ob_end_flush();
-        fwrite($fhandle, $page);
-        fclose($fhandle);
+        
+        if (defined('MEMCACHE_SERVERS')) {
+            $cache = array('content' => ob_get_contents(), 'timestamp' => time());
+            ob_end_flush();
+            $cache = BoincMemcache::get()->set($path, $cache, $max_age);
+        } else {
+            $fhandle=fopen($path, "w");
+            $page=ob_get_contents();
+            ob_end_flush();
+            fwrite($fhandle, $page);
+            fclose($fhandle);
+        }
     }
 }
 
-function set_cache_data($data,$params=""){
+function set_cached_data($max_age, $data, $params=""){
     // for the benefit of hackers
     if (strstr($params, "..")) {
         return;
     }
     $path = get_path($params);
-    //echo $path;
-    $fhandle = fopen($path, "w");
-    fwrite($fhandle, $data);
-    fclose($fhandle);
+    if (defined('MEMCACHE_SERVERS')) {
+        $cache = array('content' => $data, 'timestamp' => time());
+        ob_end_flush();
+        $cache = BoincMemcache::get()->set($path, $cache, $max_age);
+    } else {
+        $fhandle = fopen($path, "w");
+        fwrite($fhandle, $data);
+        fclose($fhandle);
+    }
 }
 
 function clear_cache_entry($phpfile, $params) {
@@ -263,6 +294,26 @@ function clear_cache_entry($phpfile, $params) {
     }
     $path = get_path($params, $phpfile);
     unlink($path);
+}
+
+// Memcached class
+class BoincMemcache {
+    static $instance;
+    
+    static function get() {
+        self::$instance = new Memcached;
+        if (defined('MEMCACHE_PREFIX')) {
+            self::$instance->setOption(Memcached::OPT_PREFIX_KEY, MEMCACHE_PREFIX);
+        }
+        $servers = explode('|', MEMCACHE_SERVERS);
+        foreach($servers as &$server) {
+            list($ip, $port) = explode(':', $server);
+            if (!$port) { $port = 11211; }
+            $server = array($ip, $port);
+        }
+        self::$instance->addServers($servers);
+        return self::$instance;
+    }
 }
 
 ?>

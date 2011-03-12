@@ -1562,3 +1562,21 @@ Charlie 11 Mar 2011
 
     clientgui/
         sg_BoincSimpleFrame.cpp
+
+Rytis  12 Mar 2011
+    - user web: implement Memcache as an option for caching (defaults to
+        in-file cache). Can be enabled by installing php5-memcached package
+        and defining MEMCACHE_SERVERS in project.inc
+    
+    html/
+        inc/
+            cache.inc
+        project.sample/
+            project.inc
+        user/
+            show_user.php
+            team_display.php
+            top_hosts.php
+            top_teams.php
+            top_users.php
+            view_profile.php
