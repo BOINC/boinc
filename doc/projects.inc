@@ -13,7 +13,7 @@ $cogsci = array(
     array(
         array(
             "FreeHAL",
-            "http://freehal.net/freehal_at_home/",
+            "http://www.freehal.net/freehal_at_home/",
             "private",
             "Artificial intelligence",
             "Parse and convert semantic nets for use in FreeHAL, an artificial intelligence that uses semantic networks, stemmers, part of speech databases, and part of speech taggers in order to imitate human behavior in conversations."
@@ -106,7 +106,7 @@ $biomed = array(
         ),
         array(
             "SIMAP",
-            "http://www.boincsimap.org/boincsimap/",
+            "http://boincsimap.org/boincsimap/",
             "University of Vienna",
             "Biology",
             "Calculate similarities between proteins. SIMAP provides a public database of the resulting data, which plays a key role in many bioinformatics research projects.",

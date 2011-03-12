@@ -1580,3 +1580,9 @@ Rytis  12 Mar 2011
             top_teams.php
             top_users.php
             view_profile.php
+
+David  12 Mar 2001
+    - move client simulator PHP code to doc/sim
+
+    doc/sim/
+        various
