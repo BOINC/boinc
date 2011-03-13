@@ -167,8 +167,10 @@ function get_cached_data($max_age, $params=""){
     if ($max_age) {
         if (defined('MEMCACHE_SERVERS')) {
             $cache = BoincMemcache::get()->get($path);
-            if ($cache) {
-                return $cache->content;
+            if ($cache['content']) {
+                return $cache['content'];
+            } else {
+                return $cache;
             }
         } else {
             cache_check_diskspace();
@@ -181,6 +183,7 @@ function get_cached_data($max_age, $params=""){
     return false; //No data was cached, just return
 }
 
+// DEPRECATED
 function start_cache($max_age, $params=""){
     global $no_cache, $caching, $memcache;
 
@@ -242,7 +245,7 @@ function start_cache($max_age, $params=""){
 }
 
 // write output buffer both to client and to cache
-//
+// DEPRECATED
 function end_cache($max_age,$params=""){
     global $no_cache;
     if ($no_cache) return;
@@ -276,8 +279,7 @@ function set_cached_data($max_age, $data, $params=""){
     $path = get_path($params);
     if (defined('MEMCACHE_SERVERS')) {
         $cache = array('content' => $data, 'timestamp' => time());
-        ob_end_flush();
-        $cache = BoincMemcache::get()->set($path, $cache, $max_age);
+        BoincMemcache::get()->set($path, $cache, $max_age);
     } else {
         $fhandle = fopen($path, "w");
         fwrite($fhandle, $data);

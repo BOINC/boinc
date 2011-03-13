@@ -37,15 +37,15 @@ if ($offset > 1000) {
 
 $teamid = get_int("teamid");
 
-$cache_args = "teamid=$teamid&offset=$offset&sort_by=$sort_by";
-start_cache(TEAM_PAGE_TTL, $cache_args);
-
-$team = BoincTeam::lookup_id($teamid);
+$cache_args = "teamid=$teamid";
+$team = unserialize(get_cached_data(TEAM_PAGE_TTL, $cache_args));
+if (!$team) {
+    $team = BoincTeam::lookup_id($teamid);
+    set_cached_data(TEAM_PAGE_TTL, serialize($team), $cache_args);
+}
 
 page_head(tra("Members of %1", "<a href=team_display.php?teamid=$teamid>$team->name</a>"));
 display_team_members($team, $offset, $sort_by);
 page_tail();
-
-end_cache(TEAM_PAGE_TTL, $cache_args);
 
 ?>

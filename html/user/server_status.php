@@ -58,11 +58,6 @@ check_get_args(array("xml"));
 
 $xml = get_int("xml", true);
 
-$cache_args = $languages_in_use[0];
-if ($xml) $cache_args = "xml=1";
-$cache_period = 3600;
-start_cache($cache_period, $cache_args);
-
 // daemon status outputs: 1 (running) 0 (not running) or -1 (disabled)
 //
 function daemon_status($host, $pidname, $progname, $disabled) {
@@ -128,45 +123,68 @@ function show_counts($key, $xmlkey, $value) {
     return 0;
 }
 
-function get_mysql_count ($query) {
-    $result = mysql_query("select count(*) as count from " . $query);
-    $count = mysql_fetch_object($result);
-    mysql_free_result($result);
-    return $count->count;
+function get_mysql_count($query) {
+    $count = unserialize(get_cached_data(3600, "get_mysql_count".$query));
+    if ($count == false) {
+        $result = mysql_query("select count(*) as count from " . $query);
+        $count = mysql_fetch_object($result);
+        mysql_free_result($result);
+        $count = $count->count;
+        set_cached_data(3600, serialize($count), "get_mysql_count".$query);
+    }
+    return $count;
 }
 
-function get_mysql_value ($query) {
-    $result = mysql_query($query);
-    $row = mysql_fetch_object($result);
-    mysql_free_result($result);
-    return $row->value;
+function get_mysql_value($query) {
+    $value = unserialize(get_cached_data(3600, "get_mysql_value".$query));
+    if ($value == false) {
+        $result = mysql_query($query);
+        $row = mysql_fetch_object($result);
+        mysql_free_result($result);
+        $value = $row->value;
+        set_cached_data(3600, serialize($value), "get_mysql_value".$query);
+    }
+    return $value;
 }
 
 function get_mysql_assoc($query) {
-    $sql = "SELECT * FROM app WHERE deprecated != 1";
-    $result = mysql_query($sql);
-    while($row = mysql_fetch_assoc($result)) {
-        $assoc[] = $row;
+    $assoc = unserialize(get_cached_data(3600, "get_mysql_assoc".$query));
+    if ($assoc == false) {
+        $sql = "SELECT * FROM app WHERE deprecated != 1";
+        $result = mysql_query($sql);
+        while($row = mysql_fetch_assoc($result)) {
+            $assoc[] = $row;
+        }
+        mysql_free_result($result);
+        set_cached_data(3600, serialize($assoc), "get_mysql_assoc".$query);
     }
-    mysql_free_result($result);
     return $assoc;
 }
 
-function get_mysql_user ($clause) {
-    $result = mysql_query("select count(userid) as userid from (SELECT distinct userid FROM result where validate_state=1 and received_time > (unix_timestamp()-(3600*24*1)) " . $clause . ") t");
-    $count = mysql_fetch_object($result);
-    mysql_free_result($result);
-    return $count->userid;
+function get_mysql_user($clause) {
+    $count = unserialize(get_cached_data(3600, "get_mysql_user".$clause));
+    if ($count == false) {
+        $result = mysql_query("select count(userid) as userid from (SELECT distinct userid FROM result where validate_state=1 and received_time > (unix_timestamp()-(3600*24*1)) " . $clause . ") t");
+        $count = mysql_fetch_object($result);
+        mysql_free_result($result);
+        $count = $count->userid;
+        set_cached_data(3600, serialize($count), "get_mysql_user".$clause);
+    }
+    return $count;
 }
 
-function get_cpu_time ($appid) {
-    $result = mysql_query("
-    Select ceil(avg(cpu_time)/3600*100)/100 as cpu_time,
-               ceil(min(cpu_time)/3600*100)/100 as min,
-               ceil(max(cpu_time)/3600*100)/100 as max
-    from (SELECT cpu_time FROM `result` WHERE appid = $appid and validate_state =1 and received_time > (unix_timestamp()-(3600*24)) ORDER BY `received_time` DESC limit 100) t");
-    $count = mysql_fetch_object($result);
-    mysql_free_result($result);
+function get_cpu_time($appid) {
+    $count = unserialize(get_cached_data(3600, "get_cpu_time".$appid));
+    if ($count == false) {
+        $result = mysql_query("
+        Select ceil(avg(cpu_time)/3600*100)/100 as cpu_time,
+                   ceil(min(cpu_time)/3600*100)/100 as min,
+                   ceil(max(cpu_time)/3600*100)/100 as max
+        from (SELECT cpu_time FROM `result` WHERE appid = $appid and validate_state =1 and received_time > (unix_timestamp()-(3600*24)) ORDER BY `received_time` DESC limit 100) t");
+        $count = mysql_fetch_object($result);
+        mysql_free_result($result);
+        set_cached_data(3600, serialize($count), "get_cpu_time".$appid);
+    }
     return $count;
 }
 
@@ -340,12 +358,16 @@ if ($retval) {
         get_mysql_count("result where file_delete_state=1")
     );
 
-    $result = mysql_query("select MIN(transition_time) as min from workunit");
-    $min = mysql_fetch_object($result);
-    mysql_free_result($result);
-    $gap = (time() - $min->min)/3600;
-    if (($gap < 0) || ($min->min == 0)) {
-        $gap = 0;
+    $gap = unserialize(get_cached_data(3600, "transitioner_backlog"));
+    if ($gap === false) {
+        $result = mysql_query("select MIN(transition_time) as min from workunit");
+        $min = mysql_fetch_object($result);
+        mysql_free_result($result);
+        $gap = (time() - $min->min)/3600;
+        if (($gap < 0) || ($min->min == 0)) {
+            $gap = 0;
+        }
+        set_cached_data(3600, serialize($gap), "transitioner_backlog");
     }
     show_counts(
         tra("Transitioner backlog (hours)"),
@@ -441,5 +463,4 @@ if ($xml) {
     page_tail();
 }
 
-end_cache($cache_period, $cache_args);
 ?>

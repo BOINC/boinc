@@ -225,11 +225,16 @@ function display_team_members($team, $offset, $sort_by) {
         <th>'.tra('Country').'</th>
         </tr>
     ';
-
-    if ($nosort) {
-        $users = BoincUser::enum("teamid=$team->id limit $offset,$n");
-    } else {
-        $users = BoincUser::enum("teamid=$team->id order by $sort_clause limit $offset,$n");
+    
+    $cache_args = "teamid=".$team->id."&mosort=".$nosort."&order=".$sort_clause."&limit=".$offset."_".$n;
+    $users = unserialize(get_cached_data(TEAM_PAGE_TTL, $cache_args));
+    if (!$users) {
+        if ($nosort) {
+            $users = BoincUser::enum("teamid=$team->id limit $offset,$n");
+        } else {
+            $users = BoincUser::enum("teamid=$team->id order by $sort_clause limit $offset,$n");
+        }
+        set_cached_data(TEAM_PAGE_TTL, serialize($users), $cache_args);
     }
 
     $j = $offset + 1;

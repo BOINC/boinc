@@ -22,7 +22,6 @@ require_once("../inc/cache.inc");
 
 check_get_args(array());
 
-start_cache(3600);
 page_head(tra("Download BOINC add-on software"));
 echo "
     <p>" .
@@ -40,17 +39,18 @@ If this is not enough you should contact the author.").
     </ul>
 ";
 
-$httpFile = @fopen("http://boinc.berkeley.edu/addons.php?strip_header=true", "rb");
-if (!$httpFile){
-    echo "";
-} else {
-    fpassthru($httpFile);
-    fclose($httpFile);
+$httpFile = unserialize(get_cached_data(3600));
+if (!$httpFile) {
+    $httpFile = @file_get_contents("http://boinc.berkeley.edu/addons.php?strip_header=true");
+    if ($httpFile) {
+        set_cached_data(3600, serialize($httpFile));
+    }
 }
+echo $httpFile;
 
 echo "
     <p><p>
 ";
 page_tail();
-end_cache(3600);
+
 ?>

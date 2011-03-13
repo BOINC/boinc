@@ -1581,8 +1581,22 @@ Rytis  12 Mar 2011
             top_users.php
             view_profile.php
 
-David  12 Mar 2001
+David  12 Mar 2011
     - move client simulator PHP code to doc/sim
 
     doc/sim/
         various
+
+Rytis  13 Mar 2011
+    - user web: change remaining occurrences of fullpage caching to object
+        cache. start_cache() and end_cache() are now deprecated.
+    
+    html/
+        inc/
+            cache.inc
+            team.inc
+        user/
+            download_network.php
+            server_status.php
+            team_members.php
+            userw.php
