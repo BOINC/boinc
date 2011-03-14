@@ -17,13 +17,43 @@
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
 // web interface to client simulator
+//
+// to use this, symlink to it from the html/user dir of a BOINC project,
+// create an apache-writable dir called "scenarios" there,
+// and symlink from html/inc to sim_util.inc
 
 require_once("../inc/util.inc");
+require_once("../inc/sim_util.inc");
+
+function nsims($scen) {
+    echo "kjf";
+    $d = opendir("scenarios/$scen/simulations");
+    echo "blah";
+    $n = 0;
+    while (false !== ($f = readdir($d))) {
+        if ($f == ".") continue;
+        if ($f == "..") continue;
+        $n++;
+    }
+    return $n;
+}
 
 function show_scenario_summary($f) {
-    echo "<a href=sim.php?action=show_scenario&name=$f>$f</a>";
-    readfile("scenarios/$f/description");
-    readfile("scenarios/$f/user_name");
+    $desc = file_get_contents("scenarios/$f/description");
+    $userid = (int)file_get_contents("scenarios/$f/userid");
+    $user = BoincUser::lookup_id($userid);
+    echo "aaa";
+    $date = date_str(filemtime("scenarios/$f"));
+    echo "kjf";
+    $nsims = nsims($f);
+    echo "<tr>
+        <td><a href=sim_web.php?action=show_scenario&name=$f>$f</a></td>
+        <td>$user->name</td>
+        <td>$date</td>
+        <td>$nsims</td>
+        <td>$desc</td>
+        </tr>
+    ";
 }
 
 // show existing scenarios, "create scenario" button
@@ -72,16 +102,28 @@ function show_scenarios() {
             resource share violation, and monotony.
         </ul>
         <p>
-        <a href=sim.php?action=create_scenario_form>Create a scenario</a>
+        <a href=sim_web.php?action=create_scenario_form>Create a scenario</a>
         <hr>
         <h3>Existing scenarios</h3>
+        <table>
+        <tr>
+            <th>Number</th>
+            <th>Creator</th>
+            <th>When</th>
+            <th># simulations</th>
+            <th>Description</th>
+        </tr>
     ";
+    system("ls scenarios");
     $d = opendir("scenarios");
-    while ($f = readdir($d)) {
-        if ($f == ".") continue;
-        if ($f == "..") continue;
+    while (false !== ($f = readdir($d))) {
+        if ($f === ".") continue;
+        if ($f === "..") continue;
+        echo "showing $f";
         show_scenario_summary($f);
+        echo "ret";
     }
+    echo "</table>\n";
     page_tail();
 }
 
@@ -95,7 +137,7 @@ function create_scenario_form() {
         choose the input files,
         enter a short description, and click OK
         (items with * are required).
-        <form action=sim.php method=post enctype=\"multipart/form-data\">
+        <form action=sim_web.php method=post enctype=\"multipart/form-data\">
         <input type=hidden name=action value=create_scenario>
         <table>
     ";
@@ -117,7 +159,7 @@ function create_scenario_form() {
 function create_dir_seqno($dir) {
     $i = -1;
     $d = opendir($dir);
-    while ($f = readdir($d)) {
+    while (false !== ($f = readdir($d))) {
         $j = -1;
         $n = sscanf($f, "%d", $j);
         if ($n == 1 && $j >= 0) {
@@ -165,7 +207,7 @@ function create_scenario() {
     file_put_contents("$d/userid", "$user->id");
     file_put_contents("$d/description", $desc);
     mkdir("$d/simulations");
-    header("Location: sim.php?action=show_scenario&name=$sname");
+    header("Location: sim_web.php?action=show_scenario&name=$sname");
 }
 
 // show:
@@ -180,7 +222,15 @@ function show_scenario() {
         error_page("No such scenario");
     }
     page_head("Scenario $name");
-    echo "Input files:
+    $desc = file_get_contents("scenarios/$name/description");
+    $userid = (int)file_get_contents("scenarios/$name/userid");
+    $user = BoincUser::lookup_id($userid);
+    $date = date_str(filemtime("scenarios/$name"));
+    echo "Creator: $user->name
+        <p>When: $date
+        <p>Description: $desc
+    ";
+    echo "<p>Input files:
         <p>
         <a href=$d/client_state.xml>client_state.xml</a>
     ";
@@ -193,12 +243,12 @@ function show_scenario() {
     if (file_exists("$d/cc_config.xml")) {
         echo "<p><a href=$d/cc_config.xml>cc_config.xml</a>\n";
     }
-    echo "<a href=sim.php?action=simulation_form&scen=$name>Do new simulation</a>\n";
+    echo "<p><a href=sim_web.php?action=simulation_form&scen=$name>Do new simulation</a>\n";
     echo "<hr>Simulations";
     $s = opendir("$d/simulations");
-    while ($f = readdir($d)) {
+    while (false !== ($f = readdir($d))) {
         if (!is_numeric($f)) continue;
-        echo "<p><a href=sim.php?action=show_simulation&scen=$name&sim=$f>$f</a>\n";
+        echo "<p><a href=sim_web.php?action=show_simulation&scen=$name&sim=$f>$f</a>\n";
     }
 
     page_tail();
@@ -208,13 +258,15 @@ function show_scenario() {
 // duration, time step, policy options
 //
 function simulation_form() {
-    $scen = get_str("name");
+    $scen = get_str("scen");
     page_head("Do simulation");
-    echo "<form action=sim.php?action=simulation_action&name=$name>
+    echo "<form action=sim_web.php>
+        <input type=hidden name=action value=simulation_action>
+        <input type=hidden name=scen value=$scen>
         <table>
     ";
-    row2("Duration", "<input name=duration> seconds");
-    row2("Time step", "<input name=delta> seconds");
+    row2("Duration", "<input name=duration value=86400> seconds");
+    row2("Time step", "<input name=delta value=60> seconds");
     row2("Recent Estimated Credit", "<input type=checkbox name=rec>");
     row2("Server EDF simulation?", "<input type=checkbox name=server_edf>");
     row2("Client uses pure RR?", "<input type=checkbox name=rr_only>");
@@ -228,20 +280,33 @@ function simulation_form() {
 // redirect to simulation page
 //
 function simulation_action() {
-    $scen = get_str("name");
+    $scen = get_str("scen");
     if (!is_dir("scenarios/$scen")) {
         error_page("no such scenario");
     }
-    $sim = create_dir_seqno("scenarios/$scen/sims");
-    $c
-
-
+    $sim_dir = "scenarios/$scen/simulations";
+    $sim_name = create_dir_seqno($sim_dir);
+    $sim_path = "$sim_dir/$sim_name";
+    do_sim("scenarios/$scen", $sim_path, $policy);
 }
 
 // show links to files in simulation directory
 //
 function show_simulation() {
-    page_head();
+    $scen = get_str("scen");
+    $sim = get_str("sim");
+    $path = "scenarios/$scen/$sim";
+    if (!is_dir($path)) {
+        error_page("No such simulation");
+    }
+    page_head("Simulation result");
+    $d = opendir($path);
+    while (false !== ($f = readdir($d))) {
+        if ($f == ".") continue;
+        if ($f == "..") continue;
+        $p = "$path/$f";
+        echo "<a href=$p>$f</a>";
+    }
     page_tail();
 }
 

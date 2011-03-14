@@ -1303,6 +1303,10 @@ void do_client_simulation() {
 
     gstate.add_platform("client simulator");
     sprintf(buf, "%s%s", infile_prefix, STATE_FILE_NAME);
+    if (!boinc_file_exists(buf)) {
+        fprintf(stderr, "No client state file\n");
+        exit(1);
+    }
     gstate.parse_state_file_aux(buf);
     fprintf(index_file,
         "<br><a href=../../%s>State file (client_state.xml)</a>\n",

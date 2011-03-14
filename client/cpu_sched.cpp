@@ -756,8 +756,7 @@ bool CLIENT_STATE::schedule_cpus() {
     adjust_debts();
 
     make_run_list(run_list);
-    enforce_run_list(run_list);
-    return true;
+    return enforce_run_list(run_list);
 }
 
 // Check whether the job can be run:

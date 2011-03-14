@@ -467,7 +467,9 @@ void NOTICES::remove_network_msg() {
         NOTICE& n = *i;
         if (!strcmp(n.description.c_str(), NEED_NETWORK_MSG)) {
             i = notices.erase(i);
+#ifndef SIM
             gstate.gui_rpcs.set_notice_refresh();
+#endif
             if (log_flags.notice_debug) {
                 msg_printf(0, MSG_INFO, "REMOVING NETWORK MESSAGE");
             }

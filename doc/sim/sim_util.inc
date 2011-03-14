@@ -1,3 +1,5 @@
+<?php
+
 $duration = 864000;     // sim duration
 $delta = 60;            // time step
 $rec_half_life = 10*86400;
@@ -236,3 +238,4 @@ function do_sim_policy_param($out_dir, $scenario, $policy, $param, $sum) {
     return $sum;
 }
 
+?>

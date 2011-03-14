@@ -351,10 +351,10 @@ int handle_wu(
                 retval = get_credit_from_wu(wu, results, credit);
                 if (retval) {
                     log_messages.printf(MSG_CRITICAL,
-                        "[WU#%d %s] get_credit_from_wu(): %s\n",
-                        wu.id, wu.name, boincerror(retval)
+                        "[WU#%d %s] get_credit_from_wu(): credit not specified in WU\n",
+                        wu.id, wu.name
                     );
-                    return retval;
+                    credit = 0;
                 }
             } else {
                 if (canonicalid) {

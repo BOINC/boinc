@@ -1600,3 +1600,16 @@ Rytis  13 Mar 2011
             server_status.php
             team_members.php
             userw.php
+
+David  13 Mar 2011
+    - validator: if --credit_from_wu is set, and no credit specified in WU,
+        assign zero credit and keep going
+    - client simulator work
+
+    client/
+        sim.cpp
+        makefile_sim
+        cs_notice.cpp
+        cpu_sched.cpp
+    sched/
+        validator.cpp
