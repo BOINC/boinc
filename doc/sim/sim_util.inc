@@ -1,6 +1,6 @@
 <?php
 
-$duration = 864000;     // sim duration
+$duration = 86400;     // sim duration
 $delta = 60;            // time step
 $rec_half_life = 10*86400;
 
@@ -85,9 +85,10 @@ function do_sim($in, $out, $policy) {
     if ($policy->server_uses_workload) $args .= " --server_uses_workload";
     $args .= " --duration $duration --delta $delta --rec_half_life $rec_half_life";
 
-    $cmd = "sim $args --infile_prefix $in/ --outfile_prefix $out/";
+    $cmd = "./sim $args --infile_prefix $in/ --outfile_prefix $out/";
     echo "cmd: $cmd\n";
-    system($cmd);
+    echo system($cmd, $ret);
+    echo "blah ret: $ret";
 }
 
 // display N results (usually 2) as bar graphs

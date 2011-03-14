@@ -1637,3 +1637,11 @@ Rom    14 Mar 2011
         mac_saver_module.cpp, .h
         screensaver.cpp
         screensaver_win.cpp, .h
+
+David  14 Mar 2011
+    - client simulator stuff
+
+    html/user/
+        forum_thread.php
+    client/
+        cpu_sched.cpp

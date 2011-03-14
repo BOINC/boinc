@@ -189,6 +189,7 @@ function create_scenario() {
     if (!strlen($desc)) {
         error_page("You must supply a description.");
     }
+    $desc = strip_tags($desc);
     $sname = create_dir_seqno("scenarios");
     $d = "scenarios/$sname";
     move_uploaded_file($csname, "$d/client_state.xml");
@@ -246,7 +247,7 @@ function show_scenario() {
     echo "<p><a href=sim_web.php?action=simulation_form&scen=$name>Do new simulation</a>\n";
     echo "<hr>Simulations";
     $s = opendir("$d/simulations");
-    while (false !== ($f = readdir($d))) {
+    while (false !== ($f = readdir($s))) {
         if (!is_numeric($f)) continue;
         echo "<p><a href=sim_web.php?action=show_simulation&scen=$name&sim=$f>$f</a>\n";
     }
@@ -267,9 +268,9 @@ function simulation_form() {
     ";
     row2("Duration", "<input name=duration value=86400> seconds");
     row2("Time step", "<input name=delta value=60> seconds");
-    row2("Recent Estimated Credit", "<input type=checkbox name=rec>");
-    row2("Server EDF simulation?", "<input type=checkbox name=server_edf>");
-    row2("Client uses pure RR?", "<input type=checkbox name=rr_only>");
+    row2("Recent Estimated Credit", "<input type=checkbox name=use_rec>");
+    row2("Server EDF simulation?", "<input type=checkbox name=server_uses_workload>");
+    row2("Client uses pure RR?", "<input type=checkbox name=cpu_sched_rr_only>");
     row2("", "<input type=submit value=OK>");
     echo "</table>";
     page_tail();
@@ -287,6 +288,12 @@ function simulation_action() {
     $sim_dir = "scenarios/$scen/simulations";
     $sim_name = create_dir_seqno($sim_dir);
     $sim_path = "$sim_dir/$sim_name";
+    $policy = new POLICY("");
+    $policy->use_rec = get_str("use_rec", true);
+    $policy->use_hyst_fetch = get_str("use_hyst_fetch", true);
+    $policy->cpu_sched_rr_only = get_str("cpu_sched_rr_only", true);
+    $policy->server_uses_workload = get_str("server_uses_workload", true);
+
     do_sim("scenarios/$scen", $sim_path, $policy);
 }
 
@@ -295,7 +302,7 @@ function simulation_action() {
 function show_simulation() {
     $scen = get_str("scen");
     $sim = get_str("sim");
-    $path = "scenarios/$scen/$sim";
+    $path = "scenarios/$scen/simulations/$sim";
     if (!is_dir($path)) {
         error_page("No such simulation");
     }

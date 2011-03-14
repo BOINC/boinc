@@ -239,7 +239,7 @@ if (is_moderator($logged_in_user, $forum)) {
 
 // let admins decide whether a news item should be exported as notice
 //
-if (is_news_forum($forum) && ($logged_in_user->id == $thread->owner)) {
+if (is_news_forum($forum) && $logged_in_user && ($logged_in_user->id == $thread->owner)) {
     if ($thread->status) {
         show_button(
             "forum_thread_status.php?action=clear&id=$thread->id",
