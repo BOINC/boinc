@@ -1283,11 +1283,11 @@ Rom    2 Mar 2011
         DlgEventLog.cpp
 
 David  2 Mar 2011
-	- client: in deciding whether to remove the "need network" notice,
-		we were using the wrong (too high-level) interface
+    - client: in deciding whether to remove the "need network" notice,
+        we were using the wrong (too high-level) interface
 
-	client/
-		cs_notice.cpp
+    client/
+        cs_notice.cpp
 
 Charlie 3 Mar 2011
     - MGR: Remove the old SimpleGUI from the projects.  The following 
@@ -1431,10 +1431,10 @@ Charlie 7 Mar 2011
         DlgOptions.cpp
 
 David  7 Mar 2011
-	- client: fix to [23162] that broke work fetch
+    - client: fix to [23162] that broke work fetch
 
-	client/
-		work_fetch.cpp
+    client/
+        work_fetch.cpp
 
 David  8 Mar 2011
     - client: don't put CDATA around account manager opaque data
@@ -1528,14 +1528,14 @@ David  10 Mar 2011
         hostinfo_win.cpp
 
 David  10 Mar 2011
-	- manager: Add Project wizard:
-		if a project has old server software and
-		doesn't export platform list (e.g. Superlink)
-		don't show a confusing "this project may not support
-		your type of computer" message;
+    - manager: Add Project wizard:
+        if a project has old server software and
+        doesn't export platform list (e.g. Superlink)
+        don't show a confusing "this project may not support
+        your type of computer" message;
 
-	clientgui/
-		ProjectInfoPage.cpp
+    clientgui/
+        ProjectInfoPage.cpp
 
 Charlie 11 Mar 2011
     - MGR: Fill in initial URL on Account Manager Wizard Selection page.
@@ -1645,3 +1645,9 @@ David  14 Mar 2011
         forum_thread.php
     client/
         cpu_sched.cpp
+
+David  14 Mar 2011
+    - ops: update script that counts GPUs
+
+    html/ops/
+        nvidia.php
