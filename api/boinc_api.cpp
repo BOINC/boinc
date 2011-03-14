@@ -527,9 +527,7 @@ void boinc_exit(int status) {
     int retval;
     char buf[256];
 
-    if (options.backwards_compatible_graphics) {
-        graphics_cleanup();
-    }
+    graphics_cleanup();
     
     if (options.main_program && file_lock.locked) {
         retval = file_lock.unlock(LOCKFILE);
@@ -985,9 +983,7 @@ static void timer_handler() {
         if (in_critical_section==0 && options.handle_process_control) {
             handle_process_control_msg();
         }
-        if (options.backwards_compatible_graphics) {
-            handle_graphics_messages();
-        }
+        handle_graphics_messages();
     }
 
     if (interrupt_count % TIMERS_PER_SEC) return;

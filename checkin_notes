@@ -1613,3 +1613,17 @@ David  13 Mar 2011
         cpu_sched.cpp
     sched/
         validator.cpp
+
+David  14 Mar 2011
+    - API: get rid of BOINC_OPTIONS::backwards_compatible_graphics.
+        Not necessary.
+    - wrapper: add optional <append_cmdline_args/> element to
+        task descriptor.
+        If set, pass the wrapper's cmdline args to that task.
+        NOTE: previously they were always passed.
+        If you want this behavior, you now must set this.
+
+    samples/wrapper/
+        wrapper.cpp
+    api/
+        boinc_api.cpp,h

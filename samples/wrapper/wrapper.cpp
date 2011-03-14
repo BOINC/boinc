@@ -75,6 +75,7 @@ struct TASK {
     double weight;
         // contribution of this task to overall fraction done
     bool is_daemon;
+    bool append_cmdline_args;
 
     // dynamic stuff follows
     double final_cpu_time;
@@ -169,7 +170,6 @@ struct TASK {
 vector<TASK> tasks;
 vector<TASK> daemons;
 APP_INIT_DATA aid;
-bool graphics = false;
 
 // macro replacement in wrapper strings from job.xml
 // for example PROJECT_DIR can be replaced in exec_dir and environment variables
@@ -199,6 +199,7 @@ int TASK::parse(XML_PARSER& xp) {
     stat_first = true;
     pid = 0;
     is_daemon = false;
+    append_cmdline_args = false;
 
     while (!xp.get(tag, sizeof(tag), is_tag)) {
         if (!is_tag) {
@@ -233,6 +234,7 @@ int TASK::parse(XML_PARSER& xp) {
         else if (xp.parse_string(tag, "fraction_done_filename", fraction_done_filename)) continue;
         else if (xp.parse_double(tag, "weight", weight)) continue;
         else if (xp.parse_bool(tag, "daemon", is_daemon)) continue;
+        else if (xp.parse_bool(tag, "append_cmdline_args", append_cmdline_args)) continue;
     }
     return ERR_XML_PARSE;
 }
@@ -258,7 +260,7 @@ int parse_job_file() {
     while (!xp.get(tag, sizeof(tag), is_tag)) {
         if (!is_tag) {
             fprintf(stderr,
-                "%s SCHED_CONFIG::parse(): unexpected text %s\n",
+                "%s unexpected text in job.xml: %s\n",
                 boinc_msg_prefix(buf2, sizeof(buf2)), tag
             );
             continue;
@@ -277,6 +279,12 @@ int parse_job_file() {
                     tasks.push_back(task);
                 }
             }
+            continue;
+        } else {
+            fprintf(stderr,
+                "%s unexpected tag in job.xml: %s\n",
+                boinc_msg_prefix(buf2, sizeof(buf2)), tag
+            );
         }
     }
     fclose(f);
@@ -376,11 +384,14 @@ int TASK::run(int argct, char** argvt) {
         boinc_resolve_filename(buf, app_path, sizeof(app_path));
     }
 
-    // Append wrapper's command-line arguments to those in the job file.
+    // Optionally append wrapper's command-line arguments
+    // to those in the job file.
     //
-    for (int i=1; i<argct; i++){
-        command_line += string(" ");
-        command_line += argvt[i];
+    if (append_cmdline_args) {
+        for (int i=1; i<argct; i++){
+            command_line += string(" ");
+            command_line += argvt[i];
+        }
     }
 
     fprintf(stderr, "%s wrapper: running %s (%s)\n",
@@ -675,19 +686,10 @@ int main(int argc, char** argv) {
     double checkpoint_cpu_time;
         // overall CPU time at last checkpoint
 
-    for (i=1; i<(unsigned int)argc; i++) {
-        if (!strcmp(argv[i], "--graphics")) {
-            graphics = true;
-        }
-    }
-
     memset(&options, 0, sizeof(options));
     options.main_program = true;
     options.check_heartbeat = true;
     options.handle_process_control = true;
-    if (graphics) {
-        options.backwards_compatible_graphics = true;
-    }
 
     boinc_init_options(&options);
     fprintf(stderr, "wrapper: starting\n");
