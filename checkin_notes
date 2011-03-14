@@ -1627,3 +1627,13 @@ David  14 Mar 2011
         wrapper.cpp
     api/
         boinc_api.cpp,h
+
+Rom    14 Mar 2011
+    - SCR: Follow the Mac's lead and gracefully exit the Data Management
+        thread.  Preserve the handle to take more drastic actions should
+        that not work.
+        
+    clientscr/
+        mac_saver_module.cpp, .h
+        screensaver.cpp
+        screensaver_win.cpp, .h
