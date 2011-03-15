@@ -26,9 +26,7 @@ require_once("../inc/util.inc");
 require_once("../inc/sim_util.inc");
 
 function nsims($scen) {
-    echo "kjf";
     $d = opendir("scenarios/$scen/simulations");
-    echo "blah";
     $n = 0;
     while (false !== ($f = readdir($d))) {
         if ($f == ".") continue;
@@ -42,12 +40,10 @@ function show_scenario_summary($f) {
     $desc = file_get_contents("scenarios/$f/description");
     $userid = (int)file_get_contents("scenarios/$f/userid");
     $user = BoincUser::lookup_id($userid);
-    echo "aaa";
     $date = date_str(filemtime("scenarios/$f"));
-    echo "kjf";
     $nsims = nsims($f);
     echo "<tr>
-        <td><a href=sim_web.php?action=show_scenario&name=$f>$f</a></td>
+        <td><a href=sim_web.php?action=show_scenario&name=$f>Scenario $f</a></td>
         <td>$user->name</td>
         <td>$date</td>
         <td>$nsims</td>
@@ -102,26 +98,28 @@ function show_scenarios() {
             resource share violation, and monotony.
         </ul>
         <p>
-        <a href=sim_web.php?action=create_scenario_form>Create a scenario</a>
+    ";
+    show_button(
+        "sim_web.php?action=create_scenario_form",
+        "Create a scenario", "Create a new scenario"
+    );
+    echo "
         <hr>
         <h3>Existing scenarios</h3>
         <table>
         <tr>
-            <th>Number</th>
+            <th></th>
             <th>Creator</th>
             <th>When</th>
             <th># simulations</th>
             <th>Description</th>
         </tr>
     ";
-    system("ls scenarios");
     $d = opendir("scenarios");
     while (false !== ($f = readdir($d))) {
         if ($f === ".") continue;
         if ($f === "..") continue;
-        echo "showing $f";
         show_scenario_summary($f);
-        echo "ret";
     }
     echo "</table>\n";
     page_tail();
@@ -211,6 +209,22 @@ function create_scenario() {
     header("Location: sim_web.php?action=show_scenario&name=$sname");
 }
 
+function show_simulation_summary($scen, $sim) {
+    $dir = "scenarios/$scen/simulations/$sim";
+    $userid = (int)file_get_contents("$dir/userid");
+    $user = BoincUser::lookup_id($userid);
+    $date = date_str(filemtime($dir));
+
+    echo "<tr>
+        <td><a href=sim_web.php?action=show_simulation&scen=$scen&sim=$sim>Simulation: $sim</a></td>
+        <td>$user->name</td>
+        <td>$date</td>
+        <td><pre>".file_get_contents("$dir/inputs.txt")."
+        <td><pre>".file_get_contents("$dir/results.txt")."
+        </tr>
+    ";
+}
+
 // show:
 // links to files
 // list of existing simulations
@@ -227,30 +241,42 @@ function show_scenario() {
     $userid = (int)file_get_contents("scenarios/$name/userid");
     $user = BoincUser::lookup_id($userid);
     $date = date_str(filemtime("scenarios/$name"));
-    echo "Creator: $user->name
-        <p>When: $date
-        <p>Description: $desc
-    ";
-    echo "<p>Input files:
-        <p>
-        <a href=$d/client_state.xml>client_state.xml</a>
-    ";
+    start_table();
+    row2("Creator", $user->name);
+    row2("When", $date);
+    row2("Description", $desc);
+    $x = "<a href=$d/client_state.xml>client_state.xml</a>";
     if (file_exists("$d/global_prefs.xml")) {
-        echo "<p><a href=$d/global_prefs.xml>global_prefs.xml</a>\n";
+        $x .= "<br><a href=$d/global_prefs.xml>global_prefs.xml</a>\n";
     }
     if (file_exists("$d/global_prefs_override.xml")) {
-        echo "<p><a href=$d/global_prefs_override.xml>global_prefs_override.xml</a>\n";
+        $x .= "<br><a href=$d/global_prefs_override.xml>global_prefs_override.xml</a>\n";
     }
     if (file_exists("$d/cc_config.xml")) {
-        echo "<p><a href=$d/cc_config.xml>cc_config.xml</a>\n";
+        $x .= "<br><a href=$d/cc_config.xml>cc_config.xml</a>\n";
     }
-    echo "<p><a href=sim_web.php?action=simulation_form&scen=$name>Do new simulation</a>\n";
-    echo "<hr>Simulations";
+    row2("Input files", $x);
+    end_table();
+    show_button("sim_web.php?action=simulation_form&scen=$name",
+        "Do new simulation",
+        "Do new simulation"
+    );
+    echo "<h3>Simulations</h3>";
+    start_table();
+    echo "<tr>
+            <th></th>
+            <th>Who</th>
+            <th>When</th>
+            <th>Flags</th>
+            <th>Merit</th>
+        </tr>
+    ";
     $s = opendir("$d/simulations");
     while (false !== ($f = readdir($s))) {
         if (!is_numeric($f)) continue;
-        echo "<p><a href=sim_web.php?action=show_simulation&scen=$name&sim=$f>$f</a>\n";
+        show_simulation_summary($name, $f);
     }
+    end_table();
 
     page_tail();
 }
@@ -295,6 +321,7 @@ function simulation_action() {
     $policy->server_uses_workload = get_str("server_uses_workload", true);
 
     do_sim("scenarios/$scen", $sim_path, $policy);
+    header("Location: sim_web.php?action=show_simulation&scen=$scen&sim=$sim_name");
 }
 
 // show links to files in simulation directory

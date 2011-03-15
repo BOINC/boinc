@@ -32,7 +32,9 @@
 //          index.html (lists other files)
 //          timeline.html
 //          log.txt
-//          results.dat (simulation results in XML)
+//          results.dat (simulation results, machine-readable)
+//          results.txt (simulation results, human-readable)
+//          inputs.txt (sim parameters)
 //          summary.txt (summary of inputs; detailed outputs)
 //          if using REC:
 //              rec.png
@@ -81,7 +83,9 @@ const char* outfile_prefix = "";
 
 #define TIMELINE_FNAME "timeline.html"
 #define LOG_FNAME "log.txt"
-#define RESULTS_FNAME "results.dat"
+#define INPUTS_FNAME "inputs.txt"
+#define RESULTS_DAT_FNAME "results.dat"
+#define RESULTS_TXT_FNAME "results.txt"
 #define SUMMARY_FNAME "summary.txt"
 #define DEBT_FNAME "debt.dat"
 
@@ -692,11 +696,17 @@ void SIM_RESULTS::compute() {
     monotony = gstate.monotony();
 }
 
-void SIM_RESULTS::print(FILE* f) {
+void SIM_RESULTS::print(FILE* f, bool human_readable) {
     double r = ((double)nrpcs)/(njobs*2);
-    fprintf(f, "wf %f if %f sv %f m %f r %f\n",
-        wasted_frac, idle_frac, share_violation, monotony, r
-    );
+    if (human_readable) {
+        fprintf(f, "wasted fraction %f\nIdle fraction %f\nShare violation %f\nMonotony %f r %f\n",
+            wasted_frac, idle_frac, share_violation, monotony, r
+        );
+    } else {
+        fprintf(f, "wf %f if %f sv %f m %f r %f\n",
+            wasted_frac, idle_frac, share_violation, monotony, r
+        );
+    }
 }
 
 void SIM_RESULTS::parse(FILE* f) {
@@ -1045,6 +1055,33 @@ void debt_graphs() {
 
 //#endif
 
+static void write_inputs() {
+    char buf[256];
+    sprintf(buf, "%s/%s", outfile_prefix, INPUTS_FNAME);
+    FILE* f = fopen(buf, "w");
+    fprintf(f,
+        "Round-robin only: %s\n"
+        "scheduler EDF sim: %s\n"
+        "hysteresis work fetch: %s\n"
+        "REC-based scheduling: %s\n",
+        cpu_sched_rr_only?"yes":"no",
+        server_uses_workload?"yes":"no",
+        use_hyst_fetch?"yes":"no",
+        use_rec?"yes":"no"
+    );
+    if (use_rec) {
+        fprintf(f,
+            "REC half-life: %f\n",
+            rec_half_life
+        );
+    }
+    fprintf(f,
+        "Simulation duration: %f\nTime step: %f\n",
+        duration, delta
+    );
+    fclose(f);
+}
+
 void simulate() {
     bool action;
     double start = START_TIME;
@@ -1090,6 +1127,9 @@ void simulate() {
         "-------------------\n",
         delta, duration
     );
+
+    write_inputs();
+
     while (1) {
         on = on_proc.sample(delta);
         if (on) {
@@ -1348,9 +1388,13 @@ if (use_rec) {
 
     sim_results.compute();
 
-    sprintf(buf, "%s%s", outfile_prefix, RESULTS_FNAME);
+    sprintf(buf, "%s%s", outfile_prefix, RESULTS_DAT_FNAME);
     FILE* f = fopen(buf, "w");
     sim_results.print(f);
+    fclose(f);
+    sprintf(buf, "%s%s", outfile_prefix, RESULTS_TXT_FNAME);
+    f = fopen(buf, "w");
+    sim_results.print(f, true);
     fclose(f);
 
     fprintf(summary_file, "Peak FLOPS: CPU %.2fG GPU %.2fG\n",

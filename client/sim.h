@@ -35,7 +35,7 @@ struct SIM_RESULTS {
     int nrpcs;
 
     void compute();
-    void print(FILE* f);
+    void print(FILE* f, bool human_readable=false);
     void parse(FILE* f);
     void add(SIM_RESULTS& r);
     void divide(int);

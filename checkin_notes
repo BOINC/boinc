@@ -1657,3 +1657,8 @@ Charlie 14 Mar 2011
     
     clientscr/
         mac_saver_module.cpp
+
+David  15 Mar 2011
+    - client simulator stuff
+    client/
+        sim_cpp,h

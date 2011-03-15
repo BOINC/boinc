@@ -86,9 +86,8 @@ function do_sim($in, $out, $policy) {
     $args .= " --duration $duration --delta $delta --rec_half_life $rec_half_life";
 
     $cmd = "./sim $args --infile_prefix $in/ --outfile_prefix $out/";
-    echo "cmd: $cmd\n";
-    echo system($cmd, $ret);
-    echo "blah ret: $ret";
+    //echo "cmd: $cmd\n";
+    system($cmd, $ret);
 }
 
 // display N results (usually 2) as bar graphs
