@@ -19,7 +19,7 @@
 #define _WIZ_USERDISAGREESPAGE_H_
 
 #if defined(__GNUG__) && !defined(__APPLE__)
-#pragma interface "UserDisagrees.cpp"
+#pragma interface "UserDisagreesPage.cpp"
 #endif
 
 /*!
