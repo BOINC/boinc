@@ -1662,3 +1662,11 @@ David  15 Mar 2011
     - client simulator stuff
     client/
         sim_cpp,h
+
+David  16 Mar 2011
+    - wrapper: improved subprocess cleanup, Unix
+
+    samples/wrapper/
+        wrapper.cpp
+    client/
+        sim.cpp

@@ -567,16 +567,18 @@ void TASK::kill() {
     // on Unix, ask main process nicely.
     // it descendants still exist after 10 sec, use the nuclear option
     //
+    vector<int> descendants;
+    get_descendants(getpid(), descendants);
     ::kill(pid, SIGTERM);
     for (int i=0; i<10; i++) {
-        vector<int> descendants;
-        get_descendants(getpid(), descendants);
         if (!any_process_exists(descendants)) {
             return;
         }
         sleep(1);
     }
-    vector<int> descendants;
+    kill_all(descendants);
+    // kill any processes that might have been created
+    // in the last 10 secs
     get_descendants(getpid(), descendants);
     kill_all(descendants);
 #endif

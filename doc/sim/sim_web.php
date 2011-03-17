@@ -108,7 +108,7 @@ function show_scenarios() {
         <h3>Existing scenarios</h3>
         <table>
         <tr>
-            <th></th>
+            <th>Name</th>
             <th>Creator</th>
             <th>When</th>
             <th># simulations</th>
@@ -333,14 +333,9 @@ function show_simulation() {
     if (!is_dir($path)) {
         error_page("No such simulation");
     }
-    page_head("Simulation result");
-    $d = opendir($path);
-    while (false !== ($f = readdir($d))) {
-        if ($f == ".") continue;
-        if ($f == "..") continue;
-        $p = "$path/$f";
-        echo "<a href=$p>$f</a>";
-    }
+    page_head("Simulation $sim");
+    $x = file_get_contents("$path/index.html");
+    echo str_replace("href=", "href=scenarios/$scen/simulations/$sim/", $x);
     page_tail();
 }
 

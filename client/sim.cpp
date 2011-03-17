@@ -1329,16 +1329,8 @@ void cull_projects() {
 void do_client_simulation() {
     char buf[256], buf2[256];
 
-    fprintf(index_file,
-        "<h2>Input files</h2>\n"
-    );
-
     sprintf(buf, "%s%s", infile_prefix, CONFIG_FILE);
     read_config_file(true, buf);
-    fprintf(index_file,
-        "<br><a href=../../%s>Configuration file (cc_config.xml)</a>\n",
-        buf
-    );
     config.show();
 
     gstate.add_platform("client simulator");
@@ -1348,20 +1340,14 @@ void do_client_simulation() {
         exit(1);
     }
     gstate.parse_state_file_aux(buf);
-    fprintf(index_file,
-        "<br><a href=../../%s>State file (client_state.xml)</a>\n",
-        buf
-    );
     sprintf(buf, "%s%s", infile_prefix, GLOBAL_PREFS_FILE_NAME);
     sprintf(buf2, "%s%s", infile_prefix, GLOBAL_PREFS_OVERRIDE_FILE);
     gstate.read_global_prefs(buf, buf2);
     fprintf(index_file,
-        "<br><a href=../../%s>Preferences file (global_prefs.xml)</a>\n"
-        "<br><a href=../../%s>Preferences override file (global_prefs_override.xml)</a>\n"
-        "<h2>Output files</h2>\n"
+        "<h3>Output files</h3>\n"
         "<a href=%s>Summary</a>\n"
         "<br><a href=%s>Log file</a>\n",
-        buf, buf2, SUMMARY_FNAME, LOG_FNAME
+        SUMMARY_FNAME, LOG_FNAME
     );
 
     get_app_params();
