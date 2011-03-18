@@ -36,3 +36,5 @@ extern int assimilate_handler(
 
 extern int g_argc;
 extern char** g_argv;
+extern char* results_prefix;
+extern char* transcripts_prefix;

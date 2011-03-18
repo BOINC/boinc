@@ -1670,3 +1670,18 @@ David  16 Mar 2011
         wrapper.cpp
     client/
         sim.cpp
+
+Bernd  18 Mar 2011
+    Einstein@home extensions:
+      - protect malloc.h
+      - validator: allow to update 'random' result field
+      - assimilator: add global variables results_prefix and transcripts_prefix,
+        set on command-line
+
+    sched/
+        assimilator.cpp
+        assimilate_handler.h
+        hr_info.cpp
+    db/
+        boinc_db.cpp
+

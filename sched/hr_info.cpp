@@ -19,7 +19,9 @@
 #else
 #include "boinc_fcgi.h"
 #endif
+#if HAVE_MALLOC_H
 #include <malloc.h>
+#endif
 #include <cmath>
 
 #include "error_numbers.h"

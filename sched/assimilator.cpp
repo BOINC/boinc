@@ -53,6 +53,8 @@ int sleep_interval = SLEEP_INTERVAL;
 int one_pass_N_WU=0;
 int g_argc;
 char** g_argv;
+char* results_prefix = NULL;
+char* transcripts_prefix = NULL;
 
 void usage(char** argv) {
     fprintf(stderr,
@@ -242,6 +244,10 @@ int main(int argc, char** argv) {
         } else if (is_arg(argv[i], "v") || is_arg(argv[i], "version")) {
             printf("%s\n", SVN_VERSION);
             exit(0);
+	} else if (is_arg(argv[i], "results_prefix")) {
+	    results_prefix=argv[++i];
+	} else if (is_arg(argv[i], "transcripts_prefix")) {
+            transcripts_prefix=argv[++i];
         } else {
             log_messages.printf(MSG_CRITICAL, "Unrecognized arg: %s\n", argv[i]);
             usage(argv);
