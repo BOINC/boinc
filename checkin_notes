@@ -1685,3 +1685,9 @@ Bernd  18 Mar 2011
     db/
         boinc_db.cpp
 
+Bernd  18 Mar 2011
+    - (locality) scheduler:
+      omit confusing message & backoff in mixed scheduling
+
+    sched/
+        sched_locality.cpp
