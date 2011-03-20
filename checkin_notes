@@ -1691,3 +1691,14 @@ Bernd  18 Mar 2011
 
     sched/
         sched_locality.cpp
+
+David  20 Mar 2011
+    - client and API: pass "network suspended" flag from client to app;
+        make it available as part of BOINC_STATUS
+
+    api/
+        boinc_api.cpp,h
+    html/inc/
+        uotd.inc
+    client/
+        app_control.cpp

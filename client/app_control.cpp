@@ -520,6 +520,9 @@ void ACTIVE_TASK_SET::send_heartbeats() {
             "<max_wss>%e</max_wss>",
             atp->procinfo.working_set_size, ar
         );
+        if (gstate.network_suspended) {
+            strcat(buf, "<network_suspended/>");
+        }
         bool sent = atp->app_client_shm.shm->heartbeat.send_msg(buf);
         if (log_flags.app_msg_send) {
             if (sent) {

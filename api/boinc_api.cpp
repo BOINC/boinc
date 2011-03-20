@@ -458,6 +458,7 @@ int boinc_get_status(BOINC_STATUS *s) {
     s->abort_request = boinc_status.abort_request;
     s->working_set_size = boinc_status.working_set_size;
     s->max_working_set_size = boinc_status.max_working_set_size;
+    s->network_suspended = boinc_status.network_suspended;
     return 0;
 }
 
@@ -722,8 +723,10 @@ int restore_activities() {
 static void handle_heartbeat_msg() {
     char buf[MSG_CHANNEL_SIZE];
     double dtemp;
+    bool btemp;
 
     if (app_client_shm->shm->heartbeat.get_msg(buf)) {
+        boinc_status.network_suspended = false;
         if (match_tag(buf, "<heartbeat/>")) {
             heartbeat_giveup_time = interrupt_count + HEARTBEAT_GIVEUP_COUNT;
         }
@@ -732,6 +735,9 @@ static void handle_heartbeat_msg() {
         }
         if (parse_double(buf, "<max_wss>", dtemp)) {
             boinc_status.max_working_set_size = dtemp;
+        }
+        if (parse_bool(buf, "suspend_network", btemp)) {
+            boinc_status.network_suspended = btemp;
         }
     }
 }
