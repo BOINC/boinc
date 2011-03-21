@@ -87,7 +87,7 @@ function select_uotd() {
             "The pool of approved candidates for User of the Day has".
             " reached your assigned threshold: there are now only " . mysql_num_rows($result) . " approved users.\n\n".
             "To approve more candidates for User of the Day,".
-            " go to the " . PROJECT . " administration page and click \"Unrated profile\""
+            " go to the " . PROJECT . " administration page and click \"Screen user profiles\""
         );
     }
 

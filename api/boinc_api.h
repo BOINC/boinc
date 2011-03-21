@@ -68,6 +68,7 @@ typedef struct BOINC_STATUS {
     int abort_request;
     double working_set_size;
     double max_working_set_size;
+    int network_suspended;
 } BOINC_STATUS;
 
 typedef void (*FUNC_PTR)();

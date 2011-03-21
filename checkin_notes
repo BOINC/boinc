@@ -9206,3 +9206,14 @@ Charlie 11 Mar 2011
             project.pbxproj
     win_build/
         boincmgr.vcproj
+
+David  20 Mar 2011
+    - client and API: pass "network suspended" flag from client to app;
+        make it available as part of BOINC_STATUS
+
+    api/
+        boinc_api.cpp,h
+    html/inc/
+        uotd.inc
+    client/
+        app_control.cpp
