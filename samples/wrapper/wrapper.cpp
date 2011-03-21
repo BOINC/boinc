@@ -58,12 +58,16 @@
 
 using std::vector;
 using std::string;
+int nthreads = 1;
 
 struct TASK {
     string application;
     string exec_dir;
-        // optional execution directory; macro-substituted for $PROJECT_DIR
-    vector<string> vsetenv;  // vector of strings for environment variables 
+        // optional execution directory;
+        // macro-substituted for $PROJECT_DIR and $NTHREADS
+    vector<string> vsetenv;
+        // vector of strings for environment variables 
+        // macro-substituted
     string stdin_filename;
     string stdout_filename;
     string stderr_filename;
@@ -72,6 +76,7 @@ struct TASK {
     string fraction_done_filename;
         // name of file where app will write its fraction done
     string command_line;
+        // macro-substituted
     double weight;
         // contribution of this task to overall fraction done
     bool is_daemon;
@@ -95,7 +100,6 @@ struct TASK {
 #endif
     bool stat_first;
 
-    void macro_substitute(char* buf, const int len);
     int parse(XML_PARSER&);
     bool poll(int& status);
     int run(int argc, char** argv);
@@ -171,23 +175,29 @@ vector<TASK> tasks;
 vector<TASK> daemons;
 APP_INIT_DATA aid;
 
-// macro replacement in wrapper strings from job.xml
-// for example PROJECT_DIR can be replaced in exec_dir and environment variables
+// replace s1 with s2
 //
-void TASK::macro_substitute(char* buf, const int iLen = 8192) {
-    char* buf2 = new char[iLen];
+void str_replace_all(char* buf, const char* s1, const char* s2) {
+    char buf2[64000];
     while (1) {
-        char* p = strstr(buf, "$PROJECT_DIR");
+        char* p = strstr(buf, s1);
         if (!p) break;
-        strcpy(buf2, p+strlen("$PROJECT_DIR"));
-        if (strlen(aid.project_dir) > 0) {
-            strcpy(p, aid.project_dir);
-        } else {
-            strcpy(p, ".");
-        }
+        strcpy(buf2, p+strlen(s1));
+        strcpy(p, s2);
         strcat(p, buf2);
     }
-    delete [] buf2;
+}
+
+// macro-substitute strings from job.xml
+// $PROJECT_DIR -> project directory
+// $NTHREADS --> --nthreads arg if present, else 1
+//
+void macro_substitute(char* buf) {
+    const char* pd = strlen(aid.project_dir)?aid.project_dir:".";
+    str_replace_all(buf, "$PROJECT_DIR", pd);
+    char nt[256];
+    sprintf(nt, "%d", nthreads);
+    str_replace_all(buf, "$NTHREADS", nt);
 }
 
 int TASK::parse(XML_PARSER& xp) {
@@ -213,12 +223,12 @@ int TASK::parse(XML_PARSER& xp) {
         }
         else if (xp.parse_string(tag, "application", application)) continue;
         else if (xp.parse_str(tag, "exec_dir", buf, sizeof(buf))) {
-            macro_substitute(buf, 8192);
+            macro_substitute(buf);
             exec_dir = buf;
             continue;  
         }
         else if (xp.parse_str(tag, "setenv", buf, sizeof(buf))) {
-            macro_substitute(buf, 8192);
+            macro_substitute(buf);
             vsetenv.push_back(buf);
             continue;
         }
@@ -226,7 +236,7 @@ int TASK::parse(XML_PARSER& xp) {
         else if (xp.parse_string(tag, "stdout_filename", stdout_filename)) continue;
         else if (xp.parse_string(tag, "stderr_filename", stderr_filename)) continue;
         else if (xp.parse_str(tag, "command_line", buf, sizeof(buf))) {
-            macro_substitute(buf, 8192);
+            macro_substitute(buf);
             command_line = buf;
             continue;
         }
@@ -687,6 +697,12 @@ int main(int argc, char** argv) {
     double total_weight=0, weight_completed=0;
     double checkpoint_cpu_time;
         // overall CPU time at last checkpoint
+
+    for (int i=1; i<argc; i++) {
+        if (!strcmp(argv[i], "--nthreads")) {
+            nthreads = atoi(argv[++i]);
+        }
+    }
 
     memset(&options, 0, sizeof(options));
     options.main_program = true;

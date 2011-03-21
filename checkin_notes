@@ -1702,3 +1702,10 @@ David  20 Mar 2011
         uotd.inc
     client/
         app_control.cpp
+
+David  21 Mar 2011
+    - wrapper: macro-substitute $NTHREADS with the --nthreads option value
+        in job.xml
+
+    samples/wrapper/
+        wrapper.cpp
