@@ -158,6 +158,10 @@ mach_port_t gEventHandle = NULL;
 //
 #define LINUX_LIKE_SYSTEM (defined(__linux__) || defined(__GNU__) || defined(__GLIBC__)) && !defined(__HAIKU__)
 
+#ifndef MAXPATHLEN      // HURD does not define MAXPATHLEN
+#define MAXPATHLEN 1024
+#endif
+
 // functions to get name/addr of local host
 
 // Converts a int ip address to a string representation (i.e. "66.218.71.198")

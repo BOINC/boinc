@@ -1727,3 +1727,9 @@ Rom    22 Mar 2011
         vbox_win.cpp
         vboxwrapper.cpp
         vm.cpp, .h
+
+Charlie 23 Mar 2011
+    - client: Define MAXPATHLEN if not defined for compatibility with HURD.
+    
+    client/
+        hostinfo_unix.cpp
