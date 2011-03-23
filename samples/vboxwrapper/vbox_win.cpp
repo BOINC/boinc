@@ -799,11 +799,11 @@ int virtualbox_stopvm() {
     }
 
     // Power down the machine.
-    rc = pConsole->PowerDown(&pProgress);
+    rc = pConsole->SaveState(&pProgress);
     if (FAILED(rc)) {
         fprintf(
             stderr,
-            "%s Error could not stop VM! rc = 0x%x\n",
+            "%s Error could not save the state of the VM! rc = 0x%x\n",
             boinc_msg_prefix(buf, sizeof(buf)),
             rc
         );
@@ -817,7 +817,7 @@ int virtualbox_stopvm() {
     if (FAILED(rc)) {
         fprintf(
             stderr,
-            "%s Error could not wait for VM stop completion! rc = 0x%x\n",
+            "%s Error could not wait for VM save state completion! rc = 0x%x\n",
             boinc_msg_prefix(buf, sizeof(buf)),
             rc
         );
