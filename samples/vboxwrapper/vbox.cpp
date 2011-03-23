@@ -40,6 +40,26 @@
 #include "vbox.h"
 
 
+// returns the current directory in which the executable resides.
+//
+int virtualbox_generate_vm_root_dir( std::string& dir ) {
+    TCHAR root_dir[256];
+
+#ifdef _WIN32
+    _getcwd(root_dir, (sizeof(root_dir)*sizeof(TCHAR)));
+#else
+    getcwd(root_dir, (sizeof(root_dir)*sizeof(TCHAR)));
+#endif
+
+    dir = root_dir;
+
+    if (!dir.empty()) {
+        return 1;
+    }
+    return 0;
+}
+
+
 // Generate a unique virtual machine name for a given task instance
 // Rules:
 //   1. Must be unique
@@ -47,7 +67,8 @@
 //   3. Must be file system compatible
 //
 int virtualbox_generate_vm_name( std::string& name ) {
-    APP_INIT_DATA* aidp = NULL;
+    APP_INIT_DATA aid;
+    boinc_get_init_data_p( &aid );
 
     name.empty();
     name = "boinc_";
@@ -55,8 +76,7 @@ int virtualbox_generate_vm_name( std::string& name ) {
     if (boinc_is_standalone()) {
         name += "standalone";
     } else {
-        boinc_get_init_data_p( aidp );
-        name += aidp->wu_name;
+        name += aid.wu_name;
     }
 
     if (!name.empty()) {
@@ -66,5 +86,44 @@ int virtualbox_generate_vm_name( std::string& name ) {
 }
 
 
+// Generate a deterministic yet unique UUID for a given medium (hard drive,
+//   cd drive, hard drive image)
+// Rules:
+//   1. Must be unique
+//   2. Must identifity itself as being part of BOINC
+//   3. Must be based on the slot directory id
+//   4. Must be in the form of a GUID
+//      00000000-0000-0000-0000-000000000000
+//
+// Form/Meaning
+//   A        B    C    D    E
+//   00000000-0000-0000-0000-000000000000
+//
+//   A = Drive ID
+//   B = Slot ID
+//   C = Standalone Flag
+//   D = Reserved
+//   E = 'BOINC' ASCII converted to Hex
+//
+int virtualbox_generate_medium_uuid(  int drive_id, std::string& uuid ) {
+    APP_INIT_DATA aid;
+    TCHAR medium_uuid[256];
 
+    boinc_get_init_data_p( &aid );
+
+    sprintf(
+        medium_uuid,        
+        _T("%08d-%04d-%04d-0000-00424F494E43"),
+        drive_id,
+        aid.slot,
+        boinc_is_standalone()
+    );
+
+    uuid = medium_uuid;
+
+    if (!uuid.empty()) {
+        return 1;
+    }
+    return 0;
+}
 

@@ -21,7 +21,11 @@
 #ifndef _VM_H_
 #define _VM_H_
 
-struct VM {
+class VM {
+public:
+    VM();
+    ~VM();
+
     std::string stdin_filename;
     std::string stdout_filename;
     std::string stderr_filename;
@@ -29,7 +33,23 @@ struct VM {
     std::string checkpoint_filename;
     // name of file where app will write its fraction done
     std::string fraction_done_filename;
+    // name of the OS the VM runs
+    std::string vm_os_name;
+    // name of the version of the VM the OS runs
+    std::string vm_os_version;
+    // size of the memory allocation for the VM
+    int vm_memory_size;
+    // name of the virtual machine disk image file
+    std::string vm_disk_image_name;
+    // name of the virtual machine disk image type
+    std::string vm_disk_image_type;
+    // name of shared folder
+    std::string vm_shared_folder_name;
+    // shared folder directory name
+    std::string vm_shared_folder_dir_name;
     bool suspended;
+    bool enable_network;
+    bool enable_shared_directory;
 
     int parse( XML_PARSER& );
     void poll();
@@ -37,6 +57,8 @@ struct VM {
     void stop();
     void pause();
     void resume();
+    void cleanup();
+    bool is_running();
 };
 
 extern VM vm;

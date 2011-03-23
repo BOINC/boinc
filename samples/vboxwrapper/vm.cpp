@@ -42,6 +42,27 @@
 
 VM vm;
 
+VM::VM() {
+    stdin_filename.clear();
+    stdout_filename.clear();
+    stderr_filename.clear();
+    checkpoint_filename.clear();
+    fraction_done_filename.clear();
+    vm_os_name.clear();
+    vm_os_version.clear();
+    vm_memory_size = 0;
+    vm_disk_image_name.clear();
+    vm_disk_image_type.clear();
+    vm_shared_folder_name.clear();
+    vm_shared_folder_dir_name.clear();
+    suspended = false;
+    enable_network = false;
+    enable_shared_directory = false;
+}
+
+VM::~VM() {
+}
+
 int VM::parse(XML_PARSER& xp) {
     char tag[1024], buf[8192];
     bool is_tag;
@@ -61,20 +82,38 @@ int VM::parse(XML_PARSER& xp) {
         else if (xp.parse_string(tag, "stderr_filename", stderr_filename)) continue;
         else if (xp.parse_string(tag, "checkpoint_filename", checkpoint_filename)) continue;
         else if (xp.parse_string(tag, "fraction_done_filename", fraction_done_filename)) continue;
+        else if (xp.parse_string(tag, "vm_os_name", vm_os_name)) continue;
+        else if (xp.parse_string(tag, "vm_os_version", vm_os_version)) continue;
+        else if (xp.parse_int(tag, "vm_memory_size", vm_memory_size)) continue;
+        else if (xp.parse_string(tag, "vm_disk_image_name", vm_disk_image_name)) continue;
+        else if (xp.parse_string(tag, "vm_disk_image_type", vm_disk_image_type)) continue;
+        else if (xp.parse_string(tag, "vm_shared_folder_name", vm_shared_folder_name)) continue;
+        else if (xp.parse_string(tag, "vm_shared_folder_dir_name", vm_shared_folder_dir_name)) continue;
+        else if (xp.parse_bool(tag, "enable_network", enable_network)) continue;
+        else if (xp.parse_bool(tag, "enable_shared_directory", enable_shared_directory)) continue;
     }
     return ERR_XML_PARSE;
 }
 
 int VM::run() {
     int retval;
+
     retval = virtualbox_initialize();
     if (retval) return retval;
+
+    if (!virtualbox_vm_is_registered()) {
+        retval = virtualbox_register_vm();
+        if (retval) return retval;
+    }
+
     retval = virtualbox_startvm();
     if (retval) return retval;
+
     return 0;
 }
 
 void VM::poll() {
+    virtualbox_monitor();
 }
 
 void VM::stop() {
@@ -90,4 +129,17 @@ void VM::pause() {
 void VM::resume() {
     virtualbox_resumevm();
     suspended = false;
+}
+
+void VM::cleanup() {
+    virtualbox_stopvm();
+    virtualbox_deregister_vm();
+    virtualbox_cleanup();
+
+    // Give time enough for external processes to finish the cleanup process
+    boinc_sleep(5.0);
+}
+
+bool VM::is_running() {
+    return (bool)virtualbox_vm_is_running();
 }

@@ -21,14 +21,23 @@
 #ifndef _VBOX_H_
 #define _VBOX_H_
 
+extern int virtualbox_generate_vm_root_dir( std::string& dir );
 extern int virtualbox_generate_vm_name( std::string& name );
+extern int virtualbox_generate_medium_uuid( int drive_id, std::string& uuid );
+
+extern bool virtualbox_vm_is_registered();
+extern bool virtualbox_vm_is_running();
 
 extern int virtualbox_initialize();
+extern int virtualbox_register_vm();
+extern int virtualbox_deregister_vm();
 extern int virtualbox_cleanup();
 
 extern int virtualbox_startvm();
 extern int virtualbox_stopvm();
 extern int virtualbox_pausevm();
 extern int virtualbox_resumevm();
+
+extern int virtualbox_monitor();
 
 #endif

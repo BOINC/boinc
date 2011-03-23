@@ -1709,3 +1709,21 @@ David  21 Mar 2011
 
     samples/wrapper/
         wrapper.cpp
+
+Rom    22 Mar 2011
+    - VBox: Checkpoint for Windows
+        * Creates/registers virtual machine
+        * Starts/Stops virtual machine
+        * Suspends/Resumes virtual machine
+        * Deletes/deregisters virtual machine
+      
+      TODO:
+        * Fraction done properly
+        * Standard error streams from virtualized applications
+        * Find a way to hide the VBoxHeadless application window (It can be minimized manually)
+
+    samples/vboxwrapper/
+        vbox.cpp, .h
+        vbox_win.cpp
+        vboxwrapper.cpp
+        vm.cpp, .h

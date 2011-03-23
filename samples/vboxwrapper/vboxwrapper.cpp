@@ -54,12 +54,7 @@
 #include "vbox.h"
 
 #define JOB_FILENAME "job.xml"
-#define CHECKPOINT_FILENAME "vboxwrapper_checkpoint.txt"
-
 #define POLL_PERIOD 1.0
-
-APP_INIT_DATA aid;
-
 
 int parse_job_file() {
     MIOFILE mf;
@@ -99,27 +94,10 @@ int parse_job_file() {
     return ERR_XML_PARSE;
 }
 
-void write_checkpoint(double cpu) {
-    FILE* f = fopen(CHECKPOINT_FILENAME, "w");
-    if (!f) return;
-    fprintf(f, "%f\n", cpu);
-    fclose(f);
-}
-
-void read_checkpoint(double& cpu) {
-    double c;
-    cpu = 0;
-    FILE* f = fopen(CHECKPOINT_FILENAME, "r");
-    if (!f) return;
-    int n = fscanf(f, "%lf", &c);
-    fclose(f);
-    if (n != 2) return;
-    cpu = c;
-}
-
 int main(int argc, char** argv) {
     BOINC_OPTIONS boinc_options;
     BOINC_STATUS boinc_status;
+    char buf[256];
     int retval;
 
     memset(&boinc_options, 0, sizeof(boinc_options));
@@ -128,13 +106,20 @@ int main(int argc, char** argv) {
     boinc_options.handle_process_control = true;
     boinc_init_options(&boinc_options);
 
-    fprintf(stderr, "vboxwrapper: starting\n");
-
-    boinc_get_init_data(aid);
+    fprintf(
+        stderr,
+        "%s vboxwrapper: starting\n",
+        boinc_msg_prefix(buf, sizeof(buf))
+    );
 
     retval = parse_job_file();
     if (retval) {
-        fprintf(stderr, "can't parse job file: %d\n", retval);
+        fprintf(
+            stderr,
+            "%s can't parse job file: %d\n",
+            boinc_msg_prefix(buf, sizeof(buf)),
+            retval
+        );
         boinc_finish(retval);
     }
 
@@ -148,12 +133,15 @@ int main(int argc, char** argv) {
         boinc_get_status(&boinc_status);
         if (boinc_status.no_heartbeat || boinc_status.quit_request) {
             vm.stop();
-            exit(0);
+            boinc_temporary_exit(0);
         }
         if (boinc_status.abort_request) {
-            // TODO: Unregister VM and Delete VM before exiting.
-            vm.stop();
-            exit(0);
+            vm.cleanup();
+            boinc_finish(EXIT_ABORTED_BY_CLIENT);
+        }
+        if (!vm.is_running()) {
+            vm.cleanup();
+            boinc_finish(0);
         }
         if (boinc_status.suspended) {
             if (!vm.suspended) {
@@ -167,8 +155,6 @@ int main(int argc, char** argv) {
         boinc_sleep(POLL_PERIOD);
     }
     
-    vm.stop();
-    boinc_finish(0);
     return 0;
 }
 
@@ -183,4 +169,5 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR Args, int WinMode
     argc = parse_command_line(command_line, argv);
     return main(argc, argv);
 }
+
 #endif
