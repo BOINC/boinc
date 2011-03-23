@@ -798,7 +798,7 @@ int virtualbox_stopvm() {
         goto CLEANUP;
     }
 
-    // Power down the machine.
+    // Save the state of the machine.
     rc = pConsole->SaveState(&pProgress);
     if (FAILED(rc)) {
         fprintf(
