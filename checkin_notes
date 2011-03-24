@@ -1733,6 +1733,7 @@ Charlie 23 Mar 2011
     
     client/
         hostinfo_unix.cpp
+
 David  24 Mar 2011
     - define MAXPATHLEN, if needed, in filesys.h
     - fix typo in a GUI RPC handler
@@ -1747,3 +1748,16 @@ David  24 Mar 2011
         gui_rpc_server_ops.cpp
         check_security.cpp
         hostinfo_unix.cpp
+
+Charlie 24 Mar 2011
+    - client: Begin adding OpenCL support.
+    
+    client/
+        coproc_detect.cpp
+    lib/
+        cl.h (added)
+        cl_platform.h (added)
+        coproc.h
+     mac_build/
+        boinc.xcodeproj/
+            project.pbxproj

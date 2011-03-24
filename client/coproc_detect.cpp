@@ -147,7 +147,7 @@ void COPROCS::get_opencl(vector<string>&warnings) {
 // TODO: Is this correct?
     opencl_lib = LoadLibrary("libOpenCL.dll");
     if (!opencl_lib) {
-        warnings.push_back("No NVIDIA library found");
+        warnings.push_back("No OpenCL library found");
         return;
     }
 
@@ -164,7 +164,7 @@ void COPROCS::get_opencl(vector<string>&warnings) {
     opencl_lib = dlopen("libOpenCL.so", RTLD_NOW);
 #endif
     if (!opencl_lib) {
-        warnings.push_back("No NVIDIA library found");
+        warnings.push_back("No OpenCL library found");
         return;
     }
     __clGetPlatformIDs = (cl_int(*)(cl_uint, cl_platform_id*, cl_uint*)) dlsym( opencl_lib, "clGetPlatformIDs" );
