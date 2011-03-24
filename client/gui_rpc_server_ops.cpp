@@ -569,7 +569,7 @@ static void handle_get_cc_status(GUI_RPC_CONN* gr, MIOFILE& fout) {
         "   <network_mode_perm>%d</network_mode_perm>\n"
         "   <network_mode_delay>%f</network_mode_delay>\n"
         "   <disallow_attach>%d</disallow_attach>\n"
-        "   <simple_gui_only>%ds</simple_gui_only>\n",
+        "   <simple_gui_only>%d</simple_gui_only>\n",
         net_status.network_status(),
         gstate.acct_mgr_info.password_error?1:0,
         gstate.suspend_reason,

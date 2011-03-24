@@ -30,10 +30,10 @@
 */
 
 #include <Carbon/Carbon.h>
-#include <sys/param.h>  // for MAXPATHLEN
 #include <sys/stat.h>
 
 #include "boinc_api.h"
+#include "filesys.h"
 #include "common_defs.h"
 
 #define RESIDICON -16455

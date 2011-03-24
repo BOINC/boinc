@@ -27,13 +27,11 @@
 #include <cstdio>
 #include <cstring>
 #include <cerrno>
-#ifdef HAVE_SYS_PARAM_H
-#include <sys/param.h>  // for MAXPATHLEN
-#endif
 #include <pwd.h>    // getpwuid
 #include <grp.h>
 
 #include "app_ipc.h"
+#include "filesys.h"
 
 using std::strcpy;
 

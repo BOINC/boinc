@@ -23,7 +23,6 @@
 #include <unistd.h>
 #include <pwd.h>    // getpwnam
 #include <grp.h>
-#include <sys/param.h>  // for MAXPATHLEN
 #include <dirent.h>
 #include <cerrno>
 
@@ -34,6 +33,7 @@
 #include "util.h"
 #include "error_numbers.h"
 #include "file_names.h"
+#include "filesys.h"
 
 #ifdef __WXMAC__                            // If Mac BOINC Manager
 bool IsUserInGroupBM();

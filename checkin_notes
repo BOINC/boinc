@@ -1733,3 +1733,17 @@ Charlie 23 Mar 2011
     
     client/
         hostinfo_unix.cpp
+David  24 Mar 2011
+    - define MAXPATHLEN, if needed, in filesys.h
+    - fix typo in a GUI RPC handler
+
+    lib/
+        filesys.h
+    api/
+        mac_icon.cpp
+        graphics2_unix.cpp
+    client/
+        switcher.cpp
+        gui_rpc_server_ops.cpp
+        check_security.cpp
+        hostinfo_unix.cpp

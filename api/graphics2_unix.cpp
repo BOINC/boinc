@@ -45,7 +45,6 @@ static int win=0;
 static int checkparentcounter=0;
 
 #ifdef __APPLE__
-#include <sys/param.h>  // for MAXPATHLEN
 
 static bool need_show = false;
 #endif
