@@ -72,6 +72,7 @@
 
 #include "miofile.h"
 #include "cal_boinc.h"
+#include "cl.h"
 
 #define MAX_COPROC_INSTANCES 64
 
@@ -84,6 +85,10 @@ struct COPROC_REQ {
     double count;
     int parse(MIOFILE&);
 };
+
+struct OPENCL_DEVICE_PROP {
+};
+
 
 // represents a set of identical coprocessors on a particular computer.
 // Abstract class;
@@ -116,6 +121,7 @@ struct COPROC {
     // These are not sequential if we omit instances (see above)
     //
     int device_nums[MAX_COPROC_INSTANCES];
+    int open_device_ids[MAX_COPROC_INSTANCES];
     int device_num;     // temp used in scan process
     bool running_graphics_app[MAX_COPROC_INSTANCES];
         // is this GPU running a graphics app (NVIDIA only)
@@ -125,6 +131,8 @@ struct COPROC {
     double available_ram_fake[MAX_COPROC_INSTANCES];
 
     double last_print_time;
+    
+    OPENCL_DEVICE_PROP opencl_prop;
 
 #ifndef _USING_FCGI_
     virtual void write_xml(MIOFILE&);
@@ -160,6 +168,7 @@ struct COPROC {
         clear();
     }
     virtual ~COPROC(){}
+    void get_opencl_info();
     void print_available_ram();
 };
 
@@ -267,6 +276,7 @@ struct COPROCS {
         std::vector<int>& ignore_cuda_dev,
         std::vector<int>& ignore_ati_dev
     );
+    void get_opencl(std::vector<std::string> &warnings);
     int parse(MIOFILE&);
     void summary_string(char*, int);
 

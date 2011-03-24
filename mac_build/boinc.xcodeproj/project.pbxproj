@@ -961,6 +961,8 @@
 		DDD52DC70C03CAE6009B5FC0 /* ViewTransfers.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = ViewTransfers.h; path = ../clientgui/ViewTransfers.h; sourceTree = SOURCE_ROOT; };
 		DDD52DC80C03CAE6009B5FC0 /* ViewWork.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = ViewWork.cpp; path = ../clientgui/ViewWork.cpp; sourceTree = SOURCE_ROOT; };
 		DDD52DC90C03CAE6009B5FC0 /* ViewWork.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = ViewWork.h; path = ../clientgui/ViewWork.h; sourceTree = SOURCE_ROOT; };
+		DDD603E6133B475E00B886A4 /* cl_platform.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = cl_platform.h; path = ../lib/cl_platform.h; sourceTree = SOURCE_ROOT; };
+		DDD603E7133B475E00B886A4 /* cl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = cl.h; path = ../lib/cl.h; sourceTree = SOURCE_ROOT; };
 		DDD74D8707CF482E0065AC9D /* boinc */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = boinc; sourceTree = BUILT_PRODUCTS_DIR; };
 		DDD9C59210CCF54300A1E4CD /* coproc_detect.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = coproc_detect.cpp; path = ../client/coproc_detect.cpp; sourceTree = SOURCE_ROOT; };
 		DDDD6D7E12E4611300C258A0 /* sg_ProjectPanel.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = sg_ProjectPanel.cpp; path = ../clientgui/sg_ProjectPanel.cpp; sourceTree = SOURCE_ROOT; };
@@ -1543,6 +1545,8 @@
 				DD7168360AAD72040051642B /* common_defs.h */,
 				DD68022E0E701ACD0067D009 /* cert_sig.cpp */,
 				DD68022F0E701ACD0067D009 /* cert_sig.h */,
+				DDD603E6133B475E00B886A4 /* cl_platform.h */,
+				DDD603E7133B475E00B886A4 /* cl.h */,
 				DD7475500D86273300860636 /* coproc.cpp */,
 				DD2049DC0D862516009EEE7A /* coproc.h */,
 				F51DA64D02DB97FF010E292A /* crypt.cpp */,

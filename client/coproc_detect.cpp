@@ -63,6 +63,51 @@ void segv_handler(int) {
 }
 #endif
 
+#ifdef _WIN32
+HMODULE opencl_lib = NULL;
+
+// TODO: Are these correct?
+typedef cl_int (__stdcall *CL_PLATFORMIDS) (cl_uint    /* num_entries */,
+                 cl_platform_id * /* platforms */,
+                 cl_uint *        /* num_platforms */);
+typedef cl_int (__stdcall *CL_DEVICEIDS) (cl_platform_id   /* platform */,
+               cl_device_type   /* device_type */,
+               cl_uint          /* num_entries */,
+               cl_device_id *   /* devices */,
+               cl_uint *        /* num_devices */);
+typedef int (__stdcall *CL_INFO) (cl_device_id    /* device */,
+                cl_device_info  /* param_name */,
+                size_t          /* param_value_size */,
+                void *          /* param_value */,
+                size_t *        /* param_value_size_ret */);
+
+CL_PLATFORMIDS __clGetPlatformIDs = NULL;
+CL_DEVICEIDS __clGetDeviceIDs = NULL;
+CL_INFO   __clGetDeviceInfo = NULL;
+
+#else
+
+void* opencl_lib = NULL;
+
+cl_int (*__clGetPlatformIDs)(cl_uint    /* num_entries */,
+                 cl_platform_id * /* platforms */,
+                 cl_uint *        /* num_platforms */);
+cl_int (*__clGetDeviceIDs)(cl_platform_id   /* platform */,
+               cl_device_type   /* device_type */,
+               cl_uint          /* num_entries */,
+               cl_device_id *   /* devices */,
+               cl_uint *        /* num_devices */);
+cl_int (*__clGetDeviceInfo)(cl_device_id    /* device */,
+                cl_device_info  /* param_name */,
+                size_t          /* param_value_size */,
+                void *          /* param_value */,
+                size_t *        /* param_value_size_ret */);
+
+#endif
+
+void COPROC::get_opencl_info() {
+}
+
 void COPROC::print_available_ram() {
 #ifdef MEASURE_AVAILABLE_RAM
     if (gstate.now - last_print_time < 60) return;
@@ -87,6 +132,79 @@ void COPROC::print_available_ram() {
         }
     }
 #endif
+}
+
+
+void COPROCS::get_opencl(vector<string>&warnings) {
+    cl_int ciErrNum;
+    cl_platform_id platforms[1];
+    cl_uint num_platforms, num_devices, device_index;
+    cl_device_id devices[MAX_COPROC_INSTANCES];
+    char vendor[128];
+    char buf[256];
+
+#ifdef _WIN32
+// TODO: Is this correct?
+    opencl_lib = LoadLibrary("libOpenCL.dll");
+    if (!opencl_lib) {
+        warnings.push_back("No NVIDIA library found");
+        return;
+    }
+
+    __clGetPlatformIDs = (CL_PLATFORMIDS)GetProcAddress( opencl_lib, "clGetPlatformIDs" );
+    __clGetDeviceIDs = (CL_DEVICEIDS)GetProcAddress( opencl_lib, "clGetDeviceIDs" );
+    __clGetDeviceInfo = (CL_INFO)GetProcAddress( opencl_lib, "clGetDeviceInfo" );
+
+#else
+
+#ifdef __APPLE__
+    opencl_lib = dlopen("/System/Library/Frameworks/OpenCL.framework/Versions/Current/OpenCL", RTLD_NOW);
+#else
+// TODO: Is this correct?
+    opencl_lib = dlopen("libOpenCL.so", RTLD_NOW);
+#endif
+    if (!opencl_lib) {
+        warnings.push_back("No NVIDIA library found");
+        return;
+    }
+    __clGetPlatformIDs = (cl_int(*)(cl_uint, cl_platform_id*, cl_uint*)) dlsym( opencl_lib, "clGetPlatformIDs" );
+    __clGetDeviceIDs = (cl_int(*)(cl_platform_id, cl_device_type, cl_uint, cl_device_id*, cl_uint*)) dlsym( opencl_lib, "clGetDeviceIDs" );
+    __clGetDeviceInfo = (cl_int(*)(cl_device_id, cl_device_info, size_t, void*, size_t*)) dlsym( opencl_lib, "clGetDeviceInfo" );
+#endif
+    if (!__clGetPlatformIDs) {
+        warnings.push_back("clGetPlatformIDs() missing from OpenCL library");
+        return;
+    }
+    if (!__clGetDeviceIDs) {
+        warnings.push_back("clGetDeviceIDs() missing from OpenCL library");
+        return;
+    }
+    if (!__clGetDeviceInfo) {
+        warnings.push_back("clGetDeviceInfo() missing from OpenCL library");
+        return;
+    }
+
+    ciErrNum = (*__clGetPlatformIDs)(1, platforms, &num_platforms);
+    if ((ciErrNum != CL_SUCCESS) || (num_platforms == 0)){
+        warnings.push_back("clGetPlatformIDs() failed to return any OpenCL platforms");
+        return;
+    }
+    
+    ciErrNum = (*__clGetDeviceIDs)(platforms[0], CL_DEVICE_TYPE_GPU, MAX_COPROC_INSTANCES, devices, &num_devices);
+    if ((ciErrNum != CL_SUCCESS) || (num_devices == 0)){
+        warnings.push_back("OpenCL library present but no GPUs found");
+        return;
+    }
+
+    for (device_index=0; device_index<num_devices; ++device_index) {
+        ciErrNum = (*__clGetDeviceInfo)(devices[device_index], CL_DEVICE_VENDOR, sizeof(vendor), vendor, NULL);
+        if ((ciErrNum != CL_SUCCESS) || (vendor[0] == 0)){
+            sprintf(buf, "clGetDeviceInfo failed to get vendor for GPU %d", (int)device_index);
+            warnings.push_back(buf);
+            return;
+        }
+//TODO: to be continued ....
+    }
 }
 
 void COPROCS::get(
@@ -122,6 +240,8 @@ void COPROCS::get(
         ati.get(use_all, descs, warnings, ignore_ati_dev);
     }
 #endif
+    get_opencl(warnings);
+
     signal(SIGSEGV, old_sig);
 #endif
 }
