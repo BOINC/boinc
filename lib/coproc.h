@@ -153,8 +153,9 @@ struct COPROC {
     // These are not sequential if we omit instances (see above)
     //
     int device_nums[MAX_COPROC_INSTANCES];
-    int open_device_ids[MAX_COPROC_INSTANCES];
     int device_num;     // temp used in scan process
+    cl_device_id opencl_device_ids[MAX_COPROC_INSTANCES];
+    int opencl_device_num;
     bool running_graphics_app[MAX_COPROC_INSTANCES];
         // is this GPU running a graphics app (NVIDIA only)
     double available_ram[MAX_COPROC_INSTANCES];
@@ -178,9 +179,11 @@ struct COPROC {
         used = 0;
         req_secs = 0;
         req_instances = 0;
+        opencl_device_num = 0;
         estimated_delay = 0;
         for (int i=0; i<MAX_COPROC_INSTANCES; i++) {
             device_nums[i] = 0;
+            opencl_device_ids[i] = 0;
             running_graphics_app[i] = true;
             available_ram[i] = 0;
             available_ram_fake[i] = 0;

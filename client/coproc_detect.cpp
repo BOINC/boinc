@@ -206,23 +206,33 @@ void COPROCS::get_opencl(vector<string>&warnings) {
         if (ciErrNum != CL_SUCCESS) return;
         
         if (!strcmp(prop.vendor, "NVIDIA")) {
-            if (!nvidia.opencl_prop.name[0]) {   // If not already merged
-                if (nvidia.matches(prop)) {
-                    nvidia.opencl_prop = prop;
-                    return;
+            if (nvidia.matches(prop)) {
+                nvidia.opencl_prop = prop;
+                nvidia.opencl_device_ids[nvidia.opencl_device_num++] = prop.device_id;
+            } else {
+                if (!nvidia.cuda_version) {             // If CUDA did not find any previously
+                    nvidia.opencl_prop = prop;          // fill in what info we have
+                    nvidia.opencl_device_ids[nvidia.opencl_device_num++] = prop.device_id;
+                    strcpy(nvidia.prop.name, prop.name);
+                    nvidia.prop.totalGlobalMem = prop.global_RAM;
+                    nvidia.prop.clockRate = prop.max_clock_freq * 1000;
                 }
-//TODO: Create a new entry if not already in CUDA list?
             }
             return;
         }
         
         if (!(strcmp(prop.vendor, "ATI") || strcmp(prop.vendor, "AMD"))) {
-            if (!ati.opencl_prop.name[0]) {   // If not already merged
-                if (ati.matches(prop)) {
-                    ati.opencl_prop = prop;
-                    return;
+            if (ati.matches(prop)) {
+                ati.opencl_prop = prop;
+                ati.opencl_device_ids[ati.opencl_device_num++] = prop.device_id;
+            } else {
+                if (! (ati.atirt_detected || ati.amdrt_detected)) { // If ATI did not find any previously
+                    ati.opencl_prop = prop;                 // fill in what info we have
+                    ati.opencl_device_ids[ati.opencl_device_num++] = prop.device_id;
+                    strcpy(ati.name, prop.name);
+                    ati.attribs.localRAM = prop.local_RAM;
+                    ati.attribs.engineClock = prop.max_clock_freq;
                 }
-//TODO: Create a new entry if not already in ATI list due from CAL?
             }
             return;
         }
