@@ -533,7 +533,7 @@ void *CScreensaver::DataManagementProc()
             // ***
 
             // Are we supposed to exit the screensaver?
-            if (m_QuitDataManagementProc) {     // If main thread has requested we exit
+            if (m_bQuitDataManagementProc) {     // If main thread has requested we exit
                 if (m_hGraphicsApplication || graphics_app_result_ptr) {
                     if (m_bDefault_gfx_running) {
                         terminate_default_screensaver(m_hGraphicsApplication);
@@ -544,14 +544,14 @@ void *CScreensaver::DataManagementProc()
                     previous_result_ptr = NULL;
                     m_hGraphicsApplication = 0;
                 }
-                m_hDataManagementThread = NULL; // Tell main thread that we exited
-                return 0;       // Exit the thread
+                m_bDataManagementProcStopped = true; // Tell main thread that we exited
+                return 0;                       // Exit the thread
             }
             boinc_sleep(0.25);
         }
 
         // ***
-        // *** Things that should be run frequently.
+        // *** Things that should be run less frequently.
         // *** 1 time per second.
         // ***
 
@@ -559,7 +559,7 @@ void *CScreensaver::DataManagementProc()
         if ((m_dwBlankScreen) && (time(0) > m_dwBlankTime) && (m_dwBlankTime > 0)) {
             BOINCTRACE(_T("CScreensaver::DataManagementProc - Time to blank\n"));
             SetError(FALSE, SCRAPPERR_SCREENSAVERBLANKED);    // Blanked - hide moving BOINC logo
-            m_QuitDataManagementProc = true;
+            m_bQuitDataManagementProc = true;
             continue;       // Code above will exit the thread
         }
 
