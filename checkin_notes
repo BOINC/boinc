@@ -6721,3 +6721,11 @@ Charlie 14 Mar 2011
     
     clientscr/
         mac_saver_module.cpp
+
+Rom    25 Feb 2011
+    - Tag for 6.8.26 release, all platforms
+      boinc_core_release_6_8_26
+
+    /
+        configure.ac
+        version.h
