@@ -421,7 +421,7 @@ int ACTIVE_TASK::start(bool first_time) {
     unsigned int i;
     FILE_REF fref;
     FILE_INFO* fip;
-    int retval;
+    int retval, rt;
 
     // if this job less than one CPU, run it at above idle priority
     //
@@ -584,7 +584,7 @@ int ACTIVE_TASK::start(bool first_time) {
     sprintf(cmdline, "%s %s %s",
         exec_path, wup->command_line.c_str(), app_version->cmdline
     );
-    int rt = app_version->gpu_usage.rsc_type;
+    rt = app_version->gpu_usage.rsc_type;
     if (rt) {
         coproc_cmdline(rt, result, app_version->gpu_usage.usage, cmdline);
     }
@@ -773,15 +773,11 @@ int ACTIVE_TASK::start(bool first_time) {
     sprintf(cmdline, "%s %s",
         wup->command_line.c_str(), app_version->cmdline
     );
-#if 0
-//TODO: David, please fix
-    if (app_version->ncudas) {
-        coproc_cmdline(RSC_TYPE_CUDA, result, app_version->ncudas, cmdline);
+
+    rt = app_version->gpu_usage.rsc_type;
+    if (rt) {
+        coproc_cmdline(rt, result, app_version->gpu_usage.usage, cmdline);
     }
-    if (app_version->natis) {
-        coproc_cmdline(RSC_TYPE_ATI, result, app_version->natis, cmdline);
-    }
-#endif
 
     // Set up core/app shared memory seg if needed
     //

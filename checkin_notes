@@ -1844,3 +1844,10 @@ David  25 Mar 2011
 
 	lib/
 		parse.cpp
+
+David  25 Mar 2011
+    - client: Unix compile fixes
+
+    client/
+        app_start.cpp
+        boinc_cmd.cpp
