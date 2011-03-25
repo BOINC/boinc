@@ -194,7 +194,8 @@ protected:
     HANDLE          m_hDataManagementThread;
     HANDLE          m_hGraphicsApplication;
     BOOL            m_bResetCoreState;
-    bool            m_QuitDataManagementProc;
+    bool            m_bQuitDataManagementProc;
+    bool            m_bDataManagementProcStopped;
     bool            m_bV5_GFX_app_is_running;
 	int				m_iLastResultShown;
 	time_t			m_tLastResultChangeTime;
