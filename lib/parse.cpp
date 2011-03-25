@@ -463,7 +463,7 @@ XML_PARSER::XML_PARSER(MIOFILE* _f) {
 // Return true iff reached EOF
 //
 bool XML_PARSER::scan_nonws(int& first_char) {
-    int c;
+    unsigned char c;
     while (1) {
         c = f->_getc();
         if (c == EOF) return true;

@@ -9233,3 +9233,11 @@ Charlie 14 Mar 2011
     
     clientscr/
         mac_saver_module.cpp
+
+David  25 Mar 2011
+	- manager: fix crashing bug when notices (or other text parsed by XML_PARSER)
+		contain non-ASCII characters.
+		Rom: please port to 6.12
+
+	lib/
+		parse.cpp
