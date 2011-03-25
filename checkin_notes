@@ -9247,3 +9247,11 @@ David  25 Mar 2011
 
 	lib/
 		parse.cpp
+
+Rom    25 Feb 2011
+    - Tag for 6.12.19 release, all platforms
+      boinc_core_release_6_12_19
+
+    /
+        configure.ac
+        version.h
