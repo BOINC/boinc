@@ -71,10 +71,13 @@
 #endif
 
 #include "miofile.h"
+#include "parse.h"
 #include "cal_boinc.h"
 #include "cl.h"
 
 #define MAX_COPROC_INSTANCES 64
+#define MAX_RSC 8
+    // max # of processing resources types
 
 // represents a requirement for a coproc.
 // This is a parsed version of the <coproc> elements in an <app_version>
@@ -137,6 +140,7 @@ struct COPROC {
 #ifndef _USING_FCGI_
     virtual void write_xml(MIOFILE&);
     void write_request(MIOFILE&);
+    int parse(XML_PARSER&);
 #endif
     inline void clear() {
         // can't just memcpy() - trashes vtable
@@ -197,7 +201,7 @@ struct CUDA_DEVICE_PROP {
   double dtotalGlobalMem;   // not defined in client
 };
 
-struct COPROC_CUDA : public COPROC {
+struct COPROC_NVIDIA : public COPROC {
     int cuda_version;  // CUDA runtime version
     int display_driver_version;
     CUDA_DEVICE_PROP prop;
@@ -205,8 +209,8 @@ struct COPROC_CUDA : public COPROC {
 #ifndef _USING_FCGI_
     virtual void write_xml(MIOFILE&, bool include_request);
 #endif
-    COPROC_CUDA(): COPROC("CUDA"){}
-    virtual ~COPROC_CUDA(){}
+    COPROC_NVIDIA(): COPROC("NVIDIA"){}
+    virtual ~COPROC_NVIDIA(){}
     void get(
         bool use_all,
         std::vector<std::string>&, std::vector<std::string>&,
@@ -264,7 +268,9 @@ struct COPROC_ATI : public COPROC {
 };
 
 struct COPROCS {
-    COPROC_CUDA cuda;
+    int n_rsc;
+    COPROC coprocs[MAX_RSC];
+    COPROC_NVIDIA nvidia;
     COPROC_ATI ati;
 
     COPROCS(){}
@@ -285,26 +291,48 @@ struct COPROCS {
     // to avoid messing w/ master copy
     //
     void clone(COPROCS& c, bool copy_used) {
-        cuda = c.cuda;
-        ati = c.ati;
-        if (!copy_used) {
-            cuda.used = 0;
-            ati.used = 0;
+        n_rsc = c.n_rsc;
+        for (int i=0; i<n_rsc; i++) {
+            coprocs[i] = c.coprocs[i];
+            if (!copy_used) {
+                coprocs[i].used = 0;
+            }
         }
     }
     inline void clear() {
-        cuda.count = 0;
+        n_rsc = 0;
+        nvidia.count = 0;
         ati.count = 0;
     }
     inline void clear_usage() {
-        cuda.clear_usage();
-        ati.clear_usage();
+        for (int i=0; i<n_rsc; i++) {
+            coprocs[i].clear_usage();
+        }
     }
     inline bool none() {
-        return (cuda.count==0) && (ati.count==0);
+        return (n_rsc == 1);
     }
     inline int ndevs() {
-        return cuda.count + ati.count;
+        int n=0;
+        for (int i=1; i<n_rsc; i++) {
+            n += coprocs[i].count;
+        }
+        return n;
+    }
+    inline bool have_nvidia() {
+        return (nvidia.count > 0);
+    }
+    inline bool have_ati() {
+        return (ati.count > 0);
+    }
+    int add(COPROC& c) {
+        coprocs[n_rsc++] = c;
+        return 0;
+    }
+    void init() {
+        COPROC c;
+        strcpy(c.type, "CPU");
+        add(c);
     }
 };
 

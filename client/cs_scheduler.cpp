@@ -222,19 +222,21 @@ int CLIENT_STATE::make_scheduler_request(PROJECT* p) {
 
     // copy request values from RSC_WORK_FETCH to COPROC
     //
-    if (host_info.have_cuda()) {
-        host_info.coprocs.cuda.req_secs = cuda_work_fetch.req_secs;
-        host_info.coprocs.cuda.req_instances = cuda_work_fetch.req_instances;
-        host_info.coprocs.cuda.estimated_delay = cuda_work_fetch.req_secs?cuda_work_fetch.busy_time_estimator.get_busy_time():0;
+    int j = rsc_index("NVIDIA");
+    if (j > 0) {
+        coprocs.nvidia.req_secs = rsc_work_fetch[j].req_secs;
+        coprocs.nvidia.req_instances = rsc_work_fetch[j].req_instances;
+        coprocs.nvidia.estimated_delay = rsc_work_fetch[j].req_secs?rsc_work_fetch[j].busy_time_estimator.get_busy_time():0;
     }
-    if (host_info.have_ati()) {
-        host_info.coprocs.ati.req_secs = ati_work_fetch.req_secs;
-        host_info.coprocs.ati.req_instances = ati_work_fetch.req_instances;
-        host_info.coprocs.ati.estimated_delay = ati_work_fetch.req_secs?ati_work_fetch.busy_time_estimator.get_busy_time():0;
+    j = rsc_index("ATI");
+    if (j > 0) {
+        coprocs.ati.req_secs = rsc_work_fetch[j].req_secs;
+        coprocs.ati.req_instances = rsc_work_fetch[j].req_instances;
+        coprocs.ati.estimated_delay = rsc_work_fetch[j].req_secs?rsc_work_fetch[j].busy_time_estimator.get_busy_time():0;
     }
 
-    if (!host_info.coprocs.none()) {
-        host_info.coprocs.write_xml(mf, true);
+    if (coprocs.n_rsc > 1) {
+        coprocs.write_xml(mf, true);
     }
 
     // report completed jobs
@@ -292,7 +294,7 @@ int CLIENT_STATE::make_scheduler_request(PROJECT* p) {
     // send descriptions of app versions
     //
     fprintf(f, "<app_versions>\n");
-    int j=0;
+    j=0;
     for (i=0; i<app_versions.size(); i++) {
         APP_VERSION* avp = app_versions[i];
         if (avp->project != p) continue;
@@ -339,21 +341,28 @@ int CLIENT_STATE::make_scheduler_request(PROJECT* p) {
             rp = results[i];
             double x = rp->estimated_time_remaining();
             if (x == 0) continue;
+            strcpy(buf, "");
+            int rt = rp->avp->gpu_usage.rsc_type;
+            if (rt) {
+                if (rt == rsc_index("NVIDIA")) {
+                    sprintf(buf, "        <ncudas>%f</ncudas>\n", rp->avp->gpu_usage.usage);
+                } else if (rt == rsc_index("ATI")) {
+                    sprintf(buf, "        <natis>%f</natis>\n", rp->avp->gpu_usage.usage);
+                }
+            }
             fprintf(f,
                 "    <ip_result>\n"
                 "        <name>%s</name>\n"
                 "        <report_deadline>%.0f</report_deadline>\n"
                 "        <time_remaining>%.2f</time_remaining>\n"
                 "        <avg_ncpus>%f</avg_ncpus>\n"
-                "        <ncudas>%f</ncudas>\n"
-                "        <natis>%f</natis>\n"
+                "%s"
                 "    </ip_result>\n",
                 rp->name,
                 rp->report_deadline,
                 x,
                 rp->avp->avg_ncpus,
-                rp->avp->ncudas,
-                rp->avp->natis
+                buf
             );
         }
         fprintf(f, "</in_progress_results>\n");
@@ -406,9 +415,9 @@ bool CLIENT_STATE::scheduler_rpc_poll() {
         // clear backoffs to allow work requests
         //
         if (p->sched_rpc_pending == RPC_REASON_USER_REQ) {
-            p->cpu_pwf.clear_backoff();
-            p->cuda_pwf.clear_backoff();
-            p->ati_pwf.clear_backoff();
+            for (int i=0; i<coprocs.n_rsc; i++) {
+                p->rsc_pwf[i].clear_backoff();
+            }
         }
         work_fetch.compute_work_request(p);
         scheduler_op->init_op_project(p, p->sched_rpc_pending);
@@ -461,7 +470,10 @@ bool CLIENT_STATE::scheduler_rpc_poll() {
 }
 
 static inline bool requested_work() {
-    return (cpu_work_fetch.req_secs || cuda_work_fetch.req_secs || ati_work_fetch.req_secs);
+    for (int i=0; i<coprocs.n_rsc; i++) {
+        if (rsc_work_fetch[i].req_secs) return true;
+    }
+    return false;
 }
 
 // Handle the reply from a scheduler
@@ -749,10 +761,10 @@ int CLIENT_STATE::handle_scheduler_reply(PROJECT* project, char* scheduler_url) 
                 continue;
             }
         }
-        if (avpp.missing_coproc()) {
+        if (avpp.missing_coproc) {
             msg_printf(project, MSG_INTERNAL_ERROR,
                 "App version uses non-existent %s GPU",
-                avpp.ncudas?"NVIDIA":"ATI"
+                avpp.missing_coproc_name
             );
         }
         APP* app = lookup_app(project, avpp.app_name);
@@ -774,8 +786,7 @@ int CLIENT_STATE::handle_scheduler_reply(PROJECT* project, char* scheduler_url) 
             avp->max_ncpus = avpp.max_ncpus;
             avp->flops = avpp.flops;
             strcpy(avp->cmdline, avpp.cmdline);
-            avp->ncudas = avpp.ncudas;
-            avp->natis = avpp.natis;
+            avp->gpu_usage = avpp.gpu_usage;
             strlcpy(avp->api_version, avpp.api_version, sizeof(avp->api_version));
 
             // if we had download failures, clear them
@@ -808,9 +819,10 @@ int CLIENT_STATE::handle_scheduler_reply(PROJECT* project, char* scheduler_url) 
         wup->clear_errors();
         workunits.push_back(wup);
     }
-    double est_cpu_duration = 0;
-    double est_cuda_duration = 0;
-    double est_ati_duration = 0;
+    double est_rsc_duration[MAX_RSC];
+    for (int j=0; j<coprocs.n_rsc; j++) {
+        est_rsc_duration[j] = 0;
+    }
     for (i=0; i<sr.results.size(); i++) {
         if (lookup_result(project, sr.results[i].name)) {
             msg_printf(project, MSG_INTERNAL_ERROR,
@@ -843,7 +855,7 @@ int CLIENT_STATE::handle_scheduler_reply(PROJECT* project, char* scheduler_url) 
             delete rp;
             continue;
         }
-        if (rp->avp->missing_coproc()) {
+        if (rp->avp->missing_coproc) {
             msg_printf(project, MSG_INTERNAL_ERROR,
                 "Missing coprocessor for task %s; aborting", rp->name
             );
@@ -851,15 +863,13 @@ int CLIENT_STATE::handle_scheduler_reply(PROJECT* project, char* scheduler_url) 
             continue;
         } else {
             rp->set_state(RESULT_NEW, "handle_scheduler_reply");
-            if (rp->avp->ncudas) {
-                est_cuda_duration += rp->estimated_duration();
+            int rt = rp->avp->gpu_usage.rsc_type;
+            if (rt > 0) {
+                est_rsc_duration[rt] += rp->estimated_duration();
                 gpus_usable = true;
                     // trigger a check of whether GPU is actually usable
-            } else if (rp->avp->natis) {
-                est_ati_duration += rp->estimated_duration();
-                gpus_usable = true;
             } else {
-                est_cpu_duration += rp->estimated_duration();
+                est_rsc_duration[0] += rp->estimated_duration();
             }
         }
         rp->wup->version_num = rp->version_num;
@@ -871,20 +881,10 @@ int CLIENT_STATE::handle_scheduler_reply(PROJECT* project, char* scheduler_url) 
 
     if (log_flags.sched_op_debug) {
         if (sr.results.size()) {
-            msg_printf(project, MSG_INFO,
-                "[sched_op] estimated total CPU task duration: %.0f seconds",
-                est_cpu_duration
-            );
-            if (host_info.have_cuda()) {
+            for (int i=0; i<coprocs.n_rsc; i++) {
                 msg_printf(project, MSG_INFO,
-                    "[sched_op] estimated total NVIDIA GPU task duration: %.0f seconds",
-                    est_cuda_duration
-                );
-            }
-            if (host_info.have_ati()) {
-                msg_printf(project, MSG_INFO,
-                    "[sched_op] estimated total ATI GPU task duration: %.0f seconds",
-                    est_ati_duration
+                    "[sched_op] estimated total %s task duration: %.0f seconds",
+                    rsc_name(i), est_rsc_duration[i]
                 );
             }
         }

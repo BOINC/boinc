@@ -283,10 +283,10 @@ int CLIENT_STATE::parse_state_file_aux(const char* fname) {
                     strcpy(avp->platform, get_primary_platform());
                 }
             }
-            if (avp->missing_coproc()) {
+            if (avp->missing_coproc) {
                 msg_printf(project, MSG_INFO,
                     "Application uses missing %s GPU",
-                    avp->ncudas?"NVIDIA":"ATI"
+                    avp->missing_coproc_name
                 );
             }
             retval = link_app_version(project, avp);
@@ -371,7 +371,7 @@ int CLIENT_STATE::parse_state_file_aux(const char* fname) {
                 delete rp;
                 continue;
             }
-            if (rp->avp->missing_coproc()) {
+            if (rp->avp->missing_coproc) {
                 msg_printf(project, MSG_INFO,
                     "Missing coprocessor for task %s", rp->name
                 );
@@ -929,16 +929,12 @@ int CLIENT_STATE::write_state_gui(MIOFILE& f) {
         "<core_client_major_version>%d</core_client_major_version>\n"
         "<core_client_minor_version>%d</core_client_minor_version>\n"
         "<core_client_release>%d</core_client_release>\n"
-        "<executing_as_daemon>%d</executing_as_daemon>\n"
-        "<have_cuda>%d</have_cuda>\n"
-        "<have_ati>%d</have_ati>\n",
+        "<executing_as_daemon>%d</executing_as_daemon>\n",
         get_primary_platform(),
         core_client_version.major,
         core_client_version.minor,
         core_client_version.release,
-        executing_as_daemon?1:0,
-        host_info.have_cuda()?1:0,
-        host_info.have_ati()?1:0
+        executing_as_daemon?1:0
     );
     for (i=0; i<platforms.size(); i++) {
         f.printf(

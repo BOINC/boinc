@@ -662,9 +662,6 @@ int RPCThread::ProcessRPCRequest() {
             *(GLOBAL_PREFS_MASK*)(current_request->arg2)
         );
         break;
-    case RPC_SET_DEBTS:
-        retval = (m_pDoc->rpcClient).set_debts(*(std::vector<PROJECT>*)(current_request->arg1));
-        break;
     default:
         break;
     }

@@ -714,7 +714,6 @@ public:
     int set_global_prefs_override(std::string&);
     int get_global_prefs_override_struct(GLOBAL_PREFS&, GLOBAL_PREFS_MASK&);
     int set_global_prefs_override_struct(GLOBAL_PREFS&, GLOBAL_PREFS_MASK&);
-    int set_debts(std::vector<PROJECT>);
 };
 
 struct RPC {

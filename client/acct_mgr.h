@@ -96,15 +96,15 @@ struct AM_ACCOUNT {
     char url_signature[MAX_SIGNATURE_LEN];
     bool detach;
     bool update;
-    bool no_cpu;
-    bool no_cuda;
-    bool no_ati;
+    bool no_rsc[MAX_RSC];
+        // instructions from AM not to use various resources
     OPTIONAL_BOOL dont_request_more_work;
     OPTIONAL_BOOL detach_when_done;
     OPTIONAL_DOUBLE resource_share;
     OPTIONAL_BOOL suspend;
     OPTIONAL_BOOL abort_not_started;
 
+    void handle_no_rsc(const char*, bool);
     int parse(XML_PARSER&);
     AM_ACCOUNT() {}
     ~AM_ACCOUNT() {}

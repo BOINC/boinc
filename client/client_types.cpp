@@ -65,17 +65,12 @@ void PROJECT::init() {
     project_specific_prefs = "";
     gui_urls = "";
     resource_share = 100;
-    no_cpu_pref = false;
-    no_cuda_pref = false;
-    no_ati_pref = false;
-    no_cpu_apps = false;
-    no_cuda_apps = false;
-    no_ati_apps = false;
-    no_cpu_ams = false;
-    no_cuda_ams = false;
-    no_ati_ams = false;
-    cuda_defer_sched = false;
-    ati_defer_sched = false;
+    for (int i=0; i<MAX_RSC; i++) {
+        no_rsc_pref[i] = false;
+        no_rsc_apps[i] = false;
+        no_rsc_ams[i] = false;
+        rsc_defer_sched[i] = false;
+    }
     strcpy(host_venue, "");
     using_venue_specific_prefs = false;
     scheduler_urls.clear();
@@ -141,13 +136,44 @@ void PROJECT::init() {
 #endif
 }
 
+void PROJECT::handle_no_rsc_ams(const char* name, bool value) {
+    int i = rsc_index(name);
+    if (i < 0) return;
+    no_rsc_ams[i] = value;
+}
+
+void PROJECT::handle_no_rsc_apps(const char* name, bool value) {
+    int i = rsc_index(name);
+    if (i < 0) return;
+    no_rsc_apps[i] = value;
+}
+
+static bool parse_rsc_param(MIOFILE& in, const char* end_tag, int& rsc_type, double& value) {
+    char buf[256], name[256];
+    bool val_found = false;
+
+    rsc_type = -1;
+    while (in.fgets(buf, 256)) {
+        if (match_tag(buf, end_tag)) {
+            return (rsc_type > 0 && val_found);
+        }
+        if (parse_str(buf, "<name>", name, sizeof(name))) {
+            rsc_type = rsc_index(name);
+            continue;
+        }
+        if (parse_double(buf, "<rsc_type>", value)) {
+            val_found = true;
+        }
+    }
+    return false;
+}
 // parse project fields from client_state.xml
 //
 int PROJECT::parse_state(MIOFILE& in) {
     char buf[256];
     std::string sched_url;
     string str1, str2;
-    int retval;
+    int retval, rt;
     double x;
     bool btemp;
 
@@ -213,38 +239,78 @@ int PROJECT::parse_state(MIOFILE& in) {
         if (parse_double(buf, "<rec>", pwf.rec)) continue;
         if (parse_double(buf, "<rec_time>", pwf.rec_time)) continue;
 //#else
-        if (parse_double(buf, "<short_term_debt>", cpu_pwf.short_term_debt)) continue;
-        if (parse_double(buf, "<long_term_debt>", cpu_pwf.long_term_debt)) continue;
+        if (parse_double(buf, "<short_term_debt>", rsc_pwf[0].short_term_debt)) continue;
+        if (parse_double(buf, "<long_term_debt>", rsc_pwf[0].long_term_debt)) continue;
 //#endif
-        if (parse_double(buf, "<cpu_backoff_interval>", cpu_pwf.backoff_interval)) continue;
-        if (parse_double(buf, "<cpu_backoff_time>", cpu_pwf.backoff_time)) {
-            if (cpu_pwf.backoff_time > gstate.now + 28*SECONDS_PER_DAY) {
-                cpu_pwf.backoff_time = gstate.now + 28*SECONDS_PER_DAY;
+        if (parse_double(buf, "<cpu_backoff_interval>", rsc_pwf[0].backoff_interval)) continue;
+        if (parse_double(buf, "<cpu_backoff_time>", rsc_pwf[0].backoff_time)) {
+            if (rsc_pwf[0].backoff_time > gstate.now + 28*SECONDS_PER_DAY) {
+                rsc_pwf[0].backoff_time = gstate.now + 28*SECONDS_PER_DAY;
             }
             continue;
         }
 //#ifndef USE_REC
-        if (parse_double(buf, "<cuda_short_term_debt>", cuda_pwf.short_term_debt)) continue;
-        if (parse_double(buf, "<cuda_debt>", cuda_pwf.long_term_debt)) continue;
+        if (match_tag(buf, "<rsc_short_term_debt>")) {
+            if (parse_rsc_param(in, "</rsc_short_term_debt>", rt, x)) {
+                rsc_pwf[rt].short_term_debt = x;
+            }
+            continue;
+        }
+        if (match_tag(buf, "<rsc_long_term_debt>")) {
+            if (parse_rsc_param(in, "</rsc_long_term_debt>", rt, x)) {
+                rsc_pwf[rt].long_term_debt = x;
+            }
+            continue;
+        }
 //#endif
-        if (parse_double(buf, "<cuda_backoff_interval>", cuda_pwf.backoff_interval)) continue;
-        if (parse_double(buf, "<cuda_backoff_time>", cuda_pwf.backoff_time)) continue;
-//#ifndef USE_REC
-        if (parse_double(buf, "<ati_short_term_debt>", ati_pwf.short_term_debt)) continue;
-        if (parse_double(buf, "<ati_debt>", ati_pwf.long_term_debt)) continue;
-//#endif
-        if (parse_double(buf, "<ati_backoff_interval>", ati_pwf.backoff_interval)) continue;
-        if (parse_double(buf, "<ati_backoff_time>", ati_pwf.backoff_time)) continue;
+        if (match_tag(buf, "<rsc_backoff_interval>")) {
+            if (parse_rsc_param(in, "</rsc_backoff_interval>", rt, x)) {
+                rsc_pwf[rt].backoff_interval = x;
+            }
+            continue;
+        }
+        if (match_tag(buf, "<rsc_backoff_time>")) {
+            if (parse_rsc_param(in, "</rsc_backoff_time>", rt, x)) {
+                rsc_pwf[rt].backoff_time = x;
+            }
+            continue;
+        }
         if (parse_double(buf, "<resource_share>", resource_share)) continue;
             // not authoritative
         if (parse_double(buf, "<duration_correction_factor>", duration_correction_factor)) continue;
         if (parse_bool(buf, "attached_via_acct_mgr", attached_via_acct_mgr)) continue;
-        if (parse_bool(buf, "no_cpu_apps", no_cpu_apps)) continue;
-        if (parse_bool(buf, "no_cuda_apps", no_cuda_apps)) continue;
-        if (parse_bool(buf, "no_ati_apps", no_ati_apps)) continue;
-        if (parse_bool(buf, "no_cpu_ams", no_cpu_ams)) continue;
-        if (parse_bool(buf, "no_cuda_ams", no_cuda_ams)) continue;
-        if (parse_bool(buf, "no_ati_ams", no_ati_ams)) continue;
+        if (parse_bool(buf, "no_cpu_apps", btemp)) {
+            handle_no_rsc_apps("CPU", btemp);
+            continue;
+        }
+        if (parse_bool(buf, "no_cuda_apps", btemp)) {
+            handle_no_rsc_apps("NVIDIA", btemp);
+            continue;
+        }
+        if (parse_bool(buf, "no_ati_apps", btemp)) {
+            handle_no_rsc_apps("ATI", btemp);
+            continue;
+        }
+        if (parse_str(buf, "<no_rsc_apps>", buf, sizeof(buf))) {
+            handle_no_rsc_apps(buf, true);
+            continue;
+        }
+        if (parse_bool(buf, "no_cpu_ams", btemp)) {
+            handle_no_rsc_ams("CPU", btemp);
+            continue;
+        }
+        if (parse_bool(buf, "no_cuda_ams", btemp)) {
+            handle_no_rsc_ams("NVIDIA", btemp);
+            continue;
+        }
+        if (parse_bool(buf, "no_ati_ams", btemp)) {
+            handle_no_rsc_ams("ATI", btemp);
+            continue;
+        }
+        if (parse_str(buf, "<no_rsc_ams>", buf, sizeof(buf))) {
+            handle_no_rsc_ams(buf, true);
+            continue;
+        }
 
             // backwards compat - old state files had ams_resource_share = 0
         if (parse_double(buf, "<ams_resource_share_new>", ams_resource_share)) continue;
@@ -303,35 +369,13 @@ int PROJECT::write_state(MIOFILE& out, bool gui_rpc) {
 //#ifdef USE_REC
         "    <rec>%f</rec>\n"
         "    <rec_time>%f</rec_time>\n"
-//#else
-        "    <short_term_debt>%f</short_term_debt>\n"
-        "    <long_term_debt>%f</long_term_debt>\n"
 //#endif
-        "    <cpu_backoff_interval>%f</cpu_backoff_interval>\n"
-        "    <cpu_backoff_time>%f</cpu_backoff_time>\n"
-//#ifndef USE_REC
-        "    <cuda_short_term_debt>%f</cuda_short_term_debt>\n"
-        "    <cuda_debt>%f</cuda_debt>\n"
-//#endif
-        "    <cuda_backoff_interval>%f</cuda_backoff_interval>\n"
-        "    <cuda_backoff_time>%f</cuda_backoff_time>\n"
-//#ifndef USE_REC
-        "    <ati_short_term_debt>%f</ati_short_term_debt>\n"
-        "    <ati_debt>%f</ati_debt>\n"
-//#endif
-        "    <ati_backoff_interval>%f</ati_backoff_interval>\n"
-        "    <ati_backoff_time>%f</ati_backoff_time>\n"
+
         "    <resource_share>%f</resource_share>\n"
         "    <duration_correction_factor>%f</duration_correction_factor>\n"
         "    <sched_rpc_pending>%d</sched_rpc_pending>\n"
         "    <send_time_stats_log>%d</send_time_stats_log>\n"
         "    <send_job_log>%d</send_job_log>\n"
-        "    <no_cpu_apps>%d</no_cpu_apps>\n"
-        "    <no_cuda_apps>%d</no_cuda_apps>\n"
-        "    <no_ati_apps>%d</no_ati_apps>\n"
-        "    <no_cpu_ams>%d</no_cpu_ams>\n"
-        "    <no_cuda_ams>%d</no_cuda_ams>\n"
-        "    <no_ati_ams>%d</no_ati_ams>\n"
         "%s%s%s%s%s%s%s%s%s%s%s%s%s%s",
         master_url,
         project_name,
@@ -360,34 +404,11 @@ int PROJECT::write_state(MIOFILE& out, bool gui_rpc) {
         pwf.rec,
         pwf.rec_time,
 //#else
-        cpu_pwf.short_term_debt,
-        cpu_pwf.long_term_debt,
-//#endif
-        cpu_pwf.backoff_interval,
-        cpu_pwf.backoff_time,
-//#ifndef USE_REC
-        cuda_pwf.short_term_debt,
-        cuda_pwf.long_term_debt,
-//#endif
-        cuda_pwf.backoff_interval,
-        cuda_pwf.backoff_time,
-//#ifndef USE_REC
-        ati_pwf.short_term_debt,
-        ati_pwf.long_term_debt,
-//#endif
-        ati_pwf.backoff_interval,
-        ati_pwf.backoff_time,
         resource_share,
         duration_correction_factor,
         sched_rpc_pending,
         send_time_stats_log,
         send_job_log,
-        no_cpu_apps?1:0,
-        no_cuda_apps?1:0,
-        no_ati_apps?1:0,
-        no_cpu_ams?1:0,
-        no_cuda_ams?1:0,
-        no_ati_ams?1:0,
         anonymous_platform?"    <anonymous_platform/>\n":"",
         master_url_fetch_pending?"    <master_url_fetch_pending/>\n":"",
         trickle_up_pending?"    <trickle_up_pending/>\n":"",
@@ -403,6 +424,40 @@ int PROJECT::write_state(MIOFILE& out, bool gui_rpc) {
         (this == gstate.scheduler_op->cur_proj)?"   <scheduler_rpc_in_progress/>\n":"",
         use_symlinks?"    <use_symlinks/>\n":""
     );
+    for (int j=0; j<coprocs.n_rsc; j++) {
+        out.printf(
+//#ifndef USE_REC
+            "    <rsc_short_term_debt>\n"
+            "        <name>%s</name>\n"
+            "        <value>%f</value>\n"
+            "    </rsc_short_term_debt>\n"
+            "    <rsc_long_term_debt>\n"
+            "        <name>%s</name>\n"
+            "        <value>%f</value>\n"
+            "    </rsc_long_term_debt>\n"
+//#endif
+            "    <rsc_backoff_time>\n"
+            "        <name>%s</name>\n"
+            "        <value>%f</value>\n"
+            "    </rsc_backoff_time>\n"
+            "    <rsc_backoff_interval>\n"
+            "        <name>%s</name>\n"
+            "        <value>%f</value>\n"
+            "    </rsc_backoff_interval>\n",
+//#ifndef USE_REC
+            rsc_name(j), rsc_pwf[j].short_term_debt,
+            rsc_name(j), rsc_pwf[j].long_term_debt,
+//#endif
+            rsc_name(j), rsc_pwf[j].backoff_interval,
+            rsc_name(j), rsc_pwf[j].backoff_time
+        );
+        if (no_rsc_ams[j]) {
+            out.printf("    <no_rsc_ams>%s</no_rsc_ams>\n", rsc_name(j));
+        }
+        if (no_rsc_apps[j]) {
+            out.printf("    <no_rsc_apps>%s</no_rsc_apps>\n", rsc_name(j));
+        }
+    }
     if (ams_resource_share >= 0) {
         out.printf("    <ams_resource_share_new>%f</ams_resource_share_new>\n",
             ams_resource_share
@@ -428,9 +483,11 @@ int PROJECT::write_state(MIOFILE& out, bool gui_rpc) {
                 upload_backoff.next_xfer_time - gstate.now
             );
         }
-        if (no_cpu_pref) out.printf("    <no_cpu_pref/>\n");
-        if (no_cuda_pref) out.printf("    <no_cuda_pref/>\n");
-        if (no_ati_pref) out.printf("    <no_ati_pref/>\n");
+        for (int j=0; j<coprocs.n_rsc; j++) {
+            if (no_rsc_pref[j]) {
+                out.printf("    <no_rsc_pref>%s</no_rsc_pref>\n", rsc_name(j));
+            }
+        }
         if (strlen(host_venue)) {
             out.printf("    <venue>%s</venue>\n", host_venue);
         }
@@ -483,9 +540,9 @@ void PROJECT::copy_state_fields(PROJECT& p) {
     sched_rpc_pending = p.sched_rpc_pending;
     trickle_up_pending = p.trickle_up_pending;
     safe_strcpy(code_sign_key, p.code_sign_key);
-    cpu_pwf = p.cpu_pwf;
-    cuda_pwf = p.cuda_pwf;
-    ati_pwf = p.ati_pwf;
+    for (int i=0; i<MAX_RSC; i++) {
+        rsc_pwf[i] = p.rsc_pwf[i];
+    }
     pwf = p.pwf;
     send_file_list = p.send_file_list;
     send_full_workload = p.send_full_workload;
@@ -1241,12 +1298,15 @@ int APP_VERSION::parse(MIOFILE& in) {
     strcpy(cmdline, "");
     avg_ncpus = 1;
     max_ncpus = 1;
-    ncudas = 0;
-    natis = 0;
+    gpu_usage.rsc_type = 0;
+    gpu_usage.usage = 0;
     gpu_ram = 0;
     app = NULL;
     project = NULL;
     flops = gstate.host_info.p_fpops;
+    missing_coproc = false;
+    strcpy(missing_coproc_name, "");
+
     while (in.fgets(buf, 256)) {
         if (match_tag(buf, "</app_version>")) return 0;
         if (parse_str(buf, "<app_name>", app_name, sizeof(app_name))) continue;
@@ -1268,11 +1328,13 @@ int APP_VERSION::parse(MIOFILE& in) {
             COPROC_REQ cp;
             int retval = cp.parse(in);
             if (!retval) {
-                if (!strcmp(cp.type, "CUDA")) {
-                    ncudas = cp.count;
-                }
-                if (!strcmp(cp.type, "ATI")) {
-                    natis = cp.count;
+                int rt = rsc_index(cp.type);
+                if (rt > 0) {
+                    gpu_usage.rsc_type = rt;
+                    gpu_usage.usage = cp.count;
+                } else {
+                    missing_coproc = true;
+                    strcpy(missing_coproc_name, cp.type);
                 }
             } else {
                 msg_printf(0, MSG_INTERNAL_ERROR, "Error parsing <coproc>");
@@ -1322,22 +1384,14 @@ int APP_VERSION::write(MIOFILE& out, bool write_file_info) {
             if (retval) return retval;
         }
     }
-    if (ncudas) {
+    if (gpu_usage.rsc_type) {
         out.printf(
             "    <coproc>\n"
-            "        <type>CUDA</type>\n"
+            "        <type>%s</type>\n"
             "        <count>%f</count>\n"
             "    </coproc>\n",
-            ncudas
-        );
-    }
-    if (natis) {
-        out.printf(
-            "    <coproc>\n"
-            "        <type>ATI</type>\n"
-            "        <count>%f</count>\n"
-            "    </coproc>\n",
-            natis
+            rsc_name(gpu_usage.rsc_type),
+            gpu_usage.usage
         );
     }
     if (gpu_ram) {
@@ -1378,16 +1432,6 @@ void APP_VERSION::get_file_errors(string& str) {
             str = str + msg;
         }
     }
-}
-
-bool APP_VERSION::missing_coproc() {
-    if (ncudas && gstate.host_info.coprocs.cuda.count==0) {
-        return true;
-    }
-    if (natis && gstate.host_info.coprocs.ati.count==0) {
-        return true;
-    }
-    return false;
 }
 
 void APP_VERSION::clear_errors() {
@@ -1895,15 +1939,12 @@ int RESULT::write_gui(MIOFILE& out) {
     if (!strlen(resources)) {
         // only need to compute this string once
         //
-        if (avp->ncudas) {
+        if (avp->gpu_usage.rsc_type) {
             sprintf(resources,
-                "%.2f CPUs + %.2f NVIDIA GPUs",
-                avp->avg_ncpus, avp->ncudas
-            );
-        } else if (avp->natis) {
-            sprintf(resources,
-                "%.2f CPUs + %.2f ATI GPUs",
-                avp->avg_ncpus, avp->natis
+                "%.2f CPUs + %.2f %s GPUs",
+                avp->avg_ncpus,
+                avp->gpu_usage.usage,
+                rsc_name(avp->gpu_usage.rsc_type)
             );
         } else if (avp->avg_ncpus != 1) {
             sprintf(resources, "%.2f CPUs", avp->avg_ncpus);
@@ -1915,9 +1956,7 @@ int RESULT::write_gui(MIOFILE& out) {
         char buf[256];
         strcpy(buf, "");
         if (atp && atp->task_state() == PROCESS_EXECUTING) {
-            if (avp->ncudas && gstate.host_info.coprocs.cuda.count>1) {
-                sprintf(buf, " (device %d)", coproc_indices[0]);
-            } else if (avp->natis && gstate.host_info.coprocs.ati.count>1) {
+            if (avp->gpu_usage.rsc_type) {
                 sprintf(buf, " (device %d)", coproc_indices[0]);
             }
         }

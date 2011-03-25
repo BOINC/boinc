@@ -307,7 +307,7 @@ int CONFIG::parse_options(XML_PARSER& xp) {
     char tag[1024], path[256];
     bool is_tag;
     string s;
-    int n;
+    int n, retval;
 
     //clear();
     // don't do this here because some options are set by cmdline args,
@@ -346,6 +346,22 @@ int CONFIG::parse_options(XML_PARSER& xp) {
         }
         if (xp.parse_string(tag, "client_version_check_url", client_version_check_url)) {
             downcase_string(client_version_check_url);
+            continue;
+        }
+        if (!strcmp(tag, "coproc")) {
+            COPROC c;
+            retval = c.parse(xp);
+            if (retval) {
+                msg_printf(0, MSG_USER_ALERT,
+                    "Can't parse <coproc> in cc_config.xml"
+                );
+            }
+            retval = coprocs.add(c);
+            if (retval) {
+                msg_printf(0, MSG_USER_ALERT,
+                    "Duplicate <coproc> in cc_config.xml"
+                );
+            }
             continue;
         }
         if (xp.parse_str(tag, "data_dir", path, sizeof(path))) {

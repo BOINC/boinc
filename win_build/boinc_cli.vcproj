@@ -849,6 +849,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\lib\hostinfo.h"
+				>
+			</File>
+			<File
 				RelativePath="..\client\hostinfo_network.h"
 				>
 			</File>

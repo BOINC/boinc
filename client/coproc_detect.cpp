@@ -209,13 +209,13 @@ void COPROCS::get_opencl(vector<string>&warnings) {
 
 void COPROCS::get(
     bool use_all, vector<string>&descs, vector<string>&warnings,
-    vector<int>& ignore_cuda_dev,
+    vector<int>& ignore_nvidia_dev,
     vector<int>& ignore_ati_dev
 ) {
 
 #ifdef _WIN32
     try {
-        cuda.get(use_all, descs, warnings, ignore_cuda_dev);
+        nvidia.get(use_all, descs, warnings, ignore_nvidia_dev);
     }
     catch (...) {
         warnings.push_back("Caught SIGSEGV in NVIDIA GPU detection");
@@ -231,7 +231,7 @@ void COPROCS::get(
     if (setjmp(resume)) {
         warnings.push_back("Caught SIGSEGV in NVIDIA GPU detection");
     } else {
-        cuda.get(use_all, descs, warnings, ignore_cuda_dev);
+        nvidia.get(use_all, descs, warnings, ignore_nvidia_dev);
     }
 #ifndef __APPLE__       // ATI does not yet support CAL on Macs
     if (setjmp(resume)) {
@@ -255,7 +255,7 @@ void COPROCS::get(
 //
 // If "loose", ignore FLOPS and tolerate small memory diff
 //
-int cuda_compare(COPROC_CUDA& c1, COPROC_CUDA& c2, bool loose) {
+int nvidia_compare(COPROC_NVIDIA& c1, COPROC_NVIDIA& c2, bool loose) {
     if (c1.prop.major > c2.prop.major) return 1;
     if (c1.prop.major < c2.prop.major) return -1;
     if (c1.prop.minor > c2.prop.minor) return 1;
@@ -347,7 +347,7 @@ int (*__cuMemGetInfo)(unsigned int*, unsigned int*);
 // NVIDIA interfaces are documented here:
 // http://developer.download.nvidia.com/compute/cuda/2_3/toolkit/docs/online/index.html
 
-void COPROC_CUDA::get(
+void COPROC_NVIDIA::get(
     bool use_all,    // if false, use only those equivalent to most capable
     vector<string>& descs,
     vector<string>& warnings,
@@ -481,7 +481,7 @@ void COPROC_CUDA::get(
         return;
     }
 
-    vector<COPROC_CUDA> gpus;
+    vector<COPROC_NVIDIA> gpus;
     retval = (*__cuDeviceGetCount)(&count);
     if (retval) {
         sprintf(buf, "cuDeviceGetCount() returned %d", retval);
@@ -493,7 +493,7 @@ void COPROC_CUDA::get(
 
     int j;
     unsigned int i;
-    COPROC_CUDA cc;
+    COPROC_NVIDIA cc;
     string s;
     for (j=0; j<count; j++) {
         memset(&cc.prop, 0, sizeof(cc.prop));
@@ -549,14 +549,14 @@ void COPROC_CUDA::get(
 
     // identify the most capable non-ignored instance
     //
-    COPROC_CUDA best;
+    COPROC_NVIDIA best;
     bool first = true;
     for (i=0; i<gpus.size(); i++) {
         if (in_vector(gpus[i].device_num, ignore_devs)) continue;
         if (first) {
             best = gpus[i];
             first = false;
-        } else if (cuda_compare(gpus[i], best, false) > 0) {
+        } else if (nvidia_compare(gpus[i], best, false) > 0) {
             best = gpus[i];
         }
     }
@@ -570,7 +570,7 @@ void COPROC_CUDA::get(
         gpus[i].description(buf);
         if (in_vector(gpus[i].device_num, ignore_devs)) {
             sprintf(buf2, "NVIDIA GPU %d (ignored by config): %s", gpus[i].device_num, buf);
-        } else if (use_all || !cuda_compare(gpus[i], best, true)) {
+        } else if (use_all || !nvidia_compare(gpus[i], best, true)) {
             best.device_nums[best.count] = gpus[i].device_num;
             best.count++;
             sprintf(buf2, "NVIDIA GPU %d: %s", gpus[i].device_num, buf);
@@ -587,8 +587,8 @@ void COPROC_CUDA::get(
 
 // fake a NVIDIA GPU (for debugging)
 //
-void COPROC_CUDA::fake(int driver_version, double ram, int n) {
-   strcpy(type, "CUDA");
+void COPROC_NVIDIA::fake(int driver_version, double ram, int n) {
+   strcpy(type, "NVIDIA");
    count = n;
    for (int i=0; i<count; i++) {
        device_nums[i] = i;
@@ -620,7 +620,7 @@ void COPROC_CUDA::fake(int driver_version, double ram, int n) {
 // See how much RAM is available on each GPU.
 // If this fails, set "available_ram_unknown"
 //
-void COPROC_CUDA::get_available_ram() {
+void COPROC_NVIDIA::get_available_ram() {
 #ifdef MEASURE_AVAILABLE_RAM
     int device, i, retval;
     unsigned int memfree, memtotal;
@@ -682,7 +682,7 @@ void COPROC_CUDA::get_available_ram() {
 // check whether each GPU is running a graphics app (assume yes)
 // return true if there's been a change since last time
 //
-bool COPROC_CUDA::check_running_graphics_app() {
+bool COPROC_NVIDIA::check_running_graphics_app() {
     int retval, j;
     bool change = false;
     for (j=0; j<count; j++) {

@@ -478,6 +478,7 @@ struct CLIENT_STATE {
 };
 
 extern CLIENT_STATE gstate;
+extern COPROCS coprocs;
 
 extern bool gpus_usable;
     // set to false if GPUs not usable because of remote desktop
@@ -490,6 +491,7 @@ extern double calculate_exponential_backoff(
 );
 
 extern void print_suspend_tasks_message(int);
+
 
 //////// TIME-RELATED CONSTANTS ////////////
 

@@ -149,7 +149,7 @@ int CLIENT_STATE::check_suspend_processing() {
         }
     }
 
-    if (!host_info.coprocs.none()) {
+    if (!coprocs.none()) {
         int old_gpu_suspend_reason = gpu_suspend_reason;
         gpu_suspend_reason = 0;
         switch (gpu_mode.get_current()) {

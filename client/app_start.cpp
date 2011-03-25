@@ -119,10 +119,7 @@ static void debug_print_argv(char** argv) {
 static void coproc_cmdline(
     int rsc_type, RESULT* rp, double ninstances, char* cmdline
 ) {
-    COPROC* coproc = (rsc_type==RSC_TYPE_CUDA)
-        ?(COPROC*)&gstate.host_info.coprocs.cuda
-        :(COPROC*)&gstate.host_info.coprocs.ati
-    ;
+    COPROC* coproc = &coprocs.coprocs[rsc_type];
     for (int j=0; j<ninstances; j++) {
         int k = rp->coproc_indices[j];
         // sanity check
@@ -587,11 +584,9 @@ int ACTIVE_TASK::start(bool first_time) {
     sprintf(cmdline, "%s %s %s",
         exec_path, wup->command_line.c_str(), app_version->cmdline
     );
-    if (app_version->ncudas) {
-        coproc_cmdline(RSC_TYPE_CUDA, result, app_version->ncudas, cmdline);
-    }
-    if (app_version->natis) {
-        coproc_cmdline(RSC_TYPE_ATI, result, app_version->natis, cmdline);
+    int rt = app_version->gpu_usage.rsc_type;
+    if (rt) {
+        coproc_cmdline(rt, result, app_version->gpu_usage.usage, cmdline);
     }
 
     relative_to_absolute(slot_dir, slotdirpath);

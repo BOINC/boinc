@@ -70,7 +70,7 @@ void HOST_INFO::clear_host_info() {
 
     strcpy(virtualbox_version, "");
 
-    coprocs.clear();
+    _coprocs.clear();
 }
 
 int HOST_INFO::parse(MIOFILE& in, bool benchmarks_only) {
@@ -113,7 +113,7 @@ int HOST_INFO::parse(MIOFILE& in, bool benchmarks_only) {
         else if (parse_str(buf, "<os_version>", os_version, sizeof(os_version))) continue;
         else if (parse_str(buf, "<virtualbox_version>", virtualbox_version, sizeof(virtualbox_version))) continue;
         else if (match_tag(buf, "<coprocs>")) {
-            coprocs.parse(in);
+            _coprocs.parse(in);
         }
     }
     return ERR_XML_PARSE;
@@ -193,7 +193,7 @@ int HOST_INFO::write(
         );
     }
     if (include_coprocs) {
-        coprocs.write_xml(out, false);
+        _coprocs.write_xml(out, false);
     }
     out.printf(
         "</host_info>\n"

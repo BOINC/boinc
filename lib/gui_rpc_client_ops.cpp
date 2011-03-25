@@ -2394,33 +2394,6 @@ int RPC_CLIENT::read_cc_config() {
     return retval;
 }
 
-int RPC_CLIENT::set_debts(vector<PROJECT> projects) {
-    int retval;
-    SET_LOCALE sl;
-    char buf[1024];
-    RPC rpc(this);
-    string s;
-
-    s = "<set_debts>\n";
-    for (unsigned int i=0; i<projects.size(); i++) {
-        PROJECT& p = projects[i];
-        sprintf(buf,
-            "    <project>\n"
-            "        <master_url>%s</master_url>\n"
-            "        <short_term_debt>%f</short_term_debt>\n"
-            "        <long_term_debt>%f</long_term_debt>\n"
-            "    </project>\n",
-            p.master_url,
-            p.cpu_short_term_debt,
-            p.cpu_long_term_debt
-        );
-        s += string(buf);
-    }
-    s += "</set_debts>\n";
-    retval = rpc.do_rpc(s.c_str());
-    return retval;
-}
-
 static int parse_notices(MIOFILE& fin, NOTICES& notices) {
     XML_PARSER xp(&fin);
     char tag[256];

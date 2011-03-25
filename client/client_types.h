@@ -50,6 +50,11 @@
 #define MAX_KEY_LEN         4096
 
 #define MAX_COPROCS_PER_JOB 8
+    // max # of instances of a GPU that a job can use
+
+extern int rsc_index(const char*);
+extern const char* rsc_name(int);
+extern COPROCS coprocs;
 
 // If the status is neither of these two,
 // it will be an error code defined in error_numbers.h,
@@ -219,30 +224,22 @@ struct PROJECT : PROJ_AM {
 
     // the following are from the user's project prefs
     //
-    bool no_cpu_pref;
-    bool no_cuda_pref;
-    bool no_ati_pref;
+    bool no_rsc_pref[MAX_RSC];
 
     // the following are from the project itself
     // (or derived from app version list if anonymous platform)
     //
-    bool no_cpu_apps;
-    bool no_cuda_apps;
-    bool no_ati_apps;
+    bool no_rsc_apps[MAX_RSC];
 
     // the following are from the account manager, if any
     //
-    bool no_cpu_ams;
-    bool no_cuda_ams;
-    bool no_ati_ams;
+    bool no_rsc_ams[MAX_RSC];
 
     // the following set dynamically
     //
-    bool cuda_defer_sched;
-        // This project has a CUDA job for which there's insuff. video RAM.
-        // Don't fetch more CUDA jobs; they might have same problem
-    bool ati_defer_sched;
-        // same, ATI
+    bool rsc_defer_sched[MAX_RSC];
+        // This project has a GPU job for which there's insuff. video RAM.
+        // Don't fetch more jobs of this type; they might have same problem
 
     char host_venue[256];
         // logically, this belongs in the client state file
@@ -406,29 +403,19 @@ struct PROJECT : PROJ_AM {
 
     // stuff related to work fetch
     //
-    RSC_PROJECT_WORK_FETCH cpu_pwf;
-    RSC_PROJECT_WORK_FETCH cuda_pwf;
-    RSC_PROJECT_WORK_FETCH ati_pwf;
+    RSC_PROJECT_WORK_FETCH rsc_pwf[MAX_RSC];
     PROJECT_WORK_FETCH pwf;
     inline void reset() {
-        cpu_pwf.reset();
-        cuda_pwf.reset();
-        ati_pwf.reset();
+        for (int i=0; i<coprocs.n_rsc; i++) {
+            rsc_pwf[i].reset();
+        }
     }
     inline int deadlines_missed(int rsc_type) {
-        switch(rsc_type) {
-        case RSC_TYPE_CUDA: return cuda_pwf.deadlines_missed;
-        case RSC_TYPE_ATI: return ati_pwf.deadlines_missed;
-        }
-        return cpu_pwf.deadlines_missed;
+        return rsc_pwf[rsc_type].deadlines_missed;
     }
 //#ifndef USE_REC
     inline double anticipated_debt(int rsc_type) {
-        switch(rsc_type) {
-        case RSC_TYPE_CUDA: return cuda_pwf.anticipated_debt;
-        case RSC_TYPE_ATI: return ati_pwf.anticipated_debt;
-        }
-        return cpu_pwf.anticipated_debt;
+        return rsc_pwf[rsc_type].anticipated_debt;
     }
 //#endif
     void get_task_durs(double& not_started_dur, double& in_progress_dur);
@@ -456,6 +443,9 @@ struct PROJECT : PROJ_AM {
     int parse_account_file();
     int parse_state(MIOFILE&);
     int write_state(MIOFILE&, bool gui_rpc=false);
+    void handle_no_rsc_ams(const char*, bool);
+    void handle_no_rsc_apps(const char*, bool);
+    void handle_no_rsc_pref(const char*, bool);
 
     // statistic of the last x days
     std::vector<DAILY_STATS> statistics;
@@ -473,9 +463,9 @@ struct PROJECT : PROJ_AM {
     inline void detach_ams() {
         attached_via_acct_mgr = false;
         ams_resource_share = -1;
-        no_cpu_ams = false;
-        no_cuda_ams = false;
-        no_ati_ams = false;
+        for (int i=0; i<MAX_RSC; i++) {
+            no_rsc_ams[i] = false;
+        }
     }
 
 #ifdef SIM
@@ -518,6 +508,11 @@ struct APP {
     int write(MIOFILE&);
 };
 
+struct GPU_USAGE {
+    int rsc_type;
+    double usage;
+};
+
 struct APP_VERSION {
     char app_name[256];
     int version_num;
@@ -526,8 +521,9 @@ struct APP_VERSION {
     char api_version[16];
     double avg_ncpus;
     double max_ncpus;
-    double ncudas;
-    double natis;
+    GPU_USAGE gpu_usage;    // can only use 1 GPUtype
+    //double ncudas;
+    //double natis;   // remove
     double gpu_ram;
     double flops;
     char cmdline[256];
@@ -545,6 +541,8 @@ struct APP_VERSION {
         // to use this much RAM,
         // so that we don't run a long sequence of jobs,
         // each of which turns out not to fit in available RAM
+    bool missing_coproc;
+    char missing_coproc_name[256];
 
     int index;  // temp var for make_scheduler_request()
 #ifdef SIM
@@ -559,18 +557,11 @@ struct APP_VERSION {
     void get_file_errors(std::string&);
     void clear_errors();
     int api_major_version();
-    bool missing_coproc();
     inline bool uses_coproc(int rsc_type) {
-        switch (rsc_type) {
-        case RSC_TYPE_CUDA: return (ncudas>0);
-        case RSC_TYPE_ATI: return (natis>0);
-        }
-        return false;
+        return (gpu_usage.rsc_type == rsc_type);
     }
     inline int rsc_type() {
-        if (ncudas>0) return RSC_TYPE_CUDA;
-        if (natis>0) return RSC_TYPE_ATI;
-        return RSC_TYPE_CPU;
+        return gpu_usage.rsc_type;
     }
 };
 
@@ -703,21 +694,11 @@ struct RESULT {
     bool some_download_stalled();
         // some input or app file is downloading, and backed off
         // i.e. it may be a long time before we can run this result
-    inline bool uses_cuda() {
-        return (avp->ncudas > 0);
-    }
-    inline bool uses_ati() {
-        return (avp->natis > 0);
-    }
     inline bool uses_coprocs() {
-        if (avp->ncudas > 0) return true;
-        if (avp->natis > 0) return true;
-        return false;
+        return (avp->gpu_usage.rsc_type != 0);
     }
     inline int resource_type() {
-        if (uses_cuda()) return RSC_TYPE_CUDA;
-        if (uses_ati()) return RSC_TYPE_ATI;
-        return RSC_TYPE_CPU;
+        return avp->gpu_usage.rsc_type;
     }
 
     // temporaries used in CLIENT_STATE::rr_simulation():

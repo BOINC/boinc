@@ -31,8 +31,6 @@ extern bool use_hyst_fetch;
 
 #define RSC_TYPE_ANY    0
 #define RSC_TYPE_CPU    1
-#define RSC_TYPE_CUDA   2
-#define RSC_TYPE_ATI    3
 
 struct PROJECT;
 struct RESULT;
@@ -302,9 +300,7 @@ struct WORK_FETCH {
     void request_string(char*);
 };
 
-extern RSC_WORK_FETCH cuda_work_fetch;
-extern RSC_WORK_FETCH ati_work_fetch;
-extern RSC_WORK_FETCH cpu_work_fetch;
+extern RSC_WORK_FETCH rsc_work_fetch[MAX_RSC];
 extern WORK_FETCH work_fetch;
 
 //#ifdef USE_REC

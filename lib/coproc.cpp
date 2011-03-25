@@ -84,14 +84,44 @@ void COPROC::write_request(MIOFILE& f) {
 }
 #endif
 
+int COPROC::parse(XML_PARSER& xp) {
+    char tag[1024], buf[256];
+    bool is_tag;
+    strcpy(type, "");
+    clear();
+    for (int i=0; i<MAX_COPROC_INSTANCES; i++) {
+        device_nums[i] = i;
+    }
+    while (!xp.get(tag, sizeof(tag), is_tag)) {
+        if (!is_tag) continue;
+        if (!strcmp(tag, "/coproc")) {
+            if (!strlen(type)) return ERR_XML_PARSE;
+            return 0;
+        }
+        if (xp.parse_str(tag, "type", type, sizeof(type))) continue;
+        if (xp.parse_int(tag, "count", count)) continue;
+        if (xp.parse_double(tag, "peak_flops", peak_flops)) continue;
+        if (xp.parse_str(tag, "device_nums", buf, sizeof(buf))) {
+            int i=0;
+            char* p = strtok(buf, " ");
+            while (p && i<MAX_COPROC_INSTANCES) {
+                device_nums[i++] = atoi(p);
+                p = strtok(NULL, " ");
+            }
+            continue;
+        }
+    }
+    return ERR_XML_PARSE;
+}
+
 void COPROCS::summary_string(char* buf, int len) {
     char bigbuf[8192], buf2[1024];
 
     strcpy(bigbuf, "");
-    if (cuda.count) {
-        int mem = (int)(cuda.prop.dtotalGlobalMem/MEGA);
+    if (nvidia.count) {
+        int mem = (int)(nvidia.prop.dtotalGlobalMem/MEGA);
         sprintf(buf2, "[CUDA|%s|%d|%dMB|%d]",
-            cuda.prop.name, cuda.count, mem, cuda.display_driver_version
+            nvidia.prop.name, nvidia.count, mem, nvidia.display_driver_version
         );
         strcat(bigbuf, buf2);
     }
@@ -114,9 +144,9 @@ int COPROCS::parse(MIOFILE& fin) {
             return 0;
         }
         if (strstr(buf, "<coproc_cuda>")) {
-            retval = cuda.parse(fin);
+            retval = nvidia.parse(fin);
             if (retval) {
-                cuda.clear();
+                nvidia.clear();
             }
         }
         if (strstr(buf, "<coproc_ati>")) {
@@ -132,8 +162,8 @@ int COPROCS::parse(MIOFILE& fin) {
 void COPROCS::write_xml(MIOFILE& mf, bool include_request) {
 #ifndef _USING_FCGI_
     mf.printf("    <coprocs>\n");
-    if (cuda.count) {
-        cuda.write_xml(mf, include_request);
+    if (nvidia.count) {
+        nvidia.write_xml(mf, include_request);
     }
     if (ati.count) {
         ati.write_xml(mf, include_request);
@@ -142,7 +172,7 @@ void COPROCS::write_xml(MIOFILE& mf, bool include_request) {
 #endif
 }
 
-void COPROC_CUDA::description(char* buf) {
+void COPROC_NVIDIA::description(char* buf) {
     char vers[256];
     if (display_driver_version) {
         sprintf(vers, "%d", display_driver_version);
@@ -156,7 +186,7 @@ void COPROC_CUDA::description(char* buf) {
 }
 
 #ifndef _USING_FCGI_
-void COPROC_CUDA::write_xml(MIOFILE& f, bool include_request) {
+void COPROC_NVIDIA::write_xml(MIOFILE& f, bool include_request) {
     f.printf(
         "<coproc_cuda>\n"
         "   <count>%d</count>\n"
@@ -207,7 +237,7 @@ void COPROC_CUDA::write_xml(MIOFILE& f, bool include_request) {
 }
 #endif
 
-void COPROC_CUDA::clear() {
+void COPROC_NVIDIA::clear() {
     peak_flops = 0;
     count = 0;
     used = 0;
@@ -238,7 +268,7 @@ void COPROC_CUDA::clear() {
     prop.multiProcessorCount = 0;
 }
 
-int COPROC_CUDA::parse(MIOFILE& fin) {
+int COPROC_NVIDIA::parse(MIOFILE& fin) {
     char buf[1024], buf2[256];
 
     clear();

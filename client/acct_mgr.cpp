@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2011 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -202,17 +202,21 @@ int ACCT_MGR_OP::do_rpc(
     return 0;
 }
 
+void AM_ACCOUNT::handle_no_rsc(const char* name, bool value) {
+    int i = rsc_index(name);
+    if (i < 0) return;
+    no_rsc[i] = value;
+}
+
 int AM_ACCOUNT::parse(XML_PARSER& xp) {
-    char tag[256];
+    char tag[256], buf[256];
     bool is_tag, btemp;
     int retval;
     double dtemp;
 
     detach = false;
     update = false;
-    no_cpu = false;
-    no_cuda = false;
-    no_ati = false;
+    memset(no_rsc, 0, sizeof(no_rsc));
     dont_request_more_work.init();
     detach_when_done.init();
     suspend.init();
@@ -246,9 +250,21 @@ int AM_ACCOUNT::parse(XML_PARSER& xp) {
         if (xp.parse_string(tag, "authenticator", authenticator)) continue;
         if (xp.parse_bool(tag, "detach", detach)) continue;
         if (xp.parse_bool(tag, "update", update)) continue;
-        if (xp.parse_bool(tag, "no_cpu", no_cpu)) continue;
-        if (xp.parse_bool(tag, "no_cuda", no_cuda)) continue;
-        if (xp.parse_bool(tag, "no_ati", no_ati)) continue;
+        if (xp.parse_bool(tag, "no_cpu", btemp)) {
+            handle_no_rsc("CPU", btemp);
+            continue;
+        }
+        if (xp.parse_bool(tag, "no_cuda", btemp)) {
+            handle_no_rsc("NVIDIA", btemp);
+            continue;
+        }
+        if (xp.parse_bool(tag, "no_ati", btemp)) {
+            handle_no_rsc("ATI", btemp);
+            continue;
+        }
+        if (xp.parse_str(tag, "no_rsc", buf, sizeof(buf))) {
+            handle_no_rsc(buf, true);
+        }
         if (xp.parse_bool(tag, "dont_request_more_work", btemp)) {
             dont_request_more_work.set(btemp);
             continue;
@@ -544,9 +560,9 @@ void ACCT_MGR_OP::handle_reply(int http_op_retval) {
                                 pp->abort_not_started();
                             }
                         }
-                        pp->no_cpu_ams = acct.no_cpu;
-                        pp->no_cuda_ams = acct.no_cuda;
-                        pp->no_ati_ams = acct.no_ati;
+                        for (int i=0; i<MAX_RSC; i++) {
+                            pp->no_rsc_ams[i] = acct.no_rsc[i];
+                        }
                     }
                 }
             } else {
@@ -562,9 +578,9 @@ void ACCT_MGR_OP::handle_reply(int http_op_retval) {
                     );
                     pp = gstate.lookup_project(acct.url.c_str());
                     if (pp) {
-                        pp->no_cpu_ams = acct.no_cpu;
-                        pp->no_cuda_ams = acct.no_cuda;
-                        pp->no_ati_ams = acct.no_ati;
+                        for (int i=0; i<MAX_RSC; i++) {
+                            pp->no_rsc_ams[i] = acct.no_rsc[i];
+                        }
                         if (acct.dont_request_more_work.present) {
                             pp->dont_request_more_work = acct.dont_request_more_work.value;
                         }

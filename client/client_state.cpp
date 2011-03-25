@@ -62,6 +62,7 @@
 using std::max;
 
 CLIENT_STATE gstate;
+COPROCS coprocs;
 
 CLIENT_STATE::CLIENT_STATE()
     : lookup_website_op(&gui_http),
@@ -195,23 +196,31 @@ void CLIENT_STATE::show_host_info() {
     }
 }
 
+int rsc_index(const char* name) {
+    const char* nm = strcmp(name, "CUDA")?name:"NVIDIA";
+    for (int i=0; i<coprocs.n_rsc; i++) {
+        if (!strcmp(nm, coprocs.coprocs[i].type)) {
+            return i;
+        }
+    }
+    return -1;
+}
+
+const char* rsc_name(int i) {
+    return coprocs.coprocs[i].type;
+}
+
 // set no_X_apps for anonymous platform project
 //
 static void check_no_apps(PROJECT* p) {
-    p->no_cpu_apps = true;
-    p->no_cuda_apps = true;
-    p->no_ati_apps = true;
+    for (int i=0; i<coprocs.n_rsc; i++) {
+        p->no_rsc_apps[i] = true;
+    }
 
     for (unsigned int i=0; i<gstate.app_versions.size(); i++) {
         APP_VERSION* avp = gstate.app_versions[i];
         if (avp->project != p) continue;
-        if (avp->ncudas > 0) {
-            p->no_cuda_apps = false;
-        } else if (avp->natis > 0) {
-            p->no_ati_apps = false;
-        } else {
-            p->no_cpu_apps = false;
-        }
+        p->no_rsc_apps[avp->gpu_usage.rsc_type] = false;
     }
 }
 
@@ -313,10 +322,16 @@ int CLIENT_STATE::init() {
 
     // check for GPUs.
     //
+    for (int j=1; j<coprocs.n_rsc; j++) {
+        msg_printf(NULL, MSG_INFO, "GPU specified in cc_config.xml: %d %s",
+            coprocs.coprocs[j].count,
+            coprocs.coprocs[j].type
+        );
+    }
     if (!config.no_gpus) {
         vector<string> descs;
         vector<string> warnings;
-        host_info.coprocs.get(
+        coprocs.get(
             config.use_all_gpus, descs, warnings,
             config.ignore_cuda_dev, config.ignore_ati_dev
         );
@@ -328,21 +343,36 @@ int CLIENT_STATE::init() {
                 msg_printf(NULL, MSG_INFO, warnings[i].c_str());
             }
         }
-        if (host_info.coprocs.none() ) {
+        if (coprocs.none() ) {
             msg_printf(NULL, MSG_INFO, "No usable GPUs found");
         }
 #if 0
         msg_printf(NULL, MSG_INFO, "Faking an NVIDIA GPU");
-        host_info.coprocs.cuda.fake(18000, 256*MEGA, 2);
-        host_info.coprocs.cuda.available_ram_fake[0] = 256*MEGA;
-        host_info.coprocs.cuda.available_ram_fake[1] = 192*MEGA;
+        coprocs.cuda.fake(18000, 256*MEGA, 2);
+        coprocs.cuda.available_ram_fake[0] = 256*MEGA;
+        coprocs.cuda.available_ram_fake[1] = 192*MEGA;
 #endif
 #if 0
         msg_printf(NULL, MSG_INFO, "Faking an ATI GPU");
-        host_info.coprocs.ati.fake(512*MEGA, 2);
-        host_info.coprocs.ati.available_ram_fake[0] = 256*MEGA;
-        host_info.coprocs.ati.available_ram_fake[1] = 192*MEGA;
+        coprocs.ati.fake(512*MEGA, 2);
+        coprocs.ati.available_ram_fake[0] = 256*MEGA;
+        coprocs.ati.available_ram_fake[1] = 192*MEGA;
 #endif
+    }
+
+    if (coprocs.have_nvidia()) {
+        if (rsc_index("NVIDIA")>0) {
+            msg_printf(NULL, MSG_INFO, "NVIDIA GPU info taken from cc_config.xml");
+        } else {
+            coprocs.add(coprocs.nvidia);
+        }
+    }
+    if (coprocs.have_ati()) {
+        if (rsc_index("ATI")>0) {
+            msg_printf(NULL, MSG_INFO, "ATI GPU info taken from cc_config.xml");
+        } else {
+            coprocs.add(coprocs.ati);
+        }
     }
 
     // check for app_info.xml file in project dirs.
@@ -394,11 +424,8 @@ int CLIENT_STATE::init() {
             // for GPU apps, use conservative estimate:
             // assume app will run at peak CPU speed, not peak GPU
             //
-            if (avp->ncudas) {
-                avp->flops += avp->ncudas * host_info.p_fpops;
-            }
-            if (avp->natis) {
-                avp->flops += avp->natis * host_info.p_fpops;
+            if (avp->gpu_usage.rsc_type) {
+                avp->flops += avp->gpu_usage.usage * host_info.p_fpops;
             }
         }
     }
@@ -683,8 +710,8 @@ bool CLIENT_STATE::poll_slow_events() {
     // NVIDIA provides an interface for finding if a GPU is
     // running a graphics app.  ATI doesn't as far as I know
     //
-    if (host_info.have_cuda() && user_active && !global_prefs.run_gpu_if_user_active) {
-        if (host_info.coprocs.cuda.check_running_graphics_app()) {
+    if (host_info.have_nvidia() && user_active && !global_prefs.run_gpu_if_user_active) {
+        if (host_info.coprocs.nvidia.check_running_graphics_app()) {
             request_schedule_cpus("GPU state change");
         }
     }
@@ -1725,9 +1752,9 @@ int CLIENT_STATE::reset_project(PROJECT* project, bool detaching) {
     project->ams_resource_share = -1;
     project->min_rpc_time = 0;
     project->pwf.reset(project);
-    project->cpu_pwf.reset();
-    project->cuda_pwf.reset();
-    project->ati_pwf.reset();
+    for (int i=0; i<coprocs.n_rsc; i++) {
+        project->rsc_pwf[i].reset();
+    }
     write_state_file();
     return 0;
 }
@@ -1894,9 +1921,9 @@ void CLIENT_STATE::clear_absolute_times() {
         }
         p->download_backoff.next_xfer_time = 0;
         p->upload_backoff.next_xfer_time = 0;
-        p->cpu_pwf.clear_backoff();
-        p->cuda_pwf.clear_backoff();
-        p->ati_pwf.clear_backoff();
+        for (int j=0; j<coprocs.n_rsc; j++) {
+            p->rsc_pwf[j].clear_backoff();
+        }
 //#ifdef USE_REC
         p->pwf.rec_time = now;
 //#endif

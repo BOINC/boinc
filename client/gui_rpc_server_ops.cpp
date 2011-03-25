@@ -940,92 +940,6 @@ static void read_all_projects_list_file(MIOFILE& fout) {
     }
 }
 
-//#ifndef USE_REC
-static int set_debt(XML_PARSER& xp) {
-    bool is_tag;
-    char tag[256], url[256];
-    double short_term_debt = 0, long_term_debt = 0, cuda_debt=0, ati_debt=0;
-    bool got_std=false, got_ltd=false, got_cuda_debt=false, got_ati_debt=false;
-    strcpy(url, "");
-    while (!xp.get(tag, sizeof(tag), is_tag)) {
-        if (!strcmp(tag, "/project")) {
-            if (!strlen(url)) return ERR_XML_PARSE;
-            canonicalize_master_url(url);
-            PROJECT* p = gstate.lookup_project(url);
-            if (!p) return ERR_NOT_FOUND;
-            if (got_std) {
-                p->cpu_pwf.short_term_debt = short_term_debt;
-                p->cuda_pwf.short_term_debt = short_term_debt;
-                p->ati_pwf.short_term_debt = short_term_debt;
-            }
-            if (got_ltd) p->cpu_pwf.long_term_debt = long_term_debt;
-            if (got_cuda_debt) p->cuda_pwf.long_term_debt = cuda_debt;
-            if (got_ati_debt) p->ati_pwf.long_term_debt = ati_debt;
-            return 0;
-        }
-        if (xp.parse_str(tag, "master_url", url, sizeof(url))) continue;
-        if (xp.parse_double(tag, "short_term_debt", short_term_debt)) {
-            got_std = true;
-            continue;
-        }
-        if (xp.parse_double(tag, "long_term_debt", long_term_debt)) {
-            got_ltd = true;
-            continue;
-        }
-        if (xp.parse_double(tag, "cuda_debt", cuda_debt)) {
-            got_cuda_debt = true;
-            continue;
-        }
-        if (xp.parse_double(tag, "ati_debt", ati_debt)) {
-            got_ati_debt = true;
-            continue;
-        }
-        if (log_flags.unparsed_xml) {
-            msg_printf(NULL, MSG_INFO,
-                "[unparsed_xml] set_debt: unrecognized %s", tag
-            );
-        }
-        xp.skip_unexpected(tag, log_flags.unparsed_xml, "set_debt");
-    }
-    return 0;
-}
-
-static void handle_set_debts(char* buf, MIOFILE& fout) {
-    MIOFILE in;
-    XML_PARSER xp(&in);
-    bool is_tag;
-    char tag[256];
-    int retval;
-
-    in.init_buf_read(buf);
-    while (!xp.get(tag, sizeof(tag), is_tag)) {
-        if (!is_tag) continue;
-        if (!strcmp(tag, "boinc_gui_rpc_request")) continue;
-        if (!strcmp(tag, "set_debts")) continue;
-        if (!strcmp(tag, "/set_debts")) {
-            fout.printf("<success/>\n");
-            gstate.set_client_state_dirty("set_debt RPC");
-            return;
-        }
-        if (!strcmp(tag, "project")) {
-            retval = set_debt(xp);
-            if (retval) {
-                fout.printf("<error>%d</error>\n", retval);
-                return;
-            }
-            continue;
-        }
-        if (log_flags.unparsed_xml) {
-            msg_printf(NULL, MSG_INFO,
-                "[unparsed_xml] handle_set_debts: unrecognized %s", tag
-            );
-        }
-        xp.skip_unexpected(tag, log_flags.unparsed_xml, "handle_set_debts");
-    }
-    fout.printf("<error>No end tag</error>\n");
-}
-//#endif
-
 static void handle_set_cc_config(char* buf, MIOFILE& fout) {
     char *p, *q=0;
     int retval = ERR_XML_PARSE;
@@ -1303,10 +1217,6 @@ int GUI_RPC_CONN::handle_rpc() {
         gstate.set_ncpus();
         gstate.request_schedule_cpus("Core client configuration");
         gstate.request_work_fetch("Core client configuration");
-//#ifndef USE_REC
-    } else if (match_req(request_msg, "set_debts")) {
-        handle_set_debts(request_msg, mf);
-//#endif
     } else if (match_req(request_msg, "get_notices")) {
         handle_get_notices(request_msg, *this, mf, false);
         clear_notice_refresh();

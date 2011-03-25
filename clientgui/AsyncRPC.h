@@ -132,7 +132,6 @@ enum RPC_SELECTOR {
     RPC_SET_GLOBAL_PREFS_OVERRIDE,
     RPC_GET_GLOBAL_PREFS_OVERRIDE_STRUCT,
     RPC_SET_GLOBAL_PREFS_OVERRIDE_STRUCT,   // 50
-    RPC_SET_DEBTS,
     RPC_GET_NOTICES,
     NUM_RPC_SELECTORS
 };
@@ -337,8 +336,6 @@ public:
             { return RPC_Wait(RPC_GET_GLOBAL_PREFS_OVERRIDE_STRUCT, (void*)&arg1, (void*)&arg2); }
     int set_global_prefs_override_struct(GLOBAL_PREFS& arg1, GLOBAL_PREFS_MASK& arg2)
             { return RPC_Wait(RPC_SET_GLOBAL_PREFS_OVERRIDE_STRUCT, (void*)&arg1, (void*)&arg2); }
-    int set_debts(std::vector<PROJECT> arg1)
-            { return RPC_Wait(RPC_SET_DEBTS, (void*)&arg1); }
     
 private:
     CMainDocument*              m_pDoc;
