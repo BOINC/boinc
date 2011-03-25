@@ -69,8 +69,8 @@ int CLIENT_APP_VERSION::parse(FILE* f) {
             if (!app) return ERR_NOT_FOUND;
 
             double f = host_usage.avg_ncpus * g_reply->host.p_fpops;
-            if (host_usage.ncudas && g_request->coprocs.cuda.count) {
-                f += host_usage.ncudas*g_request->coprocs.cuda.peak_flops;
+            if (host_usage.ncudas && g_request->coprocs.nvidia.count) {
+                f += host_usage.ncudas*g_request->coprocs.nvidia.peak_flops;
             }
             if (host_usage.natis && g_request->coprocs.ati.count) {
                 f += host_usage.natis*g_request->coprocs.ati.peak_flops;

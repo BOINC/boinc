@@ -1866,3 +1866,13 @@ David  25 Mar 2011
 
 	lib/
 		parse.cpp
+
+David  26 Mar 2011
+    - scheduler: compile fixes
+
+    sched/
+        sched_customize.cpp
+        sched_version.cpp
+        sched_send.cpp
+        handle_request.cpp
+        sched_types.cpp

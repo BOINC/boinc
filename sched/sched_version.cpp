@@ -100,8 +100,8 @@ inline int host_usage_to_gavid(HOST_USAGE& hu, APP& app) {
 inline int scaled_max_jobs_per_day(DB_HOST_APP_VERSION& hav, HOST_USAGE& hu) {
     int n = hav.max_jobs_per_day;
     if (hu.ncudas) {
-        if (g_request->coprocs.cuda.count) {
-            n *= g_request->coprocs.cuda.count;
+        if (g_request->coprocs.nvidia.count) {
+            n *= g_request->coprocs.nvidia.count;
         }
         if (config.gpu_multiplier) {
             n *= config.gpu_multiplier;

@@ -261,7 +261,7 @@ GPU_REQUIREMENTS cuda_requirements;
 #define CUDA3_MIN_DRIVER_VERSION        19500
 #define CUDA_OPENCL_MIN_DRIVER_VERSION  19713
 
-static bool cuda_check(COPROC_CUDA& c, HOST_USAGE& hu,
+static bool cuda_check(COPROC_NVIDIA& c, HOST_USAGE& hu,
     int min_cc, int max_cc,
     int min_cuda_version, int min_driver_version,
     double min_ram,
@@ -317,7 +317,7 @@ static bool cuda_check(COPROC_CUDA& c, HOST_USAGE& hu,
 static inline bool app_plan_cuda(
     SCHEDULER_REQUEST& sreq, char* plan_class, HOST_USAGE& hu
 ) {
-    COPROC_CUDA& c = sreq.coprocs.cuda;
+    COPROC_NVIDIA& c = sreq.coprocs.nvidia;
     if (!c.count) {
         return false;
     }

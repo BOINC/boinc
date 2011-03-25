@@ -101,7 +101,7 @@ void WORK_REQ::get_job_limits() {
     if (n < 1) n = 1;
     effective_ncpus = n;
 
-    n = g_request->coprocs.cuda.count + g_request->coprocs.ati.count;
+    n = g_request->coprocs.nvidia.count + g_request->coprocs.ati.count;
     if (n > MAX_GPUS) n = MAX_GPUS;
     effective_ngpus = n;
 
@@ -559,7 +559,7 @@ static inline bool hard_app(APP& app) {
 
 static inline double get_estimated_delay(BEST_APP_VERSION& bav) {
     if (bav.host_usage.ncudas) {
-        return g_request->coprocs.cuda.estimated_delay;
+        return g_request->coprocs.nvidia.estimated_delay;
     } else if (bav.host_usage.natis) {
         return g_request->coprocs.ati.estimated_delay;
     } else {
@@ -568,7 +568,7 @@ static inline double get_estimated_delay(BEST_APP_VERSION& bav) {
 }
 
 static inline void update_estimated_delay(BEST_APP_VERSION& bav, double dt) {
-    g_request->coprocs.cuda.estimated_delay += dt*bav.host_usage.ncudas/g_request->coprocs.cuda.count;
+    g_request->coprocs.nvidia.estimated_delay += dt*bav.host_usage.ncudas/g_request->coprocs.nvidia.count;
     g_request->coprocs.ati.estimated_delay += dt*bav.host_usage.natis/g_request->coprocs.ati.count;
     g_request->cpu_estimated_delay += dt*bav.host_usage.avg_ncpus/g_request->host.p_ncpus;
 }
@@ -1292,7 +1292,7 @@ static void send_user_messages() {
 
     // Mac client with GPU but too-old client
     //
-    if (g_request->coprocs.cuda.count
+    if (g_request->coprocs.nvidia.count
         && ssp->have_cuda_apps
         && strstr(g_request->host.os_name, "Darwin")
         && g_request->core_client_version < 61028
@@ -1305,7 +1305,7 @@ static void send_user_messages() {
 
     // GPU-only project, client lacks GPU
     //
-    bool usable_gpu = (ssp->have_cuda_apps && g_request->coprocs.cuda.count)
+    bool usable_gpu = (ssp->have_cuda_apps && g_request->coprocs.nvidia.count)
         || (ssp->have_ati_apps && g_request->coprocs.ati.count);
     if (!ssp->have_cpu_apps && !usable_gpu) {
         if (ssp->have_cuda_apps) {
@@ -1328,10 +1328,10 @@ static void send_user_messages() {
         }
     }
 
-    if (g_request->coprocs.cuda.count && ssp->have_cuda_apps) {
+    if (g_request->coprocs.nvidia.count && ssp->have_cuda_apps) {
         send_gpu_messages(cuda_requirements,
-            g_request->coprocs.cuda.prop.dtotalGlobalMem,
-            g_request->coprocs.cuda.display_driver_version,
+            g_request->coprocs.nvidia.prop.dtotalGlobalMem,
+            g_request->coprocs.nvidia.display_driver_version,
             "NVIDIA GPU"
         );
     }
@@ -1528,11 +1528,11 @@ void send_work_setup() {
     get_running_frac();
     g_wreq->get_job_limits();
 
-    if (g_request->coprocs.cuda.count) {
-        g_wreq->cuda_req_secs = clamp_req_sec(g_request->coprocs.cuda.req_secs);
-        g_wreq->cuda_req_instances = g_request->coprocs.cuda.req_instances;
-        if (g_request->coprocs.cuda.estimated_delay < 0) {
-            g_request->coprocs.cuda.estimated_delay = g_request->cpu_estimated_delay;
+    if (g_request->coprocs.nvidia.count) {
+        g_wreq->cuda_req_secs = clamp_req_sec(g_request->coprocs.nvidia.req_secs);
+        g_wreq->cuda_req_instances = g_request->coprocs.nvidia.req_instances;
+        if (g_request->coprocs.nvidia.estimated_delay < 0) {
+            g_request->coprocs.nvidia.estimated_delay = g_request->cpu_estimated_delay;
         }
     }
     if (g_request->coprocs.ati.count) {
@@ -1584,11 +1584,11 @@ void send_work_setup() {
             g_wreq->cpu_req_secs, g_wreq->cpu_req_instances,
             g_request->cpu_estimated_delay
         );
-        if (g_request->coprocs.cuda.count) {
+        if (g_request->coprocs.nvidia.count) {
             log_messages.printf(MSG_NORMAL,
                 "[send] CUDA: req %.2f sec, %.2f instances; est delay %.2f\n",
                 g_wreq->cuda_req_secs, g_wreq->cuda_req_instances,
-                g_request->coprocs.cuda.estimated_delay
+                g_request->coprocs.nvidia.estimated_delay
             );
         }
         if (g_request->coprocs.ati.count) {
