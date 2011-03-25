@@ -61,18 +61,18 @@ function type_text($type) {
 }
 
 $w612 = array(
-	"num"=>"6.12.18",
+	"num"=>"6.12.19",
 	"status"=>"Development version",
-	"file"=>"boinc_6.12.18_windows_intelx86.exe",
-	"date"=>"7 Mar 2011",
+	"file"=>"boinc_6.12.19_windows_intelx86.exe",
+	"date"=>"25 Mar 2011",
 	"type"=>"win_new",
 );
 
 $w610 = array(
-	"num"=>"6.10.58",
+	"num"=>"6.10.60",
 	"status"=>"Recommended version",
-	"file"=>"boinc_6.10.58_windows_intelx86.exe",
-	"date"=>"6 July 2010",
+	"file"=>"boinc_6.10.60_windows_intelx86.exe",
+	"date"=>"25 Mar 2011",
 	"type"=>"win_new",
 );
 
@@ -93,18 +93,18 @@ $w5816 = array(
 );
 
 $w612x64 = array(
-	"num"=>"6.12.18",
+	"num"=>"6.12.19",
 	"status"=>"Development version",
-	"file"=>"boinc_6.12.18_windows_x86_64.exe",
-	"date"=>"7 Mar 2011",
+	"file"=>"boinc_6.12.19_windows_x86_64.exe",
+	"date"=>"25 Mar 2011",
 	"type"=>"win_new",
 );
 
 $w610x64 = array(
-	"num"=>"6.10.58",
+	"num"=>"6.10.60",
 	"status"=>"Recommended version",
-	"file"=>"boinc_6.10.58_windows_x86_64.exe",
-	"date"=>"6 July 2010",
+	"file"=>"boinc_6.10.60_windows_x86_64.exe",
+	"date"=>"25 Mar 2011",
 	"type"=>"win_new",
 );
 
