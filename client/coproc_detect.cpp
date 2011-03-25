@@ -67,13 +67,13 @@ void segv_handler(int) {
 HMODULE opencl_lib = NULL;
 
 // TODO: Are these correct?
-typedef cl_int (__stdcall *CL_PLATFORMIDS) (cl_uint, cl_platform_id, cl_uint);
+typedef cl_int (__stdcall *CL_PLATFORMIDS) (cl_uint, cl_platform_id*, cl_uint*);
 typedef cl_int (__stdcall *CL_PLATFORMINFO) (cl_platform_id, cl_platform_info, size_t, void*, size_t*);
 typedef cl_int (__stdcall *CL_DEVICEIDS) (cl_platform_id, cl_device_type, cl_uint, cl_device_id*, cl_uint*);
 typedef int (__stdcall *CL_INFO) (cl_device_id, cl_device_info, size_t, void*, size_t*);
 
 CL_PLATFORMIDS  __clGetPlatformIDs = NULL;
-CL_PLATFORMINFO __clGetPlatformInfo = NULL
+CL_PLATFORMINFO __clGetPlatformInfo = NULL;
 CL_DEVICEIDS    __clGetDeviceIDs = NULL;
 CL_INFO         __clGetDeviceInfo = NULL;
 
@@ -88,7 +88,7 @@ cl_int (*__clGetPlatformInfo)(cl_platform_id   /* platform */,
                   cl_platform_info /* param_name */,
                   size_t           /* param_value_size */,
                   void *           /* param_value */,
-                  size_t *         /* param_value_size_ret */) CL_API_SUFFIX__VERSION_1_0;
+                  size_t *         /* param_value_size_ret */);
 cl_int (*__clGetDeviceIDs)(cl_platform_id   /* platform */,
                cl_device_type   /* device_type */,
                cl_uint          /* num_entries */,
