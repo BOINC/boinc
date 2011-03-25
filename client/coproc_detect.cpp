@@ -67,23 +67,15 @@ void segv_handler(int) {
 HMODULE opencl_lib = NULL;
 
 // TODO: Are these correct?
-typedef cl_int (__stdcall *CL_PLATFORMIDS) (cl_uint    /* num_entries */,
-                 cl_platform_id * /* platforms */,
-                 cl_uint *        /* num_platforms */);
-typedef cl_int (__stdcall *CL_DEVICEIDS) (cl_platform_id   /* platform */,
-               cl_device_type   /* device_type */,
-               cl_uint          /* num_entries */,
-               cl_device_id *   /* devices */,
-               cl_uint *        /* num_devices */);
-typedef int (__stdcall *CL_INFO) (cl_device_id    /* device */,
-                cl_device_info  /* param_name */,
-                size_t          /* param_value_size */,
-                void *          /* param_value */,
-                size_t *        /* param_value_size_ret */);
+typedef cl_int (__stdcall *CL_PLATFORMIDS) (cl_uint, cl_platform_id, cl_uint);
+typedef cl_int (__stdcall *CL_PLATFORMINFO) (cl_platform_id, cl_platform_info, size_t, void*, size_t*);
+typedef cl_int (__stdcall *CL_DEVICEIDS) (cl_platform_id, cl_device_type, cl_uint, cl_device_id*, cl_uint*);
+typedef int (__stdcall *CL_INFO) (cl_device_id, cl_device_info, size_t, void*, size_t*);
 
-CL_PLATFORMIDS __clGetPlatformIDs = NULL;
-CL_DEVICEIDS __clGetDeviceIDs = NULL;
-CL_INFO   __clGetDeviceInfo = NULL;
+CL_PLATFORMIDS  __clGetPlatformIDs = NULL;
+CL_PLATFORMINFO __clGetPlatformInfo = NULL
+CL_DEVICEIDS    __clGetDeviceIDs = NULL;
+CL_INFO         __clGetDeviceInfo = NULL;
 
 #else
 
@@ -92,6 +84,11 @@ void* opencl_lib = NULL;
 cl_int (*__clGetPlatformIDs)(cl_uint    /* num_entries */,
                  cl_platform_id * /* platforms */,
                  cl_uint *        /* num_platforms */);
+cl_int (*__clGetPlatformInfo)(cl_platform_id   /* platform */,
+                  cl_platform_info /* param_name */,
+                  size_t           /* param_value_size */,
+                  void *           /* param_value */,
+                  size_t *         /* param_value_size_ret */) CL_API_SUFFIX__VERSION_1_0;
 cl_int (*__clGetDeviceIDs)(cl_platform_id   /* platform */,
                cl_device_type   /* device_type */,
                cl_uint          /* num_entries */,
@@ -104,9 +101,6 @@ cl_int (*__clGetDeviceInfo)(cl_device_id    /* device */,
                 size_t *        /* param_value_size_ret */);
 
 #endif
-
-void COPROC::get_opencl_info() {
-}
 
 void COPROC::print_available_ram() {
 #ifdef MEASURE_AVAILABLE_RAM
@@ -140,8 +134,7 @@ void COPROCS::get_opencl(vector<string>&warnings) {
     cl_platform_id platforms[1];
     cl_uint num_platforms, num_devices, device_index;
     cl_device_id devices[MAX_COPROC_INSTANCES];
-    char vendor[128];
-    char buf[256];
+    OPENCL_DEVICE_PROP prop;
 
 #ifdef _WIN32
 // TODO: Is this correct?
@@ -152,6 +145,7 @@ void COPROCS::get_opencl(vector<string>&warnings) {
     }
 
     __clGetPlatformIDs = (CL_PLATFORMIDS)GetProcAddress( opencl_lib, "clGetPlatformIDs" );
+    __clGetPlatformInfo = (CL_PLATFORMINFO)( opencl_lib, "clGetPlatformInfo" );
     __clGetDeviceIDs = (CL_DEVICEIDS)GetProcAddress( opencl_lib, "clGetDeviceIDs" );
     __clGetDeviceInfo = (CL_INFO)GetProcAddress( opencl_lib, "clGetDeviceInfo" );
 
@@ -168,6 +162,7 @@ void COPROCS::get_opencl(vector<string>&warnings) {
         return;
     }
     __clGetPlatformIDs = (cl_int(*)(cl_uint, cl_platform_id*, cl_uint*)) dlsym( opencl_lib, "clGetPlatformIDs" );
+    __clGetPlatformInfo = (cl_int(*)(cl_platform_id, cl_platform_info, size_t, void*, size_t*)) dlsym( opencl_lib, "clGetPlatformInfo" );
     __clGetDeviceIDs = (cl_int(*)(cl_platform_id, cl_device_type, cl_uint, cl_device_id*, cl_uint*)) dlsym( opencl_lib, "clGetDeviceIDs" );
     __clGetDeviceInfo = (cl_int(*)(cl_device_id, cl_device_info, size_t, void*, size_t*)) dlsym( opencl_lib, "clGetDeviceInfo" );
 #endif
@@ -185,26 +180,186 @@ void COPROCS::get_opencl(vector<string>&warnings) {
     }
 
     ciErrNum = (*__clGetPlatformIDs)(1, platforms, &num_platforms);
-    if ((ciErrNum != CL_SUCCESS) || (num_platforms == 0)){
+    if ((ciErrNum != CL_SUCCESS) || (num_platforms == 0)) {
         warnings.push_back("clGetPlatformIDs() failed to return any OpenCL platforms");
         return;
     }
     
     ciErrNum = (*__clGetDeviceIDs)(platforms[0], CL_DEVICE_TYPE_GPU, MAX_COPROC_INSTANCES, devices, &num_devices);
-    if ((ciErrNum != CL_SUCCESS) || (num_devices == 0)){
+    if ((ciErrNum != CL_SUCCESS) || (num_devices == 0)) {
         warnings.push_back("OpenCL library present but no GPUs found");
         return;
     }
 
     for (device_index=0; device_index<num_devices; ++device_index) {
-        ciErrNum = (*__clGetDeviceInfo)(devices[device_index], CL_DEVICE_VENDOR, sizeof(vendor), vendor, NULL);
-        if ((ciErrNum != CL_SUCCESS) || (vendor[0] == 0)){
-            sprintf(buf, "clGetDeviceInfo failed to get vendor for GPU %d", (int)device_index);
-            warnings.push_back(buf);
+        memset(&prop, 0, sizeof(prop));
+        prop.device_id = devices[device_index];
+        
+        ciErrNum = (*__clGetPlatformInfo) (platforms[0], CL_PLATFORM_VERSION, sizeof(prop.openCL_platform_version), 
+                                        prop.openCL_platform_version, NULL);
+        if (ciErrNum != CL_SUCCESS) {
+            warnings.push_back("clGetPlatformInfo() failed to get platform version");
             return;
         }
-//TODO: to be continued ....
+
+        ciErrNum = get_opencl_info(prop, device_index, warnings);
+        if (ciErrNum != CL_SUCCESS) return;
+        
+        if (!strcmp(prop.vendor, "NVIDIA")) {
+            if (!nvidia.opencl_prop.name[0]) {   // If not already merged
+                if (nvidia.matches(prop)) {
+                    nvidia.opencl_prop = prop;
+                    return;
+                }
+//TODO: Create a new entry if not already in CUDA list?
+            }
+            return;
+        }
+        
+        if (!(strcmp(prop.vendor, "ATI") || strcmp(prop.vendor, "AMD"))) {
+            if (!ati.opencl_prop.name[0]) {   // If not already merged
+                if (ati.matches(prop)) {
+                    ati.opencl_prop = prop;
+                    return;
+                }
+//TODO: Create a new entry if not already in ATI list due from CAL?
+            }
+            return;
+        }
+
+//TODO: Add code to add for other GPU vendors
     }
+}
+
+cl_int COPROCS::get_opencl_info(
+    OPENCL_DEVICE_PROP& prop, 
+    cl_uint device_index, 
+    vector<string>&warnings
+) {
+    cl_int ciErrNum;
+    char buf[256];
+    
+    ciErrNum = (*__clGetDeviceInfo)(prop.device_id, CL_DEVICE_NAME, sizeof(prop.name), prop.name, NULL);
+    if ((ciErrNum != CL_SUCCESS) || (prop.name[0] == 0)) {
+        sprintf(buf, "clGetDeviceInfo failed to get name for GPU %d", (int)device_index);
+        warnings.push_back(buf);
+        return ciErrNum;
+    }
+
+    ciErrNum = (*__clGetDeviceInfo)(prop.device_id, CL_DEVICE_VENDOR, sizeof(prop.vendor), prop.vendor, NULL);
+    if ((ciErrNum != CL_SUCCESS) || (prop.vendor[0] == 0)) {
+        sprintf(buf, "clGetDeviceInfo failed to get vendor for GPU %d", (int)device_index);
+        warnings.push_back(buf);
+        return ciErrNum;
+    }
+
+    ciErrNum = (*__clGetDeviceInfo)(prop.device_id, CL_DEVICE_VENDOR_ID, sizeof(prop.vendor_id), &prop.vendor_id, NULL);
+    if (ciErrNum != CL_SUCCESS) {
+        sprintf(buf, "clGetDeviceInfo failed to get vendor ID for GPU %d", (int)device_index);
+        warnings.push_back(buf);
+        return ciErrNum;
+    }
+
+    ciErrNum = (*__clGetDeviceInfo)(prop.device_id, CL_DEVICE_AVAILABLE, sizeof(prop.available), &prop.available, NULL);
+    if (ciErrNum != CL_SUCCESS) {
+        sprintf(buf, "clGetDeviceInfo failed to get availability for GPU %d", (int)device_index);
+        warnings.push_back(buf);
+        return ciErrNum;
+    }
+
+    ciErrNum = (*__clGetDeviceInfo)(prop.device_id, CL_DEVICE_HALF_FP_CONFIG, sizeof(prop.hp_fp_config), &prop.hp_fp_config, NULL);
+    if (ciErrNum != CL_SUCCESS) {
+        if ((ciErrNum == CL_INVALID_VALUE) || (ciErrNum == CL_INVALID_OPERATION)) {
+            prop.hp_fp_config = 0;  // Not supported by OpenCL 1.0
+        } else {
+            sprintf(buf, "clGetDeviceInfo failed to get half-precision floating point capabilities for GPU %d", (int)device_index);
+            warnings.push_back(buf);
+            return ciErrNum;
+        }
+    }
+
+    ciErrNum = (*__clGetDeviceInfo)(prop.device_id, CL_DEVICE_SINGLE_FP_CONFIG, sizeof(prop.sp_fp_config), &prop.sp_fp_config, NULL);
+    if (ciErrNum != CL_SUCCESS) {
+        sprintf(buf, "clGetDeviceInfo failed to get single-precision floating point capabilities for GPU %d", (int)device_index);
+        warnings.push_back(buf);
+        return ciErrNum;
+    }
+
+    ciErrNum = (*__clGetDeviceInfo)(prop.device_id, CL_DEVICE_DOUBLE_FP_CONFIG, sizeof(prop.dp_fp_config), &prop.dp_fp_config, NULL);
+    if (ciErrNum != CL_SUCCESS) {
+        if ((ciErrNum == CL_INVALID_VALUE) || (ciErrNum == CL_INVALID_OPERATION)) {
+            prop.dp_fp_config = 0;  // Not supported by OpenCL 1.0
+        } else {
+            sprintf(buf, "clGetDeviceInfo failed to get double-precision floating point capabilities for GPU %d", (int)device_index);
+            warnings.push_back(buf);
+            return ciErrNum;
+        }
+    }
+
+    ciErrNum = (*__clGetDeviceInfo)(prop.device_id, CL_DEVICE_ENDIAN_LITTLE, sizeof(prop.little_endian), &prop.little_endian, NULL);
+    if (ciErrNum != CL_SUCCESS) {
+        sprintf(buf, "clGetDeviceInfo failed to get little or big endian for GPU %d", (int)device_index);
+        warnings.push_back(buf);
+        return ciErrNum;
+    }
+
+    ciErrNum = (*__clGetDeviceInfo)(prop.device_id, CL_DEVICE_EXECUTION_CAPABILITIES, sizeof(prop.exec_capab), &prop.exec_capab, NULL);
+    if (ciErrNum != CL_SUCCESS) {
+        sprintf(buf, "clGetDeviceInfo failed to get execution capabilities for GPU %d", (int)device_index);
+        warnings.push_back(buf);
+        return ciErrNum;
+    }
+
+    ciErrNum = (*__clGetDeviceInfo)(prop.device_id, CL_DEVICE_EXTENSIONS, sizeof(prop.extensions), prop.extensions, NULL);
+    if (ciErrNum != CL_SUCCESS) {
+        sprintf(buf, "clGetDeviceInfo failed to get device extensions for GPU %d", (int)device_index);
+        warnings.push_back(buf);
+        return ciErrNum;
+    }
+
+    ciErrNum = (*__clGetDeviceInfo)(prop.device_id, CL_DEVICE_GLOBAL_MEM_SIZE, sizeof(prop.global_RAM), &prop.global_RAM, NULL);
+    if (ciErrNum != CL_SUCCESS) {
+        sprintf(buf, "clGetDeviceInfo failed to get global RAM size for GPU %d", (int)device_index);
+        warnings.push_back(buf);
+        return ciErrNum;
+    }
+
+    ciErrNum = (*__clGetDeviceInfo)(prop.device_id, CL_DEVICE_LOCAL_MEM_SIZE, sizeof(prop.local_RAM), &prop.local_RAM, NULL);
+    if (ciErrNum != CL_SUCCESS) {
+        sprintf(buf, "clGetDeviceInfo failed to get local RAM size for GPU %d", (int)device_index);
+        warnings.push_back(buf);
+        return ciErrNum;
+    }
+
+    ciErrNum = (*__clGetDeviceInfo)(prop.device_id, CL_DEVICE_MAX_CLOCK_FREQUENCY, sizeof(prop.max_clock_freq), &prop.max_clock_freq, NULL);
+    if (ciErrNum != CL_SUCCESS) {
+        sprintf(buf, "clGetDeviceInfo failed to get max number of cores for GPU %d", (int)device_index);
+        warnings.push_back(buf);
+        return ciErrNum;
+    }
+
+    ciErrNum = (*__clGetDeviceInfo)(prop.device_id, CL_DEVICE_MAX_COMPUTE_UNITS, sizeof(prop.max_cores), &prop.max_cores, NULL);
+    if (ciErrNum != CL_SUCCESS) {
+        sprintf(buf, "clGetDeviceInfo failed to get local RAM size for GPU %d", (int)device_index);
+        warnings.push_back(buf);
+        return ciErrNum;
+    }
+
+    ciErrNum = (*__clGetDeviceInfo)(prop.device_id, CL_DEVICE_VERSION, sizeof(prop.openCL_device_version), prop.openCL_device_version, NULL);
+    if (ciErrNum != CL_SUCCESS) {
+        sprintf(buf, "clGetDeviceInfo failed to get OpenCL version supported by GPU %d", (int)device_index);
+        warnings.push_back(buf);
+        return ciErrNum;
+    }
+
+    ciErrNum = (*__clGetDeviceInfo)(prop.device_id, CL_DRIVER_VERSION, sizeof(prop.openCL_driver_version), prop.openCL_driver_version, NULL);
+    if (ciErrNum != CL_SUCCESS) {
+        sprintf(buf, "clGetDeviceInfo failed to get OpenCL driver version for GPU %d", (int)device_index);
+        warnings.push_back(buf);
+        return ciErrNum;
+    }
+
+    return CL_SUCCESS;
 }
 
 void COPROCS::get(
@@ -703,6 +858,15 @@ bool COPROC_NVIDIA::check_running_graphics_app() {
     return change;
 }
 
+bool COPROC_NVIDIA::matches(OPENCL_DEVICE_PROP& OpenCLprop) {
+    if (strcmp(prop.name, OpenCLprop.name)) return false;
+//TODO: Figure out why these don't match
+//    if (prop.totalGlobalMem != OpenCLprop.global_RAM) return false;
+    if ((prop.clockRate / 1000) != (int)OpenCLprop.max_clock_freq) return false;
+    
+    return true;
+}
+
 ////////////////// ATI STARTS HERE /////////////////
 //
 // Docs:
@@ -1128,4 +1292,12 @@ void COPROC_ATI::get_available_ram() {
         available_ram[i] = attribs.localRAM*MEGA;
     }
 #endif
+}
+
+bool COPROC_ATI::matches(OPENCL_DEVICE_PROP& OpenCLprop) {
+    if (strcmp(OpenCLprop.name, name)) return false;
+    if (attribs.localRAM != OpenCLprop.local_RAM) return false;
+    if (attribs.engineClock != OpenCLprop.max_clock_freq) return false;
+    
+    return true;
 }

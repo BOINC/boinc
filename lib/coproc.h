@@ -75,6 +75,15 @@
 #include "cal_boinc.h"
 #include "cl.h"
 
+// The following are supported starting in OpenCL 1.1:
+#ifndef CL_DEVICE_DOUBLE_FP_CONFIG
+#define CL_DEVICE_DOUBLE_FP_CONFIG 0x1032
+#endif
+
+#ifndef CL_DEVICE_HALF_FP_CONFIG
+#define CL_DEVICE_HALF_FP_CONFIG 0x1033
+#endif
+
 #define MAX_COPROC_INSTANCES 64
 #define MAX_RSC 8
     // max # of processing resources types
@@ -89,7 +98,27 @@ struct COPROC_REQ {
     int parse(MIOFILE&);
 };
 
+// For now, there will be some duplication between the values present in 
+// the OPENCL_DEVICE_PROP struct and the NVIDA and / or ATI structs
 struct OPENCL_DEVICE_PROP {
+    cl_device_id device_id;
+    char name[256];                     // Device name
+    char vendor[256];                   // Device vendor (NVIDIA, ATI, AMD, etc.)
+    cl_uint vendor_id;                  // OpenCL ID of device vendor
+    cl_bool available;                  // Is this device available?
+    cl_device_fp_config hp_fp_config;   // Half precision floating point capabilities
+    cl_device_fp_config sp_fp_config;   // Single precision floating point capabilities
+    cl_device_fp_config dp_fp_config;   // Double precision floating point capabilities
+    cl_bool little_endian;              // TRUE if little-endian
+    cl_device_exec_capabilities exec_capab; // Execution capabilities
+    char extensions[1024];              // List of device extensions
+    cl_ulong global_RAM;                // Size of global memory
+    cl_ulong local_RAM;                 // Size of local memory
+    cl_uint max_clock_freq;             // Max configured clock frequencin in MHz
+    cl_uint max_cores;                  // Max number of parallel computer cores
+    char openCL_device_version[64];     // OpenCL version supported by device; example: "OpenCL 1.1 beta"
+    char openCL_platform_version[64];   // OpenCL version installed om computer; example: "OpenCL 1.0 (Aug 22 2010 18:08:16)"
+    char openCL_driver_version[32];     // For example: "CLH 1.0"
 };
 
 
@@ -157,6 +186,7 @@ struct COPROC {
             available_ram_fake[i] = 0;
             available_ram_unknown[i] = true;
         }
+        memset(&opencl_prop, 0, sizeof(opencl_prop));
     }
     inline void clear_usage() {
         for (int i=0; i<count; i++) {
@@ -172,7 +202,6 @@ struct COPROC {
         clear();
     }
     virtual ~COPROC(){}
-    void get_opencl_info();
     void print_available_ram();
 };
 
@@ -231,6 +260,7 @@ struct COPROC_NVIDIA : public COPROC {
 	}
 
     bool check_running_graphics_app();
+    bool matches(OPENCL_DEVICE_PROP& OpenCLprop);
     void fake(int driver_version, double ram, int count);
 
 };
@@ -259,6 +289,7 @@ struct COPROC_ATI : public COPROC {
     void clear();
     int parse(MIOFILE&);
     void get_available_ram();
+    bool matches(OPENCL_DEVICE_PROP& OpenCLprop);
 	void set_peak_flops() {
         double x = attribs.numberOfSIMD * attribs.wavefrontSize * 2.5 * attribs.engineClock * 1.e6;
         // clock is in MHz
@@ -283,6 +314,11 @@ struct COPROCS {
         std::vector<int>& ignore_ati_dev
     );
     void get_opencl(std::vector<std::string> &warnings);
+    cl_int get_opencl_info(
+        OPENCL_DEVICE_PROP& prop, 
+        cl_uint device_index, 
+        std::vector<std::string> &warnings
+    );
     int parse(MIOFILE&);
     void summary_string(char*, int);
 
