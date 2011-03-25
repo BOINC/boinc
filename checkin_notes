@@ -9241,3 +9241,9 @@ David  25 Mar 2011
 
 	lib/
 		parse.cpp
+
+David  25 Mar 2011
+	- manager: fix the above to detect premature EOF correctly
+
+	lib/
+		parse.cpp
