@@ -127,7 +127,8 @@ protected:
     RESULTS         results;
  
     bool            m_bResetCoreState;
-    bool            m_QuitDataManagementProc;
+    bool            m_bQuitDataManagementProc;
+    bool            m_bDataManagementProcStopped;
     bool            m_bV5_GFX_app_is_running;
 
 

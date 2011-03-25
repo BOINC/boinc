@@ -162,7 +162,8 @@ CScreensaver::CScreensaver() {
     m_CoreClientPID = nil;
     setSSMessageText(0);
     m_CurrentBannerMessage = 0;
-    m_QuitDataManagementProc = false;
+    m_bQuitDataManagementProc = false;
+    m_bDataManagementProcStopped = false;
     m_BrandText = "BOINC";
     
     m_hDataManagementThread = NULL;
@@ -556,20 +557,19 @@ bool CScreensaver::CreateDataManagementThread() {
 
 
 bool CScreensaver::DestroyDataManagementThread() {
-    int i;
-    
-    m_QuitDataManagementProc = true;  // Tell DataManagementProc thread to exit
-    
-    for (i=0; i<10; i++) {  // Wait up to 1 second for DataManagementProc thread to exit
-        if (m_hDataManagementThread == NULL) return true;
+    m_bQuitDataManagementProc = true;  // Tell DataManagementProc thread to exit
+    for (int i=0; i<10; i++) {  // Wait up to 1 second for DataManagementProc thread to exit
+        if (m_bDataManagementProcStopped) return true;
         boinc_sleep(0.1);
     }
+
     rpc->close();    // In case DataManagementProc is hung waiting for RPC
     m_hDataManagementThread = NULL; // Don't delay more if this routine is called again.
     if (m_hGraphicsApplication) {
         terminate_screensaver(m_hGraphicsApplication, NULL);
         m_hGraphicsApplication = 0;
     }
+
     return true;
 }
 

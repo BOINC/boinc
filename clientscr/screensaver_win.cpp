@@ -141,7 +141,7 @@ INT WINAPI WinMain(
     }
 
     retval = BOINCSS.Run();
-
+    
     // Cleanup any existing screensaver objects and handles
     BOINCSS.Cleanup();
 
@@ -199,7 +199,8 @@ CScreensaver::CScreensaver() {
     m_hDataManagementThread = NULL;
     m_hGraphicsApplication = NULL;
     m_bResetCoreState = TRUE;
-    m_QuitDataManagementProc = FALSE;
+    m_bQuitDataManagementProc = FALSE;
+    m_bDataManagementProcStopped = FALSE;
     memset(&m_running_result, 0, sizeof(m_running_result));
 
     ZeroMemory(m_Monitors, sizeof(m_Monitors));
@@ -282,7 +283,7 @@ HRESULT CScreensaver::Create(HINSTANCE hInstance) {
 
 	if (rpc == NULL) rpc = new RPC_CLIENT;
 
-			// Create the screen saver window(s)
+    // Create the screen saver window(s)
     if (m_SaverMode == sm_preview || 
         m_SaverMode == sm_full
     ) {
@@ -388,8 +389,8 @@ HRESULT CScreensaver::Cleanup() {
         TerminateProcess(m_hGraphicsApplication, 0);
         m_hGraphicsApplication = NULL;
     }
-
     if (rpc) {
+        rpc->close();
         delete rpc;
         rpc = NULL;
     }
@@ -1093,6 +1094,11 @@ BOOL CScreensaver::CreateDataManagementThread() {
 // Terminate the thread that is used to talk to the daemon.
 //
 BOOL CScreensaver::DestroyDataManagementThread() {
+    m_bQuitDataManagementProc = true;  // Tell DataManagementProc thread to exit
+    for (int i = 0; i < 50; i++) {  // Wait up to 5 second for DataManagementProc thread to exit
+        if (m_bDataManagementProcStopped) return true;
+        boinc_sleep(0.1);
+    }
     if (!TerminateThread(m_hDataManagementThread, 0)) {
     	BOINCTRACE(_T("CScreensaver::DestoryDataManagementThread: Failed to terminate data management thread '%d'\n"), GetLastError());
         return FALSE;
