@@ -1881,3 +1881,12 @@ Charlie 14 Mar 2011
     
     clientscr/
         mac_saver_module.cpp
+
+Rom    25 Mar 2011
+    - Tag for 6.10.60 release, all platforms
+      boinc_core_release_6_10_60
+
+    /
+        configure.ac
+        version.h
+
