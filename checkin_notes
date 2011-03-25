@@ -9227,3 +9227,9 @@ Rom    14 Mar 2011
         mac_saver_module.cpp, .h
         screensaver.cpp
         screensaver_win.cpp, .h
+
+Charlie 14 Mar 2011
+    - SCR: Fix compile breaks.
+    
+    clientscr/
+        mac_saver_module.cpp
