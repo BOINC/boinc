@@ -1860,3 +1860,9 @@ Charlie 25 Mar 2011
         coproc_detect.cpp
     lib/
         coproc.cpp, .h
+
+David  25 Mar 2011
+	- manager: fix the above to detect premature EOF correctly
+
+	lib/
+		parse.cpp
