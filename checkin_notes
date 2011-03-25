@@ -1826,3 +1826,13 @@ David  24 Mar 2011
 		hostinfo.cpp,h
 	win_build/
 		boinc_cli.vcproj
+
+Charlie 25 Mar 2011
+    - client: Temporarily work around compile breaks introduced by the changes 
+        to generalize the GPU framework.
+        NOTE to David: please look for "//TODO: David, please fix" in these 
+            files and fix as appropriate.
+            
+   	client/
+		app_start.cpp
+        boinc_cmd.cpp

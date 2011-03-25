@@ -773,12 +773,15 @@ int ACTIVE_TASK::start(bool first_time) {
     sprintf(cmdline, "%s %s",
         wup->command_line.c_str(), app_version->cmdline
     );
+#if 0
+//TODO: David, please fix
     if (app_version->ncudas) {
         coproc_cmdline(RSC_TYPE_CUDA, result, app_version->ncudas, cmdline);
     }
     if (app_version->natis) {
         coproc_cmdline(RSC_TYPE_ATI, result, app_version->natis, cmdline);
     }
+#endif
 
     // Set up core/app shared memory seg if needed
     //

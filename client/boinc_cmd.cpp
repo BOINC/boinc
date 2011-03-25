@@ -554,6 +554,8 @@ int main(int argc, char** argv) {
             retval = cs.network_status;
         }
         cs.print();
+#if 0
+//TODO: David, please fix
     } else if (!strcmp(cmd, "--set_debts")) {
         vector<PROJECT>projects;
         while (i < argc) {
@@ -570,6 +572,7 @@ int main(int argc, char** argv) {
             projects.push_back(proj);
         }
         retval = rpc.set_debts(projects);
+#endif
     } else if (!strcmp(cmd, "--quit")) {
         retval = rpc.quit();
     } else {
