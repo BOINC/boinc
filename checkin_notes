@@ -6715,3 +6715,26 @@ Rom    14 Mar 2011
         mac_saver_module.cpp, .h
         screensaver.cpp
         screensaver_win.cpp, .h
+<<<<<<< .working
+=======
+
+David  14 Mar 2011
+    - client simulator stuff
+
+    html/user/
+        forum_thread.php
+    client/
+        cpu_sched.cpp
+
+David  14 Mar 2011
+    - ops: update script that counts GPUs
+
+    html/ops/
+        nvidia.php
+
+Charlie 14 Mar 2011
+    - SCR: Fix compile breaks.
+    
+    clientscr/
+        mac_saver_module.cpp
+>>>>>>> .merge-right.r23237

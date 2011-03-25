@@ -227,7 +227,8 @@ int CScreensaver::Create() {
         if (saverState == SaverState_LaunchingCoreClient)
         {
             SetError(FALSE, 0);
-            m_QuitDataManagementProc = false;
+            m_bQuitDataManagementProc = false;
+            m_bDataManagementProcStopped = false;
             if (rpc == NULL) {
                 rpc = new RPC_CLIENT;
             }
@@ -489,7 +490,7 @@ void CScreensaver::ShutdownSaver() {
     m_CoreClientPID = 0;
 //    gQuitCounter = 0;
     m_wasAlreadyRunning = false;
-    m_QuitDataManagementProc = false;
+    m_bQuitDataManagementProc = false;
     saverState = SaverState_Idle;
 }
 
@@ -530,7 +531,7 @@ void CScreensaver::HandleRPCError() {
     // If Core Client is hung, it might cause RPCs to hang, preventing us from 
     // shutting down the Data Management Thread, so don't reinitialize the RPC 
     // client if we have told the Data Management Thread to exit.
-    if (m_QuitDataManagementProc) {
+    if (m_bQuitDataManagementProc) {
         return;
     }
     
