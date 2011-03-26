@@ -1867,7 +1867,7 @@ David  25 Mar 2011
 	lib/
 		parse.cpp
 
-David  26 Mar 2011
+David  25 Mar 2011
     - scheduler: compile fixes
 
     sched/
@@ -1876,3 +1876,13 @@ David  26 Mar 2011
         sched_send.cpp
         handle_request.cpp
         sched_types.cpp
+
+David  25 Mar 2011
+    - API: compile fixes for MinGW.  Fixes #955.  from Matt Arsenault
+
+    lib/
+        stackwalker_imports.h
+        boinc_win.h
+        Makefile.mingw
+    api/
+        Makefile.mingw
