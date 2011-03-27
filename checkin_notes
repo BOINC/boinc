@@ -1886,3 +1886,9 @@ David  25 Mar 2011
         Makefile.mingw
     api/
         Makefile.mingw
+
+David  27 Mar 2011
+    - client: Win OpenCL fix from [P3D] Crashtest
+
+    client/
+        coproc_detect.cpp

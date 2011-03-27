@@ -137,8 +137,7 @@ void COPROCS::get_opencl(vector<string>&warnings) {
     OPENCL_DEVICE_PROP prop;
 
 #ifdef _WIN32
-// TODO: Is this correct?
-    opencl_lib = LoadLibrary("libOpenCL.dll");
+    opencl_lib = LoadLibrary("OpenCL.dll");
     if (!opencl_lib) {
         warnings.push_back("No OpenCL library found");
         return;
