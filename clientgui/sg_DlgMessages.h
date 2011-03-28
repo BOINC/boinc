@@ -101,6 +101,9 @@ public:
     /// wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_SIMPLE_HELP
     void OnButtonHelp( wxCommandEvent& event );
 
+    /// wxEVT_NOTICELIST_ITEM_DISPLAY event handler for ID_LIST_NOTIFICATIONSVIEW
+    void OnLinkClicked( NoticeListCtrlEvent& event );
+
 ////@end CPanelMessages event handler declarations
 
 ////@begin CPanelMessages member function declarations

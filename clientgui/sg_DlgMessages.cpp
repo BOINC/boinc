@@ -266,6 +266,17 @@ void CPanelMessages::OnButtonHelp( wxCommandEvent& event ) {
 }
 
 
+/*!
+ * wxEVT_NOTICELIST_ITEM_DISPLAY event handler for ID_LIST_NOTIFICATIONSVIEW
+ */
+
+void CPanelMessages::OnLinkClicked( NoticeListCtrlEvent& event ) {
+    if (event.GetURL().StartsWith(wxT("http://"))) {
+		wxLaunchDefaultBrowser(event.GetURL());
+    }
+}
+
+
 bool CPanelMessages::OnSaveState(wxConfigBase* /* pConfig */) {
     return true;
 }

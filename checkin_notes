@@ -1892,3 +1892,10 @@ David  27 Mar 2011
 
     client/
         coproc_detect.cpp
+
+Rom    28 Mar 2011
+    - MGR: Handle the link click events from the notices control for the
+        Simgle GUI notices dialog box.
+        
+    clientgui/
+        sg_DlgMessages.cpp, .h
