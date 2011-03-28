@@ -93,6 +93,7 @@ INT WINAPI WinMain(
 
     // Instruct the OS to terminate the screensaver by any
     //   means nessassary.
+    fflush(NULL);
     TerminateProcess(GetCurrentProcess(), retval);
 
     return retval;

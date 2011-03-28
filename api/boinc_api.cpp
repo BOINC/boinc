@@ -549,8 +549,6 @@ void boinc_exit(int status) {
         }
     }
 
-    fflush(NULL);
-
     boinc_finish_diag();
 
     // various platforms have problems shutting down a process
@@ -558,6 +556,8 @@ void boinc_exit(int status) {
     // or triggering endless exit()/atexit() loops.
     //
     BOINCINFO("Exit Status: %d", status);
+    fflush(NULL);
+
 #if   defined(_WIN32)
     // Halt all the threads and cleans up.
     TerminateProcess(GetCurrentProcess(), status);

@@ -1899,3 +1899,12 @@ Rom    28 Mar 2011
         
     clientgui/
         sg_DlgMessages.cpp, .h
+
+Rom    28 Mar 2011
+    - API: Flush buffers before terminating.
+    - SCR: Flush buffers before terminating.
+    
+    api/
+        boinc_api.cpp
+    clientscr/
+        screensaver_win.cpp
