@@ -534,16 +534,20 @@ void *CScreensaver::DataManagementProc()
 
             // Are we supposed to exit the screensaver?
             if (m_bQuitDataManagementProc) {     // If main thread has requested we exit
+                BOINCTRACE(_T("CScreensaver::DataManagementProc - Thread told to stop\n"));
                 if (m_hGraphicsApplication || graphics_app_result_ptr) {
                     if (m_bDefault_gfx_running) {
+                        BOINCTRACE(_T("CScreensaver::DataManagementProc - Terminating default screensaver\n"));
                         terminate_default_screensaver(m_hGraphicsApplication);
                     } else {
+                        BOINCTRACE(_T("CScreensaver::DataManagementProc - Terminating screensaver\n"));
                         terminate_screensaver(m_hGraphicsApplication, graphics_app_result_ptr);
                     }
                     graphics_app_result_ptr = NULL;
                     previous_result_ptr = NULL;
                     m_hGraphicsApplication = 0;
                 }
+                BOINCTRACE(_T("CScreensaver::DataManagementProc - Stopping...\n"));
                 m_bDataManagementProcStopped = true; // Tell main thread that we exited
                 return 0;                       // Exit the thread
             }
