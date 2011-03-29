@@ -539,8 +539,11 @@ void COPROCS::get(
         ati.get(use_all, descs, warnings, ignore_ati_dev);
     }
 #endif
-    get_opencl(use_all, warnings);
-
+    if (setjmp(resume)) {
+        warnings.push_back("Caught SIGSEGV in OpenCL detection");
+    } else {
+        get_opencl(use_all, warnings);
+    }
     signal(SIGSEGV, old_sig);
 #endif
 }
