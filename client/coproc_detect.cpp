@@ -64,13 +64,13 @@ void segv_handler(int) {
 #endif
 
 #ifdef _WIN32
+
 HMODULE opencl_lib = NULL;
 
-// TODO: Are these correct?
 typedef cl_int (__stdcall *CL_PLATFORMIDS) (cl_uint, cl_platform_id*, cl_uint*);
 typedef cl_int (__stdcall *CL_PLATFORMINFO) (cl_platform_id, cl_platform_info, size_t, void*, size_t*);
-typedef cl_int (__stdcall *CL_DEVICEIDS) (cl_platform_id, cl_device_type, cl_uint, cl_device_id*, cl_uint*);
-typedef int (__stdcall *CL_INFO) (cl_device_id, cl_device_info, size_t, void*, size_t*);
+typedef cl_int (__stdcall *CL_DEVICEIDS)(cl_platform_id, cl_device_type, cl_uint, cl_device_id*, cl_uint*);
+typedef cl_int (__stdcall *CL_INFO) (cl_device_id, cl_device_info, size_t, void*, size_t*);
 
 CL_PLATFORMIDS  __clGetPlatformIDs = NULL;
 CL_PLATFORMINFO __clGetPlatformInfo = NULL;
@@ -171,6 +171,8 @@ void COPROCS::get_opencl(bool use_all, vector<string>&warnings) {
     cl_uint num_platforms, num_devices, device_index;
     cl_device_id devices[MAX_COPROC_INSTANCES];
     OPENCL_DEVICE_PROP prop;
+    vector<OPENCL_DEVICE_PROP> nvidia_opencls;
+    vector<OPENCL_DEVICE_PROP> ati_opencls;
     unsigned int i;
 
 #ifdef _WIN32
@@ -184,9 +186,7 @@ void COPROCS::get_opencl(bool use_all, vector<string>&warnings) {
     __clGetPlatformInfo = (CL_PLATFORMINFO)( opencl_lib, "clGetPlatformInfo" );
     __clGetDeviceIDs = (CL_DEVICEIDS)GetProcAddress( opencl_lib, "clGetDeviceIDs" );
     __clGetDeviceInfo = (CL_INFO)GetProcAddress( opencl_lib, "clGetDeviceInfo" );
-
 #else
-
 #ifdef __APPLE__
     opencl_lib = dlopen("/System/Library/Frameworks/OpenCL.framework/Versions/Current/OpenCL", RTLD_NOW);
 #else
@@ -202,8 +202,13 @@ void COPROCS::get_opencl(bool use_all, vector<string>&warnings) {
     __clGetDeviceIDs = (cl_int(*)(cl_platform_id, cl_device_type, cl_uint, cl_device_id*, cl_uint*)) dlsym( opencl_lib, "clGetDeviceIDs" );
     __clGetDeviceInfo = (cl_int(*)(cl_device_id, cl_device_info, size_t, void*, size_t*)) dlsym( opencl_lib, "clGetDeviceInfo" );
 #endif
+
     if (!__clGetPlatformIDs) {
         warnings.push_back("clGetPlatformIDs() missing from OpenCL library");
+        return;
+    }
+    if (!__clGetPlatformInfo) {
+        warnings.push_back("clGetPlatformInfo() missing from OpenCL library");
         return;
     }
     if (!__clGetDeviceIDs) {
@@ -222,21 +227,21 @@ void COPROCS::get_opencl(bool use_all, vector<string>&warnings) {
         return;
     }
     
-    ciErrNum = (*__clGetDeviceIDs)(platforms[0], CL_DEVICE_TYPE_GPU, MAX_COPROC_INSTANCES, devices, &num_devices);
+    ciErrNum = (*__clGetDeviceIDs)(
+        platforms[0], CL_DEVICE_TYPE_GPU, MAX_COPROC_INSTANCES, devices, &num_devices
+    );
     if ((ciErrNum != CL_SUCCESS) || (num_devices == 0)) {
         warnings.push_back("OpenCL library present but no GPUs found");
         return;
     }
 
-    vector<OPENCL_DEVICE_PROP> nvidia_opencls;
-    vector<OPENCL_DEVICE_PROP> ati_opencls;
-
     for (device_index=0; device_index<num_devices; ++device_index) {
         memset(&prop, 0, sizeof(prop));
         prop.device_id = devices[device_index];
         
-        ciErrNum = (*__clGetPlatformInfo) (platforms[0], CL_PLATFORM_VERSION, sizeof(prop.openCL_platform_version), 
-                                        prop.openCL_platform_version, NULL);
+        ciErrNum = (*__clGetPlatformInfo)(
+            platforms[0], CL_PLATFORM_VERSION, sizeof(prop.openCL_platform_version), prop.openCL_platform_version, NULL
+        );
         if (ciErrNum != CL_SUCCESS) {
             warnings.push_back("clGetPlatformInfo() failed to get platform version");
             return;

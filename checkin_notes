@@ -1922,3 +1922,11 @@ Charlie 29 Mar 2011
         coproc_detect.cpp
     lib/
         coproc.cpp.h
+
+Rom    29 Mar 2011
+    - client: prevent client from crashing in OpenCL code
+    - client: fix function prototypes for dynamically calling
+        OpenCL functions.
+    
+    client/
+        coproc_detect.cpp
