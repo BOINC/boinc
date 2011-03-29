@@ -1013,7 +1013,7 @@ bool COPROC_NVIDIA::matches(OPENCL_DEVICE_PROP& OpenCLprop) {
             prop.totalGlobalMem, OpenCLprop.global_RAM, OpenCLprop.local_RAM);
     }
 
-#ifdef _WIN32
+#if 0//def _WIN32
 //TODO: Verify this test is correct
     if (prop.deviceHandle != OpenCLprop.device_id) return false;
 #else
