@@ -29,6 +29,7 @@
  */
 
 ////@begin includes
+#include "ViewNotices.h"    // For NoticeListCtrlEvent
 ////@end includes
 
 /*!

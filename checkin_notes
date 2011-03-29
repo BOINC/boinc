@@ -1908,3 +1908,9 @@ Rom    28 Mar 2011
         boinc_api.cpp
     clientscr/
         screensaver_win.cpp
+
+Charlie 29 Mar 2011
+    - MGR: Fix compile break.
+    
+    clientgui/
+        sg_DlgMessages.h
