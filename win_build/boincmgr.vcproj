@@ -1182,14 +1182,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\clientgui\UserDisagreesPage.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\clientgui\UserDisagreesPage.h"
-				>
-			</File>
-			<File
 				RelativePath="..\clientgui\WelcomePage.cpp"
 				>
 			</File>

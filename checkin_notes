@@ -1930,3 +1930,15 @@ Rom    29 Mar 2011
     
     client/
         coproc_detect.cpp
+
+Rom    29 Mar 2011
+    - MGR: Remove UserDisagreesPage from the wizard, replace functionality
+        by enabling/disabling the next button as needed.
+    - MGR: Fix a couple of warnings.
+
+    clientgui/
+        sg_CustomControls.cpp
+        sg_DlgMessages.cpp
+        TermsOfUsePage.cpp
+        UserDisagreesPage.cpp, .h (Deleted)
+        WizardAttach.cpp, .h

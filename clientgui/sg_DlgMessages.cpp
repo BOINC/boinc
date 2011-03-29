@@ -246,7 +246,7 @@ void CPanelMessages::OnOK( wxCommandEvent& event ) {
  * wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_SIMPLE_HELP
  */
 
-void CPanelMessages::OnButtonHelp( wxCommandEvent& event ) {
+void CPanelMessages::OnButtonHelp( wxCommandEvent& WXUNUSED(event) ) {
     wxLogTrace(wxT("Function Start/End"), wxT("CPanelMessages::OnHelp - Function Begin"));
 
     if (IsShown()) {
@@ -431,7 +431,7 @@ void CDlgMessages::OnShow(wxShowEvent& event) {
  * wxEVT_HELP event handler for ID_DLGMESSAGES
  */
 
-void CDlgMessages::OnHelp(wxHelpEvent& event) {
+void CDlgMessages::OnHelp(wxHelpEvent& WXUNUSED(event)) {
     wxLogTrace(wxT("Function Start/End"), wxT("CDlgMessages::OnHelp - Function Begin"));
 
     if (IsShown()) {
