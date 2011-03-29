@@ -131,8 +131,11 @@ struct COPROC {
     char type[256];     // must be unique
     int count;          // how many are present
     double peak_flops;
-    double used;           // how many are in use (used by client)
-
+    double used;        // how many are in use (used by client)
+    bool have_cuda;     // True if this GPU supports CUDA on this computer
+    bool have_cal;      // True if this GPU supports CAL on this computer
+    bool have_opencl;   // True if this GPU supports openCL on this computer
+    
     // the following are used in both client and server for work-fetch info
     //
     double req_secs;
@@ -155,7 +158,7 @@ struct COPROC {
     int device_nums[MAX_COPROC_INSTANCES];
     int device_num;     // temp used in scan process
     cl_device_id opencl_device_ids[MAX_COPROC_INSTANCES];
-    int opencl_device_num;
+    int opencl_device_count;
     bool running_graphics_app[MAX_COPROC_INSTANCES];
         // is this GPU running a graphics app (NVIDIA only)
     double available_ram[MAX_COPROC_INSTANCES];
@@ -177,9 +180,12 @@ struct COPROC {
         type[0] = 0;
         count = 0;
         used = 0;
+        have_cuda = false;
+        have_cal = false;
+        have_opencl = false;
         req_secs = 0;
         req_instances = 0;
-        opencl_device_num = 0;
+        opencl_device_count = 0;
         estimated_delay = 0;
         for (int i=0; i<MAX_COPROC_INSTANCES; i++) {
             device_nums[i] = 0;
@@ -212,7 +218,8 @@ struct COPROC {
 // doesn't have to match exactly since we get the attributes one at a time.
 //
 struct CUDA_DEVICE_PROP {
-  char   name[256];
+  char  name[256];
+  int   deviceHandle;
   unsigned int totalGlobalMem;
     // not used on the server; dtotalGlobalMem is used instead
     // (since some boards have >= 4GB)
@@ -316,7 +323,7 @@ struct COPROCS {
         std::vector<int>& ignore_cuda_dev,
         std::vector<int>& ignore_ati_dev
     );
-    void get_opencl(std::vector<std::string> &warnings);
+    void get_opencl(bool use_all, std::vector<std::string> &warnings);
     cl_int get_opencl_info(
         OPENCL_DEVICE_PROP& prop, 
         cl_uint device_index, 

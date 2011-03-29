@@ -1914,3 +1914,11 @@ Charlie 29 Mar 2011
     
     clientgui/
         sg_DlgMessages.h
+
+Charlie 29 Mar 2011
+    - client: Continue adding OpenCL support.
+    
+    client/
+        coproc_detect.cpp
+    lib/
+        coproc.cpp.h
