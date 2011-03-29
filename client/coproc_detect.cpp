@@ -519,6 +519,12 @@ void COPROCS::get(
     catch (...) {
         warnings.push_back("Caught SIGSEGV in ATI GPU detection");
     }
+    try {
+        get_opencl(use_all, warnings);
+    } 
+    catch (...) {
+        warnings.push_back("Caught SIGSEGV in OpenCL detection");
+    }
 #else
     void (*old_sig)(int) = signal(SIGSEGV, segv_handler);
     if (setjmp(resume)) {
