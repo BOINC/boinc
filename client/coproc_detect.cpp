@@ -1012,11 +1012,16 @@ bool COPROC_NVIDIA::check_running_graphics_app() {
 }
 
 bool COPROC_NVIDIA::matches(OPENCL_DEVICE_PROP& OpenCLprop) {
+    bool retval = true;
+
 //TODO: Temporary code for testing
     if (log_flags.coproc_debug) {
         msg_printf(0, MSG_INFO,
-            "[coproc-test] COPROC_NVIDIA: prop.deviceHandle = %d; OpenCLprop.device_id = %d",
-            prop.deviceHandle, (int)OpenCLprop.device_id);
+            "[coproc-test] COPROC_NVIDIA: prop.name = '%s'; OpenCLprop.name = '%s'",
+            prop.name, OpenCLprop.name);
+        msg_printf(0, MSG_INFO,
+            "[coproc-test] COPROC_NVIDIA: device_num = %d, prop.deviceHandle = %d; OpenCLprop.device_id = %d",
+            device_num, prop.deviceHandle, (int)OpenCLprop.device_id);
         msg_printf(0, MSG_INFO,
             "[coproc-test] COPROC_NVIDIA: prop.totalGlobalMem = %u; OpenCLprop.global_RAM = %llu; OpenCLprop.local_RAM = %llu",
             prop.totalGlobalMem, OpenCLprop.global_RAM, OpenCLprop.local_RAM);
@@ -1026,13 +1031,22 @@ bool COPROC_NVIDIA::matches(OPENCL_DEVICE_PROP& OpenCLprop) {
 //TODO: Verify this test is correct
     if (prop.deviceHandle != OpenCLprop.device_id) return false;
 #else
-    if (strcmp(prop.name, OpenCLprop.name)) return false;
+    if (strcmp(prop.name, OpenCLprop.name)) retval = false;
 //TODO: Figure out why these don't match
 //TODO: Should there be "loose" comparisons here?
 //    if (prop.totalGlobalMem != OpenCLprop.global_RAM) return false;
-    if ((prop.clockRate / 1000) != (int)OpenCLprop.max_clock_freq) return false;
+//    if ((prop.clockRate / 1000) != (int)OpenCLprop.max_clock_freq) retval = false;
 #endif
-    return true;
+
+//TODO: Temporary code for testing
+    if (log_flags.coproc_debug) {
+        if (retval) {
+            msg_printf(0, MSG_INFO, "[coproc-test] COPROC_NVIDIA: Match Found!");
+        } else {
+            msg_printf(0, MSG_INFO, "[coproc-test] COPROC_NVIDIA: Match NOT Found!");
+        }
+    }
+    return retval;
 }
 
 ////////////////// ATI STARTS HERE /////////////////
@@ -1464,16 +1478,39 @@ void COPROC_ATI::get_available_ram() {
 }
 
 bool COPROC_ATI::matches(OPENCL_DEVICE_PROP& OpenCLprop) {
+    bool retval = true;
+
 //TODO: Temporary code for testing
     if (log_flags.coproc_debug) {
+        msg_printf(0, MSG_INFO,
+            "[coproc-test] COPROC_ATI: prop.name = '%s'; OpenCLprop.name = '%s'",
+            name, OpenCLprop.name);
+        msg_printf(0, MSG_INFO,
+            "[coproc-test] COPROC_ATI: device_num = %d; OpenCLprop.device_id = %d",
+            device_num, (int)OpenCLprop.device_id);
         msg_printf(0, MSG_INFO,
             "[coproc-test] COPROC_ATI: attribs.localRAM = %u; OpenCLprop.global_RAM = %llu; OpenCLprop.local_RAM = %llu",
             attribs.localRAM, OpenCLprop.global_RAM, OpenCLprop.local_RAM);
     }
-    if (strcmp(OpenCLprop.name, name)) return false;
+
+#if 0//def _WIN32
+//TODO: Verify this test is correct
+    if (prop.deviceHandle != OpenCLprop.device_id) return false;
+#else
+    if (strcmp(name, OpenCLprop.name)) retval = false;
+//TODO: Figure out why these don't match
 //TODO: Should there be "loose" comparisons here?
-    if (attribs.localRAM != OpenCLprop.local_RAM) return false;
-    if (attribs.engineClock != OpenCLprop.max_clock_freq) return false;
-    
-    return true;
+//    if (attribs.localRAM != OpenCLprop.local_RAM) retval = false;
+//    if (attribs.engineClock != OpenCLprop.max_clock_freq) retval = false;
+#endif
+
+//TODO: Temporary code for testing
+    if (log_flags.coproc_debug) {
+        if (retval) {
+            msg_printf(0, MSG_INFO, "[coproc-test] COPROC_ATI: Match Found!");
+        } else {
+            msg_printf(0, MSG_INFO, "[coproc-test] COPROC_ATI: Match NOT Found!");
+        }
+    }
+    return retval;
 }

@@ -1980,3 +1980,10 @@ Rom    30 Mar 2011
         coproc_detect.cpp
     lib/
         coproc.h
+
+Rom    30 Mar 2011
+    - client: Beef up the trace logging when attempting to match OpenCL devices to their
+        native counterparts.
+
+    client/
+        coproc_detect.cpp
