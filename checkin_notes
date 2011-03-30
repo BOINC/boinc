@@ -1970,3 +1970,13 @@ Charlie 30 Mar 2011
      mac_build/
         boinc.xcodeproj/
             project.pbxproj
+
+Rom    30 Mar 2011
+    - client: OpenCL Profile Version wasn't being used anywhere and trying to get it
+        was causing a crash on Windows.  Remove for now.
+    - client: Fix ATI OpenCL detection so that the coproc test messages will appear.
+    
+    client/
+        coproc_detect.cpp
+    lib/
+        coproc.h

@@ -239,21 +239,16 @@ void COPROCS::get_opencl(bool use_all, vector<string>&warnings) {
         memset(&prop, 0, sizeof(prop));
         prop.device_id = devices[device_index];
         
-        ciErrNum = (*__clGetPlatformInfo)(
-            platforms[0], CL_PLATFORM_VERSION, sizeof(prop.openCL_platform_version), prop.openCL_platform_version, NULL
-        );
-        if (ciErrNum != CL_SUCCESS) {
-            warnings.push_back("clGetPlatformInfo() failed to get platform version");
-            return;
-        }
-
         ciErrNum = get_opencl_info(prop, device_index, warnings);
         if (ciErrNum != CL_SUCCESS) return;
         
         if (!strcmp(prop.vendor, "NVIDIA")) {
              nvidia_opencls.push_back(prop);
         }
-        if ((!strcmp(prop.vendor, "ATI")) || (!strcmp(prop.vendor, "AMD"))) {
+        if ((!strcmp(prop.vendor, "ATI")) || 
+            (!strcmp(prop.vendor, "AMD")) || 
+            (!strcmp(prop.vendor, "Advanced Micro Devices, Inc."))
+        ) {
              ati_opencls.push_back(prop);
         }
     }
@@ -318,7 +313,7 @@ void COPROCS::get_opencl(bool use_all, vector<string>&warnings) {
         }
     }           // End if (! nvidia.have_cuda)
 
-    if (ati.have_cuda) { // If CAL already found the "best" CAL GPU
+    if (ati.have_cal) { // If CAL already found the "best" CAL GPU
         for (i=0; i<ati_opencls.size(); i++) {
             if (ati.matches(ati_opencls[i])) {
                 // TODO: how do we exclude those listed by config.ignore_ati_dev ??

@@ -117,7 +117,6 @@ struct OPENCL_DEVICE_PROP {
     cl_uint max_clock_freq;             // Max configured clock frequencin in MHz
     cl_uint max_cores;                  // Max number of parallel computer cores
     char openCL_device_version[64];     // OpenCL version supported by device; example: "OpenCL 1.1 beta"
-    char openCL_platform_version[64];   // OpenCL version installed om computer; example: "OpenCL 1.0 (Aug 22 2010 18:08:16)"
     char openCL_driver_version[32];     // For example: "CLH 1.0"
 };
 
