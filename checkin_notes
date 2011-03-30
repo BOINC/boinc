@@ -1962,3 +1962,11 @@ Rom    29 Mar 2011
         
     clientscr/
         screensaver_win.cpp, .h
+
+Charlie 30 Mar 2011
+    - Mac: Eliminate unused source files UserDisagreesPage.cpp, .h from Mac 
+        project.
+
+     mac_build/
+        boinc.xcodeproj/
+            project.pbxproj
