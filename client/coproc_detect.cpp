@@ -247,7 +247,7 @@ void COPROCS::get_opencl(bool use_all, vector<string>&warnings) {
             ciErrNum = get_opencl_info(prop, device_index, warnings);
             if (ciErrNum != CL_SUCCESS) break;
             
-            if (strcasestr(prop.vendor, "NVIDIA")) {
+            if (strstr(prop.vendor, "NVIDIA")) {
                  nvidia_opencls.push_back(prop);
             }
             if ((!strcmp(prop.vendor, "ATI")) || 
