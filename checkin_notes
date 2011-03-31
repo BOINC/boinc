@@ -1988,7 +1988,7 @@ Rom    30 Mar 2011
     client/
         coproc_detect.cpp
 
-Charlie 29 Mar 2011
+Charlie 30 Mar 2011
     - client: Continue adding OpenCL support.
         We must check all OpenCL platforms; apparently ATI's platform reports only 
             ATI / AMD GPUs, and NVIDIA's platform reports only NVIDIA GPUs. 
@@ -2000,3 +2000,10 @@ Charlie 29 Mar 2011
         coproc_detect.cpp
     lib/
         coproc.h
+
+Rom    31 Mar 2011
+    - lib: Bring header and implementation files into sync over the coproc parsing
+        function.
+        
+    lib/
+        coproc.cpp, .h

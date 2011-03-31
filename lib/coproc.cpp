@@ -44,18 +44,6 @@
 using std::perror;
 #endif
 
-#ifndef _USING_FCGI_
-void COPROC::write_xml(MIOFILE& f) {
-    f.printf(
-        "<coproc>\n"
-        "   <type>%s</type>\n"
-        "   <count>%d</count>\n"
-        "</coproc>\n",
-        type, count
-    );
-}
-#endif
-
 int COPROC_REQ::parse(MIOFILE& fin) {
     char buf[1024];
     strcpy(type, "");
@@ -72,6 +60,17 @@ int COPROC_REQ::parse(MIOFILE& fin) {
 }
 
 #ifndef _USING_FCGI_
+
+void COPROC::write_xml(MIOFILE& f) {
+    f.printf(
+        "<coproc>\n"
+        "   <type>%s</type>\n"
+        "   <count>%d</count>\n"
+        "</coproc>\n",
+        type, count
+    );
+}
+
 void COPROC::write_request(MIOFILE& f) {
     f.printf(
         "   <req_secs>%f</req_secs>\n"
@@ -82,7 +81,6 @@ void COPROC::write_request(MIOFILE& f) {
         estimated_delay
     );
 }
-#endif
 
 int COPROC::parse(XML_PARSER& xp) {
     char tag[1024], buf[256];
@@ -113,6 +111,9 @@ int COPROC::parse(XML_PARSER& xp) {
     }
     return ERR_XML_PARSE;
 }
+
+#endif
+
 
 void COPROCS::summary_string(char* buf, int len) {
     char bigbuf[8192], buf2[1024];
