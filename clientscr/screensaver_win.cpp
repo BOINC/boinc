@@ -77,24 +77,23 @@ INT WINAPI WinMain(
         return retval;
     }
 
+    // Initialize Screensaver
     if (FAILED(hr = BOINCSS.Create(hInstance))) {
         BOINCSS.DisplayErrorMsg(hr);
         WSACleanup();
         return 0;
     }
 
+    // Run Screensaver
     retval = BOINCSS.Run();
     
     // Cleanup any existing screensaver objects and handles
+    BOINCTRACE("WinMain - Cleanup Screensaver Resources\n");
     BOINCSS.Cleanup();
 
     // Cleanup the Windows sockets interface.
+    BOINCTRACE("WinMain - Cleanup Winsock Resources\n");
     WSACleanup();
-
-    // Instruct the OS to terminate the screensaver by any
-    //   means nessassary.
-    fflush(NULL);
-    TerminateProcess(GetCurrentProcess(), retval);
 
     return retval;
 }
@@ -361,10 +360,12 @@ HRESULT CScreensaver::Run() {
 // Cleanup anything that needs cleaning.
 //
 HRESULT CScreensaver::Cleanup() {
+    BOINCTRACE("CScreensaver::Cleanup - Cleanup graphics application if running\n");
     if (m_hGraphicsApplication) {
         TerminateProcess(m_hGraphicsApplication, 0);
         m_hGraphicsApplication = NULL;
     }
+    BOINCTRACE("CScreensaver::Cleanup - Cleanup RPC client if running\n");
     if (rpc) {
         rpc->close();
         delete rpc;
@@ -380,11 +381,8 @@ HRESULT CScreensaver::Cleanup() {
 //
 HRESULT CScreensaver::DisplayErrorMsg(HRESULT hr) {
     TCHAR strMsg[512];
-
     GetTextForError(hr, strMsg, 512);
-
     MessageBox(m_hWnd, strMsg, m_strWindowTitle, MB_ICONERROR | MB_OK);
-
     return hr;
 }
 
