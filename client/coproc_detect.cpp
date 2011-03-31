@@ -250,9 +250,9 @@ void COPROCS::get_opencl(bool use_all, vector<string>&warnings) {
             if (strstr(prop.vendor, "NVIDIA")) {
                  nvidia_opencls.push_back(prop);
             }
-            if ((!strcmp(prop.vendor, "ATI")) || 
-                (!strcmp(prop.vendor, "AMD")) ||  
-                (!strcmp(prop.vendor, "Advanced Micro Devices, Inc."))
+            if ((strstr(prop.vendor, "ATI")) || 
+                (strstr(prop.vendor, "AMD")) ||  
+                (strstr(prop.vendor, "Advanced Micro Devices, Inc."))
             ) {
                  ati_opencls.push_back(prop);
             }
