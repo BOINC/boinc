@@ -167,8 +167,8 @@ int opencl_compare(OPENCL_DEVICE_PROP& c1, OPENCL_DEVICE_PROP& c2, bool loose) {
 
 void COPROCS::get_opencl(bool use_all, vector<string>&warnings) {
     cl_int ciErrNum;
-    cl_platform_id platforms[1];
-    cl_uint num_platforms, num_devices, device_index;
+    cl_platform_id platforms[MAX_OPENCL_PLATFORMS];
+    cl_uint num_platforms, platform_index, num_devices, device_index;
     cl_device_id devices[MAX_COPROC_INSTANCES];
     OPENCL_DEVICE_PROP prop;
     vector<OPENCL_DEVICE_PROP> nvidia_opencls;
@@ -220,41 +220,47 @@ void COPROCS::get_opencl(bool use_all, vector<string>&warnings) {
         return;
     }
 
-    // Ignore all but the first OpenCL platform
-    ciErrNum = (*__clGetPlatformIDs)(1, platforms, &num_platforms);
+    ciErrNum = (*__clGetPlatformIDs)(MAX_OPENCL_PLATFORMS, platforms, &num_platforms);
     if ((ciErrNum != CL_SUCCESS) || (num_platforms == 0)) {
         warnings.push_back("clGetPlatformIDs() failed to return any OpenCL platforms");
         return;
     }
     
-    ciErrNum = (*__clGetDeviceIDs)(
-        platforms[0], CL_DEVICE_TYPE_GPU, MAX_COPROC_INSTANCES, devices, &num_devices
-    );
-    if ((ciErrNum != CL_SUCCESS) || (num_devices == 0)) {
-        warnings.push_back("OpenCL library present but no GPUs found");
-        return;
+    for (platform_index=0; platform_index<num_platforms; ++platform_index) {
+        ciErrNum = (*__clGetDeviceIDs)(
+            platforms[platform_index], CL_DEVICE_TYPE_GPU, MAX_COPROC_INSTANCES, devices, &num_devices
+        );
+        if (ciErrNum != CL_SUCCESS) {
+            char buf[256];
+            sprintf(buf, "clGetDeviceIDs for platform #%d returned error %d", platform_index, ciErrNum);
+            warnings.push_back(buf);
+            return;
+        }
+
+        for (device_index=0; device_index<num_devices; ++device_index) {
+            memset(&prop, 0, sizeof(prop));
+            prop.device_id = devices[device_index];
+            
+//TODO: Should we store the platform(s) for each GPU found?
+//TODO: Must we check if multiple platforms found the same GPU and merge the records?
+
+            ciErrNum = get_opencl_info(prop, device_index, warnings);
+            if (ciErrNum != CL_SUCCESS) break;
+            
+            if (strcasestr(prop.vendor, "NVIDIA")) {
+                 nvidia_opencls.push_back(prop);
+            }
+            if ((!strcmp(prop.vendor, "ATI")) || 
+                (!strcmp(prop.vendor, "AMD")) ||  
+                (!strcmp(prop.vendor, "Advanced Micro Devices, Inc."))
+            ) {
+                 ati_opencls.push_back(prop);
+            }
+        }
     }
 
-    for (device_index=0; device_index<num_devices; ++device_index) {
-        memset(&prop, 0, sizeof(prop));
-        prop.device_id = devices[device_index];
-        
-        ciErrNum = get_opencl_info(prop, device_index, warnings);
-        if (ciErrNum != CL_SUCCESS) return;
-        
-        if (!strcmp(prop.vendor, "NVIDIA")) {
-             nvidia_opencls.push_back(prop);
-        }
-        if ((!strcmp(prop.vendor, "ATI")) || 
-            (!strcmp(prop.vendor, "AMD")) || 
-            (!strcmp(prop.vendor, "Advanced Micro Devices, Inc."))
-        ) {
-             ati_opencls.push_back(prop);
-        }
-    }
-    
-    if ((nvidia_opencls.size() == 0) && (ati_opencls.size() == 0)){
-        warnings.push_back("No OpenCL-capable GPUs found");
+    if ((nvidia_opencls.size() == 0) && (ati_opencls.size() == 0)) {
+        warnings.push_back("OpenCL library present but no OpenCL-capable GPUs found");
         return;
     }
 

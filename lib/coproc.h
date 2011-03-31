@@ -88,6 +88,8 @@
 #define MAX_RSC 8
     // max # of processing resources types
 
+#define MAX_OPENCL_PLATFORMS 16
+
 // represents a requirement for a coproc.
 // This is a parsed version of the <coproc> elements in an <app_version>
 // (used in client only)
