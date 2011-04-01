@@ -2013,3 +2013,34 @@ Rom    31 Mar 2011
 
     lib/
         procinfo.cpp
+
+Charlie 31 Mar 2011
+	- Fix Win build breaks caused by renaming of directory coprocs/cuda/ 
+		to coprocs/NVIDIA/.
+	- Eliminate redundant cl.h and clpatform.h in lib/ directory because
+		Rom has added them to new coprocs/OpenCL/include/ directory.
+	NOTE: It is risky to haev multiple copies of the same file in the same 
+		source tree, as they can easily get out of sync.
+
+    lib/
+        coproc.h
+        cl.h (deleted)
+        cl_platform.h (deleted)
+    win_build/
+        boinc_cli.vcproj
+        boinc_os_ss.vcproj
+        boinc_ss.vcproj
+        boinccmd.vcproj
+        boinclog.vcproj
+        boincmgr.vcproj
+        example_app_multi_thread.vcproj
+        libboinc.vcproj
+        libboinc_staticcrt.vcproj
+        libboincapi_staticcrt.vcproj
+        libgraphics2.vcproj
+        sleeper.vcproj
+        uc2.vcproj
+        uc2_graphics.vcproj
+        vboxwrapper.vcproj
+        wrapper.vcproj
+        wrappture_example.vcproj

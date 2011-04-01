@@ -75,15 +75,6 @@
 #include "cal_boinc.h"
 #include "cl.h"
 
-// The following are supported starting in OpenCL 1.1:
-#ifndef CL_DEVICE_DOUBLE_FP_CONFIG
-#define CL_DEVICE_DOUBLE_FP_CONFIG 0x1032
-#endif
-
-#ifndef CL_DEVICE_HALF_FP_CONFIG
-#define CL_DEVICE_HALF_FP_CONFIG 0x1033
-#endif
-
 #define MAX_COPROC_INSTANCES 64
 #define MAX_RSC 8
     // max # of processing resources types

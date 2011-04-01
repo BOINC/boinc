@@ -51,7 +51,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="../,../api/,../lib,../client/"
+				AdditionalIncludeDirectories="../;../api/;../lib;../client/;../coprocs/OpenCL/include"
 				PreprocessorDefinitions="WIN32;_DEBUG;_MT;_WINDOWS;_CONSOLE"
 				ExceptionHandling="2"
 				BasicRuntimeChecks="3"
@@ -161,7 +161,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="../,../api/,../lib,../client/"
+				AdditionalIncludeDirectories="../;../api/;../lib;../client/;../coprocs/OpenCL/include"
 				PreprocessorDefinitions="WIN32;_DEBUG;_MT;_WINDOWS;_CONSOLE"
 				ExceptionHandling="2"
 				BasicRuntimeChecks="3"
@@ -271,7 +271,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="3"
-				AdditionalIncludeDirectories="../api/,../lib/,../client,.."
+				AdditionalIncludeDirectories="../api/;../lib/;../client;..;../coprocs/OpenCL/include"
 				PreprocessorDefinitions="WIN32;NDEBUG;_MT;_WINDOWS;_CONSOLE"
 				StringPooling="false"
 				ExceptionHandling="2"
@@ -379,7 +379,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="3"
-				AdditionalIncludeDirectories="../api/,../lib/,../client,.."
+				AdditionalIncludeDirectories="../api/;../lib/;../client;..;../coprocs/OpenCL/include"
 				PreprocessorDefinitions="WIN32;NDEBUG;_MT;_WINDOWS;_CONSOLE"
 				StringPooling="false"
 				ExceptionHandling="2"
