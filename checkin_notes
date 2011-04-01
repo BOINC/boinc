@@ -2056,3 +2056,16 @@ Charlie 31 Mar 2011
 
     client/
         coproc_detect.cpp
+
+David  1 Apr 2011
+    - server/client: make a stripped-down OpenCL header file, lib/cl_boinc.h,
+        for the things that BOINC actually needs
+        (fixes server compile problems)
+    - client: fix various compile errors in coproc_detect.cpp
+
+    lib/
+        coproc.h
+        cl_boinc.h
+        Makefile.am
+    client/
+        coproc_detect.cpp

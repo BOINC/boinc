@@ -41,7 +41,7 @@ $biomed = array(
             "docking.png"
         ),
         array(
-            "GPUGrid.net ",
+            "GPUGrid.net",
             "http://www.gpugrid.net/",
             "Barcelona Biomedical Research Park (PRBB)",
             "Molecular simulations of proteins",

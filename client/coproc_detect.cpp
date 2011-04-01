@@ -281,10 +281,10 @@ void COPROCS::get_opencl(bool use_all, vector<string>&warnings) {
 //TODO: Temporary code for testing
             if (log_flags.coproc_debug) {
                 msg_printf(0, MSG_INFO,
-                    "[coproc-test] COPROC_NVIDIA [no CUDA]: nvidia_opencls[%d].name = '%s'; nvidia_opencls[%d].device_id = %d",
-                    i, nvidia_opencls[i].name, i, (int)nvidia_opencls[i].device_id);
+                    "[coproc-test] COPROC_NVIDIA [no CUDA]: nvidia_opencls[%d].name = '%s'; nvidia_opencls[%d].device_id = %p",
+                    i, nvidia_opencls[i].name, i, nvidia_opencls[i].device_id);
                 msg_printf(0, MSG_INFO,
-                    "[coproc-test] COPROC_NVIDIA [no CUDA]: nvidia_opencls[%d].global_RAM = %llu; nvidia_opencls[%d].local_RAM = %llu",
+                    "[coproc-test] COPROC_NVIDIA [no CUDA]: nvidia_opencls[%d].global_RAM = %lu; nvidia_opencls[%d].local_RAM = %lu",
                     i, nvidia_opencls[i].global_RAM, i, nvidia_opencls[i].local_RAM);
             }
 //          if (in_vector(nvidia_opencls[i].device_num, ignore_devs)) continue;
@@ -345,10 +345,10 @@ void COPROCS::get_opencl(bool use_all, vector<string>&warnings) {
 //TODO: Temporary code for testing
             if (log_flags.coproc_debug) {
                 msg_printf(0, MSG_INFO,
-                    "[coproc-test] COPROC_ATI [no CAL]: ati_opencls[%d].name = '%s'; ati_opencls[%d].device_id = %d",
-                    i, ati_opencls[i].name, i, (int)ati_opencls[i].device_id);
+                    "[coproc-test] COPROC_ATI [no CAL]: ati_opencls[%d].name = '%s'; ati_opencls[%d].device_id = %p",
+                    i, ati_opencls[i].name, i, ati_opencls[i].device_id);
                 msg_printf(0, MSG_INFO,
-                    "[coproc-test] COPROC_ATI [no CAL]: ati_opencls[%d].global_RAM = %llu; ati_opencls[%d].local_RAM = %llu",
+                    "[coproc-test] COPROC_ATI [no CAL]: ati_opencls[%d].global_RAM = %lu; ati_opencls[%d].local_RAM = %lu",
                     i, ati_opencls[i].global_RAM, i, ati_opencls[i].local_RAM);
             }
 //          if (in_vector(ati_opencls[i].device_num, ignore_devs)) continue;
@@ -1044,10 +1044,10 @@ bool COPROC_NVIDIA::matches(OPENCL_DEVICE_PROP& OpenCLprop) {
             "[coproc-test] COPROC_NVIDIA [in matches()]: prop.name = '%s'; OpenCLprop.name = '%s'",
             prop.name, OpenCLprop.name);
         msg_printf(0, MSG_INFO,
-            "[coproc-test] COPROC_NVIDIA [in matches()]: device_num = %d, prop.deviceHandle = %d; OpenCLprop.device_id = %d",
-            device_num, prop.deviceHandle, (int)OpenCLprop.device_id);
+            "[coproc-test] COPROC_NVIDIA [in matches()]: device_num = %d, prop.deviceHandle = %d; OpenCLprop.device_id = %p",
+            device_num, prop.deviceHandle, OpenCLprop.device_id);
         msg_printf(0, MSG_INFO,
-            "[coproc-test] COPROC_NVIDIA [in matches()]: prop.totalGlobalMem = %u; OpenCLprop.global_RAM = %llu; OpenCLprop.local_RAM = %llu",
+            "[coproc-test] COPROC_NVIDIA [in matches()]: prop.totalGlobalMem = %u; OpenCLprop.global_RAM = %lu; OpenCLprop.local_RAM = %lu",
             prop.totalGlobalMem, OpenCLprop.global_RAM, OpenCLprop.local_RAM);
     }
 
@@ -1510,10 +1510,10 @@ bool COPROC_ATI::matches(OPENCL_DEVICE_PROP& OpenCLprop) {
             "[coproc-test] COPROC_ATI [in matches()]: prop.name = '%s'; OpenCLprop.name = '%s'",
             name, OpenCLprop.name);
         msg_printf(0, MSG_INFO,
-            "[coproc-test] COPROC_ATI [in matches()]: device_num = %d; OpenCLprop.device_id = %d",
-            device_num, (int)OpenCLprop.device_id);
+            "[coproc-test] COPROC_ATI [in matches()]: device_num = %d; OpenCLprop.device_id = %p",
+            device_num, OpenCLprop.device_id);
         msg_printf(0, MSG_INFO,
-            "[coproc-test] COPROC_ATI [in matches()]: attribs.localRAM = %u; OpenCLprop.global_RAM = %llu; OpenCLprop.local_RAM = %llu",
+            "[coproc-test] COPROC_ATI [in matches()]: attribs.localRAM = %u; OpenCLprop.global_RAM = %lu; OpenCLprop.local_RAM = %lu",
             attribs.localRAM, OpenCLprop.global_RAM, OpenCLprop.local_RAM);
     }
 

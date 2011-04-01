@@ -73,7 +73,7 @@
 #include "miofile.h"
 #include "parse.h"
 #include "cal_boinc.h"
-#include "cl.h"
+#include "cl_boinc.h"
 
 #define MAX_COPROC_INSTANCES 64
 #define MAX_RSC 8

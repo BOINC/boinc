@@ -97,6 +97,7 @@ pkginclude_HEADERS = \
     boinc_win.h \
     cal_boinc.h \
     cert_sig.h \
+    cl_boinc.h \
     common_defs.h \
     coproc.h \
     crypt.h \
