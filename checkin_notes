@@ -2048,3 +2048,11 @@ Charlie 31 Mar 2011
         vboxwrapper.vcproj
         wrapper.vcproj
         wrappture_example.vcproj
+
+Charlie 31 Mar 2011
+    - client: Add debug logging to show GPU detection when OpenCL is installed 
+        but CAL and / or CUDA is not.  (I have verified this works for NVIDIA 
+        GPUs on Mac OS 10.6 without CUDA support installed.)
+
+    client/
+        coproc_detect.cpp
