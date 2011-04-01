@@ -2007,3 +2007,9 @@ Rom    31 Mar 2011
         
     lib/
         coproc.cpp, .h
+
+Rom    31 Mar 2011
+    - lib: Fix build break for Linux.
+
+    lib/
+        procinfo.cpp

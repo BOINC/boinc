@@ -17,13 +17,15 @@
 
 // platform-independent process-enumeration functions
 
-#ifndef _WIN32
+#if   defined(_WIN32) && !defined(__STDWX_H__)
+#include "boinc_win.h"
+#elif defined(_WIN32) && defined(__STDWX_H__)
+#include "stdwx.h"
+#else
+#include "config.h"
 #include <sys/types.h>
 #include <sys/wait.h>
 #include <string.h>
-#endif
-
-#ifdef __APPLE__
 #include <signal.h>
 #endif
 
