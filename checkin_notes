@@ -2080,10 +2080,16 @@ David  1 Apr 2011
         coproc.h
         procinfo.h
 
-Charlie 30 Mar 2011
+Charlie 1 Apr 2011
     - Mac: Revise Mac project for deleted coprocs/OpenCL/include/ directory and 
         new cl_boinc.h.
 
      mac_build/
         boinc.xcodeproj/
             project.pbxproj
+
+David  1 Apr 2011
+    - lib: fix compile warnings by removing virtual functions in COPROC
+
+    lib/
+        coproc.h

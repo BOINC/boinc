@@ -163,7 +163,7 @@ struct COPROC {
     OPENCL_DEVICE_PROP opencl_prop;
 
 #ifndef _USING_FCGI_
-    virtual void write_xml(MIOFILE&);
+    void write_xml(MIOFILE&);
     void write_request(MIOFILE&);
     int parse(XML_PARSER&);
 #endif
@@ -238,7 +238,7 @@ struct COPROC_NVIDIA : public COPROC {
     CUDA_DEVICE_PROP prop;
 
 #ifndef _USING_FCGI_
-    virtual void write_xml(MIOFILE&, bool include_request);
+    void write_xml(MIOFILE&, bool include_request);
 #endif
     COPROC_NVIDIA(): COPROC("NVIDIA"){}
     void get(
@@ -277,7 +277,7 @@ struct COPROC_ATI : public COPROC {
     CALdeviceattribs attribs; 
     CALdeviceinfo info;
 #ifndef _USING_FCGI_
-    virtual void write_xml(MIOFILE&, bool include_request);
+    void write_xml(MIOFILE&, bool include_request);
 #endif
     COPROC_ATI(): COPROC("ATI"){}
     void get(
