@@ -25,6 +25,8 @@ AM_CPPFLAGS =					\
         -I$(top_srcdir)/tools			\
         -I$(top_srcdir)/sched			\
         -I$(top_srcdir)/lib/mac			\
+        -I$(top_srcdir)/coprocs/NVIDIA/include			\
+        -I$(top_srcdir)/coprocs/OpenCL/include			\
 	$(PTHREAD_CFLAGS)
 
 AM_CFLAGS =

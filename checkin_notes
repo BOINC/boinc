@@ -2019,13 +2019,17 @@ Charlie 31 Mar 2011
 		to coprocs/NVIDIA/.
 	- Eliminate redundant cl.h and clpatform.h in lib/ directory because
 		Rom has added them to new coprocs/OpenCL/include/ directory.
-	NOTE: It is risky to haev multiple copies of the same file in the same 
+	NOTE: It is risky to have multiple copies of the same file in the same 
 		source tree, as they can easily get out of sync.
 
+    Makefile.incl
     lib/
         coproc.h
         cl.h (deleted)
         cl_platform.h (deleted)
+     mac_build/
+        boinc.xcodeproj/
+            project.pbxproj
     win_build/
         boinc_cli.vcproj
         boinc_os_ss.vcproj
