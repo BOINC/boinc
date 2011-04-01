@@ -315,8 +315,8 @@ struct SCHEDULER_REQUEST {
     int last_rpc_dayofyear;
     int current_rpc_dayofyear;
 
-    SCHEDULER_REQUEST();
-    ~SCHEDULER_REQUEST();
+    SCHEDULER_REQUEST(){};
+    ~SCHEDULER_REQUEST(){};
     const char* parse(FILE*);
     int write(FILE*); // write request info to file: not complete
 };

@@ -24,7 +24,7 @@ Instructions for installing and running BOINC are
 <a href=http://boinc.berkeley.edu/wiki/User_manual>here</a>.
 <li>
 To submit an item for inclusion in this list,
-please email <a href=contact.php>David Anderson</a>.
+please email <a href=http://boinc.berkeley.edu/trac/wiki/ProjectPeople>David Anderson</a>.
 </ul>
 ";
 

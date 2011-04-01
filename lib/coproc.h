@@ -203,7 +203,6 @@ struct COPROC {
     COPROC() {
         clear();
     }
-    virtual ~COPROC(){}
     void print_available_ram();
 };
 
@@ -242,7 +241,6 @@ struct COPROC_NVIDIA : public COPROC {
     virtual void write_xml(MIOFILE&, bool include_request);
 #endif
     COPROC_NVIDIA(): COPROC("NVIDIA"){}
-    virtual ~COPROC_NVIDIA(){}
     void get(
         bool use_all,
         std::vector<std::string>&, std::vector<std::string>&,
@@ -282,7 +280,6 @@ struct COPROC_ATI : public COPROC {
     virtual void write_xml(MIOFILE&, bool include_request);
 #endif
     COPROC_ATI(): COPROC("ATI"){}
-    virtual ~COPROC_ATI(){}
     void get(
         bool use_all,
         std::vector<std::string>&, std::vector<std::string>&,
@@ -307,8 +304,6 @@ struct COPROCS {
     COPROC_NVIDIA nvidia;
     COPROC_ATI ati;
 
-    COPROCS(){}
-    ~COPROCS(){}    // don't delete coprocs; else crash in APP_INIT_DATA logic
     void write_xml(MIOFILE& out, bool include_request);
     void get(
         bool use_all, std::vector<std::string> &descs,

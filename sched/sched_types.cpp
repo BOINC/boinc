@@ -177,13 +177,6 @@ void WORK_REQ::add_no_work_message(const char* message) {
     no_work_messages.push_back(USER_MESSAGE(message, "notice"));
 }
 
-
-SCHEDULER_REQUEST::SCHEDULER_REQUEST() {
-}
-
-SCHEDULER_REQUEST::~SCHEDULER_REQUEST() {
-}
-
 // return an error message or NULL
 //
 const char* SCHEDULER_REQUEST::parse(FILE* fin) {

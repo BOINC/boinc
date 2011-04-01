@@ -2069,3 +2069,13 @@ David  1 Apr 2011
         Makefile.am
     client/
         coproc_detect.cpp
+
+David  1 Apr 2011
+    - scheduler: removed unused destructors in COPROC that
+        caused scheduler to crash (not sure why)
+
+    sched/
+        sched_types.cpp,h
+    lib/
+        coproc.h
+        procinfo.h
