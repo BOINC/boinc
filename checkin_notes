@@ -9255,3 +9255,23 @@ Rom    25 Feb 2011
     /
         configure.ac
         version.h
+
+Rom    29 Mar 2011
+    - WINSCR: So after looking over all the logs from WCG and now from Jacob
+        Klein a pattern started to emerge.  At the end of the log files the last
+        message logged was 0x12 which translates into WM_QUIT.  The latest
+        documentation on WM_QUIT states it should never show up in the message
+        loop to begin with.
+        
+        The docs now say that WM_QUIT should not be sent to the message loop by
+        way of PostMessage.  We have been doing things this way for over 5 years.
+        
+        Change the shutdown logic so that only the primary curtain window can call
+        PostQuitMessage() and all other curtain windows just exit when they receive
+        a WM_DESTROY message.
+        
+        I'm not sure what causes this to be a problem on some machines and not
+        others.  But preliminary results from Jacob are encouraging.
+        
+    clientscr/
+        screensaver_win.cpp, .h

@@ -824,7 +824,9 @@ BOOL CScreensaver::GetTextForError(
 //
 BOOL CScreensaver::CreateInputActivityThread() {
     DWORD dwThreadID = 0;
+
     BOINCTRACE(_T("CScreensaver::CreateInputActivityThread Start\n"));
+
     m_hInputActivityThread = CreateThread(
         NULL,                        // default security attributes 
         0,                           // use default stack size  
@@ -848,10 +850,13 @@ BOOL CScreensaver::CreateInputActivityThread() {
 // Terminate the thread that is used to monitor input activity.
 //
 BOOL CScreensaver::DestroyInputActivityThread() {
+   	BOINCTRACE(_T("CScreensaver::DestroyInputActivityThread: Shutting Down...\n"));
+
     if (!TerminateThread(m_hInputActivityThread, 0)) {
     	BOINCTRACE(_T("CScreensaver::DestroyInputActivityThread: Failed to terminate input activity thread '%d'\n"), GetLastError());
         return FALSE;
     }
+
     return TRUE;
 }
 
@@ -940,10 +945,13 @@ BOOL CScreensaver::CreateGraphicsWindowPromotionThread() {
 // Terminate the thread that is used to promote the graphics window.
 //
 BOOL CScreensaver::DestroyGraphicsWindowPromotionThread() {
+   	BOINCTRACE(_T("CScreensaver::DestroyGraphicsWindowPromotionThread: Shutting Down...\n"));
+
     if (!TerminateThread(m_hGraphicsWindowPromotionThread, 0)) {
     	BOINCTRACE(_T("CScreensaver::DestroyGraphicsWindowPromotionThread: Failed to terminate graphics window promotion thread '%d'\n"), GetLastError());
         return FALSE;
     }
+
     return TRUE;
 }
 
@@ -1035,7 +1043,9 @@ DWORD WINAPI CScreensaver::GraphicsWindowPromotionProc() {
 //
 BOOL CScreensaver::CreateDataManagementThread() {
     DWORD dwThreadID = 0;
+
     BOINCTRACE(_T("CScreensaver::CreateDataManagementThread Start\n"));
+
     m_hDataManagementThread = CreateThread(
         NULL,                        // default security attributes 
         0,                           // use default stack size  
@@ -1048,6 +1058,7 @@ BOOL CScreensaver::CreateDataManagementThread() {
     	BOINCTRACE(_T("CScreensaver::CreateDataManagementThread: Failed to create data management thread '%d'\n"), GetLastError());
         return FALSE;
    }
+
    return TRUE;
 }
 
@@ -1057,15 +1068,23 @@ BOOL CScreensaver::CreateDataManagementThread() {
 // Terminate the thread that is used to talk to the daemon.
 //
 BOOL CScreensaver::DestroyDataManagementThread() {
-    m_bQuitDataManagementProc = true;  // Tell DataManagementProc thread to exit
-    for (int i = 0; i < 50; i++) {  // Wait up to 5 second for DataManagementProc thread to exit
-        if (m_bDataManagementProcStopped) return true;
+    BOINCTRACE(_T("CScreensaver::DestoryDataManagementThread: Shutting down... \n"));
+
+    m_bQuitDataManagementProc = true;  
+    for (int i = 0; i < 50; i++) {
+        if (m_bDataManagementProcStopped) {
+            BOINCTRACE(_T("CScreensaver::DestoryDataManagementThread: Thread gracefully shutdown \n"));
+            return TRUE;
+        }
         boinc_sleep(0.1);
     }
+
+    BOINCTRACE(_T("CScreensaver::DestoryDataManagementThread: Terminating thread... \n"));
     if (!TerminateThread(m_hDataManagementThread, 0)) {
-    	BOINCTRACE(_T("CScreensaver::DestoryDataManagementThread: Failed to terminate data management thread '%d'\n"), GetLastError());
+    	BOINCTRACE(_T("CScreensaver::DestoryDataManagementThread: Failed to terminate thread '%d'\n"), GetLastError());
         return FALSE;
     }
+
     return TRUE;
 }
 
@@ -1128,7 +1147,7 @@ HRESULT CScreensaver::CreateSaverWindow() {
     cls2.hbrBackground  = (HBRUSH) GetStockObject(BLACK_BRUSH);
     cls2.hInstance      = m_hInstance; 
     cls2.style          = CS_VREDRAW|CS_HREDRAW;
-    cls2.lpfnWndProc    = SaverProcStub;
+    cls2.lpfnWndProc    = GenericSaverProcStub;
     cls2.cbWndExtra     = 0; 
     cls2.cbClsExtra     = 0; 
     RegisterClass(&cls2);
@@ -1242,21 +1261,21 @@ VOID CScreensaver::DoConfig() {
 
 
 
-// Handle window messages for main screensaver windows.
+// Handle window messages for main screensaver window.
 //
 LRESULT CScreensaver::SaverProc(
     HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam
 ) {
     DWORD dwMonitor = 0;
+
 #ifdef _DEBUG
     for(DWORD iIndex = 0; iIndex < m_dwNumMonitors; iIndex++) {
 		if (hWnd == m_Monitors[iIndex].hWnd ) {
             dwMonitor = iIndex;
         }
     }
-#endif
-
     BOINCTRACE(_T("CScreensaver::SaverProc [%d] hWnd '%d' uMsg '%X' wParam '%d' lParam '%d'\n"), dwMonitor, hWnd, uMsg, wParam, lParam);
+#endif
 
     switch (uMsg) {
         case WM_TIMER:
@@ -1321,7 +1340,7 @@ LRESULT CScreensaver::SaverProc(
                     m_dwSaverMouseMoveCount++;
                     if (m_dwSaverMouseMoveCount > 5) {
                         BOINCTRACE(_T("CScreensaver::SaverProc Received WM_MOUSEMOVE and time to InterruptSaver()\n"));
-                        InterruptSaver();
+                        FireInterruptSaverEvent();
                     }
                 }
             }
@@ -1334,18 +1353,21 @@ LRESULT CScreensaver::SaverProc(
         case WM_MBUTTONDOWN:
             BOINCTRACE(_T("CScreensaver::SaverProc Received WM_KEYDOWN | WM_LBUTTONDOWN | WM_RBUTTONDOWN | WM_MBUTTONDOWN\n"));
             if (m_SaverMode != sm_test) {
-                InterruptSaver();
+                FireInterruptSaverEvent();
             }
             return 0;
             break;
 
         case WM_CLOSE:
-        case WM_DESTROY:
-            BOINCTRACE(_T("CScreensaver::SaverProc Received WM_CLOSE or WM_DESTROY\n"));
+            BOINCTRACE(_T("CScreensaver::SaverProc Received WM_CLOSE\n"));
             if (m_SaverMode == sm_preview || m_SaverMode == sm_test) {
-                ShutdownSaver();
+                FireInterruptSaverEvent();
             }
-            return 0;
+            break;
+
+        case WM_DESTROY:
+            BOINCTRACE(_T("CScreensaver::SaverProc Received WM_DESTROY\n"));
+            PostQuitMessage(0);
             break;
 
         case WM_SYSCOMMAND: 
@@ -1373,7 +1395,7 @@ LRESULT CScreensaver::SaverProc(
         case WM_POWERBROADCAST:
             BOINCTRACE(_T("CScreensaver::SaverProc Received WM_POWERBROADCAST\n"));
             if (wParam == PBT_APMQUERYSUSPEND)
-                InterruptSaver();
+                FireInterruptSaverEvent();
             break;
     }
 
@@ -1387,7 +1409,155 @@ LRESULT CScreensaver::SaverProc(
     } else if (WM_INTERRUPTSAVER == uMsg) {
 
         BOINCTRACE(_T("CScreensaver::SaverProc Received WM_INTERRUPTSAVER\n"));
-        InterruptSaver();
+        ShutdownSaver();
+
+    }
+
+    return DefWindowProc(hWnd, uMsg, wParam, lParam);
+}
+
+
+
+
+// Handle window messages for secondary screensaver windows.
+//
+LRESULT CScreensaver::GenericSaverProc(
+    HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam
+) {
+    DWORD dwMonitor = 0;
+
+#ifdef _DEBUG
+    for(DWORD iIndex = 0; iIndex < m_dwNumMonitors; iIndex++) {
+		if (hWnd == m_Monitors[iIndex].hWnd ) {
+            dwMonitor = iIndex;
+        }
+    }
+    BOINCTRACE(_T("CScreensaver::GenericSaverProc [%d] hWnd '%d' uMsg '%X' wParam '%d' lParam '%d'\n"), dwMonitor, hWnd, uMsg, wParam, lParam);
+#endif
+
+    switch (uMsg) {
+        case WM_TIMER:
+            BOINCTRACE(_T("CScreensaver::GenericSaverProc Received WM_TIMER\n"));
+			switch (wParam) { 
+				case 1: 
+					// Initial idle time is done, proceed with initialization.
+					m_bWaitForInputIdle = FALSE;
+					KillTimer(hWnd, 1);
+                    return 0;
+                    break;
+				case 2:
+                    // Create a screen saver window on the primary display if 
+                    //   the boinc client crashes
+	                CreateSaverWindow();
+
+                    // Update the position of the box every second so that it
+                    //   does not end up off the visible area of the screen.
+				    UpdateErrorBox();
+                    return 0;
+                    break;
+            }
+            break;
+        case WM_PAINT:
+            {
+				BOOL    bErrorMode;
+				HRESULT hrError;
+				TCHAR	szError[400];
+				GetError(bErrorMode, hrError, szError, sizeof(szError)/sizeof(TCHAR));
+
+				// Show error message, if there is one
+                PAINTSTRUCT ps;
+                BeginPaint(hWnd, &ps);
+
+                // In preview mode, just fill 
+                // the preview window with black, and the BOINC icon. 
+                if (!bErrorMode && m_SaverMode == sm_preview) {
+                    RECT rc;
+                    GetClientRect(hWnd,&rc);
+				    FillRect(ps.hdc, &rc, (HBRUSH)GetStockObject(BLACK_BRUSH));
+				    DrawIcon(ps.hdc, (rc.right / 2) - 16, (rc.bottom / 2) - 16,
+					    LoadIcon(m_hInstance, MAKEINTRESOURCE(IDI_MAIN_ICON)));
+                } else {
+                    DoPaint(hWnd, ps.hdc, &ps);
+                }
+
+                EndPaint(hWnd, &ps);
+            }
+
+            return 0;
+            break;
+
+        case WM_MOUSEMOVE:
+            if (m_SaverMode != sm_test) {
+                static INT xPrev = -1;
+                static INT yPrev = -1;
+                INT xCur = LOWORD(lParam);
+                INT yCur = HIWORD(lParam);
+                if (xCur != xPrev || yCur != yPrev) {
+                    xPrev = xCur;
+                    yPrev = yCur;
+                    m_dwSaverMouseMoveCount++;
+                    if (m_dwSaverMouseMoveCount > 5) {
+                        BOINCTRACE(_T("CScreensaver::GenericSaverProc Received WM_MOUSEMOVE and time to InterruptSaver()\n"));
+                        FireInterruptSaverEvent();
+                    }
+                }
+            }
+            return 0;
+            break;
+
+        case WM_KEYDOWN:
+        case WM_LBUTTONDOWN:
+        case WM_RBUTTONDOWN:
+        case WM_MBUTTONDOWN:
+            BOINCTRACE(_T("CScreensaver::GenericSaverProc Received WM_KEYDOWN | WM_LBUTTONDOWN | WM_RBUTTONDOWN | WM_MBUTTONDOWN\n"));
+            if (m_SaverMode != sm_test) {
+                FireInterruptSaverEvent();
+            }
+            return 0;
+            break;
+
+        case WM_CLOSE:
+            BOINCTRACE(_T("CScreensaver::GenericSaverProc Received WM_CLOSE\n"));
+            if (m_SaverMode == sm_preview || m_SaverMode == sm_test) {
+                FireInterruptSaverEvent();
+            }
+            break;
+
+        case WM_SYSCOMMAND: 
+            BOINCTRACE(_T("CScreensaver::GenericSaverProc Received WM_SYSCOMMAND\n"));
+            if (m_SaverMode == sm_full) {
+                switch (wParam) {
+                    case SC_NEXTWINDOW:
+                    case SC_PREVWINDOW:
+                    case SC_SCREENSAVE:
+                    case SC_CLOSE:
+                        return 0;
+                }
+            }
+            break;
+
+        case WM_SETCURSOR:
+            BOINCTRACE(_T("CScreensaver::GenericSaverProc Received WM_SETCURSOR\n"));
+            if (m_SaverMode == sm_full) {
+                // Hide cursor
+                SetCursor(NULL);
+                return TRUE;
+            }
+            break;
+
+        case WM_POWERBROADCAST:
+            BOINCTRACE(_T("CScreensaver::GenericSaverProc Received WM_POWERBROADCAST\n"));
+            if (wParam == PBT_APMQUERYSUSPEND)
+                FireInterruptSaverEvent();
+            break;
+    }
+
+    if (WM_SETTIMER == uMsg) {
+
+        BOINCTRACE(_T("CScreensaver::GenericSaverProc Received WM_SETTIMER\n"));
+        // All initialization messages have gone through.  Allow
+        // 500ms of idle time, then proceed with initialization.
+        SetTimer(hWnd, 1, 500, NULL);
 
     }
 
@@ -1545,6 +1715,18 @@ LRESULT CALLBACK CScreensaver::SaverProcStub(
 
 
 
+// This function forwards all window messages to GenericSaverProc, which has
+//       access to the "this" pointer.
+//
+LRESULT CALLBACK CScreensaver::GenericSaverProcStub(
+    HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam
+) {
+    return gspScreensaver->GenericSaverProc(hWnd, uMsg, wParam, lParam);
+}
+
+
+
+
 INT_PTR CALLBACK CScreensaver::ConfigureDialogProcStub(
     HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam
 ) {
@@ -1566,14 +1748,10 @@ VOID CScreensaver::ShutdownSaver() {
     // Kill the currently executing graphics application
     terminate_screensaver(m_hGraphicsApplication, &m_running_result);
 
-    // Post message to drop out of message loop
-    // This can be called from the data management thread, so specifically
-    // lookup and post to the primary window instead of calling PostQuitMessage
-    // since PostQuitMessage posts to the current threads message pump if it
-    // exists.
+    // Close all screensaver windows
     for(DWORD iIndex = 0; iIndex < m_dwNumMonitors; iIndex++) {
 		if ( m_Monitors[iIndex].hWnd ) {
-            PostMessage(m_Monitors[iIndex].hWnd, WM_QUIT, NULL, NULL);
+            DestroyWindow(m_Monitors[iIndex].hWnd);
         }
     }
 
@@ -1593,18 +1771,6 @@ VOID CScreensaver::FireInterruptSaverEvent() {
     }
 
     BOINCTRACE(_T("CScreensaver::FireInterruptSaverEvent Function End\n"));
-}
-
-
-
-
-// A message was received (mouse move, keydown, etc.) that may mean
-//     the screen saver should shut down.
-//
-VOID CScreensaver::InterruptSaver() {
-    BOINCTRACE(_T("CScreensaver::InterruptSaver Function Begin\n"));
-    ShutdownSaver();
-    BOINCTRACE(_T("CScreensaver::InterruptSaver Function End\n"));
 }
 
 
