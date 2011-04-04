@@ -9283,3 +9283,10 @@ Rom    4 April 2011
     /
         configure.ac
         version.h
+
+David  4 Apr 2011
+    - client: discard messages whose create time OR arrival time
+        is more than 30 days ago
+
+    client/
+        cs_notices.cpp

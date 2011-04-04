@@ -315,9 +315,12 @@ bool NOTICES::remove_dups(NOTICE& n) {
     deque<NOTICE>::iterator i = notices.begin();
     bool removed_something = false;
     bool retval = true;
+    double min_time = gstate.now - 30*86400;
     while (i != notices.end()) {
         NOTICE& n2 = *i;
-        if (n2.arrival_time < gstate.now - 30*86400) {
+        if (n2.arrival_time < min_time
+            || (n2.create_time && n2.create_time < min_time)
+        ) {
             i = notices.erase(i);
             removed_something = true;
         } else if (same_guid(n, n2)) {
