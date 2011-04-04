@@ -9275,3 +9275,11 @@ Rom    29 Mar 2011
         
     clientscr/
         screensaver_win.cpp, .h
+
+Rom    4 April 2011
+    - Tag for 6.12.20 release, all platforms
+      boinc_core_release_6_12_20
+
+    /
+        configure.ac
+        version.h
