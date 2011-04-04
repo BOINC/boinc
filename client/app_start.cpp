@@ -417,7 +417,7 @@ int ACTIVE_TASK::copy_output_files() {
 //
 int ACTIVE_TASK::start(bool first_time) {
     char exec_name[256], file_path[256], buf[256], exec_path[256];
-    char cmdline[8192];
+    char cmdline[80000];    // 64KB plus some extra
     unsigned int i;
     FILE_REF fref;
     FILE_INFO* fip;

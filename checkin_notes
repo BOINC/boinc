@@ -2108,3 +2108,10 @@ David  4 Apr 2011
 
     client/
         cs_notices.cpp
+
+David  4 Apr 2011
+    - client: use larger buffer for app command line,
+        enough to accommodate 64KB from wu.cmdline
+
+    client/
+        app_start.cpp
