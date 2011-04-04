@@ -9290,3 +9290,11 @@ David  4 Apr 2011
 
     client/
         cs_notices.cpp
+
+Rom    4 April 2011
+    - Tag for 6.12.21 release, all platforms
+      boinc_core_release_6_12_21
+
+    /
+        configure.ac
+        version.h
