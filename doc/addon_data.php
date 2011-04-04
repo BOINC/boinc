@@ -518,14 +518,14 @@ array('boinc_server_status.zip',
 );
 
 $web = array(
-array('http://download.conmunix.net/pub/boinc_lcs/boinc_lcs_3.0.tar.gz',
+array('http://dl.onext.de/pub/boinc_lcs/boinc_lcs_latest.tar.gz',
     'Boinc LCS',
-    '3.0 final',
+    '3.1',
     'Shows the current state and other information from an unlimited number of BOINC clients connected to the Internet.',
-    'http://www.conmunix.net/boinc-lcs',
+    'http://www.onenext.de/',
     'Apache, PHP',
     'Boinc LCS is a free PHP based script, that allows you to monitor the current state (and other information) from each of your connected BOINC clients. It runs on a simple webserver and is platform independent. Boinc LCS is released under the GNU/GPL license. You can modify and redistribute or just use it!',
-    '1210049520'
+    '1301891920'
 ),
 array('b-sig.zip',
     'Forum signature showing jobs in progress',

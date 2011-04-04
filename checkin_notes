@@ -1763,69 +1763,69 @@ Charlie 24 Mar 2011
             project.pbxproj
 
 David  24 Mar 2011
-	- client: generalize the GPU framework so that
-		- new GPU types can be added easily
-		- users can specify GPUs in cc_config.xml,
-			referred to by app_info.xml,
-			and they will be scheduled by BOINC
-			and passed --device N options
-			Note: the parsing of cc_config.xml is not done yet.
-		- RPC protocols (account manager and scheduler)
-			can now specify GPU types in separate elements
-			rather than embedding them in tag names
-			e.g. <no_rsc>NVIDIA</no_rsc> rather than <no_cuda/>
-	- client: in account manager replies, parse elements of the form
-		<no_rsc>NAME</no_rsc>
-		indicating the GPUs of type NAME should not be used.
-		This allows account managers to control GPU types
-		not hardwired into the client.
-		Note: <no_cuda/> and <no_ati/> will continue to be supported.
-	- scheduler RPC reply: add
-		<no_rsc_apps>NAME</no_rsc_apps>
-		(NAME = GPU name)
-		to indicate that the project has no jobs for the indicated GPU type.
-		<no_cuda_apps> etc. are still supported 
-	- client/lib: remove set_debts() GUI RPC
-	- client/scheduler RPC
-		remove <cuda_backoff> etc. (superceded by no_app)
-		Exception: <ip_result> elements in sched request
-		still have <ncudas> and <natis>.
-		Fix this later.
+    - client: generalize the GPU framework so that
+        - new GPU types can be added easily
+        - users can specify GPUs in cc_config.xml,
+            referred to by app_info.xml,
+            and they will be scheduled by BOINC
+            and passed --device N options
+            Note: the parsing of cc_config.xml is not done yet.
+        - RPC protocols (account manager and scheduler)
+            can now specify GPU types in separate elements
+            rather than embedding them in tag names
+            e.g. <no_rsc>NVIDIA</no_rsc> rather than <no_cuda/>
+    - client: in account manager replies, parse elements of the form
+        <no_rsc>NAME</no_rsc>
+        indicating the GPUs of type NAME should not be used.
+        This allows account managers to control GPU types
+        not hardwired into the client.
+        Note: <no_cuda/> and <no_ati/> will continue to be supported.
+    - scheduler RPC reply: add
+        <no_rsc_apps>NAME</no_rsc_apps>
+        (NAME = GPU name)
+        to indicate that the project has no jobs for the indicated GPU type.
+        <no_cuda_apps> etc. are still supported 
+    - client/lib: remove set_debts() GUI RPC
+    - client/scheduler RPC
+        remove <cuda_backoff> etc. (superceded by no_app)
+        Exception: <ip_result> elements in sched request
+        still have <ncudas> and <natis>.
+        Fix this later.
 
-	Implementation notes:
-	- client/lib: change "CUDA" to "NVIDIA" in type/variable names, and in XML
-		Continue to recognize "CUDA" for compatibility
-	- host_info.coprocs no longer used within the client;
-		use a global var (COPROCS coprocs) instead.
-		COPROCS now has an array of COPROCs;
-		GPUs types are identified by the array index.
-		Index zero means CPU.
-	- a bunch of other resource-specific structs (like RSC_WORK_FETCH)
-		are now stored in arrays, with same indices as COPROCS
-		(i.e. index 0 is CPU)
-	- COPROCS still has COPROC_NVIDIA and COPROC_ATI structs to hold vendor-specific info
-	- APP_VERSION now has a struct GPU_USAGE to describe its GPU usage
+    Implementation notes:
+    - client/lib: change "CUDA" to "NVIDIA" in type/variable names, and in XML
+        Continue to recognize "CUDA" for compatibility
+    - host_info.coprocs no longer used within the client;
+        use a global var (COPROCS coprocs) instead.
+        COPROCS now has an array of COPROCs;
+        GPUs types are identified by the array index.
+        Index zero means CPU.
+    - a bunch of other resource-specific structs (like RSC_WORK_FETCH)
+        are now stored in arrays, with same indices as COPROCS
+        (i.e. index 0 is CPU)
+    - COPROCS still has COPROC_NVIDIA and COPROC_ATI structs to hold vendor-specific info
+    - APP_VERSION now has a struct GPU_USAGE to describe its GPU usage
 
-	client/
-		acct_mgr.cpp,h
-		app_start.cpp
-		client_state.cpp,h
-		client_types.cpp,h
-		coproc_detect.cpp
-		cpu_sched.cpp
-		cs_account.cpp
-		cs_prefs.cpp
-		cs_scheduler.cpp
-		cs_statefile.cpp
-		gui_rpc_server_ops.cpp
-		rr_sim.cpp
-		scheduler_op.cpp.h
-		work_fetch.cpp,h
-	lib/
-		coproc.h
-		hostinfo.cpp,h
-	win_build/
-		boinc_cli.vcproj
+    client/
+        acct_mgr.cpp,h
+        app_start.cpp
+        client_state.cpp,h
+        client_types.cpp,h
+        coproc_detect.cpp
+        cpu_sched.cpp
+        cs_account.cpp
+        cs_prefs.cpp
+        cs_scheduler.cpp
+        cs_statefile.cpp
+        gui_rpc_server_ops.cpp
+        rr_sim.cpp
+        scheduler_op.cpp.h
+        work_fetch.cpp,h
+    lib/
+        coproc.h
+        hostinfo.cpp,h
+    win_build/
+        boinc_cli.vcproj
 
 Charlie 25 Mar 2011
     - client: Temporarily work around compile breaks introduced by the changes 
@@ -1833,17 +1833,17 @@ Charlie 25 Mar 2011
         NOTE to David: please look for "//TODO: David, please fix" in these 
             files and fix as appropriate.
             
-   	client/
-		app_start.cpp
+       client/
+        app_start.cpp
         boinc_cmd.cpp
 
 David  25 Mar 2011
-	- manager: fix crashing bug when notices (or other text parsed by XML_PARSER)
-		contain non-ASCII characters.
-		Rom: please port to 6.12
+    - manager: fix crashing bug when notices (or other text parsed by XML_PARSER)
+        contain non-ASCII characters.
+        Rom: please port to 6.12
 
-	lib/
-		parse.cpp
+    lib/
+        parse.cpp
 
 David  25 Mar 2011
     - client: Unix compile fixes
@@ -1862,10 +1862,10 @@ Charlie 25 Mar 2011
         coproc.cpp, .h
 
 David  25 Mar 2011
-	- manager: fix the above to detect premature EOF correctly
+    - manager: fix the above to detect premature EOF correctly
 
-	lib/
-		parse.cpp
+    lib/
+        parse.cpp
 
 David  25 Mar 2011
     - scheduler: compile fixes
@@ -2015,12 +2015,12 @@ Rom    31 Mar 2011
         procinfo.cpp
 
 Charlie 31 Mar 2011
-	- Fix Win build breaks caused by renaming of directory coprocs/cuda/ 
-		to coprocs/NVIDIA/.
-	- Eliminate redundant cl.h and clpatform.h in lib/ directory because
-		Rom has added them to new coprocs/OpenCL/include/ directory.
-	NOTE: It is risky to have multiple copies of the same file in the same 
-		source tree, as they can easily get out of sync.
+    - Fix Win build breaks caused by renaming of directory coprocs/cuda/ 
+        to coprocs/NVIDIA/.
+    - Eliminate redundant cl.h and clpatform.h in lib/ directory because
+        Rom has added them to new coprocs/OpenCL/include/ directory.
+    NOTE: It is risky to have multiple copies of the same file in the same 
+        source tree, as they can easily get out of sync.
 
     Makefile.incl
     lib/
@@ -2093,3 +2093,11 @@ David  1 Apr 2011
 
     lib/
         coproc.h
+
+David  4 Apr 2011
+    - scheduler: don't send unboundedly many assigned jobs
+    - Makefile: don't include unnecessary files
+
+    sched/
+        sched_assign.cpp
+    Makefile.incl

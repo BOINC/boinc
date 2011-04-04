@@ -123,6 +123,7 @@ bool send_assigned_jobs() {
     bool sent_something = false;
 
     for (int i=0; i<ssp->nassignments; i++) {
+        if (!work_needed(false)) break; 
         ASSIGNMENT& asg = ssp->assignments[i];
 
         if (config.debug_assignment) {
