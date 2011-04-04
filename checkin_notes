@@ -2115,3 +2115,11 @@ David  4 Apr 2011
 
     client/
         app_start.cpp
+
+David  4 Apr 2011
+    - scheduler: <max_wus_in_progress> and <max_wus_in_progress_gpu>
+        are per-processor, not per-host.
+
+    sched/
+        sched_config.cpp
+        sched_limit.h

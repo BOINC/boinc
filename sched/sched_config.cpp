@@ -228,10 +228,12 @@ int SCHED_CONFIG::parse(FILE* f) {
         if (xp.parse_int(tag, "max_ncpus", max_ncpus)) continue;
         if (xp.parse_int(tag, "max_wus_in_progress", itemp)) {
             max_jobs_in_progress.project_limits.cpu.base_limit = itemp;
+            max_jobs_in_progress.project_limits.cpu.per_proc = true;
             continue;
         }
         if (xp.parse_int(tag, "max_wus_in_progress_gpu", itemp)) {
             max_jobs_in_progress.project_limits.gpu.base_limit = itemp;
+            max_jobs_in_progress.project_limits.gpu.per_proc = true;
             continue;
         }
         if (xp.parse_int(tag, "max_wus_to_send", max_wus_to_send)) continue;

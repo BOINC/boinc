@@ -60,6 +60,13 @@ struct RSC_JOB_LIMIT {
     }
 
     void print_log(const char*);
+
+    RSC_JOB_LIMIT() {
+        base_limit = 0;
+        scaled_limit = 0;
+        njobs = 0;
+        per_proc = false;
+    }
 };
 
 struct JOB_LIMIT {
