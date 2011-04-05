@@ -125,10 +125,10 @@ $m610 = array(
 );
 
 $m612 = array(
-	"num"=>"6.12.19",
+	"num"=>"6.12.22",
 	"status"=>"Development version (standard GUI)",
-	"file"=>"boinc_6.12.19_macOSX_universal.zip",
-	"date"=>"26 Mar 2011",
+	"file"=>"boinc_6.12.22_macOSX_universal.zip",
+	"date"=>"5 Apr 2011",
 	"type"=>"mac_advanced",
 );
 
@@ -150,10 +150,10 @@ $m66 = array(
 );
 
 $m612c = array(
-	"num"=>"6.12.19",
+	"num"=>"6.12.22",
 	"status"=>"Development version (Unix command-line version)",
-	"file"=>"boinc_6.12.19_universal-apple-darwin.zip",
-	"date"=>"26 Mar 2011",
+	"file"=>"boinc_6.12.22_universal-apple-darwin.zip",
+	"date"=>"5 Apr 2011",
 	"type"=>"bare_core",
 );
 
