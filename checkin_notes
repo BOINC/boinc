@@ -9330,3 +9330,11 @@ David  4 Apr 2011
 
     client/
         app_start.cpp
+
+Rom    5 April 2011
+    - Tag for 6.12.22 release, all platforms
+      boinc_core_release_6_12_22
+
+    /
+        configure.ac
+        version.h
