@@ -10,10 +10,10 @@ msgstr ""
 "PO-Revision-Date: 2010-08-03 06:59-0700\n"
 "Last-Translator: Gabor Cseh <csega@mailbox.hu>\n"
 "Language-Team: \n"
-"Language: hu\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: hu\n"
 "Plural-Forms: nplurals=2; plural=(n !=1);\n"
 "X-Generator: Pootle 1.2.1\n"
 "X-Poedit-Bookmarks: 7,-1,-1,-1,-1,-1,-1,-1,-1,-1\n"
@@ -335,7 +335,6 @@ msgid "Last time contacted server"
 msgstr "Utolsó kapcsolódás a kiszolgálóhoz"
 
 #: ../inc/host.inc:181
-#, php-format
 #, fuzzy, php-format
 msgid "% of time BOINC is running"
 msgstr "BOINC kliens futása az idő %-ában"
@@ -2719,15 +2718,14 @@ msgid ""
 "happens, stop running %1 or use a %2utility program%3 that limits CPU usage."
 msgstr ""
 "A(z) %1 által futtatott alkalmazások a számítógép túlmelegedését okozhatják. "
-"Ha ez megtörténik, ne futtassa tovább a(z) %1 projektet, vagy használjon "
-"egy %2segédprogramot%3, mely limitálja a CPU-használatot."
+"Ha ez megtörténik, ne futtassa tovább a(z) %1 projektet, vagy használjon egy "
+"%2segédprogramot%3, mely limitálja a CPU-használatot."
 
 #: ../user/info.php:49
 msgid ""
 "%1 was developed by %2. BOINC was developed at the University of California."
 msgstr ""
-"A(z) %1 %2 által fejlesztve. A BOINCot a Kaliforniai Egyetemen "
-"fejlesztették."
+"A(z) %1 %2 által fejlesztve. A BOINCot a Kaliforniai Egyetemen fejlesztették."
 
 # Vagy kötelezettség, még meg kéne nézni!!!
 #: ../user/info.php:51
@@ -2891,7 +2889,8 @@ msgstr "%1 nevű felhasználóból több is van. Használja a felhasználó ID-j
 
 #: ../user/pm.php:211
 msgid "User %1 (ID: %2) is not accepting private messages from you."
-msgstr "A %1 nevű felhasználó (ID-je: %2) nem fogad Öntől személyes üzeneteket."
+msgstr ""
+"A %1 nevű felhasználó (ID-je: %2) nem fogad Öntől személyes üzeneteket."
 
 #: ../user/pm.php:236
 msgid "Really block %1?"
@@ -2931,8 +2930,7 @@ msgstr "A(z) %1 nevű felhasználó blokkolva"
 #: ../user/pm.php:259
 msgid "User %1 has been blocked from sending you private messages."
 msgstr ""
-"A(z) %1 nevű felhasználót blokkolta, így Ő nem küldhet Önnek privát "
-"üzenetet."
+"A(z) %1 nevű felhasználót blokkolta, így Ő nem küldhet Önnek privát üzenetet."
 
 # Ez sem biztos, hogy jó, ellenőrizni kell!!!
 #: ../user/pm.php:260

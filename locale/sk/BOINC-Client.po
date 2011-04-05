@@ -7,13 +7,13 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-01-26 13:27-0800\n"
-"PO-Revision-Date: 2010-10-19 22:48+0200\n"
+"PO-Revision-Date: 2011-04-01 23:35+0200\n"
 "Last-Translator: aceman <acelists@atlas.sk>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: sk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: sk\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 "X-Generator: Pootle 2.1.1\n"
 
@@ -22,15 +22,16 @@ msgid "error"
 msgstr "chyba"
 
 #: client_msgs.cpp:79
-#, fuzzy
 msgid "Message from server"
-msgstr "Správa od"
+msgstr "Správa zo serveru"
 
 #: client_state.cpp:232
 msgid ""
 "Some tasks need more memory than allowed by your preferences.  Please check "
 "the preferences."
 msgstr ""
+"Niektoré úlohy vyžadujú viac operačnej pamäti, než povoľujú vaše "
+"preferencie. Prosím skontrolujte preferencie."
 
 #: client_state.cpp:414
 msgid "Couldn't write state file; check directory permissions"
@@ -116,81 +117,96 @@ msgstr "Tento projekt nepodporuje CPU typ"
 #: ../sched/handle_request.cpp:966
 msgid ""
 "Your BOINC client software is too old.  Please install the current version."
-msgstr ""
+msgstr "Váš klient BOINC je príliš starý. Prosím nainštalujte aktuálnu verziu."
 
 #: ../sched/handle_request.cpp:1217
 msgid "This project doesn't support computers of type"
-msgstr ""
+msgstr "Tento projekt nepodporuje počítače typu"
 
 #: ../sched/sched_send.cpp:1267
 msgid "Upgrade to the latest driver to process tasks using your computer's GPU"
-msgstr ""
+msgstr "Aktualizujte na najnovší ovládač pre spracovanie úloh na vašom GPU"
 
 #: ../sched/sched_send.cpp:1274
 msgid ""
 "Upgrade to the latest driver to use all of this project's GPU applications"
 msgstr ""
+"Aktualizujte na najnovší ovládač, aby ste mohli využiť všetky GPU aplikácie "
+"tohto projektu"
 
 #: ../sched/sched_send.cpp:1298
 msgid ""
 "A newer version of BOINC is needed to use your NVIDIA GPU; please upgrade to "
 "the current version"
 msgstr ""
+"Pre použitie NVIDIA GPU je potrebná novšia verzia BOINC; prosím aktualizujte "
+"na aktuálnu verziu"
 
 #: ../sched/sched_send.cpp:1311
 msgid "An NVIDIA or ATI GPU is required to run tasks for this project"
 msgstr ""
+"Pre spracovanie úloh tohto projektu je vyžadovaná grafická karta (GPU) "
+"NVIDIA alebo ATI."
 
 #: ../sched/sched_send.cpp:1316
 msgid "An NVIDIA GPU is required to run tasks for this project"
 msgstr ""
+"Pre spustenie úloh tohto projektu je požadovaná grafická karta (GPU) NVIDIA"
 
 #: ../sched/sched_send.cpp:1322
 msgid "An ATI GPU is required to run tasks for this project"
 msgstr ""
+"Pre spustenie úloh tohto projektu je požadovaný grafická karta (GPU) ATI"
 
 #: ../sched/sched_send.cpp:1417
 msgid ""
 "No work available for the applications you have selected.  Please check your "
 "project preferences on the web site."
 msgstr ""
+"Nie je dostupná žiadna práca pre aplikácie, ktoré ste zvolili. Prosím "
+"skontrolujte si preferencie projektu na webovej stránke."
 
 #: ../sched/sched_send.cpp:1443
 msgid "Your computer type is not supported by this project"
-msgstr ""
+msgstr "Typ Vášho počítača nie je podporovaný týmto projektom"
 
 #: ../sched/sched_send.cpp:1449
 msgid "Newer BOINC version required; please install current version"
-msgstr ""
+msgstr "Je vyžadovaná novšia verzia BOINC; prosím nainštalujte aktuálnu verziu"
 
 #: ../sched/sched_send.cpp:1459
 msgid ""
 "Tasks for NVIDIA GPU are available, but your preferences are set to not "
 "accept them"
 msgstr ""
+"Sú dostupné úlohy pre NVIDIA GPU, ale vaše preferencie sú nastavené ich "
+"neakceptovať"
 
 #: ../sched/sched_send.cpp:1465
 msgid ""
 "Tasks for ATI GPU are available, but your preferences are set to not accept "
 "them"
 msgstr ""
+"Sú dostupné úlohy pre ATI GPU, ale vaše preferencie sú nastavené ich "
+"neakceptovať"
 
 #: ../sched/sched_send.cpp:1471
 msgid ""
 "Tasks for CPU are available, but your preferences are set to not accept them"
 msgstr ""
+"Sú dostupné úlohy pre CPU, ale vaše preferencie sú nastavené ich neakceptovať"
 
 #: ../sched/sched_types.cpp:268
 msgid "Unknown app name in app_info.xml"
-msgstr ""
+msgstr "Neznámy názov aplikácie v súbore app_info.xml"
 
 #: ../sched/sched_version.cpp:230
 msgid "Your app_info.xml file doesn't have a usable version of"
-msgstr ""
+msgstr "Váš súbor app_info.xml nemá použiteľnú verziu "
 
 #: ../sched/sched_version.cpp:709
 msgid "is not available for"
-msgstr ""
+msgstr "nie je dostupná pre"
 
 #~ msgid "Notice from BOINC"
 #~ msgstr "Oznam z BOINC"
