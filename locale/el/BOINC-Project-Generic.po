@@ -10,10 +10,10 @@ msgstr ""
 "PO-Revision-Date: 2010-10-11 15:12+0200\n"
 "Last-Translator: chris g <chr1407@hotmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: el\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: el\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Pootle 2.1.1\n"
 "X-Poedit-SourceCharset: utf-8\n"
@@ -98,8 +98,7 @@ msgstr "Σημάδεψε όλα τα νήματα ως διαβασμένα"
 
 #: ../inc/forum.inc:1174
 msgid "Mark all threads in all message boards as 'read'."
-msgstr ""
-"Σημάδεψε όλα τα νήματα σε όλους τους πίνακες μηνυμάτων ως \"διαβασμένα\"."
+msgstr "Σημάδεψε όλα τα νήματα σε όλους τους πίνακες μηνυμάτων ως \"διαβασμένα\"."
 
 #: ../inc/host.inc:24
 msgid "No host"

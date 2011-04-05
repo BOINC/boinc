@@ -661,8 +661,9 @@ msgid ""
 msgstr ""
 
 #: projects.inc:334
+#, fuzzy
 msgid "ABC@home"
-msgstr ""
+msgstr "Casa"
 
 #: projects.inc:336
 msgid "Mathematical Institute of Leiden University / Kennislink"
@@ -1090,8 +1091,8 @@ msgstr "Navegador por predefinição"
 msgid ""
 "Open-source software for %svolunteer computing%s and %sgrid computing%s."
 msgstr ""
-"Software open-source para a %scomputação voluntária%s e %srede de computação%"
-"s."
+"Software open-source para a %scomputação voluntária%s e %srede de computação"
+"%s."
 
 #: index.php:272
 msgid "BOINC is based at The University of California, Berkeley"

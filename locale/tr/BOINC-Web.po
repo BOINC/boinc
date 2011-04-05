@@ -802,7 +802,8 @@ msgid ""
 "you may be able to %suse it to compute faster%s"
 msgstr ""
 "Not: Eğer bilgisayarınız bir ekran kartına (Graphics Processing Unit-GPU) "
-"sahipse, çok daha hızlı hesaplama yaptırmak için %sonu da kullanabilirsiniz%s"
+"sahipse, çok daha hızlı hesaplama yaptırmak için %sonu da kullanabilirsiniz%"
+"s"
 
 #: download.php:121
 msgid "System requirements"
@@ -1079,7 +1080,8 @@ msgstr "Tarayıcı varsayılanı"
 msgid ""
 "Open-source software for %svolunteer computing%s and %sgrid computing%s."
 msgstr ""
-"Açık kaynaklı %sgönüllü hesaplama%s ve %sdağınık (grid) hesaplama%s yazılımı."
+"Açık kaynaklı %sgönüllü hesaplama%s ve %sdağınık (grid) hesaplama%s "
+"yazılımı."
 
 #: index.php:272
 msgid "BOINC is based at The University of California, Berkeley"
