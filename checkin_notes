@@ -9298,3 +9298,10 @@ Rom    4 April 2011
     /
         configure.ac
         version.h
+
+Rom    28 Mar 2011
+    - MGR: Handle the link click events from the notices control for the
+        Simgle GUI notices dialog box.
+        
+    clientgui/
+        sg_DlgMessages.cpp, .h
