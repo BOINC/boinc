@@ -65,7 +65,6 @@
 		DD33C6F808B5BB4500768630 /* acct_setup.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD33C6F708B5BB4500768630 /* acct_setup.cpp */; };
 		DD33C70408B5BEDE00768630 /* http_curl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD33C70208B5BEDE00768630 /* http_curl.cpp */; };
 		DD35353607E1E13F00C4718D /* boinc_api.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5755AD302FE063A012012A7 /* boinc_api.cpp */; };
-		DD3669FB132A4F0A00B619B6 /* UserDisagreesPage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD3669F9132A4F0A00B619B6 /* UserDisagreesPage.cpp */; };
 		DD3741D610FC948C001257EB /* filesys.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5EAD475031AEFF8018E201A /* filesys.cpp */; };
 		DD3741D910FC94BA001257EB /* url.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDC06AB210A3E93F00C8D9A5 /* url.cpp */; };
 		DD3E14DB0A774397007E0084 /* boinc in Resources */ = {isa = PBXBuildFile; fileRef = DDD74D8707CF482E0065AC9D /* boinc */; };
@@ -713,8 +712,6 @@
 		DD344BEE07C5B1770043025C /* proxy_info.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = proxy_info.h; path = ../lib/proxy_info.h; sourceTree = SOURCE_ROOT; };
 		DD344BEF07C5B1770043025C /* proxy_info.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = proxy_info.cpp; sourceTree = "<group>"; };
 		DD35353107E1E05C00C4718D /* libboinc_api.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libboinc_api.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		DD3669F9132A4F0A00B619B6 /* UserDisagreesPage.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = UserDisagreesPage.cpp; path = ../clientgui/UserDisagreesPage.cpp; sourceTree = SOURCE_ROOT; };
-		DD3669FA132A4F0A00B619B6 /* UserDisagreesPage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UserDisagreesPage.h; path = ../clientgui/UserDisagreesPage.h; sourceTree = SOURCE_ROOT; };
 		DD3E15420A774397007E0084 /* BOINCManager.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BOINCManager.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DD407A4A07D2FB1200163EF5 /* libboinc.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libboinc.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		DD407AB707D2FC7D00163EF5 /* mem_usage.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = mem_usage.cpp; sourceTree = "<group>"; };
@@ -1440,8 +1437,6 @@
 				DD04BE1A0EDD836A006D5603 /* TermsOfUsePage.h */,
 				DD58C46108F334EA00C1DF66 /* UnavailablePage.cpp */,
 				DD58C46208F334EA00C1DF66 /* UnavailablePage.h */,
-				DD3669F9132A4F0A00B619B6 /* UserDisagreesPage.cpp */,
-				DD3669FA132A4F0A00B619B6 /* UserDisagreesPage.h */,
 				DD81C42707C5D1D70098A04D /* ValidateAccountKey.cpp */,
 				DD81C46607C5D29F0098A04D /* ValidateAccountKey.h */,
 				DDBDF4A90987091800464F83 /* ValidateEmailAddress.cpp */,
@@ -2594,7 +2589,6 @@
 				DDA850A41207EED900B473A6 /* WizardAttach.cpp in Sources */,
 				DD4FA25D121828E400154856 /* BOINCHtmlLBox.cpp in Sources */,
 				DD4FA2621218290600154856 /* BOINCVListBox.cpp in Sources */,
-				DD3669FB132A4F0A00B619B6 /* UserDisagreesPage.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
