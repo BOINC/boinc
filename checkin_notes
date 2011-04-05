@@ -9323,3 +9323,10 @@ Rom    29 Mar 2011
         TermsOfUsePage.cpp
         UserDisagreesPage.cpp, .h (Deleted)
         WizardAttach.cpp, .h
+
+David  4 Apr 2011
+    - client: use larger buffer for app command line,
+        enough to accommodate 64KB from wu.cmdline
+
+    client/
+        app_start.cpp
