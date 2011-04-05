@@ -162,7 +162,7 @@ wxWizardPageEx* CTermsOfUsePage::GetNext() const
     } else if (GetUserAgrees()) {
         return PAGE_TRANSITION_NEXT(ID_ACCOUNTINFOPAGE);
     } else {
-        return PAGE_TRANSITION_NEXT(ID_ERRUSERDISAGREESPAGE);
+        return PAGE_TRANSITION_NEXT(ID_COMPLETIONERRORPAGE);
     }
     return NULL;
 }
@@ -237,7 +237,10 @@ void CTermsOfUsePage::OnPageChanged( wxWizardExEvent& event ) {
         _("I do not agree with the terms of use.")
     );
     m_pDisagreeCtrl->SetValue(true);
+
     SetUserAgrees(false);
+    ((CWizardAttach*)GetParent())->DisableNextButton();
+
 
     Fit();
 }
@@ -288,9 +291,11 @@ void CTermsOfUsePage::OnTermsOfUseStatusChange( wxCommandEvent& event ) {
     if ((ID_TERMSOFUSEAGREECTRL == event.GetId()) && event.IsChecked()){
         wxLogTrace(wxT("Function Status"), wxT("CTermsOfUsePage::OnTermsOfUseStatusChange - SetUserAgrees(true)"));
         SetUserAgrees(true);
+        ((CWizardAttach*)GetParent())->EnableNextButton();
     } else {
         wxLogTrace(wxT("Function Status"), wxT("CTermsOfUsePage::OnTermsOfUseStatusChange - SetUserAgrees(false)"));
         SetUserAgrees(false);
+        ((CWizardAttach*)GetParent())->DisableNextButton();
     }
 
     wxLogTrace(wxT("Function Start/End"), wxT("CTermsOfUsePage::OnTermsOfUseStatusChange - Function End"));
