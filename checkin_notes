@@ -9338,3 +9338,11 @@ Rom    5 April 2011
     /
         configure.ac
         version.h
+
+Charlie 30 Mar 2011
+    - Mac: Eliminate unused source files UserDisagreesPage.cpp, .h from Mac 
+        project.  (Checked into boinc_core_release_6_12_22.)
+
+     mac_build/
+        boinc.xcodeproj/
+            project.pbxproj
