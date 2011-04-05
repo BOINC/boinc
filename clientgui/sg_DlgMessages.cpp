@@ -459,7 +459,7 @@ void CDlgMessages::OnShow(wxShowEvent& event) {
  * wxEVT_HELP event handler for ID_DLGMESSAGES
  */
 
-void CDlgMessages::OnHelp(wxHelpEvent& WXUNUSED(event)) {
+void CDlgMessages::OnHelp(wxHelpEvent& event) {
     wxLogTrace(wxT("Function Start/End"), wxT("CDlgMessages::OnHelp - Function Begin"));
 
     if (IsShown()) {
