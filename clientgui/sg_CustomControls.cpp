@@ -68,7 +68,7 @@ END_EVENT_TABLE()
 
 CTransparentStaticText::CTransparentStaticText() {}
 
-CTransparentStaticText::CTransparentStaticText(wxWindow* parent, wxWindowID id, const wxString& label, const wxPoint& pos, const wxSize& size, long style, const wxString& WXUNUSED(name) ) {
+CTransparentStaticText::CTransparentStaticText(wxWindow* parent, wxWindowID id, const wxString& label, const wxPoint& pos, const wxSize& size, long style, const wxString& name ) {
     Create(parent, id, label, pos, size, style, name);
 }
 

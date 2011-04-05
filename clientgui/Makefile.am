@@ -98,7 +98,6 @@ boincmgr_SOURCES = \
     stdwx.cpp \
     TermsOfUsePage.cpp \
     UnavailablePage.cpp \
-    UserDisagreesPage.cpp \
     ValidateAccountKey.cpp \
     ValidateEmailAddress.cpp \
     ValidateURL.cpp \
