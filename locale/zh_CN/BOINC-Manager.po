@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 6.12.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-03-07 12:00-0500\n"
-"PO-Revision-Date: 2011-02-10 09:54+0800\n"
+"PO-Revision-Date: 2011-03-09 13:56+0800\n"
 "Last-Translator: Yin Gang <zenith.yin@gmail.com>\n"
 "Language-Team: Team China <zenith.yin@gmail.com>\n"
 "Language: zh_CN\n"
@@ -18,14 +18,14 @@ msgstr ""
 "X-Generator: Pootle 2.1.1\n"
 "X-Poedit-Bookmarks: -1,-1,-1,-1,310,-1,-1,-1,-1,-1\n"
 "X-Poedit-SourceCharset: utf-8\n"
-"X-Poedit-Basepath: C:\\Src\\BOINCSVN\\branches\\boinc_core_release_6_12\n"
-"X-Poedit-Country: UNITED STATES\n"
+"X-Poedit-Basepath: D:\\Work\\boinc_src\\boinc_core_release_6_12\n"
+"X-Poedit-Country: CHINA\n"
+"X-Poedit-Language: Chinese\n"
+"X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
+"X-Poedit-SearchPath-0: clientgui\n"
 "X-Poedit-SearchPath-1: clientgui/msw\n"
 "X-Poedit-SearchPath-2: clientgui/mac\n"
 "X-Poedit-SearchPath-3: clientgui/gtk\n"
-"X-Poedit-Language: English\n"
-"X-Poedit-SearchPath-0: clientgui\n"
-"X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
 
 #: clientgui/AccountInfoPage.cpp:386
 msgid "Identify your account "
@@ -954,7 +954,6 @@ msgid "Failed to add account manager"
 msgstr "添加帐户管理器操作失败"
 
 #: clientgui/CompletionErrorPage.cpp:221
-#, fuzzy
 msgid ""
 "An error has occurred;\n"
 "check the Event Log for details.\n"
@@ -962,7 +961,7 @@ msgid ""
 "Click Finish to close."
 msgstr ""
 "发生了一个错误；\n"
-"请查看“消息”页以了解更多细节。\n"
+"请检查“事件日志”以了解更多细节。\n"
 "\n"
 "点击完成可关闭本窗口。"
 
@@ -1036,15 +1035,14 @@ msgid "Copyright:"
 msgstr "版权所有："
 
 #: clientgui/DlgAbout.cpp:179
-#, fuzzy
 msgid ""
 "(C) 2003-2011 University of California, Berkeley.\n"
 "All Rights Reserved."
 msgstr ""
-"(C) 2003-2010 加州大学伯克利分校。\n"
+"(C) 2003-2011 加州大学伯克利分校。\n"
 "保留所有权利。\n"
 "\n"
-"( 中文翻译: 2005-2010 Yin Gang @ Team China )\n"
+"( 中文翻译: 2005-2011 Yin Gang @ Team China )\n"
 "( 中文网站: http://www.equn.com )\n"
 "( 中文论坛: http://www.equn.com/forum )"
 
@@ -1659,14 +1657,12 @@ msgstr "已禁止下载新任务"
 
 #: clientgui/DlgItemProperties.cpp:220
 #: clientgui/DlgItemProperties.cpp:222
-#, fuzzy
 msgid "Host location"
-msgstr "主机的总积分"
+msgstr "主机位置"
 
 #: clientgui/DlgItemProperties.cpp:222
-#, fuzzy
 msgid "default"
-msgstr "设置默认值(&S)"
+msgstr "缺省"
 
 #: clientgui/DlgItemProperties.cpp:225
 msgid "Added via account manager"
@@ -1862,11 +1858,8 @@ msgid "What language should BOINC use?"
 msgstr "BOINC 应该使用哪种语言？"
 
 #: clientgui/DlgOptions.cpp:168
-#, fuzzy
 msgid "Notice reminder interval:"
-msgstr ""
-"网络通知提醒间隔：\n"
-"(分钟; 0 表示不提醒)"
+msgstr "网络通知提醒间隔："
 
 #: clientgui/DlgOptions.cpp:175
 msgid "How often should BOINC remind you of new notices?"
@@ -1964,31 +1957,28 @@ msgid "SOCKS Proxy"
 msgstr "SOCKS 代理"
 
 #: clientgui/DlgOptions.cpp:571
-#, fuzzy
 msgid "always"
-msgstr "一直运行(&R)"
+msgstr "总是提醒"
 
 #: clientgui/DlgOptions.cpp:572
 msgid "1 hour"
-msgstr ""
+msgstr "1 小时"
 
 #: clientgui/DlgOptions.cpp:573
 msgid "6 hours"
-msgstr ""
+msgstr "6 小时"
 
 #: clientgui/DlgOptions.cpp:574
-#, fuzzy
 msgid "1 day"
-msgstr "天"
+msgstr "1 天"
 
 #: clientgui/DlgOptions.cpp:575
 msgid "1 week"
-msgstr ""
+msgstr "1 星期"
 
 #: clientgui/DlgOptions.cpp:576
-#, fuzzy
 msgid "never"
-msgstr "每"
+msgstr "从不提醒"
 
 #: clientgui/DlgOptions.cpp:673
 #, c-format
@@ -3266,40 +3256,34 @@ msgid "Don't fetch new tasks for this project."
 msgstr "禁止当前项目下载新任务。"
 
 #: clientgui/ViewProjects.cpp:1048
-#, fuzzy
 msgid "Requested by user"
-msgstr "已被用户暂停"
+msgstr "用户发起的请求"
 
 #: clientgui/ViewProjects.cpp:1049
 msgid "To fetch work"
-msgstr ""
+msgstr "获取新的任务"
 
 #: clientgui/ViewProjects.cpp:1050
 msgid "To report completed tasks"
-msgstr ""
+msgstr "上报已经完成的任务"
 
 #: clientgui/ViewProjects.cpp:1051
-#, fuzzy
 msgid "To send trickle-up message"
-msgstr "上传消息等待中"
+msgstr "发送上传消息"
 
 #: clientgui/ViewProjects.cpp:1052
-#, fuzzy
 msgid "Requested by account manager"
-msgstr "使用帐户管理器"
+msgstr "帐户管理器发起的请求"
 
 #: clientgui/ViewProjects.cpp:1053
-#, fuzzy
 msgid "Project initialization"
-msgstr "查找项目失败"
+msgstr "项目初始化"
 
 #: clientgui/ViewProjects.cpp:1054
-#, fuzzy
 msgid "Requested by project"
-msgstr "已被项目中止"
+msgstr "项目发起的请求"
 
 #: clientgui/ViewProjects.cpp:1055
-#, fuzzy
 msgid "Unknown reason"
 msgstr "未知原因"
 

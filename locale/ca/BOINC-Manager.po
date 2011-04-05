@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 6.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-03-07 12:00-0500\n"
-"PO-Revision-Date: 2011-02-11 00:52+0200\n"
+"PO-Revision-Date: 2011-03-10 00:54+0200\n"
 "Last-Translator: Xavier <xmormur@telepolis.com>\n"
 "Language-Team: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
 "Language: ca\n"
@@ -23,8 +23,6 @@ msgstr ""
 "X-Poedit-SourceCharset: utf-8\n"
 "X-Poedit-Basepath: C:\\Src\\BOINCSVN\\branches\\boinc_core_release_6_12\n"
 "X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
-"X-Poedit-Country: UNITED STATES\n"
-"X-Poedit-Language: English\n"
 
 #: clientgui/AccountInfoPage.cpp:386
 msgid "Identify your account "
@@ -982,7 +980,6 @@ msgid "Failed to add account manager"
 msgstr "No s'ha pogut afegir l'administrador de comptes"
 
 #: clientgui/CompletionErrorPage.cpp:221
-#, fuzzy
 msgid ""
 "An error has occurred;\n"
 "check the Event Log for details.\n"
@@ -990,7 +987,7 @@ msgid ""
 "Click Finish to close."
 msgstr ""
 "Ha ocorregut un error;\n"
-"consulti el Missatges per a detalls.\n"
+"consulti el Registre d'Events per a més detalls.\n"
 "\n"
 "Premi Finalitzar per tancar."
 
@@ -1066,12 +1063,11 @@ msgid "Copyright:"
 msgstr "Copyright:"
 
 #: clientgui/DlgAbout.cpp:179
-#, fuzzy
 msgid ""
 "(C) 2003-2011 University of California, Berkeley.\n"
 "All Rights Reserved."
 msgstr ""
-"(C) 2003-2010 Universitat de Califòrnia, Berkeley.\n"
+"(C) 2003-2011 Universitat de Califòrnia, Berkeley.\n"
 "Tots els Drets Reservats."
 
 #: clientgui/DlgAbout.cpp:183
@@ -1712,14 +1708,12 @@ msgstr "No demanar més feina"
 
 #: clientgui/DlgItemProperties.cpp:220
 #: clientgui/DlgItemProperties.cpp:222
-#, fuzzy
 msgid "Host location"
-msgstr "Prova de notificació"
+msgstr "Ubicació de l'ordinador central"
 
 #: clientgui/DlgItemProperties.cpp:222
-#, fuzzy
 msgid "default"
-msgstr "&Aplicar valors per defecte"
+msgstr "per defecte"
 
 #: clientgui/DlgItemProperties.cpp:225
 msgid "Added via account manager"
@@ -1915,11 +1909,8 @@ msgid "What language should BOINC use?"
 msgstr "Quin idioma ha d'utilitzar BOINC?"
 
 #: clientgui/DlgOptions.cpp:168
-#, fuzzy
 msgid "Notice reminder interval:"
-msgstr ""
-"Interval recordatori per a les connexions:\n"
-"(minuts; 0 significa sense recordatoris)"
+msgstr "Interval recordatori de notificacions:"
 
 #: clientgui/DlgOptions.cpp:175
 msgid "How often should BOINC remind you of new notices?"
@@ -2017,31 +2008,28 @@ msgid "SOCKS Proxy"
 msgstr "Proxy SOCKS"
 
 #: clientgui/DlgOptions.cpp:571
-#, fuzzy
 msgid "always"
-msgstr "Executar &sempre"
+msgstr "sempre"
 
 #: clientgui/DlgOptions.cpp:572
 msgid "1 hour"
-msgstr ""
+msgstr "1 hora"
 
 #: clientgui/DlgOptions.cpp:573
 msgid "6 hours"
-msgstr ""
+msgstr "6 hores"
 
 #: clientgui/DlgOptions.cpp:574
-#, fuzzy
 msgid "1 day"
-msgstr "dies"
+msgstr "1 dia"
 
 #: clientgui/DlgOptions.cpp:575
 msgid "1 week"
-msgstr ""
+msgstr "1 setmana"
 
 #: clientgui/DlgOptions.cpp:576
-#, fuzzy
 msgid "never"
-msgstr "cada"
+msgstr "mai"
 
 #: clientgui/DlgOptions.cpp:673
 #, c-format
@@ -3360,42 +3348,36 @@ msgid "Don't fetch new tasks for this project."
 msgstr "No obtenir noves tasques per aquest projecte."
 
 #: clientgui/ViewProjects.cpp:1048
-#, fuzzy
 msgid "Requested by user"
-msgstr "Suspès per l'usuari"
+msgstr "Sol.licitat per l'usuari"
 
 #: clientgui/ViewProjects.cpp:1049
 msgid "To fetch work"
-msgstr ""
+msgstr "Per obtenir feina"
 
 #: clientgui/ViewProjects.cpp:1050
 msgid "To report completed tasks"
-msgstr ""
+msgstr "Per informar de les tasques finalitzades"
 
 #: clientgui/ViewProjects.cpp:1051
-#, fuzzy
 msgid "To send trickle-up message"
-msgstr "Degoteig de missatges pendent"
+msgstr "Pe enviar un missatge"
 
 #: clientgui/ViewProjects.cpp:1052
-#, fuzzy
 msgid "Requested by account manager"
-msgstr "Utilitza un administrador de comptes"
+msgstr "Sol.licitat per l'administrador de comptes"
 
 #: clientgui/ViewProjects.cpp:1053
-#, fuzzy
 msgid "Project initialization"
-msgstr "Projecte no trobat"
+msgstr "Inicialització del projecte"
 
 #: clientgui/ViewProjects.cpp:1054
-#, fuzzy
 msgid "Requested by project"
-msgstr "Avortat per el projecte"
+msgstr "Sol·licitat per el projecte"
 
 #: clientgui/ViewProjects.cpp:1055
-#, fuzzy
 msgid "Unknown reason"
-msgstr "raó desconeguda"
+msgstr "Raó desconeguda"
 
 #: clientgui/ViewProjects.cpp:1069
 msgid "Suspended by user"

@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-10-06 08:58-0700\n"
-"PO-Revision-Date: 2010-12-25 19:58+0200\n"
+"PO-Revision-Date: 2011-01-02 12:04+0200\n"
 "Last-Translator: Sami Nordlund <sami.nordlund@kolumbus.fi>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: fi\n"
@@ -52,7 +52,7 @@ msgstr ""
 
 #: cs_scheduler.cpp:545
 msgid "Message from"
-msgstr ""
+msgstr "Viesti"
 
 #: cs_statefile.cpp:805 ../sched/sched_types.cpp:273
 msgid "Syntax error in app_info.xml"

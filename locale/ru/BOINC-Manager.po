@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 6.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-03-07 12:00-0500\n"
-"PO-Revision-Date: 2011-02-06 18:17+0200\n"
+"PO-Revision-Date: 2011-03-20 19:40+0200\n"
 "Last-Translator: Nikolay Saharov <saharovna@gmail.com>\n"
 "Language-Team: Russia\n"
 "Language: ru\n"
@@ -24,8 +24,6 @@ msgstr ""
 "X-Poedit-SourceCharset: utf-8\n"
 "X-Poedit-Basepath: C:\\Src\\BOINCSVN\\branches\\boinc_core_release_6_12\n"
 "X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
-"X-Poedit-Country: UNITED STATES\n"
-"X-Poedit-Language: English\n"
 
 #: clientgui/AccountInfoPage.cpp:386
 msgid "Identify your account "
@@ -1010,15 +1008,14 @@ msgid "Failed to add account manager"
 msgstr "Не удалось подключиться к менеджеру проектов"
 
 #: clientgui/CompletionErrorPage.cpp:221
-#, fuzzy
 msgid ""
 "An error has occurred;\n"
 "check the Event Log for details.\n"
 "\n"
 "Click Finish to close."
 msgstr ""
-"Произошла ошибка, подробности можно посмотреть\n"
-"на странице сообщений.\n"
+"Произошла ошибка; подробности можно\n"
+"найти в окне 'Просмотр событий'.\n"
 "\n"
 "Для завершения нажмите кнопку 'Готово'."
 
@@ -1098,12 +1095,11 @@ msgid "Copyright:"
 msgstr "Авторские права:"
 
 #: clientgui/DlgAbout.cpp:179
-#, fuzzy
 msgid ""
 "(C) 2003-2011 University of California, Berkeley.\n"
 "All Rights Reserved."
 msgstr ""
-"(C) 2003-2010 Калифорнийский университет, Беркли.\n"
+"(C) 2003-2011 Калифорнийский университет, Беркли.\n"
 "Все права защищены."
 
 #: clientgui/DlgAbout.cpp:183
@@ -1766,14 +1762,12 @@ msgstr "Не запрашивать задания"
 # Общее количество очков набранных на данном хосте
 #: clientgui/DlgItemProperties.cpp:220
 #: clientgui/DlgItemProperties.cpp:222
-#, fuzzy
 msgid "Host location"
-msgstr "Общее количество очков для хоста"
+msgstr "Размещение компьютера"
 
 #: clientgui/DlgItemProperties.cpp:222
-#, fuzzy
 msgid "default"
-msgstr "Подключение по умолчанию"
+msgstr "по умолчанию"
 
 # ?
 #: clientgui/DlgItemProperties.cpp:225
@@ -1977,11 +1971,8 @@ msgid "What language should BOINC use?"
 msgstr "Какой язык должен использовать BOINC?"
 
 #: clientgui/DlgOptions.cpp:168
-#, fuzzy
 msgid "Notice reminder interval:"
-msgstr ""
-"Интервал между напоминаниями:\n"
-"(в минутах; 0 - без напоминаний)"
+msgstr "Интервал между напоминаниями:"
 
 #: clientgui/DlgOptions.cpp:175
 msgid "How often should BOINC remind you of new notices?"
@@ -2080,31 +2071,28 @@ msgid "SOCKS Proxy"
 msgstr "SOCKS прокси"
 
 #: clientgui/DlgOptions.cpp:571
-#, fuzzy
 msgid "always"
-msgstr "Постоянная обработка"
+msgstr "всегда"
 
 #: clientgui/DlgOptions.cpp:572
 msgid "1 hour"
-msgstr ""
+msgstr "1 час"
 
 #: clientgui/DlgOptions.cpp:573
 msgid "6 hours"
-msgstr ""
+msgstr "6 часов"
 
 #: clientgui/DlgOptions.cpp:574
-#, fuzzy
 msgid "1 day"
-msgstr "дней"
+msgstr "1 день"
 
 #: clientgui/DlgOptions.cpp:575
 msgid "1 week"
-msgstr ""
+msgstr "1 неделя"
 
 #: clientgui/DlgOptions.cpp:576
-#, fuzzy
 msgid "never"
-msgstr "каждые"
+msgstr "никогда"
 
 #: clientgui/DlgOptions.cpp:673
 #, c-format
@@ -3498,43 +3486,37 @@ msgid "Don't fetch new tasks for this project."
 msgstr "Не запрашивать новые задания с сервера проекта."
 
 #: clientgui/ViewProjects.cpp:1048
-#, fuzzy
 msgid "Requested by user"
-msgstr "Приостановлено пользователем"
+msgstr "Запрошено пользователем"
 
 #: clientgui/ViewProjects.cpp:1049
 msgid "To fetch work"
-msgstr ""
+msgstr "Запросить задания"
 
 #: clientgui/ViewProjects.cpp:1050
 msgid "To report completed tasks"
-msgstr ""
+msgstr "Сообщить о завершённых заданиях"
 
 #: clientgui/ViewProjects.cpp:1051
-#, fuzzy
 msgid "To send trickle-up message"
-msgstr "Ожидание отправки промежуточного сообщения"
+msgstr "Отправить промежуточное сообщение"
 
 #: clientgui/ViewProjects.cpp:1052
-#, fuzzy
 msgid "Requested by account manager"
-msgstr "Использовать менеджер проектов"
+msgstr "Запрошено менеджером проектов"
 
 #: clientgui/ViewProjects.cpp:1053
-#, fuzzy
 msgid "Project initialization"
-msgstr "Проект не найден"
+msgstr "Инициализация проекта"
 
 # ???? уточнить
 #: clientgui/ViewProjects.cpp:1054
-#, fuzzy
 msgid "Requested by project"
-msgstr "Прервано проектом"
+msgstr "Запрошено проектом"
 
 #: clientgui/ViewProjects.cpp:1055
-#, fuzzy
 msgid "Unknown reason"
-msgstr "неизвестная причина"
+msgstr "Неизвестная причина"
 
 #: clientgui/ViewProjects.cpp:1069
 msgid "Suspended by user"

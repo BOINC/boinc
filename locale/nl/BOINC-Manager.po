@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 6.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-03-07 12:00-0500\n"
-"PO-Revision-Date: 2011-02-09 21:56+0200\n"
+"PO-Revision-Date: 2011-03-09 21:33+0200\n"
 "Last-Translator: Rene <oskamjr@wanadoo.nl>\n"
 "Language-Team: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
 "Language: nl\n"
@@ -23,8 +23,6 @@ msgstr ""
 "X-Poedit-SourceCharset: utf-8\n"
 "X-Poedit-Basepath: C:\\Src\\BOINCSVN\\branches\\boinc_core_release_6_12\n"
 "X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
-"X-Poedit-Country: UNITED STATES\n"
-"X-Poedit-Language: English\n"
 
 #: clientgui/AccountInfoPage.cpp:386
 msgid "Identify your account "
@@ -973,15 +971,14 @@ msgid "Failed to add account manager"
 msgstr "Account manager bijwerken mislukt"
 
 #: clientgui/CompletionErrorPage.cpp:221
-#, fuzzy
 msgid ""
 "An error has occurred;\n"
 "check the Event Log for details.\n"
 "\n"
 "Click Finish to close."
 msgstr ""
-"Er is een fout opgetreden, controleer de berichten tab voor\n"
-"meer details.\n"
+"Er is een fout opgetreden, controleer\n"
+"het gebeurtenissen logboek voor details.\n"
 "\n"
 "Klik op Voltooien om af te sluiten."
 
@@ -1057,13 +1054,12 @@ msgid "Copyright:"
 msgstr "Copyright:"
 
 #: clientgui/DlgAbout.cpp:179
-#, fuzzy
 msgid ""
 "(C) 2003-2011 University of California, Berkeley.\n"
 "All Rights Reserved."
 msgstr ""
-"(C) 2003-2010 University of California, Berkeley.\n"
-"All Rights Reserved."
+"(C) 2003-2011 University of California, Berkeley.\n"
+"Alle rechten voorbehouden."
 
 #: clientgui/DlgAbout.cpp:183
 #: clientgui/DlgAbout.cpp:187
@@ -1696,14 +1692,12 @@ msgstr "Niet om nieuw werk vragen"
 
 #: clientgui/DlgItemProperties.cpp:220
 #: clientgui/DlgItemProperties.cpp:222
-#, fuzzy
 msgid "Host location"
-msgstr "Test Bericht"
+msgstr "Locatie hostcomputer"
 
 #: clientgui/DlgItemProperties.cpp:222
-#, fuzzy
 msgid "default"
-msgstr "&Stel in als Standaard"
+msgstr "standaardwaarde"
 
 #: clientgui/DlgItemProperties.cpp:225
 msgid "Added via account manager"
@@ -1899,11 +1893,8 @@ msgid "What language should BOINC use?"
 msgstr "Welke taal moet BOINC gebruiken?"
 
 #: clientgui/DlgOptions.cpp:168
-#, fuzzy
 msgid "Notice reminder interval:"
-msgstr ""
-"Interval voor berichten:\n"
-"(minuten; 0 betekent geen berichten)"
+msgstr "Notificatie-interval:"
 
 #: clientgui/DlgOptions.cpp:175
 msgid "How often should BOINC remind you of new notices?"
@@ -2001,31 +1992,28 @@ msgid "SOCKS Proxy"
 msgstr "SOCKS Proxy"
 
 #: clientgui/DlgOptions.cpp:571
-#, fuzzy
 msgid "always"
-msgstr "We&rk altijd actief"
+msgstr "altijd"
 
 #: clientgui/DlgOptions.cpp:572
 msgid "1 hour"
-msgstr ""
+msgstr "1 uur"
 
 #: clientgui/DlgOptions.cpp:573
 msgid "6 hours"
-msgstr ""
+msgstr "6 uur"
 
 #: clientgui/DlgOptions.cpp:574
-#, fuzzy
 msgid "1 day"
-msgstr "dagen"
+msgstr "1 dag"
 
 #: clientgui/DlgOptions.cpp:575
 msgid "1 week"
-msgstr ""
+msgstr "1 week"
 
 #: clientgui/DlgOptions.cpp:576
-#, fuzzy
 msgid "never"
-msgstr "elke"
+msgstr "nooit"
 
 #: clientgui/DlgOptions.cpp:673
 #, c-format
@@ -3331,42 +3319,36 @@ msgid "Don't fetch new tasks for this project."
 msgstr "Nieuw werk (tijdelijk) opschorten voor dit project."
 
 #: clientgui/ViewProjects.cpp:1048
-#, fuzzy
 msgid "Requested by user"
-msgstr "Opgeschort door gebruiker"
+msgstr "Op verzoek van gebruiker"
 
 #: clientgui/ViewProjects.cpp:1049
 msgid "To fetch work"
-msgstr ""
+msgstr "Om werk te gaan uitvoeren"
 
 #: clientgui/ViewProjects.cpp:1050
 msgid "To report completed tasks"
-msgstr ""
+msgstr "Om voltooide taken te rapporteren"
 
 #: clientgui/ViewProjects.cpp:1051
-#, fuzzy
 msgid "To send trickle-up message"
-msgstr "'Trickle up' bericht aan het afwachten"
+msgstr "Om een voortgangsrapport in te dienen"
 
 #: clientgui/ViewProjects.cpp:1052
-#, fuzzy
 msgid "Requested by account manager"
-msgstr "Account manager gebruiken"
+msgstr "Op verzoek van accountmanager"
 
 #: clientgui/ViewProjects.cpp:1053
-#, fuzzy
 msgid "Project initialization"
-msgstr "Project niet gevonden"
+msgstr "Project initialisatie"
 
 #: clientgui/ViewProjects.cpp:1054
-#, fuzzy
 msgid "Requested by project"
-msgstr "Afgebroken door project"
+msgstr "Op verzoek van project"
 
 #: clientgui/ViewProjects.cpp:1055
-#, fuzzy
 msgid "Unknown reason"
-msgstr "reden onbekend"
+msgstr "Onbekende oorzaak"
 
 #: clientgui/ViewProjects.cpp:1069
 msgid "Suspended by user"
