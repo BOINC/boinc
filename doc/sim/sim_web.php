@@ -59,15 +59,16 @@ function show_scenarios() {
     echo "
         Welcome to the BOINC Client Emulator (BCE).
         BCE <b>emulates</b> a BOINC client attached to one or more projects.
-        It predicts, in a few seconds,  what the BOINC client will do
-        over a period of day or months.
-        This allows BOINC developers to fix bugs and improve performance.
+        It predicts, in a few seconds,
+        what the BOINC client will do over a period of day or months.
+        This makes it easier for BOINC developers to fix bugs and improve performance.
         <p>
         The inputs to BCE, called <b>scenarios</b>,
         describe a particular computer and the project to which it's attached.
         A scenario consists of 4 files:
         <ul>
         <li> <b>client_state.xml</b>: describes the host and projects.
+          Any projects that don't currently have tasks are ignored.
         <li> <b>global_prefs.xml</b> and <b>global_prefs_override.xml</b>:
             computing preferences (optional).
         <li> <b>cc_config.xml</b>: client configuration (optional).
@@ -81,37 +82,37 @@ function show_scenarios() {
         BCE documentation</a> for details.
         <p>
         You create a scenario by uploading these files to the BOINC server.
-        Then you can run any number of <b>simulations</b> based on the scenario.
+        You can then run any number of <b>simulations</b> based on the scenario.
         The parameters of a simulation include
         <ul>
         <li> The duration and time resolution of the simulation.
         <li> Choices for various client policy alternatives.
-        <li> The client version.
         </ul>
         The outputs of a simulation include
         <ul>
-        <li> A graphical 'time line' showing CPU and GPU usage.
+        <li> A 'time line' showing CPU and GPU usage.
         <li> The client's message log
         <li> graphs of scheduling-related data (debt, REC).
         <li> A summary of several 'figures of merit',
             including idle and wasted processing fraction,
             resource share violation, and monotony.
         </ul>
-        <p>
+        <hr>
     ";
     show_button(
         "sim_web.php?action=create_scenario_form",
         "Create a scenario", "Create a new scenario"
     );
     echo "
-        <hr>
         <h3>Existing scenarios</h3>
-        <table>
+    ";
+    start_table();
+    echo "
         <tr>
             <th>Name</th>
-            <th>Creator</th>
+            <th>Who</th>
             <th>When</th>
-            <th># simulations</th>
+            <th># Simulations</th>
             <th>Description</th>
         </tr>
     ";
@@ -216,7 +217,7 @@ function show_simulation_summary($scen, $sim) {
     $date = date_str(filemtime($dir));
 
     echo "<tr>
-        <td><a href=sim_web.php?action=show_simulation&scen=$scen&sim=$sim>Simulation: $sim</a></td>
+        <td><a href=sim_web.php?action=show_simulation&scen=$scen&sim=$sim>Simulation $sim</a></td>
         <td>$user->name</td>
         <td>$date</td>
         <td><pre>".file_get_contents("$dir/inputs.txt")."
@@ -264,11 +265,11 @@ function show_scenario() {
     echo "<h3>Simulations</h3>";
     start_table();
     echo "<tr>
-            <th></th>
+            <th>Name</th>
             <th>Who</th>
             <th>When</th>
-            <th>Flags</th>
-            <th>Merit</th>
+            <th>Parameters</th>
+            <th>Results</th>
         </tr>
     ";
     $s = opendir("$d/simulations");
@@ -307,6 +308,7 @@ function simulation_form() {
 // redirect to simulation page
 //
 function simulation_action() {
+    $user = get_logged_in_user();
     $scen = get_str("scen");
     if (!is_dir("scenarios/$scen")) {
         error_page("no such scenario");
@@ -319,6 +321,7 @@ function simulation_action() {
     $policy->use_hyst_fetch = get_str("use_hyst_fetch", true);
     $policy->cpu_sched_rr_only = get_str("cpu_sched_rr_only", true);
     $policy->server_uses_workload = get_str("server_uses_workload", true);
+    file_put_contents("$sim_path/userid", "$user->id");
 
     do_sim("scenarios/$scen", $sim_path, $policy);
     header("Location: sim_web.php?action=show_simulation&scen=$scen&sim=$sim_name");
