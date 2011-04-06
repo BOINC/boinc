@@ -181,13 +181,21 @@ $m66c = array(
     "type"=>"bare_core",
 );
 
+$l612 = array(
+	"num"=>"6.12.22",
+	"status"=>"Development version",
+	"file"=>"boinc_compat_6.12.22_i686-pc-linux-gnu.sh",
+	"date"=>"6 Apr 2011",
+	"type"=>"sea",
+);
+
 $l66 = array(
 	"num"=>"6.6.41",
 	"status"=>"Recommended version",
 	"file"=>"boinc_compat_6.6.41_i686-pc-linux-gnu.sh",
 	"date"=>"22 Oct 2009",
 	"type"=>"sea",
-);
+	);
 
 $l64 = array(
     "num"=>"6.4.5",
@@ -293,8 +301,9 @@ $linuxcompat = array(
     "description"=>"For older Linux versions, both x86 and x64; command-line interface only",
     "dbname" => "i686-pc-linux-gnu",
     "versions"=>array(
-        $l66,
-        $l64,
+		$l612,
+		$l66,
+		$l64,
     )
 );
 
