@@ -25,6 +25,24 @@
 require_once("../inc/util.inc");
 require_once("../inc/sim_util.inc");
 
+function get_comments($dir) {
+    $d = "$dir/comments";
+    if (!is_dir($d)) return null;
+    $dd = opendir($d);
+    $x = "";
+    while (false !== ($f = readdir($dd))) {
+        if ($f == ".") continue;
+        if ($f == "..") continue;
+        if (strlen($x)) $x .= "<hr>\n";
+        $userid = (int)file_get_contents("$d/$f/userid");
+        $user = BoincUser::lookup_id($userid);
+        $comment = file_get_contents("$d/$f/comment");
+        $date = date_str(filemtime("$d/$f/comment"));
+        $x .= "By $user->name ($date):<br>$comment\n";
+    }
+    return $x;
+}
+
 function nsims($scen) {
     $d = opendir("scenarios/$scen/simulations");
     $n = 0;
@@ -217,11 +235,12 @@ function show_simulation_summary($scen, $sim) {
     $date = date_str(filemtime($dir));
 
     echo "<tr>
-        <td><a href=sim_web.php?action=show_simulation&scen=$scen&sim=$sim>Simulation $sim</a></td>
+        <td><a href=sim_web.php?action=show_simulation&scen=$scen&sim=$sim>$sim</a></td>
         <td>$user->name</td>
         <td>$date</td>
         <td><pre>".file_get_contents("$dir/inputs.txt")."
         <td><pre>".file_get_contents("$dir/results.txt")."
+        <td>".get_comments($dir)."
         </tr>
     ";
 }
@@ -265,11 +284,12 @@ function show_scenario() {
     echo "<h3>Simulations</h3>";
     start_table();
     echo "<tr>
-            <th>Name</th>
+            <th>ID<br><span class=note>Click for details</span></th>
             <th>Who</th>
             <th>When</th>
             <th>Parameters</th>
             <th>Results</th>
+            <th>Comments</th>
         </tr>
     ";
     $s = opendir("$d/simulations");
@@ -291,15 +311,35 @@ function simulation_form() {
     echo "<form action=sim_web.php>
         <input type=hidden name=action value=simulation_action>
         <input type=hidden name=scen value=$scen>
-        <table>
     ";
+    start_table();
     row2("Duration", "<input name=duration value=86400> seconds");
     row2("Time step", "<input name=delta value=60> seconds");
-    row2("Recent Estimated Credit", "<input type=checkbox name=use_rec>");
-    row2("Server EDF simulation?", "<input type=checkbox name=server_uses_workload>");
-    row2("Client uses pure RR?", "<input type=checkbox name=cpu_sched_rr_only>");
+    row2("Use Recent Estimated Credit
+        <br><span class=note>If checked, scheduling policies
+        will be based on Recent Estimated Credit (REC)
+        rather than short- and long-term debt.</span>",
+        "<input type=checkbox name=use_rec checked>"
+    );
+    row2("Use hysteresis work fetch?
+        <br><span class=note>If checked, the client will wait
+        until the work buffer falls below X, then fill it to X+Y.
+        Otherwise it will keep it filled to X+Y.</span>",
+        "<input type=checkbox name=use_hyst_fetch checked>"
+    );
+    row2("Scheduler does detailed deadline check?
+        <br><span class=note>If checked, the scheduler's deadline
+        decisions will use a detailed EDF simulation
+        rather than an approximation.</span>",
+        "<input type=checkbox name=server_uses_workload>"
+    );
+    row2("Client uses pure Round-robin?
+        <br><span class=note>If checked, CPU scheduling will
+        use a simple round-robin policy.</span>",
+        "<input type=checkbox name=cpu_sched_rr_only>"
+    );
     row2("", "<input type=submit value=OK>");
-    echo "</table>";
+    end_table();
     page_tail();
 }
 
@@ -332,14 +372,59 @@ function simulation_action() {
 function show_simulation() {
     $scen = get_str("scen");
     $sim = get_str("sim");
-    $path = "scenarios/$scen/simulations/$sim";
-    if (!is_dir($path)) {
+    $dir = "scenarios/$scen/simulations/$sim";
+    if (!is_dir($dir)) {
         error_page("No such simulation");
     }
     page_head("Simulation $sim");
-    $x = file_get_contents("$path/index.html");
-    echo str_replace("href=", "href=scenarios/$scen/simulations/$sim/", $x);
+    start_table();
+    $userid = (int)file_get_contents("$dir/userid");
+    $user = BoincUser::lookup_id($userid);
+    $date = date_str(filemtime($dir));
+
+    row2("Scenario", "<a href=sim_web.php?action=show_scenario&name=$scen>$scen</a>");
+    row2("Who", $user->name);
+    row2("When", $date);
+    row2("Parameters", "<pre>".file_get_contents("$dir/inputs.txt")."</pre>");
+    row2("Results", "<pre>".file_get_contents("$dir/results.txt")."</pre>");
+
+    $x = file_get_contents("$dir/index.html");
+    $x = str_replace("<h3>Output files</h3>", "", $x);
+    $x = str_replace("href=", "href=scenarios/$scen/simulations/$sim/", $x);
+    row2("Output files", $x);
+    $x = get_comments($dir);
+    if ($x) {
+        row2("Comments", $x);
+    }
+    echo "<form action=sim_web.php>
+        <input type=hidden name=scen value=$scen>
+        <input type=hidden name=sim value=$sim>
+        <input type=hidden name=action value=add_comment>
+    ";
+    row2("<input type=submit value=\"Add comment\">",
+        "<textarea name=comment></textarea>"
+    );
+    echo "</form>";
+    end_table();
     page_tail();
+}
+
+function add_comment() {
+    $user = get_logged_in_user();
+    $scen = get_str("scen");
+    $sim = get_str("sim");
+    $dir = "scenarios/$scen/simulations/$sim";
+    if (!is_dir($dir)) {
+        error_page("No such simulation");
+    }
+    $cdir = "$dir/comments";
+    @mkdir($cdir);
+    $c = create_dir_seqno($cdir);
+    $p = "$cdir/$c";
+    file_put_contents("$p/userid", "$user->id");
+    file_put_contents("$p/comment", get_str("comment"));
+
+    header("Location: sim_web.php?action=show_simulation?scen=$scen&sim=$sim");
 }
 
 $action = get_str("action", true);
@@ -363,6 +448,9 @@ case "simulation_action":
     break;
 case "show_simulation":
     show_simulation();
+    break;
+case "add_comment":
+    add_comment();
     break;
 default:
     show_scenarios();
