@@ -61,7 +61,7 @@ function show_scenario_summary($f) {
     $date = date_str(filemtime("scenarios/$f"));
     $nsims = nsims($f);
     echo "<tr>
-        <td><a href=sim_web.php?action=show_scenario&name=$f>Scenario $f</a></td>
+        <td><a href=sim_web.php?action=show_scenario&name=$f>$f</a></td>
         <td>$user->name</td>
         <td>$date</td>
         <td>$nsims</td>
@@ -79,8 +79,11 @@ function show_scenarios() {
         BCE <b>emulates</b> a BOINC client attached to one or more projects.
         It predicts, in a few seconds,
         what the BOINC client will do over a period of day or months.
-        This makes it easier for BOINC developers to fix bugs and improve performance.
-        <p>
+        This lets you predict how future versions of BOINC
+        will perform on your computers.
+        By reporting problem situations to BOINC developers,
+        you can help us fix bugs and improve performance.
+        <h3>Scenarios</h3>
         The inputs to BCE, called <b>scenarios</b>,
         describe a particular computer and the project to which it's attached.
         A scenario consists of 4 files:
@@ -93,28 +96,58 @@ function show_scenarios() {
         </ul>
         You can use the files from a running BOINC client
         to emulate that client.
-        You can modify these files, or create new ones, to study hypothetical hosts
-        (e.g. ones with a large number of CPUs,
-        attached to a large number of projects, and so on).
+        You can modify these files, or create new ones, to study hypothetical scenarios
+        (e.g. hosts with a large number of CPUs,
+        hosts attached to a large number of projects,
+        projects with very short or long jobs, and so on).
         See <a href=http://boinc.berkeley.edu/trac/wiki/ClientSim>The
         BCE documentation</a> for details.
         <p>
         You create a scenario by uploading these files to the BOINC server.
-        You can then run any number of <b>simulations</b> based on the scenario.
+        <h3>Simulations</h3>
+        You can run <b>simulations</b> based on existing scenarios
+        (including scenarios created by other people).
         The parameters of a simulation include
         <ul>
         <li> The duration and time resolution of the simulation.
-        <li> Choices for various client policy alternatives.
+        <li> Choices for various client policy alternatives, including:
+            <ul>
+            <li>Whether to use Recent Estimated Credit scheduling
+                (the proposed policy for the 6.14 client)
+            <li>Whether to use Hysteresis-based work fetch
+                (the proposed policy for the 6.14 client)
+            </ul>
         </ul>
         The outputs of a simulation include
         <ul>
         <li> A 'time line' showing CPU and GPU usage.
         <li> The client's message log
         <li> graphs of scheduling-related data (debt, REC).
-        <li> A summary of several 'figures of merit',
-            including idle and wasted processing fraction,
-            resource share violation, and monotony.
+        <li> A summary of several <b>figures of merit</b>, including
+            <ul>
+            <li>idle fraction: the fraction of processing power that was unused
+            <li>wasted fraction: the fraction of processing power
+                that was 'wasted' on jobs that missed their deadline
+            <li>resource share violation: a measure [0..1] of the extent
+                to which resource shares were disobeyed.
+            <li>monotony: a measure [0..1] of the extent to which
+                the client ran jobs of a single project for long periods
+            </ul>
         </ul>
+        <h3>Comments and reports</h3>
+        When you examine the results of a simulation,
+        you may find places where the BOINC client
+        made bad scheduling or work-fetch decisions.
+        Or you find may places where the simulator doesn't
+        seem to be working correctly.
+        <p>
+        In such cases, please add a <b>comment</b> to the simulation,
+        indicating the nature of the problem
+        and the simulation time when it occurred.
+        <p>
+        Also, please post to the <a href=http://lists.ssl.berkeley.edu/mailman/listinfo/boinc_dev>boinc_dev</a> email list
+        if you have problems using BCE,
+        or if you have suggestions for new features.
         <hr>
     ";
     show_button(
@@ -127,7 +160,7 @@ function show_scenarios() {
     start_table();
     echo "
         <tr>
-            <th>Name</th>
+            <th>ID<br><span class=note>Click to see simulations</span></th>
             <th>Who</th>
             <th>When</th>
             <th># Simulations</th>

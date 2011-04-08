@@ -2129,3 +2129,13 @@ David  6 Apr 2011
 
     clientgui/
         sg_DlgMessages.cpp
+
+David  6 Apr 2011
+    - user web: fix numeric field sanitization in prefs.  Fixes #1087.
+    - client: if PREFS::max_ncpus_pct is 0, don't set it to 100;
+        doing so prevents PREFS::max_ncpus from having any effect.
+
+    html/inc/
+        prefs_util.inc
+    lib/
+        prefs.cpp

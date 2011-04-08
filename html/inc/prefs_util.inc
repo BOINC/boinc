@@ -161,8 +161,6 @@ class NUM_SPEC {
         if (is_numeric($v)) {
             $v /= $this->scale;
             if ($v == 0) $v = "";
-        } else {
-            $v = $prefs->$tag;
         }
         return "<input size=5 name=$tag value='$v'> $this->suffix ";
     }
@@ -171,7 +169,7 @@ class NUM_SPEC {
         if ($in == "") $in = 0;
         if (!is_numeric($in)) {
             $error = true;
-            $out = $x;
+            $out = $in;
             return;
         }
         $out = $in*$this->scale;
