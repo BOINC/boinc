@@ -2146,3 +2146,9 @@ David  8 Apr 2011
 
     client/
         cs_scheduler.cpp
+
+David  8 Apr 2011
+    - "upgrade" script: copy sched/fcgi if it exists
+
+    py/Boinc/
+        setup_project.py

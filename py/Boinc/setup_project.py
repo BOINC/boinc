@@ -362,6 +362,10 @@ sys.path.insert(0, os.path.join('%s', 'py'))
 
     if os.path.isfile(dir('cgi-bin', 'cgi')):
         os.rename(dir('cgi-bin', 'cgi'), dir('cgi-bin', 'cgi.old'))
+    if os.path.isfile(dir('cgi-bin', 'fcgi')):
+        os.rename(dir('cgi-bin', 'fcgi'), dir('cgi-bin', 'fcgi.old'))
+        map(lambda (s): install(builddir('sched',s), dir('cgi-bin',s)),
+            [ 'fcgi'])
     if os.path.isfile(dir('cgi-bin', 'file_upload_handler')):
         os.rename(dir('cgi-bin', 'file_upload_handler'), dir('cgi-bin', 'file_upload_handler.old'))
 
