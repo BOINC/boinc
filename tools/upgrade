@@ -3,14 +3,16 @@
 # $Id$
 
 '''
-Usage: upgrade [options] project_name
+Usage: upgrade [options] project_root
 Options:
-  --project_root    default: HOME/projects/
   --srcdir          default: current directory
 
 Copy source/build files to a project tree,
 overwriting what's already there.
 Run it in the source directory (tools/upgrade).
+
+If project_root is an absolute path, it's the project root.
+Otherwise the project root is HOME/projects/project_root.
 
 '''
 
@@ -20,27 +22,25 @@ from Boinc.setup_project import *
 import os, getopt
 
 def usage():
-    print "Usage: upgrade [--project_root] [--web_only | --server_only] [--srcdir DIR] project_name"
+    print "Usage: upgrade [--web_only | --server_only] [--srcdir DIR] project_root"
     raise SystemExit
 
 def syntax_error(str):
     raise SystemExit('%s; See "%s --help" for help\n' % (str, sys.argv[0]))
 
 try:
-    opts, args = getopt.getopt(sys.argv[1:], '', ['help', 'project_root=', 'web_only', 'server_only', 'srcdir='])
+    opts, args = getopt.getopt(sys.argv[1:], '', ['help', 'web_only', 'server_only', 'srcdir='])
 except getopt.GetoptError, e:
     syntax_error(e)
 
 home = os.path.expanduser('~')
 
-options.project_root = os.path.join(home, 'projects')
 options.web_only = False
 options.server_only = False
 options.srcdir = None
 
 for o,a in opts:
     if o == '--help':   usage()
-    elif o == '--project_root': options.project_root = a
     elif o == '--web_only': options.web_only = True
     elif o == '--server_only': options.server_only = True
     elif o == '--srcdir': options.srcdir = a
@@ -48,7 +48,10 @@ for o,a in opts:
         raise SystemExit('internal error o=%s'%o)
 
 if len(args) == 1:
-    project_shortname = args[0]
+    if os.path.isabs(args[0]):
+        INSTALL_DIR = args[0]
+    else:
+        INSTALL_DIR = os.path.join(home, 'projects', args[0])
 else:
     syntax_error('No project name')
 
@@ -58,8 +61,6 @@ if not options.srcdir:
             options.srcdir = dir
     if not options.srcdir:
         syntax_error('Not running in the source directory and --srcdir was not specified')
-
-INSTALL_DIR = os.path.join(options.project_root, project_shortname)
 
 if not tools.query_noyes("Overwrite files in "+INSTALL_DIR):
     raise SystemExit
