@@ -2160,3 +2160,12 @@ David  8 Apr 2011
 
     tools/
         upgrade
+
+David  10 Apr 2011
+    - user web: fix "delete profile" function
+
+    html/
+        user/
+            delete_profile.php
+        inc/
+            profile.inc
