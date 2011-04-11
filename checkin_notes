@@ -2176,3 +2176,14 @@ David  10 Apr 2011
 
     lib/
         coproc.cpp
+
+David  10 Apr 2011
+    - user web: use special icon for hidden threads (from Jord)
+
+    html/
+        inc/
+            forum.inc
+        user/
+            forum_forum.php
+            img/
+                hidden.png

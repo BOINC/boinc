@@ -66,6 +66,7 @@ define('NEW_IMAGE_LOCKED', 'img/unread_locked.png');
 define('NEW_IMAGE_STICKY_LOCKED', 'img/unread_sticky_locked.png');
 define('IMAGE_STICKY', 'img/sticky_post.png');
 define('IMAGE_LOCKED', 'img/locked_post.png');
+define('IMAGE_HIDDEN', 'img/hidden.png');
 define('IMAGE_STICKY_LOCKED', 'img/sticky_locked_post.png');
 define('IMAGE_POST', 'img/post.png');
 define('NEW_IMAGE_HEIGHT','15');

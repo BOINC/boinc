@@ -174,9 +174,8 @@ function show_forum($forum, $start, $sort_style, $user) {
 
         echo "<td width=\"1%\" class=\"threadicon\"><nobr>";
         if ($thread->hidden) {
-            echo "[".tra("hidden")."]";
-        }
-        if ($unread) {
+            show_image(IMAGE_HIDDEN, "This thread is hidden", "hidden");
+        } else if ($unread) {
             if ($thread->sticky) {
                 if ($thread->locked) {
                     show_image(NEW_IMAGE_STICKY_LOCKED, "This thread is sticky and locked, and you haven't read it yet", "sticky/locked/unread");
