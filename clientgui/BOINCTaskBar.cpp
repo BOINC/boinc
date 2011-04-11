@@ -733,10 +733,8 @@ void CTaskBarIcon::UpdateNoticeStatus() {
     wxString         strTitle;
 
     wxASSERT(pDoc);
-    wxASSERT(pFrame);
     wxASSERT(pSkinAdvanced);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
-    wxASSERT(wxDynamicCast(pFrame, CBOINCBaseFrame));
     wxASSERT(wxDynamicCast(pSkinAdvanced, CSkinAdvanced));
 
     if (!pFrame) return;

@@ -2187,3 +2187,9 @@ David  10 Apr 2011
             forum_forum.php
             img/
                 hidden.png
+
+Rom    11 Apr 2011
+    - MGR: Remove unneeded asserts.
+    
+    clientgui/
+        BOINCTaskBar.cpp
