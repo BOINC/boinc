@@ -2169,3 +2169,10 @@ David  10 Apr 2011
             delete_profile.php
         inc/
             profile.inc
+
+David  10 Apr 2011
+    - scheduler: failure to set up COPROCS structure correctly
+        led to per-GPU job limits not being enforced.
+
+    lib/
+        coproc.cpp
