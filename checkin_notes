@@ -2202,3 +2202,11 @@ Rom    13 Apr 2011
     clientgui/
         DlgEventLog.cpp
         TermsOfUsePage.cpp
+
+David  13 Apr 2011
+    - admin web: remove options to delete apps and app versions.
+        This is almost always a bad idea.
+
+    html/ops/
+        manage_apps.php
+        manage_app_versions.php

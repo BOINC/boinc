@@ -22,12 +22,7 @@
  *  Display and Manage BOINC Application Versions
  *
  * This page presents a form with information about application versions.
- * Some of the fields can be changed.   An appllication version can be deleted
- * by entering the word "DELETE" (all caps required) in the provided field.
- * It is better to deprecate a version first than to delete it, but it is also
- * good to remove old versions after they have been unused for a while,
- * lest you over-fill the feeder (which results in new versions not being
- * used by clients).
+ * Some of the fields can be changed.
  *
  * Eric Myers <myers@spy-hill.net>  - 4 June 2006
  * @(#) $Id$
@@ -68,15 +63,6 @@ if( !empty($_POST) ) {
     for($j=1;$j<=$Nrow;$j++){  // test/update each row in DB
         $item=mysql_fetch_object($result);
         $id=$item->id;
-
-        /* Delete this entry? */
-        $field="delete_".$id;
-        if(post_str($field, true) =='DELETE' ) {
-            $cmd =  "DELETE FROM app WHERE id=$id";
-            $commands .= "<P><pre>$cmd</pre>\n";
-            mysql_query($cmd);
-            continue;  // next row, this one is gone
-        }
 
         /* Change deprecated status? */
         $field="deprecated_".$id;
@@ -167,8 +153,6 @@ echo "<TR><TH>ID #</TH>
       <TH>shmem work items</TH>
       <TH>homogeneous<br>redundancy<br>class (0=none)</TH>
       <TH>deprecated?</TH>
-      <TH>DELETE?<sup>*</sup>
-    </TH>
        </TR>\n";
 
 $total_weight = mysql_query('SELECT SUM(weight) AS total_weight FROM app WHERE deprecated=0');
@@ -229,16 +213,11 @@ for($j=1;$j<=$Nrow;$j++){
     echo "  <TD align='center'>
     <input name='$field' type='checkbox' $v></TD>\n";
 
-    $field="delete_app_".$id;
-    echo "  <TD align='center'>
-    <input type='text' size='6' name='$field' value=''></TD>\n";
     echo "</tr> ";
  }
 mysql_free_result($result);
 
-echo "<tr><td colspan=6>
-    <sup>*</sup>To delete an entry you must enter the word 'DELETE' in this field,
-        in all capital letters..
+echo "<tr><td colspan=6></td>
           <td align='center' colspan=2 bgcolor='#FFFF88'>
               <input type='submit' name='update' value='Update'></td>
     </tr>\n";
