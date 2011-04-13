@@ -2193,3 +2193,12 @@ Rom    11 Apr 2011
     
     clientgui/
         BOINCTaskBar.cpp
+
+Rom    13 Apr 2011
+    - MGR: Add missing keyboard accellerators for the event log.
+    - MGR: Re-enable the next button when the terms of use wizard
+        page when the back button is pressed.
+        
+    clientgui/
+        DlgEventLog.cpp
+        TermsOfUsePage.cpp

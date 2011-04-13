@@ -250,13 +250,17 @@ void CTermsOfUsePage::OnPageChanged( wxWizardExEvent& event ) {
  */
  
 void CTermsOfUsePage::OnPageChanging( wxWizardExEvent& event ) {
-    if (event.GetDirection() == false) return;
-
     CWizardAttach*  pWA = ((CWizardAttach*)GetParent());
 
     wxASSERT(pWA);
     wxASSERT(wxDynamicCast(pWA, CWizardAttach));
 
+    // If the user has left the terms of use disagree radio button
+    // selected, then the next button is disabled and needs to be
+    // re-enabled if the back button is pressed.
+    pWA->EnableNextButton();
+
+    if (event.GetDirection() == false) return;
 
     if (!CHECK_CLOSINGINPROGRESS()) {
         // We are leaving this page.

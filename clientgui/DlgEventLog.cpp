@@ -260,11 +260,11 @@ void CDlgEventLog::CreateControls()
     
     itemFlexGridSizer2->Add(itemBoxSizer4, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL, 12);
 
-    m_pFilterButton = new wxButton(this, ID_TASK_MESSAGES_FILTERBYPROJECT, _("Show only this project"),  wxDefaultPosition, wxDefaultSize);
+    m_pFilterButton = new wxButton(this, ID_TASK_MESSAGES_FILTERBYPROJECT, _("&Show only this project"),  wxDefaultPosition, wxDefaultSize);
     itemBoxSizer4->Add(m_pFilterButton, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
 #ifdef wxUSE_CLIPBOARD
-    wxButton* itemButton1 = new wxButton(this, ID_COPYAll, _("Copy All"), wxDefaultPosition, wxDefaultSize );
+    wxButton* itemButton1 = new wxButton(this, ID_COPYAll, _("Copy &All"), wxDefaultPosition, wxDefaultSize );
     itemButton1->SetHelpText(
         _("Copy all the messages to the clipboard.")
     );
@@ -275,7 +275,7 @@ void CDlgEventLog::CreateControls()
 #endif
     itemBoxSizer4->Add(itemButton1, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
-    m_pCopySelectedButton = new wxButton(this, ID_COPYSELECTED, _("Copy Selected"),  wxDefaultPosition, wxDefaultSize );
+    m_pCopySelectedButton = new wxButton(this, ID_COPYSELECTED, _("Copy &Selected"),  wxDefaultPosition, wxDefaultSize );
     m_pCopySelectedButton->SetHelpText(
 #ifdef __WXMAC__
         _("Copy the selected messages to the clipboard. You can select multiple messages by holding down the shift or command key while clicking on messages.")
@@ -295,14 +295,14 @@ void CDlgEventLog::CreateControls()
     itemBoxSizer4->Add(m_pCopySelectedButton, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 #endif
 
-    wxButton* itemButton44 = new wxButton(this, wxID_OK, _("Close"),  wxDefaultPosition, wxDefaultSize);
+    wxButton* itemButton44 = new wxButton(this, wxID_OK, _("&Close"),  wxDefaultPosition, wxDefaultSize);
     itemBoxSizer4->Add(itemButton44, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
 #ifndef __WXMAC__
     wxContextHelpButton* itemButton45 = new wxContextHelpButton(this);
     itemBoxSizer4->Add(itemButton45, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 #else
-	wxButton* itemButton45 = new wxButton(this, ID_SIMPLE_HELP, _("Help"), wxDefaultPosition, wxDefaultSize);
+	wxButton* itemButton45 = new wxButton(this, ID_SIMPLE_HELP, _("&Help"), wxDefaultPosition, wxDefaultSize);
     wxString helpTip;
     helpTip.Printf(_("Get help with %s"), pSkinAdvanced->GetApplicationShortName().c_str());
     itemButton45->SetHelpText(helpTip);
