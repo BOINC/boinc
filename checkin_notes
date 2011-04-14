@@ -2247,3 +2247,28 @@ Rom    14 Apr 2011
     
     clientgui/
         sg_DlgMessages.cpp
+
+David  14 Apr 2011
+    - API: add support for multi-process apps,
+        i.e. those that create subprocesses.
+        Previously, the client's job control options (suspend/resume/quit)
+        would not work for subprocesses.
+        Multiprocess apps must initialize with something like:
+            BOINC_OPTIONS options;
+            boinc_options_defaults(options);
+            options.multi_process = true;
+            boinc_init_options(&options);
+        Note: an application can be both multi-thread and multi-process.
+        In this case set options.multi_thread as well.
+    - wrapper: add support for multi-process apps.
+        Previously, suspend/resume operations did not work for subprocesses.
+        If a task is multi-process, you must include
+            <multi_process>1</multi_process>
+        in its descriptor.
+
+    lib/
+        procinfo.cpp,h
+    samples/wrapper/
+        wrapper.cpp
+    api/
+        boinc_api.cpp,h

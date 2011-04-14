@@ -24,6 +24,7 @@
 #else
 #include "config.h"
 #include <sys/types.h>
+#include <unistd.h>
 #include <sys/wait.h>
 #include <string.h>
 #include <signal.h>
@@ -89,5 +90,71 @@ void kill_all(vector<int>& pids) {
         kill(pids[i], SIGTERM);
     }
 }
-
 #endif
+
+// Kill the descendants of the calling process.
+// If child_pid is nonzero, give it a chance to exit gracefully on Unix
+//
+void kill_descendants(int child_pid) {
+    vector<int> descendants;
+#ifdef _WIN32
+    // on Win, kill descendants directly
+    //
+    get_descendants(GetCurrentProcessId(), descendants);
+    kill_all(descendants);
+#else
+    // on Unix, ask main process nicely.
+    // it descendants still exist after 10 sec, use the nuclear option
+    //
+    get_descendants(getpid(), descendants);
+    if (child_pid) {
+        ::kill(child_pid, SIGTERM);
+        for (int i=0; i<10; i++) {
+            if (!any_process_exists(descendants)) {
+                return;
+            }
+            sleep(1);
+        }
+        kill_all(descendants);
+        // kill any processes that might have been created
+        // in the last 10 secs
+        get_descendants(getpid(), descendants);
+    }
+    kill_all(descendants);
+#endif
+}
+
+void suspend_or_resume_all(vector<int>& pids, bool resume) {
+    for (unsigned int i=0; i<pids.size(); i++) {
+#ifdef _WIN32
+        suspend_or_resume_threads(pids[i], resume);
+#else
+        kill(pids[i], resume?SIGCONT:SIGSTOP);
+#endif
+    }
+}
+
+// suspend/resume the descendants of the given process
+// (or if pid==0, the calling process)
+//
+void suspend_or_resume_descendants(int pid, bool resume) {
+    vector<int> descendants;
+    if (!pid) {
+#ifdef _WIN32
+        pid = GetCurrentProcessId();
+#else
+        pid = getpid();
+#endif
+    }
+    get_descendants(pid, descendants);
+    suspend_or_resume_all(descendants, resume);
+}
+
+void suspend_or_resume_process(int pid, bool resume) {
+#ifdef _WIN32
+    suspend_or_resume_threads(pid, 0, resume);
+#else
+    ::kill(pid, resume?SIGCONT:SIGSTOP);
+#endif
+
+}

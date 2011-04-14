@@ -81,6 +81,7 @@ struct TASK {
         // contribution of this task to overall fraction done
     bool is_daemon;
     bool append_cmdline_args;
+    bool multi_process;
 
     // dynamic stuff follows
     double final_cpu_time;
@@ -209,6 +210,7 @@ int TASK::parse(XML_PARSER& xp) {
     stat_first = true;
     pid = 0;
     is_daemon = false;
+    multi_process = false;
     append_cmdline_args = false;
 
     while (!xp.get(tag, sizeof(tag), is_tag)) {
@@ -244,6 +246,7 @@ int TASK::parse(XML_PARSER& xp) {
         else if (xp.parse_string(tag, "fraction_done_filename", fraction_done_filename)) continue;
         else if (xp.parse_double(tag, "weight", weight)) continue;
         else if (xp.parse_bool(tag, "daemon", is_daemon)) continue;
+        else if (xp.parse_bool(tag, "multi_process", multi_process)) continue;
         else if (xp.parse_bool(tag, "append_cmdline_args", append_cmdline_args)) continue;
     }
     return ERR_XML_PARSE;
@@ -567,48 +570,24 @@ bool TASK::poll(int& status) {
 //
 void TASK::kill() {
     kill_daemons();
-#ifdef _WIN32
-    // on Win, just kill all our descendants
-    //
-    vector<int> descendants;
-    get_descendants(GetCurrentProcessId(), descendants);
-    kill_all(descendants);
-#else
-    // on Unix, ask main process nicely.
-    // it descendants still exist after 10 sec, use the nuclear option
-    //
-    vector<int> descendants;
-    get_descendants(getpid(), descendants);
-    ::kill(pid, SIGTERM);
-    for (int i=0; i<10; i++) {
-        if (!any_process_exists(descendants)) {
-            return;
-        }
-        sleep(1);
-    }
-    kill_all(descendants);
-    // kill any processes that might have been created
-    // in the last 10 secs
-    get_descendants(getpid(), descendants);
-    kill_all(descendants);
-#endif
+    kill_descendants(pid);
 }
 
 void TASK::stop() {
-#ifdef _WIN32
-    suspend_or_resume_threads(pid, 0, false);
-#else
-    ::kill(pid, SIGSTOP);
-#endif
+    if (multi_process) {
+        suspend_or_resume_descendants(0, false);
+    } else {
+        suspend_or_resume_process(pid, false);
+    }
     suspended = true;
 }
 
 void TASK::resume() {
-#ifdef _WIN32
-    suspend_or_resume_threads(pid, 0, true);
-#else
-    ::kill(pid, SIGCONT);
-#endif
+    if (multi_process) {
+        suspend_or_resume_descendants(0, true);
+    } else {
+        suspend_or_resume_process(pid, true);
+    }
     suspended = false;
 }
 

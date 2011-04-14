@@ -62,6 +62,10 @@ typedef struct BOINC_OPTIONS {
         // if heartbeat fail, or get process control msg, take
         // direction action (exit, suspend, resume).
         // Otherwise just set flag in BOINC status
+    int multi_thread;
+        // set this if application creates threads in main process
+    int multi_process;
+        // set this if application creates subprocesses.
 } BOINC_OPTIONS;
 
 typedef struct BOINC_STATUS {
@@ -108,7 +112,6 @@ extern int boinc_get_status(BOINC_STATUS*);
 extern double boinc_get_fraction_done();
 extern void boinc_register_timer_callback(FUNC_PTR);
 extern double boinc_worker_thread_cpu_time();
-extern int boinc_init_parallel();
 
 #ifdef __APPLE__
 extern int setMacPList(void);
@@ -154,6 +157,8 @@ inline void boinc_options_defaults(BOINC_OPTIONS& b) {
     b.send_status_msgs = 1;
     b.direct_process_action = 1;
     b.normal_thread_priority = 0;
+    b.multi_thread = 0;
+    b.multi_process = 0;
 }
 
 
