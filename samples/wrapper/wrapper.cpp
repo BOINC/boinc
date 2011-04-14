@@ -570,7 +570,11 @@ bool TASK::poll(int& status) {
 //
 void TASK::kill() {
     kill_daemons();
+#ifdef _WIN32
+    kill_descendants();
+#else
     kill_descendants(pid);
+#endif
 }
 
 void TASK::stop() {

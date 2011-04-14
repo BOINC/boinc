@@ -457,7 +457,7 @@ int boinc_init_parallel() {
     BOINC_OPTIONS options;
     boinc_options_defaults(options);
     options.multi_thread = true;
-    boinc_init_options(&options);
+    return boinc_init_options(&options);
 }
 
 int boinc_init_options_general(BOINC_OPTIONS& opt) {
@@ -642,7 +642,7 @@ void boinc_exit(int status) {
     // kill any processes the app may have created
     //
     if (options.multi_process) {
-        kill_descendants(0);
+        kill_descendants();
     }
 
     boinc_finish_diag();

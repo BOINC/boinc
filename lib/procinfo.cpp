@@ -19,6 +19,7 @@
 
 #if   defined(_WIN32) && !defined(__STDWX_H__)
 #include "boinc_win.h"
+#include "win_util.h"
 #elif defined(_WIN32) && defined(__STDWX_H__)
 #include "stdwx.h"
 #else
@@ -93,16 +94,20 @@ void kill_all(vector<int>& pids) {
 #endif
 
 // Kill the descendants of the calling process.
-// If child_pid is nonzero, give it a chance to exit gracefully on Unix
 //
-void kill_descendants(int child_pid) {
-    vector<int> descendants;
 #ifdef _WIN32
+void kill_descendants() {
+    vector<int> descendants;
     // on Win, kill descendants directly
     //
     get_descendants(GetCurrentProcessId(), descendants);
     kill_all(descendants);
+}
 #else
+// Same, but if child_pid is nonzero, give it a chance to exit gracefully on Unix
+//
+void kill_descendants(int child_pid) {
+    vector<int> descendants;
     // on Unix, ask main process nicely.
     // it descendants still exist after 10 sec, use the nuclear option
     //
@@ -121,13 +126,13 @@ void kill_descendants(int child_pid) {
         get_descendants(getpid(), descendants);
     }
     kill_all(descendants);
-#endif
 }
+#endif
 
 void suspend_or_resume_all(vector<int>& pids, bool resume) {
     for (unsigned int i=0; i<pids.size(); i++) {
 #ifdef _WIN32
-        suspend_or_resume_threads(pids[i], resume);
+        suspend_or_resume_threads(pids[i], 0, resume);
 #else
         kill(pids[i], resume?SIGCONT:SIGSTOP);
 #endif

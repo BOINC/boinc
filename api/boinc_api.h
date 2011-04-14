@@ -112,6 +112,7 @@ extern int boinc_get_status(BOINC_STATUS*);
 extern double boinc_get_fraction_done();
 extern void boinc_register_timer_callback(FUNC_PTR);
 extern double boinc_worker_thread_cpu_time();
+extern int boinc_init_parallel();
 
 #ifdef __APPLE__
 extern int setMacPList(void);
