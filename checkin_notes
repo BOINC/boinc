@@ -2241,3 +2241,9 @@ Rom    14 Apr 2011
     
     clientgui/
         DlgEventLog.cpp
+
+Rom    14 Apr 2011
+    - MGR: Add missing event handler map item.
+    
+    clientgui/
+        sg_DlgMessages.cpp
