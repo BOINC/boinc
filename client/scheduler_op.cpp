@@ -227,30 +227,36 @@ static void request_string(char* buf) {
 int SCHEDULER_OP::start_rpc(PROJECT* p) {
     int retval;
     char request_file[1024], reply_file[1024], buf[256];
+    char *trickle_up_msg;
 
     safe_strcpy(scheduler_url, p->get_scheduler_url(url_index, url_random));
     if (log_flags.sched_ops) {
         msg_printf(p, MSG_INFO,
             "Sending scheduler request: %s.", rpc_reason_string(reason)
         );
+        if (p->trickle_up_pending && reason != RPC_REASON_TRICKLE_UP) {
+            trickle_up_msg = ", sending trickle-up message";
+        } else {
+            trickle_up_msg = "";
+        }
         request_string(buf);
         if (strlen(buf)) {
             if (p->nresults_returned) {
                 msg_printf(p, MSG_INFO,
-                    "Reporting %d completed tasks, requesting new tasks for %s",
-                    p->nresults_returned, buf
+                    "Reporting %d completed tasks, requesting new tasks for %s%s",
+                    p->nresults_returned, buf, trickle_up_msg
                 );
             } else {
-                msg_printf(p, MSG_INFO, "Requesting new tasks for %s", buf);
+                msg_printf(p, MSG_INFO, "Requesting new tasks for %s%s", buf, trickle_up_msg);
             }
         } else {
             if (p->nresults_returned) {
                 msg_printf(p, MSG_INFO,
-                    "Reporting %d completed tasks, not requesting new tasks",
-                    p->nresults_returned
+                    "Reporting %d completed tasks, not requesting new tasks%s",
+                    p->nresults_returned, trickle_up_msg
                 );
             } else {
-                msg_printf(p, MSG_INFO, "Not reporting or requesting tasks");
+                msg_printf(p, MSG_INFO, "Not reporting or requesting tasks%s", trickle_up_msg);
             }
         }
     }

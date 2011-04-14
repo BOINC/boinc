@@ -769,7 +769,9 @@ void MSG_QUEUE::msg_queue_poll(MSG_CHANNEL& channel) {
         }
         for (unsigned int i=0; i<msgs.size(); i++) {
             if (log_flags.app_msg_send) {
-                msg_printf(NULL, MSG_INFO, "[app_msg_send] poll:  deferred: %s", (msgs[0].c_str()));
+                msg_printf(NULL, MSG_INFO,
+                    "[app_msg_send] poll: deferred: %s", (msgs[0].c_str())
+                );
             }
         }
     }
@@ -786,7 +788,7 @@ int MSG_QUEUE::msg_queue_purge(const char* msg) {
     }
     if (log_flags.app_msg_send) {
         msg_printf(NULL, MSG_INFO,
-            "[app_msg_send] purge: wanted  %s last msg is %s in %s",
+            "[app_msg_send] purge: wanted %s last msg is %s in %s",
             msg, iter->c_str(), name
         );
     }
