@@ -2272,3 +2272,10 @@ David  14 Apr 2011
         wrapper.cpp
     api/
         boinc_api.cpp,h
+
+David  15 Apr 2011
+    - client: fix bug that cause notice RSS feeds to disappear and reappear,
+        and notices to erroneously be shown as new.
+
+    client/
+        cs_notice.cpp
