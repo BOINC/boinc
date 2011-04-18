@@ -2300,3 +2300,9 @@ David  18 Apr 2011
     client/
         client_state.cpp
         app_start.cpp
+
+David  18 Apr 2011
+    - user web and notices: fix message describing friend request
+
+    html/inc/
+        friend.inc
