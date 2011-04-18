@@ -976,7 +976,7 @@ error:
     // Verify it to trigger another download.
     //
     gstate.input_files_available(result, true);
-    gstate.report_result_error(*result, buf);
+    gstate.report_result_error(*result, "couldn't start %s: %d", buf, retval);
     if (log_flags.task_debug) {
         msg_printf(wup->project, MSG_INFO,
             "[task] couldn't start app: %s", buf

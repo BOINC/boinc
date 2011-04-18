@@ -1263,7 +1263,7 @@ bool CLIENT_STATE::garbage_collect_always() {
                 );
                 atp->abort_task(
                     EXIT_ABORTED_BY_CLIENT,
-                    "Got ack for job that's till active"
+                    "Got ack for job that's still active"
                 );
             } else {
                 if (log_flags.state_debug) {
@@ -1324,13 +1324,10 @@ bool CLIENT_STATE::garbage_collect_always() {
                 switch (atp->task_state()) {
                 case PROCESS_EXECUTING:
                 case PROCESS_SUSPENDED:
-                    atp->abort_task(
-                        EXIT_ABORTED_BY_CLIENT,
-                        "Got ack for job that's till active"
-                    );
+                    atp->abort_task(ERR_RESULT_UPLOAD, "upload failure");
                 }
             }
-            report_result_error(*rp, "%s", error_str.c_str());
+            report_result_error(*rp, "upload failure: %s", error_str.c_str());
         }
 #endif
         rp->avp->ref_cnt++;

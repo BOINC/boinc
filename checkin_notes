@@ -2292,3 +2292,11 @@ David  18 Apr 2011
         app.h
         app_control.cpp
         work_fetch.cpp
+
+David  18 Apr 2011
+    - client: fix a couple of the messages that are appended to
+        a job's stderr when the job is aborted
+
+    client/
+        client_state.cpp
+        app_start.cpp
