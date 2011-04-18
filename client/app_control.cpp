@@ -1065,7 +1065,10 @@ bool ACTIVE_TASK::get_app_status_msg() {
         // until the app's first call to boinc_fraction_done().
         // So ignore zeros.
         //
-        if (fd) fraction_done = fd;
+        if (fd) {
+            fraction_done = fd;
+            fraction_done_elapsed_time = elapsed_time;
+        }
     }
     parse_double(msg_buf, "<current_cpu_time>", current_cpu_time);
     parse_double(msg_buf, "<checkpoint_cpu_time>", checkpoint_cpu_time);
