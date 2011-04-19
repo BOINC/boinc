@@ -349,13 +349,14 @@ function simulation_form() {
     row2("Duration", "<input name=duration value=86400> seconds");
     row2("Time step", "<input name=delta value=60> seconds");
     row2("Use Recent Estimated Credit
-        <br><span class=note>If checked, scheduling policies
-        will be based on Recent Estimated Credit (REC)
+        <br><span class=note>If checked, use 6.14 scheduling policies
+        based on Recent Estimated Credit (REC)
         rather than short- and long-term debt.</span>",
         "<input type=checkbox name=use_rec checked>"
     );
     row2("Use hysteresis work fetch?
-        <br><span class=note>If checked, the client will wait
+        <br><span class=note>If checked, use 6.14 work fetch policies.
+        Tthe client will wait
         until the work buffer falls below X, then fill it to X+Y.
         Otherwise it will keep it filled to X+Y.</span>",
         "<input type=checkbox name=use_hyst_fetch checked>"

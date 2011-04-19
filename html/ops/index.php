@@ -23,7 +23,11 @@ require_once("../project/project.inc");
 
 function svn_revision($path) {
     $out = array();
-    exec("svn info http://boinc.berkeley.edu/svn/$path", $out);
+    $cmd = "svn info http://boinc.berkeley.edu/svn/$path";
+    if (defined("SVN_CONFIG_DIRECTORY")) {
+        $cmd .= " --config-dir ". SVN_CONFIG_DIRECTORY;
+    }
+    exec($cmd, $out);
     foreach ($out as $line) {
         $x = strstr($line, "Last Changed Rev: ");
         if ($x) {

@@ -2335,3 +2335,14 @@ David  19 Apr 2011
 
     sched/
         sched_types.cpp
+
+David  19 Apr 2011
+    - admin web: all specifying an SVN config dir in the web config file,
+        in case your svn requires a proxy or something.
+        From Boris Dayma.
+
+    html/
+        ops/
+            index.php
+        project.sample/
+            project.inc
