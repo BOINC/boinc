@@ -2306,3 +2306,11 @@ David  18 Apr 2011
 
     html/inc/
         friend.inc
+
+David  18 Apr 2011
+    - client: replace % with %% in messages from scheduler
+        (else they're interpreted as format strings)
+
+    client/
+        client_state.h
+        cs_scheduler.cpp
