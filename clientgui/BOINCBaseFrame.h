@@ -63,7 +63,6 @@ public:
     virtual void        OnExit( wxCommandEvent& event );
 
     int                 GetCurrentViewPage();
-    virtual void        UpdateNoticesTabText();
     wxString            GetDialupConnectionName() { return m_strNetworkDialupConnectionName; }
     void                SetDialupConnectionName(wxString val) { m_strNetworkDialupConnectionName = val; }
     CBOINCDialUpManager* GetDialupManager() { return m_pDialupManager; }

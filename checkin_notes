@@ -2320,3 +2320,12 @@ David  18 Apr 2011
 
 	client/
 		scheduler_op.cpp
+
+Rom    19 Apr 2011
+    - MGR: Adjust the width of the various tabs in advanced view if the notice text
+        width changes.
+    - MGR: Remove dead code.
+    
+    clientgui/
+        BOINCBaseFrame.cpp, .h
+        AdvancedFrame.cpp

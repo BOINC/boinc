@@ -778,8 +778,6 @@ bool CAdvancedFrame::RepopulateNotebook() {
     CreateNotebookPage(new CViewStatistics(m_pNotebook));
     CreateNotebookPage(new CViewResources(m_pNotebook));
 
-    UpdateNoticesTabText();
-    
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::RepopulateNotebook - Function End"));
     return true;
 }
@@ -1610,6 +1608,7 @@ void CAdvancedFrame::OnRefreshView(CFrameEvent& WXUNUSED(event)) {
             }
 
             m_pNotebook->SetPageText(ID_ADVNOTICESVIEW - ID_ADVVIEWBASE, strTabTitle);
+            m_pNotebook->Layout();
         }
 
 
