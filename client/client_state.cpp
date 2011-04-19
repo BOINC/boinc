@@ -346,7 +346,7 @@ int CLIENT_STATE::init() {
         if (coprocs.none() ) {
             msg_printf(NULL, MSG_INFO, "No usable GPUs found");
         }
-#if 1
+#if 0
         msg_printf(NULL, MSG_INFO, "Faking an NVIDIA GPU");
         coprocs.nvidia.fake(18000, 256*MEGA, 2);
         coprocs.nvidia.available_ram_fake[0] = 256*MEGA;
