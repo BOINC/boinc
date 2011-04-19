@@ -214,7 +214,7 @@ static void request_string(char* buf) {
     for (int i=0; i<coprocs.n_rsc; i++) {
         if (rsc_work_fetch[i].req_secs) {
             if (!first) strcat(buf, " and ");
-            strcpy(buf, rsc_name(i));
+            strcat(buf, rsc_name(i));
             first = false;
         }
     }
