@@ -318,13 +318,13 @@ void CDlgEventLog::CreateControls()
 
 void CDlgEventLog::SetFilterButtonText() {
     if (s_bIsFiltered) {
-        m_pFilterButton->SetLabel( _("Show all messages") );
+        m_pFilterButton->SetLabel( _("Show all &messages") );
         m_pFilterButton->SetHelpText( _("Show messages for all projects") );
 #ifdef wxUSE_TOOLTIPS
         m_pFilterButton->SetToolTip(_("Show messages for all projects"));
 #endif
     } else {
-        m_pFilterButton->SetLabel( _("Show only this project") );
+        m_pFilterButton->SetLabel( _("&Show only this project") );
         m_pFilterButton->SetHelpText( _("Show only the messages for the selected project") );
 #ifdef wxUSE_TOOLTIPS
         m_pFilterButton->SetToolTip(_("Show only the messages for the selected project"));

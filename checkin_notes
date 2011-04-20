@@ -9375,7 +9375,7 @@ Rom    11 Apr 2011
         BOINCTaskBar.cpp
 
 Rom    13 Apr 2011
-    - MGR: Add missing keyboard accellerators for the event log.
+    - MGR: Add missing keyboard accelerators for the event log.
     - MGR: Re-enable the next button when the terms of use wizard
         page when the back button is pressed.
         
@@ -9407,3 +9407,15 @@ David  13 Apr 2011
         scheduler_op.cpp
         app.cpp
         app_control.cpp
+
+Rom    14 Apr 2011
+    - MGR: Check to see if keyboard accelerators can be redefined on the fly.
+    
+    clientgui/
+        DlgEventLog.cpp
+
+Rom    14 Apr 2011
+    - MGR: Add missing event handler map item.
+    
+    clientgui/
+        sg_DlgMessages.cpp
