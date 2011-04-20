@@ -131,28 +131,21 @@ int COPROCS::parse(MIOFILE& fin) {
     char buf[1024];
     int retval;
 
-    n_rsc = 1;
     while (fin.fgets(buf, sizeof(buf))) {
         if (match_tag(buf, "</coprocs>")) {
             return 0;
         }
-        if (match_tag(buf, "<coproc_cuda>")) {
+        if (strstr(buf, "<coproc_cuda>")) {
             retval = cuda.parse(fin);
             if (retval) {
                 cuda.clear();
-            } else {
-                coprocs[n_rsc++] = nvidia;
             }
-            continue;
         }
-        if (match_tag(buf, "<coproc_ati>")) {
+        if (strstr(buf, "<coproc_ati>")) {
             retval = ati.parse(fin);
             if (retval) {
                 ati.clear();
-            } else {
-                coprocs[n_rsc++] = ati;
             }
-            continue;
         }
     }
     return ERR_XML_PARSE;

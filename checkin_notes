@@ -9361,13 +9361,6 @@ David  8 Apr 2011
     client/
         cs_scheduler.cpp
 
-David  10 Apr 2011
-    - scheduler: failure to set up COPROCS structure correctly
-        led to per-GPU job limits not being enforced.
-
-    lib/
-        coproc.cpp
-
 Rom    11 Apr 2011
     - MGR: Remove unneeded asserts.
     
@@ -9455,14 +9448,6 @@ David  18 Apr 2011
     client/
         client_state.h
         cs_scheduler.cpp
-<<<<<<< .working
-=======
-
-David  18 Apr 2011
-	- client: fix message describing work request
-
-	client/
-		scheduler_op.cpp
 
 Rom    19 Apr 2011
     - MGR: Adjust the width of the various tabs in advanced view if the notice text
@@ -9472,4 +9457,3 @@ Rom    19 Apr 2011
     clientgui/
         BOINCBaseFrame.cpp, .h
         AdvancedFrame.cpp
->>>>>>> .merge-right.r23384
