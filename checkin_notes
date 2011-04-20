@@ -9455,3 +9455,21 @@ David  18 Apr 2011
     client/
         client_state.h
         cs_scheduler.cpp
+<<<<<<< .working
+=======
+
+David  18 Apr 2011
+	- client: fix message describing work request
+
+	client/
+		scheduler_op.cpp
+
+Rom    19 Apr 2011
+    - MGR: Adjust the width of the various tabs in advanced view if the notice text
+        width changes.
+    - MGR: Remove dead code.
+    
+    clientgui/
+        BOINCBaseFrame.cpp, .h
+        AdvancedFrame.cpp
+>>>>>>> .merge-right.r23384
