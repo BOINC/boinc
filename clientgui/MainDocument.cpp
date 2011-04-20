@@ -2398,6 +2398,7 @@ wxString suspend_reason_wxstring(int reason) {
 
 wxString result_description(RESULT* result, bool show_resources) {
     CMainDocument* doc = wxGetApp().GetDocument();
+    PROJECT* project;
     CC_STATUS       status;
     int             retval;
 	wxString strBuffer= wxEmptyString;
@@ -2412,6 +2413,7 @@ wxString result_description(RESULT* result, bool show_resources) {
         strBuffer += _("GPU missing, ");
     }
 
+    project = doc->state.lookup_project(result->project_url);
 	int throttled = status.task_suspend_reason & SUSPEND_REASON_CPU_THROTTLE;
     switch(result->state) {
     case RESULT_NEW:
@@ -2451,12 +2453,9 @@ wxString result_description(RESULT* result, bool show_resources) {
                 } else {
                     strBuffer += _("Running");
                 }
-#if 0
-                // doesn't work - project pointer not there
-                if (result->project->non_cpu_intensive) {
+                if (project && project->non_cpu_intensive) {
                     strBuffer += _(" (non-CPU-intensive)");
                 }
-#endif
             } else if (result->scheduler_state == CPU_SCHED_PREEMPTED) {
                 strBuffer += _("Waiting to run");
             } else if (result->scheduler_state == CPU_SCHED_UNINITIALIZED) {

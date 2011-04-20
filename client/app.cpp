@@ -785,14 +785,20 @@ int MSG_QUEUE::msg_queue_purge(const char* msg) {
 		    msg, iter->c_str(), name
 	    );
     }
-	if (!strcmp(msg, iter->c_str())) {
-		if (log_flags.app_msg_send) {
-			msg_printf(NULL, MSG_INFO, "[app_msg_send] purged %s from %s", msg, name);
-		}
-		iter = msgs.erase(iter);
-		return 1;
-	}
-	return 0;
+    if (log_flags.app_msg_send) {
+        msg_printf(NULL, MSG_INFO,
+            "[app_msg_send] purge: wanted %s last msg is %s in %s",
+            msg, iter->c_str(), name
+        );
+    }
+    if (!strcmp(msg, iter->c_str())) {
+        if (log_flags.app_msg_send) {
+            msg_printf(NULL, MSG_INFO, "[app_msg_send] purged %s from %s", msg, name);
+        }
+        iter = msgs.erase(iter);
+        return 1;
+    }
+    return 0;
 }
 
 bool MSG_QUEUE::timeout(double diff) {

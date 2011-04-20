@@ -524,15 +524,15 @@ void ACTIVE_TASK_SET::send_heartbeats() {
             strcat(buf, "<network_suspended/>");
         }
         bool sent = atp->app_client_shm.shm->heartbeat.send_msg(buf);
-        if (log_flags.app_msg_send) {
+        if (log_flags.heartbeat_debug) {
             if (sent) {
                 msg_printf(atp->result->project, MSG_INFO,
-                    "[app_msg_send] sent heartbeat to %s",
+                    "[heartbeat] Heartbeat sent to task %s",
                     atp->result->name
                 );
             } else {
                 msg_printf(atp->result->project, MSG_INFO,
-                    "[app_msg_send] failed to send heartbeat to %s",
+                    "[heartbeat] Heartbeat to task %s failed, previous message unread",
                     atp->result->name
                 );
             }
@@ -1097,12 +1097,22 @@ bool ACTIVE_TASK::get_trickle_up_msg() {
     if (!app_client_shm.shm) return false;
     if (app_client_shm.shm->trickle_up.get_msg(msg_buf)) {
         if (match_tag(msg_buf, "<have_new_trickle_up/>")) {
+            if (log_flags.app_msg_receive) {
+                msg_printf(NULL, MSG_INFO,
+                    "[app_msg_receive] got msg from slot %d: %s", slot, msg_buf
+                );
+            }
             retval = move_trickle_file();
             if (!retval) {
                 wup->project->trickle_up_pending = true;
             }
         }
         if (match_tag(msg_buf, "<have_new_upload_file/>")) {
+            if (log_flags.app_msg_receive) {
+                msg_printf(NULL, MSG_INFO,
+                    "[app_msg_receive] got msg from slot %d: %s", slot, msg_buf
+                );
+            }
             handle_upload_files();
         }
         found = true;
@@ -1151,14 +1161,14 @@ void ACTIVE_TASK_SET::get_msgs() {
                 atp->checkpoint_wall_time = gstate.now;
                 atp->premature_exit_count = 0;
                 atp->checkpoint_elapsed_time = atp->elapsed_time;
-                if (log_flags.task_debug) {
-                    msg_printf(atp->wup->project, MSG_INFO,
-                        "[task] result %s checkpointed",
-                        atp->result->name
-                    );
-                } else if (log_flags.checkpoint_debug) {
+                if (log_flags.checkpoint_debug) {
                     msg_printf(atp->wup->project, MSG_INFO,
                         "[checkpoint] result %s checkpointed",
+                        atp->result->name
+                    );
+                } else if (log_flags.task_debug) {
+                    msg_printf(atp->wup->project, MSG_INFO,
+                        "[task] result %s checkpointed",
                         atp->result->name
                     );
                 }

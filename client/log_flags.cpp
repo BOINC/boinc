@@ -93,6 +93,7 @@ int LOG_FLAGS::parse(XML_PARSER& xp) {
         if (xp.parse_bool(tag, "std_debug", std_debug)) continue;
         if (xp.parse_bool(tag, "file_xfer_debug", file_xfer_debug)) continue;
         if (xp.parse_bool(tag, "gui_rpc_debug", gui_rpc_debug)) continue;
+        if (xp.parse_bool(tag, "heartbeat_debug", heartbeat_debug)) continue;
         if (xp.parse_bool(tag, "http_debug", http_debug)) continue;
         if (xp.parse_bool(tag, "http_xfer_debug", http_xfer_debug)) continue;
         if (xp.parse_bool(tag, "mem_usage_debug", mem_usage_debug)) continue;
@@ -156,6 +157,7 @@ void LOG_FLAGS::show() {
     show_flag(buf, debt_debug, "debt_debug");
     show_flag(buf, file_xfer_debug, "file_xfer_debug");
     show_flag(buf, gui_rpc_debug, "gui_rpc_debug");
+    show_flag(buf, heartbeat_debug, "heartbeat_debug");
     show_flag(buf, http_debug, "http_debug");
     show_flag(buf, http_xfer_debug, "http_xfer_debug");
     show_flag(buf, mem_usage_debug, "mem_usage_debug");

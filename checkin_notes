@@ -9382,3 +9382,28 @@ Rom    13 Apr 2011
     clientgui/
         DlgEventLog.cpp
         TermsOfUsePage.cpp
+
+David  13 Apr 2011
+    - client:
+        - add <heartbeat_debug> log flag
+        - show trickle-up and int file upload msgs if <app_msg_receive> set
+        - if scheduler RPC reason is trickle-up, say so
+    - manager:
+        - restore "non CPU intensive" to task description
+        - project properties: show if RPC in progress or trickle-up pending.
+            (show these low-probability things only if present)
+    - manager: fix Unix build
+
+    (from Ian Hay)
+
+    clientgui/
+        MainDocument.cpp
+        Makefile.am
+        DlgITemProperties.cpp
+    lib/
+        gui_rpc_client_print.cpp
+    client/
+        log_flags.cpp,h
+        scheduler_op.cpp
+        app.cpp
+        app_control.cpp

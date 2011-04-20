@@ -71,6 +71,7 @@ struct LOG_FLAGS {
     bool file_xfer_debug;
         // show completion of FILE_XFER
     bool gui_rpc_debug;
+    bool heartbeat_debug;
     bool http_debug;
     bool http_xfer_debug;
     bool mem_usage_debug;
