@@ -2371,3 +2371,15 @@ David  20 Apr 2011
             util.inc
         user/
             login_form.php
+
+David  20 Apr 2011
+    - client: if an app version has a missing GPU,
+        we still need to keep track of the usage
+        and write it to the state file.
+    - get client simulator working again
+
+    client/
+        client_types.cpp,h
+        sim.cpp
+    tools/
+        backend_lib.cpp

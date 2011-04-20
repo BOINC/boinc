@@ -583,7 +583,7 @@ int create_work(
         wu, wu_template, infiles, ninfiles, config_loc, command_line, additional_xml
     );
     if (retval) {
-        fprintf(stderr, "process_wu_template: %d\n", retval);
+        fprintf(stderr, "process_wu_template(): %d\n", retval);
         return retval;
     }
 
@@ -591,7 +591,10 @@ int create_work(
         result_template_filepath, _result_template, sizeof(_result_template)
     );
     if (retval) {
-        fprintf(stderr, "create_work: can't read result template file %s\n", result_template_filepath);
+        fprintf(stderr,
+            "create_work: can't read result template file %s\n",
+            result_template_filepath
+        );
         return retval;
     }
 

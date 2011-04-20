@@ -1334,6 +1334,7 @@ int APP_VERSION::parse(MIOFILE& in) {
                     gpu_usage.usage = cp.count;
                 } else {
                     missing_coproc = true;
+                    missing_coproc_usage = cp.count;
                     strcpy(missing_coproc_name, cp.type);
                 }
             } else {
@@ -1392,6 +1393,16 @@ int APP_VERSION::write(MIOFILE& out, bool write_file_info) {
             "    </coproc>\n",
             rsc_name(gpu_usage.rsc_type),
             gpu_usage.usage
+        );
+    }
+    if (missing_coproc) {
+        out.printf(
+            "    <coproc>\n"
+            "        <type>%s</type>\n"
+            "        <count>%f</count>\n"
+            "    </coproc>\n",
+            missing_coproc_name,
+            missing_coproc_usage
         );
     }
     if (gpu_ram) {

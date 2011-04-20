@@ -542,6 +542,7 @@ struct APP_VERSION {
         // so that we don't run a long sequence of jobs,
         // each of which turns out not to fit in available RAM
     bool missing_coproc;
+    double missing_coproc_usage;
     char missing_coproc_name[256];
 
     int index;  // temp var for make_scheduler_request()

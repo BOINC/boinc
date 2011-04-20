@@ -78,8 +78,8 @@
 #define SCHED_RETRY_DELAY_MIN    60                // 1 minute
 #define SCHED_RETRY_DELAY_MAX    (60*60*4)         // 4 hours
 
-const char* infile_prefix = "";
-const char* outfile_prefix = "";
+const char* infile_prefix = ".";
+const char* outfile_prefix = ".";
 
 #define TIMELINE_FNAME "timeline.html"
 #define LOG_FNAME "log.txt"
@@ -133,20 +133,20 @@ void usage(char* prog) {
 //
 double app_peak_flops(APP_VERSION* avp, double cpu_scale) {
     double x = avp->avg_ncpus*cpu_scale;
-    if (avp->ncudas) {
-        x += avp->ncudas * cuda_work_fetch.relative_speed;
-    }
-    if (avp->natis) {
-        x += avp->natis * ati_work_fetch.relative_speed;
+    int rt = avp->gpu_usage.rsc_type;
+    if (rt) {
+        x += avp->gpu_usage.usage * rsc_work_fetch[rt].relative_speed;
     }
     x *= gstate.host_info.p_fpops;
     return x;
 }
 
 double gpu_peak_flops() {
-    double cuda = gstate.host_info.coprocs.cuda.count * cuda_work_fetch.relative_speed * gstate.host_info.p_fpops;
-    double ati = gstate.host_info.coprocs.ati.count * ati_work_fetch.relative_speed * gstate.host_info.p_fpops;
-    return cuda + ati;
+    double x = 0;
+    for (int i=1; i<coprocs.n_rsc; i++) {
+        x += coprocs.coprocs[i].count * rsc_work_fetch[i].relative_speed * gstate.host_info.p_fpops;
+    }
+    return x;
 }
 
 double cpu_peak_flops() {
@@ -184,13 +184,11 @@ APP* choose_app(vector<APP*>& apps) {
 
 bool app_version_needs_work(APP_VERSION* avp) {
     if (avp->dont_use) return false;
-    if (avp->ncudas) {
-        return (cuda_work_fetch.req_secs>0 || cuda_work_fetch.req_instances>0);
+    int rt = avp->gpu_usage.rsc_type;
+    if (rt) {
+        return (rsc_work_fetch[rt].req_secs>0 || rsc_work_fetch[rt].req_instances>0);
     }
-    if (avp->natis) {
-        return (ati_work_fetch.req_secs>0 || ati_work_fetch.req_instances>0);
-    }
-    return (cpu_work_fetch.req_secs>0 || cpu_work_fetch.req_instances>0);
+    return (rsc_work_fetch[0].req_secs>0 || rsc_work_fetch[0].req_instances>0);
 }
 
 bool has_app_version_needing_work(APP* app) {
@@ -326,19 +324,16 @@ void decrement_request(RESULT* rp) {
     APP_VERSION* avp = rp->avp;
     double est_runtime = rp->wup->rsc_fpops_est/avp->flops;
     est_runtime /= (gstate.time_stats.on_frac*gstate.time_stats.active_frac);
-    decrement_request_rsc(cpu_work_fetch, avp->avg_ncpus, est_runtime);
-    decrement_request_rsc(cuda_work_fetch, avp->ncudas, est_runtime);
-    decrement_request_rsc(ati_work_fetch, avp->natis, est_runtime);
+    decrement_request_rsc(rsc_work_fetch[0], avp->avg_ncpus, est_runtime);
+    int rt = avp->gpu_usage.rsc_type;
+    if (rt) {
+        decrement_request_rsc(rsc_work_fetch[rt], avp->gpu_usage.usage, est_runtime);
+    }
 }
 
 double get_estimated_delay(RESULT* rp) {
-    if (rp->avp->ncudas) {
-        return cuda_work_fetch.estimated_delay;
-    } else if (rp->avp->natis) {
-        return ati_work_fetch.estimated_delay;
-    } else {
-        return cpu_work_fetch.estimated_delay;
-    }
+    int rt = rp->avp->gpu_usage.rsc_type;
+    return rsc_work_fetch[rt].estimated_delay;
 }
 
 // simulate trying to do an RPC;
@@ -352,14 +347,21 @@ bool CLIENT_STATE::simulate_rpc(PROJECT* p) {
 
     // save request params for WORK_FETCH::handle_reply
     //
-    double save_cpu_req_secs = cpu_work_fetch.req_secs;
-    host_info.coprocs.cuda.req_secs = cuda_work_fetch.req_secs;
-    host_info.coprocs.ati.req_secs = ati_work_fetch.req_secs;
+    double save_cpu_req_secs = rsc_work_fetch[0].req_secs;
+    for (int i=1; i<coprocs.n_rsc; i++) {
+        COPROC& cp = coprocs.coprocs[i];
+        if (!strcmp(cp.type, "NVIDIA")) {
+            coprocs.nvidia.req_secs = rsc_work_fetch[i].req_secs;
+        }
+        if (!strcmp(cp.type, "ATI")) {
+            coprocs.ati.req_secs = rsc_work_fetch[i].req_secs;
+        }
+    }
 
     if (!server_uses_workload) {
-        cpu_work_fetch.estimated_delay = cpu_work_fetch.busy_time_estimator.get_busy_time();
-        cuda_work_fetch.estimated_delay = cuda_work_fetch.busy_time_estimator.get_busy_time();
-        ati_work_fetch.estimated_delay = ati_work_fetch.busy_time_estimator.get_busy_time();
+        for (int i=1; i<coprocs.n_rsc; i++) {
+            rsc_work_fetch[i].estimated_delay = rsc_work_fetch[i].busy_time_estimator.get_busy_time();
+        }
     }
 
     for (unsigned int i=0; i<app_versions.size(); i++) {
@@ -430,7 +432,7 @@ bool CLIENT_STATE::simulate_rpc(PROJECT* p) {
     html_msg += buf;
 
     SCHEDULER_REPLY sr;
-    cpu_work_fetch.req_secs = save_cpu_req_secs;
+    rsc_work_fetch[0].req_secs = save_cpu_req_secs;
     work_fetch.handle_reply(p, &sr, new_results);
     p->nrpc_failures = 0;
     p->sched_rpc_pending = false;
@@ -800,13 +802,9 @@ void show_resource(int rsc_type) {
         if (rsc_type!=RSC_TYPE_CPU && rp->resource_type() != rsc_type) continue;
         if (atp->task_state() != PROCESS_EXECUTING) continue;
         PROJECT* p = rp->project;
-        double ninst;
-        if (rsc_type == RSC_TYPE_CUDA) {
-            ninst = rp->avp->ncudas;
-        } else if (rsc_type == RSC_TYPE_ATI) {
-            ninst = rp->avp->natis;
-        } else {
-            ninst = rp->avp->avg_ncpus;
+        double ninst=0;
+        if (rsc_type == rp->avp->gpu_usage.rsc_type) {
+            ninst = rp->avp->gpu_usage.usage;
         }
 
         fprintf(html_out, "%.2f: <font color=%s>%s%s: %.2fG</font><br>",
@@ -856,11 +854,11 @@ void html_start() {
     fprintf(html_out,
         "<th width=%d>CPU<br><font size=-2>Job name and estimated time left<br>color denotes project<br>* means EDF mode</font></th>", WIDTH2
     );
-    if (gstate.host_info.have_cuda()) {
+    if (coprocs.have_nvidia()) {
         fprintf(html_out, "<th width=%d>NVIDIA GPU</th>", WIDTH2);
         nproc_types++;
     }
-    if (gstate.host_info.have_ati()) {
+    if (coprocs.have_ati()) {
         fprintf(html_out, "<th width=%d>ATI GPU</th>", WIDTH2);
         nproc_types++;
     }
@@ -885,26 +883,17 @@ void html_rec() {
     if (active) {
         show_resource(RSC_TYPE_CPU);
         if (gpu_active) {
-            if (gstate.host_info.have_cuda()) {
-                show_resource(RSC_TYPE_CUDA);
-            }
-            if (gstate.host_info.have_ati()) {
-                show_resource(RSC_TYPE_ATI);
+            for (int i=1; i<coprocs.n_rsc; i++) {
+                show_resource(i);
             }
         } else {
-            if (gstate.host_info.have_cuda()) {
-                fprintf(html_out, "<td width=%d valign=top bgcolor=#aaaaaa>OFF</td>", WIDTH2);
-            }
-            if (gstate.host_info.have_ati()) {
+            for (int i=1; i<coprocs.n_rsc; i++) {
                 fprintf(html_out, "<td width=%d valign=top bgcolor=#aaaaaa>OFF</td>", WIDTH2);
             }
         }
     } else {
         fprintf(html_out, "<td width=%d valign=top bgcolor=#aaaaaa>OFF</td>", WIDTH2);
-        if (gstate.host_info.have_cuda()) {
-            fprintf(html_out, "<td width=%d valign=top bgcolor=#aaaaaa>OFF</td>", WIDTH2);
-        }
-        if (gstate.host_info.have_ati()) {
+        for (int i=1; i<coprocs.n_rsc; i++) {
             fprintf(html_out, "<td width=%d valign=top bgcolor=#aaaaaa>OFF</td>", WIDTH2);
         }
     }
@@ -990,19 +979,13 @@ void write_debts() {
         PROJECT* p = gstate.projects[i];
         fprintf(debt_file, "%f %f %f ",
             p->pwf.overall_debt,
-            p->cpu_pwf.long_term_debt,
-            p->cpu_pwf.short_term_debt
+            p->rsc_pwf[0].long_term_debt,
+            p->rsc_pwf[0].short_term_debt
         );
-        if (gstate.host_info.have_cuda()) {
+        for (int j=1; j<coprocs.n_rsc; j++) {
             fprintf(debt_file, "%f %f ",
-                p->cuda_pwf.long_term_debt,
-                p->cuda_pwf.short_term_debt
-            );
-        }
-        if (gstate.host_info.have_ati()) {
-            fprintf(debt_file, "%f %f",
-                p->ati_pwf.long_term_debt,
-                p->ati_pwf.short_term_debt
+                p->rsc_pwf[j].long_term_debt,
+                p->rsc_pwf[j].short_term_debt
             );
         }
     }
@@ -1038,16 +1021,16 @@ void make_graph(const char* title, const char* fname, int field, int nfields) {
 }
 
 void debt_graphs() {
-    int nfields = 3 + (gstate.host_info.have_cuda()?2:0) + (gstate.host_info.have_ati()?2:0);
+    int nfields = 3 + (coprocs.have_nvidia()?2:0) + (coprocs.have_ati()?2:0);
     make_graph("Overall debt", "debt_overall", 0, nfields);
     make_graph("CPU LTD", "debt_cpu_ltd", 1, nfields);
     make_graph("CPU STD", "debt_cpu_std", 2, nfields);
-    if (gstate.host_info.have_cuda()) {
+    if (coprocs.have_nvidia()) {
         make_graph("NVIDIA LTD", "debt_nvidia_ltd", 3, nfields);
         make_graph("NVIDIA STD", "debt_nvidia_std", 4, nfields);
     }
-    if (gstate.host_info.have_ati()) {
-        int off = gstate.host_info.have_cuda()?2:0;
+    if (coprocs.have_ati()) {
+        int off = coprocs.have_nvidia()?2:0;
         make_graph("ATI LTD", "debt_ati_ltd", 3+off, nfields);
         make_graph("ATI STD", "debt_ati_std", 4+off, nfields);
     }
@@ -1091,11 +1074,12 @@ void simulate() {
         "hardware\n   %d CPUs, %fG\n",
         gstate.host_info.p_ncpus, gstate.host_info.p_fpops/1e9
     );
-    if (gstate.host_info.have_cuda()) {
+    for (int i=1; i<coprocs.n_rsc; i++) {
         fprintf(summary_file,
-            "   %d GPUs, %fG\n",
-            gstate.host_info.coprocs.cuda.count,
-            gstate.host_info.coprocs.cuda.peak_flops/1e9
+            "   %d %s GPUs, %fG\n",
+            coprocs.coprocs[i].count,
+            coprocs.coprocs[i].type,
+            coprocs.coprocs[i].peak_flops/1e9
         );
     }
     fprintf(summary_file,
@@ -1189,9 +1173,9 @@ void show_app(APP* app) {
         APP_VERSION* avp = gstate.app_versions[i];
         if (avp->app != app) continue;
         fprintf(summary_file,
-            "      app version %s %d (%s): ncpus %.2f ncuda %.2f nati %.2f flops %.0fG\n",
+            "      app version %s %d (%s): ncpus %.2f rsc %d usage %.2f flops %.0fG\n",
             avp->app_name, avp->version_num, avp->plan_class,
-            avp->avg_ncpus, avp->ncudas, avp->natis,
+            avp->avg_ncpus, avp->gpu_usage.rsc_type, avp->gpu_usage.usage,
             avp->flops/1e9
         );
     }
@@ -1263,9 +1247,9 @@ void clear_backoff() {
     unsigned int i;
     for (i=0; i<gstate.projects.size(); i++) {
         PROJECT* p = gstate.projects[i];
-        p->cpu_pwf.reset();
-        p->cuda_pwf.reset();
-        p->ati_pwf.reset();
+        for (int j=0; j<coprocs.n_rsc; j++) {
+            p->rsc_pwf[j].reset();
+        }
         p->min_rpc_time = 0;
     }
 }
@@ -1280,20 +1264,15 @@ void cull_projects() {
     for (i=0; i<gstate.projects.size(); i++) {
         p = gstate.projects[i];
         p->dont_request_more_work = true;
-        p->no_cpu_apps = true;
-        p->no_cuda_apps = true;
-        p->no_ati_apps = true;
+        for (int j=0; j<coprocs.n_rsc; j++) {
+            p->no_rsc_apps[j] = true;
+        }
     }
     for (i=0; i<gstate.app_versions.size(); i++) {
         APP_VERSION* avp = gstate.app_versions[i];
         if (avp->app->ignore) continue;
-        if (avp->ncudas) {
-            avp->project->no_cuda_apps = false;
-        } else if (avp->natis) {
-            avp->project->no_ati_apps = false;
-        } else {
-            avp->project->no_cpu_apps = false;
-        }
+        int rt = avp->gpu_usage.rsc_type;
+        avp->project->no_rsc_apps[rt] = false;
     }
     for (i=0; i<gstate.apps.size(); i++) {
         APP* app = gstate.apps[i];
@@ -1317,12 +1296,12 @@ void cull_projects() {
     }
     for (i=0; i<gstate.projects.size(); i++) {
         p = gstate.projects[i];
-        fprintf(summary_file, "%s: %s%s%s\n",
-            p->project_name,
-            p->no_cpu_apps?" no CPU apps":"",
-            p->no_cuda_apps?" no nvidia apps":"",
-            p->no_ati_apps?" no ATI apps":""
-        );
+        fprintf(summary_file, "%s: ", p->project_name);
+        for (int j=0; j<coprocs.n_rsc; j++) {
+            if (p->no_rsc_apps[j]) {
+                fprintf(summary_file, " no %s apps", coprocs.coprocs[j].type);
+            }
+        }
     }
 }
 
