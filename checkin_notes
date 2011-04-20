@@ -9457,3 +9457,11 @@ Rom    19 Apr 2011
     clientgui/
         BOINCBaseFrame.cpp, .h
         AdvancedFrame.cpp
+
+Rom    20 April 2011
+    - Tag for 6.12.23 release, all platforms
+      boinc_core_release_6_12_23
+
+    /
+        configure.ac
+        version.h
