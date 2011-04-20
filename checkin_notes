@@ -9447,3 +9447,11 @@ David  18 Apr 2011
     client/
         client_state.cpp
         app_start.cpp
+
+David  18 Apr 2011
+    - client: replace % with %% in messages from scheduler
+        (else they're interpreted as format strings)
+
+    client/
+        client_state.h
+        cs_scheduler.cpp

@@ -208,6 +208,7 @@ struct CLIENT_STATE {
     void all_projects_list_check();
     double new_version_check_time;
     double all_projects_list_check_time;
+        // the time we last successfully fetched the project list
     string newer_version;
 
 // --------------- client_state.cpp:
