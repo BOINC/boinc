@@ -2362,3 +2362,12 @@ David  20 Apr 2011
             logout.php
         project.sample/
             project.inc
+
+David  20 Apr 2011
+    - web: don't show "log in" link on login or create account pages
+    
+    html/
+        inc/
+            util.inc
+        user/
+            login_form.php

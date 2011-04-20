@@ -167,7 +167,13 @@ function page_head(
     display_cvs_versions();
 
     project_banner($title, $prefix);
-    show_login_info();
+    switch($title) {    //kludge
+    case tra("Log in"):
+    case tra("Create an account"):
+        break;
+    default:
+        show_login_info();
+    }
 
 }
 }
