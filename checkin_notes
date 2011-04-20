@@ -9353,3 +9353,10 @@ David  6 Apr 2011
 
     lib/
         prefs.cpp
+
+David  8 Apr 2011
+    - client: defer reporting completed tasks if an upload started recently;
+        we might be able to report more tasks once the upload completes.
+
+    client/
+        cs_scheduler.cpp
