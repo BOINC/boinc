@@ -2337,12 +2337,28 @@ David  19 Apr 2011
         sched_types.cpp
 
 David  19 Apr 2011
-    - admin web: all specifying an SVN config dir in the web config file,
+    - admin web: allow specifying an SVN config dir in the web config file,
         in case your svn requires a proxy or something.
         From Boris Dayma.
 
     html/
         ops/
             index.php
+        project.sample/
+            project.inc
+
+David  20 Apr 2011
+    - web: show "logged in as" info on every page;
+        remove funky "log out" link from user page
+    - web: go to home page on logout,
+        not dorky "you are logged out" page
+
+    html/
+        inc/
+            user.inc
+            util.inc
+        user/
+            sample_index.php
+            logout.php
         project.sample/
             project.inc

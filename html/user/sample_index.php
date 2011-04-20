@@ -98,6 +98,14 @@ include 'schedulers.txt';
 echo "
     </head><body>
     <div class=page_title>".PROJECT."</div>
+";
+
+if (!$stopped) {
+    get_logged_in_user(false);
+    show_login_info();
+}
+
+echo "
     <table cellpadding=\"8\" cellspacing=\"4\" class=bordered>
     <tr><td rowspan=\"2\" valign=\"top\" width=\"40%\">
 ";

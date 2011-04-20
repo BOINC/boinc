@@ -40,11 +40,7 @@ function project_banner($title, $prefix) {
     // Put your project title and logo here
     // If you include any links, prepend URL with $prefix
 
-    echo "
-        <p>
-        <div class=\"page_title\">$title</div>
-        <p>
-    ";
+    echo "<div class=\"page_title\">$title</div>";
 }
 
 function project_footer($show_return, $show_date, $prefix) {

@@ -72,10 +72,11 @@ function get_user_from_id($id) {
 }
 
 $g_logged_in_user = null;
+$got_logged_in_user = false;
 
 function get_logged_in_user($must_be_logged_in=true) {
-    global $g_logged_in_user;
-    if ($g_logged_in_user) return $g_logged_in_user;
+    global $g_logged_in_user, $got_logged_in_user;;
+    if ($got_logged_in_user) return $g_logged_in_user;
 
     check_web_stopped();
 
@@ -101,13 +102,23 @@ function get_logged_in_user($must_be_logged_in=true) {
     return $g_logged_in_user;
 }
 
-function show_login($user) {
+function show_login_info() {
+    $user = get_logged_in_user(false);
+    echo "
+        <table width=100% cellpadding=0 cellspacing=0>
+        <td align=right>
+    ";
     if ($user) {
-        echo tra("Logged in as %1.", $user->name)."\n";
-        echo "<br><a href=\"login_form.php\">".tra("Log in as someone else.")."</a>\n";
+        $url_tokens = url_tokens($user->authenticator);
+        echo "$user->name | <a href=".$prefix."logout.php?$url_tokens>".tra("log out")."</a>";
     } else {
-        echo tra("Not logged in.");
+        echo "<a href=".$prefix."login_form.php>".tra("log in")."</a>";
     }
+    echo "
+        </td>
+        </tr>
+        </table>
+    ";
 }
 
 $cache_control_extra="";
@@ -154,7 +165,10 @@ function page_head(
         echo "<body>";
     }
     display_cvs_versions();
+
     project_banner($title, $prefix);
+    show_login_info();
+
 }
 }
 

@@ -211,7 +211,6 @@ function show_user_info_private($user) {
         | <a href=\"".SECURE_URL_BASE."/edit_passwd_form.php\">".tra("password")."</a>
         | <a href=\"edit_user_info_form.php?$url_tokens\">".tra("other account info")."</a>"
     );
-    row2("", "<a href=\"logout.php?$url_tokens\">".tra("Log out")."</a>");
     row2(tra("User ID")."<br/><span class=\"note\">".tra("Used in community functions")."</span>", $user->id);
     if (!no_computing()) {
         row2(tra("Account key")."<br/><span class=\"note\">".tra("Provides full access to your account")."</span>", $user->authenticator);
