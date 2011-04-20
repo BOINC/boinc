@@ -102,7 +102,7 @@ function get_logged_in_user($must_be_logged_in=true) {
     return $g_logged_in_user;
 }
 
-function show_login_info() {
+function show_login_info($prefix="") {
     $user = get_logged_in_user(false);
     echo "
         <table width=100% cellpadding=0 cellspacing=0>
@@ -172,7 +172,7 @@ function page_head(
     case tra("Create an account"):
         break;
     default:
-        show_login_info();
+        show_login_info($prefix);
     }
 
 }
