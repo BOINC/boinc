@@ -463,7 +463,7 @@ int GLOBAL_PREFS::parse_override(
             continue;
         }
         if (xp.parse_double(tag, "max_ncpus_pct", max_ncpus_pct)) {
-            if (max_ncpus_pct <= 0) max_ncpus_pct = 100;
+            if (max_ncpus_pct < 0) max_ncpus_pct = 0;
             if (max_ncpus_pct > 100) max_ncpus_pct = 100;
             mask.max_ncpus_pct = true;
             continue;

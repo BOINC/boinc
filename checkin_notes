@@ -9346,3 +9346,10 @@ Charlie 30 Mar 2011
      mac_build/
         boinc.xcodeproj/
             project.pbxproj
+
+David  6 Apr 2011
+    - client: if PREFS::max_ncpus_pct is 0, don't set it to 100;
+        doing so prevents PREFS::max_ncpus from having any effect.
+
+    lib/
+        prefs.cpp
