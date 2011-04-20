@@ -1388,7 +1388,7 @@ double ACTIVE_TASK::est_dur() {
     double wu_est = result->estimated_duration();
     if (fraction_done <= 0) return wu_est;
     if (wu_est < elapsed_time) wu_est = elapsed_time;
-    double frac_est = elapsed_time / fraction_done;
+    double frac_est = fraction_done_elapsed_time / fraction_done;
     double fraction_left = 1-fraction_done;
     double wu_weight = fraction_left * fraction_left * fraction_left;
     double fd_weight = 1 - wu_weight;

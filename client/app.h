@@ -85,6 +85,8 @@ struct ACTIVE_TASK {
         // App's estimate of how much of the work unit is done.
         // Passed from the application via an API call;
         // will be zero if the app doesn't use this call
+    double fraction_done_elapsed_time;
+        // elapsed time when fraction done was last reported
     double current_cpu_time;
         // most recent CPU time reported by app
     bool once_ran_edf;

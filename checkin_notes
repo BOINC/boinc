@@ -9426,3 +9426,16 @@ David  15 Apr 2011
 
     client/
         cs_notice.cpp
+
+David  18 Apr 2011
+    - client: when estimating job runtime based on fraction done,
+        use the elapsed time when fraction done was last reported,
+        not current elapsed time.
+        Fix problem where est time remaining increases linearly,
+        then abruptly decreases when new frac done is reported.
+        From Bruce Allen.
+
+    client/
+        app.h
+        app_control.cpp
+        work_fetch.cpp
