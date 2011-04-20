@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2011-04-04 22:09 PDT\n"
-"PO-Revision-Date: 2010-12-27 18:55+0200\n"
+"PO-Revision-Date: 2011-04-11 20:59+0200\n"
 "Last-Translator: Nikolay Saharov <saharovna@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: ru\n"
@@ -20,12 +20,13 @@ msgstr ""
 "X-Poedit-SourceCharset: utf-8\n"
 
 #: projects.inc:14
+#, fuzzy
 msgid "Cognitive science and artifical intelligence"
-msgstr ""
+msgstr "Когнитивная наука и искусственный интеллект"
 
 #: projects.inc:17
 msgid "FreeHAL"
-msgstr ""
+msgstr "FreeHAL"
 
 #: projects.inc:19 projects.inc:254 projects.inc:290 projects.inc:297
 msgid "private"

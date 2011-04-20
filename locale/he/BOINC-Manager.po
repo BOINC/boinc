@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: BOINC 6.10.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-03-07 12:02-0500\n"
-"PO-Revision-Date: 2011-02-09 22:44+0200\n"
+"PO-Revision-Date: 2011-04-06 19:54+0200\n"
 "Last-Translator: Ido Schwartz <dj_legolas1@hotmail.com>\n"
 "Language-Team: IOPanel.net\n"
 "Language: he\n"
@@ -23,8 +23,6 @@ msgstr ""
 "X-Poedit-SourceCharset: utf-8\n"
 "X-Poedit-Basepath: C:\\Src\\BOINCSVN\\trunk\\boinc\n"
 "X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
-"X-Poedit-Country: UNITED STATES\n"
-"X-Poedit-Language: English\n"
 
 #: clientgui/AccountInfoPage.cpp:386
 msgid "Identify your account "
@@ -962,7 +960,6 @@ msgid "Failed to add account manager"
 msgstr "כשל בהוספת מנהל חשבונות"
 
 #: clientgui/CompletionErrorPage.cpp:221
-#, fuzzy
 msgid ""
 "An error has occurred;\n"
 "check the Event Log for details.\n"
@@ -970,7 +967,7 @@ msgid ""
 "Click Finish to close."
 msgstr ""
 "אירעה שגיאה;\n"
-"בדוק ב'הודעות' לפרטים.\n"
+"בדוק ב'יומן אירועים' לפרטים.\n"
 "\n"
 "לחץ 'סיום' כדי לסגור."
 
@@ -1046,12 +1043,11 @@ msgid "Copyright:"
 msgstr "זכויות יוצרים:"
 
 #: clientgui/DlgAbout.cpp:179
-#, fuzzy
 msgid ""
 "(C) 2003-2011 University of California, Berkeley.\n"
 "All Rights Reserved."
 msgstr ""
-"(C) 2003-2010 אוניברסיטת קליפורניה, ברקלי.\n"
+"(C) 2003-2011 אוניברסיטת קליפורניה, ברקלי.\n"
 "כל הזכויות שמורות."
 
 #: clientgui/DlgAbout.cpp:183
@@ -1524,9 +1520,9 @@ msgid "Close"
 msgstr "&סגור"
 
 #: clientgui/DlgEventLog.cpp:307
-#, c-format
+#, c-format, fuzzy
 msgid "Get help with %s"
-msgstr ""
+msgstr "קבל עזרה עם %s"
 
 #: clientgui/DlgEventLog.cpp:321
 msgid "Show all messages"
@@ -1677,14 +1673,12 @@ msgstr "אל תבקש עוד עבודה"
 
 #: clientgui/DlgItemProperties.cpp:220
 #: clientgui/DlgItemProperties.cpp:222
-#, fuzzy
 msgid "Host location"
-msgstr "סה\"כ למחשב"
+msgstr "מיקום המחשב"
 
 #: clientgui/DlgItemProperties.cpp:222
-#, fuzzy
 msgid "default"
-msgstr "&הגדר ברירת מחדל"
+msgstr "ברירת מחדל"
 
 #: clientgui/DlgItemProperties.cpp:225
 msgid "Added via account manager"
@@ -1822,7 +1816,7 @@ msgstr "גודל משימה משוער"
 
 #: clientgui/DlgItemProperties.cpp:317
 msgid "Max RAM usage"
-msgstr ""
+msgstr "שימוש מקסימלי ב-RAM"
 
 #: clientgui/DlgItemProperties.cpp:320
 msgid "CPU time at last checkpoint"
@@ -1880,11 +1874,8 @@ msgid "What language should BOINC use?"
 msgstr "באיזו שפה על BOINC להשתמש?"
 
 #: clientgui/DlgOptions.cpp:168
-#, fuzzy
 msgid "Notice reminder interval:"
-msgstr ""
-"מרווח התזכורות להתראות:\n"
-"(דקות; 0 משמעותו ללא תזכורות)"
+msgstr "מרווח התזכורות להתראות:"
 
 #: clientgui/DlgOptions.cpp:175
 msgid "How often should BOINC remind you of new notices?"
@@ -1982,31 +1973,28 @@ msgid "SOCKS Proxy"
 msgstr "שרת פרוקסי מסוג SOCKS"
 
 #: clientgui/DlgOptions.cpp:571
-#, fuzzy
 msgid "always"
-msgstr "&הרץ תמיד"
+msgstr "תמיד"
 
 #: clientgui/DlgOptions.cpp:572
 msgid "1 hour"
-msgstr ""
+msgstr "שעה אחת"
 
 #: clientgui/DlgOptions.cpp:573
 msgid "6 hours"
-msgstr ""
+msgstr "6 שעות"
 
 #: clientgui/DlgOptions.cpp:574
-#, fuzzy
 msgid "1 day"
-msgstr "ימים"
+msgstr "יום אחד"
 
 #: clientgui/DlgOptions.cpp:575
 msgid "1 week"
-msgstr ""
+msgstr "שבוע אחד"
 
 #: clientgui/DlgOptions.cpp:576
-#, fuzzy
 msgid "never"
-msgstr "כל"
+msgstr "אף פעם"
 
 #: clientgui/DlgOptions.cpp:673
 #, c-format
@@ -2635,13 +2623,13 @@ msgid "Advanced View...\tCtrl+Shift+A"
 msgstr "תצוגה מתקדמת...\tCtrl+Shift+A"
 
 #: clientgui/sg_BoincSimpleFrame.cpp:118
-#, fuzzy
 msgid "Display the advanced graphical interface."
-msgstr "הצג ממשק גרפי פשוט."
+msgstr "הצג ממשק גרפי מתקדם."
 
 #: clientgui/sg_BoincSimpleFrame.cpp:129
+#, fuzzy
 msgid "Manager Settings..."
-msgstr ""
+msgstr "הגדרות Manager..."
 
 #: clientgui/sg_BoincSimpleFrame.cpp:157
 #: clientgui/sg_BoincSimpleGUI.cpp:147
@@ -3072,7 +3060,7 @@ msgstr "סנכרן"
 
 #: clientgui/sg_ProjectPanel.cpp:72
 msgid "My total work done this Project"
-msgstr ""
+msgstr "כמות העבודה הכללית לפרוייקט זה"
 
 #: clientgui/sg_ProjectPanel.cpp:75
 #: clientgui/sg_ProjectsComponent.cpp:123
@@ -3085,32 +3073,34 @@ msgid "My Projects:"
 msgstr "הפרוייקטים שלי:"
 
 #: clientgui/sg_ProjectPanel.cpp:123
+#, fuzzy
 msgid "Select a project to access with the controls below"
-msgstr ""
+msgstr "בחר פרוייקט על מנת לגשת לפקדים למטה"
 
 #: clientgui/sg_ProjectPanel.cpp:133
 #: clientgui/sg_ProjectPanel.cpp:252
 #, c-format
 msgid "%s: %0.2f"
-msgstr ""
+msgstr "%s: %0.2f"
 
 #: clientgui/sg_ProjectPanel.cpp:145
 msgid "Project Web Sites"
 msgstr "אתרי הפרוייקט"
 
 #: clientgui/sg_ProjectPanel.cpp:149
+#, fuzzy
 msgid "Project Commands"
-msgstr ""
+msgstr "פקודות הפרוייקט"
 
 #: clientgui/sg_ProjectPanel.cpp:257
-#, c-format
+#, c-format, fuzzy
 msgid "Pop up a menu of websites for project %s"
-msgstr ""
+msgstr "הקפץ תפריט של אתרי אנטרנט עבור פרוייקט %s"
 
 #: clientgui/sg_ProjectPanel.cpp:259
-#, c-format
+#, c-format, fuzzy
 msgid "Pop up a menu of commands to apply to project %s"
-msgstr ""
+msgstr "הקפץ תפריט של פקודות ליישם עבור פרוייקט %s"
 
 #: clientgui/sg_ProjectsComponent.cpp:196
 #: clientgui/sg_ProjectsComponent.cpp:207
@@ -3165,13 +3155,13 @@ msgstr "השהה עבודה עבור משימה זו."
 
 #: clientgui/sg_TaskCommandPopup.cpp:240
 #, c-format
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Are you sure you want to abort this task '%s'?\n"
 "(Progress: %.1lf%%, Status: %s)"
 msgstr ""
 "אתה בטוח שאתה רוצה לבטל את הישום '%s'?\n"
-"(התקדמות: %s %%, מצב: %s)"
+"(התקדמות: %.1lf%%, מצב: %s)"
 
 #: clientgui/sg_TaskCommandPopup.cpp:245
 msgid "Abort task"
@@ -3179,67 +3169,70 @@ msgstr "בטל משימה"
 
 #: clientgui/sg_TaskPanel.cpp:215
 msgid "Not available"
-msgstr ""
+msgstr "לא זמין"
 
 #: clientgui/sg_TaskPanel.cpp:226
 msgid "My Tasks:"
-msgstr ""
+msgstr "המשימות שלי:"
 
 #: clientgui/sg_TaskPanel.cpp:243
+#, fuzzy
 msgid "Select a task to access"
-msgstr ""
+msgstr "בחר משימה לקבלת גישה"
 
 #: clientgui/sg_TaskPanel.cpp:254
 msgid "From Project:"
-msgstr ""
+msgstr "מפרוייקט:"
 
 #: clientgui/sg_TaskPanel.cpp:311
 msgid "This task's progress"
-msgstr ""
+msgstr "התקדמות משימה זו:"
 
 #: clientgui/sg_TaskPanel.cpp:332
+#, fuzzy
 msgid "Task Commands"
-msgstr ""
+msgstr "פקודות המשימה"
 
 #: clientgui/sg_TaskPanel.cpp:333
+#, fuzzy
 msgid "Pop up a menu of commands to apply to this task"
-msgstr ""
+msgstr "הקפץ תפריט של פקודות ליישם עבור משימה זו"
 
 #: clientgui/sg_TaskPanel.cpp:448
 #, c-format
-#, fuzzy, c-format
+#, c-format
 msgid "Application: %s"
-msgstr "יישום:"
+msgstr "יישום: %s"
 
 #: clientgui/sg_TaskPanel.cpp:472
 #, c-format
 msgid "%d.%d%%"
-msgstr ""
+msgstr "%d.%d%%"
 
 #: clientgui/sg_TaskPanel.cpp:480
 msgid "Application: Not available"
-msgstr ""
+msgstr "יישום: לא זמין"
 
 #: clientgui/sg_TaskPanel.cpp:588
 msgid "Not Available"
-msgstr ""
+msgstr "לא זמין"
 
 #: clientgui/sg_TaskPanel.cpp:603
 #, c-format
-#, fuzzy, c-format
+#, c-format
 msgid "Elapsed Time: %s"
-msgstr "זמן שעבר:"
+msgstr "זמן שחלף: %s"
 
 #: clientgui/sg_TaskPanel.cpp:617
 #, c-format
-#, fuzzy, c-format
+#, c-format
 msgid "Time Remaining: %s"
-msgstr "זמן שנותר:"
+msgstr "זמן שנותר: %s"
 
 #: clientgui/sg_TaskPanel.cpp:632
 #, c-format
 msgid "Status: %s"
-msgstr ""
+msgstr "מצב: %s"
 
 #: clientgui/sg_ViewTabPage.cpp:140
 #: clientgui/sg_ViewTabPage.cpp:280
@@ -3480,7 +3473,7 @@ msgstr "מפעיל את הדפדפן..."
 #: clientgui/ViewProjects.cpp:1048
 #, fuzzy
 msgid "Requested by user"
-msgstr "הושהה על ידי המשתמש"
+msgstr "התבקש על ידי המשתמש"
 
 #: clientgui/ViewProjects.cpp:1049
 msgid "To fetch work"
@@ -3496,19 +3489,16 @@ msgid "To send trickle-up message"
 msgstr "הודעת Trickle Up ממתינה"
 
 #: clientgui/ViewProjects.cpp:1052
-#, fuzzy
 msgid "Requested by account manager"
-msgstr "השתמש במנהל חשבונות"
+msgstr "התבקש על ידי מנהל חשבונות"
 
 #: clientgui/ViewProjects.cpp:1053
-#, fuzzy
 msgid "Project initialization"
-msgstr "הפרוייקט לא נמצא"
+msgstr "אתמול פרוייקט"
 
 #: clientgui/ViewProjects.cpp:1054
-#, fuzzy
 msgid "Requested by project"
-msgstr "בוטל על ידי הפרוייקט"
+msgstr "התבקש על ידי הפרוייקט"
 
 #: clientgui/ViewProjects.cpp:1055
 #, fuzzy
@@ -4100,32 +4090,31 @@ msgid "row %d of %d; "
 msgstr "שורה %d מתוך %d;"
 
 #: clientgui/mac/Mac_GUI.cpp:105
-#, fuzzy
 msgid "Preferences…"
-msgstr "העדפות"
+msgstr "העדפות..."
 
 #: clientgui/mac/Mac_GUI.cpp:117
 msgid "Services"
-msgstr ""
+msgstr "שירותים"
 
 #: clientgui/mac/Mac_GUI.cpp:139
 #, c-format
 msgid "Hide %s"
-msgstr ""
+msgstr "הסתר את $s"
 
 #: clientgui/mac/Mac_GUI.cpp:153
 msgid "Hide Others"
-msgstr ""
+msgstr "הסתר את האחרים"
 
 #: clientgui/mac/Mac_GUI.cpp:167
 msgid "Show All"
-msgstr ""
+msgstr "הצג הכל"
 
 #: clientgui/mac/Mac_GUI.cpp:181
 #, c-format
-#, fuzzy, c-format
+#, c-format
 msgid "Quit %s"
-msgstr "&הפסק %s"
+msgstr "הפסק %s"
 
 #: clientgui/DlgAdvPreferences.h:29
 msgid "specify work start and stop hours in format HH:MM-HH:MM"

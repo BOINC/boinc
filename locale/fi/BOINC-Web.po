@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2011-04-04 22:09 PDT\n"
-"PO-Revision-Date: 2010-12-26 22:11+0200\n"
+"PO-Revision-Date: 2011-04-12 21:18+0200\n"
 "Last-Translator: Sami Nordlund <sami.nordlund@kolumbus.fi>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: fi\n"
@@ -20,19 +20,19 @@ msgstr ""
 
 #: projects.inc:14
 msgid "Cognitive science and artifical intelligence"
-msgstr ""
+msgstr "Kognitiivinen tiede ja tekoäly"
 
 #: projects.inc:17
 msgid "FreeHAL"
-msgstr ""
+msgstr "FreeHAL"
 
 #: projects.inc:19 projects.inc:254 projects.inc:290 projects.inc:297
 msgid "private"
-msgstr ""
+msgstr "yksityinen"
 
 #: projects.inc:20
 msgid "Artificial intelligence"
-msgstr ""
+msgstr "Tekoäly"
 
 #: projects.inc:21
 msgid ""
@@ -44,15 +44,15 @@ msgstr ""
 
 #: projects.inc:27
 msgid "Biology and Medicine"
-msgstr ""
+msgstr "Biologia ja lääketiede"
 
 #: projects.inc:30
 msgid "POEM@HOME"
-msgstr ""
+msgstr "POEM@HOME"
 
 #: projects.inc:32
 msgid "University of Karlsruhe (Germany)"
-msgstr ""
+msgstr "Karlsruhen yliopisto (Saksa)"
 
 #: projects.inc:33
 msgid "Protein structure prediction"
@@ -69,11 +69,11 @@ msgstr ""
 
 #: projects.inc:38
 msgid "Docking@Home"
-msgstr ""
+msgstr "Docking@Home"
 
 #: projects.inc:40
 msgid "University of Delaware"
-msgstr ""
+msgstr "Delawaren yliopisto"
 
 #: projects.inc:41
 msgid "Study of protein - ligand interactions"
@@ -89,7 +89,7 @@ msgstr ""
 
 #: projects.inc:46
 msgid "GPUGrid.net"
-msgstr ""
+msgstr "GPUGrid.net"
 
 #: projects.inc:48
 msgid "Barcelona Biomedical Research Park (PRBB)"
@@ -109,11 +109,11 @@ msgstr ""
 
 #: projects.inc:54
 msgid "Superlink@Technion"
-msgstr ""
+msgstr "Superlink@Technion"
 
 #: projects.inc:56
 msgid "Technion, Israel"
-msgstr ""
+msgstr "Technion, Israel"
 
 #: projects.inc:57
 msgid "Genetic linkage analysis"
@@ -125,11 +125,13 @@ msgid ""
 "provoking genes causing some types of diabetes, hypertension (high blood "
 "pressure), cancer, schizophrenia and many others."
 msgstr ""
+"Superlink@Technion auttaa tutkijoita kaikkialla maailmassa löytämään "
+"geenejä, jotka aiheuttavat tietyntyyppistä diabetestä, kohonnutta "
+"verenpainetta, syöpää, skitsofreniaa ja muita sairauksia."
 
 #: projects.inc:70
-#, fuzzy
 msgid "The Lattice Project"
-msgstr "BOINC-projekti"
+msgstr "Lattice projekti"
 
 #: projects.inc:72
 msgid ""
@@ -138,7 +140,7 @@ msgstr ""
 
 #: projects.inc:73
 msgid "Life science research"
-msgstr ""
+msgstr "Biologiset tieteet"
 
 #: projects.inc:74
 msgid ""
@@ -150,7 +152,7 @@ msgstr ""
 
 #: projects.inc:78
 msgid "Malariacontrol.net"
-msgstr ""
+msgstr "Malariacontrol.net"
 
 #: projects.inc:80
 msgid "The Swiss Tropical Institute"
@@ -158,7 +160,7 @@ msgstr ""
 
 #: projects.inc:81
 msgid "Epidemiology"
-msgstr ""
+msgstr "Epidemiologia"
 
 #: projects.inc:82
 msgid ""
@@ -173,15 +175,15 @@ msgstr ""
 
 #: projects.inc:102
 msgid "Rosetta@home"
-msgstr ""
+msgstr "Rosetta@home"
 
 #: projects.inc:104
 msgid "University of Washington"
-msgstr ""
+msgstr "Washingtonin yliopisto"
 
 #: projects.inc:105 projects.inc:113
 msgid "Biology"
-msgstr ""
+msgstr "Biologia"
 
 #: projects.inc:106
 msgid ""
@@ -195,11 +197,11 @@ msgstr ""
 
 #: projects.inc:110
 msgid "SIMAP"
-msgstr ""
+msgstr "SIMAP"
 
 #: projects.inc:112
 msgid "University of Vienna"
-msgstr ""
+msgstr "Wienin yliopisto"
 
 #: projects.inc:114
 msgid ""
@@ -210,7 +212,7 @@ msgstr ""
 
 #: projects.inc:120
 msgid "Earth Sciences"
-msgstr ""
+msgstr "Geotieteet"
 
 #: projects.inc:130
 msgid "Virtual Prairie"
@@ -218,7 +220,7 @@ msgstr ""
 
 #: projects.inc:132
 msgid "University of Houston"
-msgstr ""
+msgstr "Houstonin yliopisto"
 
 #: projects.inc:133
 msgid "Study of botanical ecosystems"
@@ -232,15 +234,15 @@ msgstr ""
 
 #: projects.inc:137
 msgid "Climateprediction.net"
-msgstr ""
+msgstr "Climateprediction.net"
 
 #: projects.inc:139
 msgid "Oxford University"
-msgstr ""
+msgstr "Oxfordin yliopisto"
 
 #: projects.inc:140
 msgid "Climate study"
-msgstr ""
+msgstr "Ilmastotutkimus"
 
 #: projects.inc:141
 msgid ""
@@ -253,22 +255,29 @@ msgid ""
 "cycle. This will allow us to explore how climate may change in the next "
 "century under a wide range of different scenarios."
 msgstr ""
+"Tutkii approksimaatioita, joita tarvitaan huipputarkassa ilmastomallissa. "
+"Kun malli ajetaan tuhansia kertoja, saadaan selville, miten malli käyttäytyy "
+"pieniin approksimaation muutoksiin, jotka ovat kuitenkin sellaisia, jotka "
+"pitävät sen realistisena. Näin saadaan selville, kuinka herkkiä mallit ovat "
+"pienille muutoksille ja myös mm. hiilidioksidin ja rikin kierron "
+"muutoksille. Näin voidaan tutkia, miten ilmasto muuttuu seuraavan vuosisadan "
+"aikana eri skenaarioiden mukaan."
 
 #: projects.inc:148
 msgid "Astronomy/Physics/Chemistry"
-msgstr ""
+msgstr "Astronomia/Fysiikka/Kemia"
 
 #: projects.inc:151
 msgid "eOn"
-msgstr ""
+msgstr "eOn"
 
 #: projects.inc:153
 msgid "University of Texas at Austin"
-msgstr ""
+msgstr "Texasin yliopisto, Austin"
 
 #: projects.inc:154 projects.inc:185 projects.inc:225
 msgid "Chemistry"
-msgstr ""
+msgstr "Kemia"
 
 #: projects.inc:155
 msgid ""
@@ -285,27 +294,27 @@ msgstr ""
 
 #: projects.inc:158
 msgid "Orbit@home"
-msgstr ""
+msgstr "Orbit@home"
 
 #: projects.inc:160
 msgid "Planetary Science Institute"
-msgstr ""
+msgstr "Planeettatutkimuksen instituutti"
 
 #: projects.inc:161 projects.inc:169 projects.inc:177
 msgid "Astronomy"
-msgstr ""
+msgstr "Astronomia"
 
 #: projects.inc:162
 msgid "Monitor and study the hazard posed by near-Earth asteroids"
-msgstr ""
+msgstr "Tutkimus maan lähellä olevien asteroidien aiheuttamasta vaarasta"
 
 #: projects.inc:166
 msgid "Cosmology@Home"
-msgstr ""
+msgstr "Cosmology@Home"
 
 #: projects.inc:168
 msgid "University of Illinois at Urbana-Chamapign"
-msgstr ""
+msgstr "Illinoisin yliopisto, Urbana-Chamapign"
 
 #: projects.inc:170
 msgid ""
@@ -316,7 +325,7 @@ msgstr ""
 
 #: projects.inc:174
 msgid "Milkyway@home"
-msgstr ""
+msgstr "Milkyway@home"
 
 #: projects.inc:176
 msgid "Rensselaer Polytechnic Institute"
@@ -328,14 +337,16 @@ msgid ""
 "model of the Milky Way galaxy using data gathered by the Sloan Digital Sky "
 "Survey."
 msgstr ""
+"Milkyway@Homen tavoitteena on luoda erittäin tarkka kolmiulotteinen malli "
+"linnunradasta käyttäen Sloan Digital Sky Surveyn keräämää aineistoa."
 
 #: projects.inc:182
 msgid "Leiden Classical"
-msgstr ""
+msgstr "Leiden Classical"
 
 #: projects.inc:184
 msgid "Leiden University, The Netherlands"
-msgstr ""
+msgstr "Leidenin yliopisto, Hollanti"
 
 #: projects.inc:186
 msgid ""
@@ -349,11 +360,11 @@ msgstr ""
 
 #: projects.inc:190
 msgid "uFluids@home"
-msgstr ""
+msgstr "uFluids@home"
 
 #: projects.inc:192
 msgid "Purdue University"
-msgstr ""
+msgstr "Purduen yliopisto"
 
 #: projects.inc:193
 msgid "Physics/Aeronautics"
@@ -369,15 +380,15 @@ msgstr ""
 
 #: projects.inc:198
 msgid "Einstein@home"
-msgstr ""
+msgstr "Einstein@home"
 
 #: projects.inc:200
 msgid "Univ. of Wisconsin - Milwaukee, Max Planck Institute"
-msgstr ""
+msgstr "Wisconsinin yliopisto - Milwaukee, Max Planck -instituutti"
 
 #: projects.inc:201
 msgid "Astrophysics"
-msgstr ""
+msgstr "Astrofysiikka"
 
 #: projects.inc:202
 msgid ""
@@ -387,18 +398,23 @@ msgid ""
 "supported by the American Physical Society (APS) and by a number of "
 "international organizations."
 msgstr ""
+"Pyörivien neutronitähtien (eli pulsarien) hakua käyttämällä "
+"gravitaatioaaltoja havaitsevien LIGOn ja GEOn sekä Arecibon radioteleskoopin "
+"tietoja. Einstein@Home on maailman vuoden fysiikka 2005 projekti, jota on "
+"tukenut American Physical Society (APS) sekä joukko kansainvälisiä "
+"järjestöjä."
 
 #: projects.inc:206
 msgid "LHC@home"
-msgstr ""
+msgstr "LHC@home"
 
 #: projects.inc:208
 msgid "CERN (European Organization for Nuclear Research)"
-msgstr ""
+msgstr "CERN (Euroopan ydintutkimuskeskus)"
 
 #: projects.inc:209
 msgid "Physics"
-msgstr ""
+msgstr "Fysiikka"
 
 #: projects.inc:210
 msgid ""
@@ -408,19 +424,23 @@ msgid ""
 "investigate on particles proprieties. LHC@home runs simulations to improve "
 "the design of LHC and its detectors."
 msgstr ""
+"Suuri hadronitörmäytin eli The Large Hadron Collider (LHC) on "
+"hiukkaskiihdytin CERNissä, Euroopan ydintutkimuskeskuksessa, ja se on "
+"maailman suurin hiukkasfysiikan laboratorio.  Se on tehokkain koskaan "
+"rakennettu laite, jolla tutkitaan hiukkasten ominaisuuksia. LHC@home ajaa "
+"simulaatioita, joilla parannetaan LHC:n suunnittelua ja sen ilmaisimia."
 
 #: projects.inc:214
 msgid "SETI@home"
-msgstr ""
+msgstr "SETI@home"
 
 #: projects.inc:216
-#, fuzzy
 msgid "University of California, Berkeley"
-msgstr "BOINC sijaitsee Kalifornian yliopistolla, Berkeleyssä"
+msgstr "Kalifornian yliopisto, Berkeley"
 
 #: projects.inc:217
 msgid "Astrophysics, astrobiology"
-msgstr ""
+msgstr "Astrofysiikka, astrobiologia"
 
 #: projects.inc:218
 msgid ""
@@ -430,31 +450,37 @@ msgid ""
 "signals from space. Such signals are not known to occur naturally, so a "
 "detection would provide evidence of extraterrestrial technology."
 msgstr ""
+"SETI (Search for Extraterrestrial Intelligence) on tieteenala, jonka "
+"päämääränä on havaita älyllistä elämää maan ulkopuolella. Yksi "
+"lähestymistapa, joka tunnetaan radioSETInä, käyttää radioteleskooppeja "
+"kuuntelemassa kapeaa kaistaa avaruudesta saapuvasta radiosignaalista. "
+"Sellaisia signaaleja ei tiedetä esiintyvän luonnollisesti, joten signaalin "
+"havaitseminen voi tarjota todisteen maan ulkopuolisesta teknologiasta."
 
 #: projects.inc:222
 msgid "Quantum Monte Carlo at Home"
-msgstr ""
+msgstr "Quantum Monte Carlo at Home"
 
 #: projects.inc:224
 msgid "University of Muenster (Germany)"
-msgstr ""
+msgstr "Münsterin yliopisto (Saksa)"
 
 #: projects.inc:226
 msgid ""
 "Study the structure and reactivity of molecules using Quantum Chemistry."
-msgstr ""
+msgstr "Tutkii molekyylien rakennetta ja reaktiivisuutta kvanttikemian avulla."
 
 #: projects.inc:230
 msgid "Spinhenge@home"
-msgstr ""
+msgstr "Spinhenge@home"
 
 #: projects.inc:232
 msgid "Bielefeld University of Applied Sciences"
-msgstr ""
+msgstr "Bielefeldin ammattikorkeakoulu"
 
 #: projects.inc:233
 msgid "Chemical engineering and nanotechnology"
-msgstr ""
+msgstr "Kemiantekniikka ja nanoteknologia"
 
 #: projects.inc:234
 msgid ""
@@ -466,19 +492,19 @@ msgstr ""
 
 #: projects.inc:241
 msgid "Multiple applications"
-msgstr ""
+msgstr "Useita sovelluksia"
 
 #: projects.inc:244
 msgid "CAS@home"
-msgstr ""
+msgstr "CAS@home"
 
 #: projects.inc:246
 msgid "Chinese Academy of Sciences"
-msgstr ""
+msgstr "Kiinan tiedeakatemia"
 
 #: projects.inc:247
 msgid "Physics, biochemistry, and others"
-msgstr ""
+msgstr "Fysiikka, biokemia ja muita"
 
 #: projects.inc:248
 msgid ""
@@ -489,30 +515,31 @@ msgstr ""
 
 #: projects.inc:252
 msgid "Yoyo@home"
-msgstr ""
+msgstr "Yoyo@home"
 
 #: projects.inc:255
 msgid "Mathematics, physics, evolution"
-msgstr ""
+msgstr "Matematiikka, fysiikka, evoluutio"
 
 #: projects.inc:256
 msgid ""
 "Yoyo@home is an adapter between BOINC and several existing volunteer "
 "computing projects: ECM, Muon, Evolution@home, and distributed.net"
 msgstr ""
+"Yoyo@home toimii välikappaleena BOINCin ja useiden projektien kuten ECM, "
+"Muon, Evolution@home ja distributed.net välillä"
 
 #: projects.inc:259
 msgid "EDGeS@Home"
-msgstr ""
+msgstr "EDGeS@Home"
 
 #: projects.inc:261 projects.inc:360
 msgid "MTA-SZTAKI Laboratory of Parallel and Distributed Systems (Hungary)"
 msgstr ""
 
 #: projects.inc:262
-#, fuzzy
 msgid "European research projects"
-msgstr "Tutkimusprojektit"
+msgstr "Eurooppalaiset tutkimusprojektit"
 
 #: projects.inc:263
 msgid ""
@@ -524,24 +551,23 @@ msgstr ""
 
 #: projects.inc:267
 msgid "Ibercivis"
-msgstr ""
+msgstr "Ibercivis"
 
 #: projects.inc:269
 msgid "Spanish universities and research centers"
-msgstr ""
+msgstr "Espanjalaiset yliopistot ja tutkimuskeskukset"
 
 #: projects.inc:270
-#, fuzzy
 msgid "Various Spanish research projects"
-msgstr "Tutkimusprojektit"
+msgstr "Erilaisia espanjalaisia tutkimusprojekteja"
 
 #: projects.inc:271
 msgid "Research in physics, material science, and biomedicine"
-msgstr ""
+msgstr "Tutkimusta fysiikassa, materiaalitekniikassa ja biolääketieteessä"
 
 #: projects.inc:275
 msgid "World Community Grid"
-msgstr ""
+msgstr "World Community Grid"
 
 #: projects.inc:277
 msgid "IBM Corporate Community Relations"
@@ -550,6 +576,7 @@ msgstr ""
 #: projects.inc:278
 msgid "Humanitarian research on disease, natural disasters and hunger."
 msgstr ""
+"Humanitääristä tutkimusta taudeista, luonnonkatastrofeista ja nälänhädästä."
 
 #: projects.inc:279
 msgid ""
@@ -557,6 +584,9 @@ msgid ""
 "problems by creating the world's largest volunteer computing grid.  Research "
 "includes HIV/AIDS, cancer, muscular dystrophy, dengue fever, and many more."
 msgstr ""
+"Edistää tutkimusta joissakin ihmiskunnan kovimmissa ongelmissa. Tutkimus "
+"käsittää mm. seuraavat taudit: HIV/AIDS, syöpä, lihasrappeuma ja "
+"Denguekuume."
 
 #: projects.inc:285
 msgid "Mathematics, computing, and games"
@@ -564,37 +594,40 @@ msgstr ""
 
 #: projects.inc:288
 msgid "Enigma@Home"
-msgstr ""
+msgstr "Enigma@Home"
 
 #: projects.inc:291 projects.inc:345
 msgid "Cryptography"
-msgstr ""
+msgstr "Kryptografia"
 
 #: projects.inc:292
 msgid ""
 "Attempt to decode 3 original Enigma messages. The signals were intercepted "
 "in the North Atlantic in 1942 and are believed to be unbroken."
 msgstr ""
+"Yrityksenä purkaa 3 alkuperäistä Enigma-viestiä. Signaalit on kaapattu "
+"Pohjois-Atlantilla vuonna 1942 ja niiden uskotaan olevan murtamattomia."
 
 #: projects.inc:295
 msgid "Collatz Conjecture"
-msgstr ""
+msgstr "Collatzin konjektuuri"
 
 #: projects.inc:298 projects.inc:337 projects.inc:353 projects.inc:361
 msgid "Mathematics"
-msgstr ""
+msgstr "Matematiikka"
 
 #: projects.inc:299
 msgid "Study the Collatz Conjecture, an unsolved conjecture in mathematics"
 msgstr ""
+"Tutkimus Collatzin konjektuurista, ratkaisematon konjektuuri matematiikassa"
 
 #: projects.inc:302
 msgid "NFS@home"
-msgstr ""
+msgstr "NFS@home"
 
 #: projects.inc:304
 msgid "California State University Fullerton"
-msgstr ""
+msgstr "Kalifornian osavaltion yliopisto, Fullerton"
 
 #: projects.inc:305
 msgid "Factorization of large integers"
@@ -612,7 +645,7 @@ msgstr ""
 
 #: projects.inc:310
 msgid "VTU@home"
-msgstr ""
+msgstr "VTU@home"
 
 #: projects.inc:312
 msgid ""
@@ -621,9 +654,8 @@ msgid ""
 msgstr ""
 
 #: projects.inc:313
-#, fuzzy
 msgid "Software testing"
-msgstr "Ohjelmistopäivitykset"
+msgstr "Ohjelmistotestaus"
 
 #: projects.inc:314
 msgid ""
@@ -635,15 +667,15 @@ msgstr ""
 
 #: projects.inc:318
 msgid "AQUA@home"
-msgstr ""
+msgstr "AQUA@home"
 
 #: projects.inc:320
 msgid "D-Wave Systems, Inc."
-msgstr ""
+msgstr "D-Wave Systems, Inc."
 
 #: projects.inc:321
 msgid "Quantum computing"
-msgstr ""
+msgstr "Kvanttilaskenta"
 
 #: projects.inc:322
 msgid ""
@@ -657,11 +689,11 @@ msgstr ""
 
 #: projects.inc:334
 msgid "ABC@home"
-msgstr ""
+msgstr "ABC@home"
 
 #: projects.inc:336
 msgid "Mathematical Institute of Leiden University / Kennislink"
-msgstr ""
+msgstr "Leidenin yliopiston matematiikan laitos / Kennislink"
 
 #: projects.inc:338
 msgid ""
@@ -676,11 +708,11 @@ msgstr ""
 
 #: projects.inc:342
 msgid "PrimeGrid"
-msgstr ""
+msgstr "PrimeGrid"
 
 #: projects.inc:344
 msgid "Private"
-msgstr ""
+msgstr "Yksityinen"
 
 #: projects.inc:346
 msgid ""
@@ -705,7 +737,7 @@ msgstr ""
 
 #: projects.inc:358
 msgid "SZTAKI Desktop Grid"
-msgstr ""
+msgstr "SZTAKI Desktop Grid"
 
 #: projects.inc:362
 msgid ""
@@ -715,15 +747,15 @@ msgstr ""
 
 #: projects.inc:382
 msgid "Chess960@home"
-msgstr ""
+msgstr "Chess960@home"
 
 #: projects.inc:384
 msgid "Chess-960.org"
-msgstr ""
+msgstr "Chess-960.org"
 
 #: projects.inc:385
 msgid "Game-playing"
-msgstr ""
+msgstr "Pelaaminen"
 
 #: projects.inc:386
 msgid ""
@@ -732,6 +764,9 @@ msgid ""
 "before the start of every game, the initial configuration of the chess "
 "pieces is determined randomly."
 msgstr ""
+"Projekti tutkii Chess 960:aa, perinteisen shakin muunnelmaa. Klassisessa "
+"shakissa pelin alkuasetelma on aina sama. Chess 960:ssa pelinappuloiden "
+"alkutilanne määritetään satunnaisesti juuri ennen pelin alkua."
 
 #: versions.inc:6
 msgid "The current release is known to work with these Linux versions:"
@@ -784,7 +819,7 @@ msgid ""
 msgstr ""
 "BOINC on ohjelma, jolla voit antaa tietokoneesi laskentatehoa tieteelliseen "
 "käyttöön sellaisissa projekteissa kuin SETI@Home, Climateprediction.net, "
-"Rosetta@home, World Comunity Grid ja moniin muihin. <p> Asennuksen jälkeen "
+"Rosetta@home, World Community Grid ja moniin muihin. <p> Asennuksen jälkeen "
 "voit osallistua niin moneen projektiin kuin haluat."
 
 #: download.php:91
@@ -801,8 +836,8 @@ msgid ""
 "Note: if your computer is equipped with an Graphics Processing Unit (GPU), "
 "you may be able to %suse it to compute faster%s"
 msgstr ""
-"Huom: jos tietokoneessasi on NVIDIAn näytönohjain (GPU), saattaa olla "
-"mahdollista käyttää sitä %slaskennan apuna%s"
+"Huom: jos tietokoneessasi on sopiva näytönohjain (GPU), saattaa olla "
+"mahdollista käyttää sitä %slaskennassa%s"
 
 #: download.php:121
 msgid "System requirements"

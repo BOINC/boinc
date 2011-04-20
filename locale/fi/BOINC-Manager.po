@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-03-07 12:02-0500\n"
-"PO-Revision-Date: 2011-04-02 08:20+0200\n"
+"PO-Revision-Date: 2011-04-13 14:49+0200\n"
 "Last-Translator: Sami Nordlund <sami.nordlund@kolumbus.fi>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: fi\n"
@@ -23,8 +23,6 @@ msgstr ""
 "X-Poedit-SourceCharset: utf-8\n"
 "X-Poedit-Basepath: C:\\Src\\BOINCSVN\\trunk\\boinc\n"
 "X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
-"X-Poedit-Country: UNITED STATES\n"
-"X-Poedit-Language: English\n"
 
 #: clientgui/AccountInfoPage.cpp:386
 msgid "Identify your account "
@@ -570,7 +568,7 @@ msgstr "%s"
 #: clientgui/AdvancedFrame.cpp:1721
 #, c-format
 msgid "%s has successfully added %s"
-msgstr ""
+msgstr "%s on onnistuneesti lisätty %s"
 
 #: clientgui/AdvancedFrame.cpp:1861
 #, c-format
@@ -626,7 +624,7 @@ msgstr "Ollaan yhteydessä BOINC-ohjelmaan. Odota..."
 #: clientgui/AsyncRPC.cpp:1237
 #, c-format
 msgid "&Quit %s"
-msgstr ""
+msgstr "&Sulje %s"
 
 #: clientgui/AsyncRPC.cpp:1239
 #, c-format
@@ -636,7 +634,7 @@ msgstr "Lopeta %s"
 #: clientgui/AsyncRPC.cpp:1243
 #, c-format
 msgid "%s - Communication"
-msgstr ""
+msgstr "%s - Verkkoyhteys"
 
 #: clientgui/AsyncRPC.cpp:1259
 msgid "Cancel"
@@ -902,7 +900,7 @@ msgstr "Nukuta näytönohjain"
 
 #: clientgui/BOINCTaskBar.cpp:516
 msgid "E&xit"
-msgstr ""
+msgstr "L&opeta"
 
 #: clientgui/BOINCTaskBar.cpp:677
 msgid "Computing is enabled"
@@ -1030,7 +1028,7 @@ msgstr "Käytät nyt tätä tilihallitsijaa."
 #: clientgui/DlgAbout.cpp:102
 #, c-format
 msgid "About %s"
-msgstr ""
+msgstr "Tietoja %s"
 
 #: clientgui/DlgAbout.cpp:159
 msgid "Version:"
@@ -1213,7 +1211,7 @@ msgstr "prosenttia (0 tarkoittaa ei rajoitusta)"
 #: clientgui/DlgAdvPreferencesBase.cpp:232
 #: clientgui/DlgAdvPreferencesBase.cpp:472
 msgid "Every day between hours of"
-msgstr ""
+msgstr "Joka päivä aikavälillä"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:236
 msgid "start work at this time"
@@ -1536,7 +1534,7 @@ msgstr "Sulje"
 #: clientgui/DlgEventLog.cpp:307
 #, c-format
 msgid "Get help with %s"
-msgstr ""
+msgstr "Hae apua %s:iin"
 
 #: clientgui/DlgEventLog.cpp:321
 msgid "Show all messages"
@@ -1641,7 +1639,7 @@ msgstr "Resurssien jako"
 
 #: clientgui/DlgItemProperties.cpp:206
 msgid "Scheduler RPC deferred for"
-msgstr ""
+msgstr "RPC-aikataulutusta lykätty"
 
 #: clientgui/DlgItemProperties.cpp:209
 msgid "File downloads deferred for"
@@ -2196,7 +2194,7 @@ msgstr "climateprediction.net uutiset"
 
 #: clientgui/Localization.cpp:131
 msgid "View your account information, credits, and trickles"
-msgstr ""
+msgstr "Katso tilitietojasi, pisteitäsi ja väliaikaviestejä"
 
 #: clientgui/Localization.cpp:135
 msgid "Info about your team"
@@ -2476,7 +2474,7 @@ msgstr "%s; vastaanotettu %s"
 #: clientgui/NoticeListCtrl.cpp:174
 #, c-format
 msgid "%s; received from %s; on %s"
-msgstr ""
+msgstr "%s; vastaanotettu %s; aika %s"
 
 #: clientgui/NoticeListCtrl.cpp:271
 #: clientgui/ProjectListCtrl.cpp:283
@@ -3194,7 +3192,7 @@ msgstr "Pakettini:"
 
 #: clientgui/sg_TaskPanel.cpp:243
 msgid "Select a task to access"
-msgstr ""
+msgstr "Valitse käsiteltävä paketti"
 
 #: clientgui/sg_TaskPanel.cpp:254
 msgid "From Project:"
@@ -3495,7 +3493,7 @@ msgstr "Raportoidaan valmiit paketit"
 
 #: clientgui/ViewProjects.cpp:1051
 msgid "To send trickle-up message"
-msgstr ""
+msgstr "Lähetetään väliaikaviestiä"
 
 #: clientgui/ViewProjects.cpp:1052
 msgid "Requested by account manager"
@@ -3539,7 +3537,7 @@ msgstr "Suoritetaan pyyntöä aikatauluttajalle"
 
 #: clientgui/ViewProjects.cpp:1090
 msgid "Trickle up message pending"
-msgstr ""
+msgstr "Väliaikaviesti odottaa"
 
 #: clientgui/ViewProjects.cpp:1096
 msgid "Communication deferred "
@@ -4015,7 +4013,7 @@ msgstr ""
 
 #: clientgui/mac/MacAccessiblity.cpp:302
 msgid "This panel contains graphs showing user totals for projects"
-msgstr ""
+msgstr "Tässä paneelissa näkyvät käyttäjän kokonaispisteet projektille"
 
 #: clientgui/mac/MacAccessiblity.cpp:726
 msgid "list headers"
@@ -4121,7 +4119,7 @@ msgstr "Näytä kaikki"
 #: clientgui/mac/Mac_GUI.cpp:181
 #, c-format
 msgid "Quit %s"
-msgstr ""
+msgstr "Sulje %s"
 
 #: clientgui/DlgAdvPreferences.h:29
 msgid "specify work start and stop hours in format HH:MM-HH:MM"

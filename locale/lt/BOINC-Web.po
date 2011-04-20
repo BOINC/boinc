@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2011-04-04 22:09 PDT\n"
-"PO-Revision-Date: 2010-09-08 13:45-0700\n"
+"PO-Revision-Date: 2011-04-16 14:25+0200\n"
 "Last-Translator: Rytis Slatkevičius <rytis.s@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: lt\n"
@@ -16,24 +16,24 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && (n%"
 "100<10 || n%100>=20) ? 1 : 2);\n"
-"X-Generator: Pootle 1.2.1\n"
+"X-Generator: Pootle 2.1.1\n"
 "X-Poedit-SourceCharset: utf-8\n"
 
 #: projects.inc:14
 msgid "Cognitive science and artifical intelligence"
-msgstr ""
+msgstr "Kognityvinis mokslas ir dirbtinis intelektas"
 
 #: projects.inc:17
 msgid "FreeHAL"
-msgstr ""
+msgstr "FreeHAL"
 
 #: projects.inc:19 projects.inc:254 projects.inc:290 projects.inc:297
 msgid "private"
-msgstr ""
+msgstr "privatus"
 
 #: projects.inc:20
 msgid "Artificial intelligence"
-msgstr ""
+msgstr "Dirbtinis intelektas"
 
 #: projects.inc:21
 msgid ""
@@ -45,11 +45,11 @@ msgstr ""
 
 #: projects.inc:27
 msgid "Biology and Medicine"
-msgstr ""
+msgstr "Biologija ir medicina"
 
 #: projects.inc:30
 msgid "POEM@HOME"
-msgstr ""
+msgstr "POEM@HOME"
 
 #: projects.inc:32
 msgid "University of Karlsruhe (Germany)"
@@ -70,7 +70,7 @@ msgstr ""
 
 #: projects.inc:38
 msgid "Docking@Home"
-msgstr ""
+msgstr "Docking@Home"
 
 #: projects.inc:40
 msgid "University of Delaware"
@@ -90,7 +90,7 @@ msgstr ""
 
 #: projects.inc:46
 msgid "GPUGrid.net"
-msgstr ""
+msgstr "GPUGrid.net"
 
 #: projects.inc:48
 msgid "Barcelona Biomedical Research Park (PRBB)"
@@ -98,7 +98,7 @@ msgstr ""
 
 #: projects.inc:49
 msgid "Molecular simulations of proteins"
-msgstr ""
+msgstr "Molekulinės baltymų simuliacijos"
 
 #: projects.inc:50
 msgid ""
@@ -110,15 +110,15 @@ msgstr ""
 
 #: projects.inc:54
 msgid "Superlink@Technion"
-msgstr ""
+msgstr "Superlink@Technion"
 
 #: projects.inc:56
 msgid "Technion, Israel"
-msgstr ""
+msgstr "Technion, Izraelis"
 
 #: projects.inc:57
 msgid "Genetic linkage analysis"
-msgstr ""
+msgstr "Genetinių sąsajų analizė"
 
 #: projects.inc:58
 msgid ""
@@ -128,9 +128,8 @@ msgid ""
 msgstr ""
 
 #: projects.inc:70
-#, fuzzy
 msgid "The Lattice Project"
-msgstr "BOINC projektas"
+msgstr "The Lattice Project"
 
 #: projects.inc:72
 msgid ""
@@ -139,7 +138,7 @@ msgstr ""
 
 #: projects.inc:73
 msgid "Life science research"
-msgstr ""
+msgstr "Gamtos mokslų tyrimai"
 
 #: projects.inc:74
 msgid ""
@@ -151,7 +150,7 @@ msgstr ""
 
 #: projects.inc:78
 msgid "Malariacontrol.net"
-msgstr ""
+msgstr "Malariacontrol.net"
 
 #: projects.inc:80
 msgid "The Swiss Tropical Institute"
@@ -159,7 +158,7 @@ msgstr ""
 
 #: projects.inc:81
 msgid "Epidemiology"
-msgstr ""
+msgstr "Epidemiologija"
 
 #: projects.inc:82
 msgid ""
@@ -174,7 +173,7 @@ msgstr ""
 
 #: projects.inc:102
 msgid "Rosetta@home"
-msgstr ""
+msgstr "Rosetta@home"
 
 #: projects.inc:104
 msgid "University of Washington"
@@ -182,7 +181,7 @@ msgstr ""
 
 #: projects.inc:105 projects.inc:113
 msgid "Biology"
-msgstr ""
+msgstr "Biologija"
 
 #: projects.inc:106
 msgid ""
@@ -196,7 +195,7 @@ msgstr ""
 
 #: projects.inc:110
 msgid "SIMAP"
-msgstr ""
+msgstr "SIMAP"
 
 #: projects.inc:112
 msgid "University of Vienna"
@@ -208,6 +207,9 @@ msgid ""
 "the resulting data, which plays a key role in many bioinformatics research "
 "projects."
 msgstr ""
+"Skaičiuoja panašumus tarp baltymų. SIMAP pateikia viešai prieinamą rezultatų "
+"duomenų bazę, kuri yra svarbus aspektas daugelyje bioinformatikos tyrimų "
+"projektų."
 
 #: projects.inc:120
 msgid "Earth Sciences"
@@ -215,7 +217,7 @@ msgstr ""
 
 #: projects.inc:130
 msgid "Virtual Prairie"
-msgstr ""
+msgstr "Virtual Prairie"
 
 #: projects.inc:132
 msgid "University of Houston"
@@ -223,7 +225,7 @@ msgstr ""
 
 #: projects.inc:133
 msgid "Study of botanical ecosystems"
-msgstr ""
+msgstr "Botanikos ekosistemų studijos"
 
 #: projects.inc:134
 msgid ""
@@ -233,7 +235,7 @@ msgstr ""
 
 #: projects.inc:137
 msgid "Climateprediction.net"
-msgstr ""
+msgstr "Climateprediction.net"
 
 #: projects.inc:139
 msgid "Oxford University"
@@ -241,7 +243,7 @@ msgstr ""
 
 #: projects.inc:140
 msgid "Climate study"
-msgstr ""
+msgstr "Klimato studijos"
 
 #: projects.inc:141
 msgid ""
@@ -257,11 +259,11 @@ msgstr ""
 
 #: projects.inc:148
 msgid "Astronomy/Physics/Chemistry"
-msgstr ""
+msgstr "Astronomija, fizika, chemija"
 
 #: projects.inc:151
 msgid "eOn"
-msgstr ""
+msgstr "eOn"
 
 #: projects.inc:153
 msgid "University of Texas at Austin"
@@ -269,7 +271,7 @@ msgstr ""
 
 #: projects.inc:154 projects.inc:185 projects.inc:225
 msgid "Chemistry"
-msgstr ""
+msgstr "Chemija"
 
 #: projects.inc:155
 msgid ""
@@ -286,7 +288,7 @@ msgstr ""
 
 #: projects.inc:158
 msgid "Orbit@home"
-msgstr ""
+msgstr "Orbit@home"
 
 #: projects.inc:160
 msgid "Planetary Science Institute"

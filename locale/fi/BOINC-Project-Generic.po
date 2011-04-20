@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2010-10-06 13:10 PDT\n"
-"PO-Revision-Date: 2011-03-30 18:37+0200\n"
+"PO-Revision-Date: 2011-04-13 15:05+0200\n"
 "Last-Translator: Sami Nordlund <sami.nordlund@kolumbus.fi>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: fi\n"
@@ -398,7 +398,7 @@ msgstr ""
 
 #: ../inc/host.inc:460
 msgid "Host %1 has overlapping lifetime:"
-msgstr ""
+msgstr "Koneella %1 on päällekkäinen käyttöaika:"
 
 #: ../inc/host.inc:467
 msgid "Host %1 has an incompatible OS:"
@@ -1186,7 +1186,7 @@ msgstr "Liian monta tehtävää (voi olla päättämätön)"
 
 #: ../inc/result.inc:230
 msgid "Too many total results"
-msgstr ""
+msgstr "Liian monta tehtävää kaikkiaan"
 
 #: ../inc/result.inc:234
 msgid "WU cancelled"
@@ -1426,7 +1426,7 @@ msgstr "Pyyntö vaihtaa perustaja"
 
 #: ../inc/team.inc:140
 msgid "Respond by %1"
-msgstr ""
+msgstr "Vastaus %1 mennessä"
 
 #: ../inc/team.inc:144
 msgid "Team foundership change"
@@ -1514,7 +1514,7 @@ msgstr "Älä käytä HTML-tageja."
 
 #: ../inc/team.inc:425
 msgid "Team name, HTML version"
-msgstr "Tiimin nim, HTML-versio"
+msgstr "Tiimin nimi, HTML-versio"
 
 #: ../inc/team.inc:427 ../inc/team.inc:437
 msgid "You may use %1limited HTML tags%2."
@@ -3226,7 +3226,7 @@ msgstr ""
 
 #: ../user/stats.php:23
 msgid "Statistics and leaderboards"
-msgstr ""
+msgstr "Tilastot ja sijalistaukset"
 
 #: ../user/stats.php:27
 msgid "Statistics for %1"
@@ -3349,6 +3349,8 @@ msgid ""
 "Moderate the team forum, if any (admins get email notification of moderation "
 "events and red X reports)"
 msgstr ""
+"Moderoi tiimin foorumia (ylläpitäjät saavat sähköposti-ilmoituksen "
+"moderointitapahtumista)"
 
 #: ../user/team_admins.php:45
 msgid "Team Admins cannot:"
@@ -3473,6 +3475,10 @@ msgid ""
 "                  To accept the request, assign foundership to %3 using the "
 "form below."
 msgstr ""
+"Jos et torju pyyntöä %1 mennessä, %2 saa mahdollisuuden ottaa tiimin "
+"perustajuus.<br /><br />\n"
+"                  Hyväksy pyyntö liittämällä perustajuus %3:lle allaolevalla "
+"lomakeella."
 
 #: ../user/team_change_founder_form.php:64
 msgid "No transfer request is pending."
@@ -3528,7 +3534,7 @@ msgstr "Tiimin %1 historia"
 
 #: ../user/team_delta.php:74
 msgid "When"
-msgstr ""
+msgstr "Milloin"
 
 #: ../user/team_delta.php:75
 msgid "User"
@@ -3970,12 +3976,16 @@ msgid ""
 "Team admins are encouraged to join and participate in the Google %1boinc-"
 "team-founders%2 group."
 msgstr ""
+"Tiimin ylläpitäjiä rohkaistaan liittymään ja osallistumaan Googlen %1boinc-"
+"team-founders%2 -ryhmään."
 
 #: ../user/team_manage.php:73
 msgid ""
 "Other resources for BOINC team admins are available from a third-party site, "
 "%1www.boincteams.com%2."
 msgstr ""
+"Lisää tietoa BOINC-tiimien ylläpitäjille löytyy osoitteesta %"
+"1www.boincteams.com%2."
 
 #: ../user/team_manage.php:89
 msgid "Can't delete non-empty team"

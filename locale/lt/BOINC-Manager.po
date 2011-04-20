@@ -7,8 +7,8 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 4.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-03-07 12:02-0500\n"
-"PO-Revision-Date: 2010-09-17 22:44+0200\n"
-"Last-Translator: Anonymous Pootle User\n"
+"PO-Revision-Date: 2011-04-16 14:11+0200\n"
+"Last-Translator: Rytis Slatkevičius <rytis.s@gmail.com>\n"
 "Language-Team: BOINC Development Team <rwalton@ssl.berkeley.edu>\n"
 "Language: lt\n"
 "MIME-Version: 1.0\n"
@@ -24,8 +24,6 @@ msgstr ""
 "X-Poedit-SourceCharset: utf-8\n"
 "X-Poedit-Basepath: C:\\Src\\BOINCSVN\\trunk\\boinc\n"
 "X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
-"X-Poedit-Country: UNITED STATES\n"
-"X-Poedit-Language: English\n"
 
 #: clientgui/AccountInfoPage.cpp:386
 msgid "Identify your account "
@@ -40,13 +38,12 @@ msgstr ""
 "(norėdami prisiregistruoti, apsilankykite projekto tinklapyje)"
 
 #: clientgui/AccountInfoPage.cpp:396
-#, fuzzy
 msgid ""
 "This project is not currently accepting new accounts.\n"
 "You can add it only if you already have an account."
 msgstr ""
 "Šis projektas neleidžia registruotis naujiems dalyviams.\n"
-"Galite prisijungti, tik jei jau esate užsiregistravęs."
+"Galite prisijungti tik jei jau esate užsiregistravęs."
 
 #: clientgui/AccountInfoPage.cpp:400
 msgid "Are you already running this project?"
@@ -131,9 +128,8 @@ msgid "Update account manager"
 msgstr "Susisiekti su abonemento valdikliu"
 
 #: clientgui/AccountInfoPage.cpp:575
-#, fuzzy
 msgid "Use account manager"
-msgstr "Prisijungti prie abonemento valdiklio"
+msgstr "Naudoti abonemento valdiklį"
 
 #: clientgui/AccountInfoPage.cpp:583
 #, c-format
@@ -215,11 +211,11 @@ msgstr "Išeiti iš %s"
 
 #: clientgui/AdvancedFrame.cpp:358
 msgid "&Notices\tCtrl+Shift+N"
-msgstr ""
+msgstr "Pra&nešimai\t Ctrl+Shift+N"
 
 #: clientgui/AdvancedFrame.cpp:359
 msgid "Display notices"
-msgstr ""
+msgstr "Rodyti pranešimus"
 
 #: clientgui/AdvancedFrame.cpp:364
 msgid "&Projects\tCtrl+Shift+P"
@@ -255,11 +251,11 @@ msgstr "Rodyti statistiką"
 
 #: clientgui/AdvancedFrame.cpp:388
 msgid "&Disk usage\tCtrl+Shift+D"
-msgstr ""
+msgstr "&Disko naudojimas\t Ctrl+Shift+D"
 
 #: clientgui/AdvancedFrame.cpp:389
 msgid "Display disk usage"
-msgstr ""
+msgstr "Rodyti disko naudojimą"
 
 #: clientgui/AdvancedFrame.cpp:396
 msgid "Simple &View...\tCtrl+Shift+V"
@@ -276,6 +272,8 @@ msgstr "&Prisijungti prie projekto ar abonemento valdiklio..."
 #: clientgui/AdvancedFrame.cpp:418
 msgid "Volunteer for any or all of 30+ projects in many areas of science"
 msgstr ""
+"Būkite savanoriu viename ar keliuose iš daugiau kaip 30 projektų įvairiose "
+"mokslo srityse"
 
 #: clientgui/AdvancedFrame.cpp:422
 #, c-format
@@ -306,12 +304,11 @@ msgstr "Nebenaudoti abonemento valdiklio šio kompiuterio valdymui."
 
 #: clientgui/AdvancedFrame.cpp:451
 msgid "Display and network &options..."
-msgstr ""
+msgstr "Vartotojo sąsaj&os ir tinklo nustatymai..."
 
 #: clientgui/AdvancedFrame.cpp:452
-#, fuzzy
 msgid "Configure display options and proxy settings"
-msgstr "Vartotojo sąsajos ir tarpinio serverio nustatymai"
+msgstr "Vartotojo sąsajos ir įgaliotojo serverio nustatymai"
 
 #: clientgui/AdvancedFrame.cpp:456
 msgid "Computing &preferences..."
