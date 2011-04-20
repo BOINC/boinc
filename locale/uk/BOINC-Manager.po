@@ -2,19 +2,21 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-03-07 12:00-0500\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"PO-Revision-Date: 2011-04-19 14:40+0200\n"
+"Last-Translator: Dead J. Dona <deadjdona@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: uk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Translate Toolkit 1.2.1\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%"
+"10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"X-Generator: Pootle 2.1.1\n"
 "X-Poedit-SearchPath-1: clientgui/msw\n"
 "X-Poedit-SearchPath-2: clientgui/mac\n"
 "X-Poedit-SearchPath-3: clientgui/gtk\n"
@@ -22,36 +24,38 @@ msgstr ""
 "X-Poedit-SourceCharset: utf-8\n"
 "X-Poedit-Basepath: C:\\Src\\BOINCSVN\\branches\\boinc_core_release_6_12\n"
 "X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
-"X-Poedit-Country: UNITED STATES\n"
-"X-Poedit-Language: English\n"
 
 #: clientgui/AccountInfoPage.cpp:386
 msgid "Identify your account "
-msgstr ""
+msgstr "Визначте Ваш обліковий запис"
 
 #: clientgui/AccountInfoPage.cpp:392
 msgid ""
 "Please enter your account information\n"
 "(to create an account, visit the project's web site)"
 msgstr ""
+"Будь ласка, вкажіть дані облікового запису\n"
+"(щоб створити запис, відвідайте сайт проекту)"
 
 #: clientgui/AccountInfoPage.cpp:396
 msgid ""
 "This project is not currently accepting new accounts.\n"
 "You can add it only if you already have an account."
 msgstr ""
+"Створення нових облікових записів в цьому проекті заборонено.\n"
+"Ви можете додати цей проект тільки якщо Ви вже зареєстровані."
 
 #: clientgui/AccountInfoPage.cpp:400
 msgid "Are you already running this project?"
-msgstr ""
+msgstr "Ви вже зареєстровані у цьому проекті?"
 
 #: clientgui/AccountInfoPage.cpp:404
 msgid "&No, new user"
-msgstr ""
+msgstr "&Ні, новий користувач"
 
 #: clientgui/AccountInfoPage.cpp:407
 msgid "&Yes, existing user"
-msgstr ""
+msgstr "&Так, вже зареєстрований"
 
 #: clientgui/AccountInfoPage.cpp:412
 msgid ""
@@ -62,46 +66,52 @@ msgid ""
 "below to find out what to put in the email address and\n"
 "password fields."
 msgstr ""
+"Не вдалося автоматично налаштувати Ваш\n"
+"обліковий запис.\n"
+"\n"
+"Будь ласка, перейдіть за посиланням\n"
+"\"Знайти реєстраційні дані\", що знаходиться нижче,\n"
+"щоб дізнатися що ввести в поля адреси електронної пошти та паролю."
 
 #: clientgui/AccountInfoPage.cpp:415
 msgid "Find login information"
-msgstr ""
+msgstr "Знайти реєстраційні дані"
 
 #: clientgui/AccountInfoPage.cpp:435
 #: clientgui/AccountInfoPage.cpp:635
 msgid "&Password:"
-msgstr ""
+msgstr "&Пароль:"
 
 #: clientgui/AccountInfoPage.cpp:442
 #: clientgui/AccountInfoPage.cpp:659
 msgid "Choose a &password:"
-msgstr ""
+msgstr "Оберіть &пароль:"
 
 #: clientgui/AccountInfoPage.cpp:445
 msgid "C&onfirm password:"
-msgstr ""
+msgstr "П&ідтвердіть пароль:"
 
 #: clientgui/AccountInfoPage.cpp:452
 #, c-format
 msgid "Are you already running %s?"
-msgstr ""
+msgstr "Ви вже зареєстровані у проекті %s?"
 
 #: clientgui/AccountInfoPage.cpp:481
 msgid "&Username:"
-msgstr ""
+msgstr "Ім'я &учасника:"
 
 #: clientgui/AccountInfoPage.cpp:507
 msgid "&Email address:"
-msgstr ""
+msgstr "Адреса &електронної пошти:"
 
 #: clientgui/AccountInfoPage.cpp:514
 #, c-format
 msgid "minimum length %d"
-msgstr ""
+msgstr "мінімум %d символів"
 
 #: clientgui/AccountInfoPage.cpp:521
 msgid "Forgot your password?"
-msgstr ""
+msgstr "Забули пароль?"
 
 #: clientgui/AccountInfoPage.cpp:528
 msgid ""
@@ -109,249 +119,263 @@ msgid ""
 "please do so before proceeding.  Click on the link below\n"
 "to register or to retrieve a forgotten password."
 msgstr ""
+"Якщо Ви ще досі не зареєстровані в цьому менеджері облікових записів,\n"
+"будь ласка, зробіть це до того, як продовжити. Перейдіть за посиланням\n"
+"нижче, щоб зареєструватися або відновити загублений пароль."
 
 #: clientgui/AccountInfoPage.cpp:531
 msgid "Account manager website"
-msgstr ""
+msgstr "Веб-сайт менеджера облікових записів"
 
 #: clientgui/AccountInfoPage.cpp:571
 msgid "Add project"
-msgstr ""
+msgstr "Додати проект"
 
 #: clientgui/AccountInfoPage.cpp:573
 msgid "Update account manager"
-msgstr ""
+msgstr "Оновити менеджера облікових записів"
 
 #: clientgui/AccountInfoPage.cpp:575
 msgid "Use account manager"
-msgstr ""
+msgstr "Використати менеджер облікових записів"
 
 #: clientgui/AccountInfoPage.cpp:583
 #, c-format
 msgid "The minimum password length for this project is %d. Please enter a different password."
 msgstr ""
+"Мінімальна довжина паролю для цього проекту %d символів. Змініть, будь "
+"ласка, пароль."
 
 #: clientgui/AccountInfoPage.cpp:589
 #, c-format
 msgid "The minimum password length for this account manager is %d. Please enter a different password."
 msgstr ""
+"Мінімальна довжина паролю для цього менеджера облікових записів %d символів. "
+"Вкажіть, будь ласка, інший пароль."
 
 #: clientgui/AccountInfoPage.cpp:601
 msgid "The password and confirmation password do not match. Please type them again."
 msgstr ""
+"'Пароль' і 'Підтвердження пароля' не однакові. Будь ласка, напишіть їх "
+"знову."
 
 #: clientgui/AccountManagerInfoPage.cpp:248
 msgid "Choose an account manager"
-msgstr ""
+msgstr "Оберіть менеджер проектів"
 
 #: clientgui/AccountManagerInfoPage.cpp:251
 msgid ""
 "To choose an account manager, click its name or \n"
 "type its URL below."
 msgstr ""
+"Оберіть вподобаний менеджер проектів, натиснувши на його назву,\n"
+"або введіть його адресу URL в полі нижче."
 
 #: clientgui/AccountManagerInfoPage.cpp:254
 msgid "Account Manager &URL:"
-msgstr ""
+msgstr "Адреса (URL) менеджера проектів:"
 
 #: clientgui/AccountManagerProcessingPage.cpp:188
 #: clientgui/AccountManagerPropertiesPage.cpp:194
 #, c-format
 msgid "Communicating with %s."
-msgstr ""
+msgstr "Спілкування з %s."
 
 #: clientgui/AccountManagerProcessingPage.cpp:195
 #: clientgui/AccountManagerPropertiesPage.cpp:201
 msgid "Communicating with server."
-msgstr ""
+msgstr "Спілкування з сервером."
 
 #: clientgui/AccountManagerProcessingPage.cpp:200
 #: clientgui/AccountManagerPropertiesPage.cpp:206
 msgid "Please wait..."
-msgstr ""
+msgstr "Почекайте, будь ласка..."
 
 #: clientgui/AccountManagerProcessingPage.cpp:327
 msgid "An internal server error has occurred.\n"
-msgstr ""
+msgstr "Сталася внутрішня помилка сервера.\n"
 
 #: clientgui/AdvancedFrame.cpp:95
 msgid "Connected"
-msgstr ""
+msgstr "З'єднано"
 
 #: clientgui/AdvancedFrame.cpp:103
 msgid "Disconnected"
-msgstr ""
+msgstr "Від'єднано"
 
 #: clientgui/AdvancedFrame.cpp:316
 #, c-format
 msgid "Close the %s window"
-msgstr ""
+msgstr "Закрийте вікно %s"
 
 #: clientgui/AdvancedFrame.cpp:319
 msgid "&Close Window"
-msgstr ""
+msgstr "&Закрити вікно"
 
 #: clientgui/AdvancedFrame.cpp:330
 #: clientgui/AdvancedFrame.cpp:337
 #: clientgui/AdvancedFrame.cpp:344
 #, c-format
 msgid "Exit %s"
-msgstr ""
+msgstr "Вийти з %s"
 
 #: clientgui/AdvancedFrame.cpp:359
 msgid "&Notices\tCtrl+Shift+N"
-msgstr ""
+msgstr "&Повідомлення\t Ctrl+Shift+N"
 
 #: clientgui/AdvancedFrame.cpp:360
 msgid "Display notices"
-msgstr ""
+msgstr "Показати вкладку повідомлень"
 
 #: clientgui/AdvancedFrame.cpp:365
 msgid "&Projects\tCtrl+Shift+P"
-msgstr ""
+msgstr "П&роекти\t Ctrl+Shift+P"
 
 #: clientgui/AdvancedFrame.cpp:366
 msgid "Display projects"
-msgstr ""
+msgstr "Показати вкладку проектів"
 
 #: clientgui/AdvancedFrame.cpp:371
 msgid "&Tasks\tCtrl+Shift+T"
-msgstr ""
+msgstr "&Завдання\t Ctrl+Shift+T"
 
 #: clientgui/AdvancedFrame.cpp:372
 msgid "Display tasks"
-msgstr ""
+msgstr "Показати вкладку завдань"
 
 #: clientgui/AdvancedFrame.cpp:377
 msgid "Trans&fers\tCtrl+Shift+X"
-msgstr ""
+msgstr "Пере&дачі\t Ctrl+Shift+X"
 
 #: clientgui/AdvancedFrame.cpp:378
 msgid "Display transfers"
-msgstr ""
+msgstr "Показати вкладку передач"
 
 #: clientgui/AdvancedFrame.cpp:383
 msgid "&Statistics\tCtrl+Shift+S"
-msgstr ""
+msgstr "&Статистика\t Ctrl+Shift+S"
 
 #: clientgui/AdvancedFrame.cpp:384
 msgid "Display statistics"
-msgstr ""
+msgstr "Показати вкладку статистики"
 
 #: clientgui/AdvancedFrame.cpp:389
 msgid "&Disk usage\tCtrl+Shift+D"
-msgstr ""
+msgstr "&Використання диску\t Ctrl+Shift+D"
 
 #: clientgui/AdvancedFrame.cpp:390
 msgid "Display disk usage"
-msgstr ""
+msgstr "Показати вкладку використання диску"
 
 #: clientgui/AdvancedFrame.cpp:397
 msgid "Simple &View...\tCtrl+Shift+V"
-msgstr ""
+msgstr "Спрощений &вигляд...\t Ctrl+Shift+V"
 
 #: clientgui/AdvancedFrame.cpp:398
 msgid "Display the simple graphical interface."
-msgstr ""
+msgstr "Змінити зовнішній вигляд на спрощений."
 
 #: clientgui/AdvancedFrame.cpp:418
 msgid "&Add project or account manager..."
-msgstr ""
+msgstr "&Додати проект або менеджер проектів..."
 
 #: clientgui/AdvancedFrame.cpp:419
 msgid "Volunteer for any or all of 30+ projects in many areas of science"
 msgstr ""
+"Станьте учасником у будь-якому або в усіх 30+ проектах у багатьох галузях "
+"науки"
 
 #: clientgui/AdvancedFrame.cpp:423
 #, c-format
 msgid "&Synchronize with %s"
-msgstr ""
+msgstr "&Синхронізуватися з %s"
 
 #: clientgui/AdvancedFrame.cpp:427
 #, c-format
 msgid "Get current settings from %s"
-msgstr ""
+msgstr "Отримати поточні налаштування з %s"
 
 #: clientgui/AdvancedFrame.cpp:437
 msgid "&Add project..."
-msgstr ""
+msgstr "&Додати проект..."
 
 #: clientgui/AdvancedFrame.cpp:438
 msgid "Add a project"
-msgstr ""
+msgstr "Додати проект"
 
 #: clientgui/AdvancedFrame.cpp:441
 #, c-format
 msgid "S&top using %s..."
-msgstr ""
+msgstr "Припинити користатися %s..."
 
 #: clientgui/AdvancedFrame.cpp:447
 msgid "Remove this computer from account manager control."
-msgstr ""
+msgstr "Від'єднати цей комп'ютер від менеджера проектів."
 
 #: clientgui/AdvancedFrame.cpp:452
 msgid "Display and network &options..."
-msgstr ""
+msgstr "Налаштування інтерфейсу і мережі..."
 
 #: clientgui/AdvancedFrame.cpp:453
 msgid "Configure display options and proxy settings"
-msgstr ""
+msgstr "Налаштування графічного інтерфейсу програми і проксі серверів"
 
 #: clientgui/AdvancedFrame.cpp:457
 msgid "Computing &preferences..."
-msgstr ""
+msgstr "Налаштування клієнта..."
 
 #: clientgui/AdvancedFrame.cpp:458
 msgid "Configure computing preferences"
-msgstr ""
+msgstr "Змінити локальні налаштування обчислень підключеного клієнта"
 
 #: clientgui/AdvancedFrame.cpp:466
 msgid "&Run always"
-msgstr ""
+msgstr "&Працювати постійно"
 
 #: clientgui/AdvancedFrame.cpp:467
 msgid "Allow work regardless of preferences"
-msgstr ""
+msgstr "Обробляти завдання не зважаючи на налаштування"
 
 #: clientgui/AdvancedFrame.cpp:471
 msgid "Run based on &preferences"
-msgstr ""
+msgstr "Працювати згідно з налаштуваннями"
 
 #: clientgui/AdvancedFrame.cpp:472
 msgid "Allow work according to preferences"
-msgstr ""
+msgstr "Обробляти завдання відповідно до налаштувань"
 
 #: clientgui/AdvancedFrame.cpp:476
 msgid "&Suspend"
-msgstr ""
+msgstr "Припинити обробку"
 
 #: clientgui/AdvancedFrame.cpp:477
 msgid "Stop work regardless of preferences"
-msgstr ""
+msgstr "Призупинити обробку всіх завдань в усіх проектах"
 
 #: clientgui/AdvancedFrame.cpp:502
 msgid "Use GPU always"
-msgstr ""
+msgstr "Використовувати відеокарту постійно"
 
 #: clientgui/AdvancedFrame.cpp:503
 msgid "Allow GPU work regardless of preferences"
-msgstr ""
+msgstr "Використовувати відеокарту постійно не зважаючи на налаштування"
 
 #: clientgui/AdvancedFrame.cpp:507
 msgid "Use GPU based on preferences"
-msgstr ""
+msgstr "Обробляти GPU завдання згідно з налаштуваннями"
 
 #: clientgui/AdvancedFrame.cpp:508
 msgid "Allow GPU work according to preferences"
-msgstr ""
+msgstr "Обробляти GPU завдання відповідно до налаштувань"
 
 #: clientgui/AdvancedFrame.cpp:512
 msgid "Suspend GPU"
-msgstr ""
+msgstr "Призупинити обробку GPU завдань в усіх проектах"
 
 #: clientgui/AdvancedFrame.cpp:513
 msgid "Stop GPU work regardless of preferences"
 msgstr ""
+"Призупинити обробку GPU завдань в усіх проектах не зважаючи на налаштування"
 
 #: clientgui/AdvancedFrame.cpp:537
 msgid "Network activity always available"
@@ -3743,52 +3767,54 @@ msgstr ""
 
 #: clientgui/mac/MacAccessiblity.cpp:881
 msgid "blank"
-msgstr ""
+msgstr "порожній"
 
 #: clientgui/mac/MacAccessiblity.cpp:1523
 msgid "list of projects or account managers"
-msgstr ""
+msgstr "список проектів або менеджерів аккаунтів"
 
 #: clientgui/mac/MacAccessiblity.cpp:1575
 #, c-format
 msgid "selected row %d of %d; "
-msgstr ""
+msgstr "вибраний рядок %d з %d; "
 
 #: clientgui/mac/MacAccessiblity.cpp:1577
 #, c-format
 msgid "row %d of %d; "
-msgstr ""
+msgstr "рядок %d з %d;"
 
 #: clientgui/mac/Mac_GUI.cpp:105
 msgid "Preferences…"
-msgstr ""
+msgstr "Налаштування..."
 
 #: clientgui/mac/Mac_GUI.cpp:117
 msgid "Services"
-msgstr ""
+msgstr "Сервіси"
 
 #: clientgui/mac/Mac_GUI.cpp:139
 #, c-format
 msgid "Hide %s"
-msgstr ""
+msgstr "Приховати %s"
 
 #: clientgui/mac/Mac_GUI.cpp:153
 msgid "Hide Others"
-msgstr ""
+msgstr "Приховати інші"
 
 #: clientgui/mac/Mac_GUI.cpp:167
 msgid "Show All"
-msgstr ""
+msgstr "Показати усе"
 
 #: clientgui/mac/Mac_GUI.cpp:181
 #, c-format
 msgid "Quit %s"
-msgstr ""
+msgstr "Вийти з %s"
 
 #: clientgui/DlgAdvPreferences.h:29
 msgid "specify work start and stop hours in format HH:MM-HH:MM"
-msgstr ""
+msgstr "задайте час коли дозволено обробляти завдання у форматі ГГ:ХХ-ГГ:ХХ"
 
 #: clientgui/DlgAdvPreferences.h:30
 msgid "specify network usage start and stop hours in format HH:MM-HH:MM"
 msgstr ""
+"задайте час коли клієнтові дозволено підключатися до інтернету у форматі "
+"ГГ:ХХ-ГГ:ХХ"
