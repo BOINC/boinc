@@ -130,6 +130,7 @@ void handle_sr_feeds(vector<RSS_FEED>& feeds, PROJ_AM* p) {
             RSS_FEED& rf2 = p->proj_feeds[j];
             if (!strcmp(rf.url, rf2.url)) {
                 rf2 = rf;
+                rf2.found = true;
                 present = true;
                 break;
             }
