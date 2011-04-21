@@ -141,6 +141,7 @@ int COPROCS::parse(MIOFILE& fin) {
     int retval;
 
     n_rsc = 1;
+    strcpy(coprocs[0].type, "CPU");
     while (fin.fgets(buf, sizeof(buf))) {
         if (match_tag(buf, "</coprocs>")) {
             return 0;

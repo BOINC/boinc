@@ -396,6 +396,7 @@ int CLIENT_STATE::parse_state_file_aux(const char* fname) {
         if (match_tag(buf, "<host_info>")) {
 #ifdef SIM
             retval = host_info.parse(mf, false);
+            coprocs = host_info._coprocs;
 #else
             retval = host_info.parse(mf, true);
 #endif

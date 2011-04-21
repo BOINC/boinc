@@ -354,6 +354,15 @@ int SCHED_CONFIG::download_path(const char* filename, char* path) {
     return dir_hier_path(filename, download_dir, uldl_dir_fanout, path, true);
 }
 
+static bool is_project_dir(const char* dir) {
+    char buf[1024];
+    sprintf(buf, "%s/%s", dir, CONFIG_FILE);
+    if (!is_file(buf)) return false;
+    sprintf(buf, "%s/cgi-bin", dir);
+    if (!is_dir(buf)) return false;
+    return true;
+}
+
 // Does 2 things:
 // - locate project directory.  This is either
 //      a) env var BOINC_PROJECT_DIR, if defined
@@ -369,11 +378,18 @@ const char *SCHED_CONFIG::project_path(const char *fmt, ...) {
     if (!strlen(project_dir)) {
         char *p = getenv("BOINC_PROJECT_DIR");
         if (p) {
+            if (!is_project_dir(p)) {
+                fprintf(stderr, "BOINC_PROJECT_DIR env var exists but is not a project dir\n");
+                exit(1);
+            }
             strlcpy(project_dir, p, sizeof(project_dir));
-        } else if (boinc_file_exists(CONFIG_FILE)) {
+        } else if (is_project_dir(".")) {
             strcpy(project_dir, ".");
-        } else {
+        } else if (is_project_dir("..")) {
             strcpy(project_dir, "..");
+        } else {
+            fprintf(stderr, "Not in a project directory or subdirectory\n");
+            exit(1);
         }
     }
 

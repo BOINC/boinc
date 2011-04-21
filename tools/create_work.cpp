@@ -214,7 +214,6 @@ int main(int argc, const char** argv) {
     }
     if (!strlen(wu.name)) {
         sprintf(wu.name, "%s_%d_%f", app.name, getpid(), dtime());
-        printf("workunit name: %s\n", wu.name);
     }
     if (!strlen(wu_template_file)) {
         sprintf(wu_template_file, "templates/%s_in", app.name);
@@ -281,6 +280,8 @@ int main(int argc, const char** argv) {
     if (retval) {
         fprintf(stderr, "create_work: %d\n", retval);
         exit(1);
+    } else {
+        printf("workunit name: %s\n", wu.name);
     }
     if (assign_flag) {
         DB_ASSIGNMENT assignment;

@@ -78,8 +78,8 @@
 #define SCHED_RETRY_DELAY_MIN    60                // 1 minute
 #define SCHED_RETRY_DELAY_MAX    (60*60*4)         // 4 hours
 
-const char* infile_prefix = ".";
-const char* outfile_prefix = ".";
+const char* infile_prefix = "./";
+const char* outfile_prefix = "./";
 
 #define TIMELINE_FNAME "timeline.html"
 #define LOG_FNAME "log.txt"
@@ -687,11 +687,7 @@ double CLIENT_STATE::monotony() {
 void SIM_RESULTS::compute() {
     double flops_total = cpu_peak_flops()*active_time
         + gpu_peak_flops()*gpu_active_time;
-    fprintf(summary_file, "total %fG\n", flops_total/1e9);
     double flops_idle = flops_total - flops_used;
-    fprintf(summary_file, "used: %fG wasted: %fG idle: %fG\n",
-        flops_used/1e9, flops_wasted/1e9, flops_idle/1e9
-    );
     wasted_frac = flops_wasted/flops_total;
     idle_frac = flops_idle/flops_total;
     share_violation = gstate.share_violation();
@@ -701,7 +697,12 @@ void SIM_RESULTS::compute() {
 void SIM_RESULTS::print(FILE* f, bool human_readable) {
     double r = ((double)nrpcs)/(njobs*2);
     if (human_readable) {
-        fprintf(f, "wasted fraction %f\nIdle fraction %f\nShare violation %f\nMonotony %f r %f\n",
+        fprintf(f,
+            "wasted fraction %f\n"
+            "Idle fraction %f\n"
+            "Share violation %f\n"
+            "Monotony %f\n"
+            "RPCs per job %f\n",
             wasted_frac, idle_frac, share_violation, monotony, r
         );
     } else {
@@ -740,7 +741,7 @@ void PROJECT::print_results(FILE* f, SIM_RESULTS& sr) {
     double gt = sr.flops_used;
     fprintf(f, "%s: share %.2f total flops %.2fG (%.2f%%)\n"
         "   used %.2fG wasted %.2fG\n"
-        "   met %d missed %d\n",
+        "   deadlines: met %d missed %d\n",
         project_name, resource_share,
         t/1e9, (t/gt)*100,
         project_results.flops_used/1e9,
@@ -799,14 +800,16 @@ void show_resource(int rsc_type) {
     for (i=0; i<gstate.active_tasks.active_tasks.size(); i++) {
         ACTIVE_TASK* atp = gstate.active_tasks.active_tasks[i];
         RESULT* rp = atp->result;
-        if (rsc_type!=RSC_TYPE_CPU && rp->resource_type() != rsc_type) continue;
         if (atp->task_state() != PROCESS_EXECUTING) continue;
-        PROJECT* p = rp->project;
         double ninst=0;
-        if (rsc_type == rp->avp->gpu_usage.rsc_type) {
+        if (rsc_type) {
+            if (rp->avp->gpu_usage.rsc_type != rsc_type) continue;
             ninst = rp->avp->gpu_usage.usage;
+        } else {
+            ninst = rp->avp->avg_ncpus;
         }
 
+        PROJECT* p = rp->project;
         fprintf(html_out, "%.2f: <font color=%s>%s%s: %.2fG</font><br>",
             ninst,
             colors[p->index%NCOLORS],
@@ -881,7 +884,7 @@ void html_rec() {
     fprintf(html_out, "<table border=0 cellpadding=4><tr><td width=%d valign=top>%.0f</td>", WIDTH1, gstate.now);
 
     if (active) {
-        show_resource(RSC_TYPE_CPU);
+        show_resource(0);
         if (gpu_active) {
             for (int i=1; i<coprocs.n_rsc; i++) {
                 show_resource(i);
@@ -1071,25 +1074,25 @@ void simulate() {
     gstate.now = start;
     html_start();
     fprintf(summary_file,
-        "hardware\n   %d CPUs, %fG\n",
+        "Hardware summary\n   %d CPUs, %.1f GFLOPS\n",
         gstate.host_info.p_ncpus, gstate.host_info.p_fpops/1e9
     );
     for (int i=1; i<coprocs.n_rsc; i++) {
         fprintf(summary_file,
-            "   %d %s GPUs, %fG\n",
+            "   %d %s GPUs, %.1f GFLOPS\n",
             coprocs.coprocs[i].count,
             coprocs.coprocs[i].type,
             coprocs.coprocs[i].peak_flops/1e9
         );
     }
     fprintf(summary_file,
-        "preferences\n"
-        "   buf min %f max %f\n"
-        "   cpu sched period %f\n"
-        "policies\n"
-        "   WRR only: %s\n"
-        "   scheduler EDF sim: %s\n"
-        "   hysteresis work fetch: %s\n"
+        "Preferences summary\n"
+        "   work buf min %f max %f\n"
+        "   Scheduling period %f\n"
+        "Scheduling policies\n"
+        "   Round-robin only: %s\n"
+        "   Scheduler EDF simulation: %s\n"
+        "   Hysteresis work fetch: %s\n"
         "   REC-based scheduling: %s\n",
         gstate.work_buf_min(), gstate.work_buf_total(),
         gstate.global_prefs.cpu_scheduling_period(),
@@ -1105,9 +1108,8 @@ void simulate() {
         );
     }
     fprintf(summary_file,
-        "sim params\n"
-        "   delta %f duration %f\n"
-        "starting simulation\n"
+        "Simulation parameters\n"
+        "   time step %f, duration %f\n"
         "-------------------\n",
         delta, duration
     );
@@ -1162,8 +1164,9 @@ if (use_rec) {
 
 void show_app(APP* app) {
     fprintf(summary_file,
-        "%s\n   app %s fpops_est %.0fG fpops mean %.0fG std_dev %.0fG latency %.2f weight %.2f\n",
-        app->project->project_name,
+        "   app %s\n"
+        "      job params: fpops_est %.0fG fpops mean %.0fG std_dev %.0fG\n"
+        "         latency %.2f weight %.2f\n",
         app->name, app->fpops_est/1e9,
         app->fpops.mean/1e9, app->fpops.std_dev/1e9,
         app->latency_bound,
@@ -1172,12 +1175,25 @@ void show_app(APP* app) {
     for (unsigned int i=0; i<gstate.app_versions.size(); i++) {
         APP_VERSION* avp = gstate.app_versions[i];
         if (avp->app != app) continue;
-        fprintf(summary_file,
-            "      app version %s %d (%s): ncpus %.2f rsc %d usage %.2f flops %.0fG\n",
-            avp->app_name, avp->version_num, avp->plan_class,
-            avp->avg_ncpus, avp->gpu_usage.rsc_type, avp->gpu_usage.usage,
-            avp->flops/1e9
-        );
+        if (avp->gpu_usage.rsc_type) {
+            fprintf(summary_file,
+                "      app version %d (%s)\n"
+                "         %.2f CPUs, %.2f %s GPUs, %.0f GFLOPS\n",
+                avp->version_num, avp->plan_class,
+                avp->avg_ncpus,
+                avp->gpu_usage.usage,
+                rsc_name(avp->gpu_usage.rsc_type),
+                avp->flops/1e9
+            );
+        } else {
+            fprintf(summary_file,
+                "      app version %d (%s)\n"
+                "         %.2f CPUs, %.0f GFLOPS\n",
+                avp->version_num, avp->plan_class,
+                avp->avg_ncpus,
+                avp->flops/1e9
+            );
+        }
     }
 }
 
@@ -1214,31 +1230,42 @@ void get_app_params() {
         APP_VERSION* avp = gstate.app_versions[i];
         avp->app->ignore = false;
     }
-    for (i=0; i<gstate.apps.size(); i++) {
-        app = gstate.apps[i];
-        if (!app->fpops_est || !app->latency_bound) {
-            app->ignore = true;
-            fprintf(summary_file,
-                "%s: ignoring app %s - no fpops_est or latency bound\n",
-                app->project->project_name,
-                app->name
-            );
-        } else if (app->ignore) {
-            fprintf(summary_file,
-                "%s: ignoring app %s - no app versions\n",
-                app->project->project_name,
-                app->name
-            );
-        } else {
-            if (!app->fpops.mean) {
-                app->fpops.mean = app->fpops_est;
+    fprintf(summary_file, "Applications and version\n");
+    for (j=0; j<gstate.projects.size(); j++) {
+        PROJECT* p = gstate.projects[j];
+        fprintf(summary_file, "%s\n", p->project_name);
+        for (i=0; i<gstate.apps.size(); i++) {
+            app = gstate.apps[i];
+            if (app->project != p) continue;
+            if (!app->fpops_est || !app->latency_bound) {
+                app->ignore = true;
+                fprintf(summary_file,
+                    "   app %s: ignoring - no job parameters (see below)\n",
+                    app->name
+                );
+            } else if (app->ignore) {
+                fprintf(summary_file,
+                    "   app %s: ignoring - no app versions\n",
+                    app->name
+                );
+            } else {
+                if (!app->fpops.mean) {
+                    app->fpops.mean = app->fpops_est;
+                }
+                if (!app->weight) {
+                    app->weight = 1;
+                }
+                show_app(app);
             }
-            if (!app->weight) {
-                app->weight = 1;
-            }
-            show_app(app);
         }
     }
+    fprintf(summary_file,
+        "\n"
+        "Note: an app's job parameters are taken from a job for that app.\n"
+        "   They can also be specified by adding tags to client_state.xml.\n"
+        "   See http://boinc.berkeley.edu/trac/wiki/ClientSim.\n"
+        "\n"
+    );
 }
 
 // zero backoffs and debts.
@@ -1286,7 +1313,7 @@ void cull_projects() {
         p = *iter;
         if (p->dont_request_more_work) {
             fprintf(summary_file,
-                "%s: Removing from simulation - no jobs in client_state.xml\n",
+                "%s: Removing from simulation - no apps\n",
                 p->project_name
             );
             iter = gstate.projects.erase(iter);
@@ -1294,19 +1321,11 @@ void cull_projects() {
             iter++;
         }
     }
-    for (i=0; i<gstate.projects.size(); i++) {
-        p = gstate.projects[i];
-        fprintf(summary_file, "%s: ", p->project_name);
-        for (int j=0; j<coprocs.n_rsc; j++) {
-            if (p->no_rsc_apps[j]) {
-                fprintf(summary_file, " no %s apps", coprocs.coprocs[j].type);
-            }
-        }
-    }
 }
 
 void do_client_simulation() {
     char buf[256], buf2[256];
+    int retval;
 
     sprintf(buf, "%s%s", infile_prefix, CONFIG_FILE);
     read_config_file(true, buf);
@@ -1318,7 +1337,11 @@ void do_client_simulation() {
         fprintf(stderr, "No client state file\n");
         exit(1);
     }
-    gstate.parse_state_file_aux(buf);
+    retval = gstate.parse_state_file_aux(buf);
+    if (retval) {
+        fprintf(stderr, "state file parse error %d\n", retval);
+        exit(1);
+    }
     sprintf(buf, "%s%s", infile_prefix, GLOBAL_PREFS_FILE_NAME);
     sprintf(buf2, "%s%s", infile_prefix, GLOBAL_PREFS_OVERRIDE_FILE);
     gstate.read_global_prefs(buf, buf2);
@@ -1331,6 +1354,7 @@ void do_client_simulation() {
 
     get_app_params();
     cull_projects();
+    fprintf(summary_file, "--------------------------\n");
 
     int j=0;
     for (unsigned int i=0; i<gstate.projects.size(); i++) {
@@ -1362,12 +1386,20 @@ if (use_rec) {
     sim_results.print(f, true);
     fclose(f);
 
-    fprintf(summary_file, "Peak FLOPS: CPU %.2fG GPU %.2fG\n",
+    fprintf(summary_file,
+        "Simulation done.\n"
+        "-------------------------\n"
+        "Figures of merit:\n"
+    );
+
+    sim_results.print(summary_file, true);
+
+    fprintf(summary_file,
+        "-------------------------\n"
+        "Peak FLOPS: CPU %.2fG GPU %.2fG\n",
         cpu_peak_flops()/1e9,
         gpu_peak_flops()/1e9
     );
-    sim_results.print(summary_file);
-
     print_project_results(summary_file);
 
 if (use_rec) {

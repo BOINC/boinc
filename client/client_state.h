@@ -479,7 +479,6 @@ struct CLIENT_STATE {
 };
 
 extern CLIENT_STATE gstate;
-extern COPROCS coprocs;
 
 extern bool gpus_usable;
     // set to false if GPUs not usable because of remote desktop

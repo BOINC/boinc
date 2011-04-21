@@ -981,10 +981,12 @@ int CLIENT_STATE::link_app_version(PROJECT* p, APP_VERSION* avp) {
     avp->app = app;
 
     if (lookup_app_version(app, avp->platform, avp->version_num, avp->plan_class)) {
+#ifndef SIM
         msg_printf(p, MSG_INTERNAL_ERROR,
             "State file error: duplicate app version: %s %s %d %s",
             avp->app_name, avp->platform, avp->version_num, avp->plan_class
         );
+#endif
         return ERR_NOT_UNIQUE;
     }
 

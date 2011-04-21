@@ -884,7 +884,7 @@ PROJECT* WORK_FETCH::choose_project() {
     PROJECT* p = 0;
 
     if (log_flags.work_fetch_debug) {
-        msg_printf(0, MSG_INFO, "[work_fetch]: work fetch start");
+        msg_printf(0, MSG_INFO, "[work_fetch] work fetch start");
     }
 
     p = non_cpu_intensive_project_needing_work();

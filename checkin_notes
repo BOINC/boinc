@@ -2392,3 +2392,20 @@ Charlie 21 Apr 2011
      mac_build/
         boinc.xcodeproj/
             project.pbxproj
+
+David  21 Apr 2011
+    - create_work and other tools: verify that the current dir,
+        parent dir, or BOINC_PROJECT_DIR actually is a project dir.
+    - client simulator: improvements
+
+    sched/
+        sched_config.cpp
+    tools/
+        create_work.cpp
+    lib/
+        coproc.cpp
+    client/
+        client_state.cpp,h
+        sim.cpp
+        work_fetch.cpp
+        cs_statefile.cpp
