@@ -307,6 +307,8 @@
 		DDC132F30E2DAB1B0014D305 /* AsyncRPC.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDC132F20E2DAB1B0014D305 /* AsyncRPC.cpp */; };
 		DDC321AE12E45162006CB55F /* sg_PanelBase.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDC321AC12E45162006CB55F /* sg_PanelBase.cpp */; };
 		DDC3D55E0D507D1700BE6D23 /* BOINCClientManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDC3D55C0D507D1700BE6D23 /* BOINCClientManager.cpp */; };
+		DDC55A6D136013D000D79903 /* procinfo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD2B6C7E13149177005D6F3E /* procinfo.cpp */; };
+		DDC55A70136013F800D79903 /* procinfo_mac.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDB6934F0ABFE9C600689FD8 /* procinfo_mac.cpp */; };
 		DDC836E60EDEA5DB001C2EF9 /* TermsOfUsePage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDC836E50EDEA5DB001C2EF9 /* TermsOfUsePage.cpp */; };
 		DDC988FE0F3BD44100EE8D0E /* gui_rpc_client_ops.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD73E34E08A0694000656EB1 /* gui_rpc_client_ops.cpp */; };
 		DDCF84080E1B7C0A005EDC45 /* DlgItemProperties.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDCF84060E1B7C0A005EDC45 /* DlgItemProperties.cpp */; };
@@ -2719,6 +2721,8 @@
 				DDFE4E9110AB7C3A00919319 /* url.cpp in Sources */,
 				DDD9C5AB10CCF6A300A1E4CD /* coproc.cpp in Sources */,
 				DDF5F85A10DD05DB006A50CD /* notice.cpp in Sources */,
+				DDC55A6D136013D000D79903 /* procinfo.cpp in Sources */,
+				DDC55A70136013F800D79903 /* procinfo_mac.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

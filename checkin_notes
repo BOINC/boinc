@@ -2383,3 +2383,12 @@ David  20 Apr 2011
         sim.cpp
     tools/
         backend_lib.cpp
+
+Charlie 21 Apr 2011
+    - Mac: Update XCode Project to link procinfo.cpp and procinfo_mac.cpp into 
+        boinscr (ss_app) because boinc_api.cpp now calls kill_descendants() and 
+        suspend_or_resume_descendants().
+        
+     mac_build/
+        boinc.xcodeproj/
+            project.pbxproj
