@@ -2409,3 +2409,12 @@ David  21 Apr 2011
         sim.cpp
         work_fetch.cpp
         cs_statefile.cpp
+
+Charlie 22 Apr 2011
+    - Mac: We no longer request PowerPC applications on Intel Macs 
+        because all projects supporting Macs should have Intel 
+        applications by now, and PowerPC emulation ("Rosetta") is 
+        not always supported in newer versions of OS X.
+
+    client/
+        cs_platforms.cpp
