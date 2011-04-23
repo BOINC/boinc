@@ -15,14 +15,9 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-//------------------------------------
-//
 // send_file [options]
-// --host_id N           ID of host to upload from
+// --host_id N           ID of host to send to
 // --file_name name      name of file
-//
-// Create a result entries, initialized to sent, and corresponding
-// messages to the get the files.
 
 #include "config.h"
 #if HAVE_UNISTD_H
@@ -41,30 +36,21 @@
 #include "sched_config.h"
 #include "sched_util.h"
 
-void init_xfer_result(DB_RESULT& result) {
-    result.id = 0;
+int create_download_result(
+    DB_RESULT& result, int host_id, const char* file_name
+) {
+    int retval;
+    char result_xml[BLOB_SIZE];
+
+    result.clear();
+    sprintf(result.name, "send_%s_%d_%ld", file_name, host_id, time(0));
     result.create_time = time(0);
-    result.workunitid = 0;
     result.server_state = RESULT_SERVER_STATE_IN_PROGRESS;
-    result.hostid = 0;
-    result.report_deadline = 0;
-    result.sent_time = 0;
-    result.received_time = 0;
-    result.client_state = 0;
-    result.cpu_time = 0;
-    strcpy(result.xml_doc_out, "");
-    strcpy(result.stderr_out, "");
+    result.hostid = host_id;
     result.outcome = RESULT_OUTCOME_INIT;
     result.file_delete_state = ASSIMILATE_DONE;
     result.validate_state = VALIDATE_STATE_NO_CHECK;
-    result.claimed_credit = 0;
-    result.granted_credit = 0;
-    result.appid = 0;
-}
 
-int create_download_result(DB_RESULT& result, int host_id) {
-    int retval;
-    char result_xml[BLOB_SIZE];
     sprintf(result_xml,
         "<result>\n"
         "    <wu_name>%s</wu_name>\n"
@@ -101,7 +87,7 @@ int create_download_message(
     sprintf(path, "%s/%s", dirpath, file_name);
     retval = md5_file(path, md5, nbytes);
     if (retval) {
-        fprintf(stderr, "process_wu_template: md5_file %s\n", boincerror(retval));
+        fprintf(stderr, "md5_file() error: %s\n", boincerror(retval));
         return retval;
     }
     sprintf(mth.xml,
@@ -142,28 +128,22 @@ int create_download_message(
 int send_file(int host_id, const char* file_name) {
     DB_RESULT result;
     int retval;
-    result.clear();
-    long int my_time = time(0);
-    init_xfer_result(result);
-    sprintf(result.name, "send_%s_%d_%ld", file_name, host_id, my_time);
-    result.hostid = host_id;
-    retval = create_download_result(result, host_id);
+    retval = create_download_result(result, host_id, file_name);
+    if (retval) return retval;
     retval = create_download_message(result, host_id, file_name);
     return retval;
 }
 
 
-void usage(char *name) {
+void usage() {
     fprintf(stderr,
-        "Create a result entries, initialized to sent, and corresponding\n"
-        "messages to the get the files.\n\n"
-        "Usage: %s [OPTION]...\n\n"
+        "Usage: send_file [options]\n\n"
+        "Arrange to send a file to a host.\n"
         "Options:\n"
-        "  -host_id id                    id of host to upload from\n"
-        "  -file_name name                name of specific file, dominates workunit\n"
-        "  [ -h | -help | --help ]        Show this help text.\n"
-        "  [ -v | -version | --version ]  Show version information.\n",
-        name
+        "  --host_id id                    ID of host\n"
+        "  --file_name name                name of file to send\n"
+        "  [ -h | --help ]                 Show this help text.\n"
+        "  [ -v | --version ]              Show version information.\n"
     );
 }
 
@@ -172,45 +152,40 @@ int main(int argc, char** argv) {
     char file_name[256];
     int host_id;
 
-    // initialize argument strings to empty
     strcpy(file_name, "");
     host_id = 0;
 
     check_stop_daemons();
 
-    // get arguments
     for (i=1; i<argc; i++) {
         if (is_arg(argv[i], "host_id")) {
             if (!argv[++i]) {
                 fprintf(stderr, "%s requires an argument\n\n", argv[--i]);
-                usage(argv[0]);
+                usage();
                 exit(1);
             }
             host_id = atoi(argv[i]);
         } else if (is_arg(argv[i], "file_name")) {
             if (!argv[++i]) {
                 fprintf(stderr, "%s requires an argument\n\n", argv[--i]);
-                usage(argv[0]);
+                usage();
                 exit(1);
             }
             strcpy(file_name, argv[i]);
         } else if (!strcmp(argv[i], "-h") || !strcmp(argv[i], "--help")) {
-            usage(argv[0]);
+            usage();
             exit(0);
         } else if (!strcmp(argv[i], "-v") || !strcmp(argv[i], "--version")) {
             printf("%s\n", SVN_VERSION);
             exit(0);
         } else {
-            fprintf(stderr, "unknowen command line argument: %s\n\n", argv[i]);
-            usage(argv[0]);
+            usage();
             exit(1);
         }
     }
 
     if (!strlen(file_name)) {
-        fprintf(stderr,
-            "send_file: bad command line, requires a valid host_id and file_name\n"
-        );
+        usage();
         exit(1);
     }
     retval = config.parse_file();

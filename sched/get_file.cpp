@@ -42,32 +42,21 @@
 #include "md5_file.h"
 #include "svn_version.h"
 
-void init_xfer_result(DB_RESULT& result) {
-    result.id = 0;
-    result.create_time = time(0);
-    result.workunitid = 0;
-    result.server_state = RESULT_SERVER_STATE_IN_PROGRESS;
-    result.hostid = 0;
-    result.report_deadline = 0;
-    result.sent_time = 0;
-    result.received_time = 0;
-    result.client_state = 0;
-    result.cpu_time = 0;
-    strcpy(result.xml_doc_out, "");
-    strcpy(result.stderr_out, "");
-    result.outcome = RESULT_OUTCOME_INIT;
-    result.file_delete_state = ASSIMILATE_DONE;
-    result.validate_state = VALIDATE_STATE_NO_CHECK;
-    result.claimed_credit = 0;
-    result.granted_credit = 0;
-    result.appid = 0;
-}
-
 int create_upload_result(
     DB_RESULT& result, int host_id, const char * file_name
 ) {
     int retval;
     char result_xml[BLOB_SIZE];
+
+    result.clear();
+    sprintf(result.name, "get_%s_%d_%ld", file_name, host_id, time(0));
+    result.create_time = time(0);
+    result.server_state = RESULT_SERVER_STATE_IN_PROGRESS;
+    result.hostid = host_id;
+    result.outcome = RESULT_OUTCOME_INIT;
+    result.file_delete_state = ASSIMILATE_DONE;
+    result.validate_state = VALIDATE_STATE_NO_CHECK;
+
     sprintf(result_xml,
         "<result>\n"
         "    <wu_name>%s</wu_name>\n"
@@ -133,31 +122,22 @@ int create_upload_message(
 
 int get_file(int host_id, const char* file_name) {
     DB_RESULT result;
-    long int my_time = time(0);
     int retval;
-    result.clear();
-    init_xfer_result(result);
-    sprintf(result.name, "get_%s_%d_%ld", file_name, host_id, my_time);
-    result.hostid = host_id;
     retval = create_upload_result(result, host_id, file_name);
+    if (retval) return retval;
     retval = create_upload_message(result, host_id, file_name);
     return retval;
 }
 
-void usage(char *name) {
+void usage() {
     fprintf(stderr, "Gets a file from a specific host.\n"
-        "Creates a result entry, initialized to sent, and corresponding\n"
-        "messages to the host that is assumed to have the file.\n"
-        "Run from the project root dir.\n\n"
-        "Usage: %s [OPTION]...\n\n"
+        "Usage: get_file [options]\n\n"
+        "Retrieve a file from a host.\n"
         "Options:\n"
-        "  --host_id id                    "
-        "Specify numerical id of host to upload from.\n"
-        "  --file_name name                "
-        "Specify name of file, dominates workunit.\n"
-        "  [ -v | --version ]     Show version information.\n"
-        "  [ -h | --help ]        Show this help text.\n",
-        name
+        "  --host_id id           Host to get file from\n"
+        "  --file_name name       Name of filE\n"
+        "  [ -v | --version ]     Show version\n"
+        "  [ -h | --help ]        Show help\n"
     );
 }
 
@@ -174,35 +154,30 @@ int main(int argc, char** argv) {
     for (i=1; i<argc; i++) {
         if (is_arg(argv[i], "host_id")) {
             if (!argv[++i]) {
-                fprintf(stderr, "%s requires an argument\n\n", argv[--i]);
-                usage(argv[0]);
+                usage();
                 exit(1);
             }
             host_id = atoi(argv[i]);
         } else if (is_arg(argv[i], "file_name")) {
             if (!argv[++i]) {
-                fprintf(stderr, "%s requires an argument\n\n", argv[--i]);
-                usage(argv[0]);
+                usage();
                 exit(1);
             }
             strcpy(file_name, argv[i]);
         } else if (is_arg(argv[i], "h") || is_arg(argv[i], "help")) {
-            usage(argv[0]);
+            usage();
             exit(0);
         } else if (is_arg(argv[i], "v") || is_arg(argv[i], "version")) {
             printf("%s\n", SVN_VERSION);
             exit(0);
         } else {
-            fprintf(stderr, "unknown command line argument: %s\n\n", argv[i]);
-            usage(argv[0]);
+            usage();
             exit(1);
         }
     }
 
     if (!strlen(file_name) || host_id == 0) {
-        fprintf(stderr,
-            "get_file: bad command line, requires a valid host_id and file_name\n"
-        );
+        usage();
         exit(1);
     }
 
