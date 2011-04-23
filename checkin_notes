@@ -9474,3 +9474,11 @@ Charlie 22 Apr 2011
 
     client/
         cs_platforms.cpp
+
+Rom    23 April 2011
+    - Tag for 6.12.24 release, all platforms
+      boinc_core_release_6_12_24
+
+    /
+        configure.ac
+        version.h
