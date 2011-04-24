@@ -1957,6 +1957,10 @@ int RESULT::write_gui(MIOFILE& out) {
                 avp->gpu_usage.usage,
                 rsc_name(avp->gpu_usage.rsc_type)
             );
+        } else if (avp->missing_coproc) {
+            sprintf(resources, "%.2f CPUs + %s GPU (missing)",
+                avp->avg_ncpus, avp->missing_coproc_name
+            );
         } else if (avp->avg_ncpus != 1) {
             sprintf(resources, "%.2f CPUs", avp->avg_ncpus);
         } else {

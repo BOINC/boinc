@@ -43,7 +43,7 @@ MESSAGE_DESCS message_descs;
 
 #ifdef SIM
 extern void show_message(
-    PROJECT *p, char* msg, int priority, bool is_html, const char* link
+    PROJ_AM *p, char* msg, int priority, bool is_html, const char* link
 );
 #else
 // Show a message:
@@ -51,7 +51,7 @@ extern void show_message(
 // 2) As a NOTICE, if high priority (for GUI notices)
 // 3) write to log file (stdoutdae.txt)
 //
-void show_message(PROJECT *p, char* msg, int priority, bool is_html, const char* link) {
+void show_message(PROJ_AM *p, char* msg, int priority, bool is_html, const char* link) {
     const char* x;
     char message[1024], event_msg[1024];
     char* time_string = time_to_string(gstate.now);
@@ -131,7 +131,7 @@ void show_message(PROJECT *p, char* msg, int priority, bool is_html, const char*
 // Takes a printf style formatted string, inserts the proper values,
 // and passes it to show_message
 //
-void msg_printf(PROJECT *p, int priority, const char *fmt, ...) {
+void msg_printf(PROJ_AM *p, int priority, const char *fmt, ...) {
     char buf[8192];  // output can be much longer than format
     va_list ap;
 
@@ -145,7 +145,7 @@ void msg_printf(PROJECT *p, int priority, const char *fmt, ...) {
     show_message(p, buf, priority, true, 0);
 }
 
-void msg_printf_notice(PROJECT *p, bool is_html, const char* link, const char *fmt, ...) {
+void msg_printf_notice(PROJ_AM *p, bool is_html, const char* link, const char *fmt, ...) {
     char buf[8192];  // output can be much longer than format
     va_list ap;
 
@@ -164,7 +164,7 @@ void msg_printf_notice(PROJECT *p, bool is_html, const char* link, const char *f
 // If high priority, create a notice.
 //
 void MESSAGE_DESCS::insert(
-    PROJECT* p, int priority, int now, char* message
+    PROJ_AM* p, int priority, int now, char* message
 ) {
     MESSAGE_DESC* mdp = new MESSAGE_DESC;
     static int seqno = 1;

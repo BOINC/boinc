@@ -2464,3 +2464,14 @@ David  24 Apr 2011
 
     client/
         acct_mgr.cpp
+
+David  24 Apr 2011
+	- client: show error messages from account managers correctly
+	- client/manager: if a job is missing a GPU, show details
+	- client: win compile fix
+	
+	client/
+        acct_mgr.cpp
+		client_msgs.cpp,h
+		client_types.cpp
+		sysmon_win.cpp
