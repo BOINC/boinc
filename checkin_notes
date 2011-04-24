@@ -2452,3 +2452,9 @@ David  23 Apr 2011
         backend_lib.cpp,h
     lib/
         common_defs.h
+
+Charlie 24 Apr 2011
+    - client: fix bug: statement had no effect.
+
+    lib/
+        str_util.cpp
