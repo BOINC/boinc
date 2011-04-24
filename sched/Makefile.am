@@ -93,7 +93,6 @@ bin_PROGRAMS = \
     delete_file \
     get_file \
     make_work \
-    request_file_list \
     sched_driver \
     put_file \
     show_shmem \
@@ -249,9 +248,6 @@ transitioner_LDADD = $(SERVERLIBS)
 
 message_handler_SOURCES = message_handler.cpp
 message_handler_LDADD = $(SERVERLIBS)
-
-request_file_list_SOURCES = request_file_list.cpp
-request_file_list_LDADD = $(SERVERLIBS)
 
 get_file_SOURCES = get_file.cpp
 get_file_LDADD = $(SERVERLIBS)

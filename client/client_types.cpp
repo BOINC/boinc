@@ -105,7 +105,6 @@ void PROJECT::init() {
     non_cpu_intensive = false;
     verify_files_on_app_start = false;
     pwf.reset(this);
-    send_file_list = false;
     send_time_stats_log = 0;
     send_job_log = 0;
     send_full_workload = false;
@@ -225,7 +224,6 @@ int PROJECT::parse_state(MIOFILE& in) {
         if (parse_int(buf, "<sched_rpc_pending>", sched_rpc_pending)) continue;
         if (parse_double(buf, "<next_rpc_time>", next_rpc_time)) continue;
         if (parse_bool(buf, "trickle_up_pending", trickle_up_pending)) continue;
-        if (parse_bool(buf, "send_file_list", send_file_list)) continue;
         if (parse_int(buf, "<send_time_stats_log>", send_time_stats_log)) continue;
         if (parse_int(buf, "<send_job_log>", send_job_log)) continue;
         if (parse_bool(buf, "send_full_workload", send_full_workload)) continue;
@@ -412,7 +410,6 @@ int PROJECT::write_state(MIOFILE& out, bool gui_rpc) {
         anonymous_platform?"    <anonymous_platform/>\n":"",
         master_url_fetch_pending?"    <master_url_fetch_pending/>\n":"",
         trickle_up_pending?"    <trickle_up_pending/>\n":"",
-        send_file_list?"    <send_file_list/>\n":"",
         send_full_workload?"    <send_full_workload/>\n":"",
         non_cpu_intensive?"    <non_cpu_intensive/>\n":"",
         verify_files_on_app_start?"    <verify_files_on_app_start/>\n":"",
@@ -544,7 +541,6 @@ void PROJECT::copy_state_fields(PROJECT& p) {
         rsc_pwf[i] = p.rsc_pwf[i];
     }
     pwf = p.pwf;
-    send_file_list = p.send_file_list;
     send_full_workload = p.send_full_workload;
     send_time_stats_log = p.send_time_stats_log;
     send_job_log = p.send_job_log;
@@ -850,8 +846,6 @@ FILE_INFO::FILE_INFO() {
     uploaded = false;
     upload_when_present = false;
     sticky = false;
-    marked_for_delete = false;
-    report_on_rpc = false;
     gzip_when_done = false;
     signature_required = false;
     is_user_file = false;
@@ -990,8 +984,6 @@ int FILE_INFO::parse(MIOFILE& in, bool from_server) {
         if (parse_bool(buf, "uploaded", uploaded)) continue;
         if (parse_bool(buf, "upload_when_present", upload_when_present)) continue;
         if (parse_bool(buf, "sticky", sticky)) continue;
-        if (parse_bool(buf, "marked_for_delete", marked_for_delete)) continue;
-        if (parse_bool(buf, "report_on_rpc", report_on_rpc)) continue;
         if (parse_bool(buf, "gzip_when_done", gzip_when_done)) continue;
         if (parse_bool(buf, "signature_required", signature_required)) continue;
         if (parse_bool(buf, "is_project_file", is_project_file)) continue;
@@ -1068,8 +1060,6 @@ int FILE_INFO::write(MIOFILE& out, bool to_server) {
         if (uploaded) out.printf("    <uploaded/>\n");
         if (upload_when_present) out.printf("    <upload_when_present/>\n");
         if (sticky) out.printf("    <sticky/>\n");
-        if (marked_for_delete) out.printf("    <marked_for_delete/>\n");
-        if (report_on_rpc) out.printf("    <report_on_rpc/>\n");
         if (gzip_when_done) out.printf("    <gzip_when_done/>\n");
         if (signature_required) out.printf("    <signature_required/>\n");
         if (is_user_file) out.printf("    <is_user_file/>\n");
@@ -1120,7 +1110,6 @@ int FILE_INFO::write_gui(MIOFILE& out) {
     if (uploaded) out.printf("    <uploaded/>\n");
     if (upload_when_present) out.printf("    <upload_when_present/>\n");
     if (sticky) out.printf("    <sticky/>\n");
-    if (marked_for_delete) out.printf("    <marked_for_delete/>\n");
 
     if (pers_file_xfer) {
         pers_file_xfer->write(out);

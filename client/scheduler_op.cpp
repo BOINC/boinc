@@ -227,7 +227,7 @@ static void request_string(char* buf) {
 int SCHEDULER_OP::start_rpc(PROJECT* p) {
     int retval;
     char request_file[1024], reply_file[1024], buf[256];
-    char *trickle_up_msg;
+    const char *trickle_up_msg;
 
     safe_strcpy(scheduler_url, p->get_scheduler_url(url_index, url_random));
     if (log_flags.sched_ops) {
@@ -541,7 +541,6 @@ void SCHEDULER_REPLY::clear() {
     code_sign_key_signature = 0;
     message_ack = false;
     project_is_down = false;
-    send_file_list = false;
     send_full_workload = false;
     send_time_stats_log = 0;
     send_job_log = 0;
@@ -867,8 +866,6 @@ int SCHEDULER_REPLY::parse(FILE* in, PROJECT* project) {
             }
             continue;
         } else if (parse_bool(buf, "verify_files_on_app_start", project->verify_files_on_app_start)) {
-            continue;
-        } else if (parse_bool(buf, "request_file_list", send_file_list)) {
             continue;
         } else if (parse_bool(buf, "send_full_workload", send_full_workload)) {
             continue;

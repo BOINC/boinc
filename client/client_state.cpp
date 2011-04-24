@@ -1408,7 +1408,6 @@ bool CLIENT_STATE::garbage_collect_always() {
         fip = *fi_iter;
         if (!fip->sticky) continue;
         if (fip->status < 0) continue;
-        if (fip->marked_for_delete) continue;
         fip->ref_cnt++;
     }
 

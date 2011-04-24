@@ -264,20 +264,16 @@ int CLIENT_STATE::make_scheduler_request(PROJECT* p) {
     for (i=0; i<file_infos.size(); i++) {
         FILE_INFO* fip = file_infos[i];
         if (fip->project != p) continue;
-        if (!fip->report_on_rpc) continue;
-        if (fip->marked_for_delete) continue;
+        if (!fip->sticky) continue;
         fprintf(f,
             "    <file_info>\n"
             "        <name>%s</name>\n"
             "        <nbytes>%f</nbytes>\n"
             "        <status>%d</status>\n"
-            "        <report_on_rpc/>\n"
             "    </file_info>\n",
             fip->name, fip->nbytes, fip->status
         );
     }
-
-    // NOTE: there's also a send_file_list flag, not currently used
 
     if (p->send_time_stats_log) {
         fprintf(f, "<time_stats_log>\n");
@@ -748,7 +744,7 @@ int CLIENT_STATE::handle_scheduler_reply(PROJECT* project, char* scheduler_url) 
             msg_printf(project, MSG_INFO,
                 "Got server request to delete file %s", fip->name
             );
-            fip->marked_for_delete = true;
+            fip->sticky = false;
         }
     }
     for (i=0; i<sr.app_versions.size(); i++) {
@@ -955,9 +951,6 @@ int CLIENT_STATE::handle_scheduler_reply(PROJECT* project, char* scheduler_url) 
     //
     if (sr.message_ack) {
         remove_trickle_files(project);
-    }
-    if (sr.send_file_list) {
-        project->send_file_list = true;
     }
     if (sr.send_full_workload) {
         project->send_full_workload = true;

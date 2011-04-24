@@ -76,10 +76,6 @@ struct FILE_INFO {
     bool uploaded;          // file has been uploaded
     bool upload_when_present;
     bool sticky;            // don't delete unless instructed to do so
-    bool report_on_rpc;     // include this in each scheduler request
-    bool marked_for_delete;     // server requested delete;
-        // if not in use, delete even if sticky is true
-        // don't report to server even if report_on_rpc is true
     bool signature_required;    // true iff associated with app version
     bool is_user_file;
     bool is_project_file;
@@ -316,9 +312,6 @@ struct PROJECT : PROJ_AM {
     // items send in scheduler replies, requesting that
     // various things be sent in the next request
     //
-    bool send_file_list;
-        // send the list of permanent files associated with the project
-        // in the next scheduler reply
     int send_time_stats_log;
         // if nonzero, send time stats log from that point on
     int send_job_log;

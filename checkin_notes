@@ -2475,3 +2475,22 @@ David  24 Apr 2011
 		client_msgs.cpp,h
 		client_types.cpp
 		sysmon_win.cpp
+
+David  24 Apr 2011
+    - client: simplify the semantics of sticky files:
+        - All sticky files are reported on each scheduler RPC
+        - If a scheduler reply says to delete a file, clear its sticky flag
+        In particular:
+        - remove the "send file list" tag in scheduler RPC replies
+        - remove FILE_INFO::marked_for_delete
+        - remove FILE_INFO::report_on_rpc
+    - remove the request_file_list program
+
+    client/
+        client_types.cpp,h
+        client_state.cpp
+        cs_scheduler.cpp
+        scheduler_op.cpp
+    sched/
+        request_file_list.cpp
+        Makefile.am
