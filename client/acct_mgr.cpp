@@ -187,6 +187,8 @@ int ACCT_MGR_OP::do_rpc(
             gstate.acct_mgr_info.opaque
         );
     }
+    gstate.time_stats.write(mf, true);
+    gstate.net_stats.write(mf);
     fprintf(f, "</acct_mgr_request>\n");
     fclose(f);
     sprintf(buf, "%srpc.php", url);
