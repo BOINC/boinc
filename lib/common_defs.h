@@ -122,7 +122,7 @@ enum SUSPEND_REASON {
     SUSPEND_REASON_OS = 4096
 };
 
-// States of a result on a client.
+// Values of RESULT::state
 // THESE MUST BE IN NUMERICAL ORDER
 // (because of the > comparison in RESULT::computing_done())
 //

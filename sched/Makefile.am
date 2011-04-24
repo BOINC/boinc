@@ -95,7 +95,7 @@ bin_PROGRAMS = \
     make_work \
     request_file_list \
     sched_driver \
-    send_file \
+    put_file \
     show_shmem \
     wu_check
 
@@ -256,8 +256,8 @@ request_file_list_LDADD = $(SERVERLIBS)
 get_file_SOURCES = get_file.cpp
 get_file_LDADD = $(SERVERLIBS)
 
-send_file_SOURCES = send_file.cpp
-send_file_LDADD = $(SERVERLIBS)
+put_file_SOURCES = put_file.cpp
+put_file_LDADD = $(SERVERLIBS)
 
 delete_file_SOURCES = delete_file.cpp
 delete_file_LDADD = $(SERVERLIBS)

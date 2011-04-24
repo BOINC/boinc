@@ -2438,3 +2438,17 @@ David  23 Apr 2011
     sched/
         get_file.cpp
         send_file.cpp
+
+David  23 Apr 2011
+    - server: rename send_file to put_file.
+        Factor out put_file() and get_file() functions
+        so they have a C++ API as well as command-line
+
+    sched/
+        put_file.cpp
+        get_file.cpp
+        Makefile.am
+    tools/
+        backend_lib.cpp,h
+    lib/
+        common_defs.h
