@@ -912,7 +912,8 @@ DWORD WINAPI CScreensaver::InputActivityProc() {
             fprintf(stdout, _T("development team.\n\n"));
             SetError(TRUE, SCRAPPERR_BOINCSHUTDOWNEVENT);
             FireInterruptSaverEvent();
-        }
+            bAutoBreak = true;
+       }
         dwCounter++;
         boinc_sleep(0.25);
     }
