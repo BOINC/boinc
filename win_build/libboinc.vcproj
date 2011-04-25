@@ -337,6 +337,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\lib\cc_config.h"
+				>
+			</File>
+			<File
 				RelativePath="..\lib\cert_sig.h"
 				>
 			</File>
@@ -635,6 +639,10 @@
 						UsePrecompiledHeader="1"
 					/>
 				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\lib\cc_config.cpp"
+				>
 			</File>
 			<File
 				RelativePath="..\lib\cert_sig.cpp"
