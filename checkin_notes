@@ -2506,3 +2506,10 @@ David  24 Apr 2011
     lib/
         Makefile.am
         cc_config.cpp,h (new)
+
+Charlie 24 Apr 2011
+    - Mac: Add new cc_config.cpp,h to XCode Project.
+        
+     mac_build/
+        boinc.xcodeproj/
+            project.pbxproj

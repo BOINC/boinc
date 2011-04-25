@@ -157,6 +157,8 @@
 		DD4329910BA63DEC007CDF2A /* str_util.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD7BF7D70B8E7A9800A009F7 /* str_util.cpp */; };
 		DD46885A0C1661970089F500 /* uninstall.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD4688590C1661970089F500 /* uninstall.cpp */; };
 		DD48091F081A66F100A174AA /* BOINCSaver.nib in Resources */ = {isa = PBXBuildFile; fileRef = DD48091E081A66F100A174AA /* BOINCSaver.nib */; };
+		DD4AE04D13652BD700285859 /* cc_config.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD4AE04B13652BD700285859 /* cc_config.cpp */; };
+		DD4AE05013652C1300285859 /* cc_config.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD4AE04B13652BD700285859 /* cc_config.cpp */; };
 		DD4E704C0BCDAC360010A522 /* browser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD4E70490BCDAC360010A522 /* browser.cpp */; };
 		DD4EC65A08A0A7AF009AA08F /* gui_rpc_client_ops.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD73E34E08A0694000656EB1 /* gui_rpc_client_ops.cpp */; };
 		DD4EC65B08A0A83F009AA08F /* gui_rpc_client_print.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD73E34F08A0694100656EB1 /* gui_rpc_client_print.cpp */; };
@@ -740,6 +742,8 @@
 		DD4688430C165F3C0089F500 /* Uninstaller-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Uninstaller-Info.plist"; sourceTree = "<group>"; };
 		DD4688590C1661970089F500 /* uninstall.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = uninstall.cpp; path = ../mac_installer/uninstall.cpp; sourceTree = SOURCE_ROOT; };
 		DD48091E081A66F100A174AA /* BOINCSaver.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = BOINCSaver.nib; path = ../clientscr/res/BOINCSaver.nib; sourceTree = SOURCE_ROOT; };
+		DD4AE04B13652BD700285859 /* cc_config.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = cc_config.cpp; path = ../lib/cc_config.cpp; sourceTree = SOURCE_ROOT; };
+		DD4AE04C13652BD700285859 /* cc_config.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = cc_config.h; path = ../lib/cc_config.h; sourceTree = SOURCE_ROOT; };
 		DD4C560C0AD389A2009E23C6 /* sg_DlgMessages.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = sg_DlgMessages.cpp; path = ../clientgui/sg_DlgMessages.cpp; sourceTree = SOURCE_ROOT; };
 		DD4C560D0AD389A2009E23C6 /* sg_DlgMessages.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = sg_DlgMessages.h; path = ../clientgui/sg_DlgMessages.h; sourceTree = SOURCE_ROOT; };
 		DD4E70490BCDAC360010A522 /* browser.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = browser.cpp; sourceTree = "<group>"; };
@@ -1538,6 +1542,8 @@
 				DD344B6307C5ACEB0043025C /* base64.cpp */,
 				DD344B6407C5ACEB0043025C /* base64.h */,
 				DD81C5F007C5D8290098A04D /* boinc_win.h */,
+				DD4AE04B13652BD700285859 /* cc_config.cpp */,
+				DD4AE04C13652BD700285859 /* cc_config.h */,
 				DD7168360AAD72040051642B /* common_defs.h */,
 				DD68022E0E701ACD0067D009 /* cert_sig.cpp */,
 				DD68022F0E701ACD0067D009 /* cert_sig.h */,
@@ -2628,6 +2634,7 @@
 				DDE1372F10DC5E8D00161D6B /* notice.cpp in Sources */,
 				DD2B6C8D131491B7005D6F3E /* procinfo_mac.cpp in Sources */,
 				DD2B6C8E131491B8005D6F3E /* procinfo.cpp in Sources */,
+				DD4AE05013652C1300285859 /* cc_config.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2899,6 +2906,7 @@
 				DDE1373210DC5EA400161D6B /* notice.cpp in Sources */,
 				DDA1F1EE126D105B005EFFEB /* current_version.cpp in Sources */,
 				DD2B6C8113149177005D6F3E /* procinfo.cpp in Sources */,
+				DD4AE04D13652BD700285859 /* cc_config.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
