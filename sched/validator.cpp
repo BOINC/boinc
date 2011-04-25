@@ -202,7 +202,13 @@ int handle_wu(
              );
 
             check_pair(result, canonical_result, retry);
-            if (retry) transition_time = DELAYED;
+            if (retry) {
+                // this usually means an NFS mount has failed;
+                // arrange to try again later.
+                //
+                transition_time = DELAYED;
+                goto leave;
+            }
             update_result = false;
 
             if (result.outcome == RESULT_OUTCOME_VALIDATE_ERROR) {

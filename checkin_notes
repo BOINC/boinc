@@ -2522,3 +2522,9 @@ Rom    25 Apr 2011
         
     clientscr/
         screensaver_win.cpp
+
+David  25 Apr 2011
+    - validator: fix bug when check_pair() returns retry=true.
+
+    sched/
+        validator.cpp
