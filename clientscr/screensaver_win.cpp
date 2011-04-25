@@ -365,7 +365,7 @@ HRESULT CScreensaver::Cleanup() {
         TerminateProcess(m_hGraphicsApplication, 0);
         m_hGraphicsApplication = NULL;
     }
-    BOINCTRACE("CScreensaver::Cleanup - Cleanup RPC client if running\n");
+    BOINCTRACE("CScreensaver::Cleanup - Cleanup RPC client\n");
     if (rpc) {
         rpc->close();
         delete rpc;
@@ -886,12 +886,14 @@ DWORD WINAPI CScreensaver::InputActivityProcStub(LPVOID UNUSED(lpParam)) {
 //
 DWORD WINAPI CScreensaver::InputActivityProc() {
     LASTINPUTINFO lii;
+    bool          bAutoBreak = false;
     DWORD         dwCounter = 0;
+
     lii.cbSize = sizeof(LASTINPUTINFO);
 
     BOINCTRACE(_T("CScreensaver::InputActivityProc - Last Input Activity '%d'.\n"), m_dwLastInputTimeAtStartup);
 
-    while(true) {
+    while(!bAutoBreak) {
         if (GetLastInputInfo(&lii)) {
             if (dwCounter > 4) {
                 BOINCTRACE(_T("CScreensaver::InputActivityProc - Heartbeat.\n"));
@@ -901,6 +903,7 @@ DWORD WINAPI CScreensaver::InputActivityProc() {
                 BOINCTRACE(_T("CScreensaver::InputActivityProc - Activity Detected.\n"));
                 SetError(TRUE, SCRAPPERR_BOINCSHUTDOWNEVENT);
                 FireInterruptSaverEvent();
+                bAutoBreak = true;
             }
         } else {
             BOINCTRACE(_T("CScreensaver::InputActivityProc - Failed to detect input activity.\n"));
@@ -913,6 +916,8 @@ DWORD WINAPI CScreensaver::InputActivityProc() {
         dwCounter++;
         boinc_sleep(0.25);
     }
+
+    return 0;
 }
 
 
@@ -1395,6 +1400,13 @@ LRESULT CScreensaver::SaverProc(
             BOINCTRACE(_T("CScreensaver::SaverProc Received WM_POWERBROADCAST\n"));
             if (wParam == PBT_APMQUERYSUSPEND)
                 FireInterruptSaverEvent();
+            break;
+
+        case WM_QUIT:
+            BOINCTRACE(_T("CScreensaver::SaverProc Received WM_QUIT\n"));
+#ifdef _DEBUG
+            DebugBreak();
+#endif
             break;
     }
 

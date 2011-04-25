@@ -2513,3 +2513,12 @@ Charlie 24 Apr 2011
      mac_build/
         boinc.xcodeproj/
             project.pbxproj
+
+Rom    25 Apr 2011
+    - SCR: In certain cases WM_QUIT is sent to the message proc, which is
+        is causing some type of deadlock and we don't break out of the message
+        pump like we are suppose too.  For debug purposes, let us call DebugBreak()
+        and see what the other threads are up too.
+        
+    clientscr/
+        screensaver_win.cpp
