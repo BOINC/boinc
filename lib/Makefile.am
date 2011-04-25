@@ -35,6 +35,7 @@ libfcgi_sources = \
 generic_sources = \
     app_ipc.cpp \
     base64.cpp \
+	cc_config.cpp \
     cert_sig.cpp \
     coproc.cpp \
     diagnostics.cpp \
@@ -96,6 +97,7 @@ pkginclude_HEADERS = \
     boinc_fcgi.h \
     boinc_win.h \
     cal_boinc.h \
+	cc_config.h \
     cert_sig.h \
     cl_boinc.h \
     common_defs.h \

@@ -46,83 +46,6 @@ using std::string;
 LOG_FLAGS log_flags;
 CONFIG config;
 
-LOG_FLAGS::LOG_FLAGS() {
-    init();
-}
-
-void LOG_FLAGS::init() {
-    memset(this, 0, sizeof(LOG_FLAGS));
-    // on by default (others are off by default)
-    //
-    task = true;
-    file_xfer = true;
-    sched_ops = true;
-}
-
-// Parse log flag preferences
-//
-int LOG_FLAGS::parse(XML_PARSER& xp) {
-    char tag[1024];
-    bool is_tag;
-
-    while (!xp.get(tag, sizeof(tag), is_tag)) {
-        if (!is_tag) {
-            msg_printf_notice(NULL, false,
-                "http://boinc.berkeley.edu/manager_links.php?target=notice&controlid=log_flags",
-                "%s: %s",
-                _("Unexpected text in cc_config.xml"),
-                tag
-            );
-            continue;
-        }
-        if (!strcmp(tag, "/log_flags")) return 0;
-        if (xp.parse_bool(tag, "file_xfer", file_xfer)) continue;
-        if (xp.parse_bool(tag, "sched_ops", sched_ops)) continue;
-        if (xp.parse_bool(tag, "task", task)) continue;
-
-        if (xp.parse_bool(tag, "app_msg_receive", app_msg_receive)) continue;
-        if (xp.parse_bool(tag, "app_msg_send", app_msg_send)) continue;
-        if (xp.parse_bool(tag, "benchmark_debug", benchmark_debug)) continue;
-        if (xp.parse_bool(tag, "checkpoint_debug", checkpoint_debug)) continue;
-        if (xp.parse_bool(tag, "coproc_debug", coproc_debug)) continue;
-        if (xp.parse_bool(tag, "cpu_sched", cpu_sched)) continue;
-        if (xp.parse_bool(tag, "cpu_sched_debug", cpu_sched_debug)) continue;
-        if (xp.parse_bool(tag, "cpu_sched_status", cpu_sched_status)) continue;
-        if (xp.parse_bool(tag, "dcf_debug", dcf_debug)) continue;
-        if (xp.parse_bool(tag, "debt_debug", debt_debug)) continue;
-        if (xp.parse_bool(tag, "std_debug", std_debug)) continue;
-        if (xp.parse_bool(tag, "file_xfer_debug", file_xfer_debug)) continue;
-        if (xp.parse_bool(tag, "gui_rpc_debug", gui_rpc_debug)) continue;
-        if (xp.parse_bool(tag, "heartbeat_debug", heartbeat_debug)) continue;
-        if (xp.parse_bool(tag, "http_debug", http_debug)) continue;
-        if (xp.parse_bool(tag, "http_xfer_debug", http_xfer_debug)) continue;
-        if (xp.parse_bool(tag, "mem_usage_debug", mem_usage_debug)) continue;
-        if (xp.parse_bool(tag, "network_status_debug", network_status_debug)) continue;
-        if (xp.parse_bool(tag, "poll_debug", poll_debug)) continue;
-        if (xp.parse_bool(tag, "proxy_debug", proxy_debug)) continue;
-        if (xp.parse_bool(tag, "rr_simulation", rr_simulation)) continue;
-        if (xp.parse_bool(tag, "sched_op_debug", sched_op_debug)) continue;
-        if (xp.parse_bool(tag, "scrsave_debug", scrsave_debug)) continue;
-        if (xp.parse_bool(tag, "slot_debug", slot_debug)) continue;
-        if (xp.parse_bool(tag, "state_debug", state_debug)) continue;
-        if (xp.parse_bool(tag, "statefile_debug", statefile_debug)) continue;
-        if (xp.parse_bool(tag, "task_debug", task_debug)) continue;
-        if (xp.parse_bool(tag, "time_debug", time_debug)) continue;
-        if (xp.parse_bool(tag, "unparsed_xml", unparsed_xml)) continue;
-        if (xp.parse_bool(tag, "work_fetch_debug", work_fetch_debug)) continue;
-        if (xp.parse_bool(tag, "notice_debug", notice_debug)) continue;
-
-        msg_printf_notice(NULL, false,
-            "http://boinc.berkeley.edu/manager_links.php?target=notice&controlid=log_flags",
-            "%s: <%s>",
-            _("Unrecognized tag in cc_config.xml"),
-            tag
-        );
-        xp.skip_unexpected(tag, true, "LOG_FLAGS::parse");
-    }
-    return ERR_XML_PARSE;
-}
-
 static void show_flag(char* buf, bool flag, const char* flag_name) {
     if (!flag) return;
     int n = (int)strlen(buf);
@@ -186,6 +109,54 @@ static void show_gpu_ignore(vector<int>& devs, const char* name) {
     for (unsigned int i=0; i<devs.size(); i++) {
         msg_printf(NULL, MSG_INFO, "Config: ignoring %s GPU %d", name, devs[i]);
     }
+}
+
+// this is called first thing by client
+//
+void CONFIG::defaults() {
+    abort_jobs_on_exit = false;
+    allow_multiple_clients = false;
+    allow_remote_gui_rpc = false;
+    alt_platforms.clear();
+    client_version_check_url = "http://boinc.berkeley.edu/download.php?xml=1";
+    client_download_url = "http://boinc.berkeley.edu/download.php";
+    disallow_attach = false;
+    dont_check_file_sizes = false;
+    dont_contact_ref_site = false;
+    exclusive_apps.clear();
+    exclusive_gpu_apps.clear();
+    exit_after_finish = false;
+    exit_when_idle = false;
+    fetch_minimal_work = false;
+    force_auth = "default";
+    http_1_0 = false;
+    ignore_cuda_dev.clear();
+    ignore_ati_dev.clear();
+    max_file_xfers = MAX_FILE_XFERS;
+    max_file_xfers_per_project = MAX_FILE_XFERS_PER_PROJECT;
+    max_stderr_file_size = 0;
+    max_stdout_file_size = 0;
+    max_tasks_reported = 0;
+    ncpus = -1;
+    network_test_url = "http://www.google.com/";
+    no_alt_platform = false;
+    no_gpus = false;
+    no_info_fetch = false;
+    no_priority_change = false;
+    os_random_only = false;
+    report_results_immediately = false;
+    run_apps_manually = false;
+    save_stats_days = 30;
+    simple_gui_only = false;
+    skip_cpu_benchmarks = false;
+    start_delay = 0;
+    stderr_head = false;
+    suppress_net_info = false;
+    unsigned_apps_ok = false;
+    use_all_gpus = false;
+    use_certs = false;
+    use_certs_only = false;
+    zero_debts = false;
 }
 
 // TODO: show other config options
@@ -253,59 +224,7 @@ void CONFIG::show() {
     }
 }
 
-CONFIG::CONFIG() {
-    clear();
-}
-
-// this is called first thing by client
-//
-void CONFIG::clear() {
-    abort_jobs_on_exit = false;
-    allow_multiple_clients = false;
-    allow_remote_gui_rpc = false;
-    alt_platforms.clear();
-    client_version_check_url = "http://boinc.berkeley.edu/download.php?xml=1";
-    client_download_url = "http://boinc.berkeley.edu/download.php";
-    disallow_attach = false;
-    dont_check_file_sizes = false;
-    dont_contact_ref_site = false;
-    exclusive_apps.clear();
-    exclusive_gpu_apps.clear();
-    exit_after_finish = false;
-    exit_when_idle = false;
-    fetch_minimal_work = false;
-    force_auth = "default";
-    http_1_0 = false;
-    ignore_cuda_dev.clear();
-    ignore_ati_dev.clear();
-    max_file_xfers = MAX_FILE_XFERS;
-    max_file_xfers_per_project = MAX_FILE_XFERS_PER_PROJECT;
-    max_stderr_file_size = 0;
-    max_stdout_file_size = 0;
-    max_tasks_reported = 0;
-    ncpus = -1;
-    network_test_url = "http://www.google.com/";
-    no_alt_platform = false;
-    no_gpus = false;
-    no_info_fetch = false;
-    no_priority_change = false;
-    os_random_only = false;
-    report_results_immediately = false;
-    run_apps_manually = false;
-    save_stats_days = 30;
-    simple_gui_only = false;
-    skip_cpu_benchmarks = false;
-    start_delay = 0;
-    stderr_head = false;
-    suppress_net_info = false;
-    unsigned_apps_ok = false;
-    use_all_gpus = false;
-    use_certs = false;
-    use_certs_only = false;
-    zero_debts = false;
-}
-
-int CONFIG::parse_options(XML_PARSER& xp) {
+int CONFIG::parse_options_client(XML_PARSER& xp) {
     char tag[1024], path[256];
     bool is_tag;
     string s;
@@ -456,7 +375,7 @@ int CONFIG::parse_options(XML_PARSER& xp) {
     return ERR_XML_PARSE;
 }
 
-int CONFIG::parse(FILE* f) {
+int CONFIG::parse_client(FILE* f) {
     char tag[256];
     MIOFILE mf;
     XML_PARSER xp(&mf);
@@ -508,10 +427,40 @@ int CONFIG::parse(FILE* f) {
     return ERR_XML_PARSE;
 }
 
+int CONFIG::parse(FILE* f) {
+    char tag[256];
+    MIOFILE mf;
+    XML_PARSER xp(&mf);
+    bool is_tag;
+
+    mf.init_file(f);
+    if (!xp.parse_start("cc_config")) {
+        return ERR_XML_PARSE;
+    }
+    while (!xp.get(tag, sizeof(tag), is_tag)) {
+        if (!is_tag) {
+            continue;
+        }
+        if (!strcmp(tag, "/cc_config")) return 0;
+        if (!strcmp(tag, "log_flags")) {
+            log_flags.parse(xp);
+            continue;
+        }
+        if (!strcmp(tag, "options")) {
+            parse_options(xp);
+            continue;
+        }
+        if (!strcmp(tag, "options/")) continue;
+        if (!strcmp(tag, "log_flags/")) continue;
+        xp.skip_unexpected(tag, true, "CONFIG.parse");
+    }
+    return ERR_XML_PARSE;
+}
+
 int read_config_file(bool init, const char* fname) {
     if (!init) {
         msg_printf(NULL, MSG_INFO, "Re-reading %s", fname);
-        config.clear();
+        config.defaults();
         log_flags.init();
     }
     FILE* f = boinc_fopen(fname, "r");
@@ -524,6 +473,17 @@ int read_config_file(bool init, const char* fname) {
         config.max_stdout_file_size, config.max_stderr_file_size
     );
 #endif
+    if (init) {
+        coprocs = config.config_coprocs;
+        config_proxy_info = config.proxy_info;
+        if (strlen(config.data_dir)) {
+#ifdef _WIN32
+            _chdir(config.data_dir);
+#else
+            chdir(config.data_dir);
+#endif
+        }
+    }
     return 0;
 }
 

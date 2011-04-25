@@ -2494,3 +2494,15 @@ David  24 Apr 2011
     sched/
         request_file_list.cpp
         Makefile.am
+
+David  24 Apr 2011
+    - client: shuffle code to move CONFIG and LOG_FLAGS
+        into lib/cc_config.h,
+        in preparation for adding GUI RPCS
+
+    client/
+        main.cpp
+        log_flags.cpp,h
+    lib/
+        Makefile.am
+        cc_config.cpp,h (new)

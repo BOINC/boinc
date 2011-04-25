@@ -164,7 +164,7 @@ static void init_core_client(int argc, char** argv) {
     setbuf(stdout, 0);
     setbuf(stderr, 0);
 
-    config.clear();
+    config.defaults();
     gstate.parse_cmdline(argc, argv);
     gstate.now = dtime();
 
