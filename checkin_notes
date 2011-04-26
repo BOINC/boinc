@@ -2549,3 +2549,9 @@ David  25 Apr 2011
     client/
         app.cpp,h
         app_control.cpp
+
+David  25 Apr 2011
+	- web: fix infinite recursion when project is down
+
+	html/inc/
+		util.inc

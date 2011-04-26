@@ -170,6 +170,7 @@ function page_head(
     switch($title) {    //kludge
     case tra("Log in"):
     case tra("Create an account"):
+    case tra("Project down for maintenance"):
         break;
     default:
         show_login_info($prefix);
