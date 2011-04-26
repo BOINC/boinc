@@ -69,7 +69,7 @@ static void suspend_client(bool wait) {
 
 // Resume client operations
 static void resume_client() {
-    gstate.os_requested_resume = false;
+    gstate.os_requested_suspend = false;
 }
 
 // Process console messages sent by the system

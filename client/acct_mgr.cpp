@@ -186,6 +186,8 @@ int ACCT_MGR_OP::do_rpc(
             gstate.acct_mgr_info.opaque
         );
     }
+    gstate.time_stats.write(mf, true);
+    gstate.net_stats.write(mf);
     fprintf(f, "</acct_mgr_request>\n");
     fclose(f);
     sprintf(buf, "%srpc.php", url);
@@ -405,20 +407,18 @@ void ACCT_MGR_OP::handle_reply(int http_op_retval) {
     // email addresses
     //
     if (error_str.size()) {
-        msg_printf(NULL, MSG_USER_ALERT,
-            "%s %s: %s",
-            gstate.acct_mgr_info.project_name,
-            _("error"),
+        msg_printf(&ami, MSG_USER_ALERT,
+            "%s: %s",
+            _("Message from account manager"),
             error_str.c_str()
         );
         if (!error_num) {
             error_num = ERR_XML_PARSE;
         }
     } else if (error_num) {
-        msg_printf(NULL, MSG_USER_ALERT,
-            "%s %s: %s",
-            gstate.acct_mgr_info.project_name,
-            _("error"),
+        msg_printf(&ami, MSG_USER_ALERT,
+            "%s: %s",
+            _("Message from account manager"),
             boincerror(error_num)
         );
     }
