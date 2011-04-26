@@ -9507,3 +9507,9 @@ David  23 Apr 2011
     lib/
         common_defs.cpp
         str_util.cpp
+
+Charlie 24 Apr 2011
+    - client: fix bug: statement had no effect.
+
+    lib/
+        str_util.cpp
