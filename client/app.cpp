@@ -663,7 +663,7 @@ int ACTIVE_TASK::parse(MIOFILE& fin) {
             // for 6.12.25-26 transition;
             // old clients write fraction_done to state file;
             // new clients don't
-            if (fraction_done) {
+            if (fraction_done && checkpoint_elapsed_time) {
                 checkpoint_fraction_done = fraction_done;
                 checkpoint_fraction_done_elapsed_time = checkpoint_elapsed_time;
                 fraction_done_elapsed_time = checkpoint_elapsed_time;
