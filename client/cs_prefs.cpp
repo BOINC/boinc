@@ -101,6 +101,10 @@ int CLIENT_STATE::check_suspend_processing() {
         return SUSPEND_REASON_INITIAL_DELAY;
     }
 
+    if (os_requested_suspend) {
+        return SUSPEND_REASON_OS;
+    }
+
     switch (run_mode.get_current()) {
     case RUN_MODE_ALWAYS: break;
     case RUN_MODE_NEVER:
@@ -224,6 +228,11 @@ void CLIENT_STATE::check_suspend_network() {
     network_suspended = false;
     file_xfers_suspended = false;
     network_suspend_reason = 0;
+
+    if (os_requested_suspend) {
+        network_suspend_reason = SUSPEND_REASON_OS;
+        return;
+    }
 
     // no network traffic if we're allowing unsigned apps
     //

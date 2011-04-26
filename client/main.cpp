@@ -360,16 +360,6 @@ int boinc_main_loop() {
                 break;
             }
         }
-        if (gstate.requested_suspend) {
-            gstate.run_mode.set(RUN_MODE_NEVER, 3600);
-            gstate.network_mode.set(RUN_MODE_NEVER, 3600);
-            gstate.requested_suspend = false;
-        }
-        if (gstate.requested_resume) {
-            gstate.run_mode.set(RUN_MODE_RESTORE, 0);
-            gstate.network_mode.set(RUN_MODE_RESTORE, 0);
-            gstate.requested_resume = false;
-        }
     }
 
     return finalize();

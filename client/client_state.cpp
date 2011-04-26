@@ -106,8 +106,7 @@ CLIENT_STATE::CLIENT_STATE()
     network_mode.set(RUN_MODE_AUTO, 0);
     started_by_screensaver = false;
     requested_exit = false;
-    requested_suspend = false;
-    requested_resume = false;
+    os_requested_suspend = false;
     cleanup_completed = false;
     in_abort_sequence = false;
     master_fetch_period = MASTER_FETCH_PERIOD;

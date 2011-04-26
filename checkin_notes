@@ -9490,3 +9490,20 @@ Rom    24 April 2011
     /
         configure.ac
         version.h
+
+David  23 Apr 2011
+    - client: don't use the Snooze mechanism to handle
+        OS-requested suspension
+        (especially with a 1-hour snooze period).
+        Instead, handle them directly.
+
+    client/
+        client_state.cpp,h
+        cs_prefs.cpp
+        main.cpp
+        sysmon_win.cpp
+    clientgui/
+        MainDocument.cpp
+    lib/
+        common_defs.cpp
+        str_util.cpp

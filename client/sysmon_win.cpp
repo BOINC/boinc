@@ -58,7 +58,7 @@ static void quit_client() {
 
 // Suspend client operations
 static void suspend_client(bool wait) {
-    gstate.requested_suspend = true;
+    gstate.os_requested_suspend = true;
     if (wait) {
         while (1) {
             boinc_sleep(1.0);
@@ -69,7 +69,7 @@ static void suspend_client(bool wait) {
 
 // Resume client operations
 static void resume_client() {
-    gstate.requested_resume = true;
+    gstate.os_requested_resume = false;
 }
 
 // Process console messages sent by the system

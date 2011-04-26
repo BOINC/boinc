@@ -587,6 +587,7 @@ const char* suspend_reason_string(int reason) {
     case SUSPEND_REASON_EXCLUSIVE_APP_RUNNING: return "an exclusive app is running";
     case SUSPEND_REASON_CPU_USAGE: return "CPU is busy";
     case SUSPEND_REASON_NETWORK_QUOTA_EXCEEDED: return "network bandwidth limit exceeded";
+    case SUSPEND_REASON_OS: "requested by operating system";
     }
     return "unknown reason";
 }

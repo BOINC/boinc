@@ -108,8 +108,16 @@ struct CLIENT_STATE {
     int cmdline_gui_rpc_port;
     bool show_projects;
     bool requested_exit;
-    bool requested_suspend;
-    bool requested_resume;
+        // we should exit now.  Set when
+        // - got a "quit" GUI RPC
+        // - (Unix) got a HUP, INT, QUIT, TERM, or PWR signal
+        // - (Win) got CTRL_LOGOFF, CTRL_C, CTRL_BREAK, etc. event
+        // - (Mac) client was started from screensaver,
+        //   which has since exited
+    bool os_requested_suspend;
+        // we should suspend for OS reasonts (used on Win only).
+        // Set when
+        // - got BATTERY_LOW, SUSPEND, SERVICE_CONTROL_PAUSE
     bool cleanup_completed;
     bool in_abort_sequence;
         // Determine when it is safe to leave the quit_client() handler
