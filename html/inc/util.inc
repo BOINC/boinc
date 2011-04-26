@@ -40,6 +40,7 @@ if (!defined('SECURE_URL_BASE')) {
 
 $generating_xml = false;
 $caching = false;
+$did_page_head = false;
 
 function send_cookie($name, $value, $permanent, $ops=false) {
     // the following allows independent login for projects on the same server
@@ -131,9 +132,9 @@ if (!function_exists("page_head")){
 function page_head(
     $title, $java_onload=null, $title_plain=null, $prefix="", $head_extra=null
 ) {
-    global $caching;
-    global $cache_control_extra;
+    global $caching, $cache_control_extra, $did_page_head;
 
+	$did_page_head = true;
     $stylesheet = URL_BASE.STYLESHEET;
     $rssname = PROJECT . " RSS 2.0";
     $rsslink = URL_BASE."rss_main.php";
@@ -170,7 +171,6 @@ function page_head(
     switch($title) {    //kludge
     case tra("Log in"):
     case tra("Create an account"):
-    case tra("Project down for maintenance"):
         break;
     default:
         show_login_info($prefix);
@@ -720,13 +720,18 @@ function show_image($src, $title, $alt, $height=null) {
 }
 
 function check_web_stopped() {
-    global $generating_xml;
+    global $generating_xml, $did_page_head;
     if (web_stopped()) {
         if ($generating_xml) {
             xml_error(-183);
         } else {
-            page_head(tra("Project down for maintenance"));
-            echo tra("This page requires database access.  Our database server is temporarily shut down for maintenance.  Please try again later.");
+			if (!$did_page_head) {
+				page_head(tra("Project down for maintenance"));
+			}
+            echo tra(
+				"%1 is temporarily shut down for maintenance.  Please try again later.",
+				PROJECT
+			);
             page_tail();
             exit();
         }

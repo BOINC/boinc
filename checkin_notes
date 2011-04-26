@@ -2530,7 +2530,7 @@ David  25 Apr 2011
     sched/
         validator.cpp
 
-David  25 Apr 2011
+David  26 Apr 2011
     - client: fix bugs in runtime estimation of jobs that
         have run before but are not currently running.
         Old:
@@ -2550,13 +2550,13 @@ David  25 Apr 2011
         app.cpp,h
         app_control.cpp
 
-David  25 Apr 2011
+David  26 Apr 2011
 	- web: fix infinite recursion when project is down
 
 	html/inc/
 		util.inc
 
-Rom    25 Apr 2011
+Rom    26 Apr 2011
     - VBOX: Begin merging the two different vbox wrappers (COM vs. Daniel's from
         CERN).  Where possible stick with the POSIX API set and remove Windows
         specific code. (Example vbm_popen).
@@ -2572,3 +2572,9 @@ Rom    25 Apr 2011
         vm.cpp, .h
     win_build/
         vboxwrapper.vcproj
+
+David  26 Apr 2011
+	- web: eliminate double calls to page_head()
+
+	html/inc/
+		util.inc
