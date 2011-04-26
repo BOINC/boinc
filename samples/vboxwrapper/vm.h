@@ -29,10 +29,6 @@ public:
     std::string stdin_filename;
     std::string stdout_filename;
     std::string stderr_filename;
-    // name of checkpoint file, if any
-    std::string checkpoint_filename;
-    // name of file where app will write its fraction done
-    std::string fraction_done_filename;
     // name of the OS the VM runs
     std::string vm_os_name;
     // name of the version of the VM the OS runs

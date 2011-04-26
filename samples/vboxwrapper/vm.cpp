@@ -46,8 +46,6 @@ VM::VM() {
     stdin_filename.clear();
     stdout_filename.clear();
     stderr_filename.clear();
-    checkpoint_filename.clear();
-    fraction_done_filename.clear();
     vm_os_name.clear();
     vm_os_version.clear();
     vm_memory_size = 0;
@@ -80,8 +78,6 @@ int VM::parse(XML_PARSER& xp) {
         else if (xp.parse_string(tag, "stdin_filename", stdin_filename)) continue;
         else if (xp.parse_string(tag, "stdout_filename", stdout_filename)) continue;
         else if (xp.parse_string(tag, "stderr_filename", stderr_filename)) continue;
-        else if (xp.parse_string(tag, "checkpoint_filename", checkpoint_filename)) continue;
-        else if (xp.parse_string(tag, "fraction_done_filename", fraction_done_filename)) continue;
         else if (xp.parse_string(tag, "vm_os_name", vm_os_name)) continue;
         else if (xp.parse_string(tag, "vm_os_version", vm_os_version)) continue;
         else if (xp.parse_int(tag, "vm_memory_size", vm_memory_size)) continue;
