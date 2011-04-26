@@ -1164,6 +1164,8 @@ void ACTIVE_TASK_SET::get_msgs() {
                 atp->checkpoint_wall_time = gstate.now;
                 atp->premature_exit_count = 0;
                 atp->checkpoint_elapsed_time = atp->elapsed_time;
+                atp->checkpoint_fraction_done = atp->fraction_done;
+                atp->checkpoint_fraction_done_elapsed_time = atp->fraction_done_elapsed_time;
                 if (log_flags.checkpoint_debug) {
                     msg_printf(atp->wup->project, MSG_INFO,
                         "[checkpoint] result %s checkpointed",
