@@ -1,5 +1,7 @@
 <?php
 
+Header("Location: http://boinc.berkeley.edu/dev/sim_web.php");
+exit;
 require_once("docutil.php");
 
 function show_form() {

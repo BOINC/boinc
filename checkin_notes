@@ -2584,3 +2584,9 @@ David  26 Apr 2011
 
     html/user/
         forum_reply.php
+
+David  26 Apr 2011
+    - client: fix bug in [23431]
+
+    client/
+        client_types.cpp
