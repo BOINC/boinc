@@ -424,48 +424,8 @@
 				>
 			</File>
 			<File
-				RelativePath="..\samples\vboxwrapper\vbox_win.cpp"
-				>
-			</File>
-			<File
 				RelativePath="..\samples\vboxwrapper\vboxwrapper.cpp"
 				>
-			</File>
-			<File
-				RelativePath="..\samples\vboxwrapper\mscom\VirtualBox_i.c"
-				>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						CompileAs="1"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|x64"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						CompileAs="1"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						CompileAs="1"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug|x64"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						CompileAs="1"
-					/>
-				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\samples\vboxwrapper\vm.cpp"
@@ -483,10 +443,6 @@
 			>
 			<File
 				RelativePath="..\samples\vboxwrapper\vbox.h"
-				>
-			</File>
-			<File
-				RelativePath="..\samples\vboxwrapper\mscom\VirtualBox.h"
 				>
 			</File>
 			<File

@@ -2555,3 +2555,20 @@ David  25 Apr 2011
 
 	html/inc/
 		util.inc
+
+Rom    25 Apr 2011
+    - VBOX: Begin merging the two different vbox wrappers (COM vs. Daniel's from
+        CERN).  Where possible stick with the POSIX API set and remove Windows
+        specific code. (Example vbm_popen).
+        
+      NOTE: Not usable at the moment.
+      
+    samples/vboxwrapper/cernvm
+        cernvmwrapper.cpp
+    samples/vboxwrapper/
+        vbox.cpp, .h
+        vboxwrapper.cpp
+    samples/vboxwrapper/
+        vm.cpp, .h
+    win_build/
+        vboxwrapper.vcproj
