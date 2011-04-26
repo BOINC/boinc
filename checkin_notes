@@ -2578,3 +2578,9 @@ David  26 Apr 2011
 
 	html/inc/
 		util.inc
+
+David  26 Apr 2011
+    - web: fix bug that cause "use signature" preference to be ignored
+
+    html/user/
+        forum_reply.php

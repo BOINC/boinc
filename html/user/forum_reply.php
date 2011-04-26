@@ -123,7 +123,7 @@ end_table();
 page_tail();
 
 function show_message_row($thread, $parent_post) {
-    global $g_logged_in_user, $bbcode_html;
+    global $logged_in_user, $bbcode_html;
     global $content, $preview;
 
     $x1 = "Message:".html_info().post_warning();
@@ -138,7 +138,7 @@ function show_message_row($thread, $parent_post) {
     }
 
     $x2 .= " method=\"post\" name=\"post\" onsubmit=\"return checkForm(this)\">\n";
-    $x2 .= form_tokens($g_logged_in_user->authenticator);
+    $x2 .= form_tokens($logged_in_user->authenticator);
     $x2 .= $bbcode_html."<textarea name=\"content\" rows=\"18\" cols=\"80\">";
     $no_quote = get_int("no_quote", true)==1;
     if ($preview) {
@@ -146,7 +146,7 @@ function show_message_row($thread, $parent_post) {
     } else if (!$no_quote) {
         if ($parent_post) $x2 .= quote_text(htmlspecialchars($parent_post->content))."\n";
     }
-    if (!$g_logged_in_user->prefs->no_signature_by_default){
+    if (!$logged_in_user->prefs->no_signature_by_default){
         $enable_signature="checked=\"true\"";
     } else {
         $enable_signature="";
