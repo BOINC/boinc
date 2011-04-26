@@ -9547,3 +9547,11 @@ David  25 Apr 2011
     client/
         app.cpp,h
         app_control.cpp
+
+Rom    25 April 2011
+    - Tag for 6.12.26 release, all platforms
+      boinc_core_release_6_12_26
+
+    /
+        configure.ac
+        version.h
