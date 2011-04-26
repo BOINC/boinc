@@ -9527,3 +9527,23 @@ David  24 Apr 2011
 	client/
         acct_mgr.cpp
 		sysmon_win.cpp
+
+David  25 Apr 2011
+    - client: fix bugs in runtime estimation of jobs that
+        have run before but are not currently running.
+        Old:
+        - We maintain the most recent fraction_done in state file.
+            But for apps that checkpoint seldom or never,
+            this is not the relevant value,
+            and frac done may go down when the app runs.
+        - fraction_done_elapsed_time is not initialized,
+            and can have garbage values for jobs that haven't run yet.
+        New:
+        - Record, in the state file, the values of
+            fraction_done and fraction_done_elapsed_time
+            at the most recent checkpoint.
+            When the client starts up, use these values.
+
+    client/
+        app.cpp,h
+        app_control.cpp

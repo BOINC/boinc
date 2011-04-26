@@ -81,18 +81,22 @@ struct ACTIVE_TASK {
         // in episodes before the current one)
     double checkpoint_elapsed_time;
         // elapsed time at last checkpoint
-    double fraction_done;
-        // App's estimate of how much of the work unit is done.
-        // Passed from the application via an API call;
-        // will be zero if the app doesn't use this call
-    double fraction_done_elapsed_time;
-        // elapsed time when fraction done was last reported
+    double checkpoint_fraction_done;
+        // fraction done at last checkpoint
+    double checkpoint_fraction_done_elapsed_time;
+        // fraction done elapsed time at last checkpoint
     double current_cpu_time;
         // most recent CPU time reported by app
     bool once_ran_edf;
 
     // END OF ITEMS SAVED IN STATE FILE
 
+    double fraction_done;
+        // App's estimate of how much of the work unit is done.
+        // Passed from the application via an API call;
+        // will be zero if the app doesn't use this call
+    double fraction_done_elapsed_time;
+        // elapsed time when fraction done was last reported
     int scheduler_state;
     int next_scheduler_state; // temp
     int signal;
@@ -102,8 +106,6 @@ struct ACTIVE_TASK {
         // wall time at the last checkpoint
     double elapsed_time;
         // current total elapsed (running) time
-    int current_disk_usage(double&);
-        // disk used by output files and temp files of this task
     char slot_dir[256];
         // directory where process runs (relative)
     char slot_path[512];
@@ -181,6 +183,8 @@ struct ACTIVE_TASK {
     int init(RESULT*);
     void cleanup_task();
 
+    int current_disk_usage(double&);
+        // disk used by output files and temp files of this task
     void get_free_slot(RESULT*);
     int start(bool first_time);         // start a process
     int request_exit();

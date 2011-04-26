@@ -84,21 +84,26 @@ ACTIVE_TASK::ACTIVE_TASK() {
     wup = NULL;
     app_version = NULL;
     pid = 0;
-    slot = 0;
+
     _task_state = PROCESS_UNINITIALIZED;
+    slot = 0;
+    checkpoint_cpu_time = 0;
+    checkpoint_elapsed_time = 0;
+    checkpoint_fraction_done = 0;
+    checkpoint_fraction_done_elapsed_time = 0;
+    current_cpu_time = 0;
+    once_ran_edf = false;
+
+    fraction_done = 0;
+    fraction_done_elapsed_time = 0;
     scheduler_state = CPU_SCHED_UNINITIALIZED;
     signal = 0;
+    run_interval_start_wall_time = gstate.now;
+    checkpoint_wall_time = 0;
+    elapsed_time = 0;
     strcpy(slot_dir, "");
     graphics_mode_acked = MODE_UNSUPPORTED;
     graphics_mode_ack_timeout = 0;
-    fraction_done = 0;
-    run_interval_start_wall_time = gstate.now;
-    checkpoint_cpu_time = 0;
-    checkpoint_wall_time = 0;
-    current_cpu_time = 0;
-    once_ran_edf = false;
-    elapsed_time = 0;
-    checkpoint_elapsed_time = 0;
     have_trickle_down = false;
     send_upload_file_status = false;
     too_large = false;
@@ -497,7 +502,8 @@ int ACTIVE_TASK::write(MIOFILE& fout) {
         "    <slot>%d</slot>\n"
         "    <checkpoint_cpu_time>%f</checkpoint_cpu_time>\n"
         "    <checkpoint_elapsed_time>%f</checkpoint_elapsed_time>\n"
-        "    <fraction_done>%f</fraction_done>\n"
+        "    <checkpoint_fraction_done>%f</checkpoint_fraction_done>\n"
+        "    <checkpoint_fraction_done_elapsed_time>%f</checkpoint_fraction_done_elapsed_time>\n"
         "    <current_cpu_time>%f</current_cpu_time>\n"
         "    <once_ran_edf>%d</once_ran_edf>\n"
         "    <swap_size>%f</swap_size>\n"
@@ -511,7 +517,8 @@ int ACTIVE_TASK::write(MIOFILE& fout) {
         slot,
         checkpoint_cpu_time,
         checkpoint_elapsed_time,
-        fraction_done,
+        checkpoint_fraction_done,
+        checkpoint_fraction_done_elapsed_time,
         current_cpu_time,
         once_ran_edf?1:0,
         procinfo.swap_size,
@@ -652,6 +659,18 @@ int ACTIVE_TASK::parse(MIOFILE& fin) {
                 elapsed_time = checkpoint_cpu_time;
                 checkpoint_elapsed_time = elapsed_time;
             }
+
+            // for 6.12.25-26 transition;
+            // old clients write fraction_done to state file;
+            // new clients don't
+            if (fraction_done && checkpoint_elapsed_time) {
+                checkpoint_fraction_done = fraction_done;
+                checkpoint_fraction_done_elapsed_time = checkpoint_elapsed_time;
+                fraction_done_elapsed_time = checkpoint_elapsed_time;
+            } else {
+                fraction_done = checkpoint_fraction_done;
+                fraction_done_elapsed_time = checkpoint_fraction_done_elapsed_time;
+            }
             return 0;
         }
         else if (parse_str(buf, "<result_name>", result_name, sizeof(result_name))) continue;
@@ -659,9 +678,12 @@ int ACTIVE_TASK::parse(MIOFILE& fin) {
         else if (parse_int(buf, "<slot>", slot)) continue;
         else if (parse_int(buf, "<active_task_state>", dummy)) continue;
         else if (parse_double(buf, "<checkpoint_cpu_time>", checkpoint_cpu_time)) continue;
+        else if (parse_double(buf, "<checkpoint_elapsed_time>", checkpoint_elapsed_time)) continue;
+        else if (parse_double(buf, "<checkpoint_fraction_done>", checkpoint_fraction_done)) continue;
+        else if (parse_double(buf, "<checkpoint_fraction_done_elapsed_time>", checkpoint_fraction_done_elapsed_time)) continue;
         else if (parse_bool(buf, "once_ran_edf", once_ran_edf)) continue;
         else if (parse_double(buf, "<fraction_done>", fraction_done)) continue;
-        else if (parse_double(buf, "<checkpoint_elapsed_time>", checkpoint_elapsed_time)) continue;
+            // deprecated - for backwards compat
         else if (parse_int(buf, "<app_version_num>", n)) continue;
         else if (parse_double(buf, "<swap_size>", procinfo.swap_size)) continue;
         else if (parse_double(buf, "<working_set_size>", procinfo.working_set_size)) continue;
