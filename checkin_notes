@@ -2590,3 +2590,18 @@ David  26 Apr 2011
 
     client/
         client_types.cpp
+
+Charlie 27 Apr 2011
+    - lib, MGR: Implement get_cc_config, set_cc_config RPCs.
+    
+    client/
+        log_flags.cpp
+    clientgui/
+        AsyncRPC.cpp,.h
+    lib/
+        cc_config.cpp,.h
+        gui_rpc_client.h
+        gui_rpc_client_ops.cpp
+     mac_build/
+        boinc.xcodeproj/
+            project.pbxproj

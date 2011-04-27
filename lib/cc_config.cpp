@@ -99,6 +99,83 @@ int LOG_FLAGS::parse(XML_PARSER& xp) {
     return ERR_XML_PARSE;
 }
 
+int LOG_FLAGS::write(MIOFILE& out) {
+    out.printf(
+        "    <log_flags>\n"
+        "        <file_xfer>%d</file_xfer>\n"
+        "        <sched_ops>%d</sched_ops>\n"
+        "        <task>%d</task>\n"
+        "        <app_msg_receive>%d</app_msg_receive>\n"
+        "        <app_msg_send>%d</app_msg_send>\n"
+        "        <benchmark_debug>%d</benchmark_debug>\n"
+        "        <checkpoint_debug>%d</checkpoint_debug>\n"
+        "        <coproc_debug>%d</coproc_debug>\n"
+        "        <cpu_sched>%d</cpu_sched>\n"
+        "        <cpu_sched_debug>%d</cpu_sched_debug>\n"
+        "        <cpu_sched_status>%d</cpu_sched_status>\n"
+        "        <dcf_debug>%d</dcf_debug>\n"
+        "        <debt_debug>%d</debt_debug>\n"
+        "        <file_xfer_debug>%d</file_xfer_debug>\n"
+        "        <gui_rpc_debug>%d</gui_rpc_debug>\n"
+        "        <heartbeat_debug>%d</heartbeat_debug>\n"
+        "        <http_debug>%d</http_debug>\n"
+        "        <http_xfer_debug>%d</http_xfer_debug>\n"
+        "        <mem_usage_debug>%d</mem_usage_debug>\n"
+        "        <network_status_debug>%d</network_status_debug>\n"
+        "        <poll_debug>%d</poll_debug>\n"
+        "        <proxy_debug>%d</proxy_debug>\n"
+        "        <rr_simulation>%d</rr_simulation>\n"
+        "        <sched_op_debug>%d</sched_op_debug>\n"
+        "        <scrsave_debug>%d</scrsave_debug>\n"
+        "        <slot_debug>%d</slot_debug>\n"
+        "        <state_debug>%d</state_debug>\n"
+        "        <statefile_debug>%d</statefile_debug>\n"
+        "        <std_debug>%d</std_debug>\n"
+        "        <task_debug>%d</task_debug>\n"
+        "        <time_debug>%d</time_debug>\n"
+        "        <unparsed_xml>%d</unparsed_xml>\n"
+        "        <work_fetch_debug>%d</work_fetch_debug>\n"
+        "        <notice_debug>%d</notice_debug>\n"
+        "    </log_flags>\n",
+        file_xfer ? 1 : 0,
+        sched_ops ? 1 : 0,
+        task ? 1 : 0,
+        app_msg_receive ? 1 : 0,
+        app_msg_send ? 1 : 0,
+        benchmark_debug ? 1 : 0,
+        checkpoint_debug  ? 1 : 0,
+        coproc_debug ? 1 : 0,
+        cpu_sched ? 1 : 0,
+        cpu_sched_debug ? 1 : 0,
+        cpu_sched_status ? 1 : 0,
+        dcf_debug ? 1 : 0,
+        debt_debug ? 1 : 0,
+        file_xfer_debug ? 1 : 0,
+        gui_rpc_debug ? 1 : 0,
+        heartbeat_debug ? 1 : 0,
+        http_debug ? 1 : 0,
+        http_xfer_debug ? 1 : 0,
+        mem_usage_debug ? 1 : 0,
+        network_status_debug ? 1 : 0,
+        poll_debug ? 1 : 0,
+        proxy_debug ? 1 : 0,
+        rr_simulation ? 1 : 0,
+        sched_op_debug ? 1 : 0,
+        scrsave_debug ? 1 : 0,
+        slot_debug ? 1 : 0,
+        state_debug ? 1 : 0,
+        statefile_debug ? 1 : 0,
+        std_debug ? 1 : 0,
+        task_debug ? 1 : 0,
+        time_debug ? 1 : 0,
+        unparsed_xml ? 1 : 0,
+        work_fetch_debug ? 1 : 0,
+        notice_debug ? 1 : 0
+    );
+    
+    return 0;
+}
+
 CONFIG::CONFIG() {
 }
 
@@ -226,4 +303,201 @@ int CONFIG::parse_options(XML_PARSER& xp) {
         xp.skip_unexpected(tag, true, "CONFIG::parse_options");
     }
     return ERR_XML_PARSE;
+}
+
+int CONFIG::parse(MIOFILE& in, LOG_FLAGS& log_flags) {
+    char tag[256];
+    XML_PARSER xp(&in);
+    bool is_tag;
+
+    if (!xp.parse_start("cc_config")) {
+        return ERR_XML_PARSE;
+    }
+    while (!xp.get(tag, sizeof(tag), is_tag)) {
+        if (!is_tag) {
+            continue;
+        }
+        if (!strcmp(tag, "/cc_config")) return 0;
+        if (!strcmp(tag, "log_flags")) {
+            log_flags.parse(xp);
+            continue;
+        }
+        if (!strcmp(tag, "options")) {
+            parse_options(xp);
+            continue;
+        }
+        if (!strcmp(tag, "options/")) continue;
+        if (!strcmp(tag, "log_flags/")) continue;
+        xp.skip_unexpected(tag, true, "CONFIG.parse");
+    }
+    return ERR_XML_PARSE;
+}
+
+int CONFIG::write(MIOFILE& out, LOG_FLAGS& log_flags) {
+    unsigned int i;
+    int j;
+
+    out.printf("<cc_config>\n");
+
+    log_flags.write(out);
+
+    out.printf(
+        "    <options>\n"
+        "        <abort_jobs_on_exit>%d</abort_jobs_on_exit>\n"
+        "        <allow_multiple_clients>%d</allow_multiple_clients>\n"
+        "        <allow_remote_gui_rpc>%d</allow_remote_gui_rpc>\n",
+        abort_jobs_on_exit ? 1 : 0,
+        allow_multiple_clients ? 1 : 0,
+        allow_remote_gui_rpc ? 1 : 0
+    );
+
+    for (i=0; i<alt_platforms.size(); ++i) {
+        out.printf(
+            "        <alt_platform>%s</alt_platform>\n",
+            alt_platforms[i].c_str()
+        );
+    }
+    
+    out.printf(
+        "        <client_version_check_url>%s</client_version_check_url>\n"
+        "        <client_download_url>%s</client_download_url>\n",
+        client_version_check_url.c_str(),
+        client_download_url.c_str()
+    );
+    
+    for (i=0; i<(unsigned int)config_coprocs.n_rsc; ++i) {
+        out.printf(
+            "        <coproc>"
+            "            <type>%s</type>\n"
+            "            <count>%d</count>\n"
+            "            <peak_flops>%f</peak_flops>\n"
+            "            <device_nums>",
+            config_coprocs.coprocs[i].type,
+            config_coprocs.coprocs[i].count,
+            config_coprocs.coprocs[i].peak_flops
+        );
+        for (j=0; j<config_coprocs.coprocs[i].count; ++i) {
+            out.printf("%d", config_coprocs.coprocs[i].device_nums[j]);
+            if (j < (config_coprocs.coprocs[i].count - 1)) {
+                out.printf(" ");
+            }
+        }
+        out.printf(
+            "</device_nums>\n"
+            "        </coproc>"
+        );
+    }
+    
+    out.printf(
+        "        <data_dir>%s</data_dir>\n"
+        "        <disallow_attach>%d</disallow_attach>\n"
+        "        <dont_check_file_sizes>%d</dont_check_file_sizes>\n"
+        "        <dont_contact_ref_site>%d</dont_contact_ref_site>\n",
+        data_dir,
+        disallow_attach,
+        dont_check_file_sizes,
+        dont_contact_ref_site
+    );
+    
+    for (i=0; i<exclusive_apps.size(); ++i) {
+        out.printf(
+            "        <exclusive_app>%s</exclusive_app>\n",
+            exclusive_apps[i].c_str()
+        );
+    }
+            
+    for (i=0; i<exclusive_apps.size(); ++i) {
+        out.printf(
+            "        <exclusive_gpu_app>%s</exclusive_gpu_app>\n",
+            exclusive_gpu_apps[i].c_str()
+        );
+    }
+            
+    out.printf(
+        "        <exit_after_finish>%d</exit_after_finish>\n"
+        "        <exit_when_idle>%d</exit_when_idle>\n"
+        "        <fetch_minimal_work>%d</fetch_minimal_work>\n"
+        "        <force_auth>%s</force_auth>\n"
+        "        <http_1_0>%d</http_1_0>\n",
+        exit_after_finish,
+        exit_when_idle,
+        fetch_minimal_work,
+        force_auth.c_str(),
+        http_1_0
+    );
+        
+    for (i=0; i<ignore_cuda_dev.size(); ++i) {
+        out.printf(
+            "        <ignore_cuda_dev>%d</ignore_cuda_dev>\n",
+            ignore_cuda_dev[i]
+        );
+    }
+
+    for (i=0; i<ignore_ati_dev.size(); ++i) {
+        out.printf(
+            "        <ignore_ati_dev>%d</ignore_ati_dev>\n",
+            ignore_ati_dev[i]
+        );
+    }
+        
+    out.printf(
+        "        <max_file_xfers>%d</max_file_xfers>\n"
+        "        <max_file_xfers_per_project>%d</max_file_xfers_per_project>\n"
+        "        <max_stderr_file_size>%d</max_stderr_file_size>\n"
+        "        <max_stdout_file_size>%d</max_stdout_file_size>\n"
+        "        <max_tasks_reported>%d</max_tasks_reported>\n"
+        "        <ncpus>%d</ncpus>\n"
+        "        <network_test_url>%s</network_test_url>\n"
+        "        <no_alt_platform>%d</no_alt_platform>\n"
+        "        <no_gpus>%d</no_gpus>\n"
+        "        <no_info_fetch>%d</no_info_fetch>\n"
+        "        <no_priority_change>%d</no_priority_change>\n"
+        "        <os_random_only>%d</os_random_only>\n",
+        max_file_xfers,
+        max_file_xfers_per_project,
+        max_stderr_file_size,
+        max_stdout_file_size,
+        max_tasks_reported,
+        ncpus,
+        network_test_url.c_str(),
+        no_alt_platform,
+        no_gpus,
+        no_info_fetch,
+        no_priority_change,
+        os_random_only
+    );
+    
+    proxy_info.write(out);
+    
+    out.printf(
+        "        <report_results_immediately>%d</report_results_immediately>\n"
+        "        <run_apps_manually>%d</run_apps_manually>\n"
+        "        <save_stats_days>%d</save_stats_days>\n"
+        "        <skip_cpu_benchmarks>%d</skip_cpu_benchmarks>\n"
+        "        <simple_gui_only>%d</simple_gui_only>\n"
+        "        <start_delay>%d</start_delay>\n"
+        "        <stderr_head>%d</stderr_head>\n"
+        "        <suppress_net_info>%d</suppress_net_info>\n"
+        "        <unsigned_apps_ok>%d</unsigned_apps_ok>\n"
+        "        <use_all_gpus>%d</use_all_gpus>\n"
+        "        <use_certs>%d</use_certs>\n"
+        "        <use_certs_only>%d</use_certs_only>\n"
+        "        <zero_debts>%d</zero_debts>\n",
+        report_results_immediately,
+        run_apps_manually,
+        save_stats_days,
+        skip_cpu_benchmarks,
+        simple_gui_only,
+        start_delay,
+        stderr_head,
+        suppress_net_info,
+        unsigned_apps_ok,
+        use_all_gpus,
+        use_certs,
+        use_certs_only,
+        zero_debts
+    );
+
+     out.printf("    </options>\n</cc_config>\n");
+     return 0;
 }

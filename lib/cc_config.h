@@ -103,6 +103,7 @@ struct LOG_FLAGS {
     void init();
     int parse(XML_PARSER&);
     void show();
+    int write(MIOFILE& out);
 };
 
 struct CONFIG {
@@ -157,9 +158,11 @@ struct CONFIG {
     CONFIG();
     void defaults();
     int parse(FILE*);
+    int parse(MIOFILE&, LOG_FLAGS&);
     int parse_client(FILE*);
     int parse_options(XML_PARSER&);
     int parse_options_client(XML_PARSER&);
+    int write(MIOFILE&, LOG_FLAGS&);
     void show();
 };
 

@@ -35,6 +35,7 @@
 #include "common_defs.h"
 #include "notice.h"
 #include "network.h"
+#include "cc_config.h"
 
 struct GUI_URL {
     std::string name;
@@ -714,6 +715,9 @@ public:
     int set_global_prefs_override(std::string&);
     int get_global_prefs_override_struct(GLOBAL_PREFS&, GLOBAL_PREFS_MASK&);
     int set_global_prefs_override_struct(GLOBAL_PREFS&, GLOBAL_PREFS_MASK&);
+    int get_cc_config(CONFIG& config, LOG_FLAGS& log_flags);
+    int set_cc_config(CONFIG& config, LOG_FLAGS& log_flags);
+
 };
 
 struct RPC {

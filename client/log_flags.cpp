@@ -428,33 +428,10 @@ int CONFIG::parse_client(FILE* f) {
 }
 
 int CONFIG::parse(FILE* f) {
-    char tag[256];
     MIOFILE mf;
-    XML_PARSER xp(&mf);
-    bool is_tag;
-
     mf.init_file(f);
-    if (!xp.parse_start("cc_config")) {
-        return ERR_XML_PARSE;
-    }
-    while (!xp.get(tag, sizeof(tag), is_tag)) {
-        if (!is_tag) {
-            continue;
-        }
-        if (!strcmp(tag, "/cc_config")) return 0;
-        if (!strcmp(tag, "log_flags")) {
-            log_flags.parse(xp);
-            continue;
-        }
-        if (!strcmp(tag, "options")) {
-            parse_options(xp);
-            continue;
-        }
-        if (!strcmp(tag, "options/")) continue;
-        if (!strcmp(tag, "log_flags/")) continue;
-        xp.skip_unexpected(tag, true, "CONFIG.parse");
-    }
-    return ERR_XML_PARSE;
+
+    return parse(mf, log_flags);
 }
 
 int read_config_file(bool init, const char* fname) {

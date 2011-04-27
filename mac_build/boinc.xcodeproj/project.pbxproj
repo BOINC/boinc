@@ -58,6 +58,10 @@
 		DD205A1A0BAF596E0008D473 /* ProjectListCtrl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD205A180BAF596E0008D473 /* ProjectListCtrl.cpp */; };
 		DD21B49D0D750FC600AFFEE5 /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DDFE854A0B60CFD0009B43D9 /* AppKit.framework */; };
 		DD247AF90AEA308A0034104A /* SkinManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD247AF70AEA308A0034104A /* SkinManager.cpp */; };
+		DD262C781366D2A200C9A187 /* cc_config.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD4AE04B13652BD700285859 /* cc_config.cpp */; };
+		DD262C811366D35A00C9A187 /* cc_config.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD4AE04B13652BD700285859 /* cc_config.cpp */; };
+		DD262C821366D35D00C9A187 /* cc_config.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD4AE04B13652BD700285859 /* cc_config.cpp */; };
+		DD262C871366D4D200C9A187 /* proxy_info.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD344BEF07C5B1770043025C /* proxy_info.cpp */; };
 		DD2B6C8013149177005D6F3E /* procinfo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD2B6C7E13149177005D6F3E /* procinfo.cpp */; };
 		DD2B6C8113149177005D6F3E /* procinfo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD2B6C7E13149177005D6F3E /* procinfo.cpp */; };
 		DD2B6C8D131491B7005D6F3E /* procinfo_mac.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDB6934F0ABFE9C600689FD8 /* procinfo_mac.cpp */; };
@@ -2591,6 +2595,7 @@
 				DD80632D131FAA4100DC8971 /* sg_BoincSimpleFrame.cpp in Sources */,
 				DD806336131FAD9A00DC8971 /* sg_CustomControls.cpp in Sources */,
 				DD806339131FADE700DC8971 /* sg_DlgMessages.cpp in Sources */,
+				DD262C781366D2A200C9A187 /* cc_config.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2730,6 +2735,7 @@
 				DDF5F85A10DD05DB006A50CD /* notice.cpp in Sources */,
 				DDC55A6D136013D000D79903 /* procinfo.cpp in Sources */,
 				DDC55A70136013F800D79903 /* procinfo_mac.cpp in Sources */,
+				DD262C811366D35A00C9A187 /* cc_config.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2756,6 +2762,8 @@
 				DD6803440E70A61D0067D009 /* diagnostics.cpp in Sources */,
 				DDD9C5AC10CCF6AB00A1E4CD /* coproc.cpp in Sources */,
 				DDF5F85B10DD05E4006A50CD /* notice.cpp in Sources */,
+				DD262C821366D35D00C9A187 /* cc_config.cpp in Sources */,
+				DD262C871366D4D200C9A187 /* proxy_info.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
