@@ -834,6 +834,14 @@
 				>
 			</File>
 			<File
+				RelativePath="..\lib\cc_config.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\lib\cc_config.h"
+				>
+			</File>
+			<File
 				RelativePath="..\lib\common_defs.h"
 				>
 			</File>

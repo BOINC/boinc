@@ -567,6 +567,10 @@
 				</FileConfiguration>
 			</File>
 			<File
+				RelativePath="..\lib\cc_config.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\lib\coproc.cpp"
 				>
 			</File>
@@ -627,6 +631,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\lib\proxy_info.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\clientscr\screensaver.cpp"
 				>
 			</File>
@@ -665,6 +673,10 @@
 			</File>
 			<File
 				RelativePath="..\lib\boinc_win.h"
+				>
+			</File>
+			<File
+				RelativePath="..\lib\cc_config.h"
 				>
 			</File>
 			<File
