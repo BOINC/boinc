@@ -27,7 +27,6 @@ require_once("../inc/profile.inc");
 // don't allow /... at the end of URL
 
 if (array_key_exists("PATH_INFO", $_SERVER)) {
-    print_r($_SERVER);
     die("bad URL");
 }
 

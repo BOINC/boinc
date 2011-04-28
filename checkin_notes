@@ -2654,3 +2654,15 @@ David  28 Apr 2011
 
     client/
         acct_mgr.cpp
+
+David  28 Apr 2011
+    - scheduler: compile fix
+    - client: don't print "Insufficient GPU" messages
+        unless <coproc_debug> is set
+
+    client/
+        cpu_sched.cpp
+    html/inc/
+        util.inc
+    sched/
+        sched_types.cpp
