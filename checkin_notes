@@ -2612,8 +2612,9 @@ Charlie 27 Apr 2011
 
 Charlie 28 Apr 2011
     - MGR: Begin adding Exclusive Apps pane to Computing Prefs dialog.
+    - MGR: Implement Manage Settings menu item in Simple GUI.
 
     clientgui/
         DlgAdvPreferences.cpp
         DlgAdvPreferencesBase.cpp,.h
-    
+        sg_BoincSimpleFrame

@@ -48,6 +48,7 @@
 #include "sg_DlgPreferences.h"
 #include "DlgEventLog.h"
 #include "DlgAbout.h"
+#include "DlgOptions.h"
 
 
 IMPLEMENT_DYNAMIC_CLASS(CSimpleFrame, CBOINCBaseFrame)
@@ -321,7 +322,9 @@ void CSimpleFrame::OnOptions(wxCommandEvent& WXUNUSED(event)) {
 
 	m_pBackgroundPanel->SetDlgOpen(true);
 
-// TODO:  Get code from CAdvancedFrame::OnOptions() or create simple language selection dialog
+// TODO:  Create simple language selection dialog
+    CDlgOptions dlg(this);
+    dlg.ShowModal();
 
     m_pBackgroundPanel->SetDlgOpen(false);
 
