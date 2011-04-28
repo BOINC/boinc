@@ -2618,3 +2618,14 @@ Charlie 28 Apr 2011
         DlgAdvPreferences.cpp
         DlgAdvPreferencesBase.cpp,.h
         sg_BoincSimpleFrame
+
+David  28 Apr 2011
+	- client: fix bug that prevented work fetch in some cases
+
+	client/
+		client_state.cpp
+		main.cpp
+		work_fetch.cpp
+	lib/
+		coproc.h
+		hostinfo.cpp

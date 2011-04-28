@@ -212,7 +212,6 @@ static void init_core_client(int argc, char** argv) {
     //_CrtSetBreakAlloc(654);
 #endif
 
-    coprocs.init();
     read_config_file(true);
 
     // Win32 - detach from console if requested

@@ -333,11 +333,6 @@ struct COPROCS {
             }
         }
     }
-    inline void clear() {
-        n_rsc = 0;
-        nvidia.count = 0;
-        ati.count = 0;
-    }
     inline void clear_usage() {
         for (int i=0; i<n_rsc; i++) {
             coprocs[i].clear_usage();
@@ -363,7 +358,10 @@ struct COPROCS {
         coprocs[n_rsc++] = c;
         return 0;
     }
-    void init() {
+    COPROCS() {
+        n_rsc = 0;
+        nvidia.count = 0;
+        ati.count = 0;
         COPROC c;
         strcpy(c.type, "CPU");
         add(c);

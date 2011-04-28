@@ -69,8 +69,6 @@ void HOST_INFO::clear_host_info() {
     strcpy(os_version, "");
 
     strcpy(virtualbox_version, "");
-
-    _coprocs.clear();
 }
 
 int HOST_INFO::parse(MIOFILE& in, bool benchmarks_only) {
