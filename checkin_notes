@@ -2602,10 +2602,18 @@ Charlie 27 Apr 2011
         cc_config.cpp,.h
         gui_rpc_client.h
         gui_rpc_client_ops.cpp
-     mac_build/
+    mac_build/
         boinc.xcodeproj/
             project.pbxproj
     win_build/
         boinc_os_ss.vcproj
         boinc_ss.vcproj
         boincmgr.vcproj
+
+Charlie 28 Apr 2011
+    - MGR: Begin adding Exclusive Apps pane to Computing Prefs dialog.
+
+    clientgui/
+        DlgAdvPreferences.cpp
+        DlgAdvPreferencesBase.cpp,.h
+    

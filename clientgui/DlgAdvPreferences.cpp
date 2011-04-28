@@ -51,11 +51,16 @@ END_EVENT_TABLE()
 
 /* Constructor */
 CDlgAdvPreferences::CDlgAdvPreferences(wxWindow* parent) : CDlgAdvPreferencesBase(parent,ID_ANYDIALOG) {
+    CSkinAdvanced* pSkinAdvanced = wxGetApp().GetSkinManager()->GetAdvanced();
+    wxASSERT(pSkinAdvanced);
+    wxASSERT(wxDynamicCast(pSkinAdvanced, CSkinAdvanced));
+
 	m_bInInit=false;
 	m_bDataChanged=false;
 	m_arrTabPageIds.Add(ID_TABPAGE_PROC);
 	m_arrTabPageIds.Add(ID_TABPAGE_NET);
 	m_arrTabPageIds.Add(ID_TABPAGE_DISK);
+	m_arrTabPageIds.Add(ID_TABPAGE_EXCLAPPS);
 	
 	//setting tab page images (not handled by generated code)
     int iImageIndex = 0;
@@ -73,6 +78,10 @@ CDlgAdvPreferences::CDlgAdvPreferences(wxWindow* parent) : CDlgAdvPreferencesBas
 
     iImageIndex = pImageList->Add(wxBitmap(usage_xpm));
 	m_Notebook->SetPageImage(2,iImageIndex);
+    
+    iImageIndex = pImageList->Add(*pSkinAdvanced->GetApplicationSnoozeIcon());
+	m_Notebook->SetPageImage(3,iImageIndex);
+        
 	//setting warning bitmap
 	m_bmpWarning->SetBitmap(wxBitmap(warning_xpm));
 	// init special tooltips

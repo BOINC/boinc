@@ -102,6 +102,11 @@
 #define ID_TXTMAXLOAD 20057
 #define ID_DAILY_XFER_LIMIT_MB  20058
 #define ID_DAILY_XFER_PERIOD_DAYS  20059
+#define ID_TABPAGE_EXCLAPPS 20060
+#define ID_LISTBOX_EXCLAPPS 20061
+#define ID_ADDEXCLUSIVEAPPBUTTON 20062
+#define ID_REMOVEEXCLUSIVEAPPBUTTON 20063
+
 
 /**
  * Class CDlgAdvPreferencesBase
@@ -219,6 +224,11 @@ protected:
     wxStaticText* m_staticText54;
     wxStaticText* m_staticText55;
     wxCheckBox* m_chkMemoryWhileSuspended;
+    wxPanel* m_panelExlusiveApps;
+    wxListBox* m_exclusiveApsListBox;
+    wxButton* m_addExclusiveAppButton;
+    wxButton* m_removeExclusiveAppButton;
+            
     wxPanel* m_panelButtons;
     wxButton* m_btnOK;
     wxButton* m_btnCancel;
@@ -231,6 +241,7 @@ private:
     wxPanel* createProcessorTab(wxNotebook* notebook);
     wxPanel* createNetworkTab(wxNotebook* notebook);
     wxPanel* createDiskAndMemoryTab(wxNotebook* notebook);
+    wxPanel* createExclusiveAppsTab(wxNotebook* notebook);
 };
 
 #endif //__DlgAdvPreferencesBase__
