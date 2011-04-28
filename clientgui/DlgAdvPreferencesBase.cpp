@@ -699,13 +699,13 @@ wxPanel* CDlgAdvPreferencesBase::createExclusiveAppsTab(wxNotebook* notebook)
 
 	wxBoxSizer* exclusiveAppsButtonSizer = new wxBoxSizer( wxHORIZONTAL );
 
-    wxButton* m_addExclusiveAppButton = new wxButton( this, ID_ADDEXCLUSIVEAPPBUTTON, _("Add"), wxDefaultPosition, wxDefaultSize, 0 );
+    wxButton* m_addExclusiveAppButton = new wxButton( exclusiveAppsTab, ID_ADDEXCLUSIVEAPPBUTTON, _("Add"), wxDefaultPosition, wxDefaultSize, 0 );
     m_addExclusiveAppButton->SetToolTip( _("Add an application to this list"));
 	exclusiveAppsButtonSizer->Add( m_addExclusiveAppButton, 0, wxRIGHT, 5 );
     
     exclusiveAppsButtonSizer->AddStretchSpacer();
     
-    wxButton* m_removeExclusiveAppButton = new wxButton( this, ID_REMOVEEXCLUSIVEAPPBUTTON, _("Remove"), wxDefaultPosition, wxDefaultSize, 0 );
+    wxButton* m_removeExclusiveAppButton = new wxButton( exclusiveAppsTab, ID_REMOVEEXCLUSIVEAPPBUTTON, _("Remove"), wxDefaultPosition, wxDefaultSize, 0 );
     m_removeExclusiveAppButton->SetToolTip( _("Remove an application from this list"));
 	exclusiveAppsButtonSizer->Add( m_removeExclusiveAppButton, 0, wxLEFT, 5 );
 
