@@ -2666,3 +2666,12 @@ David  28 Apr 2011
         util.inc
     sched/
         sched_types.cpp
+
+David  28 Apr 2011
+    - client: update to previous commit:
+        only change the authenticator if both old and new
+        authenticators are weak
+        (strong authenticators don't change).
+
+    client/
+        acct_mgr.cpp

@@ -395,6 +395,10 @@ int ACCT_MGR_OP::parse(FILE* f) {
     return ERR_XML_PARSE;
 }
 
+static inline bool is_weak_auth(const char* auth) {
+    return (strstr(auth, "_") != NULL);
+}
+
 void ACCT_MGR_OP::handle_reply(int http_op_retval) {
 #ifndef SIM
     unsigned int i;
@@ -502,15 +506,29 @@ void ACCT_MGR_OP::handle_reply(int http_op_retval) {
                         gstate.detach_project(pp);
                     }
                 } else {
-                    // BAM! leaves authenticator blank if our request message
+                    // The AM can leave authenticator blank if request message
                     // had the current account info
                     //
                     if (acct.authenticator.size()) {
                         if (strcmp(pp->authenticator, acct.authenticator.c_str())) {
-                            strcpy(pp->authenticator, acct.authenticator.c_str());
-                            msg_printf(pp, MSG_INFO,
-                                "Received new authenticator from account manager"
-                            );
+                            // if old and new auths are both weak,
+                            // use the new one
+                            //
+                            if (is_weak_auth(pp->authenticator)
+                                && is_weak_auth(acct.authenticator.c_str())
+                            ) {
+                                strcpy(pp->authenticator, acct.authenticator.c_str());
+                                msg_printf(pp, MSG_INFO,
+                                    "Received new authenticator from account manager"
+                                );
+                            } else {
+                                // otherwise skip this update
+                                //
+                                msg_printf(pp, MSG_INFO,
+                                    "Already attached to a different account"
+                                );
+                                continue;
+                            }
                         }
                     }
                     pp->attached_via_acct_mgr = true;
