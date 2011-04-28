@@ -1225,10 +1225,12 @@ static inline bool get_fractional_assignment(
             return true;
         }
     }
-    msg_printf(rp->project, MSG_INFO,
-        "[coproc] Insufficient %s for %s: need %f",
-        cp->type, rp->name, usage
-    );
+    if (log_flags.coproc_debug) {
+        msg_printf(rp->project, MSG_INFO,
+            "[coproc] Insufficient %s for %s: need %f",
+            cp->type, rp->name, usage
+        );
+    }
 
     return false;
 }

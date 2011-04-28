@@ -210,7 +210,6 @@ const char* SCHEDULER_REQUEST::parse(FILE* fin) {
     client_cap_plan_class = false;
     sandbox = -1;
     allow_multiple_clients = -1;
-    coprocs.clear();
 
     // TODO: use XML_PARSER FOR THIS
 
