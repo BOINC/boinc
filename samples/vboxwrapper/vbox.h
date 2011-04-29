@@ -21,6 +21,11 @@
 #ifndef _VBOX_H_
 #define _VBOX_H_
 
+// Return codes
+#define     VBOX_SUCCESS                0x00000000
+#define     VBOX_POPEN_ERROR            0x00000001
+
+// Functions
 extern int virtualbox_generate_vm_root_dir( std::string& dir );
 extern int virtualbox_generate_vm_name( std::string& name );
 

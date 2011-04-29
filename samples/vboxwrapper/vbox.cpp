@@ -48,39 +48,36 @@
 // Execute the vbox manage application and copy the output to the
 // designated buffer.
 //
-bool virtualbox_vbm_popen(std::string& arguments, char* pBuffer, int nSize) {
+int virtualbox_vbm_popen(std::string& arguments, std::string& output) {
     FILE* fp;
     char buf[256];
-    std::string strCommand;
-    std::string strTemp;
-
-    // Initialize return buffer
-    memset(pBuffer, 0, nSize);
+    std::string command;
 
     // Initialize command line
-    strCommand = "VBoxManage -q " + arguments;
+    command = "VBoxManage -q " + arguments;
 
-    fp = popen(strCommand.c_str(), "r");
+    // Execute command
+    fp = popen(command.c_str(), "r");
     if (fp == NULL){
         fprintf(
             stderr,
             "%s vbm_popen popen failed! cmd = '%s', errno = %d\n",
             boinc_msg_prefix(buf, sizeof(buf)),
-            strCommand.c_str(),
+            command.c_str(),
             errno
         );
-        return false;
+        return VBOX_POPEN_ERROR;
     }
 
+    // Copy output to buffer
     while (fgets(buf, 256, fp)) {
-        strTemp += buf;
+        output += buf;
     }
 
+    // Close stream
     pclose(fp);
 
-    strncpy(pBuffer, strTemp.c_str(), nSize-1);
-
-    return true;
+    return VBOX_SUCCESS;
 }
 
 
@@ -130,39 +127,124 @@ int virtualbox_generate_vm_name( std::string& name ) {
 }
 
 
+bool virtualbox_vm_is_registered() {
+    std::string command;
+    std::string output;
+    std::string virtual_machine_name;
+
+    virtualbox_generate_vm_name(virtual_machine_name);
+    command = "showvminfo " + virtual_machine_name;
+
+    if (VBOX_SUCCESS == virtualbox_vbm_popen(command, output)) {
+        if (output.find("VBOX_E_OBJECT_NOT_FOUND") != std::string::npos) {
+            return true;
+        }
+    }
+
+    return false;
+}
 
 
+bool virtualbox_vm_is_running() {
+    std::string command;
+    std::string output;
+    std::string virtual_machine_name;
+
+    virtualbox_generate_vm_name(virtual_machine_name);
+    command = "list runningvms";
+
+    if (VBOX_SUCCESS == virtualbox_vbm_popen(command, output)) {
+        if (output.find(virtual_machine_name) != std::string::npos) {
+            return true;
+        }
+    }
+
+    return false;
+}
 
 
+int virtualbox_initialize() {
+    return VBOX_SUCCESS;
+}
 
 
+int virtualbox_register_vm() {
+    std::string command;
+    std::string output;
+    std::string virtual_machine_name;
+    std::string virtual_machine_root_dir;
+
+    virtualbox_generate_vm_name(virtual_machine_name);
+    virtualbox_generate_vm_root_dir(virtual_machine_root_dir);
+
+    fprintf(
+        stderr,
+        "%s Registering virtual machine.\n",
+        boinc_msg_prefix(buf, sizeof(buf))
+    );
+
+    //command = "startvm " + virtual_machine_name + " --type headless";
+    //virtualbox_vbm_popen(command, output);
+
+    return VBOX_SUCCESS;
+}
 
 
+int virtualbox_deregister_vm() {
+    return VBOX_SUCCESS;
+}
 
 
+int virtualbox_cleanup() {
+    return VBOX_SUCCESS;
+}
 
 
+int virtualbox_startvm() {
+    std::string command;
+    std::string output;
+    std::string virtual_machine_name;
+
+    virtualbox_generate_vm_name(virtual_machine_name);
+    command = "startvm " + virtual_machine_name + " --type headless";
+    return virtualbox_vbm_popen(command, output);
+}
 
 
+int virtualbox_stopvm() {
+    std::string command;
+    std::string output;
+    std::string virtual_machine_name;
+
+    virtualbox_generate_vm_name(virtual_machine_name);
+    command = "controlvm " + virtual_machine_name + " savestate";
+    return virtualbox_vbm_popen(command, output);
+}
 
 
+int virtualbox_pausevm() {
+    std::string command;
+    std::string output;
+    std::string virtual_machine_name;
+
+    virtualbox_generate_vm_name(virtual_machine_name);
+    command = "controlvm " + virtual_machine_name + " pause";
+    return virtualbox_vbm_popen(command, output);
+}
 
 
+int virtualbox_resumevm() {
+    std::string command;
+    std::string output;
+    std::string virtual_machine_name;
+
+    virtualbox_generate_vm_name(virtual_machine_name);
+    command = "controlvm " + virtual_machine_name + " resume";
+    return virtualbox_vbm_popen(command, output);
+}
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+int virtualbox_monitor() {
+    return VBOX_SUCCESS;
+}
 

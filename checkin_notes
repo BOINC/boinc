@@ -2689,3 +2689,12 @@ Charlie 29 Apr 2011
         cc_config.cpp,.h
         gui_rpc_client_ops.cpp
         proxy_info.cpp
+
+Rom    29 Apr 2011
+    - VBOX: Checkpoint, Re-implement the start/stop/suspend/resume/is_running
+        and is_registered functions using the vboxmanage app.
+    - VBOX: Simplify the virtualbox_vbm_popen function and remove a buffer
+        copy operation.
+
+    samples/vboxwrapper/
+        vbox.cpp, .h
