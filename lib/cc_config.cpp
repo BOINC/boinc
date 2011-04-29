@@ -179,6 +179,56 @@ int LOG_FLAGS::write(MIOFILE& out) {
 CONFIG::CONFIG() {
 }
 
+// this is called first thing by client
+//
+void CONFIG::defaults() {
+    abort_jobs_on_exit = false;
+    allow_multiple_clients = false;
+    allow_remote_gui_rpc = false;
+    alt_platforms.clear();
+    client_version_check_url = "http://boinc.berkeley.edu/download.php?xml=1";
+    client_download_url = "http://boinc.berkeley.edu/download.php";
+    disallow_attach = false;
+    dont_check_file_sizes = false;
+    dont_contact_ref_site = false;
+    exclusive_apps.clear();
+    exclusive_gpu_apps.clear();
+    exit_after_finish = false;
+    exit_when_idle = false;
+    fetch_minimal_work = false;
+    force_auth = "default";
+    http_1_0 = false;
+    ignore_cuda_dev.clear();
+    ignore_ati_dev.clear();
+    max_file_xfers = MAX_FILE_XFERS;
+    max_file_xfers_per_project = MAX_FILE_XFERS_PER_PROJECT;
+    max_stderr_file_size = 0;
+    max_stdout_file_size = 0;
+    max_tasks_reported = 0;
+    ncpus = -1;
+    network_test_url = "http://www.google.com/";
+    no_alt_platform = false;
+    no_gpus = false;
+    no_info_fetch = false;
+    no_priority_change = false;
+    os_random_only = false;
+    proxy_info.clear();
+    report_results_immediately = false;
+    run_apps_manually = false;
+    save_stats_days = 30;
+    simple_gui_only = false;
+    skip_cpu_benchmarks = false;
+    start_delay = 0;
+    stderr_head = false;
+    suppress_net_info = false;
+    unsigned_apps_ok = false;
+    use_all_gpus = false;
+    use_certs = false;
+    use_certs_only = false;
+    zero_debts = false;
+}
+
+
 int CONFIG::parse_options(XML_PARSER& xp) {
     char tag[1024];
     bool is_tag;
@@ -310,9 +360,6 @@ int CONFIG::parse(MIOFILE& in, LOG_FLAGS& log_flags) {
     XML_PARSER xp(&in);
     bool is_tag;
 
-    if (!xp.parse_start("cc_config")) {
-        return ERR_XML_PARSE;
-    }
     while (!xp.get(tag, sizeof(tag), is_tag)) {
         if (!is_tag) {
             continue;
@@ -328,7 +375,6 @@ int CONFIG::parse(MIOFILE& in, LOG_FLAGS& log_flags) {
         }
         if (!strcmp(tag, "options/")) continue;
         if (!strcmp(tag, "log_flags/")) continue;
-        xp.skip_unexpected(tag, true, "CONFIG.parse");
     }
     return ERR_XML_PARSE;
 }
@@ -337,6 +383,7 @@ int CONFIG::write(MIOFILE& out, LOG_FLAGS& log_flags) {
     unsigned int i;
     int j;
 
+    out.printf("<set_cc_config>\n");
     out.printf("<cc_config>\n");
 
     log_flags.write(out);
@@ -498,6 +545,7 @@ int CONFIG::write(MIOFILE& out, LOG_FLAGS& log_flags) {
         zero_debts
     );
 
-     out.printf("    </options>\n</cc_config>\n");
-     return 0;
+    out.printf("    </options>\n</cc_config>\n");
+    out.printf("</set_cc_config>\n");
+    return 0;
 }

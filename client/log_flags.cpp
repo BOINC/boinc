@@ -111,54 +111,6 @@ static void show_gpu_ignore(vector<int>& devs, const char* name) {
     }
 }
 
-// this is called first thing by client
-//
-void CONFIG::defaults() {
-    abort_jobs_on_exit = false;
-    allow_multiple_clients = false;
-    allow_remote_gui_rpc = false;
-    alt_platforms.clear();
-    client_version_check_url = "http://boinc.berkeley.edu/download.php?xml=1";
-    client_download_url = "http://boinc.berkeley.edu/download.php";
-    disallow_attach = false;
-    dont_check_file_sizes = false;
-    dont_contact_ref_site = false;
-    exclusive_apps.clear();
-    exclusive_gpu_apps.clear();
-    exit_after_finish = false;
-    exit_when_idle = false;
-    fetch_minimal_work = false;
-    force_auth = "default";
-    http_1_0 = false;
-    ignore_cuda_dev.clear();
-    ignore_ati_dev.clear();
-    max_file_xfers = MAX_FILE_XFERS;
-    max_file_xfers_per_project = MAX_FILE_XFERS_PER_PROJECT;
-    max_stderr_file_size = 0;
-    max_stdout_file_size = 0;
-    max_tasks_reported = 0;
-    ncpus = -1;
-    network_test_url = "http://www.google.com/";
-    no_alt_platform = false;
-    no_gpus = false;
-    no_info_fetch = false;
-    no_priority_change = false;
-    os_random_only = false;
-    report_results_immediately = false;
-    run_apps_manually = false;
-    save_stats_days = 30;
-    simple_gui_only = false;
-    skip_cpu_benchmarks = false;
-    start_delay = 0;
-    stderr_head = false;
-    suppress_net_info = false;
-    unsigned_apps_ok = false;
-    use_all_gpus = false;
-    use_certs = false;
-    use_certs_only = false;
-    zero_debts = false;
-}
-
 // TODO: show other config options
 //
 void CONFIG::show() {

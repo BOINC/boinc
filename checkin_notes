@@ -2675,3 +2675,17 @@ David  28 Apr 2011
 
     client/
         acct_mgr.cpp
+
+Charlie 29 Apr 2011
+    - MGR: Continue adding Exclusive Apps pane to Computing Prefs dialog.
+    - lib: add missing items in CONFIG, PROXY_INFO struct initializers.
+
+    client/
+        log_flags.cpp,.h
+    clientgui/
+        DlgAdvPreferences.cpp,.h
+        DlgAdvPreferencesBase.cpp
+    lib/
+        cc_config.cpp,.h
+        gui_rpc_client_ops.cpp
+        proxy_info.cpp

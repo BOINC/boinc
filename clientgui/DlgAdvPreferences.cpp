@@ -43,7 +43,11 @@ BEGIN_EVENT_TABLE(CDlgAdvPreferences, wxDialog)
 	EVT_COMMAND_RANGE(20000,21000,wxEVT_COMMAND_CHECKBOX_CLICKED,CDlgAdvPreferences::OnHandleCommandEvent)
 	EVT_COMMAND_RANGE(20000,21000,wxEVT_COMMAND_RADIOBUTTON_SELECTED,CDlgAdvPreferences::OnHandleCommandEvent)
 	EVT_COMMAND_RANGE(20000,21000,wxEVT_COMMAND_TEXT_UPDATED,CDlgAdvPreferences::OnHandleCommandEvent)
+    // list box
+    EVT_COMMAND(ID_LISTBOX_EXCLAPPS,wxEVT_COMMAND_LISTBOX_SELECTED,CDlgAdvPreferences::OnExclusiveAppListEvent)
 	//buttons
+	EVT_BUTTON(ID_ADDEXCLUSIVEAPPBUTTON,CDlgAdvPreferences::OnAddExclusiveApp)
+	EVT_BUTTON(ID_REMOVEEXCLUSIVEAPPBUTTON,CDlgAdvPreferences::OnRemoveExclusiveApp)
 	EVT_BUTTON(wxID_OK,CDlgAdvPreferences::OnOK)
 	EVT_BUTTON(ID_HELPBOINC,CDlgAdvPreferences::OnHelp)
 	EVT_BUTTON(ID_BTN_CLEAR,CDlgAdvPreferences::OnClear)
@@ -56,7 +60,8 @@ CDlgAdvPreferences::CDlgAdvPreferences(wxWindow* parent) : CDlgAdvPreferencesBas
     wxASSERT(wxDynamicCast(pSkinAdvanced, CSkinAdvanced));
 
 	m_bInInit=false;
-	m_bDataChanged=false;
+	m_bPrefsDataChanged=false;
+    m_bExclusiveAppsDataChanged=false;
 	m_arrTabPageIds.Add(ID_TABPAGE_PROC);
 	m_arrTabPageIds.Add(ID_TABPAGE_NET);
 	m_arrTabPageIds.Add(ID_TABPAGE_DISK);
@@ -84,6 +89,9 @@ CDlgAdvPreferences::CDlgAdvPreferences(wxWindow* parent) : CDlgAdvPreferencesBas
         
 	//setting warning bitmap
 	m_bmpWarning->SetBitmap(wxBitmap(warning_xpm));
+    
+    m_removeExclusiveAppButton->Disable();
+
 	// init special tooltips
 	SetSpecialTooltips();
 	//setting the validators for correct input handling
@@ -203,12 +211,12 @@ void CDlgAdvPreferences::ReadPreferenceSettings() {
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
 
 	// Get current working preferences (including any overrides) from client
-        retval = pDoc->rpc.get_global_prefs_working_struct(prefs, mask);
-        if (retval == ERR_NOT_FOUND) {
-            // Older clients don't support get_global_prefs_working_struct RPC
-            prefs = pDoc->state.global_prefs;
-            pDoc->rpc.get_global_prefs_override_struct(prefs, mask);
-        }
+    retval = pDoc->rpc.get_global_prefs_working_struct(prefs, mask);
+    if (retval == ERR_NOT_FOUND) {
+        // Older clients don't support get_global_prefs_working_struct RPC
+        prefs = pDoc->state.global_prefs;
+        pDoc->rpc.get_global_prefs_override_struct(prefs, mask);
+    }
 
 	// ######### proc usage page
 	// do work between
@@ -314,6 +322,18 @@ void CDlgAdvPreferences::ReadPreferenceSettings() {
 	*m_txtMemoryMaxOnIdle << buffer;
 	// suspend to memory
 	m_chkMemoryWhileSuspended->SetValue(prefs.leave_apps_in_memory);
+    
+    // Get cc_config.xml file flags
+    log_flags.init();
+    config.defaults();
+    retval = pDoc->rpc.get_cc_config(config, log_flags);
+    if (!retval) {
+        for (unsigned int i=0; i<config.exclusive_apps.size(); ++i) {
+            wxString appName = wxString(config.exclusive_apps[i].c_str(), wxConvUTF8);
+            m_exclusiveApsListBox->Append(appName);
+        }
+    }
+
 	m_bInInit=false;
 	//update control states
 	this->UpdateControlStates();
@@ -478,6 +498,17 @@ bool CDlgAdvPreferences::SavePreferencesSettings() {
 	//
 	prefs.leave_apps_in_memory = m_chkMemoryWhileSuspended->GetValue();
 	mask.leave_apps_in_memory=true;
+    
+    if (m_bExclusiveAppsDataChanged) {
+        wxArrayString appNames = m_exclusiveApsListBox->GetStrings();
+
+        config.exclusive_apps.clear();
+        for (unsigned int i=0; i<appNames.size(); ++i) {
+            std::string s = (const char*)appNames[i].mb_str();
+            config.exclusive_apps.push_back(s);
+        }
+    }
+
 	return true;
 }
 
@@ -710,12 +741,103 @@ bool CDlgAdvPreferences::IsValidTimeIntervalValue(const wxString& value) {
 void CDlgAdvPreferences::OnHandleCommandEvent(wxCommandEvent& ev) {
 	ev.Skip();
 	if(!m_bInInit) {
-		m_bDataChanged=true;
+		m_bPrefsDataChanged=true;
 	}
 	UpdateControlStates();
 }
 
+// ---- Exclusive Apps list box handler
+void CDlgAdvPreferences::OnExclusiveAppListEvent(wxCommandEvent& ev) {
+    wxArrayInt selections;
+    int numSelected;
+    
+	if(!m_bInInit) {
+        numSelected = m_exclusiveApsListBox->GetSelections(selections);
+        m_removeExclusiveAppButton->Enable(numSelected > 0);
+    }
+	ev.Skip();
+}
+
 // ---- command buttons handlers
+// handles Add button clicked
+void CDlgAdvPreferences::OnAddExclusiveApp(wxCommandEvent& ev) {
+    wxString strMachineName;
+    unsigned int i;
+    int j, n;
+    bool isDuplicate;
+    wxArrayString appNames;
+    CMainDocument* pDoc = wxGetApp().GetDocument();
+
+    wxASSERT(pDoc);
+    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
+
+    pDoc->GetConnectedComputerName(strMachineName);
+    if (pDoc->IsComputerNameLocal(strMachineName)) {
+#ifdef __WXMAC__
+        wxFileDialog picker(this, _("Application to add"), 
+                            wxT("/Applications"), wxT(""), wxT("*.app"), 
+                            wxFD_OPEN|wxFD_FILE_MUST_EXIST|wxFD_CHANGE_DIR|wxFD_MULTIPLE|wxFD_CHANGE_DIR);
+#elif defined(__WXMSW__)
+//TODO: fill in the default directory for MSW
+        wxFileDialog picker(this, _("Application to add"), 
+                            wxT(""), wxT(""), wxT("*.exe"), 
+                            wxFD_OPEN|wxFD_FILE_MUST_EXIST|wxFD_CHANGE_DIR|wxFD_MULTIPLE|wxFD_CHANGE_DIR));
+#else
+//TODO: fill in the default directory and wildcard for Linux
+        wxFileDialog picker(this, _("Application to add"), 
+                            wxT(""), wxT(""), wxT("*.*"), 
+                            wxFD_OPEN|wxFD_FILE_MUST_EXIST|wxFD_CHANGE_DIR|wxFD_MULTIPLE|wxFD_CHANGE_DIR));
+#endif
+        if (picker.ShowModal() == wxID_OK) {
+            picker.GetFilenames(appNames);
+            for (i=0; i<appNames.Count(); ++i) {
+#ifdef __WXMAC__
+                int extension = appNames[i].Find('.', true);
+                if (extension != wxNOT_FOUND) {
+                    appNames[i].Truncate(extension);
+                }
+#endif
+                // Skip requests for duplicate entries
+                isDuplicate = false;
+                n = m_exclusiveApsListBox->GetCount();
+                for (j=0; j<n; ++j) {
+                    if ((m_exclusiveApsListBox->GetString(j)).Cmp(appNames[i]) == 0) {
+                        isDuplicate = true;
+                        break;
+                    }
+                }
+                if (isDuplicate) continue;
+                
+                m_exclusiveApsListBox->Append(appNames[i]);
+                m_bExclusiveAppsDataChanged = true;
+            }
+        }
+    } else {
+//TODO: if remote computer, show a dialog with textedit field so user can type app name
+    }
+}
+
+static int myCompareInts(int *first, int *second) {
+    return *first - *second;
+}
+
+typedef int (*sortcomparefunc)(int*, int*);
+
+// handles Remove button clicked
+void CDlgAdvPreferences::OnRemoveExclusiveApp(wxCommandEvent& ev) {
+    wxArrayInt selections;
+    int numSelected = m_exclusiveApsListBox->GetSelections(selections);
+    
+    // The selection indices are returned in random order.
+    // We must sort them to ensure deleting the correct items.
+    selections.Sort((sortcomparefunc)&myCompareInts);
+    for (int i=numSelected-1; i>=0; --i) {
+        m_exclusiveApsListBox->Delete(selections[i]);
+        m_bExclusiveAppsDataChanged = true;
+    }
+	ev.Skip();
+}
+
 // handles OK button clicked
 void CDlgAdvPreferences::OnOK(wxCommandEvent& ev) {
     CMainDocument*    pDoc = wxGetApp().GetDocument();
@@ -730,6 +852,13 @@ void CDlgAdvPreferences::OnOK(wxCommandEvent& ev) {
 		pDoc->rpc.set_global_prefs_override_struct(prefs,mask);		
 		pDoc->rpc.read_global_prefs_override();
 	}
+    
+    if (m_bExclusiveAppsDataChanged) {
+        int retval = pDoc->rpc.set_cc_config(config, log_flags);
+        if (!retval) {
+            pDoc->rpc.read_cc_config();
+        }
+    }
 	ev.Skip();
 }
 
@@ -767,7 +896,8 @@ void CDlgAdvPreferences::OnClear(wxCommandEvent& ev) {
 }
 
 bool CDlgAdvPreferences::ConfirmClear() {
-	int res = wxGetApp().SafeMessageBox(_("Do you really want to clear all local preferences ?"),
+	int res = wxGetApp().SafeMessageBox(_("Do you really want to clear all local preferences ?\n"
+            "(This will not affect exclusive applications.)"),
 		_("Confirmation"),wxCENTER | wxICON_QUESTION | wxYES_NO | wxNO_DEFAULT,this);
 	
 	return res==wxYES;

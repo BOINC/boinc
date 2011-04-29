@@ -113,6 +113,7 @@ int PROXY_INFO::write(MIOFILE& out) {
 }
 
 void PROXY_INFO::clear() {
+    present = false;
     use_http_proxy = false;
     use_socks_proxy = false;
     use_http_auth = false;

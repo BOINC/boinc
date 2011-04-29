@@ -59,7 +59,7 @@ CDlgAdvPreferencesBase::CDlgAdvPreferencesBase( wxWindow* parent, int id, wxStri
 
     topControlsSizer->Add( m_bmpWarning, 0, wxALIGN_CENTER_VERTICAL|wxALL, 0 );
 
-    m_staticText321 = new wxStaticText( this, ID_DEFAULT, _("This dialog controls preferences for this computer only.\nClick OK to set preferences.\nClick Clear to restore web-based settings."), wxDefaultPosition, wxDefaultSize, 0 );
+    m_staticText321 = new wxStaticText( this, ID_DEFAULT, _("This dialog controls preferences for this computer only.\nClick OK to set preferences.\nClick Clear to restore web-based settings (except exclusive apps)."), wxDefaultPosition, wxDefaultSize, 0 );
     topControlsSizer->Add( m_staticText321, 1, wxALL, 1 );
 
     m_btnClear = new wxButton( this, ID_BTN_CLEAR, _("Clear"), wxDefaultPosition, wxDefaultSize, 0 );
@@ -694,18 +694,18 @@ wxPanel* CDlgAdvPreferencesBase::createExclusiveAppsTab(wxNotebook* notebook)
 
     wxBoxSizer* exclusiveAppsBoxSizer = new wxBoxSizer( wxVERTICAL );
 
-    wxListBox* m_exclusiveApsListBox = new wxListBox(exclusiveAppsTab, ID_LISTBOX_EXCLAPPS, wxDefaultPosition, wxDefaultSize, 0, NULL, wxLB_EXTENDED | wxLB_NEEDED_SB | wxLB_SORT);
+    m_exclusiveApsListBox = new wxListBox(exclusiveAppsTab, ID_LISTBOX_EXCLAPPS, wxDefaultPosition, wxDefaultSize, 0, NULL, wxLB_EXTENDED|wxLB_NEEDED_SB|wxLB_SORT);
     exclusiveAppsBoxSizer->Add(m_exclusiveApsListBox, 1, wxALL|wxEXPAND, 5);
 
 	wxBoxSizer* exclusiveAppsButtonSizer = new wxBoxSizer( wxHORIZONTAL );
 
-    wxButton* m_addExclusiveAppButton = new wxButton( exclusiveAppsTab, ID_ADDEXCLUSIVEAPPBUTTON, _("Add"), wxDefaultPosition, wxDefaultSize, 0 );
+    m_addExclusiveAppButton = new wxButton( exclusiveAppsTab, ID_ADDEXCLUSIVEAPPBUTTON, _("Add"), wxDefaultPosition, wxDefaultSize, 0 );
     m_addExclusiveAppButton->SetToolTip( _("Add an application to this list"));
 	exclusiveAppsButtonSizer->Add( m_addExclusiveAppButton, 0, wxRIGHT, 5 );
     
     exclusiveAppsButtonSizer->AddStretchSpacer();
     
-    wxButton* m_removeExclusiveAppButton = new wxButton( exclusiveAppsTab, ID_REMOVEEXCLUSIVEAPPBUTTON, _("Remove"), wxDefaultPosition, wxDefaultSize, 0 );
+    m_removeExclusiveAppButton = new wxButton( exclusiveAppsTab, ID_REMOVEEXCLUSIVEAPPBUTTON, _("Remove"), wxDefaultPosition, wxDefaultSize, 0 );
     m_removeExclusiveAppButton->SetToolTip( _("Remove an application from this list"));
 	exclusiveAppsButtonSizer->Add( m_removeExclusiveAppButton, 0, wxLEFT, 5 );
 

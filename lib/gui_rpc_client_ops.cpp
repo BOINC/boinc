@@ -2415,12 +2415,6 @@ int RPC_CLIENT::set_cc_config(CONFIG& config, LOG_FLAGS& log_flags) {
     mf.init_buf_write(buf, sizeof(buf));
     config.write(mf, log_flags);
 
-    sprintf(buf,
-        "<set_cc_config>\n"
-        "%s\n"
-        "</set_cc_config>\n",
-        buf
-    );
     retval = rpc.do_rpc(buf);
     return retval;
 }

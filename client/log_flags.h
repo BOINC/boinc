@@ -34,10 +34,6 @@
 #include "file_names.h"
 #include "cc_config.h"
 
-#define MAX_FILE_XFERS_PER_PROJECT      2
-#define MAX_FILE_XFERS                  8
-    // kind of arbitrary
-
 extern LOG_FLAGS log_flags;
 extern CONFIG config;
 extern int read_config_file(bool init, const char* fname=CONFIG_FILE);

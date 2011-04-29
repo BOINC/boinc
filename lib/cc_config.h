@@ -32,6 +32,10 @@
 
 class XML_PARSER;
 
+#define MAX_FILE_XFERS_PER_PROJECT      2
+#define MAX_FILE_XFERS                  8
+    // kind of arbitrary
+
 struct LOG_FLAGS {
     // on by default; intended for all users
     //

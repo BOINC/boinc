@@ -25,6 +25,7 @@
 
 #include "DlgAdvPreferencesBase.h"
 #include "prefs.h"
+#include "cc_config.h"
 
 #define TXT_PROC_TIME_TOOLTIP _("specify work start and stop hours in format HH:MM-HH:MM")
 #define TXT_NET_TIME_TOOLTIP _("specify network usage start and stop hours in format HH:MM-HH:MM")
@@ -57,13 +58,20 @@ public:
 	//generic event handler
 	void OnHandleCommandEvent(wxCommandEvent& ev);
 	//
+    void OnExclusiveAppListEvent(wxCommandEvent& event);
+    //
+	void OnAddExclusiveApp(wxCommandEvent& event);
+	void OnRemoveExclusiveApp(wxCommandEvent& event);
 	void OnOK(wxCommandEvent& event);
 	void OnHelp(wxCommandEvent& event);
 	void OnClear(wxCommandEvent& event);
 private:
     GLOBAL_PREFS      prefs;
     GLOBAL_PREFS_MASK mask;
-	bool m_bDataChanged;
+    LOG_FLAGS log_flags;
+    CONFIG config;
+	bool m_bExclusiveAppsDataChanged;
+	bool m_bPrefsDataChanged;
 	bool m_bInInit;
 	wxArrayInt m_arrTabPageIds;
 };
