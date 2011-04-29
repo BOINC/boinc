@@ -269,7 +269,7 @@ int RPC_CLIENT::authorize(const char* passwd) {
 }
 
 int RPC_CLIENT::send_request(const char* p) {
-    char buf[4096];
+    char buf[100000];
     sprintf(buf,
         "<boinc_gui_rpc_request>\n"
         "%s"

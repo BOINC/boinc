@@ -2698,3 +2698,10 @@ Rom    29 Apr 2011
 
     samples/vboxwrapper/
         vbox.cpp, .h
+
+David  29 Apr 2011
+    - GUI RPC client library: increase request buffer size
+        from 4KB to 100B
+
+    lib/
+        gui_rpc_client.cpp
