@@ -37,7 +37,7 @@
 #define AU_MGR_QUIT_REQ     2
 #define AU_MGR_QUIT_SENT    3
 
-#define GUI_RPC_REQ_MSG_SIZE    4096
+#define GUI_RPC_REQ_MSG_SIZE    100000
 
 class GUI_RPC_CONN {
 public:

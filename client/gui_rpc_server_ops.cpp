@@ -1010,9 +1010,9 @@ int GUI_RPC_CONN::handle_rpc() {
 
     int left = GUI_RPC_REQ_MSG_SIZE - request_nbytes;
 #ifdef _WIN32
-        n = recv(sock, request_msg+request_nbytes, left, 0);
+    n = recv(sock, request_msg+request_nbytes, left, 0);
 #else
-        n = read(sock, request_msg+request_nbytes, left);
+    n = read(sock, request_msg+request_nbytes, left);
 #endif
     if (n <= 0) {
         request_nbytes = 0;

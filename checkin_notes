@@ -2713,3 +2713,9 @@ Rom    29 Apr 2011
     samples/vboxwrapper/
         vbox.cpp, .h
         vm.cpp, .h
+
+David  29 Apr 2011
+    - client: increase request msg buffer size for GUI RPCs
+    client/
+        gui_rpc_client_ops.cpp
+        gui_rpc_client.cpp
