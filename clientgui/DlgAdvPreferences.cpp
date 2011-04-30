@@ -780,13 +780,13 @@ void CDlgAdvPreferences::OnAddExclusiveApp(wxCommandEvent& ev) {
 #elif defined(__WXMSW__)
 //TODO: fill in the default directory for MSW
         wxFileDialog picker(this, _("Application to add"), 
-                            wxT(""), wxT(""), wxT("*.exe"), 
-                            wxFD_OPEN|wxFD_FILE_MUST_EXIST|wxFD_CHANGE_DIR|wxFD_MULTIPLE|wxFD_CHANGE_DIR));
+                            wxT("C:/Program Files"), wxT(""), wxT("*.exe"), 
+                            wxFD_OPEN|wxFD_FILE_MUST_EXIST|wxFD_CHANGE_DIR|wxFD_MULTIPLE|wxFD_CHANGE_DIR);
 #else
 //TODO: fill in the default directory and wildcard for Linux
         wxFileDialog picker(this, _("Application to add"), 
                             wxT(""), wxT(""), wxT("*.*"), 
-                            wxFD_OPEN|wxFD_FILE_MUST_EXIST|wxFD_CHANGE_DIR|wxFD_MULTIPLE|wxFD_CHANGE_DIR));
+                            wxFD_OPEN|wxFD_FILE_MUST_EXIST|wxFD_CHANGE_DIR|wxFD_MULTIPLE|wxFD_CHANGE_DIR);
 #endif
         if (picker.ShowModal() == wxID_OK) {
             picker.GetFilenames(appNames);
@@ -796,6 +796,9 @@ void CDlgAdvPreferences::OnAddExclusiveApp(wxCommandEvent& ev) {
                 if (extension != wxNOT_FOUND) {
                     appNames[i].Truncate(extension);
                 }
+#elif defined(__WXMSW__)
+                wxString appNameOnly = appNames[i].AfterLast('/');
+                appNames[i] = appNameOnly;
 #endif
                 // Skip requests for duplicate entries
                 isDuplicate = false;
@@ -896,8 +899,8 @@ void CDlgAdvPreferences::OnClear(wxCommandEvent& ev) {
 }
 
 bool CDlgAdvPreferences::ConfirmClear() {
-	int res = wxGetApp().SafeMessageBox(_("Do you really want to clear all local preferences ?\n"
-            "(This will not affect exclusive applications.)"),
+	int res = wxGetApp().SafeMessageBox(_(
+	    "Do you really want to clear all local preferences?\n(This will not affect exclusive applications.)"),
 		_("Confirmation"),wxCENTER | wxICON_QUESTION | wxYES_NO | wxNO_DEFAULT,this);
 	
 	return res==wxYES;

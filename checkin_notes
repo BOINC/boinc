@@ -2723,5 +2723,7 @@ David  29 Apr 2011
 Charlie 29 Apr 2011
     - MGR: Fix a few bugs in Exclusive Apps pane of Computing Prefs dialog.
 
+    clientgui/
+        DlgAdvPreferences.cpp
     lib/
         cc_config.cpp
