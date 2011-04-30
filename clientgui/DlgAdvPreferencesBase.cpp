@@ -699,7 +699,7 @@ wxPanel* CDlgAdvPreferencesBase::createExclusiveAppsTab(wxNotebook* notebook)
 
 	wxBoxSizer* exclusiveAppsButtonSizer = new wxBoxSizer( wxHORIZONTAL );
 
-    m_addExclusiveAppButton = new wxButton( exclusiveAppsTab, ID_ADDEXCLUSIVEAPPBUTTON, _("Add"), wxDefaultPosition, wxDefaultSize, 0 );
+    m_addExclusiveAppButton = new wxButton( exclusiveAppsTab, ID_ADDEXCLUSIVEAPPBUTTON, _("Add..."), wxDefaultPosition, wxDefaultSize, 0 );
     m_addExclusiveAppButton->SetToolTip( _("Add an application to this list"));
 	exclusiveAppsButtonSizer->Add( m_addExclusiveAppButton, 0, wxRIGHT, 5 );
     
