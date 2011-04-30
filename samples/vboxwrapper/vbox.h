@@ -28,8 +28,10 @@
 // Functions
 extern int virtualbox_generate_vm_root_dir( std::string& dir );
 extern int virtualbox_generate_vm_name( std::string& name );
+extern int virtualbox_generate_medium_uuid( int drive_id, std::string& uuid );
 
 extern bool virtualbox_vm_is_registered();
+extern bool virtualbox_vm_is_hdd_uuid_registered();
 extern bool virtualbox_vm_is_running();
 
 extern int virtualbox_initialize();

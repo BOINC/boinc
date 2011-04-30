@@ -31,14 +31,10 @@ public:
     std::string stderr_filename;
     // name of the OS the VM runs
     std::string vm_os_name;
-    // name of the version of the VM the OS runs
-    std::string vm_os_version;
     // size of the memory allocation for the VM
-    int vm_memory_size;
+    std::string vm_memory_size;
     // name of the virtual machine disk image file
     std::string vm_disk_image_name;
-    // name of the virtual machine disk image type
-    std::string vm_disk_image_type;
     // name of shared folder
     std::string vm_shared_folder_name;
     // shared folder directory name

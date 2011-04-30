@@ -2705,3 +2705,11 @@ David  29 Apr 2011
 
     lib/
         gui_rpc_client.cpp
+
+Rom    29 Apr 2011
+    - VBOX: Checkpoint, Re-implement the registering and un-registering of the
+        vm using the vboxmanage app.
+
+    samples/vboxwrapper/
+        vbox.cpp, .h
+        vm.cpp, .h
