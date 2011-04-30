@@ -2719,3 +2719,9 @@ David  29 Apr 2011
     client/
         gui_rpc_client_ops.cpp
         gui_rpc_client.cpp
+
+Charlie 29 Apr 2011
+    - MGR: Fix a few bugs in Exclusive Apps pane of Computing Prefs dialog.
+
+    lib/
+        cc_config.cpp

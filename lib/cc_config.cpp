@@ -188,6 +188,7 @@ void CONFIG::defaults() {
     alt_platforms.clear();
     client_version_check_url = "http://boinc.berkeley.edu/download.php?xml=1";
     client_download_url = "http://boinc.berkeley.edu/download.php";
+    config_coprocs.n_rsc = 0;
     disallow_attach = false;
     dont_check_file_sizes = false;
     dont_contact_ref_site = false;
@@ -414,7 +415,7 @@ int CONFIG::write(MIOFILE& out, LOG_FLAGS& log_flags) {
     
     for (i=0; i<(unsigned int)config_coprocs.n_rsc; ++i) {
         out.printf(
-            "        <coproc>"
+            "        <coproc>\n"
             "            <type>%s</type>\n"
             "            <count>%d</count>\n"
             "            <peak_flops>%f</peak_flops>\n"
@@ -431,7 +432,7 @@ int CONFIG::write(MIOFILE& out, LOG_FLAGS& log_flags) {
         }
         out.printf(
             "</device_nums>\n"
-            "        </coproc>"
+            "        </coproc>\n"
         );
     }
     
@@ -453,7 +454,7 @@ int CONFIG::write(MIOFILE& out, LOG_FLAGS& log_flags) {
         );
     }
             
-    for (i=0; i<exclusive_apps.size(); ++i) {
+    for (i=0; i<exclusive_gpu_apps.size(); ++i) {
         out.printf(
             "        <exclusive_gpu_app>%s</exclusive_gpu_app>\n",
             exclusive_gpu_apps[i].c_str()
