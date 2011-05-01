@@ -2727,3 +2727,9 @@ Charlie 29 Apr 2011
         DlgAdvPreferences.cpp
     lib/
         cc_config.cpp
+
+Charlie 1 May 2011
+    - lib: initialize data_dir in CONFIG::defaults().
+
+    lib/
+        cc_config.cpp
