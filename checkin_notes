@@ -2729,7 +2729,10 @@ Charlie 29 Apr 2011
         cc_config.cpp
 
 Charlie 1 May 2011
-    - lib: initialize data_dir in CONFIG::defaults().
-
+    - lib: initialize data_dir in CONFIG::defaults(); don't write <data_dir> to 
+        cc_config.xml if empty string, because older versions of BOINC choke.
+    
     lib/
         cc_config.cpp
+
+Charlie 1 May 2011

@@ -437,12 +437,15 @@ int CONFIG::write(MIOFILE& out, LOG_FLAGS& log_flags) {
         );
     }
     
+    // Older versions of BOINC choke on empty data_dir string 
+    if (strlen(data_dir)) {
+        out.printf("        <data_dir>%s</data_dir>\n", data_dir);
+    }
+    
     out.printf(
-        "        <data_dir>%s</data_dir>\n"
         "        <disallow_attach>%d</disallow_attach>\n"
         "        <dont_check_file_sizes>%d</dont_check_file_sizes>\n"
         "        <dont_contact_ref_site>%d</dont_contact_ref_site>\n",
-        data_dir,
         disallow_attach,
         dont_check_file_sizes,
         dont_contact_ref_site
