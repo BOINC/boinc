@@ -2734,3 +2734,10 @@ Charlie 1 May 2011
     
     lib/
         cc_config.cpp
+
+Rom    3 May 2011
+    - VBOX: Handle both abort scenarios
+    
+    samples/vboxwrapper/
+        vbox.cpp, .h
+        vm.cpp, .h

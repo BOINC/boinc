@@ -23,6 +23,7 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <vector>
 #include <string>
 #include <unistd.h>
@@ -31,6 +32,8 @@
 #if defined(_MSC_VER) || defined(__MINGW32__)
 #define popen       _popen
 #define pclose      _pclose
+#define getcwd      _getcwd
+#define putenv      _putenv
 #endif
 
 #include "diagnostics.h"
@@ -86,12 +89,7 @@ int virtualbox_vbm_popen(std::string& arguments, std::string& output) {
 int virtualbox_generate_vm_root_dir( std::string& dir ) {
     char root_dir[256];
 
-#ifdef _WIN32
-    _getcwd(root_dir, (sizeof(root_dir)*sizeof(TCHAR)));
-#else
-    getcwd(root_dir, (sizeof(root_dir)*sizeof(TCHAR)));
-#endif
-
+    getcwd(root_dir, (sizeof(root_dir)*sizeof(char)));
     dir = root_dir;
 
     if (!dir.empty()) {
@@ -127,48 +125,6 @@ int virtualbox_generate_vm_name( std::string& name ) {
 }
 
 
-// Generate a deterministic yet unique UUID for a given medium (hard drive,
-//   cd drive, hard drive image)
-// Rules:
-//   1. Must be unique
-//   2. Must identifity itself as being part of BOINC
-//   3. Must be based on the slot directory id
-//   4. Must be in the form of a GUID
-//      00000000-0000-0000-0000-000000000000
-//
-// Form/Meaning
-//   A        B    C    D    E
-//   00000000-0000-0000-0000-000000000000
-//
-//   A = Drive ID
-//   B = Slot ID
-//   C = Standalone Flag
-//   D = Reserved
-//   E = 'BOINC' ASCII converted to Hex
-//
-int virtualbox_generate_medium_uuid(  int drive_id, std::string& uuid ) {
-    APP_INIT_DATA aid;
-    char medium_uuid[256];
-
-    boinc_get_init_data_p( &aid );
-
-    sprintf(
-        medium_uuid,        
-        _T("%08d-%04d-%04d-0000-00424F494E43"),
-        drive_id,
-        aid.slot,
-        boinc_is_standalone()
-    );
-
-    uuid = medium_uuid;
-
-    if (!uuid.empty()) {
-        return 1;
-    }
-    return 0;
-}
-
-
 bool virtualbox_vm_is_registered() {
     std::string command;
     std::string output;
@@ -186,13 +142,14 @@ bool virtualbox_vm_is_registered() {
 }
 
 
-bool virtualbox_vm_is_hdd_uuid_registered() {
+bool virtualbox_vm_is_hdd_registered() {
     std::string command;
     std::string output;
-    std::string virtual_hdd_uuid;
+    std::string virtual_machine_root_dir;
 
-    virtualbox_generate_medium_uuid(0, virtual_hdd_uuid);
-    command = "showhdinfo " + virtual_hdd_uuid;
+    virtualbox_generate_vm_root_dir(virtual_machine_root_dir);
+
+    command = "showhdinfo \"" + virtual_machine_root_dir + "/" + vm.vm_disk_image_name + "\" ";
 
     if (VBOX_SUCCESS == virtualbox_vbm_popen(command, output)) {
         if (output.find("VBOX_E_FILE_ERROR") != std::string::npos) {
@@ -220,8 +177,91 @@ bool virtualbox_vm_is_running() {
     return false;
 }
 
+int virtualbox_get_install_directory( std::string& virtualbox_install_directory ) {
+#ifdef _WIN32
+    LONG    lReturnValue;
+    HKEY    hkSetupHive;
+    LPTSTR  lpszRegistryValue = NULL;
+    DWORD   dwSize = 0;
+
+    // change the current directory to the boinc data directory if it exists
+    lReturnValue = RegOpenKeyEx(
+        HKEY_LOCAL_MACHINE, 
+        _T("SOFTWARE\\Oracle\\VirtualBox"),  
+        0, 
+        KEY_READ,
+        &hkSetupHive
+    );
+    if (lReturnValue == ERROR_SUCCESS) {
+        // How large does our buffer need to be?
+        lReturnValue = RegQueryValueEx(
+            hkSetupHive,
+            _T("InstallDir"),
+            NULL,
+            NULL,
+            NULL,
+            &dwSize
+        );
+        if (lReturnValue != ERROR_FILE_NOT_FOUND) {
+            // Allocate the buffer space.
+            lpszRegistryValue = (LPTSTR) malloc(dwSize);
+            (*lpszRegistryValue) = NULL;
+
+            // Now get the data
+            lReturnValue = RegQueryValueEx( 
+                hkSetupHive,
+                _T("InstallDir"),
+                NULL,
+                NULL,
+                (LPBYTE)lpszRegistryValue,
+                &dwSize
+            );
+
+            virtualbox_install_directory = lpszRegistryValue;
+        }
+    }
+
+    if (hkSetupHive) RegCloseKey(hkSetupHive);
+    if (lpszRegistryValue) free(lpszRegistryValue);
+#endif
+    return VBOX_SUCCESS;
+}
+
 
 int virtualbox_initialize() {
+    std::string virtualbox_install_directory;
+    std::string old_path;
+    std::string new_path;
+    char buf[256];
+
+    virtualbox_get_install_directory(virtualbox_install_directory);
+
+    // Prep the environment so we can execute the vboxmanage application
+    if (!virtualbox_install_directory.empty()) {
+        old_path = getenv("path");
+
+        new_path = "path=";
+
+        new_path += virtualbox_install_directory;
+
+        // Path environment variable seperator
+#ifdef _WIN32
+        new_path += ";";
+#else
+        new_path += ":";
+#endif
+
+        new_path += old_path;
+
+        if (putenv(new_path.c_str())) {
+            fprintf(
+                stderr,
+                "%s Failed to modify the search path.\n",
+                boinc_msg_prefix(buf, sizeof(buf))
+            );
+        }
+    }
+
     return VBOX_SUCCESS;
 }
 
@@ -231,18 +271,17 @@ int virtualbox_register_vm() {
     std::string output;
     std::string virtual_machine_name;
     std::string virtual_machine_root_dir;
-    std::string virtual_hdd_uuid;
     char buf[256];
     int retval;
 
     virtualbox_generate_vm_name(virtual_machine_name);
     virtualbox_generate_vm_root_dir(virtual_machine_root_dir);
-    virtualbox_generate_medium_uuid(0, virtual_hdd_uuid);
 
     fprintf(
         stderr,
-        "%s Registering virtual machine.\n",
-        boinc_msg_prefix(buf, sizeof(buf))
+        "%s Registering virtual machine. (%s) \n",
+        boinc_msg_prefix(buf, sizeof(buf)),
+        virtual_machine_name.c_str()
     );
 
 
@@ -318,26 +357,6 @@ int virtualbox_register_vm() {
     }
 
 
-    // Adding virtual hard drive to Virtual Box Media Registry
-    //
-    command  = "openmedium ";
-    command += "disk \"" + virtual_machine_root_dir + "/" + vm.vm_disk_image_name + "\" ";
-    command += "--uuid " + virtual_hdd_uuid + " ";
-
-    retval = virtualbox_vbm_popen(command, output);
-    if (retval) {
-        fprintf(
-            stderr,
-            "%s Error adding virtual disk drive to virtual machine! rc = 0x%x\nCommand:\n%s\nOutput:\n%s\n",
-            boinc_msg_prefix(buf, sizeof(buf)),
-            retval,
-            command.c_str(),
-            output.c_str()
-        );
-        return retval;
-    }
-
-
     // Adding virtual hard drive to VM
     //
     command  = "storageattach \"" + virtual_machine_name + "\" ";
@@ -345,7 +364,7 @@ int virtualbox_register_vm() {
     command += "--port 0 ";
     command += "--device 0 ";
     command += "--type hdd ";
-    command += "--medium " + virtual_hdd_uuid + " ";
+    command += "--medium \"" + virtual_machine_root_dir + "/" + vm.vm_disk_image_name + "\" ";
 
     retval = virtualbox_vbm_popen(command, output);
     if (retval) {
@@ -410,23 +429,20 @@ int virtualbox_register_vm() {
 }
 
 
-int virtualbox_deregister_vm() {
+int virtualbox_deregister_vm_by_name( std::string virtual_machine_name ) {
     std::string command;
     std::string output;
-    std::string virtual_machine_name;
     std::string virtual_machine_root_dir;
-    std::string virtual_hdd_uuid;
     char buf[256];
     int retval;
 
-    virtualbox_generate_vm_name(virtual_machine_name);
     virtualbox_generate_vm_root_dir(virtual_machine_root_dir);
-    virtualbox_generate_medium_uuid(0, virtual_hdd_uuid);
 
     fprintf(
         stderr,
-        "%s Deregistering virtual machine.\n",
-        boinc_msg_prefix(buf, sizeof(buf))
+        "%s Deregistering virtual machine. (%s)\n",
+        boinc_msg_prefix(buf, sizeof(buf)),
+        virtual_machine_name.c_str()
     );
 
 
@@ -471,7 +487,7 @@ int virtualbox_deregister_vm() {
 
     // Lastly delete medium from Virtual Box Media Registry
     //
-    command  = "closemedium \"" + virtual_hdd_uuid + "\" ";
+    command  = "closemedium \"" + virtual_machine_root_dir + "/" + vm.vm_disk_image_name + "\" ";
 
     retval = virtualbox_vbm_popen(command, output);
     if (retval) {
@@ -487,6 +503,89 @@ int virtualbox_deregister_vm() {
     }
 
     return VBOX_SUCCESS;
+}
+
+
+int virtualbox_deregister_stale_vm() {
+    std::string command;
+    std::string output;
+    std::string virtual_machine_root_dir;
+    std::string virtual_machine_name;
+    size_t uuid_location;
+    size_t uuid_length;
+    char buf[256];
+    int retval;
+
+    virtualbox_generate_vm_root_dir(virtual_machine_root_dir);
+
+    // We need to determine what the name or uuid is of the previous VM which owns
+    // this virtual disk
+    //
+    command  = "showhdinfo \"" + virtual_machine_root_dir + "/" + vm.vm_disk_image_name + "\" ";
+
+    retval = virtualbox_vbm_popen(command, output);
+    if (retval) {
+        fprintf(
+            stderr,
+            "%s Error retrieving virtual hard disk information from virtual box! rc = 0x%x\nCommand:\n%s\nOutput:\n%s\n",
+            boinc_msg_prefix(buf, sizeof(buf)),
+            retval,
+            command.c_str(),
+            output.c_str()
+        );
+        return retval;
+    }
+
+
+    // Output should look a little like this:
+    //   UUID:                 c119acaf-636c-41f6-86c9-38e639a31339
+    //   Accessible:           yes
+    //   Logical size:         10240 MBytes
+    //   Current size on disk: 0 MBytes
+    //   Type:                 normal (base)
+    //   Storage format:       VDI
+    //   Format variant:       dynamic default
+    //   In use by VMs:        test2 (UUID: 000ab2be-1254-4c6a-9fdc-1536a478f601)
+    //   Location:             C:\Users\romw\VirtualBox VMs\test2\test2.vdi
+    //
+    uuid_location = output.find("(UUID: ");
+    if (uuid_location != std::string::npos) {
+        // We can parse the virtual machine ID from the output
+
+        uuid_location += 7;
+        uuid_length = output.find(")", uuid_location);
+
+        virtual_machine_name = output.substr(uuid_location, uuid_length);
+
+        // Deregister stale VM by UUID
+        return virtualbox_deregister_vm_by_name(virtual_machine_name);
+    } else {
+        // Did the user delete the VM in VirtualBox and not the medium?  If so,
+        // just remove the medium.
+        command  = "closemedium \"" + virtual_machine_root_dir + "/" + vm.vm_disk_image_name + "\" ";
+
+        retval = virtualbox_vbm_popen(command, output);
+        if (retval) {
+            fprintf(
+                stderr,
+                "%s Error removing virtual hdd from virtual box! rc = 0x%x\nCommand:\n%s\nOutput:\n%s\n",
+                boinc_msg_prefix(buf, sizeof(buf)),
+                retval,
+                command.c_str(),
+                output.c_str()
+            );
+            return retval;
+        }
+    }
+
+    return VBOX_SUCCESS;
+}
+
+
+int virtualbox_deregister_vm() {
+    std::string virtual_machine_name;
+    virtualbox_generate_vm_name(virtual_machine_name);
+    return virtualbox_deregister_vm_by_name(virtual_machine_name);
 }
 
 

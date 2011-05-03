@@ -24,18 +24,19 @@
 // Return codes
 #define     VBOX_SUCCESS                0x00000000
 #define     VBOX_POPEN_ERROR            0x00000001
+#define     VBOX_PARSER_ERROR           0x00000002
 
 // Functions
 extern int virtualbox_generate_vm_root_dir( std::string& dir );
 extern int virtualbox_generate_vm_name( std::string& name );
-extern int virtualbox_generate_medium_uuid( int drive_id, std::string& uuid );
 
 extern bool virtualbox_vm_is_registered();
-extern bool virtualbox_vm_is_hdd_uuid_registered();
+extern bool virtualbox_vm_is_hdd_registered();
 extern bool virtualbox_vm_is_running();
 
 extern int virtualbox_initialize();
 extern int virtualbox_register_vm();
+extern int virtualbox_deregister_stale_vm();
 extern int virtualbox_deregister_vm();
 extern int virtualbox_cleanup();
 

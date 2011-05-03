@@ -94,6 +94,13 @@ int VM::run() {
     if (retval) return retval;
 
     if (!virtualbox_vm_is_registered()) {
+        if (virtualbox_vm_is_hdd_registered()) {
+            // Handle the case where a previous instance of the same projects VM
+            // was already initialized for the current slot directory but aborted
+            // while the task was suspended and unloaded from memory.
+            retval = virtualbox_deregister_stale_vm();
+            if (retval) return retval;
+        }
         retval = virtualbox_register_vm();
         if (retval) return retval;
     }
