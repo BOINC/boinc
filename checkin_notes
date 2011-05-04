@@ -2779,4 +2779,4 @@ Rom    4 May 2011
         VirtualBox.
         
     samples/vboxwrapper/
-        vbox.cpp,
+        vbox.cpp
