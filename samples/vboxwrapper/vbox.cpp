@@ -696,6 +696,9 @@ int virtualbox_resumevm() {
 }
 
 
+// Minium version for this feature to work correctly in BOINC related environments is
+// 4.0.6. See bug: http://www.virtualbox.org/ticket/7872
+//
 int virtualbox_execute_task( string& command, string arguments ) {
     string popen_command;
     string popen_output;
