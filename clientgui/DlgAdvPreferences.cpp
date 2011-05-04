@@ -762,8 +762,7 @@ void CDlgAdvPreferences::OnExclusiveAppListEvent(wxCommandEvent& ev) {
 // handles Add button clicked
 void CDlgAdvPreferences::OnAddExclusiveApp(wxCommandEvent&) {
     wxString strMachineName;
-    unsigned int i;
-    int j, n;
+    int i, j, n;
     bool hostIsMac = false;
     bool hostIsWin = false;
     bool isDuplicate;
@@ -803,7 +802,7 @@ void CDlgAdvPreferences::OnAddExclusiveApp(wxCommandEvent&) {
         if (picker.ShowModal() != wxID_OK) return;
         picker.GetFilenames(appNames);
 
-        for (i=0; i<appNames.Count(); ++i) {
+        for (i=appNames.Count()-1; i>=0; --i) {
 #ifdef __WXMSW__
             // Under Windows, filename may include paths if a shortcut selected
             wxString appNameOnly = appNames[i].AfterLast('\\');
@@ -815,6 +814,7 @@ void CDlgAdvPreferences::OnAddExclusiveApp(wxCommandEvent&) {
                 errmsg.Printf(_("'%s' is not an executable application."), appNames[i].c_str());
                 wxGetApp().SafeMessageBox(errmsg, _("Add Exclusive App"),
                             wxOK | wxICON_EXCLAMATION, this);
+                appNames.RemoveAt(i);
                 continue;
             }
         }
@@ -838,7 +838,7 @@ void CDlgAdvPreferences::OnAddExclusiveApp(wxCommandEvent&) {
         
     }
         
-    for (i=0; i<appNames.Count(); ++i) {
+    for (i=0; i<(int)appNames.Count(); ++i) {
         // wxFileName::IsFileExecutable() doesn't seem to work on Windows, 
         // and we can only perform minimal validation on remote hosts, so 
         // check filename extension on Mac and Win
