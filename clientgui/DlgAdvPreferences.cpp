@@ -836,7 +836,12 @@ void CDlgAdvPreferences::OnAddExclusiveApp(wxCommandEvent&) {
         // Strip off path if present
         appNames.Add(theAppName.AfterLast(path_separator));
         
-        // We can only perform minimal validation on remote hosts
+    }
+        
+    for (i=0; i<appNames.Count(); ++i) {
+        // wxFileName::IsFileExecutable() doesn't seem to work on Windows, 
+        // and we can only perform minimal validation on remote hosts, so 
+        // check filename extension on Mac and Win
         if (hostIsMac || hostIsWin) {
             if (!appNames[0].EndsWith(extension)) {
                 errmsg.Printf(_("Application names must end with '%s'"), extension);
@@ -845,9 +850,7 @@ void CDlgAdvPreferences::OnAddExclusiveApp(wxCommandEvent&) {
                 return;
             }
         }
-    }
-        
-    for (i=0; i<appNames.Count(); ++i) {
+
         if (hostIsMac) {
             int suffix = appNames[i].Find('.', true);
             if (suffix != wxNOT_FOUND) {
