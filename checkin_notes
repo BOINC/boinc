@@ -2748,3 +2748,19 @@ Charlie 4 May 2011
     clientgui/
         DlgAdvPreferences.cpp
         DlgAdvPreferencesBase.cpp
+
+David  4 May 2011
+    - vbox wrapper: add Makefile
+    - notices: fix bug where the URL in "friend request" notices
+        doesn't work if you're not already logged in.
+
+    html/
+        inc/
+            friend.inc
+            util.inc
+        user/
+            friend.php
+            login_form.php
+    samples/vboxwrapper/
+        vbox.cpp
+        Makefile

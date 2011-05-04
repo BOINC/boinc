@@ -21,7 +21,7 @@
 require_once("../inc/forum_db.inc");
 require_once("../inc/profile.inc");
 
-check_get_args(array("userid", "action"));
+check_get_args(array("target_userid", "userid", "action"));
 
 // see if there's already a request,
 // and whether the notification record is there
@@ -120,6 +120,16 @@ function handle_add_confirm($user) {
 // Show destination user the details of request, ask if they accept
 //
 function handle_query($user) {
+    $target_userid = get_int('target_userid', true);
+    if ($target_userid != $user->id) {
+        $target_user = BoincUser::lookup_id($target_userid);
+        page_head(tra("Please log in as %1", $target_user->name));
+        echo tra("You must log in as %1 to view this friend request",
+            $target_user->name
+        );
+        page_tail();
+        exit;
+    }
     $srcid = get_int('userid');
     $srcuser = BoincUser::lookup_id($srcid);
     if (!$srcuser) error_page(tra("No such user"));

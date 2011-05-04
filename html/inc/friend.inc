@@ -95,7 +95,7 @@ function friend_req_rss($notify, &$title, &$msg, &$url) {
     $src_user = BoincUser::lookup_id($notify->opaque);
     $title = "Friend request";
     $msg = "$src_user->name has requested friendship with you. Please accept or decline.";
-    $url = URL_BASE."friend.php?action=query&userid=$notify->opaque";
+    $url = URL_BASE."friend.php?action=query&target_userid=$notify->userid&userid=$notify->opaque";
 }
 
 function friend_accept_rss($notify, &$title, &$msg, &$url) {

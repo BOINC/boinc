@@ -29,6 +29,8 @@
 #include <unistd.h>
 #endif
 
+using std::string;
+
 #if defined(_MSC_VER) || defined(__MINGW32__)
 #define popen       _popen
 #define pclose      _pclose
@@ -52,10 +54,10 @@
 // Execute the vbox manage application and copy the output to the
 // designated buffer.
 //
-int virtualbox_vbm_popen(std::string& arguments, std::string& output) {
+int virtualbox_vbm_popen(string& arguments, string& output) {
     FILE* fp;
     char buf[256];
-    std::string command;
+    string command;
 
     // Initialize command line
     command = "VBoxManage -q " + arguments;
@@ -86,7 +88,7 @@ int virtualbox_vbm_popen(std::string& arguments, std::string& output) {
 
 // Returns the current directory in which the executable resides.
 //
-int virtualbox_generate_vm_root_dir( std::string& dir ) {
+int virtualbox_generate_vm_root_dir( string& dir ) {
     char root_dir[256];
 
     getcwd(root_dir, (sizeof(root_dir)*sizeof(char)));
@@ -105,7 +107,7 @@ int virtualbox_generate_vm_root_dir( std::string& dir ) {
 //   2. Must identifity itself as being part of BOINC
 //   3. Must be file system compatible
 //
-int virtualbox_generate_vm_name( std::string& name ) {
+int virtualbox_generate_vm_name( string& name ) {
     APP_INIT_DATA aid;
     boinc_get_init_data_p( &aid );
 
@@ -126,15 +128,15 @@ int virtualbox_generate_vm_name( std::string& name ) {
 
 
 bool virtualbox_vm_is_registered() {
-    std::string command;
-    std::string output;
-    std::string virtual_machine_name;
+    string command;
+    string output;
+    string virtual_machine_name;
 
     virtualbox_generate_vm_name(virtual_machine_name);
     command = "showvminfo " + virtual_machine_name;
 
     if (VBOX_SUCCESS == virtualbox_vbm_popen(command, output)) {
-        if (output.find("VBOX_E_OBJECT_NOT_FOUND") != std::string::npos) {
+        if (output.find("VBOX_E_OBJECT_NOT_FOUND") != string::npos) {
             return true;
         }
     }
@@ -143,16 +145,16 @@ bool virtualbox_vm_is_registered() {
 
 
 bool virtualbox_vm_is_hdd_registered() {
-    std::string command;
-    std::string output;
-    std::string virtual_machine_root_dir;
+    string command;
+    string output;
+    string virtual_machine_root_dir;
 
     virtualbox_generate_vm_root_dir(virtual_machine_root_dir);
 
     command = "showhdinfo \"" + virtual_machine_root_dir + "/" + vm.vm_disk_image_name + "\" ";
 
     if (VBOX_SUCCESS == virtualbox_vbm_popen(command, output)) {
-        if (output.find("VBOX_E_FILE_ERROR") != std::string::npos) {
+        if (output.find("VBOX_E_FILE_ERROR") != string::npos) {
             return true;
         }
     }
@@ -161,15 +163,15 @@ bool virtualbox_vm_is_hdd_registered() {
 
 
 bool virtualbox_vm_is_running() {
-    std::string command;
-    std::string output;
-    std::string virtual_machine_name;
+    string command;
+    string output;
+    string virtual_machine_name;
 
     virtualbox_generate_vm_name(virtual_machine_name);
     command = "list runningvms";
 
     if (VBOX_SUCCESS == virtualbox_vbm_popen(command, output)) {
-        if (output.find(virtual_machine_name) != std::string::npos) {
+        if (output.find(virtual_machine_name) != string::npos) {
             return true;
         }
     }
@@ -177,7 +179,7 @@ bool virtualbox_vm_is_running() {
     return false;
 }
 
-int virtualbox_get_install_directory( std::string& virtualbox_install_directory ) {
+int virtualbox_get_install_directory( string& virtualbox_install_directory ) {
 #ifdef _WIN32
     LONG    lReturnValue;
     HKEY    hkSetupHive;
@@ -229,9 +231,9 @@ int virtualbox_get_install_directory( std::string& virtualbox_install_directory 
 
 
 int virtualbox_initialize() {
-    std::string virtualbox_install_directory;
-    std::string old_path;
-    std::string new_path;
+    string virtualbox_install_directory;
+    string old_path;
+    string new_path;
     char buf[256];
 
     virtualbox_get_install_directory(virtualbox_install_directory);
@@ -253,7 +255,7 @@ int virtualbox_initialize() {
 
         new_path += old_path;
 
-        if (putenv(new_path.c_str())) {
+        if (putenv((char*)new_path.c_str())) {
             fprintf(
                 stderr,
                 "%s Failed to modify the search path.\n",
@@ -267,10 +269,10 @@ int virtualbox_initialize() {
 
 
 int virtualbox_register_vm() {
-    std::string command;
-    std::string output;
-    std::string virtual_machine_name;
-    std::string virtual_machine_root_dir;
+    string command;
+    string output;
+    string virtual_machine_name;
+    string virtual_machine_root_dir;
     char buf[256];
     int retval;
 
@@ -429,10 +431,10 @@ int virtualbox_register_vm() {
 }
 
 
-int virtualbox_deregister_vm_by_name( std::string virtual_machine_name ) {
-    std::string command;
-    std::string output;
-    std::string virtual_machine_root_dir;
+int virtualbox_deregister_vm_by_name( string virtual_machine_name ) {
+    string command;
+    string output;
+    string virtual_machine_root_dir;
     char buf[256];
     int retval;
 
@@ -507,10 +509,10 @@ int virtualbox_deregister_vm_by_name( std::string virtual_machine_name ) {
 
 
 int virtualbox_deregister_stale_vm() {
-    std::string command;
-    std::string output;
-    std::string virtual_machine_root_dir;
-    std::string virtual_machine_name;
+    string command;
+    string output;
+    string virtual_machine_root_dir;
+    string virtual_machine_name;
     size_t uuid_location;
     size_t uuid_length;
     char buf[256];
@@ -549,7 +551,7 @@ int virtualbox_deregister_stale_vm() {
     //   Location:             C:\Users\romw\VirtualBox VMs\test2\test2.vdi
     //
     uuid_location = output.find("(UUID: ");
-    if (uuid_location != std::string::npos) {
+    if (uuid_location != string::npos) {
         // We can parse the virtual machine ID from the output
 
         uuid_location += 7;
@@ -583,7 +585,7 @@ int virtualbox_deregister_stale_vm() {
 
 
 int virtualbox_deregister_vm() {
-    std::string virtual_machine_name;
+    string virtual_machine_name;
     virtualbox_generate_vm_name(virtual_machine_name);
     return virtualbox_deregister_vm_by_name(virtual_machine_name);
 }
@@ -595,9 +597,9 @@ int virtualbox_cleanup() {
 
 
 int virtualbox_startvm() {
-    std::string command;
-    std::string output;
-    std::string virtual_machine_name;
+    string command;
+    string output;
+    string virtual_machine_name;
     char buf[256];
     int retval;
 
@@ -620,9 +622,9 @@ int virtualbox_startvm() {
 
 
 int virtualbox_stopvm() {
-    std::string command;
-    std::string output;
-    std::string virtual_machine_name;
+    string command;
+    string output;
+    string virtual_machine_name;
     char buf[256];
     int retval;
 
@@ -645,9 +647,9 @@ int virtualbox_stopvm() {
 
 
 int virtualbox_pausevm() {
-    std::string command;
-    std::string output;
-    std::string virtual_machine_name;
+    string command;
+    string output;
+    string virtual_machine_name;
     char buf[256];
     int retval;
 
@@ -670,9 +672,9 @@ int virtualbox_pausevm() {
 
 
 int virtualbox_resumevm() {
-    std::string command;
-    std::string output;
-    std::string virtual_machine_name;
+    string command;
+    string output;
+    string virtual_machine_name;
     char buf[256];
     int retval;
 

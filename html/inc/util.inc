@@ -97,6 +97,7 @@ function get_logged_in_user($must_be_logged_in=true) {
                 $next_url = substr($next_url, $n+1);
             }
         }
+        $next_url = urlencode($next_url);
         Header("Location: login_form.php?next_url=$next_url");
         exit;
     }
@@ -556,7 +557,7 @@ function get_int($name, $optional=false) {
             }
             return null;
         } else {
-            Header("Location: missing_arg.html");
+            Header("Location: missing_arg_$name.html");
             die;
         }
     }
