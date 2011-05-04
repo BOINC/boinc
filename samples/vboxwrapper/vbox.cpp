@@ -55,12 +55,113 @@ using std::string;
 // designated buffer.
 //
 int virtualbox_vbm_popen(string& arguments, string& output) {
-    FILE* fp;
     char buf[256];
     string command;
 
     // Initialize command line
     command = "VBoxManage -q " + arguments;
+
+#ifdef _WIN32
+    STARTUPINFO si;
+    PROCESS_INFORMATION pi;
+    SECURITY_ATTRIBUTES sa;
+    SECURITY_DESCRIPTOR sd;
+    HANDLE hReadPipe, hWritePipe;
+    void* pBuf;
+    DWORD dwCount;
+    unsigned long ulExitCode = 0;
+    int retval = VBOX_POPEN_ERROR;
+
+
+    memset(&si, 0, sizeof(si));
+    memset(&pi, 0, sizeof(pi));
+    memset(&sa, 0, sizeof(sa));
+    memset(&sd, 0, sizeof(sd));
+
+
+    InitializeSecurityDescriptor(&sd, SECURITY_DESCRIPTOR_REVISION);
+    SetSecurityDescriptorDacl(&sd, true, NULL, false);
+
+    sa.nLength = sizeof(SECURITY_ATTRIBUTES);
+    sa.bInheritHandle = TRUE;
+    sa.lpSecurityDescriptor = &sd;
+
+
+    if (!CreatePipe(&hReadPipe, &hWritePipe, &sa, 0)) {
+        fprintf(
+            stderr,
+            "%s CreatePipe failed! (%d).\n",
+            boinc_msg_prefix(buf, sizeof(buf)),
+            GetLastError()
+        );
+        goto CLEANUP;
+    }
+    SetHandleInformation(hReadPipe, HANDLE_FLAG_INHERIT, 0);
+
+
+    si.cb = sizeof(STARTUPINFO);
+    si.dwFlags |= STARTF_FORCEOFFFEEDBACK | STARTF_USESHOWWINDOW | STARTF_USESTDHANDLES;
+    si.wShowWindow = SW_HIDE;
+    si.hStdOutput = hWritePipe;
+    si.hStdError = hWritePipe;
+    si.hStdInput = NULL;
+
+
+    // Execute command
+    if (!CreateProcess(NULL, (LPTSTR)command.c_str(), NULL, NULL, TRUE, CREATE_NO_WINDOW, NULL, NULL, &si, &pi)) {
+        fprintf(
+            stderr,
+            "%s CreateProcess failed! (%d).\n",
+            boinc_msg_prefix(buf, sizeof(buf)),
+            GetLastError()
+        );
+        goto CLEANUP;
+    }
+
+
+    // Wait until process has completed
+    while(1) {
+        GetExitCodeProcess(pi.hProcess, &ulExitCode);
+        if (ulExitCode != STILL_ACTIVE) break;
+    }
+
+
+    // Copy stdout/stderr to output buffer
+    if (!PeekNamedPipe(hReadPipe, NULL, NULL, NULL, &dwCount, NULL)) {
+        fprintf(
+            stderr,
+            "%s PeekNamedPipe failed! (%d).\n",
+            boinc_msg_prefix(buf, sizeof(buf)),
+            GetLastError()
+        );
+    }
+
+    if (dwCount) {
+        pBuf = malloc(dwCount+1);
+        memset(pBuf, 0, dwCount+1);
+
+        if (ReadFile(hReadPipe, pBuf, dwCount, &dwCount, NULL)) {
+            output += (char*)pBuf;
+        }
+
+        free(pBuf);
+    }
+
+
+CLEANUP:
+    if (pi.hThread) CloseHandle(pi.hThread);
+    if (pi.hProcess) CloseHandle(pi.hProcess);
+    if (hReadPipe) CloseHandle(hReadPipe);
+    if (hWritePipe) CloseHandle(hWritePipe);
+
+    if ((ulExitCode == 0) && (pi.hProcess)) {
+        retval = VBOX_SUCCESS;
+    }
+
+    return retval;
+
+#else
+    FILE* fp;
 
     // Execute command
     fp = popen(command.c_str(), "r");
@@ -81,6 +182,8 @@ int virtualbox_vbm_popen(string& arguments, string& output) {
 
     // Close stream
     pclose(fp);
+
+#endif
 
     return VBOX_SUCCESS;
 }
@@ -292,7 +395,6 @@ int virtualbox_register_vm() {
     command  = "createvm ";
     command += "--name \"" + virtual_machine_name + "\" ";
     command += "--basefolder \"" + virtual_machine_root_dir + "\" ";
-    command += "--settingsfile \"" + virtual_machine_root_dir + "/" + virtual_machine_name + "\" ";
     command += "--ostype \"" + vm.vm_os_name + "\" ";
     command += "--register";
     
@@ -431,7 +533,7 @@ int virtualbox_register_vm() {
 }
 
 
-int virtualbox_deregister_vm_by_name( string virtual_machine_name ) {
+int virtualbox_deregister_vm_by_name( string& virtual_machine_name ) {
     string command;
     string output;
     string virtual_machine_root_dir;
@@ -489,7 +591,7 @@ int virtualbox_deregister_vm_by_name( string virtual_machine_name ) {
 
     // Lastly delete medium from Virtual Box Media Registry
     //
-    command  = "closemedium \"" + virtual_machine_root_dir + "/" + vm.vm_disk_image_name + "\" ";
+    command  = "closemedium disk \"" + virtual_machine_root_dir + "/" + vm.vm_disk_image_name + "\" ";
 
     retval = virtualbox_vbm_popen(command, output);
     if (retval) {

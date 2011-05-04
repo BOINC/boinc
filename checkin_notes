@@ -2772,3 +2772,11 @@ Rom    4 May 2011
     samples/vboxwrapper/
         vbox.cpp, .h
         vm.cpp, .h
+
+Rom    4 May 2011
+    - VBOX: Switch to using CreateProcess and CreatePipe on Windows, otherwise we
+        get a bunch of flicking windows when we preform and operation against
+        VirtualBox.
+        
+    samples/vboxwrapper/
+        vbox.cpp,
