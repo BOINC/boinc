@@ -2764,3 +2764,11 @@ David  4 May 2011
     samples/vboxwrapper/
         vbox.cpp
         Makefile
+
+Rom    4 May 2011
+    - VBOX: Add function for a host being able to execute tasks within
+        guest VMs.
+        
+    samples/vboxwrapper/
+        vbox.cpp, .h
+        vm.cpp, .h

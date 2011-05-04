@@ -44,6 +44,7 @@ extern int virtualbox_startvm();
 extern int virtualbox_stopvm();
 extern int virtualbox_pausevm();
 extern int virtualbox_resumevm();
+extern int virtualbox_execute_task( std::string& command, std::string arguments );
 
 extern int virtualbox_monitor();
 

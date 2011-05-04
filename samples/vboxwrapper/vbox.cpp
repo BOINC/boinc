@@ -604,7 +604,7 @@ int virtualbox_startvm() {
     int retval;
 
     virtualbox_generate_vm_name(virtual_machine_name);
-    command = "startvm " + virtual_machine_name + " --type headless";
+    command = "startvm \"" + virtual_machine_name + "\" --type headless";
     retval = virtualbox_vbm_popen(command, output);
     if (retval) {
         fprintf(
@@ -629,7 +629,7 @@ int virtualbox_stopvm() {
     int retval;
 
     virtualbox_generate_vm_name(virtual_machine_name);
-    command = "controlvm " + virtual_machine_name + " savestate";
+    command = "controlvm \"" + virtual_machine_name + "\" savestate";
     retval = virtualbox_vbm_popen(command, output);
     if (retval) {
         fprintf(
@@ -654,7 +654,7 @@ int virtualbox_pausevm() {
     int retval;
 
     virtualbox_generate_vm_name(virtual_machine_name);
-    command = "controlvm " + virtual_machine_name + " pause";
+    command = "controlvm \"" + virtual_machine_name + "\" pause";
     retval = virtualbox_vbm_popen(command, output);
     if (retval) {
         fprintf(
@@ -679,7 +679,7 @@ int virtualbox_resumevm() {
     int retval;
 
     virtualbox_generate_vm_name(virtual_machine_name);
-    command = "controlvm " + virtual_machine_name + " resume";
+    command = "controlvm \"" + virtual_machine_name + "\" resume";
     retval = virtualbox_vbm_popen(command, output);
     if (retval) {
         fprintf(
@@ -689,6 +689,38 @@ int virtualbox_resumevm() {
             retval,
             command.c_str(),
             output.c_str()
+        );
+        return retval;
+    }
+    return VBOX_SUCCESS;
+}
+
+
+int virtualbox_execute_task( string& command, string arguments ) {
+    string popen_command;
+    string popen_output;
+    string virtual_machine_name;
+    char buf[256];
+    int retval;
+
+    virtualbox_generate_vm_name(virtual_machine_name);
+
+    popen_command = "guestcontrol exec \"" + virtual_machine_name + "\" ";
+    popen_command += "\"" + command + "\" ";
+    popen_command += "--username \"" + vm.vm_task_execution_username + "\" ";
+    popen_command += "--password \"" + vm.vm_task_execution_password + "\" ";
+    popen_command += "--arguments \"" + arguments + "\" ";
+    popen_command += "--wait-for exit ";
+
+    retval = virtualbox_vbm_popen(popen_command, popen_output);
+    if (retval) {
+        fprintf(
+            stderr,
+            "%s Error executing task in virtual machine! rc = 0x%x\nCommand:\n%s\nOutput:\n%s\n",
+            boinc_msg_prefix(buf, sizeof(buf)),
+            retval,
+            popen_command.c_str(),
+            popen_output.c_str()
         );
         return retval;
     }

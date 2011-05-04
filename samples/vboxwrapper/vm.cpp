@@ -51,6 +51,8 @@ VM::VM() {
     vm_disk_image_name.clear();
     vm_shared_folder_name.clear();
     vm_shared_folder_dir_name.clear();
+    vm_task_execution_username.clear();
+    vm_task_execution_password.clear();
     suspended = false;
     enable_network = false;
     enable_shared_directory = false;
@@ -81,6 +83,8 @@ int VM::parse(XML_PARSER& xp) {
         else if (xp.parse_string(tag, "vm_disk_image_name", vm_disk_image_name)) continue;
         else if (xp.parse_string(tag, "vm_shared_folder_name", vm_shared_folder_name)) continue;
         else if (xp.parse_string(tag, "vm_shared_folder_dir_name", vm_shared_folder_dir_name)) continue;
+        else if (xp.parse_string(tag, "vm_task_execution_username", vm_task_execution_username)) continue;
+        else if (xp.parse_string(tag, "vm_task_execution_password", vm_task_execution_password)) continue;
         else if (xp.parse_bool(tag, "enable_network", enable_network)) continue;
         else if (xp.parse_bool(tag, "enable_shared_directory", enable_shared_directory)) continue;
     }
