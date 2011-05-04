@@ -760,63 +760,119 @@ void CDlgAdvPreferences::OnExclusiveAppListEvent(wxCommandEvent& ev) {
 
 // ---- command buttons handlers
 // handles Add button clicked
-void CDlgAdvPreferences::OnAddExclusiveApp(wxCommandEvent& ev) {
+void CDlgAdvPreferences::OnAddExclusiveApp(wxCommandEvent&) {
     wxString strMachineName;
     unsigned int i;
     int j, n;
+    bool hostIsMac = false;
+    bool hostIsWin = false;
     bool isDuplicate;
     wxArrayString appNames;
+    wxChar *extension;
+    wxString errmsg;
     CMainDocument* pDoc = wxGetApp().GetDocument();
 
     wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
 
+    if (strstr(pDoc->host.os_name, "Darwin")) {
+        hostIsMac = true;
+        extension = wxT(".app");
+    } else if (strstr(pDoc->host.os_name, "Microsoft")) {
+        hostIsWin = true;
+        extension = wxT(".exe");
+    }
+    
     pDoc->GetConnectedComputerName(strMachineName);
     if (pDoc->IsComputerNameLocal(strMachineName)) {
 #ifdef __WXMAC__
-        wxFileDialog picker(this, _("Application to add"), 
+        wxFileDialog picker(this, _("Applications to add"), 
                             wxT("/Applications"), wxT(""), wxT("*.app"), 
                             wxFD_OPEN|wxFD_FILE_MUST_EXIST|wxFD_CHANGE_DIR|wxFD_MULTIPLE|wxFD_CHANGE_DIR);
 #elif defined(__WXMSW__)
 //TODO: fill in the default directory for MSW
-        wxFileDialog picker(this, _("Application to add"), 
+        wxFileDialog picker(this, _("Applications to add"), 
                             wxT("C:/Program Files"), wxT(""), wxT("*.exe"), 
                             wxFD_OPEN|wxFD_FILE_MUST_EXIST|wxFD_CHANGE_DIR|wxFD_MULTIPLE|wxFD_CHANGE_DIR);
 #else
 //TODO: fill in the default directory and wildcard for Linux
-        wxFileDialog picker(this, _("Application to add"), 
-                            wxT(""), wxT(""), wxT("*.*"), 
+        wxFileDialog picker(this, _("Applications to add"), 
+                            wxT("/"), wxT(""), wxT("*.*"), 
                             wxFD_OPEN|wxFD_FILE_MUST_EXIST|wxFD_CHANGE_DIR|wxFD_MULTIPLE|wxFD_CHANGE_DIR);
 #endif
-        if (picker.ShowModal() == wxID_OK) {
-            picker.GetFilenames(appNames);
-            for (i=0; i<appNames.Count(); ++i) {
-#ifdef __WXMAC__
-                int extension = appNames[i].Find('.', true);
-                if (extension != wxNOT_FOUND) {
-                    appNames[i].Truncate(extension);
-                }
-#elif defined(__WXMSW__)
-                wxString appNameOnly = appNames[i].AfterLast('/');
-                appNames[i] = appNameOnly;
+        if (picker.ShowModal() != wxID_OK) return;
+        picker.GetFilenames(appNames);
+
+        for (i=0; i<appNames.Count(); ++i) {
+#ifdef __WXMSW__
+            // Under Windows, filename may include paths if a shortcut selected
+            wxString appNameOnly = appNames[i].AfterLast('\\');
+            appNames[i] = appNameOnly;
 #endif
-                // Skip requests for duplicate entries
-                isDuplicate = false;
-                n = m_exclusiveApsListBox->GetCount();
-                for (j=0; j<n; ++j) {
-                    if ((m_exclusiveApsListBox->GetString(j)).Cmp(appNames[i]) == 0) {
-                        isDuplicate = true;
-                        break;
-                    }
-                }
-                if (isDuplicate) continue;
-                
-                m_exclusiveApsListBox->Append(appNames[i]);
-                m_bExclusiveAppsDataChanged = true;
+            wxString directory = picker.GetDirectory();
+            wxFileName fn(directory, appNames[i]);
+            if (!fn.IsOk() || !fn.IsFileExecutable()) {
+                errmsg.Printf(_("'%s' is not an executable application."), appNames[i].c_str());
+                wxGetApp().SafeMessageBox(errmsg, _("Add Exclusive App"),
+                            wxOK | wxICON_EXCLAMATION, this);
+                continue;
             }
         }
     } else {
-//TODO: if remote computer, show a dialog with textedit field so user can type app name
+        // We can't use file picker if connected to a remote computer, 
+        // so show a dialog with textedit field so user can type app name
+        wxChar path_separator = wxT('/');
+        
+        wxTextEntryDialog dlg(this, _("Name of application to add?"), _("Add exclusive app"));
+        if (hostIsMac) {
+            dlg.SetValue(extension);
+        } else if (hostIsWin) {
+            dlg.SetValue(extension);
+            path_separator = wxT('\\');
+        }
+        if (dlg.ShowModal() != wxID_OK) return;
+        
+        wxString theAppName = dlg.GetValue();
+        // Strip off path if present
+        appNames.Add(theAppName.AfterLast(path_separator));
+        
+        // We can only perform minimal validation on remote hosts
+        if (hostIsMac || hostIsWin) {
+            if (!appNames[0].EndsWith(extension)) {
+                errmsg.Printf(_("Application names must end with '%s'"), extension);
+                wxGetApp().SafeMessageBox(errmsg, _("Add Exclusive App"),
+                            wxOK | wxICON_EXCLAMATION, this);
+                return;
+            }
+        }
+    }
+        
+    for (i=0; i<appNames.Count(); ++i) {
+        if (hostIsMac) {
+            int suffix = appNames[i].Find('.', true);
+            if (suffix != wxNOT_FOUND) {
+                appNames[i].Truncate(suffix);
+            }
+        }
+
+        // Skip requests for duplicate entries
+        isDuplicate = false;
+        n = m_exclusiveApsListBox->GetCount();
+        for (j=0; j<n; ++j) {
+            if ((m_exclusiveApsListBox->GetString(j)).Cmp(appNames[i]) == 0) {
+                isDuplicate = true;
+                break;
+            }
+        }
+        if (isDuplicate) {
+            errmsg.Printf(_("'%s' is already in the list."), appNames[i].c_str());
+            wxGetApp().SafeMessageBox(errmsg, _("Add Exclusive App"),
+                        wxOK | wxICON_EXCLAMATION, this);
+            continue;
+        }
+        
+        m_exclusiveApsListBox->Append(appNames[i]);
+        m_bExclusiveAppsDataChanged = true;
     }
 }
 

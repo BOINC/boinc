@@ -711,6 +711,27 @@ wxPanel* CDlgAdvPreferencesBase::createExclusiveAppsTab(wxNotebook* notebook)
 
     exclusiveAppsBoxSizer->Add(exclusiveAppsButtonSizer, 0, wxEXPAND|wxLEFT|wxRIGHT, 25 );
 
+    wxBoxSizer* moreOptionsLinkSizer = new wxBoxSizer( wxHORIZONTAL );
+
+    moreOptionsLinkSizer->Add(
+        new wxStaticText(
+            exclusiveAppsTab, ID_DEFAULT, _("For advanced options, refer to "),
+            wxDefaultPosition, wxDefaultSize, wxALIGN_RIGHT
+        ),
+        0, wxALL, 5
+    );
+
+    moreOptionsLinkSizer->Add(
+        new wxHyperlinkCtrl(
+            exclusiveAppsTab, ID_DEFAULT, wxT("http://boinc.berkeley.edu/wiki/Client_configuration"),
+            wxT("http://boinc.berkeley.edu/wiki/Client_configuration"), 
+            wxDefaultPosition, wxDefaultSize, wxHL_ALIGN_LEFT
+        ),
+        0, wxALL, 5
+    );
+
+    exclusiveAppsBoxSizer->Add(moreOptionsLinkSizer, 0, wxALL, 5);
+        
     exclusiveAppsListBoxSizer->Add(exclusiveAppsBoxSizer, 1, wxEXPAND, 5 );
     
     exclusiveAppsTabBoxSizer->Add(exclusiveAppsListBoxSizer, 1, wxEXPAND, 5 );
