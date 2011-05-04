@@ -2775,7 +2775,7 @@ Rom    4 May 2011
 
 Rom    4 May 2011
     - VBOX: Switch to using CreateProcess and CreatePipe on Windows, otherwise we
-        get a bunch of flicking windows when we preform and operation against
+        get a bunch of flicking windows when we preform an operation against
         VirtualBox.
         
     samples/vboxwrapper/
