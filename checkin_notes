@@ -2786,3 +2786,9 @@ Charlie 5 May 2011
 
     clientgui/
         DlgAdvPreferences.cpp
+
+David  5 May 2011
+	- web: don't show login stuff on server status page
+
+	html/inc/
+		util.inc

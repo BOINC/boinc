@@ -172,6 +172,7 @@ function page_head(
     switch($title) {    //kludge
     case tra("Log in"):
     case tra("Create an account"):
+    case tra("Server status page"):
         break;
     default:
         show_login_info($prefix);
