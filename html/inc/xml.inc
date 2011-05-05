@@ -118,7 +118,7 @@ function show_team_xml($team) {
     <create_time>$team->create_time</create_time>
     <userid>$team->userid</userid>
     <name>".htmlspecialchars($team->name)."</name>
-    <url>$team->url</url>
+    <url>".htmlspecialchars($team->url)."</url>
     <type>$team->type</type>
     <country>$team->country</country>
     <total_credit>$team->total_credit</total_credit>
