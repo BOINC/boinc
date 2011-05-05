@@ -20,8 +20,9 @@ include_once("../inc/boinc_db.inc");
 include_once("../inc/util.inc");
 include_once("../inc/team.inc");
 include_once("../inc/team_types.inc");
+include_once("../inc/xml.inc");
 
-check_get_args(array("keywords", "active", "country", "type", "submit"));
+check_get_args(array("keywords", "active", "country", "type", "submit", "xml"));
 
 // Merge list1 into list2.
 // list entries are of the form id => team,
@@ -87,6 +88,38 @@ function show_list($list) {
     echo "</table>";
 }
 
+function show_teams_html($list) {
+    page_head(tra("Team search results"));
+    if (sizeof($list) == 0) {
+        echo tra("No teams were found matching your criteria. Try another search.")
+            ."<p>"
+            .tra("Or you can %1create a new team%2.", "<a href=team_create_form.php>", "</a>")
+            ."</p>\n";
+        team_search_form($params);
+    } else {
+        echo tra("The following teams match one or more of your search criteria.
+            To join a team, click its name to go to the team page,
+               then click %1Join this team%2.", "<strong>", "</strong>")
+            ."<p>
+        ";
+        sort_list($list);
+        show_list($list);
+        echo "<h2>".tra("Change your search")."</h2>";
+        team_search_form($params);
+    }
+    page_tail();
+}
+
+function show_teams_xml($list) {
+    xml_header();
+    echo "<teams>\n";
+    sort_list($list);
+    foreach($list as $team) {
+        show_team_xml($team);
+    }
+    echo "</teams>\n";
+}
+
 function search($params) {
     $list = array();
     $tried = false;
@@ -120,40 +153,28 @@ function search($params) {
         merge_lists($list2, $list, 2);
         $tried = true;
     }
-
     if (!$tried) {
         $list = get_teams("id>0", $params->active);
     }
 
-    if (sizeof($list) == 0) {
-        echo tra("No teams were found matching your criteria. Try another search.")
-            ."<p>"
-            .tra("Or you can %1create a new team%2.", "<a href=team_create_form.php>", "</a>")
-            ."</p>\n";
-        team_search_form($params);
-    } else {
-        echo tra("The following teams match one or more of your search criteria.
-            To join a team, click its name to go to the team page,
-               then click %1Join this team%2.", "<strong>", "</strong>")
-            ."<p>
-        ";
-        sort_list($list);
-        show_list($list);
-        echo "<h2>".tra("Change your search")."</h2>";
-        team_search_form($params);
-    }
+    return $list;
 }
 
 $user = get_logged_in_user(false);
 $submit = get_str("submit", true);
-if ($submit) {
+$xml = get_str("xml", true);
+if ($submit || $xml) {
     $params = null;
     $params->keywords = get_str('keywords', true);
     $params->country = get_str("country", true);
     $params->type = get_str("type", true);
     $params->active = get_str('active', true);
-    page_head(tra("Team search results"));
-    search($params);
+    $list = search($params);
+    if ($xml) {
+        show_teams_xml($list);
+    } else {
+        show_teams_html($list);
+    }
 } else {
     page_head(tra("Find a team"), 'document.form.keywords.focus()');
     echo tra("You can team up with other people with similar interests, or from the same country, company, or school.")
@@ -165,7 +186,7 @@ if ($submit) {
         echo "<p>
             ".tra("%1I'm not interested%2 in joining a team right now.", "<a href=home.php>", "</a>");
     }
+    page_tail();
 }
-page_tail();
 
 ?>

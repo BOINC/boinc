@@ -2800,3 +2800,9 @@ David  5 May 2011
         validator.cpp
     html/user/
         friend.php
+
+David  5 May 2011
+    - web RPC: add RPC for getting teams by country
+
+    html/user/
+        team_search.php
