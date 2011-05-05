@@ -2780,3 +2780,9 @@ Rom    4 May 2011
         
     samples/vboxwrapper/
         vbox.cpp
+
+Charlie 5 May 2011
+    - MGR: Fix compiler warning.
+
+    clientgui/
+        DlgAdvPreferences.cpp

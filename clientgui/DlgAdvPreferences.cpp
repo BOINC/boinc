@@ -767,7 +767,7 @@ void CDlgAdvPreferences::OnAddExclusiveApp(wxCommandEvent&) {
     bool hostIsWin = false;
     bool isDuplicate;
     wxArrayString appNames;
-    wxChar *extension;
+    wxChar *extension = wxT("");
     wxString errmsg;
     CMainDocument* pDoc = wxGetApp().GetDocument();
 
