@@ -646,7 +646,7 @@ int main(int argc, char** argv) {
     int i, retval;
 
     const char *usage = 
-      "\nUsage: %s -app <app-name> [OPTIONS]\n"
+      "\nUsage: %s --app <app-name> [OPTIONS]\n"
       "Start validator for application <app-name>\n\n"
       "Optional arguments:\n"
       "  --one_pass_N_WU N       Validate at most N WUs, then exit\n"

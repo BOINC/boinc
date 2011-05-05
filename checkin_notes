@@ -2792,3 +2792,11 @@ David  5 May 2011
 
 	html/inc/
 		util.inc
+
+David  5 May 2011
+    - web: don't error out on old-style notice URL
+
+    sched/
+        validator.cpp
+    html/user/
+        friend.php

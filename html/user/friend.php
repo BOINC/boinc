@@ -121,7 +121,7 @@ function handle_add_confirm($user) {
 //
 function handle_query($user) {
     $target_userid = get_int('target_userid', true);
-    if ($target_userid != $user->id) {
+    if ($target_user && $target_userid != $user->id) {
         $target_user = BoincUser::lookup_id($target_userid);
         page_head(tra("Please log in as %1", $target_user->name));
         echo tra("You must log in as %1 to view this friend request",
