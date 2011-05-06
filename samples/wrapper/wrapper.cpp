@@ -652,10 +652,12 @@ void send_status_message(
 // and how much CPU time has been used so far
 //
 void write_checkpoint(int ntasks_completed, double cpu) {
+    boinc_begin_critical_section();
     FILE* f = fopen(CHECKPOINT_FILENAME, "w");
     if (!f) return;
     fprintf(f, "%d %f\n", ntasks_completed, cpu);
     fclose(f);
+    boinc_checkpoint_completed();
 }
 
 void read_checkpoint(int& ntasks_completed, double& cpu) {

@@ -256,10 +256,10 @@ t.cmd = 'run_in_ops ./update_forum_activities.php'
 t.disabled = 1
 
 t = project.config.tasks.make_node_and_append("task")
-t.period = '7 days'
+t.period = '1 days'
 t.output = 'update_stats.out'
-t.cmd = 'update_stats --update_users --update_teams --update_hosts'
-t.disabled = 1
+t.cmd = 'update_stats'
+t.disabled = 0
 
 t = project.config.tasks.make_node_and_append("task")
 t.period = '24 hours'

@@ -21,6 +21,8 @@
 // bossa_example4_make_jobs.php
 //   --dir dir
 
+$app_name = "bossa_example4";
+
 $cli_only = true;
 require_once("../inc/bossa.inc");
 require_once("../inc/util_ops.inc");
@@ -64,7 +66,7 @@ if (!is_dir("../user/$dir")) {
     exit("../user/$dir is not a directory\n");
 }
 
-$appid = bossa_app_lookup("bossa_example4");
-if (!$appid) exit("No application 'bossa_example4'\n");
+$appid = bossa_app_lookup($app_name);
+if (!$appid) exit("No application $app_name\n");
 
 make_jobs($dir, $appid);

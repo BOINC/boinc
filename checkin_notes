@@ -2806,3 +2806,16 @@ David  5 May 2011
 
     html/user/
         team_search.php
+
+David  6 May 2011
+    - wrapper: tell the client when we checkpoint
+        (else checkpoint_elapsed_time etc. don't get set)
+    - make_project: enable update_stats by default
+    - update_stats: add --min_age option
+
+    sched/
+        update_stats.cpp
+    tools/
+        make_project
+    samples/wrapper/
+        wrapper.cpp
