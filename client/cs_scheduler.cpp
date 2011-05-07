@@ -1166,6 +1166,10 @@ PROJECT* CLIENT_STATE::find_project_with_overdue_results() {
         if (p->waiting_until_min_rpc_time()) continue;
         if (p->suspended_via_gui) continue;
 
+        if (r->report_immediately) {
+            return p;
+        }
+
         if (config.report_results_immediately) {
             return p;
         }

@@ -639,10 +639,10 @@ struct RESULT {
     bool coproc_missing;
         // a coproc needed by this job is missing
         // (e.g. because user removed their GPU board).
+    bool report_immediately;
 
     APP* app;
     WORKUNIT* wup;
-        // this may be NULL after result is finished
     PROJECT* project;
 
     RESULT(){}

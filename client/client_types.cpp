@@ -1695,6 +1695,7 @@ void RESULT::clear() {
     strcpy(plan_class, "");
     strcpy(resources, "");
     coproc_missing = false;
+    report_immediately = false;
     schedule_backoff = 0;
 }
 
@@ -1718,6 +1719,7 @@ int RESULT::parse_server(MIOFILE& in) {
             output_files.push_back(file_ref);
             continue;
         }
+        if (parse_bool(buf, "report_immediately", report_immediately)) continue;
         if (log_flags.unparsed_xml) {
             msg_printf(0, MSG_INFO,
                 "[unparsed_xml] RESULT::parse(): unrecognized: %s\n", buf
@@ -1770,6 +1772,7 @@ int RESULT::parse_state(MIOFILE& in) {
         if (parse_bool(buf, "ready_to_report", ready_to_report)) continue;
         if (parse_double(buf, "<completed_time>", completed_time)) continue;
         if (parse_bool(buf, "suspended_via_gui", suspended_via_gui)) continue;
+        if (parse_bool(buf, "report_immediately", report_immediately)) continue;
         if (parse_int(buf, "<state>", _state)) continue;
         if (match_tag(buf, "<stderr_out>")) {
             while (in.fgets(buf, 256)) {
@@ -1877,6 +1880,7 @@ int RESULT::write(MIOFILE& out, bool to_server) {
         if (ready_to_report) out.printf("    <ready_to_report/>\n");
         if (completed_time) out.printf("    <completed_time>%f</completed_time>\n", completed_time);
         if (suspended_via_gui) out.printf("    <suspended_via_gui/>\n");
+        if (report_immediately) out.printf("    <report_immediately/>\n");
         out.printf(
             "    <wu_name>%s</wu_name>\n"
             "    <report_deadline>%f</report_deadline>\n"
@@ -1929,6 +1933,7 @@ int RESULT::write_gui(MIOFILE& out) {
     if (completed_time) out.printf("    <completed_time>%f</completed_time>\n", completed_time);
     if (suspended_via_gui) out.printf("    <suspended_via_gui/>\n");
     if (project->suspended_via_gui) out.printf("    <project_suspended_via_gui/>\n");
+    if (report_immediately) out.printf("    <report_immediately/>\n");
     if (edf_scheduled) out.printf("    <edf_scheduled/>\n");
     if (coproc_missing) out.printf("    <coproc_missing/>\n");
     if (schedule_backoff > gstate.now) out.printf("    <gpu_mem_wait/>\n");
