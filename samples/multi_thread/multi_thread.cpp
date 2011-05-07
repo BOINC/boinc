@@ -157,7 +157,10 @@ int main(int argc, char** argv) {
     double start_time = dtime();
     char buf[256];
 
-    boinc_init_parallel();
+    BOINC_OPTIONS options;
+    boinc_options_defaults(options);
+    options.multi_thread = true;
+    boinc_init_options(&options);
 
     for (i=1; i<argc; i++) {
         if (!strcmp(argv[i], "--nthreads")) {

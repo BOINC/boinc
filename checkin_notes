@@ -2826,3 +2826,13 @@ Charlie 7 May 2011
     win_build/
         boinc_cli.vcproj
         libboinc.vcproj
+
+David  7 May 2011
+	- client: fix bug that broke work fetch.
+		We can't set coprocs.n_rsc to zero in CONFIG::defaults().
+	- multi_thread app: update initialization
+
+	lib/
+		cc_config.cpp
+	samples/multi_thread/
+		multi_thread.cpp
