@@ -37,6 +37,8 @@ class XML_PARSER;
     // kind of arbitrary
 
 struct LOG_FLAGS {
+    // If you add anything, you must add it to parse() and write()
+
     // on by default; intended for all users
     //
     bool file_xfer;
@@ -110,6 +112,9 @@ struct LOG_FLAGS {
     int write(MIOFILE& out);
 };
 
+// if you add anything, you must add it to
+// defaults(), parse_options(), and write()
+//
 struct CONFIG {
     bool abort_jobs_on_exit;
     bool allow_multiple_clients;
@@ -129,6 +134,8 @@ struct CONFIG {
     bool fetch_minimal_work;
     std::string force_auth;
     bool http_1_0;
+    int http_transfer_timeout_bps;
+    int http_transfer_timeout;
     std::vector<int> ignore_cuda_dev;
     std::vector<int> ignore_ati_dev;
     int max_file_xfers;

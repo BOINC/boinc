@@ -524,8 +524,8 @@ int HTTP_OP::libcurl_exec(
     // setup timeouts
     //
     curlErr = curl_easy_setopt(curlEasy, CURLOPT_TIMEOUT, 0L);
-    curlErr = curl_easy_setopt(curlEasy, CURLOPT_LOW_SPEED_LIMIT, 10L);
-    curlErr = curl_easy_setopt(curlEasy, CURLOPT_LOW_SPEED_TIME, 300L);
+    curlErr = curl_easy_setopt(curlEasy, CURLOPT_LOW_SPEED_LIMIT, config.http_transfer_timeout_bps);
+    curlErr = curl_easy_setopt(curlEasy, CURLOPT_LOW_SPEED_TIME, config.http_transfer_timeout);
     curlErr = curl_easy_setopt(curlEasy, CURLOPT_CONNECTTIMEOUT, 120L);
 
     // force curl to use HTTP/1.0 if config specifies it

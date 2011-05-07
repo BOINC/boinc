@@ -199,10 +199,12 @@ void CONFIG::defaults() {
     fetch_minimal_work = false;
     force_auth = "default";
     http_1_0 = false;
+    http_transfer_timeout = 300;
+    http_transfer_timeout_bps = 10;
     ignore_cuda_dev.clear();
     ignore_ati_dev.clear();
-    max_file_xfers = MAX_FILE_XFERS;
-    max_file_xfers_per_project = MAX_FILE_XFERS_PER_PROJECT;
+    max_file_xfers = 8;
+    max_file_xfers_per_project = 2;
     max_stderr_file_size = 0;
     max_stdout_file_size = 0;
     max_tasks_reported = 0;
@@ -307,6 +309,8 @@ int CONFIG::parse_options(XML_PARSER& xp) {
             continue;
         }
         if (xp.parse_bool(tag, "http_1_0", http_1_0)) continue;
+        if (xp.parse_int(tag, "http_transfer_timeout", http_transfer_timeout)) continue;
+        if (xp.parse_int(tag, "http_transfer_timeout_bps", http_transfer_timeout_bps)) continue;
         if (xp.parse_int(tag, "ignore_cuda_dev", n)) {
             ignore_cuda_dev.push_back(n);
             continue;
@@ -469,12 +473,16 @@ int CONFIG::write(MIOFILE& out, LOG_FLAGS& log_flags) {
         "        <exit_when_idle>%d</exit_when_idle>\n"
         "        <fetch_minimal_work>%d</fetch_minimal_work>\n"
         "        <force_auth>%s</force_auth>\n"
-        "        <http_1_0>%d</http_1_0>\n",
+        "        <http_1_0>%d</http_1_0>\n"
+        "        <http_transfer_timeout>%d</http_transfer_timeout>\n"
+        "        <http_transfer_timeout_bps>%d</http_transfer_timeout_bps>\n",
         exit_after_finish,
         exit_when_idle,
         fetch_minimal_work,
         force_auth.c_str(),
-        http_1_0
+        http_1_0,
+        http_transfer_timeout,
+        http_transfer_timeout_bps
     );
         
     for (i=0; i<ignore_cuda_dev.size(); ++i) {

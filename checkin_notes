@@ -2788,10 +2788,10 @@ Charlie 5 May 2011
         DlgAdvPreferences.cpp
 
 David  5 May 2011
-	- web: don't show login stuff on server status page
+    - web: don't show login stuff on server status page
 
-	html/inc/
-		util.inc
+    html/inc/
+        util.inc
 
 David  5 May 2011
     - web: don't error out on old-style notice URL
@@ -2828,11 +2828,22 @@ Charlie 7 May 2011
         libboinc.vcproj
 
 David  7 May 2011
-	- client: fix bug that broke work fetch.
-		We can't set coprocs.n_rsc to zero in CONFIG::defaults().
-	- multi_thread app: update initialization
+    - client: fix bug that broke work fetch.
+        We can't set coprocs.n_rsc to zero in CONFIG::defaults().
+    - multi_thread app: update initialization
 
-	lib/
-		cc_config.cpp
-	samples/multi_thread/
-		multi_thread.cpp
+    lib/
+        cc_config.cpp
+    samples/multi_thread/
+        multi_thread.cpp
+
+David  7 May 2011
+    - client: add <http_transfer_timeout_bps> config option.
+        Defines the transfer rate below which the connection
+        is considered idle, and timeout starts
+
+    lib/
+        cc_config.cpp,h
+    client/
+        http_curl.cpp
+        cs_files.cpp
