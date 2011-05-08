@@ -2821,10 +2821,9 @@ David  6 May 2011
         wrapper.cpp
 
 Charlie 7 May 2011
-    - Win: add missing procinfo.cpp to Windows libboinc project.
+    - Win: add missing procinfo_win.cpp to Windows libboinc project.
 
     win_build/
-        boinc_cli.vcproj
         libboinc.vcproj
 
 David  7 May 2011
