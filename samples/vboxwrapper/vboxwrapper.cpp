@@ -57,6 +57,7 @@
 #include "vbox.h"
 
 #define JOB_FILENAME "job.xml"
+#define CHECKPOINT_FILENAME "vboxwrapper_checkpoint.txt"
 #define POLL_PERIOD 1.0
 
 int parse_job_file() {
@@ -97,9 +98,35 @@ int parse_job_file() {
     return ERR_XML_PARSE;
 }
 
+
+void write_checkpoint(double cpu) {
+    boinc_begin_critical_section();
+    FILE* f = fopen(CHECKPOINT_FILENAME, "w");
+    if (!f) return;
+    fprintf(f, "%f\n", cpu);
+    fclose(f);
+    boinc_checkpoint_completed();
+}
+
+
+void read_checkpoint(double& cpu) {
+    double c;
+    cpu = 0;
+    FILE* f = fopen(CHECKPOINT_FILENAME, "r");
+    if (!f) return;
+    int n = fscanf(f, "%lf", &c);
+    fclose(f);
+    if (n != 1) return;
+    cpu = c;
+}
+
+
 int main(int argc, char** argv) {
     BOINC_OPTIONS boinc_options;
     BOINC_STATUS boinc_status;
+    double current_cpu_time = 0.0;
+    double checkpoint_cpu_time = 0.0;
+    bool is_running = false;
     char buf[256];
     int retval;
 
@@ -126,24 +153,32 @@ int main(int argc, char** argv) {
         boinc_finish(retval);
     }
 
+    read_checkpoint(checkpoint_cpu_time);
+
     retval = vm.run();
     if (retval) {
         boinc_finish(retval);
     }
 
     while (1) {
+
         vm.poll();
+        is_running = vm.is_running();
+
         boinc_get_status(&boinc_status);
         if (boinc_status.no_heartbeat || boinc_status.quit_request) {
             vm.stop();
+            write_checkpoint(checkpoint_cpu_time);
             boinc_temporary_exit(0);
         }
         if (boinc_status.abort_request) {
             vm.cleanup();
+            write_checkpoint(checkpoint_cpu_time);
             boinc_finish(EXIT_ABORTED_BY_CLIENT);
         }
-        if (!vm.is_running()) {
+        if (!is_running) {
             vm.cleanup();
+            write_checkpoint(checkpoint_cpu_time);
             boinc_finish(0);
         }
         if (boinc_status.suspended) {
@@ -154,6 +189,15 @@ int main(int argc, char** argv) {
             if (vm.suspended) {
                 vm.resume();
             }
+        }
+        if (boinc_time_to_checkpoint()) {
+            boinc_checkpoint_completed();
+            checkpoint_cpu_time += current_cpu_time;
+            current_cpu_time = 0.0;
+        }
+        if (is_running) {
+            current_cpu_time += 1.0;
+            boinc_report_app_status(current_cpu_time, checkpoint_cpu_time, 0.0);
         }
         boinc_sleep(POLL_PERIOD);
     }

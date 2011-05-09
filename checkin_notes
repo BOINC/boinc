@@ -2856,3 +2856,12 @@ David  7 May 2011
     client/
         client_types.cpp,h
         cs_scheduler.cpp
+
+Rom    9 May 2011
+    - VBOX: Implement basic cpu time accounting and checkpointing
+        for VMs.
+
+    samples/vboxwrapper/
+        vbox.cpp, .h
+        vboxwrapper.cpp
+        vm.cpp, .h

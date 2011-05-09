@@ -26,9 +26,6 @@ public:
     VM();
     ~VM();
 
-    std::string stdin_filename;
-    std::string stdout_filename;
-    std::string stderr_filename;
     // name of the OS the VM runs
     std::string vm_os_name;
     // size of the memory allocation for the VM
@@ -39,10 +36,6 @@ public:
     std::string vm_shared_folder_name;
     // shared folder directory name
     std::string vm_shared_folder_dir_name;
-    // task execution user name
-    std::string vm_task_execution_username;
-    // task execution password
-    std::string vm_task_execution_password;
     bool suspended;
     bool enable_network;
     bool enable_shared_directory;
