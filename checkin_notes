@@ -2872,3 +2872,10 @@ David  10 May 2011
     client/
         client_state.h
         app.cpp
+
+David  10 May 2011
+    - vbox wrapper: updates
+
+    samples/vboxwrapper/
+        vbox.cpp
+        vm.cpp,h

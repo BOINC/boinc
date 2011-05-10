@@ -26,16 +26,12 @@ public:
     VM();
     ~VM();
 
-    // name of the OS the VM runs
-    std::string vm_os_name;
-    // size of the memory allocation for the VM
-    std::string vm_memory_size;
-    // name of the virtual machine disk image file
-    std::string vm_disk_image_name;
-    // name of shared folder
-    std::string vm_shared_folder_name;
-    // shared folder directory name
-    std::string vm_shared_folder_dir_name;
+    std::string os_name;
+        // name of the OS the VM runs
+    std::string memory_size_mb;
+        // size of the memory allocation for the VM, in megabytes
+    std::string image_filename;
+        // name of the virtual machine disk image file
     bool suspended;
     bool enable_network;
     bool enable_shared_directory;

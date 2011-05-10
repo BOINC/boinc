@@ -254,7 +254,7 @@ bool virtualbox_vm_is_hdd_registered() {
 
     virtualbox_generate_vm_root_dir(virtual_machine_root_dir);
 
-    command = "showhdinfo \"" + virtual_machine_root_dir + "/" + vm.vm_disk_image_name + "\" ";
+    command = "showhdinfo \"" + virtual_machine_root_dir + "/" + vm.image_filename + "\" ";
 
     if (VBOX_SUCCESS == virtualbox_vbm_popen(command, output)) {
         if (output.find("VBOX_E_FILE_ERROR") != string::npos) {
@@ -395,7 +395,7 @@ int virtualbox_register_vm() {
     command  = "createvm ";
     command += "--name \"" + virtual_machine_name + "\" ";
     command += "--basefolder \"" + virtual_machine_root_dir + "\" ";
-    command += "--ostype \"" + vm.vm_os_name + "\" ";
+    command += "--ostype \"" + vm.os_name + "\" ";
     command += "--register";
     
     retval = virtualbox_vbm_popen(command, output);
@@ -415,7 +415,7 @@ int virtualbox_register_vm() {
     // Tweak the VM from it's default configuration
     //
     command  = "modifyvm \"" + virtual_machine_name + "\" ";
-    command += "--memory " + vm.vm_memory_size + " ";
+    command += "--memory " + vm.memory_size_mb + " ";
     command += "--acpi on ";
     command += "--ioapic on ";
     command += "--boot1 disk ";
@@ -468,7 +468,7 @@ int virtualbox_register_vm() {
     command += "--port 0 ";
     command += "--device 0 ";
     command += "--type hdd ";
-    command += "--medium \"" + virtual_machine_root_dir + "/" + vm.vm_disk_image_name + "\" ";
+    command += "--medium \"" + virtual_machine_root_dir + "/" + vm.image_filename + "\" ";
 
     retval = virtualbox_vbm_popen(command, output);
     if (retval) {
@@ -512,8 +512,8 @@ int virtualbox_register_vm() {
     //
     if (vm.enable_shared_directory) {
         command  = "sharedfolder add \"" + virtual_machine_name + "\" ";
-        command += "--name \"" + vm.vm_shared_folder_name + "\" ";
-        command += "--hostpath \"" + virtual_machine_root_dir + "/" + vm.vm_shared_folder_dir_name + "\" ";
+        command += "--name \"shared\" ";
+        command += "--hostpath \"" + virtual_machine_root_dir + "/shared\"";
 
         retval = virtualbox_vbm_popen(command, output);
         if (retval) {
@@ -591,7 +591,7 @@ int virtualbox_deregister_vm_by_name( string& virtual_machine_name ) {
 
     // Lastly delete medium from Virtual Box Media Registry
     //
-    command  = "closemedium disk \"" + virtual_machine_root_dir + "/" + vm.vm_disk_image_name + "\" ";
+    command  = "closemedium disk \"" + virtual_machine_root_dir + "/" + vm.image_filename + "\" ";
 
     retval = virtualbox_vbm_popen(command, output);
     if (retval) {
@@ -625,7 +625,7 @@ int virtualbox_deregister_stale_vm() {
     // We need to determine what the name or uuid is of the previous VM which owns
     // this virtual disk
     //
-    command  = "showhdinfo \"" + virtual_machine_root_dir + "/" + vm.vm_disk_image_name + "\" ";
+    command  = "showhdinfo \"" + virtual_machine_root_dir + "/" + vm.image_filename + "\" ";
 
     retval = virtualbox_vbm_popen(command, output);
     if (retval) {
@@ -666,7 +666,7 @@ int virtualbox_deregister_stale_vm() {
     } else {
         // Did the user delete the VM in VirtualBox and not the medium?  If so,
         // just remove the medium.
-        command  = "closemedium \"" + virtual_machine_root_dir + "/" + vm.vm_disk_image_name + "\" ";
+        command  = "closemedium \"" + virtual_machine_root_dir + "/" + vm.image_filename + "\" ";
 
         retval = virtualbox_vbm_popen(command, output);
         if (retval) {

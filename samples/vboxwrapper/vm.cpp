@@ -43,11 +43,9 @@
 VM vm;
 
 VM::VM() {
-    vm_os_name.clear();
-    vm_memory_size.clear();
-    vm_disk_image_name.clear();
-    vm_shared_folder_name.clear();
-    vm_shared_folder_dir_name.clear();
+    os_name.clear();
+    memory_size_mb.clear();
+    image_filename.clear();
     suspended = false;
     enable_network = false;
     enable_shared_directory = false;
@@ -70,11 +68,9 @@ int VM::parse(XML_PARSER& xp) {
         if (!strcmp(tag, "/vm")) {
             return 0;
         }
-        else if (xp.parse_string(tag, "vm_os_name", vm_os_name)) continue;
-        else if (xp.parse_string(tag, "vm_memory_size", vm_memory_size)) continue;
-        else if (xp.parse_string(tag, "vm_disk_image_name", vm_disk_image_name)) continue;
-        else if (xp.parse_string(tag, "vm_shared_folder_name", vm_shared_folder_name)) continue;
-        else if (xp.parse_string(tag, "vm_shared_folder_dir_name", vm_shared_folder_dir_name)) continue;
+        else if (xp.parse_string(tag, "os_name", os_name)) continue;
+        else if (xp.parse_string(tag, "memory_size_mb", memory_size_mb)) continue;
+        else if (xp.parse_string(tag, "image_filename", image_filename)) continue;
         else if (xp.parse_bool(tag, "enable_network", enable_network)) continue;
         else if (xp.parse_bool(tag, "enable_shared_directory", enable_shared_directory)) continue;
     }
