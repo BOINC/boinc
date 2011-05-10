@@ -56,8 +56,8 @@
 #include "vm.h"
 #include "vbox.h"
 
-#define JOB_FILENAME "job.xml"
-#define CHECKPOINT_FILENAME "vboxwrapper_checkpoint.txt"
+#define JOB_FILENAME "vbox_job.xml"
+#define CHECKPOINT_FILENAME "vbox_checkpoint.txt"
 #define POLL_PERIOD 1.0
 
 int parse_job_file() {
@@ -77,7 +77,7 @@ int parse_job_file() {
     mf.init_file(f);
     XML_PARSER xp(&mf);
 
-    if (!xp.parse_start("job_desc")) return ERR_XML_PARSE;
+    if (!xp.parse_start("vbox_job_desc")) return ERR_XML_PARSE;
     while (!xp.get(tag, sizeof(tag), is_tag)) {
         if (!is_tag) {
             fprintf(stderr,
@@ -86,11 +86,7 @@ int parse_job_file() {
             );
             continue;
         }
-        if (!strcmp(tag, "/job_desc")) {
-            fclose(f);
-            return 0;
-        }
-        if (!strcmp(tag, "vm")) {
+        if (!strcmp(tag, "vbox_job_desc")) {
             vm.parse(xp);
         }
     }

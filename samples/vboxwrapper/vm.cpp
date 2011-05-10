@@ -65,7 +65,7 @@ int VM::parse(XML_PARSER& xp) {
             );
             continue;
         }
-        if (!strcmp(tag, "/vm")) {
+        if (!strcmp(tag, "/vbox_job_desc")) {
             return 0;
         }
         else if (xp.parse_string(tag, "os_name", os_name)) continue;
