@@ -20,7 +20,6 @@
 //
 // Handles:
 // - suspend/resume/quit/abort virtual machine 
-// - reporting CPU time through trickle massages
 //
 // Contributor: Jie Wu <jiewu AT cern DOT ch>
 //
@@ -351,6 +350,9 @@ void VM::create() {
 
 void VM::start(bool vrde=false, bool headless=false) {
     // Start the VM in headless mode
+    
+    boinc_begin_critical_section();
+
     string arg_list="";
     if (headless) arg_list=" startvm "+ virtual_machine_name + " --type headless";
     else arg_list = " startvm "+ virtual_machine_name;
@@ -360,6 +362,7 @@ void VM::start(bool vrde=false, bool headless=false) {
         fprintf(stderr,"ERROR: %s\n",arg_list.c_str());
         fprintf(stderr,"INFO: Removing VM...\n");
         remove();
+        boinc_end_critical_section();
         boinc_finish(1);
     }
     // Enable or disable VRDP for the VM: (by default is disabled)
@@ -383,15 +386,20 @@ void VM::start(bool vrde=false, bool headless=false) {
         arg_list = " setextradata " + virtual_machine_name + " GUI/RestrictedCloseActions SaveState,Shutdown,PowerOff,Restore";
         vbm_popen(arg_list);
     }
+
+    boinc_end_critical_section();
 }
 
 void VM::kill() {
+    boinc_begin_critical_section();
     string arg_list="";
     arg_list="controlvm "+virtual_machine_name+" poweroff";
     vbm_popen(arg_list);
+    boinc_end_critical_section();
 }
 
 void VM::pause() {
+    boinc_begin_critical_section();
     time_t current_time;
     string arg_list="";
     arg_list="controlvm "+virtual_machine_name+" pause";
@@ -400,10 +408,12 @@ void VM::pause() {
         current_time=time(NULL);
         current_period += difftime (current_time,last_poll_point);
     }
+    boinc_end_critical_section();
         
 }
 
 void VM::resume() {
+    boinc_begin_critical_section();
     string arg_list="";
     arg_list="controlvm "+virtual_machine_name+" resume";
     if(vbm_popen(arg_list)) {
@@ -411,9 +421,11 @@ void VM::resume() {
         last_poll_point=time(NULL);
     
     }
+    boinc_end_critical_section();
 }
 
 void VM::Check(){
+    boinc_begin_critical_section();
     string arg_list="";
     if(suspended){
         arg_list="controlvm "+virtual_machine_name+" resume";
@@ -421,20 +433,24 @@ void VM::Check(){
     }
     arg_list="controlvm "+virtual_machine_name+" savestate";
     vbm_popen(arg_list);
+    boinc_end_critical_section();
 }
 
 void VM::savestate()
 {
+    boinc_begin_critical_section();
     string arg_list = "";
     arg_list = "controlvm " + virtual_machine_name + " savestate";
     if (!vbm_popen(arg_list))
     {
         fprintf(stderr,"ERROR: The VM could not be saved.\n");
     }
+    boinc_end_critical_section();
 
 }
 
 void VM::remove(){
+    boinc_begin_critical_section();
     string arg_list="",vminfo, vboxfolder, vboxXML, vboxXMLNew, vmfolder, vmdisk, line;
     char * env;
     char buffer[4096];
@@ -565,45 +581,15 @@ void VM::remove(){
                 fprintf(stderr,"INFO: System was clean, nothing to delete.\n");
     }
 #endif
-//
-//    arg_list="";
-//    //arg_list="unregistervm "+virtual_machine_name+" --delete";
-//
-//    arg_list="unregistervm "+virtual_machine_name;
-//    if(!vbm_popen(arg_list))
-//    {
-//        fprintf(stderr,"INFO: CernVM does not exist, so it is not necessary to unregister.\n");
-//        fprintf(stderr,"INFO: Please, check that cernvm.vmdk virtual hard disk is not registered.\n");
-//    }
-//    else
-//    {
-//        fprintf(stderr,"INFO: Successfully unregistered the CernVM\n");
-//    
-//    }
-//
-//    arg_list = "";
-//    arg_list = "closemedium  disk \"" + vmdisk + "\"";
-//    if(!vbm_popen(arg_list))
-//    {
-//        fprintf(stderr,"INFO: Please, check that cernvm.vmdk virtual hard disk is not registered.\n");
-//    }
-//    else
-//    {
-//        fprintf(stderr,"INFO: Successfully removed the CernVM disk\n");
-//    
-//    }
-//
-//
-//    // Remove file VM_NAME to delete the name of the VM
-//    boinc_delete_file(name_path.c_str());
-//
-
+    boinc_end_critical_section();
 }
     
 void VM::release(){
+    boinc_begin_critical_section();
     string arg_list="";
     arg_list="closemedium disk "+disk_path;
     vbm_popen(arg_list);
+    boinc_end_critical_section();
 }
 
 int VM::send_cputime_message() {
@@ -618,6 +604,7 @@ int VM::send_cputime_message() {
 }
 
 void VM::poll() {
+    boinc_begin_critical_section();
     FILE* fp;
     string arg_list, status;
     char buffer[1024];
@@ -628,6 +615,7 @@ void VM::poll() {
     if (!vbm_popen(arg_list,buffer,sizeof(buffer))){
         fprintf(stderr,"ERROR: Get status from VM failed!\n");
         fprintf(stderr,"Aborting\n");
+        boinc_end_critical_section();
         boinc_finish(1);
     }
 
@@ -643,6 +631,7 @@ void VM::poll() {
             last_poll_point=current_time;
             fprintf(stderr,"INFO: VM poll is running\n");
         }
+        boinc_end_critical_section();
         return;
         fprintf(stderr,"INFO: VM is running!\n");  //testing
     }
@@ -654,6 +643,7 @@ void VM::poll() {
                     current_period += difftime (current_time,last_poll_point);
             }
         fprintf(stderr,"INFO: VM is paused!\n");  //testing
+        boinc_end_critical_section();
         return;
     }
     //if(status.find("VMState=\"poweroff\"") != string::npos 
@@ -665,12 +655,14 @@ void VM::poll() {
     {
         fprintf(stderr, "INFO: VM is powered off and it shouldn't\n");
         fprintf(stderr, "INFO: Cancelling WU...\n");
+        boinc_end_critical_section();
         boinc_finish(1);
         exit(1);
     }
     fprintf(stderr,"ERROR: Get cernvm status error!\n");
     fprintf(stderr,"Aborting\n");
     remove();
+    boinc_end_critical_section();
     boinc_finish(1);
 }
 
@@ -759,7 +751,7 @@ time_t update_progress(time_t secs) {
 int main(int argc, char** argv) {
     BOINC_OPTIONS options;
     BOINC_STATUS status;
-    double cpu_time=0;
+    double cpu_time=0, cpu_chkpt_time=0;
     FILE*fp;
     char buffer[2048]; // Enough size for the VBoxManage list vms output
     unsigned int i;
@@ -806,7 +798,7 @@ int main(int argc, char** argv) {
     options.main_program = true;
     options.check_heartbeat = true;
     options.handle_process_control = true;
-    //options.handle_trickle_ups = true;
+    
     if (graphics) {
     options.backwards_compatible_graphics = true;
     }
@@ -998,6 +990,7 @@ int main(int argc, char** argv) {
     double frac_done = 0;
 
     read_cputime(cpu_time);
+    cpu_chkpt_time = cpu_time;
     vm.current_period=cpu_time;
     vm.start(vrde,headless);
     vm.last_poll_point = time(NULL);
@@ -1024,8 +1017,8 @@ int main(int argc, char** argv) {
             // Convert it for Windows machines:
             t = static_cast<int>(dif_secs);
             fprintf(stderr,"INFO: Running seconds %ld\n",dif_secs);
-            // For 12 hours:
-            frac_done = floor((t/43200.0)*100.0)/100.0;
+            // For 24 hours:
+            frac_done = floor((t/86400.0)*100.0)/100.0;
             
             fprintf(stderr,"INFO: Fraction done %f\n",frac_done);
             // Report total CPU time, which is dif_secs (task CPU running time), and checkpoint time (which is also dif_secs,
