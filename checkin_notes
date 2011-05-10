@@ -2865,3 +2865,10 @@ Rom    9 May 2011
         vbox.cpp, .h
         vboxwrapper.cpp
         vm.cpp, .h
+
+David  10 May 2011
+    - client: don't check memory usage immediately after hibernation
+
+    client/
+        client_state.h
+        app.cpp
