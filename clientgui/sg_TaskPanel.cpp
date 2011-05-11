@@ -424,6 +424,7 @@ void CSimpleTaskPanel::Update() {
             m_TimeRemainingValue->Show();
             m_ProgressValueText->Show();
             m_TaskCommandsButton->Show();
+this->Layout();
         }
 
         UpdateTaskSelectionList();

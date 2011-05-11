@@ -21,7 +21,11 @@
 IMPLEMENT_DYNAMIC_CLASS(CSimplePanelBase, wxPanel)
 
 BEGIN_EVENT_TABLE(CSimplePanelBase, wxPanel)
+#if (defined(__WXMSW_) || defined(__WXMAC__))
 	EVT_ERASE_BACKGROUND(CSimplePanelBase::OnEraseBackground)
+#else	// Linux
+    	EVT_PAINT(CSimplePanelBase::OnPaint)
+#endif
 END_EVENT_TABLE()
 
 
@@ -39,7 +43,7 @@ CSimplePanelBase::CSimplePanelBase( wxWindow* parent ) :
 #ifdef __WXMAC__
     // Tell accessibility aids to ignore this panel (but not its contents)
     HIObjectSetAccessibilityIgnored((HIObjectRef)GetHandle(), true);
-#endif    
+#endif
 }
 
 
@@ -117,13 +121,15 @@ void CSimplePanelBase::MakeBGBitMap() {
 }
 
 
+#if (defined(__WXMSW_) || defined(__WXMAC__))
+
 void CSimplePanelBase::OnEraseBackground(wxEraseEvent& event) {
 	wxDC* dc = event.GetDC();
 
     if (!m_GotBGBitMap) {
         MakeBGBitMap();
     }
-//return;
+
     dc->DrawBitmap(m_TaskPanelBGBitMap, 0, 0);
     wxPen oldPen= dc->GetPen();
     wxBrush oldBrush = dc->GetBrush();
@@ -143,6 +149,39 @@ void CSimplePanelBase::OnEraseBackground(wxEraseEvent& event) {
     dc->SetPen(oldPen);
     dc->SetBrush(oldBrush);
 }
+
+#else	// Linux
+
+void CSimplePanelBase::OnPaint(wxPaintEvent& event) {
+    wxPaintDC dc(this);
+
+    if (!m_GotBGBitMap) {
+        MakeBGBitMap();
+    }
+
+    dc.DrawBitmap(m_TaskPanelBGBitMap, 0, 0);
+    wxPen oldPen= dc.GetPen();
+    wxBrush oldBrush = dc.GetBrush();
+    int oldMode = dc.GetBackgroundMode();
+    wxCoord w, h;
+    wxPen bgPen(*wxBLUE, 3);
+    wxBrush bgBrush(*wxBLUE, wxTRANSPARENT);
+
+    dc.SetBackgroundMode(wxSOLID);
+    dc.SetPen(bgPen);
+    dc.SetBrush(bgBrush);
+    dc.GetSize(&w, &h);
+    dc.DrawRoundedRectangle(0, 0, w, h, 10.0);
+
+    // Restore Mode, Pen and Brush 
+    dc.SetBackgroundMode(oldMode);
+    dc.SetPen(oldPen);
+    dc.SetBrush(oldBrush);
+
+    event.Skip();
+}
+
+#endif
 
 
 void CSimplePanelBase::UpdateStaticText(CTransparentStaticText **whichText, wxString s) {
