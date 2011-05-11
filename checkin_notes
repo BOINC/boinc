@@ -2879,3 +2879,10 @@ David  10 May 2011
     samples/vboxwrapper/
         vbox.cpp
         vm.cpp,h
+
+Charlie 10 May 2011
+    - MGR: Fixes to new Simple GUI for Linux.
+    
+    clientgui/
+        sg_BoincSimpleFrame.cpp
+        sg_ProjectPanel.cpp

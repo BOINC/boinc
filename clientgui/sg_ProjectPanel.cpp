@@ -204,15 +204,16 @@ void CSimpleProjectPanel::UpdateInterface() {
                     m_TaskAddProjectButton->SetLabel(m_sSynchronizeString);
                         m_TaskAddProjectButton->Enable();
                         m_TaskAddProjectButton->Show();
-                        m_TaskAddProjectButton->SetToolTip(m_sAddProjectToolTip);
+                        m_TaskAddProjectButton->SetToolTip(m_sSynchronizeToolTip);
                 } else {
                     m_TaskAddProjectButton->SetLabel(m_sAddProjectString);
                     if (!status.disallow_attach) {
                         m_TaskAddProjectButton->Enable();
                         m_TaskAddProjectButton->Show();
-                        m_TaskAddProjectButton->SetToolTip(m_sSynchronizeToolTip);
+                        m_TaskAddProjectButton->SetToolTip(m_sAddProjectToolTip);
                    }
                 }
+                this->Layout();
             }
         } else {
             m_TaskAddProjectButton->Hide();

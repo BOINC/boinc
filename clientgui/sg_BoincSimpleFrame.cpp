@@ -730,6 +730,8 @@ void CSimpleGUIPanel::OnFrameRender() {
             } else if (m_oldWorkCount == 0) {
                 m_projPanel->Show();
             }
+            this->Layout();
+            ReskinInterface();
         }
     
     if (IsShown()) {
