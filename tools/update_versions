@@ -384,9 +384,6 @@ function process_version($a, $v, $p) {
     $plat = lookup_platform($platform);
     $query = "set create_time=$now, appid=$app->id, version_num=$vnum, platformid=$plat->id , xml_doc='$xml', plan_class='$plan_class'";
 
-    echo $query;
-    return;
-
     $id = BoincAppVersion::insert($query);
     if ($id) {
         echo "    Application version added successfully; ID=$id\n";
