@@ -2930,3 +2930,10 @@ David  11 May 2011
 
     lib/
         filesys.cpp
+
+Charlie 12 May 2011
+    - MGR: Fixes to new Simple GUI for Linux.
+    
+    clientgui/
+        sg_BoincSimpleFrame.cpp
+        sg_PanelBase.cpp, .h

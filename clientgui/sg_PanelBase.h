@@ -82,11 +82,7 @@ class CSimplePanelBase : public wxPanel
 
 	protected:
         void MakeBGBitMap();
-#if (defined(__WXMSW_) || defined(__WXMAC__))
-        void OnEraseBackground(wxEraseEvent& event);
-#else	// Linux
         void OnPaint(wxPaintEvent& event);
-#endif
 
         wxBitmap                    m_TaskPanelBGBitMap;
         bool                        m_GotBGBitMap;

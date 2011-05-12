@@ -882,8 +882,10 @@ void CSimpleGUIPanel::OnPaint(wxPaintEvent& WXUNUSED(event)) {
             myDC.SetBrush(*wxTRANSPARENT_BRUSH);
 #ifdef __WXMAC__
             myDC.DrawRoundedRectangle(r.x, r.y, r.width, r.height, 12);
-#else
+#elif defined(__WXMSW__)
             myDC.DrawRectangle(r.x, r.y, r.width, r.height);
+#else
+            myDC.DrawRoundedRectangle(r.x, r.y, r.width, r.height, 6);
 #endif
             // Restore Mode, Pen and Brush 
             myDC.SetBackgroundMode(oldMode);
@@ -894,6 +896,8 @@ void CSimpleGUIPanel::OnPaint(wxPaintEvent& WXUNUSED(event)) {
 }
 
 
+// We don't reliably get EraseBackground events under Linux, 
+// so there is a workaround at CSimplePanelBase::MakeBGBitMap()
 void CSimpleGUIPanel::OnEraseBackground(wxEraseEvent& event) {
     wxDC *dc = event.GetDC();
     

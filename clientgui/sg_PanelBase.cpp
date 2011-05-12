@@ -21,11 +21,7 @@
 IMPLEMENT_DYNAMIC_CLASS(CSimplePanelBase, wxPanel)
 
 BEGIN_EVENT_TABLE(CSimplePanelBase, wxPanel)
-#if (defined(__WXMSW_) || defined(__WXMAC__))
-	EVT_ERASE_BACKGROUND(CSimplePanelBase::OnEraseBackground)
-#else	// Linux
     	EVT_PAINT(CSimplePanelBase::OnPaint)
-#endif
 END_EVENT_TABLE()
 
 
@@ -67,12 +63,19 @@ void CSimplePanelBase::MakeBGBitMap() {
     register unsigned char *bgImagePixels;
     register unsigned char *whitePixels;
     register int i, j, k;
+    CSimpleGUIPanel* backgroundPanel = (CSimpleGUIPanel*)GetParent();
     wxPen bgPen(*wxWHITE, 1, wxTRANSPARENT);
     wxBrush bgBrush(*wxWHITE);
+
+// Workaround for CSimpleGUIPanel not reliably getting 
+// Paint or EraseBackground events under Linux
+#if (defined(__WXMSW_) || defined(__WXMAC__))
+    backgroundPanel->SetBackgroundBitmap();
+#endif
     
     GetPosition(&r.x, &r.y);
     GetSize(&r.width, &r.height);
-    wxBitmap *bgBmp(((CSimpleGUIPanel*)GetParent())->GetBackgroundBitMap());
+    wxBitmap *bgBmp(backgroundPanel->GetBackgroundBitMap());
     wxRect bgRect(0, 0, bgBmp->GetWidth(), bgBmp->GetHeight());
     if (bgRect.Contains(r)) {
         rawBmp = bgBmp->GetSubBitmap(r);
@@ -121,37 +124,8 @@ void CSimplePanelBase::MakeBGBitMap() {
 }
 
 
-#if (defined(__WXMSW_) || defined(__WXMAC__))
-
-void CSimplePanelBase::OnEraseBackground(wxEraseEvent& event) {
-	wxDC* dc = event.GetDC();
-
-    if (!m_GotBGBitMap) {
-        MakeBGBitMap();
-    }
-
-    dc->DrawBitmap(m_TaskPanelBGBitMap, 0, 0);
-    wxPen oldPen= dc->GetPen();
-    wxBrush oldBrush = dc->GetBrush();
-    int oldMode = dc->GetBackgroundMode();
-    wxCoord w, h;
-    wxPen bgPen(*wxBLUE, 3);
-    wxBrush bgBrush(*wxBLUE, wxTRANSPARENT);
-
-    dc->SetBackgroundMode(wxSOLID);
-    dc->SetPen(bgPen);
-    dc->SetBrush(bgBrush);
-    dc->GetSize(&w, &h);
-    dc->DrawRoundedRectangle(0, 0, w, h, 10.0);
-
-    // Restore Mode, Pen and Brush 
-    dc->SetBackgroundMode(oldMode);
-    dc->SetPen(oldPen);
-    dc->SetBrush(oldBrush);
-}
-
-#else	// Linux
-
+// Linux does not reliably generate EraseBackground 
+// events here, so use Paint events
 void CSimplePanelBase::OnPaint(wxPaintEvent& event) {
     wxPaintDC dc(this);
 
@@ -180,8 +154,6 @@ void CSimplePanelBase::OnPaint(wxPaintEvent& event) {
 
     event.Skip();
 }
-
-#endif
 
 
 void CSimplePanelBase::UpdateStaticText(CTransparentStaticText **whichText, wxString s) {
