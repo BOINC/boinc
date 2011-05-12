@@ -798,6 +798,7 @@ int main(int argc, char** argv) {
     options.main_program = true;
     options.check_heartbeat = true;
     options.handle_process_control = true;
+    options.send_status_msgs = true;
     
     if (graphics) {
     options.backwards_compatible_graphics = true;
@@ -987,7 +988,7 @@ int main(int argc, char** argv) {
 
     time_t elapsed_secs = 0, dif_secs = 0;
     long int t = 0;
-    double frac_done = 0;
+    double frac_done = 0; 
 
     read_cputime(cpu_time);
     cpu_chkpt_time = cpu_time;
@@ -1021,9 +1022,10 @@ int main(int argc, char** argv) {
             frac_done = floor((t/86400.0)*100.0)/100.0;
             
             fprintf(stderr,"INFO: Fraction done %f\n",frac_done);
-            // Report total CPU time, which is dif_secs (task CPU running time), and checkpoint time (which is also dif_secs,
-            // as this variable is saved from start to re-start)
-            boinc_report_app_status(dif_secs,dif_secs,frac_done);
+            // Checkpoint for reporting correctly the time
+            boinc_time_to_checkpoint();
+            boinc_checkpoint_completed();
+            boinc_fraction_done(frac_done);
             if (frac_done >= 1.0)
             {
                 fprintf(stderr,"INFO: Stopping the VM...\n");
