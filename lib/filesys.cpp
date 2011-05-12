@@ -395,7 +395,7 @@ int dir_size(const char* dirpath, double& size, bool recurse) {
     } while (FindNextFileA(hFind, &findData));
 	::FindClose(hFind);
 #else
-    char filename[256], subdir[256];
+    char filename[1024], subdir[1024];
     int retval=0;
     DIRREF dirp;
     double x;
@@ -414,7 +414,7 @@ int dir_size(const char* dirpath, double& size, bool recurse) {
                 if (retval) continue;
                 size += x;
             }
-        } else {
+        } else if (is_file(subdir)) {
             retval = file_size(subdir, x);
             if (retval) continue;
             size += x;

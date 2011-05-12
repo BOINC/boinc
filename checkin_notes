@@ -2893,3 +2893,27 @@ Charlie 11 May 2011
     clientgui/
         sg_PanelBase.cpp, .h
         sg_TaskPanel.cpp
+
+David  11 May 2011
+    - Change the way update_versions works, and reimplement it in PHP.
+        Problems with the old version:
+        - Lots of info encoded in file and directory names: messy kludge
+        - The convention that directory name == main program name
+            created a bad situation when using the wrapper:
+            if you made a new version of your application,
+            you were forced make a new version of the wrapper
+            just so it could have a different name.
+        The new version is described here:
+        http://boinc.berkeley.edu/trac/wiki/AppVersionNew
+    - Remove some Python code that suppored the old version
+    - client: some fixes to dir_size() that might fox
+        a buffer overflow when using symbolic links
+
+    tools/
+        update_versions
+    html/inc/
+        boinc_db.inc
+    lib/
+        filesys.cpp
+    py/Boinc/
+        tools.py

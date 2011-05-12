@@ -295,6 +295,12 @@ class BoincAppVersion {
         $db = BoincDb::get();
         return $db->lookup_id($id, 'app_version', 'BoincAppVersion');
     }
+    static function insert($clause) {
+        $db = BoincDb::get();
+        $ret = $db->insert('app_version', $clause);
+        if (!$ret) return $ret;
+        return $db->insert_id();
+    }
 }
 
 class BoincProfile {
