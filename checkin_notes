@@ -2917,3 +2917,10 @@ David  11 May 2011
         filesys.cpp
     py/Boinc/
         tools.py
+
+David  11 May 2011
+    - client: show HTTP errors in text form as well as number
+
+    client/
+        pers_file_xfer.cpp
+        file_xfer.cpp
