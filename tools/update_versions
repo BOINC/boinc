@@ -121,7 +121,7 @@ function stage_file($a, $v, $p, $fd) {
     global $download_url, $download_dir;
 
     $name = $fd->physical_name;
-    $path = "apps2/$a/$v/$p/$name";
+    $path = "apps/$a/$v/$p/$name";
     $dl_path = "$download_dir/$name";
     if (is_file($dl_path)) {
         if (md5_file($path) != md5_file($dl_path)) {
@@ -139,7 +139,7 @@ function stage_file($a, $v, $p, $fd) {
 function get_api_version($a, $v, $p, $fds) {
     foreach ($fds as $fd) {
         if ($fd->main_program) {
-            $path = "apps2/$a/$v/$p/$fd->physical_name";
+            $path = "apps/$a/$v/$p/$fd->physical_name";
             $handle = popen("strings $path | grep API_VERSION", "r");
             $x = fread($handle, 8192);
             pclose($handle);
@@ -184,12 +184,12 @@ function process_file($a, $v, $p, $name, $fds) {
         $fd->physical_name = $name;
         $fd->url = array();
     }
-    $path = "apps2/$a/$v/$p/$name";
+    $path = "apps/$a/$v/$p/$name";
 
     $stat = stat($path);
     $fd->nbytes = $stat['size'];
 
-    $sigpath = "apps2/$a/$v/$p/$name.sig";
+    $sigpath = "apps/$a/$v/$p/$name.sig";
     if (is_file($sigpath)) {
         $fd->signature = file_get_contents($sigpath);
     } else {
@@ -225,7 +225,7 @@ function process_file($a, $v, $p, $name, $fds) {
 // scan the directory, and process files
 //
 function process_files($a, $v, $p, $fds) {
-    $d = opendir("apps2/$a/$v/$p");
+    $d = opendir("apps/$a/$v/$p");
     while ($f = readdir_aux($d)) {
         if ($f == "version.xml") continue;
         if (strstr($f, ".sig") == ".sig") continue;
@@ -342,7 +342,7 @@ function process_version($a, $v, $p) {
         echo "  This app version already exists\n";
         return;
     }
-    $vfile = "apps2/$a/$v/$p/version.xml";
+    $vfile = "apps/$a/$v/$p/version.xml";
     if (is_file($vfile)) {
         $x = simplexml_load_file($vfile);
         if (!$x) {
@@ -396,14 +396,14 @@ function process_version($a, $v, $p) {
 }
 
 function scan_version_dir($a, $v) {
-    $d = opendir("apps2/$a/$v");
+    $d = opendir("apps/$a/$v");
     while ($p = readdir_aux($d)) {
         process_version($a, $v, $p);
     }
 }
 
 function scan_app_dir($a) {
-    $d = opendir("apps2/$a");
+    $d = opendir("apps/$a");
     while ($v = readdir_aux($d)) {
         if (parse_version($v) < 0) {
             echo "$v is not a version number; skipping\n";
@@ -415,7 +415,7 @@ function scan_app_dir($a) {
 }
 
 function scan_apps() {
-    $d = opendir("apps2");
+    $d = opendir("apps");
     while ($a = readdir_aux($d)) {
         if (!lookup_app($a)) {
             echo "$a is not an app\n";
