@@ -605,9 +605,12 @@ CSimpleGUIPanel::CSimpleGUIPanel(wxWindow* parent) :
     int pauseWidth, resumeWidth, y;
     GetTextExtent(m_sPauseString, &pauseWidth, &y);
     GetTextExtent(m_sResumeString, &resumeWidth, &y);
+    
+    m_bisPaused = pauseWidth > resumeWidth;
     m_PauseResumeButton = new wxButton( this, ID_SGPAUSERESUMEBUTTON, 
-                            (pauseWidth > resumeWidth) ? m_sPauseString : m_sResumeString,
+                            m_bisPaused ? m_sPauseString : m_sResumeString,
                             wxDefaultPosition, wxDefaultSize, 0 );
+    m_PauseResumeButton->SetToolTip(wxEmptyString);
     
 	buttonsSizer->Add( m_PauseResumeButton, 0, wxEXPAND | wxALIGN_RIGHT, 0 );
     buttonsSizer->AddStretchSpacer();
@@ -626,10 +629,6 @@ CSimpleGUIPanel::CSimpleGUIPanel(wxWindow* parent) :
     Layout();
     
     mainSizer->Fit(GetParent());
-    
-    m_bisPaused = false;
-    m_PauseResumeButton->SetLabel(m_sPauseString);
-    m_PauseResumeButton->SetToolTip(m_sPauseButtonToolTip);
 
     SetBackgroundBitmap();   
 
@@ -741,7 +740,7 @@ void CSimpleGUIPanel::OnFrameRender() {
             pDoc->GetCoreClientStatus(status);
 
             isPaused = (RUN_MODE_NEVER == status.task_mode);
-            if (isPaused != m_bisPaused) {
+            if ((isPaused != m_bisPaused) || (!m_PauseResumeButton->IsEnabled())) {
                 m_bisPaused = isPaused;
                 m_PauseResumeButton->SetLabel(m_bisPaused ? m_sResumeString : m_sPauseString);
                 m_PauseResumeButton->SetToolTip(m_bisPaused ? m_sResumeButtonToolTip : m_sPauseButtonToolTip);
