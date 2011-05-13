@@ -224,7 +224,7 @@ CSimpleTaskPanel::CSimpleTaskPanel( wxWindow* parent ) :
 	wxBoxSizer* bSizer2;
 	bSizer2 = new wxBoxSizer( wxHORIZONTAL );
 	
-	m_myTasksLabel = new wxStaticText( this, wxID_ANY, _("My Tasks:"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_myTasksLabel = new CTransparentStaticText( this, wxID_ANY, _("My Tasks:"), wxDefaultPosition, wxDefaultSize, 0 );
 	m_myTasksLabel->Wrap( -1 );
 	bSizer2->Add( m_myTasksLabel, 0, wxRIGHT, 5 );
 	
@@ -250,11 +250,11 @@ CSimpleTaskPanel::CSimpleTaskPanel( wxWindow* parent ) :
 	wxBoxSizer* bSizer3;
 	bSizer3 = new wxBoxSizer( wxHORIZONTAL );
 	
-	m_TaskProjectLabel = new wxStaticText( this, wxID_ANY, _("From Project:"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_TaskProjectLabel = new CTransparentStaticText( this, wxID_ANY, _("From Project:"), wxDefaultPosition, wxDefaultSize, 0 );
 	m_TaskProjectLabel->Wrap( -1 );
 	bSizer3->Add( m_TaskProjectLabel, 0, wxRIGHT, 5 );
 	
-	m_TaskProjectName = new wxStaticText( this, wxID_ANY, wxT("SETI@home"), wxDefaultPosition, wxDefaultSize, wxST_NO_AUTORESIZE );
+	m_TaskProjectName = new CTransparentStaticText( this, wxID_ANY, wxT("SETI@home"), wxDefaultPosition, wxDefaultSize, wxST_NO_AUTORESIZE );
 	m_TaskProjectName->Wrap( -1 );
 	m_TaskProjectName->SetFont(wxFont(LARGE_FONT,wxSWISS,wxNORMAL,wxNORMAL,false,wxT("Arial"))); 
 	bSizer3->Add( m_TaskProjectName, 1, 0, 0 );
@@ -262,7 +262,7 @@ CSimpleTaskPanel::CSimpleTaskPanel( wxWindow* parent ) :
 	bSizer1->Add( bSizer3, 0, wxLEFT | wxRIGHT | wxEXPAND, SIDEMARGINS );
 
 #if SELECTBYRESULTNAME
-	m_TaskApplicationName = new wxStaticText( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxST_NO_AUTORESIZE );
+	m_TaskApplicationName = new CTransparentStaticText( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxST_NO_AUTORESIZE );
 	m_TaskApplicationName->Wrap( -1 );
 
 	bSizer1->Add( m_TaskApplicationName, 0, wxLEFT | wxRIGHT | wxEXPAND, SIDEMARGINS );
@@ -278,13 +278,13 @@ CSimpleTaskPanel::CSimpleTaskPanel( wxWindow* parent ) :
 
     bSizer1->AddSpacer(10);
 	
-	m_ElapsedTimeValue = new wxStaticText( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxST_NO_AUTORESIZE );
+	m_ElapsedTimeValue = new CTransparentStaticText( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxST_NO_AUTORESIZE );
 	m_ElapsedTimeValue->Wrap( -1 );
 	bSizer1->Add( m_ElapsedTimeValue, 0, wxLEFT | wxRIGHT | wxEXPAND, SIDEMARGINS );
 	
     bSizer1->AddSpacer(7);
 	
-	m_TimeRemainingValue = new wxStaticText( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxST_NO_AUTORESIZE );
+	m_TimeRemainingValue = new CTransparentStaticText( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxST_NO_AUTORESIZE );
 	m_TimeRemainingValue->Wrap( -1 );
 	bSizer1->Add( m_TimeRemainingValue, 0, wxLEFT | wxRIGHT | wxEXPAND, SIDEMARGINS );
 	
@@ -305,7 +305,7 @@ CSimpleTaskPanel::CSimpleTaskPanel( wxWindow* parent ) :
     m_ProgressBar->SetToolTip(_("This task's progress"));
 	bSizer4->Add( m_ProgressBar, 0, wxRIGHT, 5 );
 	
-	m_ProgressValueText = new wxStaticText( this, wxID_ANY, wxT("100.0%"), wxDefaultPosition, wxDefaultSize, wxALIGN_RIGHT | wxST_NO_AUTORESIZE );
+	m_ProgressValueText = new CTransparentStaticText( this, wxID_ANY, wxT("100.0%"), wxDefaultPosition, wxDefaultSize, wxALIGN_RIGHT | wxST_NO_AUTORESIZE );
 	m_ProgressValueText->Wrap( -1 );
 	bSizer4->Add( m_ProgressValueText, 0, wxALIGN_RIGHT, 0 );
 	
@@ -314,8 +314,8 @@ CSimpleTaskPanel::CSimpleTaskPanel( wxWindow* parent ) :
     bSizer1->AddSpacer(7);
 	
     // TODO: Can we determine the longest status string and initialize with it?
-	m_StatusValueText = new wxStaticText( this, wxID_ANY, m_sNoProjectsString, wxDefaultPosition, wxDefaultSize, wxST_NO_AUTORESIZE );
-//	m_StatusValueText = new wxStaticText( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxST_NO_AUTORESIZE );
+	m_StatusValueText = new CTransparentStaticText( this, wxID_ANY, m_sNoProjectsString, wxDefaultPosition, wxDefaultSize, wxST_NO_AUTORESIZE );
+//	m_StatusValueText = new CTransparentStaticText( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxST_NO_AUTORESIZE );
 	m_StatusValueText->Wrap( -1 );
 	bSizer1->Add( m_StatusValueText, 0, wxLEFT | wxRIGHT | wxEXPAND, SIDEMARGINS );
 

@@ -109,19 +109,19 @@ class CSimpleTaskPanel : public CSimplePanelBase
         void OnEraseBackground(wxEraseEvent& event);
 #endif
         wxRect*                     m_progressBarRect;
-		wxStaticText*     			m_myTasksLabel;
+		CTransparentStaticText*     			m_myTasksLabel;
 		CBOINCBitmapComboBox*       m_TaskSelectionCtrl;
-		wxStaticText*     			m_TaskProjectLabel;
-		wxStaticText*     			m_TaskProjectName;
+		CTransparentStaticText*     			m_TaskProjectLabel;
+		CTransparentStaticText*     			m_TaskProjectName;
 #if SELECTBYRESULTNAME
-		wxStaticText*     			m_TaskApplicationName;
+		CTransparentStaticText*     			m_TaskApplicationName;
 #endif
         CSlideShowPanel*            m_SlideShowArea;
-		wxStaticText*     			m_ElapsedTimeValue;
-		wxStaticText*     			m_TimeRemainingValue;
+		CTransparentStaticText*     			m_ElapsedTimeValue;
+		CTransparentStaticText*     			m_TimeRemainingValue;
 		wxGauge*                    m_ProgressBar;
-		wxStaticText*     			m_ProgressValueText;
-		wxStaticText*     			m_StatusValueText;
+		CTransparentStaticText*     			m_ProgressValueText;
+		CTransparentStaticText*     			m_StatusValueText;
 		wxButton*                   m_TaskCommandsButton;
         wxRect                      m_ProgressRect;
         int                         m_oldWorkCount;

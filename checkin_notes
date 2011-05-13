@@ -2939,7 +2939,7 @@ Charlie 12 May 2011
         sg_PanelBase.cpp, .h
 
 Charlie 13 May 2011
-    - MGR: Fixes to new Simple GUI for Linux.
+    - MGR: Fixes to new Simple GUI for Linux and Windows.
     - MGR: Fix logic to enable / disable Show Graphics in new Simple GUI.
     - MGR: make sure new Simple GUI Pause / Resume button is large enough
         for the larger of the localized words for Pause and Resume; do 

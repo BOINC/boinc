@@ -154,7 +154,7 @@ void CSimplePanelBase::OnPaint(wxPaintEvent& /*event*/) {
 }
 
 
-void CSimplePanelBase::UpdateStaticText(wxStaticText **whichText, wxString s) {
+void CSimplePanelBase::UpdateStaticText(CTransparentStaticText **whichText, wxString s) {
     EllipseStringIfNeeded(s, *whichText);
     if ((*whichText)->GetLabel() != s) {
         (*whichText)->SetLabel(s);

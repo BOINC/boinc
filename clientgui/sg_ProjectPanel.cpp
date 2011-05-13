@@ -85,7 +85,7 @@ CSimpleProjectPanel::CSimpleProjectPanel( wxWindow* parent ) :
 	bSizer2 = new wxBoxSizer( wxHORIZONTAL );
 	
     bSizer1->AddSpacer(5);
-	m_myProjectsLabel = new wxStaticText( this, wxID_ANY, _("My Projects:"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_myProjectsLabel = new CTransparentStaticText( this, wxID_ANY, _("My Projects:"), wxDefaultPosition, wxDefaultSize, 0 );
 	m_myProjectsLabel->Wrap( -1 );
 	bSizer2->Add( m_myProjectsLabel, 0, wxRIGHT, 5 );
     bSizer2->AddStretchSpacer();
@@ -130,7 +130,7 @@ CSimpleProjectPanel::CSimpleProjectPanel( wxWindow* parent ) :
     // Make sure m_TotalCreditValue string is large enough 
     m_fDisplayedCredit = 9999999999.99;
     str.Printf(_("%s: %0.2f"), m_sTotalWorkDoneString.c_str(), m_fDisplayedCredit);
-	m_TotalCreditValue = new wxStaticText( this, wxID_ANY, str, wxDefaultPosition, wxDefaultSize, wxST_NO_AUTORESIZE );
+	m_TotalCreditValue = new CTransparentStaticText( this, wxID_ANY, str, wxDefaultPosition, wxDefaultSize, wxST_NO_AUTORESIZE );
 	m_TotalCreditValue->Wrap( -1 );
 	
 	bSizer1->Add( m_TotalCreditValue, 0, wxLEFT | wxRIGHT | wxEXPAND, SIDEMARGINS );
