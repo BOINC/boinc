@@ -2969,3 +2969,12 @@ David  13 May 2011
         backend_lib.cpp
     html/project.sample/
         project.inc
+
+David  13 May 2011
+    - scheduler: per-processor limits should be based on
+        "effective" # of processors (taking prefs into account)
+        rather than the physical number
+
+    sched/
+        sched_send.cpp
+        sched_limit.h

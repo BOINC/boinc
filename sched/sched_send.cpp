@@ -118,11 +118,12 @@ void WORK_REQ::get_job_limits() {
         g_wreq->max_jobs_per_rpc = 999999;
     }
 
-    config.max_jobs_in_progress.reset(g_reply->host, g_request->coprocs);
+    config.max_jobs_in_progress.reset(effective_ncpus, effective_ngpus);
 
     if (config.debug_quota) {
         log_messages.printf(MSG_NORMAL,
-            "[quota] max jobs per RPC: %d\n",
+            "[quota] effective ncpus %d ngpus %d; max jobs per RPC: %d\n",
+            effective_ncpus, effective_ngpus,
             g_wreq->max_jobs_per_rpc
         );
         config.max_jobs_in_progress.print_log();

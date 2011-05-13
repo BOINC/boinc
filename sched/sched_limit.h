@@ -77,10 +77,10 @@ struct JOB_LIMIT {
 
     int parse(XML_PARSER&, const char* end_tag);
 
-    inline void reset(HOST& h, COPROCS& c) {
+    inline void reset(int ncpus, int ngpus) {
         total.reset(1);
-        cpu.reset(h.p_ncpus);
-        gpu.reset(c.ndevs());
+        cpu.reset(ncpus);
+        gpu.reset(ngpus);
     }
 
     inline bool exceeded(bool is_gpu) {
@@ -118,10 +118,10 @@ struct JOB_LIMITS {
 
     // called at start of each request
     //
-    inline void reset(HOST& h, COPROCS& c) {
-        project_limits.reset(h, c);
+    inline void reset(int ncpus, int ngpus) {
+        project_limits.reset(ncpus, ngpus);
         for (unsigned int i=0; i<app_limits.size(); i++) {
-            app_limits[i].reset(h, c);
+            app_limits[i].reset(ncpus, ngpus);
         }
     }
 

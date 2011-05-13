@@ -43,6 +43,13 @@ function friendly_name($p) {
     return $q;
 }
 
+function canonical_plan_class($pc) {
+    if (strstr($pc, "mt")) return "mt";
+    if (strstr($pc, "cuda")) return "cuda";
+    if (strstr($pc, "ati")) return "ati";
+    return $pc;
+}
+
 // get platforms from get_project_config.php (preferred method)
 //
 // format is either
@@ -96,7 +103,8 @@ function get_platforms(&$url) {
     } else {
         foreach ($p->platform as $r) {
             if (array_key_exists('plan_class', $r)) {
-                $list[] = (string)$r->platform_name.'['.(string)$r->plan_class.']';
+                $pc = canonical_plan_class((string)$r->plan_class);
+                $list[] = (string)$r->platform_name."['$pc']";
             } else {
                 $list[] = (string)$r->platform_name;
             }
@@ -120,7 +128,9 @@ function get_platforms2($url) {
             $p = $v->platform_short[0];
             $pc = "";
             if (array_key_exists('plan_class', $v)) {
-                $pc = $v->plan_class[0];
+                $pc = (string)$v->plan_class;
+                $pc = canonical_plan_class($pc);
+                echo "pc: $pc\n";
             }
             if (strlen($pc)) {
                 $p = $p.'['.$pc.']';
@@ -187,6 +197,7 @@ function get_platforms_string($url) {
 
 //$u = "http://www.worldcommunitygrid.org/";
 //$u = "http://setiathome.berkeley.edu/";
+//$u = "http://aqua.dwavesys.com/";
 //$x = get_platforms($u);
 //print_r($x);
 //echo get_platforms_string("http://setiathome.berkeley.edu/");
