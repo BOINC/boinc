@@ -154,7 +154,7 @@ CSimpleProjectPanel::CSimpleProjectPanel( wxWindow* parent ) :
 	this->SetSizer( bSizer1 );
 	this->Layout();
     
-    m_TaskAddProjectButton->SetLabel(m_sAddProjectString);
+    m_TaskAddProjectButton->SetToolTip(wxEmptyString);
     m_TaskAddProjectButton->Disable();
 }
 
@@ -196,25 +196,23 @@ void CSimpleProjectPanel::UpdateInterface() {
             // We use an integer rather than a bool to force action the first time
             is_acct_mgr_detected = pDoc->ami.acct_mgr_url.size() ? 1 : 0;
             
-            if (m_UsingAccountManager != is_acct_mgr_detected) {
+            if ((m_UsingAccountManager != is_acct_mgr_detected) || (!m_TaskAddProjectButton->IsEnabled())) {
                 m_UsingAccountManager = is_acct_mgr_detected;
                 if (is_acct_mgr_detected) {
                     m_TaskAddProjectButton->SetLabel(m_sSynchronizeString);
                         m_TaskAddProjectButton->Enable();
-                        m_TaskAddProjectButton->Show();
                         m_TaskAddProjectButton->SetToolTip(m_sSynchronizeToolTip);
                 } else {
                     m_TaskAddProjectButton->SetLabel(m_sAddProjectString);
                     if (!status.disallow_attach) {
                         m_TaskAddProjectButton->Enable();
-                        m_TaskAddProjectButton->Show();
                         m_TaskAddProjectButton->SetToolTip(m_sAddProjectToolTip);
                    }
                 }
                 this->Layout();
             }
         } else {
-            m_TaskAddProjectButton->Hide();
+            m_TaskAddProjectButton->Disable();
         }
 
         UpdateProjectList();

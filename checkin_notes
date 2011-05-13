@@ -2942,7 +2942,8 @@ Charlie 13 May 2011
     - MGR: Fixes to new Simple GUI for Linux.
     - MGR: Fix logic to enable / disable Show Graphics in new Simple GUI.
     - MGR: make sure new Simple GUI Pause / Resume button is large enough
-        for the larger of the localized words for Pause and Resume.
+        for the larger of the localized words for Pause and Resume; do 
+        the same for the Add Project / Synchronize button.
     
     clientgui/
         sg_BoincSimpleFrame.cpp
