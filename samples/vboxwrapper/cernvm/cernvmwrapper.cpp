@@ -269,7 +269,6 @@ void VM::create() {
     time_t rawtime;
     string arg_list;
     char buffer[256];
-    char error[1024];
     FILE* fp;
 
     //rawtime=time(NULL);
@@ -279,16 +278,15 @@ void VM::create() {
     //virtual_machine_name += buffer;
     //
     //First release old virtual disks
-    release();
+    //release();
 
 //createvm
     arg_list="";
     arg_list="createvm --name "+virtual_machine_name+ \
             " --ostype Linux26 --register";
-    if(!vbm_popen(arg_list,error,sizeof(error))){
+    if(!vbm_popen(arg_list)){
         fprintf(stderr,"ERROR: Create VM method: createvm failed!\n");
         fprintf(stderr,"ERROR: %s\n",arg_list.c_str());
-        fprintf(stderr,"ERROR: Output: %s \n", error);
         fprintf(stderr,"INFO: Cleaning registered VM from a failure...\n");
         remove();
         fprintf(stderr,"Aborting\n");
@@ -332,10 +330,9 @@ void VM::create() {
             " --storagectl \"IDE Controller\" \
             --port 0 --device 0 --type hdd --medium " \
             +disk_path;
-    if(!vbm_popen(arg_list,error,sizeof(error))){
+    if(!vbm_popen(arg_list)){
         fprintf(stderr,"ERROR: Create storageattach failed!\n");
         fprintf(stderr,"ERROR: %s\n",arg_list.c_str());
-        fprintf(stderr,"ERROR: Output %s\n",error);
         fprintf(stderr,"Aborting\n");
         //DEBUG for knowing which filename is being used
         //fprintf(stderr,disk_path.c_str());
@@ -597,13 +594,11 @@ void VM::remove(){
     
 void VM::release(){
     boinc_begin_critical_section();
-    char error[1024];
     string arg_list="";
     arg_list="closemedium disk "+disk_path;
-    if(!vbm_popen(arg_list,error,sizeof(error)))
+    if(!vbm_popen(arg_list))
     {
         fprintf(stderr,"ERROR: It was impossible to release the virtual hard disk\n");
-        fprintf(stderr,"ERROR: Output %s",error);
     }
     else
         fprintf(stderr,"INFO: Virtual Hard disk unregistered\n");
@@ -1005,10 +1000,6 @@ int main(int argc, char** argv) {
 
     }
     else{       
-		fprintf(stderr,"INFO: VM is not registered!\n");
-        fprintf(stderr,"INFO: Release old Virtual Hard Disks...\n");
-        vm.release();
-        fprintf(stderr,"INFO: Done!\n");
 		fprintf(stderr,"Registering a new VM from unzipped image...\n");
         vm.create();
         fprintf(stderr,"Done!\n");
