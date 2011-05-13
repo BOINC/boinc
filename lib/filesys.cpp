@@ -87,13 +87,21 @@ char boinc_failed_file[256];
 
 int is_file(const char* path) {
     struct stat sbuf;
+#ifdef _WIN32
+    int retval = stat(path, &sbuf);
+#else
     int retval = lstat(path, &sbuf);
+#endif
     return (!retval && (((sbuf.st_mode) & S_IFMT) == S_IFREG));
 }
 
 int is_dir(const char* path) {
     struct stat sbuf;
+#ifdef _WIN32
+    int retval = stat(path, &sbuf);
+#else
     int retval = lstat(path, &sbuf);
+#endif
     return (!retval && (((sbuf.st_mode) & S_IFMT) == S_IFDIR));
 }
 

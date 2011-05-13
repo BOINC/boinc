@@ -2951,3 +2951,10 @@ Charlie 13 May 2011
         sg_ProjectPanel.cpp, .h
         sg_TaskCommandPopup.cpp, .h
         sg_TaskPanel.cpp, .h
+
+Charlie 13 May 2011
+    - lib: Fix compile break on Windows.
+
+    lib/
+        filesys.cpp
+    
