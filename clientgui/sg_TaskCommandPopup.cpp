@@ -85,13 +85,16 @@ void CSimpleTaskPopupButton::OnTasksCommandButton(wxMouseEvent& /*event*/) {
     CMainDocument*      pDoc = wxGetApp().GetDocument();
     bool                enableShowGraphics = true;
     bool                enableAbort = true;
+    CC_STATUS           status;
+    wxString            strMachineName;
     
     wxASSERT(pDoc);
     
     TaskSelectionData* selData = ((CSimpleTaskPanel*)GetParent())->GetTaskSelectionData();
     if (selData == NULL) return;
 
-    RESULT* result = pDoc->state.lookup_result(selData->project_url, selData->result_name);
+    RESULT* result = lookup_result(selData->project_url, selData->result_name);
+
     if (!result) return;
     
     if (result->suspended_via_gui) {
@@ -104,7 +107,17 @@ void CSimpleTaskPopupButton::OnTasksCommandButton(wxMouseEvent& /*event*/) {
         m_SuspendResumeMenuItem->SetHelp(_("Suspend work for this task."));
     }
 
-    // Disable Show Graphics button if any selected task can't display graphics
+    pDoc->GetCoreClientStatus(status);
+    if (status.task_suspend_reason & ~(SUSPEND_REASON_CPU_THROTTLE)) {
+        enableShowGraphics = false;
+    }
+
+    pDoc->GetConnectedComputerName(strMachineName);
+    if (!pDoc->IsComputerNameLocal(strMachineName)) {
+        enableShowGraphics = false;
+    }
+
+    // Disable Show Graphics button if selected task can't display graphics
     if (((!result->supports_graphics) || pDoc->GetState()->executing_as_daemon) 
         && !strlen(result->graphics_exec_path)
     ) {
@@ -191,7 +204,7 @@ void CSimpleTaskPopupButton::OnTaskShowGraphics(wxCommandEvent& WXUNUSED(event))
     TaskSelectionData* selData = ((CSimpleTaskPanel*)GetParent())->GetTaskSelectionData();
     if (selData == NULL) return;
     
-    RESULT* result = pDoc->state.lookup_result(selData->project_url, selData->result_name);
+    RESULT* result = lookup_result(selData->project_url, selData->result_name);
     if (result) {
         pDoc->WorkShowGraphics(result);
     }
@@ -229,7 +242,7 @@ void CSimpleTaskPopupButton::OnTaskAbort(wxCommandEvent& WXUNUSED(event)) {
     TaskSelectionData* selData = ((CSimpleTaskPanel*)GetParent())->GetTaskSelectionData();
     if (selData == NULL) return;
 
-    RESULT* result = pDoc->state.lookup_result(selData->project_url, selData->result_name);
+    RESULT* result = lookup_result(selData->project_url, selData->result_name);
     if (result) {
 #if SELECTBYRESULTNAME
         wxString name = wxString(selData->result_name, wxConvUTF8, strlen(selData->result_name));
@@ -257,18 +270,25 @@ void CSimpleTaskPopupButton::OnTaskAbort(wxCommandEvent& WXUNUSED(event)) {
 
 
 void CSimpleTaskPopupButton::OnTaskShowProperties(wxCommandEvent& WXUNUSED(event)) {
-    CMainDocument* pDoc     = wxGetApp().GetDocument();
-
-    wxASSERT(pDoc);
-    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
-
     TaskSelectionData* selData = ((CSimpleTaskPanel*)GetParent())->GetTaskSelectionData();
     if (selData == NULL) return;
     
-    RESULT* result = pDoc->state.lookup_result(selData->project_url, selData->result_name);
+    RESULT* result = lookup_result(selData->project_url, selData->result_name);
     if (result) {
         CDlgItemProperties dlg(this);
         dlg.renderInfos(result);
         dlg.ShowModal();
     }
+}
+
+
+// CMainDocument::state.lookup_result() does not yield current scheduler_state; 
+// we must use CMainDocument::result() for that.
+RESULT* CSimpleTaskPopupButton::lookup_result(char* url, char* name) {
+    CMainDocument* pDoc     = wxGetApp().GetDocument();
+
+    wxASSERT(pDoc);
+    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
+
+    return pDoc->result(wxString(name, wxConvUTF8), wxString(url, wxConvUTF8));
 }

@@ -44,7 +44,8 @@ class CSimpleTaskPopupButton : public wxButton
         void OnTaskSuspendResume(wxCommandEvent& event);
         void OnTaskAbort(wxCommandEvent& event);
         void OnTaskShowProperties(wxCommandEvent& event);
-
+        RESULT* lookup_result(char* url, char* name);
+        
 	protected:
         wxMenu*                     m_TaskCommandPopUpMenu;
         wxMenuItem*                 m_ShowGraphicsMenuItem;

@@ -69,7 +69,7 @@ void CSimplePanelBase::MakeBGBitMap() {
 
 // Workaround for CSimpleGUIPanel not reliably getting 
 // Paint or EraseBackground events under Linux
-#if (defined(__WXMSW_) || defined(__WXMAC__))
+#if (!(defined(__WXMSW_) || defined(__WXMAC__)))
     backgroundPanel->SetBackgroundBitmap();
 #endif
     
