@@ -67,10 +67,10 @@ class CSimpleProjectPanel : public CSimplePanelBase
         wxBitmap* GetProjectSpecificBitmap(char* project_url);
 
 	protected:
-		CTransparentStaticText*             m_myProjectsLabel;
+		wxStaticText*             			m_myProjectsLabel;
 		CBOINCBitmapComboBox*               m_ProjectSelectionCtrl;
 		wxButton*                           m_TaskAddProjectButton;
-        CTransparentStaticText*             m_TotalCreditValue;
+        wxStaticText*             			m_TotalCreditValue;
 		CSimpleProjectWebSitesPopupButton*  m_ProjectWebSitesButton;
 		CSimpleProjectCommandPopupButton*   m_ProjectCommandsButton;
         wxString                            m_sAddProjectString;

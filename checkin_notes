@@ -2937,3 +2937,11 @@ Charlie 12 May 2011
     clientgui/
         sg_BoincSimpleFrame.cpp
         sg_PanelBase.cpp, .h
+
+Charlie 13 May 2011
+    - MGR: Fixes to new Simple GUI for Linux.
+    
+    clientgui/
+        sg_PanelBase.cpp, .h
+        sg_ProjectPanel.cpp, .h
+        sg_TaskPanel.cpp, .h

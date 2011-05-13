@@ -76,6 +76,7 @@ CSimpleProjectPanel::CSimpleProjectPanel( wxWindow* parent ) :
     
     m_GotBGBitMap = false; // Can't be made until parent has been laid out.
     SetFont(wxFont(SMALL_FONT,wxSWISS,wxNORMAL,wxNORMAL,false,wxT("Arial")));
+	SetForegroundColour(*wxBLACK);
     
 	wxBoxSizer* bSizer1;
 	bSizer1 = new wxBoxSizer( wxVERTICAL );
@@ -84,10 +85,8 @@ CSimpleProjectPanel::CSimpleProjectPanel( wxWindow* parent ) :
 	bSizer2 = new wxBoxSizer( wxHORIZONTAL );
 	
     bSizer1->AddSpacer(5);
-	m_myProjectsLabel = new CTransparentStaticText( this, wxID_ANY, _("My Projects:"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_myProjectsLabel = new wxStaticText( this, wxID_ANY, _("My Projects:"), wxDefaultPosition, wxDefaultSize, 0 );
 	m_myProjectsLabel->Wrap( -1 );
-//    m_myProjectsLabel->SetFont(wxFont(MEDIUM_FONT,wxSWISS,wxNORMAL,wxBOLD,false,wxT("Arial"))); 
-	m_myProjectsLabel->Enable( false );
 	bSizer2->Add( m_myProjectsLabel, 0, wxRIGHT, 5 );
     bSizer2->AddStretchSpacer();
 
@@ -131,9 +130,8 @@ CSimpleProjectPanel::CSimpleProjectPanel( wxWindow* parent ) :
     // Make sure m_TotalCreditValue string is large enough 
     m_fDisplayedCredit = 9999999999.99;
     str.Printf(_("%s: %0.2f"), m_sTotalWorkDoneString.c_str(), m_fDisplayedCredit);
-	m_TotalCreditValue = new CTransparentStaticText( this, wxID_ANY, str, wxDefaultPosition, wxDefaultSize, wxST_NO_AUTORESIZE );
+	m_TotalCreditValue = new wxStaticText( this, wxID_ANY, str, wxDefaultPosition, wxDefaultSize, wxST_NO_AUTORESIZE );
 	m_TotalCreditValue->Wrap( -1 );
-	m_TotalCreditValue->Enable( false );
 	
 	bSizer1->Add( m_TotalCreditValue, 0, wxLEFT | wxRIGHT | wxEXPAND, SIDEMARGINS );
 

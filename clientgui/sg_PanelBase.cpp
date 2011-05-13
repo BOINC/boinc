@@ -126,7 +126,7 @@ void CSimplePanelBase::MakeBGBitMap() {
 
 // Linux does not reliably generate EraseBackground 
 // events here, so use Paint events
-void CSimplePanelBase::OnPaint(wxPaintEvent& event) {
+void CSimplePanelBase::OnPaint(wxPaintEvent& /*event*/) {
     wxPaintDC dc(this);
 
     if (!m_GotBGBitMap) {
@@ -151,12 +151,10 @@ void CSimplePanelBase::OnPaint(wxPaintEvent& event) {
     dc.SetBackgroundMode(oldMode);
     dc.SetPen(oldPen);
     dc.SetBrush(oldBrush);
-
-    event.Skip();
 }
 
 
-void CSimplePanelBase::UpdateStaticText(CTransparentStaticText **whichText, wxString s) {
+void CSimplePanelBase::UpdateStaticText(wxStaticText **whichText, wxString s) {
     EllipseStringIfNeeded(s, *whichText);
     if ((*whichText)->GetLabel() != s) {
         (*whichText)->SetLabel(s);

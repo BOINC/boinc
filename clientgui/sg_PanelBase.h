@@ -77,7 +77,7 @@ class CSimplePanelBase : public wxPanel
 
     void ReskinInterface();
     virtual wxRect GetProgressRect() { return wxRect(0, 0, 0, 0); }
-    void UpdateStaticText(CTransparentStaticText **whichText, wxString s);
+    void UpdateStaticText(wxStaticText **whichText, wxString s);
     void EllipseStringIfNeeded(wxString& s, wxWindow *win);
 
 	protected:
