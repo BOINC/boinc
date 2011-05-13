@@ -629,12 +629,15 @@ void JOB_LIMIT::print_log() {
 }
 
 void JOB_LIMITS::print_log() {
-    log_messages.printf(MSG_NORMAL, "[quota] Overall limit on jobs in progress:\n");
+    log_messages.printf(MSG_NORMAL, "[quota] Overall limits on jobs in progress:\n");
     project_limits.print_log();
     for (unsigned int i=0; i<app_limits.size(); i++) {
         if (app_limits[i].any_limit()) {
-            APP* app = &ssp->apps[i];
-            log_messages.printf(MSG_NORMAL, "Limits for %s:\n", app->name);
+            APP* app = ssp->lookup_app_name(app_limits[i].app_name);
+            if (!app) continue;
+            log_messages.printf(MSG_NORMAL,
+                "[quota] Limits for %s:\n", app->name
+            );
             app_limits[i].print_log();
         }
     }

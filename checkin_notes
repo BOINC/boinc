@@ -2958,3 +2958,14 @@ Charlie 13 May 2011
     lib/
         filesys.cpp
     
+David  13 May 2011
+    - create_work: allow multiple URLs for non-local input files
+        (from Zoltan Farkas)
+    - scheduler: fix message describing per-app limits
+
+    sched/
+        sched_main.cpp
+    tools/
+        backend_lib.cpp
+    html/project.sample/
+        project.inc

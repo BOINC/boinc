@@ -24,6 +24,7 @@
 #include <cstdlib>
 #include <cstring>
 #include <string>
+#include <vector>
 #include <ctime>
 #include <cassert>
 #include <unistd.h>
@@ -197,6 +198,7 @@ static int process_wu_template(
     out = "";
     for (p=strtok(tmplate, "\n"); p; p=strtok(0, "\n")) {
         if (match_tag(p, "<file_info>")) {
+            vector<string> urls;
             bool generated_locally = false;
             file_number = nbytesdef = -1;
             md5str = urlstr = "";
@@ -209,6 +211,7 @@ static int process_wu_template(
                 } else if (parse_bool(p, "generated_locally", generated_locally)) {
                     continue;
                 } else if (parse_str(p, "<url>", urlstr)) {
+                    urls.push_back(urlstr);
                     continue;
                 } else if (parse_str(p, "<md5_cksum>", md5str)) {
                     continue;
@@ -243,6 +246,8 @@ static int process_wu_template(
                             infiles[file_number]
                         );
                     } else if (nbytesdef == -1) {
+                        // here if nybtes was not supplied; stage the file
+                        //
                         dir_hier_path(
                             infiles[file_number], config_loc.download_dir,
                             config_loc.uldl_dir_fanout, path, true
@@ -264,8 +269,7 @@ static int process_wu_template(
                             if (retval) {
                                 fprintf(stderr, "process_wu_template: md5_file %d\n", retval);
                                 return retval;
-                            }
-                            else if (config_loc.cache_md5_info) {
+                            } else if (config_loc.cache_md5_info) {
                                 write_md5_info(path, md5, nbytes);
                             }
                         }
@@ -286,9 +290,16 @@ static int process_wu_template(
                             nbytes
                         );
                     } else {
+                        // here if nbytes etc. was supplied,
+                        // i.e the file is already staged, possibly remotely
+                        //
+                        urlstr = "";
+                        for (unsigned int i=0; i<urls.size(); i++) {
+                            urlstr += "    <url>" + urls.at(i) + "</url>\n";
+                        }
                         sprintf(buf,
                             "    <name>%s</name>\n"
-                            "    <url>%s</url>\n"
+                            "%s"
                             "    <md5_cksum>%s</md5_cksum>\n"
                             "    <nbytes>%.0f</nbytes>\n"
                             "</file_info>\n",

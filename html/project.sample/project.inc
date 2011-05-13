@@ -28,10 +28,6 @@ define("UOTD_ADMIN_EMAIL", "admin@$master_url");
 // offensive forum posts.
 define("POST_REPORT_EMAILS", "moderator1@$master_url|moderator2@$master_url");
 
-// set the following var if your project is behind a proxy.
-// This is used on ops/index.php to get the current SVN rev from BOINC
-//$project_http_proxy = "tcp://proxyname:port"
-
 // set the following if SVN requires specific configuration (e.g. proxy)
 // Used on ops/index.php.
 // define("SVN_CONFIG_DIRECTORY", "/home/boincadm/.subversion/");
