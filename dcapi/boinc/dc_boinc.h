@@ -44,6 +44,10 @@ extern "C" {
 #define CFG_ENABLESUSPEND	"EnableSuspend"
 /* Client uses native BOINC API instead of DC-API */
 #define CFG_NATIVECLIENT	"NativeClient"
+/* Remote file rewrite regexp match string */
+#define CFG_REGEXPMATCH		"InputURLRewriteRegExpMatch"
+/* Remote file rewrite regexp replace string */
+#define CFG_REGEXPREPLACE	"InputURLRewriteRegExpReplace"
 
 /* File types in the working directory */
 typedef enum
