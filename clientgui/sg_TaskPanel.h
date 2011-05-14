@@ -85,7 +85,7 @@ class CSimpleTaskPanel : public CSimplePanelBase
 
         TaskSelectionData* GetTaskSelectionData();
         wxString GetSelectedTaskString() { return m_TaskSelectionCtrl->GetValue(); }
-        void Update();
+        void Update(bool delayShow=false);
         wxRect GetProgressRect() { return m_ProgressRect; }
         void ReskinInterface();
 

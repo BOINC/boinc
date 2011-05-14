@@ -100,7 +100,7 @@ CSimpleProjectPanel::CSimpleProjectPanel( wxWindow* parent ) :
 	bSizer2->Add( m_TaskAddProjectButton, 0, wxRIGHT | wxEXPAND | wxALIGN_RIGHT, SIDEMARGINS );
 	bSizer1->Add( bSizer2, 0, wxEXPAND | wxTOP | wxLEFT, 10 );
 
-#ifdef __WXMSW__
+#ifndef __WXMAC__
     bSizer1->AddSpacer(5);
 #endif
 	
@@ -123,7 +123,7 @@ CSimpleProjectPanel::CSimpleProjectPanel( wxWindow* parent ) :
     m_ProjectSelectionCtrl->SetToolTip(str);
 	bSizer1->Add( m_ProjectSelectionCtrl, 0, wxLEFT | wxRIGHT | wxEXPAND, SIDEMARGINS );
 
-#ifdef __WXMSW__
+#ifndef __WXMAC__
     bSizer1->AddSpacer(8);
 #endif
     

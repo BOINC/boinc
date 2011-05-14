@@ -366,21 +366,24 @@ void CSimpleTaskPanel::OnTaskSelection(wxCommandEvent& /*event*/)
 }
 
 
-void CSimpleTaskPanel::Update() {
+void CSimpleTaskPanel::Update(bool delayShow) {
     wxString s = wxEmptyString;
     wxString projName = wxEmptyString;
     TaskSelectionData *selData;
     CMainDocument*      pDoc = wxGetApp().GetDocument();
     wxASSERT(pDoc);
-    
     int                 workCount = pDoc->GetSimpleGUIWorkCount();
+
+    // Workaround for Linux refresh problem
+    static bool		wasDelayed = false;
 
 #ifndef __WXMAC__
     Freeze();
 #endif
     
-    if (workCount <= 0) {
-        if (workCount != m_oldWorkCount) {
+    if ((workCount <= 0) || delayShow) {
+        if ((workCount != m_oldWorkCount) || delayShow) {
+	    wasDelayed = true;
             m_myTasksLabel->Hide();
             m_TaskSelectionCtrl->Hide();
             m_TaskProjectLabel->Hide();
@@ -404,7 +407,8 @@ void CSimpleTaskPanel::Update() {
         DisplayIdleState();
         
     } else {
-        if (m_oldWorkCount == 0) {
+        if ((m_oldWorkCount == 0) || wasDelayed) {
+	    wasDelayed = false;
             m_myTasksLabel->Show();
             m_TaskSelectionCtrl->Show();
             m_TaskProjectLabel->Show();

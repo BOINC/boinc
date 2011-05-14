@@ -50,6 +50,12 @@
 #include "DlgAbout.h"
 #include "DlgOptions.h"
 
+// Workaround for Linux refresh problem
+#if (defined(__WXMSW__) || defined(__WXMAC__))
+#define REFRESH_WAIT 0
+#else
+#define REFRESH_WAIT 1
+#endif
 
 IMPLEMENT_DYNAMIC_CLASS(CSimpleFrame, CBOINCBaseFrame)
 
@@ -572,6 +578,7 @@ CSimpleGUIPanel::CSimpleGUIPanel(wxWindow* parent) :
     m_oldWorkCount = 0;
     m_bNewNoticeAlert = false;
     m_bNoticesButtonIsRed = false;
+    m_irefreshCount = 0;
     
 	checkForNewNoticesTimer = new wxTimer(this, ID_SIMPLEMESSAGECHECKTIMER);
 	checkForNewNoticesTimer->Start(5000); 
@@ -723,6 +730,12 @@ void CSimpleGUIPanel::OnFrameRender() {
     // Check for that situation here.
     if (pDoc->WaitingForRPC()) return;
 
+    if (m_irefreshCount < REFRESH_WAIT) {
+ 	++m_irefreshCount;
+	m_taskPanel->Update(true);
+	return;
+    }
+	
         if (workCount != m_oldWorkCount) {
             if (workCount <= 0) {
                 m_projPanel->Hide();
@@ -768,7 +781,8 @@ void CSimpleGUIPanel::OnFrameRender() {
         
         m_oldWorkCount = workCount;
         
-        m_taskPanel->Update();
+	m_taskPanel->Update(false);
+
     }
 }
 

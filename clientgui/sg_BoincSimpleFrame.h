@@ -87,6 +87,7 @@ protected:
     bool        m_bisPaused;
 
 private:
+    int		m_irefreshCount;
     bool        dlgOpen;
 	wxTimer*    checkForNewNoticesTimer;
     wxString    m_sPauseButtonToolTip;
