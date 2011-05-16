@@ -2986,3 +2986,10 @@ David  13 May 2011
         client_types.cpp
     clientgui/
         MainDocument.cpp
+
+Charlie 16 May 2011
+    - MGR: New Simple GUI: better displays if no tasks or no projects.
+
+    clientgui/
+        sg_BoincSimpleFrame.cpp
+        sg_ProjectPanel.cpp

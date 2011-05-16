@@ -176,7 +176,7 @@ ProjectSelectionData* CSimpleProjectPanel::GetProjectSelectionData() {
 
 
 void CSimpleProjectPanel::UpdateInterface() {
-    int n, count;
+    int n, count = -1;
     bool b_needMenuRebuild = false;
     wxString str = wxEmptyString;
     wxString projName = wxEmptyString;
@@ -218,52 +218,54 @@ void CSimpleProjectPanel::UpdateInterface() {
         UpdateProjectList();
         
         count = m_ProjectSelectionCtrl->GetCount();
-        if (count > 0) {
-            n = m_ProjectSelectionCtrl->GetSelection();
-            if ((n < 0) || (n > count -1)) {
-                m_ProjectSelectionCtrl->SetSelection(0);
-                n = 0;
-            }
-            
-            // Check to see if we need to rebuild the menu
-            char* ctrl_url = ((ProjectSelectionData*)m_ProjectSelectionCtrl->GetClientData(n))->project_url;
-            if (strcmp(m_CurrentSelectedProjectURL, ctrl_url)) {
-                b_needMenuRebuild = true;
-                strncpy(m_CurrentSelectedProjectURL, ctrl_url, sizeof(m_CurrentSelectedProjectURL));
-            }
-            
-            PROJECT* project = pDoc->state.lookup_project(ctrl_url);
-            if ( project != NULL && project->last_rpc_time > m_Project_last_rpc_time ) {
-                b_needMenuRebuild = true;
-                m_Project_last_rpc_time = project->last_rpc_time;
-            }
-            
-            if (b_needMenuRebuild) {
-                m_ProjectWebSitesButton->RebuildMenu();
-            }
-
-            m_ProjectWebSitesButton->Enable();
-            
-            if (m_fDisplayedCredit != project->user_total_credit) {
-                m_fDisplayedCredit = project->user_total_credit;
-                str.Printf(_("%s: %0.2f"), m_sTotalWorkDoneString.c_str(), m_fDisplayedCredit);
-                UpdateStaticText(&m_TotalCreditValue, str);
-                m_TotalCreditValue->SetName(str);   // For accessibility on Windows
-            }
-            projName = m_ProjectSelectionCtrl->GetStringSelection();
-            str.Printf(_("Pop up a menu of websites for project %s"), projName.c_str());
-            m_ProjectWebSitesButton->SetToolTip(str);
-            str.Printf(_("Pop up a menu of commands to apply to project %s"), projName.c_str());
-            m_ProjectCommandsButton->SetToolTip(str);
-        } else {
-            m_ProjectWebSitesButton->Disable();
-            m_CurrentSelectedProjectURL[0] = '\0';
-            m_fDisplayedCredit = -1.0;
-            UpdateStaticText(&m_TotalCreditValue, wxEmptyString);
-            m_TotalCreditValue->SetName(wxEmptyString);   // For accessibility on Windows
-            m_ProjectWebSitesButton->SetToolTip(wxEmptyString);
-            m_ProjectCommandsButton->SetToolTip(wxEmptyString);
+    }
+    if (count > 0) {
+        n = m_ProjectSelectionCtrl->GetSelection();
+        if ((n < 0) || (n > count -1)) {
+            m_ProjectSelectionCtrl->SetSelection(0);
+            n = 0;
         }
+        
+        // Check to see if we need to rebuild the menu
+        char* ctrl_url = ((ProjectSelectionData*)m_ProjectSelectionCtrl->GetClientData(n))->project_url;
+        if (strcmp(m_CurrentSelectedProjectURL, ctrl_url)) {
+            b_needMenuRebuild = true;
+            strncpy(m_CurrentSelectedProjectURL, ctrl_url, sizeof(m_CurrentSelectedProjectURL));
+        }
+        
+        PROJECT* project = pDoc->state.lookup_project(ctrl_url);
+        if ( project != NULL && project->last_rpc_time > m_Project_last_rpc_time ) {
+            b_needMenuRebuild = true;
+            m_Project_last_rpc_time = project->last_rpc_time;
+        }
+        
+        if (b_needMenuRebuild) {
+            m_ProjectWebSitesButton->RebuildMenu();
+        }
+
+        m_ProjectWebSitesButton->Enable();
+        m_ProjectCommandsButton->Enable();
+        
+        if (m_fDisplayedCredit != project->user_total_credit) {
+            m_fDisplayedCredit = project->user_total_credit;
+            str.Printf(_("%s: %0.2f"), m_sTotalWorkDoneString.c_str(), m_fDisplayedCredit);
+            UpdateStaticText(&m_TotalCreditValue, str);
+            m_TotalCreditValue->SetName(str);   // For accessibility on Windows
+        }
+        projName = m_ProjectSelectionCtrl->GetStringSelection();
+        str.Printf(_("Pop up a menu of websites for project %s"), projName.c_str());
+        m_ProjectWebSitesButton->SetToolTip(str);
+        str.Printf(_("Pop up a menu of commands to apply to project %s"), projName.c_str());
+        m_ProjectCommandsButton->SetToolTip(str);
+    } else {
+        m_ProjectWebSitesButton->Disable();
+        m_ProjectCommandsButton->Disable();
+        m_CurrentSelectedProjectURL[0] = '\0';
+        m_fDisplayedCredit = -1.0;
+        UpdateStaticText(&m_TotalCreditValue, wxEmptyString);
+        m_TotalCreditValue->SetName(wxEmptyString);   // For accessibility on Windows
+        m_ProjectWebSitesButton->SetToolTip(wxEmptyString);
+        m_ProjectCommandsButton->SetToolTip(wxEmptyString);
     }
 }
 

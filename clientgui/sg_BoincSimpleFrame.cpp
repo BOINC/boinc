@@ -644,7 +644,6 @@ CSimpleGUIPanel::CSimpleGUIPanel(wxWindow* parent) :
     HIObjectSetAccessibilityIgnored((HIObjectRef)GetHandle(), true);
 #endif    
 
-    m_projPanel->Hide();
     m_PauseResumeButton->Disable();
     OnFrameRender();
 
@@ -730,21 +729,22 @@ void CSimpleGUIPanel::OnFrameRender() {
     // Check for that situation here.
     if (pDoc->WaitingForRPC()) return;
 
+    // Workaround for Linux refresh problem
     if (m_irefreshCount < REFRESH_WAIT) {
- 	++m_irefreshCount;
-	m_taskPanel->Update(true);
+        ++m_irefreshCount;
+        m_taskPanel->Update(true);
 	return;
     }
 	
-        if (workCount != m_oldWorkCount) {
-            if (workCount <= 0) {
-                m_projPanel->Hide();
-            } else if (m_oldWorkCount == 0) {
-                m_projPanel->Show();
-            }
-            this->Layout();
-            ReskinInterface();
+    if (workCount != m_oldWorkCount) {
+        if (workCount < 0) {
+            m_projPanel->Hide();
+        } else if (m_oldWorkCount == 0) {
+            m_projPanel->Show();
         }
+        this->Layout();
+        ReskinInterface();
+    }
     
     if (IsShown()) {
 	    if ( pDoc->IsConnected() ) {
@@ -759,11 +759,12 @@ void CSimpleGUIPanel::OnFrameRender() {
                 m_PauseResumeButton->SetToolTip(m_bisPaused ? m_sResumeButtonToolTip : m_sPauseButtonToolTip);
             }
             m_PauseResumeButton->Enable();
-		    UpdateProjectView();
 	    } else {
             m_PauseResumeButton->SetToolTip(wxEmptyString);
             m_PauseResumeButton->Disable();
         }
+
+		UpdateProjectView();
 
         if (m_bNewNoticeAlert) {
             wxRect r = m_NoticesButton->GetRect();
