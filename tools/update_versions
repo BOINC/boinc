@@ -90,7 +90,7 @@ function file_ref_xml($fd) {
     if ($fd->main_program) {
         $xml .= "    <main_program/>\n";
     }
-    $xml .= "<file_ref>\n";
+    $xml .= "</file_ref>\n";
     return $xml;
 
 }
