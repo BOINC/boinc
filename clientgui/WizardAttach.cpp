@@ -426,6 +426,7 @@ bool CWizardAttach::SyncToAccountManager() {
             strReturnURL = wxURL::Unescape( wxString(return_url.c_str(), wxConvUTF8) );
 
             m_AccountInfoPage->SetAccountEmailAddress( strLogin );
+            m_AccountInfoPage->SetAccountUsername( strLogin );
             m_AccountInfoPage->SetAccountPassword(
                 wxString(_T("hash:")) +
                 strPasswordHash

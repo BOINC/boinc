@@ -3042,3 +3042,13 @@ David  18 May 2011
     sched/
         sched_send.cpp,h
         sched_config.cpp,h
+
+Rom    17 May 2011
+    - MGR: Prepopulate both the username field and the email address
+        field with the cookie information since we do not know ahead
+        of time which format the account manager uses.  Once the
+        get_project_config RPC has completed, we'll know which one
+        is the correct one.
+        
+    clientgui/
+        WizardAttach.cpp
