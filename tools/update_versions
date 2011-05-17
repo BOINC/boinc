@@ -249,7 +249,7 @@ function parse_version($v) {
     if (!is_numeric($x[0])) return -1;
     if (sizeof($x) > 1) {
         if (!is_numeric($x[1])) return -1;
-        return $x[0] + 100*$x[1];
+        return $x[1] + 100*$x[0];
     }
     return (int)$x[0];
 }

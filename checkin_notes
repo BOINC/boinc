@@ -3010,3 +3010,9 @@ David  16 May 2011
         boinc_api.cpp
     lib/
         Makefile.am
+
+David  18 May 2011
+    - update_versions: fix bug in version number parsing (from Kevin)
+
+    tools/
+        update_versions
