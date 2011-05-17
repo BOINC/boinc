@@ -238,17 +238,17 @@ bool check_coprocs_usable() {
 #endif
 
 // return true if the task has finished its time slice
-// and has checkpointed in last 10 secs
+// and has checkpointed since the end of the time slice
+// (called only for scheduled tasks)
 //
 static inline bool finished_time_slice(ACTIVE_TASK* atp) {
-    double time_running = gstate.now - atp->run_interval_start_wall_time;
-    bool running_beyond_sched_period = time_running >= gstate.global_prefs.cpu_scheduling_period();
-    double time_since_checkpoint = gstate.now - atp->checkpoint_wall_time;
-    bool checkpointed_recently = time_since_checkpoint < 10;
-    if (running_beyond_sched_period && !checkpointed_recently) {
+    double time_slice_end = atp->run_interval_start_wall_time + gstate.global_prefs.cpu_scheduling_period();
+    bool running_beyond_sched_period = gstate.now > time_slice_end;
+    bool checkpointed = atp->checkpoint_wall_time > time_slice_end;
+    if (running_beyond_sched_period && !checkpointed) {
         atp->overdue_checkpoint = true;
     }
-    return (running_beyond_sched_period && checkpointed_recently);
+    return (running_beyond_sched_period && checkpointed);
 }
 
 // Choose a "best" runnable CPU job for each project

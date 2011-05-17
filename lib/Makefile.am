@@ -120,6 +120,7 @@ pkginclude_HEADERS = \
 	notice.h \
     parse.h \
     prefs.h \
+	procinfo.h \
     proxy_info.h \
     stackwalker_imports.h \
     stackwalker_win.h \

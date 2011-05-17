@@ -14,6 +14,16 @@ array(
 
 $win = array(
 array(
+    'http://www.myfavoritegadgets.info/monitors/BOINCMonitor/BOINCMonitor.html',
+    'BOINC Monitor',
+    '',
+    'A desktop gadget that shows the status of running tasks',
+    'http://www.myfavoritegadgets.info/',
+    'Windows Vista/7',
+    'BOINC Monitor shows BOINC tasks progress. Resizable! Save settings to file.  Color changeable for all gadget\'s elements, include background. You can add new BOINC projects in XML list file.',
+    '1305409902'
+),
+array(
     'http://boincdotnet.tnmshouse.com/',
     'Boinc.NET',
     'beta',

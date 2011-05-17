@@ -2993,3 +2993,20 @@ Charlie 16 May 2011
     clientgui/
         sg_BoincSimpleFrame.cpp
         sg_ProjectPanel.cpp
+
+David  16 May 2011
+    - client: XML-escape the contents of stderr files;
+        otherwise non-ASCII characters in client_state.xml
+        make it invalid XML
+    - client: fix (I think) to scheduling logic.
+        a job is preemptable if it's finished its time slice and
+        Old: has checkpointed in last 10 sec
+        New: has checkpointed since the end of the time slice
+
+    client/
+        app_control.cpp
+        cpu_sched.cpp
+    api/
+        boinc_api.cpp
+    lib/
+        Makefile.am

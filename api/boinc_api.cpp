@@ -746,9 +746,9 @@ int boinc_report_app_status(
     if (standalone) return 0;
 
     sprintf(msg_buf,
-        "<current_cpu_time>%10.4f</current_cpu_time>\n"
-        "<checkpoint_cpu_time>%.15e</checkpoint_cpu_time>\n"
-        "<fraction_done>%2.8f</fraction_done>\n",
+        "<current_cpu_time>%e</current_cpu_time>\n"
+        "<checkpoint_cpu_time>%e</checkpoint_cpu_time>\n"
+        "<fraction_done>%e</fraction_done>\n",
         cpu_time,
         checkpoint_cpu_time,
         _fraction_done

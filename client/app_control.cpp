@@ -736,7 +736,7 @@ int ACTIVE_TASK::abort_task(int exit_status, const char* msg) {
 // check for the stderr file, copy to result record
 //
 bool ACTIVE_TASK::read_stderr_file() {
-    std::string stderr_file;
+    char* buf1, *buf2;
     char path[256];
 
     // truncate stderr output to the last 63KB;
@@ -745,12 +745,13 @@ bool ACTIVE_TASK::read_stderr_file() {
     int max_len = 63*1024;
     sprintf(path, "%s/%s", slot_dir, STDERR_FILE);
     if (!boinc_file_exists(path)) return false;
-    if (read_file_string(path, stderr_file, max_len, !config.stderr_head)) {
+    if (read_file_malloc(path, buf1, max_len, !config.stderr_head)) {
         return false;
     }
-
+    buf2 = (char*)malloc(2*max_len);
+    xml_escape(buf1, buf2, 2*max_len);
     result->stderr_out += "<stderr_txt>\n";
-    result->stderr_out += stderr_file;
+    result->stderr_out += buf2;
     result->stderr_out += "\n</stderr_txt>\n";
     return true;
 }
