@@ -617,8 +617,8 @@ done:
 
 void RSC_JOB_LIMIT::print_log(const char* rsc_name) {
     log_messages.printf(MSG_NORMAL,
-        "[quota] %s: base %d scaled %d\n",
-        rsc_name, base_limit, scaled_limit
+        "[quota] %s: base %d scaled %d njobs %d\n",
+        rsc_name, base_limit, scaled_limit, njobs
     );
 }
 

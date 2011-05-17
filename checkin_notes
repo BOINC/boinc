@@ -3016,3 +3016,14 @@ David  18 May 2011
 
     tools/
         update_versions
+
+David  18 May 2011
+    - scheduler: if an in-progress limit is given in config_aux.xml,
+        and <per_proc> is not specified, default it to false.
+    - scheduler: add some log messages
+
+    sched/
+        sched_limit.cpp
+        sched_version.cpp
+        sched_send.cpp
+        sched_main.cpp

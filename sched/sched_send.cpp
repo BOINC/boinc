@@ -118,16 +118,13 @@ void WORK_REQ::get_job_limits() {
         g_wreq->max_jobs_per_rpc = 999999;
     }
 
-    config.max_jobs_in_progress.reset(effective_ncpus, effective_ngpus);
-
     if (config.debug_quota) {
         log_messages.printf(MSG_NORMAL,
-            "[quota] effective ncpus %d ngpus %d; max jobs per RPC: %d\n",
-            effective_ncpus, effective_ngpus,
-            g_wreq->max_jobs_per_rpc
+            "[quota] effective ncpus %d ngpus %d\n",
+            effective_ncpus, effective_ngpus
         );
-        config.max_jobs_in_progress.print_log();
     }
+    config.max_jobs_in_progress.reset(effective_ncpus, effective_ngpus);
 }
 
 static const char* find_user_friendly_name(int appid) {
@@ -975,6 +972,9 @@ bool work_needed(bool locality_sched) {
     // see if we've reached limits on in-progress jobs
     //
     bool some_type_allowed = false;
+
+    // check GPU limit
+    //
     if (config.max_jobs_in_progress.exceeded(NULL, true)) {
         if (config.debug_quota) {
             log_messages.printf(MSG_NORMAL,
@@ -988,6 +988,9 @@ bool work_needed(bool locality_sched) {
     } else {
         some_type_allowed = true;
     }
+
+    // check CPU limit
+    //
     if (config.max_jobs_in_progress.exceeded(NULL, false)) {
         if (config.debug_quota) {
             log_messages.printf(MSG_NORMAL,
@@ -999,6 +1002,7 @@ bool work_needed(bool locality_sched) {
     } else {
         some_type_allowed = true;
     }
+
     if (!some_type_allowed) {
         if (config.debug_send) {
             log_messages.printf(MSG_NORMAL,
@@ -1574,6 +1578,12 @@ void send_work_setup() {
 
     // print details of request to log
     //
+    if (config.debug_quota) {
+        log_messages.printf(MSG_NORMAL,
+            "[quota] max jobs per RPC: %d\n", g_wreq->max_jobs_per_rpc
+        );
+        config.max_jobs_in_progress.print_log();
+    }
     if (config.debug_send) {
         log_messages.printf(MSG_NORMAL,
             "[send] %s matchmaker scheduling; %s EDF sim\n",

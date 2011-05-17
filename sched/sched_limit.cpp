@@ -24,6 +24,7 @@ int RSC_JOB_LIMIT::parse(XML_PARSER& xp, const char* end_tag) {
     char tag[1024];
     bool is_tag;
     
+    per_proc = false;
     while (!xp.get(tag, sizeof(tag), is_tag)) {
         if (!is_tag) {
             continue;
