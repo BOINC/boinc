@@ -1019,7 +1019,8 @@ static inline bool more_important(RESULT* r0, RESULT* r1) {
     if (cp0 && !cp1) return true;
     if (!cp0 && cp1) return false;
 
-    // favor jobs in the middle of time slice
+    // favor jobs in the middle of time slice,
+    // or that haven't checkpointed since start of time slice
     //
     bool unfin0 = r0->unfinished_time_slice;
     bool unfin1 = r1->unfinished_time_slice;

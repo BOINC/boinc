@@ -3027,3 +3027,18 @@ David  18 May 2011
         sched_version.cpp
         sched_send.cpp
         sched_main.cpp
+
+David  18 May 2011
+    - scheduler: add <user_filter> config option.
+        If set, and a WU has nonzero batch,
+        it is interpreted as a user ID,
+        and the job will be sent only to hosts with that user ID.
+
+        Note: the use of workunit.batch is arbitrary;
+        we could also use workunit.opaque or other deprecated field.
+
+    client/
+        cpu_sched.cpp
+    sched/
+        sched_send.cpp,h
+        sched_config.cpp,h

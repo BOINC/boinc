@@ -718,6 +718,12 @@ int wu_is_infeasible_fast(
         return INFEASIBLE_CUSTOM;
     }
 
+    if (config.user_filter) {
+        if (wu.batch && wu.batch != g_reply->user.id) {
+            return INFEASIBLE_USER_FILTER;
+        }
+    }
+
     // homogeneous redundancy: can't send if app uses HR and
     // 1) host is of unknown HR class
     //

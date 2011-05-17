@@ -284,6 +284,7 @@ int SCHED_CONFIG::parse(FILE* f) {
         if (xp.parse_bool(tag, "send_result_abort", send_result_abort)) continue;
         if (xp.parse_str(tag, "symstore", symstore, sizeof(symstore))) continue;
 
+        if (xp.parse_bool(tag, "user_filter", user_filter)) continue;
         if (xp.parse_bool(tag, "workload_sim", workload_sim)) continue;
         if (xp.parse_bool(tag, "prefer_primary_platform", prefer_primary_platform)) continue;
 
