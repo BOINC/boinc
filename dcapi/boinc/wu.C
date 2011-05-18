@@ -38,6 +38,7 @@ typedef enum
 	WU_NOTAG = -1,
 	WU_WUDESC,
 	WU_INPUT_LABEL,
+	WU_REMOTE_IN_LABEL,
 	WU_OUTPUT_LABEL,
 	WU_TAG,
 	WU_CLIENT_NAME,
@@ -70,6 +71,9 @@ struct parser_state
 	wu_tag			curr_tag;
 	DC_FileMode		curr_mode;
 	DC_Workunit		*wu;
+	char			*curr_url;
+	char			*curr_md5;
+	size_t			curr_size;
 };
 
 struct wu_params
@@ -117,6 +121,7 @@ static const struct tag_desc tags[] =
 {
 	{ WU_WUDESC,		"wudesc" },
 	{ WU_INPUT_LABEL,	"input_label" },
+	{ WU_REMOTE_IN_LABEL,	"remote_input_label" },
 	{ WU_OUTPUT_LABEL,	"output_label" },
 	{ WU_TAG,		"tag" },
 	{ WU_CLIENT_NAME,	"client_name" },
@@ -355,6 +360,18 @@ static void wudesc_start(GMarkupParseContext *ctx, const char *element_name,
 		else
 			pctx->curr_mode = DC_FILE_REGULAR;
 	}
+	else if (tags[i].id == WU_REMOTE_IN_LABEL)
+	{
+		int j = 0;
+		for (; j < 3; j++) {
+			if (attr_names && attr_names[j] && !strcmp(attr_names[j], "url"))
+				pctx->curr_url = g_strdup(attr_values[j]);
+			if (attr_names && attr_names[j] && !strcmp(attr_names[j], "md5"))
+				pctx->curr_md5 = g_strdup(attr_values[j]);
+			if (attr_names && attr_names[j] && !strcmp(attr_names[j], "size"))
+				pctx->curr_size = atoll(attr_values[j]);
+		}
+	}
 	else if (attr_names && attr_names[0])
 	{
 		*error = g_error_new(G_MARKUP_ERROR,
@@ -400,6 +417,7 @@ static void wudesc_text(GMarkupParseContext *ctx, const char *text,
 {
 	struct parser_state *pctx = (struct parser_state *)ptr;
 	DC_PhysicalFile *file;
+	DC_RemoteFile *rfile;
 	char *tmp, *label;
 
 	switch (pctx->curr_tag)
@@ -414,6 +432,14 @@ static void wudesc_text(GMarkupParseContext *ctx, const char *text,
 			pctx->wu->input_files =
 				g_list_append(pctx->wu->input_files, file);
 			pctx->wu->num_inputs++;
+			break;
+		case WU_REMOTE_IN_LABEL:
+			label = g_strndup(text, text_len);
+			rfile = _DC_createRemoteFile(label, pctx->curr_url,
+				pctx->curr_md5, pctx->curr_size);
+			pctx->wu->remote_input_files =
+				g_list_append(pctx->wu->remote_input_files, rfile);
+			pctx->wu->num_remote_inputs++;
 			break;
 		case WU_OUTPUT_LABEL:
 			label = g_strndup(text, text_len);
@@ -501,8 +527,8 @@ static int write_wudesc(const DC_Workunit *wu)
 	for (l = wu->remote_input_files; l; l = l->next)
 	{
 		rfile = (DC_RemoteFile *)l->data;
-		fprintf(f, "\t<remote_input_label>%s</remote_input_label>\n",
-			rfile->label);
+		fprintf(f, "\t<remote_input_label url=\"%s\" md5=\"%s\" size=\"%zu\">%s</remote_input_label>\n",
+			rfile->url, rfile->remotefilehash, rfile->remotefilesize, rfile->label);
 	}
 
 	for (l = wu->output_files; l; l = l->next)
@@ -1238,7 +1264,16 @@ static void append_result_file_info(GString *tmpl, int idx, int auto_upload,
 	if (auto_upload)
 		g_string_append(tmpl, "\t<upload_when_present/>\n");
 	g_string_append_printf(tmpl, "\t<max_nbytes>%d</max_nbytes>\n", max_output);
-	g_string_append(tmpl, "\t<url><UPLOAD_URL/></url>\n");
+
+	gchar *uploadURL = DC_getCfgStr(CFG_UPLOADURL);
+	if (!uploadURL)
+		g_string_append(tmpl, "\t<url><UPLOAD_URL/></url>\n");
+	else
+	{
+		g_string_append_printf(tmpl, "\t<url>%s</url>\n", uploadURL);
+		free(uploadURL);
+	}
+
 	g_string_append(tmpl, "</file_info>\n");
 }
 

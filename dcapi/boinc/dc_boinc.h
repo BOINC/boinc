@@ -48,6 +48,8 @@ extern "C" {
 #define CFG_REGEXPMATCH		"InputURLRewriteRegExpMatch"
 /* Remote file rewrite regexp replace string */
 #define CFG_REGEXPREPLACE	"InputURLRewriteRegExpReplace"
+/* Upload URL configuration option */
+#define CFG_UPLOADURL		"UploadURL"
 
 /* File types in the working directory */
 typedef enum
