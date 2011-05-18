@@ -81,6 +81,15 @@
 	    </para>
 	  </listitem>
 	</varlistentry>
+	<varlistentry>
+	  <term>UploadURL</term>
+	  <listitem>
+	    <para>
+	      OPTIONAL. The upload handler's URL to send output files of
+	      processed BOINC workunits to.
+	    </para>
+	  </listitem>
+	</varlistentry>
       </variablelist>
     </sect3>
 
