@@ -87,6 +87,9 @@ function file_ref_xml($fd) {
     if (isset($fd->logical_name) && strlen($fd->logical_name)) {
         $xml .= "    <open_name>$fd->logical_name</open_name>\n";
     }
+    if ($fd->copy_file) {
+        $xml .= "    <copy_file/>\n";
+    }
     if ($fd->main_program) {
         $xml .= "    <main_program/>\n";
     }
@@ -216,6 +219,9 @@ function process_file($a, $v, $p, $name, $fds) {
     if (!isset($fd->main_program)) {
         $fd->main_program = false;
     }
+    if (!isset($fd->copy_file)) {
+        $fd->copy_file = false;
+    }
 
     $fd->present = true;
     $fds = update_file($fds, $fd);
@@ -326,6 +332,10 @@ function convert_simplexml($x) {
         foreach($fx->xpath('main_program') as $x) {
             $s = (string) $x;
             if ($s == "" || int($s)>0) $fd->main_program = true;
+        }
+        foreach($fx->xpath('copy_file') as $x) {
+            $s = (string) $x;
+            if ($s == "" || int($s)>0) $fd->copy_file = true;
         }
 
         //echo "fd: "; print_r($fd);
