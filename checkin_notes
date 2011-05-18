@@ -3052,3 +3052,9 @@ Rom    17 May 2011
         
     clientgui/
         WizardAttach.cpp
+
+Charlie 16 May 2011
+    - MGR: Fix welcome message in Account Manager Wizard completion page.
+    
+    clientgui/
+        CompletionPage.cpp
