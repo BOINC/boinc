@@ -250,7 +250,7 @@ void CCompletionPage::OnPageChanged( wxWizardExEvent& event ) {
                 wxString strWelcome;
                 strWelcome.Printf(
                     _("Welcome to %s!"),
-                    pWAP->project_config.name.c_str() 
+                    pWAP->m_strProjectName.c_str()
                 );
 
                 m_pCompletionWelcome->Show();
@@ -261,7 +261,7 @@ void CCompletionPage::OnPageChanged( wxWizardExEvent& event ) {
             if (pSkinAdvanced->IsBranded()) {
                 strBrandedMessage.Printf(
                     _("You are now using %s to manage accounts."),
-                    pWAP->project_config.name.c_str() 
+                    pWAP->m_strProjectName.c_str()
                 );
             } else {
                 strBrandedMessage = _("You are now using this account manager.");
