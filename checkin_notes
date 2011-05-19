@@ -3064,3 +3064,9 @@ David  18 May 2011
     
     tools/
         update_versions
+
+David  18 May 2011
+    - client: show GPU device number correctly
+
+    client/
+        client_types.cpp

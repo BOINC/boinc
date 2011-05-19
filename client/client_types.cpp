@@ -1966,7 +1966,10 @@ int RESULT::write_gui(MIOFILE& out) {
         strcpy(buf, "");
         if (atp && atp->task_state() == PROCESS_EXECUTING) {
             if (avp->gpu_usage.rsc_type) {
-                sprintf(buf, " (device %d)", coproc_indices[0]);
+                COPROC& cp = coprocs.coprocs[avp->gpu_usage.rsc_type];
+                sprintf(buf, " (device %d)",
+                    cp.device_nums[coproc_indices[0]]
+                );
             }
         }
         out.printf(
