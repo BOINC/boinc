@@ -36,7 +36,7 @@ array(
 array(
     'http://www.efmer.eu/boinc/boinc_tasks/download.html',
     'BoincTasks',
-    '0.20',
+    '1.00',
     'An advanced and powerful BOINC GUI',
     'http://www.efmer.eu/boinc/boinc_tasks/',
     'Windows 2003/XP/Vista/7',

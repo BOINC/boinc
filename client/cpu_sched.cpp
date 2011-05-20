@@ -627,7 +627,7 @@ void adjust_rec_temp(RESULT* rp) {
     p->pwf.rec_temp += peak_flops(rp->avp)/86400;
 }
 
-// adjust project debts (short, long-term)
+// adjust project debts (short, long-term) or REC
 //
 void CLIENT_STATE::adjust_debts() {
     unsigned int i;

@@ -818,14 +818,37 @@ void ACTIVE_TASK_SET::request_reread_app_info() {
 // or when a project is detached or reset
 //
 int ACTIVE_TASK_SET::exit_tasks(PROJECT* proj) {
+    if (log_flags.task_debug) {
+        msg_printf(NULL, MSG_INFO, "[task_debug] requesting tasks to exit");
+    }
     request_tasks_exit(proj);
 
     // Wait 15 seconds for them to exit normally; if they don't then kill them
     //
     if (wait_for_exit(MAX_EXIT_TIME, proj)) {
+        if (log_flags.task_debug) {
+            msg_printf(NULL, MSG_INFO,
+                "[task_debug] all tasks haven't exited after %d sec; killing them",
+                MAX_EXIT_TIME
+            );
+        }
         kill_tasks(proj);
+        if (wait_for_exit(5, proj)) {
+            if (log_flags.task_debug) {
+                msg_printf(NULL, MSG_INFO,
+                    "[task_debug] tasks still not exited after 5 secs; giving up"
+                );
+            }
+        } else {
+            if (log_flags.task_debug) {
+                msg_printf(NULL, MSG_INFO, "[task_debug] all tasks exited");
+            }
+        }
+    } else {
+        if (log_flags.task_debug) {
+            msg_printf(NULL, MSG_INFO, "[task_debug] all tasks exited");
+        }
     }
-    wait_for_exit(5, proj);
 
     // get final checkpoint_cpu_times
     //
