@@ -43,6 +43,7 @@ bool detect_cookie_safari(std::string& project_url, std::string& name, std::stri
 //
 bool detect_cookie_firefox_2(std::string& project_url, std::string& name, std::string& value);
 bool detect_cookie_firefox_3(std::string& project_url, std::string& name, std::string& value);
+bool detect_cookie_chrome(std::string& project_url, std::string& name, std::string& value);
 
 #if defined(__APPLE__)
     // sqlite3 is not av ailable on Mac OS 10.3.9

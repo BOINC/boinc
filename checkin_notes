@@ -3078,3 +3078,10 @@ Rom    19 May 2011
         
     client/
         hostinfo_win.cpp
+
+Rom    19 May 2011
+    - MGR: Initial stab at supporting Google Chrome cookies.  SQLite engine needs
+        to be upgraded.  Write it while the code is still in my head.
+        
+    clientgui/
+        browser.cpp, .h

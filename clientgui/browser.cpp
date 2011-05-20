@@ -48,11 +48,15 @@ typedef HRESULT (WINAPI *MYSHGETFOLDERPATH)(HWND hwnd, int csidl, HANDLE hToken,
 // Win  : C:\Documents and Settings\<username>\Application Data
 // Unix: ~/
 //
-void get_home_dir_path( std::string& path ) {
+// Google Chrome decided to put its application data in the 'local' application data
+// store on Windows.  'local' only has meaning for Windows.
+//
+void get_home_dir_path( std::string& path, bool local = false ) {
 #ifdef _WIN32
     CHAR                szBuffer[MAX_PATH];
     HMODULE             hShell32;
 	MYSHGETFOLDERPATH   pfnMySHGetFolderPath = NULL;
+    int                 iCSIDLFlags = CSIDL_FLAG_CREATE;
 
     // Attempt to link to dynamic function if it exists
     hShell32 = LoadLibrary(_T("SHELL32.DLL"));
@@ -60,8 +64,14 @@ void get_home_dir_path( std::string& path ) {
         pfnMySHGetFolderPath = (MYSHGETFOLDERPATH) GetProcAddress(hShell32, "SHGetFolderPathA");
     }
 
+    if (local) {
+        iCSIDLFlags |= CSIDL_LOCAL_APPDATA;
+    } else {
+        iCSIDLFlags |= CSIDL_APPDATA;
+    }
+
     if (NULL != pfnMySHGetFolderPath) {
-		if (SUCCEEDED((pfnMySHGetFolderPath)(NULL, CSIDL_APPDATA|CSIDL_FLAG_CREATE, NULL, SHGFP_TYPE_CURRENT, szBuffer))) {
+		if (SUCCEEDED((pfnMySHGetFolderPath)(NULL, iCSIDLFlags, NULL, SHGFP_TYPE_CURRENT, szBuffer))) {
             path  = std::string(szBuffer);
             path += std::string("\\");
         }
@@ -72,7 +82,7 @@ void get_home_dir_path( std::string& path ) {
     	FreeLibrary(hShell32);
     }
 #elif defined(__APPLE__)
-    path = std::string(getenv("HOME") )+ std::string("/");
+    path = std::string(getenv("HOME")) + std::string("/");
 #else
     path = std::string("~/");
 #endif
@@ -177,6 +187,27 @@ bool parse_name_value_pair(char* buf, std::string& name, std::string& value) {
 // parse host name from url for Mozilla compatible browsers.
 //
 bool parse_hostname_mozilla_compatible(std::string& project_url, std::string& hostname) {
+    std::basic_string<char>::size_type start;
+    std::basic_string<char>::size_type end;
+
+    start = project_url.find("//", 0) + 2;
+    end   = project_url.find("/", start);
+
+    hostname = project_url.substr(start, end - start);
+
+    if (starts_with(hostname.c_str(), "www"))
+        hostname.erase(0, 3);
+
+    if (!hostname.empty())
+        return true;
+
+    return false;
+}
+
+
+// parse host name from url for Chrome compatible browsers.
+//
+bool parse_hostname_chrome_compatible(std::string& project_url, std::string& hostname) {
     std::basic_string<char>::size_type start;
     std::basic_string<char>::size_type end;
 
@@ -458,7 +489,7 @@ static int find_site_cookie_mozilla_v3(
 
 
 // traverse the profiles and determine which profile to use.
-// this should be compatible with firefox2, firefox3, seamonkey, and netscape.
+// this should be compatible with firefox2, firefox3, firefox4, seamonkey, and netscape.
 //
 bool get_firefox_profile_root( std::string& profile_root ) {
     bool retval = false;
@@ -531,6 +562,7 @@ bool get_firefox_profile_root( std::string& profile_root ) {
 
     return retval;
 }
+
 
 // traverse the various cookies looking for the one we want
 //
@@ -645,6 +677,178 @@ bool detect_cookie_firefox_3(
     get_firefox_profile_root(profile_root);
 
     return detect_cookie_mozilla_v3(
+        profile_root,
+        project_url,
+        name,
+        value
+    );
+}
+
+
+//
+// Chrome-Based Browser Support
+//
+
+class CHROME_COOKIE_SQL {
+public:
+    std::string host;
+    std::string name;
+    std::string value;
+
+    CHROME_COOKIE_SQL();
+
+    void clear();
+};
+
+
+CHROME_COOKIE_SQL::CHROME_COOKIE_SQL() {
+    clear();
+}
+
+
+void CHROME_COOKIE_SQL::clear() {
+    host.clear();
+    name.clear();
+    value.clear();
+}
+
+
+// search for the project specific cookie for chrome based browsers.
+// SELECT host_key, name, value, expires_utc, httponly from cookies WHERE name = '%s' AND host_key LIKE '%s'
+//
+static int find_site_cookie_chrome(
+    void* cookie, int /* argc */, char **argv, char ** /* szColumnName */
+) {
+    CHROME_COOKIE_SQL* _cookie = (CHROME_COOKIE_SQL*)cookie;
+    char host[256], cookie_name[256], cookie_value[256];
+    long long expires, httponly;
+
+
+    strcpy(host, "");
+    strcpy(cookie_name, "");
+    strcpy(cookie_value, "");
+    expires = 0;
+
+    sscanf( argv[0], "%255s", host );
+    sscanf( argv[1], "%255s", cookie_name );
+    sscanf( argv[2], "%255s", cookie_value );
+    sscanf( argv[3],
+#ifdef _WIN32
+        "%I64d",
+#else
+        "%Ld",
+#endif
+        &expires
+    );
+    sscanf( argv[4],
+#ifdef _WIN32
+        "%I64d",
+#else
+        "%Ld",
+#endif
+        &httponly
+    );
+
+    // is this a real cookie?
+    // temporary cookie? these cookies do not trickle back up
+    // to the jscript interface, so ignore them.
+    if (httponly) return 0;
+
+    // is this the right host?
+    if (!strstr(host, _cookie->host.c_str())) return 0;
+
+    // has the cookie expired?
+    if (time(0) > expires) return 0;
+
+    // is this the right cookie?
+    if (starts_with(cookie_name, _cookie->name)) {
+        _cookie->value = cookie_value;
+    }
+
+    return 0;
+}
+
+
+// traverse the profiles and determine which profile to use.
+// this should be compatible with chrome.
+//
+bool get_chrome_profile_root( std::string& profile_root ) {
+    get_home_dir_path( profile_root, true );
+
+#ifdef _WIN32
+    profile_root += std::string("Google\\Chrome\\User Data\\Default\\");
+#elif defined(__APPLE__)
+    profile_root += std::string("Library/Application Support/Chrome/");
+#else
+    profile_root += std::string(".google/chrome/");
+#endif
+
+    return true;
+}
+
+
+bool detect_cookie_chrome(
+    std::string profile_root, std::string& project_url, std::string& name, std::string& value
+) {
+    bool        retval = false;
+    std::string tmp;
+    std::string hostname;
+    char        query[1024];
+    sqlite3*    db;
+    char*       lpszSQLErrorMessage = NULL;
+    int         rc;
+    CHROME_COOKIE_SQL cookie;
+
+#if defined(__APPLE__)
+    // sqlite3 is not available on Mac OS 10.3.9
+    if (sqlite3_open == NULL) return false;
+#endif
+
+    // determine the project hostname using the project url
+    parse_hostname_chrome_compatible(project_url, hostname);
+
+
+    // now we should open up the cookie database.
+    tmp = profile_root + "Cookies";
+    rc = sqlite3_open(tmp.c_str(), &db);
+    if ( rc ) {
+        sqlite3_close(db);
+        return false;
+    }
+    
+    // construct SQL query to extract the desired cookie
+    // SELECT host_key, name, value, expires_utc, httponly from cookies WHERE name = '%s' AND host_key LIKE '%%%s'
+    snprintf(query, sizeof(query),
+        "SELECT host_key, name, value, expires_utc, httponly WHERE name = '%s' AND host_key LIKE '%%%s'",
+        name.c_str(),
+        hostname.c_str()
+    );
+
+    // execute query
+    rc = sqlite3_exec(db, query, find_site_cookie_chrome, &cookie, &lpszSQLErrorMessage);
+    if ( rc != SQLITE_OK ){
+        sqlite3_free(lpszSQLErrorMessage);
+    }
+
+    // cleanup
+    sqlite3_close(db);
+
+    if ( !cookie.value.empty() ) {
+        value = cookie.value;
+        retval = true;
+    }
+
+    return retval;
+}
+
+
+bool detect_cookie_chrome(
+    std::string& project_url, std::string& name, std::string& value
+) {
+    std::string profile_root;
+    get_chrome_profile_root(profile_root);
+
+    return detect_cookie_chrome(
         profile_root,
         project_url,
         name,
@@ -952,6 +1156,7 @@ bool detect_setup_authenticator(
 #ifdef __APPLE__
     if (detect_cookie_safari(project_url, strCookieSetup, authenticator)) goto END;
 #endif
+    if (detect_cookie_chrome(project_url, strCookieSetup, authenticator)) goto END;
     if (detect_cookie_firefox_3(project_url, strCookieSetup, authenticator)) goto END;
     if (detect_cookie_firefox_2(project_url, strCookieSetup, authenticator)) goto END;
 
@@ -997,6 +1202,13 @@ bool detect_account_manager_credentials(
         goto END;
     }
 #endif
+    if ( detect_cookie_chrome(project_url, strCookieLogon, login) && 
+         detect_cookie_chrome(project_url, strCookiePasswordHash, password_hash) 
+    ){
+        detect_cookie_chrome(project_url, strCookieReturnURL, return_url);
+        goto END;
+    }
+
     if ( detect_cookie_firefox_3(project_url, strCookieLogon, login) && 
          detect_cookie_firefox_3(project_url, strCookiePasswordHash, password_hash) 
     ){
