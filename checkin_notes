@@ -3103,3 +3103,10 @@ David  20 May 2011
         update_versions
     db/
         boinc_db.h
+
+David  20 May 2011
+    - client: on hibernate, don't wait for apps to exit
+        (NCI apps never will)
+
+    client/
+        sysmon_win.cpp

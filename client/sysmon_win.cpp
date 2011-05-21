@@ -57,14 +57,8 @@ static void quit_client() {
 }
 
 // Suspend client operations
-static void suspend_client(bool wait) {
+static void suspend_client() {
     gstate.os_requested_suspend = true;
-    if (wait) {
-        while (1) {
-            boinc_sleep(1.0);
-            if (!gstate.active_tasks.is_task_executing()) break;
-        }
-    }
 }
 
 // Resume client operations
@@ -134,13 +128,13 @@ static LRESULT CALLBACK WindowsMonitorSystemPowerWndProc(
                 //   only valid on Windows versions older than Vista
                 case PBT_APMBATTERYLOW:
                     msg_printf(NULL, MSG_INFO, "Critical battery alarm, Windows is suspending operations");
-                    suspend_client(true);
+                    suspend_client();
                     break;
 
                 // System is suspending
                 case PBT_APMSUSPEND:
                     msg_printf(NULL, MSG_INFO, "Windows is suspending operations");
-                    suspend_client(true);
+                    suspend_client();
                     break;
 
                 // System is resuming from a normal power event
@@ -530,7 +524,7 @@ VOID WINAPI BOINCServiceCtrl(DWORD dwCtrlCode) {
         //
         case SERVICE_CONTROL_PAUSE:
             ReportStatus(SERVICE_PAUSE_PENDING, ERROR_SUCCESS, 10000);
-            suspend_client(true);
+            suspend_client();
             ReportStatus(SERVICE_PAUSED, ERROR_SUCCESS, 10000);
             return;
 
