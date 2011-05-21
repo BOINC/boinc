@@ -3095,3 +3095,11 @@ David  19 May 2011
         app_start.cpp
         app_control.cpp
         cpu_sched.cpp
+
+David  20 May 2011
+    - update_versions: trim XML strings
+
+    tools/
+        update_versions
+    db/
+        boinc_db.h

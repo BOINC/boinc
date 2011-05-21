@@ -125,8 +125,8 @@ struct APP_VERSION {
         // this is the reciprocal of efficiency
     double pfc_scale;
         // PFC scaling factor for this app (or 0 if not enough data)
-        // The reciprocal of this version's efficiency relative
-        // to that of the most efficient version
+        // The reciprocal of this version's efficiency, averaged over all jobs,
+        // relative to that of the most efficient version
     double expavg_credit;
     double expavg_time;
 

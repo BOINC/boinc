@@ -322,19 +322,20 @@ function convert_simplexml($x) {
         //echo "fx: "; print_r($fx);
         $fd = null;
 
-        $fd->physical_name = (string) $fx->physical_name;
-        $fd->logical_name = (string) $fx->logical_name;
+        $fd->present = false;
+        $fd->physical_name = trim((string) $fx->physical_name);
+        $fd->logical_name = trim((string) $fx->logical_name);
         $fd->url = array();
         foreach($fx->xpath('url') as $url) {
-            $fd->url[] = (string) $url;
+            $fd->url[] = trim((string) $url);
         }
         $fd->main_program = false;
         foreach($fx->xpath('main_program') as $x) {
-            $s = (string) $x;
+            $s = trim((string) $x);
             if ($s == "" || int($s)>0) $fd->main_program = true;
         }
         foreach($fx->xpath('copy_file') as $x) {
-            $s = (string) $x;
+            $s = trim((string) $x);
             if ($s == "" || int($s)>0) $fd->copy_file = true;
         }
 
