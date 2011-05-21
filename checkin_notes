@@ -3110,3 +3110,10 @@ David  20 May 2011
 
     client/
         sysmon_win.cpp
+
+David  21 May 2011
+    - client: if project is set to "don't request more work",
+        report completed tasks immediately
+
+    client/
+        cs_scheduler.cpp
