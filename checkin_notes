@@ -9594,3 +9594,12 @@ David  28 Apr 2011
     client/
         acct_mgr.cpp
         cpu_sched.cpp
+
+David  28 Apr 2011
+    - client: update to previous commit:
+        only change the authenticator if both old and new
+        authenticators are weak
+        (strong authenticators don't change).
+
+    client/
+        acct_mgr.cpp
