@@ -9623,3 +9623,10 @@ David  7 May 2011
     client/
         client_types.cpp,h
         cs_scheduler.cpp
+
+David  10 May 2011
+    - client: don't check memory usage immediately after hibernation
+
+    client/
+        client_state.h
+        app.cpp

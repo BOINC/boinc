@@ -527,6 +527,8 @@ extern void print_suspend_tasks_message(int);
 
 #define GUI_HTTP_POLL_PERIOD    1.0
 
+#define MEMORY_USAGE_PERIOD     10
+
 //////// WORK FETCH
 
 #define WORK_FETCH_PERIOD   60
