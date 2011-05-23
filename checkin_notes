@@ -9561,3 +9561,10 @@ Charlie 22 May 2011
         
     clientscr/
         mac_saver_module.cpp
+
+Rom    23 May 2011
+    - client: Detect processor counts when the number of processors exceed 64 on
+        Windows.
+
+    client/
+        hostinfo_win.cpp

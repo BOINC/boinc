@@ -1006,12 +1006,25 @@ int get_processor_features(char* vendor, char* features, int features_size) {
 
 // Returns the CPU count
 //
+typedef DWORD (WINAPI *GAPC)(WORD);
+#ifndef ALL_PROCESSOR_GROUPS
+#define ALL_PROCESSOR_GROUPS 0xffff
+#endif
 int get_processor_count(int& processor_count) {
-    SYSTEM_INFO SystemInfo;
-    memset( &SystemInfo, NULL, sizeof( SystemInfo ) );
-    ::GetSystemInfo( &SystemInfo );
+    GAPC gapc = (GAPC) GetProcAddress(
+        GetModuleHandle(_T("kernel32.dll")),
+        "GetActiveProcessorCount"
+    );
 
-    processor_count = SystemInfo.dwNumberOfProcessors;
+    if (gapc) {
+        processor_count = gapc(ALL_PROCESSOR_GROUPS);
+    } else {
+        SYSTEM_INFO SystemInfo;
+        memset( &SystemInfo, NULL, sizeof( SystemInfo ) );
+        ::GetSystemInfo( &SystemInfo );
+
+        processor_count = SystemInfo.dwNumberOfProcessors;
+    }
     return 0;
 }
 
