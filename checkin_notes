@@ -9664,3 +9664,11 @@ David  16 May 2011
     client/
         app_control.cpp
         cpu_sched.cpp
+
+Rom    19 May 2011
+    - client: Account for new registry location that the new VirtualBox installer
+        stashes the version number.  Check the new location first, if not found go
+        back to the original location.
+        
+    client/
+        hostinfo_win.cpp

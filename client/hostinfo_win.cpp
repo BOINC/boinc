@@ -1141,10 +1141,15 @@ int HOST_INFO::get_virtualbox_version() {
         }
 
         lRet = RegQueryValueEx(
-            hKey, "Version", NULL, NULL, (LPBYTE) szVersion, &dwVersion
+            hKey, "VersionExt", NULL, NULL, (LPBYTE) szVersion, &dwVersion
         );
         if((lRet != ERROR_SUCCESS) || (dwVersion > sizeof(szVersion))) {
-            return 1;
+            lRet = RegQueryValueEx(
+                hKey, "Version", NULL, NULL, (LPBYTE) szVersion, &dwVersion
+            );
+            if((lRet != ERROR_SUCCESS) || (dwVersion > sizeof(szVersion))) {
+                return 1;
+            }
         }
 
         strncat(szInstallDir, "\\virtualbox.exe", sizeof(szInstallDir) - strlen(szInstallDir));
