@@ -31,6 +31,7 @@
 #include "file_xfer.h"
 #include "parse.h"
 #include "error_numbers.h"
+#include "str_util.h"
 
 using std::vector;
 
