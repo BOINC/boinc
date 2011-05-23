@@ -9630,3 +9630,10 @@ David  10 May 2011
     client/
         client_state.h
         app.cpp
+
+David  11 May 2011
+    - client: show HTTP errors in text form as well as number
+
+    client/
+        pers_file_xfer.cpp
+        file_xfer.cpp

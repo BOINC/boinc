@@ -211,8 +211,8 @@ bool PERS_FILE_XFER::poll() {
     if (fxp->file_xfer_done) {
         if (log_flags.file_xfer_debug) {
             msg_printf(fip->project, MSG_INFO,
-                "[file_xfer] file transfer status %d",
-                fxp->file_xfer_retval
+                "[file_xfer] file transfer status %d (%s)",
+                fxp->file_xfer_retval, boincerror(fxp->file_xfer_retval)
             );
         }
         switch (fxp->file_xfer_retval) {
