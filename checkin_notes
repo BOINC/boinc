@@ -9568,3 +9568,29 @@ Rom    23 May 2011
 
     client/
         hostinfo_win.cpp
+
+David  28 Apr 2011
+    - client: change the handling of account manager replies:
+        Old:
+            If the AM sends us a project we're already attached to,
+            and the authenticator is different,
+            print an error message and don't change anything.
+        Problem:
+            If the AM is using weak authenticators,
+            and the user has changed their password,
+            the weak authenticator changes.
+            In this case the AM will send the new weak auth,
+            the client will ignore it,
+            and all subsequent scheduler RPCs will fail
+            until the user removes/adds the project.
+        Solution:
+            If the AM sends us a new auth for a project, use it.
+        Note:
+            From the time the password is changed on the project
+            to the next AM RPC,
+            the client will have a bad weak auth and scheduler RPCs will fail.
+            That's OK.
+
+    client/
+        acct_mgr.cpp
+        cpu_sched.cpp
