@@ -87,13 +87,13 @@ char boinc_failed_file[256];
 
 int is_file(const char* path) {
     struct stat sbuf;
-    int retval = stat(path, &sbuf);
+    int retval = lstat(path, &sbuf);
     return (!retval && (((sbuf.st_mode) & S_IFMT) == S_IFREG));
 }
 
 int is_dir(const char* path) {
     struct stat sbuf;
-    int retval = stat(path, &sbuf);
+    int retval = lstat(path, &sbuf);
     return (!retval && (((sbuf.st_mode) & S_IFMT) == S_IFDIR));
 }
 

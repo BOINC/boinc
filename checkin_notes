@@ -9637,3 +9637,9 @@ David  11 May 2011
     client/
         pers_file_xfer.cpp
         file_xfer.cpp
+
+David  11 May 2011
+    - client: fix problem with recursion in dir_size(), this time for real.
+
+    lib/
+        filesys.cpp
