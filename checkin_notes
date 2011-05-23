@@ -9695,3 +9695,11 @@ David  21 May 2011
 
     client/
         cs_scheduler.cpp
+
+Rom    23 May 2011
+    - Tag for 6.12.27 release, all platforms
+      boinc_core_release_6_12_27
+
+    /
+        configure.ac
+        version.h
