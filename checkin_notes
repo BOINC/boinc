@@ -9681,3 +9681,10 @@ David  19 May 2011
     client/
         app_start.cpp
         app_control.cpp
+
+David  20 May 2011
+    - client: on hibernate, don't wait for apps to exit
+        (NCI apps never will)
+
+    client/
+        sysmon_win.cpp
