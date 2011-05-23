@@ -563,9 +563,9 @@ void ACCT_MGR_OP::handle_reply(int http_op_retval) {
                             pp->abort_not_started();
                         }
                     }
-                    for (int i=0; i<MAX_RSC; i++) {
-                        pp->no_rsc_ams[i] = acct.no_rsc[i];
-                    }
+                    pp->no_cpu_ams = acct.no_cpu;
+                    pp->no_cuda_ams = acct.no_cuda;
+                    pp->no_ati_ams = acct.no_ati;
                 }
             } else {
                 // here we don't already have the project.

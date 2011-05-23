@@ -127,6 +127,8 @@ struct CONFIG {
     bool fetch_minimal_work;
     std::string force_auth;
     bool http_1_0;
+    int http_transfer_timeout_bps;
+    int http_transfer_timeout;
     std::vector<int> ignore_cuda_dev;
     std::vector<int> ignore_ati_dev;
     int max_file_xfers;

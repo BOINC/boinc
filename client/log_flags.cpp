@@ -276,6 +276,8 @@ void CONFIG::clear() {
     fetch_minimal_work = false;
     force_auth = "default";
     http_1_0 = false;
+    http_transfer_timeout = 300;
+    http_transfer_timeout_bps = 10;
     ignore_cuda_dev.clear();
     ignore_ati_dev.clear();
     max_file_xfers = MAX_FILE_XFERS;
@@ -385,6 +387,8 @@ int CONFIG::parse_options(XML_PARSER& xp) {
             continue;
         }
         if (xp.parse_bool(tag, "http_1_0", http_1_0)) continue;
+        if (xp.parse_int(tag, "http_transfer_timeout", http_transfer_timeout)) continue;
+        if (xp.parse_int(tag, "http_transfer_timeout_bps", http_transfer_timeout_bps)) continue;
         if (xp.parse_int(tag, "ignore_cuda_dev", n)) {
             ignore_cuda_dev.push_back(n);
             continue;
