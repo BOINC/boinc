@@ -3117,3 +3117,9 @@ David  21 May 2011
 
     client/
         cs_scheduler.cpp
+
+Charlie 22 May 2011
+    - SCR: Fix crash bug when user clicks SS Test button in system preferences.
+        
+    clientscr/
+        mac_saver_module.cpp
