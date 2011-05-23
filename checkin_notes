@@ -9557,7 +9557,7 @@ Rom    25 April 2011
         version.h
 
 Charlie 22 May 2011
-    - SCR: Fix crash bug when user clicks SS Test button in system preferences.
+    - SCR: Fix Mac crash bug when user clicks SS Test button in system preferences.
         
     clientscr/
         mac_saver_module.cpp
