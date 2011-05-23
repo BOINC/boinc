@@ -9672,3 +9672,12 @@ Rom    19 May 2011
         
     client/
         hostinfo_win.cpp
+
+David  19 May 2011
+    - client: add log messages showing steps in exiting all tasks,
+        enabled by <task_debug/>
+    - client: remove redundant task-start messages
+
+    client/
+        app_start.cpp
+        app_control.cpp

@@ -401,17 +401,6 @@ int ACTIVE_TASK::start(bool first_time) {
     //
     bool high_priority = (app_version->avg_ncpus < 1);
 
-    if (first_time && log_flags.task) {
-        msg_printf(wup->project, MSG_INFO,
-            "Starting %s", result->name
-        );
-    }
-    if (log_flags.cpu_sched) {
-        msg_printf(wup->project, MSG_INFO,
-            "[cpu_sched] Starting %s%s", result->name, first_time?" (initial)":"(resume)"
-        );
-    }
-
     if (wup->project->verify_files_on_app_start) {
         fip=0;
         retval = gstate.input_files_available(result, true, &fip);
