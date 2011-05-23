@@ -1158,6 +1158,7 @@ PROJECT* CLIENT_STATE::next_project_trickle_up_pending() {
 //    - we're within a day of the report deadline,
 //      or at least a day has elapsed since the result was completed,
 //      or we have a sporadic connection
+//      or the project is in "don't request more work" state
 //
 PROJECT* CLIENT_STATE::find_project_with_overdue_results() {
     unsigned int i;
@@ -1170,6 +1171,10 @@ PROJECT* CLIENT_STATE::find_project_with_overdue_results() {
         PROJECT* p = r->project;
         if (p->waiting_until_min_rpc_time()) continue;
         if (p->suspended_via_gui) continue;
+
+        if (p->dont_request_more_work) {
+            return p;
+        }
 
         if (r->report_immediately) {
             return p;
