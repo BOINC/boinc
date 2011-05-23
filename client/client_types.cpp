@@ -1908,7 +1908,7 @@ int RESULT::write_gui(MIOFILE& out) {
                 avp->avg_ncpus, avp->natis
                 
             );
-        } else if (avp->avg_ncpus != 1) {
+        } else if (!project->non_cpu_intensive && (avp->avg_ncpus != 1)) {
             sprintf(resources, "%.2f CPUs", avp->avg_ncpus);
         } else {
             strcpy(resources, " ");

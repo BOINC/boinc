@@ -9643,3 +9643,11 @@ David  11 May 2011
 
     lib/
         filesys.cpp
+
+David  13 May 2011
+    - client/manager: don't show resource usage for non-CPU-intensive jobs
+
+    client/
+        client_types.cpp
+    clientgui/
+        MainDocument.cpp

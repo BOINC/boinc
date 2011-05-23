@@ -2462,7 +2462,7 @@ wxString result_description(RESULT* result, bool show_resources) {
             } else if (result->scheduler_state == CPU_SCHED_UNINITIALIZED) {
                 strBuffer += _("Ready to start");
             }
-            if (strlen(result->resources) && show_resources) {
+            if (strlen(result->resources)>1 && show_resources) {
                 strBuffer += wxString(wxT(" (")) + wxString(result->resources, wxConvUTF8) + wxString(wxT(")"));
             }
         } else {
