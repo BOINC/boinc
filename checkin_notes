@@ -9613,3 +9613,13 @@ David  7 May 2011
         http_curl.cpp
         cs_files.cpp
         log_flags.cpp,h
+
+David  7 May 2011
+    - client: implement "report immediately" at the level of
+        individual jobs rather than globally.
+        To use this, projects must add <report_immediately/>
+        to the <result> elements in job templates
+
+    client/
+        client_types.cpp,h
+        cs_scheduler.cpp
