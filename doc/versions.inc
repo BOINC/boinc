@@ -60,6 +60,14 @@ function type_text($type) {
     }
 }
 
+$w612dev = array(
+	"num"=>"6.12.27",
+	"status"=>"Development version",
+	"file"=>"boinc_6.12.27_windows_intelx86.exe",
+	"date"=>"24 May 2011",
+	"type"=>"win_new",
+);
+
 $w612 = array(
 	"num"=>"6.12.26",
 	"status"=>"Recommended version",
@@ -92,6 +100,14 @@ $w5816 = array(
     "type"=>"win_new",
 );
 
+$w612x64dev = array(
+	"num"=>"6.12.27",
+	"status"=>"Development version",
+	"file"=>"boinc_6.12.27_windows_x86_64.exe",
+	"date"=>"24 Apr 2011",
+	"type"=>"win_new",
+);
+
 $w612x64 = array(
 	"num"=>"6.12.26",
 	"status"=>"Recommended version",
@@ -106,6 +122,14 @@ $w610x64 = array(
 	"file"=>"boinc_6.10.60_windows_x86_64.exe",
 	"date"=>"25 Mar 2011",
 	"type"=>"win_new",
+);
+
+$m612dev = array(
+	"num"=>"6.12.27",
+	"status"=>"Development version (standard GUI)",
+	"file"=>"boinc_6.12.27_macOSX_universal.zip",
+	"date"=>"24 Apr 2011",
+	"type"=>"mac_advanced",
 );
 
 $m612 = array(
@@ -130,6 +154,14 @@ $m66 = array(
     "file"=>"boinc_6.6.36_macOSX_universal.zip",
     "date"=>"10 June 2009",
     "type"=>"mac_advanced",
+);
+
+$m612cdev = array(
+	"num"=>"6.12.27",
+	"status"=>"Development version (Unix command-line version)",
+	"file"=>"boinc_6.12.27_universal-apple-darwin.zip",
+	"date"=>"24 May 2011",
+	"type"=>"bare_core",
 );
 
 $m612c = array(
@@ -173,10 +205,10 @@ $l66 = array(
 	);
 
 $l612ubuntu = array(
-	"num"=>"6.12.26",
-	"status"=>"Recommended version",
-	"file"=>"boinc_6.12.26_i686-pc-linux-gnu.sh",
-	"date"=>"27 Apr 2011",
+	"num"=>"6.12.27",
+	"status"=>"Development version",
+	"file"=>"boinc_6.12.27_i686-pc-linux-gnu.sh",
+	"date"=>"24 May 2011",
 	"type"=>"sea",
 );
 
@@ -189,10 +221,10 @@ $l610ubuntu = array(
 );
 
 $l612ubuntux64 = array(
-	"num"=>"6.12.26",
-	"status"=>"Recommended version",
-	"file"=>"boinc_6.12.26_x86_64-pc-linux-gnu.sh",
-	"date"=>"27 Apr 2011",
+	"num"=>"6.12.27",
+	"status"=>"Development version",
+	"file"=>"boinc_6.12.27_x86_64-pc-linux-gnu.sh",
+	"date"=>"24 May 2011",
 	"type"=>"sea",
 );
 
@@ -213,6 +245,7 @@ $windows = array(
     "description"=>"2000/XP/Vista/7",
     "dbname" => "windows_intelx86",
     "versions"=>array(
+		$w612dev,
 		$w612,
 		$w610,
 		$w66,
@@ -225,6 +258,7 @@ $windowsx64 = array(
     "description"=>"XP/Vista/7",
     "dbname" => "windows_x86_64",
     "versions"=>array(
+		$w612x64dev,
 		$w612x64,
 		$w610x64,
     )
@@ -235,9 +269,11 @@ $mac = array(
     "description"=>"Version 10.4.0+",
     "dbname" => "powerpc-apple-darwin",
     "versions"=>array(
-        $m612,
-        $m612c,
-        $m610,
+		$m612dev,
+		$m612cdev,
+		$m612,
+		$m612c,
+		$m610,
         $m610c,
         $m66,
         $m66c,
@@ -259,7 +295,7 @@ $linux = array(
     "description"=>"For most current Linux/x86 versions; graphical and command-line interfaces",
     "dbname" => "i686-pc-linux-gnu",
     "versions"=>array(
-		//$l612ubuntu,
+		$l612ubuntu,
 		$l610ubuntu,
     )
 );
@@ -269,7 +305,7 @@ $linuxx64 = array(
     "description"=>"For most current Linux/x64 versions; graphical and command-line interfaces",
     "dbname" => "x86_64-pc-linux-gnu",
     "versions"=>array(
-		//$l612ubuntux64,
+		$l612ubuntux64,
 		$l610ubuntux64,
     )
 );
