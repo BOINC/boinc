@@ -64,7 +64,7 @@ function file_info_xml($fd) {
     } else {
         $xml .= "    <url>$fd->url</url>\n";
     }
-    if ($fd->executable) {
+    if ($fd->executable || $fd->main_program) {
         $xml .= "    <executable/>\n";
     }
     $xml .= "    <file_signature>\n";

@@ -3123,3 +3123,10 @@ Charlie 22 May 2011
         
     clientscr/
         mac_saver_module.cpp
+
+David  24 May 2011
+    - update_versions: flag main program as executable,
+        otherwise client will reject it
+
+    tools/
+        update_versions
