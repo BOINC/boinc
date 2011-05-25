@@ -150,8 +150,8 @@ void CDlgExitMessage::CreateControls()
 #ifndef __WXMAC__
 
     strAlwaysExitMessage.Printf(
-        _("Stop running tasks when exiting the %s")
-        pSkinAdvanced->GetApplicationName().c_str(),
+        _("Stop running tasks when exiting the %s"),
+        pSkinAdvanced->GetApplicationName().c_str()
 	);
 
     m_DialogShutdownCoreClient = new wxCheckBox;
