@@ -33,6 +33,10 @@
 #include <string>
 #endif
 
+#ifndef MAXPATHLEN
+#define MAXPATHLEN 1024
+#endif
+
 #endif /* !WIN32 */
 
 #ifdef __cplusplus
