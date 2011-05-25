@@ -9703,3 +9703,9 @@ Rom    23 May 2011
     /
         configure.ac
         version.h
+
+Charlie 25 May 2011
+    - MGR: Fix shutting down of Client on Linux.
+
+    clientgui/
+        BOINCGUIApp.cpp
