@@ -3143,3 +3143,13 @@ Rom    25 May 2011
         
     sched/
         sched_types.cpp
+
+David  25 May 2011
+    - client: escape only non-ASCII chars in stderr out, not control chars
+
+    sched/
+        sched_types.cpp
+    lib/
+        parse.cpp,h
+    client/
+        app_control.cpp

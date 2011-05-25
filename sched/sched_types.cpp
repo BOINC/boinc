@@ -1121,9 +1121,8 @@ int RESULT::parse_from_client(FILE* fin) {
         if (match_tag(buf, "<stderr_out>" )) {
             while (fgets(buf, sizeof(buf), fin)) {
                 if (match_tag(buf, "</stderr_out>")) break;
-                safe_strcat(tmp, buf);
+                safe_strcat(stderr_out, buf);
             }
-            xml_unescape(tmp, stderr_out, sizeof(stderr_out));
             continue;
         }
         if (match_tag(buf, "<platform>")) continue;

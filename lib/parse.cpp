@@ -338,6 +338,26 @@ char* sgets(char* buf, int len, char*& in) {
     return buf;
 }
 
+void non_ascii_escape(const char* in, char* out, int len) {
+    char buf[256], *p;
+
+    p = out;
+
+    for (; *in; in++) {
+        int x = (int) *in;
+        x &= 0xff;   // just in case
+        if (x>127) {
+            sprintf(buf, "&#%d;", x);
+            strcpy(p, buf);
+            p += strlen(buf);
+        } else {
+            *p++ = x;
+        }
+        if (p > out + len - 8) break;
+    }
+    *p = 0;
+}
+
 // NOTE: these used to take std::string instead of char* args.
 // But this performed poorly.
 //
