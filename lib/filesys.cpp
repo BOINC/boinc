@@ -649,6 +649,7 @@ int boinc_make_dirs(const char* dirpath, const char* filepath) {
 
     if (strlen(filepath) + strlen(dirpath) > 1023) return ERR_BUFFER_OVERFLOW;
     strcpy(buf, filepath);
+    strcpy(oldpath, dirpath);
 
     q = buf;
     while(*q) {

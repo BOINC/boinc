@@ -3155,9 +3155,24 @@ David  25 May 2011
         app_control.cpp
 
 David  25 May 2011
-	- client: if <ncpus> is specified in config file,
-		set host_info.p_ncpus to that value,
-		so that scheduler requests report that number of CPUs
+    - client: if <ncpus> is specified in config file,
+        set host_info.p_ncpus to that value,
+        so that scheduler requests report that number of CPUs
 
-	client/
-		cpu_sched.cpp
+    client/
+        cpu_sched.cpp
+
+David  25 May 2011
+    - client: fix boinc_make_dirs() (from Josh Highley)
+    - client: allow "non_cpu_intensive" to be specified independently
+        for different apps in a project.
+        This is intended to support projects that use the
+        Attic file distribution system,
+        which needs to have a daemon running.
+
+    lib/
+        filesys.cpp,h
+    client/
+        client_types.cpp,h
+        app_control.cpp
+        cpu_sched.cpp
