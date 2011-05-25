@@ -2003,6 +2003,7 @@ void CLIENT_STATE::set_ncpus() {
 
     if (config.ncpus>0) {
         ncpus = config.ncpus;
+        host_info.p_ncpus = ncpus;
     } else if (host_info.p_ncpus>0) {
         ncpus = host_info.p_ncpus;
     } else {

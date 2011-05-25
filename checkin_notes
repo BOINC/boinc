@@ -3153,3 +3153,11 @@ David  25 May 2011
         parse.cpp,h
     client/
         app_control.cpp
+
+David  25 May 2011
+	- client: if <ncpus> is specified in config file,
+		set host_info.p_ncpus to that value,
+		so that scheduler requests report that number of CPUs
+
+	client/
+		cpu_sched.cpp
