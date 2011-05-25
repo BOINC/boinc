@@ -3184,3 +3184,9 @@ David  25 May 2011
 
     client/
         cs_notices.cpp
+
+David  25 May 2011
+    - Manager: tweak messages in exit dialog
+
+    clientgui/
+        DlgExitMessage.cpp
