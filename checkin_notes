@@ -3136,3 +3136,10 @@ Charlie 25 May 2011
 
     clientgui/
         BOINCGUIApp.cpp
+
+Rom    25 May 2011
+    - scheduler: unescape the stderr_out field after parsing so we do not break
+        other applications parsing the data.
+        
+    sched/
+        sched_types.cpp

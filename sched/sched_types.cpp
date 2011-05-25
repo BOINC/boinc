@@ -1091,6 +1091,7 @@ int RESULT::write_to_client(FILE* fout) {
 
 int RESULT::parse_from_client(FILE* fin) {
     char buf[256];
+    char tmp[BLOB_SIZE];
 
     // should be non-zero if exit_status is not found
     exit_status = ERR_NO_EXIT_STATUS;
@@ -1120,8 +1121,9 @@ int RESULT::parse_from_client(FILE* fin) {
         if (match_tag(buf, "<stderr_out>" )) {
             while (fgets(buf, sizeof(buf), fin)) {
                 if (match_tag(buf, "</stderr_out>")) break;
-                safe_strcat(stderr_out, buf);
+                safe_strcat(tmp, buf);
             }
+            xml_unescape(tmp, stderr_out, sizeof(stderr_out));
             continue;
         }
         if (match_tag(buf, "<platform>")) continue;
