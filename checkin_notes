@@ -3130,3 +3130,9 @@ David  24 May 2011
 
     tools/
         update_versions
+
+Charlie 25 May 2011
+    - MGR: Fix shutting down of Client on Linux.
+
+    clientgui/
+        BOINCGUIApp.cpp

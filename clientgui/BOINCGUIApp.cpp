@@ -1103,7 +1103,7 @@ int CBOINCGUIApp::ConfirmExit() {
     dlg.Centre();
 
     if (wxID_OK == dlg.ShowModal()) {
-#ifndef __WXMSW__
+#ifndef __WXMAC__
         s_bSkipExitConfirmation = true;     // Don't ask twice (only affects Mac)
 #else
         m_iShutdownCoreClient = dlg.m_DialogShutdownCoreClient->GetValue();
