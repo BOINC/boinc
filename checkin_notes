@@ -3176,3 +3176,11 @@ David  25 May 2011
         client_types.cpp,h
         app_control.cpp
         cpu_sched.cpp
+
+David  25 May 2011
+    - client: equate notices if their text is the same after removing digits,
+        so that "need 25 GB disk" and "need 24 GB disk"
+        don't result in 2 notices.
+
+    client/
+        cs_notices.cpp

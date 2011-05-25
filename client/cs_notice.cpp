@@ -263,9 +263,35 @@ void NOTICES::init_rss() {
     }
 }
 
+// return true if strings are the same after discarding digits.
+// This eliminates showing
+// "you need 25 GB more disk space" and
+// "you need 24 GB more disk space" as separate notices.
+//
+static inline bool string_equal_nodigits(string& s1, string& s2) {
+    const char *p = s1.c_str();
+    const char *q = s2.c_str();
+    while (1) {
+        if (isdigit(*p)) {
+            p++;
+            continue;
+        }
+        if (isdigit(*q)) {
+            q++;
+            continue;
+        }
+        if (!*p || !*q) break;
+        if (*p != *q) return false;
+        p++;
+        q++;
+    }
+    if (*p || *q) return false;
+    return true;
+}
+
 static inline bool same_text(NOTICE& n1, NOTICE& n2) {
     if (strcmp(n1.title, n2.title)) return false;
-    if (n1.description != n2.description) return false;
+    if (!string_equal_nodigits(n1.description, n2.description)) return false;
     return true;
 }
 
