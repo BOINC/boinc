@@ -749,7 +749,7 @@ bool ACTIVE_TASK::read_stderr_file() {
         return false;
     }
     buf2 = (char*)malloc(2*max_len);
-    xml_escape(buf1, buf2, 2*max_len);
+    non_ascii_escape(buf1, buf2, 2*max_len);
     result->stderr_out += "<stderr_txt>\n";
     result->stderr_out += buf2;
     result->stderr_out += "\n</stderr_txt>\n";

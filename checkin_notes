@@ -9709,3 +9709,11 @@ Charlie 25 May 2011
 
     clientgui/
         BOINCGUIApp.cpp
+
+David  25 May 2011
+    - client: escape only non-ASCII chars in stderr out, not control chars
+
+    lib/
+        parse.cpp,h
+    client/
+        app_control.cpp
