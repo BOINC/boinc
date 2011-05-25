@@ -9717,3 +9717,11 @@ David  25 May 2011
         parse.cpp,h
     client/
         app_control.cpp
+
+Rom    25 May 2011
+    - Tag for 6.12.28 release, all platforms
+      boinc_core_release_6_12_28
+
+    /
+        configure.ac
+        version.h
