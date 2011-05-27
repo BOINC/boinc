@@ -283,6 +283,10 @@ function clear_batch($batch_id) {
     } else {
         echo "Database error.";
     }
+    $jobs = BossaJob::enum("batch_id=$batch_id");
+    foreach ($jobs as $job) {
+        $job->update("state=1");
+    }
     admin_page_tail();
 }
 
