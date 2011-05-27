@@ -16,6 +16,12 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
+// This is a template for your web site's front page.
+// You are encouraged to customize this file,
+// and to create a graphical identity for your web site
+// my developing your own stylesheet
+// and customizing the header/footer functions in html/project/project.inc
+
 require_once("../inc/db.inc");
 require_once("../inc/util.inc");
 require_once("../inc/news.inc");
@@ -31,12 +37,24 @@ check_get_args(array());
 function show_nav() {
     $config = get_config();
     $master_url = parse_config($config, "<master_url>");
+    $no_computing = parse_config($config, "<no_computing>");
     echo "<div class=\"mainnav\">
         <h2 class=headline>About ".PROJECT."</h2>
-        XXX is a research project that uses Internet-connected
-        computers to do research in XXX.
-        You can participate by downloading and running a free program
-        on your computer.
+    ";
+    if ($no_computing) {
+        echo "
+            XXX is a research project that uses volunteers
+            to do research in XXX.
+        ";
+    } else {
+        echo "
+            XXX is a research project that uses Internet-connected
+            computers to do research in XXX.
+            You can participate by downloading and running a free program
+            on your computer.
+        ";
+    }
+    echo "
         <p>
         XXX is based at 
         [describe your institution, with link to web page]
@@ -46,25 +64,46 @@ function show_nav() {
         </ul>
         <h2 class=headline>Join ".PROJECT."</h2>
         <ul>
-        <li><a href=\"info.php\">".tra("Read our rules and policies")."</a>
-        <li> This project uses BOINC.
-            If you're already running BOINC, select Add Project.
-            If not, <a target=\"_new\" href=\"http://boinc.berkeley.edu/download.php\">download BOINC</a>.
-        <li> When prompted, enter <br><b>".$master_url."</b>
-        <li> If you're running a command-line version of BOINC,
-            <a href=\"create_account_form.php\">create an account</a> first.
-        <li> If you have any problems,
-            <a target=\"_new\" href=\"http://boinc.berkeley.edu/wiki/BOINC_Help\">get help here</a>.
+    ";
+    if ($no_computing) {
+        echo "
+            <li> <a href=\"create_account_form.php\">Create an account</a>
+        ";
+    } else {
+        echo "
+            <li><a href=\"info.php\">".tra("Read our rules and policies")."</a>
+            <li> This project uses BOINC.
+                If you're already running BOINC, select Add Project.
+                If not, <a target=\"_new\" href=\"http://boinc.berkeley.edu/download.php\">download BOINC</a>.
+            <li> When prompted, enter <br><b>".$master_url."</b>
+            <li> If you're running a command-line version of BOINC,
+                <a href=\"create_account_form.php\">create an account</a> first.
+            <li> If you have any problems,
+                <a target=\"_new\" href=\"http://boinc.berkeley.edu/wiki/BOINC_Help\">get help here</a>.
+        ";
+    }
+    echo "
         </ul>
 
         <h2 class=headline>Returning participants</h2>
         <ul>
-        <li><a href=\"home.php\">Your account</a> - view stats, modify preferences
-        <li><a href=server_status.php>Server status</a>
-        <li><a href=\"team.php\">Teams</a> - create or join a team
-        <li><a href=\"cert1.php\">Certificate</a>
-        <li> <a href=\"apps.php\">".tra("Applications")."</a>
-
+    ";
+    if ($no_computing) {
+        echo "
+            <li><a href=\"bossa_apps.php\">Do work</a>
+            <li><a href=\"home.php\">Your account</a> - view stats, modify preferences
+            <li><a href=\"team.php\">Teams</a> - create or join a team
+        ";
+    } else {
+        echo "
+            <li><a href=\"home.php\">Your account</a> - view stats, modify preferences
+            <li><a href=server_status.php>Server status</a>
+            <li><a href=\"team.php\">Teams</a> - create or join a team
+            <li><a href=\"cert1.php\">Certificate</a>
+            <li><a href=\"apps.php\">".tra("Applications")."</a>
+        ";
+    }
+    echo "
         </ul>
         <h2 class=headline>".tra("Community")."</h2>
         <ul>

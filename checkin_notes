@@ -3190,3 +3190,9 @@ David  25 May 2011
 
     clientgui/
         DlgExitMessage.cpp
+
+David  27 May 2011
+    - web: make front page work for Bossa projects
+
+    html/user/
+        sample_index.php
