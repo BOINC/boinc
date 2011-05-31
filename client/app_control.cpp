@@ -172,7 +172,7 @@ int ACTIVE_TASK::request_abort() {
 static void kill_app_process(int pid) {
 #ifdef _WIN32
     HANDLE h = OpenProcess(READ_CONTROL | PROCESS_TERMINATE, false, pid);
-    if (h == NULL) continue;
+    if (h == NULL) return;
     TerminateProcess(h, 1);
     CloseHandle(h);
 #else
