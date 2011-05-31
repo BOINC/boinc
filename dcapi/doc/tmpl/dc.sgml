@@ -18,6 +18,9 @@ functionality specific to the master-side of DC-API.
 <!-- ##### SECTION Stability_Level ##### -->
 
 
+<!-- ##### SECTION Image ##### -->
+
+
 <!-- ##### ENUM DC_WUState ##### -->
 <para>
 State of work units.

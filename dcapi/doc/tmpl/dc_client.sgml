@@ -18,6 +18,9 @@ applications on the client side.
 <!-- ##### SECTION Stability_Level ##### -->
 
 
+<!-- ##### SECTION Image ##### -->
+
+
 <!-- ##### ENUM DC_FileType ##### -->
 <para>
 File types for the DC_resolveFileName() function. Some grid infrastructures
@@ -64,6 +67,7 @@ Initializes the client API. This function must be called first before calling
 any other DC-API functions.
 </para>
 
+@void: 
 @Returns: 0 if successful or a #DC_ErrorCode.
 
 
@@ -184,6 +188,7 @@ still call the DC_checkpointMade() function with a %NULL argument to inform the
 grid infrastructure that no checkpoint will be delivered.
 </para>
 
+@void: 
 @Returns: a #DC_ClientEvent or %NULL if there are no outstanding events.
 
 

@@ -19,6 +19,9 @@ slightly different meaning.
 <!-- ##### SECTION Stability_Level ##### -->
 
 
+<!-- ##### SECTION Image ##### -->
+
+
 <!-- ##### ENUM DC_ErrorCode ##### -->
 <para>
 Error codes returned by DC-API functions.
@@ -175,6 +178,7 @@ Returns the maximum length of a message that DC_sendMessage() (client side) and
 DC_sendWUMessage() (master side) accepts.
 </para>
 
+@void: 
 @Returns: the maximum allowed message size.
 
 
@@ -188,6 +192,7 @@ On the client side, returns the number of sub-results the client is still
 allowed to send.
 </para>
 
+@void: 
 @Returns: the number of sub-results allowed.
 
 
@@ -196,6 +201,7 @@ allowed to send.
 Determines the capabilities of the underlying grid infrastructure.
 </para>
 
+@void: 
 @Returns: the appropriate #DC_GridCapabilities constants OR'ed together.
 
 
