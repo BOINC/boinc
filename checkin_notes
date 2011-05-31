@@ -3196,3 +3196,12 @@ David  27 May 2011
 
     html/user/
         sample_index.php
+
+David  31 May 2011
+    - client: when killing a nonresponsive task,
+        kill its descendant processes too
+    - manager: tweak strings related to task FLOP size
+
+    client/
+        client_state.cpp
+        app_control.cpp
