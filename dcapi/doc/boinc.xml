@@ -90,6 +90,32 @@
 	    </para>
 	  </listitem>
 	</varlistentry>
+	<varlistentry>
+	  <term>InputURLRewriteRegExpMatch</term>
+	  <listitem>
+	    <para>
+	      OPTIONAL. This variable along with the <literal>InputURLRewriteRegExpReplace</literal>
+	      varaible can be used to rewrite input file URLs based on regular expressions. The
+	      variable <literal>InputURLRewriteRegExpMatch</literal> defines the match part of the
+	      regular expression, whereas the varibale <literal>InputURLRewriteRegExpReplace</literal>
+	      defines the replacement part of the regular expression. An example value of this variable
+	      is <lireral>attic://([^/]*).*/([^/]*)$</literal>.
+	    </para>
+	  </listitem>
+	</varlistentry>
+	<varlistentry>
+	  <term>InputURLRewriteRegExpReplace</term>
+	  <listitem>
+	    <para>
+	      OPTIONAL. This variable along with the <literal>InputURLRewriteRegExpMatch</literal>
+	      varaible can be used to rewrite input file URLs based on regular expressions. The
+	      variable <literal>InputURLRewriteRegExpReplace</literal> defines the replace part of the
+	      regular expression, whereas the varibale <literal>InputURLRewriteRegExpMatch</literal>
+	      defines the match part of the regular expression. An example value of this variable
+	      is <lireral>http://\1/dl/redir/\2\nhttp://localhost:12345/data/\2</literal>.
+	    </para>
+	  </listitem>
+	</varlistentry>
       </variablelist>
     </sect3>
 
