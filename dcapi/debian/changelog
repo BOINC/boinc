@@ -1,7 +1,14 @@
+dcapi (0.11-1) unstable; urgency=low
+
+  * Introduce BOINC configuration variable to define upload URL.
+  * Add input file URL rewrite possibilities.
+
+ -- Zoltán Farkas <zfarkas@sztaki.hu>  Tue, 31 May 2011 08:32:32 +0200
+
 dcapi (0.10-1) unstable; urgency=low
 
-  * Introduce remote files, supported by BOINC backend
-  * Add support for setting workunit batch ID in the BOINC backend
+  * Introduce remote files, supported by BOINC backend.
+  * Add support for setting workunit batch ID in the BOINC backend.
 
  -- Zoltán Farkas <zfarkas@sztaki.hu>  Thu, 20 Jan 2011 09:43:07 +0100
 
