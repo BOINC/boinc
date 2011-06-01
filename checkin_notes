@@ -3205,3 +3205,13 @@ David  31 May 2011
     client/
         client_state.cpp
         app_control.cpp
+
+David  31 May 2011
+    - client: Rom pointed out that on Win in secure mode,
+        the client won't be able to convert descendant PIDs to handles,
+        and therefore won't be able to terminate them.  Sigh.
+        So terminate the main process using its handle
+        (we'll still kill descendants in the non-secure case)
+
+    client/
+        app_control.cpp

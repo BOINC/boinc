@@ -187,6 +187,14 @@ static void kill_app_process(int pid) {
 //
 int ACTIVE_TASK::kill_task(bool restart) {
     vector<int>pids;
+#ifdef _WIN32
+    // On Win, in protected mode we won't be able to get
+    // handles for the descendant processes;
+    // all we can do is terminate the main process,
+    // using the handle we got when we created it.
+    //
+    TerminateProcess(process_handle, 1);
+#endif
     get_descendants(pid, pids);
     pids.push_back(pid);
     for (unsigned int i=0; i<pids.size(); i++) {
