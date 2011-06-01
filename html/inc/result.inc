@@ -117,8 +117,8 @@ $state_clause = array(
 
 function state_num($result) {
 	if ($result->server_state == 4) return 1;
-	if ($result->server_state == 4
-		&& outcome == 1
+	if ($result->server_state == 5
+		&& $result->outcome == 1
 		&& ($result->validate_state == 0 or $result->validate_state == 4)
 	) {
 		return 2;
