@@ -86,8 +86,9 @@ $info->show_names = $show_names;
 $info->state = $state;
 $info->appid = $appid;
 
+$nav = result_navigation($info, $clause);
 if (count($results)) {
-    echo show_result_navigation($info);
+    echo $nav;
     result_table_start(true, $show_host_link, $info);
     $i = 0;
     foreach ($results as $result) {
@@ -102,7 +103,7 @@ if (count($results)) {
     end_table();
 }
 
-echo show_result_navigation($info);
+echo $nav;
 
 page_tail();
 ?>

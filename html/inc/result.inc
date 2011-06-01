@@ -16,6 +16,8 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
+require_once("../inc/translation.inc");
+
 $apps = array();
 $app_versions = array();
 
@@ -444,8 +446,8 @@ function result_navigation($info, $where_clause) {
     for ($i=0; $i<NSTATES; $i++) {
 		$state_count[$i] = 0;
 	}
-	for ($i=0; $i<$apps.size(); $i++) {
-		$app_count[$apps[i].id] = 0;
+    foreach ($apps as $app) {
+		$app_count[$app->id] = 0;
 	}
 	$app_count[0] = 0;
 
@@ -453,7 +455,10 @@ function result_navigation($info, $where_clause) {
 	foreach ($results as $r) {
 		$app_count[$r->appid]++;
 		$app_count[0]++;
-		$state_count[state_num($r)]++;
+        if (!$info->appid || ($r->appid == $info->appid)) {
+            $state_count[state_num($r)]++;
+            $state_count[0]++;
+        }
 	}
 
     $x .= "<br><center>";
@@ -474,7 +479,7 @@ function result_navigation($info, $where_clause) {
         $url = result_page_url($i2);
         $x .= "<a href=$url>".tra("Next")." ".$info->results_per_page."</a>";
     }
-    $x .= "<br>".tra("Show").": ";
+    $x .= "<br>".tra("State").": ";
     for ($i=0; $i<NSTATES; $i++) {
         if ($i) $x .= " | ";
         if ($info->state == $i) {
@@ -492,7 +497,7 @@ function result_navigation($info, $where_clause) {
     if (count($apps) > 1) {
         $i2 = clone $info;
         $i2->offset = 0;
-        $x .= '<br />';
+        $x .= "<br>".tra("Application").": ";
         if ($info->appid) {
             $i2->appid = 0;
             $url = result_page_url($i2);
