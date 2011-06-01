@@ -44,6 +44,13 @@ $show_names = get_int("show_names", true);
 if (!$show_names) $show_names=0;
 
 $s = $state_name[$state];
+if ($appid) {
+	$app = BoincApp::lookup_id($appid);
+	if ($app) {
+		$s .= " $app->user_friendly_name ";
+	}
+}
+
 if ($hostid) {
     $host = BoincHost::lookup_id($hostid);
     if (!$host) error_page(tra("No computer with ID %1 found", $hostid));

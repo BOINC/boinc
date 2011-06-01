@@ -222,6 +222,10 @@ class BoincResult {
         $db = BoincDb::get();
         return $db->enum('result', 'BoincResult', $clause);
     }
+	static function enum_fields($fields, $where_clause, $order_clause) {
+        $db = BoincDb::get();
+		return $db->enum_fields('result', 'BoincResult', $where_clause, $order_clause);
+	}
     static function update_aux($clause) {
         $db = BoincDb::get();
         return $db->update_aux('result', $clause);

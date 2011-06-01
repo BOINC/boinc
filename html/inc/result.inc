@@ -113,6 +113,43 @@ $state_clause = array(
     " and server_state=5 and (outcome=3 or outcome=4 or outcome=7) ",
 );
 
+function state_num($result) {
+	if ($result->server_state == 4) return 1;
+	if ($result->server_state == 4
+		&& outcome == 1
+		&& ($result->validate_state == 0 or $result->validate_state == 4)
+	) {
+		return 2;
+	}
+	if ($result->server_state == 5
+		&& $result->outcome == 1
+		&& $result->validate_state == 1
+	) {
+		return 3;
+	}
+	if ($result->server_state == 5
+		&& ($result->outcome == 6
+			|| ($result->outcome ==1
+				&& ($result->validate_state == 2
+					|| $result->validate_state == 3
+					|| $result->validate_state == 5
+				)
+			)
+		)
+	) {
+		return 4;
+	}
+	if ($result->server_state == 5
+		&& ($result->outcome == 3
+			|| $result->outcome = 4
+			|| $result->outcome = 7
+		)
+	) {
+		return 5;
+	}
+	return 0;
+}
+
 function state_string($result) {
     switch ($result->server_state) {
     case 1: return tra("Inactive");
@@ -396,67 +433,90 @@ function show_result($result) {
     echo "<h3>".tra("Stderr output")."</h3> <pre>".htmlspecialchars($result->stderr_out)."</pre>";
 }
 
-function show_result_navigation($info) {
+function result_navigation($info, $where_clause) {
     global $state_name;
+	$state_count = array();
+	$app_count = array();
+	$x = "";
 
-    echo "<br><center>";
+    $apps = BoincApp::enum('deprecated=0 ORDER BY user_friendly_name');
+
+    for ($i=0; $i<NSTATES; $i++) {
+		$state_count[$i] = 0;
+	}
+	for ($i=0; $i<$apps.size(); $i++) {
+		$app_count[$apps[i].id] = 0;
+	}
+	$app_count[0] = 0;
+
+	$results = BoincResult::enum_fields("appid, server_state, outcome, validate_state", $where_clause, null);
+	foreach ($results as $r) {
+		$app_count[$r->appid]++;
+		$app_count[0]++;
+		$state_count[state_num($r)]++;
+	}
+
+    $x .= "<br><center>";
     $show_prev = ($info->offset >= $info->results_per_page);
     $show_next = ($info->number_of_results > $info->results_per_page);
     if ($show_prev) {
         $i2 = clone $info;
         $i2->offset = $info->offset - $info->results_per_page;
         $url = result_page_url($i2);
-        echo "<a href=$url>".tra("Previous")." ".$info->results_per_page."</a>";
+        $x .= "<a href=$url>".tra("Previous")." ".$info->results_per_page."</a>";
     }
     if ($show_prev && $show_next) {
-        echo "&nbsp;|&nbsp;";
+        $x .= "&nbsp;|&nbsp;";
     }
     if ($show_next) {
         $i2 = clone $info;
         $i2->offset = $info->offset + $info->results_per_page;
         $url = result_page_url($i2);
-        echo "<a href=$url>".tra("Next")." ".$info->results_per_page."</a>";
+        $x .= "<a href=$url>".tra("Next")." ".$info->results_per_page."</a>";
     }
-    echo "<br>".tra("Show").": ";
+    $x .= "<br>".tra("Show").": ";
     for ($i=0; $i<NSTATES; $i++) {
-        if ($i) echo " | ";
+        if ($i) $x .= " | ";
         if ($info->state == $i) {
-            echo $state_name[$i];
+            $x .= $state_name[$i];
         } else {
             $i2 = clone $info;
             $i2->state = $i;
             $i2->offset = 0;
             $url = result_page_url($i2);
-            echo "<a href=$url>".$state_name[$i]."</a>";
+            $x .= "<a href=$url>".$state_name[$i]."</a>";
         }
+		$x .= " (".$state_count[$i].") ";
     }
 
-    $apps = BoincApp::enum('deprecated=0 ORDER BY user_friendly_name');
     if (count($apps) > 1) {
         $i2 = clone $info;
         $i2->offset = 0;
-        echo '<br />';
+        $x .= '<br />';
         if ($info->appid) {
             $i2->appid = 0;
             $url = result_page_url($i2);
-            echo '<a href="'.$url.'">All</a>';
+            $x .= '<a href="'.$url.'">All</a>';
         } else {
-            echo 'All';
+            $x .= 'All';
         }
+		$x .= " (".$app_count[0].") ";
 
         foreach ($apps as $app) {
             $i2->appid = $app->id;
             $url = result_page_url($i2);
-            echo ' | ';
+            $x .= ' | ';
             if ($info->appid == $app->id) {
-                echo $app->user_friendly_name;
+                $x .= $app->user_friendly_name;
             } else {
-                echo '<a href="'.$url.'">'.$app->user_friendly_name.'</a>';
+                $x .= '<a href="'.$url.'">'.$app->user_friendly_name.'</a>';
             }
+			$x .= " (".$app_count[$app->id].") ";
         }
     }
 
-    echo "</center><br>";
+    $x .= "</center><br>";
+	return $x;
 }
 
 $cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit

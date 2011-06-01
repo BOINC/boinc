@@ -3215,3 +3215,15 @@ David  31 May 2011
 
     client/
         app_control.cpp
+
+David  31 May 2011
+	- web: add counts in task list pages
+
+	html/
+		inc/
+			boinc_db.inc
+			util.inc
+			result.inc
+		user/
+			results.php
+
