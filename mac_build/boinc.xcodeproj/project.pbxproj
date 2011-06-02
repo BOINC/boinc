@@ -258,6 +258,7 @@
 		DDA12AA20A369B5500FBDD12 /* SetupSecurity.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD7748B40A356D6C0025D05E /* SetupSecurity.cpp */; };
 		DDA12AAE0A369C5800FBDD12 /* SecurityUtility.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDA12AAD0A369C5800FBDD12 /* SecurityUtility.cpp */; };
 		DDA1F1EE126D105B005EFFEB /* current_version.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDA1F1EC126D105B005EFFEB /* current_version.cpp */; };
+		DDA26C5E13977E1500DFDFE1 /* sqlite3.c in Sources */ = {isa = PBXBuildFile; fileRef = DDA26C5D13977E1500DFDFE1 /* sqlite3.c */; };
 		DDA546610D16964E008CC69A /* QuickTime.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DDA546600D16964E008CC69A /* QuickTime.framework */; };
 		DDA6BD120BD4551F008F7921 /* mac_backtrace.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDA6BD040BD4551F008F7921 /* mac_backtrace.cpp */; };
 		DDA6BD130BD4551F008F7921 /* QBacktrace.c in Sources */ = {isa = PBXBuildFile; fileRef = DDA6BD060BD4551F008F7921 /* QBacktrace.c */; };
@@ -894,6 +895,7 @@
 		DDA12AAD0A369C5800FBDD12 /* SecurityUtility.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SecurityUtility.cpp; path = ../clientgui/mac/SecurityUtility.cpp; sourceTree = SOURCE_ROOT; };
 		DDA1F1EC126D105B005EFFEB /* current_version.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = current_version.cpp; path = ../client/current_version.cpp; sourceTree = SOURCE_ROOT; };
 		DDA1F1ED126D105B005EFFEB /* current_version.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = current_version.h; path = ../client/current_version.h; sourceTree = SOURCE_ROOT; };
+		DDA26C5D13977E1500DFDFE1 /* sqlite3.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = sqlite3.c; path = ../clientgui/sqlite3.c; sourceTree = SOURCE_ROOT; };
 		DDA290360CB5D80E00512BD8 /* Mac_Saver_Module.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = Mac_Saver_Module.h; path = ../clientscr/Mac_Saver_Module.h; sourceTree = SOURCE_ROOT; };
 		DDA546600D16964E008CC69A /* QuickTime.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuickTime.framework; path = /System/Library/Frameworks/QuickTime.framework; sourceTree = "<absolute>"; };
 		DDA6BD030BD4551F008F7921 /* dyld_gdb.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = dyld_gdb.h; path = ../lib/mac/dyld_gdb.h; sourceTree = SOURCE_ROOT; };
@@ -1438,6 +1440,7 @@
 				DDD0697212D70C9400120920 /* sg_TaskPanel.h */,
 				DD247AF70AEA308A0034104A /* SkinManager.cpp */,
 				DD247AF80AEA308A0034104A /* SkinManager.h */,
+				DDA26C5D13977E1500DFDFE1 /* sqlite3.c */,
 				DD81C45B07C5D2880098A04D /* stdwx.h */,
 				DDC836E50EDEA5DB001C2EF9 /* TermsOfUsePage.cpp */,
 				DD04BE1A0EDD836A006D5603 /* TermsOfUsePage.h */,
@@ -2596,6 +2599,7 @@
 				DD806336131FAD9A00DC8971 /* sg_CustomControls.cpp in Sources */,
 				DD806339131FADE700DC8971 /* sg_DlgMessages.cpp in Sources */,
 				DD262C781366D2A200C9A187 /* cc_config.cpp in Sources */,
+				DDA26C5E13977E1500DFDFE1 /* sqlite3.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3187,7 +3191,6 @@
 					"-liconv",
 					"-lz",
 					"-lm",
-					"-lsqlite3",
 				);
 				PRODUCT_NAME = BOINCManager;
 				SKIP_INSTALL = NO;
@@ -3237,7 +3240,6 @@
 					"-liconv",
 					"-lz",
 					"-lm",
-					"-lsqlite3",
 				);
 				PRODUCT_NAME = BOINCManager;
 				SKIP_INSTALL = NO;
@@ -3287,7 +3289,6 @@
 					"-liconv",
 					"-lz",
 					"-lm",
-					"-lsqlite3",
 				);
 				PRODUCT_NAME = BOINCManager;
 				SKIP_INSTALL = NO;
@@ -3338,7 +3339,6 @@
 					"-liconv",
 					"-lz",
 					"-lm",
-					"-lsqlite3",
 				);
 				PRODUCT_NAME = BOINCManager;
 				SKIP_INSTALL = NO;
@@ -3817,7 +3817,6 @@
 					"-liconv",
 					"-lz",
 					"-lm",
-					"-lsqlite3",
 				);
 				PRODUCT_NAME = BOINCManager;
 				SKIP_INSTALL = NO;
@@ -3866,7 +3865,6 @@
 					"-liconv",
 					"-lz",
 					"-lm",
-					"-lsqlite3",
 				);
 				PRODUCT_NAME = BOINCManager;
 				SKIP_INSTALL = NO;
@@ -4346,7 +4344,6 @@
 					"-liconv",
 					"-lz",
 					"-lm",
-					"-lsqlite3",
 				);
 				PRODUCT_NAME = BOINCManager;
 				SKIP_INSTALL = NO;

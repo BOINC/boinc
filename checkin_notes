@@ -3227,3 +3227,13 @@ David  31 May 2011
 		user/
 			results.php
 
+Charlie 2 Jun 2011
+    - MGR: Add SQLite3 v3.7.6.3 source code to Mac XCode project, adding
+        initializers for two local variables to suppress compiler warnings; 
+        don't link Mac Manager with older pre-installed sqlite3 library.
+
+    clientgui/
+        sqlite3.c (added)
+    mac_build/
+        boinc.xcodeproj/
+            project.pbxproj
