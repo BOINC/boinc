@@ -42,6 +42,10 @@
 #define HAVE_ALLOCA 1
 #endif 
 
+#ifdef __MINGW32__
+#define HAVE_STRCASECMP 1
+#endif
+
 #else
 
 // Under CYGWIN we need to include config.h first.
@@ -245,6 +249,14 @@ typedef LPCSTR PCTSTR, LPCTSTR, PCUTSTR, LPCUTSTR;
 
 #if defined(__MINGW32__) && (__GNUC__ < 4)
 // breaks build on MinGW gcc-4
+#ifdef __cplusplus
+extern "C" {
+#endif
+void __cdecl _fpreset (void);
+void __cdecl fpreset (void);
+#ifdef __cplusplus
+}
+#endif //cplusplus
 #define SetClassLongPtr SetClassLong
 #define GCLP_HICON GCL_HICON
 #define GCLP_HICONSM GCL_HICONSM
