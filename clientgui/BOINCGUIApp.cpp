@@ -962,19 +962,16 @@ int CBOINCGUIApp::ConfirmExit() {
         }
     }
 
-#ifndef __WXMSW__
-    // Don't run confirmation dialog if logging out or shutting down
+    // Don't run confirmation dialog if logging out or shutting down Mac, 
+    // or if emergency exit from AsyncRPCDlg
     if (s_bSkipExitConfirmation)
         return 1;
 
     if (!m_iDisplayExitDialog) {
-        return 1;   // User doesn't want to display the dialog and wants to shutdown the client.
+        // Mac: User doesn't want to display the dialog and just wants to use their previous value.
+        // Win & Linux: User doesn't want to display the dialog and wants to shutdown the client.
+        return 1;
     }
-#else
-    if (!m_iDisplayExitDialog) {
-		return 1;   // User doesn't want to display the dialog and just wants to use their previous value
-	}
-#endif
 
     bWasVisible = IsApplicationVisible();
     ShowApplication(true);
@@ -999,7 +996,7 @@ int CBOINCGUIApp::ConfirmExit() {
     dlg.Centre();
 
     if (wxID_OK == dlg.ShowModal()) {
-#ifndef __WXMSW__
+#ifdef __WXMAC__
         s_bSkipExitConfirmation = true;     // Don't ask twice (only affects Mac)
 #else
         m_iShutdownCoreClient = dlg.m_DialogShutdownCoreClient->GetValue();

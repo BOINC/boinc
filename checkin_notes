@@ -6729,3 +6729,11 @@ Rom    25 Feb 2011
     /
         configure.ac
         version.h
+
+Charlie 2 Jun 2011
+    - Mgr: skip exit confirmation dialog if user pressed emergency Exit button 
+        on AsyncRPCDlg.
+
+    clientgui/
+        AsyncRPC.cpp
+        BOINCGUIApp.cpp
