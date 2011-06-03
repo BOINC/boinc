@@ -3266,3 +3266,12 @@ David  3 Jun 2011
     client/
         client_state.cpp
         cs_scheduler.cpp
+
+David  3 Jun 2011
+    - scheduler: app version FLOPS estimates were wrong
+        in the case where we don't have enough elapsed-time stats
+        for the host/app_version.
+        The right formula is (peak FLOPS)/app_version.avg_pfc
+
+    sched/
+        sched_version.cpp

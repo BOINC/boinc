@@ -323,11 +323,11 @@ void estimate_flops(HOST_USAGE& hu, APP_VERSION& av) {
             );
         }
     } else {
-        if (av.pfc_scale) {
-            hu.projected_flops *= av.pfc_scale;
+        if (av.pfc.n > MIN_VERSION_SAMPLES) {
+            hu.projected_flops = hu.peak_flops/av.pfc.get_avg();
             if (config.debug_version_select) {
                 log_messages.printf(MSG_NORMAL,
-                    "[version] [AV#%d] (%s) adjusting projected flops based on PFC scale: %.2fG\n",
+                    "[version] [AV#%d] (%s) adjusting projected flops based on PFC avg: %.2fG\n",
                     av.id, av.plan_class, hu.projected_flops/1e9
                 );
             }
