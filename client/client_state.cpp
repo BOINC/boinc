@@ -1500,6 +1500,7 @@ bool CLIENT_STATE::update_results() {
             if (rp->is_upload_done()) {
                 rp->ready_to_report = true;
                 rp->completed_time = gstate.now;
+                rp->project->last_upload_start = 0;
                 rp->set_state(RESULT_FILES_UPLOADED, "CS::update_results");
 
                 // clear backoffs for app's resources;
