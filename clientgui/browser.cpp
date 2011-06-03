@@ -413,6 +413,8 @@ bool find_site_cookie_mozilla_v2(
             buf,
 #ifdef _WIN32
             "%255s\t%15s\t%255s\t%15s\t%I64d\t%255s\t%255s",
+#elif defined(__APPLE__)
+            "%255s\t%15s\t%255s\t%15s\t%lld\t%255s\t%255s",
 #else
             "%255s\t%15s\t%255s\t%15s\t%Ld\t%255s\t%255s",
 #endif
@@ -463,6 +465,8 @@ static int find_site_cookie_mozilla_v3(
     sscanf( argv[3],
 #ifdef _WIN32
         "%I64d",
+#elif defined(__APPLE__)
+        "%lld",
 #else
         "%Ld",
 #endif
@@ -743,8 +747,8 @@ static int find_site_cookie_chrome(
 ) {
     CHROME_COOKIE_SQL* _cookie = (CHROME_COOKIE_SQL*)cookie;
     char host[256], cookie_name[256], cookie_value[256];
-    long long expires, httponly;
-
+    long long expires;
+    long httponly;
 
     strcpy(host, "");
     strcpy(cookie_name, "");
@@ -757,17 +761,15 @@ static int find_site_cookie_chrome(
     sscanf( argv[3],
 #ifdef _WIN32
         "%I64d",
+#elif defined(__APPLE__)
+        "%lld",
 #else
         "%Ld",
 #endif
         &expires
     );
     sscanf( argv[4],
-#ifdef _WIN32
-        "%I64d",
-#else
-        "%Ld",
-#endif
+        "%ld",
         &httponly
     );
 
@@ -800,7 +802,7 @@ bool get_chrome_profile_root( std::string& profile_root ) {
 #ifdef _WIN32
     profile_root += std::string("Google\\Chrome\\User Data\\Default\\");
 #elif defined(__APPLE__)
-    profile_root += std::string("Library/Application Support/Chrome/");
+    profile_root += std::string("Library/Application Support/Google/Chrome/Default/");
 #else
     profile_root += std::string(".google/chrome/");
 #endif
@@ -841,7 +843,7 @@ bool detect_cookie_chrome(
     // construct SQL query to extract the desired cookie
     // SELECT host_key, name, value, expires_utc, httponly from cookies WHERE name = '%s' AND host_key LIKE '%%%s'
     snprintf(query, sizeof(query),
-        "SELECT host_key, name, value, expires_utc, httponly WHERE name = '%s' AND host_key LIKE '%%%s'",
+        "SELECT host_key, name, value, expires_utc, httponly from cookies WHERE name = '%s' AND host_key LIKE '%%%s'",
         name.c_str(),
         hostname.c_str()
     );

@@ -3245,3 +3245,9 @@ Charlie 2 Jun 2011
         
     clientgui/
         browser.cpp
+
+Charlie 3 Jun 2011
+    - MGR: Fixes for cookie detection on Google Chrome browser.
+        
+    clientgui/
+        browser.cpp
