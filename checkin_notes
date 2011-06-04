@@ -3275,3 +3275,9 @@ David  3 Jun 2011
 
     sched/
         sched_version.cpp
+
+Charlie 3 Jun 2011
+    - MGR: Convert Google Chrome browser time (microseconds since 
+        January 1, 1601) to UNIX time (seconds since January 1, 1970)
+    clientgui/
+        browser.cpp

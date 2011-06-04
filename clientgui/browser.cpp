@@ -769,9 +769,17 @@ static int find_site_cookie_chrome(
         &expires
     );
     sscanf( argv[4],
+#ifdef _WIN32
+        "%I64d",
+#else
         "%ld",
+#endif
         &httponly
     );
+
+    // Convert Google Chrome time (microseconds since January 1, 1601) 
+    // to UNIX time (seconds since January 1, 1970)
+    expires = (expires / 1000000) - 11644473600LL;
 
     // is this a real cookie?
     // temporary cookie? these cookies do not trickle back up
