@@ -9751,3 +9751,9 @@ David  8 Mar 2011
 
     client/
         acct_mgr.cpp
+
+David  5 Jun 2011
+    - lib: fix compile warning
+
+    lib/
+        filesys.cpp

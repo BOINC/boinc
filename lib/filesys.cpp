@@ -710,15 +710,10 @@ int FILE_LOCK::lock(const char* filename) {
 }
 
 int FILE_LOCK::unlock(const char* filename) {
-    int retval = 0;
 #if defined(_WIN32) && !defined(__CYGWIN32__)
-    if (!CloseHandle(handle)) {
-        retval = GetLastError();
-    }
+    CloseHandle(handle);
 #else
-    if (close(fd)) {
-        retval = -1;
-    }
+    close(fd);
     fd = -1;
 #endif
     boinc_delete_file(filename);
