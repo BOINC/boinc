@@ -737,6 +737,18 @@ void write_progress(time_t secs)
 {
     FILE* f = fopen(PROGRESS_FN, "w");
     fprintf(f,"%ld\n", secs);
+    //Flushing progress file after 5 minutes for not losing work
+    if ((int)boinc_elapsed_time() % (5*60) == 0)
+    {
+#ifdef _WIN32
+        fprintf(stderr,"INFO: Flushing buffers after 5 minutes!\n");
+        fflush(f);
+        _commit(_fileno(f));
+#else
+        fprintf(stderr,"INFO: Flushing buffers after 5 minutes!\n");
+        fsync(fileno(f));
+#endif
+    }
     fclose(f);
 }   
 
