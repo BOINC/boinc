@@ -3313,3 +3313,11 @@ David  5 Jun 2011
         db_update.php
     client/
         cs_scheduler.cpp
+
+David  5 Jun 2011
+    - scheduler: when creating HOST_APP_VERSION records,
+        initialize the n_jobs_today field correctly
+
+    sched/
+        sched_send.cpp
+

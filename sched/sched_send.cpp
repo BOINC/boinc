@@ -1675,6 +1675,7 @@ int update_host_app_versions(vector<SCHED_DB_RESULT>& results, int hostid) {
                 DB_HOST_APP_VERSION& hav = new_havs[j];
                 if (hav.app_version_id == gavid) {
                     found = true;
+                    hav.n_jobs_today++;
                 }
             }
             if (!found) {
@@ -1682,6 +1683,7 @@ int update_host_app_versions(vector<SCHED_DB_RESULT>& results, int hostid) {
                 hav.clear();
                 hav.host_id = hostid;
                 hav.app_version_id = gavid;
+                hav.n_jobs_today = 1;
                 new_havs.push_back(hav);
             }
         }
