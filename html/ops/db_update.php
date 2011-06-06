@@ -715,6 +715,15 @@ function update_6_10_2010() {
     ");
 }
 
+function update_6_3_2011() {
+    do_query("alter table app
+        add homogeneous_app_version tinyint not null default 0
+    ");
+    do_query("alter table workunit
+        add app_version_id integer not null default 0
+    ");
+}
+
 // Updates are done automatically if you use "upgrade".
 //
 // If you need to do updates manually,
@@ -732,6 +741,7 @@ $db_updates = array (
     array(20932, "update_3_17_2010"),
     array(21226, "update_4_21_2010"),
     array(21728, "update_6_10_2010"),
+    array(23635, "update_6_3_2011"),
 );
 
 ?>

@@ -352,10 +352,12 @@ int handle_wu(
     }
 
     // if WU has results with errors and no success yet,
-    // reset homogeneous redundancy class to give other platforms a try
+    // reset homogeneous redundancy class to give other platforms a try;
+    // also reset app version ID if using HAV
     //
     if (nerrors && !(nsuccess || ninprogress)) {
         wu_item.hr_class = 0;
+        wu_item.app_version_id = 0;
     }
 
     if (nerrors > wu_item.max_error_results) {

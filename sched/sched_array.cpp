@@ -280,7 +280,7 @@ static bool scan_work_array() {
     APP* app;
     BEST_APP_VERSION* bavp;
     bool no_more_needed = false;
-    DB_RESULT result;
+    SCHED_DB_RESULT result;
 
     lock_sema();
 

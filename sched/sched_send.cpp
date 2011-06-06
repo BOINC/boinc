@@ -920,7 +920,11 @@ static int insert_deadline_tag(RESULT& result) {
     return 0;
 }
 
-int update_wu_transition_time(WORKUNIT wu, time_t x) {
+// update workunit when send an instance of it:
+// - transition time
+// - app_version_id, if app uses homogeneous app version
+//
+int update_wu_on_send(WORKUNIT wu, time_t x, APP& app, BEST_APP_VERSION& bav) {
     DB_WORKUNIT dbwu;
     char buf[256];
 
@@ -932,6 +936,11 @@ int update_wu_transition_time(WORKUNIT wu, time_t x) {
         "transition_time=if(transition_time<%d, transition_time, %d)",
         (int)x, (int)x
     );
+    if (app.homogeneous_app_version && (bav.avp->id != wu.app_version_id)) {
+        char buf2[256];
+        sprintf(buf2, ", app_version_id=%d", bav.avp->id);
+        strcat(buf, buf2);
+    }
     return dbwu.update_field(buf);
 }
 
@@ -1073,7 +1082,7 @@ inline static int get_app_version_id(BEST_APP_VERSION* bavp) {
 }
 
 int add_result_to_reply(
-    DB_RESULT& result, WORKUNIT& wu, BEST_APP_VERSION* bavp,
+    SCHED_DB_RESULT& result, WORKUNIT& wu, BEST_APP_VERSION* bavp,
     bool locality_scheduling
 ) {
     int retval;
@@ -1140,8 +1149,8 @@ int add_result_to_reply(
         );
     }
 
-    retval = update_wu_transition_time(
-        wu, result.report_deadline + config.report_grace_period
+    retval = update_wu_on_send(
+        wu, result.report_deadline + config.report_grace_period, *app, *bavp
     );
     if (retval) {
         log_messages.printf(MSG_CRITICAL,
@@ -1169,7 +1178,7 @@ int add_result_to_reply(
         );
         return retval;
     }
-    result.bavp = bavp;
+    result.bav = *bavp;
     g_reply->insert_result(result);
     if (g_wreq->rsc_spec_request) {
         if (bavp->host_usage.ncudas) {
@@ -1651,7 +1660,7 @@ void send_work_setup() {
 
 // If a record is not in DB, create it.
 //
-int update_host_app_versions(vector<RESULT>& results, int hostid) {
+int update_host_app_versions(vector<SCHED_DB_RESULT>& results, int hostid) {
     vector<DB_HOST_APP_VERSION> new_havs;
     unsigned int i, j;
     int retval;

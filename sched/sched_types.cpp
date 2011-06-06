@@ -181,7 +181,7 @@ void WORK_REQ::add_no_work_message(const char* message) {
 //
 const char* SCHEDULER_REQUEST::parse(FILE* fin) {
     char buf[256];
-    RESULT result;
+    SCHED_DB_RESULT result;
     int retval;
 
     strcpy(authenticator, "");
@@ -961,7 +961,7 @@ void SCHEDULER_REPLY::insert_workunit_unique(WORKUNIT& wu) {
     wus.push_back(wu);
 }
 
-void SCHEDULER_REPLY::insert_result(RESULT& result) {
+void SCHEDULER_REPLY::insert_result(SCHED_DB_RESULT& result) {
     results.push_back(result);
 }
 
@@ -1054,7 +1054,7 @@ int APP_VERSION::write(FILE* fout) {
     return 0;
 }
 
-int RESULT::write_to_client(FILE* fout) {
+int SCHED_DB_RESULT::write_to_client(FILE* fout) {
     char buf[BLOB_SIZE];
 
     strcpy(buf, xml_doc_in);
@@ -1066,8 +1066,8 @@ int RESULT::write_to_client(FILE* fout) {
     *p = 0;
     fputs(buf, fout);
 
-    APP_VERSION* avp = bavp->avp;
-    CLIENT_APP_VERSION* cavp = bavp->cavp;
+    APP_VERSION* avp = bav.avp;
+    CLIENT_APP_VERSION* cavp = bav.cavp;
     if (avp) {
         PLATFORM* pp = ssp->lookup_platform_id(avp->platformid);
         fprintf(fout,
@@ -1089,7 +1089,7 @@ int RESULT::write_to_client(FILE* fout) {
     return 0;
 }
 
-int RESULT::parse_from_client(FILE* fin) {
+int SCHED_DB_RESULT::parse_from_client(FILE* fin) {
     char buf[256];
     char tmp[BLOB_SIZE];
 

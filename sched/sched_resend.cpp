@@ -100,7 +100,7 @@ static int possibly_give_result_new_deadline(
 // Return true if there were any such jobs
 //
 bool resend_lost_work() {
-    DB_RESULT result;
+    SCHED_DB_RESULT result;
     std::vector<DB_RESULT>results;
     unsigned int i;
     char buf[256];
@@ -190,8 +190,9 @@ bool resend_lost_work() {
                 continue;
             }
 
-            retval = update_wu_transition_time(
-                wu, result.report_deadline + config.report_grace_period
+            retval = update_wu_on_send(
+                wu, result.report_deadline + config.report_grace_period,
+                *app, *bavp
             );
             if (retval) {
                 log_messages.printf(MSG_CRITICAL,

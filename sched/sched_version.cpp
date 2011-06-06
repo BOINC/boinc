@@ -374,6 +374,39 @@ static double max_32b_address_space() {
     return 2*GIGA;
 }
 
+// The WU is already committed to an app version.
+// - check if this host supports that platform
+// - if plan class, check if this host can handle it
+// - check if we need work for the resource
+//
+static BEST_APP_VERSION* check_homogeneous_app_version(
+    WORKUNIT& wu, bool reliable_only
+) {
+    static BEST_APP_VERSION bav;
+
+    bool found=false;
+    APP_VERSION *avp = ssp->lookup_app_version(wu.app_version_id);
+    for (unsigned int i=0; i<g_request->platforms.list.size(); i++) {
+        PLATFORM* p = g_request->platforms.list[i];
+        if (p->id == avp->platformid) {
+            found = true;
+            break;
+        }
+    }
+    if (!found) return NULL;
+    if (strlen(avp->plan_class)) {
+        if (!app_plan(*g_request, avp->plan_class, bav.host_usage)) {
+            return NULL;
+        }
+    } else {
+        bav.host_usage.sequential_app(g_reply->host.p_fpops);
+    }
+    if (!need_this_resource(bav.host_usage, avp, NULL)) {
+        return NULL;
+    }
+    return &bav;
+}
+
 // return BEST_APP_VERSION for the given job and host, or NULL if none
 //
 // check_req: check whether we still need work for the resource
@@ -409,6 +442,13 @@ BEST_APP_VERSION* get_app_version(
             "WU refers to nonexistent app: %d\n", wu.appid
         );
         return NULL;
+    }
+
+    // handle the case where we're using homogeneous app version
+    // and the WU is already committed to an app version
+    //
+    if (app->homogeneous_app_version && wu.app_version_id) {
+        return check_homogeneous_app_version(wu, reliable_only);
     }
 
     // see if app is already in memoized array
@@ -538,7 +578,6 @@ BEST_APP_VERSION* get_app_version(
             }
         }
         g_wreq->best_app_versions.push_back(bavp);
-        g_wreq->all_best_app_versions.push_back(bavp);
         if (!bavp->present) return NULL;
         return bavp;
     }

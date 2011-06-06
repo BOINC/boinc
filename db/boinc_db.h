@@ -83,6 +83,8 @@ struct APP {
         // Approximates (actual FLOPS)/wu.rsc_fpops_est
     bool host_scale_check;
         // use host scaling cautiously, to thwart cherry picking
+    bool homogeneous_app_version;
+        // do all instances of each job using the same app version
 
     int write(FILE*);
     void clear();
@@ -428,6 +430,9 @@ struct WORKUNIT {
     double rsc_bandwidth_bound;
         // send only to hosts with at least this much download bandwidth
     int fileset_id;
+    int app_version_id;
+        // if app uses homogeneous_app_version,
+        // which version this job is committed to (0 if none)
 
     // the following not used in the DB
     char app_name[256];
@@ -543,20 +548,7 @@ struct RESULT {
         // -1 anon platform, unknown resource type (relic)
         // -2/-3/-4 anonymous platform (see variants above)
 
-    // the following used by the scheduler, but not stored in the DB
-    //
-    char wu_name[256];
-    double fpops_per_cpu_sec;
-    double fpops_cumulative;
-    double intops_per_cpu_sec;
-    double intops_cumulative;
-    int units;      // used for granting credit by # of units processed
-    int parse_from_client(FILE*);
-    char platform_name[256];
-    BEST_APP_VERSION* bavp;
-
     void clear();
-    int write_to_client(FILE*);
 };
 
 struct MSG_FROM_HOST {
@@ -609,6 +601,7 @@ struct TRANSITIONER_ITEM {
     int priority;
     int hr_class;
     int batch;
+    int app_version_id;
     int res_id; // This is the RESULT ID
     char res_name[256];
     int res_report_deadline;

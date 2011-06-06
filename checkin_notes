@@ -3281,3 +3281,35 @@ Charlie 3 Jun 2011
         January 1, 1601) to UNIX time (seconds since January 1, 1970)
     clientgui/
         browser.cpp
+
+David  5 Jun 2011
+    - scheduler, back end: add "homogeneous app version" feature.
+        Lets you specify, on a per-app basis,
+        that all instances should be done using the same app version.
+        This is for validation in the presence of GPUs.
+    - scheduler: code cleanup
+        - Instead of adding a bunch of non-DB fields to RESULT,
+            used a derived class SCHED_DB_RESULT.
+        - Instead of storing a pointer to BEST_APP_VERSION in RESULT,
+            store the structure itself.
+            This simplifies the memory allocation situation.
+    - client: condition "Got server request to delete file" messages
+        on <file_xfer_debug>
+
+    db/
+        boinc_db.cpp,h
+        schema.sql
+    sched/
+        sched_types.cpp,h
+        sched_version.cpp
+        sched_send.cpp,h
+        sched_array.cpp
+        sched_locality.cpp
+        transitioner.cpp
+        sched_resend.cpp
+        sched_assign.cpp
+        sched_score.cpp
+    html/ops/
+        db_update.php
+    client/
+        cs_scheduler.cpp

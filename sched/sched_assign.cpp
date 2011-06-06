@@ -84,7 +84,7 @@ static int send_assigned_job(ASSIGNMENT& asg) {
         return retval;
     }
     int result_id = boinc_db.insert_id();
-    DB_RESULT result;
+    SCHED_DB_RESULT result;
     retval = result.lookup_id(result_id);
     add_result_to_reply(result, wu, bavp, false);
 

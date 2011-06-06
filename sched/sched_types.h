@@ -192,6 +192,22 @@ struct BEST_APP_VERSION {
     }
 };
 
+struct SCHED_DB_RESULT : DB_RESULT {
+    // the following used by the scheduler, but not stored in the DB
+    //
+    char wu_name[256];
+    double fpops_per_cpu_sec;
+    double fpops_cumulative;
+    double intops_per_cpu_sec;
+    double intops_cumulative;
+    int units;      // used for granting credit by # of units processed
+    int parse_from_client(FILE*);
+    char platform_name[256];
+    BEST_APP_VERSION bav;
+
+    int write_to_client(FILE*);
+};
+
 // subset of global prefs used by scheduler
 //
 struct GLOBAL_PREFS {
@@ -288,7 +304,7 @@ struct SCHEDULER_REQUEST {
     HOST host;      // request message is parsed into here.
                     // does NOT contain the full host record.
     COPROCS coprocs;
-    std::vector<RESULT> results;
+    std::vector<SCHED_DB_RESULT> results;
         // completed results being reported
     std::vector<MSG_FROM_HOST_DESC> msgs_from_host;
     std::vector<FILE_INFO> file_infos;
@@ -435,7 +451,6 @@ struct WORK_REQ {
 
     std::vector<USER_MESSAGE> no_work_messages;
     std::vector<BEST_APP_VERSION*> best_app_versions;
-    std::vector<BEST_APP_VERSION*> all_best_app_versions;
     std::vector<DB_HOST_APP_VERSION> host_app_versions;
     std::vector<DB_HOST_APP_VERSION> host_app_versions_orig;
 
@@ -457,11 +472,7 @@ struct WORK_REQ {
     void add_no_work_message(const char*);
     void get_job_limits();
 
-    ~WORK_REQ() {
-        for (unsigned int i=0; i<all_best_app_versions.size(); i++) {
-            delete all_best_app_versions[i];
-        }
-    }
+    ~WORK_REQ() {}
 };
 
 // NOTE: if any field requires initialization,
@@ -485,7 +496,7 @@ struct SCHEDULER_REPLY {
     std::vector<APP> apps;
     std::vector<APP_VERSION> app_versions;
     std::vector<WORKUNIT>wus;
-    std::vector<RESULT>results;
+    std::vector<SCHED_DB_RESULT>results;
     std::vector<std::string>result_acks;
     std::vector<std::string>result_aborts;
     std::vector<std::string>result_abort_if_not_starteds;
@@ -502,7 +513,7 @@ struct SCHEDULER_REPLY {
     void insert_app_unique(APP&);
     void insert_app_version_unique(APP_VERSION&);
     void insert_workunit_unique(WORKUNIT&);
-    void insert_result(RESULT&);
+    void insert_result(SCHED_DB_RESULT&);
     void insert_message(const char* msg, const char* prio);
     void insert_message(USER_MESSAGE&);
     void set_delay(double);

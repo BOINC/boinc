@@ -195,7 +195,8 @@ void DB_APP::db_print(char* buf){
         "beta=%d, "
         "target_nresults=%d, "
         "min_avg_pfc=%.15e, "
-        "host_scale_check=%d, ",
+        "host_scale_check=%d, "
+        "homogeneous_app_version=%d, ",
         create_time,
         name,
         min_version,
@@ -206,7 +207,8 @@ void DB_APP::db_print(char* buf){
         beta?1:0,
         target_nresults,
         min_avg_pfc,
-        host_scale_check?1:0
+        host_scale_check?1:0,
+        homogeneous_app_version?1:0
     );
 }
 
@@ -225,6 +227,7 @@ void DB_APP::db_parse(MYSQL_ROW &r) {
     target_nresults = atoi(r[i++]);
     min_avg_pfc = atof(r[i++]);
     host_scale_check = (atoi(r[i++]) != 0);
+    homogeneous_app_version = (atoi(r[i++]) != 0);
 }
 
 void DB_APP_VERSION::db_print(char* buf){
@@ -779,7 +782,8 @@ void DB_WORKUNIT::db_print(char* buf){
         "result_template_file='%s', "
         "priority=%d, "
         "rsc_bandwidth_bound=%.15e, "
-        "fileset_id=%d ",
+        "fileset_id=%d, "
+        "app_version_id=%d, ",
         create_time, appid,
         name, xml_doc, batch,
         rsc_fpops_est, rsc_fpops_bound, rsc_memory_bound, rsc_disk_bound,
@@ -796,7 +800,8 @@ void DB_WORKUNIT::db_print(char* buf){
         result_template_file,
         priority,
         rsc_bandwidth_bound,
-        fileset_id
+        fileset_id,
+        app_version_id
     );
 }
 
@@ -833,6 +838,7 @@ void DB_WORKUNIT::db_parse(MYSQL_ROW &r) {
     strcpy2(mod_time, r[i++]);
     rsc_bandwidth_bound = atof(r[i++]);
     fileset_id = atoi(r[i++]);
+    app_version_id = atoi(r[i++]);
 }
 
 void DB_CREDITED_JOB::db_print(char* buf){
@@ -1241,6 +1247,7 @@ void TRANSITIONER_ITEM::parse(MYSQL_ROW& r) {
     priority = atoi(r[i++]);
     hr_class = atoi(r[i++]);
     batch = atoi(r[i++]);
+    app_version_id = atoi(r[i++]);
 
     // use safe_atoi() from here on cuz they might not be there
     //
@@ -1299,6 +1306,7 @@ int DB_TRANSITIONER_ITEM_SET::enumerate(
             "   wu.priority, "
             "   wu.hr_class, "
             "   wu.batch, "
+            "   wu.app_version_id, "
             "   res.id, "
             "   res.name, "
             "   res.report_deadline, "
@@ -1415,6 +1423,10 @@ int DB_TRANSITIONER_ITEM_SET::update_workunit(
     }
     if (ti.hr_class != ti_original.hr_class) {
         sprintf(buf, " hr_class=%d,", ti.hr_class);
+        strcat(updates, buf);
+    }
+    if (ti.app_version_id != ti_original.app_version_id) {
+        sprintf(buf, " app_version_id=%d,", ti.app_version_id);
         strcat(updates, buf);
     }
     int n = strlen(updates);
@@ -1668,6 +1680,7 @@ void WORK_ITEM::parse(MYSQL_ROW& r) {
     strcpy2(wu.mod_time, r[i++]);
     wu.rsc_bandwidth_bound = atof(r[i++]);
     wu.fileset_id = atoi(r[i++]);
+    wu.app_version_id = atoi(r[i++]);
 }
 
 int DB_WORK_ITEM::enumerate(

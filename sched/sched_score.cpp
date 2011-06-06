@@ -36,7 +36,7 @@
 // TODO: from here to add_result_to_reply()
 // (which updates the DB record) should be a transaction
 //
-int read_sendable_result(DB_RESULT& result) {
+int read_sendable_result(SCHED_DB_RESULT& result) {
     int retval = result.lookup_id(result.id);
     if (retval) {
         log_messages.printf(MSG_CRITICAL,
@@ -61,7 +61,7 @@ bool wu_is_infeasible_slow(
     char buf[256];
     int retval;
     int n;
-    DB_RESULT result;
+    SCHED_DB_RESULT result;
 
     // Don't send if we've already sent a result of this WU to this user.
     //
@@ -213,7 +213,7 @@ double JOB_SET::higher_score_disk_usage(double v) {
 
 void JOB_SET::send() {
     WORKUNIT wu;
-    DB_RESULT result;
+    SCHED_DB_RESULT result;
     int retval;
 
     std::list<JOB>::iterator i = jobs.begin();

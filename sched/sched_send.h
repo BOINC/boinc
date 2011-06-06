@@ -26,7 +26,7 @@
 extern void send_work();
 
 extern int add_result_to_reply(
-    DB_RESULT& result, WORKUNIT& wu, BEST_APP_VERSION* bavp,
+    SCHED_DB_RESULT& result, WORKUNIT& wu, BEST_APP_VERSION* bavp,
     bool locality_scheduling
 );
 
@@ -62,7 +62,7 @@ extern bool wu_already_in_reply(WORKUNIT& wu);
 
 extern double estimate_duration(WORKUNIT& wu, BEST_APP_VERSION&);
 
-extern int update_wu_transition_time(WORKUNIT wu, time_t x);
+extern int update_wu_on_send(WORKUNIT wu, time_t x, APP&, BEST_APP_VERSION&);
 
 extern void lock_sema();
 extern void unlock_sema();

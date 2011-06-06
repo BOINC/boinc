@@ -112,7 +112,7 @@ function show_download($pname) {
         <p>
         <b>"
         .sprintf(
-            tra("Note: if your computer is equipped with an Graphics Processing Unit (GPU), you may be able to %suse it to compute faster%s"),
+            tra("Note: if your computer is equipped with a Graphics Processing Unit (GPU), you may be able to %suse it to compute faster%s"),
                 "<a href=http://boinc.berkeley.edu/wiki/GPU_computing>", ".</a>"
         )
         ."</b>

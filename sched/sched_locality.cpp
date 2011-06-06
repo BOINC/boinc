@@ -275,9 +275,9 @@ int decrement_disk_space_locality( WORKUNIT& wu) {
 // - already sent a result for this WU
 // - no app_version available
 //
-static int possibly_send_result(DB_RESULT& result) {
+static int possibly_send_result(SCHED_DB_RESULT& result) {
     DB_WORKUNIT wu;
-    DB_RESULT result2;
+    SCHED_DB_RESULT result2;
     int retval, count;
     char buf[256];
     BEST_APP_VERSION* bavp;
@@ -547,7 +547,7 @@ static int send_results_for_file(
     int& nsent,
     bool /*in_working_set*/
 ) {
-    DB_RESULT result, prev_result;
+    SCHED_DB_RESULT result, prev_result;
     char buf[256], query[1024];
     int i, maxid, retval_max, retval_lookup, sleep_made_no_work=0;
 
@@ -772,7 +772,7 @@ static int send_results_for_file(
 static int send_new_file_work_deterministic_seeded(
     int& nsent, const char *start_f, const char *end_f
 ) {
-    DB_RESULT result;
+    SCHED_DB_RESULT result;
     char filename[256], min_resultname[256], query[1024];
     int retval;
 
@@ -976,7 +976,7 @@ static int send_new_file_work() {
 static int send_old_work(int t_min, int t_max) {
     char buf[1024], filename[256];
     int retval, extract_retval, nsent;
-    DB_RESULT result;
+    SCHED_DB_RESULT result;
     int now=time(0);
 
     if (!work_needed(true)) {

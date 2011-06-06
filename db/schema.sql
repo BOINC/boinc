@@ -51,6 +51,7 @@ create table app (
     target_nresults         smallint        not null default 0,
     min_avg_pfc             double          not null default 1,
     host_scale_check        tinyint         not null default 0,
+    homogeneous_app_version tinyint         not null default 0,
     primary key (id)
 ) engine=InnoDB;
 
@@ -241,6 +242,7 @@ create table workunit (
     mod_time            timestamp,
     rsc_bandwidth_bound double      not null,
     fileset_id          integer     not null,
+    app_version_id      integer     not null,
     primary key (id)
 ) engine=InnoDB;
 
