@@ -297,6 +297,7 @@
 		DDBE74390C03B1C600453BB8 /* cs_platforms.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDBE74380C03B1C600453BB8 /* cs_platforms.cpp */; };
 		DDC132F30E2DAB1B0014D305 /* AsyncRPC.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDC132F20E2DAB1B0014D305 /* AsyncRPC.cpp */; };
 		DDC3D55E0D507D1700BE6D23 /* BOINCClientManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDC3D55C0D507D1700BE6D23 /* BOINCClientManager.cpp */; };
+		DDC78AEB139CD5AB007B5803 /* sqlite3.c in Sources */ = {isa = PBXBuildFile; fileRef = DDC78AEA139CD5AB007B5803 /* sqlite3.c */; };
 		DDC836E60EDEA5DB001C2EF9 /* TermsOfUsePage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDC836E50EDEA5DB001C2EF9 /* TermsOfUsePage.cpp */; };
 		DDC988FE0F3BD44100EE8D0E /* gui_rpc_client_ops.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD73E34E08A0694000656EB1 /* gui_rpc_client_ops.cpp */; };
 		DDCF84080E1B7C0A005EDC45 /* DlgItemProperties.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDCF84060E1B7C0A005EDC45 /* DlgItemProperties.cpp */; };
@@ -882,6 +883,7 @@
 		DDC3D55D0D507D1700BE6D23 /* BOINCClientManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BOINCClientManager.h; path = ../clientgui/BOINCClientManager.h; sourceTree = SOURCE_ROOT; };
 		DDC63EEF0985B89600383FD2 /* DlgGenericMessage.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = DlgGenericMessage.cpp; path = ../clientgui/DlgGenericMessage.cpp; sourceTree = SOURCE_ROOT; };
 		DDC63EF00985B89600383FD2 /* DlgGenericMessage.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = DlgGenericMessage.h; path = ../clientgui/DlgGenericMessage.h; sourceTree = SOURCE_ROOT; };
+		DDC78AEA139CD5AB007B5803 /* sqlite3.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = sqlite3.c; path = ../clientgui/sqlite3.c; sourceTree = SOURCE_ROOT; };
 		DDC836E50EDEA5DB001C2EF9 /* TermsOfUsePage.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TermsOfUsePage.cpp; path = ../clientgui/TermsOfUsePage.cpp; sourceTree = SOURCE_ROOT; };
 		DDCAD7D10A6C603A0086C7EE /* sg_BoincSimpleGUI.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = sg_BoincSimpleGUI.cpp; path = ../clientgui/sg_BoincSimpleGUI.cpp; sourceTree = SOURCE_ROOT; };
 		DDCAD7D20A6C603A0086C7EE /* sg_BoincSimpleGUI.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = sg_BoincSimpleGUI.h; path = ../clientgui/sg_BoincSimpleGUI.h; sourceTree = SOURCE_ROOT; };
@@ -1355,6 +1357,7 @@
 				DDCAD7DC0A6C603A0086C7EE /* sg_ViewTabPage.h */,
 				DD247AF70AEA308A0034104A /* SkinManager.cpp */,
 				DD247AF80AEA308A0034104A /* SkinManager.h */,
+				DDC78AEA139CD5AB007B5803 /* sqlite3.c */,
 				DD81C45B07C5D2880098A04D /* stdwx.h */,
 				DDC836E50EDEA5DB001C2EF9 /* TermsOfUsePage.cpp */,
 				DD04BE1A0EDD836A006D5603 /* TermsOfUsePage.h */,
@@ -1996,6 +1999,12 @@
 			buildConfigurationList = DD9E2381091CBDAE0048316E /* Build configuration list for PBXProject "boinc" */;
 			compatibilityVersion = "Xcode 3.0";
 			hasScannedForEncodings = 1;
+			knownRegions = (
+				English,
+				Japanese,
+				French,
+				German,
+			);
 			mainGroup = 20286C29FDCF999611CA2CEA /* ¬´PROJECTNAME¬ª */;
 			projectDirPath = "";
 			projectReferences = (
@@ -2453,6 +2462,7 @@
 				DDC836E60EDEA5DB001C2EF9 /* TermsOfUsePage.cpp in Sources */,
 				DD377E090F6F95650089CE9A /* ViewNews.cpp in Sources */,
 				DDA0C8350FE1D704001E02E6 /* procinfo_mac.cpp in Sources */,
+				DDC78AEB139CD5AB007B5803 /* sqlite3.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2996,7 +3006,6 @@
 					"-liconv",
 					"-lz",
 					"-lm",
-					"-lsqlite3",
 				);
 				PRODUCT_NAME = BOINCManager;
 				SDKROOT_ppc = "$(DEVELOPER_SDK_DIR)/MacOSX10.4u.sdk";
@@ -3049,7 +3058,6 @@
 					"-liconv",
 					"-lz",
 					"-lm",
-					"-lsqlite3",
 				);
 				PRODUCT_NAME = BOINCManager;
 				SDKROOT_ppc = "$(DEVELOPER_SDK_DIR)/MacOSX10.4u.sdk";
@@ -3102,7 +3110,6 @@
 					"-liconv",
 					"-lz",
 					"-lm",
-					"-lsqlite3",
 				);
 				PRODUCT_NAME = BOINCManager;
 				SDKROOT_ppc = "$(DEVELOPER_SDK_DIR)/MacOSX10.4u.sdk";
@@ -3156,7 +3163,6 @@
 					"-liconv",
 					"-lz",
 					"-lm",
-					"-lsqlite3",
 				);
 				PRODUCT_NAME = BOINCManager;
 				SDKROOT_ppc = "$(DEVELOPER_SDK_DIR)/MacOSX10.4u.sdk";
@@ -3638,7 +3644,6 @@
 					"-liconv",
 					"-lz",
 					"-lm",
-					"-lsqlite3",
 				);
 				PRODUCT_NAME = BOINCManager;
 				SDKROOT_ppc = "$(DEVELOPER_SDK_DIR)/MacOSX10.4u.sdk";
@@ -3690,7 +3695,6 @@
 					"-liconv",
 					"-lz",
 					"-lm",
-					"-lsqlite3",
 				);
 				PRODUCT_NAME = BOINCManager;
 				SDKROOT_ppc = "$(DEVELOPER_SDK_DIR)/MacOSX10.4u.sdk";
@@ -4382,7 +4386,6 @@
 					"-liconv",
 					"-lz",
 					"-lm",
-					"-lsqlite3",
 				);
 				PRODUCT_NAME = BOINCManager;
 				SDKROOT_ppc = "$(DEVELOPER_SDK_DIR)/MacOSX10.4u.sdk";
