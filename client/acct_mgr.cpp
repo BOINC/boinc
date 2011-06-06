@@ -181,7 +181,7 @@ int ACCT_MGR_OP::do_rpc(
     gstate.host_info.write(mf, !config.suppress_net_info, true);
     if (strlen(gstate.acct_mgr_info.opaque)) {
         fprintf(f,
-            "   <opaque>\n<![CDATA[\n%s\n]]>\n"
+            "   <opaque>\n%s\n"
             "   </opaque>\n",
             gstate.acct_mgr_info.opaque
         );
