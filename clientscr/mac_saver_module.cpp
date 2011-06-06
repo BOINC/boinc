@@ -559,12 +559,16 @@ bool CScreensaver::CreateDataManagementThread() {
 
 bool CScreensaver::DestroyDataManagementThread() {
     m_bQuitDataManagementProc = true;  // Tell DataManagementProc thread to exit
+    if (!m_hDataManagementThread) return true;
+    
     for (int i=0; i<10; i++) {  // Wait up to 1 second for DataManagementProc thread to exit
         if (m_bDataManagementProcStopped) return true;
         boinc_sleep(0.1);
     }
 
+    if (rpc) {
     rpc->close();    // In case DataManagementProc is hung waiting for RPC
+    }
     m_hDataManagementThread = NULL; // Don't delay more if this routine is called again.
     if (m_hGraphicsApplication) {
         terminate_screensaver(m_hGraphicsApplication, NULL);
@@ -788,4 +792,3 @@ void PrintBacktrace(void) {
 // Dummy routine to satisfy linker
 }
 
-const char *BOINC_RCSID_7ce0778d35="$Id$";

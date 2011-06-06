@@ -72,7 +72,7 @@ BEGIN_EVENT_TABLE (CBOINCGUIApp, wxApp)
 END_EVENT_TABLE ()
 
 
-static bool s_bSkipExitConfirmation = false;
+bool s_bSkipExitConfirmation = false;
 
 #ifdef __WXMAC__
 

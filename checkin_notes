@@ -6756,3 +6756,12 @@ Charlie 6 Jun 2011
     mac_build/
         boinc.xcodeproj/
             project.pbxproj
+
+Charlie 6 Jun 2011
+    - SCR: Fix Mac crash bug when user clicks SS Test button in system preferences.
+    - MGR: Fix link error.
+        
+    clientscr/
+        mac_saver_module.cpp
+    clientgui/
+        BOINCGUIApp.cpp
