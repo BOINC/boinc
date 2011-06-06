@@ -9725,3 +9725,22 @@ Rom    25 May 2011
     /
         configure.ac
         version.h
+
+Charlie 6 Jun 2011
+    - MGR: Port cookie logic updates from trunk: 
+        - Support Google Chrome cookies.  Convert Google Chrome browser time 
+            (microseconds since January 1, 1601) to UNIX time (seconds since 
+            January 1, 1970).
+        If Firefox 3 SQL query fails because cookie database is locked, 
+        make a temporary copy of the cookie file and query that.  This works 
+        around a bug in some builds of Firefox 3.5.x.
+        - Add SQLite3 v3.7.6.3 source code to Mac XCode project, adding
+            initializers for two local variables to suppress compiler warnings; 
+            don't link Mac Manager with older pre-installed sqlite3 library.
+        
+    clientgui/
+        browser.cpp, .h
+        sqlite3.c (added)
+    mac_build/
+        boinc.xcodeproj/
+            project.pbxproj

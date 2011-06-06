@@ -180,6 +180,7 @@
 		DD531BC80C193D5200742E50 /* MacUninstaller.icns in Resources */ = {isa = PBXBuildFile; fileRef = DD531BC70C193D5200742E50 /* MacUninstaller.icns */; };
 		DD5BF77D0D4F3D0C00EDF980 /* mac_icon.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD6381450870DB78007A2F8E /* mac_icon.cpp */; };
 		DD5D7EBB0FE320F600ACF87B /* Uninstaller.r in Rez */ = {isa = PBXBuildFile; fileRef = DD5D7EBA0FE320F600ACF87B /* Uninstaller.r */; };
+		DD5FD0C7139CDD30001092E5 /* sqlite3.c in Sources */ = {isa = PBXBuildFile; fileRef = DD5FD0C6139CDD30001092E5 /* sqlite3.c */; };
 		DD616A3008150050006981C1 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = F51BDF4903086C46012012A7 /* InfoPlist.strings */; };
 		DD635A420D384FA500BAC1A5 /* texfont.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD635A410D384FA500BAC1A5 /* texfont.cpp */; };
 		DD6381F90870DD83007A2F8E /* make_app_icon_h.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD6381F80870DD83007A2F8E /* make_app_icon_h.cpp */; };
@@ -795,6 +796,7 @@
 		DD5DDADC0CD2AF200075461A /* wxWindows.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = wxWindows.xcodeproj; path = "../../wxMac-2.8.10/src/wxWindows.xcodeproj"; sourceTree = SOURCE_ROOT; };
 		DD5EF07007C5B329007CCE8D /* whetstone.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = whetstone.cpp; sourceTree = "<group>"; };
 		DD5EF08807C5B7C7007CCE8D /* version.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = version.h; path = ../version.h; sourceTree = SOURCE_ROOT; };
+		DD5FD0C6139CDD30001092E5 /* sqlite3.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = sqlite3.c; path = ../clientgui/sqlite3.c; sourceTree = SOURCE_ROOT; };
 		DD635A410D384FA500BAC1A5 /* texfont.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = texfont.cpp; sourceTree = "<group>"; };
 		DD6381450870DB78007A2F8E /* mac_icon.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = mac_icon.cpp; sourceTree = "<group>"; };
 		DD6381EA0870DC9D007A2F8E /* MakeAppIcon_h */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = MakeAppIcon_h; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -1432,6 +1434,7 @@
 				DDCAD7DC0A6C603A0086C7EE /* sg_ViewTabPage.h */,
 				DD247AF70AEA308A0034104A /* SkinManager.cpp */,
 				DD247AF80AEA308A0034104A /* SkinManager.h */,
+				DD5FD0C6139CDD30001092E5 /* sqlite3.c */,
 				DD81C45B07C5D2880098A04D /* stdwx.h */,
 				DDC836E50EDEA5DB001C2EF9 /* TermsOfUsePage.cpp */,
 				DD04BE1A0EDD836A006D5603 /* TermsOfUsePage.h */,
@@ -2589,6 +2592,7 @@
 				DDA850A41207EED900B473A6 /* WizardAttach.cpp in Sources */,
 				DD4FA25D121828E400154856 /* BOINCHtmlLBox.cpp in Sources */,
 				DD4FA2621218290600154856 /* BOINCVListBox.cpp in Sources */,
+				DD5FD0C7139CDD30001092E5 /* sqlite3.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3167,7 +3171,6 @@
 					"-liconv",
 					"-lz",
 					"-lm",
-					"-lsqlite3",
 				);
 				PRODUCT_NAME = BOINCManager;
 				SKIP_INSTALL = NO;
@@ -3213,7 +3216,6 @@
 					"-liconv",
 					"-lz",
 					"-lm",
-					"-lsqlite3",
 				);
 				PRODUCT_NAME = BOINCManager;
 				SKIP_INSTALL = NO;
@@ -3259,7 +3261,6 @@
 					"-liconv",
 					"-lz",
 					"-lm",
-					"-lsqlite3",
 				);
 				PRODUCT_NAME = BOINCManager;
 				SKIP_INSTALL = NO;
@@ -3306,7 +3307,6 @@
 					"-liconv",
 					"-lz",
 					"-lm",
-					"-lsqlite3",
 				);
 				PRODUCT_NAME = BOINCManager;
 				SKIP_INSTALL = NO;
@@ -3781,7 +3781,6 @@
 					"-liconv",
 					"-lz",
 					"-lm",
-					"-lsqlite3",
 				);
 				PRODUCT_NAME = BOINCManager;
 				SKIP_INSTALL = NO;
@@ -3826,7 +3825,6 @@
 					"-liconv",
 					"-lz",
 					"-lm",
-					"-lsqlite3",
 				);
 				PRODUCT_NAME = BOINCManager;
 				SKIP_INSTALL = NO;
@@ -4302,7 +4300,6 @@
 					"-liconv",
 					"-lz",
 					"-lm",
-					"-lsqlite3",
 				);
 				PRODUCT_NAME = BOINCManager;
 				SKIP_INSTALL = NO;
