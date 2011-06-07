@@ -377,7 +377,7 @@ bool CDlgMessages::Create( wxWindow* parent, wxWindowID id, const wxString& capt
 
     wxString strCaption = caption;
     if (strCaption.IsEmpty()) {
-        strCaption.Printf(_("%s - Messages"), pSkinAdvanced->GetApplicationName().c_str());
+        strCaption.Printf(_("%s - Notices"), pSkinAdvanced->GetApplicationName().c_str());
     }
     SetTitle(strCaption);
 

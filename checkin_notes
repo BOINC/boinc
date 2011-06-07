@@ -9764,6 +9764,7 @@ David  31 May 2011
         So terminate the main process using its handle
         (we'll still kill descendants in the non-secure case)
 
+<<<<<<< .working
     client/
         app_control.cpp
 
@@ -9834,3 +9835,14 @@ Rom    7 Jun 2011
     clientgui/res/skins/default
         advanced_link_image.xpm
 
+=======
+    sched/
+        sched_config.cpp
+        sched_limit.h
+
+David  6 Apr 2011
+    - manager: change simple view notices window title from Messages to Notices
+
+    clientgui/
+        sg_DlgMessages.cpp
+>>>>>>> .merge-right.r23353
