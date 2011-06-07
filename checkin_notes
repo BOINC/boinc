@@ -9815,3 +9815,14 @@ Charlie 7 Jun 2011
         
     clientgui/
         MainDocument.cpp, .h
+
+Rom    7 Jun 2011
+    - MGR: Cleanup compiler warnings. Fixes# 1051
+        (From: Steffen Möller)
+        
+    clientgui/
+        AdvancedFrame.cpp
+    clientgui/common/
+        wxFlatNotebookImages.h
+    clientgui/res/skins/default
+        advanced_link_image.xpm
