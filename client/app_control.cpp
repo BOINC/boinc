@@ -695,10 +695,10 @@ bool ACTIVE_TASK_SET::check_rsc_limits_exceeded() {
     for (i=0; i<active_tasks.size(); i++) {
         atp = active_tasks[i];
         if (atp->task_state() != PROCESS_EXECUTING) continue;
-		if (!atp->result->project->non_cpu_intensive && (atp->elapsed_time > atp->max_elapsed_time)) {
-			msg_printf(atp->result->project, MSG_INFO,
-				"Aborting task %s: exceeded elapsed time limit %.2f (%.2fG/%.2fG)",
-				atp->result->name, atp->max_elapsed_time,
+        if (!atp->result->non_cpu_intensive() && (atp->elapsed_time > atp->max_elapsed_time)) {
+            msg_printf(atp->result->project, MSG_INFO,
+                "Aborting task %s: exceeded elapsed time limit %.2f (%.2fG/%.2fG)",
+                atp->result->name, atp->max_elapsed_time,
                 atp->result->wup->rsc_fpops_bound/1e9,
                 atp->result->avp->flops/1e9
 			);
@@ -932,11 +932,11 @@ void ACTIVE_TASK_SET::suspend_all(int reason) {
         if (atp->task_state() != PROCESS_EXECUTING) continue;
         switch (reason) {
         case SUSPEND_REASON_CPU_THROTTLE:
-			// if we're doing CPU throttling, don't bother suspending apps
-			// that don't use a full CPU
-			//
-			if (atp->result->project->non_cpu_intensive) continue;
-			if (atp->app_version->avg_ncpus < 1) continue;
+            // if we're doing CPU throttling, don't bother suspending apps
+            // that don't use a full CPU
+            //
+            if (atp->result->non_cpu_intensive()) continue;
+            if (atp->app_version->avg_ncpus < 1) continue;
             atp->preempt(REMOVE_NEVER);
             break;
         case SUSPEND_REASON_BENCHMARKS:
@@ -949,7 +949,7 @@ void ACTIVE_TASK_SET::suspend_all(int reason) {
             // which uses a lot of CPU.
             // Avoid going into a preemption loop.
             //
-            if (atp->result->project->non_cpu_intensive) break;
+            if (atp->result->non_cpu_intensive()) break;
             atp->preempt(REMOVE_NEVER);
             break;
         default:

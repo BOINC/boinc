@@ -414,7 +414,7 @@ RESULT* first_coproc_result(int rsc_type) {
         RESULT* rp = gstate.results[i];
         if (rp->resource_type() != rsc_type) continue;
         if (!rp->runnable()) continue;
-        if (rp->project->non_cpu_intensive) continue;
+        if (rp->non_cpu_intensive()) continue;
         if (rp->already_selected) continue;
 #ifdef USE_REC
         double std = project_priority(rp->project);
@@ -475,8 +475,8 @@ static RESULT* earliest_deadline_result(int rsc_type) {
         if (rp->resource_type() != rsc_type) continue;
         if (rp->already_selected) continue;
         if (!rp->runnable()) continue;
+        if (rp->non_cpu_intensive()) continue;
         PROJECT* p = rp->project;
-        if (p->non_cpu_intensive) continue;
 
         bool only_deadline_misses = true;
 
@@ -1094,7 +1094,7 @@ void CLIENT_STATE::append_unfinished_time_slice(vector<RESULT*> &run_list) {
         atp->overdue_checkpoint = false;
         if (!atp->result->runnable()) continue;
         if (atp->result->uses_coprocs() && gpu_suspend_reason) continue;
-        if (atp->result->project->non_cpu_intensive) continue;
+        if (atp->result->non_cpu_intensive()) continue;
         if (atp->scheduler_state != CPU_SCHED_SCHEDULED) continue;
         if (finished_time_slice(atp)) continue;
         atp->result->unfinished_time_slice = true;
@@ -1591,7 +1591,7 @@ bool CLIENT_STATE::enforce_run_list(vector<RESULT*>& run_list) {
     //
     for (i=0; i<results.size(); i++) {
         RESULT* rp = results[i];
-        if (rp->project->non_cpu_intensive && rp->runnable()) {
+        if (rp->non_cpu_intensive() && rp->runnable()) {
             atp = get_task(rp);
             atp->next_scheduler_state = CPU_SCHED_SCHEDULED;
             ram_left -= atp->procinfo.working_set_size_smoothed;

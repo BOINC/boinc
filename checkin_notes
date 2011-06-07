@@ -9733,6 +9733,12 @@ David  8 Mar 2011
     client/
         acct_mgr.cpp
 
+David  6 Apr 2011
+    - manager: change simple view notices window title from Messages to Notices
+
+    clientgui/
+        sg_DlgMessages.cpp
+
 David  25 May 2011
     - client: equate notices if their text is the same after removing digits,
         so that "need 25 GB disk" and "need 24 GB disk"
@@ -9749,6 +9755,21 @@ David  25 May 2011
 	client/
 		cpu_sched.cpp
 
+David  25 May 2011
+    - client: fix boinc_make_dirs() (from Josh Highley)
+    - client: allow "non_cpu_intensive" to be specified independently
+        for different apps in a project.
+        This is intended to support projects that use the
+        Attic file distribution system,
+        which needs to have a daemon running.
+
+    lib/
+        filesys.cpp,h
+    client/
+        client_types.cpp,h
+        app_control.cpp
+        cpu_sched.cpp
+
 David  31 May 2011
     - client: when killing a nonresponsive task,
         kill its descendant processes too
@@ -9764,7 +9785,6 @@ David  31 May 2011
         So terminate the main process using its handle
         (we'll still kill descendants in the non-secure case)
 
-<<<<<<< .working
     client/
         app_control.cpp
 
@@ -9835,14 +9855,4 @@ Rom    7 Jun 2011
     clientgui/res/skins/default
         advanced_link_image.xpm
 
-=======
-    sched/
-        sched_config.cpp
-        sched_limit.h
 
-David  6 Apr 2011
-    - manager: change simple view notices window title from Messages to Notices
-
-    clientgui/
-        sg_DlgMessages.cpp
->>>>>>> .merge-right.r23353

@@ -318,7 +318,12 @@ struct PROJECT : PROJ_AM {
         // app_versions.xml file found in project dir;
         // use those apps rather then getting from server
     bool non_cpu_intensive;
+        // All this project's apps are non-CPU-intensive.
+        // Apps can also be individually marked as NCI
     bool verify_files_on_app_start;
+        // Check app version and input files on app startup,
+        // to make sure they haven't been tampered with.
+        // This provides only the illusion of security.
     bool use_symlinks;
 
     // items send in scheduler replies, requesting that
@@ -503,6 +508,7 @@ struct PROJECT : PROJ_AM {
 struct APP {
     char name[256];
     char user_friendly_name[256];
+    bool non_cpu_intensive;
     PROJECT* project;
 #ifdef SIM
     double latency_bound;
@@ -716,6 +722,9 @@ struct RESULT {
         if (uses_cuda()) return RSC_TYPE_CUDA;
         if (uses_ati()) return RSC_TYPE_ATI;
         return RSC_TYPE_CPU;
+    }
+    inline bool non_cpu_intensive() {
+        return project->non_cpu_intensive || app->non_cpu_intensive;
     }
 
     // temporaries used in CLIENT_STATE::rr_simulation():

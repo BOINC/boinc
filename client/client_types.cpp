@@ -737,6 +737,7 @@ int APP::parse(MIOFILE& in) {
     strcpy(name, "");
     strcpy(user_friendly_name, "");
     project = NULL;
+    non_cpu_intensive = false;
     while (in.fgets(buf, 256)) {
         if (match_tag(buf, "</app>")) {
             if (!strlen(user_friendly_name)) {
@@ -766,6 +767,7 @@ int APP::parse(MIOFILE& in) {
             checkpoint_period.parse(xp, "/checkpoint_period");
             continue;
         }
+        if (parse_bool(buf, "non_cpu_intensive", non_cpu_intensive)) continue;
 #endif
     }
     return ERR_XML_PARSE;
