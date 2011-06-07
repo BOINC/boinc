@@ -9757,3 +9757,11 @@ David  5 Jun 2011
 
     lib/
         filesys.cpp
+
+David  25 May 2011
+    - client: equate notices if their text is the same after removing digits,
+        so that "need 25 GB disk" and "need 24 GB disk"
+        don't result in 2 notices.
+
+    client/
+        cs_notices.cpp
