@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: 15349\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2011-04-04 22:09 PDT\n"
-"PO-Revision-Date: 2011-04-13 23:51+0800\n"
+"PO-Revision-Date: 2011-05-25 19:47+0800\n"
 "Last-Translator: Yin Gang <zenith.yin@gmail.com>\n"
 "Language-Team: Team China <zenith.yin@gmail.com>\n"
 "Language: zh_CN\n"
@@ -26,7 +26,7 @@ msgstr ""
 
 #: projects.inc:14
 msgid "Cognitive science and artifical intelligence"
-msgstr ""
+msgstr "认识科学和人工智能"
 
 #: projects.inc:17
 msgid "FreeHAL"
@@ -137,7 +137,7 @@ msgstr "Malariacontrol.net"
 
 #: projects.inc:80
 msgid "The Swiss Tropical Institute"
-msgstr ""
+msgstr "瑞士热带研究所"
 
 #: projects.inc:81
 msgid "Epidemiology"
@@ -162,7 +162,7 @@ msgstr "生物学"
 
 #: projects.inc:106
 msgid "Determine the 3-dimensional shapes of proteins in research that may ultimately lead to finding cures for some major human diseases. By running Rosetta@home you will help us speed up and extend our research in ways we couldn't possibly attempt without your help. You will also be helping our efforts at designing new proteins to fight diseases such as HIV, Malaria, Cancer, and Alzheimer's"
-msgstr ""
+msgstr "对蛋白质的三维结构进行预测，可能最终能帮助找到一些重大人类疾病的治疗方法。通过运行 Rosetta@home 你能够帮助我们加速这个进程，并能扩展我们的研究领域，而没有你们的帮助，这都是不可能完成的。除些之外，你还能帮助我们设计新的蛋白质，用来对抗类似爱滋、天花、癌症和老年痴呆症等疾病。"
 
 #: projects.inc:110
 msgid "SIMAP"
@@ -174,7 +174,7 @@ msgstr "维也纳大学"
 
 #: projects.inc:114
 msgid "Calculate similarities between proteins. SIMAP provides a public database of the resulting data, which plays a key role in many bioinformatics research projects."
-msgstr ""
+msgstr "计算蛋白质结构间的相似性。SIMAP 以公共数据库的形式发布其研究结果，该数据库对很多生物信息学研究项目有重要作用。"
 
 #: projects.inc:120
 msgid "Earth Sciences"
@@ -318,7 +318,7 @@ msgstr "天体物理学"
 
 #: projects.inc:202
 msgid "Search for spinning neutron stars (also called pulsars) using data from the LIGO and GEO gravitational wave detectors, and from the Arecibo radio observatory.  Einstein@Home is a World Year of Physics 2005 project supported by the American Physical Society (APS) and by a number of international organizations."
-msgstr ""
+msgstr "分析 LIGO 和 GEO 引力波探测器以及阿雷西波观测站采集到的数据，以寻找自旋中子星（也称为脉冲星）。Einstein@Home 是 2005 世界物理学年的推介项目，由美国物理学会（APS）和一些相关的国际组织发起。"
 
 #: projects.inc:206
 msgid "LHC@home"
@@ -334,7 +334,7 @@ msgstr "物理学"
 
 #: projects.inc:210
 msgid "The Large Hadron Collider (LHC) is a particle accelerator at CERN, the European Organization for Nuclear Research, the world's largest particle physics laboratory.  It is the most powerful instrument ever built to investigate on particles proprieties. LHC@home runs simulations to improve the design of LHC and its detectors."
-msgstr ""
+msgstr "大型强子对撞机（LHC）是 CERN（欧洲核研究组织）的一个粒子加速器装置，也是世界上最大的粒子物理实验室。它是人类现有的用于研究基本粒子特性的最强大的实验装置。LHC@home 的作用主要是对加速器进行模拟，并帮助改进 LHC 及其探测器的设计。"
 
 #: projects.inc:214
 msgid "SETI@home"
@@ -350,7 +350,7 @@ msgstr "天体物理学，天体生物学"
 
 #: projects.inc:218
 msgid "SETI (Search for Extraterrestrial Intelligence) is a scientific area whose goal is to detect intelligent life outside Earth. One approach, known as radio SETI, uses radio telescopes to listen for narrow-bandwidth radio signals from space. Such signals are not known to occur naturally, so a detection would provide evidence of extraterrestrial technology."
-msgstr ""
+msgstr "SETI （搜索地外智能）的研究领域是探测地球之外的智慧生命。探测的途径之一，也被称之为射电 SETI，使用射电望远镜来监听太空中的窄波射电信号。因为依照人类目前的认识，这些信号不会自然产生，因此可以作为将其地外技术文明存在的证据。"
 
 #: projects.inc:222
 msgid "Quantum Monte Carlo at Home"
@@ -382,7 +382,7 @@ msgstr ""
 
 #: projects.inc:241
 msgid "Multiple applications"
-msgstr ""
+msgstr "多种计算程序"
 
 #: projects.inc:244
 msgid "CAS@home"
@@ -410,7 +410,7 @@ msgstr "数学、物理学、进化论"
 
 #: projects.inc:256
 msgid "Yoyo@home is an adapter between BOINC and several existing volunteer computing projects: ECM, Muon, Evolution@home, and distributed.net"
-msgstr ""
+msgstr "Yoyo@home 将一些传统的志愿计算项目，包括 ECM、Muon、Evolution@home 和 distributed.net 等，移植到了 BOINC 平台。"
 
 #: projects.inc:259
 msgid "EDGeS@Home"
@@ -435,15 +435,15 @@ msgstr "Ibercivis"
 
 #: projects.inc:269
 msgid "Spanish universities and research centers"
-msgstr ""
+msgstr "西班牙的大学和研究中心"
 
 #: projects.inc:270
 msgid "Various Spanish research projects"
-msgstr ""
+msgstr "各种西班牙的研究项目"
 
 #: projects.inc:271
 msgid "Research in physics, material science, and biomedicine"
-msgstr ""
+msgstr "物理学、材料科学和生物医药学方面的研究"
 
 #: projects.inc:275
 msgid "World Community Grid"
@@ -463,7 +463,7 @@ msgstr ""
 
 #: projects.inc:285
 msgid "Mathematics, computing, and games"
-msgstr ""
+msgstr "数学、计算机、游戏"
 
 #: projects.inc:288
 msgid "Enigma@Home"
@@ -476,7 +476,7 @@ msgstr "密码学"
 
 #: projects.inc:292
 msgid "Attempt to decode 3 original Enigma messages. The signals were intercepted in the North Atlantic in 1942 and are believed to be unbroken."
-msgstr ""
+msgstr "该项目试图解密三条二战期间的加密电报消息，这些消息于 1942 年在北大西洋截获而且一直被认为是不可破解的。"
 
 #: projects.inc:295
 msgid "Collatz Conjecture"
@@ -595,7 +595,7 @@ msgstr "Chess-960.org"
 
 #: projects.inc:385
 msgid "Game-playing"
-msgstr ""
+msgstr "玩游戏"
 
 #: projects.inc:386
 msgid "This project studies Chess 960, a variant of orthodox chess. In classical chess the starting position of the game never changes.  In Chess 960, just before the start of every game, the initial configuration of the chess pieces is determined randomly."

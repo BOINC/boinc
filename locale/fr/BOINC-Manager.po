@@ -4,7 +4,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-03-07 12:02-0500\n"
-"PO-Revision-Date: 2011-01-14 00:19+0200\n"
+"PO-Revision-Date: 2011-05-26 14:19+0200\n"
 "Last-Translator: Jerome Cadet <jerome.cadet@pobox.com>\n"
 "Language-Team: <fr@li.org>\n"
 "Language: fr\n"
@@ -20,8 +20,6 @@ msgstr ""
 "X-Poedit-SourceCharset: utf-8\n"
 "X-Poedit-Basepath: C:\\Src\\BOINCSVN\\trunk\\boinc\n"
 "X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
-"X-Poedit-Country: UNITED STATES\n"
-"X-Poedit-Language: English\n"
 
 #: clientgui/AccountInfoPage.cpp:386
 msgid "Identify your account "
@@ -137,7 +135,7 @@ msgstr "Mettre à jour le gestionnaire de compte"
 #: clientgui/AccountInfoPage.cpp:575
 #, fuzzy
 msgid "Use account manager"
-msgstr "Ajouter un gestionnaire de compte"
+msgstr "Utiliser le gestionnaire de compte"
 
 #: clientgui/AccountInfoPage.cpp:583
 #, c-format
@@ -979,7 +977,6 @@ msgid "Failed to add account manager"
 msgstr "L'ajout du gestionnaire de compte a échoué"
 
 #: clientgui/CompletionErrorPage.cpp:221
-#, fuzzy
 msgid ""
 "An error has occurred;\n"
 "check the Event Log for details.\n"
@@ -987,7 +984,7 @@ msgid ""
 "Click Finish to close."
 msgstr ""
 "Une erreur est survenue.\n"
-" Veuillez vérifier l'onglet Messages pour plus de détails.\n"
+" Veuillez vérifier la fenêtre de notifications pour plus de détails.\n"
 "\n"
 "Cliquez sur Fin pour fermer."
 
@@ -1063,12 +1060,11 @@ msgid "Copyright:"
 msgstr "Copyright :"
 
 #: clientgui/DlgAbout.cpp:179
-#, fuzzy
 msgid ""
 "(C) 2003-2011 University of California, Berkeley.\n"
 "All Rights Reserved."
 msgstr ""
-"(C) 2003-2010 Université de Californie, Berkeley.\n"
+"(C) 2003-2011 Université de Californie, Berkeley.\n"
 "Tous droits réservés."
 
 #: clientgui/DlgAbout.cpp:183
@@ -1556,7 +1552,7 @@ msgstr "Fermer"
 #: clientgui/DlgEventLog.cpp:307
 #, c-format
 msgid "Get help with %s"
-msgstr ""
+msgstr "Obtenir de l'aide avec %s"
 
 #: clientgui/DlgEventLog.cpp:321
 msgid "Show all messages"
@@ -1708,14 +1704,12 @@ msgstr "Ne pas demander de travail supplémentaire"
 
 #: clientgui/DlgItemProperties.cpp:220
 #: clientgui/DlgItemProperties.cpp:222
-#, fuzzy
 msgid "Host location"
-msgstr "Notification de test"
+msgstr "Emplacement de l'hôte"
 
 #: clientgui/DlgItemProperties.cpp:222
-#, fuzzy
 msgid "default"
-msgstr "&Choisir par défaut"
+msgstr "Valeur par défaut"
 
 #: clientgui/DlgItemProperties.cpp:225
 msgid "Added via account manager"
@@ -1853,7 +1847,7 @@ msgstr "Taille de tâche estimée"
 
 #: clientgui/DlgItemProperties.cpp:317
 msgid "Max RAM usage"
-msgstr ""
+msgstr "Utilisation maximale de la RAM"
 
 #: clientgui/DlgItemProperties.cpp:320
 msgid "CPU time at last checkpoint"
@@ -1911,11 +1905,8 @@ msgid "What language should BOINC use?"
 msgstr "Quelle langue BOINC doit-il utiliser ?"
 
 #: clientgui/DlgOptions.cpp:168
-#, fuzzy
 msgid "Notice reminder interval:"
-msgstr ""
-"Intervalle de rappel de notifications:\n"
-"(minutes; 0 signifie pas de notification)"
+msgstr "Intervalle de notifications"
 
 #: clientgui/DlgOptions.cpp:175
 msgid "How often should BOINC remind you of new notices?"
@@ -2015,31 +2006,28 @@ msgid "SOCKS Proxy"
 msgstr "Proxy SOCKS"
 
 #: clientgui/DlgOptions.cpp:571
-#, fuzzy
 msgid "always"
-msgstr "&Calculer en permanence"
+msgstr "toujours"
 
 #: clientgui/DlgOptions.cpp:572
 msgid "1 hour"
-msgstr ""
+msgstr "1 heure"
 
 #: clientgui/DlgOptions.cpp:573
 msgid "6 hours"
-msgstr ""
+msgstr "6 heures"
 
 #: clientgui/DlgOptions.cpp:574
-#, fuzzy
 msgid "1 day"
-msgstr "jours"
+msgstr "1 jour"
 
 #: clientgui/DlgOptions.cpp:575
 msgid "1 week"
-msgstr ""
+msgstr "1 semaine"
 
 #: clientgui/DlgOptions.cpp:576
-#, fuzzy
 msgid "never"
-msgstr "chaque"
+msgstr "jamais"
 
 #: clientgui/DlgOptions.cpp:673
 #, c-format
@@ -2678,13 +2666,12 @@ msgid "Advanced View...\tCtrl+Shift+A"
 msgstr "Vue Avancée\tCTRL+SHIFT+A"
 
 #: clientgui/sg_BoincSimpleFrame.cpp:118
-#, fuzzy
 msgid "Display the advanced graphical interface."
-msgstr "Affiche l'interface graphique simplifiée"
+msgstr "Afficher l'interface graphique avancée."
 
 #: clientgui/sg_BoincSimpleFrame.cpp:129
 msgid "Manager Settings..."
-msgstr ""
+msgstr "Options du manager..."
 
 #: clientgui/sg_BoincSimpleFrame.cpp:157
 #: clientgui/sg_BoincSimpleGUI.cpp:147
@@ -2693,9 +2680,8 @@ msgid "&%s"
 msgstr "&%s"
 
 #: clientgui/sg_BoincSimpleFrame.cpp:577
-#, fuzzy
 msgid "Pause"
-msgstr "En pause"
+msgstr "Pause"
 
 #: clientgui/sg_BoincSimpleFrame.cpp:578
 msgid "Resume"
@@ -2715,7 +2701,7 @@ msgstr "Remarques"
 
 #: clientgui/sg_BoincSimpleFrame.cpp:598
 msgid "Open a window to view notices from projects or BOINC"
-msgstr ""
+msgstr "Ouvrir une fenêtre pour voir les messages des projets ou de BOINC"
 
 #: clientgui/sg_BoincSimpleGUI.cpp:120
 msgid "Display the advanced (accessible) graphical interface."
@@ -3116,11 +3102,11 @@ msgstr "Ajouter un projet"
 
 #: clientgui/sg_ProjectPanel.cpp:71
 msgid "Synchronize"
-msgstr ""
+msgstr "Synchroniser"
 
 #: clientgui/sg_ProjectPanel.cpp:72
 msgid "My total work done this Project"
-msgstr ""
+msgstr "Mon travail total fait pour ce projet"
 
 #: clientgui/sg_ProjectPanel.cpp:75
 #: clientgui/sg_ProjectsComponent.cpp:123
@@ -3134,32 +3120,32 @@ msgstr "Mes projets :"
 
 #: clientgui/sg_ProjectPanel.cpp:123
 msgid "Select a project to access with the controls below"
-msgstr ""
+msgstr "Choisir un projet à accéder avec les contrôles ci-dessous"
 
 #: clientgui/sg_ProjectPanel.cpp:133
 #: clientgui/sg_ProjectPanel.cpp:252
 #, c-format
 msgid "%s: %0.2f"
-msgstr ""
+msgstr "%s: %0.2f"
 
 #: clientgui/sg_ProjectPanel.cpp:145
 #, fuzzy
 msgid "Project Web Sites"
-msgstr "Site web du projet"
+msgstr "Sites web du projet"
 
 #: clientgui/sg_ProjectPanel.cpp:149
 msgid "Project Commands"
-msgstr ""
+msgstr "Commandes du projet"
 
 #: clientgui/sg_ProjectPanel.cpp:257
 #, c-format
 msgid "Pop up a menu of websites for project %s"
-msgstr ""
+msgstr "Afficher une liste des sites web du projet %s"
 
 #: clientgui/sg_ProjectPanel.cpp:259
 #, c-format
 msgid "Pop up a menu of commands to apply to project %s"
-msgstr ""
+msgstr "Afficher une liste des commandes à appliquer au projet %s"
 
 #: clientgui/sg_ProjectsComponent.cpp:196
 #: clientgui/sg_ProjectsComponent.cpp:207
@@ -3216,13 +3202,13 @@ msgstr "Suspend le calcul de cette unité."
 
 #: clientgui/sg_TaskCommandPopup.cpp:240
 #, c-format
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Are you sure you want to abort this task '%s'?\n"
 "(Progress: %.1lf%%, Status: %s)"
 msgstr ""
 "Etes-vous sûr de vouloir abandonner cette tâche '%s' ?\n"
-"(Avancement: %s, Etat: %s)"
+"(Avancement: %.1lf%%, Etat: %s)"
 
 #: clientgui/sg_TaskCommandPopup.cpp:245
 msgid "Abort task"
@@ -3230,67 +3216,67 @@ msgstr "Abandonner la tâche"
 
 #: clientgui/sg_TaskPanel.cpp:215
 msgid "Not available"
-msgstr ""
+msgstr "Non disponible"
 
 #: clientgui/sg_TaskPanel.cpp:226
 msgid "My Tasks:"
-msgstr ""
+msgstr "Mes tâches:"
 
 #: clientgui/sg_TaskPanel.cpp:243
 msgid "Select a task to access"
-msgstr ""
+msgstr "Choisir une tâche"
 
 #: clientgui/sg_TaskPanel.cpp:254
 msgid "From Project:"
-msgstr ""
+msgstr "Du projet:"
 
 #: clientgui/sg_TaskPanel.cpp:311
 msgid "This task's progress"
-msgstr ""
+msgstr "Avancement de ces tâches"
 
 #: clientgui/sg_TaskPanel.cpp:332
 msgid "Task Commands"
-msgstr ""
+msgstr "Commandes de tâches"
 
 #: clientgui/sg_TaskPanel.cpp:333
 msgid "Pop up a menu of commands to apply to this task"
-msgstr ""
+msgstr "Afficher une liste des commandes applicables à cette tâche"
 
 #: clientgui/sg_TaskPanel.cpp:448
 #, c-format
 #, fuzzy, c-format
 msgid "Application: %s"
-msgstr "Application: "
+msgstr "Application: %s"
 
 #: clientgui/sg_TaskPanel.cpp:472
 #, c-format
 msgid "%d.%d%%"
-msgstr ""
+msgstr "%d.%d%%"
 
 #: clientgui/sg_TaskPanel.cpp:480
 msgid "Application: Not available"
-msgstr ""
+msgstr "Application: Non disponible"
 
 #: clientgui/sg_TaskPanel.cpp:588
 msgid "Not Available"
-msgstr ""
+msgstr "Non disponible"
 
 #: clientgui/sg_TaskPanel.cpp:603
 #, c-format
 #, fuzzy, c-format
 msgid "Elapsed Time: %s"
-msgstr "Temps écoulé: "
+msgstr "Temps écoulé: %s"
 
 #: clientgui/sg_TaskPanel.cpp:617
 #, c-format
 #, fuzzy, c-format
 msgid "Time Remaining: %s"
-msgstr "Temps restant: "
+msgstr "Temps restant: %s"
 
 #: clientgui/sg_TaskPanel.cpp:632
 #, c-format
 msgid "Status: %s"
-msgstr ""
+msgstr "Statut: %s"
 
 #: clientgui/sg_ViewTabPage.cpp:140
 #: clientgui/sg_ViewTabPage.cpp:280
@@ -3534,44 +3520,38 @@ msgid "Launching browser..."
 msgstr "Lancement du navigateur en cours..."
 
 #: clientgui/ViewProjects.cpp:1048
-#, fuzzy
 msgid "Requested by user"
-msgstr "Suspendu par l'utilisateur"
+msgstr "Demandé par l'utilisateur"
 
 #: clientgui/ViewProjects.cpp:1049
 msgid "To fetch work"
-msgstr ""
+msgstr "Pour demander du travail"
 
 #: clientgui/ViewProjects.cpp:1050
 msgid "To report completed tasks"
-msgstr ""
+msgstr "Pour rapporter une tâche terminée"
 
 # divers débat sur la traduction de trickle up ont eu lieu sur boinc_loc, pas de conclusion claire
 #: clientgui/ViewProjects.cpp:1051
-#, fuzzy
 msgid "To send trickle-up message"
-msgstr "Message de progression de tâche en cours"
+msgstr "Pour envoyer les messages de progression de tâche"
 
 # changement de terminologie boinc (cf. comm de David Anderson sur boinc_loc)
 #: clientgui/ViewProjects.cpp:1052
-#, fuzzy
 msgid "Requested by account manager"
-msgstr "Ajouter un gestionnaire de compte"
+msgstr "Demandé par le gestionnaire de compte"
 
 #: clientgui/ViewProjects.cpp:1053
-#, fuzzy
 msgid "Project initialization"
-msgstr "Projet non trouvé"
+msgstr "Initialisation du projet"
 
 #: clientgui/ViewProjects.cpp:1054
-#, fuzzy
 msgid "Requested by project"
-msgstr "Annulé par le projet"
+msgstr "Demandé par le projet"
 
 #: clientgui/ViewProjects.cpp:1055
-#, fuzzy
 msgid "Unknown reason"
-msgstr "raison inconnue"
+msgstr "Raison inconnue"
 
 #: clientgui/ViewProjects.cpp:1069
 msgid "Suspended by user"
@@ -4172,30 +4152,30 @@ msgstr "ligne %d de %d; "
 #: clientgui/mac/Mac_GUI.cpp:105
 #, fuzzy
 msgid "Preferences…"
-msgstr "Préférences"
+msgstr "Préférences..."
 
 #: clientgui/mac/Mac_GUI.cpp:117
 msgid "Services"
-msgstr ""
+msgstr "Services"
 
 #: clientgui/mac/Mac_GUI.cpp:139
 #, c-format
 msgid "Hide %s"
-msgstr ""
+msgstr "Cacher %s"
 
 #: clientgui/mac/Mac_GUI.cpp:153
 msgid "Hide Others"
-msgstr ""
+msgstr "Caches les autres"
 
 #: clientgui/mac/Mac_GUI.cpp:167
 msgid "Show All"
-msgstr ""
+msgstr "Montrer tout"
 
 #: clientgui/mac/Mac_GUI.cpp:181
 #, c-format
 #, fuzzy, c-format
 msgid "Quit %s"
-msgstr "&Quitter %s"
+msgstr "Quitter %s"
 
 #: clientgui/DlgAdvPreferences.h:29
 msgid "specify work start and stop hours in format HH:MM-HH:MM"

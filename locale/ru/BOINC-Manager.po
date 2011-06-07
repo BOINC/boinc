@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-03-07 12:02-0500\n"
-"PO-Revision-Date: 2011-03-20 20:06+0200\n"
+"PO-Revision-Date: 2011-05-20 17:38+0200\n"
 "Last-Translator: Nikolay Saharov <saharovna@gmail.com>\n"
 "Language-Team: Russia\n"
 "Language: ru\n"
@@ -23,8 +23,6 @@ msgstr ""
 "X-Poedit-SearchPath-0: clientgui\n"
 "X-Poedit-SourceCharset: utf-8\n"
 "X-Poedit-Basepath: C:\\Src\\BOINCSVN\\trunk\\boinc\n"
-"X-Poedit-Country: UNITED STATES\n"
-"X-Poedit-Language: English\n"
 
 #: clientgui/AccountInfoPage.cpp:386
 msgid "Identify your account "
@@ -3254,14 +3252,13 @@ msgid "My Projects:"
 msgstr "Проекты:"
 
 #: clientgui/sg_ProjectPanel.cpp:123
-#, fuzzy
 msgid "Select a project to access with the controls below"
-msgstr "Использовать элементы управления ниже для доступа к проекту"
+msgstr "Выбрать проект используя расположенные ниже элементы управления"
 
 #: clientgui/sg_ProjectPanel.cpp:133
 #: clientgui/sg_ProjectPanel.cpp:252
 #, c-format
-#, fuzzy, c-format
+#, c-format
 msgid "%s: %0.2f"
 msgstr "%s: %0.2f"
 
@@ -3362,7 +3359,6 @@ msgid "Select a task to access"
 msgstr "Выбрать задание для доступа"
 
 #: clientgui/sg_TaskPanel.cpp:254
-#, fuzzy
 msgid "From Project:"
 msgstr "От проекта:"
 

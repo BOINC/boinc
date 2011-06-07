@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2011-04-04 22:09 PDT\n"
-"PO-Revision-Date: 2011-04-12 21:18+0200\n"
+"PO-Revision-Date: 2011-05-03 22:41+0200\n"
 "Last-Translator: Sami Nordlund <sami.nordlund@kolumbus.fi>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: fi\n"
@@ -56,7 +56,7 @@ msgstr "Karlsruhen yliopisto (Saksa)"
 
 #: projects.inc:33
 msgid "Protein structure prediction"
-msgstr ""
+msgstr "Proteiinirakenteiden ennakointi"
 
 #: projects.inc:34
 msgid ""
@@ -66,6 +66,12 @@ msgid ""
 "protein malfunction or aggregation, and to develop new drugs on the basis of "
 "the three-dimensions structure of biologically important proteins."
 msgstr ""
+"POEM@HOME käyttää laskennallista lähestymistapaa ennakoimaan proteiinien "
+"biologisesti aktiivisia rakenteita, ymmärtämään "
+"signaalinkäsittelymekanismeja proteiinien vuorovaikuttaessa toistensa "
+"kanssa, ymmärtämään proteiinien virhetoimintoihin tai yhdistymiseen "
+"liittyviä sairauksia ja kehittämään uusia lääkkeitä biologisesti tärkeiden "
+"proteiinien kolmiulotteisten rakenteiden pohjalta."
 
 #: projects.inc:38
 msgid "Docking@Home"
@@ -77,7 +83,7 @@ msgstr "Delawaren yliopisto"
 
 #: projects.inc:41
 msgid "Study of protein - ligand interactions"
-msgstr ""
+msgstr "Proteiinitutkimus - ligandin vuorovaikutukset"
 
 #: projects.inc:42
 msgid ""
@@ -86,6 +92,9 @@ msgid ""
 "interactions and, by doing so, will search for insights into the discovery "
 "of novel pharmaceuticals."
 msgstr ""
+"Docking@Homella on sekä biologinen että tietojenkäsittelyopillinen päämäärä. "
+"Projekti tähtää tiedon lisäämiseen proteiiniligandien vuorovaikutuksista ja "
+"sitä myöten löytää uusia lääkkeitä."
 
 #: projects.inc:46
 msgid "GPUGrid.net"
@@ -117,7 +126,7 @@ msgstr "Technion, Israel"
 
 #: projects.inc:57
 msgid "Genetic linkage analysis"
-msgstr ""
+msgstr "Geneettisten sidonnaisuuksien tutkimus"
 
 #: projects.inc:58
 msgid ""
@@ -131,7 +140,7 @@ msgstr ""
 
 #: projects.inc:70
 msgid "The Lattice Project"
-msgstr "Lattice projekti"
+msgstr "Lattice-projekti"
 
 #: projects.inc:72
 msgid ""
@@ -194,6 +203,12 @@ msgid ""
 "efforts at designing new proteins to fight diseases such as HIV, Malaria, "
 "Cancer, and Alzheimer's"
 msgstr ""
+"Määrittää kolmiulotteisia proteiinien muotoja tutkimuksessa, joka voi "
+"lopulta johtaa parannuskeinoihin joidenkin tautien osalta. Ajamalla "
+"Rosetta@homea autat meitä nopeuttamaan ja laajentamaan tutkimusta tavalla, "
+"joka ei olisi muuten mahdollista. Autat myös uusien proteiinien "
+"suunnittelussa taistelussa HIVia, malariaa, syöpää ja Alzheimerin tautia "
+"vastaan"
 
 #: projects.inc:110
 msgid "SIMAP"
@@ -209,6 +224,9 @@ msgid ""
 "the resulting data, which plays a key role in many bioinformatics research "
 "projects."
 msgstr ""
+"Laskee proteiinien välisiä yhtäläisyyksiä. SIMAP tarjoaa tuloksista julkisen "
+"tietokannan, jolla on merkittävä rooli monissa bioinformatiikan "
+"tutkimusprojekteissa."
 
 #: projects.inc:120
 msgid "Earth Sciences"
@@ -216,7 +234,7 @@ msgstr "Geotieteet"
 
 #: projects.inc:130
 msgid "Virtual Prairie"
-msgstr ""
+msgstr "Virtuaalipreeria"
 
 #: projects.inc:132
 msgid "University of Houston"
@@ -224,13 +242,15 @@ msgstr "Houstonin yliopisto"
 
 #: projects.inc:133
 msgid "Study of botanical ecosystems"
-msgstr ""
+msgstr "Tutkimus kasvien ekosysteemeistä"
 
 #: projects.inc:134
 msgid ""
 "Provide ecological guidelines on the design of prairies with the best "
 "potential for water purification."
 msgstr ""
+"Tarjoaa ekologisia suuntauksia preerioiden suunnitteluun ja parhaimman "
+"mahdollisuuden veden puhdistamiselle."
 
 #: projects.inc:137
 msgid "Climateprediction.net"
@@ -322,6 +342,9 @@ msgid ""
 "our Universe and to find the range of models that agree with the available "
 "astronomical particle physics data."
 msgstr ""
+"Cosmology@Homen tavoitteena on etsiä mallia, joka parhaiten kuvaa "
+"universumiamme sekä löytää malleja, jotka ovat sopusoinnussa hiukkasfysiikan "
+"tietojen kanssa."
 
 #: projects.inc:174
 msgid "Milkyway@home"
@@ -368,7 +391,7 @@ msgstr "Purduen yliopisto"
 
 #: projects.inc:193
 msgid "Physics/Aeronautics"
-msgstr ""
+msgstr "Fysiikka/ilmailu"
 
 #: projects.inc:194
 msgid ""
@@ -377,6 +400,10 @@ msgid ""
 "management devices and address two-phase flow in microchannel and MEMS "
 "devices."
 msgstr ""
+"uFluids-projekti simuloi kaksifaasisen nesteen käyttäytymistä "
+"mikropainovoimassa ja mikrofluidisia ongelmia. Tavoitteena on suunnitella "
+"parempia työntöjärjestelmiä satelliitteihin ja esittää virtausta "
+"mikrokanavissa ja MEMS-laitteissa."
 
 #: projects.inc:198
 msgid "Einstein@home"
@@ -489,6 +516,10 @@ msgid ""
 "applications in medicine (such as local tumor chemotherapy) and "
 "biotechnology."
 msgstr ""
+"Tutkimus molekyylimagneeteista ja nanomittakaavan magnetismista. "
+"Magneettisia molekyylejä voidaan käyttää pieninä magneettisina kytkiminä "
+"lääketieteellisissä sovelluksissa (kuten kemoterapiassa) ja "
+"bioteknologiassa."
 
 #: projects.inc:241
 msgid "Multiple applications"
@@ -512,6 +543,8 @@ msgid ""
 "adopt the technologies of volunteer computing and volunteer thinking for "
 "their research."
 msgstr ""
+"CAS@homen tarkoituksena on rohkaista ja avustaa tutkijoita Kiinassa ottamaan "
+"käyttöön hajautettu laskenta ja sen ajatus."
 
 #: projects.inc:252
 msgid "Yoyo@home"
@@ -590,7 +623,7 @@ msgstr ""
 
 #: projects.inc:285
 msgid "Mathematics, computing, and games"
-msgstr ""
+msgstr "Matematiikka, laskenta ja pelit"
 
 #: projects.inc:288
 msgid "Enigma@Home"
@@ -631,7 +664,7 @@ msgstr "Kalifornian osavaltion yliopisto, Fullerton"
 
 #: projects.inc:305
 msgid "Factorization of large integers"
-msgstr ""
+msgstr "Suurten kokonaislukujen jakaminen tekijöihin"
 
 #: projects.inc:306
 msgid ""
@@ -723,7 +756,7 @@ msgstr ""
 
 #: projects.inc:350
 msgid "primaboinca"
-msgstr ""
+msgstr "primaboinca"
 
 #: projects.inc:352
 msgid "Hochschule RheinMain University of Applied Sciences"

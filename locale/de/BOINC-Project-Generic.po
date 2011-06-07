@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: BOINC Project (Generic) 6.x\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2010-10-06 13:10 PDT\n"
-"PO-Revision-Date: 2010-11-22 12:07+0200\n"
+"PO-Revision-Date: 2011-05-13 15:40+0200\n"
 "Last-Translator: Christian <djangofett@gmx.net>\n"
 "Language-Team: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
 "Language: de\n"
@@ -330,7 +330,7 @@ msgstr "letztmaliger Kontakt mit Server"
 #: ../inc/host.inc:181
 #, php-format
 msgid "% of time BOINC is running"
-msgstr "% der Gesamtlaufzeit des BOINC-Client"
+msgstr "% der Gesamtlaufzeit von BOINC"
 
 #: ../inc/host.inc:183
 #, php-format
@@ -344,7 +344,7 @@ msgstr "Während BOINC läuft, % der Zeit in der Berechnungen erlaubt sind"
 
 #: ../inc/host.inc:187
 msgid "Average CPU efficiency"
-msgstr "mittlere CPU Effizienz"
+msgstr "mittlere CPU-Effizienz"
 
 #: ../inc/host.inc:190
 msgid "Task duration correction factor"
@@ -949,7 +949,7 @@ msgstr "Einstellungen aktualisieren"
 #: ../inc/prefs.inc:1006 ../inc/prefs.inc:1015
 #, fuzzy
 msgid "Default computer location"
-msgstr "Standard Computerstandort"
+msgstr "Standard-Computerstandort"
 
 #: ../inc/prefs.inc:1166
 msgid "Update failed: "
@@ -1142,7 +1142,7 @@ msgstr "Aufgegeben"
 
 #: ../inc/result.inc:160
 msgid "Over"
-msgstr "Abgeschloßen"
+msgstr "Abgeschlossen"
 
 #: ../inc/result.inc:168
 msgid "Success"
@@ -1211,12 +1211,11 @@ msgstr "Konnte Ergebnis nicht senden"
 #: ../inc/result.inc:222
 #, fuzzy
 msgid "Too many errors (may have bug)"
-msgstr "Zu viele Fehler (mglw. Bug)"
+msgstr "Zu viele Fehler (mglw. ein Bug)"
 
 #: ../inc/result.inc:226
-#, fuzzy
 msgid "Too many results (may be nondeterministic)"
-msgstr "Zu viele Ergebnisse (mglw. nichteindeutig)"
+msgstr "Zu viele Ergebnisse (mglw. nicht eindeutig)"
 
 #: ../inc/result.inc:230
 msgid "Too many total results"
@@ -2238,7 +2237,7 @@ msgstr "Du kannst dich identifizieren mit Hilfe von"
 
 #: ../user/edit_passwd_form.php:42
 msgid "your email address and old password"
-msgstr "deiner E-Mail Adresse und dem alten Passwort"
+msgstr "deiner E-Mail-Adresse und dem alten Passwort"
 
 #: ../user/edit_passwd_form.php:43
 msgid "your account key"
@@ -3254,7 +3253,7 @@ msgstr "Programm ist deaktiviert"
 
 #: ../user/server_status.php:285
 msgid "Computing status"
-msgstr "Status der Berechnungen"
+msgstr "Status der Berechnung"
 
 #: ../user/server_status.php:291
 msgid "The database server is not accessible"
@@ -3295,7 +3294,7 @@ msgstr "Benutzer"
 #: ../user/server_status.php:355 ../user/server_status.php:371
 #, fuzzy
 msgid "with recent credit"
-msgstr "mit neuen Punkten"
+msgstr "mit neuesten Punkten"
 
 #: ../user/server_status.php:360 ../user/server_status.php:376
 msgid "with credit"
@@ -4539,7 +4538,7 @@ msgstr "Erstellt"
 #: ../project.sample/project.inc:85
 #, fuzzy
 msgid "Your personal background."
-msgstr "Ihr persönlicher Werdegang"
+msgstr "Ihr persönlicher Werdegang."
 
 #: ../project.sample/project.inc:89
 msgid ""

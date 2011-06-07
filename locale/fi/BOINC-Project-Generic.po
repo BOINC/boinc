@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2010-10-06 13:10 PDT\n"
-"PO-Revision-Date: 2011-04-13 15:05+0200\n"
+"PO-Revision-Date: 2011-06-03 08:43+0200\n"
 "Last-Translator: Sami Nordlund <sami.nordlund@kolumbus.fi>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: fi\n"
@@ -200,7 +200,7 @@ msgstr "Keskim. pisteet"
 
 #: ../inc/host.inc:112
 msgid "Cross project credit"
-msgstr ""
+msgstr "Projektikohtaiset pisteet"
 
 #: ../inc/host.inc:114
 msgid "CPU type"
@@ -394,7 +394,7 @@ msgstr "Lisätiedot"
 
 #: ../inc/host.inc:306
 msgid "Cross-project stats:"
-msgstr ""
+msgstr "Projektikohtaiset tilastot:"
 
 #: ../inc/host.inc:460
 msgid "Host %1 has overlapping lifetime:"
@@ -431,11 +431,11 @@ msgstr ""
 
 #: ../inc/host.inc:572
 msgid "Couldn't retire old computer"
-msgstr "Vanhaa konetta ei voitu siirtää eläkkeelle"
+msgstr "Vanhaa konetta ei voitu poistaa käytöstä"
 
 #: ../inc/host.inc:574
 msgid "Retired old computer %1"
-msgstr "Vanha kone %1 on siirretty eläkkeelle"
+msgstr "Vanha kone %1 on poistettu käytöstä"
 
 #: ../inc/host.inc:597 ../inc/host.inc:600
 msgid "Show:"
@@ -1390,7 +1390,7 @@ msgstr "Nettisivu"
 
 #: ../inc/team.inc:112
 msgid "Cross-project stats"
-msgstr ""
+msgstr "Projektikohtaiset tilastot"
 
 #: ../inc/team.inc:115 ../inc/team.inc:361 ../user/team_search.php:68
 msgid "Type"
@@ -1495,6 +1495,9 @@ msgid ""
 "WARNING: this is a BOINC-wide team. If you make changes here, they will soon "
 "be overwritten. Edit the %1BOINC-wide team%2 instead."
 msgstr ""
+"VAROITUS: tämä on BOINC-laajuinen tiimi. Jos teet muutoksia tässä, ne "
+"tulevat pian ylikirjoitetuksi. Muokkaa sen sijaan %1BOINC-laajuista tiimiä%"
+"2."
 
 #: ../inc/team.inc:417
 msgid ""
@@ -1588,11 +1591,11 @@ msgstr "Tämän tilin tietokoneet"
 
 #: ../inc/user.inc:162
 msgid "Cross-project ID"
-msgstr ""
+msgstr "Projektienvälinen tunniste"
 
 #: ../inc/user.inc:163
 msgid "Cross-project statistics"
-msgstr ""
+msgstr "Projektikohtaiset tilastot"
 
 #: ../inc/user.inc:164
 msgid "Account"
@@ -1605,7 +1608,7 @@ msgstr "Tiimi"
 
 #: ../inc/user.inc:168
 msgid "Cross-project"
-msgstr ""
+msgstr "Projektikohtainen"
 
 #: ../inc/user.inc:169
 msgid "Certificate"
@@ -3970,6 +3973,8 @@ msgid ""
 "To have this team created on all BOINC projects (current and future) you can "
 "make it into a %1BOINC-wide team%2."
 msgstr ""
+"Jotta tämä tiimi olisi kaikissa BOINC-projekteissa (nykyisissä ja tulevissa) "
+"voit tehdä siitä %1BOINC-laajuisen tiimin%2."
 
 #: ../user/team_manage.php:71
 msgid ""
@@ -4141,7 +4146,7 @@ msgstr "Päivän käyttäjää ei ole valittu."
 
 #: ../user/uotd.php:31
 msgid "User of the Day for %1: %2"
-msgstr ""
+msgstr "%1:n päivän käyttäjä: %2"
 
 #: ../user/user_search.php:102 ../user/user_search.php:158
 msgid "Joined"
@@ -4375,7 +4380,7 @@ msgstr "virheet"
 
 #: ../user/workunit.php:64
 msgid "validation"
-msgstr ""
+msgstr "vahvistus"
 
 #: ../project.sample/project.inc:49
 msgid "Main page"

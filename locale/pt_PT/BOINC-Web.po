@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: 1.05\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2011-04-04 22:09 PDT\n"
-"PO-Revision-Date: 2011-04-20 12:34-0000\n"
+"PO-Revision-Date: 2011-05-31 17:31-0000\n"
 "Last-Translator: Miguel Veiga <Miguel.veig@gmail.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -79,7 +79,7 @@ msgstr "Estudo das proteinas - interacções entre ligandos"
 
 #: projects.inc:42
 msgid "Docking@Home has both bioscience and computer science goals. The project aims to further knowledge of the atomic details of protein-ligand interactions and, by doing so, will search for insights into the discovery of novel pharmaceuticals."
-msgstr ""
+msgstr "Docking@Home tem metas tanto na área da biociência bem como na ciência dos computadores. O projecto visa obter conhecimento mais detalhado sobre as interacções ligando-proteicos procurando descobrir novos medicamentos."
 
 #: projects.inc:46
 msgid "GPUGrid.net"
@@ -425,7 +425,7 @@ msgstr "Projectos de pesquisa Europeus"
 
 #: projects.inc:263
 msgid "The EDGeS@Home Beta project integrates volunteer computing into the service grid network of Europe by allowing service grids to send workunits to be processed by the volunteers of this project. The scientific projects covered by the project include math, physics, biology, etc."
-msgstr ""
+msgstr "O projecto EDGeS@Home Beta integra computação voluntária ao serviço de Internet da Europa, permitindo redes de serviços que enviem unidades de trabalho para serem processadas pelos voluntários deste projecto. Os projectos científicos cobertos por este projecto incluem matemática, fisica, biologia, etc."
 
 #: projects.inc:267
 msgid "Ibercivis"
@@ -573,7 +573,7 @@ msgstr "Universidade Hochschule RheinMai de Ciências Aplicadas"
 
 #: projects.inc:354
 msgid "Search for counterexamples to two conjectures related to the identification of prime numbers"
-msgstr ""
+msgstr "Procura de contra-exemplos para duas conjecturas relacionadas com a identificação de númerps primos"
 
 #: projects.inc:358
 msgid "SZTAKI Desktop Grid"

@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: $Id: nl.po 13216 2007-07-25 15:11:14Z davea $\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2011-04-04 22:09 PDT\n"
-"PO-Revision-Date: 2011-04-14 18:40+0200\n"
+"PO-Revision-Date: 2011-05-14 20:25+0200\n"
 "Last-Translator: Rene <oskamjr@wanadoo.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -251,22 +251,20 @@ msgid "University of Vienna"
 msgstr "Universiteit van Wenen"
 
 #: projects.inc:114
-#, fuzzy
 msgid ""
 "Calculate similarities between proteins. SIMAP provides a public database of "
 "the resulting data, which plays a key role in many bioinformatics research "
 "projects."
 msgstr ""
-"Calculate similarities between proteins. SIMAP provides a public database of "
-"the resulting data, which plays a key role in many bioinformatics research "
-"projects."
+"Bereken de gelijksoortigheid van proteïnen. SIMAP voorziet in een openbare "
+"databank van gegevens die een sleutelrol spelen bij menig onderzoeksproject "
+"inzake bio-informatica."
 
 #: projects.inc:120
 msgid "Earth Sciences"
-msgstr "Aardkundige wetenschappen"
+msgstr "Aardkunde"
 
 #: projects.inc:130
-#, fuzzy
 msgid "Virtual Prairie"
 msgstr "Virtual Prairie"
 
@@ -279,13 +277,13 @@ msgid "Study of botanical ecosystems"
 msgstr "Studie van botanische ecosystemen"
 
 #: projects.inc:134
-#, fuzzy
 msgid ""
 "Provide ecological guidelines on the design of prairies with the best "
 "potential for water purification."
 msgstr ""
-"Provide ecological guidelines on the design of prairies with the best "
-"potential for water purification."
+"Bepaal de ecologische richtlijnen die voor de karakteristieken van een "
+"prairielandschap de best mogelijke waterzuivering opleveren. (rephrase "
+"source. makes no sense.)"
 
 #: projects.inc:137
 msgid "Climateprediction.net"
@@ -300,7 +298,6 @@ msgid "Climate study"
 msgstr "Klimaat studie"
 
 #: projects.inc:141
-#, fuzzy
 msgid ""
 "Investigate the approximations that have to be made in state-of-the-art "
 "climate models. By running the model thousands of times we hope to find out "
@@ -311,19 +308,19 @@ msgid ""
 "cycle. This will allow us to explore how climate may change in the next "
 "century under a wide range of different scenarios."
 msgstr ""
-"Investigate the approximations that have to be made in state-of-the-art "
-"climate models. By running the model thousands of times we hope to find out "
-"how the model responds to slight tweaks to these approximations - slight "
-"enough to not make the approximations any less realistic. This will allow us "
-"to improve our understanding of how sensitive our models are to small "
-"changes and also to things like changes in carbon dioxide and the sulphur "
-"cycle. This will allow us to explore how climate may change in the next "
-"century under a wide range of different scenarios."
+"Doe onderzoek naar het benaderen van waarden voor invoer in de nieuwste "
+"klimaatmodellen. Door het model duizenden keren uit te voeren, hopen wij "
+"inzicht te krijgen in de reactie van het model indien deze waarden enigszins "
+"worden gewijzigd - waarbij de afwijkingen dermate klein zijn dat een "
+"realistische benadering standhoudt. Dit geeft ons een beter inzicht in de "
+"nauwkeurigheid van de modellen bij kleine wijzigingen in de invoer, alsmede "
+"veranderingen in het verloop van de kooldioxide- en zwavelcyclus. Dit stelt "
+"ons in staat om de klimaatverandering de komende eeuw volgens een breed "
+"scala aan scenario's te bestuderen."
 
 #: projects.inc:148
-#, fuzzy
 msgid "Astronomy/Physics/Chemistry"
-msgstr "Astronomy/Physics/Chemistry"
+msgstr "Astronomie/Fysica/Chemie"
 
 #: projects.inc:151
 msgid "eOn"
@@ -338,7 +335,6 @@ msgid "Chemistry"
 msgstr "Chemie"
 
 #: projects.inc:155
-#, fuzzy
 msgid ""
 "A common problem in theoretical chemistry, condensed matter physics and "
 "materials science is the calculation of the time evolution of an atomic "
@@ -350,15 +346,16 @@ msgid ""
 "single event of interest can be expected to occur.  Our research group is "
 "interested in calculating the long time dynamics of systems."
 msgstr ""
-"A common problem in theoretical chemistry, condensed matter physics and "
-"materials science is the calculation of the time evolution of an atomic "
-"scale system where, for example, chemical reactions and/or diffusion occur. "
-"Generally the events of interest are quite rare (many orders of magnitude "
-"slower than the vibrational movements of the atoms), and therefore direct "
-"simulations, tracking every movement of the atoms, would take thousands of "
-"years of computer calculations on the fastest present day computer before a "
-"single event of interest can be expected to occur.  Our research group is "
-"interested in calculating the long time dynamics of systems."
+"Een algemeen probleem binnen de theoretische chemie, de fysica van de "
+"gecondenseerde materie en materiaalkunde is het berekenen van het "
+"tijdsverloop binnen een systeem op atomaire schaal voor processen als "
+"chemische reacties en/of diffusie. Doorgaans gebeurt er nauwelijks iets "
+"opmerkelijks (vele factoren 10 trager dan de frequentie van atoom "
+"trillingen), waardoor exacte simulaties van alle atoombewegingen met de "
+"meest geavanceerde computers, duizenden jaren aan rekentijd in beslag neemt "
+"voordat een opmerkelijke gebeurtenis verwacht mag worden. Ons onderzoeksteam "
+"houdt zich bezig met het analyseren van de langetermijndynamiek van "
+"tijdsvariabele systemen."
 
 #: projects.inc:158
 msgid "Orbit@home"
@@ -366,7 +363,7 @@ msgstr "Orbit@home"
 
 #: projects.inc:160
 msgid "Planetary Science Institute"
-msgstr "Instituut voor Planetaire Wetenschappen"
+msgstr "Instituut voor Planeetkunde"
 
 #: projects.inc:161 projects.inc:169 projects.inc:177
 msgid "Astronomy"
@@ -387,24 +384,22 @@ msgid "University of Illinois at Urbana-Chamapign"
 msgstr "Universiteit van Illinois te Urbana-Chamapign"
 
 #: projects.inc:170
-#, fuzzy
 msgid ""
 "The goal of Cosmology@Home is to search for the model that best describes "
 "our Universe and to find the range of models that agree with the available "
 "astronomical particle physics data."
 msgstr ""
-"The goal of Cosmology@Home is to search for the model that best describes "
-"our Universe and to find the range of models that agree with the available "
-"astronomical particle physics data."
+"Cosmology@Home heeft als doel het model dat ons universum het best "
+"omschrijft te vinden, alsmede het spectrum van modellen die met de "
+"beschikbare data inzake deeltjes astrofysica overweg kunnen."
 
 #: projects.inc:174
 msgid "Milkyway@home"
 msgstr "Milkyway@home"
 
 #: projects.inc:176
-#, fuzzy
 msgid "Rensselaer Polytechnic Institute"
-msgstr "Rensselaer Polytechnic Institute"
+msgstr "Rensselaer Polytechnisch Instituut"
 
 #: projects.inc:178
 msgid ""
@@ -422,10 +417,9 @@ msgstr "Leiden Classical"
 
 #: projects.inc:184
 msgid "Leiden University, The Netherlands"
-msgstr "Universiteit van Leiden, Nederland"
+msgstr "Universiteit Leiden, Nederland"
 
 #: projects.inc:186
-#, fuzzy
 msgid ""
 "Surface science calculations using Classical Dynamics.  Leiden Classical "
 "allows volunteers, students and other scientist to submit their personal "
@@ -434,12 +428,14 @@ msgid ""
 "argon, or to test the validity of the ideal gas law by actually doing the "
 "simulations through the grid."
 msgstr ""
-"Surface science calculations using Classical Dynamics.  Leiden Classical "
-"allows volunteers, students and other scientist to submit their personal "
-"calculations to the grid. Each user has his own personal queue for Classical "
-"Dynamics jobs. In this way students have used the grid to simulate liquid "
-"argon, or to test the validity of the ideal gas law by actually doing the "
-"simulations through the grid."
+"Voer wetenschappelijke berekeningen uit, gewijd aan klassieke dynamica. "
+"Leiden Classical maakt het voor vrijwilligers, studenten en wetenschappers "
+"mogelijk om hun eigen berekeningen middels het computercluster uit te "
+"voeren. Elke deelnemer heeft zijn eigen reeks van specifieke taken die "
+"moeten worden uitgevoerd. Op deze manier hebben studenten het "
+"cumputercluster gebruikt om vloeibaar argon te simuleren of de geldigheid "
+"van de algemene gaswet te testen en aldus de simulaties daadwerkelijk uit te "
+"voeren via het computercluster."
 
 #: projects.inc:190
 msgid "uFluids@home"
@@ -450,22 +446,22 @@ msgid "Purdue University"
 msgstr "Universiteit van Purdue"
 
 #: projects.inc:193
-#, fuzzy
 msgid "Physics/Aeronautics"
-msgstr "Physics/Aeronautics"
+msgstr "Fysica/Luchtvaartkunde"
 
 #: projects.inc:194
-#, fuzzy
 msgid ""
 "The uFluids project simulates two-phase fluid behavior in microgravity and "
 "microfluidics problems. Our goal is to design better satellite propellant "
 "management devices and address two-phase flow in microchannel and MEMS "
 "devices."
 msgstr ""
-"The uFluids project simulates two-phase fluid behavior in microgravity and "
-"microfluidics problems. Our goal is to design better satellite propellant "
-"management devices and address two-phase flow in microchannel and MEMS "
-"devices."
+"Het uFluids project simuleert het tweefasen vloeistofgedrag inzake de "
+"problematiek die zich voordoet bij micrograviteit en microfluïdische "
+"systemen. Onze doelstelling betreft de ontwikkeling van betere "
+"stuwstofmanagementsystemen voor satelieten en richt zich op "
+"tweefasenstroming in microchannel- en micro-elektromechanische "
+"systemen(MEMS)."
 
 #: projects.inc:198
 msgid "Einstein@home"
@@ -476,12 +472,10 @@ msgid "Univ. of Wisconsin - Milwaukee, Max Planck Institute"
 msgstr "Universiteit van Wisconsin - Milwaukee, Max Planck Instituut"
 
 #: projects.inc:201
-#, fuzzy
 msgid "Astrophysics"
-msgstr "Astrophysics"
+msgstr "Astrofysica"
 
 #: projects.inc:202
-#, fuzzy
 msgid ""
 "Search for spinning neutron stars (also called pulsars) using data from the "
 "LIGO and GEO gravitational wave detectors, and from the Arecibo radio "
@@ -489,11 +483,11 @@ msgid ""
 "supported by the American Physical Society (APS) and by a number of "
 "international organizations."
 msgstr ""
-"Search for spinning neutron stars (also called pulsars) using data from the "
-"LIGO and GEO gravitational wave detectors, and from the Arecibo radio "
-"observatory.  Einstein@Home is a World Year of Physics 2005 project "
-"supported by the American Physical Society (APS) and by a number of "
-"international organizations."
+"Ontdek roterende neutronensterren (ook wel pulsars genoemd) middels gegevens "
+"van de LIGO en GEO gravitatiegolf detectors en de Arecibo radiotelescoop. "
+"Einstein@Home maakt deel uit van het 'World Year of Physics 2005' dat wordt "
+"gesponsord door 'the American Physical Society' (APS) en enkele "
+"internationale organisaties."
 
 #: projects.inc:206
 msgid "LHC@home"
@@ -508,7 +502,6 @@ msgid "Physics"
 msgstr "Natuurkunde"
 
 #: projects.inc:210
-#, fuzzy
 msgid ""
 "The Large Hadron Collider (LHC) is a particle accelerator at CERN, the "
 "European Organization for Nuclear Research, the world's largest particle "
@@ -516,11 +509,12 @@ msgid ""
 "investigate on particles proprieties. LHC@home runs simulations to improve "
 "the design of LHC and its detectors."
 msgstr ""
-"The Large Hadron Collider (LHC) is a particle accelerator at CERN, the "
-"European Organization for Nuclear Research, the world's largest particle "
-"physics laboratory.  It is the most powerful instrument ever built to "
-"investigate on particles proprieties. LHC@home runs simulations to improve "
-"the design of LHC and its detectors."
+"De Large Hadron Collider (LHC) is een deeltjesversneller bij CERN, de "
+"Europese organisatie voor kernonderzoek, 's werelds grootste laboratorium "
+"voor deeltjesfysica. Het is het krachtigste apparaat dat er bestaat voor "
+"onderzoek naar de eigenschappen van elementaire deeltjes. LHC@home voert "
+"simulaties uit ter verbetering van het ontwerp van de LHC en diens "
+"detectors."
 
 #: projects.inc:214
 msgid "SETI@home"
@@ -531,12 +525,10 @@ msgid "University of California, Berkeley"
 msgstr "University van Californië, Berkeley"
 
 #: projects.inc:217
-#, fuzzy
 msgid "Astrophysics, astrobiology"
-msgstr "Astrophysics, astrobiology"
+msgstr "Astrofysica, astrobiologie"
 
 #: projects.inc:218
-#, fuzzy
 msgid ""
 "SETI (Search for Extraterrestrial Intelligence) is a scientific area whose "
 "goal is to detect intelligent life outside Earth. One approach, known as "
@@ -544,11 +536,12 @@ msgid ""
 "signals from space. Such signals are not known to occur naturally, so a "
 "detection would provide evidence of extraterrestrial technology."
 msgstr ""
-"SETI (Search for Extraterrestrial Intelligence) is a scientific area whose "
-"goal is to detect intelligent life outside Earth. One approach, known as "
-"radio SETI, uses radio telescopes to listen for narrow-bandwidth radio "
-"signals from space. Such signals are not known to occur naturally, so a "
-"detection would provide evidence of extraterrestrial technology."
+"SETI (Search for Extraterrestrial Intelligence) is een wetenschappelijke "
+"project wiens doel het is om intelligent leven te detecteren buiten de "
+"aarde. Een van de manieren, bekend als radio SETI, gebruikt radiotelescopen "
+"om te luisteren naar  radiosignalen met een smalle bandbreedte komende uit "
+"de ruimte. Dergelijke signalen kunnen niet spontaan ontstaan, dus een "
+"detectie zou een mogelijk bewijs van buitenaardse technologie kunnen zijn."
 
 #: projects.inc:222
 msgid "Quantum Monte Carlo at Home"
@@ -559,11 +552,11 @@ msgid "University of Muenster (Germany)"
 msgstr "Universiteit van Muenster (Duitsland)"
 
 #: projects.inc:226
-#, fuzzy
 msgid ""
 "Study the structure and reactivity of molecules using Quantum Chemistry."
 msgstr ""
-"Study the structure and reactivity of molecules using Quantum Chemistry."
+"Bestudeer de structuur en reactiviteit van moleculen volgens kwantum-"
+"chemische methoden."
 
 #: projects.inc:230
 msgid "Spinhenge@home"
@@ -574,27 +567,25 @@ msgid "Bielefeld University of Applied Sciences"
 msgstr "Bielefeld Universiteit voor toegepaste wetenschappen"
 
 #: projects.inc:233
-#, fuzzy
 msgid "Chemical engineering and nanotechnology"
-msgstr "Chemical engineering and nanotechnology"
+msgstr "Chemische technologie en nanotechnologie"
 
 #: projects.inc:234
-#, fuzzy
 msgid ""
 "The study of molecular magnets and controlled nanoscale magnetism.  These "
 "magnetic molecules may be used to develop tiny magnetic switches, with "
 "applications in medicine (such as local tumor chemotherapy) and "
 "biotechnology."
 msgstr ""
-"The study of molecular magnets and controlled nanoscale magnetism.  These "
-"magnetic molecules may be used to develop tiny magnetic switches, with "
-"applications in medicine (such as local tumor chemotherapy) and "
-"biotechnology."
+"De studie naar moleculaire magneten en het op nanoschaal gereguleerd "
+"magnetisme. Deze magnetische moleculen kunnen worden gebruikt bij de "
+"ontwikkeling van minuscule magnetische schakelingen die een toegepassing "
+"vinden in de geneeskunde (zoals chemotherapeutische behandeling van een "
+"plaatselijke kanker) en biotechnologie."
 
 #: projects.inc:241
-#, fuzzy
 msgid "Multiple applications"
-msgstr "Multiple applications"
+msgstr "Meerdere applicaties"
 
 #: projects.inc:244
 msgid "CAS@home"
@@ -602,165 +593,149 @@ msgstr "CAS@home"
 
 #: projects.inc:246
 msgid "Chinese Academy of Sciences"
-msgstr "Chinese Academie voor wetenschappen "
+msgstr "Chinese Academie voor wetenschappen"
 
 #: projects.inc:247
 msgid "Physics, biochemistry, and others"
 msgstr "Natuurkunde, biochemie en anders"
 
 #: projects.inc:248
-#, fuzzy
 msgid ""
 "The objective of CAS@home is to encourage and assist scientists in China to "
 "adopt the technologies of volunteer computing and volunteer thinking for "
 "their research."
 msgstr ""
-"The objective of CAS@home is to encourage and assist scientists in China to "
-"adopt the technologies of volunteer computing and volunteer thinking for "
-"their research."
+"Het doel van CAS@home is het aanmoedigen en helpen van wetenschappers in "
+"China om de technologieën van volunteer computing en vrijwilligers in te "
+"zetten als hulp bij hun onderzoek."
 
 #: projects.inc:252
 msgid "Yoyo@home"
 msgstr "Yoyo@home"
 
 #: projects.inc:255
-#, fuzzy
 msgid "Mathematics, physics, evolution"
-msgstr "Mathematics, physics, evolution"
+msgstr "Wiskunde, natuurkunde en evolutie studie"
 
 #: projects.inc:256
-#, fuzzy
 msgid ""
 "Yoyo@home is an adapter between BOINC and several existing volunteer "
 "computing projects: ECM, Muon, Evolution@home, and distributed.net"
 msgstr ""
-"Yoyo@home is an adapter between BOINC and several existing volunteer "
-"computing projects: ECM, Muon, Evolution@home, and distributed.net"
+"Yoyo@home is een verbinding tussen BOINC en diverse bestaande volunteer "
+"computing projecten: ECM, Muon, Evolution@home, en distributed.net"
 
 #: projects.inc:259
 msgid "EDGeS@Home"
 msgstr "EDGeS@Home"
 
 #: projects.inc:261 projects.inc:360
-#, fuzzy
 msgid "MTA-SZTAKI Laboratory of Parallel and Distributed Systems (Hungary)"
 msgstr "MTA-SZTAKI Laboratory of Parallel and Distributed Systems (Hungary)"
 
 #: projects.inc:262
-#, fuzzy
 msgid "European research projects"
-msgstr "European research projects"
+msgstr "Europese onderzoek projecten"
 
 #: projects.inc:263
-#, fuzzy
 msgid ""
 "The EDGeS@Home Beta project integrates volunteer computing into the service "
 "grid network of Europe by allowing service grids to send workunits to be "
 "processed by the volunteers of this project. The scientific projects covered "
 "by the project include math, physics, biology, etc."
 msgstr ""
-"The EDGeS@Home Beta project integrates volunteer computing into the service "
-"grid network of Europe by allowing service grids to send workunits to be "
-"processed by the volunteers of this project. The scientific projects covered "
-"by the project include math, physics, biology, etc."
+"Het EDGeS@Home Beta project integreert volunteer computing in hun netwerk "
+"van computerclusters in Europa door via deze clusters de taken te verdelen "
+"en te laten verwerken door de vrijwilligers bij dit project. De "
+"wetenschappelijke projecten omvatten o.a. wiskunde, natuurkunde, biologie."
 
 #: projects.inc:267
 msgid "Ibercivis"
 msgstr "Ibercivis"
 
 #: projects.inc:269
-#, fuzzy
 msgid "Spanish universities and research centers"
-msgstr "Spanish universities and research centers"
+msgstr "Spaanse universiteiten en centra voor wetenschappelijk onderzoek"
 
 #: projects.inc:270
-#, fuzzy
 msgid "Various Spanish research projects"
-msgstr "Various Spanish research projects"
+msgstr "Diverse Spaanse projecten voor wetenschappelijk onderzoek"
 
 #: projects.inc:271
-#, fuzzy
 msgid "Research in physics, material science, and biomedicine"
-msgstr "Research in physics, material science, and biomedicine"
+msgstr "Onderzoek inzake fysica, materiaalkunde, en bio-geneeskunde"
 
 #: projects.inc:275
 msgid "World Community Grid"
 msgstr "World Community Grid"
 
 #: projects.inc:277
-#, fuzzy
 msgid "IBM Corporate Community Relations"
-msgstr "IBM Corporate Community Relations"
+msgstr "IBM & de maatschappij"
 
 #: projects.inc:278
-#, fuzzy
 msgid "Humanitarian research on disease, natural disasters and hunger."
-msgstr "Humanitarian research on disease, natural disasters and hunger."
+msgstr "Humanitair onderzoek naar ziektes, natuurrampen en hongersnood."
 
 #: projects.inc:279
-#, fuzzy
 msgid ""
 "To further critical non-profit research on some of humanity's most pressing "
 "problems by creating the world's largest volunteer computing grid.  Research "
 "includes HIV/AIDS, cancer, muscular dystrophy, dengue fever, and many more."
 msgstr ""
-"To further critical non-profit research on some of humanity's most pressing "
-"problems by creating the world's largest volunteer computing grid.  Research "
-"includes HIV/AIDS, cancer, muscular dystrophy, dengue fever, and many more."
+"Om zonder winstbejag het verrichten van essentieel wetenschappelijk "
+"onderzoek naar enkele van de meest urgente problemen der mensheid te "
+"stimuleren, door als vrijwilliger deel te nemen aan ’s werelds meest "
+"omvangrijke computercluster. Het onderzoek betreft hiv/aids, kanker, "
+"musculaire dystrofie, knokkelkoorts en vele andere ziektes."
 
 #: projects.inc:285
-#, fuzzy
 msgid "Mathematics, computing, and games"
-msgstr "Mathematics, computing, and games"
+msgstr "Wiskunde, informatica en games"
 
 #: projects.inc:288
 msgid "Enigma@Home"
 msgstr "Enigma@Home"
 
 #: projects.inc:291 projects.inc:345
-#, fuzzy
 msgid "Cryptography"
-msgstr "Cryptography"
+msgstr "Cryptografie"
 
 #: projects.inc:292
-#, fuzzy
 msgid ""
 "Attempt to decode 3 original Enigma messages. The signals were intercepted "
 "in the North Atlantic in 1942 and are believed to be unbroken."
 msgstr ""
-"Attempt to decode 3 original Enigma messages. The signals were intercepted "
-"in the North Atlantic in 1942 and are believed to be unbroken."
+"Doe een poging om 3 authentieke Enigma-gecodeerde berichten te ontcijferen. "
+"Deze werden in 1942 op de Noord-Atlantische Oceaan onderschept en er wordt "
+"aangenomen dat de codering nog niet is gekraakt."
 
 #: projects.inc:295
 msgid "Collatz Conjecture"
 msgstr "Collatz Conjecture"
 
 #: projects.inc:298 projects.inc:337 projects.inc:353 projects.inc:361
-#, fuzzy
 msgid "Mathematics"
-msgstr "Mathematics"
+msgstr "Wiskunde"
 
 #: projects.inc:299
-#, fuzzy
 msgid "Study the Collatz Conjecture, an unsolved conjecture in mathematics"
-msgstr "Study the Collatz Conjecture, an unsolved conjecture in mathematics"
+msgstr ""
+"Bestudeer het Vermoeden van Collatz, een onopgelost vraagstuk in de wiskunde"
 
 #: projects.inc:302
 msgid "NFS@home"
 msgstr "NFS@home"
 
 #: projects.inc:304
-#, fuzzy
 msgid "California State University Fullerton"
 msgstr "California State University Fullerton"
 
 #: projects.inc:305
-#, fuzzy
 msgid "Factorization of large integers"
-msgstr "Factorization of large integers"
+msgstr "Factorisatie van grote getallen"
 
 #: projects.inc:306
-#, fuzzy
 msgid ""
 "NFS@Home is a research project that uses Internet-connected computers to do "
 "the lattice sieving step in the Number Field Sieve factorization of large "
@@ -769,43 +744,42 @@ msgid ""
 "NFS@Home is a continuation of that experience, only with integers that are "
 "hundreds of digits long."
 msgstr ""
-"NFS@Home is a research project that uses Internet-connected computers to do "
-"the lattice sieving step in the Number Field Sieve factorization of large "
-"integers. As a young school student, you gained your first experience at "
-"breaking an integer into prime factors, such as 15 = 3 * 5 or 35 = 5 * 7. "
-"NFS@Home is a continuation of that experience, only with integers that are "
-"hundreds of digits long."
+"NFS@Home betreft een wetenschappelijk project dat via het internet gebruikt "
+"maakt van computers die ingezet worden om de ordeningsrelatie te bepalen bij "
+"de ontbinding van grote getallen in priemfactoren met behulp van de "
+"getallenlichamenzeef. Op school kwam je hiermee voor het eerst in aanraking "
+"bij het ontbinden van een geheel getal in priemgetallen, zoals 15 = 3 * 5 of "
+"35 = 5 * 7. NFS@Home zet dit principe voort, echter met getallen die uit "
+"honderden cijfers bestaan."
 
 #: projects.inc:310
 msgid "VTU@home"
 msgstr "VTU@home"
 
 #: projects.inc:312
-#, fuzzy
 msgid ""
 "Vilnius Gediminas Technical University and Kaunas University of Technology "
 "(Lithuania)"
 msgstr ""
-"Vilnius Gediminas Technical University and Kaunas University of Technology "
-"(Lithuania)"
+"Vilnius Gediminas Technische Universiteit en Kaunas Technische Universiteit "
+"(Litouwen)"
 
 #: projects.inc:313
-#, fuzzy
 msgid "Software testing"
-msgstr "Software testing"
+msgstr "Software testen"
 
 #: projects.inc:314
-#, fuzzy
 msgid ""
 "The aim of this project is to provide a powerful distributed computing "
 "platform for scientists of Vilnius Gediminas Technical University (VGTU) as "
 "well as others Lithuanian academic institutions.  Current applications "
 "involve the study of Monte-Carlo based software testing."
 msgstr ""
-"The aim of this project is to provide a powerful distributed computing "
-"platform for scientists of Vilnius Gediminas Technical University (VGTU) as "
-"well as others Lithuanian academic institutions.  Current applications "
-"involve the study of Monte-Carlo based software testing."
+"De doelstelling van dit project betreft de wetenschappers van de 'Vilnius "
+"Gediminas Technische Universiteit (VGTU) evenals andere Litouwse academische "
+"instituten te voorzien van een effectief platform voor gedistribueerde "
+"rekenkracht. De huidige applicaties zijn gewijd aan het onderzoek naar "
+"software die op de Monte-Carlo simulatie is gebaseerd."
 
 #: projects.inc:318
 msgid "AQUA@home"
@@ -816,12 +790,10 @@ msgid "D-Wave Systems, Inc."
 msgstr "D-Wave Systems, Inc."
 
 #: projects.inc:321
-#, fuzzy
 msgid "Quantum computing"
-msgstr "Quantum computing"
+msgstr "Kwantuminformatica"
 
 #: projects.inc:322
-#, fuzzy
 msgid ""
 "D-Wave's AQUA (Adiabatic QUantum Algorithms) is a research project whose "
 "goal is to predict the performance of superconducting adiabatic quantum "
@@ -830,24 +802,23 @@ msgid ""
 "computers to help design and analyze quantum computing algorithms, using "
 "Quantum Monte Carlo techniques."
 msgstr ""
-"D-Wave's AQUA (Adiabatic QUantum Algorithms) is a research project whose "
-"goal is to predict the performance of superconducting adiabatic quantum "
-"computers on a variety of hard problems arising in fields ranging from "
-"materials science to machine learning. AQUA@home uses Internet-connected "
-"computers to help design and analyze quantum computing algorithms, using "
-"Quantum Monte Carlo techniques."
+"D-Wave's AQUA (Adiabatic QUantum Algorithms) betreft een wetenschappelijk "
+"project met als doelstelling het voorspellen van de prestaties van "
+"supergeleidende adiabatische kwantumcomputers inzake de problematiek die "
+"zich voordoet op het gebied van o.a. materiaalkunde en machinaal leren. "
+"AQUA@home maakt via het internet gebruik van computers die ingezet worden "
+"bij de ontwikkeling en analyse van kwantumalgoritmen conform de kwantum "
+"Monte-Carlo simulatietechniek."
 
 #: projects.inc:334
 msgid "ABC@home"
 msgstr "ABC@home"
 
 #: projects.inc:336
-#, fuzzy
 msgid "Mathematical Institute of Leiden University / Kennislink"
-msgstr "Mathematical Institute of Leiden University / Kennislink"
+msgstr "Mathematisch Instituut Universiteit Leiden / Kennislink"
 
 #: projects.inc:338
-#, fuzzy
 msgid ""
 "Search for 'abc-triples': positive integers a,b,c such that a+b=c, a &lt; b "
 "&lt; c, a,b,c have no common divisors and c > rad(abc), where rad(n) is the "
@@ -857,64 +828,60 @@ msgid ""
 "problems in mathematics. If it is proven to be true, a lot of other open "
 "problems can be answered directly from it."
 msgstr ""
-"Search for 'abc-triples': positive integers a,b,c such that a+b=c, a &lt; b "
-"&lt; c, a,b,c have no common divisors and c > rad(abc), where rad(n) is the "
-"product of the distinct prime factors of n. The ABC conjecture says that "
-"there are only finitely many a,b,c such that log(c)/log(rad(abc)) > h for "
-"any real h > 1. The ABC conjecture is currently one of the greatest open "
-"problems in mathematics. If it is proven to be true, a lot of other open "
-"problems can be answered directly from it."
+"Doe onderzoek naar abc-tripels: positieve gehele getallen a,b,c zodanig dat "
+"a+b=c, a &lt; b &lt; c, a,b,c geen grootste gemene deler hebben en c > "
+"rad(abc), waarbij rad(n) het product is van de verschillende priemfactoren "
+"van n. Het ABC-vermoeden zegt dat er slechts eindig veel getallen a,b en c "
+"zijn zodanig dat log(c)/log(rad(abc)) > h voor enig reëel getal h > 1. Het "
+"ABC-vermoeden omvat tot op heden een van de grootste onopgeloste problemen "
+"in de wiskunde. Als dit vermoeden wordt bewezen als waarheid, kunnen "
+"vervolgens vele andere vraagstukken worden opgelost."
 
 #: projects.inc:342
 msgid "PrimeGrid"
 msgstr "PrimeGrid"
 
 #: projects.inc:344
-#, fuzzy
 msgid "Private"
-msgstr "Private"
+msgstr "Persoonlijke"
 
 #: projects.inc:346
-#, fuzzy
 msgid ""
 "Primegrid is generating a public sequential prime number database, and is "
 "searching for large twin primes of the form k*2<sup>n</sup>+1 and k*2<sup>n</"
 "sup>-1"
 msgstr ""
-"Primegrid is generating a public sequential prime number database, and is "
-"searching for large twin primes of the form k*2<sup>n</sup>+1 and "
-"k*2<sup>n</sup>-1"
+"Primegrid genereert een openbare databank van een reeks opeenvolgende "
+"priemgetallen, en is op zoek naar grote priemtweelingen van de vorm "
+"k*2<sup>n</sup>+1 en k*2<sup>n</sup>-1"
 
 #: projects.inc:350
 msgid "primaboinca"
 msgstr "primaboinca"
 
 #: projects.inc:352
-#, fuzzy
 msgid "Hochschule RheinMain University of Applied Sciences"
-msgstr "Hochschule RheinMain University of Applied Sciences"
+msgstr "Hogeschool RheinMain Universiteit voor toegepaste wetenschappen"
 
 #: projects.inc:354
-#, fuzzy
 msgid ""
 "Search for counterexamples to two conjectures related to the identification "
 "of prime numbers"
 msgstr ""
-"Search for counterexamples to two conjectures related to the identification "
-"of prime numbers"
+"Ga op zoek naar tegenvoorbeelden van twee vermoedens omtrent de "
+"identificatie van priemgetallen"
 
 #: projects.inc:358
 msgid "SZTAKI Desktop Grid"
 msgstr "SZTAKI Desktop Grid"
 
 #: projects.inc:362
-#, fuzzy
 msgid ""
 "Find all the generalized binary number systems (in which bases are matrices "
 "and digits are vectors) up to dimension 11."
 msgstr ""
-"Find all the generalized binary number systems (in which bases are matrices "
-"and digits are vectors) up to dimension 11."
+"Zoek alle algemene binaire nummersystemen (gebaseerd op matrixen met "
+"decimalen als vectors) tot in de 11e dimensie."
 
 #: projects.inc:382
 msgid "Chess960@home"
@@ -925,22 +892,20 @@ msgid "Chess-960.org"
 msgstr "Chess-960.org"
 
 #: projects.inc:385
-#, fuzzy
 msgid "Game-playing"
 msgstr "Game-playing"
 
 #: projects.inc:386
-#, fuzzy
 msgid ""
 "This project studies Chess 960, a variant of orthodox chess. In classical "
 "chess the starting position of the game never changes.  In Chess 960, just "
 "before the start of every game, the initial configuration of the chess "
 "pieces is determined randomly."
 msgstr ""
-"This project studies Chess 960, a variant of orthodox chess. In classical "
-"chess the starting position of the game never changes.  In Chess 960, just "
-"before the start of every game, the initial configuration of the chess "
-"pieces is determined randomly."
+"Dit project onderzoekt Chess 960; een variant op het gewone schaakspel. Bij "
+"het conventionele schaakspel is de beginsituatie bij elk spel gelijk. Bij "
+"Chess 960 wordt, net voor het begin van elk spel, de opstelling van de "
+"schaakstukken willekeurig bepaald."
 
 #: versions.inc:6
 msgid "The current release is known to work with these Linux versions:"

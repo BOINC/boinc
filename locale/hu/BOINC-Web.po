@@ -7,8 +7,8 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2011-04-04 22:09 PDT\n"
-"PO-Revision-Date: 2010-10-09 19:26+0200\n"
-"Last-Translator: Gabor Cseh <csega@mailbox.hu>\n"
+"PO-Revision-Date: 2011-05-12 04:46+0200\n"
+"Last-Translator: Robee <roy512@freemail.hu>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: hu\n"
 "MIME-Version: 1.0\n"
@@ -24,19 +24,20 @@ msgstr ""
 
 #: projects.inc:14
 msgid "Cognitive science and artifical intelligence"
-msgstr ""
+msgstr "Kognitív tudomány és mesterséges intelligencia"
 
 #: projects.inc:17
+#, fuzzy
 msgid "FreeHAL"
-msgstr ""
+msgstr "FreeHAL"
 
 #: projects.inc:19 projects.inc:254 projects.inc:290 projects.inc:297
 msgid "private"
-msgstr ""
+msgstr "magán"
 
 #: projects.inc:20
 msgid "Artificial intelligence"
-msgstr ""
+msgstr "mesterséges intelligencia"
 
 #: projects.inc:21
 msgid ""
@@ -45,23 +46,26 @@ msgid ""
 "databases, and part of speech taggers in order to imitate human behavior in "
 "conversations."
 msgstr ""
+"Szemantikus hálók feldolgozása és konvertálása a FreeHAL-hoz, egy "
+"mesterséges intelligenciához, amely szemantikus hálózatokat, szótő keresést, "
+"szófaj adatbázisokat, szövegkörnyezet vizsgálatot használ, hogy imitálja az "
+"emberi viselkedést a párbeszédekben."
 
 #: projects.inc:27
 msgid "Biology and Medicine"
-msgstr ""
+msgstr "Biológia és orvostudomány"
 
 #: projects.inc:30
-#, fuzzy
 msgid "POEM@HOME"
-msgstr "Home"
+msgstr "POEM@HOME"
 
 #: projects.inc:32
 msgid "University of Karlsruhe (Germany)"
-msgstr ""
+msgstr "Karlsruhe-i Egyetem (Németország)"
 
 #: projects.inc:33
 msgid "Protein structure prediction"
-msgstr ""
+msgstr "Fehérjestruktúra előrejelzés"
 
 #: projects.inc:34
 msgid ""
@@ -74,15 +78,15 @@ msgstr ""
 
 #: projects.inc:38
 msgid "Docking@Home"
-msgstr ""
+msgstr "Docking@Home"
 
 #: projects.inc:40
 msgid "University of Delaware"
-msgstr ""
+msgstr "Delaware Egyetem"
 
 #: projects.inc:41
 msgid "Study of protein - ligand interactions"
-msgstr ""
+msgstr "Fehérje - ligandum interakciók tanulmányozása"
 
 #: projects.inc:42
 msgid ""
@@ -94,15 +98,15 @@ msgstr ""
 
 #: projects.inc:46
 msgid "GPUGrid.net"
-msgstr ""
+msgstr "GPUGrid.net"
 
 #: projects.inc:48
 msgid "Barcelona Biomedical Research Park (PRBB)"
-msgstr ""
+msgstr "Barcelonai Orvosbiológiai Kutatópark (PRBB)"
 
 #: projects.inc:49
 msgid "Molecular simulations of proteins"
-msgstr ""
+msgstr "Fehérjék molekuláris szimulációja"
 
 #: projects.inc:50
 msgid ""
@@ -114,15 +118,15 @@ msgstr ""
 
 #: projects.inc:54
 msgid "Superlink@Technion"
-msgstr ""
+msgstr "Superlink@Technion"
 
 #: projects.inc:56
 msgid "Technion, Israel"
-msgstr ""
+msgstr "Technion, Israel"
 
 #: projects.inc:57
 msgid "Genetic linkage analysis"
-msgstr ""
+msgstr "Genetikai okok felderítése"
 
 #: projects.inc:58
 msgid ""
@@ -132,18 +136,17 @@ msgid ""
 msgstr ""
 
 #: projects.inc:70
-#, fuzzy
 msgid "The Lattice Project"
-msgstr "A BOINC projekt"
+msgstr "A Lattice Projekt"
 
 #: projects.inc:72
 msgid ""
 "University of Maryland Center for Bioinformatics and Computational Biology"
-msgstr ""
+msgstr "Maryland Egyetem Bioinformatikai és Biomodellezési Központ"
 
 #: projects.inc:73
 msgid "Life science research"
-msgstr ""
+msgstr "Élettudományok kutatása"
 
 #: projects.inc:74
 msgid ""
@@ -152,18 +155,22 @@ msgid ""
 "bacterial, plasmid, and virus protein sequences; and biological diversity in "
 "nature reserves. "
 msgstr ""
+"A Lattice Projekt számítási teljesítményt biztosít a Maryland egyetem "
+"kutatóinak, evolúciós kapcsolatok DNS szekvencia adatokon, baktérium, "
+"plazmid, és vírus protein szekvenciákon, valamint természetvédelmi területek "
+"biodiverzitásán alapuló tanulmányozásához."
 
 #: projects.inc:78
 msgid "Malariacontrol.net"
-msgstr ""
+msgstr "Malariacontrol.net"
 
 #: projects.inc:80
 msgid "The Swiss Tropical Institute"
-msgstr ""
+msgstr "A Svájci Trópusi Intézet"
 
 #: projects.inc:81
 msgid "Epidemiology"
-msgstr ""
+msgstr "Járványtan"
 
 #: projects.inc:82
 msgid ""
@@ -178,15 +185,15 @@ msgstr ""
 
 #: projects.inc:102
 msgid "Rosetta@home"
-msgstr ""
+msgstr "Rosetta@home"
 
 #: projects.inc:104
 msgid "University of Washington"
-msgstr ""
+msgstr "Washingtoni Egyetem"
 
 #: projects.inc:105 projects.inc:113
 msgid "Biology"
-msgstr ""
+msgstr "Biológia"
 
 #: projects.inc:106
 msgid ""
@@ -200,11 +207,11 @@ msgstr ""
 
 #: projects.inc:110
 msgid "SIMAP"
-msgstr ""
+msgstr "SIMAP"
 
 #: projects.inc:112
 msgid "University of Vienna"
-msgstr ""
+msgstr "Bécsi Egyetem"
 
 #: projects.inc:114
 msgid ""
@@ -215,19 +222,19 @@ msgstr ""
 
 #: projects.inc:120
 msgid "Earth Sciences"
-msgstr ""
+msgstr "Földtudományok"
 
 #: projects.inc:130
 msgid "Virtual Prairie"
-msgstr ""
+msgstr "Virtuális Préri"
 
 #: projects.inc:132
 msgid "University of Houston"
-msgstr ""
+msgstr "Houstoni Egyetem"
 
 #: projects.inc:133
 msgid "Study of botanical ecosystems"
-msgstr ""
+msgstr "Botanikai ökoszisztémák tanulmányozása"
 
 #: projects.inc:134
 msgid ""
@@ -237,15 +244,15 @@ msgstr ""
 
 #: projects.inc:137
 msgid "Climateprediction.net"
-msgstr ""
+msgstr "Climateprediction.net"
 
 #: projects.inc:139
 msgid "Oxford University"
-msgstr ""
+msgstr "Oxfordi Egyetem"
 
 #: projects.inc:140
 msgid "Climate study"
-msgstr ""
+msgstr "Klíma tanulmány"
 
 #: projects.inc:141
 msgid ""
@@ -261,19 +268,19 @@ msgstr ""
 
 #: projects.inc:148
 msgid "Astronomy/Physics/Chemistry"
-msgstr ""
+msgstr "Csillagászat/Fizika/Kémia"
 
 #: projects.inc:151
 msgid "eOn"
-msgstr ""
+msgstr "eOn"
 
 #: projects.inc:153
 msgid "University of Texas at Austin"
-msgstr ""
+msgstr "Texasi Egyetem, Austin"
 
 #: projects.inc:154 projects.inc:185 projects.inc:225
 msgid "Chemistry"
-msgstr ""
+msgstr "Kémia"
 
 #: projects.inc:155
 msgid ""
@@ -290,23 +297,23 @@ msgstr ""
 
 #: projects.inc:158
 msgid "Orbit@home"
-msgstr ""
+msgstr "Orbit@home"
 
 #: projects.inc:160
 msgid "Planetary Science Institute"
-msgstr ""
+msgstr "Planetológiai Intézet"
 
 #: projects.inc:161 projects.inc:169 projects.inc:177
 msgid "Astronomy"
-msgstr ""
+msgstr "Csillagászat"
 
 #: projects.inc:162
 msgid "Monitor and study the hazard posed by near-Earth asteroids"
-msgstr ""
+msgstr "Földközeli aszteroidák okozta veszély figyelése és elemzése"
 
 #: projects.inc:166
 msgid "Cosmology@Home"
-msgstr ""
+msgstr "Cosmology@Home"
 
 #: projects.inc:168
 msgid "University of Illinois at Urbana-Chamapign"
@@ -627,9 +634,8 @@ msgid ""
 msgstr ""
 
 #: projects.inc:313
-#, fuzzy
 msgid "Software testing"
-msgstr "Szoftverfrissítések"
+msgstr "Szoftvertesztelés"
 
 #: projects.inc:314
 msgid ""
@@ -641,15 +647,15 @@ msgstr ""
 
 #: projects.inc:318
 msgid "AQUA@home"
-msgstr ""
+msgstr "AQUA@home"
 
 #: projects.inc:320
 msgid "D-Wave Systems, Inc."
-msgstr ""
+msgstr "D-Wave Systems, Inc."
 
 #: projects.inc:321
 msgid "Quantum computing"
-msgstr ""
+msgstr "Kvantumszámítás"
 
 #: projects.inc:322
 msgid ""
@@ -687,7 +693,7 @@ msgstr ""
 
 #: projects.inc:344
 msgid "Private"
-msgstr ""
+msgstr "magán"
 
 #: projects.inc:346
 msgid ""
@@ -721,16 +727,17 @@ msgid ""
 msgstr ""
 
 #: projects.inc:382
+#, fuzzy
 msgid "Chess960@home"
-msgstr ""
+msgstr "Chess960@home"
 
 #: projects.inc:384
 msgid "Chess-960.org"
-msgstr ""
+msgstr "Chess-960.org"
 
 #: projects.inc:385
 msgid "Game-playing"
-msgstr ""
+msgstr "Játékmenet"
 
 #: projects.inc:386
 msgid ""

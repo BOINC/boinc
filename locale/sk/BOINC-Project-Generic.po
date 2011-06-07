@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2010-10-06 13:10 PDT\n"
-"PO-Revision-Date: 2010-10-19 22:52+0200\n"
+"PO-Revision-Date: 2011-05-28 14:39+0200\n"
 "Last-Translator: aceman <acelists@atlas.sk>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: sk\n"
@@ -19,47 +19,49 @@ msgstr ""
 "X-Poedit-SourceCharset: utf-8\n"
 
 msgid "LANG_NAME_NATIVE"
-msgstr ""
+msgstr "Slovenčina"
 
 msgid "LANG_NAME_INTERNATIONAL"
-msgstr ""
+msgstr "Slovak"
 
 #: ../inc/forum.inc:124
 msgid "Search for words in forum messages"
-msgstr ""
+msgstr "Hladať slová v správach z fóra"
 
 #: ../inc/forum.inc:124
 msgid "Search forums"
-msgstr ""
+msgstr "Prehľadať fóra"
 
 #: ../inc/forum.inc:125
 msgid "Advanced search"
-msgstr ""
+msgstr "Pokročilé vyhľadávanie"
 
 #: ../inc/forum.inc:131 ../inc/user.inc:251 ../user/pm.php:64
 #: ../user/pm.php:129
 msgid "Private messages"
-msgstr ""
+msgstr "Súkromné správy"
 
 #: ../inc/forum.inc:149 ../user/forum_forum.php:69 ../user/sample_index.php:72
 msgid "Questions and Answers"
-msgstr ""
+msgstr "Otázky a Odpovede"
 
 #: ../inc/forum.inc:149 ../inc/forum.inc:182 ../inc/user.inc:248
 #: ../inc/user.inc:370 ../user/forum_forum.php:72 ../user/sample_index.php:71
 #: ../project.sample/project.inc:49
 msgid "Message boards"
-msgstr ""
+msgstr "Nástenky"
 
 #: ../inc/forum.inc:186 ../inc/forum.inc:194
 msgid "%1 message board"
-msgstr ""
+msgstr "nástenka %1"
 
 #: ../inc/forum.inc:1056
 msgid ""
 "In order to create a new thread in %1 you must have a certain amount of "
 "credit. This is to prevent and protect against abuse of the system."
 msgstr ""
+"Za účelom vytvorenia nového vlákna v %1 musíte mať určité množstvo bodov. "
+"Slúži to na ochránenie systému voči zneužitiu."
 
 #: ../inc/forum.inc:1063
 msgid ""
@@ -67,95 +69,97 @@ msgid ""
 "trying again. This delay has been enforced to protect against abuse of the "
 "system."
 msgstr ""
+"Momentálne nemôžete vytvoriť viac vlákien. Skúste to prosím neskôr. Toto "
+"oneskorenie bolo vyvolané za účelom ochrany systému voči zneužitiu."
 
 #: ../inc/forum.inc:1102
 msgid "Thread"
-msgstr ""
+msgstr "Vlákno"
 
 #: ../inc/forum.inc:1102 ../inc/team.inc:120 ../user/forum_forum.php:135
 #: ../user/forum_index.php:93
 msgid "Posts"
-msgstr ""
+msgstr "Príspevkov"
 
 #: ../inc/forum.inc:1102 ../user/forum_forum.php:135
 #: ../user/forum_reply.php:112 ../user/forum_report_post.php:80
 #: ../user/forum_thread.php:193
 msgid "Author"
-msgstr ""
+msgstr "Autor"
 
 #: ../inc/forum.inc:1102 ../user/forum_forum.php:135
 msgid "Views"
-msgstr ""
+msgstr "Zobrazenia"
 
 #: ../inc/forum.inc:1102 ../inc/team.inc:120 ../user/forum_forum.php:135
 #: ../user/forum_index.php:93
 msgid "Last post"
-msgstr ""
+msgstr "Posledný príspevok"
 
 #: ../inc/forum.inc:1174
 msgid "Mark all threads as read"
-msgstr ""
+msgstr "Označiť všetky vlákna ako prečítané."
 
 #: ../inc/forum.inc:1174
 msgid "Mark all threads in all message boards as 'read'."
-msgstr ""
+msgstr "Označiť všetky vlákna na všetkých nástenkách ako prečítané."
 
 #: ../inc/host.inc:24
 msgid "No host"
-msgstr ""
+msgstr "Žiaden počítač"
 
 #: ../inc/host.inc:26
 msgid "Unavailable"
-msgstr ""
+msgstr "Nedostupné"
 
 #: ../inc/host.inc:55 ../inc/prefs.inc:618 ../inc/prefs.inc:1018
 msgid "Home"
-msgstr ""
+msgstr "Domov"
 
 #: ../inc/host.inc:56 ../inc/prefs.inc:620 ../inc/prefs.inc:1019
 #: ../user/server_status.php:296
 msgid "Work"
-msgstr ""
+msgstr "Práca"
 
 #: ../inc/host.inc:57 ../inc/prefs.inc:619 ../inc/prefs.inc:1020
 msgid "School"
-msgstr ""
+msgstr "Škola"
 
 #: ../inc/host.inc:59
 msgid "Update"
-msgstr ""
+msgstr "Aktualizovať"
 
 #: ../inc/host.inc:83
 msgid "Computer information"
-msgstr ""
+msgstr "Informácie o počítači"
 
 #: ../inc/host.inc:87 ../inc/host.inc:92
 msgid "IP address"
-msgstr ""
+msgstr "IP adresa"
 
 #: ../inc/host.inc:87
 msgid "(same the last %1 times)"
-msgstr ""
+msgstr "(rovnaké posledných %1 krát)"
 
 #: ../inc/host.inc:89
 msgid "External IP address"
-msgstr ""
+msgstr "Vonkajšia IP adresa"
 
 #: ../inc/host.inc:92
 msgid "Show IP address"
-msgstr ""
+msgstr "Zobraziť IP adresu"
 
 #: ../inc/host.inc:94
 msgid "Domain name"
-msgstr ""
+msgstr "Názov domény"
 
 #: ../inc/host.inc:97
 msgid "Local Standard Time"
-msgstr ""
+msgstr "Miestny štandardný čas"
 
 #: ../inc/host.inc:97
 msgid "UTC %1 hours"
-msgstr ""
+msgstr "UTC %1 hodín"
 
 #: ../inc/host.inc:98 ../inc/host.inc:612 ../inc/result.inc:379
 #: ../inc/team.inc:202 ../inc/team.inc:345 ../inc/user.inc:202
@@ -164,19 +168,19 @@ msgstr ""
 #: ../user/team_email_list.php:62 ../user/top_users.php:47
 #: ../user/user_search.php:102 ../user/user_search.php:158
 msgid "Name"
-msgstr ""
+msgstr "Názov"
 
 #: ../inc/host.inc:102 ../inc/host.inc:104 ../inc/host.inc:213
 msgid "Owner"
-msgstr ""
+msgstr "Vlastník"
 
 #: ../inc/host.inc:104 ../inc/host.inc:318
 msgid "Anonymous"
-msgstr ""
+msgstr "Anonymný"
 
 #: ../inc/host.inc:108 ../inc/result.inc:381
 msgid "Created"
-msgstr ""
+msgstr "Vytvorený"
 
 #: ../inc/host.inc:109 ../inc/host.inc:217 ../inc/host.inc:222
 #: ../inc/host.inc:621 ../inc/team.inc:94 ../inc/team.inc:207
@@ -187,135 +191,135 @@ msgstr ""
 #: ../user/top_users.php:57 ../user/user_search.php:102
 #: ../user/user_search.php:158
 msgid "Total credit"
-msgstr ""
+msgstr "Celkový kredit"
 
 #: ../inc/host.inc:110 ../inc/user.inc:122 ../user/team_search.php:67
 #: ../user/user_search.php:102 ../user/user_search.php:158
 msgid "Average credit"
-msgstr ""
+msgstr "Priemerný kredit"
 
 #: ../inc/host.inc:112
 msgid "Cross project credit"
-msgstr ""
+msgstr "Kredit naprieč projektami"
 
 #: ../inc/host.inc:114
 msgid "CPU type"
-msgstr ""
+msgstr "Typ procesora"
 
 #: ../inc/host.inc:115
 msgid "Number of processors"
-msgstr ""
+msgstr "Počet procesorov"
 
 #: ../inc/host.inc:117
 msgid "Coprocessors"
-msgstr ""
+msgstr "Koprocesory"
 
 #: ../inc/host.inc:119 ../inc/host.inc:627
 msgid "Operating System"
-msgstr ""
+msgstr "Operačný systém"
 
 #: ../inc/host.inc:122 ../inc/host.inc:226
 msgid "BOINC version"
-msgstr ""
+msgstr "Verzia BOINC"
 
 #: ../inc/host.inc:126
 msgid "Memory"
-msgstr ""
+msgstr "Pamäť"
 
 #: ../inc/host.inc:126 ../inc/host.inc:134
 msgid "%1 MB"
-msgstr ""
+msgstr "%1 MB"
 
 #: ../inc/host.inc:129
 msgid "Cache"
-msgstr ""
+msgstr "Cache"
 
 #: ../inc/host.inc:129
 msgid "%1 KB"
-msgstr ""
+msgstr "%1 KB"
 
 #: ../inc/host.inc:134
 msgid "Swap space"
-msgstr ""
+msgstr "Odkladací priestor"
 
 #: ../inc/host.inc:137
 msgid "Total disk space"
-msgstr ""
+msgstr "Celkový úložný priestor"
 
 #: ../inc/host.inc:137 ../inc/host.inc:140
 msgid "%1 GB"
-msgstr ""
+msgstr "%1 GB"
 
 #: ../inc/host.inc:140
 msgid "Free Disk Space"
-msgstr ""
+msgstr "Voľný diskový priestor"
 
 #: ../inc/host.inc:144
 msgid "Measured floating point speed"
-msgstr ""
+msgstr "Zmeraná rýchlosť s plávajúcou desatinnou čiarkou"
 
 #: ../inc/host.inc:144 ../inc/host.inc:147
 msgid "%1 million ops/sec"
-msgstr ""
+msgstr "%1 milión operácií/s"
 
 #: ../inc/host.inc:147
 msgid "Measured integer speed"
-msgstr ""
+msgstr "Zmeraná celočíselná rýchlosť"
 
 #: ../inc/host.inc:151 ../inc/host.inc:153
 msgid "Average upload rate"
-msgstr ""
+msgstr "Priemerná rýchlosť odosielania"
 
 #: ../inc/host.inc:151 ../inc/host.inc:158
 msgid "%1 KB/sec"
-msgstr ""
+msgstr "%1 KB/s"
 
 #: ../inc/host.inc:153 ../inc/host.inc:160 ../inc/result.inc:152
 #: ../inc/result.inc:162 ../inc/result.inc:180 ../inc/result.inc:212
 msgid "Unknown"
-msgstr ""
+msgstr "Neznámy"
 
 #: ../inc/host.inc:158 ../inc/host.inc:160
 msgid "Average download rate"
-msgstr ""
+msgstr "Priemerná rýchlosť sťahovania"
 
 #: ../inc/host.inc:163
 msgid "Average turnaround time"
-msgstr ""
+msgstr "Priemerná návratová doba "
 
 #: ../inc/host.inc:163
 msgid "%1 days"
-msgstr ""
+msgstr "%1 dní"
 
 #: ../inc/host.inc:164
 msgid "Application details"
-msgstr ""
+msgstr "Detaily aplikácie"
 
 #: ../inc/host.inc:165 ../inc/result.inc:420
 msgid "Show"
-msgstr ""
+msgstr "Zobraziť"
 
 #: ../inc/host.inc:175 ../inc/host.inc:302 ../inc/user.inc:153
 msgid "Tasks"
-msgstr ""
+msgstr "Úlohy"
 
 #: ../inc/host.inc:179
 msgid "Number of times BOINC has contacted server"
-msgstr ""
+msgstr "Počet koľkokrát BOINC skontaktoval server"
 
 #: ../inc/host.inc:180
 msgid "Last time contacted server"
-msgstr ""
+msgstr "Posledné skontaktovanie so serverom"
 
 #: ../inc/host.inc:181
 #, php-format
 msgid "% of time BOINC is running"
-msgstr ""
+msgstr "% dĺžka behu BOINC"
 
 #: ../inc/host.inc:183
 #, php-format
 msgid "While BOINC running, % of time host has an Internet connection"
-msgstr ""
+msgstr "Pokým je BOINC spustený, % dĺžka času Internetového spojenia"
 
 #: ../inc/host.inc:185
 #, php-format

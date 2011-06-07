@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-01-26 13:27-0800\n"
-"PO-Revision-Date: 2011-02-23 13:25+0200\n"
+"PO-Revision-Date: 2011-04-21 07:56+0200\n"
 "Last-Translator: Gabor Cseh <csega@mailbox.hu>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: hu\n"
@@ -57,7 +57,7 @@ msgstr "Szintaktikai hiba az app_info.xml-ben"
 
 #: cs_statefile.cpp:833
 msgid "File referenced in app_info.xml does not exist: "
-msgstr "Az app_info.xml-ben hivatkozott fájl nem létezik:"
+msgstr "A hivatkozott fájl nem létezik az app_info.xml-ben:"
 
 #: current_version.cpp:84
 msgid "A new version of BOINC is available."
@@ -78,11 +78,11 @@ msgstr "Váratlan szöveg a cc_config.xml fájlban"
 
 #: log_flags.cpp:117 log_flags.cpp:433 log_flags.cpp:480
 msgid "Unrecognized tag in cc_config.xml"
-msgstr "Fel nem ismert címke a cc_config.xml-ben"
+msgstr "Felismerhetetlen címke a cc_config.xml-ben"
 
 #: log_flags.cpp:452
 msgid "Missing start tag in cc_config.xml"
-msgstr "Hiányzó indító címke a cc_config.xml-ben"
+msgstr "Hiányzó indító ta"
 
 #: log_flags.cpp:488
 msgid "Missing end tag in cc_config.xml"
@@ -109,14 +109,12 @@ msgstr ""
 "majd adja hozzá újra ezt a projektet."
 
 #: ../sched/handle_request.cpp:916
-#, fuzzy
 msgid "This project doesn't support operating system"
-msgstr "Ez a projekt nem támogatja az alábbi operációs rendszer(eke)t"
+msgstr "Ez a projekt nem támogatja az alábbi operációs rendszert"
 
 #: ../sched/handle_request.cpp:942
-#, fuzzy
 msgid "This project doesn't support CPU type"
-msgstr "Ez a projekt nem támogatja az alábbi CPU típus(oka)t"
+msgstr "Ez a projekt nem támogatja az alábbi CPU típust"
 
 #: ../sched/handle_request.cpp:966
 msgid ""
@@ -126,9 +124,8 @@ msgstr ""
 "verziót."
 
 #: ../sched/handle_request.cpp:1217
-#, fuzzy
 msgid "This project doesn't support computers of type"
-msgstr "Ez a projekt nem támogatja az alábbí típusú számítógépe(ke)t"
+msgstr "Ez a projekt nem támogatja az alábbí típusú számítógépet"
 
 #: ../sched/sched_send.cpp:1267
 msgid "Upgrade to the latest driver to process tasks using your computer's GPU"
@@ -204,16 +201,16 @@ msgstr ""
 
 #: ../sched/sched_types.cpp:268
 msgid "Unknown app name in app_info.xml"
-msgstr ""
+msgstr "Ismeretlen alkalmazásnév az app_info.xml fájlban"
 
 #: ../sched/sched_version.cpp:230
 msgid "Your app_info.xml file doesn't have a usable version of"
 msgstr ""
+"Az app_info.xml fájljának nincsen használható verziója erről a projektről:"
 
 #: ../sched/sched_version.cpp:709
-#, fuzzy
 msgid "is not available for"
-msgstr "nem érhető el az Ön számítógép típusához"
+msgstr "nem érhető el"
 
 #~ msgid "Notice from BOINC"
 #~ msgstr "Üzenetek a BOINCtól"

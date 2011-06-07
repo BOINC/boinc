@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2010-10-06 13:10 PDT\n"
-"PO-Revision-Date: 2011-02-27 20:42+0200\n"
+"PO-Revision-Date: 2011-05-07 10:54+0200\n"
 "Last-Translator: Morris83 <zara-83@libero.it>\n"
 "Language-Team: \n"
 "Language: it\n"
@@ -1172,7 +1172,7 @@ msgstr "Scaricamento in corso"
 #: ../inc/result.inc:187
 #, fuzzy
 msgid "Processing"
-msgstr "In processamento"
+msgstr "In elaborazione"
 
 #: ../inc/result.inc:188
 msgid "Compute error"
@@ -1343,7 +1343,7 @@ msgstr "versione dell'applicazione"
 
 #: ../inc/result.inc:396
 msgid "Stderr output"
-msgstr ""
+msgstr "Output su Stderr"
 
 #: ../inc/result.inc:409
 msgid "Previous"
@@ -1514,7 +1514,7 @@ msgstr "Amministratore"
 #: ../inc/team.inc:264 ../user/top_hosts.php:91 ../user/top_teams.php:119
 #: ../user/top_users.php:125
 msgid "Previous %1"
-msgstr ""
+msgstr "Precedente 1%"
 
 #: ../inc/team.inc:268 ../user/top_hosts.php:96 ../user/top_teams.php:124
 #: ../user/top_users.php:130
@@ -1538,6 +1538,8 @@ msgid ""
 "WARNING: this is a BOINC-wide team. If you make changes here, they will soon "
 "be overwritten. Edit the %1BOINC-wide team%2 instead."
 msgstr ""
+"ATTENZIONE: questo è un grosso team di BOINC. Se fai delle modifiche qui, "
+"saranno presto sovrascritte. Modifica al suo posto il %1BOINC-wide team%2."
 
 #: ../inc/team.inc:417
 msgid ""
@@ -1586,7 +1588,7 @@ msgstr "Descrizione del team"
 
 #: ../inc/team.inc:451
 msgid "Accept new members?"
-msgstr ""
+msgstr "Accetare nuovi membri?"
 
 #: ../inc/uotd.inc:27
 msgid "User profile"
@@ -1650,9 +1652,8 @@ msgid "Team"
 msgstr "Team"
 
 #: ../inc/user.inc:168
-#, fuzzy
 msgid "Cross-project"
-msgstr "ID su tutti i progetti (CPID)"
+msgstr "ID su tutti i progetti "
 
 #: ../inc/user.inc:169
 msgid "Certificate"
@@ -1664,11 +1665,11 @@ msgstr "Statistiche sul tuo telefono cellulare"
 
 #: ../inc/user.inc:184
 msgid "Unknown notification type: %1"
-msgstr ""
+msgstr "Tipo sconosciuto di notifica: %1"
 
 #: ../inc/user.inc:198
 msgid "Email address verification pending"
-msgstr ""
+msgstr "Verifica indirizzo email in attesa"
 
 #: ../inc/user.inc:201
 msgid "Account information"
@@ -1858,45 +1859,49 @@ msgstr "Aggiungi come amico"
 
 #: ../inc/util.inc:96
 msgid "Logged in as %1."
-msgstr ""
+msgstr "Autenticato come %1."
 
 #: ../inc/util.inc:97
 msgid "Log in as someone else."
-msgstr ""
+msgstr "Autenticati come qualcun'altro."
 
 #: ../inc/util.inc:99
 msgid "Not logged in."
-msgstr ""
+msgstr "Non autenticato."
 
 #: ../inc/util.inc:180
 msgid ""
 "A database error occurred while handling your request; please try again "
 "later."
 msgstr ""
+"Si è verificato un errore del database mentre si gestiva la tua richiesta; "
+"per favore riprova più tardi."
 
 #: ../inc/util.inc:189
 msgid "Unable to handle request"
-msgstr ""
+msgstr "Impossibile gestire la richiesta"
 
 #: ../inc/util.inc:209
 msgid "hours"
-msgstr ""
+msgstr "ore"
 
 #: ../inc/util.inc:212
 msgid "min"
-msgstr ""
+msgstr "minuti"
 
 #: ../inc/util.inc:215
 msgid "sec"
-msgstr ""
+msgstr "secondi"
 
 #: ../inc/util.inc:371
 msgid "Link has timed out. Please click Back, refresh the page, and try again."
 msgstr ""
+"Tempo di connessione al link scaduto. Per favore clicca Indietro, aggiorna "
+"la pagina e prova ancora."
 
 #: ../inc/util.inc:440
 msgid "View the profile of %1"
-msgstr ""
+msgstr "Mostra il profilo di %1"
 
 #: ../inc/util.inc:496
 msgid "Use BBCode tags to format your text"
@@ -1904,26 +1909,28 @@ msgstr "Usa i tag BBCode per formattare il testo"
 
 #: ../inc/util.inc:691
 msgid "Project down for maintenance"
-msgstr ""
+msgstr "Progetto sospeso per manutenzione"
 
 #: ../inc/util.inc:692
 msgid ""
 "This page requires database access.  Our database server is temporarily shut "
 "down for maintenance.  Please try again later."
 msgstr ""
+"Questa pagina richiede un accesso al database. Il nostro database server è "
+"temporaneamente spento per manutenzione. Per favore riprova più tardi."
 
 #: ../inc/util.inc:708
 msgid "Unable to connect to database - please try again later"
-msgstr ""
+msgstr "Impossibile connettersi al database - per favore riprova più tardi"
 
 #: ../inc/util.inc:709
 #, fuzzy
 msgid "Error:"
-msgstr "Errore"
+msgstr "Errore:"
 
 #: ../inc/util.inc:713
 msgid "Unable to select database - please try again later"
-msgstr ""
+msgstr "Impossibile selezionare il database - per favore riprova più tardi"
 
 #: ../user/account_finish.php:40 ../user/create_account_form.php:84
 msgid "Identifies you on our web site. Use your real name or a nickname."
@@ -1946,7 +1953,7 @@ msgstr "Dati facoltativi"
 #: ../user/add_venue.php:86
 #, fuzzy
 msgid "Add %1 preferences for %2"
-msgstr "Aggiungi %1 le preferenze per %2"
+msgstr "Aggiungi %1 preferenze per %2"
 
 # ########################################
 # Apps page (apps.php)
@@ -2003,14 +2010,13 @@ msgstr ""
 "tardi."
 
 #: ../user/create_account_form.php:50
-#, fuzzy
 msgid ""
 "NOTE: If you use the BOINC Manager, don't use this form. Just run BOINC, "
 "select Add Project, and enter an email address and password."
 msgstr ""
-"NOTA: se stai usando la versione 5.2 o superiore del BOINC Manager, non "
-"usare questo modulo. Appena avviato BOINC, seleziona 'Connessione ad un "
-"progetto' ed inserisci una email ed una password."
+"NOTA: se stai usando il BOINC Manager, non usare questo modulo. Appena "
+"avviato BOINC, seleziona 'Connessione ad un progetto' ed inserisci un "
+"indirizzo email ed una password."
 
 #: ../user/create_account_form.php:66
 msgid ""
@@ -2095,7 +2101,7 @@ msgstr "Invia il profilo"
 
 #: ../user/create_profile.php:108
 msgid "Please enter the words shown in the image."
-msgstr ""
+msgstr "Per favore inserisci le parole visualizzate nell'immagine."
 
 #: ../user/create_profile.php:113
 msgid "Create/edit profile"
@@ -2220,12 +2226,12 @@ msgstr "Cambia gli indirizzi mail del tuo account"
 #: ../user/edit_email_form.php:36
 #, fuzzy
 msgid "New email address"
-msgstr "e-mail"
+msgstr "Nuovo indirizzo email"
 
 #: ../user/edit_email_form.php:37
 #, fuzzy
 msgid "Must be a valid address of the form 'name@domain'"
-msgstr "Devi inserire un indirizzo email valido del tipo 'nome@dominio'"
+msgstr "Deve essere un indirizzo email valido del tipo 'nome@dominio'"
 
 #: ../user/edit_email_form.php:47
 msgid "No password?"
@@ -2246,7 +2252,7 @@ msgstr "il tuo indirizzo mail e la vecchia password"
 #: ../user/edit_passwd_form.php:43
 #, fuzzy
 msgid "your account key"
-msgstr "Chiave di accesso debole"
+msgstr "La tua chiave di accesso"
 
 #: ../user/edit_passwd_form.php:47
 msgid "Current password"
@@ -2287,15 +2293,15 @@ msgstr "Non posso aggiornare le informazioni utente."
 #: ../user/edit_user_info_form.php:27
 #, fuzzy
 msgid "Edit account information"
-msgstr "Informazioni sull'account"
+msgstr "Modifica le informazioni sull'account"
 
 #: ../user/edit_user_info_form.php:32
 msgid "Name %1 real name or nickname%2"
-msgstr ""
+msgstr "Nome %1 nome reale o nickname%2"
 
 #: ../user/edit_user_info_form.php:35
 msgid "URL %1 of your web page; optional%2"
-msgstr ""
+msgstr "URL %1 della tua pagina web; opzionale%2"
 
 #: ../user/edit_user_info_form.php:43
 msgid "Postal (ZIP) code %1 Optional%2"
@@ -2363,7 +2369,7 @@ msgstr "Non ti è concesso vedere questo forum."
 #: ../user/forum_thread.php:60
 #, fuzzy
 msgid "This thread has been hidden by moderators"
-msgstr "Questo argomento è stato nascosto per scopi amministrativi"
+msgstr "Questo argomento è stato nascosto dai moderatori"
 
 #: ../user/forum_thread.php:117
 msgid "My question was answered"
@@ -2640,16 +2646,17 @@ msgstr "Il tuo account"
 #: ../user/host_app_versions.php:54
 #, fuzzy
 msgid "Application details for host %1"
-msgstr "Applicazioni"
+msgstr "Dettagli applicazione per l'host %1"
 
 #: ../user/hosts_user.php:51
 #, fuzzy
 msgid "Computers belonging to %1"
-msgstr "Informazioni computer"
+msgstr "Computer appartenente a %1"
 
 #: ../user/hosts_user.php:54
 msgid "This user has chosen not to show information about their computers."
 msgstr ""
+"Questo utente ha scelto di non mostrare le informazioni sui suoi computers."
 
 # ########################################<br />
 # Rules and Policies page (info.php)
@@ -2903,9 +2910,8 @@ msgid "forgot email address?"
 msgstr "hai dimenticato l'indirizzo mail?"
 
 #: ../user/login_form.php:44
-#, fuzzy
 msgid "Password:"
-msgstr "Password:"
+msgstr "Chiave d'accesso"
 
 #: ../user/login_form.php:44
 msgid "forgot password?"
@@ -3021,6 +3027,9 @@ msgid ""
 "\t      will take effect when your computer communicates with %1\n"
 "\t      or you issue the %2Update%3 command from the BOINC Manager."
 msgstr ""
+"Le tue preferenze sono state aggiornate e\n"
+"\t avranno effetto quando il tuo computer comunicherà con %1\n"
+"\toppure quando lancerai  il comando %2Aggiorna%3 dal BOINC manager."
 
 #: ../user/prefs_edit.php:72 ../user/prefs_edit.php:101
 msgid "%1 for %2"
@@ -3028,15 +3037,15 @@ msgstr "%1 per %2"
 
 #: ../user/prefs_edit.php:119
 msgid "Back to preferences"
-msgstr ""
+msgstr "Ritorna alle preferenze"
 
 #: ../user/prefs_remove.php:46
 msgid "Confirm delete preferences"
-msgstr ""
+msgstr "Conferma la cancellazione delle preferenze"
 
 #: ../user/prefs_remove.php:49
 msgid "Are you sure you want to delete your separate %1 preferences for %2?"
-msgstr ""
+msgstr "Sei sicuro di voler cancellare le tue preferenze separate %1 per %2?"
 
 #: ../user/prefs_remove.php:53
 msgid "Remove preferences"
@@ -3141,7 +3150,7 @@ msgstr "Ritorna al profilo."
 #: ../user/result.php:28
 #, fuzzy
 msgid "No such task"
-msgstr "Nessun team."
+msgstr "Nessuna attività"
 
 #: ../user/result.php:30
 msgid "Task %1"
@@ -3173,44 +3182,45 @@ msgstr "Utente del giorno"
 
 #: ../user/server_status.php:94
 msgid "Running"
-msgstr ""
+msgstr "In esecuzione"
 
 #: ../user/server_status.php:97
 msgid "Not Running"
-msgstr ""
+msgstr "Non in esecuzione"
 
 #: ../user/server_status.php:100
 msgid "Disabled"
-msgstr ""
+msgstr "Disabilitato"
 
 #: ../user/server_status.php:216
 msgid "Project status"
-msgstr ""
+msgstr "Stato del progetto"
 
 #: ../user/server_status.php:218
 msgid "Server software version: %1"
-msgstr ""
+msgstr "Versione software del server: %1"
 
 #: ../user/server_status.php:224
 #, fuzzy
 msgid "Server status"
-msgstr "Stato server"
+msgstr "Stato del server"
 
 #: ../user/server_status.php:226
 msgid "Program"
-msgstr ""
+msgstr "Programma"
 
 #: ../user/server_status.php:226
 msgid "Host"
-msgstr ""
+msgstr "Ospite"
 
 #: ../user/server_status.php:237
 msgid "data-driven web pages"
 msgstr ""
 
 #: ../user/server_status.php:243
+#, fuzzy
 msgid "upload/download server"
-msgstr ""
+msgstr "Server di caricamento, scaricamento"
 
 #: ../user/server_status.php:246
 msgid "scheduler"
@@ -3218,59 +3228,59 @@ msgstr ""
 
 #: ../user/server_status.php:276
 msgid "Running:"
-msgstr ""
+msgstr "In esecuzione:"
 
 #: ../user/server_status.php:277
 msgid "Program is operating normally"
-msgstr ""
+msgstr "Il programma sta funzionando normalmente"
 
 #: ../user/server_status.php:278
 msgid "Not Running:"
-msgstr ""
+msgstr "Non in esecuzione:"
 
 #: ../user/server_status.php:279
 msgid "Program failed or the project is down"
-msgstr ""
+msgstr "Il programma non ha funzionato e il progetto è sospeso"
 
 #: ../user/server_status.php:280
 msgid "Disabled:"
-msgstr ""
+msgstr "Disabilitato: "
 
 #: ../user/server_status.php:281
 msgid "Program is disabled"
-msgstr ""
+msgstr "Il programma è disabilitato"
 
 #: ../user/server_status.php:285
 msgid "Computing status"
-msgstr ""
+msgstr "Stato di elaborazione"
 
 #: ../user/server_status.php:291
 msgid "The database server is not accessible"
-msgstr ""
+msgstr "Il database del server è inaccessibile"
 
 #: ../user/server_status.php:308
 msgid "Tasks ready to send"
-msgstr ""
+msgstr "Attività pronte per essere spedite"
 
 #: ../user/server_status.php:313 ../user/workunit.php:52
 msgid "Tasks in progress"
-msgstr ""
+msgstr "Attività in corso"
 
 #: ../user/server_status.php:318
 msgid "Workunits waiting for validation"
-msgstr ""
+msgstr "Unità di lavoro in attesa di essere validate"
 
 #: ../user/server_status.php:323
 msgid "Workunits waiting for assimilation"
-msgstr ""
+msgstr "Workunits in attesa di essere recepite"
 
 #: ../user/server_status.php:328
 msgid "Workunits waiting for file deletion"
-msgstr ""
+msgstr "Unità di lavoro in attesa di cancellazione"
 
 #: ../user/server_status.php:333
 msgid "Tasks waiting for file deletion"
-msgstr ""
+msgstr "Attività in attesa di cancellazione"
 
 #: ../user/server_status.php:346
 msgid "Transitioner backlog (hours)"
@@ -3279,39 +3289,39 @@ msgstr ""
 #: ../user/server_status.php:353
 #, fuzzy
 msgid "Users"
-msgstr "Utente"
+msgstr "Utenti"
 
 #: ../user/server_status.php:355 ../user/server_status.php:371
 msgid "with recent credit"
-msgstr ""
+msgstr "con crediti recenti"
 
 #: ../user/server_status.php:360 ../user/server_status.php:376
 msgid "with credit"
-msgstr ""
+msgstr "con credito"
 
 #: ../user/server_status.php:365 ../user/server_status.php:381
 msgid "registered in past 24 hours"
-msgstr ""
+msgstr "registrati nelle scorse 24 ore"
 
 #: ../user/server_status.php:388
 msgid "current GigaFLOPs"
-msgstr ""
+msgstr "GigaFLOPs correnti"
 
 #: ../user/server_status.php:397
 msgid "Tasks by application"
-msgstr ""
+msgstr "Attività dall'applicazione"
 
 # ########################################
 # Apps page (apps.php)
 #: ../user/server_status.php:398 ../user/workunit.php:38
 #, fuzzy
 msgid "application"
-msgstr "applicazioni"
+msgstr "applicazione"
 
 #: ../user/server_status.php:398
 #, fuzzy
 msgid "unsent"
-msgstr "Non mandato"
+msgstr "Non inviato"
 
 #: ../user/server_status.php:398
 #, fuzzy
@@ -3320,11 +3330,11 @@ msgstr "In corso"
 
 #: ../user/server_status.php:398
 msgid "avg runtime of last 100 results in h (min-max)"
-msgstr ""
+msgstr "Tempo medio di esecuzione degli ultimi 100 risultati in ore (min-max)"
 
 #: ../user/server_status.php:398
 msgid "users in last 24h"
-msgstr ""
+msgstr "utenti nelle ultime 24 ore"
 
 #: ../user/show_user.php:88
 msgid "Account data for %1"
@@ -3438,7 +3448,7 @@ msgstr ""
 
 #: ../user/team_admins.php:32
 msgid "Remove Team Admin status from this member"
-msgstr ""
+msgstr "Rimuovi lo stato di Amministratore del Team per questo membro"
 
 #: ../user/team_admins.php:38 ../user/team_admins.php:49
 msgid "Add or remove Team Admins"
@@ -3447,20 +3457,24 @@ msgstr "Aggiungi o rimuovi Admin del team"
 #: ../user/team_admins.php:39
 msgid "You can select team members as 'Team Admins'. Team Admins can:"
 msgstr ""
+"Puoi selezionare membri del team cone 'Amministratori del Team'. Gli "
+"Amministratori del Team possono:"
 
 #: ../user/team_admins.php:41
 msgid "Edit team information (name, URL, description, country)"
-msgstr ""
+msgstr "Modifica le informazioni del team (nome, URL, descrizione, stato)"
 
 #: ../user/team_admins.php:42
 msgid "View the team's join/quit history"
-msgstr ""
+msgstr "Vedi il resoconto di iscritti/cancellati del team"
 
 #: ../user/team_admins.php:43
 msgid ""
 "Moderate the team forum, if any (admins get email notification of moderation "
 "events and red X reports)"
 msgstr ""
+"Moderate il forum del team, se esiste (gli amministratori ricevono email di "
+"notifica degli atti di moderazione e reports)"
 
 #: ../user/team_admins.php:45
 msgid "Team Admins cannot:"
@@ -3477,16 +3491,20 @@ msgstr "Rimuovi membri"
 #: ../user/team_admins.php:51
 msgid "If a Team Admin quits the team, they cease to be a Team Admin."
 msgstr ""
+"Se un Amministratore del Team chiude il team, loro smettono di essere "
+"Amministratori del Team."
 
 #: ../user/team_admins.php:52
 msgid ""
 "We recommend that you select only people you know and trust very well as "
 "Team Admins."
 msgstr ""
+"Ci raccomandiamo che tu scelga solo persone che conosci e di cui ti fidi "
+"molto come Amministratori del Team."
 
 #: ../user/team_admins.php:57
 msgid "There are currently no Team Admins"
-msgstr ""
+msgstr "Non ci sono attualmente Amministratori del Team"
 
 #: ../user/team_admins.php:59
 msgid "Current Team Admins"
@@ -3494,15 +3512,15 @@ msgstr "Admin del team correnti"
 
 #: ../user/team_admins.php:60
 msgid "Became Team Admin on"
-msgstr ""
+msgstr "Diventa Amministratore del Team di"
 
 #: ../user/team_admins.php:75
 msgid "Add Team Admin"
-msgstr ""
+msgstr "Aggiungi l'Amministratore del Team"
 
 #: ../user/team_admins.php:76
 msgid "Email address of team member:"
-msgstr ""
+msgstr "Indirizzo email del membro del team:"
 
 #: ../user/team_admins.php:88
 msgid "failed to remove admin"
@@ -3523,7 +3541,7 @@ msgstr "%1 è già un admin di %2"
 
 #: ../user/team_admins.php:102
 msgid "Couldn't add admin"
-msgstr ""
+msgstr "Impossibile aggiungere l'amministratore"
 
 #: ../user/team_admins.php:108 ../user/team_quit_form.php:28
 #: ../user/team_remove_inactive_action.php:26
@@ -3561,12 +3579,18 @@ msgid ""
 "Team member %1 requested this team's foundership on %2, but left the team, "
 "thus canceling the request."
 msgstr ""
+"Il membro del team %1 ha richiesto la carica di fondatore di questo team in "
+"%2, ma ha abbandonato il team, di conseguenza la richiesta è stata "
+"cancellata."
 
 #: ../user/team_change_founder_form.php:47
 msgid ""
 "Team member %1 has requested this team's foundership. This may be because "
 "you left the team or haven't had contact with the team for a long time."
 msgstr ""
+"Il membro %1 ha richiesto di essere il fondatore di questo team. Potrebbe "
+"essere perchè hai abbandonato il team oppure non hai avuto contatti con il "
+"team per un lungo periodo."
 
 #: ../user/team_change_founder_form.php:53
 msgid "decline request"
@@ -3579,6 +3603,9 @@ msgid ""
 "                  To accept the request, assign foundership to %3 using the "
 "form below."
 msgstr ""
+"Se non rifiuti la richiesta di %1. %2 avrà l'opzione di assumere la carica "
+"di fondatore del team. Per accettare la richiesta, assegna la fusione a &3, "
+"utilizzando lo schema sotto. "
 
 #: ../user/team_change_founder_form.php:64
 msgid "No transfer request is pending."
@@ -3589,6 +3616,9 @@ msgid ""
 "To assign foundership of this team to another member, check the box next to "
 "member name and click <strong>Change founder</strong> below."
 msgstr ""
+"Per assegnare il ruolo di fondatore di questo team ad un altro membro, "
+"controlla il riquadro vicino al nome del membro e clicca su <strong> Cambia "
+"fondatore <strong> sotto."
 
 #: ../user/team_change_founder_form.php:74
 msgid "New founder?"
@@ -3627,7 +3657,7 @@ msgstr "Nessun fondatore o amministratore"
 
 #: ../user/team_delta.php:71
 msgid "Team history for %1"
-msgstr ""
+msgstr "Storia del team per %1"
 
 #: ../user/team_delta.php:74
 msgid "When"
@@ -3638,14 +3668,12 @@ msgid "User"
 msgstr "Utente"
 
 #: ../user/team_delta.php:76
-#, fuzzy
 msgid "Action"
-msgstr "Azione"
+msgstr "Attività"
 
 #: ../user/team_delta.php:77
-#, fuzzy
 msgid "Total credit at time of action"
-msgstr "Credito totale durante l'azione"
+msgstr "Credito totale durante l'attività"
 
 #: ../user/team_edit_action.php:57
 msgid "The name '%1' is being used by another team."
@@ -3656,9 +3684,8 @@ msgid "Must specify team name"
 msgstr "Devi specificare un nome di un team"
 
 #: ../user/team_edit_action.php:88
-#, fuzzy
 msgid "Could not update team - please try again later."
-msgstr "Non è stato possibile creare il team - riprovare più tardi."
+msgstr "Non è stato possibile aggiornare il team - riprovare più tardi."
 
 #: ../user/team_edit_form.php:31
 msgid "Edit %1"
@@ -3678,60 +3705,59 @@ msgstr "Lista membri di %1"
 
 #: ../user/team_email_list.php:76
 msgid "Show as plain text"
-msgstr ""
+msgstr "Mostra come testo normale"
 
 #: ../user/team_forum.php:26 ../user/team_forum.php:37
 msgid "Create Message Board"
-msgstr ""
+msgstr "Crea un forum di messaggi"
 
 #: ../user/team_forum.php:27
 msgid "You may create a message board for use by %1."
-msgstr ""
+msgstr "Tu puoi creare un forum du messaggio per l'uso da parte di %1"
 
 #: ../user/team_forum.php:29
 msgid "Only team members will be able to post."
-msgstr ""
+msgstr "Solo i membri del gruppo avranno la possibilità di scrivere."
 
 #: ../user/team_forum.php:30
 msgid "At your option, only members will be able to read."
-msgstr ""
+msgstr "Con una tua opzione, solo i membri potranno leggere."
 
 #: ../user/team_forum.php:31
 msgid "You and your Team Admins will have moderator privileges."
-msgstr ""
+msgstr "Tu ed i tuoi Amministratori del team avrete i privilegi di moderatori."
 
 #: ../user/team_forum.php:38
 msgid "Create a message board for %1"
-msgstr ""
+msgstr "Crea un forum di messaggi per %1"
 
 #: ../user/team_forum.php:46
 msgid "Team already has a message board"
-msgstr ""
+msgstr "Il team ha già un forum di messaggi."
 
 #: ../user/team_forum.php:51
-#, fuzzy
 msgid "couldn't create message board"
-msgstr "Non in grado di scrivere il messaggio"
+msgstr "Non in grado di creare un forum di messaggi"
 
 #: ../user/team_forum.php:57
 msgid "Team Message Board"
-msgstr ""
+msgstr "Forum di messaggi del team."
 
 #: ../user/team_forum.php:66
 msgid "Discussion among members of %1"
-msgstr ""
+msgstr "Discussione tra i membri di %1"
 
 #: ../user/team_forum.php:69
 msgid "Minimum time between posts (seconds)"
-msgstr ""
+msgstr "Tempo minimo tra i messaggi (secondi)"
 
 #: ../user/team_forum.php:72
 msgid "Minimum total credit to post"
-msgstr ""
+msgstr "Credito totale minimo per scrivere"
 
 #: ../user/team_forum.php:75
 msgid "Minimum average credit to post"
-msgstr ""
+msgstr "Credito medio minimo per scrivere"
 
 #: ../user/team_forum.php:78
 msgid "Submit"
@@ -3739,11 +3765,11 @@ msgstr "Invia"
 
 #: ../user/team_forum.php:87
 msgid "Remove your team's message board."
-msgstr ""
+msgstr "Rimuovi il forum di messaggi del tuo team."
 
 #: ../user/team_forum.php:95
 msgid "Really remove message board?"
-msgstr ""
+msgstr "Veramente vuoi rimuovere il forum di messaggi?"
 
 #: ../user/team_forum.php:96
 msgid ""
@@ -3751,27 +3777,32 @@ msgid ""
 "posts will be permanently removed. (You may, however, create a new message "
 "board later)."
 msgstr ""
+"Sei sicuro di voler rimuovere il forum di messaggi del tuo tem? Tutte le "
+"discussioni ed i messaggi verranno permanentemente rimossi. (Tu puoi, "
+"comunque, creare un nuovo forum di messaggi successivamente)."
 
 #: ../user/team_forum.php:98
 msgid "Yes - remove message board"
-msgstr ""
+msgstr "Sì-rimuovi il forum di messaggi."
 
 #: ../user/team_forum.php:105
 msgid "message board not found"
-msgstr ""
+msgstr "Forum di messaggi non trovato."
 
 #: ../user/team_forum.php:119
 msgid "Message board removed"
-msgstr ""
+msgstr "Forum di messaggi rimosso."
 
 #: ../user/team_forum.php:122
 msgid ""
 "Your team's message board has been removed. You may now %1create a new one%2."
 msgstr ""
+"Il forum di messaggi del tuo team è stato rimosso. Tu puoi ora %1 crearne "
+"uno nuovo%2."
 
 #: ../user/team_forum.php:141
 msgid "Team Message Board Updated"
-msgstr ""
+msgstr "Forum di messaggi del team aggiornato."
 
 #: ../user/team_forum.php:142
 msgid "Update successful"
@@ -3808,6 +3839,10 @@ msgid ""
 "                       If the founder does not respond within 60 days you "
 "will be allowed to become the founder."
 msgstr ""
+"Il fondatore corrente è stato informato della tua richiesta mediante email e "
+"messaggio privato. <br /><br />\n"
+" Se il fondatore non risponde in 60 giorni,  sarai autorizzato a diventare "
+"il nuovo fondatore."
 
 #: ../user/team_founder_transfer_action.php:100
 #: ../user/team_founder_transfer_action.php:111
@@ -3823,6 +3858,8 @@ msgid ""
 "Congratulations, you are now the founder of team %1. Go to %2Your Account "
 "page%3 to find the Team Admin options."
 msgstr ""
+"Congratulazioni, sei ora il nuovo fondatore del team %1. Vai a %2La tua "
+"pagina Acoount%3 per trovare le opzioni dell'Ammnistratore di Team."
 
 #: ../user/team_founder_transfer_action.php:118
 msgid "Decline founder change request"
@@ -3838,7 +3875,7 @@ msgstr "Non ci sono richieste di cambio fondatore."
 
 #: ../user/team_founder_transfer_action.php:132
 msgid "undefined action %1"
-msgstr ""
+msgstr "Azione non definita %1"
 
 #: ../user/team_founder_transfer_action.php:135
 #: ../user/team_founder_transfer_form.php:81
@@ -3855,17 +3892,19 @@ msgstr "Richiedi cambio fondatore per %1"
 
 #: ../user/team_founder_transfer_form.php:36
 msgid "You are now founder of team %1."
-msgstr ""
+msgstr "Sei ora il fondatore del gruppo %1."
 
 #: ../user/team_founder_transfer_form.php:42
 msgid "You requested the foundership of %1 on %2."
-msgstr ""
+msgstr "Hai richiesto la carica di fondatore di %1 su %2"
 
 #: ../user/team_founder_transfer_form.php:45
 msgid ""
 "60 days have elapsed since your request, and the founder has not responded. "
 "You may now assume foundership by clicking here:"
 msgstr ""
+"60 giorni sono passati dalla tua richiesta, e il fondatore non ha risposto. "
+"Puoi assumere la carica di fondatore cliccando qui:"
 
 #: ../user/team_founder_transfer_form.php:48
 msgid "Assume foundership"

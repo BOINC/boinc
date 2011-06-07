@@ -3526,7 +3526,7 @@ msgid ""
 "To assign foundership of this team to another member, check the box next to "
 "member name and click <strong>Change founder</strong> below."
 msgstr ""
-" Om oprichterschap van dit team over te dragen naar een ander lid, vinkt u "
+"Om oprichterschap van dit team over te dragen naar een ander lid, vinkt u "
 "het vakje naast de naam van het lid aan en klikt u hieronder "
 "op<strong>Oprichter wijzigen</strong>"
 

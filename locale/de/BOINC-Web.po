@@ -4,56 +4,61 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2011-04-04 22:09 PDT\n"
-"PO-Revision-Date: 2010-09-16 03:43-0700\n"
-"Last-Translator: Christian Beer <djangofett@gmx.net>\n"
+"PO-Revision-Date: 2011-05-13 15:58+0200\n"
+"Last-Translator: Christian <djangofett@gmx.net>\n"
 "Language-Team: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Pootle 1.2.1\n"
+"X-Generator: Pootle 2.1.1\n"
 "X-Poedit-SourceCharset: utf-8\n"
 
 #: projects.inc:14
 msgid "Cognitive science and artifical intelligence"
-msgstr ""
+msgstr "Erkenntnistheorie und künstliche Intelligenz"
 
 #: projects.inc:17
 msgid "FreeHAL"
-msgstr ""
+msgstr "FreeHAL"
 
 #: projects.inc:19 projects.inc:254 projects.inc:290 projects.inc:297
 msgid "private"
-msgstr ""
+msgstr "privat"
 
 #: projects.inc:20
 msgid "Artificial intelligence"
-msgstr ""
+msgstr "Künstliche Intelligenz"
 
 #: projects.inc:21
+#, fuzzy
 msgid ""
 "Parse and convert semantic nets for use in FreeHAL, an artificial "
 "intelligence that uses semantic networks, stemmers, part of speech "
 "databases, and part of speech taggers in order to imitate human behavior in "
 "conversations."
 msgstr ""
+"Analysiere und konvertiere Netzwerke für die Nutzung durch FreeHAL, eine "
+"künstliche Intelligenz welche unter anderem semantische Netzwerke und Teile "
+"von Sprachdatenbanken verwendet um menschliches Verhalten in Konversationen "
+"zu imitieren."
 
 #: projects.inc:27
 msgid "Biology and Medicine"
-msgstr ""
+msgstr "Biologie und Medizin"
 
 #: projects.inc:30
 msgid "POEM@HOME"
-msgstr ""
+msgstr "POEM@HOME"
 
 #: projects.inc:32
 msgid "University of Karlsruhe (Germany)"
-msgstr ""
+msgstr "Universität Karlsruhe (Deutschland)"
 
 #: projects.inc:33
 msgid "Protein structure prediction"
-msgstr ""
+msgstr "Vorhersage von Proteinstrukturen"
 
 #: projects.inc:34
 msgid ""
@@ -66,15 +71,15 @@ msgstr ""
 
 #: projects.inc:38
 msgid "Docking@Home"
-msgstr ""
+msgstr "Docking@Home"
 
 #: projects.inc:40
 msgid "University of Delaware"
-msgstr ""
+msgstr "Universität von Delaware"
 
 #: projects.inc:41
 msgid "Study of protein - ligand interactions"
-msgstr ""
+msgstr "Untersuchen der Protein - Ligand Interaktionen"
 
 #: projects.inc:42
 msgid ""
@@ -155,7 +160,7 @@ msgstr ""
 
 #: projects.inc:81
 msgid "Epidemiology"
-msgstr ""
+msgstr "Epidemiologie"
 
 #: projects.inc:82
 msgid ""
@@ -207,7 +212,7 @@ msgstr ""
 
 #: projects.inc:120
 msgid "Earth Sciences"
-msgstr ""
+msgstr "Geowissenschaften"
 
 #: projects.inc:130
 msgid "Virtual Prairie"
@@ -253,7 +258,7 @@ msgstr ""
 
 #: projects.inc:148
 msgid "Astronomy/Physics/Chemistry"
-msgstr ""
+msgstr "Astronomie/Physik/Chemie"
 
 #: projects.inc:151
 msgid "eOn"
@@ -265,7 +270,7 @@ msgstr ""
 
 #: projects.inc:154 projects.inc:185 projects.inc:225
 msgid "Chemistry"
-msgstr ""
+msgstr "Chemie"
 
 #: projects.inc:155
 msgid ""
@@ -290,7 +295,7 @@ msgstr ""
 
 #: projects.inc:161 projects.inc:169 projects.inc:177
 msgid "Astronomy"
-msgstr ""
+msgstr "Astronomie"
 
 #: projects.inc:162
 msgid "Monitor and study the hazard posed by near-Earth asteroids"
@@ -374,7 +379,7 @@ msgstr ""
 
 #: projects.inc:201
 msgid "Astrophysics"
-msgstr ""
+msgstr "Astrophysik"
 
 #: projects.inc:202
 msgid ""
@@ -396,7 +401,7 @@ msgstr ""
 
 #: projects.inc:209
 msgid "Physics"
-msgstr ""
+msgstr "Physik"
 
 #: projects.inc:210
 msgid ""
@@ -418,7 +423,7 @@ msgstr "BOINC wird an der Universität von Kalifornien in Berkeley entwickelt."
 
 #: projects.inc:217
 msgid "Astrophysics, astrobiology"
-msgstr ""
+msgstr "Astrophysik, Astrobiologie"
 
 #: projects.inc:218
 msgid ""

@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2011-04-04 22:09 PDT\n"
-"PO-Revision-Date: 2011-04-13 02:57+0200\n"
+"PO-Revision-Date: 2011-04-22 20:18+0200\n"
 "Last-Translator: Xavier <xmormur@telepolis.com>\n"
 "Language-Team: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
 "Language: ca\n"
@@ -27,7 +27,6 @@ msgid "Cognitive science and artifical intelligence"
 msgstr "La ciència cognitiva i la intel ligència artificial"
 
 #: projects.inc:17
-#, fuzzy
 msgid "FreeHAL"
 msgstr "FreeHAL"
 
@@ -46,6 +45,10 @@ msgid ""
 "databases, and part of speech taggers in order to imitate human behavior in "
 "conversations."
 msgstr ""
+"Analitzar i convertir les xarxes semàntiques per a l' ús en FreeHAL, una "
+"intel ligència artificial que utilitza xarxes semàntiques, lematitzadors, "
+"part de bases de dades de parla, i part de referències en la parla per tal "
+"d'imitar el comportament humà en les converses."
 
 #: projects.inc:27
 msgid "Biology and Medicine"
@@ -266,13 +269,15 @@ msgstr "Universitat de Houston"
 
 #: projects.inc:133
 msgid "Study of botanical ecosystems"
-msgstr ""
+msgstr "Estudi dels ecosistemes botànics"
 
 #: projects.inc:134
 msgid ""
 "Provide ecological guidelines on the design of prairies with the best "
 "potential for water purification."
 msgstr ""
+"Proporcionar directrius sobre el disseny ecològic de les praderies amb el "
+"millor potencial per a la purificació de l'aigua."
 
 #: projects.inc:137
 msgid "Climateprediction.net"
@@ -297,6 +302,15 @@ msgid ""
 "cycle. This will allow us to explore how climate may change in the next "
 "century under a wide range of different scenarios."
 msgstr ""
+"Investigar les aproximacions que han de ser realitzats en l'estat dels "
+"models climàtics d'última generació. A l'executar el model milers de vegades "
+"esperem a veure com respon el model als lleus ajustos a aquestes "
+"aproximacions - prou lleugeres com per no fer les aproximacions menys "
+"realistes. Això ens permetrà millorar la nostra comprensió de la "
+"sensibilitat dels nostres models als petits canvis i també per a coses com "
+"canvis en el diòxid de carboni i el cicle del sofre. Això ens permetrà "
+"estudiar com pot canviar el clima en el pròxim segle amb una àmplia gamma "
+"d'escenaris diferents."
 
 #: projects.inc:148
 msgid "Astronomy/Physics/Chemistry"
@@ -326,6 +340,16 @@ msgid ""
 "single event of interest can be expected to occur.  Our research group is "
 "interested in calculating the long time dynamics of systems."
 msgstr ""
+"Un problema comú en la química teòrica, la física de matèria condensada i "
+"ciència dels materials és el càlcul de l'evolució temporal d'un sistema a "
+"escala atòmica, on, per exemple, succeeixen reaccions químiques i/o difusió. "
+"En general, els esdeveniments d'interès són molt rars (molts ordres de "
+"magnitud més lents que els moviments de vibració dels àtoms), i per tant "
+"simulacions directes, amb el seguiment de cada moviment dels àtoms, prendria "
+"milers d'anys de càlculs a l'ordinador més ràpid avui en dia abans de  que "
+"un sol esdeveniment d'interès desitjat es produeixi. El nostre grup de "
+"recerca està interessat en el càlcul de la dinàmica dels sistemes en "
+"períodes llargs de temps."
 
 #: projects.inc:158
 msgid "Orbit@home"
@@ -342,6 +366,8 @@ msgstr "Astronomia"
 #: projects.inc:162
 msgid "Monitor and study the hazard posed by near-Earth asteroids"
 msgstr ""
+"Seguiment i estudi dels perills que plantegen els asteroides propers a la "
+"Terra"
 
 #: projects.inc:166
 msgid "Cosmology@Home"
@@ -357,6 +383,9 @@ msgid ""
 "our Universe and to find the range of models that agree with the available "
 "astronomical particle physics data."
 msgstr ""
+"La meta de Cosmology@Home és buscar el model que millor descriu el nostre "
+"univers i trobar la els models que concorden amb les dades disponibles de "
+"física de partícules astronòmica."
 
 #: projects.inc:174
 msgid "Milkyway@home"
@@ -372,6 +401,9 @@ msgid ""
 "model of the Milky Way galaxy using data gathered by the Sloan Digital Sky "
 "Survey."
 msgstr ""
+"L'objectiu de Milkyway@Home és crear un model de gran precisió "
+"tridimensional de la Via Làctia utilitzant dades recollides pel Sloan "
+"Digital Sky Survey."
 
 #: projects.inc:182
 msgid "Leiden Classical"
@@ -390,6 +422,12 @@ msgid ""
 "argon, or to test the validity of the ideal gas law by actually doing the "
 "simulations through the grid."
 msgstr ""
+"Càlculs de ciència de superfície utilitzant la Dinàmica Clàssica. Leiden "
+"Classical permet als voluntaris, estudiants i altres científics presentin "
+"els seus càlculs personals a la xarxa. Cada usuari té la seva pròpia cua "
+"personal per els treballs de Dinàmica Clàssica. D'aquesta manera els "
+"estudiants han utilitzat la xarxa per simular argó líquid, o per provar la "
+"validesa de la llei del gas ideal fent les simulacions a través de la xarxa."
 
 #: projects.inc:190
 msgid "uFluids@home"
@@ -410,6 +448,10 @@ msgid ""
 "management devices and address two-phase flow in microchannel and MEMS "
 "devices."
 msgstr ""
+"El projecte uFluids simula el comportament de fluids de dues fases en "
+"microgravetat i problemes de microfluids. El nostre objectiu és millorar el "
+"disseny de dispositius de gestió de carburant per satèl·lit i la direcció "
+"del flux de dues fases en els dispositius de microcanal i MEMS."
 
 #: projects.inc:198
 msgid "Einstein@home"
@@ -431,6 +473,11 @@ msgid ""
 "supported by the American Physical Society (APS) and by a number of "
 "international organizations."
 msgstr ""
+"Cerca d'estrelles de neutrons en rotació (també anomenades púlsars) usant "
+"dades dels detectors d'ones gravitacionals LIGO i GEO, i des del radio "
+"observatori d'Arecibo.  Einstein@Home és un projecte de l'Any Mundial de la "
+"Física 2005 recolzat per l'American Physical Society (APS) i per una sèrie "
+"d'organitzacions internacionals."
 
 #: projects.inc:206
 msgid "LHC@home"
@@ -452,6 +499,11 @@ msgid ""
 "investigate on particles proprieties. LHC@home runs simulations to improve "
 "the design of LHC and its detectors."
 msgstr ""
+"El Gran Col·lisionador d'Hadrons (LHC) és un accelerador de partícules al "
+"CERN, l'Organització Europea de Recerca Nuclear, el major laboratori de "
+"física de partícules. És l'instrument més poderós mai construït per "
+"investigar les propietats de les partícules. LHC@home executa simulacions "
+"per millorar el disseny de l'LHC i els seus detectors."
 
 #: projects.inc:214
 msgid "SETI@home"
@@ -473,6 +525,12 @@ msgid ""
 "signals from space. Such signals are not known to occur naturally, so a "
 "detection would provide evidence of extraterrestrial technology."
 msgstr ""
+"SETI (Search for Extraterrestrial Intelligence) és una àrea científica que "
+"el seu objectiu és detectar vida intel·ligent fora de la Terra. Un "
+"enfocament, conegut com ràdio SETI, usa radiotelescopis per escoltar senyals "
+"de ràdio de banda estreta des de l'espai. Aquestes senyals se sap que "
+"succeeixen de forma natural, pel que la seva detecció pot proporcionar "
+"evidències de la tecnologia extraterrestre."
 
 #: projects.inc:222
 msgid "Quantum Monte Carlo at Home"
@@ -486,6 +544,8 @@ msgstr "Universitat de Münster (Alemanya)"
 msgid ""
 "Study the structure and reactivity of molecules using Quantum Chemistry."
 msgstr ""
+"Estudi de l'estructura i reactivitat de molècules utilitzant Química "
+"Quàntica."
 
 #: projects.inc:230
 msgid "Spinhenge@home"
@@ -506,6 +566,10 @@ msgid ""
 "applications in medicine (such as local tumor chemotherapy) and "
 "biotechnology."
 msgstr ""
+"L'estudi dels imants moleculars i el control del magnetisme a nanoescala. "
+"Aquestes molècules magnètiques poden ser utilitzades per a desenvolupar "
+"petits interruptors magnètics, amb aplicacions en medicina com la "
+"quimioteràpia localitzada de tumor) i la biotecnologia."
 
 #: projects.inc:241
 msgid "Multiple applications"
@@ -529,6 +593,9 @@ msgid ""
 "adopt the technologies of volunteer computing and volunteer thinking for "
 "their research."
 msgstr ""
+"L'objectiu del CAS@home és fomentar i ajudar els científics a la Xina per "
+"adoptar les tecnologies de la informàtica de voluntaris i voluntàris que "
+"pensin en la seva investigació."
 
 #: projects.inc:252
 msgid "Yoyo@home"
@@ -543,6 +610,8 @@ msgid ""
 "Yoyo@home is an adapter between BOINC and several existing volunteer "
 "computing projects: ECM, Muon, Evolution@home, and distributed.net"
 msgstr ""
+"Yoyo@home és un adaptador entre BOINC i diversos projectes en curs de "
+"computació voluntària: ECM, Muon, Evolution@home, i distributed.net"
 
 #: projects.inc:259
 msgid "EDGeS@Home"
@@ -563,6 +632,10 @@ msgid ""
 "processed by the volunteers of this project. The scientific projects covered "
 "by the project include math, physics, biology, etc."
 msgstr ""
+"El projecte EDGeS@Home Beta integra computació voluntària en la xarxa de "
+"serveis d'Europa, en permetre les xarxes de serveis enviar workunits per a "
+"ser processades pels voluntaris d'aquest projecte. Els projectes de caràcter "
+"científic coberts pel projecte inclouen matemàtiques, física, biologia, etc"
 
 #: projects.inc:267
 msgid "Ibercivis"
@@ -578,7 +651,7 @@ msgstr "Diversos projectes de recerca espanyols"
 
 #: projects.inc:271
 msgid "Research in physics, material science, and biomedicine"
-msgstr ""
+msgstr "Investigació en física, ciència dels materials i biomedicina"
 
 #: projects.inc:275
 msgid "World Community Grid"
@@ -586,7 +659,7 @@ msgstr "World Community Grid"
 
 #: projects.inc:277
 msgid "IBM Corporate Community Relations"
-msgstr ""
+msgstr "Relacions d'IBM amb la Comunitat Empresarial"
 
 #: projects.inc:278
 msgid "Humanitarian research on disease, natural disasters and hunger."
@@ -599,6 +672,10 @@ msgid ""
 "problems by creating the world's largest volunteer computing grid.  Research "
 "includes HIV/AIDS, cancer, muscular dystrophy, dengue fever, and many more."
 msgstr ""
+"Per a la investigació sense ànim de lucre més crítica sobre alguns dels "
+"problemes més urgents de la humanitat mitjançant la creació de la major "
+"xarxa de computació voluntària. La recerca inclou el VIH/SIDA, càncer, "
+"distròfia muscular, la febre del dengue, i molts més."
 
 #: projects.inc:285
 msgid "Mathematics, computing, and games"
@@ -617,6 +694,9 @@ msgid ""
 "Attempt to decode 3 original Enigma messages. The signals were intercepted "
 "in the North Atlantic in 1942 and are believed to be unbroken."
 msgstr ""
+"Intent de desxifrar 3 missatges origunals Enigma. Els senyals van ser "
+"interceptats a l'Atlàntic Nord el 1942 i es creu que no han estat "
+"desxifrats."
 
 #: projects.inc:295
 msgid "Collatz Conjecture"
@@ -629,6 +709,8 @@ msgstr "Matemàtiques"
 #: projects.inc:299
 msgid "Study the Collatz Conjecture, an unsolved conjecture in mathematics"
 msgstr ""
+"Estudiar la Conjectura Collatz, una conjectura sense resoldre en "
+"matemàtiques"
 
 #: projects.inc:302
 msgid "NFS@home"
@@ -636,7 +718,7 @@ msgstr "NFS@home"
 
 #: projects.inc:304
 msgid "California State University Fullerton"
-msgstr ""
+msgstr "Califòrnia State University Fullerton"
 
 #: projects.inc:305
 msgid "Factorization of large integers"
@@ -651,6 +733,13 @@ msgid ""
 "NFS@Home is a continuation of that experience, only with integers that are "
 "hundreds of digits long."
 msgstr ""
+"NFS@Home és un projecte de recerca que utilitza ordinadors connectats a "
+"Internet per crear xarxa de filtratge en el Camp de Números Sieve per a la "
+"factorització dels nombres enters grans. Com un jove estudiant, que va "
+"guanyar la seva primera experiència en descomposat un nombre enter en "
+"factors primers, com 15 = 3 * 5 o 35 = 5 * 7. NFS@Home és una continuació "
+"d'aquesta experiència, només amb nombres enters que tenen centenars de "
+"dígits."
 
 #: projects.inc:310
 msgid "VTU@home"
@@ -675,6 +764,11 @@ msgid ""
 "well as others Lithuanian academic institutions.  Current applications "
 "involve the study of Monte-Carlo based software testing."
 msgstr ""
+"L'objectiu d'aquest projecte és proporcionar una potent plataforma de "
+"computació distribuïda per als científics a Vilnius Gediminas Technical "
+"University (VGTU), així com altres institucions acadèmiques de Lituània. Les "
+"aplicacions actuals impliquen l'estudi de les proves de Monte-Carlo basats "
+"en programari de testatge."
 
 #: projects.inc:318
 msgid "AQUA@home"
@@ -697,9 +791,15 @@ msgid ""
 "computers to help design and analyze quantum computing algorithms, using "
 "Quantum Monte Carlo techniques."
 msgstr ""
+"D-Wave AQUA (adiabàtic algorismes quàntics) és un projecte de recerca amb "
+"l'objectiu de predir el rendiment dels equips superconductors quàntica "
+"adiabàtica en la resolució d'una varietat de problemes difícils que "
+"sorgeixen en camps que van des de la ciència dels materials al "
+"d'aprenentatge automàtic. AQUA@home utilitza ordinadors connectats a "
+"Internet per ajudar a dissenyar i analitzar algorismes de computació "
+"quàntica, utilitzant tècniques de Montecarlo quàntica."
 
 #: projects.inc:334
-#, fuzzy
 msgid "ABC@home"
 msgstr "ABC@home"
 
@@ -717,6 +817,14 @@ msgid ""
 "problems in mathematics. If it is proven to be true, a lot of other open "
 "problems can be answered directly from it."
 msgstr ""
+"Cerca per 'abc-triples': nombres enters positius a, b, c tals que a+b = c, "
+"on &lt; b &lt; c, a, b, c no tenen divisors comuns i c > rad(abc), en la que "
+"rad(n) és el producte dels diferents factors primers de n. La conjectura "
+"ABC diu que només hi ha un nombre finit de a, b, c tal que "
+"log(c)/log(rad(abc)) > h per a qualsevol h real > 1. La conjectura ABC és "
+"actualment un dels majors problemes oberts en matemàtiques. Si es demostra "
+"que és veritat, un munt d'altres problemes oberts poden ser respostes "
+"directament d'ella."
 
 #: projects.inc:342
 msgid "PrimeGrid"
@@ -732,6 +840,9 @@ msgid ""
 "searching for large twin primes of the form k*2<sup>n</sup>+1 and k*2<sup>n</"
 "sup>-1"
 msgstr ""
+"PrimeGrid està generant una base de dades pública seqüencial de nombres "
+"primers, i està cercant grans nombres primers bessons de la manera "
+"k*2<sup>n</sup>+1 i k*2<sup>n</sup>-1"
 
 #: projects.inc:350
 msgid "primaboinca"
@@ -758,6 +869,8 @@ msgid ""
 "Find all the generalized binary number systems (in which bases are matrices "
 "and digits are vectors) up to dimension 11."
 msgstr ""
+"Trobar tots els sistemes generalitzats de números binaris (en el qual les "
+"bases són les matrius i els dígits són vectors) fins la dimensió 11."
 
 #: projects.inc:382
 msgid "Chess960@home"
@@ -769,7 +882,7 @@ msgstr "Chess-960.org"
 
 #: projects.inc:385
 msgid "Game-playing"
-msgstr ""
+msgstr "Execució de jocs"
 
 #: projects.inc:386
 msgid ""
@@ -778,6 +891,10 @@ msgid ""
 "before the start of every game, the initial configuration of the chess "
 "pieces is determined randomly."
 msgstr ""
+"Aquest projecte estudia Chess 960, una variant dels escacs ortodox.  En els "
+"escacs clàssic la posició inicial del joc no canvia mai. En el Chess 960, "
+"just abans de l'inici de cada joc, la configuració inicial de les peces "
+"d'escacs es determina l'atzar."
 
 #: versions.inc:6
 msgid "The current release is known to work with these Linux versions:"
