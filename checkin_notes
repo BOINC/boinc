@@ -9767,6 +9767,21 @@ David  31 May 2011
     client/
         app_control.cpp
 
+David  3 Jun 2011
+    - client: my checkin of 8 Apr 2011 didn't work in some cases, e.g.:
+        - client finishes a job
+        - before upload starts, work fetch runs and decides to fetch work
+            from that project.
+        Solution:
+        - set PROJECT::last_upload_start when job finishes,
+            and clear it when a job is uploaded.
+        - defer scheduler RPC for a limited time if last_upload_start
+            is set, even if a transfer is not active
+
+    client/
+        client_state.cpp
+        cs_scheduler.cpp
+
 David  5 Jun 2011
     - lib: fix compile warning
 

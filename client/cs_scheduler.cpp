@@ -368,7 +368,7 @@ int CLIENT_STATE::make_scheduler_request(PROJECT* p) {
 // the project is uploading, and it started recently
 //
 static inline bool actively_uploading(PROJECT* p) {
-    return p->uploading() && (gstate.now - p->last_upload_start < WF_DEFER_INTERVAL);
+    return gstate.now - p->last_upload_start < WF_DEFER_INTERVAL;
 }
 
 // called from the client's polling loop.
