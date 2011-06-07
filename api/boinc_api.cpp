@@ -164,6 +164,9 @@ static HANDLE hSharedMem;
 HANDLE worker_thread_handle;
     // used to suspend worker thread, and to measure its CPU time
 DWORD timer_thread_id;
+//Jason: New windows exit handling to play more nicely with cuda & MS-CRT
+volatile bool worker_thread_exit_request = false;
+volatile bool worker_thread_exit_ack = false;
 #else
 static volatile bool worker_thread_exit_flag = false;
 static volatile int worker_thread_exit_status;
@@ -654,7 +657,22 @@ void boinc_exit(int status) {
     BOINCINFO("Exit Status: %d", status);
     fflush(NULL);
 
-#if   defined(_WIN32)
+#if defined(_WIN32)
+    //Jason: Windows exit handling to play nicer with cuda & MS-CRT
+    worker_thread_exit_request = true;
+    fprintf(stderr,"boinc_exit(): requesting safe worker shutdown ->\n");
+    int exitcounter = 0;
+    while ( !worker_thread_exit_ack && exitcounter < 20 )
+    {
+        Sleep(100);
+        exitcounter++;
+    }
+    if (worker_thread_exit_ack) 
+        fprintf(stderr,"boinc_exit(): received safe worker shutdown acknowledge ->\n");
+    else 
+        fprintf(stderr,"boinc_exit(): worker didn't respond to exit request within 2 seconds, exiting anyway.\n");
+    fflush(NULL);    
+    // ... Continue original nasty exit code here
     // Halt all the threads and cleans up.
     TerminateProcess(GetCurrentProcess(), status);
     // note: the above CAN return!
