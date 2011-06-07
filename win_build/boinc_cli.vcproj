@@ -732,10 +732,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\lib\procinfo_win.cpp"
-				>
-			</File>
-			<File
 				RelativePath="..\client\rr_sim.cpp"
 				>
 			</File>

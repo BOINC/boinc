@@ -198,3 +198,12 @@ void procinfo_other(PROCINFO& pi, vector<PROCINFO>& piv) {
         pi.working_set_size += p.working_set_size;
 	}
 }
+
+void kill_all(vector<int>& pids) {
+    for (unsigned int i=0; i<pids.size(); i++) {
+        HANDLE h = OpenProcess(READ_CONTROL | PROCESS_TERMINATE, false, pids[i]);
+        if (h == NULL) continue;
+        TerminateProcess(h, 0);
+        CloseHandle(h);
+    }
+}
