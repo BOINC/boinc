@@ -3402,3 +3402,9 @@ Rom    7 Jun 2011
         wxFlatNotebookImages.h
     clientgui/res/skins/default
         advanced_link_image.xpm
+
+David  7 Jun 2011
+    - client: fix bug in app termination logic
+
+    client/
+        app_control.cpp

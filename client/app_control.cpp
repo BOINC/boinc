@@ -193,7 +193,10 @@ int ACTIVE_TASK::kill_task(bool restart) {
     // all we can do is terminate the main process,
     // using the handle we got when we created it.
     //
-    TerminateProcess(process_handle, 1);
+    if (g_use_sandbox) {
+        TerminateProcess(process_handle, 1);
+        return 0;
+    }
 #endif
     get_descendants(pid, pids);
     pids.push_back(pid);
