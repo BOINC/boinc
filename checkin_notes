@@ -3382,3 +3382,12 @@ David  6 Jun 2011
 
     api/
          boinc_api.cpp,h
+
+Charlie 7 Jun 2011
+    - MGR: Fix bug I introduced on 6 Aug 2010: if currently connected host name is 
+        empty string, we must treat it as localhost.  Implement different logic to 
+        skip exit confirmation dialog and avoid shutting down client if second 
+        instance of Manager is launched but Select Computer dialog is cancelled.
+        
+    clientgui/
+        MainDocument.cpp, .h

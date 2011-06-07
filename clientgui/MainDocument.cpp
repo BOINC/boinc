@@ -258,7 +258,7 @@ bool CNetworkConnection::IsComputerNameLocal(const wxString& strMachine) {
     }
 
     if (strMachine.empty()) {
-        return false;
+        return true;
     } else if (wxT("localhost") == strMachine.Lower()) {
         return true;
     } else if (wxT("localhost.localdomain") == strMachine.Lower()) {
@@ -472,6 +472,7 @@ int CMainDocument::OnInit() {
     m_bNeedTaskBarRefresh = false;
     m_bRPCThreadIsReady = false;
     m_bShutDownRPCThread = false;
+    m_bDuplicateInstanceCanceled = false;
     current_rpc_request.clear();
 
     m_pRPC_Thread_Mutex = new BOINC_Mutex();
@@ -515,9 +516,11 @@ int CMainDocument::OnExit() {
     if (m_pClientManager) {
         if (wxGetApp().ShouldShutdownCoreClient()) {
             // Shut down only local clients on Manager exit
-            GetConnectedComputerName(strConnectedCompter);
-            if (IsComputerNameLocal(strConnectedCompter)) {
-                m_pClientManager->ShutdownBOINCCore();
+            if (!m_bDuplicateInstanceCanceled) {
+                GetConnectedComputerName(strConnectedCompter);
+                if (IsComputerNameLocal(strConnectedCompter)) {
+                    m_pClientManager->ShutdownBOINCCore();
+                }
             }
         }
         
@@ -574,6 +577,7 @@ int CMainDocument::OnPoll() {
             if (otherInstanceID) {
                 if (!pFrame->SelectComputer(hostName, portNum, password, true)) {
                     s_bSkipExitConfirmation = true;
+                    m_bDuplicateInstanceCanceled = true;
                     wxCommandEvent event;
                     pFrame->OnExit(event); // Exit if Select Computer dialog cancelled
                 }
