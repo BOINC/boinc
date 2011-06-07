@@ -9749,6 +9749,14 @@ David  25 May 2011
 	client/
 		cpu_sched.cpp
 
+David  31 May 2011
+    - client: when killing a nonresponsive task,
+        kill its descendant processes too
+
+    client/
+        client_state.cpp
+        app_control.cpp
+
 David  5 Jun 2011
     - lib: fix compile warning
 

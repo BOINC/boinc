@@ -169,19 +169,29 @@ int ACTIVE_TASK::request_abort() {
     return 0;
 }
 
-// Kill the task by OS-specific means.
-//
-int ACTIVE_TASK::kill_task(bool restart) {
+static void kill_app_process(int pid) {
 #ifdef _WIN32
-    TerminateProcess(process_handle, 1);
+    HANDLE h = OpenProcess(READ_CONTROL | PROCESS_TERMINATE, false, pid);
+    if (h == NULL) return;
+    TerminateProcess(h, 1);
+    CloseHandle(h);
 #else
 #ifdef SANDBOX
     kill_via_switcher(pid);
-    // Also kill app directly, just to be safe
-    //
 #endif
     kill(pid, SIGKILL);
 #endif
+}
+
+// Kill the task (and descendants) by OS-specific means.
+//
+int ACTIVE_TASK::kill_task(bool restart) {
+    vector<int>pids;
+    get_descendants(pid, pids);
+    pids.push_back(pid);
+    for (unsigned int i=0; i<pids.size(); i++) {
+        kill_app_process(pids[i]);
+    }
     cleanup_task();
 	if (restart) {
 		set_task_state(PROCESS_UNINITIALIZED, "kill_task");
