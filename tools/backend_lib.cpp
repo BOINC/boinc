@@ -186,7 +186,6 @@ static int process_wu_template(
     const char* command_line,
     const char* additional_xml
 ) {
-    char* p;
     char buf[BLOB_SIZE], md5[33], path[256], url[256], top_download_path[256];
     string out, cmdline, md5str, urlstr;
     int retval, file_number;
@@ -196,28 +195,34 @@ static int process_wu_template(
     int nfiles_parsed = 0;
 
     out = "";
-    for (p=strtok(tmplate, "\n"); p; p=strtok(0, "\n")) {
-        if (match_tag(p, "<file_info>")) {
+    MIOFILE mf;
+    XML_PARSER xp(&mf);
+    char tag[256];
+    bool is_tag;
+    mf.init_buf_read(tmplate);
+    while (!xp.get(tag, sizeof(tag), is_tag)) {
+        if (!is_tag) continue;
+        if (!strcmp(tag, "input_template")) continue;
+        if (!strcmp(tag, "/input_template")) continue;
+        if (!strcmp(tag, "file_info")) {
             vector<string> urls;
             bool generated_locally = false;
             file_number = nbytesdef = -1;
             md5str = urlstr = "";
             out += "<file_info>\n";
-            while (1) {
-                p = strtok(0, "\n");
-                if (!p) break;
-                if (parse_int(p, "<number>", file_number)) {
+            while (!xp.get(tag, sizeof(tag), is_tag)) {
+                if (xp.parse_int(tag, "number", file_number)) {
                     continue;
-                } else if (parse_bool(p, "generated_locally", generated_locally)) {
+                } else if (xp.parse_bool(tag, "generated_locally", generated_locally)) {
                     continue;
-                } else if (parse_str(p, "<url>", urlstr)) {
+                } else if (xp.parse_string(tag, "url", urlstr)) {
                     urls.push_back(urlstr);
                     continue;
-                } else if (parse_str(p, "<md5_cksum>", md5str)) {
+                } else if (xp.parse_string(tag, "md5_cksum", md5str)) {
                     continue;
-                } else if (parse_double(p, "<nbytes>", nbytesdef)) {
+                } else if (xp.parse_double(tag, "nbytes", nbytesdef)) {
                     continue;
-                } else if (match_tag(p, "</file_info>")) {
+                } else if (!strcmp(tag, "/file_info")) {
                     if (nbytesdef != -1 || md5str != "" || urlstr != "") {
                         if (nbytesdef == -1 || md5str == "" || urlstr == "") {
                             fprintf(stderr, "All file properties must be defined "
@@ -312,11 +317,14 @@ static int process_wu_template(
                     out += buf;
                     break;
                 } else {
-                    out += p;
-                    out += "\n";
+                    char buf2[1024];
+                    if (xp.parse_str(tag, tag, buf2, sizeof(buf2))) {
+                        sprintf(buf, "    <%s>%s</%s>\n", tag, buf2, tag);
+                        out += buf;
+                    }
                 }
             }
-        } else if (match_tag(p, "<workunit>")) {
+        } else if (!strcmp(tag, "workunit")) {
             found = true;
             out += "<workunit>\n";
             if (command_line) {
@@ -325,82 +333,90 @@ static int process_wu_template(
                 out += command_line;
                 out += "\n</command_line>\n";
             }
-        } else if (match_tag(p, "</workunit>")) {
-            if (additional_xml && strlen(additional_xml)) {
-                out += additional_xml;
-                out += "\n";
-            }
-            out += "</workunit>\n";
-        } else if (match_tag(p, "<file_ref>")) {
-            out += "<file_ref>\n";
-            bool found_file_number = false, found_open_name = false;
-            while (1) {
-                p = strtok(0, "\n");
-                if (!p) break;
-                if (parse_int(p, "<file_number>", file_number)) {
-                    sprintf(buf, "    <file_name>%s</file_name>\n",
-                        infiles[file_number]
-                    );
-                    out += buf;
-                    found_file_number = true;
-                    continue;
-                } else if (parse_str(p, "<open_name>", open_name, sizeof(open_name))) {
-                    sprintf(buf, "    <open_name>%s</open_name>\n", open_name);
-                    out += buf;
-                    found_open_name = true;
-                    continue;
-                } else if (match_tag(p, "</file_ref>")) {
-                    if (!found_file_number) {
-                        fprintf(stderr, "No file number found\n");
-                        return ERR_XML_PARSE;
+            while (!xp.get(tag, sizeof(tag), is_tag)) {
+                if (!strcmp(tag, "/workunit")) {
+                    if (additional_xml && strlen(additional_xml)) {
+                        out += additional_xml;
+                        out += "\n";
                     }
-                    if (!found_open_name) {
-                        fprintf(stderr, "No open name found\n");
-                        return ERR_XML_PARSE;
-                    }
-                    out += "</file_ref>\n";
+                    out += "</workunit>\n";
                     break;
+                } else if (!strcmp(tag, "file_ref")) {
+                    out += "<file_ref>\n";
+                    bool found_file_number = false, found_open_name = false;
+                    while (!xp.get(tag, sizeof(tag), is_tag)) {
+                        if (xp.parse_int(tag, "file_number", file_number)) {
+                            sprintf(buf, "    <file_name>%s</file_name>\n",
+                                infiles[file_number]
+                            );
+                            out += buf;
+                            found_file_number = true;
+                            continue;
+                        } else if (xp.parse_str(tag, "open_name", open_name, sizeof(open_name))) {
+                            sprintf(buf, "    <open_name>%s</open_name>\n", open_name);
+                            out += buf;
+                            found_open_name = true;
+                            continue;
+                        } else if (!strcmp(tag, "/file_ref")) {
+                            if (!found_file_number) {
+                                fprintf(stderr, "No file number found\n");
+                                return ERR_XML_PARSE;
+                            }
+                            if (!found_open_name) {
+                                fprintf(stderr, "No open name found\n");
+                                return ERR_XML_PARSE;
+                            }
+                            out += "</file_ref>\n";
+                            break;
+                        } else {
+                            char buf2[1024];
+                            if (xp.parse_str(tag, tag, buf2, sizeof(buf2))) {
+                                sprintf(buf, "    <%s>%s</%s>\n", tag, buf2, tag);
+                                out += buf;
+                            }
+                        }
+                    }
+                } else if (xp.parse_string(tag, "command_line", cmdline)) {
+                    if (command_line) {
+                        fprintf(stderr, "Can't specify command line twice");
+                        return ERR_XML_PARSE;
+                    }
+                    //fprintf(stderr, "parsed command line: %s\n", cmdline.c_str());
+                    out += "<command_line>\n";
+                    out += cmdline;
+                    out += "\n</command_line>\n";
+                } else if (xp.parse_double(tag, "rsc_fpops_est", wu.rsc_fpops_est)) {
+                    continue;
+                } else if (xp.parse_double(tag, "rsc_fpops_bound", wu.rsc_fpops_bound)) {
+                    continue;
+                } else if (xp.parse_double(tag, "rsc_memory_bound", wu.rsc_memory_bound)) {
+                    continue;
+                } else if (xp.parse_double(tag, "rsc_bandwidth_bound", wu.rsc_bandwidth_bound)) {
+                    continue;
+                } else if (xp.parse_double(tag, "rsc_disk_bound", wu.rsc_disk_bound)) {
+                    continue;
+                } else if (xp.parse_int(tag, "batch", wu.batch)) {
+                    continue;
+                } else if (xp.parse_int(tag, "delay_bound", wu.delay_bound)) {
+                    continue;
+                } else if (xp.parse_int(tag, "min_quorum", wu.min_quorum)) {
+                    continue;
+                } else if (xp.parse_int(tag, "target_nresults", wu.target_nresults)) {
+                    continue;
+                } else if (xp.parse_int(tag, "max_error_results", wu.max_error_results)) {
+                    continue;
+                } else if (xp.parse_int(tag, "max_total_results", wu.max_total_results)) {
+                    continue;
+                } else if (xp.parse_int(tag, "max_success_results", wu.max_success_results)) {
+                    continue;
                 } else {
-                    sprintf(buf, "%s\n", p);
-                    out += buf;
+                    char buf2[1024];
+                    if (xp.parse_str(tag, tag, buf2, sizeof(buf2))) {
+                        sprintf(buf, "    <%s>%s</%s>\n", tag, buf2, tag);
+                        out += buf;
+                    }
                 }
             }
-        } else if (parse_str(p, "<command_line>", cmdline)) {
-            if (command_line) {
-                fprintf(stderr, "Can't specify command line twice");
-                return ERR_XML_PARSE;
-            }
-            //fprintf(stderr, "parsed command line: %s\n", cmdline.c_str());
-            out += "<command_line>\n";
-            out += cmdline;
-            out += "\n</command_line>\n";
-        } else if (parse_double(p, "<rsc_fpops_est>", wu.rsc_fpops_est)) {
-            continue;
-        } else if (parse_double(p, "<rsc_fpops_bound>", wu.rsc_fpops_bound)) {
-            continue;
-        } else if (parse_double(p, "<rsc_memory_bound>", wu.rsc_memory_bound)) {
-            continue;
-        } else if (parse_double(p, "<rsc_bandwidth_bound>", wu.rsc_bandwidth_bound)) {
-            continue;
-        } else if (parse_double(p, "<rsc_disk_bound>", wu.rsc_disk_bound)) {
-            continue;
-        } else if (parse_int(p, "<batch>", wu.batch)) {
-            continue;
-        } else if (parse_int(p, "<delay_bound>", wu.delay_bound)) {
-            continue;
-        } else if (parse_int(p, "<min_quorum>", wu.min_quorum)) {
-            continue;
-        } else if (parse_int(p, "<target_nresults>", wu.target_nresults)) {
-            continue;
-        } else if (parse_int(p, "<max_error_results>", wu.max_error_results)) {
-            continue;
-        } else if (parse_int(p, "<max_total_results>", wu.max_total_results)) {
-            continue;
-        } else if (parse_int(p, "<max_success_results>", wu.max_success_results)) {
-            continue;
-        } else {
-            out += p;
-            out += "\n";
         }
     }
     if (!found) {

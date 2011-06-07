@@ -3363,3 +3363,14 @@ and install at the top of the cffft loop, and more locations if desired:
  SAFE_EXIT_CHECK;
 
 I'd like to implement these as BOINC API functions, but have not yet done so.
+
+David  6 Jun 2011
+    - backend: use new XML parser for input template files
+        (so that they don't have to be 1 element/line)
+        and also allow optional <input_template> root element
+    - fix bug in WORKUNIT DB interface
+
+    db/
+        boinc_db.cpp
+    tools/
+        backend_lib.cpp

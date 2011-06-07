@@ -783,7 +783,7 @@ void DB_WORKUNIT::db_print(char* buf){
         "priority=%d, "
         "rsc_bandwidth_bound=%.15e, "
         "fileset_id=%d, "
-        "app_version_id=%d, ",
+        "app_version_id=%d ",
         create_time, appid,
         name, xml_doc, batch,
         rsc_fpops_est, rsc_fpops_bound, rsc_memory_bound, rsc_disk_bound,
