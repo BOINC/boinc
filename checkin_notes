@@ -3374,3 +3374,11 @@ David  6 Jun 2011
         boinc_db.cpp
     tools/
         backend_lib.cpp
+
+David  6 Jun 2011
+    - API: undo the above API checkin, and provide a cleaner and
+        documented way of doing the same thing; see
+        http://boinc.berkeley.edu/trac/wiki/AppCoprocessor
+
+    api/
+         boinc_api.cpp,h

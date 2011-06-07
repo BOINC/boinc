@@ -71,6 +71,7 @@ typedef struct BOINC_OPTIONS {
 typedef struct BOINC_STATUS {
     int no_heartbeat;
     int suspended;
+    int suspend_request;
     int quit_request;
     int reread_init_data_file;
     int abort_request;
@@ -78,6 +79,8 @@ typedef struct BOINC_STATUS {
     double max_working_set_size;
     int network_suspended;
 } BOINC_STATUS;
+
+extern volatile BOINC_STATUS boinc_status;
 
 typedef void (*FUNC_PTR)();
 

@@ -164,9 +164,6 @@ static HANDLE hSharedMem;
 HANDLE worker_thread_handle;
     // used to suspend worker thread, and to measure its CPU time
 DWORD timer_thread_id;
-//Jason: New windows exit handling to play more nicely with cuda & MS-CRT
-volatile bool worker_thread_exit_request = false;
-volatile bool worker_thread_exit_ack = false;
 #else
 static volatile bool worker_thread_exit_flag = false;
 static volatile int worker_thread_exit_status;
@@ -179,7 +176,7 @@ static struct rusage worker_thread_ru;
 #endif
 
 static BOINC_OPTIONS options;
-static volatile BOINC_STATUS boinc_status;
+volatile BOINC_STATUS boinc_status;
 
 // vars related to intermediate file upload
 struct UPLOAD_FILE_STATUS {
@@ -546,6 +543,7 @@ int boinc_init_options_general(BOINC_OPTIONS& opt) {
 int boinc_get_status(BOINC_STATUS *s) {
     s->no_heartbeat = boinc_status.no_heartbeat;
     s->suspended = boinc_status.suspended;
+    s->suspend_request = boinc_status.suspend_request;
     s->quit_request = boinc_status.quit_request;
     s->reread_init_data_file = boinc_status.reread_init_data_file;
     s->abort_request = boinc_status.abort_request;
@@ -658,21 +656,6 @@ void boinc_exit(int status) {
     fflush(NULL);
 
 #if defined(_WIN32)
-    //Jason: Windows exit handling to play nicer with cuda & MS-CRT
-    worker_thread_exit_request = true;
-    fprintf(stderr,"boinc_exit(): requesting safe worker shutdown ->\n");
-    int exitcounter = 0;
-    while ( !worker_thread_exit_ack && exitcounter < 20 )
-    {
-        Sleep(100);
-        exitcounter++;
-    }
-    if (worker_thread_exit_ack) 
-        fprintf(stderr,"boinc_exit(): received safe worker shutdown acknowledge ->\n");
-    else 
-        fprintf(stderr,"boinc_exit(): worker didn't respond to exit request within 2 seconds, exiting anyway.\n");
-    fflush(NULL);    
-    // ... Continue original nasty exit code here
     // Halt all the threads and cleans up.
     TerminateProcess(GetCurrentProcess(), status);
     // note: the above CAN return!
@@ -903,26 +886,39 @@ static void handle_process_control_msg() {
         );
 #endif
         if (match_tag(buf, "<suspend/>")) {
+            if (in_critical_section) {
+                boinc_status.suspend_request = true;
+            } else {
+                boinc_status.suspended = true;
+                suspend_activities();
+            }
+        }
+
+        if (!in_critical_section && boinc_status.suspend_request) {
             boinc_status.suspended = true;
+            boinc_status.suspend_request = false;
             suspend_activities();
         }
 
         if (match_tag(buf, "<resume/>")) {
-            boinc_status.suspended = false;
-            resume_activities();
+            if (boinc_status.suspended) {
+                boinc_status.suspended = false;
+                resume_activities();
+            }
+            boinc_status.suspend_request = false;
         }
 
-        if (match_tag(buf, "<quit/>")) {
+        if (boinc_status.quit_request || match_tag(buf, "<quit/>")) {
             BOINCINFO("Received quit message");
             boinc_status.quit_request = true;
-            if (options.direct_process_action) {
+            if (!in_critical_section && options.direct_process_action) {
                 exit_from_timer_thread(0);
             }
         }
-        if (match_tag(buf, "<abort/>")) {
+        if (boinc_status.abort_request || match_tag(buf, "<abort/>")) {
             BOINCINFO("Received abort message");
             boinc_status.abort_request = true;
-            if (options.direct_process_action) {
+            if (!in_critical_section && options.direct_process_action) {
                 diagnostics_set_aborted_via_gui();
 #if   defined(_WIN32)
                 // Cause a controlled assert and dump the callstacks.
@@ -1086,7 +1082,7 @@ static void timer_handler() {
         if (options.handle_trickle_downs) {
             handle_trickle_down_msg();
         }
-        if (in_critical_section==0 && options.handle_process_control) {
+        if (options.handle_process_control) {
             handle_process_control_msg();
         }
         handle_graphics_messages();
