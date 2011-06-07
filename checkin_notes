@@ -3326,3 +3326,40 @@ David  5 Jun 2011
 
     lib/
         filesys.cpp
+
+Eric K 6 Jun 2011
+    - Added safe exit capabilities for Windows CUDA applications.
+    - checking in the app can be added as below.
+    
+#ifdef _WIN32
+//Jason: Safe exit check macro to play nicer with Cuda & MS-CRT
+ #ifdef USE_CUDA
+ #define SAFE_EXIT_CHECK  do { \
+  if (worker_thread_exit_request) { \
+     fprintf(stderr,"-> Worker received exit request, syncing Cuda...");
+cudaThreadSynchronize(); fprintf(stderr,"Done.\n"); \
+     fprintf(stderr,"  Worker Freeing Cuda data..."); cudaAcc_free();
+fprintf(stderr,"Done.\n"); \
+     fprintf(stderr,"  Worker Acknowledging exit request, spinning->\n");
+worker_thread_exit_ack = true; \
+     while (1) Sleep(10); \
+  } \
+ } while (0);
+ #else
+ #define SAFE_EXIT_CHECK  do { \
+  if (worker_thread_exit_request) { \
+     fprintf(stderr,"  Worker Acknowledging exit request, spinning-> ");
+worker_thread_exit_ack = true; \
+     while (1) Sleep(10); \
+  } \
+ } while (0);
+ #endif
+#else  // Linux or other probably have their own safe exit handling, defined as
+blank, do nothing
+ #define SAFE_EXIT_CHECK
+#endif
+
+and install at the top of the cffft loop, and more locations if desired:
+ SAFE_EXIT_CHECK;
+
+I'd like to implement these as BOINC API functions, but have not yet done so.
