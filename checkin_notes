@@ -9783,6 +9783,13 @@ David  3 Jun 2011
         cs_scheduler.cpp
 
 David  5 Jun 2011
+    - client: condition "Got server request to delete file" messages
+        on <file_xfer_debug>
+
+    client/
+        cs_scheduler.cpp
+
+David  5 Jun 2011
     - lib: fix compile warning
 
     lib/
@@ -9826,3 +9833,4 @@ Rom    7 Jun 2011
         wxFlatNotebookImages.h
     clientgui/res/skins/default
         advanced_link_image.xpm
+
