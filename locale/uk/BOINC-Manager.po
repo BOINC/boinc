@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-03-07 12:00-0500\n"
-"PO-Revision-Date: 2011-04-19 14:40+0200\n"
+"PO-Revision-Date: 2011-05-14 01:16+0200\n"
 "Last-Translator: Dead J. Dona <deadjdona@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: uk\n"
@@ -133,7 +133,7 @@ msgstr "Додати проект"
 
 #: clientgui/AccountInfoPage.cpp:573
 msgid "Update account manager"
-msgstr "Оновити менеджера облікових записів"
+msgstr "Оновити менеджер облікових записів"
 
 #: clientgui/AccountInfoPage.cpp:575
 msgid "Use account manager"
@@ -155,13 +155,11 @@ msgstr ""
 
 #: clientgui/AccountInfoPage.cpp:601
 msgid "The password and confirmation password do not match. Please type them again."
-msgstr ""
-"'Пароль' і 'Підтвердження пароля' не однакові. Будь ласка, напишіть їх "
-"знову."
+msgstr "Пароль і його підтвердження не однакові. Будь ласка, напишіть їх знову."
 
 #: clientgui/AccountManagerInfoPage.cpp:248
 msgid "Choose an account manager"
-msgstr "Оберіть менеджер проектів"
+msgstr "Оберіть менеджер облікових записів"
 
 #: clientgui/AccountManagerInfoPage.cpp:251
 msgid ""
@@ -179,7 +177,7 @@ msgstr "Адреса (URL) менеджера проектів:"
 #: clientgui/AccountManagerPropertiesPage.cpp:194
 #, c-format
 msgid "Communicating with %s."
-msgstr "Спілкування з %s."
+msgstr "Спілкуюсь з %s."
 
 #: clientgui/AccountManagerProcessingPage.cpp:195
 #: clientgui/AccountManagerPropertiesPage.cpp:201
@@ -229,7 +227,7 @@ msgstr "Показати вкладку повідомлень"
 
 #: clientgui/AdvancedFrame.cpp:365
 msgid "&Projects\tCtrl+Shift+P"
-msgstr "П&роекти\t Ctrl+Shift+P"
+msgstr "П&роекти\tCtrl+Shift+P"
 
 #: clientgui/AdvancedFrame.cpp:366
 msgid "Display projects"
@@ -322,7 +320,7 @@ msgstr "Налаштування графічного інтерфейсу пр�
 
 #: clientgui/AdvancedFrame.cpp:457
 msgid "Computing &preferences..."
-msgstr "Налаштування клієнта..."
+msgstr "Налаштування обчислень..."
 
 #: clientgui/AdvancedFrame.cpp:458
 msgid "Configure computing preferences"
@@ -358,7 +356,7 @@ msgstr "Використовувати відеокарту постійно"
 
 #: clientgui/AdvancedFrame.cpp:503
 msgid "Allow GPU work regardless of preferences"
-msgstr "Використовувати відеокарту постійно не зважаючи на налаштування"
+msgstr "Дозволити завдання для відеокарти не зважаючи на налаштування"
 
 #: clientgui/AdvancedFrame.cpp:507
 msgid "Use GPU based on preferences"
@@ -379,162 +377,164 @@ msgstr ""
 
 #: clientgui/AdvancedFrame.cpp:537
 msgid "Network activity always available"
-msgstr ""
+msgstr "Мережа завжди підключена"
 
 #: clientgui/AdvancedFrame.cpp:538
 msgid "Allow network activity regardless of preferences"
-msgstr ""
+msgstr "Дозволити використання мережі не зважаючи на налаштування"
 
 #: clientgui/AdvancedFrame.cpp:542
 msgid "Network activity based on preferences"
-msgstr ""
+msgstr "Використовувати мережу згідно з налаштуваннями"
 
 #: clientgui/AdvancedFrame.cpp:543
 msgid "Allow network activity according to preferences"
-msgstr ""
+msgstr "Використовувати мережу згідно з налаштуваннями"
 
 #: clientgui/AdvancedFrame.cpp:547
 msgid "Network activity suspended"
-msgstr ""
+msgstr "Мережева активність призупинена"
 
 #: clientgui/AdvancedFrame.cpp:548
 msgid "Stop BOINC network activity"
-msgstr ""
+msgstr "Зупинити мережеву активність BOINC"
 
 #: clientgui/AdvancedFrame.cpp:558
 #, c-format
 msgid "Connect to another computer running %s"
-msgstr ""
+msgstr "Підключитись до іншого комп'ютера з %s"
 
 #: clientgui/AdvancedFrame.cpp:563
 msgid "Select computer..."
-msgstr ""
+msgstr "Виберіть комп'ютер..."
 
 #: clientgui/AdvancedFrame.cpp:568
 msgid "Shut down connected client..."
-msgstr ""
+msgstr "Завершити роботу підключеного BOINC клієнта..."
 
 #: clientgui/AdvancedFrame.cpp:569
 msgid "Shut down the currently connected client"
-msgstr ""
+msgstr "Зупинити обрахування підключенного зараз клієнта"
 
 #: clientgui/AdvancedFrame.cpp:573
 msgid "Run CPU &benchmarks"
-msgstr ""
+msgstr "Запустити тест &швидкості процесора"
 
 #: clientgui/AdvancedFrame.cpp:574
 msgid "Runs BOINC CPU benchmarks"
-msgstr ""
+msgstr "Запускає тестування швидкості процесора"
 
 #: clientgui/AdvancedFrame.cpp:578
 msgid "Do network communication"
-msgstr ""
+msgstr "Повторити обмін данними"
 
 #: clientgui/AdvancedFrame.cpp:579
 msgid "Do all pending network communication"
-msgstr ""
+msgstr "Повторити усі незавершені обміни даними з серверами проектів"
 
 #: clientgui/AdvancedFrame.cpp:583
 msgid "Read config file"
-msgstr ""
+msgstr "Перечитати файл спеціальних налаштувань"
 
 #: clientgui/AdvancedFrame.cpp:584
 msgid "Read configuration info from cc_config.xml"
-msgstr ""
+msgstr "Перечитати конфігурацію з файла cc_config.xml"
 
 #: clientgui/AdvancedFrame.cpp:588
 msgid "Read local prefs file"
-msgstr ""
+msgstr "Перезавантажити локальний файл загальних налаштувань"
 
 #: clientgui/AdvancedFrame.cpp:589
 msgid "Read preferences from global_prefs_override.xml."
 msgstr ""
+"Перезавантажити локальний файл загальних налаштувань "
+"global_prefs_override.xml."
 
 #: clientgui/AdvancedFrame.cpp:594
 #, c-format
 msgid "Launch another instance of %s..."
-msgstr ""
+msgstr "Запустити інший екземпляр %s..."
 
 #: clientgui/AdvancedFrame.cpp:598
 #, c-format
 msgid "Launch another %s"
-msgstr ""
+msgstr "Запустити інший %s"
 
 #: clientgui/AdvancedFrame.cpp:608
 msgid "Event Log...\tCtrl+Shift+E"
-msgstr ""
+msgstr "Перегляд подій...\tCtrl+Shift+E"
 
 #: clientgui/AdvancedFrame.cpp:609
 msgid "Display diagnostic messages."
-msgstr ""
+msgstr "Показати діагностичні повідомлення"
 
 #: clientgui/AdvancedFrame.cpp:619
 #, c-format
 msgid "%s &help"
-msgstr ""
+msgstr "&Допомога %s"
 
 #: clientgui/AdvancedFrame.cpp:625
 #, c-format
 msgid "Show information about %s"
-msgstr ""
+msgstr "Показати інформацію про %s"
 
 #: clientgui/AdvancedFrame.cpp:637
 #, c-format
 msgid "&%s help"
-msgstr ""
+msgstr "&%s допомога"
 
 #: clientgui/AdvancedFrame.cpp:643
 #, c-format
 msgid "Show information about the %s"
-msgstr ""
+msgstr "Показати інформацію про %s"
 
 #: clientgui/AdvancedFrame.cpp:655
 #, c-format
 msgid "%s &website"
-msgstr ""
+msgstr "%s &домашня сторінка"
 
 #: clientgui/AdvancedFrame.cpp:661
 #, c-format
 msgid "Show information about BOINC and %s"
-msgstr ""
+msgstr "Показати інформацію про BOINC та %s"
 
 #: clientgui/AdvancedFrame.cpp:673
 #, c-format
 msgid "&About %s..."
-msgstr ""
+msgstr "&Про %s..."
 
 #: clientgui/AdvancedFrame.cpp:679
 msgid "Licensing and copyright information."
-msgstr ""
+msgstr "Показати відомості про версію програми і авторські права."
 
 #: clientgui/AdvancedFrame.cpp:686
 msgid "&File"
-msgstr ""
+msgstr "&Файл"
 
 #: clientgui/AdvancedFrame.cpp:690
 msgid "&View"
-msgstr ""
+msgstr "&Вигляд"
 
 #: clientgui/AdvancedFrame.cpp:694
 msgid "&Tools"
-msgstr ""
+msgstr "&Сервіс"
 
 #: clientgui/AdvancedFrame.cpp:698
 msgid "&Activity"
-msgstr ""
+msgstr "&Активність"
 
 #: clientgui/AdvancedFrame.cpp:702
 msgid "A&dvanced"
-msgstr ""
+msgstr "Просунуті налаштування"
 
 #: clientgui/AdvancedFrame.cpp:706
 msgid "&Help"
-msgstr ""
+msgstr "&Допомога"
 
 #: clientgui/AdvancedFrame.cpp:1183
 #, c-format
 msgid "%s - Stop using %s"
-msgstr ""
+msgstr "%s - Припинити використання %s"
 
 #: clientgui/AdvancedFrame.cpp:1188
 #, c-format
@@ -557,35 +557,37 @@ msgid ""
 "%s will shut down the current client\n"
 "and prompt you for another host to connect to."
 msgstr ""
+"%s зупинить підключеного в даний момент клієнта,\n"
+"і запитає у Вас для підключення адресу іншого комп'ютера."
 
 #: clientgui/AdvancedFrame.cpp:1713
 #, c-format
 msgid "%s"
-msgstr ""
+msgstr "%s"
 
 #: clientgui/AdvancedFrame.cpp:1722
 #, c-format
 msgid "%s has successfully added %s"
-msgstr ""
+msgstr "%s успішно додав %s"
 
 #: clientgui/AdvancedFrame.cpp:1862
 #, c-format
 msgid "%s - (%s)"
-msgstr ""
+msgstr "%s - (%s)"
 
 #: clientgui/AdvancedFrame.cpp:1866
 #, c-format
 msgid "Connecting to %s"
-msgstr ""
+msgstr "Йде підключення до %s"
 
 #: clientgui/AdvancedFrame.cpp:1869
 #, c-format
 msgid "Connected to %s (%s)"
-msgstr ""
+msgstr "Підключений до %s (%s)"
 
 #: clientgui/AlreadyExistsPage.cpp:184
 msgid "Username already in use"
-msgstr ""
+msgstr "Таке ім'я учасника вже використовується"
 
 #: clientgui/AlreadyExistsPage.cpp:187
 msgid ""
@@ -597,7 +599,7 @@ msgstr ""
 
 #: clientgui/AlreadyExistsPage.cpp:191
 msgid "Email address already in use"
-msgstr ""
+msgstr "Ця адреса электронної пошти вже використовується"
 
 #: clientgui/AlreadyExistsPage.cpp:194
 msgid ""

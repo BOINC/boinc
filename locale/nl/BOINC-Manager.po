@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 6.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-03-07 12:00-0500\n"
-"PO-Revision-Date: 2011-03-09 21:33+0200\n"
+"PO-Revision-Date: 2011-04-27 21:08+0200\n"
 "Last-Translator: Rene <oskamjr@wanadoo.nl>\n"
 "Language-Team: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
 "Language: nl\n"
@@ -23,8 +23,6 @@ msgstr ""
 "X-Poedit-SourceCharset: utf-8\n"
 "X-Poedit-Basepath: C:\\Src\\BOINCSVN\\branches\\boinc_core_release_6_12\n"
 "X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
-"X-Poedit-Country: UNITED STATES\n"
-"X-Poedit-Language: English\n"
 
 #: clientgui/AccountInfoPage.cpp:386
 msgid "Identify your account "
@@ -1053,7 +1051,7 @@ msgstr "wxWidgets Versie:"
 
 #: clientgui/DlgAbout.cpp:175
 msgid "Copyright:"
-msgstr "Copyright:"
+msgstr "Auteursrecht:"
 
 #: clientgui/DlgAbout.cpp:179
 msgid ""
@@ -1082,11 +1080,11 @@ msgstr "ongeldige waarde gevonden"
 
 #: clientgui/DlgAdvPreferences.cpp:500
 msgid "invalid time, format is HH:MM"
-msgstr "ongeldige tijd, opbouw moet zijn UU:MM"
+msgstr "ongeldige tijd, notatie is als volgt; UU:MM"
 
 #: clientgui/DlgAdvPreferences.cpp:501
 msgid "invalid time interval, format is HH:MM-HH:MM"
-msgstr "ongeldige tijds interval, opbouw moet zijn UU:MM - UU:MM"
+msgstr "ongeldig interval, notatie is als volgt; UU:MM - UU:MM"
 
 #: clientgui/DlgAdvPreferences.cpp:615
 msgid "invalid input value detected"
@@ -1184,7 +1182,7 @@ msgstr "vink dit aan als werk uitgevoerd mag worden als de computer actief is"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:153
 msgid "Use GPU while computer is in use"
-msgstr " Gebruik de GPU terwijl de computer in gebruik is"
+msgstr "Gebruik de GPU terwijl de computer in gebruik is"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:156
 msgid "check this if you want your GPU to do work even when you're using the computer"
@@ -1372,7 +1370,7 @@ msgstr "dagen (max.10)"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:441
 msgid "Skip image file verification"
-msgstr " Sla bestands verificatie over (niet aanbevolen)"
+msgstr "Sla bestands verificatie over (niet aanbevolen)"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:443
 msgid "check this if your Internet provider modifies image files"
@@ -1664,7 +1662,7 @@ msgstr "Computer ID"
 
 #: clientgui/DlgItemProperties.cpp:216
 msgid "Non CPU intensive"
-msgstr "(niet CPU intensief)"
+msgstr "Niet CPU intensief"
 
 #: clientgui/DlgItemProperties.cpp:216
 #: clientgui/DlgItemProperties.cpp:217
@@ -2261,7 +2259,7 @@ msgstr "Host gegevens aan het opvragen; even geduld a.u.b..."
 
 #: clientgui/MainDocument.cpp:2384
 msgid "on batteries"
-msgstr "- op accu"
+msgstr "op accu"
 
 #: clientgui/MainDocument.cpp:2385
 msgid "computer is in use"
@@ -2273,7 +2271,7 @@ msgstr "op verzoek van gebruiker"
 
 #: clientgui/MainDocument.cpp:2387
 msgid "time of day"
-msgstr "- tijdstip"
+msgstr "tijdstip"
 
 #: clientgui/MainDocument.cpp:2388
 msgid "CPU benchmarks in progress"

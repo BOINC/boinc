@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-10-06 08:58-0700\n"
-"PO-Revision-Date: 2010-11-22 12:11+0200\n"
+"PO-Revision-Date: 2011-05-13 15:36+0200\n"
 "Last-Translator: Christian <djangofett@gmx.net>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: de\n"
@@ -27,7 +27,7 @@ msgstr "Eine neue Version von BOINC ist verfügbar."
 
 #: acct_setup.cpp:275
 msgid "Download it."
-msgstr "Bitte Herunterladen."
+msgstr "Bitte herunterladen."
 
 #: client_msgs.cpp:106
 msgid "Notice from BOINC"
@@ -39,7 +39,7 @@ msgstr "Konnte Statusdatei nicht schreiben; bitte Zugriffsrechte überprüfen"
 
 #: cs_cmdline.cpp:283
 msgid "The HTTP_PROXY environment variable must specify an HTTP proxy"
-msgstr "Die HTTP_PROXY Umgebungsvariable muß einen HTTP-Proxy angeben"
+msgstr "Die HTTP_PROXY Umgebungsvariable muss einen HTTP-Proxy angeben"
 
 #: cs_scheduler.cpp:512
 #, c-format
@@ -130,7 +130,7 @@ msgstr ""
 msgid ""
 "Upgrade to the latest driver to use all of this project's GPU applications"
 msgstr ""
-"Auf die neuesten treiber aktualisieren, um alle GPU-Anwendungen dieses "
+"Auf die neuesten Treiber aktualisieren, um alle GPU-Anwendungen dieses "
 "Projekts nutzen zu können."
 
 #: ../sched/sched_send.cpp:1293
@@ -174,30 +174,31 @@ msgid ""
 "Tasks for NVIDIA GPU are available, but your preferences are set to not "
 "accept them"
 msgstr ""
-"Aufgaben für NVIDIA Grafikkarten sind verfügbar, aber die Einstellungen "
-"verbieten diese."
+"Aufgaben für NVIDIA GPUs sind verfügbar, aber Ihre Einstellungen verbieten "
+"diese."
 
 #: ../sched/sched_send.cpp:1460
 msgid ""
 "Tasks for ATI GPU are available, but your preferences are set to not accept "
 "them"
 msgstr ""
-"Aufgaben für ATI Grafikkarten sind verfügbar, aber die Einstellungen "
-"verbieten diese."
+"Aufgaben für ATI GPUs sind verfügbar, aber Ihre Einstellungen verbieten "
+"diese."
 
 #: ../sched/sched_send.cpp:1466
 msgid ""
 "Tasks for CPU are available, but your preferences are set to not accept them"
 msgstr ""
-"Aufgaben für die CPU sind verfügbar, aber die Einstellungen verbieten diese."
+"Aufgaben für die CPU sind verfügbar, aber Ihre Einstellungen verbieten "
+"diese."
 
 #: ../sched/sched_types.cpp:268
 msgid "Unknown app name in app_info.xml"
-msgstr "Unbekannte Anwendung in app_info.xml"
+msgstr "Unbekannter Anwendungsname in app_info.xml"
 
 #: ../sched/sched_version.cpp:234
 msgid "Your app_info.xml file doesn't have a usable version of"
-msgstr "Die app_info.xml Datei enthält keine nutzbare Version von"
+msgstr "Ihre app_info.xml Datei enthält keine nutzbare Version von"
 
 #: ../sched/sched_version.cpp:691
 msgid "is not available for your type of computer"

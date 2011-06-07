@@ -7,8 +7,8 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 6.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-03-07 12:00-0500\n"
-"PO-Revision-Date: 2011-04-20 12:22+0200\n"
-"Last-Translator: Gianfranco <costamagnagianfranco@yahoo.it>\n"
+"PO-Revision-Date: 2011-05-07 09:57+0200\n"
+"Last-Translator: Morris83 <zara-83@libero.it>\n"
 "Language-Team: BOINC.Italy team <contact@boincitaly.org>\n"
 "Language: it\n"
 "MIME-Version: 1.0\n"
@@ -1068,7 +1068,7 @@ msgid ""
 "(C) 2003-2011 University of California, Berkeley.\n"
 "All Rights Reserved."
 msgstr ""
-"(C) 2003-2008 Università della California di Berkeley.\n"
+"(C) 2003-2011 Università della California, Berkeley.\n"
 "Tutti i diritti riservati."
 
 #: clientgui/DlgAbout.cpp:183
@@ -1713,14 +1713,13 @@ msgstr "Non richiedere nuovo lavoro"
 
 #: clientgui/DlgItemProperties.cpp:220
 #: clientgui/DlgItemProperties.cpp:222
-#, fuzzy
 msgid "Host location"
-msgstr "Notifica Test"
+msgstr "Localizzazione dell'host"
 
 #: clientgui/DlgItemProperties.cpp:222
 #, fuzzy
 msgid "default"
-msgstr "&Imposta come predefinita"
+msgstr "predefinito"
 
 #: clientgui/DlgItemProperties.cpp:225
 msgid "Added via account manager"
@@ -1918,9 +1917,7 @@ msgstr "Quale lingua desideri che BOINC utilizzi?"
 #: clientgui/DlgOptions.cpp:168
 #, fuzzy
 msgid "Notice reminder interval:"
-msgstr ""
-"Intervallo di promemoria dell'avviso:\n"
-"(minuti; 0 significa nessun promemoria)"
+msgstr "Intervallo della notifica di avviso:"
 
 #: clientgui/DlgOptions.cpp:175
 msgid "How often should BOINC remind you of new notices?"
@@ -2021,29 +2018,29 @@ msgstr "Proxy SOCKS"
 #: clientgui/DlgOptions.cpp:571
 #, fuzzy
 msgid "always"
-msgstr "&Elaborazione continua"
+msgstr "sempre"
 
 #: clientgui/DlgOptions.cpp:572
 msgid "1 hour"
-msgstr ""
+msgstr "1 ora"
 
 #: clientgui/DlgOptions.cpp:573
 msgid "6 hours"
-msgstr ""
+msgstr "6 ore"
 
 #: clientgui/DlgOptions.cpp:574
 #, fuzzy
 msgid "1 day"
-msgstr "giorni"
+msgstr "1 giorno"
 
 #: clientgui/DlgOptions.cpp:575
 msgid "1 week"
-msgstr ""
+msgstr "1 settimana"
 
 #: clientgui/DlgOptions.cpp:576
 #, fuzzy
 msgid "never"
-msgstr "ogni"
+msgstr "mai"
 
 #: clientgui/DlgOptions.cpp:673
 #, c-format
@@ -3360,15 +3357,15 @@ msgstr "Non richiedere nuovo lavoro per questo progetto."
 #: clientgui/ViewProjects.cpp:1048
 #, fuzzy
 msgid "Requested by user"
-msgstr "Sospeso dall'utente"
+msgstr "Richiesto dall'utente"
 
 #: clientgui/ViewProjects.cpp:1049
 msgid "To fetch work"
-msgstr ""
+msgstr "Per richiedere lavoro "
 
 #: clientgui/ViewProjects.cpp:1050
 msgid "To report completed tasks"
-msgstr ""
+msgstr "Per inviare le attività completate"
 
 #: clientgui/ViewProjects.cpp:1051
 #, fuzzy
@@ -3378,22 +3375,22 @@ msgstr "In attesa di invio di un messaggio intermedio"
 #: clientgui/ViewProjects.cpp:1052
 #, fuzzy
 msgid "Requested by account manager"
-msgstr "Usa l'account manager"
+msgstr "Richiesto dall'account manager"
 
 #: clientgui/ViewProjects.cpp:1053
 #, fuzzy
 msgid "Project initialization"
-msgstr "Progetto non trovato"
+msgstr "Avvio del progetto"
 
 #: clientgui/ViewProjects.cpp:1054
 #, fuzzy
 msgid "Requested by project"
-msgstr "Annullato dal progetto"
+msgstr "Richiesto dal progetto"
 
 #: clientgui/ViewProjects.cpp:1055
 #, fuzzy
 msgid "Unknown reason"
-msgstr "motivo sconosciuto"
+msgstr "Motivo sconosciuto"
 
 #: clientgui/ViewProjects.cpp:1069
 msgid "Suspended by user"

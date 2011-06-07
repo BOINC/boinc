@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-10-06 08:58-0700\n"
-"PO-Revision-Date: 2011-01-18 19:30+0200\n"
+"PO-Revision-Date: 2011-04-21 08:35+0200\n"
 "Last-Translator: Gabor Cseh <csega@mailbox.hu>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: hu\n"
@@ -23,7 +23,7 @@ msgstr "hiba"
 
 #: acct_setup.cpp:273
 msgid "A new version of BOINC is available."
-msgstr "Új BOINC verzió elérhető."
+msgstr "Új BOINC verzió érhető el."
 
 #: acct_setup.cpp:275
 msgid "Download it."
@@ -31,7 +31,7 @@ msgstr "Töltse le."
 
 #: client_msgs.cpp:106
 msgid "Notice from BOINC"
-msgstr "Megjegyzések a BOINC-tól"
+msgstr "Értesítés a BOINC-tól"
 
 #: client_state.cpp:357
 msgid "Couldn't write state file; check directory permissions"
@@ -47,14 +47,16 @@ msgid ""
 "You used the wrong URL for this project.  When convenient, remove this "
 "project, then add %s"
 msgstr ""
+"Ön hibás URL-t használt ehhez a projekthez. Amint alkalmas, távolítsa el ezt "
+"a projektet, majd adja hozzá %s-t"
 
 #: cs_scheduler.cpp:545
 msgid "Message from"
-msgstr ""
+msgstr "Üzenetet küldött a(z)"
 
 #: cs_statefile.cpp:805 ../sched/sched_types.cpp:273
 msgid "Syntax error in app_info.xml"
-msgstr "Szintaktikai hiba az app_info.xml-ben"
+msgstr "Szintaktikai hiba az app_info.xml fájlban."
 
 #: cs_statefile.cpp:844
 msgid "File referenced in app_info.xml does not exist: "
@@ -90,8 +92,8 @@ msgstr ""
 #, fuzzy
 msgid "Invalid code signing key.  To fix, remove and add this project."
 msgstr ""
-"Érvénytelen kód aláíró kulcs. A javításhoz törölje, majd adja hozzá újra a "
-"projektet."
+"Érvénytelen kód aláíró kulcs. A javításhoz távolítsa el, majd adja hozzá "
+"újra a projektet."
 
 #: ../sched/handle_request.cpp:830
 msgid ""
@@ -102,14 +104,12 @@ msgstr ""
 "hozzá újra ezt a projektet."
 
 #: ../sched/handle_request.cpp:914
-#, fuzzy
 msgid "This project doesn't support operating system"
-msgstr "A projekt nem támogatja az operációs rendszert"
+msgstr "A projekt nem támogatja az alábbi operációs rendszert"
 
 #: ../sched/handle_request.cpp:940
-#, fuzzy
 msgid "This project doesn't support CPU type"
-msgstr "A projekt nem támogatja a CPU típust"
+msgstr "A projekt nem támogatja az alábbi CPU típust"
 
 #: ../sched/handle_request.cpp:964
 msgid ""
@@ -125,22 +125,28 @@ msgstr "Ez a projekt nem támogatja a következő számítógéptípusokat:"
 #: ../sched/sched_send.cpp:1262
 msgid "Upgrade to the latest driver to process tasks using your computer's GPU"
 msgstr ""
+"Frissítsen a legújabb illesztőprogramra, hogy a számítógép GPU-jának "
+"használatával dolgozhasson fel feladatokat"
 
 #: ../sched/sched_send.cpp:1269
 msgid ""
 "Upgrade to the latest driver to use all of this project's GPU applications"
 msgstr ""
+"Frissítsen a legújabb illesztőprogramra, hogy használhassa ennek a "
+"projektnek az összes GPU-s alkalmazását."
 
 #: ../sched/sched_send.cpp:1293
 msgid ""
 "A newer version of BOINC is needed to use your NVIDIA GPU; please upgrade to "
 "the current version"
 msgstr ""
+"Újabb BOINC verzió szükséges az Ön NVIDIA GPU-jának használatához; kérem "
+"frissítsen a legújabb verzióra."
 
 #: ../sched/sched_send.cpp:1306
 #, fuzzy
 msgid "An NVIDIA or ATI GPU is required to run tasks for this project"
-msgstr "NVIDIA GPU szükséges a projekt feladatainak futtatásához "
+msgstr "NVIDIA vagy ATI GPU szükséges a projekt feladatainak futtatásához "
 
 #: ../sched/sched_send.cpp:1311
 msgid "An NVIDIA GPU is required to run tasks for this project"
@@ -191,11 +197,11 @@ msgstr ""
 
 #: ../sched/sched_types.cpp:268
 msgid "Unknown app name in app_info.xml"
-msgstr ""
+msgstr "Ismeretlen alkalmazás név az app_info.xml-ben"
 
 #: ../sched/sched_version.cpp:234
 msgid "Your app_info.xml file doesn't have a usable version of"
-msgstr ""
+msgstr "Az app_info.xml fájlnak nincs használható (megfelelő?) verziója"
 
 #: ../sched/sched_version.cpp:691
 msgid "is not available for your type of computer"

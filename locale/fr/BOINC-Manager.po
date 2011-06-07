@@ -4,7 +4,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-03-07 12:00-0500\n"
-"PO-Revision-Date: 2011-01-14 00:15+0200\n"
+"PO-Revision-Date: 2011-05-26 14:03+0200\n"
 "Last-Translator: Jerome Cadet <jerome.cadet@pobox.com>\n"
 "Language-Team: <fr@li.org>\n"
 "Language: fr\n"
@@ -20,8 +20,6 @@ msgstr ""
 "X-Poedit-SourceCharset: utf-8\n"
 "X-Poedit-Basepath: C:\\Src\\BOINCSVN\\branches\\boinc_core_release_6_12\n"
 "X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
-"X-Poedit-Country: UNITED STATES\n"
-"X-Poedit-Language: English\n"
 
 #: clientgui/AccountInfoPage.cpp:386
 msgid "Identify your account "
@@ -137,7 +135,7 @@ msgstr "Mettre à jour le gestionnaire de compte"
 #: clientgui/AccountInfoPage.cpp:575
 #, fuzzy
 msgid "Use account manager"
-msgstr "Ajouter un gestionnaire de compte"
+msgstr "Utiliser un gestionnaire de compte"
 
 #: clientgui/AccountInfoPage.cpp:583
 #, c-format
@@ -987,7 +985,7 @@ msgid ""
 "Click Finish to close."
 msgstr ""
 "Une erreur est survenue.\n"
-" Veuillez vérifier l'onglet Messages pour plus de détails.\n"
+" Veuillez vérifier le journal d'événements pour plus de détails.\n"
 "\n"
 "Cliquez sur Fin pour fermer."
 
@@ -1063,12 +1061,11 @@ msgid "Copyright:"
 msgstr "Copyright :"
 
 #: clientgui/DlgAbout.cpp:179
-#, fuzzy
 msgid ""
 "(C) 2003-2011 University of California, Berkeley.\n"
 "All Rights Reserved."
 msgstr ""
-"(C) 2003-2010 Université de Californie, Berkeley.\n"
+"(C) 2003-2011 Université de Californie, Berkeley.\n"
 "Tous droits réservés."
 
 #: clientgui/DlgAbout.cpp:183
@@ -1556,7 +1553,7 @@ msgstr "Fermer"
 #: clientgui/DlgEventLog.cpp:307
 #, c-format
 msgid "Get help with %s"
-msgstr ""
+msgstr "Obtenir de l'aide avec %s"
 
 #: clientgui/DlgEventLog.cpp:321
 msgid "Show all messages"
@@ -1710,12 +1707,12 @@ msgstr "Ne pas demander de travail supplémentaire"
 #: clientgui/DlgItemProperties.cpp:222
 #, fuzzy
 msgid "Host location"
-msgstr "Notification de test"
+msgstr "Emplacement de l'hôte"
 
 #: clientgui/DlgItemProperties.cpp:222
 #, fuzzy
 msgid "default"
-msgstr "&Choisir par défaut"
+msgstr "Valeur par défaut"
 
 #: clientgui/DlgItemProperties.cpp:225
 msgid "Added via account manager"
@@ -1853,7 +1850,7 @@ msgstr "Taille de tâche estimée"
 
 #: clientgui/DlgItemProperties.cpp:317
 msgid "Max RAM usage"
-msgstr ""
+msgstr "Utilisation maximale de la RAM"
 
 #: clientgui/DlgItemProperties.cpp:320
 msgid "CPU time at last checkpoint"
@@ -1911,11 +1908,8 @@ msgid "What language should BOINC use?"
 msgstr "Quelle langue BOINC doit-il utiliser ?"
 
 #: clientgui/DlgOptions.cpp:168
-#, fuzzy
 msgid "Notice reminder interval:"
-msgstr ""
-"Intervalle de rappel de notifications:\n"
-"(minutes; 0 signifie pas de notification)"
+msgstr "Intervalle de notifications:"
 
 #: clientgui/DlgOptions.cpp:175
 msgid "How often should BOINC remind you of new notices?"
@@ -2017,29 +2011,29 @@ msgstr "Proxy SOCKS"
 #: clientgui/DlgOptions.cpp:571
 #, fuzzy
 msgid "always"
-msgstr "&Calculer en permanence"
+msgstr "toujours"
 
 #: clientgui/DlgOptions.cpp:572
 msgid "1 hour"
-msgstr ""
+msgstr "1 heure"
 
 #: clientgui/DlgOptions.cpp:573
 msgid "6 hours"
-msgstr ""
+msgstr "6 heures"
 
 #: clientgui/DlgOptions.cpp:574
 #, fuzzy
 msgid "1 day"
-msgstr "jours"
+msgstr "1 jour"
 
 #: clientgui/DlgOptions.cpp:575
 msgid "1 week"
-msgstr ""
+msgstr "1 semaine"
 
 #: clientgui/DlgOptions.cpp:576
 #, fuzzy
 msgid "never"
-msgstr "chaque"
+msgstr "jamais"
 
 #: clientgui/DlgOptions.cpp:673
 #, c-format
@@ -3357,42 +3351,41 @@ msgstr "Ne récupère pas de nouveau travail pour ce projet."
 #: clientgui/ViewProjects.cpp:1048
 #, fuzzy
 msgid "Requested by user"
-msgstr "Suspendu par l'utilisateur"
+msgstr "Demandé par l'utilisateur"
 
 #: clientgui/ViewProjects.cpp:1049
 msgid "To fetch work"
-msgstr ""
+msgstr "Pour demander du travail"
 
 #: clientgui/ViewProjects.cpp:1050
 msgid "To report completed tasks"
-msgstr ""
+msgstr "Rapporter les tâches terminées"
 
 # divers débat sur la traduction de trickle up ont eu lieu sur boinc_loc, pas de conclusion claire
 #: clientgui/ViewProjects.cpp:1051
-#, fuzzy
 msgid "To send trickle-up message"
-msgstr "Message de progression de tâche en cours"
+msgstr "Pour envoyer les messages de rapport de progression de tâche"
 
 # changement de terminologie boinc (cf. comm de David Anderson sur boinc_loc)
 #: clientgui/ViewProjects.cpp:1052
 #, fuzzy
 msgid "Requested by account manager"
-msgstr "Ajouter un gestionnaire de compte"
+msgstr "Demandé par le gestionnaire de compte"
 
 #: clientgui/ViewProjects.cpp:1053
 #, fuzzy
 msgid "Project initialization"
-msgstr "Projet non trouvé"
+msgstr "Initialisation du projet"
 
 #: clientgui/ViewProjects.cpp:1054
 #, fuzzy
 msgid "Requested by project"
-msgstr "Annulé par le projet"
+msgstr "Demandé par le projet"
 
 #: clientgui/ViewProjects.cpp:1055
 #, fuzzy
 msgid "Unknown reason"
-msgstr "raison inconnue"
+msgstr "Raison inconnue"
 
 #: clientgui/ViewProjects.cpp:1069
 msgid "Suspended by user"
@@ -4027,30 +4020,30 @@ msgstr "ligne %d de %d; "
 #: clientgui/mac/Mac_GUI.cpp:105
 #, fuzzy
 msgid "Preferences…"
-msgstr "Préférences"
+msgstr "Préférences..."
 
 #: clientgui/mac/Mac_GUI.cpp:117
 msgid "Services"
-msgstr ""
+msgstr "Services"
 
 #: clientgui/mac/Mac_GUI.cpp:139
 #, c-format
 msgid "Hide %s"
-msgstr ""
+msgstr "Cacher %s"
 
 #: clientgui/mac/Mac_GUI.cpp:153
 msgid "Hide Others"
-msgstr ""
+msgstr "Cacher les autres"
 
 #: clientgui/mac/Mac_GUI.cpp:167
 msgid "Show All"
-msgstr ""
+msgstr "Montrer tout"
 
 #: clientgui/mac/Mac_GUI.cpp:181
 #, c-format
 #, fuzzy, c-format
 msgid "Quit %s"
-msgstr "&Quitter %s"
+msgstr "Quitter %s"
 
 #: clientgui/DlgAdvPreferences.h:29
 msgid "specify work start and stop hours in format HH:MM-HH:MM"
