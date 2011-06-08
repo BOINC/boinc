@@ -9917,3 +9917,11 @@ Charlie 7 Jun 2011
     clientgui/
         BOINCGUIApp.cpp, .h
         MainDocument.cpp, .h
+
+Rom    8 Jun 2011
+    - Tag for 6.12.30 release, all platforms
+      boinc_core_release_6_12_30
+
+    /
+        configure.ac
+        version.h
