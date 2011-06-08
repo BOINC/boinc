@@ -9919,6 +9919,12 @@ Charlie 7 Jun 2011
         MainDocument.cpp, .h
 
 Rom    8 Jun 2011
+    - MGR: Disable list view rules for now.
+    
+    clientgui/
+        BOINCBaseView.h
+
+Rom    8 Jun 2011
     - Tag for 6.12.30 release, all platforms
       boinc_core_release_6_12_30
 
