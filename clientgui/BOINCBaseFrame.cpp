@@ -482,7 +482,7 @@ bool CBOINCBaseFrame::SelectComputer(wxString& hostName, int& portNum, wxString&
 }
 
 
-void CBOINCBaseFrame::ShowConnectionBadPasswordAlert( bool bUsedDefaultPassword, int m_iReadGUIRPCAuthFailure ) {
+void CBOINCBaseFrame::ShowConnectionBadPasswordAlert( bool bUsedDefaultPassword, int iReadGUIRPCAuthFailure ) {
     CSkinAdvanced*      pSkinAdvanced = wxGetApp().GetSkinManager()->GetAdvanced();
     wxString            strDialogTitle = wxEmptyString;
 
@@ -502,7 +502,7 @@ void CBOINCBaseFrame::ShowConnectionBadPasswordAlert( bool bUsedDefaultPassword,
 
     if ( bUsedDefaultPassword ) {
 #ifdef __WXMSW__
-        if ( EACCES == m_iReadGUIRPCAuthFailure || ENOENT == m_iReadGUIRPCAuthFailure ) {
+        if ( EACCES == iReadGUIRPCAuthFailure || ENOENT == iReadGUIRPCAuthFailure ) {
             ShowAlert(
                 strDialogTitle,
                 _("You currently are not authorized to manage the client.\nPlease contact your administrator to add you to the 'boinc_users' local user group."),

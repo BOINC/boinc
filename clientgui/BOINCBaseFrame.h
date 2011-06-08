@@ -78,7 +78,7 @@ public:
     void                FireNotification();
 
     bool                SelectComputer(wxString& hostName, int& portNum, wxString& password, bool required = false);
-    void                ShowConnectionBadPasswordAlert( bool bUsedDefaultPassword, int m_iReadGUIRPCAuthFailure );
+    void                ShowConnectionBadPasswordAlert( bool bUsedDefaultPassword, int iReadGUIRPCAuthFailure );
     void                ShowConnectionFailedAlert();
     void                ShowDaemonStartFailedAlert();
     void                ShowNotCurrentlyConnectedAlert();
