@@ -9862,3 +9862,21 @@ Rom    7 Jun 2011
     /
         configure.ac
         version.h
+
+Charlie 22 Feb 2011
+    - Mac: Add new procinfo.cpp to XCode Project.
+
+     mac_build/
+        boinc.xcodeproj/
+            project.pbxproj
+
+Charlie 21 Apr 2011
+    - Mac: Update XCode Project to link procinfo.cpp and procinfo_mac.cpp into 
+        boinscr (ss_app) because boinc_api.cpp now calls kill_descendants() and 
+        suspend_or_resume_descendants().
+    
+    lib
+        procinfo_mac.cpp
+     mac_build/
+        boinc.xcodeproj/
+            project.pbxproj
