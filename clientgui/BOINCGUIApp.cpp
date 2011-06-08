@@ -1071,8 +1071,10 @@ int CBOINCGUIApp::ConfirmExit() {
 
     // Don't run confirmation dialog if logging out or shutting down Mac, 
     // or if emergency exit from AsyncRPCDlg
-    if (s_bSkipExitConfirmation)
-        return 1;
+    if (s_bSkipExitConfirmation) return 1;
+
+    // Don't run confirmation dialog if second instance of Manager 
+    if (IsMgrMultipleInstance()) return 1;
 
     if (!m_iDisplayExitDialog) {
         // Mac: User doesn't want to display the dialog and just wants to use their previous value.

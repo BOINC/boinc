@@ -142,7 +142,7 @@ public:
     void                DeleteTaskBarIcon();
 
     bool                IsAccessibilityEnabled()    { return m_bAccessibilityEnabled; }
-    bool                IsMultipleInstancesOK()    { return m_bMultipleInstancesOK; }
+    bool                IsMgrMultipleInstance()     { return m_bMultipleInstancesOK; }
 
 #ifdef __WXMAC__
     CMacSystemMenu*     GetMacSystemMenu()          { return m_pMacSystemMenu; }
