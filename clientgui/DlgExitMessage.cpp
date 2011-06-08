@@ -125,7 +125,7 @@ void CDlgExitMessage::CreateControls()
     wxFlexGridSizer* itemFlexGridSizer4 = new wxFlexGridSizer(3, 1, 0, 0);
     itemBoxSizer3->Add(itemFlexGridSizer4, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
 
-#ifdef __WXMSW__
+#ifndef __WXMAC__
     strExitMessage.Printf(
         _("You have requested to exit the %s,\nwhich allows you to view and manage\nthe tasks running on your computer.\n\nIf you also want to stop running the tasks,\nchoose from the following options:"),
         pSkinAdvanced->GetApplicationName().c_str()

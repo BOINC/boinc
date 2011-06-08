@@ -3423,7 +3423,9 @@ Charlie 7 Jun 2011
         skip exit confirmation dialog but do shut down local client if requested 
         in most recently run exit dialog, whether or not "Remember this decision" 
         was set.
+    - MGR: Use same exit confirmation dialog wording for Linux as for Windows.
         
     clientgui/
         BOINCGUIApp.cpp, .h
         MainDocument.cpp, .h
+        DlgExitMessage.cpp
