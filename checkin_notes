@@ -3419,6 +3419,10 @@ Charlie 7 Jun 2011
     - MGR: Rework logic to skip exit confirmation dialog and avoid shutting down 
         client if second instance of Manager is launched, so it works if connect 
         to remote host fails.
+    - MGR: If original instance of Manager is connected to remote host (or none),
+        skip exit confirmation dialog but do shut down local client if requested 
+        in most recently run exit dialog, whether or not "Remember this decision" 
+        was set.
         
     clientgui/
         BOINCGUIApp.cpp, .h
