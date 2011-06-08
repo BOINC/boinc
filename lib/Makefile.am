@@ -54,6 +54,7 @@ generic_sources = \
 	notice.cpp \
     parse.cpp \
     prefs.cpp \
+    procinfo.cpp \
     procinfo_unix.cpp \
     proxy_info.cpp \
     shmem.cpp \
