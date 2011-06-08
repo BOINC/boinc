@@ -9892,3 +9892,9 @@ Charlie 7 Jun 2011
 
     clientgui/
         DlgExitMessage.cpp
+
+David  31 May 2011
+    - manager: tweak strings related to task FLOP size
+
+    clientgui/
+        DlgItemProperties.cpp
