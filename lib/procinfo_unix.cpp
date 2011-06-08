@@ -309,18 +309,3 @@ void procinfo_app(
     }
 }
 
-void procinfo_other(PROCINFO& pi, vector<PROCINFO>& piv) {
-    unsigned int i;
-
-    memset(&pi, 0, sizeof(pi));
-    for (i=0; i<piv.size(); i++) {
-        PROCINFO& p = piv[i];
-        if (p.is_boinc_app) continue;
-        if (p.is_low_priority) continue;
-
-        pi.kernel_time += p.kernel_time;
-        pi.user_time += p.user_time;
-        pi.swap_size += p.swap_size;
-        pi.working_set_size += p.working_set_size;
-    }
-}
