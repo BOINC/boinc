@@ -125,14 +125,14 @@ void CDlgExitMessage::CreateControls()
     wxFlexGridSizer* itemFlexGridSizer4 = new wxFlexGridSizer(3, 1, 0, 0);
     itemBoxSizer3->Add(itemFlexGridSizer4, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
 
-#ifdef __WXMSW__
+#ifndef __WXMAC__
     strExitMessage.Printf(
-        _("You have requested to exit the %s,\nwhich allows you to view and manage\nthe science applications running on your computer.\n\nIf you also want to stop running the science applications when you\nexit the Manager, then choose from the following options:"),
+        _("You have requested to exit the %s,\nwhich allows you to view and manage\nthe tasks running on your computer.\n\nIf you also want to stop running the tasks,\nchoose from the following options:"),
         pSkinAdvanced->GetApplicationName().c_str()
     );
 #else
     strExitMessage.Printf(
-        _("This will shut down %s and its tasks entirely until either the\n%s application or the %s screen saver is run again.\n\nIn most cases, it is better just to close the %s window\nrather than to exit the application; that will allow %s to run its\ntasks at the times you selected in your preferences."),
+        _("This will shut down %s and its tasks until either the\n%s or the %s screen saver is run again.\n\nIn most cases, it is better just to close the %s window\nrather than to exit the application; that will allow %s to run its\ntasks at the times you selected in your preferences."),
         pSkinAdvanced->GetApplicationShortName().c_str(),
         pSkinAdvanced->GetApplicationName().c_str(),
         pSkinAdvanced->GetApplicationShortName().c_str(),
@@ -150,7 +150,8 @@ void CDlgExitMessage::CreateControls()
 #ifndef __WXMAC__
 
     strAlwaysExitMessage.Printf(
-        _("Stop running science applications when exiting the Manager")
+        _("Stop running tasks when exiting the %s"),
+        pSkinAdvanced->GetApplicationName().c_str()
 	);
 
     m_DialogShutdownCoreClient = new wxCheckBox;
