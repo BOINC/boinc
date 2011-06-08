@@ -3429,3 +3429,9 @@ Charlie 7 Jun 2011
         BOINCGUIApp.cpp, .h
         MainDocument.cpp, .h
         DlgExitMessage.cpp
+
+Rom    8 Jun 2011
+    - MGR: Disable list view rules for now.
+    
+    clientgui/
+        BOINCBaseView.h
