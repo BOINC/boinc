@@ -217,7 +217,6 @@ private:
     BOINC_Condition*            m_pRPC_Request_Condition;
     wxDateTime                  m_dtLasAsyncRPCDlgTime;
     wxDateTime                  m_dtLastFrameViewRefreshRPCTime;
-    bool                        m_bDuplicateInstanceCanceled;
 
     //
     // Projects Tab
