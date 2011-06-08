@@ -3408,3 +3408,9 @@ David  7 Jun 2011
 
     client/
         app_control.cpp
+
+Charlie 7 Jun 2011
+    - MGR: Fix About dialog to show (PowerPC) instead of (x86) when appropriate.
+    
+    clientgui/
+        DlgAbout.cpp

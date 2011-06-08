@@ -80,6 +80,8 @@ bool CDlgAbout::Create(wxWindow* parent, wxWindowID id, const wxString& caption,
     m_AboutBOINCURLCtrl = NULL;
 #if defined(_WIN64) && defined(_M_X64)
     m_strVersion.Printf(wxT("%s (x64)"), wxT(BOINC_VERSION_STRING));
+#elif defined(__ppc__)
+    m_strVersion.Printf(wxT("%s (PowerPC)"), wxT(BOINC_VERSION_STRING));
 #else
     m_strVersion.Printf(wxT("%s (x86)"), wxT(BOINC_VERSION_STRING));
 #endif
