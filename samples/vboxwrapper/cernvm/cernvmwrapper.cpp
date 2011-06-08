@@ -28,6 +28,7 @@
 #include <stdio.h>
 #include <vector>
 #include <string>
+#include <sstream>
 #include <iostream>
 #include <fstream>
 #include <time.h>
@@ -357,8 +358,8 @@ void VM::start(bool vrde=false, bool headless=false) {
     // Start the VM in headless mode
     
     boinc_begin_critical_section();
-
     string arg_list="";
+
     if (headless) arg_list=" startvm "+ virtual_machine_name + " --type headless";
     else arg_list = " startvm "+ virtual_machine_name;
     if (!vbm_popen(arg_list))
@@ -390,6 +391,25 @@ void VM::start(bool vrde=false, bool headless=false) {
         // Don't allow the user to save, shutdown, power off or restore the VM
         arg_list = " setextradata " + virtual_machine_name + " GUI/RestrictedCloseActions SaveState,Shutdown,PowerOff,Restore";
         vbm_popen(arg_list);
+    }
+
+    // Check the BOINC CPU preferences for running the VM accordingly
+    arg_list = "";
+    boinc_get_init_data(aid);
+    fprintf(stderr,"INFO: Maximum usage of CPU: %f\n", aid.global_prefs.cpu_usage_limit);
+    fprintf(stderr,"INFO: Setting how much CPU time the virtual CPU can use: %i\n", int(aid.global_prefs.cpu_usage_limit));
+    std::stringstream out;
+    out << int(aid.global_prefs.cpu_usage_limit);
+
+    arg_list = " controlvm " + virtual_machine_name + " cpuexecutioncap " + out.str();
+    if (!vbm_popen(arg_list))
+    {
+        fprintf(stderr,"ERROR: Impossible to set up CPU percentage usage limit\n");
+    }
+    else
+    {
+        fprintf(stderr,"INFO: Success!\n");
+    
     }
 
     boinc_end_critical_section();
@@ -622,6 +642,7 @@ void VM::poll() {
     string arg_list, status;
     char buffer[1024];
     time_t current_time;
+
     
     arg_list="";
     arg_list="showvminfo "+virtual_machine_name+" --machinereadable" ;
@@ -701,17 +722,17 @@ void poll_boinc_messages(VM& vm, BOINC_STATUS &status) {
         fprintf(stderr,"INFO: VM removed and task aborted\n");
         boinc_finish(0);
     }
-    if (status.suspended) {
-        fprintf(stderr,"INFO: BOINC status suspend = True. Stopping VM\n");
-        if (!vm.suspended) {
-            vm.pause();
-        }
-    } else {
-        fprintf(stderr,"INFO: BOINC status suspend = False. Resuming VM\n");
-        if (vm.suspended) {
-            vm.resume();
-        }
-    }
+    //if (status.suspended) {
+    //    fprintf(stderr,"INFO: BOINC status suspend = True. Stopping VM\n");
+    //    if (!vm.suspended) {
+    //        vm.pause();
+    //    }
+    //} else {
+    //    fprintf(stderr,"INFO: BOINC status suspend = False. Resuming VM\n");
+    //    if (vm.suspended) {
+    //        vm.resume();
+    //    }
+    //}
 }
 
 void write_cputime(double cpu) {
@@ -789,6 +810,12 @@ int main(int argc, char** argv) {
     string cernvm = "cernvm.vmdk";
     string resolved_name;
     unsigned int output;
+
+
+    // Get BOINC APP INIT DATA
+    //
+    boinc_get_init_data(aid);
+
 
     // The VM
     VM vm;
@@ -967,6 +994,7 @@ int main(int argc, char** argv) {
     if (vm_name)
     {
         fprintf(stderr,"VMName exists\n");
+
         bool VMexist=false;
         string arg_list;
         //if((fp=fopen(vm.name_path.c_str(),"r"))==NULL){
@@ -1026,6 +1054,9 @@ int main(int argc, char** argv) {
     vm.current_period=cpu_time;
     vm.start(vrde,headless);
     vm.last_poll_point = time(NULL);
+    
+
+
     while (1) {
         boinc_get_status(&status);
         poll_boinc_messages(vm, status);
