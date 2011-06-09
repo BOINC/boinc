@@ -9954,4 +9954,11 @@ Charlie 9 Jun 2011
     clientgui/
         DlgExitMessage.cpp
         DlgItemProperties.cpp
-        
+
+Charlie 9 Jun 2011
+    - MGR: Event Log menu item restores Event Log when Minimized; fixed on Mac 
+        and Windows XP, hopefully on other versions of Windows OS.
+    
+    clientgui/
+        BOINCBaseFrame.cpp
+        BOINCGUIApp.cpp
