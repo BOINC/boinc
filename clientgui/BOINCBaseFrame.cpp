@@ -869,7 +869,13 @@ bool CBOINCBaseFrame::Show(bool bShow) {
     
     CDlgEventLog*   eventLog = wxGetApp().GetEventLog();
     if (eventLog) {
+#ifdef __WXMAC__
+        if (bShow) {
+            eventLog->Show(bShow);
+        }
+#else
         eventLog->Show(bShow);
+#endif
     }
 
     retval = wxFrame::Show(bShow);

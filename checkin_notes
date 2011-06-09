@@ -3409,20 +3409,20 @@ David  7 Jun 2011
     client/
         app_control.cpp
 
-Charlie 7 Jun 2011
+Charlie 8 Jun 2011
     - MGR: Fix About dialog to show (PowerPC) instead of (x86) when appropriate.
     
     clientgui/
         DlgAbout.cpp
 
-Charlie 7 Jun 2011
+Charlie 8 Jun 2011
     - MGR: Rework logic to skip exit confirmation dialog and avoid shutting down 
         client if second instance of Manager is launched, so it works if connect 
         to remote host fails.
-    - MGR: If original instance of Manager is connected to remote host (or none),
-        skip exit confirmation dialog but do shut down local client if requested 
-        in most recently run exit dialog, whether or not "Remember this decision" 
-        was set.
+    - MGR: If original instance of Manager is connected to remote host (or none)
+        when exiting Manager. skip exit confirmation dialog but do shut down local 
+        client if requested in most recently run exit dialog, whether or not 
+        "Remember this decision" was set.
     - MGR: Use same exit confirmation dialog wording for Linux as for Windows.
         
     clientgui/
@@ -3447,3 +3447,11 @@ David  8 Jun 2011
 
     api/
         boinc_api.h
+
+Charlie 9 Jun 2011
+    - MGR: Event Log menu item restores Event Log when Minimized; fixed on Mac 
+        and Windows XP, hopefully on other versions of Windows OS.
+    
+    clientgui/
+        BOINCBaseFrame.cpp
+        BOINCGUIApp.cpp

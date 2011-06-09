@@ -880,6 +880,9 @@ int CBOINCGUIApp::StartBOINCDefaultScreensaverTest() {
 void CBOINCGUIApp::DisplayEventLog(bool bShowWindow) {
     if (m_pEventLog ) {
         if (bShowWindow) {
+            if (m_pEventLog->IsIconized()) {
+                m_pEventLog->Iconize(false);
+            }
             m_pEventLog->Raise();
         }
     } else {
