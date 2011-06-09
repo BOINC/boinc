@@ -3435,3 +3435,9 @@ Rom    8 Jun 2011
     
     clientgui/
         BOINCBaseView.h
+        
+Charlie 8 Jun 2011
+    - MGR: Restore list view rules again.
+    
+    clientgui/
+        BOINCBaseView.h
