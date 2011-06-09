@@ -9887,7 +9887,7 @@ David  25 May 2011
     clientgui/
         DlgExitMessage.cpp
 
-Charlie 7 Jun 2011
+Charlie 8 Jun 2011
     - MGR: Use same exit confirmation dialog wording for Linux as for Windows.
 
     clientgui/
@@ -9899,20 +9899,20 @@ David  31 May 2011
     clientgui/
         DlgItemProperties.cpp
 
-Charlie 7 Jun 2011
+Charlie 8 Jun 2011
     - MGR: Fix About dialog to show (PowerPC) instead of (x86) when appropriate.
     
     clientgui/
         DlgAbout.cpp
 
-Charlie 7 Jun 2011
+Charlie 8 Jun 2011
     - MGR: Rework logic to skip exit confirmation dialog and avoid shutting down 
         client if second instance of Manager is launched, so it works if connect 
         to remote host fails.
-    - MGR: If original instance of Manager is connected to remote host (or none),
-        skip exit confirmation dialog but do shut down local client if requested 
-        in most recently run exit dialog, whether or not "Remember this decision" 
-        was set.
+    - MGR: If original instance of Manager is connected to remote host (or none)
+        when exiting Manager. skip exit confirmation dialog but do shut down local 
+        client if requested in most recently run exit dialog, whether or not 
+        "Remember this decision" was set.
         
     clientgui/
         BOINCGUIApp.cpp, .h
@@ -9932,6 +9932,7 @@ Rom    8 Jun 2011
         configure.ac
         version.h
 
+
 Rom    8 Jun 2011
     - Tag for 6.12.31 release, all platforms
       boinc_core_release_6_12_31
@@ -9945,3 +9946,12 @@ Charlie 8 Jun 2011
     
     clientgui/
         BOINCBaseView.h
+
+Charlie 9 Jun 2011
+    - MGR: Revert wording in Exit and Properties dialogs so existing translations 
+        will work.
+
+    clientgui/
+        DlgExitMessage.cpp
+        DlgItemProperties.cpp
+        

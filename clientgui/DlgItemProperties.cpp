@@ -324,10 +324,10 @@ void CDlgItemProperties::renderInfos(RESULT* result) {
         addProperty(_("Resources"), wxString(result->resources, wxConvUTF8));
     }
     if (avp) {
-        addProperty(_("Estimated computation speed"), wxString::Format(wxT("%.2f GFLOPs/sec"), avp->flops/1e9));
+        addProperty(_("Estimated app speed"), wxString::Format(wxT("%.2f GFLOPs/sec"), avp->flops/1e9));
     }
     if (wup) {
-        addProperty(_("Estimated computation size"), wxString::Format(wxT("%.0f GFLOPs"), wup->rsc_fpops_est/1e9));
+        addProperty(_("Estimated task size"), wxString::Format(wxT("%.0f GFLOPs"), wup->rsc_fpops_est/1e9));
         addProperty(_("Max RAM usage"), wxString::Format(wxT("%.0f MB"), wup->rsc_memory_bound/MEGA));
     }
     if (result->active_task) {
