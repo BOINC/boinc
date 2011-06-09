@@ -3441,3 +3441,9 @@ Charlie 8 Jun 2011
     
     clientgui/
         BOINCBaseView.h
+
+David  8 Jun 2011
+    - API: forgot to fix boinc_api.h
+
+    api/
+        boinc_api.h

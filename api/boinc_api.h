@@ -122,12 +122,6 @@ extern int setMacPList(void);
 extern int setMacIcon(char *filename, char *iconData, long iconSize);
 #endif
 
-#ifdef _WIN32
-   //Jason: New windows exit handling to play more nicely with cuda & MS-CRT
-   extern volatile bool worker_thread_exit_request;
-   extern volatile bool worker_thread_exit_ack;
-#endif
-
 #ifdef __cplusplus
 } // extern "C" {
 #endif
