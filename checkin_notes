@@ -3455,3 +3455,9 @@ Charlie 9 Jun 2011
     clientgui/
         BOINCBaseFrame.cpp
         BOINCGUIApp.cpp
+
+David  10 Jun 2011
+    - client: fix bug in logic that defers work fetch if upload active
+
+    client/
+        cs_scheduler.cpp

@@ -373,7 +373,8 @@ int CLIENT_STATE::make_scheduler_request(PROJECT* p) {
 // the project is uploading, and it started recently
 //
 static inline bool actively_uploading(PROJECT* p) {
-    return gstate.now - p->last_upload_start < WF_DEFER_INTERVAL;
+    return p->last_upload_start
+        && (gstate.now - p->last_upload_start < WF_DEFER_INTERVAL);
 }
 
 // called from the client's polling loop.
@@ -458,10 +459,7 @@ bool CLIENT_STATE::scheduler_rpc_poll() {
     if (p) {
         if (actively_uploading(p)) {
             if (log_flags.work_fetch_debug) {
-                msg_printf(p, MSG_INFO,
-                    "[wfd] deferring work fetch; upload active, started %d sec ago",
-                    (int)(gstate.now - p->last_upload_start)
-                );
+                msg_printf(p, MSG_INFO, "[wfd] deferring work fetch; upload active");
             }
             return false;
         }
