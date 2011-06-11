@@ -3467,3 +3467,10 @@ David  10 Jun 2011
 
     tools/
         update_versions
+
+David  10 Jun 2011
+    - client: initialize some PROJECT fields (from Ian Hay).
+        May fix bug in defer work fetch while uploading logic
+
+    client/
+        client_types.cpp
