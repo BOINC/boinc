@@ -335,7 +335,7 @@ array('cpulimit-1.1.tar.gz',
     'CPU limiter',
     '1.1',
     'Limits the CPU usage (good for laptops)',
-    'http://marlon80.interfree.it/cpulimit/index.html',
+    'http://cpulimit.sourceforge.net/',
     '',
     'cpulimit is a simple program that attempts to limit the CPU usage of a process (expressed in percentage, not in cpu time). This is useful to control batch jobs, when you don\'t want they eat too much cpu. It does not act on the nice value or other priority stuff, but on the real cpu usage. Besides it is able to adapt itself to the overall system load, dynamically and quickly.
     <p>

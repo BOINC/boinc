@@ -170,8 +170,7 @@ function confirm_sig_gen($name) {
 
     Continue (y/n)? ";
 
-    $stdin = fopen("php://stdin", "r");
-    $x = trim(fgets($stdin));
+    $x = trim(fgets(STDIN));
     if ($x != "y") {
         exit;
     }
@@ -308,8 +307,7 @@ function confirm($fds) {
         echo "\n";
     }
     echo "    Do you want to add this application version (y/n)? ";
-    $stdin = fopen("php://stdin", "r");
-    $x = trim(fgets($stdin));
+    $x = trim(fgets(STDIN));
     return ($x == "y");
 }
 

@@ -3461,3 +3461,9 @@ David  10 Jun 2011
 
     client/
         cs_scheduler.cpp
+
+David  10 Jun 2011
+    - update_versions: read from stdin a different way
+
+    tools/
+        update_versions
