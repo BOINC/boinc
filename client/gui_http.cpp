@@ -31,7 +31,7 @@
 #include "gui_http.h"
 
 int GUI_HTTP::do_rpc(
-    GUI_HTTP_OP* op, char* url, const char* output_file, bool is_bkgd
+    GUI_HTTP_OP* op, const char* url, const char* output_file, bool is_bkgd
 ) {
     int retval;
 

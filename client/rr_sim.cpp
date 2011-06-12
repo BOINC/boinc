@@ -251,7 +251,7 @@ void CLIENT_STATE::rr_simulation() {
     PROJECT* p, *pbest;
     RESULT* rp, *rpbest;
     RR_SIM_STATUS sim_status;
-    unsigned int i;
+    unsigned int u;
 
     double ar = available_ram();
 
@@ -265,8 +265,8 @@ void CLIENT_STATE::rr_simulation() {
         );
     }
 
-    for (i=0; i<projects.size(); i++) {
-        p = projects[i];
+    for (u=0; u<projects.size(); u++) {
+        p = projects[u];
         if (p->non_cpu_intensive) continue;
         p->rr_sim_status.clear();
     }
@@ -275,8 +275,8 @@ void CLIENT_STATE::rr_simulation() {
     // and pick the ones that are initially running.
     // NOTE: "results" is sorted by increasing arrival time
     //
-    for (i=0; i<results.size(); i++) {
-        rp = results[i];
+    for (u=0; u<results.size(); u++) {
+        rp = results[u];
         rp->rr_sim_misses_deadline = false;
         if (!rp->nearly_runnable()) continue;
         if (rp->some_download_stalled()) continue;
@@ -331,8 +331,8 @@ void CLIENT_STATE::rr_simulation() {
         // compute finish times and see which result finishes first
         //
         rpbest = NULL;
-        for (i=0; i<sim_status.active.size(); i++) {
-            rp = sim_status.active[i];
+        for (u=0; u<sim_status.active.size(); u++) {
+            rp = sim_status.active[u];
             set_rrsim_flops(rp);
             //rp->rrsim_finish_delay = rp->avp->temp_dcf*rp->rrsim_flops_left/rp->rrsim_flops;
             rp->rrsim_finish_delay = rp->rrsim_flops_left/rp->rrsim_flops;
@@ -430,7 +430,7 @@ void CLIENT_STATE::rr_simulation() {
             while (1) {
                 if (rsc_work_fetch[rt].sim_nused >= coprocs.coprocs[rt].count) break;
                 if (!rsc_work_fetch[rt].pending.size()) break;
-                RESULT* rp = rsc_work_fetch[rt].pending[0];
+                rp = rsc_work_fetch[rt].pending[0];
                 rsc_work_fetch[rt].pending.erase(rsc_work_fetch[rt].pending.begin());
                 sim_status.activate(rp, sim_now-now);
                 pbest->rr_sim_status.activate(rp);
@@ -438,7 +438,7 @@ void CLIENT_STATE::rr_simulation() {
         } else {
             while (1) {
                 if (pbest->rsc_pwf[0].sim_nused >= ncpus) break;
-                RESULT* rp = pbest->rr_sim_status.get_pending();
+                rp = pbest->rr_sim_status.get_pending();
                 if (!rp) break;
                 sim_status.activate(rp, sim_now-now);
                 pbest->rr_sim_status.activate(rp);

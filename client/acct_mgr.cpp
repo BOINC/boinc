@@ -580,8 +580,8 @@ void ACCT_MGR_OP::handle_reply(int http_op_retval) {
                             pp->abort_not_started();
                         }
                     }
-                    for (int i=0; i<MAX_RSC; i++) {
-                        pp->no_rsc_ams[i] = acct.no_rsc[i];
+                    for (int j=0; j<MAX_RSC; j++) {
+                        pp->no_rsc_ams[j] = acct.no_rsc[j];
                     }
                 }
             } else {
@@ -597,8 +597,8 @@ void ACCT_MGR_OP::handle_reply(int http_op_retval) {
                     );
                     pp = gstate.lookup_project(acct.url.c_str());
                     if (pp) {
-                        for (int i=0; i<MAX_RSC; i++) {
-                            pp->no_rsc_ams[i] = acct.no_rsc[i];
+                        for (int j=0; j<MAX_RSC; j++) {
+                            pp->no_rsc_ams[j] = acct.no_rsc[j];
                         }
                         if (acct.dont_request_more_work.present) {
                             pp->dont_request_more_work = acct.dont_request_more_work.value;

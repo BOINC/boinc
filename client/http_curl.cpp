@@ -390,7 +390,6 @@ int HTTP_OP::libcurl_exec(
     const char* url, const char* in, const char* out, double offset, bool bPost
 ) {
     CURLMcode curlMErr;
-    CURLcode curlErr;
     char strTmp[128];
     static int outfile_seqno=0;
 
@@ -421,10 +420,9 @@ int HTTP_OP::libcurl_exec(
     }
 
     // the following seems to be a no-op
-    //curlErr = curl_easy_setopt(curlEasy, CURLOPT_ERRORBUFFER, error_msg);
+    // curl_easy_setopt(curlEasy, CURLOPT_ERRORBUFFER, error_msg);
 
-    curlErr = curl_easy_setopt(curlEasy, CURLOPT_URL, m_url);
-
+    curl_easy_setopt(curlEasy, CURLOPT_URL, m_url);
 
     // This option determines whether curl verifies that the server
     // claims to be who you want it to be.
@@ -446,7 +444,7 @@ int HTTP_OP::libcurl_exec(
     // the server claims. The server could be lying.
     // To control lying, see CURLOPT_SSL_VERIFYPEER.
     //
-    curlErr = curl_easy_setopt(curlEasy, CURLOPT_SSL_VERIFYHOST, 2L);
+    curl_easy_setopt(curlEasy, CURLOPT_SSL_VERIFYHOST, 2L);
 
     // the following sets "tough" certificate checking
     // (i.e. whether self-signed is OK)
@@ -454,7 +452,7 @@ int HTTP_OP::libcurl_exec(
     // (cert not 3rd party trusted)
     // if non-zero below, you need a valid 3rd party CA (i.e. Verisign, Thawte)
     //
-    curlErr = curl_easy_setopt(curlEasy, CURLOPT_SSL_VERIFYPEER, 1L);
+    curl_easy_setopt(curlEasy, CURLOPT_SSL_VERIFYPEER, 1L);
 
     // if the above is nonzero, you need the following:
     //
@@ -492,7 +490,7 @@ int HTTP_OP::libcurl_exec(
         // call this only if a local copy of ca-bundle.crt exists;
         // otherwise, let's hope that it exists in the default place
         //
-        curlErr = curl_easy_setopt(curlEasy, CURLOPT_CAINFO, m_curl_ca_bundle_location);
+        curl_easy_setopt(curlEasy, CURLOPT_CAINFO, m_curl_ca_bundle_location);
         if (log_flags.http_debug) {
             msg_printf(
                 0,
@@ -506,38 +504,38 @@ int HTTP_OP::libcurl_exec(
         // call this only if a local copy of ca-bundle.crt exists;
         // otherwise, let's hope that it exists in the default place
         //
-        curlErr = curl_easy_setopt(curlEasy, CURLOPT_CAINFO, CA_BUNDLE_FILENAME);
+        curl_easy_setopt(curlEasy, CURLOPT_CAINFO, CA_BUNDLE_FILENAME);
     }
 #endif
 
     // set the user agent as this boinc client & version
     //
-    curlErr = curl_easy_setopt(curlEasy, CURLOPT_USERAGENT, g_user_agent_string);
+    curl_easy_setopt(curlEasy, CURLOPT_USERAGENT, g_user_agent_string);
 
     // bypass any signal handlers that curl may want to install
     //
-    curlErr = curl_easy_setopt(curlEasy, CURLOPT_NOSIGNAL, 1L);
+    curl_easy_setopt(curlEasy, CURLOPT_NOSIGNAL, 1L);
     // bypass progress meter
     //
-    curlErr = curl_easy_setopt(curlEasy, CURLOPT_NOPROGRESS, 1L);
+    curl_easy_setopt(curlEasy, CURLOPT_NOPROGRESS, 1L);
 
     // setup timeouts
     //
-    curlErr = curl_easy_setopt(curlEasy, CURLOPT_TIMEOUT, 0L);
-    curlErr = curl_easy_setopt(curlEasy, CURLOPT_LOW_SPEED_LIMIT, config.http_transfer_timeout_bps);
-    curlErr = curl_easy_setopt(curlEasy, CURLOPT_LOW_SPEED_TIME, config.http_transfer_timeout);
-    curlErr = curl_easy_setopt(curlEasy, CURLOPT_CONNECTTIMEOUT, 120L);
+    curl_easy_setopt(curlEasy, CURLOPT_TIMEOUT, 0L);
+    curl_easy_setopt(curlEasy, CURLOPT_LOW_SPEED_LIMIT, config.http_transfer_timeout_bps);
+    curl_easy_setopt(curlEasy, CURLOPT_LOW_SPEED_TIME, config.http_transfer_timeout);
+    curl_easy_setopt(curlEasy, CURLOPT_CONNECTTIMEOUT, 120L);
 
     // force curl to use HTTP/1.0 if config specifies it
     // (curl uses 1.1 by default)
     //
     if (config.http_1_0 || (config.force_auth == "ntlm")) {
-        curlErr = curl_easy_setopt(curlEasy, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_0);
+        curl_easy_setopt(curlEasy, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_0);
     }
-    curlErr = curl_easy_setopt(curlEasy, CURLOPT_MAXREDIRS, 50L);
-    curlErr = curl_easy_setopt(curlEasy, CURLOPT_AUTOREFERER, 1L);
-    curlErr = curl_easy_setopt(curlEasy, CURLOPT_FOLLOWLOCATION, 1L);
-    curlErr = curl_easy_setopt(curlEasy, CURLOPT_POST301, 1L);
+    curl_easy_setopt(curlEasy, CURLOPT_MAXREDIRS, 50L);
+    curl_easy_setopt(curlEasy, CURLOPT_AUTOREFERER, 1L);
+    curl_easy_setopt(curlEasy, CURLOPT_FOLLOWLOCATION, 1L);
+    curl_easy_setopt(curlEasy, CURLOPT_POST301, 1L);
 
     // if we tell Curl to accept any encoding (e.g. deflate)
     // it seems to accept them all, which screws up projects that
@@ -545,7 +543,7 @@ int HTTP_OP::libcurl_exec(
     // So, detect this and don't accept any encoding in that case
     //
     if (!out || !ends_with(std::string(out), std::string(".gz"))) {
-        curlErr = curl_easy_setopt(curlEasy, CURLOPT_ENCODING, "");
+        curl_easy_setopt(curlEasy, CURLOPT_ENCODING, "");
     }
 
     // setup any proxy they may need
@@ -584,11 +582,11 @@ int HTTP_OP::libcurl_exec(
         // we can make the libcurl_write "fancier" in the future,
         // for now it just fwrite's to the file request, which is sufficient
         //
-        curlErr = curl_easy_setopt(curlEasy, CURLOPT_WRITEFUNCTION, libcurl_write);
+        curl_easy_setopt(curlEasy, CURLOPT_WRITEFUNCTION, libcurl_write);
         // note that in my lib_write I'm sending in a pointer
         // to this instance of HTTP_OP
         //
-        curlErr = curl_easy_setopt(curlEasy, CURLOPT_WRITEDATA, this);
+        curl_easy_setopt(curlEasy, CURLOPT_WRITEDATA, this);
     }
 
     if (bPost) {
@@ -605,7 +603,7 @@ int HTTP_OP::libcurl_exec(
         }
 
         if (pcurlList) { // send custom headers if required
-            curlErr = curl_easy_setopt(curlEasy, CURLOPT_HTTPHEADER, pcurlList);
+            curl_easy_setopt(curlEasy, CURLOPT_HTTPHEADER, pcurlList);
         }
 
         // set the data file info to read for the PUT/POST
@@ -614,11 +612,11 @@ int HTTP_OP::libcurl_exec(
 #if 0
         // HTTP PUT method
         curl_off_t fs = (curl_off_t) content_length;
-        curlErr = curl_easy_setopt(curlEasy, CURLOPT_POSTFIELDS, NULL);
-        curlErr = curl_easy_setopt(curlEasy, CURLOPT_INFILESIZE, content_length);
-        curlErr = curl_easy_setopt(curlEasy, CURLOPT_READDATA, fileIn);
-        curlErr = curl_easy_setopt(curlEasy, CURLOPT_INFILESIZE_LARGE, fs);
-        curlErr = curl_easy_setopt(curlEasy, CURLOPT_PUT, 1L);
+        curl_easy_setopt(curlEasy, CURLOPT_POSTFIELDS, NULL);
+        curl_easy_setopt(curlEasy, CURLOPT_INFILESIZE, content_length);
+        curl_easy_setopt(curlEasy, CURLOPT_READDATA, fileIn);
+        curl_easy_setopt(curlEasy, CURLOPT_INFILESIZE_LARGE, fs);
+        curl_easy_setopt(curlEasy, CURLOPT_PUT, 1L);
 #endif
 
         // HTTP POST method
@@ -631,14 +629,16 @@ int HTTP_OP::libcurl_exec(
         //
         pcurlFormStart = pcurlFormEnd = NULL;
         curl_formadd(&pcurlFormStart, &pcurlFormEnd,
-               CURLFORM_FILECONTENT, infile,
-               CURLFORM_CONTENTSLENGTH, content_length,
-               CURLFORM_CONTENTTYPE, g_content_type,
-               CURLFORM_END);
+           CURLFORM_FILECONTENT, infile,
+           CURLFORM_CONTENTSLENGTH, content_length,
+           CURLFORM_CONTENTTYPE, g_content_type,
+           CURLFORM_END
+        );
         curl_formadd(&post, &last,
-               CURLFORM_COPYNAME, "logotype-image",
-               CURLFORM_FILECONTENT, "curl.png", CURLFORM_END);
-        curlErr = curl_easy_setopt(curlEasy, CURLOPT_HTTPPOST, pcurlFormStart);
+           CURLFORM_COPYNAME, "logotype-image",
+           CURLFORM_FILECONTENT, "curl.png", CURLFORM_END
+        );
+        curl_easy_setopt(curlEasy, CURLOPT_HTTPPOST, pcurlFormStart);
 #endif
 
         curl_off_t fs = (curl_off_t) content_length;
@@ -649,19 +649,19 @@ int HTTP_OP::libcurl_exec(
         // we can make the libcurl_read "fancier" in the future,
         // for now it just fwrite's to the file request, which is sufficient
         //
-        curlErr = curl_easy_setopt(curlEasy, CURLOPT_POSTFIELDS, NULL);
-        curlErr = curl_easy_setopt(curlEasy, CURLOPT_POSTFIELDSIZE_LARGE, fs);
-        curlErr = curl_easy_setopt(curlEasy, CURLOPT_READFUNCTION, libcurl_read);
+        curl_easy_setopt(curlEasy, CURLOPT_POSTFIELDS, NULL);
+        curl_easy_setopt(curlEasy, CURLOPT_POSTFIELDSIZE_LARGE, fs);
+        curl_easy_setopt(curlEasy, CURLOPT_READFUNCTION, libcurl_read);
         // in my lib_write I'm sending in a pointer to this instance of HTTP_OP
         //
-        curlErr = curl_easy_setopt(curlEasy, CURLOPT_READDATA, this);
+        curl_easy_setopt(curlEasy, CURLOPT_READDATA, this);
 
         // callback function to rewind input file
         //
-        curlErr = curl_easy_setopt(curlEasy, CURLOPT_IOCTLFUNCTION, libcurl_ioctl);
-        curlErr = curl_easy_setopt(curlEasy, CURLOPT_IOCTLDATA, this);
+        curl_easy_setopt(curlEasy, CURLOPT_IOCTLFUNCTION, libcurl_ioctl);
+        curl_easy_setopt(curlEasy, CURLOPT_IOCTLDATA, this);
 
-        curlErr = curl_easy_setopt(curlEasy, CURLOPT_POST, 1L);
+        curl_easy_setopt(curlEasy, CURLOPT_POST, 1L);
     } else {  // GET
         want_upload = false;
         want_download = true;
@@ -669,20 +669,20 @@ int HTTP_OP::libcurl_exec(
         // now write the header, pcurlList gets freed in net_xfer_curl
         //
         if (pcurlList) { // send custom headers if required
-            curlErr = curl_easy_setopt(curlEasy, CURLOPT_HTTPHEADER, pcurlList);
+            curl_easy_setopt(curlEasy, CURLOPT_HTTPHEADER, pcurlList);
         }
 
         // setup the GET!
         //
-        curlErr = curl_easy_setopt(curlEasy, CURLOPT_HTTPGET, 1L);
+        curl_easy_setopt(curlEasy, CURLOPT_HTTPGET, 1L);
     }
 
     // turn on debug info if tracing enabled
     //
     if (log_flags.http_debug) {
-        curlErr = curl_easy_setopt(curlEasy, CURLOPT_DEBUGFUNCTION, libcurl_debugfunction);
-        curlErr = curl_easy_setopt(curlEasy, CURLOPT_DEBUGDATA, this );
-        curlErr = curl_easy_setopt(curlEasy, CURLOPT_VERBOSE, 1L);
+        curl_easy_setopt(curlEasy, CURLOPT_DEBUGFUNCTION, libcurl_debugfunction);
+        curl_easy_setopt(curlEasy, CURLOPT_DEBUGDATA, this );
+        curl_easy_setopt(curlEasy, CURLOPT_VERBOSE, 1L);
     }
 
     // last but not least, add this to the curl_multi
@@ -748,7 +748,6 @@ int HTTP_OP_SET::nops() {
 //        CURLAUTH_GSSNEGOTIATE, CURLAUTH_NTLM, CURLAUTH_ANY, CURLAUTH_ANYSAFE
 //    CURLOPT_PROXYAUTH -- "or" | the above bitmasks -- only basic, digest, ntlm work
 void HTTP_OP::setup_proxy_session(bool no_proxy) {
-    CURLcode curlErr;
 
     // CMC Note: the string m_curl_user_credentials must remain in memory
     // outside of this method (libcurl relies on it later when it makes
@@ -757,7 +756,7 @@ void HTTP_OP::setup_proxy_session(bool no_proxy) {
     strcpy(m_curl_user_credentials, "");
 
     if (no_proxy) {
-        curlErr = curl_easy_setopt(curlEasy, CURLOPT_PROXY, "");
+        curl_easy_setopt(curlEasy, CURLOPT_PROXY, "");
         return;
     }
 
@@ -771,41 +770,41 @@ void HTTP_OP::setup_proxy_session(bool no_proxy) {
         }
 
         // setup a basic http proxy
-        curlErr = curl_easy_setopt(curlEasy, CURLOPT_PROXYTYPE, CURLPROXY_HTTP);
-        curlErr = curl_easy_setopt(curlEasy, CURLOPT_PROXYPORT, (long) pi.http_server_port);
-        curlErr = curl_easy_setopt(curlEasy, CURLOPT_PROXY, (char*) pi.http_server_name);
+        curl_easy_setopt(curlEasy, CURLOPT_PROXYTYPE, CURLPROXY_HTTP);
+        curl_easy_setopt(curlEasy, CURLOPT_PROXYPORT, (long) pi.http_server_port);
+        curl_easy_setopt(curlEasy, CURLOPT_PROXY, (char*) pi.http_server_name);
 
         if (pi.use_http_auth) {
             if (config.force_auth == "basic") {
-                curlErr = curl_easy_setopt(curlEasy, CURLOPT_PROXYAUTH, CURLAUTH_BASIC);
+                curl_easy_setopt(curlEasy, CURLOPT_PROXYAUTH, CURLAUTH_BASIC);
             } else if (config.force_auth == "digest") {
-                curlErr = curl_easy_setopt(curlEasy, CURLOPT_PROXYAUTH, CURLAUTH_DIGEST);
+                curl_easy_setopt(curlEasy, CURLOPT_PROXYAUTH, CURLAUTH_DIGEST);
             } else if (config.force_auth == "gss-negotiate") {
-                curlErr = curl_easy_setopt(curlEasy, CURLOPT_PROXYAUTH, CURLAUTH_GSSNEGOTIATE);
+                curl_easy_setopt(curlEasy, CURLOPT_PROXYAUTH, CURLAUTH_GSSNEGOTIATE);
             } else if (config.force_auth == "ntlm") {
-                curlErr = curl_easy_setopt(curlEasy, CURLOPT_PROXYAUTH, CURLAUTH_NTLM);
+                curl_easy_setopt(curlEasy, CURLOPT_PROXYAUTH, CURLAUTH_NTLM);
             } else {
-                curlErr = curl_easy_setopt(curlEasy, CURLOPT_PROXYAUTH, CURLAUTH_ANY);
+                curl_easy_setopt(curlEasy, CURLOPT_PROXYAUTH, CURLAUTH_ANY);
             }
             sprintf(m_curl_user_credentials, "%s:%s", pi.http_user_name, pi.http_user_passwd);
-            curlErr = curl_easy_setopt(curlEasy, CURLOPT_PROXYUSERPWD, m_curl_user_credentials);
+            curl_easy_setopt(curlEasy, CURLOPT_PROXYUSERPWD, m_curl_user_credentials);
         }
 
     } else if (pi.use_socks_proxy) {
         // CURL only supports SOCKS version 5
-        curlErr = curl_easy_setopt(curlEasy, CURLOPT_PROXYTYPE, CURLPROXY_SOCKS5);
-        curlErr = curl_easy_setopt(curlEasy, CURLOPT_PROXYPORT, (long) pi.socks_server_port);
-        curlErr = curl_easy_setopt(curlEasy, CURLOPT_PROXY, (char*) pi.socks_server_name);
+        curl_easy_setopt(curlEasy, CURLOPT_PROXYTYPE, CURLPROXY_SOCKS5);
+        curl_easy_setopt(curlEasy, CURLOPT_PROXYPORT, (long) pi.socks_server_port);
+        curl_easy_setopt(curlEasy, CURLOPT_PROXY, (char*) pi.socks_server_name);
         // libcurl uses blocking sockets with socks proxy, so limit timeout.
         // - imlemented with local patch to libcurl
-        curlErr = curl_easy_setopt(curlEasy, CURLOPT_CONNECTTIMEOUT, 20L);
+        curl_easy_setopt(curlEasy, CURLOPT_CONNECTTIMEOUT, 20L);
 
         if (
             strlen(pi.socks5_user_passwd) || strlen(pi.socks5_user_name)
         ) {
             sprintf(m_curl_user_credentials, "%s:%s", pi.socks5_user_name, pi.socks5_user_passwd);
-            curlErr = curl_easy_setopt(curlEasy, CURLOPT_PROXYUSERPWD, m_curl_user_credentials);
-            curlErr = curl_easy_setopt(curlEasy, CURLOPT_PROXYAUTH, CURLAUTH_ANY & ~CURLAUTH_NTLM);
+            curl_easy_setopt(curlEasy, CURLOPT_PROXYUSERPWD, m_curl_user_credentials);
+            curl_easy_setopt(curlEasy, CURLOPT_PROXYAUTH, CURLAUTH_ANY & ~CURLAUTH_NTLM);
         }
     } else if (pi.have_autodetect_proxy_settings && strlen(pi.autodetect_server_name)) {
         if (log_flags.proxy_debug) {
@@ -817,16 +816,16 @@ void HTTP_OP::setup_proxy_session(bool no_proxy) {
 
         switch(pi.autodetect_protocol) {
         case URL_PROTOCOL_SOCKS:
-            curlErr = curl_easy_setopt(curlEasy, CURLOPT_PROXYTYPE, CURLPROXY_SOCKS5);
+            curl_easy_setopt(curlEasy, CURLOPT_PROXYTYPE, CURLPROXY_SOCKS5);
             break;
         case URL_PROTOCOL_HTTP:
         case URL_PROTOCOL_HTTPS:
         default:
-            curlErr = curl_easy_setopt(curlEasy, CURLOPT_PROXYTYPE, CURLPROXY_HTTP);
+            curl_easy_setopt(curlEasy, CURLOPT_PROXYTYPE, CURLPROXY_HTTP);
             break;
         }
-        curlErr = curl_easy_setopt(curlEasy, CURLOPT_PROXYPORT, (long) pi.autodetect_port);
-        curlErr = curl_easy_setopt(curlEasy, CURLOPT_PROXY, (char*) pi.autodetect_server_name);
+        curl_easy_setopt(curlEasy, CURLOPT_PROXYPORT, (long) pi.autodetect_port);
+        curl_easy_setopt(curlEasy, CURLOPT_PROXY, (char*) pi.autodetect_server_name);
     }
 }
 
@@ -886,8 +885,7 @@ void HTTP_OP::close_file() {
 }
 
 void HTTP_OP_SET::get_fdset(FDSET_GROUP& fg) {
-    CURLMcode curlMErr;
-    curlMErr = curl_multi_fdset(
+    curl_multi_fdset(
         g_curlMulti, &fg.read_fds, &fg.write_fds, &fg.exc_fds, &fg.max_fd
     );
 }
@@ -896,17 +894,16 @@ void HTTP_OP_SET::get_fdset(FDSET_GROUP& fg) {
 // get the response code for this request
 //
 void HTTP_OP::handle_messages(CURLMsg *pcurlMsg) {
-    CURLcode curlErr;
     int retval;
 
-    curlErr = curl_easy_getinfo(curlEasy,
+    curl_easy_getinfo(curlEasy,
         CURLINFO_RESPONSE_CODE, &response
     );
 
     // CURLINFO_LONG+25 is a workaround for a bug in the gcc version
     // included with Mac OS X 10.3.9
     //
-    curlErr = curl_easy_getinfo(curlEasy,
+    curl_easy_getinfo(curlEasy,
         (CURLINFO)(CURLINFO_LONG+25) /*CURLINFO_OS_ERRNO*/, &connect_error
     );
 
@@ -922,13 +919,9 @@ void HTTP_OP::handle_messages(CURLMsg *pcurlMsg) {
         // (we don't use it)
         //
         double size_download, total_time, starttransfer_time;
-        curlErr = curl_easy_getinfo(curlEasy,
-            CURLINFO_SIZE_DOWNLOAD, &size_download
-        );
-        curlErr = curl_easy_getinfo(curlEasy,
-            CURLINFO_TOTAL_TIME, &total_time
-        );
-        curlErr = curl_easy_getinfo(curlEasy,
+        curl_easy_getinfo(curlEasy, CURLINFO_SIZE_DOWNLOAD, &size_download);
+        curl_easy_getinfo(curlEasy, CURLINFO_TOTAL_TIME, &total_time);
+        curl_easy_getinfo(curlEasy,
             CURLINFO_STARTTRANSFER_TIME, &starttransfer_time
         );
         double dt = total_time - starttransfer_time;
@@ -938,13 +931,9 @@ void HTTP_OP::handle_messages(CURLMsg *pcurlMsg) {
     }
     if (want_upload) {
         double size_upload, total_time, starttransfer_time;
-        curlErr = curl_easy_getinfo(curlEasy,
-            CURLINFO_SIZE_UPLOAD, &size_upload
-        );
-        curlErr = curl_easy_getinfo(curlEasy,
-            CURLINFO_TOTAL_TIME, &total_time
-        );
-        curlErr = curl_easy_getinfo(curlEasy,
+        curl_easy_getinfo(curlEasy, CURLINFO_SIZE_UPLOAD, &size_upload);
+        curl_easy_getinfo(curlEasy, CURLINFO_TOTAL_TIME, &total_time);
+        curl_easy_getinfo(curlEasy,
             CURLINFO_STARTTRANSFER_TIME, &starttransfer_time
         );
         double dt = total_time - starttransfer_time;

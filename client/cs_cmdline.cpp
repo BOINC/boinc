@@ -54,7 +54,7 @@ static void print_options(char* prog) {
         "    --attach_project <URL> <key>   attach to a project\n"
         "    --check_all_logins             for idle detection, check remote logins too\n"
         "    --daemon                       run as daemon (Unix)\n"
-        "    --detach                       detach from console (Windows)\n"
+        "    --detach_console               detach from console (Windows)\n"
         "    --detach_project <URL>         detach from a project\n"
         "    --dir <path>                   use given dir as BOINC home\n"
         "    --exit_after_app_start N       exit N seconds after an app starts\n"
@@ -136,7 +136,7 @@ void CLIENT_STATE::parse_cmdline(int argc, char** argv) {
             check_all_logins = true;
         } else if (ARG(daemon)) {
             executing_as_daemon = true;
-        } else if (ARG(detach_phase_two)) {
+        } else if (ARG(detach_console)) {
             detach_console = true;
         } else if (ARG(detach_project)) {
             if (i == argc-1) show_options = true;

@@ -106,7 +106,7 @@ int GET_PROJECT_CONFIG_OP::do_rpc(string master_url) {
     );
 
     retval = gui_http->do_rpc(
-        this, (char*)url.c_str(), GET_PROJECT_CONFIG_FILENAME, false
+        this, url.c_str(), GET_PROJECT_CONFIG_FILENAME, false
     );
     if (retval) {
         error_num = retval;
@@ -143,7 +143,7 @@ int LOOKUP_ACCOUNT_OP::do_rpc(ACCOUNT_IN& ai) {
     url += parameter;
 
     retval = gui_http->do_rpc(
-        this, (char*)url.c_str(), LOOKUP_ACCOUNT_FILENAME, false
+        this, url.c_str(), LOOKUP_ACCOUNT_FILENAME, false
     );
     if (retval) {
         error_num = retval;
@@ -191,7 +191,7 @@ int CREATE_ACCOUNT_OP::do_rpc(ACCOUNT_IN& ai) {
         url += parameter;
     }
     retval = gui_http->do_rpc(
-        this, (char*)url.c_str(), CREATE_ACCOUNT_FILENAME, false
+        this, url.c_str(), CREATE_ACCOUNT_FILENAME, false
     );
     if (retval) {
         error_num = retval;

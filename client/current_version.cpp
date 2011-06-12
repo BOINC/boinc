@@ -31,7 +31,7 @@ int GET_CURRENT_VERSION_OP::do_rpc() {
     int retval;
 
     retval = gui_http->do_rpc(
-        this, (char*)config.client_version_check_url.c_str(),
+        this, config.client_version_check_url.c_str(),
         GET_CURRENT_VERSION_FILENAME,
         true
     );

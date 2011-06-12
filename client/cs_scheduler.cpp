@@ -73,7 +73,6 @@ int CLIENT_STATE::make_scheduler_request(PROJECT* p) {
     MIOFILE mf;
     unsigned int i;
     RESULT* rp;
-    int retval;
     double disk_total, disk_project;
 
     get_sched_request_filename(*p, buf, sizeof(buf));
@@ -205,8 +204,7 @@ int CLIENT_STATE::make_scheduler_request(PROJECT* p) {
     //
     host_info.get_host_info();
     set_ncpus();
-    retval = host_info.write(mf, !config.suppress_net_info, false);
-    //if (retval) return retval;
+    host_info.write(mf, !config.suppress_net_info, false);
 
     // get and write disk usage
     //
@@ -484,7 +482,7 @@ int CLIENT_STATE::handle_scheduler_reply(PROJECT* project, char* scheduler_url) 
     int retval;
     unsigned int i;
     bool signature_valid, update_global_prefs=false, update_project_prefs=false;
-    char buf[256], filename[256];
+    char buf[1024], filename[256];
     std::string old_gui_urls = project->gui_urls;
     PROJECT* p2;
     vector<RESULT*>new_results;
@@ -571,7 +569,6 @@ int CLIENT_STATE::handle_scheduler_reply(PROJECT* project, char* scheduler_url) 
     for (i=0; i<sr.messages.size(); i++) {
         USER_MESSAGE& um = sr.messages[i];
         int prio = (!strcmp(um.priority.c_str(), "notice"))?MSG_SCHEDULER_ALERT:MSG_INFO;
-        char buf[1024];
         string_substitute(um.message.c_str(), buf, sizeof(buf), "%", "%%");
         msg_printf(project, prio, buf);
     }
@@ -886,10 +883,10 @@ int CLIENT_STATE::handle_scheduler_reply(PROJECT* project, char* scheduler_url) 
 
     if (log_flags.sched_op_debug) {
         if (sr.results.size()) {
-            for (int i=0; i<coprocs.n_rsc; i++) {
+            for (int j=0; j<coprocs.n_rsc; j++) {
                 msg_printf(project, MSG_INFO,
                     "[sched_op] estimated total %s task duration: %.0f seconds",
-                    rsc_name(i), est_rsc_duration[i]
+                    rsc_name(j), est_rsc_duration[j]
                 );
             }
         }

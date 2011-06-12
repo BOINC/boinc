@@ -36,7 +36,7 @@ struct GUI_HTTP {
 
     GUI_HTTP(): gui_http_state(GUI_HTTP_STATE_IDLE) {}
     int do_rpc(
-        struct GUI_HTTP_OP*, char* url, const char* output_file,
+        struct GUI_HTTP_OP*, const char* url, const char* output_file,
         bool is_background
     );
     int do_rpc_post(

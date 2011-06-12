@@ -472,7 +472,6 @@ int TASK::run(int argct, char** argvt) {
     SetThreadPriority(thread_handle, THREAD_PRIORITY_IDLE);
 #else
     int retval, argc;
-    char progname[256];
     char* argv[256];
     char arglist[4096];
     FILE* stdout_file;
@@ -515,12 +514,11 @@ int TASK::run(int argct, char** argvt) {
         argc = parse_command_line(arglist, argv+1);
         setpriority(PRIO_PROCESS, 0, PROCESS_IDLE_PRIORITY);
         if (!exec_dir.empty()) {
-            int retval = chdir(exec_dir.c_str());
-#if 0
-            fprintf(stderr, "%s change to directory for task: %s\n",
-                retval ? "Failed to" : "Successful", exec_dir.c_str()
-            );
-#endif
+            retval = chdir(exec_dir.c_str());
+            if (!retval) {
+                fprintf(stderr, "chdir() to %s failed\n", exec_dir.c_str());
+                exit(1);
+            }
         }
 
         // setup environment variables (if any)
@@ -554,7 +552,7 @@ bool TASK::poll(int& status) {
         }
     }
 #else
-    int wpid, stat;
+    int wpid;
     struct rusage ru;
 
     wpid = wait4(pid, &status, WNOHANG, &ru);
@@ -683,9 +681,9 @@ int main(int argc, char** argv) {
     double checkpoint_cpu_time;
         // overall CPU time at last checkpoint
 
-    for (int i=1; i<argc; i++) {
-        if (!strcmp(argv[i], "--nthreads")) {
-            nthreads = atoi(argv[++i]);
+    for (int j=1; j<argc; j++) {
+        if (!strcmp(argv[j], "--nthreads")) {
+            nthreads = atoi(argv[++j]);
         }
     }
 

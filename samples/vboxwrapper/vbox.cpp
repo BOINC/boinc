@@ -282,7 +282,7 @@ bool virtualbox_vm_is_running() {
     return false;
 }
 
-int virtualbox_get_install_directory( string& virtualbox_install_directory ) {
+int virtualbox_get_install_directory(string& virtualbox_install_directory ) {
 #ifdef _WIN32
     LONG    lReturnValue;
     HKEY    hkSetupHive;
@@ -328,6 +328,8 @@ int virtualbox_get_install_directory( string& virtualbox_install_directory ) {
 
     if (hkSetupHive) RegCloseKey(hkSetupHive);
     if (lpszRegistryValue) free(lpszRegistryValue);
+#else
+    virtualbox_install_directory = "";
 #endif
     return VBOX_SUCCESS;
 }

@@ -425,7 +425,7 @@ int boinc_init_options(BOINC_OPTIONS* opt) {
             // original process - master
             //
             options.send_status_msgs = false;
-            int retval = boinc_init_options_general(options);
+            retval = boinc_init_options_general(options);
             if (retval) {
                 kill(child_pid, SIGKILL);
                 return retval;
@@ -454,10 +454,10 @@ int boinc_init_options(BOINC_OPTIONS* opt) {
 }
 
 int boinc_init_parallel() {
-    BOINC_OPTIONS options;
-    boinc_options_defaults(options);
-    options.multi_thread = true;
-    return boinc_init_options(&options);
+    BOINC_OPTIONS _options;
+    boinc_options_defaults(_options);
+    _options.multi_thread = true;
+    return boinc_init_options(&_options);
 }
 
 int boinc_init_options_general(BOINC_OPTIONS& opt) {

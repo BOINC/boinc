@@ -683,7 +683,7 @@ void COPROC_NVIDIA::get(
     vector<string>& warnings,
     vector<int>& ignore_devs
 ) {
-    int count, retval;
+    int cuda_ndevs, retval;
     char buf[256];
 
 #ifdef _WIN32
@@ -803,7 +803,6 @@ void COPROC_NVIDIA::get(
         return;
     }
 
-    int cuda_version;
     retval = (*__cuDriverGetVersion)(&cuda_version);
     if (retval) {
         sprintf(buf, "cuDriverGetVersion() returned %d", retval);
@@ -812,20 +811,20 @@ void COPROC_NVIDIA::get(
     }
 
     vector<COPROC_NVIDIA> gpus;
-    retval = (*__cuDeviceGetCount)(&count);
+    retval = (*__cuDeviceGetCount)(&cuda_ndevs);
     if (retval) {
         sprintf(buf, "cuDeviceGetCount() returned %d", retval);
         warnings.push_back(buf);
         return;
     }
-    sprintf(buf, "NVIDIA library reports %d GPU%s", count, (count==1)?"":"s");
+    sprintf(buf, "NVIDIA library reports %d GPU%s", cuda_ndevs, (cuda_ndevs==1)?"":"s");
     warnings.push_back(buf);
 
     int j;
     unsigned int i;
     COPROC_NVIDIA cc;
     string s;
-    for (j=0; j<count; j++) {
+    for (j=0; j<cuda_ndevs; j++) {
         memset(&cc.prop, 0, sizeof(cc.prop));
         int device;
         retval = (*__cuDeviceGet)(&device, j);
@@ -881,39 +880,34 @@ void COPROC_NVIDIA::get(
 
     // identify the most capable non-ignored instance
     //
-    COPROC_NVIDIA best;
     bool first = true;
     for (i=0; i<gpus.size(); i++) {
         if (in_vector(gpus[i].device_num, ignore_devs)) continue;
         if (first) {
-            best = gpus[i];
+            *this = gpus[i];
             first = false;
-        } else if (nvidia_compare(gpus[i], best, false) > 0) {
-            best = gpus[i];
+        } else if (nvidia_compare(gpus[i], *this, false) > 0) {
+            *this = gpus[i];
         }
     }
 
     // see which other instances are equivalent,
     // and set the "count" and "device_nums" fields
     //
-    best.count = 0;
+    count = 0;
     for (i=0; i<gpus.size(); i++) {
         char buf2[256];
         gpus[i].description(buf);
         if (in_vector(gpus[i].device_num, ignore_devs)) {
             sprintf(buf2, "NVIDIA GPU %d (ignored by config): %s", gpus[i].device_num, buf);
-        } else if (use_all || !nvidia_compare(gpus[i], best, true)) {
-            best.device_nums[best.count] = gpus[i].device_num;
-            best.count++;
+        } else if (use_all || !nvidia_compare(gpus[i], *this, true)) {
+            device_nums[count] = gpus[i].device_num;
+            count++;
             sprintf(buf2, "NVIDIA GPU %d: %s", gpus[i].device_num, buf);
         } else {
             sprintf(buf2, "NVIDIA GPU %d (not used): %s", gpus[i].device_num, buf);
         }
         descs.push_back(string(buf2));
-    }
-
-    if (best.count) {
-        *this = best;
     }
 }
 
@@ -1143,13 +1137,8 @@ void COPROC_ATI::get(
 ) {
     CALuint numDevices, cal_major, cal_minor, cal_imp;
     CALdevice device;
-    CALdeviceinfo info;
-    CALdeviceattribs attribs;
     char buf[256];
-    bool amdrt_detected = false;
-    bool atirt_detected = false;
     int retval;
-    unsigned int i;
 
     attribs.struct_size = sizeof(CALdeviceattribs);
     device = 0;
@@ -1386,36 +1375,32 @@ void COPROC_ATI::get(
         return;
     }
 
-    COPROC_ATI best;
     bool first = true;
+    unsigned int i;
     for (i=0; i<gpus.size(); i++) {
         if (in_vector(gpus[i].device_num, ignore_devs)) continue;
         if (first) {
-            best = gpus[i];
+            *this = gpus[i];
             first = false;
-        } else if (ati_compare(gpus[i], best, false) > 0) {
-            best = gpus[i];
+        } else if (ati_compare(gpus[i], *this, false) > 0) {
+            *this = gpus[i];
         }
     }
 
-    best.count = 0;
+    count = 0;
     for (i=0; i<gpus.size(); i++) {
-        char buf[256], buf2[256];
+        char buf2[256];
         gpus[i].description(buf);
         if (in_vector(gpus[i].device_num, ignore_devs)) {
             sprintf(buf2, "ATI GPU %d (ignored by config): %s", gpus[i].device_num, buf);
-        } else if (use_all || !ati_compare(gpus[i], best, true)) {
-            best.device_nums[best.count] = gpus[i].device_num;
-            best.count++;
+        } else if (use_all || !ati_compare(gpus[i], *this, true)) {
+            device_nums[count] = gpus[i].device_num;
+            count++;
             sprintf(buf2, "ATI GPU %d: %s", gpus[i].device_num, buf);
         } else {
             sprintf(buf2, "ATI GPU %d: (not used) %s", gpus[i].device_num, buf);
         }
         descs.push_back(string(buf2));
-    }
-
-    if (best.count) {
-        *this = best;
     }
 }
 

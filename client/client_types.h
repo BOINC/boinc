@@ -521,8 +521,6 @@ struct APP_VERSION {
     double avg_ncpus;
     double max_ncpus;
     GPU_USAGE gpu_usage;    // can only use 1 GPUtype
-    //double ncudas;
-    //double natis;   // remove
     double gpu_ram;
     double flops;
     char cmdline[256];
@@ -557,8 +555,8 @@ struct APP_VERSION {
     void get_file_errors(std::string&);
     void clear_errors();
     int api_major_version();
-    inline bool uses_coproc(int rsc_type) {
-        return (gpu_usage.rsc_type == rsc_type);
+    inline bool uses_coproc(int rt) {
+        return (gpu_usage.rsc_type == rt);
     }
     inline int rsc_type() {
         return gpu_usage.rsc_type;

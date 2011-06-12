@@ -667,9 +667,9 @@ void CLIENT_STATE::adjust_debts() {
     if (use_rec) {
         update_rec();
     } else {
-        for (int i=0; i<coprocs.n_rsc; i++) {
-            rsc_work_fetch[i].update_long_term_debts();
-            rsc_work_fetch[i].update_short_term_debts();
+        for (int j=0; j<coprocs.n_rsc; j++) {
+            rsc_work_fetch[j].update_long_term_debts();
+            rsc_work_fetch[j].update_short_term_debts();
         }
     }
 

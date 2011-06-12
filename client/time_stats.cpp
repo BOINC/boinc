@@ -149,11 +149,11 @@ void TIME_STATS::get_log_after(double t, MIOFILE& mf) {
 // so these get written to disk only when other activities
 // cause this to happen.  Maybe should change this.
 //
-void TIME_STATS::update(int suspend_reason, int gpu_suspend_reason) {
+void TIME_STATS::update(int suspend_reason, int _gpu_suspend_reason) {
     double dt, w1, w2;
 
     bool is_active = !(suspend_reason & ~SUSPEND_REASON_CPU_THROTTLE);
-    bool is_gpu_active = is_active && !gpu_suspend_reason;
+    bool is_gpu_active = is_active && !_gpu_suspend_reason;
     if (last_update == 0) {
         // this is the first time this client has executed.
         // Assume that everything is active

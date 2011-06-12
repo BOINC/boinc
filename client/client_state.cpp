@@ -1750,8 +1750,8 @@ int CLIENT_STATE::reset_project(PROJECT* project, bool detaching) {
     project->ams_resource_share = -1;
     project->min_rpc_time = 0;
     project->pwf.reset(project);
-    for (int i=0; i<coprocs.n_rsc; i++) {
-        project->rsc_pwf[i].reset();
+    for (int j=0; j<coprocs.n_rsc; j++) {
+        project->rsc_pwf[j].reset();
     }
     write_state_file();
     return 0;

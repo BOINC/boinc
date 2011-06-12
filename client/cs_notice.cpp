@@ -649,7 +649,7 @@ int RSS_FEED::parse_items(XML_PARSER& xp, int& nitems) {
         if (!strcmp(tag, "item")) {
             NOTICE n;
             ntotal++;
-            int retval = n.parse_rss(xp);
+            retval = n.parse_rss(xp);
             if (retval) {
                 nerror++;
             } else if (n.create_time < gstate.now - 30*86400) {

@@ -117,7 +117,7 @@ void read_checkpoint(double& cpu) {
 }
 
 
-int main(int argc, char** argv) {
+int main() {
     BOINC_OPTIONS boinc_options;
     BOINC_STATUS boinc_status;
     double current_cpu_time = 0.0;

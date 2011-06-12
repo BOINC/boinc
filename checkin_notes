@@ -3474,3 +3474,19 @@ David  10 Jun 2011
 
     client/
         client_types.cpp
+
+David  12 Jun 2011
+    - client: change --detach_phase_two (??) to --detach_console
+    - eliminate compiler warnings (e.g. shadowed vars)
+        in various places, mostly in client
+
+    sched/
+        sched_main.cpp
+    lib/
+        cc_config.cpp
+    samples/
+        many.cpp
+    client/
+        many.cpp
+    api/
+        boinc_api.cpp

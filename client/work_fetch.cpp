@@ -1066,7 +1066,6 @@ void WORK_FETCH::write_request(FILE* f, PROJECT* p) {
 void WORK_FETCH::handle_reply(
     PROJECT* p, SCHEDULER_REPLY*, vector<RESULT*> new_results
 ) {
-    unsigned int i;
     bool got_rsc[MAX_RSC];
     for (int i=0; i<coprocs.n_rsc; i++) {
         got_rsc[i] = false;
@@ -1089,7 +1088,7 @@ void WORK_FETCH::handle_reply(
 
     // if we did get jobs, clear backoff on resource types
     //
-    for (i=0; i<new_results.size(); i++) {
+    for (unsigned int i=0; i<new_results.size(); i++) {
         RESULT* rp = new_results[i];
         got_rsc[rp->avp->gpu_usage.rsc_type] = true;
     }

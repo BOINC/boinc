@@ -208,7 +208,7 @@ int open_database() {
 // Apache will send it a SIGTERM.
 // Record this in the log file and close the DB conn.
 //
-void sigterm_handler(int signo) {
+void sigterm_handler(int /*signo*/) {
     if (db_opened) {
         boinc_db.close();
     }
@@ -340,7 +340,7 @@ void attach_to_feeder_shmem() {
     }
 
     all_apps_use_hr = true;
-    for (int i=0; i<ssp->napps; i++) {
+    for (i=0; i<ssp->napps; i++) {
         if (!ssp->apps[i].homogeneous_redundancy) {
             all_apps_use_hr = false;
             break;
