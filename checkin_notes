@@ -3490,3 +3490,9 @@ David  12 Jun 2011
         many.cpp
     api/
         boinc_api.cpp
+
+David  12 Jun 2011
+    - client:restore --detach_phase_two as synonym for --detach_console
+
+    client/
+        cs_cmdline.cpp
