@@ -871,7 +871,7 @@ bool CBOINCBaseFrame::Show(bool bShow) {
     if (eventLog) {
 #ifdef __WXMAC__
         if (bShow) {
-        eventLog->Show(bShow);
+            eventLog->Show(bShow);
         }
 #else
         eventLog->Show(bShow);
