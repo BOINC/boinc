@@ -9990,3 +9990,11 @@ David  10 Jun 2011
 
     client/
         client_types.cpp
+
+Rom    8 Jun 2011
+    - Tag for 6.12.33 release, all platforms
+      boinc_core_release_6_12_33
+
+    /
+        configure.ac
+        version.h
