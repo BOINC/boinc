@@ -9983,3 +9983,10 @@ David  10 Jun 2011
 
     client/
         cs_scheduler.cpp
+
+David  10 Jun 2011
+    - client: initialize some PROJECT fields (from Ian Hay).
+        May fix bug in defer work fetch while uploading logic
+
+    client/
+        client_types.cpp
