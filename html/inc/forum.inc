@@ -19,6 +19,7 @@
 require_once("../inc/forum_db.inc");
 require_once("../inc/pm.inc");
 require_once("../inc/team.inc");
+require_once("../inc/news.inc");
 require_once("../inc/text_transform.inc");
 
 define('THREADS_PER_PAGE', 50);
@@ -791,12 +792,16 @@ function update_forum_timestamp($forum) {
     }
 }
 
-function create_thread($title, $content, $user, $forum, $signature) {
+function create_thread($title, $content, $user, $forum, $signature, $export) {
     $title = trim($title);
     $title = strip_tags($title);
     $title = mysql_real_escape_string($title);
     $now = time();
-    $id  = BoincThread::insert("(forum, owner, title, create_time, timestamp, replies) values ($forum->id, $user->id, '$title', $now, $now, -1)");
+    $status = 0;
+    if (is_news_forum($forum) && !$export) {
+        $status = 1;
+    }
+    $id  = BoincThread::insert("(forum, owner, title, create_time, timestamp, replies, status) values ($forum->id, $user->id, '$title', $now, $now, -1, $status)");
     if (!$id) return null;
     $thread = BoincThread::lookup_id($id);
     create_post($content, 0, $user, $forum, $thread, $signature);

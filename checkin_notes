@@ -3496,3 +3496,15 @@ David  12 Jun 2011
 
     client/
         cs_cmdline.cpp
+
+David  13 Jun 2011
+    - web: when creating an item in News forum,
+        show "Export as Notice?" checkbox, and default to off.
+
+    db/
+        schema.sql
+    html/
+        inc/
+            forum.inc
+        user/
+            forum_post.php
