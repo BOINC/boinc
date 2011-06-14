@@ -27,8 +27,7 @@ HEADERS = $(BOINC_SRC)/version.h \
 	$(BOINC_SRC)/lib/util.h \
 	$(BOINC_SRC)/lib/coproc.h \
 	$(BOINC_SRC)/lib/cal_boinc.h \
-	$(BOINC_SRC)/lib/cl.h \
-	$(BOINC_SRC)/lib/cl_platform.h \
+	$(BOINC_SRC)/lib/cl_boinc.h \
 	$(BOINC_SRC)/lib/svn_version.h \
 	$(BOINC_SRC)/win_build/config.h \
 	$(BOINC_SRC)/lib/str_util.h

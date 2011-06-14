@@ -3508,3 +3508,9 @@ David  13 Jun 2011
             forum.inc
         user/
             forum_post.php
+
+Bernd  14 Jun 2011
+    - API: fix install headers in Makefile.mingw
+
+    lib/
+        Makefile.mingw
