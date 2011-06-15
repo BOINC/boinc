@@ -468,7 +468,7 @@ void CProjectInfoPage::OnProjectSelected( wxCommandEvent& WXUNUSED(event) ) {
     m_pProjectDetailsSupportedPlatformMultiCoreCtrl->Hide();
 
     // Populate the project details area
-    m_pProjectDetailsDescriptionCtrl->SetLabel(pProjectInfo->m_strDescription);
+    m_pProjectDetailsDescriptionCtrl->SetValue(pProjectInfo->m_strDescription);
     m_pProjectDetailsResearchAreaCtrl->SetLabel(pProjectInfo->m_strSpecificArea);
     m_pProjectDetailsOrganizationCtrl->SetLabel(pProjectInfo->m_strOrganization);
     m_pProjectDetailsURLCtrl->SetLabel(pProjectInfo->m_strURL);
