@@ -353,6 +353,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\lib\coproc_impl.h"
+				>
+			</File>
+			<File
 				RelativePath="..\lib\crypt.h"
 				>
 			</File>

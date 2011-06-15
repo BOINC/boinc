@@ -22,8 +22,9 @@
 #pragma interface "ProjectInfoPage.cpp"
 #endif
 
-class CProjectListCtrl;
-class ProjectListCtrlEvent;
+
+class CProjectInfo;
+
 
 /*!
  * CProjectInfoPage class declaration
@@ -40,6 +41,9 @@ public:
 
     CProjectInfoPage( CBOINCBaseWizard* parent );
 
+    /// Destructor
+    ~CProjectInfoPage( );
+
     /// Creation
     bool Create( CBOINCBaseWizard* parent );
 
@@ -48,17 +52,17 @@ public:
 
 ////@begin CProjectInfoPage event handler declarations
 
+    /// wxEVT_COMMAND_COMBOBOX_SELECTED event handler for ID_PROJECTCATEGORY
+    void OnProjectCategorySelected( wxCommandEvent& event );
+
+    /// wxEVT_COMMAND_LISTBOX_SELECTED event handler for ID_PROJECTS
+    void OnProjectSelected( wxCommandEvent& event );
+
     /// wxEVT_WIZARD_PAGE_CHANGED event handler for ID_PROJECTINFOPAGE
     void OnPageChanged( wxWizardExEvent& event );
 
     /// wxEVT_WIZARD_PAGE_CHANGING event handler for ID_PROJECTINFOPAGE
     void OnPageChanging( wxWizardExEvent& event );
-
-    /// wxEVT_PROJECTLIST_ITEM_CHANGE event handler for ID_PROJECTSELECTIONCTRL
-    void OnProjectItemChange( ProjectListCtrlEvent& event );
-
-    /// wxEVT_PROJECTLIST_ITEM_DISPLAY event handler for ID_PROJECTSELECTIONCTRL
-    void OnProjectItemDisplay( ProjectListCtrlEvent& event );
 
     /// wxEVT_WIZARD_CANCEL event handler for ID_PROJECTINFOPAGE
     void OnCancel( wxWizardExEvent& event );
@@ -76,6 +80,18 @@ public:
     wxString GetProjectURL() const { return m_strProjectURL ; }
     void SetProjectURL(wxString value) { m_strProjectURL = value ; }
 
+    wxString GetProjectDetailsDescription() const { return m_strProjectDetailsDescription ; }
+    void SetProjectDetailsDescription(wxString value) { m_strProjectDetailsDescription = value ; }
+
+    wxString GetProjectDetailsResearchArea() const { return m_strProjectDetailsResearchArea ; }
+    void SetProjectDetailsResearchArea(wxString value) { m_strProjectDetailsResearchArea = value ; }
+
+    wxString GetProjectDetailsOrganization() const { return m_strProjectDetailsOrganization ; }
+    void SetProjectDetailsOrganization(wxString value) { m_strProjectDetailsOrganization = value ; }
+
+    wxString GetProjectDetailsURL() const { return m_strProjectDetailsURL ; }
+    void SetProjectDetailsURL(wxString value) { m_strProjectDetailsURL = value ; }
+
     bool GetProjectSupported() const { return m_bProjectSupported ; }
     void SetProjectSupported(bool value) { m_bProjectSupported = value ; }
 
@@ -92,11 +108,36 @@ public:
 ////@begin CProjectInfoPage member variables
     wxStaticText* m_pTitleStaticCtrl;
     wxStaticText* m_pDescriptionStaticCtrl;
-    CProjectListCtrl* m_pProjectListCtrl;
-    wxStaticText* m_pProjectUrlStaticCtrl;
-    wxTextCtrl* m_pProjectUrlCtrl;
+    wxStaticText* m_pProjectCategoriesStaticCtrl;
+    wxComboBox* m_pProjectCategoriesCtrl;
+    wxStaticText* m_pProjectsStaticCtrl;
+    wxListBox* m_pProjectsCtrl;
+    wxStaticBox* m_pProjectDetailsStaticCtrl;
+    wxStaticText* m_pProjectDetailsDescriptionStaticCtrl;
+    wxTextCtrl* m_pProjectDetailsDescriptionCtrl;
+    wxStaticText* m_pProjectDetailsResearchAreaStaticCtrl;
+    wxStaticText* m_pProjectDetailsResearchAreaCtrl;
+    wxStaticText* m_pProjectDetailsOrganizationStaticCtrl;
+    wxStaticText* m_pProjectDetailsOrganizationCtrl;
+    wxStaticText* m_pProjectDetailsURLStaticCtrl;
+    wxStaticText* m_pProjectDetailsURLCtrl;
+    wxStaticText* m_pProjectDetailsSupportedPlatformsStaticCtrl;
+    wxStaticBitmap* m_pProjectDetailsSupportedPlatformWindowsCtrl;
+    wxStaticBitmap* m_pProjectDetailsSupportedPlatformMacCtrl;
+    wxStaticBitmap* m_pProjectDetailsSupportedPlatformLinuxCtrl;
+    wxStaticBitmap* m_pProjectDetailsSupportedPlatformATICtrl;
+    wxStaticBitmap* m_pProjectDetailsSupportedPlatformNvidiaCtrl;
+    wxStaticBitmap* m_pProjectDetailsSupportedPlatformMultiCoreCtrl;
+    wxStaticText* m_pProjectURLStaticCtrl;
+    wxTextCtrl* m_pProjectURLCtrl;
 ////@end CProjectInfoPage member variables
+private:
     wxString m_strProjectURL;
+    wxString m_strProjectDetailsDescription;
+    wxString m_strProjectDetailsResearchArea;
+    wxString m_strProjectDetailsOrganization;
+    wxString m_strProjectDetailsURL;
+    std::vector<CProjectInfo*> m_Projects;
     bool m_bProjectSupported;
     bool m_bProjectListPopulated;
 };

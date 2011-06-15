@@ -624,7 +624,7 @@ void CWizardAttach::_ProcessCancelEvent( wxWizardExEvent& event ) {
     // Page specific rules - Disable the validator(s)
     if (wxYES == iRetVal) {
         if ((page == m_ProjectInfoPage) || (page == m_AccountManagerInfoPage)) {
-            m_ProjectInfoPage->m_pProjectUrlCtrl->SetValidator(wxDefaultValidator);
+            m_ProjectInfoPage->m_pProjectURLCtrl->SetValidator(wxDefaultValidator);
         } else if (page == m_AccountInfoPage) {
             m_AccountInfoPage->m_pAccountEmailAddressCtrl->SetValidator(wxDefaultValidator);
             m_AccountInfoPage->m_pAccountPasswordCtrl->SetValidator(wxDefaultValidator);

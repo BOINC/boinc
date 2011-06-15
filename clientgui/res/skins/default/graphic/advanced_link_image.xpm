@@ -1,5 +1,5 @@
 /* XPM */
-static char *advanced_link_image_xpm[] = {
+static const char *advanced_link_image_xpm[] = {
 /* columns rows colors chars-per-pixel */
 "101 20 67 1",
 "o c Black",

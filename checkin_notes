@@ -3514,3 +3514,22 @@ Bernd  14 Jun 2011
 
     lib/
         Makefile.mingw
+
+Rom    15 Jun 2011
+    - MGR: Update the project list in the wizard to make use
+        of more of the information contained in the all projects
+        list and also make it more accessible than the previous
+        implementation.
+        
+    clientgui/
+        ProjectInfoPage.cpp, .h
+        WizardAttach.cpp, .h
+    clientgui/res/
+        linuxicon.xpm
+        macosicon.xpm
+        windowsicon.xpm
+    clientgui/res/skins/default/graphic/
+        advanced_link_image.xpm
+    win_build/
+        libboinc.vcproj
+        libboincapi_staticcrt.vcproj
