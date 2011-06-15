@@ -47,11 +47,11 @@ if ($target == "notice") {
 	if ($controlid == "6024") {
 		header('Location: http://boinc.berkeley.edu');
 	} else if ($controlid == "6025") {
-		header('Location: http://boinc.berkeley.edu/wiki/Advanced_view');
+		header('Location: http://boinc.berkeley.edu/wiki/Advanced_view_6_10');
 	} else if ($controlid == "6035") {
 		header('Location: http://boinc.berkeley.edu/wiki/BOINC_Help');
 	} else {
-		header('Location: http://boinc.berkeley.edu/wiki/Advanced_view');
+		header('Location: http://boinc.berkeley.edu/wiki/Advanced_view_6_10');
 	}
 } else if (($target == "simple") && version_compare($version, "5.10.0", ">=") && version_compare($version, "6.12.0", "<=")) {
 	if ($controlid == "6024") {
@@ -68,11 +68,11 @@ if ($target == "notice") {
 		if ($controlid == "6024") {
 			header('Location: http://boinc.berkeley.edu');
 		} else if ($controlid == "6025") {
-			header('Location: http://boinc.berkeley.edu/wiki/Advanced_View_6_12');
+			header('Location: http://boinc.berkeley.edu/wiki/Advanced_View');
 		} else if ($controlid == "6035") {
 			header('Location: http://boinc.berkeley.edu/wiki/BOINC_Help');
 		} else {
-			header('Location: http://boinc.berkeley.edu/wiki/Advanced_View_6_12');
+			header('Location: http://boinc.berkeley.edu/wiki/Advanced_View');
 		}
 	} else if ($target == "simple") {
 		if ($controlid == "6024") {
