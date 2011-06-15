@@ -223,7 +223,7 @@ void CProjectInfoPage::CreateControls()
     itemBoxSizer7->Add(m_pProjectCategoriesStaticCtrl, 0, wxALIGN_LEFT|wxLEFT|wxRIGHT|wxBOTTOM, 5);
 
     wxArrayString m_pProjectCategoriesCtrlStrings;
-    m_pProjectCategoriesCtrl = new wxComboBox( itemWizardPage23, ID_CATEGORIES, wxT(""), wxDefaultPosition, wxDefaultSize, m_pProjectCategoriesCtrlStrings, wxCB_READONLY|wxCB_SORT );
+    m_pProjectCategoriesCtrl = new wxComboBox( itemWizardPage23, ID_CATEGORIES, wxT(""), wxDefaultPosition, wxSize(150, -1), m_pProjectCategoriesCtrlStrings, wxCB_READONLY|wxCB_SORT );
     itemBoxSizer7->Add(m_pProjectCategoriesCtrl, 0, wxGROW|wxLEFT|wxRIGHT, 5);
 
     m_pProjectsStaticCtrl = new wxStaticText( itemWizardPage23, wxID_STATIC, wxT(""), wxDefaultPosition, wxDefaultSize, 0 );
@@ -436,7 +436,7 @@ void CProjectInfoPage::OnProjectCategorySelected( wxCommandEvent& WXUNUSED(event
             wxLogTrace(
                 wxT("Function Status"), 
                 wxT("CProjectInfoPage::OnProjectCategorySelected - Adding '%s'"),
-                m_Projects[i]->m_strName
+                m_Projects[i]->m_strName.c_str()
             );
             m_pProjectsCtrl->Append(m_Projects[i]->m_strName, m_Projects[i]);
         }
@@ -485,6 +485,7 @@ void CProjectInfoPage::OnProjectSelected( wxCommandEvent& WXUNUSED(event) ) {
 
     TransferDataToWindow();
     Layout();
+    FitInside();
 
     wxLogTrace(wxT("Function Start/End"), wxT("CProjectInfoPage::OnProjectSelected - Function End"));
 }
