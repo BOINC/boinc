@@ -244,8 +244,10 @@ void CProjectInfoPage::CreateControls()
     wxStaticBoxSizer* itemStaticBoxSizer13 = new wxStaticBoxSizer(m_pProjectDetailsStaticCtrl, wxVERTICAL);
     itemFlexGridSizer6->Add(itemStaticBoxSizer13, 0, wxGROW|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
+#if 0
     m_pProjectDetailsDescriptionStaticCtrl = new wxStaticText( itemWizardPage23, wxID_STATIC, wxT(""), wxDefaultPosition, wxDefaultSize, 0 );
     itemStaticBoxSizer13->Add(m_pProjectDetailsDescriptionStaticCtrl, 0, wxALIGN_LEFT|wxLEFT|wxRIGHT, 5);
+#endif
 
     m_pProjectDetailsDescriptionCtrl = new wxTextCtrl( itemWizardPage23, ID_PROJECTDESCRIPTION, wxEmptyString, wxDefaultPosition, wxSize(200, 100), wxTE_MULTILINE|wxTE_READONLY|wxTE_RICH2|wxTE_WORDWRAP );
     itemStaticBoxSizer13->Add(m_pProjectDetailsDescriptionCtrl, 0, wxGROW|wxLEFT|wxTOP|wxBOTTOM, 5);
@@ -545,7 +547,7 @@ void CProjectInfoPage::OnPageChanged( wxWizardExEvent& event ) {
     wxASSERT(m_pProjectsStaticCtrl);
     wxASSERT(m_pProjectsCtrl);
     wxASSERT(m_pProjectDetailsStaticCtrl);
-    wxASSERT(m_pProjectDetailsDescriptionStaticCtrl);
+//    wxASSERT(m_pProjectDetailsDescriptionStaticCtrl);
     wxASSERT(m_pProjectDetailsDescriptionCtrl);
     wxASSERT(m_pProjectDetailsResearchAreaStaticCtrl);
     wxASSERT(m_pProjectDetailsResearchAreaCtrl);
@@ -573,7 +575,7 @@ void CProjectInfoPage::OnPageChanged( wxWizardExEvent& event ) {
     );
 
     m_pProjectCategoriesStaticCtrl->SetLabel(
-        _("Projects Categories:")
+        _("Categories:")
     );
 
     m_pProjectsStaticCtrl->SetLabel(
@@ -581,15 +583,16 @@ void CProjectInfoPage::OnPageChanged( wxWizardExEvent& event ) {
     );
 
     m_pProjectDetailsStaticCtrl->SetLabel(
-        _("Details")
+        _("Project details")
     );
 
+#if 0
     m_pProjectDetailsDescriptionStaticCtrl->SetLabel(
         _("Description:")
     );
-
+#endif
     m_pProjectDetailsResearchAreaStaticCtrl->SetLabel(
-        _("Research Area:")
+        _("Research area:")
     );
 
     m_pProjectDetailsOrganizationStaticCtrl->SetLabel(
@@ -597,15 +600,15 @@ void CProjectInfoPage::OnPageChanged( wxWizardExEvent& event ) {
     );
 
     m_pProjectDetailsURLStaticCtrl->SetLabel(
-        _("Web Site:")
+        _("Web site:")
     );
 
     m_pProjectDetailsSupportedPlatformsStaticCtrl->SetLabel(
-        _("Supported Platform(s):")
+        _("Supported systems:")
     );
 
     m_pProjectURLStaticCtrl->SetLabel(
-        _("Project Web Site:")
+        _("Project URL:")
     );
 
 

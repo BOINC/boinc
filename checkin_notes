@@ -3541,3 +3541,9 @@ Rom    15 Jun 2011
         ProjectInfoPage.cpp, .h
     clientgui/res/
         blankicon.xpm
+
+David  15 Jun 2011
+	- manager: tweaks to project list
+
+    clientgui/
+        ProjectInfoPage.cpp
