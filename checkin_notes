@@ -3533,3 +3533,11 @@ Rom    15 Jun 2011
     win_build/
         libboinc.vcproj
         libboincapi_staticcrt.vcproj
+
+Rom    15 Jun 2011
+    - MGR: Add more polish to the new project list.
+        
+    clientgui/
+        ProjectInfoPage.cpp, .h
+    clientgui/res/
+        blankicon.xpm

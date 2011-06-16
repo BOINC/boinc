@@ -120,7 +120,7 @@ public:
     wxStaticText* m_pProjectDetailsOrganizationStaticCtrl;
     wxStaticText* m_pProjectDetailsOrganizationCtrl;
     wxStaticText* m_pProjectDetailsURLStaticCtrl;
-    wxStaticText* m_pProjectDetailsURLCtrl;
+    wxHyperlinkCtrl* m_pProjectDetailsURLCtrl;
     wxStaticText* m_pProjectDetailsSupportedPlatformsStaticCtrl;
     wxStaticBitmap* m_pProjectDetailsSupportedPlatformWindowsCtrl;
     wxStaticBitmap* m_pProjectDetailsSupportedPlatformMacCtrl;
@@ -128,6 +128,7 @@ public:
     wxStaticBitmap* m_pProjectDetailsSupportedPlatformATICtrl;
     wxStaticBitmap* m_pProjectDetailsSupportedPlatformNvidiaCtrl;
     wxStaticBitmap* m_pProjectDetailsSupportedPlatformMultiCoreCtrl;
+    wxStaticBitmap* m_pProjectDetailsSupportedPlatformBlankCtrl;
     wxStaticText* m_pProjectURLStaticCtrl;
     wxTextCtrl* m_pProjectURLCtrl;
 ////@end CProjectInfoPage member variables

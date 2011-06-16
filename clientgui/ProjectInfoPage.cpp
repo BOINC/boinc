@@ -45,6 +45,7 @@
 #include "res/atiicon.xpm"
 #include "res/nvidiaicon.xpm"
 #include "res/multicore.xpm"
+#include "res/blankicon.xpm"
 
 
 /*!
@@ -164,6 +165,7 @@ bool CProjectInfoPage::Create( CBOINCBaseWizard* parent )
     m_pProjectDetailsSupportedPlatformATICtrl = NULL;
     m_pProjectDetailsSupportedPlatformNvidiaCtrl = NULL;
     m_pProjectDetailsSupportedPlatformMultiCoreCtrl = NULL;
+    m_pProjectDetailsSupportedPlatformBlankCtrl = NULL;
     m_pProjectURLStaticCtrl = NULL;
     m_pProjectURLCtrl = NULL;
 ////@end CProjectInfoPage member initialisation
@@ -232,7 +234,7 @@ void CProjectInfoPage::CreateControls()
     wxFlexGridSizer* itemFlexGridSizer11 = new wxFlexGridSizer(0, 1, 0, 0);
     itemFlexGridSizer11->AddGrowableRow(0);
     itemFlexGridSizer11->AddGrowableCol(0);
-    itemBoxSizer7->Add(itemFlexGridSizer11, 0, wxGROW|wxALL, 5);
+    itemBoxSizer7->Add(itemFlexGridSizer11, 0, wxGROW|wxALL, 0);
 
     wxArrayString m_pProjectsCtrlStrings;
     m_pProjectsCtrl = new wxListBox( itemWizardPage23, ID_PROJECTS, wxDefaultPosition, wxSize(150, 175), m_pProjectsCtrlStrings, wxLB_SINGLE|wxLB_SORT );
@@ -240,7 +242,7 @@ void CProjectInfoPage::CreateControls()
 
     m_pProjectDetailsStaticCtrl = new wxStaticBox(itemWizardPage23, wxID_ANY, wxT(""));
     wxStaticBoxSizer* itemStaticBoxSizer13 = new wxStaticBoxSizer(m_pProjectDetailsStaticCtrl, wxVERTICAL);
-    itemFlexGridSizer6->Add(itemStaticBoxSizer13, 0, wxGROW|wxALIGN_CENTER_VERTICAL|wxALL, 0);
+    itemFlexGridSizer6->Add(itemStaticBoxSizer13, 0, wxGROW|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
     m_pProjectDetailsDescriptionStaticCtrl = new wxStaticText( itemWizardPage23, wxID_STATIC, wxT(""), wxDefaultPosition, wxDefaultSize, 0 );
     itemStaticBoxSizer13->Add(m_pProjectDetailsDescriptionStaticCtrl, 0, wxALIGN_LEFT|wxLEFT|wxRIGHT, 5);
@@ -256,7 +258,7 @@ void CProjectInfoPage::CreateControls()
     itemFlexGridSizer16->Add(m_pProjectDetailsResearchAreaStaticCtrl, 0, wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxBOTTOM, 2);
 
     m_pProjectDetailsResearchAreaCtrl = new wxStaticText( itemWizardPage23, wxID_STATIC, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
-    itemFlexGridSizer16->Add(m_pProjectDetailsResearchAreaCtrl, 0, wxGROW|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT, 5);
+    itemFlexGridSizer16->Add(m_pProjectDetailsResearchAreaCtrl, 0, wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT, 5);
 
     wxFlexGridSizer* itemFlexGridSizer19 = new wxFlexGridSizer(0, 2, 0, 0);
     itemFlexGridSizer19->AddGrowableCol(1);
@@ -266,7 +268,7 @@ void CProjectInfoPage::CreateControls()
     itemFlexGridSizer19->Add(m_pProjectDetailsOrganizationStaticCtrl, 0, wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxBOTTOM, 2);
 
     m_pProjectDetailsOrganizationCtrl = new wxStaticText( itemWizardPage23, wxID_STATIC, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
-    itemFlexGridSizer19->Add(m_pProjectDetailsOrganizationCtrl, 0, wxGROW|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT, 5);
+    itemFlexGridSizer19->Add(m_pProjectDetailsOrganizationCtrl, 0, wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT, 5);
 
     wxFlexGridSizer* itemFlexGridSizer20 = new wxFlexGridSizer(0, 2, 0, 0);
     itemFlexGridSizer20->AddGrowableCol(1);
@@ -275,7 +277,7 @@ void CProjectInfoPage::CreateControls()
     m_pProjectDetailsURLStaticCtrl = new wxStaticText( itemWizardPage23, wxID_STATIC, wxT(""), wxDefaultPosition, wxDefaultSize, 0 );
     itemFlexGridSizer20->Add(m_pProjectDetailsURLStaticCtrl, 0, wxALIGN_LEFT|wxRIGHT|wxBOTTOM, 2);
 
-    m_pProjectDetailsURLCtrl = new wxStaticText( itemWizardPage23, wxID_STATIC, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+    m_pProjectDetailsURLCtrl = new wxHyperlinkCtrl( itemWizardPage23, wxID_STATIC, wxT("BOINC"), wxT("http://boinc.berkeley.edu/"), wxDefaultPosition, wxDefaultSize, wxNO_BORDER|wxHL_CONTEXTMENU|wxHL_ALIGN_LEFT);
     itemFlexGridSizer20->Add(m_pProjectDetailsURLCtrl, 0, wxALIGN_LEFT|wxLEFT|wxRIGHT|wxBOTTOM, 5);
 
     wxFlexGridSizer* itemFlexGridSizer24 = new wxFlexGridSizer(2, 1, 0, 0);
@@ -289,23 +291,26 @@ void CProjectInfoPage::CreateControls()
     wxBoxSizer* itemBoxSizer26 = new wxBoxSizer(wxHORIZONTAL);
     itemFlexGridSizer24->Add(itemBoxSizer26, 0, wxGROW|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT, 0);
 
-    m_pProjectDetailsSupportedPlatformWindowsCtrl = new wxStaticBitmap( itemWizardPage23, wxID_STATIC, GetBitmapResource(wxT("windowsicon.xpm")), wxDefaultPosition, wxDefaultSize, 0 );
+    m_pProjectDetailsSupportedPlatformWindowsCtrl = new wxStaticBitmap( itemWizardPage23, wxID_STATIC, GetBitmapResource(wxT("windowsicon.xpm")), wxDefaultPosition, wxSize(16,16), 0 );
     itemBoxSizer26->Add(m_pProjectDetailsSupportedPlatformWindowsCtrl, 0, wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT|wxTOP, 5);
 
-    m_pProjectDetailsSupportedPlatformMacCtrl = new wxStaticBitmap( itemWizardPage23, wxID_STATIC, GetBitmapResource(wxT("macosicon.xpm")), wxDefaultPosition, wxDefaultSize, 0 );
+    m_pProjectDetailsSupportedPlatformMacCtrl = new wxStaticBitmap( itemWizardPage23, wxID_STATIC, GetBitmapResource(wxT("macosicon.xpm")), wxDefaultPosition, wxSize(16,16), 0 );
     itemBoxSizer26->Add(m_pProjectDetailsSupportedPlatformMacCtrl, 0, wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT|wxTOP, 5);
 
-    m_pProjectDetailsSupportedPlatformLinuxCtrl = new wxStaticBitmap( itemWizardPage23, wxID_STATIC, GetBitmapResource(wxT("linuxicon.xpm")), wxDefaultPosition, wxDefaultSize, 0 );
+    m_pProjectDetailsSupportedPlatformLinuxCtrl = new wxStaticBitmap( itemWizardPage23, wxID_STATIC, GetBitmapResource(wxT("linuxicon.xpm")), wxDefaultPosition, wxSize(16,16), 0 );
     itemBoxSizer26->Add(m_pProjectDetailsSupportedPlatformLinuxCtrl, 0, wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT|wxTOP, 5);
 
-    m_pProjectDetailsSupportedPlatformATICtrl = new wxStaticBitmap( itemWizardPage23, wxID_STATIC, GetBitmapResource(wxT("atiicon.xpm")), wxDefaultPosition, wxDefaultSize, 0 );
+    m_pProjectDetailsSupportedPlatformATICtrl = new wxStaticBitmap( itemWizardPage23, wxID_STATIC, GetBitmapResource(wxT("atiicon.xpm")), wxDefaultPosition, wxSize(16,16), 0 );
     itemBoxSizer26->Add(m_pProjectDetailsSupportedPlatformATICtrl, 0, wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT|wxTOP, 5);
 
-    m_pProjectDetailsSupportedPlatformNvidiaCtrl = new wxStaticBitmap( itemWizardPage23, wxID_STATIC, GetBitmapResource(wxT("nvidiaicon.xpm")), wxDefaultPosition, wxDefaultSize, 0 );
+    m_pProjectDetailsSupportedPlatformNvidiaCtrl = new wxStaticBitmap( itemWizardPage23, wxID_STATIC, GetBitmapResource(wxT("nvidiaicon.xpm")), wxDefaultPosition, wxSize(16,16), 0 );
     itemBoxSizer26->Add(m_pProjectDetailsSupportedPlatformNvidiaCtrl, 0, wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT|wxTOP, 5);
 
-    m_pProjectDetailsSupportedPlatformMultiCoreCtrl = new wxStaticBitmap( itemWizardPage23, wxID_STATIC, GetBitmapResource(wxT("multicore.xpm")), wxDefaultPosition, wxDefaultSize, 0 );
+    m_pProjectDetailsSupportedPlatformMultiCoreCtrl = new wxStaticBitmap( itemWizardPage23, wxID_STATIC, GetBitmapResource(wxT("multicore.xpm")), wxDefaultPosition, wxSize(16,16), 0 );
     itemBoxSizer26->Add(m_pProjectDetailsSupportedPlatformMultiCoreCtrl, 0, wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT|wxTOP, 5);
+
+    m_pProjectDetailsSupportedPlatformBlankCtrl = new wxStaticBitmap( itemWizardPage23, wxID_STATIC, GetBitmapResource(wxT("blankicon.xpm")), wxDefaultPosition, wxSize(16,16), 0 );
+    itemBoxSizer26->Add(m_pProjectDetailsSupportedPlatformBlankCtrl, 0, wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT|wxTOP, 5);
 
     wxFlexGridSizer* itemFlexGridSizer33 = new wxFlexGridSizer(0, 2, 0, 0);
     itemFlexGridSizer33->AddGrowableCol(1);
@@ -398,6 +403,11 @@ wxBitmap CProjectInfoPage::GetBitmapResource( const wxString& name )
         wxBitmap bitmap(multicore_xpm);
         return bitmap;
     }
+    else if (name == wxT("blankicon.xpm"))
+    {
+        wxBitmap bitmap(blankicon_xpm);
+        return bitmap;
+    }
     return wxNullBitmap;
 ////@end CProjectInfoPage bitmap retrieval
 }
@@ -460,18 +470,35 @@ void CProjectInfoPage::OnProjectSelected( wxCommandEvent& WXUNUSED(event) ) {
 
     CProjectInfo* pProjectInfo = (CProjectInfo*)m_pProjectsCtrl->GetClientData(m_pProjectsCtrl->GetSelection());
 
+    wxString strResearchArea = pProjectInfo->m_strSpecificArea;
+    if (strResearchArea.Length() > 40) {
+        strResearchArea = strResearchArea.Left(40);
+        strResearchArea += wxT("...");
+    }
+    wxString strOrganization = pProjectInfo->m_strOrganization;
+    if (strOrganization.Length() > 40) {
+        strOrganization = strOrganization.Left(40);
+        strOrganization += wxT("...");
+    }
+    wxString strURL = pProjectInfo->m_strURL;
+    if (strURL.Length() > 40) {
+        strURL = strURL.Left(40);
+        strURL += wxT("...");
+    }
+
+    // Populate the project details area
+    m_pProjectDetailsDescriptionCtrl->SetValue(pProjectInfo->m_strDescription);
+    m_pProjectDetailsResearchAreaCtrl->SetLabel(strResearchArea);
+    m_pProjectDetailsOrganizationCtrl->SetLabel(strOrganization);
+    m_pProjectDetailsURLCtrl->SetLabel(strURL);
+    m_pProjectDetailsURLCtrl->SetURL(pProjectInfo->m_strURL);
+
     m_pProjectDetailsSupportedPlatformWindowsCtrl->Hide();
     m_pProjectDetailsSupportedPlatformMacCtrl->Hide();
     m_pProjectDetailsSupportedPlatformLinuxCtrl->Hide();
     m_pProjectDetailsSupportedPlatformATICtrl->Hide();
     m_pProjectDetailsSupportedPlatformNvidiaCtrl->Hide();
     m_pProjectDetailsSupportedPlatformMultiCoreCtrl->Hide();
-
-    // Populate the project details area
-    m_pProjectDetailsDescriptionCtrl->SetValue(pProjectInfo->m_strDescription);
-    m_pProjectDetailsResearchAreaCtrl->SetLabel(pProjectInfo->m_strSpecificArea);
-    m_pProjectDetailsOrganizationCtrl->SetLabel(pProjectInfo->m_strOrganization);
-    m_pProjectDetailsURLCtrl->SetLabel(pProjectInfo->m_strURL);
     if (pProjectInfo->m_bProjectSupportsWindows) m_pProjectDetailsSupportedPlatformWindowsCtrl->Show();
     if (pProjectInfo->m_bProjectSupportsMac) m_pProjectDetailsSupportedPlatformMacCtrl->Show();
     if (pProjectInfo->m_bProjectSupportsLinux) m_pProjectDetailsSupportedPlatformLinuxCtrl->Show();
@@ -484,8 +511,8 @@ void CProjectInfoPage::OnProjectSelected( wxCommandEvent& WXUNUSED(event) ) {
     SetProjectSupported( pProjectInfo->m_bSupportedPlatformFound );
 
     TransferDataToWindow();
-    Layout();
     FitInside();
+    Layout();
 
     wxLogTrace(wxT("Function Start/End"), wxT("CProjectInfoPage::OnProjectSelected - Function End"));
 }
@@ -570,7 +597,7 @@ void CProjectInfoPage::OnPageChanged( wxWizardExEvent& event ) {
     );
 
     m_pProjectDetailsURLStaticCtrl->SetLabel(
-        _("Project URL:")
+        _("Web Site:")
     );
 
     m_pProjectDetailsSupportedPlatformsStaticCtrl->SetLabel(
@@ -578,7 +605,7 @@ void CProjectInfoPage::OnPageChanged( wxWizardExEvent& event ) {
     );
 
     m_pProjectURLStaticCtrl->SetLabel(
-        _("Project URL:")
+        _("Project Web Site:")
     );
 
 
