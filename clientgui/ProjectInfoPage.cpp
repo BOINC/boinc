@@ -192,6 +192,14 @@ bool CProjectInfoPage::Create( CBOINCBaseWizard* parent )
 void CProjectInfoPage::CreateControls()
 {    
 ////@begin CProjectInfoPage content construction
+#ifdef __WXMAC__
+#define LISTBOXWIDTH 225
+#define DESCRIPTIONSWIDTH 350
+#else
+#define LISTBOXWIDTH 150
+#define DESCRIPTIONSWIDTH 200
+#endif
+
     CProjectInfoPage* itemWizardPage23 = this;
 
     wxBoxSizer* itemBoxSizer24 = new wxBoxSizer(wxVERTICAL);
@@ -225,7 +233,7 @@ void CProjectInfoPage::CreateControls()
     itemBoxSizer7->Add(m_pProjectCategoriesStaticCtrl, 0, wxALIGN_LEFT|wxLEFT|wxRIGHT|wxBOTTOM, 5);
 
     wxArrayString m_pProjectCategoriesCtrlStrings;
-    m_pProjectCategoriesCtrl = new wxComboBox( itemWizardPage23, ID_CATEGORIES, wxT(""), wxDefaultPosition, wxSize(150, -1), m_pProjectCategoriesCtrlStrings, wxCB_READONLY|wxCB_SORT );
+    m_pProjectCategoriesCtrl = new wxComboBox( itemWizardPage23, ID_CATEGORIES, wxT(""), wxDefaultPosition, wxSize(LISTBOXWIDTH, -1), m_pProjectCategoriesCtrlStrings, wxCB_READONLY|wxCB_SORT );
     itemBoxSizer7->Add(m_pProjectCategoriesCtrl, 0, wxGROW|wxLEFT|wxRIGHT, 5);
 
     m_pProjectsStaticCtrl = new wxStaticText( itemWizardPage23, wxID_STATIC, wxT(""), wxDefaultPosition, wxDefaultSize, 0 );
@@ -237,7 +245,7 @@ void CProjectInfoPage::CreateControls()
     itemBoxSizer7->Add(itemFlexGridSizer11, 0, wxGROW|wxALL, 0);
 
     wxArrayString m_pProjectsCtrlStrings;
-    m_pProjectsCtrl = new wxListBox( itemWizardPage23, ID_PROJECTS, wxDefaultPosition, wxSize(150, 175), m_pProjectsCtrlStrings, wxLB_SINGLE|wxLB_SORT );
+    m_pProjectsCtrl = new wxListBox( itemWizardPage23, ID_PROJECTS, wxDefaultPosition, wxSize(LISTBOXWIDTH, 175), m_pProjectsCtrlStrings, wxLB_SINGLE|wxLB_SORT );
     itemFlexGridSizer11->Add(m_pProjectsCtrl, 0, wxGROW|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT, 0);
 
     m_pProjectDetailsStaticCtrl = new wxStaticBox(itemWizardPage23, wxID_ANY, wxT(""));
@@ -249,7 +257,7 @@ void CProjectInfoPage::CreateControls()
     itemStaticBoxSizer13->Add(m_pProjectDetailsDescriptionStaticCtrl, 0, wxALIGN_LEFT|wxLEFT|wxRIGHT, 5);
 #endif
 
-    m_pProjectDetailsDescriptionCtrl = new wxTextCtrl( itemWizardPage23, ID_PROJECTDESCRIPTION, wxEmptyString, wxDefaultPosition, wxSize(200, 100), wxTE_MULTILINE|wxTE_READONLY|wxTE_RICH2|wxTE_WORDWRAP );
+    m_pProjectDetailsDescriptionCtrl = new wxTextCtrl( itemWizardPage23, ID_PROJECTDESCRIPTION, wxEmptyString, wxDefaultPosition, wxSize(DESCRIPTIONSWIDTH, 100), wxTE_MULTILINE|wxTE_READONLY|wxTE_RICH2|wxTE_WORDWRAP );
     itemStaticBoxSizer13->Add(m_pProjectDetailsDescriptionCtrl, 0, wxGROW|wxLEFT|wxTOP|wxBOTTOM, 5);
 
     wxFlexGridSizer* itemFlexGridSizer16 = new wxFlexGridSizer(0, 2, 0, 0);
@@ -322,7 +330,11 @@ void CProjectInfoPage::CreateControls()
     itemFlexGridSizer33->Add(m_pProjectURLStaticCtrl, 0, wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
     m_pProjectURLCtrl = new wxTextCtrl( itemWizardPage23, ID_PROJECTURLCTRL, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
-    itemFlexGridSizer33->Add(m_pProjectURLCtrl, 0, wxGROW|wxALIGN_CENTER_VERTICAL|wxALL, 5);
+    itemFlexGridSizer33->Add(m_pProjectURLCtrl, 1, wxGROW|wxALIGN_CENTER_VERTICAL|wxALL, 5);
+
+#ifdef __WXMAC__
+    itemFlexGridSizer33->Add(0, 20, 0);
+#endif
 
     // Set validators
     m_pProjectURLCtrl->SetValidator( CValidateURL( & m_strProjectURL ) );
@@ -472,27 +484,8 @@ void CProjectInfoPage::OnProjectSelected( wxCommandEvent& WXUNUSED(event) ) {
 
     CProjectInfo* pProjectInfo = (CProjectInfo*)m_pProjectsCtrl->GetClientData(m_pProjectsCtrl->GetSelection());
 
-    wxString strResearchArea = pProjectInfo->m_strSpecificArea;
-    if (strResearchArea.Length() > 40) {
-        strResearchArea = strResearchArea.Left(40);
-        strResearchArea += wxT("...");
-    }
-    wxString strOrganization = pProjectInfo->m_strOrganization;
-    if (strOrganization.Length() > 40) {
-        strOrganization = strOrganization.Left(40);
-        strOrganization += wxT("...");
-    }
-    wxString strURL = pProjectInfo->m_strURL;
-    if (strURL.Length() > 40) {
-        strURL = strURL.Left(40);
-        strURL += wxT("...");
-    }
-
     // Populate the project details area
     m_pProjectDetailsDescriptionCtrl->SetValue(pProjectInfo->m_strDescription);
-    m_pProjectDetailsResearchAreaCtrl->SetLabel(strResearchArea);
-    m_pProjectDetailsOrganizationCtrl->SetLabel(strOrganization);
-    m_pProjectDetailsURLCtrl->SetLabel(strURL);
     m_pProjectDetailsURLCtrl->SetURL(pProjectInfo->m_strURL);
 
     m_pProjectDetailsSupportedPlatformWindowsCtrl->Hide();
@@ -513,8 +506,19 @@ void CProjectInfoPage::OnProjectSelected( wxCommandEvent& WXUNUSED(event) ) {
     SetProjectSupported( pProjectInfo->m_bSupportedPlatformFound );
 
     TransferDataToWindow();
-    FitInside();
     Layout();
+
+    wxString strResearchArea = pProjectInfo->m_strSpecificArea;
+    EllipseStringIfNeeded(strResearchArea, m_pProjectDetailsResearchAreaCtrl);
+    m_pProjectDetailsResearchAreaCtrl->SetLabel(strResearchArea);
+
+    wxString strOrganization = pProjectInfo->m_strOrganization;
+    EllipseStringIfNeeded(strOrganization, m_pProjectDetailsOrganizationCtrl);
+    m_pProjectDetailsOrganizationCtrl->SetLabel(strOrganization);
+
+    wxString strURL = pProjectInfo->m_strURL;
+    EllipseStringIfNeeded(strURL, m_pProjectDetailsURLCtrl);
+    m_pProjectDetailsURLCtrl->SetLabel(strURL);
 
     wxLogTrace(wxT("Function Start/End"), wxT("CProjectInfoPage::OnProjectSelected - Function End"));
 }
@@ -829,3 +833,30 @@ void CProjectInfoPage::OnCancel( wxWizardExEvent& event ) {
     PROCESS_CANCELEVENT(event);
 }
 
+
+void CProjectInfoPage::EllipseStringIfNeeded(wxString& s, wxWindow *win) {
+    int x, y;
+    int w, h;
+    wxSize sz = win->GetParent()->GetSize();
+    win->GetPosition(&x, &y);
+    int maxWidth = sz.GetWidth() - x - 10;
+    
+    win->GetTextExtent(s, &w, &h);
+    
+    // Adapted from ellipis code in wxRendererGeneric::DrawHeaderButtonContents()
+    if (w > maxWidth) {
+        int ellipsisWidth;
+        win->GetTextExtent( wxT("..."), &ellipsisWidth, NULL);
+        if (ellipsisWidth > maxWidth) {
+            s.Clear();
+            w = 0;
+        } else {
+            do {
+                s.Truncate( s.length() - 1 );
+                win->GetTextExtent( s, &w, &h);
+            } while (((w + ellipsisWidth) > maxWidth) && s.length() );
+            s.append( wxT("...") );
+            w += ellipsisWidth;
+        }
+    }
+}

@@ -3547,3 +3547,10 @@ David  15 Jun 2011
 
     clientgui/
         ProjectInfoPage.cpp
+
+Charlie 16 Jun 2011
+    - MGR: Fix project list layout for Mac; ellipse long items by size 
+        instead of by number of characters.
+
+    clientgui/
+        ProjectInfoPage.cpp, .h

@@ -67,6 +67,8 @@ public:
     /// wxEVT_WIZARD_CANCEL event handler for ID_PROJECTINFOPAGE
     void OnCancel( wxWizardExEvent& event );
 
+    void EllipseStringIfNeeded(wxString& s, wxWindow *win);
+
 ////@end CProjectInfoPage event handler declarations
 
 ////@begin CProjectInfoPage member function declarations
