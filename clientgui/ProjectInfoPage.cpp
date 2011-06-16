@@ -484,8 +484,12 @@ void CProjectInfoPage::OnProjectSelected( wxCommandEvent& WXUNUSED(event) ) {
 
     CProjectInfo* pProjectInfo = (CProjectInfo*)m_pProjectsCtrl->GetClientData(m_pProjectsCtrl->GetSelection());
 
+    wxString strURL = pProjectInfo->m_strURL;
+    EllipseStringIfNeeded(strURL, m_pProjectDetailsURLCtrl);
+
     // Populate the project details area
     m_pProjectDetailsDescriptionCtrl->SetValue(pProjectInfo->m_strDescription);
+    m_pProjectDetailsURLCtrl->SetLabel(strURL);
     m_pProjectDetailsURLCtrl->SetURL(pProjectInfo->m_strURL);
 
     m_pProjectDetailsSupportedPlatformWindowsCtrl->Hide();
@@ -515,10 +519,6 @@ void CProjectInfoPage::OnProjectSelected( wxCommandEvent& WXUNUSED(event) ) {
     wxString strOrganization = pProjectInfo->m_strOrganization;
     EllipseStringIfNeeded(strOrganization, m_pProjectDetailsOrganizationCtrl);
     m_pProjectDetailsOrganizationCtrl->SetLabel(strOrganization);
-
-    wxString strURL = pProjectInfo->m_strURL;
-    EllipseStringIfNeeded(strURL, m_pProjectDetailsURLCtrl);
-    m_pProjectDetailsURLCtrl->SetLabel(strURL);
 
     wxLogTrace(wxT("Function Start/End"), wxT("CProjectInfoPage::OnProjectSelected - Function End"));
 }
