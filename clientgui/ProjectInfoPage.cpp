@@ -491,6 +491,8 @@ void CProjectInfoPage::OnProjectSelected( wxCommandEvent& WXUNUSED(event) ) {
     m_pProjectDetailsDescriptionCtrl->SetValue(pProjectInfo->m_strDescription);
     m_pProjectDetailsURLCtrl->SetLabel(strURL);
     m_pProjectDetailsURLCtrl->SetURL(pProjectInfo->m_strURL);
+    // Set tooltip to full text in case ellipsed
+    m_pProjectDetailsURLCtrl->SetToolTip(pProjectInfo->m_strURL);
 
     m_pProjectDetailsSupportedPlatformWindowsCtrl->Hide();
     m_pProjectDetailsSupportedPlatformMacCtrl->Hide();
@@ -515,10 +517,14 @@ void CProjectInfoPage::OnProjectSelected( wxCommandEvent& WXUNUSED(event) ) {
     wxString strResearchArea = pProjectInfo->m_strSpecificArea;
     EllipseStringIfNeeded(strResearchArea, m_pProjectDetailsResearchAreaCtrl);
     m_pProjectDetailsResearchAreaCtrl->SetLabel(strResearchArea);
+    // Set tooltip to full text in case ellipsed
+    m_pProjectDetailsResearchAreaCtrl->SetToolTip(pProjectInfo->m_strSpecificArea);
 
     wxString strOrganization = pProjectInfo->m_strOrganization;
     EllipseStringIfNeeded(strOrganization, m_pProjectDetailsOrganizationCtrl);
     m_pProjectDetailsOrganizationCtrl->SetLabel(strOrganization);
+    // Set tooltip to full text in case ellipsed
+    m_pProjectDetailsOrganizationCtrl->SetToolTip(pProjectInfo->m_strOrganization);
 
     wxLogTrace(wxT("Function Start/End"), wxT("CProjectInfoPage::OnProjectSelected - Function End"));
 }

@@ -3550,7 +3550,8 @@ David  15 Jun 2011
 
 Charlie 16 Jun 2011
     - MGR: Fix project list layout for Mac; ellipse long items by size 
-        instead of by number of characters.
+        instead of by number of characters.  Set tooltips of possibly 
+        ellipsed items to full text for that item so user can read it.
 
     clientgui/
         ProjectInfoPage.cpp, .h
