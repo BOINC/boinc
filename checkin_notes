@@ -9999,9 +9999,10 @@ Rom    8 Jun 2011
         configure.ac
         version.h
 
-Charlie 16 Jun 2011
     - Fix typo in all projects list: Urbana-Chamapign -> Urbana-Champaign.
     
+    docs/
+        projects.inc
     win_build/
         installerv2/
             redist/

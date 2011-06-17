@@ -163,7 +163,7 @@ $astro_phys_chem = array(
         array(
             "Cosmology@Home",
             "http://www.cosmologyathome.org/",
-            "University of Illinois at Urbana-Chamapign",
+            "University of Illinois at Urbana-Champaign",
             "Astronomy",
             "The goal of Cosmology@Home is to search for the model that best describes our Universe and to find the range of models that agree with the available astronomical particle physics data.",
             "cosmo.jpg"
