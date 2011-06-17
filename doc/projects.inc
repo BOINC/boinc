@@ -394,6 +394,14 @@ $math = array(
 //            tra("The eight queens problem consists of trying to place eight queens on a chessboard so that no queen attacks any other queen.  I has long been known that there are 92 solutions, of which 12 are distinct. NQueens@home studies the generalization to N queens on an NxN board, for N=19 and greater."),
 //            "NQueens-Logo1b.png"
 //        ),
+        array(
+            "sudoku@vtaiwan",
+            "http://sudoku.nctu.edu.tw/",
+            "National Chiao Tung University, Taiwan",
+            tra("Mathematics"),
+            "Sudoku@vtaiwan seeks to solve the minimum Sudoku problem, which is a well-known problem in mathematics and computer science.",
+            "sudoku.png"
+        ),
     ),
 );
 
