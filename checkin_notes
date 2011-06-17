@@ -3591,3 +3591,14 @@ Charlie 17 Jun 2011
     
     clientgui/
         ProjectInfoPage.cpp
+
+Rom    17 Jun 2011
+    - MGR: Revert previous change to the project list identification code.
+    - MGR: Fix a bug introduced in a previous commit where the plan class
+        was being surrounded by single quotes when generating an updated
+        project list.
+        
+    clientgui/
+        ProjectInfoPage.cpp
+    doc/
+        get_platforms.inc

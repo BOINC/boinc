@@ -104,7 +104,7 @@ function get_platforms(&$url) {
         foreach ($p->platform as $r) {
             if (array_key_exists('plan_class', $r)) {
                 $pc = canonical_plan_class((string)$r->plan_class);
-                $list[] = (string)$r->platform_name."['$pc']";
+                $list[] = (string)$r->platform_name.'['$pc']';
             } else {
                 $list[] = (string)$r->platform_name;
             }
