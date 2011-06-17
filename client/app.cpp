@@ -163,7 +163,6 @@ int ACTIVE_TASK::preempt(int preempt_type) {
                 result->name
             );
         }
-        set_task_state(PROCESS_QUIT_PENDING, "preempt");
         retval = request_exit();
     } else {
         if (log_flags.cpu_sched) {

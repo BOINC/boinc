@@ -154,7 +154,10 @@ int ACTIVE_TASK::request_exit() {
         "<quit/>",
         app_client_shm.shm->process_control_request
     );
+    set_task_state(PROCESS_QUIT_PENDING, "request_exit()");
     quit_time = gstate.now;
+    descendants.clear();
+    get_descendants(pid, descendants);
     return 0;
 }
 
@@ -183,6 +186,12 @@ static void kill_app_process(int pid) {
 #endif
 }
 
+static inline void kill_processes(vector<int> pids) {
+    for (unsigned int i=0; i<pids.size(); i++) {
+        kill_app_process(pids[i]);
+    }
+}
+
 // Kill the task (and descendants) by OS-specific means.
 //
 int ACTIVE_TASK::kill_task(bool restart) {
@@ -200,9 +209,7 @@ int ACTIVE_TASK::kill_task(bool restart) {
 #endif
     get_descendants(pid, pids);
     pids.push_back(pid);
-    for (unsigned int i=0; i<pids.size(); i++) {
-        kill_app_process(pids[i]);
-    }
+    kill_processes(pids);
     cleanup_task();
     if (restart) {
         set_task_state(PROCESS_UNINITIALIZED, "kill_task");
@@ -279,14 +286,19 @@ static void clear_backoffs(ACTIVE_TASK* atp) {
     }
 }
 
-// handle a task that exited prematurely (i.e. the job isn't done)
+// handle a task that exited prematurely (i.e. no finish file)
 //
 void ACTIVE_TASK::handle_premature_exit(bool& will_restart) {
-    // if it exited because we sent it a quit message, don't count
-    //
-    if (task_state() == PROCESS_QUIT_PENDING) {
+    switch (task_state()) {
+    case PROCESS_QUIT_PENDING:
         set_task_state(PROCESS_UNINITIALIZED, "handle_premature_exit");
         will_restart = true;
+        kill_processes(descendants);
+        return;
+    case PROCESS_ABORT_PENDING:
+        set_task_state(PROCESS_UNINITIALIZED, "handle_premature_exit");
+        will_restart = false;
+        kill_processes(descendants);
         return;
     }
 
@@ -745,6 +757,8 @@ int ACTIVE_TASK::abort_task(int exit_status, const char* msg) {
         set_task_state(PROCESS_ABORT_PENDING, "abort_task");
         abort_time = gstate.now;
         request_abort();
+        descendants.clear();
+        get_descendants(pid, descendants);
     } else {
         set_task_state(PROCESS_ABORTED, "abort_task");
     }
@@ -831,7 +845,7 @@ void ACTIVE_TASK_SET::request_reread_app_info() {
 }
 
 
-// send quit signal to all tasks in the project
+// send quit message to all tasks in the project
 // (or all tasks, if proj==0).
 // If they don't exit in 5 seconds,
 // send them a kill signal and wait up to 5 more seconds to exit.

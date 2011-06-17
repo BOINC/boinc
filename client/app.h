@@ -187,27 +187,50 @@ struct ACTIVE_TASK {
         // disk used by output files and temp files of this task
     void get_free_slot(RESULT*);
     int start(bool first_time);         // start a process
-    int request_exit();
-        // ask the process to exit gracefully,
-        // i.e. by sending a <quit> message
-    int request_abort();                // send "abort" message
-    bool process_exists();
 
+    // Termination stuff.
+    // Terminology:
+    // "kill": forcibly kill the main process and all its descendants.
+    //    (note: on Windows secure mode, we can't kill the descendants)
+    // "request exit": send a request-exit message, and enumerate descendants.
+    //      If after 15 secs any processes remain, kill them
+    //      called from:
+    //          task preemption
+    //          project detach or reset
+    //      implementation:
+    //          sends msg, sets quit_time, state QUIT_PENDING;
+    //              get list of descendants
+    //          normal exit handled in handle_premature_exit()
+    //          timeout handled in ACTIVE_TASK_SET::poll()
+    // "abort_task": like request exit,
+    //      but the app is supposed to write a stack trace to stderr
+    //      called from: rsc exceeded; got ack of running task;
+    //          intermediate upload failure
+    //          client exiting w/ abort_jobs_on_exit set
+    //
+    int request_exit();
+    int request_abort();
     int kill_task(bool restart);
         // Kill process forcibly,
 		// otherwise it ends with an error
         // Unix: send a SIGKILL signal, Windows: TerminateProcess()
-		// if restart is true, arrange for resulted to get restarted;
+		// if restart is true, arrange for result to get restarted;
+    int abort_task(int exit_status, const char*);
+        // can be called whether or not process exists
+
+
+    // Implementation stuff related to termination
+    //
+    std::vector<int> descendants;
+    bool process_exists();
+    bool has_task_exited();
+        // return true if this task has exited
 
     int suspend();
         // tell a process to stop executing (but stay in mem)
         // Done by sending it a <suspend> message
     int unsuspend();
         // Undo a suspend: send a <resume> message
-    int abort_task(int exit_status, const char*);
-        // can be called whether or not process exists
-    bool has_task_exited();
-        // return true if this task has exited
     int preempt(int preempt_type);
         // preempt (via suspend or quit) a running task
     int resume_or_start(bool);

@@ -3563,3 +3563,22 @@ Charlie 16 Jun 2011
         installerv2/
             redist/
                 all_projects_list.xml
+
+David  16 Jun 2011
+    - client: we were assuming that if we ask a task to exit
+        and its main process exits, everything is OK.
+        That's not necessarily the case - buggy apps may have
+        subprocesses that the main process fails to kill.
+
+        Solution: when we request a task to exit or abort,
+        make a list of the descendants.
+        When the main process exits, kill any remaining descendants.
+        
+        Also: we weren't checking for the ABORT_PENDING case
+        in the process exit logic.
+        This may explain the 5/15 second delay in detaching or
+        resetting a project with running tasks
+
+    client/
+        app.cpp,h
+        app_control.cpp
