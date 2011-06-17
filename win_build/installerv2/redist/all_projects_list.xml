@@ -251,7 +251,7 @@
         <general_area>Astronomy/Physics/Chemistry</general_area>
         <specific_area>Astronomy</specific_area>
         <description>The goal of Cosmology@Home is to search for the model that best describes our Universe and to find the range of models that agree with the available astronomical particle physics data.</description>
-        <home>University of Illinois at Urbana-Chamapign</home>
+        <home>University of Illinois at Urbana-Champaign</home>
     <platforms>
         <name>i686-pc-linux-gnu</name>
         <name>windows_intelx86</name>

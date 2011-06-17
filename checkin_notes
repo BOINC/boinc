@@ -9998,3 +9998,11 @@ Rom    8 Jun 2011
     /
         configure.ac
         version.h
+
+Charlie 16 Jun 2011
+    - Fix typo in all projects list: Urbana-Chamapign -> Urbana-Champaign.
+    
+    win_build/
+        installerv2/
+            redist/
+                all_projects_list.xml
