@@ -3584,3 +3584,10 @@ David  16 Jun 2011
     client/
         app.cpp,h
         app_control.cpp
+
+Charlie 17 Jun 2011
+    - MGR: Fix project list identification of CUDA, ATI, and MT support (check 
+        for "['cuda" not "[cuda". "['ati" not "[ati" and "['mt" not "[mt".)
+    
+    clientgui/
+        ProjectInfoPage.cpp

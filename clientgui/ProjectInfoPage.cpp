@@ -699,21 +699,21 @@ void CProjectInfoPage::OnPageChanged( wxWizardExEvent& event ) {
                         }
                     }
 
-                    if (strProjectPlatform.Find(_T("[cuda")) != wxNOT_FOUND) {
+                    if (strProjectPlatform.Find(_T("['cuda")) != wxNOT_FOUND) {
                         pProjectInfo->m_bProjectSupportsNvidiaGPU = true;
                         if ((pDoc->state.have_cuda) && (strClientPlatform == strRootProjectPlatform)) {
                             pProjectInfo->m_bSupportedPlatformFound = true;
                         }
                     }
 
-                    if (strProjectPlatform.Find(_T("[ati")) != wxNOT_FOUND) {
+                    if (strProjectPlatform.Find(_T("['ati")) != wxNOT_FOUND) {
                         pProjectInfo->m_bProjectSupportsATIGPU = true;
                         if ((pDoc->state.have_ati) && (strClientPlatform == strRootProjectPlatform)) {
                             pProjectInfo->m_bSupportedPlatformFound = true;
                         }
                     }
 
-                    if (strProjectPlatform.Find(_T("[mt")) != wxNOT_FOUND) {
+                    if (strProjectPlatform.Find(_T("['mt")) != wxNOT_FOUND) {
                         pProjectInfo->m_bProjectSupportsMulticore = true;
                         if ((pDoc->host.p_ncpus >= 4) && (strClientPlatform == strRootProjectPlatform)) {
                             pProjectInfo->m_bSupportedPlatformFound = true;
