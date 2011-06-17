@@ -46,7 +46,7 @@ foreach($proj_list as $p) {
         <url>$p->url</url>
         <general_area>$p->general_area</general_area>
         <specific_area>$p->specific_area</specific_area>
-        <description>$p->description</description>
+        <description><![CDATA[$p->description]]></description>
         <home>$p->home</home>
 ";
     $platforms = get_platforms_cached($p->web_url);

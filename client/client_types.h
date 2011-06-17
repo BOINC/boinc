@@ -541,6 +541,7 @@ struct APP_VERSION {
     bool missing_coproc;
     double missing_coproc_usage;
     char missing_coproc_name[256];
+    bool dont_throttle;
 
     int index;  // temp var for make_scheduler_request()
 #ifdef SIM
@@ -699,7 +700,14 @@ struct RESULT {
         return avp->gpu_usage.rsc_type;
     }
     inline bool non_cpu_intensive() {
-        return project->non_cpu_intensive || app->non_cpu_intensive;
+        if (project->non_cpu_intensive) return true;
+        if (app->non_cpu_intensive) return true;
+        return false;
+    }
+    inline bool dont_throttle() {
+        if (non_cpu_intensive()) return true;
+        if (avp->dont_throttle) return true;
+        return false;
     }
 
     // temporaries used in CLIENT_STATE::rr_simulation():

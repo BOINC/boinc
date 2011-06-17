@@ -952,7 +952,7 @@ void ACTIVE_TASK_SET::suspend_all(int reason) {
             // if we're doing CPU throttling, don't bother suspending apps
             // that don't use a full CPU
             //
-            if (atp->result->non_cpu_intensive()) continue;
+            if (atp->result->dont_throttle()) continue;
             if (atp->app_version->avg_ncpus < 1) continue;
             atp->preempt(REMOVE_NEVER);
             break;

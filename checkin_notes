@@ -3609,3 +3609,12 @@ Rom    17 Jun 2011
         
     clientgui/
         ProjectInfoPage.cpp, .h
+
+David  17 Jun 2011
+    - client: add a <dont_throttle/> flag to APP_VERSION.
+        If set, the app does its own CPU throttling
+        so the client doesn't have to.
+
+    client/
+        client_types.cpp,h
+        app_control.cpp

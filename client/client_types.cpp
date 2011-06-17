@@ -1301,6 +1301,7 @@ int APP_VERSION::parse(MIOFILE& in) {
     flops = gstate.host_info.p_fpops;
     missing_coproc = false;
     strcpy(missing_coproc_name, "");
+    dont_throttle = false;
 
     while (in.fgets(buf, 256)) {
         if (match_tag(buf, "</app_version>")) return 0;
@@ -1337,6 +1338,7 @@ int APP_VERSION::parse(MIOFILE& in) {
             }
             continue;
         }
+        if (parse_bool(buf, "dont_throttle", dont_throttle)) continue;
         if (log_flags.unparsed_xml) {
             msg_printf(0, MSG_INFO,
                 "[unparsed_xml] APP_VERSION::parse(): unrecognized: %s\n", buf
@@ -1404,6 +1406,11 @@ int APP_VERSION::write(MIOFILE& out, bool write_file_info) {
         out.printf(
             "    <gpu_ram>%f</gpu_ram>\n",
             gpu_ram
+        );
+    }
+    if (dont_throttle) {
+        out.printf(
+            "    <dont_throttle/>\n"
         );
     }
 
