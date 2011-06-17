@@ -88,6 +88,7 @@ struct VM {
    
     VM();
     void create();
+    void throttle();
     void start(bool vrde, bool headless);
     void kill();
     void pause();
@@ -354,6 +355,28 @@ void VM::create() {
 
 }
 
+void VM::throttle()
+{
+    // Check the BOINC CPU preferences for running the VM accordingly
+    string arg_list = "";
+    boinc_get_init_data(aid);
+    fprintf(stderr,"INFO: Maximum usage of CPU: %f\n", aid.global_prefs.cpu_usage_limit);
+    fprintf(stderr,"INFO: Setting how much CPU time the virtual CPU can use: %i\n", int(aid.global_prefs.cpu_usage_limit));
+    std::stringstream out;
+    out << int(aid.global_prefs.cpu_usage_limit);
+
+    arg_list = " controlvm " + virtual_machine_name + " cpuexecutioncap " + out.str();
+    if (!vbm_popen(arg_list))
+    {
+        fprintf(stderr,"ERROR: Impossible to set up CPU percentage usage limit\n");
+    }
+    else
+    {
+        fprintf(stderr,"INFO: Success!\n");
+    
+    }
+}
+
 void VM::start(bool vrde=false, bool headless=false) {
     // Start the VM in headless mode
     
@@ -393,24 +416,7 @@ void VM::start(bool vrde=false, bool headless=false) {
         vbm_popen(arg_list);
     }
 
-    // Check the BOINC CPU preferences for running the VM accordingly
-    arg_list = "";
-    boinc_get_init_data(aid);
-    fprintf(stderr,"INFO: Maximum usage of CPU: %f\n", aid.global_prefs.cpu_usage_limit);
-    fprintf(stderr,"INFO: Setting how much CPU time the virtual CPU can use: %i\n", int(aid.global_prefs.cpu_usage_limit));
-    std::stringstream out;
-    out << int(aid.global_prefs.cpu_usage_limit);
-
-    arg_list = " controlvm " + virtual_machine_name + " cpuexecutioncap " + out.str();
-    if (!vbm_popen(arg_list))
-    {
-        fprintf(stderr,"ERROR: Impossible to set up CPU percentage usage limit\n");
-    }
-    else
-    {
-        fprintf(stderr,"INFO: Success!\n");
-    
-    }
+    throttle();
 
     boinc_end_critical_section();
 }
@@ -701,6 +707,13 @@ void VM::poll() {
 }
 
 void poll_boinc_messages(VM& vm, BOINC_STATUS &status) {
+
+    if (status.reread_init_data_file)
+    {
+        fprintf(stderr,"INFO: Project preferences changed\n");
+        vm.throttle();
+    }
+
     if (status.no_heartbeat) {
     fprintf(stderr,"INFO: BOINC no_heartbeat\n");
     //vm.Check();
@@ -722,17 +735,17 @@ void poll_boinc_messages(VM& vm, BOINC_STATUS &status) {
         fprintf(stderr,"INFO: VM removed and task aborted\n");
         boinc_finish(0);
     }
-    //if (status.suspended) {
-    //    fprintf(stderr,"INFO: BOINC status suspend = True. Stopping VM\n");
-    //    if (!vm.suspended) {
-    //        vm.pause();
-    //    }
-    //} else {
-    //    fprintf(stderr,"INFO: BOINC status suspend = False. Resuming VM\n");
-    //    if (vm.suspended) {
-    //        vm.resume();
-    //    }
-    //}
+    if (status.suspended) {
+        fprintf(stderr,"INFO: BOINC status suspend = True. Stopping VM\n");
+        if (!vm.suspended) {
+            vm.pause();
+        }
+    } else {
+        fprintf(stderr,"INFO: BOINC status suspend = False. Resuming VM\n");
+        if (vm.suspended) {
+            vm.resume();
+        }
+    }
 }
 
 void write_cputime(double cpu) {
