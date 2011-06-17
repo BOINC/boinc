@@ -230,14 +230,14 @@ void CProjectInfoPage::CreateControls()
     itemFlexGridSizer6->Add(itemBoxSizer7, 0, wxALIGN_LEFT|wxALIGN_TOP, 0);
 
     m_pProjectCategoriesStaticCtrl = new wxStaticText( itemWizardPage23, wxID_STATIC, wxT(""), wxDefaultPosition, wxDefaultSize, 0 );
-    itemBoxSizer7->Add(m_pProjectCategoriesStaticCtrl, 0, wxALIGN_LEFT|wxLEFT|wxRIGHT|wxBOTTOM, 5);
+    itemBoxSizer7->Add(m_pProjectCategoriesStaticCtrl, 0, wxALIGN_LEFT|wxRIGHT|wxBOTTOM, 5);
 
     wxArrayString m_pProjectCategoriesCtrlStrings;
     m_pProjectCategoriesCtrl = new wxComboBox( itemWizardPage23, ID_CATEGORIES, wxT(""), wxDefaultPosition, wxSize(LISTBOXWIDTH, -1), m_pProjectCategoriesCtrlStrings, wxCB_READONLY|wxCB_SORT );
     itemBoxSizer7->Add(m_pProjectCategoriesCtrl, 0, wxGROW|wxLEFT|wxRIGHT, 5);
 
     m_pProjectsStaticCtrl = new wxStaticText( itemWizardPage23, wxID_STATIC, wxT(""), wxDefaultPosition, wxDefaultSize, 0 );
-    itemBoxSizer7->Add(m_pProjectsStaticCtrl, 0, wxALIGN_LEFT|wxALL, 5);
+    itemBoxSizer7->Add(m_pProjectsStaticCtrl, 0, wxALIGN_LEFT|wxTOP|wxRIGHT|wxBOTTOM, 5);
 
     wxFlexGridSizer* itemFlexGridSizer11 = new wxFlexGridSizer(0, 1, 0, 0);
     itemFlexGridSizer11->AddGrowableRow(0);
@@ -257,7 +257,7 @@ void CProjectInfoPage::CreateControls()
     itemStaticBoxSizer13->Add(m_pProjectDetailsDescriptionStaticCtrl, 0, wxALIGN_LEFT|wxLEFT|wxRIGHT, 5);
 #endif
 
-    m_pProjectDetailsDescriptionCtrl = new wxTextCtrl( itemWizardPage23, ID_PROJECTDESCRIPTION, wxEmptyString, wxDefaultPosition, wxSize(DESCRIPTIONSWIDTH, 100), wxTE_MULTILINE|wxTE_READONLY|wxTE_RICH2|wxTE_WORDWRAP );
+    m_pProjectDetailsDescriptionCtrl = new wxHtmlWindow( itemWizardPage23, ID_PROJECTDESCRIPTION, wxDefaultPosition, wxSize(DESCRIPTIONSWIDTH, 100), wxHW_SCROLLBAR_AUTO|wxHW_NO_SELECTION );
     itemStaticBoxSizer13->Add(m_pProjectDetailsDescriptionCtrl, 0, wxGROW|wxLEFT|wxTOP|wxBOTTOM, 5);
 
     wxFlexGridSizer* itemFlexGridSizer16 = new wxFlexGridSizer(0, 2, 0, 0);
@@ -488,7 +488,7 @@ void CProjectInfoPage::OnProjectSelected( wxCommandEvent& WXUNUSED(event) ) {
     EllipseStringIfNeeded(strURL, m_pProjectDetailsURLCtrl);
 
     // Populate the project details area
-    m_pProjectDetailsDescriptionCtrl->SetValue(pProjectInfo->m_strDescription);
+    m_pProjectDetailsDescriptionCtrl->SetPage(pProjectInfo->m_strDescription);
     m_pProjectDetailsURLCtrl->SetLabel(strURL);
     m_pProjectDetailsURLCtrl->SetURL(pProjectInfo->m_strURL);
     // Set tooltip to full text in case ellipsed

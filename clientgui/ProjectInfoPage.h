@@ -116,7 +116,7 @@ public:
     wxListBox* m_pProjectsCtrl;
     wxStaticBox* m_pProjectDetailsStaticCtrl;
     wxStaticText* m_pProjectDetailsDescriptionStaticCtrl;
-    wxTextCtrl* m_pProjectDetailsDescriptionCtrl;
+    wxHtmlWindow* m_pProjectDetailsDescriptionCtrl;
     wxStaticText* m_pProjectDetailsResearchAreaStaticCtrl;
     wxStaticText* m_pProjectDetailsResearchAreaCtrl;
     wxStaticText* m_pProjectDetailsOrganizationStaticCtrl;

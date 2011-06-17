@@ -3602,3 +3602,10 @@ Rom    17 Jun 2011
         ProjectInfoPage.cpp
     doc/
         get_platforms.inc
+
+Rom    17 Jun 2011
+    - MGR: Change the project list description control into an HTML based
+        window.
+        
+    clientgui/
+        ProjectInfoPage.cpp, .h
