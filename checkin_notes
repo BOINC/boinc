@@ -3618,3 +3618,14 @@ David  17 Jun 2011
     client/
         client_types.cpp,h
         app_control.cpp
+
+Charlie 18 Jun 2011
+    - MGR: Don't mark a project as supported if it requires a coprocessor we lack.
+        NOTE: if the platform entry contains a modifier such as [cuda] or [ati], 
+            that capability is required.  If a project offers both a cuda application 
+            and a CPU-only application for an operating system, it must have two 
+            separate platform entries for that OS, one with [cuda] and one without.
+            Likewise for ati and mt.
+        
+    clientgui/
+        ProjectInfoPage.cpp
