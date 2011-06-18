@@ -672,6 +672,13 @@ void CProjectInfoPage::OnPageChanged( wxWizardExEvent& event ) {
             }
 
             // Can the core client support a platform that this project supports?
+            //
+            // NOTE: if the platform entry contains a modifier such as [cuda] or [ati], 
+            // that capability is required.  If a project offers both a cuda application 
+            // and a CPU-only application for an operating system, it must have two 
+            // separate platform entries for that OS, one with [cuda] and one without.
+            // Likewise for ati and mt.
+            //
             for (j = 0;j < aClientPlatforms.size(); j++) {
                 for (k = 0;k < aProjectPlatforms.size(); k++) {
                     wxString strClientPlatform = aClientPlatforms[j];
@@ -680,30 +687,22 @@ void CProjectInfoPage::OnPageChanged( wxWizardExEvent& event ) {
                     
                     if (strProjectPlatform.Find(_T("windows")) != wxNOT_FOUND) {
                         pProjectInfo->m_bProjectSupportsWindows = true;
-                        if (strClientPlatform == strRootProjectPlatform) {
-                            pProjectInfo->m_bSupportedPlatformFound = true;
-                        }
                     }
 
                     if (strProjectPlatform.Find(_T("apple")) != wxNOT_FOUND) {
                         pProjectInfo->m_bProjectSupportsMac = true;
-                        if (strClientPlatform == strRootProjectPlatform) {
-                            pProjectInfo->m_bSupportedPlatformFound = true;
-                        }
                     }
-
+                    
                     if (strProjectPlatform.Find(_T("linux")) != wxNOT_FOUND) {
                         pProjectInfo->m_bProjectSupportsLinux = true;
-                        if (strClientPlatform == strRootProjectPlatform) {
-                            pProjectInfo->m_bSupportedPlatformFound = true;
-                        }
                     }
-
+                    
                     if (strProjectPlatform.Find(_T("[cuda")) != wxNOT_FOUND) {
                         pProjectInfo->m_bProjectSupportsNvidiaGPU = true;
                         if ((pDoc->state.have_cuda) && (strClientPlatform == strRootProjectPlatform)) {
                             pProjectInfo->m_bSupportedPlatformFound = true;
                         }
+                        continue;
                     }
 
                     if (strProjectPlatform.Find(_T("[ati")) != wxNOT_FOUND) {
@@ -711,6 +710,7 @@ void CProjectInfoPage::OnPageChanged( wxWizardExEvent& event ) {
                         if ((pDoc->state.have_ati) && (strClientPlatform == strRootProjectPlatform)) {
                             pProjectInfo->m_bSupportedPlatformFound = true;
                         }
+                        continue;
                     }
 
                     if (strProjectPlatform.Find(_T("[mt")) != wxNOT_FOUND) {
@@ -718,8 +718,10 @@ void CProjectInfoPage::OnPageChanged( wxWizardExEvent& event ) {
                         if ((pDoc->host.p_ncpus >= 4) && (strClientPlatform == strRootProjectPlatform)) {
                             pProjectInfo->m_bSupportedPlatformFound = true;
                         }
+                        continue;
                     }
-
+                    
+                    // Application does not require CUDA, ATI or MT
                     if (strClientPlatform == strRootProjectPlatform) {
                         pProjectInfo->m_bSupportedPlatformFound = true;
                     }
