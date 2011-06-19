@@ -699,20 +699,27 @@ void CProjectInfoPage::OnPageChanged( wxWizardExEvent& event ) {
                     
                     if (strProjectPlatform.Find(_T("[cuda")) != wxNOT_FOUND) {
                         pProjectInfo->m_bProjectSupportsNvidiaGPU = true;
-                        if (!pDoc->state.have_cuda) {
-                            continue;
-                        }
                     }
 
                     if (strProjectPlatform.Find(_T("[ati")) != wxNOT_FOUND) {
                         pProjectInfo->m_bProjectSupportsATIGPU = true;
-                        if (!pDoc->state.have_ati) {
-                            continue;
-                        }
                     }
 
                     if (strProjectPlatform.Find(_T("[mt")) != wxNOT_FOUND) {
                         pProjectInfo->m_bProjectSupportsMulticore = true;
+                    }
+                    
+                    if (pProjectInfo->m_bProjectSupportsNvidiaGPU) {
+                        if (!pDoc->state.have_cuda) continue;
+                    }
+
+                    if (pProjectInfo->m_bProjectSupportsATIGPU) {
+                        if (!pDoc->state.have_ati) {
+                            continue;
+                        }
+                    }
+                    
+                    if (pProjectInfo->m_bProjectSupportsMulticore) {
                         if (pDoc->host.p_ncpus < 4) {
                             continue;
                         }
