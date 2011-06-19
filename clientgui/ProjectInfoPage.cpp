@@ -714,15 +714,11 @@ void CProjectInfoPage::OnPageChanged( wxWizardExEvent& event ) {
                     }
 
                     if (pProjectInfo->m_bProjectSupportsATIGPU) {
-                        if (!pDoc->state.have_ati) {
-                            continue;
-                        }
+                        if (!pDoc->state.have_ati) continue;
                     }
                     
                     if (pProjectInfo->m_bProjectSupportsMulticore) {
-                        if (pDoc->host.p_ncpus < 4) {
-                            continue;
-                        }
+                        if (pDoc->host.p_ncpus < 4) continue;
                     }
                     
                     // Application has CUDA, ATI or MT if required, or none are required
