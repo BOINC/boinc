@@ -699,29 +699,26 @@ void CProjectInfoPage::OnPageChanged( wxWizardExEvent& event ) {
                     
                     if (strProjectPlatform.Find(_T("[cuda")) != wxNOT_FOUND) {
                         pProjectInfo->m_bProjectSupportsNvidiaGPU = true;
-                        if ((pDoc->state.have_cuda) && (strClientPlatform == strRootProjectPlatform)) {
-                            pProjectInfo->m_bSupportedPlatformFound = true;
+                        if (!pDoc->state.have_cuda) {
+                            continue;
                         }
-                        continue;
                     }
 
                     if (strProjectPlatform.Find(_T("[ati")) != wxNOT_FOUND) {
                         pProjectInfo->m_bProjectSupportsATIGPU = true;
-                        if ((pDoc->state.have_ati) && (strClientPlatform == strRootProjectPlatform)) {
-                            pProjectInfo->m_bSupportedPlatformFound = true;
+                        if (!pDoc->state.have_ati) {
+                            continue;
                         }
-                        continue;
                     }
 
                     if (strProjectPlatform.Find(_T("[mt")) != wxNOT_FOUND) {
                         pProjectInfo->m_bProjectSupportsMulticore = true;
-                        if ((pDoc->host.p_ncpus >= 4) && (strClientPlatform == strRootProjectPlatform)) {
-                            pProjectInfo->m_bSupportedPlatformFound = true;
+                        if (pDoc->host.p_ncpus < 4) {
+                            continue;
                         }
-                        continue;
                     }
                     
-                    // Application does not require CUDA, ATI or MT
+                    // Application has CUDA, ATI or MT if required, or none are required
                     if (strClientPlatform == strRootProjectPlatform) {
                         pProjectInfo->m_bSupportedPlatformFound = true;
                     }
