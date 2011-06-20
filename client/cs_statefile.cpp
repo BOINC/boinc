@@ -899,6 +899,16 @@ int CLIENT_STATE::write_state_gui(MIOFILE& f) {
     //
     retval = host_info.write(f, true, false);
     if (retval) return retval;
+
+    // the following are for compatibility with old managers
+    //
+    if (coprocs.have_nvidia()) {
+        f.printf("<have_cuda/>\n");
+    }
+    if (coprocs.have_ati()) {
+        f.printf("<have_ati/>\n");
+    }
+
     retval = time_stats.write(f, false);
     if (retval) return retval;
     retval = net_stats.write(f);

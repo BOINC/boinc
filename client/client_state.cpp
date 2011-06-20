@@ -372,6 +372,7 @@ int CLIENT_STATE::init() {
             coprocs.add(coprocs.ati);
         }
     }
+    host_info._coprocs = coprocs;
 
     // check for app_info.xml file in project dirs.
     // If find, read app info from there, set project.anonymous_platform

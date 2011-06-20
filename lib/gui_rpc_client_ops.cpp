@@ -108,10 +108,14 @@ int PROJECT_LIST_ENTRY::parse(XML_PARSER& xp) {
     while (!xp.get(tag, sizeof(tag), is_tag)) {
         if (!strcmp(tag, "/project")) return 0;
         if (xp.parse_string(tag, "name", name)) continue;
-        if (xp.parse_string(tag, "url", url)) continue;
+        if (xp.parse_string(tag, "url", url)) {
+            continue;
+        }
         if (xp.parse_string(tag, "general_area", general_area)) continue;
         if (xp.parse_string(tag, "specific_area", specific_area)) continue;
-        if (xp.parse_string(tag, "description", description)) continue;
+        if (xp.parse_string(tag, "description", description)) {
+            continue;
+        }
         if (xp.parse_string(tag, "home", home)) continue;
         if (xp.parse_string(tag, "image", image)) continue;
         if (!strcmp(tag, "platforms")) {
@@ -852,6 +856,8 @@ int CC_STATE::parse(MIOFILE& fin) {
             host_info.parse(fin);
             continue;
         }
+        if (parse_bool(buf, "have_cuda", have_cuda)) continue;
+        if (parse_bool(buf, "have_ati", have_ati)) continue;
     }
     return 0;
 }
