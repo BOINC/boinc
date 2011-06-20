@@ -476,7 +476,7 @@ bool CAdvancedFrame::CreateMenu() {
         _("Stop work regardless of preferences")
     );
 
-    if (pDoc->state.have_cuda || pDoc->state.have_ati) {
+    if (pDoc->state.host_info._coprocs.have_nvidia() || pDoc->state.host_info._coprocs.have_ati()) {
 
 #ifndef __WXGTK__
         menuActivity->AppendSeparator();
@@ -1824,7 +1824,7 @@ void CAdvancedFrame::OnFrameRender(wxTimerEvent& WXUNUSED(event)) {
                 CC_STATUS  status;
                 if ((pDoc->IsConnected()) && (0 == pDoc->GetCoreClientStatus(status))) {
                     UpdateActivityModeControls(status);
-                    if (pDoc->state.have_cuda || pDoc->state.have_ati) {
+                    if (pDoc->state.host_info._coprocs.have_nvidia() || pDoc->state.host_info._coprocs.have_ati()) {
                         UpdateGPUModeControls(status);
                     }
                     UpdateNetworkModeControls(status);

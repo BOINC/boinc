@@ -710,11 +710,11 @@ void CProjectInfoPage::OnPageChanged( wxWizardExEvent& event ) {
                     }
                     
                     if (pProjectInfo->m_bProjectSupportsNvidiaGPU) {
-                        if (!pDoc->state.have_cuda) continue;
+                        if (!pDoc->state.host_info._coprocs.have_nvidia()) continue;
                     }
 
                     if (pProjectInfo->m_bProjectSupportsATIGPU) {
-                        if (!pDoc->state.have_ati) continue;
+                        if (!pDoc->state.host_info._coprocs.have_ati()) continue;
                     }
                     
                     if (pProjectInfo->m_bProjectSupportsMulticore) {
