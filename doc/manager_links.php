@@ -68,11 +68,11 @@ if ($target == "notice") {
 		if ($controlid == "6024") {
 			header('Location: http://boinc.berkeley.edu');
 		} else if ($controlid == "6025") {
-			header('Location: http://boinc.berkeley.edu/wiki/Advanced_View');
+			header('Location: http://boinc.berkeley.edu/wiki/Advanced_view');
 		} else if ($controlid == "6035") {
 			header('Location: http://boinc.berkeley.edu/wiki/BOINC_Help');
 		} else {
-			header('Location: http://boinc.berkeley.edu/wiki/Advanced_View');
+			header('Location: http://boinc.berkeley.edu/wiki/Advanced_view');
 		}
 	} else if ($target == "simple") {
 		if ($controlid == "6024") {
