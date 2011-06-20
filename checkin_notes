@@ -3629,3 +3629,19 @@ Charlie 18 Jun 2011
         
     clientgui/
         ProjectInfoPage.cpp
+
+David  20 Jun 2011
+    - web: use ReCaptcha for account creation as well as profile creation
+        (from Daniel)
+    - GUI RPC: remove have_cuda from CC_STATE.
+        Use the info in host_info.coprocs instead.
+
+    html/
+        ops/
+            pass_percentage_by_platform.php
+        user/
+            create_account_form.php
+            create_account_action.php
+    lib/
+        gui_rpc_client_ops.cpp
+        gui_rpc_client.h

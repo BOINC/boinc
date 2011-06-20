@@ -20,6 +20,7 @@ include_once("../inc/boinc_db.inc");
 include_once("../inc/util.inc");
 include_once("../inc/email.inc");
 include_once("../inc/user.inc");
+include_once("../inc/recaptchalib.php");
 
 function show_error($str) {
     page_head("Can't create account");
@@ -40,6 +41,17 @@ if (parse_bool($config, "disable_account_creation")) {
     ";
     exit();
 }
+
+$privatekey = parse_config($config, "<recaptcha_private_key>");
+  if ($privatekey) {
+      $resp = recaptcha_check_answer($privatekey, $_SERVER["REMOTE_ADDR"],
+          $_POST["recaptcha_challenge_field"], $_POST["recaptcha_response_field"]
+      );
+      if (!$resp->is_valid) {
+          echo "" . tra("Your reCAPTCHA response was not correct. Please try again."). "";
+          return;
+      }
+  }
 
 // see whether the new account should be pre-enrolled in a team,
 // and initialized with its founder's project prefs

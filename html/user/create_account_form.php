@@ -20,6 +20,7 @@ require_once('../inc/db.inc');
 require_once('../inc/util.inc');
 require_once('../inc/countries.inc');
 require_once('../inc/translation.inc');
+require_once('../inc/recaptchalib.php');
 
 check_get_args(array("next_url", "teamid"));
 
@@ -111,6 +112,18 @@ row2(
     tra("Postal or ZIP Code")."<br><span class=\"description\">".tra("Optional")."</span>",
     "<input type=\"text\" name=\"postal_code\" size=\"20\">"
 );
+
+// Check if we need reCaptcha for making more safe the creation of accounts
+$publickey = parse_config($config, "<recaptcha_public_key>");
+
+if ($publickey) {
+
+        row2(
+            tra("Please enter the words shown in the image"),
+            recaptcha_get_html($publickey)
+        );
+}
+
 row2("",
     "<input type=\"submit\" value=\"".tra("Create account")."\">"
 );

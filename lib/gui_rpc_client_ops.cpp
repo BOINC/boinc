@@ -749,8 +749,6 @@ int CC_STATE::parse(MIOFILE& fin) {
         if (match_tag(buf, "</client_state>")) break;
 
         if (parse_bool(buf, "executing_as_daemon", executing_as_daemon)) continue;
-        if (parse_bool(buf, "have_cuda", have_cuda)) continue;
-        if (parse_bool(buf, "have_ati", have_ati)) continue;
         if (match_tag(buf, "<project>")) {
             project = new PROJECT();
             retval = project->parse(fin);
@@ -882,8 +880,6 @@ void CC_STATE::clear() {
     results.clear();
     platforms.clear();
     executing_as_daemon = false;
-    have_cuda = false;
-    have_ati = false;
 }
 
 PROJECT* CC_STATE::lookup_project(char* url) {
