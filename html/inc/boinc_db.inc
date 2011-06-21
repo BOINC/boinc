@@ -145,6 +145,10 @@ class BoincUser {
         $db->delete_aux('profile', "userid=$this->id");
         return $db->delete($this, 'user');
     }
+    function sum($field) {
+        $db = BoincDb::get();
+        return $db->sum('user', $field);
+    }
 }
 
 class BoincTeam {

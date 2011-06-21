@@ -724,6 +724,33 @@ function update_6_3_2011() {
     ");
 }
 
+function update_6_20_2011() {
+    do_query("
+create table batch (
+    id                  serial          primary key,
+    user_id             integer         not null,
+    create_time         integer         not null,
+    logical_start_time  double          not null,
+    logical_end_time    double          not null,
+    est_completion_time double          not null,
+    njobs               integer         not null
+) engine = InnoDB");
+
+    do_query("
+create table user_submit (
+    user_id             integer         not null,
+    quota               double          not null,
+    logical_start_time  double          not null,
+    all_apps            tinyint         not null
+) engine = InnoDB");
+
+    do_query("
+create table user_submit_app (
+    user_id             integer         not null,
+    app_id              integer         not null
+) engine = InnoDB");
+}
+
 // Updates are done automatically if you use "upgrade".
 //
 // If you need to do updates manually,
@@ -742,6 +769,7 @@ $db_updates = array (
     array(21226, "update_4_21_2010"),
     array(21728, "update_6_10_2010"),
     array(23635, "update_6_3_2011"),
+    array(23762, "update_6_20_2011"),
 );
 
 ?>

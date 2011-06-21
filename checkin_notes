@@ -3663,7 +3663,8 @@ Charlie 20 Jun 2011
         client_state.cpp
 
 David  21 Jun 2011
-	- GUI RPC: restore <have_cuda>, <have_ati> elements in CC_STATE for compatibility
+	- GUI RPC: restore <have_cuda>, <have_ati> elements in CC_STATE
+        for compatibility
 	- client: copy coprocs to host_info._coprocs at startup
 		(else GUI RPCs don't have right info)
 
@@ -3673,3 +3674,30 @@ David  21 Jun 2011
 	lib/
 		gui_rpc_client.h
 		gui_rpc_client_ops.cpp
+
+David  21 Jun 2011
+    - web: add a web-service interface for remotely submitting, querying
+        and controlling batches of jobs
+    - web: add an administrative interface for controlling
+        user permissions for submitting jobs
+    - web: add an interface where users can view and control
+        their submitted jobs
+    See: http://boinc.berkeley.edu/trac/wiki/RemoteJobs
+    This is at a functional but rough stage.
+
+    db/
+        schema.sql
+    tools/
+        create_work.cpp
+    html/
+        ops/
+            submit_permissions.php
+            db_update.php
+            submit_example.php
+        inc/
+            submit_db.inc
+            boinc_db.inc
+            db_conn.inc
+        user/
+            submit.php
+            submit_status.php

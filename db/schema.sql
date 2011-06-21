@@ -638,3 +638,29 @@ create table notify (
     opaque              integer         not null
         -- some other ID, e.g. that of the thread, user or PM record
 );
+
+create table batch (
+    id                  serial          primary key,
+    user_id             integer         not null,
+    create_time         integer         not null,
+    logical_start_time  double          not null,
+    logical_end_time    double          not null,
+    est_completion_time double          not null,
+    njobs               integer         not null
+) engine = InnoDB;
+
+-- permissions for job submission
+--
+create table user_submit (
+    user_id             integer         not null,
+    quota               double          not null,
+    logical_start_time  double          not null,
+    all_apps            tinyint         not null
+) engine = InnoDB;
+
+-- (user, app) submit permissions
+--
+create table user_submit_app (
+    user_id             integer         not null,
+    app_id              integer         not null
+) engine = InnoDB;

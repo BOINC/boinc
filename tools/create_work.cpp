@@ -91,6 +91,7 @@ int main(int argc, const char** argv) {
     char db_user[256],db_host[256];
     char buf[256];
     char additional_xml[256];
+    bool show_wu_name = true;
     bool assign_flag = false;
     bool assign_multi = false;
     int assign_id = 0;
@@ -129,6 +130,7 @@ int main(int argc, const char** argv) {
             log_messages.set_debug_level(dl);
             if (dl ==4) g_print_queries = true;
         } else if (arg(argv, i, "wu_name")) {
+            show_wu_name = false;
             strcpy(wu.name, argv[++i]);
         } else if (arg(argv, i, "wu_template")) {
             strcpy(wu_template_file, argv[++i]);
@@ -281,7 +283,9 @@ int main(int argc, const char** argv) {
         fprintf(stderr, "create_work: %d\n", retval);
         exit(1);
     } else {
-        printf("workunit name: %s\n", wu.name);
+        if (show_wu_name) {
+            printf("workunit name: %s\n", wu.name);
+        }
     }
     if (assign_flag) {
         DB_ASSIGNMENT assignment;
