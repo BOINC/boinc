@@ -3661,3 +3661,15 @@ Charlie 20 Jun 2011
     
     client/
         client_state.cpp
+
+David  21 Jun 2011
+	- GUI RPC: restore <have_cuda>, <have_ati> elements in CC_STATE for compatibility
+	- client: copy coprocs to host_info._coprocs at startup
+		(else GUI RPCs don't have right info)
+
+	client/
+		client_state.cpp
+		cs_statefile.cpp
+	lib/
+		gui_rpc_client.h
+		gui_rpc_client_ops.cpp
