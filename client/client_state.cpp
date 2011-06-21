@@ -341,9 +341,6 @@ int CLIENT_STATE::init() {
                 msg_printf(NULL, MSG_INFO, warnings[i].c_str());
             }
         }
-        if (coprocs.none() ) {
-            msg_printf(NULL, MSG_INFO, "No usable GPUs found");
-        }
 #if 0
         msg_printf(NULL, MSG_INFO, "Faking an NVIDIA GPU");
         coprocs.nvidia.fake(18000, 256*MEGA, 2);
@@ -373,6 +370,10 @@ int CLIENT_STATE::init() {
         }
     }
     host_info._coprocs = coprocs;
+    
+    if (coprocs.none() ) {
+        msg_printf(NULL, MSG_INFO, "No usable GPUs found");
+    }
 
     // check for app_info.xml file in project dirs.
     // If find, read app info from there, set project.anonymous_platform

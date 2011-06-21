@@ -3655,3 +3655,9 @@ Rom    20 Jun 2011
         BOINCTaskBar.cpp
         DlgItemProperties.cpp
         ProjectInfoPage.cpp
+
+Charlie 20 Jun 2011
+    - client: logic fix: test coprocs.none() after coprocs.add() calls, not before.
+    
+    client/
+        client_state.cpp
