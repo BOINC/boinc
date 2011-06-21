@@ -266,7 +266,7 @@ void CDlgItemProperties::renderInfos(PROJECT* project_in) {
         if (x<0) x = 0;
         addProperty(_("CPU work fetch deferred for"), FormatTime(x));
         addProperty(_("CPU work fetch deferral interval"), FormatTime(project->cpu_backoff_interval));
-        if (pDoc->state.host_info._coprocs.have_nvidia()) {
+        if (pDoc->state.have_cuda) {
             if (project->no_cuda_pref) {
                 addProperty(_("Project preference"), _("Don't fetch NVIDIA GPU tasks"));
             }
@@ -277,7 +277,7 @@ void CDlgItemProperties::renderInfos(PROJECT* project_in) {
             addProperty(_("NVIDIA GPU work fetch deferred for"), FormatTime(x));
             addProperty(_("NVIDIA GPU work fetch deferral interval"), FormatTime(project->cuda_backoff_interval));
         }
-        if (pDoc->state.host_info._coprocs.have_ati()) {
+        if (pDoc->state.have_ati) {
             if (project->no_ati_pref) {
                 addProperty(_("Project preference"), _("Don't fetch ATI GPU tasks"));
             }

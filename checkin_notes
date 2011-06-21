@@ -3701,3 +3701,14 @@ David  21 Jun 2011
         user/
             submit.php
             submit_status.php
+
+Charlie 21 Jun 2011
+    - MGR: Revert Rom's manager changes of 20 June related to GUI RPC changes, for 
+        compatibility with older Clients.
+
+    clientgui/
+        AdvancedFrame.cpp
+        AsyncRPC.cpp
+        BOINCTaskBar.cpp
+        DlgItemProperties.cpp
+        ProjectInfoPage.cpp
