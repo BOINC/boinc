@@ -1407,6 +1407,8 @@ LRESULT CScreensaver::SaverProc(
             BOINCTRACE(_T("CScreensaver::SaverProc Received WM_QUIT\n"));
 #ifdef _DEBUG
             DebugBreak();
+#else
+            TerminateProcess(GetCurrentProcess(), 0);
 #endif
             break;
     }
