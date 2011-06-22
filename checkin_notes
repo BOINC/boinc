@@ -3712,3 +3712,15 @@ Charlie 21 Jun 2011
         BOINCTaskBar.cpp
         DlgItemProperties.cpp
         ProjectInfoPage.cpp
+
+Charlie 22 Jun 2011
+    - MGR: Rename CC_STATE::have_cuda to CC_STATE::have_nvidia to clsrify its meaning, 
+        add comment that it is referenced in GUI RPCs as have_cuda for compatibility.
+        Wizard ProjectInfo page tests values appropriate for connected client version.
+
+    clientgui/
+        AdvancedFrame.cpp
+        AsyncRPC.cpp
+        BOINCTaskBar.cpp
+        DlgItemProperties.cpp
+        ProjectInfoPage.cpp

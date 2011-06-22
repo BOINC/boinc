@@ -60,8 +60,8 @@ class CProjectInfo : public wxObject
         m_bProjectSupportsWindows = false;
         m_bProjectSupportsMac = false;
         m_bProjectSupportsLinux = false;
-        m_bProjectSupportsNvidiaGPU = false;
-        m_bProjectSupportsATIGPU = false;
+        m_bProjectSupportsCUDA = false;
+        m_bProjectSupportsCAL = false;
         m_bProjectSupportsMulticore = false;
     }
 
@@ -76,8 +76,8 @@ public:
     bool m_bProjectSupportsWindows;
     bool m_bProjectSupportsMac;
     bool m_bProjectSupportsLinux;
-    bool m_bProjectSupportsNvidiaGPU;
-    bool m_bProjectSupportsATIGPU;
+    bool m_bProjectSupportsCUDA;
+    bool m_bProjectSupportsCAL;
     bool m_bProjectSupportsMulticore;
 };
 
@@ -503,8 +503,8 @@ void CProjectInfoPage::OnProjectSelected( wxCommandEvent& WXUNUSED(event) ) {
     if (pProjectInfo->m_bProjectSupportsWindows) m_pProjectDetailsSupportedPlatformWindowsCtrl->Show();
     if (pProjectInfo->m_bProjectSupportsMac) m_pProjectDetailsSupportedPlatformMacCtrl->Show();
     if (pProjectInfo->m_bProjectSupportsLinux) m_pProjectDetailsSupportedPlatformLinuxCtrl->Show();
-    if (pProjectInfo->m_bProjectSupportsATIGPU) m_pProjectDetailsSupportedPlatformATICtrl->Show();
-    if (pProjectInfo->m_bProjectSupportsNvidiaGPU) m_pProjectDetailsSupportedPlatformNvidiaCtrl->Show();
+    if (pProjectInfo->m_bProjectSupportsCAL) m_pProjectDetailsSupportedPlatformATICtrl->Show();
+    if (pProjectInfo->m_bProjectSupportsCUDA) m_pProjectDetailsSupportedPlatformNvidiaCtrl->Show();
     if (pProjectInfo->m_bProjectSupportsMulticore) m_pProjectDetailsSupportedPlatformMultiCoreCtrl->Show();
 
     // Populate non-control data for use in other places of the wizard
@@ -546,7 +546,10 @@ void CProjectInfoPage::OnPageChanged( wxWizardExEvent& event ) {
     wxArrayString               aCategories;
     bool                        bCategoryFound = false;
     CProjectInfo*               pProjectInfo = NULL;
-
+    wxString                    strVersion;
+    int                         iMajor, iMinor, iRelease;
+    bool                        bHave_CAL = false;
+    bool                        bHave_CUDA = false;
 
     wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
@@ -574,6 +577,25 @@ void CProjectInfoPage::OnPageChanged( wxWizardExEvent& event ) {
     wxASSERT(m_pProjectDetailsSupportedPlatformMultiCoreCtrl);
     wxASSERT(m_pProjectURLStaticCtrl);
     wxASSERT(m_pProjectURLCtrl);
+
+    //TODO: Find a better way to determine whether Client has OpenCL support
+    pDoc->GetConnectedComputerVersion(strVersion);
+    sscanf(strVersion.char_str(), "%d.%d.%d", &iMajor, &iMinor, &iRelease);
+    
+    // Older clients (before OpenCL support) reported an ATI GPU iff CAL was installed,
+    // and reported NVIDIA GPUs iff CUDA was installed.  Newer clients with can report 
+    // ATI GPUS if either CAL or OpenCl or both is installed, and can report NVIDIA GPUs 
+    // if either CUDA or OpenCl or both is installed.  So newer clients must differentiate 
+    // have_cal from have_ati and have_cuda from have_nvidia.
+    if ((iMajor > 6) || ((iMajor == 6) && (iMinor > 12))) {
+        // Newer Client with openCL support
+        bHave_CAL = pDoc->state.host_info._coprocs.ati.have_cal;
+        bHave_CUDA = pDoc->state.host_info._coprocs.nvidia.have_cuda;
+    } else {
+        // Older Client before openCL support
+        bHave_CAL = pDoc->state.have_ati;
+        bHave_CUDA = pDoc->state.have_nvidia;
+    }
 
 
     m_pTitleStaticCtrl->SetLabel(
@@ -698,23 +720,23 @@ void CProjectInfoPage::OnPageChanged( wxWizardExEvent& event ) {
                     }
                     
                     if (strProjectPlatform.Find(_T("[cuda")) != wxNOT_FOUND) {
-                        pProjectInfo->m_bProjectSupportsNvidiaGPU = true;
+                        pProjectInfo->m_bProjectSupportsCUDA = true;
                     }
 
                     if (strProjectPlatform.Find(_T("[ati")) != wxNOT_FOUND) {
-                        pProjectInfo->m_bProjectSupportsATIGPU = true;
+                        pProjectInfo->m_bProjectSupportsCAL = true;
                     }
 
                     if (strProjectPlatform.Find(_T("[mt")) != wxNOT_FOUND) {
                         pProjectInfo->m_bProjectSupportsMulticore = true;
                     }
                     
-                    if (pProjectInfo->m_bProjectSupportsNvidiaGPU) {
-                        if (!pDoc->state.have_cuda) continue;
+                    if (pProjectInfo->m_bProjectSupportsCUDA) {
+                        if (!bHave_CUDA) continue;
                     }
 
-                    if (pProjectInfo->m_bProjectSupportsATIGPU) {
-                        if (!pDoc->state.have_ati) continue;
+                    if (pProjectInfo->m_bProjectSupportsCAL) {
+                        if (!bHave_CAL) continue;
                     }
                     
                     if (pProjectInfo->m_bProjectSupportsMulticore) {
@@ -734,8 +756,8 @@ void CProjectInfoPage::OnPageChanged( wxWizardExEvent& event ) {
                 pProjectInfo->m_bProjectSupportsWindows,
                 pProjectInfo->m_bProjectSupportsMac,
                 pProjectInfo->m_bProjectSupportsLinux,
-                pProjectInfo->m_bProjectSupportsNvidiaGPU,
-                pProjectInfo->m_bProjectSupportsATIGPU,
+                pProjectInfo->m_bProjectSupportsCUDA,
+                pProjectInfo->m_bProjectSupportsCAL,
                 pProjectInfo->m_bProjectSupportsMulticore,
                 pProjectInfo->m_bSupportedPlatformFound
             );
