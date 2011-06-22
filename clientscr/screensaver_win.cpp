@@ -1412,6 +1412,15 @@ LRESULT CScreensaver::SaverProc(
             if (wParam == PBT_APMQUERYSUSPEND && gspfnMyVerifyPwdProc == NULL)
                 InterruptSaver();
             break;
+
+        case WM_QUIT:
+            BOINCTRACE(_T("CScreensaver::SaverProc Received WM_QUIT\n"));
+#ifdef _DEBUG
+            DebugBreak();
+#else
+            TerminateProcess(GetCurrentProcess(), 0);
+#endif
+            break;
     }
 
     if (WM_SETTIMER == uMsg) {

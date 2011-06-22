@@ -6765,3 +6765,10 @@ Charlie 6 Jun 2011
         mac_saver_module.cpp
     clientgui/
         BOINCGUIApp.cpp
+
+Rom    22 Jun 2011
+    - WINSCR: if we see a WM_QUIT message in the message pump for whatever reason
+        terminate the screensaver process.
+        
+    clientscr/
+        screensaver_win.cpp
