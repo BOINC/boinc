@@ -69,6 +69,7 @@ void COPROC::write_xml(MIOFILE& f) {
         "</coproc>\n",
         type, count
     );
+//TODO: Add opencl_prop
 }
 
 void COPROC::write_request(MIOFILE& f) {
@@ -83,6 +84,7 @@ void COPROC::write_request(MIOFILE& f) {
 }
 
 int COPROC::parse(XML_PARSER& xp) {
+//TODO: Parse opencl_prop
     char tag[1024], buf[256];
     bool is_tag;
     strcpy(type, "");
@@ -140,6 +142,7 @@ int COPROCS::parse(MIOFILE& fin) {
     char buf[1024];
     int retval;
 
+    clear();
     n_rsc = 1;
     strcpy(coprocs[0].type, "CPU");
     while (fin.fgets(buf, sizeof(buf))) {
@@ -170,6 +173,7 @@ int COPROCS::parse(MIOFILE& fin) {
 
 void COPROCS::write_xml(MIOFILE& mf, bool include_request) {
 #ifndef _USING_FCGI_
+//TODO: Write coprocs[0] through coprocs[n_rsc]
     mf.printf("    <coprocs>\n");
     if (nvidia.count) {
         nvidia.write_xml(mf, include_request);
@@ -196,6 +200,7 @@ void COPROC_NVIDIA::description(char* buf) {
 
 #ifndef _USING_FCGI_
 void COPROC_NVIDIA::write_xml(MIOFILE& f, bool include_request) {
+//TODO: Add opencl_prop
     f.printf(
         "<coproc_cuda>\n"
         "   <count>%d</count>\n"
@@ -203,12 +208,24 @@ void COPROC_NVIDIA::write_xml(MIOFILE& f, bool include_request) {
         count,
         prop.name
     );
+    if (have_cuda) {
+        f.printf("<have_cuda/>\n");
+    }
+    if (have_cal) {
+        f.printf("<have_cal/>\n");
+    }
+    if (have_opencl) {
+        f.printf("<have_opencl/>\n");
+    }
     if (include_request) {
         write_request(f);
     }
+
     f.printf(
-        "   <drvVersion>%d</drvVersion>\n"
+        "   <peak_flops>%d</peak_flops>\n"
         "   <cudaVersion>%d</cudaVersion>\n"
+        "   <drvVersion>%d</drvVersion>\n"
+        "   <deviceHandle>%d</deviceHandle>\n"
         "   <totalGlobalMem>%u</totalGlobalMem>\n"
         "   <sharedMemPerBlock>%u</sharedMemPerBlock>\n"
         "   <regsPerBlock>%d</regsPerBlock>\n"
@@ -217,16 +234,18 @@ void COPROC_NVIDIA::write_xml(MIOFILE& f, bool include_request) {
         "   <maxThreadsPerBlock>%d</maxThreadsPerBlock>\n"
         "   <maxThreadsDim>%d %d %d</maxThreadsDim>\n"
         "   <maxGridSize>%d %d %d</maxGridSize>\n"
+        "   <clockRate>%d</clockRate>\n"
         "   <totalConstMem>%u</totalConstMem>\n"
         "   <major>%d</major>\n"
         "   <minor>%d</minor>\n"
-        "   <clockRate>%d</clockRate>\n"
         "   <textureAlignment>%u</textureAlignment>\n"
         "   <deviceOverlap>%d</deviceOverlap>\n"
         "   <multiProcessorCount>%d</multiProcessorCount>\n"
         "</coproc_cuda>\n",
-        display_driver_version,
+        peak_flops,
         cuda_version,
+        display_driver_version,
+        prop.deviceHandle,
         (unsigned int)prop.totalGlobalMem,
         (unsigned int)prop.sharedMemPerBlock,
         prop.regsPerBlock,
@@ -235,10 +254,10 @@ void COPROC_NVIDIA::write_xml(MIOFILE& f, bool include_request) {
         prop.maxThreadsPerBlock,
         prop.maxThreadsDim[0], prop.maxThreadsDim[1], prop.maxThreadsDim[2],
         prop.maxGridSize[0], prop.maxGridSize[1], prop.maxGridSize[2],
+        prop.clockRate,
         (unsigned int)prop.totalConstMem,
         prop.major,
         prop.minor,
-        prop.clockRate,
         (unsigned int)prop.textureAlignment,
         prop.deviceOverlap,
         prop.multiProcessorCount
@@ -247,15 +266,13 @@ void COPROC_NVIDIA::write_xml(MIOFILE& f, bool include_request) {
 #endif
 
 void COPROC_NVIDIA::clear() {
-    peak_flops = 0;
-    count = 0;
-    used = 0;
-    req_secs = 0;
-    req_instances = 0;
+    COPROC::clear();
+    strcpy(type, "NVIDIA");
     estimated_delay = -1;   // mark as absent
     cuda_version = 0;
     display_driver_version = 0;
     strcpy(prop.name, "");
+    prop.deviceHandle = 0;
     prop.totalGlobalMem = 0;
     prop.sharedMemPerBlock = 0;
     prop.regsPerBlock = 0;
@@ -278,6 +295,7 @@ void COPROC_NVIDIA::clear() {
 }
 
 int COPROC_NVIDIA::parse(MIOFILE& fin) {
+//TODO: Parse opencl_prop
     char buf[1024], buf2[256];
 
     clear();
@@ -288,14 +306,18 @@ int COPROC_NVIDIA::parse(MIOFILE& fin) {
             }
             return 0;
         }
-        if (parse_double(buf, "<peak_flops>", peak_flops)) continue;
         if (parse_int(buf, "<count>", count)) continue;
+        if (parse_double(buf, "<peak_flops>", peak_flops)) continue;
+        if (parse_bool(buf, "have_cuda", have_cuda)) continue;
+        if (parse_bool(buf, "have_cal", have_cal)) continue;
+        if (parse_bool(buf, "have_opencl", have_opencl)) continue;
         if (parse_double(buf, "<req_secs>", req_secs)) continue;
         if (parse_double(buf, "<req_instances>", req_instances)) continue;
         if (parse_double(buf, "<estimated_delay>", estimated_delay)) continue;
-        if (parse_str(buf, "<name>", prop.name, sizeof(prop.name))) continue;
-        if (parse_int(buf, "<drvVersion>", display_driver_version)) continue;
         if (parse_int(buf, "<cudaVersion>", cuda_version)) continue;
+        if (parse_int(buf, "<drvVersion>", display_driver_version)) continue;
+        if (parse_str(buf, "<name>", prop.name, sizeof(prop.name))) continue;
+        if (parse_int(buf, "<deviceHandle>", prop.deviceHandle)) continue;
         if (parse_double(buf, "<totalGlobalMem>", prop.dtotalGlobalMem)) {
             prop.totalGlobalMem = (int)prop.dtotalGlobalMem;
             continue;
@@ -350,6 +372,7 @@ int COPROC_NVIDIA::parse(MIOFILE& fin) {
 
 #ifndef _USING_FCGI_
 void COPROC_ATI::write_xml(MIOFILE& f, bool include_request) {
+//TODO: Add opencl_prop
     f.printf(
         "<coproc_ati>\n"
         "   <count>%d</count>\n"
@@ -357,10 +380,21 @@ void COPROC_ATI::write_xml(MIOFILE& f, bool include_request) {
         count,
         name
     );
+    if (have_cuda) {
+        f.printf("<have_cuda/>\n");
+    }
+    if (have_cal) {
+        f.printf("<have_cal/>\n");
+    }
+    if (have_opencl) {
+        f.printf("<have_opencl/>\n");
+    }
     if (include_request) {
         write_request(f);
     }
     f.printf(
+        "   <peak_flops>%d</peak_flops>\n"
+        "   <CALVersion>%s</CALVersion>\n"
         "   <target>%d</target>\n"
         "   <localRAM>%d</localRAM>\n"
         "   <uncachedRemoteRAM>%d</uncachedRemoteRAM>\n"
@@ -374,8 +408,9 @@ void COPROC_ATI::write_xml(MIOFILE& f, bool include_request) {
         "   <surface_alignment>%d</surface_alignment>\n"
         "   <maxResource1DWidth>%d</maxResource1DWidth>\n"
         "   <maxResource2DWidth>%d</maxResource2DWidth>\n"
-        "   <maxResource2DHeight>%d</maxResource2DHeight>\n"
-        "   <CALVersion>%s</CALVersion>\n",
+        "   <maxResource2DHeight>%d</maxResource2DHeight>\n",
+        peak_flops,
+        version,
         attribs.target,
         attribs.localRAM,
         attribs.uncachedRemoteRAM,
@@ -389,8 +424,7 @@ void COPROC_ATI::write_xml(MIOFILE& f, bool include_request) {
         attribs.surface_alignment,
         info.maxResource1DWidth,
         info.maxResource2DWidth,
-        info.maxResource2DHeight,
-        version
+        info.maxResource2DHeight
     );
 
     if (atirt_detected) {
@@ -406,11 +440,8 @@ void COPROC_ATI::write_xml(MIOFILE& f, bool include_request) {
 #endif
 
 void COPROC_ATI::clear() {
-    count = 0;
-    peak_flops = 0;
-    used = 0;
-    req_secs = 0;
-    req_instances = 0;
+    COPROC::clear();
+    strcpy(type, "ATI");
     estimated_delay = -1;
     strcpy(name, "");
     strcpy(version, "");
@@ -421,6 +452,7 @@ void COPROC_ATI::clear() {
 }
 
 int COPROC_ATI::parse(MIOFILE& fin) {
+//TODO: Parse opencl_prop
     char buf[1024];
     int n;
 
@@ -437,12 +469,18 @@ int COPROC_ATI::parse(MIOFILE& fin) {
             }
             return 0;
         }
-        if (parse_double(buf, "<peak_flops>", peak_flops)) continue;
         if (parse_int(buf, "<count>", count)) continue;
-        if (parse_str(buf, "<name>", name, sizeof(name))) continue;
+        if (parse_double(buf, "<peak_flops>", peak_flops)) continue;
+        if (parse_bool(buf, "have_cuda", have_cuda)) continue;
+        if (parse_bool(buf, "have_cal", have_cal)) continue;
+        if (parse_bool(buf, "have_opencl", have_opencl)) continue;
         if (parse_double(buf, "<req_secs>", req_secs)) continue;
         if (parse_double(buf, "<req_instances>", req_instances)) continue;
         if (parse_double(buf, "<estimated_delay>", estimated_delay)) continue;
+        if (parse_str(buf, "<name>", name, sizeof(name))) continue;
+        if (parse_str(buf, "<CALVersion>", version, sizeof(version))) continue;
+        if (parse_bool(buf, "amdrt_detected", amdrt_detected)) continue;
+        if (parse_bool(buf, "atirt_detected", atirt_detected)) continue;
 
         if (parse_int(buf, "<target>", n)) {
             attribs.target = (CALtarget)n;
@@ -500,9 +538,6 @@ int COPROC_ATI::parse(MIOFILE& fin) {
             info.maxResource2DHeight = n;
             continue;
         }
-        if (parse_bool(buf, "amdrt_detected", amdrt_detected)) continue;
-        if (parse_bool(buf, "atirt_detected", atirt_detected)) continue;
-        if (parse_str(buf, "<CALVersion>", version, sizeof(version))) continue;
     }
     return ERR_XML_PARSE;
 }

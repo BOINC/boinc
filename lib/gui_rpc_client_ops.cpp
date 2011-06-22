@@ -856,7 +856,7 @@ int CC_STATE::parse(MIOFILE& fin) {
             host_info.parse(fin);
             continue;
         }
-        if (parse_bool(buf, "have_cuda", have_cuda)) continue;
+        if (parse_bool(buf, "have_cuda", have_nvidia)) continue;
         if (parse_bool(buf, "have_ati", have_ati)) continue;
     }
     return 0;

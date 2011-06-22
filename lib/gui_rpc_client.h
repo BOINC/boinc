@@ -380,7 +380,7 @@ public:
     VERSION_INFO version_info;  // populated only if talking to pre-5.6 CC
     bool executing_as_daemon;   // true if client is running as a service / daemon
     HOST_INFO host_info;
-    bool have_cuda;             // redundant; include for compat
+    bool have_nvidia;           // redundant; include for compat (set by <have_cuda/>)
     bool have_ati;              // redundant; include for compat
 
     CC_STATE();

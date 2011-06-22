@@ -172,6 +172,7 @@ struct COPROC {
         // can't just memcpy() - trashes vtable
         type[0] = 0;
         count = 0;
+        peak_flops = 0;
         used = 0;
         have_cuda = false;
         have_cal = false;
@@ -332,6 +333,17 @@ struct COPROCS {
                 coprocs[i].used = 0;
             }
         }
+    }
+    void COPROCS::clear() {
+        n_rsc = 0;
+        for (int i=0; i<MAX_RSC; i++) {
+            coprocs[i].clear();
+        }
+        nvidia.clear();
+        ati.clear();
+        COPROC c;
+        strcpy(c.type, "CPU");
+        add(c);
     }
     inline void clear_usage() {
         for (int i=0; i<n_rsc; i++) {
