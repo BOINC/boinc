@@ -589,8 +589,8 @@ void CProjectInfoPage::OnPageChanged( wxWizardExEvent& event ) {
     // have_cal from have_ati and have_cuda from have_nvidia.
     if ((iMajor > 6) || ((iMajor == 6) && (iMinor > 12))) {
         // Newer Client with openCL support
-        bHave_CAL = pDoc->state.host_info._coprocs.ati.have_cal;
-        bHave_CUDA = pDoc->state.host_info._coprocs.nvidia.have_cuda;
+        bHave_CAL = pDoc->host._coprocs.ati.have_cal;
+        bHave_CUDA = pDoc->host._coprocs.nvidia.have_cuda;
     } else {
         // Older Client before openCL support
         bHave_CAL = pDoc->state.have_ati;
