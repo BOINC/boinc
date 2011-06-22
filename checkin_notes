@@ -6772,3 +6772,11 @@ Rom    22 Jun 2011
         
     clientscr/
         screensaver_win.cpp
+
+Rom    22 Jun 2011
+    - Tag for 6.8.27 release, all platforms
+      boinc_core_release_6_8_27
+
+    /
+        configure.ac
+        version.h
