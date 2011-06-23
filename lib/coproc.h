@@ -334,7 +334,7 @@ struct COPROCS {
             }
         }
     }
-    void COPROCS::clear() {
+    void clear() {
         n_rsc = 0;
         for (int i=0; i<MAX_RSC; i++) {
             coprocs[i].clear();

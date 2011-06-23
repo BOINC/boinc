@@ -23,6 +23,7 @@ error_reporting(E_ALL);
 
 require_once("../inc/util.inc");
 require_once("../inc/boinc_db.inc");
+require_once("../inc/result.inc");
 require_once("../inc/submit_db.inc");
 
 function show_batch($user) {
@@ -32,14 +33,13 @@ function show_batch($user) {
         error_page("no batch");
     }
     page_head("Batch $batch->id");
-    $wus = BoincWorkunit::enum("batch=$batch->id");
-    foreach ($wus as $wu) {
-        echo "<br>workunit: $wu->name";
-        $results = BoincResult::enum("workunitid=$wu->id");
-        foreach ($results as $result) {
-            echo "<br>&nbsp;&nbsp;result: $result->name";
-        }
+    $results = BoincResult::enum("batch=$batch->id order by workunitid");
+    $i = 0;
+    result_table_start(true, true, null);
+    foreach ($results as $result) {
+        show_result_row($result, true, true, true, $i++);
     }
+    end_table();
     page_tail();
 }
 

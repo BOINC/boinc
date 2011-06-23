@@ -6541,7 +6541,7 @@ David  15 Sept 2010
             (a:b:c::e:f:g format),
             or domain names of hosts that support only IPv6
         Note: GUI RPCs are still constrained to use IPv4,
-        but this should be easy to change if it's every needed
+        but this should be easy to change if it's ever needed
 
         Also: replace deprecated gethostbyname() with getaddrinfo().
 
@@ -7037,7 +7037,7 @@ David  3 Oct 2010
         merge_by_name.php
 
 Rom    4 Oct 2010
-    - MGR: On Linix, minimize the main window instead of trying to hide it when
+    - MGR: On Linux, minimize the main window instead of trying to hide it when
         close is selected on the window instead of the menu.  Ideally the main
         window would just be hidden until the notification icon is clicked, but
         apparently wxWidgets/GTK/X doesn't like it when you attempt to hide the
@@ -7765,7 +7765,7 @@ David  03 Nov 2010
 
 David  03 Nov 2010
     - python DB layer: fields with values None or ''
-        where being omitted from query strings.
+        were being omitted from query strings.
         This is incorrect.
         For example, suppose you have an app version with nonempty plan_class,
         then you try to add a version with no plan class.
@@ -8362,7 +8362,7 @@ David  23 Nov 2010
 
 David  23 Nov 2010
     - server scripts (e.g. update_versions):
-        compute MD5 checksums be reading files in pieces instead
+        compute MD5 checksums by reading files in pieces instead
         of reading whole file into memory.  From Tolu Aina
 
     py/Boinc/

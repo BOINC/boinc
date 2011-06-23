@@ -3703,8 +3703,8 @@ David  21 Jun 2011
             submit_status.php
 
 Charlie 21 Jun 2011
-    - MGR: Revert Rom's manager changes of 20 June related to GUI RPC changes, for 
-        compatibility with older Clients.
+    - MGR: Revert Rom's manager changes of 20 June related to GUI RPC changes,
+        for compatibility with older Clients.
 
     clientgui/
         AdvancedFrame.cpp
@@ -3714,7 +3714,7 @@ Charlie 21 Jun 2011
         ProjectInfoPage.cpp
 
 Charlie 22 Jun 2011
-    - MGR: Rename CC_STATE::have_cuda to CC_STATE::have_nvidia to clsrify its meaning, 
+    - MGR: Rename CC_STATE::have_cuda to CC_STATE::have_nvidia to clarify its meaning, 
         add comment that it is referenced in GUI RPCs as have_cuda for compatibility.
         Wizard ProjectInfo page tests values appropriate for connected client version.
     - lib: fill in missing entries in COPROCS GUI RPCs, ensure that old data is reset 
@@ -3743,3 +3743,9 @@ Charlie 23 Jun 2011
         DlgAdvPreferences.cpp
         MainDocument.cpp, .h
         ProjectInfoPage.cpp
+
+David  23 Jun 2011
+    - lib: fix compile warning
+
+    lib/
+        coproc.h
