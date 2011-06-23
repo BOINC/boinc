@@ -410,7 +410,6 @@ CMainDocument::CMainDocument() : rpc(this) {
 
     m_dtCachedStateTimestamp = wxDateTime((time_t)0);
     m_iGet_state_rpc_result = 0;
-    m_iGet_host_info_rpc_result = 0;
     
     m_dtCachedCCStatusTimestamp = wxDateTime((time_t)0);
     m_iGet_status_rpc_result = 0;
@@ -623,7 +622,6 @@ int CMainDocument::CachedStateUpdate() {
     int     retval = 0;
 
     if (m_iGet_state_rpc_result) retval = m_iGet_state_rpc_result;
-    if (m_iGet_host_info_rpc_result) retval = m_iGet_host_info_rpc_result;
             
     if (retval) m_pNetworkConnection->SetStateDisconnected();
 
@@ -634,7 +632,6 @@ int CMainDocument::CachedStateUpdate() {
 int CMainDocument::ResetState() {
     rpcClient.close();
     state.clear();
-    host.clear_host_info();
     results.clear();
     ft.clear();
     statistics_status.clear();
@@ -999,19 +996,8 @@ void CMainDocument::RunPeriodicRPCs(int frameRefreshRate) {
         request.arg1 = &async_state_buf;
         request.exchangeBuf = &state;
         request.rpcType = RPC_TYPE_ASYNC_NO_REFRESH;
-        request.resultPtr = &m_iGet_state_rpc_result;
-       
-        RequestRPC(request);
-
-    // *********** RPC_GET_HOST_INFO **************
-
-        request.clear();
-        request.which_rpc = RPC_GET_HOST_INFO;
-        request.arg1 = &async_host_buf;
-        request.exchangeBuf = &host;
-        request.rpcType = RPC_TYPE_ASYNC_NO_REFRESH;
         request.completionTime = &m_dtCachedStateTimestamp;
-        request.resultPtr = &m_iGet_host_info_rpc_result;
+        request.resultPtr = &m_iGet_state_rpc_result;
        
         RequestRPC(request);
     }
@@ -1193,14 +1179,6 @@ int CMainDocument::ForceCacheUpdate(bool immediate) {
         if (m_iGet_state_rpc_result) {
             retval = m_iGet_state_rpc_result;
             wxLogTrace(wxT("Function Status"), wxT("CMainDocument::ForceCacheUpdate - Get State Failed '%d'"), retval);
-            m_pNetworkConnection->SetStateDisconnected();
-        }
-        pFrame->UpdateStatusText(_("Retrieving host information; please wait..."));
-
-        m_iGet_host_info_rpc_result = rpc.get_host_info(host);
-        if (m_iGet_host_info_rpc_result) {
-             retval = m_iGet_host_info_rpc_result;
-            wxLogTrace(wxT("Function Status"), wxT("CMainDocument::ForceCacheUpdate - Get Host Information Failed '%d'"), retval);
             m_pNetworkConnection->SetStateDisconnected();
         }
 
@@ -1823,7 +1801,7 @@ int CMainDocument::CachedNoticeUpdate() {
 
     if (IsConnected()) {
         // Can't look up previous last read message until we know machine name
-        if (!strlen(host.domain_name)) {
+        if (!strlen(state.host_info.domain_name)) {
             goto done;
         }
         
@@ -1856,7 +1834,7 @@ void CMainDocument::SaveUnreadNoticeInfo() {
     if (dLastSavedArrivalTime != m_dLastReadNoticeArrivalTime) {
         wxString        strBaseConfigLocation = wxString(wxT("/Notices/"));
         wxConfigBase*   pConfig = wxConfigBase::Get(FALSE);
-        wxString        strDomainName = wxString(host.domain_name, wxConvUTF8, strlen(host.domain_name));
+        wxString        strDomainName = wxString(state.host_info.domain_name, wxConvUTF8, strlen(state.host_info.domain_name));
         wxString        strArrivalTime = wxEmptyString;
 
         pConfig->SetPath(strBaseConfigLocation + strDomainName);
@@ -1872,7 +1850,7 @@ void CMainDocument::SaveUnreadNoticeInfo() {
 void CMainDocument::RestoreUnreadNoticeInfo() {
     wxString        strBaseConfigLocation = wxString(wxT("/Notices/"));
     wxConfigBase*   pConfig = wxConfigBase::Get(FALSE);
-    wxString        strDomainName = wxString(host.domain_name, wxConvUTF8, strlen(host.domain_name));
+    wxString        strDomainName = wxString(state.host_info.domain_name, wxConvUTF8, strlen(state.host_info.domain_name));
     double          dLastReadNoticeTime;
     wxString        strArrivalTime = wxEmptyString;
     int             i, n = (int)notices.notices.size();

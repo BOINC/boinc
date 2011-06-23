@@ -774,10 +774,10 @@ void CDlgAdvPreferences::OnAddExclusiveApp(wxCommandEvent&) {
     wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
 
-    if (strstr(pDoc->host.os_name, "Darwin")) {
+    if (strstr(pDoc->state.host_info.os_name, "Darwin")) {
         hostIsMac = true;
         extension = wxT(".app");
-    } else if (strstr(pDoc->host.os_name, "Microsoft")) {
+    } else if (strstr(pDoc->state.host_info.os_name, "Microsoft")) {
         hostIsWin = true;
         extension = wxT(".exe");
     }

@@ -546,10 +546,6 @@ void CProjectInfoPage::OnPageChanged( wxWizardExEvent& event ) {
     wxArrayString               aCategories;
     bool                        bCategoryFound = false;
     CProjectInfo*               pProjectInfo = NULL;
-    wxString                    strVersion;
-    int                         iMajor, iMinor, iRelease;
-    bool                        bHave_CAL = false;
-    bool                        bHave_CUDA = false;
 
     wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
@@ -577,26 +573,6 @@ void CProjectInfoPage::OnPageChanged( wxWizardExEvent& event ) {
     wxASSERT(m_pProjectDetailsSupportedPlatformMultiCoreCtrl);
     wxASSERT(m_pProjectURLStaticCtrl);
     wxASSERT(m_pProjectURLCtrl);
-
-    //TODO: Find a better way to determine whether Client has OpenCL support
-    pDoc->GetConnectedComputerVersion(strVersion);
-    sscanf(strVersion.char_str(), "%d.%d.%d", &iMajor, &iMinor, &iRelease);
-    
-    // Older clients (before OpenCL support) reported an ATI GPU iff CAL was installed,
-    // and reported NVIDIA GPUs iff CUDA was installed.  Newer clients with can report 
-    // ATI GPUS if either CAL or OpenCl or both is installed, and can report NVIDIA GPUs 
-    // if either CUDA or OpenCl or both is installed.  So newer clients must differentiate 
-    // have_cal from have_ati and have_cuda from have_nvidia.
-    if ((iMajor > 6) || ((iMajor == 6) && (iMinor > 12))) {
-        // Newer Client with openCL support
-        bHave_CAL = pDoc->host._coprocs.ati.have_cal;
-        bHave_CUDA = pDoc->host._coprocs.nvidia.have_cuda;
-    } else {
-        // Older Client before openCL support
-        bHave_CAL = pDoc->state.have_ati;
-        bHave_CUDA = pDoc->state.have_nvidia;
-    }
-
 
     m_pTitleStaticCtrl->SetLabel(
         _("Choose a project")
@@ -732,15 +708,15 @@ void CProjectInfoPage::OnPageChanged( wxWizardExEvent& event ) {
                     }
                     
                     if (pProjectInfo->m_bProjectSupportsCUDA) {
-                        if (!bHave_CUDA) continue;
+                        if (!pDoc->state.have_nvidia) continue;
                     }
 
                     if (pProjectInfo->m_bProjectSupportsCAL) {
-                        if (!bHave_CAL) continue;
+                        if (!pDoc->state.have_ati) continue;
                     }
                     
                     if (pProjectInfo->m_bProjectSupportsMulticore) {
-                        if (pDoc->host.p_ncpus < 4) continue;
+                        if (pDoc->state.host_info.p_ncpus < 4) continue;
                     }
                     
                     // Application has CUDA, ATI or MT if required, or none are required

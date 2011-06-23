@@ -181,10 +181,6 @@ public:
     CC_STATUS                   status;
     CC_STATUS                   async_status_buf;
     int                         m_iGet_status_rpc_result;
-    
-    HOST_INFO                   host;
-    HOST_INFO                   async_host_buf;
-    int                         m_iGet_host_info_rpc_result;
     wxDateTime                  m_dtCachedStateTimestamp;
 
     //

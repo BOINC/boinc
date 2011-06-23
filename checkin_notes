@@ -3730,3 +3730,16 @@ Charlie 22 Jun 2011
         coproc.cpp, .h
         gui_rpc_client.h
         gui_rpc_client_ops.cpp
+
+Charlie 23 Jun 2011
+    - MGR: It turns out we want the Wizard ProjectInfo Page to check for ATI and NVIDIA 
+        GPUs regardless of whether they were reported by CAL, CUDA or OpenCL, so we can 
+        just check CC_STATE::have_ati and have_nvidia even for newer clients.  This 
+        means the Manager doesn't need to do get_host_info RPCs, because all the host 
+        info it needs is available from the host_info section of the get_state RPC, so 
+        eliminate the unnecessary get_host_info RPCs.
+
+    clientgui/
+        DlgAdvPreferences.cpp
+        MainDocument.cpp, .h
+        ProjectInfoPage.cpp
