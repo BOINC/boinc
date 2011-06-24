@@ -204,7 +204,7 @@ void CONFIG::defaults() {
     http_1_0 = false;
     http_transfer_timeout = 300;
     http_transfer_timeout_bps = 10;
-    ignore_cuda_dev.clear();
+    ignore_nvidia_dev.clear();
     ignore_ati_dev.clear();
     max_file_xfers = 8;
     max_file_xfers_per_project = 2;
@@ -270,7 +270,7 @@ int CONFIG::parse_options(XML_PARSER& xp) {
     alt_platforms.clear();
     exclusive_apps.clear();
     exclusive_gpu_apps.clear();
-    ignore_cuda_dev.clear();
+    ignore_nvidia_dev.clear();
     ignore_ati_dev.clear();
 
     while (!xp.get(tag, sizeof(tag), is_tag)) {
@@ -345,8 +345,8 @@ int CONFIG::parse_options(XML_PARSER& xp) {
         if (xp.parse_bool(tag, "http_1_0", http_1_0)) continue;
         if (xp.parse_int(tag, "http_transfer_timeout", http_transfer_timeout)) continue;
         if (xp.parse_int(tag, "http_transfer_timeout_bps", http_transfer_timeout_bps)) continue;
-        if (xp.parse_int(tag, "ignore_cuda_dev", n)) {
-            ignore_cuda_dev.push_back(n);
+        if (xp.parse_int(tag, "ignore_cuda_dev", n) || xp.parse_int(tag, "ignore_nvidia_dev", n)) {
+            ignore_nvidia_dev.push_back(n);
             continue;
         }
         if (xp.parse_int(tag, "ignore_ati_dev", n)) {
@@ -519,10 +519,10 @@ int CONFIG::write(MIOFILE& out, LOG_FLAGS& log_flags) {
         http_transfer_timeout_bps
     );
         
-    for (i=0; i<ignore_cuda_dev.size(); ++i) {
+    for (i=0; i<ignore_nvidia_dev.size(); ++i) {
         out.printf(
-            "        <ignore_cuda_dev>%d</ignore_cuda_dev>\n",
-            ignore_cuda_dev[i]
+            "        <ignore_nvidia_dev>%d</ignore_nvidia_dev>\n",
+            ignore_nvidia_dev[i]
         );
     }
 

@@ -139,7 +139,7 @@ void CONFIG::show() {
     if (fetch_minimal_work) {
         msg_printf(NULL, MSG_INFO, "Config: fetch minimal work");
     }
-    show_gpu_ignore(ignore_cuda_dev, "NVIDIA");
+    show_gpu_ignore(ignore_nvidia_dev, "NVIDIA");
     show_gpu_ignore(ignore_ati_dev, "ATI");
     for (i=0; i<exclusive_apps.size(); i++) {
         msg_printf(NULL, MSG_INFO,
@@ -190,7 +190,7 @@ int CONFIG::parse_options_client(XML_PARSER& xp) {
     alt_platforms.clear();
     exclusive_apps.clear();
     exclusive_gpu_apps.clear();
-    ignore_cuda_dev.clear();
+    ignore_nvidia_dev.clear();
     ignore_ati_dev.clear();
 
     while (!xp.get(tag, sizeof(tag), is_tag)) {
@@ -272,8 +272,8 @@ int CONFIG::parse_options_client(XML_PARSER& xp) {
             continue;
         }
         if (xp.parse_bool(tag, "http_1_0", http_1_0)) continue;
-        if (xp.parse_int(tag, "ignore_cuda_dev", n)) {
-            ignore_cuda_dev.push_back(n);
+        if (xp.parse_int(tag, "ignore_cuda_dev", n)||xp.parse_int(tag, "ignore_nvidia_dev", n)) {
+            ignore_nvidia_dev.push_back(n);
             continue;
         }
         if (xp.parse_int(tag, "ignore_ati_dev", n)) {

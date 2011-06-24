@@ -3765,3 +3765,15 @@ David  23 Jun 2011
         client_types.cpp,h
         client_state.cpp
         cpu_sched.cpp
+
+David  23 Jun 2011
+    - client: replace <ignore_cuda_dev> with <ignore_nvidia_dev>
+        in cc_config.xml (but keep old one for compat)
+
+    lib/
+        coproc.h
+        cc_config.cpp,h
+    client/
+        client_state.cpp
+        coproc_detect.cpp
+        log_flags.cpp

@@ -309,7 +309,7 @@ struct COPROCS {
     void get(
         bool use_all, std::vector<std::string> &descs,
         std::vector<std::string> &warnings,
-        std::vector<int>& ignore_cuda_dev,
+        std::vector<int>& ignore_nvidia_dev,
         std::vector<int>& ignore_ati_dev
     );
     void get_opencl(bool use_all, std::vector<std::string> &warnings);

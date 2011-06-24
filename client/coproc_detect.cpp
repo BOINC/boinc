@@ -267,7 +267,7 @@ void COPROCS::get_opencl(bool use_all, vector<string>&warnings) {
     if (nvidia.have_cuda) { // If CUDA already found the "best" NVIDIA GPU
         for (i=0; i<nvidia_opencls.size(); i++) {
             if (nvidia.matches(nvidia_opencls[i])) {
-                // TODO: how do we exclude those listed by config.ignore_cuda_dev ??
+                // TODO: how do we exclude those listed by config.ignore_nvidia_dev ??
                 nvidia.opencl_prop = nvidia_opencls[i];
                 nvidia.opencl_device_ids[nvidia.opencl_device_count++] = nvidia_opencls[i].device_id;
                 nvidia.have_opencl = true;
