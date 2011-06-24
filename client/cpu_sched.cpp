@@ -1110,6 +1110,10 @@ void CLIENT_STATE::append_unfinished_time_slice(vector<RESULT*> &run_list) {
 //                else
 //                    prune J
 
+static inline bool excluded(RESULT* rp, int devnum) {
+    return rp->project->exclude_gpu[devnum];
+}
+
 static inline void increment_pending_usage(
     RESULT* rp, double usage, COPROC* cp
 ) {
@@ -1183,6 +1187,9 @@ static inline bool get_fractional_assignment(
         if (cp->available_ram_unknown[i]) {
             continue;
         }
+        if (excluded(rp, cp->device_nums[i])) {
+            continue;
+        }
         if ((cp->usage[i] || cp->pending_usage[i])
             && (cp->usage[i] + cp->pending_usage[i] + usage <= 1)
         ) {
@@ -1207,6 +1214,9 @@ static inline bool get_fractional_assignment(
     //
     for (i=0; i<cp->count; i++) {
         if (cp->available_ram_unknown[i]) {
+            continue;
+        }
+        if (excluded(rp, cp->device_nums[i])) {
             continue;
         }
         if (!cp->usage[i]) {
@@ -1249,6 +1259,9 @@ static inline bool get_integer_assignment(
         if (cp->available_ram_unknown[i]) {
             continue;
         }
+        if (excluded(rp, cp->device_nums[i])) {
+            continue;
+        }
         if (!cp->usage[i]) {
             if (rp->avp->gpu_ram > cp->available_ram[i]) {
                 defer_sched = true;
@@ -1280,6 +1293,9 @@ static inline bool get_integer_assignment(
         if (cp->available_ram_unknown[i]) {
             continue;
         }
+        if (excluded(rp, cp->device_nums[i])) {
+            continue;
+        }
         if (!cp->usage[i]
             && !cp->pending_usage[i]
             && (rp->avp->gpu_ram <= cp->available_ram[i])
@@ -1301,6 +1317,9 @@ static inline bool get_integer_assignment(
 
     for (i=0; i<cp->count; i++) {
         if (cp->available_ram_unknown[i]) {
+            continue;
+        }
+        if (excluded(rp, cp->device_nums[i])) {
             continue;
         }
         if (!cp->usage[i]

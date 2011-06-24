@@ -3749,3 +3749,19 @@ David  23 Jun 2011
 
     lib/
         coproc.h
+
+David  23 Jun 2011
+    - client: add per-project GPU exclusion.
+        If you put an element of the form
+            <exclude_gpu>
+                <url>http://project_url.com/</url>
+                <device_num>1</device_num>
+            </exclude_gpu>
+        in your cc_config.xml, that GPU won't be used for that project
+
+    lib/
+        cc_config.cpp,h
+    client/
+        client_types.cpp,h
+        client_state.cpp
+        cpu_sched.cpp

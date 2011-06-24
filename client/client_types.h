@@ -222,6 +222,10 @@ struct PROJECT : PROJ_AM {
     //
     bool no_rsc_pref[MAX_RSC];
 
+    // if [i] is set, don't use device i for this project
+    //
+    bool exclude_gpu[MAX_COPROC_INSTANCES];
+
     // the following are from the project itself
     // (or derived from app version list if anonymous platform)
     //

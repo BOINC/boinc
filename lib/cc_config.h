@@ -127,6 +127,8 @@ struct CONFIG {
     bool disallow_attach;
     bool dont_check_file_sizes;
     bool dont_contact_ref_site;
+    std::vector<int> exclude_gpu_devnum;
+    std::vector<std::string> exclude_gpu_url;
     std::vector<std::string> exclusive_apps;
     std::vector<std::string> exclusive_gpu_apps;
     bool exit_after_finish;

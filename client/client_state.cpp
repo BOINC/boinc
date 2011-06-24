@@ -209,6 +209,14 @@ const char* rsc_name(int i) {
     return coprocs.coprocs[i].type;
 }
 
+void init_exclude_gpu() {
+    for (int i=0; i<config.exclude_gpu_url.size(); i++) {
+        PROJECT* p = gstate.lookup_project(config.exclude_gpu_url[i].c_str());
+        if (!p) continue;
+        p->exclude_gpu[config.exclude_gpu_devnum[i]] = true;
+    }
+}
+
 // set no_X_apps for anonymous platform project
 //
 static void check_no_apps(PROJECT* p) {
@@ -585,6 +593,10 @@ int CLIENT_STATE::init() {
     // warn user if some jobs need more memory than available
     //
     check_too_large_jobs();
+
+    // fill in exclude-GPU flags
+    //
+    init_exclude_gpu();
 
     initialized = true;
     return 0;
