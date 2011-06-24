@@ -3715,7 +3715,7 @@ Charlie 21 Jun 2011
 
 Charlie 22 Jun 2011
     - MGR: Rename CC_STATE::have_cuda to CC_STATE::have_nvidia to clarify its meaning, 
-        add comment that it is referenced in GUI RPCs as have_cuda for compatibility.
+        add comment that it is referenced in GUI RPCs as <have_cuda> for compatibility.
         Wizard ProjectInfo page tests values appropriate for connected client version.
     - lib: fill in missing entries in COPROCS GUI RPCs, ensure that old data is reset 
         when connecting to a different host (not yet complete.)
@@ -3734,10 +3734,10 @@ Charlie 22 Jun 2011
 Charlie 23 Jun 2011
     - MGR: It turns out we want the Wizard ProjectInfo Page to check for ATI and NVIDIA 
         GPUs regardless of whether they were reported by CAL, CUDA or OpenCL, so we can 
-        just check CC_STATE::have_ati and have_nvidia even for newer clients.  This 
-        means the Manager doesn't need to do get_host_info RPCs, because all the host 
-        info it needs is available from the host_info section of the get_state RPC, so 
-        eliminate the unnecessary get_host_info RPCs.
+        just check CC_STATE::have_ati and CC_STATE::have_nvidia even for newer clients.  
+        This means the Manager doesn't need to do get_host_info RPCs, because all the 
+        host info it needs is available from the host_info section of the get_state RPC, 
+        so eliminate the unnecessary Manager calls of get_host_info RPC.
 
     clientgui/
         DlgAdvPreferences.cpp
@@ -3777,3 +3777,10 @@ David  23 Jun 2011
         client_state.cpp
         coproc_detect.cpp
         log_flags.cpp
+
+Charlie 24 Jun 2011
+    - SCR: Add url.cpp to Mac screensaver in XCode project to fix link error.
+
+    mac_build/
+        boinc.xcodeproj/
+            project.pbxproj
