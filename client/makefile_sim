@@ -39,6 +39,7 @@ OBJS = \
     time_stats.o \
     work_fetch.o \
     ../sched/edf_sim.o \
+    ../lib/cc_config.o \
     ../lib/cert_sig.o \
     ../lib/coproc.o \
     ../lib/crypt.o \

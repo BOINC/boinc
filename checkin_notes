@@ -3804,3 +3804,10 @@ David  25 Jun 2011
         cc_config.cpp,h
     client/
         cpu_sched.cpp
+
+David  25 Jun 2011
+    - client simulator: compile fix
+
+    client/
+        makefile_sim
+        sim_util.cpp

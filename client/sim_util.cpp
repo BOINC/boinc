@@ -53,7 +53,7 @@ void HOST_INFO::generate_host_cpid() {}
 
 //int get_connected_state() {return 1;}
 
-void show_message(PROJECT *p, char* msg, int priority, bool, const char*) {
+void show_message(PROJ_AM *p, char* msg, int priority, bool, const char*) {
     const char* x;
     char message[1024];
 
