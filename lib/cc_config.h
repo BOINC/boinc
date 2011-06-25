@@ -115,6 +115,7 @@ struct LOG_FLAGS {
 struct EXCLUDE_GPU {
     std::string url;
     std::string type;
+    std::string appname;
     int devnum;
 };
 

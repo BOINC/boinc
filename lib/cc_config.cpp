@@ -239,6 +239,7 @@ static bool parse_exclude_gpu(XML_PARSER& xp, EXCLUDE_GPU& eg) {
     bool found_devnum = false;
     bool found_url = false;
     eg.type = "";
+    eg.appname = "";
     while (!xp.get(tag, sizeof(tag), is_tag)) {
         if (!is_tag) continue;
         if (!strcmp(tag, "/exclude_gpu")) {
@@ -254,6 +255,7 @@ static bool parse_exclude_gpu(XML_PARSER& xp, EXCLUDE_GPU& eg) {
             continue;
         }
         if (xp.parse_string(tag, "type", eg.type)) continue;
+        if (xp.parse_string(tag, "app", eg.appname)) continue;
     }
     return false;
 }

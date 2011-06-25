@@ -1115,6 +1115,7 @@ static inline bool excluded(RESULT* rp, COPROC* cp, int ind) {
     for (unsigned int i=0; i<p->exclude_gpus.size(); i++) {
         EXCLUDE_GPU& eg = p->exclude_gpus[i];
         if (!eg.type.empty() && (eg.type != cp->type)) continue;
+        if (!eg.appname.empty() && (eg.appname != rp->app->name)) continue;
         if (eg.devnum != cp->device_nums[ind]) continue;
         return true;
     }
