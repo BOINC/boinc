@@ -210,10 +210,11 @@ const char* rsc_name(int i) {
 }
 
 void init_exclude_gpu() {
-    for (int i=0; i<config.exclude_gpu_url.size(); i++) {
-        PROJECT* p = gstate.lookup_project(config.exclude_gpu_url[i].c_str());
+    for (unsigned int i=0; i<config.exclude_gpus.size(); i++) {
+        EXCLUDE_GPU& eg = config.exclude_gpus[i];
+        PROJECT* p = gstate.lookup_project(eg.url.c_str());
         if (!p) continue;
-        p->exclude_gpu[config.exclude_gpu_devnum[i]] = true;
+        p->exclude_gpus.push_back(eg);
     }
 }
 

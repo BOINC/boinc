@@ -531,6 +531,7 @@ struct RESULT {
     double opaque;                  // project-specific; usually external ID
     int random;                     // determines send order
     int app_version_num;            // version# of app (not core client)
+        // DEPRECATED - THIS DOESN'T DETERMINE VERSION ANY MORE
     int appid;                      // copy of WU's appid
     int exit_status;                // application exit status, if any
     int teamid;

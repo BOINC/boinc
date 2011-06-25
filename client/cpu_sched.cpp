@@ -1110,8 +1110,15 @@ void CLIENT_STATE::append_unfinished_time_slice(vector<RESULT*> &run_list) {
 //                else
 //                    prune J
 
-static inline bool excluded(RESULT* rp, int devnum) {
-    return rp->project->exclude_gpu[devnum];
+static inline bool excluded(RESULT* rp, COPROC* cp, int ind) {
+    PROJECT* p = rp->project;
+    for (unsigned int i=0; i<p->exclude_gpus.size(); i++) {
+        EXCLUDE_GPU& eg = p->exclude_gpus[i];
+        if (!eg.type.empty() && (eg.type != cp->type)) continue;
+        if (eg.devnum != cp->device_nums[ind]) continue;
+        return true;
+    }
+    return false;
 }
 
 static inline void increment_pending_usage(
@@ -1187,7 +1194,7 @@ static inline bool get_fractional_assignment(
         if (cp->available_ram_unknown[i]) {
             continue;
         }
-        if (excluded(rp, cp->device_nums[i])) {
+        if (excluded(rp, cp, i)) {
             continue;
         }
         if ((cp->usage[i] || cp->pending_usage[i])
@@ -1216,7 +1223,7 @@ static inline bool get_fractional_assignment(
         if (cp->available_ram_unknown[i]) {
             continue;
         }
-        if (excluded(rp, cp->device_nums[i])) {
+        if (excluded(rp, cp, i)) {
             continue;
         }
         if (!cp->usage[i]) {
@@ -1259,7 +1266,7 @@ static inline bool get_integer_assignment(
         if (cp->available_ram_unknown[i]) {
             continue;
         }
-        if (excluded(rp, cp->device_nums[i])) {
+        if (excluded(rp, cp, i)) {
             continue;
         }
         if (!cp->usage[i]) {
@@ -1293,7 +1300,7 @@ static inline bool get_integer_assignment(
         if (cp->available_ram_unknown[i]) {
             continue;
         }
-        if (excluded(rp, cp->device_nums[i])) {
+        if (excluded(rp, cp, i)) {
             continue;
         }
         if (!cp->usage[i]
@@ -1319,7 +1326,7 @@ static inline bool get_integer_assignment(
         if (cp->available_ram_unknown[i]) {
             continue;
         }
-        if (excluded(rp, cp->device_nums[i])) {
+        if (excluded(rp, cp, i)) {
             continue;
         }
         if (!cp->usage[i]

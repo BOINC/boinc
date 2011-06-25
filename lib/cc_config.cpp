@@ -193,8 +193,7 @@ void CONFIG::defaults() {
     disallow_attach = false;
     dont_check_file_sizes = false;
     dont_contact_ref_site = false;
-    exclude_gpu_devnum.clear();
-    exclude_gpu_url.clear();
+    exclude_gpus.clear();
     exclusive_apps.clear();
     exclusive_gpu_apps.clear();
     exit_after_finish = false;
@@ -234,24 +233,27 @@ void CONFIG::defaults() {
     zero_debts = false;
 }
 
-static bool parse_exclude_gpu(XML_PARSER& xp, int& devnum, string& url) {
+static bool parse_exclude_gpu(XML_PARSER& xp, EXCLUDE_GPU& eg) {
     char tag[1024];
     bool is_tag;
     bool found_devnum = false;
     bool found_url = false;
+    eg.type = "";
     while (!xp.get(tag, sizeof(tag), is_tag)) {
         if (!is_tag) continue;
         if (!strcmp(tag, "/exclude_gpu")) {
             return (found_devnum && found_url);
         }
-        if (xp.parse_int(tag, "devnum", devnum)) {
+        if (xp.parse_int(tag, "devnum", eg.devnum)) {
             found_devnum = true;
             continue;
         }
-        if (xp.parse_string(tag, "url", url)) {
+        if (xp.parse_string(tag, "url", eg.url)) {
+            canonicalize_master_url(eg.url);
             found_url = true;
             continue;
         }
+        if (xp.parse_string(tag, "type", eg.type)) continue;
     }
     return false;
 }
@@ -309,12 +311,9 @@ int CONFIG::parse_options(XML_PARSER& xp) {
         if (xp.parse_bool(tag, "dont_check_file_sizes", dont_check_file_sizes)) continue;
         if (xp.parse_bool(tag, "dont_contact_ref_site", dont_contact_ref_site)) continue;
         if (!strcmp(tag, "exclude_gpu")) {
-            int devnum;
-            string url;
-            if (parse_exclude_gpu(xp, devnum, url)) {
-                exclude_gpu_devnum.push_back(devnum);
-                canonicalize_master_url(url);
-                exclude_gpu_url.push_back(url);
+            EXCLUDE_GPU eg;
+            if (parse_exclude_gpu(xp, eg)) {
+                exclude_gpus.push_back(eg);
             }
             continue;
         }

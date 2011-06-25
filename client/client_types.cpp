@@ -71,9 +71,7 @@ void PROJECT::init() {
         no_rsc_ams[i] = false;
         rsc_defer_sched[i] = false;
     }
-    for (int i=0; i<MAX_COPROC_INSTANCES; i++) {
-        exclude_gpu[i] = false;
-    }
+    exclude_gpus.clear();
     strcpy(host_venue, "");
     using_venue_specific_prefs = false;
     scheduler_urls.clear();

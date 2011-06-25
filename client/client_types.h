@@ -36,6 +36,7 @@
 #include "coproc.h"
 #include "miofile.h"
 #include "common_defs.h"
+#include "cc_config.h"
 
 #include "rr_sim.h"
 #include "work_fetch.h"
@@ -222,9 +223,9 @@ struct PROJECT : PROJ_AM {
     //
     bool no_rsc_pref[MAX_RSC];
 
-    // if [i] is set, don't use device i for this project
+    // list of GPUs not to use for this project
     //
-    bool exclude_gpu[MAX_COPROC_INSTANCES];
+    std::vector<EXCLUDE_GPU> exclude_gpus;
 
     // the following are from the project itself
     // (or derived from app version list if anonymous platform)

@@ -112,6 +112,12 @@ struct LOG_FLAGS {
     int write(MIOFILE& out);
 };
 
+struct EXCLUDE_GPU {
+    std::string url;
+    std::string type;
+    int devnum;
+};
+
 // if you add anything, you must add it to
 // defaults(), parse_options(), and write()
 //
@@ -127,8 +133,7 @@ struct CONFIG {
     bool disallow_attach;
     bool dont_check_file_sizes;
     bool dont_contact_ref_site;
-    std::vector<int> exclude_gpu_devnum;
-    std::vector<std::string> exclude_gpu_url;
+    std::vector<EXCLUDE_GPU> exclude_gpus;
     std::vector<std::string> exclusive_apps;
     std::vector<std::string> exclusive_gpu_apps;
     bool exit_after_finish;
