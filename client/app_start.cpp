@@ -920,7 +920,7 @@ int ACTIVE_TASK::start(bool first_time) {
             sprintf(switcher_path, "../../%s/%s",
                 SWITCHER_DIR, SWITCHER_FILE_NAME
             );
-            argv[0] = SWITCHER_FILE_NAME;
+            argv[0] = const_cast<char*>(SWITCHER_FILE_NAME);
             argv[1] = buf;
             argv[2] = exec_name;
             parse_command_line(cmdline, argv+3);

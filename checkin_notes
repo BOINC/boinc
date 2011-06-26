@@ -3811,3 +3811,11 @@ David  25 Jun 2011
     client/
         makefile_sim
         sim_util.cpp
+
+David  25 Jun 2011
+    - fix compile warnings
+
+    api/
+        boinc_api.cpp
+    client/
+        app_start.cpp
