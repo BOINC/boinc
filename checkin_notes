@@ -3819,3 +3819,16 @@ David  25 Jun 2011
         boinc_api.cpp
     client/
         app_start.cpp
+
+David  29 Jun 2011
+    - back end: strip <output_template> tags from output templates
+    - web: main RSS feed should include all news items, even non-notices
+
+    tools/
+        process_result_template.cpp
+    html/inc/
+        forum_rss.inc
+    lib/
+        str_util.cpp
+    samples/wrappture/
+        wrappture.cpp

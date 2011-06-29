@@ -15,6 +15,14 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
+// A wrapper for Rappture applications.
+// Similar to the standard wrapper except:
+//
+// - Doesn't contain main(); must be called from a main program
+//      that parses the Rappture control file
+// - parse the app's stdout (in a separate thread);
+//      look for "progress markers", convert to fraction done
+
 #include <stdio.h>
 #include <vector>
 #include <string>

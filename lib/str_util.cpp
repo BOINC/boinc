@@ -706,8 +706,8 @@ int string_substitute(
         }
         if (!strncmp(&haystack[i], needle, needle_len)){
             strcpy(out+j, target);
-            i += (int)strlen(needle);
-            j += (int)strlen(target);
+            i += needle_len;
+            j += target_len;
         } else {
             out[j++] = haystack[i++];
         }

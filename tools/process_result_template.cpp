@@ -98,6 +98,7 @@ int remove_signatures(char* xml) {
 // macro-substitute a result template:
 // - replace OUTFILE_x with base_filename_x, etc.
 // - add signatures for file uploads
+// - strip enclosing <output_template> tags
 //
 // This is called only from the transitioner,
 // to create a new result for a WU
@@ -140,6 +141,14 @@ int process_result_template(
         retval = add_signatures(result_template, key);
         if (retval) return retval;
     }
+
+    strcpy(temp, result_template);
+    p = strstr(temp, "<output_template>\n");
+    if (!p) p = temp;
+    q = strstr(temp, "</output_template>\n");
+    if (q) *q = 0;
+    strcpy(result_template, p);
+    
     return 0;
 }
 
