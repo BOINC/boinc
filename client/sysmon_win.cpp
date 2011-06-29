@@ -139,6 +139,7 @@ static LRESULT CALLBACK WindowsMonitorSystemPowerWndProc(
 
                 // System is resuming from a normal power event
                 case PBT_APMRESUMESUSPEND:
+                    gstate.set_now();
                     msg_printf(NULL, MSG_INFO, "Windows is resuming operations");
 
                     // Check for a proxy

@@ -3832,3 +3832,15 @@ David  29 Jun 2011
         str_util.cpp
     samples/wrappture/
         wrappture.cpp
+
+David  29 Jun 2011
+    - server: restore fpops/intops_cumulative to RESULT
+        (structure, not table) for AQUA
+    - client, Windows: when wake up from hibernation,
+        get the time before printing log msg
+
+    db/
+        boinc_db.h
+    client/
+        client_state.h
+        sysmon_win.cpp

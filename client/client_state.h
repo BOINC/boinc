@@ -265,6 +265,8 @@ struct CLIENT_STATE {
     inline void set_now() {
         double x = dtime();
         if (x < (now-60)) {
+            // if time went backward significantly, clear delays
+            //
             clear_absolute_times();
         }
         now = x;

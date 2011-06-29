@@ -549,6 +549,11 @@ struct RESULT {
         // -1 anon platform, unknown resource type (relic)
         // -2/-3/-4 anonymous platform (see variants above)
 
+    // the following used by AQUA; delete when they don't need any more
+    //
+    double fpops_cumulative;
+    double intops_cumulative;
+
     void clear();
 };
 
