@@ -280,10 +280,10 @@ void CLIENT_STATE::set_now() {
     // 
     if (os_requested_suspend) {
         if (x > now+10) {
-            msg_printf(0, MSG_NORMAL, "Resuming after OS suspension");
+            msg_printf(0, MSG_INFO, "Resuming after OS suspension");
             os_requested_suspend = false;
         } else if (x > os_requested_suspend_time + 300) {
-            msg_printf(0, MSG_NORMAL, "Resuming after OS suspension");
+            msg_printf(0, MSG_INFO, "Resuming after OS suspension");
             os_requested_suspend = false;
         }
     }
