@@ -48,9 +48,9 @@
     // maintain at least this many unsent results
 #define REPLICATION_FACTOR  1
 
-char* app_name = (char*) "example_app";
-char* in_template_file = (char*) "example_app_in.xml";
-char* out_template_file = (char*) "example_app_out.xml";
+const char* app_name = "example_app";
+const char* in_template_file = "example_app_in.xml";
+const char* out_template_file = "example_app_out.xml";
 
 char* in_template;
 DB_APP app;

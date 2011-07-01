@@ -99,8 +99,9 @@ void fail(const char* msg) {
     exit(1);
 }
 
-// Open an archive.  Only subtle thing is that if the user has
-// asked for compression, then we popen(2) a pipe to gzip or zip.
+// Open an archive.
+// If the user has asked for compression,
+// then we popen(2) a pipe to gzip or zip.
 // This does 'in place' compression.
 //
 void open_archive(const char* filename_prefix, FILE*& f){
@@ -139,26 +140,22 @@ void open_archive(const char* filename_prefix, FILE*& f){
     }
    
     if (compression_type == COMPRESSION_ZIP) {
-        sprintf(command, "zip %s -", path);
+        sprintf(command, "zip - - > %s", path);
     }
 
     log_messages.printf(MSG_NORMAL,
         "Opening archive %s\n", path
     );
 
-    if (!(f = fopen(path,"w"))) {
-        char buf[256];
-        sprintf(buf, "Can't open archive file %s %s\n",
-            path, errno?strerror(errno):""
-        );
-        fail(buf);
-    }
     if (compression_type == COMPRESSION_NONE) {   
-        // in the case with no compression, just open the file, else open
-        // a pipe to the compression executable.
-        //
+        if (!(f = fopen(path,"w"))) {
+            char buf[256];
+            sprintf(buf, "Can't open archive file %s %s\n",
+                path, errno?strerror(errno):""
+            );
+            fail(buf);
+        }
     } else {
-        fclose(f);
         f = popen(command,"w");
         if (!f) {
             log_messages.printf(MSG_CRITICAL,

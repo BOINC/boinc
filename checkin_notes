@@ -3852,3 +3852,15 @@ David  30 Jun 2011
     client/
         client_state.cpp,h
         sysmon_win.cpp
+
+David  30 Jun 2011
+    - db_purge: make zip compression work (from Teemu Mannermaa)
+    - get rid of a few compile warnings
+
+    sched/
+        sched_send.cpp
+        db_purge.cpp
+        sched_types.cpp
+        sched_score.cpp
+        sample_work_generator.cpp
+

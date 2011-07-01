@@ -838,7 +838,7 @@ static int insert_wu_tags(WORKUNIT& wu, APP& app) {
 // Add the given workunit, app, and app version to a reply.
 //
 static int add_wu_to_reply(
-    WORKUNIT& wu, SCHEDULER_REPLY& reply, APP* app, BEST_APP_VERSION* bavp
+    WORKUNIT& wu, SCHEDULER_REPLY&, APP* app, BEST_APP_VERSION* bavp
 ) {
     int retval;
     WORKUNIT wu2, wu3;

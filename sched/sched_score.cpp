@@ -56,7 +56,7 @@ int read_sendable_result(SCHED_DB_RESULT& result) {
 }
 
 bool wu_is_infeasible_slow(
-    WU_RESULT& wu_result, SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply
+    WU_RESULT& wu_result, SCHEDULER_REQUEST&, SCHEDULER_REPLY&
 ) {
     char buf[256];
     int retval;

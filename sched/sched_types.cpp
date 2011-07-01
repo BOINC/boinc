@@ -68,14 +68,14 @@ int CLIENT_APP_VERSION::parse(FILE* f) {
             app = ssp->lookup_app_name(app_name);
             if (!app) return ERR_NOT_FOUND;
 
-            double f = host_usage.avg_ncpus * g_reply->host.p_fpops;
+            double pf = host_usage.avg_ncpus * g_reply->host.p_fpops;
             if (host_usage.ncudas && g_request->coprocs.nvidia.count) {
-                f += host_usage.ncudas*g_request->coprocs.nvidia.peak_flops;
+                pf += host_usage.ncudas*g_request->coprocs.nvidia.peak_flops;
             }
             if (host_usage.natis && g_request->coprocs.ati.count) {
-                f += host_usage.natis*g_request->coprocs.ati.peak_flops;
+                pf += host_usage.natis*g_request->coprocs.ati.peak_flops;
             }
-            host_usage.peak_flops = f;
+            host_usage.peak_flops = pf;
             return 0;
         }
         if (parse_str(buf, "<app_name>", app_name, 256)) continue;
