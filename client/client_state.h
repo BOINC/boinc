@@ -121,6 +121,7 @@ struct CLIENT_STATE {
         // we should suspend for OS reasonts (used on Win only).
         // Set when
         // - got BATTERY_LOW, SUSPEND, SERVICE_CONTROL_PAUSE
+    double os_requested_suspend_time;
     bool cleanup_completed;
     bool in_abort_sequence;
         // Determine when it is safe to leave the quit_client() handler
@@ -262,15 +263,7 @@ struct CLIENT_STATE {
     int nresults_for_project(PROJECT*);
     void check_clock_reset();
     void clear_absolute_times();
-    inline void set_now() {
-        double x = dtime();
-        if (x < (now-60)) {
-            // if time went backward significantly, clear delays
-            //
-            clear_absolute_times();
-        }
-        now = x;
-    }
+    void set_now();
 
 // --------------- cpu_sched.cpp:
     double total_resource_share();

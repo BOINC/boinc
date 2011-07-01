@@ -108,6 +108,7 @@ CLIENT_STATE::CLIENT_STATE()
     started_by_screensaver = false;
     requested_exit = false;
     os_requested_suspend = false;
+    os_requested_suspend_time = 0;
     cleanup_completed = false;
     in_abort_sequence = false;
     master_fetch_period = MASTER_FETCH_PERIOD;
@@ -263,6 +264,32 @@ double calculate_exponential_backoff(int n, double MIN, double MAX) {
 }
 
 #ifndef SIM
+
+void CLIENT_STATE::set_now() {
+    double x = dtime();
+
+    // if time went backward significantly, clear delays
+    //
+    if (x < (now-60)) {
+        clear_absolute_times();
+    }
+
+#ifdef _WIN32
+    // On Win, check for evidence that we're awake after a suspension
+    // (in case we missed the event announcing this)
+    // 
+    if (os_requested_suspend) {
+        if (x > now+10) {
+            msg_printf(0, MSG_NORMAL, "Resuming after OS suspension");
+            os_requested_suspend = false;
+        } else if (x > os_requested_suspend_time + 300) {
+            msg_printf(0, MSG_NORMAL, "Resuming after OS suspension");
+            os_requested_suspend = false;
+        }
+    }
+#endif
+    now = x;
+}
 
 int CLIENT_STATE::init() {
     int retval;

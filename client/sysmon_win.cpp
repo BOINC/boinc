@@ -59,6 +59,7 @@ static void quit_client() {
 // Suspend client operations
 static void suspend_client() {
     gstate.os_requested_suspend = true;
+    gstate.os_requested_suspend_time = dtime();
 }
 
 // Resume client operations

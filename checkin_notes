@@ -3844,3 +3844,11 @@ David  29 Jun 2011
     client/
         client_state.h
         sysmon_win.cpp
+
+David  30 Jun 2011
+    - client (Win) add some bulletproofing in case Windows sends us a
+        "suspending" event but not a resume event.
+
+    client/
+        client_state.cpp,h
+        sysmon_win.cpp
