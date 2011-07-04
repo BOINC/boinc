@@ -187,7 +187,7 @@ static int process_wu_template(
     const char* additional_xml
 ) {
     char buf[BLOB_SIZE], md5[33], path[256], url[256], top_download_path[256];
-    string out, cmdline, md5str, urlstr;
+    string out, cmdline, md5str, urlstr, tmpstr;
     int retval, file_number;
     double nbytes, nbytesdef;
     char open_name[256];
@@ -318,10 +318,10 @@ static int process_wu_template(
                     break;
                 } else {
                     char buf2[1024];
-                    if (xp.parse_str(tag, tag, buf2, sizeof(buf2))) {
-                        sprintf(buf, "    <%s>%s</%s>\n", tag, buf2, tag);
-                        out += buf;
-                    }
+                    retval = xp.element(tag, buf2, sizeof(buf2));
+                    if (retval) return retval;
+                    out += buf2;
+                    out += "\n";
                 }
             }
         } else if (!strcmp(tag, "workunit")) {
@@ -368,12 +368,15 @@ static int process_wu_template(
                             }
                             out += "</file_ref>\n";
                             break;
+                        } else if (xp.parse_string(tag, "file_name", tmpstr)) {
+                            fprintf(stderr, "<file_name> ignored in <file_ref> element.\n");
+                            continue;
                         } else {
                             char buf2[1024];
-                            if (xp.parse_str(tag, tag, buf2, sizeof(buf2))) {
-                                sprintf(buf, "    <%s>%s</%s>\n", tag, buf2, tag);
-                                out += buf;
-                            }
+                            retval = xp.element(tag, buf2, sizeof(buf2));
+                            if (retval) return retval;
+                            out += buf2;
+                            out += "\n";
                         }
                     }
                 } else if (xp.parse_string(tag, "command_line", cmdline)) {
@@ -411,10 +414,10 @@ static int process_wu_template(
                     continue;
                 } else {
                     char buf2[1024];
-                    if (xp.parse_str(tag, tag, buf2, sizeof(buf2))) {
-                        sprintf(buf, "    <%s>%s</%s>\n", tag, buf2, tag);
-                        out += buf;
-                    }
+                    retval = xp.element(tag, buf2, sizeof(buf2));
+                    if (retval) return retval;
+                    out += buf2;
+                    out += "\n";
                 }
             }
         }

@@ -43,6 +43,7 @@ public:
     bool parse_double(char*, const char*, double&);
     bool parse_bool(char*, const char*, bool&);
 	int element_contents(const char*, char*, int);
+    int element(const char*, char*, int);
     void skip_unexpected(const char*, bool verbose, const char*);
 };
 

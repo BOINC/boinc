@@ -3864,3 +3864,16 @@ David  30 Jun 2011
         sched_score.cpp
         sample_work_generator.cpp
 
+David  4 July 2011
+    - back end: fix bugs in [23648] which caused create_work
+        to mess up input templates containing
+        <copy_file/> or other attribute tags.
+        XML_PARSER now contains a member element() for when
+        you want to copy an element without knowing its structure.
+
+    tools/
+        backend_lib.cpp
+    lib/
+        parse.cpp,h
+    html/user/
+        openid_login.php

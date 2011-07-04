@@ -675,11 +675,14 @@ bool XML_PARSER::parse_str(
 
     // handle the archaic form <tag/>, which means empty string
     //
-    strcpy(tag, start_tag);
-    strcat(tag, "/");
-    if (!strcmp(parsed_tag, tag)) {
-        strcpy(buf, "");
-        return true;
+    int n = strlen(parsed_tag);
+    if (parsed_tag[n-1] == '/') {
+        strcpy(tag, parsed_tag);
+        tag[n-1] = 0;
+        if (!strcmp(tag, start_tag)) {
+            strcpy(buf, "");
+            return true;
+        }
     }
 
     // check for start tag
@@ -906,6 +909,24 @@ void XML_PARSER::skip_unexpected(
         if (!strcmp(tag, end_tag)) return;
         skip_unexpected(tag, verbose, where);
     }
+}
+
+// copy an element (which may contain tags) to the buffer
+//
+int XML_PARSER::element(const char* start_tag, char* buf, int buflen) {
+    char end_tag[256];
+
+    int n = strlen(start_tag);
+    if (start_tag[n-1] == '/') {
+        sprintf(buf, "<%s>", start_tag);
+        return 0;
+    }
+    if (strchr(start_tag, '/')) return ERR_XML_PARSE;
+    sprintf(end_tag, "</%s>", start_tag);
+    int retval = element_contents(end_tag, buf, buflen);
+    if (retval) return retval;
+    strcat(buf, end_tag);
+    return 0;
 }
 
 // sample use is shown below

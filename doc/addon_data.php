@@ -230,6 +230,16 @@ array('http://mion.faireal.net/BES/',
 
 $linux = array(
 array(
+    'http://www.efmer.eu/boinc/boinc_tasks/download.html',
+    'BoincTasks',
+    '1.00',
+    'An advanced and powerful BOINC GUI (requires Wine)',
+    'http://www.efmer.eu/boinc/boinc_tasks/',
+    'Linux (requires Wine)',
+    'BoincTasks is a visual interface to BOINC, allowing you to view your projects, tasks, and statistics.  It can be used to manage a single computer locally, or all your computers remotely.  It handles large numbers of tasks well, making it ideal for computers with GPUs.',
+    '1254720435'
+),
+array(
     'http://www.vanheusden.com/multitail/',
     'MultiTail',
     '5.0.3',
@@ -407,6 +417,16 @@ array('rc.boinc-slackware-linux-latest.txt',
 );
 
 $mac = array(
+array(
+    'http://www.efmer.eu/boinc/boinc_tasks/download.html',
+    'BoincTasks',
+    '1.00',
+    'An advanced and powerful BOINC GUI (requires Wine)',
+    'http://www.efmer.eu/boinc/boinc_tasks/',
+    'Mac OS X (requires Wine)',
+    'BoincTasks is a visual interface to BOINC, allowing you to view your projects, tasks, and statistics.  It can be used to manage a single computer locally, or all your computers remotely.  It handles large numbers of tasks well, making it ideal for computers with GPUs.',
+    '1254720435'
+),
 array(
     'http://brotherbard.com/boinc/',
     'BOINCMenubar 2',

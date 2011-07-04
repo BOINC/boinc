@@ -33,6 +33,8 @@ function show_error($str) {
 
 try {
     $openid = new LightOpenID;
+    echo "<pre>";
+    print_r($openid); exit;
     if(!$openid->mode) {
         if(isset($_POST['openid_identifier'])) {
             $openid->identity = $_POST['openid_identifier'];
