@@ -15,6 +15,9 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
+#ifndef URL_H
+#define URL_H
+
 #define URL_PROTOCOL_UNKNOWN 0
 #define URL_PROTOCOL_HTTP    1
 #define URL_PROTOCOL_HTTPS   2
@@ -39,3 +42,5 @@ extern void escape_project_url(char *in, char* out);
 extern bool valid_master_url(char*);
 extern void canonicalize_master_url(char *url);
 extern void canonicalize_master_url(std::string&);
+
+#endif

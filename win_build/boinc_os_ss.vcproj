@@ -651,6 +651,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\lib\url.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\lib\util.cpp"
 				>
 			</File>
@@ -745,6 +749,10 @@
 			</File>
 			<File
 				RelativePath=".\stdafx.h"
+				>
+			</File>
+			<File
+				RelativePath="..\lib\url.h"
 				>
 			</File>
 			<File
