@@ -3877,3 +3877,9 @@ David  4 July 2011
         parse.cpp,h
     html/user/
         openid_login.php
+
+David  5 July 2011
+    - update_versions: fix typo that produced bad XML
+
+    tools/
+        update_versions

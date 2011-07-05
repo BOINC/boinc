@@ -6,7 +6,7 @@
 
 function skype_status($skypeid) {
     $url = "http://mystatus.skype.com/$skypeid.xml";
-    $xml = file_get_contents($url);
+    $xml = @file_get_contents($url);
     $x = strstr($xml, "NUM\">");
     return (int)substr($x, 5, 1);
 }
