@@ -5,8 +5,7 @@ function show_linux_info() {
         <p>
         ".tra("The current release is known to work with these Linux versions:")."
         <ul>
-        <li> Ubuntu 10.04+
-        <li> Mandriva, Sabayon, Mint, Gentoo, other Debian-based distributions
+        <li> Ubuntu 10.04
         </ul>
         <p>
         ".tra("For other Linux versions, check if a BOINC package is offered by your Linux distribution.")."
