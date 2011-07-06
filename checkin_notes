@@ -3883,3 +3883,16 @@ David  5 July 2011
 
     tools/
         update_versions
+
+Charlie 6 July 2011
+    - Mac: Update to libcurl 7.21.7 and c-ares 1.7.4.
+    
+    client/
+        http_curl.cpp
+    mac_build/
+        boinc.xcodeproj/
+            project.pbxproj
+        buildc-ares.sh
+        buildcurl.sh
+        setupForBOINC.sh
+        HowToBuildBOINC_XCode.rtf

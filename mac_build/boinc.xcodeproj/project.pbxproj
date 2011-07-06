@@ -3518,10 +3518,10 @@
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEPLOYMENT_POSTPROCESSING = YES;
-				HEADER_SEARCH_PATHS = "../../curl-7.19.7/include";
+				HEADER_SEARCH_PATHS = "../../curl-7.21.7/include";
 				OTHER_LDFLAGS = (
-					"../../curl-7.19.7/lib/.libs/libcurl.a",
-					"../../c-ares-1.6.0/.libs/libcares.a",
+					"../../curl-7.21.7/lib/.libs/libcurl.a",
+					"../../c-ares-1.7.4/.libs/libcares.a",
 					"-lcrypto",
 					"-lssl",
 					"-lldap",
@@ -3543,10 +3543,10 @@
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEPLOYMENT_POSTPROCESSING = YES;
-				HEADER_SEARCH_PATHS = "../../curl-7.19.7/include";
+				HEADER_SEARCH_PATHS = "../../curl-7.21.7/include";
 				OTHER_LDFLAGS = (
-					"../../curl-7.19.7/lib/.libs/libcurl.a",
-					"../../c-ares-1.6.0/.libs/libcares.a",
+					"../../curl-7.21.7/lib/.libs/libcurl.a",
+					"../../c-ares-1.7.4/.libs/libcares.a",
 					"-lcrypto",
 					"-lssl",
 					"-lldap",
@@ -4148,10 +4148,10 @@
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEPLOYMENT_POSTPROCESSING = YES;
-				HEADER_SEARCH_PATHS = "../../curl-7.19.7/include";
+				HEADER_SEARCH_PATHS = "../../curl-7.21.7/include";
 				OTHER_LDFLAGS = (
-					"../../curl-7.19.7/lib/.libs/libcurl.a",
-					"../../c-ares-1.6.0/.libs/libcares.a",
+					"../../curl-7.21.7/lib/.libs/libcurl.a",
+					"../../c-ares-1.7.4/.libs/libcares.a",
 					"-lcrypto",
 					"-lssl",
 					"-lldap",
@@ -4474,7 +4474,7 @@
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEPLOYMENT_POSTPROCESSING = YES;
-				HEADER_SEARCH_PATHS = "../../curl-7.19.7/include";
+				HEADER_SEARCH_PATHS = "../../curl-7.21.7/include";
 				"OTHER_CFLAGS[arch=x86_64]" = (
 					"-D_THREAD_SAFE",
 					"-DNDEBUG",
@@ -4483,8 +4483,8 @@
 					../clientgui/mac/config.h,
 				);
 				OTHER_LDFLAGS = (
-					"../../curl-7.19.7/lib/.libs/libcurl.a",
-					"../../c-ares-1.6.0/.libs/libcares.a",
+					"../../curl-7.21.7/lib/.libs/libcurl.a",
+					"../../c-ares-1.7.4/.libs/libcares.a",
 					"-lcrypto",
 					"-lssl",
 					"-lldap",
@@ -4700,10 +4700,10 @@
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEPLOYMENT_POSTPROCESSING = YES;
-				HEADER_SEARCH_PATHS = "../../curl-7.19.7/include";
+				HEADER_SEARCH_PATHS = "../../curl-7.21.7/include";
 				OTHER_LDFLAGS = (
-					"../../curl-7.19.7/lib/.libs/libcurl.a",
-					"../../c-ares-1.6.0/.libs/libcares.a",
+					"../../curl-7.21.7/lib/.libs/libcurl.a",
+					"../../c-ares-1.7.4/.libs/libcares.a",
 					"-lcrypto",
 					"-lssl",
 					"-lldap",
@@ -4722,10 +4722,10 @@
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEPLOYMENT_POSTPROCESSING = YES;
-				HEADER_SEARCH_PATHS = "../../curl-7.19.7/include";
+				HEADER_SEARCH_PATHS = "../../curl-7.21.7/include";
 				OTHER_LDFLAGS = (
-					"../../curl-7.19.7/lib/.libs/libcurl.a",
-					"../../c-ares-1.6.0/.libs/libcares.a",
+					"../../curl-7.21.7/lib/.libs/libcurl.a",
+					"../../c-ares-1.7.4/.libs/libcares.a",
 					"-lcrypto",
 					"-lssl",
 					"-lldap",
@@ -5002,10 +5002,10 @@
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEPLOYMENT_POSTPROCESSING = YES;
-				HEADER_SEARCH_PATHS = "../../curl-7.19.7/include";
+				HEADER_SEARCH_PATHS = "../../curl-7.21.7/include";
 				OTHER_LDFLAGS = (
-					"../../curl-7.19.7/lib/.libs/libcurl.a",
-					"../../c-ares-1.6.0/.libs/libcares.a",
+					"../../curl-7.21.7/lib/.libs/libcurl.a",
+					"../../c-ares-1.7.4/.libs/libcares.a",
 					"-lcrypto",
 					"-lssl",
 					"-lldap",

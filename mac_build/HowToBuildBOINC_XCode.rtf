@@ -1,4 +1,4 @@
-{\rtf1\ansi\ansicpg1252\cocoartf1038\cocoasubrtf320
+{\rtf1\ansi\ansicpg1252\cocoartf1038\cocoasubrtf360
 {\fonttbl\f0\fswiss\fcharset0 Helvetica;\f1\fmodern\fcharset0 Courier;\f2\fswiss\fcharset0 ArialMT;
 \f3\fnil\fcharset0 LucidaGrande;}
 {\colortbl;\red255\green255\blue255;\red174\green0\blue0;}
@@ -13,10 +13,10 @@
 \b0\fs24 \cf0 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\qc
 \cf0 Written by Charlie Fenton\
-Last updated 10/11/10\
+Last updated 7/6/11\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
 \cf0 \
-This document applies to BOINC version 6.11.9 and later.  It has instructions for building the BOINC Client and Manager for Macintosh OSX.  Information for building science project applications to run under BOINC on Macintosh OSX can be found {\field{\*\fldinst{HYPERLINK "http://boinc.berkeley.edu/trac/wiki/BuildMacApp"}}{\fldrslt here}}.  \
+This document applies to BOINC version 6.13.0 and later.  It has instructions for building the BOINC Client and Manager for Macintosh OSX.  Information for building science project applications to run under BOINC on Macintosh OSX can be found {\field{\*\fldinst{HYPERLINK "http://boinc.berkeley.edu/trac/wiki/BuildMacApp"}}{\fldrslt here}}.  \
 \
 Note: the information in this document changes from time to time for different versions of BOINC.  For any version of BOINC source files, the corresponding version of this document can be found in the source tree at:\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
@@ -44,7 +44,7 @@ Contents of this document:\
 \pard\tx220\tx720\pardeftab720\li720\fi-720\ql\qnatural
 \ls1\ilvl0\cf0 {\listtext	\'95	}
 \b powerpc-apple-darwin
-\b0 : PowerPC processors running OS 10.3.0 and above\
+\b0 : PowerPC processors running OS 10.4.0 and above\
 {\listtext	\'95	}
 \b i686-apple-darwin
 \b0 : 32-bit intel processors running OS 10.4.0 and above\
@@ -68,8 +68,7 @@ You need to take certain steps to ensure that you use only APIs that are availab
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural\pardirnatural
 \cf0 \
 \pard\pardeftab720\sa260\ql\qnatural
-\cf0 Starting with version 6.1.0, the BOINC Client supports only Mac OS X 10.3.9 and later; support for OS 10.3.0 through 10.3.8 has been discontinued. This allows us to build the BOINC Client and Manager using only GCC 4.0, which offers a number of advantages.\
-Starting with version 6.10.58,  the BOINC Client supports only Mac OS X 10.4.0 and later.  This allows it to be built with XCode 3.2 under OS 10.6.x, which does not support the Mac OS 10.3.9 SDK. \
+\cf0 Starting with version 6.10.58,  the BOINC Client supports only Mac OS X 10.4.0 and later.  This allows it to be built with XCode 3.2 under OS 10.6.x, which does not support the Mac OS 10.3.9 SDK. \
 \pard\pardeftab720\sa260\qc
 
 \b\fs28 \cf0 Cross-Platform Development
@@ -125,7 +124,7 @@ Enter your administrator password when prompted to do so.\
 
 \b0\fs24 \cf0 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural\pardirnatural
-\cf0 BOINC depends on four third-party libraries: wxMac-2.8.10, c-ares-1.6.0, curl-7.19.7, and jpeg-6b.  You can obtain these from the following URLs:\
+\cf0 BOINC depends on four third-party libraries: wxMac-2.8.10, c-ares-1.7.4, curl-7.21.7, and jpeg-6b.  You can obtain these from the following URLs:\
 \
 wxMac-2.8.10 (needed  only if you are building the BOINC Manager):\
 	{\field{\*\fldinst{HYPERLINK "http://www.wxwidgets.org"}}{\fldrslt 
@@ -137,19 +136,19 @@ wxMac-2.8.10 (needed  only if you are building the BOINC Manager):\
 \f1\fs26 \
 
 \f0\fs24 \
-curl-7.19.7:\
+curl-7.21.7:\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural\pardirnatural
 
 \f1\fs26 \cf0 	{\field{\*\fldinst{HYPERLINK "http://curl.haxx.se"}}{\fldrslt http://curl.haxx.se}}\
-	{\field{\*\fldinst{HYPERLINK "http://curl.haxx.se/download/curl-7.19.7.tar.gz"}}{\fldrslt http://curl.haxx.se/download/curl-7.19.7.tar.gz}}\
+	{\field{\*\fldinst{HYPERLINK "http://curl.haxx.se/download/curl-7.21.7.tar.gz"}}{\fldrslt http://curl.haxx.se/download/curl-7.21.7.tar.gz}}\
 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural\pardirnatural
 
-\f0\fs24 \cf0 c-ares-1.6.0 (used by curl):\
+\f0\fs24 \cf0 c-ares-1.7.4 (used by curl):\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural\pardirnatural
 
 \f1\fs26 \cf0 	{\field{\*\fldinst{HYPERLINK "http://daniel.haxx.se/projects/c-ares/"}}{\fldrslt http://daniel.haxx.se/projects/c-ares/}}\
-	{\field{\*\fldinst{HYPERLINK "http://daniel.haxx.se/projects/c-ares/c-ares-1.6.0.tar.gz"}}{\fldrslt http://daniel.haxx.se/projects/c-ares/c-ares-1.6.0.tar.gz}}\
+	{\field{\*\fldinst{HYPERLINK "http://daniel.haxx.se/projects/c-ares/c-ares-1.7.4.tar.gz"}}{\fldrslt http://daniel.haxx.se/projects/c-ares/c-ares-1.7.4.tar.gz}}\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural\pardirnatural
 
 \f0\fs24 \cf0 \
@@ -162,23 +161,17 @@ jpeg-6b (needed  only if you are building the BOINC libboinc_graphics_api.a libr
 
 \f0\fs24 \cf0 \
 \pard\pardeftab720\sa260\ql\qnatural
-\cf0 XCode will automatically check compatibility back to OS 10.3 if the following are defined during compilation:\
-\pard\tx480\pardeftab480\ql\qnatural\pardirnatural
-
-\f1\fs26 \cf0 \CocoaLigature0 MAC_OS_X_VERSION_MAX_ALLOWED=1030\
-MAC_OS_X_VERSION_MIN_REQUIRED=1030\CocoaLigature1 \
-\pard\pardeftab720\sa260\ql\qnatural
-
-\f0\fs24 \cf0 \
-These are not defined automatically by either the XCode projects which come with wxMac-2.8.10, nor  the AutoMake scripts supplied with wxMac-2.8.10, c-ares-1.6.0, curl-7.19.7, or jpeg-6b.  So be sure to use our special scripts to build these packages.\
+\cf0 These are not defined automatically by either the XCode projects which come with wxMac-2.8.10, nor  the AutoMake scripts supplied with wxMac-2.8.10, c-ares-1.7.4, curl-7.21.7, or jpeg-6b.  So be sure to use our special scripts to build these packages.\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
 \cf0 [1] Create a parent directory within which to work.  In this description , we will call it BOINC_dev, but you can name it anything you wish.\
 \
 [2] Put the following 4 directories inside the BOINC_dev folder (omit any you don't need):\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
 
-\f1\fs26 \cf0     c-ares-1.6.0\
-    curl-7.19.7\
+\f1\fs26 \cf0     c-ares-
+\f0\fs24 1.7.4
+\f1\fs26 \
+    curl-7.21.7\
     jpeg-6b\
     wxMac-2.8.10\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
@@ -314,11 +307,11 @@ source \{path\}/BOINC_dev/boinc/mac_installer/release_boinc.sh x y z\
 \cf0 Substitute the 3 parts of the BOINC version number for x y and z in the above.  For example, to build the installer for BOINC version 5.5.4, the command would be\
 \pard\pardeftab720\ql\qnatural
 
-\f1\fs26 \cf0 source \{path\}/BOINC_dev/boinc/mac_installer/release_boinc.sh 6 11 9\
+\f1\fs26 \cf0 source \{path\}/BOINC_dev/boinc/mac_installer/release_boinc.sh 6 13 0\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
 
-\f0\fs24 \cf0 This will create a directory "BOINC_Installer/New_Release_6_11_9" in the BOINC_dev directory, and the installer will be located in '
-\f1\fs26 \{path\}/BOINC_dev/BOINC_Installer/New_Release_6_11_9/boinc_6.11.9_macOSX_universal
+\f0\fs24 \cf0 This will create a directory "BOINC_Installer/New_Release_6_13_0" in the BOINC_dev directory, and the installer will be located in '
+\f1\fs26 \{path\}/BOINC_dev/BOINC_Installer/New_Release_6_13_0/boinc_6.13.0_macOSX_universal
 \f0\fs24 '.
 \f1 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
