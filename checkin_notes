@@ -3896,3 +3896,11 @@ Charlie 6 July 2011
         buildcurl.sh
         setupForBOINC.sh
         HowToBuildBOINC_XCode.rtf
+
+Rom    6 July 2011
+    - Tag for 6.13.0 release, all platforms
+      boinc_core_release_6_13_0
+
+    /
+        configure.ac
+        version.h
