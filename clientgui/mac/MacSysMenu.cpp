@@ -22,6 +22,7 @@
 #include "stdwx.h"
 #include "BOINCGUIApp.h"
 #include "BOINCBaseFrame.h"
+#include "MainDocument.h"
 #include "MacSysMenu.h"
 #include "DlgAbout.h"
 #include "Events.h"
@@ -162,10 +163,17 @@ CMacSystemMenu::~CMacSystemMenu() {
 // Set the System Menu Icon from XPM data
 bool CMacSystemMenu::SetIcon(const wxIcon& icon) {
     wxBitmap theBits;
+    CMainDocument*     pDoc = wxGetApp().GetDocument();
+    wxASSERT(pDoc);
+    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
 
     theBits.CopyFromIcon(icon);
     CGImageRef imageRef = (CGImageRef)theBits.CGImageCreate();
     if ( (SetSystemMenuIcon != NULL ) && (imageRef != NULL) ) {
+        if (pDoc->IsConnected()) {
+            // For unknown reasons, Menubar Icon menu doesn't work without this
+            BuildMenu();
+        }
         SetSystemMenuIcon(imageRef);
         CGImageRelease( imageRef );
         return true;
@@ -435,4 +443,3 @@ pascal OSStatus SysMenuEventHandler( EventHandlerCallRef inHandlerCallRef,
     
     return eventNotHandledErr;
 }
-const char *BOINC_RCSID_533878e385="$Id$";

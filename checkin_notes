@@ -9998,3 +9998,10 @@ Rom    8 Jun 2011
     /
         configure.ac
         version.h
+
+Charlie 7 July 2011
+    - Mac: Fix bug where menubar icon menu did not work after changing skin.
+
+    clientgui/
+        mac/
+            MacSysMenu.cpp
