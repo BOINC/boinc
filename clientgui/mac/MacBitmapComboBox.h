@@ -28,6 +28,7 @@ WXDLLEXPORT_DATA(extern const wxChar) CBOINCBitmapComboBoxNameStr[];
 class CBOINCBitmapChoice : public wxChoice 
 {
     DECLARE_DYNAMIC_CLASS(CBOINCBitmapChoice )
+    DECLARE_EVENT_TABLE()
 
 public:
     CBOINCBitmapChoice() ;
@@ -43,6 +44,7 @@ public:
             const wxValidator& validator = wxDefaultValidator,
             const wxString& name = CBOINCBitmapChoiceNameStr);
 
+    void OnMouseDown(wxMouseEvent& event);
     void SetItemBitmap(unsigned int n, const wxBitmap& bitmap);
 };
 
