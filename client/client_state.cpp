@@ -410,6 +410,12 @@ int CLIENT_STATE::init() {
     if (coprocs.none() ) {
         msg_printf(NULL, MSG_INFO, "No usable GPUs found");
     }
+	for (int j=1; j<coprocs.n_rsc; j++) {
+		COPROC& cp = coprocs.coprocs[j];
+		if (cp.have_opencl) {
+			msg_printf(NULL, MSG_INFO, "%s GPU is OpenCL-capable", cp.type);
+		}
+	}
 
     // check for app_info.xml file in project dirs.
     // If find, read app info from there, set project.anonymous_platform

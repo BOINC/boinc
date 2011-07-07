@@ -3929,3 +3929,9 @@ Rom    7 July 2011
 
     clientscr/
         screensaver_win.cpp
+
+David  7 July 2011
+    - client: write log msgs saying whether GPUs are OpenCL-capable
+
+    client/
+        client_state.cpp
