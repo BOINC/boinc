@@ -3909,6 +3909,9 @@ Charlie 6 July 2011
     - Mac: Fix bad paths to MacBitMapComboBox.cpp, .h in XCode project.
         (Checked into 6.13.0 tag).
 
+    clientgui/
+        mac/
+            MacBitmapComboBox.cpp, .h
     mac_build/
         boinc.xcodeproj/
             project.pbxproj

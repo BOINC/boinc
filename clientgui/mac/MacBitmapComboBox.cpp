@@ -28,6 +28,10 @@ const wxChar CBOINCBitmapComboBoxNameStr[] = wxT("combo");
 
 IMPLEMENT_DYNAMIC_CLASS(CBOINCBitmapChoice, wxChoice)
 
+BEGIN_EVENT_TABLE(CBOINCBitmapChoice, wxChoice)
+    EVT_LEFT_DOWN(CBOINCBitmapChoice::OnMouseDown)
+END_EVENT_TABLE()
+
 CBOINCBitmapChoice::CBOINCBitmapChoice() {}
 
 CBOINCBitmapChoice::CBOINCBitmapChoice(wxWindow *parent, wxWindowID id,
@@ -78,6 +82,12 @@ void CBOINCBitmapChoice::SetItemBitmap(unsigned int n, const wxBitmap& bitmap) {
 #endif
     }
 }
+void CBOINCBitmapChoice::OnMouseDown(wxMouseEvent& event) {
+    wxToolTip::Enable(false);
+    event.Skip();
+}
+
+
 
 
 
