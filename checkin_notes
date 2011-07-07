@@ -3922,3 +3922,10 @@ Charlie 7 July 2011
     clientgui/
         mac/
             MacSysMenu.cpp
+
+Rom    7 July 2011
+    - WINSCR: Remove diagnostics screensaver dialog when the screensaver fails to
+        be able open up the log files.
+
+    clientscr/
+        screensaver_win.cpp

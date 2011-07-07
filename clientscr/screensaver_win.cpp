@@ -171,10 +171,7 @@ HRESULT CScreensaver::Create(HINSTANCE hInstance) {
         "stdoutscr",
         "stderrscr"
     );
-    if (retval) {
-        BOINCTRACE("WinMain - BOINC Screensaver Diagnostic Error '%d'\n", retval);
-        MessageBox(NULL, NULL, "BOINC Screensaver Diagnostic Error", MB_OK);
-    }
+
 
     // Parse the command line and do the appropriate thing
     m_SaverMode = ParseCommandLine(GetCommandLine());
