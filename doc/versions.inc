@@ -123,7 +123,7 @@ $w610x64 = array(
 
 $m613 = array(
 	"num"=>"6.13.0",
-	"status"=>"Recommended version (standard GUI)",
+	"status"=>"Development version (standard GUI)",
 	"file"=>"boinc_6.13.0_macOSX_universal.zip",
 	"date"=>"7 July 2011",
 	"type"=>"mac_advanced",
