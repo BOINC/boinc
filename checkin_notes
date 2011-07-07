@@ -3915,3 +3915,10 @@ Charlie 6 July 2011
     mac_build/
         boinc.xcodeproj/
             project.pbxproj
+
+Charlie 7 July 2011
+    - Mac: Fix bug where menubar icon menu did not work after changing skin.
+
+    clientgui/
+        mac/
+            MacSysMenu.cpp
