@@ -222,7 +222,7 @@ void COPROC_NVIDIA::write_xml(MIOFILE& f, bool include_request) {
     }
 
     f.printf(
-        "   <peak_flops>%d</peak_flops>\n"
+        "   <peak_flops>%f</peak_flops>\n"
         "   <cudaVersion>%d</cudaVersion>\n"
         "   <drvVersion>%d</drvVersion>\n"
         "   <deviceHandle>%d</deviceHandle>\n"
@@ -393,7 +393,7 @@ void COPROC_ATI::write_xml(MIOFILE& f, bool include_request) {
         write_request(f);
     }
     f.printf(
-        "   <peak_flops>%d</peak_flops>\n"
+        "   <peak_flops>%f</peak_flops>\n"
         "   <CALVersion>%s</CALVersion>\n"
         "   <target>%d</target>\n"
         "   <localRAM>%d</localRAM>\n"

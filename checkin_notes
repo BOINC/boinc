@@ -3935,3 +3935,13 @@ David  7 July 2011
 
     client/
         client_state.cpp
+
+David  7 July 2011
+    - client: fix bug introduced in [23765] that produced garbage
+         in <coproc> elements in sched req msgs and elsewhere.
+         peak_flops is a double.
+         If you print it using %d, everything from that point forward
+         is messed up.
+
+     lib/
+         coproc.cpp
