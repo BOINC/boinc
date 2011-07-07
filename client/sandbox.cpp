@@ -96,8 +96,8 @@ int switcher_exec(const char *util_filename, const char* cmdline) {
     char util_path[1024];
 
     sprintf(util_path, "%s/%s", SWITCHER_DIR, util_filename);
-    argv[0] = (char*)util_filename;
-    parse_command_line((char*)cmdline, argv+1);
+    argv[0] = const_cast<char*>(util_filename);
+    parse_command_line(const_cast<char*>(cmdline), argv+1);
     int pid = fork();
     if (pid == -1) {
         perror("fork() failed in switcher_exec");

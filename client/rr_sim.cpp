@@ -236,11 +236,11 @@ void CLIENT_STATE::print_deadline_misses() {
     for (i=0; i<projects.size(); i++) {
         p = projects[i];
         for (int j=0; j<coprocs.n_rsc; j++) {
-            if (p->rsc_pwf[i].deadlines_missed) {
+            if (p->rsc_pwf[j].deadlines_missed) {
                 msg_printf(p, MSG_INFO,
                     "[cpu_sched] Project has %d projected %s deadline misses",
-                    p->rsc_pwf[i].deadlines_missed,
-                    rsc_name(i)
+                    p->rsc_pwf[j].deadlines_missed,
+                    rsc_name(j)
                 );
             }
         }

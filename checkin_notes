@@ -3945,3 +3945,12 @@ David  7 July 2011
 
      lib/
          coproc.cpp
+
+David  7 July 2011
+    - client: fix typo that caused a lot of spurious
+        "project has XXXXXX deadline misses" messages
+    - fix compile warnings
+
+    client/
+        sandbox.cpp
+        rr_sim.cpp
