@@ -121,7 +121,8 @@ CMacSystemMenu::CMacSystemMenu(wxString title, wxIcon* icon, wxIcon* iconDisconn
                                 : CTaskBarIcon(title, icon, iconDisconnected, iconSnooze) {
      CFBundleRef	SysMenuBundle	= NULL;
 
-    m_OpeningAboutDlg = false;
+    m_bOpeningAboutDlg = false;
+    m_bNeedRebuildMenu = false;
     
     LoadPrivateFrameworkBundle( CFSTR("SystemMenu.bundle"), &SysMenuBundle );
     if ( SysMenuBundle != NULL )
@@ -163,17 +164,23 @@ CMacSystemMenu::~CMacSystemMenu() {
 // Set the System Menu Icon from XPM data
 bool CMacSystemMenu::SetIcon(const wxIcon& icon) {
     wxBitmap theBits;
-    CMainDocument*     pDoc = wxGetApp().GetDocument();
-    wxASSERT(pDoc);
-    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
 
-    theBits.CopyFromIcon(icon);
-    CGImageRef imageRef = (CGImageRef)theBits.CGImageCreate();
-    if ( (SetSystemMenuIcon != NULL ) && (imageRef != NULL) ) {
-        if (pDoc->IsConnected()) {
+    // For unknown reasons, menus won't work if we call BuildMenu() directly 
+    // from CTaskBarIcon::OnReloadSkin(), so it sets a flag to call it here
+    if (m_bNeedRebuildMenu) {
+        CMainDocument*     pDoc = wxGetApp().GetDocument();
+        wxASSERT(pDoc);
+        wxASSERT(wxDynamicCast(pDoc, CMainDocument));
+        if (pDoc->IsConnected() && m_bNeedRebuildMenu) {
             // For unknown reasons, Menubar Icon menu doesn't work without this
             BuildMenu();
         }
+    }
+    m_bNeedRebuildMenu = false;
+    
+    theBits.CopyFromIcon(icon);
+    CGImageRef imageRef = (CGImageRef)theBits.CGImageCreate();
+    if ( (SetSystemMenuIcon != NULL) && (imageRef != NULL) ) { 
         SetSystemMenuIcon(imageRef);
         CGImageRelease( imageRef );
         return true;

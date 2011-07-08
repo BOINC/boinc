@@ -42,8 +42,9 @@ public:
     SetUpSystemMenuProc         SetUpSystemMenu;
     SetSystemMenuIconProc       SetSystemMenuIcon;
     
-    bool                        IsOpeningAboutDlg() { return m_OpeningAboutDlg; }
-    void                        SetOpeningAboutDlg(bool b) { m_OpeningAboutDlg = b; }
+    bool                        IsOpeningAboutDlg() { return m_bOpeningAboutDlg; }
+    void                        SetOpeningAboutDlg(bool b) { m_bOpeningAboutDlg = b; }
+    void                        SetNeedToRebuildMenu() { m_bNeedRebuildMenu = true; }
     void                        BuildMenu(void);
 #if wxCHECK_VERSION(2,8,0)
     wxMenu                      *GetCurrentMenu();
@@ -51,7 +52,8 @@ public:
 
 private:
     
-    bool                        m_OpeningAboutDlg;
+    bool                        m_bOpeningAboutDlg;
+    bool                        m_bNeedRebuildMenu;
 
 };
 

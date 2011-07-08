@@ -3960,3 +3960,11 @@ David  7 July 2011
 
     client/
         client_types.cpp
+
+Charlie 8 July 2011
+    - Mac: Refine big fix for menubar icon menu not working after changing skin.
+
+    clientgui/
+        BOINCTaskBar.cpp
+        mac/
+            MacSysMenu.cpp, .h
