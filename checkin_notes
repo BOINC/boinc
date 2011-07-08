@@ -3954,3 +3954,9 @@ David  7 July 2011
     client/
         sandbox.cpp
         rr_sim.cpp
+
+David  7 July 2011
+    - client: possibly fix bug that caused no-GPU prefs to be ignored
+
+    client/
+        client_types.cpp

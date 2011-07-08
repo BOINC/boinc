@@ -544,6 +544,9 @@ void PROJECT::copy_state_fields(PROJECT& p) {
     safe_strcpy(code_sign_key, p.code_sign_key);
     for (int i=0; i<MAX_RSC; i++) {
         rsc_pwf[i] = p.rsc_pwf[i];
+        no_rsc_pref[i] = p.no_rsc_pref[i];
+        no_rsc_apps[i] = p.no_rsc_apps[i];
+        no_rsc_ams[i] = p.no_rsc_ams[i];
     }
     pwf = p.pwf;
     send_full_workload = p.send_full_workload;
