@@ -325,7 +325,8 @@ void CTaskBarIcon::OnReloadSkin(CTaskbarEvent& WXUNUSED(event)) {
     m_iconTaskBarSnooze = *pSkinAdvanced->GetApplicationSnoozeIcon();
 
 #ifdef __WXMAC__
-    wxGetApp().GetMacSystemMenu()->BuildMenu();
+    // For unknown reasons, menus won't work if we call BuildMenu() here 
+    wxGetApp().GetMacSystemMenu()->SetNeedToRebuildMenu();
 #endif
 }
 
