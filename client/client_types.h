@@ -446,9 +446,6 @@ struct PROJECT : PROJ_AM {
     int parse_account_file();
     int parse_state(MIOFILE&);
     int write_state(MIOFILE&, bool gui_rpc=false);
-    void handle_no_rsc_ams(const char*, bool);
-    void handle_no_rsc_apps(const char*, bool);
-    void handle_no_rsc_pref(const char*, bool);
 
     // statistic of the last x days
     std::vector<DAILY_STATS> statistics;

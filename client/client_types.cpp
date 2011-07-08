@@ -140,16 +140,22 @@ void PROJECT::init() {
 #endif
 }
 
-void PROJECT::handle_no_rsc_ams(const char* name, bool value) {
+static void handle_no_rsc_ams(PROJECT* p, const char* name) {
     int i = rsc_index(name);
     if (i < 0) return;
-    no_rsc_ams[i] = value;
+    p->no_rsc_ams[i] = true;
 }
 
-void PROJECT::handle_no_rsc_apps(const char* name, bool value) {
+static void handle_no_rsc_pref(PROJECT* p, const char* name) {
+    int i = rsc_index(name);
+    if (i<0) return;
+    p->no_rsc_pref[i] = true;
+}
+
+static void handle_no_rsc_apps(PROJECT* p, const char* name) {
     int i = rsc_index(name);
     if (i < 0) return;
-    no_rsc_apps[i] = value;
+    p->no_rsc_apps[i] = true;
 }
 
 static bool parse_rsc_param(MIOFILE& in, const char* end_tag, int& rsc_type, double& value) {
@@ -283,36 +289,39 @@ int PROJECT::parse_state(MIOFILE& in) {
         if (parse_double(buf, "<duration_correction_factor>", duration_correction_factor)) continue;
         if (parse_bool(buf, "attached_via_acct_mgr", attached_via_acct_mgr)) continue;
         if (parse_bool(buf, "no_cpu_apps", btemp)) {
-            handle_no_rsc_apps("CPU", btemp);
+            if (btemp) handle_no_rsc_apps(this, "CPU");
             continue;
         }
         if (parse_bool(buf, "no_cuda_apps", btemp)) {
-            handle_no_rsc_apps("NVIDIA", btemp);
+            if (btemp) handle_no_rsc_apps(this, "NVIDIA");
             continue;
         }
         if (parse_bool(buf, "no_ati_apps", btemp)) {
-            handle_no_rsc_apps("ATI", btemp);
+            if (btemp) handle_no_rsc_apps(this, "ATI");
             continue;
         }
         if (parse_str(buf, "<no_rsc_apps>", buf, sizeof(buf))) {
-            handle_no_rsc_apps(buf, true);
+            handle_no_rsc_apps(this, buf);
             continue;
         }
         if (parse_bool(buf, "no_cpu_ams", btemp)) {
-            handle_no_rsc_ams("CPU", btemp);
+            if (btemp) handle_no_rsc_ams(this, "CPU");
             continue;
         }
         if (parse_bool(buf, "no_cuda_ams", btemp)) {
-            handle_no_rsc_ams("NVIDIA", btemp);
+            if (btemp) handle_no_rsc_ams(this, "NVIDIA");
             continue;
         }
         if (parse_bool(buf, "no_ati_ams", btemp)) {
-            handle_no_rsc_ams("ATI", btemp);
+            if (btemp) handle_no_rsc_ams(this, "ATI");
             continue;
         }
         if (parse_str(buf, "<no_rsc_ams>", buf, sizeof(buf))) {
-            handle_no_rsc_ams(buf, true);
+            handle_no_rsc_ams(this, buf);
             continue;
+        }
+        if (parse_str(buf, "<no_rsc_pref>", buf, sizeof(buf))) {
+            handle_no_rsc_pref(this, buf);
         }
 
             // backwards compat - old state files had ams_resource_share = 0
@@ -459,6 +468,9 @@ int PROJECT::write_state(MIOFILE& out, bool gui_rpc) {
         if (no_rsc_apps[j]) {
             out.printf("    <no_rsc_apps>%s</no_rsc_apps>\n", rsc_name(j));
         }
+        if (no_rsc_pref[j]) {
+            out.printf("    <no_rsc_pref>%s</no_rsc_pref>\n", rsc_name(j));
+        }
     }
     if (ams_resource_share >= 0) {
         out.printf("    <ams_resource_share_new>%f</ams_resource_share_new>\n",
@@ -484,11 +496,6 @@ int PROJECT::write_state(MIOFILE& out, bool gui_rpc) {
                 "    <upload_backoff>%f</upload_backoff>\n",
                 upload_backoff.next_xfer_time - gstate.now
             );
-        }
-        for (int j=0; j<coprocs.n_rsc; j++) {
-            if (no_rsc_pref[j]) {
-                out.printf("    <no_rsc_pref>%s</no_rsc_pref>\n", rsc_name(j));
-            }
         }
         if (strlen(host_venue)) {
             out.printf("    <venue>%s</venue>\n", host_venue);

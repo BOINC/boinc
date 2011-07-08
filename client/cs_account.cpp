@@ -85,10 +85,10 @@ int PROJECT::write_account_file() {
     return 0;
 }
 
-void PROJECT::handle_no_rsc_pref(const char* name, bool value) {
+void handle_no_rsc_pref(PROJECT* p, const char* name) {
     int i = rsc_index(name);
     if (i < 0) return;
-    no_rsc_pref[i] = value;
+    p->no_rsc_pref[i] = true;
 }
 
 // parse an account_*.xml file, ignoring <venue> elements
@@ -127,19 +127,19 @@ int PROJECT::parse_account(FILE* in) {
         } else if (parse_str(buf, "<authenticator>", authenticator, sizeof(authenticator))) continue;
         else if (parse_double(buf, "<resource_share>", resource_share)) continue;
         else if (parse_bool(buf, "no_cpu", btemp)) {
-            handle_no_rsc_pref("CPU", btemp);
+            if (btemp) handle_no_rsc_pref(this, "CPU");
             continue;
         }
         else if (parse_bool(buf, "no_cuda", btemp)) {
-            handle_no_rsc_pref("NVIDIA", btemp);
+            if (btemp) handle_no_rsc_pref(this, "NVIDIA");
             continue;
         }
         else if (parse_bool(buf, "no_ati", btemp)) {
-            handle_no_rsc_pref("ATI", btemp);
+            if (btemp) handle_no_rsc_pref(this, "ATI");
             continue;
         }
         else if (parse_str(buf, "no_rsc", buf2, sizeof(buf2))) {
-            handle_no_rsc_pref(buf2, true);
+            handle_no_rsc_pref(this, buf2);
             continue;
         }
         else if (parse_str(buf, "<project_name>", project_name, sizeof(project_name))) continue;
@@ -223,19 +223,19 @@ int PROJECT::parse_account_file_venue() {
             continue;
         }
         else if (parse_bool(buf, "no_cpu", btemp)) {
-            handle_no_rsc_pref("CPU", btemp);
+            if (btemp) handle_no_rsc_pref(this, "CPU");
             continue;
         }
         else if (parse_bool(buf, "no_cuda", btemp)) {
-            handle_no_rsc_pref("NVIDIA", btemp);
+            if (btemp) handle_no_rsc_pref(this, "NVIDIA");
             continue;
         }
         else if (parse_bool(buf, "no_ati", btemp)) {
-            handle_no_rsc_pref("ATI", btemp);
+            if (btemp) handle_no_rsc_pref(this, "ATI");
             continue;
         }
         else if (parse_str(buf, "no_rsc", buf2, sizeof(buf2))) {
-            handle_no_rsc_pref(buf2, true);
+            handle_no_rsc_pref(this, buf2);
             continue;
         }
         else {

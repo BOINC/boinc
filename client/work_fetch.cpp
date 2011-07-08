@@ -68,6 +68,7 @@ static const char* criterion_name(int criterion) {
 inline bool dont_fetch(PROJECT* p, int rsc_type) {
     if (p->no_rsc_pref[rsc_type]) return true;
     if (p->no_rsc_apps[rsc_type]) return true;
+    if (p->no_rsc_ams[rsc_type]) return true;
     return false;
 }
 
@@ -97,8 +98,7 @@ inline bool has_coproc_app(PROJECT* p, int rsc_type) {
 ///////////////  RSC_PROJECT_WORK_FETCH  ///////////////
 
 bool RSC_PROJECT_WORK_FETCH::compute_may_have_work(PROJECT* p, int rsc_type) {
-    if (p->no_rsc_pref[rsc_type]) return false;
-    if (p->no_rsc_apps[rsc_type]) return false;
+    if (dont_fetch(p, rsc_type)) return false;
     if (p->rsc_defer_sched[rsc_type]) return false;
     return (backoff_time < gstate.now);
 }
@@ -370,6 +370,8 @@ if (use_rec) {
 // don't request anything if project is overworked or backed off.
 //
 void RSC_WORK_FETCH::set_request(PROJECT* p, bool allow_overworked) {
+    if (dont_fetch(p, rsc_type)) return;
+
     // if backup project, fetch 1 job per idle instance
     //
     if (p->resource_share == 0) {
@@ -429,14 +431,13 @@ void RSC_WORK_FETCH::print_state(const char* name) {
         PROJECT* p = gstate.projects[i];
         if (p->non_cpu_intensive) continue;
         RSC_PROJECT_WORK_FETCH& pwf = project_state(p);
-        bool blocked_by_prefs = false, no_apps = false;
-
-        if (p->no_rsc_pref[rsc_type]) blocked_by_prefs = true;
-        if (p->no_rsc_apps[rsc_type]) no_apps = true;
+        bool no_rsc_pref = p->no_rsc_pref[rsc_type];
+        bool no_rsc_apps = p->no_rsc_apps[rsc_type];
+        bool no_rsc_ams = p->no_rsc_ams[rsc_type];
         double bt = pwf.backoff_time>gstate.now?pwf.backoff_time-gstate.now:0;
 if (use_rec) {
         msg_printf(p, MSG_INFO,
-            "[work_fetch] %s: fetch share %.2f rec %.5f prio %.5f backoff dt %.2f int %.2f%s%s%s%s%s%s%s",
+            "[work_fetch] %s: fetch share %.2f rec %.5f prio %.5f backoff dt %.2f int %.2f%s%s%s%s%s%s%s%s",
             name,
             pwf.fetchable_share, p->pwf.rec, project_priority(p), bt, pwf.backoff_interval,
             p->suspended_via_gui?" (susp via GUI)":"",
@@ -444,8 +445,9 @@ if (use_rec) {
             p->min_rpc_time > gstate.now?" (comm deferred)":"",
             p->dont_request_more_work?" (no new tasks)":"",
             p->too_many_uploading_results?" (too many uploads)":"",
-            blocked_by_prefs?" (blocked by prefs)":"",
-            no_apps?" (no apps)":""
+            no_rsc_pref?" (blocked by prefs)":"",
+            no_rsc_apps?" (no apps)":"",
+            no_rsc_ams?" (blocked by account manager)":""
         );
 } else {
         msg_printf(p, MSG_INFO,
@@ -458,7 +460,7 @@ if (use_rec) {
             p->dont_request_more_work?" (no new tasks)":"",
             pwf.overworked()?" (overworked)":"",
             p->too_many_uploading_results?" (too many uploads)":"",
-            blocked_by_prefs?" (blocked by prefs)":""
+            no_rsc_pref?" (blocked by prefs)":""
         );
 }
     }

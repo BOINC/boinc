@@ -3217,15 +3217,15 @@ David  31 May 2011
         app_control.cpp
 
 David  31 May 2011
-	- web: add counts in task list pages
+    - web: add counts in task list pages
 
-	html/
-		inc/
-			boinc_db.inc
-			util.inc
-			result.inc
-		user/
-			results.php
+    html/
+        inc/
+            boinc_db.inc
+            util.inc
+            result.inc
+        user/
+            results.php
 
 Charlie 2 Jun 2011
     - MGR: Add SQLite3 v3.7.6.3 source code to Mac XCode project, adding
@@ -3543,7 +3543,7 @@ Rom    15 Jun 2011
         blankicon.xpm
 
 David  15 Jun 2011
-	- manager: tweaks to project list
+    - manager: tweaks to project list
 
     clientgui/
         ProjectInfoPage.cpp
@@ -3663,17 +3663,17 @@ Charlie 20 Jun 2011
         client_state.cpp
 
 David  21 Jun 2011
-	- GUI RPC: restore <have_cuda>, <have_ati> elements in CC_STATE
+    - GUI RPC: restore <have_cuda>, <have_ati> elements in CC_STATE
         for compatibility
-	- client: copy coprocs to host_info._coprocs at startup
-		(else GUI RPCs don't have right info)
+    - client: copy coprocs to host_info._coprocs at startup
+        (else GUI RPCs don't have right info)
 
-	client/
-		client_state.cpp
-		cs_statefile.cpp
-	lib/
-		gui_rpc_client.h
-		gui_rpc_client_ops.cpp
+    client/
+        client_state.cpp
+        cs_statefile.cpp
+    lib/
+        gui_rpc_client.h
+        gui_rpc_client_ops.cpp
 
 David  21 Jun 2011
     - web: add a web-service interface for remotely submitting, querying
@@ -3968,3 +3968,12 @@ Charlie 8 July 2011
         BOINCTaskBar.cpp
         mac/
             MacSysMenu.cpp, .h
+
+David  8 July 2011
+    - client: fix bug related to deselecting resource types in project prefs.
+        Some logic was missing.
+
+    client/
+        client_types.cpp,h
+        cs_account.cpp
+        work_fetch.cpp
