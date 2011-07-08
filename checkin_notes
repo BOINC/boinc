@@ -10007,7 +10007,7 @@ Charlie 7 July 2011
             MacSysMenu.cpp
 
 Charlie 8 July 2011
-    - Mac: Refine big fix for menubar icon menu not working after changing skin.
+    - Mac: Refine bug fix for menubar icon menu not working after changing skin.
 
     clientgui/
         BOINCTaskBar.cpp
