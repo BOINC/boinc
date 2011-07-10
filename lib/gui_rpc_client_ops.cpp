@@ -886,6 +886,9 @@ void CC_STATE::clear() {
     results.clear();
     platforms.clear();
     executing_as_daemon = false;
+    host_info.clear_host_info();
+    have_nvidia = false;
+    have_ati = false;
 }
 
 PROJECT* CC_STATE::lookup_project(char* url) {

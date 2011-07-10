@@ -3992,3 +3992,10 @@ David  10 July 2011
         sim.cpp
     sched/
         credit.cpp
+
+David  10 July 2011
+	- client: clear have_nvidia/ati flags in CC_STATE
+		so you don't show garbage in project properties
+
+	lib/
+		gui_rpc_client_ops.cpp
