@@ -75,7 +75,7 @@ class RESULT {
 
 // do a simulation
 //
-function do_sim($in, $out, $policy) {
+function do_sim($in, $out, $policy, $config_prefix=null) {
     global $duration, $delta, $rec_half_life;
 
     $args = "";
@@ -85,7 +85,8 @@ function do_sim($in, $out, $policy) {
     if ($policy->server_uses_workload) $args .= " --server_uses_workload";
     $args .= " --duration $duration --delta $delta --rec_half_life $rec_half_life";
 
-    $cmd = "./sim $args --infile_prefix $in/ --outfile_prefix $out/";
+    $c = $config_prefix?"--config_prefix $config_prefix/":"";
+    $cmd = "./sim $args --infile_prefix $in/ --outfile_prefix $c $out/";
     //echo "cmd: $cmd\n";
     system($cmd, $ret);
 }

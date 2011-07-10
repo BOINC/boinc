@@ -3977,3 +3977,18 @@ David  8 July 2011
         client_types.cpp,h
         cs_account.cpp
         work_fetch.cpp
+
+David  10 July 2011
+    - client emulator web interface: make cc_config.xml an attribute
+        of the simulation, not the scenario.
+        If you want to run a simulation w/ different log flags,
+        you shouldn't have to create a new scenario.
+    - client emulator: add --config_prefix cmdline arg
+    - validator: prevent infinite loop when app_version.pfc_avg
+        is wonky (like 1e-300).
+        Next step: figure out how it got that way.
+
+    client/
+        sim.cpp
+    sched/
+        credit.cpp

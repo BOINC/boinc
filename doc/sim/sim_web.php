@@ -92,7 +92,6 @@ function show_scenarios() {
           Any projects that don't currently have tasks are ignored.
         <li> <b>global_prefs.xml</b> and <b>global_prefs_override.xml</b>:
             computing preferences (optional).
-        <li> <b>cc_config.xml</b>: client configuration (optional).
         </ul>
         You can use the files from a running BOINC client
         to emulate that client.
@@ -117,6 +116,7 @@ function show_scenarios() {
             <li>Whether to use Hysteresis-based work fetch
                 (the proposed policy for the 6.14 client)
             </ul>
+        <li> <b>cc_config.xml</b>: client configuration (optional).
         </ul>
         The outputs of a simulation include
         <ul>
@@ -194,7 +194,6 @@ function create_scenario_form() {
     row2("* client_state.xml", "<input name=client_state type=file>");
     row2("global_prefs.xml", "<input name=prefs type=file>");
     row2("global_prefs_override.xml", "<input name=prefs_override type=file>");
-    row2("cc_config.xml", "<input name=cc_config type=file>");
     row2("* Description", "<textarea name=description cols=40></textarea>");
     row2("", "<input type=submit value=OK>");
     echo "
@@ -250,10 +249,6 @@ function create_scenario() {
     $gpo = $_FILES['global_prefs_override']['tmp_name'];
     if (is_uploaded_file($gpo)) {
         move_uploaded_file($gpo, "$d/global_prefs_override.xml");
-    }
-    $cc = $_FILES['cc_config']['tmp_name'];
-    if (is_uploaded_file($cc)) {
-        move_uploaded_file($cc, "$d/cc_config.xml");
     }
     file_put_contents("$d/userid", "$user->id");
     file_put_contents("$d/description", $desc);
@@ -348,6 +343,7 @@ function simulation_form() {
     start_table();
     row2("Duration", "<input name=duration value=86400> seconds");
     row2("Time step", "<input name=delta value=60> seconds");
+    row2("cc_config.xml", "<input name=cc_config type=file>");
     row2("Use Recent Estimated Credit
         <br><span class=note>If checked, use 6.14 scheduling policies
         based on Recent Estimated Credit (REC)
@@ -396,8 +392,12 @@ function simulation_action() {
     $policy->cpu_sched_rr_only = get_str("cpu_sched_rr_only", true);
     $policy->server_uses_workload = get_str("server_uses_workload", true);
     file_put_contents("$sim_path/userid", "$user->id");
+    $cc = $_FILES['cc_config']['tmp_name'];
+    if (is_uploaded_file($cc)) {
+        move_uploaded_file($cc, "$sim_path/cc_config.xml");
+    }
 
-    do_sim("scenarios/$scen", $sim_path, $policy);
+    do_sim("scenarios/$scen", $sim_path, $policy, $sim_path);
     header("Location: sim_web.php?action=show_simulation&scen=$scen&sim=$sim_name");
 }
 

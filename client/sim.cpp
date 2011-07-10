@@ -19,13 +19,14 @@
 //
 // usage: sim options
 //
-//  [--infile_prefix X]
+//  [--infile_prefix dir/]
 //      Prefix of input filenames; default is blank.
 //      Input files are:
 //          client_state.xml
 //          global_prefs.xml
 //          global_prefs_override.xml
-//          cc_config.xml
+//  [--config_prefix dir/]
+//      Prefix of cc_config.xml
 //  [--outfile_prefix X]
 //      Prefix of output filenames; default is blank.
 //      Output files are:
@@ -79,6 +80,7 @@
 #define SCHED_RETRY_DELAY_MAX    (60*60*4)         // 4 hours
 
 const char* infile_prefix = "./";
+const char* config_prefix = "./";
 const char* outfile_prefix = "./";
 
 #define TIMELINE_FNAME "timeline.html"
@@ -119,6 +121,7 @@ int njobs;
 void usage(char* prog) {
     fprintf(stderr, "usage: %s\n"
         "[--infile_prefix F]\n"
+        "[--config_prefix F]\n"
         "[--outfile_prefix F]\n"
         "[--duration X]\n"
         "[--delta X]\n"
@@ -1327,7 +1330,7 @@ void do_client_simulation() {
     char buf[256], buf2[256];
     int retval;
 
-    sprintf(buf, "%s%s", infile_prefix, CONFIG_FILE);
+    sprintf(buf, "%s%s", config_prefix, CONFIG_FILE);
     read_config_file(true, buf);
     config.show();
 
@@ -1426,6 +1429,8 @@ int main(int argc, char** argv) {
         char* opt = argv[i++];
         if (!strcmp(opt, "--infile_prefix")) {
             infile_prefix = argv[i++];
+        } else if (!strcmp(opt, "--config_prefix")) {
+            config_prefix = argv[i++];
         } else if (!strcmp(opt, "--outfile_prefix")) {
             outfile_prefix = argv[i++];
         } else if (!strcmp(opt, "--duration")) {

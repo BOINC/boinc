@@ -819,7 +819,7 @@ int write_modified_app_versions(vector<DB_APP_VERSION>& app_versions) {
             }
             continue;
         }
-        while (1) {
+        for (int k=0; k<10; k++) {
             double pfc_n_orig = av.pfc.n;
             double expavg_credit_orig = av.expavg_credit;
 
