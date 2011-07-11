@@ -125,16 +125,12 @@ public:
     double download_backoff;
     double upload_backoff;
 
-    double cpu_short_term_debt;
-    double cpu_long_term_debt;
+    double sched_priority;
+
     double cpu_backoff_time;
     double cpu_backoff_interval;
-    double cuda_debt;
-    double cuda_short_term_debt;
     double cuda_backoff_time;
     double cuda_backoff_interval;
-    double ati_debt;
-    double ati_short_term_debt;
     double ati_backoff_time;
     double ati_backoff_interval;
     double duration_correction_factor;

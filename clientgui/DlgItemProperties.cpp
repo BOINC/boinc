@@ -260,8 +260,7 @@ void CDlgItemProperties::renderInfos(PROJECT* project_in) {
         if (project->no_cpu_pref) {
             addProperty(_("Project preference"), _("Don't fetch CPU tasks"));
         }
-        addProperty(_("CPU scheduling priority"),wxString::Format(wxT("%0.2f"), project->cpu_short_term_debt));
-        addProperty(_("CPU work fetch priority"),wxString::Format(wxT("%0.2f"), project->cpu_long_term_debt));
+        addProperty(_("Scheduling priority"),wxString::Format(wxT("%0.2f"), project->sched_priority));
         double x = project->cpu_backoff_time - dtime();
         if (x<0) x = 0;
         addProperty(_("CPU work fetch deferred for"), FormatTime(x));
@@ -270,8 +269,6 @@ void CDlgItemProperties::renderInfos(PROJECT* project_in) {
             if (project->no_cuda_pref) {
                 addProperty(_("Project preference"), _("Don't fetch NVIDIA GPU tasks"));
             }
-            addProperty(_("NVIDIA GPU scheduling priority"),wxString::Format(wxT("%0.2f"), project->cuda_short_term_debt));
-            addProperty(_("NVIDIA GPU work fetch priority"),wxString::Format(wxT("%0.2f"), project->cuda_debt));
             x = project->cuda_backoff_time - dtime();
             if (x<0) x = 0;
             addProperty(_("NVIDIA GPU work fetch deferred for"), FormatTime(x));
@@ -281,8 +278,6 @@ void CDlgItemProperties::renderInfos(PROJECT* project_in) {
             if (project->no_ati_pref) {
                 addProperty(_("Project preference"), _("Don't fetch ATI GPU tasks"));
             }
-            addProperty(_("ATI GPU scheduling priority"),wxString::Format(wxT("%0.2f"), project->ati_short_term_debt));
-            addProperty(_("ATI GPU work fetch priority"),wxString::Format(wxT("%0.2f"), project->ati_debt));
             x = project->ati_backoff_time - dtime();
             if (x<0) x = 0;
             addProperty(_("ATI GPU work fetch deferred for"), FormatTime(x));

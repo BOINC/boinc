@@ -3999,3 +3999,17 @@ David  10 July 2011
 
 	lib/
 		gui_rpc_client_ops.cpp
+
+David  10 July 2011
+    - Manager and GUI RPC:
+        Remove debt fields from PROJECT: not used anymore
+        Add sched_priority field
+
+    lib/
+        gui_rpc_client_ops.cpp
+        gui_rpc_client.h
+    client/
+        client_state.cpp
+        client_types.cpp
+    clientgui/
+        DlgItemProperties.cpp

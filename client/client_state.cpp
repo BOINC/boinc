@@ -632,6 +632,8 @@ int CLIENT_STATE::init() {
     //
     init_exclude_gpu();
 
+    project_priority_init();
+
     initialized = true;
     return 0;
 }
