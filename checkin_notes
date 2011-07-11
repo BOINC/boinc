@@ -4027,3 +4027,9 @@ David  10 July 2011
 		work_fetch.h
 	clientgui/
 		ProjectInfoPage.cpp
+
+David  11 July 2011
+    - manager: do the above font change only on Win
+
+	clientgui/
+		ProjectInfoPage.cpp

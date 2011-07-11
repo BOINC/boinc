@@ -488,7 +488,11 @@ void CProjectInfoPage::OnProjectSelected( wxCommandEvent& WXUNUSED(event) ) {
     EllipseStringIfNeeded(strURL, m_pProjectDetailsURLCtrl);
 
     // Populate the project details area
+#ifdef _WIN32
     wxString desc = wxString("<font size=-2>", wxConvUTF8)+pProjectInfo->m_strDescription+wxString("</font>", wxConvUTF8);
+#else
+    wxString desc = pProjectInfo->m_strDescription;
+#endif
     m_pProjectDetailsDescriptionCtrl->SetPage(desc);
     m_pProjectDetailsURLCtrl->SetLabel(strURL);
     m_pProjectDetailsURLCtrl->SetURL(pProjectInfo->m_strURL);
