@@ -4013,3 +4013,17 @@ David  10 July 2011
         client_types.cpp
     clientgui/
         DlgItemProperties.cpp
+
+David  10 July 2011
+	- client: fix scheduler bug that treated all CPU jobs
+		as non-high-priority
+	- client: don't print spurious "domino prevention"
+		and "thrashing prevention" msgs
+	- manager: show project descriptions in same size font
+		as the rest of the dialog
+
+	client/
+		cpu_sched.cpp
+		work_fetch.h
+	clientgui/
+		ProjectInfoPage.cpp

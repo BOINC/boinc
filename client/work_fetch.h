@@ -29,8 +29,8 @@ extern double rec_half_life;
 
 extern bool use_hyst_fetch;
 
-#define RSC_TYPE_ANY    0
-#define RSC_TYPE_CPU    1
+#define RSC_TYPE_ANY    -1
+#define RSC_TYPE_CPU    0
 
 struct PROJECT;
 struct RESULT;

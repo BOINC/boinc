@@ -766,6 +766,7 @@ static bool schedule_if_possible(
 static void promote_once_ran_edf() {
     for (unsigned int i=0; i<gstate.active_tasks.active_tasks.size(); i++) {
         ACTIVE_TASK* atp = gstate.active_tasks.active_tasks[i];
+        if (atp->result->rr_sim_misses_deadline) continue;
         if (atp->once_ran_edf) {
             RESULT* rp = atp->result;
             PROJECT* p = rp->project;

@@ -488,7 +488,8 @@ void CProjectInfoPage::OnProjectSelected( wxCommandEvent& WXUNUSED(event) ) {
     EllipseStringIfNeeded(strURL, m_pProjectDetailsURLCtrl);
 
     // Populate the project details area
-    m_pProjectDetailsDescriptionCtrl->SetPage(pProjectInfo->m_strDescription);
+    wxString desc = wxString("<font size=-2>", wxConvUTF8)+pProjectInfo->m_strDescription+wxString("</font>", wxConvUTF8);
+    m_pProjectDetailsDescriptionCtrl->SetPage(desc);
     m_pProjectDetailsURLCtrl->SetLabel(strURL);
     m_pProjectDetailsURLCtrl->SetURL(pProjectInfo->m_strURL);
     // Set tooltip to full text in case ellipsed
