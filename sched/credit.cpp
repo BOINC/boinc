@@ -337,6 +337,17 @@ inline double wu_estimated_credit(WORKUNIT& wu, DB_APP& app) {
     return wu_estimated_pfc(wu, app)*COBBLESTONE_SCALE;
 }
 
+inline bool is_pfc_sane(double x, WORKUNIT& wu, DB_APP& app) {
+    if (x > 1e4 || x < 1e-4) {
+        log_messages.printf(MSG_CRITICAL,
+            "Bad FLOP ratio (%f): check workunit.rsc_fpops_est for %s (app %s)\n",
+            x, wu.name, app.name
+        );
+        return false;
+    }
+    return true;
+}
+
 // Compute or estimate "claimed peak FLOP count".
 // Possibly update host_app_version records and write to DB.
 // Possibly update app_version records in memory and let caller write to DB,
@@ -638,7 +649,10 @@ int get_pfc(
                 raw_pfc, wu.rsc_fpops_est
             );
         }
-        avp->pfc_samples.push_back(raw_pfc/wu.rsc_fpops_est);
+        double x = raw_pfc / wu.rsc_fpops_est;
+        if (is_pfc_sane(x, wu, app)) {
+            avp->pfc_samples.push_back(x);
+        }
     }
 
     if (config.debug_credit) {
@@ -649,11 +663,11 @@ int get_pfc(
             (r.received_time - r.sent_time)
         );
     }
-                
-    hav.pfc.update(
-        raw_pfc / wu.rsc_fpops_est,
-        HAV_AVG_THRESH, HAV_AVG_WEIGHT, HAV_AVG_LIMIT
-    );
+
+    double x = raw_pfc / wu.rsc_fpops_est;
+    if (is_pfc_sane(x, wu, app)) {
+        hav.pfc.update(x, HAV_AVG_THRESH, HAV_AVG_WEIGHT, HAV_AVG_LIMIT);
+    }
     hav.et.update_var(
         r.elapsed_time / wu.rsc_fpops_est,
         HAV_AVG_THRESH, HAV_AVG_WEIGHT, HAV_AVG_LIMIT
@@ -727,7 +741,7 @@ int assign_credit_set(
             log_messages.printf(MSG_CRITICAL,
                 "get_pfc() error: %s\n", boincerror(retval)
             );
-            return retval;
+            continue;
         } else {
             if (config.debug_credit) {
                 log_messages.printf(MSG_NORMAL,
@@ -766,9 +780,12 @@ int assign_credit_set(
     double x;
     if (normal.size()) {
         x = low_average(normal);
-    } else {
+    } else if (approx.size()) {
         x = vec_min(approx);
+    } else {
+        x = 0;
     }
+
     x *= COBBLESTONE_SCALE;
     if (config.debug_credit) {
         log_messages.printf(MSG_NORMAL,

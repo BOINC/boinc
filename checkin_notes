@@ -4066,3 +4066,15 @@ David  12 July 2011
             app_details.php
         inc/
             boinc_db.inc
+
+David  12 July 2011
+    - validator: if job FLOPs estimates are accurate,
+        PFC values should be around 1.
+        If they differ from 1 by a factor of > 1e4, ignore them,
+        and put an error message into the validator log
+    - validator: if get_pfc() fails because an app version is
+        missing from the DB (i.e. the project deleted it)
+        keep going so we don't reprocess the WU forever
+
+    sched/
+        credit.cpp
