@@ -43,6 +43,15 @@ if (!$app) admin_error_page("no such app");
 admin_page_head("Details for $app->name ($app->user_friendly_name)");
 start_table();
 row2("Min average efficiency", $app->min_avg_pfc);
+echo "
+    <p>
+    In the list below, 'Credit scale factor' should
+    be roughly 1 for CPU versions, 0.1 for GPU versions.
+    If values are far outside this range,
+    you may have bad FLOPs estimates.
+    In this case, you may want to
+    <a href=app_reset.php?appid=$appid>reset credit statistics for this application</a>.
+";
 end_table();
 echo "<h2>App versions</h2>\n";
 $avs = BoincAppVersion::enum("appid=$appid");

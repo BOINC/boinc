@@ -4056,3 +4056,13 @@ David  11 July 2011
             app_details.php (new)
         inc/
             util_ops.inc
+
+David  12 July 2011
+    - admin web: finish page for resetting app statistics
+
+    html/
+        ops/
+            app_reset.php
+            app_details.php
+        inc/
+            boinc_db.inc

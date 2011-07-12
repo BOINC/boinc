@@ -288,6 +288,10 @@ class BoincApp {
         if (!$ret) return $ret;
         return $db->insert_id();
     }
+    function update($clause) {
+        $db = BoincDb::get();
+        return $db->update($this, 'app', $clause);
+    }
 }
 
 class BoincAppVersion {
@@ -308,6 +312,10 @@ class BoincAppVersion {
         $ret = $db->insert('app_version', $clause);
         if (!$ret) return $ret;
         return $db->insert_id();
+    }
+    function update($clause) {
+        $db = BoincDb::get();
+        return $db->update($this, 'app_version', $clause);
     }
 }
 
@@ -412,6 +420,10 @@ class BoincHostAppVersion {
             'host_app_version', 'BoincHostAppVersion',
             "host_id=$host_id and app_version_id=$app_version_id"
         );
+    }
+    static function update_aux($clause) {
+        $db = BoincDb::get();
+        return $db->update_aux('host_app_version', $clause);
     }
 }
 
