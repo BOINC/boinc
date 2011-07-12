@@ -205,7 +205,7 @@ if (!function_exists('auth_ops')) {
     }
 }
 
-function error_page_ops($msg) {
+function admin_error_page($msg) {
     admin_page_head("Unable to handle request");
     echo $msg;
     admin_page_tail();

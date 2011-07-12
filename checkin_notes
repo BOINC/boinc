@@ -4042,3 +4042,17 @@ David  11 July 2011
 
     clientgui/
         ProjectInfoPage.cpp
+
+David  11 July 2011
+    - admin web: add page for showing app and app version details
+
+    html/
+        ops/
+            submit_permissions.php
+            app_reset.php (new)
+            manage_apps.php
+            login_form.php
+            logout.php
+            app_details.php (new)
+        inc/
+            util_ops.inc

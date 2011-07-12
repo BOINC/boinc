@@ -101,7 +101,7 @@ function handle_edit_form() {
 function handle_edit_action() {
     $user_id = get_int('user_id');
     $us = BoincUserSubmit::lookup_userid($user_id);
-    if (!$us) error_page_ops("user not found");
+    if (!$us) admin_error_page("user not found");
     BoincUserSubmitApp::delete_user($user_id);
     $all_apps = get_str('all_apps');
     if ($all_apps) {
@@ -139,11 +139,11 @@ function handle_add_form() {
 function handle_add_action() {
     $user_id = get_int('user_id');
     $user = BoincUser::lookup_id($user_id);
-    if (!$user) error_page_ops("no such user");
+    if (!$user) admin_error_page("no such user");
     $us = BoincUserSubmit::lookup_userid($user_id);
     if (!$us) {
         if (!BoincUserSubmit::insert("(user_id) values ($user_id)")) {
-            error_page_ops("Insert failed");
+            admin_error_page("Insert failed");
         }
     }
     header("Location: submit_permissions.php?action=edit_form&user_id=$user_id");
@@ -163,7 +163,7 @@ case 'edit_form':
 case 'edit_action':
     handle_edit_action(); break;
 default:
-    error_page_ops("unknown action: $action");
+    admin_error_page("unknown action: $action");
 }
 
 ?>

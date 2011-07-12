@@ -139,34 +139,27 @@ if(isset($commands)) echo $commands;
 $self=$_SERVER['PHP_SELF'];
 echo "<form action='$self' method='POST'>\n";
 
-// Application Table:
-
-echo"<P>
-     <h2>Applications</h2>\n";
 
 start_table("align='center'");
 echo "<TR><TH>ID #</TH>
-      <TH>Name<br>(description)</TH>
-      <TH>Creation<br>Time</TH>
-      <TH>minimum<br>version</TH>
+      <TH>Name and description<br><span class=note>Click for details</span></TH>
+      <TH>Created</TH>
+      <TH>minimum<br>client<br>version</TH>
       <TH>weight</TH>
-      <TH>shmem work items</TH>
-      <TH>homogeneous<br>redundancy<br>class (0=none)</TH>
+      <TH>homogeneous<br>redundancy<br>type (0=none)</TH>
       <TH>deprecated?</TH>
        </TR>\n";
 
 $total_weight = mysql_query('SELECT SUM(weight) AS total_weight FROM app WHERE deprecated=0');
 $total_weight = mysql_fetch_assoc($total_weight);
 $total_weight = $total_weight['total_weight'];
-$swi = parse_config(get_config(), "<shmem_work_items>");
-if (!$swi) { $swi = 100; }
 
 $q="SELECT * FROM app ORDER BY id";
 $result = mysql_query($q);
 $Nrow=mysql_num_rows($result);
-for($j=1;$j<=$Nrow;$j++){
-    $item=mysql_fetch_object($result);
-    $id=$item->id;
+for ($j=1; $j<=$Nrow; $j++){
+    $item = mysql_fetch_object($result);
+    $id = $item->id;
 
     // grey-out deprecated versions
     $f1=$f2='';
@@ -179,11 +172,10 @@ for($j=1;$j<=$Nrow;$j++){
 
     $name=$item->name;
     $full_name=$item->user_friendly_name;
-    echo "  <TD align='left'>$f1<tt>$name</tt><br>
-                <em>$full_name</em> $f2</TD>\n";
+    echo "  <TD align='left'>$f1<a href=app_details.php?appid=$id>$name</a><br> $full_name $f2</TD>\n";
 
     $time=$item->create_time;
-    echo "  <TD align='center'>$f1 " .time_str($time)."$f2</TD>\n";
+    echo "  <TD align='center'>$f1 " .date_str($time)."$f2</TD>\n";
 
     $field="min_version_".$id;
     $v=$item->min_version;
@@ -194,12 +186,6 @@ for($j=1;$j<=$Nrow;$j++){
     $v=$item->weight;
     echo "  <TD align='center'>
     <input type='text' size='4' name='$field' value='$v'></TD>\n";
-
-    if ($item->deprecated) {
-        echo '<td></td>';
-    } else {
-        echo '<td align="right">'.round($item->weight/$total_weight*$swi).'</td>';
-    }
 
     $field="homogeneous_redundancy_".$id;
     $v = $item->homogeneous_redundancy;
@@ -218,7 +204,7 @@ for($j=1;$j<=$Nrow;$j++){
 mysql_free_result($result);
 
 echo "<tr><td colspan=6></td>
-          <td align='center' colspan=2 bgcolor='#FFFF88'>
+          <td align='center' colspan=2>
               <input type='submit' name='update' value='Update'></td>
     </tr>\n";
 
@@ -248,7 +234,7 @@ echo "<TR><TH>Name</TH>
 echo "<TR>
         <TD> <input type='text' size='12' name='add_name' value=''></TD>
         <TD> <input type='text' size='35' name='add_user_friendly_name' value=''></TD>
-        <TD align='center' bgcolor='#FFFF88'>
+        <TD align='center' >
              <input type='submit' name='add_app' value='Add Application'></TD>
         </TR>\n";
 

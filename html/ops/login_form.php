@@ -3,7 +3,7 @@
 require_once("../inc/util_ops.inc");
 
 $user = get_logged_in_user_ops();
-if ($user) error_page_ops("already logged in");
+if ($user) admin_error_page("already logged in");
 admin_page_head("Log in");
 
 $next_url = sanitize_local_url(get_str('next_url', true));

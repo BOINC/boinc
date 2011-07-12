@@ -8,7 +8,7 @@ if ($user) {
     admin_page_head("Logged out");
     admin_page_tail();
 } else {
-    error_page_ops("not logged in");
+    admin_error_page("not logged in");
 }
 
 ?>
