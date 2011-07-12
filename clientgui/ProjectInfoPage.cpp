@@ -483,7 +483,7 @@ void CProjectInfoPage::OnProjectSelected( wxCommandEvent& WXUNUSED(event) ) {
 
     // Populate the project details area
 #ifdef _WIN32
-    wxString desc = wxT("<font size=-2>") + pProjectInfo->m_strDescription + wxT("</font>");
+    wxString desc = wxT("<font size=-1>") + pProjectInfo->m_strDescription + wxT("</font>");
 #else
     wxString desc = pProjectInfo->m_strDescription;
 #endif
@@ -671,8 +671,8 @@ void CProjectInfoPage::OnPageChanged( wxWizardExEvent& event ) {
             // Likewise for ati and mt.
             //
             for (j = 0;j < aClientPlatforms.size(); j++) {
+                wxString strClientPlatform = aClientPlatforms[j];
                 for (k = 0;k < aProjectPlatforms.size(); k++) {
-                    wxString strClientPlatform = aClientPlatforms[j];
                     wxString strProjectPlatform = aProjectPlatforms[k];
                     wxString strRootProjectPlatform = strProjectPlatform.SubString(0, strProjectPlatform.Find(_T("[")) - 1);
                     
@@ -690,34 +690,30 @@ void CProjectInfoPage::OnPageChanged( wxWizardExEvent& event ) {
                     
                     if (strProjectPlatform.Find(_T("[cuda")) != wxNOT_FOUND) {
                         pProjectInfo->m_bProjectSupportsCUDA = true;
+						if (!pDoc->state.have_nvidia) continue;
                     }
 
                     if (strProjectPlatform.Find(_T("[ati")) != wxNOT_FOUND) {
                         pProjectInfo->m_bProjectSupportsCAL = true;
+						if (!pDoc->state.have_ati) continue;
                     }
 
                     if (strProjectPlatform.Find(_T("[mt")) != wxNOT_FOUND) {
                         pProjectInfo->m_bProjectSupportsMulticore = true;
+						if (pDoc->state.host_info.p_ncpus < 4) continue;
                     }
                     
-                    if (pProjectInfo->m_bProjectSupportsCUDA) {
-                        if (!pDoc->state.have_nvidia) continue;
-                    }
-
-                    if (pProjectInfo->m_bProjectSupportsCAL) {
-                        if (!pDoc->state.have_ati) continue;
-                    }
-                    
-                    if (pProjectInfo->m_bProjectSupportsMulticore) {
-                        if (pDoc->state.host_info.p_ncpus < 4) continue;
-                    }
-                    
-                    // Application has CUDA, ATI or MT if required, or none are required
                     if (strClientPlatform == strRootProjectPlatform) {
                         pProjectInfo->m_bSupportedPlatformFound = true;
                     }
                 }
             }
+
+			// If project doesn't export its platforms, assume we're supported
+			//
+			if (aProjectPlatforms.size() == 0) {
+				pProjectInfo->m_bSupportedPlatformFound = true;
+			}
 
             wxLogTrace(
                 wxT("Function Status"),

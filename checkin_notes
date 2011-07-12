@@ -3994,11 +3994,11 @@ David  10 July 2011
         credit.cpp
 
 David  10 July 2011
-	- client: clear have_nvidia/ati flags in CC_STATE
-		so you don't show garbage in project properties
+    - client: clear have_nvidia/ati flags in CC_STATE
+        so you don't show garbage in project properties
 
-	lib/
-		gui_rpc_client_ops.cpp
+    lib/
+        gui_rpc_client_ops.cpp
 
 David  10 July 2011
     - Manager and GUI RPC:
@@ -4015,21 +4015,30 @@ David  10 July 2011
         DlgItemProperties.cpp
 
 David  10 July 2011
-	- client: fix scheduler bug that treated all CPU jobs
-		as non-high-priority
-	- client: don't print spurious "domino prevention"
-		and "thrashing prevention" msgs
-	- manager: show project descriptions in same size font
-		as the rest of the dialog
+    - client: fix scheduler bug that treated all CPU jobs
+        as non-high-priority
+    - client: don't print spurious "domino prevention"
+        and "thrashing prevention" msgs
+    - manager: show project descriptions in same size font
+        as the rest of the dialog
 
-	client/
-		cpu_sched.cpp
-		work_fetch.h
-	clientgui/
-		ProjectInfoPage.cpp
+    client/
+        cpu_sched.cpp
+        work_fetch.h
+    clientgui/
+        ProjectInfoPage.cpp
 
 David  11 July 2011
     - manager: do the above font change only on Win
 
-	clientgui/
-		ProjectInfoPage.cpp
+    clientgui/
+        ProjectInfoPage.cpp
+
+David  11 July 2011
+    - manager: fix messed up logic that caused projects to show
+        "platform not support" incorrectly.
+        Note: the code in this entire area seems way too complex
+    - manager: tweak project desc font size
+
+    clientgui/
+        ProjectInfoPage.cpp
