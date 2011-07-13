@@ -22,22 +22,6 @@ require_once('../inc/util_ops.inc');
 
 $appid = get_int("appid");
 
-function remove_old($avs) {
-    foreach($avs as $av) {
-        foreach ($avs as $av2) {
-            if ($av->id == $av2->id) continue;
-            if ($av->platformid == $av2->platformid && $av->plan_class == $av2->plan_class && $av->version_num > $av2->version_num) {
-                $av2->deprecated = 1;
-            }
-        }
-    }
-    $x = array();
-    foreach($avs as $av) {
-        if (!$av->deprecated) $x[] = $av;
-    }
-    return $x;
-}
-
 $app = BoincApp::lookup_id($appid);
 if (!$app) admin_error_page("no such app");
 admin_page_head("Details for $app->name ($app->user_friendly_name)");
@@ -50,12 +34,15 @@ echo "
     If values are far outside this range,
     you may have bad FLOPs estimates.
     In this case, you may want to
-    <a href=app_reset.php?appid=$appid>reset credit statistics for this application</a>.
+    <ol>
+    <li> <a href=job_times.php?appid=$appid>Get a better FLOPs estimate</a>
+    <li> <a href=app_reset.php?appid=$appid>reset credit statistics for this application</a>.
+    </ol>
 ";
 end_table();
 echo "<h2>App versions</h2>\n";
 $avs = BoincAppVersion::enum("appid=$appid");
-$avs = remove_old($avs);
+$avs = current_versions($avs);
 foreach ($avs as $av) {
     $platform = BoincPlatform::lookup_id($av->platformid);
     start_table();

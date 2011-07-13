@@ -4102,3 +4102,14 @@ David  13 July 2011
 
 	clientgui/
 		DltItemProperties.cpp
+
+David  13 July 2011
+    - admin web: improve the FLOPs estimation tool so that
+        it works for GPU versions too
+
+    html/
+        ops/
+            job_times.php
+            app_details.php
+        inc/
+            util_ops.php

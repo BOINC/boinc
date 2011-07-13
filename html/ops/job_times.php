@@ -40,7 +40,7 @@ function handle_result($result) {
     global $count;
     global $varsum;
 
-    $flops = $result->cpu_time * $result->p_fpops;
+    $flops = $result->elapsed_time * $result->flops_estimate;
     //printf("%e<br>\n", $flops);
     $n = (int) ($flops/$quantum);
     if (!array_key_exists($n, $hist)) {
@@ -60,7 +60,7 @@ function show_stats() {
     global $sum;
 
     $stdev = sqrt($varsum/($count-1));
-    printf("mean: %e<br>stdev: %e", $mean, $stdev);
+    printf("mean: %e<br>stdev: %e<br>samples: %d", $mean, $stdev, $count);
 }
 
 function show_stats_hist() {    //deprecated
@@ -131,37 +131,30 @@ function show_as_table() {
     echo "</table>";
 }
 
-function show_apps() {
-    echo "<p>Apps:";
-    $r = mysql_query("select * from app");
-    while ($p = mysql_fetch_object($r)) {
-        echo "<br> $p->id $p->user_friendly_name\n";
-    }
-}
-
-function show_platforms() {
-    echo "<p>Platforms:
-        <br>0 All
-        <br>1 Windows only
-        <br>2 Darwin only
-        <br>3 Linux only
+function version_select($appid) {
+    $x = "<select name=app_version_id>
+        <option value=0>All
     ";
-
+    $avs = BoincAppVersion::enum("appid=$appid");
+    $avs = current_versions($avs);
+    foreach ($avs as $av) {
+        $platform = BoincPlatform::lookup_id($av->platformid);
+        $n = $platform->name;
+        if (strlen($av->plan_class)) {
+            $n .= " ($av->plan_class)";
+        }
+        $x .= "<option value=$av->id> $n\n";
+    }
+    $x .= "</select>\n";
+    return $x;
 }
 
-function analyze($appid, $platformid, $nresults) {
+function analyze($appid, $app_version_id, $nresults) {
     global $hist;
 
-    $clause = "";
-    switch ($platformid) {
-    case 0: $clause = ""; break;
-    case 1: $clause = " and locate('Windows', os_name)"; break;
-    case 2: $clause = " and locate('Darwin', os_name)"; break;
-    case 3: $clause = " and locate('Linux', os_name)"; break;
-    }
+    $clause = $app_version_id?" and app_version_id = $app_version_id ":"";
 
-    $query = "select server_state, outcome, cpu_time, p_fpops from result, host where server_state=5 and appid=$appid and host.id = result.hostid and outcome=1 and validate_state=1 $clause limit $nresults";
-    echo $query;
+    $query = "select id, server_state, outcome, elapsed_time, flops_estimate from result where server_state=5 and appid=$appid and outcome=1 and validate_state=1 $clause order by id desc limit $nresults";
     $r = mysql_query($query);
 
     $n = 0;
@@ -183,39 +176,54 @@ function analyze($appid, $platformid, $nresults) {
     show_as_xml();
 }
 
-function show_form() {
+function show_app_select() {
+    admin_page_head("Show FLOPS distribution");
+    echo "Select an application:
+        <form action=job_times.php>
+    ";
+    $apps = BoincApp::enum("deprecated=0");
+
+    foreach($apps as $app) {
+        echo "<br><input type=radio name=appid value=$app->id>
+            $app->user_friendly_name
+        ";
+    }
+    echo "<br><br><input type=submit value=OK>";
+    admin_page_tail();
+}
+
+function show_form($appid) {
     admin_page_head("Show FLOPS distribution");
     echo "
         <form method=get action=job_times.php>
+        <input type=hidden name=appid value=$appid>
     ";
     start_table();
-    row2("App ID:", "<input name=appid>");
-    row2("platform ID (0 for all):", "<input name=platformid value=0>");
-    row2("FLOP quantum:<br><span class=note>(determines graph resolution; if you see only one bar, use a smaller value)</span>", "<input name=quantum value=1e12>");
+    row2("App version:", version_select($appid));
+    row2("Resolution:<br><span class=note>(if you see only one bar, use a smaller value)</span>", "<input name=quantum value=1e12>");
     row2("Sample size (# of jobs):", "<input name=nresults value=1000>");
     row2("", "<input type=submit name=submit value=OK>");
     end_table();
     echo "
         </form>
     ";
-    show_platforms();
-    show_apps();
     admin_page_tail();
 }
 
 if (get_str('submit', true)=='OK') {
     set_time_limit(0);
-    $appid = $_GET['appid'];
-    if (!$appid) {
-        echo "Must supply an appid";
-        exit;
-    }
-    $platformid = $_GET['platformid'];
-    $quantum = $_GET['quantum'];
-    $nresults = $_GET['nresults'];
-    analyze($appid, $platformid, $nresults);
+    $appid = get_int('appid');
+    $app_version_id = get_int('app_version_id');
+    $quantum = (double)(get_str('quantum'));
+    $nresults = get_int('nresults');
+    analyze($appid, $app_version_id, $nresults);
 } else {
-    show_form();
+    $appid = get_int('appid', true);
+    if ($appid) {
+        show_form($appid);
+    } else {
+        show_app_select();
+    }
 }
 
 ?>

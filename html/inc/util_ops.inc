@@ -212,6 +212,25 @@ function admin_error_page($msg) {
     exit;
 }
 
+// given a list of app versions,
+// return a list of the current, non-deprecated ones
+//
+function current_versions($avs) {
+    foreach($avs as $av) {
+        foreach ($avs as $av2) {
+            if ($av->id == $av2->id) continue;
+            if ($av->platformid == $av2->platformid && $av->plan_class == $av2->plan_class && $av->version_num > $av2->version_num) {
+                $av2->deprecated = 1;
+            }
+        }
+    }
+    $x = array();
+    foreach($avs as $av) {
+        if (!$av->deprecated) $x[] = $av;
+    }
+    return $x;
+}
+
 if (isset($cli_only)) {
     if (array_key_exists("SERVER_PORT", $_SERVER)) {
         die("This script is intended to be run from the command line,
