@@ -4094,3 +4094,11 @@ David  13 July 2011
     sched/
         credit.cpp,h
         trickle_credit.cpp
+
+David  13 July 2011
+	- manager: don't show "Estimated computation speed" in task properties
+		The quantity involved is not actually computation speed.
+		Also don't show Max RAM usage.
+
+	clientgui/
+		DltItemProperties.cpp
