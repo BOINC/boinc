@@ -539,7 +539,7 @@ static void update_rec() {
         for (int j=0; j<coprocs.n_rsc; j++) {
             x += p->rsc_pwf[j].secs_this_debt_interval * f * rsc_work_fetch[j].relative_speed;
         }
-        x /= 1e9;
+        x *= COBBLESTONE_SCALE;
         double old = p->pwf.rec;
 
         // start averages at zero
@@ -619,12 +619,24 @@ double project_priority(PROJECT* p) {
     return x;
 }
 
-// we plan to run this job.
-// bump the project's REC accordingly
+// called from the scheduler's job-selection loop;
+// we plan to run this job;
+// bump the project's temp REC by the amount credit for 1 scheduling period.
+// This encourages a mixture jobs from different projects.
 //
-void adjust_rec_temp(RESULT* rp) {
+void adjust_rec_sched(RESULT* rp) {
     PROJECT* p = rp->project;
-    p->pwf.rec_temp += peak_flops(rp->avp)/86400;
+    double f = peak_flops(rp->avp)*gstate.global_prefs.cpu_scheduling_period();
+    p->pwf.rec_temp += f*COBBLESTONE_SCALE;
+}
+
+// called from work fetch initialization;
+// bump the project's temp REC by the amount of credit
+// projected for the rest of the job.
+//
+void adjust_rec_work_fetch(RESULT* rp) {
+    PROJECT* p = rp->project;
+    p->pwf.rec_temp += rp->estimated_flops_remaining()*COBBLESTONE_SCALE;
 }
 
 // adjust project debts (short, long-term) or REC
@@ -744,7 +756,7 @@ static bool schedule_if_possible(
     proc_rsc.schedule(rp, atp);
 
     if (use_rec) {
-        adjust_rec_temp(rp);
+        adjust_rec_sched(rp);
     } else {
         // project STD at end of time slice
         //

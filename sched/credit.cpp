@@ -35,9 +35,8 @@
 
 #include "credit.h"
 
-// TODO: delete
 double fpops_to_credit(double fpops) {
-    return (fpops/1e9)*COBBLESTONE_FACTOR/SECONDS_PER_DAY;
+    return fpops*COBBLESTONE_SCALE;
 }
 
 double cpu_time_to_credit(double cpu_time, HOST& host) {

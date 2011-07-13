@@ -306,7 +306,8 @@ extern WORK_FETCH work_fetch;
 //#ifdef USE_REC
 void project_priority_init();
 double project_priority(PROJECT*);
-void adjust_rec_temp(RESULT*);
+void adjust_rec_sched(RESULT*);
+void adjust_rec_work_fetch(RESULT*);
 //#endif
 
 #endif

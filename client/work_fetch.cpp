@@ -898,6 +898,10 @@ PROJECT* WORK_FETCH::choose_project() {
     compute_shares();
 if (use_rec) {
     project_priority_init();
+    for (unsigned int i=0; i<gstate.results.size(); i++) {
+        RESULT* rp = gstate.results[i];
+        adjust_rec_work_fetch(rp);
+    }
 } else {
     set_overall_debts();
 }

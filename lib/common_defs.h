@@ -25,6 +25,9 @@
 
 #define GUI_RPC_PORT                                31416
 
+#define COBBLESTONE_SCALE 200/86400e9
+    // multiply normalized PFC by this to get Cobblestones
+
 // run modes for CPU, GPU, network,
 // controlled by Activity menu and snooze button
 //

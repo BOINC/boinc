@@ -21,7 +21,8 @@
 //
 // <cpu_time>x</cpu_time>
 //
-// NOTE: there is no cheat-prevention mechanism here.
+// NOTE: there is no cheat-prevention mechanism here; add your own.
+// NOTE: doesn't work for GPU apps
 
 #include "error_numbers.h"
 #include "util.h"

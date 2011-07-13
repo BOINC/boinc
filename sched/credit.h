@@ -19,10 +19,6 @@
 
 #include "boinc_db.h"
 
-// Historical note: named after Jeff Cobb
-//
-#define COBBLESTONE_FACTOR 100.0
-
 #define ERROR_RATE_INIT 0.1
     // the initial error rate of a host or app version
 
@@ -30,8 +26,6 @@
     // use host scaling only if have this many samples for host
 #define MIN_VERSION_SAMPLES   100
     // update a version's scale only if it has this many samples
-#define COBBLESTONE_SCALE 200/86400e9
-    // multiply normalized PFC by this to get Cobblestones
 
 // parameters for maintaining averages.
 // per-host averages respond faster to change

@@ -4078,3 +4078,19 @@ David  12 July 2011
 
     sched/
         credit.cpp
+
+David  13 July 2011
+    - client, work fetch policy:
+        adjust project REC by the amount of work queued, to increase variety
+        NOTE: at some point I think I had a reason to not do this,
+        but I can't remember what it is.
+    - client, job scheduling policy: fix how project REC is adjusted
+
+    client/
+        work_fetch.cpp,h
+        cpu_sched.cpp
+    lib/
+        common_defs.h
+    sched/
+        credit.cpp,h
+        trickle_credit.cpp
