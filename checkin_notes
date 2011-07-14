@@ -4113,3 +4113,11 @@ David  13 July 2011
             app_details.php
         inc/
             util_ops.php
+
+David  13 July 2011
+    - client: precede OpenCL messages with [coprog_debug], not [coproc-test].
+        The convention is to use the name of the enabling log flag.
+
+    client/
+        coproc_detect.cpp
+
