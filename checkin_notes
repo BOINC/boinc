@@ -4121,3 +4121,11 @@ David  13 July 2011
     client/
         coproc_detect.cpp
 
+
+Rom    14 July 2011
+    - lib: Fix the various '????' fields in the diagnostics framework during a
+        crash on Windows.  Somewhere along the lines I messed up with the
+        conversions of single-byte characters vs. double-byte characters.
+
+    lib/
+        stackwalker_win.cpp

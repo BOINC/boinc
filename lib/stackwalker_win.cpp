@@ -117,17 +117,17 @@ bool DebuggerLoadLibrary(
     *lphInstance = LoadLibraryA( strTargetLibrary.c_str() );
     if ( *lphInstance == NULL )
     {
-        _ftprintf( stderr, _T("LoadLibraryA( %s ): GetLastError = %lu\n"), strTargetLibrary.c_str(), gle );
+        fprintf(stderr, "LoadLibraryA( %s ): GetLastError = %lu\n", strTargetLibrary.c_str(), gle);
 
         strTargetLibrary = strLibrary;
         *lphInstance = LoadLibraryA( strTargetLibrary.c_str() );
         if ( *lphInstance == NULL )
         {
-            _ftprintf( stderr, _T("LoadLibraryA( %s ): GetLastError = %lu\n"), strTargetLibrary.c_str(), gle );
+            fprintf(stderr, "LoadLibraryA( %s ): GetLastError = %lu\n", strTargetLibrary.c_str(), gle);
             return false;
         }
     }
-    _ftprintf( stderr, _T("Loaded Library    : %s\n"), strTargetLibrary.c_str());
+    fprintf(stderr, "Loaded Library    : %s\n", strTargetLibrary.c_str());
     return true;
 }
 
@@ -141,22 +141,22 @@ BOOL CALLBACK SymbolServerCallbackProc64(UINT_PTR ActionCode, ULONG64 CallbackDa
             pEvent = (PIMAGEHLP_CBA_EVENT)CallbackData;
             switch(pEvent->severity) {
                 case sevInfo:
-                    _ftprintf(stderr, _T("SSRVINFO: %s\n"), pEvent->desc);
+                    fprintf(stderr, "SSRVINFO: %s\n", pEvent->desc);
                     break;
                 case sevProblem:
-                    _ftprintf(stderr, _T("SSRVPROB: %s\n"), pEvent->desc);
+                    fprintf(stderr, "SSRVPROB: %s\n", pEvent->desc);
                     break;
                 case sevAttn:
-                    _ftprintf(stderr, _T("SSRVATTN: %s\n"), pEvent->desc);
+                    fprintf(stderr, "SSRVATTN: %s\n", pEvent->desc);
                     break;
                 case sevFatal:
-                    _ftprintf(stderr, _T("SSRVFATAL: %s\n"), pEvent->desc);
+                    fprintf(stderr, "SSRVFATAL: %s\n", pEvent->desc);
                     break;
             }
             bRetVal = TRUE;
             break;
         case SSRVACTION_TRACE:
-            _ftprintf(stderr, _T("SSRVDEBUG: %s\n"), (PCTSTR)CallbackData);
+            fprintf(stderr, "SSRVDEBUG: %s\n", (PCTSTR)CallbackData);
             bRetVal = TRUE;
             break;
     }
@@ -174,22 +174,22 @@ BOOL CALLBACK SymRegisterCallbackProc64(HANDLE /* hProcess */, ULONG ActionCode,
             pEvent = (PIMAGEHLP_CBA_EVENT)CallbackData;
             switch(pEvent->severity) {
                 case sevInfo:
-                    _ftprintf(stderr, _T("INFO: %s\n"), pEvent->desc);
+                    fprintf(stderr, "INFO: %s\n", pEvent->desc);
                     break;
                 case sevProblem:
-                    _ftprintf(stderr, _T("PROB: %s\n"), pEvent->desc);
+                    fprintf(stderr, "PROB: %s\n", pEvent->desc);
                     break;
                 case sevAttn:
-                    _ftprintf(stderr, _T("ATTN: %s\n"), pEvent->desc);
+                    fprintf(stderr, "ATTN: %s\n", pEvent->desc);
                     break;
                 case sevFatal:
-                    _ftprintf(stderr, _T("FATAL: %s\n"), pEvent->desc);
+                    fprintf(stderr, "FATAL: %s\n", pEvent->desc);
                     break;
             }
             bRetVal = TRUE;
             break;
         case CBA_DEBUG_INFO:
-            _ftprintf(stderr, _T("DEBUG: %s\n"), (PCTSTR)CallbackData);
+            fprintf(stderr, "DEBUG: %s\n", (PCTSTR)CallbackData);
             bRetVal = TRUE;
             break;
     }
@@ -235,7 +235,7 @@ BOOL CALLBACK SymEnumerateModulesProc64(LPCSTR /* ModuleName */, DWORD64 BaseOfD
 
     if ( !pSGMI( g_hProcess, BaseOfDll, &Module ) )
     {
-        _ftprintf(stderr, _T("SymGetModuleInfo(): GetLastError = %lu\n"), gle );
+        fprintf(stderr, "SymGetModuleInfo(): GetLastError = %lu\n", gle);
     }
     else
     { 
@@ -263,7 +263,7 @@ BOOL CALLBACK SymEnumerateModulesProc64(LPCSTR /* ModuleName */, DWORD64 BaseOfD
                 strcpy( szSymbolType, "SYM" );
                 break;
             default:
-                _snprintf( szSymbolType, sizeof(szSymbolType), "symtype=%ld", (long) Module.SymType );
+                snprintf( szSymbolType, sizeof(szSymbolType), "symtype=%ld", (long) Module.SymType );
                 break;
         }
     }
@@ -304,7 +304,7 @@ BOOL CALLBACK SymEnumerateModulesProc64(LPCSTR /* ModuleName */, DWORD64 BaseOfD
                         szCompanyName[255] = '\0';
                     }
                 } else {
-                    _ftprintf(stderr, _T("Get Company Name Failed.\n"));
+                    fprintf(stderr, "Get Company Name Failed.\n");
                 }
 
                 // Product Name.
@@ -318,7 +318,7 @@ BOOL CALLBACK SymEnumerateModulesProc64(LPCSTR /* ModuleName */, DWORD64 BaseOfD
                         szProductName[255] = '\0';
                     }
                 } else {
-                    _ftprintf(stderr, _T("Get Product Name Failed.\n"));
+                    fprintf(stderr, "Get Product Name Failed.\n");
                 }
 
                 // File Version.
@@ -350,25 +350,25 @@ BOOL CALLBACK SymEnumerateModulesProc64(LPCSTR /* ModuleName */, DWORD64 BaseOfD
         }
     }
 
-    _ftprintf(stderr, _T("ModLoad: "));
-    _ftprintf(stderr, _T("%.8x ")                                 , Module.BaseOfImage);
-    _ftprintf(stderr, _T("%.8x ")                                 , Module.ImageSize);
-    _ftprintf(stderr, _T("%s ")                                   , Module.LoadedImageName);
+    fprintf(stderr, "ModLoad: ");
+    fprintf(stderr, "%.16x "                                , Module.BaseOfImage);
+    fprintf(stderr, "%.16x "                                , Module.ImageSize);
+    fprintf(stderr, "%s "                                   , Module.LoadedImageName);
     if (bFileVersionSupported && bFileVersionRetrieved) {
-        _ftprintf(stderr, _T("(%s) ")                             , szVersionInfo);
+        fprintf(stderr, "(%s) "                             , szVersionInfo);
     }
-    _ftprintf(stderr, _T("(%s Symbols Loaded)")                   , szSymbolType);
-    _ftprintf(stderr, _T("\n"));
+    fprintf(stderr, "(%s Symbols Loaded)"                   , szSymbolType);
+    fprintf(stderr, "\n");
 #ifndef __MINGW32__
-    _ftprintf(stderr, _T("    Linked PDB Filename   : %s\n")      , Module.CVData);
+    fprintf(stderr, "    Linked PDB Filename   : %s\n"      , Module.CVData);
 #endif
     if (bFileVersionSupported && bFileVersionRetrieved) {
-        _ftprintf(stderr, _T("    File Version          : %s\n")  , szFileVersion);
-        _ftprintf(stderr, _T("    Company Name          : %s\n")  , szCompanyName);
-        _ftprintf(stderr, _T("    Product Name          : %s\n")  , szProductName);
-        _ftprintf(stderr, _T("    Product Version       : %s\n")  , szProductVersion);
+        fprintf(stderr, "    File Version          : %s\n"  , szFileVersion);
+        fprintf(stderr, "    Company Name          : %s\n"  , szCompanyName);
+        fprintf(stderr, "    Product Name          : %s\n"  , szProductName);
+        fprintf(stderr, "    Product Version       : %s\n"  , szProductVersion);
     }
-    _ftprintf(stderr, _T("\n"));
+    fprintf(stderr, "\n");
 
     return TRUE;
 }
@@ -415,7 +415,7 @@ int DebuggerInitialize( LPCSTR pszBOINCLocation, LPCSTR pszSymbolStore, BOOL bPr
         if (hKernel32) {
             pSDD = (tSDD)GetProcAddress( hKernel32, "SetDllDirectoryA" );
             if (!pSDD(pszBOINCLocation)) {
-                _ftprintf(stderr, _T("SetDllDirectory(): GetLastError = %lu\n"), gle );
+                fprintf(stderr, "SetDllDirectory(): GetLastError = %lu\n", gle);
             }
             FreeLibrary(hKernel32);
             hKernel32 = NULL;
@@ -424,53 +424,44 @@ int DebuggerInitialize( LPCSTR pszBOINCLocation, LPCSTR pszSymbolStore, BOOL bPr
     }
 
 
-    // If Win9x use the old dbghelp.dll (5.0.2195.1)
-    if (VER_PLATFORM_WIN32_WINDOWS == osvi.dwPlatformId) {
-        if (!DebuggerLoadLibrary(&g_hDbgHelpDll, pszBOINCLocation, "dbghelp95.dll")) {
-            if (!DebuggerLoadLibrary(&g_hDbgHelpDll, pszBOINCLocation, "dbghelp.dll")) {
-                g_bInitialized = FALSE;
-                return 1;
+    if (!DebuggerLoadLibrary(&g_hDbgHelpDll, pszBOINCLocation, "dbghelp.dll")) {
+        g_bInitialized = FALSE;
+        return 1;
+    }
+
+    DebuggerLoadLibrary(&g_hSymSrvDll,  pszBOINCLocation, "symsrv.dll");
+    DebuggerLoadLibrary(&g_hSrcSrvDll,  pszBOINCLocation, "srcsrv.dll");
+    DebuggerLoadLibrary(&g_hVersionDll, pszBOINCLocation, "version.dll");
+
+    if (g_hSymSrvDll) {
+        pSSSO = (tSSSO)GetProcAddress(g_hSymSrvDll, "SymbolServerSetOptions");
+        if (pSSSO) {
+            if (!pSSSO(SSRVOPT_TRACE, (ULONG64)TRUE)) {
+                fprintf(stderr, "SymbolServerSetOptions(): Register Trace Failed, GetLastError = %lu\n", gle);
             }
-        }
-    } else {
-        if (!DebuggerLoadLibrary(&g_hDbgHelpDll, pszBOINCLocation, "dbghelp.dll")) {
-            g_bInitialized = FALSE;
-            return 1;
-        }
-
-        DebuggerLoadLibrary(&g_hSymSrvDll,  pszBOINCLocation, "symsrv.dll");
-        DebuggerLoadLibrary(&g_hSrcSrvDll,  pszBOINCLocation, "srcsrv.dll");
-        DebuggerLoadLibrary(&g_hVersionDll, pszBOINCLocation, "version.dll");
-
-        if (g_hSymSrvDll) {
-            pSSSO = (tSSSO)GetProcAddress(g_hSymSrvDll, "SymbolServerSetOptions");
-            if (pSSSO) {
-                if (!pSSSO(SSRVOPT_TRACE, (ULONG64)TRUE)) {
-                    _ftprintf(stderr, _T("SymbolServerSetOptions(): Register Trace Failed, GetLastError = %lu\n"), gle);
+            if (!pSSSO(SSRVOPT_CALLBACK, (ULONG64)SymbolServerCallbackProc64)) {
+                fprintf(stderr, "SymbolServerSetOptions(): Register Callback Failed, GetLastError = %lu\n", gle);
+            }
+            if (!pSSSO(SSRVOPT_UNATTENDED, (ULONG64)TRUE)) {
+                fprintf(stderr, "SymbolServerSetOptions(): Register Unattended Failed, GetLastError = %lu\n", gle);
+            }
+            if (bProxyEnabled) {
+                if (!pSSSO(SSRVOPT_PROXY, (ULONG64)pszProxyServer)) {
+                    fprintf(stderr, "SymbolServerSetOptions(): Register Proxy Failed, GetLastError = %lu\n", gle);
                 }
-                if (!pSSSO(SSRVOPT_CALLBACK, (ULONG64)SymbolServerCallbackProc64)) {
-                    _ftprintf(stderr, _T("SymbolServerSetOptions(): Register Callback Failed, GetLastError = %lu\n"), gle);
-                }
-                if (!pSSSO(SSRVOPT_UNATTENDED, (ULONG64)TRUE)) {
-                    _ftprintf(stderr, _T("SymbolServerSetOptions(): Register Unattended Failed, GetLastError = %lu\n"), gle);
-                }
-                if (bProxyEnabled) {
-                    if (!pSSSO(SSRVOPT_PROXY, (ULONG64)pszProxyServer)) {
-                        _ftprintf(stderr, _T("SymbolServerSetOptions(): Register Proxy Failed, GetLastError = %lu\n"), gle);
-                    }
-                } else {
-                    if (!pSSSO(SSRVOPT_PROXY, (ULONG64)NULL)) {
-                        _ftprintf(stderr, _T("SymbolServerSetOptions(): Register Proxy Failed, GetLastError = %lu\n"), gle);
-                    }
+            } else {
+                if (!pSSSO(SSRVOPT_PROXY, (ULONG64)NULL)) {
+                    fprintf(stderr, "SymbolServerSetOptions(): Register Proxy Failed, GetLastError = %lu\n", gle);
                 }
             }
         }
+    }
 
-        if (g_hVersionDll) {
-            pGFVIS = (tGFVIS)GetProcAddress(g_hVersionDll, "GetFileVersionInfoSizeA");
-            pGFVI = (tGFVI)GetProcAddress(g_hVersionDll, "GetFileVersionInfoA");
-            pVQV = (tVQV)GetProcAddress(g_hVersionDll, "VerQueryValueA");
-        }
+
+    if (g_hVersionDll) {
+        pGFVIS = (tGFVIS)GetProcAddress(g_hVersionDll, "GetFileVersionInfoSizeA");
+        pGFVI = (tGFVI)GetProcAddress(g_hVersionDll, "GetFileVersionInfoA");
+        pVQV = (tVQV)GetProcAddress(g_hVersionDll, "VerQueryValueA");
     }
 
     pIAV = (tIAV) GetProcAddress( g_hDbgHelpDll, "ImagehlpApiVersion" );
@@ -651,13 +642,13 @@ int DebuggerInitialize( LPCSTR pszBOINCLocation, LPCSTR pszSymbolStore, BOOL bPr
     // init symbol handler stuff (SymInitialize())
     if (!pSI(g_hProcess, strSymbolSearchPath.c_str(), TRUE))
     {
-        _ftprintf(stderr, _T("SymInitialize(): GetLastError = %lu\n"), gle);
+        fprintf(stderr, "SymInitialize(): GetLastError = %lu\n", gle);
         return 1;
     }
 
     if (!pSRC(g_hProcess, SymRegisterCallbackProc64, (ULONG64)g_hProcess))
     {
-        _ftprintf(stderr, _T("SymRegisterCallback64(): GetLastError = %lu\n"), gle);
+        fprintf(stderr, "SymRegisterCallback64(): GetLastError = %lu\n", gle);
     }
 
     LeaveCriticalSection(&g_csFileOpenClose);
@@ -667,29 +658,29 @@ int DebuggerInitialize( LPCSTR pszBOINCLocation, LPCSTR pszSymbolStore, BOOL bPr
 int DebuggerDisplayDiagnostics()
 {
     LPAPI_VERSION lpDV = NULL;
-    TCHAR buf[TTBUFLEN];
+    char buf[TTBUFLEN];
 
     if (g_bInitialized == FALSE)
     {
-        _ftprintf(stderr, _T("Stackwalker not initialized (or was not able to initialize)!\n"));
+        fprintf(stderr, "Stackwalker not initialized (or was not able to initialize)!\n");
         return 1;
     }
 
     EnterCriticalSection(&g_csFileOpenClose);
 
     lpDV = pIAV();
-    pSGSP(g_hProcess, buf, TTBUFLEN);
+    pSGSP(g_hProcess, (PTSTR)&buf, TTBUFLEN);
 
-    _ftprintf( stderr, _T("Debugger Engine   : %d.%d.%d.%d\n"), lpDV->MajorVersion, lpDV->MinorVersion, lpDV->Revision, lpDV->Reserved);
-    _ftprintf( stderr, _T("Symbol Search Path: %s\n"), buf);
-    _ftprintf( stderr, _T("\n\n"));
+    fprintf(stderr, "Debugger Engine   : %d.%d.%d.%d\n", lpDV->MajorVersion, lpDV->MinorVersion, lpDV->Revision, lpDV->Reserved);
+    fprintf(stderr, "Symbol Search Path: %s\n", buf);
+    fprintf(stderr, "\n\n");
 
     if (!pSEM(g_hProcess, (PSYM_ENUMMODULES_CALLBACK64)SymEnumerateModulesProc64, NULL))
     {
-        _ftprintf(stderr, _T("SymEnumerateModules64(): GetLastError = %lu\n"), gle );
+        fprintf(stderr, "SymEnumerateModules64(): GetLastError = %lu\n", gle );
     }
 
-    _ftprintf( stderr, _T("\n\n"));
+    fprintf(stderr, "\n\n");
 
     LeaveCriticalSection(&g_csFileOpenClose);
 
@@ -754,18 +745,13 @@ static void ShowStackRM(HANDLE hThread, CONTEXT& Context)
     IMAGEHLP_LINE64 Line;
     STACKFRAME64 StackFrame;
 
-    ULONG64 SymbolBuffer[
-        (sizeof(SYMBOL_INFO) +
-        MAX_SYM_NAME*sizeof(TCHAR) +
-        sizeof(ULONG64) - 1) /
-        sizeof(ULONG64)
-    ];
+    ULONG64 SymbolBuffer[sizeof(SYMBOL_INFO) + MAX_SYM_NAME + 1];
     PSYMBOL_INFO pSymbol = (PSYMBOL_INFO)SymbolBuffer;
 
 
     if (g_bInitialized == FALSE)
     {
-        _ftprintf(stderr, _T("Stackwalker not initialized (or was not able to initialize)!\n"));
+        fprintf(stderr, "Stackwalker not initialized (or was not able to initialize)!\n");
         return;
     }
 
@@ -773,44 +759,44 @@ static void ShowStackRM(HANDLE hThread, CONTEXT& Context)
     // Critical section begin...
     EnterCriticalSection(&g_csFileOpenClose);
 
-    _ftprintf(stderr, _T("- Registers -\n"));
+    fprintf(stderr, "- Registers -\n");
 
     // Dump the Context data
 #if defined(_WIN64) && defined(_M_X64)
-    _ftprintf(stderr, 
-        _T("rax=%.16x rbx=%.16x rcx=%.16x rdx=%.16x rsi=%.16x rdi=%.16x\n"),
+    fprintf(stderr, 
+        "rax=%.16x rbx=%.16x rcx=%.16x rdx=%.16x rsi=%.16x rdi=%.16x\n",
         Context.Rax, Context.Rbx, Context.Rcx, Context.Rdx, Context.Rsi, Context.Rdi
     );
-    _ftprintf(stderr, 
-        _T("r8=%.16x r9=%.16x r10=%.16x r11=%.16x r12=%.16x r13=%.16x\n"),
+    fprintf(stderr, 
+        "r8=%.16x r9=%.16x r10=%.16x r11=%.16x r12=%.16x r13=%.16x\n",
         Context.R8, Context.R9, Context.R10, Context.R11, Context.R12, Context.R13
     );
-    _ftprintf(stderr, 
-        _T("r14=%.16x r15=%.16x rip=%.16x rsp=%.16x rbp=%.16x\n"),
+    fprintf(stderr, 
+        "r14=%.16x r15=%.16x rip=%.16x rsp=%.16x rbp=%.16x\n",
         Context.R14, Context.R15, Context.Rip, Context.Rsp, Context.Rbp
     );
-    _ftprintf(stderr, 
-        _T("cs=%.4x  ss=%.4x  ds=%.4x  es=%.4x  fs=%.4x  gs=%.4x             efl=%.8x\n\n"),
+    fprintf(stderr, 
+        "cs=%.4x  ss=%.4x  ds=%.4x  es=%.4x  fs=%.4x  gs=%.4x             efl=%.8x\n\n",
         Context.SegCs, Context.SegSs, Context.SegDs,  Context.SegEs,  Context.SegFs,  Context.SegGs, Context.EFlags
     );
 #else
-    _ftprintf(stderr, 
-        _T("eax=%.8x ebx=%.8x ecx=%.8x edx=%.8x esi=%.8x edi=%.8x\n"),
+    fprintf(stderr, 
+        "eax=%.8x ebx=%.8x ecx=%.8x edx=%.8x esi=%.8x edi=%.8x\n",
         Context.Eax, Context.Ebx, Context.Ecx, Context.Edx, Context.Esi, Context.Edi
     );
-    _ftprintf(stderr, 
-        _T("eip=%.8x esp=%.8x ebp=%.8x\n"),
+    fprintf(stderr, 
+        "eip=%.8x esp=%.8x ebp=%.8x\n",
         Context.Eip, Context.Esp, Context.Ebp
     );
-    _ftprintf(stderr, 
-        _T("cs=%.4x  ss=%.4x  ds=%.4x  es=%.4x  fs=%.4x  gs=%.4x             efl=%.8x\n\n"),
+    fprintf(stderr, 
+        "cs=%.4x  ss=%.4x  ds=%.4x  es=%.4x  fs=%.4x  gs=%.4x             efl=%.8x\n\n",
         Context.SegCs, Context.SegSs, Context.SegDs,  Context.SegEs,  Context.SegFs,  Context.SegGs, Context.EFlags
     );
 #endif
 
     // Stack Header
-    _ftprintf(stderr, _T("- Callstack -\n"));
-    _ftprintf(stderr, _T("ChildEBP RetAddr  Args to Child\n"));
+    fprintf(stderr, "- Callstack -\n");
+    fprintf(stderr, "ChildEBP RetAddr  Args to Child\n");
     fflush( stderr );
 
 
@@ -852,21 +838,12 @@ static void ShowStackRM(HANDLE hThread, CONTEXT& Context)
         // if this returns ERROR_INVALID_ADDRESS (487) or ERROR_NOACCESS (998), you can
         // assume that either you are done, or that the stack is so hosed that the next
         // deeper frame could not be found.
+        bRetVal = pSW(
 #if defined(_WIN64) && defined(_M_X64)
-        bRetVal = pSW(
             IMAGE_FILE_MACHINE_AMD64,
-            g_hProcess,
-            hThread,
-            &StackFrame,
-            &Context,
-            NULL,
-            (PFUNCTION_TABLE_ACCESS_ROUTINE64)pSFTA,
-            (PGET_MODULE_BASE_ROUTINE64)pSGMB,
-            NULL
-        );
 #else
-        bRetVal = pSW(
             IMAGE_FILE_MACHINE_I386,
+#endif
             g_hProcess,
             hThread,
             &StackFrame,
@@ -876,14 +853,14 @@ static void ShowStackRM(HANDLE hThread, CONTEXT& Context)
             (PGET_MODULE_BASE_ROUTINE64)pSGMB,
             NULL
         );
-#endif
-        if (!bRetVal)
+        if (!bRetVal) {
             break;
+        }
 
         if ( StackFrame.AddrPC.Offset == 0 )
         {
             // Special case: If we are here, we have no valid callstack entry!
-            _ftprintf(stderr, _T("(-nosymbols- PC == 0)\n"));
+            fprintf(stderr, "(-nosymbols- PC == 0)\n");
         }
         else
         {
@@ -936,39 +913,40 @@ static void ShowStackRM(HANDLE hThread, CONTEXT& Context)
         } // we seem to have a valid PC
 
 
-        _ftprintf(stderr, _T("%.8x "), StackFrame.AddrFrame.Offset);
-        _ftprintf(stderr, _T("%.8x "), StackFrame.AddrReturn.Offset);
-        _ftprintf(stderr, _T("%.8x "), StackFrame.Params[0]);
-        _ftprintf(stderr, _T("%.8x "), StackFrame.Params[1]);
-        _ftprintf(stderr, _T("%.8x "), StackFrame.Params[2]);
-        _ftprintf(stderr, _T("%.8x "), StackFrame.Params[3]);
-        _ftprintf(stderr, _T("%s"),    Module.ModuleName);
-        _ftprintf(stderr, _T("!%s+"),  undName);
-        _ftprintf(stderr, _T("0x%x "), offsetFromLine);
+        fprintf(stderr, "%.8x ", StackFrame.AddrFrame.Offset);
+        fprintf(stderr, "%.8x ", StackFrame.AddrReturn.Offset);
+        fprintf(stderr, "%.8x ", StackFrame.Params[0]);
+        fprintf(stderr, "%.8x ", StackFrame.Params[1]);
+        fprintf(stderr, "%.8x ", StackFrame.Params[2]);
+        fprintf(stderr, "%.8x ", StackFrame.Params[3]);
+        fprintf(stderr, "%s",    Module.ModuleName);
+        fprintf(stderr, "!%s+",  undName);
+        fprintf(stderr, "0x%x ", offsetFromLine);
 
-        if (Line.LineNumber)
-            _ftprintf(stderr, _T("(%s:%lu) "), Line.FileName, Line.LineNumber);
+        if (Line.LineNumber) {
+            fprintf(stderr, "(%s:%lu) ", Line.FileName, Line.LineNumber);
+        }
 
         if (StackFrame.FuncTableEntry) {
             // FPO Data
             PFPO_DATA pFPO = (PFPO_DATA)StackFrame.FuncTableEntry;
             switch(pFPO->cbFrame) {
                 case FRAME_FPO:
-                    _ftprintf(stderr, _T("FPO: [%d,%d,%d] "), pFPO->cdwParams, pFPO->cdwLocals, pFPO->cbRegs);
+                    fprintf(stderr, "FPO: [%d,%d,%d] ", pFPO->cdwParams, pFPO->cdwLocals, pFPO->cbRegs);
                     break;
                 case FRAME_TRAP:
-                    _ftprintf(stderr, _T("FPO: [%d,%d] TrapFrame @ 0x%.8x "), pFPO->cdwParams, pFPO->cdwLocals, pFPO->ulOffStart);
+                    fprintf(stderr, "FPO: [%d,%d] TrapFrame @ 0x%.8x ", pFPO->cdwParams, pFPO->cdwLocals, pFPO->ulOffStart);
                     break;
                 case FRAME_TSS:
-                    _ftprintf(stderr, _T("FPO: TaskGate Segment: 0 "));
+                    fprintf(stderr, "FPO: TaskGate Segment: 0 ");
                     break;
             }
         }
 
         if (strlen(szMsgSymFromAddr) || strlen(szMsgSymGetLineFromAddr) || strlen(szMsgSymGetModuleInfo)) {
-            _ftprintf(
+            fprintf(
                 stderr,
-                _T("%s %s %s Address = '%.8x'"),
+                "%s %s %s Address = '%.8x'",
                 szMsgSymFromAddr,
                 szMsgSymGetLineFromAddr,
                 szMsgSymGetModuleInfo,
@@ -976,7 +954,7 @@ static void ShowStackRM(HANDLE hThread, CONTEXT& Context)
             );
         }
 
-        _ftprintf(stderr, _T("\n"));
+        fprintf(stderr, "\n");
 
 
         // Zero out params so we have fresh parameters through the next interation
@@ -999,13 +977,13 @@ static void ShowStackRM(HANDLE hThread, CONTEXT& Context)
     case ERROR_SUCCESS:
         break;
     case ERROR_INVALID_ADDRESS:
-        _ftprintf(stderr, _T("\nStackWalk(): ERROR_INVALID_ADDRESS (%lu) - Possible stack corruption.\n"), gle );
+        fprintf(stderr, "\nStackWalk(): ERROR_INVALID_ADDRESS (%lu) - Possible stack corruption.\n", gle );
         break;
     case ERROR_NOACCESS:
-        _ftprintf(stderr, _T("\nStackWalk(): ERROR_NOACCESS (%lu) - Possible stack corruption.\n"), gle );
+        fprintf(stderr, "\nStackWalk(): ERROR_NOACCESS (%lu) - Possible stack corruption.\n", gle );
     	break;
     default:
-        _ftprintf(stderr, _T("\nStackWalk(): GetLastError = %lu\n"), gle );
+        fprintf(stderr, "\nStackWalk(): GetLastError = %lu\n", gle );
         break;
 	}
 
