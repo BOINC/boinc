@@ -120,7 +120,7 @@ struct PROC_RESOURCES {
             } else {
                 if (log_flags.cpu_sched_debug) {
                     msg_printf(rp->project, MSG_INFO,
-                        "[cpu_sched] insufficient coprocessors for %s", rp->name
+                        "[cpu_sched_debug] insufficient coprocessors for %s", rp->name
                     );
                 }
                 return false;
@@ -164,7 +164,7 @@ struct PROC_RESOURCES {
         if (cp2->used + x > cp2->count) {
             if (log_flag) {
                 msg_printf(NULL, MSG_INFO,
-                    "[cpu_sched] insufficient coproc %s (%f + %f > %d)",
+                    "[cpu_sched_debug] insufficient coproc %s (%f + %f > %d)",
                     cp2->type, cp2->used, x, cp2->count
                 );
             }
@@ -359,7 +359,7 @@ RESULT* CLIENT_STATE::largest_debt_project_best_result() {
     if (!use_rec) {
         if (log_flags.cpu_sched_debug) {
             msg_printf(best_project, MSG_INFO,
-                "[cpu_sched] highest debt: %f %s",
+                "[cpu_sched_debug] highest debt: %f %s",
                 best_project->rsc_pwf[0].anticipated_debt,
                 best_project->next_runnable_result->name
             );
@@ -503,7 +503,7 @@ static RESULT* earliest_deadline_result(int rsc_type) {
 
     if (log_flags.cpu_sched_debug) {
         msg_printf(best_result->project, MSG_INFO,
-            "[cpu_sched] earliest deadline: %.0f %s",
+            "[cpu_sched_debug] earliest deadline: %.0f %s",
             best_result->report_deadline, best_result->name
         );
     }
@@ -734,7 +734,7 @@ static bool schedule_if_possible(
             if (atp->app_client_shm.shm == NULL) {
                 if (log_flags.cpu_sched_debug) {
                     msg_printf(rp->project, MSG_INFO,
-                        "[cpu_sched] waiting for shared mem: %s",
+                        "[cpu_sched_debug] waiting for shared mem: %s",
                         rp->name
                     );
                 }
@@ -747,7 +747,7 @@ static bool schedule_if_possible(
 
     if (log_flags.cpu_sched_debug) {
         msg_printf(rp->project, MSG_INFO,
-            "[cpu_sched] scheduling %s (%s) (%f)", rp->name, description,
+            "[cpu_sched_debug] scheduling %s (%s) (%f)", rp->name, description,
             use_rec?project_priority(rp->project):0
         );
     }
@@ -781,9 +781,9 @@ static void promote_once_ran_edf() {
             RESULT* rp = atp->result;
             PROJECT* p = rp->project;
             if (p->deadlines_missed(rp->avp->rsc_type())) {
-                if (log_flags.cpu_sched) {
+                if (log_flags.cpu_sched_debug) {
                     msg_printf(p, MSG_INFO,
-                        "[cpu_sched] domino prevention: mark %s as deadline miss",
+                        "[cpu_sched_debug] domino prevention: mark %s as deadline miss",
                         rp->name
                     );
                 }
@@ -792,11 +792,11 @@ static void promote_once_ran_edf() {
             }
         }
         if (gstate.now - atp->last_deadline_miss_time < gstate.global_prefs.cpu_scheduling_period()) {
-            if (log_flags.cpu_sched) {
+            if (log_flags.cpu_sched_debug) {
                 RESULT* rp = atp->result;
                 PROJECT* p = rp->project;
                 msg_printf(p, MSG_INFO,
-                    "[cpu_sched] thrashing prevention: mark %s as deadline miss",
+                    "[cpu_sched_debug] thrashing prevention: mark %s as deadline miss",
                     rp->name
                 );
             }
@@ -868,7 +868,7 @@ void CLIENT_STATE::make_run_list(vector<RESULT*>& run_list) {
     proc_rsc.ram_left = available_ram();
 
     if (log_flags.cpu_sched_debug) {
-        msg_printf(0, MSG_INFO, "[cpu_sched] schedule_cpus(): start");
+        msg_printf(0, MSG_INFO, "[cpu_sched_debug] schedule_cpus(): start");
     }
 
     // do round-robin simulation to find what results miss deadline
@@ -1052,7 +1052,7 @@ static void print_job_list(vector<RESULT*>& jobs) {
     for (unsigned int i=0; i<jobs.size(); i++) {
         RESULT* rp = jobs[i];
         msg_printf(rp->project, MSG_INFO,
-            "[cpu_sched] %d: %s (MD: %s; UTS: %s)",
+            "[cpu_sched_debug] %d: %s (MD: %s; UTS: %s)",
             i, rp->name,
             rp->edf_scheduled?"yes":"no",
             rp->unfinished_time_slice?"yes":"no"
@@ -1539,8 +1539,8 @@ bool CLIENT_STATE::enforce_run_list(vector<RESULT*>& run_list) {
 #endif
 
     if (log_flags.cpu_sched_debug) {
-        msg_printf(0, MSG_INFO, "[cpu_sched] enforce_schedule(): start");
-        msg_printf(0, MSG_INFO, "[cpu_sched] preliminary job list:");
+        msg_printf(0, MSG_INFO, "[cpu_sched_debug] enforce_schedule(): start");
+        msg_printf(0, MSG_INFO, "[cpu_sched_debug] preliminary job list:");
         print_job_list(run_list);
     }
 
@@ -1572,7 +1572,7 @@ bool CLIENT_STATE::enforce_run_list(vector<RESULT*>& run_list) {
     promote_multi_thread_jobs(run_list);
 
     if (log_flags.cpu_sched_debug) {
-        msg_printf(0, MSG_INFO, "[cpu_sched] final job list:");
+        msg_printf(0, MSG_INFO, "[cpu_sched_debug] final job list:");
         print_job_list(run_list);
     }
 
@@ -1635,7 +1635,7 @@ bool CLIENT_STATE::enforce_run_list(vector<RESULT*>& run_list) {
             if (ncpus_used >= ncpus) {
                 if (log_flags.cpu_sched_debug) {
                     msg_printf(rp->project, MSG_INFO,
-                        "[cpu_sched] all CPUs used (%.2f > %d), skipping %s",
+                        "[cpu_sched_debug] all CPUs used (%.2f > %d), skipping %s",
                         ncpus_used, ncpus,
                         rp->name
                     );
@@ -1655,7 +1655,7 @@ bool CLIENT_STATE::enforce_run_list(vector<RESULT*>& run_list) {
 
                     if (log_flags.cpu_sched_debug) {
                         msg_printf(rp->project, MSG_INFO,
-                            "[cpu_sched] not enough CPUs for multithread job, skipping %s",
+                            "[cpu_sched_debug] not enough CPUs for multithread job, skipping %s",
                             rp->name
                         );
                     }
@@ -1671,7 +1671,7 @@ bool CLIENT_STATE::enforce_run_list(vector<RESULT*>& run_list) {
                     if (ncpus_used + 1 > ncpus) {
                         if (log_flags.cpu_sched_debug) {
                             msg_printf(rp->project, MSG_INFO,
-                                "[cpu_sched] avoiding overcommit with multithread job, skipping %s",
+                                "[cpu_sched_debug] avoiding overcommit with multithread job, skipping %s",
                                 rp->name
                             );
                         }
@@ -1707,7 +1707,7 @@ bool CLIENT_STATE::enforce_run_list(vector<RESULT*>& run_list) {
 
         if (log_flags.cpu_sched_debug) {
             msg_printf(rp->project, MSG_INFO,
-                "[cpu_sched] scheduling %s", rp->name
+                "[cpu_sched_debug] scheduling %s", rp->name
             );
         }
 
@@ -1727,7 +1727,7 @@ bool CLIENT_STATE::enforce_run_list(vector<RESULT*>& run_list) {
     }
 
     if (log_flags.cpu_sched_debug && ncpus_used < ncpus) {
-        msg_printf(0, MSG_INFO, "[cpu_sched] using %.2f out of %d CPUs",
+        msg_printf(0, MSG_INFO, "[cpu_sched_debug] using %.2f out of %d CPUs",
             ncpus_used, ncpus
         );
         if (ncpus_used < ncpus) {
@@ -1748,7 +1748,7 @@ bool CLIENT_STATE::enforce_run_list(vector<RESULT*>& run_list) {
         atp = active_tasks.active_tasks[i];
         if (log_flags.cpu_sched_debug) {
             msg_printf(atp->result->project, MSG_INFO,
-                "[cpu_sched] %s sched state %d next %d task state %d",
+                "[cpu_sched_debug] %s sched state %d next %d task state %d",
                 atp->result->name, atp->scheduler_state,
                 atp->next_scheduler_state, atp->task_state()
             );
@@ -1864,7 +1864,7 @@ bool CLIENT_STATE::enforce_run_list(vector<RESULT*>& run_list) {
         if (dtime() - now > MAX_STARTUP_TIME) {
             if (log_flags.cpu_sched_debug) {
                 msg_printf(0, MSG_INFO,
-                    "[cpu_sched] app startup took %f secs", dtime() - now
+                    "[cpu_sched_debug] app startup took %f secs", dtime() - now
                 );
             }
             request_schedule_cpus("slow app startup");
@@ -1877,12 +1877,12 @@ bool CLIENT_STATE::enforce_run_list(vector<RESULT*>& run_list) {
         set_client_state_dirty("enforce_cpu_schedule");
     }
     if (log_flags.cpu_sched_debug) {
-        msg_printf(0, MSG_INFO, "[cpu_sched] enforce_schedule: end");
+        msg_printf(0, MSG_INFO, "[cpu_sched_debug] enforce_schedule: end");
     }
     if (coproc_start_deferred) {
         if (log_flags.cpu_sched_debug) {
             msg_printf(0, MSG_INFO,
-                "[cpu_sched] coproc quit pending, deferring start"
+                "[cpu_sched_debug] coproc quit pending, deferring start"
             );
         }
         request_schedule_cpus("coproc quit retry");
@@ -1898,7 +1898,7 @@ bool CLIENT_STATE::enforce_run_list(vector<RESULT*>& run_list) {
 //
 void CLIENT_STATE::request_schedule_cpus(const char* where) {
     if (log_flags.cpu_sched_debug) {
-        msg_printf(0, MSG_INFO, "[cpu_sched] Request CPU reschedule: %s", where);
+        msg_printf(0, MSG_INFO, "[cpu_sched_debug] Request CPU reschedule: %s", where);
     }
     must_schedule_cpus = true;
 }
