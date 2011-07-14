@@ -829,6 +829,7 @@ void WORK_FETCH::compute_work_request(PROJECT* p) {
     clear_request();
     if (config.fetch_minimal_work && gstate.had_or_requested_work) return;
     if (p->dont_request_more_work) return;
+    if (p->resource_share  == 0) return;
     if (p->non_cpu_intensive) {
         if (!has_a_job(p)) {
             rsc_work_fetch[0].req_secs = 1;

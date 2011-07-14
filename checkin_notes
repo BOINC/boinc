@@ -4096,12 +4096,12 @@ David  13 July 2011
         trickle_credit.cpp
 
 David  13 July 2011
-	- manager: don't show "Estimated computation speed" in task properties
-		The quantity involved is not actually computation speed.
-		Also don't show Max RAM usage.
+    - manager: don't show "Estimated computation speed" in task properties
+        The quantity involved is not actually computation speed.
+        Also don't show Max RAM usage.
 
-	clientgui/
-		DltItemProperties.cpp
+    clientgui/
+        DltItemProperties.cpp
 
 David  13 July 2011
     - admin web: improve the FLOPs estimation tool so that
@@ -4136,3 +4136,10 @@ David  14 July 2011
     lib/
         cc_config.cpp,h
         cpu_sched.cpp
+
+David  14 July 2011
+    - client: if a project has zero resource share,
+        don't piggyback a work request onto a non-work-request RPC
+
+    client/
+        work_fetch.cpp
