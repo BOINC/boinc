@@ -159,6 +159,7 @@ struct CONFIG {
     bool no_priority_change;
     bool os_random_only;
     PROXY_INFO proxy_info;
+    double rec_half_life;
     bool report_results_immediately;
     bool run_apps_manually;
     int save_stats_days;

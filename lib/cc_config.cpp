@@ -218,6 +218,7 @@ void CONFIG::defaults() {
     no_priority_change = false;
     os_random_only = false;
     proxy_info.clear();
+    rec_half_life = 10*86400;
     report_results_immediately = false;
     run_apps_manually = false;
     save_stats_days = 30;
@@ -376,6 +377,11 @@ int CONFIG::parse_options(XML_PARSER& xp) {
             continue;
         }
 #endif
+        if (xp.parse_double(tag, "rec_half_life_days", rec_half_life)) {
+            if (rec_half_life <= 0) rec_half_life = 10;
+            rec_half_life *= 86400;
+            continue;
+        }
         if (xp.parse_bool(tag, "report_results_immediately", report_results_immediately)) continue;
         if (xp.parse_bool(tag, "run_apps_manually", run_apps_manually)) continue;
         if (xp.parse_int(tag, "save_stats_days", save_stats_days)) continue;
@@ -564,6 +570,7 @@ int CONFIG::write(MIOFILE& out, LOG_FLAGS& log_flags) {
     proxy_info.write(out);
     
     out.printf(
+        "        <rec_half_life_days>%f</rec_half_life_days>\n"
         "        <report_results_immediately>%d</report_results_immediately>\n"
         "        <run_apps_manually>%d</run_apps_manually>\n"
         "        <save_stats_days>%d</save_stats_days>\n"
@@ -577,6 +584,7 @@ int CONFIG::write(MIOFILE& out, LOG_FLAGS& log_flags) {
         "        <use_certs>%d</use_certs>\n"
         "        <use_certs_only>%d</use_certs_only>\n"
         "        <zero_debts>%d</zero_debts>\n",
+        rec_half_life/86400,
         report_results_immediately,
         run_apps_manually,
         save_stats_days,
