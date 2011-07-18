@@ -81,14 +81,15 @@ void CSlideShowPanel::OnSlideShowTimer(wxTimerEvent& WXUNUSED(event)) {
 
 
 void CSlideShowPanel::AdvanceSlideShow(bool changeSlide) {
-    char fileName[1024], resolvedFileName[1024];
 	double xRatio, yRatio, ratio;
     TaskSelectionData* selData = ((CSimpleTaskPanel*)GetParent())->GetTaskSelectionData();
     if (selData == NULL) return;
 
-    if ((selData->numSlides <= 0) && m_bCurrentSlideIsDefault) return;
-    
-    if (selData->numSlides <= 0) {
+    int numSlides = selData->slideShowFileNames.size();
+
+    if (numSlides <= 0) {
+        if (m_bCurrentSlideIsDefault) return;
+        
         CSkinSimple* pSkinSimple = wxGetApp().GetSkinManager()->GetSimple();
         wxASSERT(pSkinSimple);
         wxASSERT(wxDynamicCast(pSkinSimple, CSkinSimple));
@@ -101,7 +102,7 @@ void CSlideShowPanel::AdvanceSlideShow(bool changeSlide) {
         // TODO: Should we allow slide show to advance if task is not running?
         if (selData->dotColor == greenDot) {    // Advance only if running
             if (changeSlide) {
-                if (++(selData->lastSlideShown) >= selData->numSlides) {
+                if (++(selData->lastSlideShown) >= numSlides) {
                     selData->lastSlideShown = 0;
                 }
             }
@@ -110,13 +111,11 @@ void CSlideShowPanel::AdvanceSlideShow(bool changeSlide) {
             selData->lastSlideShown = 0;
         }
         
-        sprintf(fileName, "%s%02d", selData->slide_show_filename_prefix, selData->lastSlideShown);
-        if (boinc_resolve_filename(fileName, resolvedFileName, sizeof(resolvedFileName)) == 0) {
-            wxBitmap *bm = new wxBitmap();
-            bm->LoadFile(wxString(resolvedFileName,wxConvUTF8), wxBITMAP_TYPE_ANY);
-            m_SlideBitmap = *bm;
-            delete bm;
-        }
+        wxBitmap *bm = new wxBitmap();
+        bm->LoadFile(selData->slideShowFileNames[selData->lastSlideShown], wxBITMAP_TYPE_ANY);
+        m_SlideBitmap = *bm;
+        delete bm;
+
         if (m_SlideBitmap.Ok()) {
             m_bCurrentSlideIsDefault = false;
         }
@@ -341,6 +340,7 @@ CSimpleTaskPanel::~CSimpleTaskPanel()
     int count = m_TaskSelectionCtrl->GetCount();
 	for(int j = count-1; j >=0; --j) {
         selData = (TaskSelectionData*)m_TaskSelectionCtrl->GetClientData(j);
+        selData->slideShowFileNames.Clear();
         delete selData;
         m_TaskSelectionCtrl->SetClientData(j, NULL);
 	}
@@ -655,16 +655,58 @@ wxString CSimpleTaskPanel::FormatTime(float fBuffer) {
 }
 
 
-void CSimpleTaskPanel::UpdateTaskSelectionList() {
-    int i, j, count, numSlides, newColor;
-    TaskSelectionData *selData;
-	RESULT* result;
-	RESULT* ctrlResult;
+void CSimpleTaskPanel::FindSlideShowFiles(TaskSelectionData *selData) {
 	RESULT* state_result;
-    std::vector<bool>is_alive;
     char urlDirectory[1024];
 	char fileName[1024];
 	char resolvedFileName[1024];
+    int j;
+    CMainDocument*      pDoc = wxGetApp().GetDocument();
+    wxASSERT(pDoc);
+    
+
+    selData->slideShowFileNames.Clear();
+    state_result = pDoc->state.lookup_result(selData->result->project_url, selData->result->name);
+    if (!state_result) {
+        pDoc->ForceCacheUpdate();
+        state_result = pDoc->state.lookup_result(selData->result->project_url, selData->result->name);
+    }
+    if (state_result) {
+        url_to_project_dir(state_result->project->master_url, urlDirectory);
+        for(j=0; j<99; ++j) {
+            sprintf(fileName, "%s/slideshow_%s_%02d", urlDirectory, state_result->app->name, j);
+            if(boinc_resolve_filename(fileName, resolvedFileName, sizeof(resolvedFileName)) == 0) {
+                if (boinc_file_exists(resolvedFileName)) {
+                    selData->slideShowFileNames.Add(wxString(resolvedFileName,wxConvUTF8));
+                }
+            } else {
+                break;
+            }
+        }
+
+        if ( selData->slideShowFileNames.size() == 0 ) {
+            for(j=0; j<99; ++j) {
+                sprintf(fileName, "%s/slideshow_%02d", urlDirectory, j);
+                if(boinc_resolve_filename(fileName, resolvedFileName, sizeof(resolvedFileName)) == 0) {
+                    if (boinc_file_exists(resolvedFileName)) {
+                        selData->slideShowFileNames.Add(wxString(resolvedFileName,wxConvUTF8));
+                    }
+                } else {
+                    break;
+                }
+            }
+        }
+    }
+    selData->lastSlideShown = -1;
+}
+
+
+void CSimpleTaskPanel::UpdateTaskSelectionList() {
+    int i, j, count, newColor;
+    TaskSelectionData *selData;
+	RESULT* result;
+	RESULT* ctrlResult;
+    std::vector<bool>is_alive;
     CMainDocument*      pDoc = wxGetApp().GetDocument();
     wxASSERT(pDoc);
     
@@ -678,11 +720,15 @@ void CSimpleTaskPanel::UpdateTaskSelectionList() {
 	// First update existing entries and add new ones
 	for(int i = 0; i < (int) pDoc->results.results.size(); i++) {
 		bool found = false;
+        
 		result = pDoc->result(i);
 		// only check tasks that are active
 		if ( result == NULL || !result->active_task ) {
 			continue;
 		}
+
+        PROJECT* project = pDoc->state.lookup_project(result->project_url);
+
 		// loop through the items already in Task Selection Control to find this result
 		for(j = 0; j < count; ++j) {
             selData = (TaskSelectionData*)m_TaskSelectionCtrl->GetClientData(j);
@@ -692,12 +738,16 @@ void CSimpleTaskPanel::UpdateTaskSelectionList() {
                 selData->result = result;
 				found = true;
 				is_alive.at(j) = true;
+                if ( project && (project->project_files_downloaded_time > selData->project_files_downloaded_time) ) {
+                    FindSlideShowFiles(selData);
+                    selData->project_files_downloaded_time = project->project_files_downloaded_time;
+                }
 				break; // skip out of this loop
 			}
 		}
-
-		// if it isn't currently one of the tabs then we have a new one!  lets add it
-		if ( !found ) {
+        
+        // if it isn't currently one of the tabs then we have a new one!  lets add it
+        if (!found) {
 #if SELECTBYRESULTNAME
             wxString resname(result->name, wxConvUTF8);
 #else
@@ -709,54 +759,19 @@ void CSimpleTaskPanel::UpdateTaskSelectionList() {
             strncpy(selData->result_name, result->name, sizeof(selData->result_name));
             strncpy(selData->project_url, result->project_url, sizeof(selData->project_url));
             selData->dotColor = -1;
-            selData->slide_show_filename_prefix[0] = '\0';
-            numSlides = 0;
-            state_result = pDoc->state.lookup_result(result->project_url, result->name);
-            if (!state_result) {
-                pDoc->ForceCacheUpdate();
-                state_result = pDoc->state.lookup_result(result->project_url, result->name);
+            FindSlideShowFiles(selData);
+            if (project) {
+                selData->project_files_downloaded_time = project->project_files_downloaded_time;
             }
-            if (state_result) {
-                url_to_project_dir(state_result->project->master_url, urlDirectory);
-                for(j=0; j<99; ++j) {
-                    sprintf(fileName, "%s/slideshow_%s_%02d", urlDirectory, state_result->app->name, j);
-                    if(boinc_resolve_filename(fileName, resolvedFileName, sizeof(resolvedFileName)) == 0) {
-                        if (boinc_file_exists(resolvedFileName)) {
-                            numSlides = j+1;
-                        } else {
-                            break;
-                        }
-                    }
-                }
-                if (numSlides > 0) {
-                    sprintf(selData->slide_show_filename_prefix, "%s/slideshow_%s_", urlDirectory, state_result->app->name);
-                } else {
-                    for(j=0; j<99; ++j) {
-                        sprintf(fileName, "%s/slideshow_%02d", urlDirectory, j);
-                        if(boinc_resolve_filename(fileName, resolvedFileName, sizeof(resolvedFileName)) == 0) {
-                            if (boinc_file_exists(resolvedFileName)) {
-                                numSlides = j+1;
-                            } else {
-                                break;
-                            }
-                        }
-                    }
-                    if (numSlides > 0) {
-                        sprintf(selData->slide_show_filename_prefix, "%s/slideshow_", urlDirectory);
-                    }
-                }
-            }
-            selData->numSlides = numSlides;
-            selData->lastSlideShown = -1;
-            
             m_TaskSelectionCtrl->Append(resname, wxNullBitmap, (void*)selData);
-		}
+        }
     }
 
     // Check items in descending order so deletion won't change indexes of items yet to be checked
 	for(j = count-1; j >=0; --j) {
 		if(! is_alive.at(j)) {
             selData = (TaskSelectionData*)m_TaskSelectionCtrl->GetClientData(j);
+            selData->slideShowFileNames.Clear();
             delete selData;
 			m_TaskSelectionCtrl->Delete(j);
             if (j == m_CurrentTaskSelection) {

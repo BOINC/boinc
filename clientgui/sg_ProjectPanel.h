@@ -25,6 +25,7 @@
 
 typedef struct {
     char project_url[256];
+    double project_files_downloaded_time;
 } ProjectSelectionData;
 
 
@@ -78,7 +79,6 @@ class CSimpleProjectPanel : public CSimplePanelBase
         wxString                            m_sTotalWorkDoneString;
         int                                 m_UsingAccountManager;
         char                                m_CurrentSelectedProjectURL[256];
-        double                              m_Project_files_downloaded_time;
         double                              m_Project_last_rpc_time;
         wxString                            m_sAddProjectToolTip;
         wxString                            m_sSynchronizeToolTip;

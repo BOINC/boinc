@@ -401,6 +401,7 @@ void CSimpleProjectPanel::UpdateProjectList() {
 				if ( !found ) {
                     selData = new ProjectSelectionData;
                     strncpy(selData->project_url, project->master_url, sizeof(selData->project_url));
+                    selData->project_files_downloaded_time = 0.0;
                     wxBitmap* projectBM = GetProjectSpecificBitmap(selData->project_url);
                     wxString projname(project->project_name.c_str(), wxConvUTF8);
                     m_ProjectSelectionCtrl->Append(projname, *projectBM, (void*)selData);
@@ -427,11 +428,12 @@ void CSimpleProjectPanel::UpdateProjectList() {
         // Check to see if we need to reload the project icon
         ctrlCount = m_ProjectSelectionCtrl->GetCount();
         for(j=0; j<ctrlCount; j++) {
-            ctrl_url = ((ProjectSelectionData*)m_ProjectSelectionCtrl->GetClientData(j))->project_url;
+            selData = (ProjectSelectionData*)m_ProjectSelectionCtrl->GetClientData(j);
+            ctrl_url = selData->project_url;
             project = pDoc->state.lookup_project(ctrl_url);
-            if ( project->project_files_downloaded_time > m_Project_files_downloaded_time ) {
+            if ( project->project_files_downloaded_time > selData->project_files_downloaded_time ) {
                 wxBitmap* projectBM = GetProjectSpecificBitmap(ctrl_url);
-                m_Project_files_downloaded_time = project->project_files_downloaded_time;
+                selData->project_files_downloaded_time = project->project_files_downloaded_time;
                 m_ProjectSelectionCtrl->SetItemBitmap(j, *projectBM);
             }
         }

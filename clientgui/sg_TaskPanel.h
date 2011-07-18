@@ -29,9 +29,9 @@ typedef struct {
     char result_name[256];
     char project_url[256];
     int dotColor;
-    char slide_show_filename_prefix[1024];
-    int numSlides;
+    wxArrayString slideShowFileNames;
     int lastSlideShown;
+    double project_files_downloaded_time;
 } TaskSelectionData;
 
 
@@ -96,6 +96,7 @@ class CSimpleTaskPanel : public CSimplePanelBase
         wxString GetTimeRemainingString(double f);
         wxString GetStatusString(RESULT* result);
         wxString FormatTime(float fBuffer);
+        void FindSlideShowFiles(TaskSelectionData *selData);
         void UpdateTaskSelectionList();
         bool isRunning(RESULT* result);
 		bool DownloadingResults();
