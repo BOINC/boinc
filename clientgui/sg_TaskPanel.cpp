@@ -706,6 +706,7 @@ void CSimpleTaskPanel::UpdateTaskSelectionList() {
     TaskSelectionData *selData;
 	RESULT* result;
 	RESULT* ctrlResult;
+    PROJECT* project;
     std::vector<bool>is_alive;
     CMainDocument*      pDoc = wxGetApp().GetDocument();
     wxASSERT(pDoc);
@@ -727,7 +728,6 @@ void CSimpleTaskPanel::UpdateTaskSelectionList() {
 			continue;
 		}
 
-        PROJECT* project = pDoc->state.lookup_project(result->project_url);
 
 		// loop through the items already in Task Selection Control to find this result
 		for(j = 0; j < count; ++j) {
@@ -738,10 +738,6 @@ void CSimpleTaskPanel::UpdateTaskSelectionList() {
                 selData->result = result;
 				found = true;
 				is_alive.at(j) = true;
-                if ( project && (project->project_files_downloaded_time > selData->project_files_downloaded_time) ) {
-                    FindSlideShowFiles(selData);
-                    selData->project_files_downloaded_time = project->project_files_downloaded_time;
-                }
 				break; // skip out of this loop
 			}
 		}
@@ -760,8 +756,11 @@ void CSimpleTaskPanel::UpdateTaskSelectionList() {
             strncpy(selData->project_url, result->project_url, sizeof(selData->project_url));
             selData->dotColor = -1;
             FindSlideShowFiles(selData);
+            project = pDoc->state.lookup_project(result->project_url);
             if (project) {
                 selData->project_files_downloaded_time = project->project_files_downloaded_time;
+            } else {
+                selData->project_files_downloaded_time = 0.0;
             }
             m_TaskSelectionCtrl->Append(resname, wxNullBitmap, (void*)selData);
         }
@@ -779,6 +778,15 @@ void CSimpleTaskPanel::UpdateTaskSelectionList() {
             }
 		}
 	}
+
+    if ((m_CurrentTaskSelection >= 0) && !m_bStableTaskInfoChanged) {
+        selData = (TaskSelectionData*)m_TaskSelectionCtrl->GetClientData(m_CurrentTaskSelection);
+        project = pDoc->state.lookup_project(selData->project_url);
+        if ( project && (project->project_files_downloaded_time > selData->project_files_downloaded_time) ) {
+            FindSlideShowFiles(selData);
+            selData->project_files_downloaded_time = project->project_files_downloaded_time;
+        }
+    }
 
     count = m_TaskSelectionCtrl->GetCount();
     for(j = 0; j < count; ++j) {
