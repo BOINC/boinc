@@ -4157,3 +4157,11 @@ Charlie 18 July 11
     clientgui/
         sg_ProjectPanel.cpp, .h
         sg_TaskPanel.cpp, .h
+
+Rom    18 July 2011
+    - Tag for 6.13.1 release, all platforms
+      boinc_core_release_6_13_1
+
+    /
+        configure.ac
+        version.h
