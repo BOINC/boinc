@@ -26,25 +26,53 @@ check_get_args(array("userid", "offset"));
 $userid = get_int("userid");
 $offset = get_int("offset", true);
 if (!$offset) $offset=0;
-$hide = true;
 $count = 10;
 
 $user = lookup_user_id($userid);
 $logged_in_user = get_logged_in_user(false);
 
-if( $logged_in_user = get_logged_in_user(false) ) {
-    BoincForumPrefs::lookup($logged_in_user);
-    if ($user->id==$logged_in_user->id ||  $logged_in_user->prefs->privilege(0)) {
-        $hide = false;
+// Policy for what to show:
+// Team message board posts:
+//    if requesting user is a member of team
+//        if post is hidden
+//           show only if requesting user is team admin
+//    else don't show
+// Other posts
+//    if post is hidden
+//       show only if requesting user is project admin
+//
+
+$show_all = false;
+$show_hidden = false;
+$teamid = 0;
+$show_team = false;
+$show_team_hidden = false;
+
+if ($logged_in_user) {
+    if ($user->id == $logged_in_user->id) {
+        $show_all = false;
+    } else {
+        BoincForumPrefs::lookup($logged_in_user);
+        if ($logged_in_user->prefs->privilege(0)) {
+            $show_hidden = true;
+        }
+        $teamid = $logged_in_user->teamid;
+        if ($teamid) {
+            $team = BoincTeam::lookup_id($teamid);
+            if ($team) {
+                $show_team = true;
+                if (is_team_admin($logged_in_user, $team)) {
+                    $show_team_hidden = true;
+                }
+            } else {
+                $teamid = 0;
+            }
+        }
     }
 }
 page_head("Posts by $user->name");
 
-if($hide) {
-    $posts = BoincPost::enum("user=$userid and hidden=0 order by id desc limit $offset,$count");
-} else {
-    $posts = BoincPost::enum("user=$userid order by id desc limit $offset,$count");
-}
+$posts = BoincPost::enum("user=$userid order by id desc");
 $n = 0;
 start_table();
 $options = get_output_options($logged_in_user);
@@ -54,7 +82,25 @@ foreach ($posts as $post) {
     if (!$thread) continue;
     $forum = BoincForum::lookup_id($thread->forum);
     if (!$forum) continue;
-    show_post_and_context($post, $thread, $forum, $options, $n+$offset+1);
+    if (!$show_all) {
+        if ($forum->parent_type == 1) {
+            // post to team msg board
+            if ($forum->category == $teamid) {
+                if ($post->hidden && !$show_team_hidden) {
+                    continue;
+                }
+            } else {
+                continue;
+            }
+        } else {
+            if ($post->hidden && !$show_hidden) {
+                continue;
+            }
+        }
+    }
+    if ($n >= $offset && $n < $offset + $count) {
+        show_post_and_context($post, $thread, $forum, $options, $n+$offset+1);
+    }
     $n++;
 }
 echo "</table>\n";

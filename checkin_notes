@@ -4165,3 +4165,14 @@ Rom    18 July 2011
     /
         configure.ac
         version.h
+
+David  18 July 2011
+    - web: when listing a user's message-board posts,
+        don't show team message-board posts unless
+        a) the requesting user is a member of the team, and
+        b) if the post is hidden, the requesting user is a team admin
+        This enforces the goal that a team's message board
+        is visible only to the team.
+
+    html/user/
+        forum_user_posts.php
