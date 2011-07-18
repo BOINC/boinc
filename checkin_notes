@@ -10013,3 +10013,10 @@ Charlie 8 July 2011
         BOINCTaskBar.cpp
         mac/
             MacSysMenu.cpp, .h
+
+Charlie 18 July 11
+    - MGR: Fix "Can't load Image" messages in Simple View.
+
+    clientgui/
+        sg_StatImageLoader.cpp
+        sg_ViewTabPage.cpp

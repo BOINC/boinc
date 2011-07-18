@@ -33,6 +33,7 @@
 #include "sg_StatImageLoader.h" 
 #include "sg_ProjectsComponent.h" 
 #include "app_ipc.h"
+#include "filesys.h"
 
 enum{
 	WEBSITE_URL_MENU_ID = 34500,
@@ -229,15 +230,19 @@ void StatImageLoader::LoadImage() {
     CSkinSimple* pSkinSimple = wxGetApp().GetSkinManager()->GetSimple();
 
 	char defaultIcnPath[256];
-	if(boinc_resolve_filename(GetProjectIconLoc().c_str(), defaultIcnPath, sizeof(defaultIcnPath)) == 0){
-		wxBitmap* btmpStatIcn = new wxBitmap();
-		if ( btmpStatIcn->LoadFile(wxString(defaultIcnPath,wxConvUTF8), wxBITMAP_TYPE_ANY) ) {
-			LoadStatIcon(*btmpStatIcn);
-		} else {
-			LoadStatIcon(*pSkinSimple->GetProjectImage()->GetBitmap());
-		}
-		delete btmpStatIcn;
-	}else{
+	if(boinc_resolve_filename(GetProjectIconLoc().c_str(), defaultIcnPath, sizeof(defaultIcnPath)) == 0) {
+            if (boinc_file_exists(defaultIcnPath)) {
+            wxBitmap* btmpStatIcn = new wxBitmap();
+            if ( btmpStatIcn->LoadFile(wxString(defaultIcnPath,wxConvUTF8), wxBITMAP_TYPE_ANY) ) {
+                LoadStatIcon(*btmpStatIcn);
+            } else {
+                LoadStatIcon(*pSkinSimple->GetProjectImage()->GetBitmap());
+            }
+            delete btmpStatIcn;
+        }else{
+            LoadStatIcon(*pSkinSimple->GetProjectImage()->GetBitmap());
+        }
+    }else{
 		LoadStatIcon(*pSkinSimple->GetProjectImage()->GetBitmap());
 	}
 }
@@ -246,7 +251,8 @@ void StatImageLoader::LoadImage() {
 void StatImageLoader::ReloadProjectSpecificIcon() {
 	char defaultIcnPath[256];
 	// Only update if it is project specific is found
-	if(boinc_resolve_filename(GetProjectIconLoc().c_str(), defaultIcnPath, sizeof(defaultIcnPath)) == 0){
+	if(boinc_resolve_filename(GetProjectIconLoc().c_str(), defaultIcnPath, sizeof(defaultIcnPath)) == 0) {
+        if (! boinc_file_exists(defaultIcnPath)) return;
 		wxBitmap* btmpStatIcn = new wxBitmap();
 		if ( btmpStatIcn->LoadFile(wxString(defaultIcnPath,wxConvUTF8), wxBITMAP_TYPE_ANY) ) {
 			LoadStatIcon(*btmpStatIcn);

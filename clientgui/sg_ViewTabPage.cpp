@@ -36,6 +36,7 @@
 #include "sg_ImageLoader.h"
 #include "sg_ViewTabPage.h"
 #include "app_ipc.h"
+#include "filesys.h"
 
 
 IMPLEMENT_DYNAMIC_CLASS(CViewTabPage, wxPanel)
@@ -200,6 +201,7 @@ void CViewTabPage::LoadSlideShow(std::vector<wxBitmap> *vSlideShow) {
 	for(int i=0; i<99; i++) {
 		sprintf(file, "%s/slideshow_%s_%02d", urlDirectory, result->app->name, i);
 		if(boinc_resolve_filename(file, resolvedFile, sizeof(resolvedFile)) == 0){
+            if (!boinc_file_exists(resolvedFile)) continue;
 			btmpSlideShow = new wxBitmap();
 			if ( btmpSlideShow->LoadFile(wxString(resolvedFile,wxConvUTF8), wxBITMAP_TYPE_ANY) ) {
 				if (btmpSlideShow->Ok() ) {
@@ -214,7 +216,8 @@ void CViewTabPage::LoadSlideShow(std::vector<wxBitmap> *vSlideShow) {
 	if ( vSlideShow->size() == 0 ) {
 		for(int i=0; i<99; i++) {
 			sprintf(file, "%s/slideshow_%02d", urlDirectory, i);
-			if(boinc_resolve_filename(file, resolvedFile, sizeof(resolvedFile)) == 0){
+			if(boinc_resolve_filename(file, resolvedFile, sizeof(resolvedFile)) == 0) {
+                if (!boinc_file_exists(resolvedFile)) continue;
 				btmpSlideShow = new wxBitmap();
 				if ( btmpSlideShow->LoadFile(wxString(resolvedFile,wxConvUTF8), wxBITMAP_TYPE_ANY) ) {
 					if (btmpSlideShow->Ok() ) {
