@@ -77,6 +77,7 @@ $n = 0;
 start_table();
 $options = get_output_options($logged_in_user);
 
+$show_next = false;
 foreach ($posts as $post) {
     $thread = BoincThread::lookup_id($post->thread);
     if (!$thread) continue;
@@ -98,18 +99,31 @@ foreach ($posts as $post) {
             }
         }
     }
-    if ($n >= $offset && $n < $offset + $count) {
-        show_post_and_context($post, $thread, $forum, $options, $n+$offset+1);
+	if ($n == $offset + $count) {
+		$show_next = true;
+		break;
+	}
+    if ($n >= $offset) {
+        show_post_and_context($post, $thread, $forum, $options, $n+1);
     }
     $n++;
 }
-echo "</table>\n";
+echo "</table><br><br>\n";
 
-if ($n == $count) {
+if ($offset) {
+	$x = $offset - $count;
+    echo "<a href=forum_user_posts.php?userid=$userid&offset=$x>
+		<b>Previous $count</b>
+		</a>
+    ";
+	if ($show_next) echo " | ";
+}
+
+if ($show_next) {
     $offset += $count;
-    echo "
-        <br><br>
-        <a href=forum_user_posts.php?userid=$userid&offset=$offset><b>Next $count posts</b></a>
+    echo "<a href=forum_user_posts.php?userid=$userid&offset=$offset>
+		<b>Next $count</b>
+		</a>
     ";
 }
 
