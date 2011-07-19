@@ -1232,6 +1232,7 @@ void process_request(char* code_sign_key) {
     update_n_jobs_today();
 
     handle_results();
+    handle_file_xfer_results();
 
     // Do this before resending lost jobs
     //

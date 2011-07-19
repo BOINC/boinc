@@ -306,6 +306,7 @@ struct SCHEDULER_REQUEST {
     COPROCS coprocs;
     std::vector<SCHED_DB_RESULT> results;
         // completed results being reported
+    std::vector<RESULT> file_xfer_results;
     std::vector<MSG_FROM_HOST_DESC> msgs_from_host;
     std::vector<FILE_INFO> file_infos;
         // sticky files reported by host for locality scheduling

@@ -703,48 +703,13 @@ int create_work(
 
 // STUFF RELATED TO FILE UPLOAD/DOWNLOAD
 
-int create_upload_result(
-    DB_RESULT& result, int host_id, const char * file_name
-) {
-    int retval;
-    char result_xml[BLOB_SIZE];
-
-    result.clear();
-    sprintf(result.name, "get_%s_%d_%ld", file_name, host_id, time(0));
-    result.create_time = time(0);
-    result.server_state = RESULT_SERVER_STATE_IN_PROGRESS;
-    result.hostid = host_id;
-    result.outcome = RESULT_OUTCOME_INIT;
-    result.file_delete_state = ASSIMILATE_DONE;
-    result.validate_state = VALIDATE_STATE_NO_CHECK;
-
-    sprintf(result_xml,
-        "<result>\n"
-        "    <wu_name>%s</wu_name>\n"
-        "    <name>%s</wu_name>\n"
-        "    <file_ref>\n"
-        "      <file_name>%s</file_name>\n"
-        "    </file_ref>\n"
-        "</result>\n",
-        result.name, result.name, file_name
-    );
-    strcpy(result.xml_doc_in, result_xml);
-    result.sent_time = time(0);
-    result.report_deadline = 0;
-    result.hostid = host_id;
-    retval = result.insert();
-    if (retval) {
-        fprintf(stderr, "result.insert(): %s\n", boincerror(retval));
-        return retval;
-    }
-    return 0;
-}
-
-int create_upload_message(
-    DB_RESULT& result, int host_id, const char* file_name
+int get_file(
+    int host_id, const char* file_name, vector<const char*> urls
 ) {;
+    char buf[8192];
     DB_MSG_TO_HOST mth;
     int retval;
+
     mth.clear();
     mth.create_time = time(0);
     mth.hostid = host_id;
@@ -752,27 +717,41 @@ int create_upload_message(
     mth.handled = false;
     sprintf(mth.xml,
         "<app>\n"
-        "    <name>%s</name>\n"
+        "    <name>file_xfer</name>\n"
         "</app>\n"
         "<app_version>\n"
-        "    <app_name>%s</app_name>\n"
-        "    <version_num>%d00</version_num>\n"
+        "    <app_name>file_xfer</app_name>\n"
+        "    <version_num>0</version_num>\n"
         "</app_version>\n"
         "<file_info>\n"
-        "    <name>%s</name>\n"
-        "    <url>%s</url>\n"
-        "    <max_nbytes>%.0f</max_nbytes>\n"
+        "    <name>%s</name>\n",
+        file_name
+    );
+    for (unsigned int i=0; i<urls.size(); i++) {
+        sprintf(buf, "    <url>%s</url>\n", urls[i]);
+        strcat(mth.xml, buf);
+    }
+    sprintf(buf,
         "    <upload_when_present/>\n"
         "</file_info>\n"
-        "%s"
         "<workunit>\n"
-        "    <name>%s</name>\n"
-        "    <app_name>%s</app_name>\n"
-        "</workunit>",
-        FILE_MOVER, FILE_MOVER, BOINC_MAJOR_VERSION,
-        file_name, config.upload_url,
-        1e10, result.xml_doc_in, result.name, FILE_MOVER
+        "    <name>upload_%s</name>\n"
+        "    <app_name>file_xfer</app_name>\n"
+        "</workunit>\n"
+        "<result>\n"
+        "    <wu_name>upload_%s</wu_name>\n"
+        "    <name>upload_%s</name>\n"
+        "    <file_ref>\n"
+        "        <file_name>%s</file_name>\n"
+        "    </file_ref>\n"
+        "</result>\n",
+        file_name,
+        file_name,
+        file_name,
+        file_name
     );
+    strcat(mth.xml, buf);
+
     retval = mth.insert();
     if (retval) {
         fprintf(stderr, "msg_to_host.insert(): %s\n", boincerror(retval));
@@ -781,111 +760,64 @@ int create_upload_message(
     return 0;
 }
 
-int get_file(int host_id, const char* file_name) {
-    DB_RESULT result;
-    int retval;
-    retval = create_upload_result(result, host_id, file_name);
-    if (retval) return retval;
-    retval = create_upload_message(result, host_id, file_name);
-    return retval;
-}
-
-int create_download_result(
-    DB_RESULT& result, int host_id, const char* file_name
+int put_file(
+    int host_id, const char* file_name,
+    vector<const char*> urls, const char* md5, double nbytes
 ) {
-    int retval;
-    char result_xml[BLOB_SIZE];
-
-    result.clear();
-    sprintf(result.name, "put_%s_%d_%ld", file_name, host_id, time(0));
-    result.create_time = time(0);
-    result.server_state = RESULT_SERVER_STATE_IN_PROGRESS;
-    result.hostid = host_id;
-    result.outcome = RESULT_OUTCOME_INIT;
-    result.file_delete_state = ASSIMILATE_DONE;
-    result.validate_state = VALIDATE_STATE_NO_CHECK;
-
-    sprintf(result_xml,
-        "<result>\n"
-        "    <wu_name>%s</wu_name>\n"
-        "    <name>%s</name>\n"
-        "</result>\n",
-        result.name, result.name
-    );
-    strcpy(result.xml_doc_in, result_xml);
-    result.sent_time = time(0);
-    result.report_deadline = 0;
-    result.hostid = host_id;
-    retval = result.insert();
-    if (retval) {
-        fprintf(stderr, "result.insert(): %s\n", boincerror(retval));
-        return retval;
-    }
-    return 0;
-}
-
-int create_download_message(
-    DB_RESULT& result, int host_id, const char* file_name
-) {;
+    char buf[8192];
     DB_MSG_TO_HOST mth;
     int retval;
-    double nbytes;
-    char dirpath[256], urlpath[256], path[256], md5[33];
-    strcpy(dirpath, config.download_dir);
-    strcpy(urlpath, config.download_url);
     mth.clear();
     mth.create_time = time(0);
     mth.hostid = host_id;
     strcpy(mth.variety, "file_xfer");
     mth.handled = false;
-    sprintf(path, "%s/%s", dirpath, file_name);
-    retval = md5_file(path, md5, nbytes);
-    if (retval) {
-        fprintf(stderr, "md5_file() error: %s\n", boincerror(retval));
-        return retval;
-    }
     sprintf(mth.xml,
         "<app>\n"
-        "    <name>%s</name>\n"
+        "    <name>file_xfer</name>\n"
         "</app>\n"
         "<app_version>\n"
-        "    <app_name>%s</app_name>\n"
-        "    <version_num>%d00</version_num>\n"
+        "    <app_name>file_xfer</app_name>\n"
+        "    <version_num>0</version_num>\n"
         "</app_version>\n"
-        "%s"
          "<file_info>\n"
-        "    <name>%s</name>\n"
-        "    <url>%s/%s</url>\n"
+        "    <name>%s</name>\n",
+        file_name
+    );
+    for (unsigned int i=0; i<urls.size(); i++) {
+        sprintf(buf, "    <url>%s</url>\n", urls[i]);
+        strcat(mth.xml, buf);
+    }
+    sprintf(buf,
         "    <md5_cksum>%s</md5_cksum>\n"
         "    <nbytes>%.0f</nbytes>\n"
         "    <sticky/>\n"
         "</file_info>\n"
         "<workunit>\n"
-        "    <name>%s</name>\n"
-        "    <app_name>%s</app_name>\n"
+        "    <name>download_%s</name>\n"
+        "    <app_name>file_xfer</app_name>\n"
         "    <file_ref>\n"
-        "      <file_name>%s</file_name>\n"
+        "        <file_name>%s</file_name>\n"
         "    </file_ref>\n"
-        "</workunit>",
-        FILE_MOVER, FILE_MOVER, BOINC_MAJOR_VERSION, result.xml_doc_in,
-        file_name, urlpath, file_name, md5,
-        nbytes, result.name, FILE_MOVER, file_name
+        "</workunit>\n"
+        "<result>\n"
+        "    <wu_name>download_%s</wu_name>\n"
+        "    <name>download_%s</name>\n"
+        "</result>\n",
+        md5,
+        nbytes,
+        file_name,
+        file_name,
+        file_name,
+        file_name
     );
+    strcat(mth.xml, buf);
     retval = mth.insert();
     if (retval) {
         fprintf(stderr, "msg_to_host.insert(): %s\n", boincerror(retval));
         return retval;
     }
     return 0;
-}
-
-int put_file(int host_id, const char* file_name) {
-    DB_RESULT result;
-    int retval;
-    retval = create_download_result(result, host_id, file_name);
-    if (retval) return retval;
-    retval = create_download_message(result, host_id, file_name);
-    return retval;
 }
 
 const char *BOINC_RCSID_b5f8b10eb5 = "$Id$";

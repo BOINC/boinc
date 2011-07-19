@@ -1532,7 +1532,6 @@ bool CLIENT_STATE::update_results() {
         case RESULT_FILES_DOWNLOADING:
             retval = input_files_available(rp, false);
             if (!retval) {
-                rp->set_state(RESULT_FILES_DOWNLOADED, "CS::update_results");
                 if (rp->avp->app_files.size()==0) {
                     // if this is a file-transfer app, start the upload phase
                     //
@@ -1541,6 +1540,7 @@ bool CLIENT_STATE::update_results() {
                 } else {
                     // else try to start the computation
                     //
+                    rp->set_state(RESULT_FILES_DOWNLOADED, "CS::update_results");
                     request_schedule_cpus("files downloaded");
                 }
                 action = true;

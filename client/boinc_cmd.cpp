@@ -74,7 +74,7 @@ Commands:\n\
  --get_tasks                        show tasks\n\
  --join_acct_mgr URL name passwd    attach account manager\n\
  --lookup_account URL email passwd\n\
- --network_available\n\
+ --network_available                retry deferred network communication\n\
  --project URL op                   project operation\n\
    op = reset | detach | update | suspend | resume | nomorework | allowmorework\n\
  --project_attach URL auth          attach to project\n\

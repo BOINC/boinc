@@ -388,7 +388,6 @@ int PROJECT::write_state(MIOFILE& out, bool gui_rpc) {
         "    <sched_rpc_pending>%d</sched_rpc_pending>\n"
         "    <send_time_stats_log>%d</send_time_stats_log>\n"
         "    <send_job_log>%d</send_job_log>\n"
-        "    <sched_priority>%f</sched_priority>\n"
         "%s%s%s%s%s%s%s%s%s%s%s%s%s",
         master_url,
         project_name,
@@ -422,7 +421,6 @@ int PROJECT::write_state(MIOFILE& out, bool gui_rpc) {
         sched_rpc_pending,
         send_time_stats_log,
         send_job_log,
-        project_priority(this),
         anonymous_platform?"    <anonymous_platform/>\n":"",
         master_url_fetch_pending?"    <master_url_fetch_pending/>\n":"",
         trickle_up_pending?"    <trickle_up_pending/>\n":"",
@@ -480,10 +478,13 @@ int PROJECT::write_state(MIOFILE& out, bool gui_rpc) {
         );
     }
     if (gui_rpc) {
-        out.printf("%s", gui_urls.c_str());
         out.printf(
+            "%s"
+            "    <sched_priority>%f</sched_priority>\n"
             "    <last_rpc_time>%f</last_rpc_time>\n"
             "    <project_files_downloaded_time>%f</project_files_downloaded_time>\n",
+            gui_urls.c_str(),
+            project_priority(this),
             last_rpc_time,
             project_files_downloaded_time
         );

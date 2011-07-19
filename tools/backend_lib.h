@@ -71,7 +71,13 @@ extern int create_work(
     const char* additional_xml = NULL
 );
 
-extern int put_file(int host_id, const char* file_name);
-extern int get_file(int host_id, const char* file_name);
+extern int put_file(
+    int host_id, const char* file_name, vector<const char*> urls,
+    const char* md5, double nbytes
+);
+
+extern int get_file(
+    int host_id, const char* file_name, vector<const char*> urls
+);
 
 #endif

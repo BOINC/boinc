@@ -28,63 +28,66 @@
 #include <time.h>
 
 #include "backend_lib.h"
+#include "md5_file.h"
 #include "svn_version.h"
+#include "filesys.h"
 
 #include "sched_config.h"
 #include "sched_util.h"
 
 void usage() {
     fprintf(stderr,
-        "Usage: put_file [options]\n\n"
-        "Arrange to send a file to a host.\n"
+        "put_file [options]: send a file to a host\n\n"
         "Options:\n"
-        "  --host_id id                    ID of host\n"
-        "  --file_name name                name of file to send\n"
-        "  [ -h | --help ]                 Show this help text.\n"
-        "  [ -v | --version ]              Show version information.\n"
+        "  --host_id id                 host DB ID\n"
+        "  --file_name name             file name\n"
+        "  [--url X]                    file URL (can specify several)\n"
+        "  [--md5 X]                    file MD5 (must specify if nonlocal)\n"
+        "  [--nbytes X]                 file size (must specify if nonlocal)\n"
+        "  [ -h | --help ]              Show this help text.\n"
+        "  [ -v | --version ]           Show version information.\n"
     );
+    exit(1);
 }
 
 int main(int argc, char** argv) {
     int i, retval;
-    char file_name[256];
+    char file_name[256], url[1024], path[1024];
     int host_id;
+    vector<const char*> urls;
+    double nbytes = -1;
+    char md5[256];
 
     strcpy(file_name, "");
+    strcpy(md5, "");
     host_id = 0;
 
     check_stop_daemons();
 
     for (i=1; i<argc; i++) {
         if (is_arg(argv[i], "host_id")) {
-            if (!argv[++i]) {
-                fprintf(stderr, "%s requires an argument\n\n", argv[--i]);
-                usage();
-                exit(1);
-            }
+            if (!argv[++i]) usage();
             host_id = atoi(argv[i]);
         } else if (is_arg(argv[i], "file_name")) {
-            if (!argv[++i]) {
-                fprintf(stderr, "%s requires an argument\n\n", argv[--i]);
-                usage();
-                exit(1);
-            }
+            if (!argv[++i]) usage();
             strcpy(file_name, argv[i]);
         } else if (!strcmp(argv[i], "-h") || !strcmp(argv[i], "--help")) {
             usage();
-            exit(0);
         } else if (!strcmp(argv[i], "-v") || !strcmp(argv[i], "--version")) {
             printf("%s\n", SVN_VERSION);
-            exit(0);
+        } else if (is_arg(argv[i], "url")) {
+            urls.push_back(argv[++i]);
+        } else if (is_arg(argv[i], "md5")) {
+            strcpy(md5, argv[++i]);
+        } else if (is_arg(argv[i], "nbytes")) {
+            nbytes = atof(argv[++i]);
         } else {
             usage();
-            exit(1);
         }
     }
 
     if (!strlen(file_name)) {
         usage();
-        exit(1);
     }
     retval = config.parse_file();
     if (retval) {
@@ -92,13 +95,37 @@ int main(int argc, char** argv) {
         exit(1);
     }
 
-    retval = boinc_db.open(config.db_name, config.db_host, config.db_user, config.db_passwd);
+    retval = boinc_db.open(
+        config.db_name, config.db_host, config.db_user, config.db_passwd
+    );
     if (retval) {
         fprintf(stderr, "boinc_db.open failed: %s\n", boincerror(retval));
         exit(1);
     }
 
-    retval = put_file(host_id, file_name);
+    if (urls.size() == 0) {
+        // The file is local.
+        // Make sure it's there, and compute its MD5
+        //
+        dir_hier_path(file_name, config.download_dir, config.uldl_dir_fanout, path);
+        if (!boinc_file_exists(path)) {
+            fprintf(stderr, "file not found: %s\n", path);
+            exit(1);
+        }
+        dir_hier_url(file_name, config.download_url, config.uldl_dir_fanout, url);
+        urls.push_back(url);
+        retval = md5_file(path, md5, nbytes);
+        if (retval) {
+            fprintf(stderr, "md5_file() failed: %s\n", boincerror(retval));
+            exit(1);
+        }
+    } else {
+        if (nbytes == -1 || !strlen(md5)) {
+            usage();
+        }
+    }
+
+    retval = put_file(host_id, file_name, urls, md5, nbytes);
 
     boinc_db.close();
     return retval;

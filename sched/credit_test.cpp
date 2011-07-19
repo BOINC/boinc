@@ -15,7 +15,6 @@
 #include "boinc_db.h"
 
 #define MAX_JOBS 100000
-#define COBBLESTONE_SCALE 100/86400e9
 #define PRINT_AV_PERIOD 100
 #define SCALE_AV_PERIOD 20
 

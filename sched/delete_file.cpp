@@ -42,11 +42,10 @@
 
 void usage(char* name) {
     fprintf(stderr,
-        "Arrange to delete a file from a host.\n\n"
-        "Usage: %s OPTION...\n\n"
+        "Usage: delete_file [options] : delete a file from a host \n\n"
         "Options:\n"
-        "  --file_name F                 Specify te file to delete.\n"
-        "  --host_id H                   Specify the coresponding host\n"
+        "  --file_name F                 file name\n"
+        "  --host_id H                   host DB ID\n"
         "  [-h | --help]                 Show this help text.\n"
         "  [-v | --version]              Show version information.\n",
         name

@@ -336,7 +336,12 @@ const char* SCHEDULER_REQUEST::parse(FILE* fin) {
             continue;
         }
         if (match_tag(buf, "<result>")) {
-            result.parse_from_client(fin);
+            retval = result.parse_from_client(fin);
+            if (retval) continue;
+            if (strstr(result.name, "download") || strstr(result.name, "upload")) {
+                file_xfer_results.push_back(result);
+                continue;
+            }
 #if 0   // enable if you need to limit CGI memory size
             if (results.size() >= 1024) {
                 continue;

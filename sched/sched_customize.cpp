@@ -600,3 +600,12 @@ bool JOB::get_score() {
     disk_usage = wu.rsc_disk_bound;
     return true;
 }
+
+void handle_file_xfer_results() {
+    for (unsigned int i=0; i<g_request->file_xfer_results.size(); i++) {
+        RESULT& r = g_request->file_xfer_results[i];
+        log_messages.printf(MSG_NORMAL,
+            "completed file xfer %s\n", r.name
+        );
+    }
+}

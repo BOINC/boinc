@@ -4182,3 +4182,31 @@ David  19 July 2011
 
     sched/
         credit.cpp
+
+David  19 July 2011
+    - server: some stuff to prepare for distributed storage
+        - don't create result records for uploads and downloads.
+            Just create a msg_to_client record.
+        - the scheduler handles file-transfer results specially;
+            it makes a vector of them, then calls a project-supplied function
+            handle_file_xfer_results()
+        - change the interface and implementation of put_file and get_file
+    - client write project sched priority in GUI RPC replies,
+        but not to the state file
+
+    sched/
+        delete_file.cpp
+        put_file.cpp
+        get_file.cpp
+        sched_types.cpp,h
+        sched_customize.cpp,h
+        handle_request.cpp
+        credit_test.cpp
+    tools/
+        backend_lib.cpp,h
+    py/Boinc/
+        setup_project.py
+    client/
+        client_state.cpp
+        boinc_cmd.cpp
+        client_types.cpp
