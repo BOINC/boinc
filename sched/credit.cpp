@@ -820,19 +820,9 @@ int write_modified_app_versions(vector<DB_APP_VERSION>& app_versions) {
     int retval = 0;
     double now = dtime();
 
-    if (config.debug_credit && app_versions.size()) {
-        log_messages.printf(MSG_NORMAL,
-            "[credit] start write_modified_app_versions()\n"
-        );
-    }
     for (i=0; i<app_versions.size(); i++) {
         DB_APP_VERSION& av = app_versions[i];
         if (av.pfc_samples.empty() && av.credit_samples.empty()) {
-            if (config.debug_credit) {
-                log_messages.printf(MSG_NORMAL,
-                    "[credit] skipping app version %d - no change\n", av.id
-                );
-            }
             continue;
         }
         for (int k=0; k<10; k++) {

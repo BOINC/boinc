@@ -4176,3 +4176,9 @@ David  18 July 2011
 
     html/user/
         forum_user_posts.php
+
+David  19 July 2011
+    - validator: remove spurious messages
+
+    sched/
+        credit.cpp
