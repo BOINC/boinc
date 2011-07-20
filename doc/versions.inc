@@ -5,7 +5,7 @@ function show_linux_info() {
         <p>
         ".tra("The current release is known to work with these Linux versions:")."
         <ul>
-        <li> Ubuntu 10.04
+        <li> Ubuntu 10.04+
         </ul>
         <p>
         ".tra("For other Linux versions, check if a BOINC package is offered by your Linux distribution.")."
@@ -58,10 +58,10 @@ function type_text($type) {
 }
 
 $w613 = array(
-	"num"=>"6.13.0",
+	"num"=>"6.13.1",
 	"status"=>"Development version",
-	"file"=>"boinc_6.13.0_windows_intelx86.exe",
-	"date"=>"7 July 2011",
+	"file"=>"boinc_6.13.1_windows_intelx86.exe",
+	"date"=>"20 July 2011",
 	"type"=>"win_new",
 );
 
@@ -98,10 +98,10 @@ $w5816 = array(
 );
 
 $w613x64 = array(
-	"num"=>"6.13.0",
+	"num"=>"6.13.1",
 	"status"=>"Development version",
-	"file"=>"boinc_6.13.0_windows_x86_64.exe",
-	"date"=>"7 July 2011",
+	"file"=>"boinc_6.13.1_windows_x86_64.exe",
+	"date"=>"20 July 2011",
 	"type"=>"win_new",
 );
 
@@ -122,10 +122,10 @@ $w610x64 = array(
 );
 
 $m613 = array(
-	"num"=>"6.13.0",
+	"num"=>"6.13.1",
 	"status"=>"Development version (standard GUI)",
-	"file"=>"boinc_6.13.0_macOSX_universal.zip",
-	"date"=>"7 July 2011",
+	"file"=>"boinc_6.13.1_macOSX_universal.zip",
+	"date"=>"20 July 2011",
 	"type"=>"mac_advanced",
 );
 
@@ -154,10 +154,10 @@ $m66 = array(
 );
 
 $m613c = array(
-	"num"=>"6.13.0",
+	"num"=>"6.13.1",
 	"status"=>"Development version (Unix command-line version)",
-	"file"=>"boinc_6.12.33_universal-apple-darwin.zip",
-	"date"=>"14 Jun 2011",
+	"file"=>"boinc_6.13.1_universal-apple-darwin.zip",
+	"date"=>"20 July 2011",
 	"type"=>"bare_core",
 );
 
@@ -201,6 +201,14 @@ $l66 = array(
 	"type"=>"sea",
 	);
 
+$l613ubuntu = array(
+	"num"=>"6.13.1",
+	"status"=>"Recommended version",
+	"file"=>"boinc_6.13.1_i686-pc-linux-gnu.sh",
+	"date"=>"20 Jun 2011",
+	"type"=>"sea",
+);
+
 $l612ubuntu = array(
 	"num"=>"6.12.33",
 	"status"=>"Recommended version",
@@ -214,6 +222,14 @@ $l610ubuntu = array(
 	"status"=>"Recommended version",
 	"file"=>"boinc_6.10.58_i686-pc-linux-gnu.sh",
 	"date"=>"4 Aug 2010",
+	"type"=>"sea",
+);
+
+$l613ubuntux64 = array(
+	"num"=>"6.13.1",
+	"status"=>"Recommended version",
+	"file"=>"boinc_6.12.1_x86_64-pc-linux-gnu.sh",
+	"date"=>"20 July 2011",
 	"type"=>"sea",
 );
 
@@ -292,6 +308,7 @@ $linux = array(
     "description"=>"For most current Linux/x86 versions; graphical and command-line interfaces",
     "dbname" => "i686-pc-linux-gnu",
     "versions"=>array(
+		$l613ubuntu,
 		//$l612ubuntu,
 		$l610ubuntu,
     )
@@ -302,6 +319,7 @@ $linuxx64 = array(
     "description"=>"For most current Linux/x64 versions; graphical and command-line interfaces",
     "dbname" => "x86_64-pc-linux-gnu",
     "versions"=>array(
+		$l613ubuntux64,
 		//$l612ubuntux64,
 		$l610ubuntux64,
     )
