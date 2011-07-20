@@ -357,7 +357,7 @@ int PROJECT::parse_preferences_for_user_files() {
         if (!fip) {
             fip = new FILE_INFO;
             fip->project = this;
-            fip->urls.push_back(url);
+            fip->download_urls.add(url);
             strcpy(fip->name, filename.c_str());
             fip->is_user_file = true;
             gstate.file_infos.push_back(fip);

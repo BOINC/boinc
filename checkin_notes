@@ -4211,3 +4211,29 @@ David  19 July 2011
         client_state.cpp
         boinc_cmd.cpp
         client_types.cpp
+
+David  20 July 2011
+    - client: changes to the client file model to support distributed storage,
+        as described here: http://boinc.berkeley.edu/trac/wiki/ClientDataModel
+        Compatibility:
+            clients that upgrade to this version should see nothing unusual.
+            Clients that downgrade from this version to a previous version
+            should see all projects reset
+            (i.e. tasks disappear and then get re-downloaded).
+    - manager: always show whether a file transfer is upload or download
+    - client: don't scale work requests by resource share
+
+    client/
+        client_types.cpp,h
+        cs_apps.cpp
+        cs_files.cpp
+        cs_prefs.cpp
+        cs_statefile.cpp
+        file_xfer.cpp
+        pers_file_xfer.cpp
+        work_fetch.cpp
+    clientgui/
+        ViewTransfers.cpp
+    lib/
+        gui_rpc_client.h
+        gui_rpc_client_ops.cpp

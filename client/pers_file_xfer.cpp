@@ -62,7 +62,8 @@ int PERS_FILE_XFER::init(FILE_INFO* f, bool is_file_upload) {
     fip = f;
     is_upload = is_file_upload;
     pers_xfer_done = false;
-    const char* p = f->get_init_url();
+    URL_LIST ul = f->get_url_list(is_upload);
+    const char* p = ul.get_init_url();
     if (!p) {
         msg_printf(NULL, MSG_INTERNAL_ERROR, "No URL for file transfer of %s", f->name);
         return ERR_NULL;
@@ -120,6 +121,7 @@ int PERS_FILE_XFER::create_xfer() {
         }
     }
 
+    URL_LIST& ul = fip->get_url_list(is_upload);
     file_xfer = new FILE_XFER;
     fxp = file_xfer;
     retval = start_xfer();
@@ -132,7 +134,7 @@ int PERS_FILE_XFER::create_xfer() {
             );
             msg_printf(
                 fip->project, MSG_INFO, "[file_xfer] URL %s: %s",
-                fip->get_current_url(), boincerror(retval)
+                ul.get_current_url(*fip), boincerror(retval)
             );
         }
 
@@ -151,7 +153,7 @@ int PERS_FILE_XFER::create_xfer() {
     if (log_flags.file_xfer_debug) {
         msg_printf(fip->project, MSG_INFO,
             "[file_xfer] URL: %s\n",
-            fip->get_current_url()
+            ul.get_current_url(*fip)
         );
     }
     return 0;
@@ -271,7 +273,7 @@ bool PERS_FILE_XFER::poll() {
         // so that we'll query file size on next retry.
         // Otherwise leave it as is, avoiding unnecessary size query.
         //
-        if (last_bytes_xferred || (fip->urls.size() > 1)) {
+        if (last_bytes_xferred || (fip->upload_urls.urls.size() > 1)) {
             fip->upload_offset = -1;
         }
 
@@ -330,7 +332,8 @@ void PERS_FILE_XFER::transient_failure(int retval) {
     // Otherwise immediately try the next URL
     //
 
-    if (fip->get_next_url()) {
+    URL_LIST& ul = fip->get_url_list(is_upload);
+    if (ul.get_next_url()) {
         start_xfer();
     } else {
         do_backoff();
@@ -396,6 +399,7 @@ int PERS_FILE_XFER::parse(MIOFILE& fin) {
         }
         else if (parse_double(buf, "<time_so_far>", time_so_far)) continue;
         else if (parse_double(buf, "<last_bytes_xferred>", last_bytes_xferred)) continue;
+        else if (parse_bool(buf, "is_upload", is_upload)) continue;
         else {
             if (log_flags.unparsed_xml) {
                 msg_printf(NULL, MSG_INFO,
@@ -417,8 +421,14 @@ int PERS_FILE_XFER::write(MIOFILE& fout) {
         "        <next_request_time>%f</next_request_time>\n"
         "        <time_so_far>%f</time_so_far>\n"
         "        <last_bytes_xferred>%f</last_bytes_xferred>\n"
+        "        <is_upload>%d</is_upload>\n"
         "    </persistent_file_xfer>\n",
-        nretry, first_request_time, next_request_time, time_so_far, last_bytes_xferred
+        nretry,
+        first_request_time,
+        next_request_time,
+        time_so_far,
+        last_bytes_xferred,
+        is_upload?1:0
     );
     if (fxp) {
         fout.printf(

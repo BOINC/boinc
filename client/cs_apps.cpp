@@ -120,7 +120,7 @@ int CLIENT_STATE::app_finished(ACTIVE_TASK& at) {
             retval = file_size(path, size);
             if (retval) {
                 if (fref.optional) {
-                    fip->upload_when_present = false;
+                    fip->upload_urls.clear();
                     continue;
                 }
 
@@ -152,7 +152,7 @@ int CLIENT_STATE::app_finished(ACTIVE_TASK& at) {
                 fip->status = ERR_FILE_TOO_BIG;
                 had_error = true;
             } else {
-                if (!fip->upload_when_present && !fip->sticky) {
+                if (!fip->uploadable() && !fip->sticky) {
                     fip->delete_file();     // sets status to NOT_PRESENT
                 } else {
                     retval = 0;
@@ -248,15 +248,16 @@ int CLIENT_STATE::input_files_available(
 
     for (i=0; i<wup->input_files.size(); i++) {
         fip = wup->input_files[i].file_info;
-        if (fip->generated_locally) continue;
         if (fip->status != FILE_PRESENT) {
+            if (wup->input_files[i].optional) continue;
             if (fipp) *fipp = fip;
             return ERR_FILE_MISSING;
-        }
-        retval = fip->verify_file(verify, true);
-        if (retval) {
-            if (fipp) *fipp = fip;
-            return retval;
+        } else {
+            retval = fip->verify_file(verify, true);
+            if (retval) {
+                if (fipp) *fipp = fip;
+                return retval;
+            }
         }
     }
     return 0;

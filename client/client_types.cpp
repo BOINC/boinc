@@ -860,23 +860,21 @@ FILE_INFO::FILE_INFO() {
     max_nbytes = 0;
     nbytes = 0;
     upload_offset = -1;
-    generated_locally = false;
     status = FILE_NOT_PRESENT;
     executable = false;
     uploaded = false;
-    upload_when_present = false;
     sticky = false;
     gzip_when_done = false;
     signature_required = false;
     is_user_file = false;
     is_project_file = false;
     is_auto_update_file = false;
+    anonymous_platform_file = false;
     pers_file_xfer = NULL;
     result = NULL;
     project = NULL;
-    urls.clear();
-    start_url = -1;
-    current_url = -1;
+    download_urls.clear();
+    upload_urls.clear();
     strcpy(signed_xml, "");
     strcpy(xml_signature, "");
     strcpy(file_signature, "");
@@ -949,7 +947,7 @@ int FILE_INFO::parse(MIOFILE& in, bool from_server) {
     int retval;
 
     while (in.fgets(buf, 256)) {
-        if (match_tag(buf, "</file_info>")) {
+        if (match_tag(buf, "</file_info>") || match_tag(buf, "</file>")) {
             if (!strlen(name)) return ERR_BAD_FILENAME;
             if (strstr(name, "..")) return ERR_BAD_FILENAME;
             if (strstr(name, "%")) return ERR_BAD_FILENAME;
@@ -992,17 +990,27 @@ int FILE_INFO::parse(MIOFILE& in, bool from_server) {
         safe_strcat(signed_xml, buf);
         if (parse_str(buf, "<name>", name, sizeof(name))) continue;
         if (parse_str(buf, "<url>", url)) {
-            urls.push_back(url);
+            if (strstr(url.c_str(), "file_upload_handler")) {
+                upload_urls.urls.push_back(url);
+            } else {
+                download_urls.urls.push_back(url);
+            }
+            continue;
+        }
+        if (parse_str(buf, "<download_url>", url)) {
+            download_urls.urls.push_back(url);
+            continue;
+        }
+        if (parse_str(buf, "<upload_url>", url)) {
+            upload_urls.urls.push_back(url);
             continue;
         }
         if (parse_str(buf, "<md5_cksum>", md5_cksum, sizeof(md5_cksum))) continue;
         if (parse_double(buf, "<nbytes>", nbytes)) continue;
         if (parse_double(buf, "<max_nbytes>", max_nbytes)) continue;
-        if (parse_bool(buf, "generated_locally", generated_locally)) continue;
         if (parse_int(buf, "<status>", status)) continue;
         if (parse_bool(buf, "executable", executable)) continue;
         if (parse_bool(buf, "uploaded", uploaded)) continue;
-        if (parse_bool(buf, "upload_when_present", upload_when_present)) continue;
         if (parse_bool(buf, "sticky", sticky)) continue;
         if (parse_bool(buf, "gzip_when_done", gzip_when_done)) continue;
         if (parse_bool(buf, "signature_required", signature_required)) continue;
@@ -1060,8 +1068,12 @@ int FILE_INFO::write(MIOFILE& out, bool to_server) {
     int retval;
     char buf[1024];
 
+    if (to_server) {
+        out.printf("<file_info>\n");
+    } else {
+        out.printf("<file>\n");
+    }
     out.printf(
-        "<file_info>\n"
         "    <name>%s</name>\n"
         "    <nbytes>%f</nbytes>\n"
         "    <max_nbytes>%f</max_nbytes>\n",
@@ -1074,20 +1086,22 @@ int FILE_INFO::write(MIOFILE& out, bool to_server) {
         );
     }
     if (!to_server) {
-        if (generated_locally) out.printf("    <generated_locally/>\n");
         out.printf("    <status>%d</status>\n", status);
         if (executable) out.printf("    <executable/>\n");
         if (uploaded) out.printf("    <uploaded/>\n");
-        if (upload_when_present) out.printf("    <upload_when_present/>\n");
         if (sticky) out.printf("    <sticky/>\n");
         if (gzip_when_done) out.printf("    <gzip_when_done/>\n");
         if (signature_required) out.printf("    <signature_required/>\n");
         if (is_user_file) out.printf("    <is_user_file/>\n");
         if (strlen(file_signature)) out.printf("    <file_signature>\n%s</file_signature>\n", file_signature);
     }
-    for (i=0; i<urls.size(); i++) {
-        xml_escape(urls[i].c_str(), buf, sizeof(buf));
-        out.printf("    <url>%s</url>\n", buf);
+    for (i=0; i<download_urls.urls.size(); i++) {
+        xml_escape(download_urls.urls[i].c_str(), buf, sizeof(buf));
+        out.printf("    <download_url>%s</download_url>\n", buf);
+    }
+    for (i=0; i<upload_urls.urls.size(); i++) {
+        xml_escape(upload_urls.urls[i].c_str(), buf, sizeof(buf));
+        out.printf("    <upload_url>%s</upload_url>\n", buf);
     }
     if (!to_server && pers_file_xfer) {
         retval = pers_file_xfer->write(out);
@@ -1106,10 +1120,16 @@ int FILE_INFO::write(MIOFILE& out, bool to_server) {
         strip_whitespace(error_msg);
         out.printf("    <error_msg>\n%s\n</error_msg>\n", error_msg.c_str());
     }
-    out.printf("</file_info>\n");
+    if (to_server) {
+        out.printf("</file_info>\n");
+    } else {
+        out.printf("</file>\n");
+    }
     return 0;
 }
 
+// called only for files with a PERS_FILE_XFER
+//
 int FILE_INFO::write_gui(MIOFILE& out) {
     out.printf(
         "<file_transfer>\n"
@@ -1126,20 +1146,14 @@ int FILE_INFO::write_gui(MIOFILE& out) {
         max_nbytes,
         status
     );
-    if (generated_locally) out.printf("    <generated_locally/>\n");
-    if (uploaded) out.printf("    <uploaded/>\n");
-    if (upload_when_present) out.printf("    <upload_when_present/>\n");
-    if (sticky) out.printf("    <sticky/>\n");
 
-    if (pers_file_xfer) {
-        pers_file_xfer->write(out);
+    pers_file_xfer->write(out);
 
-        FILE_XFER_BACKOFF& fxb = project->file_xfer_backoff(pers_file_xfer->is_upload);
-        if (fxb.next_xfer_time > gstate.now) {
-            out.printf("    <project_backoff>%f</project_backoff>\n",
-                fxb.next_xfer_time - gstate.now
-            );
-        }
+    FILE_XFER_BACKOFF& fxb = project->file_xfer_backoff(pers_file_xfer->is_upload);
+    if (fxb.next_xfer_time > gstate.now) {
+        out.printf("    <project_backoff>%f</project_backoff>\n",
+            fxb.next_xfer_time - gstate.now
+        );
     }
     out.printf("</file_transfer>\n");
     return 0;
@@ -1159,12 +1173,7 @@ int FILE_INFO::delete_file() {
     return retval;
 }
 
-// Files may have URLs for both upload and download.
-// Call this to get the initial url,
-// The is_upload arg says which kind you want.
-// NULL return means there is no URL of the requested type
-//
-const char* FILE_INFO::get_init_url() {
+const char* URL_LIST::get_init_url() {
     if (!urls.size()) {
         return NULL;
     }
@@ -1172,36 +1181,36 @@ const char* FILE_INFO::get_init_url() {
 // if a project supplies multiple URLs, try them in order
 // (e.g. in Einstein@home they're ordered by proximity to client).
 //
-    current_url = 0;
-    start_url = current_url;
-    return urls[current_url].c_str();
+    current_index = 0;
+    start_index = current_index;
+    return urls[current_index].c_str();
 }
 
 // Call this to get the next URL.
 // NULL return means you've tried them all.
 //
-const char* FILE_INFO::get_next_url() {
+const char* URL_LIST::get_next_url() {
     if (!urls.size()) return NULL;
     while(1) {
-        current_url = (current_url + 1)%((int)urls.size());
-        if (current_url == start_url) {
+        current_index = (current_index + 1)%((int)urls.size());
+        if (current_index == start_index) {
             return NULL;
         }
-        return urls[current_url].c_str();
+        return urls[current_index].c_str();
     }
 }
 
-const char* FILE_INFO::get_current_url() {
-    if (current_url < 0) {
+const char* URL_LIST::get_current_url(FILE_INFO& fi) {
+    if (current_index < 0) {
         return get_init_url();
     }
-    if (current_url >= (int)urls.size()) {
-        msg_printf(project, MSG_INTERNAL_ERROR,
-            "File %s has no URL", name
+    if (current_index >= (int)urls.size()) {
+        msg_printf(fi.project, MSG_INTERNAL_ERROR,
+            "File %s has no URL", fi.name
         );
         return NULL;
     }
-    return urls[current_url].c_str();
+    return urls[current_index].c_str();
 }
 
 // merges information from a new FILE_INFO that has the same name as one
@@ -1210,9 +1219,6 @@ const char* FILE_INFO::get_current_url() {
 //
 int FILE_INFO::merge_info(FILE_INFO& new_info) {
     char buf[256];
-    unsigned int i;
-
-    upload_when_present = new_info.upload_when_present;
 
     if (max_nbytes <= 0 && new_info.max_nbytes) {
         max_nbytes = new_info.max_nbytes;
@@ -1222,10 +1228,9 @@ int FILE_INFO::merge_info(FILE_INFO& new_info) {
 
     // replace existing URLs with new ones
     //
-    urls.clear();
-    for (i=0; i<new_info.urls.size(); i++) {
-        urls.push_back(new_info.urls[i]);
-    }
+
+    download_urls.replace(new_info.download_urls);
+    upload_urls.replace(new_info.upload_urls);
 
     // replace signature
     //
@@ -2019,7 +2024,7 @@ bool RESULT::is_upload_done() {
 
     for (i=0; i<output_files.size(); i++) {
         fip = output_files[i].file_info;
-        if (fip->upload_when_present) {
+        if (fip->uploadable()) {
             if (fip->had_failure(retval)) continue;
             if (!fip->uploaded) {
                 return false;
@@ -2038,9 +2043,7 @@ void RESULT::clear_uploaded_flags() {
 
     for (i=0; i<output_files.size(); i++) {
         fip = output_files[i].file_info;
-        if (fip->upload_when_present) {
-            fip->uploaded = false;
-        }
+        fip->uploaded = false;
     }
 }
 

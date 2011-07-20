@@ -254,13 +254,13 @@ bool CLIENT_STATE::handle_pers_file_xfers() {
         fip = file_infos[i];
         pfx = fip->pers_file_xfer;
         if (pfx) continue;
-        if (!fip->generated_locally && fip->status == FILE_NOT_PRESENT) {
+        if (fip->downloadable() && fip->status == FILE_NOT_PRESENT) {
             pfx = new PERS_FILE_XFER;
             pfx->init(fip, false);
             fip->pers_file_xfer = pfx;
             pers_file_xfers->insert(fip->pers_file_xfer);
             action = true;
-        } else if (fip->upload_when_present && fip->status == FILE_PRESENT && !fip->uploaded) {
+        } else if (fip->uploadable() && fip->status == FILE_PRESENT && !fip->uploaded) {
             pfx = new PERS_FILE_XFER;
             pfx->init(fip, true);
             fip->pers_file_xfer = pfx;
@@ -283,7 +283,7 @@ bool CLIENT_STATE::handle_pers_file_xfers() {
         //
         if (pfx->pers_xfer_done) {
             fip = pfx->fip;
-            if (fip->generated_locally || fip->upload_when_present) {
+            if (pfx->is_upload) {
                 // file has been uploaded - delete if not sticky
                 //
                 if (!fip->sticky) {

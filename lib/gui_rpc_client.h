@@ -297,9 +297,9 @@ public:
     std::string project_url;
     std::string project_name;
     double nbytes;
-    bool generated_locally;
     bool uploaded;
-    bool upload_when_present;
+    bool is_upload;
+    bool generated_locally;     // deprecated; for compatibility w/ old clients
     bool sticky;
     bool pers_xfer_active;
     bool xfer_active;

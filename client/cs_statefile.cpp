@@ -184,7 +184,7 @@ int CLIENT_STATE::parse_state_file_aux(const char* fname) {
             apps.push_back(app);
             continue;
         }
-        if (match_tag(buf, "<file_info>")) {
+        if (match_tag(buf, "<file_info>") || match_tag(buf, "<file>")) {
             FILE_INFO* fip = new FILE_INFO;
             retval = fip->parse(mf, false);
             if (!project) {
@@ -226,7 +226,7 @@ int CLIENT_STATE::parse_state_file_aux(const char* fname) {
                 }
             }
             if (fip->pers_file_xfer) {
-                retval = fip->pers_file_xfer->init(fip, fip->upload_when_present);
+                retval = fip->pers_file_xfer->init(fip, fip->pers_file_xfer->is_upload);
                 if (retval) {
                     msg_printf(project, MSG_INTERNAL_ERROR,
                         "Can't initialize file transfer for %s",
@@ -689,9 +689,7 @@ int CLIENT_STATE::write_state(MIOFILE& f) {
             FILE_INFO* fip = file_infos[i];
             // don't write file infos for anonymous platform app files
             //
-            if (p->anonymous_platform && (fip->urls.size()==0)) {
-                continue;
-            }
+            if (fip->anonymous_platform_file) continue;
             retval = fip->write(f, false);
             if (retval) return retval;
         }
@@ -817,7 +815,7 @@ int CLIENT_STATE::parse_app_info(PROJECT* p, FILE* in) {
                 delete fip;
                 continue;
             }
-            if (fip->urls.size()) {
+            if (!fip->download_urls.empty() || !fip->upload_urls.empty()) {
                 msg_printf(p, MSG_INFO,
                     "Can't specify URLs in app_info.xml"
                 );
@@ -841,6 +839,7 @@ int CLIENT_STATE::parse_app_info(PROJECT* p, FILE* in) {
                 continue;
             }
             fip->status = FILE_PRESENT;
+            fip->anonymous_platform_file = true;
             file_infos.push_back(fip);
             continue;
         }
@@ -988,9 +987,7 @@ int CLIENT_STATE::write_file_transfers_gui(MIOFILE& f) {
     f.printf("<file_transfers>\n");
     for (i=0; i<file_infos.size(); i++) {
         FILE_INFO* fip = file_infos[i];
-        if (fip->pers_file_xfer
-           || (fip->upload_when_present && fip->status == FILE_PRESENT && !fip->uploaded)
-        ) {
+        if (fip->pers_file_xfer) {
             fip->write_gui(f);
         }
     }

@@ -62,7 +62,7 @@ int FILE_XFER::init_download(FILE_INFO& file_info) {
     }
     bytes_xferred = starting_size;
 
-    const char* url = fip->get_current_url();
+    const char* url = fip->download_urls.get_current_url(file_info);
     if (!url) return ERR_INVALID_URL;
     return HTTP_OP::init_get(
         url, pathname, false, (int)starting_size
@@ -106,7 +106,7 @@ int FILE_XFER::init_upload(FILE_INFO& file_info) {
             file_info.name
         );
         file_size_query = true;
-        const char* url = fip->get_current_url();
+        const char* url = fip->upload_urls.get_current_url(file_info);
         if (!url) return ERR_INVALID_URL;
         return HTTP_OP::init_post2(url, header, sizeof(header), NULL, 0);
     } else {
@@ -135,7 +135,7 @@ int FILE_XFER::init_upload(FILE_INFO& file_info) {
             file_info.upload_offset
         );
         file_size_query = false;
-        const char* url = fip->get_current_url();
+        const char* url = fip->upload_urls.get_current_url(file_info);
         if (!url) return ERR_INVALID_URL;
         return HTTP_OP::init_post2(
             url, header, sizeof(header), pathname, fip->upload_offset

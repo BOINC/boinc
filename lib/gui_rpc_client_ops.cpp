@@ -593,9 +593,6 @@ int FILE_TRANSFER::parse(MIOFILE& in) {
         if (parse_str(buf, "<project_url>", project_url)) continue;
         if (parse_str(buf, "<project_name>", project_name)) continue;
         if (parse_double(buf, "<nbytes>", nbytes)) continue;
-        if (parse_bool(buf, "generated_locally", generated_locally)) continue;
-        if (parse_bool(buf, "uploaded", uploaded)) continue;
-        if (parse_bool(buf, "upload_when_present", upload_when_present)) continue;
         if (parse_bool(buf, "sticky", sticky)) continue;
         if (match_tag(buf, "<persistent_file_xfer>")) {
             pers_xfer_active = true;
@@ -604,6 +601,13 @@ int FILE_TRANSFER::parse(MIOFILE& in) {
         if (match_tag(buf, "<file_xfer>")) {
             xfer_active = true;
             continue;
+        }
+        if (parse_bool(buf, "is_upload", is_upload)) {
+            generated_locally = is_upload;
+            continue;
+        }
+        if (parse_bool(buf, "generated_locally", generated_locally)) {
+            is_upload = generated_locally;
         }
         if (parse_int(buf, "<num_retries>", num_retries)) continue;
         if (parse_int(buf, "<first_request_time>", first_request_time)) continue;
@@ -624,9 +628,6 @@ void FILE_TRANSFER::clear() {
     project_url.clear();
     project_name.clear();
     nbytes = 0;
-    generated_locally = false;
-    uploaded = false;
-    upload_when_present = false;
     sticky = false;
     pers_xfer_active = false;
     xfer_active = false;

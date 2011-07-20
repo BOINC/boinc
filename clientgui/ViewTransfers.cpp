@@ -750,49 +750,46 @@ wxInt32 CViewTransfers::FormatSpeed(double fBuffer, wxString& strBuffer) const {
 void CViewTransfers::GetDocStatus(wxInt32 item, wxString& strBuffer) const {
     FILE_TRANSFER* transfer = NULL;
     CMainDocument* pDoc = wxGetApp().GetDocument();
-    int            retval;
+    int retval;
+    strBuffer = wxString("", wxConvUTF8);
     
-    if (pDoc) {
-        transfer = pDoc->file_transfer(item);
-    }
+    transfer = pDoc->file_transfer(item);
+    if (!transfer) return;
     CC_STATUS      status;
 
     wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
 
     retval = pDoc->GetCoreClientStatus(status);
+    if (retval) return;
 
     wxDateTime dtNextRequest((time_t)transfer->next_request_time);
     wxDateTime dtNow(wxDateTime::Now());
 
-    if (transfer && !retval) {
-        if      (dtNextRequest > dtNow) {
-            wxTimeSpan tsNextRequest(dtNextRequest - dtNow);
-            strBuffer = _("Retry in ") + tsNextRequest.Format();
-        } else if (ERR_GIVEUP_DOWNLOAD == transfer->status) {
-            strBuffer = _("Download failed");
-        } else if (ERR_GIVEUP_UPLOAD == transfer->status) {
-            strBuffer = _("Upload failed");
+    strBuffer = transfer->is_upload?_("Upload"):_("Download");
+    strBuffer += wxString(": ", wxConvUTF8);
+    if (dtNextRequest > dtNow) {
+        wxTimeSpan tsNextRequest(dtNextRequest - dtNow);
+        strBuffer += _("retry in ") + tsNextRequest.Format();
+    } else if (transfer->status == ERR_GIVEUP_DOWNLOAD || transfer->status == ERR_GIVEUP_UPLOAD) {
+        strBuffer = _("failed");
+    } else {
+        if (status.network_suspend_reason) {
+            strBuffer += _("suspended");
+            strBuffer += wxString(" - ", wxConvUTF8);
+            strBuffer += suspend_reason_wxstring(status.network_suspend_reason);
         } else {
-            if (status.network_suspend_reason) {
-                strBuffer = transfer->generated_locally
-                    ?_("Upload suspended - ")
-                    :_("Download suspended - ")
-                ;
-                strBuffer += suspend_reason_wxstring(status.network_suspend_reason);
+            if (transfer->xfer_active) {
+                strBuffer += _("active");
             } else {
-                if (transfer->xfer_active) {
-                    strBuffer = transfer->generated_locally? _("Uploading") : _("Downloading");
-                } else {
-                    strBuffer = transfer->generated_locally? _("Upload pending") : _("Download pending");
-                }
+                strBuffer += _("pending");
             }
         }
-        if (transfer->project_backoff) {
-            wxString x;
-            FormatTime(transfer->project_backoff, x);
-            strBuffer += _(" (project backoff: ") + x + _(")");
-        }
+    }
+    if (transfer->project_backoff) {
+        wxString x;
+        FormatTime(transfer->project_backoff, x);
+        strBuffer += _(" (project backoff: ") + x + _(")");
     }
 }
 

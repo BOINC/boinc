@@ -57,6 +57,38 @@ extern int rsc_index(const char*);
 extern const char* rsc_name(int);
 extern COPROCS coprocs;
 
+struct FILE_INFO;
+
+// represents a list of URLs (e.g. to download a file)
+// and a current position in that list
+//
+struct URL_LIST {
+    std::vector<std::string> urls;
+    int start_index;
+    int current_index;
+
+    URL_LIST(){};
+
+    void clear() {
+        urls.clear();
+        start_index = -1;
+        current_index = -1;
+    }
+    bool empty() {return urls.empty();}
+    const char* get_init_url();
+    const char* get_next_url();
+    const char* get_current_url(FILE_INFO&);
+    inline void add(std::string url) {
+        urls.push_back(url);
+    }
+    void replace(URL_LIST& ul) {
+        clear();
+        for (unsigned int i=0; i<ul.urls.size(); i++) {
+            add(ul.urls[i]);
+        }
+    }
+};
+
 // If the status is neither of these two,
 // it will be an error code defined in error_numbers.h,
 // indicating an unrecoverable error in the upload or download of the file,
@@ -71,16 +103,15 @@ struct FILE_INFO {
     double max_nbytes;
     double nbytes;
     double upload_offset;
-    bool generated_locally; // file is produced by app
     int status;
     bool executable;        // change file protections to make executable
     bool uploaded;          // file has been uploaded
-    bool upload_when_present;
     bool sticky;            // don't delete unless instructed to do so
     bool signature_required;    // true iff associated with app version
     bool is_user_file;
     bool is_project_file;
 	bool is_auto_update_file;
+    bool anonymous_platform_file;
     bool gzip_when_done;
         // for output files: gzip file when done, and append .gz to its name
     class PERS_FILE_XFER* pers_file_xfer;
@@ -89,9 +120,8 @@ struct FILE_INFO {
         // for upload files (to authenticate)
     PROJECT* project;
     int ref_cnt;
-    std::vector<std::string> urls;
-    int start_url;
-    int current_url;
+    URL_LIST download_urls;
+    URL_LIST upload_urls;
     char signed_xml[MAX_FILE_INFO_LEN];
         // if the file_info is signed (for uploadable files)
         // this is the text that is signed
@@ -115,9 +145,6 @@ struct FILE_INFO {
     int write_gui(MIOFILE&);
     int delete_file();
         // attempt to delete the underlying file
-    const char* get_init_url();
-    const char* get_next_url();
-    const char* get_current_url();
     bool had_failure(int& failnum);
     void failure_message(std::string&);
     int merge_info(FILE_INFO&);
@@ -125,6 +152,15 @@ struct FILE_INFO {
     bool verify_file_certs();
     int gzip();
         // gzip file and add .gz to name
+    inline bool uploadable() {
+        return !upload_urls.empty();
+    }
+    inline bool downloadable() {
+        return !download_urls.empty();
+    }
+    inline URL_LIST& get_url_list(bool is_upload) {
+        return is_upload?upload_urls:download_urls;
+    }
 };
 
 // Describes a connection between a file and a workunit, result, or app version

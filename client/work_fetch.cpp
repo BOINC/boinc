@@ -397,7 +397,11 @@ if (!use_rec) {
             //
             req_secs = 1;
         } else {
-            req_secs = shortfall * w.fetchable_share;
+            if (use_rec) {
+                req_secs = shortfall;
+            } else {
+                req_secs = shortfall * w.fetchable_share;
+            }
         }
     }
 
