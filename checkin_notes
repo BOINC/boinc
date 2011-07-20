@@ -1496,6 +1496,7 @@ Charlie 10 Mar 2011
                         resume_link_image.xpm
                         preferences_link_image.xpm
                         advanced_link_image.xpm
+                        wizard_bitmap.xpm
                         
         The following files have been modified:
         
