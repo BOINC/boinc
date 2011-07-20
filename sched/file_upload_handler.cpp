@@ -242,25 +242,32 @@ void copy_socket_to_null(FILE* in) {
 //
 int handle_file_upload(FILE* in, R_RSA_PUBLIC_KEY& key) {
     char buf[256], path[512], signed_xml[1024];
-    char name[256];
+    char name[256], stemp[256];
     double max_nbytes=-1;
-    char xml_signature[SIGNATURE_SIZE_TEXT];
+    char xml_signature[1024];
     int retval;
     double offset=0, nbytes = -1;
-    bool is_valid;
+    bool is_valid, btemp;
 
     strcpy(name, "");
     strcpy(xml_signature, "");
     bool found_data = false;
     while (fgets(buf, 256, in)) {
-#if 0
+#if 1
         log_messages.printf(MSG_NORMAL, "got:%s\n", buf);
 #endif
         if (match_tag(buf, "<file_info>")) continue;
         if (match_tag(buf, "</file_info>")) continue;
         if (match_tag(buf, "<signed_xml>")) continue;
         if (match_tag(buf, "</signed_xml>")) continue;
-        if (parse_str(buf, "<xml_signature>", xml_signature, sizeof(xml_signature))) {
+        if (parse_bool(buf, "generated_locally", btemp)) continue;
+        if (parse_bool(buf, "upload_when_present", btemp)) continue;
+        if (parse_str(buf, "<url>", stemp, sizeof(stemp))) continue;
+        if (parse_str(buf, "<md5_cksum>", stemp, sizeof(stemp))) continue;
+        if (match_tag(buf, "<xml_signature>")) {
+            copy_element_contents(
+                in, "</xml_signature>", xml_signature, sizeof(xml_signature)
+            );
             continue;
         }
         if (parse_str(buf, "<name>", name, sizeof(name))) {
@@ -276,37 +283,39 @@ int handle_file_upload(FILE* in, R_RSA_PUBLIC_KEY& key) {
         }
         log_messages.printf(MSG_CRITICAL, "unrecognized: %s", buf);
     }
+    if (strlen(name) == 0) {
+        return return_error(ERR_PERMANENT, "Missing name");
+    }
     if (!found_data) {
         return return_error(ERR_PERMANENT, "Missing <data> tag");
     }
     if (!config.ignore_upload_certificates) {
         if (strlen(xml_signature) == 0) {
+            return return_error(ERR_PERMANENT, "missing signature");
+        }
+        if (max_nbytes < 0) {
+            return return_error(ERR_PERMANENT, "missing max_nbytes");
+        }
+        sprintf(signed_xml,
+            "<name>%s</name><max_nbytes>%.0f</max_nbytes>",
+            name, max_nbytes
+        );
+        retval = verify_string(
+            signed_xml, xml_signature, key, is_valid
+        );
+        if (retval || !is_valid) {
             log_messages.printf(MSG_CRITICAL,
-                "file info is missing signature\n"
+                "verify_string() [%s] [%s] retval %d, is_valid = %d\n",
+                signed_xml, xml_signature,
+                retval, is_valid
+            );
+            log_messages.printf(MSG_NORMAL,
+                "signed xml: %s\n", signed_xml
+            );
+            log_messages.printf(MSG_NORMAL,
+                "signature: %s\n", xml_signature
             );
             return return_error(ERR_PERMANENT, "invalid signature");
-        } else {
-            sprintf(signed_xml,
-                "<name>%s</name><max_nbytes>%.0f</max_nbytes>",
-                name, max_nbytes
-            );
-            retval = verify_string(
-                signed_xml, xml_signature, key, is_valid
-            );
-            if (retval || !is_valid) {
-                log_messages.printf(MSG_CRITICAL,
-                    "verify_string() [%s] [%s] retval %d, is_valid = %d\n",
-                    signed_xml, xml_signature,
-                    retval, is_valid
-                );
-                log_messages.printf(MSG_NORMAL,
-                    "signed xml: %s", signed_xml
-                );
-                log_messages.printf(MSG_NORMAL,
-                    "signature: %s", xml_signature
-                );
-                return return_error(ERR_PERMANENT, "invalid signature");
-            }
         }
     }
     if (nbytes < 0) {
