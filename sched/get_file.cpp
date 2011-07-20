@@ -21,6 +21,8 @@
 // --host_id N              ID of host to upload from
 // --file_name name         file name
 // [ --url x ]              URL of upload server (can specify several)
+// [ --max_latency x ]      max latency, seconds (default 1 week)
+// [ --max_nbytes x ]       max file size (default 1 GB)
 //
 // Run from the project root dir.
 
@@ -55,6 +57,8 @@ int main(int argc, char** argv) {
     char file_name[256];
     int host_id;
     vector<const char*> urls;
+    double max_latency = 7*86400;
+    double max_nbytes = 1e9;
 
     strcpy(file_name, "");
     host_id = 0;
@@ -82,6 +86,10 @@ int main(int argc, char** argv) {
             exit(0);
         } else if (is_arg(argv[i], "url")) {
             urls.push_back(argv[++i]);
+        } else if (is_arg(argv[i], "max_latency")) {
+            max_latency = atof(argv[++i]);
+        } else if (is_arg(argv[i], "max_nbytes")) {
+            max_nbytes = atof(argv[++i]);
         } else {
             usage();
             exit(1);
@@ -111,7 +119,24 @@ int main(int argc, char** argv) {
         urls.push_back(config.upload_url);
     }
 
-    retval = get_file(host_id, file_name, urls);
+    R_RSA_PRIVATE_KEY key;
+    bool generate_upload_certificate = !config.dont_generate_upload_certificates;
+    if (generate_upload_certificate) {
+        char keypath[256];
+        sprintf(keypath, "%s/upload_private", config.key_dir);
+        retval = read_key_file(keypath, key);
+        if (retval) {
+            fprintf(stderr, "can't read key\n");
+            exit(1);
+        }
+    }
+
+    retval = get_file(
+        host_id, file_name, urls, max_nbytes,
+        dtime() + max_latency,
+        generate_upload_certificate, key
+    );
+
     if (retval) {
         fprintf(stderr, "get_file() failed: %s\n", boincerror(retval));
     }

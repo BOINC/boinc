@@ -73,11 +73,15 @@ extern int create_work(
 
 extern int put_file(
     int host_id, const char* file_name, vector<const char*> urls,
-    const char* md5, double nbytes
+    const char* md5, double nbytes, double report_deadline
 );
 
 extern int get_file(
-    int host_id, const char* file_name, vector<const char*> urls
+    int host_id, const char* file_name, vector<const char*> urls,
+    double max_nbytes,
+    double report_deadline,
+    bool generate_upload_certificate,
+    R_RSA_PRIVATE_KEY& key
 );
 
 #endif

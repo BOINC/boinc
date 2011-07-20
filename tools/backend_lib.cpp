@@ -704,7 +704,11 @@ int create_work(
 // STUFF RELATED TO FILE UPLOAD/DOWNLOAD
 
 int get_file(
-    int host_id, const char* file_name, vector<const char*> urls
+    int host_id, const char* file_name, vector<const char*> urls,
+    double max_nbytes,
+    double report_deadline,
+    bool generate_upload_certificate,
+    R_RSA_PRIVATE_KEY& key
 ) {;
     char buf[8192];
     DB_MSG_TO_HOST mth;
@@ -724,7 +728,9 @@ int get_file(
         "    <version_num>0</version_num>\n"
         "</app_version>\n"
         "<file_info>\n"
-        "    <name>%s</name>\n",
+        "    <name>%s</name>\n"
+        "    <max_nbytes>%.0f</max_nbytes>\n",
+        max_nbytes,
         file_name
     );
     for (unsigned int i=0; i<urls.size(); i++) {
@@ -732,7 +738,6 @@ int get_file(
         strcat(mth.xml, buf);
     }
     sprintf(buf,
-        "    <upload_when_present/>\n"
         "</file_info>\n"
         "<workunit>\n"
         "    <name>upload_%s</name>\n"
@@ -744,13 +749,18 @@ int get_file(
         "    <file_ref>\n"
         "        <file_name>%s</file_name>\n"
         "    </file_ref>\n"
+        "    <report_deadline>%f</report_deadline>\n"
         "</result>\n",
         file_name,
         file_name,
         file_name,
-        file_name
+        file_name,
+        report_deadline
     );
     strcat(mth.xml, buf);
+    if (generate_upload_certificate) {
+        add_signatures(mth.xml, key);
+    }
 
     retval = mth.insert();
     if (retval) {
@@ -762,7 +772,8 @@ int get_file(
 
 int put_file(
     int host_id, const char* file_name,
-    vector<const char*> urls, const char* md5, double nbytes
+    vector<const char*> urls, const char* md5, double nbytes,
+    double report_deadline
 ) {
     char buf[8192];
     DB_MSG_TO_HOST mth;
@@ -803,13 +814,15 @@ int put_file(
         "<result>\n"
         "    <wu_name>download_%s</wu_name>\n"
         "    <name>download_%s</name>\n"
+        "    <report_deadline>%f</report_deadline>\n"
         "</result>\n",
         md5,
         nbytes,
         file_name,
         file_name,
         file_name,
-        file_name
+        file_name,
+        report_deadline
     );
     strcat(mth.xml, buf);
     retval = mth.insert();

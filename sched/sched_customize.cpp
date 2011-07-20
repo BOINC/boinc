@@ -49,6 +49,10 @@
 //    (and write-protect that)
 // In either case, put your version under source-code control, e.g. SVN
 
+#include <string>
+
+using std::string;
+
 #include "str_util.h"
 #include "util.h"
 
@@ -607,5 +611,6 @@ void handle_file_xfer_results() {
         log_messages.printf(MSG_NORMAL,
             "completed file xfer %s\n", r.name
         );
+        g_reply->result_acks.push_back(string(r.name));
     }
 }

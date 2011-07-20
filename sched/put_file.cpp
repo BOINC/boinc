@@ -44,6 +44,7 @@ void usage() {
         "  [--url X]                    file URL (can specify several)\n"
         "  [--md5 X]                    file MD5 (must specify if nonlocal)\n"
         "  [--nbytes X]                 file size (must specify if nonlocal)\n"
+        "  [--max_latency X]            max latency, seconds\n"
         "  [ -h | --help ]              Show this help text.\n"
         "  [ -v | --version ]           Show version information.\n"
     );
@@ -57,6 +58,7 @@ int main(int argc, char** argv) {
     vector<const char*> urls;
     double nbytes = -1;
     char md5[256];
+    double max_latency = 7*86400;
 
     strcpy(file_name, "");
     strcpy(md5, "");
@@ -81,6 +83,8 @@ int main(int argc, char** argv) {
             strcpy(md5, argv[++i]);
         } else if (is_arg(argv[i], "nbytes")) {
             nbytes = atof(argv[++i]);
+        } else if (is_arg(argv[i], "max_latency")) {
+            max_latency = atof(argv[++i]);
         } else {
             usage();
         }
@@ -125,7 +129,9 @@ int main(int argc, char** argv) {
         }
     }
 
-    retval = put_file(host_id, file_name, urls, md5, nbytes);
+    retval = put_file(
+        host_id, file_name, urls, md5, nbytes, dtime()+max_latency
+    );
 
     boinc_db.close();
     return retval;

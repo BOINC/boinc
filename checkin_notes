@@ -4270,3 +4270,16 @@ David  20 July 2011
 
     client/
         file_xfer.cpp
+
+David  20 July 2011
+    - server: debug distributed storage functions
+        - generate upload signatures if needed
+        - assign deadlines to file xfer jobs (default 1 week)
+        - scheduler: ack completed file xfer results
+
+    sched/
+        put_file.cpp
+        get_file.cpp
+        sched_customize.cpp
+    tools/
+        backend_lib.cpp,h
