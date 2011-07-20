@@ -203,7 +203,7 @@ $l66 = array(
 
 $l613ubuntu = array(
 	"num"=>"6.13.1",
-	"status"=>"Recommended version",
+	"status"=>"Development version",
 	"file"=>"boinc_6.13.1_i686-pc-linux-gnu.sh",
 	"date"=>"20 Jun 2011",
 	"type"=>"sea",
@@ -227,8 +227,8 @@ $l610ubuntu = array(
 
 $l613ubuntux64 = array(
 	"num"=>"6.13.1",
-	"status"=>"Recommended version",
-	"file"=>"boinc_6.12.1_x86_64-pc-linux-gnu.sh",
+	"status"=>"Development version",
+	"file"=>"boinc_6.13.1_x86_64-pc-linux-gnu.sh",
 	"date"=>"20 July 2011",
 	"type"=>"sea",
 );
