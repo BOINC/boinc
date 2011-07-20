@@ -122,13 +122,8 @@ struct FILE_INFO {
     int ref_cnt;
     URL_LIST download_urls;
     URL_LIST upload_urls;
-    char signed_xml[MAX_FILE_INFO_LEN];
-        // if the file_info is signed (for uploadable files)
-        // this is the text that is signed
-        // Otherwise it is the FILE_INFO's XML descriptor
-        // (without enclosing <file_info> tags)
     char xml_signature[MAX_SIGNATURE_LEN];
-        // ... and this is the signature
+        // the upload signature
     char file_signature[MAX_SIGNATURE_LEN];
         // if the file itself is signed (for executable files)
         // this is the signature

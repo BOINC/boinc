@@ -875,7 +875,6 @@ FILE_INFO::FILE_INFO() {
     project = NULL;
     download_urls.clear();
     upload_urls.clear();
-    strcpy(signed_xml, "");
     strcpy(xml_signature, "");
     strcpy(file_signature, "");
     cert_sigs = 0;
@@ -971,11 +970,6 @@ int FILE_INFO::parse(MIOFILE& in, bool from_server) {
                 sizeof(file_signature)
             );
             if (retval) return retval;
-            if (from_server) {
-                strcat(signed_xml, "<file_signature>\n");
-                strcat(signed_xml, file_signature);
-                strcat(signed_xml, "</file_signature>\n");
-            }
             continue;
         }
         if (match_tag(buf, "<signatures>")) {
@@ -987,7 +981,6 @@ int FILE_INFO::parse(MIOFILE& in, bool from_server) {
             continue;
         }
 
-        safe_strcat(signed_xml, buf);
         if (parse_str(buf, "<name>", name, sizeof(name))) continue;
         if (parse_str(buf, "<url>", url)) {
             if (strstr(url.c_str(), "file_upload_handler")) {
@@ -1028,16 +1021,6 @@ int FILE_INFO::parse(MIOFILE& in, bool from_server) {
             } else {
                 delete pfxp;
             }
-            continue;
-        }
-        if (!from_server && match_tag(buf, "<signed_xml>")) {
-            retval = copy_element_contents(
-                in,
-                "</signed_xml>",
-                signed_xml,
-                sizeof(signed_xml)
-            );
-            if (retval) return retval;
             continue;
         }
         if (match_tag(buf, "<file_xfer>")) {
@@ -1108,11 +1091,10 @@ int FILE_INFO::write(MIOFILE& out, bool to_server) {
         if (retval) return retval;
     }
     if (!to_server) {
-        if (strlen(signed_xml) && strlen(xml_signature)) {
+        if (strlen(xml_signature)) {
             out.printf(
-                "    <signed_xml>\n%s    </signed_xml>\n"
                 "    <xml_signature>\n%s    </xml_signature>\n",
-                signed_xml, xml_signature
+                xml_signature
             );
         }
     }
@@ -1215,7 +1197,7 @@ const char* URL_LIST::get_current_url(FILE_INFO& fi) {
 
 // merges information from a new FILE_INFO that has the same name as one
 // that is already present in the client state file.
-// Potentially changes upload_when_present, max_nbytes, and signed_xml
+// Potentially changes upload_when_present, max_nbytes
 //
 int FILE_INFO::merge_info(FILE_INFO& new_info) {
     char buf[256];
@@ -1223,7 +1205,6 @@ int FILE_INFO::merge_info(FILE_INFO& new_info) {
     if (max_nbytes <= 0 && new_info.max_nbytes) {
         max_nbytes = new_info.max_nbytes;
         sprintf(buf, "    <max_nbytes>%.0f</max_nbytes>\n", new_info.max_nbytes);
-        strcat(signed_xml, buf);
     }
 
     // replace existing URLs with new ones

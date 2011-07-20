@@ -34,13 +34,13 @@
 #define OUTFILE_MACRO   "<OUTFILE_"
 #define UPLOAD_URL_MACRO      "<UPLOAD_URL/>"
 
-// At the end of every <file_info> element,
-// add a signature of its contents up to that point.
+// Add a signature at the end of every <file_info> element,
 //
 int add_signatures(char* xml, R_RSA_PRIVATE_KEY& key) {
     char* p = xml, *q1, *q2, buf[BLOB_SIZE], buf2[BLOB_SIZE];;
     char signature_hex[BLOB_SIZE];
     char signature_xml[BLOB_SIZE];
+    char signed_xml[1024];
     int retval, len;
 
     while (1) {
@@ -52,15 +52,24 @@ int add_signatures(char* xml, R_RSA_PRIVATE_KEY& key) {
             return ERR_XML_PARSE;
         }
 
-        // signed text doesn't include leading white space before </file_info>
-        //
-        while(*(q2-1)==' ' || *(q2-1)=='\t') q2--;
-
         q1 += strlen("<file_info>\n");
         len = q2 - q1;
         memcpy(buf, q1, len);
         buf[len] = 0;
-        retval = generate_signature(buf, signature_hex, key);
+        char name[1024];
+        if (!parse_str(buf, "<name>", name, sizeof(name))) {
+            fprintf(stderr, "add_signatures: missing name: %s", buf);
+            return ERR_XML_PARSE;
+        }
+        double max_nbytes;
+        if (!parse_double(buf, "<max_nbytes>", max_nbytes)) {
+            fprintf(stderr, "add_signatures: missing max_nbytes: %s", buf);
+            return ERR_XML_PARSE;
+        }
+        sprintf(signed_xml, "<name>%s</name><max_nbytes>%.0f</max_nbytes>",
+            name, max_nbytes
+        );
+        retval = generate_signature(signed_xml, signature_hex, key);
         sprintf(signature_xml,
             "<xml_signature>\n%s</xml_signature>\n", signature_hex
         );

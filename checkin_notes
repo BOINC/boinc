@@ -4237,3 +4237,24 @@ David  20 July 2011
     lib/
         gui_rpc_client.h
         gui_rpc_client_ops.cpp
+
+David  20 July 2011
+    - client/server: change the implementation of upload signatures
+        as described here: http://boinc.berkeley.edu/trac/wiki/ClientDataModel
+        Compatibility: if your project is using upload signatures:
+            - set ignore_upload_certificates
+            - disable job creation
+            - let your job queue drain
+            - upgrade to new server software
+            - clear ignore_upload_certificates
+            - enable job creation
+
+    sched/
+        file_upload_handler.cpp
+    tools/
+        process_result_template.cpp
+    lib/
+        gui_rpc_client_print.cpp
+    client/
+        client_types.cpp,h
+        file_xfer.cpp

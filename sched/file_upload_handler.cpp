@@ -56,46 +56,6 @@
 char this_filename[256];
 double start_time();
 
-struct FILE_INFO {
-    char name[256];
-    double max_nbytes;
-    char* xml_signature;
-    char* signed_xml;
-    int parse(FILE*);
-};
-
-int FILE_INFO::parse(FILE* in) {
-    char buf[256];
-    int retval;
-
-    memset(this, 0, sizeof(FILE_INFO));
-    signed_xml = strdup("");
-    while (fgets(buf, 256, in)) {
-        //log_messages.printf(MSG_DEBUG, buf, "FILE_INFO::parse: ");
-        if (match_tag(buf, "</file_info>")) return 0;
-        if (match_tag(buf, "<xml_signature>")) {
-            retval = dup_element_contents(in, "</xml_signature>", &xml_signature);
-            if (retval) return retval;
-            continue;
-        }
-        retval = strcatdup(signed_xml, buf);
-        if (retval) return retval;
-        if (parse_str(buf, "<name>", name, sizeof(name))) {
-            strcpy(this_filename, name);
-            continue;
-        }
-        if (parse_double(buf, "<max_nbytes>", max_nbytes)) continue;
-        if (match_tag(buf, "<generated_locally/>")) continue;
-        if (match_tag(buf, "<upload_when_present/>")) continue;
-        if (match_tag(buf, "<url>")) continue;
-        if (match_tag(buf, "<gzip_when_done")) continue;
-        log_messages.printf(MSG_NORMAL,
-            "FILE_INFO::parse: unrecognized: %s \n", buf
-        );
-    }
-    return ERR_XML_PARSE;
-}
-
 inline static const char* get_remote_addr() {
     char* p = getenv("REMOTE_ADDR");
     if (p) return p;
@@ -281,133 +241,143 @@ void copy_socket_to_null(FILE* in) {
 // ALWAYS generates an HTML reply
 //
 int handle_file_upload(FILE* in, R_RSA_PUBLIC_KEY& key) {
-    char buf[256], path[512], temp[256];
-    FILE_INFO file_info;
+    char buf[256], path[512], signed_xml[1024];
+    char name[256];
+    double max_nbytes=-1;
+    char xml_signature[SIGNATURE_SIZE_TEXT];
     int retval;
-    double nbytes=-1, offset=0;
+    double offset=0, nbytes = -1;
     bool is_valid;
 
+    strcpy(name, "");
+    strcpy(xml_signature, "");
+    bool found_data = false;
     while (fgets(buf, 256, in)) {
 #if 0
         log_messages.printf(MSG_NORMAL, "got:%s\n", buf);
 #endif
-        if (match_tag(buf, "<file_info>")) {
-            retval = file_info.parse(in);
-            if (retval) {
-                return return_error(ERR_PERMANENT, "FILE_INFO::parse");
-            }
-#if 0
-            log_messages.printf(MSG_NORMAL,
-                "file info:\n%s\n", file_info.signed_xml
-            );
-#endif
-            if (!config.ignore_upload_certificates) {
-                if (!file_info.signed_xml || !file_info.xml_signature) {
-                    log_messages.printf(MSG_CRITICAL,
-                        "file info is missing signature\n"
-                    );
-                    return return_error(ERR_PERMANENT, "invalid signature");
-                } else {
-                    retval = verify_string(
-                        file_info.signed_xml, file_info.xml_signature, key, is_valid
-                    );
-                    if (retval || !is_valid) {
-                        log_messages.printf(MSG_CRITICAL,
-                            "verify_string() [%s] [%s] retval %d, is_valid = %d\n",
-                            file_info.signed_xml, file_info.xml_signature,
-                            retval, is_valid
-                        );
-                        log_messages.printf(MSG_NORMAL,
-                            "signed xml: %s", file_info.signed_xml
-                        );
-                        log_messages.printf(MSG_NORMAL,
-                            "signature: %s", file_info.xml_signature
-                        );
-                        return return_error(ERR_PERMANENT, "invalid signature");
-                    }
-                }
-            }
+        if (match_tag(buf, "<file_info>")) continue;
+        if (match_tag(buf, "</file_info>")) continue;
+        if (match_tag(buf, "<signed_xml>")) continue;
+        if (match_tag(buf, "</signed_xml>")) continue;
+        if (parse_str(buf, "<xml_signature>", xml_signature, sizeof(xml_signature))) {
             continue;
         }
+        if (parse_str(buf, "<name>", name, sizeof(name))) {
+            strcpy(this_filename, name);
+            continue;
+        }
+        if (parse_double(buf, "<max_nbytes>", max_nbytes)) continue;
         if (parse_double(buf, "<offset>", offset)) continue;
         if (parse_double(buf, "<nbytes>", nbytes)) continue;
-        if (parse_str(buf, "<md5_cksum>", temp, sizeof(temp))) continue;
         if (match_tag(buf, "<data>")) {
-            if (nbytes < 0) {
-                return return_error(ERR_PERMANENT, "nbytes missing or negative");
-            }
-
-            // enforce limits in signed XML
-            //
-            if (!config.ignore_upload_certificates) {
-                if (nbytes > file_info.max_nbytes) {
-                    sprintf(buf,
-                        "file size (%d KB) exceeds limit (%d KB)",
-                        (int)(nbytes/1024), (int)(file_info.max_nbytes/1024)
-                    );
-                    copy_socket_to_null(in);
-                    return return_error(ERR_PERMANENT, buf);
-                }
-            }
-
-            // make sure filename is legit
-            //
-            if (strstr(file_info.name, "..")) {
-                return return_error(ERR_PERMANENT,
-                    "file_upload_handler: .. found in filename: %s",
-                    file_info.name
-                );
-            }
-
-            if (strlen(file_info.name) == 0) {
-                return return_error(ERR_PERMANENT,
-                    "file_upload_handler: no filename; nbytes %f", nbytes
-                );
-            }
-
-            retval = dir_hier_path(
-                file_info.name, config.upload_dir, config.uldl_dir_fanout,
-                path, true
-            );
-            if (retval) {
-                log_messages.printf(MSG_CRITICAL,
-                    "Failed to find/create directory for file '%s' in '%s'\n",
-                    file_info.name, config.upload_dir
-                );
-                return return_error(ERR_TRANSIENT, "can't open file");
-            }
-            log_messages.printf(MSG_NORMAL,
-                "Starting upload of %s from %s [offset=%.0f, nbytes=%.0f]\n",
-                file_info.name,
-                get_remote_addr(),
-                offset, nbytes
-            );
-#ifndef _USING_FCGI_
-            fflush(stderr);
-#endif
-            if (offset >= nbytes) {
-                log_messages.printf(MSG_CRITICAL,
-                    "ERROR: offset >= nbytes!!\n"
-                );
-                return return_success(0);
-            }
-            retval = copy_socket_to_file(in, path, offset, nbytes);
-            log_messages.printf(MSG_NORMAL,
-                "Ended upload of %s from %s; retval %d\n",
-                file_info.name,
-                get_remote_addr(),
-                retval
-            );
-#ifndef _USING_FCGI_
-            fflush(stderr);
-#endif
-            return retval;
+            found_data = true;
+            break;
         }
-        log_messages.printf(MSG_CRITICAL,
-            "unrecognized: %s", buf
+        log_messages.printf(MSG_CRITICAL, "unrecognized: %s", buf);
+    }
+    if (!found_data) {
+        return return_error(ERR_PERMANENT, "Missing <data> tag");
+    }
+    if (!config.ignore_upload_certificates) {
+        if (strlen(xml_signature) == 0) {
+            log_messages.printf(MSG_CRITICAL,
+                "file info is missing signature\n"
+            );
+            return return_error(ERR_PERMANENT, "invalid signature");
+        } else {
+            sprintf(signed_xml,
+                "<name>%s</name><max_nbytes>%.0f</max_nbytes>",
+                name, max_nbytes
+            );
+            retval = verify_string(
+                signed_xml, xml_signature, key, is_valid
+            );
+            if (retval || !is_valid) {
+                log_messages.printf(MSG_CRITICAL,
+                    "verify_string() [%s] [%s] retval %d, is_valid = %d\n",
+                    signed_xml, xml_signature,
+                    retval, is_valid
+                );
+                log_messages.printf(MSG_NORMAL,
+                    "signed xml: %s", signed_xml
+                );
+                log_messages.printf(MSG_NORMAL,
+                    "signature: %s", xml_signature
+                );
+                return return_error(ERR_PERMANENT, "invalid signature");
+            }
+        }
+    }
+    if (nbytes < 0) {
+        return return_error(ERR_PERMANENT, "nbytes missing or negative");
+    }
+
+    // enforce limits in signed XML
+    //
+    if (!config.ignore_upload_certificates) {
+        if (nbytes > max_nbytes) {
+            sprintf(buf,
+                "file size (%d KB) exceeds limit (%d KB)",
+                (int)(nbytes/1024), (int)(max_nbytes/1024)
+            );
+            copy_socket_to_null(in);
+            return return_error(ERR_PERMANENT, buf);
+        }
+    }
+
+    // make sure filename is legit
+    //
+    if (strstr(name, "..")) {
+        return return_error(ERR_PERMANENT,
+            "file_upload_handler: .. found in filename: %s",
+            name
         );
     }
-    return return_error(ERR_PERMANENT, "Missing <data> tag");
+
+    if (strlen(name) == 0) {
+        return return_error(ERR_PERMANENT,
+            "file_upload_handler: no filename; nbytes %f", nbytes
+        );
+    }
+
+    retval = dir_hier_path(
+        name, config.upload_dir, config.uldl_dir_fanout,
+        path, true
+    );
+    if (retval) {
+        log_messages.printf(MSG_CRITICAL,
+            "Failed to find/create directory for file '%s' in '%s'\n",
+            name, config.upload_dir
+        );
+        return return_error(ERR_TRANSIENT, "can't open file");
+    }
+    log_messages.printf(MSG_NORMAL,
+        "Starting upload of %s from %s [offset=%.0f, nbytes=%.0f]\n",
+        name,
+        get_remote_addr(),
+        offset, nbytes
+    );
+#ifndef _USING_FCGI_
+    fflush(stderr);
+#endif
+    if (offset >= nbytes) {
+        log_messages.printf(MSG_CRITICAL,
+            "ERROR: offset >= nbytes!!\n"
+        );
+        return return_success(0);
+    }
+    retval = copy_socket_to_file(in, path, offset, nbytes);
+    log_messages.printf(MSG_NORMAL,
+        "Ended upload of %s from %s; retval %d\n",
+        name,
+        get_remote_addr(),
+        retval
+    );
+#ifndef _USING_FCGI_
+    fflush(stderr);
+#endif
+    return retval;
 }
 
 bool volume_full(char* path) {
