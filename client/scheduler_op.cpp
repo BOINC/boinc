@@ -742,7 +742,7 @@ int SCHEDULER_REPLY::parse(FILE* in, PROJECT* project) {
             }
         } else if (match_tag(buf, "<file_info>")) {
             FILE_INFO file_info;
-            retval = file_info.parse(mf, true);
+            retval = file_info.parse(mf);
             if (retval) {
                 msg_printf(project, MSG_INTERNAL_ERROR,
                     "Can't parse file info in scheduler reply: %s",

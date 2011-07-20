@@ -936,10 +936,7 @@ int FILE_INFO::set_permissions() {
 #endif
 }
 
-// If from server, make an exact copy of everything
-// except the start/end tags and the <xml_signature> element.
-//
-int FILE_INFO::parse(MIOFILE& in, bool from_server) {
+int FILE_INFO::parse(MIOFILE& in) {
     char buf[256], buf2[1024];
     std::string url;
     PERS_FILE_XFER *pfxp;
@@ -1197,7 +1194,6 @@ const char* URL_LIST::get_current_url(FILE_INFO& fi) {
 
 // merges information from a new FILE_INFO that has the same name as one
 // that is already present in the client state file.
-// Potentially changes upload_when_present, max_nbytes
 //
 int FILE_INFO::merge_info(FILE_INFO& new_info) {
     char buf[256];
@@ -1213,10 +1209,13 @@ int FILE_INFO::merge_info(FILE_INFO& new_info) {
     download_urls.replace(new_info.download_urls);
     upload_urls.replace(new_info.upload_urls);
 
-    // replace signature
+    // replace signatures
     //
     if (strlen(new_info.file_signature)) {
         strcpy(file_signature, new_info.file_signature);
+    }
+    if (strlen(new_info.xml_signature)) {
+        strcpy(xml_signature, new_info.xml_signature);
     }
 
     return 0;

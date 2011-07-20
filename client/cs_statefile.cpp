@@ -186,7 +186,7 @@ int CLIENT_STATE::parse_state_file_aux(const char* fname) {
         }
         if (match_tag(buf, "<file_info>") || match_tag(buf, "<file>")) {
             FILE_INFO* fip = new FILE_INFO;
-            retval = fip->parse(mf, false);
+            retval = fip->parse(mf);
             if (!project) {
                 msg_printf(NULL, MSG_INTERNAL_ERROR,
                     "File info outside project in state file"
@@ -811,7 +811,7 @@ int CLIENT_STATE::parse_app_info(PROJECT* p, FILE* in) {
         if (match_tag(buf, "</app_info>")) return 0;
         if (match_tag(buf, "<file_info>")) {
             FILE_INFO* fip = new FILE_INFO;
-            if (fip->parse(mf, false)) {
+            if (fip->parse(mf)) {
                 delete fip;
                 continue;
             }

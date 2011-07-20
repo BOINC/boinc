@@ -4283,3 +4283,11 @@ David  20 July 2011
         sched_customize.cpp
     tools/
         backend_lib.cpp,h
+
+David  20 July 2011
+	- client: debug distributed storage functions
+
+	client/
+		client_types.cpp,h
+		cs_statefile.cpp
+		scheduler_op.cpp

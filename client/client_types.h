@@ -135,7 +135,7 @@ struct FILE_INFO {
     ~FILE_INFO(){}
     void reset();
     int set_permissions();
-    int parse(MIOFILE&, bool from_server);
+    int parse(MIOFILE&);
     int write(MIOFILE&, bool to_server);
     int write_gui(MIOFILE&);
     int delete_file();
