@@ -4264,3 +4264,9 @@ David  20 July 2011
 
     sched/
         file_upload_handler.cpp
+
+David  20 July 2011
+    - client: debug the above
+
+    client/
+        file_xfer.cpp
