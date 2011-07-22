@@ -18,43 +18,8 @@
 // Create a workunit.
 // Input files must be in the download dir.
 // See the docs for a description of WU and result template files
-// This program must be run in the project's root directory,
-// and there must be a valid config.xml file there
+// This program must be run in the project's root directory
 //
-// create_work
-//  --appname name
-//  [ --wu_name name ]
-//      // default: generate a name based on app name
-//  [ --wu_template filename ]
-//      relative to project root; usually in templates/
-//      default: appname_in
-//  [ --result_template filename ]
-//      relative to project root; usually in templates/
-//      default: appname_out
-//  [ --config_dir path ]
-//  [ --batch n ]
-//            the following can be supplied in WU template; see defaults below
-//  [ --rsc_fpops_est n ]
-//  [ --rsc_fpops_bound n ]
-//  [ --rsc_memory_bound n ]
-//  [ --rsc_disk_bound n ]
-//  [ --delay_bound x ]
-//  [ --min_quorum x ]
-//  [ --target_nresults x ]
-//  [ --max_error_results x ]
-//  [ --max_total_results x ]
-//  [ --max_success_results x ]
-//  [ --additional_xml x ]
-//  [ --assign_all ]
-//  [ --assign_host ID ]
-//  [ --assign_user_one ID ]
-//  [ --assign_user_all ID ]
-//  [ --assign_team_one ID ]
-//  [ --assign_team_all ID ]
-//  [ --wu_id N ]   Pass this if you've already created the workunit record
-//           (used by boinc_submit)
-//  infile1 infile2 ...
-
 #include "config.h"
 #include <cstdio>
 #include <cstdlib>
@@ -68,6 +33,39 @@
 #include "crypt.h"
 #include "sched_config.h"
 #include "util.h"
+
+void usage() {
+    fprintf(stderr,
+        "usage: create_work [options] infile1 infile2 ...\n"
+        "\n"
+        "Options:\n"
+        "   --appname name\n"
+        "   [ --wu_name name ]              default: generate a name based on app name\n"
+        "   [ --wu_template filename ]      default: appname_in\n"
+        "   [ --result_template filename ]  default: appname_out\n"
+        "   [ --config_dir path ]\n"
+        "   [ --batch n ]\n"
+        "   [ --rsc_fpops_est n ]\n"
+        "   [ --rsc_fpops_bound n ]\n"
+        "   [ --rsc_memory_bound n ]\n"
+        "   [ --rsc_disk_bound n ]\n"
+        "   [ --delay_bound x ]\n"
+        "   [ --min_quorum x ]\n"
+        "   [ --target_nresults x ]\n"
+        "   [ --max_error_results x ]\n"
+        "   [ --max_total_results x ]\n"
+        "   [ --max_success_results x ]\n"
+        "   [ --additional_xml x ]\n"
+        "   [ --assign_all ]\n"
+        "   [ --assign_host ID ]\n"
+        "   [ --assign_user_one ID ]\n"
+        "   [ --assign_user_all ID ]\n"
+        "   [ --assign_team_one ID ]\n"
+        "   [ --assign_team_all ID ]\n"
+        "   [ --wu_id N ]   ID of existing the workunit record (used by boinc_submit)\n"
+    );
+    exit(1);
+}
 
 bool arg(const char** argv, int i, const char* name) {
     char buf[256];
@@ -211,8 +209,7 @@ int main(int argc, const char** argv) {
     }
 
     if (!strlen(app.name)) {
-        fprintf(stderr, "create_work: missing --appname\n");
-        exit(1);
+        usage();
     }
     if (!strlen(wu.name)) {
         sprintf(wu.name, "%s_%d_%f", app.name, getpid(), dtime());

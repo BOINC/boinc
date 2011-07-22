@@ -36,7 +36,7 @@ function authenticate_user($r, $app) {
     if (!$user) error("bad authenticator");
     $user_submit = BoincUserSubmit::lookup_userid($user->id);
     if (!$user_submit) error("no submit access");
-    if (!$user_submit->all_apps) {
+    if ($app && !$user_submit->all_apps) {
         $usa = BoincUserSubmitApp::lookup("user_id=$user->id and app_id=$app->id");
         if (!$usa) {
             error("no submit access");
@@ -68,7 +68,7 @@ function project_flops() {
     return $y;
 }
 
-function batch_estimate($r) {
+function estimate_batch($r) {
     $app = get_app($r);
     list($user, $user_submit) = authenticate_user($r, $app);
 
@@ -99,9 +99,9 @@ $fanout = parse_config(get_config(), "<uldl_dir_fanout>");
 
 function stage_file($file) {
     global $fanout;
-    $physical_name = (string)$file->physical_name;
+    $name = (string)$file->name;
     $source = (string)$file->source;
-    $path = dir_hier_path($physical_name, "../../download", $fanout);
+    $path = dir_hier_path($name, "../../download", $fanout);
     if (file_exists($path)) return;
     if (!copy($source, $path)) {
         error("can't copy file from $source");
@@ -120,14 +120,16 @@ function submit_job($job, $template, $app, $batch_id, $i) {
     $cmd = "cd ../..; ./bin/create_work --appname $app->name --batch $batch_id";
     $cmd .= " --wu_name batch_".$batch_id."_".$i;
     foreach ($job->input_file as $file) {
-        $name = (string)$file->physical_name;
+        $name = (string)$file->name;
         $cmd .= " $name";
-        system($cmd);
     }
-
+    $ret = system($cmd);
+    if ($ret === FALSE) {
+        error("can't create job");
+    }
 }
 
-function batch_submit($r) {
+function submit_batch($r) {
     $app = get_app($r);
     list($user, $user_submit) = authenticate_user($r, $app);
     $template = read_input_template($app);
@@ -135,7 +137,9 @@ function batch_submit($r) {
     stage_files($r, $template);
     $njobs = count($r->batch->job);
     $now = time();
-    $batch_id = BoincBatch::insert("(user_id, create_time, njobs) values ($user->id, $now, $njobs)");
+    $batch_id = BoincBatch::insert(
+        "(user_id, create_time, njobs) values ($user->id, $now, $njobs)"
+    );
     $i = 0;
     foreach($r->batch->job as $job) {
         submit_job($job, $template, $app, $batch_id, $i++);
@@ -143,10 +147,54 @@ function batch_submit($r) {
     echo "<batch_id>$batch_id</batch_id>\n";
 }
 
-function query_job($r) {
+function fraction_done($batch) {
+    $wus = BoincWorkunit::enum("batch = $batch->id");
+    $fp_total = 0;
+    $fp_done = 0;
+    foreach ($wus as $wu) {
+        $fp_total += $wu->fpops_est;
+        if ($wu->canonical_resultid) {
+            $fp_done += $wu->fpops_est;
+        }
+    }
+    if (!$fp_total) return 1;
+    return $fp_done / $fp_total;
+}
+
+function query_batches($r) {
+    list($user, $user_submit) = authenticate_user($r, null);
+    $batches = BoincBatch::enum("user_id = $user->id");
+    echo "<batches>\n";
+    foreach ($batches as $b) {
+        $fd = fraction_done($b);
+        echo "    <batch>
+        <id>$b->id</id>
+        <fraction_done>$fd</fraction_done>
+        <create_time>$b->create_time</create_time>
+        <est_completion_time>$b->est_completion_time</est_completion_time>
+        <njobs>$b->njobs</njobs>
+    </batch>
+";
+    }
+    echo "</batches>\n";
 }
 
 function query_batch($r) {
+    list($user, $user_submit) = authenticate_user($r, null);
+    $batch_id = (int)($r->batch_id);
+    $batch = BoincBatch::lookup_id($batch_id);
+    if ($batch->user_id != $user->id) {
+        error("not owner");
+    }
+    echo "<batch>\n";
+    $wus = BoincWorkunit::enum("batch = $batch_id");
+    foreach ($wus as $wu) {
+        echo "    <job>
+        <id>$wu->id</id>
+    </job>
+";
+    }
+    echo "</batch>\n";
 }
 
 function abort_batch($r) {
@@ -160,10 +208,10 @@ if (!$r) {
 }
 
 switch ($r->getName()) {
-    case 'batch_estimate': batch_estimate($r); break;
-    case 'batch_submit': batch_submit($r); break;
-    case 'query_job': query_job($r); break;
+    case 'estimate_batch': estimate_batch($r); break;
+    case 'submit_batch': submit_batch($r); break;
     case 'query_batch': query_batch($r); break;
+    case 'query_batches': query_batches($r); break;
     case 'abort_batch': abort_batch($r); break;
     default: error("bad command");
 }

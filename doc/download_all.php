@@ -117,7 +117,7 @@ function show_platform($short_name, $p, $dev) {
     global $max_version;
     $long_name = $p["name"];
     $description = $p["description"];
-    if ($p["url"]) {
+    if (array_key_exists('url', $p)) {
         $url = $p["url"];
         $long_name .= " <a href=$url><span class=description>details</span></a>";
     }

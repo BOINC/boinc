@@ -4291,3 +4291,15 @@ David  20 July 2011
 		client_types.cpp,h
 		cs_statefile.cpp
 		scheduler_op.cpp
+
+David  22 July 2011
+    - server: some remote job submission code.  Not finished.
+
+    tools/
+        create_work.cpp
+    html/
+        inc/
+            submit.inc
+        user/
+            submit.php
+            submit_example.php
