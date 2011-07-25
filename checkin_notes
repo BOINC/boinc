@@ -4342,3 +4342,11 @@ David  25 July 2011
         show_user.php
         profile_search_action.php
         team.php
+
+David  25 July 2011
+    - user web: remove job submission:
+        add the ability to download zipped output files
+
+    html/user/
+        submit_example.php
+        get_output.php

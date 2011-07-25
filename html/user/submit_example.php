@@ -37,7 +37,7 @@ ini_set('display_errors', true);
 ini_set('display_startup_errors', true);
 
 $project = "http://isaac.ssl.berkeley.edu/test/";
-$auth = "x";
+$auth = "157f96a018b0b2f2b466e2ce3c7f54db";
 $app_name = "uppercase";
 
 function handle_main() {
@@ -170,6 +170,8 @@ function handle_query_batch() {
     if ($errmsg) error_page($errmsg);
 
     page_head("Batch $req->batch_id");
+    $url = boinc_get_output_files($req);
+    echo "<a href=$url>Get zipped output files</a>\n";
     start_table();
     table_header("Job ID", "Canonical instance");
     foreach($reply->jobs as $job) {

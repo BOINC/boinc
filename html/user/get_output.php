@@ -61,12 +61,13 @@ function get_output_files($batch_id, $auth_str) {
     if (!$batch) die("no batch $batch_id");
     $user = BoincUser::lookup_id($batch->user_id);
     if (!$user) die("no user $batch->user_id");
-    $x = md5($user->authenticator.$result->name);
+    $x = md5($user->authenticator.$batch_id);
     if ($x != $auth_str) die("bad auth str");
 
-    $zip_filename = tempnam("/tmp", "boinc_batch_");
+    $zip_basename = tempnam("/tmp", "boinc_batch_");
+    $zip_filename = $zip_basename.".zip";
     $fanout = parse_config(get_config(), "<uldl_dir_fanout>");
-    $download_dir = parse_config(get_config(), "<download_dir>");
+    $upload_dir = parse_config(get_config(), "<upload_dir>");
 
     $wus = BoincWorkunit::enum("batch=$batch_id");
     foreach ($wus as $wu) {
@@ -76,16 +77,28 @@ function get_output_files($batch_id, $auth_str) {
         foreach ($names as $name) {
             $path = dir_hier_path($name, $upload_dir, $fanout);
             if (is_file($path)) {
-                system("zip -D $zip_filename $path");
+                system("zip -jq $zip_basename $path");
             }
         }
     }
-    readfile($zip_filename);
+    header('Content-Description: File Transfer');
+    header('Content-Type: application/octet-stream');
+    header('Content-Disposition: attachment; filename='.basename($zip_filename));
+    header('Content-Transfer-Encoding: binary');
+    header('Expires: 0');
+    header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
+    header('Pragma: public');
+    header('Content-Length: ' . filesize($zip_filename));
+    flush();
+
+    readfile("$zip_filename");
     unlink($zip_filename);
 }
 
-get_output_file("batch_23_2_0", 0, "65748bfc28e6c605fcf774f36bbd9842");
+if (0) {
+get_output_files(24, "xxx");
 exit;
+}
 
 $auth_str = get_str('auth_str');
 $instance_name = get_str('instance_name', true);
