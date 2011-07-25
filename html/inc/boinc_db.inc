@@ -238,6 +238,10 @@ class BoincResult {
         $db = BoincDb::get();
         return $db->lookup_id($id, 'result', 'BoincResult');
     }
+    static function lookup_name($name) {
+        $db = BoincDb::get();
+        return $db->lookup('result', 'BoincResult', "name='$name'");
+    }
     function delete() {
         $db = BoincDb::get();
         return $db->delete($this, 'result');

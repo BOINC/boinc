@@ -4316,3 +4316,18 @@ Charlie 25 July 11
             MacBitmapComboBox.h
     lib/
         hostinfo.h
+
+David  25 July 2011
+    - web: more remote job submission code.  Not finished.
+
+    db/
+        boinc_db.h
+    html/
+        inc/
+            submit.inc
+            boinc_db.inc
+            result.inc
+        user/
+            submit_example.php
+            get_output.php
+            submit.php

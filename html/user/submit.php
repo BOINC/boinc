@@ -23,6 +23,11 @@ require_once("../inc/boinc_db.inc");
 require_once("../inc/submit_db.inc");
 require_once("../inc/xml.inc");
 require_once("../inc/dir_hier.inc");
+require_once("../inc/result.inc");
+
+error_reporting(E_ALL);
+ini_set('display_errors', true);
+ini_set('display_startup_errors', true);
 
 function error($s) {
     echo "<error>\n<message>$s</message>\n</error>\n";
@@ -104,7 +109,7 @@ function stage_file($file) {
     $path = dir_hier_path($name, "../../download", $fanout);
     if (file_exists($path)) return;
     if (!copy($source, $path)) {
-        error("can't copy file from $source");
+        error("can't copy file from $source to $path");
     }
 }
 
@@ -151,14 +156,18 @@ function fraction_done($batch) {
     $wus = BoincWorkunit::enum("batch = $batch->id");
     $fp_total = 0;
     $fp_done = 0;
+    $completed = 1;
     foreach ($wus as $wu) {
-        $fp_total += $wu->fpops_est;
+        $fp_total += $wu->rsc_fpops_est;
         if ($wu->canonical_resultid) {
-            $fp_done += $wu->fpops_est;
+            $fp_done += $wu->rsc_fpops_est;
+        } else {
+            $completed = 0;
         }
     }
-    if (!$fp_total) return 1;
-    return $fp_done / $fp_total;
+    if (!$fp_total) return array(1, true);;
+    $fd= $fp_done / $fp_total;
+    return array($fd, $completed);
 }
 
 function query_batches($r) {
@@ -166,10 +175,11 @@ function query_batches($r) {
     $batches = BoincBatch::enum("user_id = $user->id");
     echo "<batches>\n";
     foreach ($batches as $b) {
-        $fd = fraction_done($b);
+        list($fd, $completed) = fraction_done($b);
         echo "    <batch>
         <id>$b->id</id>
         <fraction_done>$fd</fraction_done>
+        <completed>$completed</completed>
         <create_time>$b->create_time</create_time>
         <est_completion_time>$b->est_completion_time</est_completion_time>
         <njobs>$b->njobs</njobs>
@@ -177,6 +187,12 @@ function query_batches($r) {
 ";
     }
     echo "</batches>\n";
+}
+
+function n_outfiles($wu) {
+    $path = "../../$wu->result_template_file";
+    $r = simplexml_load_file($path);
+    return count($r->file_info);
 }
 
 function query_batch($r) {
@@ -191,13 +207,74 @@ function query_batch($r) {
     foreach ($wus as $wu) {
         echo "    <job>
         <id>$wu->id</id>
-    </job>
+        <canonical_instance_id>$wu->canonical_resultid</canonical_instance_id>
+        <n_outfiles>".n_outfiles($wu)."</n_outfiles>
+        </job>
 ";
     }
     echo "</batch>\n";
 }
 
+function query_job($r) {
+    list($user, $user_submit) = authenticate_user($r, null);
+    $job_id = (int)($r->job_id);
+    $wu = BoincWorkunit::lookup_id($job_id);
+    if (!$wu) error("no such job");
+    $batch = BoincBatch::lookup_id($wu->batch);
+    if ($batch->user_id != $user->id) {
+        error("not owner");
+    }
+    echo "<job>\n";
+    $results = BoincResult::enum("workunitid=$job_id");
+    foreach ($results as $result) {
+        echo "    <instance>
+        <name>$result->name</name>
+        <id>$result->id</id>
+        <state>".state_string($result)."</state>
+";
+        if ($result->server_state == 5) {   // over?
+            $paths = get_outfile_paths($result);
+            foreach($paths as $path) {
+                if (is_file($path)) {
+                    $size = filesize($path);
+                    echo "        <outfile>
+            <size>$size</size>
+        </outfile>
+";
+                }
+            }
+        }
+        echo "</instance>\n";
+    }
+    echo "</job>\n";
+}
+
 function abort_batch($r) {
+    list($user, $user_submit) = authenticate_user($r, null);
+    $batch_id = (int)($r->batch_id);
+    $batch = BoincBatch::lookup_id($batch_id);
+    if ($batch->user_id != $user->id) {
+        error("not owner");
+    }
+}
+
+function cleanup_batch($r) {
+    list($user, $user_submit) = authenticate_user($r, null);
+    $batch_id = (int)($r->batch_id);
+    $batch = BoincBatch::lookup_id($batch_id);
+    if ($batch->user_id != $user->id) {
+        error("not owner");
+    }
+}
+
+if (0) {
+$r = simplexml_load_string(
+    "<query_job>
+    <authenticator>x</authenticator>
+    <job_id>305613</job_id>
+    </query_job>");
+query_job($r);
+exit;
 }
 
 xml_header();
@@ -210,9 +287,11 @@ if (!$r) {
 switch ($r->getName()) {
     case 'estimate_batch': estimate_batch($r); break;
     case 'submit_batch': submit_batch($r); break;
-    case 'query_batch': query_batch($r); break;
     case 'query_batches': query_batches($r); break;
+    case 'query_batch': query_batch($r); break;
+    case 'query_job': query_job($r); break;
     case 'abort_batch': abort_batch($r); break;
+    case 'cleanup_batch': cleanup_batch($r); break;
     default: error("bad command");
 }
 

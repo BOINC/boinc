@@ -402,6 +402,14 @@ $math = array(
             "Sudoku@vtaiwan seeks to solve the minimum Sudoku problem, which is a well-known problem in mathematics and computer science.",
             "sudoku.png"
         ),
+        array(
+            "Surveill@Home",
+            "http://surveill.dei.uc.pt/surveill",
+            "University of Coimbra, Portugal",
+            "Web performance",
+            tra("Surveill@Home is a research project that conducts end-to-end fine-grained monitoring of web sites.  The project will deploy thousands of probes, each of which repeatedly performs transactions on web sites.  This approach provides end-user failure and performance statistics."),
+            "surveill.png"
+        ),
     ),
 );
 

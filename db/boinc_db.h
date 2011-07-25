@@ -447,10 +447,12 @@ struct CREDITED_JOB {
     void clear();
 };
 
-// WARNING: be Very careful about changing any values,
+// WARNING: be very careful about changing any values,
 // especially for a project already running -
 // the database will become inconsistent
 
+// values of result.server_state
+//
 //#define RESULT_SERVER_STATE_INACTIVE       1
 #define RESULT_SERVER_STATE_UNSENT         2
 #define RESULT_SERVER_STATE_IN_PROGRESS    4
@@ -458,6 +460,8 @@ struct CREDITED_JOB {
     // we received a reply, timed out, or decided not to send.
     // Note: we could get a reply even after timing out.
 
+// values of result.outcome
+//
 #define RESULT_OUTCOME_INIT             0
 #define RESULT_OUTCOME_SUCCESS          1
 #define RESULT_OUTCOME_COULDNT_SEND     2
@@ -475,6 +479,8 @@ struct CREDITED_JOB {
 #define RESULT_OUTCOME_CLIENT_DETACHED  7
     // we believe that the client detached
 
+// values of result.validate_state
+//
 #define VALIDATE_STATE_INIT         0
 #define VALIDATE_STATE_VALID        1
 #define VALIDATE_STATE_INVALID      2

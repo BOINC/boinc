@@ -68,7 +68,7 @@ function do_http_op($project, $xml) {
     $reply = curl_exec($ch);
     if (!$reply) return array(null, "HTTP error");
     $r = simplexml_load_string($reply);
-    if (!$r) return array(null, "Can't parse reply XML");
+    if (!$r) return array(null, "Can't parse reply XML: <pre>".htmlentities($reply)."</pre>");
     return array($r, null);
 }
 
@@ -121,17 +121,15 @@ function boinc_query_batches($req) {
         $b->completed = (int)($batch->completed);
         $b->njobs = (int)($batch->njobs);
         $b->create_time = (double)($batch->create_time);
-        if (!$batch->completed) {
+        if (!$b->completed) {
             $b->fraction_done = (double) $batch->fraction_done;
-        } else {
-            $b->completed_time = (double)($batch->completed_time);
         }
         $batches[] = $b;
     }
     return array($batches, null);
 }
 
-function boinc_query_batch() {
+function boinc_query_batch($req) {
     $req_xml = "<query_batch>
     <authenticator>$req->authenticator</authenticator>
     <batch_id>$req->batch_id</batch_id>
@@ -143,6 +141,7 @@ function boinc_query_batch() {
     foreach ($reply->job as $job) {
         $j = null;
         $j->id = (int)($job->id);
+        $j->canonical_instance_id = (int)($job->canonical_instance_id);
         $jobs[] = $j;
     }
     $r = null;
@@ -150,18 +149,85 @@ function boinc_query_batch() {
     return array($r, null);
 }
 
-function boinc_abort_batch() {
+function boinc_query_job($req) {
+    $req_xml = "<query_job>
+    <authenticator>$req->authenticator</authenticator>
+    <job_id>$req->job_id</job_id>
+</query_job>
+";
+    list($reply, $errmsg) = do_http_op($req->project, $req_xml);
+    if ($errmsg) return array(null, $errmsg);
+    $instances = array();
+    foreach ($reply->instance as $instance) {
+        $i = null;
+        $i->name = (string)($instance->name);
+        $i->id = (int)($instance->id);
+        $i->state = (string)($instance->state);
+        $i->outfiles = array();
+        foreach ($instance->outfile as $outfile) {
+            $f = null;
+            $f->size = (double)$outfile->size;
+            $i->outfiles[] = $f;
+        }
+        $instances[] = $i;
+    }
+    $r = null;
+    $r->instances = $instances;
+    return array($r, null);
+}
+
+function boinc_abort_batch($req) {
+    $req_xml = "<abort_batch>
+    <authenticator>$req->authenticator</authenticator>
+    <batch_id>$req->batch_id</batch_id>
+</abort_batch>
+";
+    list($reply, $errmsg) = do_http_op($req->project, $req_xml);
+    if ($errmsg) return $errmsg;
+    $name = $reply->getName();
+    if ($name == 'error') {
+        return (string)($reply->message);
+    }
+    return null;
+}
+
+function boinc_get_output_file($req) {
+    $auth_str = md5($req->authenticator.$req->instance_name);
+    $name = $req->instance_name;
+    $file_num = $req->file_num;
+    return $req->project."/get_output.php?instance_name=$name&file_num=$file_num&auth_str=$auth_str";
+}
+
+function boinc_get_output_files($req) {
+    $auth_str = md5($req->authenticator.$req->batch_id);
+    $batch_id = $req->batch_id;
+    return $req->project."/get_output.php?batch_id=$batch_id&auth_str=$auth_str";
+}
+
+function boinc_cleanup_batch($req) {
+    $req_xml = "<cleanup_batch>
+    <authenticator>$req->authenticator</authenticator>
+    <batch_id>$req->batch_id</batch_id>
+</cleanup_batch>
+";
+    list($reply, $errmsg) = do_http_op($req->project, $req_xml);
+    if ($errmsg) return $errmsg;
+    $name = $reply->getName();
+    if ($name == 'error') {
+        return (string)($reply->message);
+    }
+    return null;
 }
 
 //// example usage follows
 
+$req->project = "http://isaac.ssl.berkeley.edu/test/";
+$req->authenticator = "x";
 if (0) {
-    $req->project = "http://foo.edu/test/";
-    $req->authenticator = "xxx";
     $req->app_name = "uppercase";
     $req->jobs = array();
 
-    $f->source = "http://foo.edu/index.php";
+    $f->source = "http://isaac.ssl.berkeley.edu/index.php";
     $f->name = "in";
     $job->input_files = array($f);
 
@@ -189,8 +255,6 @@ if (0) {
 }
 
 if (0) {
-    $req->project = "http://foo.edu/test/";
-    $req->authenticator = "xxx";
     list($batches, $errmsg) = boinc_query_batches($req);
     if ($errmsg) {
         echo "Error: $errmsg\n";
@@ -198,5 +262,16 @@ if (0) {
         print_r($batches);
     }
 }
+
+if (0) {
+    $req->batch_id = 20;
+    list($jobs, $errmsg) = boinc_query_batch($req);
+    if ($errmsg) {
+        echo "Error: $errmsg\n";
+    } else {
+        print_r($jobs);
+    }
+}
+
 
 ?>

@@ -32,8 +32,12 @@
 require_once("../inc/submit.inc");
 require_once("../inc/util.inc");
 
-$project = "http://foo.edu/test/";
-$auth = "xxx";
+error_reporting(E_ALL);
+ini_set('display_errors', true);
+ini_set('display_startup_errors', true);
+
+$project = "http://isaac.ssl.berkeley.edu/test/";
+$auth = "x";
 $app_name = "uppercase";
 
 function handle_main() {
@@ -43,7 +47,11 @@ function handle_main() {
     list($batches, $errmsg) = boinc_query_batches($req);
     if ($errmsg) error_page($errmsg);
 
-    page_head("Remote job interface");
+    page_head("Job submission and control");
+
+    echo "
+        <a href=submit_example.php?action=create_form><b>Create new batch</b></a>
+    ";
 
     echo "<h2>Batches in progress</h2>\n";
     start_table();
@@ -52,7 +60,7 @@ function handle_main() {
         if ($batch->completed) continue;
         $pct_done = (int)($batch->fraction_done*100);
         table_row(
-            "<a href=submit_remote.php?action=query_batch&batch_id=$batch->id>$batch->id</a>",
+            "<a href=submit_example.php?action=query_batch&batch_id=$batch->id>$batch->id</a>",
             $batch->njobs,
             "$pct_done%",
             time_str($batch->create_time)
@@ -62,21 +70,17 @@ function handle_main() {
 
     echo "<h2>Batches completed</h2>\n";
     start_table();
-    table_header("ID", "# jobs", "submitted", "completed");
+    table_header("ID", "# jobs", "submitted");
     foreach ($batches as $batch) {
         if (!$batch->completed) continue;
         table_row(
-            "<a href=submit_remote.php?action=query_batch&batch_id=$batch->id>$batch->id</a>",
+            "<a href=submit_example.php?action=query_batch&batch_id=$batch->id>$batch->id</a>",
             $batch->njobs,
-            time_str($batch->submitted_time),
-            time_str($batch->completed_time)
+            time_str($batch->create_time)
         );
     }
     end_table();
 
-    echo "
-        <a href=submit_remote.php?action=create_form>Create new batch</a>
-    ";
     page_tail();
 }
 
@@ -85,7 +89,7 @@ function handle_create_form() {
 
     page_head("Create batch");
     echo "
-        <form action=submit_remote.php>
+        <form action=submit_example.php>
         <input type=hidden name=action value=create_action>
     ";
     start_table();
@@ -167,13 +171,51 @@ function handle_query_batch() {
 
     page_head("Batch $req->batch_id");
     start_table();
-    table_header("ID");
+    table_header("Job ID", "Canonical instance");
     foreach($reply->jobs as $job) {
         $id = (int)$job->id;
+        $resultid = (int)$job->canonical_instance_id;
+        if ($resultid) {
+            $x = "<a href=result.php?resultid=$resultid>$resultid</a>";
+        } else {
+            $x = "---";
+        }
         echo "<tr>
-                <td><a href=workunit.php?wuid=$id>$id</a></td>
+                <td><a href=submit_example.php?action=query_job&job_id=$id>$id</a></td>
+                <td>$x</td>
             </tr>
         ";
+    }
+    end_table();
+    page_tail();
+}
+
+function handle_query_job() {
+    global $project, $auth, $app_name;
+    $req->project = $project;
+    $req->authenticator = $auth;
+    $req->job_id = get_int('job_id');
+    list($reply, $errmsg) = boinc_query_job($req);
+    if ($errmsg) error_page($errmsg);
+
+    page_head("Job $req->job_id");
+    start_table();
+    table_header("Instance ID", "State", "Output files");
+    foreach($reply->instances as $inst) {
+        echo "<tr>
+            <td><a href=result.php?resultid=$inst->id>$inst->id</a></td>
+            <td>$inst->state</td>
+            <td>
+";
+        $i = 0;
+        foreach ($inst->outfiles as $outfile) {
+            $req->instance_name = $inst->name;
+            $req->file_num = $i;
+            $url = boinc_get_output_file($req);
+            echo "<a href=$url>$outfile->size bytes</a>";
+            $i++;
+        }
+        echo "</td></tr>\n";
     }
     end_table();
     page_tail();
@@ -193,6 +235,9 @@ case 'create_action':
     break;
 case 'query_batch':
     handle_query_batch();
+    break;
+case 'query_job':
+    handle_query_job();
     break;
 default:
     error_page('no such action');
