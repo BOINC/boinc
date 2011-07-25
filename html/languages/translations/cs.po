@@ -7,13 +7,13 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2010-10-06 13:10 PDT\n"
-"PO-Revision-Date: 2010-09-24 22:03+0200\n"
+"PO-Revision-Date: 2010-12-04 21:25+0200\n"
 "Last-Translator: Martin <martin.suchan@email.cz>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: cs\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: cs\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 "X-Generator: Pootle 2.1.1\n"
 "X-Poedit-SearchPath-0: html\\user\n"
@@ -29,7 +29,7 @@ msgstr "Czech"
 
 #: ../inc/forum.inc:124
 msgid "Search for words in forum messages"
-msgstr "Hledat slova v příspěvcích ve fóru"
+msgstr "Hledat slova v příspěvcích na fóru"
 
 #: ../inc/forum.inc:124
 msgid "Search forums"
@@ -322,16 +322,16 @@ msgstr "% času kdy je BOINC aktivní"
 #: ../inc/host.inc:183
 #, php-format
 msgid "While BOINC running, % of time host has an Internet connection"
-msgstr "% času kdy je dostupné připojení k Internetu, z doby kdy BOINC počítá"
+msgstr "% času kdy je dostupné připojení k Internetu z doby, kdy BOINC počítá"
 
 #: ../inc/host.inc:185
 #, php-format
 msgid "While BOINC running, % of time work is allowed"
-msgstr "% času kdy je povolená práce, z doby kdy BOINC počítá"
+msgstr "% času kdy je povolená práce z doby, kdy BOINC počítá"
 
 #: ../inc/host.inc:187
 msgid "Average CPU efficiency"
-msgstr "Průměrná efektivita procesoru"
+msgstr "Průměrná efektivita procesor"
 
 #: ../inc/host.inc:190
 msgid "Task duration correction factor"
@@ -401,27 +401,27 @@ msgstr "Statistiky napříč projekty:"
 
 #: ../inc/host.inc:460
 msgid "Host %1 has overlapping lifetime:"
-msgstr "Stroj %1 má překrývající se životnost:"
+msgstr "Počítač %1 má překrývající se životnost:"
 
 #: ../inc/host.inc:467
 msgid "Host %1 has an incompatible OS:"
-msgstr "Stroj %1 má nekompatibilní OS:"
+msgstr "Počítač %1 má nekompatibilní op. systém:"
 
 #: ../inc/host.inc:473
 msgid "Host %1 has an incompatible CPU:"
-msgstr "Stroj %1 má nekompatibilní CPU:"
+msgstr "Počítač  %1 má nekompatibilní procesor:"
 
 #: ../inc/host.inc:540
 msgid "same host"
-msgstr "stejný stroj"
+msgstr "stejný počítač"
 
 #: ../inc/host.inc:543
 msgid "Can't merge host %1 into %2 - they're incompatible"
-msgstr "Nelze spojit stroj %1 s %2 - nejsou vzájemně kompatibilní"
+msgstr "Nelze spojit počítač %1 s %2 - nejsou vzájemně kompatibilní"
 
 #: ../inc/host.inc:546
 msgid "Merging host %1 into host %2"
-msgstr "Spojuji stroj %1 se strojem %2"
+msgstr "Spojuji počítač %1 s počítačem %2"
 
 #: ../inc/host.inc:563
 msgid "Couldn't update credit of new computer"
@@ -522,22 +522,20 @@ msgid "Send message"
 msgstr "Odeslat zprávu"
 
 #: ../inc/pm.inc:118
-#, fuzzy
 msgid "- private message"
-msgstr "Poslat soukromou zprávu"
+msgstr "- soukromá zpráva"
 
 #: ../inc/pm.inc:124
 msgid "sent you a private message; subject:"
-msgstr ""
+msgstr "vám poslal soukromou zprávu. Předmět:"
 
 #: ../inc/pm.inc:130
 msgid "Private message%1 from %2, subject:"
-msgstr ""
+msgstr "Soukromá zpráva%1 od %2, předmět:"
 
 #: ../inc/pm.inc:139
-#, fuzzy
 msgid "Couldn't create message"
-msgstr "nelze vytvořit diskuzní fórum."
+msgstr "Nelze vytvořit zprávu"
 
 #: ../inc/pm.inc:170
 msgid ""
@@ -556,9 +554,8 @@ msgid "For email notification, %1edit community prefs%2"
 msgstr "Pro zasílání novinek emailem %1upravit komunitní předvolby%2"
 
 #: ../inc/pm.inc:202
-#, fuzzy
 msgid "Private message from"
-msgstr "Soukromé zprávy"
+msgstr "Soukromá zpráva od"
 
 #: ../inc/prefs.inc:76
 msgid ""
@@ -600,8 +597,8 @@ msgid ""
 "Suspend work if CPU usage is above %1 0 means no restriction<br>Enforced by "
 "version 6.10.30+ %2"
 msgstr ""
-"Přerušit práci při zatížení procesoru nad %1 0 znamená bez omezení<br/"
-">Podporováno od verze 6.10.30+ %2"
+"Přerušit práci při zatížení procesoru nad %1 0 znamená bez "
+"omezení<br/>Podporováno od verze 6.10.30+ %2"
 
 #: ../inc/prefs.inc:121
 msgid "Do work only between the hours of %1 No restriction if equal %2"
@@ -622,7 +619,7 @@ msgstr "Přepínat mezi aplikacemi každých %1 Doporučeno: 60 minut %2"
 
 #: ../inc/prefs.inc:146
 msgid "On multiprocessors, use at most"
-msgstr "Na víceprocesorových systémech používat nanejvýš"
+msgstr "Na víceprocesorových systémech používat nejvýše"
 
 #: ../inc/prefs.inc:148
 msgid "processors"
@@ -631,8 +628,8 @@ msgstr "procesorů"
 #: ../inc/prefs.inc:152
 msgid "On multiprocessors, use at most %1 Enforced by version 6.1+ %2"
 msgstr ""
-"Na víceprocesorových systémech používat nanejvýš %1 Podporováno od verze 6.1"
-"+ %2"
+"Na víceprocesorových systémech používat nejvýše %1 Podporováno od verze 6.1+ "
+"%2"
 
 #: ../inc/prefs.inc:157
 #, php-format
@@ -641,7 +638,7 @@ msgstr "% všech procesorů"
 
 #: ../inc/prefs.inc:161
 msgid "Use at most %1 Can be used to reduce CPU heat %2"
-msgstr "Využívat nanejvýš %1 Lze použít pro snížení tepla procesoru %2"
+msgstr "Využívat nejvýše %1 Lze použít pro snížení tepla procesoru %2"
 
 #: ../inc/prefs.inc:166
 #, php-format
@@ -650,7 +647,7 @@ msgstr "% procesorového času"
 
 #: ../inc/prefs.inc:174 ../inc/prefs.inc:188
 msgid "Disk: use at most"
-msgstr "Disk: použít nanejvýš"
+msgstr "Disk: použít nejvýše"
 
 #: ../inc/prefs.inc:176 ../inc/prefs.inc:185
 msgid "GB"
@@ -658,8 +655,7 @@ msgstr "GB"
 
 #: ../inc/prefs.inc:179
 msgid "Disk: leave free at least %1 Values smaller than %2 are ignored %3"
-msgstr ""
-"Disk: ponechat volných aspoň %1 Hodnoty menší než %2 jsou ignorované %3"
+msgstr "Disk: ponechat volných aspoň %1 Hodnoty menší než %2 jsou ignorované %3"
 
 #: ../inc/prefs.inc:190 ../inc/prefs.inc:200 ../inc/prefs.inc:205
 #: ../inc/prefs.inc:210
@@ -669,7 +665,7 @@ msgstr "% celkového místa"
 
 #: ../inc/prefs.inc:193
 msgid "Tasks checkpoint to disk at most every"
-msgstr "Zapisovat průběh na disk nanejvýš každých"
+msgstr "Zapisovat průběh na disk nejvýše každých"
 
 #: ../inc/prefs.inc:195
 msgid "seconds"
@@ -677,15 +673,15 @@ msgstr "vteřin"
 
 #: ../inc/prefs.inc:198
 msgid "Swap space: use at most"
-msgstr "Odkládací paměť: využívat nanejvýš"
+msgstr "Odkládací paměť: využívat nejvýše"
 
 #: ../inc/prefs.inc:203
 msgid "Memory: when computer is in use, use at most"
-msgstr "Paměť: když je počítač používán, použít nanejvýš"
+msgstr "Paměť: když je počítač používán, použít nejvýše"
 
 #: ../inc/prefs.inc:208
 msgid "Memory: when computer is not in use, use at most"
-msgstr "Paměť: když počítač není používán, použít nanejvýš"
+msgstr "Paměť: když počítač není používán, použít nejvýše"
 
 #: ../inc/prefs.inc:217
 msgid ""
@@ -739,7 +735,7 @@ msgstr "Povolit přístup k síti jen mezi hodinami"
 
 #: ../inc/prefs.inc:263
 msgid "Transfer at most %1 Enforced by version 6.10.46+ %2"
-msgstr "Přenést nanejvýš %1 Podporováno od verze 6.10.46+ %2"
+msgstr "Přenést nejvýše %1 Podporováno od verze 6.10.46+ %2"
 
 #: ../inc/prefs.inc:269
 msgid "Mbytes every"
@@ -764,7 +760,7 @@ msgid ""
 msgstr ""
 "Podíl prostředků %1 Určuje podíl přostředků Vašeho počítače pro tento "
 "projekt. Příklad: pokud se podílíte ve dvou BOINC projektech s podílem 100 a "
-"200, první bude mít k dispozici 1/3 a druhý 2/3 prostředků počítače %2"
+"200, první bude mít k dispozici 1/3 a druhý 2/3 prostředků počítače. %2"
 
 #: ../inc/prefs.inc:300
 msgid "Use CPU %1 Enforced by version 6.10+ %2"
@@ -785,7 +781,7 @@ msgid ""
 msgstr ""
 "Povolit běh testovacích aplikací? %1 Povolením pomůžete vyvíjet a lépe "
 "testovat aplikace, ale také to může způsobovat občasné selhání výpočtu na "
-"Vašem počítači %2"
+"vašem počítači %2"
 
 #: ../inc/prefs.inc:347
 msgid ""
@@ -800,7 +796,7 @@ msgstr "Může Vám %1 či Váš tým zasílat občasné emaily?"
 
 #: ../inc/prefs.inc:360
 msgid "Should %1 show your computers on its web site?"
-msgstr "Má %1 zobrazovat Vaše počítače na svých stránkách?"
+msgstr "Má %1 zobrazovat vaše počítače na svých stránkách?"
 
 #: ../inc/prefs.inc:367
 msgid "Disk and memory usage"
@@ -830,7 +826,7 @@ msgstr ""
 
 #: ../inc/prefs.inc:424
 msgid "bad venue: %1"
-msgstr "špatný typ: %1"
+msgstr "špatné místo: %1"
 
 #: ../inc/prefs.inc:430
 msgid "bad subset: %1"
@@ -886,7 +882,7 @@ msgstr "Přidat oddělené předvolby pro %1"
 
 #: ../inc/prefs.inc:822 ../inc/prefs.inc:867
 msgid "(Switch View)"
-msgstr "(Přepnout pohled)"
+msgstr "(Přepnout vzhled)"
 
 #: ../inc/prefs.inc:824 ../inc/prefs.inc:870
 msgid "Combined preferences"
@@ -907,7 +903,6 @@ msgid "Edit %1 preferences"
 msgstr "Upravit %1 předvolby"
 
 #: ../inc/prefs.inc:860
-#, fuzzy
 msgid ""
 "These apply to all BOINC projects in which you participate.<br>\n"
 "             On computers participating in multiple projects, the most "
@@ -919,7 +914,7 @@ msgstr ""
 
 #: ../inc/prefs.inc:864
 msgid "Preferences last modified:"
-msgstr "Poslední úprava předvoleb:"
+msgstr "Předvolby naposledy upraveny:"
 
 #: ../inc/prefs.inc:914
 msgid "Add preferences"
@@ -979,7 +974,7 @@ msgstr "Pro dané ID neexistuje žádný uživatelský profil."
 
 #: ../inc/profile.inc:213 ../user/create_profile.php:309
 msgid "Edit your profile"
-msgstr "Upravit Váš profil"
+msgstr "Upravit váš profil"
 
 #: ../inc/profile.inc:251
 msgid "Your feedback on this profile"
@@ -1127,7 +1122,7 @@ msgstr "Pozdě"
 
 #: ../inc/result.inc:168
 msgid "Success"
-msgstr "Úspěch"
+msgstr "Úspěšně dokončeno"
 
 #: ../inc/result.inc:172
 msgid "Computation error"
@@ -1175,7 +1170,7 @@ msgstr "Není zapotřebí"
 
 #: ../inc/result.inc:208
 msgid "Workunit error - check skipped"
-msgstr "Chyba pracovní jednotky - vynechána kontrola"
+msgstr "Chyba pracovní jednotky - kontrola vynechána"
 
 #: ../inc/result.inc:209
 msgid "Checked, but no consensus yet"
@@ -1244,7 +1239,7 @@ msgstr "Odesláno"
 
 #: ../inc/result.inc:283
 msgid "Time reported<br />or deadline"
-msgstr "Lhůta pro dokončení<br/>nebo čas nahlášení"
+msgstr "Čas nahlášení<br/>nebo lhůta pro dokončení"
 
 #: ../inc/result.inc:284
 msgid "explain"
@@ -1256,11 +1251,11 @@ msgstr "Stav"
 
 #: ../inc/result.inc:287
 msgid "Run time<br />(sec)"
-msgstr "Čas běhu<br/>(sec)"
+msgstr "Čas běhu<br/>(sek)"
 
 #: ../inc/result.inc:288
 msgid "CPU time<br />(sec)"
-msgstr "Procesorový čas<br/>(sec)"
+msgstr "Procesorový čas<br/>(sek)"
 
 #: ../inc/result.inc:289 ../inc/result.inc:393
 msgid "Credit"
@@ -1316,7 +1311,7 @@ msgstr "Verze aplikace"
 
 #: ../inc/result.inc:396
 msgid "Stderr output"
-msgstr ""
+msgstr "Výstup stderr"
 
 #: ../inc/result.inc:409
 msgid "Previous"
@@ -1459,7 +1454,7 @@ msgstr "Administrátoři"
 
 #: ../inc/team.inc:176
 msgid "New members in last day"
-msgstr "Noví členové za poslední dny"
+msgstr "Noví členové za poslední den"
 
 #: ../inc/team.inc:177
 msgid "Total members"
@@ -1629,15 +1624,15 @@ msgstr "Certifikát"
 
 #: ../inc/user.inc:170
 msgid "Stats on your cell phone"
-msgstr "Statistiky ve Vašem mobilu"
+msgstr "Statistiky ve vašem mobilu"
 
 #: ../inc/user.inc:184
 msgid "Unknown notification type: %1"
-msgstr ""
+msgstr "Neznámý typ zprávy: %1"
 
 #: ../inc/user.inc:198
 msgid "Email address verification pending"
-msgstr ""
+msgstr "Nevyřízené ověření emailové adresy"
 
 #: ../inc/user.inc:201
 msgid "Account information"
@@ -1650,7 +1645,7 @@ msgstr "Emailová adresa"
 
 #: ../inc/user.inc:206 ../inc/user.inc:316
 msgid "URL"
-msgstr "URL"
+msgstr "URL adresa"
 
 #: ../inc/user.inc:209
 msgid "Postal code"
@@ -1694,7 +1689,7 @@ msgstr "Klíč k účtu"
 
 #: ../inc/user.inc:216
 msgid "Provides full access to your account"
-msgstr "Poskytuje plný přístup k Vašemu účtu"
+msgstr "Poskytuje plný přístup k vašemu účtu"
 
 #: ../inc/user.inc:217 ../user/weak_auth.php:25
 msgid "Weak account key"
@@ -1702,7 +1697,7 @@ msgstr "Slabý klíč k účtu"
 
 #: ../inc/user.inc:217
 msgid "Provides %1limited access%2 to your account"
-msgstr "Poskytuje %1omezený přístup%2 k Vašemu účtu"
+msgstr "Poskytuje %1omezený přístup%2 k vašemu účtu"
 
 #: ../inc/user.inc:220
 msgid "Preferences"
@@ -1710,7 +1705,7 @@ msgstr "Předvolby"
 
 #: ../inc/user.inc:223
 msgid "When and how BOINC uses your computer"
-msgstr "Kdy a jak má BOINC používat Váš počítač"
+msgstr "Kdy a jak má BOINC používat váš počítač"
 
 #: ../inc/user.inc:224
 msgid "Computing preferences"
@@ -1807,7 +1802,7 @@ msgstr "Kontakt"
 
 #: ../inc/user.inc:376
 msgid "This person is a friend"
-msgstr "Tento člověk je Váš přítel"
+msgstr "Tento člověk je váš přítel"
 
 #: ../inc/user.inc:377 ../user/friend.php:224
 msgid "Cancel friendship"
@@ -1823,72 +1818,77 @@ msgstr "Přidat jako přítele"
 
 #: ../inc/util.inc:96
 msgid "Logged in as %1."
-msgstr ""
+msgstr "Přihlášen jako %1."
 
 #: ../inc/util.inc:97
 msgid "Log in as someone else."
-msgstr ""
+msgstr "Přihlásit jako někdo jiný."
 
 #: ../inc/util.inc:99
 msgid "Not logged in."
-msgstr ""
+msgstr "Nepřihlášen."
 
 #: ../inc/util.inc:180
 msgid ""
 "A database error occurred while handling your request; please try again "
 "later."
 msgstr ""
+"Při zpracování vašeho pořadavku nastala chyba databáze, zkuste to prosím "
+"později."
 
 #: ../inc/util.inc:189
 msgid "Unable to handle request"
-msgstr "Nelze vyhodnotit žádost"
+msgstr "Nelze vyhodnotit požadavek"
 
 #: ../inc/util.inc:209
 msgid "hours"
-msgstr ""
+msgstr "hod"
 
 #: ../inc/util.inc:212
 msgid "min"
-msgstr ""
+msgstr "min"
 
 #: ../inc/util.inc:215
 msgid "sec"
-msgstr ""
+msgstr "sek"
 
 #: ../inc/util.inc:371
 msgid "Link has timed out. Please click Back, refresh the page, and try again."
 msgstr ""
+"Platnost odkazu vypršela. Klikněte prosím na Zpět, načtěte znova stránku a "
+"zkuste to znova."
 
 #: ../inc/util.inc:440
 msgid "View the profile of %1"
-msgstr ""
+msgstr "Zobrazit profil %1"
 
 #: ../inc/util.inc:496
 msgid "Use BBCode tags to format your text"
-msgstr "Používejte BBCode tagy pro formátování Vašeho textu"
+msgstr "Používejte BBCode tagy pro formátování vašeho textu"
 
 #: ../inc/util.inc:691
 msgid "Project down for maintenance"
-msgstr ""
+msgstr "Projekt odstavený z důvodu údržby"
 
 #: ../inc/util.inc:692
 msgid ""
 "This page requires database access.  Our database server is temporarily shut "
 "down for maintenance.  Please try again later."
 msgstr ""
+"Tato stránka vyžaduje přístup k databázi, která je momentálně nedostupná z "
+"důvodu údržby. Zkuste to prosím později."
 
 #: ../inc/util.inc:708
 msgid "Unable to connect to database - please try again later"
-msgstr ""
+msgstr "Nelze se připojit k databázi - zkuste to prosím později."
 
 #: ../inc/util.inc:709
-#, fuzzy
 msgid "Error:"
-msgstr "Chyba"
+msgstr "Chyba:"
 
 #: ../inc/util.inc:713
 msgid "Unable to select database - please try again later"
-msgstr ""
+msgstr "Nelze vybrat databázi - zkuste to prosím později."
 
 #: ../user/account_finish.php:40 ../user/create_account_form.php:84
 msgid "Identifies you on our web site. Use your real name or a nickname."
@@ -1923,9 +1923,9 @@ msgid ""
 "computer. This happens automatically; you don't have to do anything."
 msgstr ""
 "%1 nyní používá tyto aplikační programy. Pokud jste zapojen v %1, bude "
-"Vašemu počítači přidělena práce pro jeden nebo více z těchto aplikačních "
+"vašemu počítači přidělena práce pro jeden nebo více z těchto aplikačních "
 "programů. Aktuální verze aplikačního programu se vždy automaticky stáhne do "
-"Vašeho počítače - není třeba pro to nic dělat."
+"vašeho počítače - není třeba pro to nic dělat."
 
 #: ../user/apps.php:48
 msgid "Platform"
@@ -1960,14 +1960,13 @@ msgid "Account creation is currently disabled. Please try again later."
 msgstr "Vytváření účtů je v %1 dočasně zakázáno. Zkuste to prosím později."
 
 #: ../user/create_account_form.php:50
-#, fuzzy
 msgid ""
 "NOTE: If you use the BOINC Manager, don't use this form. Just run BOINC, "
 "select Add Project, and enter an email address and password."
 msgstr ""
-"POZNÁMKA: Pokud používáte BOINC Manager od verze 5.2+, nepoužívejte tento "
-"formulář. Jednoduše spusťte BOINC, zvolte Připojit k projektu a zadejte "
-"emailovou adresu a heslo."
+"POZNÁMKA: Pokud používáte BOINC Manager, nepoužívejte tento formulář. "
+"Jednoduše spusťte BOINC, zvolte Přidat projekt a zadejte emailovou adresu a "
+"heslo."
 
 #: ../user/create_account_form.php:66
 msgid ""
@@ -2022,8 +2021,8 @@ msgid ""
 "To replace it, click the \"Browse\" button and select a JPEG or PNG file (%1 "
 "or less)."
 msgstr ""
-"Pro změnu klikněte na tlačítko \"Hledat\" a vyberte soubor typu JPEG nebo "
-"PNG (do %1)."
+"Pro změnu klikněte na tlačítko \"Hledat\" a vyberte soubor typu JPEG nebo PNG "
+"(do %1)."
 
 #: ../user/create_profile.php:67
 msgid "To remove it from your profile, check this box:"
@@ -2034,8 +2033,8 @@ msgid ""
 "If you would like include a picture with your profile, click the \"Browse\" "
 "button and select a JPEG or PNG file. Please select images of %1 or less."
 msgstr ""
-"Pokud si přejete mít u svého profilu obrázek, klikněte na \"Hledat\" a "
-"zvolte soubor typu JPEG nebo PNG. Obrázek může být velký maximálně %1."
+"Pokud si přejete mít u svého profilu obrázek, klikněte na \"Hledat\" a zvolte "
+"soubor typu JPEG nebo PNG. Obrázek může být velký maximálně %1."
 
 #: ../user/create_profile.php:87
 msgid "Language"
@@ -2051,7 +2050,7 @@ msgstr "Uložit profil"
 
 #: ../user/create_profile.php:108
 msgid "Please enter the words shown in the image."
-msgstr ""
+msgstr "Zadejte prosím slova zobrazená na obrázku."
 
 #: ../user/create_profile.php:113
 msgid "Create/edit profile"
@@ -2059,18 +2058,18 @@ msgstr "Vytvořit/upravit profil"
 
 #: ../user/create_profile.php:135
 msgid "The format of your uploaded image is not supported."
-msgstr "Formát Vámi zvoleného obrázku není podporován."
+msgstr "Formát vámi zvoleného obrázku není podporován."
 
 #: ../user/create_profile.php:164
 msgid ""
 "Your %1profile%2 lets you share your opinions and background with the %3 "
 "community."
-msgstr "Váš %1profil%2 Vám umožňuje sdílet své názory a zázemí s %3 komunitou."
+msgstr "Váš %1profil%2 vám umožňuje sdílet své názory a zázemí s %3 komunitou."
 
 #: ../user/create_profile.php:211
 msgid "Your ReCaptcha response was not correct.  Please try again."
 msgstr ""
-"Vaše odpověď na zadání ReCaptcha nebylo správné. Zkuste to prosím znova."
+"Vaše odpověď na zadání ReCaptcha nebyla správná. Zkuste to prosím znova."
 
 #: ../user/create_profile.php:220
 msgid ""
@@ -2136,7 +2135,7 @@ msgstr "Je možné si stáhnout aplikace různých typů."
 #: ../user/download_network.php:31
 msgid ""
 "These applications are not endorsed by %1 and you use them at your own risk."
-msgstr "Za tyto aplikace %1 nijak neručí, použití je na Vaše riziko."
+msgstr "Za tyto aplikace %1 nijak neručí, použití je na vaše riziko."
 
 #: ../user/download_network.php:33
 msgid ""
@@ -2163,7 +2162,7 @@ msgstr "Změnit emailovou adresu"
 
 #: ../user/edit_email_form.php:35
 msgid "Change the email address of your account"
-msgstr "Změnit emailovou adresu Vašeho účtu"
+msgstr "Změnit emailovou adresu vašeho účtu"
 
 #: ../user/edit_email_form.php:36
 msgid "New email address"
@@ -2187,7 +2186,7 @@ msgstr "Můžete se identifikovat buď"
 
 #: ../user/edit_passwd_form.php:42
 msgid "your email address and old password"
-msgstr "Vaší emailovou adresou a starým heslem"
+msgstr "vaší emailovou adresou a starým heslem"
 
 #: ../user/edit_passwd_form.php:43
 msgid "your account key"
@@ -2215,11 +2214,11 @@ msgstr "Nové heslo, pro kontrolu"
 
 #: ../user/edit_user_info_action.php:29
 msgid "HTML tags are not allowed in your name."
-msgstr "Ve Vašem jméně nelze mít HTML tagy."
+msgstr "Ve vašem jméně nelze mít HTML tagy."
 
 #: ../user/edit_user_info_action.php:32
 msgid "You must supply a name for your account."
-msgstr "Je třeba zadat jméno k Vašemu účtu."
+msgstr "Je třeba zadat jméno k vašemu účtu."
 
 #: ../user/edit_user_info_action.php:41 ../user/team_edit_action.php:51
 msgid "bad country"
@@ -2239,7 +2238,7 @@ msgstr "Jméno %1 pravé jméno nebo přezdívka%2"
 
 #: ../user/edit_user_info_form.php:35
 msgid "URL %1 of your web page; optional%2"
-msgstr "URL %1 vaše webové stránky, volitelné%2"
+msgstr "URL %1 vaší webové stránky, volitelné%2"
 
 #: ../user/edit_user_info_form.php:43
 msgid "Postal (ZIP) code %1 Optional%2"
@@ -2269,7 +2268,7 @@ msgid ""
 "section of the message boards."
 msgstr ""
 "Pokud máte nějaké dotazy či problémy, podívejte se prosím na sekci %1Otázky "
-"a odpovědi (Questions & Answers)%2 na diskuzním fóru."
+"a odpovědi%2 na diskuzním fóru."
 
 #: ../user/forum_index.php:93
 msgid "Topic"
@@ -2299,7 +2298,7 @@ msgstr ""
 
 #: ../user/forum_thread.php:51
 msgid "This forum is not visible to you."
-msgstr "Toto fórum pro Vás není přístupné."
+msgstr "Toto fórum pro vás není přístupné."
 
 #: ../user/forum_thread.php:60
 msgid "This thread has been hidden by moderators"
@@ -2313,7 +2312,7 @@ msgstr "Má otázka byla zodpovězena."
 msgid ""
 "If your question has been adequately answered please click here to close it!"
 msgstr ""
-"Pokud byla Vaše otázka dostatečně zodpovězena, klikněte prosím sem pro její "
+"Pokud byla vaše otázka dostatečně zodpovězena, klikněte prosím sem pro její "
 "zavření."
 
 #: ../user/forum_thread.php:126
@@ -2339,8 +2338,7 @@ msgstr "Odebírat příspěvky"
 
 #: ../user/forum_thread.php:155
 msgid "Click to get email when there are new posts in this thread"
-msgstr ""
-"Klikněte pro zasílání emailu při každém novém příspěvku v tomto vlákně."
+msgstr "Klikněte pro zasílání emailu při každém novém příspěvku v tomto vlákně."
 
 #: ../user/forum_thread.php:162
 msgid "Unhide"
@@ -2424,7 +2422,7 @@ msgstr "Žádost stále očekává potvrzení."
 
 #: ../user/friend.php:50
 msgid "%1 is not accepting friendship requests from you"
-msgstr "%1 nepřijímá Vaše žádosti o přátelství"
+msgstr "%1 nepřijímá vaše žádosti o přátelství"
 
 #: ../user/friend.php:59
 msgid "You can't be friends with yourself"
@@ -2445,7 +2443,7 @@ msgid ""
 "You have asked to add %1 as a friend. We will notify %2 and will ask him/her "
 "to confirm that you are friends."
 msgstr ""
-"Požádali jste o přidání %1 jako svého přítele. %2 nyní dostane zprávu s Vaší "
+"Požádali jste o přidání %1 jako svého přítele. %2 nyní dostane zprávu s vaší "
 "žádostí o potvrzení přátelství."
 
 #: ../user/friend.php:75
@@ -2458,7 +2456,7 @@ msgstr "Žádost o přátelství zaslána"
 
 #: ../user/friend.php:114
 msgid "We have notified %1 of your request."
-msgstr "%1 dostal Vaší žádost."
+msgstr "%1 dostal vaší žádost."
 
 #: ../user/friend.php:125
 msgid "Request not found"
@@ -2470,7 +2468,7 @@ msgstr "Žádost o přátelství"
 
 #: ../user/friend.php:128
 msgid "%1 has added you as a friend."
-msgstr "%1 si Vás přidal jako svého přítele."
+msgstr "%1 si vás přidal jako svého přítele."
 
 #: ../user/friend.php:130
 msgid "%1 says: %2"
@@ -2482,7 +2480,7 @@ msgstr "Přijmout přátelství"
 
 #: ../user/friend.php:134
 msgid "Click accept if %1 is in fact a friend"
-msgstr "Klikněte na přijmout, pokud je %1 Vaším přítelem"
+msgstr "Klikněte na přijmout, pokud je %1 vaším přítelem"
 
 #: ../user/friend.php:135
 msgid "Decline"
@@ -2490,7 +2488,7 @@ msgstr "Odmítnout"
 
 #: ../user/friend.php:135
 msgid "Click decline if %1 is not a friend"
-msgstr "Klikněte na odmítnout, pokud %1 není Vaším přítelem"
+msgstr "Klikněte na odmítnout, pokud %1 není vaším přítelem"
 
 #: ../user/friend.php:150
 msgid "No request"
@@ -2522,7 +2520,7 @@ msgstr "Přítel potvrzen"
 
 #: ../user/friend.php:212
 msgid "You are now friends with %1."
-msgstr "%1 je nyní Vaším přítelem."
+msgstr "%1 je nyní vaším přítelem."
 
 #: ../user/friend.php:220
 msgid "Cancel friendship?"
@@ -2530,7 +2528,7 @@ msgstr "Zrušit přátelství?"
 
 #: ../user/friend.php:221
 msgid "Are you sure you want to cancel your friendship with %1?"
-msgstr "Jste si jistí, že chcete zrušit Vaše přátelství s %1?"
+msgstr "Jste si jistí, že chcete zrušit vaše přátelství s %1?"
 
 #: ../user/friend.php:224 ../user/prefs_remove.php:53
 #: ../user/user_search.php:125 ../user/user_search.php:130
@@ -2565,7 +2563,8 @@ msgstr "Vítejte v %1"
 #: ../user/home.php:41
 msgid "View and edit your account preferences using the links below."
 msgstr ""
-"Pro zobrazení a nastavení vlastností Vašeho účtu použijte následující odkazy."
+"Pro zobrazení a nastavení vlastností vašeho účtu použijte následující "
+"odkazy."
 
 #: ../user/home.php:49 ../project.sample/project.inc:49
 msgid "Your account"
@@ -2597,13 +2596,13 @@ msgid ""
 "owner's permission. Some companies and schools have policies that prohibit "
 "using their computers for projects such as %1."
 msgstr ""
-"Používejte %1 pouze na počítačích které vlastníte, nebo na kterých Vám to "
+"Používejte %1 pouze na počítačích které vlastníte, nebo na kterých vám to "
 "jejich vlastník povolil. Některé školy nebo firmy se řídí předpisy, které "
 "zakazují používat jejich počítače pro projekty jako je %1."
 
 #: ../user/info.php:36
 msgid "How %1 will use your computer"
-msgstr "Jak bude %1 využívat Váš počítač"
+msgstr "Jak bude %1 využívat váš počítač"
 
 #: ../user/info.php:37
 msgid ""
@@ -2612,7 +2611,7 @@ msgid ""
 "resources are used by %1, and when it uses them."
 msgstr ""
 "Při běhu bude %1 využívat část výpočetního výkonu, místa na disku a "
-"přenosové kapacity připojení Vašeho počítače. Můžete ovlivnit, kolik "
+"přenosové kapacity připojení vašeho počítače. Můžete ovlivnit, kolik "
 "prostředků bude %1 využívat a také kdy je bude využívat."
 
 #: ../user/info.php:38
@@ -2620,8 +2619,8 @@ msgid ""
 "The work done by your computer contributes to the goals of %1, as described "
 "on its web site. The application programs may change from time to time."
 msgstr ""
-"Práce vykonaná Vaším počítačem přispěje k dosažení cílů %1, které mají "
-"popsané na svých webových stránkách. Cíle projektu se mohou čas od času "
+"Práce vykonaná vaším počítačem přispěje k dosažení cílů %1, které jsou "
+"popsané na webových stránkách projektu. Cíle projektu se mohou čas od času "
 "měnit."
 
 #: ../user/info.php:40
@@ -2637,8 +2636,8 @@ msgid ""
 msgstr ""
 "Váš účet na %1 je identifikován podle jména, které si sami zvolíte. Toto "
 "jméno může být zobrazeno na stránkách %1 spolu s údaji o tom, kolik práce "
-"již Váš počítač v %1 vykonal. Pokud si přejete zůstat v anonymitě, zvolte si "
-"takové jméno, které skryje Vaší pravou identitu."
+"již váš počítač v %1 vykonal. Pokud si přejete zůstat v anonymitě, zvolte si "
+"takové jméno, které skryje vaší pravou identitu."
 
 #: ../user/info.php:42
 msgid ""
@@ -2648,10 +2647,10 @@ msgid ""
 "also be shown on %1's web site. Nothing that reveals your computer's "
 "location (e.g. its domain name or network address) will be shown."
 msgstr ""
-"Pokud jste zapojen v %1, informace o Vašem počítači (typ procesoru, velikost "
+"Pokud jste zapojen v %1, informace o vašem počítači (typ procesoru, velikost "
 "paměti atd.) bude zaznamenána v databázi %1 a použita pro určení, jaký typ "
-"práce bude Vašemu počítači přidělen. Tyto informace budou také viditelné na "
-"stránkách %1. Nebude zobrazeno nic, co by odhalovalo umístění Vašeho "
+"práce bude vašemu počítači přidělen. Tyto informace budou také viditelné na "
+"stránkách %1. Nebude zobrazeno nic, co by odhalovalo umístění vašeho "
 "počítače, jako např. jméno domény či IP adresa."
 
 #: ../user/info.php:43
@@ -2660,7 +2659,7 @@ msgid ""
 "address will not be shown on the %1 web site or shared with organizations. %"
 "1 may send you periodic newsletters; however, you can opt out at any time."
 msgstr ""
-"Abyste se mohli zapojit do %1, musíte zadat Vaší emailovou adresu, kterou "
+"Abyste se mohli zapojit do %1, musíte zadat vaší emailovou adresu, kterou "
 "používáte. Tato adresa nebude zobrazena na stránkách %1 ani sdělována jiným "
 "organizacím. %1 vám bude zasílat emailové novinky, které ovšem můžete "
 "kdykoliv zrušit."
@@ -2687,9 +2686,9 @@ msgid ""
 "anyone to view and copy your posts."
 msgstr ""
 "Pokud navštěvujete diskuzní fórum na našem webu, je třeba dodržovat %"
-"2pravidla psaní příspěvků%3. Příspěvky vložené do fóra jsou viditelné pro "
-"všechny uživatele, včetně ne-členů. Přispíváním do fóra také dáváte všem "
-"nezrušitelné právo na čtení a kopírování Vašich příspěvků."
+"2pravidla psaní příspěvků%3. Příspěvky vložené do fóra jsou viditelné všem "
+"uživatelům, včetně ne-členům. Přispíváním do fóra také dáváte všem "
+"nezrušitelné právo na čtení a kopírování vašich příspěvků."
 
 #: ../user/info.php:46
 msgid "Is it safe to run %1?"
@@ -2705,13 +2704,13 @@ msgid ""
 "all executable files are digitally signed on a secure computer not connected "
 "to the Internet."
 msgstr ""
-"Kdykoliv si stahujete programy z internetu, vystavujete se riziku, že "
+"Kdykoliv si stahujete programy z Internetu, vystavujete se riziku, že "
 "program obsahuje nebezpečné chyby, nebo že server, ze kterého stahujete, byl "
 "napaden útočníkem. %1 vynakládá veškeré úsilí k minimalizaci těchto rizik. "
 "Naše servery jsou umístěny za firewallem a nastaveny na vysokou úroveň "
 "zabezpečení. Pro zajištění integrity byly všechny naše programy důkladně "
 "testovány a také digitálně podepsány na zabezpečeném počítači, který není "
-"připojen k internetu."
+"připojen k Internetu."
 
 #: ../user/info.php:48
 msgid ""
@@ -2752,7 +2751,7 @@ msgid ""
 "will do useful work even when %1 has no work available for it."
 msgstr ""
 "Prostředí BOINC využívají i další projekty, podobně jako %1. Můžete zvážit "
-"Vaše přispění i do těchto projektů a pokud tak učiníte, Váš počítač bude "
+"vaše přispění i do těchto projektů a pokud tak učiníte, váš počítač bude "
 "pracovat užitečně i v době, kdy %1 nebude mít nic na práci."
 
 #: ../user/info.php:56
@@ -2761,9 +2760,9 @@ msgid ""
 "their security practices or the nature of their research. Join them at your "
 "own risk."
 msgstr ""
-"Tyto další projekty nejsou nijak sdružené s %1 a tudíž se Vám nemůžeme nijak "
+"Tyto další projekty nejsou nijak sdružené s %1 a tudíž se vám nemůžeme nijak "
 "zaručit za jejich bezpečnost či předmět výzkumu. Připojte se k nim dle "
-"Vašeho uvážení."
+"vašeho uvážení."
 
 #: ../user/language_select.php:42
 msgid "Language selection"
@@ -2774,20 +2773,20 @@ msgid ""
 "This web site is available in several languages. The currently selected "
 "language is %1."
 msgstr ""
-"Tato webová stránka je dostupná ve více jazycích. Aktuálně vybraný jazyk je %"
-"1."
+"Tato webová stránka je dostupná ve více jazycích. Aktuálně vybraný jazyk je "
+"%1."
 
 #: ../user/language_select.php:74
 msgid ""
 "Normally the choice of language is determined by your browser's language "
 "setting, which is: %1.  You can change this setting using:"
 msgstr ""
-"Podle nastavení Vašeho prohlížeče byl pro tyto stránky vybrán jazyk: %1. "
+"Podle nastavení vašeho prohlížeče byl pro tyto stránky vybrán jazyk: %1. "
 "Toto nastavení lze změnit zde:"
 
 #: ../user/language_select.php:79
 msgid "Firefox: Tools/Options/General"
-msgstr "Firefox: Nástroje/Možnosti/Obecné"
+msgstr "Firefox: Menu/Možnosti/Obsah"
 
 #: ../user/language_select.php:81
 msgid "Microsoft IE: Tools/Internet Options/Languages"
@@ -2799,8 +2798,8 @@ msgid ""
 "send your browser a cookie; make sure your browser accepts cookies from our "
 "domain."
 msgstr ""
-"Nebo si můžete vybrat jazyk kliknutím na jeden z těchto odkazů - tím si Váš "
-"prohlížeč uloží cookie s nastavením. Ujistěte se prosím, že Váš prohlížeč "
+"Nebo si můžete vybrat jazyk kliknutím na jeden z těchto odkazů - tím si váš "
+"prohlížeč uloží cookie s nastavením. Ujistěte se prosím, že váš prohlížeč "
 "podporuje cookies."
 
 #: ../user/language_select.php:91
@@ -2816,7 +2815,7 @@ msgid ""
 "Translations are done by volunteers.  If your native language is not here, %"
 "1you can provide a translation%2."
 msgstr ""
-"Překlady jsou tvořeny dobrovolníky. Pokud tu Váš rodný jazyk dosud není, %"
+"Překlady jsou tvořeny dobrovolníky. Pokud tu váš rodný jazyk dosud není, %"
 "1můžete pomoci s překladem%2."
 
 #: ../user/login_form.php:42
@@ -2938,7 +2937,7 @@ msgstr "Uživatel %1 byl zablokován, nemůže vám posílat soukromé zprávy."
 
 #: ../user/pm.php:260
 msgid "To unblock, visit %1message board preferences%2"
-msgstr "Pro odblokování navštivte %1nastavení diskuzního fóra%2"
+msgstr "Pro odblokování navštivte %1předvolby diskuzního fóra%2"
 
 #: ../user/prefs.php:36
 msgid ""
@@ -2963,7 +2962,7 @@ msgstr "Potvrdit smazání předvoleb"
 
 #: ../user/prefs_remove.php:49
 msgid "Are you sure you want to delete your separate %1 preferences for %2?"
-msgstr "Jste si jisti, že chcete smazat Vaše separátní  %1 předvolby pro %2?"
+msgstr "Jste si jisti, že chcete smazat vaše separátní  %1 předvolby pro %2?"
 
 #: ../user/prefs_remove.php:53
 msgid "Remove preferences"
@@ -2991,7 +2990,7 @@ msgid ""
 "views for others to enjoy."
 msgstr ""
 "Prozkoumejte, jak různorodý svět je mezi Vámi dobrovolníky, a přispějte i "
-"Vaším vlastním pohledem pro ostatní k nahlédnutí."
+"vaším vlastním pohledem pro ostatní k nahlédnutí."
 
 #: ../user/profile_menu.php:38
 msgid ""
@@ -3022,8 +3021,8 @@ msgid ""
 "Browse profiles %1at random%2, %3at random with pictures%2, or %4at random "
 "without pictures%2."
 msgstr ""
-"Procházet profily %1náhodně%2, %3náhodně ty s obrázky%2, nebo %4náhodně ty "
-"bez obrázků%2."
+"Procházet profily %1náhodně%2, %3náhodně s obrázky%2, nebo %4náhodně bez "
+"obrázků%2."
 
 #: ../user/profile_menu.php:65
 msgid "Alphabetical profile listings:"
@@ -3099,155 +3098,151 @@ msgstr "Uživatel dne"
 
 #: ../user/server_status.php:94
 msgid "Running"
-msgstr ""
+msgstr "Spuštěný"
 
 #: ../user/server_status.php:97
 msgid "Not Running"
-msgstr ""
+msgstr "Zastavený"
 
 #: ../user/server_status.php:100
 msgid "Disabled"
-msgstr ""
+msgstr "Vypnutý"
 
 #: ../user/server_status.php:216
 msgid "Project status"
-msgstr ""
+msgstr "Stav projektu"
 
 #: ../user/server_status.php:218
 msgid "Server software version: %1"
-msgstr ""
+msgstr "Verze software na serveru: %1"
 
 #: ../user/server_status.php:224
-#, fuzzy
 msgid "Server status"
 msgstr "Stav serveru"
 
 #: ../user/server_status.php:226
 msgid "Program"
-msgstr ""
+msgstr "Program"
 
 #: ../user/server_status.php:226
 msgid "Host"
-msgstr ""
+msgstr "Počítač"
 
 #: ../user/server_status.php:237
 msgid "data-driven web pages"
-msgstr ""
+msgstr "webové stránky s daty"
 
 #: ../user/server_status.php:243
 msgid "upload/download server"
-msgstr ""
+msgstr "server pro posílání/nahrávání dat"
 
 #: ../user/server_status.php:246
 msgid "scheduler"
-msgstr ""
+msgstr "plánovač"
 
 #: ../user/server_status.php:276
 msgid "Running:"
-msgstr ""
+msgstr "Spuštěný:"
 
 #: ../user/server_status.php:277
 msgid "Program is operating normally"
-msgstr ""
+msgstr "Program běží normálně"
 
 #: ../user/server_status.php:278
 msgid "Not Running:"
-msgstr ""
+msgstr "Zastavený:"
 
 #: ../user/server_status.php:279
 msgid "Program failed or the project is down"
-msgstr ""
+msgstr "Program selhal, nebo je projekt odstavený"
 
 #: ../user/server_status.php:280
 msgid "Disabled:"
-msgstr ""
+msgstr "Vypnutý: "
 
 #: ../user/server_status.php:281
 msgid "Program is disabled"
-msgstr ""
+msgstr "Program je vypnutý"
 
 #: ../user/server_status.php:285
 msgid "Computing status"
-msgstr ""
+msgstr "Stav výpočtů"
 
 #: ../user/server_status.php:291
 msgid "The database server is not accessible"
-msgstr ""
+msgstr "Databázový server není dostupný"
 
 #: ../user/server_status.php:308
 msgid "Tasks ready to send"
-msgstr ""
+msgstr "Úkoly připravené k zaslání"
 
 #: ../user/server_status.php:313 ../user/workunit.php:52
 msgid "Tasks in progress"
-msgstr "Aktivních úkolů"
+msgstr "Probíhající úkoly"
 
 #: ../user/server_status.php:318
 msgid "Workunits waiting for validation"
-msgstr ""
+msgstr "Pracovní jednotky čekající na validaci"
 
 #: ../user/server_status.php:323
 msgid "Workunits waiting for assimilation"
-msgstr ""
+msgstr "Pracovní jednotky čekající na začlenění"
 
 #: ../user/server_status.php:328
 msgid "Workunits waiting for file deletion"
-msgstr ""
+msgstr "Pracovní jednotky čekající na smazání"
 
 #: ../user/server_status.php:333
 msgid "Tasks waiting for file deletion"
-msgstr ""
+msgstr "Úkoly čekající na smazání"
 
 #: ../user/server_status.php:346
 msgid "Transitioner backlog (hours)"
-msgstr ""
+msgstr "Zpoždění přechodového serveru (hod)"
 
 #: ../user/server_status.php:353
-#, fuzzy
 msgid "Users"
-msgstr "Uživatel"
+msgstr "Uživatelé"
 
 #: ../user/server_status.php:355 ../user/server_status.php:371
 msgid "with recent credit"
-msgstr ""
+msgstr "s nedávným kreditem"
 
 #: ../user/server_status.php:360 ../user/server_status.php:376
 msgid "with credit"
-msgstr ""
+msgstr "s kreditem"
 
 #: ../user/server_status.php:365 ../user/server_status.php:381
 msgid "registered in past 24 hours"
-msgstr ""
+msgstr "registrovaní během posledních 24 hod"
 
 #: ../user/server_status.php:388
 msgid "current GigaFLOPs"
-msgstr ""
+msgstr "aktuální výkon GigaFLOPů"
 
 #: ../user/server_status.php:397
 msgid "Tasks by application"
-msgstr ""
+msgstr "Úkoly podle aplikačního programu"
 
 #: ../user/server_status.php:398 ../user/workunit.php:38
 msgid "application"
-msgstr "aplikace"
+msgstr "aplikační program"
 
 #: ../user/server_status.php:398
-#, fuzzy
 msgid "unsent"
-msgstr "Neodesláno"
+msgstr "neodesláno"
 
 #: ../user/server_status.php:398
-#, fuzzy
 msgid "in progress"
-msgstr "Aktivní"
+msgstr "probíhá"
 
 #: ../user/server_status.php:398
 msgid "avg runtime of last 100 results in h (min-max)"
-msgstr ""
+msgstr "průměrná doba běhu posledních 100 výsledků v h (min-max)"
 
 #: ../user/server_status.php:398
 msgid "users in last 24h"
-msgstr ""
+msgstr "uživatelé během posledních 24 hodin"
 
 #: ../user/show_user.php:88
 msgid "Account data for %1"
@@ -3285,7 +3280,7 @@ msgstr ""
 msgid ""
 "You can also get your current statistics in the form of a \"signature image"
 "\":"
-msgstr "Je též možné získat Vaše statistiky ve formě \"obrázku do podpisu\":"
+msgstr "Je též možné získat vaše statistiky ve formě \"obrázku do podpisu\":"
 
 #: ../user/stats.php:41
 msgid ""
@@ -3293,7 +3288,7 @@ msgid ""
 "projects from several sites; see your %1home page%2."
 msgstr ""
 "Též je možné získat individuální statistiky ze všech BOINC projektů, kde "
-"jste zapojeni - na Vaší %1domovské stránce%2."
+"jste zapojeni - na vaší %1domovské stránce%2."
 
 #: ../user/team.php:25
 msgid "%1 participants may form %2teams%3"
@@ -3308,7 +3303,7 @@ msgstr ""
 
 #: ../user/team.php:29
 msgid "Each team has a %1founder%2 who may:"
-msgstr "Každý tým má %1zakladatele%2, který může:"
+msgstr "Každý tým má %1vlastníka%2, který může:"
 
 #: ../user/team.php:31
 msgid "access team members' email addresses"
@@ -3351,7 +3346,7 @@ msgstr "Vytvořit nový tým"
 #: ../user/team.php:56
 msgid ""
 "If you cannot find a team that is right for you, you can %1create a team%2."
-msgstr "Pokud Vám nevyhovuje žádný tým, můžete si %1vytvořit vlastní%2."
+msgstr "Pokud vám nevyhovuje žádný tým, můžete si %1vytvořit vlastní%2."
 
 #: ../user/team_admins.php:32
 msgid "Remove Team Admin status from this member"
@@ -3546,7 +3541,8 @@ msgstr "Vytvořit tým"
 msgid ""
 "You belong to %1. You must %2quit this team%3 before creating a new one."
 msgstr ""
-"Nyní jste v %1. Musíte nejdříve %2opustit tento tým%3 před vytvářením nového."
+"Nyní jste v %1. Musíte nejdříve %2opustit tento tým%3 před vytvářením "
+"nového."
 
 #: ../user/team_delta.php:64
 msgid "Not founder or admin"
@@ -3646,7 +3642,7 @@ msgstr "Diskuze členů %1"
 
 #: ../user/team_forum.php:69
 msgid "Minimum time between posts (seconds)"
-msgstr "Minimální čas mezi příspěvky (vteřiny)"
+msgstr "Minimální čas mezi příspěvky (sek)"
 
 #: ../user/team_forum.php:72
 msgid "Minimum total credit to post"
@@ -3734,8 +3730,8 @@ msgid ""
 "                       If the founder does not respond within 60 days you "
 "will be allowed to become the founder."
 msgstr ""
-"Aktuální vlastník byl upozorněn na váš požadavek emailem a soukromou zprávou."
-"<br/><br/>\n"
+"Aktuální vlastník byl upozorněn na váš požadavek emailem a soukromou "
+"zprávou.<br/><br/>\n"
 "Pokud vlastník neodpoví do 60 dnů, bude vám umožněno stát se vlastníkem."
 
 #: ../user/team_founder_transfer_action.php:100
@@ -3878,8 +3874,7 @@ msgstr "Upozornění:"
 
 #: ../user/team_join_form.php:35
 msgid "Joining a team gives its founder access to your email address."
-msgstr ""
-"Připojením k týmu dáte jeho vlastníkovi přístup k vaší emailové adrese."
+msgstr "Připojením k týmu dáte jeho vlastníkovi přístup k vaší emailové adrese."
 
 #: ../user/team_join_form.php:36
 msgid "Joining a team does not affect your account's credit."
@@ -3911,7 +3906,7 @@ msgid ""
 "End of results. %1 If you cannot find the team you are looking for, you may %"
 "2create a team%3 yourself."
 msgstr ""
-"Konec výsledků. %1 Pokud Vám nevyhovuje žádný tým, můžete si %2vytvořit "
+"Konec výsledků. %1 Pokud vám nevyhovuje žádný tým, můžete si %2vytvořit "
 "vlastní%3."
 
 #: ../user/team_manage.php:24
@@ -3995,8 +3990,8 @@ msgid ""
 "To have this team created on all BOINC projects (current and future) you can "
 "make it into a %1BOINC-wide team%2."
 msgstr ""
-"Je možné vytvořit tým ve všech BOINC projektech, aktuálních i budoucích, "
-"jako %1BOINC tým napříč projekty%2."
+"Pro vytvoření týmu ve všech BOINC projektech, aktuálních i budoucích, lze "
+"založit %1Globální BOINC tým%2."
 
 #: ../user/team_manage.php:71
 msgid ""
@@ -4011,8 +4006,8 @@ msgid ""
 "Other resources for BOINC team admins are available from a third-party site, "
 "%1www.boincteams.com%2."
 msgstr ""
-"Jsou dostupné i další nástroje pro správce BOINC týmů na této stránce: %1www."
-"boincteams.com%2."
+"Na této stránce jsou dostupné další nástroje pro správce BOINC týmů: %"
+"1www.boincteams.com%2."
 
 #: ../user/team_manage.php:89
 msgid "Can't delete non-empty team"
@@ -4056,8 +4051,8 @@ msgstr ""
 "         <ul>\n"
 "         <li>Pokud opustíte tým, můžete se do něj později vrátit, nebo se "
 "připojit do kteréhokoliv jiného týmu.</li>\n"
-"         <li>Opuštění týmu nemá žádný vliv na vaše statistiky či kredit.</"
-"li>\n"
+"         <li>Opuštění týmu nemá žádný vliv na vaše statistiky či "
+"kredit.</li>\n"
 "         </ul>"
 
 #: ../user/team_quit_form.php:40
@@ -4141,7 +4136,7 @@ msgstr "K nalezení týmů, které by vás mohly zajímat, použijte tento formu
 
 #: ../user/team_search.php:163
 msgid "%1I'm not interested%2 in joining a team right now."
-msgstr "%1Nemám zájem%2 se momentálně připojovat k týmu."
+msgstr "%1Nemám zájem%2 připojovat se momentálně k týmu."
 
 #: ../user/top_hosts.php:65 ../user/top_teams.php:98 ../user/top_users.php:110
 msgid "Limit exceeded - Sorry, first %1 items only"
@@ -4189,11 +4184,11 @@ msgstr "Sestupně podle času registrace"
 
 #: ../user/user_search.php:116
 msgid "Decreasing average credit"
-msgstr "Snižující se průměrný kredit"
+msgstr "Sestupně podle průměrného kreditu"
 
 #: ../user/user_search.php:117
 msgid "Decreasing total credit"
-msgstr "Snižující se celkový kredit"
+msgstr "Sestupně podle celkového kreditu"
 
 #: ../user/user_search.php:118
 msgid "Filters"
@@ -4268,7 +4263,7 @@ msgid ""
 "Please visit the following link to validate the email address of your %1 "
 "account:"
 msgstr ""
-"Klikněte prosím na tento odkaz pro ověření emailové adresy od vašeho účtu %1:"
+"Klikněte prosím na tento odkaz pro ověření emailové adresy vašeho účtu %1:"
 
 #: ../user/validate_email_addr.php:34
 msgid "Validate email sent"
@@ -4300,7 +4295,7 @@ msgstr "Ověřit emailovou adresu"
 
 #: ../user/validate_email_addr.php:58
 msgid "The email address of your account has been validated."
-msgstr "Emailová adresa od vašeho účtu byla ověřena."
+msgstr "Emailová adresa vašeho účtu byla ověřena."
 
 #: ../user/view_profile.php:27
 msgid "This user has no profile"
@@ -4315,13 +4310,12 @@ msgid "Account data"
 msgstr "Data účtu"
 
 #: ../user/weak_auth.php:47
-#, fuzzy
 msgid ""
 "Your 'weak account key' lets you link a computer to your account without "
 "giving it the ability to log in to your account or to change it in any way."
 msgstr ""
-"Váš 'slabý klíč k ůčtu' Vám umožňuje přidávat počítače s omezenými právy k "
-"Vašemu účtu - bez možnosti přístupu na účet či ke změně nastavení."
+"Váš 'slabý klíč k ůčtu' umožňuje přidávat počítače s omezenými právy k "
+"vašemu účtu - bez možnosti přístupu na účet či ke změně nastavení."
 
 #: ../user/weak_auth.php:48
 msgid ""
@@ -4341,8 +4335,8 @@ msgid ""
 "file' for this project. This file has a name of the form "
 "<b>account_PROJECT_URL.xml</b>. The account file for %1 is <b>%2</b>."
 msgstr ""
-"K použití slabého klíče na daném stroji najděte nebo vytvořte 'soubor s "
-"účtem' k danému projektu. Tento soubor má jméno ve tvaru "
+"K použití slabého klíče na daném stroji najděte nebo vytvořte 'soubor k "
+"účtu' k danému projektu. Tento soubor má jméno ve tvaru "
 "<b>account_ADRESA_PROJEKTU.xml</b>. Soubor s účtem pro %1 je <b>%2</b>."
 
 #: ../user/weak_auth.php:52
@@ -4355,8 +4349,8 @@ msgid ""
 "password, your weak account key changes, and your previous weak account key "
 "becomes invalid."
 msgstr ""
-"Váš slabý klíč k účtu je spjatý s Vaším heslem. Pokud změníte Vaše heslo, "
-"Váš slabý klíč se také změní a Váš předchozí slabý klíč se tímto zneplatní."
+"Váš slabý klíč k účtu je provázán s vaším heslem. Pokud změníte vaše heslo, "
+"váš slabý klíč se také změní a váš předchozí slabý klíč se tímto zneplatní."
 
 #: ../user/workunit.php:30
 msgid "can't find workunit"
@@ -4372,7 +4366,7 @@ msgstr "jméno"
 
 #: ../user/workunit.php:39
 msgid "created"
-msgstr "vytvořeno"
+msgstr "vytvořena"
 
 #: ../user/workunit.php:41
 msgid "canonical result"

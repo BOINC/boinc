@@ -82,7 +82,7 @@ if ($format=="xml"){
         set_cached_data(USER_PAGE_TTL, serialize($data), $cache_args);
     }
     if (!$user->id) {
-        error_page("No such user found - please check the ID and try again.");
+        error_page("No such user");
     }
 
     $logged_in_user = get_logged_in_user(false);

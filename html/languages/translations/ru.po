@@ -4,23 +4,20 @@
 # FileID  : $Id$
 msgid ""
 msgstr ""
-"Project-Id-Version: \n"
+"Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2010-10-06 13:10 PDT\n"
-"PO-Revision-Date: 2010-10-16 19:36+0200\n"
+"PO-Revision-Date: 2010-12-27 19:02+0200\n"
 "Last-Translator: Nikolay Saharov <saharovna@gmail.com>\n"
-"Language-Team: Russia\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: ru\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: ru\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%"
 "10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 "X-Generator: Pootle 2.1.1\n"
-"X-Poedit-SearchPath-0: html\\user\n"
 "X-Poedit-SourceCharset: utf-8\n"
-"X-Poedit-Basepath: D:\\BOINCSrcTree\\boinc\\html\\languages\n"
-"X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
 
 # The name of this language in this language
 # Имя языка в этом файле
@@ -600,8 +597,8 @@ msgid ""
 "power mode on some computers %2"
 msgstr ""
 "Приостанавливать обработку, если нет активности мыши/клавиатуры за последние "
-"%1 Необходимо для входа в режим пониженного потребления энергии на некоторых "
-"компьютерах %2"
+"%1 Необходимо для входа в режим пониженного потребления энергии на "
+"некоторых компьютерах %2"
 
 #: ../inc/prefs.inc:113
 msgid ""
@@ -640,8 +637,8 @@ msgstr "процессоров"
 #: ../inc/prefs.inc:152
 msgid "On multiprocessors, use at most %1 Enforced by version 6.1+ %2"
 msgstr ""
-"На мультипроцессорных системах использовать не более %1 Начиная с версии 6.1"
-"+ %2"
+"На мультипроцессорных системах использовать не более %1 Начиная с версии "
+"6.1+ %2"
 
 #: ../inc/prefs.inc:157
 #, php-format
@@ -2058,8 +2055,8 @@ msgid ""
 "If you would like include a picture with your profile, click the \"Browse\" "
 "button and select a JPEG or PNG file. Please select images of %1 or less."
 msgstr ""
-"Если Вы хотите добавить фотографию в ваш профиль, нажмите кнопку \"Обзор..."
-"\" и выберите файл формата JPEG или PNG. Пожалуйста выберите изображения "
+"Если Вы хотите добавить фотографию в ваш профиль, нажмите кнопку \"Обзор...\" "
+"и выберите файл формата JPEG или PNG. Пожалуйста выберите изображения "
 "размером %1 или меньше."
 
 #: ../user/create_profile.php:87
@@ -2680,10 +2677,10 @@ msgid ""
 msgstr ""
 "Если Вы принимаете участие в %1, информация о Вашем компьютере (такая как "
 "тип процессора, объем оперативной памяти, и т.д.) будет записана проектом %1 "
-"и использована для принятия решения о том, какой тип работы назначить Вашему "
-"компьютеру. Эта информация также будет показана на web-сайте %1. Ничего, что "
-"указывало бы на местонахождение Вашего компьютера (например, его доменное "
-"или сетевое имя), не будет показываться."
+"и использована для принятия решения о том, какой тип работы назначить "
+"Вашему компьютеру. Эта информация также будет показана на web-сайте %1. "
+"Ничего, что указывало бы на местонахождение Вашего компьютера (например, его "
+"доменное или сетевое имя), не будет показываться."
 
 #: ../user/info.php:43
 msgid ""
@@ -2809,8 +2806,8 @@ msgid ""
 "This web site is available in several languages. The currently selected "
 "language is %1."
 msgstr ""
-"Этот веб-сайт доступен на нескольких языках. В настоящее время выбран язык: %"
-"1."
+"Этот веб-сайт доступен на нескольких языках. В настоящее время выбран язык: "
+"%1."
 
 #: ../user/language_select.php:74
 msgid ""
@@ -2827,8 +2824,8 @@ msgstr "Firefox: Сервис/Настройки/Общие (Tools/Options/Gener
 #: ../user/language_select.php:81
 msgid "Microsoft IE: Tools/Internet Options/Languages"
 msgstr ""
-"Microsoft IE: Сервис/Свойства обозревателя/Языки (Tools/Internet Options/"
-"Languages)"
+"Microsoft IE: Сервис/Свойства обозревателя/Языки (Tools/Internet "
+"Options/Languages)"
 
 #: ../user/language_select.php:85
 msgid ""
@@ -3005,8 +3002,8 @@ msgstr "Подтверждение удаления настроек"
 #: ../user/prefs_remove.php:49
 msgid "Are you sure you want to delete your separate %1 preferences for %2?"
 msgstr ""
-"Вы уверены, что хотите удалить ваши отдельные настройки %1 для конфигурации %"
-"2?"
+"Вы уверены, что хотите удалить ваши отдельные настройки %1 для конфигурации "
+"%2?"
 
 #: ../user/prefs_remove.php:53
 msgid "Remove preferences"
@@ -3198,7 +3195,7 @@ msgstr "Не работает:"
 
 #: ../user/server_status.php:279
 msgid "Program failed or the project is down"
-msgstr "Программа завершилась с ошибкой или или проект выключен"
+msgstr "Программа завершилась с ошибкой или проект выключен"
 
 #: ../user/server_status.php:280
 msgid "Disabled:"
@@ -3744,8 +3741,8 @@ msgstr "Доска сообщений удалена"
 msgid ""
 "Your team's message board has been removed. You may now %1create a new one%2."
 msgstr ""
-"Доска сообщений вашей команды была удалена. Теперь Вы можете %1создать новую%"
-"2."
+"Доска сообщений вашей команды была удалена. Теперь Вы можете %1создать новую"
+"%2."
 
 #: ../user/team_forum.php:141
 msgid "Team Message Board Updated"
@@ -3807,7 +3804,8 @@ msgid ""
 "page%3 to find the Team Admin options."
 msgstr ""
 "Поздравляем, Вы теперь основатель команды %1. Перейдите на %2страницу вашей "
-"учетной записи%3, чтобы воспользоваться возможностями Администратора команды."
+"учетной записи%3, чтобы воспользоваться возможностями Администратора "
+"команды."
 
 #: ../user/team_founder_transfer_action.php:118
 msgid "Decline founder change request"
@@ -3880,8 +3878,8 @@ msgstr ""
 "нажмите на кнопку ниже. Текущему основателю будет отправлено электронное "
 "письмо с подробной информацией о вашем запросе, и у него будет возможность "
 "передать Вам полномочия основателя или отклонить ваш запрос. Если основатель "
-"не ответит в течение 60 дней, у Вас будет возможность стать основателем.<br /"
-"><br />\n"
+"не ответит в течение 60 дней, у Вас будет возможность стать основателем.<br "
+"/><br />\n"
 "                        Вы уверены, что хотите запросить полномочия "
 "основателя?"
 
@@ -4538,92 +4536,3 @@ msgstr ""
 #: ../project.sample/project_specific_prefs.inc:80
 msgid "(all applications)"
 msgstr "(все приложения)"
-
-#~ msgid "BOINC client version"
-#~ msgstr "Версия клиента BOINC"
-
-#~ msgid "Maximum daily WU quota per CPU"
-#~ msgstr "Максимальная дневная квота заданий на один ЦП"
-
-#~ msgid "%1/day"
-#~ msgstr "%1/день"
-
-#~ msgid "Anonymous platform - CPU"
-#~ msgstr "Анонимная платформа - ЦП"
-
-#~ msgid "Anonymous platform - NVIDIA GPU"
-#~ msgstr "Анонимная платформа - ГП NVIDIA"
-
-#~ msgid "Anonymous platform - ATI GPU"
-#~ msgstr "Анонимная платформа - ГП ATI"
-
-#~ msgid "Client detached"
-#~ msgstr "Клиент отсоединён"
-
-#~ msgid "Client error"
-#~ msgstr "Ошибка клиента"
-
-#~ msgid "Task ID"
-#~ msgstr "ID задания"
-
-#~ msgid "Work unit ID"
-#~ msgstr "ID задачи"
-
-#~ msgid "Claimed credit"
-#~ msgstr "Затребовано очков"
-
-#~ msgid "Granted credit"
-#~ msgstr "Дано очков"
-
-#~ msgid "application version"
-#~ msgstr "версия приложения"
-
-#~ msgid "Please log in"
-#~ msgstr "Пожалуйста авторизуйтесь"
-
-#~ msgid "ERROR: %1 does not exist!  Cannot create combo box.<br>"
-#~ msgstr "ОШИБКА: %1 не существует! Не создать combo box.<br>"
-
-#~ msgid ""
-#~ "To protect the project's webpages from spam, we kindly ask you to type in "
-#~ "the two words shown in the image:<br>\n"
-#~ msgstr ""
-#~ "Чтобы защитить web-страницы проекта от спама, мы предлагаем Вам ввести "
-#~ "здесь два слова, показанные на этом изображении:<br>\n"
-
-#~ msgid "Use ATI GPU if present %1(enforced by 6.10+ clients)%2"
-#~ msgstr "Использовать ГП ATI, при наличии %1(начиная с версии 6.10+)%2"
-
-#~ msgid "GB disk space"
-#~ msgstr "Гбайт места на диске"
-
-#~ msgid "GB disk space free"
-#~ msgstr "Гбайт свободного места на диске"
-
-#~ msgid "%1 minutes"
-#~ msgstr "%1 минут"
-
-#~ msgid "(no restriction)"
-#~ msgstr "(без ограничений)"
-
-#~ msgid "%1 GB disk space"
-#~ msgstr "%1 Гбайт места на диске"
-
-#~ msgid "%1 GB disk space free"
-#~ msgstr "%1 Гбайт свободного места на диске"
-
-#~ msgid ""
-#~ "Resource share %1If you participate in multiple BOINC projects, this is "
-#~ "the proportion of your resources used by %2%3"
-#~ msgstr ""
-#~ "Выделено ресурсов %1Если Вы участвуете во многих проектах BOINC, это "
-#~ "пропорция ваших ресурсов, используемых проектом %2%3"
-
-#~ msgid "Resource share"
-#~ msgstr "Выделено ресурсов"
-
-#~ msgid "stderr out"
-#~ msgstr "вывод текста ошибки"
-
-#~ msgid "preferences"
-#~ msgstr "Настройки"

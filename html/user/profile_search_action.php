@@ -33,15 +33,15 @@ $offset = get_int('offset', true);
 if (!$offset) $offset=0;
 $count = 10;
 
-page_head("Profiles containing '$search_string'");
+page_head(tra("Profiles containing '%1'", $search_string));
 $profiles = BoincProfile::enum("match(response1, response2) against ('$search_string') limit $offset,$count");
 start_table();
 echo "
-    <tr><th>User name</th>
-    <th>Joined project</th>
-    <th>Country</th>
-    <th>Total credit</th>
-    <th>Recent credit</th></tr>
+    <tr><th>".tra("User name")."</th>
+    <th>".tra("Joined project")."</th>
+    <th>".tra("Country")."</th>
+    <th>".tra("Total credit")."</th>
+    <th>".tra("Recent credit")."</th></tr>
 ";
 $n = 0;
 foreach($profiles as $profile) {
@@ -51,14 +51,14 @@ foreach($profiles as $profile) {
 end_table();
 
 if ($offset==0 && $n==0) {
-    echo "No profiles found containing '$search_string'";
+    echo tra("No profiles found containing '%1'", $search_string);
 }
 
 if ($n==$count) {
     $s = urlencode($search_string);
     $offset += $count;
     echo "
-        <a href=profile_search_action.php?search_string=$s&offset=$offset>Next $count</a>
+        <a href=profile_search_action.php?search_string=$s&offset=$offset>".tra("Next %1", $count)."</a>
     ";
 
 }

@@ -29,8 +29,7 @@ $hostid = get_int("hostid");
 $ipprivate = get_str("ipprivate", true);
 $host = BoincHost::lookup_id($hostid);
 if (!$host) {
-    echo "Couldn't find computer";
-    exit();
+    error_page("No such computer");
 }
 
 $user = get_logged_in_user(false);
@@ -38,7 +37,7 @@ if ($user->id != $host->userid) {
     $user = null;
 }
 
-page_head("Computer $hostid");
+page_head(tra("Computer %1", $hostid));
 show_host($host, $user, $ipprivate);
 page_tail();
 

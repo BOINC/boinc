@@ -22,7 +22,7 @@ include_once("../inc/team.inc");
 
 check_get_args(array());
 
-page_head("Teams");
+page_head(tra("Teams"));
 
 echo "<p>".tra("%1 participants may form %2teams%3.", PROJECT, "<b>", "</b>") ."
     <p>
@@ -32,6 +32,7 @@ echo "<p>".tra("%1 participants may form %2teams%3.", PROJECT, "<b>", "</b>") ."
     <ul>
     <li> " . tra("access team members' email addresses") . "
     <li> " . tra("edit the team's name and description") . "
+    <li> " . tra("add or remove team admins") . "
     <li> " . tra("remove members from the team") . "
     <li> " . tra("disband a team if it has no members") . "
     </ul>
