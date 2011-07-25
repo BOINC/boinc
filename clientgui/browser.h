@@ -45,12 +45,19 @@ bool detect_cookie_firefox_2(std::string& project_url, std::string& name, std::s
 bool detect_cookie_firefox_3(std::string& project_url, std::string& name, std::string& value);
 bool detect_cookie_chrome(std::string& project_url, std::string& name, std::string& value);
 
-#if defined(__APPLE__)
-    // sqlite3 is not av ailable on Mac OS 10.3.9
+#if 0 //defined(__APPLE__)
+#undef sqlite3_free
+#ifdef __cplusplus
+extern "C" {
+#endif
+    // sqlite3 is not available on Mac OS 10.3.9
     extern int sqlite3_open(const char *filename, sqlite3 **ppDb) __attribute__((weak_import));
     extern int sqlite3_close(sqlite3 *) __attribute__((weak_import));
     extern int sqlite3_exec(sqlite3*,  const char *sql, sqlite3_callback, void *, char **errmsg) __attribute__((weak_import));
-    extern void sqlite3_free(char *z) __attribute__((weak_import));
+    extern void sqlite3_free(void *z) __attribute__((weak_import));
+#ifdef __cplusplus
+}
+#endif
 #endif
 
 #endif

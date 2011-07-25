@@ -36,7 +36,7 @@ public:
     virtual ~CBOINCBitmapChoice();
 
     CBOINCBitmapChoice(wxWindow *parent, wxWindowID id,
-            const wxString& value = "", 
+            const wxString& value = wxT(""), 
             const wxPoint& pos = wxDefaultPosition,
             const wxSize& size = wxDefaultSize,
             int n = 0, const wxString choices[] = NULL,
@@ -59,7 +59,7 @@ public:
     virtual ~CBOINCBitmapComboBox();
 
     CBOINCBitmapComboBox(wxWindow *parent, wxWindowID id,
-            const wxString& value = "", 
+            const wxString& value = wxT(""), 
             const wxPoint& pos = wxDefaultPosition,
             const wxSize& size = wxDefaultSize,
             int n = 0, const wxString choices[] = NULL,

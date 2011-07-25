@@ -123,6 +123,8 @@ extern "C" {
 #include <IOKit/ps/IOPSKeys.h>
 #ifdef __cplusplus
 }    // extern "C"
+
+#include <dlfcn.h>
 #endif
 
 mach_port_t gEventHandle = NULL;
@@ -1591,17 +1593,28 @@ bool HOST_INFO::users_idle(
     kern_return_t   kernResult = kIOReturnError; 
     UInt64          params;
     IOByteCount     rcnt = sizeof(UInt64);
-            
+    void            *IOKitlib = NULL;
+    static bool     triedToLoadNXIdleTime = false;
+    static nxIdleTimeProc  myNxIdleTimeProc = NULL;
+    
     if (error_posted) goto bail;
+    
+    if (!triedToLoadNXIdleTime) {
+        triedToLoadNXIdleTime = true;
+        IOKitlib = dlopen ("/System/Library/Frameworks/IOKit.framework/IOKit", RTLD_NOW );
+        if (IOKitlib) {
+            myNxIdleTimeProc = (nxIdleTimeProc)dlsym(IOKitlib, "NXIdleTime");
+        }
+    }
 
-    if (NXIdleTime) {   // Use NXIdleTime API in OS 10.5 and earlier
+    if (myNxIdleTimeProc) {   // Use NXIdleTime API in OS 10.5 and earlier
         if (gEventHandle) {
-            idleTime = NXIdleTime(gEventHandle);    
+            idleTime = myNxIdleTimeProc(gEventHandle);    
         } else {
             // Initialize Mac OS X idle time measurement / idle detection
             // Do this here because NXOpenEventStatus() may not be available 
             // immediately on system startup when running as a deaemon.
-            
+
             gEventHandle = NXOpenEventStatus();
             if (!gEventHandle) {
                 if (TickCount() > (120*60)) {        // If system has been up for more than 2 minutes 
@@ -1614,7 +1627,7 @@ bool HOST_INFO::users_idle(
             }
         }
     } else {        // NXIdleTime API does not exist in OS 10.6 and later
-        if (gEventHandle) {
+       if (gEventHandle) {
             kernResult = IOHIDGetParameter( gEventHandle, CFSTR(EVSIOIDLE), sizeof(UInt64), &params, &rcnt );
             if ( kernResult != kIOReturnSuccess ) {
                 msg_printf(NULL, MSG_INFO,

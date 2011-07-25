@@ -4303,3 +4303,16 @@ David  22 July 2011
         user/
             submit.php
             submit_example.php
+
+Charlie 25 July 11
+    - Mac: Begin changes for XCode 4.1 and GCC 4.2.
+    
+    client/
+        hostinfo_unix.cpp
+    clientgui/
+        browser.h
+        sqlite3.c
+        mac/
+            MacBitmapComboBox.h
+    lib/
+        hostinfo.h
