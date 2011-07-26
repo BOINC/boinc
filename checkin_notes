@@ -4350,3 +4350,14 @@ David  25 July 2011
     html/user/
         submit_example.php
         get_output.php
+
+Charlie 26 July 11
+- Mac: Finish changes for XCode 4.1 and GCC 4.2.
+
+    clientgui/
+        sqlite3.c
+    mac_build/
+        boinc.xcodeproj/
+            project.pbxproj
+    mac_installer/
+        PostInstall.cpp

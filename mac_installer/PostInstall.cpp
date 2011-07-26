@@ -545,7 +545,7 @@ OSStatus CheckLogoutRequirement(int *finalAction)
     
 #ifdef SANDBOX
     grp = getgrnam("boinc_master");
-    if (loginName && grp) {
+    if (loginName[0] && grp) {
         i = 0;
         while ((p = grp->gr_mem[i]) != NULL) {   // Step through all users in group boinc_master
             if (strcmp(p, loginName) == 0) {
