@@ -23,6 +23,7 @@
 ## updated 9/28/10 by Charlie Fenton for new BOINC skins
 ## updated 12/2/10 by Charlie Fenton to remove obsolete items
 ## updated 1/18/11 by Charlie Fenton to remove BOINC skins
+## updated 7/26/11 by Charlie Fenton for XCode 4.1 and OS 10.7
 ##
 ## NOTE: This script uses PackageMaker, which is installed as part of the 
 ##   XCode developer tools.  So you must have installed XCode Developer 
@@ -57,19 +58,13 @@ fi
 #pushd ./
 BOINCPath=$PWD
 
-## XCode 2.x has separate directories for Development and Deployment build products
+## XCode 3.x and 4.x have separate directories for Development and Deployment build products
 if [ "$4" = "-dev" ]; then
-    if [ -d mac_build/build/Development/ ]; then
-        BUILDPATH="mac_build/build/Development"
-    else
-        BUILDPATH="mac_build/build"
-    fi
+    exec 7<"mac_build/Build_Development_Dir"
+    read -u 7 BUILDPATH
 else
-    if [ -d mac_build/build/Deployment/ ]; then
-        BUILDPATH="mac_build/build/Deployment"
-    else
-        BUILDPATH="mac_build/build"
-    fi
+    exec 7<"mac_build/Build_Deployment_Dir"
+    read -u 7 BUILDPATH
 fi
 
 sudo rm -dfR ../BOINC_Installer/Installer\ Resources/

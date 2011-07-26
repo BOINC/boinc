@@ -4361,3 +4361,4 @@ Charlie 26 July 11
             project.pbxproj
     mac_installer/
         PostInstall.cpp
+        release_boinc.sh
