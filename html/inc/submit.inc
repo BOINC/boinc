@@ -145,6 +145,10 @@ function boinc_query_batch($req) {
         $jobs[] = $j;
     }
     $r = null;
+    $r->fraction_done = (double)($reply->fraction_done);
+    $r->completed = (int)($reply->completed);
+    $r->create_time = (double)($reply->create_time);
+    $r->est_completion_time = (double)($reply->est_completion_time);
     $r->jobs = $jobs;
     return array($r, null);
 }

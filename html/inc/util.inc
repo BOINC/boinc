@@ -696,7 +696,8 @@ function current_url() {
 // @param desc The title of the destination - typically used as a popup
 // @param class The optional CSS class of the button. Defaults to a standard button
 //
-function show_button($url, $text, $desc, $class="button") {
+function show_button($url, $text, $desc=null, $class="button") {
+    if (!$desc) $desc = $text;
     echo "<a href=\"".$url."\" title=\"".addslashes($desc)."\" class=\"".$class."\">".$text."</a>\n";
 }
 

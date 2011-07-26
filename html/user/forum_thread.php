@@ -135,7 +135,6 @@ if ($forum->parent_type == 0) {
                 echo "<p>";
                 show_button(
                     "forum_thread_vote.php?id=$thread->id",
-                    tra("I've also got this question"),
                     tra("I've also got this question")
                 );
             }

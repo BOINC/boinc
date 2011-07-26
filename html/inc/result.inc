@@ -565,6 +565,13 @@ function get_outfile_paths($result) {
     return $paths;
 }
 
+function abort_workunit($wu) {
+    BoincResult::update_aux(
+        "server_state=5, outcome=5 where server_state=2 and workunit=$wu->id"
+    );
+    $wu->update("error_mask=error_mask|16");
+}
+
 $cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit
 
 ?>

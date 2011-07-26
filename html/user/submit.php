@@ -203,6 +203,13 @@ function query_batch($r) {
         error("not owner");
     }
     echo "<batch>\n";
+    list($fd, $completed) = fraction_done($batch);
+    echo "
+        <fraction_done>$fd</fraction_done>
+        <completed>$completed</completed>
+        <create_time>$b->create_time</create_time>
+        <est_completion_time>$b->est_completion_time</est_completion_time>
+    ";
     $wus = BoincWorkunit::enum("batch = $batch_id");
     foreach ($wus as $wu) {
         echo "    <job>
@@ -256,6 +263,11 @@ function abort_batch($r) {
     if ($batch->user_id != $user->id) {
         error("not owner");
     }
+    $wus = BoincWorkunit::enum("batch=$batch_id");
+    foreach ($wus as $wu) {
+        abort_workunit($wu);
+    }
+    echo "<success>1</success>";
 }
 
 function cleanup_batch($r) {
@@ -265,6 +277,12 @@ function cleanup_batch($r) {
     if ($batch->user_id != $user->id) {
         error("not owner");
     }
+    $wus = BoincWorkunit::enum("batch=$batch_id");
+    $now = time();
+    foreach ($wus as $wu) {
+        $wu->update("assimilate_state=2, transition_time=$now");
+    }
+    echo "<success>1</success>";
 }
 
 if (0) {

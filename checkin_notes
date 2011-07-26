@@ -4344,7 +4344,7 @@ David  25 July 2011
         team.php
 
 David  25 July 2011
-    - user web: remove job submission:
+    - user web: remote job submission:
         add the ability to download zipped output files
 
     html/user/
@@ -4362,3 +4362,17 @@ Charlie 26 July 11
     mac_installer/
         PostInstall.cpp
         release_boinc.sh
+
+David  26 July 2011
+    - web: remote job submission: implement abort and cleanup functions
+
+    html/
+        inc/
+            forum.inc
+            submit.inc
+            util.inc
+            result.inc
+        user/
+            forum_thread.php
+            submit_example.php
+            submit.php

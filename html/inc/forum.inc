@@ -1015,15 +1015,24 @@ function show_post_moderation_links(
 
     if ($forum->parent_type == 0) {
         if ($logged_in_user->prefs->privilege(S_ADMIN) || ($logged_in_user->prefs->privilege(S_MODERATOR) && $moderators_allowed_to_ban)) {
-            show_button("forum_moderate_post.php?action=banish_user&id=".$post->id."&userid=".$post->user."$tokens", "Banish author", "Banish author");
+            show_button("forum_moderate_post.php?action=banish_user&id=".$post->id."&userid=".$post->user."$tokens", "Banish author");
         }
         if ($logged_in_user->prefs->privilege(S_MODERATOR) && $moderators_vote_to_ban) {
             require_once("../inc/forum_banishment_vote.inc");
             if (vote_is_in_progress($post->user)) {
-                show_button("forum_banishment_vote.php?action=yes&userid=".$post->user, "Vote to banish author", "Vote to banish author");
-                show_button("forum_banishment_vote.php?action=no&userid=".$post->user, "Vote not to banish author", "Vote not to banish author");
+                show_button(
+                    "forum_banishment_vote.php?action=yes&userid=".$post->user,
+                    "Vote to banish author"
+                );
+                show_button(
+                    "forum_banishment_vote.php?action=no&userid=".$post->user,
+                    "Vote not to banish author"
+                );
             } else {
-                show_button("forum_banishment_vote.php?action=start&userid=".$post->user, "Start vote to banish author", "Start vote to banish author");
+                show_button(
+                    "forum_banishment_vote.php?action=start&userid=".$post->user,
+                    "Start vote to banish author"
+                );
             }
         }
     }

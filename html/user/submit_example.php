@@ -49,9 +49,7 @@ function handle_main() {
 
     page_head("Job submission and control");
 
-    echo "
-        <a href=submit_example.php?action=create_form><b>Create new batch</b></a>
-    ";
+    show_button("submit_example.php?action=create_form", "Create new batch");
 
     echo "<h2>Batches in progress</h2>\n";
     start_table();
@@ -171,7 +169,22 @@ function handle_query_batch() {
 
     page_head("Batch $req->batch_id");
     $url = boinc_get_output_files($req);
-    echo "<a href=$url>Get zipped output files</a>\n";
+    show_button($url, "Get zipped output files");
+    if ($reply->completed) {
+        echo "<br>";
+        show_button(
+            "submit_example.php?action=cleanup_batch_confirm&batch_id=$req->batch_id",
+            "Delete batch"
+        );
+    } else {
+        echo "<br>";
+        show_button(
+            "submit_example.php?action=abort_batch_confirm&batch_id=$req->batch_id",
+            "Abort batch"
+        );
+    }
+    
+    echo "<h2>Jobs</h2>\n";
     start_table();
     table_header("Job ID", "Canonical instance");
     foreach($reply->jobs as $job) {
@@ -223,6 +236,64 @@ function handle_query_job() {
     page_tail();
 }
 
+function handle_abort_batch_confirm() {
+    $batch_id = get_int('batch_id');
+    page_head("Confirm abort batch");
+    echo "
+        Aborting a batch will cancel all unstarted jobs.
+        Are you sure you want to do this?
+        <p>
+    ";
+    show_button(
+        "submit_example.php?action=abort_batch&batch_id=$batch_id",
+        "Yes - abort batch"
+    );
+    page_tail();
+}
+
+function handle_abort_batch() {
+    global $project, $auth, $app_name;
+    $req->project = $project;
+    $req->authenticator = $auth;
+    $req->batch_id = get_int('batch_id');
+    $errmsg = boinc_abort_batch($req);
+    if ($errmsg) error_page($errmsg);
+    page_head("Batch aborted");
+    echo "
+        <a href=submit_example.php>Return to job control page</a>.
+    ";
+    page_tail();
+}
+
+function handle_cleanup_batch_confirm() {
+    $batch_id = get_int('batch_id');
+    page_head("Confirm delete batch");
+    echo "
+        Deleting a batch will remove all of its output files.
+        Are you sure you want to do this?
+        <p>
+    ";
+    show_button(
+        "submit_example.php?action=cleanup_batch&batch_id=$batch_id",
+        "Yes - delete batch"
+    );
+    page_tail();
+}
+
+function handle_cleanup_batch() {
+    global $project, $auth, $app_name;
+    $req->project = $project;
+    $req->authenticator = $auth;
+    $req->batch_id = get_int('batch_id');
+    $errmsg = boinc_cleanup_batch($req);
+    if ($errmsg) error_page($errmsg);
+    page_head("Batch deleted");
+    echo "
+        <a href=submit_example.php>Return to job control page</a>.
+    ";
+    page_tail();
+}
+
 $action = get_str('action', true);
 
 switch ($action) {
@@ -240,6 +311,18 @@ case 'query_batch':
     break;
 case 'query_job':
     handle_query_job();
+    break;
+case 'abort_batch_confirm':
+    handle_abort_batch_confirm();
+    break;
+case 'abort_batch':
+    handle_abort_batch();
+    break;
+case 'cleanup_batch_confirm':
+    handle_cleanup_batch_confirm();
+    break;
+case 'cleanup_batch':
+    handle_cleanup_batch();
     break;
 default:
     error_page('no such action');
