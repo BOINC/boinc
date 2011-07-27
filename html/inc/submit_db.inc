@@ -33,7 +33,19 @@ class BoincBatch {
         if (!$ret) return $ret;
         return $db->insert_id();
     }
+    function update($clause) {
+        $db = BoincDb::get();
+        return $db->update($this, 'batch', $clause);
+    }
 }
+
+// see db/boinc_db.h
+//
+define('BATCH_STATE_INIT', 0);
+define('BATCH_STATE_IN_PROGRESS', 1);
+define('BATCH_STATE_COMPLETE', 2);
+define('BATCH_STATE_ABORTED', 3);
+define('BATCH_STATE_RETIRED', 4);
 
 class BoincUserSubmit {
     static function enum($clause) {

@@ -563,6 +563,48 @@ struct RESULT {
     void clear();
 };
 
+struct BATCH {
+    int id;
+    int user_id;
+        // submitter
+    int create_time;
+    double logical_start_time;
+    double logical_end_time;
+    double est_completion_time;
+        // current estimate of completion time
+    int njobs;
+        // # of workunits
+    double fraction_done;
+        // based on workunits completed
+    int nerror_jobs;
+        // # of workunits with error
+    int state;
+        // see below
+    double completion_time;
+        // when state became >= COMPLETE
+    double credit_estimate;
+        // initial estimate of required credit, counting replicas
+    double credit_canonical;
+        // the sum of credits of canonical results
+    double credit_total;
+        // the sum of credits of all results
+    char name[256];
+        // user-assigned name; need not be unique
+    int app_id;
+}
+
+// values of batch.state
+//
+#define BATCH_STATE_INIT            0
+#define BATCH_STATE_IN_PROGRESS     1
+#define BATCH_STATE_COMPLETE        2
+    // "complete" means all workunits have either
+    // a canonical result or an error
+#define BATCH_STATE_ABORTED         3
+#define BATCH_STATE_CLEANED_UP      4
+    // input/output files can be deleted,
+    // result and workunit records can be purged.
+
 struct MSG_FROM_HOST {
     int id;
     int create_time;

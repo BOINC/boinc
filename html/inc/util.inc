@@ -32,8 +32,6 @@ if (array_key_exists("PATH_INFO", $_SERVER)) {
 
 ini_set("memory_limit", "64M");
 
-date_default_timezone_set("UTC");
-
 if (!defined('SECURE_URL_BASE')) {
     define('SECURE_URL_BASE', URL_BASE);
 }
@@ -259,6 +257,11 @@ function date_str($x) {
 function time_str($x) {
     if ($x == 0) return "---";
     return gmdate('j M Y | G:i:s', $x) . " UTC";
+}
+
+function local_time_str($x) {
+    if ($x == 0) return "---";
+    return date('j M Y | H:i:s', $x);
 }
 
 function pretty_time_str($x) {

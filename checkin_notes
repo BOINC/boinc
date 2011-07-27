@@ -4376,3 +4376,25 @@ David  26 July 2011
             forum_thread.php
             submit_example.php
             submit.php
+
+David  26 July 2011
+    - web: remote job submission:
+        - add fields to batch table, extend APIs accordingly
+        - require that example web interface run on BOINC server
+            (this makes many things easier;
+            an actual remote interface would require a bit more work)
+
+    db/
+        boinc_db.h
+        schema.sql
+    html/
+        ops/
+            db_update.php
+        inc/
+            submit_db.inc
+            submit.inc
+            util.inc
+            result.inc
+        user/
+            submit_example.php
+            submit.php

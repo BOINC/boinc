@@ -73,13 +73,17 @@ function project_flops() {
     return $y;
 }
 
+function est_elapsed_time($r) {
+    // crude estimate: batch FLOPs / project FLOPS
+    //
+    return batch_flop_count($r) / project_flops();
+}
+
 function estimate_batch($r) {
     $app = get_app($r);
     list($user, $user_submit) = authenticate_user($r, $app);
 
-    // crude estimate: batch FLOPs / project FLOPS
-    //
-    $e = batch_flop_count($r) / project_flops();
+    $e = est_elapsed_time($r);
     echo "<estimate>\n<seconds>$e</seconds>\n</estimate>\n";
 }
 
@@ -142,49 +146,84 @@ function submit_batch($r) {
     stage_files($r, $template);
     $njobs = count($r->batch->job);
     $now = time();
+    $batch_name = (string)($r->batch->batch_name);
     $batch_id = BoincBatch::insert(
-        "(user_id, create_time, njobs) values ($user->id, $now, $njobs)"
+        "(user_id, create_time, njobs, name, app_id) values ($user->id, $now, $njobs, '$batch_name', $app->id)"
     );
     $i = 0;
     foreach($r->batch->job as $job) {
         submit_job($job, $template, $app, $batch_id, $i++);
     }
+    $batch = BoincBatch::lookup_id($batch_id);
+    $batch->update("state=".BATCH_STATE_IN_PROGRESS);
     echo "<batch_id>$batch_id</batch_id>\n";
 }
 
-function fraction_done($batch) {
-    $wus = BoincWorkunit::enum("batch = $batch->id");
+// compute and update params of a batch
+// NOTE: eventually this should be done by server components
+// (transitioner, validator etc.) as jobs complete or time out
+//
+// TODO: update est_completion_time
+//
+function get_batch_params($batch, $wus) {
+    if ($batch->state > BATCH_STATE_IN_PROGRESS) return $batch;
     $fp_total = 0;
     $fp_done = 0;
-    $completed = 1;
+    $completed = true;
+    $nerror_jobs = 0;
+    $credit_canonical = 0;
     foreach ($wus as $wu) {
         $fp_total += $wu->rsc_fpops_est;
         if ($wu->canonical_resultid) {
             $fp_done += $wu->rsc_fpops_est;
+            $credit_canonical += $wu->canonical_credit;
+        } else if ($wu->error_mask) {
+            $nerror_jobs++;
         } else {
-            $completed = 0;
+            $completed = false;
         }
     }
-    if (!$fp_total) return array(1, true);;
-    $fd= $fp_done / $fp_total;
-    return array($fd, $completed);
+    if ($fp_total) {
+        $batch->fraction_done = $fp_done / $fp_total;
+    }
+    if ($completed && $batch->state < BATCH_STATE_COMPLETE) {
+        $batch->state = BATCH_STATE_COMPLETE;
+        $batch->completion_time = time();
+    }
+    $batch->nerror_jobs = $nerror_jobs;
+    $batch->update("fraction_done = $batch->fraction_done, nerror_jobs = $batch->nerror_jobs, state=$batch->state, completion_time = $batch->completion_time, credit_canonical = $batch->credit_canonical");
+    return $batch;
+}
+
+function print_batch_params($batch) {
+    $app = BoincApp::lookup_id($batch->app_id);
+    echo "
+        <id>$batch->id</id>
+        <create_time>$batch->create_time</create_time>
+        <est_completion_time>$batch->est_completion_time</est_completion_time>
+        <njobs>$batch->njobs</njobs>
+        <fraction_done>$batch->fraction_done</fraction_done>
+        <nerror_jobs>$batch->nerror_jobs</nerror_jobs>
+        <state>$batch->state</state>
+        <completion_time>$batch->completion_time</completion_time>
+        <credit_estimate>$batch->credit_estimate</credit_estimate>
+        <credit_canonical>$batch->credit_canonical</credit_canonical>
+        <credit_total>$batch->credit_total</credit_total>
+        <name>$batch->name</name>
+        <app_name>$app->name</app_name>
+";
 }
 
 function query_batches($r) {
     list($user, $user_submit) = authenticate_user($r, null);
     $batches = BoincBatch::enum("user_id = $user->id");
     echo "<batches>\n";
-    foreach ($batches as $b) {
-        list($fd, $completed) = fraction_done($b);
-        echo "    <batch>
-        <id>$b->id</id>
-        <fraction_done>$fd</fraction_done>
-        <completed>$completed</completed>
-        <create_time>$b->create_time</create_time>
-        <est_completion_time>$b->est_completion_time</est_completion_time>
-        <njobs>$b->njobs</njobs>
-    </batch>
-";
+    foreach ($batches as $batch) {
+        $wus = BoincWorkunit::enum("batch = $batch->id");
+        $batch = get_batch_params($batch, $wus);
+        echo "    <batch>\n";
+        print_batch_params($batch);
+        echo "   </batch>\n";
     }
     echo "</batches>\n";
 }
@@ -199,23 +238,23 @@ function query_batch($r) {
     list($user, $user_submit) = authenticate_user($r, null);
     $batch_id = (int)($r->batch_id);
     $batch = BoincBatch::lookup_id($batch_id);
+    if (!$batch) {
+        error("no such batch");
+    }
     if ($batch->user_id != $user->id) {
         error("not owner");
     }
-    echo "<batch>\n";
-    list($fd, $completed) = fraction_done($batch);
-    echo "
-        <fraction_done>$fd</fraction_done>
-        <completed>$completed</completed>
-        <create_time>$b->create_time</create_time>
-        <est_completion_time>$b->est_completion_time</est_completion_time>
-    ";
+
     $wus = BoincWorkunit::enum("batch = $batch_id");
+    $batch = get_batch_params($batch, $wus);
+    echo "<batch>\n";
+    print_batch_params($batch);
+    $n_outfiles = n_outfiles($wus[0]);
     foreach ($wus as $wu) {
         echo "    <job>
         <id>$wu->id</id>
         <canonical_instance_id>$wu->canonical_resultid</canonical_instance_id>
-        <n_outfiles>".n_outfiles($wu)."</n_outfiles>
+        <n_outfiles>$n_outfiles</n_outfiles>
         </job>
 ";
     }
@@ -267,10 +306,11 @@ function abort_batch($r) {
     foreach ($wus as $wu) {
         abort_workunit($wu);
     }
+    $batch->update("state=".BATCH_STATE_ABORTED);
     echo "<success>1</success>";
 }
 
-function cleanup_batch($r) {
+function retire_batch($r) {
     list($user, $user_submit) = authenticate_user($r, null);
     $batch_id = (int)($r->batch_id);
     $batch = BoincBatch::lookup_id($batch_id);
@@ -282,6 +322,7 @@ function cleanup_batch($r) {
     foreach ($wus as $wu) {
         $wu->update("assimilate_state=2, transition_time=$now");
     }
+    $batch->update("state=".BATCH_STATE_RETIRED);
     echo "<success>1</success>";
 }
 
@@ -309,7 +350,7 @@ switch ($r->getName()) {
     case 'query_batch': query_batch($r); break;
     case 'query_job': query_job($r); break;
     case 'abort_batch': abort_batch($r); break;
-    case 'cleanup_batch': cleanup_batch($r); break;
+    case 'retire_batch': retire_batch($r); break;
     default: error("bad command");
 }
 

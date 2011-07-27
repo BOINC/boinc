@@ -751,6 +751,21 @@ create table user_submit_app (
 ) engine = InnoDB");
 }
 
+function update_7_26_2011() {
+    do_query("
+        alter table batch
+        add fraction_done       double          not null,
+        add nerror_jobs         integer         not null,
+        add state               integer         not null,
+        add completion_time     double          not null,
+        add credit_estimate     double          not null,
+        add credit_canonical    double          not null,
+        add credit_total        double          not null,
+        add name                varchar(255)    not null,
+        add app_id              integer         not null
+    ");
+}
+
 // Updates are done automatically if you use "upgrade".
 //
 // If you need to do updates manually,
@@ -770,6 +785,7 @@ $db_updates = array (
     array(21728, "update_6_10_2010"),
     array(23635, "update_6_3_2011"),
     array(23762, "update_6_20_2011"),
+    array(23881, "update_7_26_2011"),
 );
 
 ?>

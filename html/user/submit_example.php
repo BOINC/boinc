@@ -20,28 +20,30 @@
 // example of a web interface to remote job submission
 //
 // Notes:
-// - You'll need to adapt/extend this considerably;
-//   e.g. the project URL, app name and user authenticator are hardwired here.
-// - This can run on any host, not just the project server
-//   (that's the "remote" part).
+// - You'll need to adapt/extend this considerably,
+//   especially if you want to run this
+//   on a server other than the BOINC project serve.
 // - For convenience, this uses some functions from BOINC
 //   (page_head() etc.).
 //   When you adapt this to your own purposes,
 //   you can strip out this stuff if the web site doesn't use BOINC
 
 require_once("../inc/submit.inc");
+require_once("../inc/submit_db.inc");
 require_once("../inc/util.inc");
+require_once("../project/project.inc");
 
 error_reporting(E_ALL);
 ini_set('display_errors', true);
 ini_set('display_startup_errors', true);
 
-$project = "http://isaac.ssl.berkeley.edu/test/";
-$auth = "157f96a018b0b2f2b466e2ce3c7f54db";
-$app_name = "uppercase";
+
+$project = $master_url;         // from project.inc
+$user = get_logged_in_user();
+$auth = $user->authenticator;
 
 function handle_main() {
-    global $project, $auth, $app_name;
+    global $project, $auth;
     $req->project = $project;
     $req->authenticator = $auth;
     list($batches, $errmsg) = boinc_query_batches($req);
@@ -49,52 +51,119 @@ function handle_main() {
 
     page_head("Job submission and control");
 
+    echo date("F j, Y, g:i a"); 
     show_button("submit_example.php?action=create_form", "Create new batch");
 
-    echo "<h2>Batches in progress</h2>\n";
-    start_table();
-    table_header("ID", "# jobs", "progress", "submitted");
+    $first = true;
     foreach ($batches as $batch) {
-        if ($batch->completed) continue;
+        if ($batch->state != BATCH_STATE_IN_PROGRESS) continue;
+        if ($first) {
+            $first = false;
+            echo "<h2>In progress</h2>\n";
+            start_table();
+            table_header("name", "ID", "app", "# jobs", "progress", "submitted");
+        }
         $pct_done = (int)($batch->fraction_done*100);
         table_row(
+            "<a href=submit_example.php?action=query_batch&batch_id=$batch->id>$batch->name</a>",
             "<a href=submit_example.php?action=query_batch&batch_id=$batch->id>$batch->id</a>",
+            $batch->app_name,
             $batch->njobs,
             "$pct_done%",
-            time_str($batch->create_time)
+            local_time_str($batch->create_time)
         );
     }
-    end_table();
+    if (!$first) {
+        end_table();
+    }
 
-    echo "<h2>Batches completed</h2>\n";
-    start_table();
-    table_header("ID", "# jobs", "submitted");
+    $first = true;
     foreach ($batches as $batch) {
-        if (!$batch->completed) continue;
+        if ($batch->state != BATCH_STATE_COMPLETE) continue;
+        if ($first) {
+            $first = false;
+            echo "<h2>Completed</h2>\n";
+            start_table();
+            table_header("name", "ID", "# jobs", "submitted");
+        }
         table_row(
+            "<a href=submit_example.php?action=query_batch&batch_id=$batch->id>$batch->name</a>",
             "<a href=submit_example.php?action=query_batch&batch_id=$batch->id>$batch->id</a>",
             $batch->njobs,
-            time_str($batch->create_time)
+            local_time_str($batch->create_time)
         );
     }
-    end_table();
+    if (!$first) {
+        end_table();
+    }
+
+    $first = true;
+    foreach ($batches as $batch) {
+        if ($batch->state != BATCH_STATE_ABORTED) continue;
+        if ($first) {
+            $first = false;
+            echo "<h2>Aborted</h2>\n";
+            start_table();
+            table_header("name", "ID", "# jobs", "submitted");
+        }
+        table_row(
+            "<a href=submit_example.php?action=query_batch&batch_id=$batch->id>$batch->name</a>",
+            "<a href=submit_example.php?action=query_batch&batch_id=$batch->id>$batch->id</a>",
+            $batch->njobs,
+            local_time_str($batch->create_time)
+        );
+    }
+    if (!$first) {
+        end_table();
+    }
 
     page_tail();
 }
 
-function handle_create_form() {
-    global $project, $auth, $app_name;
+function eligible_apps() {
+    global $user;
+    $apps = BoincApp::enum("deprecated = 0");
+    $user_submit = BoincUserSubmit::lookup_userid($user->id);
+    if (!$user_submit) return null;
+    $a = array();
+    foreach($apps as $app) {
+        if ($user_submit->all_apps) {
+            $a[] = $app;
+        } else {
+            if (BoincUserSubmitApp::lookup("user_id=$user->id and app_id=$app->id")) {
+                $a[] = $app;
+            }
+        }
+    }
+    return $a;
+}
 
+function app_select($apps) {
+    $x = "<select name=app_name>\n";
+    foreach ($apps as $app) {
+        $x .= "<option value=$app->name>$app->user_friendly_name</option>\n";
+    }
+    $x .= "</select>\n";
+    return $x;
+}
+
+function handle_create_form() {
+    global $project, $auth;
+
+    $apps = eligible_apps();
+    if (!$apps) error_page("You are not allowed to submit jobs");
     page_head("Create batch");
     echo "
         <form action=submit_example.php>
         <input type=hidden name=action value=create_action>
     ";
     start_table();
-    row2("Input file URL", "<input name=input_url size=60>");
-    row2("Parameter low value", "<input name=param_lo>");
-    row2("Parameter high value", "<input name=param_hi>");
-    row2("Parameter increment", "<input name=param_inc>");
+    row2("Name", "<input name=batch_name value=\"enter name\">");
+    row2("Application", app_select($apps));
+    row2("Input file URL", "<input name=input_url size=60 value=\"http://google.com/\">");
+    row2("Parameter low value", "<input name=param_lo value=10>");
+    row2("Parameter high value", "<input name=param_hi value=20>");
+    row2("Parameter increment", "<input name=param_inc value=1>");
     row2("",
         "<input type=submit name=get_estimate value=\"Get completion time estimate\">"
     );
@@ -109,27 +178,30 @@ function handle_create_form() {
 // build a request object for boinc_*_batch() from form variables
 //
 function form_to_request() {
-    global $project, $auth, $app_name;
+    global $project, $auth;
 
     $input_url = get_str('input_url');
     if (!$input_url) error_page("missing input URL");
-    $param_lo = get_str('param_lo');
-    if (!$param_lo) error_page("missing param lo");
-    $param_hi = get_str('param_hi');
-    if (!$param_hi) error_page("missing param hi");
-    $param_inc = get_str('param_inc');
-    if (!$param_inc) error_page("missing param inc");
+    $param_lo = (double)get_str('param_lo');
+    if ($param_lo<0 || $param_lo>60) error_page("param lo must be in 0..60");
+    $param_hi = (double)get_str('param_hi');
+    if ($param_hi<0 || $param_hi>60 || $param_hi <= $param_lo) {
+        error_page("param hi must be in 0..60 and > param lo");
+    }
+    $param_inc = (double)get_str('param_inc');
+    if ($param_inc < 1) error_page("param inc must be >= 1");
 
     $req->project = $project;
     $req->authenticator = $auth;
-    $req->app_name = $app_name;
+    $req->app_name = get_str('app_name');
+    $req->batch_name = get_str('batch_name');
     $req->jobs = Array();
 
     $f->source = $input_url;
     $f->name = "in";
     $job->input_files = Array($f);
 
-    for ($x=(double)$param_lo; $x<(double)$param_hi; $x += (double)$param_inc) {
+    for ($x=$param_lo; $x<$param_hi; $x += $param_inc) {
         $job->rsc_fpops_est = $x*1e9;
         $job->command_line = "--t $x";
         $req->jobs[] = $job;
@@ -139,7 +211,7 @@ function form_to_request() {
 }
 
 function handle_create_action() {
-    global $project, $auth, $app_name;
+    global $project, $auth;
 
     $get_estimate = get_str('get_estimate', true);
     if ($get_estimate) {
@@ -147,47 +219,68 @@ function handle_create_action() {
         list($e, $errmsg) = boinc_estimate_batch($req);
         if ($errmsg) error_page($errmsg);
         page_head("Batch estimate");
-        echo "Estimate: $e seconds";
+        echo sprintf("Estimate: %.0f seconds", $e);
         page_tail();
     } else {
         $req = form_to_request($project, $auth);
         list($id, $errmsg) = boinc_submit_batch($req);
         if ($errmsg) error_page($errmsg);
         page_head("Batch submitted");
-        echo "Batch ID: $id";
+        echo "Batch created, ID: $id
+            <p>
+            <a href=submit_example.php>Return to job control page</a>
+        ";
         page_tail();
     }
 }
 
 function handle_query_batch() {
-    global $project, $auth, $app_name;
+    global $project, $auth;
     $req->project = $project;
     $req->authenticator = $auth;
     $req->batch_id = get_int('batch_id');
-    list($reply, $errmsg) = boinc_query_batch($req);
+    list($batch, $errmsg) = boinc_query_batch($req);
     if ($errmsg) error_page($errmsg);
 
     page_head("Batch $req->batch_id");
     $url = boinc_get_output_files($req);
     show_button($url, "Get zipped output files");
-    if ($reply->completed) {
-        echo "<br>";
-        show_button(
-            "submit_example.php?action=cleanup_batch_confirm&batch_id=$req->batch_id",
-            "Delete batch"
-        );
-    } else {
+    start_table();
+    row2("name", $batch->name);
+    row2("application", $batch->app_name);
+    row2("state", batch_state_string($batch->state));
+    row2("# jobs", $batch->njobs);
+    row2("# error jobs", $batch->nerror_jobs);
+    row2("progress", sprintf("%.0f%%", $batch->fraction_done*100));
+    if ($batch->completion_time) {
+        row2("completed", local_time_str($batch->completion_time));
+    }
+    row2("Credit, estimated", $batch->credit_estimate);
+    row2("Credit, canonical instances", $batch->credit_canonical);
+    row2("Credit, total", $batch->credit_total);
+    end_table();
+    switch ($batch->state) {
+    case BATCH_STATE_IN_PROGRESS:
         echo "<br>";
         show_button(
             "submit_example.php?action=abort_batch_confirm&batch_id=$req->batch_id",
             "Abort batch"
         );
+        break;
+    case BATCH_STATE_COMPLETE:
+    case BATCH_STATE_ABORTED:
+        echo "<br>";
+        show_button(
+            "submit_example.php?action=retire_batch_confirm&batch_id=$req->batch_id",
+            "Retire batch"
+        );
+        break;
     }
     
     echo "<h2>Jobs</h2>\n";
     start_table();
     table_header("Job ID", "Canonical instance");
-    foreach($reply->jobs as $job) {
+    foreach($batch->jobs as $job) {
         $id = (int)$job->id;
         $resultid = (int)$job->canonical_instance_id;
         if ($resultid) {
@@ -206,7 +299,7 @@ function handle_query_batch() {
 }
 
 function handle_query_job() {
-    global $project, $auth, $app_name;
+    global $project, $auth;
     $req->project = $project;
     $req->authenticator = $auth;
     $req->job_id = get_int('job_id');
@@ -252,7 +345,7 @@ function handle_abort_batch_confirm() {
 }
 
 function handle_abort_batch() {
-    global $project, $auth, $app_name;
+    global $project, $auth;
     $req->project = $project;
     $req->authenticator = $auth;
     $req->batch_id = get_int('batch_id');
@@ -265,29 +358,29 @@ function handle_abort_batch() {
     page_tail();
 }
 
-function handle_cleanup_batch_confirm() {
+function handle_retire_batch_confirm() {
     $batch_id = get_int('batch_id');
-    page_head("Confirm delete batch");
+    page_head("Confirm retire batch");
     echo "
-        Deleting a batch will remove all of its output files.
+        Retiring a batch will remove all of its output files.
         Are you sure you want to do this?
         <p>
     ";
     show_button(
-        "submit_example.php?action=cleanup_batch&batch_id=$batch_id",
-        "Yes - delete batch"
+        "submit_example.php?action=retire_batch&batch_id=$batch_id",
+        "Yes - retire batch"
     );
     page_tail();
 }
 
-function handle_cleanup_batch() {
-    global $project, $auth, $app_name;
+function handle_retire_batch() {
+    global $project, $auth;
     $req->project = $project;
     $req->authenticator = $auth;
     $req->batch_id = get_int('batch_id');
-    $errmsg = boinc_cleanup_batch($req);
+    $errmsg = boinc_retire_batch($req);
     if ($errmsg) error_page($errmsg);
-    page_head("Batch deleted");
+    page_head("Batch retired");
     echo "
         <a href=submit_example.php>Return to job control page</a>.
     ";
@@ -318,11 +411,11 @@ case 'abort_batch_confirm':
 case 'abort_batch':
     handle_abort_batch();
     break;
-case 'cleanup_batch_confirm':
-    handle_cleanup_batch_confirm();
+case 'retire_batch_confirm':
+    handle_retire_batch_confirm();
     break;
-case 'cleanup_batch':
-    handle_cleanup_batch();
+case 'retire_batch':
+    handle_retire_batch();
     break;
 default:
     error_page('no such action');

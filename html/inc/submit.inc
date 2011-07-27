@@ -25,6 +25,7 @@ function req_to_xml($req, $op) {
     <authenticator>$req->authenticator</authenticator>
     <batch>
     <app_name>$req->app_name</app_name>
+    <batch_name>$req->batch_name</batch_name>
 ";
     foreach ($req->jobs as $job) {
         $x .= "    <job>
@@ -107,6 +108,24 @@ function boinc_submit_batch($req) {
     }
 }
 
+function batch_xml_to_object($batch) {
+    $b = null;
+    $b->id = (int)($batch->id);
+    $b->create_time = (double)($batch->create_time);
+    $b->est_completion_time = (double)($batch->est_completion_time);
+    $b->njobs = (int)($batch->njobs);
+    $b->fraction_done = (double) $batch->fraction_done;
+    $b->nerror_jobs = (int)($batch->nerror_jobs);
+    $b->state = (int)($batch->state);
+    $b->completion_time = (double)($batch->completion_time);
+    $b->credit_estimate = (double)($batch->credit_estimate);
+    $b->credit_canonical = (double)($batch->credit_canonical);
+    $b->credit_total = (double)($batch->credit_total);
+    $b->name = (string)($batch->name);
+    $b->app_name = (string)($batch->app_name);
+    return $b;
+}
+
 function boinc_query_batches($req) {
     $req_xml = "<query_batches>
     <authenticator>$req->authenticator</authenticator>
@@ -116,14 +135,7 @@ function boinc_query_batches($req) {
     if ($errmsg) return array(null, $errmsg);
     $batches = array();
     foreach ($reply->batch as $batch) {
-        $b = null;
-        $b->id = (int)($batch->id);
-        $b->completed = (int)($batch->completed);
-        $b->njobs = (int)($batch->njobs);
-        $b->create_time = (double)($batch->create_time);
-        if (!$b->completed) {
-            $b->fraction_done = (double) $batch->fraction_done;
-        }
+        $b = batch_xml_to_object($batch);
         $batches[] = $b;
     }
     return array($batches, null);
@@ -144,11 +156,7 @@ function boinc_query_batch($req) {
         $j->canonical_instance_id = (int)($job->canonical_instance_id);
         $jobs[] = $j;
     }
-    $r = null;
-    $r->fraction_done = (double)($reply->fraction_done);
-    $r->completed = (int)($reply->completed);
-    $r->create_time = (double)($reply->create_time);
-    $r->est_completion_time = (double)($reply->est_completion_time);
+    $r = batch_xml_to_object($reply);
     $r->jobs = $jobs;
     return array($r, null);
 }
@@ -208,11 +216,11 @@ function boinc_get_output_files($req) {
     return $req->project."/get_output.php?batch_id=$batch_id&auth_str=$auth_str";
 }
 
-function boinc_cleanup_batch($req) {
-    $req_xml = "<cleanup_batch>
+function boinc_retire_batch($req) {
+    $req_xml = "<retire_batch>
     <authenticator>$req->authenticator</authenticator>
     <batch_id>$req->batch_id</batch_id>
-</cleanup_batch>
+</retire_batch>
 ";
     list($reply, $errmsg) = do_http_op($req->project, $req_xml);
     if ($errmsg) return $errmsg;
@@ -221,6 +229,17 @@ function boinc_cleanup_batch($req) {
         return (string)($reply->message);
     }
     return null;
+}
+
+function batch_state_string($state) {
+    switch ($state) {
+    case BATCH_STATE_INIT: return "New";
+    case BATCH_STATE_IN_PROGRESS: return "In progress";
+    case BATCH_STATE_COMPLETE: return "Completed";
+    case BATCH_STATE_ABORTED: return "Aborted";
+    case BATCH_STATE_RETIRED: return "Retired";
+    }
+    return "Unknown state $state";
 }
 
 //// example usage follows

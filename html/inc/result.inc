@@ -567,7 +567,7 @@ function get_outfile_paths($result) {
 
 function abort_workunit($wu) {
     BoincResult::update_aux(
-        "server_state=5, outcome=5 where server_state=2 and workunit=$wu->id"
+        "server_state=5, outcome=5 where server_state=2 and workunitid=$wu->id"
     );
     $wu->update("error_mask=error_mask|16");
 }
