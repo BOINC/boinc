@@ -4404,3 +4404,14 @@ Charlie 27 July 11
 
     lib/
         cc_config.cpp
+
+Charlie 27 July 11
+    - SCR: Fix delay dismissing screensaver under Mac OS10.7.
+
+    clientscr/
+        mac_saver_module.cpp
+        Mac_Saver_Module.h
+        Mac_Saver_ModuleView.m, .h
+    mac_build/
+        boinc.xcodeproj/
+            project.pbxproj

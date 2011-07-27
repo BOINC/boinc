@@ -375,6 +375,7 @@
 		DDD74DD307CF493D0065AC9D /* shmem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AAA31C97042157A800A80164 /* shmem.cpp */; };
 		DDD74DD407CF493E0065AC9D /* util.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5EAD479031AF001018E201A /* util.cpp */; };
 		DDD7EF4707F0526E00BA3B90 /* SystemMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = DD40CDFE07F038990096C645 /* SystemMenu.m */; };
+		DDD93E7313E017B600B92D0F /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DDE2552B07C62F3E008E7D6E /* IOKit.framework */; };
 		DDD9C59310CCF54300A1E4CD /* coproc_detect.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDD9C59210CCF54300A1E4CD /* coproc_detect.cpp */; };
 		DDD9C5A510CCF61F00A1E4CD /* coproc.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD7475500D86273300860636 /* coproc.cpp */; };
 		DDD9C5AA10CCF6A000A1E4CD /* coproc.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD7475500D86273300860636 /* coproc.cpp */; };
@@ -1138,6 +1139,7 @@
 				DD130E740820C422001A0291 /* ScreenSaver.framework in Frameworks */,
 				DDB6E3EF0D5B27AA00ED12B8 /* Carbon.framework in Frameworks */,
 				DDB74A6C0D74259E00E97A40 /* AppKit.framework in Frameworks */,
+				DDD93E7313E017B600B92D0F /* IOKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
