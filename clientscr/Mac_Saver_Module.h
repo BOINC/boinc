@@ -48,6 +48,7 @@ void            setShow_default_ss_first(bool value);
 void            setGFXDefaultPeriod(double value);
 void            setGFXSciencePeriod(double value);
 void            setGGFXChangePeriod(double value);
+double          getDTime();
 void            print_to_log_file(const char *format, ...);
 void            strip_cr(char *buf);
 void            PrintBacktrace(void);

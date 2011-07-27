@@ -56,4 +56,5 @@ void            setGFXDefaultPeriod(double value);
 void            setGFXSciencePeriod(double value);
 void            setGGFXChangePeriod(double value);
 bool            validateNumericString(CFStringRef s);
+double          getDTime();
 extern void     print_to_log_file(const char *format, ...);

@@ -72,7 +72,6 @@ extern CFStringRef gPathToBundleResources;
 
 static SaverState saverState = SaverState_Idle;
 // int gQuitCounter = 0;
-static SInt32 gSystemVersion = 0;
 
 
 const char * CantLaunchCCMsg = "Unable to launch BOINC application.";
@@ -201,6 +200,11 @@ void setGGFXChangePeriod(double value) {
 }
 
 
+double getDTime() {
+    return dtime();
+}
+
+
 bool validateNumericString(CFStringRef s) {
     CFIndex i;
     CFRange range, result;
@@ -218,7 +222,6 @@ bool validateNumericString(CFStringRef s) {
 
 CScreensaver::CScreensaver() {
     struct ss_periods periods;
-    OSStatus err;
     
     m_dwBlankScreen = 0;
     m_dwBlankTime = 0;
@@ -241,11 +244,6 @@ CScreensaver::CScreensaver() {
     rpc = 0;
     m_bConnected = false;
     
-    err = Gestalt(gestaltSystemVersion, &gSystemVersion);
-    if (err != noErr) {
-        gSystemVersion = 0;
-    }
-
     // Get project-defined default values for GFXDefaultPeriod, GFXSciencePeriod, GFXChangePeriod
     GetDefaultDisplayPeriods(periods);
     m_bShow_default_ss_first = periods.Show_default_ss_first;
@@ -650,7 +648,7 @@ bool CScreensaver::DestroyDataManagementThread() {
     }
 
     if (rpc) {
-    rpc->close();    // In case DataManagementProc is hung waiting for RPC
+        rpc->close();    // In case DataManagementProc is hung waiting for RPC
     }
     m_hDataManagementThread = NULL; // Don't delay more if this routine is called again.
     if (m_hGraphicsApplication) {
