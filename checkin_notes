@@ -4398,3 +4398,9 @@ David  26 July 2011
         user/
             submit_example.php
             submit.php
+
+Charlie 27 July 11
+    - lib: Initialize config_coprocs struct in CONFIG::defaults().
+
+    lib/
+        cc_config.cpp

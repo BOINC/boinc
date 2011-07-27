@@ -189,6 +189,7 @@ void CONFIG::defaults() {
     alt_platforms.clear();
     client_version_check_url = "http://boinc.berkeley.edu/download.php?xml=1";
     client_download_url = "http://boinc.berkeley.edu/download.php";
+    config_coprocs.clear();
     data_dir[0] = 0;
     disallow_attach = false;
     dont_check_file_sizes = false;
