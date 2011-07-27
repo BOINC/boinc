@@ -291,7 +291,7 @@ void VM::create() {
         fprintf(stderr,"ERROR: %s\n",arg_list.c_str());
         fprintf(stderr,"INFO: Cleaning registered VM from a failure...\n");
         remove();
-        fprintf(stderr,"Aborting\n");
+        fprintf(stderr,"INFO: createvm() Aborting\n");
         boinc_finish(1);
     }
 
@@ -335,7 +335,7 @@ void VM::create() {
     if(!vbm_popen(arg_list)){
         fprintf(stderr,"ERROR: Create storageattach failed!\n");
         fprintf(stderr,"ERROR: %s\n",arg_list.c_str());
-        fprintf(stderr,"Aborting\n");
+        fprintf(stderr,"INFO: storageattach() Aborting\n");
         //DEBUG for knowing which filename is being used
         //fprintf(stderr,disk_path.c_str());
         //fprintf(stderr,"\n");
@@ -347,7 +347,7 @@ void VM::create() {
     // Write down the name of the virtual machine in a file called VM_NAME
     if((fp=fopen(name_path.c_str(),"w"))==NULL){
         fprintf(stderr,"ERROR: Saving VM name failed. Details: fopen failed!\n");
-        fprintf(stderr,"Aborting\n");
+        fprintf(stderr,"INFO: VM_NAME Aborting\n");
         boinc_finish(1);
     }
     fputs(virtual_machine_name.c_str(),fp);
@@ -489,6 +489,25 @@ void VM::remove(){
     FILE * fp;
     bool vmRegistered = false;
 
+
+    arg_list = "";
+    arg_list = " discardstate " + virtual_machine_name;
+    if (vbm_popen(arg_list)) fprintf(stderr,"INFO: VM state discarded!\n");
+    else fprintf(stderr,"WARNING: it was not possible to discard the state of the VM.\n");
+
+    // Unregistervm command with --delete option. VBox 4.1 should work well
+    arg_list = "";
+    arg_list = " unregistervm " + virtual_machine_name + " --delete";
+    if (vbm_popen(arg_list)) fprintf(stderr, "INFO: VM unregistered and deleted via VBoxManage.\n");
+    else fprintf(stderr, "WARNING: The VM could not be removed via VBoxManage.\n");
+    
+    // We test if we can remove the hard disk controller. If the command works, the cernvm.vmdk virtual disk will be also
+    // removed automatically
+
+    arg_list = "";
+    arg_list = " storagectl  " + virtual_machine_name + " --name \"IDE Controller\" --remove";
+    if (vbm_popen(arg_list)) fprintf(stderr, "INFO: Hard disk removed!\n");
+    else  fprintf(stderr,"WARNING: it was not possible to remove the IDE controller.\n");
 
 #ifdef _WIN32
 	env = getenv("HOMEDRIVE");
@@ -654,7 +673,7 @@ void VM::poll() {
     arg_list="showvminfo "+virtual_machine_name+" --machinereadable" ;
     if (!vbm_popen(arg_list,buffer,sizeof(buffer))){
         fprintf(stderr,"ERROR: Get status from VM failed!\n");
-        fprintf(stderr,"Aborting\n");
+        fprintf(stderr,"INFO: poll() Aborting\n");
         boinc_end_critical_section();
         boinc_finish(1);
     }
@@ -700,7 +719,7 @@ void VM::poll() {
         exit(1);
     }
     fprintf(stderr,"ERROR: Get cernvm status error!\n");
-    fprintf(stderr,"Aborting\n");
+    fprintf(stderr,"INFO: cernvm status error Aborting\n");
     remove();
     boinc_end_critical_section();
     boinc_finish(1);
@@ -915,7 +934,7 @@ int main(int argc, char** argv) {
                     else
                     {
                         fprintf(stderr,"ERROR: GetLastError ouput for VBOX_INSTALL_PATH environment variable: %u\n", dwErr);
-                        fprintf(stderr,"Aborting\n");
+                        fprintf(stderr,"INFO: GetLastError Aborting\n");
                         fExist=FALSE;
                         boinc_finish(1);
                     
@@ -1043,16 +1062,23 @@ int main(int argc, char** argv) {
         if(!VMexist){
 
             fprintf(stderr,"INFO: VM does not exists.\n");
-            fprintf(stderr,"INFO: Release old Virtual Hard Disks...\n");
-            vm.release();
+            fprintf(stderr,"INFO: Cleaning old instances...\n");
+            vm.remove();
             fprintf(stderr,"INFO: Done!\n");
-		    fprintf(stderr,"Registering a new VM from unzipped image...\n");
+            fprintf(stderr,"INFO: Unzipping image...\n");
+            retval = boinc_resolve_filename_s("cernvm.vmdk.gz",resolved_name);
+            if (retval) fprintf(stderr,"can't resolve cernvm.vmdk.gz filename");
+            unzip(resolved_name.c_str(),cernvm.c_str());
+            fprintf(stderr,"INFO: Uncompressed finished\n");
+		    fprintf(stderr,"Registering a new VM from an unzipped image...\n");
             vm.create();
             fprintf(stderr,"Done!\n");
         }
 
     }
     else{       
+        fprintf(stderr,"INFO: Cleaning old instances...\n");
+        vm.remove();
 		fprintf(stderr,"Registering a new VM from unzipped image...\n");
         vm.create();
         fprintf(stderr,"Done!\n");
