@@ -58,6 +58,7 @@ int gTopWindowListIndex = -1;
 NSRect gMovingRect;
 float gImageXIndent;
 float gTextBoxHeight;
+CGFloat gActualTextBoxHeight;
 NSPoint gCurrentPosition;
 NSPoint gCurrentDelta;
 
@@ -177,6 +178,8 @@ int signof(float x) {
             gCurrentPosition.y = SAFETYBORDER + 1 + gTextBoxHeight;
             gCurrentDelta.x = 1.0;
             gCurrentDelta.y = 1.0;
+            
+            gActualTextBoxHeight = MINTEXTBOXHEIGHT;
             
             [ self setAnimationTimeInterval:1/8.0 ];
         }
@@ -363,7 +366,7 @@ int signof(float x) {
             gCurrentDelta.x = -(float)SSRandomIntBetween(MINDELTA, MAXDELTA) / 16.;
             gCurrentDelta.y = (float)(SSRandomIntBetween(MINDELTA, MAXDELTA) * signof(gCurrentDelta.y)) / 16.;
         }
-        if (currentDrawingRect.origin.y <= SAFETYBORDER) {
+        if (currentDrawingRect.origin.y + gTextBoxHeight - gActualTextBoxHeight <= SAFETYBORDER) {
             gCurrentDelta.y = (float)SSRandomIntBetween(MINDELTA, MAXDELTA) / 16.;
             gCurrentDelta.x = (float)(SSRandomIntBetween(MINDELTA, MAXDELTA) * signof(gCurrentDelta.x)) / 16.;
         }
@@ -433,8 +436,8 @@ int signof(float x) {
 
             CGRect bounds = CGRectMake((float) ((int)gCurrentPosition.x), 
                                  viewBounds.size.height - imagePosition.y + TEXTBOXTOPBORDER,
-                                 bounds.origin.x + gMovingRect.size.width,
-                                 bounds.origin.y + (int)MAXTEXTBOXHEIGHT
+                                 gMovingRect.size.width,
+                                 MAXTEXTBOXHEIGHT
                             );
 
             CGContextSaveGState (myContext);
@@ -463,6 +466,9 @@ int signof(float x) {
                                         };
 #endif
 
+            HIThemeGetTextDimensions(cf_msg, (float)gMovingRect.size.width, &textInfo, NULL, &gActualTextBoxHeight, NULL);
+            gActualTextBoxHeight += TEXTBOXTOPBORDER;
+            
             // Use only APIs available in Mac OS 10.3.9
 //            HIThemeSetTextFill(kThemeTextColorWhite, NULL, myContext, kHIThemeOrientationNormal);
 //            SetThemeTextColor(kThemeTextColorWhite, 32, true);
@@ -497,12 +503,13 @@ int signof(float x) {
         }
     }
     
-    if (newFrequency)
+    if (newFrequency) {
         [ self setAnimationTimeInterval:(1.0/newFrequency) ];
-    // setAnimationTimeInterval does not seem to be working, so we 
-    // throttle the screensaver directly here.
-    timeToUnblock = AddDurationToAbsolute(durationSecond/newFrequency, frameStartTime);
-    MPDelayUntil(&timeToUnblock);
+        // setAnimationTimeInterval does not seem to be working, so we 
+        // throttle the screensaver directly here.
+        timeToUnblock = AddDurationToAbsolute(durationSecond/newFrequency, frameStartTime);
+        MPDelayUntil(&timeToUnblock);
+    }
 }
 
 - (BOOL)hasConfigureSheet {
