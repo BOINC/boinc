@@ -9999,6 +9999,13 @@ Rom    8 Jun 2011
         configure.ac
         version.h
 
+Rom    7 July 2011
+    - WINSCR: Remove diagnostics screensaver dialog when the screensaver fails to
+        be able open up the log files.
+
+    clientscr/
+        screensaver_win.cpp
+
 Charlie 7 July 2011
     - Mac: Fix bug where menubar icon menu did not work after changing skin.
 
@@ -10032,11 +10039,3 @@ Charlie 27 July 11
         boinc.xcodeproj/
             project.pbxproj
 
-Charlie 28 July 11
-    - Mac SCR: Fix vertical range of moving logo.
-
-    clientscr/
-        Mac_Saver_ModuleView.m
-    mac_build/
-        boinc.xcodeproj/
-            project.pbxproj
