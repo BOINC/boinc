@@ -10031,3 +10031,12 @@ Charlie 27 July 11
     mac_build/
         boinc.xcodeproj/
             project.pbxproj
+
+Charlie 28 July 11
+    - Mac SCR: Fix vertical range of moving logo.
+
+    clientscr/
+        Mac_Saver_ModuleView.m
+    mac_build/
+        boinc.xcodeproj/
+            project.pbxproj
