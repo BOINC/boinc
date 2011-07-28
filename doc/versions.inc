@@ -65,6 +65,14 @@ $w613 = array(
 	"type"=>"win_new",
 );
 
+$w612dev = array(
+	"num"=>"6.12.34",
+	"status"=>"Development version",
+	"file"=>"boinc_6.12.34_windows_intelx86.exe",
+	"date"=>"28 July 2011",
+	"type"=>"win_new",
+);
+
 $w612 = array(
 	"num"=>"6.12.33",
 	"status"=>"Recommended version",
@@ -102,6 +110,14 @@ $w613x64 = array(
 	"status"=>"Development version",
 	"file"=>"boinc_6.13.1_windows_x86_64.exe",
 	"date"=>"20 July 2011",
+	"type"=>"win_new",
+);
+
+$w612x64dev = array(
+	"num"=>"6.12.34",
+	"status"=>"Development version",
+	"file"=>"boinc_6.12.34_windows_x86_64.exe",
+	"date"=>"28 July 2011",
 	"type"=>"win_new",
 );
 
@@ -259,6 +275,7 @@ $windows = array(
     "dbname" => "windows_intelx86",
     "versions"=>array(
 		$w613,
+		$w612dev,
 		$w612,
 		$w610,
 		$w66,
@@ -272,6 +289,7 @@ $windowsx64 = array(
     "dbname" => "windows_x86_64",
     "versions"=>array(
 		$w613x64,
+		$w612x64dev,
 		$w612x64,
 		$w610x64,
     )
