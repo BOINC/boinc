@@ -10021,6 +10021,14 @@ Charlie 8 July 2011
         mac/
             MacSysMenu.cpp, .h
 
+Rom    14 July 2011
+    - lib: Fix the various '????' fields in the diagnostics framework during a
+        crash on Windows.  Somewhere along the lines I messed up with the
+        conversions of single-byte characters vs. double-byte characters.
+
+    lib/
+        stackwalker_win.cpp
+
 Charlie 18 July 11
     - MGR: Fix "Can't load Image" messages in Simple View.
 
@@ -10039,107 +10047,10 @@ Charlie 27 July 11
         boinc.xcodeproj/
             project.pbxproj
 
-<<<<<<< .working
-=======
-David  11 July 2011
-    - manager: do the above font change only on Win
+Rom    28 Jun 2011
+    - Tag for 6.12.34 release, all platforms
+      boinc_core_release_6_12_34
 
-    clientgui/
-        ProjectInfoPage.cpp
-
-David  11 July 2011
-    - manager: fix messed up logic that caused projects to show
-        "platform not support" incorrectly.
-        Note: the code in this entire area seems way too complex
-    - manager: tweak project desc font size
-
-    clientgui/
-        ProjectInfoPage.cpp
-
-David  11 July 2011
-    - admin web: add page for showing app and app version details
-
-    html/
-        ops/
-            submit_permissions.php
-            app_reset.php (new)
-            manage_apps.php
-            login_form.php
-            logout.php
-            app_details.php (new)
-        inc/
-            util_ops.inc
-
-David  12 July 2011
-    - admin web: finish page for resetting app statistics
-
-    html/
-        ops/
-            app_reset.php
-            app_details.php
-        inc/
-            boinc_db.inc
-
-David  12 July 2011
-    - validator: if job FLOPs estimates are accurate,
-        PFC values should be around 1.
-        If they differ from 1 by a factor of > 1e4, ignore them,
-        and put an error message into the validator log
-    - validator: if get_pfc() fails because an app version is
-        missing from the DB (i.e. the project deleted it)
-        keep going so we don't reprocess the WU forever
-
-    sched/
-        credit.cpp
-
-David  13 July 2011
-    - client, work fetch policy:
-        adjust project REC by the amount of work queued, to increase variety
-        NOTE: at some point I think I had a reason to not do this,
-        but I can't remember what it is.
-    - client, job scheduling policy: fix how project REC is adjusted
-
-    client/
-        work_fetch.cpp,h
-        cpu_sched.cpp
-    lib/
-        common_defs.h
-    sched/
-        credit.cpp,h
-        trickle_credit.cpp
-
-David  13 July 2011
-	- manager: don't show "Estimated computation speed" in task properties
-		The quantity involved is not actually computation speed.
-		Also don't show Max RAM usage.
-
-	clientgui/
-		DltItemProperties.cpp
-
-David  13 July 2011
-    - admin web: improve the FLOPs estimation tool so that
-        it works for GPU versions too
-
-    html/
-        ops/
-            job_times.php
-            app_details.php
-        inc/
-            util_ops.php
-
-David  13 July 2011
-    - client: precede OpenCL messages with [coprog_debug], not [coproc-test].
-        The convention is to use the name of the enabling log flag.
-
-    client/
-        coproc_detect.cpp
-
-
-Rom    14 July 2011
-    - lib: Fix the various '????' fields in the diagnostics framework during a
-        crash on Windows.  Somewhere along the lines I messed up with the
-        conversions of single-byte characters vs. double-byte characters.
-
-    lib/
-        stackwalker_win.cpp
->>>>>>> .merge-right.r23842
+    /
+        configure.ac
+        version.h
