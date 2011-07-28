@@ -4422,6 +4422,7 @@
 					x86_64,
 				);
 				GCC_ENABLE_OBJC_GC = supported;
+				"GCC_VERSION[arch=x86_64]" = com.apple.compilers.llvmgcc42;
 				INFOPLIST_FILE = "ScreenSaver-Info.plist";
 				"MACOSX_DEPLOYMENT_TARGET[arch=x86_64]" = 10.6;
 				OTHER_LDFLAGS = (
@@ -4432,6 +4433,12 @@
 				);
 				PRODUCT_NAME = BOINCSaver;
 				"SDKROOT[arch=x86_64]" = "$(DEVELOPER_SDK_DIR)/MacOSX10.6.sdk";
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+					"-Wno-write-strings",
+				);
 				WRAPPER_EXTENSION = saver;
 			};
 			name = Deployment;
