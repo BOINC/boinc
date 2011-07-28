@@ -210,10 +210,10 @@ $l613ubuntu = array(
 );
 
 $l612ubuntu = array(
-	"num"=>"6.12.33",
-	"status"=>"Recommended version",
-	"file"=>"boinc_6.12.33_i686-pc-linux-gnu.sh",
-	"date"=>"14 Jun 2011",
+	"num"=>"6.12.34",
+	"status"=>"Development version",
+	"file"=>"boinc_6.12.34_i686-pc-linux-gnu.sh",
+	"date"=>"28 July 2011",
 	"type"=>"sea",
 );
 
@@ -234,10 +234,10 @@ $l613ubuntux64 = array(
 );
 
 $l612ubuntux64 = array(
-	"num"=>"6.12.33",
-	"status"=>"Recommended version",
-	"file"=>"boinc_6.12.33_x86_64-pc-linux-gnu.sh",
-	"date"=>"14 Jun 2011",
+	"num"=>"6.12.34",
+	"status"=>"Development version",
+	"file"=>"boinc_6.12.34_x86_64-pc-linux-gnu.sh",
+	"date"=>"28 July 2011",
 	"type"=>"sea",
 );
 
