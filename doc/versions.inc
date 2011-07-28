@@ -309,7 +309,7 @@ $linux = array(
     "dbname" => "i686-pc-linux-gnu",
     "versions"=>array(
 		$l613ubuntu,
-		//$l612ubuntu,
+		$l612ubuntu,
 		$l610ubuntu,
     )
 );
@@ -320,7 +320,7 @@ $linuxx64 = array(
     "dbname" => "x86_64-pc-linux-gnu",
     "versions"=>array(
 		$l613ubuntux64,
-		//$l612ubuntux64,
+		$l612ubuntux64,
 		$l610ubuntux64,
     )
 );
