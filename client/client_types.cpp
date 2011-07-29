@@ -67,11 +67,11 @@ void PROJECT::init() {
     resource_share = 100;
     for (int i=0; i<MAX_RSC; i++) {
         no_rsc_pref[i] = false;
+        no_rsc_config[i] = false;
         no_rsc_apps[i] = false;
         no_rsc_ams[i] = false;
         rsc_defer_sched[i] = false;
     }
-    exclude_gpus.clear();
     strcpy(host_venue, "");
     using_venue_specific_prefs = false;
     scheduler_urls.clear();

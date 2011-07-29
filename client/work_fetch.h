@@ -303,6 +303,8 @@ struct WORK_FETCH {
 extern RSC_WORK_FETCH rsc_work_fetch[MAX_RSC];
 extern WORK_FETCH work_fetch;
 
+extern void set_no_rsc_config();
+
 //#ifdef USE_REC
 void project_priority_init();
 double project_priority(PROJECT*);

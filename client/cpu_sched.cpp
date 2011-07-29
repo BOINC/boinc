@@ -1123,11 +1123,12 @@ void CLIENT_STATE::append_unfinished_time_slice(vector<RESULT*> &run_list) {
 
 static inline bool excluded(RESULT* rp, COPROC* cp, int ind) {
     PROJECT* p = rp->project;
-    for (unsigned int i=0; i<p->exclude_gpus.size(); i++) {
-        EXCLUDE_GPU& eg = p->exclude_gpus[i];
+    for (unsigned int i=0; i<config.exclude_gpus.size(); i++) {
+        EXCLUDE_GPU& eg = config.exclude_gpus[i];
+        if (strcmp(eg.url.c_str(), p->master_url)) continue;
         if (!eg.type.empty() && (eg.type != cp->type)) continue;
         if (!eg.appname.empty() && (eg.appname != rp->app->name)) continue;
-        if (eg.devnum != cp->device_nums[ind]) continue;
+        if (eg.devnum >= 0 && eg.devnum != cp->device_nums[ind]) continue;
         return true;
     }
     return false;

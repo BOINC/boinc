@@ -1217,6 +1217,7 @@ int GUI_RPC_CONN::handle_rpc() {
         gstate.set_ncpus();
         gstate.request_schedule_cpus("Core client configuration");
         gstate.request_work_fetch("Core client configuration");
+        set_no_rsc_config();
     } else if (match_req(request_msg, "get_notices")) {
         handle_get_notices(request_msg, *this, mf, false);
         clear_notice_refresh();

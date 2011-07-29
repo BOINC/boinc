@@ -254,9 +254,10 @@ struct PROJECT : PROJ_AM {
     //
     bool no_rsc_pref[MAX_RSC];
 
-    // list of GPUs not to use for this project
+    // derived from GPU exclusions in cc_config.xml;
+    // disable work fetch if all instances excluded
     //
-    std::vector<EXCLUDE_GPU> exclude_gpus;
+    bool no_rsc_config[MAX_RSC];
 
     // the following are from the project itself
     // (or derived from app version list if anonymous platform)

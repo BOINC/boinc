@@ -51,7 +51,6 @@ function handle_main() {
 
     page_head("Job submission and control");
 
-    echo date("F j, Y, g:i a"); 
     show_button("submit_example.php?action=create_form", "Create new batch");
 
     $first = true;
@@ -73,7 +72,9 @@ function handle_main() {
             local_time_str($batch->create_time)
         );
     }
-    if (!$first) {
+    if ($first) {
+        echo "<p>You have no in-progress batches.\n";
+    } else {
         end_table();
     }
 
@@ -82,7 +83,7 @@ function handle_main() {
         if ($batch->state != BATCH_STATE_COMPLETE) continue;
         if ($first) {
             $first = false;
-            echo "<h2>Completed</h2>\n";
+            echo "<h2>Completed batches</h2>\n";
             start_table();
             table_header("name", "ID", "# jobs", "submitted");
         }
@@ -93,7 +94,9 @@ function handle_main() {
             local_time_str($batch->create_time)
         );
     }
-    if (!$first) {
+    if ($first) {
+        echo "<p>You have no completed batches.\n";
+    } else {
         end_table();
     }
 
@@ -102,7 +105,7 @@ function handle_main() {
         if ($batch->state != BATCH_STATE_ABORTED) continue;
         if ($first) {
             $first = false;
-            echo "<h2>Aborted</h2>\n";
+            echo "<h2>Aborted batches</h2>\n";
             start_table();
             table_header("name", "ID", "# jobs", "submitted");
         }
@@ -243,8 +246,6 @@ function handle_query_batch() {
     if ($errmsg) error_page($errmsg);
 
     page_head("Batch $req->batch_id");
-    $url = boinc_get_output_files($req);
-    show_button($url, "Get zipped output files");
     start_table();
     row2("name", $batch->name);
     row2("application", $batch->app_name);
@@ -259,6 +260,8 @@ function handle_query_batch() {
     row2("Credit, canonical instances", $batch->credit_canonical);
     row2("Credit, total", $batch->credit_total);
     end_table();
+    $url = boinc_get_output_files($req);
+    show_button($url, "Get zipped output files");
     switch ($batch->state) {
     case BATCH_STATE_IN_PROGRESS:
         echo "<br>";
@@ -279,17 +282,25 @@ function handle_query_batch() {
     
     echo "<h2>Jobs</h2>\n";
     start_table();
-    table_header("Job ID", "Canonical instance");
+    table_header(
+        "Job ID<br><span class=note>click for details or to get output files</span>",
+        "status",
+        "Canonical instance<br><span class=note>click to see result page on BOINC server</span>"
+    );
     foreach($batch->jobs as $job) {
         $id = (int)$job->id;
         $resultid = (int)$job->canonical_instance_id;
         if ($resultid) {
             $x = "<a href=result.php?resultid=$resultid>$resultid</a>";
+            $y = "completed";
         } else {
             $x = "---";
+            $y = "in progress";
         }
+
         echo "<tr>
                 <td><a href=submit_example.php?action=query_job&job_id=$id>$id</a></td>
+                <td>$y</td>
                 <td>$x</td>
             </tr>
         ";
@@ -307,8 +318,13 @@ function handle_query_job() {
     if ($errmsg) error_page($errmsg);
 
     page_head("Job $req->job_id");
+    echo "<a href=$project/workunit.php?wuid=$req->job_id>View workunit page on BOINC server</a>\n";
+    echo "<h2>Instances</h2>\n";
     start_table();
-    table_header("Instance ID", "State", "Output files");
+    table_header(
+        "Instance ID<br><span class=note>click for result page on BOINC server</span>",
+        "State", "Output files"
+    );
     foreach($reply->instances as $inst) {
         echo "<tr>
             <td><a href=result.php?resultid=$inst->id>$inst->id</a></td>

@@ -210,15 +210,6 @@ const char* rsc_name(int i) {
     return coprocs.coprocs[i].type;
 }
 
-void init_exclude_gpu() {
-    for (unsigned int i=0; i<config.exclude_gpus.size(); i++) {
-        EXCLUDE_GPU& eg = config.exclude_gpus[i];
-        PROJECT* p = gstate.lookup_project(eg.url.c_str());
-        if (!p) continue;
-        p->exclude_gpus.push_back(eg);
-    }
-}
-
 // set no_X_apps for anonymous platform project
 //
 static void check_no_apps(PROJECT* p) {
@@ -416,6 +407,8 @@ int CLIENT_STATE::init() {
 			msg_printf(NULL, MSG_INFO, "%s GPU is OpenCL-capable", cp.type);
 		}
 	}
+
+    set_no_rsc_config();
 
     // check for app_info.xml file in project dirs.
     // If find, read app info from there, set project.anonymous_platform
@@ -627,10 +620,6 @@ int CLIENT_STATE::init() {
     // warn user if some jobs need more memory than available
     //
     check_too_large_jobs();
-
-    // fill in exclude-GPU flags
-    //
-    init_exclude_gpu();
 
     project_priority_init();
 

@@ -261,7 +261,7 @@ function time_str($x) {
 
 function local_time_str($x) {
     if ($x == 0) return "---";
-    return date('j M Y | H:i:s', $x);
+    return date('j M Y, H:i T', $x);
 }
 
 function pretty_time_str($x) {

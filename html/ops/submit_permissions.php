@@ -127,7 +127,8 @@ function handle_edit_action() {
 function handle_add_form() {
     admin_page_head("Add user");
     echo "
-        <form action=submit_permissions.php?action=add_action>
+        <form action=submit_permissions.php>
+        <input type=hidden name=action value=add_action>
         User ID: <input name=user_id>
         <br>
         <input type=submit value=OK>

@@ -238,24 +238,21 @@ void CONFIG::defaults() {
 static bool parse_exclude_gpu(XML_PARSER& xp, EXCLUDE_GPU& eg) {
     char tag[1024];
     bool is_tag;
-    bool found_devnum = false;
     bool found_url = false;
     eg.type = "";
     eg.appname = "";
+    eg.devnum = -1;
     while (!xp.get(tag, sizeof(tag), is_tag)) {
         if (!is_tag) continue;
         if (!strcmp(tag, "/exclude_gpu")) {
-            return (found_devnum && found_url);
-        }
-        if (xp.parse_int(tag, "devnum", eg.devnum)) {
-            found_devnum = true;
-            continue;
+            return found_url;
         }
         if (xp.parse_string(tag, "url", eg.url)) {
             canonicalize_master_url(eg.url);
             found_url = true;
             continue;
         }
+        if (xp.parse_int(tag, "devnum", eg.devnum)) continue;
         if (xp.parse_string(tag, "type", eg.type)) continue;
         if (xp.parse_string(tag, "app", eg.appname)) continue;
     }
@@ -278,6 +275,7 @@ int CONFIG::parse_options(XML_PARSER& xp) {
     exclusive_gpu_apps.clear();
     ignore_nvidia_dev.clear();
     ignore_ati_dev.clear();
+    exclude_gpus.clear();
 
     while (!xp.get(tag, sizeof(tag), is_tag)) {
         if (!is_tag) {

@@ -67,9 +67,45 @@ static const char* criterion_name(int criterion) {
 
 inline bool dont_fetch(PROJECT* p, int rsc_type) {
     if (p->no_rsc_pref[rsc_type]) return true;
+    if (p->no_rsc_config[rsc_type]) return true;
     if (p->no_rsc_apps[rsc_type]) return true;
     if (p->no_rsc_ams[rsc_type]) return true;
     return false;
+}
+
+// if the configuration file disallows the use of a GPU type
+// for a project, set a flag to that effect
+//
+void set_no_rsc_config() {
+    for (unsigned int i=0; i<gstate.projects.size(); i++) {
+        PROJECT& p = *gstate.projects[i];
+        for (int j=1; j<coprocs.n_rsc; j++) {
+            bool allowed[MAX_COPROC_INSTANCES];
+            memset(allowed, 0, sizeof(allowed));
+            COPROC& c = coprocs.coprocs[j];
+            for (int k=0; k<c.count; k++) {
+                allowed[c.device_nums[k]] = true;
+            }
+            for (unsigned int k=0; k<config.exclude_gpus.size(); k++) {
+                EXCLUDE_GPU& e = config.exclude_gpus[k];
+                if (strcmp(e.url.c_str(), p.master_url)) continue;
+                if (strcmp(e.type.c_str(), c.type)) continue;
+                if (!e.appname.empty()) continue;
+                if (e.devnum < 0) {
+                    memset(allowed, 0, sizeof(allowed));
+                    break;
+                }
+                allowed[e.devnum] = false;
+            }
+            p.no_rsc_config[j] = true;
+            for (int k=0; k<c.count; k++) {
+                if (allowed[k]) {
+                    p.no_rsc_config[j] = false;
+                    break;
+                }
+            }
+        }
+    }
 }
 
 // does the project have a downloading or runnable job?
@@ -436,12 +472,13 @@ void RSC_WORK_FETCH::print_state(const char* name) {
         if (p->non_cpu_intensive) continue;
         RSC_PROJECT_WORK_FETCH& pwf = project_state(p);
         bool no_rsc_pref = p->no_rsc_pref[rsc_type];
+        bool no_rsc_config = p->no_rsc_config[rsc_type];
         bool no_rsc_apps = p->no_rsc_apps[rsc_type];
         bool no_rsc_ams = p->no_rsc_ams[rsc_type];
         double bt = pwf.backoff_time>gstate.now?pwf.backoff_time-gstate.now:0;
 if (use_rec) {
         msg_printf(p, MSG_INFO,
-            "[work_fetch] %s: fetch share %.2f rec %.5f prio %.5f backoff dt %.2f int %.2f%s%s%s%s%s%s%s%s",
+            "[work_fetch] %s: fetch share %.2f rec %.5f prio %.5f backoff dt %.2f int %.2f%s%s%s%s%s%s%s%s%s",
             name,
             pwf.fetchable_share, p->pwf.rec, project_priority(p), bt, pwf.backoff_interval,
             p->suspended_via_gui?" (susp via GUI)":"",
@@ -451,11 +488,12 @@ if (use_rec) {
             p->too_many_uploading_results?" (too many uploads)":"",
             no_rsc_pref?" (blocked by prefs)":"",
             no_rsc_apps?" (no apps)":"",
-            no_rsc_ams?" (blocked by account manager)":""
+            no_rsc_ams?" (blocked by account manager)":"",
+            no_rsc_config?" (blocked by configuration file)":""
         );
 } else {
         msg_printf(p, MSG_INFO,
-            "[work_fetch] %s: fetch share %.2f LTD %.2f backoff dt %.2f int %.2f%s%s%s%s%s%s%s",
+            "[work_fetch] %s: fetch share %.2f LTD %.2f backoff dt %.2f int %.2f%s%s%s%s%s%s%s%s",
             name,
             pwf.fetchable_share, pwf.long_term_debt, bt, pwf.backoff_interval,
             p->suspended_via_gui?" (susp via GUI)":"",
@@ -464,7 +502,8 @@ if (use_rec) {
             p->dont_request_more_work?" (no new tasks)":"",
             pwf.overworked()?" (overworked)":"",
             p->too_many_uploading_results?" (too many uploads)":"",
-            no_rsc_pref?" (blocked by prefs)":""
+            no_rsc_pref?" (blocked by prefs)":"",
+            no_rsc_config?" (blocked by configuration file)":""
         );
 }
     }

@@ -4421,3 +4421,26 @@ Charlie 28 July 11
 
     clientscr/
         Mac_Saver_ModuleView.m
+
+David  28 July 2011
+    - remote job submission: bug fix and tweaks
+    - client: cc_config.xml: if <devnum> is omitted from a <exclude_gpu>,
+        it means exclude all instances of that GPU type
+    - client: if all instances of a GPU type are excluded for a project,
+        don't ask the project for jobs of that type
+
+    html/
+        ops/
+            submit_permissions.php
+        inc/
+            util.h
+        user/
+            submit_example.php
+    lib/
+        cc_config.cpp,h
+    client/
+        work_fetch.cpp,h
+        client_types.cpp,h
+        client_state.cpp
+        gui_rpc_server_ops.cpp
+        cpu_sched.cpp
