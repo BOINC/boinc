@@ -4444,3 +4444,14 @@ David  28 July 2011
         client_state.cpp
         gui_rpc_server_ops.cpp
         cpu_sched.cpp
+
+David  29 July 2011
+	- client: fix bug in <exclude_gpu> config option
+	- client: extend <exclude_gpu> option so that if <device_num> is omitted,
+		all GPUs of the given type are excluded.
+		
+	client/
+		cpu_sched.cpp
+		work_fetch.cpp
+	lib/
+		cc_config.cpp,h

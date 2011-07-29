@@ -1128,7 +1128,7 @@ static inline bool excluded(RESULT* rp, COPROC* cp, int ind) {
         if (strcmp(eg.url.c_str(), p->master_url)) continue;
         if (!eg.type.empty() && (eg.type != cp->type)) continue;
         if (!eg.appname.empty() && (eg.appname != rp->app->name)) continue;
-        if (eg.devnum >= 0 && eg.devnum != cp->device_nums[ind]) continue;
+        if (eg.device_num >= 0 && eg.device_num != cp->device_nums[ind]) continue;
         return true;
     }
     return false;

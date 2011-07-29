@@ -116,7 +116,7 @@ struct EXCLUDE_GPU {
     std::string url;
     std::string type;
     std::string appname;
-    int devnum;     // -1 means all
+    int device_num;     // -1 means all
 };
 
 // if you add anything, you must add it to

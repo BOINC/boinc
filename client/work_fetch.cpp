@@ -89,13 +89,13 @@ void set_no_rsc_config() {
             for (unsigned int k=0; k<config.exclude_gpus.size(); k++) {
                 EXCLUDE_GPU& e = config.exclude_gpus[k];
                 if (strcmp(e.url.c_str(), p.master_url)) continue;
-                if (strcmp(e.type.c_str(), c.type)) continue;
+                if (!e.type.empty() && strcmp(e.type.c_str(), c.type)) continue;
                 if (!e.appname.empty()) continue;
-                if (e.devnum < 0) {
+                if (e.device_num < 0) {
                     memset(allowed, 0, sizeof(allowed));
                     break;
                 }
-                allowed[e.devnum] = false;
+                allowed[e.device_num] = false;
             }
             p.no_rsc_config[j] = true;
             for (int k=0; k<c.count; k++) {
