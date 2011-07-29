@@ -318,10 +318,10 @@ $mac = array(
     "versions"=>array(
 		$m613,
 		$m613c,
-		$m612,
-		$m612c,
         $m612dev,
 		$m612cdev,
+		$m612,
+		$m612c,
 		$m610,
         $m610c,
         $m66,
