@@ -591,7 +591,7 @@ struct BATCH {
     char name[256];
         // user-assigned name; need not be unique
     int app_id;
-}
+};
 
 // values of batch.state
 //

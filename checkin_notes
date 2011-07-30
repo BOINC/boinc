@@ -4455,3 +4455,9 @@ David  29 July 2011
 		work_fetch.cpp
 	lib/
 		cc_config.cpp,h
+
+David  30 July 2011
+    - server: fix typo
+
+    db/
+        boinc_db.h
