@@ -4477,3 +4477,10 @@ David  30 July 2011
             prefs.inc
         user/
             forum_user_posts.php
+
+David  30 July 2011
+    - web: fix +/- forum rating, and tweak messages.  Fixes #1123
+
+    html/user/
+        forum_report_post.php
+        forum_rate.php

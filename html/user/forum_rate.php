@@ -21,8 +21,6 @@
 require_once('../inc/forum.inc');
 require_once('../inc/util.inc');
 
-check_get_args(array("post", "choice"));
-
 $config = get_config();
 if (parse_bool($config, "no_forum_rating")) {
     page_head("Rating offline");
@@ -61,7 +59,7 @@ if (!empty($_GET['post'])) {
     }
     
     if (BoincPostRating::lookup($user->id, $post->id)) {
-        error_page("You have already rated this post once.<br /><br /><a href=\"forum_thread.php?nowrap=true&id=".$thread->id."#".$post->id."\">Return to thread</a>");
+        error_page("You have already rated this post.<br /><br /><a href=\"forum_thread.php?nowrap=true&id=".$thread->id."#".$post->id."\">Return to thread</a>");
     } else {
         $success = BoincPostRating::replace($user->id, $post->id, $rating);
         show_result_page($success, $post, $thread, $choice);
@@ -72,21 +70,19 @@ function show_result_page($success, $post, $thread, $choice) {
     if ($success) {
         if ($choice) {
             page_head('Input Recorded');
-                echo "<p>Your input has been successfully recorded.  Thank you for your help.</p>";
+                echo "Your input has been recorded.  Thanks for your help.";
         } else {
             page_head('Vote Registered');
-        echo "<span class=\"title\">Vote Registered</span>";
-        echo "<p>Your rating has been successfully recorded.  Thank you for your input.</p>";
+            echo "Your rating has been recorded.  Thanks for your input.";
         }
         echo "<a href=\"forum_thread.php?nowrap=true&id=", $thread->id, "#", $post->id, "\">Return to thread</a>";
     } else {
         page_head('Vote Submission Problem');    
-        echo "<span class=\"title\">Vote submission failed</span>";
         if ($post) {
-            echo "<p>There was a problem recording your vote in our database.  Please try again later.</p>";
+            echo "There was a problem recording your vote in our database.  Please try again later.";
             echo "<a href=\"forum_thread.php?id=", $thread->id, "#", $post->id, "\">Return to thread</a>";
         } else {
-            echo "<p>There post you specified does not exist, or your rating was invalid.</p>";
+            echo "The post you specified does not exist, or your rating was invalid.";
         }
     }
     page_tail();

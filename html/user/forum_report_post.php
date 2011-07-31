@@ -62,20 +62,20 @@ $no_forum_rating = parse_bool($config, "no_forum_rating");
 //__--------------- Display part
 if ($success_page==1) {
     page_head('Report Registered');
-    echo "<p>Your report has been successfully recorded.
-        Thank you for your input.</p>
-        <p>A moderator will now look at your report and decide what will happen -
-        this may take a little while, so please be patient</p>
+    echo "Your report has been recorded.
+        Thanks for your input.
+        <p>
+        A moderator will now look at your report and decide what will happen -
+        this may take a little while, so please be patient.
     ";
     echo "<a href=\"forum_thread.php?id=", $thread->id, "#", $post->id, "\">Return to thread</a>";
 } elseif ($success_page==0){
     page_head('Report a forum post');
     if (!$no_forum_rating) {
-        echo "<p>Before reporting this post <em>please</em>
+        echo "<p>Before reporting this post,
             consider using the +/- rating system instead.
-            If enough users agree on rating a post negatively it will
-            eventually be hidden.
-            <br>You can find the rating system at the bottom of the post.</br>
+            If enough users rate a post negatively it will eventually be hidden.
+            <br>You can find the rating system at the bottom of the post.
         ";
     }
     start_forum_table(array(tra("Author"), tra("Message"),""));
@@ -92,11 +92,11 @@ if ($success_page==1) {
     echo "</form>";
     end_table();
 } elseif ($success_page==-1) {
-    page_head('Report NOT registered');
+    page_head('Report not registered');
     echo "<p>Your report could not be recorded.
-        Please wait a short while and try again.</p>
+        Please wait a while and try again.
         <p>If this is not a temporary error,
-        please report it to the project developers.</p>
+        please report it to the project developers.
     ";
     echo "<a href=\"forum_thread.php?id=", $thread->id, "#", $post->id, "\">Return to thread</a>";
 }
