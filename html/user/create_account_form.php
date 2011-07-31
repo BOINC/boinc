@@ -48,7 +48,7 @@ if (parse_bool($config, "disable_account_creation")) {
 }
 
 $wac = parse_bool($config, "web_account_creation");
-if (!$wac) {
+if (!$wac && !no_computing()) {
     echo "<p>
         <b>".tra("NOTE: If you use the BOINC Manager, don't use this form. Just run BOINC, select Add Project, and enter an email address and password.")."</b></p>
     ";

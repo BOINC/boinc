@@ -1096,7 +1096,6 @@ int SCHED_DB_RESULT::write_to_client(FILE* fout) {
 
 int SCHED_DB_RESULT::parse_from_client(FILE* fin) {
     char buf[256];
-    char tmp[BLOB_SIZE];
 
     // should be non-zero if exit_status is not found
     exit_status = ERR_NO_EXIT_STATUS;

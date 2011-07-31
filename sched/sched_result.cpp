@@ -300,6 +300,14 @@ int handle_results() {
 
         // check for impossible elapsed time
         //
+        if (srip->elapsed_time < 0) {
+            log_messages.printf(MSG_NORMAL,
+                "[HOST#%d] [RESULT#%d] [WU#%d] negative elapsed time: %f\n",
+                srip->hostid, srip->id, srip->workunitid,
+                srip->elapsed_time
+            );
+            srip->elapsed_time = 0;
+        }
         double turnaround_time = srip->received_time - srip->sent_time;
         if (turnaround_time < 0) {
             log_messages.printf(MSG_CRITICAL,
