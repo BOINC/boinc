@@ -50,7 +50,7 @@ $show_team_hidden = false;
 
 if ($logged_in_user) {
     if ($user->id == $logged_in_user->id) {
-        $show_all = false;
+        $show_all = true;
     } else {
         BoincForumPrefs::lookup($logged_in_user);
         if ($logged_in_user->prefs->privilege(0)) {

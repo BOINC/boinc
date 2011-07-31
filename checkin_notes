@@ -4468,3 +4468,12 @@ David  30 July 2011
 
     html/user/
         get_passwd.php
+
+David  30 July 2011
+    - web: fix typo that prevented users from seeing their own hidden posts
+
+    html/
+        inc/
+            prefs.inc
+        user/
+            forum_user_posts.php

@@ -214,7 +214,7 @@ $disk_prefs = array(
 $net_prefs = array(
     new PREF_NUM(
         tra(
-            "Computer is connected to the Internet about every %1 Leave blank or 0 if always connected. %2 BOINC will try to maintain at least this much work. %3",
+            "Computer is connected to the Internet about every %1 Leave blank or 0 if always connected. %2 BOINC will try to maintain at least this much work (max 10 days). %3",
             "<br><span class=note>",
             "<br>",
             "</span>"
