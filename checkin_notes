@@ -4285,12 +4285,12 @@ David  20 July 2011
         backend_lib.cpp,h
 
 David  20 July 2011
-	- client: debug distributed storage functions
+    - client: debug distributed storage functions
 
-	client/
-		client_types.cpp,h
-		cs_statefile.cpp
-		scheduler_op.cpp
+    client/
+        client_types.cpp,h
+        cs_statefile.cpp
+        scheduler_op.cpp
 
 David  22 July 2011
     - server: some remote job submission code.  Not finished.
@@ -4446,18 +4446,25 @@ David  28 July 2011
         cpu_sched.cpp
 
 David  29 July 2011
-	- client: fix bug in <exclude_gpu> config option
-	- client: extend <exclude_gpu> option so that if <device_num> is omitted,
-		all GPUs of the given type are excluded.
-		
-	client/
-		cpu_sched.cpp
-		work_fetch.cpp
-	lib/
-		cc_config.cpp,h
+    - client: fix bug in <exclude_gpu> config option
+    - client: extend <exclude_gpu> option so that if <device_num> is omitted,
+        all GPUs of the given type are excluded.
+        
+    client/
+        cpu_sched.cpp
+        work_fetch.cpp
+    lib/
+        cc_config.cpp,h
 
 David  30 July 2011
     - server: fix typo
 
     db/
         boinc_db.h
+
+David  30 July 2011
+    - user web: in instructions for logging in with authenticator,
+        show the actual account file name.
+
+    html/user/
+        get_passwd.php

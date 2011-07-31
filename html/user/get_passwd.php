@@ -32,6 +32,13 @@ Enter the email address below, and click OK.
 You will be sent email instructions for resetting your password.
 ";
 
+$master_url = parse_config(get_config(), "<master_url>");
+$x = strstr($master_url, "//");
+$x = substr($x, 2);
+$x = rtrim($x, "/");
+$x = str_replace("/", "_", $x);
+$account_file = "account_$x.xml";
+
 start_table();
 echo "<form method=post action=mail_passwd.php>\n";
 row2("Email address","<input type=\"text\" size=40 name=email_addr>");
@@ -42,7 +49,7 @@ end_table();
 echo "
 <p>
 <h3>2) If you forgot your account's email address,
-    or you can't receive email there:</h3>
+or you can't receive email there:</h3>
 
 If you have run BOINC under the account,
 you can still access it.
@@ -52,8 +59,7 @@ Here's how:
 <li> Go to the BOINC data directory on your computer
 (on Windows this is usually <b>C:\\Documents and Settings\All Users\Application Data\BOINC</b> or <b>C:\\Program Files\BOINC</b>.
 <li> Find your account file for this project;
-it will have a name like <b>account_lhcathome.cern.ch.xml</b>
-(where the project URL is <b>http://lhcathome.cern.ch</b>).
+it will be named <b>$account_file</b>.
 <li> Open the file in a text editor like Notepad.
 You'll see something like
 <pre>
