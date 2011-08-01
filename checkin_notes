@@ -4507,3 +4507,9 @@ David  1 Aug 2011
 
     client/
         file_xfer.cpp
+
+David  1 Aug 2011
+    - client: undo the above.  doesn't work
+
+    client/
+        file_xfer.cpp

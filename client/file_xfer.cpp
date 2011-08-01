@@ -118,12 +118,9 @@ int FILE_XFER::init_upload(FILE_INFO& file_info) {
             "    <core_client_release>%d</core_client_release>\n"
             "<file_upload>\n"
             "<file_info>\n"
-            "    <name>%s</name>\n"
-            "    <url>%s</url>\n"
-            "    <max_nbytes>%.0f</max_nbytes>\n"
-            "    <generated_locally/>\n"
-            "    <upload_when_present/>\n"
-            "    <nbytes>%.0f</nbytes>\n"
+            "<name>%s</name>\n"
+            "<nbytes>%.0f</nbytes>\n"
+            "<max_nbytes>%.0f</max_nbytes>\n"
             "<md5_cksum>%s</md5_cksum>\n"
             "<xml_signature>\n"
             "%s"
@@ -133,9 +130,8 @@ int FILE_XFER::init_upload(FILE_INFO& file_info) {
             "<data>\n",
             BOINC_MAJOR_VERSION, BOINC_MINOR_VERSION, BOINC_RELEASE,
             file_info.name,
-            file_info.upload_urls.urls[0],
-            file_info.max_nbytes,
             file_info.nbytes,
+            file_info.max_nbytes,
             file_info.md5_cksum,
             file_info.xml_signature,
             file_info.upload_offset
