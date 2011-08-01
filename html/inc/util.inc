@@ -795,6 +795,7 @@ function get_app_types() {
 // "next_url" arguments (must be local, not full URLs)
 //
 function sanitize_local_url($x) {
+    $x = trim($x, "/");
     if (strstr($x, "/")) return "";
     if (strstr($x, "<")) return "";
     if (strstr($x, "\"")) return "";

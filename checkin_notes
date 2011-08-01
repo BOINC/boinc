@@ -4494,3 +4494,9 @@ David  31 July 2011
         sched_types.cpp
     html/user/
         create_account_form.cpp
+
+David  1 Aug 2011
+    - web: fix bug in next_url mechanism
+
+    html/inc/
+        util.inc
