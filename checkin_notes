@@ -4500,3 +4500,10 @@ David  1 Aug 2011
 
     html/inc/
         util.inc
+
+David  1 Aug 2011
+    - client: change the way upload signatures are generated
+        in an attempt to make them work with existing servers
+
+    client/
+        file_xfer.cpp
