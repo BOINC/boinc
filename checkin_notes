@@ -4528,3 +4528,9 @@ Charlie 2 Aug 11
     
     mac_installer/
         PostInstall.cpp
+
+David  2 Aug 2011
+    - update_versions: bug fixes
+
+    tools/
+        update_versions
