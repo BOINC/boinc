@@ -10054,3 +10054,10 @@ Rom    28 Jun 2011
     /
         configure.ac
         version.h
+
+Charlie 2 Aug 11
+    - Mac installer: Work around bug in Mac OS 10.7 dscl merge command.
+    (Checked in to 6.12.34 tag.)
+    
+    mac_installer/
+        PostInstall.cpp
