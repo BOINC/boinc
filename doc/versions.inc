@@ -153,6 +153,14 @@ $m612 = array(
 	"type"=>"mac_advanced",
 );
 
+$m612dev = array(
+	"num"=>"6.12.34",
+	"status"=>"Development version (standard GUI)",
+	"file"=>"boinc_6.12.34_macOSX_universal.zip",
+	"date"=>"2 Aug 2011",
+	"type"=>"mac_advanced",
+);
+
 $m610 = array(
 	"num"=>"6.10.58",
 	"status"=>"Older version (standard GUI)",
@@ -182,6 +190,14 @@ $m612c = array(
 	"status"=>"Recommended version (Unix command-line version)",
 	"file"=>"boinc_6.12.33_universal-apple-darwin.zip",
 	"date"=>"14 Jun 2011",
+	"type"=>"bare_core",
+);
+
+$m612cdev = array(
+	"num"=>"6.12.34",
+	"status"=>"Development version (Unix command-line version)",
+	"file"=>"boinc_6.12.34_universal-apple-darwin.zip",
+	"date"=>"2 Aug 2011",
 	"type"=>"bare_core",
 );
 
@@ -302,6 +318,8 @@ $mac = array(
     "versions"=>array(
 		$m613,
 		$m613c,
+        $m612dev,
+		$m612cdev,
 		$m612,
 		$m612c,
 		$m610,
