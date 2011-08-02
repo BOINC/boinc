@@ -4513,3 +4513,12 @@ David  1 Aug 2011
 
     client/
         file_xfer.cpp
+
+David  1 Aug 2011
+    - update_versions: add optional <gzip> element to
+        <file> element in version.xml.
+        If present, update_versions will gzip the file in the download dir.
+        Use this only if you have gzip-encoding enabled in Apache.
+
+    tools/
+        update_versions

@@ -136,6 +136,9 @@ function stage_file($a, $v, $p, $fd) {
     }
     
     $fd->url = "$download_url/$name";
+    if ($fd->gzip) {
+        system("gzip $dl_path");
+    }
     return $fd;
 }
 
@@ -335,6 +338,10 @@ function convert_simplexml($x) {
         foreach($fx->xpath('copy_file') as $x) {
             $s = trim((string) $x);
             if ($s == "" || int($s)>0) $fd->copy_file = true;
+        }
+        foreach($fx->xpath('gzip') as $x) {
+            $s = trim((string) $x);
+            if ($s == "" || int($s)>0) $fd->gzip = true;
         }
 
         //echo "fd: "; print_r($fd);
