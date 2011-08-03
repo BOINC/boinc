@@ -306,6 +306,14 @@ function confirm($fds) {
     return ($x == "y");
 }
 
+function get_bool($xml_element, $name) {
+    foreach($xml_element->xpath($name) as $x) {
+        $s = trim((string) $x);
+        if ($s == "" || int($s)>0) return true;
+    }
+    return false;
+}
+
 // convert SimpleXMLElement object to a standard object
 //
 function convert_simplexml($x) {
@@ -322,26 +330,17 @@ function convert_simplexml($x) {
         foreach($fx->xpath('url') as $url) {
             $fd->url[] = trim((string) $url);
         }
-        $fd->main_program = false;
-        $fd->copy_file = false;
-        $fd->gzip = false;
-        foreach($fx->xpath('main_program') as $x) {
-            $s = trim((string) $x);
-            if ($s == "" || int($s)>0) $fd->main_program = true;
-        }
-        foreach($fx->xpath('copy_file') as $x) {
-            $s = trim((string) $x);
-            if ($s == "" || int($s)>0) $fd->copy_file = true;
-        }
-        foreach($fx->xpath('gzip') as $x) {
-            $s = trim((string) $x);
-            if ($s == "" || int($s)>0) $fd->gzip = true;
-        }
+        $fd->main_program = get_bool($fx, "main_program");
+        $fd->copy_file = get_bool($fx, "copy_file");
+        $fd->gzip = get_bool($fx, "gzip");
 
-        //echo "fd: "; print_r($fd);
         $fds[] = $fd;
     }
-    return $fds;
+    $v = null;
+    $v->files = $fds;
+    $v->dont_throttle = get_bool($x, "dont_throttle");
+    $v->file_prefix = (string)$x->file_prefix;
+    return $v;
 }
 
 function process_version($a, $v, $p) {
@@ -358,15 +357,18 @@ function process_version($a, $v, $p) {
         if (!$x) {
             die("Can't load XML file apps/$a/$v/$p.  Check that it exists and is valid.");
         }
-        $fds = convert_simplexml($x);
+        $vers = convert_simplexml($x);
     } else {
-        $fds = array();
+        $vers = null;
+        $vers->files = array();
     }
 
-    $fds = process_files($a, $v, $p, $fds);
+    $fds = process_files($a, $v, $p, $vers->files);
 
     if (missing_files($fds)) return;
-    if (sizeof($fds) == 1) $fds[0]->main_program = true;
+    if (sizeof($fds) == 1) {
+        $fds[0]->main_program = true;
+    }
     if (!check_main_program($fds)) return;
     $api_version = get_api_version($a, $v, $p, $fds);
 
@@ -386,6 +388,12 @@ function process_version($a, $v, $p) {
     ;
     foreach ($fds as $fd) {
         $xml .= file_ref_xml($fd);
+    }
+    if ($vers->dont_throttle) {
+        $xml .= "    <dont_throttle/>\n";
+    }
+    if ($vers->file_prefix != "") {
+        $xml .= "    <file_prefix>$vers->file_prefix</file_prefix>\n";
     }
     $xml .= "</app_version>\n";
 

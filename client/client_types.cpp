@@ -1290,6 +1290,7 @@ int APP_VERSION::parse(MIOFILE& in) {
     strcpy(platform, "");
     strcpy(plan_class, "");
     strcpy(cmdline, "");
+    strcpy(file_prefix, "");
     avg_ncpus = 1;
     max_ncpus = 1;
     gpu_usage.rsc_type = 0;
@@ -1318,6 +1319,7 @@ int APP_VERSION::parse(MIOFILE& in) {
         if (parse_double(buf, "<max_ncpus>", max_ncpus)) continue;
         if (parse_double(buf, "<flops>", flops)) continue;
         if (parse_str(buf, "<cmdline>", cmdline, sizeof(cmdline))) continue;
+        if (parse_str(buf, "<file_prefix>", file_prefix, sizeof(file_prefix))) continue;
         if (parse_double(buf, "<gpu_ram>", gpu_ram)) continue;
         if (match_tag(buf, "<coproc>")) {
             COPROC_REQ cp;
@@ -1374,6 +1376,9 @@ int APP_VERSION::write(MIOFILE& out, bool write_file_info) {
     }
     if (strlen(cmdline)) {
         out.printf("    <cmdline>%s</cmdline>\n", cmdline);
+    }
+    if (strlen(file_prefix)) {
+        out.printf("    <file_prefix>%s</file_prefix>\n", file_prefix);
     }
     if (write_file_info) {
         for (i=0; i<app_files.size(); i++) {

@@ -4535,7 +4535,7 @@ David  2 Aug 2011
     tools/
         update_versions
 
-David  2 Aug 2011
+David  3 Aug 2011
     - client: fix bug in get_descendants(),
         which prevented the client from cleaning up
         subprocesses of misbehaving multiprocess apps.
@@ -4559,3 +4559,21 @@ David  2 Aug 2011
     client/
         app_start.cpp
         app_control.cpp
+
+David  3 Aug 2011
+    - client: add optional <file_prefix> to APP_VERSION>.
+        If present, "file_prefix/" is prepended to the logical names
+        of input and output files of jobs using that app version.
+        I.e. for Vbox wrapper based app versions, file_prefix is "share",
+        so that I/O files are put in a "share" subdirectory of the slot dir.
+    - update_versions: add support for
+        <dont_throttle>
+        <file_prefix>x</file_prefix>
+        in version.xml
+
+    tools/
+        update_versions
+    client/
+        client_types.cpp,h
+        app.h
+        app_start.cpp

@@ -559,6 +559,9 @@ struct APP_VERSION {
     double flops;
     char cmdline[256];
         // additional cmdline args
+    char file_prefix[256];
+        // prepend this to input/output file logical names
+        // (e.g. "share" for VM apps)
 
     APP* app;
     PROJECT* project;
