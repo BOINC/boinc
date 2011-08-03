@@ -29,8 +29,6 @@ distclean:
 
 vbox.o: vbox.cpp
 	g++ $(CXXFLAGS) -c vbox.cpp
-vm.o: vm.cpp
-	g++ $(CXXFLAGS) -c vm.cpp
 
-vboxwrapper: vboxwrapper.o vbox.o vm.o libstdc++.a $(BOINC_LIB_DIR)/libboinc.a $(BOINC_API_DIR)/libboinc_api.a
-	g++ $(CXXFLAGS) -o vboxwrapper vboxwrapper.o vbox.o vm.o libstdc++.a -pthread -lboinc_api -lboinc
+vboxwrapper: vboxwrapper.o vbox.o libstdc++.a $(BOINC_LIB_DIR)/libboinc.a $(BOINC_API_DIR)/libboinc_api.a
+	g++ $(CXXFLAGS) -o vboxwrapper vboxwrapper.o vbox.o libstdc++.a -pthread -lboinc_api -lboinc

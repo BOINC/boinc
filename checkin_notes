@@ -4592,3 +4592,15 @@ Charlie 3 Aug 11
     clientgui/
         mac/
             SystemMenu.m
+
+David  3 Aug 2011
+    - vbox wrapper: fix parsing of job file
+    - vbox wrapper: fix code structure
+        - merge vm and vbox
+        - no global vars
+
+    samples/vboxwrapper/
+        vbox.cpp,h
+        vm.cpp.h (removed)
+        vboxwrapper.cpp
+        Makefile

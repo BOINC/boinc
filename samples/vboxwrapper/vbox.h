@@ -26,25 +26,45 @@
 #define     VBOX_POPEN_ERROR            0x00000001
 #define     VBOX_PARSER_ERROR           0x00000002
 
-// Functions
-extern int virtualbox_generate_vm_root_dir( std::string& dir );
-extern int virtualbox_generate_vm_name( std::string& name );
+// represents a VirtualBox VM
 
-extern bool virtualbox_vm_is_registered();
-extern bool virtualbox_vm_is_hdd_registered();
-extern bool virtualbox_vm_is_running();
+class VBOX_VM {
+public:
+    VBOX_VM();
+    ~VBOX_VM(){};
 
-extern int virtualbox_initialize();
-extern int virtualbox_register_vm();
-extern int virtualbox_deregister_stale_vm();
-extern int virtualbox_deregister_vm();
-extern int virtualbox_cleanup();
+    std::string os_name;
+        // name of the OS the VM runs
+    std::string memory_size_mb;
+        // size of the memory allocation for the VM, in megabytes
+    std::string image_filename;
+        // name of the virtual machine disk image file
+    bool suspended;
+    bool enable_network;
+    bool enable_shared_directory;
 
-extern int virtualbox_startvm();
-extern int virtualbox_stopvm();
-extern int virtualbox_pausevm();
-extern int virtualbox_resumevm();
+    int parse( XML_PARSER& );
+    void poll();
+    int run();
+    int stop();
+    int pause();
+    int resume();
+    void cleanup();
+    bool is_running();
 
-extern int virtualbox_monitor();
+    int register_vm();
+    bool is_hdd_registered();
+    int deregister_stale_vm();
+    int deregister_vm();
+    int deregister_vm_by_name(std::string&);
+    int startvm();
+
+    static int initialize();
+    static int generate_vm_root_dir( std::string& dir );
+    static int generate_vm_name( std::string& name );
+    static bool is_registered();
+    static int vbm_popen(std::string&, std::string&);
+    static int get_install_directory(std::string&);
+};
 
 #endif

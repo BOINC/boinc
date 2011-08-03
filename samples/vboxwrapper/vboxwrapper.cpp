@@ -53,17 +53,16 @@
 #include "util.h"
 #include "error_numbers.h"
 #include "procinfo.h"
-#include "vm.h"
 #include "vbox.h"
 
 #define JOB_FILENAME "vbox_job.xml"
 #define CHECKPOINT_FILENAME "vbox_checkpoint.txt"
 #define POLL_PERIOD 1.0
 
-int parse_job_file() {
+int parse_job_file(VBOX_VM& vm) {
     MIOFILE mf;
-    char tag[1024], buf[256], buf2[256];
-    bool is_tag;
+    char buf[256], buf2[256];
+    int retval;
 
     boinc_resolve_filename(JOB_FILENAME, buf, 1024);
     FILE* f = boinc_fopen(buf, "r");
@@ -77,23 +76,11 @@ int parse_job_file() {
     mf.init_file(f);
     XML_PARSER xp(&mf);
 
-    if (!xp.parse_start("vbox_job_desc")) return ERR_XML_PARSE;
-    while (!xp.get(tag, sizeof(tag), is_tag)) {
-        if (!is_tag) {
-            fprintf(stderr,
-                "%s parse_job_file::parse(): unexpected text %s\n",
-                boinc_msg_prefix(buf2, sizeof(buf2)), tag
-            );
-            continue;
-        }
-        if (!strcmp(tag, "vbox_job_desc")) {
-            vm.parse(xp);
-        }
-    }
+    if (!xp.parse_start("vbox_job")) return ERR_XML_PARSE;
+    retval = vm.parse(xp);
     fclose(f);
-    return ERR_XML_PARSE;
+    return retval;
 }
-
 
 void write_checkpoint(double cpu) {
     boinc_begin_critical_section();
@@ -103,7 +90,6 @@ void write_checkpoint(double cpu) {
     fclose(f);
     boinc_checkpoint_completed();
 }
-
 
 void read_checkpoint(double& cpu) {
     double c;
@@ -117,14 +103,14 @@ void read_checkpoint(double& cpu) {
 }
 
 
-int main(int argc, char** argv) {
+int main(int, char**) {
     BOINC_OPTIONS boinc_options;
-    BOINC_STATUS boinc_status;
     double current_cpu_time = 0.0;
     double checkpoint_cpu_time = 0.0;
     bool is_running = false;
     char buf[256];
     int retval;
+    VBOX_VM vm;
 
     memset(&boinc_options, 0, sizeof(boinc_options));
     boinc_options.main_program = true;
@@ -138,7 +124,7 @@ int main(int argc, char** argv) {
         boinc_msg_prefix(buf, sizeof(buf))
     );
 
-    retval = parse_job_file();
+    retval = parse_job_file(vm);
     if (retval) {
         fprintf(
             stderr,
@@ -161,7 +147,6 @@ int main(int argc, char** argv) {
         vm.poll();
         is_running = vm.is_running();
 
-        boinc_get_status(&boinc_status);
         if (boinc_status.no_heartbeat || boinc_status.quit_request) {
             vm.stop();
             write_checkpoint(checkpoint_cpu_time);
