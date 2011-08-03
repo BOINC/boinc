@@ -42,6 +42,10 @@ $project = $master_url;         // from project.inc
 $user = get_logged_in_user();
 $auth = $user->authenticator;
 
+// the job submission "home page":
+// show the user's in-progress and completed batches,
+// and a button for creating a new batch
+//
 function handle_main() {
     global $project, $auth;
     $req->project = $project;
@@ -123,6 +127,8 @@ function handle_main() {
     page_tail();
 }
 
+// return an array of the apps this user is allowed to submit jobs for
+//
 function eligible_apps() {
     global $user;
     $apps = BoincApp::enum("deprecated = 0");
@@ -141,6 +147,8 @@ function eligible_apps() {
     return $a;
 }
 
+// return HTML for a popup menu of apps
+//
 function app_select($apps) {
     $x = "<select name=app_name>\n";
     foreach ($apps as $app) {
@@ -150,6 +158,8 @@ function app_select($apps) {
     return $x;
 }
 
+// show a form for creating a batch.
+//
 function handle_create_form() {
     global $project, $auth;
 
@@ -201,7 +211,6 @@ function form_to_request() {
     $req->jobs = Array();
 
     $f->source = $input_url;
-    $f->name = "in";
     $job->input_files = Array($f);
 
     for ($x=$param_lo; $x<$param_hi; $x += $param_inc) {
@@ -213,6 +222,8 @@ function form_to_request() {
     return $req;
 }
 
+// create and submit a batch
+//
 function handle_create_action() {
     global $project, $auth;
 
@@ -237,6 +248,8 @@ function handle_create_action() {
     }
 }
 
+// show the details of an existing batch
+//
 function handle_query_batch() {
     global $project, $auth;
     $req->project = $project;
@@ -309,6 +322,8 @@ function handle_query_batch() {
     page_tail();
 }
 
+// show the details of a job, including links to see the output files
+// 
 function handle_query_job() {
     global $project, $auth;
     $req->project = $project;

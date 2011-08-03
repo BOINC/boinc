@@ -4534,3 +4534,28 @@ David  2 Aug 2011
 
     tools/
         update_versions
+
+David  2 Aug 2011
+    - client: fix bug in get_descendants(),
+        which prevented the client from cleaning up
+        subprocesses of misbehaving multiprocess apps.
+    - remote job submission system:
+        assign physical names to input files (based on their MD5)
+        rather than having the user provide physical names
+    - VM apps: eliminate vbox64 plan class.  Only vbox.
+
+    sched/
+        sched_customize.cpp
+    html/
+        ops/
+            manage_app_versions.php
+        inc/
+            submit.inc
+        user/
+            submit_example.php
+            submit.php
+    lib/
+        procinfo.cpp
+    client/
+        app_start.cpp
+        app_control.cpp

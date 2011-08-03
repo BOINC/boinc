@@ -74,7 +74,7 @@ if( !empty($_POST) ) {
 
         /* Change deprecated status? */
         $field="deprecated_".$id;
-        $new_v= ($_POST[$field]=='on') ? 1 : 0;
+        $new_v= array_key_exists($field, $_POST) ? 1 : 0;
         $old_v=$item->deprecated;
         if ($new_v != $old_v ) {
             $cmd =  "UPDATE app_version SET deprecated=$new_v WHERE id=$id";
@@ -103,7 +103,6 @@ if( !empty($_POST) ) {
         }
     }
     mysql_free_result($result);
-    touch("../../reread_db");
 }
 
 

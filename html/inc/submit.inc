@@ -35,7 +35,6 @@ function req_to_xml($req, $op) {
         foreach ($job->input_files as $file) {
             $x .= "        <input_file>
             <source>$file->source</source>
-            <name>$file->name</name>
         </input_file>
 ";
         }
@@ -251,7 +250,6 @@ if (0) {
     $req->jobs = array();
 
     $f->source = "http://isaac.ssl.berkeley.edu/index.php";
-    $f->name = "in";
     $job->input_files = array($f);
 
     for ($i=10; $i<20; $i++) {

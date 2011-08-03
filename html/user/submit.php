@@ -108,8 +108,13 @@ $fanout = parse_config(get_config(), "<uldl_dir_fanout>");
 
 function stage_file($file) {
     global $fanout;
-    $name = (string)$file->name;
+
     $source = (string)$file->source;
+    $md5 = md5_file($source);
+    if (!$md5) {
+        error("Can't get MD5 of file $source");
+    }
+    $name = "batch_$md5";
     $path = dir_hier_path($name, "../../download", $fanout);
     if (file_exists($path)) return;
     if (!copy($source, $path)) {

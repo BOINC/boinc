@@ -36,7 +36,7 @@
 using std::vector;
 
 static void get_descendants_aux(vector<PROCINFO>& piv, int pid, vector<int>& pids) {
-    for (unsigned int i=0; i<pids.size(); i++) {
+    for (unsigned int i=0; i<piv.size(); i++) {
         PROCINFO& p = piv[i];
         if (p.parentid == pid) {
             pids.push_back(p.id);
@@ -50,6 +50,7 @@ static void get_descendants_aux(vector<PROCINFO>& piv, int pid, vector<int>& pid
 void get_descendants(int pid, vector<int>& pids) {
     int retval;
     vector<PROCINFO> piv;
+    pids.clear();
     retval = procinfo_setup(piv);
     if (retval) return;
     get_descendants_aux(piv, pid, pids);

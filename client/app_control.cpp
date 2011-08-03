@@ -156,7 +156,6 @@ int ACTIVE_TASK::request_exit() {
     );
     set_task_state(PROCESS_QUIT_PENDING, "request_exit()");
     quit_time = gstate.now;
-    descendants.clear();
     get_descendants(pid, descendants);
     return 0;
 }
@@ -757,7 +756,6 @@ int ACTIVE_TASK::abort_task(int exit_status, const char* msg) {
         set_task_state(PROCESS_ABORT_PENDING, "abort_task");
         abort_time = gstate.now;
         request_abort();
-        descendants.clear();
         get_descendants(pid, descendants);
     } else {
         set_task_state(PROCESS_ABORTED, "abort_task");

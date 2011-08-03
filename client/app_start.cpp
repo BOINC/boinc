@@ -308,7 +308,8 @@ static int setup_file(
     int retval;
 
     if (strlen(fref.open_name)) {
-        create_dirs_for_logical_name(fref.open_name, slot_dir);
+        retval = create_dirs_for_logical_name(fref.open_name, slot_dir);
+        if (retval) return retval;
         sprintf(link_path, "%s/%s", slot_dir, fref.open_name);
     } else {
         sprintf(link_path, "%s/%s", slot_dir, fip->name);
@@ -533,6 +534,7 @@ int ACTIVE_TASK::start(bool first_time) {
     }
 
     link_user_files();
+        // don't check retval here
 
     // make sure temporary exit file isn't there
     //
