@@ -76,7 +76,7 @@ int parse_job_file(VBOX_VM& vm) {
     mf.init_file(f);
     XML_PARSER xp(&mf);
 
-    if (!xp.parse_start("vbox_job")) return ERR_XML_PARSE;
+    if (!xp.parse_start("vbox_job_desc")) return ERR_XML_PARSE;
     retval = vm.parse(xp);
     fclose(f);
     return retval;
