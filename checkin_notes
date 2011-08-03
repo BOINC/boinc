@@ -4585,3 +4585,10 @@ David  3 Aug 2011
     client/
         app.h
         app_start.cpp
+
+Charlie 3 Aug 11
+    - Mac: Fix warning about potential memory leak.
+
+    clientgui/
+        mac/
+            SystemMenu.m

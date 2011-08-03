@@ -163,8 +163,8 @@ void	SetUpSystemMenu(MenuRef menuToCopy, CGImageRef theIcon) {
                 [newItem setTag:tag];
                 [newItem setAction:@selector(postEvent:)];
 
-                [newItem release];
             }
+            [newItem release];
             CFRelease(CFText);
         }
     }
@@ -192,7 +192,7 @@ void	SetUpSystemMenu(MenuRef menuToCopy, CGImageRef theIcon) {
         err = SetEventParameter(theEvent, kEventParamDirectObject, 
                                 typeHICommand, sizeof(HICommand), &commandStruct);
     if (err == noErr)
-        err = SendEventToEventTarget(theEvent, GetApplicationEventTarget());
+        SendEventToEventTarget(theEvent, GetApplicationEventTarget());
 //    SysBeep(4);
 }
 
