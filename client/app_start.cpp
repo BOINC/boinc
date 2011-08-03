@@ -303,20 +303,34 @@ static void prepend_prefix(APP_VERSION* avp, char* in, char* out) {
     }
 }
 
+// an input/output file must be copied if either
+// - the FILE_REFERENCE says so or
+// - the APP_VERSION has a non-empty file_prefix
+//
+bool ACTIVE_TASK::must_copy_file(FILE_REF& fref, bool is_io_file) {
+	if (fref.copy_file) return true;
+	if (is_io_file && strlen(app_version->file_prefix)) return true;
+	return false;
+}
+
 // set up a file reference, given a slot dir and project dir.
 // This means:
 // 1) copy the file to slot dir, if reference is by copy
 // 2) else make a soft link
 //
 int ACTIVE_TASK::setup_file(
-    FILE_INFO* fip, FILE_REF& fref, char* file_path, bool input
+    FILE_INFO* fip, FILE_REF& fref, char* file_path, bool input, bool is_io_file
 ) {
     char link_path[256], rel_file_path[256], open_name[256];
     int retval;
     PROJECT* project = result->project;
 
     if (strlen(fref.open_name)) {
-        prepend_prefix(app_version, fref.open_name, open_name);
+		if (is_io_file) {
+			prepend_prefix(app_version, fref.open_name, open_name);
+		} else {
+			strcpy(open_name, fref.open_name);
+		}
         retval = create_dirs_for_logical_name(open_name, slot_dir);
         if (retval) return retval;
         sprintf(link_path, "%s/%s", slot_dir, open_name);
@@ -333,7 +347,7 @@ int ACTIVE_TASK::setup_file(
         return 0;
     }
 
-    if (fref.copy_file) {
+    if (must_copy_file(fref, is_io_file)) {
         if (input) {
             retval = boinc_copy(file_path, link_path);
             if (retval) {
@@ -379,7 +393,7 @@ int ACTIVE_TASK::link_user_files() {
         fip = fref.file_info;
         if (fip->status != FILE_PRESENT) continue;
         get_pathname(fip, file_path, sizeof(file_path));
-        setup_file(fip, fref, file_path, true);
+        setup_file(fip, fref, file_path, true, false);
     }
     return 0;
 }
@@ -389,7 +403,7 @@ int ACTIVE_TASK::copy_output_files() {
     unsigned int i;
     for (i=0; i<result->output_files.size(); i++) {
         FILE_REF& fref = result->output_files[i];
-        if (!fref.copy_file) continue;
+        if (!must_copy_file(fref, true)) continue;
         FILE_INFO* fip = fref.file_info;
         prepend_prefix(app_version, fref.open_name, open_name);
         sprintf(slotfile, "%s/%s", slot_dir, open_name);
@@ -504,9 +518,9 @@ int ACTIVE_TASK::start(bool first_time) {
         // when the result was started, so link files even if not first time
         //
         if (first_time || wup->project->anonymous_platform) {
-            retval = setup_file(fip, fref, file_path, true);
+            retval = setup_file(fip, fref, file_path, true, false);
             if (retval) {
-                strcpy(buf, "Can't link input file");
+                strcpy(buf, "Can't link app version file");
                 goto error;
             }
         }
@@ -524,7 +538,7 @@ int ACTIVE_TASK::start(bool first_time) {
             fref = wup->input_files[i];
             fip = fref.file_info;
             get_pathname(fref.file_info, file_path, sizeof(file_path));
-            retval = setup_file(fip, fref, file_path, true);
+            retval = setup_file(fip, fref, file_path, true, true);
             if (retval) {
                 strcpy(buf, "Can't link input file");
                 goto error;
@@ -532,10 +546,10 @@ int ACTIVE_TASK::start(bool first_time) {
         }
         for (i=0; i<result->output_files.size(); i++) {
             fref = result->output_files[i];
-            if (fref.copy_file) continue;
+            if (must_copy_file(fref, true)) continue;
             fip = fref.file_info;
             get_pathname(fref.file_info, file_path, sizeof(file_path));
-            retval = setup_file(fip, fref, file_path, false);
+            retval = setup_file(fip, fref, file_path, false, true);
             if (retval) {
                 strcpy(buf, "Can't link output file");
                 goto error;

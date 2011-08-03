@@ -4577,3 +4577,11 @@ David  3 Aug 2011
         client_types.cpp,h
         app.h
         app_start.cpp
+
+David  3 Aug 2011
+    - client: if an app version has nonempty file_prefix,
+        copy all its input and output files
+
+    client/
+        app.h
+        app_start.cpp

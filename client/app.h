@@ -256,7 +256,8 @@ struct ACTIVE_TASK {
     int handle_upload_files();
     void upload_notify_app(const FILE_INFO*, const FILE_REF*);
     int copy_output_files();
-    int setup_file(FILE_INFO*, FILE_REF&, char*, bool);
+    int setup_file(FILE_INFO*, FILE_REF&, char*, bool, bool);
+	bool must_copy_file(FILE_REF&, bool);
     void write_task_state_file();
     void read_task_state_file();
 
