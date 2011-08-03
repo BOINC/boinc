@@ -81,7 +81,7 @@ int parse_job_file() {
     while (!xp.get(tag, sizeof(tag), is_tag)) {
         if (!is_tag) {
             fprintf(stderr,
-                "%s SCHED_CONFIG::parse(): unexpected text %s\n",
+                "%s parse_job_file::parse(): unexpected text %s\n",
                 boinc_msg_prefix(buf2, sizeof(buf2)), tag
             );
             continue;
