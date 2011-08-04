@@ -4632,3 +4632,14 @@ Rom    4 Aug 2011
     
     samples/vboxwrapper/
         vboxwrapper.cpp
+
+David  4 Aug 2011
+    - scheduler: turns out we need separate vbox32 and vbox64
+        plan classes after all.
+        Otherwise (since app_plan() is not passed an app version)
+        there's no way to enforce that 64 bit hosts are sent
+        only the 64 bit version (which is necessary because
+        of the split-registry scheme).
+
+    sched/
+        sched_customize.cpp

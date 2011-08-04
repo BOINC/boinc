@@ -443,13 +443,27 @@ static inline bool app_plan_opencl_ati(
     return false;
 }
 
-static inline bool app_plan_vbox(SCHEDULER_REQUEST& sreq, HOST_USAGE& hu) {
+static inline bool app_plan_vbox(
+    SCHEDULER_REQUEST& sreq, HOST_USAGE& hu, bool is_64bit
+) {
+    // make sure they have VirtualBox
+    //
     if (strlen(sreq.host.virtualbox_version) == 0) return false;
     int n, maj, min, rel;
     n = sscanf(sreq.host.virtualbox_version, "%d.%d.%d", &maj, &min, &rel);
     if (n != 3) return false;
     if (maj < 3) return false;
     if (maj == 3 and min < 2) return false;
+
+    // only send the version for host's primary platform.
+    // A Win64 host can't run a 32-bit VM app:
+    // it will look in the 32-bit half of the registry and fail
+    //
+    PLATFORM* p = g_request->platforms.list[0];
+    if (is_64bit != is_64b_platform(p->name)) {
+        return false;
+    }
+
     hu.avg_ncpus = 1;
     hu.max_ncpus = 1;
     hu.projected_flops = 1.1*sreq.host.p_fpops;
@@ -471,8 +485,10 @@ bool app_plan(SCHEDULER_REQUEST& sreq, char* plan_class, HOST_USAGE& hu) {
         return app_plan_nci(sreq, hu);
     } else if (!strcmp(plan_class, "sse3")) {
         return app_plan_sse3(sreq, hu);
-    } else if (!strcmp(plan_class, "vbox")) {
-        return app_plan_vbox(sreq, hu);
+    } else if (!strcmp(plan_class, "vbox32")) {
+        return app_plan_vbox(sreq, hu, false);
+    } else if (!strcmp(plan_class, "vbox64")) {
+        return app_plan_vbox(sreq, hu, true);
     }
     log_messages.printf(MSG_CRITICAL,
         "Unknown plan class: %s\n", plan_class
