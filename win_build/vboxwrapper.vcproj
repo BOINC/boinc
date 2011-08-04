@@ -376,13 +376,13 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="libcmtd.lib libcpmtd.lib kernel32.lib user32.lib gdi32.lib ole32.lib"
-				OutputFile=".\Build\$(PlatformName)\$(ConfigurationName)\vboxwrapper_6.1_windows_x86_64.exe"
+				OutputFile=".\Build\$(PlatformName)\$(ConfigurationName)\vboxwrapper_6.19_windows_x86_64.exe"
 				LinkIncremental="0"
 				SuppressStartupBanner="true"
 				IgnoreAllDefaultLibraries="true"
 				DelayLoadDLLs=""
 				GenerateDebugInformation="true"
-				ProgramDatabaseFile=".\Build\$(PlatformName)\$(ConfigurationName)\vboxwrapper_6.1_windows_x86_64.pdb"
+				ProgramDatabaseFile=".\Build\$(PlatformName)\$(ConfigurationName)\vboxwrapper_6.19_windows_x86_64.pdb"
 				SubSystem="2"
 				TargetMachine="17"
 			/>

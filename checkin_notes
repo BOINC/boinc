@@ -4626,3 +4626,9 @@ David  4 Aug 2011
         coproc.h
     html/user/
         validate_email_addr.php
+
+Rom    4 Aug 2011
+    - vbox wrapper: initialize xml parser with the correct starting tag.
+    
+    samples/vboxwrapper/
+        vboxwrapper.cpp

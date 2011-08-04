@@ -77,7 +77,7 @@ int parse_job_file(VBOX_VM& vm) {
     mf.init_file(f);
     XML_PARSER xp(&mf);
 
-    if (!xp.parse_start("vbox_job_desc")) return ERR_XML_PARSE;
+    if (!xp.parse_start("vbox_job")) return ERR_XML_PARSE;
     while (!xp.get(tag, sizeof(tag), is_tag)) {
         if (!is_tag) {
             fprintf(stderr, "%s parse_job_file(): unexpected text %s\n",
