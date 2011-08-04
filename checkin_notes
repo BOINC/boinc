@@ -4604,3 +4604,13 @@ David  3 Aug 2011
         vm.cpp.h (removed)
         vboxwrapper.cpp
         Makefile
+
+David  3 Aug 2011
+    - vbox wrapper: hardwire logical name of image file to "vm_image.vdi".
+    - vbox wrapper: on startup, rename image file to "vm_image_SLOT.vdi",
+        where SLOT is the slot number.
+        Vbox requires unique names for VM image files.
+
+    samples/vboxwrapper/
+        vbox.cpp,h
+        vboxwrapper.cpp

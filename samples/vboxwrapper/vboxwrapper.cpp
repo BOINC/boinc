@@ -55,14 +55,15 @@
 #include "procinfo.h"
 #include "vbox.h"
 
+#define IMAGE_FILENAME "vm_image.vdi"
 #define JOB_FILENAME "vbox_job.xml"
 #define CHECKPOINT_FILENAME "vbox_checkpoint.txt"
 #define POLL_PERIOD 1.0
 
 int parse_job_file(VBOX_VM& vm) {
     MIOFILE mf;
-    char buf[256], buf2[256];
-    int retval;
+    char buf[256], buf2[256], tag[256];
+    bool is_tag;
 
     boinc_resolve_filename(JOB_FILENAME, buf, 1024);
     FILE* f = boinc_fopen(buf, "r");
@@ -77,9 +78,27 @@ int parse_job_file(VBOX_VM& vm) {
     XML_PARSER xp(&mf);
 
     if (!xp.parse_start("vbox_job_desc")) return ERR_XML_PARSE;
-    retval = vm.parse(xp);
+    while (!xp.get(tag, sizeof(tag), is_tag)) {
+        if (!is_tag) {
+            fprintf(stderr, "%s parse_job_file(): unexpected text %s\n",
+                boinc_msg_prefix(buf, sizeof(buf)), tag
+            );
+            continue;
+        }
+        if (!strcmp(tag, "/vbox_job")) {
+            fclose(f);
+            return 0;
+        }
+        else if (xp.parse_string(tag, "os_name", vm.os_name)) continue;
+        else if (xp.parse_string(tag, "memory_size_mb", vm.memory_size_mb)) continue;
+        else if (xp.parse_bool(tag, "enable_network", vm.enable_network)) continue;
+        else if (xp.parse_bool(tag, "enable_shared_directory", vm.enable_shared_directory)) continue;
+        fprintf(stderr, "%s parse_job_file(): unexpected tag %s\n",
+            boinc_msg_prefix(buf, sizeof(buf)), tag
+        );
+    }
     fclose(f);
-    return retval;
+    return ERR_XML_PARSE;
 }
 
 void write_checkpoint(double cpu) {
@@ -111,6 +130,7 @@ int main(int, char**) {
     char buf[256];
     int retval;
     VBOX_VM vm;
+    APP_INIT_DATA aid;
 
     memset(&boinc_options, 0, sizeof(boinc_options));
     boinc_options.main_program = true;
@@ -133,6 +153,17 @@ int main(int, char**) {
             retval
         );
         boinc_finish(retval);
+    }
+    boinc_get_init_data_p(&aid);
+    vm.vm_name = "boinc_";
+    if (boinc_is_standalone()) {
+        vm.vm_name += "standalone";
+        vm.image_filename = IMAGE_FILENAME;
+    } else {
+        vm.vm_name += aid.result_name;
+        sprintf(buf, "%s_%d", IMAGE_FILENAME, aid.slot);
+        vm.image_filename = buf;
+        boinc_rename(IMAGE_FILENAME, buf);
     }
 
     read_checkpoint(checkpoint_cpu_time);

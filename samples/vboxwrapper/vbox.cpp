@@ -58,29 +58,6 @@ VBOX_VM::VBOX_VM() {
     enable_shared_directory = false;
 }
 
-int VBOX_VM::parse(XML_PARSER& xp) {
-    char tag[1024], buf[8192];
-    bool is_tag;
-
-    while (!xp.get(tag, sizeof(tag), is_tag)) {
-        if (!is_tag) {
-            fprintf(stderr, "%s VM::parse(): unexpected text %s\n",
-                boinc_msg_prefix(buf, sizeof(buf)), tag
-            );
-            continue;
-        }
-        if (!strcmp(tag, "/vbox_job_desc")) {
-            return 0;
-        }
-        else if (xp.parse_string(tag, "os_name", os_name)) continue;
-        else if (xp.parse_string(tag, "memory_size_mb", memory_size_mb)) continue;
-        else if (xp.parse_string(tag, "image_filename", image_filename)) continue;
-        else if (xp.parse_bool(tag, "enable_network", enable_network)) continue;
-        else if (xp.parse_bool(tag, "enable_shared_directory", enable_shared_directory)) continue;
-    }
-    return ERR_XML_PARSE;
-}
-
 int VBOX_VM::run() {
     int retval;
 
@@ -221,7 +198,7 @@ CLEANUP:
     if (hWritePipe) CloseHandle(hWritePipe);
 
     if ((ulExitCode == 0) && (pi.hProcess)) {
-        retval = VBOX_SUCCESS;
+        retval = 0;
     }
 
     return retval;
@@ -238,7 +215,7 @@ CLEANUP:
             boinc_msg_prefix(buf, sizeof(buf)),
             errno
         );
-        return VBOX_POPEN_ERROR;
+        return ERR_FOPEN;
     }
 
     // Copy output to buffer
@@ -251,7 +228,7 @@ CLEANUP:
 
 #endif
 
-    return VBOX_SUCCESS;
+    return 0;
 }
 
 
@@ -269,42 +246,13 @@ int VBOX_VM::generate_vm_root_dir( string& dir ) {
     return 0;
 }
 
-
-// Generate a unique virtual machine name for a given task instance
-// Rules:
-//   1. Must be unique
-//   2. Must identifity itself as being part of BOINC
-//   3. Must be file system compatible
-//
-int VBOX_VM::generate_vm_name( string& name ) {
-    APP_INIT_DATA aid;
-    boinc_get_init_data_p( &aid );
-
-    name.empty();
-    name = "boinc_";
-
-    if (boinc_is_standalone()) {
-        name += "standalone";
-    } else {
-        name += aid.wu_name;
-    }
-
-    if (!name.empty()) {
-        return 1;
-    }
-    return 0;
-}
-
-
 bool VBOX_VM::is_registered() {
     string command;
     string output;
-    string virtual_machine_name;
 
-    generate_vm_name(virtual_machine_name);
-    command = "showvminfo " + virtual_machine_name;
+    command = "showvminfo " + vm_name;
 
-    if (VBOX_SUCCESS == vbm_popen(command, output)) {
+    if (vbm_popen(command, output) == 0) {
         if (output.find("VBOX_E_OBJECT_NOT_FOUND") != string::npos) {
             return true;
         }
@@ -322,7 +270,7 @@ bool VBOX_VM::is_hdd_registered() {
 
     command = "showhdinfo \"" + virtual_machine_root_dir + "/" + image_filename + "\" ";
 
-    if (VBOX_SUCCESS == vbm_popen(command, output)) {
+    if (vbm_popen(command, output) == 0) {
         if (output.find("VBOX_E_FILE_ERROR") != string::npos) {
             return true;
         }
@@ -334,13 +282,11 @@ bool VBOX_VM::is_hdd_registered() {
 bool VBOX_VM::is_running() {
     string command;
     string output;
-    string virtual_machine_name;
 
-    generate_vm_name(virtual_machine_name);
     command = "list runningvms";
 
-    if (VBOX_SUCCESS == vbm_popen(command, output)) {
-        if (output.find(virtual_machine_name) != string::npos) {
+    if (vbm_popen(command, output) == 0) {
+        if (output.find(vm_name) != string::npos) {
             return true;
         }
     }
@@ -397,7 +343,7 @@ int VBOX_VM::get_install_directory(string& virtualbox_install_directory ) {
 #else
     virtualbox_install_directory = "";
 #endif
-    return VBOX_SUCCESS;
+    return 0;
 }
 
 
@@ -426,7 +372,7 @@ int VBOX_VM::initialize() {
 
         new_path += old_path;
 
-        if (putenv((char*)new_path.c_str())) {
+        if (putenv(const_cast<char*>(new_path.c_str()))) {
             fprintf(
                 stderr,
                 "%s Failed to modify the search path.\n",
@@ -435,33 +381,31 @@ int VBOX_VM::initialize() {
         }
     }
 
-    return VBOX_SUCCESS;
+    return 0;
 }
 
 
 int VBOX_VM::register_vm() {
     string command;
     string output;
-    string virtual_machine_name;
     string virtual_machine_root_dir;
     char buf[256];
     int retval;
 
-    generate_vm_name(virtual_machine_name);
     generate_vm_root_dir(virtual_machine_root_dir);
 
     fprintf(
         stderr,
         "%s Registering virtual machine. (%s) \n",
         boinc_msg_prefix(buf, sizeof(buf)),
-        virtual_machine_name.c_str()
+        vm_name.c_str()
     );
 
 
     // Create and register the VM
     //
     command  = "createvm ";
-    command += "--name \"" + virtual_machine_name + "\" ";
+    command += "--name \"" + vm_name + "\" ";
     command += "--basefolder \"" + virtual_machine_root_dir + "\" ";
     command += "--ostype \"" + os_name + "\" ";
     command += "--register";
@@ -482,7 +426,7 @@ int VBOX_VM::register_vm() {
 
     // Tweak the VM from it's default configuration
     //
-    command  = "modifyvm \"" + virtual_machine_name + "\" ";
+    command  = "modifyvm \"" + vm_name + "\" ";
     command += "--memory " + memory_size_mb + " ";
     command += "--acpi on ";
     command += "--ioapic on ";
@@ -510,7 +454,7 @@ int VBOX_VM::register_vm() {
 
     // Add storage controller to VM
     //
-    command  = "storagectl \"" + virtual_machine_name + "\" ";
+    command  = "storagectl \"" + vm_name + "\" ";
     command += "--name \"IDE Controller\" ";
     command += "--add ide ";
     command += "--controller PIIX4 ";
@@ -531,7 +475,7 @@ int VBOX_VM::register_vm() {
 
     // Adding virtual hard drive to VM
     //
-    command  = "storageattach \"" + virtual_machine_name + "\" ";
+    command  = "storageattach \"" + vm_name + "\" ";
     command += "--storagectl \"IDE Controller\" ";
     command += "--port 0 ";
     command += "--device 0 ";
@@ -558,7 +502,7 @@ int VBOX_VM::register_vm() {
     //   the network behind the firewall to attack.
     //
     if (enable_network) {
-        command  = "modifyvm \"" + virtual_machine_name + "\" ";
+        command  = "modifyvm \"" + vm_name + "\" ";
         command += "--cableconnected1 on ";
 
         retval = vbm_popen(command, output);
@@ -579,7 +523,7 @@ int VBOX_VM::register_vm() {
     // Enable the shared folder if a shared folder is specified.
     //
     if (enable_shared_directory) {
-        command  = "sharedfolder add \"" + virtual_machine_name + "\" ";
+        command  = "sharedfolder add \"" + vm_name + "\" ";
         command += "--name \"shared\" ";
         command += "--hostpath \"" + virtual_machine_root_dir + "/shared\"";
 
@@ -597,11 +541,11 @@ int VBOX_VM::register_vm() {
         }
     }
 
-    return VBOX_SUCCESS;
+    return 0;
 }
 
 
-int VBOX_VM::deregister_vm_by_name( string& virtual_machine_name ) {
+int VBOX_VM::deregister_vm() {
     string command;
     string output;
     string virtual_machine_root_dir;
@@ -614,13 +558,13 @@ int VBOX_VM::deregister_vm_by_name( string& virtual_machine_name ) {
         stderr,
         "%s Deregistering virtual machine. (%s)\n",
         boinc_msg_prefix(buf, sizeof(buf)),
-        virtual_machine_name.c_str()
+        vm_name.c_str()
     );
 
 
     // First step in deregistering a VM is to delete its storage controller
     //
-    command  = "storagectl \"" + virtual_machine_name + "\" ";
+    command  = "storagectl \"" + vm_name + "\" ";
     command += "--name \"IDE Controller\" ";
     command += "--remove ";
 
@@ -640,7 +584,7 @@ int VBOX_VM::deregister_vm_by_name( string& virtual_machine_name ) {
 
     // Next delete VM
     //
-    command  = "unregistervm \"" + virtual_machine_name + "\" ";
+    command  = "unregistervm \"" + vm_name + "\" ";
     command += "--delete ";
 
     retval = vbm_popen(command, output);
@@ -674,7 +618,7 @@ int VBOX_VM::deregister_vm_by_name( string& virtual_machine_name ) {
         return retval;
     }
 
-    return VBOX_SUCCESS;
+    return 0;
 }
 
 
@@ -682,7 +626,6 @@ int VBOX_VM::deregister_stale_vm() {
     string command;
     string output;
     string virtual_machine_root_dir;
-    string virtual_machine_name;
     size_t uuid_location;
     size_t uuid_length;
     char buf[256];
@@ -727,10 +670,10 @@ int VBOX_VM::deregister_stale_vm() {
         uuid_location += 7;
         uuid_length = output.find(")", uuid_location);
 
-        virtual_machine_name = output.substr(uuid_location, uuid_length);
+        vm_name = output.substr(uuid_location, uuid_length);
 
         // Deregister stale VM by UUID
-        return deregister_vm_by_name(virtual_machine_name);
+        return deregister_vm();
     } else {
         // Did the user delete the VM in VirtualBox and not the medium?  If so,
         // just remove the medium.
@@ -750,26 +693,17 @@ int VBOX_VM::deregister_stale_vm() {
         }
     }
 
-    return VBOX_SUCCESS;
-}
-
-
-int VBOX_VM::deregister_vm() {
-    string virtual_machine_name;
-    generate_vm_name(virtual_machine_name);
-    return deregister_vm_by_name(virtual_machine_name);
+    return 0;
 }
 
 
 int VBOX_VM::startvm() {
     string command;
     string output;
-    string virtual_machine_name;
     char buf[256];
     int retval;
 
-    generate_vm_name(virtual_machine_name);
-    command = "startvm \"" + virtual_machine_name + "\" --type headless";
+    command = "startvm \"" + vm_name + "\" --type headless";
     retval = vbm_popen(command, output);
     if (retval) {
         fprintf(
@@ -782,19 +716,17 @@ int VBOX_VM::startvm() {
         );
         return retval;
     }
-    return VBOX_SUCCESS;
+    return 0;
 }
 
 
 int VBOX_VM::stop() {
     string command;
     string output;
-    string virtual_machine_name;
     char buf[256];
     int retval;
 
-    generate_vm_name(virtual_machine_name);
-    command = "controlvm \"" + virtual_machine_name + "\" savestate";
+    command = "controlvm \"" + vm_name + "\" savestate";
     retval = vbm_popen(command, output);
     if (retval) {
         fprintf(
@@ -807,19 +739,17 @@ int VBOX_VM::stop() {
         );
         return retval;
     }
-    return VBOX_SUCCESS;
+    return 0;
 }
 
 
 int VBOX_VM::pause() {
     string command;
     string output;
-    string virtual_machine_name;
     char buf[256];
     int retval;
 
-    generate_vm_name(virtual_machine_name);
-    command = "controlvm \"" + virtual_machine_name + "\" pause";
+    command = "controlvm \"" + vm_name + "\" pause";
     retval = vbm_popen(command, output);
     if (retval) {
         fprintf(
@@ -833,19 +763,17 @@ int VBOX_VM::pause() {
         return retval;
     }
     suspended = true;
-    return VBOX_SUCCESS;
+    return 0;
 }
 
 
 int VBOX_VM::resume() {
     string command;
     string output;
-    string virtual_machine_name;
     char buf[256];
     int retval;
 
-    generate_vm_name(virtual_machine_name);
-    command = "controlvm \"" + virtual_machine_name + "\" resume";
+    command = "controlvm \"" + vm_name + "\" resume";
     retval = vbm_popen(command, output);
     if (retval) {
         fprintf(
@@ -859,5 +787,5 @@ int VBOX_VM::resume() {
         return retval;
     }
     suspended = false;
-    return VBOX_SUCCESS;
+    return 0;
 }

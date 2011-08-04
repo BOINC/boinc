@@ -21,15 +21,9 @@
 #ifndef _VBOX_H_
 #define _VBOX_H_
 
-// Return codes
-#define     VBOX_SUCCESS                0x00000000
-#define     VBOX_POPEN_ERROR            0x00000001
-#define     VBOX_PARSER_ERROR           0x00000002
-
 // represents a VirtualBox VM
 
-class VBOX_VM {
-public:
+struct VBOX_VM {
     VBOX_VM();
     ~VBOX_VM(){};
 
@@ -39,11 +33,12 @@ public:
         // size of the memory allocation for the VM, in megabytes
     std::string image_filename;
         // name of the virtual machine disk image file
+    std::string vm_name;
+        // unique name for the VM
     bool suspended;
     bool enable_network;
     bool enable_shared_directory;
 
-    int parse( XML_PARSER& );
     void poll();
     int run();
     int stop();
@@ -54,15 +49,13 @@ public:
 
     int register_vm();
     bool is_hdd_registered();
+    bool is_registered();
     int deregister_stale_vm();
     int deregister_vm();
-    int deregister_vm_by_name(std::string&);
     int startvm();
 
     static int initialize();
     static int generate_vm_root_dir( std::string& dir );
-    static int generate_vm_name( std::string& name );
-    static bool is_registered();
     static int vbm_popen(std::string&, std::string&);
     static int get_install_directory(std::string&);
 };
