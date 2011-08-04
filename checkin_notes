@@ -4614,3 +4614,15 @@ David  3 Aug 2011
     samples/vboxwrapper/
         vbox.cpp,h
         vboxwrapper.cpp
+
+David  4 Aug 2011
+    - scheduler: apparently some hosts send GPU parameters that cause
+        the peak_flops to be negative (probably #processors = -1).
+        This leads to negative credit.
+        Fix: if peak flops is negative, set it to 50 GFLOPS
+    - web: fix email validate page
+
+    lib/
+        coproc.h
+    html/user/
+        validate_email_addr.php

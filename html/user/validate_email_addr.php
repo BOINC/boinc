@@ -20,8 +20,6 @@ require_once("../inc/boinc_db.inc");
 require_once("../inc/util.inc");
 require_once("../inc/email.inc");
 
-check_get_args(array("x", "u"));
-
 function send_validate_email() {
     global $master_url;
     $user = get_logged_in_user();

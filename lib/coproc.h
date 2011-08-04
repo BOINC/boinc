@@ -258,7 +258,7 @@ struct COPROC_NVIDIA : public COPROC {
         //
         int cores_per_proc = (prop.major>=2)?32:8;
         double x = (1000.*prop.clockRate) * prop.multiProcessorCount * cores_per_proc * 2.;
-        peak_flops =  x?x:5e10;
+        peak_flops =  (x>0)?x:5e10;
 	}
 
     bool check_running_graphics_app();
@@ -294,7 +294,7 @@ struct COPROC_ATI : public COPROC {
 	void set_peak_flops() {
         double x = attribs.numberOfSIMD * attribs.wavefrontSize * 2.5 * attribs.engineClock * 1.e6;
         // clock is in MHz
-        peak_flops = x?x:5e10;
+        peak_flops = (x>0)?x:5e10;
 	}
     void fake(double, int);
 };
