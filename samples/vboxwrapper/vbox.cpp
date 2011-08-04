@@ -113,7 +113,7 @@ int VBOX_VM::vbm_popen(string& arguments, string& output) {
     void* pBuf;
     DWORD dwCount;
     unsigned long ulExitCode = 0;
-    int retval = VBOX_POPEN_ERROR;
+    int retval = ERR_FOPEN;
 
 
     memset(&si, 0, sizeof(si));
