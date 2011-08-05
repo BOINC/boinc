@@ -577,6 +577,14 @@ int HTTP_OP::libcurl_exec(
         curlErr = curl_easy_setopt(curlEasy, CURLOPT_HTTPGET, 1L);
     }
 
+#ifdef __APPLE__
+    // cURL 7.19.7 with c-ares 1.7.0 did not fall back to IPv4 when IPv6 
+    // DNS lookup failed on Macs with certain default settings if connected 
+    // to the Internet by an AT&T U-Verse 2-Wire Gateway.  This work-around 
+    // may not be needed any more for cURL 7.21.7, but keep it to be safe.
+    curl_easy_setopt(curlEasy, CURLOPT_IPRESOLVE, CURL_IPRESOLVE_V4);
+#endif
+
     // turn on debug info if tracing enabled
     //
     if (log_flags.http_debug) {

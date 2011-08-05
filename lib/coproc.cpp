@@ -220,6 +220,9 @@ void COPROC_CUDA::get(
 
 #ifdef __APPLE__
     cudalib = dlopen("/usr/local/cuda/lib/libcudart.dylib", RTLD_NOW);
+    if (!cudalib) {
+        cudalib = dlopen("/usr/local/cuda/lib/libcuda.dylib", RTLD_NOW);
+    }
 #else
     // libcudart.so is included with the BOINC install for linux,
     // so look for it in the current dir.

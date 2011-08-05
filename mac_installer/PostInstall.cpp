@@ -17,6 +17,42 @@
 
 /* PostInstall.cpp */
 
+// Notes on command-line installation to a remote Mac:
+//
+// When the installer is run from the Finder, this Postinstall.app will 
+// display up to two dialogs, asking the user whether or not to:
+//  [1] allow non-administrative users to run the BOINC Manager
+//      (asked only if this Mac has any non-administrative users)
+//  [2] set BOINC as the screensaver for all users who can run BOINC 
+//      (asked only if BOINC screensaver is not already set for them)
+//
+// The installer can also be run from the command line.  This is useful 
+//  for installation on remote Macs.  However, there is no way to respond 
+//  to dialogs during a command-line install.
+//
+// The command-line installer sets the following environment variable: 
+//     COMMAND_LINE_INSTALL=1
+// The postinstall script, postupgrade script, and this Postinstall.app 
+//   detect this environment variable and do the following:
+//  * Redirect the Postinstall.app log output to a file 
+//      /tmp/BOINCInstallLog.txt
+//  * Suppress the 2 dialogs
+//  * test for the existence of a file /tmp/nonadminusersok.txt; if the 
+//     file exists, allow non-administrative users to run BOINC Manager
+//  * test for the existence of a file /tmp/setboincsaver.txt; if the 
+//     file exists, set BOINC as the screensaver for all BOINC users. 
+//
+// Example: To install on a remote Mac from the command line, allowing 
+//   non-admin users to run the BOINC Manager and setting BOINC as the 
+//   screensaver:
+//  * First SCP the "BOINC Installer.pkg" to the remote Mac's /tmp 
+//     directory, then SSh into the remote mac and enter the following
+//  $ touch /tmp/nonadminusersok.txt
+//  $ touch /tmp/setboincsaver.txt
+//  $ sudo installer -pkg "/tmp/BOINC Installer.pkg" -tgt /
+//  $ sudo reboot
+//
+
 #define CREATE_LOG 1    /* for debugging */
 
 #include <Carbon/Carbon.h>
@@ -40,6 +76,7 @@
 #include "SetupSecurity.h"
 
 
+#define admin_group_name "admin"
 #define boinc_master_user_name "boinc_master"
 #define boinc_master_group_name "boinc_master"
 #define boinc_project_user_name "boinc_project"
@@ -55,6 +92,8 @@ void SetSkinInUserPrefs(char *userName, char *skinName);
 Boolean CheckDeleteFile(char *name);
 void SetEUIDBackToUser (void);
 static char * PersistentFGets(char *buf, size_t buflen, FILE *f);
+Boolean IsUserMemberOfGroup(const char *userName, const char *groupName);
+int CountGroupMembershipEntries(const char *userName, const char *groupName);
 OSErr UpdateAllVisibleUsers(long brandID);
 long GetBrandID(void);
 int TestRPCBind(void);
@@ -72,6 +111,7 @@ extern int check_security(char *bundlePath, char *dataPath, int use_sandbox, int
 #define NUMBRANDS 3
 
 /* globals */
+static Boolean                  gCommandLineInstall = false;
 static Boolean                  gQuitFlag = false;
 static Boolean                  currentUserCanRunBOINC = false;
 static char                     loginName[256];
@@ -112,7 +152,6 @@ int main(int argc, char *argv[])
     OSStatus                err, err_fsref;
     FILE                    *f;
     char                    s[256];
-    char                    *q;
 #ifdef SANDBOX
     uid_t                   saved_euid, saved_uid, b_m_uid;
     passwd                  *pw;
@@ -128,26 +167,35 @@ int main(int argc, char *argv[])
     brandName[0] = "BOINC";
     saverName[0] = "BOINCSaver";
     saverNameEscaped[0] = "BOINCSaver";
-    receiptNameEscaped[0] = "/Library/Receipts/BOINC.pkg";
+    receiptNameEscaped[0] = "/Library/Receipts/BOINC\\ Installer.pkg";
 
     appName[1] = "/Applications/GridRepublic Desktop.app";
     appNameEscaped[1] = "/Applications/GridRepublic\\ Desktop.app";
     brandName[1] = "GridRepublic";
     saverName[1] = "GridRepublic";
     saverNameEscaped[1] = "GridRepublic";
-    receiptNameEscaped[1] = "/Library/Receipts/GridRepublic.pkg";
+    receiptNameEscaped[1] = "/Library/Receipts/GridRepublic\\ Installer.pkg";
 
     appName[2] = "/Applications/Progress Thru Processors Desktop.app";
     appNameEscaped[2] = "/Applications/Progress\\ Thru\\ Processors\\ Desktop.app";
     brandName[2] = "Progress Thru Processors";
     saverName[2] = "Progress Thru Processors";
     saverNameEscaped[2] = "Progress\\ Thru\\ Processors";
-    receiptNameEscaped[2] = "/Library/Receipts/Progress\\ Thru\\ Processors.pkg";
+    receiptNameEscaped[2] = "/Library/Receipts/Progress\\ Thru\\ Processors\\ Installer.pkg";
 
     ::GetCurrentProcess (&ourProcess);
-    
+
+    puts("Starting PostInstall app\n");
+    fflush(stdout);
     // getlogin() gives unreliable results under OS 10.6.2, so use environment
     strncpy(loginName, getenv("USER"), sizeof(loginName)-1);
+    printf("login name = %s\n", loginName);
+
+    if (getenv("COMMAND_LINE_INSTALL") != NULL) {
+        gCommandLineInstall = true;
+        puts("command-line install\n");
+        fflush(stdout);
+    }
 
     err = Gestalt(gestaltSystemVersion, &OSVersion);
     if (err != noErr)
@@ -178,11 +226,11 @@ int main(int argc, char *argv[])
         brandID = 0;
     }
     
-    if (OSVersion < 0x1039) {
+    if (OSVersion < 0x1040) {
         ::SetFrontProcess(&ourProcess);
         // Remove everything we've installed
-        // "\pSorry, this version of GridRepublic requires system 10.3.9 or higher."
-        s[0] = sprintf(s+1, "Sorry, this version of %s requires system 10.3.9 or higher.", brandName[brandID]);
+        // "\pSorry, this version of GridRepublic requires system 10.4.0 or higher."
+        s[0] = sprintf(s+1, "Sorry, this version of %s requires system 10.4.0 or higher.", brandName[brandID]);
         StandardAlert (kAlertStopAlert, (StringPtr)s, NULL, NULL, &itemHit);
 
         // "rm -rf /Applications/GridRepublic\\ Desktop.app"
@@ -258,7 +306,7 @@ int main(int argc, char *argv[])
     
     // Find an appropriate admin user to set as owner of installed files
     // First, try the user currently logged in
-    grp = getgrnam("admin");
+    grp = getgrnam(admin_group_name);
     i = 0;
     while ((p = grp->gr_mem[i]) != NULL) {   // Step through all users in group admin
         if (strcmp(p, loginName) == 0) {
@@ -328,6 +376,7 @@ int main(int argc, char *argv[])
  
 #ifdef SANDBOX
     err = CheckLogoutRequirement(&finalInstallAction);
+    printf("CheckLogoutRequirement returned %d\n", finalInstallAction);
     
     if (finalInstallAction == launchWhenDone) {
         // Wait for BOINC's RPC socket address to become available to user boinc_master, in
@@ -335,7 +384,7 @@ int main(int argc, char *argv[])
         saved_uid = getuid();
         saved_euid = geteuid();
         
-        pw = getpwnam("boinc_master");
+        pw = getpwnam(boinc_master_user_name);
         b_m_uid = pw->pw_uid;
         seteuid(b_m_uid);
         
@@ -348,38 +397,12 @@ int main(int argc, char *argv[])
         }
         
         seteuid(saved_euid);
+            
+        return 0;
+        FSRef               theFSRef;
 
-        ProcessSerialNumber ourPSN;
-        ProcessInfoRec      pInfo;
-        FSRef               ourFSRef, theFSRef;
-        char                thePath[MAXPATHLEN];
-        
-        // Get the full path to this PostInstall application's bundle
-        err = GetCurrentProcess (&ourPSN);
-        if (err)
-            return -1000;          // Should never happen
-        
-        memset(&pInfo, 0, sizeof(pInfo));
-        pInfo.processInfoLength = sizeof( ProcessInfoRec );
-        err = GetProcessInformation(&ourPSN, &pInfo);
-        if (err)
-            return -1001;          // Should never happen
-        
-        err = GetProcessBundleLocation(&ourPSN, &ourFSRef);
-        if (err)
-            return -1002;          // Should never happen
-
-        err = FSRefMakePath (&ourFSRef, (UInt8*)thePath, sizeof(thePath));
-        if (err)
-            return -1003;          // Should never happen
-        
-        q = strrchr(thePath, '/');
-        if (q == NULL)
-            return -1004;          // Should never happen
-
-        *++q = '\0';
-        strlcat(thePath, "WaitPermissions.app", sizeof(thePath));
-        err = FSPathMakeRef((StringPtr)thePath, &theFSRef, NULL);
+        err = FSPathMakeRef((StringPtr)"/Library/Application Support/BOINC Data/WaitPermissions.app", 
+                &theFSRef, NULL);
         
         // When we first create the boinc_master group and add the current user to the 
         // new group, there is a delay before the new group membership is recognized.  
@@ -402,11 +425,15 @@ int main(int argc, char *argv[])
             sleep(1);
         }
         
-        CreateStandardAlert(kAlertNoteAlert, CFSTR("Finishing install.  Please wait ..."), CFSTR("This may take a few more minutes."), NULL, &theWin);
-        HideDialogItem(theWin, kStdOkItemIndex);
-        RemoveDialogItems(theWin, kStdOkItemIndex, 1, false);
-        RunStandardAlert(theWin, &myFilterProc, &itemHit);
-
+        if (gCommandLineInstall) {
+            printf("Finishing install.  Please wait ...\n");
+            printf("This may take a few more minutes.\n");
+        } else {
+            CreateStandardAlert(kAlertNoteAlert, CFSTR("Finishing install.  Please wait ..."), CFSTR("This may take a few more minutes."), NULL, &theWin);
+            HideDialogItem(theWin, kStdOkItemIndex);
+            RemoveDialogItems(theWin, kStdOkItemIndex, 1, false);
+            RunStandardAlert(theWin, &myFilterProc, &itemHit);
+        }
     }
 #endif   // SANDBOX
     
@@ -454,7 +481,6 @@ int DeleteReceipt()
 
     Initialize();
     err = CheckLogoutRequirement(&finalInstallAction);
-
     err = FindProcess ('APPL', 'xins', &installerPSN);
     if (err == noErr)
         err = GetProcessPID(&installerPSN , &installerPID);
@@ -509,9 +535,6 @@ OSStatus CheckLogoutRequirement(int *finalAction)
     CFStringRef             errorString = NULL;
     OSStatus                err = noErr;
 #ifdef SANDBOX
-    char                    *p;
-    group                   *grp = NULL;
-    int                     i;
     Boolean                 isMember = false;
 #endif  // SANDBOX
     
@@ -522,18 +545,13 @@ OSStatus CheckLogoutRequirement(int *finalAction)
     }
     
 #ifdef SANDBOX
-    grp = getgrnam("boinc_master");
-    if (loginName && grp) {
-        i = 0;
-        while ((p = grp->gr_mem[i]) != NULL) {   // Step through all users in group boinc_master
-            if (strcmp(p, loginName) == 0) {
-                isMember = true;                // Logged in user is a member of group boinc_master
-                break;
-            }
-        ++i;
+    if (loginName[0]) {
+        if (IsUserMemberOfGroup(loginName, boinc_master_group_name)) {
+            isMember = true;                // Logged in user is a member of group boinc_master
         }
     }
 
+    printf("In CheckLogoutRequirement: isMember=%d, currentUserCanRunBOINC=%d\n", (int)isMember, (int)currentUserCanRunBOINC);
     if (!isMember && !currentUserCanRunBOINC) {
         *finalAction = nothingrequired;
         return noErr;
@@ -591,10 +609,7 @@ OSStatus CheckLogoutRequirement(int *finalAction)
 // our previously created boinc_master or boinc_project user or group.  This could 
 // also happen when the user installs new software.  So we must check for such 
 // duplicate UserIDs and groupIDs; if found, we delete our user or group so that 
-// the PostInstall application will cerate a new one that does not conflict.
-
-// NOTE: getgrnam and getgrgid use one static memory area to return their results, 
-//  so each call to getgrnam or getgrgid overwrites the data from any previous calls.
+// the PostInstall application will create a new one that does not conflict.
 void CheckUserAndGroupConflicts()
 {
 #ifdef SANDBOX
@@ -607,11 +622,6 @@ void CheckUserAndGroupConflicts()
     char            cmd[256], buf[256];
     int             entryCount;
 
-    // "dscl . -search /Groups PrimaryGroupID xx" returned a different format before OS 10.4
-    if (OSVersion < 0x1040) {
-        return;
-    }
-    
     entryCount = 0;
     grp = getgrnam(boinc_master_group_name);
     if (grp) {
@@ -653,7 +663,7 @@ void CheckUserAndGroupConflicts()
     }
 
     if (entryCount > 1) {
-        system ("dscl . -delete /groups/boinc_project");
+       system ("dscl . -delete /groups/boinc_project");
         // User boinc_project must have group boinc_project as its primary group.
         // Since this group no longer exists, delete the user as well.
         system ("dscl . -delete /users/boinc_project");
@@ -674,7 +684,7 @@ void CheckUserAndGroupConflicts()
             }
             pclose(f);
         }    
-}
+    }
 
     if (entryCount > 1) {
         system ("dscl . -delete /users/boinc_master");
@@ -898,6 +908,59 @@ static Boolean ShowMessage(Boolean allowCancel, const char *format, ...) {
 }
 
 
+Boolean IsUserMemberOfGroup(const char *userName, const char *groupName) {
+    group               *grp;
+    short               i = 0;
+    char                *p;
+
+    grp = getgrnam(groupName);
+    if (!grp) {
+        printf("getgrnam(%s) failed\n", groupName);
+        return false;  // Group not found
+    }
+
+    while ((p = grp->gr_mem[i]) != NULL) {  // Step through all users in group admin
+        if (strcmp(p, userName) == 0) {
+            return true;
+        }
+        ++i;
+    }
+    return false;
+}
+
+
+// OS 10.7 dscl merge command has a bug that it adds the user to the group even if 
+// it was already a member, resulting in duplicate (multiple) entries.  Earlier BOINC 
+// versions did not check for this, so we remove duplicate entries if present.
+int CountGroupMembershipEntries(const char *userName, const char *groupName) {
+    int                 count = 0;
+    char                cmd[512], buf[2048];
+    FILE                *f;
+    char                *p;
+    
+    // getgrnam(groupName)->gr_mem[] only returns one entry, so we must use dscl
+    sprintf(cmd, "dscl . -read /Groups/%s GroupMembership", groupName);
+    f = popen(cmd, "r");
+    if (f == NULL)
+        return 0;
+    
+    while (PersistentFGets(buf, sizeof(buf), f))
+    {
+        p = buf;
+        while (p) {
+            p = strstr(p, userName);
+            if (p) {
+                ++ count;
+                p += strlen(userName);
+                
+            }
+        }
+    }
+    
+    return count;
+}
+
+
 // Find all visible users.
 // If user is a member of group admin, add user to groups boinc_master and boinc_project.
 // Optionally add non-admin users to group boinc_master but not to group boinc_project.
@@ -913,91 +976,75 @@ OSErr UpdateAllVisibleUsers(long brandID)
     Boolean             deleteLoginItem;
     char                skinName[256];
     char                s[256];
-    group               grpAdmin, *grpAdminPtr;
-    char                adminBuf[32768];
-    group               grpBOINC_master, *grpBOINC_masterPtr;
-    char                bmBuf[32768];
     Boolean             saverAlreadySetForAll = true;
     Boolean             setSaverForAllUsers = false;
     Boolean             allNonAdminUsersAreSet = true;
     Boolean             allowNonAdminUsersToRunBOINC = false;
     Boolean             found = false;
     FILE                *f;
-    OSStatus            err;
-    Boolean             isGroupMember;
+    int                 err;
+    Boolean             isAdminGroupMember, isBMGroupMember, isBPGroupMember;
+    struct stat         sbuf;
 #ifdef SANDBOX
-    char                *p;
-    short               i;
-
-    err = getgrnam_r("admin", &grpAdmin, adminBuf, sizeof(adminBuf), &grpAdminPtr);
-    if (err) {          // Should never happen unless buffer too small
-        puts("getgrnam(\"admin\") failed\n");
-        return -1;
-    }
-
-    err = getgrnam_r("boinc_master", &grpBOINC_master, bmBuf, sizeof(bmBuf), &grpBOINC_masterPtr);
-    if (err) {          // Should never happen unless buffer too small
-        puts("getgrnam(\"boinc_master\") failed\n");
-        return -1;
-    }
-#endif  // SANDBOX
-
+    char                cmd[256];
+    int                 i;
+    int                 BMGroupMembershipCount, BPGroupMembershipCount; 
+#endif
+    
     FindSkinName(skinName, sizeof(skinName));
+
+    // Step through all users
+    puts("Beginning first pass through all users\n");
 
     dirp = opendir("/Users");
     if (dirp == NULL) {      // Should never happen
-        puts("opendir(\"/Users\") failed\n");
+        puts("[1] opendir(\"/Users\") failed\n");
         return -1;
     }
     
-    // Step through all users
     while (true) {
         dp = readdir(dirp);
         if (dp == NULL)
             break;                  // End of list
+
+        printf("[1] Checking user %s\n", dp->d_name);
             
         if (dp->d_name[0] == '.')
             continue;               // Ignore names beginning with '.'
     
+        // getpwnam works with either the full / login name (pw->pw_gecos) 
+        // or the short / Posix name (pw->pw_name)
         pw = getpwnam(dp->d_name);
-        if (pw == NULL)             // "Deleted Users", "Shared", etc.
+        if (pw == NULL) {           // "Deleted Users", "Shared", etc.
+            printf("[1] %s not in getpwnam data base\n", dp->d_name);
             continue;
+        }
 
-#ifdef SANDBOX
-        isGroupMember = false;
-        i = 0;
-        while ((p = grpAdmin.gr_mem[i]) != NULL) {  // Step through all users in group admin
-            if (strcmp(p, dp->d_name) == 0) {
-                // User is a member of group admin, so add user to groups boinc_master and boinc_project
-                err = AddAdminUserToGroups(p);
-                if (err != noErr)
-                    return err;
-                isGroupMember = true;
-                break;
-            }
-            ++i;
-        }
+        printf("[1] User %s: Posix name=%s, Full name=%s\n", dp->d_name, pw->pw_name, pw->pw_gecos);
         
-        if (!isGroupMember) {
-            i = 0;
-            while ((p = grpBOINC_master.gr_mem[i]) != NULL) {  // Step through all users in group boinc_master
-                if (strcmp(p, dp->d_name) == 0) {
-                    // User is a member of group boinc_master
-                    isGroupMember = true;
-                    break;
-                }
-                ++i;
+#ifdef SANDBOX
+        isAdminGroupMember = false;
+        isBMGroupMember = false;
+        
+        isAdminGroupMember = IsUserMemberOfGroup(pw->pw_name, admin_group_name);
+            if (isAdminGroupMember) {
+            // User is a member of group admin, so add user to groups boinc_master and boinc_project
+            printf("[1] User %s is a member of group admin\n", pw->pw_name);
+        } else {
+            isBMGroupMember = IsUserMemberOfGroup(pw->pw_name, boinc_master_group_name);
+            if (isBMGroupMember) {
+                // User is a member of group boinc_master
+                printf("[1] Non-admin user %s is a member of group boinc_master\n", pw->pw_name);
+            } else {
+                allNonAdminUsersAreSet = false;
             }
-        }
-        if (!isGroupMember) {
-            allNonAdminUsersAreSet = false;
         }
 #else   // SANDBOX
         isGroupMember = true;
 #endif  // SANDBOX
 
-        if (isGroupMember) {
-            if (strcmp(loginName, dp->d_name) == 0) {
+        if (isAdminGroupMember || isBMGroupMember) {
+            if ((strcmp(loginName, dp->d_name) == 0) || (strcmp(loginName, pw->pw_name) == 0)) {
                 currentUserCanRunBOINC = true;
             }
             
@@ -1008,7 +1055,7 @@ OSErr UpdateAllVisibleUsers(long brandID)
                 f = popen("defaults -currentHost read com.apple.screensaver moduleName", "r");
             } else {
                 sprintf(s, "sudo -u %s defaults -currentHost read com.apple.screensaver moduleDict -dict", 
-                        dp->d_name); 
+                        pw->pw_name); 
                 f = popen(s, "r");
             }
             
@@ -1033,30 +1080,59 @@ OSErr UpdateAllVisibleUsers(long brandID)
     closedir(dirp);
 
     ResynchSystem();
-    
-    if (! allNonAdminUsersAreSet) {
-        if (ShowMessage(true, 
-            "Users who are permitted to administer this computer will automatically be allowed to "
-            "run and control %s.\n\n"
-            "Do you also want non-administrative users to be able to run and control %s on this Mac?",
-            brandName[brandID], brandName[brandID])
-        ) {
-            allowNonAdminUsersToRunBOINC = true;
-            currentUserCanRunBOINC = true;
-            saverAlreadySetForAll = false;
+
+    if (allNonAdminUsersAreSet) {
+        puts("[2] All non-admin users are already members of group boinc_master\n");
+    } else {
+        if (gCommandLineInstall) {
+            err = stat("/tmp/nonadminusersok.txt", &sbuf);
+            if (err == noErr) {
+                puts("nonadminusersok.txt file detected\n");
+                fflush(stdout);
+                unlink("/tmp/nonadminusersok.txt");
+                allowNonAdminUsersToRunBOINC = true;
+                currentUserCanRunBOINC = true;
+                saverAlreadySetForAll = false;
+            }
+        } else {
+            if (ShowMessage(true, 
+                "Users who are permitted to administer this computer will automatically be allowed to "
+                "run and control %s.\n\n"
+                "Do you also want non-administrative users to be able to run and control %s on this Mac?",
+                brandName[brandID], brandName[brandID])
+            ) {
+                allowNonAdminUsersToRunBOINC = true;
+                currentUserCanRunBOINC = true;
+                saverAlreadySetForAll = false;
+                printf("[2] User answered Yes to allowing non-admin users to run %s\n", brandName[brandID]);
+            } else {
+                printf("[2] User answered No to allowing non-admin users to run %s\n", brandName[brandID]);
+            }
         }
     }
     
     if (! saverAlreadySetForAll) {
-        setSaverForAllUsers = ShowMessage(true, 
+        if (gCommandLineInstall) {
+            err = stat("/tmp/setboincsaver.txt", &sbuf);
+            if (err == noErr) {
+                puts("setboincsaver.txt file detected\n");
+                fflush(stdout);
+                unlink("/tmp/setboincsaver.txt");
+                setSaverForAllUsers = true;
+            }
+        } else {
+            setSaverForAllUsers = ShowMessage(true, 
                     "Do you want to set %s as the screensaver for all %s users on this Mac?", 
-                    brandName[brandID], brandName[brandID]);    
+                    brandName[brandID], brandName[brandID]);
+        }
     }
 
     // Step through all users a second time, setting non-admin users and / or our screensaver
+    puts("Beginning second pass through all users\n");
+
     dirp = opendir("/Users");
     if (dirp == NULL) {      // Should never happen
-        puts("opendir(\"/Users\") failed\n");
+        puts("[2] opendir(\"/Users\") failed\n");
         return -1;
     }
     
@@ -1064,50 +1140,89 @@ OSErr UpdateAllVisibleUsers(long brandID)
         dp = readdir(dirp);
         if (dp == NULL)
             break;                  // End of list
+
+        printf("[2] Checking user %s\n", dp->d_name);
             
         if (dp->d_name[0] == '.')
             continue;               // Ignore names beginning with '.'
     
         pw = getpwnam(dp->d_name);
-        if (pw == NULL)             // "Deleted Users", "Shared", etc.
+        if (pw == NULL) {           // "Deleted Users", "Shared", etc.
+            printf("[2] %s not in getpwnam data base\n", dp->d_name);
             continue;
+        }
 
+        printf("[2] User %s: Posix name=%s, Full name=%s\n", dp->d_name, pw->pw_name, pw->pw_gecos);
+        
 #ifdef SANDBOX
-        isGroupMember = false;
+        isAdminGroupMember = false;
+        isBMGroupMember = false;
+        isBPGroupMember = false;
 
-        i = 0;
-        while ((p = grpAdmin.gr_mem[i]) != NULL) {  // Step through all users in group admin
-            if (strcmp(p, dp->d_name) == 0) {
-                // User is a member of group admin
-                isGroupMember = true;
-                break;
-            }
-            ++i;
+        isAdminGroupMember = IsUserMemberOfGroup(pw->pw_name, admin_group_name);
+        if (isAdminGroupMember) {
+            // User is a member of group admin, so add user to groups boinc_master and boinc_project
+            printf("[2] User %s is a member of group admin\n", pw->pw_name);
         }
 
-        // If allNonAdminUsersAreSet, some older versions added non-admin users only to 
-        // group boinc_master; make sure they are also members of group boinc_project
-        if (! isGroupMember) {
-            if (allowNonAdminUsersToRunBOINC || allNonAdminUsersAreSet) {
-                // Add to group boinc_master but not group boinc_project
-                err = AddAdminUserToGroups(dp->d_name);
-                isGroupMember = true;
+        // If allNonAdminUsersAreSet, some older BOINC versions added non-admin users only to group 
+        // boinc_master; ensure all permitted BOINC users are also members of group boinc_project
+        if (isAdminGroupMember || allowNonAdminUsersToRunBOINC || allNonAdminUsersAreSet) {
+            // OS 10.7 dscl merge command has a bug that it adds the user to the group even if 
+            // it was already a member, resulting in duplicate (multiple) entries.  Earlier BOINC 
+            // versions did not check for this, so we remove duplicate entries if present.            
+            BMGroupMembershipCount = CountGroupMembershipEntries(pw->pw_name, boinc_master_group_name);
+            printf("[2] User %s found in group %s member list %d times\n", 
+                        pw->pw_name, boinc_master_group_name, BMGroupMembershipCount);
+            if (BMGroupMembershipCount == 0) {
+                sprintf(cmd, "dscl . -merge /groups/%s users %s", boinc_master_group_name, pw->pw_name);
+                err = system(cmd);
+                printf("[2] %s returned %d\n", cmd, err);
+                isBMGroupMember = true;
+            } else {
+                isBMGroupMember = true;
+                for (i=1; i<BMGroupMembershipCount; ++i) {
+                    sprintf(cmd, "dscl . -delete /groups/%s GroupMembership %s", boinc_master_group_name, pw->pw_name);
+                    err = system(cmd);
+                    printf("[2] %s returned %d\n", cmd, err);
+                }
+            }
+            
+            BPGroupMembershipCount = CountGroupMembershipEntries(pw->pw_name, boinc_project_group_name);
+            printf("[2] User %s found in group %s member list %d times\n", 
+                   pw->pw_name, boinc_project_group_name, BPGroupMembershipCount);
+            if (BPGroupMembershipCount == 0) {
+                sprintf(cmd, "dscl . -merge /groups/%s users %s", boinc_project_group_name, pw->pw_name);
+                err = system(cmd);
+                printf("[2] %s returned %d\n", cmd, err);
+                isBPGroupMember = true;
+            } else {
+                isBPGroupMember = true;
+                for (i=1; i<BPGroupMembershipCount; ++i) {
+                    sprintf(cmd, "dscl . -delete /groups/%s GroupMembership %s", boinc_project_group_name, pw->pw_name);
+                    err = system(cmd);
+                    printf("[2] %s returned %d\n", cmd, err);
+                }
             }
         }
+        
 #else   // SANDBOX
-        isGroupMember = true;
+        isBMGroupMember = true;
 #endif  // SANDBOX
 
         saved_uid = geteuid();
         seteuid(pw->pw_uid);                        // Temporarily set effective uid to this user
         deleteLoginItem = CheckDeleteFile(dp->d_name);
-        if (!isGroupMember) {
+        if (CheckDeleteFile(pw->pw_name)) {
+            deleteLoginItem = true;
+        }
+        if (!isBMGroupMember) {
             deleteLoginItem = true;
         }
 
         SetLoginItem(brandID, deleteLoginItem);     // Set login item for this user
 
-        if (isGroupMember) {
+        if (isBMGroupMember) {
             SetSkinInUserPrefs(dp->d_name, skinName);
         
             if (setSaverForAllUsers) {
@@ -1118,7 +1233,7 @@ OSErr UpdateAllVisibleUsers(long brandID)
                                 saverNameEscaped[brandID]);
                 } else {
                     sprintf(s, "sudo -u %s defaults -currentHost write com.apple.screensaver moduleDict -dict moduleName %s path /Library/Screen\\ Savers/%s.saver", 
-                            dp->d_name, saverNameEscaped[brandID], saverNameEscaped[brandID]);
+                            pw->pw_name, saverNameEscaped[brandID], saverNameEscaped[brandID]);
                 }
                 system (s);
             }
@@ -1432,4 +1547,3 @@ void print_to_log_file(const char *format, ...) {
 
 #endif
 }
-const char *BOINC_RCSID_c7abe0490e="$Id$";

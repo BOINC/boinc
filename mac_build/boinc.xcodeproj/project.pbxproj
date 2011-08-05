@@ -1998,6 +1998,7 @@
 			isa = PBXProject;
 			buildConfigurationList = DD9E2381091CBDAE0048316E /* Build configuration list for PBXProject "boinc" */;
 			compatibilityVersion = "Xcode 3.0";
+			developmentRegion = English;
 			hasScannedForEncodings = 1;
 			knownRegions = (
 				English,
@@ -2262,7 +2263,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "if [ \"$BUILD_STYLE\" = \"i386_Deployment\" ] || [ \"$BUILD_STYLE\" = \"ppc_Deployment\" ] || [ \"$BUILD_STYLE\" = \"Deployment\" ]; then\n  mkdir \"${BUILT_PRODUCTS_DIR}/SymbolTables\"\n  if [ \"${BUILT_PRODUCTS_DIR}/BOINCManager.app/Contents/MacOS/BOINCManager\" -nt \"$TARGET_BUILD_DIR/SymbolTables/BOINCManager_i386\" ]; then\n    lipo \"${BUILT_PRODUCTS_DIR}/BOINCManager.app/Contents/MacOS/BOINCManager\" -thin i386 -output \"$TARGET_BUILD_DIR/SymbolTables/BOINCManager_i386\"\n    lipo \"${BUILT_PRODUCTS_DIR}/BOINCManager.app/Contents/MacOS/BOINCManager\" -thin ppc -output \"$TARGET_BUILD_DIR/SymbolTables/BOINCManager_ppc\"\n    /usr/bin/strip \"${BUILT_PRODUCTS_DIR}/BOINCManager.app/Contents/MacOS/BOINCManager\"\n\ttouch \"$TARGET_BUILD_DIR/SymbolTables/BOINCManager_i386\"\n\ttouch \"$TARGET_BUILD_DIR/SymbolTables/BOINCManager_ppc\"\n  fi\nfi\n";
+			shellScript = "if [ \"$BUILD_STYLE\" = \"i386_Deployment\" ] || [ \"$BUILD_STYLE\" = \"ppc_Deployment\" ] || [ \"$BUILD_STYLE\" = \"Deployment\" ]; then\n  mkdir -p \"${BUILT_PRODUCTS_DIR}/SymbolTables\"\n  if [ \"${BUILT_PRODUCTS_DIR}/BOINCManager.app/Contents/MacOS/BOINCManager\" -nt \"$TARGET_BUILD_DIR/SymbolTables/BOINCManager_i386\" ]; then\n    lipo \"${BUILT_PRODUCTS_DIR}/BOINCManager.app/Contents/MacOS/BOINCManager\" -thin i386 -output \"$TARGET_BUILD_DIR/SymbolTables/BOINCManager_i386\"\n    lipo \"${BUILT_PRODUCTS_DIR}/BOINCManager.app/Contents/MacOS/BOINCManager\" -thin ppc -output \"$TARGET_BUILD_DIR/SymbolTables/BOINCManager_ppc\"\n    /usr/bin/strip \"${BUILT_PRODUCTS_DIR}/BOINCManager.app/Contents/MacOS/BOINCManager\"\n\ttouch \"$TARGET_BUILD_DIR/SymbolTables/BOINCManager_i386\"\n\ttouch \"$TARGET_BUILD_DIR/SymbolTables/BOINCManager_ppc\"\n  fi\nfi\n";
 		};
 		DD7355180D9110AE0006A9D1 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -2277,7 +2278,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "if [ \"$BUILD_STYLE\" = \"i386_Deployment\" ] || [ \"$BUILD_STYLE\" = \"ppc_Deployment\" ] || [ \"$BUILD_STYLE\" = \"Deployment-no64\" ] || [ \"$BUILD_STYLE\" = \"Deployment\" ]; then\n  mkdir \"${BUILT_PRODUCTS_DIR}/SymbolTables\"\n  if [ \"${BUILT_PRODUCTS_DIR}/$PRODUCT_NAME\" -nt \"$TARGET_BUILD_DIR/SymbolTables/${PRODUCT_NAME}_i386\" ]; then\n    lipo \"${BUILT_PRODUCTS_DIR}/$PRODUCT_NAME\" -thin i386 -output \"$TARGET_BUILD_DIR/SymbolTables/${PRODUCT_NAME}_i386\"\n    lipo \"${BUILT_PRODUCTS_DIR}/$PRODUCT_NAME\" -thin x86_64 -output \"$TARGET_BUILD_DIR/SymbolTables/${PRODUCT_NAME}_x86_64\"\n    lipo \"${BUILT_PRODUCTS_DIR}/$PRODUCT_NAME\" -thin ppc -output \"$TARGET_BUILD_DIR/SymbolTables/${PRODUCT_NAME}_ppc\"\n    /usr/bin/strip \"${BUILT_PRODUCTS_DIR}/$PRODUCT_NAME\"\n    touch \"$TARGET_BUILD_DIR/SymbolTables/${PRODUCT_NAME}_i386\"\n    touch \"$TARGET_BUILD_DIR/SymbolTables/${PRODUCT_NAME}_x86_64\"\n    touch \"$TARGET_BUILD_DIR/SymbolTables/${PRODUCT_NAME}_ppc\"\n  fi\nfi";
+			shellScript = "if [ \"$BUILD_STYLE\" = \"i386_Deployment\" ] || [ \"$BUILD_STYLE\" = \"ppc_Deployment\" ] || [ \"$BUILD_STYLE\" = \"Deployment-no64\" ] || [ \"$BUILD_STYLE\" = \"Deployment\" ]; then\n  mkdir -p \"${BUILT_PRODUCTS_DIR}/SymbolTables\"\n  if [ \"${BUILT_PRODUCTS_DIR}/$PRODUCT_NAME\" -nt \"$TARGET_BUILD_DIR/SymbolTables/${PRODUCT_NAME}_i386\" ]; then\n    lipo \"${BUILT_PRODUCTS_DIR}/$PRODUCT_NAME\" -thin i386 -output \"$TARGET_BUILD_DIR/SymbolTables/${PRODUCT_NAME}_i386\"\n    lipo \"${BUILT_PRODUCTS_DIR}/$PRODUCT_NAME\" -thin x86_64 -output \"$TARGET_BUILD_DIR/SymbolTables/${PRODUCT_NAME}_x86_64\"\n    lipo \"${BUILT_PRODUCTS_DIR}/$PRODUCT_NAME\" -thin ppc -output \"$TARGET_BUILD_DIR/SymbolTables/${PRODUCT_NAME}_ppc\"\n    /usr/bin/strip \"${BUILT_PRODUCTS_DIR}/$PRODUCT_NAME\"\n    touch \"$TARGET_BUILD_DIR/SymbolTables/${PRODUCT_NAME}_i386\"\n    touch \"$TARGET_BUILD_DIR/SymbolTables/${PRODUCT_NAME}_x86_64\"\n    touch \"$TARGET_BUILD_DIR/SymbolTables/${PRODUCT_NAME}_ppc\"\n  fi\nfi";
 		};
 		DD73551E0D9111150006A9D1 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -3252,7 +3253,6 @@
 		DD62C37D0A801FB400B3D68A /* Dev_noSandbox */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				GCC_VERSION_ppc = 3.3;
 				OTHER_LDFLAGS = "";
 				PRODUCT_NAME = boinc;
 			};
@@ -3261,7 +3261,6 @@
 		DD62C37E0A801FB400B3D68A /* Deploy_noSandbox */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				GCC_VERSION_ppc = 3.3;
 				OTHER_LDFLAGS = "";
 				PRODUCT_NAME = boinc;
 			};
@@ -3270,7 +3269,6 @@
 		DD62C3810A801FB400B3D68A /* Dev_noSandbox */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				GCC_VERSION_ppc = 3.3;
 				PRODUCT_NAME = boinc_api;
 			};
 			name = Dev_noSandbox;
@@ -3278,7 +3276,6 @@
 		DD62C3820A801FB400B3D68A /* Deploy_noSandbox */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				GCC_VERSION_ppc = 3.3;
 				PRODUCT_NAME = boinc_api;
 			};
 			name = Deploy_noSandbox;
@@ -3335,10 +3332,10 @@
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEPLOYMENT_POSTPROCESSING = YES;
-				HEADER_SEARCH_PATHS = "../../curl-7.19.4/include";
+				HEADER_SEARCH_PATHS = "../../curl-7.21.7/include";
 				OTHER_LDFLAGS = (
-					"../../curl-7.19.4/lib/.libs/libcurl.a",
-					"../../c-ares-1.6.0/.libs/libcares.a",
+					"../../curl-7.21.7/lib/.libs/libcurl.a",
+					"../../c-ares-1.7.4/.libs/libcares.a",
 					"-lcrypto",
 					"-lssl",
 					"-lldap",
@@ -3360,10 +3357,10 @@
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEPLOYMENT_POSTPROCESSING = YES;
-				HEADER_SEARCH_PATHS = "../../curl-7.19.4/include";
+				HEADER_SEARCH_PATHS = "../../curl-7.21.7/include";
 				OTHER_LDFLAGS = (
-					"../../curl-7.19.4/lib/.libs/libcurl.a",
-					"../../c-ares-1.6.0/.libs/libcares.a",
+					"../../curl-7.21.7/lib/.libs/libcurl.a",
+					"../../c-ares-1.7.4/.libs/libcares.a",
 					"-lcrypto",
 					"-lssl",
 					"-lldap",
@@ -3451,7 +3448,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				DEBUG_INFORMATION_FORMAT = stabs;
-				GCC_VERSION_ppc = 3.3;
 				OTHER_LDFLAGS = "-lboinc";
 				PRODUCT_NAME = boinccmd;
 			};
@@ -3461,7 +3457,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				DEBUG_INFORMATION_FORMAT = stabs;
-				GCC_VERSION_ppc = 3.3;
 				OTHER_LDFLAGS = "-lboinc";
 				PRODUCT_NAME = boinccmd;
 			};
@@ -3712,6 +3707,7 @@
 				GCC_INLINES_ARE_PRIVATE_EXTERN = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
+				GCC_VERSION = 4.0;
 				GCC_WARN_ABOUT_DEPRECATED_FUNCTIONS = NO;
 				LIBRARY_STYLE = STATIC;
 				MACOSX_DEPLOYMENT_TARGET = 10.4;
@@ -3726,9 +3722,9 @@
 				);
 				PREBINDING = NO;
 				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.4u.sdk";
-				"SDKROOT[arch=ppc]" = "$(DEVELOPER_SDK_DIR)/MacOSX10.3.9.sdk";
+				"SDKROOT[arch=ppc]" = "$(DEVELOPER_SDK_DIR)/MacOSX10.4u.sdk";
 				"SDKROOT[arch=x86_64]" = "$(DEVELOPER_SDK_DIR)/MacOSX10.5.sdk";
-				SDKROOT_ppc = "$(DEVELOPER_SDK_DIR)/MacOSX10.3.9.sdk";
+				SDKROOT_ppc = "$(DEVELOPER_SDK_DIR)/MacOSX10.4u.sdk";
 				SDKROOT_x86_64 = "$(DEVELOPER_SDK_DIR)/MacOSX10.5.sdk";
 				STRIP_INSTALLED_PRODUCT = NO;
 				WARNING_CFLAGS = (
@@ -3753,6 +3749,7 @@
 				GCC_FAST_MATH = NO;
 				GCC_INLINES_ARE_PRIVATE_EXTERN = YES;
 				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
+				GCC_VERSION = 4.0;
 				GCC_WARN_ABOUT_DEPRECATED_FUNCTIONS = NO;
 				LIBRARY_STYLE = STATIC;
 				MACOSX_DEPLOYMENT_TARGET = 10.4;
@@ -3767,9 +3764,9 @@
 				);
 				PREBINDING = NO;
 				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.4u.sdk";
-				"SDKROOT[arch=ppc]" = "$(DEVELOPER_SDK_DIR)/MacOSX10.3.9.sdk";
+				"SDKROOT[arch=ppc]" = "$(DEVELOPER_SDK_DIR)/MacOSX10.4u.sdk";
 				"SDKROOT[arch=x86_64]" = "$(DEVELOPER_SDK_DIR)/MacOSX10.5.sdk";
-				SDKROOT_ppc = "$(DEVELOPER_SDK_DIR)/MacOSX10.3.9.sdk";
+				SDKROOT_ppc = "$(DEVELOPER_SDK_DIR)/MacOSX10.4u.sdk";
 				SDKROOT_x86_64 = "$(DEVELOPER_SDK_DIR)/MacOSX10.5.sdk";
 				STRIP_INSTALLED_PRODUCT = YES;
 				WARNING_CFLAGS = (
@@ -4130,6 +4127,7 @@
 				GCC_FAST_MATH = NO;
 				GCC_INLINES_ARE_PRIVATE_EXTERN = YES;
 				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
+				GCC_VERSION = 4.0;
 				GCC_WARN_ABOUT_DEPRECATED_FUNCTIONS = NO;
 				LIBRARY_STYLE = STATIC;
 				MACOSX_DEPLOYMENT_TARGET = 10.4;
@@ -4145,9 +4143,9 @@
 				);
 				PREBINDING = NO;
 				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.4u.sdk";
-				"SDKROOT[arch=ppc]" = "$(DEVELOPER_SDK_DIR)/MacOSX10.3.9.sdk";
+				"SDKROOT[arch=ppc]" = "$(DEVELOPER_SDK_DIR)/MacOSX10.4u.sdk";
 				"SDKROOT[arch=x86_64]" = "$(DEVELOPER_SDK_DIR)/MacOSX10.5.sdk";
-				SDKROOT_ppc = "$(DEVELOPER_SDK_DIR)/MacOSX10.3.9.sdk";
+				SDKROOT_ppc = "$(DEVELOPER_SDK_DIR)/MacOSX10.4u.sdk";
 				SDKROOT_x86_64 = "$(DEVELOPER_SDK_DIR)/MacOSX10.5.sdk";
 				STRIP_INSTALLED_PRODUCT = YES;
 				WARNING_CFLAGS = (
@@ -4185,10 +4183,10 @@
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEPLOYMENT_POSTPROCESSING = YES;
-				HEADER_SEARCH_PATHS = "../../curl-7.19.4/include";
+				HEADER_SEARCH_PATHS = "../../curl-7.21.7/include";
 				OTHER_LDFLAGS = (
-					"../../curl-7.19.4/lib/.libs/libcurl.a",
-					"../../c-ares-1.6.0/.libs/libcares.a",
+					"../../curl-7.21.7/lib/.libs/libcurl.a",
+					"../../c-ares-1.7.4/.libs/libcares.a",
 					"-lcrypto",
 					"-lssl",
 					"-lldap",
@@ -4204,7 +4202,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				DEBUG_INFORMATION_FORMAT = stabs;
-				GCC_VERSION_ppc = 3.3;
 				OTHER_LDFLAGS = "-lboinc";
 				PRODUCT_NAME = boinccmd;
 			};
@@ -4213,7 +4210,6 @@
 		DD96706B0CED9A800009D32B /* Deployment-no64 */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				GCC_VERSION_ppc = 3.3;
 				OTHER_LDFLAGS = "";
 				PRODUCT_NAME = boinc;
 			};
@@ -4222,7 +4218,6 @@
 		DD96706D0CED9A800009D32B /* Deployment-no64 */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				GCC_VERSION_ppc = 3.3;
 				HEADER_SEARCH_PATHS = "../../jpeg-6b";
 				PRODUCT_NAME = boinc_graphics2;
 			};
@@ -4231,7 +4226,6 @@
 		DD96706E0CED9A800009D32B /* Deployment-no64 */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				GCC_VERSION_ppc = 3.3;
 				PRODUCT_NAME = boinc_api;
 			};
 			name = "Deployment-no64";
@@ -4422,7 +4416,6 @@
 					ppc,
 					x86_64,
 				);
-				GCC_VERSION_ppc = 3.3;
 				OTHER_CFLAGS = (
 					"-DMAC_OS_X_VERSION_MAX_ALLOWED=1040",
 					"-D_THREAD_SAFE",
@@ -4461,7 +4454,6 @@
 					ppc,
 					x86_64,
 				);
-				GCC_VERSION_ppc = 3.3;
 				"OTHER_CFLAGS[arch=ppc]" = (
 					"-DMAC_OS_X_VERSION_MAX_ALLOWED=1030",
 					"-D_THREAD_SAFE",
@@ -4494,7 +4486,22 @@
 		DD9843DD09920F220090855B /* Deployment */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = (
+					i386,
+					ppc,
+					x86_64,
+				);
+				GCC_ENABLE_OBJC_GC = supported;
 				INFOPLIST_FILE = "ScreenSaver-Info.plist";
+				"MACOSX_DEPLOYMENT_TARGET[arch=x86_64]" = 10.6;
+				"OTHER_CFLAGS[arch=x86_64]" = (
+					"-DMAC_OS_X_VERSION_MAX_ALLOWED=1060",
+					"-D_THREAD_SAFE",
+					"-DNDEBUG",
+					"-DSANDBOX",
+					"-include",
+					../clientgui/mac/config.h,
+				);
 				OTHER_LDFLAGS = (
 					"-framework",
 					Foundation,
@@ -4502,6 +4509,8 @@
 					AppKit,
 				);
 				PRODUCT_NAME = BOINCSaver;
+				"SDKROOT[arch=x86_64]" = "$(DEVELOPER_SDK_DIR)/MacOSX10.6.sdk";
+				SDKROOT_x86_64 = "$(DEVELOPER_SDK_DIR)/MacOSX10.6.sdk";
 				WRAPPER_EXTENSION = saver;
 			};
 			name = Deployment;
@@ -4517,7 +4526,7 @@
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEPLOYMENT_POSTPROCESSING = YES;
-				HEADER_SEARCH_PATHS = "../../curl-7.19.4/include";
+				HEADER_SEARCH_PATHS = "../../curl-7.21.7/include";
 				"OTHER_CFLAGS[arch=x86_64]" = (
 					"-DMAC_OS_X_VERSION_MAX_ALLOWED=1050",
 					"-D_THREAD_SAFE",
@@ -4527,8 +4536,8 @@
 					../clientgui/mac/config.h,
 				);
 				OTHER_LDFLAGS = (
-					"../../curl-7.19.4/lib/.libs/libcurl.a",
-					"../../c-ares-1.6.0/.libs/libcares.a",
+					"../../curl-7.21.7/lib/.libs/libcurl.a",
+					"../../c-ares-1.7.4/.libs/libcares.a",
 					"-lcrypto",
 					"-lssl",
 					"-lldap",
@@ -4581,7 +4590,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				DEBUG_INFORMATION_FORMAT = stabs;
-				GCC_VERSION_ppc = 3.3;
 				"OTHER_CFLAGS[arch=ppc]" = (
 					"-DMAC_OS_X_VERSION_MAX_ALLOWED=1030",
 					"-D_THREAD_SAFE",
@@ -4638,6 +4646,7 @@
 				GCC_FAST_MATH = NO;
 				GCC_INLINES_ARE_PRIVATE_EXTERN = YES;
 				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
+				GCC_VERSION = 4.0;
 				GCC_WARN_ABOUT_DEPRECATED_FUNCTIONS = NO;
 				LIBRARY_STYLE = STATIC;
 				MACOSX_DEPLOYMENT_TARGET = 10.4;
@@ -4655,9 +4664,9 @@
 				);
 				PREBINDING = NO;
 				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.4u.sdk";
-				"SDKROOT[arch=ppc]" = "$(DEVELOPER_SDK_DIR)/MacOSX10.3.9.sdk";
+				"SDKROOT[arch=ppc]" = "$(DEVELOPER_SDK_DIR)/MacOSX10.4u.sdk";
 				"SDKROOT[arch=x86_64]" = "$(DEVELOPER_SDK_DIR)/MacOSX10.5.sdk";
-				SDKROOT_ppc = "$(DEVELOPER_SDK_DIR)/MacOSX10.3.9.sdk";
+				SDKROOT_ppc = "$(DEVELOPER_SDK_DIR)/MacOSX10.4u.sdk";
 				SDKROOT_x86_64 = "$(DEVELOPER_SDK_DIR)/MacOSX10.5.sdk";
 				STRIP_INSTALLED_PRODUCT = YES;
 				WARNING_CFLAGS = (
@@ -4671,7 +4680,6 @@
 		DD9E2352091CBDAE0048316E /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				GCC_VERSION_ppc = 3.3;
 				OTHER_LDFLAGS = "";
 				PRODUCT_NAME = boinc;
 			};
@@ -4680,7 +4688,6 @@
 		DD9E2353091CBDAE0048316E /* ppc_Deployment */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				GCC_VERSION_ppc = 3.3;
 				OTHER_LDFLAGS = "";
 				PRODUCT_NAME = boinc;
 			};
@@ -4689,7 +4696,6 @@
 		DD9E235A091CBDAE0048316E /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				GCC_VERSION_ppc = 3.3;
 				PRODUCT_NAME = boinc_api;
 			};
 			name = Development;
@@ -4697,7 +4703,6 @@
 		DD9E235B091CBDAE0048316E /* ppc_Deployment */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				GCC_VERSION_ppc = 3.3;
 				PRODUCT_NAME = boinc_api;
 			};
 			name = ppc_Deployment;
@@ -4755,10 +4760,10 @@
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEPLOYMENT_POSTPROCESSING = YES;
-				HEADER_SEARCH_PATHS = "../../curl-7.19.4/include";
+				HEADER_SEARCH_PATHS = "../../curl-7.21.7/include";
 				OTHER_LDFLAGS = (
-					"../../curl-7.19.4/lib/.libs/libcurl.a",
-					"../../c-ares-1.6.0/.libs/libcares.a",
+					"../../curl-7.21.7/lib/.libs/libcurl.a",
+					"../../c-ares-1.7.4/.libs/libcares.a",
 					"-lcrypto",
 					"-lssl",
 					"-lldap",
@@ -4777,10 +4782,10 @@
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEPLOYMENT_POSTPROCESSING = YES;
-				HEADER_SEARCH_PATHS = "../../curl-7.19.4/include";
+				HEADER_SEARCH_PATHS = "../../curl-7.21.7/include";
 				OTHER_LDFLAGS = (
-					"../../curl-7.19.4/lib/.libs/libcurl.a",
-					"../../c-ares-1.6.0/.libs/libcares.a",
+					"../../curl-7.21.7/lib/.libs/libcurl.a",
+					"../../c-ares-1.7.4/.libs/libcares.a",
 					"-lcrypto",
 					"-lssl",
 					"-lldap",
@@ -4870,7 +4875,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				DEBUG_INFORMATION_FORMAT = stabs;
-				GCC_VERSION_ppc = 3.3;
 				OTHER_LDFLAGS = "-lboinc";
 				PRODUCT_NAME = boinccmd;
 			};
@@ -4880,7 +4884,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				DEBUG_INFORMATION_FORMAT = stabs;
-				GCC_VERSION_ppc = 3.3;
 				OTHER_LDFLAGS = "-lboinc";
 				PRODUCT_NAME = boinccmd;
 			};
@@ -4952,6 +4955,7 @@
 				GCC_INLINES_ARE_PRIVATE_EXTERN = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
+				GCC_VERSION = 4.0;
 				GCC_WARN_ABOUT_DEPRECATED_FUNCTIONS = NO;
 				LIBRARY_STYLE = STATIC;
 				MACOSX_DEPLOYMENT_TARGET = 10.4;
@@ -4967,9 +4971,9 @@
 				);
 				PREBINDING = NO;
 				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.4u.sdk";
-				"SDKROOT[arch=ppc]" = "$(DEVELOPER_SDK_DIR)/MacOSX10.3.9.sdk";
+				"SDKROOT[arch=ppc]" = "$(DEVELOPER_SDK_DIR)/MacOSX10.4u.sdk";
 				"SDKROOT[arch=x86_64]" = "$(DEVELOPER_SDK_DIR)/MacOSX10.5.sdk";
-				SDKROOT_ppc = "$(DEVELOPER_SDK_DIR)/MacOSX10.3.9.sdk";
+				SDKROOT_ppc = "$(DEVELOPER_SDK_DIR)/MacOSX10.4u.sdk";
 				SDKROOT_x86_64 = "$(DEVELOPER_SDK_DIR)/MacOSX10.5.sdk";
 				STRIP_INSTALLED_PRODUCT = NO;
 				WARNING_CFLAGS = (
@@ -4990,6 +4994,7 @@
 				DEPLOYMENT_POSTPROCESSING = YES;
 				GCC_INLINES_ARE_PRIVATE_EXTERN = YES;
 				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
+				GCC_VERSION = 4.0;
 				GCC_WARN_ABOUT_DEPRECATED_FUNCTIONS = NO;
 				LIBRARY_STYLE = STATIC;
 				MACOSX_DEPLOYMENT_TARGET = 10.4;
@@ -5005,9 +5010,9 @@
 				);
 				PREBINDING = NO;
 				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.4u.sdk";
-				"SDKROOT[arch=ppc]" = "$(DEVELOPER_SDK_DIR)/MacOSX10.3.9.sdk";
+				"SDKROOT[arch=ppc]" = "$(DEVELOPER_SDK_DIR)/MacOSX10.4u.sdk";
 				"SDKROOT[arch=x86_64]" = "$(DEVELOPER_SDK_DIR)/MacOSX10.5.sdk";
-				SDKROOT_ppc = "$(DEVELOPER_SDK_DIR)/MacOSX10.3.9.sdk";
+				SDKROOT_ppc = "$(DEVELOPER_SDK_DIR)/MacOSX10.4u.sdk";
 				SDKROOT_x86_64 = "$(DEVELOPER_SDK_DIR)/MacOSX10.5.sdk";
 				STRIP_INSTALLED_PRODUCT = YES;
 				WARNING_CFLAGS = (
@@ -5021,7 +5026,6 @@
 		DDA2D1570952A93E00D0B538 /* i386_Deployment */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				GCC_VERSION_ppc = 3.3;
 				OTHER_LDFLAGS = "";
 				PRODUCT_NAME = boinc;
 			};
@@ -5030,7 +5034,6 @@
 		DDA2D1590952A93E00D0B538 /* i386_Deployment */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				GCC_VERSION_ppc = 3.3;
 				PRODUCT_NAME = boinc_api;
 			};
 			name = i386_Deployment;
@@ -5065,10 +5068,10 @@
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEPLOYMENT_POSTPROCESSING = YES;
-				HEADER_SEARCH_PATHS = "../../curl-7.19.4/include";
+				HEADER_SEARCH_PATHS = "../../curl-7.21.7/include";
 				OTHER_LDFLAGS = (
-					"../../curl-7.19.4/lib/.libs/libcurl.a",
-					"../../c-ares-1.6.0/.libs/libcares.a",
+					"../../curl-7.21.7/lib/.libs/libcurl.a",
+					"../../c-ares-1.7.4/.libs/libcares.a",
 					"-lcrypto",
 					"-lssl",
 					"-lldap",
@@ -5121,7 +5124,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				DEBUG_INFORMATION_FORMAT = stabs;
-				GCC_VERSION_ppc = 3.3;
 				OTHER_LDFLAGS = "-lboinc";
 				PRODUCT_NAME = boinccmd;
 			};
@@ -5166,6 +5168,7 @@
 				GCC_FAST_MATH = NO;
 				GCC_INLINES_ARE_PRIVATE_EXTERN = YES;
 				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
+				GCC_VERSION = 4.0;
 				GCC_WARN_ABOUT_DEPRECATED_FUNCTIONS = NO;
 				LIBRARY_STYLE = STATIC;
 				MACOSX_DEPLOYMENT_TARGET = 10.4;
@@ -5181,9 +5184,9 @@
 				);
 				PREBINDING = NO;
 				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.4u.sdk";
-				"SDKROOT[arch=ppc]" = "$(DEVELOPER_SDK_DIR)/MacOSX10.3.9.sdk";
+				"SDKROOT[arch=ppc]" = "$(DEVELOPER_SDK_DIR)/MacOSX10.4u.sdk";
 				"SDKROOT[arch=x86_64]" = "$(DEVELOPER_SDK_DIR)/MacOSX10.5.sdk";
-				SDKROOT_ppc = "$(DEVELOPER_SDK_DIR)/MacOSX10.3.9.sdk";
+				SDKROOT_ppc = "$(DEVELOPER_SDK_DIR)/MacOSX10.4u.sdk";
 				SDKROOT_x86_64 = "$(DEVELOPER_SDK_DIR)/MacOSX10.5.sdk";
 				STRIP_INSTALLED_PRODUCT = YES;
 				WARNING_CFLAGS = (
@@ -5197,7 +5200,6 @@
 		DDB873FD0C850BC800E0DE1F /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				GCC_VERSION_ppc = 3.3;
 				HEADER_SEARCH_PATHS = "../../jpeg-6b";
 				PRODUCT_NAME = boinc_graphics2;
 			};
@@ -5206,7 +5208,6 @@
 		DDB873FE0C850BC800E0DE1F /* Dev_noSandbox */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				GCC_VERSION_ppc = 3.3;
 				HEADER_SEARCH_PATHS = "../../jpeg-6b";
 				PRODUCT_NAME = boinc_graphics2;
 			};
@@ -5215,7 +5216,6 @@
 		DDB873FF0C850BC800E0DE1F /* ppc_Deployment */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				GCC_VERSION_ppc = 3.3;
 				HEADER_SEARCH_PATHS = "../../jpeg-6b";
 				PRODUCT_NAME = boinc_graphics2;
 			};
@@ -5224,7 +5224,6 @@
 		DDB874000C850BC800E0DE1F /* i386_Deployment */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				GCC_VERSION_ppc = 3.3;
 				HEADER_SEARCH_PATHS = "../../jpeg-6b";
 				PRODUCT_NAME = boinc_graphics2;
 			};
@@ -5238,7 +5237,6 @@
 					ppc,
 					x86_64,
 				);
-				GCC_VERSION_ppc = 3.3;
 				HEADER_SEARCH_PATHS = "../../jpeg-6b";
 				"OTHER_CFLAGS[arch=ppc]" = (
 					"-DMAC_OS_X_VERSION_MAX_ALLOWED=1030",
@@ -5264,7 +5262,6 @@
 		DDB874020C850BC800E0DE1F /* Deploy_noSandbox */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				GCC_VERSION_ppc = 3.3;
 				HEADER_SEARCH_PATHS = "../../jpeg-6b";
 				PRODUCT_NAME = boinc_graphics2;
 			};

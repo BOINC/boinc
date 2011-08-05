@@ -227,7 +227,7 @@ int MakeInstallerInfoPlistFile(char* myPath, char* brand) {
         fprintf(f, "\t<key>IFPkgFlagIsRequired</key>\n\t<integer>0</integer>\n");
         fprintf(f, "\t<key>IFPkgFlagOverwritePermissions</key>\n\t<integer>0</integer>\n");
         fprintf(f, "\t<key>IFPkgFlagRelocatable</key>\n\t<integer>0</integer>\n");
-        fprintf(f, "\t<key>IFPkgFlagRestartAction</key>\n\t<string>RequiredLogout</string>\n");
+        fprintf(f, "\t<key>IFPkgFlagRestartAction</key>\n\t<string>NoRestart</string>\n");
         fprintf(f, "\t<key>IFPkgFlagRootVolumeOnly</key>\n\t<integer>1</integer>\n");
         fprintf(f, "\t<key>IFPkgFlagUpdateInstalledLanguages</key>\n\t<integer>0</integer>\n");
         fprintf(f, "\t<key>IFPkgFormatVersion</key>\n\t<real>0.10000000149011612</real>\n");
@@ -243,6 +243,3 @@ int MakeInstallerInfoPlistFile(char* myPath, char* brand) {
         
     return retval;
 }
-
-
-const char *BOINC_RCSID_9263a2dc22="$Id$";

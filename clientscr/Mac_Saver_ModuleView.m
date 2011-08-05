@@ -23,9 +23,29 @@
 #import "Mac_Saver_ModuleView.h"
 #include <Carbon/Carbon.h>
 #include <AppKit/AppKit.h>
+#include <QTKit/QTKitDefines.h> // For NSInteger
+#include <IOKit/hidsystem/IOHIDLib.h>
+#include <IOKit/hidsystem/IOHIDParameter.h>
+#include <IOKit/hidsystem/event_status_driver.h>
+
+#ifndef NSInteger
+#if __LP64__ || NS_BUILD_32_LIKE_64
+typedef long NSInteger;
+#else
+typedef int NSInteger;
+#endif
+#endif
+
+#ifndef CGFLOAT_DEFINED
+typedef float CGFloat;
+#endif
 
 void print_to_log_file(const char *format, ...);
 void strip_cr(char *buf);
+
+static SInt32 gSystemVersion = 0;
+static double gSS_StartTime = 0.0;
+mach_port_t gEventHandle = 0;
 
 int gGoToBlank;      // True if we are to blank the screen
 int gBlankingTime;   // Delay in minutes before blanking the screen
@@ -38,18 +58,9 @@ int gTopWindowListIndex = -1;
 NSRect gMovingRect;
 float gImageXIndent;
 float gTextBoxHeight;
+CGFloat gActualTextBoxHeight;
 NSPoint gCurrentPosition;
 NSPoint gCurrentDelta;
-
-ATSUStyle  theStyle = NULL;
-ATSUFontID theFontID;
-Fixed   atsuSize;
-char myFontName[] = "Helvetica";
-//char myFontName[] = "Lucida Blackletter";
-    
-ATSUAttributeTag  theTags[] =  { kATSUFontTag, kATSUSizeTag };
-ByteCount        theSizes[] = { sizeof (ATSUFontID), sizeof(Fixed) };
-ATSUAttributeValuePtr theValues[] = { &theFontID, &atsuSize };
 
 CGContextRef myContext;
 bool isErased;
@@ -78,8 +89,18 @@ int signof(float x) {
 // against any problems that may cause.
 - (void)startAnimation {
     NSBundle * myBundle;
-    OSStatus err;
     int newFrequency;
+
+#ifdef X86_64
+    gEventHandle = NXOpenEventStatus();
+#endif
+
+    OSStatus err = Gestalt(gestaltSystemVersion, &gSystemVersion);
+    if (err != noErr) {
+        gSystemVersion = 0;
+    }
+    
+    initBOINCSaver();  
 
     if (gBOINC_Logo == NULL) {
         if (self) {
@@ -143,14 +164,9 @@ int signof(float x) {
             gCurrentDelta.x = 1.0;
             gCurrentDelta.y = 1.0;
             
+            gActualTextBoxHeight = MINTEXTBOXHEIGHT;
+            
             [ self setAnimationTimeInterval:1/8.0 ];
-
-            ATSUFindFontFromName(myFontName, strlen(myFontName), kFontFamilyName, kFontMacintoshPlatform, 
-                                    kFontNoScriptCode, kFontNoLanguageCode, &theFontID);
-                                
-            err = ATSUCreateStyle(&theStyle);
-            atsuSize = Long2Fix (20);
-            err = ATSUSetAttributes(theStyle, 2, theTags, theSizes, theValues);
         }
     }
     
@@ -161,9 +177,11 @@ int signof(float x) {
         return;
     }
     
-    newFrequency = initBOINCSaver();        
+    newFrequency = startBOINCSaver();  
     if (newFrequency)
         [ self setAnimationTimeInterval:1.0/newFrequency ];
+
+    gSS_StartTime = getDTime();
 }
 
 // If there are multiple displays, this may get called 
@@ -183,10 +201,6 @@ int signof(float x) {
     }
     gBOINC_Logo = NULL;
     
-    if (theStyle) {
-        ATSUDisposeStyle(theStyle);
-    }
-    theStyle = NULL;
 }
 
 // If there are multiple displays, this may get called 
@@ -205,16 +219,20 @@ int signof(float x) {
     int newFrequency = 0;
     int coveredFreq = 0;
     NSRect theFrame = [ self frame ];
-    int myWindowNumber;
-    int windowList[20];
-    int i, n;
+    NSInteger myWindowNumber;
+    NSInteger windowList[20];
+    NSInteger i, n;
     NSRect currentDrawingRect, eraseRect;
     NSPoint imagePosition;
-    Rect r;
     char *msg;
     CFStringRef cf_msg;
     AbsoluteTime timeToUnblock, frameStartTime = UpTime();
-    OSStatus err;
+#ifdef X86_64
+    kern_return_t   kernResult = kIOReturnError; 
+    UInt64          params;
+    IOByteCount     rcnt = sizeof(UInt64);
+    double          idleTime = 0;
+#endif
 
    if ([ self isPreview ]) {
 #if 1   // Currently drawRect just draws our logo in the preview window
@@ -235,15 +253,31 @@ int signof(float x) {
         return;
     }
 
+#ifdef X86_64
+    // For unkown reasons, OS 10.7 Lion screensaver delays several seconds after 
+    // user activity before calling stopAnimation, so we check user activity here
+    if ((gSystemVersion >= 1070) && ((getDTime() - gSS_StartTime) > 2.0)) {        
+        kernResult = IOHIDGetParameter( gEventHandle, CFSTR(EVSIOIDLE), sizeof(UInt64), &params, &rcnt );
+        if ( kernResult == kIOReturnSuccess ) {
+            idleTime = ((double)params) / 1000.0 / 1000.0 / 1000.0;
+            if (idleTime < 1.5) {
+                [ self stopAnimation ];
+            }
+        }
+    }
+#endif
+    
    myContext = [[NSGraphicsContext currentContext] graphicsPort];
 //    [myContext retain];
-
+    
     NSWindow *myWindow = [ self window ];
     NSRect windowFrame = [ myWindow frame ];
     if ( (windowFrame.origin.x != 0) || (windowFrame.origin.y != 0) ) {
         // Hide window on second display to aid in debugging
 #ifdef _DEBUG
         [ myWindow setLevel:kCGMinimumWindowLevel ];
+        NSInteger alpha = 0;
+        [ myWindow setAlphaValue:alpha ];   // For OS 10.6
 #endif
         return;         // We draw only to main screen
     }
@@ -321,7 +355,7 @@ int signof(float x) {
             gCurrentDelta.x = -(float)SSRandomIntBetween(MINDELTA, MAXDELTA) / 16.;
             gCurrentDelta.y = (float)(SSRandomIntBetween(MINDELTA, MAXDELTA) * signof(gCurrentDelta.y)) / 16.;
         }
-        if (currentDrawingRect.origin.y <= SAFETYBORDER) {
+        if (currentDrawingRect.origin.y + gTextBoxHeight - gActualTextBoxHeight <= SAFETYBORDER) {
             gCurrentDelta.y = (float)SSRandomIntBetween(MINDELTA, MAXDELTA) / 16.;
             gCurrentDelta.x = (float)(SSRandomIntBetween(MINDELTA, MAXDELTA) * signof(gCurrentDelta.x)) / 16.;
         }
@@ -336,46 +370,46 @@ int signof(float x) {
         gCurrentDelta.y = 0;
 #endif
 
-    if (!isErased) {
-        [[NSColor blackColor] set];
-        
-        // Erasing only 2 small rectangles reduces screensaver's CPU usage by about 25%
-        imagePosition.x = (float) ((int)gCurrentPosition.x + gImageXIndent);
-        imagePosition.y = (float) (int)gCurrentPosition.y;
-        eraseRect.origin.y = imagePosition.y;
-        eraseRect.size.height = currentDrawingRect.size.height - gTextBoxHeight;
-        
-        if (gCurrentDelta.x > 0) {
-            eraseRect.origin.x = imagePosition.x - 1;
-            eraseRect.size.width = gCurrentDelta.x + 1;
-        } else {
-            eraseRect.origin.x = currentDrawingRect.origin.x + currentDrawingRect.size.width - gImageXIndent + gCurrentDelta.x - 1;
-            eraseRect.size.width = -gCurrentDelta.x + 1;
-        }
-        
-        eraseRect = NSInsetRect(eraseRect, -1, -1);
-        NSRectFill(eraseRect);
-        
-        eraseRect.origin.x = imagePosition.x;
-        eraseRect.size.width = currentDrawingRect.size.width - gImageXIndent - gImageXIndent;
-
-        if (gCurrentDelta.y > 0) {
+        if (!isErased) {
+            [[NSColor blackColor] set];
+            
+            // Erasing only 2 small rectangles reduces screensaver's CPU usage by about 25%
+            imagePosition.x = (float) ((int)gCurrentPosition.x + gImageXIndent);
+            imagePosition.y = (float) (int)gCurrentPosition.y;
             eraseRect.origin.y = imagePosition.y;
-            eraseRect.size.height = gCurrentDelta.y + 1;
-        } else {
-            eraseRect.origin.y = imagePosition.y + currentDrawingRect.size.height - gTextBoxHeight - 1;
-            eraseRect.size.height = -gCurrentDelta.y + 1;
-        }
-        eraseRect = NSInsetRect(eraseRect, -1, -1);
-        NSRectFill(eraseRect);
-        
-        eraseRect = currentDrawingRect;
-        eraseRect.size.height = gTextBoxHeight;
-        eraseRect = NSInsetRect(eraseRect, -1, -1);
-        NSRectFill(eraseRect);
+            eraseRect.size.height = currentDrawingRect.size.height - gTextBoxHeight;
+            
+            if (gCurrentDelta.x > 0) {
+                eraseRect.origin.x = imagePosition.x - 1;
+                eraseRect.size.width = gCurrentDelta.x + 1;
+            } else {
+                eraseRect.origin.x = currentDrawingRect.origin.x + currentDrawingRect.size.width - gImageXIndent + gCurrentDelta.x - 1;
+                eraseRect.size.width = -gCurrentDelta.x + 1;
+            }
+            
+            eraseRect = NSInsetRect(eraseRect, -1, -1);
+            NSRectFill(eraseRect);
+            
+            eraseRect.origin.x = imagePosition.x;
+            eraseRect.size.width = currentDrawingRect.size.width - gImageXIndent - gImageXIndent;
 
-        isErased  = true;
-    }
+            if (gCurrentDelta.y > 0) {
+                eraseRect.origin.y = imagePosition.y;
+                eraseRect.size.height = gCurrentDelta.y + 1;
+            } else {
+                eraseRect.origin.y = imagePosition.y + currentDrawingRect.size.height - gTextBoxHeight - 1;
+                eraseRect.size.height = -gCurrentDelta.y + 1;
+            }
+            eraseRect = NSInsetRect(eraseRect, -1, -1);
+            NSRectFill(eraseRect);
+            
+            eraseRect = currentDrawingRect;
+            eraseRect.size.height = gTextBoxHeight;
+            eraseRect = NSInsetRect(eraseRect, -1, -1);
+            NSRectFill(eraseRect);
+
+            isErased  = true;
+        }
 
         // Get the new drawing area
         gCurrentPosition.x += gCurrentDelta.x;
@@ -383,28 +417,68 @@ int signof(float x) {
         
         imagePosition.x = (float) ((int)gCurrentPosition.x + gImageXIndent);
         imagePosition.y = (float) (int)gCurrentPosition.y;
-    
-        // Calculate QuickDraw Rect for current text box
-        r.left = (float) ((int)gCurrentPosition.x);
-        r.right = r.left + gMovingRect.size.width;
-        r.top = viewBounds.size.height - imagePosition.y;
-        r.bottom = r.top + (int)MAXTEXTBOXHEIGHT;
-        r.top += TEXTBOXTOPBORDER;        // Add a few pixels space below image
-        
-        TXNTextBoxOptionsData theOptions = {kTXNUseCGContextRefMask | kTXNSetFlushnessMask, 
-                                            kATSUCenterAlignment, kATSUNoJustification, 0, myContext };
-
-        cf_msg = CFStringCreateWithCString(NULL, msg, kCFStringEncodingMacRoman);
-
-        [[NSColor whiteColor] set];
 
         [ gBOINC_Logo compositeToPoint:imagePosition operation:NSCompositeCopy ];
 
-        err = TXNDrawCFStringTextBox ( cf_msg, &r, theStyle, &theOptions);
-        gTextBoxHeight = r.bottom - r.top + TEXTBOXTOPBORDER;
+        if ( (msg != NULL) && (msg[0] != '\0') ) {
+            cf_msg = CFStringCreateWithCString(NULL, msg, kCFStringEncodingMacRoman);
+
+            CGRect bounds = CGRectMake((float) ((int)gCurrentPosition.x), 
+                                 viewBounds.size.height - imagePosition.y + TEXTBOXTOPBORDER,
+                                 gMovingRect.size.width,
+                                 MAXTEXTBOXHEIGHT
+                            );
+
+            CGContextSaveGState (myContext);
+            CGContextTranslateCTM (myContext, 0, viewBounds.origin.y + viewBounds.size.height);
+            CGContextScaleCTM (myContext, 1.0f, -1.0f);
+
+
+#ifdef __x86_64__
+            CTFontRef myFont = CTFontCreateWithName(CFSTR("Helvetica"), 20, NULL);
+
+            HIThemeTextInfo textInfo = {kHIThemeTextInfoVersionOne, kThemeStateActive, kThemeSpecifiedFont, 
+                                        kHIThemeTextHorizontalFlushLeft, kHIThemeTextVerticalFlushTop, 
+                                        kHIThemeTextBoxOptionNone, kHIThemeTextTruncationNone, 0, false,
+                                        0, myFont
+                                        };
+
+#else
+            GrafPtr port;
+            GetPort(&port);
+            SetPortTextFont(port, kFontIDHelvetica);
+            SetPortTextSize(port, 20);
+            
+            HIThemeTextInfo textInfo = {0, kThemeStateActive, kThemeCurrentPortFont, //kThemeMenuItemCmdKeyFont, //kThemePushButtonFont, 
+                                        kHIThemeTextHorizontalFlushLeft, kHIThemeTextVerticalFlushTop, 
+                                        kHIThemeTextBoxOptionNone, kHIThemeTextTruncationNone, 0, false 
+                                        };
+#endif
+
+            HIThemeGetTextDimensions(cf_msg, (float)gMovingRect.size.width, &textInfo, NULL, &gActualTextBoxHeight, NULL);
+            gActualTextBoxHeight += TEXTBOXTOPBORDER;
+            
+            // Use only APIs available in Mac OS 10.3.9
+//            HIThemeSetTextFill(kThemeTextColorWhite, NULL, myContext, kHIThemeOrientationNormal);
+//            SetThemeTextColor(kThemeTextColorWhite, 32, true);
+
+            CGFloat myWhiteComponents[] = {1.0, 1.0, 1.0, 1.0};
+            CGColorSpaceRef myColorSpace = CGColorSpaceCreateDeviceRGB ();
+            CGColorRef myTextColor = CGColorCreate(myColorSpace, myWhiteComponents);
+
+            CGContextSetFillColorWithColor(myContext, myTextColor);
+
+            HIThemeDrawTextBox(cf_msg, &bounds, &textInfo, myContext, kHIThemeOrientationNormal);
+
+            CGColorRelease(myTextColor);
+            CGColorSpaceRelease(myColorSpace);
+            CGContextRestoreGState (myContext);
+            CFRelease(cf_msg);
+        }
+        
+        gTextBoxHeight = MAXTEXTBOXHEIGHT + TEXTBOXTOPBORDER;
         gMovingRect.size.height = [gBOINC_Logo size].height + gTextBoxHeight;
         
-        CFRelease(cf_msg);
         isErased  = false;
         
     } else {        // Empty or NULL message
@@ -418,12 +492,13 @@ int signof(float x) {
         }
     }
     
-    if (newFrequency)
+    if (newFrequency) {
         [ self setAnimationTimeInterval:(1.0/newFrequency) ];
-    // setAnimationTimeInterval does not seem to be working, so we 
-    // throttle the screensaver directly here.
-    timeToUnblock = AddDurationToAbsolute(durationSecond/newFrequency, frameStartTime);
-    MPDelayUntil(&timeToUnblock);
+        // setAnimationTimeInterval does not seem to be working, so we 
+        // throttle the screensaver directly here.
+        timeToUnblock = AddDurationToAbsolute(durationSecond/newFrequency, frameStartTime);
+        MPDelayUntil(&timeToUnblock);
+    }
 }
 
 - (BOOL)hasConfigureSheet {
@@ -435,10 +510,10 @@ int signof(float x) {
 {
 	// if we haven't loaded our configure sheet, load the nib named MyScreenSaver.nib
 	if (!mConfigureSheet)
-            [ NSBundle loadNibNamed:@"BOINCSaver" owner:self ];
+        [ NSBundle loadNibNamed:@"BOINCSaver" owner:self ];
 	// set the UI state
 	[ mGoToBlankCheckbox setState:gGoToBlank ];
-        mBlankingTimeString = [[ NSString alloc ] initWithFormat:@"%d", gBlankingTime ];
+    mBlankingTimeString = [[ NSString alloc ] initWithFormat:@"%d", gBlankingTime ];
 	[ mBlankingTimeTextField setStringValue:mBlankingTimeString ];
     
 	return mConfigureSheet;
@@ -453,7 +528,7 @@ int signof(float x) {
 	// save the UI state
 	gGoToBlank = [ mGoToBlankCheckbox state ];
 	mBlankingTimeString = [ mBlankingTimeTextField stringValue ];
-        gBlankingTime = [ mBlankingTimeString intValue ];
+    gBlankingTime = [ mBlankingTimeString intValue ];
 	
 	// write the defaults
 	[ defaults setInteger:gGoToBlank forKey:@"GoToBlank" ];

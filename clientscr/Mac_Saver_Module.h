@@ -32,19 +32,21 @@
 extern "C" {
 #endif
 
-int initBOINCSaver(void);
-int getSSMessage(char **theMessage, int* coveredFreq);
-void windowIsCovered();
-void drawPreview(CGContextRef myContext);
-void closeBOINCSaver(void);
-void print_to_log_file(const char *format, ...);
-void strip_cr(char *buf);
-void PrintBacktrace(void);
+void            initBOINCSaver(void);
+int             startBOINCSaver(void);
+int             getSSMessage(char **theMessage, int* coveredFreq);
+void            windowIsCovered();
+void            drawPreview(CGContextRef myContext);
+void            closeBOINCSaver(void);
+void            setDefaultDisplayPeriods(void);
+double          getDTime();
+void            print_to_log_file(const char *format, ...);
+void            strip_cr(char *buf);
+void            PrintBacktrace(void);
 
 #ifdef __cplusplus
 }	// extern "C"
 #endif
-
 
 //-----------------------------------------------------------------------------
 // Name: class CScreensaver
@@ -72,7 +74,7 @@ protected:
     void            setSSMessageText(const char *msg);
     void            updateSSMessageText(char *msg);
     void            strip_cr(char *buf);
-    char            m_gfx_Switcher_Path[MAXPATHLEN];
+    char            m_gfx_Switcher_Path[PATH_MAX];
     bool            m_bErrorMode;        // Whether to draw moving logo and possibly display an error
     unsigned int    m_hrError;           // Error code to display
 
@@ -82,10 +84,6 @@ protected:
     time_t          m_dwBlankTime;
     int             m_iGraphicsStartingMsgCounter;
     bool            m_bDefault_ss_exists;
-    double          m_fGFXDefaultPeriod;
-    double          m_fGFxSciencePeriod;
-    double          m_fGFXChangePeriod;
-    bool            m_bShow_default_ss_first;
     bool            m_bScience_gfx_running;
     bool            m_bDefault_gfx_running;
     bool            m_bConnected;
@@ -144,6 +142,11 @@ public:
     void            windowIsCovered(void);
     void            drawPreview(CGContextRef myContext);
     void            ShutdownSaver();
+
+    double          m_fGFXDefaultPeriod;
+    double          m_fGFxSciencePeriod;
+    double          m_fGFXChangePeriod;
+    bool            m_bShow_default_ss_first;
 
 protected:
 };

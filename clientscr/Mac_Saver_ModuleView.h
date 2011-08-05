@@ -27,9 +27,15 @@
     IBOutlet id mConfigureSheet;		// our configuration sheet
     IBOutlet NSButton *mGoToBlankCheckbox;
     IBOutlet NSTextField *mBlankingTimeTextField;
+    IBOutlet NSTextField *mDefaultPeriodTextField;
+    IBOutlet NSTextField *mSciencePeriodTextField;
+    IBOutlet NSTextField *mChangePeriodTextField;    
     
     int mVersion;               // the version of our prefs
     NSString *mBlankingTimeString;
+    NSString *mDefaultPeriodString;
+    NSString *mSciencePeriodString;
+    NSString *mChangePeriodString;
 }
 
 - (IBAction)closeSheetSave:(id) sender;
@@ -37,9 +43,11 @@
 
 @end
 
-int initBOINCSaver(void);
-int getSSMessage(char **theMessage, int* coveredFreq);
-void windowIsCovered();
-void drawPreview(CGContextRef myContext);
-void closeBOINCSaver(void);
-extern void print_to_log_file(const char *format, ...);
+void            initBOINCSaver(void);
+int             startBOINCSaver(void);
+int             getSSMessage(char **theMessage, int* coveredFreq);
+void            windowIsCovered();
+void            drawPreview(CGContextRef myContext);
+void            closeBOINCSaver(void);
+double          getDTime();
+extern void     print_to_log_file(const char *format, ...);

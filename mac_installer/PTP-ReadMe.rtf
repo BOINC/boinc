@@ -1,6 +1,6 @@
-{\rtf1\ansi\ansicpg1252\cocoartf949\cocoasubrtf540
+{\rtf1\ansi\ansicpg1252\cocoartf1038\cocoasubrtf360
 {\fonttbl\f0\fswiss\fcharset0 Helvetica;}
-{\colortbl;\red255\green255\blue255;}
+{\colortbl;\red255\green255\blue255;\red2\green87\blue173;}
 \margl1440\margr1440\vieww9000\viewh9000\viewkind0
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\qc
 
@@ -12,17 +12,24 @@
 \cf0 http://gridrepublic.org\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
 \cf0 \
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
 
-\b Installing ProgressThruProcessors Desktop may take several minutes; please be patient.
+\b \cf0 Installing ProgressThruProcessors Desktop may take several minutes; please be patient.
 \b0 \
+\
+
+\b Dual GPU Macbook Pros:
+\b0  Some newer Macbook Pros have dual graphics processors, one that is more powerful and another that is more energy-efficient, and they switch between them automatically.  This can cause your screensaver to flash on and off frequently, and can prevent ProgressThruProcessors Desktop from detecting the more powerful GPU which is needed to process some applications.  You can force selection either {\field{\*\fldinst{HYPERLINK "http://support.apple.com/kb/HT4110"}}{\fldrslt \cf2 permanently}} or temporarily using a {\field{\*\fldinst{HYPERLINK "http://codykrieger.com/gfxCardStatus/"}}{\fldrslt \cf2 third-party utility}}. But be aware that forcing the use of the NVIDIA GPU may cause faster battery drain; this of course is not an issue when running on AC power.\
 \
 If you are upgrading from a version earlier than 6.8.0, you may see a message "Failed to convert file ProgressThruProcessors Desktop Preferences to Unicode."  This is due to our addition of full Unicode support to the ProgressThruProcessors Desktop.  If you get this message, you may need to readjust your column widths and other ProgressThruProcessors Desktop view options, but no other problems will result.  When  you quit ProgressThruProcessors Desktop, these settings will be saved in the new Unicode format.\
 \
-Due to new restrictions imposed by OS 10.6 Snow Leopard, there has been a change in ProgressThruProcessors Desktop's security implementation.  Non-administrative users can no longer run ProgressThruProcessors Desktop unless they are added to group boinc_master.  As of BOINC 6.10.5, the ProgressThruProcessors Desktop installer asks whether or not you wish to allow this.\
+Due to new restrictions imposed by OS 10.6 Snow Leopard, there has been a change in ProgressThruProcessors Desktop's security implementation.  Non-administrative users can no longer run ProgressThruProcessors Desktop unless they are added to group boinc_master.  As of ProgressThruProcessors Desktop 6.8.29, the ProgressThruProcessors Desktop installer asks whether or not you wish to allow this.\
 \
 For more options, please see the BOINC Macintosh administrator tools at:\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
 {\field{\*\fldinst{HYPERLINK "http://boinc.berkeley.edu/wiki/Tools_for_Mac_OS_X"}}{\fldrslt \cf0 http://boinc.berkeley.edu/wiki/Tools_for_Mac_OS_X}}\
+\
+ProgressThruProcessors Desktop on the Mac now supports processing with your graphics card, or GPU.  Please see {\field{\*\fldinst{HYPERLINK "http://boinc.berkeley.edu/gpu.php"}}{\fldrslt http://boinc.berkeley.edu/gpu.php}} for more information.   If you have a CUDA-capable NVIDIA GPU, you will need to download and install the CUDA driver and libraries for your system from {\field{\*\fldinst{HYPERLINK "http://www.nvidia.com/object/mac-driver-archive.html"}}{\fldrslt http://www.nvidia.com/object/mac-driver-archive.html}}.\
 \
 Starting with version 5.5.4, this software features new, stricter security measures.  See the 
 \b Security
@@ -37,7 +44,7 @@ This is a
 \b \cf0 Upgrade warning: You may lose unreported results
 \b0  if you are running on an 
 \b Intel Mac
-\b0  and upgrading from a version of GridRepublic or BOINC earlier than 5.3.21 on an Intel Mac, or if you are transferring Progress Thru Processors or BOINC Data from a PowerPC Mac to an Intel Mac, or from an Intel Mac to a PowerPC Mac.  To prevent this, open GridRepublic Desktop's window, select the 
+\b0  and upgrading from a version of ProgressThruProcessors Desktop or BOINC earlier than 5.3.21 on an Intel Mac, or if you are transferring Progress Thru Processors or BOINC Data from a PowerPC Mac to an Intel Mac, or from an Intel Mac to a PowerPC Mac.  To prevent this, open ProgressThruProcessors Desktop's window, select the 
 \i Projects
 \i0  tab, select each project and  press the 
 \i Update
@@ -58,9 +65,9 @@ Note: on some versions of the Mac OS, you may not be able to exit the Progress T
 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural\pardirnatural
 
-\b0 \cf0 Version 5.5.4 of GridRepublic Desktop or BOINC for the Macintosh features new, stricter security measures.  This additional security helps protect your computer data from potential theft or accidental or malicious damage by limiting Progress Thru Processors projects' access to your  system and data.  \
+\b0 \cf0 Version 5.5.4 of ProgressThruProcessors Desktop or BOINC for the Macintosh features new, stricter security measures.  This additional security helps protect your computer data from potential theft or accidental or malicious damage by limiting Progress Thru Processors projects' access to your  system and data.  \
 \
-If you experience problems with this software, you can re-install a version of GridRepublic Desktop or BOINC prior to  5.5.4; this will automatically revert ownership and permissions to the earlier  implementation.\
+If you experience problems with this software, you can re-install a version of ProgressThruProcessors Desktop or BOINC prior to  5.5.4; this will automatically revert ownership and permissions to the earlier  implementation.\
 \
 Once we have tested this security implementation on the Mac, we plan to extend it to other computer platforms, including Linux and Windows.\
 \
@@ -122,10 +129,8 @@ The installer now sets Progress Thru Processors Desktop as a Login item for
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural\pardirnatural
 
 \b \cf0 Troubleshooting tip:
-\b0  If you are upgrading from a version of GridRepublic Desktop or BOINC prior to 5.5.4 and the installer refuses to let you install, trash the file 
-\b /Library/Receipts/
-\b0 Progress Thru Processors
-\b .pkg
+\b0  If you are upgrading from a version of ProgressThruProcessors Desktop or BOINC prior to 5.5.4 and the installer refuses to let you install, trash the file 
+\b /Library/Receipts/Progress Thru Processors.pkg
 \b0  or 
 \b /Library/Receipts/BOINC.pkg
 \b0  and try again.\
@@ -152,7 +157,7 @@ You can move (
 \pard\pardeftab720\ql\qnatural
 \cf0 To completely remove (
 \b uninstall
-\b0 ) BOINC from your Macintosh, run the 
+\b0 ) ProgressThruProcessors Desktop from your Macintosh, run the 
 \b Uninstall Progress Thru Processors
 \b0  application which is included with the installer.\
 }

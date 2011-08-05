@@ -43,7 +43,7 @@
 
 // Flags for testing & debugging
 #define CREATE_LOG 0
-#define USE_SPECIAL_LOG_FILE 0
+#define USE_SPECIAL_LOG_FILE 1
 
 #define TEXTLOGOFREQUENCY 60 /* Number of times per second to update moving logo with text */
 #define NOTEXTLOGOFREQUENCY 4 /* Times per second to call animateOneFrame if no moving logo with text */
@@ -72,7 +72,6 @@ extern CFStringRef gPathToBundleResources;
 
 static SaverState saverState = SaverState_Idle;
 // int gQuitCounter = 0;
-static long gSystemVersion = 0;
 
 
 const char * CantLaunchCCMsg = "Unable to launch BOINC application.";
@@ -91,7 +90,7 @@ const char *  DefaultGFXAppCrashedMsg = "Default screensaver module had an unrec
 // If there are multiple displays, this may get called 
 // multiple times (once for each display), so we need to guard 
 // against any problems that may cause.
-int initBOINCSaver() {
+void initBOINCSaver() {
 #ifdef _DEBUG
     char buf1[256], buf2[256];
     strcpy(buf1, getenv("HOME"));
@@ -107,10 +106,17 @@ int initBOINCSaver() {
 
     if (gspScreensaver == NULL) {
         gspScreensaver = new CScreensaver();
+    }
+}
+
+
+int startBOINCSaver() {
+    if (gspScreensaver) {
         return gspScreensaver->Create();
     }
     return TEXTLOGOFREQUENCY;
 }
+
 
 int getSSMessage(char **theMessage, int* coveredFreq) {
     if (gspScreensaver) {
@@ -148,9 +154,13 @@ void closeBOINCSaver() {
     }
 }
 
+
+double getDTime() {
+    return dtime();
+}
+
+
 CScreensaver::CScreensaver() {
-    OSStatus err;
-    
     m_dwBlankScreen = 0;
     m_dwBlankTime = 0;
     m_bErrorMode = false;
@@ -171,11 +181,6 @@ CScreensaver::CScreensaver() {
     m_bResetCoreState = TRUE;
     rpc = 0;
     m_bConnected = false;
-    
-    err = Gestalt(gestaltSystemVersion, &gSystemVersion);
-    if (err != noErr) {
-        gSystemVersion = 0;
-    }
 }
 
 
@@ -245,7 +250,7 @@ OSStatus CScreensaver::initBOINCApp() {
     OSStatus err;
     static int retryCount = 0;
     long brandId = 0;
-    
+
     saverState = SaverState_CantLaunchCoreClient;
     
     brandId = GetBrandID();
@@ -273,8 +278,13 @@ OSStatus CScreensaver::initBOINCApp() {
     if (++retryCount > 3)   // Limit to 3 relaunches to prevent thrashing
         return -1;
 
+#ifdef _DEBUG
+    err = -1;
+#else
     err = GetpathToBOINCManagerApp(boincPath, sizeof(boincPath));
-    if (err) {   // If we couldn't find BOINCManager.app, try default path
+#endif
+   if (err) 
+    {   // If we couldn't find BOINCManager.app, try default path
         strcpy(boincPath, "/Applications/");
         if (brandId)
             strcat(boincPath, m_BrandText);
@@ -544,7 +554,7 @@ void CScreensaver::HandleRPCError() {
 
 bool CScreensaver::CreateDataManagementThread() {
     int retval;
-    
+
     if (m_hDataManagementThread == NULL) {
         retval = pthread_create(&m_hDataManagementThread, NULL, DataManagementProcStub, 0);
         if (retval) {
@@ -567,7 +577,7 @@ bool CScreensaver::DestroyDataManagementThread() {
     }
 
     if (rpc) {
-    rpc->close();    // In case DataManagementProc is hung waiting for RPC
+        rpc->close();    // In case DataManagementProc is hung waiting for RPC
     }
     m_hDataManagementThread = NULL; // Don't delay more if this routine is called again.
     if (m_hGraphicsApplication) {
@@ -750,8 +760,8 @@ void print_to_log_file(const char *format, ...) {
     f = fopen(buf, "a");
     if (!f) return;
 
-  freopen(buf, "a", stdout);
-  freopen(buf, "a", stderr);
+//  freopen(buf, "a", stdout);
+//  freopen(buf, "a", stderr);
 #else
     #define f stderr
 #endif

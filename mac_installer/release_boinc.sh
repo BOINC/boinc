@@ -20,6 +20,7 @@
 ##
 # Release Script for Macintosh BOINC Manager 10/31/07 by Charlie Fenton
 ## updated 11/18/09 by Charlie Fenton for OS 10.6 Snow Leopard
+## updated 8/4/11 by Charlie Fenton
 ##
 ## NOTE: This script uses PackageMaker, which is installed as part of the 
 ##   XCode developer tools.  So you must have installed XCode Developer 
@@ -90,7 +91,6 @@ cp -fp mac_installer/postinstall ../BOINC_Installer/Installer\ Scripts/
 cp -fp mac_installer/postupgrade ../BOINC_Installer/Installer\ Scripts/
 
 cp -fpR $BUILDPATH/PostInstall.app ../BOINC_Installer/Installer\ Resources/
-cp -fpR $BUILDPATH/WaitPermissions.app ../BOINC_Installer/Installer\ Resources/
 
 mkdir -p ../BOINC_Installer/Pkg_Root
 mkdir -p ../BOINC_Installer/Pkg_Root/Applications
@@ -101,6 +101,8 @@ mkdir -p ../BOINC_Installer/Pkg_Root/Library/Application\ Support/BOINC\ Data
 mkdir -p ../BOINC_Installer/Pkg_Root/Library/Application\ Support/BOINC\ Data/locale
 mkdir -p ../BOINC_Installer/Pkg_Root/Library/Application\ Support/BOINC\ Data/switcher
 mkdir -p ../BOINC_Installer/Pkg_Root/Library/Application\ Support/BOINC\ Data/skins
+
+cp -fpR $BUILDPATH/WaitPermissions.app ../BOINC_Installer/Pkg_Root/Library/Application\ Support/BOINC\ Data/
 
 cp -fpR $BUILDPATH/switcher ../BOINC_Installer/Pkg_Root/Library/Application\ Support/BOINC\ Data/switcher/
 cp -fpR $BUILDPATH/setprojectgrp ../BOINC_Installer/Pkg_Root/Library/Application\ Support/BOINC\ Data/switcher/
@@ -125,18 +127,6 @@ cp -fpR $BUILDPATH/boincscr ../BOINC_Installer/Pkg_Root/Library/Application\ Sup
 cp -fpR $BUILDPATH/BOINCManager.app ../BOINC_Installer/Pkg_Root/Applications/
 
 cp -fpR $BUILDPATH/BOINCSaver.saver ../BOINC_Installer/Pkg_Root/Library/Screen\ Savers/
-
-## If x86_64 version of screen saver for OS 10.6 exists, merge it into our screen saver
-if [ -x ../_boinc_SnowLeopard/mac_build/build/Deployment/BOINCSaver.saver/Contents/MacOS/BOINCSaver ]; then
-    if [ "$4" != "-dev" ]; then
-        rm -f ../BOINC_Installer/Pkg_Root/Library/Screen\ Savers/BOINCSaver.saver/Contents/MacOS/BOINCSaver
-        rm -fR ../BOINC_Installer/temp/
-        mkdir -p ../BOINC_Installer/temp/
-        lipo ../_boinc_SnowLeopard/mac_build/build/Deployment/BOINCSaver.saver/Contents/MacOS/BOINCSaver -thin x86_64 -output ../BOINC_Installer/temp/saver64
-        lipo ../BOINC_Installer/temp/saver64 $BUILDPATH/BOINCSaver.saver/Contents/MacOS/BOINCSaver -create -output ../BOINC_Installer/Pkg_Root/Library/Screen\ Savers/BOINCSaver.saver/Contents/MacOS/BOINCSaver
-        rm -fR ../BOINC_Installer/temp/
-    fi
-fi
 
 ## Copy the localization files into the installer tree
 ## Old way copies CVS and *.po files which are not needed
@@ -185,10 +175,7 @@ sudo chmod -R 644 ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_
 
 cp -fpR $BUILDPATH/Uninstall\ BOINC.app ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_universal/extras
 sudo chown -R root:admin ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_universal/extras/Uninstall\ BOINC.app
-sudo chmod -R 555 ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_universal/extras/Uninstall\ BOINC.app
-
-# Copy the installer wrapper application "BOINC Installer.app"
-cp -fpR $BUILDPATH/BOINC\ Installer.app ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_universal/
+sudo chmod -R 755 ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_universal/extras/Uninstall\ BOINC.app
 
 DarwinVersion=`uname -r`;
 DarwinMajorVersion=`echo $DarwinVersion | sed 's/\([0-9]*\)[.].*/\1/' `;
@@ -203,26 +190,22 @@ DarwinMajorVersion=`echo $DarwinVersion | sed 's/\([0-9]*\)[.].*/\1/' `;
 # Darwin version 6.x corresponds to OS 10.2.x
 
 # Build the installer package inside the wrapper application's bundle
-if [ "$DarwinMajorVersion" = "8" ]; then
-    # OS 10.4 packagemaker
-    /Developer/Tools/packagemaker -build -p ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_universal/BOINC\ Installer.app/Contents/Resources/BOINC.pkg -f ../BOINC_Installer/Pkg_Root -r ../BOINC_Installer/Installer\ Resources/ -i mac_build/Pkg-Info.plist -d mac_Installer/Description.plist -ds 
-else
     # OS 10.5 / OS 10.6 packagemaker
-    /Developer/usr/bin/packagemaker -r ../BOINC_Installer/Pkg_Root -e ../BOINC_Installer/Installer\ Resources/ -s ../BOINC_Installer/Installer\ Scripts/ -f mac_build/Pkg-Info.plist -t "BOINC Manager" -n "$1.$2.$3" -b -o ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_universal/BOINC\ Installer.app/Contents/Resources/BOINC.pkg
+/Developer/usr/bin/packagemaker -r ../BOINC_Installer/Pkg_Root -e ../BOINC_Installer/Installer\ Resources/ -s ../BOINC_Installer/Installer\ Scripts/ -f mac_build/Pkg-Info.plist -t "BOINC Manager" -n "$1.$2.$3" -b -o ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_universal/BOINC\ Installer.pkg
     # Remove TokenDefinitions.plist and IFPkgPathMappings in Info.plist, which would cause installer to find a previous copy of BOINCManager and install there
-    sudo rm -f ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_universal/BOINC\ Installer.app/Contents/Resources/BOINC.pkg/Contents/Resources/TokenDefinitions.plist
-    defaults delete "$BOINCPath/../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_universal/BOINC Installer.app/Contents/Resources/BOINC.pkg/Contents/Info" IFPkgPathMappings
-fi
-
-# Allow the installer wrapper application to modify the package's Info.plist file
-sudo chmod a+rw ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_universal/BOINC\ Installer.app/Contents/Resources/BOINC.pkg/Contents/Info.plist
+sudo rm -f ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_universal/BOINC\ Installer.pkg/Contents/Resources/TokenDefinitions.plist
+defaults delete "$BOINCPath/../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_universal/BOINC Installer.pkg/Contents/Info" IFPkgPathMappings
+# Add our custom icon
+ditto -xk clientgui/res/MacPkgIcon.zip ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_universal/BOINC\ Installer.pkg/
+SetFile -a CE "$BOINCPath/../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_universal/BOINC Installer.pkg"
+SetFile -a V "$BOINCPath/../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_universal/BOINC Installer.pkg/"Icon*
 
 # Build the stand-alone client distribution
 cp -fpR mac_build/Mac_SA_Insecure.sh ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_universal-apple-darwin/
 cp -fpR mac_build/Mac_SA_Secure.sh ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_universal-apple-darwin/
-cp -fpR COPYING ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_universal-apple-darwin/
-cp -fpR COPYING.LESSER ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_universal-apple-darwin/
-cp -fpR COPYRIGHT ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_universal-apple-darwin/
+cp -fpR COPYING ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_universal-apple-darwin/COPYING.txt
+cp -fpR COPYING.LESSER ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_universal-apple-darwin/COPYING.LESSER.txt
+cp -fpR COPYRIGHT ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_universal-apple-darwin/COPYRIGHT.txt
 cp -fp mac_Installer/License.rtf ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_universal-apple-darwin/
 sudo chown -R 501:admin ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_universal-apple-darwin/*
 sudo chmod -R 644 ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_universal-apple-darwin/*
@@ -243,9 +226,10 @@ sudo chmod -R u+rw-s,g+r-ws,o+r-w ../BOINC_Installer/New_Release_$1_$2_$3/boinc_
 cp -fpR $BUILDPATH/SymbolTables/ ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_SymbolTables/
 
 cd ../BOINC_Installer/New_Release_$1_$2_$3
-zip -rqy boinc_$1.$2.$3_macOSX_universal.zip boinc_$1.$2.$3_macOSX_universal
-zip -rqy boinc_$1.$2.$3_universal-apple-darwin.zip boinc_$1.$2.$3_universal-apple-darwin
-zip -rqy boinc_$1.$2.$3_macOSX_SymbolTables.zip boinc_$1.$2.$3_macOSX_SymbolTables
+## Use ditto instead of zip utility to preserve resource forks and Finder attributes (custom icon, hide extension) 
+ditto -ck --sequesterRsrc --keepParent boinc_$1.$2.$3_macOSX_universal boinc_$1.$2.$3_macOSX_universal.zip
+ditto -ck --sequesterRsrc --keepParent boinc_$1.$2.$3_universal-apple-darwin boinc_$1.$2.$3_universal-apple-darwin.zip
+ditto -ck --sequesterRsrc --keepParent boinc_$1.$2.$3_macOSX_SymbolTables boinc_$1.$2.$3_macOSX_SymbolTables.zip
 
 #popd
 cd "${BOINCPath}"

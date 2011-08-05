@@ -6788,3 +6788,47 @@ Rom    8 July 2011
     /
         configure.ac
         version.h
+
+Charlie 5 Aug 2011
+    - Mac: Updates for compatibility with current CUDA software and OS X through 
+        OS 10.7 Lion, etc.
+    - Mac: Update to libcurl 7.21.7 and c-ares 1.7.4.
+    - Mac: Build x86_64 screensaver directly.
+    - Mac Installer: remove obsolete kludge for generating x86_64 screensaver.
+    - Mac Installer: Update to current installer.
+    - Mac: If obsolete libcudart.dylib not found, try libcuda.dylib.
+    
+    client/
+        http_curl.cpp
+    clientgui/
+        mac/
+            SetVersion.cpp
+        res/
+            MacPkgIcon.zip (added)
+            MacPTPPkgIcon.zip (added)
+            MacGRPkgIcon.zip (added)
+    clientscr/
+        mac_saver_module.cpp
+        Mac_Saver_Module.h
+        Mac_Saver_ModuleView.m, .h
+        screensaver.cpp
+    lib/
+        coproc.cpp
+    mac_build/
+        boinc.xcodeproj/
+            project.pbxproj
+        buildc-ares.sh
+        buildcurl.sh
+        setupForBOINC.sh
+        HowToBuildBOINC_XCode.rtf
+    mac_installer/
+        GR-ReadMe.rtf
+        make_GridRepublic.sh
+        make_ProgThruProc.sh
+        PostInstall.cpp
+        postinstall
+        postupgrade
+        PTP-ReadMe.rtf
+        ReadMe.rtf
+        release_boinc.sh
+        WaitPermissions.cpp
