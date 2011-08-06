@@ -4643,3 +4643,19 @@ David  4 Aug 2011
 
     sched/
         sched_customize.cpp
+
+David  6 Aug 2011
+    - web: send user a private message when
+        - one of their posts is moderated
+        - a banishment vote starts or completes.
+        This is needed in cases where the user can't or doesn't
+        read email to their account's address.
+        The "from" address of the PM is that of the user, not the moderator.
+
+    html/
+        inc/
+            pm.inc
+            forum_email.inc
+        user/
+            pm.php
+            team_founder_transfer_action.php

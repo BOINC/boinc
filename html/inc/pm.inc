@@ -127,11 +127,10 @@ function pm_web_line($notify) {
     return "<a href=pm.php>".tra("Private message%1 from %2, subject:" , "</a>", $from_user->name )." $pm->subject";
 }
 
-function pm_send($to_user, $subject, $content, $send_email) {
-    global $g_logged_in_user;
+function pm_send($from_user, $to_user, $subject, $content, $send_email) {
     $sql_subject = boinc_real_escape_string(strip_tags($subject));
     $sql_content = boinc_real_escape_string($content);
-    $mid = BoincPrivateMessage::insert("(userid, senderid, date, subject, content) VALUES ($to_user->id, $g_logged_in_user->id, UNIX_TIMESTAMP(), '$sql_subject', '$sql_content')");
+    $mid = BoincPrivateMessage::insert("(userid, senderid, date, subject, content) VALUES ($to_user->id, $from_user->id, UNIX_TIMESTAMP(), '$sql_subject', '$sql_content')");
     if (!$mid) {
         error_page(tra("Couldn't create message"));
     }
@@ -145,7 +144,7 @@ function pm_send($to_user, $subject, $content, $send_email) {
             break;
         case 1:
             send_pm_notification_email(
-                $g_logged_in_user, $to_user, $subject, $content
+                $from_user, $to_user, $subject, $content
             );
             break;
         }

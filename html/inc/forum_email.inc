@@ -76,9 +76,10 @@ $explanation
 The content of your post:
 $post->content
 
-For further information and assistance with ".PROJECT." go to ".MASTER_URL;
+For assistance with ".PROJECT." go to ".MASTER_URL;
 
     $success = send_email($user, $subject, $body);
+    pm_send($user, $user, $subject, $body, false);
 
     $body = "Because of moderation by $moderator->name (ID $moderator->id),
 The following email was sent to $user->name (ID $user->id)
@@ -105,15 +106,15 @@ function send_thread_moderation_email(
     $subject = PROJECT." forum moderation notice";
     $body = "Your thread '$thread->title'
 ".URL_BASE."forum_thread.php?id=$thread->id
-has been $action_name
-by moderator $moderator->name (ID $moderator->id).
+has been $action_name by moderator $moderator->name (ID $moderator->id).
 $explanation
 
-For further information and assistance with ".PROJECT." go to ".MASTER_URL;
+For assistance with ".PROJECT." go to ".MASTER_URL;
 
     $subject = "THREAD $action REPORT: $thread->title";
     $success = mail_report_list($forum, $subject, $body);
     $success &= send_email($user, $subject, $body);
+    pm_send($user, $user, $subject, $body, false);
     return $success;
 }
 
@@ -156,7 +157,7 @@ $message
 Contents of the post:
 $post->content
 
-For further information and assistance with ".PROJECT." go to ".MASTER_URL;
+For assistance with ".PROJECT." go to ".MASTER_URL;
 
     $success = mail_report_list($forum, $subject, $body, true);
 
@@ -175,8 +176,8 @@ For further information and assistance with ".PROJECT." go to ".MASTER_URL;
 function send_banish_email($forum, $user, $duration, $reason) {
     $subject = PROJECT." posting privileges suspended";
     $body = "
-This email is to inform you that you will not be able to
-post to the ".PROJECT." message boards until ".date('M j, Y G:i', $duration).",
+You will not be able to post to the ".PROJECT." message boards
+until ".date('M j, Y G:i', $duration).",
 because your postings have not followed our guidelines.
     ";
     if ($reason) {
@@ -185,6 +186,7 @@ because your postings have not followed our guidelines.
     }
     $success = mail_report_list($forum, $user->name." has been banished.", $body);
     $success &= send_email($user, $subject, $body);
+    pm_send($user, $user, $subject, $body, false);
     return $success;
 }
 
@@ -195,12 +197,12 @@ function send_banish_vote_email($user, $duration, $reason, $end_time) {
     $subject = PROJECT." banishment vote underway";
     $vote_url=parse_config(get_config(), "<master_url>")."forum_banishment_vote.php";
     $body = "
-This email if to inform you that a vote has been started
-regarding your banishment from the ".PROJECT." message boards until ".date('M j,
+A vote has been started to banish you
+from the ".PROJECT." message boards until ".date('M j,
 Y G:i', $duration+$now).",
 because your postings have not followed our guidelines.
 
-This vote will be underway until ".date('M j, Y G:i',$end_time)." or until a majority
+This vote will last until ".date('M j, Y G:i',$end_time)." or until a majority
 decision has been reached.  If the vote does not result in banishment, you will be
 able to resume posting at that time.
     ";
@@ -209,6 +211,7 @@ able to resume posting at that time.
         $body .= $reason;
     }
     $success = send_email($user, $subject, $body);
+    pm_send($user, $user, $subject, $body, false);
 
     $body .= "\n\n<a href=".$vote_url."?action=yes&userid="
              .$user->id
