@@ -4659,3 +4659,16 @@ David  6 Aug 2011
         user/
             pm.php
             team_founder_transfer_action.php
+
+David  6 Aug 2011
+    - update_versions: fix bug where files not listed in version.xml
+        are not processed correctly
+    - remote job submission: debug
+    - create_work: --rsc_fpops_est etc. should override the template file
+
+    tools/
+        backend_lib.cpp
+        update_versions.cpp
+    html/user/
+        submit_example.php
+        submit.php

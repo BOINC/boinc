@@ -92,11 +92,11 @@ function read_input_template($app) {
     return simplexml_load_file($path);
 }
 
-function validate_batch($r, $template) {
+function validate_batch($jobs, $template) {
     $i = 0;
-    foreach($r->batch->job as $job) {
-        $n = count($template->file_info);
-        $m = count($job->input_file);
+    $n = count($template->file_info);
+    foreach($jobs as $job) {
+        $m = count($job->input_files);
         if ($n != $m) {
             error("wrong # of input files for job $i: need $n, got $m");
         }
@@ -106,36 +106,42 @@ function validate_batch($r, $template) {
 
 $fanout = parse_config(get_config(), "<uldl_dir_fanout>");
 
+// stage a file, and return the physical name
+//
 function stage_file($file) {
     global $fanout;
 
-    $source = (string)$file->source;
-    $md5 = md5_file($source);
+    $md5 = md5_file($file->source);
     if (!$md5) {
         error("Can't get MD5 of file $source");
     }
     $name = "batch_$md5";
     $path = dir_hier_path($name, "../../download", $fanout);
     if (file_exists($path)) return;
-    if (!copy($source, $path)) {
-        error("can't copy file from $source to $path");
+    if (!copy($file->source, $path)) {
+        error("can't copy file from $file->source to $path");
     }
+    return $name;
 }
 
-function stage_files($r, $template) {
-    foreach($r->batch->job as $job) {
-        foreach ($job->input_file as $file) {
-            stage_file($file);
+// stage all the files
+//
+function stage_files(&$jobs, $template) {
+    foreach($jobs as $job) {
+        foreach ($job->input_files as $file) {
+            $file->name = stage_file($file);
         }
     }
 }
 
 function submit_job($job, $template, $app, $batch_id, $i) {
-    $cmd = "cd ../..; ./bin/create_work --appname $app->name --batch $batch_id";
+    $cmd = "cd ../..; ./bin/create_work --appname $app->name --batch $batch_id --rsc_fpops_est $job->rsc_fpops_est";
+    if ($job->command_line) {
+        $cmd .= " --command_line \"$job->command_line\"";
+    }
     $cmd .= " --wu_name batch_".$batch_id."_".$i;
-    foreach ($job->input_file as $file) {
-        $name = (string)$file->name;
-        $cmd .= " $name";
+    foreach ($job->input_files as $file) {
+        $cmd .= " $file->name";
     }
     $ret = system($cmd);
     if ($ret === FALSE) {
@@ -143,20 +149,38 @@ function submit_job($job, $template, $app, $batch_id, $i) {
     }
 }
 
+function xml_get_jobs($r) {
+    $jobs = array();
+    foreach($r->batch->job as $j) {
+        $job = null;
+        $job->input_files = array();
+        $job->command_line = (string)$j->command_line;
+        $job->rsc_fpops_est = (double)$j->rsc_fpops_est;
+        foreach ($j->input_file as $f) {
+            $file = null;
+            $file->source = (string)$f->source;
+            $job->input_files[] = $file;
+        }
+        $jobs[] = $job;
+    }
+    return $jobs;
+}
+
 function submit_batch($r) {
     $app = get_app($r);
     list($user, $user_submit) = authenticate_user($r, $app);
     $template = read_input_template($app);
-    validate_batch($r, $template);
-    stage_files($r, $template);
-    $njobs = count($r->batch->job);
+    $jobs = xml_get_jobs($r);
+    validate_batch($jobs, $template);
+    stage_files($jobs, $template);
+    $njobs = count($jobs);
     $now = time();
     $batch_name = (string)($r->batch->batch_name);
     $batch_id = BoincBatch::insert(
         "(user_id, create_time, njobs, name, app_id) values ($user->id, $now, $njobs, '$batch_name', $app->id)"
     );
     $i = 0;
-    foreach($r->batch->job as $job) {
+    foreach($jobs as $job) {
         submit_job($job, $template, $app, $batch_id, $i++);
     }
     $batch = BoincBatch::lookup_id($batch_id);
@@ -332,12 +356,23 @@ function retire_batch($r) {
 }
 
 if (0) {
-$r = simplexml_load_string(
-    "<query_job>
+$r = simplexml_load_string("
+<submit_batch>
     <authenticator>x</authenticator>
-    <job_id>305613</job_id>
-    </query_job>");
-query_job($r);
+    <batch>
+    <app_name>remote_test</app_name>
+    <batch_name>Aug 6 batch 2</batch_name>
+    <job>
+        <rsc_fpops_est>19000000000</rsc_fpops_est>
+        <command_line>--t 19</command_line>
+        <input_file>
+            <source>http://google.com/</source>
+        </input_file>
+    </job>
+    </batch>
+</submit_batch>
+");
+submit_batch($r);
 exit;
 }
 

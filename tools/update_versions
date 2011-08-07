@@ -18,7 +18,7 @@ function lookup_app($name) {
     foreach ($apps as $app) {
         if ($app->name == $name) return $app;
     }
-    return null;
+    die("app not found: $name\n");
 }
 
 function lookup_platform($p) {
@@ -26,7 +26,7 @@ function lookup_platform($p) {
     foreach ($platforms as $platform) {
         if ($platform->name == $p) return $platform;
     }
-    return null;
+    die("platform not found: $p\n");
 }
 
 function readdir_aux($d) {
@@ -186,7 +186,11 @@ function process_file($a, $v, $p, $name, $fds) {
     if (!$fd) {
         $fd = null;
         $fd->physical_name = $name;
+        $fd->logical_name = null;
         $fd->url = array();
+        $fd->main_program = false;
+        $fd->copy_file = false;
+        $fd->gzip = false;
     }
     $path = "apps/$a/$v/$p/$name";
 
@@ -222,7 +226,10 @@ function process_file($a, $v, $p, $name, $fds) {
     return $fds;
 }
 
-// scan the directory, and process files
+// scan the directory, and process files.
+// "fds" is the list of files described in version.xml;
+// return this list, augmented with any files not in version.xml
+// 
 //
 function process_files($a, $v, $p, $fds) {
     $d = opendir("apps/$a/$v/$p");
@@ -282,14 +289,11 @@ function check_main_program($fds) {
         if ($fd->main_program) $n++;
     }
     if ($n == 0) {
-        echo "    No file was marked as the main program.\n";
-        return false;
+        die("    No file was marked as the main program.\n");
     }
     if ($n > 1) {
-        echo "    More than one file was marked as the main program.\n";
-        return false;
+        die("    More than one file was marked as the main program.\n");
     }
-    return true;
 }
 
 function confirm($fds) {
@@ -369,7 +373,7 @@ function process_version($a, $v, $p) {
     if (sizeof($fds) == 1) {
         $fds[0]->main_program = true;
     }
-    if (!check_main_program($fds)) return;
+    check_main_program($fds);
     $api_version = get_api_version($a, $v, $p, $fds);
 
     if (!confirm($fds)) {

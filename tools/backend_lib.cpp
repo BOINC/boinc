@@ -188,8 +188,8 @@ static int process_wu_template(
 ) {
     char buf[BLOB_SIZE], md5[33], path[256], url[256], top_download_path[256];
     string out, cmdline, md5str, urlstr, tmpstr;
-    int retval, file_number;
-    double nbytes, nbytesdef;
+    int retval, file_number, itemp;
+    double nbytes, nbytesdef, dtemp;
     char open_name[256];
     bool found=false;
     int nfiles_parsed = 0;
@@ -384,23 +384,40 @@ static int process_wu_template(
                         fprintf(stderr, "Can't specify command line twice");
                         return ERR_XML_PARSE;
                     }
-                    //fprintf(stderr, "parsed command line: %s\n", cmdline.c_str());
                     out += "<command_line>\n";
                     out += cmdline;
                     out += "\n</command_line>\n";
-                } else if (xp.parse_double(tag, "rsc_fpops_est", wu.rsc_fpops_est)) {
+                } else if (xp.parse_double(tag, "rsc_fpops_est", dtemp)) {
+                    if (!wu.rsc_fpops_est) {
+                        wu.rsc_fpops_est = dtemp;
+                    }
                     continue;
-                } else if (xp.parse_double(tag, "rsc_fpops_bound", wu.rsc_fpops_bound)) {
+                } else if (xp.parse_double(tag, "rsc_fpops_bound", dtemp)) {
+                    if (!wu.rsc_fpops_bound) {
+                        wu.rsc_fpops_bound =  dtemp;
+                    }
                     continue;
-                } else if (xp.parse_double(tag, "rsc_memory_bound", wu.rsc_memory_bound)) {
+                } else if (xp.parse_double(tag, "rsc_memory_bound", dtemp)) {
+                    if (!wu.rsc_memory_bound) {
+                        wu.rsc_memory_bound = dtemp;
+                    }
                     continue;
-                } else if (xp.parse_double(tag, "rsc_bandwidth_bound", wu.rsc_bandwidth_bound)) {
+                } else if (xp.parse_double(tag, "rsc_bandwidth_bound", dtemp)) {
+                    if (!wu.rsc_bandwidth_bound) {
+                        wu.rsc_bandwidth_bound = dtemp;
+                    }
                     continue;
-                } else if (xp.parse_double(tag, "rsc_disk_bound", wu.rsc_disk_bound)) {
+                } else if (xp.parse_double(tag, "rsc_disk_bound", dtemp)) {
+                    if (!wu.rsc_disk_bound) {
+                        wu.rsc_disk_bound = dtemp;
+                    }
                     continue;
                 } else if (xp.parse_int(tag, "batch", wu.batch)) {
                     continue;
-                } else if (xp.parse_int(tag, "delay_bound", wu.delay_bound)) {
+                } else if (xp.parse_int(tag, "delay_bound", itemp)) {
+                    if (!wu.delay_bound) {
+                        wu.delay_bound = itemp;
+                    }
                     continue;
                 } else if (xp.parse_int(tag, "min_quorum", wu.min_quorum)) {
                     continue;

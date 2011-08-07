@@ -37,6 +37,8 @@ error_reporting(E_ALL);
 ini_set('display_errors', true);
 ini_set('display_startup_errors', true);
 
+// hardwired app name for now
+define('APP_NAME', 'remote_test');
 
 $project = $master_url;         // from project.inc
 $user = get_logged_in_user();
@@ -55,6 +57,13 @@ function handle_main() {
 
     page_head("Job submission and control");
 
+    echo "
+        This is an example of a web interface
+        from remote submission of BOINC jobs.
+        It lets you submit batches of jobs,
+        and see the status of in-progress and completed batches.
+        <p>
+    ";
     show_button("submit_example.php?action=create_form", "Create new batch");
 
     $first = true;
@@ -167,16 +176,31 @@ function handle_create_form() {
     if (!$apps) error_page("You are not allowed to submit jobs");
     page_head("Create batch");
     echo "
+        This form lets you specify a batch of jobs,
+        and either submit it or get and estimate of its completion time.
+        <p>
+        The job runs an application that
+        <ul>
+        <li> Reads an input file, converts it to upper case,
+          and writes this to an output file.
+            You give a URL from which this file can be read.
+        <li> Takes a command-line parameter, and uses that
+          number of seconds of CPU time
+        You can specify a range of values for the parameter;
+        this determines the number of jobs in the batch.
+        </ul>
+
+        <p>
         <form action=submit_example.php>
         <input type=hidden name=action value=create_action>
     ";
     start_table();
-    row2("Name", "<input name=batch_name value=\"enter name\">");
-    row2("Application", app_select($apps));
+    row2("Batch name", "<input name=batch_name value=\"enter name\">");
+//    row2("Application", app_select($apps));
     row2("Input file URL", "<input name=input_url size=60 value=\"http://google.com/\">");
-    row2("Parameter low value", "<input name=param_lo value=10>");
-    row2("Parameter high value", "<input name=param_hi value=20>");
-    row2("Parameter increment", "<input name=param_inc value=1>");
+    row2("Parameter low value (0..60)", "<input name=param_lo value=10>");
+    row2("Parameter high value (0..60)", "<input name=param_hi value=20>");
+    row2("Parameter increment (>= 1)", "<input name=param_inc value=1>");
     row2("",
         "<input type=submit name=get_estimate value=\"Get completion time estimate\">"
     );
@@ -206,7 +230,7 @@ function form_to_request() {
 
     $req->project = $project;
     $req->authenticator = $auth;
-    $req->app_name = get_str('app_name');
+    $req->app_name = APP_NAME;
     $req->batch_name = get_str('batch_name');
     $req->jobs = Array();
 
