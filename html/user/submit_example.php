@@ -133,6 +133,7 @@ function handle_main() {
         end_table();
     }
 
+    echo "<p><a href=submit_example.php>Return to job control page</a>\n";
     page_tail();
 }
 
@@ -209,6 +210,7 @@ function handle_create_form() {
     );
     end_table();
     echo "</form>\n";
+    echo "<p><a href=submit_example.php>Return to job control page</a>\n";
     page_tail();
 }
 
@@ -235,11 +237,12 @@ function form_to_request() {
     $req->jobs = Array();
 
     $f->source = $input_url;
-    $job->input_files = Array($f);
 
     for ($x=$param_lo; $x<$param_hi; $x += $param_inc) {
+        $job = null;
         $job->rsc_fpops_est = $x*1e9;
         $job->command_line = "--t $x";
+        $job->input_files = array($f);
         $req->jobs[] = $job;
     }
 
@@ -258,16 +261,15 @@ function handle_create_action() {
         if ($errmsg) error_page($errmsg);
         page_head("Batch estimate");
         echo sprintf("Estimate: %.0f seconds", $e);
+        echo "<p><a href=submit_example.php>Return to job control page</a>\n";
         page_tail();
     } else {
         $req = form_to_request($project, $auth);
         list($id, $errmsg) = boinc_submit_batch($req);
         if ($errmsg) error_page($errmsg);
         page_head("Batch submitted");
-        echo "Batch created, ID: $id
-            <p>
-            <a href=submit_example.php>Return to job control page</a>
-        ";
+        echo "Batch created, ID: $id\n";
+        echo "<p><a href=submit_example.php>Return to job control page</a>\n";
         page_tail();
     }
 }
@@ -293,9 +295,8 @@ function handle_query_batch() {
     if ($batch->completion_time) {
         row2("completed", local_time_str($batch->completion_time));
     }
-    row2("Credit, estimated", $batch->credit_estimate);
-    row2("Credit, canonical instances", $batch->credit_canonical);
-    row2("Credit, total", $batch->credit_total);
+    row2("GFLOP/hours, estimated", number_format(credit_to_gflop_hours($batch->credit_estimate), 2));
+    row2("GFLOP/hours, actual", number_format(credit_to_gflop_hours($batch->credit_canonical), 2));
     end_table();
     $url = boinc_get_output_files($req);
     show_button($url, "Get zipped output files");
@@ -343,6 +344,7 @@ function handle_query_batch() {
         ";
     }
     end_table();
+    echo "<p><a href=submit_example.php>Return to job control page</a>\n";
     page_tail();
 }
 
@@ -381,6 +383,7 @@ function handle_query_job() {
         echo "</td></tr>\n";
     }
     end_table();
+    echo "<p><a href=submit_example.php>Return to job control page</a>\n";
     page_tail();
 }
 
@@ -396,6 +399,7 @@ function handle_abort_batch_confirm() {
         "submit_example.php?action=abort_batch&batch_id=$batch_id",
         "Yes - abort batch"
     );
+    echo "<p><a href=submit_example.php>Return to job control page</a>\n";
     page_tail();
 }
 
@@ -410,6 +414,7 @@ function handle_abort_batch() {
     echo "
         <a href=submit_example.php>Return to job control page</a>.
     ";
+    echo "<p><a href=submit_example.php>Return to job control page</a>\n";
     page_tail();
 }
 
@@ -425,6 +430,7 @@ function handle_retire_batch_confirm() {
         "submit_example.php?action=retire_batch&batch_id=$batch_id",
         "Yes - retire batch"
     );
+    echo "<p><a href=submit_example.php>Return to job control page</a>\n";
     page_tail();
 }
 
@@ -436,9 +442,7 @@ function handle_retire_batch() {
     $errmsg = boinc_retire_batch($req);
     if ($errmsg) error_page($errmsg);
     page_head("Batch retired");
-    echo "
-        <a href=submit_example.php>Return to job control page</a>.
-    ";
+    echo "<p><a href=submit_example.php>Return to job control page</a>\n";
     page_tail();
 }
 

@@ -557,7 +557,9 @@ function get_outfile_paths($result) {
     $paths = array();
     $xml = "<a>".$result->xml_doc_out."</a>";
     $r = simplexml_load_string($xml);
-    if (!$r) return $names;
+    echo "xml_doc_out:\n";
+    print_r($r);
+    if (!$r) return $paths;
     foreach ($r->file_info as $fi) {
         $path = dir_hier_path((string)($fi->name), $upload_dir, $fanout);
         $paths[] = $path;

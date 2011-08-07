@@ -199,15 +199,15 @@ function get_batch_params($batch, $wus) {
     $fp_total = 0;
     $fp_done = 0;
     $completed = true;
-    $nerror_jobs = 0;
-    $credit_canonical = 0;
+    $batch->nerror_jobs = 0;
+    $batch->credit_canonical = 0;
     foreach ($wus as $wu) {
         $fp_total += $wu->rsc_fpops_est;
         if ($wu->canonical_resultid) {
             $fp_done += $wu->rsc_fpops_est;
-            $credit_canonical += $wu->canonical_credit;
+            $batch->credit_canonical += $wu->canonical_credit;
         } else if ($wu->error_mask) {
-            $nerror_jobs++;
+            $batch->nerror_jobs++;
         } else {
             $completed = false;
         }
@@ -219,8 +219,9 @@ function get_batch_params($batch, $wus) {
         $batch->state = BATCH_STATE_COMPLETE;
         $batch->completion_time = time();
     }
-    $batch->nerror_jobs = $nerror_jobs;
     $batch->update("fraction_done = $batch->fraction_done, nerror_jobs = $batch->nerror_jobs, state=$batch->state, completion_time = $batch->completion_time, credit_canonical = $batch->credit_canonical");
+
+    $batch->credit_estimate = flops_to_credit($fp_total);
     return $batch;
 }
 
@@ -237,7 +238,6 @@ function print_batch_params($batch) {
         <completion_time>$batch->completion_time</completion_time>
         <credit_estimate>$batch->credit_estimate</credit_estimate>
         <credit_canonical>$batch->credit_canonical</credit_canonical>
-        <credit_total>$batch->credit_total</credit_total>
         <name>$batch->name</name>
         <app_name>$app->name</app_name>
 ";
@@ -353,6 +353,17 @@ function retire_batch($r) {
     }
     $batch->update("state=".BATCH_STATE_RETIRED);
     echo "<success>1</success>";
+}
+
+if (0) {
+$r = simplexml_load_string("
+<query_job>
+    <authenticator>x</authenticator>
+    <job_id>312173</job_id>
+</query_job>
+");
+query_job($r);
+exit;
 }
 
 if (0) {

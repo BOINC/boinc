@@ -316,7 +316,7 @@ function row1($x, $ncols=2, $class="heading") {
 
 function row2($x, $y, $show_error=false) {
     if ($x=="") $x="<br>";
-    if ($y=="") $y="<br>";
+    if ($y==="") $y="<br>";
     if ($show_error) {
         $class1 = 'fieldname_error';
         $class2 = 'fieldvalue_error';
@@ -828,6 +828,13 @@ function sanitize_email($x) {
     }
 }
 
+function flops_to_credit($f) {
+    return $f*(200/86400e9);
+}
+
+function credit_to_gflop_hours($c) {
+    return $c/(200/24);
+}
 
 $cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit
 

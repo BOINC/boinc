@@ -119,7 +119,6 @@ function batch_xml_to_object($batch) {
     $b->completion_time = (double)($batch->completion_time);
     $b->credit_estimate = (double)($batch->credit_estimate);
     $b->credit_canonical = (double)($batch->credit_canonical);
-    $b->credit_total = (double)($batch->credit_total);
     $b->name = (string)($batch->name);
     $b->app_name = (string)($batch->app_name);
     return $b;
@@ -232,13 +231,13 @@ function boinc_retire_batch($req) {
 
 function batch_state_string($state) {
     switch ($state) {
-    case BATCH_STATE_INIT: return "New";
-    case BATCH_STATE_IN_PROGRESS: return "In progress";
-    case BATCH_STATE_COMPLETE: return "Completed";
-    case BATCH_STATE_ABORTED: return "Aborted";
-    case BATCH_STATE_RETIRED: return "Retired";
+    case BATCH_STATE_INIT: return "new";
+    case BATCH_STATE_IN_PROGRESS: return "in progress";
+    case BATCH_STATE_COMPLETE: return "completed";
+    case BATCH_STATE_ABORTED: return "aborted";
+    case BATCH_STATE_RETIRED: return "retired";
     }
-    return "Unknown state $state";
+    return "unknown state $state";
 }
 
 //// example usage follows

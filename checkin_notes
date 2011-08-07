@@ -4672,3 +4672,15 @@ David  6 Aug 2011
     html/user/
         submit_example.php
         submit.php
+
+David  6 Aug 2011
+    - remote job submission: bug fixes
+
+    html/
+        inc/
+            submit.inc
+            util.inc
+            result.inc
+        user/
+            submit_example.php
+            submit.php
