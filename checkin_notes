@@ -6833,3 +6833,33 @@ Charlie 5 Aug 2011
         release_boinc.sh
         uninstall.cpp
         WaitPermissions.cpp
+
+Charlie 8 Aug 2011
+    - Changes for Charity Engine Desktop.
+    
+    clientgui/
+        mac/
+            CE_ss_logo.tiff (new)
+        res/
+            CE_Install.icns (new)
+            CharityEngine.icns (new)
+            CE_Uninstall.icns (new)
+            MacCEPkgIcon.zip (new)
+        skins/
+            Charity Engine/ (new)
+                graphics/ (new)
+                    (many new files)
+                skin.xml (new)
+    clientscr/
+        mac_saver_module.cpp
+        res/
+            CE_ss_logo.png (new)
+            CE_ss_logo.jpg (new)
+        ss_app.cpp
+    mac_installer/
+        CE-Branding (new)
+        CE-ReadMe.rtf (new)
+        CharityEngine/ (new)
+            acct_mgr_url.xml (new)
+        make_CharityEngine.sh (new)
+        PostInstall.cpp
