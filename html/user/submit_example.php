@@ -59,9 +59,12 @@ function handle_main() {
 
     echo "
         This is an example of a web interface
-        from remote submission of BOINC jobs.
+        for remote submission of BOINC jobs.
         It lets you submit batches of jobs,
         and see the status of in-progress and completed batches.
+        <p>
+        To use this, you must be logged in as a user
+        with permission to submit jobs.
         <p>
     ";
     show_button("submit_example.php?action=create_form", "Create new batch");
@@ -71,7 +74,7 @@ function handle_main() {
         if ($batch->state != BATCH_STATE_IN_PROGRESS) continue;
         if ($first) {
             $first = false;
-            echo "<h2>In progress</h2>\n";
+            echo "<h2>Batches in progress</h2>\n";
             start_table();
             table_header("name", "ID", "app", "# jobs", "progress", "submitted");
         }
@@ -411,9 +414,6 @@ function handle_abort_batch() {
     $errmsg = boinc_abort_batch($req);
     if ($errmsg) error_page($errmsg);
     page_head("Batch aborted");
-    echo "
-        <a href=submit_example.php>Return to job control page</a>.
-    ";
     echo "<p><a href=submit_example.php>Return to job control page</a>\n";
     page_tail();
 }

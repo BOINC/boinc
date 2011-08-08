@@ -61,7 +61,7 @@ int CLIENT_APP_VERSION::parse(FILE* f) {
     char buf[256];
     double x;
 
-    memset(this, 0, sizeof(CLIENT_APP_VERSION));
+    memset(this, 0, sizeof(*this));
     host_usage.avg_ncpus = 1;
     while (fgets(buf, sizeof(buf), f)) {
         if (match_tag(buf, "</app_version>")) {
@@ -110,7 +110,7 @@ int CLIENT_APP_VERSION::parse(FILE* f) {
 int FILE_INFO::parse(FILE* f) {
     char buf[256];
 
-    memset(this, 0, sizeof(FILE_INFO));
+    memset(this, 0, sizeof(*this));
     while (fgets(buf, sizeof(buf), f)) {
         if (match_tag(buf, "</file_info>")) {
             if (!strlen(name)) return ERR_XML_PARSE;
@@ -1099,7 +1099,7 @@ int SCHED_DB_RESULT::parse_from_client(FILE* fin) {
 
     // should be non-zero if exit_status is not found
     exit_status = ERR_NO_EXIT_STATUS;
-    memset(this, 0, sizeof(RESULT));
+    memset(this, 0, sizeof(*this));
     while (fgets(buf, sizeof(buf), fin)) {
         if (match_tag(buf, "</result>")) {
             return 0;

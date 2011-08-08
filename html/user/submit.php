@@ -188,14 +188,13 @@ function submit_batch($r) {
     echo "<batch_id>$batch_id</batch_id>\n";
 }
 
-// compute and update params of a batch
+// given its WUs, compute params of a batch
 // NOTE: eventually this should be done by server components
 // (transitioner, validator etc.) as jobs complete or time out
 //
 // TODO: update est_completion_time
 //
 function get_batch_params($batch, $wus) {
-    if ($batch->state > BATCH_STATE_IN_PROGRESS) return $batch;
     $fp_total = 0;
     $fp_done = 0;
     $completed = true;
@@ -248,8 +247,10 @@ function query_batches($r) {
     $batches = BoincBatch::enum("user_id = $user->id");
     echo "<batches>\n";
     foreach ($batches as $batch) {
-        $wus = BoincWorkunit::enum("batch = $batch->id");
-        $batch = get_batch_params($batch, $wus);
+        if ($batch->state < BATCH_STATE_COMPLETE) {
+            $wus = BoincWorkunit::enum("batch = $batch->id");
+            $batch = get_batch_params($batch, $wus);
+        }
         echo "    <batch>\n";
         print_batch_params($batch);
         echo "   </batch>\n";
@@ -353,6 +354,17 @@ function retire_batch($r) {
     }
     $batch->update("state=".BATCH_STATE_RETIRED);
     echo "<success>1</success>";
+}
+
+if (0) {
+$r = simplexml_load_string("
+<query_batch>
+    <authenticator>x</authenticator>
+    <batch_id>54</batch_id>
+</query_batch>
+");
+query_batch($r);
+exit;
 }
 
 if (0) {

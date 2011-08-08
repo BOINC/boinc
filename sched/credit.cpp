@@ -406,7 +406,9 @@ int get_pfc(
     // old clients report CPU time but not elapsed time.
     // Use HOST_APP_VERSION.et to track statistics of CPU time.
     //
-    if (!r.elapsed_time) {
+    if (r.elapsed_time < 1e-6) {
+        // in case buggy client reports elapsed time like 1e-304
+
         if (config.debug_credit) {
             log_messages.printf(MSG_NORMAL,
                 "[credit] [RESULT#%d] old client (elapsed time not reported)\n",

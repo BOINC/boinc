@@ -4686,10 +4686,29 @@ David  7 Aug 2011
             submit.php
 
 David  7 Aug 2011
-	- client: projects with zero resource share are always lower priority,
-		for both job sched and work fetch,
-		than projects with positive resource share.
+    - client: projects with zero resource share are always lower priority,
+        for both job sched and work fetch,
+        than projects with positive resource share.
 
-	client/
-		cpu_sched.cpp
-		work_fetch.cpp
+    client/
+        cpu_sched.cpp
+        work_fetch.cpp
+
+David  7 Aug 2011
+    - scheduler: fix nasty bug where SCHED_DB_RESULT::parse()
+        was doing memset(this, 0, sizeof(RESULT)),
+        i.e. it wasn't zeroing out the whole structure.
+        The elapsed_time field (which isn't reported by old clients),
+        is near the end of the struct,
+        and it was getting garbage, e.g. 1e-304, in some cases,
+        which led to zero credit (and maybe other problems)
+    - validator: treat 1e-304 like zero in case of other problems
+        like the above.
+    - remote job submission: tweaks
+
+    sched/
+        credit.cpp
+        sched_types.cpp
+    html/user/
+        submit_example.php
+        submit.php
