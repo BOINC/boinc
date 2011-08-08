@@ -6871,3 +6871,46 @@ Charlie 8 Aug 2011
     /
         configure.ac
         version.h
+
+Rom    8 Aug 2011
+    - Changes for Charity Engine Desktop.
+
+    client/win/res/
+        ce.ico
+    clientctrl/
+        boincsvcctrl.rc
+    clientgui/
+        BOINCGUIApp.rc
+    clientgui/res/
+        ce.ico
+    clientlib/win/
+        boinc_dll.rc
+    clientscr/
+        boinc_ss.rc
+    clientscr/
+        boinc_ss_opengl.rc
+    clientscr/res/
+        ce.bmp
+        ce.ico
+    clienttray/
+        boinc_tray.rc
+    win_build/
+        ce_boinc_cli.vcproj
+        ce_boinc_dll.vcproj
+        ce_boinc_ss.vcproj
+        ce_boinccmd.vcproj
+        ce_boincmgr.vcproj
+        ce_boincsvcctrl.vcproj
+        ce_boinctray.vcproj
+        ce_ss_app.vcproj
+        CharityEngine.sln
+    win_build/installerv2/
+        CharityEngine.ism
+    win_build/installerv2/redist/0409/
+        ce-eula.rtf
+    win_build/installerv2/redist/CharityEngine/
+        acct_mgr_url.xml
+        ce.ico
+        CE_IsDialogBanner.bmp
+        CE_IsDialogBitmap.bmp
+        CE_Splash.bmp
