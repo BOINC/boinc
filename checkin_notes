@@ -4673,7 +4673,7 @@ David  6 Aug 2011
         submit_example.php
         submit.php
 
-David  6 Aug 2011
+David  7 Aug 2011
     - remote job submission: bug fixes
 
     html/
@@ -4684,3 +4684,12 @@ David  6 Aug 2011
         user/
             submit_example.php
             submit.php
+
+David  7 Aug 2011
+	- client: projects with zero resource share are always lower priority,
+		for both job sched and work fetch,
+		than projects with positive resource share.
+
+	client/
+		cpu_sched.cpp
+		work_fetch.cpp

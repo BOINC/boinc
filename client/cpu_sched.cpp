@@ -608,6 +608,13 @@ void project_priority_init() {
 
 double project_priority(PROJECT* p) {
     double x = p->resource_share_frac - p->pwf.rec_temp/rec_sum;
+
+    // projects with zero resource share are always lower priority
+    // than those with positive resource share
+    //
+    if (p->resource_share == 0) {
+        x -= 1;
+    }
 #if 0
     msg_printf(p, MSG_INFO,
         "priority: rs frac %.3f rec_temp %.3f rec_sum %.3f prio %f\n",
