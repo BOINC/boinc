@@ -6864,14 +6864,6 @@ Charlie 8 Aug 2011
         make_CharityEngine.sh (new)
         PostInstall.cpp
 
-Charlie 8 Aug 2011
-    - Tag for 6.8.29 release, all platforms
-      boinc_core_release_6_8_29
-
-    /
-        configure.ac
-        version.h
-
 Rom    8 Aug 2011
     - Changes for Charity Engine Desktop.
 
@@ -6914,3 +6906,11 @@ Rom    8 Aug 2011
         CE_IsDialogBanner.bmp
         CE_IsDialogBitmap.bmp
         CE_Splash.bmp
+
+Charlie 8 Aug 2011
+    - Tag for 6.8.29 release, all platforms
+      boinc_core_release_6_8_29
+
+    /
+        configure.ac
+        version.h
