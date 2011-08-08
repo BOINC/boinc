@@ -4712,3 +4712,14 @@ David  7 Aug 2011
     html/user/
         submit_example.php
         submit.php
+
+David  7 Aug 2011
+    - web: when sending emails to other users, don't translate anything
+        (since they don't necessarily speak our language)
+
+    html/
+        ops/
+            index.php
+        inc/
+            pm.inc
+            submit.inc

@@ -112,7 +112,7 @@ To change email preferences, visit:
 ".URL_BASE."edit_forum_preferences_form.php
 Do not reply to this message.
 " ;
-    send_email($to_user, "[".PROJECT."] ".tra("- private message"), $message);
+    send_email($to_user, "[".PROJECT."] - private message", $message);
 }
 
 function pm_email_line($notify) {

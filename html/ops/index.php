@@ -151,6 +151,7 @@ echo "
     <ul>
         <li><a href=\"profile_screen_form.php\">Screen user profiles </a></li>
         <li><a href=\"manage_special_users.php\">User privileges</a></li>
+        <li><a href=submit_permissions.php>User job submission privileges</a></li>
         <li><a href=\"mass_email.php\">Send mass email to a selected set of users</a></li>
         <li><a href=\"problem_host.php\">Email user with misconfigured host</a></li>
         <li><form action=\"manage_user.php\">
