@@ -130,20 +130,56 @@ struct RR_SIM_STATUS {
     //
     inline void get_cpu_shares() {
         unsigned int i;
+        PROJECT *p;
         for (i=0; i<gstate.projects.size(); i++) {
-            gstate.projects[i]->rr_sim_cpu_share = 0;
+            p = gstate.projects[i];
+            p->rr_sim_cpu_share = 0;
+            p->rr_sim_active = false;
+
         }
+
+        double nz_ncpus = 0;
+            // CPU usage of nonzero resource share projects
+
         for (i=0; i<active.size(); i++) {
-            PROJECT* p = active[i]->project;
-            p->rr_sim_cpu_share = p->resource_share;
+            RESULT* rp = active[i];
+            p = rp->project;
+            if (p->resource_share) {
+                nz_ncpus += rp->avp->avg_ncpus;
+            }
+            p->rr_sim_active = true;
         }
+
         double sum=0;
+        int z_count = 0;
         for (i=0; i<gstate.projects.size(); i++) {
-            sum += gstate.projects[i]->rr_sim_cpu_share;
+            p = gstate.projects[i];
+            if (p->rr_sim_active) {
+                if (p->resource_share) {
+                    sum += p->resource_share;
+                } else {;
+                    z_count++;
+                }
+            }
         }
-        if (!sum) sum=1;
-        for (i=0; i<gstate.projects.size(); i++) {
-            gstate.projects[i]->rr_sim_cpu_share /= sum;
+
+        if (nz_ncpus < gstate.ncpus) {
+            double z_frac = 1-(nz_ncpus/gstate.ncpus);
+            for (i=0; i<gstate.projects.size(); i++) {
+                p = gstate.projects[i];
+                if (p->resource_share) {
+                    p->rr_sim_cpu_share = 1;
+                } else {
+                    p->rr_sim_cpu_share = z_frac/z_count;
+                }
+            }
+        } else {
+            for (i=0; i<gstate.projects.size(); i++) {
+                p = gstate.projects[i];
+                if (p->resource_share) {
+                    p->rr_sim_cpu_share = p->resource_share/sum;
+                }
+            }
         }
     }
 };
@@ -198,8 +234,6 @@ void set_rrsim_flops(RESULT* rp) {
     // if the project's total CPU usage is more than its share, scale
     //
     double share_cpus = p->rr_sim_cpu_share*gstate.ncpus;
-    if (!share_cpus) share_cpus = gstate.ncpus;
-        // deal with projects w/ resource share = 0
     double r2 = r1;
     if (p->rsc_pwf[0].sim_nused > share_cpus) {
         r2 *= (share_cpus / p->rsc_pwf[0].sim_nused);
@@ -334,10 +368,11 @@ void CLIENT_STATE::rr_simulation() {
         for (u=0; u<sim_status.active.size(); u++) {
             rp = sim_status.active[u];
             set_rrsim_flops(rp);
-            //rp->rrsim_finish_delay = rp->avp->temp_dcf*rp->rrsim_flops_left/rp->rrsim_flops;
-            rp->rrsim_finish_delay = rp->rrsim_flops_left/rp->rrsim_flops;
-            if (!rpbest || rp->rrsim_finish_delay < rpbest->rrsim_finish_delay) {
-                rpbest = rp;
+            if (rp->rrsim_flops) {
+                rp->rrsim_finish_delay = rp->rrsim_flops_left/rp->rrsim_flops;
+                if (!rpbest || rp->rrsim_finish_delay < rpbest->rrsim_finish_delay) {
+                    rpbest = rp;
+                }
             }
         }
 

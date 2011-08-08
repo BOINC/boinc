@@ -435,6 +435,7 @@ struct PROJECT : PROJ_AM {
     // stuff for RR sim
     //
     double rr_sim_cpu_share;
+    bool rr_sim_active;
 
     // stuff related to work fetch
     //

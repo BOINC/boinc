@@ -4723,3 +4723,11 @@ David  7 Aug 2011
         inc/
             pm.inc
             submit.inc
+
+David  7 Aug 2011
+    - client: make round-robin simulator match what the job scheduler now does:
+        give lowest priority to projects with zero resource share.
+
+    client/
+        rr_sim.cpp
+        client_types.h
