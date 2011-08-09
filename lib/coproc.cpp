@@ -31,6 +31,7 @@
 #ifdef __APPLE__
 // Suppress obsolete warning when building for OS 10.3.9
 #define DLOPEN_NO_WARN
+#include <mach-o/dyld.h>
 #endif
 #include <dlfcn.h>
 #endif
@@ -262,6 +263,8 @@ void COPROC_CUDA::get(
         if (cc.prop.major > 100) continue;  // e.g. 9999 is an error
 #if defined(_WIN32) && !defined(SIM)
         cc.drvVersion = Version.drvVersion;
+#elif defined(__APPLE__)
+        cc.drvVersion = NSVersionOfRunTimeLibrary("cuda");
 #else
         cc.drvVersion = 0;
 #endif

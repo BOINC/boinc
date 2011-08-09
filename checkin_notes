@@ -6863,6 +6863,7 @@ Charlie 8 Aug 2011
             acct_mgr_url.xml (new)
         make_CharityEngine.sh (new)
         PostInstall.cpp
+        ReadMe.rtf
 
 Rom    8 Aug 2011
     - Changes for Charity Engine Desktop.
@@ -6914,3 +6915,10 @@ Charlie 8 Aug 2011
     /
         configure.ac
         version.h
+
+Charlie 8 Aug 2011
+    - Mac Client: Call NSVersionOfRunTimeLibrary("cuda") to set 
+        drvVersion (from Oliver Bock.)
+        
+    lib/
+        coproc.cpp
