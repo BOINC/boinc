@@ -297,7 +297,7 @@ int CONFIG::parse_options_client(XML_PARSER& xp) {
         if (xp.parse_bool(tag, "os_random_only", os_random_only)) continue;
 #ifndef SIM
         if (!strcmp(tag, "proxy_info")) {
-            retval = config_proxy_info.parse_config(*xp.f);
+            retval = config_proxy_info.parse_config(xp);
             if (retval) return retval;
             continue;
         }
@@ -382,8 +382,9 @@ int CONFIG::parse_client(FILE* f) {
 int CONFIG::parse(FILE* f) {
     MIOFILE mf;
     mf.init_file(f);
+    XML_PARSER xp(&mf);
 
-    return parse(mf, log_flags);
+    return parse(xp, log_flags);
 }
 
 int read_config_file(bool init, const char* fname) {

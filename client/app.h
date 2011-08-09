@@ -263,7 +263,7 @@ struct ACTIVE_TASK {
 
     int write(MIOFILE&);
     int write_gui(MIOFILE&);
-    int parse(MIOFILE&);
+    int parse(XML_PARSER&);
 };
 
 // Represents the set of all jobs in progress
@@ -308,7 +308,7 @@ public:
     void request_reread_app_info();
 
     int write(MIOFILE&);
-    int parse(MIOFILE&);
+    int parse(XML_PARSER&);
 };
 
 extern double exclusive_app_running;    // last time an exclusive app was running

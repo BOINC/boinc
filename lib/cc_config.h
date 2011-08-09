@@ -178,7 +178,7 @@ struct CONFIG {
     CONFIG();
     void defaults();
     int parse(FILE*);
-    int parse(MIOFILE&, LOG_FLAGS&);
+    int parse(XML_PARSER&, LOG_FLAGS&);
     int parse_client(FILE*);
     int parse_options(XML_PARSER&);
     int parse_options_client(XML_PARSER&);

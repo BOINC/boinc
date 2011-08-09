@@ -135,7 +135,7 @@ struct FILE_INFO {
     ~FILE_INFO(){}
     void reset();
     int set_permissions();
-    int parse(MIOFILE&);
+    int parse(XML_PARSER&);
     int write(MIOFILE&, bool to_server);
     int write_gui(MIOFILE&);
     int delete_file();
@@ -172,7 +172,7 @@ struct FILE_REF {
 	bool optional;
 		// for output files: app may not generate file;
 		// don't treat as error if file is missing.
-    int parse(MIOFILE&);
+    int parse(XML_PARSER&);
     int write(MIOFILE&);
 };
 
@@ -375,7 +375,7 @@ struct PROJECT : PROJ_AM {
     std::vector<FILE_REF> project_files;
         // files not specific to apps or work - e.g. icons
     int parse_preferences_for_user_files();
-    int parse_project_files(MIOFILE&, bool delete_existing_symlinks);
+    int parse_project_files(XML_PARSER&, bool delete_existing_symlinks);
     void write_project_files(MIOFILE&);
     void link_project_files(bool recreate_symlink_files);
     int write_symlink_for_project_file(FILE_INFO*);
@@ -477,7 +477,7 @@ struct PROJECT : PROJ_AM {
     int parse_account(FILE*);
     int parse_account_file_venue();
     int parse_account_file();
-    int parse_state(MIOFILE&);
+    int parse_state(XML_PARSER&);
     int write_state(MIOFILE&, bool gui_rpc=false);
 
     // statistic of the last x days
@@ -538,7 +538,7 @@ struct APP {
     APP() {memset(this, 0, sizeof(APP));}
 #endif
 
-    int parse(MIOFILE&);
+    int parse(XML_PARSER&);
     int write(MIOFILE&);
 };
 
@@ -588,7 +588,7 @@ struct APP_VERSION {
 
     APP_VERSION(){}
     ~APP_VERSION(){}
-    int parse(MIOFILE&);
+    int parse(XML_PARSER&);
     int write(MIOFILE&, bool write_file_info = true);
     bool had_download_failure(int& failnum);
     void get_file_errors(std::string&);
@@ -620,7 +620,7 @@ struct WORKUNIT {
 
     WORKUNIT(){}
     ~WORKUNIT(){}
-    int parse(MIOFILE&);
+    int parse(XML_PARSER&);
     int write(MIOFILE&);
     bool had_download_failure(int& failnum);
     void get_file_errors(std::string&);
@@ -691,9 +691,9 @@ struct RESULT {
     RESULT(){}
     ~RESULT(){}
     void clear();
-    int parse_server(MIOFILE&);
-    int parse_state(MIOFILE&);
-    int parse_name(FILE*, const char* end_tag);
+    int parse_server(XML_PARSER&);
+    int parse_state(XML_PARSER&);
+    int parse_name(XML_PARSER&, const char* end_tag);
     int write(MIOFILE&, bool to_server);
     int write_gui(MIOFILE&);
     bool is_upload_done();    // files uploaded?

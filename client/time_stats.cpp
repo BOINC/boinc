@@ -288,7 +288,7 @@ int TIME_STATS::write(MIOFILE& out, bool to_server) {
 
 // Parse XML based time statistics, usually from client_state.xml
 //
-int TIME_STATS::parse(MIOFILE& in) {
+int TIME_STATS::parse(XML_PARSER& xp) {
     char buf[256];
     double x;
 #ifdef SIM
@@ -296,6 +296,7 @@ int TIME_STATS::parse(MIOFILE& in) {
     double active_lambda = 3600, gpu_active_lambda = 3600;
 #endif
 
+    MIOFILE& in = *(xp.f);
     while (in.fgets(buf, 256)) {
         if (match_tag(buf, "</time_stats>")) {
 #ifdef SIM

@@ -88,7 +88,7 @@
 struct COPROC_REQ {
     char type[256];     // must be unique
     double count;
-    int parse(MIOFILE&);
+    int parse(XML_PARSER&);
 };
 
 // For now, there will be some duplication between the values present in 
@@ -249,7 +249,7 @@ struct COPROC_NVIDIA : public COPROC {
     );
 	void description(char*);
     void clear();
-    int parse(MIOFILE&);
+    int parse(XML_PARSER&);
     void get_available_ram();
 	void set_peak_flops() {
         // clock rate is scaled down by 1000;
@@ -288,7 +288,7 @@ struct COPROC_ATI : public COPROC {
     );
     void description(char*);
     void clear();
-    int parse(MIOFILE&);
+    int parse(XML_PARSER&);
     void get_available_ram();
     bool matches(OPENCL_DEVICE_PROP& OpenCLprop);
 	void set_peak_flops() {
@@ -318,7 +318,7 @@ struct COPROCS {
         cl_uint device_index, 
         std::vector<std::string> &warnings
     );
-    int parse(MIOFILE&);
+    int parse(XML_PARSER&);
     void summary_string(char*, int);
 
     // Copy a coproc set, possibly setting usage to zero.

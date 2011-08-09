@@ -111,7 +111,7 @@ public:
     void permanent_failure(int);
     void abort();
     int write(MIOFILE& fout);
-    int parse(MIOFILE& fin);
+    int parse(XML_PARSER&);
     int create_xfer();
     int start_xfer();
     void suspend();

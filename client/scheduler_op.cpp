@@ -576,7 +576,9 @@ int SCHEDULER_REPLY::parse(FILE* in, PROJECT* project) {
     char buf[256], msg_buf[1024], pri_buf[256];
     int retval;
     MIOFILE mf;
+    XML_PARSER xp(&mf);
     std::string delete_file_name;
+
     mf.init_file(in);
     bool found_start_tag = false, btemp;
     double cpid_time = 0;
@@ -731,7 +733,7 @@ int SCHEDULER_REPLY::parse(FILE* in, PROJECT* project) {
             }
         } else if (match_tag(buf, "<app>")) {
             APP app;
-            retval = app.parse(mf);
+            retval = app.parse(xp);
             if (retval) {
                 msg_printf(project, MSG_INTERNAL_ERROR,
                     "Can't parse application in scheduler reply: %s",
@@ -742,7 +744,7 @@ int SCHEDULER_REPLY::parse(FILE* in, PROJECT* project) {
             }
         } else if (match_tag(buf, "<file_info>")) {
             FILE_INFO file_info;
-            retval = file_info.parse(mf);
+            retval = file_info.parse(xp);
             if (retval) {
                 msg_printf(project, MSG_INTERNAL_ERROR,
                     "Can't parse file info in scheduler reply: %s",
@@ -753,7 +755,7 @@ int SCHEDULER_REPLY::parse(FILE* in, PROJECT* project) {
             }
         } else if (match_tag(buf, "<app_version>")) {
             APP_VERSION av;
-            retval = av.parse(mf);
+            retval = av.parse(xp);
             if (retval) {
                 msg_printf(project, MSG_INTERNAL_ERROR,
                     "Can't parse application version in scheduler reply: %s",
@@ -764,7 +766,7 @@ int SCHEDULER_REPLY::parse(FILE* in, PROJECT* project) {
             }
         } else if (match_tag(buf, "<workunit>")) {
             WORKUNIT wu;
-            retval = wu.parse(mf);
+            retval = wu.parse(xp);
             if (retval) {
                 msg_printf(project, MSG_INTERNAL_ERROR,
                     "Can't parse workunit in scheduler reply: %s",
@@ -776,7 +778,7 @@ int SCHEDULER_REPLY::parse(FILE* in, PROJECT* project) {
         } else if (match_tag(buf, "<result>")) {
             RESULT result;      // make sure this is here so constructor
                                 // gets called each time
-            retval = result.parse_server(mf);
+            retval = result.parse_server(xp);
             if (retval) {
                 msg_printf(project, MSG_INTERNAL_ERROR,
                     "Can't parse task in scheduler reply: %s",
@@ -787,7 +789,7 @@ int SCHEDULER_REPLY::parse(FILE* in, PROJECT* project) {
             }
         } else if (match_tag(buf, "<result_ack>")) {
             RESULT result;
-            retval = result.parse_name(in, "</result_ack>");
+            retval = result.parse_name(xp, "</result_ack>");
             if (retval) {
                 msg_printf(project, MSG_INTERNAL_ERROR,
                     "Can't parse ack in scheduler reply: %s",
@@ -798,7 +800,7 @@ int SCHEDULER_REPLY::parse(FILE* in, PROJECT* project) {
             }
         } else if (match_tag(buf, "<result_abort>")) {
             RESULT result;
-            retval = result.parse_name(in, "</result_abort>");
+            retval = result.parse_name(xp, "</result_abort>");
             if (retval) {
                 msg_printf(project, MSG_INTERNAL_ERROR,
                     "Can't parse result abort in scheduler reply: %s",
@@ -809,7 +811,7 @@ int SCHEDULER_REPLY::parse(FILE* in, PROJECT* project) {
             }
         } else if (match_tag(buf, "<result_abort_if_not_started>")) {
             RESULT result;
-            retval = result.parse_name(in, "</result_abort_if_not_started>");
+            retval = result.parse_name(xp, "</result_abort_if_not_started>");
             if (retval) {
                 msg_printf(project, MSG_INTERNAL_ERROR,
                     "Can't parse result abort-if-not-started in scheduler reply: %s",
@@ -876,10 +878,10 @@ int SCHEDULER_REPLY::parse(FILE* in, PROJECT* project) {
         } else if (parse_int(buf, "<scheduler_version>", scheduler_version)) {
             continue;
         } else if (match_tag(buf, "<project_files>")) {
-            retval = project->parse_project_files(mf, true);
+            retval = project->parse_project_files(xp, true);
 #ifdef ENABLE_AUTO_UPDATE
         } else if (match_tag(buf, "<auto_update>")) {
-            retval = auto_update.parse(mf);
+            retval = auto_update.parse(xp);
             if (!retval) auto_update.present = true;
 #endif
         } else if (match_tag(buf, "<rss_feeds>")) {

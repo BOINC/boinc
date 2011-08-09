@@ -42,7 +42,7 @@ struct GUI_URL {
     std::string description;
     std::string url;
 
-    int parse(MIOFILE&);
+    int parse(XML_PARSER&);
     void print();
 };
 
@@ -55,7 +55,7 @@ struct DAILY_STATS {
     double host_expavg_credit;
     double day;
 
-    int parse(MIOFILE&);
+    int parse(XML_PARSER&);
 };
 
 
@@ -164,7 +164,7 @@ public:
     PROJECT();
     ~PROJECT();
 
-    int parse(MIOFILE&);
+    int parse(XML_PARSER&);
     void print();
     void print_disk_usage();
     void clear();
@@ -183,7 +183,7 @@ public:
     APP();
     ~APP();
 
-    int parse(MIOFILE&);
+    int parse(XML_PARSER&);
     void print();
     void clear();
 };
@@ -205,7 +205,7 @@ public:
     APP_VERSION();
     ~APP_VERSION();
 
-    int parse(MIOFILE&);
+    int parse(XML_PARSER&);
     int parse_coproc(MIOFILE&);
     void print();
     void clear();
@@ -226,7 +226,7 @@ public:
     WORKUNIT();
     ~WORKUNIT();
 
-    int parse(MIOFILE&);
+    int parse(XML_PARSER&);
     void print();
     void clear();
 };
@@ -286,7 +286,7 @@ public:
     RESULT();
     ~RESULT();
 
-    int parse(MIOFILE&);
+    int parse(XML_PARSER&);
     void print();
     void clear();
 };
@@ -318,7 +318,7 @@ public:
     FILE_TRANSFER();
     ~FILE_TRANSFER();
 
-    int parse(MIOFILE&);
+    int parse(XML_PARSER&);
     void print();
     void clear();
 };
@@ -334,7 +334,7 @@ public:
     MESSAGE();
     ~MESSAGE();
 
-    int parse(MIOFILE&);
+    int parse(XML_PARSER&);
     void print();
     void clear();
 };
@@ -358,7 +358,7 @@ public:
     GR_PROXY_INFO();
     ~GR_PROXY_INFO();
 
-    int parse(MIOFILE&);
+    int parse(XML_PARSER&);
     void print();
     void clear();
 };
@@ -392,7 +392,7 @@ public:
 
     void print();
     void clear();
-    int parse(MIOFILE&);
+    int parse(XML_PARSER&);
 };
 
 class PROJECTS {
@@ -485,7 +485,7 @@ struct ACCT_MGR_INFO {
     ACCT_MGR_INFO();
     ~ACCT_MGR_INFO(){}
 
-    int parse(MIOFILE&);
+    int parse(XML_PARSER&);
     void clear();
 };
 
@@ -496,7 +496,7 @@ struct PROJECT_ATTACH_REPLY {
     PROJECT_ATTACH_REPLY();
     ~PROJECT_ATTACH_REPLY(){}
 
-    int parse(MIOFILE&);
+    int parse(XML_PARSER&);
     void clear();
 };
 
@@ -507,7 +507,7 @@ struct ACCT_MGR_RPC_REPLY {
     ACCT_MGR_RPC_REPLY();
     ~ACCT_MGR_RPC_REPLY(){}
 
-    int parse(MIOFILE&);
+    int parse(XML_PARSER&);
     void clear();
 };
 
@@ -520,7 +520,7 @@ struct PROJECT_INIT_STATUS {
     PROJECT_INIT_STATUS();
     ~PROJECT_INIT_STATUS(){}
 
-    int parse(MIOFILE&);
+    int parse(XML_PARSER&);
     void clear();
 };
 
@@ -547,7 +547,7 @@ struct PROJECT_CONFIG {
     PROJECT_CONFIG();
     ~PROJECT_CONFIG();
 
-    int parse(MIOFILE&);
+    int parse(XML_PARSER&);
     void clear();
     void print();
 };
@@ -574,7 +574,7 @@ struct ACCOUNT_OUT {
     ACCOUNT_OUT();
     ~ACCOUNT_OUT();
 
-    int parse(MIOFILE&);
+    int parse(XML_PARSER&);
     void clear();
     void print();
 };
@@ -601,7 +601,7 @@ struct CC_STATUS {
     CC_STATUS();
     ~CC_STATUS();
 
-    int parse(MIOFILE&);
+    int parse(XML_PARSER&);
     void clear();
     void print();
 };
@@ -719,6 +719,7 @@ public:
 struct RPC {
     char* mbuf;
     MIOFILE fin;
+    XML_PARSER xp;
     RPC_CLIENT* rpc_client;
 
     RPC(RPC_CLIENT*);

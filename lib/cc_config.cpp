@@ -371,7 +371,7 @@ int CONFIG::parse_options(XML_PARSER& xp) {
         if (xp.parse_bool(tag, "os_random_only", os_random_only)) continue;
 #ifndef SIM
         if (!strcmp(tag, "proxy_info")) {
-            retval = proxy_info.parse_config(*xp.f);
+            retval = proxy_info.parse_config(xp);
             if (retval) return retval;
             continue;
         }
@@ -400,9 +400,8 @@ int CONFIG::parse_options(XML_PARSER& xp) {
     return ERR_XML_PARSE;
 }
 
-int CONFIG::parse(MIOFILE& in, LOG_FLAGS& log_flags) {
+int CONFIG::parse(XML_PARSER& xp, LOG_FLAGS& log_flags) {
     char tag[256];
-    XML_PARSER xp(&in);
     bool is_tag;
 
     while (!xp.get(tag, sizeof(tag), is_tag)) {

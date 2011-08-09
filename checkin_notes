@@ -4776,3 +4776,10 @@ David  9 Aug 2011
     - client: rename MODE to RUN_MODE, and rename vars accordingly
 
     client/various
+
+David  9 Aug 2011
+    - client: pass XML_PARSER& rather than MIOFILE& to parse functions.
+        Preparatory to using new-style XML parsing everywhere.
+
+    client/various
+    lib/various

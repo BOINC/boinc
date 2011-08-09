@@ -47,7 +47,7 @@ public:
 
     TIME_STATS();
     int write(MIOFILE&, bool to_server);
-    int parse(MIOFILE&);
+    int parse(XML_PARSER&);
 
     void log_append(const char*, double);
     void log_append_net(int);

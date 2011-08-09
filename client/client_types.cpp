@@ -179,7 +179,7 @@ static bool parse_rsc_param(MIOFILE& in, const char* end_tag, int& rsc_type, dou
 }
 // parse project fields from client_state.xml
 //
-int PROJECT::parse_state(MIOFILE& in) {
+int PROJECT::parse_state(XML_PARSER& xp) {
     char buf[256];
     std::string sched_url;
     string str1, str2;
@@ -188,6 +188,7 @@ int PROJECT::parse_state(MIOFILE& in) {
     bool btemp;
 
     init();
+    MIOFILE& in = *(xp.f);
     while (in.fgets(buf, 256)) {
         if (match_tag(buf, "</project>")) {
             if (cpid_time == 0) {
@@ -688,7 +689,7 @@ void FILE_XFER_BACKOFF::file_xfer_succeeded() {
     next_xfer_time  = 0;
 }
 
-int PROJECT::parse_project_files(MIOFILE& in, bool delete_existing_symlinks) {
+int PROJECT::parse_project_files(XML_PARSER& xp, bool delete_existing_symlinks) {
     char buf[256];
     unsigned int i;
     char project_dir[256], path[256];
@@ -707,12 +708,13 @@ int PROJECT::parse_project_files(MIOFILE& in, bool delete_existing_symlinks) {
         }
     }
 
+    MIOFILE& in = *(xp.f);
     project_files.clear();
     while (in.fgets(buf, 256)) {
         if (match_tag(buf, "</project_files>")) return 0;
         if (match_tag(buf, "<file_ref>")) {
             FILE_REF file_ref;
-            file_ref.parse(in);
+            file_ref.parse(xp);
             project_files.push_back(file_ref);
         } else {
             if (log_flags.unparsed_xml) {
@@ -801,13 +803,14 @@ void PROJECT::update_project_files_downloaded_time() {
     project_files_downloaded_time = gstate.now;
 }
 
-int APP::parse(MIOFILE& in) {
+int APP::parse(XML_PARSER& xp) {
     char buf[256];
 
     strcpy(name, "");
     strcpy(user_friendly_name, "");
     project = NULL;
     non_cpu_intensive = false;
+    MIOFILE& in = *(xp.f);
     while (in.fgets(buf, 256)) {
         if (match_tag(buf, "</app>")) {
             if (!strlen(user_friendly_name)) {
@@ -936,12 +939,13 @@ int FILE_INFO::set_permissions() {
 #endif
 }
 
-int FILE_INFO::parse(MIOFILE& in) {
+int FILE_INFO::parse(XML_PARSER& xp) {
     char buf[256], buf2[1024];
     std::string url;
     PERS_FILE_XFER *pfxp;
     int retval;
 
+    MIOFILE& in = *(xp.f);
     while (in.fgets(buf, 256)) {
         if (match_tag(buf, "</file_info>") || match_tag(buf, "</file>")) {
             if (!strlen(name)) return ERR_BAD_FILENAME;
@@ -1008,7 +1012,7 @@ int FILE_INFO::parse(MIOFILE& in) {
         if (match_tag(buf, "<no_delete")) continue;
         if (match_tag(buf, "<persistent_file_xfer>")) {
             pfxp = new PERS_FILE_XFER;
-            retval = pfxp->parse(in);
+            retval = pfxp->parse(xp);
 #ifdef SIM
             delete pfxp;
             continue;
@@ -1280,7 +1284,7 @@ int FILE_INFO::gzip() {
     return 0;
 }
 
-int APP_VERSION::parse(MIOFILE& in) {
+int APP_VERSION::parse(XML_PARSER& xp) {
     char buf[256];
     FILE_REF file_ref;
 
@@ -1303,11 +1307,12 @@ int APP_VERSION::parse(MIOFILE& in) {
     strcpy(missing_coproc_name, "");
     dont_throttle = false;
 
+    MIOFILE& in = *(xp.f);
     while (in.fgets(buf, 256)) {
         if (match_tag(buf, "</app_version>")) return 0;
         if (parse_str(buf, "<app_name>", app_name, sizeof(app_name))) continue;
         if (match_tag(buf, "<file_ref>")) {
-            file_ref.parse(in);
+            file_ref.parse(xp);
             app_files.push_back(file_ref);
             continue;
         }
@@ -1323,7 +1328,7 @@ int APP_VERSION::parse(MIOFILE& in) {
         if (parse_double(buf, "<gpu_ram>", gpu_ram)) continue;
         if (match_tag(buf, "<coproc>")) {
             COPROC_REQ cp;
-            int retval = cp.parse(in);
+            int retval = cp.parse(xp);
             if (!retval) {
                 int rt = rsc_index(cp.type);
                 if (rt > 0) {
@@ -1469,7 +1474,7 @@ int APP_VERSION::api_major_version() {
     return v;
 }
 
-int FILE_REF::parse(MIOFILE& in) {
+int FILE_REF::parse(XML_PARSER& xp) {
     char buf[256];
     bool temp;
 
@@ -1478,6 +1483,7 @@ int FILE_REF::parse(MIOFILE& in) {
     main_program = false;
     copy_file = false;
     optional = false;
+    MIOFILE& in = *(xp.f);
     while (in.fgets(buf, 256)) {
         if (match_tag(buf, "</file_ref>")) return 0;
         if (parse_str(buf, "<file_name>", file_name, sizeof(file_name))) continue;
@@ -1518,7 +1524,7 @@ int FILE_REF::write(MIOFILE& out) {
     return 0;
 }
 
-int WORKUNIT::parse(MIOFILE& in) {
+int WORKUNIT::parse(XML_PARSER& xp) {
     char buf[4096];
     FILE_REF file_ref;
     double dtemp;
@@ -1536,6 +1542,7 @@ int WORKUNIT::parse(MIOFILE& in) {
     rsc_fpops_bound = 4e9*SECONDS_PER_DAY*7;
     rsc_memory_bound = 1e8;
     rsc_disk_bound = 1e9;
+    MIOFILE& in = *(xp.f);
     while (in.fgets(buf, sizeof(buf))) {
         if (match_tag(buf, "</workunit>")) return 0;
         if (parse_str(buf, "<name>", name, sizeof(name))) continue;
@@ -1570,7 +1577,7 @@ int WORKUNIT::parse(MIOFILE& in) {
         if (parse_double(buf, "<rsc_memory_bound>", rsc_memory_bound)) continue;
         if (parse_double(buf, "<rsc_disk_bound>", rsc_disk_bound)) continue;
         if (match_tag(buf, "<file_ref>")) {
-            file_ref.parse(in);
+            file_ref.parse(xp);
 #ifndef SIM
             input_files.push_back(file_ref);
 #endif
@@ -1665,11 +1672,12 @@ void WORKUNIT::clear_errors() {
     }
 }
 
-int RESULT::parse_name(FILE* in, const char* end_tag) {
+int RESULT::parse_name(XML_PARSER& xp, const char* end_tag) {
     char buf[256];
 
     strcpy(name, "");
-    while (fgets(buf, 256, in)) {
+    MIOFILE& in = *(xp.f);
+    while (in.fgets(buf, 256)) {
         if (match_tag(buf, end_tag)) return 0;
         if (parse_str(buf, "<name>", name, sizeof(name))) continue;
         if (log_flags.unparsed_xml) {
@@ -1718,11 +1726,12 @@ void RESULT::clear() {
 
 // parse a <result> element from scheduling server.
 //
-int RESULT::parse_server(MIOFILE& in) {
+int RESULT::parse_server(XML_PARSER& xp) {
     char buf[256];
     FILE_REF file_ref;
 
     clear();
+    MIOFILE& in = *(xp.f);
     while (in.fgets(buf, 256)) {
         if (match_tag(buf, "</result>")) return 0;
         if (parse_str(buf, "<name>", name, sizeof(name))) continue;
@@ -1732,7 +1741,7 @@ int RESULT::parse_server(MIOFILE& in) {
         if (parse_str(buf, "<plan_class>", plan_class, sizeof(plan_class))) continue;
         if (parse_int(buf, "<version_num>", version_num)) continue;
         if (match_tag(buf, "<file_ref>")) {
-            file_ref.parse(in);
+            file_ref.parse(xp);
             output_files.push_back(file_ref);
             continue;
         }
@@ -1748,11 +1757,12 @@ int RESULT::parse_server(MIOFILE& in) {
 
 // parse a <result> element from state file
 //
-int RESULT::parse_state(MIOFILE& in) {
+int RESULT::parse_state(XML_PARSER& xp) {
     char buf[256];
     FILE_REF file_ref;
 
     clear();
+    MIOFILE& in = *(xp.f);
     while (in.fgets(buf, 256)) {
         if (match_tag(buf, "</result>")) {
             // set state to something reasonable in case of bad state file
@@ -1776,7 +1786,7 @@ int RESULT::parse_state(MIOFILE& in) {
             continue;
         }
         if (match_tag(buf, "<file_ref>")) {
-            file_ref.parse(in);
+            file_ref.parse(xp);
 #ifndef SIM
             output_files.push_back(file_ref);
 #endif

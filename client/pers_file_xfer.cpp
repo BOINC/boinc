@@ -385,10 +385,11 @@ void PERS_FILE_XFER::abort() {
 
 // Parse XML information about a persistent file transfer
 //
-int PERS_FILE_XFER::parse(MIOFILE& fin) {
+int PERS_FILE_XFER::parse(XML_PARSER& xp) {
     char buf[256];
 
-    while (fin.fgets(buf, 256)) {
+    MIOFILE& in = *(xp.f);
+    while (in.fgets(buf, 256)) {
         if (match_tag(buf, "</persistent_file_xfer>")) return 0;
         else if (parse_int(buf, "<num_retries>", nretry)) continue;
         else if (parse_double(buf, "<first_request_time>", first_request_time)) {

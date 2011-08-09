@@ -60,7 +60,7 @@ public:
     NET_STATS();
 
     int write(MIOFILE&);
-    int parse(MIOFILE&);
+    int parse(XML_PARSER&);
 };
 
 class NET_STATUS {

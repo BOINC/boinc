@@ -303,7 +303,7 @@ int RPC_CLIENT::get_reply(char*& mbuf) {
     return 0;
 }
 
-RPC::RPC(RPC_CLIENT* rc) {
+RPC::RPC(RPC_CLIENT* rc) : xp(&fin) {
     mbuf = 0;
     rpc_client = rc;
 }

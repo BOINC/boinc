@@ -593,7 +593,7 @@ int ACTIVE_TASK::write_gui(MIOFILE& fout) {
 
 #endif
 
-int ACTIVE_TASK::parse(MIOFILE& fin) {
+int ACTIVE_TASK::parse(XML_PARSER& xp) {
     char buf[256], result_name[256], project_master_url[256];
     int n, dummy;
     unsigned int i;
@@ -603,7 +603,8 @@ int ACTIVE_TASK::parse(MIOFILE& fin) {
     strcpy(result_name, "");
     strcpy(project_master_url, "");
 
-    while (fin.fgets(buf, 256)) {
+    MIOFILE& in = *(xp.f);
+    while (in.fgets(buf, 256)) {
         if (match_tag(buf, "</active_task>")) {
             project = gstate.lookup_project(project_master_url);
             if (!project) {
@@ -720,12 +721,13 @@ int ACTIVE_TASK_SET::write(MIOFILE& fout) {
     return 0;
 }
 
-int ACTIVE_TASK_SET::parse(MIOFILE& fin) {
+int ACTIVE_TASK_SET::parse(XML_PARSER& xp) {
     ACTIVE_TASK* atp;
     char buf[256];
     int retval;
 
-    while (fin.fgets(buf, 256)) {
+    MIOFILE& in = *(xp.f);
+    while (in.fgets(buf, 256)) {
         if (match_tag(buf, "</active_task_set>")) return 0;
         else if (match_tag(buf, "<active_task>")) {
 #ifdef SIM
@@ -733,7 +735,7 @@ int ACTIVE_TASK_SET::parse(MIOFILE& fin) {
             at.parse(fin);
 #else
             atp = new ACTIVE_TASK;
-            retval = atp->parse(fin);
+            retval = atp->parse(xp);
             if (!retval) {
                 if (slot_taken(atp->slot)) {
                     msg_printf(atp->result->project, MSG_INTERNAL_ERROR,

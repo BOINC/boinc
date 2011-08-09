@@ -68,7 +68,7 @@ public:
     COPROCS _coprocs;
 
     HOST_INFO();
-    int parse(MIOFILE&, bool benchmarks_only = false);
+    int parse(XML_PARSER&, bool benchmarks_only = false);
     int write(MIOFILE&, bool include_net_info, bool include_coprocs);
     int parse_cpu_benchmarks(FILE*);
     int write_cpu_benchmarks(FILE*);

@@ -79,8 +79,9 @@ DISPLAY_INFO::DISPLAY_INFO() {
     memset(this, 0, sizeof(DISPLAY_INFO));
 }
 
-int GUI_URL::parse(MIOFILE& in) {
+int GUI_URL::parse(XML_PARSER& xp) {
     char buf[256];
+    MIOFILE& in = *(xp.f);
     while (in.fgets(buf, 256)) {
         if (match_tag(buf, "</gui_url>")) return 0;
         if (match_tag(buf, "</gui_urls>")) break;
@@ -228,10 +229,11 @@ void PROJECT::get_name(std::string& s) {
     }
 }
 
-int PROJECT::parse(MIOFILE& in) {
+int PROJECT::parse(XML_PARSER& xp) {
     char buf[256];
     int retval;
 
+    MIOFILE& in = *(xp.f);
     while (in.fgets(buf, 256)) {
         if (match_tag(buf, "</project>")) return 0;
         if (parse_str(buf, "<master_url>", master_url, sizeof(master_url))) continue;
@@ -280,7 +282,7 @@ int PROJECT::parse(MIOFILE& in) {
                 if (match_tag(buf, "</gui_urls>")) break;
                 if (match_tag(buf, "<gui_url>")) {
                     GUI_URL gu;
-                    retval = gu.parse(in);
+                    retval = gu.parse(xp);
                     if (retval) break;
                     gui_urls.push_back(gu);
                     continue;
@@ -350,8 +352,9 @@ APP::~APP() {
     clear();
 }
 
-int APP::parse(MIOFILE& in) {
+int APP::parse(XML_PARSER& xp) {
     char buf[256];
+    MIOFILE& in = *(xp.f);
     while (in.fgets(buf, 256)) {
         if (match_tag(buf, "</app>")) return 0;
         if (parse_str(buf, "<name>", name, sizeof(name))) continue;
@@ -393,8 +396,9 @@ int APP_VERSION::parse_coproc(MIOFILE& in) {
     return ERR_XML_PARSE;
 }
 
-int APP_VERSION::parse(MIOFILE& in) {
+int APP_VERSION::parse(XML_PARSER& xp) {
     char buf[256];
+    MIOFILE& in = *(xp.f);
     while (in.fgets(buf, 256)) {
         if (match_tag(buf, "</app_version>")) return 0;
         if (parse_str(buf, "<app_name>", app_name, sizeof(app_name))) continue;
@@ -424,8 +428,9 @@ WORKUNIT::~WORKUNIT() {
     clear();
 }
 
-int WORKUNIT::parse(MIOFILE& in) {
+int WORKUNIT::parse(XML_PARSER& xp) {
     char buf[256];
+    MIOFILE& in = *(xp.f);
     while (in.fgets(buf, 256)) {
         if (match_tag(buf, "</workunit>")) return 0;
         if (parse_str(buf, "<name>", name, sizeof(name))) continue;
@@ -459,8 +464,9 @@ RESULT::~RESULT() {
     clear();
 }
 
-int RESULT::parse(MIOFILE& in) {
+int RESULT::parse(XML_PARSER& xp) {
     char buf[256];
+    MIOFILE& in = *(xp.f);
     while (in.fgets(buf, 256)) {
         if (match_tag(buf, "</result>")) {
             // if CPU time is nonzero but elapsed time is zero,
@@ -585,8 +591,9 @@ FILE_TRANSFER::~FILE_TRANSFER() {
     clear();
 }
 
-int FILE_TRANSFER::parse(MIOFILE& in) {
+int FILE_TRANSFER::parse(XML_PARSER& xp) {
     char buf[256];
+    MIOFILE& in = *(xp.f);
     while (in.fgets(buf, 256)) {
         if (match_tag(buf, "</file_transfer>")) return 0;
         if (parse_str(buf, "<name>", name)) continue;
@@ -652,8 +659,9 @@ MESSAGE::~MESSAGE() {
     clear();
 }
 
-int MESSAGE::parse(MIOFILE& in) {
+int MESSAGE::parse(XML_PARSER& xp) {
     char buf[256];
+    MIOFILE& in = *(xp.f);
     while (in.fgets(buf, 256)) {
         if (match_tag(buf, "</msg>")) return 0;
         if (parse_str(buf, "<project>", project)) continue;
@@ -683,12 +691,13 @@ GR_PROXY_INFO::~GR_PROXY_INFO() {
     clear();
 }
 
-int GR_PROXY_INFO::parse(MIOFILE& in) {
+int GR_PROXY_INFO::parse(XML_PARSER& xp) {
     char buf[4096];
 	std::string noproxy;
     use_http_proxy = false;
     use_socks_proxy = false;
     use_http_authentication = false;
+    MIOFILE& in = *(xp.f);
     while (in.fgets(buf, 256)) {
         if (match_tag(buf, "</proxy_info>")) return 0;
         if (parse_int(buf, "<socks_version>", socks_version)) continue;
@@ -732,13 +741,14 @@ CC_STATE::~CC_STATE() {
     clear();
 }
 
-int CC_STATE::parse(MIOFILE& fin) {
+int CC_STATE::parse(XML_PARSER& xp) {
     char buf[256];
     string platform;
     PROJECT* project = NULL;
     int retval;
 
-    while (fin.fgets(buf, 256)) {
+    MIOFILE& in = *(xp.f);
+    while (in.fgets(buf, 256)) {
         if (match_tag(buf, "<unauthorized")) {
             return ERR_AUTHENTICATOR;
         }
@@ -747,7 +757,7 @@ int CC_STATE::parse(MIOFILE& fin) {
         if (parse_bool(buf, "executing_as_daemon", executing_as_daemon)) continue;
         if (match_tag(buf, "<project>")) {
             project = new PROJECT();
-            retval = project->parse(fin);
+            retval = project->parse(xp);
             if (retval) {
                 // should never happen
                 delete project;
@@ -759,7 +769,7 @@ int CC_STATE::parse(MIOFILE& fin) {
         }
         if (match_tag(buf, "<app>")) {
             APP* app = new APP();
-            retval = app->parse(fin);
+            retval = app->parse(xp);
             if (retval || !project) {
                 delete app;
                 continue;
@@ -770,7 +780,7 @@ int CC_STATE::parse(MIOFILE& fin) {
         }
         if (match_tag(buf, "<app_version>")) {
             APP_VERSION* app_version = new APP_VERSION();
-            retval = app_version->parse(fin);
+            retval = app_version->parse(xp);
             if (retval || !project) {
                 delete app_version;
                 continue;
@@ -786,7 +796,7 @@ int CC_STATE::parse(MIOFILE& fin) {
         }
         if (match_tag(buf, "<workunit>")) {
             WORKUNIT* wu = new WORKUNIT();
-            retval = wu->parse(fin);
+            retval = wu->parse(xp);
             if (retval || !project) {
                 delete wu;
                 continue;
@@ -802,7 +812,7 @@ int CC_STATE::parse(MIOFILE& fin) {
         }
         if (match_tag(buf, "<result>")) {
             RESULT* result = new RESULT();
-            retval = result->parse(fin);
+            retval = result->parse(xp);
             if (retval || !project) {
                 delete result;
                 continue;
@@ -836,7 +846,6 @@ int CC_STATE::parse(MIOFILE& fin) {
         if (match_tag(buf, "<global_preferences>")) {
             bool flag = false;
             GLOBAL_PREFS_MASK mask;
-            XML_PARSER xp(&fin);
             global_prefs.parse(xp, "", flag, mask);
             continue;
         }
@@ -845,7 +854,7 @@ int CC_STATE::parse(MIOFILE& fin) {
             continue;
         }
         if (match_tag(buf, "host_info")) {
-            host_info.parse(fin);
+            host_info.parse(xp);
             continue;
         }
         if (parse_bool(buf, "have_cuda", have_nvidia)) continue;
@@ -1047,8 +1056,9 @@ ACCT_MGR_INFO::ACCT_MGR_INFO() {
     clear();
 }
 
-int ACCT_MGR_INFO::parse(MIOFILE& in) {
+int ACCT_MGR_INFO::parse(XML_PARSER& xp) {
     char buf[256];
+    MIOFILE& in = *(xp.f);
     while (in.fgets(buf, 256)) {
         if (match_tag(buf, "</acct_mgr_info>")) return 0;
         if (parse_str(buf, "<acct_mgr_name>", acct_mgr_name)) continue;
@@ -1072,10 +1082,11 @@ ACCT_MGR_RPC_REPLY::ACCT_MGR_RPC_REPLY() {
     clear();
 }
 
-int ACCT_MGR_RPC_REPLY::parse(MIOFILE& in) {
+int ACCT_MGR_RPC_REPLY::parse(XML_PARSER& xp) {
     char buf[256];
     std::string msg;
     clear();
+    MIOFILE& in = *(xp.f);
     while (in.fgets(buf, 256)) {
         if (match_tag(buf, "</acct_mgr_rpc_reply>")) return 0;
         if (parse_int(buf, "<error_num>", error_num)) continue;
@@ -1096,10 +1107,11 @@ PROJECT_ATTACH_REPLY::PROJECT_ATTACH_REPLY() {
     clear();
 }
 
-int PROJECT_ATTACH_REPLY::parse(MIOFILE& in) {
+int PROJECT_ATTACH_REPLY::parse(XML_PARSER& xp) {
     char buf[256];
     std::string msg;
     clear();
+    MIOFILE& in = *(xp.f);
     while (in.fgets(buf, 256)) {
         if (match_tag(buf, "</project_attach_reply>")) return 0;
         if (parse_int(buf, "<error_num>", error_num)) continue;
@@ -1120,8 +1132,9 @@ PROJECT_INIT_STATUS::PROJECT_INIT_STATUS() {
     clear();
 }
 
-int PROJECT_INIT_STATUS::parse(MIOFILE& in) {
+int PROJECT_INIT_STATUS::parse(XML_PARSER& xp) {
     char buf[256];
+    MIOFILE& in = *(xp.f);
     while (in.fgets(buf, 256)) {
         if (match_tag(buf, "</get_project_init_status>")) return 0;
         if (parse_str(buf, "<url>", url)) continue;
@@ -1146,10 +1159,11 @@ PROJECT_CONFIG::~PROJECT_CONFIG() {
     clear();
 }
 
-int PROJECT_CONFIG::parse(MIOFILE& in) {
+int PROJECT_CONFIG::parse(XML_PARSER& xp) {
     char buf[256];
     std::string msg;
     clear();
+    MIOFILE& in = *(xp.f);
     while (in.fgets(buf, 256)) {
         if (match_tag(buf, "</project_config>")) return 0;
         if (parse_int(buf, "<error_num>", error_num)) continue;
@@ -1221,9 +1235,10 @@ ACCOUNT_OUT::~ACCOUNT_OUT() {
     clear();
 }
 
-int ACCOUNT_OUT::parse(MIOFILE& in) {
+int ACCOUNT_OUT::parse(XML_PARSER& xp) {
     char buf[256];
     clear();
+    MIOFILE& in = *(xp.f);
     while (in.fgets(buf, 256)) {
         if (parse_int(buf, "<error_num>", error_num)) continue;
         if (parse_str(buf, "<error_msg>", error_msg)) continue;
@@ -1246,8 +1261,9 @@ CC_STATUS::~CC_STATUS() {
     clear();
 }
 
-int CC_STATUS::parse(MIOFILE& in) {
+int CC_STATUS::parse(XML_PARSER& xp) {
     char buf[256];
+    MIOFILE& in = *(xp.f);
     while (in.fgets(buf, 256)) {
         if (match_tag(buf, "</cc_status>")) return 0; 
         if (parse_int(buf, "<network_status>", network_status)) continue;
@@ -1332,7 +1348,7 @@ int RPC_CLIENT::get_state(CC_STATE& state) {
 
     retval = rpc.do_rpc("<get_state/>\n");
     if (retval) return retval;
-    return state.parse(rpc.fin);
+    return state.parse(rpc.xp);
 }
 
 int RPC_CLIENT::get_results(RESULTS& t, bool active_only) {
@@ -1352,7 +1368,7 @@ int RPC_CLIENT::get_results(RESULTS& t, bool active_only) {
             if (match_tag(buf, "</results>")) break;
             else if (match_tag(buf, "<result>")) {
                 RESULT* rp = new RESULT();
-                rp->parse(rpc.fin);
+                rp->parse(rpc.xp);
                 t.results.push_back(rp);
                 continue;
             }
@@ -1375,7 +1391,7 @@ int RPC_CLIENT::get_file_transfers(FILE_TRANSFERS& t) {
             if (match_tag(buf, "</file_transfers>")) break;
             else if (match_tag(buf, "<file_transfer>")) {
                 FILE_TRANSFER* fip = new FILE_TRANSFER();
-                fip->parse(rpc.fin);
+                fip->parse(rpc.xp);
                 t.file_transfers.push_back(fip);
                 continue;
             }
@@ -1399,13 +1415,13 @@ int RPC_CLIENT::get_simple_gui_info(SIMPLE_GUI_INFO& info) {
             if (match_tag(buf, "</simple_gui_info>")) break;
             else if (match_tag(buf, "<project>")) {
                 PROJECT* project = new PROJECT();
-                project->parse(rpc.fin);
+                project->parse(rpc.xp);
                 info.projects.push_back(project);
                 continue;
             }
             else if (match_tag(buf, "<result>")) {
                 RESULT* result = new RESULT();
-                result->parse(rpc.fin);
+                result->parse(rpc.xp);
                 info.results.push_back(result);
                 continue;
             }
@@ -1431,7 +1447,7 @@ int RPC_CLIENT::get_project_status(PROJECTS& p) {
             if (match_tag(buf, "</projects>")) break;
             else if (match_tag(buf, "<project>")) {
                 PROJECT* project = new PROJECT();
-                project->parse(rpc.fin);
+                project->parse(rpc.xp);
                 p.projects.push_back(project);
                 continue;
             }
@@ -1454,12 +1470,11 @@ int RPC_CLIENT::get_all_projects_list(ALL_PROJECTS_LIST& pl) {
 
     retval = rpc.do_rpc("<get_all_projects_list/>\n");
     if (retval) return retval;
-    XML_PARSER xp(&rpc.fin);
-    while (!xp.get(tag, sizeof(tag), is_tag)) {
+    while (!rpc.xp.get(tag, sizeof(tag), is_tag)) {
         if (!strcmp(tag, "/projects")) break;
         else if (!strcmp(tag, "project")) {
             project = new PROJECT_LIST_ENTRY();
-            retval = project->parse(xp);
+            retval = project->parse(rpc.xp);
             if (!retval) {
                 pl.projects.push_back(project);
             } else {
@@ -1468,7 +1483,7 @@ int RPC_CLIENT::get_all_projects_list(ALL_PROJECTS_LIST& pl) {
             continue;
         } else if (!strcmp(tag, "account_manager")) {
             am = new AM_LIST_ENTRY();
-            retval = am->parse(xp);
+            retval = am->parse(rpc.xp);
             if (!retval) {
                 pl.account_managers.push_back(am);
             } else {
@@ -1497,7 +1512,7 @@ int RPC_CLIENT::get_disk_usage(DISK_USAGE& du) {
             if (match_tag(buf, "</disk_usage_summary>")) break;
             if (match_tag(buf, "<project>")) {
                 PROJECT* project = new PROJECT();
-                project->parse(rpc.fin);
+                project->parse(rpc.xp);
                 du.projects.push_back(project);
                 continue;
             }
@@ -1510,8 +1525,9 @@ int RPC_CLIENT::get_disk_usage(DISK_USAGE& du) {
     return retval;
 }
 
-int DAILY_STATS::parse(MIOFILE& in) {
+int DAILY_STATS::parse(XML_PARSER& xp) {
     char buf[256];
+    MIOFILE& in = *(xp.f);
     while (in.fgets(buf, 256)) {
         if (match_tag(buf, "</daily_statistics>")) return 0;
         if (parse_double(buf, "<day>", day)) continue;
@@ -1545,7 +1561,7 @@ int RPC_CLIENT::get_statistics(PROJECTS& p) {
                     if (parse_str(buf, "<master_url>", p.projects.back()->master_url, sizeof(project->master_url))) continue;
                     if (match_tag(buf, "<daily_statistics>")) {
                         DAILY_STATS ds;
-                        retval = ds.parse(rpc.fin);
+                        retval = ds.parse(rpc.xp);
                         if (retval) break;
                         p.projects.back()->statistics.push_back(ds);
                         continue;
@@ -1567,7 +1583,7 @@ int RPC_CLIENT::get_cc_status(CC_STATUS& status) {
     if (!retval) {
         while (rpc.fin.fgets(buf, 256)) {
             if (match_tag(buf, "<cc_status>")) {
-                retval = status.parse(rpc.fin);
+                retval = status.parse(rpc.xp);
                 if (retval) break;
             }
         }
@@ -1729,7 +1745,7 @@ int RPC_CLIENT::project_attach_poll(PROJECT_ATTACH_REPLY& reply) {
 
     retval = rpc.do_rpc("<project_attach_poll/>\n");
     if (!retval) {
-        retval = reply.parse(rpc.fin);
+        retval = reply.parse(rpc.xp);
     }
     return retval;
 }
@@ -1813,7 +1829,7 @@ int RPC_CLIENT::get_screensaver_tasks(int& suspend_reason, RESULTS& t) {
             if (parse_int(buf, "<suspend_reason>", suspend_reason)) continue;
             if (match_tag(buf, "<result>")) {
                 RESULT* rp = new RESULT();
-                rp->parse(rpc.fin);
+                rp->parse(rpc.xp);
                 t.results.push_back(rp);
                 continue;
             }
@@ -1877,7 +1893,7 @@ int RPC_CLIENT::get_proxy_settings(GR_PROXY_INFO& p) {
 
     retval = rpc.do_rpc("<get_proxy_settings/>");
     if (!retval) {
-        retval = p.parse(rpc.fin);
+        retval = p.parse(rpc.xp);
     }
     return retval;
 }
@@ -1924,7 +1940,7 @@ int RPC_CLIENT::get_messages(int seqno, MESSAGES& msgs, bool translatable) {
             }
             if (match_tag(buf, "<msg>")) {
                 MESSAGE* message = new MESSAGE();
-                message->parse(rpc.fin);
+                message->parse(rpc.xp);
                 msgs.messages.push_back(message);
                 continue;
             }
@@ -2007,7 +2023,7 @@ int RPC_CLIENT::get_host_info(HOST_INFO& h) {
     if (retval) return retval;
     while (rpc.fin.fgets(buf, 256)) {
         if (match_tag(buf, "<host_info>")) {
-            return h.parse(rpc.fin);
+            return h.parse(rpc.xp);
         }
         if (match_tag(buf, "<unauthorized")) {
             return ERR_AUTHENTICATOR;
@@ -2059,7 +2075,7 @@ int RPC_CLIENT::acct_mgr_rpc_poll(ACCT_MGR_RPC_REPLY& r) {
 
     retval = rpc.do_rpc("<acct_mgr_rpc_poll/>\n");
     if (!retval) {
-        retval = r.parse(rpc.fin);
+        retval = r.parse(rpc.xp);
     }
     return retval;
 }
@@ -2071,7 +2087,7 @@ int RPC_CLIENT::acct_mgr_info(ACCT_MGR_INFO& ami) {
 
     retval = rpc.do_rpc("<acct_mgr_info/>\n");
     if (!retval) {
-        retval = ami.parse(rpc.fin);
+        retval = ami.parse(rpc.xp);
     }
     return retval;
 }
@@ -2083,7 +2099,7 @@ int RPC_CLIENT::get_project_init_status(PROJECT_INIT_STATUS& pis) {
 
     retval = rpc.do_rpc("<get_project_init_status/>\n");
     if (!retval) {
-        retval = pis.parse(rpc.fin);
+        retval = pis.parse(rpc.xp);
     }
     return retval;
 }
@@ -2117,7 +2133,7 @@ int RPC_CLIENT::get_project_config_poll(PROJECT_CONFIG& pc) {
 
     retval = rpc.do_rpc("<get_project_config_poll/>\n");
     if (!retval) {
-        retval = pc.parse(rpc.fin);
+        retval = pc.parse(rpc.xp);
     }
     return retval;
 }
@@ -2159,7 +2175,7 @@ int RPC_CLIENT::lookup_account_poll(ACCOUNT_OUT& ao) {
 
     retval = rpc.do_rpc("<lookup_account_poll/>\n");
     if (!retval) {
-        retval = ao.parse(rpc.fin);
+        retval = ao.parse(rpc.xp);
     }
     return retval;
 }
@@ -2201,7 +2217,7 @@ int RPC_CLIENT::create_account_poll(ACCOUNT_OUT& ao) {
 
     retval = rpc.do_rpc("<create_account_poll/>\n");
     if (!retval) {
-        retval = ao.parse(rpc.fin);
+        retval = ao.parse(rpc.xp);
     }
     return retval;
 }
@@ -2399,7 +2415,7 @@ int RPC_CLIENT::get_cc_config(CONFIG& config, LOG_FLAGS& log_flags) {
     retval = rpc.do_rpc("<get_cc_config/>");
     if (retval) return retval;
 
-    return config.parse(rpc.fin, log_flags);
+    return config.parse(rpc.xp, log_flags);
 }
 
 int RPC_CLIENT::set_cc_config(CONFIG& config, LOG_FLAGS& log_flags) {
@@ -2416,8 +2432,7 @@ int RPC_CLIENT::set_cc_config(CONFIG& config, LOG_FLAGS& log_flags) {
     return retval;
 }
 
-static int parse_notices(MIOFILE& fin, NOTICES& notices) {
-    XML_PARSER xp(&fin);
+static int parse_notices(XML_PARSER& xp, NOTICES& notices) {
     char tag[256];
     bool is_tag;
     int retval;
@@ -2456,7 +2471,7 @@ int RPC_CLIENT::get_notices(int seqno, NOTICES& notices) {
     );
     retval = rpc.do_rpc(buf);
     if (retval) return retval;
-    return parse_notices(rpc.fin, notices);
+    return parse_notices(rpc.xp, notices);
 }
 
 int RPC_CLIENT::get_notices_public(int seqno, NOTICES& notices) {
@@ -2473,6 +2488,6 @@ int RPC_CLIENT::get_notices_public(int seqno, NOTICES& notices) {
     );
     retval = rpc.do_rpc(buf);
     if (retval) return retval;
-    return parse_notices(rpc.fin, notices);
+    return parse_notices(rpc.xp, notices);
 }
 

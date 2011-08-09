@@ -27,10 +27,11 @@
 #include "error_numbers.h"
 #include "proxy_info.h"
 
-int PROXY_INFO::parse(MIOFILE& in) {
+int PROXY_INFO::parse(XML_PARSER& xp) {
     char buf[1024];
 
     memset(this, 0, sizeof(PROXY_INFO));
+    MIOFILE& in = *(xp.f);
     while (in.fgets(buf, 256)) {
         if (match_tag(buf, "</proxy_info>")) {
             present = false;
@@ -54,8 +55,8 @@ int PROXY_INFO::parse(MIOFILE& in) {
     return ERR_XML_PARSE;
 }
 
-int PROXY_INFO::parse_config(MIOFILE& in) {
-    int retval = parse(in);
+int PROXY_INFO::parse_config(XML_PARSER& xp) {
+    int retval = parse(xp);
     if (retval) return retval;
     if (strlen(http_server_name)) use_http_proxy = true;
     if (strlen(socks_server_name)) use_socks_proxy = true;

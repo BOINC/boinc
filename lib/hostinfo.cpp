@@ -71,9 +71,10 @@ void HOST_INFO::clear_host_info() {
     strcpy(virtualbox_version, "");
 }
 
-int HOST_INFO::parse(MIOFILE& in, bool benchmarks_only) {
+int HOST_INFO::parse(XML_PARSER& xp, bool benchmarks_only) {
     char buf[1024];
 
+    MIOFILE& in = *(xp.f);
     while (in.fgets(buf, sizeof(buf))) {
         if (match_tag(buf, "</host_info>")) return 0;
         else if (parse_double(buf, "<p_fpops>", p_fpops)) {
@@ -111,7 +112,7 @@ int HOST_INFO::parse(MIOFILE& in, bool benchmarks_only) {
         else if (parse_str(buf, "<os_version>", os_version, sizeof(os_version))) continue;
         else if (parse_str(buf, "<virtualbox_version>", virtualbox_version, sizeof(virtualbox_version))) continue;
         else if (match_tag(buf, "<coprocs>")) {
-            _coprocs.parse(in);
+            _coprocs.parse(xp);
         }
     }
     return ERR_XML_PARSE;

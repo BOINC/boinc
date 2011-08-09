@@ -369,7 +369,8 @@ static void handle_run_benchmarks(char* , MIOFILE& fout) {
 static void handle_set_proxy_settings(char* buf, MIOFILE& fout) {
     MIOFILE in;
     in.init_buf_read(buf);
-    gui_proxy_info.parse(in);
+    XML_PARSER xp(&in);
+    gui_proxy_info.parse(xp);
     gstate.set_client_state_dirty("Set proxy settings RPC");
     fout.printf("<success/>\n");
     select_proxy_info();

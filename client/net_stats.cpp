@@ -100,10 +100,11 @@ int NET_STATS::write(MIOFILE& out) {
     return 0;
 }
 
-int NET_STATS::parse(MIOFILE& in) {
+int NET_STATS::parse(XML_PARSER& xp) {
     char buf[256];
 
     memset(this, 0, sizeof(NET_STATS));
+    MIOFILE& in = *(xp.f);
     while (in.fgets(buf, 256)) {
         if (match_tag(buf, "</net_stats>")) return 0;
         if (parse_double(buf, "<bwup>", up.max_rate)) continue;

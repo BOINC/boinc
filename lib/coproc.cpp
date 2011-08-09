@@ -44,11 +44,12 @@
 using std::perror;
 #endif
 
-int COPROC_REQ::parse(MIOFILE& fin) {
+int COPROC_REQ::parse(XML_PARSER& xp) {
     char buf[1024];
     strcpy(type, "");
     count = 0;
-    while (fin.fgets(buf, sizeof(buf))) {
+    MIOFILE& in = *(xp.f);
+    while (in.fgets(buf, sizeof(buf))) {
         if (match_tag(buf, "</coproc>")) {
             if (!strlen(type)) return ERR_XML_PARSE;
             return 0;
@@ -138,19 +139,20 @@ void COPROCS::summary_string(char* buf, int len) {
     strcpy(buf, bigbuf);
 }
 
-int COPROCS::parse(MIOFILE& fin) {
+int COPROCS::parse(XML_PARSER& xp) {
     char buf[1024];
     int retval;
 
     clear();
     n_rsc = 1;
     strcpy(coprocs[0].type, "CPU");
-    while (fin.fgets(buf, sizeof(buf))) {
+    MIOFILE& in = *(xp.f);
+    while (in.fgets(buf, sizeof(buf))) {
         if (match_tag(buf, "</coprocs>")) {
             return 0;
         }
         if (match_tag(buf, "<coproc_cuda>")) {
-            retval = nvidia.parse(fin);
+            retval = nvidia.parse(xp);
             if (retval) {
                 nvidia.clear();
             } else {
@@ -159,7 +161,7 @@ int COPROCS::parse(MIOFILE& fin) {
             continue;
         }
         if (match_tag(buf, "<coproc_ati>")) {
-            retval = ati.parse(fin);
+            retval = ati.parse(xp);
             if (retval) {
                 ati.clear();
             } else {
@@ -294,12 +296,13 @@ void COPROC_NVIDIA::clear() {
     prop.multiProcessorCount = 0;
 }
 
-int COPROC_NVIDIA::parse(MIOFILE& fin) {
+int COPROC_NVIDIA::parse(XML_PARSER& xp) {
 //TODO: Parse opencl_prop
     char buf[1024], buf2[256];
 
     clear();
-    while (fin.fgets(buf, sizeof(buf))) {
+    MIOFILE& in = *(xp.f);
+    while (in.fgets(buf, sizeof(buf))) {
         if (strstr(buf, "</coproc_cuda>")) {
             if (!peak_flops) {
 				set_peak_flops();
@@ -451,14 +454,15 @@ void COPROC_ATI::clear() {
     memset(&info, 0, sizeof(info));
 }
 
-int COPROC_ATI::parse(MIOFILE& fin) {
+int COPROC_ATI::parse(XML_PARSER& xp) {
 //TODO: Parse opencl_prop
     char buf[1024];
     int n;
 
     clear();
 
-    while (fin.fgets(buf, sizeof(buf))) {
+    MIOFILE& in = *(xp.f);
+    while (in.fgets(buf, sizeof(buf))) {
         if (strstr(buf, "</coproc_ati>")) {
             int major, minor, release;
             sscanf(version, "%d.%d.%d", &major, &minor, &release);

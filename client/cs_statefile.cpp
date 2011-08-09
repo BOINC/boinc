@@ -118,6 +118,7 @@ int CLIENT_STATE::parse_state_file_aux(const char* fname) {
 
     FILE* f = fopen(fname, "r");
     MIOFILE mf;
+    XML_PARSER xp(&mf);
     mf.init_file(f);
     while (fgets(buf, 256, f)) {
         if (match_tag(buf, "</client_state>")) {
@@ -128,7 +129,7 @@ int CLIENT_STATE::parse_state_file_aux(const char* fname) {
         }
         if (match_tag(buf, "<project>")) {
             PROJECT temp_project;
-            retval = temp_project.parse_state(mf);
+            retval = temp_project.parse_state(xp);
             if (retval) {
                 msg_printf(NULL, MSG_INTERNAL_ERROR, "Can't parse project in state file");
             } else {
@@ -152,7 +153,7 @@ int CLIENT_STATE::parse_state_file_aux(const char* fname) {
         }
         if (match_tag(buf, "<app>")) {
             APP* app = new APP;
-            retval = app->parse(mf);
+            retval = app->parse(xp);
             if (!project) {
                 msg_printf(NULL, MSG_INTERNAL_ERROR,
                     "Application %s outside project in state file",
@@ -186,7 +187,7 @@ int CLIENT_STATE::parse_state_file_aux(const char* fname) {
         }
         if (match_tag(buf, "<file_info>") || match_tag(buf, "<file>")) {
             FILE_INFO* fip = new FILE_INFO;
-            retval = fip->parse(mf);
+            retval = fip->parse(xp);
             if (!project) {
                 msg_printf(NULL, MSG_INTERNAL_ERROR,
                     "File info outside project in state file"
@@ -246,7 +247,7 @@ int CLIENT_STATE::parse_state_file_aux(const char* fname) {
         }
         if (match_tag(buf, "<app_version>")) {
             APP_VERSION* avp = new APP_VERSION;
-            retval = avp->parse(mf);
+            retval = avp->parse(xp);
             if (!project) {
                 msg_printf(NULL, MSG_INTERNAL_ERROR,
                     "Application version outside project in state file"
@@ -299,7 +300,7 @@ int CLIENT_STATE::parse_state_file_aux(const char* fname) {
         }
         if (match_tag(buf, "<workunit>")) {
             WORKUNIT* wup = new WORKUNIT;
-            retval = wup->parse(mf);
+            retval = wup->parse(xp);
             if (!project) {
                 msg_printf(NULL, MSG_INTERNAL_ERROR,
                     "Workunit outside project in state file"
@@ -327,7 +328,7 @@ int CLIENT_STATE::parse_state_file_aux(const char* fname) {
         }
         if (match_tag(buf, "<result>")) {
             RESULT* rp = new RESULT;
-            retval = rp->parse_state(mf);
+            retval = rp->parse_state(xp);
             if (!project) {
                 msg_printf(NULL, MSG_INTERNAL_ERROR,
                     "Task %s outside project in state file",
@@ -389,16 +390,16 @@ int CLIENT_STATE::parse_state_file_aux(const char* fname) {
                 skip_unrecognized(buf, mf);
                 continue;
             }
-            project->parse_project_files(mf, false);
+            project->parse_project_files(xp, false);
             project->link_project_files(false);
             continue;
         }
         if (match_tag(buf, "<host_info>")) {
 #ifdef SIM
-            retval = host_info.parse(mf, false);
+            retval = host_info.parse(xp, false);
             coprocs = host_info._coprocs;
 #else
-            retval = host_info.parse(mf, true);
+            retval = host_info.parse(xp, true);
 #endif
             if (retval) {
                 msg_printf(NULL, MSG_INTERNAL_ERROR,
@@ -408,7 +409,7 @@ int CLIENT_STATE::parse_state_file_aux(const char* fname) {
             continue;
         }
         if (match_tag(buf, "<time_stats>")) {
-            retval = time_stats.parse(mf);
+            retval = time_stats.parse(xp);
             if (retval) {
                 msg_printf(NULL, MSG_INTERNAL_ERROR,
                     "Can't parse time stats in state file"
@@ -417,7 +418,7 @@ int CLIENT_STATE::parse_state_file_aux(const char* fname) {
             continue;
         }
         if (match_tag(buf, "<net_stats>")) {
-            retval = net_stats.parse(mf);
+            retval = net_stats.parse(xp);
             if (retval) {
                 msg_printf(NULL, MSG_INTERNAL_ERROR,
                     "Can't parse network stats in state file"
@@ -426,7 +427,7 @@ int CLIENT_STATE::parse_state_file_aux(const char* fname) {
             continue;
         }
         if (match_tag(buf, "<active_task_set>")) {
-            retval = active_tasks.parse(mf);
+            retval = active_tasks.parse(xp);
             if (retval) {
                 msg_printf(NULL, MSG_INTERNAL_ERROR,
                     "Can't parse active tasks in state file"
@@ -466,7 +467,7 @@ int CLIENT_STATE::parse_state_file_aux(const char* fname) {
             continue;
         }
         if (match_tag(buf, "<proxy_info>")) {
-            retval = gui_proxy_info.parse(mf);
+            retval = gui_proxy_info.parse(xp);
             if (retval) {
                 msg_printf(NULL, MSG_INTERNAL_ERROR,
                     "Can't parse proxy info in state file"
@@ -495,7 +496,7 @@ int CLIENT_STATE::parse_state_file_aux(const char* fname) {
                 skip_unrecognized(buf, mf);
                 continue;
             }
-            if (!auto_update.parse(mf) && !auto_update.validate_and_link(project)) {
+            if (!auto_update.parse(xp) && !auto_update.validate_and_link(project)) {
                 auto_update.present = true;
             }
             continue;
@@ -805,13 +806,14 @@ int CLIENT_STATE::parse_app_info(PROJECT* p, FILE* in) {
     char buf[256], path[1024];
     MIOFILE mf;
     mf.init_file(in);
+    XML_PARSER xp(&mf);
 
     while (fgets(buf, 256, in)) {
         if (match_tag(buf, "<app_info>")) continue;
         if (match_tag(buf, "</app_info>")) return 0;
         if (match_tag(buf, "<file_info>")) {
             FILE_INFO* fip = new FILE_INFO;
-            if (fip->parse(mf)) {
+            if (fip->parse(xp)) {
                 delete fip;
                 continue;
             }
@@ -845,7 +847,7 @@ int CLIENT_STATE::parse_app_info(PROJECT* p, FILE* in) {
         }
         if (match_tag(buf, "<app>")) {
             APP* app = new APP;
-            if (app->parse(mf)) {
+            if (app->parse(xp)) {
                 delete app;
                 continue;
             }
@@ -859,7 +861,7 @@ int CLIENT_STATE::parse_app_info(PROJECT* p, FILE* in) {
         }
         if (match_tag(buf, "<app_version>")) {
             APP_VERSION* avp = new APP_VERSION;
-            if (avp->parse(mf)) {
+            if (avp->parse(xp)) {
                 delete avp;
                 continue;
             }

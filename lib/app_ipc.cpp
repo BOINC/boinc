@@ -310,11 +310,11 @@ int parse_init_data_file(FILE* f, APP_INIT_DATA& ai) {
             continue;
         }
         if (!strcmp(tag, "host_info")) {
-            ai.host_info.parse(mf);
+            ai.host_info.parse(xp);
             continue;
         }
         if (!strcmp(tag, "proxy_info")) {
-            ai.proxy_info.parse(mf);
+            ai.proxy_info.parse(xp);
             continue;
         }
         if (xp.parse_int(tag, "major_version", ai.major_version)) continue;
