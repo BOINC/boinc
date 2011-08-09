@@ -4764,3 +4764,11 @@ Charlie 8 Aug 2011
         PostInstall.cpp
         PTP-ReadMe.rtf
         ReadMe.rtf
+
+Charlie 8 Aug 2011
+    - Mac Client: Call NSVersionOfRunTimeLibrary("cuda") to set 
+        cc.display_driver_version (from Oliver Bock.)
+        
+    client/
+        coproc_detect.cpp
+    
