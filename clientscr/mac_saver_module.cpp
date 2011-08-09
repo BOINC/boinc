@@ -319,10 +319,13 @@ OSStatus CScreensaver::initBOINCApp() {
     brandId = GetBrandID();
     switch(brandId) {
     case 1:
-        m_BrandText = "GridRepublic";
+        m_BrandText = "GridRepublic Desktop";
          break;
     case 2:
-        m_BrandText = "Progress Thru Processors";
+        m_BrandText = "Progress Thru Processors Desktop";
+         break;
+    case 3:
+        m_BrandText = "Charity Engine Desktop";
          break;
     default:
         m_BrandText = "BOINC";

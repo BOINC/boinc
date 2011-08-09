@@ -108,7 +108,7 @@ void strip_cr(char *buf);
 
 extern int check_security(char *bundlePath, char *dataPath, int use_sandbox, int isManager);
 
-#define NUMBRANDS 3
+#define NUMBRANDS 4
 
 /* globals */
 static Boolean                  gCommandLineInstall = false;
@@ -182,6 +182,13 @@ int main(int argc, char *argv[])
     saverName[2] = "Progress Thru Processors";
     saverNameEscaped[2] = "Progress\\ Thru\\ Processors";
     receiptNameEscaped[2] = "/Library/Receipts/Progress\\ Thru\\ Processors\\ Installer.pkg";
+
+    appName[3] = "/Applications/Charity Engine Desktop.app";
+    appNameEscaped[3] = "/Applications/Charity\\ Engine\\ Desktop.app";
+    brandName[3] = "Charity Engine";
+    saverName[3] = "Charity Engine";
+    saverNameEscaped[3] = "Charity\\ Engine";
+    receiptNameEscaped[3] = "/Library/Receipts/Charity\\ Engine\\ Installer.pkg";
 
     ::GetCurrentProcess (&ourProcess);
 
@@ -752,6 +759,7 @@ Boolean SetLoginItem(long brandID, Boolean deleteLogInItem)
             // if (strcmp(p, "BOINCMANAGER.APP") == 0)
             // if (strcmp(p, "GRIDREPUBLIC DESKTOP.APP") == 0)
             // if (strcmp(p, "PROGRESS THRU PROCESSORS DESKTOP.APP") == 0)
+            // if (strcmp(p, "CHARITY ENGINE.APP") == 0)
             if (strcmp(p, s) == 0) {
                 Success = RemoveLoginItemAtIndex(kCurrentUser, Counter-1);
             }
