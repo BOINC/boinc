@@ -74,9 +74,12 @@ CC_STATUS cc_status;
 #define BOINC_BRAND_ID 0
 #define GRIDREPUBLIC_BRAND_ID 1
 #define PROGRESSTHRUPROCESSORS_BRAND_ID 2
+#define CHARITYENGINE_BRAND_ID 3
 
 #ifdef _GRIDREPUBLIC
 static long iBrandId = GRIDREPUBLIC_BRAND_ID;
+#elif defined(_CHARITYENGINE)
+static long iBrandId = CHARITYENGINE_BRAND_ID;
 #else
 static long iBrandId = BOINC_BRAND_ID;   // Default value for BOINC
 #endif
@@ -234,6 +237,8 @@ void show_disconnected() {
     float x=.3, y=.3;
     if (iBrandId == GRIDREPUBLIC_BRAND_ID) {
         txf_render_string(.1, x, y, 0, ALERT_SIZE, white, 0, "GridRepublic is not running.");
+    } else if (iBrandId == CHARITYENGINE_BRAND_ID) {   
+        txf_render_string(.1, x, y, 0, ALERT_SIZE, white, 0, "Charity Engine is not running.");
     } else {    
         txf_render_string(.1, x, y, 0, ALERT_SIZE, white, 0, "BOINC is not running.");
     }
@@ -243,12 +248,16 @@ void show_no_projects() {
     float x=.2, y=.3;
     if (iBrandId == GRIDREPUBLIC_BRAND_ID) {
         txf_render_string(.1, x, y, 0, ALERT_SIZE, white, 0, "GridRepublic is not attached to any projects.");
+    } else if (iBrandId == CHARITYENGINE_BRAND_ID) {   
+        txf_render_string(.1, x, y, 0, ALERT_SIZE, white, 0, "Charity Engine is not attached to any projects.");
     } else {    
         txf_render_string(.1, x, y, 0, ALERT_SIZE, white, 0, "BOINC is not attached to any projects.");
     }
     y = .25;
     if (iBrandId == GRIDREPUBLIC_BRAND_ID) {
         txf_render_string(.1, x, y, 0, ALERT_SIZE, white, 0, "Attach to projects using the GridRepublic Desktop.");
+    } else if (iBrandId == CHARITYENGINE_BRAND_ID) {   
+        txf_render_string(.1, x, y, 0, ALERT_SIZE, white, 0, "Attach to projects using the Charity Engine Desktop.");
     } else {    
         txf_render_string(.1, x, y, 0, ALERT_SIZE, white, 0, "Attach to projects using the BOINC Manager.");
     }
@@ -302,6 +311,8 @@ void show_jobs(unsigned int index, double alpha) {
         case SUSPEND_REASON_INITIAL_DELAY:
             if (iBrandId == GRIDREPUBLIC_BRAND_ID) {
                 p = "Computing suspended while GridRepublic is starting up"; break;
+            } else if (iBrandId == CHARITYENGINE_BRAND_ID) {   
+                p = "Computing suspended while Charity Engine is starting up"; break;
             } else {    
                 p = "Computing suspended while BOINC is starting up"; break;
             }
@@ -457,6 +468,8 @@ void app_graphics_init() {
 #else
     if (iBrandId == GRIDREPUBLIC_BRAND_ID) {
         logo.load_image_file("gridrepublic_ss_logo.jpg");
+    } else if (iBrandId == CHARITYENGINE_BRAND_ID) {   
+        logo.load_image_file("CE_ss_logo.jpg");
     } else {    
         logo.load_image_file("boinc_logo_black.jpg");
     }
