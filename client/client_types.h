@@ -778,11 +778,11 @@ struct RESULT {
 
 // represents an always/auto/never value, possibly temporarily overridden
 
-struct MODE {
+struct RUN_MODE {
     int perm_mode;
     int temp_mode;
     double temp_timeout;
-    MODE();
+    RUN_MODE();
     void set(int mode, double duration);
     int get_perm();
     int get_current();

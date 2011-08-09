@@ -311,7 +311,7 @@ static void handle_set_run_mode(char* buf, MIOFILE& fout) {
         fout.printf("<error>Missing mode</error>\n");
         return;
     }
-    gstate.run_mode.set(mode, duration);
+    gstate.cpu_run_mode.set(mode, duration);
     fout.printf("<success/>\n");
 }
 
@@ -331,7 +331,7 @@ static void handle_set_gpu_mode(char* buf, MIOFILE& fout) {
         fout.printf("<error>Missing mode</error>\n");
         return;
     }
-    gstate.gpu_mode.set(mode, duration);
+    gstate.gpu_run_mode.set(mode, duration);
     gstate.request_schedule_cpus("GPU mode changed");
     fout.printf("<success/>\n");
 }
@@ -357,7 +357,7 @@ static void handle_set_network_mode(char* buf, MIOFILE& fout) {
     //
     gstate.gui_rpcs.time_of_last_rpc_needing_network = 0;
 
-    gstate.network_mode.set(mode, duration);
+    gstate.network_run_mode.set(mode, duration);
     fout.printf("<success/>\n");
 }
 
@@ -573,17 +573,17 @@ static void handle_get_cc_status(GUI_RPC_CONN* gr, MIOFILE& fout) {
         net_status.network_status(),
         gstate.acct_mgr_info.password_error?1:0,
         gstate.suspend_reason,
-        gstate.run_mode.get_current(),
-        gstate.run_mode.get_perm(),
-        gstate.run_mode.delay(),
+        gstate.cpu_run_mode.get_current(),
+        gstate.cpu_run_mode.get_perm(),
+        gstate.cpu_run_mode.delay(),
         gpu_suspend_reason,
-        gstate.gpu_mode.get_current(),
-        gstate.gpu_mode.get_perm(),
-        gstate.gpu_mode.delay(),
+        gstate.gpu_run_mode.get_current(),
+        gstate.gpu_run_mode.get_perm(),
+        gstate.gpu_run_mode.delay(),
         gstate.network_suspend_reason,
-        gstate.network_mode.get_current(),
-        gstate.network_mode.get_perm(),
-        gstate.network_mode.delay(),
+        gstate.network_run_mode.get_current(),
+        gstate.network_run_mode.get_perm(),
+        gstate.network_run_mode.delay(),
         config.disallow_attach?1:0,
         config.simple_gui_only?1:0
     );

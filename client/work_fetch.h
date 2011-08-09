@@ -25,7 +25,6 @@
 
 extern bool use_rec;
 #define USE_REC
-extern double rec_half_life;
 
 extern bool use_hyst_fetch;
 

@@ -2120,13 +2120,13 @@ void RESULT::abort_inactive(int status) {
     exit_status = status;
 }
 
-MODE::MODE() {
+RUN_MODE::RUN_MODE() {
     perm_mode = 0;
     temp_mode = 0;
     temp_timeout = 0;
 }
 
-void MODE::set(int mode, double duration) {
+void RUN_MODE::set(int mode, double duration) {
     if (mode == RUN_MODE_RESTORE) {
         temp_timeout = 0;
         temp_mode = perm_mode;
@@ -2143,11 +2143,11 @@ void MODE::set(int mode, double duration) {
     }
 }
 
-int MODE::get_perm() {
+int RUN_MODE::get_perm() {
     return perm_mode;
 }
 
-int MODE::get_current() {
+int RUN_MODE::get_current() {
     if (temp_timeout > gstate.now) {
         return temp_mode;
     } else {
@@ -2155,7 +2155,7 @@ int MODE::get_current() {
     }
 }
 
-double MODE::delay() {
+double RUN_MODE::delay() {
     if (temp_timeout > gstate.now) {
         return temp_timeout - gstate.now;
     } else {

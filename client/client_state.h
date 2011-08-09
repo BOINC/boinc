@@ -101,9 +101,9 @@ struct CLIENT_STATE {
     VERSION_INFO core_client_version;
     string statefile_platform_name;
     int file_xfer_giveup_period;
-    MODE run_mode;
-    MODE gpu_mode;
-    MODE network_mode;
+    RUN_MODE cpu_run_mode;
+    RUN_MODE gpu_run_mode;
+    RUN_MODE network_run_mode;
     bool started_by_screensaver;
     bool exit_before_start;
     bool check_all_logins;

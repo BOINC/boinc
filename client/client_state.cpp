@@ -102,9 +102,9 @@ CLIENT_STATE::CLIENT_STATE()
     strcpy(main_host_venue, "");
     strcpy(attach_project_url, "");
     strcpy(attach_project_auth, "");
-    run_mode.set(RUN_MODE_AUTO, 0);
-    gpu_mode.set(RUN_MODE_AUTO, 0);
-    network_mode.set(RUN_MODE_AUTO, 0);
+    cpu_run_mode.set(RUN_MODE_AUTO, 0);
+    gpu_run_mode.set(RUN_MODE_AUTO, 0);
+    network_run_mode.set(RUN_MODE_AUTO, 0);
     started_by_screensaver = false;
     requested_exit = false;
     os_requested_suspend = false;
@@ -842,7 +842,7 @@ bool CLIENT_STATE::poll_slow_events() {
         //
         if (
             old_network_suspend_reason == SUSPEND_REASON_NETWORK_QUOTA_EXCEEDED
-            && network_mode.get_current() == RUN_MODE_AUTO
+            && network_run_mode.get_current() == RUN_MODE_AUTO
         ) {
             pers_file_xfers->add_random_delay(3600);
         }
@@ -1944,9 +1944,9 @@ void CLIENT_STATE::clear_absolute_times() {
     new_version_check_time = now;
     all_projects_list_check_time = now;
     retry_shmem_time = 0;
-    run_mode.temp_timeout = 0;
-    gpu_mode.temp_timeout = 0;
-    network_mode.temp_timeout = 0;
+    cpu_run_mode.temp_timeout = 0;
+    gpu_run_mode.temp_timeout = 0;
+    network_run_mode.temp_timeout = 0;
     time_stats.last_update = now;
 
     unsigned int i;

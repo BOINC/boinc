@@ -4771,4 +4771,8 @@ Charlie 8 Aug 2011
         
     client/
         coproc_detect.cpp
-    
+
+David  9 Aug 2011
+    - client: rename MODE to RUN_MODE, and rename vars accordingly
+
+    client/various

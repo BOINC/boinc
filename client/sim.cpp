@@ -1060,8 +1060,7 @@ static void write_inputs() {
     );
     if (use_rec) {
         fprintf(f,
-            "REC half-life: %f\n",
-            rec_half_life
+            "REC half-life: %f\n", config.rec_half_life
         );
     }
     fprintf(f,
@@ -1106,8 +1105,7 @@ void simulate() {
     );
     if (use_rec) {
         fprintf(summary_file,
-            "   REC half-life: %f\n",
-            rec_half_life
+            "   REC half-life: %f\n", config.rec_half_life
         );
     }
     fprintf(summary_file,
@@ -1446,7 +1444,7 @@ int main(int argc, char** argv) {
         } else if (!strcmp(opt, "--use_hyst_fetch")) {
             use_hyst_fetch = true;
         } else if (!strcmp(opt, "--rec_half_life")) {
-            rec_half_life = atof(argv[i++]);
+            config.rec_half_life = atof(argv[i++]);
         } else {
             usage(argv[0]);
         }

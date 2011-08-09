@@ -441,15 +441,15 @@ int CLIENT_STATE::parse_state_file_aux(const char* fname) {
             continue;
         }
         if (parse_int(buf, "<user_run_request>", retval)) {
-            run_mode.set(retval, 0);
+            cpu_run_mode.set(retval, 0);
             continue;
         }
         if (parse_int(buf, "<user_gpu_request>", retval)) {
-            gpu_mode.set(retval, 0);
+            gpu_run_mode.set(retval, 0);
             continue;
         }
         if (parse_int(buf, "<user_network_request>", retval)) {
-            network_mode.set(retval, 0);
+            network_run_mode.set(retval, 0);
             continue;
         }
         if (parse_int(buf, "<core_client_major_version>", old_major_version)) {
@@ -727,9 +727,9 @@ int CLIENT_STATE::write_state(MIOFILE& f) {
         core_client_version.major,
         core_client_version.minor,
         core_client_version.release,
-        run_mode.get_perm(),
-        gpu_mode.get_perm(),
-        network_mode.get_perm(),
+        cpu_run_mode.get_perm(),
+        gpu_run_mode.get_perm(),
+        network_run_mode.get_perm(),
         cpu_benchmarks_pending?"<cpu_benchmarks_pending/>\n":"",
         new_version_check_time,
         all_projects_list_check_time

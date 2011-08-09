@@ -105,7 +105,7 @@ int CLIENT_STATE::check_suspend_processing() {
         return SUSPEND_REASON_OS;
     }
 
-    switch (run_mode.get_current()) {
+    switch (cpu_run_mode.get_current()) {
     case RUN_MODE_ALWAYS: break;
     case RUN_MODE_NEVER:
         return SUSPEND_REASON_USER_REQ;
@@ -156,7 +156,7 @@ int CLIENT_STATE::check_suspend_processing() {
     if (!coprocs.none()) {
         int old_gpu_suspend_reason = gpu_suspend_reason;
         gpu_suspend_reason = 0;
-        switch (gpu_mode.get_current()) {
+        switch (gpu_run_mode.get_current()) {
         case RUN_MODE_ALWAYS:
             break;
         case RUN_MODE_NEVER:
@@ -249,7 +249,7 @@ void CLIENT_STATE::check_suspend_network() {
         ALLOW_NETWORK_IF_RECENT_RPC_PERIOD
     );
 
-    switch(network_mode.get_current()) {
+    switch(network_run_mode.get_current()) {
     case RUN_MODE_ALWAYS: 
         return;
     case RUN_MODE_NEVER:
