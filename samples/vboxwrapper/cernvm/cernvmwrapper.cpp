@@ -26,13 +26,12 @@
 // Contributor: Daniel Lombraña González <teleyinex AT gmail DOT com>
 
 #include <stdio.h>
-#include <vector>
 #include <string>
 #include <sstream>
 #include <iostream>
 #include <fstream>
 #include <time.h>
-# include <stdlib.h>
+#include <stdlib.h>
 #include "zlib.h"
 
 #ifdef _WIN32
@@ -71,8 +70,8 @@
 #define POLL_PERIOD 1.0
 #define MESSAGE "CPUTIME"
 #define YEAR_SECS 365*24*60*60
+#define BUFSIZE 4096
 
-using std::vector;
 using std::string;
 
 struct VM {
@@ -100,7 +99,9 @@ struct VM {
     int send_cputime_message();
     void poll();
 };
+
 void write_cputime(double);
+
 APP_INIT_DATA aid;
 
 
@@ -193,18 +194,30 @@ bool vbm_popen(string arg_list,
         }
         return false;
     }
-    while(1)     
-    {
-        GetExitCodeProcess(pi.hProcess,&exit); //while the process is running
-        if (exit != STILL_ACTIVE)
-          break;
-    }
+    //while(1)     
+    //{
+    //    GetExitCodeProcess(pi.hProcess,&exit); //while the process is running
+    //    if (exit != STILL_ACTIVE)
+    //      break;
+    //}
+
+    // Wait until process exists.
+    WaitForSingleObject( pi.hProcess, INFINITE );
+
+    // Close process and thread handles.
     CloseHandle(pi.hThread);
     CloseHandle(pi.hProcess);
+
     if(buffer!=NULL){
         memset(buffer,0,nSize);
         DWORD bread;
-        ReadFile(read_stdout,buffer,nSize-1,&bread,NULL);
+        BOOL bSuccess = false;
+
+        for (;;)
+        {
+            ReadFile(read_stdout,buffer,nSize-1,&bread,NULL);
+            if ( ! bSuccess || bread == 0 ) break;
+        }
 //      buffer[bread]=0;
         CloseHandle(newstdout);
         CloseHandle(read_stdout);
@@ -360,19 +373,30 @@ void VM::throttle()
     // Check the BOINC CPU preferences for running the VM accordingly
     string arg_list = "";
     boinc_get_init_data(aid);
-    fprintf(stderr,"INFO: Maximum usage of CPU: %f\n", aid.global_prefs.cpu_usage_limit);
-    fprintf(stderr,"INFO: Setting how much CPU time the virtual CPU can use: %i\n", int(aid.global_prefs.cpu_usage_limit));
-    std::stringstream out;
-    out << int(aid.global_prefs.cpu_usage_limit);
+    double max_vm_cpu_pct = 100.0;
+    
+    if (aid.project_preferences)
+    {
+        if (!aid.project_preferences) return;
+        if (parse_double(aid.project_preferences, "<max_vm_cpu_pct>", max_vm_cpu_pct)) 
+        {
+            fprintf(stderr,"INFO: Maximum usage of CPU: %f\n", max_vm_cpu_pct);
+            fprintf(stderr,"INFO: Setting how much CPU time the virtual CPU can use: %i\n", int(max_vm_cpu_pct));
+            std::stringstream out;
+            out << int(max_vm_cpu_pct);
 
-    arg_list = " controlvm " + virtual_machine_name + " cpuexecutioncap " + out.str();
-    if (!vbm_popen(arg_list))
-    {
-        fprintf(stderr,"ERROR: Impossible to set up CPU percentage usage limit\n");
-    }
-    else
-    {
-        fprintf(stderr,"INFO: Success!\n");
+            arg_list = " controlvm " + virtual_machine_name + " cpuexecutioncap " + out.str();
+            if (!vbm_popen(arg_list))
+            {
+                fprintf(stderr,"ERROR: Impossible to set up CPU percentage usage limit\n");
+            }
+            else
+            {
+                fprintf(stderr,"INFO: Success!\n");
+            
+            }
+        
+        }
     
     }
 }
