@@ -946,7 +946,7 @@ int FILE_INFO::parse(XML_PARSER& xp) {
     int retval;
 
     MIOFILE& in = *(xp.f);
-    while (in.fgets(buf, 256)) {
+    while (in.fgets(buf, sizeof(buf))) {
         if (match_tag(buf, "</file_info>") || match_tag(buf, "</file>")) {
             if (!strlen(name)) return ERR_BAD_FILENAME;
             if (strstr(name, "..")) return ERR_BAD_FILENAME;

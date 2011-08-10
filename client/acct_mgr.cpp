@@ -211,8 +211,8 @@ void AM_ACCOUNT::handle_no_rsc(const char* name, bool value) {
 }
 
 int AM_ACCOUNT::parse(XML_PARSER& xp) {
-    char tag[256], buf[256];
-    bool is_tag, btemp;
+    char buf[256];
+    bool btemp;
     int retval;
     double dtemp;
 
@@ -228,54 +228,54 @@ int AM_ACCOUNT::parse(XML_PARSER& xp) {
     authenticator = "";
     resource_share.init();
 
-    while (!xp.get(tag, sizeof(tag), is_tag)) {
-        if (!is_tag) {
+    while (!xp.get_tag()) {
+        if (!xp.is_tag) {
             if (log_flags.unparsed_xml) {
                 msg_printf(0, MSG_INFO,
                     "[unparsed_xml] AM_ACCOUNT::parse: unexpected text %s",
-                    tag
+                    xp.parsed_tag
                 );
             }
             continue;
         }
-        if (!strcmp(tag, "/account")) {
+        if (xp.match_tag("/account")) {
             if (url.length()) return 0;
             return ERR_XML_PARSE;
         }
-        if (xp.parse_string(tag, "url", url)) continue;
-        if (!strcmp(tag, "url_signature")) {
+        if (xp.parse_string("url", url)) continue;
+        if (xp.match_tag("url_signature")) {
             retval = xp.element_contents("</url_signature>", url_signature, sizeof(url_signature));
             if (retval) return retval;
             strcat(url_signature, "\n");
             continue;
         }
-        if (xp.parse_string(tag, "authenticator", authenticator)) continue;
-        if (xp.parse_bool(tag, "detach", detach)) continue;
-        if (xp.parse_bool(tag, "update", update)) continue;
-        if (xp.parse_bool(tag, "no_cpu", btemp)) {
+        if (xp.parse_string("authenticator", authenticator)) continue;
+        if (xp.parse_bool("detach", detach)) continue;
+        if (xp.parse_bool("update", update)) continue;
+        if (xp.parse_bool("no_cpu", btemp)) {
             handle_no_rsc("CPU", btemp);
             continue;
         }
-        if (xp.parse_bool(tag, "no_cuda", btemp)) {
+        if (xp.parse_bool("no_cuda", btemp)) {
             handle_no_rsc("NVIDIA", btemp);
             continue;
         }
-        if (xp.parse_bool(tag, "no_ati", btemp)) {
+        if (xp.parse_bool("no_ati", btemp)) {
             handle_no_rsc("ATI", btemp);
             continue;
         }
-        if (xp.parse_str(tag, "no_rsc", buf, sizeof(buf))) {
+        if (xp.parse_str("no_rsc", buf, sizeof(buf))) {
             handle_no_rsc(buf, true);
         }
-        if (xp.parse_bool(tag, "dont_request_more_work", btemp)) {
+        if (xp.parse_bool("dont_request_more_work", btemp)) {
             dont_request_more_work.set(btemp);
             continue;
         }
-        if (xp.parse_bool(tag, "detach_when_done", btemp)) {
+        if (xp.parse_bool("detach_when_done", btemp)) {
             detach_when_done.set(btemp);
             continue;
         }
-        if (xp.parse_double(tag, "resource_share", dtemp)) {
+        if (xp.parse_double("resource_share", dtemp)) {
             if (dtemp >= 0) {
                 resource_share.set(dtemp);
             } else {
@@ -285,27 +285,25 @@ int AM_ACCOUNT::parse(XML_PARSER& xp) {
             }
             continue;
         }
-        if (xp.parse_bool(tag, "suspend", btemp)) {
+        if (xp.parse_bool("suspend", btemp)) {
             suspend.set(btemp);
             continue;
         }
-        if (xp.parse_bool(tag, "abort_not_started", btemp)) {
+        if (xp.parse_bool("abort_not_started", btemp)) {
             abort_not_started.set(btemp);
             continue;
         }
         if (log_flags.unparsed_xml) {
             msg_printf(NULL, MSG_INFO,
-                "[unparsed_xml] AM_ACCOUNT: unrecognized %s", tag
+                "[unparsed_xml] AM_ACCOUNT: unrecognized %s", xp.parsed_tag
             );
         }
-        xp.skip_unexpected(tag, log_flags.unparsed_xml, "AM_ACCOUNT::parse");
+        xp.skip_unexpected(log_flags.unparsed_xml, "AM_ACCOUNT::parse");
     }
     return ERR_XML_PARSE;
 }
 
 int ACCT_MGR_OP::parse(FILE* f) {
-    char tag[1024];
-    bool is_tag;
     string message;
     int retval;
     MIOFILE mf;
@@ -320,36 +318,36 @@ int ACCT_MGR_OP::parse(FILE* f) {
     strcpy(ami.opaque, "");
     rss_feeds.clear();
     if (!xp.parse_start("acct_mgr_reply")) return ERR_XML_PARSE;
-    while (!xp.get(tag, sizeof(tag), is_tag)) {
-        if (!is_tag) {
+    while (!xp.get_tag()) {
+        if (!xp.is_tag) {
             if (log_flags.unparsed_xml) {
                 msg_printf(0, MSG_INFO,
                     "[unparsed_xml] ACCT_MGR_OP::parse: unexpected text %s",
-                    tag
+                    xp.parsed_tag
                 );
             }
             continue;
         }
-        if (!strcmp(tag, "/acct_mgr_reply")) return 0;
-        if (xp.parse_str(tag, "name", ami.project_name, 256)) continue;
-        if (xp.parse_int(tag, "error_num", error_num)) continue;
-        if (xp.parse_string(tag, "error", error_str)) continue;
-        if (xp.parse_double(tag, "repeat_sec", repeat_sec)) continue;
-        if (xp.parse_string(tag, "message", message)) {
+        if (xp.match_tag("/acct_mgr_reply")) return 0;
+        if (xp.parse_str("name", ami.project_name, 256)) continue;
+        if (xp.parse_int("error_num", error_num)) continue;
+        if (xp.parse_string("error", error_str)) continue;
+        if (xp.parse_double("repeat_sec", repeat_sec)) continue;
+        if (xp.parse_string("message", message)) {
             msg_printf(NULL, MSG_INFO, "Account manager: %s", message.c_str());
             continue;
         }
-        if (!strcmp(tag, "opaque")) {
+        if (xp.match_tag("opaque")) {
             retval = xp.element_contents("</opaque>", ami.opaque, sizeof(ami.opaque));
             if (retval) return retval;
             continue;
         }
-        if (!strcmp(tag, "signing_key")) {
+        if (xp.match_tag("signing_key")) {
             retval = xp.element_contents("</signing_key>", ami.signing_key, sizeof(ami.signing_key));
             if (retval) return retval;
             continue;
         }
-        if (!strcmp(tag, "account")) {
+        if (xp.match_tag("account")) {
             AM_ACCOUNT account;
             retval = account.parse(xp);
             if (retval) {
@@ -362,7 +360,7 @@ int ACCT_MGR_OP::parse(FILE* f) {
             }
             continue;
         }
-        if (!strcmp(tag, "global_preferences")) {
+        if (xp.match_tag("global_preferences")) {
             retval = dup_element_contents(
                 f,
                 "</global_preferences>",
@@ -377,20 +375,21 @@ int ACCT_MGR_OP::parse(FILE* f) {
             }
             continue;
         }
-        if (xp.parse_str(tag, "host_venue", host_venue, sizeof(host_venue))) {
+        if (xp.parse_str("host_venue", host_venue, sizeof(host_venue))) {
             continue;
         }
-        if (!strcmp(tag, "rss_feeds")) {
+        if (xp.match_tag("rss_feeds")) {
             got_rss_feeds = true;
             parse_rss_feed_descs(mf, rss_feeds);
             continue;
         }
         if (log_flags.unparsed_xml) {
             msg_printf(NULL, MSG_INFO,
-                "[unparsed_xml] ACCT_MGR_OP::parse: unrecognized %s", tag
+                "[unparsed_xml] ACCT_MGR_OP::parse: unrecognized %s",
+                xp.parsed_tag
             );
         }
-        xp.skip_unexpected(tag, log_flags.unparsed_xml, "ACCT_MGR_OP::parse");
+        xp.skip_unexpected(log_flags.unparsed_xml, "ACCT_MGR_OP::parse");
     }
     return ERR_XML_PARSE;
 }
@@ -723,8 +722,6 @@ ACCT_MGR_INFO::ACCT_MGR_INFO() {
 }
 
 int ACCT_MGR_INFO::parse_login_file(FILE* p) {
-    char tag[1024];
-    bool is_tag;
     MIOFILE mf;
     int retval;
 
@@ -733,35 +730,34 @@ int ACCT_MGR_INFO::parse_login_file(FILE* p) {
     if (!xp.parse_start("acct_mgr_login")) {
         //
     }
-    while (!xp.get(tag, sizeof(tag), is_tag)) {
-        if (!is_tag) {
-            printf("unexpected text: %s\n", tag);
+    while (!xp.get_tag()) {
+        if (!xp.is_tag) {
+            printf("unexpected text: %s\n", xp.parsed_tag);
             continue;
         }
-        if (!strcmp(tag, "/acct_mgr_login")) break;
-        else if (xp.parse_str(tag, "login", login_name, 256)) continue;
-        else if (xp.parse_str(tag, "password_hash", password_hash, 256)) continue;
-        else if (xp.parse_str(tag, "previous_host_cpid", previous_host_cpid, sizeof(previous_host_cpid))) continue;
-        else if (xp.parse_double(tag, "next_rpc_time", next_rpc_time)) continue;
-        else if (!strcmp(tag, "opaque")) {
+        if (xp.match_tag("/acct_mgr_login")) break;
+        else if (xp.parse_str("login", login_name, 256)) continue;
+        else if (xp.parse_str("password_hash", password_hash, 256)) continue;
+        else if (xp.parse_str("previous_host_cpid", previous_host_cpid, sizeof(previous_host_cpid))) continue;
+        else if (xp.parse_double("next_rpc_time", next_rpc_time)) continue;
+        else if (xp.match_tag("opaque")) {
             retval = xp.element_contents("</opaque>", opaque, sizeof(opaque));
             continue;
         }
         if (log_flags.unparsed_xml) {
             msg_printf(NULL, MSG_INFO,
-                "[unparsed_xml] ACCT_MGR_INFO::parse_login: unrecognized %s", tag
+                "[unparsed_xml] ACCT_MGR_INFO::parse_login: unrecognized %s",
+                xp.parsed_tag
             );
         }
         xp.skip_unexpected(
-            tag, log_flags.unparsed_xml, "ACCT_MGR_INFO::parse_login_file"
+            log_flags.unparsed_xml, "ACCT_MGR_INFO::parse_login_file"
         );
     }
     return 0;
 }
 
 int ACCT_MGR_INFO::init() {
-    char tag[1024];
-    bool is_tag;
     MIOFILE mf;
     FILE*   p;
     int retval;
@@ -774,27 +770,28 @@ int ACCT_MGR_INFO::init() {
     if (!xp.parse_start("acct_mgr_login")) {
         //
     }
-    while (!xp.get(tag, sizeof(tag), is_tag)) {
-        if (!is_tag) {
-            printf("unexpected text: %s\n", tag);
+    while (!xp.get_tag()) {
+        if (!xp.is_tag) {
+            printf("unexpected text: %s\n", xp.parsed_tag);
             continue;
         }
-        if (!strcmp(tag, "/acct_mgr")) break;
-        else if (xp.parse_str(tag, "name", project_name, 256)) continue;
-        else if (xp.parse_str(tag, "url", master_url, 256)) continue;
-        else if (xp.parse_bool(tag, "send_gui_rpc_info", send_gui_rpc_info)) continue;
-        else if (!strcmp(tag, "signing_key")) {
+        if (xp.match_tag("/acct_mgr")) break;
+        else if (xp.parse_str("name", project_name, 256)) continue;
+        else if (xp.parse_str("url", master_url, 256)) continue;
+        else if (xp.parse_bool("send_gui_rpc_info", send_gui_rpc_info)) continue;
+        else if (xp.match_tag("signing_key")) {
             retval = xp.element_contents("</signing_key>", signing_key, sizeof(signing_key));
             continue;
         }
-        else if (xp.parse_bool(tag, "cookie_required", cookie_required)) continue;
-        else if (xp.parse_str(tag, "cookie_failure_url", cookie_failure_url, 256)) continue;
+        else if (xp.parse_bool("cookie_required", cookie_required)) continue;
+        else if (xp.parse_str("cookie_failure_url", cookie_failure_url, 256)) continue;
         if (log_flags.unparsed_xml) {
             msg_printf(NULL, MSG_INFO,
-                "[unparsed_xml] ACCT_MGR_INFO::init: unrecognized %s", tag
+                "[unparsed_xml] ACCT_MGR_INFO::init: unrecognized %s",
+                xp.parsed_tag
             );
         }
-        xp.skip_unexpected(tag, log_flags.unparsed_xml, "ACCT_MGR_INFO::init");
+        xp.skip_unexpected(log_flags.unparsed_xml, "ACCT_MGR_INFO::init");
     }
     fclose(p);
 

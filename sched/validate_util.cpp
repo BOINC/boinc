@@ -40,35 +40,33 @@ using std::string;
 ////////// functions for locating output files ///////////////
 
 int FILE_INFO::parse(XML_PARSER& xp) {
-    char tag[256];
-    bool is_tag, found=false;
+    bool found=false;
     optional = false;
     no_validate = false;
-    while (!xp.get(tag, sizeof(tag), is_tag)) {
-        if (!is_tag) continue;
-        if (!strcmp(tag, "/file_ref")) {
+    while (!xp.get_tag()) {
+        if (!xp.is_tag) continue;
+        if (xp.match_tag("/file_ref")) {
             return found?0:ERR_XML_PARSE;
         }
-        if (xp.parse_string(tag, "file_name", name)) {
+        if (xp.parse_string("file_name", name)) {
             found = true;
             continue;
         }
-        if (xp.parse_bool(tag, "optional", optional)) continue;
-        if (xp.parse_bool(tag, "no_validate", no_validate)) continue;
+        if (xp.parse_bool("optional", optional)) continue;
+        if (xp.parse_bool("no_validate", no_validate)) continue;
     }
     return ERR_XML_PARSE;
 }
 
 int get_output_file_info(RESULT& result, FILE_INFO& fi) {
-    char tag[256], path[1024];
-    bool is_tag;
+    char path[1024];
     string name;
     MIOFILE mf;
     mf.init_buf_read(result.xml_doc_in);
     XML_PARSER xp(&mf);
-    while (!xp.get(tag, sizeof(tag), is_tag)) {
-        if (!is_tag) continue;
-        if (!strcmp(tag, "file_ref")) {
+    while (!xp.get_tag()) {
+        if (!xp.is_tag) continue;
+        if (xp.match_tag("file_ref")) {
             int retval = fi.parse(xp);
             if (retval) return retval;
             dir_hier_path(
@@ -82,16 +80,15 @@ int get_output_file_info(RESULT& result, FILE_INFO& fi) {
 }
 
 int get_output_file_infos(RESULT& result, vector<FILE_INFO>& fis) {
-    char tag[256], path[1024];
-    bool is_tag;
+    char path[1024];
     MIOFILE mf;
     string name;
     mf.init_buf_read(result.xml_doc_in);
     XML_PARSER xp(&mf);
     fis.clear();
-    while (!xp.get(tag, sizeof(tag), is_tag)) {
-        if (!is_tag) continue;
-        if (!strcmp(tag, "file_ref")) {
+    while (!xp.get_tag()) {
+        if (!xp.is_tag) continue;
+        if (xp.match_tag("file_ref")) {
             FILE_INFO fi;
             int retval =  fi.parse(xp);
             if (retval) return retval;
@@ -128,18 +125,15 @@ struct FILE_REF {
     char file_name[256];
     char open_name[256];
     int parse(XML_PARSER& xp) {
-        char tag[256];
-        bool is_tag;
-
         strcpy(file_name, "");
         strcpy(open_name, "");
-        while (!xp.get(tag, sizeof(tag), is_tag)) {
-            if (!is_tag) continue;
-            if (!strcmp(tag, "/file_ref")) {
+        while (!xp.get_tag()) {
+            if (!xp.is_tag) continue;
+            if (xp.match_tag("/file_ref")) {
                 return 0;
             }
-            if (xp.parse_str(tag, "file_name", file_name, sizeof(file_name))) continue;
-            if (xp.parse_str(tag, "open_name", open_name, sizeof(open_name))) continue;
+            if (xp.parse_str("file_name", file_name, sizeof(file_name))) continue;
+            if (xp.parse_str("open_name", open_name, sizeof(open_name))) continue;
         }
         return ERR_XML_PARSE;
     }
@@ -149,8 +143,6 @@ struct FILE_REF {
 //
 int get_logical_name(RESULT& result, string& path, string& name) {
     char phys_name[1024];
-    char tag[256];
-    bool is_tag;
     MIOFILE mf;
     int retval;
 
@@ -162,10 +154,10 @@ int get_logical_name(RESULT& result, string& path, string& name) {
     if (!p) return ERR_NOT_FOUND;
     strcpy(phys_name, p+1);
 
-    while (!xp.get(tag, sizeof(tag), is_tag)) {
-        if (!is_tag) continue;
-        if (!strcmp(tag, "result")) continue;
-        if (!strcmp(tag, "file_ref")) {
+    while (!xp.get_tag()) {
+        if (!xp.is_tag) continue;
+        if (xp.match_tag("result")) continue;
+        if (xp.match_tag("file_ref")) {
             FILE_REF fr;
             retval = fr.parse(xp);
             if (retval) continue;
@@ -175,7 +167,7 @@ int get_logical_name(RESULT& result, string& path, string& name) {
             }
             continue;
         }
-        xp.skip_unexpected(tag, false, 0);
+        xp.skip_unexpected(false, 0);
     }
     return ERR_XML_PARSE;
 }

@@ -177,8 +177,7 @@ void CONFIG::show() {
 }
 
 int CONFIG::parse_options_client(XML_PARSER& xp) {
-    char tag[1024], path[256];
-    bool is_tag;
+    char path[256];
     string s;
     int n, retval;
 
@@ -193,35 +192,35 @@ int CONFIG::parse_options_client(XML_PARSER& xp) {
     ignore_nvidia_dev.clear();
     ignore_ati_dev.clear();
 
-    while (!xp.get(tag, sizeof(tag), is_tag)) {
-        if (!is_tag) {
+    while (!xp.get_tag()) {
+        if (!xp.is_tag) {
             msg_printf_notice(NULL, false,
                 "http://boinc.berkeley.edu/manager_links.php?target=notice&controlid=config",
                 "%s: %s",
                 _("Unexpected text in cc_config.xml"),
-                tag
+                xp.parsed_tag
             );
             continue;
         }
-        if (!strcmp(tag, "/options")) {
+        if (xp.match_tag("/options")) {
             return 0;
         }
-        if (xp.parse_bool(tag, "abort_jobs_on_exit", abort_jobs_on_exit)) continue;
-        if (xp.parse_bool(tag, "allow_multiple_clients", allow_multiple_clients)) continue;
-        if (xp.parse_bool(tag, "allow_remote_gui_rpc", allow_remote_gui_rpc)) continue;
-        if (xp.parse_string(tag, "alt_platform", s)) {
+        if (xp.parse_bool("abort_jobs_on_exit", abort_jobs_on_exit)) continue;
+        if (xp.parse_bool("allow_multiple_clients", allow_multiple_clients)) continue;
+        if (xp.parse_bool("allow_remote_gui_rpc", allow_remote_gui_rpc)) continue;
+        if (xp.parse_string("alt_platform", s)) {
             alt_platforms.push_back(s);
             continue;
         }
-        if (xp.parse_string(tag, "client_download_url", client_download_url)) {
+        if (xp.parse_string("client_download_url", client_download_url)) {
             downcase_string(client_download_url);
             continue;
         }
-        if (xp.parse_string(tag, "client_version_check_url", client_version_check_url)) {
+        if (xp.parse_string("client_version_check_url", client_version_check_url)) {
             downcase_string(client_version_check_url);
             continue;
         }
-        if (!strcmp(tag, "coproc")) {
+        if (xp.match_tag("coproc")) {
             COPROC c;
             retval = c.parse(xp);
             if (retval) {
@@ -237,101 +236,99 @@ int CONFIG::parse_options_client(XML_PARSER& xp) {
             }
             continue;
         }
-        if (xp.parse_str(tag, "data_dir", path, sizeof(path))) {
+        if (xp.parse_str("data_dir", path, sizeof(path))) {
             if (chdir(path)) {
                 perror("chdir");
                 exit(1);
             }
             continue;
         }
-        if (xp.parse_bool(tag, "disallow_attach", disallow_attach)) continue;
-        if (xp.parse_bool(tag, "dont_check_file_sizes", dont_check_file_sizes)) continue;
-        if (xp.parse_bool(tag, "dont_contact_ref_site", dont_contact_ref_site)) continue;
-        if (xp.parse_string(tag, "exclusive_app", s)) {
+        if (xp.parse_bool("disallow_attach", disallow_attach)) continue;
+        if (xp.parse_bool("dont_check_file_sizes", dont_check_file_sizes)) continue;
+        if (xp.parse_bool("dont_contact_ref_site", dont_contact_ref_site)) continue;
+        if (xp.parse_string("exclusive_app", s)) {
             if (!strstr(s.c_str(), "boinc")) {
                 exclusive_apps.push_back(s);
             }
             continue;
         }
-        if (xp.parse_string(tag, "exclusive_gpu_app", s)) {
+        if (xp.parse_string("exclusive_gpu_app", s)) {
             if (!strstr(s.c_str(), "boinc")) {
                 exclusive_gpu_apps.push_back(s);
             }
             continue;
         }
-        if (xp.parse_bool(tag, "exit_after_finish", exit_after_finish)) continue;
-        if (xp.parse_bool(tag, "exit_when_idle", exit_when_idle)) {
+        if (xp.parse_bool("exit_after_finish", exit_after_finish)) continue;
+        if (xp.parse_bool("exit_when_idle", exit_when_idle)) {
             if (exit_when_idle) {
                 report_results_immediately = true;
             }
             continue;
         }
-        if (xp.parse_bool(tag, "fetch_minimal_work", fetch_minimal_work)) continue;
-        if (xp.parse_string(tag, "force_auth", force_auth)) {
+        if (xp.parse_bool("fetch_minimal_work", fetch_minimal_work)) continue;
+        if (xp.parse_string("force_auth", force_auth)) {
             downcase_string(force_auth);
             continue;
         }
-        if (xp.parse_bool(tag, "http_1_0", http_1_0)) continue;
-        if (xp.parse_int(tag, "ignore_cuda_dev", n)||xp.parse_int(tag, "ignore_nvidia_dev", n)) {
+        if (xp.parse_bool("http_1_0", http_1_0)) continue;
+        if (xp.parse_int("ignore_cuda_dev", n)||xp.parse_int("ignore_nvidia_dev", n)) {
             ignore_nvidia_dev.push_back(n);
             continue;
         }
-        if (xp.parse_int(tag, "ignore_ati_dev", n)) {
+        if (xp.parse_int("ignore_ati_dev", n)) {
             ignore_ati_dev.push_back(n);
             continue;
         }
-        if (xp.parse_int(tag, "max_file_xfers", max_file_xfers)) continue;
-        if (xp.parse_int(tag, "max_file_xfers_per_project", max_file_xfers_per_project)) continue;
-        if (xp.parse_int(tag, "max_stderr_file_size", max_stderr_file_size)) continue;
-        if (xp.parse_int(tag, "max_stdout_file_size", max_stdout_file_size)) continue;
-        if (xp.parse_int(tag, "max_tasks_reported", max_tasks_reported)) continue;
-        if (xp.parse_int(tag, "ncpus", ncpus)) continue;
-        if (xp.parse_string(tag, "network_test_url", network_test_url)) {
+        if (xp.parse_int("max_file_xfers", max_file_xfers)) continue;
+        if (xp.parse_int("max_file_xfers_per_project", max_file_xfers_per_project)) continue;
+        if (xp.parse_int("max_stderr_file_size", max_stderr_file_size)) continue;
+        if (xp.parse_int("max_stdout_file_size", max_stdout_file_size)) continue;
+        if (xp.parse_int("max_tasks_reported", max_tasks_reported)) continue;
+        if (xp.parse_int("ncpus", ncpus)) continue;
+        if (xp.parse_string("network_test_url", network_test_url)) {
             downcase_string(network_test_url);
             continue;
         }
-        if (xp.parse_bool(tag, "no_alt_platform", no_alt_platform)) continue;
-        if (xp.parse_bool(tag, "no_gpus", no_gpus)) continue;
-        if (xp.parse_bool(tag, "no_info_fetch", no_info_fetch)) continue;
-        if (xp.parse_bool(tag, "no_priority_change", no_priority_change)) continue;
-        if (xp.parse_bool(tag, "os_random_only", os_random_only)) continue;
+        if (xp.parse_bool("no_alt_platform", no_alt_platform)) continue;
+        if (xp.parse_bool("no_gpus", no_gpus)) continue;
+        if (xp.parse_bool("no_info_fetch", no_info_fetch)) continue;
+        if (xp.parse_bool("no_priority_change", no_priority_change)) continue;
+        if (xp.parse_bool("os_random_only", os_random_only)) continue;
 #ifndef SIM
-        if (!strcmp(tag, "proxy_info")) {
+        if (xp.match_tag("proxy_info")) {
             retval = config_proxy_info.parse_config(xp);
             if (retval) return retval;
             continue;
         }
 #endif
-        if (xp.parse_bool(tag, "report_results_immediately", report_results_immediately)) continue;
-        if (xp.parse_bool(tag, "run_apps_manually", run_apps_manually)) continue;
-        if (xp.parse_int(tag, "save_stats_days", save_stats_days)) continue;
-        if (xp.parse_bool(tag, "simple_gui_only", simple_gui_only)) continue;
-        if (xp.parse_bool(tag, "skip_cpu_benchmarks", skip_cpu_benchmarks)) continue;
-        if (xp.parse_double(tag, "start_delay", start_delay)) continue;
-        if (xp.parse_bool(tag, "stderr_head", stderr_head)) continue;
-        if (xp.parse_bool(tag, "suppress_net_info", suppress_net_info)) continue;
-        if (xp.parse_bool(tag, "unsigned_apps_ok", unsigned_apps_ok)) continue;
-        if (xp.parse_bool(tag, "use_all_gpus", use_all_gpus)) continue;
-        if (xp.parse_bool(tag, "use_certs", use_certs)) continue;
-        if (xp.parse_bool(tag, "use_certs_only", use_certs_only)) continue;
-        if (xp.parse_bool(tag, "zero_debts", zero_debts)) continue;
+        if (xp.parse_bool("report_results_immediately", report_results_immediately)) continue;
+        if (xp.parse_bool("run_apps_manually", run_apps_manually)) continue;
+        if (xp.parse_int("save_stats_days", save_stats_days)) continue;
+        if (xp.parse_bool("simple_gui_only", simple_gui_only)) continue;
+        if (xp.parse_bool("skip_cpu_benchmarks", skip_cpu_benchmarks)) continue;
+        if (xp.parse_double("start_delay", start_delay)) continue;
+        if (xp.parse_bool("stderr_head", stderr_head)) continue;
+        if (xp.parse_bool("suppress_net_info", suppress_net_info)) continue;
+        if (xp.parse_bool("unsigned_apps_ok", unsigned_apps_ok)) continue;
+        if (xp.parse_bool("use_all_gpus", use_all_gpus)) continue;
+        if (xp.parse_bool("use_certs", use_certs)) continue;
+        if (xp.parse_bool("use_certs_only", use_certs_only)) continue;
+        if (xp.parse_bool("zero_debts", zero_debts)) continue;
 
         msg_printf_notice(NULL, false,
             "http://boinc.berkeley.edu/manager_links.php?target=notice&controlid=config",
             "%s: <%s>",
             _("Unrecognized tag in cc_config.xml"),
-            tag
+            xp.parsed_tag
         );
-        xp.skip_unexpected(tag, true, "CONFIG::parse_options");
+        xp.skip_unexpected(true, "CONFIG::parse_options");
     }
     return ERR_XML_PARSE;
 }
 
 int CONFIG::parse_client(FILE* f) {
-    char tag[256];
     MIOFILE mf;
     XML_PARSER xp(&mf);
-    bool is_tag;
 
     mf.init_file(f);
     if (!xp.parse_start("cc_config")) {
@@ -342,34 +339,34 @@ int CONFIG::parse_client(FILE* f) {
         );
         return ERR_XML_PARSE;
     }
-    while (!xp.get(tag, sizeof(tag), is_tag)) {
-        if (!is_tag) {
+    while (!xp.get_tag()) {
+        if (!xp.is_tag) {
             msg_printf_notice(NULL, false,
                 "http://boinc.berkeley.edu/manager_links.php?target=notice&controlid=config",
                 "%s: %s",
                 _("Unexpected text in cc_config.xml"),
-                tag
+                xp.parsed_tag
             );
             continue;
         }
-        if (!strcmp(tag, "/cc_config")) return 0;
-        if (!strcmp(tag, "log_flags")) {
+        if (xp.match_tag("/cc_config")) return 0;
+        if (xp.match_tag("log_flags")) {
             log_flags.parse(xp);
             continue;
         }
-        if (!strcmp(tag, "options")) {
+        if (xp.match_tag("options")) {
             parse_options(xp);
             continue;
         }
-        if (!strcmp(tag, "options/")) continue;
-        if (!strcmp(tag, "log_flags/")) continue;
+        if (xp.match_tag("options/")) continue;
+        if (xp.match_tag("log_flags/")) continue;
         msg_printf_notice(NULL, false,
             "http://boinc.berkeley.edu/manager_links.php?target=notice&controlid=config",
             "%s: <%s>",
             _("Unrecognized tag in cc_config.xml"),
-            tag
+            xp.parsed_tag
         );
-        xp.skip_unexpected(tag, true, "CONFIG.parse");
+        xp.skip_unexpected(true, "CONFIG.parse");
     }
     msg_printf_notice(NULL, false,
         "http://boinc.berkeley.edu/manager_links.php?target=notice&controlid=config",

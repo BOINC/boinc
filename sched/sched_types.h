@@ -129,13 +129,13 @@ struct HOST_USAGE {
 struct FILE_INFO {
     char name[256];
 
-    int parse(FILE*);
+    int parse(XML_PARSER&);
 };
 
 struct MSG_FROM_HOST_DESC {
     char variety[256];
     std::string msg_text;
-    int parse(FILE*);
+    int parse(XML_PARSER&);
 };
 
 // an app version from an anonymous-platform client
@@ -156,7 +156,7 @@ struct CLIENT_APP_VERSION {
         // if NULL, this record is a place-holder,
         // used to preserve array indices
 
-    int parse(FILE*);
+    int parse(XML_PARSER&);
 };
 
 // keep track of the best app_version for each app for this host
@@ -201,7 +201,7 @@ struct SCHED_DB_RESULT : DB_RESULT {
     double intops_per_cpu_sec;
     double intops_cumulative;
     int units;      // used for granting credit by # of units processed
-    int parse_from_client(FILE*);
+    int parse_from_client(XML_PARSER&);
     char platform_name[256];
     BEST_APP_VERSION bav;
 
@@ -250,7 +250,7 @@ struct OTHER_RESULT {
     bool abort_if_not_started;
     int reason;     // see codes below
 
-    int parse(FILE*);
+    int parse(XML_PARSER&);
 };
 
 #define ABORT_REASON_NOT_FOUND      1
@@ -260,7 +260,7 @@ struct OTHER_RESULT {
 
 struct CLIENT_PLATFORM {
     char name[256];
-    int parse(FILE*);
+    int parse(XML_PARSER&);
 };
 
 struct PLATFORM_LIST {
@@ -334,7 +334,7 @@ struct SCHEDULER_REQUEST {
 
     SCHEDULER_REQUEST(){};
     ~SCHEDULER_REQUEST(){};
-    const char* parse(FILE*);
+    const char* parse(XML_PARSER&);
     int write(FILE*); // write request info to file: not complete
 };
 

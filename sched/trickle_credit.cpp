@@ -35,16 +35,14 @@
 
 int handle_trickle(MSG_FROM_HOST& msg) {
     double cpu_time = 0;
-    char tag[256];
-    bool is_tag;
     MIOFILE mf;
 
     mf.init_buf_read(msg.xml);
     XML_PARSER xp(&mf);
 
-    while (!xp.get(tag, sizeof(tag), is_tag)) {
-        if (xp.parse_double(tag, "cpu_time", cpu_time)) break;
-        log_messages.printf(MSG_NORMAL, "unexpected tag: %s\n", tag);
+    while (!xp.get_tag()) {
+        if (xp.parse_double("cpu_time", cpu_time)) break;
+        log_messages.printf(MSG_NORMAL, "unexpected tag: %s\n", xp.parsed_tag);
     }
     if (!cpu_time) {
         log_messages.printf(MSG_NORMAL, "unexpected zero CPU time\n");

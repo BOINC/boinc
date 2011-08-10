@@ -46,11 +46,12 @@
 
 class MIOFILE {
     MFILE* mf;
-    FILE* f;
     char* wbuf;
     int len;
 	const char* buf;
 public:
+    FILE* f;
+
     MIOFILE();
     ~MIOFILE();
     void init_mfile(MFILE*);

@@ -47,8 +47,7 @@ void usage(char* name) {
         "  --file_name F                 file name\n"
         "  --host_id H                   host DB ID\n"
         "  [-h | --help]                 Show this help text.\n"
-        "  [-v | --version]              Show version information.\n",
-        name
+        "  [-v | --version]              Show version information.\n"
     );
 }
 

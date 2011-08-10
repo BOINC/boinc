@@ -86,23 +86,22 @@ void COPROC::write_request(MIOFILE& f) {
 
 int COPROC::parse(XML_PARSER& xp) {
 //TODO: Parse opencl_prop
-    char tag[1024], buf[256];
-    bool is_tag;
+    char buf[256];
     strcpy(type, "");
     clear();
     for (int i=0; i<MAX_COPROC_INSTANCES; i++) {
         device_nums[i] = i;
     }
-    while (!xp.get(tag, sizeof(tag), is_tag)) {
-        if (!is_tag) continue;
-        if (!strcmp(tag, "/coproc")) {
+    while (!xp.get_tag()) {
+        if (!xp.is_tag) continue;
+        if (xp.match_tag("/coproc")) {
             if (!strlen(type)) return ERR_XML_PARSE;
             return 0;
         }
-        if (xp.parse_str(tag, "type", type, sizeof(type))) continue;
-        if (xp.parse_int(tag, "count", count)) continue;
-        if (xp.parse_double(tag, "peak_flops", peak_flops)) continue;
-        if (xp.parse_str(tag, "device_nums", buf, sizeof(buf))) {
+        if (xp.parse_str("type", type, sizeof(type))) continue;
+        if (xp.parse_int("count", count)) continue;
+        if (xp.parse_double("peak_flops", peak_flops)) continue;
+        if (xp.parse_str("device_nums", buf, sizeof(buf))) {
             int i=0;
             char* p = strtok(buf, " ");
             while (p && i<MAX_COPROC_INSTANCES) {

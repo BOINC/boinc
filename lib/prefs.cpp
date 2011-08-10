@@ -276,9 +276,6 @@ int GLOBAL_PREFS::parse(
 }
 
 int GLOBAL_PREFS::parse_day(XML_PARSER& xp) {
-    char tag[256];
-    bool is_tag;
-
     int day_of_week = -1;
     bool has_cpu = false;
     bool has_net = false;
@@ -287,9 +284,9 @@ int GLOBAL_PREFS::parse_day(XML_PARSER& xp) {
     double net_start_hour = 0;
     double net_end_hour = 0;
 
-    while (!xp.get(tag, sizeof(tag), is_tag)) {
-        if (!is_tag) continue;
-        if (!strcmp(tag, "/day_prefs")) {
+    while (!xp.get_tag()) {
+        if (!xp.is_tag) continue;
+        if (xp.match_tag("/day_prefs")) {
             if (day_of_week < 0 || day_of_week > 6) return ERR_XML_PARSE;
             if (has_cpu) {
                 cpu_times.week.set(day_of_week, start_hour, end_hour);
@@ -299,24 +296,24 @@ int GLOBAL_PREFS::parse_day(XML_PARSER& xp) {
             }
             return 0;
         }
-        if (xp.parse_int(tag, "day_of_week", day_of_week)) continue;
-        if (xp.parse_double(tag, "start_hour", start_hour)) {
+        if (xp.parse_int("day_of_week", day_of_week)) continue;
+        if (xp.parse_double("start_hour", start_hour)) {
             has_cpu = true;
             continue;
         }
-        if (xp.parse_double(tag, "end_hour", end_hour)) {
+        if (xp.parse_double("end_hour", end_hour)) {
             has_cpu = true;
             continue;
         }
-        if (xp.parse_double(tag, "net_start_hour", net_start_hour)) {
+        if (xp.parse_double("net_start_hour", net_start_hour)) {
             has_net = true;
             continue;
         }
-        if (xp.parse_double(tag, "net_end_hour", net_end_hour)) {
+        if (xp.parse_double("net_end_hour", net_end_hour)) {
             has_net = true;
             continue;
         }
-        xp.skip_unexpected(tag, true, "GLOBAL_PREFS::parse_day");
+        xp.skip_unexpected(true, "GLOBAL_PREFS::parse_day");
     }
     return ERR_XML_PARSE;
 }
@@ -336,22 +333,22 @@ int GLOBAL_PREFS::parse_day(XML_PARSER& xp) {
 int GLOBAL_PREFS::parse_override(
     XML_PARSER& xp, const char* host_venue, bool& found_venue, GLOBAL_PREFS_MASK& mask
 ) {
-    char tag[256], buf2[256], attrs[256];
-    bool in_venue = false, in_correct_venue=false, is_tag;
+    char buf2[256], attrs[256];
+    bool in_venue = false, in_correct_venue=false;
     double dtemp;
     int itemp;
 
     found_venue = false;
     mask.clear();
 
-    while (!xp.get(tag, sizeof(tag), is_tag, attrs, sizeof(attrs))) {
-        if (!is_tag) continue;
-        if (!strcmp(tag, "global_preferences")) continue;
-        if (!strcmp(tag, "/global_preferences")) {
+    while (!xp.get_tag(attrs, sizeof(attrs))) {
+        if (!xp.is_tag) continue;
+        if (xp.match_tag("global_preferences")) continue;
+        if (xp.match_tag("/global_preferences")) {
             return 0;
         }
         if (in_venue) {
-            if (!strcmp(tag, "/venue")) {
+            if (xp.match_tag("/venue")) {
                 if (in_correct_venue) {
                     return 0;
                 } else {
@@ -362,7 +359,7 @@ int GLOBAL_PREFS::parse_override(
                 if (!in_correct_venue) continue;
             }
         } else {
-            if (strstr(tag, "venue")) {
+            if (strstr(xp.parsed_tag, "venue")) {
                 in_venue = true;
                 parse_attr(attrs, "name", buf2, sizeof(buf2));
                 if (!strcmp(buf2, host_venue)) {
@@ -377,78 +374,78 @@ int GLOBAL_PREFS::parse_override(
                 continue;
             }
         }
-        if (xp.parse_str(tag, "source_project", source_project, sizeof(source_project))) continue;
-        if (xp.parse_str(tag, "source_scheduler", source_scheduler, sizeof(source_scheduler))) {
+        if (xp.parse_str("source_project", source_project, sizeof(source_project))) continue;
+        if (xp.parse_str("source_scheduler", source_scheduler, sizeof(source_scheduler))) {
             continue;
         }
-        if (xp.parse_double(tag, "mod_time", mod_time)) {
+        if (xp.parse_double("mod_time", mod_time)) {
             double now = dtime();
             if (mod_time > now) {
                 mod_time = now;
             }
             continue;
         }
-        if (xp.parse_bool(tag, "run_on_batteries", run_on_batteries)) {
+        if (xp.parse_bool("run_on_batteries", run_on_batteries)) {
             mask.run_on_batteries = true;
             continue;
         }
-        if (xp.parse_bool(tag, "run_if_user_active", run_if_user_active)) {
+        if (xp.parse_bool("run_if_user_active", run_if_user_active)) {
             mask.run_if_user_active = true;
             continue;
         }
-        if (xp.parse_bool(tag, "run_gpu_if_user_active", run_gpu_if_user_active)) {
+        if (xp.parse_bool("run_gpu_if_user_active", run_gpu_if_user_active)) {
             mask.run_gpu_if_user_active = true;
             continue;
         }
-        if (xp.parse_double(tag, "idle_time_to_run", idle_time_to_run)) {
+        if (xp.parse_double("idle_time_to_run", idle_time_to_run)) {
             mask.idle_time_to_run = true;
             continue;
         }
-        if (xp.parse_double(tag, "suspend_if_no_recent_input", suspend_if_no_recent_input)) {
+        if (xp.parse_double("suspend_if_no_recent_input", suspend_if_no_recent_input)) {
             mask.suspend_if_no_recent_input = true;
             continue;
         }
-        if (xp.parse_double(tag, "suspend_cpu_usage", suspend_cpu_usage)) {
+        if (xp.parse_double("suspend_cpu_usage", suspend_cpu_usage)) {
             mask.suspend_cpu_usage = true;
             continue;
         }
-        if (xp.parse_double(tag, "start_hour", cpu_times.start_hour)) {
+        if (xp.parse_double("start_hour", cpu_times.start_hour)) {
             mask.start_hour = true;
             continue;
         }
-        if (xp.parse_double(tag, "end_hour", cpu_times.end_hour)) {
+        if (xp.parse_double("end_hour", cpu_times.end_hour)) {
             mask.end_hour = true;
             continue;
         }
-        if (xp.parse_double(tag, "net_start_hour", net_times.start_hour)) {
+        if (xp.parse_double("net_start_hour", net_times.start_hour)) {
             mask.net_start_hour = true;
             continue;
         }
-        if (xp.parse_double(tag, "net_end_hour", net_times.end_hour)) {
+        if (xp.parse_double("net_end_hour", net_times.end_hour)) {
             mask.net_end_hour = true;
             continue;
         }
-        if (!strcmp(tag, "day_prefs")) {
+        if (xp.match_tag("day_prefs")) {
             parse_day(xp);
             continue;
         }
-        if (xp.parse_bool(tag, "leave_apps_in_memory", leave_apps_in_memory)) {
+        if (xp.parse_bool("leave_apps_in_memory", leave_apps_in_memory)) {
             mask.leave_apps_in_memory = true;
             continue;
         }
-        if (xp.parse_bool(tag, "confirm_before_connecting", confirm_before_connecting)) {
+        if (xp.parse_bool("confirm_before_connecting", confirm_before_connecting)) {
             mask.confirm_before_connecting = true;
             continue;
         }
-        if (xp.parse_bool(tag, "hangup_if_dialed", hangup_if_dialed)) {
+        if (xp.parse_bool("hangup_if_dialed", hangup_if_dialed)) {
             mask.hangup_if_dialed = true;
             continue;
         }
-        if (xp.parse_bool(tag, "dont_verify_images", dont_verify_images)) {
+        if (xp.parse_bool("dont_verify_images", dont_verify_images)) {
             mask.dont_verify_images = true;
             continue;
         }
-        if (xp.parse_double(tag, "work_buf_min_days", work_buf_min_days)) {
+        if (xp.parse_double("work_buf_min_days", work_buf_min_days)) {
             // the following is for compatibility with old schedulers,
             // whose work req is just #secs, rather than #sec and #devices
             // If this were zero we'd never get work from them
@@ -457,97 +454,97 @@ int GLOBAL_PREFS::parse_override(
             mask.work_buf_min_days = true;
             continue;
         }
-        if (xp.parse_double(tag, "work_buf_additional_days", work_buf_additional_days)) {
+        if (xp.parse_double("work_buf_additional_days", work_buf_additional_days)) {
             if (work_buf_additional_days < 0) work_buf_additional_days = 0;
             mask.work_buf_additional_days = true;
             continue;
         }
-        if (xp.parse_double(tag, "max_ncpus_pct", max_ncpus_pct)) {
+        if (xp.parse_double("max_ncpus_pct", max_ncpus_pct)) {
             if (max_ncpus_pct < 0) max_ncpus_pct = 0;
             if (max_ncpus_pct > 100) max_ncpus_pct = 100;
             mask.max_ncpus_pct = true;
             continue;
         }
-        if (xp.parse_int(tag, "max_cpus", max_ncpus)) {
+        if (xp.parse_int("max_cpus", max_ncpus)) {
             if (max_ncpus < 0) max_ncpus = 0;
             mask.max_ncpus = true;
             continue;
         }
-        if (xp.parse_double(tag, "disk_interval", disk_interval)) {
+        if (xp.parse_double("disk_interval", disk_interval)) {
             if (disk_interval<0) disk_interval = 0;
             mask.disk_interval = true;
             continue;
         }
-        if (xp.parse_double(tag, "cpu_scheduling_period_minutes", cpu_scheduling_period_minutes)) {
+        if (xp.parse_double("cpu_scheduling_period_minutes", cpu_scheduling_period_minutes)) {
             if (cpu_scheduling_period_minutes < 0.0001) cpu_scheduling_period_minutes = 60;
             mask.cpu_scheduling_period_minutes = true;
             continue;
         }
-        if (xp.parse_double(tag, "disk_max_used_gb", disk_max_used_gb)) {
+        if (xp.parse_double("disk_max_used_gb", disk_max_used_gb)) {
             mask.disk_max_used_gb = true;
             continue;
         }
-        if (xp.parse_double(tag, "disk_max_used_pct", disk_max_used_pct)) {
+        if (xp.parse_double("disk_max_used_pct", disk_max_used_pct)) {
             mask.disk_max_used_pct = true;
             continue;
         }
-        if (xp.parse_double(tag, "disk_min_free_gb", disk_min_free_gb)) {
+        if (xp.parse_double("disk_min_free_gb", disk_min_free_gb)) {
             mask.disk_min_free_gb = true;
             continue;
         }
-        if (xp.parse_double(tag, "vm_max_used_pct", dtemp)) {
+        if (xp.parse_double("vm_max_used_pct", dtemp)) {
             vm_max_used_frac = dtemp/100;
             mask.vm_max_used_frac = true;
             continue;
         }
-        if (xp.parse_double(tag, "ram_max_used_busy_pct", dtemp)) {
+        if (xp.parse_double("ram_max_used_busy_pct", dtemp)) {
             if (!dtemp) dtemp = 100;
             ram_max_used_busy_frac = dtemp/100;
             mask.ram_max_used_busy_frac = true;
             continue;
         }
-        if (xp.parse_double(tag, "ram_max_used_idle_pct", dtemp)) {
+        if (xp.parse_double("ram_max_used_idle_pct", dtemp)) {
             if (!dtemp) dtemp = 100;
             ram_max_used_idle_frac = dtemp/100;
             mask.ram_max_used_idle_frac = true;
             continue;
         }
-        if (xp.parse_double(tag, "max_bytes_sec_up", max_bytes_sec_up)) {
+        if (xp.parse_double("max_bytes_sec_up", max_bytes_sec_up)) {
             if (max_bytes_sec_up < 0) max_bytes_sec_up = 0;
             mask.max_bytes_sec_up = true;
             continue;
         }
-        if (xp.parse_double(tag, "max_bytes_sec_down", max_bytes_sec_down)) {
+        if (xp.parse_double("max_bytes_sec_down", max_bytes_sec_down)) {
             if (max_bytes_sec_down < 0) max_bytes_sec_down = 0;
             mask.max_bytes_sec_down = true;
             continue;
         }
-        if (xp.parse_double(tag, "cpu_usage_limit", dtemp)) {
+        if (xp.parse_double("cpu_usage_limit", dtemp)) {
             if (dtemp > 0 && dtemp <= 100) {
                 cpu_usage_limit = dtemp;
                 mask.cpu_usage_limit = true;
             }
             continue;
         }
-        if (xp.parse_double(tag, "daily_xfer_limit_mb", dtemp)) {
+        if (xp.parse_double("daily_xfer_limit_mb", dtemp)) {
             if (dtemp >= 0) {
                 daily_xfer_limit_mb = dtemp;
                 mask.daily_xfer_limit_mb = true;
             }
             continue;
         }
-        if (xp.parse_int(tag, "daily_xfer_period_days", itemp)) {
+        if (xp.parse_int("daily_xfer_period_days", itemp)) {
             if (itemp >= 0) {
                 daily_xfer_period_days = itemp;
                 mask.daily_xfer_period_days = true;
             }
             continue;
         }
-        if (xp.parse_bool(tag, "host_specific", host_specific)) {
+        if (xp.parse_bool("host_specific", host_specific)) {
             continue;
         }
         // false means don't print anything
-        xp.skip_unexpected(tag, false, "GLOBAL_PREFS::parse_override");
+        xp.skip_unexpected(false, "GLOBAL_PREFS::parse_override");
     }
     return ERR_XML_PARSE;
 }

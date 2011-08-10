@@ -2028,11 +2028,11 @@ void DB_FILESET::db_parse(MYSQL_ROW &r) {
     strcpy2(name, r[i++]);
 }
 
-int DB_FILESET::select_by_name(const char* name) {
+int DB_FILESET::select_by_name(const char* _name) {
     char where_clause[MAX_QUERY_LEN] = {0};
 
     // construct where clause and select single record
-    snprintf(where_clause, MAX_QUERY_LEN, "WHERE name = '%s'", name);
+    snprintf(where_clause, MAX_QUERY_LEN, "WHERE name = '%s'", _name);
     return lookup(where_clause);
 }
 
@@ -2071,7 +2071,7 @@ void DB_SCHED_TRIGGER::db_parse(MYSQL_ROW &r) {
 int DB_SCHED_TRIGGER::select_unique_by_fileset_name(const char* fileset_name) {
     char query[MAX_QUERY_LEN];
     int retval;
-    int count = 0;
+    int nrows = 0;
     MYSQL_RES* recordset;
     MYSQL_ROW row;
 
@@ -2101,10 +2101,10 @@ int DB_SCHED_TRIGGER::select_unique_by_fileset_name(const char* fileset_name) {
     //}
 
     // determine number of records, fetch first
-    count = mysql_num_rows(recordset);
+    nrows = mysql_num_rows(recordset);
     row = mysql_fetch_row(recordset);
 
-    if (!row || count != 1) {
+    if (!row || nrows != 1) {
         // something bad happened
         if (!row) {
             // no row returned, due to an error?

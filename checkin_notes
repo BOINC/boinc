@@ -4826,3 +4826,24 @@ Rom    10 Aug 2011
         CE_IsDialogBanner.bmp
         CE_IsDialogBitmap.bmp
         CE_Splash.bmp
+
+David  10 Aug 2011
+    - Improve interface of XML_PARSER.
+        Add parsed_tag and is_tag to the class,
+        so that parsing functions don't need to declare them
+        and pass them around.
+    - Complete the task of using XML_PARSER as the argument
+        to all parsing functions.
+        (Internally, many of these functions still use the old XML parser;
+        that's the next step.)
+
+    db/
+        boinc_db.cpp,h
+    sched/
+        various
+    tools/
+        backend_lib.cpp
+    lib/
+        various
+    client/
+        various

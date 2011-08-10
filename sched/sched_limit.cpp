@@ -21,21 +21,18 @@
 #include "sched_limit.h"
 
 int RSC_JOB_LIMIT::parse(XML_PARSER& xp, const char* end_tag) {
-    char tag[1024];
-    bool is_tag;
-    
     per_proc = false;
-    while (!xp.get(tag, sizeof(tag), is_tag)) {
-        if (!is_tag) {
+    while (!xp.get_tag()) {
+        if (!xp.is_tag) {
             continue;
         }
-        if (!strcmp(tag, end_tag)) {
+        if (xp.match_tag(end_tag)) {
             return 0;
         }
-        if (xp.parse_int(tag, "jobs", base_limit)) {
+        if (xp.parse_int("jobs", base_limit)) {
             continue;
         }
-        if (xp.parse_bool(tag, "per_proc", per_proc)) {
+        if (xp.parse_bool("per_proc", per_proc)) {
             continue;
         }
     }
@@ -43,28 +40,25 @@ int RSC_JOB_LIMIT::parse(XML_PARSER& xp, const char* end_tag) {
 }
 
 int JOB_LIMIT::parse(XML_PARSER& xp, const char* end_tag) {
-    char tag[1024];
-    bool is_tag;
-    
-    while (!xp.get(tag, sizeof(tag), is_tag)) {
-        if (!is_tag) {
+    while (!xp.get_tag()) {
+        if (!xp.is_tag) {
             continue;
         }
-        if (!strcmp(tag, end_tag)) {
+        if (xp.match_tag(end_tag)) {
             return 0;
         }
-        if (xp.parse_str(tag, "app_name", app_name, sizeof(app_name))) {
+        if (xp.parse_str("app_name", app_name, sizeof(app_name))) {
             continue;
         }
-        if (!strcmp(tag, "total_limit")) {
+        if (xp.match_tag("total_limit")) {
             total.parse(xp, "/total_limit");
             continue;
         }
-        if (!strcmp(tag, "cpu_limit")) {
+        if (xp.match_tag("cpu_limit")) {
             cpu.parse(xp, "/cpu_limit");
             continue;
         }
-        if (!strcmp(tag, "gpu_limit")) {
+        if (xp.match_tag("gpu_limit")) {
             gpu.parse(xp, "/gpu_limit");
             continue;
         }
@@ -73,21 +67,18 @@ int JOB_LIMIT::parse(XML_PARSER& xp, const char* end_tag) {
 }
 
 int JOB_LIMITS::parse(XML_PARSER& xp, const char* end_tag) {
-    char tag[1024];
-    bool is_tag;
-    
-    while (!xp.get(tag, sizeof(tag), is_tag)) {
-        if (!is_tag) {
+    while (!xp.get_tag()) {
+        if (!xp.is_tag) {
             continue;
         }
-        if (!strcmp(tag, end_tag)) {
+        if (xp.match_tag(end_tag)) {
             return 0;
         }
-        if (!strcmp(tag, "project")) {
+        if (xp.match_tag("project")) {
             project_limits.parse(xp, "/project");
             continue;
         }
-        if (!strcmp(tag, "app")) {
+        if (xp.match_tag("app")) {
             JOB_LIMIT jl;
             jl.parse(xp, "/app");
             if (!strlen(jl.app_name)) {

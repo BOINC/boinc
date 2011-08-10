@@ -32,19 +32,30 @@ class XML_PARSER {
     int scan_cdata(char*, int);
     bool copy_until_tag(char*, int);
 public:
+    char parsed_tag[4096];
+    bool is_tag;
     MIOFILE* f;
     XML_PARSER(MIOFILE*);
     bool get(char*, int, bool&, char* ab=0, int al=0);
+    inline bool get_tag(char* ab=0, int al=0) {
+        return get(parsed_tag, sizeof(parsed_tag), is_tag, ab, al);
+    }
+    inline bool match_tag(const char* tag) {
+        return !strcmp(parsed_tag, tag);
+    }
     int get_aux(char* buf, int len, char* attr_buf, int attr_len);
     bool parse_start(const char*);
-    bool parse_str(char*, const char*, char*, int);
-    bool parse_string(char*, const char*, std::string&);
-    bool parse_int(char*, const char*, int&);
-    bool parse_double(char*, const char*, double&);
-    bool parse_bool(char*, const char*, bool&);
+    bool parse_str(const char*, char*, int);
+    bool parse_string(const char*, std::string&);
+    bool parse_int(const char*, int&);
+    bool parse_double(const char*, double&);
+    bool parse_bool(const char*, bool&);
 	int element_contents(const char*, char*, int);
     int element(const char*, char*, int);
     void skip_unexpected(const char*, bool verbose, const char*);
+    void skip_unexpected(bool verbose, const char* msg) {
+        skip_unexpected(parsed_tag, verbose, msg);
+    }
 };
 
 extern bool boinc_is_finite(double);

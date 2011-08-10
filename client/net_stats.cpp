@@ -288,14 +288,11 @@ void NET_STATUS::poll() {
 }
 
 int DAILY_XFER::parse(XML_PARSER& xp) {
-    char tag[1024];
-    bool is_tag;
-
-    while (!xp.get(tag, sizeof(tag), is_tag)) {
-        if (!strcmp(tag, "/dx")) return 0;
-        if (xp.parse_int(tag, "when", when)) continue;
-        if (xp.parse_double(tag, "up", up)) continue;
-        if (xp.parse_double(tag, "down", down)) continue;
+    while (!xp.get_tag()) {
+        if (xp.match_tag("/dx")) return 0;
+        if (xp.parse_int("when", when)) continue;
+        if (xp.parse_double("up", up)) continue;
+        if (xp.parse_double("down", down)) continue;
     }
     return ERR_XML_PARSE;
 }
@@ -346,8 +343,6 @@ void DAILY_XFER_HISTORY::init() {
     MIOFILE mf;
     XML_PARSER xp(&mf);
     mf.init_file(f);
-    bool is_tag;
-    char tag[256];
 
     int d = current_day();
 
@@ -355,9 +350,9 @@ void DAILY_XFER_HISTORY::init() {
         fclose(f);
         return;
     }
-    while (!xp.get(tag, sizeof(tag), is_tag)) {
-        if (!is_tag) continue;
-        if (!strcmp(tag, "dx")) {
+    while (!xp.get_tag()) {
+        if (!xp.is_tag) continue;
+        if (xp.match_tag("dx")) {
             DAILY_XFER dx;
             int retval = dx.parse(xp);
             if (!retval && d - dx.when < 365) {

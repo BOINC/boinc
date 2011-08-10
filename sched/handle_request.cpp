@@ -1349,7 +1349,10 @@ void handle_request(FILE* fin, FILE* fout, char* code_sign_key) {
 
     log_messages.set_indent_level(1);
 
-    const char* p = sreq.parse(fin);
+    MIOFILE mf;
+    XML_PARSER xp(&mf);
+    mf.init_file(fin);
+    const char* p = sreq.parse(xp);
     double start_time = dtime();
     if (!p){
         process_request(code_sign_key);

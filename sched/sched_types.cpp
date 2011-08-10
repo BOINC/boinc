@@ -57,13 +57,14 @@ void remove_quotes(char* p) {
     }
 }
 
-int CLIENT_APP_VERSION::parse(FILE* f) {
+int CLIENT_APP_VERSION::parse(XML_PARSER& xp) {
     char buf[256];
     double x;
 
     memset(this, 0, sizeof(*this));
     host_usage.avg_ncpus = 1;
-    while (fgets(buf, sizeof(buf), f)) {
+    MIOFILE& in = *(xp.f);
+    while (in.fgets(buf, sizeof(buf))) {
         if (match_tag(buf, "</app_version>")) {
             app = ssp->lookup_app_name(app_name);
             if (!app) return ERR_NOT_FOUND;
@@ -92,9 +93,7 @@ int CLIENT_APP_VERSION::parse(FILE* f) {
         }
         if (match_tag(buf, "<coproc>")) {
             COPROC_REQ coproc_req;
-            MIOFILE mf;
-            mf.init_file(f);
-            int retval = coproc_req.parse(mf);
+            int retval = coproc_req.parse(xp);
             if (!retval && !strcmp(coproc_req.type, "CUDA")) {
                 host_usage.ncudas = coproc_req.count;
             }
@@ -107,11 +106,12 @@ int CLIENT_APP_VERSION::parse(FILE* f) {
     return ERR_XML_PARSE;
 }
 
-int FILE_INFO::parse(FILE* f) {
+int FILE_INFO::parse(XML_PARSER& xp) {
     char buf[256];
 
     memset(this, 0, sizeof(*this));
-    while (fgets(buf, sizeof(buf), f)) {
+    MIOFILE& in = *(xp.f);
+    while (in.fgets(buf, sizeof(buf))) {
         if (match_tag(buf, "</file_info>")) {
             if (!strlen(name)) return ERR_XML_PARSE;
             return 0;
@@ -121,13 +121,14 @@ int FILE_INFO::parse(FILE* f) {
     return ERR_XML_PARSE;
 }
 
-int OTHER_RESULT::parse(FILE* f) {
+int OTHER_RESULT::parse(XML_PARSER& xp) {
     char buf[256];
 
     strcpy(name, "");
     have_plan_class = false;
     app_version = -1;
-    while (fgets(buf, sizeof(buf), f)) {
+    MIOFILE& in = *(xp.f);
+    while (in.fgets(buf, sizeof(buf))) {
         if (match_tag(buf, "</other_result>")) {
             if (!strcmp(name, "")) return ERR_XML_PARSE;
             return 0;
@@ -142,13 +143,14 @@ int OTHER_RESULT::parse(FILE* f) {
     return ERR_XML_PARSE;
 }
 
-int IP_RESULT::parse(FILE* f) {
+int IP_RESULT::parse(XML_PARSER& xp) {
     char buf[256];
 
     report_deadline = 0;
     cpu_time_remaining = 0;
     strcpy(name, "");
-    while (fgets(buf, sizeof(buf), f)) {
+    MIOFILE& in = *(xp.f);
+    while (in.fgets(buf, sizeof(buf))) {
         if (match_tag(buf, "</ip_result>")) return 0;
         if (parse_str(buf, "<name>", name, sizeof(name))) continue;
         if (parse_double(buf, "<report_deadline>", report_deadline)) continue;
@@ -157,10 +159,11 @@ int IP_RESULT::parse(FILE* f) {
     return ERR_XML_PARSE;
 }
 
-int CLIENT_PLATFORM::parse(FILE* fin) {
+int CLIENT_PLATFORM::parse(XML_PARSER& xp) {
     char buf[256];
     strcpy(name, "");
-    while (fgets(buf, sizeof(buf), fin)) {
+    MIOFILE& in = *(xp.f);
+    while (in.fgets(buf, sizeof(buf))) {
         if (match_tag(buf, "</alt_platform>")) return 0;
         if (parse_str(buf, "<name>", name, sizeof(name))) continue;
     }
@@ -179,7 +182,7 @@ void WORK_REQ::add_no_work_message(const char* message) {
 
 // return an error message or NULL
 //
-const char* SCHEDULER_REQUEST::parse(FILE* fin) {
+const char* SCHEDULER_REQUEST::parse(XML_PARSER& xp) {
     char buf[256];
     SCHED_DB_RESULT result;
     int retval;
@@ -213,20 +216,21 @@ const char* SCHEDULER_REQUEST::parse(FILE* fin) {
 
     // TODO: use XML_PARSER FOR THIS
 
-    if (!fgets(buf, sizeof(buf), fin)) {
+    MIOFILE& in = *(xp.f);
+    if (!in.fgets(buf, sizeof(buf))) {
         return "fgets() failed";
     }
     if (strstr(buf, "<?xml")) {
-        fgets(buf, sizeof(buf), fin);
+        in.fgets(buf, sizeof(buf));
     }
     if (!match_tag(buf, "<scheduler_request>")) return "no start tag";
-    while (fgets(buf, sizeof(buf), fin)) {
+    while (in.fgets(buf, sizeof(buf))) {
         // If a line is too long, ignore it.
         // This can happen e.g. if the client has bad global_prefs.xml
         // This won't be necessary if we rewrite this using XML_PARSER
         //
         if (!strchr(buf, '\n')) {
-            while (fgets(buf, sizeof(buf), fin)) {
+            while (in.fgets(buf, sizeof(buf))) {
                 if (strchr(buf, '\n')) break;
             }
             continue;
@@ -246,18 +250,18 @@ const char* SCHEDULER_REQUEST::parse(FILE* fin) {
         if (parse_str(buf, "<platform_name>", platform.name, sizeof(platform.name))) continue;
         if (match_tag(buf, "<alt_platform>")) {
             CLIENT_PLATFORM cp;
-            retval = cp.parse(fin);
+            retval = cp.parse(xp);
             if (!retval) {
                 alt_platforms.push_back(cp);
             }
             continue;
         }
         if (match_tag(buf, "<app_versions>")) {
-            while (fgets(buf, sizeof(buf), fin)) {
+            while (in.fgets(buf, sizeof(buf))) {
                 if (match_tag(buf, "</app_versions>")) break;
                 if (match_tag(buf, "<app_version>")) {
                     CLIENT_APP_VERSION cav;
-                    retval = cav.parse(fin);
+                    retval = cav.parse(xp);
                     if (retval) {
                         if (!strcmp(platform.name, "anonymous")) {
                             if (retval == ERR_NOT_FOUND) {
@@ -299,7 +303,7 @@ const char* SCHEDULER_REQUEST::parse(FILE* fin) {
         if (parse_double(buf, "<duration_correction_factor>", host.duration_correction_factor)) continue;
         if (match_tag(buf, "<global_preferences>")) {
             strcpy(global_prefs_xml, "<global_preferences>\n");
-            while (fgets(buf, sizeof(buf), fin)) {
+            while (in.fgets(buf, sizeof(buf))) {
                 if (strstr(buf, "</global_preferences>")) break;
                 safe_strcat(global_prefs_xml, buf);
             }
@@ -307,7 +311,7 @@ const char* SCHEDULER_REQUEST::parse(FILE* fin) {
             continue;
         }
         if (match_tag(buf, "<working_global_preferences>")) {
-            while (fgets(buf, sizeof(buf), fin)) {
+            while (in.fgets(buf, sizeof(buf))) {
                 if (strstr(buf, "</working_global_preferences>")) break;
                 safe_strcat(working_global_prefs_xml, buf);
             }
@@ -315,28 +319,28 @@ const char* SCHEDULER_REQUEST::parse(FILE* fin) {
         }
         if (parse_str(buf, "<global_prefs_source_email_hash>", global_prefs_source_email_hash, sizeof(global_prefs_source_email_hash))) continue;
         if (match_tag(buf, "<host_info>")) {
-            host.parse(fin);
+            host.parse(xp);
             continue;
         }
         if (match_tag(buf, "<time_stats>")) {
-            host.parse_time_stats(fin);
+            host.parse_time_stats(xp);
             continue;
         }
         if (match_tag(buf, "<time_stats_log>")) {
-            handle_time_stats_log(fin);
+            handle_time_stats_log(xp.f->f);
             have_time_stats_log = true;
             continue;
         }
         if (match_tag(buf, "<net_stats>")) {
-            host.parse_net_stats(fin);
+            host.parse_net_stats(xp);
             continue;
         }
         if (match_tag(buf, "<disk_usage>")) {
-            host.parse_disk_usage(fin);
+            host.parse_disk_usage(xp);
             continue;
         }
         if (match_tag(buf, "<result>")) {
-            retval = result.parse_from_client(fin);
+            retval = result.parse_from_client(xp);
             if (retval) continue;
             if (strstr(result.name, "download") || strstr(result.name, "upload")) {
                 file_xfer_results.push_back(result);
@@ -363,12 +367,12 @@ const char* SCHEDULER_REQUEST::parse(FILE* fin) {
             continue;
         }
         if (match_tag(buf, "<code_sign_key>")) {
-            copy_element_contents(fin, "</code_sign_key>", code_sign_key, sizeof(code_sign_key));
+            copy_element_contents(in.f, "</code_sign_key>", code_sign_key, sizeof(code_sign_key));
             continue;
         }
         if (match_tag(buf, "<msg_from_host>")) {
             MSG_FROM_HOST_DESC md;
-            retval = md.parse(fin);
+            retval = md.parse(xp);
             if (!retval) {
                 msgs_from_host.push_back(md);
             }
@@ -376,7 +380,7 @@ const char* SCHEDULER_REQUEST::parse(FILE* fin) {
         }
         if (match_tag(buf, "<file_info>")) {
             FILE_INFO fi;
-            retval = fi.parse(fin);
+            retval = fi.parse(xp);
             if (!retval) {
                 file_infos.push_back(fi);
             }
@@ -387,11 +391,11 @@ const char* SCHEDULER_REQUEST::parse(FILE* fin) {
         }
         if (match_tag(buf, "<other_results>")) {
             have_other_results_list = true;
-            while (fgets(buf, sizeof(buf), fin)) {
+            while (in.fgets(buf, sizeof(buf))) {
                 if (match_tag(buf, "</other_results>")) break;
                 if (match_tag(buf, "<other_result>")) {
                     OTHER_RESULT o_r;
-                    retval = o_r.parse(fin);
+                    retval = o_r.parse(xp);
                     if (!retval) {
                         other_results.push_back(o_r);
                     }
@@ -403,11 +407,11 @@ const char* SCHEDULER_REQUEST::parse(FILE* fin) {
             have_ip_results_list = true;
             int i = 0;
             double now = time(0);
-            while (fgets(buf, sizeof(buf), fin)) {
+            while (in.fgets(buf, sizeof(buf))) {
                 if (match_tag(buf, "</in_progress_results>")) break;
                 if (match_tag(buf, "<ip_result>")) {
                     IP_RESULT ir;
-                    retval = ir.parse(fin);
+                    retval = ir.parse(xp);
                     if (!retval) {
                         if (!strlen(ir.name)) {
                             sprintf(ir.name, "ip%d", i++);
@@ -420,9 +424,7 @@ const char* SCHEDULER_REQUEST::parse(FILE* fin) {
             continue;
         }
         if (match_tag(buf, "coprocs")) {
-            MIOFILE mf;
-            mf.init_file(fin);
-            coprocs.parse(mf);
+            coprocs.parse(xp);
             continue;
         }
         if (parse_bool(buf, "client_cap_plan_class", client_cap_plan_class)) continue;
@@ -466,9 +468,7 @@ const char* SCHEDULER_REQUEST::parse(FILE* fin) {
         log_messages.printf(MSG_NORMAL,
             "SCHEDULER_REQUEST::parse(): unrecognized: %s\n", buf
         );
-        MIOFILE mf;
-        mf.init_file(fin);
-        retval = skip_unrecognized(buf, mf);
+        retval = skip_unrecognized(buf, in);
         if (retval) return "unterminated unrecognized XML";
     }
     return "no end tag";
@@ -597,11 +597,12 @@ int SCHEDULER_REQUEST::write(FILE* fout) {
     return 0;
 }
 
-int MSG_FROM_HOST_DESC::parse(FILE* fin) {
+int MSG_FROM_HOST_DESC::parse(XML_PARSER& xp) {
     char buf[256];
 
     msg_text = "";
-    while (fgets(buf, sizeof(buf), fin)) {
+    MIOFILE& in = *(xp.f);
+    while (in.fgets(buf, sizeof(buf))) {
         if (match_tag(buf, "</msg_from_host>")) return 0;
         if (parse_str(buf, "<variety>", variety, sizeof(variety))) continue;
         msg_text += buf;
@@ -1094,13 +1095,14 @@ int SCHED_DB_RESULT::write_to_client(FILE* fout) {
     return 0;
 }
 
-int SCHED_DB_RESULT::parse_from_client(FILE* fin) {
+int SCHED_DB_RESULT::parse_from_client(XML_PARSER& xp) {
     char buf[256];
 
     // should be non-zero if exit_status is not found
     exit_status = ERR_NO_EXIT_STATUS;
     memset(this, 0, sizeof(*this));
-    while (fgets(buf, sizeof(buf), fin)) {
+    MIOFILE& in = *(xp.f);
+    while (in.fgets(buf, sizeof(buf))) {
         if (match_tag(buf, "</result>")) {
             return 0;
         }
@@ -1116,14 +1118,14 @@ int SCHED_DB_RESULT::parse_from_client(FILE* fin) {
         if (parse_double(buf, "<intops_cumulative>", intops_cumulative)) continue;
         if (match_tag(buf, "<file_info>")) {
             safe_strcat(xml_doc_out, buf);
-            while (fgets(buf, sizeof(buf), fin)) {
+            while (in.fgets(buf, sizeof(buf))) {
                 safe_strcat(xml_doc_out, buf);
                 if (match_tag(buf, "</file_info>")) break;
             }
             continue;
         }
         if (match_tag(buf, "<stderr_out>" )) {
-            while (fgets(buf, sizeof(buf), fin)) {
+            while (in.fgets(buf, sizeof(buf))) {
                 if (match_tag(buf, "</stderr_out>")) break;
                 safe_strcat(stderr_out, buf);
             }
@@ -1150,11 +1152,12 @@ int SCHED_DB_RESULT::parse_from_client(FILE* fin) {
     return ERR_XML_PARSE;
 }
 
-int HOST::parse(FILE* fin) {
+int HOST::parse(XML_PARSER& xp) {
     char buf[1024];
 
     p_ncpus = 1;
-    while (fgets(buf, sizeof(buf), fin)) {
+    MIOFILE& in = *(xp.f);
+    while (in.fgets(buf, sizeof(buf))) {
         if (match_tag(buf, "</host_info>")) return 0;
         if (parse_int(buf, "<timezone>", timezone)) continue;
         if (parse_str(buf, "<domain_name>", domain_name, sizeof(domain_name))) continue;
@@ -1207,10 +1210,11 @@ int HOST::parse(FILE* fin) {
 }
 
 
-int HOST::parse_time_stats(FILE* fin) {
+int HOST::parse_time_stats(XML_PARSER& xp) {
     char buf[256];
 
-    while (fgets(buf, sizeof(buf), fin)) {
+    MIOFILE& in = *(xp.f);
+    while (in.fgets(buf, sizeof(buf))) {
         if (match_tag(buf, "</time_stats>")) return 0;
         if (parse_double(buf, "<on_frac>", on_frac)) continue;
         if (parse_double(buf, "<connected_frac>", connected_frac)) continue;
@@ -1229,10 +1233,11 @@ int HOST::parse_time_stats(FILE* fin) {
     return ERR_XML_PARSE;
 }
 
-int HOST::parse_net_stats(FILE* fin) {
+int HOST::parse_net_stats(XML_PARSER& xp) {
     char buf[256];
 
-    while (fgets(buf, sizeof(buf), fin)) {
+    MIOFILE& in = *(xp.f);
+    while (in.fgets(buf, sizeof(buf))) {
         if (match_tag(buf, "</net_stats>")) return 0;
         if (parse_double(buf, "<bwup>", n_bwup)) continue;
         if (parse_double(buf, "<bwdown>", n_bwdown)) continue;
@@ -1252,10 +1257,11 @@ int HOST::parse_net_stats(FILE* fin) {
     return ERR_XML_PARSE;
 }
 
-int HOST::parse_disk_usage(FILE* fin) {
+int HOST::parse_disk_usage(XML_PARSER& xp) {
     char buf[256];
 
-    while (fgets(buf, sizeof(buf), fin)) {
+    MIOFILE& in = *(xp.f);
+    while (in.fgets(buf, sizeof(buf))) {
         if (match_tag(buf, "</disk_usage>")) return 0;
         if (parse_double(buf, "<d_boinc_used_total>", d_boinc_used_total)) continue;
         if (parse_double(buf, "<d_boinc_used_project>", d_boinc_used_project)) continue;

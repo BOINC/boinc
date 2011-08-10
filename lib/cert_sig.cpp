@@ -68,30 +68,28 @@ int CERT_SIGS::count() {
 
 int CERT_SIGS::parse(XML_PARSER &xp) {
     CERT_SIG sig;
-    bool is_tag = false;
     bool in_entry = false;
     bool in_sig = false;
     bool parsed_one = false;
-    char tag[4096];
     char buf[256];
     
-    while (!xp.get(tag, sizeof(tag), is_tag)) {
-        if (!strcmp(tag, "/signatures")) {
+    while (!xp.get_tag()) {
+        if (xp.match_tag("/signatures")) {
             //printf("CERT_SIGS::parse() ends.\n");
             //fflush(stdout);
             return !in_entry && !in_sig && parsed_one;
         }
         if (in_sig) {
             in_sig = false;
-            snprintf(sig.signature, sizeof(sig.signature), "%s", tag);
+            snprintf(sig.signature, sizeof(sig.signature), "%s", xp.parsed_tag);
             continue;
         } 
-        if (!is_tag) {
-            printf("(CERT_SIGS): unexpected text: %s\n", tag);
+        if (!xp.is_tag) {
+            printf("(CERT_SIGS): unexpected text: %s\n", xp.parsed_tag);
             continue;
         }
         if (in_entry) {
-            if (!strcmp(tag, "/entry")) {
+            if (xp.match_tag("/entry")) {
                 in_entry = false;
                 in_sig = false;
                 if (strlen(sig.subject) == 0) {
@@ -107,19 +105,19 @@ int CERT_SIGS::parse(XML_PARSER &xp) {
                 sig.clear();                
                 continue;
             }
-            if (!strcmp(tag, "signature")) {
+            if (xp.match_tag("signature")) {
                 in_sig = true;
                 continue;
             }
-            if (!strcmp(tag, "/signature")) {
+            if (xp.match_tag("/signature")) {
                 in_sig = false;
                 continue;
             }
-            if (xp.parse_str(tag, "subject", sig.subject, sizeof(sig.subject)))
+            if (xp.parse_str("subject", sig.subject, sizeof(sig.subject)))
                 continue;
-            else if (xp.parse_str(tag, "hash", sig.hash, sizeof(sig.hash)))
+            else if (xp.parse_str("hash", sig.hash, sizeof(sig.hash)))
                 continue;
-            else if (xp.parse_str(tag, "type", buf, sizeof(buf))) {
+            else if (xp.parse_str("type", buf, sizeof(buf))) {
                 if ((!strcmp(buf,"md5")) || (!strcmp(buf,"MD5"))) {
                     sig.type = MD5_HASH;
                 } else if ((!strcmp(buf,"sha1")) || (!strcmp(buf,"SHA1"))) {
@@ -128,7 +126,7 @@ int CERT_SIGS::parse(XML_PARSER &xp) {
                 continue;
             }
         } else {
-            if (strstr(tag, "entry")) {
+            if (strstr(xp.parsed_tag, "entry")) {
                 in_entry = true;
                 continue;
             }
@@ -183,7 +181,7 @@ int CERT_SIGS::parse_buffer_embed(char* buf) {
     mf.init_buf_read(buf);
     XML_PARSER xp(&mf);
     while (!xp.get(tag, sizeof(tag), is_tag)) {
-        if (!strcmp(tag, "signatures")) {
+        if (xp.match_tag("signatures")) {
             s_found = true;
             break;
         }

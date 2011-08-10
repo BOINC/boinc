@@ -31,6 +31,7 @@
 
 #include "db_base.h"
 #include "average.h"
+#include "parse.h"
 
 extern DB_CONN boinc_db;
 
@@ -333,15 +334,15 @@ struct HOST {
         // that fail validation
         // DEPRECATED
 
-    // the following not stored in DB
-    //
+    // the following not in DB
     char p_features[1024];
     char virtualbox_version[256];
 
-    int parse(FILE*);
-    int parse_time_stats(FILE*);
-    int parse_net_stats(FILE*);
-    int parse_disk_usage(FILE*);
+    int parse(XML_PARSER&);
+    int parse_time_stats(XML_PARSER&);
+    int parse_net_stats(XML_PARSER&);
+    int parse_disk_usage(XML_PARSER&);
+
     void fix_nans();
     void clear();
 };

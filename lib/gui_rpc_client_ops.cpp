@@ -102,32 +102,30 @@ PROJECT_LIST_ENTRY::~PROJECT_LIST_ENTRY() {
 }
 
 int PROJECT_LIST_ENTRY::parse(XML_PARSER& xp) {
-    char tag[256];
-    bool is_tag;
     string platform;
 
-    while (!xp.get(tag, sizeof(tag), is_tag)) {
-        if (!strcmp(tag, "/project")) return 0;
-        if (xp.parse_string(tag, "name", name)) continue;
-        if (xp.parse_string(tag, "url", url)) {
+    while (!xp.get_tag()) {
+        if (xp.match_tag("/project")) return 0;
+        if (xp.parse_string("name", name)) continue;
+        if (xp.parse_string("url", url)) {
             continue;
         }
-        if (xp.parse_string(tag, "general_area", general_area)) continue;
-        if (xp.parse_string(tag, "specific_area", specific_area)) continue;
-        if (xp.parse_string(tag, "description", description)) {
+        if (xp.parse_string("general_area", general_area)) continue;
+        if (xp.parse_string("specific_area", specific_area)) continue;
+        if (xp.parse_string("description", description)) {
             continue;
         }
-        if (xp.parse_string(tag, "home", home)) continue;
-        if (xp.parse_string(tag, "image", image)) continue;
-        if (!strcmp(tag, "platforms")) {
-            while (!xp.get(tag, sizeof(tag), is_tag)) {
-                if (!strcmp(tag, "/platforms")) break;
-                if (xp.parse_string(tag, "name", platform)) {
+        if (xp.parse_string("home", home)) continue;
+        if (xp.parse_string("image", image)) continue;
+        if (xp.match_tag("platforms")) {
+            while (!xp.get_tag()) {
+                if (xp.match_tag("/platforms")) break;
+                if (xp.parse_string("name", platform)) {
                     platforms.push_back(platform);
                 }
             }
         }
-        xp.skip_unexpected(tag, false, "");
+        xp.skip_unexpected(false, "");
     }
     return ERR_XML_PARSE;
 }
@@ -152,14 +150,12 @@ AM_LIST_ENTRY::~AM_LIST_ENTRY() {
 }
 
 int AM_LIST_ENTRY::parse(XML_PARSER& xp) {
-    char tag[256];
-    bool is_tag;
-    while (!xp.get(tag, sizeof(tag), is_tag)) {
-        if (!strcmp(tag, "/account_manager")) return 0;
-        if (xp.parse_string(tag, "name", name)) continue;
-        if (xp.parse_string(tag, "url", url)) continue;
-        if (xp.parse_string(tag, "description", description)) continue;
-        if (xp.parse_string(tag, "image", image)) continue;
+    while (!xp.get_tag()) {
+        if (xp.match_tag("/account_manager")) return 0;
+        if (xp.parse_string("name", name)) continue;
+        if (xp.parse_string("url", url)) continue;
+        if (xp.parse_string("description", description)) continue;
+        if (xp.parse_string("image", image)) continue;
     }
     return 0;
 }
@@ -1459,8 +1455,6 @@ int RPC_CLIENT::get_project_status(PROJECTS& p) {
 int RPC_CLIENT::get_all_projects_list(ALL_PROJECTS_LIST& pl) {
     int retval = 0;
     SET_LOCALE sl;
-    char tag[256];
-    bool is_tag;
     MIOFILE mf;
     PROJECT_LIST_ENTRY* project;
     AM_LIST_ENTRY* am;
@@ -1470,9 +1464,9 @@ int RPC_CLIENT::get_all_projects_list(ALL_PROJECTS_LIST& pl) {
 
     retval = rpc.do_rpc("<get_all_projects_list/>\n");
     if (retval) return retval;
-    while (!rpc.xp.get(tag, sizeof(tag), is_tag)) {
-        if (!strcmp(tag, "/projects")) break;
-        else if (!strcmp(tag, "project")) {
+    while (!rpc.xp.get_tag()) {
+        if (rpc.xp.match_tag("/projects")) break;
+        else if (rpc.xp.match_tag("project")) {
             project = new PROJECT_LIST_ENTRY();
             retval = project->parse(rpc.xp);
             if (!retval) {
@@ -1481,7 +1475,7 @@ int RPC_CLIENT::get_all_projects_list(ALL_PROJECTS_LIST& pl) {
                 delete project;
             }
             continue;
-        } else if (!strcmp(tag, "account_manager")) {
+        } else if (rpc.xp.match_tag("account_manager")) {
             am = new AM_LIST_ENTRY();
             retval = am->parse(rpc.xp);
             if (!retval) {
@@ -2433,13 +2427,11 @@ int RPC_CLIENT::set_cc_config(CONFIG& config, LOG_FLAGS& log_flags) {
 }
 
 static int parse_notices(XML_PARSER& xp, NOTICES& notices) {
-    char tag[256];
-    bool is_tag;
     int retval;
 
-    while (!xp.get(tag, sizeof(tag), is_tag)) {
-        if (!is_tag) continue;
-        if (!strcmp(tag, "notice")) {
+    while (!xp.get_tag()) {
+        if (!xp.is_tag) continue;
+        if (xp.match_tag("notice")) {
             NOTICE* np = new NOTICE();
             retval = np->parse(xp);
             if (!retval) {

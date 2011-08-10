@@ -39,29 +39,26 @@ NOTICE::~NOTICE() {
 // parse_rss() parses an RSS feed item.
 //
 int NOTICE::parse(XML_PARSER& xp) {
-    char tag[1024];
-    bool is_tag;
-
     clear();
-    while (!xp.get(tag, sizeof(tag), is_tag)) {
-        if (!is_tag) continue;
-        if (!strcmp(tag, "/notice")) {
+    while (!xp.get_tag()) {
+        if (!xp.is_tag) continue;
+        if (xp.match_tag("/notice")) {
             return 0;
         }
-        if (xp.parse_int(tag, "seqno", seqno)) continue;
-        if (xp.parse_str(tag, "title", title, sizeof(title))) continue;
-        if (xp.parse_string(tag, "description", description)) {
+        if (xp.parse_int("seqno", seqno)) continue;
+        if (xp.parse_str("title", title, sizeof(title))) continue;
+        if (xp.parse_string("description", description)) {
             xml_unescape(description);   // 2nd pass
             continue;
         }
-        if (xp.parse_double(tag, "create_time", create_time)) continue;
-        if (xp.parse_double(tag, "arrival_time", arrival_time)) continue;
-        if (xp.parse_bool(tag, "is_private", is_private)) continue;
-        if (xp.parse_str(tag, "category", category, sizeof(category))) continue;
-        if (xp.parse_str(tag, "link", link, sizeof(link))) continue;
-        if (xp.parse_str(tag, "project_name", project_name, sizeof(project_name))) continue;
-        if (xp.parse_str(tag, "guid", guid, sizeof(guid))) continue;
-        if (xp.parse_str(tag, "feed_url", feed_url, sizeof(feed_url))) continue;
+        if (xp.parse_double("create_time", create_time)) continue;
+        if (xp.parse_double("arrival_time", arrival_time)) continue;
+        if (xp.parse_bool("is_private", is_private)) continue;
+        if (xp.parse_str("category", category, sizeof(category))) continue;
+        if (xp.parse_str("link", link, sizeof(link))) continue;
+        if (xp.parse_str("project_name", project_name, sizeof(project_name))) continue;
+        if (xp.parse_str("guid", guid, sizeof(guid))) continue;
+        if (xp.parse_str("feed_url", feed_url, sizeof(feed_url))) continue;
     }
     return ERR_XML_PARSE;
 }

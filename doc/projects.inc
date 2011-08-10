@@ -14,9 +14,9 @@ $cogsci = array(
     tra("Cognitive science and artifical intelligence"),
     array(
         array(
-            tra("FreeHAL"),
+            "FreeHAL",
             "http://www.freehal.net/freehal_at_home/",
-            tra("private"),
+            tra("Private"),
             tra("Artificial intelligence"),
             tra("Parse and convert semantic nets for use in FreeHAL, an artificial intelligence that uses semantic networks, stemmers, part of speech databases, and part of speech taggers in order to imitate human behavior in conversations.")
         ),
@@ -27,7 +27,7 @@ $biomed = array(
     tra("Biology and Medicine"),
     array(
         array(
-            tra("POEM@HOME"),
+            "POEM@HOME",
             "http://boinc.fzk.de/poem/",
             tra("University of Karlsruhe (Germany)"),
             tra("Protein structure prediction"),
@@ -35,7 +35,7 @@ $biomed = array(
             "poem.jpg"
         ),
         array(
-            tra("Docking@Home"),
+            "Docking@Home",
             "http://docking.cis.udel.edu/",
             tra("University of Delaware"),
             tra("Study of protein - ligand interactions"),
@@ -43,7 +43,7 @@ $biomed = array(
             "docking.png"
         ),
         array(
-            tra("GPUGrid.net"),
+            "GPUGrid.net",
             "http://www.gpugrid.net/",
             tra("Barcelona Biomedical Research Park (PRBB)"),
             tra("Molecular simulations of proteins"),
@@ -51,7 +51,7 @@ $biomed = array(
             "gpugrid.png"
         ),
         array(
-            tra("Superlink@Technion"),
+            "Superlink@Technion",
             "http://cbl-boinc-server2.cs.technion.ac.il/superlinkattechnion/",
             tra("Technion, Israel"),
             tra("Genetic linkage analysis"),
@@ -59,7 +59,7 @@ $biomed = array(
             "superlink_logo.gif"
         ),
 //        array(
-//            tra("Proteins@Home"),
+//            "Proteins@Home",
 //            "http://biology.polytechnique.fr/proteinsathome",
 //            tra("Ecole Polytechnique, Paris"),
 //            tra("Protein structure prediction"),
@@ -67,7 +67,7 @@ $biomed = array(
 //            "proteinsathome.gif"
 //        ),
         array(
-            tra("The Lattice Project"),
+            "The Lattice Project",
             "http://boinc.umiacs.umd.edu/",
             tra("University of Maryland Center for Bioinformatics and Computational Biology"),
             tra("Life science research"),
@@ -75,7 +75,7 @@ $biomed = array(
             "lattice.gif"
         ),
         array(
-            tra("Malariacontrol.net"),
+            "Malariacontrol.net",
             "http://www.malariacontrol.net/",
             tra("The Swiss Tropical Institute"),
             tra("Epidemiology"),
@@ -83,7 +83,7 @@ $biomed = array(
             "africaathome.gif"
         ),
 //        array(
-//            tra("Tanpaku"),
+//            "Tanpaku",
 //            "http://issofty17.is.noda.tus.ac.jp/",
 //            tra("Tokyo University of Science"),
 //            tra("Biology"),
@@ -91,7 +91,7 @@ $biomed = array(
 //            "tanpaku.jpg"
 //        ),
 //        array(
-//            tra("Predictor@home"),
+//            "Predictor@home",
 //            "http://predictor.chem.lsa.umich.edu/",
 //            tra("University of Michigan"),
 //            tra("Biology"),
@@ -99,7 +99,7 @@ $biomed = array(
 //            "predictor.jpg"
 //        ),
         array(
-            tra("Rosetta@home"),
+            "Rosetta@home",
             "http://boinc.bakerlab.org/rosetta/",
             tra("University of Washington"),
             tra("Biology"),
@@ -107,7 +107,7 @@ $biomed = array(
             "rosetta_at_home_logo.jpg"
         ),
         array(
-            tra("SIMAP"),
+            "SIMAP",
             "http://boincsimap.org/boincsimap/",
             tra("University of Vienna"),
             tra("Biology"),
@@ -120,21 +120,21 @@ $earth = array(
     tra("Earth Sciences"),
     array(
 //        array(
-//            tra("Quake Catcher Network"),
+//            "Quake Catcher Network",
 //            "http://qcn.stanford.edu/",
 //            tra("Stanford University"),
 //            tra("Seismology"),
 //            tra("The Quake-Catcher Network is a collaborative initiative for developing the world's largest, low-cost strong-motion seismic network by utilizing sensors in and attached to internet-connected computers.")
 //        ),
         array(
-            tra("Virtual Prairie"),
+            "Virtual Prairie",
             "http://vcsc.cs.uh.edu/virtual-prairie/",
             tra("University of Houston"),
             tra("Study of botanical ecosystems"),
             tra("Provide ecological guidelines on the design of prairies with the best potential for water purification.")
         ),
         array(
-            tra("Climateprediction.net"),
+            "Climateprediction.net",
             "http://climateprediction.net/",
             tra("Oxford University"),
             tra("Climate study"),
@@ -148,14 +148,14 @@ $astro_phys_chem = array(
     tra("Astronomy/Physics/Chemistry"),
     array(
         array(
-            tra("eOn"),
+            "eOn",
             "http://eon.ices.utexas.edu/eon2/",
             tra("University of Texas at Austin"),
             tra("Chemistry"),
             tra("A common problem in theoretical chemistry, condensed matter physics and materials science is the calculation of the time evolution of an atomic scale system where, for example, chemical reactions and/or diffusion occur. Generally the events of interest are quite rare (many orders of magnitude slower than the vibrational movements of the atoms), and therefore direct simulations, tracking every movement of the atoms, would take thousands of years of computer calculations on the fastest present day computer before a single event of interest can be expected to occur.  Our research group is interested in calculating the long time dynamics of systems.")
         ),
         array(
-            tra("Orbit@home"),
+            "Orbit@home",
             "http://orbit.psi.edu/oah/",
             tra("Planetary Science Institute"),
             tra("Astronomy"),
@@ -163,7 +163,7 @@ $astro_phys_chem = array(
             "http://orbit.psi.edu/"
         ),
         array(
-            tra("Cosmology@Home"),
+            "Cosmology@Home",
             "http://www.cosmologyathome.org/",
             tra("University of Illinois at Urbana-Champaign"),
             tra("Astronomy"),
@@ -171,7 +171,7 @@ $astro_phys_chem = array(
             "cosmo.jpg"
         ),
         array(
-            tra("Milkyway@home"),
+            "Milkyway@home",
             "http://milkyway.cs.rpi.edu/milkyway/",
             tra("Rensselaer Polytechnic Institute"),
             tra("Astronomy"),
@@ -179,7 +179,7 @@ $astro_phys_chem = array(
             "mw.png",
         ),
         array(
-            tra("Leiden Classical"),
+            "Leiden Classical",
             "http://boinc.gorlaeus.net/",
             tra("Leiden University, The Netherlands"),
             tra("Chemistry"),
@@ -187,7 +187,7 @@ $astro_phys_chem = array(
             "leiden_classical.png"
         ),
         array(
-            tra("uFluids@home"),
+            "uFluids@home",
             "http://www.ufluids.net/",
             tra("Purdue University"),
             tra("Physics/Aeronautics"),
@@ -195,7 +195,7 @@ $astro_phys_chem = array(
             "ufluids.gif"
         ),
         array(
-            tra("Einstein@home"),
+            "Einstein@home",
             "http://einstein.phys.uwm.edu/",
             tra("Univ. of Wisconsin - Milwaukee, Max Planck Institute"),
             tra("Astrophysics"),
@@ -203,7 +203,7 @@ $astro_phys_chem = array(
             "einstein.jpg"
         ),
         array(
-            tra("LHC@home"),
+            "LHC@home",
             "http://lhcathome.cern.ch/lhcathome/",
             tra("CERN (European Organization for Nuclear Research)"),
             tra("Physics"),
@@ -211,7 +211,7 @@ $astro_phys_chem = array(
             "lhc.jpg"
         ),
         array(
-            tra("SETI@home"),
+            "SETI@home",
             "http://setiathome.berkeley.edu/",
             tra("University of California, Berkeley"),
             tra("Astrophysics, astrobiology"),
@@ -219,7 +219,7 @@ $astro_phys_chem = array(
             "seti_logo.png"
         ),
         array(
-            tra("Quantum Monte Carlo at Home"),
+            "Quantum Monte Carlo at Home",
             "http://qah.uni-muenster.de/",
             tra("University of Muenster (Germany)"),
             tra("Chemistry"),
@@ -227,7 +227,7 @@ $astro_phys_chem = array(
             "logo_oben.jpg"
         ),
         array(
-            tra("Spinhenge@home"),
+            "Spinhenge@home",
             "http://spin.fh-bielefeld.de/",
             tra("Bielefeld University of Applied Sciences"),
             tra("Chemical engineering and nanotechnology"),
@@ -241,7 +241,7 @@ $mixed = array(
     tra("Multiple applications"),
     array(
         array(
-            tra("CAS@home"),
+            "CAS@home",
             "http://casathome.ihep.ac.cn/",
             tra("Chinese Academy of Sciences"),
             tra("Physics, biochemistry, and others"),
@@ -249,14 +249,14 @@ $mixed = array(
             "cas_at_home.jpg"
         ),
         array(
-            tra("Yoyo@home"),
+            "Yoyo@home",
             "http://www.rechenkraft.net/yoyo/",
-            tra("private"),
+            tra("Private"),
             tra("Mathematics, physics, evolution"),
             tra("Yoyo@home is an adapter between BOINC and several existing volunteer computing projects: ECM, Muon, Evolution@home, and distributed.net")
         ),
         array(
-            tra("EDGeS@Home"),
+            "EDGeS@Home",
             "http://home.edges-grid.eu/home/",
             tra("MTA-SZTAKI Laboratory of Parallel and Distributed Systems (Hungary)"),
             tra("European research projects"),
@@ -264,7 +264,7 @@ $mixed = array(
             "logo_edges.png"
         ),
         array(
-            tra("Ibercivis"),
+            "Ibercivis",
             "http://registro.ibercivis.es/",
             tra("Spanish universities and research centers"),
             tra("Various Spanish research projects"),
@@ -272,7 +272,7 @@ $mixed = array(
             "cabecera2.jpg"
         ),
         array(
-            tra("World Community Grid"),
+            "World Community Grid",
             "http://www.worldcommunitygrid.org/",
             tra("IBM Corporate Community Relations"),
             tra("Humanitarian research on disease, natural disasters and hunger."),
@@ -285,21 +285,29 @@ $math = array(
     tra("Mathematics, computing, and games"),
     array(
         array(
-            tra("Enigma@Home"),
+            "DistrRTgen",
+            "http://boinc.freerainbowtables.com/distrrtgen/",
+            "Private",
+            tra("Cryptography"),
+            "To give the world's security experts the best tools available for detecting weak hashes. This can help them to force developers to use more secure methods of password protection.",
+            "freerainbowtables_logo.png",
+        ),
+        array(
+            "Enigma@Home",
             "http://www.enigmaathome.net/",
-            tra("private"),
+            tra("Private"),
             tra("Cryptography"),
             tra("Attempt to decode 3 original Enigma messages. The signals were intercepted in the North Atlantic in 1942 and are believed to be unbroken.")
         ),
         array(
-            tra("Collatz Conjecture"),
+            "Collatz Conjecture",
             "http://boinc.thesonntags.com/collatz/",
-            tra("private"),
+            tra("Private"),
             tra("Mathematics"),
             tra("Study the Collatz Conjecture, an unsolved conjecture in mathematics"),
         ),
         array(
-            tra("NFS@home"),
+            "NFS@home",
             "http://escatter11.fullerton.edu/nfs/",
             tra("California State University Fullerton"),
             tra("Factorization of large integers"),
@@ -307,7 +315,7 @@ $math = array(
             "NFS_Logo.jpg"
         ),
         array(
-            tra("VTU@home"),
+            "VTU@home",
             "http://boinc.vgtu.lt/vtuathome/",
             tra("Vilnius Gediminas Technical University and Kaunas University of Technology (Lithuania)"),
             tra("Software testing"),
@@ -315,7 +323,7 @@ $math = array(
             "vtuathome-white.gif",
         ),
         array(
-            tra("AQUA@home"),
+            "AQUA@home",
             "http://aqua.dwavesys.com/",
             tra("D-Wave Systems, Inc."),
             tra("Quantum computing"),
@@ -323,7 +331,7 @@ $math = array(
             "logo_dwave2.png"
         ),
 //        array(
-//            tra("SHA-1 Collision Search Graz"),
+//            "SHA-1 Collision Search Graz",
 //            "http://boinc.iaik.tugraz.at/sha1_coll_search/",
 //            tra("Graz University of Technology (Austria)"),
 //            tra("Cryptography"),
@@ -331,7 +339,7 @@ $math = array(
 //            "LogoKryptoGroup_klein.jpg"
 //        ),
         array(
-            tra("ABC@home"),
+            "ABC@home",
             "http://abcathome.com/",
             tra("Mathematical Institute of Leiden University / Kennislink"),
             tra("Mathematics"),
@@ -339,7 +347,7 @@ $math = array(
             ""
         ),
         array(
-            tra("PrimeGrid"),
+            "PrimeGrid",
             "http://www.primegrid.com/",
             tra("Private"),
             tra("Cryptography"),
@@ -347,7 +355,7 @@ $math = array(
             "primegrid_logo.png"
         ),
         array(
-            tra("primaboinca"),
+            "primaboinca",
             "http://www.primaboinca.com/",
             tra("Hochschule RheinMain University of Applied Sciences"),
             tra("Mathematics"),
@@ -355,7 +363,7 @@ $math = array(
             "logo_primaboinca.gif"
         ),
         array(
-            tra("SZTAKI Desktop Grid"),
+            "SZTAKI Desktop Grid",
             "http://szdg.lpds.sztaki.hu/szdg/",
             tra("MTA-SZTAKI Laboratory of Parallel and Distributed Systems (Hungary)"),
             tra("Mathematics"),
@@ -363,7 +371,7 @@ $math = array(
             "szdg1_small.jpg"
         ),
 //        array(
-//            tra("Riesel Sieve"),
+//            "Riesel Sieve",
 //            "http://boinc.rieselsieve.com/",
 //            tra("Riesel Sieve community"),
 //            tra("Mathematics"),
@@ -371,7 +379,7 @@ $math = array(
 //            ""
 //        ),
 //        array(
-//            tra("Rectilinear Crossing Number"),
+//            "Rectilinear Crossing Number",
 //            "http://dist.ist.tugraz.at/cape5/",
 //            tra("Graz University of Technology (Austria)"),
 //            tra("Mathematics"),
@@ -379,7 +387,7 @@ $math = array(
 //            ""
 //        ),
         array(
-            tra("Chess960@home"),
+            "Chess960@home",
             "http://www.chess960athome.org/alpha/",
             tra("Chess-960.org"),
             tra("Game-playing"),
@@ -387,7 +395,7 @@ $math = array(
             "chess960athome.jpg"
         ),
 //        array(
-//            tra("NQueens@home"),
+//            "NQueens@home",
 //            "http://nqueens.ing.udec.cl/",
 //            tra("Universidad de Concepción, Chile"),
 //            tra("Mathematics"),
