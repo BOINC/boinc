@@ -626,7 +626,7 @@ double project_priority(PROJECT* p) {
 
 // called from the scheduler's job-selection loop;
 // we plan to run this job;
-// bump the project's temp REC by the amount credit for 1 scheduling period.
+// bump the project's temp REC by the estimated credit for 1 scheduling period.
 // This encourages a mixture jobs from different projects.
 //
 void adjust_rec_sched(RESULT* rp) {

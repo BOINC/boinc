@@ -4847,3 +4847,11 @@ David  10 Aug 2011
         various
     client/
         various
+
+David  10 Aug 2011
+	- fix compile warnings; msg tweak
+
+	client/
+		cpu_sched.cpp
+	lib/
+		parse.cpp

@@ -673,7 +673,7 @@ bool XML_PARSER::parse_str(const char* start_tag, char* buf, int len) {
 
     // handle the archaic form <tag/>, which means empty string
     //
-    int n = strlen(parsed_tag);
+    size_t n = strlen(parsed_tag);
     if (parsed_tag[n-1] == '/') {
         strcpy(tag, parsed_tag);
         tag[n-1] = 0;
@@ -911,7 +911,7 @@ void XML_PARSER::skip_unexpected(
 int XML_PARSER::element(const char* start_tag, char* buf, int buflen) {
     char end_tag[256];
 
-    int n = strlen(start_tag);
+    size_t n = strlen(start_tag);
     if (start_tag[n-1] == '/') {
         sprintf(buf, "<%s>", start_tag);
         return 0;
