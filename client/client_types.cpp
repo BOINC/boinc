@@ -226,6 +226,8 @@ int PROJECT::parse_state(XML_PARSER& xp) {
                 sizeof(code_sign_key)
             );
             if (retval) return retval;
+            strip_whitespace(code_sign_key);
+            strcat(code_sign_key, "\n");
             continue;
         }
         if (xp.parse_int("nrpc_failures", nrpc_failures)) continue;

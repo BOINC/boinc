@@ -4901,3 +4901,9 @@ David  11 Aug 2011
     sched/
         sched_main.cpp
         sched_types.cpp
+
+David  11 Aug 2011
+	- client: XML tweak
+
+	client/
+		client_types.cpp
