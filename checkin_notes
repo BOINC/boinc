@@ -10117,3 +10117,11 @@ Charlie 11 Aug 2011
     mac_build/
         boinc.xcodeproj/
             project.pbxproj
+
+Charlie 11 Aug 2011
+    - Tag for 6.12.35 release, all platforms
+      boinc_core_release_6_12_35
+
+    /
+        configure.ac
+        version.h
