@@ -594,7 +594,7 @@ int ACTIVE_TASK::write_gui(MIOFILE& fout) {
 #endif
 
 int ACTIVE_TASK::parse(XML_PARSER& xp) {
-    char buf[256], result_name[256], project_master_url[256];
+    char result_name[256], project_master_url[256];
     int n, dummy;
     unsigned int i;
     PROJECT* project=0;
@@ -603,9 +603,8 @@ int ACTIVE_TASK::parse(XML_PARSER& xp) {
     strcpy(result_name, "");
     strcpy(project_master_url, "");
 
-    MIOFILE& in = *(xp.f);
-    while (in.fgets(buf, 256)) {
-        if (match_tag(buf, "</active_task>")) {
+    while (!xp.get_tag()) {
+        if (xp.match_tag("/active_task")) {
             project = gstate.lookup_project(project_master_url);
             if (!project) {
                 msg_printf(
@@ -680,27 +679,28 @@ int ACTIVE_TASK::parse(XML_PARSER& xp) {
             }
             return 0;
         }
-        else if (parse_str(buf, "<result_name>", result_name, sizeof(result_name))) continue;
-        else if (parse_str(buf, "<project_master_url>", project_master_url, sizeof(project_master_url))) continue;
-        else if (parse_int(buf, "<slot>", slot)) continue;
-        else if (parse_int(buf, "<active_task_state>", dummy)) continue;
-        else if (parse_double(buf, "<checkpoint_cpu_time>", checkpoint_cpu_time)) continue;
-        else if (parse_double(buf, "<checkpoint_elapsed_time>", checkpoint_elapsed_time)) continue;
-        else if (parse_double(buf, "<checkpoint_fraction_done>", checkpoint_fraction_done)) continue;
-        else if (parse_double(buf, "<checkpoint_fraction_done_elapsed_time>", checkpoint_fraction_done_elapsed_time)) continue;
-        else if (parse_bool(buf, "once_ran_edf", once_ran_edf)) continue;
-        else if (parse_double(buf, "<fraction_done>", fraction_done)) continue;
+        else if (xp.parse_str("result_name", result_name, sizeof(result_name))) continue;
+        else if (xp.parse_str("project_master_url", project_master_url, sizeof(project_master_url))) continue;
+        else if (xp.parse_int("slot", slot)) continue;
+        else if (xp.parse_int("active_task_state", dummy)) continue;
+        else if (xp.parse_double("checkpoint_cpu_time", checkpoint_cpu_time)) continue;
+        else if (xp.parse_double("checkpoint_elapsed_time", checkpoint_elapsed_time)) continue;
+        else if (xp.parse_double("checkpoint_fraction_done", checkpoint_fraction_done)) continue;
+        else if (xp.parse_double("checkpoint_fraction_done_elapsed_time", checkpoint_fraction_done_elapsed_time)) continue;
+        else if (xp.parse_bool("once_ran_edf", once_ran_edf)) continue;
+        else if (xp.parse_double("fraction_done", fraction_done)) continue;
             // deprecated - for backwards compat
-        else if (parse_int(buf, "<app_version_num>", n)) continue;
-        else if (parse_double(buf, "<swap_size>", procinfo.swap_size)) continue;
-        else if (parse_double(buf, "<working_set_size>", procinfo.working_set_size)) continue;
-        else if (parse_double(buf, "<working_set_size_smoothed>", procinfo.working_set_size_smoothed)) continue;
-        else if (parse_double(buf, "<page_fault_rate>", procinfo.page_fault_rate)) continue;
-        else if (parse_double(buf, "<current_cpu_time>", x)) continue;
+        else if (xp.parse_int("app_version_num", n)) continue;
+        else if (xp.parse_double("swap_size", procinfo.swap_size)) continue;
+        else if (xp.parse_double("working_set_size", procinfo.working_set_size)) continue;
+        else if (xp.parse_double("working_set_size_smoothed", procinfo.working_set_size_smoothed)) continue;
+        else if (xp.parse_double("page_fault_rate", procinfo.page_fault_rate)) continue;
+        else if (xp.parse_double("current_cpu_time", x)) continue;
         else {
             if (log_flags.unparsed_xml) {
                 msg_printf(project, MSG_INFO,
-                    "[unparsed_xml] ACTIVE_TASK::parse(): unrecognized %s\n", buf
+                    "[unparsed_xml] ACTIVE_TASK::parse(): unrecognized %s\n",
+                    xp.parsed_tag
                 );
             }
         }

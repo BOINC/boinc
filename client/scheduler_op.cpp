@@ -573,7 +573,7 @@ static void handle_no_rsc_apps(const char* name, PROJECT* p, bool value) {
 // Others are copied straight to the PROJECT
 //
 int SCHEDULER_REPLY::parse(FILE* in, PROJECT* project) {
-    char buf[256], msg_buf[1024], pri_buf[256];
+    char buf[256], msg_buf[1024], pri_buf[256], attr_buf[256];
     int retval;
     MIOFILE mf;
     XML_PARSER xp(&mf);
@@ -593,14 +593,14 @@ int SCHEDULER_REPLY::parse(FILE* in, PROJECT* project) {
     // First line should either be tag (HTTP 1.0) or
     // hex length of response (HTTP 1.1)
     //
-    while (fgets(buf, 256, in)) {
+    while (!xp.get_tag(attr_buf, sizeof(attr_buf))) {
         if (!found_start_tag) {
-            if (match_tag(buf, "<scheduler_reply")) {
+            if (xp.match_tag("scheduler_reply")) {
                 found_start_tag = true;
             }
             continue;
         }
-        if (match_tag(buf, "</scheduler_reply>")) {
+        if (xp.match_tag("/scheduler_reply")) {
 
             // update statistics after parsing the scheduler reply
             // add new record if vector is empty or we have a new day
@@ -647,29 +647,29 @@ int SCHEDULER_REPLY::parse(FILE* in, PROJECT* project) {
             }
             return 0;
         }
-        else if (parse_str(buf, "<project_name>", project->project_name, sizeof(project->project_name))) {
+        else if (xp.parse_str("project_name", project->project_name, sizeof(project->project_name))) {
             continue;
         }
-        else if (parse_str(buf, "<master_url>", master_url, sizeof(master_url))) {
+        else if (xp.parse_str("master_url", master_url, sizeof(master_url))) {
             continue;
         }
-        else if (parse_str(buf, "<symstore>", project->symstore, sizeof(project->symstore))) continue;
-        else if (parse_str(buf, "<user_name>", project->user_name, sizeof(project->user_name))) continue;
-        else if (parse_double(buf, "<user_total_credit>", project->user_total_credit)) continue;
-        else if (parse_double(buf, "<user_expavg_credit>", project->user_expavg_credit)) continue;
-        else if (parse_double(buf, "<user_create_time>", project->user_create_time)) continue;
-        else if (parse_double(buf, "<cpid_time>", cpid_time)) continue;
-        else if (parse_str(buf, "<team_name>", project->team_name, sizeof(project->team_name))) continue;
-        else if (parse_int(buf, "<hostid>", hostid)) continue;
-        else if (parse_double(buf, "<host_total_credit>", project->host_total_credit)) continue;
-        else if (parse_double(buf, "<host_expavg_credit>", project->host_expavg_credit)) continue;
-        else if (parse_str(buf, "<host_venue>", host_venue, sizeof(host_venue))) continue;
-        else if (parse_double(buf, "<host_create_time>", project->host_create_time)) continue;
-        else if (parse_double(buf, "<request_delay>", request_delay)) continue;
-        else if (parse_double(buf, "<next_rpc_delay>", next_rpc_delay)) continue;
-        else if (match_tag(buf, "<global_preferences>")) {
+        else if (xp.parse_str("symstore", project->symstore, sizeof(project->symstore))) continue;
+        else if (xp.parse_str("user_name", project->user_name, sizeof(project->user_name))) continue;
+        else if (xp.parse_double("user_total_credit", project->user_total_credit)) continue;
+        else if (xp.parse_double("user_expavg_credit", project->user_expavg_credit)) continue;
+        else if (xp.parse_double("user_create_time", project->user_create_time)) continue;
+        else if (xp.parse_double("cpid_time", cpid_time)) continue;
+        else if (xp.parse_str("team_name", project->team_name, sizeof(project->team_name))) continue;
+        else if (xp.parse_int("hostid", hostid)) continue;
+        else if (xp.parse_double("host_total_credit", project->host_total_credit)) continue;
+        else if (xp.parse_double("host_expavg_credit", project->host_expavg_credit)) continue;
+        else if (xp.parse_str("host_venue", host_venue, sizeof(host_venue))) continue;
+        else if (xp.parse_double("host_create_time", project->host_create_time)) continue;
+        else if (xp.parse_double("request_delay", request_delay)) continue;
+        else if (xp.parse_double("next_rpc_delay", next_rpc_delay)) continue;
+        else if (xp.match_tag("global_preferences")) {
             retval = dup_element_contents(
-                in,
+                xp.f->f,
                 "</global_preferences>",
                 &global_prefs_xml
             );
@@ -680,9 +680,9 @@ int SCHEDULER_REPLY::parse(FILE* in, PROJECT* project) {
                 );
                 return retval;
             }
-        } else if (match_tag(buf, "<project_preferences>")) {
+        } else if (xp.match_tag("project_preferences")) {
             retval = dup_element_contents(
-                in,
+                xp.f->f,
                 "</project_preferences>",
                 &project_prefs_xml
             );
@@ -693,9 +693,9 @@ int SCHEDULER_REPLY::parse(FILE* in, PROJECT* project) {
                 );
                 return retval;
             }
-        } else if (match_tag(buf, "<gui_urls>")) {
+        } else if (xp.match_tag("gui_urls")) {
             std::string foo;
-            retval = copy_element_contents(in, "</gui_urls>", foo);
+            retval = copy_element_contents(xp.f->f, "</gui_urls>", foo);
             if (retval) {
                 msg_printf(project, MSG_INTERNAL_ERROR,
                     "Can't parse GUI URLs in scheduler reply: %s",
@@ -705,9 +705,9 @@ int SCHEDULER_REPLY::parse(FILE* in, PROJECT* project) {
             }
             project->gui_urls = "<gui_urls>\n"+foo+"</gui_urls>\n";
             continue;
-        } else if (match_tag(buf, "<code_sign_key>")) {
+        } else if (xp.match_tag("code_sign_key")) {
             retval = dup_element_contents(
-                in,
+                xp.f->f,
                 "</code_sign_key>",
                 &code_sign_key
             );
@@ -718,9 +718,9 @@ int SCHEDULER_REPLY::parse(FILE* in, PROJECT* project) {
                 );
                 return ERR_XML_PARSE;
             }
-        } else if (match_tag(buf, "<code_sign_key_signature>")) {
+        } else if (xp.match_tag("code_sign_key_signature")) {
             retval = dup_element_contents(
-                in,
+                xp.f->f,
                 "</code_sign_key_signature>",
                 &code_sign_key_signature
             );
@@ -731,7 +731,7 @@ int SCHEDULER_REPLY::parse(FILE* in, PROJECT* project) {
                 );
                 return ERR_XML_PARSE;
             }
-        } else if (match_tag(buf, "<app>")) {
+        } else if (xp.match_tag("app")) {
             APP app;
             retval = app.parse(xp);
             if (retval) {
@@ -742,7 +742,7 @@ int SCHEDULER_REPLY::parse(FILE* in, PROJECT* project) {
             } else {
                 apps.push_back(app);
             }
-        } else if (match_tag(buf, "<file_info>")) {
+        } else if (xp.match_tag("file_info")) {
             FILE_INFO file_info;
             retval = file_info.parse(xp);
             if (retval) {
@@ -753,7 +753,7 @@ int SCHEDULER_REPLY::parse(FILE* in, PROJECT* project) {
             } else {
                 file_infos.push_back(file_info);
             }
-        } else if (match_tag(buf, "<app_version>")) {
+        } else if (xp.match_tag("app_version")) {
             APP_VERSION av;
             retval = av.parse(xp);
             if (retval) {
@@ -764,7 +764,7 @@ int SCHEDULER_REPLY::parse(FILE* in, PROJECT* project) {
             } else {
                 app_versions.push_back(av);
             }
-        } else if (match_tag(buf, "<workunit>")) {
+        } else if (xp.match_tag("workunit")) {
             WORKUNIT wu;
             retval = wu.parse(xp);
             if (retval) {
@@ -775,7 +775,7 @@ int SCHEDULER_REPLY::parse(FILE* in, PROJECT* project) {
             } else {
                 workunits.push_back(wu);
             }
-        } else if (match_tag(buf, "<result>")) {
+        } else if (xp.match_tag("result")) {
             RESULT result;      // make sure this is here so constructor
                                 // gets called each time
             retval = result.parse_server(xp);
@@ -787,9 +787,9 @@ int SCHEDULER_REPLY::parse(FILE* in, PROJECT* project) {
             } else {
                 results.push_back(result);
             }
-        } else if (match_tag(buf, "<result_ack>")) {
+        } else if (xp.match_tag("result_ack")) {
             RESULT result;
-            retval = result.parse_name(xp, "</result_ack>");
+            retval = result.parse_name(xp, "/result_ack");
             if (retval) {
                 msg_printf(project, MSG_INTERNAL_ERROR,
                     "Can't parse ack in scheduler reply: %s",
@@ -798,9 +798,9 @@ int SCHEDULER_REPLY::parse(FILE* in, PROJECT* project) {
             } else {
                 result_acks.push_back(result);
             }
-        } else if (match_tag(buf, "<result_abort>")) {
+        } else if (xp.match_tag("result_abort")) {
             RESULT result;
-            retval = result.parse_name(xp, "</result_abort>");
+            retval = result.parse_name(xp, "/result_abort");
             if (retval) {
                 msg_printf(project, MSG_INTERNAL_ERROR,
                     "Can't parse result abort in scheduler reply: %s",
@@ -809,9 +809,9 @@ int SCHEDULER_REPLY::parse(FILE* in, PROJECT* project) {
             } else {
                 result_abort.push_back(result);
             }
-        } else if (match_tag(buf, "<result_abort_if_not_started>")) {
+        } else if (xp.match_tag("result_abort_if_not_started")) {
             RESULT result;
-            retval = result.parse_name(xp, "</result_abort_if_not_started>");
+            retval = result.parse_name(xp, "/result_abort_if_not_started");
             if (retval) {
                 msg_printf(project, MSG_INTERNAL_ERROR,
                     "Can't parse result abort-if-not-started in scheduler reply: %s",
@@ -820,22 +820,22 @@ int SCHEDULER_REPLY::parse(FILE* in, PROJECT* project) {
             } else {
                 result_abort_if_not_started.push_back(result);
             }
-        } else if (parse_str(buf, "<delete_file_info>", delete_file_name)) {
+        } else if (xp.parse_string("delete_file_info", delete_file_name)) {
             file_deletes.push_back(delete_file_name);
-        } else if (parse_str(buf, "<message", msg_buf, sizeof(msg_buf))) {
-            parse_attr(buf, "priority", pri_buf, sizeof(pri_buf));
+        } else if (xp.parse_str("message", msg_buf, sizeof(msg_buf))) {
+            parse_attr(attr_buf, "priority", pri_buf, sizeof(pri_buf));
             USER_MESSAGE um(msg_buf, pri_buf);
             messages.push_back(um);
             continue;
-        } else if (parse_bool(buf, "message_ack", message_ack)) {
+        } else if (xp.parse_bool("message_ack", message_ack)) {
             continue;
-        } else if (parse_bool(buf, "project_is_down", project_is_down)) {
+        } else if (xp.parse_bool("project_is_down", project_is_down)) {
             continue;
-        } else if (parse_str(buf, "<email_hash>", project->email_hash, sizeof(project->email_hash))) {
+        } else if (xp.parse_str("email_hash", project->email_hash, sizeof(project->email_hash))) {
             continue;
-        } else if (parse_str(buf, "<cross_project_id>", project->cross_project_id, sizeof(project->cross_project_id))) {
+        } else if (xp.parse_str("cross_project_id", project->cross_project_id, sizeof(project->cross_project_id))) {
             continue;
-        } else if (match_tag(buf, "<trickle_down>")) {
+        } else if (xp.match_tag("trickle_down")) {
             retval = gstate.handle_trickle_down(project, in);
             if (retval) {
                 msg_printf(project, MSG_INTERNAL_ERROR,
@@ -843,61 +843,60 @@ int SCHEDULER_REPLY::parse(FILE* in, PROJECT* project) {
                 );
             }
             continue;
-        } else if (parse_bool(buf, "non_cpu_intensive", project->non_cpu_intensive)) {
+        } else if (xp.parse_bool("non_cpu_intensive", project->non_cpu_intensive)) {
             continue;
-        } else if (parse_bool(buf, "ended", project->ended)) {
+        } else if (xp.parse_bool("ended", project->ended)) {
             continue;
-        } else if (parse_bool(buf, "no_cpu_apps", btemp)) {
+        } else if (xp.parse_bool("no_cpu_apps", btemp)) {
             if (!project->anonymous_platform) {
                 handle_no_rsc_apps("CPU", project, btemp);
             }
             continue;
-        } else if (parse_bool(buf, "no_cuda_apps", btemp)) {
+        } else if (xp.parse_bool("no_cuda_apps", btemp)) {
             if (!project->anonymous_platform) {
                 handle_no_rsc_apps("NVIDIA", project, btemp);
             }
             continue;
-        } else if (parse_bool(buf, "no_ati_apps", btemp)) {
+        } else if (xp.parse_bool("no_ati_apps", btemp)) {
             if (!project->anonymous_platform) {
                 handle_no_rsc_apps("ATI", project, btemp);
             }
             continue;
-        } else if (parse_str(buf, "no_rsc_apps", buf, sizeof(buf))) {
+        } else if (xp.parse_str("no_rsc_apps", buf, sizeof(buf))) {
             if (!project->anonymous_platform) {
                 handle_no_rsc_apps(buf, project, btemp);
             }
             continue;
-        } else if (parse_bool(buf, "verify_files_on_app_start", project->verify_files_on_app_start)) {
+        } else if (xp.parse_bool("verify_files_on_app_start", project->verify_files_on_app_start)) {
             continue;
-        } else if (parse_bool(buf, "send_full_workload", send_full_workload)) {
+        } else if (xp.parse_bool("send_full_workload", send_full_workload)) {
             continue;
-        } else if (parse_int(buf, "<send_time_stats_log>", send_time_stats_log)){
+        } else if (xp.parse_int("send_time_stats_log", send_time_stats_log)){
             continue;
-        } else if (parse_int(buf, "<send_job_log>", send_job_log)) {
+        } else if (xp.parse_int("send_job_log", send_job_log)) {
             continue;
-        } else if (parse_int(buf, "<scheduler_version>", scheduler_version)) {
+        } else if (xp.parse_int("scheduler_version", scheduler_version)) {
             continue;
-        } else if (match_tag(buf, "<project_files>")) {
+        } else if (xp.match_tag("project_files")) {
             retval = project->parse_project_files(xp, true);
 #ifdef ENABLE_AUTO_UPDATE
-        } else if (match_tag(buf, "<auto_update>")) {
+        } else if (xp.match_tag("auto_update")) {
             retval = auto_update.parse(xp);
             if (!retval) auto_update.present = true;
 #endif
-        } else if (match_tag(buf, "<rss_feeds>")) {
+        } else if (xp.match_tag("rss_feeds")) {
             got_rss_feeds = true;
             parse_rss_feed_descs(mf, sr_feeds);
             continue;
-        } else if (parse_int(buf, "<userid>", project->userid)) {
+        } else if (xp.parse_int("userid", project->userid)) {
             continue;
-        } else if (parse_int(buf, "<teamid>", project->teamid)) {
+        } else if (xp.parse_int("teamid", project->teamid)) {
             continue;
-        } else if (match_tag(buf, "<!--")) {
-            continue;
-        } else if (strlen(buf)>1){
+        } else {
             if (log_flags.unparsed_xml) {
                 msg_printf(project, MSG_INFO,
-                    "[unparsed_xml] SCHEDULER_REPLY::parse(): unrecognized %s\n", buf
+                    "[unparsed_xml] SCHEDULER_REPLY::parse(): unrecognized %s\n",
+                    xp.parsed_tag
                 );
             }
         }

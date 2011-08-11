@@ -60,16 +60,21 @@ static bool is_version_newer(const char* p) {
 // copy it to new_version and return true.
 //
 static bool parse_version(FILE* f, char* new_version) {
-    char buf[256], buf2[256];
+    char buf2[256];
     bool same_platform = false, newer_version_exists = false;
-    while (fgets(buf, 256, f)) {
-        if (match_tag(buf, "</version>")) {
+
+    MIOFILE mf;
+    XML_PARSER xp(&mf);
+    mf.init_file(f);
+
+    while (!xp.get_tag()) {
+        if (xp.match_tag("/version")) {
             return (same_platform && newer_version_exists);
         }
-        if (parse_str(buf, "<dbplatform>", buf2, sizeof(buf2))) {
+        if (xp.parse_str("dbplatform", buf2, sizeof(buf2))) {
             same_platform = (strcmp(buf2, gstate.get_primary_platform())==0);
         }
-        if (parse_str(buf, "<version_num>", buf2, sizeof(buf2))) {
+        if (xp.parse_str("version_num", buf2, sizeof(buf2))) {
             newer_version_exists = is_version_newer(buf2);
             strcpy(new_version, buf2);
         }

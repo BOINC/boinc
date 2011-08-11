@@ -136,11 +136,6 @@ int CERT_SIGS::parse(XML_PARSER &xp) {
     return false;
 }
 
-int CERT_SIGS::parse_miofile_embed(MIOFILE &mf) {
-    XML_PARSER xp(&mf);
-    return this->parse(xp);    
-}
-
 int CERT_SIGS::parse_file(const char* filename) {
     int retval;
 
@@ -149,8 +144,7 @@ int CERT_SIGS::parse_file(const char* filename) {
 #else
     FCGI_FILE *f = FCGI::fopen(filename, "r");
 #endif
-    if (!f) 
-        return ERR_FOPEN;
+    if (!f) return ERR_FOPEN;
     MIOFILE mf;
     mf.init_file(f);
     XML_PARSER xp(&mf);

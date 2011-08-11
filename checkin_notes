@@ -4855,3 +4855,19 @@ David  10 Aug 2011
 		cpu_sched.cpp
 	lib/
 		parse.cpp
+
+David  10 Aug 2011
+    - client: use new XML parser pretty much everywhere
+
+    lib/
+        cert_sig.cpp,h
+        parse.h
+    client/
+        pers_file_xfer.cpp
+        cs_account.cpp
+        client_types.cpp
+        cs_statefile.cpp
+        scheduler_op.cpp
+        time_stats.cpp
+        app.cpp
+        current_version.cpp

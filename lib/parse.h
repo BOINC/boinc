@@ -53,7 +53,7 @@ public:
 	int element_contents(const char*, char*, int);
     int element(const char*, char*, int);
     void skip_unexpected(const char*, bool verbose, const char*);
-    void skip_unexpected(bool verbose, const char* msg) {
+    void skip_unexpected(bool verbose=false, const char* msg="") {
         skip_unexpected(parsed_tag, verbose, msg);
     }
 };

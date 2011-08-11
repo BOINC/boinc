@@ -95,63 +95,66 @@ void handle_no_rsc_pref(PROJECT* p, const char* name) {
 // (since we don't know the host venue yet)
 //
 int PROJECT::parse_account(FILE* in) {
-    char buf[256], buf2[256];
+    char buf2[256];
     int retval;
     bool in_project_prefs = false, btemp;
     for (int i=0; i<coprocs.n_rsc; i++) {
         no_rsc_pref[i] = false;
     }
+    MIOFILE mf;
+    XML_PARSER xp(&mf);
+    mf.init_file(in);
 
     strcpy(master_url, "");
     strcpy(authenticator, "");
-    while (fgets(buf, 256, in)) {
-        if (match_tag(buf, "<account>")) continue;
-        if (match_tag(buf, "<project_preferences>")) {
+    while (!xp.get_tag()) {
+        if (xp.match_tag("account")) continue;
+        if (xp.match_tag("project_preferences")) {
             in_project_prefs = true;
             continue;
         }
-        if (match_tag(buf, "</project_preferences>")) {
+        if (xp.match_tag("/project_preferences")) {
             in_project_prefs = false;
             continue;
         }
-        if (match_tag(buf, "</account>")) {
+        if (xp.match_tag("/account")) {
             return 0;
-        } else if (match_tag(buf, "<venue")) {
+        } else if (xp.match_tag("venue")) {
             std::string devnull;
-            retval = copy_element_contents(in, "</venue>", devnull);
+            retval = copy_element_contents(xp.f->f, "</venue>", devnull);
             if (retval) return retval;
             continue;
-        } else if (parse_str(buf, "<master_url>", master_url, sizeof(master_url))) {
+        } else if (xp.parse_str("master_url", master_url, sizeof(master_url))) {
             canonicalize_master_url(master_url);
             continue;
-        } else if (parse_str(buf, "<authenticator>", authenticator, sizeof(authenticator))) continue;
-        else if (parse_double(buf, "<resource_share>", resource_share)) continue;
-        else if (parse_bool(buf, "no_cpu", btemp)) {
+        } else if (xp.parse_str("authenticator", authenticator, sizeof(authenticator))) continue;
+        else if (xp.parse_double("resource_share", resource_share)) continue;
+        else if (xp.parse_bool("no_cpu", btemp)) {
             if (btemp) handle_no_rsc_pref(this, "CPU");
             continue;
         }
-        else if (parse_bool(buf, "no_cuda", btemp)) {
+        else if (xp.parse_bool("no_cuda", btemp)) {
             if (btemp) handle_no_rsc_pref(this, "NVIDIA");
             continue;
         }
-        else if (parse_bool(buf, "no_ati", btemp)) {
+        else if (xp.parse_bool("no_ati", btemp)) {
             if (btemp) handle_no_rsc_pref(this, "ATI");
             continue;
         }
-        else if (parse_str(buf, "no_rsc", buf2, sizeof(buf2))) {
+        else if (xp.parse_str("no_rsc", buf2, sizeof(buf2))) {
             handle_no_rsc_pref(this, buf2);
             continue;
         }
-        else if (parse_str(buf, "<project_name>", project_name, sizeof(project_name))) continue;
-        else if (match_tag(buf, "<gui_urls>")) {
+        else if (xp.parse_str("project_name", project_name, sizeof(project_name))) continue;
+        else if (xp.match_tag("gui_urls")) {
             string foo;
-            retval = copy_element_contents(in, "</gui_urls>", foo);
+            retval = copy_element_contents(xp.f->f, "</gui_urls>", foo);
             if (retval) return retval;
             gui_urls = "<gui_urls>\n"+foo+"</gui_urls>\n";
             continue;
-        } else if (match_tag(buf, "<project_specific>")) {
+        } else if (xp.match_tag("project_specific")) {
             retval = copy_element_contents(
-                in,
+                xp.f->f,
                 "</project_specific>",
                 project_specific_prefs
             );
@@ -162,7 +165,8 @@ int PROJECT::parse_account(FILE* in) {
             //
             if (!in_project_prefs && log_flags.unparsed_xml) {
                 msg_printf(0, MSG_INFO,
-                    "[unparsed_xml] PROJECT::parse_account(): unrecognized: %s\n", buf
+                    "[unparsed_xml] PROJECT::parse_account(): unrecognized: %s\n",
+                    xp.parsed_tag
                 );
             }
         }
@@ -177,7 +181,7 @@ int PROJECT::parse_account(FILE* in) {
 // (so that we know the host venue)
 //
 int PROJECT::parse_account_file_venue() {
-    char buf[256], venue[256], path[256], buf2[256];
+    char attr_buf[256], venue[256], path[256], buf2[256];
     int retval;
     bool in_right_venue = false, btemp;
 
@@ -185,12 +189,15 @@ int PROJECT::parse_account_file_venue() {
     FILE* in = boinc_fopen(path, "r");
     if (!in) return ERR_FOPEN;
 
-    while (fgets(buf, 256, in)) {
-        if (match_tag(buf, "</account>")) {
+    MIOFILE mf;
+    XML_PARSER xp(&mf);
+    mf.init_file(in);
+    while (!xp.get_tag(attr_buf, sizeof(attr_buf))) {
+        if (xp.match_tag("/account")) {
             fclose(in);
             return 0;
-        } else if (match_tag(buf, "<venue")) {
-            parse_attr(buf, "name", venue, sizeof(venue));
+        } else if (xp.match_tag("venue")) {
+            parse_attr(attr_buf, "name", venue, sizeof(venue));
             if (!strcmp(venue, host_venue)) {
                 using_venue_specific_prefs = true;
                 in_right_venue = true;
@@ -208,40 +215,41 @@ int PROJECT::parse_account_file_venue() {
             continue;
         }
         if (!in_right_venue) continue;
-        if (match_tag(buf, "</venue>")) {
+        if (xp.match_tag("/venue")) {
             in_right_venue = false;
             continue;
-        } else if (match_tag(buf, "<project_specific>")) {
+        } else if (xp.match_tag("project_specific")) {
             retval = copy_element_contents(
-                in,
+                xp.f->f,
                 "</project_specific>",
                 project_specific_prefs
             );
             if (retval) return retval;
             continue;
-        } else if (parse_double(buf, "<resource_share>", resource_share)) {
+        } else if (xp.parse_double("resource_share", resource_share)) {
             continue;
         }
-        else if (parse_bool(buf, "no_cpu", btemp)) {
+        else if (xp.parse_bool("no_cpu", btemp)) {
             if (btemp) handle_no_rsc_pref(this, "CPU");
             continue;
         }
-        else if (parse_bool(buf, "no_cuda", btemp)) {
+        else if (xp.parse_bool("no_cuda", btemp)) {
             if (btemp) handle_no_rsc_pref(this, "NVIDIA");
             continue;
         }
-        else if (parse_bool(buf, "no_ati", btemp)) {
+        else if (xp.parse_bool("no_ati", btemp)) {
             if (btemp) handle_no_rsc_pref(this, "ATI");
             continue;
         }
-        else if (parse_str(buf, "no_rsc", buf2, sizeof(buf2))) {
+        else if (xp.parse_str("no_rsc", buf2, sizeof(buf2))) {
             handle_no_rsc_pref(this, buf2);
             continue;
         }
         else {
             if (log_flags.unparsed_xml) {
                 msg_printf(0, MSG_INFO,
-                    "[unparsed_xml] parse_account_file_venue(): unrecognized: %s\n", buf
+                    "[unparsed_xml] parse_account_file_venue(): unrecognized: %s\n",
+                    xp.parsed_tag
                 );
             }
         }
@@ -321,18 +329,21 @@ void DAILY_STATS::clear() {
 }
 
 int DAILY_STATS::parse(FILE* in) {
-    char buf[256];
+    MIOFILE mf;
+    XML_PARSER xp(&mf);
+    mf.init_file(in);
+
     clear();
-    while (fgets(buf, 256, in)) {
-        if (match_tag(buf, "</daily_statistics>")) {
+    while (!xp.get_tag()) {
+        if (xp.match_tag("/daily_statistics")) {
             if (day == 0) return ERR_XML_PARSE;
             return 0;
         }
-        else if (parse_double(buf, "<day>", day)) continue;
-        else if (parse_double(buf, "<user_total_credit>", user_total_credit)) continue;
-        else if (parse_double(buf, "<user_expavg_credit>", user_expavg_credit)) continue;
-        else if (parse_double(buf, "<host_total_credit>", host_total_credit)) continue;
-        else if (parse_double(buf, "<host_expavg_credit>", host_expavg_credit)) continue;
+        else if (xp.parse_double("day", day)) continue;
+        else if (xp.parse_double("user_total_credit", user_total_credit)) continue;
+        else if (xp.parse_double("user_expavg_credit", user_expavg_credit)) continue;
+        else if (xp.parse_double("host_total_credit", host_total_credit)) continue;
+        else if (xp.parse_double("host_expavg_credit", host_expavg_credit)) continue;
     }
     return ERR_XML_PARSE;
 }
@@ -345,15 +356,18 @@ bool operator <  (const DAILY_STATS& x1, const DAILY_STATS& x2) {
 //
 int PROJECT::parse_statistics(FILE* in) {
     int retval;
-    char buf[256];
 
-    while (fgets(buf, 256, in)) {
-        if (match_tag(buf, "</project_statistics>")) {
+    MIOFILE mf;
+    XML_PARSER xp(&mf);
+    mf.init_file(in);
+
+    while (!xp.get_tag()) {
+        if (xp.match_tag("/project_statistics")) {
             sort(statistics.begin(), statistics.end());
             return 0;
         }
-        if (match_tag(buf, "<project_statistics>")) continue;
-        if (match_tag(buf, "<daily_statistics>")) {
+        if (xp.match_tag("project_statistics")) continue;
+        if (xp.match_tag("daily_statistics")) {
             DAILY_STATS daily_stats;
             retval = daily_stats.parse(in);
             if (!retval) {
@@ -361,13 +375,14 @@ int PROJECT::parse_statistics(FILE* in) {
             }
             continue;
         }
-        if (parse_str(buf, "<master_url>", master_url, sizeof(master_url))) {
+        if (xp.parse_str("master_url", master_url, sizeof(master_url))) {
             canonicalize_master_url(master_url);
             continue;
         }
         if (log_flags.unparsed_xml) {
             msg_printf(0, MSG_INFO,
-                "[unparsed_xml] PROJECT::parse_statistics(): unrecognized: %s\n", buf
+                "[unparsed_xml] PROJECT::parse_statistics(): unrecognized: %s\n",
+                xp.parsed_tag
             );
         }
     }

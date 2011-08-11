@@ -36,8 +36,7 @@ struct CERT_SIG {
     void clear();
 };
 
-class CERT_SIGS {
-public:
+struct CERT_SIGS {
     std::vector<CERT_SIG> signatures;
     CERT_SIGS();
     ~CERT_SIGS();
@@ -61,13 +60,9 @@ public:
     int parse_file(const char* filename);
     int parse_buffer(char* buf);
     int write(MIOFILE &f);
-    // Parses from an already opened MIOFILE, the pointer should have
-    // passed the opening <signatures> tag (no check is done for that).
-    int parse_miofile_embed(MIOFILE &mf);
     int parse_buffer_embed(char* buf);
     void clear();
     int count();        // return the total number of signatures.
-private:
     int parse(XML_PARSER &xp);
 };
 
