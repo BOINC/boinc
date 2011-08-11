@@ -58,14 +58,12 @@ void remove_quotes(char* p) {
 }
 
 int CLIENT_APP_VERSION::parse(XML_PARSER& xp) {
-    char buf[256];
     double x;
 
     memset(this, 0, sizeof(*this));
     host_usage.avg_ncpus = 1;
-    MIOFILE& in = *(xp.f);
-    while (in.fgets(buf, sizeof(buf))) {
-        if (match_tag(buf, "</app_version>")) {
+    while (!xp.get_tag()) {
+        if (xp.match_tag("/app_version")) {
             app = ssp->lookup_app_name(app_name);
             if (!app) return ERR_NOT_FOUND;
 
@@ -79,19 +77,19 @@ int CLIENT_APP_VERSION::parse(XML_PARSER& xp) {
             host_usage.peak_flops = pf;
             return 0;
         }
-        if (parse_str(buf, "<app_name>", app_name, 256)) continue;
-        if (parse_str(buf, "<platform>", platform, 256)) continue;
-        if (parse_str(buf, "<plan_class>", plan_class, 256)) continue;
-        if (parse_int(buf, "<version_num>", version_num)) continue;
-        if (parse_double(buf, "<avg_ncpus>", x)) {
+        if (xp.parse_str("app_name", app_name, 256)) continue;
+        if (xp.parse_str("platform", platform, 256)) continue;
+        if (xp.parse_str("plan_class", plan_class, 256)) continue;
+        if (xp.parse_int("version_num", version_num)) continue;
+        if (xp.parse_double("avg_ncpus", x)) {
             if (x>0) host_usage.avg_ncpus = x;
             continue;
         }
-        if (parse_double(buf, "<flops>", x)) {
+        if (xp.parse_double("flops", x)) {
             if (x>0) host_usage.projected_flops = x;
             continue;
         }
-        if (match_tag(buf, "<coproc>")) {
+        if (xp.match_tag("coproc")) {
             COPROC_REQ coproc_req;
             int retval = coproc_req.parse(xp);
             if (!retval && !strcmp(coproc_req.type, "CUDA")) {
@@ -107,35 +105,29 @@ int CLIENT_APP_VERSION::parse(XML_PARSER& xp) {
 }
 
 int FILE_INFO::parse(XML_PARSER& xp) {
-    char buf[256];
-
     memset(this, 0, sizeof(*this));
-    MIOFILE& in = *(xp.f);
-    while (in.fgets(buf, sizeof(buf))) {
-        if (match_tag(buf, "</file_info>")) {
+    while (!xp.get_tag()) {
+        if (xp.match_tag("/file_info")) {
             if (!strlen(name)) return ERR_XML_PARSE;
             return 0;
         }
-        if (parse_str(buf, "<name>", name, 256)) continue;
+        if (xp.parse_str("name", name, 256)) continue;
     }
     return ERR_XML_PARSE;
 }
 
 int OTHER_RESULT::parse(XML_PARSER& xp) {
-    char buf[256];
-
     strcpy(name, "");
     have_plan_class = false;
     app_version = -1;
-    MIOFILE& in = *(xp.f);
-    while (in.fgets(buf, sizeof(buf))) {
-        if (match_tag(buf, "</other_result>")) {
+    while (!xp.get_tag()) {
+        if (xp.match_tag("/other_result")) {
             if (!strcmp(name, "")) return ERR_XML_PARSE;
             return 0;
         }
-        if (parse_str(buf, "<name>", name, sizeof(name))) continue;
-        if (parse_int(buf, "<app_version>", app_version)) continue;
-        if (parse_str(buf, "<plan_class>", plan_class, sizeof(plan_class))) {
+        if (xp.parse_str("name", name, sizeof(name))) continue;
+        if (xp.parse_int("app_version", app_version)) continue;
+        if (xp.parse_str("plan_class", plan_class, sizeof(plan_class))) {
             have_plan_class = true;
             continue;
         }
@@ -144,28 +136,23 @@ int OTHER_RESULT::parse(XML_PARSER& xp) {
 }
 
 int IP_RESULT::parse(XML_PARSER& xp) {
-    char buf[256];
-
     report_deadline = 0;
     cpu_time_remaining = 0;
     strcpy(name, "");
-    MIOFILE& in = *(xp.f);
-    while (in.fgets(buf, sizeof(buf))) {
-        if (match_tag(buf, "</ip_result>")) return 0;
-        if (parse_str(buf, "<name>", name, sizeof(name))) continue;
-        if (parse_double(buf, "<report_deadline>", report_deadline)) continue;
-        if (parse_double(buf, "<cpu_time_remaining>", cpu_time_remaining)) continue;
+    while (!xp.get_tag()) {
+        if (xp.match_tag("/ip_result")) return 0;
+        if (xp.parse_str("name", name, sizeof(name))) continue;
+        if (xp.parse_double("report_deadline", report_deadline)) continue;
+        if (xp.parse_double("cpu_time_remaining", cpu_time_remaining)) continue;
     }
     return ERR_XML_PARSE;
 }
 
 int CLIENT_PLATFORM::parse(XML_PARSER& xp) {
-    char buf[256];
     strcpy(name, "");
-    MIOFILE& in = *(xp.f);
-    while (in.fgets(buf, sizeof(buf))) {
-        if (match_tag(buf, "</alt_platform>")) return 0;
-        if (parse_str(buf, "<name>", name, sizeof(name))) continue;
+    while (!xp.get_tag()) {
+        if (xp.match_tag("/alt_platform")) return 0;
+        if (xp.parse_str("name", name, sizeof(name))) continue;
     }
     return ERR_XML_PARSE;
 }
@@ -183,7 +170,6 @@ void WORK_REQ::add_no_work_message(const char* message) {
 // return an error message or NULL
 //
 const char* SCHEDULER_REQUEST::parse(XML_PARSER& xp) {
-    char buf[256];
     SCHED_DB_RESULT result;
     int retval;
 
@@ -214,41 +200,27 @@ const char* SCHEDULER_REQUEST::parse(XML_PARSER& xp) {
     sandbox = -1;
     allow_multiple_clients = -1;
 
-    // TODO: use XML_PARSER FOR THIS
-
-    MIOFILE& in = *(xp.f);
-    if (!in.fgets(buf, sizeof(buf))) {
-        return "fgets() failed";
+    if (xp.get_tag()) {
+        return "xp.get_tag() failed";
     }
-    if (strstr(buf, "<?xml")) {
-        in.fgets(buf, sizeof(buf));
+    if (xp.match_tag("?xml")) {
+        xp.get_tag();
     }
-    if (!match_tag(buf, "<scheduler_request>")) return "no start tag";
-    while (in.fgets(buf, sizeof(buf))) {
-        // If a line is too long, ignore it.
-        // This can happen e.g. if the client has bad global_prefs.xml
-        // This won't be necessary if we rewrite this using XML_PARSER
-        //
-        if (!strchr(buf, '\n')) {
-            while (in.fgets(buf, sizeof(buf))) {
-                if (strchr(buf, '\n')) break;
-            }
-            continue;
-        }
-
-        if (match_tag(buf, "</scheduler_request>")) {
+    if (!xp.match_tag("scheduler_request")) return "no start tag";
+    while (!xp.get_tag()) {
+        if (xp.match_tag("/scheduler_request")) {
             core_client_version = 10000*core_client_major_version + 100*core_client_minor_version + core_client_release;
             return NULL;
         }
-        if (parse_str(buf, "<authenticator>", authenticator, sizeof(authenticator))) {
+        if (xp.parse_str("authenticator", authenticator, sizeof(authenticator))) {
             remove_quotes(authenticator);
             continue;
         }
-        if (parse_str(buf, "<cross_project_id>", cross_project_id, sizeof(cross_project_id))) continue;
-        if (parse_int(buf, "<hostid>", hostid)) continue;
-        if (parse_int(buf, "<rpc_seqno>", rpc_seqno)) continue;
-        if (parse_str(buf, "<platform_name>", platform.name, sizeof(platform.name))) continue;
-        if (match_tag(buf, "<alt_platform>")) {
+        if (xp.parse_str("cross_project_id", cross_project_id, sizeof(cross_project_id))) continue;
+        if (xp.parse_int("hostid", hostid)) continue;
+        if (xp.parse_int("rpc_seqno", rpc_seqno)) continue;
+        if (xp.parse_str("platform_name", platform.name, sizeof(platform.name))) continue;
+        if (xp.match_tag("alt_platform")) {
             CLIENT_PLATFORM cp;
             retval = cp.parse(xp);
             if (!retval) {
@@ -256,10 +228,10 @@ const char* SCHEDULER_REQUEST::parse(XML_PARSER& xp) {
             }
             continue;
         }
-        if (match_tag(buf, "<app_versions>")) {
-            while (in.fgets(buf, sizeof(buf))) {
-                if (match_tag(buf, "</app_versions>")) break;
-                if (match_tag(buf, "<app_version>")) {
+        if (xp.match_tag("app_versions")) {
+            while (!xp.get_tag()) {
+                if (xp.match_tag("/app_versions")) break;
+                if (xp.match_tag("app_version")) {
                     CLIENT_APP_VERSION cav;
                     retval = cav.parse(xp);
                     if (retval) {
@@ -290,56 +262,60 @@ const char* SCHEDULER_REQUEST::parse(XML_PARSER& xp) {
             }
             continue;
         }
-        if (parse_int(buf, "<core_client_major_version>", core_client_major_version)) continue;
-        if (parse_int(buf, "<core_client_minor_version>", core_client_minor_version)) continue;
-        if (parse_int(buf, "<core_client_release>", core_client_release)) continue;
-        if (parse_double(buf, "<work_req_seconds>", work_req_seconds)) continue;
-        if (parse_double(buf, "<cpu_req_secs>", cpu_req_secs)) continue;
-        if (parse_double(buf, "<cpu_req_instances>", cpu_req_instances)) continue;
-        if (parse_double(buf, "<resource_share_fraction>", resource_share_fraction)) continue;
-        if (parse_double(buf, "<rrs_fraction>", rrs_fraction)) continue;
-        if (parse_double(buf, "<prrs_fraction>", prrs_fraction)) continue;
-        if (parse_double(buf, "<estimated_delay>", cpu_estimated_delay)) continue;
-        if (parse_double(buf, "<duration_correction_factor>", host.duration_correction_factor)) continue;
-        if (match_tag(buf, "<global_preferences>")) {
+        if (xp.parse_int("core_client_major_version", core_client_major_version)) continue;
+        if (xp.parse_int("core_client_minor_version", core_client_minor_version)) continue;
+        if (xp.parse_int("core_client_release", core_client_release)) continue;
+        if (xp.parse_double("work_req_seconds", work_req_seconds)) continue;
+        if (xp.parse_double("cpu_req_secs", cpu_req_secs)) continue;
+        if (xp.parse_double("cpu_req_instances", cpu_req_instances)) continue;
+        if (xp.parse_double("resource_share_fraction", resource_share_fraction)) continue;
+        if (xp.parse_double("rrs_fraction", rrs_fraction)) continue;
+        if (xp.parse_double("prrs_fraction", prrs_fraction)) continue;
+        if (xp.parse_double("estimated_delay", cpu_estimated_delay)) continue;
+        if (xp.parse_double("duration_correction_factor", host.duration_correction_factor)) continue;
+        if (xp.match_tag("global_preferences")) {
             strcpy(global_prefs_xml, "<global_preferences>\n");
-            while (in.fgets(buf, sizeof(buf))) {
-                if (strstr(buf, "</global_preferences>")) break;
-                safe_strcat(global_prefs_xml, buf);
-            }
+            char buf[8192];
+            retval = xp.element_contents(
+                "</global_preferences>", buf, sizeof(buf)
+            );
+            if (retval) return "error copying global prefs";
+            safe_strcat(global_prefs_xml, buf);
             safe_strcat(global_prefs_xml, "</global_preferences>\n");
             continue;
         }
-        if (match_tag(buf, "<working_global_preferences>")) {
-            while (in.fgets(buf, sizeof(buf))) {
-                if (strstr(buf, "</working_global_preferences>")) break;
-                safe_strcat(working_global_prefs_xml, buf);
-            }
+        if (xp.match_tag("working_global_preferences")) {
+            retval = xp.element_contents(
+                "</working_global_preferences>",
+                working_global_prefs_xml,
+                sizeof(working_global_prefs_xml)
+            );
+            if (retval) return "error copying working global prefs";
             continue;
         }
-        if (parse_str(buf, "<global_prefs_source_email_hash>", global_prefs_source_email_hash, sizeof(global_prefs_source_email_hash))) continue;
-        if (match_tag(buf, "<host_info>")) {
+        if (xp.parse_str("global_prefs_source_email_hash", global_prefs_source_email_hash, sizeof(global_prefs_source_email_hash))) continue;
+        if (xp.match_tag("host_info")) {
             host.parse(xp);
             continue;
         }
-        if (match_tag(buf, "<time_stats>")) {
+        if (xp.match_tag("time_stats")) {
             host.parse_time_stats(xp);
             continue;
         }
-        if (match_tag(buf, "<time_stats_log>")) {
+        if (xp.match_tag("time_stats_log")) {
             handle_time_stats_log(xp.f->f);
             have_time_stats_log = true;
             continue;
         }
-        if (match_tag(buf, "<net_stats>")) {
+        if (xp.match_tag("net_stats")) {
             host.parse_net_stats(xp);
             continue;
         }
-        if (match_tag(buf, "<disk_usage>")) {
+        if (xp.match_tag("disk_usage")) {
             host.parse_disk_usage(xp);
             continue;
         }
-        if (match_tag(buf, "<result>")) {
+        if (xp.match_tag("result")) {
             retval = result.parse_from_client(xp);
             if (retval) continue;
             if (strstr(result.name, "download") || strstr(result.name, "upload")) {
@@ -366,11 +342,12 @@ const char* SCHEDULER_REQUEST::parse(XML_PARSER& xp) {
             }
             continue;
         }
-        if (match_tag(buf, "<code_sign_key>")) {
-            copy_element_contents(in.f, "</code_sign_key>", code_sign_key, sizeof(code_sign_key));
+        if (xp.match_tag("code_sign_key")) {
+            copy_element_contents(xp.f->f, "</code_sign_key>", code_sign_key, sizeof(code_sign_key));
+            strip_whitespace(code_sign_key);
             continue;
         }
-        if (match_tag(buf, "<msg_from_host>")) {
+        if (xp.match_tag("msg_from_host")) {
             MSG_FROM_HOST_DESC md;
             retval = md.parse(xp);
             if (!retval) {
@@ -378,7 +355,7 @@ const char* SCHEDULER_REQUEST::parse(XML_PARSER& xp) {
             }
             continue;
         }
-        if (match_tag(buf, "<file_info>")) {
+        if (xp.match_tag("file_info")) {
             FILE_INFO fi;
             retval = fi.parse(xp);
             if (!retval) {
@@ -386,14 +363,14 @@ const char* SCHEDULER_REQUEST::parse(XML_PARSER& xp) {
             }
             continue;
         }
-        if (match_tag(buf, "<host_venue>")) {
+        if (xp.match_tag("host_venue")) {
             continue;
         }
-        if (match_tag(buf, "<other_results>")) {
+        if (xp.match_tag("other_results")) {
             have_other_results_list = true;
-            while (in.fgets(buf, sizeof(buf))) {
-                if (match_tag(buf, "</other_results>")) break;
-                if (match_tag(buf, "<other_result>")) {
+            while (!xp.get_tag()) {
+                if (xp.match_tag("/other_results")) break;
+                if (xp.match_tag("other_result")) {
                     OTHER_RESULT o_r;
                     retval = o_r.parse(xp);
                     if (!retval) {
@@ -403,13 +380,13 @@ const char* SCHEDULER_REQUEST::parse(XML_PARSER& xp) {
             }
             continue;
         }
-        if (match_tag(buf, "<in_progress_results>")) {
+        if (xp.match_tag("in_progress_results")) {
             have_ip_results_list = true;
             int i = 0;
             double now = time(0);
-            while (in.fgets(buf, sizeof(buf))) {
-                if (match_tag(buf, "</in_progress_results>")) break;
-                if (match_tag(buf, "<ip_result>")) {
+            while (!xp.get_tag()) {
+                if (xp.match_tag("/in_progress_results")) break;
+                if (xp.match_tag("ip_result")) {
                     IP_RESULT ir;
                     retval = ir.parse(xp);
                     if (!retval) {
@@ -423,53 +400,50 @@ const char* SCHEDULER_REQUEST::parse(XML_PARSER& xp) {
             }
             continue;
         }
-        if (match_tag(buf, "coprocs")) {
+        if (xp.match_tag("coprocs")) {
             coprocs.parse(xp);
             continue;
         }
-        if (parse_bool(buf, "client_cap_plan_class", client_cap_plan_class)) continue;
-        if (parse_int(buf, "<sandbox>", sandbox)) continue;
-        if (parse_int(buf, "<allow_multiple_clients>", allow_multiple_clients)) continue;
+        if (xp.parse_bool("client_cap_plan_class", client_cap_plan_class)) continue;
+        if (xp.parse_int("sandbox", sandbox)) continue;
+        if (xp.parse_int("allow_multiple_clients", allow_multiple_clients)) continue;
 
-        if (match_tag(buf, "<active_task_set>")) continue;
-        if (match_tag(buf, "<app>")) continue;
-        if (match_tag(buf, "<app_version>")) continue;
-        if (match_tag(buf, "<duration_variability>")) continue;
-        if (match_tag(buf, "<new_version_check_time>")) continue;
-        if (match_tag(buf, "<newer_version>")) continue;
-        if (match_tag(buf, "<project>")) continue;
-        if (match_tag(buf, "<project_files>")) continue;
-        if (match_tag(buf, "<proxy_info>")) continue;
-        if (match_tag(buf, "<user_network_request>")) continue;
-        if (match_tag(buf, "<user_run_request>")) continue;
-        if (match_tag(buf, "<master_url>")) continue;
-        if (match_tag(buf, "<project_name>")) continue;
-        if (match_tag(buf, "<user_name>")) continue;
-        if (match_tag(buf, "<team_name>")) continue;
-        if (match_tag(buf, "<email_hash>")) continue;
-        if (match_tag(buf, "<user_total_credit>")) continue;
-        if (match_tag(buf, "<user_expavg_credit>")) continue;
-        if (match_tag(buf, "<user_create_time>")) continue;
-        if (match_tag(buf, "<host_total_credit>")) continue;
-        if (match_tag(buf, "<host_expavg_credit>")) continue;
-        if (match_tag(buf, "<host_create_time>")) continue;
-        if (match_tag(buf, "<nrpc_failures>")) continue;
-        if (match_tag(buf, "<master_fetch_failures>")) continue;
-        if (match_tag(buf, "<min_rpc_time>")) continue;
-        if (match_tag(buf, "<short_term_debt>")) continue;
-        if (match_tag(buf, "<long_term_debt>")) continue;
-        if (match_tag(buf, "<resource_share>")) continue;
-        if (match_tag(buf, "<scheduler_url>")) continue;
-        if (match_tag(buf, "</project>")) continue;
-        if (match_tag(buf, "<?xml")) continue;
-        strip_whitespace(buf);
-        if (!strlen(buf)) continue;
+        if (xp.match_tag("active_task_set")) continue;
+        if (xp.match_tag("app")) continue;
+        if (xp.match_tag("app_version")) continue;
+        if (xp.match_tag("duration_variability")) continue;
+        if (xp.match_tag("new_version_check_time")) continue;
+        if (xp.match_tag("newer_version")) continue;
+        if (xp.match_tag("project")) continue;
+        if (xp.match_tag("project_files")) continue;
+        if (xp.match_tag("proxy_info")) continue;
+        if (xp.match_tag("user_network_request")) continue;
+        if (xp.match_tag("user_run_request")) continue;
+        if (xp.match_tag("master_url")) continue;
+        if (xp.match_tag("project_name")) continue;
+        if (xp.match_tag("user_name")) continue;
+        if (xp.match_tag("team_name")) continue;
+        if (xp.match_tag("email_hash")) continue;
+        if (xp.match_tag("user_total_credit")) continue;
+        if (xp.match_tag("user_expavg_credit")) continue;
+        if (xp.match_tag("user_create_time")) continue;
+        if (xp.match_tag("host_total_credit")) continue;
+        if (xp.match_tag("host_expavg_credit")) continue;
+        if (xp.match_tag("host_create_time")) continue;
+        if (xp.match_tag("nrpc_failures")) continue;
+        if (xp.match_tag("master_fetch_failures")) continue;
+        if (xp.match_tag("min_rpc_time")) continue;
+        if (xp.match_tag("short_term_debt")) continue;
+        if (xp.match_tag("long_term_debt")) continue;
+        if (xp.match_tag("resource_share")) continue;
+        if (xp.match_tag("scheduler_url")) continue;
+        if (xp.match_tag("/project")) continue;
+        if (xp.match_tag("?xml")) continue;
 
         log_messages.printf(MSG_NORMAL,
-            "SCHEDULER_REQUEST::parse(): unrecognized: %s\n", buf
+            "SCHEDULER_REQUEST::parse(): unexpected: %s\n", xp.parsed_tag
         );
-        retval = skip_unrecognized(buf, in);
-        if (retval) return "unterminated unrecognized XML";
+        xp.skip_unexpected();
     }
     return "no end tag";
 }

@@ -4894,3 +4894,10 @@ David  11 Aug 2011
 	client/
 		app.cpp
 		net_stats.cpp
+
+David  11 Aug 2011
+    - scheduler: update XML parsing
+
+    sched/
+        sched_main.cpp
+        sched_types.cpp
