@@ -71,8 +71,6 @@
 #include <cerrno>
 #include <time.h>       // for time()
 
-#include "LoginItemAPI.h"  //please take a look at LoginItemAPI.h for an explanation of the routines available to you.
-
 #include "SetupSecurity.h"
 
 
@@ -122,7 +120,8 @@ static char *saverName[NUMBRANDS];
 static char *saverNameEscaped[NUMBRANDS];
 static char *brandName[NUMBRANDS];
 static char *appName[NUMBRANDS];
-static char *appNameEscaped[NUMBRANDS];
+static char *appPath[NUMBRANDS];
+static char *appPathEscaped[NUMBRANDS];
 static char *receiptNameEscaped[NUMBRANDS];
 
 enum { launchWhenDone,
@@ -162,29 +161,33 @@ int main(int argc, char *argv[])
     group                   *grp;
 #endif  // SANDBOX
 
-    appName[0] = "/Applications/BOINCManager.app";
-    appNameEscaped[0] = "/Applications/BOINCManager.app";
+    appName[0] = "BOINCManager";
+    appPath[0] = "/Applications/BOINCManager.app";
+    appPathEscaped[0] = "/Applications/BOINCManager.app";
     brandName[0] = "BOINC";
     saverName[0] = "BOINCSaver";
     saverNameEscaped[0] = "BOINCSaver";
     receiptNameEscaped[0] = "/Library/Receipts/BOINC\\ Installer.pkg";
 
-    appName[1] = "/Applications/GridRepublic Desktop.app";
-    appNameEscaped[1] = "/Applications/GridRepublic\\ Desktop.app";
+    appName[1] = "GridRepublic Desktop";
+    appPath[1] = "/Applications/GridRepublic Desktop.app";
+    appPathEscaped[1] = "/Applications/GridRepublic\\ Desktop.app";
     brandName[1] = "GridRepublic";
     saverName[1] = "GridRepublic";
     saverNameEscaped[1] = "GridRepublic";
     receiptNameEscaped[1] = "/Library/Receipts/GridRepublic\\ Installer.pkg";
 
-    appName[2] = "/Applications/Progress Thru Processors Desktop.app";
-    appNameEscaped[2] = "/Applications/Progress\\ Thru\\ Processors\\ Desktop.app";
+    appName[2] = "Progress Thru Processors Desktop";
+    appPath[2] = "/Applications/Progress Thru Processors Desktop.app";
+    appPathEscaped[2] = "/Applications/Progress\\ Thru\\ Processors\\ Desktop.app";
     brandName[2] = "Progress Thru Processors";
     saverName[2] = "Progress Thru Processors";
     saverNameEscaped[2] = "Progress\\ Thru\\ Processors";
     receiptNameEscaped[2] = "/Library/Receipts/Progress\\ Thru\\ Processors\\ Installer.pkg";
 
-    appName[3] = "/Applications/Charity Engine Desktop.app";
-    appNameEscaped[3] = "/Applications/Charity\\ Engine\\ Desktop.app";
+    appName[3] = "Charity Engine Desktop";
+    appPath[3] = "/Applications/Charity Engine Desktop.app";
+    appPathEscaped[3] = "/Applications/Charity\\ Engine\\ Desktop.app";
     brandName[3] = "Charity Engine";
     saverName[3] = "Charity Engine";
     saverNameEscaped[3] = "Charity\\ Engine";
@@ -241,7 +244,7 @@ int main(int argc, char *argv[])
         StandardAlert (kAlertStopAlert, (StringPtr)s, NULL, NULL, &itemHit);
 
         // "rm -rf /Applications/GridRepublic\\ Desktop.app"
-        sprintf(s, "rm -rf %s", appNameEscaped[brandID]);
+        sprintf(s, "rm -rf %s", appPathEscaped[brandID]);
         system (s);
         
         // "rm -rf /Library/Screen\\ Savers/GridRepublic.saver"
@@ -286,7 +289,7 @@ int main(int argc, char *argv[])
         }
         
         // err = SetBOINCAppOwnersGroupsAndPermissions("/Applications/GridRepublic Desktop.app");
-        err = SetBOINCAppOwnersGroupsAndPermissions(appName[brandID]);
+        err = SetBOINCAppOwnersGroupsAndPermissions(appPath[brandID]);
         
         if (err != noErr) {
 //          print_to_log_file("SetBOINCAppOwnersGroupsAndPermissions returned %d (repetition=%d)", err, i);
@@ -299,7 +302,7 @@ int main(int argc, char *argv[])
             continue;
         }
         
-        err = check_security(appName[brandID], "/Library/Application Support/BOINC Data", true, false);
+        err = check_security(appPath[brandID], "/Library/Application Support/BOINC Data", true, false);
         if (err == noErr)
             break;
 //          print_to_log_file("check_security returned %d (repetition=%d)", err, i);
@@ -335,7 +338,7 @@ int main(int argc, char *argv[])
 
     // Set owner of branded BOINCManager and contents, including core client
     // "chown -Rf username /Applications/GridRepublic\\ Desktop.app"
-    sprintf(s, "chown -Rf %s %s", p, appNameEscaped[brandID]);
+    sprintf(s, "chown -Rf %s %s", p, appPathEscaped[brandID]);
     system (s);
 
     // Set owner of BOINC Screen Saver
@@ -349,7 +352,7 @@ int main(int argc, char *argv[])
     system (s);
 
     // "chmod -R a+s /Applications/GridRepublic\\ Desktop.app"
-    sprintf(s, "chmod -R a+s %s", appNameEscaped[brandID]);
+    sprintf(s, "chmod -R a+s %s", appPathEscaped[brandID]);
     system (s);
 
 #endif   // ! defined(SANDBOX)
@@ -359,7 +362,7 @@ int main(int argc, char *argv[])
         if (i == brandID) continue;
         
         // "rm -rf /Applications/GridRepublic\\ Desktop.app"
-        sprintf(s, "rm -rf %s", appNameEscaped[i]);
+        sprintf(s, "rm -rf %s", appPathEscaped[i]);
         system (s);
         
         // "rm -rf /Library/Screen\\ Savers/GridRepublic.saver"
@@ -372,7 +375,7 @@ int main(int argc, char *argv[])
     }
     
     // err_fsref = FSPathMakeRef((StringPtr)"/Applications/GridRepublic Desktop.app", &fileRef, NULL);
-    err_fsref = FSPathMakeRef((StringPtr)appName[brandID], &fileRef, NULL);
+    err_fsref = FSPathMakeRef((StringPtr)appPath[brandID], &fileRef, NULL);
     
     if (err_fsref == noErr)
         err = LSRegisterFSRef(&fileRef, true);
@@ -405,11 +408,13 @@ int main(int argc, char *argv[])
         
         seteuid(saved_euid);
             
-        return 0;
         FSRef               theFSRef;
 
         err = FSPathMakeRef((StringPtr)"/Library/Application Support/BOINC Data/WaitPermissions.app", 
                 &theFSRef, NULL);
+        if (err) {
+            printf("FSPathMakeRef(WaitPermissions) returned error %ld\n", err);
+        }
         
         // When we first create the boinc_master group and add the current user to the 
         // new group, there is a delay before the new group membership is recognized.  
@@ -422,7 +427,9 @@ int main(int argc, char *argv[])
         // The WaitPermissions application loops until it can access the switcher 
         // application.
         err = LSOpenFSRef(&theFSRef, NULL);
-
+        if (err) {
+            printf("LSOpenFSRef(WaitPermissions) returned error %ld\n", err);
+        }
         waitPermissionsStartTime = time(NULL);
         for (i=0; i<15; i++) {     // Show "Please wait..." alert after 15 seconds
             waitPermissionsPID = FindProcessPID("WaitPermissions", 0);
@@ -508,7 +515,7 @@ int DeleteReceipt()
     system (s);
 
     // err_fsref = FSPathMakeRef((StringPtr)"/Applications/GridRepublic Desktop.app", &fileRef, NULL);
-    err_fsref = FSPathMakeRef((StringPtr)appName[brandID], &fileRef, NULL);
+    err_fsref = FSPathMakeRef((StringPtr)appPath[brandID], &fileRef, NULL);
 
     if (finalInstallAction == launchWhenDone) {
         // If system is set up to run BOINC Client as a daemon using launchd, launch it 
@@ -724,55 +731,36 @@ void CheckUserAndGroupConflicts()
 
 Boolean SetLoginItem(long brandID, Boolean deleteLogInItem)
 {
-    Boolean                 Success;
-    int                     NumberOfLoginItems, Counter;
-    char                    *p, *q;
-    char                    s[256];
     int                     i;
+    char                    cmd[2048];
+    OSErr                   err;
 
-    Success = false;
+    fflush(stdout);
+    fprintf(stdout, "Adjusting login items for user\n");
     
-    NumberOfLoginItems = GetCountOfLoginItems(kCurrentUser);
-    
-    // Search existing login items in reverse order, deleting any duplicates of ours
-    for (Counter = NumberOfLoginItems ; Counter > 0 ; Counter--)
-    {
-        p = ReturnLoginItemPropertyAtIndex(kCurrentUser, kApplicationNameInfo, Counter-1);
-        q = p;
-        while (*q)
-        {
-            // It is OK to modify the returned string because we "own" it
-            *q = toupper(*q);	// Make it case-insensitive
-            q++;
-        }
-    
-        for (i=0; i<NUMBRANDS; i++) {
-            q = strrchr(appName[i], '/');
-            if (!q) continue;       // Should never happen
-            strncpy(s, q+1, sizeof(s)-1);
-            q = s;
-            while (*q) {
-                *q = toupper(*q);
-                q++;
-            }
-
-            // if (strcmp(p, "BOINCMANAGER.APP") == 0)
-            // if (strcmp(p, "GRIDREPUBLIC DESKTOP.APP") == 0)
-            // if (strcmp(p, "PROGRESS THRU PROCESSORS DESKTOP.APP") == 0)
-            // if (strcmp(p, "CHARITY ENGINE.APP") == 0)
-            if (strcmp(p, s) == 0) {
-                Success = RemoveLoginItemAtIndex(kCurrentUser, Counter-1);
-            }
+    for (i=0; i<NUMBRANDS; i++) {
+        sprintf(cmd, "osascript -e 'tell application \"System Events\"' -e 'delete (every login item whose path contains \"%s\")' -e 'end tell'", appName[i]);
+        err = system(cmd);
+        if (err) {
+            fprintf(stdout, "[2] Command: %s\n", cmd);
+            fprintf(stdout, "[2] Delete login item containing %s returned error %d\n", appName[i], err);
         }
     }
 
     if (deleteLogInItem)
         return false;
         
-    Success = AddLoginItemWithPropertiesToUser(kCurrentUser, appName[brandID], kHideOnLaunch);
+    sprintf(cmd, "osascript -e 'tell application \"System Events\"' -e 'make new login item at end with properties {path:\"%s\", hidden:true, kind:Application, name:\"%s\"}' -e 'end tell'", appPath[brandID], appName[brandID]);
+    err = system(cmd);
+    if (err) {
+        fprintf(stdout, "[2] Command: %s\n", cmd);
+        printf("[2] Make login item for %s returned error %d\n", appPath[brandID], err);
+    }
+    fflush(stdout);
 
-    return Success;
+    return (err == noErr);
 }
+
 
 // Sets the skin selection in the specified user's preferences to the specified skin
 void SetSkinInUserPrefs(char *userName, char *skinName)
