@@ -726,13 +726,12 @@ int ACTIVE_TASK_SET::parse(XML_PARSER& xp) {
     char buf[256];
     int retval;
 
-    MIOFILE& in = *(xp.f);
-    while (in.fgets(buf, 256)) {
-        if (match_tag(buf, "</active_task_set>")) return 0;
-        else if (match_tag(buf, "<active_task>")) {
+    while (!xp.get_tag()) {
+        if (xp.match_tag("/active_task_set")) return 0;
+        else if (xp.match_tag("active_task")) {
 #ifdef SIM
             ACTIVE_TASK at;
-            at.parse(fin);
+            at.parse(xp);
 #else
             atp = new ACTIVE_TASK;
             retval = atp->parse(xp);
@@ -751,7 +750,7 @@ int ACTIVE_TASK_SET::parse(XML_PARSER& xp) {
         } else {
             if (log_flags.unparsed_xml) {
                 msg_printf(NULL, MSG_INFO,
-                    "[unparsed_xml] ACTIVE_TASK_SET::parse(): unrecognized %s\n", buf
+                    "[unparsed_xml] ACTIVE_TASK_SET::parse(): unrecognized %s\n", xp.parsed_tag
                 );
             }
         }

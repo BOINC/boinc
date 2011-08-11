@@ -4887,3 +4887,10 @@ Charlie 11 Aug 2011
     mac_build/
         boinc.xcodeproj/
             project.pbxproj
+
+David  11 Aug 2011
+	- client: more XML parsing stuff
+
+	client/
+		app.cpp
+		net_stats.cpp

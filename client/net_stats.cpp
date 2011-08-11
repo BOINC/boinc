@@ -101,21 +101,19 @@ int NET_STATS::write(MIOFILE& out) {
 }
 
 int NET_STATS::parse(XML_PARSER& xp) {
-    char buf[256];
-
     memset(this, 0, sizeof(NET_STATS));
-    MIOFILE& in = *(xp.f);
-    while (in.fgets(buf, 256)) {
-        if (match_tag(buf, "</net_stats>")) return 0;
-        if (parse_double(buf, "<bwup>", up.max_rate)) continue;
-        if (parse_double(buf, "<avg_up>", up.avg_rate)) continue;
-        if (parse_double(buf, "<avg_time_up>", up.avg_time)) continue;
-        if (parse_double(buf, "<bwdown>", down.max_rate)) continue;
-        if (parse_double(buf, "<avg_down>", down.avg_rate)) continue;
-        if (parse_double(buf, "<avg_time_down>", down.avg_time)) continue;
+    while (!xp.get_tag()) {
+        if (xp.match_tag("/net_stats")) return 0;
+        if (xp.parse_double("bwup", up.max_rate)) continue;
+        if (xp.parse_double("avg_up", up.avg_rate)) continue;
+        if (xp.parse_double("avg_time_up", up.avg_time)) continue;
+        if (xp.parse_double("bwdown", down.max_rate)) continue;
+        if (xp.parse_double("avg_down", down.avg_rate)) continue;
+        if (xp.parse_double("avg_time_down", down.avg_time)) continue;
         if (log_flags.unparsed_xml) {
             msg_printf(NULL, MSG_INFO,
-                "[unparsed_xml] Unrecognized network statistics line: %s", buf
+                "[unparsed_xml] Unrecognized network statistics line: %s",
+                xp.parsed_tag
             );
         }
     }

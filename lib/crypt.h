@@ -133,7 +133,7 @@ extern char *check_validity(const char *certPath, const char *origFile,
     unsigned char *signature, char* caPath
 );
 
-class CERT_SIGS;
+struct CERT_SIGS;
 
 int cert_verify_file(
     CERT_SIGS* signatures, const char* origFile, const char* trustLocation
