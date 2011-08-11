@@ -6931,3 +6931,19 @@ Rom    10 Aug 2011
         configure.ac
         version.h
 
+Charlie 11 Aug 2011
+    - Mac installer: Bug fixes for OS 10.7 Lion: LoginItemAPI.c did not 
+        set hidden properlty for login items, so use AppleScript instead, 
+        to prevent Lion from opening BOINC windows at system startup.
+        - Fix a bug I introduced on 8 August which prevented launching 
+        WaitPermissions.app.
+    - Mac uninstaller: Remove Charity Engine BOINC app if present.
+    (Checked into 6.8.30 branch.)
+    
+    mac_installer/
+        AddRemoveUser.cpp
+        PostInstall.cpp
+        Uninstall.cpp
+    mac_build/
+        boinc.xcodeproj/
+            project.pbxproj

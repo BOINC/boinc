@@ -30,15 +30,13 @@
 #include <dirent.h>
 #include <sys/param.h>  // for MAXPATHLEN
 
-#include "LoginItemAPI.h"  //please take a look at LoginItemAPI.h for an explanation of the routines available to you.
-
 static OSStatus DoUninstall(void);
 static OSStatus GetpathToBOINCManagerApp(char* path, int maxLen, FSRef *theFSRef);
 static OSStatus CleanupAllVisibleUsers(void);
 static OSStatus DeleteOurBundlesFromDirectory(CFStringRef bundleID, char *extension, char *dirPath);
 static OSStatus GetAuthorization(AuthorizationRef * authRef, const char *pathToTool, char *brandName);
 static OSStatus DoPrivilegedExec(char *brandName, const char *pathToTool, char *arg1, char *arg2, char *arg3, char *arg4, char *arg5);
-static void DeleteLoginItem(void);
+static void DeleteLoginItem(char* user, char* appName);
 static char * PersistentFGets(char *buf, size_t buflen, FILE *f);
 static pid_t FindProcessPID(char* name, pid_t thePID);
 static OSStatus QuitBOINCManager(OSType signature);
@@ -197,7 +195,8 @@ static OSStatus DoUninstall(void) {
     err = DeleteOurBundlesFromDirectory(CFSTR("edu.berkeley.boincsaver"), "saver", "/Library/Screen Savers");
 
     // Phase 4: Delete our files and directories at our installer's default locations
-    // Remove everything we've installed, whether BOINC, GridRepublic or Progress Thru Processors
+    // Remove everything we've installed, whether BOINC, GridRepublic, Progress Thru Processors or
+    // Charity Engine
     // These first 4 should already have been deleted by the above code, but do them anyway for safety
     system ("rm -rf /Applications/BOINCManager.app");
     system ("rm -rf \"/Library/Screen Savers/BOINCSaver.saver\"");
@@ -207,16 +206,21 @@ static OSStatus DoUninstall(void) {
     
     system ("rm -rf \"/Applications/Progress\\ Thru\\ Processors\\ Desktop.app\"");
     system ("rm -rf \"/Library/Screen Savers/Progress\\ Thru\\ Processors.saver\"");
-
+    
+    system ("rm -rf \"/Applications/Charity\\ Engine\\ Desktop.app\"");
+    system ("rm -rf \"/Library/Screen Savers/Charity\\ Engine.saver\"");
+    
     // Delete any receipt from an older installer (which had 
     // a wrapper application around the installer package.)
     system ("rm -rf /Library/Receipts/GridRepublic.pkg");
     system ("rm -rf /Library/Receipts/Progress\\ Thru\\ Processors.pkg");
+    system ("rm -rf /Library/Receipts/Charity\\ Engine.pkg");
     system ("rm -rf /Library/Receipts/BOINC.pkg");
 
     // Delete any receipt from a newer installer (a bare package.) 
     system ("rm -rf /Library/Receipts/GridRepublic\\ Installer.pkg");
     system ("rm -rf /Library/Receipts/Progress\\ Thru\\ Processors\\ Installer.pkg");
+    system ("rm -rf /Library/Receipts/Charity\\ Engine\\ Installer.pkg");
     system ("rm -rf /Library/Receipts/BOINC\\ Installer.pkg");
 
     // Phase 5: Set BOINC Data owner and group to logged in user
@@ -414,13 +418,17 @@ static OSStatus CleanupAllVisibleUsers(void)
         }
         seteuid(pw->pw_uid);                        // Temporarily set effective uid to this user
 
-        DeleteLoginItem();                          // Delete our login item(s) for this user
+        // Delete our login item(s) for this user
+        DeleteLoginItem(dp->d_name, "BOINCSaver");
+        DeleteLoginItem(dp->d_name, "GridRepublic");
+        DeleteLoginItem(dp->d_name, "Progress Thru Processors");
+        DeleteLoginItem(dp->d_name, "Charity Engine");
 
 //        sprintf(s, "rm -f \"/Users/%s/Library/Preferences/BOINC Manager Preferences\"", dp->d_name);
 //        system (s);
         
         //  Set screensaver to "Computer Name" default screensaver only 
-        //  if it was BOINC, GridRepublic or Progress Thru Processors.
+        //  if it was BOINC, GridRepublic, Progress Thru Processors or Charity Engine.
         changeSaver = false;
         if (OSVersion < 0x1060) {
             f = popen("defaults -currentHost read com.apple.screensaver moduleName", "r");
@@ -440,6 +448,10 @@ static OSStatus CleanupAllVisibleUsers(void)
                     break;
                 }
                 if (strstr(s, "Progress Thru Processors")) {
+                    changeSaver = true;
+                    break;
+                }
+                if (strstr(s, "Charity Engine")) {
                     changeSaver = true;
                     break;
                 }
@@ -571,34 +583,15 @@ if (err != noErr)
 }
 
 
-static void DeleteLoginItem(void)
+static void DeleteLoginItem(char* user, char* appName)
 {
-    Boolean                 Success;
-    int                     NumberOfLoginItems, Counter;
-    char                    *p, *q;
+    char                    cmd[2048];
+    OSErr                   err;
 
-    Success = false;
-
-    NumberOfLoginItems = GetCountOfLoginItems(kCurrentUser);
-    
-    // Search existing login items in reverse order, deleting ours
-    for (Counter = NumberOfLoginItems ; Counter > 0 ; Counter--)
-    {
-        p = ReturnLoginItemPropertyAtIndex(kCurrentUser, kApplicationNameInfo, Counter-1);
-        q = p;
-        while (*q)
-        {
-            // It is OK to modify the returned string because we "own" it
-            *q = toupper(*q);	// Make it case-insensitive
-            q++;
-        }
-            
-        if (strcmp(p, "BOINCMANAGER.APP") == 0)
-            Success = RemoveLoginItemAtIndex(kCurrentUser, Counter-1);
-        if (strcmp(p, "GRIDREPUBLIC DESKTOP.APP") == 0)
-            Success = RemoveLoginItemAtIndex(kCurrentUser, Counter-1);
-        if (strcmp(p, "PROGRESS THRU PROCESSORS DESKTOP.APP") == 0)
-            Success = RemoveLoginItemAtIndex(kCurrentUser, Counter-1);
+    sprintf(cmd, "sudo -u %s osascript -e 'tell application \"System Events\"' -e 'delete (every login item whose path contains \"%s\")' -e 'end tell'", user, appName);
+    err = system(cmd);
+    if (err) {
+        printf("[2] Delete login item containing %s for user %s returned error %d\n", appName, user, err);
     }
 }
 

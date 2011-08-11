@@ -27,7 +27,7 @@
 #include "LoginItemAPI.h"  //please take a look at LoginItemAPI.h for an explanation of the routines available to you.
 
 void printUsage(void);
-void SetLoginItem(Boolean addLogInItem);
+void SetLoginItem(char *user, Boolean addLogInItem);
 static char * PersistentFGets(char *buf, size_t buflen, FILE *f);
 
 
@@ -90,6 +90,8 @@ int main(int argc, char *argv[])
     }
 
     for (index=2; index<argc; index++) {
+        // getpwnam works with either the full / login name (pw->pw_gecos) 
+        // or the short / Posix name (pw->pw_name)
         pw = getpwnam(argv[index]);
         if (pw == NULL) {
             printf("User %s not found.\n", argv[index]);
@@ -99,7 +101,7 @@ int main(int argc, char *argv[])
         isBMGroupMember = false;
         i = 0;
         while ((p = grpBOINC_master.gr_mem[i]) != NULL) {  // Step through all users in group boinc_master
-            if (strcmp(p, argv[index]) == 0) {
+            if (strcmp(p, pw->pw_name) == 0) {      // Only the short / Posix names are in the list
                 // User is a member of group boinc_master
                 isBMGroupMember = true;
                 break;
@@ -110,7 +112,7 @@ int main(int argc, char *argv[])
         isBPGroupMember = false;
         i = 0;
         while ((p = grpBOINC_project.gr_mem[i]) != NULL) {  // Step through all users in group boinc_project
-            if (strcmp(p, argv[index]) == 0) {
+            if (strcmp(p, pw->pw_name) == 0) {      // Only the short / Posix names are in the list
                 // User is a member of group boinc_master
                 isBPGroupMember = true;
                 break;
@@ -119,36 +121,36 @@ int main(int argc, char *argv[])
         }
 
         if ((!isBMGroupMember) && AddUsers) {
-            sprintf(s, "dscl . -merge /groups/boinc_master users %s", argv[index]);
+            sprintf(s, "dscl . -merge /groups/boinc_master users %s", pw->pw_name);
             system(s);
         }
         
         if ((!isBPGroupMember) && AddUsers) {
-            sprintf(s, "dscl . -merge /groups/boinc_project users %s", argv[index]);
+            sprintf(s, "dscl . -merge /groups/boinc_project users %s", pw->pw_name);
             system(s);
         }
         
         if (isBMGroupMember && (!AddUsers)) {
-            sprintf(s, "dscl . -delete /Groups/boinc_master GroupMembership %s", argv[index]);
+            sprintf(s, "dscl . -delete /Groups/boinc_master GroupMembership %s", pw->pw_name);
             system(s);
         }
 
         if (isBPGroupMember && (!AddUsers)) {
-            sprintf(s, "dscl . -delete /Groups/boinc_project GroupMembership %s", argv[index]);
+            sprintf(s, "dscl . -delete /Groups/boinc_project GroupMembership %s", pw->pw_name);
             system(s);
         }
 
         saved_uid = geteuid();
         seteuid(pw->pw_uid);                        // Temporarily set effective uid to this user
 
-        SetLoginItem(AddUsers);                     // Set or remove login item for this user
+        SetLoginItem(pw->pw_name, AddUsers);        // Set or remove login item for this user
 
         if (OSVersion < 0x1060) {
             sprintf(s, "sudo -u %s defaults -currentHost read com.apple.screensaver moduleName", 
-                    argv[index]); 
+                    pw->pw_name); 
         } else {
             sprintf(s, "sudo -u %s defaults -currentHost read com.apple.screensaver moduleDict -dict", 
-                    argv[index]); 
+                    pw->pw_name); 
         }
         f = popen(s, "r");
         
@@ -166,14 +168,14 @@ int main(int argc, char *argv[])
         if ((!saverIsSet) && SetSavers) {
             if (OSVersion < 0x1060) {
                 sprintf(s, "sudo -u %s defaults -currentHost write com.apple.screensaver moduleName BOINCSaver", 
-                    argv[index]); 
+                    pw->pw_name); 
                 system(s);
                 sprintf(s, "sudo -u %s defaults -currentHost write com.apple.screensaver modulePath \"/Library/Screen Savers/BOINCSaver.saver\"", 
-                    argv[index]); 
+                    pw->pw_name); 
                 system(s);
             } else {
                 sprintf(s, "sudo -u %s defaults -currentHost write com.apple.screensaver moduleDict -dict moduleName BOINCSaver path \"/Library/Screen Savers/BOINCSaver.saver\"", 
-                        argv[index]);
+                        pw->pw_name);
                 system(s);
             }
         }
@@ -181,14 +183,14 @@ int main(int argc, char *argv[])
         if (saverIsSet && (!AddUsers)) {
             if (OSVersion < 0x1060) {
                 sprintf(s, "sudo -u %s defaults -currentHost write com.apple.screensaver moduleName Flurry", 
-                    argv[index]); 
+                    pw->pw_name); 
                 system(s);
                 sprintf(s, "sudo -u %s defaults -currentHost write com.apple.screensaver modulePath \"/System/Library/Screen Savers/Flurry.saver\"", 
-                    argv[index]); 
+                    pw->pw_name); 
                 system(s);
             } else {
                 sprintf(s, "sudo -u %s defaults -currentHost write com.apple.screensaver moduleDict -dict moduleName Flurry path \"/System/Library/Screen Savers/Flurry.saver\"", 
-                        argv[index]);
+                        pw->pw_name);
                 system(s);
             }
         }
@@ -196,6 +198,9 @@ int main(int argc, char *argv[])
         seteuid(saved_uid);                         // Set effective uid back to privileged user
     }
     
+    if (AddUsers) {
+        printf("WARNING: Changes may require a system restart to take effect.\n");
+    }
     return 0;
 }
 
@@ -208,35 +213,24 @@ void printUsage() {
     printf("\n");
 }
 
-void SetLoginItem(Boolean addLogInItem){
-    Boolean                 Success;
-    int                     NumberOfLoginItems, Counter;
-    char                    *p, *q;
+void SetLoginItem(char *user, Boolean addLogInItem){
+    char                    cmd[2048];
+    OSErr                   err;
+    
+    sprintf(cmd, "sudo -u %s osascript -e 'tell application \"System Events\"' -e 'delete (every login item whose path contains \"BOINCManager\")' -e 'end tell'", user); 
 
-    Success = false;
-    
-    NumberOfLoginItems = GetCountOfLoginItems(kCurrentUser);
-    
-    // Search existing login items in reverse order, deleting any duplicates of ours
-    for (Counter = NumberOfLoginItems ; Counter > 0 ; Counter--)
-    {
-        p = ReturnLoginItemPropertyAtIndex(kCurrentUser, kApplicationNameInfo, Counter-1);
-        if (p == NULL) continue;
-        q = p;
-        while (*q)
-        {
-            // It is OK to modify the returned string because we "own" it
-            *q = toupper(*q);	// Make it case-insensitive
-            q++;
-        }
-    
-        if (strcmp(p, "BOINCMANAGER.APP") == 0) {
-            Success = RemoveLoginItemAtIndex(kCurrentUser, Counter-1);
-        }
+    err = system(cmd);
+    if (err) {
+        printf("Delete BOINCManager login item for user %s returned error %d\n", user, err);
     }
-
+    
     if (addLogInItem) {
-        Success = AddLoginItemWithPropertiesToUser(kCurrentUser, "/Applications/BOINCManager.app", kHideOnLaunch);
+        sprintf(cmd, "sudo -u %s osascript -e 'tell application \"System Events\"' -e 'make new login item at end with properties {path:\"/Applications/BOINCManager.app\", hidden:true, kind:Application, name:\"BOINCManager\"}' -e 'end tell'", user); 
+        
+        err = system(cmd);
+        if (err) {
+            printf("Add BOINCManager login item for user %s returned error %d\n", user, err);
+        }
     }
 }
 
