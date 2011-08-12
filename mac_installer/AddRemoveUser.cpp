@@ -121,12 +121,12 @@ int main(int argc, char *argv[])
         }
 
         if ((!isBMGroupMember) && AddUsers) {
-            sprintf(s, "dscl . -merge /groups/boinc_master users %s", pw->pw_name);
+            sprintf(s, "dscl . -merge /groups/boinc_master GroupMembership %s", pw->pw_name);
             system(s);
         }
         
         if ((!isBPGroupMember) && AddUsers) {
-            sprintf(s, "dscl . -merge /groups/boinc_project users %s", pw->pw_name);
+            sprintf(s, "dscl . -merge /groups/boinc_project GroupMembership %s", pw->pw_name);
             system(s);
         }
         
