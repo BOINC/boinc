@@ -56,6 +56,7 @@
 		DD1AFEE80A51301C00EE5B82 /* Installer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD1AFEE70A51301C00EE5B82 /* Installer.cpp */; };
 		DD205A1A0BAF596E0008D473 /* ProjectListCtrl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD205A180BAF596E0008D473 /* ProjectListCtrl.cpp */; };
 		DD21B49D0D750FC600AFFEE5 /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DDFE854A0B60CFD0009B43D9 /* AppKit.framework */; };
+		DD2370E113F49DF3003149F9 /* LoginItemAPI.c in Sources */ = {isa = PBXBuildFile; fileRef = DD2370DF13F49DF3003149F9 /* LoginItemAPI.c */; };
 		DD247AF90AEA308A0034104A /* SkinManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD247AF70AEA308A0034104A /* SkinManager.cpp */; };
 		DD262C781366D2A200C9A187 /* cc_config.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD4AE04B13652BD700285859 /* cc_config.cpp */; };
 		DD262C811366D35A00C9A187 /* cc_config.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD4AE04B13652BD700285859 /* cc_config.cpp */; };
@@ -652,6 +653,8 @@
 		DD2049DC0D862516009EEE7A /* coproc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = coproc.h; path = ../lib/coproc.h; sourceTree = SOURCE_ROOT; };
 		DD205A180BAF596E0008D473 /* ProjectListCtrl.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = ProjectListCtrl.cpp; path = ../clientgui/ProjectListCtrl.cpp; sourceTree = SOURCE_ROOT; };
 		DD205A190BAF596E0008D473 /* ProjectListCtrl.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = ProjectListCtrl.h; path = ../clientgui/ProjectListCtrl.h; sourceTree = SOURCE_ROOT; };
+		DD2370DF13F49DF3003149F9 /* LoginItemAPI.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = LoginItemAPI.c; path = ../mac_installer/LoginItemAPI.c; sourceTree = "<group>"; };
+		DD2370E013F49DF3003149F9 /* LoginItemAPI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LoginItemAPI.h; path = ../mac_installer/LoginItemAPI.h; sourceTree = "<group>"; };
 		DD247AF70AEA308A0034104A /* SkinManager.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = SkinManager.cpp; path = ../clientgui/SkinManager.cpp; sourceTree = SOURCE_ROOT; };
 		DD247AF80AEA308A0034104A /* SkinManager.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = SkinManager.h; path = ../clientgui/SkinManager.h; sourceTree = SOURCE_ROOT; };
 		DD252F3009E3E014006454D7 /* boinc_glut.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = boinc_glut.h; path = ../api/boinc_glut.h; sourceTree = SOURCE_ROOT; };
@@ -1297,6 +1300,8 @@
 				DDB8D5A5081FC8C700A5A1E8 /* postinstall */,
 				DD127880081F464E007B5DE1 /* postupgrade */,
 				DDD33709106224E800867C7D /* AddRemoveUser.cpp */,
+				DD2370DF13F49DF3003149F9 /* LoginItemAPI.c */,
+				DD2370E013F49DF3003149F9 /* LoginItemAPI.h */,
 				DDB219B110B3BBA900417AEF /* WaitPermissions.cpp */,
 			);
 			name = mac_installer;
@@ -2781,6 +2786,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				DDD3370A106224E800867C7D /* AddRemoveUser.cpp in Sources */,
+				DD2370E113F49DF3003149F9 /* LoginItemAPI.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

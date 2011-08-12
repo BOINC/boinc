@@ -27,7 +27,7 @@
 #include "LoginItemAPI.h"  //please take a look at LoginItemAPI.h for an explanation of the routines available to you.
 
 void printUsage(void);
-void SetLoginItem(char *user, Boolean addLogInItem);
+void SetLoginItem(Boolean addLogInItem);
 static char * PersistentFGets(char *buf, size_t buflen, FILE *f);
 
 
@@ -143,7 +143,7 @@ int main(int argc, char *argv[])
         saved_uid = geteuid();
         seteuid(pw->pw_uid);                        // Temporarily set effective uid to this user
 
-        SetLoginItem(pw->pw_name, AddUsers);        // Set or remove login item for this user
+        SetLoginItem(AddUsers);                     // Set or remove login item for this user
 
         if (OSVersion < 0x1060) {
             sprintf(s, "sudo -u %s defaults -currentHost read com.apple.screensaver moduleName", 
@@ -197,10 +197,9 @@ int main(int argc, char *argv[])
 
         seteuid(saved_uid);                         // Set effective uid back to privileged user
     }
+
+    printf("WARNING: Changes may require a system restart to take effect.\n");
     
-    if (AddUsers) {
-        printf("WARNING: Changes may require a system restart to take effect.\n");
-    }
     return 0;
 }
 
@@ -213,24 +212,35 @@ void printUsage() {
     printf("\n");
 }
 
-void SetLoginItem(char *user, Boolean addLogInItem){
-    char                    cmd[2048];
-    OSErr                   err;
-    
-    sprintf(cmd, "sudo -u %s osascript -e 'tell application \"System Events\"' -e 'delete (every login item whose path contains \"BOINCManager\")' -e 'end tell'", user); 
+void SetLoginItem(Boolean addLogInItem){
+    Boolean                 Success;
+    int                     NumberOfLoginItems, Counter;
+    char                    *p, *q;
 
-    err = system(cmd);
-    if (err) {
-        printf("Delete BOINCManager login item for user %s returned error %d\n", user, err);
-    }
+    Success = false;
     
-    if (addLogInItem) {
-        sprintf(cmd, "sudo -u %s osascript -e 'tell application \"System Events\"' -e 'make new login item at end with properties {path:\"/Applications/BOINCManager.app\", hidden:true, kind:Application, name:\"BOINCManager\"}' -e 'end tell'", user); 
-        
-        err = system(cmd);
-        if (err) {
-            printf("Add BOINCManager login item for user %s returned error %d\n", user, err);
+    NumberOfLoginItems = GetCountOfLoginItems(kCurrentUser);
+    
+    // Search existing login items in reverse order, deleting any duplicates of ours
+    for (Counter = NumberOfLoginItems ; Counter > 0 ; Counter--)
+    {
+        p = ReturnLoginItemPropertyAtIndex(kCurrentUser, kApplicationNameInfo, Counter-1);
+        if (p == NULL) continue;
+        q = p;
+        while (*q)
+        {
+            // It is OK to modify the returned string because we "own" it
+            *q = toupper(*q);	// Make it case-insensitive
+            q++;
         }
+    
+        if (strcmp(p, "BOINCMANAGER.APP") == 0) {
+            Success = RemoveLoginItemAtIndex(kCurrentUser, Counter-1);
+        }
+    }
+
+    if (addLogInItem) {
+        Success = AddLoginItemWithPropertiesToUser(kCurrentUser, "/Applications/BOINCManager.app", kHideOnLaunch);
     }
 }
 
