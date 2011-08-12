@@ -925,9 +925,15 @@ Boolean IsUserMemberOfGroup(const char *userName, const char *groupName) {
 }
 
 
-// OS 10.7 dscl merge command has a bug that it adds the user to the group even if 
-// it was already a member, resulting in duplicate (multiple) entries.  Earlier BOINC 
-// versions did not check for this, so we remove duplicate entries if present.
+// OS 10.7 dscl merge command has a bug such that the command:
+//     dscl . -merge /Groups/GROUPNAME users USERNAME
+// adds the user to the group even if it was already a member, resulting in 
+// duplicate (multiple) entries.  Earlier BOINC versions used this command 
+// but did not check for this, so we remove duplicate entries if present.
+// Note: We now avoid this problem by instead using the command:
+//     dscl . -merge /Groups/GROUPNAME GroupMembership USERNAME
+// which correctly avoids duplication.
+
 int CountGroupMembershipEntries(const char *userName, const char *groupName) {
     int                 count = 0;
     char                cmd[512], buf[2048];
@@ -1171,7 +1177,7 @@ OSErr UpdateAllVisibleUsers(long brandID)
             printf("[2] User %s found in group %s member list %d times\n", 
                         pw->pw_name, boinc_master_group_name, BMGroupMembershipCount);
             if (BMGroupMembershipCount == 0) {
-                sprintf(cmd, "dscl . -merge /groups/%s users %s", boinc_master_group_name, pw->pw_name);
+                sprintf(cmd, "dscl . -merge /groups/%s GroupMembership %s", boinc_master_group_name, pw->pw_name);
                 err = system(cmd);
                 printf("[2] %s returned %d\n", cmd, err);
                 isBMGroupMember = true;
@@ -1188,7 +1194,7 @@ OSErr UpdateAllVisibleUsers(long brandID)
             printf("[2] User %s found in group %s member list %d times\n", 
                    pw->pw_name, boinc_project_group_name, BPGroupMembershipCount);
             if (BPGroupMembershipCount == 0) {
-                sprintf(cmd, "dscl . -merge /groups/%s users %s", boinc_project_group_name, pw->pw_name);
+                sprintf(cmd, "dscl . -merge /groups/%s GroupMembership %s", boinc_project_group_name, pw->pw_name);
                 err = system(cmd);
                 printf("[2] %s returned %d\n", cmd, err);
                 isBPGroupMember = true;

@@ -55,14 +55,15 @@
 # In addition, you should add any other users who will administer BOINC 
 # to groups boinc_master and boinc_project; e.g. for user mary:
 # 
-# sudo dscl . -merge /groups/boinc_master users mary
-# sudo dscl . -merge /groups/boinc_project users mary
+# sudo dscl . -merge /groups/boinc_master GroupMembership mary
+# sudo dscl . -merge /groups/boinc_project GroupMembership mary
 #
 # To remove user mary from group boinc_master:
-# sudo dscl . -delete /groups/boinc_master users mary
+# sudo dscl . -delete /groups/boinc_master GroupMembership mary
 # 
 
-# Last updated 1/28/10 for BOINC version 6.8.20, 6.10.30 and 6.11.1
+# Updated 1/28/10 for BOINC version 6.8.20, 6.10.30 and 6.11.1
+# Last updated 8/12/11 for OS 10.7 Lion
 # WARNING: do not use this script with versions of BOINC older 
 # than 6.8.20 and 6.10.30
 
@@ -153,8 +154,8 @@ function update_nested_dirs() {
    for file in $(ls "$1")
     do
 	if [ -d "${1}/${file}" ] ; then
-            chmod u+x,g+x,o+x "${1}/${file}"
-            update_nested_dirs "${1}/${file}"
+        chmod u+x,g+x,o+x "${1}/${file}"
+		update_nested_dirs "${1}/${file}"
 	fi
     done
 }
@@ -176,8 +177,17 @@ fi
 
 make_boinc_users
 
-dscl . -merge /groups/boinc_master users "$(LOGNAME)"
-dscl . -merge /groups/boinc_project users "$(LOGNAME)"
+# Check whether user is already a member of group boinc_master
+#dscl . -read /Groups/boinc_master GroupMembership | grep -wq "$(LOGNAME)"
+#if [ $? -eq 0 ]; then
+dscl . -merge /groups/boinc_master GroupMembership "$(LOGNAME)"
+#fi
+
+# Check whether user is already a member of group boinc_project
+#dscl . -read /Groups/boinc_project GroupMembership | grep -wq "$(LOGNAME)"
+#if [ $? -eq 0 ]; then
+dscl . -merge /groups/boinc_project GroupMembership "$(LOGNAME)"
+#fi
 
 # Set permissions of BOINC Data directory's contents:
 #   ss_config.xml is world-readable so screensaver coordinator can read it
