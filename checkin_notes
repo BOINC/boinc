@@ -6940,6 +6940,16 @@ Charlie 11 Aug 2011
         boinc.xcodeproj/
             project.pbxproj
 
+Charlie 12 Aug 2011
+- Mac installer: Bug fixes for OS 10.7 Lion.
+
+    mac_build/
+        Mac_SA_Secure.sh
+    mac_installer/
+        AddRemoveUser.cpp
+        PostInstall.cpp
+    (Checked into 6.8.30 branch.)
+
 Rom    10 Aug 2011
     - Tag for 6.8.30 release, all platforms
       boinc_core_release_6_8_30
