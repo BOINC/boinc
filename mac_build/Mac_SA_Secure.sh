@@ -179,13 +179,13 @@ make_boinc_users
 
 # Check whether user is already a member of group boinc_master
 #dscl . -read /Groups/boinc_master GroupMembership | grep -wq "$(LOGNAME)"
-#if [ $? -eq 0 ]; then
+#if [ $? -ne 0 ]; then
 dscl . -merge /groups/boinc_master GroupMembership "$(LOGNAME)"
 #fi
 
 # Check whether user is already a member of group boinc_project
 #dscl . -read /Groups/boinc_project GroupMembership | grep -wq "$(LOGNAME)"
-#if [ $? -eq 0 ]; then
+#if [ $? -ne 0 ]; then
 dscl . -merge /groups/boinc_project GroupMembership "$(LOGNAME)"
 #fi
 
