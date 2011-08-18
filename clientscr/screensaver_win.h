@@ -213,6 +213,9 @@ protected:
     //
     // Presentation layer
     //
+public:
+    HRESULT         ResetPrimaryDisplay();
+
 protected:
 	HRESULT         CreateSaverWindow();
 	VOID            UpdateErrorBox();
@@ -225,6 +228,7 @@ protected:
 	VOID            DoPaint( HWND hwnd, HDC hdc, LPPAINTSTRUCT lpps );
 	LRESULT         SaverProc( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam );
 	LRESULT         GenericSaverProc( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam );
+	LRESULT         ResetProc( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam );
 
     DWORD           ConvertSliderPositionToTime( DWORD dwPosition );
     DWORD           ConvertTimeToSliderPosition( DWORD dwMinutes );
@@ -235,6 +239,7 @@ protected:
 
     static LRESULT CALLBACK SaverProcStub( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam );
     static LRESULT CALLBACK GenericSaverProcStub( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam );
+    static LRESULT CALLBACK ResetProcStub( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam );
 	static INT_PTR CALLBACK ConfigureDialogProcStub( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam );
 
 protected:

@@ -4916,3 +4916,13 @@ Charlie 12 Aug 2011
     mac_installer/
         AddRemoveUser.cpp
         PostInstall.cpp
+
+Rom    18 Aug 2011
+    - WINSCR: Based on feedback from WCG about the screensaver lock-up
+        problem attempt to provoke Windows into redrawing the primary
+        display.  It turns out that the screensaver image is a ghost
+        image, so create a blank top-most window and close it after
+        the graphics application has been terminated.
+        
+    clientscr/
+        screensaver_win.cpp, .h

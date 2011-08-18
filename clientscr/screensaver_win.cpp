@@ -91,6 +91,13 @@ INT WINAPI WinMain(
     BOINCTRACE("WinMain - Cleanup Screensaver Resources\n");
     BOINCSS.Cleanup();
 
+    // Resetting the primary display.  We need to do this because abnormally
+    // terminating grtaphics applications can sometimes leave a ghosted image
+    // on the primary display which leaves users believing that their machines
+    // are locked up.
+    BOINCTRACE("WinMain - Reset Primary Display\n");
+    BOINCSS.ResetPrimaryDisplay();
+
     // Cleanup the Windows sockets interface.
     BOINCTRACE("WinMain - Cleanup Winsock Resources\n");
     WSACleanup();
@@ -1227,6 +1234,71 @@ HRESULT CScreensaver::CreateSaverWindow() {
 
 
 
+// Register and create the appropriate window(s)
+//
+HRESULT CScreensaver::ResetPrimaryDisplay() {
+    // Register an appropriate window class for the primary display
+    WNDCLASS    cls;
+    cls.hCursor        = LoadCursor(NULL, IDC_ARROW);
+    cls.hIcon          = LoadIcon(m_hInstance, MAKEINTRESOURCE(IDI_MAIN_ICON)); 
+    cls.lpszMenuName   = NULL;
+    cls.lpszClassName  = _T("BOINCPrimaryResetWndClass");
+    cls.hbrBackground  = (HBRUSH) GetStockObject(BLACK_BRUSH);
+    cls.hInstance      = m_hInstance; 
+    cls.style          = CS_VREDRAW|CS_HREDRAW;
+    cls.lpfnWndProc    = ResetProcStub;
+    cls.cbWndExtra     = 0; 
+    cls.cbClsExtra     = 0; 
+    RegisterClass(&cls);
+
+    // Create the window
+    INTERNALMONITORINFO* pMonitorInfo;
+    pMonitorInfo = &m_Monitors[0];
+	
+    pMonitorInfo->hWnd = CreateWindowEx(
+        NULL, 
+        _T("BOINCPrimaryResetWndClass"), 
+		m_strWindowTitle,
+        WS_VISIBLE | WS_POPUP,
+        pMonitorInfo->rcScreen.left,
+        pMonitorInfo->rcScreen.top,
+        pMonitorInfo->rcScreen.right - pMonitorInfo->rcScreen.left,
+        pMonitorInfo->rcScreen.bottom - pMonitorInfo->rcScreen.top,
+        NULL,
+        NULL,
+        m_hInstance,
+        this
+    );
+
+    if (pMonitorInfo->hWnd == NULL) {
+		return E_FAIL;
+    }
+	
+	SetTimer(pMonitorInfo->hWnd, 2, 250, NULL);
+
+    if (m_hWnd == NULL) {
+        return E_FAIL;
+    }
+
+    // Message pump
+    BOOL bGotMsg;
+    MSG msg;
+    msg.message = WM_NULL;
+    while (msg.message != WM_QUIT) {
+        bGotMsg = PeekMessage(&msg, NULL, 0, 0, PM_REMOVE);
+        if (bGotMsg) {
+            TranslateMessage(&msg);
+            DispatchMessage(&msg);
+        } else {
+            Sleep(10);
+        }
+    }
+
+    return S_OK;
+}
+
+
+
 // Run the screensaver graphics - may be preview, test or full-on mode
 //
 HRESULT CScreensaver::DoSaver() {
@@ -1578,6 +1650,61 @@ LRESULT CScreensaver::GenericSaverProc(
 
 
 
+// Handle window messages for resetting the primary display.
+//
+LRESULT CScreensaver::ResetProc(
+    HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam
+) {
+    DWORD dwMonitor = 0;
+
+#ifdef _DEBUG
+    for(DWORD iIndex = 0; iIndex < m_dwNumMonitors; iIndex++) {
+		if (hWnd == m_Monitors[iIndex].hWnd ) {
+            dwMonitor = iIndex;
+        }
+    }
+    BOINCTRACE(_T("CScreensaver::ResetProc [%d] hWnd '%d' uMsg '%X' wParam '%d' lParam '%d'\n"), dwMonitor, hWnd, uMsg, wParam, lParam);
+#endif
+
+    switch (uMsg) {
+        case WM_TIMER:
+            BOINCTRACE(_T("CScreensaver::ResetProc Received WM_TIMER\n"));
+			switch (wParam) { 
+				case 1: 
+					KillTimer(hWnd, 1);
+                    CloseWindow(hWnd);
+                    return 0;
+                    break;
+            }
+            break;
+        case WM_PAINT:
+                PAINTSTRUCT ps;
+                BeginPaint(hWnd, &ps);
+                RECT rc;
+                GetClientRect(hWnd,&rc);
+			    FillRect(ps.hdc, &rc, (HBRUSH)GetStockObject(BLACK_BRUSH));
+                EndPaint(hWnd, &ps);
+            return 0;
+            break;
+
+        case WM_CLOSE:
+            BOINCTRACE(_T("CScreensaver::ResetProc Received WM_CLOSE\n"));
+            break;
+    }
+
+    if (WM_SETTIMER == uMsg) {
+        BOINCTRACE(_T("CScreensaver::ResetProc Received WM_SETTIMER\n"));
+        // All initialization messages have gone through.  Allow
+        // 500ms of idle time, then proceed with initialization.
+        SetTimer(hWnd, 1, 250, NULL);
+    }
+
+    return DefWindowProc(hWnd, uMsg, wParam, lParam);
+}
+
+
+
+
 DWORD CScreensaver::ConvertSliderPositionToTime( DWORD dwPosition ) {
     return dwTableSliderPositionToTime[dwPosition];
 }
@@ -1733,6 +1860,18 @@ LRESULT CALLBACK CScreensaver::GenericSaverProcStub(
     HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam
 ) {
     return gspScreensaver->GenericSaverProc(hWnd, uMsg, wParam, lParam);
+}
+
+
+
+
+// This function forwards all window messages to ResetProc, which has
+//       access to the "this" pointer.
+//
+LRESULT CALLBACK CScreensaver::ResetProcStub(
+    HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam
+) {
+    return gspScreensaver->ResetProc(hWnd, uMsg, wParam, lParam);
 }
 
 
