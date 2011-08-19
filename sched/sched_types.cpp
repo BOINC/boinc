@@ -849,7 +849,7 @@ int SCHEDULER_REPLY::write(FILE* fout, SCHEDULER_REQUEST& sreq) {
     if (strlen(code_sign_key)) {
         fputs("<code_sign_key>\n", fout);
         fputs(code_sign_key, fout);
-        fputs("</code_sign_key>\n", fout);
+        fputs("\n</code_sign_key>\n", fout);
     }
 
     if (strlen(code_sign_key_signature)) {
