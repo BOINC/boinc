@@ -69,6 +69,7 @@ function batch_flop_count($r) {
 //
 function project_flops() {
     $x = BoincUser::sum("expavg_credit");
+    if ($x == 0) $x = 200;
     $y = 1e9*$x/200;
     return $y;
 }
