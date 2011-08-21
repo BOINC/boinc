@@ -4947,3 +4947,12 @@ David  21 Aug 2011
 
     sched/
         trickle_credit.cpp
+
+David  21 Aug 2011
+    - add script to purge trickle message records from DB
+    - fix spelling errors in db_purge
+
+    html/ops/
+        purge_trickles.php (new)
+    sched/
+        db_purge.cpp
