@@ -655,8 +655,11 @@ void GUI_RPC_CONN::handle_get_project_config_poll(char*, MIOFILE& fout) {
 
 void GUI_RPC_CONN::handle_lookup_account(char* buf, MIOFILE& fout) {
     ACCOUNT_IN ai;
+    MIOFILE in;
 
-    ai.parse(buf);
+    in.init_buf_read(buf);
+    XML_PARSER xp(&in);
+    ai.parse(xp);
     if (!ai.url.size() || !ai.email_addr.size() || !ai.passwd_hash.size()) {
         fout.printf("<error>missing URL, email address, or password</error>\n");
         return;
@@ -681,9 +684,11 @@ void GUI_RPC_CONN::handle_lookup_account_poll(char*, MIOFILE& fout) {
 
 void GUI_RPC_CONN::handle_create_account(char* buf, MIOFILE& fout) {
     ACCOUNT_IN ai;
+    MIOFILE in;
+    in.init_buf_read(buf);
+    XML_PARSER xp(&in);
 
-    ai.parse(buf);
-
+    ai.parse(xp);
     create_account_op.do_rpc(ai);
     fout.printf("<success/>\n");
 }

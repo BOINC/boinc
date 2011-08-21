@@ -54,9 +54,17 @@ int handle_trickle(MSG_FROM_HOST& msg) {
     if (retval) return retval;
     HOST old_host = host;
 
-    double credit = cpu_time_to_credit(cpu_time, host);
+    double cpu_flops_sec = host.p_fpops;
+
+    // sanity checks - customize as needed
+    //
+    if (cpu_flops_sec < 0) cpu_flops_sec = 1e9;
+    if (cpu_flops_sec > 2e10) cpu_flops_sec = 2e10;
+    double credit = cpu_time_to_credit(cpu_time, cpu_flops_sec);
     grant_credit(host, dtime()-86400, credit);
 
+    // update the host's credit fields
+    //
     retval = host.update_diff_validator(old_host);
 
     return 0;

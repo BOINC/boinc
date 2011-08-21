@@ -4926,3 +4926,18 @@ Rom    18 Aug 2011
         
     clientscr/
         screensaver_win.cpp, .h
+
+David  21 Aug 2011
+    - Vbox wrapper: add --trickle x option; sends a trickle-up message
+        reporting incremental runtime exery x seconds of runtime.
+    - client: more XML parsing cleanup
+    - credit trickle handler: do sanity checks on CPU speed
+
+    sched/
+        trickle_credit.cpp
+        credit.cpp,h
+    samples/vboxwrapper/
+        vboxwrapper.cpp
+    client/
+        acct_setup.cpp,h
+        gui_rpc_server_ops.cpp

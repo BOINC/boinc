@@ -15,8 +15,12 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-// vboxwrapper.cpp
-// vboxwrapper program - lets you use VirtualBox VMs with BOINC
+// vboxwrapper [options]     BOINC VirtualBox wrapper
+// see: http://boinc.berkeley.edu/trac/wiki/VboxApps
+// Options:
+// --trickle X      send a trickle message reporting elapsed time every X secs
+//                  (use this for credit granting if your app does its
+//                  own job management, like CernVM).
 //
 // Handles:
 // - suspend/resume/quit/abort
@@ -25,11 +29,12 @@
 // - checkpointing
 //      (at the level of task; or potentially within task)
 //
-// See http://boinc.berkeley.edu/wrapper.php for details
-// Contributor: Andrew J. Younge (ajy4490@umiacs.umd.edu)
-// Contributor: Jie Wu <jiewu AT cern DOT ch>
-// Contributor: Daniel Lombraña González <teleyinex AT gmail DOT com>
-//
+// Contributors:
+// Andrew J. Younge (ajy4490 AT umiacs DOT umd DOT edu)
+// Jie Wu <jiewu AT cern DOT ch>
+// Daniel Lombraña González <teleyinex AT gmail DOT com>
+// Rom Walton
+// David Anderson
 
 #ifdef _WIN32
 #include "boinc_win.h"
@@ -62,8 +67,7 @@
 
 int parse_job_file(VBOX_VM& vm) {
     MIOFILE mf;
-    char buf[256], buf2[256], tag[256];
-    bool is_tag;
+    char buf[256], buf2[256];
 
     boinc_resolve_filename(JOB_FILENAME, buf, 1024);
     FILE* f = boinc_fopen(buf, "r");
@@ -78,23 +82,23 @@ int parse_job_file(VBOX_VM& vm) {
     XML_PARSER xp(&mf);
 
     if (!xp.parse_start("vbox_job")) return ERR_XML_PARSE;
-    while (!xp.get(tag, sizeof(tag), is_tag)) {
-        if (!is_tag) {
+    while (!xp.get_tag()) {
+        if (!xp.is_tag) {
             fprintf(stderr, "%s parse_job_file(): unexpected text %s\n",
-                boinc_msg_prefix(buf, sizeof(buf)), tag
+                boinc_msg_prefix(buf, sizeof(buf)), xp.parsed_tag
             );
             continue;
         }
-        if (!strcmp(tag, "/vbox_job")) {
+        if (xp.match_tag("/vbox_job")) {
             fclose(f);
             return 0;
         }
-        else if (xp.parse_string(tag, "os_name", vm.os_name)) continue;
-        else if (xp.parse_string(tag, "memory_size_mb", vm.memory_size_mb)) continue;
-        else if (xp.parse_bool(tag, "enable_network", vm.enable_network)) continue;
-        else if (xp.parse_bool(tag, "enable_shared_directory", vm.enable_shared_directory)) continue;
+        else if (xp.parse_string("os_name", vm.os_name)) continue;
+        else if (xp.parse_string("memory_size_mb", vm.memory_size_mb)) continue;
+        else if (xp.parse_bool("enable_network", vm.enable_network)) continue;
+        else if (xp.parse_bool("enable_shared_directory", vm.enable_shared_directory)) continue;
         fprintf(stderr, "%s parse_job_file(): unexpected tag %s\n",
-            boinc_msg_prefix(buf, sizeof(buf)), tag
+            boinc_msg_prefix(buf, sizeof(buf)), xp.parsed_tag
         );
     }
     fclose(f);
@@ -122,7 +126,7 @@ void read_checkpoint(double& cpu) {
 }
 
 
-int main(int, char**) {
+int main(int argc, char** argv) {
     BOINC_OPTIONS boinc_options;
     double current_cpu_time = 0.0;
     double checkpoint_cpu_time = 0.0;
@@ -131,12 +135,19 @@ int main(int, char**) {
     int retval;
     VBOX_VM vm;
     APP_INIT_DATA aid;
+    double trickle_period = 0, trickle_cpu_time = 0;;
 
     memset(&boinc_options, 0, sizeof(boinc_options));
     boinc_options.main_program = true;
     boinc_options.check_heartbeat = true;
     boinc_options.handle_process_control = true;
     boinc_init_options(&boinc_options);
+
+    for (int i=1; i<argc; i++) {
+        if (!strcmp(argv[i], "--trickle")) {
+            trickle_period = atof(argv[++i]);
+        }
+    }
 
     fprintf(
         stderr,
@@ -174,7 +185,6 @@ int main(int, char**) {
     }
 
     while (1) {
-
         vm.poll();
         is_running = vm.is_running();
 
@@ -201,20 +211,24 @@ int main(int, char**) {
             if (vm.suspended) {
                 vm.resume();
             }
+            current_cpu_time += POLL_PERIOD;
+            boinc_report_app_status(current_cpu_time, checkpoint_cpu_time, 0.0);
+            if (trickle_period) {
+                trickle_cpu_time += POLL_PERIOD;
+                if (trickle_cpu_time >= trickle_period) {
+                    sprintf(buf, "<cpu_time>%f</cpu_time>", trickle_cpu_time);
+                    boinc_send_trickle_up(const_cast<char*>("cpu_time"), buf);
+                    trickle_cpu_time = 0;
+                }
+            }
         }
         if (boinc_time_to_checkpoint()) {
             boinc_checkpoint_completed();
             checkpoint_cpu_time += current_cpu_time;
             current_cpu_time = 0.0;
         }
-        if (is_running) {
-            current_cpu_time += 1.0;
-            boinc_report_app_status(current_cpu_time, checkpoint_cpu_time, 0.0);
-        }
         boinc_sleep(POLL_PERIOD);
     }
-    
-    return 0;
 }
 
 #ifdef _WIN32

@@ -39,8 +39,8 @@ double fpops_to_credit(double fpops) {
     return fpops*COBBLESTONE_SCALE;
 }
 
-double cpu_time_to_credit(double cpu_time, HOST& host) {
-    return fpops_to_credit(cpu_time*host.p_fpops);
+double cpu_time_to_credit(double cpu_time, double cpu_flops_sec) {
+    return fpops_to_credit(cpu_time*cpu_flops_sec);
 }
 
 // Grant the host (and associated user and team)

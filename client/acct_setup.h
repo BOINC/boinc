@@ -44,7 +44,7 @@ struct ACCOUNT_IN {
     std::string team_name;
     std::string passwd_hash;
 
-    void parse(char*);
+    void parse(XML_PARSER&);
 };
 
 struct GET_PROJECT_CONFIG_OP: public GUI_HTTP_OP {
