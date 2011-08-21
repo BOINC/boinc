@@ -4941,3 +4941,9 @@ David  21 Aug 2011
     client/
         acct_setup.cpp,h
         gui_rpc_server_ops.cpp
+
+David  21 Aug 2011
+    - credit trickle handler: write log messages if sanity checks fail
+
+    sched/
+        trickle_credit.cpp

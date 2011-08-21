@@ -24,6 +24,14 @@
 // NOTE: there is no cheat-prevention mechanism here; add your own.
 // NOTE: doesn't work for GPU apps
 
+// sanity-check bounds:
+#define MIN_FLOPS 1e9
+    // if host FLOPS is < 0, set it to this
+#define MAX_FLOPS 2e10
+    // cap host FLOPS at this
+#define MAX_RUNTIME 3600.
+    // this corresponds to the --trickle arg to vboxwrapper
+
 #include "error_numbers.h"
 #include "util.h"
 
@@ -44,8 +52,8 @@ int handle_trickle(MSG_FROM_HOST& msg) {
         if (xp.parse_double("cpu_time", cpu_time)) break;
         log_messages.printf(MSG_NORMAL, "unexpected tag: %s\n", xp.parsed_tag);
     }
-    if (!cpu_time) {
-        log_messages.printf(MSG_NORMAL, "unexpected zero CPU time\n");
+    if (cpu_time <= 0) {
+        log_messages.printf(MSG_NORMAL, "unexpected nonpositive CPU time: %f\n", cpu_time);
         return ERR_XML_PARSE;
     }
 
@@ -58,10 +66,31 @@ int handle_trickle(MSG_FROM_HOST& msg) {
 
     // sanity checks - customize as needed
     //
-    if (cpu_flops_sec < 0) cpu_flops_sec = 1e9;
-    if (cpu_flops_sec > 2e10) cpu_flops_sec = 2e10;
+    if (cpu_time > MAX_RUNTIME) {
+        log_messages.printf(MSG_NORMAL,
+            "Reported runtime exceeds bound: %f>%f\n", cpu_time, MAX_RUNTIME
+        );
+        return 0;
+    }
+    if (cpu_flops_sec < 0) {
+        log_messages.printf(MSG_NORMAL,
+            "host CPU speed %f < 0.  Using %f instead\n",
+            cpu_flops_sec, MIN_FLOPS
+        );
+        cpu_flops_sec = MIN_FLOPS;
+    }
+    if (cpu_flops_sec > 2e10) {
+        log_messages.printf(MSG_NORMAL,
+            "host CPU speed %f exceeds %f.  Using %f instead\n",
+            cpu_flops_sec, MAX_FLOPS, MAX_FLOPS
+        );
+        cpu_flops_sec = 2e10;
+    }
     double credit = cpu_time_to_credit(cpu_time, cpu_flops_sec);
     grant_credit(host, dtime()-86400, credit);
+    log_messages.printf(MSG_DEBUG,
+        "granting %f credit to host %d\n", credit, host.id
+    );
 
     // update the host's credit fields
     //
