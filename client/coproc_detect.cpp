@@ -318,9 +318,10 @@ void COPROCS::get_opencl(bool use_all, vector<string>&warnings,
             }
         }
 
-        // see which other instances are equivalent,
-        // and set the "opencl_device_count" and "opencl_device_ids" fields
+        // see which other instances are equivalent, and set the count, 
+        // device_nums, opencl_device_count and opencl_device_ids fields
         //
+        nvidia.count = 0;
         nvidia.opencl_device_count = 0;
         for (i=0; i<nvidia_opencls.size(); i++) {
             char buf2[256];
@@ -334,7 +335,9 @@ void COPROCS::get_opencl(bool use_all, vector<string>&warnings,
                 sprintf(buf2, "OpenCL: NVIDIA GPU %d (ignored by config): %s", nvidia_opencls[i].device_num, buf);
             } else {
                 if (use_all || !opencl_compare(nvidia_opencls[i], nvidia.opencl_prop, true)) {
+                    nvidia.device_nums[nvidia.count++] = nvidia_opencls[i].device_num;
                     nvidia.opencl_device_ids[nvidia.opencl_device_count++] = nvidia_opencls[i].device_id;
+                    
                     sprintf(buf2, "OpenCL: NVIDIA GPU %d: %s", nvidia_opencls[i].device_num, buf);
                 } else {
                     sprintf(buf2, "OpenCL: NVIDIA GPU %d (not used): %s", nvidia_opencls[i].device_num, buf);
@@ -391,9 +394,10 @@ void COPROCS::get_opencl(bool use_all, vector<string>&warnings,
             }
         }
 
-        // see which other instances are equivalent,
-        // and set the "opencl_device_count" and "opencl_device_ids" fields
+        // see which other instances are equivalent, and set the count, 
+        // device_nums, opencl_device_count and opencl_device_ids fields
         //
+        ati.count = 0;
         ati.opencl_device_count = 0;
         for (i=0; i<ati_opencls.size(); i++) {
             char buf2[256];
@@ -407,6 +411,7 @@ void COPROCS::get_opencl(bool use_all, vector<string>&warnings,
                 sprintf(buf2, "OpenCL: ATI GPU %d (ignored by config): %s", ati_opencls[i].device_num, buf);
             } else {
                 if (use_all || !opencl_compare(ati_opencls[i], ati.opencl_prop, true)) {
+                    ati.device_nums[ati.count++] = ati_opencls[i].device_num;
                     ati.opencl_device_ids[ati.opencl_device_count++] = ati_opencls[i].device_id;
                     sprintf(buf2, "OpenCL: ATI GPU %d: %s", ati_opencls[i].device_num, buf);
                 } else {
