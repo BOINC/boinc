@@ -276,10 +276,16 @@ void COPROCS::get_opencl(bool use_all, vector<string>&warnings,
             if (in_vector(nvidia_opencls[i].device_num, ignore_nvidia_dev)) continue;
             if (nvidia.matches(nvidia_opencls[i])) {
                 nvidia.opencl_prop = nvidia_opencls[i];
-                nvidia.opencl_device_ids[nvidia.opencl_device_count++] = nvidia_opencls[i].device_id;
+                nvidia.opencl_device_ids[0] = nvidia_opencls[i].device_id;
                 nvidia.have_opencl = true;
+                break;
             }
         }
+//TODO: This assumes OpenCL and NVIDIA return the same device with the same index
+        for (i=0; i<(unsigned int)nvidia.count; ++i) {
+            nvidia.opencl_device_ids[i] = nvidia_opencls[nvidia.device_nums[i]].device_id;
+        }
+        nvidia.opencl_device_count = nvidia.count;
     } else {
         // identify the most capable NVIDIA OpenCL GPU
         //
@@ -343,10 +349,16 @@ void COPROCS::get_opencl(bool use_all, vector<string>&warnings,
             if (in_vector(ati_opencls[i].device_num, ignore_ati_dev)) continue;
             if (ati.matches(ati_opencls[i])) {
                 ati.opencl_prop = ati_opencls[i];
-                ati.opencl_device_ids[ati.opencl_device_count++] = ati_opencls[i].device_id;
+                ati.opencl_device_ids[0] = ati_opencls[i].device_id;
                 ati.have_opencl = true;
+                break;
             }
         }
+//TODO: This assumes OpenCL and CAL return the same device with the same index
+          for (i=0; i<(unsigned int)ati.count; ++i) {
+            ati.opencl_device_ids[i] = ati_opencls[ati.device_nums[i]].device_id;
+        }
+        ati.opencl_device_count = ati.count;
     } else {
         // identify the most capable ATI OpenCL GPU
         //
