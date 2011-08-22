@@ -4963,3 +4963,14 @@ Charlie 22 Aug 2011
     client/
         app.cpp
         coproc_detect.cpp
+
+Charlie 22 Aug 2011
+    - client: Correlate OpenCL results with CAL or CUDA results based 
+        on index of devices reported by each.  This assumes that CUDA 
+        and OpenCL and report NVIDIA devices in the same order, and 
+        that CAL and OpenCL report ATI/AMD devices in the same order.
+
+    client/
+        coproc_detect.cpp
+    lib/
+        coproc.h

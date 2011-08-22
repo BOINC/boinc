@@ -111,6 +111,7 @@ struct OPENCL_DEVICE_PROP {
     cl_uint max_cores;                  // Max number of parallel computer cores
     char openCL_device_version[64];     // OpenCL version supported by device; example: "OpenCL 1.1 beta"
     char openCL_driver_version[32];     // For example: "CLH 1.0"
+    int device_num;                     // temp used in scan process
 };
 
 
@@ -312,7 +313,10 @@ struct COPROCS {
         std::vector<int>& ignore_nvidia_dev,
         std::vector<int>& ignore_ati_dev
     );
-    void get_opencl(bool use_all, std::vector<std::string> &warnings);
+    void get_opencl(bool use_all, std::vector<std::string> &warnings,
+        std::vector<int>& ignore_nvidia_dev, 
+        std::vector<int>& ignore_ati_dev
+    );
     cl_int get_opencl_info(
         OPENCL_DEVICE_PROP& prop, 
         cl_uint device_index, 
