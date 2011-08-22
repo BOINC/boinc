@@ -117,6 +117,7 @@ int CLIENT_STATE::parse_state_file_aux(const char* fname) {
     bool btemp;
 
     FILE* f = fopen(fname, "r");
+    if (!f) return ERR_FOPEN;
     MIOFILE mf;
     XML_PARSER xp(&mf);
     mf.init_file(f);

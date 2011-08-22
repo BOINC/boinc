@@ -21,6 +21,8 @@
 #include <cstring>
 #include <vector>
 
+#include "parse.h"
+
 struct IP_RESULT {
     char name[256];
     double computation_deadline;

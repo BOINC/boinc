@@ -4974,3 +4974,13 @@ Charlie 22 Aug 2011
         coproc_detect.cpp
     lib/
         coproc.h
+
+David  22 Aug 2011
+    - client emulator fixes
+
+    sched/
+        edf_sim.h
+    client/
+        sim.cpp
+        sim_util.cpp
+        cs_statefile.cpp

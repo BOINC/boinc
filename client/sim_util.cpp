@@ -169,15 +169,13 @@ void RANDOM_PROCESS::init(double f, double l) {
 }
 
 int UNIFORM_DIST::parse(XML_PARSER& xp, const char* end_tag) {
-    char tag[256];
-    bool is_tag;
-    while (!xp.get(tag, sizeof(tag), is_tag)) {
-        if (!is_tag) return ERR_XML_PARSE;
-        if (xp.parse_double(tag, "lo", lo)) continue;
-        else if (xp.parse_double(tag, "hi", hi)) continue;
-        else if (!strcmp(tag, end_tag)) return 0;
+    while (!xp.get_tag()) {
+        if (!xp.is_tag) return ERR_XML_PARSE;
+        if (xp.parse_double("lo", lo)) continue;
+        else if (xp.parse_double("hi", hi)) continue;
+        else if (xp.match_tag(end_tag)) return 0;
         else {
-            printf("unrecognized: %s\n", tag);
+            printf("unrecognized: %s\n", xp.parsed_tag);
             return ERR_XML_PARSE;
         }
     }
@@ -185,15 +183,13 @@ int UNIFORM_DIST::parse(XML_PARSER& xp, const char* end_tag) {
 }
 
 int NORMAL_DIST::parse(XML_PARSER& xp, const char* end_tag) {
-    char tag[256];
-    bool is_tag;
-    while(!xp.get(tag, sizeof(tag), is_tag)) {
-        if (!is_tag) return ERR_XML_PARSE;
-        if (xp.parse_double(tag, "mean", mean)) continue;
-        else if (xp.parse_double(tag, "std_dev", std_dev)) continue;
-        else if (!strcmp(tag, end_tag)) return 0;
+    while(!xp.get_tag()) {
+        if (!xp.is_tag) return ERR_XML_PARSE;
+        if (xp.parse_double("mean", mean)) continue;
+        else if (xp.parse_double("std_dev", std_dev)) continue;
+        else if (xp.match_tag(end_tag)) return 0;
         else {
-            printf("unrecognized: %s\n", tag);
+            printf("unrecognized: %s\n", xp.parsed_tag);
             return ERR_XML_PARSE;
         }
     }

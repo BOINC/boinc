@@ -126,7 +126,10 @@ void usage(char* prog) {
         "[--duration X]\n"
         "[--delta X]\n"
         "[--server_uses_workload]\n"
-        "[--cpu_sched_rr_only]\n",
+        "[--cpu_sched_rr_only]\n"
+        "[--use_rec]\n"
+        "[--use_hyst_fetch]\n"
+        "[--rec_half_life X]\n",
         prog
     );
     exit(1);
