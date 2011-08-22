@@ -723,7 +723,6 @@ int ACTIVE_TASK_SET::write(MIOFILE& fout) {
 
 int ACTIVE_TASK_SET::parse(XML_PARSER& xp) {
     ACTIVE_TASK* atp;
-    char buf[256];
     int retval;
 
     while (!xp.get_tag()) {

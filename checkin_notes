@@ -4956,3 +4956,10 @@ David  21 Aug 2011
         purge_trickles.php (new)
     sched/
         db_purge.cpp
+
+Charlie 22 Aug 2011
+    - client: Fix compiler warnings.
+
+    client/
+        app.cpp
+        coproc_detect.cpp
