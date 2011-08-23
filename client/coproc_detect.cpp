@@ -174,6 +174,7 @@ void COPROCS::get_opencl(bool use_all, vector<string>&warnings,
     cl_platform_id platforms[MAX_OPENCL_PLATFORMS];
     cl_uint num_platforms, platform_index, num_devices, device_index;
     cl_device_id devices[MAX_COPROC_INSTANCES];
+    char platform_version[64];
     OPENCL_DEVICE_PROP prop;
     vector<OPENCL_DEVICE_PROP> nvidia_opencls;
     vector<OPENCL_DEVICE_PROP> ati_opencls;
@@ -232,6 +233,16 @@ void COPROCS::get_opencl(bool use_all, vector<string>&warnings,
     }
     
     for (platform_index=0; platform_index<num_platforms; ++platform_index) {
+        ciErrNum = (*__clGetPlatformInfo)(
+            platforms[platform_index], CL_PLATFORM_VERSION, sizeof(platform_version), &platform_version, NULL
+        );
+        if (ciErrNum != CL_SUCCESS) {
+            char buf[256];
+            sprintf(buf, "clGetPlatformInfo CL_PLATFORM_VERSION for platform #%d returned error %d", platform_index, ciErrNum);
+            warnings.push_back(buf);
+            return;
+        }
+
         ciErrNum = (*__clGetDeviceIDs)(
             platforms[platform_index], CL_DEVICE_TYPE_GPU, MAX_COPROC_INSTANCES, devices, &num_devices
         );
@@ -245,6 +256,7 @@ void COPROCS::get_opencl(bool use_all, vector<string>&warnings,
         for (device_index=0; device_index<num_devices; ++device_index) {
             memset(&prop, 0, sizeof(prop));
             prop.device_id = devices[device_index];
+            strncpy(prop.openCL_platform_version, platform_version, sizeof(prop.openCL_platform_version)-1);
             
 //TODO: Should we store the platform(s) for each GPU found?
 //TODO: Must we check if multiple platforms found the same GPU and merge the records?

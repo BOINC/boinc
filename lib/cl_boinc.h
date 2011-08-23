@@ -101,6 +101,13 @@ typedef cl_bitfield         cl_command_queue_properties;
 #define CL_INVALID_GLOBAL_WORK_SIZE                 -63
 #define CL_INVALID_PROPERTY                         -64
 
+// cl_platform_info
+#define CL_PLATFORM_PROFILE                         0x0900
+#define CL_PLATFORM_VERSION                         0x0901
+#define CL_PLATFORM_NAME                            0x0902
+#define CL_PLATFORM_VENDOR                          0x0903
+#define CL_PLATFORM_EXTENSIONS                      0x0904
+
 /* cl_device_type - bitfield */
 #define CL_DEVICE_TYPE_DEFAULT                      (1 << 0)
 #define CL_DEVICE_TYPE_CPU                          (1 << 1)

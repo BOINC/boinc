@@ -4984,3 +4984,17 @@ David  22 Aug 2011
         sim.cpp
         sim_util.cpp
         cs_statefile.cpp
+
+Charlie 23 Aug 2011
+    - client: If OpenCL is supported, add OpenCL information to 
+        COPROC_ATI::write_xml() and COPROC_NVIDIA::write_xml(), and 
+        parse OpenCL information in COPROC_ATI::parse() and 
+        COPROC_NVIDIA::parse().
+    - client: Add OpenCL platform version number to COPROC struct.
+
+    client/
+        coproc_detect.cpp
+    lib/
+        cl_boinc.h
+        coproc.cpp, .h
+        parse.h

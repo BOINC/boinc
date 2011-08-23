@@ -70,7 +70,6 @@ void COPROC::write_xml(MIOFILE& f) {
         "</coproc>\n",
         type, count
     );
-//TODO: Add opencl_prop
 }
 
 void COPROC::write_request(MIOFILE& f) {
@@ -84,8 +83,52 @@ void COPROC::write_request(MIOFILE& f) {
     );
 }
 
+void COPROC::opencl_write_xml(MIOFILE& f) {
+    f.printf(
+        "   <coproc_opencl>\n"
+        "      <device_id>%p</device_id>\n"
+        "      <name>%s</name>\n"
+        "      <vendor>%s</vendor>\n"
+        "      <vendor_id>%lu</vendor_id>\n"
+        "      <available>%d</available>\n"
+        "      <hp_fp_config>%llu</hp_fp_config>\n"
+        "      <sp_fp_config>%llu</sp_fp_config>\n"
+        "      <dp_fp_config>%llu</dp_fp_config>\n"
+        "      <little_endian>%d</little_endian>\n"
+        "      <exec_capabilities>%llu</exec_capabilities>\n"
+        "      <extensions>%s</extensions>\n"
+        "      <global_RAM>%llu</global_RAM>\n"
+        "      <local_RAM>%llu</local_RAM>\n"
+        "      <max_clock_freq>%lu</max_clock_freq>\n"
+        "      <max_cores>%lu</max_cores>\n"
+        "      <openCL_platform_version>%s</openCL_platform_version>\n"
+        "      <openCL_device_version>%s</openCL_device_version>\n"
+        "      <openCL_driver_version>%s</openCL_driver_version>\n"
+        "      <device_num>%d</device_num>\n"
+        "   </coproc_opencl>\n",
+        opencl_prop.device_id, 
+        opencl_prop.name,
+        opencl_prop.vendor,
+        opencl_prop.vendor_id,
+        opencl_prop.available ? 1 : 0,
+        opencl_prop.hp_fp_config,
+        opencl_prop.sp_fp_config,
+        opencl_prop.dp_fp_config,
+        opencl_prop.little_endian ? 1 : 0,
+        opencl_prop.exec_capab,
+        opencl_prop.extensions,
+        opencl_prop.global_RAM,
+        opencl_prop.local_RAM,
+        opencl_prop.max_clock_freq,
+        opencl_prop.max_cores,
+        opencl_prop.openCL_platform_version,
+        opencl_prop.openCL_device_version,
+        opencl_prop.openCL_driver_version,
+        opencl_prop.device_num
+    );
+}
+
 int COPROC::parse(XML_PARSER& xp) {
-//TODO: Parse opencl_prop
     char buf[256];
     strcpy(type, "");
     clear();
@@ -110,6 +153,70 @@ int COPROC::parse(XML_PARSER& xp) {
             }
             continue;
         }
+    }
+    return ERR_XML_PARSE;
+}
+
+int COPROC::parse_opencl(XML_PARSER& xp) {
+    char buf[1024];
+    unsigned long long ull;
+    int n;
+
+    MIOFILE& in = *(xp.f);
+    while (in.fgets(buf, sizeof(buf))) {
+        if (match_tag(buf, "</coproc_opencl>")) {
+            return 0;
+        }
+        if (parse_ulonglong(buf, "<device_id>", ull)) {
+            *((unsigned long long*)&opencl_prop.device_id) = ull;
+            continue;
+        }
+        if (parse_str(buf, "<name>", opencl_prop.name, sizeof(opencl_prop.name))) continue;
+        if (parse_str(buf, "<vendor>", opencl_prop.vendor, sizeof(opencl_prop.vendor))) continue;
+        if (parse_double(buf, "<peak_flops>", peak_flops)) continue;
+        if (parse_int(buf, "<available>", n)) {
+            opencl_prop.available = n;
+            continue;
+        }
+        if (parse_ulonglong(buf, "<hp_fp_config>", opencl_prop.hp_fp_config)) continue;
+        if (parse_ulonglong(buf, "<sp_fp_config>", opencl_prop.sp_fp_config)) continue;
+        if (parse_ulonglong(buf, "<dp_fp_config>", opencl_prop.dp_fp_config)) continue;
+        if (parse_int(buf, "<little_endian>", n)) {
+            opencl_prop.little_endian = n;
+            continue;
+        }
+        if (parse_ulonglong(buf, "<exec_capabilities>", opencl_prop.exec_capab)) continue;
+        if (parse_str(buf, "<extensions>", 
+                    opencl_prop.extensions, 
+                    sizeof(opencl_prop.extensions))) {
+            continue;
+        }
+        if (parse_ulonglong(buf, "<global_RAM>", opencl_prop.global_RAM)) continue;
+        if (parse_ulonglong(buf, "<local_RAM>", opencl_prop.local_RAM)) continue;
+        if (parse_int(buf, "<max_clock_freq>", n)) {
+            opencl_prop.max_clock_freq = n;
+            continue;
+        }
+        if (parse_int(buf, "<max_cores>", n)) {
+            opencl_prop.max_cores = n;
+            continue;
+        }
+        if (parse_str(buf, "<openCL_platform_version>", 
+                    opencl_prop.openCL_platform_version, 
+                    sizeof(opencl_prop.openCL_platform_version))) {
+            continue;
+        }
+        if (parse_str(buf, "<openCL_device_version>", 
+                    opencl_prop.openCL_device_version, 
+                    sizeof(opencl_prop.openCL_device_version))) {
+            continue;
+        }
+        if (parse_str(buf, "<openCL_driver_version>", 
+                    opencl_prop.openCL_driver_version, 
+                    sizeof(opencl_prop.openCL_driver_version))) {
+            continue;
+        }
+        if (parse_int(buf, "<device_num>", opencl_prop.device_num)) continue;
     }
     return ERR_XML_PARSE;
 }
@@ -201,32 +308,17 @@ void COPROC_NVIDIA::description(char* buf) {
 
 #ifndef _USING_FCGI_
 void COPROC_NVIDIA::write_xml(MIOFILE& f, bool include_request) {
-//TODO: Add opencl_prop
     f.printf(
         "<coproc_cuda>\n"
         "   <count>%d</count>\n"
-        "   <name>%s</name>\n",
-        count,
-        prop.name
-    );
-    if (have_cuda) {
-        f.printf("<have_cuda/>\n");
-    }
-    if (have_cal) {
-        f.printf("<have_cal/>\n");
-    }
-    if (have_opencl) {
-        f.printf("<have_opencl/>\n");
-    }
-    if (include_request) {
-        write_request(f);
-    }
-
-    f.printf(
+        "   <name>%s</name>\n"
+        "   <have_cuda>%d</have_cuda>\n"
+        "   <have_cal>%d</have_cal>\n"
+        "   <have_opencl>%d</have_opencl>\n"
         "   <peak_flops>%f</peak_flops>\n"
         "   <cudaVersion>%d</cudaVersion>\n"
         "   <drvVersion>%d</drvVersion>\n"
-        "   <deviceHandle>%d</deviceHandle>\n"
+        "   <deviceHandle>%p</deviceHandle>\n"
         "   <totalGlobalMem>%u</totalGlobalMem>\n"
         "   <sharedMemPerBlock>%u</sharedMemPerBlock>\n"
         "   <regsPerBlock>%d</regsPerBlock>\n"
@@ -241,8 +333,12 @@ void COPROC_NVIDIA::write_xml(MIOFILE& f, bool include_request) {
         "   <minor>%d</minor>\n"
         "   <textureAlignment>%u</textureAlignment>\n"
         "   <deviceOverlap>%d</deviceOverlap>\n"
-        "   <multiProcessorCount>%d</multiProcessorCount>\n"
-        "</coproc_cuda>\n",
+        "   <multiProcessorCount>%d</multiProcessorCount>\n",
+        count,
+        prop.name,
+        have_cuda ? 1 : 0,
+        have_cal ? 1 : 0,
+        have_opencl ? 1 : 0,
         peak_flops,
         cuda_version,
         display_driver_version,
@@ -263,6 +359,13 @@ void COPROC_NVIDIA::write_xml(MIOFILE& f, bool include_request) {
         prop.deviceOverlap,
         prop.multiProcessorCount
     );
+
+
+    if (have_opencl) {
+        opencl_write_xml(f);
+    }
+    
+    f.printf("</coproc_cuda>\n");
 }
 #endif
 
@@ -296,8 +399,8 @@ void COPROC_NVIDIA::clear() {
 }
 
 int COPROC_NVIDIA::parse(XML_PARSER& xp) {
-//TODO: Parse opencl_prop
     char buf[1024], buf2[256];
+    int retval;
 
     clear();
     MIOFILE& in = *(xp.f);
@@ -366,6 +469,11 @@ int COPROC_NVIDIA::parse(XML_PARSER& xp) {
         if (parse_int(buf, "<textureAlignment>", (int&)prop.textureAlignment)) continue;
         if (parse_int(buf, "<deviceOverlap>", prop.deviceOverlap)) continue;
         if (parse_int(buf, "<multiProcessorCount>", prop.multiProcessorCount)) continue;
+        if (match_tag(buf, "<coproc_opencl>")) {
+            retval = parse_opencl(xp);
+            if (retval) return retval;
+            continue;
+        }
     }
     return ERR_XML_PARSE;
 }
@@ -374,23 +482,19 @@ int COPROC_NVIDIA::parse(XML_PARSER& xp) {
 
 #ifndef _USING_FCGI_
 void COPROC_ATI::write_xml(MIOFILE& f, bool include_request) {
-//TODO: Add opencl_prop
     f.printf(
         "<coproc_ati>\n"
         "   <count>%d</count>\n"
-        "   <name>%s</name>\n",
+        "   <name>%s</name>\n"
+        "   <have_cuda>%d</have_cuda>\n"
+        "   <have_cal>%d</have_cal>\n"
+        "   <have_opencl>%d</have_opencl>\n",
         count,
-        name
+        name,
+        have_cuda ? 1 : 0,
+        have_cal ? 1 : 0,
+        have_opencl ? 1 : 0
     );
-    if (have_cuda) {
-        f.printf("<have_cuda/>\n");
-    }
-    if (have_cal) {
-        f.printf("<have_cal/>\n");
-    }
-    if (have_opencl) {
-        f.printf("<have_opencl/>\n");
-    }
     if (include_request) {
         write_request(f);
     }
@@ -437,6 +541,10 @@ void COPROC_ATI::write_xml(MIOFILE& f, bool include_request) {
         f.printf("    <amdrt_detected/>\n");
     }
 
+    if (have_opencl) {
+        opencl_write_xml(f);
+    }
+        
     f.printf("</coproc_ati>\n");
 };
 #endif
@@ -457,6 +565,7 @@ int COPROC_ATI::parse(XML_PARSER& xp) {
 //TODO: Parse opencl_prop
     char buf[1024];
     int n;
+    int retval;
 
     clear();
 
@@ -539,6 +648,11 @@ int COPROC_ATI::parse(XML_PARSER& xp) {
         }
         if (parse_int(buf, "<maxResource2DHeight>", n)) {
             info.maxResource2DHeight = n;
+            continue;
+        }
+        if (match_tag(buf, "<coproc_opencl>")) {
+            retval = parse_opencl(xp);
+            if (retval) return retval;
             continue;
         }
     }

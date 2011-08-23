@@ -109,6 +109,7 @@ struct OPENCL_DEVICE_PROP {
     cl_ulong local_RAM;                 // Size of local memory
     cl_uint max_clock_freq;             // Max configured clock frequencin in MHz
     cl_uint max_cores;                  // Max number of parallel computer cores
+    char openCL_platform_version[64];   // Version of OpenCL platform for this device
     char openCL_device_version[64];     // OpenCL version supported by device; example: "OpenCL 1.1 beta"
     char openCL_driver_version[32];     // For example: "CLH 1.0"
     int device_num;                     // temp used in scan process
@@ -167,6 +168,8 @@ struct COPROC {
     void write_xml(MIOFILE&);
     void write_request(MIOFILE&);
     int parse(XML_PARSER&);
+    void opencl_write_xml(MIOFILE&);
+    int parse_opencl(XML_PARSER&);
 #endif
 
     inline void clear() {
@@ -217,20 +220,20 @@ struct CUDA_DEVICE_PROP {
   unsigned int totalGlobalMem;
     // not used on the server; dtotalGlobalMem is used instead
     // (since some boards have >= 4GB)
-  int sharedMemPerBlock;
-  int    regsPerBlock;
-  int    warpSize;
-  int memPitch;
-  int    maxThreadsPerBlock;
-  int    maxThreadsDim[3];
-  int    maxGridSize[3]; 
-  int    clockRate;
-  int totalConstMem; 
-  int    major;     // compute capability
-  int    minor;
-  int textureAlignment;
-  int    deviceOverlap;
-  int    multiProcessorCount;
+  int   sharedMemPerBlock;
+  int   regsPerBlock;
+  int   warpSize;
+  int   memPitch;
+  int   maxThreadsPerBlock;
+  int   maxThreadsDim[3];
+  int   maxGridSize[3]; 
+  int   clockRate;
+  int   totalConstMem; 
+  int   major;     // compute capability
+  int   minor;
+  int   textureAlignment;
+  int   deviceOverlap;
+  int   multiProcessorCount;
   double dtotalGlobalMem;   // not defined in client
 };
 
