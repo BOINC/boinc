@@ -24,6 +24,7 @@
 #include <errno.h>
 
 #include "miofile.h"
+#include "str_util.h"
 
 class XML_PARSER {
     bool scan_nonws(int&);
@@ -75,6 +76,25 @@ inline bool match_tag(const char* buf, const char* tag) {
 inline bool match_tag(const std::string &s, const char* tag) {
     return match_tag(s.c_str(), tag);
 }
+
+#ifndef strtoull
+inline unsigned long long strtoull(const char *s, char **, int) {
+    char buf[64];
+    char *p;
+    unsigned long long y;
+    strncpy(buf, s, sizeof(buf)-1);
+    strip_whitespace(buf);
+    p = buf;
+    p = strstr(buf, "0x");
+    if (!p) p = strstr(buf, "0X");
+    if (p) {
+        sscanf(p, "llx", &y);
+    } else {
+        sscanf(buf, "llu", &y);
+    }
+    return y;
+}
+#endif
 
 // parse an integer of the form <tag>1234</tag>
 // return true if it's there
