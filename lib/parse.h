@@ -84,13 +84,12 @@ inline unsigned long long strtoull(const char *s, char **, int) {
     unsigned long long y;
     strncpy(buf, s, sizeof(buf)-1);
     strip_whitespace(buf);
-    p = buf;
     p = strstr(buf, "0x");
     if (!p) p = strstr(buf, "0X");
     if (p) {
-        sscanf(p, "llx", &y);
+        sscanf(p, "%llx", &y);
     } else {
-        sscanf(buf, "llu", &y);
+        sscanf(buf, "%llu", &y);
     }
     return y;
 }

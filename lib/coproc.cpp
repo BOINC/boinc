@@ -308,13 +308,29 @@ void COPROC_NVIDIA::description(char* buf) {
 
 #ifndef _USING_FCGI_
 void COPROC_NVIDIA::write_xml(MIOFILE& f, bool include_request) {
+unsigned long long test;
+
+test = strtoull("0x123456789abc", NULL, 0);
+
+
+
     f.printf(
         "<coproc_cuda>\n"
         "   <count>%d</count>\n"
         "   <name>%s</name>\n"
         "   <have_cuda>%d</have_cuda>\n"
         "   <have_cal>%d</have_cal>\n"
-        "   <have_opencl>%d</have_opencl>\n"
+        "   <have_opencl>%d</have_opencl>\n",
+        count,
+        prop.name,
+        have_cuda ? 1 : 0,
+        have_cal ? 1 : 0,
+        have_opencl ? 1 : 0
+    );
+    if (include_request) {
+        write_request(f);
+    }
+    f.printf(
         "   <peak_flops>%f</peak_flops>\n"
         "   <cudaVersion>%d</cudaVersion>\n"
         "   <drvVersion>%d</drvVersion>\n"
@@ -334,11 +350,6 @@ void COPROC_NVIDIA::write_xml(MIOFILE& f, bool include_request) {
         "   <textureAlignment>%u</textureAlignment>\n"
         "   <deviceOverlap>%d</deviceOverlap>\n"
         "   <multiProcessorCount>%d</multiProcessorCount>\n",
-        count,
-        prop.name,
-        have_cuda ? 1 : 0,
-        have_cal ? 1 : 0,
-        have_opencl ? 1 : 0,
         peak_flops,
         cuda_version,
         display_driver_version,
