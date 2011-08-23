@@ -567,7 +567,6 @@ void COPROC_ATI::clear() {
 }
 
 int COPROC_ATI::parse(XML_PARSER& xp) {
-//TODO: Parse opencl_prop
     char buf[1024];
     int n;
     int retval;
