@@ -308,12 +308,6 @@ void COPROC_NVIDIA::description(char* buf) {
 
 #ifndef _USING_FCGI_
 void COPROC_NVIDIA::write_xml(MIOFILE& f, bool include_request) {
-unsigned long long test;
-
-test = strtoull("0x123456789abc", NULL, 0);
-
-
-
     f.printf(
         "<coproc_cuda>\n"
         "   <count>%d</count>\n"
