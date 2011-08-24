@@ -5022,7 +5022,13 @@ David  23 Aug 2011
         various
 
 Charlie 24 Aug 2011
-    - lib: fix compile error on Mac, Ubuntu and Windows.
+    - lib: fix compile errors on Mac, Ubuntu and Windows.
 
     lib/
         parse.h
+
+Charlie 24 Aug 2011
+    - client: fix compile warnings on Mac and Ubuntu.
+
+    client/
+        coproc_detect.cpp
