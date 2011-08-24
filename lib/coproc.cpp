@@ -86,7 +86,6 @@ void COPROC::write_request(MIOFILE& f) {
 void COPROC::opencl_write_xml(MIOFILE& f) {
     f.printf(
         "   <coproc_opencl>\n"
-        "      <device_id>%p</device_id>\n"
         "      <name>%s</name>\n"
         "      <vendor>%s</vendor>\n"
         "      <vendor_id>%lu</vendor_id>\n"
@@ -104,9 +103,7 @@ void COPROC::opencl_write_xml(MIOFILE& f) {
         "      <openCL_platform_version>%s</openCL_platform_version>\n"
         "      <openCL_device_version>%s</openCL_device_version>\n"
         "      <openCL_driver_version>%s</openCL_driver_version>\n"
-        "      <device_num>%d</device_num>\n"
         "   </coproc_opencl>\n",
-        opencl_prop.device_id, 
         opencl_prop.name,
         opencl_prop.vendor,
         opencl_prop.vendor_id,
@@ -123,8 +120,7 @@ void COPROC::opencl_write_xml(MIOFILE& f) {
         opencl_prop.max_cores,
         opencl_prop.openCL_platform_version,
         opencl_prop.openCL_device_version,
-        opencl_prop.openCL_driver_version,
-        opencl_prop.device_num
+        opencl_prop.openCL_driver_version
     );
 }
 
@@ -173,21 +169,21 @@ int COPROC::parse_opencl(XML_PARSER& xp) {
             opencl_prop.available = n;
             continue;
         }
-        if (parse_ulong(buf, "<hp_fp_config>", opencl_prop.hp_fp_config)) continue;
-        if (parse_ulong(buf, "<sp_fp_config>", opencl_prop.sp_fp_config)) continue;
-        if (parse_ulong(buf, "<dp_fp_config>", opencl_prop.dp_fp_config)) continue;
+        if (parse_ulonglong(buf, "<hp_fp_config>", opencl_prop.hp_fp_config)) continue; 
+        if (parse_ulonglong(buf, "<sp_fp_config>", opencl_prop.sp_fp_config)) continue; 
+        if (parse_ulonglong(buf, "<dp_fp_config>", opencl_prop.dp_fp_config)) continue; 
         if (parse_int(buf, "<little_endian>", n)) {
             opencl_prop.little_endian = n;
             continue;
         }
-        if (parse_ulong(buf, "<exec_capabilities>", opencl_prop.exec_capab)) continue;
+        if (parse_ulonglong(buf, "<exec_capabilities>", opencl_prop.exec_capab)) continue;
         if (parse_str(buf, "<extensions>", 
                     opencl_prop.extensions, 
                     sizeof(opencl_prop.extensions))) {
             continue;
         }
-        if (parse_ulong(buf, "<global_RAM>", opencl_prop.global_RAM)) continue;
-        if (parse_ulong(buf, "<local_RAM>", opencl_prop.local_RAM)) continue;
+        if (parse_ulonglong(buf, "<global_RAM>", opencl_prop.global_RAM)) continue;
+        if (parse_ulonglong(buf, "<local_RAM>", opencl_prop.local_RAM)) continue;
         if (parse_int(buf, "<max_clock_freq>", n)) {
             opencl_prop.max_clock_freq = n;
             continue;
@@ -211,7 +207,6 @@ int COPROC::parse_opencl(XML_PARSER& xp) {
                     sizeof(opencl_prop.openCL_driver_version))) {
             continue;
         }
-        if (parse_int(buf, "<device_num>", opencl_prop.device_num)) continue;
     }
     return ERR_XML_PARSE;
 }

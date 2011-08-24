@@ -304,12 +304,11 @@ void COPROCS::get_opencl(bool use_all, vector<string>&warnings,
 //TODO: Temporary code for testing
             if (log_flags.coproc_debug) {
                 msg_printf(0, MSG_INFO,
-                    "[coproc_debug] COPROC_NVIDIA [no CUDA]: nvidia_opencls[%d].name = '%s'; nvidia_opencls[%d].device_id = %p, nvidia_opencls[%d].device_num = %d",
-                    i, nvidia_opencls[i].name, i, nvidia_opencls[i].device_id, i, nvidia_opencls[i].device_num);
+                   "[coproc_debug] COPROC_NVIDIA [no CUDA]: nvidia_opencls[%d].global_RAM = %llu; nvidia_opencls[%d].local_RAM = %llu", 
+                        i, nvidia_opencls[i].global_RAM, i, nvidia_opencls[i].local_RAM); 
                 msg_printf(0, MSG_INFO,
-                    "[coproc_debug] COPROC_NVIDIA [no CUDA]: nvidia_opencls[%d].global_RAM = %lu; nvidia_opencls[%d].local_RAM = %lu",
-                    i, (unsigned long)nvidia_opencls[i].global_RAM, 
-                    i, (unsigned long)nvidia_opencls[i].local_RAM);
+                    "[coproc_debug] COPROC_NVIDIA [no CUDA]: nvidia_opencls[%d].global_RAM = %llu; nvidia_opencls[%d].local_RAM = %llu",
+                    i, nvidia_opencls[i].global_RAM, i, nvidia_opencls[i].local_RAM);
             }
             if (in_vector(nvidia_opencls[i].device_num, ignore_nvidia_dev)) continue;
             bool is_best = false;
@@ -384,9 +383,8 @@ void COPROCS::get_opencl(bool use_all, vector<string>&warnings,
                     "[coproc_debug] COPROC_ATI [no CAL]: ati_opencls[%d].name = '%s'; ati_opencls[%d].device_id = %p, ati_opencls[%d].device_num = %d",
                     i, ati_opencls[i].name, i, ati_opencls[i].device_id, i, ati_opencls[i].device_num);
                 msg_printf(0, MSG_INFO,
-                    "[coproc_debug] COPROC_ATI [no CAL]: ati_opencls[%d].global_RAM = %lu; ati_opencls[%d].local_RAM = %lu",
-                    i, (unsigned long)ati_opencls[i].global_RAM, 
-                    i, (unsigned long)ati_opencls[i].local_RAM);
+                    "[coproc_debug] COPROC_ATI [no CAL]: ati_opencls[%d].global_RAM = %llu; ati_opencls[%d].local_RAM = %llu",
+                    i, ati_opencls[i].global_RAM, i, ati_opencls[i].local_RAM);
             }
             if (in_vector(ati_opencls[i].device_num, ignore_ati_dev)) continue;
             bool is_best = false;
@@ -1089,8 +1087,8 @@ bool COPROC_NVIDIA::matches(OPENCL_DEVICE_PROP& OpenCLprop) {
             "[coproc_debug] COPROC_NVIDIA [in matches()]: device_num = %d, prop.deviceHandle = %d; OpenCLprop.device_id = %p",
             device_num, prop.deviceHandle, OpenCLprop.device_id);
         msg_printf(0, MSG_INFO,
-            "[coproc_debug] COPROC_NVIDIA [in matches()]: prop.totalGlobalMem = %u; OpenCLprop.global_RAM = %lu; OpenCLprop.local_RAM = %lu",
-            prop.totalGlobalMem, (unsigned long)OpenCLprop.global_RAM, (unsigned long)OpenCLprop.local_RAM);
+            "[coproc_debug] COPROC_NVIDIA [in matches()]: prop.totalGlobalMem = %u; OpenCLprop.global_RAM = %llu; OpenCLprop.local_RAM = %llu",
+            prop.totalGlobalMem, OpenCLprop.global_RAM, OpenCLprop.local_RAM);
 
         if (strcmp(prop.name, OpenCLprop.name)) {
             msg_printf(0, MSG_INFO,
@@ -1552,8 +1550,8 @@ bool COPROC_ATI::matches(OPENCL_DEVICE_PROP& OpenCLprop) {
             "[coproc_debug] COPROC_ATI [in matches()]: prop.name = '%s'; OpenCLprop.name = '%s'",
             name, OpenCLprop.name);
         msg_printf(0, MSG_INFO,
-            "[coproc_debug] COPROC_ATI [in matches()]: attribs.localRAM = %u; OpenCLprop.global_RAM = %lu; OpenCLprop.local_RAM = %lu",
-            attribs.localRAM, (unsigned long)OpenCLprop.global_RAM, (unsigned long)OpenCLprop.local_RAM);
+            "[coproc_debug] COPROC_ATI [in matches()]: attribs.localRAM = %u; OpenCLprop.global_RAM = %llu; OpenCLprop.local_RAM = %llu",
+            attribs.localRAM, OpenCLprop.global_RAM, OpenCLprop.local_RAM);
     }
 
 #if 0//def _WIN32

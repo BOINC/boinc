@@ -5032,3 +5032,13 @@ Charlie 24 Aug 2011
 
     client/
         coproc_detect.cpp
+
+Charlie 24 Aug 2011
+    - lib, client: revert recent changes to restore unsigned long long so 
+        we can determine cause of Linux build errors.
+
+    lib/
+        parse.h
+        coproc.cpp
+    client/
+        coproc_detect.cpp
