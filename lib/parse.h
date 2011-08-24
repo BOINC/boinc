@@ -78,7 +78,9 @@ inline bool match_tag(const std::string &s, const char* tag) {
     return match_tag(s.c_str(), tag);
 }
 
-#ifndef __APPLE__
+#ifdef _WIN32
+#define strtoull _strtoui64
+#elif !defined(__APPLE__)
 inline unsigned long long strtoull(const char *s, char **, int) {
     char buf[64];
     char *p;
