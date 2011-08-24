@@ -5014,3 +5014,9 @@ David  23 Aug 2011
         coproc.cpp
     client/
         coproc_detect.cpp
+
+David  23 Aug 2011
+    - example app: get it right this time
+    
+    samples/example_app/
+        various
