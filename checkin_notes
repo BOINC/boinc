@@ -5020,3 +5020,9 @@ David  23 Aug 2011
     
     samples/example_app/
         various
+
+Charlie 24 Aug 2011
+    - lib: fix compile error on Mac, Ubuntu and Windows.
+
+    lib/
+        parse.h
