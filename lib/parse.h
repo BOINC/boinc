@@ -25,6 +25,7 @@
 
 #include "miofile.h"
 #include "str_util.h"
+#include "cl_boinc.h"
 
 class XML_PARSER {
     bool scan_nonws(int&);
@@ -135,7 +136,7 @@ inline bool parse_ulong(const char* buf, const char* tag, unsigned long& x) {
 
 // Same, for unsigned long long 
 // 
-inline bool parse_ulonglong(const char* buf, const char* tag, unsigned long long& x) { 
+inline bool parse_ulonglong(const char* buf, const char* tag, cl_ulong& x) { 
     const char* p = strstr(buf, tag); 
     if (!p) return false; 
     unsigned long long y = strtoull(p+strlen(tag), NULL, 0);    // this parses 0xabcd correctly 
