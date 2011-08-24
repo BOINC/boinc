@@ -322,14 +322,14 @@ $math = array(
             tra("The aim of this project is to provide a powerful distributed computing platform for scientists of Vilnius Gediminas Technical University (VGTU) as well as others Lithuanian academic institutions.  Current applications involve the study of Monte-Carlo based software testing."),
             "vtuathome-white.gif",
         ),
-        array(
-            "AQUA@home",
-            "http://aqua.dwavesys.com/",
-            tra("D-Wave Systems, Inc."),
-            tra("Quantum computing"),
-            tra("D-Wave's AQUA (Adiabatic QUantum Algorithms) is a research project whose goal is to predict the performance of superconducting adiabatic quantum computers on a variety of hard problems arising in fields ranging from materials science to machine learning. AQUA@home uses Internet-connected computers to help design and analyze quantum computing algorithms, using Quantum Monte Carlo techniques."),
-            "logo_dwave2.png"
-        ),
+//        array(
+//            "AQUA@home",
+//            "http://aqua.dwavesys.com/",
+//            tra("D-Wave Systems, Inc."),
+//            tra("Quantum computing"),
+//            tra("D-Wave's AQUA (Adiabatic QUantum Algorithms) is a research project whose goal is to predict the performance of superconducting adiabatic quantum computers on a variety of hard problems arising in fields ranging from materials science to machine learning. AQUA@home uses Internet-connected computers to help design and analyze quantum computing algorithms, using Quantum Monte Carlo techniques."),
+//            "logo_dwave2.png"
+//        ),
 //        array(
 //            "SHA-1 Collision Search Graz",
 //            "http://boinc.iaik.tugraz.at/sha1_coll_search/",

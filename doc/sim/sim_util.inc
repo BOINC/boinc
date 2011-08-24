@@ -89,6 +89,9 @@ function do_sim($in, $out, $policy, $config_prefix=null) {
     $cmd = "./sim $args --infile_prefix $in/ --outfile_prefix $out/ $c";
     //echo "cmd: $cmd\n"; die;
     system($cmd, $ret);
+    if ($ret) {
+        die("command failed ($ret): $cmd\n");
+    }
 }
 
 // display N results (usually 2) as bar graphs

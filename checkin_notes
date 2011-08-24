@@ -4998,3 +4998,9 @@ Charlie 23 Aug 2011
         cl_boinc.h
         coproc.cpp, .h
         parse.h
+
+David  23 Aug 2011
+    - example app: change the app version structure to match the new format
+
+    samples/example_app/
+        various
