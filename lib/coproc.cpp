@@ -169,21 +169,21 @@ int COPROC::parse_opencl(XML_PARSER& xp) {
             opencl_prop.available = n;
             continue;
         }
-        if (parse_ulonglong(buf, "<hp_fp_config>", opencl_prop.hp_fp_config)) continue; 
-        if (parse_ulonglong(buf, "<sp_fp_config>", opencl_prop.sp_fp_config)) continue; 
-        if (parse_ulonglong(buf, "<dp_fp_config>", opencl_prop.dp_fp_config)) continue; 
+        if (parse_cl_ulong(buf, "<hp_fp_config>", opencl_prop.hp_fp_config)) continue; 
+        if (parse_cl_ulong(buf, "<sp_fp_config>", opencl_prop.sp_fp_config)) continue; 
+        if (parse_cl_ulong(buf, "<dp_fp_config>", opencl_prop.dp_fp_config)) continue; 
         if (parse_int(buf, "<little_endian>", n)) {
             opencl_prop.little_endian = n;
             continue;
         }
-        if (parse_ulonglong(buf, "<exec_capabilities>", opencl_prop.exec_capab)) continue;
+        if (parse_cl_ulong(buf, "<exec_capabilities>", opencl_prop.exec_capab)) continue;
         if (parse_str(buf, "<extensions>", 
                     opencl_prop.extensions, 
                     sizeof(opencl_prop.extensions))) {
             continue;
         }
-        if (parse_ulonglong(buf, "<global_RAM>", opencl_prop.global_RAM)) continue;
-        if (parse_ulonglong(buf, "<local_RAM>", opencl_prop.local_RAM)) continue;
+        if (parse_cl_ulong(buf, "<global_RAM>", opencl_prop.global_RAM)) continue;
+        if (parse_cl_ulong(buf, "<local_RAM>", opencl_prop.local_RAM)) continue;
         if (parse_int(buf, "<max_clock_freq>", n)) {
             opencl_prop.max_clock_freq = n;
             continue;

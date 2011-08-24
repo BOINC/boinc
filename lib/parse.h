@@ -136,7 +136,7 @@ inline bool parse_ulong(const char* buf, const char* tag, unsigned long& x) {
 
 // Same, for unsigned long long 
 // 
-inline bool parse_ulonglong(const char* buf, const char* tag, cl_ulong& x) { 
+inline bool parse_cl_ulong(const char* buf, const char* tag, cl_ulong& x) { 
     const char* p = strstr(buf, tag); 
     if (!p) return false; 
     unsigned long long y = strtoull(p+strlen(tag), NULL, 0);    // this parses 0xabcd correctly 
