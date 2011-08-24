@@ -5004,3 +5004,13 @@ David  23 Aug 2011
 
     samples/example_app/
         various
+
+David  23 Aug 2011
+    - fix linux build errors in coproc stuff.
+        I don't think unsigned long long is relevant here.
+
+    lib/
+        parse.h
+        coproc.cpp
+    client/
+        coproc_detect.cpp

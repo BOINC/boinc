@@ -133,17 +133,6 @@ inline bool parse_ulong(const char* buf, const char* tag, unsigned long& x) {
     return true;
 }
 
-// Same, for unsigned long long
-//
-inline bool parse_ulonglong(const char* buf, const char* tag, unsigned long long& x) {
-    const char* p = strstr(buf, tag);
-    if (!p) return false;
-    unsigned long long y = strtoull(p+strlen(tag), NULL, 0);    // this parses 0xabcd correctly
-    if (errno == ERANGE) return false;
-    x = y;
-    return true;
-}
-
 extern bool parse(char* , char* );
 extern bool parse_str(const char*, const char*, char*, int);
 extern bool parse_str(const char* buf, const char* tag, std::string& dest);
