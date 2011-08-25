@@ -44,7 +44,7 @@ if ($logged_in_user) {
 }
 
 if ($threadid < 1) {
-    error_page(tra("Invalid thread ID!"));
+    error_page("Invalid thread ID!");
 }
 
 $thread = BoincThread::lookup_id($threadid);
@@ -66,9 +66,7 @@ if ($thread->hidden) {
         if ($logged_in_user) {
             remove_subscriptions_forum($logged_in_user->id, $thread->id);
         }
-        error_page(
-            tra("This thread has been hidden by moderators")
-        );
+        error_page(tra("This thread has been hidden by moderators."));
     }
 }
 
@@ -242,14 +240,14 @@ if (is_news_forum($forum) && $logged_in_user && ($logged_in_user->id == $thread-
     if ($thread->status) {
         show_button(
             "forum_thread_status.php?action=clear&id=$thread->id",
-            "Export",
-            "Export this news item as a Notice"
+            tra("Export"),
+            tra("Export this news item as a Notice")
         );
     } else {
         show_button(
             "forum_thread_status.php?action=set&id=$thread->id",
-            "Don't export",
-            "Don't export this news item as a Notice"
+            tra("Don't export"),
+            tra("Don't export this news item as a Notice")
         );
     }
 }
@@ -259,7 +257,7 @@ echo "</td><td align=\"right\">
     <input type=\"hidden\" name=\"id\" value=\"", $thread->id, "\">" .
     tra("Sort");
 echo select_from_array("sort", $thread_sort_styles, $sort_style);
-echo "<input type=\"submit\" value=\"Sort\">
+echo "<input type=\"submit\" value=\"tra(Sort)\">
     </td></tr></table></form>
 ";
 

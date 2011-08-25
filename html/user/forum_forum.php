@@ -31,14 +31,14 @@ $start = get_int("start", true);
 if (!$start) $start = 0;
 
 $forum = BoincForum::lookup_id($id);
-if (!$forum) error_page("no forum");
+if (!$forum) error_page("forum ID not found");
 $user = get_logged_in_user(false);
 
 if (!is_forum_visible_to_user($forum, $user)) {
     if ($user) {
         remove_subscriptions_forum($user->id, $id);
     }
-    error_page("Not visible");
+    error_page(tra("Not visible to you"));
 }
 
 BoincForumPrefs::lookup($user);
@@ -67,7 +67,7 @@ if (!$sort_style) {
 switch ($forum->parent_type) {
 case 0:
     $category = BoincCategory::lookup_id($forum->category);
-    if ($category->is_helpdesk){
+    if ($category->is_helpdesk) {
         page_head(tra("Questions and Answers").' : '.$forum->title);
         echo '<link href="forum_help_desk.php" rel="up" title="Forum Index">';
     } else {
@@ -79,7 +79,7 @@ case 0:
     break;
 case 1:
     $team = BoincTeam::lookup_id($forum->category);
-    page_head("Team message board for <a href=team_display.php?teamid=$team->id>$team->name</a>");
+    page_head(tra("Team message board for %1", "<a href=team_display.php?teamid=$team->id>$team->name</a>"));
     show_forum_header($user);
     show_team_forum_title($forum);
     break;
@@ -95,7 +95,7 @@ echo '
 
 if (user_can_create_thread($user, $forum)) {
     show_button(
-        "forum_post.php?id=$id", "New thread", "Add a new thread to this forum"
+        "forum_post.php?id=$id", tra("New thread"), tra("Add a new thread to this forum")
     );
 }
 
@@ -114,11 +114,8 @@ echo "<input type=\"submit\" value=\"Sort\">
 show_forum($forum, $start, $sort_style, $user);
 
 echo "
-    <p>
-    This message board is available as an
-    <a href=forum_rss.php?forumid=$forum->id&setup=1>RSS feed
-    <img src=img/feed_logo.png></a>
-";
+    <p>".
+    tra("This message board is available as an %1RSS feed%2", "<a href=forum_rss.php?forumid=$forum->id&setup=1>", " <img src=img/feed_logo.png></a>");
 
 page_tail();
 
@@ -174,33 +171,33 @@ function show_forum($forum, $start, $sort_style, $user) {
 
         echo "<td width=\"1%\" class=\"threadicon\"><nobr>";
         if ($thread->hidden) {
-            show_image(IMAGE_HIDDEN, "This thread is hidden", "hidden");
+            show_image(IMAGE_HIDDEN, tra("This thread is hidden"), tra("hidden"));
         } else if ($unread) {
             if ($thread->sticky) {
                 if ($thread->locked) {
-                    show_image(NEW_IMAGE_STICKY_LOCKED, "This thread is sticky and locked, and you haven't read it yet", "sticky/locked/unread");
+                    show_image(NEW_IMAGE_STICKY_LOCKED, tra("This thread is sticky and locked, and you haven't read it yet"), tra("sticky/locked/unread"));
                 } else {
-                    show_image(NEW_IMAGE_STICKY, "This thread is sticky and you haven't read it yet", "sticky/unread");
+                    show_image(NEW_IMAGE_STICKY, tra("This thread is sticky and you haven't read it yet"), tra("sticky/unread"));
                 }
             } else {
                 if ($thread->locked) {
-                    show_image(NEW_IMAGE_LOCKED, "You haven't read this thread yet, and it's locked", "unread/locked");
+                    show_image(NEW_IMAGE_LOCKED, tra("You haven't read this thread yet, and it's locked"), tra("unread/locked"));
                 } else {
-                    show_image(NEW_IMAGE, "You haven't read this thread yet", "unread");
+                    show_image(NEW_IMAGE, tra("You haven't read this thread yet"), tra("unread"));
                 }
             }
         } else {
             if ($thread->sticky) {
                 if ($thread->locked) {
-                    show_image(IMAGE_STICKY_LOCKED, "This thread is sticky and locked", "sticky/locked");
+                    show_image(IMAGE_STICKY_LOCKED, tra("This thread is sticky and locked"), tra("sticky/locked"));
                 } else {
-                    show_image(IMAGE_STICKY, "This thread is sticky", "sticky");
+                    show_image(IMAGE_STICKY, tra("This thread is sticky"), tra("sticky"));
                 }
             } else {
                 if ($thread->locked) {
-                    show_image(IMAGE_LOCKED, "This thread is locked", "locked");
+                    show_image(IMAGE_LOCKED, tra("This thread is locked"), tra("locked"));
                 } else {
-                    show_image(IMAGE_POST, "You read this thread", "read");
+                    show_image(IMAGE_POST, tra("You read this thread"), tra("read"));
                 }
             }
         }

@@ -50,7 +50,7 @@ function create_forum($user, $team) {
     $id = BoincForum::insert("(category, parent_type) values ($team->id, 1)");
     $forum = BoincForum::lookup_id($id);
     if (!$forum) {
-        error_page(tra("couldn't create message board"));
+        error_page("couldn't create message board");
     }
     edit_form($user, $team, $forum, true);
 }
@@ -104,7 +104,7 @@ function remove_confirm($user, $team) {
 
 function remove($team) {
     $forum = BoincForum::lookup("parent_type=1 and category=$team->id");
-    if (!$forum) error_page(tra("message board not found"));
+    if (!$forum) error_page("message board not found");
     
     // delete threads and posts
     //
@@ -131,9 +131,9 @@ function remove($team) {
 }
 
 function edit_action($forum) {
-    $title = strip_tags(post_str('title'));
+    $title = sanitize_tags(post_str('title'));
     $title = BoincDb::escape_string($title);
-    $description = strip_tags(post_str('description'));
+    $description = sanitize_tags(post_str('description'));
     $description = BoincDb::escape_string($description);
     $post_min_interval = post_int('post_min_interval');
     $post_min_total_credit = post_int('post_min_total_credit');
@@ -151,7 +151,7 @@ function edit_action($forum) {
 function show_forum($team) {
     $forum = BoincForum::lookup("parent_type=1 and category=$team->id");
     if (!$forum) {
-        error_page(tra("team has no forum"));
+        error_page(tra("Team has no forum"));
     }
     Header("Location: forum_forum.php?id=$forum->id");
 }
@@ -161,7 +161,7 @@ if (!$teamid) $teamid = post_int('teamid');
 
 $team = BoincTeam::lookup_id($teamid);
 if (!$team) {
-    error_page(tra("no such team"));
+    error_page("no such team");
 }
 
 $cmd = get_str('cmd', true);
@@ -186,7 +186,7 @@ if ($cmd == 'manage') {
     require_founder_login($user, $team);
     check_tokens($user->authenticator);
     $forum = BoincForum::lookup("parent_type=1 and category=$teamid");
-    if (!$forum) error_page(tra("no such forum"));
+    if (!$forum) error_page("no such forum");
     edit_action($forum);
 } else if ($cmd == "remove_confirm") {
     $user = get_logged_in_user();
@@ -197,7 +197,7 @@ if ($cmd == 'manage') {
     require_founder_login($user, $team);
     remove($team);
 } else if ($cmd != "") {
-    error_page(tra("unknown command %1", $cmd));
+    error_page("unknown command $cmd");
 } else {
     show_forum($team);
 }

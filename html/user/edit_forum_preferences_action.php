@@ -32,14 +32,12 @@ if (post_str("account_key", true) != null) {
 BoincForumPrefs::lookup($user);
 
 if (post_str("action", true)=="reset_confirm"){
-    page_head("Confirm reset");
-    echo "This action will erase any changes you have made
-        in your community preferences.
-        To cancel, click your browser's Back button.
+    page_head(tra("Confirm reset"));
+    echo tra("This action will erase any changes you have made in your community preferences. To cancel, click your browser's Back button.")."
         <p>
         <form action=edit_forum_preferences_action.php method=post>
         <input type=hidden name=action value=reset>
-        <input type=submit value=\"Reset preferences\">
+        <input type=submit value=\"".tra("Reset preferences")."\">
         </form>
     ";
     page_tail();
@@ -89,7 +87,7 @@ if ($avatar_type==0){
         $size = getImageSize($file);
         if ($size[2]!=2 and $size[2]!=3){
             //Not the right kind of file
-            error_page("Error: Not the right kind of file, only PNG and JPEG are supported.");
+            error_page(tra("Error: Not the right kind of file, only PNG and JPEG are supported."));
         }
         $width = $size[0];
         $height = $size[1];
@@ -115,9 +113,7 @@ $no_signature_by_default = ($_POST["signature_by_default"]!="")?0:1;
 $pm_notification = post_int("pm_notification");
 $signature = post_str("signature", true);
 if (strlen($signature)>250) {
-    error_page(
-        "Your signature was too long, please keep it less than 250 chars"
-    );
+    error_page(tra("Your signature was too long, please keep it less than 250 characters."));
 }
 $forum_sort = post_int("forum_sort");
 $thread_sort = post_int("thread_sort");
@@ -140,7 +136,7 @@ if ($add_user_to_filter){
     if ($user_to_add!="" and $user_to_add==strval(intval($user_to_add))){
         $other_user = BoincUser::lookup_id($user_to_add);
         if (!$other_user) {
-            echo "No such user: $other_user";
+            echo tra("No such user: %1", $other_user);
         } else {
             add_ignored_user($user, $other_user);
         }
@@ -154,7 +150,7 @@ for ($i=0;$i<sizeof($ignored_users);$i++){
     if ($_POST["remove".trim($ignored_users[$i])]!=""){
         $other_user = BoincUser::lookup_id($ignored_users[$i]);
         if (!$other_user) {
-            echo "No such user: $other_user";
+            echo tra("No such user: %1", $other_user);
         } else {
             remove_ignored_user($user, $other_user);
         }

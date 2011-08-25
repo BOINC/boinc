@@ -30,13 +30,13 @@ BoincForumPrefs::lookup($logged_in_user);
 check_tokens($logged_in_user->authenticator);
 
 if (!$logged_in_user->prefs->privilege(S_MODERATOR)) {
-    error_page("You are not authorized to banish users.");
+    error_page(tra("You are not authorized to banish users."));
 }
 
 // See if "action" is provided - either through post or get
 if (!post_str('action', true)) {
     if (!get_str('action', true)){
-	    error_page("You must specify an action...");
+	    error_page(tra("You must specify an action..."));
     } else {
         $action = get_str('action');
     }
@@ -48,18 +48,19 @@ $userid = post_int('userid');
 $user=BoincUser::lookup_id($userid);
 
 if ($action!="start"){
-    error_page("Unknown action ");
+    error_page("Unknown action");
 }
 
+// TODO: create a function for this in forum_banishment_vote.inc to make it more flexible
 switch (post_int("category", true)) {
     case 1:
-        $mod_category = "Obscene";
+        $mod_category = tra("Obscene");
     case 2:
-        $mod_category = "Flame/Hate mail";
+        $mod_category = tra("Flame/Hate mail");
     case 3:
-        $mod_category = "User Request";
+        $mod_category = tra("User Request");
     default:
-        $mod_category = "Other";
+        $mod_category = tra("Other");
 }
 
 if (post_str('reason', true)){

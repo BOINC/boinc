@@ -23,8 +23,8 @@ require_once('../inc/util.inc');
 
 $config = get_config();
 if (parse_bool($config, "no_forum_rating")) {
-    page_head("Rating offline");
-    echo "This function is turned off by the project";
+    page_head(tra("Rating offline"));
+    echo tra("This function is turned off by the project");
     page_tail();
     exit(0);
 }
@@ -55,11 +55,11 @@ if (!empty($_GET['post'])) {
     // before allowing them to rate a post.
     //
     if ($user->total_credit<$forum->rate_min_total_credit || $user->expavg_credit<$forum->rate_min_expavg_credit) {
-        error_page("You need more average or total credit to rate a post.");
+        error_page(tra("You need more average or total credit to rate a post."));
     }
     
     if (BoincPostRating::lookup($user->id, $post->id)) {
-        error_page("You have already rated this post.<br /><br /><a href=\"forum_thread.php?nowrap=true&id=".$thread->id."#".$post->id."\">Return to thread</a>");
+        error_page(tra("You have already rated this post.")."<br /><br /><a href=\"forum_thread.php?nowrap=true&id=".$thread->id."#".$post->id."\">".tra("Return to thread")."</a>");
     } else {
         $success = BoincPostRating::replace($user->id, $post->id, $rating);
         show_result_page($success, $post, $thread, $choice);
@@ -69,18 +69,18 @@ if (!empty($_GET['post'])) {
 function show_result_page($success, $post, $thread, $choice) {
     if ($success) {
         if ($choice) {
-            page_head('Input Recorded');
-                echo "Your input has been recorded.  Thanks for your help.";
+            page_head(tra("Input Recorded"));
+            echo tra("Your input has been recorded. Thanks for your help.");
         } else {
-            page_head('Vote Registered');
-            echo "Your rating has been recorded.  Thanks for your input.";
+            page_head(tra("Vote Registered"));
+            echo tra("Your rating has been recorded. Thanks for your input.");
         }
-        echo "<a href=\"forum_thread.php?nowrap=true&id=", $thread->id, "#", $post->id, "\">Return to thread</a>";
+        echo "<a href=\"forum_thread.php?nowrap=true&id=", $thread->id, "#", $post->id, "\">".tra("Return to thread")."</a>";
     } else {
-        page_head('Vote Submission Problem');    
+        page_head(tra("Vote Submission Problem"));    
         if ($post) {
-            echo "There was a problem recording your vote in our database.  Please try again later.";
-            echo "<a href=\"forum_thread.php?id=", $thread->id, "#", $post->id, "\">Return to thread</a>";
+            echo "There was a problem recording your vote in our database. Please try again later.";
+            echo "<a href=\"forum_thread.php?id=", $thread->id, "#", $post->id, "\">".tra("Return to thread")."</a>";
         } else {
             echo "The post you specified does not exist, or your rating was invalid.";
         }

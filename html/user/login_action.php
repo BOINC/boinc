@@ -29,7 +29,7 @@ if (strlen($next_url) == 0) $next_url = "home.php";
 
 // check for email/password case
 //
-$email_addr = strtolower(strip_tags(post_str("email_addr", true)));
+$email_addr = strtolower(sanitize_tags(post_str("email_addr", true)));
 $passwd = post_str("passwd", true);
 
 if ($email_addr && $passwd) {

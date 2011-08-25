@@ -38,22 +38,21 @@ $forum = BoincForum::lookup_id($forumid);
 if (!$forum) error_page("no such forum");
 
 if (get_int('setup', true)) {
-    page_head("$forum->name RSS feed");
-    echo "
-        This message board is available as an RSS feed.
-        Options:
-        <form action=forum_rss.php>
-        <input type=hidden name=forumid value=$forumid>
+    page_head(tra("%1 RSS feed", $forum->title));
+    echo tra("This message board is available as an RSS feed.")
+        .tra("Options:")."
+        <form action=\"forum_rss.php\" method=\"get\">
+        <input type=\"hidden\" name=\"forumid\" value=\"$forumid\">
         <p>
-        Include only posts by user ID <input name=userid> (default: all users).
+        ".tra("Include only posts by user ID %1 (default: all users).", "<input name=\"userid\">")."
         <p>
-        Include only posts from the last <input name=ndays> days (default: 30).
+        ".tra("Include only posts from the last %1 days (default: 30).", "<input name=\"ndays\">")."
         <p>
-        Truncate posts <input type=checkbox name=truncate checked>
+        ".tra("Truncate posts: %1 (Include only first 265 characters of each post)", "<input type=\"checkbox\" name=\"truncate\" checked>")."
         <p>
-        Threads only <input type=checkbox name=threads_only>
+        ".tra("Threads only: %1 (Include only the first post of every thread)", "<input type=\"checkbox\" name=\"threads_only\">")."
         <p>
-        <input type=submit value=OK>
+        <input type=\"submit\" value=\"".tra("OK")."\">
     ";
     page_tail();
     exit;

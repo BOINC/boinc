@@ -25,23 +25,22 @@ function mod_comment() {
     $x = "";
     $reason = post_str('reason', true);
     if ($reason){
-        $x .= "
-Moderator comment: $reason
+        $x .= "\nModerator comment: $reason
 ";
     }
     return $x;
 }
 
 function hide_explanation() {
-    $x = "\nYour post was categorized as ";
     switch (post_int("category", true)) {
-    case 1: $x .= "Obscene"; break;
-    case 2: $x .= "Flame/Hate mail"; break;
-    case 3: $x .= "Commercial spam"; break;
-    case 4: $x .= "Double post"; break;
-    case 5: $x .= "User Request"; break;
-    default: $x .= "Other"; break;
+        case 1: $c = "Obscene"; break;
+        case 2: $c = "Flame/Hate mail"; break;
+        case 3: $c = "Commercial spam"; break;
+        case 4: $c = "Double post"; break;
+        case 5: $c = "User Request"; break;
+        default: $c = "Other"; break;
     }
+    $x = "\nYour post was categorized as ".$c;
     $x .= mod_comment();
     return $x;
 }
@@ -55,13 +54,13 @@ $thread = BoincThread::lookup_id($post->thread);
 $forum = BoincForum::lookup_id($thread->forum);
 
 if (!is_moderator($user, $forum)) {
-    error_page("You are not authorized to moderate this post.");
+    error_page(tra("You are not authorized to moderate this post."));
 }
 
 // See if "action" is provided - either through post or get
 if (!post_str('action', true)) {
     if (!get_str('action', true)){
-        error_page("You must specify an action...");
+        error_page(tra("You must specify an action..."));
     } else {
         $action = get_str('action');
     }
@@ -83,11 +82,11 @@ if ($action=="hide"){
     if (!$new_thread) error_page("No such thread");
     $new_forum = BoincForum::lookup_id($new_thread->forum);
     if ($forum->parent_type != $new_forum->parent_type) {
-        error_page("Can't move to different category type");
+        error_page(tra("Can't move to different category type"));
     }
     if ($forum->parent_type != 0) {
         if ($forum->category != $new_forum->category) {
-            error_page("Can't move to different category");
+            error_page(tra("Can't move to different category"));
         }
     }
     $result = move_post($post, $thread, $forum, $new_thread, $new_forum);
@@ -108,14 +107,14 @@ New thread: $new_thread->title
         }
     }
     if (!$auth) {
-        error_page("Not authorized to banish users");
+        error_page(tra("Not authorized to banish users"));
     }
     $userid = post_int('userid');
-    $user = BoincUser::lookup_id($userid);
-    if (!$user) {
-        error_page("no user");
+    $bad_user = BoincUser::lookup_id($userid);
+    if (!$bad_user) {
+        error_page("user ID not found");
     }
-    BoincForumPrefs::lookup($user);
+    BoincForumPrefs::lookup($bad_user);
     $duration = post_int('duration');
     if ($duration == -1) {
         $t = 2147483647; // Maximum integer value
@@ -123,18 +122,18 @@ New thread: $new_thread->title
         $t = time() + $duration;
     }
     $reason = post_str("reason", true);
-    $result = $user->prefs->update("banished_until=$t");
-    page_head("Banishment");
+    $result = $bad_user->prefs->update("banished_until=$t");
+    page_head(tra("Banishment"));
     if ($result) {
-        echo "User ".$user->name." has been banished.";
-        send_banish_email($forum, $user, $t, $reason);
+        echo tra("User %1 has been banished.", $bad_user->name);
+        send_banish_email($forum, $bad_user, $t, $reason);
     } else {
-        echo "DB failure";
+        error_page(tra("Action failed: possible database problem"));
     }
     page_tail();
     exit();
 } else {
-    error_page("Unknown action ");
+    error_page("Unknown action");
 }
 
 if (!$result) {

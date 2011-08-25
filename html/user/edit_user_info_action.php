@@ -27,24 +27,23 @@ $user = get_logged_in_user();
 check_tokens($user->authenticator);
 
 $name = post_str("user_name");
-if ($name != strip_tags($name)) {
+if ($name != sanitize_tags($name)) {
     error_page(tra("HTML tags are not allowed in your name."));
 }
 if (strlen($name) == 0) {
     error_page(tra("You must supply a name for your account."));
 }
 $url = post_str("url", true);
-$url = strip_tags($url);
+$url = sanitize_tags($url);
 $country = post_str("country");
 if ($country == "") {
     $country = "International";
 }
 if (!is_valid_country($country)) {
-    error_page(tra("bad country"));
+    error_page("bad country");
 }
 $country = BoincDb::escape_string($country);
-$postal_code = post_str("postal_code", true);
-$postal_code = strip_tags($postal_code);
+$postal_code = sanitize_tags(post_str("postal_code", true));
 
 $name = BoincDb::escape_string($name);
 $url = BoincDb::escape_string($url);

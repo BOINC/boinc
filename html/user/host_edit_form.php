@@ -32,13 +32,11 @@ if (!$host || $host->userid != $user->id) {
 
 $detail = get_int('detail', true);
 
-page_head("Merge computers");
+page_head(tra("Merge computers"));
 
 $t = time_str($host->create_time);
-echo "
-    Sometimes BOINC assigns separate identities to the same computer by mistake.
-    You can correct this by merging old identities with the newest one.
-    <form name=blah action=host_edit_action.php>
+echo tra("Sometimes BOINC assigns separate identities to the same computer by mistake. You can correct this by merging old identities with the newest one.")."
+    <form name=host_list action=host_edit_action.php>
     <input type=hidden name=id_0 value=$hostid>
     <p>
 ";
@@ -55,29 +53,28 @@ foreach ($all_hosts as $host2) {
     if ($nhosts==500) break;
 }
 if ($nhosts == 1) {
-    echo "<br>No hosts are eligible for merging with this one.";
+    echo "<br>".tra("No hosts are eligible for merging with this one.");
     if (!$detail) {
-        echo "<p><a href=host_edit_form.php?hostid=$hostid&detail=1>Show details</a>
+        echo "<p><a href=host_edit_form.php?hostid=$hostid&detail=1>".tra("Show details")."</a>
         ";
     }
     page_tail();
     exit();
 }
 echo "
-    <p>
-    Check the computers that are the same as $host->domain_name
-    (created $t, computer ID $host->id):
+    <p>"
+    .tra("Check the computers that are the same as %1 (created %2, computer ID %3):", $host->domain_name, $t, $host->id)."
     <p>
 ";
 start_table();
-row_heading_array(array("", "name", "created", "computer ID"));
+row_heading_array(array("", tra("name"), tra("created"), tra("computer ID")));
 
 $i = 1;
 foreach ($hosts as $host2) {
     $t = time_str($host2->create_time);
     $x = $host2->domain_name;
     if ($x == "") {
-        $x = "[no hostname]";
+        $x = "[".tra("no hostname")."]";
     }
     row_array(array(
         "<input type=checkbox name=id_$i value=$host2->id>",
@@ -94,14 +91,14 @@ echo "
         function set_all() {
 ";
 for ($i=1; $i<$nhosts; $i++) {
-    echo "document.blah.id_$i.checked=1;\n";
+    echo "document.host_list.id_$i.checked=1;\n";
 }
 echo "
         }
         function clear_all() {
 ";
 for ($i=1; $i<$nhosts; $i++) {
-    echo "document.blah.id_$i.checked=0;\n";
+    echo "document.host_list.id_$i.checked=0;\n";
 }
 echo "
         }
@@ -109,12 +106,12 @@ echo "
     <p><a href=javascript:set_all()>Select all</a>
     <p><a href=javascript:clear_all()>Unselect all</a>
     <input type=hidden name=nhosts value=$nhosts>
-    <p><input type=submit value='Merge hosts'>
+    <p><input type=submit value='".tra("Merge hosts")."'>
     </form>
 ";
 
 if (!$detail) {
-    echo "<p><a href=host_edit_form.php?hostid=$hostid&detail=1>Show details</a>
+    echo "<p><a href=host_edit_form.php?hostid=$hostid&detail=1>".tra("Show details")."</a>
     ";
 }
 

@@ -87,8 +87,8 @@ function search_post_content(
 
     $search_string="%";
     foreach ($keyword_list as $key => $word){
-        $search_string.=mysql_escape_string($word)."%";
-    }
+        $search_string.=BoincDb::escape_string($word)."%";
+    } 
     $optional_join = "";
     // if looking in a single forum, need to join w/ thread table
     // because that's where the link to forum is
@@ -209,15 +209,15 @@ if (count($posts)){
 }
 
 if (!count($thread) && !count($posts)){
-    echo "<p>Sorry, couldn't find anything matching your search query. You 
-    can try to broaden your search by using less words (or less specific words).</p>
-    <p>You can also 
-    <a href=\"http://www.google.com/search?domains=".URL_BASE."&sitesearch=".URL_BASE."/forum_thread.php&q=".htmlentities($search_keywords)."\">
-    try the same search on Google.</a></p>";
+    echo "<p>".tra("Sorry, couldn't find anything matching your search query. You can try to broaden your search by using less words (or less specific words).")."</p>
+    <p>"
+    .tra("You can also %1try the same search on Google.%2",
+         "<a href=\"http://www.google.com/search?domains=".URL_BASE."&sitesearch=".URL_BASE."/forum_thread.php&q=".htmlentities($search_keywords)."\">",
+         "</a>")
+    ."</p>";
 }
-echo "<p><a href=\"forum_search.php\">Perform another search</a></p>";
+echo "<p><a href=\"forum_search.php\">".tra("Perform another search")."</a></p>";
 page_tail();
-exit;
 
 $cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit
 ?>

@@ -66,7 +66,7 @@ $team_name = get_str("team_name");
 $name_lc = strtolower($team_name);
 $name_lc = escape_pattern($name_lc);
 
-$clause = "name like '%".boinc_real_escape_string($name_lc)."%' order by expavg_credit desc limit 100";
+$clause = "name like '%".BoincDb::escape_string($name_lc)."%' order by expavg_credit desc limit 100";
 $teams = BoincTeam::enum($clause);
 
 if ($format == 'xml') {
@@ -83,7 +83,7 @@ if ($format == 'xml') {
 
 page_head(tra("Search Results"));
 if (count($teams)) {
-    echo "<h2>".tra("Search results for '%1'", strip_tags($team_name))."</h2>";
+    echo "<h2>".tra("Search results for '%1'", sanitize_tags($team_name))."</h2>";
     echo "<p>";
     echo tra("You may view these teams' members, statistics, and information.");
     echo "<ul>";

@@ -54,32 +54,30 @@ $cmd = get_str("cmd", true);
 if ($cmd == "delete") {
     $retval = delete_account($user);
     if (!$retval) {
-        error_page("Couldn't delete account");
+        error_page(tra("Couldn't delete account"));
     } else {
-        page_head("Account deleted");
-        echo "
-            Your account has been deleted.
-        ";
+        page_head(tra("Account deleted"));
+        echo tra("Your account has been deleted.");
         page_tail();
     }
 } else {
-    page_head("Confirm delete account");
+    page_head(tra("Confirm delete account"));
     echo "
         <table><tr><td>
-        Deleting your account will remove all of your
-        personal information from our servers,
-        including your profile and message-board posts.
-        No jobs will be issued to any computers attached
-        to this account.
+        ".tra("Deleting your account will remove all of your
+personal information from our servers,
+including your profile and message-board posts.
+No jobs will be issued to any computers attached
+to this account.")."
         <p>
-        <b>This cannot be undone.
-        Once your account has been deleted, you cannot get it back.
+        <b>".tra("This cannot be undone.
+Once your account has been deleted, you cannot get it back.")."
         <p>
-        Are you sure you want to delete your account?</b>
+        ".tra("Are you sure you want to delete your account?")."</b>
         <p>
     ";
-    show_button("delete_account.php?cmd=delete", "Yes", "Delete this account");
-    show_button("index.php", "No", "Do not delete this account");
+    show_button("delete_account.php?cmd=delete", tra("Yes"), tra("Delete this account"));
+    show_button("index.php", tra("No"), tra("Do not delete this account"));
     echo "</td></tr></table>\n";
 
     page_tail();

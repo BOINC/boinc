@@ -52,8 +52,8 @@ if ($userid) {
     if ($user->show_hosts) {
         page_head(tra("Computers belonging to %1", $user->name));
     } else {
-        page_head("Computers hidden");
-        echo tra("This user has chosen not to show information about their computers.");
+        page_head(tra("Computers hidden"));
+        echo tra(tra("This user has chosen not to show information about his or her computers."));
         page_tail();
         exit();
     }
@@ -61,7 +61,7 @@ if ($userid) {
 } else {
     $user = get_logged_in_user();
     $userid = $user->id;
-    page_head("Your computers");
+    page_head(tra("Your computers"));
     $private = true;
 }
 

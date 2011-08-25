@@ -24,16 +24,16 @@ $logged_in_user = get_logged_in_user();
 BoincForumPrefs::lookup($logged_in_user);
 
 if (!get_str('action')) {
-    error_page("no action");
+    error_page("unknown action");
 }
 $thread = BoincThread::lookup_id(get_int('thread'));
 $forum = BoincForum::lookup_id($thread->forum);
         
 if (!is_moderator($logged_in_user, $forum)) {
-    error_page("not authorized");
+    error_page(tra("not authorized"));
 }
 
-page_head("Moderate thread '$thread->title'");
+page_head(tra("Moderate thread '%1'", $thread->title));
 
 echo "<form action=forum_moderate_thread_action.php?thread=$thread->id method=POST>\n";
 echo form_tokens($logged_in_user->authenticator);
@@ -45,14 +45,14 @@ case 'hide':
 case 'lock':
     echo "<input type=hidden name=action value=$action>";
     row2("",
-        "Select the reason category, or write a longer description of why you're hiding or locking the thread; then press OK."
+        tra("Select the reason category, or write a longer description of why you're hiding or locking the thread; then press OK.")
     );
-    row2("Category",
+    row2(tra("Category"),
         "<select name=\"category\">
-        <option value=\"1\">Obscene</option>
-        <option value=\"2\">Flame/Hate mail</option>
-        <option value=\"3\">Commercial spam</option>
-        <option value=\"4\">Other</option>
+        <option value=\"1\">".tra("Obscene")."</option>
+        <option value=\"2\">".tra("Flame/Hate mail")."</option>
+        <option value=\"3\">".tra("Commercial spam")."</option>
+        <option value=\"4\">".tra("Other")."</option>
         </select>"
     );
     break;
@@ -69,12 +69,12 @@ case 'move':
     }  
     $selectbox .= '</option>';  
     
-    row2("Current forum", $forum->title);
-    row2("Destination forum", $selectbox);  
+    row2(tra("Current forum"), $forum->title);
+    row2(tra("Destination forum"), $selectbox);  
     break;
 case 'title':
     echo "<input type=hidden name=action value=title>";
-    row2("New title:",
+    row2(tra("New title:"),
         "<input size=80 name=\"newtitle\" value=\"".htmlspecialchars($thread->title)."\">"
     );
     break;
@@ -82,13 +82,13 @@ default:
     error_page("Unknown action");
 }
 
-row2("Reason<br><span class=note>Mailed if nonempty</span>",
+row2(tra("Reason")."<br><span class=note>".tra("Mailed if nonempty")."</span>",
     "<textarea rows=10 cols=80 name=\"reason\"></textarea>"
 );
 
 row2(
     "",
-    "<input type=\"submit\" name=\"submit\" value=\"OK\">"
+    "<input type=\"submit\" name=\"submit\" value=\"".tra("OK")."\">"
 );
 
 end_table();

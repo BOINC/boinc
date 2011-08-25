@@ -25,17 +25,17 @@ check_get_args(array("hostid"));
 db_init();
 $user = get_logged_in_user();
 
-page_head("Updating computer credit");
+page_head(tra("Updating computer credit"));
 
 $hostid = get_int("hostid");
 
 $host = lookup_host($hostid);
 if (!$host || $host->userid != $user->id) {
-    error_page("We have no record of that computer");
+    error_page(We have no record of that computer");
 }
 
 host_update_credit($hostid);
-echo "<br>Host credit updated";
+echo "<br>".tra("Host credit updated");
 page_tail();
 
 ?>

@@ -21,7 +21,7 @@ require_once("../inc/util.inc");
 check_get_args(array());
 
 if (!defined("PAYPAL_ADDRESS")) {
-    error_page("This project is not accepting donations.");
+    error_page(tra("This project is not accepting donations."));
 }
 
 db_init();
@@ -31,15 +31,15 @@ if ($logged_in_user) {
     $user_id = $logged_in_user->id;
 }
 
-page_head(PROJECT." donations");
+page_head(tra("%1 donations", PROJECT));
 
 if (function_exists("donations_intro")) {
     donations_intro();
 } else {
-    echo "<div>This project is accepting donations via
-        <a href=\"http://www.paypal.com/\">PayPal</a>.</div>
+    echo "<div>".tra("This project is accepting donations via
+%1.", "<a href=\"http://www.paypal.com/\">PayPal</a>")."</div>
         <div class=\"smalltext\">
-        To donate, fill in the amount you want to donate using the field below.
+        ".tra("To donate, fill in the amount you want to donate using the field below.
         PayPal is accepting multiple currencies
         (Canadian Dollars, Euros, Pounds Sterling, U.S. Dollars,
          Yen, Australian Dollars, New Zealand Dollars,
@@ -49,7 +49,7 @@ if (function_exists("donations_intro")) {
         You can use included currency converter
         to see the donation amount equivalent in different currencies
         (please note that the rates are only estimates
-         and the actual amount may differ).</div>
+         and the actual amount may differ).")."</div>
     ";
 }
 
@@ -313,19 +313,20 @@ $estimated .= "<option value=159>Zimbabwe Dollar</option>\n";
 $estimated .= "</select>\n";
 $estimated .= "<input name=\"outV\" value=\"0.00\" style=\"text-align: right; width: 80px;\" disabled=\"disabled\">\n";
 
-echo row2("Amount you would like to donate", $amount);
-echo row2("Estimated value in", $estimated);
+echo row2(tra("Amount you would like to donate"), $amount);
+echo row2(tra("Estimated value in"), $estimated);
 if ($user_id) {
-    echo row2("Anonymous donation<br><span class=\"smalltext\">Select this if you dont want your name and account number displayed in
-        donator lists.<br>If not checked, you will be recorded as user ID ".$user_id." (".$logged_in_user->name.")</span>",
-        "<input type=\"checkbox\" name=\"anonymous\" id=\"anonymous\" value=\"1\"><label for=\"anonymous\">Yes</label>");
+    $tmp_user_name = $user_id." (".$logged_in_user->name.")";
+    echo row2(tra("Anonymous donation")."<br><span class=\"smalltext\">".tra("Select this if you dont want your name and account number displayed in
+donator lists.<br>If not checked, you will be recorded as user ID %1", $tmp_user_name)."</span>",
+        "<input type=\"checkbox\" name=\"anonymous\" id=\"anonymous\" value=\"1\"><label for=\"anonymous\">".tra("Yes")."</label>");
 } else {
-    echo row2("Anonymous donation<br><span class=\"smalltext\">To assign the donation with your user ID, please log in.",
+    echo row2(tra("Anonymous donation")."<br><span class=\"smalltext\">".tra("To assign the donation with your user ID, please log in."),
         "<input type=\"checkbox\" name=\"anonymous\" id=\"anonymous\" value=\"1\" checked=\"checked\" disabled=\"disabled\">
-        <label for=\"anonymous\">Yes</label>");
+        <label for=\"anonymous\">".tra("Yes")."</label>");
 }
-echo row2("", "<input type=\"submit\" value=\"Proceed\">");
-echo row1("Donations are accepted through<br><img src=\"img/paypal_logo.png\" alt=\"PayPal\">");
+echo row2("", "<input type=\"submit\" value=\"".tra("Proceed")."\">");
+echo row1(tra("Donations are accepted through")."<br><img src=\"img/paypal_logo.png\" alt=\"PayPal\">");
 end_table();
 echo "</form>\n";
 

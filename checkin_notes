@@ -5082,3 +5082,13 @@ David  25 Aug 2011
         coproc.h
     client/
         coproc_detect.cpp
+
+David  25 Aug 2011
+    - validator: update credit statistics even if credit_from_wu
+        is being used.
+    - web: make almost everything translatable.  From Christian Beer.
+
+    sched/
+        validator.cpp
+    html/user/
+        various

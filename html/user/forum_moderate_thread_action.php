@@ -95,7 +95,7 @@ case "title":
     $action_name = "renamed from '$thread->title' to '$new_title'";
     break;
 default:
-    error_page("Unknown action ");
+    error_page("Unknown action");
 }
 
 if (!$result) {

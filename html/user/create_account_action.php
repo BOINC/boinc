@@ -23,21 +23,21 @@ include_once("../inc/user.inc");
 include_once("../inc/recaptchalib.php");
 
 function show_error($str) {
-    page_head("Can't create account");
+    page_head(tra("Can't create account"));
     echo "$str<br>\n";
     echo BoincDb::error();
-    echo "<p>Click your browser's <b>Back</b> button to try again.\n<p>\n";
+    echo "<p>".tra("Click your browser's <b>Back</b> button to try again.")."\n</p>\n";
     page_tail();
     exit();
 }
 
 $config = get_config();
 if (parse_bool($config, "disable_account_creation")) {
-    page_head("Account creation is disabled");
+    page_head(tra("Account creation is disabled"));
     echo "
-        <h3>Account creation is disabled</h3>
-        Sorry, this project has disabled the creation of new accounts.
-        Please try again later.
+        <h3>".tra("Account creation is disabled")."</h3>
+        ".tra("Sorry, this project has disabled the creation of new accounts.
+Please try again later.")."
     ";
     exit();
 }
@@ -48,7 +48,7 @@ $privatekey = parse_config($config, "<recaptcha_private_key>");
           $_POST["recaptcha_challenge_field"], $_POST["recaptcha_response_field"]
       );
       if (!$resp->is_valid) {
-          echo "" . tra("Your reCAPTCHA response was not correct. Please try again."). "";
+          echo tra("Your reCAPTCHA response was not correct. Please try again.");
           return;
       }
   }
@@ -61,8 +61,7 @@ if ($teamid) {
     $team = lookup_team($teamid);
     $clone_user = lookup_user_id($team->userid);
     if (!$clone_user) {
-        echo "User $userid not found";
-        exit();
+        error_page("User $userid not found");
     }
     $project_prefs = $clone_user->project_prefs;
 } else {
@@ -82,42 +81,37 @@ if(defined('INVITE_CODES')) {
 
 $new_name = post_str("new_name");
 if (strlen($new_name)==0) {
-    show_error("You must supply a name for your account");
+    show_error(tra("You must supply a name for your account"));
 }
-if ($new_name != strip_tags($new_name)) {
-    show_error("HTML tags not allowed in name");
+if ($new_name != sanitize_tags($new_name)) {
+    show_error(tra("HTML tags not allowed in name"));
 }
 
-$new_email_addr = post_str("new_email_addr");
-$new_email_addr = strtolower($new_email_addr);
+$new_email_addr = strtolower(post_str("new_email_addr"));
 if (!is_valid_email_addr($new_email_addr)) {
-    show_error("Invalid email address:
-        you must enter a valid address of the form
-        name@domain"
-    );
+    show_error(tra("Invalid email address: you must enter a valid address of the form name@domain"));
 }
 $user = lookup_user_email_addr($new_email_addr);
 if ($user) {
-    show_error("There's already an account with that email address.");
+    show_error(tra("There's already an account with that email address."));
 }
 
 $passwd = post_str("passwd");
 $passwd2 = post_str("passwd2");
 if ($passwd != $passwd2) {
-    show_error("New passwords are different");
+    show_error(tra("New passwords are different"));
 }
 
 $min_passwd_length = parse_config($config, "<min_passwd_length>");
 if (!$min_passwd_length) $min_passwd_length = 6;
 
 if (!is_ascii($passwd)) {
-    show_error("Passwords may only include ASCII characters.");
+    show_error(tra("Passwords may only include ASCII characters."));
 }
 
 if (strlen($passwd)<$min_passwd_length) {
     show_error(
-        "New password is too short:
-        minimum password length is $min_passwd_length characters."
+        tra("New password is too short: minimum password length is %1 characters.", $min_passwd_length)
     );
 }
 
@@ -128,18 +122,17 @@ if ($country == "") {
     $country = "International";
 }
 if (!is_valid_country($country)) {
-    echo "bad country";
-    exit();
+    error_page("bad country");
 }
 
-$postal_code = post_str("postal_code", true);
+$postal_code = sanitize_tags(post_str("postal_code", true));
 
 $user = make_user(
     $new_email_addr, $new_name, $passwd_hash,
     $country, $postal_code, $project_prefs, $teamid
 );
 if (!$user) {
-    show_error("Couldn't create account");
+    show_error(tra("Couldn't create account"));
 }
 
 if(defined('INVITE_CODES')) {

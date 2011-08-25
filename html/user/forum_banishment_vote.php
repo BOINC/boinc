@@ -32,58 +32,54 @@ if (!get_str('action')) {
 }
 if (!$logged_in_user->prefs->privilege(S_MODERATOR)) {
     // Can't moderate without being moderator
-    error_page("You are not authorized to banish users.");
+    error_page(tra("You are not authorized to banish users."));
 }    
 
 $userid = get_int('userid');
 $user = BoincUser::lookup_id($userid);
 
-page_head('Banishment Vote');
+page_head(tra("Banishment Vote"));
 
 echo "<form action=\"forum_banishment_vote_action.php?userid=".$userid."\" method=\"POST\">\n";
 echo form_tokens($logged_in_user->authenticator);
 start_table();
-row1("Banishment Vote");
+row1(tra("Banishment Vote"));
 
 if (get_str('action')=="start") {
     if (!$user) {
-        error_page("no user");
+        error_page(tra("No user with this ID found."));
     }
     $x = $user->banished_until;
     if ($x>time()) {
-        error_page("User is already banished");
+        error_page(tra("User is already banished"));
     }
     //display input that selects reason
     echo "<input type=hidden name=action value=start>";
     echo "<input type=\"hidden\" name=\"userid\" value=\"".$userid."\">\n";
-    row1("Are you sure you want to banish ".$user->name."?
-        This will prevent ".$user->name." from posting for chosen time period.<br />
-        It should be done only if ".$user->name."
-        has consistently exhibited trollish behavior.");
+    row1(tra("Are you sure you want to banish %1?<br/>This will prevent %1 from posting for chosen time period.<br/>It should be done only if %1 has consistently exhibited trollish behavior.", $user->name));
     row2("",
-    "Select the reason category, optionally write a longer description of why the user should be banished.");
-    row2("Category",
+    tra("Select the reason category, optionally write a longer description of why the user should be banished."));
+    row2(tra("Category"),
     "<select name=\"category\">
-    <option value=\"1\">Obscene</option>
-    <option value=\"2\">Flame/Hate mail</option>
-    <option value=\"3\">User Request</option>
-    <option value=\"4\">Other</option>
+    <option value=\"1\">".tra("Obscene")."</option>
+    <option value=\"2\">".tra("Flame/Hate mail")."</option>
+    <option value=\"3\">".tra("User Request")."</option>
+    <option value=\"4\">".tra("Other")."</option>
 </select>");
-row2("Reason<br>Mailed if nonempty",
+row2(tra("Reason")."<br>".tra("Mailed if nonempty"),
     "<textarea name=\"reason\" rows=\"10\" cols=\"80\"></textarea>");
 
 row2(
     "",
-    "<input type=\"submit\" name=\"submit\" value=\"Proceed with vote\">"
+    "<input type=\"submit\" name=\"submit\" value=\"".tra("Proceed with vote")."\">"
 );
 } elseif (get_str('action')=="yes") {
     vote_yes($config,$logged_in_user,$user);
 } elseif (get_str('action')=="no") {
     vote_no($config,$logged_in_user,$user);
 } else {
-    error_page( "Unknown action");
+    error_page("Unknown action");
 }
-
 
 end_table();
 

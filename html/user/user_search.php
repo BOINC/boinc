@@ -147,7 +147,7 @@ function name_search($filter) {
     if (strlen($search_string)<3) {
         error_page(tra("search string must be at least 3 characters"));
     }
-    $s = boinc_real_escape_string($search_string);
+    $s = BoincDb::escape_string($search_string);
     $s = escape_pattern($s);
     $fields = "id, create_time, name, country, total_credit, expavg_credit, teamid, url, has_profile, donated";
     $users = BoincUser::enum_fields($fields, "name like '$s%'", "limit $count");
@@ -185,7 +185,7 @@ function main() {
         case 'name_prefix':
             break;
         default:
-            error_page(tra("missing search type"));
+            error_page("missing search type");
         }
 
         $filter = null;

@@ -24,18 +24,18 @@ $auth = post_str("auth");
 $name = post_str("name");
 
 if (strlen($name)==0) {
-    error_page("You must supply a name for your account");
+    error_page(tra("You must supply a name for your account"));
 }
-if ($new_name != strip_tags($new_name)) {
-    error_page("HTML tags not allowed in name");
+if ($new_name != sanitize_tags($new_name)) {
+    error_page(tra("HTML tags not allowed in name"));
 }
 
 $country = post_str("country");
 if (!is_valid_country($country)) {
-    error_page( "invalid country");
+    error_page("invalid country");
 }
 $country = BoincDb::escape_string($country);
-$postal_code = BoincDb::escape_string(strip_tags(post_str("postal_code", true)));
+$postal_code = BoincDb::escape_string(sanitize_tags(post_str("postal_code", true)));
 $auth = BoincDb::escape_string($auth);
 
 $name = BoincDb::escape_string($name);

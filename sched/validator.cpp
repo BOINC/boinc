@@ -354,6 +354,12 @@ int handle_wu(
             if (retry) transition_time = DELAYED;
 
             if (credit_from_wu) {
+                // do the credit calculation anyway, to update statistics
+                //
+                retval = assign_credit_set(
+                    wu, results, app, app_versions, host_app_versions,
+                    max_granted_credit, credit
+                );
                 retval = get_credit_from_wu(wu, results, credit);
                 if (retval) {
                     log_messages.printf(MSG_CRITICAL,

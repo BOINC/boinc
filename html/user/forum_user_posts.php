@@ -70,7 +70,7 @@ if ($logged_in_user) {
         }
     }
 }
-page_head("Posts by $user->name");
+page_head(tra("Posts by %1", $user->name));
 
 $posts = BoincPost::enum("user=$userid order by id desc");
 $n = 0;
@@ -113,7 +113,7 @@ echo "</table><br><br>\n";
 if ($offset) {
 	$x = $offset - $count;
     echo "<a href=forum_user_posts.php?userid=$userid&offset=$x>
-		<b>Previous $count</b>
+		<b>".tra("Previous %1", $count)."</b>
 		</a>
     ";
 	if ($show_next) echo " | ";
@@ -122,7 +122,7 @@ if ($offset) {
 if ($show_next) {
     $offset += $count;
     echo "<a href=forum_user_posts.php?userid=$userid&offset=$offset>
-		<b>Next $count</b>
+		<b>".tra("Next %1", $count)."</b>
 		</a>
     ";
 }

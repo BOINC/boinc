@@ -73,9 +73,7 @@ if ($content && (!$preview)){
     }
     check_tokens($logged_in_user->authenticator);
     if (!akismet_check($logged_in_user, $content)) {
-        $warning = "Your post has been flagged as spam by the Akismet
-            anti-spam system.  Please modify your text and try again.
-        ";
+        $warning = tra("Your post has been flagged as spam by the Akismet anti-spam system. Please modify your text and try again.");
         $preview = tra("Preview");
     } else {
         create_post(
@@ -126,10 +124,10 @@ function show_message_row($thread, $parent_post) {
     global $logged_in_user, $bbcode_html;
     global $content, $preview;
 
-    $x1 = "Message:".html_info().post_warning();
+    $x1 = tra("Message:").html_info().post_warning();
     $x2 = "";
     if ($parent_post) {
-        $x2 .=" reply to <a href=#".$parent_post->id.">Message ID ".$parent_post->id."</a>:";
+        $x2 .=" ".tra("reply to %1Message ID%2:", "<a href=#".$parent_post->id.">", " ".$parent_post->id."</a>");
     }
     $x2 .= "<form action=forum_reply.php?thread=".$thread->id;
 
@@ -146,17 +144,17 @@ function show_message_row($thread, $parent_post) {
     } else if (!$no_quote) {
         if ($parent_post) $x2 .= quote_text(htmlspecialchars($parent_post->content))."\n";
     }
-    if (!$logged_in_user->prefs->no_signature_by_default){
+    if (!$logged_in_user->prefs->no_signature_by_default) {
         $enable_signature="checked=\"true\"";
     } else {
         $enable_signature="";
     }
     $x2 .= "</textarea><p>
         <input type=\"submit\" name=\"preview\" value=\"".tra("Preview")."\">
-        <input type=\"submit\" value=\"Post reply\">
+        <input type=\"submit\" value=\"".tra("Post reply")."\">
         &nbsp;&nbsp;&nbsp;
-        <input name=\"add_signature\" id=\"add_signature\" value=\"add_it\" ".$enable_signature." type=\"checkbox\">
-        <label for=\"add_signature\">Add my signature to this reply</label>
+        <input type=\"checkbox\" name=\"add_signature\" id=\"add_signature\" value=\"add_it\" ".$enable_signature.">
+        <label for=\"add_signature\">".tra("Add my signature to this reply")."</label>
 
         </form>
     ";

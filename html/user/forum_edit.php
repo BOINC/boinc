@@ -38,15 +38,13 @@ $forum = BoincForum::lookup_id($thread->forum);
 
 if (!is_moderator($logged_in_user, $forum)) {
     if (time() > $post->timestamp + MAXIMUM_EDIT_TIME) {
-        error_page(
-            "You can no longer edit this post.<br />Posts can only be edited at most ".(MAXIMUM_EDIT_TIME/60)." minutes after they have been created."
-        );
+        error_page(tra("You can no longer edit this post.<br/>Posts can only be edited at most %1 minutes after they have been created.", (MAXIMUM_EDIT_TIME/60)));
     }
 }
 
 $post_owner = BoincUser::lookup_id($post->user);
 if (($logged_in_user->id != $post_owner->id) || (can_reply($thread, $forum, $logged_in_user) == false)) {
-    error_page ("You are not authorized to edit this post.");
+    error_page (tra("You are not authorized to edit this post."));
 }
 
 $thread_owner = BoincUser::lookup_id($thread->owner);
@@ -74,7 +72,7 @@ if (post_str('submit',true) && (!$preview)) {
     
         if ($can_edit_title){
             $title = trim($title);
-            $title = strip_tags($title);
+            $title = sanitize_tags($title);
             $title = BoincDb::escape_string($title);
             $thread->update("title='$title'");
         }
@@ -85,7 +83,7 @@ if (post_str('submit',true) && (!$preview)) {
     }
 }
 
-page_head('Forum','','','', $bbcode_js);
+page_head(tra("Forum"),'','','', $bbcode_js);
 
 show_forum_header($logged_in_user);
 switch ($forum->parent_type) {
@@ -109,7 +107,7 @@ if ($preview == tra("Preview")) {
 echo "<form action=\"forum_edit.php?id=".$post->id."\" method=\"POST\" name=\"post\" onsubmit=\"return checkForm(this)\">\n";
 echo form_tokens($logged_in_user->authenticator);
 start_table();
-row1("Edit your message");
+row1(tra("Edit your message"));
 if ($can_edit_title) {
     //If this is the user can edit the thread title display a way of doing so
     if ($preview) {

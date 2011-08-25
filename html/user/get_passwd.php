@@ -22,15 +22,11 @@ require_once("../inc/user.inc");
 
 check_get_args(array());
 
-page_head("Forgot your account info?");
+page_head(tra("Forgot your account info?"));
 
-echo "
-<h3>1) If you know your account's email address,
-    and you can receive email there:</h3>
-<p>
-Enter the email address below, and click OK.
-You will be sent email instructions for resetting your password.
-";
+echo "<h3>"
+    .tra("1) If you know your account's email address, and you can receive email there:")."</h3><p>"
+    .tra("Enter the email address below, and click OK. You will be sent email instructions for resetting your password.");
 
 $master_url = parse_config(get_config(), "<master_url>");
 $x = strstr($master_url, "//");
@@ -41,27 +37,19 @@ $account_file = "account_$x.xml";
 
 start_table();
 echo "<form method=post action=mail_passwd.php>\n";
-row2("Email address","<input type=\"text\" size=40 name=email_addr>");
-row2("", "<input type=submit value=OK>");
+row2(tra("Email address"),"<input type=\"text\" size=40 name=email_addr>");
+row2("", "<input type=submit value=\"".tra("OK")."\">");
 echo "</form>";
 end_table();
 
-echo "
-<p>
-<h3>2) If you forgot your account's email address,
-or you can't receive email there:</h3>
-
-If you have run BOINC under the account,
-you can still access it.
-Here's how:
+echo "<p><h3>"
+    .tra("2) If you forgot your account's email address, or you can't receive email there:")."</h3>"
+    .tra("If you have run BOINC under this account, you can still access it. Here's how:")."
 
 <ul>
-<li> Go to the BOINC data directory on your computer
-(on Windows this is usually <b>C:\\Documents and Settings\All Users\Application Data\BOINC</b> or <b>C:\\Program Files\BOINC</b>.
-<li> Find your account file for this project;
-it will be named <b>$account_file</b>.
-<li> Open the file in a text editor like Notepad.
-You'll see something like
+<li> ".tra("Go to the BOINC data directory on your computer (on Windows this is usually <b>C:\\Documents and Settings\All Users\Application Data\BOINC</b> or <b>C:\\Program Files\BOINC</b>.")."
+<li> ".tra("Find your account file for this project; it will be named <b>%1</b>.", $account_file)."
+<li> ".tra("Open the file in a text editor like Notepad. You'll see something like")."
 <pre>
 &lt;account>
     &lt;master_url>http://lhcathome.cern.ch/&lt;/master_url>
@@ -71,23 +59,20 @@ You'll see something like
 &lt;/account>
 </pre>
 
-<li> Select and Copy the string between &lt;authenticator>
-and &lt;/authenticator>
-(<b>8b8496fdd26df7dc0423ecd43c09a56b</b> in the above example).
+<li> ".tra("Select and Copy the string between %1 and %2 (%3 in the above example).", "&lt;authenticator>", "&lt;/authenticator>", "<b>8b8496fdd26df7dc0423ecd43c09a56b</b>")."
 
-<li> Paste the string into the field below, and click OK.
-<li> You will now be logged in to your account;
-update the email and password of your account.
+<li> ".tra("Paste the string into the field below, and click OK.")."
+<li> ".tra("You will now be logged in to your account; update the email and password of your account.")."
 </ul>
 ";
 start_table();
 
 echo "<form action=login_action.php method=post>\n";
-row2("Log in with authenticator", "<input type=\"text\" name=authenticator size=40>");
-row2("Stay logged in on this computer",
+row2(tra("Log in with authenticator"), "<input type=\"text\" name=authenticator size=40>");
+row2(tra("Stay logged in on this computer"),
     "<input type=checkbox name=send_cookie checked>"
 );
-row2("", "<input type=submit value=OK>");
+row2("", "<input type=submit value=\"".tra("OK")."\">");
 echo "</form>";
 
 end_table();

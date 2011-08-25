@@ -36,7 +36,7 @@ function get_host($hostid, $user) {
 
 $user = get_logged_in_user();
 
-page_head("Merge computer records");
+page_head(tra("Merge computer records"));
 
 $nhosts = get_int("nhosts");
 $hostid = get_int("id_0");
@@ -62,7 +62,7 @@ for ($i=1; $i<$nhosts; $i++) {
     $latest_host = BoincHost::lookup_id($latest_host->id);
 }
 echo "
-    <p><a href=hosts_user.php>Return to list of your computers</a>
+    <p><a href=hosts_user.php>".tra("Return to list of your computers")."</a>
 ";
 page_tail();
 

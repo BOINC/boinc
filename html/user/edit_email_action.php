@@ -28,18 +28,18 @@ $user = get_logged_in_user();
 $email_addr = strtolower(post_str("email_addr"));
 $passwd = post_str("passwd", true);
 
-page_head("Change email address of account");
+page_head(tra("Change email address of account"));
 
 if (!is_valid_email_addr($email_addr)) {
-    echo "New email address '$email_addr' is invalid";
+    echo tra("New email address '%1' is invalid.", $email_addr);
 } else if (is_banned_email_addr($email_addr)) {
-    echo "New email address '$email_addr' is invalid";
+    echo tra("New email address '%1' is invalid.", $email_addr);
 } else if ($email_addr == $user->email_addr) {
-    echo "New email address is same as existing address; no change.";
+    echo tra("New email address is same as existing address. Nothing is changed.");
 } else {
     $existing = lookup_user_email_addr($email_addr);
     if ($existing) {
-        echo "There's already an account with that email address";
+        echo tra("There's already an account with that email address");
     } else {
         $passwd_hash = md5($passwd.$user->email_addr);
 
@@ -51,7 +51,7 @@ if (!is_valid_email_addr($email_addr)) {
             $passwd_hash = md5($passwd.$user->email_addr);
         }
         if ($passwd_hash != $user->passwd_hash) {
-            echo "Invalid password.";
+            echo tra("Invalid password.");
         } else {
             $passwd_hash = md5($passwd.$email_addr);
             $email_addr = BoincDb::escape_string($email_addr);
@@ -59,17 +59,12 @@ if (!is_valid_email_addr($email_addr)) {
                 "email_addr='$email_addr', passwd_hash='$passwd_hash', email_validated=0"
             );
             if ($result) {
-                echo "
-                    The email address of your account is now $email_addr.
-                ";
+                echo tra("The email address of your account is now %1.", $email_addr);
                 if (defined("SHOW_NONVALIDATED_EMAIL_ADDR")) {
-                    echo "<p>Please <a href=validate_email_addr.php>validate this email address</a>.\n";
+                    echo "<p>".tra("Please %1validate this email address%2.", "<a href=validate_email_addr.php>", "</a>")."\n";
                 }
             } else {
-                echo "
-                    We can't update your email address
-                    due to a database problem.  Please try again later.
-                ";
+                echo tra("We can't update your email address due to a database problem.  Please try again later.");
             }
         }
     }

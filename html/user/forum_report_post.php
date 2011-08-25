@@ -42,7 +42,7 @@ check_banished($user);
 //
 
 if ($user->total_credit<$forum->rate_min_total_credit || $user->expavg_credit<$forum->rate_min_expavg_credit) {
-    error_page("You need more average or total credit to report a post.");
+    error_page(tra("You need more average or total credit to report a post."));
 }
 
 //__-------------- Action part
@@ -61,44 +61,36 @@ $no_forum_rating = parse_bool($config, "no_forum_rating");
 
 //__--------------- Display part
 if ($success_page==1) {
-    page_head('Report Registered');
-    echo "Your report has been recorded.
-        Thanks for your input.
-        <p>
-        A moderator will now look at your report and decide what will happen -
-        this may take a little while, so please be patient.
-    ";
-    echo "<a href=\"forum_thread.php?id=", $thread->id, "#", $post->id, "\">Return to thread</a>";
+    page_head(tra("Report Registered"));
+    echo tra("Your report has been recorded. Thanks you for your input.")."<p>"
+        .tra("A moderator will now look at your report and decide what will happen - this may take a little while, so please be patient");
+
+    echo "<a href=\"forum_thread.php?id=", $thread->id, "#", $post->id, "\">".tra("Return to thread")."</a>";
 } elseif ($success_page==0){
-    page_head('Report a forum post');
+    page_head(".tra(""Report a forum post"").");
     if (!$no_forum_rating) {
-        echo "<p>Before reporting this post,
-            consider using the +/- rating system instead.
-            If enough users rate a post negatively it will eventually be hidden.
-            <br>You can find the rating system at the bottom of the post.
+        echo "<p>".tra("Before reporting this post, consider using the +/- rating system instead. If enough users rate a post negatively it will eventually be hidden.<br />You can find the rating system at the bottom of the post.")."</p>
         ";
     }
     start_forum_table(array(tra("Author"), tra("Message"),""));
     show_post($post, $thread, $forum, $user, 0, 0);
     echo "<form action=\"forum_report_post.php\" method=\"get\">\n";
     echo form_tokens($user->authenticator);
-    row1("Report post");
-    row2("Why do you find the post offensive:<br><font size=-1>Please include enough information so that a person that
-    has not yet read the thread will quickly be able to identify the issue.</font>",
+    row1(tra("Report post"));
+    row2(tra("Why do you find the post offensive: %1Please include enough information so that a person that
+has not yet read the thread will quickly be able to identify the issue.%2", "<span class=\"smalltext\">", "</span>"),
         "<textarea name=\"reason\" rows=12 cols=54></textarea>"
     );
-    row2("", "<input type=\"submit\" name=\"submit\" value=\"OK\">");
+    row2("", "<input type=\"submit\" name=\"submit\" value=\"".tra("OK")."\">");
     echo "<input type=\"hidden\" name=\"post\" value=\"".$post->id."\">";
     echo "</form>";
     end_table();
 } elseif ($success_page==-1) {
-    page_head('Report not registered');
-    echo "<p>Your report could not be recorded.
-        Please wait a while and try again.
-        <p>If this is not a temporary error,
-        please report it to the project developers.
+    page_head(tra("Report not registered"));
+    echo "<p>".tra("Your report could not be recorded. Please wait a while and try again.")."</p>
+        <p>".tra("If this is not a temporary error, please report it to the project developers.")."</p>
     ";
-    echo "<a href=\"forum_thread.php?id=", $thread->id, "#", $post->id, "\">Return to thread</a>";
+    echo "<a href=\"forum_thread.php?id=", $thread->id, "#", $post->id, "\">".tra("Return to thread")."</a>";
 }
 page_tail();
 ?>

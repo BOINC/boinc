@@ -42,10 +42,8 @@ if ($init) {
     page_head(tra("Welcome to %1", PROJECT));
     echo "<p>".tra("View and edit your account preferences using the links below.")."</p>\n";
     if ($via_web) {
-        echo "
-            <p> If you have not already done so,
-            <a href=\"http://boinc.berkeley.edu/download.php\">download BOINC client software</a>.</p>
-        ";
+        echo "<p> "
+        .tra("If you have not already done so, %1download BOINC client software%2.", "<a href=\"http://boinc.berkeley.edu/download.php\">", "</a>")."</p>";
     }
 } else {
     page_head(tra("Your account"));

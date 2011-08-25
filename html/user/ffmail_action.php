@@ -44,8 +44,8 @@ $comment = get_str('comment', true);
 
 $action = get_str('action');
 if ($action=='Preview') {
-    page_head('Email preview');
-    echo "Your email will appear as follows:
+    page_head(tra("Email preview"));
+    echo tra("Your email will appear as follows:")."
         <hr>
     ";
     echo replace("[Friend's name]", $comment, $uname, $html);
@@ -54,13 +54,13 @@ if ($action=='Preview') {
 
     echo "
         <hr>
-        <b><a href=ffmail_action.php$args>Send email</a></b>
+        <b><a href=ffmail_action.php$args>".tra("Send email")."</a></b>
         <p>
-        [Use your browser's back button to return to message form]
+        [".tra("Use your browser's back button to return to message form")."]
     ";
     page_tail();
 } else {
-    page_head("Sending emails");
+    page_head(tra("Sending emails"));
     $found = false;
     for ($i=0; $i<5; $i++) {
         $n = get_str("n$i", true);
@@ -81,23 +81,17 @@ if ($action=='Preview') {
             $mail->Host = $PHPMAILER_HOST;
             $mail->Mailer = $PHPMAILER_MAILER;
             if ($mail->Send()) {
-                echo "<br>email sent successfully to $e\n";
+                echo "<br>".tra("email sent successfully to %1", $e)."\n";
             } else {
-                echo "<br>failed to send email to $e: $mail->ErrorInfo\n";
+                echo "<br>".tra("failed to send email to %1: %2", $e, $mail->ErrorInfo)."\n";
             }
         }
     }
     if ($found) {
         echo "
-            <p>
-            Thanks for telling your friends about ".PROJECT.".
-        ";
+            <p>".tra("Thanks for telling your friends about %1", PROJECT);
     } else {
-        echo "
-            You forgot to enter your friends' names and/or email addresses;
-            Please <a href=ffmail_form.php>return to the form</a>
-            and enter them.
-        ";
+        echo tra("You forgot to enter your friends' names and/or email addresses; Please %1return to the form%2 and enter them.", "<a href=ffmail_form.php>", "</a>");
     }
     page_tail();
 }

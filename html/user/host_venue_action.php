@@ -38,17 +38,16 @@ if ($host->userid != $user->id) {
 
 $retval = $host->update("venue='$venue'");
 if ($retval) {
-    page_head("Host venue updated");
+    page_head(tra("Host venue updated"));
     if ($venue == '') {
-        $venue = '(none)';
+        $venue = '('.tra("none").')';
     }
     echo "
-        The venue of this host has been set to <b>$venue</b>.
+        ".tra("The venue of this host has been set to %1.", "<b>$venue</b>")."
         <p>
-        This change will take effect the next time the
-        host communicates with this project.
+        ".tra("This change will take effect the next time the host communicates with this project.")."
         <p>
-        <a href=show_host_detail.php?hostid=$hostid>Return to host page</a>.
+        <a href=show_host_detail.php?hostid=$hostid>".tra("Return to host page")."</a>.
     ";
     page_tail();
 } else {

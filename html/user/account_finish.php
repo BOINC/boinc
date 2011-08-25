@@ -23,7 +23,6 @@
 require_once('../inc/boinc_db.inc');
 require_once('../inc/util.inc');
 require_once('../inc/countries.inc');
-require_once('../inc/translation.inc');
 
 check_get_args(array("auth"));
 
@@ -32,7 +31,7 @@ $user = lookup_user_auth($auth);
 if (!$user) {
     error_page("no such account");
 }
-page_head("Finish account setup");
+page_head(tra("Finish account setup"));
 
 echo "
     <form action=account_finish_action.php method=post>

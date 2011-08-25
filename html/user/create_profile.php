@@ -274,9 +274,9 @@ function process_create_profile($user, $profile) {
     $response1 = sanitize_html($response1);
     $response2 = sanitize_html($response2);
     if ($profile) {
-        $query = " response1 = '".boinc_real_escape_string($response1)."',"
-            ." response2 = '".boinc_real_escape_string($response2)."',"
-            ." language = '".boinc_real_escape_string($language)."',"
+        $query = " response1 = '".BoincDb::escape_string($response1)."',"
+            ." response2 = '".BoincDb::escape_string($response2)."',"
+            ." language = '".BoincDb::escape_string($language)."',"
             ." has_picture = '$hasPicture',"
             ." verification = '$profile->verification'"
             ." WHERE userid = '$user->id'";
@@ -287,9 +287,9 @@ function process_create_profile($user, $profile) {
     } else {
         $query = 'SET '
             ." userid = '$user->id',"
-            ." language = '".boinc_real_escape_string($language)."',"
-            ." response1 = '".boinc_real_escape_string($response1)."',"
-            ." response2 = '".boinc_real_escape_string($response2)."',"
+            ." language = '".BoincDb::escape_string($language)."',"
+            ." response1 = '".BoincDb::escape_string($response1)."',"
+            ." response2 = '".BoincDb::escape_string($response2)."',"
             ." has_picture = '$hasPicture',"
             ." verification=0";
         $result = BoincProfile::insert($query);

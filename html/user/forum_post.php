@@ -37,10 +37,7 @@ $forumid = get_int("id");
 $forum = BoincForum::lookup_id($forumid);
 
 if (!user_can_create_thread($logged_in_user, $forum)) {
-    error_page(
-        "Only project admins may create a thread here.
-        However, you may reply existing threads."
-    );
+    error_page(tra("Only project admins may create a thread here. However, you may reply to existing threads."));
 }
 check_post_access($logged_in_user, $forum);
 
@@ -60,9 +57,7 @@ if ($content && $title && (!$preview)){
     }
     check_tokens($logged_in_user->authenticator);
     if (!akismet_check($logged_in_user, $content)) {
-        $warning = "Your message was flagged as spam by the Akismet
-            anti-spam system.  Please modify your text and try again.
-        ";
+        $warning = tra("Your message was flagged as spam by the Akismet anti-spam system. Please modify your text and try again.");
         $preview = tra("Preview");
     } else {
         $thread = create_thread(
@@ -72,7 +67,7 @@ if ($content && $title && (!$preview)){
     }
 }
 
-page_head('Create new thread','','','', $bbcode_js);
+page_head(tra("Create new thread"),'','','', $bbcode_js);
 show_forum_header($logged_in_user);
 
 if ($warning) {
@@ -107,7 +102,7 @@ $submit_help = "";
 $body_help = "";
 
 if ($content && !$title) {
-    $submit_help = "<br /><font color=\"red\">Remember to add a title</font>";
+    $submit_help = "<br /><font color=\"red\">".tra("Remember to add a title")."</font>";
 }
 
 if ($force_title && $title){
@@ -129,10 +124,10 @@ if (!$logged_in_user->prefs->no_signature_by_default) {
 }
 
 if (is_news_forum($forum)) {
-    row2("", "<input name=export type=checkbox> Show this item as a Notice in the BOINC Manager<br><span class=note>Do so only for items likely to be of interest to all volunteers</span>");
+    row2("", "<input name=export type=checkbox>".tra("Show this item as a Notice in the BOINC Manager")."<br><span class=note>".tra("Do so only for items likely to be of interest to all volunteers.")."</span>");
 }
 row2("", "<input name=\"add_signature\" value=\"add_it\" ".$enable_signature." type=\"checkbox\"> ".tra("Add my signature to this post"));
-row2("", "<input type=\"submit\" name=\"preview\" value=\"".tra("Preview")."\"> <input type=\"submit\" value=\"OK\">");
+row2("", "<input type=\"submit\" name=\"preview\" value=\"".tra("Preview")."\"> <input type=\"submit\" value=\"".tra("OK")."\">");
 
 
 end_table();

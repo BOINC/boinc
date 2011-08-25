@@ -16,29 +16,23 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-
 require_once("../inc/util.inc");
 
 check_get_args(array());
 
-page_head("Allowed HTML tags");
+page_head(tra("Allowed HTML tags"));
 
-echo "
-The following HTML tags are allowed in profiles, team descriptions,
-signatures, etc.:
+echo tra("The following HTML tags are allowed in team descriptions:")."
 <ul>
-<li> &lt;b> or &lt;strong> (bold)
-<li> &lt;i> or &lt;em> (italics)
-<li> &lt;a> (hyperlink)
-<li> &lt;p> (paragraph)
-<li> &lt;br> (break)
-<li> &lt;pre> (preformatted)
-<li> &lt;img> (image; height cannot exceed 450 pixels.
-Please do not link to images without
-permission of the web site where the image is hosted.)
+<li> &lt;b> or &lt;strong> (".tra("bold").")
+<li> &lt;i> or &lt;em> (".tra("italics").")
+<li> &lt;a> (".tra("hyperlink").")
+<li> &lt;p> (".tra("paragraph").")
+<li> &lt;br> (".tra("break").")
+<li> &lt;pre> (".tra("preformatted").")
+<li> &lt;img> (".tra("image; height cannot exceed 450 pixels. Please do not link to images without permission of the web site where the image is hosted.").")
 </ul>
-You can also use ampersand notation for special characters.
-";
+".tra("You can also use ampersand notation for special characters.");
 
 page_tail();
 ?>

@@ -30,12 +30,12 @@ $team = BoincTeam::lookup_id($teamid);
 if (!$team) error_page(tra("no such team"));
 require_admin($user, $team);
 
-$team_url = BoincDb::escape_string(strip_tags(post_str("url", true)));
+$team_url = BoincDb::escape_string(sanitize_tags(post_str("url", true)));
 $x = strstr($team_url, "http://");
 if ($x) {
     $team_url = substr($team_url, 7);
 }
-$team_name = BoincDb::escape_string(strip_tags(post_str("name")));
+$team_name = BoincDb::escape_string(sanitize_tags(post_str("name")));
 $team_name_lc = strtolower($team_name);
 
 $tnh = post_str("name_html", true);

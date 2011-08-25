@@ -43,39 +43,35 @@ function show_title($forum, $thread) {
 
 function subscribe($forum, $thread, $user) {
     if (BoincSubscription::replace($user->id, $thread->id)) {
-        page_head("Subscription successful");
+        page_head(tra("Subscription successful"));
         show_forum_header($user);
         show_title($forum, $thread);
-        echo "<p>You are now subscribed to <b>", cleanup_title($thread->title), "</b>.
-        You will be notified whenever there is a new post.";
+        echo "<p>".tra("You are now subscribed to %1. You will be notified whenever there is a new post.", "<b>".cleanup_title($thread->title)."</b>");
     } else {
-        page_head("Subscription failed");
-        echo "<p>We are currently unable to subscribe you to this thread (<b>", cleanup_title($thread->title), "</b>).
-        Please try again later..";
+        page_head(tra("Subscription failed"));
+        echo "<p>".tra("We are currently unable to subscribe you to %1. Please try again later..", "<b>".cleanup_title($thread->title)."</b>");
     }
-    echo "</p><p><br /><a href=\"forum_thread.php?id=".$thread->id."\">Return to thread</a></p>";
+    echo "</p><p><br /><a href=\"forum_thread.php?id=".$thread->id."\">".tra("Return to thread")."</a></p>";
     page_tail();
 }
 
 function unsubscribe($forum, $thread, $user) {
     BoincSubscription::delete($user->id, $thread->id);
     if (!BoincSubscription::lookup($user->id, $thread->id)) {
-        page_head("Unsubscription successful");
+        page_head(tra("Unsubscription successful"));
         show_forum_header($user);
         show_title($forum, $thread);
-        echo "<p>You are no longer subscribed to <b>", cleanup_title($thread->title), "</b>.
-        You will no longer receive notifications for this thread.";
+        echo "<p>".tra("You are no longer subscribed to %1. You will no longer receive notifications for this thread.", "<b>".cleanup_title($thread->title)."</b>");
     } else {
-        page_head("Unsubscription failed");
-        echo "<p>We are currently unable to unsubscribe you to this thread (<b>", cleanup_title($thread->title), "</b>).
-        Please try again later..";
+        page_head(tra("Unsubscription failed"));
+        echo "<p>".tra("We are currently unable to unsubscribe you from %1. Please try again later..", "<b>".cleanup_title($thread->title)."</b>");
     }
-    echo "</p><p><br /><a href=\"forum_thread.php?id=".$thread->id."\">Return to thread</a></p>";
+    echo "</p><p><br /><a href=\"forum_thread.php?id=".$thread->id."\">".tra("Return to thread")."</a></p>";
     page_tail();
 }
 
 if (!$thread || !$action) {
-    error_page("Unknown subscription action");
+    error_page(tra("Unknown subscription action"));
 }
 
 $user = get_logged_in_user();

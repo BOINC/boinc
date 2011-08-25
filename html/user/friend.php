@@ -61,7 +61,7 @@ function handle_add($user) {
         error_page(tra("You can't be friends with yourself"));
     }
     $destuser = BoincUser::lookup_id($destid);
-    if (!$destuser) error_page(tra("No such user"));
+    if (!$destuser) error_page("No such user");
 
     check_pending($user, $destuser);
     check_ignoring($user, $destuser);
@@ -71,14 +71,14 @@ function handle_add($user) {
         <form method=post action=friend.php>
         <input type=hidden name=userid value=$destid>
         <input type=hidden name=action value=add_confirm>" .
-        tra("You have asked to add %1 as a friend. We will notify %2 and will ask him/her to confirm that you are friends.",
-        "<b>".$destuser->name."</b>","<b>".$destuser->name."</b>") ."
+        tra("You have asked to add %1 as a friend. We will notify %1 and will ask him/her to confirm that you are friends.",
+        "<b>".$destuser->name."</b>") ."
         <p>" .
         tra("Add an optional message here:") ."
         <br>
         <textarea name=message cols=64 rows=4></textarea>
         <p>
-        <input type=submit value=OK>
+        <input type=submit value=\"".tra("OK")."\">
         </form>
     ";
     page_tail();
@@ -89,13 +89,13 @@ function handle_add($user) {
 function handle_add_confirm($user) {
     $destid = post_int('userid');
     $destuser = BoincUser::lookup_id($destid);
-    if (!$destuser) error_page(tra("No such user"));
+    if (!$destuser) error_page("No such user");
 
     check_pending($user, $destuser);
     check_ignoring($user, $destuser);
 
     $msg = post_str('message', true);
-    if ($msg) $msg = strip_tags(BoincDb::escape_string($msg));
+    if ($msg) $msg = sanitize_tags(BoincDb::escape_string($msg));
 
     $now = time();
     $ret = BoincFriend::replace(
@@ -132,9 +132,9 @@ function handle_query($user) {
     }
     $srcid = get_int('userid');
     $srcuser = BoincUser::lookup_id($srcid);
-    if (!$srcuser) error_page(tra("No such user"));
+    if (!$srcuser) error_page("No such user");
     $friend = BoincFriend::lookup($srcid, $user->id);
-    if (!$friend) error_page(tra("Request not found"));
+    if (!$friend) error_page("Request not found");
     page_head(tra("Friend request"));
 	echo time_str($friend->create_time)."<p>\n";
     $x = user_links($srcuser, true);
@@ -155,17 +155,17 @@ function handle_query($user) {
 function handle_accept($user) {
     $srcid = get_int('userid');
     $srcuser = BoincUser::lookup_id($srcid);
-    if (!$srcuser) error_page(tra("No such user"));
+    if (!$srcuser) error_page("No such user");
 
     $friend = BoincFriend::lookup($srcid, $user->id);
     if (!$friend) {
-        error_page(tra("No request"));
+        error_page("No request");
     }
     $friend->update("reciprocated=1");
 
     // "accept message" not implemented in interface yet
     $msg = post_str('message', true);
-    if ($msg) $msg = strip_tags(BoincDb::escape_string($msg));
+    if ($msg) $msg = sanitize_tags(BoincDb::escape_string($msg));
     $now = time();
     $ret = BoincFriend::replace("user_src=$user->id, user_dest=$srcid, message='$msg', create_time=$now, reciprocated=1");
     if (!$ret) {
@@ -213,7 +213,7 @@ function handle_ignore($user) {
 function handle_accepted($user) {
     $destid = get_int('userid');
     $destuser = BoincUser::lookup_id($destid);
-    if (!$destuser) error_page(tra("No such user"));
+    if (!$destuser) error_page("No such user");
     $notify = BoincNotify::lookup($user->id, NOTIFY_FRIEND_ACCEPT, $destid);
     if ($notify) {
         $notify->delete();
@@ -228,7 +228,7 @@ function handle_accepted($user) {
 function handle_cancel_confirm($user) {
     $destid = get_int('userid');
     $destuser = BoincUser::lookup_id($destid);
-    if (!$destuser) error_page(tra("No such user"));
+    if (!$destuser) error_page("No such user");
     page_head(tra("Cancel friendship?"));
     echo
         tra("Are you sure you want to cancel your friendship with %1?",
@@ -244,7 +244,7 @@ function handle_cancel_confirm($user) {
 function handle_cancel($user) {
     $destid = get_int('userid');
     $destuser = BoincUser::lookup_id($destid);
-    if (!$destuser) error_page(tra("No such user"));
+    if (!$destuser) error_page("No such user");
     BoincFriend::delete($user->id, $destid);
     page_head(tra("Friendship cancelled"));
     echo tra("Your friendship with %1 has been cancelled.",$destuser->name);
@@ -285,7 +285,7 @@ case 'cancel':
     handle_cancel($user);
     break;
 default:
-    error_page(tra("Unknown action"));
+    error_page("Unknown action");
 }
 
 ?>

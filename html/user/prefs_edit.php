@@ -20,8 +20,6 @@ include_once("../inc/db.inc");
 include_once("../inc/util.inc");
 include_once("../inc/prefs.inc");
 
-db_init();
-
 $user = get_logged_in_user();
 
 $action = sanitize_tags(get_str("action", true));
