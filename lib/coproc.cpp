@@ -153,6 +153,8 @@ int COPROC::parse(XML_PARSER& xp) {
     return ERR_XML_PARSE;
 }
 
+#endif
+
 int COPROC::parse_opencl(XML_PARSER& xp) {
     char buf[1024];
     int n;
@@ -210,9 +212,6 @@ int COPROC::parse_opencl(XML_PARSER& xp) {
     }
     return ERR_XML_PARSE;
 }
-
-#endif
-
 
 void COPROCS::summary_string(char* buf, int len) {
     char bigbuf[8192], buf2[1024];

@@ -5039,8 +5039,8 @@ Charlie 24 Aug 2011
     - lib: On Windows, call _strtoui64() instead of strtoull.
 
     lib/
-        parse.h
         coproc.cpp
+        parse.h
     client/
         coproc_detect.cpp
 
@@ -5070,4 +5070,5 @@ Charlie 25 Aug 2011
     client/
         coproc_detect.cpp
     lib/
+        coproc.cpp
         parse.h
