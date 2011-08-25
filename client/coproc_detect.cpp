@@ -759,12 +759,7 @@ void COPROC_NVIDIA::get(
     Version.version = NV_DISPLAY_DRIVER_VERSION_VER;
 
     NvAPI_Initialize();
-    for (int i=0; ; i++) {
-        nvapiStatus = NvAPI_EnumNvidiaDisplayHandle(i, &hDisplay);
-        if (nvapiStatus != NVAPI_OK) break;
-        nvapiStatus = NvAPI_GetDisplayDriverVersion(hDisplay, &Version);
-        if (nvapiStatus == NVAPI_OK) break;
-    }
+    nvapiStatus = NvAPI_GetDisplayDriverVersion(NULL, &Version);
 #endif
 #else
 

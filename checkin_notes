@@ -5072,3 +5072,13 @@ Charlie 25 Aug 2011
     lib/
         coproc.cpp
         parse.h
+
+David  25 Aug 2011
+    - client: fix bug where NVIDIA display driver version wasn't being
+        set correctly for some laptop GPUs
+    - client/server: improve estimation of NVIDIA GPU peak FLOPS
+
+    lib/
+        coproc.h
+    client/
+        coproc_detect.cpp
