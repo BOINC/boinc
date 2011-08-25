@@ -305,10 +305,12 @@ void COPROCS::get_opencl(bool use_all, vector<string>&warnings,
             if (log_flags.coproc_debug) {
                 msg_printf(0, MSG_INFO,
                    "[coproc_debug] COPROC_NVIDIA [no CUDA]: nvidia_opencls[%d].global_RAM = %llu; nvidia_opencls[%d].local_RAM = %llu", 
-                        i, nvidia_opencls[i].global_RAM, i, nvidia_opencls[i].local_RAM); 
+                        i, (unsigned long long)nvidia_opencls[i].global_RAM, 
+                        i, (unsigned long long)nvidia_opencls[i].local_RAM); 
                 msg_printf(0, MSG_INFO,
                     "[coproc_debug] COPROC_NVIDIA [no CUDA]: nvidia_opencls[%d].global_RAM = %llu; nvidia_opencls[%d].local_RAM = %llu",
-                    i, nvidia_opencls[i].global_RAM, i, nvidia_opencls[i].local_RAM);
+                    i, (unsigned long long)nvidia_opencls[i].global_RAM, 
+                    i, (unsigned long long)nvidia_opencls[i].local_RAM);
             }
             if (in_vector(nvidia_opencls[i].device_num, ignore_nvidia_dev)) continue;
             bool is_best = false;
@@ -384,7 +386,8 @@ void COPROCS::get_opencl(bool use_all, vector<string>&warnings,
                     i, ati_opencls[i].name, i, ati_opencls[i].device_id, i, ati_opencls[i].device_num);
                 msg_printf(0, MSG_INFO,
                     "[coproc_debug] COPROC_ATI [no CAL]: ati_opencls[%d].global_RAM = %llu; ati_opencls[%d].local_RAM = %llu",
-                    i, ati_opencls[i].global_RAM, i, ati_opencls[i].local_RAM);
+                    i, (unsigned long long)ati_opencls[i].global_RAM, 
+                    i, (unsigned long long)ati_opencls[i].local_RAM);
             }
             if (in_vector(ati_opencls[i].device_num, ignore_ati_dev)) continue;
             bool is_best = false;
@@ -1088,7 +1091,8 @@ bool COPROC_NVIDIA::matches(OPENCL_DEVICE_PROP& OpenCLprop) {
             device_num, prop.deviceHandle, OpenCLprop.device_id);
         msg_printf(0, MSG_INFO,
             "[coproc_debug] COPROC_NVIDIA [in matches()]: prop.totalGlobalMem = %u; OpenCLprop.global_RAM = %llu; OpenCLprop.local_RAM = %llu",
-            prop.totalGlobalMem, OpenCLprop.global_RAM, OpenCLprop.local_RAM);
+            prop.totalGlobalMem, (unsigned long long)OpenCLprop.global_RAM, 
+            (unsigned long long)OpenCLprop.local_RAM);
 
         if (strcmp(prop.name, OpenCLprop.name)) {
             msg_printf(0, MSG_INFO,
@@ -1551,7 +1555,8 @@ bool COPROC_ATI::matches(OPENCL_DEVICE_PROP& OpenCLprop) {
             name, OpenCLprop.name);
         msg_printf(0, MSG_INFO,
             "[coproc_debug] COPROC_ATI [in matches()]: attribs.localRAM = %u; OpenCLprop.global_RAM = %llu; OpenCLprop.local_RAM = %llu",
-            attribs.localRAM, OpenCLprop.global_RAM, OpenCLprop.local_RAM);
+            attribs.localRAM, (unsigned long long)OpenCLprop.global_RAM, 
+            (unsigned long long)OpenCLprop.local_RAM);
     }
 
 #if 0//def _WIN32
