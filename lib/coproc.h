@@ -169,8 +169,8 @@ struct COPROC {
     void write_request(MIOFILE&);
     int parse(XML_PARSER&);
     void opencl_write_xml(MIOFILE&);
-    int parse_opencl(XML_PARSER&);
 #endif
+    int parse_opencl(XML_PARSER&);
 
     inline void clear() {
         // can't just memcpy() - trashes vtable
