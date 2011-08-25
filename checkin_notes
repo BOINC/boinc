@@ -5056,3 +5056,10 @@ David  24 Aug 2011
             forum.inc
         user/
             forum_forum.php
+
+David  24 Aug 2011
+    - client: pass --gpu_type X (X=nvidia or ati) as well as --device.
+        This lets device-neutral OpenCL apps figure out which GPU to use.
+
+    client/
+        app_start.cpp

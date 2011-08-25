@@ -119,15 +119,20 @@ static void debug_print_argv(char** argv) {
 static void coproc_cmdline(
     int rsc_type, RESULT* rp, double ninstances, char* cmdline
 ) {
+    char buf[256];
     COPROC* coproc = &coprocs.coprocs[rsc_type];
+    sprintf(buf, " --gpu_type %s", coproc->type);
+    strcat(cmdline, buf);
     for (int j=0; j<ninstances; j++) {
         int k = rp->coproc_indices[j];
         // sanity check
         //
         if (k < 0 || k >= coproc->count) {
-            *(int*)1 = 0;
+            msg_printf(0, MSG_INTERNAL_ERROR,
+                "coproc_cmdline: coproc index %d out of range", k
+            );
+            k = 0;
         }
-        char buf[256];
         sprintf(buf, " --device %d", coproc->device_nums[k]);
         strcat(cmdline, buf);
     }
