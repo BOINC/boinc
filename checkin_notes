@@ -5065,7 +5065,9 @@ David  24 Aug 2011
         app_start.cpp
 
 Charlie 25 Aug 2011
-    - client: fix Linux compile warnings.
+    - client: fix Linux compile erros and warnings.
 
     client/
         coproc_detect.cpp
+    lib/
+        parse.h

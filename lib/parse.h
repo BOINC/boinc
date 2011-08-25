@@ -78,9 +78,12 @@ inline bool match_tag(const std::string &s, const char* tag) {
     return match_tag(s.c_str(), tag);
 }
 
+//TODO: use strtoull() when available
 #ifdef _WIN32
-#define strtoull _strtoui64
-#elif !defined(__APPLE__)
+#define boinc_strtoull _strtoui64
+#elif defined(__APPLE__)
+#define boinc_strtoull strtoull
+#else
 inline unsigned long long strtoull(const char *s, char **, int) {
     char buf[64];
     char *p;
@@ -141,7 +144,7 @@ inline bool parse_ulong(const char* buf, const char* tag, unsigned long& x) {
 inline bool parse_cl_ulong(const char* buf, const char* tag, cl_ulong& x) { 
     const char* p = strstr(buf, tag); 
     if (!p) return false; 
-    unsigned long long y = strtoull(p+strlen(tag), NULL, 0);    // this parses 0xabcd correctly 
+    unsigned long long y = boinc_strtoull(p+strlen(tag), NULL, 0);    // this parses 0xabcd correctly 
     if (errno == ERANGE) return false; 
     x = y;
     return true; 
