@@ -197,10 +197,10 @@ function show_team_forum_title($forum, $thread=null, $link_thread=false) {
     echo "</span>";
 }
 
-function start_forum_table($headings, $extra) {
+function start_forum_table($headings) {
     $span = null;
     
-    start_table($extra." width=\"100%\"");
+    start_table("width=\"100%\"");
     echo "<tr>";
 
     for ($i=0; $i<count($headings); $i++) {
@@ -1120,7 +1120,13 @@ function is_moderator($user, $forum) {
 }
 
 function show_thread_and_context_header() {
-    start_forum_table(array(tra("Thread"), tra("Posts"), tra("Author"), tra("Views"), "<nobr>".tra("Last post")."</nobr>"));
+    start_forum_table(array(
+        tra("Thread"),
+        tra("Posts"),
+        tra("Author"),
+        tra("Views"),
+        "<nobr>".tra("Last post")."</nobr>"
+    ));
 }
 
 // show a 1-line summary of thread and its forum.

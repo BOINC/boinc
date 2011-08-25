@@ -140,8 +140,8 @@ function show_forum($forum, $start, $sort_style, $user) {
         tra("Posts"),
         tra("Author"),
         tra("Views"),
-        "<nobr>".tra("Last post")."</nobr>")
-    );
+        "<nobr>".tra("Last post")."</nobr>"
+    ));
 
     $sticky_first = !$user || !$user->prefs->ignore_sticky_posts;
 

@@ -5043,3 +5043,16 @@ Charlie 24 Aug 2011
         coproc.cpp
     client/
         coproc_detect.cpp
+
+David  24 Aug 2011
+    - job submission: fix bug where parameters specified in the
+        input template (e.g., delay bound) were ignored
+    - web: fix PHP warning
+
+    tools/
+        backend_lib.cpp
+    html/
+        inc/
+            forum.inc
+        user/
+            forum_forum.php
