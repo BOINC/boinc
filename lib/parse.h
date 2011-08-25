@@ -84,7 +84,7 @@ inline bool match_tag(const std::string &s, const char* tag) {
 #elif defined(__APPLE__)
 #define boinc_strtoull strtoull
 #else
-inline unsigned long long strtoull(const char *s, char **, int) {
+inline unsigned long long boinc_strtoull(const char *s, char **, int) {
     char buf[64];
     char *p;
     unsigned long long y;
