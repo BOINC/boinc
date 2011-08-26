@@ -133,7 +133,7 @@ function page_head(
 ) {
     global $caching, $cache_control_extra, $did_page_head;
 
-	$did_page_head = true;
+    $did_page_head = true;
     $stylesheet = URL_BASE.STYLESHEET;
     $rssname = PROJECT . " RSS 2.0";
     $rsslink = URL_BASE."rss_main.php";
@@ -149,9 +149,9 @@ function page_head(
     echo "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\" \"http://www.w3.org/TR/html4/loose.dtd\">";
     
     if (!$title_plain) {
-        echo "<html><head><title>".strip_tags($title)."</title>\n";
+        echo "<html><head><title>".sanitize_tags($title)."</title>\n";
     } else {
-        echo "<html><head><title>".strip_tags($title_plain)."</title>\n";
+        echo "<html><head><title>".sanitize_tags($title_plain)."</title>\n";
     }
     echo "<link rel=stylesheet type=\"text/css\" href=\"".URL_BASE."main.css\" media=\"all\" />
         <link rel=stylesheet type=\"text/css\" href=\"$stylesheet\">

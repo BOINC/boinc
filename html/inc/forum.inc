@@ -235,7 +235,7 @@ function show_page_nav($forum, $sort, $start=0){
         if ($curpage > 0){
             $navbar = '<a href="forum_forum.php?id='.$forum->id.'&start='.(($curpage-1)*THREADS_PER_PAGE);
             if ($sort) $navbar.='&sort='.$sort;
-            $navbar.= '"> &lt;-- Previous</a> ';
+            $navbar.= '"> &lt;-- ".tra("Previous")."</a> ';
         }
         
         // Display a list of pages surrounding this one
@@ -256,7 +256,7 @@ function show_page_nav($forum, $sort, $start=0){
         if ($curpage+1 < $total){
             $navbar.= '<a href="forum_forum.php?id='.$forum->id.'&start='.(($curpage+1)*THREADS_PER_PAGE);
             if ($sort) $navbar.='&sort='.$sort;
-            $navbar.= '"> Next --&gt;</a>';
+            $navbar.= '"> ".tra("Next")." --&gt;</a>';
         }
 
     }
@@ -280,7 +280,7 @@ function thread_is_unread($user, $thread) {
 //  Process a user-supplied title to remove HTML stuff
 //
 function cleanup_title($title) {
-    $x = strip_tags(bb2html($title));
+    $x = sanitize_tags(bb2html($title));
     $x = trim($x);
     if (strlen($x)==0) return "(no title)";
     else return $x;
@@ -794,7 +794,7 @@ function update_forum_timestamp($forum) {
 
 function create_thread($title, $content, $user, $forum, $signature, $export) {
     $title = trim($title);
-    $title = strip_tags($title);
+    $title = sanitize_tags($title);
     $title = mysql_real_escape_string($title);
     $now = time();
     $status = 0;

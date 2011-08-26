@@ -73,6 +73,7 @@ function lookup_user_email_addr($email_addr) {
 }
 
 function lookup_user_name($name) {
+    // TODO: is the following double escaped? Why?
     $name = BoincDb::escape_string($name);
     $users = BoincUser::enum("name='".boinc_real_escape_string($name)."'");
     if (sizeof($users)==1) {
@@ -110,8 +111,10 @@ function lookup_app($id) {
     return BoincApp::lookup_id($id);
 }
 
+// DEPRECATED: use BoincDb::escape_string where possible
+// 
 // apply this to any user-supplied strings used in queries
-//
+// 
 function boinc_real_escape_string($x) {
     if (version_compare(phpversion(),"4.3.0")>=0) {
         return BoincDb::escape_string($x);

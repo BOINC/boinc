@@ -16,6 +16,10 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
+// DEPRECATED: this was used to clean user names from html that was allowed at this time
+
+die("This file is DEPRECATED, see source for more information.");
+
 $cli_only = true;
 require_once("../inc/db.inc");
 require_once("../inc/util_ops.inc");
@@ -24,8 +28,8 @@ set_time_limit(0);
 db_init();
 
 function clean_user($user) {
-    if ($user->name != strip_tags($user->name)) {
-        $x = strip_tags($user->name);
+    if ($user->name != sanitize_tags($user->name)) {
+        $x = sanitize_tags($user->name);
         echo "ID: $user->id
 name: $user->name
 stripped name: $x

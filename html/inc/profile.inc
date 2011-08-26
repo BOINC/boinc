@@ -177,7 +177,7 @@ function get_profile_summary($profile) {
 
     if (strlen($profile->response1) != 0) {
         $temp = $profile->response1;
-        $description = "(\"" . sub_sentence(strip_tags($temp), ' ', MAX_DESC_LENGTH, true) . "\")";
+        $description = "(\"" . sub_sentence(sanitize_tags($temp), ' ', MAX_DESC_LENGTH, true) . "\")";
 
     }
 

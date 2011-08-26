@@ -36,7 +36,7 @@ function show_uotd($profile) {
     $user = lookup_user_id($profile->userid);
     echo uotd_thumbnail($profile, $user);
     echo user_links($user, true)."<br>";
-    echo sub_sentence(output_transform(strip_tags($profile->response1)), ' ', 150, true);
+    echo sub_sentence(output_transform(sanitize_tags($profile->response1)), ' ', 150, true);
 }
 
 // return the last UOTD profile, or null
@@ -172,7 +172,7 @@ function generate_uotd_gadget($profile, $user) {
             $x .= uotd_thumbnail($profile, $user);
             $x .= user_links($user);
             $x .= "&nbsp;&nbsp;".
-                sub_sentence(strip_tags(output_transform($profile->response1)), ' ',
+                sub_sentence(sanitize_tags(output_transform($profile->response1)), ' ',
                              250, true);
         }
         else {

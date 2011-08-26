@@ -5102,3 +5102,10 @@ Charlie 26 Aug 2011
             config.h
     lib/
         parse.h
+
+David  26 Aug 2011
+    - web: more fixes from Christian Beer.  Fixes #1129
+
+    html/
+        ops/
+        inc/
