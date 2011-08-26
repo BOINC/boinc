@@ -5109,3 +5109,10 @@ David  26 Aug 2011
     html/
         ops/
         inc/
+
+Rom    26 Aug 2011
+    - VboxWrapper: Add functions for enable/disable network and throttling
+        the CPU and network activity.
+
+    samples/vboxwrapper/
+        vbox.cpp, .h

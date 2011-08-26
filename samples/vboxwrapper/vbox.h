@@ -53,6 +53,9 @@ struct VBOX_VM {
     int deregister_stale_vm();
     int deregister_vm();
     int startvm();
+    int set_network_access(bool enabled);
+    int set_cpu_throttle(int throttle_speed);
+    int set_network_throttle(int throttle_speed);
 
     static int initialize();
     static int generate_vm_root_dir( std::string& dir );

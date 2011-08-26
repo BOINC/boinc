@@ -497,27 +497,8 @@ int VBOX_VM::register_vm() {
 
 
     // Enable the network adapter if a network connection is required.
-    // NOTE: Network access should never be allowed if the code running in a 
-    //   shared directory or the VM itself is NOT signed.  Doing so opens up 
-    //   the network behind the firewall to attack.
     //
-    if (enable_network) {
-        command  = "modifyvm \"" + vm_name + "\" ";
-        command += "--cableconnected1 on ";
-
-        retval = vbm_popen(command, output);
-        if (retval) {
-            fprintf(
-                stderr,
-                "%s Error enabling network access for virtual machine! rc = 0x%x\nCommand:\n%s\nOutput:\n%s\n",
-                boinc_msg_prefix(buf, sizeof(buf)),
-                retval,
-                command.c_str(),
-                output.c_str()
-            );
-            return retval;
-        }
-    }
+    set_network_access(enable_network);
 
 
     // Enable the shared folder if a shared folder is specified.
@@ -789,3 +770,110 @@ int VBOX_VM::resume() {
     suspended = false;
     return 0;
 }
+
+
+// Enable the network adapter if a network connection is required.
+// NOTE: Network access should never be allowed if the code running in a 
+//   shared directory or the VM itself is NOT signed.  Doing so opens up 
+//   the network behind the firewall to attack.
+//
+int VBOX_VM::set_network_access(bool enabled) {
+    string command;
+    string output;
+    char buf[256];
+    int retval;
+
+    if (enabled) {
+        command  = "modifyvm \"" + vm_name + "\" ";
+        command += "--cableconnected1 on ";
+
+        retval = vbm_popen(command, output);
+        if (retval) {
+            fprintf(
+                stderr,
+                "%s Error enabling network access for virtual machine! rc = 0x%x\nCommand:\n%s\nOutput:\n%s\n",
+                boinc_msg_prefix(buf, sizeof(buf)),
+                retval,
+                command.c_str(),
+                output.c_str()
+            );
+            return retval;
+        }
+    } else {
+        command  = "modifyvm \"" + vm_name + "\" ";
+        command += "--cableconnected1 off ";
+
+        retval = vbm_popen(command, output);
+        if (retval) {
+            fprintf(
+                stderr,
+                "%s Error disabling network access for virtual machine! rc = 0x%x\nCommand:\n%s\nOutput:\n%s\n",
+                boinc_msg_prefix(buf, sizeof(buf)),
+                retval,
+                command.c_str(),
+                output.c_str()
+            );
+            return retval;
+        }
+    }
+    return 0;
+}
+
+
+int VBOX_VM::set_cpu_throttle(int throttle_speed) {
+    string command;
+    string output;
+    char buf[256];
+    int retval;
+
+    sprintf(buf, "%d", throttle_speed);
+
+    command  = "modifyvm \"" + vm_name + "\" ";
+    command += "--cpuexecutioncap ";
+    command += buf;
+    command += " ";
+
+    retval = vbm_popen(command, output);
+    if (retval) {
+        fprintf(
+            stderr,
+            "%s Error setting cpu throttle for virtual machine! rc = 0x%x\nCommand:\n%s\nOutput:\n%s\n",
+            boinc_msg_prefix(buf, sizeof(buf)),
+            retval,
+            command.c_str(),
+            output.c_str()
+        );
+        return retval;
+    }
+    return 0;
+}
+
+
+int VBOX_VM::set_network_throttle(int throttle_speed) {
+    string command;
+    string output;
+    char buf[256];
+    int retval;
+
+    sprintf(buf, "%d", throttle_speed);
+
+    command  = "modifyvm \"" + vm_name + "\" ";
+    command += "--nicspeed1 ";
+    command += buf;
+    command += " ";
+
+    retval = vbm_popen(command, output);
+    if (retval) {
+        fprintf(
+            stderr,
+            "%s Error setting network throttle for virtual machine! rc = 0x%x\nCommand:\n%s\nOutput:\n%s\n",
+            boinc_msg_prefix(buf, sizeof(buf)),
+            retval,
+            command.c_str(),
+            output.c_str()
+        );
+        return retval;
+    }
+    return 0;
+}
+
