@@ -5092,3 +5092,13 @@ David  25 Aug 2011
         validator.cpp
     html/user/
         various
+
+Charlie 26 Aug 2011
+    - lib: use standard implementation of strtoull when available.
+
+    configure.ac
+    clientgui/
+        mac/
+            config.h
+    lib/
+        parse.h

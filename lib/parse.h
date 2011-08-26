@@ -78,10 +78,10 @@ inline bool match_tag(const std::string &s, const char* tag) {
     return match_tag(s.c_str(), tag);
 }
 
-//TODO: use strtoull() when available
 #ifdef _WIN32
 #define boinc_strtoull _strtoui64
-#elif defined(__APPLE__)
+#else
+#ifdef HAVE_STRTOULL
 #define boinc_strtoull strtoull
 #else
 inline unsigned long long boinc_strtoull(const char *s, char **, int) {
@@ -99,6 +99,7 @@ inline unsigned long long boinc_strtoull(const char *s, char **, int) {
     }
     return y;
 }
+#endif
 #endif
 
 // parse an integer of the form <tag>1234</tag>
