@@ -104,8 +104,8 @@ public:
     wxIcon GetIconResource( const wxString& name );
 ////@end CAccountManagerProcessingPage member function declarations
 
-    bool GetProjectCommunitcationsSucceeded() const { return m_bProjectCommunitcationsSucceeded ; }
-    void SetProjectCommunitcationsSucceeded(bool value) { m_bProjectCommunitcationsSucceeded = value ; }
+    bool GetProjectCommunicationsSucceeded() const { return m_bProjectCommunicationsSucceeded ; }
+    void SetProjectCommunicationsSucceeded(bool value) { m_bProjectCommunicationsSucceeded = value ; }
 
     bool GetProjectUnavailable() const { return m_bProjectUnavailable ; }
     void SetProjectUnavailable(bool value) { m_bProjectUnavailable = value ; }
@@ -135,7 +135,7 @@ public:
     wxStaticText* m_pPleaseWaitStaticCtrl;
     wxStaticBitmap* m_pProgressIndicator;
 ////@end CAccountManagerProcessingPage member variables
-    bool m_bProjectCommunitcationsSucceeded;
+    bool m_bProjectCommunicationsSucceeded;
     bool m_bProjectUnavailable;
     bool m_bProjectAccountNotFound;
     bool m_bProjectAccountAlreadyExists;

@@ -107,7 +107,7 @@ bool CProjectProcessingPage::Create( CBOINCBaseWizard* parent )
     m_pProgressIndicator = NULL;
 ////@end CProjectProcessingPage member initialisation
  
-    m_bProjectCommunitcationsSucceeded = false;
+    m_bProjectCommunicationsSucceeded = false;
     m_bProjectUnavailable = false;
     m_bProjectAccountNotFound = false;
     m_bProjectAccountAlreadyExists = false;
@@ -182,10 +182,10 @@ wxWizardPageEx* CProjectProcessingPage::GetNext() const
     } else if (GetProjectAttachSucceeded()) {
         // We were successful in creating or retrieving an account
         return PAGE_TRANSITION_NEXT(ID_COMPLETIONPAGE);
-    } else if (!GetProjectCommunitcationsSucceeded() && GetProjectAccountAlreadyExists()) {
+    } else if (!GetProjectCommunicationsSucceeded() && GetProjectAccountAlreadyExists()) {
         // The requested account already exists
         return PAGE_TRANSITION_NEXT(ID_ERRALREADYEXISTSPAGE);
-    } else if (!GetProjectCommunitcationsSucceeded() && GetProjectAccountNotFound()) {
+    } else if (!GetProjectCommunicationsSucceeded() && GetProjectAccountNotFound()) {
         // The requested account does not exist or the password is bad
         return PAGE_TRANSITION_NEXT(ID_ERRNOTFOUNDPAGE);
     } else {
@@ -321,7 +321,7 @@ void CProjectProcessingPage::OnPageChanged( wxWizardExEvent& event ) {
         _("Communicating with project.")
     );
 
-    SetProjectCommunitcationsSucceeded(false);
+    SetProjectCommunicationsSucceeded(false);
     SetProjectUnavailable(false);
     SetProjectAccountAlreadyExists(false);
     SetNextState(ATTACHPROJECT_INIT);
@@ -395,7 +395,7 @@ void CProjectProcessingPage::OnStateChange( CProjectProcessingPageEvent& WXUNUSE
                 if (!pWA->m_bCredentialsCached || pWA->m_bCredentialsDetected) {
                     ao->authenticator = (const char*)pWA->GetProjectAuthenticator().mb_str();
                 }
-                SetProjectCommunitcationsSucceeded(true);
+                SetProjectCommunicationsSucceeded(true);
             } else {
                 // Setup initial values for both the create and lookup API
 
@@ -474,9 +474,9 @@ void CProjectProcessingPage::OnStateChange( CProjectProcessingPageEvent& WXUNUSE
                 }
  
                 if ((!iReturnValue) && !ao->error_num) {
-                    SetProjectCommunitcationsSucceeded(true);
+                    SetProjectCommunicationsSucceeded(true);
                 } else {
-                    SetProjectCommunitcationsSucceeded(false);
+                    SetProjectCommunicationsSucceeded(false);
 
                     if ((ao->error_num == ERR_DB_NOT_UNIQUE)
 						|| (ao->error_num == ERR_NONUNIQUE_EMAIL)
@@ -518,7 +518,7 @@ void CProjectProcessingPage::OnStateChange( CProjectProcessingPageEvent& WXUNUSE
             SetNextState(ATTACHPROJECT_ATTACHPROJECT_EXECUTE);
             break;
         case ATTACHPROJECT_ATTACHPROJECT_EXECUTE:
-            if (GetProjectCommunitcationsSucceeded()) {
+            if (GetProjectCommunicationsSucceeded()) {
      
                 // Wait until we are done processing the request.
                 dtStartExecutionTime = wxDateTime::Now();

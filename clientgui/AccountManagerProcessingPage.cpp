@@ -108,7 +108,7 @@ bool CAccountManagerProcessingPage::Create( CBOINCBaseWizard* parent )
     m_pProgressIndicator = NULL;
 ////@end CAccountManagerProcessingPage member initialisation
  
-    m_bProjectCommunitcationsSucceeded = false;
+    m_bProjectCommunicationsSucceeded = false;
     m_bProjectUnavailable = false;
     m_bProjectAccountNotFound = false;
     m_bProjectAccountAlreadyExists = false;
@@ -200,7 +200,7 @@ void CAccountManagerProcessingPage::OnPageChanged( wxWizardExEvent& event )
         _("Please wait...")
     );
 
-    SetProjectCommunitcationsSucceeded(false);
+    SetProjectCommunicationsSucceeded(false);
     SetProjectUnavailable(false);
     SetProjectAccountAlreadyExists(false);
     SetNextState(ATTACHACCTMGR_INIT);
@@ -377,7 +377,7 @@ wxWizardPageEx* CAccountManagerProcessingPage::GetNext() const
     } else if (GetProjectAttachSucceeded()) {
         // We were successful in creating or retrieving an account
         return PAGE_TRANSITION_NEXT(ID_COMPLETIONPAGE);
-    } else if (!GetProjectCommunitcationsSucceeded() && GetProjectAccountNotFound()) {
+    } else if (!GetProjectCommunicationsSucceeded() && GetProjectAccountNotFound()) {
         // The requested account does not exist or the password is bad
         return PAGE_TRANSITION_NEXT(ID_ERRNOTFOUNDPAGE);
     } else {

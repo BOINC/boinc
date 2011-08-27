@@ -5170,3 +5170,14 @@ David  26 Aug 2011
     lib/
         crypt.cpp
         parse.cpp,h
+
+David  26 Aug 2011
+    - manager: Communitcations -> Communications.
+        please, no spelling errors in function/variable names
+    - client: parse deprecated tags in <file_info>
+
+    clientgui/
+        ProjectProcessingPage.cpp,h
+        AccountManagerProcessingPage.cpp,h
+    client/
+        client_types.cpp

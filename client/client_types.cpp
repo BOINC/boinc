@@ -1038,6 +1038,9 @@ int FILE_INFO::parse(XML_PARSER& xp) {
             error_msg = buf2;
             continue;
         }
+        // deprecated tags
+        if (xp.parse_bool("generated_locally", btemp)) continue;
+        if (xp.parse_bool("upload_when_present", btemp)) continue;
         if (log_flags.unparsed_xml) {
             msg_printf(0, MSG_INFO,
                 "[unparsed_xml] FILE_INFO::parse(): unrecognized: %s\n",
