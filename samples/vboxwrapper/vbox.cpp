@@ -54,6 +54,7 @@ VBOX_VM::VBOX_VM() {
     memory_size_mb.clear();
     image_filename.clear();
     suspended = false;
+    network_suspended = false;
     enable_network = false;
     enable_shared_directory = false;
 }
@@ -495,11 +496,11 @@ int VBOX_VM::register_vm() {
         return retval;
     }
 
-
     // Enable the network adapter if a network connection is required.
     //
-    set_network_access(enable_network);
-
+    if (enable_network) {
+        set_network_access(true);
+    }
 
     // Enable the shared folder if a shared folder is specified.
     //
@@ -783,6 +784,8 @@ int VBOX_VM::set_network_access(bool enabled) {
     char buf[256];
     int retval;
 
+    network_suspended = !enabled;
+
     if (enabled) {
         command  = "modifyvm \"" + vm_name + "\" ";
         command += "--cableconnected1 on ";
@@ -820,14 +823,15 @@ int VBOX_VM::set_network_access(bool enabled) {
 }
 
 
-int VBOX_VM::set_cpu_throttle(int throttle_speed) {
+int VBOX_VM::set_cpu_usage_fraction(double x) {
     string command;
     string output;
     char buf[256];
     int retval;
 
-    sprintf(buf, "%d", throttle_speed);
-
+    // the arg to modifyvm is percentage
+    //
+    sprintf(buf, "%d", (int)(x*100.));
     command  = "modifyvm \"" + vm_name + "\" ";
     command += "--cpuexecutioncap ";
     command += buf;
@@ -849,14 +853,16 @@ int VBOX_VM::set_cpu_throttle(int throttle_speed) {
 }
 
 
-int VBOX_VM::set_network_throttle(int throttle_speed) {
+int VBOX_VM::set_network_max_bytes_sec(double x) {
     string command;
     string output;
     char buf[256];
     int retval;
 
-    sprintf(buf, "%d", throttle_speed);
 
+    // the argument to modifyvm is in Kbps
+    //
+    sprintf(buf, "%d", (int)(x*8./1000.));
     command  = "modifyvm \"" + vm_name + "\" ";
     command += "--nicspeed1 ";
     command += buf;

@@ -184,6 +184,26 @@ int main(int argc, char** argv) {
         boinc_finish(retval);
     }
 
+    // set CPU and network throttling if needed
+    //
+    double x = aid.global_prefs.cpu_usage_limit;
+    if (x && x<100) {
+        vm.set_cpu_usage_fraction(x/100.);
+    }
+
+    // vbox doesn't distinguish up and down bandwidth; use the min of the prefs
+    //
+    x = aid.global_prefs.max_bytes_sec_up;
+    double y = aid.global_prefs.max_bytes_sec_down;
+    if (y) {
+        if (!x || y<x) {
+            x = y;
+        }
+    }
+    if (x) {
+        vm.set_network_max_bytes_sec(x);
+    }
+
     while (1) {
         vm.poll();
         is_running = vm.is_running();
@@ -219,6 +239,17 @@ int main(int argc, char** argv) {
                     sprintf(buf, "<cpu_time>%f</cpu_time>", trickle_cpu_time);
                     boinc_send_trickle_up(const_cast<char*>("cpu_time"), buf);
                     trickle_cpu_time = 0;
+                }
+            }
+        }
+        if (vm.enable_network) {
+            if (boinc_status.network_suspended) {
+                if (!vm.network_suspended) {
+                    vm.set_network_access(false);
+                }
+            } else {
+                if (vm.network_suspended) {
+                    vm.set_network_access(true);
                 }
             }
         }

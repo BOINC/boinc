@@ -36,7 +36,10 @@ struct VBOX_VM {
     std::string vm_name;
         // unique name for the VM
     bool suspended;
+    bool network_suspended;
+        // whether network access is temporarily suspended
     bool enable_network;
+        // whether to allow network access at all
     bool enable_shared_directory;
 
     void poll();
@@ -54,8 +57,8 @@ struct VBOX_VM {
     int deregister_vm();
     int startvm();
     int set_network_access(bool enabled);
-    int set_cpu_throttle(int throttle_speed);
-    int set_network_throttle(int throttle_speed);
+    int set_cpu_usage_fraction(double);
+    int set_network_max_bytes_sec(double);
 
     static int initialize();
     static int generate_vm_root_dir( std::string& dir );

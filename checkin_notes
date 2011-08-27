@@ -5130,3 +5130,19 @@ David  26 Aug 2011
         sched_version.cpp
         sched_send.cpp
     Makefile.am
+
+David  26 Aug 2011
+    - VirtualBox wrapper:
+        - change names of CPU and network-limiting functions
+            to express their units (always do this).
+        - wrapper monitors status.suspend_network
+            and suspends/resumes network accordingly
+        - wrapper sets CPU and network bandwidth limits on startup
+            (Rom: should this be done before run() rather than after?)
+    Note: App versions using this wrapper should always have
+        <dont_throttle/> in their version.xml,
+        to tell the client that the app throttles itself.
+
+    samples/vboxwrapper/
+        vbox.cpp,h
+        vboxwrapper.cpp
