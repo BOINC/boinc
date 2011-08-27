@@ -5124,6 +5124,7 @@ David  26 Aug 2011
         TODO: send a message if there are no versions of ANY app
         for any platform.
     - fix makefile indentation, caused manager to not be built
+        fixes #1132
 
     sched/
         sched_version.cpp
