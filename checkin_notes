@@ -5152,3 +5152,9 @@ David  26 Aug 2011
 
     clientscr/
         screensaver_x11.cpp
+
+David  26 Aug 2011
+    - web: comment out OpenID login - not working yet
+
+    html/user/
+        login_form.php

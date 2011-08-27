@@ -36,11 +36,13 @@ $user = get_logged_in_user(false);
 
 page_head(tra("Log in"));
 
+if (0) {
 echo '
     <a href="openid_login.php?openid_identifier=https://www.google.com/accounts/o8/id"><img src=img/google-button.png></a>
     <a href="openid_login.php?openid_identifier=http://yahoo.com"><img src=img/yahoo-button.png></a>
     <br>
-    ';
+';
+}
 
 echo "
     <form name=\"f\" method=\"post\" action=\"".SECURE_URL_BASE."/login_action.php\">
