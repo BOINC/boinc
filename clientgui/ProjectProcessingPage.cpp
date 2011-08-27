@@ -357,7 +357,7 @@ void CProjectProcessingPage::OnStateChange( CProjectProcessingPageEvent& WXUNUSE
     wxDateTime dtCurrentExecutionTime;
     wxTimeSpan tsExecutionTime;
     bool bPostNewEvent = true;
-    int iReturnValue = 0;
+    int retval = 0;
 	bool creating_account = false;
  
     wxASSERT(pDoc);
@@ -418,10 +418,10 @@ void CProjectProcessingPage::OnStateChange( CProjectProcessingPageEvent& WXUNUSE
                     dtStartExecutionTime = wxDateTime::Now();
                     dtCurrentExecutionTime = wxDateTime::Now();
                     tsExecutionTime = dtCurrentExecutionTime - dtStartExecutionTime;
-                    iReturnValue = 0;
+                    retval = 0;
                     ao->error_num = ERR_RETRY;
                     while (
-                        !iReturnValue &&
+                        !retval &&
                         ((ERR_IN_PROGRESS == ao->error_num) || (ERR_RETRY == ao->error_num)) && 
                         tsExecutionTime.GetSeconds() <= 60 &&
                         !CHECK_CLOSINGINPROGRESS()
@@ -432,7 +432,7 @@ void CProjectProcessingPage::OnStateChange( CProjectProcessingPageEvent& WXUNUSE
 
                         dtCurrentExecutionTime = wxDateTime::Now();
                         tsExecutionTime = dtCurrentExecutionTime - dtStartExecutionTime;
-                        iReturnValue = pDoc->rpc.create_account_poll(*ao);
+                        retval = pDoc->rpc.create_account_poll(*ao);
 
                         IncrementProgress(m_pProgressIndicator);
 
@@ -440,7 +440,7 @@ void CProjectProcessingPage::OnStateChange( CProjectProcessingPageEvent& WXUNUSE
                         ::wxSafeYield(GetParent());
                     }
 
-                    if ((!iReturnValue) && !ao->error_num) {
+                    if ((!retval) && !ao->error_num) {
                         pWA->SetAccountCreatedSuccessfully(true);
                     }
                 } else {
@@ -450,21 +450,24 @@ void CProjectProcessingPage::OnStateChange( CProjectProcessingPageEvent& WXUNUSE
                     dtStartExecutionTime = wxDateTime::Now();
                     dtCurrentExecutionTime = wxDateTime::Now();
                     tsExecutionTime = dtCurrentExecutionTime - dtStartExecutionTime;
-                    iReturnValue = 0;
+                    retval = 0;
                     ao->error_num = ERR_RETRY;
                     while (
-                        !iReturnValue &&
+                        !retval &&
                         ((ERR_IN_PROGRESS == ao->error_num) || (ERR_RETRY == ao->error_num)) && 
                         tsExecutionTime.GetSeconds() <= 60 &&
                         !CHECK_CLOSINGINPROGRESS()
                     ) {
                         if (ERR_RETRY == ao->error_num) {
-                            pDoc->rpc.lookup_account(*ai);
+                            retval = pDoc->rpc.lookup_account(*ai);
+                            if (retval) {
+                                // REPORT ERROR
+                            }
                         }
 
                         dtCurrentExecutionTime = wxDateTime::Now();
                         tsExecutionTime = dtCurrentExecutionTime - dtStartExecutionTime;
-                        iReturnValue = pDoc->rpc.lookup_account_poll(*ao);
+                        retval = pDoc->rpc.lookup_account_poll(*ao);
 
                         IncrementProgress(m_pProgressIndicator);
 
@@ -473,7 +476,8 @@ void CProjectProcessingPage::OnStateChange( CProjectProcessingPageEvent& WXUNUSE
                     }
                 }
  
-                if ((!iReturnValue) && !ao->error_num) {
+
+                if ((!retval) && !ao->error_num) {
                     SetProjectCommunicationsSucceeded(true);
                 } else {
                     SetProjectCommunicationsSucceeded(false);
@@ -524,10 +528,10 @@ void CProjectProcessingPage::OnStateChange( CProjectProcessingPageEvent& WXUNUSE
                 dtStartExecutionTime = wxDateTime::Now();
                 dtCurrentExecutionTime = wxDateTime::Now();
                 tsExecutionTime = dtCurrentExecutionTime - dtStartExecutionTime;
-                iReturnValue = 0;
+                retval = 0;
                 reply.error_num = ERR_RETRY;
                 while (
-                    !iReturnValue &&
+                    !retval &&
                     ((ERR_IN_PROGRESS == reply.error_num) || (ERR_RETRY == reply.error_num)) && 
                     tsExecutionTime.GetSeconds() <= 60 &&
                     !CHECK_CLOSINGINPROGRESS()
@@ -546,7 +550,7 @@ void CProjectProcessingPage::OnStateChange( CProjectProcessingPageEvent& WXUNUSE
 
                     dtCurrentExecutionTime = wxDateTime::Now();
                     tsExecutionTime = dtCurrentExecutionTime - dtStartExecutionTime;
-                    iReturnValue = pDoc->rpc.project_attach_poll(reply);
+                    retval = pDoc->rpc.project_attach_poll(reply);
 
                     IncrementProgress(m_pProgressIndicator);
 
@@ -554,7 +558,7 @@ void CProjectProcessingPage::OnStateChange( CProjectProcessingPageEvent& WXUNUSE
                     ::wxSafeYield(GetParent());
                 }
      
-                if (!iReturnValue && !reply.error_num) {
+                if (!retval && !reply.error_num) {
                     SetProjectAttachSucceeded(true);
                     pWA->SetAttachedToProjectSuccessfully(true);
                     pWA->SetProjectURL(wxString(ai->url.c_str(), wxConvUTF8));

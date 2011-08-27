@@ -5181,3 +5181,14 @@ David  26 Aug 2011
         AccountManagerProcessingPage.cpp,h
     client/
         client_types.cpp
+
+David  26 Aug 2011
+	- client: fix bug that caused project attach to fail
+	- clientgui: Rom, we should do error-checking of most GUI RPCs;
+		look for REPORT ERROR in ProjectProcessingPage.cpp
+
+	client/
+		acct_setup.cpp
+		coproc_detect.cpp
+	clientgui/
+		ProjectProcessingPage.cpp

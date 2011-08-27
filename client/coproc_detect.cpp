@@ -753,7 +753,6 @@ void COPROC_NVIDIA::get(
 
 #ifndef SIM
     NvAPI_Status nvapiStatus;
-    NvDisplayHandle hDisplay;
     NV_DISPLAY_DRIVER_VERSION Version;
     memset(&Version, 0, sizeof(Version));
     Version.version = NV_DISPLAY_DRIVER_VERSION_VER;
