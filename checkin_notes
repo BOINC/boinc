@@ -5146,3 +5146,9 @@ David  26 Aug 2011
     samples/vboxwrapper/
         vbox.cpp,h
         vboxwrapper.cpp
+
+David  26 Aug 2011
+    - fix build error in Linux screensaver (at least on FC14)
+
+    clientscr/
+        screensaver_x11.cpp

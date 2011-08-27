@@ -52,8 +52,10 @@
 #include <pthread.h>
 #include <unistd.h>
 
+extern "C" {
 #include <xcb/xcb.h>
 #include <xcb/xcb_atom.h>
+}
 
 /// A screensaver window class.
 /** Creates a window in the size of the given parent.
