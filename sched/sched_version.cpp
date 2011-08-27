@@ -424,7 +424,7 @@ BEST_APP_VERSION* get_app_version(
     unsigned int i;
     int j;
     BEST_APP_VERSION* bavp;
-    char message[256], buf[256];
+    char buf[256];
     bool job_needs_64b = (wu.rsc_memory_bound > max_32b_address_space());
 
     if (config.debug_version_select) {
@@ -591,7 +591,6 @@ BEST_APP_VERSION* get_app_version(
 
     bavp->host_usage.projected_flops = 0;
     bavp->avp = NULL;
-    bool no_version_for_platform = true;
     for (i=0; i<g_request->platforms.list.size(); i++) {
         bool found_feasible_version = false;
         PLATFORM* p = g_request->platforms.list[i];
@@ -603,7 +602,6 @@ BEST_APP_VERSION* get_app_version(
             APP_VERSION& av = ssp->app_versions[j];
             if (av.appid != wu.appid) continue;
             if (av.platformid != p->id) continue;
-            no_version_for_platform = false;
 
             if (g_request->core_client_version < av.min_core_version) {
                 if (config.debug_version_select) {
@@ -751,15 +749,6 @@ BEST_APP_VERSION* get_app_version(
                     p->name
                 );
             }
-        }
-        if (no_version_for_platform) {
-            sprintf(message,
-                "%s %s %s.",
-                app->user_friendly_name,
-                _("is not available for"),
-                g_request->platforms.list[0]->user_friendly_name
-            );
-            add_no_work_message(message);
         }
         g_wreq->best_app_versions.push_back(bavp);
         return NULL;

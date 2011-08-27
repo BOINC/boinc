@@ -1430,11 +1430,10 @@ static void send_user_messages() {
             }
         }
 
-        // Tell the user about applications they didn't qualify for
-        //
         for (i=0; i<g_wreq->no_work_messages.size(); i++){
             g_reply->insert_message(g_wreq->no_work_messages.at(i));
         }
+
         if (g_wreq->no_allowed_apps_available) {
             g_reply->insert_message(
                 _("No tasks are available for the applications you have selected."),

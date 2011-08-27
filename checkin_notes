@@ -5116,3 +5116,16 @@ Rom    26 Aug 2011
 
     samples/vboxwrapper/
         vbox.cpp, .h
+
+David  26 Aug 2011
+    - scheduler: don't send user a message when there is no
+        app version for their platform for a particular app.
+        The may be versions for other apps which don't have jobs right now.
+        TODO: send a message if there are no versions of ANY app
+        for any platform.
+    - fix makefile indentation, caused manager to not be built
+
+    sched/
+        sched_version.cpp
+        sched_send.cpp
+    Makefile.am
