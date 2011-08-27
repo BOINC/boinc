@@ -315,10 +315,9 @@ static int process_wu_template(
                     out += buf;
                     break;
                 } else {
-                    char buf2[1024];
-                    retval = xp.element(xp.parsed_tag, buf2, sizeof(buf2));
+                    retval = xp.copy_element(tmpstr);
                     if (retval) return retval;
-                    out += buf2;
+                    out += tmpstr;
                     out += "\n";
                 }
             }
@@ -337,7 +336,7 @@ static int process_wu_template(
                         out += additional_xml;
                         out += "\n";
                     }
-                    out += "</workunit>\n";
+                    out += "</workunit>";
                     break;
                 } else if (xp.match_tag("file_ref")) {
                     out += "<file_ref>\n";
@@ -370,10 +369,9 @@ static int process_wu_template(
                             fprintf(stderr, "<file_name> ignored in <file_ref> element.\n");
                             continue;
                         } else {
-                            char buf2[1024];
-                            retval = xp.element(xp.parsed_tag, buf2, sizeof(buf2));
+                            retval = xp.copy_element(tmpstr);
                             if (retval) return retval;
-                            out += buf2;
+                            out += tmpstr;
                             out += "\n";
                         }
                     }
@@ -410,10 +408,9 @@ static int process_wu_template(
                 } else if (xp.parse_int("max_success_results", wu.max_success_results)) {
                     continue;
                 } else {
-                    char buf2[1024];
-                    retval = xp.element(xp.parsed_tag, buf2, sizeof(buf2));
+                    retval = xp.copy_element(tmpstr);
                     if (retval) return retval;
-                    out += buf2;
+                    out += tmpstr;
                     out += "\n";
                 }
             }

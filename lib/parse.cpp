@@ -906,21 +906,30 @@ void XML_PARSER::skip_unexpected(
     }
 }
 
-// copy an element (which may contain tags) to the buffer
+// we just parsed a tag.
+// copy this entire element, including start and end tags, to the buffer
 //
-int XML_PARSER::element(const char* start_tag, char* buf, int buflen) {
-    char end_tag[256];
+int XML_PARSER::copy_element(string& out) {
+    char end_tag[256], buf[1024];
 
-    size_t n = strlen(start_tag);
-    if (start_tag[n-1] == '/') {
-        sprintf(buf, "<%s>", start_tag);
+    // handle <foo/> case
+    //
+    size_t n = strlen(parsed_tag);
+    if (parsed_tag[n-1] == '/') {
+        out = "<";
+        out += parsed_tag;
+        out += ">";
         return 0;
     }
-    if (strchr(start_tag, '/')) return ERR_XML_PARSE;
-    sprintf(end_tag, "</%s>", start_tag);
-    int retval = element_contents(end_tag, buf, buflen);
+    if (strchr(parsed_tag, '/')) return ERR_XML_PARSE;
+    out = "<";
+    out += parsed_tag;
+    out += ">";
+    sprintf(end_tag, "</%s>", parsed_tag);
+    int retval = element_contents(end_tag, buf, sizeof(buf));
     if (retval) return retval;
-    strcat(buf, end_tag);
+    out += buf;
+    out += end_tag;
     return 0;
 }
 

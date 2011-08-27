@@ -5158,3 +5158,15 @@ David  26 Aug 2011
 
     html/user/
         login_form.php
+
+David  26 Aug 2011
+    - job creation: handling of extra XML in input templates didn't work.
+    - job creation: fix stripping of <output_template> tags
+    - client: fix off-by-1 error in buffer overflow logic for scanning keys.
+
+    tools/
+        backend_lib.cpp
+        process_result_template.cpp
+    lib/
+        crypt.cpp
+        parse.cpp,h

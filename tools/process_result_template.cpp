@@ -151,13 +151,16 @@ int process_result_template(
         if (retval) return retval;
     }
 
-    strcpy(temp, result_template);
-    p = strstr(temp, "<output_template>\n");
-    if (!p) p = temp;
-    q = strstr(temp, "</output_template>\n");
-    if (q) *q = 0;
-    strcpy(result_template, p);
-    
+    // strip enclosing <output_template> tags, if any
+    //
+    p = strstr(result_template, "<output_template>");
+    if (p) {
+        strcpy(temp, result_template+strlen("<output_template>"));
+        q = strstr(temp, "</output_template>");
+        if (q) *q = 0;
+        strcpy(result_template, temp);
+    }
+    strip_whitespace(result_template);
     return 0;
 }
 

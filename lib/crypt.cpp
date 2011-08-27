@@ -160,12 +160,12 @@ static int sscan_hex_data(const char* p, DATA_BLOCK& x) {
         }
         n = sscanf(p, "%2x", &m);
         if (n <= 0) break;
-        x.data[x.len++] = m;
-        nleft--;
-        if (nleft<0) {
+        if (nleft<=0) {
             fprintf(stderr, "sscan_hex_data: buffer overflow\n");
             return ERR_BAD_HEX_FORMAT;
         }
+        x.data[x.len++] = m;
+        nleft--;
         p += 2;
     }
     return 0;
