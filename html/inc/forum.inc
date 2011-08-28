@@ -235,7 +235,7 @@ function show_page_nav($forum, $sort, $start=0){
         if ($curpage > 0){
             $navbar = '<a href="forum_forum.php?id='.$forum->id.'&start='.(($curpage-1)*THREADS_PER_PAGE);
             if ($sort) $navbar.='&sort='.$sort;
-            $navbar.= '"> &lt;-- ".tra("Previous")."</a> ';
+            $navbar.= '"> &lt;-- '.tra("Previous")."</a> ";
         }
         
         // Display a list of pages surrounding this one
@@ -243,20 +243,21 @@ function show_page_nav($forum, $sort, $start=0){
             if ($i<1) continue;
             if ($i>$total) break;
             // If this is the current page, emphasize it.
-            if ($i == $curpage+1){
-                $navbar.="<em>";
-            }
-            $navbar.='<a href="forum_forum.php?id='.$forum->id.'&start='.(($i-1)*THREADS_PER_PAGE);
-            if ($sort) $navbar.='&sort='.$sort;
-            $navbar.='">'.$i.'</a> | ';
-            if ($i == $curpage+1){$navbar.="</em>";}
+            if ($i == $curpage+1) {
+                $navbar .= "<b>$i</b>";
+            } else {
+				$navbar.='<a href="forum_forum.php?id='.$forum->id.'&start='.(($i-1)*THREADS_PER_PAGE);
+				if ($sort) $navbar.='&sort='.$sort;
+				$navbar.='">'.$i.'</a>';
+			}
+			$navbar .= " | ";
         }
 
         // If there is a next page
         if ($curpage+1 < $total){
             $navbar.= '<a href="forum_forum.php?id='.$forum->id.'&start='.(($curpage+1)*THREADS_PER_PAGE);
             if ($sort) $navbar.='&sort='.$sort;
-            $navbar.= '"> ".tra("Next")." --&gt;</a>';
+            $navbar.= '"> '.tra("Next")." --&gt;</a>";
         }
 
     }

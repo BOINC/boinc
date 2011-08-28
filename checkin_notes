@@ -5192,3 +5192,10 @@ David  26 Aug 2011
 		coproc_detect.cpp
 	clientgui/
 		ProjectProcessingPage.cpp
+
+David  26 Aug 2011
+	- web: fix glitch in forum next/prev links
+
+	html/inc/
+		host.inc
+		forum.inc
