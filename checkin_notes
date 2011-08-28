@@ -5199,3 +5199,9 @@ David  26 Aug 2011
 	html/inc/
 		host.inc
 		forum.inc
+	
+David  26 Aug 2011
+	- web: more tra() stuff
+
+	html/user/
+		forum_thread.php
