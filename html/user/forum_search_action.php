@@ -87,7 +87,7 @@ function search_post_content(
 
     $search_string="%";
     foreach ($keyword_list as $key => $word){
-        $search_string.=BoincDb::escape_string($word)."%";
+        $search_string .= BoincDb::escape_string($word)."%";
     } 
     $optional_join = "";
     // if looking in a single forum, need to join w/ thread table

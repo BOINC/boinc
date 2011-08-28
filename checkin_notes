@@ -5206,7 +5206,7 @@ David  26 Aug 2011
 	html/user/
 		forum_thread.php
 
-David  26 Aug 2011
+David  27 Aug 2011
     - web: add a magic header string that supposedly will make
         Recaptcha work on some IE variants.  WTF??
 
@@ -5216,3 +5216,14 @@ David  26 Aug 2011
         user/
             create_account_form.php
             create_profile.php
+
+David  28 Aug 2011
+    - web: fix to the above
+    - web: fix forum search
+
+    html/
+        inc/
+            util.inc
+        user/
+            forum_search.php
+            forum_search_action.php

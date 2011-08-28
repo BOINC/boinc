@@ -31,7 +31,7 @@ echo "<form action=\"forum_search_action.php\" method=\"post\">";
 row1(tra("Search query"));
 row2(tra("Search for keywords:")."<br />
     <span class=\"smalltext\">".tra("Posts that contain all the specified words will be displayed")."</span>",
-    "<input type=\"text\" style=\"width: 290px\" name=\search_keywords\" size=\"30\" /><br />
+    "<input type=\"text\" style=\"width: 290px\" name=\"search_keywords\" size=\"30\" /><br />
     <span class=\"smalltext\">".tra("For example: \"screensaver freeze\"")."</span>");
 row2(tra("Search for author ID:")."<br />
     <span class=\"smalltext\">".tra("Only posts by this author will be displayed")."</span>",
