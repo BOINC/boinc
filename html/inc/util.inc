@@ -179,6 +179,11 @@ function page_head(
 }
 }
 
+// the following must be included in header
+// for Recaptcha to work with some IE browsers
+//
+define('IE_COMPAT_MODE', '<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE8" >');
+
 function page_tail_aux($show_return, $show_date, $prefix="") {
     project_footer($show_return, $show_date, $prefix);
     echo "</body>

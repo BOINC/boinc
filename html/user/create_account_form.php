@@ -35,7 +35,7 @@ if (defined('SECURE_URL_BASE')
 
 }
 
-page_head(tra("Create an account"));
+page_head(tra("Create an account"), null, null, null, IE_COMPAT_MODE);
 
 $config = get_config();
 if (parse_bool($config, "disable_account_creation")) {
@@ -117,11 +117,10 @@ row2(
 $publickey = parse_config($config, "<recaptcha_public_key>");
 
 if ($publickey) {
-
-        row2(
-            tra("Please enter the words shown in the image"),
-            recaptcha_get_html($publickey)
-        );
+    row2(
+        tra("Please enter the words shown in the image"),
+        recaptcha_get_html($publickey)
+    );
 }
 
 row2("",

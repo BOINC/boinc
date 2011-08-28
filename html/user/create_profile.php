@@ -310,9 +310,9 @@ function process_create_profile($user, $profile) {
 
 function show_profile_form($profile, $warning=null) {
     if ($profile) {
-        page_head(tra("Edit your profile"));
+        page_head(tra("Edit your profile", null, null, null, IE_COMPAT_MODE);
     } else {
-        page_head(tra("Create a profile"));
+        page_head(tra("Create a profile", null, null, null, IE_COMPAT_MODE);
     }
 
     if ($warning) {
