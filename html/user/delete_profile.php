@@ -45,7 +45,7 @@ echo "
 you will have to start from scratch
 if you want another profile in the future.")."
     <p>
-    ".tra("If you're sure, click 'Delete'
+    ".tra("If you're sure, click 'Yes'
 to remove your profile from our database.")."
     <p>
 ";

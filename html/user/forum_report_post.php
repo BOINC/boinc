@@ -67,7 +67,7 @@ if ($success_page==1) {
 
     echo "<a href=\"forum_thread.php?id=", $thread->id, "#", $post->id, "\">".tra("Return to thread")."</a>";
 } elseif ($success_page==0){
-    page_head(".tra(""Report a forum post"").");
+    page_head(tra("Report a forum post"));
     if (!$no_forum_rating) {
         echo "<p>".tra("Before reporting this post, consider using the +/- rating system instead. If enough users rate a post negatively it will eventually be hidden.<br />You can find the rating system at the bottom of the post.")."</p>
         ";

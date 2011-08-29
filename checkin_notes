@@ -5246,3 +5246,10 @@ David  29 Aug 2011
 
 	html/user/
 		create_profile.php
+
+David  29 Aug 2011
+    - web: fix bug in "report post" function
+
+    html/user/
+        delete_profile.php
+        forum_report_post.php
