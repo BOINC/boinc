@@ -5240,3 +5240,9 @@ David  28 Aug 2011
             forum_thread.php
             forum_forum.php
             edit_forum_preferences_action.php
+
+David  29 Aug 2011
+	- web: fix typo in profile credit/edit
+
+	html/user/
+		create_profile.php
