@@ -105,8 +105,8 @@ function get_logged_in_user($must_be_logged_in=true) {
 function show_login_info($prefix="") {
     $user = get_logged_in_user(false);
     echo "
-        <table width=100% cellpadding=0 cellspacing=0>
-        <td align=right>
+        <table width=\"100%\" cellpadding=0 cellspacing=0>
+        <tr><td align=right>
     ";
     if ($user) {
         $url_tokens = url_tokens($user->authenticator);
@@ -157,7 +157,7 @@ function page_head(
     } else {
         echo "<title>".sanitize_tags($title_plain)."</title>\n";
     }
-    echo "<link rel=stylesheet type=\"text/css\" href=\"".URL_BASE."main.css\" media=\"all\" />
+    echo "<link rel=stylesheet type=\"text/css\" href=\"".URL_BASE."main.css\" media=\"all\">
         <link rel=stylesheet type=\"text/css\" href=\"$stylesheet\">
         <link rel=alternate type=\"application/rss+xml\" title=\"$rssname\" href=\"$rsslink\">
         </head>

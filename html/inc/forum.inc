@@ -197,10 +197,10 @@ function show_team_forum_title($forum, $thread=null, $link_thread=false) {
     echo "</span>";
 }
 
-function start_forum_table($headings) {
+function start_forum_table($headings, $extra) {
     $span = null;
     
-    start_table("width=\"100%\"");
+    start_table($extra." width=\"100%\"");
     echo "<tr>";
 
     for ($i=0; $i<count($headings); $i++) {
@@ -233,8 +233,8 @@ function show_page_nav($forum, $sort, $start=0){
         $curpage = ceil($start / THREADS_PER_PAGE);
         // If this is not the first page, display "previous"
         if ($curpage > 0){
-            $navbar = '<a href="forum_forum.php?id='.$forum->id.'&start='.(($curpage-1)*THREADS_PER_PAGE);
-            if ($sort) $navbar.='&sort='.$sort;
+            $navbar = '<a href="forum_forum.php?id='.$forum->id.'&amp;start='.(($curpage-1)*THREADS_PER_PAGE);
+            if ($sort) $navbar.='&amp;sort='.$sort;
             $navbar.= '"> &lt;-- '.tra("Previous")."</a> ";
         }
         
@@ -246,8 +246,8 @@ function show_page_nav($forum, $sort, $start=0){
             if ($i == $curpage+1) {
                 $navbar .= "<b>$i</b>";
             } else {
-				$navbar.='<a href="forum_forum.php?id='.$forum->id.'&start='.(($i-1)*THREADS_PER_PAGE);
-				if ($sort) $navbar.='&sort='.$sort;
+				$navbar.='<a href="forum_forum.php?id='.$forum->id.'&amp;start='.(($i-1)*THREADS_PER_PAGE);
+				if ($sort) $navbar.='&amp;sort='.$sort;
 				$navbar.='">'.$i.'</a>';
 			}
 			$navbar .= " | ";
@@ -255,8 +255,8 @@ function show_page_nav($forum, $sort, $start=0){
 
         // If there is a next page
         if ($curpage+1 < $total){
-            $navbar.= '<a href="forum_forum.php?id='.$forum->id.'&start='.(($curpage+1)*THREADS_PER_PAGE);
-            if ($sort) $navbar.='&sort='.$sort;
+            $navbar.= '<a href="forum_forum.php?id='.$forum->id.'&amp;start='.(($curpage+1)*THREADS_PER_PAGE);
+            if ($sort) $navbar.='&amp;sort='.$sort;
             $navbar.= '"> '.tra("Next")." --&gt;</a>";
         }
 
@@ -381,7 +381,7 @@ function show_posts(
                 //
                 echo "<tr class=\"postseparator\"><td></td><td>
                     Only the first post and the last ".($logged_in_user->prefs->display_wrap_postcount)." posts 
-                    (of the ".($postcount+1)." posts in this thread) are displayed. <br />
+                    (of the ".($postcount+1)." posts in this thread) are displayed. <br>
                     <a href=\"?id=".$thread->id."&amp;nowrap=true\">Click here to also display the remaining posts</a>.</td></tr>
                 ";
             }
@@ -530,10 +530,10 @@ function show_post(
         }
     }
     
-    $url = "pm.php?action=new&userid=".$user->id;
+    $url = "pm.php?action=new&amp;userid=".$user->id;
     $name = $user->name;
     show_button($url, "Send&nbsp;message", "Send $name a private message");
-    echo "<br />Joined: ", gmdate('j M y', $user->create_time), "<br>";
+    echo "<br>Joined: ", gmdate('j M y', $user->create_time), "<br>";
 
     if (!isset($user->nposts)) {
         $user->nposts = BoincPost::count("user=$user->id");
@@ -574,12 +574,12 @@ function show_post(
         show_image(NEW_IMAGE, "You haven't read this message yet", "Unread", NEW_IMAGE_HEIGHT);
     }
 
-    echo " <a href=\"forum_thread.php?id=".$thread->id."&nowrap=true#$post->id\">Message ".$post->id."</a> - ";
+    echo " <a href=\"forum_thread.php?id=".$thread->id."&amp;nowrap=true#$post->id\">Message ".$post->id."</a> - ";
     if ($post->hidden) echo "<font color=red>[hidden] </font>";
     echo "Posted: ", pretty_time_str($post->timestamp), " ";
 
     if ($post->parent_post) {
-        echo " - in response to <a href=\"forum_thread.php?id=".$thread->id."&nowrap=true#".$post->parent_post."\">Message ".$post->parent_post."</a>.";
+        echo " - in response to <a href=\"forum_thread.php?id=".$thread->id."&amp;nowrap=true#".$post->parent_post."\">Message ".$post->parent_post."</a>.";
     }
     if ($can_edit && $controls != NO_CONTROLS) {
         show_button("forum_edit.php?id=".$post->id."$tokens", "Edit", "Edit this message");
@@ -593,9 +593,11 @@ function show_post(
     if ($ignore_poster && $filter){
         echo "<br>This post is not shown because the sender is on your 'ignore' list.  Click <a href=\"?id=".$thread->id."&amp;filter=false#".$post->id."\">here</a> to view this post";
     }
+    if ($controls == FORUM_CONTROLS) {
+        echo "</form>\n";
+    }
     echo "</td>
         </tr>
-        </form>
         <tr class=\"".($highlight?"highlighted_":"")."row$n\">
         <td class=\"postbody\">
     ";
@@ -625,7 +627,7 @@ function show_post(
                 <a href=\"forum_rate.php?post=".$post->id."&amp;choice=p$tokens\">
             ";
             show_image(RATE_POSITIVE_IMAGE, "Click if you like this message", "Rate +", RATE_POSITIVE_IMAGE_HEIGHT);
-            echo "</a> / <a href=\"forum_rate.php?post=".$post->id."&choice=n$tokens\">";
+            echo "</a> / <a href=\"forum_rate.php?post=".$post->id."&amp;choice=n$tokens\">";
             show_image(RATE_NEGATIVE_IMAGE, "Click if you don't like this message", "Rate -", RATE_NEGATIVE_IMAGE_HEIGHT);
             echo "</a> <a href=\"forum_report_post.php?post=".$post->id."\">";
             show_image(REPORT_POST_IMAGE, "Report this post as offensive", "Report as offensive", REPORT_POST_IMAGE_HEIGHT);
@@ -633,9 +635,9 @@ function show_post(
         }
         if (($controls == FORUM_CONTROLS) && (can_reply($thread, $forum, $logged_in_user))) {
             echo "&nbsp;&nbsp;&nbsp;&nbsp;";
-            $url = "forum_reply.php?thread=" . $thread->id . "&post=" . $post->id . "&no_quote=1#input";
+            $url = "forum_reply.php?thread=" . $thread->id . "&amp;post=" . $post->id . "&amp;no_quote=1#input";
             show_button($url, "Reply", "Post a reply to this message");
-            $url = "forum_reply.php?thread=" . $thread->id . "&post=" . $post->id . "#input";
+            $url = "forum_reply.php?thread=" . $thread->id . "&amp;post=" . $post->id . "#input";
             show_button($url, "Quote", "Post a reply by quoting this message");
         }
         echo "</td></tr>";
@@ -1004,34 +1006,34 @@ function show_post_moderation_links(
     $moderators_vote_to_ban = parse_bool($config, "moderators_vote_to_ban");
 
     if ($post->hidden) {
-        show_button("forum_moderate_post_action.php?action=unhide&id=".$post->id."$tokens", "Unhide", "Unhide this post");
+        show_button("forum_moderate_post_action.php?action=unhide&amp;id=".$post->id."$tokens", "Unhide", "Unhide this post");
     } else {
-        show_button("forum_moderate_post.php?action=hide&id=".$post->id."$tokens", "Hide", "Hide this post");
+        show_button("forum_moderate_post.php?action=hide&amp;id=".$post->id."$tokens", "Hide", "Hide this post");
     }
 
     show_button(
-        "forum_moderate_post.php?action=move&id=".$post->id."$tokens",
+        "forum_moderate_post.php?action=move&amp;id=".$post->id."$tokens",
         "Move", "Move post to a different thread"
     );
 
     if ($forum->parent_type == 0) {
         if ($logged_in_user->prefs->privilege(S_ADMIN) || ($logged_in_user->prefs->privilege(S_MODERATOR) && $moderators_allowed_to_ban)) {
-            show_button("forum_moderate_post.php?action=banish_user&id=".$post->id."&userid=".$post->user."$tokens", "Banish author");
+            show_button("forum_moderate_post.php?action=banish_user&amp;id=".$post->id."&amp;userid=".$post->user."$tokens", "Banish author");
         }
         if ($logged_in_user->prefs->privilege(S_MODERATOR) && $moderators_vote_to_ban) {
             require_once("../inc/forum_banishment_vote.inc");
             if (vote_is_in_progress($post->user)) {
                 show_button(
-                    "forum_banishment_vote.php?action=yes&userid=".$post->user,
+                    "forum_banishment_vote.php?action=yes&amp;userid=".$post->user,
                     "Vote to banish author"
                 );
                 show_button(
-                    "forum_banishment_vote.php?action=no&userid=".$post->user,
+                    "forum_banishment_vote.php?action=no&amp;userid=".$post->user,
                     "Vote not to banish author"
                 );
             } else {
                 show_button(
-                    "forum_banishment_vote.php?action=start&userid=".$post->user,
+                    "forum_banishment_vote.php?action=start&amp;userid=".$post->user,
                     "Start vote to banish author"
                 );
             }
@@ -1198,7 +1200,7 @@ function show_mark_as_read_button($user) {
     if ($user) {
         $return = urlencode(current_url());
         $tokens = url_tokens($user->authenticator);
-        $url = "forum_index.php?read=1$tokens&return=$return";
+        $url = "forum_index.php?read=1$tokens&amp;return=$return";
         show_button($url, tra("Mark all threads as read"), tra("Mark all threads in all message boards as 'read'."));
     }
 }

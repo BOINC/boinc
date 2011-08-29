@@ -69,10 +69,8 @@ case 0:
     $category = BoincCategory::lookup_id($forum->category);
     if ($category->is_helpdesk) {
         page_head(tra("Questions and Answers").' : '.$forum->title);
-        echo '<link href="forum_help_desk.php" rel="up" title="Forum Index">';
     } else {
         page_head(tra("Message boards").' : '.$forum->title);
-        echo '<link href="forum_index.php" rel="up" title="Forum Index">';
     }
     show_forum_header($user);
     show_forum_title($category, $forum, NULL);

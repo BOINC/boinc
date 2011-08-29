@@ -5227,3 +5227,16 @@ David  28 Aug 2011
         user/
             forum_search.php
             forum_search_action.php
+
+David  28 Aug 2011
+    - web: fix some stuff broken by my checkin [24039].
+    - web: use &amp; instead of & in URLs (not complete)
+
+    html/
+        inc/
+            forum.inc
+            util.inc
+        user/
+            forum_thread.php
+            forum_forum.php
+            edit_forum_preferences_action.php
