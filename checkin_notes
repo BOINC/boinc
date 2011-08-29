@@ -5253,3 +5253,20 @@ David  29 Aug 2011
     html/user/
         delete_profile.php
         forum_report_post.php
+
+David  29 Aug 2011
+    - Vbox wrapper: deal with checkpointing.
+        Current: wrapper reports frequent checkpointing to client,
+            but actually checkpoints only when the VM is stopped
+        Problem: large amounts of work would be wasted if
+            BOINC stops in an ungraceful way (e.g., power failure)
+        Solution:
+            Don't report frequent checkpointing.
+            Every CPU scheduling period (typically once/hour)
+            stop the VM (creating a checkpoint)
+            and call boinc_temporary_exit(0).
+            If the client wants to keep running this job,
+            it will start us immediately.
+
+    samples/vboxwrapper/
+        vboxwrapper.cpp

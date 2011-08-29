@@ -128,7 +128,7 @@ void read_checkpoint(double& cpu) {
 
 int main(int argc, char** argv) {
     BOINC_OPTIONS boinc_options;
-    double current_cpu_time = 0.0;
+    double elapsed_time = 0.0;
     double checkpoint_cpu_time = 0.0;
     bool is_running = false;
     char buf[256];
@@ -231,8 +231,8 @@ int main(int argc, char** argv) {
             if (vm.suspended) {
                 vm.resume();
             }
-            current_cpu_time += POLL_PERIOD;
-            boinc_report_app_status(current_cpu_time, checkpoint_cpu_time, 0.0);
+            elapsed_time += POLL_PERIOD;
+            boinc_report_app_status(elapsed_time, checkpoint_cpu_time, 0.0);
             if (trickle_period) {
                 trickle_cpu_time += POLL_PERIOD;
                 if (trickle_cpu_time >= trickle_period) {
@@ -240,6 +240,16 @@ int main(int argc, char** argv) {
                     boinc_send_trickle_up(const_cast<char*>("cpu_time"), buf);
                     trickle_cpu_time = 0;
                 }
+            }
+
+            // if we've been running for at least the scheduling period,
+            // do a checkpoint and temporary exit;
+            // the client will run us again if it wants.
+            // 
+            if (elapsed_time > aid.global_prefs.cpu_scheduling_period()) {
+                vm.stop();
+                write_checkpoint(checkpoint_cpu_time);
+                boinc_temporary_exit(0);
             }
         }
         if (vm.enable_network) {
@@ -252,11 +262,6 @@ int main(int argc, char** argv) {
                     vm.set_network_access(true);
                 }
             }
-        }
-        if (boinc_time_to_checkpoint()) {
-            boinc_checkpoint_completed();
-            checkpoint_cpu_time += current_cpu_time;
-            current_cpu_time = 0.0;
         }
         boinc_sleep(POLL_PERIOD);
     }
