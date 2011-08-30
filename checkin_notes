@@ -5299,8 +5299,8 @@ David  30 Aug 2011
 
 David  30 Aug 2011
     - client: send all running jobs a "reread app info" message
-        when global prefs change
-        (they might have to suspend or resume network activity)
+        when global prefs change (in the case of vboxwrapper,
+        it might have to change network or CPU throttling)
 
     sched/
         sched_version.cpp
@@ -5313,3 +5313,10 @@ David  30 Aug 2011
 
     html/user/
         gpu_list.php
+
+David  30 Aug 2011
+    - vbox wrapper: check for boinc_status.reread_init_data_file,
+        and if set reread the file, set throttles, and clear flag
+
+    samples/vboxwrapper/
+        vboxwrapper.cpp

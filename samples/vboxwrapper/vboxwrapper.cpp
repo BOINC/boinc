@@ -125,6 +125,27 @@ void read_checkpoint(double& cpu) {
     cpu = c;
 }
 
+// set CPU and network throttling if needed
+//
+void set_throttles(APP_INIT_DATA& aid, VBOX_VM& vm) {
+    double x = aid.global_prefs.cpu_usage_limit;
+    if (x && x<100) {
+        vm.set_cpu_usage_fraction(x/100.);
+    }
+
+    // vbox doesn't distinguish up and down bandwidth; use the min of the prefs
+    //
+    x = aid.global_prefs.max_bytes_sec_up;
+    double y = aid.global_prefs.max_bytes_sec_down;
+    if (y) {
+        if (!x || y<x) {
+            x = y;
+        }
+    }
+    if (x) {
+        vm.set_network_max_bytes_sec(x);
+    }
+}
 
 int main(int argc, char** argv) {
     BOINC_OPTIONS boinc_options;
@@ -184,25 +205,7 @@ int main(int argc, char** argv) {
         boinc_finish(retval);
     }
 
-    // set CPU and network throttling if needed
-    //
-    double x = aid.global_prefs.cpu_usage_limit;
-    if (x && x<100) {
-        vm.set_cpu_usage_fraction(x/100.);
-    }
-
-    // vbox doesn't distinguish up and down bandwidth; use the min of the prefs
-    //
-    x = aid.global_prefs.max_bytes_sec_up;
-    double y = aid.global_prefs.max_bytes_sec_down;
-    if (y) {
-        if (!x || y<x) {
-            x = y;
-        }
-    }
-    if (x) {
-        vm.set_network_max_bytes_sec(x);
-    }
+    set_throttles(aid, vm);
 
     while (1) {
         vm.poll();
@@ -262,6 +265,11 @@ int main(int argc, char** argv) {
                     vm.set_network_access(true);
                 }
             }
+        }
+        if (boinc_status.reread_init_data_file) {
+            boinc_status.reread_init_data_file = false;
+            boinc_get_init_data_p(&aid);
+            set_throttles(aid, vm);
         }
         boinc_sleep(POLL_PERIOD);
     }
