@@ -502,6 +502,7 @@ void CLIENT_STATE::read_global_prefs(
     );
     request_schedule_cpus("Prefs update");
     request_work_fetch("Prefs update");
+    active_tasks.request_reread_app_info();
 }
 
 int CLIENT_STATE::save_global_prefs(

@@ -1496,7 +1496,7 @@ static void send_user_messages() {
         }
         DB_HOST_APP_VERSION* havp = quota_exceeded_version();
         if (havp) {
-            sprintf(buf, "This computer has finished a daily quota of %d tasks)",
+            sprintf(buf, "This computer has finished a daily quota of %d tasks",
                 havp->max_jobs_per_day
             );
             g_reply->insert_message(buf, "low");

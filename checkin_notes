@@ -5296,3 +5296,14 @@ David  30 Aug 2011
     client/
         cs_notice.cpp
         hostinfo_unix.cpp
+
+David  30 Aug 2011
+    - client: send all running jobs a "reread app info" message
+        when global prefs change
+        (they might have to suspend or resume network activity)
+
+    sched/
+        sched_version.cpp
+        sched_send.cpp
+    client/
+        cs_prefs.cpp

@@ -691,6 +691,7 @@ BEST_APP_VERSION* get_app_version(
                         "[version] [AV#%d] jobs in progress limit exceeded\n",
                         av.id
                     );
+                    config.max_jobs_in_progress.print_log();
                 }
                 continue;
             }
