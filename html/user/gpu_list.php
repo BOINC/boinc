@@ -130,7 +130,6 @@ if ($d) {
     set_cached_data(86400, serialize($data));
 }
 
-$caching = false;
 page_head(tra("Top GPU models"));
 echo tra("The following lists show the most productive GPU models on different platforms.");
 show_vendor("NVIDIA", $data->cuda);
