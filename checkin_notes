@@ -4849,12 +4849,12 @@ David  10 Aug 2011
         various
 
 David  10 Aug 2011
-	- fix compile warnings; msg tweak
+    - fix compile warnings; msg tweak
 
-	client/
-		cpu_sched.cpp
-	lib/
-		parse.cpp
+    client/
+        cpu_sched.cpp
+    lib/
+        parse.cpp
 
 David  10 Aug 2011
     - client: use new XML parser pretty much everywhere
@@ -4889,11 +4889,11 @@ Charlie 11 Aug 2011
             project.pbxproj
 
 David  11 Aug 2011
-	- client: more XML parsing stuff
+    - client: more XML parsing stuff
 
-	client/
-		app.cpp
-		net_stats.cpp
+    client/
+        app.cpp
+        net_stats.cpp
 
 David  11 Aug 2011
     - scheduler: update XML parsing
@@ -4903,10 +4903,10 @@ David  11 Aug 2011
         sched_types.cpp
 
 David  11 Aug 2011
-	- client: XML tweak
+    - client: XML tweak
 
-	client/
-		client_types.cpp
+    client/
+        client_types.cpp
 
 Charlie 12 Aug 2011
     - Mac installer: Bug fixes for OS 10.7 Lion.
@@ -5183,28 +5183,28 @@ David  26 Aug 2011
         client_types.cpp
 
 David  26 Aug 2011
-	- client: fix bug that caused project attach to fail
-	- clientgui: Rom, we should do error-checking of most GUI RPCs;
-		look for REPORT ERROR in ProjectProcessingPage.cpp
+    - client: fix bug that caused project attach to fail
+    - clientgui: Rom, we should do error-checking of most GUI RPCs;
+        look for REPORT ERROR in ProjectProcessingPage.cpp
 
-	client/
-		acct_setup.cpp
-		coproc_detect.cpp
-	clientgui/
-		ProjectProcessingPage.cpp
+    client/
+        acct_setup.cpp
+        coproc_detect.cpp
+    clientgui/
+        ProjectProcessingPage.cpp
 
 David  26 Aug 2011
-	- web: fix glitch in forum next/prev links
+    - web: fix glitch in forum next/prev links
 
-	html/inc/
-		host.inc
-		forum.inc
-	
+    html/inc/
+        host.inc
+        forum.inc
+    
 David  26 Aug 2011
-	- web: more tra() stuff
+    - web: more tra() stuff
 
-	html/user/
-		forum_thread.php
+    html/user/
+        forum_thread.php
 
 David  27 Aug 2011
     - web: add a magic header string that supposedly will make
@@ -5242,10 +5242,10 @@ David  28 Aug 2011
             edit_forum_preferences_action.php
 
 David  29 Aug 2011
-	- web: fix typo in profile credit/edit
+    - web: fix typo in profile credit/edit
 
-	html/user/
-		create_profile.php
+    html/user/
+        create_profile.php
 
 David  29 Aug 2011
     - web: fix bug in "report post" function
@@ -5272,10 +5272,10 @@ David  29 Aug 2011
         vboxwrapper.cpp
 
 David  29 Aug 2011
-	- web: add page showing top GPU models
+    - web: add page showing top GPU models
 
-	html/user/
-		gpu_list.php
+    html/user/
+        gpu_list.php
 
 Charlie 30 Aug 2011
     - Mac: Copy BOINC libraries built with XCode 4.1 to locations 
@@ -5307,3 +5307,9 @@ David  30 Aug 2011
         sched_send.cpp
     client/
         cs_prefs.cpp
+
+David  30 Aug 2011
+    - web: sort GPUs by average elapsed time
+
+    html/user/
+        gpu_list.php

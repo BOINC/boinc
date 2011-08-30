@@ -15,11 +15,15 @@ function get_gpu_model($x, $vendor) {
     return null;
 }
 
-function add_model($model, &$models) {
+function add_model($model, $r, &$models) {
     if (array_key_exists($model, $models)) {
-        $models[$model]++;
+        $models[$model]->count++;
+        $models[$model]->time += $r->elapsed_time;
     } else {
-        $models[$model] = 1;
+		$x = null;
+		$x->count = 1;
+		$x->time = $r->elapsed_time;
+        $models[$model] = $x;
     }
 }
 
@@ -39,7 +43,7 @@ function get_gpu_list($vendor) {
     $av_ids .= "0";
 
     $t = time() - 30*86400;
-    $results = BoincResult::enum("app_version_id in ($av_ids) and create_time > $t limit 1000");
+    $results = BoincResult::enum("app_version_id in ($av_ids) and create_time > $t and elapsed_time>100 limit 5000");
     $total = array();
     $win = array();
     $linux = array();
@@ -50,15 +54,15 @@ function get_gpu_list($vendor) {
         $v = $vendor=="cuda"?"CUDA":"ATI";
         $model = get_gpu_model($h->serialnum, $v);
         if (!$model) continue;
-        add_model($model, $total);
+        add_model($model, $r, $total);
         if (strstr($h->os_name, "Windows")) {
-            add_model($model, $win);
+            add_model($model, $r, $win);
         }
         if (strstr($h->os_name, "Linux")) {
-            add_model($model, $linux);
+            add_model($model, $r, $linux);
         }
         if (strstr($h->os_name, "Darwin")) {
-            add_model($model, $mac);
+            add_model($model, $r, $mac);
         }
 
     }
@@ -77,21 +81,26 @@ function get_gpu_lists() {
     return $x;
 }
 
+function gpucmp($x1, $x2) {
+	$y1 = $x1->time/$x1->count;
+	$y2 = $x2->time/$x2->count;
+	return $y1 > $y2;
+}
+
 function show_list($models, $name) {
     echo "<td><h2>$name</h2>\n";
     if (!count($models)) {
         echo tra("No GPU tasks reported")."</td>\n";
         return;
     }
-    arsort($models);
+    uasort($models, 'gpucmp');
     echo "<ol>\n";
-    $first = true;
-    foreach ($models as $model=>$n) {
-        if ($first) {
-            $max = $n;
-            $first = false;
-        }
-        if ($n < $max/10) break;
+	$max_count = 0;
+    foreach ($models as $model=>$x) {
+		if ($x->count > $max_count) $max_count = $x->count;
+	}
+    foreach ($models as $model=>$x) {
+		if ($x->count < $max_count/10) continue;
         echo "<li>$model\n";
     }
     echo "</ol></td>\n";
