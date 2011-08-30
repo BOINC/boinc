@@ -203,6 +203,7 @@ static int parse_rss_time(char* buf) {
     return (int)mktime(&tm);
 #else
     struct tm tm;
+    memset(&tm, 0, sizeof(tm));
     strptime(buf, "%a, %d %b %Y %H:%M:%S", &tm);
     return mktime(&tm);
 #endif

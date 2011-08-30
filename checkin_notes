@@ -5289,3 +5289,10 @@ Charlie 30 Aug 2011
     samples/vboxwrapper/
         vboxwrapper.xcodeproj
             project.pbxproj
+
+David  30 Aug 2011
+    - client: fix a couple of valgrind warnings
+
+    client/
+        cs_notice.cpp
+        hostinfo_unix.cpp

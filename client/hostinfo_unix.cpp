@@ -246,7 +246,7 @@ bool HOST_INFO::host_is_running_on_batteries() {
     }
     if (Detect == method) {
         // try ACPI in ProcFS
-        std::string ac_name;
+        string ac_name;
         FILE* facpi;
 
         DirScanner dir("/proc/acpi/ac_adapter/");
@@ -275,7 +275,7 @@ bool HOST_INFO::host_is_running_on_batteries() {
     if (Detect == method) {
         // try SysFS
         char buf[256];
-        std::string ps_name;
+        string ps_name;
         FILE* fsys;
 
         DirScanner dir("/sys/class/power_supply/");
@@ -1453,12 +1453,12 @@ static const struct dir_dev {
     { NULL, NULL },
 };
 
-std::vector<std::string> get_tty_list() {
+vector<string> get_tty_list() {
     // Create a list of all terminal devices on the system.
     char devname[1024];
     char fullname[1024];
     int done,i=0;
-    std::vector<std::string> tty_list;
+    vector<string> tty_list;
     
     do {
         DIRREF dev=dir_open(tty_patterns[i].dir);
@@ -1475,6 +1475,7 @@ std::vector<std::string> get_tty_list() {
                     }
                 }
             } while (!done);
+            dir_close(dev);
         }
         i++;
     } while (tty_patterns[i].dir != NULL);
@@ -1483,7 +1484,7 @@ std::vector<std::string> get_tty_list() {
        
 
 inline bool all_tty_idle(time_t t) {
-    static std::vector<std::string> tty_list;
+    static vector<string> tty_list;
     struct stat sbuf;
     unsigned int i;
 
