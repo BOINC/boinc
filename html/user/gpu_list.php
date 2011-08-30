@@ -80,7 +80,7 @@ function get_gpu_lists() {
 function show_list($models, $name) {
     echo "<td><h2>$name</h2>\n";
     if (!count($models)) {
-        echo "No tasks reported</td>\n";
+        echo tra("No GPU tasks reported")."</td>\n";
         return;
     }
     arsort($models);
@@ -100,7 +100,7 @@ function show_list($models, $name) {
 function show_vendor($vendor, $x) {
     echo "<h2>$vendor</h2>\n";
     if (!count($x->total)) {
-        echo "No tasks reported";
+        echo tra("No GPU tasks reported");
         return;
     }
     $have_win = count($x->win)>0;
