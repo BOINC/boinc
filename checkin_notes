@@ -5276,3 +5276,12 @@ David  29 Aug 2011
 
 	html/user/
 		gpu_list.php
+
+Charlie 30 Aug 2011
+    - Mac: Copy BOINC libraries built with XCode 4.1 to locations 
+        where built by earlier versions of XCode so dependent 
+        builds can always find them.
+    
+     mac_build/
+        boinc.xcodeproj/
+            project.pbxproj

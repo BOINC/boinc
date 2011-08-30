@@ -1772,6 +1772,7 @@
 			buildPhases = (
 				DD35352E07E1E05C00C4718D /* Sources */,
 				DD35352F07E1E05C00C4718D /* Frameworks */,
+				DD5E20A8140CE842000FADAA /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -1813,6 +1814,7 @@
 			buildPhases = (
 				DD407A4707D2FB1200163EF5 /* Sources */,
 				DD407A4807D2FB1200163EF5 /* Frameworks */,
+				DD5E20A6140CE5BF000FADAA /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -1986,6 +1988,7 @@
 			buildPhases = (
 				DDB873EA0C850BC800E0DE1F /* Sources */,
 				DDB873F80C850BC800E0DE1F /* Frameworks */,
+				DD5E20A7140CE808000FADAA /* Run Script */,
 			);
 			buildRules = (
 			);
@@ -2274,6 +2277,55 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "chown -R ${USER}:${GROUP} \"${BUILT_PRODUCTS_DIR}/BOINCManager.app\"\nchmod g+s \"${BUILT_PRODUCTS_DIR}/BOINCManager.app/Contents/MacOS/BOINCManager\"\nchmod u+s,g+s \"${BUILT_PRODUCTS_DIR}/BOINCManager.app/Contents/Resources/boinc\"\n";
+		};
+		DD5E20A6140CE5BF000FADAA /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${BUILT_PRODUCTS_DIR}/lib${PRODUCT_NAME}.a",
+			);
+			outputPaths = (
+				"${SRCROOT}/build/${CONFIGURATION}/lib${PRODUCT_NAME}.a",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# echo \"BuiltProductsDir = ${BUILT_PRODUCTS_DIR}\"\n# echo \"SRC ROOT = ${SRCROOT}\"\n# echo \"CONFIGURATION = ${CONFIGURATION}\"\n# echo \"PRODUCT_NAME = ${PRODUCT_NAME}\"\nmkdir -p \"${SRCROOT}/build/${CONFIGURATION}\"\nif [ \"${BUILT_PRODUCTS_DIR}/lib${PRODUCT_NAME}.a\" -nt \"${SRCROOT}/build/${CONFIGURATION}/lib${PRODUCT_NAME}.a\" ]; then\n    cp -fp \"${BUILT_PRODUCTS_DIR}/lib${PRODUCT_NAME}.a\" \"${SRCROOT}/build/${CONFIGURATION}/lib${PRODUCT_NAME}.a\"\n    if [ \"$CONFIGURATION\" = \"Deployment\" ]; then\n        /Developer/usr/bin/strip -S \"${SRCROOT}/build/${CONFIGURATION}/lib${PRODUCT_NAME}.a\"\n    fi\nfi";
+			showEnvVarsInLog = 0;
+		};
+		DD5E20A7140CE808000FADAA /* Run Script */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${BUILT_PRODUCTS_DIR}/lib${PRODUCT_NAME}.a",
+			);
+			name = "Run Script";
+			outputPaths = (
+				"${SRCROOT}/build/${CONFIGURATION}/lib${PRODUCT_NAME}.a",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# echo \"BuiltProductsDir = ${BUILT_PRODUCTS_DIR}\"\n# echo \"SRC ROOT = ${SRCROOT}\"\n# echo \"CONFIGURATION = ${CONFIGURATION}\"\n# echo \"PRODUCT_NAME = ${PRODUCT_NAME}\"\nmkdir -p \"${SRCROOT}/build/${CONFIGURATION}\"\nif [ \"${BUILT_PRODUCTS_DIR}/lib${PRODUCT_NAME}.a\" -nt \"${SRCROOT}/build/${CONFIGURATION}/lib${PRODUCT_NAME}.a\" ]; then\n    cp -fp \"${BUILT_PRODUCTS_DIR}/lib${PRODUCT_NAME}.a\" \"${SRCROOT}/build/${CONFIGURATION}/lib${PRODUCT_NAME}.a\"\n    if [ \"$CONFIGURATION\" = \"Deployment\" ]; then\n        /Developer/usr/bin/strip -S \"${SRCROOT}/build/${CONFIGURATION}/lib${PRODUCT_NAME}.a\"\n    fi\nfi";
+			showEnvVarsInLog = 0;
+		};
+		DD5E20A8140CE842000FADAA /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${BUILT_PRODUCTS_DIR}/lib${PRODUCT_NAME}.a",
+			);
+			outputPaths = (
+				"${SRCROOT}/build/${CONFIGURATION}/lib${PRODUCT_NAME}.a",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# echo \"BuiltProductsDir = ${BUILT_PRODUCTS_DIR}\"\n# echo \"SRC ROOT = ${SRCROOT}\"\n# echo \"CONFIGURATION = ${CONFIGURATION}\"\n# echo \"PRODUCT_NAME = ${PRODUCT_NAME}\"\nmkdir -p \"${SRCROOT}/build/${CONFIGURATION}\"\nif [ \"${BUILT_PRODUCTS_DIR}/lib${PRODUCT_NAME}.a\" -nt \"${SRCROOT}/build/${CONFIGURATION}/lib${PRODUCT_NAME}.a\" ]; then\n    cp -fp \"${BUILT_PRODUCTS_DIR}/lib${PRODUCT_NAME}.a\" \"${SRCROOT}/build/${CONFIGURATION}/lib${PRODUCT_NAME}.a\"\n    if [ \"$CONFIGURATION\" = \"Deployment\" ]; then\n        /Developer/usr/bin/strip -S \"${SRCROOT}/build/${CONFIGURATION}/lib${PRODUCT_NAME}.a\"\n    fi\nfi";
+			showEnvVarsInLog = 0;
 		};
 		DD5FD5830A0232F30093C19F /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
