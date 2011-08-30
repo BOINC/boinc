@@ -5270,3 +5270,9 @@ David  29 Aug 2011
 
     samples/vboxwrapper/
         vboxwrapper.cpp
+
+David  29 Aug 2011
+	- web: add page showing top GPU models
+
+	html/user/
+		gpu_list.php
