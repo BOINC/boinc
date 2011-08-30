@@ -149,7 +149,7 @@ int handle_wu(
     bool update_result, retry;
     TRANSITION_TIME transition_time = NO_CHANGE;
     int retval = 0, canonicalid = 0, x;
-    double credit = 0;
+    double credit = 0, credit_new = 0;
     unsigned int i;
 
     WORKUNIT& wu = items[0].wu;
@@ -360,6 +360,7 @@ int handle_wu(
                     wu, results, app, app_versions, host_app_versions,
                     max_granted_credit, credit
                 );
+
                 retval = get_credit_from_wu(wu, results, credit);
                 if (retval) {
                     log_messages.printf(MSG_CRITICAL,
@@ -437,6 +438,13 @@ int handle_wu(
                         );
                     }
                     result.granted_credit = credit;
+                    if (credit_from_wu) {
+                        DB_RESULT r;
+                        r = result;
+                        char buf[256];
+                        sprintf(buf, "claimed_credit=%f", credit_new);
+                        r.update_field(buf);
+                    }
                     grant_credit(host, result.sent_time, credit);
                     log_messages.printf(MSG_NORMAL,
                         "[RESULT#%d %s] Valid; granted %f credit [HOST#%d]\n",

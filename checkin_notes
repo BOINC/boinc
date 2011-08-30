@@ -5320,3 +5320,10 @@ David  30 Aug 2011
 
     samples/vboxwrapper/
         vboxwrapper.cpp
+
+David  30 Aug 2011
+    - validator: in "credit_from_wu" case, record what the new credit
+        system would have assigned in result.claimed_credit.
+
+    sched/
+        validator.cpp
