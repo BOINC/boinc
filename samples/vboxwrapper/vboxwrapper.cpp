@@ -268,6 +268,7 @@ int main(int argc, char** argv) {
         }
         if (boinc_status.reread_init_data_file) {
             boinc_status.reread_init_data_file = false;
+            boinc_parse_init_data_file();
             boinc_get_init_data_p(&aid);
             set_throttles(aid, vm);
         }
