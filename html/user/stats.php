@@ -30,6 +30,7 @@ echo "
 <li><a href=\"top_users.php\">" . tra("Top participants")."</a>
 <li><a href=\"top_hosts.php\">" . tra("Top computers")."</a>
 <li><a href=\"top_teams.php\">" . tra("Top teams"). "</a>
+<li><a href=\"gpu_list.php\">" . tra("Top GPU models"). "</a>
 </ul>
 
 <p>".
