@@ -5281,7 +5281,11 @@ Charlie 30 Aug 2011
     - Mac: Copy BOINC libraries built with XCode 4.1 to locations 
         where built by earlier versions of XCode so dependent 
         builds can always find them.
+    - Vbox wrapper: create XCode project.
     
      mac_build/
         boinc.xcodeproj/
+            project.pbxproj
+    samples/vboxwrapper/
+        vboxwrapper.xcodeproj
             project.pbxproj

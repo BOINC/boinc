@@ -1,0 +1,322 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 45;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		DD3B677B140CF9470088683F /* vbox.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD90CE9E140CAB3D0074CF46 /* vbox.cpp */; };
+		DD3B677C140CF9470088683F /* vboxwrapper.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD90CEA0140CAB3D0074CF46 /* vboxwrapper.cpp */; };
+		DD90CEA1140CAB3D0074CF46 /* vbox.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD90CE9E140CAB3D0074CF46 /* vbox.cpp */; };
+		DD90CEA2140CAB3D0074CF46 /* vboxwrapper.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD90CEA0140CAB3D0074CF46 /* vboxwrapper.cpp */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		8DD76FAF0486AB0100D96B5E /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 8;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
+		DD3B677E140CF9470088683F /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 8;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		8DD76FB20486AB0100D96B5E /* vboxwrapper_1686 */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = vboxwrapper_1686; sourceTree = BUILT_PRODUCTS_DIR; };
+		DD3B6783140CF9470088683F /* vboxwrapper_x86_64 */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = vboxwrapper_x86_64; sourceTree = BUILT_PRODUCTS_DIR; };
+		DD90CE9E140CAB3D0074CF46 /* vbox.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = vbox.cpp; sourceTree = SOURCE_ROOT; };
+		DD90CE9F140CAB3D0074CF46 /* vbox.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = vbox.h; sourceTree = SOURCE_ROOT; };
+		DD90CEA0140CAB3D0074CF46 /* vboxwrapper.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = vboxwrapper.cpp; sourceTree = SOURCE_ROOT; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		8DD76FAD0486AB0100D96B5E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DD3B677D140CF9470088683F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		08FB7794FE84155DC02AAC07 /* vboxwrapper */ = {
+			isa = PBXGroup;
+			children = (
+				08FB7795FE84155DC02AAC07 /* Source */,
+				1AB674ADFE9D54B511CA2CBB /* Products */,
+			);
+			name = vboxwrapper;
+			sourceTree = "<group>";
+		};
+		08FB7795FE84155DC02AAC07 /* Source */ = {
+			isa = PBXGroup;
+			children = (
+				DD90CE9E140CAB3D0074CF46 /* vbox.cpp */,
+				DD90CE9F140CAB3D0074CF46 /* vbox.h */,
+				DD90CEA0140CAB3D0074CF46 /* vboxwrapper.cpp */,
+			);
+			name = Source;
+			sourceTree = "<group>";
+		};
+		1AB674ADFE9D54B511CA2CBB /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				8DD76FB20486AB0100D96B5E /* vboxwrapper_1686 */,
+				DD3B6783140CF9470088683F /* vboxwrapper_x86_64 */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		8DD76FA90486AB0100D96B5E /* vboxwrapper_i686 */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1DEB928508733DD80010E9CD /* Build configuration list for PBXNativeTarget "vboxwrapper_i686" */;
+			buildPhases = (
+				8DD76FAB0486AB0100D96B5E /* Sources */,
+				8DD76FAD0486AB0100D96B5E /* Frameworks */,
+				8DD76FAF0486AB0100D96B5E /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = vboxwrapper_i686;
+			productInstallPath = "$(HOME)/bin";
+			productName = vboxwrapper;
+			productReference = 8DD76FB20486AB0100D96B5E /* vboxwrapper_1686 */;
+			productType = "com.apple.product-type.tool";
+		};
+		DD3B6779140CF9470088683F /* vboxwrapper_x86_64 */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = DD3B677F140CF9470088683F /* Build configuration list for PBXNativeTarget "vboxwrapper_x86_64" */;
+			buildPhases = (
+				DD3B677A140CF9470088683F /* Sources */,
+				DD3B677D140CF9470088683F /* Frameworks */,
+				DD3B677E140CF9470088683F /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = vboxwrapper_x86_64;
+			productInstallPath = "$(HOME)/bin";
+			productName = vboxwrapper;
+			productReference = DD3B6783140CF9470088683F /* vboxwrapper_x86_64 */;
+			productType = "com.apple.product-type.tool";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		08FB7793FE84155DC02AAC07 /* Project object */ = {
+			isa = PBXProject;
+			buildConfigurationList = 1DEB928908733DD80010E9CD /* Build configuration list for PBXProject "vboxwrapper" */;
+			compatibilityVersion = "Xcode 3.1";
+			developmentRegion = English;
+			hasScannedForEncodings = 1;
+			knownRegions = (
+				English,
+				Japanese,
+				French,
+				German,
+			);
+			mainGroup = 08FB7794FE84155DC02AAC07 /* vboxwrapper */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				8DD76FA90486AB0100D96B5E /* vboxwrapper_i686 */,
+				DD3B6779140CF9470088683F /* vboxwrapper_x86_64 */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		8DD76FAB0486AB0100D96B5E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DD90CEA1140CAB3D0074CF46 /* vbox.cpp in Sources */,
+				DD90CEA2140CAB3D0074CF46 /* vboxwrapper.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DD3B677A140CF9470088683F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DD3B677B140CF9470088683F /* vbox.cpp in Sources */,
+				DD3B677C140CF9470088683F /* vboxwrapper.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		1DEB928608733DD80010E9CD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				HEADER_SEARCH_PATHS = (
+					../../clientgui/mac,
+					"../../**",
+					"/usr/include/c++/4.0.0/i686-apple-darwin8",
+				);
+				PRODUCT_NAME = vboxwrapper_1686;
+				USER_HEADER_SEARCH_PATHS = "../../clientgui/mac ../../**";
+			};
+			name = Debug;
+		};
+		1DEB928708733DD80010E9CD /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				HEADER_SEARCH_PATHS = (
+					../../clientgui/mac,
+					"../../**",
+					"/usr/include/c++/4.0.0/i686-apple-darwin8",
+				);
+				PRODUCT_NAME = vboxwrapper_1686;
+				USER_HEADER_SEARCH_PATHS = "../../clientgui/mac ../../**";
+			};
+			name = Release;
+		};
+		1DEB928A08733DD80010E9CD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = i386;
+				COPY_PHASE_STRIP = NO;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
+				GCC_VERSION = com.apple.compilers.llvmgcc42;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = (
+					../../clientgui/mac,
+					"../../**",
+				);
+				LIBRARY_SEARCH_PATHS = "../../mac_build/build/Development/**";
+				OTHER_LDFLAGS = (
+					"-lboinc_api",
+					"-lboinc",
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = vboxwrapper;
+				SDKROOT = macosx10.5;
+				STRIP_INSTALLED_PRODUCT = NO;
+			};
+			name = Debug;
+		};
+		1DEB928B08733DD80010E9CD /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = i386;
+				COPY_PHASE_STRIP = YES;
+				GCC_DYNAMIC_NO_PIC = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = YES;
+				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
+				GCC_VERSION = com.apple.compilers.llvmgcc42;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = (
+					../../clientgui/mac,
+					"../../**",
+				);
+				LIBRARY_SEARCH_PATHS = "../../mac_build/build/Deployment/**";
+				OTHER_LDFLAGS = (
+					"-lboinc_api",
+					"-lboinc",
+				);
+				PREBINDING = NO;
+				PRIVATE_HEADERS_FOLDER_PATH = "";
+				PRODUCT_NAME = vboxwrapper;
+				SDKROOT = macosx10.5;
+				STRIP_INSTALLED_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		DD3B6780140CF9470088683F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				HEADER_SEARCH_PATHS = (
+					../../clientgui/mac,
+					"../../**",
+					"/usr/include/c++/4.0.0/x86_64-apple-darwin8",
+				);
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = vboxwrapper_x86_64;
+				USER_HEADER_SEARCH_PATHS = "../../clientgui/mac ../../**";
+			};
+			name = Debug;
+		};
+		DD3B6781140CF9470088683F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				HEADER_SEARCH_PATHS = (
+					../../clientgui/mac,
+					"../../**",
+					"/usr/include/c++/4.0.0/x86_64-apple-darwin8",
+				);
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = vboxwrapper_x86_64;
+				USER_HEADER_SEARCH_PATHS = "../../clientgui/mac ../../**";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		1DEB928508733DD80010E9CD /* Build configuration list for PBXNativeTarget "vboxwrapper_i686" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1DEB928608733DD80010E9CD /* Debug */,
+				1DEB928708733DD80010E9CD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		1DEB928908733DD80010E9CD /* Build configuration list for PBXProject "vboxwrapper" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1DEB928A08733DD80010E9CD /* Debug */,
+				1DEB928B08733DD80010E9CD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		DD3B677F140CF9470088683F /* Build configuration list for PBXNativeTarget "vboxwrapper_x86_64" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				DD3B6780140CF9470088683F /* Debug */,
+				DD3B6781140CF9470088683F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 08FB7793FE84155DC02AAC07 /* Project object */;
+}
