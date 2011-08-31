@@ -39,39 +39,11 @@
 #include "boinc_opencl.h"
 
 #ifdef _WIN32
-static HMODULE opencl_lib = NULL;
-
-typedef cl_int (__stdcall *CL_PLATFORMIDS) (cl_uint, cl_platform_id*, cl_uint*);
-typedef cl_int (__stdcall *CL_DEVICEIDS)(cl_platform_id, cl_device_type, cl_uint, cl_device_id*, cl_uint*);
-typedef cl_int (__stdcall *CL_INFO) (cl_device_id, cl_device_info, size_t, void*, size_t*);
-
-static CL_PLATFORMIDS  __clGetPlatformIDs = NULL;
-static CL_DEVICEIDS    __clGetDeviceIDs = NULL;
-static CL_INFO         __clGetDeviceInfo = NULL;
-
 #else
-
 static jmp_buf resume;
-
 static void segv_handler(int) {
     longjmp(resume, 1);
 }
-
-static void* opencl_lib = NULL;
-
-static cl_int (*__clGetPlatformIDs)(cl_uint    /* num_entries */,
-                 cl_platform_id * /* platforms */,
-                 cl_uint *        /* num_platforms */);
-static cl_int (*__clGetDeviceIDs)(cl_platform_id   /* platform */,
-               cl_device_type   /* device_type */,
-               cl_uint          /* num_entries */,
-               cl_device_id *   /* devices */,
-               cl_uint *        /* num_devices */);
-static cl_int (*__clGetDeviceInfo)(cl_device_id    /* device */,
-                cl_device_info  /* param_name */,
-                size_t          /* param_value_size */,
-                void *          /* param_value */,
-                size_t *        /* param_value_size_ret */);
 #endif
 
 int boinc_get_opencl_ids_aux(
@@ -84,44 +56,12 @@ int boinc_get_opencl_ids_aux(
     char vendor[256];                 // Device vendor (NVIDIA, ATI, AMD, etc.)
     int retval = 0;
 
-#ifdef _WIN32
-    opencl_lib = LoadLibrary("OpenCL.dll");
-    if (!opencl_lib) {
-        return ERR_NOT_IMPLEMENTED;
-    }
-    __clGetPlatformIDs = (CL_PLATFORMIDS)GetProcAddress( opencl_lib, "clGetPlatformIDs" );
-    __clGetDeviceIDs = (CL_DEVICEIDS)GetProcAddress( opencl_lib, "clGetDeviceIDs" );
-    __clGetDeviceInfo = (CL_INFO)GetProcAddress( opencl_lib, "clGetDeviceInfo" );
-#else
-#ifdef __APPLE__
-    opencl_lib = dlopen("/System/Library/Frameworks/OpenCL.framework/Versions/Current/OpenCL", RTLD_NOW);
-#else
-//TODO: Is this correct?
-    opencl_lib = dlopen("libOpenCL.so", RTLD_NOW);
-#endif
-
-    if (!opencl_lib) {
-        return ERR_NOT_IMPLEMENTED;
-    }
-    
-    __clGetPlatformIDs = (cl_int(*)(cl_uint, cl_platform_id*, cl_uint*)) dlsym( opencl_lib, "clGetPlatformIDs" );
-    __clGetDeviceIDs = (cl_int(*)(cl_platform_id, cl_device_type, cl_uint, cl_device_id*, cl_uint*)) dlsym( opencl_lib, "clGetDeviceIDs" );
-    __clGetDeviceInfo = (cl_int(*)(cl_device_id, cl_device_info, size_t, void*, size_t*)) dlsym( opencl_lib, "clGetDeviceInfo" );
-#endif
-    if ((!__clGetPlatformIDs) || (!__clGetDeviceIDs) || (!__clGetDeviceInfo)) {
-        retval = ERR_NOT_IMPLEMENTED;
-        goto bail;
-    }
-
-    errnum = (*__clGetPlatformIDs)(MAX_OPENCL_PLATFORMS, platforms, &num_platforms);
-    if (num_platforms == 0) errnum = CL_DEVICE_NOT_FOUND;
-    if (errnum != CL_SUCCESS) {
-        retval = errnum;
-        goto bail;
-    }
+    retval = clGetPlatformIDs(MAX_OPENCL_PLATFORMS, platforms, &num_platforms);
+    if (num_platforms == 0) return CL_DEVICE_NOT_FOUND;
+    if (retval) return retval;
     
     for (platform_index=0; platform_index<num_platforms; ++platform_index) {
-        errnum = (*__clGetDeviceIDs)(
+        retval = clGetDeviceIDs(
             platforms[platform_index], CL_DEVICE_TYPE_GPU, MAX_COPROC_INSTANCES, devices, &num_devices
         );
 
@@ -129,8 +69,8 @@ int boinc_get_opencl_ids_aux(
     
         cl_device_id device_id = devices[device_num];
 
-        errnum = (*__clGetDeviceInfo)(device_id, CL_DEVICE_VENDOR, sizeof(vendor), vendor, NULL);
-        if ((errnum != CL_SUCCESS) || (vendor[0] == 0)) continue;
+        retval = clGetDeviceInfo(device_id, CL_DEVICE_VENDOR, sizeof(vendor), vendor, NULL);
+        if (retval || strlen(vendor)==0) continue;
             
         if ((strstr(vendor, "AMD")) ||  
             (strstr(vendor, "Advanced Micro Devices, Inc."))
@@ -145,15 +85,8 @@ int boinc_get_opencl_ids_aux(
         }
     }
 
-bail:
-#ifndef _WIN32
-    dlclose(opencl_lib);
-#endif
-
-    if (!retval && device == NULL) {
-        retval = CL_DEVICE_NOT_FOUND;
-    }
-    return retval;
+    if (device == NULL) return CL_DEVICE_NOT_FOUND;
+    return 0;
 }
 
 int boinc_get_opencl_ids(

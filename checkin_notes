@@ -5355,7 +5355,7 @@ Charlie 31 Aug 2011
         coproc.cpp, .h
 
 David  31 Aug 2011
-    - move boinc_get_opencl_ids() from lib/ to api/.
+    - API: move boinc_get_opencl_ids() from lib/ to api/.
         lib/ is for code that's used by >1 part of BOINC
 
     lib/
@@ -5390,3 +5390,13 @@ David  31 Aug 2011
 
 	html/user/
 		get_passwd.php
+
+David  31 Aug 2011
+    - API: boinc_get_opencl_ids() doesn't need to link
+        the OpenCL library at runtime.
+        It's used only in OpenCL applications,
+        which already include the library.
+
+    api/
+        boinc_opencl.cpp,h
+        Makefile.am
