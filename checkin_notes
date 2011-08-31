@@ -5353,3 +5353,13 @@ Charlie 31 Aug 2011
 
     lib/
         coproc.cpp, .h
+
+David  31 Aug 2011
+    - move boinc_get_opencl_ids() from lib/ to api/.
+        lib/ is for code that's used by >1 part of BOINC
+
+    lib/
+        coproc.cpp,h
+    api/
+        boinc_opencl.cpp,h (new)
+        Makefile.am

@@ -8,8 +8,9 @@ if ENABLE_LIBRARIES
 # stuff linked into both main app and graphics app
 api_files= \
     boinc_api.cpp \
-    reduce_main.cpp \
-    graphics2_util.cpp
+	boinc_opencl.cpp \
+    graphics2_util.cpp \
+    reduce_main.cpp
 
 # stuff linked into graphics app
 graphics2_files = \
