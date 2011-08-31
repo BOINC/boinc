@@ -74,18 +74,20 @@ static cl_int (*__clGetDeviceInfo)(cl_device_id    /* device */,
                 size_t *        /* param_value_size_ret */);
 #endif
 
-void boinc_get_opencl_ids(char *type, int device_num, OPENCL_REFERENCE *ref) {
+int boinc_get_opencl_ids_aux(
+    char *type, int device_num, cl_device_id* device, cl_platform_id* platform
+) {
     cl_int errnum;
     cl_platform_id platforms[MAX_OPENCL_PLATFORMS];
     cl_uint num_platforms, platform_index, num_devices;
     cl_device_id devices[MAX_COPROC_INSTANCES];
-    char vendor[256];                   // Device vendor (NVIDIA, ATI, AMD, etc.)
+    char vendor[256];                 // Device vendor (NVIDIA, ATI, AMD, etc.)
+    int retval = 0;
 
 #ifdef _WIN32
     opencl_lib = LoadLibrary("OpenCL.dll");
     if (!opencl_lib) {
-        ref->retval = ERR_NOT_IMPLEMENTED;
-        return;
+        return ERR_NOT_IMPLEMENTED;
     }
     __clGetPlatformIDs = (CL_PLATFORMIDS)GetProcAddress( opencl_lib, "clGetPlatformIDs" );
     __clGetDeviceIDs = (CL_DEVICEIDS)GetProcAddress( opencl_lib, "clGetDeviceIDs" );
@@ -99,8 +101,7 @@ void boinc_get_opencl_ids(char *type, int device_num, OPENCL_REFERENCE *ref) {
 #endif
 
     if (!opencl_lib) {
-        ref->retval = ERR_NOT_IMPLEMENTED;
-        return;
+        return ERR_NOT_IMPLEMENTED;
     }
     
     __clGetPlatformIDs = (cl_int(*)(cl_uint, cl_platform_id*, cl_uint*)) dlsym( opencl_lib, "clGetPlatformIDs" );
@@ -108,14 +109,14 @@ void boinc_get_opencl_ids(char *type, int device_num, OPENCL_REFERENCE *ref) {
     __clGetDeviceInfo = (cl_int(*)(cl_device_id, cl_device_info, size_t, void*, size_t*)) dlsym( opencl_lib, "clGetDeviceInfo" );
 #endif
     if ((!__clGetPlatformIDs) || (!__clGetDeviceIDs) || (!__clGetDeviceInfo)) {
-        ref->retval = ERR_NOT_IMPLEMENTED;
+        retval = ERR_NOT_IMPLEMENTED;
         goto bail;
     }
 
     errnum = (*__clGetPlatformIDs)(MAX_OPENCL_PLATFORMS, platforms, &num_platforms);
     if (num_platforms == 0) errnum = CL_DEVICE_NOT_FOUND;
     if (errnum != CL_SUCCESS) {
-        ref->retval = errnum;
+        retval = errnum;
         goto bail;
     }
     
@@ -138,8 +139,8 @@ void boinc_get_opencl_ids(char *type, int device_num, OPENCL_REFERENCE *ref) {
         }
         
         if (!strcmp(vendor, type)) {
-            ref->device_id = device_id;
-            ref->platform_id = platforms[platform_index];
+            *device = device_id;
+            *platform = platforms[platform_index];
             break;
         }
     }
@@ -149,21 +150,22 @@ bail:
     dlclose(opencl_lib);
 #endif
 
-    if ((ref->retval == CL_SUCCESS) && (ref->device_id == NULL)) {
-        ref->retval = CL_DEVICE_NOT_FOUND;
+    if (!retval && device == NULL) {
+        retval = CL_DEVICE_NOT_FOUND;
     }
+    return retval;
 }
 
-OPENCL_REFERENCE boinc_get_opencl_ids(int argc, char** argv) {
-    OPENCL_REFERENCE ref;
+int boinc_get_opencl_ids(
+    int argc, char** argv, cl_device_id* device, cl_platform_id* platform
+) {
     char type[256];
-    int device_num;
+    int device_num, retval=0;
     
-    memset(&ref, 0, sizeof(struct OPENCL_REFERENCE));
-    type[0] = '\0';
+    strcpy(type, "");
     device_num = -1;
     
-    for (int i = 1; i < argc; i++) {
+    for (int i=1; i<argc; i++) {
         if (!strcmp(argv[i], "--gpu_type")) {
             strlcpy(type, argv[++i], sizeof(type));
         }
@@ -172,37 +174,31 @@ OPENCL_REFERENCE boinc_get_opencl_ids(int argc, char** argv) {
         }
     }
 
-    if (type[0] == '\0'){
-        ref.retval = CL_INVALID_DEVICE_TYPE;
-        return ref;
+    if (!strlen(type)) {
+        return CL_INVALID_DEVICE_TYPE;
     }
     
     if (device_num < 0) {
-        ref.retval = CL_INVALID_DEVICE;
-        return ref;
+        return CL_INVALID_DEVICE;
     }
 
 #ifdef _WIN32
     try {
-        boinc_get_opencl_ids(type, device_num, &ref);
+        retval = boinc_get_opencl_ids_aux(type, device_num, &ref);
     }
     catch (...) {
-        ref.retval = ERR_SIGNAL_CATCH;
+        return ERR_SIGNAL_CATCH;
     }
 #else
     void (*old_sig)(int) = signal(SIGSEGV, segv_handler);
     if (setjmp(resume)) {
-        ref.retval = ERR_SIGNAL_CATCH;
+        return ERR_SIGNAL_CATCH;
     } else {
-        boinc_get_opencl_ids(type, device_num, &ref);
+        retval = boinc_get_opencl_ids_aux(type, device_num, device, platform);
     }
 
     signal(SIGSEGV, old_sig);
 #endif
     
-    if ((ref.retval == CL_SUCCESS) && (ref.device_id == NULL)) {
-        ref.retval = CL_DEVICE_NOT_FOUND;
-    }
-    
-    return ref;
+    return retval;
 }

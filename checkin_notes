@@ -5363,3 +5363,11 @@ David  31 Aug 2011
     api/
         boinc_opencl.cpp,h (new)
         Makefile.am
+
+David  31 Aug 2011
+    - boinc_get_opencl_ids():
+        - change signature to return int error code
+        - no function overloading
+
+    api/
+        boinc_opencl.cpp,h

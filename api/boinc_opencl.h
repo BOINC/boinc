@@ -17,10 +17,4 @@
 
 // BOINC API for OpenCL apps
 
-struct OPENCL_REFERENCE {
-    cl_device_id device_id;
-    cl_platform_id platform_id;
-    cl_int retval;
-};
-
-OPENCL_REFERENCE boinc_get_opencl_ids(int argc, char** argv);
+int boinc_get_opencl_ids(int argc, char** argv, cl_device_id*, cl_platform_id*);
