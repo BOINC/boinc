@@ -5384,3 +5384,9 @@ David  31 Aug 2011
 		scheduler_op.cpp
 	win_build/
 		libboincapi_staticrt.vcproj
+
+David  31 Aug 2011
+	- web: show actual project info on "forget password?" page
+
+	html/user/
+		get_passwd.php
