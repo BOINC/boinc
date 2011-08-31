@@ -411,6 +411,6 @@ struct COPROCS {
     }
 };
 
-OPENCL_REFERENCE boinc_getopencl_ids(int argc, char** argv);
+OPENCL_REFERENCE boinc_get_opencl_ids(int argc, char** argv);
 
 #endif

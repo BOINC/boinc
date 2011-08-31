@@ -708,7 +708,7 @@ static cl_int (*__clGetDeviceInfo)(cl_device_id    /* device */,
                 size_t *        /* param_value_size_ret */);
 #endif
 
-void boinc_getopencl_ids(char *type, int device_num, OPENCL_REFERENCE *ref) {
+void boinc_get_opencl_ids(char *type, int device_num, OPENCL_REFERENCE *ref) {
     cl_int errnum;
     cl_platform_id platforms[MAX_OPENCL_PLATFORMS];
     cl_uint num_platforms, platform_index, num_devices;
@@ -788,7 +788,7 @@ bail:
     }
 }
 
-OPENCL_REFERENCE boinc_getopencl_ids(int argc, char** argv) {
+OPENCL_REFERENCE boinc_get_opencl_ids(int argc, char** argv) {
     OPENCL_REFERENCE ref;
     char type[256];
     int device_num;
@@ -818,7 +818,7 @@ OPENCL_REFERENCE boinc_getopencl_ids(int argc, char** argv) {
 
 #ifdef _WIN32
     try {
-        boinc_getopencl_ids(type, device_num, &ref);
+        boinc_get_opencl_ids(type, device_num, &ref);
     }
     catch (...) {
         ref.retval = ERR_SIGNAL_CATCH;
@@ -828,7 +828,7 @@ OPENCL_REFERENCE boinc_getopencl_ids(int argc, char** argv) {
     if (setjmp(resume)) {
         ref.retval = ERR_SIGNAL_CATCH;
     } else {
-        boinc_getopencl_ids(type, device_num, &ref);
+        boinc_get_opencl_ids(type, device_num, &ref);
     }
 
     signal(SIGSEGV, old_sig);

@@ -5347,7 +5347,7 @@ Charlie 31 Aug 2011
         gui_rpc_client_ops.cpp
 
 Charlie 31 Aug 2011
-    - lib: Add OPENCL_REFERENCE boinc_getopencl_ids(int argc, char** argv) 
+    - lib: Add OPENCL_REFERENCE boinc_get_opencl_ids(int argc, char** argv) 
         to be called by OpenCL project applications to get the platform ID 
         and device ID of the GPU assigned to the task by the scheduler.
 
