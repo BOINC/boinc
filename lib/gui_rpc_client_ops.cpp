@@ -381,7 +381,7 @@ int APP_VERSION::parse_coproc(MIOFILE& in) {
         if (match_tag(buf, "</coproc>")) {
             if (!strcmp(type_buf, "CUDA")) {
                 ncudas = count;
-            } else if (!strcmp(type_buf, "ATI")) {
+            } else if (!strcmp(type_buf, GPU_TYPE_ATI)) {
                 natis = count;
             }
             return 0;

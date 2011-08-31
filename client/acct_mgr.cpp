@@ -257,11 +257,11 @@ int AM_ACCOUNT::parse(XML_PARSER& xp) {
             continue;
         }
         if (xp.parse_bool("no_cuda", btemp)) {
-            handle_no_rsc("NVIDIA", btemp);
+            handle_no_rsc(GPU_TYPE_NVIDIA, btemp);
             continue;
         }
         if (xp.parse_bool("no_ati", btemp)) {
-            handle_no_rsc("ATI", btemp);
+            handle_no_rsc(GPU_TYPE_NVIDIA, btemp);
             continue;
         }
         if (xp.parse_str("no_rsc", buf, sizeof(buf))) {

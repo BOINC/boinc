@@ -197,7 +197,7 @@ void CLIENT_STATE::show_host_info() {
 }
 
 int rsc_index(const char* name) {
-    const char* nm = strcmp(name, "CUDA")?name:"NVIDIA";
+    const char* nm = strcmp(name, "CUDA")?name:GPU_TYPE_NVIDIA;
     for (int i=0; i<coprocs.n_rsc; i++) {
         if (!strcmp(nm, coprocs.coprocs[i].type)) {
             return i;
@@ -383,14 +383,14 @@ int CLIENT_STATE::init() {
     }
 
     if (coprocs.have_nvidia()) {
-        if (rsc_index("NVIDIA")>0) {
+        if (rsc_index(GPU_TYPE_NVIDIA)>0) {
             msg_printf(NULL, MSG_INFO, "NVIDIA GPU info taken from cc_config.xml");
         } else {
             coprocs.add(coprocs.nvidia);
         }
     }
     if (coprocs.have_ati()) {
-        if (rsc_index("ATI")>0) {
+        if (rsc_index(GPU_TYPE_ATI)>0) {
             msg_printf(NULL, MSG_INFO, "ATI GPU info taken from cc_config.xml");
         } else {
             coprocs.add(coprocs.ati);

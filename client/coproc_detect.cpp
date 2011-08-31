@@ -262,11 +262,11 @@ void COPROCS::get_opencl(bool use_all, vector<string>&warnings,
             ciErrNum = get_opencl_info(prop, device_index, warnings);
             if (ciErrNum != CL_SUCCESS) break;
             
-            if (strstr(prop.vendor, "NVIDIA")) {
+            if (strstr(prop.vendor, GPU_TYPE_NVIDIA)) {
                 prop.device_num = nvidia_opencls.size();
                 nvidia_opencls.push_back(prop);
             }
-            if ((strstr(prop.vendor, "ATI")) || 
+            if ((strstr(prop.vendor, GPU_TYPE_ATI)) || 
                 (strstr(prop.vendor, "AMD")) ||  
                 (strstr(prop.vendor, "Advanced Micro Devices, Inc."))
             ) {
@@ -955,7 +955,7 @@ void COPROC_NVIDIA::get(
 // fake a NVIDIA GPU (for debugging)
 //
 void COPROC_NVIDIA::fake(int driver_version, double ram, int n) {
-   strcpy(type, "NVIDIA");
+   strcpy(type, GPU_TYPE_NVIDIA);
    count = n;
    for (int i=0; i<count; i++) {
        device_nums[i] = i;
@@ -1456,7 +1456,7 @@ void COPROC_ATI::get(
 }
 
 void COPROC_ATI::fake(double ram, int n) {
-    strcpy(type, "ATI");
+    strcpy(type, GPU_TYPE_ATI);
     strcpy(version, "1.4.3");
     strcpy(name, "foobar");
     count = n;

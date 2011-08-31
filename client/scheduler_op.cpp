@@ -854,12 +854,12 @@ int SCHEDULER_REPLY::parse(FILE* in, PROJECT* project) {
             continue;
         } else if (xp.parse_bool("no_cuda_apps", btemp)) {
             if (!project->anonymous_platform) {
-                handle_no_rsc_apps("NVIDIA", project, btemp);
+                handle_no_rsc_apps(GPU_TYPE_NVIDIA, project, btemp);
             }
             continue;
         } else if (xp.parse_bool("no_ati_apps", btemp)) {
             if (!project->anonymous_platform) {
-                handle_no_rsc_apps("ATI", project, btemp);
+                handle_no_rsc_apps(GPU_TYPE_ATI, project, btemp);
             }
             continue;
         } else if (xp.parse_str("no_rsc_apps", buf, sizeof(buf))) {

@@ -134,11 +134,11 @@ int PROJECT::parse_account(FILE* in) {
             continue;
         }
         else if (xp.parse_bool("no_cuda", btemp)) {
-            if (btemp) handle_no_rsc_pref(this, "NVIDIA");
+            if (btemp) handle_no_rsc_pref(this, GPU_TYPE_NVIDIA);
             continue;
         }
         else if (xp.parse_bool("no_ati", btemp)) {
-            if (btemp) handle_no_rsc_pref(this, "ATI");
+            if (btemp) handle_no_rsc_pref(this, GPU_TYPE_ATI);
             continue;
         }
         else if (xp.parse_str("no_rsc", buf2, sizeof(buf2))) {
@@ -234,11 +234,11 @@ int PROJECT::parse_account_file_venue() {
             continue;
         }
         else if (xp.parse_bool("no_cuda", btemp)) {
-            if (btemp) handle_no_rsc_pref(this, "NVIDIA");
+            if (btemp) handle_no_rsc_pref(this, GPU_TYPE_NVIDIA);
             continue;
         }
         else if (xp.parse_bool("no_ati", btemp)) {
-            if (btemp) handle_no_rsc_pref(this, "ATI");
+            if (btemp) handle_no_rsc_pref(this, GPU_TYPE_ATI);
             continue;
         }
         else if (xp.parse_str("no_rsc", buf2, sizeof(buf2))) {

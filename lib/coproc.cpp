@@ -365,7 +365,7 @@ void COPROC_NVIDIA::write_xml(MIOFILE& f, bool include_request) {
 
 void COPROC_NVIDIA::clear() {
     COPROC::clear();
-    strcpy(type, "NVIDIA");
+    strcpy(type, GPU_TYPE_NVIDIA);
     estimated_delay = -1;   // mark as absent
     cuda_version = 0;
     display_driver_version = 0;
@@ -545,7 +545,7 @@ void COPROC_ATI::write_xml(MIOFILE& f, bool include_request) {
 
 void COPROC_ATI::clear() {
     COPROC::clear();
-    strcpy(type, "ATI");
+    strcpy(type, GPU_TYPE_ATI);
     estimated_delay = -1;
     strcpy(name, "");
     strcpy(version, "");

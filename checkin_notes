@@ -5327,3 +5327,21 @@ David  30 Aug 2011
 
     sched/
         validator.cpp
+
+Charlie 31 Aug 2011
+    - define GPU_TYPE_NVIDIA, GPU_TYPE_ATI, use everywhere instead of 
+        literal strings "NVIDIA" and "ATI" to ensure uniformity.
+        
+    client/
+        acct_mgr.cpp
+        client_state.cpp
+        client_types.cpp
+        coproc_detect.cpp
+        cpu_sched.cpp
+        cs_account.cpp
+        cs_scheduler.cpp
+        log_flags.cpp
+        scheduler_op.cpp
+    lib/
+        coproc.cpp, .h
+        gui_rpc_client_ops.cpp

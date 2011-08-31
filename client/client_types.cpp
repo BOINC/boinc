@@ -295,11 +295,11 @@ int PROJECT::parse_state(XML_PARSER& xp) {
             continue;
         }
         if (xp.parse_bool("no_cuda_apps", btemp)) {
-            if (btemp) handle_no_rsc_apps(this, "NVIDIA");
+            if (btemp) handle_no_rsc_apps(this, GPU_TYPE_NVIDIA);
             continue;
         }
         if (xp.parse_bool("no_ati_apps", btemp)) {
-            if (btemp) handle_no_rsc_apps(this, "ATI");
+            if (btemp) handle_no_rsc_apps(this, GPU_TYPE_ATI);
             continue;
         }
         if (xp.parse_str("no_rsc_apps", buf, sizeof(buf))) {
@@ -311,11 +311,11 @@ int PROJECT::parse_state(XML_PARSER& xp) {
             continue;
         }
         if (xp.parse_bool("no_cuda_ams", btemp)) {
-            if (btemp) handle_no_rsc_ams(this, "NVIDIA");
+            if (btemp) handle_no_rsc_ams(this, GPU_TYPE_NVIDIA);
             continue;
         }
         if (xp.parse_bool("no_ati_ams", btemp)) {
-            if (btemp) handle_no_rsc_ams(this, "ATI");
+            if (btemp) handle_no_rsc_ams(this, GPU_TYPE_ATI);
             continue;
         }
         if (xp.parse_str("no_rsc_ams", buf, sizeof(buf))) {

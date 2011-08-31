@@ -139,8 +139,8 @@ void CONFIG::show() {
     if (fetch_minimal_work) {
         msg_printf(NULL, MSG_INFO, "Config: fetch minimal work");
     }
-    show_gpu_ignore(ignore_nvidia_dev, "NVIDIA");
-    show_gpu_ignore(ignore_ati_dev, "ATI");
+    show_gpu_ignore(ignore_nvidia_dev, GPU_TYPE_NVIDIA);
+    show_gpu_ignore(ignore_ati_dev, GPU_TYPE_ATI);
     for (i=0; i<exclusive_apps.size(); i++) {
         msg_printf(NULL, MSG_INFO,
             "Config: don't compute while %s is running",

@@ -81,6 +81,10 @@
 
 #define MAX_OPENCL_PLATFORMS 16
 
+#define GPU_TYPE_NVIDIA "NVIDIA"
+#define GPU_TYPE_ATI "ATI"
+#define GPU_TYPE_AMD GPU_TYPE_ATI
+
 // represents a requirement for a coproc.
 // This is a parsed version of the <coproc> elements in an <app_version>
 // (used in client only)
@@ -245,7 +249,7 @@ struct COPROC_NVIDIA : public COPROC {
 #ifndef _USING_FCGI_
     void write_xml(MIOFILE&, bool include_request);
 #endif
-    COPROC_NVIDIA(): COPROC("NVIDIA"){}
+    COPROC_NVIDIA(): COPROC(GPU_TYPE_NVIDIA){}
     void get(
         bool use_all,
         std::vector<std::string>&, std::vector<std::string>&,
@@ -298,7 +302,7 @@ struct COPROC_ATI : public COPROC {
 #ifndef _USING_FCGI_
     void write_xml(MIOFILE&, bool include_request);
 #endif
-    COPROC_ATI(): COPROC("ATI"){}
+    COPROC_ATI(): COPROC(GPU_TYPE_ATI){}
     void get(
         bool use_all,
         std::vector<std::string>&, std::vector<std::string>&,
