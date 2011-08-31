@@ -359,6 +359,10 @@
 				</FileConfiguration>
 			</File>
 			<File
+				RelativePath="..\api\boinc_opencl.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\lib\boinc_win.cpp"
 				>
 				<FileConfiguration
@@ -450,6 +454,10 @@
 			>
 			<File
 				RelativePath="..\api\boinc_api.h"
+				>
+			</File>
+			<File
+				RelativePath="..\api\boinc_opencl.h"
 				>
 			</File>
 		</Filter>

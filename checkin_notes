@@ -5371,3 +5371,16 @@ David  31 Aug 2011
 
     api/
         boinc_opencl.cpp,h
+
+David  31 Aug 2011
+	- client: fix bugs related to white space around code signing keys
+	- win compile fixes
+
+	api/
+		boinc_opencl.cpp
+	client/
+		client_types.cpp
+		cs_scheduler.cpp
+		scheduler_op.cpp
+	win_build/
+		libboincapi_staticrt.vcproj

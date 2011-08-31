@@ -184,7 +184,7 @@ int boinc_get_opencl_ids(
 
 #ifdef _WIN32
     try {
-        retval = boinc_get_opencl_ids_aux(type, device_num, &ref);
+        retval = boinc_get_opencl_ids_aux(type, device_num, device, platform);
     }
     catch (...) {
         return ERR_SIGNAL_CATCH;

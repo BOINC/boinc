@@ -144,7 +144,7 @@ int CLIENT_STATE::make_scheduler_request(PROJECT* p) {
     write_platforms(p, mf);
 
     if (strlen(p->code_sign_key)) {
-        fprintf(f, "    <code_sign_key>\n%s</code_sign_key>\n", p->code_sign_key);
+        fprintf(f, "    <code_sign_key>\n%s\n</code_sign_key>\n", p->code_sign_key);
     }
 
     // send working prefs

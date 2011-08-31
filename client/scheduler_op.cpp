@@ -704,7 +704,6 @@ int SCHEDULER_REPLY::parse(FILE* in, PROJECT* project) {
                 return retval;
             }
             project->gui_urls = "<gui_urls>\n"+foo+"</gui_urls>\n";
-            continue;
         } else if (xp.match_tag("code_sign_key")) {
             retval = dup_element_contents(
                 xp.f->f,
@@ -718,6 +717,7 @@ int SCHEDULER_REPLY::parse(FILE* in, PROJECT* project) {
                 );
                 return ERR_XML_PARSE;
             }
+            strip_whitespace(code_sign_key);
         } else if (xp.match_tag("code_sign_key_signature")) {
             retval = dup_element_contents(
                 xp.f->f,

@@ -515,7 +515,7 @@ int PROJECT::write_state(MIOFILE& out, bool gui_rpc) {
         }
         if (strlen(code_sign_key)) {
             out.printf(
-                "    <code_sign_key>\n%s</code_sign_key>\n", code_sign_key
+                "    <code_sign_key>\n%s\n</code_sign_key>\n", code_sign_key
             );
         }
     }
