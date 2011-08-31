@@ -85,6 +85,12 @@
 #define GPU_TYPE_ATI "ATI"
 #define GPU_TYPE_AMD GPU_TYPE_ATI
 
+struct OPENCL_REFERENCE {
+    cl_device_id device_id;
+    cl_platform_id platform_id;
+    cl_int retval;
+};
+
 // represents a requirement for a coproc.
 // This is a parsed version of the <coproc> elements in an <app_version>
 // (used in client only)
@@ -404,5 +410,7 @@ struct COPROCS {
         add(c);
     }
 };
+
+OPENCL_REFERENCE boinc_getopencl_ids(int argc, char** argv);
 
 #endif

@@ -5345,3 +5345,11 @@ Charlie 31 Aug 2011
     lib/
         coproc.cpp, .h
         gui_rpc_client_ops.cpp
+
+Charlie 31 Aug 2011
+    - lib: Add OPENCL_REFERENCE boinc_getopencl_ids(int argc, char** argv) 
+        to be called by OpenCL project applications to get the platform ID 
+        and device ID of the GPU assigned to the task by the scheduler.
+
+    lib/
+        coproc.cpp, .h
