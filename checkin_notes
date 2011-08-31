@@ -5400,3 +5400,10 @@ David  31 Aug 2011
     api/
         boinc_opencl.cpp,h
         Makefile.am
+
+David  31 Aug 2011
+    - scheduler: make sure there's a \n after </workunit> and </result>.
+        Otherwise older clients won't be able to parse.
+
+    sched/
+        sched_types.cpp

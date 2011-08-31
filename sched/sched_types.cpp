@@ -840,6 +840,7 @@ int SCHEDULER_REPLY::write(FILE* fout, SCHEDULER_REQUEST& sreq) {
 
     for (i=0; i<wus.size(); i++) {
         fputs(wus[i].xml_doc, fout);
+        fputs("\n", fout);  // for old clients
     }
 
     for (i=0; i<results.size(); i++) {
@@ -1045,6 +1046,7 @@ int SCHED_DB_RESULT::write_to_client(FILE* fout) {
     }
     *p = 0;
     fputs(buf, fout);
+    fputs("\n", fout);  // for old clients
 
     APP_VERSION* avp = bav.avp;
     CLIENT_APP_VERSION* cavp = bav.cavp;
