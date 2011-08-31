@@ -5407,3 +5407,11 @@ David  31 Aug 2011
 
     sched/
         sched_types.cpp
+
+Rom    31 Aug 2011
+    - VboxWrapper: Specify a configuration directory under the slot directory to
+        try and avoid permission errors on multiple platforms when BOINC
+        is installed as a daemon.
+
+    samples/vboxwrapper/
+        vbox.cpp

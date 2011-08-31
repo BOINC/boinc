@@ -350,18 +350,20 @@ int VBOX_VM::get_install_directory(string& virtualbox_install_directory ) {
 
 int VBOX_VM::initialize() {
     string virtualbox_install_directory;
+    string virtual_machine_root_dir;
     string old_path;
     string new_path;
+    string virtualbox_user_home;
     char buf[256];
 
     get_install_directory(virtualbox_install_directory);
+    generate_vm_root_dir(virtual_machine_root_dir);
 
     // Prep the environment so we can execute the vboxmanage application
     if (!virtualbox_install_directory.empty()) {
         old_path = getenv("path");
 
-        new_path = "path=";
-
+        new_path  = "path=";
         new_path += virtualbox_install_directory;
 
         // Path environment variable seperator
@@ -377,6 +379,21 @@ int VBOX_VM::initialize() {
             fprintf(
                 stderr,
                 "%s Failed to modify the search path.\n",
+                boinc_msg_prefix(buf, sizeof(buf))
+            );
+        }
+
+
+        // Set the location in which the VirtualBox Configuration files can be
+        // stored for this instance.
+        virtualbox_user_home  = "VBOX_USER_HOME=";
+        virtualbox_user_home += virtual_machine_root_dir;
+        virtualbox_user_home += "/vbox";
+
+        if (putenv(const_cast<char*>(virtualbox_user_home.c_str()))) {
+            fprintf(
+                stderr,
+                "%s Failed to modify the VBOX_USER_HOME path.\n",
                 boinc_msg_prefix(buf, sizeof(buf))
             );
         }
