@@ -5425,3 +5425,9 @@ Charlie 31 Aug 2011
     lib/
         cl_boinc.h
         coproc.cpp
+
+David  31 Aug 2011
+	- web: show relative performance on GPU list
+
+	html/user/
+		gpu_list.php
