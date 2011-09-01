@@ -880,6 +880,7 @@
 		DDA1F1ED126D105B005EFFEB /* current_version.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = current_version.h; path = ../client/current_version.h; sourceTree = SOURCE_ROOT; };
 		DDA26C5D13977E1500DFDFE1 /* sqlite3.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = sqlite3.c; path = ../clientgui/sqlite3.c; sourceTree = SOURCE_ROOT; };
 		DDA290360CB5D80E00512BD8 /* Mac_Saver_Module.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = Mac_Saver_Module.h; path = ../clientscr/Mac_Saver_Module.h; sourceTree = SOURCE_ROOT; };
+		DDA45502140F85DD00D97676 /* str_replace.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = str_replace.h; sourceTree = "<group>"; };
 		DDA546600D16964E008CC69A /* QuickTime.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuickTime.framework; path = /System/Library/Frameworks/QuickTime.framework; sourceTree = "<absolute>"; };
 		DDA6BD030BD4551F008F7921 /* dyld_gdb.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = dyld_gdb.h; path = ../lib/mac/dyld_gdb.h; sourceTree = SOURCE_ROOT; };
 		DDA6BD040BD4551F008F7921 /* mac_backtrace.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = mac_backtrace.cpp; path = ../lib/mac/mac_backtrace.cpp; sourceTree = SOURCE_ROOT; };
@@ -1575,6 +1576,7 @@
 				AAA31C97042157A800A80164 /* shmem.cpp */,
 				AAA31C98042157A800A80164 /* shmem.h */,
 				DD407ADC07D2FDF700163EF5 /* std_fixes.h */,
+				DDA45502140F85DD00D97676 /* str_replace.h */,
 				DD7BF7D70B8E7A9800A009F7 /* str_util.cpp */,
 				DD7BF7D80B8E7A9800A009F7 /* str_util.h */,
 				DD407AED07D2FE7200163EF5 /* synch.cpp */,
