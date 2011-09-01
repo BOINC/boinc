@@ -5421,7 +5421,7 @@ Charlie 31 Aug 2011
     - lib: remove unnecessary #include, add needed function declarations 
 
     api/
-        boinc_opencl.cpp,h
+        boinc_opencl.cpp, .h
     lib/
         cl_boinc.h
         coproc.cpp
@@ -5431,3 +5431,11 @@ David  31 Aug 2011
 
 	html/user/
 		gpu_list.php
+
+Charlie 1 Sep 2011
+    - API: More fixes to boinc_get_opencl_ids()
+
+    api/
+        boinc_opencl.cpp
+    lib/
+        cl_boinc.h

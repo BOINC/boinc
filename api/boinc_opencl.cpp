@@ -44,10 +44,9 @@
 #include <setjmp.h>
 #include <signal.h>
 #endif
+#include <string>
 
 #include "error_numbers.h"
-#include "util.h"
-#include "str_replace.h"
 
 #include "coproc.h"
 
@@ -113,7 +112,7 @@ int boinc_get_opencl_ids(
     
     for (int i=1; i<argc; i++) {
         if (!strcmp(argv[i], "--gpu_type")) {
-            strlcpy(type, argv[++i], sizeof(type));
+            strcpy(type, argv[++i]);
         }
         if (!strcmp(argv[i], "--device")) {
             device_num = atoi(argv[++i]);
