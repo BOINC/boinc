@@ -29,11 +29,11 @@ AM_LDFLAGS += -static
 create_work_SOURCES = create_work.cpp
 create_work_LDADD = $(SERVERLIBS)
 
-sign_executable_SOURCES = sign_executable.cpp
-sign_executable_LDADD = $(SERVERLIBS)
-
 dir_hier_path_SOURCES = dir_hier_path.cpp
 dir_hier_path_LDADD = $(SERVERLIBS)
 
 dir_hier_move_SOURCES = dir_hier_move.cpp
 dir_hier_move_LDADD = $(SERVERLIBS)
+
+sign_executable_SOURCES = sign_executable.cpp
+sign_executable_LDADD = $(SERVERLIBS)

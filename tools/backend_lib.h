@@ -71,6 +71,8 @@ extern int create_work(
     const char* additional_xml = NULL
 );
 
+extern int stage_file(const char*, bool);
+
 extern int put_file(
     int host_id, const char* file_name, vector<const char*> urls,
     const char* md5, double nbytes, double report_deadline

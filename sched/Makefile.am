@@ -18,6 +18,7 @@ libsched_sources = \
     ../db/boinc_db.cpp \
     ../db/db_base.cpp \
     ../tools/process_result_template.cpp \
+    ../tools/process_input_template.cpp \
     ../tools/backend_lib.cpp
 
 lib_LTLIBRARIES = libsched.la

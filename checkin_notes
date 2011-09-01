@@ -5450,3 +5450,17 @@ Charlie 1 Sep 2011
      mac_build/
         boinc.xcodeproj/
             project.pbxproj
+
+David  1 Sept 2011
+    - server: rename process_wu_template() to process_input_template(),
+        and move it to its own file
+
+    sched/
+        Makefile.am
+    tools/
+        backend_lib.cpp,h
+        process_input_template.cpp,h (new)
+        Makefile.am
+    api/
+        reduce_main.cpp
+

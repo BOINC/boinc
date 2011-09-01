@@ -15,6 +15,11 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
+// The main-program part of the system used by SETI@home
+// to draw 3D graphs of data.
+// This writes into a shared-memory structure
+// that's read by the graphics app
+
 #if defined(_WIN32) && !defined(__STDWX_H__) && !defined(_BOINC_WIN_) && !defined(_AFX_STDAFX_H_)
 #include "boinc_win.h"
 #else
