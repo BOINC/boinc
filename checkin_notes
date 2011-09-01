@@ -5417,7 +5417,7 @@ Rom    31 Aug 2011
         vbox.cpp
 
 Charlie 31 Aug 2011
-    - API: Fix compile errors and warnings, add documentation in comments
+    - api: Fix compile errors and warnings, add documentation in comments
     - lib: remove unnecessary #include, add needed function declarations 
 
     api/
@@ -5433,9 +5433,20 @@ David  31 Aug 2011
 		gpu_list.php
 
 Charlie 1 Sep 2011
-    - API: More fixes to boinc_get_opencl_ids()
+    - api: More fixes to boinc_get_opencl_ids()
 
     api/
         boinc_opencl.cpp
     lib/
         cl_boinc.h
+
+Charlie 1 Sep 2011
+    - lib: if OS_Darwin use procinfo_mac.cpp isntead of procinfo_unix.cpp.
+    - lib, api: update XCode project to build same source files in each 
+        library as corresponding make files.
+
+    lib/
+        makefile.am
+     mac_build/
+        boinc.xcodeproj/
+            project.pbxproj

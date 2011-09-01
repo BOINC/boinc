@@ -56,7 +56,6 @@ generic_sources = \
     parse.cpp \
     prefs.cpp \
 	procinfo.cpp \
-    procinfo_unix.cpp \
     proxy_info.cpp \
     shmem.cpp \
     str_util.cpp \
@@ -67,6 +66,7 @@ generic_sources = \
 
 if OS_DARWIN
 mac_sources = \
+    procinfo_mac.cpp \
     mac/mac_backtrace.cpp \
     mac/QBacktrace.c \
     mac/QCrashReport.c \
@@ -84,6 +84,8 @@ mac_headers = \
     mac/QSymbols.h \
     mac/QTaskMemory.h
 else
+    generic_sources += procinfo_unix.cpp
+
 mac_sources = 
 mac_headers =
 endif
