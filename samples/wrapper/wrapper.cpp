@@ -166,7 +166,7 @@ struct TASK {
         memset(*env_vars, 0x00, sizeof(char*) * (nvars+1));
         // get all environment vars for this task
         for (int i = 0; i < nvars; i++) {
-            (*env_vars)[i] = (char*) vsetenv[i].c_str();
+            (*env_vars)[i] = const_cast<char*>(vsetenv[i].c_str());
         }
     }
 #endif
@@ -202,8 +202,7 @@ void macro_substitute(char* buf) {
 }
 
 int TASK::parse(XML_PARSER& xp) {
-    char tag[1024], buf[8192];
-    bool is_tag;
+    char buf[8192];
 
     weight = 1;
     final_cpu_time = 0;
@@ -213,49 +212,48 @@ int TASK::parse(XML_PARSER& xp) {
     multi_process = false;
     append_cmdline_args = false;
 
-    while (!xp.get(tag, sizeof(tag), is_tag)) {
-        if (!is_tag) {
+    while (!xp.get_tag()) {
+        if (!xp.is_tag) {
             fprintf(stderr, "%s TASK::parse(): unexpected text %s\n",
-                boinc_msg_prefix(buf, sizeof(buf)), tag
+                boinc_msg_prefix(buf, sizeof(buf)), xp.parsed_tag
             );
             continue;
         }
-        if (!strcmp(tag, "/task")) {
+        if (xp.match_tag("/task")) {
             return 0;
         }
-        else if (xp.parse_string(tag, "application", application)) continue;
-        else if (xp.parse_str(tag, "exec_dir", buf, sizeof(buf))) {
+        else if (xp.parse_string("application", application)) continue;
+        else if (xp.parse_str("exec_dir", buf, sizeof(buf))) {
             macro_substitute(buf);
             exec_dir = buf;
             continue;  
         }
-        else if (xp.parse_str(tag, "setenv", buf, sizeof(buf))) {
+        else if (xp.parse_str("setenv", buf, sizeof(buf))) {
             macro_substitute(buf);
             vsetenv.push_back(buf);
             continue;
         }
-        else if (xp.parse_string(tag, "stdin_filename", stdin_filename)) continue;
-        else if (xp.parse_string(tag, "stdout_filename", stdout_filename)) continue;
-        else if (xp.parse_string(tag, "stderr_filename", stderr_filename)) continue;
-        else if (xp.parse_str(tag, "command_line", buf, sizeof(buf))) {
+        else if (xp.parse_string("stdin_filename", stdin_filename)) continue;
+        else if (xp.parse_string("stdout_filename", stdout_filename)) continue;
+        else if (xp.parse_string("stderr_filename", stderr_filename)) continue;
+        else if (xp.parse_str("command_line", buf, sizeof(buf))) {
             macro_substitute(buf);
             command_line = buf;
             continue;
         }
-        else if (xp.parse_string(tag, "checkpoint_filename", checkpoint_filename)) continue;
-        else if (xp.parse_string(tag, "fraction_done_filename", fraction_done_filename)) continue;
-        else if (xp.parse_double(tag, "weight", weight)) continue;
-        else if (xp.parse_bool(tag, "daemon", is_daemon)) continue;
-        else if (xp.parse_bool(tag, "multi_process", multi_process)) continue;
-        else if (xp.parse_bool(tag, "append_cmdline_args", append_cmdline_args)) continue;
+        else if (xp.parse_string("checkpoint_filename", checkpoint_filename)) continue;
+        else if (xp.parse_string("fraction_done_filename", fraction_done_filename)) continue;
+        else if (xp.parse_double("weight", weight)) continue;
+        else if (xp.parse_bool("daemon", is_daemon)) continue;
+        else if (xp.parse_bool("multi_process", multi_process)) continue;
+        else if (xp.parse_bool("append_cmdline_args", append_cmdline_args)) continue;
     }
     return ERR_XML_PARSE;
 }
 
 int parse_job_file() {
     MIOFILE mf;
-    char tag[1024], buf[256], buf2[256];
-    bool is_tag;
+    char buf[256], buf2[256];
 
     boinc_resolve_filename(JOB_FILENAME, buf, 1024);
     FILE* f = boinc_fopen(buf, "r");
@@ -270,19 +268,19 @@ int parse_job_file() {
     XML_PARSER xp(&mf);
 
     if (!xp.parse_start("job_desc")) return ERR_XML_PARSE;
-    while (!xp.get(tag, sizeof(tag), is_tag)) {
-        if (!is_tag) {
+    while (!xp.get_tag()) {
+        if (!xp.is_tag) {
             fprintf(stderr,
                 "%s unexpected text in job.xml: %s\n",
-                boinc_msg_prefix(buf2, sizeof(buf2)), tag
+                boinc_msg_prefix(buf2, sizeof(buf2)), xp.parsed_tag
             );
             continue;
         }
-        if (!strcmp(tag, "/job_desc")) {
+        if (xp.match_tag("/job_desc")) {
             fclose(f);
             return 0;
         }
-        if (!strcmp(tag, "task")) {
+        if (xp.match_tag("task")) {
             TASK task;
             int retval = task.parse(xp);
             if (!retval) {
@@ -296,7 +294,7 @@ int parse_job_file() {
         } else {
             fprintf(stderr,
                 "%s unexpected tag in job.xml: %s\n",
-                boinc_msg_prefix(buf2, sizeof(buf2)), tag
+                boinc_msg_prefix(buf2, sizeof(buf2)), xp.parsed_tag
             );
         }
     }

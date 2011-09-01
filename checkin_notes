@@ -5475,3 +5475,9 @@ David  1 Sept 2011
 
     html/user/
         prefs_edit.php
+
+David  1 Sept 2011
+    - wrapper compile fixes
+
+    samples/wrapper/
+        wrapper.cpp
