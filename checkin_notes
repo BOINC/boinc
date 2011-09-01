@@ -5464,3 +5464,8 @@ David  1 Sept 2011
     api/
         reduce_main.cpp
 
+David  1 Sept 2011
+    - server: factor process_input_template() into smaller pieces
+
+    tools/
+        process_input_template.cpp
