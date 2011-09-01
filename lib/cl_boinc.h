@@ -178,3 +178,24 @@ typedef cl_bitfield         cl_command_queue_properties;
 #define CL_DEVICE_NATIVE_VECTOR_WIDTH_DOUBLE        0x103B
 #define CL_DEVICE_NATIVE_VECTOR_WIDTH_HALF          0x103C
 #define CL_DEVICE_OPENCL_C_VERSION                  0x103D
+
+/* Platform API */
+extern cl_int 
+clGetPlatformIDs(cl_uint          /* num_entries */,
+                 cl_platform_id * /* platforms */,
+                 cl_uint *        /* num_platforms */);
+
+/* Device APIs */
+extern cl_int 
+clGetDeviceIDs(cl_platform_id   /* platform */,
+               cl_device_type   /* device_type */, 
+               cl_uint          /* num_entries */, 
+               cl_device_id *   /* devices */, 
+               cl_uint *        /* num_devices */);
+
+extern cl_int 
+clGetDeviceInfo(cl_device_id    /* device */,
+                cl_device_info  /* param_name */, 
+                size_t          /* param_value_size */, 
+                void *          /* param_value */,
+                size_t *        /* param_value_size_ret */);

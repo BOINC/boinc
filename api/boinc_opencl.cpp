@@ -17,6 +17,20 @@
 
 // BOINC API for OpenCL
 
+// The BOINC client calls the project application with the arguments:
+//   --gpu_type TYPE --device N
+// where TYPE is ATI or NVIDIA, and N is the GPU number of that type
+// For example, for ATI GPU number 0, the arguments will be:
+//   --gpu_type ATI --device 0
+//
+// To get the cl_device_id and cl_platform_id for the OpenCL GPU 
+// asigned to your application call this function:
+// int boinc_get_opencl_ids(int argc, char** argv, cl_device_id*, cl_platform_id*);
+//
+// NOTE: You should compile and link this function as part of your 
+// application; it is not included in the standard BOINC libraries.
+//
+
 #ifdef _WIN32
 #include "win_util.h"
 #else
@@ -32,14 +46,14 @@
 #endif
 
 #include "error_numbers.h"
+#include "util.h"
 #include "str_replace.h"
 
 #include "coproc.h"
 
 #include "boinc_opencl.h"
 
-#ifdef _WIN32
-#else
+#ifndef _WIN32
 static jmp_buf resume;
 static void segv_handler(int) {
     longjmp(resume, 1);
@@ -49,7 +63,6 @@ static void segv_handler(int) {
 int boinc_get_opencl_ids_aux(
     char *type, int device_num, cl_device_id* device, cl_platform_id* platform
 ) {
-    cl_int errnum;
     cl_platform_id platforms[MAX_OPENCL_PLATFORMS];
     cl_uint num_platforms, platform_index, num_devices;
     cl_device_id devices[MAX_COPROC_INSTANCES];

@@ -5415,3 +5415,13 @@ Rom    31 Aug 2011
 
     samples/vboxwrapper/
         vbox.cpp
+
+Charlie 31 Aug 2011
+    - API: Fix compile errors and warnings, add documentation in comments
+    - lib: remove unnecessary #include, add needed function declarations 
+
+    api/
+        boinc_opencl.cpp,h
+    lib/
+        cl_boinc.h
+        coproc.cpp
