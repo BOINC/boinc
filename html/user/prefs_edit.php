@@ -60,7 +60,6 @@ if ($action) {
 
         $project_error = prefs_project_parse_form($prefs);
         $error = prefs_resource_parse_form($prefs);
-        if (isset($project_has_beta) && $project_has_beta) prefs_beta_parse_form($prefs);
         if ($error != false || $project_error != false) {
             $title = tra("Edit %1 preferences", subset_name($subset));
             if ($venue) $title = tra("%1 for %2", $title, $venue);

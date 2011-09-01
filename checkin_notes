@@ -5469,3 +5469,9 @@ David  1 Sept 2011
 
     tools/
         process_input_template.cpp
+
+David  1 Sept 2011
+    - web: fix bug in "allow beta apps" preferences editing
+
+    html/user/
+        prefs_edit.php
