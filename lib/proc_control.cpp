@@ -28,6 +28,14 @@
 #include <sys/types.h>
 #include <sys/wait.h>
 #include <unistd.h>
+
+#ifdef HAVE_CSIGNAL
+#include <csignal>
+#elif defined(HAVE_SYS_SIGNAL_H)
+#include <sys/signal.h>
+#elif defined(HAVE_SIGNAL_H)
+#include <signal.h>
+#endif
 #endif
 
 #include "procinfo.h"

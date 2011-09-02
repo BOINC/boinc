@@ -5566,3 +5566,12 @@ David  2 Sept 2011
 
     html/user/
         add_venue.php
+
+Charlie 2 Sep 2011
+    - lib: Fix compile errors; add app_control.cpp to XCode project.
+
+    client/
+        app_control.cpp
+     mac_build/
+        boinc.xcodeproj/
+            project.pbxproj

@@ -290,6 +290,9 @@
 		DDAEC9FF07FA5A5C00A7BC36 /* SetVersion.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDAEC9E707FA58A000A7BC36 /* SetVersion.cpp */; };
 		DDB219B210B3BBA900417AEF /* WaitPermissions.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDB219B110B3BBA900417AEF /* WaitPermissions.cpp */; };
 		DDB42E3412F1B6A400E6D8A2 /* libwx_mac_static.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DDA90F260B64673D008F2E87 /* libwx_mac_static.a */; };
+		DDB4A91E1411840800032E5D /* proc_control.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDB4A91C1411840800032E5D /* proc_control.cpp */; };
+		DDB4A91F1411840800032E5D /* proc_control.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDB4A91C1411840800032E5D /* proc_control.cpp */; };
+		DDB4A9201411871200032E5D /* proc_control.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDB4A91C1411840800032E5D /* proc_control.cpp */; };
 		DDB693500ABFE9C600689FD8 /* procinfo_mac.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDB6934F0ABFE9C600689FD8 /* procinfo_mac.cpp */; };
 		DDB6E3EF0D5B27AA00ED12B8 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 20286C33FDCF999611CA2CEA /* Carbon.framework */; };
 		DDB74A6C0D74259E00E97A40 /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DDFE854A0B60CFD0009B43D9 /* AppKit.framework */; };
@@ -911,6 +914,8 @@
 		DDB219A410B3BB6100417AEF /* WaitPermissions.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WaitPermissions.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DDB219A610B3BB6200417AEF /* WaitPermissions-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "WaitPermissions-Info.plist"; sourceTree = "<group>"; };
 		DDB219B110B3BBA900417AEF /* WaitPermissions.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = WaitPermissions.cpp; path = ../mac_installer/WaitPermissions.cpp; sourceTree = SOURCE_ROOT; };
+		DDB4A91C1411840800032E5D /* proc_control.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = proc_control.cpp; sourceTree = "<group>"; };
+		DDB4A91D1411840800032E5D /* proc_control.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = proc_control.h; sourceTree = "<group>"; };
 		DDB506F80958446900181B75 /* ProxyInfoPage.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = ProxyInfoPage.cpp; path = ../clientgui/ProxyInfoPage.cpp; sourceTree = SOURCE_ROOT; };
 		DDB506F90958446900181B75 /* ProxyInfoPage.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = ProxyInfoPage.h; path = ../clientgui/ProxyInfoPage.h; sourceTree = SOURCE_ROOT; };
 		DDB6934F0ABFE9C600689FD8 /* procinfo_mac.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = procinfo_mac.cpp; sourceTree = "<group>"; };
@@ -1568,6 +1573,8 @@
 				F54B901502AC0A2201FB7237 /* parse.h */,
 				DD344BE407C5B1670043025C /* prefs.cpp */,
 				DD344BE507C5B1670043025C /* prefs.h */,
+				DDB4A91C1411840800032E5D /* proc_control.cpp */,
+				DDB4A91D1411840800032E5D /* proc_control.h */,
 				DDB6934F0ABFE9C600689FD8 /* procinfo_mac.cpp */,
 				DD2B6C7E13149177005D6F3E /* procinfo.cpp */,
 				DD2B6C7F13149177005D6F3E /* procinfo.h */,
@@ -2645,6 +2652,7 @@
 				DDA6BD1D0BD4551F008F7921 /* QMachOImageList.c in Sources */,
 				DDA6BD1E0BD4551F008F7921 /* QSymbols.c in Sources */,
 				DDA6BD1F0BD4551F008F7921 /* QTaskMemory.c in Sources */,
+				DDB4A91F1411840800032E5D /* proc_control.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2740,6 +2748,7 @@
 				DDC55A6D136013D000D79903 /* procinfo.cpp in Sources */,
 				DDC55A70136013F800D79903 /* procinfo_mac.cpp in Sources */,
 				DD262C811366D35A00C9A187 /* cc_config.cpp in Sources */,
+				DDB4A9201411871200032E5D /* proc_control.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2918,6 +2927,7 @@
 				DDA1F1EE126D105B005EFFEB /* current_version.cpp in Sources */,
 				DD2B6C8113149177005D6F3E /* procinfo.cpp in Sources */,
 				DD4AE04D13652BD700285859 /* cc_config.cpp in Sources */,
+				DDB4A91E1411840800032E5D /* proc_control.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
