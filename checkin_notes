@@ -5575,3 +5575,10 @@ Charlie 2 Sep 2011
      mac_build/
         boinc.xcodeproj/
             project.pbxproj
+
+David  2 Sept 2011
+    - lib: minor code shuffle
+
+    lib/
+        proc_control.cpp
+        procinfo_win.cpp
