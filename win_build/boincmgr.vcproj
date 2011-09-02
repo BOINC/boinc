@@ -986,6 +986,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\lib\procinfo.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\lib\procinfo.h"
 				>
 			</File>
