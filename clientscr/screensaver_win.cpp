@@ -1340,9 +1340,8 @@ VOID CScreensaver::DoConfig() {
 LRESULT CScreensaver::SaverProc(
     HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam
 ) {
-    DWORD dwMonitor = 0;
-
 #ifdef _DEBUG
+    DWORD dwMonitor = 0;
     for(DWORD iIndex = 0; iIndex < m_dwNumMonitors; iIndex++) {
 		if (hWnd == m_Monitors[iIndex].hWnd ) {
             dwMonitor = iIndex;
@@ -1507,9 +1506,8 @@ LRESULT CScreensaver::SaverProc(
 LRESULT CScreensaver::GenericSaverProc(
     HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam
 ) {
-    DWORD dwMonitor = 0;
-
 #ifdef _DEBUG
+    DWORD dwMonitor = 0;
     for(DWORD iIndex = 0; iIndex < m_dwNumMonitors; iIndex++) {
 		if (hWnd == m_Monitors[iIndex].hWnd ) {
             dwMonitor = iIndex;
@@ -1655,9 +1653,8 @@ LRESULT CScreensaver::GenericSaverProc(
 LRESULT CScreensaver::ResetProc(
     HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam
 ) {
-    DWORD dwMonitor = 0;
-
 #ifdef _DEBUG
+    DWORD dwMonitor = 0;
     for(DWORD iIndex = 0; iIndex < m_dwNumMonitors; iIndex++) {
 		if (hWnd == m_Monitors[iIndex].hWnd ) {
             dwMonitor = iIndex;
