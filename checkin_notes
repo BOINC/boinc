@@ -5510,3 +5510,19 @@ David  2 Sept 2011
     clientgui/
         BOINCClientManager.cpp
         BOINCGUIApp.cpp
+
+David  2 Sept 2011
+    - more code shuffling:
+        proc_control: controlling processes
+        procinfo: enumerating and querying processes
+        run_app_windows: launching apps as other users on Win
+
+    lib/
+        proc_control.cpp,h
+        run_app_windows.cpp
+        procinfo.cpp,h
+        Makefile.am
+    api/
+        boinc_api.cpp
+    client/
+        app_control.cpp

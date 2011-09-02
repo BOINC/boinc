@@ -51,15 +51,4 @@ extern void procinfo_app(PROCINFO&, PROC_MAP&, char* graphics_exec_file);
 extern void procinfo_non_boinc(PROCINFO&, PROC_MAP&);
 	// After getting info for all BOINC apps,
 	// call this to get info for everything else
-extern void get_descendants(int pid, std::vector<int>& pids);
-extern bool any_process_exists(std::vector<int>& pids);
-extern void kill_all(std::vector<int>& pids);
-#ifdef _WIN32
-extern void kill_descendants();
-#else
-extern void kill_descendants(int child_pid=0);
-#endif
-extern void suspend_or_resume_descendants(int pid, bool resume);
-extern void suspend_or_resume_process(int pid, bool resume);
-
 #endif

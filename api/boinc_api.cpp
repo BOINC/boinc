@@ -87,7 +87,7 @@
 #include "filesys.h"
 #include "mem_usage.h"
 #include "parse.h"
-#include "procinfo.h"
+#include "proc_control.h"
 #include "shmem.h"
 #include "str_util.h"
 #include "str_replace.h"
