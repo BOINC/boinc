@@ -64,7 +64,7 @@ static int get_process_information(PVOID* ppBuffer, PULONG pcbBuffer) {
 // Note: the following will work on both NT and XP,
 // because the NT process structure differs only at the end
 //
-int get_procinfo_XP(vector<PROCINFO>& pi) {
+int get_procinfo_XP(PROC_MAP& pm) {
     ULONG                   cbBuffer = 128*1024;    // 128k initial buffer
     PVOID                   pBuffer = NULL;
     PSYSTEM_PROCESSES       pProcesses = NULL;
@@ -116,7 +116,7 @@ int get_procinfo_XP(vector<PROCINFO>& pi) {
             p.is_boinc_app = true;
         }
 #endif        
-        pi.push_back(p);
+        pm.insert(std::pair<int, PROCINFO>(p.id, p));
         if (!pProcesses->NextEntryDelta) {
             break;
         }
@@ -124,12 +124,13 @@ int get_procinfo_XP(vector<PROCINFO>& pi) {
     }
 
     if (pBuffer) HeapFree(GetProcessHeap(), NULL, pBuffer);
+    find_children(pm);
     return 0;
 }
 
 // get a list of all running processes.
 //
-int procinfo_setup(vector<PROCINFO>& pi) {
+int procinfo_setup(PROC_MAP& pm) {
     OSVERSIONINFO osvi; 
     osvi.dwOSVersionInfoSize = sizeof(osvi);
     GetVersionEx(&osvi);
@@ -141,62 +142,9 @@ int procinfo_setup(vector<PROCINFO>& pi) {
         // Win95, Win98, WinME
         return 0;   // not supported
     case VER_PLATFORM_WIN32_NT:
-        return get_procinfo_XP(pi);
+        return get_procinfo_XP(pm);
     }
     return 0;
-}
-
-// scan the process table from the given point,
-// adding in CPU time and mem usage
-// 
-void add_proc_totals(
-    PROCINFO& pi, vector<PROCINFO>& piv, int pid,
-    char* graphics_exec_file, int start
-) {
-	unsigned int i;
-	for (i=start; i<piv.size(); i++) {
-		PROCINFO& p = piv[i];
-		if (p.id == pid || p.parentid == pid) {
-			pi.kernel_time += p.kernel_time;
-			pi.user_time += p.user_time;
-			pi.swap_size += p.swap_size;
-			pi.working_set_size += p.working_set_size;
-			pi.page_fault_count += p.page_fault_count;
-			p.is_boinc_app = true;
-		}
-        if (!strcmp(p.command, graphics_exec_file)) {
-            p.is_boinc_app = true;
-        }
-		if (p.parentid == pid) {
-			add_proc_totals(pi, piv, p.id, graphics_exec_file, i+1);    // recursion - woo hoo!
-		}
-	}
-}
-
-// fill in the given PROCINFO (which initially is zero except for id)
-// with totals from that process and all its descendants
-//
-void procinfo_app(PROCINFO& pi, vector<PROCINFO>& piv, char* graphics_exec_file) {
-	add_proc_totals(pi, piv, pi.id, graphics_exec_file, 0);
-}
-
-// get totals of all processes that are not BOINC-related
-// and have priority higher than idle
-//
-void procinfo_other(PROCINFO& pi, vector<PROCINFO>& piv) {
-	unsigned int i;
-	memset(&pi, 0, sizeof(pi));
-	for (i=0; i<piv.size(); i++) {
-		PROCINFO& p = piv[i];
-        if (p.id == 0) continue; // PID 0 is idle process
-		if (p.is_boinc_app) continue;
-        if (p.is_low_priority) continue;
-
-        pi.kernel_time += p.kernel_time;
-        pi.user_time += p.user_time;
-        pi.swap_size += p.swap_size;
-        pi.working_set_size += p.working_set_size;
-	}
 }
 
 void kill_all(vector<int>& pids) {

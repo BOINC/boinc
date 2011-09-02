@@ -5488,3 +5488,25 @@ Rom    1 Sept 2011
         
     samples/vboxwrapper/
         vbox.cpp, .h
+
+David  2 Sept 2011
+    - client (and API and manager): change the data structure
+        used for system process info
+        Old: vector of PROCINFO.
+            Descendants of a process were found by recursively
+            iterating through the vector.
+            Operations are O(n)
+        New: map of (id, PROCINFO),
+            and each PROCINFO has a vector of its children.
+            Operations are O(log(n))
+        Also combined Mac/Win/Linux variants of code that
+        was essentially the same.
+
+    lib/
+        procinfo.cpp,h
+        procinfo_win.cpp
+        procinfo_unix.cpp
+        procinfo_mac.cpp
+    clientgui/
+        BOINCClientManager.cpp
+        BOINCGUIApp.cpp

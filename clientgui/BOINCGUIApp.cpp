@@ -1153,15 +1153,14 @@ int CBOINCGUIApp::SafeMessageBox(const wxString& message, const wxString& captio
 /// Note: will always return false on Win95, Win98, WinME
 /// 
 int CBOINCGUIApp::IsAnotherInstanceRunning() {
-    std::vector<PROCINFO> piv;
-    PROCINFO* pi;
+    PROC_MAP pm;
     int retval;
     char myName[256];
     int otherInstanceID = 0;
     int myPid;
 
     // Look for BOINC Manager in list of all running processes
-    retval = procinfo_setup(piv);
+    retval = procinfo_setup(pm);
     if (retval) return false;     // Should never happen
 
 #ifdef _WIN32
@@ -1172,10 +1171,11 @@ int CBOINCGUIApp::IsAnotherInstanceRunning() {
 
     // Get the name of this Application
     myName[0] = 0;
-    for (unsigned int i=0; i<piv.size(); i++) {
-        pi = &(piv[i]);
-        if (pi->id == myPid) {
-            strncpy(myName, pi->command, sizeof(myName));
+    PROC_MAP::iterator i;
+    for (i=pm.begin(); i!=pm.end(); i++) {
+        PROCINFO& pi = i->second;
+        if (pi.id == myPid) {
+            strncpy(myName, pi.command, sizeof(myName));
             break;
         }
     }
@@ -1185,11 +1185,11 @@ int CBOINCGUIApp::IsAnotherInstanceRunning() {
     }
     
     // Search process list for other applications with same name
-    for (unsigned int i=0; i<piv.size(); i++) {
-        pi = &(piv[i]);
-        if (pi->id == myPid) continue;
-        if (!strcmp(pi->command, myName)) {
-            otherInstanceID = pi->id;
+    for (i=pm.begin(); i!=pm.end(); i++) {
+        PROCINFO& pi = i->second;
+        if (pi.id == myPid) continue;
+        if (!strcmp(pi.command, myName)) {
+            otherInstanceID = pi.id;
             break;
         }
     }

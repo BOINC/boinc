@@ -181,7 +181,7 @@ bool CBOINCClientManager::IsBOINCCoreRunning() {
         }
     }
 #else
-    std::vector<PROCINFO> piv;
+    PROC_MAP pm;
     int retval;
 
     if (m_lBOINCCoreProcessId) {
@@ -192,11 +192,12 @@ bool CBOINCClientManager::IsBOINCCoreRunning() {
     }
 
     // Look for BOINC Client in list of all running processes
-    retval = procinfo_setup(piv);
+    retval = procinfo_setup(pm);
     if (retval) return false;     // Should never happen
     
-    for (unsigned int i=0; i<piv.size(); i++) {
-        PROCINFO& pi = piv[i];
+    PROC_MAP::iterator i;
+    for (i=pm.begin(); i!=pm.end(); i++) {
+        PROCINFO& pi = i->second;
         if (!strcmp(pi.command, "boinc")) {
             running = true;
             break;
@@ -423,7 +424,7 @@ void CBOINCClientManager::KillClient() {
 #else
 
 void CBOINCClientManager::KillClient() {
-    std::vector<PROCINFO> piv;
+    PROC_MAP pm;
     int retval;
     
     if (m_lBOINCCoreProcessId) {
@@ -431,11 +432,12 @@ void CBOINCClientManager::KillClient() {
         return;
     }
 
-    retval = procinfo_setup(piv);
+    retval = procinfo_setup(pm);
 	if (retval) return;     // Should never happen
     
-    for (unsigned int i=0; i<piv.size(); i++) {
-        PROCINFO& pi = piv[i];
+    PROC_MAP::iterator i;
+    for (i=pm.begin(); i!=pm.end(); i++) {
+        PROCINFO& pi = i->second;
         if (!strcmp(pi.command, "boinc")) {
             kill_program(pi.id);
             break;

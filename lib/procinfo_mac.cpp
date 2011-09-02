@@ -42,7 +42,7 @@ using std::vector;
 
 // build table of all processes in system
 //
-int procinfo_setup(vector<PROCINFO>& pi) {
+int procinfo_setup(PROC_MAP& pm) {
     int pid = getpid();
     FILE* fd;
     PROCINFO p;
@@ -146,7 +146,7 @@ int procinfo_setup(vector<PROCINFO>& pi) {
             }
             break;
         }
-        pi.push_back(p);
+        pm.insert(std::pair<int, PROCINFO>(p.id, p));
     }
     
     pclose(fd);
@@ -157,40 +157,6 @@ int procinfo_setup(vector<PROCINFO>& pi) {
     msg_printf(NULL, MSG_INFO, "elapsed time = %llu, m_swap = %lf\n", elapsed, gstate.host_info.m_swap);
 #endif
     
+    find_children(pm);
     return 0;
-}
-
-// Scan the process table adding in CPU time and mem usage. Loop
-// thru entire table as the entries aren't in order.  Recurse at
-// most 4 times to get additional child processes 
-//
-void add_proc_totals(PROCINFO& pi, vector<PROCINFO>& piv, int pid, char* graphics_exec_file, int start, int rlvl) {
-    unsigned int i;
-
-    if (rlvl > 4) {
-        return;
-    }
-    for (i=0; i<piv.size(); i++) {
-        PROCINFO& p = piv[i];
-		if (p.id == pid || p.parentid == pid) {
-            pi.user_time += p.user_time;
-            pi.swap_size += p.swap_size;
-            pi.working_set_size += p.working_set_size;
-            p.is_boinc_app = true;
-        }
-        if (!strcmp(p.command, graphics_exec_file)) {
-            p.is_boinc_app = true;
-        }
-        // look for child process of this one
-		if (p.parentid == pid) {
-			add_proc_totals(pi, piv, p.id, graphics_exec_file, i+1, rlvl+1);    // recursion - woo hoo!
-		}
-    }
-}
-
-// fill in the given PROCINFO (which initially is zero except for id)
-// with totals from that process and all its descendants
-//
-void procinfo_app(PROCINFO& pi, vector<PROCINFO>& piv, char* graphics_exec_file) {
-	add_proc_totals(pi, piv, pi.id, graphics_exec_file, 0, 0);
 }
