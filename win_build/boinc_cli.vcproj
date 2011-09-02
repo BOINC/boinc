@@ -86,7 +86,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="zlib1d.lib ssleay32.lib libeay32.lib libcurld_imp.lib nvapi.lib MSVCRTD.LIB MSVCPRTD.LIB wsock32.lib wininet.lib winmm.lib Iphlpapi.lib kernel32.lib user32.lib advapi32.lib sensapi.lib $(NOINHERIT)"
+				AdditionalDependencies="zlib1d.lib ssleay32.lib libeay32.lib libcurld_imp.lib nvapi.lib MSVCRTD.LIB MSVCPRTD.LIB wsock32.lib wininet.lib winmm.lib Iphlpapi.lib kernel32.lib user32.lib advapi32.lib sensapi.lib userenv.lib $(NOINHERIT)"
 				OutputFile=".\Build\$(PlatformName)\$(ConfigurationName)\boinc.exe"
 				LinkIncremental="2"
 				SuppressStartupBanner="true"
@@ -305,7 +305,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="zlib1.lib ssleay32.lib libeay32.lib libcurl_imp.lib nvapi.lib MSVCRT.LIB MSVCPRT.LIB wsock32.lib wininet.lib winmm.lib Iphlpapi.lib kernel32.lib user32.lib advapi32.lib sensapi.lib $(NOINHERIT)"
+				AdditionalDependencies="zlib1.lib ssleay32.lib libeay32.lib libcurl_imp.lib nvapi.lib MSVCRT.LIB MSVCPRT.LIB wsock32.lib wininet.lib winmm.lib Iphlpapi.lib kernel32.lib user32.lib advapi32.lib sensapi.lib userenv.lib $(NOINHERIT)"
 				ShowProgress="0"
 				OutputFile=".\Build\$(PlatformName)\$(ConfigurationName)\boinc.exe"
 				LinkIncremental="1"
