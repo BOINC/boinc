@@ -5560,3 +5560,9 @@ David  2 Sept 2011
     client/
         app.cpp,h
         app_control.cpp
+
+David  2 Sept 2011
+    - web: fix bug in add project prefs for a venue
+
+    html/user/
+        add_venue.php
