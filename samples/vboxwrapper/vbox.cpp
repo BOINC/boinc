@@ -665,10 +665,8 @@ int VBOX_VM::deregister_stale_vm() {
     uuid_location = output.find("(UUID: ");
     if (uuid_location != string::npos) {
         // We can parse the virtual machine ID from the output
-
         uuid_location += 7;
         uuid_length = output.find(")", uuid_location);
-
         vm_name = output.substr(uuid_location, uuid_length);
 
         // Deregister stale VM by UUID
@@ -898,5 +896,62 @@ int VBOX_VM::set_network_max_bytes_sec(double x) {
         return retval;
     }
     return 0;
+}
+
+
+int VBOX_VM::get_vm_process_id(long& process_id) {
+    string command;
+    string output;
+    string pid;
+    size_t pid_location;
+    size_t pid_length;
+    char buf[256];
+    int retval;
+
+    command  = "showvminfo \"" + vm_name + "\" ";
+    command += "--log 0 ";
+
+    retval = vbm_popen(command, output);
+    if (retval) {
+        fprintf(
+            stderr,
+            "%s Error getting process id from log file for virtual machine! rc = 0x%x\nCommand:\n%s\nOutput:\n%s\n",
+            boinc_msg_prefix(buf, sizeof(buf)),
+            retval,
+            command.c_str(),
+            output.c_str()
+        );
+        return retval;
+    }
+
+    // Output should look a little like this:
+    // VirtualBox 4.1.0 r73009 win.amd64 (Jul 19 2011 13:05:53) release log
+    // 00:00:06.008 Log opened 2011-09-01T23:00:59.829170900Z
+    // 00:00:06.008 OS Product: Windows 7
+    // 00:00:06.009 OS Release: 6.1.7601
+    // 00:00:06.009 OS Service Pack: 1
+    // 00:00:06.015 Host RAM: 4094MB RAM, available: 876MB
+    // 00:00:06.015 Executable: C:\Program Files\Oracle\VirtualBox\VirtualBox.exe
+    // 00:00:06.015 Process ID: 6128
+    // 00:00:06.015 Package type: WINDOWS_64BITS_GENERIC
+    // 00:00:06.015 Installed Extension Packs:
+    // 00:00:06.015   None installed!
+    //
+    pid_location = output.find("Process ID: ");
+    if (pid_location != string::npos) {
+        // We can parse the Process ID from the output
+        pid_location += 12;
+        pid_length = output.find("\n", pid_location);
+        pid = output.substr(pid_location, pid_length);
+
+        if (pid.size() > 0) {
+            process_id = atol(pid.c_str());
+            retval = 0;
+        } else {
+            retval = 1;
+        }
+    }
+
+    return retval;
 }
 

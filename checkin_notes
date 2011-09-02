@@ -5481,3 +5481,10 @@ David  1 Sept 2011
 
     samples/wrapper/
         wrapper.cpp
+
+Rom    1 Sept 2011
+    - VboxWrapper: Add a way to extract the VM process id from the VM's
+        log file.
+        
+    samples/vboxwrapper/
+        vbox.cpp, .h
