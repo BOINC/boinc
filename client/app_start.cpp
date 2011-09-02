@@ -84,7 +84,7 @@ using std::string;
 
 
 #ifdef _WIN32
-#include "proc_control.h"
+#include "run_app_windows.h"
 #endif
 
 #include "cs_proxy.h"

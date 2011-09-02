@@ -736,6 +736,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\lib\run_app_windows.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\client\sandbox.cpp"
 				>
 			</File>
@@ -890,6 +894,10 @@
 			</File>
 			<File
 				RelativePath="..\client\rr_sim.h"
+				>
+			</File>
+			<File
+				RelativePath="..\lib\run_app_windows.h"
 				>
 			</File>
 			<File

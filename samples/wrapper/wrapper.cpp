@@ -41,7 +41,7 @@
 #include <unistd.h>
 #endif
 
-#include "procinfo.h"
+#include "proc_control.h"
 #include "boinc_api.h"
 #include "diagnostics.h"
 #include "filesys.h"

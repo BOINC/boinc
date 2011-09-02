@@ -16,9 +16,19 @@
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <vector>
+#ifdef _WIN32
+#include "diagnostics.h"
+#ifdef __STDWX_H__
+#include "stdwx.h"
+#else
+#include "boinc_win.h"
+#include "win_util.h"
+#endif
+#else
 #include <sys/types.h>
 #include <sys/wait.h>
 #include <unistd.h>
+#endif
 
 #include "procinfo.h"
 
@@ -45,68 +55,6 @@ void get_descendants(int pid, vector<int>& pids) {
     retval = procinfo_setup(pm);
     if (retval) return;
     get_descendants_aux(pm, pid, pids);
-}
-
-bool any_process_exists(vector<int>& pids) {
-    int status;
-    for (unsigned int i=0; i<pids.size(); i++) {
-        if (waitpid(pids[i], &status, WNOHANG) >= 0) {
-            return true;
-        }
-    }
-    return false;
-}
-
-void kill_all(vector<int>& pids) {
-    for (unsigned int i=0; i<pids.size(); i++) {
-        kill(pids[i], SIGTERM);
-    }
-}
-
-// Kill the descendants of the calling process.
-//
-#ifdef _WIN32
-void kill_descendants() {
-    vector<int> descendants;
-    // on Win, kill descendants directly
-    //
-    get_descendants(GetCurrentProcessId(), descendants);
-    kill_all(descendants);
-}
-#else
-// Same, but if child_pid is nonzero, give it a chance to exit gracefully on Unix
-//
-void kill_descendants(int child_pid) {
-    vector<int> descendants;
-    // on Unix, ask main process nicely.
-    // it descendants still exist after 10 sec, use the nuclear option
-    //
-    get_descendants(getpid(), descendants);
-    if (child_pid) {
-        ::kill(child_pid, SIGTERM);
-        for (int i=0; i<10; i++) {
-            if (!any_process_exists(descendants)) {
-                return;
-            }
-            sleep(1);
-        }
-        kill_all(descendants);
-        // kill any processes that might have been created
-        // in the last 10 secs
-        get_descendants(getpid(), descendants);
-    }
-    kill_all(descendants);
-}
-#endif
-
-void suspend_or_resume_all(vector<int>& pids, bool resume) {
-    for (unsigned int i=0; i<pids.size(); i++) {
-#ifdef _WIN32
-        suspend_or_resume_threads(pids[i], 0, resume);
-#else
-        kill(pids[i], resume?SIGCONT:SIGSTOP);
-#endif
-    }
 }
 
 #ifdef _WIN32
@@ -167,7 +115,73 @@ int suspend_or_resume_threads(
 
     return 0;
 } 
+
+#else
+
+bool any_process_exists(vector<int>& pids) {
+    int status;
+    for (unsigned int i=0; i<pids.size(); i++) {
+        if (waitpid(pids[i], &status, WNOHANG) >= 0) {
+            return true;
+        }
+    }
+    return false;
+}
+
+void kill_all(vector<int>& pids) {
+    for (unsigned int i=0; i<pids.size(); i++) {
+        kill(pids[i], SIGTERM);
+    }
+}
 #endif
+
+// Kill the descendants of the calling process.
+//
+#ifdef _WIN32
+void kill_descendants() {
+    vector<int> descendants;
+    // on Win, kill descendants directly
+    //
+    get_descendants(GetCurrentProcessId(), descendants);
+    kill_all(descendants);
+}
+#else
+// Same, but if child_pid is nonzero, give it a chance to exit gracefully on Unix
+//
+void kill_descendants(int child_pid) {
+    vector<int> descendants;
+    // on Unix, ask main process nicely.
+    // it descendants still exist after 10 sec, use the nuclear option
+    //
+    get_descendants(getpid(), descendants);
+    if (child_pid) {
+        ::kill(child_pid, SIGTERM);
+        for (int i=0; i<10; i++) {
+            if (!any_process_exists(descendants)) {
+                return;
+            }
+            sleep(1);
+        }
+        kill_all(descendants);
+        // kill any processes that might have been created
+        // in the last 10 secs
+        get_descendants(getpid(), descendants);
+    }
+    kill_all(descendants);
+}
+#endif
+
+void suspend_or_resume_all(vector<int>& pids, bool resume) {
+    for (unsigned int i=0; i<pids.size(); i++) {
+#ifdef _WIN32
+        suspend_or_resume_threads(pids[i], 0, resume);
+#else
+        kill(pids[i], resume?SIGCONT:SIGSTOP);
+#endif
+    }
+}
+
+
 
 // suspend/resume the descendants of the given process
 // (or if pid==0, the calling process)

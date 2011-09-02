@@ -44,7 +44,7 @@
 #include "error_numbers.h"
 #include "filesys.h"
 #ifdef _WIN32
-#include "proc_control.h"
+#include "run_app_windows.h"
 #endif
 
 #include "file_names.h"
