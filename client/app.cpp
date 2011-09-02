@@ -325,9 +325,13 @@ void ACTIVE_TASK_SET::get_memory_usage() {
 
         PROCINFO& pi = atp->procinfo;
         unsigned long last_page_fault_count = pi.page_fault_count;
-        memset(&pi, 0, sizeof(pi));
+        pi.clear();
         pi.id = atp->pid;
-        procinfo_app(pi, pm, atp->app_version->graphics_exec_file);
+        vector<int>* v = NULL;
+        if (atp->other_pids.size()>0) {
+            v = &(atp->other_pids);
+        }
+        procinfo_app(pi, v, pm, atp->app_version->graphics_exec_file);
         pi.working_set_size_smoothed = .5*pi.working_set_size_smoothed + pi.working_set_size;
 
         int pf = pi.page_fault_count - last_page_fault_count;

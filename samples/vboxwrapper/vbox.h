@@ -59,7 +59,7 @@ struct VBOX_VM {
     int set_network_access(bool enabled);
     int set_cpu_usage_fraction(double);
     int set_network_max_bytes_sec(double);
-    int get_vm_process_id(long& process_id);
+    int get_vm_process_id(int& process_id);
 
     static int initialize();
     static int generate_vm_root_dir(std::string& dir);

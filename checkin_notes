@@ -5526,3 +5526,37 @@ David  2 Sept 2011
         boinc_api.cpp
     client/
         app_control.cpp
+
+David  2 Sept 2011
+    - client/API/vboxwrapper:
+        add a mechanism so that apps can report sub-processes
+        that are not descendants (e.g., virtual machines)
+        These processes are then counted as part of the app,
+        not as "non-BOINC CPU time".
+        This fixes a bug where processing was incorrectly suspended
+        because CPU usage by VM apps exceeded the "CPU usage limit" pref.
+
+        Implementation:
+        - the PIDs of the processes in question
+            are passed from app to client via shared-memory,
+            in the app_status channel.
+            A new variant of boinc_report_app_status() supports this.
+        - the VBox wrapper queries the PID of the VM,
+            and reports it in this way.
+        - procinfo_app() includes a new argument: a list of PIDs
+            that are part of the app, although not ancestrally
+            related to the main process.
+        - in the client, ACTIVE_TASK now includes a vector "other_pids".
+            If this is nonempty, it's passed to procinfo_app().
+
+    lib/
+        procinfo.cpp,h
+    samples/
+        vboxwrapper/
+            vbox.cpp,h
+            vboxwrapper.cpp
+    api/
+        boinc_api.cpp,h
+    client/
+        app.cpp,h
+        app_control.cpp

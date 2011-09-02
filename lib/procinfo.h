@@ -37,6 +37,23 @@ struct PROCINFO {
 
 	double page_fault_rate;		// derived by higher-level code
     std::vector<int> children;
+
+    PROCINFO(){}
+    void clear() {
+        id = 0;
+        parentid = 0;
+        swap_size = 0;
+        working_set_size = 0;
+        working_set_size_smoothed = 0;
+        page_fault_count = 0;
+        user_time = 0;
+        kernel_time = 0;
+        is_boinc_app = false;
+        is_low_priority = false;
+        command[0] = 0;
+        page_fault_rate = 0;
+        children.clear();
+    }
 };
 
 typedef std::map<int, PROCINFO> PROC_MAP;
@@ -46,8 +63,12 @@ extern void find_children(PROC_MAP&);
 
 extern int procinfo_setup(PROC_MAP&);
 	// call this first to get data structure
-extern void procinfo_app(PROCINFO&, PROC_MAP&, char* graphics_exec_file);
-	// get mem usage for a given app (marks process as BOINC)
+
+extern void procinfo_app(
+    PROCINFO&, std::vector<int>* other_pids, PROC_MAP&, char* graphics_exec_file
+);
+	// get mem usage for a given app, and mark processes as BOINC
+
 extern void procinfo_non_boinc(PROCINFO&, PROC_MAP&);
 	// After getting info for all BOINC apps,
 	// call this to get info for everything else

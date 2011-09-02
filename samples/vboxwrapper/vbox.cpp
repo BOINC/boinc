@@ -899,7 +899,7 @@ int VBOX_VM::set_network_max_bytes_sec(double x) {
 }
 
 
-int VBOX_VM::get_vm_process_id(long& process_id) {
+int VBOX_VM::get_vm_process_id(int& process_id) {
     string command;
     string output;
     string pid;
@@ -924,7 +924,7 @@ int VBOX_VM::get_vm_process_id(long& process_id) {
         return retval;
     }
 
-    // Output should look a little like this:
+    // Output should look like this:
     // VirtualBox 4.1.0 r73009 win.amd64 (Jul 19 2011 13:05:53) release log
     // 00:00:06.008 Log opened 2011-09-01T23:00:59.829170900Z
     // 00:00:06.008 OS Product: Windows 7
@@ -938,20 +938,11 @@ int VBOX_VM::get_vm_process_id(long& process_id) {
     // 00:00:06.015   None installed!
     //
     pid_location = output.find("Process ID: ");
-    if (pid_location != string::npos) {
-        // We can parse the Process ID from the output
-        pid_location += 12;
-        pid_length = output.find("\n", pid_location);
-        pid = output.substr(pid_location, pid_length);
-
-        if (pid.size() > 0) {
-            process_id = atol(pid.c_str());
-            retval = 0;
-        } else {
-            retval = 1;
-        }
-    }
-
-    return retval;
+    if (pid_location == string::npos) return ERR_NOT_FOUND;
+    pid_location += 12;
+    pid_length = output.find("\n", pid_location);
+    pid = output.substr(pid_location, pid_length);
+    if (pid.size() <= 0) return ERR_NOT_FOUND;
+    process_id = atol(pid.c_str());
+    return 0;
 }
-

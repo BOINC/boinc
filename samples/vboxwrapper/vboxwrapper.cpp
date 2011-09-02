@@ -40,11 +40,11 @@
 #include "boinc_win.h"
 #include "win_util.h"
 #else
+#include <vector>
 #include <sys/wait.h>
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <stdio.h>
-#include <vector>
 #include <string>
 #include <unistd.h>
 #endif
@@ -59,6 +59,8 @@
 #include "error_numbers.h"
 #include "procinfo.h"
 #include "vbox.h"
+
+using std::vector;
 
 #define IMAGE_FILENAME "vm_image.vdi"
 #define JOB_FILENAME "vbox_job.xml"
@@ -207,6 +209,10 @@ int main(int argc, char** argv) {
 
     set_throttles(aid, vm);
 
+    bool have_vm_pid = false;
+    int vm_pid;
+    bool reported_vm_pid = false;
+
     while (1) {
         vm.poll();
         is_running = vm.is_running();
@@ -235,7 +241,21 @@ int main(int argc, char** argv) {
                 vm.resume();
             }
             elapsed_time += POLL_PERIOD;
-            boinc_report_app_status(elapsed_time, checkpoint_cpu_time, 0.0);
+            if (!have_vm_pid) {
+                retval = vm.get_vm_process_id(vm_pid);
+                if (!retval) {
+                    have_vm_pid = true;
+                }
+            }
+            if (have_vm_pid && !reported_vm_pid) {
+                vector<int> v;
+                v.push_back(vm_pid);
+                boinc_report_app_status_aux(
+                    elapsed_time, checkpoint_cpu_time, 0, &v
+                );
+            } else {
+                boinc_report_app_status(elapsed_time, checkpoint_cpu_time, 0);
+            }
             if (trickle_period) {
                 trickle_cpu_time += POLL_PERIOD;
                 if (trickle_cpu_time >= trickle_period) {
