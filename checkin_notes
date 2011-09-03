@@ -5582,3 +5582,10 @@ David  2 Sept 2011
     lib/
         proc_control.cpp
         procinfo_win.cpp
+
+David  2 Sept 2011
+	- web: when displaying a user's posts, limit the query to 1000
+		so the page doesn't exceed CPU limit
+
+	html/user/
+		forum_user_posts.php

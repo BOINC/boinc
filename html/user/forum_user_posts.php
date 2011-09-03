@@ -72,7 +72,7 @@ if ($logged_in_user) {
 }
 page_head(tra("Posts by %1", $user->name));
 
-$posts = BoincPost::enum("user=$userid order by id desc");
+$posts = BoincPost::enum("user=$userid order by id desc limit 1000");
 $n = 0;
 start_table();
 $options = get_output_options($logged_in_user);
