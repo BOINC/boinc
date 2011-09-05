@@ -196,10 +196,6 @@ struct SCHED_DB_RESULT : DB_RESULT {
     // the following used by the scheduler, but not stored in the DB
     //
     char wu_name[256];
-    double fpops_per_cpu_sec;
-    double fpops_cumulative;
-    double intops_per_cpu_sec;
-    double intops_cumulative;
     int units;      // used for granting credit by # of units processed
     int parse_from_client(XML_PARSER&);
     char platform_name[256];

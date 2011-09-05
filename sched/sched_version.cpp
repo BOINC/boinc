@@ -284,7 +284,22 @@ void estimate_flops_anon_platform() {
             && (havp->et.n > MIN_HOST_SAMPLES)
             && (havp->et.get_avg() > 0)
         ) {
+            // estimate FLOPS based on average elapsed time
+            //
             double new_flops = 1./havp->et.get_avg();
+
+            // cap this at 2*projected,
+            // in case we've had a bunch of short jobs recently
+            //
+            if (new_flops > 2*cav.host_usage.projected_flops) {
+                if (config.debug_version_select) {
+                    log_messages.printf(MSG_NORMAL,
+                        "[version] (%s) capping new_flops; %f > 2*%f\n",
+                        new_flops, cav.host_usage.projected_flops
+                    );
+                }
+                new_flops = 2*cav.host_usage.projected_flops;
+            }
             cav.rsc_fpops_scale = cav.host_usage.projected_flops/new_flops;
             cav.host_usage.projected_flops = new_flops;
             if (config.debug_version_select) {

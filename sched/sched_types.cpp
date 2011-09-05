@@ -1073,6 +1073,7 @@ int SCHED_DB_RESULT::write_to_client(FILE* fout) {
 
 int SCHED_DB_RESULT::parse_from_client(XML_PARSER& xp) {
     char buf[256];
+    double dtemp;
 
     // should be non-zero if exit_status is not found
     exit_status = ERR_NO_EXIT_STATUS;
@@ -1088,10 +1089,6 @@ int SCHED_DB_RESULT::parse_from_client(XML_PARSER& xp) {
         if (parse_double(buf, "<final_elapsed_time>", elapsed_time)) continue;
         if (parse_int(buf, "<exit_status>", exit_status)) continue;
         if (parse_int(buf, "<app_version_num>", app_version_num)) continue;
-        if (parse_double(buf, "<fpops_per_cpu_sec>", fpops_per_cpu_sec)) continue;
-        if (parse_double(buf, "<fpops_cumulative>", fpops_cumulative)) continue;
-        if (parse_double(buf, "<intops_per_cpu_sec>", intops_per_cpu_sec)) continue;
-        if (parse_double(buf, "<intops_cumulative>", intops_cumulative)) continue;
         if (match_tag(buf, "<file_info>")) {
             safe_strcat(xml_doc_out, buf);
             while (in.fgets(buf, sizeof(buf))) {
@@ -1119,6 +1116,12 @@ int SCHED_DB_RESULT::parse_from_client(XML_PARSER& xp) {
         if (match_tag(buf, "<ready_to_report/>")) continue;
         if (match_tag(buf, "<report_deadline>")) continue;
         if (match_tag(buf, "<wu_name>")) continue;
+
+        // deprecated stuff
+        if (parse_double(buf, "<fpops_per_cpu_sec>", dtemp)) continue;
+        if (parse_double(buf, "<fpops_cumulative>", dtemp)) continue;
+        if (parse_double(buf, "<intops_per_cpu_sec>", dtemp)) continue;
+        if (parse_double(buf, "<intops_cumulative>", dtemp)) continue;
 
         log_messages.printf(MSG_NORMAL,
             "RESULT::parse_from_client(): unrecognized: %s\n",

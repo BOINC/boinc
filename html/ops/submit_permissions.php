@@ -65,8 +65,10 @@ function handle_edit_form() {
     $user_id = get_int('user_id');
     $user = BoincUser::lookup_id($user_id);
     $usub = BoincUserSubmit::lookup_userid($user_id);
-    admin_page_head("Edit user job submission permissions for $user->name");
-    echo "<form action=submit_permissions.php>
+    admin_page_head("Set permissions for $user->name");
+    echo "
+        $user->name will be allowed to submit jobs for:
+        <form action=submit_permissions.php>
         <input type=hidden name=action value=edit_action>
         <input type=hidden name=user_id value=$user_id>
     ";
@@ -80,6 +82,7 @@ function handle_edit_form() {
     echo "<input type=radio name=all_apps value=1 $all_checked> All apps
         <br>
         <input type=radio name=all_apps value=0 $not_all_checked> Only selected apps:
+        <br>
     ";
     $apps = BoincApp::enum("deprecated=0");
     foreach ($apps as $app) {
@@ -89,6 +92,10 @@ function handle_edit_form() {
     }
     $q = (string) $usub->quota;
     echo "
+        <p>
+        <input type=checkbox name=submit_app_versions> Allowed to create new versions of the above apps
+        <p>
+        <input type=checkbox name=submit_apps> Allowed to create new apps
         <p>
         Quota: <input name=quota value=$q>
         <p>

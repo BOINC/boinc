@@ -5589,3 +5589,22 @@ David  2 Sept 2011
 
 	html/user/
 		forum_user_posts.php
+
+David  5 Sept
+    - web: fix warnings in forum pages
+    - scheduler: when using elapsed time stats to predict runtime,
+        cap the estimated FLOPS at twice the peak FLOPS;
+        otherwise, if a host has received a lot of very short jobs
+        recently, it will get a too-high FLOPS estimate and
+        will exceed the rsc_fpops_bound limit.
+
+    db/
+        boinc_db.h
+    sched/
+        sched_types.cpp,h
+        sched_version.cpp
+    html/
+        ops/
+            submit_permissions.php
+        inc/
+            forum.inc

@@ -197,7 +197,7 @@ function show_team_forum_title($forum, $thread=null, $link_thread=false) {
     echo "</span>";
 }
 
-function start_forum_table($headings, $extra) {
+function start_forum_table($headings, $extra=null) {
     $span = null;
     
     start_table($extra." width=\"100%\"");
