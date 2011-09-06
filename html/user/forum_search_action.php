@@ -146,7 +146,12 @@ $search_max_time = post_int("search_max_time");
 $search_forum = post_int("search_forum");
 $search_sort = post_int("search_sort");
 $search_list = explode(" ",$search_keywords);
-$min_timestamp = time() - ($search_max_time*3600*24);
+if ($search_max_time) {
+    $min_timestamp = time() - ($search_max_time*3600*24);
+} else {
+    $min_timestamp = 0;
+}
+
 $limit = 100;
 
 if ($search_forum==-1){

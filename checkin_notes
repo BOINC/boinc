@@ -5608,3 +5608,23 @@ David  5 Sept
             submit_permissions.php
         inc/
             forum.inc
+
+David  5 Sept
+    - scheduler RPC: add <override_file_present> element to
+        the <working_global_preferences> element in
+        scheduler RPC request
+        (tells the server that there's an override file).
+    - account manager RPC: add <working_global_preferences> element,
+        including the override flag.
+    - web: add "no time limit" option for forum search
+    - web: increase show-user-post query limit to 10000
+
+    lib/
+        prefs.cpp,h
+    client/
+        cs_prefs.cpp
+        acct_mgr.cpp
+    html/user/
+        forum_search.php
+        forum_search_action.php
+        forum_user_posts.php

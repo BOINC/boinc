@@ -170,6 +170,15 @@ int ACCT_MGR_OP::do_rpc(
             p->ended?1:0
         );
     }
+    MIOFILE mf;
+    mf.init_file(f);
+
+    // send working prefs
+    //
+    fprintf(f, "<working_global_preferences>\n");
+    gstate.global_prefs.write(mf);
+    fprintf(f, "</working_global_preferences>\n");
+
     if (boinc_file_exists(GLOBAL_PREFS_FILE_NAME)) {
         FILE* fprefs = fopen(GLOBAL_PREFS_FILE_NAME, "r");
         if (fprefs) {
@@ -177,8 +186,6 @@ int ACCT_MGR_OP::do_rpc(
             fclose(fprefs);
         }
     }
-    MIOFILE mf;
-    mf.init_file(f);
     gstate.host_info.write(mf, !config.suppress_net_info, true);
     if (strlen(gstate.acct_mgr_info.opaque)) {
         fprintf(f,

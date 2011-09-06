@@ -577,8 +577,7 @@ int GLOBAL_PREFS::parse_file(
 // This is used to write
 // 1) the app init data file
 // 2) GUI RPC get_state reply
-// Not used for scheduler request; there, we just copy the
-// global_prefs.xml file (which includes all venues).
+// 3) scheduler request (<working_global_preferences> element)
 //
 int GLOBAL_PREFS::write(MIOFILE& f) {
     f.printf(
@@ -614,7 +613,8 @@ int GLOBAL_PREFS::write(MIOFILE& f) {
         "   <max_bytes_sec_down>%f</max_bytes_sec_down>\n"
         "   <cpu_usage_limit>%f</cpu_usage_limit>\n"
         "   <daily_xfer_limit_mb>%f</daily_xfer_limit_mb>\n"
-        "   <daily_xfer_period_days>%d</daily_xfer_period_days>\n",
+        "   <daily_xfer_period_days>%d</daily_xfer_period_days>\n"
+        "   <override_file_present>%d</override_file_present>\n",
         source_project,
         mod_time,
         run_on_batteries?1:0,
@@ -646,7 +646,8 @@ int GLOBAL_PREFS::write(MIOFILE& f) {
         max_bytes_sec_down,
         cpu_usage_limit,
         daily_xfer_limit_mb,
-        daily_xfer_period_days
+        daily_xfer_period_days,
+        override_file_present?1:0
     );
     if (max_ncpus) {
         f.printf("   <max_cpus>%d</max_cpus>\n", max_ncpus);

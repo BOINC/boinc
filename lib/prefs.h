@@ -169,6 +169,8 @@ struct GLOBAL_PREFS {
     char source_project[256];
     char source_scheduler[256];
     bool host_specific;
+        // an account manager can set this; if set, don't propagate
+    bool override_file_present;
 
     GLOBAL_PREFS();
     void defaults();

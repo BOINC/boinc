@@ -49,7 +49,8 @@ row2(tra("Search limits")."<br />
     <option value=\"30\" selected>".tra("%1 days", "30")."</option>
     <option value=\"90\">".tra("%1 months", "3")."</option>
     <option value=\"180\">".tra("%1 months", "6")."</option>
-    <option value=\"360\">".tra("1 year")."</option>
+    <option value=\"365\">".tra("1 year")."</option>
+    <option value=\"0\">".tra("no limit")."</option>
     </select>");
 
 $forumid = null;

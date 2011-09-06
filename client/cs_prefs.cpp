@@ -431,6 +431,7 @@ void CLIENT_STATE::read_global_prefs(
 
     // read the override file
     //
+    global_prefs.override_file_present = false;
     if (override_fname) {
         f = fopen(override_fname, "r");
         if (f) {
@@ -441,6 +442,7 @@ void CLIENT_STATE::read_global_prefs(
             global_prefs.parse_override(xp, "", found_venue, mask);
             msg_printf(NULL, MSG_INFO, "Reading preferences override file");
             fclose(f);
+            global_prefs.override_file_present = true;
         }
     }
 
