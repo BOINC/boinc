@@ -6,14 +6,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
-"POT-Creation-Date: 2010-10-06 13:10 PDT\n"
-"PO-Revision-Date: 2011-06-03 08:43+0200\n"
+"POT-Creation-Date: 2011-08-25 15:10 PDT\n"
+"PO-Revision-Date: 2011-08-08 15:43+0200\n"
 "Last-Translator: Sami Nordlund <sami.nordlund@kolumbus.fi>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: fi\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: fi\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Pootle 2.1.1\n"
 "X-Poedit-SourceCharset: utf-8\n"
@@ -24,38 +24,63 @@ msgstr "English"
 msgid "LANG_NAME_INTERNATIONAL"
 msgstr "English"
 
-#: ../inc/forum.inc:124
+#: ../inc/forum.inc:37
+msgid "Oldest first"
+msgstr ""
+
+#: ../inc/forum.inc:38 ../inc/forum.inc:44
+msgid "Newest first"
+msgstr ""
+
+#: ../inc/forum.inc:39
+msgid "Highest rated posts first"
+msgstr ""
+
+#: ../inc/forum.inc:41
+msgid "Newest post first"
+msgstr ""
+
+#: ../inc/forum.inc:42
+msgid "Most views first"
+msgstr ""
+
+#: ../inc/forum.inc:43
+msgid "Most posts first"
+msgstr ""
+
+#: ../inc/forum.inc:125
 msgid "Search for words in forum messages"
 msgstr "Etsi sanoja foorumin viesteistä"
 
-#: ../inc/forum.inc:124
+#: ../inc/forum.inc:125
 msgid "Search forums"
 msgstr "Hae foorumeista"
 
-#: ../inc/forum.inc:125
+#: ../inc/forum.inc:126
 msgid "Advanced search"
 msgstr "Tarkennettu haku"
 
-#: ../inc/forum.inc:131 ../inc/user.inc:251 ../user/pm.php:64
-#: ../user/pm.php:129
+#: ../inc/forum.inc:132 ../inc/user.inc:251 ../user/pm.php:69
+#: ../user/pm.php:133
 msgid "Private messages"
 msgstr "Yksityisviestit"
 
-#: ../inc/forum.inc:149 ../user/forum_forum.php:69 ../user/sample_index.php:72
+#: ../inc/forum.inc:151 ../user/forum_forum.php:71
+#: ../user/sample_index.php:112
 msgid "Questions and Answers"
 msgstr "Kysymykset ja vastaukset"
 
-#: ../inc/forum.inc:149 ../inc/forum.inc:182 ../inc/user.inc:248
-#: ../inc/user.inc:370 ../user/forum_forum.php:72 ../user/sample_index.php:71
-#: ../project.sample/project.inc:49
+#: ../inc/forum.inc:151 ../inc/forum.inc:183 ../inc/user.inc:248
+#: ../inc/user.inc:371 ../user/forum_forum.php:74 ../user/sample_index.php:111
+#: ../project.sample/project.inc:46
 msgid "Message boards"
 msgstr "Keskustelupalstat"
 
-#: ../inc/forum.inc:186 ../inc/forum.inc:194
+#: ../inc/forum.inc:187 ../inc/forum.inc:195
 msgid "%1 message board"
 msgstr "%1 keskustelupalsta"
 
-#: ../inc/forum.inc:1056
+#: ../inc/forum.inc:1077
 msgid ""
 "In order to create a new thread in %1 you must have a certain amount of "
 "credit. This is to prevent and protect against abuse of the system."
@@ -63,7 +88,7 @@ msgstr ""
 "Uuden viestiketjun aloittamiseksi tällä palstalla (%1) sinulla pitää olla "
 "tietty määrä pisteitä. Tällä pyritään estämään järjestelmän väärinkäytökset."
 
-#: ../inc/forum.inc:1063
+#: ../inc/forum.inc:1084
 msgid ""
 "You cannot create any more threads right now. Please wait a while before "
 "trying again. This delay has been enforced to protect against abuse of the "
@@ -72,35 +97,35 @@ msgstr ""
 "Et voi juuri nyt lisätä viestiketjuja. Odota hetken aikaa ennen kuin yrität "
 "uudelleen. Viive johtuu pyrkimyksestä estää järjestelmän väärinkäytökset."
 
-#: ../inc/forum.inc:1102
+#: ../inc/forum.inc:1124
 msgid "Thread"
 msgstr "Viestiketju"
 
-#: ../inc/forum.inc:1102 ../inc/team.inc:120 ../user/forum_forum.php:135
-#: ../user/forum_index.php:93
+#: ../inc/forum.inc:1125 ../inc/team.inc:120 ../user/forum_forum.php:137
+#: ../user/forum_index.php:94
 msgid "Posts"
 msgstr "Viestit"
 
-#: ../inc/forum.inc:1102 ../user/forum_forum.php:135
-#: ../user/forum_reply.php:112 ../user/forum_report_post.php:80
-#: ../user/forum_thread.php:193
+#: ../inc/forum.inc:1126 ../user/forum_forum.php:138
+#: ../user/forum_reply.php:115 ../user/forum_report_post.php:75
+#: ../user/forum_thread.php:265
 msgid "Author"
 msgstr "Kirjoittaja"
 
-#: ../inc/forum.inc:1102 ../user/forum_forum.php:135
+#: ../inc/forum.inc:1127 ../user/forum_forum.php:139
 msgid "Views"
 msgstr "Katsottu"
 
-#: ../inc/forum.inc:1102 ../inc/team.inc:120 ../user/forum_forum.php:135
-#: ../user/forum_index.php:93
+#: ../inc/forum.inc:1128 ../inc/team.inc:120 ../user/forum_forum.php:140
+#: ../user/forum_help_desk.php:46 ../user/forum_index.php:95
 msgid "Last post"
 msgstr "Viimeisin viesti"
 
-#: ../inc/forum.inc:1174
+#: ../inc/forum.inc:1201
 msgid "Mark all threads as read"
 msgstr "Merkitse kaikki ketjut luetuiksi"
 
-#: ../inc/forum.inc:1174
+#: ../inc/forum.inc:1201
 msgid "Mark all threads in all message boards as 'read'."
 msgstr "Merkitse kaikkien palstojen kaikki viestit luetuiksi."
 
@@ -112,20 +137,21 @@ msgstr "Ei konetta"
 msgid "Unavailable"
 msgstr "Ei saatavissa"
 
-#: ../inc/host.inc:55 ../inc/prefs.inc:618 ../inc/prefs.inc:1018
+#: ../inc/host.inc:55 ../inc/prefs.inc:626 ../inc/prefs.inc:1026
 msgid "Home"
 msgstr "Koti"
 
-#: ../inc/host.inc:56 ../inc/prefs.inc:620 ../inc/prefs.inc:1019
-#: ../user/server_status.php:296
+#: ../inc/host.inc:56 ../inc/prefs.inc:628 ../inc/prefs.inc:1027
+#: ../user/server_status.php:319
 msgid "Work"
 msgstr "Työ"
 
-#: ../inc/host.inc:57 ../inc/prefs.inc:619 ../inc/prefs.inc:1020
+#: ../inc/host.inc:57 ../inc/prefs.inc:627 ../inc/prefs.inc:1028
 msgid "School"
 msgstr "Koulu"
 
-#: ../inc/host.inc:59
+#: ../inc/host.inc:59 ../user/edit_forum_preferences_form.php:173
+#: ../user/edit_forum_preferences_form.php:174
 msgid "Update"
 msgstr "Päivitä"
 
@@ -161,12 +187,12 @@ msgstr "Paikallinen normaaliaika"
 msgid "UTC %1 hours"
 msgstr "UTC %1 tuntia"
 
-#: ../inc/host.inc:98 ../inc/host.inc:612 ../inc/result.inc:379
-#: ../inc/team.inc:202 ../inc/team.inc:345 ../inc/user.inc:202
-#: ../user/account_finish.php:40 ../user/create_account_form.php:84
-#: ../user/team_admins.php:60 ../user/team_change_founder_form.php:75
-#: ../user/team_email_list.php:62 ../user/top_users.php:47
-#: ../user/user_search.php:102 ../user/user_search.php:158
+#: ../inc/host.inc:98 ../inc/host.inc:612 ../inc/result.inc:419
+#: ../inc/team.inc:202 ../inc/team.inc:350 ../inc/user.inc:200
+#: ../user/account_finish.php:41 ../user/create_account_form.php:87
+#: ../user/team_admins.php:62 ../user/team_change_founder_form.php:77
+#: ../user/team_email_list.php:64 ../user/top_users.php:49
+#: ../user/user_search.php:104 ../user/user_search.php:160
 msgid "Name"
 msgstr "Nimi"
 
@@ -178,23 +204,24 @@ msgstr "Omistaja"
 msgid "Anonymous"
 msgstr "Anonyymi"
 
-#: ../inc/host.inc:108 ../inc/result.inc:381
+#: ../inc/host.inc:108 ../inc/result.inc:421
 msgid "Created"
 msgstr "Luotu"
 
 #: ../inc/host.inc:109 ../inc/host.inc:217 ../inc/host.inc:222
 #: ../inc/host.inc:621 ../inc/team.inc:94 ../inc/team.inc:207
-#: ../inc/team.inc:212 ../inc/team.inc:214 ../inc/team.inc:351
-#: ../inc/team.inc:356 ../inc/user.inc:122 ../inc/user.inc:136
-#: ../user/team_change_founder_form.php:76 ../user/team_email_list.php:62
-#: ../user/team_remove_inactive_form.php:39 ../user/top_users.php:52
-#: ../user/top_users.php:57 ../user/user_search.php:102
-#: ../user/user_search.php:158
+#: ../inc/team.inc:212 ../inc/team.inc:214 ../inc/team.inc:356
+#: ../inc/team.inc:361 ../inc/user.inc:122 ../inc/user.inc:136
+#: ../user/profile_search_action.php:43
+#: ../user/team_change_founder_form.php:78 ../user/team_email_list.php:64
+#: ../user/team_remove_inactive_form.php:41 ../user/top_users.php:54
+#: ../user/top_users.php:59 ../user/user_search.php:104
+#: ../user/user_search.php:160
 msgid "Total credit"
 msgstr "Kokonaispisteet"
 
-#: ../inc/host.inc:110 ../inc/user.inc:122 ../user/team_search.php:67
-#: ../user/user_search.php:102 ../user/user_search.php:158
+#: ../inc/host.inc:110 ../inc/user.inc:122 ../user/team_search.php:70
+#: ../user/user_search.php:104 ../user/user_search.php:160
 msgid "Average credit"
 msgstr "Keskim. pisteet"
 
@@ -274,8 +301,9 @@ msgstr "Keskimääräinen lähetysnopeus"
 msgid "%1 KB/sec"
 msgstr "%1 Kt/s"
 
-#: ../inc/host.inc:153 ../inc/host.inc:160 ../inc/result.inc:152
-#: ../inc/result.inc:162 ../inc/result.inc:180 ../inc/result.inc:212
+#: ../inc/host.inc:153 ../inc/host.inc:160 ../inc/result.inc:192
+#: ../inc/result.inc:202 ../inc/result.inc:220 ../inc/result.inc:252
+#: ../user/explain_state.php:56 ../user/host_app_versions.php:29
 msgid "Unknown"
 msgstr "Tuntematon"
 
@@ -283,11 +311,12 @@ msgstr "Tuntematon"
 msgid "Average download rate"
 msgstr "Keskimääräinen latausnopeus"
 
-#: ../inc/host.inc:163
+#: ../inc/host.inc:163 ../user/host_app_versions.php:65
 msgid "Average turnaround time"
 msgstr "Keskimääräinen läpimenoaika"
 
-#: ../inc/host.inc:163
+#: ../inc/host.inc:163 ../user/forum_search.php:46 ../user/forum_search.php:47
+#: ../user/forum_search.php:48 ../user/forum_search.php:49
 msgid "%1 days"
 msgstr "%1 päivää"
 
@@ -295,7 +324,7 @@ msgstr "%1 päivää"
 msgid "Application details"
 msgstr "Sovellustiedot"
 
-#: ../inc/host.inc:165 ../inc/result.inc:420
+#: ../inc/host.inc:165
 msgid "Show"
 msgstr "Näytä"
 
@@ -354,8 +383,8 @@ msgstr "Sulauta"
 msgid "Computer info"
 msgstr "Tietokoneen tiedot"
 
-#: ../inc/host.inc:212 ../inc/host.inc:616 ../inc/team.inc:344
-#: ../user/top_users.php:46
+#: ../inc/host.inc:212 ../inc/host.inc:616 ../inc/team.inc:349
+#: ../user/top_users.php:48
 msgid "Rank"
 msgstr "Sija"
 
@@ -364,15 +393,16 @@ msgid "Avg. credit"
 msgstr "Keskim. pisteet"
 
 #: ../inc/host.inc:221 ../inc/team.inc:95 ../inc/team.inc:208
-#: ../inc/team.inc:217 ../inc/team.inc:219 ../inc/team.inc:350
-#: ../inc/team.inc:355 ../inc/user.inc:137
-#: ../user/team_change_founder_form.php:77 ../user/team_email_list.php:62
-#: ../user/team_remove_inactive_form.php:40 ../user/top_users.php:51
-#: ../user/top_users.php:56
+#: ../inc/team.inc:217 ../inc/team.inc:219 ../inc/team.inc:355
+#: ../inc/team.inc:360 ../inc/user.inc:137
+#: ../user/team_change_founder_form.php:79 ../user/team_email_list.php:64
+#: ../user/team_remove_inactive_form.php:42 ../user/top_users.php:53
+#: ../user/top_users.php:58
 msgid "Recent average credit"
 msgstr "Lähiajan keskim. pisteet"
 
-#: ../inc/host.inc:227 ../inc/host.inc:624 ../inc/result.inc:42
+#: ../inc/host.inc:227 ../inc/host.inc:624 ../inc/result.inc:45
+#: ../user/host_app_versions.php:25
 msgid "CPU"
 msgstr "CPU"
 
@@ -427,7 +457,7 @@ msgstr "Uuden koneen pisteitä ei voitu päivittää"
 
 #: ../inc/host.inc:567
 msgid "Couldn't update results"
-msgstr ""
+msgstr "Tuloksia ei voitu päivittää"
 
 #: ../inc/host.inc:572
 msgid "Couldn't retire old computer"
@@ -449,7 +479,7 @@ msgstr "Kaikki tietokoneet"
 msgid "Only computers active in past 30 days"
 msgstr "Vain kuukauden aikana yhteydessä olleet koneet"
 
-#: ../inc/host.inc:609 ../inc/result.inc:388
+#: ../inc/host.inc:609 ../inc/result.inc:428
 msgid "Computer ID"
 msgstr "Tietokoneen tunniste"
 
@@ -469,73 +499,69 @@ msgstr "Sulauta koneet nimien mukaan"
 msgid "Comment"
 msgstr "Kommentti"
 
-#: ../inc/news.inc:102
+#: ../inc/news.inc:111
 #, php-format
 msgid "News is available as an %sRSS feed%s"
 msgstr "Uutiset saatavana %sRSS-syötteenä%s"
 
-#: ../inc/pm.inc:25 ../inc/pm.inc:178 ../user/pm.php:64 ../user/pm.php:144
+#: ../inc/pm.inc:25 ../inc/pm.inc:174 ../user/pm.php:69 ../user/pm.php:148
 msgid "Inbox"
 msgstr "Saapuneet"
 
-#: ../inc/pm.inc:26 ../inc/pm.inc:182
+#: ../inc/pm.inc:26 ../inc/pm.inc:178
 msgid "Write"
 msgstr "Kirjoita"
 
-#: ../inc/pm.inc:33 ../inc/user.inc:373
+#: ../inc/pm.inc:33 ../inc/user.inc:374
 msgid "Send private message"
 msgstr "Lähetä yksityisviesti"
 
-#: ../inc/pm.inc:35 ../inc/pm.inc:38 ../inc/pm.inc:92
-#: ../user/forum_edit.php:99 ../user/forum_edit.php:102
-#: ../user/forum_edit.php:145 ../user/forum_post.php:62
-#: ../user/forum_post.php:88 ../user/forum_post.php:91
-#: ../user/forum_post.php:129 ../user/forum_reply.php:75
-#: ../user/forum_reply.php:104 ../user/forum_reply.php:107
-#: ../user/forum_reply.php:150 ../user/pm.php:175
+#: ../inc/pm.inc:35 ../inc/pm.inc:37 ../inc/pm.inc:89
+#: ../user/ffmail_form.php:59 ../user/forum_edit.php:99
+#: ../user/forum_edit.php:101 ../user/forum_edit.php:145
+#: ../user/forum_post.php:61 ../user/forum_post.php:87
+#: ../user/forum_post.php:89 ../user/forum_post.php:130
+#: ../user/forum_reply.php:77 ../user/forum_reply.php:106
+#: ../user/forum_reply.php:108 ../user/forum_reply.php:153 ../user/pm.php:181
 msgid "Preview"
 msgstr "Esikatselu"
 
-#: ../inc/pm.inc:85
+#: ../inc/pm.inc:82
 msgid "To"
 msgstr "Vastaanottaja"
 
-#: ../inc/pm.inc:85
+#: ../inc/pm.inc:82
 msgid "User IDs or unique usernames, separated with commas"
 msgstr "Käyttäjien tunnisteet tai nimet pilkulla erotettuna"
 
-#: ../inc/pm.inc:88 ../user/pm.php:85 ../user/pm.php:135
+#: ../inc/pm.inc:85 ../user/pm.php:90 ../user/pm.php:139
 msgid "Subject"
 msgstr "Otsikko"
 
-#: ../inc/pm.inc:89 ../user/forum_edit.php:128 ../user/forum_edit.php:133
-#: ../user/forum_post.php:118 ../user/forum_reply.php:112
-#: ../user/forum_report_post.php:80 ../user/forum_thread.php:193
-#: ../user/pm.php:85 ../user/pm.php:140
+#: ../inc/pm.inc:86 ../user/forum_edit.php:128 ../user/forum_edit.php:133
+#: ../user/forum_post.php:116 ../user/forum_reply.php:115
+#: ../user/forum_report_post.php:75 ../user/forum_thread.php:265
+#: ../user/pm.php:90 ../user/pm.php:144
 msgid "Message"
 msgstr "Viesti"
 
-#: ../inc/pm.inc:92
+#: ../inc/pm.inc:89
 msgid "Send message"
 msgstr "Lähetä viesti"
 
-#: ../inc/pm.inc:118
-msgid "- private message"
-msgstr "- yksityisviesti"
-
-#: ../inc/pm.inc:124
+#: ../inc/pm.inc:121
 msgid "sent you a private message; subject:"
 msgstr "lähetti sinulle yksityisviestin; otsikko:"
 
-#: ../inc/pm.inc:130
+#: ../inc/pm.inc:127
 msgid "Private message%1 from %2, subject:"
 msgstr "Yksityisviesti%1 käyttäjältä %2, otsikko:"
 
-#: ../inc/pm.inc:139
+#: ../inc/pm.inc:135
 msgid "Couldn't create message"
 msgstr "Viestin luonti ei onnistunut"
 
-#: ../inc/pm.inc:170
+#: ../inc/pm.inc:166
 msgid ""
 "You are not allowed to send privates messages so often. Please wait some "
 "time before sending more messages."
@@ -543,17 +569,18 @@ msgstr ""
 "Et voi lähettää yksityisviestejä näin usein. Odota hetken aikaa ennen kuin "
 "lähetät lisää viestejä."
 
-#: ../inc/pm.inc:180
+#: ../inc/pm.inc:176 ../user/forum_forum.php:186
 msgid "unread"
 msgstr "lukemattomat"
 
-#: ../inc/pm.inc:190
+#: ../inc/pm.inc:186
 msgid "For email notification, %1edit community prefs%2"
 msgstr "Sähköposti-ilmoituksen saamiseksi %1muokkaa yhteisöasetuksia%2"
 
-#: ../inc/pm.inc:202
-msgid "Private message from"
-msgstr "Yksityisviesti käyttäjältä"
+#: ../inc/pm.inc:198
+#, fuzzy
+msgid "Private message"
+msgstr "Yksityisviestit"
 
 #: ../inc/prefs.inc:76
 msgid ""
@@ -590,9 +617,10 @@ msgstr ""
 "koneissa mentäessä virransäästötilaan) %2"
 
 #: ../inc/prefs.inc:113
+#, fuzzy
 msgid ""
-"Suspend work if CPU usage is above %1 0 means no restriction<br>Enforced by "
-"version 6.10.30+ %2"
+"Suspend work when non-BOINC CPU usage is above %1 0 means no "
+"restriction<br>Enforced by version 6.10.30+ %2"
 msgstr ""
 "Hyllytä työ jos suorittimen käyttö on yli %1 0 tarkoittaa ei "
 "rajoitusta<br>versiosta 6.10.30+ %2"
@@ -679,15 +707,17 @@ msgid "Memory: when computer is not in use, use at most"
 msgstr "Muisti: koneen ollessa jouten, käytä enintään"
 
 #: ../inc/prefs.inc:217
+#, fuzzy
 msgid ""
 "Computer is connected to the Internet about every %1 Leave blank or 0 if "
-"always connected. %2 BOINC will try to maintain at least this much work. %3"
+"always connected. %2 BOINC will try to maintain at least this much work (max "
+"10 days). %3"
 msgstr ""
 "Kone on yhteydessä nettiin %1 Jätä tyhjäksi tai 0 jos yhteys on aina. %2 "
 "BOINC yrittää pitää vähintään tämän verran työtä. %3"
 
 #: ../inc/prefs.inc:223 ../inc/prefs.inc:228 ../inc/prefs.inc:270
-#: ../inc/util.inc:206
+#: ../inc/util.inc:236
 msgid "days"
 msgstr "päivää"
 
@@ -754,19 +784,23 @@ msgstr ""
 "osallistut kahteen BOINC-projektiin resurssijaolla 100 ja 200, ensimmäinen "
 "saa 1/3 koneen resursseista ja toinen 2/3. %2"
 
-#: ../inc/prefs.inc:300
+#: ../inc/prefs.inc:298
+msgid "Accelerate GPU tasks by dedicating a CPU to each one?"
+msgstr ""
+
+#: ../inc/prefs.inc:308
 msgid "Use CPU %1 Enforced by version 6.10+ %2"
 msgstr "Käytä keskusyksikköä %1 (versiosta 6.10+) %2"
 
-#: ../inc/prefs.inc:312
+#: ../inc/prefs.inc:320
 msgid "Use ATI GPU %1 Enforced by version 6.10+ %2"
 msgstr "Käytä ATI-näytönohjainta %1 (versiosta 6.10+) %2"
 
-#: ../inc/prefs.inc:324
+#: ../inc/prefs.inc:332
 msgid "Use NVIDIA GPU %1 Enforced by version 6.10+ %2"
 msgstr "käytä NVIDIA-näytönohjainta %1 (versiosta 6.10+) %2"
 
-#: ../inc/prefs.inc:338
+#: ../inc/prefs.inc:346
 msgid ""
 "Run test applications? %1 This helps us develop applications, but may cause "
 "jobs to fail on your computer %2"
@@ -774,40 +808,40 @@ msgstr ""
 "Ajetaanko testisovellukset? %1 Helpottaa sovellusten kehittämistä, mutta voi "
 "aiheuttaa ongelmia töiden kanssa %2"
 
-#: ../inc/prefs.inc:347
+#: ../inc/prefs.inc:355
 msgid ""
 "Emails will be sent from %1; make sure your spam filter accepts this address."
 msgstr ""
 "Sähköpostit lähetetään osoitteesta %1; varmista, että roskapostisuodatin "
 "hyväksyy tämän osoitteen."
 
-#: ../inc/prefs.inc:354
+#: ../inc/prefs.inc:362
 msgid "Is it OK for %1 and your team (if any) to email you?"
 msgstr "Saako %1 ja tiimisi (jos on) lähettää sinulle sähköpostia?"
 
-#: ../inc/prefs.inc:360
+#: ../inc/prefs.inc:368
 msgid "Should %1 show your computers on its web site?"
 msgstr "Saako %1 näyttää tietokoneesi nettisivullaan?"
 
-#: ../inc/prefs.inc:367
+#: ../inc/prefs.inc:375
 msgid "Disk and memory usage"
 msgstr "Levyn ja muistin käyttö"
 
-#: ../inc/prefs.inc:368
+#: ../inc/prefs.inc:376
 msgid "Processor usage"
 msgstr "Suorittimen käyttö"
 
-#: ../inc/prefs.inc:369
+#: ../inc/prefs.inc:377
 msgid "Network usage"
 msgstr "Verkon käyttö"
 
-#: ../inc/prefs.inc:372
+#: ../inc/prefs.inc:380
 msgid ""
 "These preferences apply to all the BOINC projects in which you participate."
 msgstr ""
 "Nämä asetukset vaikuttavat kaikkiin BOINC-projekteihin, joihin osallistut."
 
-#: ../inc/prefs.inc:375
+#: ../inc/prefs.inc:383
 msgid ""
 "%1Unable to update preferences.%2 The values marked in red below were out of "
 "range or not numeric."
@@ -815,85 +849,84 @@ msgstr ""
 "%1Asetusten päivitys ei onnistu.%2 Punaisella merkityt arvot ovat "
 "virheellisiä tai ne eivät ole numeerisia."
 
-#: ../inc/prefs.inc:424
+#: ../inc/prefs.inc:432
 msgid "bad venue: %1"
 msgstr "väärä paikka: %1"
 
-#: ../inc/prefs.inc:430
+#: ../inc/prefs.inc:438
 msgid "bad subset: %1"
 msgstr "väärä osajoukko: %1"
 
-#: ../inc/prefs.inc:617
+#: ../inc/prefs.inc:625
 msgid "Default"
 msgstr "Oletus"
 
-#: ../inc/prefs.inc:649 ../inc/prefs.inc:652 ../inc/prefs.inc:995
-#: ../inc/prefs_util.inc:93 ../inc/prefs_util.inc:108
-#: ../project.sample/project_specific_prefs.inc:74
+#: ../inc/prefs.inc:657 ../inc/prefs.inc:660 ../inc/prefs.inc:1003
+#: ../inc/prefs_util.inc:93 ../project.sample/project_specific_prefs.inc:74
 msgid "yes"
 msgstr "kyllä"
 
-#: ../inc/prefs.inc:649 ../inc/prefs.inc:652 ../inc/prefs.inc:997
-#: ../inc/prefs_util.inc:93 ../inc/prefs_util.inc:112
-#: ../project.sample/project_specific_prefs.inc:76
+#: ../inc/prefs.inc:657 ../inc/prefs.inc:660 ../inc/prefs.inc:1005
+#: ../inc/prefs_util.inc:93 ../project.sample/project_specific_prefs.inc:76
 msgid "no"
 msgstr "ei"
 
-#: ../inc/prefs.inc:657
+#: ../inc/prefs.inc:665
 msgid "no limit"
 msgstr "ei rajoitusta"
 
-#: ../inc/prefs.inc:682 ../user/team_admins.php:77
+#: ../inc/prefs.inc:690 ../user/team_admins.php:79
 msgid "Add"
 msgstr "Lisää"
 
-#: ../inc/prefs.inc:683 ../inc/prefs.inc:685
+#: ../inc/prefs.inc:691 ../inc/prefs.inc:693
 msgid "Edit"
 msgstr "Muokkaa"
 
-#: ../inc/prefs.inc:684 ../inc/prefs.inc:810 ../user/team_admins.php:32
+#: ../inc/prefs.inc:692 ../inc/prefs.inc:818
+#: ../user/edit_forum_preferences_form.php:161 ../user/team_admins.php:34
 msgid "Remove"
 msgstr "Poista"
 
-#: ../inc/prefs.inc:790
+#: ../inc/prefs.inc:798 ../user/explain_state.php:94
 msgid "Computing"
 msgstr "Laskenta"
 
-#: ../inc/prefs.inc:801
+#: ../inc/prefs.inc:809
 msgid "Separate preferences for %1"
 msgstr "Erilliset asetukset paikalle %1"
 
-#: ../inc/prefs.inc:810 ../inc/prefs.inc:885
+#: ../inc/prefs.inc:818 ../inc/prefs.inc:893
 msgid "Edit preferences"
 msgstr "Muokkaa asetuksia"
 
-#: ../inc/prefs.inc:814
+#: ../inc/prefs.inc:822
 msgid "Add separate preferences for %1"
 msgstr "Lisää erilliset asetukset paikalle %1"
 
-#: ../inc/prefs.inc:822 ../inc/prefs.inc:867
+#: ../inc/prefs.inc:830 ../inc/prefs.inc:875
 msgid "(Switch View)"
 msgstr "(vaihda näkymää)"
 
-#: ../inc/prefs.inc:824 ../inc/prefs.inc:870
+#: ../inc/prefs.inc:832 ../inc/prefs.inc:878
 msgid "Combined preferences"
 msgstr "Yhdistetyt asetukset"
 
-#: ../inc/prefs.inc:829
+#: ../inc/prefs.inc:837
 msgid "Project specific settings"
 msgstr "Projektikohtaiset asetukset"
 
-#: ../inc/prefs.inc:837 ../inc/prefs.inc:879
+#: ../inc/prefs.inc:845 ../inc/prefs.inc:887
 msgid "Primary (default) preferences"
 msgstr "Ensisijaiset (oletus) asetukset"
 
-#: ../inc/prefs.inc:846 ../user/add_venue.php:43 ../user/add_venue.php:68
-#: ../user/prefs_edit.php:45 ../user/prefs_edit.php:71
-#: ../user/prefs_edit.php:100
+#: ../inc/prefs.inc:854 ../user/add_venue.php:43 ../user/add_venue.php:68
+#: ../user/prefs_edit.php:40 ../user/prefs_edit.php:65
+#: ../user/prefs_edit.php:93
 msgid "Edit %1 preferences"
 msgstr "Muokkaa %1 asetuksia"
 
-#: ../inc/prefs.inc:860
+#: ../inc/prefs.inc:868
 msgid ""
 "These apply to all BOINC projects in which you participate.<br>\n"
 "             On computers participating in multiple projects, the most "
@@ -903,27 +936,27 @@ msgstr ""
 "             Tuoreimpia asetuksia käytetään koneissa, jotka osallistuvat "
 "useisiin projekteihin."
 
-#: ../inc/prefs.inc:864
+#: ../inc/prefs.inc:872
 msgid "Preferences last modified:"
 msgstr "Asetuksia muokattu viimeksi:"
 
-#: ../inc/prefs.inc:914
+#: ../inc/prefs.inc:922
 msgid "Add preferences"
 msgstr "Lisää asetukset"
 
-#: ../inc/prefs.inc:918
+#: ../inc/prefs.inc:926
 msgid "Update preferences"
 msgstr "Päivitä asetukset"
 
-#: ../inc/prefs.inc:1006 ../inc/prefs.inc:1015
+#: ../inc/prefs.inc:1014 ../inc/prefs.inc:1023
 msgid "Default computer location"
 msgstr "Tietokoneen oletussijainti"
 
-#: ../inc/prefs.inc:1166
+#: ../inc/prefs.inc:1174
 msgid "Update failed: "
 msgstr "Päivitys epäonnistui: "
 
-#: ../inc/prefs_util.inc:314 ../inc/prefs_util.inc:324
+#: ../inc/prefs_util.inc:305 ../inc/prefs_util.inc:315
 msgid "and"
 msgstr "ja"
 
@@ -943,375 +976,385 @@ msgstr ""
 "Profiilisi on merkitty epätyydyttäväksi, joten se ei näy muille. Ole hyvä ja "
 "muuta sitä."
 
-#: ../inc/profile.inc:167 ../user/friend.php:103 ../user/friend.php:160
+#: ../inc/profile.inc:172 ../user/friend.php:105 ../user/friend.php:172
 msgid "Database error"
 msgstr "Tietokantavirhe"
 
-#: ../inc/profile.inc:187
+#: ../inc/profile.inc:192
+#, fuzzy
 msgid ""
 "To prevent spam, profiles of users with an average credit of less than %1 "
-"are displayed only to logged-in users.  We apologize for this inconvenience."
+"are displayed only to logged-in users. We apologize for this inconvenience."
 msgstr ""
 "Spämmin estämiseksi niiden käyttäjien profiilit, joiden keskim. pisteet ovat "
-"alle %1, näkyvät vain kirjautuneille käyttäjille.  Pahoittelemme "
-"mahdollista haittaa."
+"alle %1, näkyvät vain kirjautuneille käyttäjille.  Pahoittelemme mahdollista "
+"haittaa."
 
-#: ../inc/profile.inc:191
+#: ../inc/profile.inc:196
 msgid "User is banished"
 msgstr "Käyttäjä on torjuttu"
 
-#: ../inc/profile.inc:205
+#: ../inc/profile.inc:210
 msgid "No profile exists for that user ID."
 msgstr "Tällä käyttäjätunnuksella ei ole profiilia."
 
-#: ../inc/profile.inc:213 ../user/create_profile.php:309
+#: ../inc/profile.inc:218 ../user/create_profile.php:313
 msgid "Edit your profile"
 msgstr "Muokkaa profiilisia"
 
-#: ../inc/profile.inc:251
+#: ../inc/profile.inc:261
 msgid "Your feedback on this profile"
 msgstr "Palautteesi tästä profiilista"
 
-#: ../inc/profile.inc:253
+#: ../inc/profile.inc:263
 msgid "Recommend this profile for User of the Day:"
 msgstr "Suosittele tätä profiilia \"Päivän käyttäjäksi\":"
 
-#: ../inc/profile.inc:254
+#: ../inc/profile.inc:264
 msgid "I %1like%2 this profile"
 msgstr "Pidän %1tästä%2 profiilista"
 
-#: ../inc/profile.inc:257
+#: ../inc/profile.inc:267
 msgid "Alert administrators to an offensive profile:"
 msgstr "Kerro ylläpidolle loukkaavasta profiilista:"
 
-#: ../inc/profile.inc:258
+#: ../inc/profile.inc:268
 msgid "I %1do not like%2 this profile"
 msgstr "En %1pidä%2 tästä profiilista"
 
-#: ../inc/result.inc:29
+#: ../inc/result.inc:32
 msgid "Anonymous platform"
 msgstr "Anonyymi alusta"
 
-#: ../inc/result.inc:43
+#: ../inc/result.inc:46
 msgid "NVIDIA GPU"
 msgstr "NVIDIAn GPU"
 
-#: ../inc/result.inc:44
+#: ../inc/result.inc:47 ../user/host_app_versions.php:27
 msgid "ATI GPU"
 msgstr "ATIn GPU"
 
-#: ../inc/result.inc:51
+#: ../inc/result.inc:54
 msgid "Not in DB"
 msgstr "Ei tietokannassa"
 
-#: ../inc/result.inc:77
+#: ../inc/result.inc:80
 msgid "pending"
 msgstr "odottaa"
 
-#: ../inc/result.inc:99
+#: ../inc/result.inc:102 ../user/forum_search.php:59
 msgid "All"
 msgstr "Kaikki"
 
-#: ../inc/result.inc:100 ../inc/result.inc:120 ../inc/result.inc:159
+#: ../inc/result.inc:103 ../inc/result.inc:160 ../inc/result.inc:199
 msgid "In progress"
 msgstr "Laskennassa"
 
-#: ../inc/result.inc:101 ../user/workunit.php:64
+#: ../inc/result.inc:104 ../user/workunit.php:67
 msgid "Pending"
 msgstr "Odottavat"
 
-#: ../inc/result.inc:102 ../inc/result.inc:202
+#: ../inc/result.inc:105 ../inc/result.inc:242
 msgid "Valid"
 msgstr "Vahvistetut"
 
-#: ../inc/result.inc:103 ../inc/result.inc:205
+#: ../inc/result.inc:106 ../inc/result.inc:245
 msgid "Invalid"
 msgstr "Vahvistamattomat"
 
-#: ../inc/result.inc:104 ../inc/result.inc:145
+#: ../inc/result.inc:107 ../inc/result.inc:185
 msgid "Error"
 msgstr "Virheet"
 
-#: ../inc/result.inc:118 ../inc/result.inc:157
+#: ../inc/result.inc:158 ../inc/result.inc:197 ../user/explain_state.php:34
 msgid "Inactive"
 msgstr "Ei-aktiivinen"
 
-#: ../inc/result.inc:119 ../inc/result.inc:158
+#: ../inc/result.inc:159 ../inc/result.inc:198 ../user/explain_state.php:37
 msgid "Unsent"
 msgstr "Lähettämättä"
 
-#: ../inc/result.inc:125
+#: ../inc/result.inc:165
 msgid "Completed, waiting for validation"
 msgstr "Valmis, odottaa vahvistusta"
 
-#: ../inc/result.inc:126
+#: ../inc/result.inc:166
 msgid "Completed and validated"
 msgstr "Valmis ja vahvistettu"
 
-#: ../inc/result.inc:127
+#: ../inc/result.inc:167
 msgid "Completed, marked as invalid"
 msgstr "Valmis, merkattu virheelliseksi"
 
-#: ../inc/result.inc:128
+#: ../inc/result.inc:168
 msgid "Completed, can't validate"
 msgstr "Valmis, ei voida vahvistaa"
 
-#: ../inc/result.inc:129
+#: ../inc/result.inc:169
 msgid "Completed, validation inconclusive"
 msgstr "Valmis, vahvistus epäselvä"
 
-#: ../inc/result.inc:130
+#: ../inc/result.inc:170
 msgid "Completed, too late to validate"
 msgstr "Valmis, myöhästynyt vahvistamisesta"
 
-#: ../inc/result.inc:132
+#: ../inc/result.inc:172
 msgid "Completed"
 msgstr "Valmis"
 
-#: ../inc/result.inc:133 ../inc/result.inc:169
+#: ../inc/result.inc:173 ../inc/result.inc:209 ../user/explain_state.php:62
 msgid "Couldn't send"
 msgstr "Ei voitu lähettää"
 
-#: ../inc/result.inc:136 ../inc/result.inc:193
+#: ../inc/result.inc:176 ../inc/result.inc:233
 msgid "Cancelled by server"
 msgstr "Palvelimen peruuttama"
 
-#: ../inc/result.inc:139
+#: ../inc/result.inc:179
 msgid "Error while downloading"
 msgstr "Virhe latauksessa"
 
-#: ../inc/result.inc:141
+#: ../inc/result.inc:181
 msgid "Error while computing"
 msgstr "Virhe laskennassa"
 
-#: ../inc/result.inc:142
+#: ../inc/result.inc:182
 msgid "Error while uploading"
 msgstr "Virhe lähetyksessä"
 
-#: ../inc/result.inc:143 ../inc/result.inc:195
+#: ../inc/result.inc:183 ../inc/result.inc:235
 msgid "Aborted by user"
 msgstr "Käyttäjän keskeyttämä"
 
-#: ../inc/result.inc:146
+#: ../inc/result.inc:186
 msgid "Timed out - no response"
 msgstr "Aika loppui - ei vastausta"
 
-#: ../inc/result.inc:147 ../inc/result.inc:176
+#: ../inc/result.inc:187 ../inc/result.inc:216 ../user/explain_state.php:71
 msgid "Didn't need"
 msgstr "Ei tarvittu"
 
-#: ../inc/result.inc:148 ../inc/result.inc:177
+#: ../inc/result.inc:188 ../inc/result.inc:217 ../user/explain_state.php:74
 msgid "Validate error"
 msgstr "Vahvistusvirhe"
 
-#: ../inc/result.inc:149 ../inc/result.inc:178
+#: ../inc/result.inc:189 ../inc/result.inc:218
 msgid "Abandoned"
 msgstr "Hylätty"
 
-#: ../inc/result.inc:160
+#: ../inc/result.inc:200 ../user/explain_state.php:43
 msgid "Over"
 msgstr "Valmis"
 
-#: ../inc/result.inc:168
+#: ../inc/result.inc:208 ../user/explain_state.php:59
 msgid "Success"
 msgstr "Onnistui"
 
-#: ../inc/result.inc:172
+#: ../inc/result.inc:212
 msgid "Computation error"
 msgstr "Laskentavirhe"
 
-#: ../inc/result.inc:174
+#: ../inc/result.inc:214
 msgid "Redundant result"
 msgstr "Ylimääräinen"
 
-#: ../inc/result.inc:175
+#: ../inc/result.inc:215 ../user/explain_state.php:68
 msgid "No reply"
 msgstr "Ei vastausta"
 
-#: ../inc/result.inc:185
+#: ../inc/result.inc:225 ../user/explain_state.php:85
 msgid "New"
 msgstr "Uusi"
 
-#: ../inc/result.inc:186
+#: ../inc/result.inc:226 ../user/explain_state.php:91
 msgid "Downloading"
 msgstr "Ladataan"
 
-#: ../inc/result.inc:187
+#: ../inc/result.inc:227
 msgid "Processing"
 msgstr ""
 
-#: ../inc/result.inc:188
+#: ../inc/result.inc:228
 msgid "Compute error"
 msgstr "Laskentavirhe"
 
-#: ../inc/result.inc:189
+#: ../inc/result.inc:229 ../user/explain_state.php:97
 msgid "Uploading"
 msgstr "Lähetetään"
 
-#: ../inc/result.inc:190
+#: ../inc/result.inc:230 ../user/explain_state.php:88
 msgid "Done"
 msgstr "Valmis"
 
-#: ../inc/result.inc:201
+#: ../inc/result.inc:241
 msgid "Initial"
 msgstr "Alussa"
 
-#: ../inc/result.inc:207
+#: ../inc/result.inc:247
 msgid "Not necessary"
 msgstr "Ei tarvita"
 
-#: ../inc/result.inc:208
+#: ../inc/result.inc:248
 msgid "Workunit error - check skipped"
 msgstr "Työpakettivirhe - tarkistus ohitettu"
 
-#: ../inc/result.inc:209
+#: ../inc/result.inc:249
 msgid "Checked, but no consensus yet"
 msgstr "Ei vielä selvyyttä"
 
-#: ../inc/result.inc:210
+#: ../inc/result.inc:250
 msgid "Task was reported too late to validate"
 msgstr "Tehtävä raportoitiin liian myöhään vahvistettavaksi"
 
-#: ../inc/result.inc:218
+#: ../inc/result.inc:258
 msgid "Couldn't send result"
 msgstr "Tehtävää ei voitu lähettää"
 
-#: ../inc/result.inc:222
+#: ../inc/result.inc:262
 msgid "Too many errors (may have bug)"
 msgstr "Liian monta virhettä (mahdollisesti bugi)"
 
-#: ../inc/result.inc:226
+#: ../inc/result.inc:266
 msgid "Too many results (may be nondeterministic)"
 msgstr "Liian monta tehtävää (voi olla päättämätön)"
 
-#: ../inc/result.inc:230
+#: ../inc/result.inc:270
 msgid "Too many total results"
 msgstr "Liian monta tehtävää kaikkiaan"
 
-#: ../inc/result.inc:234
+#: ../inc/result.inc:274
 msgid "WU cancelled"
 msgstr "Työpaketti peruttu"
 
-#: ../inc/result.inc:238
+#: ../inc/result.inc:278
 msgid "Unrecognized Error: %1"
 msgstr "Tunnistamaton virhe: %1"
 
-#: ../inc/result.inc:265
+#: ../inc/result.inc:305
 msgid "Task name"
 msgstr "Tehtävänimi"
 
-#: ../inc/result.inc:265 ../inc/result.inc:270 ../inc/result.inc:273
-#: ../inc/result.inc:276
+#: ../inc/result.inc:305 ../inc/result.inc:310 ../inc/result.inc:313
+#: ../inc/result.inc:316
 msgid "click for details"
 msgstr "napsauta tietoihin"
 
-#: ../inc/result.inc:265
+#: ../inc/result.inc:305
 msgid "Show IDs"
 msgstr "Näytä tunnisteet"
 
-#: ../inc/result.inc:270
+#: ../inc/result.inc:310
 msgid "Show names"
 msgstr "Näytä nimet"
 
-#: ../inc/result.inc:273
+#: ../inc/result.inc:313
 msgid "Task"
 msgstr "Tehtävä"
 
-#: ../inc/result.inc:276
+#: ../inc/result.inc:316
 msgid "Work unit"
 msgstr "Työpaketti"
 
-#: ../inc/result.inc:279
+#: ../inc/result.inc:319
 msgid "Computer"
 msgstr "Tietokone"
 
-#: ../inc/result.inc:282 ../inc/result.inc:382
+#: ../inc/result.inc:322 ../inc/result.inc:422
 msgid "Sent"
 msgstr "Lähetetty"
 
-#: ../inc/result.inc:283
+#: ../inc/result.inc:323
 msgid "Time reported<br />or deadline"
 msgstr "Raportointiaika<br />tai takaraja"
 
-#: ../inc/result.inc:284
+#: ../inc/result.inc:324
 msgid "explain"
 msgstr "selite"
 
-#: ../inc/result.inc:286 ../user/server_status.php:226
+#: ../inc/result.inc:326 ../user/server_status.php:246
 msgid "Status"
 msgstr "Tila"
 
-#: ../inc/result.inc:287
+#: ../inc/result.inc:327
 msgid "Run time<br />(sec)"
 msgstr "Laskenta-aika<br />(sekuntia)"
 
-#: ../inc/result.inc:288
+#: ../inc/result.inc:328
 msgid "CPU time<br />(sec)"
 msgstr "Suoritinaika<br />(sekuntia)"
 
-#: ../inc/result.inc:289 ../inc/result.inc:393
+#: ../inc/result.inc:329 ../inc/result.inc:433
 msgid "Credit"
 msgstr "Pisteet"
 
-#: ../inc/result.inc:290
+#: ../inc/result.inc:330 ../inc/result.inc:515
 msgid "Application"
 msgstr "Sovellus"
 
-#: ../inc/result.inc:380
+#: ../inc/result.inc:420
 msgid "Workunit"
 msgstr "Työpaketti"
 
-#: ../inc/result.inc:383
+#: ../inc/result.inc:423
 msgid "Received"
 msgstr "Vastaanotettu"
 
-#: ../inc/result.inc:384
+#: ../inc/result.inc:424
 msgid "Server state"
 msgstr "Tila palvelimella"
 
-#: ../inc/result.inc:385
+#: ../inc/result.inc:425
 msgid "Outcome"
 msgstr "Tulos"
 
-#: ../inc/result.inc:386
+#: ../inc/result.inc:426
 msgid "Client state"
 msgstr "Tila ohjelmassa"
 
-#: ../inc/result.inc:387
+#: ../inc/result.inc:427
 msgid "Exit status"
 msgstr "Exit status"
 
-#: ../inc/result.inc:389
+#: ../inc/result.inc:429
 msgid "Report deadline"
 msgstr "Raportoinnin takaraja"
 
-#: ../inc/result.inc:390
+#: ../inc/result.inc:430
 msgid "Run time"
 msgstr "Laskenta-aika"
 
-#: ../inc/result.inc:391
+#: ../inc/result.inc:431
 msgid "CPU time"
 msgstr "Suoritinaika"
 
-#: ../inc/result.inc:392
+#: ../inc/result.inc:432
 msgid "Validate state"
 msgstr "Vahvistuksen tila"
 
-#: ../inc/result.inc:394
+#: ../inc/result.inc:434
 msgid "Application version"
 msgstr "Sovellusversio"
 
-#: ../inc/result.inc:396
+#: ../inc/result.inc:447
+msgid "Output files"
+msgstr ""
+
+#: ../inc/result.inc:450
 msgid "Stderr output"
 msgstr "Stderr output"
 
-#: ../inc/result.inc:409
+#: ../inc/result.inc:486
 msgid "Previous"
 msgstr "Edellinen"
 
-#: ../inc/result.inc:418
+#: ../inc/result.inc:495
 msgid "Next"
 msgstr "Seuraava"
+
+#: ../inc/result.inc:497
+#, fuzzy
+msgid "State"
+msgstr "Tila"
 
 #: ../inc/team.inc:33
 msgid "Search criteria (use one or more)"
@@ -1326,16 +1369,17 @@ msgid "Find teams with these words in their names or descriptions"
 msgstr "Etsi tiimejä, joiden nimessä tai kuvauksessa ovat nämä sanat"
 
 #: ../inc/team.inc:36 ../inc/team.inc:114 ../inc/team.inc:225
-#: ../inc/team.inc:360 ../inc/team.inc:444 ../inc/user.inc:208
-#: ../inc/user.inc:314 ../user/account_finish.php:44
-#: ../user/create_account_form.php:103 ../user/edit_user_info_form.php:38
-#: ../user/team_email_list.php:62 ../user/team_search.php:69
-#: ../user/top_users.php:61 ../user/user_search.php:102
-#: ../user/user_search.php:119 ../user/user_search.php:158
+#: ../inc/team.inc:365 ../inc/team.inc:449 ../inc/user.inc:206
+#: ../inc/user.inc:315 ../user/account_finish.php:45
+#: ../user/create_account_form.php:106 ../user/edit_user_info_form.php:40
+#: ../user/profile_search_action.php:42 ../user/team_email_list.php:64
+#: ../user/team_search.php:72 ../user/top_users.php:63
+#: ../user/user_search.php:104 ../user/user_search.php:121
+#: ../user/user_search.php:160
 msgid "Country"
 msgstr "Maa"
 
-#: ../inc/team.inc:42 ../inc/team.inc:442
+#: ../inc/team.inc:42 ../inc/team.inc:447
 msgid "Type of team"
 msgstr "Tiimin tyyppi"
 
@@ -1343,7 +1387,7 @@ msgstr "Tiimin tyyppi"
 msgid "Show only active teams"
 msgstr "Näytä vain aktiiviset tiimit"
 
-#: ../inc/team.inc:45 ../user/profile_menu.php:75 ../user/user_search.php:132
+#: ../inc/team.inc:45 ../user/profile_menu.php:77 ../user/user_search.php:134
 msgid "Search"
 msgstr "Hae"
 
@@ -1363,8 +1407,8 @@ msgstr "Sinun pyytämäsi"
 msgid "founder response deadline is %1"
 msgstr "perustajan vastauksen takaraja on %1"
 
-#: ../inc/team.inc:65 ../inc/team.inc:544 ../inc/user.inc:279
-#: ../inc/user.inc:366
+#: ../inc/team.inc:65 ../inc/team.inc:549 ../inc/user.inc:279
+#: ../inc/user.inc:367
 msgid "None"
 msgstr "Ei mikään"
 
@@ -1380,7 +1424,7 @@ msgstr "Lykätty"
 msgid "Team info"
 msgstr "Tiimin tiedot"
 
-#: ../inc/team.inc:82 ../user/team_forum.php:68 ../user/team_search.php:66
+#: ../inc/team.inc:82 ../user/team_forum.php:70 ../user/team_search.php:69
 msgid "Description"
 msgstr "Kuvaus"
 
@@ -1392,15 +1436,15 @@ msgstr "Nettisivu"
 msgid "Cross-project stats"
 msgstr "Projektikohtaiset tilastot"
 
-#: ../inc/team.inc:115 ../inc/team.inc:361 ../user/team_search.php:68
+#: ../inc/team.inc:115 ../inc/team.inc:366 ../user/team_search.php:71
 msgid "Type"
 msgstr "Tyyppi"
 
-#: ../inc/team.inc:119 ../user/team_manage.php:61
+#: ../inc/team.inc:119 ../user/team_manage.php:63
 msgid "Message board"
 msgstr "Keskustelupalsta"
 
-#: ../inc/team.inc:120 ../user/forum_forum.php:135 ../user/forum_index.php:93
+#: ../inc/team.inc:120 ../user/forum_forum.php:136 ../user/forum_index.php:93
 msgid "Threads"
 msgstr "Viestiketjut"
 
@@ -1432,11 +1476,11 @@ msgstr "Vastaus %1 mennessä"
 msgid "Team foundership change"
 msgstr "Tiimin perustajan vaihto"
 
-#: ../inc/team.inc:148 ../inc/team.inc:346
+#: ../inc/team.inc:148 ../inc/team.inc:351
 msgid "Members"
 msgstr "Jäsenet"
 
-#: ../inc/team.inc:149 ../inc/team.inc:241
+#: ../inc/team.inc:149 ../inc/team.inc:246
 msgid "Founder"
 msgstr "Perustaja"
 
@@ -1464,42 +1508,43 @@ msgstr "Aktiivisia jäseniä"
 msgid "Members with credit"
 msgstr "Jäsenet, joilla pisteitä"
 
-#: ../inc/team.inc:243
+#: ../inc/team.inc:248
 msgid "Admin"
 msgstr "Ylläpitäjä"
 
-#: ../inc/team.inc:264 ../user/top_hosts.php:91 ../user/top_teams.php:119
-#: ../user/top_users.php:125
+#: ../inc/team.inc:269 ../user/forum_user_posts.php:116
+#: ../user/top_hosts.php:93 ../user/top_teams.php:121
+#: ../user/top_users.php:127
 msgid "Previous %1"
 msgstr "Edelliset %1"
 
-#: ../inc/team.inc:268 ../user/top_hosts.php:96 ../user/top_teams.php:124
-#: ../user/top_users.php:130
+#: ../inc/team.inc:273 ../user/forum_user_posts.php:125
+#: ../user/profile_search_action.php:61 ../user/top_hosts.php:98
+#: ../user/top_teams.php:126 ../user/top_users.php:132
 msgid "Next %1"
 msgstr "Seuraavat %1"
 
-#: ../inc/team.inc:276
+#: ../inc/team.inc:281
 msgid "No such team."
 msgstr "Tiimiä ei ole."
 
-#: ../inc/team.inc:289
+#: ../inc/team.inc:294
 msgid "This operation requires foundership."
 msgstr "Toiminto vaatii perustajan oikeudet."
 
-#: ../inc/team.inc:313
+#: ../inc/team.inc:318
 msgid "This operation requires team admin privileges"
 msgstr "Toiminto vaatii ylläpitäjän oikeudet"
 
-#: ../inc/team.inc:410
+#: ../inc/team.inc:415
 msgid ""
 "WARNING: this is a BOINC-wide team. If you make changes here, they will soon "
 "be overwritten. Edit the %1BOINC-wide team%2 instead."
 msgstr ""
 "VAROITUS: tämä on BOINC-laajuinen tiimi. Jos teet muutoksia tässä, ne "
-"tulevat pian ylikirjoitetuksi. Muokkaa sen sijaan %1BOINC-laajuista tiimiä%"
-"2."
+"tulevat pian ylikirjoitetuksi. Muokkaa sen sijaan %1BOINC-laajuista tiimiä%2."
 
-#: ../inc/team.inc:417
+#: ../inc/team.inc:422
 msgid ""
 "%1Privacy note%2: if you create a team, your project preferences (resource "
 "share, graphics preferences) will be visible to the public."
@@ -1507,43 +1552,43 @@ msgstr ""
 "%1Yksityisyydestä%2: jos luot tiimin, projektisi asetukset (kuten resurssien "
 "jako) näkyvät kaikille."
 
-#: ../inc/team.inc:421
+#: ../inc/team.inc:426
 msgid "Team name, text version"
 msgstr "Tiimin nimi, tekstiversio"
 
-#: ../inc/team.inc:422
+#: ../inc/team.inc:427
 msgid "Don't use HTML tags."
 msgstr "Älä käytä HTML-tageja."
 
-#: ../inc/team.inc:425
+#: ../inc/team.inc:430
 msgid "Team name, HTML version"
 msgstr "Tiimin nimi, HTML-versio"
 
-#: ../inc/team.inc:427 ../inc/team.inc:437
+#: ../inc/team.inc:432 ../inc/team.inc:442
 msgid "You may use %1limited HTML tags%2."
 msgstr "Voit käyttää %1HTML-tageja rajoitetusti%2."
 
-#: ../inc/team.inc:428
+#: ../inc/team.inc:433
 msgid "If you don't know HTML, leave this box blank."
 msgstr "Jätä tämä kohta tyhjäksi, jos et osaa HTML:ää."
 
-#: ../inc/team.inc:431
+#: ../inc/team.inc:436
 msgid "URL of team web page, if any"
 msgstr "Tiimin nettisivun osoite, jos on"
 
-#: ../inc/team.inc:431
+#: ../inc/team.inc:436
 msgid "without \"http://\""
 msgstr "ilman \"http://\""
 
-#: ../inc/team.inc:432
+#: ../inc/team.inc:437
 msgid "This URL will be linked to from the team's page on this site."
 msgstr "Tämä URL linkitetään tiimin sivulta tälle sivulle."
 
-#: ../inc/team.inc:435
+#: ../inc/team.inc:440
 msgid "Description of team"
 msgstr "Tiimin kuvaus"
 
-#: ../inc/team.inc:451
+#: ../inc/team.inc:456
 msgid "Accept new members?"
 msgstr "Sallii uudet jäsenet?"
 
@@ -1580,8 +1625,8 @@ msgid "Pending credit"
 msgstr "Pisteitä odottavat"
 
 #: ../inc/user.inc:150 ../inc/user.inc:152 ../inc/user.inc:153
-#: ../inc/user.inc:241 ../inc/user.inc:322 ../inc/user.inc:397
-#: ../user/view_profile.php:54
+#: ../inc/user.inc:241 ../inc/user.inc:323 ../inc/user.inc:398
+#: ../user/view_profile.php:56
 msgid "View"
 msgstr "Katso"
 
@@ -1601,8 +1646,8 @@ msgstr "Projektikohtaiset tilastot"
 msgid "Account"
 msgstr "Tili"
 
-#: ../inc/user.inc:166 ../inc/user.inc:279 ../inc/user.inc:364
-#: ../inc/user.inc:366 ../user/user_search.php:102 ../user/user_search.php:158
+#: ../inc/user.inc:166 ../inc/user.inc:279 ../inc/user.inc:365
+#: ../inc/user.inc:367 ../user/user_search.php:104 ../user/user_search.php:160
 msgid "Team"
 msgstr "Tiimi"
 
@@ -1622,40 +1667,36 @@ msgstr "Tilastot kännykkääsi"
 msgid "Unknown notification type: %1"
 msgstr "Tuntematon vahvistus: %1"
 
-#: ../inc/user.inc:198
-msgid "Email address verification pending"
-msgstr "Sähköpostiosoitteen vahvistus odottaa"
-
-#: ../inc/user.inc:201
+#: ../inc/user.inc:199
 msgid "Account information"
 msgstr "Tilin tiedot"
 
-#: ../inc/user.inc:203 ../user/edit_passwd_form.php:46
-#: ../user/team_email_list.php:62
+#: ../inc/user.inc:201 ../user/edit_passwd_form.php:48
+#: ../user/get_passwd.php:40 ../user/team_email_list.php:64
 msgid "Email address"
 msgstr "Sähköpostiosoite"
 
-#: ../inc/user.inc:206 ../inc/user.inc:316
+#: ../inc/user.inc:204 ../inc/user.inc:317
 msgid "URL"
 msgstr "URL"
 
-#: ../inc/user.inc:209
+#: ../inc/user.inc:207
 msgid "Postal code"
 msgstr "Postinumero"
 
-#: ../inc/user.inc:210 ../inc/user.inc:313
+#: ../inc/user.inc:208 ../inc/user.inc:314
 msgid "%1 member since"
 msgstr "%1 jäsen alkaen"
 
-#: ../inc/user.inc:212
+#: ../inc/user.inc:210
 msgid "Change"
 msgstr "Vaihda"
 
-#: ../inc/user.inc:212
+#: ../inc/user.inc:210
 msgid "email address"
 msgstr "sähköpostiosoite"
 
-#: ../inc/user.inc:212
+#: ../inc/user.inc:211
 msgid "password"
 msgstr "salasana"
 
@@ -1663,11 +1704,7 @@ msgstr "salasana"
 msgid "other account info"
 msgstr "muu tilitieto"
 
-#: ../inc/user.inc:213
-msgid "Log out"
-msgstr "Kirjaudu ulos"
-
-#: ../inc/user.inc:214
+#: ../inc/user.inc:214 ../inc/user.inc:313
 msgid "User ID"
 msgstr "Käyttäjä-ID"
 
@@ -1683,7 +1720,7 @@ msgstr "Tilin avain"
 msgid "Provides full access to your account"
 msgstr "Sallii täydet oikeudet tiliisi"
 
-#: ../inc/user.inc:217 ../user/weak_auth.php:25
+#: ../inc/user.inc:217 ../user/weak_auth.php:27
 msgid "Weak account key"
 msgstr "Heikko tiliavain"
 
@@ -1707,7 +1744,7 @@ msgstr "Laskenta-asetukset"
 msgid "Message boards and private messages"
 msgstr "Keskustelupalsta ja yksityisviestit"
 
-#: ../inc/user.inc:228
+#: ../inc/user.inc:228 ../user/edit_forum_preferences_form.php:31
 msgid "Community preferences"
 msgstr "Yhteisöasetukset"
 
@@ -1719,11 +1756,11 @@ msgstr "Tämän projektin asetukset"
 msgid "%1 preferences"
 msgstr "%1 asetukset"
 
-#: ../inc/user.inc:238 ../user/sample_index.php:67
+#: ../inc/user.inc:238 ../user/sample_index.php:107
 msgid "Community"
 msgstr "Yhteisö"
 
-#: ../inc/user.inc:241 ../user/pm.php:103 ../user/pm.php:143
+#: ../inc/user.inc:241 ../user/pm.php:107 ../user/pm.php:147
 msgid "Delete"
 msgstr "Poista"
 
@@ -1731,15 +1768,15 @@ msgstr "Poista"
 msgid "Create"
 msgstr "Luo"
 
-#: ../inc/user.inc:245 ../inc/user.inc:397 ../inc/util.inc:441
+#: ../inc/user.inc:245 ../inc/user.inc:398 ../inc/util.inc:476
 msgid "Profile"
 msgstr "Profiili"
 
-#: ../inc/user.inc:248 ../inc/user.inc:370
+#: ../inc/user.inc:248 ../inc/user.inc:371
 msgid "%1 posts"
 msgstr "%1 viestiä"
 
-#: ../inc/user.inc:260
+#: ../inc/user.inc:260 ../user/edit_forum_preferences_form.php:51
 msgid "Notifications"
 msgstr "Ilmoitukset"
 
@@ -1771,142 +1808,169 @@ msgstr "Perustaja mutta ei jäsen tiimissä"
 msgid "Find friends"
 msgstr "Etsi ystäviä"
 
-#: ../inc/user.inc:303 ../inc/user.inc:305 ../inc/user.inc:380
-#: ../inc/user.inc:382 ../inc/user.inc:391
+#: ../inc/user.inc:303 ../inc/user.inc:305 ../inc/user.inc:381
+#: ../inc/user.inc:383 ../inc/user.inc:392
 msgid "Friends"
 msgstr "Ystävät"
 
-#: ../inc/user.inc:322 ../inc/user.inc:324 ../user/server_status.php:369
+#: ../inc/user.inc:323 ../inc/user.inc:325 ../user/server_status.php:396
 msgid "Computers"
 msgstr "Tietokoneet"
 
-#: ../inc/user.inc:324
+#: ../inc/user.inc:325 ../user/forum_forum.php:174
 msgid "hidden"
 msgstr "piilotettu"
 
-#: ../inc/user.inc:331
+#: ../inc/user.inc:332
 msgid "Donor"
 msgstr "Lahjoittaja"
 
-#: ../inc/user.inc:373
+#: ../inc/user.inc:374
 msgid "Contact"
 msgstr "Yhteydenotto"
 
-#: ../inc/user.inc:376
+#: ../inc/user.inc:377
 msgid "This person is a friend"
 msgstr "Tämä henkilö on ystävä"
 
-#: ../inc/user.inc:377 ../user/friend.php:224
+#: ../inc/user.inc:378 ../user/friend.php:238
 msgid "Cancel friendship"
 msgstr "Peruuta ystävyys"
 
-#: ../inc/user.inc:380 ../user/friend.php:35
+#: ../inc/user.inc:381 ../user/friend.php:37
 msgid "Request pending"
 msgstr "Pyyntö odottaa"
 
-#: ../inc/user.inc:382
+#: ../inc/user.inc:383
 msgid "Add as friend"
 msgstr "Lisää ystäväksi"
 
-#: ../inc/util.inc:96
-msgid "Logged in as %1."
-msgstr "Kirjauduttu nimellä %1."
+#: ../inc/util.inc:113
+#, fuzzy
+msgid "log out"
+msgstr "Kirjaudu ulos"
 
-#: ../inc/util.inc:97
-msgid "Log in as someone else."
-msgstr "Kirjaudu jonakin toisena."
+#: ../inc/util.inc:115
+#, fuzzy
+msgid "log in"
+msgstr "Kirjaudu"
 
-#: ../inc/util.inc:99
-msgid "Not logged in."
-msgstr "Ei kirjauduttu sisään."
+#: ../inc/util.inc:171 ../user/login_form.php:37 ../user/login_form.php:60
+msgid "Log in"
+msgstr "Kirjaudu"
 
-#: ../inc/util.inc:180
+#: ../inc/util.inc:172 ../user/create_account_form.php:38
+msgid "Create an account"
+msgstr "Luo tili"
+
+#: ../inc/util.inc:173
+#, fuzzy
+msgid "Server status page"
+msgstr "Palvelimen tila"
+
+#: ../inc/util.inc:210
 msgid ""
 "A database error occurred while handling your request; please try again "
 "later."
 msgstr "Tapahtui tietokantavirhe, yritä myöhemmin uudelleen."
 
-#: ../inc/util.inc:189
+#: ../inc/util.inc:219
 msgid "Unable to handle request"
 msgstr "Pyyntöä ei voida käsitellä"
 
-#: ../inc/util.inc:209
+#: ../inc/util.inc:239
 msgid "hours"
 msgstr "tuntia"
 
-#: ../inc/util.inc:212
+#: ../inc/util.inc:242
 msgid "min"
 msgstr "min"
 
-#: ../inc/util.inc:215
+#: ../inc/util.inc:245
 msgid "sec"
 msgstr "sek"
 
-#: ../inc/util.inc:371
+#: ../inc/util.inc:406
 msgid "Link has timed out. Please click Back, refresh the page, and try again."
 msgstr ""
 "Linkki ei ole voimassa. Klikkaa Back-/Takaisin-nappia, lataa sivu ja yritä "
 "uudelleen."
 
-#: ../inc/util.inc:440
+#: ../inc/util.inc:475
 msgid "View the profile of %1"
 msgstr "Katso %1:n profiilia"
 
-#: ../inc/util.inc:496
+#: ../inc/util.inc:531
 msgid "Use BBCode tags to format your text"
 msgstr "Tekstin muotoiluun voi käyttää BBCodea"
 
-#: ../inc/util.inc:691
+#: ../inc/util.inc:735
 msgid "Project down for maintenance"
 msgstr "Projekti suljettu ylläpidon ajaksi"
 
-#: ../inc/util.inc:692
-msgid ""
-"This page requires database access.  Our database server is temporarily shut "
-"down for maintenance.  Please try again later."
+#: ../inc/util.inc:738
+#, fuzzy
+msgid "%1 is temporarily shut down for maintenance.  Please try again later."
 msgstr ""
 "Tämä sivu vaatii pääsyn tietokantaan. Tietokantapalvelin on tilapäisesti "
 "suljettu ylläpitotoimien vuoksi. Yritä myöhemmin uudelleen."
 
-#: ../inc/util.inc:708
+#: ../inc/util.inc:756
 msgid "Unable to connect to database - please try again later"
 msgstr "Tietokantaan ei saada yhteyttä - yritä myöhemmin uudelleen"
 
-#: ../inc/util.inc:709
+#: ../inc/util.inc:757
 msgid "Error:"
 msgstr "Virhe:"
 
-#: ../inc/util.inc:713
+#: ../inc/util.inc:761
 msgid "Unable to select database - please try again later"
 msgstr "Tietokannan valinta ei onnistu - yritä myöhemmin uudelleen"
 
-#: ../user/account_finish.php:40 ../user/create_account_form.php:84
+#: ../inc/util_ops.inc:131 ../user/get_passwd.php:72
+msgid "Stay logged in on this computer"
+msgstr "Pysy kirjautuneena tällä tietokoneella"
+
+#: ../user/account_finish.php:34
+msgid "Finish account setup"
+msgstr ""
+
+#: ../user/account_finish.php:41 ../user/create_account_form.php:87
 msgid "Identifies you on our web site. Use your real name or a nickname."
 msgstr ""
-"Sinut tunnistetaan tällä nettisivullamme. Voit käyttää oikeaa tai "
-"lempinimeä."
+"Sinut tunnistetaan tällä nettisivullamme. Voit käyttää oikeaa tai lempinimeä."
 
-#: ../user/account_finish.php:44 ../user/create_account_form.php:103
+#: ../user/account_finish.php:45 ../user/create_account_form.php:106
 msgid "Select the country you want to represent, if any."
 msgstr "Valitse maa."
 
-#: ../user/account_finish.php:50 ../user/create_account_form.php:109
+#: ../user/account_finish.php:51 ../user/create_account_form.php:112
 msgid "Postal or ZIP Code"
 msgstr "Postinumero"
 
-#: ../user/account_finish.php:50 ../user/create_account_form.php:109
+#: ../user/account_finish.php:51 ../user/create_account_form.php:112
 msgid "Optional"
 msgstr "Valinnainen"
 
+#: ../user/account_finish_action.php:27 ../user/create_account_action.php:84
+#, fuzzy
+msgid "You must supply a name for your account"
+msgstr "Tilillesi täytyy antaa nimi."
+
+#: ../user/account_finish_action.php:30 ../user/create_account_action.php:87
+#, fuzzy
+msgid "HTML tags not allowed in name"
+msgstr "HTML-tägit eivät ole sallittuja nimessäsi."
+
 #: ../user/add_venue.php:86
 msgid "Add %1 preferences for %2"
-msgstr ""
+msgstr "Lisää %1 asetukset paikalle %2"
 
-#: ../user/apps.php:31 ../user/sample_index.php:64
+#: ../user/apps.php:32 ../user/sample_index.php:102
 msgid "Applications"
 msgstr "Sovellukset"
 
-#: ../user/apps.php:32
+#: ../user/apps.php:33
 msgid ""
 "%1 currently has the following applications. When you participate in %1, "
 "work for one or more of these applications will be assigned to your "
@@ -1915,43 +1979,191 @@ msgid ""
 msgstr ""
 "%1 on tällä hetkellä seuraavat sovellukset. Osallistuessasi %1 -projektiin, "
 "yksi tai useampi työpaketti näistä sovelluksista annetaan tietokoneellesi. "
-"Viimeisn sovellusversio ladataan koneellesi. Tämä tapahtuu automaattisesti; "
+"Viimeisin sovellusversio ladataan koneellesi. Tämä tapahtuu automaattisesti; "
 "sinun ei tarvitse tehdä mitään."
 
-#: ../user/apps.php:48
+#: ../user/apps.php:49
 msgid "Platform"
 msgstr "Alusta"
 
-#: ../user/apps.php:49
+#: ../user/apps.php:50
 msgid "Version"
 msgstr "Versio"
 
-#: ../user/apps.php:50
+#: ../user/apps.php:51
 msgid "Installation time"
 msgstr "Asennusaika"
 
-#: ../user/create_account_action.php:64
-msgid "You must supply an invitation code to create an account."
-msgstr "Kutsukoodi tarvitaan tilin luomiseen."
+#: ../user/bbcode.php:23
+msgid "BBCode tags"
+msgstr ""
 
-#: ../user/create_account_action.php:67
-msgid "The invitation code you gave is not valid."
-msgstr "Antamasi kutsukoodi on virheellinen."
+#: ../user/bbcode.php:25
+msgid ""
+"BBCode tags let you format text in your profile and message-board postings.\n"
+"It's similar to HTML, but simpler. The tags start with a [ (where you would\n"
+"have used %1 in HTML) and end with ] (where you would have used %2 in\n"
+"HTML)."
+msgstr ""
 
-#: ../user/create_account_form.php:35
-msgid "Create an account"
+#: ../user/bbcode.php:31
+msgid "Examples"
+msgstr ""
+
+#: ../user/bbcode.php:32
+msgid "Bold"
+msgstr ""
+
+#: ../user/bbcode.php:33
+#, fuzzy
+msgid "Italic"
+msgstr "Vahvistamattomat"
+
+#: ../user/bbcode.php:34
+#, fuzzy
+msgid "Underline"
+msgstr "Kieltäydy"
+
+#: ../user/bbcode.php:35
+#, fuzzy
+msgid "Big text"
+msgstr "teksti"
+
+#: ../user/bbcode.php:36
+#, fuzzy
+msgid "Red text"
+msgstr "teksti"
+
+#: ../user/bbcode.php:37
+msgid "link to website"
+msgstr ""
+
+#: ../user/bbcode.php:38
+#, fuzzy
+msgid "Quoted text"
+msgstr "Irrottaudu tiimistä"
+
+#: ../user/bbcode.php:38
+msgid "use for quoted blocks of text"
+msgstr ""
+
+#: ../user/bbcode.php:39
+msgid "use to display an image"
+msgstr ""
+
+#: ../user/bbcode.php:40
+msgid "Code snippet here"
+msgstr ""
+
+#: ../user/bbcode.php:40
+msgid "use to display some code"
+msgstr ""
+
+#: ../user/bbcode.php:41
+msgid "Pre-formatted text"
+msgstr ""
+
+#: ../user/bbcode.php:41
+msgid "use to display pre-formatted (usually monospaced) text"
+msgstr ""
+
+#: ../user/bbcode.php:42
+msgid "Item 1"
+msgstr ""
+
+#: ../user/bbcode.php:42
+msgid "Item2"
+msgstr ""
+
+#: ../user/bbcode.php:42
+msgid "Item 2"
+msgstr ""
+
+#: ../user/bbcode.php:44
+msgid "use to link to Trac ticket on BOINC website"
+msgstr ""
+
+#: ../user/bbcode.php:46
+msgid "use to link to Trac Wiki on BOINC website"
+msgstr ""
+
+#: ../user/bbcode.php:48
+msgid "use to link to SVN changeset on BOINC website"
+msgstr ""
+
+#: ../user/bbcode.php:52
+msgid ""
+"If you don't close a tag or don't specify a parameter correctly,\n"
+"the raw tag itself will display instead of the formatted text."
+msgstr ""
+
+#: ../user/create_account_action.php:26
+#, fuzzy
+msgid "Can't create account"
 msgstr "Luo tili"
 
-#: ../user/create_account_form.php:40
+#: ../user/create_account_action.php:29
+msgid "Click your browser's <b>Back</b> button to try again."
+msgstr ""
+
+#: ../user/create_account_action.php:36 ../user/create_account_action.php:38
+#: ../user/create_account_form.php:43
 msgid "Account creation is disabled"
 msgstr "Tilin luonti on pois käytöstä"
 
-#: ../user/create_account_form.php:41
+#: ../user/create_account_action.php:39
+msgid ""
+"Sorry, this project has disabled the creation of new accounts.\n"
+"Please try again later."
+msgstr ""
+
+#: ../user/create_account_action.php:51
+#, fuzzy
+msgid "Your reCAPTCHA response was not correct. Please try again."
+msgstr "ReCaptcha-vastaus oli väärin.  Yritä uudelleen."
+
+#: ../user/create_account_action.php:75
+msgid "You must supply an invitation code to create an account."
+msgstr "Kutsukoodi tarvitaan tilin luomiseen."
+
+#: ../user/create_account_action.php:78
+msgid "The invitation code you gave is not valid."
+msgstr "Antamasi kutsukoodi on virheellinen."
+
+#: ../user/create_account_action.php:92
+#, fuzzy
+msgid ""
+"Invalid email address: you must enter a valid address of the form name@domain"
+msgstr "Osoitteen pitää olla oikean muotoinen tyyliin \"nimi@domain\""
+
+#: ../user/create_account_action.php:96
+msgid "There's already an account with that email address."
+msgstr ""
+
+#: ../user/create_account_action.php:102 ../user/edit_passwd_action.php:33
+#, fuzzy
+msgid "New passwords are different"
+msgstr "Uusi salasana uudelleen"
+
+#: ../user/create_account_action.php:109 ../user/edit_passwd_action.php:41
+msgid "Passwords may only include ASCII characters."
+msgstr ""
+
+#: ../user/create_account_action.php:114 ../user/edit_passwd_action.php:45
+msgid "New password is too short: minimum password length is %1 characters."
+msgstr ""
+
+#: ../user/create_account_action.php:135
+#, fuzzy
+msgid "Couldn't create account"
+msgstr "Luo tili"
+
+#: ../user/create_account_form.php:44
 msgid "Account creation is currently disabled. Please try again later."
 msgstr ""
 "Tilin luonti on tällä hetkellä pois käytöstä. Yritä myöhemmin uudelleen."
 
-#: ../user/create_account_form.php:50
+#: ../user/create_account_form.php:53
 msgid ""
 "NOTE: If you use the BOINC Manager, don't use this form. Just run BOINC, "
 "select Add Project, and enter an email address and password."
@@ -1959,66 +2171,71 @@ msgstr ""
 "HUOM: Jos käytät BOINC-manageria, älä käytä tätä lomaketta. Käynnistä BOINC, "
 "valitse Liity projektiin ja syötä sähköpostiosoite ja salana."
 
-#: ../user/create_account_form.php:66
+#: ../user/create_account_form.php:69
 msgid ""
 "This account will belong to the team %1 and will have the project "
 "preferences of its founder."
 msgstr ""
 "Tämä tili kuuluu tiimiin %1 ja projektiasetukset ovat perustajan tekemiä."
 
-#: ../user/create_account_form.php:78
+#: ../user/create_account_form.php:81
 msgid "Invitation Code"
 msgstr "Kutsukoodi"
 
-#: ../user/create_account_form.php:78
+#: ../user/create_account_form.php:81
 msgid "A valid invitation code is required to create an account."
 msgstr "Tilin luomiseen tarvitaan voimassaoleva kutsukoodi."
 
-#: ../user/create_account_form.php:88
+#: ../user/create_account_form.php:91
 msgid "Email Address"
 msgstr "Sähköpostiosoite"
 
-#: ../user/create_account_form.php:88
+#: ../user/create_account_form.php:91
 msgid "Must be a valid address of the form 'name@domain'."
 msgstr "Osoitteen pitää olla oikean muotoinen tyyliin \"nimi@domain\"."
 
-#: ../user/create_account_form.php:97 ../user/edit_email_form.php:46
+#: ../user/create_account_form.php:100 ../user/edit_email_form.php:48
 msgid "Password"
 msgstr "Salasana"
 
-#: ../user/create_account_form.php:98
+#: ../user/create_account_form.php:101
 msgid "Must be at least %1 characters"
 msgstr "Vähintään %1 merkkiä"
 
-#: ../user/create_account_form.php:101
+#: ../user/create_account_form.php:104
 msgid "Confirm password"
 msgstr "Vahvista salasana"
 
-#: ../user/create_account_form.php:113
+#: ../user/create_account_form.php:122
+#, fuzzy
+msgid "Please enter the words shown in the image"
+msgstr "Syötä kuvassa näkyvät sanat."
+
+#: ../user/create_account_form.php:128
 msgid "Create account"
 msgstr "Luo tili"
 
-#: ../user/create_profile.php:48
+#: ../user/create_profile.php:50
 msgid "Picture"
 msgstr "Kuva"
 
-#: ../user/create_profile.php:62
+#: ../user/create_profile.php:64
 msgid "%1 Your profile picture is shown to the left."
 msgstr "%1 Profiilisi kuva näkyy vasemmalla."
 
-#: ../user/create_profile.php:64
+#: ../user/create_profile.php:66
 msgid ""
 "To replace it, click the \"Browse\" button and select a JPEG or PNG file (%1 "
 "or less)."
 msgstr ""
-"Vaihda se napsauttamalla \"Selaa\" ja valitse joko JPEG- tai PNG-tiedosto (%1 "
-"tai vähemmän)."
+"Vaihda se napsauttamalla \"Selaa\" ja valitse joko JPEG- tai PNG-tiedosto (%"
+"1 tai vähemmän)."
 
-#: ../user/create_profile.php:67
+#: ../user/create_profile.php:69
 msgid "To remove it from your profile, check this box:"
 msgstr "Poista se profiilistasi valitsemalla tämä kohta:"
 
-#: ../user/create_profile.php:75
+#: ../user/create_profile.php:77
 msgid ""
 "If you would like include a picture with your profile, click the \"Browse\" "
 "button and select a JPEG or PNG file. Please select images of %1 or less."
@@ -2026,41 +2243,41 @@ msgstr ""
 "Jos haluat kuvan profiiliisi, napsauta \"Selaa\" ja valitse joko JPEG- tai "
 "PNG-tiedosto. Valitse kuva, joka on %1 tai vähemmän."
 
-#: ../user/create_profile.php:87
+#: ../user/create_profile.php:89
 msgid "Language"
 msgstr "Kieli"
 
-#: ../user/create_profile.php:90
+#: ../user/create_profile.php:92
 msgid "Select the language in which your profile is written:"
 msgstr "Valitse kieli, jolla profiilisi on kirjoitettu:"
 
-#: ../user/create_profile.php:102
+#: ../user/create_profile.php:104
 msgid "Submit profile"
 msgstr "Lähetä profiili"
 
-#: ../user/create_profile.php:108
+#: ../user/create_profile.php:110
 msgid "Please enter the words shown in the image."
 msgstr "Syötä kuvassa näkyvät sanat."
 
-#: ../user/create_profile.php:113
+#: ../user/create_profile.php:115
 msgid "Create/edit profile"
 msgstr "Luo/muokkaa profiilia"
 
-#: ../user/create_profile.php:135
+#: ../user/create_profile.php:137
 msgid "The format of your uploaded image is not supported."
 msgstr "Lähettämäsi kuvatiedoston tyyppiä ei tueta."
 
-#: ../user/create_profile.php:164
+#: ../user/create_profile.php:166
 msgid ""
 "Your %1profile%2 lets you share your opinions and background with the %3 "
 "community."
 msgstr "%1Profiilisi%2 avulla voit jakaa mielipiteitäsi %3 -yhteisön kanssa."
 
-#: ../user/create_profile.php:211
+#: ../user/create_profile.php:213
 msgid "Your ReCaptcha response was not correct.  Please try again."
 msgstr "ReCaptcha-vastaus oli väärin.  Yritä uudelleen."
 
-#: ../user/create_profile.php:220
+#: ../user/create_profile.php:222
 msgid ""
 "Your first response was flagged as spam by the Akismet anti-spam system.  "
 "Please modify your text and try again."
@@ -2068,7 +2285,7 @@ msgstr ""
 "Ensimmäinen kirjoituksesi merkittiin spämmiksi Akismet-"
 "spämminestojärjestelmän toimesta. Muokkaa tekstiäsi ja yritä uudelleen."
 
-#: ../user/create_profile.php:228
+#: ../user/create_profile.php:230
 msgid ""
 "Your second response was flagged as spam by the Akismet anti-spam system.  "
 "Please modify your text and try again."
@@ -2076,42 +2293,236 @@ msgstr ""
 "Toinen kirjoituksesi merkittiin spämmiksi Akismet-spämminestojärjestelmän "
 "toimesta. Muokkaa tekstiäsi ja yritä uudelleen."
 
-#: ../user/create_profile.php:244
+#: ../user/create_profile.php:246
 msgid "Your profile submission was empty."
 msgstr "Jättämäsi profiili oli tyhjä."
 
-#: ../user/create_profile.php:283
+#: ../user/create_profile.php:285
 msgid "Could not update the profile: database error"
 msgstr "Profiilin päivitys ei onnistunut: tietokantavirhe"
 
-#: ../user/create_profile.php:295
+#: ../user/create_profile.php:297
 msgid "Could not create the profile: database error"
 msgstr "Profiilin luonti ei onnistunut: tietokantavirhe"
 
-#: ../user/create_profile.php:300
+#: ../user/create_profile.php:302
 msgid "Profile saved"
 msgstr "Profiili tallennettu"
 
-#: ../user/create_profile.php:302
+#: ../user/create_profile.php:304
 msgid ""
 "Congratulations! Your profile was successfully entered into our database."
 msgstr "Onnittelut! Profiilisi tallennettiin tietokantaan."
 
-#: ../user/create_profile.php:303
+#: ../user/create_profile.php:306
 msgid "%1View your profile%2"
 msgstr "%1Tarkastele profiiliasi%2"
 
-#: ../user/create_profile.php:311
+#: ../user/create_profile.php:315
 msgid "Create a profile"
 msgstr "Luo profiili"
 
-#: ../user/create_profile.php:339
+#: ../user/create_profile.php:343
 msgid ""
 "To prevent spam, an average credit of %1 or greater is required to create or "
 "edit a profile.  We apologize for this inconvenience."
 msgstr ""
 "Spämmin estämiseksi profiilin luonti tai muokkaus vaatii keskimääräisten "
 "pisteiden määräksi %1 tai enemmän.  Pahoittelut mahdollisesta haitasta."
+
+#: ../user/delete_account.php:57
+#, fuzzy
+msgid "Couldn't delete account"
+msgstr "Vanhaa konetta ei voitu poistaa käytöstä"
+
+#: ../user/delete_account.php:59
+#, fuzzy
+msgid "Account deleted"
+msgstr "Tilitiedot"
+
+#: ../user/delete_account.php:60
+#, fuzzy
+msgid "Your account has been deleted."
+msgstr "Suosituksesi tallennettiin."
+
+#: ../user/delete_account.php:64
+#, fuzzy
+msgid "Confirm delete account"
+msgstr "Luo tili"
+
+#: ../user/delete_account.php:67
+msgid ""
+"Deleting your account will remove all of your\n"
+"personal information from our servers,\n"
+"including your profile and message-board posts.\n"
+"No jobs will be issued to any computers attached\n"
+"to this account."
+msgstr ""
+
+#: ../user/delete_account.php:73
+msgid ""
+"This cannot be undone.\n"
+"Once your account has been deleted, you cannot get it back."
+msgstr ""
+
+#: ../user/delete_account.php:76
+#, fuzzy
+msgid "Are you sure you want to delete your account?"
+msgstr "Haluatko poistaa erilliset %1 -asetukset paikalle %2?"
+
+#: ../user/delete_account.php:79 ../user/delete_profile.php:52
+#: ../user/donations.php:322 ../user/donations.php:326 ../user/friend.php:238
+#: ../user/prefs_remove.php:55 ../user/user_search.php:127
+#: ../user/user_search.php:132
+msgid "Yes"
+msgstr "Kyllä"
+
+#: ../user/delete_account.php:79
+#, fuzzy
+msgid "Delete this account"
+msgstr "Poista tämä tietokone"
+
+#: ../user/delete_account.php:80 ../user/delete_profile.php:53
+#: ../user/friend.php:239 ../user/user_search.php:126
+#: ../user/user_search.php:131
+msgid "No"
+msgstr "Ei"
+
+#: ../user/delete_account.php:80
+#, fuzzy
+msgid "Do not delete this account"
+msgstr "Poista tämä tietokone"
+
+#: ../user/delete_profile.php:30
+#, fuzzy
+msgid "couldn't delete profile - please try again later"
+msgstr "Tiimiin liittyminen epäonnistui - yritä myöhemmin uudelleen."
+
+#: ../user/delete_profile.php:33
+#, fuzzy
+msgid "Delete Confirmation"
+msgstr "Tietokoneen tiedot"
+
+#: ../user/delete_profile.php:35
+#, fuzzy
+msgid "Your profile has been deleted."
+msgstr "Viestisi on lähetetty."
+
+#: ../user/delete_profile.php:40
+msgid "Profile delete confirmation"
+msgstr ""
+
+#: ../user/delete_profile.php:43
+msgid "Are you sure?"
+msgstr ""
+
+#: ../user/delete_profile.php:44
+msgid ""
+"Deleted profiles are gone forever and cannot be recovered --\n"
+"you will have to start from scratch\n"
+"if you want another profile in the future."
+msgstr ""
+
+#: ../user/delete_profile.php:48
+msgid ""
+"If you're sure, click 'Delete'\n"
+"to remove your profile from our database."
+msgstr ""
+
+#: ../user/delete_profile.php:52
+#, fuzzy
+msgid "Delete my profile"
+msgstr "Luo profiili"
+
+#: ../user/delete_profile.php:53
+#, fuzzy
+msgid "Do not delete my profile"
+msgstr "En %1pidä%2 tästä profiilista"
+
+#: ../user/donated.php:25
+msgid "PayPal - Transaction Completed"
+msgstr ""
+
+#: ../user/donated.php:28
+msgid "Thank you for donating!"
+msgstr ""
+
+#: ../user/donated.php:29
+#, fuzzy
+msgid "Your donation for has been completed."
+msgstr "Suosituksesi tallennettiin."
+
+#: ../user/donated.php:30
+msgid ""
+"Your donation will be added to the progress bar after confirmation by PayPal."
+msgstr ""
+
+#: ../user/donated.php:32
+msgid "You have canceled your donation."
+msgstr ""
+
+#: ../user/donations.php:24
+#, fuzzy
+msgid "This project is not accepting donations."
+msgstr "Tämä pyyntö odottaa vahvistusta."
+
+#: ../user/donations.php:34
+#, fuzzy
+msgid "%1 donations"
+msgstr "%1 päivää"
+
+#: ../user/donations.php:39
+msgid ""
+"This project is accepting donations via\n"
+"%1."
+msgstr ""
+
+#: ../user/donations.php:42
+msgid ""
+"To donate, fill in the amount you want to donate using the field below.\n"
+"        PayPal is accepting multiple currencies\n"
+"        (Canadian Dollars, Euros, Pounds Sterling, U.S. Dollars,\n"
+"         Yen, Australian Dollars, New Zealand Dollars,\n"
+"        Swiss Francs, Hong Kong Dollars, Singapore Dollars, Swedish Kronor,\n"
+"        Danish Kroner, Polish Zloty, Norwegian Kroner,\n"
+"        Hungarian Forint, Czech Koruna).\n"
+"        You can use included currency converter\n"
+"        to see the donation amount equivalent in different currencies\n"
+"        (please note that the rates are only estimates\n"
+"         and the actual amount may differ)."
+msgstr ""
+
+#: ../user/donations.php:316
+msgid "Amount you would like to donate"
+msgstr ""
+
+#: ../user/donations.php:317
+msgid "Estimated value in"
+msgstr ""
+
+#: ../user/donations.php:320 ../user/donations.php:324
+#, fuzzy
+msgid "Anonymous donation"
+msgstr "Anonyymi alusta"
+
+#: ../user/donations.php:320
+msgid ""
+"Select this if you dont want your name and account number displayed in\n"
+"donator lists.<br>If not checked, you will be recorded as user ID %1"
+msgstr ""
+
+#: ../user/donations.php:324
+msgid "To assign the donation with your user ID, please log in."
+msgstr ""
+
+#: ../user/donations.php:328
+#, fuzzy
+msgid "Proceed"
+msgstr "Profiili tallennettu"
+
+#: ../user/donations.php:329
+msgid "Donations are accepted through"
+msgstr ""
 
 #: ../user/download_network.php:25
 msgid "Download BOINC add-on software"
@@ -2147,113 +2558,870 @@ msgstr "Ohjeet BOINCin asennukseen ja käyttöön löytyvät %1täältä%2."
 msgid "This list is managed centrally at %1the BOINC website%2."
 msgstr "Tätä listaa hoidetaan keskitetysti %1BOINC-nettisivulla%2."
 
-#: ../user/edit_email_form.php:26 ../user/edit_email_form.php:50
+#: ../user/edit_email_action.php:31
+#, fuzzy
+msgid "Change email address of account"
+msgstr "Vaihda tilisi sähköpostiosoite"
+
+#: ../user/edit_email_action.php:34 ../user/edit_email_action.php:36
+#, fuzzy
+msgid "New email address '%1' is invalid."
+msgstr "Uusi sähköpostiosoite"
+
+#: ../user/edit_email_action.php:38
+msgid "New email address is same as existing address. Nothing is changed."
+msgstr ""
+
+#: ../user/edit_email_action.php:42
+msgid "There's already an account with that email address"
+msgstr ""
+
+#: ../user/edit_email_action.php:54
+#, fuzzy
+msgid "Invalid password."
+msgstr "Vahvista salasana"
+
+#: ../user/edit_email_action.php:62
+#, fuzzy
+msgid "The email address of your account is now %1."
+msgstr "Tilisi sähköpostiosoite on vahvistettu."
+
+#: ../user/edit_email_action.php:64
+#, fuzzy
+msgid "Please %1validate this email address%2."
+msgstr "Vahvista sähköpostiosoite"
+
+#: ../user/edit_email_action.php:67
+#, fuzzy
+msgid ""
+"We can't update your email address due to a database problem.  Please try "
+"again later."
+msgstr "Tietokannan valinta ei onnistu - yritä myöhemmin uudelleen"
+
+#: ../user/edit_email_form.php:28 ../user/edit_email_form.php:52
 msgid "Change email address"
 msgstr "Vaihda sähköpostiosoite"
 
-#: ../user/edit_email_form.php:35
+#: ../user/edit_email_form.php:37
 msgid "Change the email address of your account"
 msgstr "Vaihda tilisi sähköpostiosoite"
 
-#: ../user/edit_email_form.php:36
+#: ../user/edit_email_form.php:38
 msgid "New email address"
 msgstr "Uusi sähköpostiosoite"
 
-#: ../user/edit_email_form.php:37
+#: ../user/edit_email_form.php:39
 msgid "Must be a valid address of the form 'name@domain'"
 msgstr "Osoitteen pitää olla oikean muotoinen tyyliin \"nimi@domain\""
 
-#: ../user/edit_email_form.php:47
+#: ../user/edit_email_form.php:49
 msgid "No password?"
 msgstr "Ei salasanaa?"
 
-#: ../user/edit_passwd_form.php:26 ../user/edit_passwd_form.php:56
+#: ../user/edit_forum_preferences_action.php:35
+#, fuzzy
+msgid "Confirm reset"
+msgstr "Vahvista salasana"
+
+#: ../user/edit_forum_preferences_action.php:36
+msgid ""
+"This action will erase any changes you have made in your community "
+"preferences. To cancel, click your browser's Back button."
+msgstr ""
+
+#: ../user/edit_forum_preferences_action.php:40
+#, fuzzy
+msgid "Reset preferences"
+msgstr "Poista asetukset"
+
+#: ../user/edit_forum_preferences_action.php:90
+msgid "Error: Not the right kind of file, only PNG and JPEG are supported."
+msgstr ""
+
+#: ../user/edit_forum_preferences_action.php:116
+msgid "Your signature was too long, please keep it less than 250 characters."
+msgstr ""
+
+#: ../user/edit_forum_preferences_action.php:139
+#: ../user/edit_forum_preferences_action.php:153
+#, fuzzy
+msgid "No such user: %1"
+msgstr "Käyttäjää ei ole olemassa"
+
+#: ../user/edit_forum_preferences_form.php:56
+msgid ""
+"How should we notify you of new private messages, friend requests, posts in "
+"subscribed threads, and other events?"
+msgstr ""
+
+#: ../user/edit_forum_preferences_form.php:57
+#, fuzzy
+msgid "On my Account page (no email)"
+msgstr "Tiliavain sähköpostitse"
+
+#: ../user/edit_forum_preferences_form.php:58
+#, fuzzy
+msgid "Immediately, by email"
+msgstr "Tiliavain sähköpostitse"
+
+#: ../user/edit_forum_preferences_form.php:59
+msgid "In a single daily email"
+msgstr ""
+
+#: ../user/edit_forum_preferences_form.php:75
+#, fuzzy
+msgid "Message-board identity"
+msgstr "Keskustelupalsta"
+
+#: ../user/edit_forum_preferences_form.php:76
+msgid "Avatar"
+msgstr ""
+
+#: ../user/edit_forum_preferences_form.php:77
+msgid "An image representing you on the message boards."
+msgstr ""
+
+#: ../user/edit_forum_preferences_form.php:78
+msgid "Format: JPG or PNG. Size: at most 4 KB, 100x100 pixels"
+msgstr ""
+
+#: ../user/edit_forum_preferences_form.php:80
+#, fuzzy
+msgid "Don't use an avatar"
+msgstr "Älä käytä HTML-tageja."
+
+#: ../user/edit_forum_preferences_form.php:82
+msgid "Use a Globally Recognized Avatar provided by %1"
+msgstr ""
+
+#: ../user/edit_forum_preferences_form.php:84
+msgid "Use this uploaded avatar:"
+msgstr ""
+
+#: ../user/edit_forum_preferences_form.php:87
+msgid "Avatar preview"
+msgstr ""
+
+#: ../user/edit_forum_preferences_form.php:87
+msgid "This is how your avatar will look"
+msgstr ""
+
+#: ../user/edit_forum_preferences_form.php:96
+#, fuzzy
+msgid "Signature for message board posts"
+msgstr "Luo keskustelupalsta %1 -tiimille"
+
+#: ../user/edit_forum_preferences_form.php:99
+msgid ""
+"Check out %1various free services%2\n"
+"<br> providing dynamic 'signature images'\n"
+"<br> showing your latest credit info, project news, etc."
+msgstr ""
+
+#: ../user/edit_forum_preferences_form.php:104
+msgid "characters remaining"
+msgstr ""
+
+#: ../user/edit_forum_preferences_form.php:105
+msgid "Attach signature by default"
+msgstr ""
+
+#: ../user/edit_forum_preferences_form.php:108
+msgid "Signature preview"
+msgstr ""
+
+#: ../user/edit_forum_preferences_form.php:109
+msgid "This is how your signature will look in the forums"
+msgstr ""
+
+#: ../user/edit_forum_preferences_form.php:127
+#, fuzzy
+msgid "Message display"
+msgstr "Keskustelupalstat"
+
+#: ../user/edit_forum_preferences_form.php:129
+#, fuzzy
+msgid "What to display"
+msgstr "Näytettäviä tehtäviä ei ole"
+
+#: ../user/edit_forum_preferences_form.php:130
+msgid "Hide avatar images"
+msgstr ""
+
+#: ../user/edit_forum_preferences_form.php:131
+msgid "Hide signatures"
+msgstr ""
+
+#: ../user/edit_forum_preferences_form.php:132
+msgid "Show images as links"
+msgstr ""
+
+#: ../user/edit_forum_preferences_form.php:133
+msgid "Open links in new window/tab"
+msgstr ""
+
+#: ../user/edit_forum_preferences_form.php:134
+msgid "Highlight special users"
+msgstr ""
+
+#: ../user/edit_forum_preferences_form.php:138
+msgid "How to sort"
+msgstr ""
+
+#: ../user/edit_forum_preferences_form.php:139
+#, fuzzy
+msgid "Threads:"
+msgstr "Viestiketjut"
+
+#: ../user/edit_forum_preferences_form.php:139
+#, fuzzy
+msgid "Posts:"
+msgstr "Viestit"
+
+#: ../user/edit_forum_preferences_form.php:140
+msgid "Jump to first new post in thread automatically"
+msgstr ""
+
+#: ../user/edit_forum_preferences_form.php:141
+msgid "Do not reorder sticky posts"
+msgstr ""
+
+#: ../user/edit_forum_preferences_form.php:142
+msgid "If a thread contains more than this number of posts"
+msgstr ""
+
+#: ../user/edit_forum_preferences_form.php:143
+msgid "only display the first one and this many of the last ones"
+msgstr ""
+
+#: ../user/edit_forum_preferences_form.php:149
+#, fuzzy
+msgid "Message filtering"
+msgstr "Keskustelupalsta"
+
+#: ../user/edit_forum_preferences_form.php:165
+#, fuzzy
+msgid "Filtered users"
+msgstr "Suodattimet"
+
+#: ../user/edit_forum_preferences_form.php:166
+#, fuzzy
+msgid "Ignore message board posts and private messages from these users."
+msgstr "Keskustelupalsta ja yksityisviestit"
+
+#: ../user/edit_forum_preferences_form.php:168
+msgid "User ID (For instance: 123456789)"
+msgstr ""
+
+#: ../user/edit_forum_preferences_form.php:169 ../user/pm.php:251
+msgid "Add user to filter"
+msgstr "Lisää käyttäjä suodatettavaksi"
+
+#: ../user/edit_forum_preferences_form.php:174
+#, fuzzy
+msgid "Click here to update preferences"
+msgstr "Päivitä asetukset"
+
+#: ../user/edit_forum_preferences_form.php:176
+#: ../user/edit_forum_preferences_form.php:178
+msgid "Reset"
+msgstr ""
+
+#: ../user/edit_forum_preferences_form.php:177
+msgid "Or click here to reset preferences to the defaults"
+msgstr ""
+
+#: ../user/edit_passwd_action.php:50
+#, fuzzy
+msgid "Invalid account key"
+msgstr "Heikko tiliavain"
+
+#: ../user/edit_passwd_action.php:55
+msgid "No account with that email address was found"
+msgstr ""
+
+#: ../user/edit_passwd_action.php:59
+#, fuzzy
+msgid "Invalid password"
+msgstr "Vahvista salasana"
+
+#: ../user/edit_passwd_action.php:63 ../user/edit_passwd_form.php:28
+#: ../user/edit_passwd_form.php:58
 msgid "Change password"
 msgstr "Vaihda salasana"
 
-#: ../user/edit_passwd_form.php:40
+#: ../user/edit_passwd_action.php:67
+#, fuzzy
+msgid "Your password has been changed."
+msgstr "Viestisi on lähetetty."
+
+#: ../user/edit_passwd_action.php:69
+#, fuzzy
+msgid ""
+"We can't update your password due to a database problem. Please try again "
+"later."
+msgstr "Tietokantaan ei saada yhteyttä - yritä myöhemmin uudelleen"
+
+#: ../user/edit_passwd_form.php:42
 msgid "You can identify yourself using either"
 msgstr "Voit tunnistautua joko"
 
-#: ../user/edit_passwd_form.php:42
+#: ../user/edit_passwd_form.php:44
 msgid "your email address and old password"
 msgstr "sähköpostiosoitteellasi ja vanhalla salasanalla"
 
-#: ../user/edit_passwd_form.php:43
+#: ../user/edit_passwd_form.php:45
 msgid "your account key"
 msgstr "tiliavaimellasi"
 
-#: ../user/edit_passwd_form.php:47
+#: ../user/edit_passwd_form.php:49
 msgid "Current password"
 msgstr "Nykyinen salasana"
 
-#: ../user/edit_passwd_form.php:49
+#: ../user/edit_passwd_form.php:51
 msgid "<b>OR</b>: Account key"
 msgstr "<b>TAI</b>: Tiliavain"
 
-#: ../user/edit_passwd_form.php:50
+#: ../user/edit_passwd_form.php:52
 msgid "Get account key by email"
 msgstr "Tiliavain sähköpostitse"
 
-#: ../user/edit_passwd_form.php:54
+#: ../user/edit_passwd_form.php:56
 msgid "New password"
 msgstr "Uusi salasana"
 
-#: ../user/edit_passwd_form.php:55
+#: ../user/edit_passwd_form.php:57
 msgid "New password, again"
 msgstr "Uusi salasana uudelleen"
 
-#: ../user/edit_user_info_action.php:29
+#: ../user/edit_user_info_action.php:31
 msgid "HTML tags are not allowed in your name."
 msgstr "HTML-tägit eivät ole sallittuja nimessäsi."
 
-#: ../user/edit_user_info_action.php:32
+#: ../user/edit_user_info_action.php:34
 msgid "You must supply a name for your account."
 msgstr "Tilillesi täytyy antaa nimi."
 
-#: ../user/edit_user_info_action.php:41 ../user/team_edit_action.php:51
-msgid "bad country"
-msgstr "väärä maa"
-
-#: ../user/edit_user_info_action.php:57
+#: ../user/edit_user_info_action.php:58
 msgid "Couldn't update user info."
 msgstr "Käyttäjätiedon päivitystä ei voitu tehdä."
 
-#: ../user/edit_user_info_form.php:27
+#: ../user/edit_user_info_form.php:29
 msgid "Edit account information"
 msgstr "Muokkaa tilitietoja"
 
-#: ../user/edit_user_info_form.php:32
+#: ../user/edit_user_info_form.php:34
 msgid "Name %1 real name or nickname%2"
 msgstr "Nimi, %1 oikea tai lempinimi%2"
 
-#: ../user/edit_user_info_form.php:35
+#: ../user/edit_user_info_form.php:37
 msgid "URL %1 of your web page; optional%2"
 msgstr "URL-osoite %1 kotisivullesi; valinnainen%2"
 
-#: ../user/edit_user_info_form.php:43
+#: ../user/edit_user_info_form.php:45
 msgid "Postal (ZIP) code %1 Optional%2"
 msgstr "Postinumero %1 Valinnainen%2"
 
-#: ../user/edit_user_info_form.php:47
+#: ../user/edit_user_info_form.php:49
 msgid "Update info"
 msgstr "Päivitä tiedot"
 
+#: ../user/explain_state.php:27
+#, fuzzy
+msgid "Server states"
+msgstr "Tila palvelimella"
+
+#: ../user/explain_state.php:30
+msgid ""
+"A tasks's <b>server state</b> indicates whether the task has been sent to a "
+"computer, and if so whether the computer has finished it. Possible values "
+"are:"
+msgstr ""
+
+#: ../user/explain_state.php:35
+msgid ""
+"The task is not ready to send (for example, because its input files are "
+"unavailable)"
+msgstr ""
+
+#: ../user/explain_state.php:38
+msgid "The task is ready to send, but hasn't been sent yet."
+msgstr ""
+
+#: ../user/explain_state.php:40
+#, fuzzy
+msgid "In Progress"
+msgstr "Laskennassa"
+
+#: ../user/explain_state.php:41
+#, fuzzy
+msgid "The task has been sent; waiting for completion."
+msgstr "Poistoa odottavat paketit"
+
+#: ../user/explain_state.php:44
+msgid ""
+"The task has been sent to a computer and either it has timed out or the "
+"computer has reported its completion."
+msgstr ""
+
+#: ../user/explain_state.php:49
+#, fuzzy
+msgid "Outcomes"
+msgstr "Tulos"
+
+#: ../user/explain_state.php:52
+msgid ""
+"A tasks's <b>outcome</b> is defined if its server state is <b>over</b>. "
+"Possible values are:"
+msgstr ""
+
+#: ../user/explain_state.php:57
+msgid ""
+"The task was sent to a computer, but the computer has not yet completed the "
+"work and reported the outcome."
+msgstr ""
+
+#: ../user/explain_state.php:60
+msgid "A computer completed and reported the task successfully."
+msgstr ""
+
+#: ../user/explain_state.php:63
+msgid ""
+"The server wasn't able to send the task to a computer (perhaps because its "
+"resource requirements were too large)"
+msgstr ""
+
+#: ../user/explain_state.php:65
+msgid "Client error"
+msgstr "Ohjelman virhe"
+
+#: ../user/explain_state.php:66
+msgid "The task was sent to a computer and an error occurred."
+msgstr ""
+
+#: ../user/explain_state.php:69
+msgid ""
+"The task was sent to a computer and no reply was received within the time "
+"limit."
+msgstr ""
+
+#: ../user/explain_state.php:72
+msgid ""
+"The task wasn't sent to a computer because enough other tasks were completed "
+"for this workunit."
+msgstr ""
+
+#: ../user/explain_state.php:75
+msgid ""
+"The task was reported but could not be validated, typically because the "
+"output files were lost on the server."
+msgstr ""
+
+#: ../user/explain_state.php:80
+#, fuzzy
+msgid "Client states"
+msgstr "Tila ohjelmassa"
+
+#: ../user/explain_state.php:81
+msgid ""
+"A result's <b>client state</b> indicates the stage of processing at which an "
+"error occurred."
+msgstr ""
+
+#: ../user/explain_state.php:86
+msgid "The computer has not yet completed the task."
+msgstr ""
+
+#: ../user/explain_state.php:89
+msgid "The computer completed the task successfully."
+msgstr ""
+
+#: ../user/explain_state.php:92
+msgid "The computer couldn't download the application or input files."
+msgstr ""
+
+#: ../user/explain_state.php:95
+msgid "An error occurred during computation."
+msgstr ""
+
+#: ../user/explain_state.php:98
+msgid "The computer couldn't upload the output files."
+msgstr ""
+
+#: ../user/explain_state.php:103
+#, fuzzy
+msgid "Time reported and deadline"
+msgstr "Raportointiaika<br />tai takaraja"
+
+#: ../user/explain_state.php:106
+msgid ""
+"A task's <b>Time reported or deadline</b> field depends on whether the task "
+"has been reported yet:"
+msgstr ""
+
+#: ../user/explain_state.php:110
+#, fuzzy
+msgid "Already reported"
+msgstr "On jo ystävä"
+
+#: ../user/explain_state.php:110
+msgid "The date/time it was reported"
+msgstr ""
+
+#: ../user/explain_state.php:111
+msgid "Not reported yet, deadline in the future"
+msgstr ""
+
+#: ../user/explain_state.php:112
+msgid "Deadline, shown in green."
+msgstr ""
+
+#: ../user/explain_state.php:114
+msgid "Not reported yet, deadline in the past"
+msgstr ""
+
+#: ../user/explain_state.php:115
+msgid "Deadline, shown in red."
+msgstr ""
+
+#: ../user/explain_state.php:120
+#, fuzzy
+msgid "Unknown field"
+msgstr "Tuntematon"
+
+#: ../user/ffmail_action.php:47
+#, fuzzy
+msgid "Email preview"
+msgstr "Sähköpostiosoite"
+
+#: ../user/ffmail_action.php:48
+msgid "Your email will appear as follows:"
+msgstr ""
+
+#: ../user/ffmail_action.php:57
+#, fuzzy
+msgid "Send email"
+msgstr "Lähetä viesti"
+
+#: ../user/ffmail_action.php:59
+msgid "Use your browser's back button to return to message form"
+msgstr ""
+
+#: ../user/ffmail_action.php:63
+#, fuzzy
+msgid "Sending emails"
+msgstr "Pisteitä odottavat"
+
+#: ../user/ffmail_action.php:84
+msgid "email sent successfully to %1"
+msgstr ""
+
+#: ../user/ffmail_action.php:86
+msgid "failed to send email to %1: %2"
+msgstr ""
+
+#: ../user/ffmail_action.php:92
+msgid "Thanks for telling your friends about %1"
+msgstr ""
+
+#: ../user/ffmail_action.php:94
+msgid ""
+"You forgot to enter your friends' names and/or email addresses; Please %"
+"1return to the form%2 and enter them."
+msgstr ""
+
+#: ../user/ffmail_form.php:31
+msgid ""
+"This project hasn\\'t created an email message - please notify its "
+"administrators"
+msgstr ""
+
+#: ../user/ffmail_form.php:34
+#, fuzzy
+msgid "Tell your friends about %1"
+msgstr "Mitä mieltä olet %1"
+
+#: ../user/ffmail_form.php:38
+msgid "Help us by telling your friends, family and coworkers about %1"
+msgstr ""
+
+#: ../user/ffmail_form.php:40
+msgid ""
+"Fill in this form with the names and email addresses of people you think "
+"might be interested in %1. We'll send them an email in your name, and you "
+"can add your own message if you like."
+msgstr ""
+
+#: ../user/ffmail_form.php:43
+#, fuzzy
+msgid "Your name:"
+msgstr "Näytä nimet"
+
+#: ../user/ffmail_form.php:43
+#, fuzzy
+msgid "Your email address:"
+msgstr "sähköpostiosoite"
+
+#: ../user/ffmail_form.php:49
+#, fuzzy
+msgid "Friend's name:"
+msgstr "Ystävät"
+
+#: ../user/ffmail_form.php:49
+#, fuzzy
+msgid "Friend's email address:"
+msgstr "Uusi sähköpostiosoite"
+
+#: ../user/ffmail_form.php:57
+#, fuzzy
+msgid "Additional message (optional)"
+msgstr "Lisää valinnainen viesti tähän:"
+
+#: ../user/ffmail_form.php:60
+#, fuzzy
+msgid "Send"
+msgstr "Lähettäjä"
+
+#: ../user/forum_banishment_vote.php:35
+#: ../user/forum_banishment_vote_action.php:33
+msgid "You are not authorized to banish users."
+msgstr ""
+
+#: ../user/forum_banishment_vote.php:41 ../user/forum_banishment_vote.php:46
+msgid "Banishment Vote"
+msgstr ""
+
+#: ../user/forum_banishment_vote.php:50
+#, fuzzy
+msgid "No user with this ID found."
+msgstr "Tietokonetta tunnisteella %1 ei löydy"
+
+#: ../user/forum_banishment_vote.php:54 ../user/forum_moderate_post.php:76
+#, fuzzy
+msgid "User is already banished"
+msgstr "Käyttäjä on torjuttu"
+
+#: ../user/forum_banishment_vote.php:59 ../user/forum_moderate_post.php:79
+msgid ""
+"Are you sure you want to banish %1?<br/>This will prevent %1 from posting "
+"for chosen time period.<br/>It should be done only if %1 has consistently "
+"exhibited trollish behavior."
+msgstr ""
+
+#: ../user/forum_banishment_vote.php:61
+msgid ""
+"Select the reason category, optionally write a longer description of why the "
+"user should be banished."
+msgstr ""
+
+#: ../user/forum_banishment_vote.php:62 ../user/forum_moderate_thread.php:50
+msgid "Category"
+msgstr ""
+
+#: ../user/forum_banishment_vote.php:64
+#: ../user/forum_banishment_vote_action.php:57
+#: ../user/forum_moderate_post.php:55 ../user/forum_moderate_thread.php:52
+msgid "Obscene"
+msgstr ""
+
+#: ../user/forum_banishment_vote.php:65
+#: ../user/forum_banishment_vote_action.php:59
+#: ../user/forum_moderate_post.php:56 ../user/forum_moderate_thread.php:53
+msgid "Flame/Hate mail"
+msgstr ""
+
+#: ../user/forum_banishment_vote.php:66
+#: ../user/forum_banishment_vote_action.php:61
+#: ../user/forum_moderate_post.php:59
+#, fuzzy
+msgid "User Request"
+msgstr "Ei pyyntöä"
+
+#: ../user/forum_banishment_vote.php:67
+#: ../user/forum_banishment_vote_action.php:63
+#: ../user/forum_moderate_post.php:60 ../user/forum_moderate_thread.php:55
+#, fuzzy
+msgid "Other"
+msgstr "Molemmat"
+
+#: ../user/forum_banishment_vote.php:69 ../user/forum_moderate_post.php:53
+#: ../user/forum_moderate_thread.php:85
+#, fuzzy
+msgid "Reason"
+msgstr "Versio"
+
+#: ../user/forum_banishment_vote.php:69 ../user/forum_moderate_thread.php:85
+msgid "Mailed if nonempty"
+msgstr ""
+
+#: ../user/forum_banishment_vote.php:74
+msgid "Proceed with vote"
+msgstr ""
+
+#: ../user/forum_banishment_vote_action.php:39
+#: ../user/forum_moderate_post_action.php:63
+#, fuzzy
+msgid "You must specify an action..."
+msgstr "Tilillesi täytyy antaa nimi."
+
+#: ../user/forum_edit.php:41
+msgid ""
+"You can no longer edit this post.<br/>Posts can only be edited at most %1 "
+"minutes after they have been created."
+msgstr ""
+
+#: ../user/forum_edit.php:47
+#, fuzzy
+msgid "You are not authorized to edit this post."
+msgstr "Olet nyt ystävä %1 kanssa."
+
+#: ../user/forum_edit.php:86 ../user/forum_search.php:71
+msgid "Forum"
+msgstr ""
+
+#: ../user/forum_edit.php:110
+#, fuzzy
+msgid "Edit your message"
+msgstr "Muokkaa profiilisia"
+
 #: ../user/forum_edit.php:115 ../user/forum_edit.php:120
-#: ../user/forum_post.php:110 ../user/forum_post.php:112
-#: ../user/team_forum.php:67
+#: ../user/forum_post.php:109 ../user/forum_post.php:111
+#: ../user/team_forum.php:69
 msgid "Title"
 msgstr "Otsikko"
 
-#: ../user/forum_edit.php:144 ../user/forum_post.php:128
+#: ../user/forum_edit.php:144 ../user/forum_post.php:129
 msgid "Add my signature to this post"
 msgstr "Lisää siguni tähän viestiin"
+
+#: ../user/forum_forum.php:41
+#, fuzzy
+msgid "Not visible to you"
+msgstr "Tämä foorumi ei näy sinulle."
+
+#: ../user/forum_forum.php:82
+#, fuzzy
+msgid "Team message board for %1"
+msgstr "Luo keskustelupalsta %1 -tiimille"
+
+#: ../user/forum_forum.php:98
+#, fuzzy
+msgid "New thread"
+msgstr "Viestiketju"
+
+#: ../user/forum_forum.php:98
+#, fuzzy
+msgid "Add a new thread to this forum"
+msgstr "Lisää viesti tähän viestiketjuun"
+
+#: ../user/forum_forum.php:118
+#, fuzzy
+msgid "This message board is available as an %1RSS feed%2"
+msgstr "Uutiset saatavana %sRSS-syötteenä%s"
+
+#: ../user/forum_forum.php:174
+#, fuzzy
+msgid "This thread is hidden"
+msgstr "Tämä viestiketju on piilotettu moderaattorien toimesta"
+
+#: ../user/forum_forum.php:178
+msgid "This thread is sticky and locked, and you haven't read it yet"
+msgstr ""
+
+#: ../user/forum_forum.php:178
+msgid "sticky/locked/unread"
+msgstr ""
+
+#: ../user/forum_forum.php:180
+msgid "This thread is sticky and you haven't read it yet"
+msgstr ""
+
+#: ../user/forum_forum.php:180
+#, fuzzy
+msgid "sticky/unread"
+msgstr "lukemattomat"
+
+#: ../user/forum_forum.php:184
+msgid "You haven't read this thread yet, and it's locked"
+msgstr ""
+
+#: ../user/forum_forum.php:184
+#, fuzzy
+msgid "unread/locked"
+msgstr "lukemattomat"
+
+#: ../user/forum_forum.php:186
+msgid "You haven't read this thread yet"
+msgstr ""
+
+#: ../user/forum_forum.php:192
+#, fuzzy
+msgid "This thread is sticky and locked"
+msgstr "Tee tästä viestiketjusta pysyvä"
+
+#: ../user/forum_forum.php:192
+msgid "sticky/locked"
+msgstr ""
+
+#: ../user/forum_forum.php:194
+#, fuzzy
+msgid "This thread is sticky"
+msgstr "Tee tästä viestiketjusta pysyvä"
+
+#: ../user/forum_forum.php:194
+#, fuzzy
+msgid "sticky"
+msgstr "Tee pysyvä"
+
+#: ../user/forum_forum.php:198
+#, fuzzy
+msgid "This thread is locked"
+msgstr "Tee tästä viestiketjusta pysyvä"
+
+#: ../user/forum_forum.php:198
+#, fuzzy
+msgid "locked"
+msgstr "Vapauta"
+
+#: ../user/forum_forum.php:200
+#, fuzzy
+msgid "You read this thread"
+msgstr "Piilota tämä viestiketju"
+
+#: ../user/forum_forum.php:200
+#, fuzzy
+msgid "read"
+msgstr "Viestiketju"
+
+#: ../user/forum_help_desk.php:27
+#, fuzzy
+msgid "Questions and answers"
+msgstr "Kysymykset ja vastaukset"
+
+#: ../user/forum_help_desk.php:30
+msgid ""
+"Talk live via Skype with a volunteer, in any of several languages. Go to %"
+"1BOINC Online Help%2."
+msgstr ""
+
+#: ../user/forum_help_desk.php:44 ../user/forum_index.php:92
+msgid "Topic"
+msgstr "Aihe"
+
+#: ../user/forum_help_desk.php:45
+#, fuzzy
+msgid "Questions"
+msgstr "Versio"
+
+#: ../user/forum_index.php:53 ../user/team_forum.php:68
+msgid "Discussion among members of %1"
+msgstr "Keskustelua %1 -jäsenten kanssa"
 
 #: ../user/forum_index.php:69
 msgid "%1 Message boards"
 msgstr "%1 Keskustelupalsta"
 
-#: ../user/forum_index.php:79
+#: ../user/forum_index.php:78
 msgid ""
 "If you have a question or problem, please use the %1Questions & Answers%2 "
 "section of the message boards."
@@ -2261,323 +3429,1081 @@ msgstr ""
 "Jos on kysymyksiä tai ongelmia, käytä keskustelupalstan %1Kysymyksiä ja "
 "vastauksia%2 -osiota."
 
-#: ../user/forum_index.php:93
-msgid "Topic"
-msgstr "Aihe"
+#: ../user/forum_index.php:123
+#, fuzzy
+msgid "Subscribed threads"
+msgstr "Tilaa"
 
-#: ../user/forum_post.php:101
+#: ../user/forum_moderate_post.php:43
+#, fuzzy
+msgid "Moderate post"
+msgstr "Viimeisin viesti"
+
+#: ../user/forum_moderate_post.php:52
+#, fuzzy
+msgid "Hide post"
+msgstr "Piilota"
+
+#: ../user/forum_moderate_post.php:57 ../user/forum_moderate_thread.php:54
+msgid "Commercial spam"
+msgstr ""
+
+#: ../user/forum_moderate_post.php:58
+msgid "Doublepost"
+msgstr ""
+
+#: ../user/forum_moderate_post.php:63
+#, fuzzy
+msgid "Move post"
+msgstr "Ei konetta"
+
+#: ../user/forum_moderate_post.php:65
+#, fuzzy
+msgid "Destination thread ID:"
+msgstr "Kirjoita viestiketjuun"
+
+#: ../user/forum_moderate_post.php:78
+#, fuzzy
+msgid "Banish user"
+msgstr "käyttäjää ei ole"
+
+#: ../user/forum_moderate_post.php:80
+#, fuzzy
+msgid "Ban duration"
+msgstr "vahvistus"
+
+#: ../user/forum_moderate_post.php:81
+#, fuzzy
+msgid "4 hours"
+msgstr "tuntia"
+
+#: ../user/forum_moderate_post.php:82 ../user/forum_search.php:45
+#, fuzzy
+msgid "1 day"
+msgstr "%1 päivää"
+
+#: ../user/forum_moderate_post.php:83
+msgid "1 week"
+msgstr ""
+
+#: ../user/forum_moderate_post.php:84
+msgid "2 weeks"
+msgstr ""
+
+#: ../user/forum_moderate_post.php:85
+msgid "1 month"
+msgstr ""
+
+#: ../user/forum_moderate_post.php:86
+msgid "Forever"
+msgstr ""
+
+#: ../user/forum_moderate_post.php:96
+msgid "Optional explanation %1 This is included in email to user.%2"
+msgstr ""
+
+#: ../user/forum_moderate_post.php:101 ../user/forum_moderate_thread.php:91
+#: ../user/forum_post.php:130 ../user/forum_report_post.php:84
+#: ../user/forum_rss.php:55 ../user/friend.php:81 ../user/get_passwd.php:41
+#: ../user/get_passwd.php:75
+msgid "OK"
+msgstr ""
+
+#: ../user/forum_moderate_post_action.php:57
+msgid "You are not authorized to moderate this post."
+msgstr ""
+
+#: ../user/forum_moderate_post_action.php:85
+msgid "Can't move to different category type"
+msgstr ""
+
+#: ../user/forum_moderate_post_action.php:89
+msgid "Can't move to different category"
+msgstr ""
+
+#: ../user/forum_moderate_post_action.php:110
+msgid "Not authorized to banish users"
+msgstr ""
+
+#: ../user/forum_moderate_post_action.php:126
+#, fuzzy
+msgid "Banishment"
+msgstr "Lähettämättä"
+
+#: ../user/forum_moderate_post_action.php:128
+#, fuzzy
+msgid "User %1 has been banished."
+msgstr "Käyttäjä on torjuttu"
+
+#: ../user/forum_moderate_post_action.php:131
+msgid "Action failed: possible database problem"
+msgstr ""
+
+#: ../user/forum_moderate_thread.php:33
+msgid "not authorized"
+msgstr ""
+
+#: ../user/forum_moderate_thread.php:36
+msgid "Moderate thread '%1'"
+msgstr ""
+
+#: ../user/forum_moderate_thread.php:48
+msgid ""
+"Select the reason category, or write a longer description of why you're "
+"hiding or locking the thread; then press OK."
+msgstr ""
+
+#: ../user/forum_moderate_thread.php:72
+#, fuzzy
+msgid "Current forum"
+msgstr "Nykyinen salasana"
+
+#: ../user/forum_moderate_thread.php:73
+#, fuzzy
+msgid "Destination forum"
+msgstr "Tiimin kuvaus"
+
+#: ../user/forum_moderate_thread.php:77
+#, fuzzy
+msgid "New title:"
+msgstr "Muokkaa otsikkoa"
+
+#: ../user/forum_post.php:40
+msgid ""
+"Only project admins may create a thread here. However, you may reply to "
+"existing threads."
+msgstr ""
+
+#: ../user/forum_post.php:60
+#, fuzzy
+msgid ""
+"Your message was flagged as spam by the Akismet anti-spam system. Please "
+"modify your text and try again."
+msgstr ""
+"Ensimmäinen kirjoituksesi merkittiin spämmiksi Akismet-"
+"spämminestojärjestelmän toimesta. Muokkaa tekstiäsi ja yritä uudelleen."
+
+#: ../user/forum_post.php:70
+#, fuzzy
+msgid "Create new thread"
+msgstr "Luo uusi viestiketju"
+
+#: ../user/forum_post.php:100
 msgid "Create a new thread"
 msgstr "Luo uusi viestiketju"
 
-#: ../user/forum_reply.php:85 ../user/forum_thread.php:145
-#: ../user/forum_thread.php:200
+#: ../user/forum_post.php:105
+msgid "Remember to add a title"
+msgstr ""
+
+#: ../user/forum_post.php:127
+msgid "Show this item as a Notice in the BOINC Manager"
+msgstr ""
+
+#: ../user/forum_post.php:127
+msgid "Do so only for items likely to be of interest to all volunteers."
+msgstr ""
+
+#: ../user/forum_rate.php:26
+msgid "Rating offline"
+msgstr ""
+
+#: ../user/forum_rate.php:27
+#, fuzzy
+msgid "This function is turned off by the project"
+msgstr "Tämä toiminto on tilapäisesti kytketty pois päältä"
+
+#: ../user/forum_rate.php:58
+#, fuzzy
+msgid "You need more average or total credit to rate a post."
+msgstr "Viestin lähettämiseen vaadittava keskimääräinen pistemäärä"
+
+#: ../user/forum_rate.php:62
+#, fuzzy
+msgid "You have already rated this post."
+msgstr "Olet jo jäsenenä %1."
+
+#: ../user/forum_rate.php:62 ../user/forum_rate.php:78
+#: ../user/forum_rate.php:83 ../user/forum_report_post.php:68
+#: ../user/forum_report_post.php:93 ../user/forum_subscribe.php:54
+#: ../user/forum_subscribe.php:69 ../user/forum_thread_status.php:51
+#, fuzzy
+msgid "Return to thread"
+msgstr "Takaisin tiimin sivulle"
+
+#: ../user/forum_rate.php:72
+#, fuzzy
+msgid "Input Recorded"
+msgstr "Ehdotus tallennettiin"
+
+#: ../user/forum_rate.php:73
+msgid "Your input has been recorded. Thanks for your help."
+msgstr ""
+
+#: ../user/forum_rate.php:75
+#, fuzzy
+msgid "Vote Registered"
+msgstr "Ehdotus tallennettiin"
+
+#: ../user/forum_rate.php:76
+#, fuzzy
+msgid "Your rating has been recorded. Thanks for your input."
+msgstr "Suosituksesi tallennettiin."
+
+#: ../user/forum_rate.php:80
+msgid "Vote Submission Problem"
+msgstr ""
+
+#: ../user/forum_reply.php:76
+#, fuzzy
+msgid ""
+"Your post has been flagged as spam by the Akismet anti-spam system. Please "
+"modify your text and try again."
+msgstr ""
+"Ensimmäinen kirjoituksesi merkittiin spämmiksi Akismet-"
+"spämminestojärjestelmän toimesta. Muokkaa tekstiäsi ja yritä uudelleen."
+
+#: ../user/forum_reply.php:87 ../user/forum_thread.php:156
+#: ../user/forum_thread.php:276
 msgid "Post to thread"
 msgstr "Kirjoita viestiketjuun"
 
-#: ../user/forum_search.php:25
+#: ../user/forum_reply.php:127
+#, fuzzy
+msgid "Message:"
+msgstr "Viesti"
+
+#: ../user/forum_reply.php:130
+msgid "reply to %1Message ID%2:"
+msgstr ""
+
+#: ../user/forum_reply.php:154
+#, fuzzy
+msgid "Post reply"
+msgstr "Ei vastausta"
+
+#: ../user/forum_reply.php:157
+#, fuzzy
+msgid "Add my signature to this reply"
+msgstr "Lisää siguni tähän viestiin"
+
+#: ../user/forum_report_post.php:45
+msgid "You need more average or total credit to report a post."
+msgstr ""
+
+#: ../user/forum_report_post.php:64
+#, fuzzy
+msgid "Report Registered"
+msgstr "Raportoinnin takaraja"
+
+#: ../user/forum_report_post.php:65
+msgid "Your report has been recorded. Thanks you for your input."
+msgstr ""
+
+#: ../user/forum_report_post.php:66
+msgid ""
+"A moderator will now look at your report and decide what will happen - this "
+"may take a little while, so please be patient"
+msgstr ""
+
+#: ../user/forum_report_post.php:72
+msgid ""
+"Before reporting this post, consider using the +/- rating system instead. If "
+"enough users rate a post negatively it will eventually be hidden.<br />You "
+"can find the rating system at the bottom of the post."
+msgstr ""
+
+#: ../user/forum_report_post.php:79
+#, fuzzy
+msgid "Report post"
+msgstr "Viimeisin viesti"
+
+#: ../user/forum_report_post.php:80
+msgid ""
+"Why do you find the post offensive: %1Please include enough information so "
+"that a person that\n"
+"has not yet read the thread will quickly be able to identify the issue.%2"
+msgstr ""
+
+#: ../user/forum_report_post.php:89
+msgid "Report not registered"
+msgstr ""
+
+#: ../user/forum_report_post.php:90
+msgid "Your report could not be recorded. Please wait a while and try again."
+msgstr ""
+
+#: ../user/forum_report_post.php:91
+msgid ""
+"If this is not a temporary error, please report it to the project developers."
+msgstr ""
+
+#: ../user/forum_rss.php:41
+msgid "%1 RSS feed"
+msgstr ""
+
+#: ../user/forum_rss.php:42
+#, fuzzy
+msgid "This message board is available as an RSS feed."
+msgstr "Uutiset saatavana %sRSS-syötteenä%s"
+
+#: ../user/forum_rss.php:43
+#, fuzzy
+msgid "Options:"
+msgstr "Valinnainen"
+
+#: ../user/forum_rss.php:47
+msgid "Include only posts by user ID %1 (default: all users)."
+msgstr ""
+
+#: ../user/forum_rss.php:49
+msgid "Include only posts from the last %1 days (default: 30)."
+msgstr ""
+
+#: ../user/forum_rss.php:51
+msgid "Truncate posts: %1 (Include only first 265 characters of each post)"
+msgstr ""
+
+#: ../user/forum_rss.php:53
+msgid "Threads only: %1 (Include only the first post of every thread)"
+msgstr ""
+
+#: ../user/forum_search.php:27
 msgid "Forum search"
 msgstr "Hae foorumilta"
 
-#: ../user/forum_search_action.php:139
+#: ../user/forum_search.php:31
+#, fuzzy
+msgid "Search query"
+msgstr "Hakutapa"
+
+#: ../user/forum_search.php:32
+#, fuzzy
+msgid "Search for keywords:"
+msgstr "Hae foorumeista"
+
+#: ../user/forum_search.php:33
+msgid "Posts that contain all the specified words will be displayed"
+msgstr ""
+
+#: ../user/forum_search.php:35
+msgid "For example: \"screensaver freeze\""
+msgstr ""
+
+#: ../user/forum_search.php:36
+#, fuzzy
+msgid "Search for author ID:"
+msgstr "Hae foorumeista"
+
+#: ../user/forum_search.php:37
+msgid "Only posts by this author will be displayed"
+msgstr ""
+
+#: ../user/forum_search.php:39
+msgid "For example: \"43214\""
+msgstr ""
+
+#: ../user/forum_search.php:41
+#, fuzzy
+msgid "Search options"
+msgstr "Hae foorumeista"
+
+#: ../user/forum_search.php:42
+#, fuzzy
+msgid "Search limits"
+msgstr "Hakutulokset"
+
+#: ../user/forum_search.php:43
+msgid "Search at most this many days back in time"
+msgstr ""
+
+#: ../user/forum_search.php:50 ../user/forum_search.php:51
+#, fuzzy
+msgid "%1 months"
+msgstr "%1 viestiä"
+
+#: ../user/forum_search.php:52
+msgid "1 year"
+msgstr ""
+
+#: ../user/forum_search.php:72
+msgid "Only display posts from this forum"
+msgstr ""
+
+#: ../user/forum_search.php:83
+#, fuzzy
+msgid "Sort by"
+msgstr "Järjestä"
+
+#: ../user/forum_search.php:87
+msgid "Start the search"
+msgstr ""
+
+#: ../user/forum_search_action.php:141
 msgid "Forum search results"
 msgstr "Foorumihaun tulokset"
 
-#: ../user/forum_thread.php:45
-msgid "No thread with id %1. Please check the link and try again."
-msgstr ""
-"Viestiketjua tunnisteella %1 ei ole. Tarkista linkki ja yritä uudelleen."
+#: ../user/forum_search_action.php:169
+#, fuzzy
+msgid "Thread titles matching your query:"
+msgstr "Ei hakuehdot täyttäviä profiileja."
 
-#: ../user/forum_thread.php:51
+#: ../user/forum_search_action.php:189
+#, fuzzy
+msgid "Messages matching your query:"
+msgstr "Ei hakuehdot täyttäviä profiileja."
+
+#: ../user/forum_search_action.php:212
+msgid ""
+"Sorry, couldn't find anything matching your search query. You can try to "
+"broaden your search by using less words (or less specific words)."
+msgstr ""
+
+#: ../user/forum_search_action.php:214
+msgid "You can also %1try the same search on Google.%2"
+msgstr ""
+
+#: ../user/forum_search_action.php:219
+msgid "Perform another search"
+msgstr ""
+
+#: ../user/forum_subscribe.php:46
+#, fuzzy
+msgid "Subscription successful"
+msgstr "Päivitys onnistui"
+
+#: ../user/forum_subscribe.php:49
+msgid ""
+"You are now subscribed to %1. You will be notified whenever there is a new "
+"post."
+msgstr ""
+
+#: ../user/forum_subscribe.php:51
+#, fuzzy
+msgid "Subscription failed"
+msgstr "Tiimin kuvaus"
+
+#: ../user/forum_subscribe.php:52
+#, fuzzy
+msgid ""
+"We are currently unable to subscribe you to %1. Please try again later.."
+msgstr ""
+"Tilin luonti on tällä hetkellä pois käytöstä. Yritä myöhemmin uudelleen."
+
+#: ../user/forum_subscribe.php:61
+#, fuzzy
+msgid "Unsubscription successful"
+msgstr "Päivitys onnistui"
+
+#: ../user/forum_subscribe.php:64
+msgid ""
+"You are no longer subscribed to %1. You will no longer receive notifications "
+"for this thread."
+msgstr ""
+
+#: ../user/forum_subscribe.php:66
+#, fuzzy
+msgid "Unsubscription failed"
+msgstr "Peruuta tilaus"
+
+#: ../user/forum_subscribe.php:67
+#, fuzzy
+msgid ""
+"We are currently unable to unsubscribe you from %1. Please try again later.."
+msgstr ""
+"Tilin luonti on tällä hetkellä pois käytöstä. Yritä myöhemmin uudelleen."
+
+#: ../user/forum_subscribe.php:74
+#, fuzzy
+msgid "Unknown subscription action"
+msgstr "Tuntematon toiminto"
+
+#: ../user/forum_thread.php:61
 msgid "This forum is not visible to you."
 msgstr "Tämä foorumi ei näy sinulle."
 
-#: ../user/forum_thread.php:60
-msgid "This thread has been hidden by moderators"
+#: ../user/forum_thread.php:69
+#, fuzzy
+msgid "This thread has been hidden by moderators."
 msgstr "Tämä viestiketju on piilotettu moderaattorien toimesta"
 
-#: ../user/forum_thread.php:117
+#: ../user/forum_thread.php:127
 msgid "My question was answered"
 msgstr "Kysymykseni sai vastauksen"
 
-#: ../user/forum_thread.php:119
-msgid ""
-"If your question has been adequately answered please click here to close it!"
+#: ../user/forum_thread.php:128
+#, fuzzy
+msgid "Click here if your question has been adequately answered"
 msgstr "Jos vastaus kysymykseen tyydytti, napsauta tästä sulkeaksesi."
 
-#: ../user/forum_thread.php:126
+#: ../user/forum_thread.php:136
 msgid "I've also got this question"
 msgstr "Kysyisin myös tätä"
 
-#: ../user/forum_thread.php:145 ../user/forum_thread.php:200
+#: ../user/forum_thread.php:157 ../user/forum_thread.php:277
 msgid "Add a new message to this thread"
 msgstr "Lisää viesti tähän viestiketjuun"
 
-#: ../user/forum_thread.php:152
+#: ../user/forum_thread.php:169
 msgid "Unsubscribe"
 msgstr "Peruuta tilaus"
 
-#: ../user/forum_thread.php:152
+#: ../user/forum_thread.php:170
 msgid "You are subscribed to this thread.  Click here to unsubscribe."
 msgstr "Olet tilannut tämän viestiketjun. Napsauta peruuttaaksesi tilauksen."
 
-#: ../user/forum_thread.php:155
+#: ../user/forum_thread.php:176
 msgid "Subscribe"
 msgstr "Tilaa"
 
-#: ../user/forum_thread.php:155
+#: ../user/forum_thread.php:177
 msgid "Click to get email when there are new posts in this thread"
 msgstr ""
 "Napsauta saadaksesi sähköpostia kun tähän viestiketjuun tulee uusia viestejä"
 
-#: ../user/forum_thread.php:162
+#: ../user/forum_thread.php:187
 msgid "Unhide"
 msgstr "Poista piilotus"
 
-#: ../user/forum_thread.php:162
+#: ../user/forum_thread.php:188
 msgid "Unhide this thread"
 msgstr "Poista tämän viestiketjun piilotus"
 
-#: ../user/forum_thread.php:164
+#: ../user/forum_thread.php:193
 msgid "Hide"
 msgstr "Piilota"
 
-#: ../user/forum_thread.php:164
+#: ../user/forum_thread.php:194
 msgid "Hide this thread"
 msgstr "Piilota tämä viestiketju"
 
-#: ../user/forum_thread.php:167
+#: ../user/forum_thread.php:200
 msgid "Make unsticky"
 msgstr "Poista pysyvyys"
 
-#: ../user/forum_thread.php:167
+#: ../user/forum_thread.php:201
 msgid "Make this thread not sticky"
 msgstr "Poista viestiketjun pysyvyys"
 
-#: ../user/forum_thread.php:169
+#: ../user/forum_thread.php:206
 msgid "Make sticky"
 msgstr "Tee pysyvä"
 
-#: ../user/forum_thread.php:169
+#: ../user/forum_thread.php:207
 msgid "Make this thread sticky"
 msgstr "Tee tästä viestiketjusta pysyvä"
 
-#: ../user/forum_thread.php:172
+#: ../user/forum_thread.php:213
 msgid "Unlock"
 msgstr "Vapauta"
 
-#: ../user/forum_thread.php:172
+#: ../user/forum_thread.php:214
 msgid "Unlock this thread"
 msgstr "Vapauta tämä viestiketju"
 
-#: ../user/forum_thread.php:174
+#: ../user/forum_thread.php:219
 msgid "Lock"
 msgstr "Lukitse"
 
-#: ../user/forum_thread.php:174
+#: ../user/forum_thread.php:220
 msgid "Lock this thread"
 msgstr "Lukitse tämä viestiketju"
 
-#: ../user/forum_thread.php:177
+#: ../user/forum_thread.php:226
 msgid "Move"
 msgstr "Siirrä"
 
-#: ../user/forum_thread.php:177
+#: ../user/forum_thread.php:227
 msgid "Move this thread to a different forum"
 msgstr "Siirrä tämä viestiketju"
 
-#: ../user/forum_thread.php:179
+#: ../user/forum_thread.php:232
 msgid "Edit title"
 msgstr "Muokkaa otsikkoa"
 
-#: ../user/forum_thread.php:179
+#: ../user/forum_thread.php:233
 msgid "Edit thread title"
 msgstr "Muokkaa viestiketjun otsikkoa"
 
-#: ../user/forum_thread.php:186
+#: ../user/forum_thread.php:243
+#, fuzzy
+msgid "Export"
+msgstr "Järjestä"
+
+#: ../user/forum_thread.php:244
+msgid "Export this news item as a Notice"
+msgstr ""
+
+#: ../user/forum_thread.php:249
+msgid "Don't export"
+msgstr ""
+
+#: ../user/forum_thread.php:250
+msgid "Don't export this news item as a Notice"
+msgstr ""
+
+#: ../user/forum_thread.php:258
 msgid "Sort"
 msgstr "Järjestä"
 
-#: ../user/friend.php:31
+#: ../user/forum_thread_status.php:49
+msgid "Thread status updated"
+msgstr ""
+
+#: ../user/forum_thread_status.php:50
+msgid "The status has been updated."
+msgstr ""
+
+#: ../user/forum_user_posts.php:73
+#, fuzzy
+msgid "Posts by %1"
+msgstr "Viestit"
+
+#: ../user/friend.php:33
 msgid "Already friends"
 msgstr "On jo ystävä"
 
-#: ../user/friend.php:37
+#: ../user/friend.php:39
 msgid "You requested friendship with %1 on %2."
 msgstr "Pyysit ystävyyttä %1 kanssa %2."
 
-#: ../user/friend.php:39
+#: ../user/friend.php:41
 msgid "This request is still pending confirmation."
 msgstr "Tämä pyyntö odottaa vahvistusta."
 
-#: ../user/friend.php:50
+#: ../user/friend.php:52
 msgid "%1 is not accepting friendship requests from you"
 msgstr "%1 ei hyväksy ystävyyspyyntöjä sinulta"
 
-#: ../user/friend.php:59
+#: ../user/friend.php:61
 msgid "You can't be friends with yourself"
 msgstr "Et voi olla ystävä itsesi kanssa"
 
-#: ../user/friend.php:62 ../user/friend.php:90 ../user/friend.php:123
-#: ../user/friend.php:146 ../user/friend.php:204 ../user/friend.php:219
-#: ../user/friend.php:233 ../user/pm.php:234 ../user/view_profile.php:24
-msgid "No such user"
-msgstr "Käyttäjää ei ole olemassa"
-
-#: ../user/friend.php:67
+#: ../user/friend.php:69
 msgid "Add friend"
 msgstr "Lisää ystäväksi"
 
-#: ../user/friend.php:72
+#: ../user/friend.php:74
+#, fuzzy
 msgid ""
-"You have asked to add %1 as a friend. We will notify %2 and will ask him/her "
+"You have asked to add %1 as a friend. We will notify %1 and will ask him/her "
 "to confirm that you are friends."
 msgstr ""
 "Olet pyytänyt %1 lisäämään sinut ystäväkseen. Ilmoitamme hänelle (%2) ja "
 "pyydämme häntä vahvistamaan ystävyytenne."
 
-#: ../user/friend.php:75
+#: ../user/friend.php:77
 msgid "Add an optional message here:"
 msgstr "Lisää valinnainen viesti tähän:"
 
-#: ../user/friend.php:113
+#: ../user/friend.php:115
 msgid "Friend request sent"
 msgstr "Ystävyyskutsu lähetettiin"
 
-#: ../user/friend.php:114
+#: ../user/friend.php:116
 msgid "We have notified %1 of your request."
 msgstr "Olemme ilmoittaneet %1 pyynnöstäsi."
 
-#: ../user/friend.php:125
-msgid "Request not found"
-msgstr "Pyyntöä ei löydy"
-
 #: ../user/friend.php:126
+#, fuzzy
+msgid "Please log in as %1"
+msgstr "Ole hyvä ja kirjaudu"
+
+#: ../user/friend.php:127
+msgid "You must log in as %1 to view this friend request"
+msgstr ""
+
+#: ../user/friend.php:138
 msgid "Friend request"
 msgstr "Ystävyyspyyntö"
 
-#: ../user/friend.php:128
-msgid "%1 has added you as a friend."
-msgstr "%1 on lisännyt sinut ystäväkseen."
+#: ../user/friend.php:141
+#, fuzzy
+msgid "%1 has requested friendship with you."
+msgstr "Pyysit ystävyyttä %1 kanssa %2."
 
-#: ../user/friend.php:130
+#: ../user/friend.php:143
 msgid "%1 says: %2"
 msgstr "%1 sanoo: %2"
 
-#: ../user/friend.php:134
+#: ../user/friend.php:146
 msgid "Accept friendship"
 msgstr "Hyväksy ystävyys"
 
-#: ../user/friend.php:134
+#: ../user/friend.php:146
 msgid "Click accept if %1 is in fact a friend"
 msgstr "Napsauta hyväksy, jos %1 on ystävä"
 
-#: ../user/friend.php:135
+#: ../user/friend.php:147
 msgid "Decline"
 msgstr "Kieltäydy"
 
-#: ../user/friend.php:135
+#: ../user/friend.php:147
 msgid "Click decline if %1 is not a friend"
 msgstr "Napsauta kieltäydy jos %1 ei ole ystävä"
 
-#: ../user/friend.php:150
-msgid "No request"
-msgstr "Ei pyyntöä"
-
-#: ../user/friend.php:174
+#: ../user/friend.php:186
 msgid "Friendship confirmed"
 msgstr "Ystävyys vahvistettu"
 
-#: ../user/friend.php:175
+#: ../user/friend.php:187
 msgid "Your friendship with %1 has been confirmed."
 msgstr "Ystävyytesi %1 kanssa on vahvistettu."
 
-#: ../user/friend.php:193
+#: ../user/friend.php:205
 msgid "Friendship declined"
 msgstr "Ystävyys torjuttu"
 
-#: ../user/friend.php:194
+#: ../user/friend.php:206
 msgid "You have declined friendship with %1"
 msgstr "Torjuit ystävyyden %1 kanssa"
 
-#: ../user/friend.php:209
+#: ../user/friend.php:221
 msgid "Notification not found"
 msgstr "Ilmoitusta ei löydy"
 
-#: ../user/friend.php:211
+#: ../user/friend.php:223
 msgid "Friend confirmed"
 msgstr "Ystävä vahvistettu"
 
-#: ../user/friend.php:212
+#: ../user/friend.php:224
 msgid "You are now friends with %1."
 msgstr "Olet nyt ystävä %1 kanssa."
 
-#: ../user/friend.php:220
+#: ../user/friend.php:232
 msgid "Cancel friendship?"
 msgstr "Peruuta ystävyys?"
 
-#: ../user/friend.php:221
+#: ../user/friend.php:234
 msgid "Are you sure you want to cancel your friendship with %1?"
 msgstr "Haluatko varmasti peruuttaa ystävyyden %1 kanssa?"
 
-#: ../user/friend.php:224 ../user/prefs_remove.php:53
-#: ../user/user_search.php:125 ../user/user_search.php:130
-msgid "Yes"
-msgstr "Kyllä"
-
-#: ../user/friend.php:225 ../user/user_search.php:124
-#: ../user/user_search.php:129
-msgid "No"
-msgstr "Ei"
-
-#: ../user/friend.php:225
+#: ../user/friend.php:239
 msgid "Stay friends"
 msgstr "Pysy ystävänä"
 
-#: ../user/friend.php:235
+#: ../user/friend.php:249
 msgid "Friendship cancelled"
 msgstr "Ystävyys peruttu"
 
-#: ../user/friend.php:236
+#: ../user/friend.php:250
 msgid "Your friendship with %1 has been cancelled."
 msgstr "Ystävyytesi %1 kanssa on peruttu."
 
-#: ../user/friend.php:274
-msgid "Unknown action"
-msgstr "Tuntematon toiminto"
+#: ../user/get_passwd.php:25
+#, fuzzy
+msgid "Forgot your account info?"
+msgstr "muu tilitieto"
 
-#: ../user/home.php:40
-msgid "Welcome to %1"
+#: ../user/get_passwd.php:28
+msgid ""
+"1) If you know your account's email address, and you can receive email there:"
 msgstr ""
 
-#: ../user/home.php:41
+#: ../user/get_passwd.php:29
+msgid ""
+"Enter the email address below, and click OK. You will be sent email "
+"instructions for resetting your password."
+msgstr ""
+
+#: ../user/get_passwd.php:46
+msgid ""
+"2) If you forgot your account's email address, or you can't receive email "
+"there:"
+msgstr ""
+
+#: ../user/get_passwd.php:47
+msgid ""
+"If you have run BOINC under this account, you can still access it. Here's "
+"how:"
+msgstr ""
+
+#: ../user/get_passwd.php:50
+msgid ""
+"Go to the BOINC data directory on your computer (on Windows this is usually "
+"<b>C:\\Documents and Settings\\All Users\\Application Data\\BOINC</b> or "
+"<b>C:\\Program Files\\BOINC</b>."
+msgstr ""
+
+#: ../user/get_passwd.php:51
+msgid "Find your account file for this project; it will be named <b>%1</b>."
+msgstr ""
+
+#: ../user/get_passwd.php:52
+msgid "Open the file in a text editor like Notepad. You'll see something like"
+msgstr ""
+
+#: ../user/get_passwd.php:62
+msgid "Select and Copy the string between %1 and %2 (%3 in the above example)."
+msgstr ""
+
+#: ../user/get_passwd.php:64
+msgid "Paste the string into the field below, and click OK."
+msgstr ""
+
+#: ../user/get_passwd.php:65
+#, fuzzy
+msgid ""
+"You will now be logged in to your account; update the email and password of "
+"your account."
+msgstr ""
+"Napsauta oheista linkkiä vahvistaaksesi sähköpostisoitteen tilillesi %1:"
+
+#: ../user/get_passwd.php:71
+msgid "Log in with authenticator"
+msgstr ""
+
+#: ../user/home.php:42
+msgid "Welcome to %1"
+msgstr "Tervetuloa %1 -projektiin"
+
+#: ../user/home.php:43
 msgid "View and edit your account preferences using the links below."
 msgstr "Katso ja muokkaa tilisi asetuksia alla olevien linkkien kautta."
 
-#: ../user/home.php:49 ../project.sample/project.inc:49
+#: ../user/home.php:46
+msgid "If you have not already done so, %1download BOINC client software%2."
+msgstr ""
+
+#: ../user/home.php:49 ../project.sample/project.inc:46
 msgid "Your account"
 msgstr "Tilisi"
 
-#: ../user/host_app_versions.php:54
+#: ../user/host_app_versions.php:26
+msgid "nvidia GPU"
+msgstr ""
+
+#: ../user/host_app_versions.php:36
+#, fuzzy
+msgid "Anonymous platform, missing app"
+msgstr "Anonyymi alusta"
+
+#: ../user/host_app_versions.php:39
+#, fuzzy
+msgid "anonymous platform"
+msgstr "Anonyymi alusta"
+
+#: ../user/host_app_versions.php:43
+msgid "Missing app version"
+msgstr ""
+
+#: ../user/host_app_versions.php:45
+#, fuzzy
+msgid "Missing app"
+msgstr "hakutapa puuttuu"
+
+#: ../user/host_app_versions.php:47
+msgid "Missing platform"
+msgstr ""
+
+#: ../user/host_app_versions.php:56
+msgid "Number of tasks completed"
+msgstr ""
+
+#: ../user/host_app_versions.php:57
+#, fuzzy
+msgid "Max tasks per day"
+msgstr "Näytettäviä tehtäviä ei ole"
+
+#: ../user/host_app_versions.php:58
+#, fuzzy
+msgid "Number of tasks today"
+msgstr "Näytettäviä tehtäviä ei ole"
+
+#: ../user/host_app_versions.php:59
+msgid "Consecutive valid tasks"
+msgstr ""
+
+#: ../user/host_app_versions.php:63
+#, fuzzy
+msgid "Average processing rate"
+msgstr "Keskimääräinen lähetysnopeus"
+
+#: ../user/host_app_versions.php:72
 msgid "Application details for host %1"
 msgstr "Koneen %1 sovellustiedot"
 
-#: ../user/hosts_user.php:51
+#: ../user/host_delete.php:31
+#, fuzzy
+msgid "We have no record of that computer."
+msgstr "Sulauta tämän tietokoneen duplikaattitiedot"
+
+#: ../user/host_delete.php:38
+msgid ""
+"You can not delete our record of this computer because our database still "
+"contains work for it. You must wait a few days until the work for this "
+"computer has been deleted from the project database."
+msgstr ""
+
+#: ../user/host_delete.php:40
+#, fuzzy
+msgid "Delete record of computer"
+msgstr "Poista tämä tietokone"
+
+#: ../user/host_delete.php:41
+#, fuzzy
+msgid "Record deleted."
+msgstr "Raportoinnin takaraja"
+
+#: ../user/host_delete.php:42 ../user/host_edit_action.php:65
+#, fuzzy
+msgid "Return to list of your computers"
+msgstr "Aja %1 vain koneella, johon sinulla on oikeus"
+
+#: ../user/host_edit_action.php:39
+#, fuzzy
+msgid "Merge computer records"
+msgstr "Sulauta koneet nimien mukaan"
+
+#: ../user/host_edit_form.php:35
+#, fuzzy
+msgid "Merge computers"
+msgstr "Sulauta koneet nimien mukaan"
+
+#: ../user/host_edit_form.php:38
+msgid ""
+"Sometimes BOINC assigns separate identities to the same computer by mistake. "
+"You can correct this by merging old identities with the newest one."
+msgstr ""
+
+#: ../user/host_edit_form.php:56
+msgid "No hosts are eligible for merging with this one."
+msgstr ""
+
+#: ../user/host_edit_form.php:58 ../user/host_edit_form.php:114
+#, fuzzy
+msgid "Show details"
+msgstr "Näytä nimet"
+
+#: ../user/host_edit_form.php:66
+msgid ""
+"Check the computers that are the same as %1 (created %2, computer ID %3):"
+msgstr ""
+
+#: ../user/host_edit_form.php:70 ../user/workunit.php:39
+msgid "name"
+msgstr "nimi"
+
+#: ../user/host_edit_form.php:70 ../user/workunit.php:41
+msgid "created"
+msgstr "luotu"
+
+#: ../user/host_edit_form.php:70
+#, fuzzy
+msgid "computer ID"
+msgstr "Tietokoneen tunniste"
+
+#: ../user/host_edit_form.php:77
+#, fuzzy
+msgid "no hostname"
+msgstr "Ei konetta"
+
+#: ../user/host_edit_form.php:109
+#, fuzzy
+msgid "Merge hosts"
+msgstr "Sulauta"
+
+#: ../user/host_update_credit.php:28
+msgid "Updating computer credit"
+msgstr ""
+
+#: ../user/host_venue_action.php:41
+msgid "Host venue updated"
+msgstr ""
+
+#: ../user/host_venue_action.php:43
+#, fuzzy
+msgid "none"
+msgstr "Valmis"
+
+#: ../user/host_venue_action.php:46
+msgid "The venue of this host has been set to %1."
+msgstr ""
+
+#: ../user/host_venue_action.php:48
+msgid ""
+"This change will take effect the next time the host communicates with this "
+"project."
+msgstr ""
+
+#: ../user/host_venue_action.php:50
+#, fuzzy
+msgid "Return to host page"
+msgstr "Takaisin tiimin sivulle"
+
+#: ../user/hosts_user.php:53
 msgid "Computers belonging to %1"
 msgstr "Tietokoneet, jotka kuuluvat käyttäjälle %1"
 
-#: ../user/hosts_user.php:54
-msgid "This user has chosen not to show information about their computers."
+#: ../user/hosts_user.php:55
+#, fuzzy
+msgid "Computers hidden"
+msgstr "Tietokoneen tiedot"
+
+#: ../user/hosts_user.php:56
+#, fuzzy
+msgid ""
+"This user has chosen not to show information about his or her computers."
 msgstr "Tämä käyttäjä ei ole halunnut näyttää tietokoneittensa tietoja."
 
-#: ../user/info.php:22 ../user/sample_index.php:47
+#: ../user/hosts_user.php:64
+#, fuzzy
+msgid "Your computers"
+msgstr "Tietokoneiden kärki"
+
+#: ../user/html.php:23
+#, fuzzy
+msgid "Allowed HTML tags"
+msgstr "Älä käytä HTML-tageja."
+
+#: ../user/html.php:25
+msgid "The following HTML tags are allowed in team descriptions:"
+msgstr ""
+
+#: ../user/html.php:27
+msgid "bold"
+msgstr ""
+
+#: ../user/html.php:28
+msgid "italics"
+msgstr ""
+
+#: ../user/html.php:29
+msgid "hyperlink"
+msgstr ""
+
+#: ../user/html.php:30
+msgid "paragraph"
+msgstr ""
+
+#: ../user/html.php:31
+msgid "break"
+msgstr ""
+
+#: ../user/html.php:32
+#, fuzzy
+msgid "preformatted"
+msgstr "Luotu"
+
+#: ../user/html.php:33
+msgid ""
+"image; height cannot exceed 450 pixels. Please do not link to images without "
+"permission of the web site where the image is hosted."
+msgstr ""
+
+#: ../user/html.php:35
+msgid "You can also use ampersand notation for special characters."
+msgstr ""
+
+#: ../user/info.php:24 ../user/sample_index.php:73
 msgid "Read our rules and policies"
 msgstr "Lue sääntömme ja periaatteemme"
 
-#: ../user/info.php:33
+#: ../user/info.php:35
 msgid "Run %1 only on authorized computers"
 msgstr "Aja %1 vain koneella, johon sinulla on oikeus"
 
-#: ../user/info.php:34
+#: ../user/info.php:36
 msgid ""
 "Run %1 only on computers that you own, or for which you have obtained the "
 "owner's permission. Some companies and schools have policies that prohibit "
@@ -2587,11 +4513,11 @@ msgstr ""
 "luvan. Jotkut yritykset ja koulut eivät salli tietokoneittensa käyttöä %1 "
 "tapaisiin projekteihin."
 
-#: ../user/info.php:36
+#: ../user/info.php:38
 msgid "How %1 will use your computer"
 msgstr "Kuinka %1 käyttää tietokonettasi"
 
-#: ../user/info.php:37
+#: ../user/info.php:39
 msgid ""
 "When you run %1 on your computer, it will use part of the computer's CPU "
 "power, disk space, and network bandwidth. You can control how much of your "
@@ -2601,7 +4527,7 @@ msgstr ""
 "tehoa, levytilaa ja tietoliikenneyhteyttä. Voit vaikuttaa siihen, paljonko %"
 "1 käyttää näitä resursseja ja milloin."
 
-#: ../user/info.php:38
+#: ../user/info.php:40
 msgid ""
 "The work done by your computer contributes to the goals of %1, as described "
 "on its web site. The application programs may change from time to time."
@@ -2609,23 +4535,23 @@ msgstr ""
 "Tietokoneesi tekemä työ hyödyttää %1 -projektin tavoitteita siten kuin sen "
 "nettisivuilla on kerrottu. Sovellusohjelmat voivat vaihtua aika ajoin."
 
-#: ../user/info.php:40
+#: ../user/info.php:42
 msgid "Privacy policy"
 msgstr "Tietosuojalausunto"
 
-#: ../user/info.php:41
+#: ../user/info.php:43
 msgid ""
 "Your account on %1 is identified by a name that you choose. This name may be "
 "shown on the %1 web site, along with a summary of the work your computer has "
 "done for %1. If you want to be anonymous, choose a name that doesn't reveal "
 "your identity."
 msgstr ""
-"%1 -tilisi tunnistetaan valitsemallasi nimellä. Nimi saattaa näkyä %1 "
-"-projektin nettisivulla samoin kuin tietokoneesi suorittamat työt %1 "
-"-projektille. Jos haluat pysyä anonyyminä, valitse nimi joka ei paljasta "
+"%1 -tilisi tunnistetaan valitsemallasi nimellä. Nimi saattaa näkyä %1 -"
+"projektin nettisivulla samoin kuin tietokoneesi suorittamat työt %1 -"
+"projektille. Jos haluat pysyä anonyyminä, valitse nimi joka ei paljasta "
 "identiteettiäsi."
 
-#: ../user/info.php:42
+#: ../user/info.php:44
 msgid ""
 "If you participate in %1, information about your computer (such as its "
 "processor type, amount of memory, etc.) will be recorded by %1 and used to "
@@ -2639,7 +4565,7 @@ msgstr ""
 "1 -projektin nettisivuilla. Sellaisia tietoja, joista voitaisiin nähdä "
 "tietokoneesi sijainti, ei näytetä (esim. domain-nimi tai verkko-osoite)."
 
-#: ../user/info.php:43
+#: ../user/info.php:45
 msgid ""
 "To participate in %1, you must give an address where you receive email. This "
 "address will not be shown on the %1 web site or shared with organizations. %"
@@ -2649,7 +4575,7 @@ msgstr ""
 "Osoitetta ei näytetä %1 -nettisivulla eikä jaeta muille. %1 saattaa lähettää "
 "ajoittaisia uutiskirjeitä, jotka voit keskeyttää milloin vain."
 
-#: ../user/info.php:44
+#: ../user/info.php:46
 msgid ""
 "Private messages sent on the %1 web site are visible only to the sender and "
 "recipient.  %1 does not examine or police the content of private messages.  "
@@ -2663,7 +4589,7 @@ msgstr ""
 "2viestisuodattimeen%3.  Sen jälkeen et näe kyseisen käyttäjän yleisiä tai "
 "yksityisiä viestejä."
 
-#: ../user/info.php:45
+#: ../user/info.php:47
 msgid ""
 "If you use our web site forums you must follow the %2posting guidelines%3.  "
 "Messages posted to the %1 forums are visible to everyone, including non-"
@@ -2675,11 +4601,11 @@ msgstr ""
 "niille, jotka eivät ole jäseniä.  Lähettämällä viestin foorumiin myönnät "
 "kaikille oikeuden katsoa ja kopioida viestejäsi."
 
-#: ../user/info.php:46
+#: ../user/info.php:48
 msgid "Is it safe to run %1?"
 msgstr "Onko %1 turvallinen ajaa?"
 
-#: ../user/info.php:47
+#: ../user/info.php:49
 msgid ""
 "Any time you download a program through the Internet you are taking a "
 "chance: the program might have dangerous errors, or the download server "
@@ -2697,7 +4623,7 @@ msgstr ""
 "allekirjoituksella, joka on tehty tietokoneella, joka ei ole yhteydessä "
 "internettiin."
 
-#: ../user/info.php:48
+#: ../user/info.php:50
 msgid ""
 "The applications run by %1 may cause some computers to overheat. If this "
 "happens, stop running %1 or use a %2utility program%3 that limits CPU usage."
@@ -2706,16 +4632,17 @@ msgstr ""
 "ylikuumenemista. Jos niin käy, lopeta %1 tai käytä %2ohjelmaa%3 joka "
 "rajoittaa keskusyksikön kuormitusta."
 
-#: ../user/info.php:49
+#: ../user/info.php:51
 msgid ""
 "%1 was developed by %2. BOINC was developed at the University of California."
-msgstr "%1 kehitettiin %2 toimesta. BOINC kehitettiin Kalifornian yliopistolla."
+msgstr ""
+"%1 kehitettiin %2 toimesta. BOINC kehitettiin Kalifornian yliopistolla."
 
-#: ../user/info.php:51
+#: ../user/info.php:53
 msgid "Liability"
 msgstr "Vastuu"
 
-#: ../user/info.php:52
+#: ../user/info.php:54
 msgid ""
 "%1 and %2 assume no liability for damage to your computer, loss of data, or "
 "any other event or condition that may occur as a result of participating in %"
@@ -2725,11 +4652,11 @@ msgstr ""
 "tietojen häviämisestä tai mistään muusta tapahtumasta, joka on seurausta "
 "osallistumisesta %1 -projektiin."
 
-#: ../user/info.php:54
+#: ../user/info.php:56
 msgid "Other BOINC projects"
 msgstr "Muita BOINC-projekteja"
 
-#: ../user/info.php:55
+#: ../user/info.php:57
 msgid ""
 "Other projects use the same platform, BOINC, as %1. You may want to consider "
 "participating in one or more of these projects. By doing so, your computer "
@@ -2740,7 +4667,7 @@ msgstr ""
 "tietokoneesi suorittaa hyödyllistä työtä silloinkin kun %1 -projektilla ei "
 "ole työtä."
 
-#: ../user/info.php:56
+#: ../user/info.php:58
 msgid ""
 "These other projects are not associated with %1, and we cannot vouch for "
 "their security practices or the nature of their research. Join them at your "
@@ -2750,17 +4677,18 @@ msgstr ""
 "taata heidän turvamenettelyjään tai tutkimusten luonnetta. Heidän "
 "projekteihinsa liittyminen tapahtuu omalla riskillä."
 
-#: ../user/language_select.php:42
+#: ../user/language_select.php:44
 msgid "Language selection"
 msgstr "Kielivalinta"
 
-#: ../user/language_select.php:69
+#: ../user/language_select.php:70
 msgid ""
 "This web site is available in several languages. The currently selected "
 "language is %1."
-msgstr "Tämä nettisivu löytyy useammalla kielellä. Nykyinen kielivalinta on %1."
+msgstr ""
+"Tämä nettisivu löytyy useammalla kielellä. Nykyinen kielivalinta on %1."
 
-#: ../user/language_select.php:74
+#: ../user/language_select.php:75
 msgid ""
 "Normally the choice of language is determined by your browser's language "
 "setting, which is: %1.  You can change this setting using:"
@@ -2768,17 +4696,17 @@ msgstr ""
 "Kielivalinta perustuu yleensä selaimen kieliasetukseen, joka on: %1.  Voit "
 "muuttaa asetusta:"
 
-#: ../user/language_select.php:79
+#: ../user/language_select.php:80
 msgid "Firefox: Tools/Options/General"
 msgstr ""
-"Firefox: Työkalut/Asetukset/Sisältö-välilehti, josta Kielet-kohta ja "
-"Valitse-nappi"
+"Firefox: Työkalut/Asetukset/Sisältö-välilehti, josta Kielet-kohta ja Valitse-"
+"nappi"
 
-#: ../user/language_select.php:81
+#: ../user/language_select.php:82
 msgid "Microsoft IE: Tools/Internet Options/Languages"
 msgstr "Microsoft IE: Työkalut/Internet-asetukset/Kielet"
 
-#: ../user/language_select.php:85
+#: ../user/language_select.php:86
 msgid ""
 "Or you can select a language by clicking on one of the links.  This will "
 "send your browser a cookie; make sure your browser accepts cookies from our "
@@ -2787,15 +4715,15 @@ msgstr ""
 "Kielen voi myös valita napsauttamalla jotain linkeistä. Tällöin selaimellesi "
 "lähetetään eväste. Varmista, että selaimesi hyväksyy meidän evästeet."
 
-#: ../user/language_select.php:91
+#: ../user/language_select.php:92
 msgid "Language name (click to select)"
 msgstr "Kielen nimi (napsauta valitaksesi)"
 
-#: ../user/language_select.php:93
+#: ../user/language_select.php:94
 msgid "Use browser language setting"
 msgstr "Käytä selaimen kieliasetusta"
 
-#: ../user/language_select.php:109
+#: ../user/language_select.php:110
 msgid ""
 "Translations are done by volunteers.  If your native language is not here, %"
 "1you can provide a translation%2."
@@ -2803,175 +4731,173 @@ msgstr ""
 "Käännökset tehdään vapaaehtoisvoimin.  Jos oma kielesi ei ole listalla, %"
 "1voit tarjota käännöstä%2."
 
-#: ../user/login_form.php:42
+#: ../user/login_form.php:50
 msgid "Email address:"
 msgstr "Sähköpostiosoite:"
 
-#: ../user/login_form.php:42
+#: ../user/login_form.php:50
 msgid "forgot email address?"
 msgstr "sähköpostiosoite unohtunut?"
 
-#: ../user/login_form.php:44
+#: ../user/login_form.php:52
 msgid "Password:"
 msgstr "Salasana:"
 
-#: ../user/login_form.php:44
+#: ../user/login_form.php:52
 msgid "forgot password?"
 msgstr "salasana unohtunut?"
 
-#: ../user/login_form.php:47
-msgid "Stay logged in on this computer"
-msgstr "Pysy kirjautuneena tällä tietokoneella"
+#: ../user/login_form.php:55
+#, fuzzy
+msgid "Stay logged in"
+msgstr "Ei kirjauduttu sisään."
 
-#: ../user/login_form.php:52
-msgid "Log in"
-msgstr "Kirjaudu"
-
-#: ../user/login_form.php:53
+#: ../user/login_form.php:61
 msgid "or %1create an account%2."
 msgstr "tai %1luo tili%2."
 
-#: ../user/pm.php:68
+#: ../user/pm.php:73
 msgid "Your message has been sent."
 msgstr "Viestisi on lähetetty."
 
-#: ../user/pm.php:78
+#: ../user/pm.php:83
 msgid "You have no private messages."
 msgstr "Sinulle ei ole yksityisviestejä."
 
-#: ../user/pm.php:85
+#: ../user/pm.php:90
 msgid "Sender and date"
 msgstr "Lähettäjä ja päiväys"
 
-#: ../user/pm.php:102 ../user/pm.php:142
+#: ../user/pm.php:106 ../user/pm.php:146
 msgid "Reply"
 msgstr "Vastaa"
 
-#: ../user/pm.php:113
+#: ../user/pm.php:117
 msgid "Delete selected messages"
 msgstr "Poista valitut viestit"
 
-#: ../user/pm.php:136
+#: ../user/pm.php:140
 msgid "Sender"
 msgstr "Lähettäjä"
 
-#: ../user/pm.php:139
+#: ../user/pm.php:143
 msgid "Date"
 msgstr "Päiväys"
 
-#: ../user/pm.php:179
+#: ../user/pm.php:185
 msgid "You need to fill all fields to send a private message"
 msgstr "Kaikki kentät pitää täyttää yksityisviestin lähettämiseksi"
 
-#: ../user/pm.php:199
+#: ../user/pm.php:205
 msgid "Could not find user with id %1"
 msgstr "Käyttäjätunnistetta %1 ei löytynyt"
 
-#: ../user/pm.php:204
+#: ../user/pm.php:210
 msgid "Could not find user with username %1"
 msgstr "Käyttäjänimeä %1 ei löytynyt"
 
-#: ../user/pm.php:206
+#: ../user/pm.php:212
 msgid "%1 is not a unique username; you will have to use user ID"
 msgstr "%1 ei ole kelvollinen käyttäjänimi; käytä käyttäjän ID:tä"
 
-#: ../user/pm.php:211
+#: ../user/pm.php:217
 msgid "User %1 (ID: %2) is not accepting private messages from you."
 msgstr "Käyttäjä %1 (tunniste: %2) ei halua sinulta yksityisviestejä."
 
-#: ../user/pm.php:236
+#: ../user/pm.php:240 ../user/view_profile.php:26
+msgid "No such user"
+msgstr "Käyttäjää ei ole olemassa"
+
+#: ../user/pm.php:242
 msgid "Really block %1?"
 msgstr "Estetäänkö %1?"
 
-#: ../user/pm.php:237
+#: ../user/pm.php:243
 msgid ""
 "Are you really sure you want to block user %1 from sending you private "
 "messages?"
 msgstr "Haluatko estää käyttäjää %1 lähettämästä yksityisviestejä?"
 
-#: ../user/pm.php:238
+#: ../user/pm.php:244
 msgid "Please note that you can only block a limited amount of users."
 msgstr "Voit estää vain rajoitetun määrän käyttäjiä."
 
-#: ../user/pm.php:239
+#: ../user/pm.php:245
 msgid ""
 "Once the user has been blocked you can unblock it using forum preferences "
 "page."
 msgstr "Foorumin asetukset-sivulta voi poistaa aiemmin tehdyn käyttäjäeston."
 
-#: ../user/pm.php:245
-msgid "Add user to filter"
-msgstr "Lisää käyttäjä suodatettavaksi"
-
-#: ../user/pm.php:246
+#: ../user/pm.php:252
 msgid "No, cancel"
 msgstr "Ei, peruuta"
 
-#: ../user/pm.php:257
+#: ../user/pm.php:263
 msgid "User %1 blocked"
 msgstr "Käyttäjä %1 estetty"
 
-#: ../user/pm.php:259
+#: ../user/pm.php:265
 msgid "User %1 has been blocked from sending you private messages."
 msgstr "Käyttäjää %1 on estetty lähettämästä sinulle yksityisviestejä."
 
-#: ../user/pm.php:260
+#: ../user/pm.php:266
 msgid "To unblock, visit %1message board preferences%2"
 msgstr "Esto poistetaan %1keskustelupalstan asetuksista%2"
 
 #: ../user/prefs.php:36
+#, fuzzy
 msgid ""
 "Your preferences have been updated, and\n"
-"\t      will take effect when your computer communicates with %1\n"
-"\t      or you issue the %2Update%3 command from the BOINC Manager."
+"          will take effect when your computer communicates with %1\n"
+"          or you issue the %2Update%3 command from the BOINC Manager."
 msgstr ""
 "Asetukset on päivitetty. Ohjelmaa koskevat asetukset\n"
 "\t      tulevat voimaan kun tietokoneesi on yhteydessä %1 kanssa\n"
 "\t      tai käyttäessäsi %2Päivitä%3 komentoa BOINCista."
 
-#: ../user/prefs_edit.php:72 ../user/prefs_edit.php:101
+#: ../user/prefs_edit.php:66 ../user/prefs_edit.php:94
 msgid "%1 for %2"
 msgstr ""
 
-#: ../user/prefs_edit.php:119
+#: ../user/prefs_edit.php:111
 msgid "Back to preferences"
 msgstr "Takaisin asetuksiin"
 
-#: ../user/prefs_remove.php:46
+#: ../user/prefs_remove.php:48
 msgid "Confirm delete preferences"
 msgstr "Vahvista asetusten poisto"
 
-#: ../user/prefs_remove.php:49
+#: ../user/prefs_remove.php:51
 msgid "Are you sure you want to delete your separate %1 preferences for %2?"
 msgstr "Haluatko poistaa erilliset %1 -asetukset paikalle %2?"
 
-#: ../user/prefs_remove.php:53
+#: ../user/prefs_remove.php:55
 msgid "Remove preferences"
 msgstr "Poista asetukset"
 
-#: ../user/prefs_remove.php:55
+#: ../user/prefs_remove.php:57
 msgid "Cancel"
 msgstr "Peruuta"
 
-#: ../user/profile_menu.php:33 ../user/sample_index.php:69
+#: ../user/profile_menu.php:35 ../user/sample_index.php:109
 msgid "Profiles"
 msgstr "Profiilit"
 
-#: ../user/profile_menu.php:36
+#: ../user/profile_menu.php:38
 msgid ""
 "%1Profiles%2 let individuals share backgrounds and opinions with the %3 "
 "community."
 msgstr ""
-"%1Profiilien%2 avulla voi jakaa taustatietojaan ja mielipiteitään %3 "
-"-yhteisön kanssa."
+"%1Profiilien%2 avulla voi jakaa taustatietojaan ja mielipiteitään %3 -"
+"yhteisön kanssa."
 
-#: ../user/profile_menu.php:37
+#: ../user/profile_menu.php:39
 msgid ""
 "Explore the diversity of your fellow volunteers, and contribute your own "
 "views for others to enjoy."
 msgstr "Tutustu muihin vapaaehtoisiin ja kerro omat ajatuksesi muille."
 
-#: ../user/profile_menu.php:38
+#: ../user/profile_menu.php:40
 msgid ""
 "If you haven't already, you can %1create your own user profile%2 for others "
 "to see!"
@@ -2979,275 +4905,299 @@ msgstr ""
 "Jos et ole jo tehnyt, niin voit luoda oman %1käyttäjäprofiilisi%2 muiden "
 "nähtäväksi."
 
-#: ../user/profile_menu.php:43
+#: ../user/profile_menu.php:45
 msgid "User of the Day"
 msgstr "Päivän käyttäjä"
 
-#: ../user/profile_menu.php:56
+#: ../user/profile_menu.php:58
 msgid "User Profile Explorer"
 msgstr "Käyttäjäprofiilien selaus"
 
-#: ../user/profile_menu.php:59
+#: ../user/profile_menu.php:61
 msgid "View the %1User Picture Gallery%2."
 msgstr "Katso %1käyttäjien kuvagallerioita%2."
 
-#: ../user/profile_menu.php:60
+#: ../user/profile_menu.php:62
 msgid "Browse profiles %1by country%2."
 msgstr "Selaa profiileja %1valtioittain%2."
 
-#: ../user/profile_menu.php:61
+#: ../user/profile_menu.php:63
 msgid ""
 "Browse profiles %1at random%2, %3at random with pictures%2, or %4at random "
 "without pictures%2."
 msgstr ""
-"Selaa profiileja %1satunnaisjärjestyksessä%2, %3satunnaisesti kuvilla%2 tai "
-"%4satunnaisesti ilman kuvia%2."
+"Selaa profiileja %1satunnaisjärjestyksessä%2, %3satunnaisesti kuvilla%2 tai %"
+"4satunnaisesti ilman kuvia%2."
 
-#: ../user/profile_menu.php:65
+#: ../user/profile_menu.php:67
 msgid "Alphabetical profile listings:"
 msgstr "Aakkosellinen profiililistaus:"
 
-#: ../user/profile_menu.php:71
+#: ../user/profile_menu.php:73
 msgid "Search profile text"
 msgstr "Hae profiilin tekstistä"
 
-#: ../user/profile_menu.php:96
+#: ../user/profile_menu.php:98
 msgid "No profiles"
 msgstr "Ei profiileja"
 
-#: ../user/profile_menu.php:97
+#: ../user/profile_menu.php:99
 msgid "No profiles matched your query."
 msgstr "Ei hakuehdot täyttäviä profiileja."
 
-#: ../user/profile_rate.php:27
+#: ../user/profile_rate.php:29
 msgid "Invalid vote type:"
 msgstr "Virheellinen ehdotus:"
 
-#: ../user/profile_rate.php:32
+#: ../user/profile_rate.php:34
 msgid "Vote Recorded"
 msgstr "Ehdotus tallennettiin"
 
-#: ../user/profile_rate.php:36
+#: ../user/profile_rate.php:38
 msgid "Thank you"
 msgstr "Kiitos"
 
-#: ../user/profile_rate.php:39
+#: ../user/profile_rate.php:41
 msgid "Your recommendation has been recorded."
 msgstr "Suosituksesi tallennettiin."
 
-#: ../user/profile_rate.php:41
+#: ../user/profile_rate.php:43
 msgid "Your vote to reject this profile has been recorded."
 msgstr "Ehdotuksesi profiilin torjumiseksi on tallennettu."
 
-#: ../user/profile_rate.php:44
+#: ../user/profile_rate.php:46
 msgid "Return to profile."
 msgstr "Takaisin profiiliin."
 
-#: ../user/result.php:28
+#: ../user/profile_search_action.php:36
+msgid "Profiles containing '%1'"
+msgstr ""
+
+#: ../user/profile_search_action.php:40
+#, fuzzy
+msgid "User name"
+msgstr "Tehtävänimi"
+
+#: ../user/profile_search_action.php:41
+#, fuzzy
+msgid "Joined project"
+msgstr "Liityttiin %1"
+
+#: ../user/profile_search_action.php:44
+#, fuzzy
+msgid "Recent credit"
+msgstr "joilla pisteitä hiljattain"
+
+#: ../user/profile_search_action.php:54
+msgid "No profiles found containing '%1'"
+msgstr ""
+
+#: ../user/result.php:30
 msgid "No such task"
 msgstr "Tehtävää ei ole"
 
-#: ../user/result.php:30
+#: ../user/result.php:32
 msgid "Task %1"
 msgstr "Tehtävä %1"
 
-#: ../user/results.php:27
+#: ../user/results.php:29
 msgid "This feature is turned off temporarily"
 msgstr "Tämä toiminto on tilapäisesti kytketty pois päältä"
 
-#: ../user/results.php:47
+#: ../user/results.php:56
 msgid "No computer with ID %1 found"
 msgstr "Tietokonetta tunnisteella %1 ei löydy"
 
-#: ../user/results.php:54
+#: ../user/results.php:63
 msgid "No access"
 msgstr "Ei pääsyä"
 
-#: ../user/results.php:60
+#: ../user/results.php:69
 msgid "Missing user ID or host ID"
 msgstr "Käyttäjä- tai konetunniste puuttuu"
 
-#: ../user/results.php:92
+#: ../user/results.php:102
 msgid "No tasks to display"
 msgstr "Näytettäviä tehtäviä ei ole"
 
-#: ../user/sample_index.php:131
+#: ../user/sample_index.php:173
 msgid "User of the day"
 msgstr "Päivän käyttäjä"
 
-#: ../user/server_status.php:94
+#: ../user/server_status.php:91
 msgid "Running"
 msgstr "Käynnissä"
 
-#: ../user/server_status.php:97
+#: ../user/server_status.php:94
 msgid "Not Running"
 msgstr "Ei käynnissä"
 
-#: ../user/server_status.php:100
+#: ../user/server_status.php:97
 msgid "Disabled"
 msgstr "Sammutettu"
 
-#: ../user/server_status.php:216
+#: ../user/server_status.php:236
 msgid "Project status"
 msgstr "Projektin tila"
 
-#: ../user/server_status.php:218
+#: ../user/server_status.php:238
 msgid "Server software version: %1"
 msgstr "Palvelimen ohjelmistoversio: %1"
 
-#: ../user/server_status.php:224
+#: ../user/server_status.php:244
 msgid "Server status"
 msgstr "Palvelimen tila"
 
-#: ../user/server_status.php:226
+#: ../user/server_status.php:246
 msgid "Program"
 msgstr "Ohjelma"
 
-#: ../user/server_status.php:226
+#: ../user/server_status.php:246
 msgid "Host"
 msgstr "Kone"
 
-#: ../user/server_status.php:237
+#: ../user/server_status.php:257
 msgid "data-driven web pages"
 msgstr "tietokantaa käyttävät sivut"
 
-#: ../user/server_status.php:243
+#: ../user/server_status.php:263
 msgid "upload/download server"
 msgstr "lähettävä/vast.ottava palvelin"
 
-#: ../user/server_status.php:246
+#: ../user/server_status.php:266
 msgid "scheduler"
 msgstr "aikatauluttaja"
 
-#: ../user/server_status.php:276
+#: ../user/server_status.php:299
 msgid "Running:"
 msgstr "Käynnissä:"
 
-#: ../user/server_status.php:277
+#: ../user/server_status.php:300
 msgid "Program is operating normally"
 msgstr "Ohjelma toimii normaalisti"
 
-#: ../user/server_status.php:278
+#: ../user/server_status.php:301
 msgid "Not Running:"
 msgstr "Ei käynnissä:"
 
-#: ../user/server_status.php:279
+#: ../user/server_status.php:302
 msgid "Program failed or the project is down"
 msgstr "Ohjelma sammui tai projekti on suljettu"
 
-#: ../user/server_status.php:280
+#: ../user/server_status.php:303
 msgid "Disabled:"
 msgstr "Sammutettu:"
 
-#: ../user/server_status.php:281
+#: ../user/server_status.php:304
 msgid "Program is disabled"
 msgstr "Ohjelma on sammutettu"
 
-#: ../user/server_status.php:285
+#: ../user/server_status.php:308
 msgid "Computing status"
 msgstr "Laskennan tila"
 
-#: ../user/server_status.php:291
+#: ../user/server_status.php:314
 msgid "The database server is not accessible"
 msgstr "Tietokantapalvelimeen ei saada yhteyttä"
 
-#: ../user/server_status.php:308
+#: ../user/server_status.php:331
 msgid "Tasks ready to send"
 msgstr "Tehtäviä lähetettävänä"
 
-#: ../user/server_status.php:313 ../user/workunit.php:52
+#: ../user/server_status.php:336 ../user/workunit.php:55
 msgid "Tasks in progress"
 msgstr "Suorituksessa olevat"
 
-#: ../user/server_status.php:318
+#: ../user/server_status.php:341
 msgid "Workunits waiting for validation"
 msgstr "Varmennusta odottavat työpaketit"
 
-#: ../user/server_status.php:323
+#: ../user/server_status.php:346
 msgid "Workunits waiting for assimilation"
 msgstr "Yhdistämistä odottavat työpaketit"
 
-#: ../user/server_status.php:328
+#: ../user/server_status.php:351
 msgid "Workunits waiting for file deletion"
 msgstr "Poistoa odottavat työpaketit"
 
-#: ../user/server_status.php:333
+#: ../user/server_status.php:356
 msgid "Tasks waiting for file deletion"
 msgstr "Poistoa odottavat paketit"
 
-#: ../user/server_status.php:346
+#: ../user/server_status.php:373
 msgid "Transitioner backlog (hours)"
 msgstr "Siirtokasautuma (tuntia)"
 
-#: ../user/server_status.php:353
+#: ../user/server_status.php:380
 msgid "Users"
 msgstr "Käyttäjiä"
 
-#: ../user/server_status.php:355 ../user/server_status.php:371
+#: ../user/server_status.php:382 ../user/server_status.php:398
 msgid "with recent credit"
 msgstr "joilla pisteitä hiljattain"
 
-#: ../user/server_status.php:360 ../user/server_status.php:376
+#: ../user/server_status.php:387 ../user/server_status.php:403
 msgid "with credit"
 msgstr "joilla pisteitä"
 
-#: ../user/server_status.php:365 ../user/server_status.php:381
+#: ../user/server_status.php:392 ../user/server_status.php:408
 msgid "registered in past 24 hours"
 msgstr "viimeisen vrk:n aikana rekisteröityneet"
 
-#: ../user/server_status.php:388
+#: ../user/server_status.php:414
 msgid "current GigaFLOPs"
 msgstr "tämänhetkiset GigaFLOPSit"
 
-#: ../user/server_status.php:397
+#: ../user/server_status.php:423
 msgid "Tasks by application"
 msgstr "Tehtävät sovelluksittain"
 
-#: ../user/server_status.php:398 ../user/workunit.php:38
+#: ../user/server_status.php:426 ../user/workunit.php:40
 msgid "application"
 msgstr "sovellus"
 
-#: ../user/server_status.php:398
+#: ../user/server_status.php:427
 msgid "unsent"
 msgstr "lähettämättä"
 
-#: ../user/server_status.php:398
+#: ../user/server_status.php:428
 msgid "in progress"
 msgstr "laskennassa"
 
-#: ../user/server_status.php:398
+#: ../user/server_status.php:429
 msgid "avg runtime of last 100 results in h (min-max)"
 msgstr "viim. 100 paketin keskim. suoritusaika ed. tunnillta (min-max)"
 
-#: ../user/server_status.php:398
+#: ../user/server_status.php:430
 msgid "users in last 24h"
 msgstr "käyttäjiä edellisen 24 tunnin aikana"
 
-#: ../user/show_user.php:88
-msgid "Account data for %1"
-msgstr ""
+#: ../user/show_host_detail.php:40
+#, fuzzy
+msgid "Computer %1"
+msgstr "Tietokone"
 
-#: ../user/stats.php:23
+#: ../user/stats.php:21
 msgid "Statistics and leaderboards"
 msgstr "Tilastot ja sijalistaukset"
 
-#: ../user/stats.php:27
+#: ../user/stats.php:28
 msgid "Statistics for %1"
-msgstr ""
+msgstr "Käyttäjän %1 tilastot"
 
-#: ../user/stats.php:29 ../user/top_users.php:114
+#: ../user/stats.php:30 ../user/top_users.php:116
 msgid "Top participants"
 msgstr "Osallistujien kärki"
 
-#: ../user/stats.php:30
+#: ../user/stats.php:31
 msgid "Top computers"
 msgstr "Tietokoneiden kärki"
 
-#: ../user/stats.php:31 ../user/team.php:43
+#: ../user/stats.php:32 ../user/team.php:46
 msgid "Top teams"
 msgstr "Tiimien kärki"
 
-#: ../user/stats.php:35
+#: ../user/stats.php:36
 msgid ""
 "More detailed statistics for %1 and other BOINC-based projects are available "
 "at several web sites:"
@@ -3255,13 +5205,13 @@ msgstr ""
 "Tarkemmat tilastot %1 -projektista ja muista BOINC-pohjaisista projekteista "
 "löytyvät useilta nettisivuilta:"
 
-#: ../user/stats.php:38
+#: ../user/stats.php:39
 msgid ""
 "You can also get your current statistics in the form of a \"signature image"
 "\":"
 msgstr "Voit saada nykyiset tilastosi \"sigu-kuvana\":"
 
-#: ../user/stats.php:41
+#: ../user/stats.php:42
 msgid ""
 "Additionally you can get your individual statistics summed across all BOINC "
 "projects from several sites; see your %1home page%2."
@@ -3270,84 +5220,95 @@ msgstr ""
 "kesken useilta nettisivuilta. Katso tarkemmin %1omalta sivultasi%2."
 
 #: ../user/team.php:25
-msgid "%1 participants may form %2teams%3"
-msgstr "%1 -osallistujat voivat perustaa %2tiimejä%3"
+#, fuzzy
+msgid "Teams"
+msgstr "Tiimi"
 
 #: ../user/team.php:27
+#, fuzzy
+msgid "%1 participants may form %2teams%3."
+msgstr "%1 -osallistujat voivat perustaa %2tiimejä%3"
+
+#: ../user/team.php:29
 msgid ""
 "You may belong to only one team. You can join or quit a team at any time."
 msgstr ""
 "Voit kuulua kerrallaan vain yhteen tiimiin. Tiimiin voi liittyä ja siitä "
 "erota milloin vain."
 
-#: ../user/team.php:29
+#: ../user/team.php:31
 msgid "Each team has a %1founder%2 who may:"
 msgstr "Jokaisella tiimillä on %1perustaja%2 joka:"
 
-#: ../user/team.php:31
+#: ../user/team.php:33
 msgid "access team members' email addresses"
 msgstr "saa tiimin jäsenten sähköpostiosoitteet"
 
-#: ../user/team.php:32
+#: ../user/team.php:34
 msgid "edit the team's name and description"
 msgstr "voi muokata tiimin nimeä ja kuvausta"
 
-#: ../user/team.php:33
+#: ../user/team.php:35
+#, fuzzy
+msgid "add or remove team admins"
+msgstr "Lisää tai poista tiimin ylläpitäjä"
+
+#: ../user/team.php:36
 msgid "remove members from the team"
 msgstr "voi poistaa jäseniä tiimistä"
 
-#: ../user/team.php:34
+#: ../user/team.php:37
 msgid "disband a team if it has no members"
 msgstr "voi lopettaa tiimin, jos siinä ei ole jäseniä"
 
-#: ../user/team.php:37
+#: ../user/team.php:40
 msgid "To join a team, visit its team page and click %1Join this team%2."
 msgstr ""
 "Tiimiin voi liittyä käymällä sen nettisivuilla ja napsauttamalla %1Liity "
 "tähän tiimiin%2."
 
-#: ../user/team.php:38 ../user/team_search.php:155
+#: ../user/team.php:41 ../user/team_search.php:179
 msgid "Find a team"
 msgstr "Hae tiimi"
 
-#: ../user/team.php:45
+#: ../user/team.php:48
 msgid "All teams"
 msgstr "Kaikki tiimit"
 
-#: ../user/team.php:49
+#: ../user/team.php:52
 msgid "%1 teams"
 msgstr "%1 tiimit"
 
-#: ../user/team.php:55
+#: ../user/team.php:58
 msgid "Create a new team"
 msgstr "Luo uusi tiimi"
 
-#: ../user/team.php:56
+#: ../user/team.php:59
 msgid ""
 "If you cannot find a team that is right for you, you can %1create a team%2."
 msgstr "Jos et löydä itsellesi sopivaa tiimiä, %1voit luoda sen%2."
 
-#: ../user/team_admins.php:32
+#: ../user/team_admins.php:34
 msgid "Remove Team Admin status from this member"
 msgstr "Poista tiimin ylläpitäjän oikeudet tältä henkilöltä"
 
-#: ../user/team_admins.php:38 ../user/team_admins.php:49
+#: ../user/team_admins.php:40 ../user/team_admins.php:51
 msgid "Add or remove Team Admins"
 msgstr "Lisää tai poista tiimin ylläpitäjä"
 
-#: ../user/team_admins.php:39
+#: ../user/team_admins.php:41
 msgid "You can select team members as 'Team Admins'. Team Admins can:"
 msgstr "Voi valita tiimin jäsenen tiimin ylläpitäjäksi. Ylläpitäjä voi:"
 
-#: ../user/team_admins.php:41
+#: ../user/team_admins.php:43
 msgid "Edit team information (name, URL, description, country)"
 msgstr "muokata tiimin tietoja (nimeä, URL-osoitetta, kuvausta, valtiota)"
 
-#: ../user/team_admins.php:42
+#: ../user/team_admins.php:44
 msgid "View the team's join/quit history"
 msgstr "Katsoa tiimin liittymis-/eroamishistoriaa"
 
-#: ../user/team_admins.php:43
+#: ../user/team_admins.php:45
 msgid ""
 "Moderate the team forum, if any (admins get email notification of moderation "
 "events and red X reports)"
@@ -3355,25 +5316,25 @@ msgstr ""
 "Moderoi tiimin foorumia (ylläpitäjät saavat sähköposti-ilmoituksen "
 "moderointitapahtumista)"
 
-#: ../user/team_admins.php:45
+#: ../user/team_admins.php:47
 msgid "Team Admins cannot:"
 msgstr "Tiimin ylläpitäjä ei voi:"
 
-#: ../user/team_admins.php:47
+#: ../user/team_admins.php:49
 msgid "Change the team founder"
 msgstr "Vaihtaa tiimin perustajaa"
 
-#: ../user/team_admins.php:48 ../user/team_manage.php:52
+#: ../user/team_admins.php:50 ../user/team_manage.php:54
 msgid "Remove members"
 msgstr "Poistaa jäseniä"
 
-#: ../user/team_admins.php:51
+#: ../user/team_admins.php:53
 msgid "If a Team Admin quits the team, they cease to be a Team Admin."
 msgstr ""
 "Jos tiimin ylläpitäjä eroaa tiimistä, myös hänen ylläpitäjän oikeutensa "
 "lakkaavat."
 
-#: ../user/team_admins.php:52
+#: ../user/team_admins.php:54
 msgid ""
 "We recommend that you select only people you know and trust very well as "
 "Team Admins."
@@ -3381,76 +5342,75 @@ msgstr ""
 "Tiimin ylläpitäjäksi tulisi valita henkilö, jonka tunnet hyvin ja johon "
 "luotat."
 
-#: ../user/team_admins.php:57
+#: ../user/team_admins.php:59
 msgid "There are currently no Team Admins"
 msgstr "Tällä hetkellä ei ole ylläpitäjiä"
 
-#: ../user/team_admins.php:59
+#: ../user/team_admins.php:61
 msgid "Current Team Admins"
 msgstr "Nykyiset ylläpitäjät"
 
-#: ../user/team_admins.php:60
+#: ../user/team_admins.php:62
 msgid "Became Team Admin on"
 msgstr "Ylläpitäjäksi tiimiin"
 
-#: ../user/team_admins.php:75
+#: ../user/team_admins.php:77
 msgid "Add Team Admin"
 msgstr "Lisää ylläpitäjä"
 
-#: ../user/team_admins.php:76
+#: ../user/team_admins.php:78
 msgid "Email address of team member:"
 msgstr "Tiimin jäsenen sähköpostiosoite:"
 
-#: ../user/team_admins.php:88
+#: ../user/team_admins.php:90
 msgid "failed to remove admin"
 msgstr "ylläpitäjän poisto epäonnistui"
 
-#: ../user/team_admins.php:95
+#: ../user/team_admins.php:97
 msgid "no such user"
 msgstr "käyttäjää ei ole"
 
-#: ../user/team_admins.php:96
+#: ../user/team_admins.php:98
 msgid "User is not member of team"
 msgstr "Käyttäjä ei ole tiimin jäsen"
 
-#: ../user/team_admins.php:98
+#: ../user/team_admins.php:100
 msgid "%1 is already an admin of %2"
 msgstr "%1 on jo %2 -tiimin ylläpitäjä"
 
-#: ../user/team_admins.php:102
+#: ../user/team_admins.php:104
 msgid "Couldn't add admin"
 msgstr "Ylläpitäjän lisäys epäonnistui"
 
-#: ../user/team_admins.php:108 ../user/team_quit_form.php:28
-#: ../user/team_remove_inactive_action.php:26
+#: ../user/team_admins.php:110 ../user/team_manage.php:85
+#: ../user/team_quit_form.php:30 ../user/team_remove_inactive_action.php:28
 msgid "No such team"
 msgstr "Tiimiä ei ole"
 
-#: ../user/team_change_founder_action.php:28
-#: ../user/team_change_founder_form.php:31 ../user/team_display.php:67
-#: ../user/team_edit_action.php:28 ../user/team_edit_form.php:27
-#: ../user/team_email_list.php:53 ../user/team_forum.php:162
-#: ../user/team_manage.php:83
+#: ../user/team_change_founder_action.php:30
+#: ../user/team_change_founder_form.php:33 ../user/team_display.php:67
+#: ../user/team_edit_action.php:30 ../user/team_edit_form.php:29
+#: ../user/team_email_list.php:55
 msgid "no such team"
 msgstr "tiimiä ei ole"
 
-#: ../user/team_change_founder_action.php:36
+#: ../user/team_change_founder_action.php:38
 msgid "User is not a member of %1"
 msgstr "Käyttäjä ei ole %1 jäsen"
 
-#: ../user/team_change_founder_action.php:39
+#: ../user/team_change_founder_action.php:41
 msgid "Changing founder of %1"
 msgstr "Vaihdetaan tiimin %1 perustajuutta"
 
-#: ../user/team_change_founder_action.php:41
+#: ../user/team_change_founder_action.php:43
 msgid "%1 is now founder of %2"
 msgstr "%1 on nyt tiimin %2 perustaja"
 
-#: ../user/team_change_founder_form.php:35
+#: ../user/team_change_founder_form.php:37
 msgid "Change founder of %1"
 msgstr "Vaihda tiimin %1 perustaja"
 
-#: ../user/team_change_founder_form.php:41
+#: ../user/team_change_founder_form.php:43
 msgid ""
 "Team member %1 requested this team's foundership on %2, but left the team, "
 "thus canceling the request."
@@ -3458,7 +5418,7 @@ msgstr ""
 "Tiimin jäsen %1 pyysi tämän tiimin perustajuutta %2, mutta erosi tiimistä "
 "samalla peruuttaen pyyntönsä."
 
-#: ../user/team_change_founder_form.php:47
+#: ../user/team_change_founder_form.php:49
 msgid ""
 "Team member %1 has requested this team's foundership. This may be because "
 "you left the team or haven't had contact with the team for a long time."
@@ -3467,11 +5427,11 @@ msgstr ""
 "olet irrottautunut tiimistä tai et ole ollut yhteydessä tiimiin pitkään "
 "aikaan."
 
-#: ../user/team_change_founder_form.php:53
+#: ../user/team_change_founder_form.php:55
 msgid "decline request"
 msgstr "torju pyyntö"
 
-#: ../user/team_change_founder_form.php:56
+#: ../user/team_change_founder_form.php:58
 msgid ""
 "If you don't decline the request by %1, %2 will have the option of assuming "
 "team foundership.<br /><br />\n"
@@ -3483,11 +5443,11 @@ msgstr ""
 "                  Hyväksy pyyntö liittämällä perustajuus %3:lle allaolevalla "
 "lomakeella."
 
-#: ../user/team_change_founder_form.php:64
+#: ../user/team_change_founder_form.php:66
 msgid "No transfer request is pending."
 msgstr "Siirtopyyntöjä ei ole odottamassa."
 
-#: ../user/team_change_founder_form.php:67
+#: ../user/team_change_founder_form.php:69
 msgid ""
 "To assign foundership of this team to another member, check the box next to "
 "member name and click <strong>Change founder</strong> below."
@@ -3496,158 +5456,154 @@ msgstr ""
 "laatikko käyttäjän nimen vieressä ja napsauta alempana <strong>Vaihda "
 "perustaja</strong>."
 
-#: ../user/team_change_founder_form.php:74
+#: ../user/team_change_founder_form.php:76
 msgid "New founder?"
 msgstr "Uusi perustaja?"
 
-#: ../user/team_change_founder_form.php:103 ../user/team_manage.php:54
+#: ../user/team_change_founder_form.php:105 ../user/team_manage.php:56
 msgid "Change founder"
 msgstr "Vaihda perustaja"
 
-#: ../user/team_create_action.php:27
+#: ../user/team_create_action.php:29
 msgid "You must choose a non-blank team name"
 msgstr "Tiimille pitää valita jokin nimi"
 
-#: ../user/team_create_action.php:32
+#: ../user/team_create_action.php:34
 msgid "A team named %1 already exists - try another name"
 msgstr "Tiiminimi %1 on jo käytössä - kokeile toista nimeä"
 
-#: ../user/team_create_action.php:52
+#: ../user/team_create_action.php:54
 msgid "Could not create team - please try later."
 msgstr "Tiimin luonti ei onnistunut - yritä myöhemmin uudelleen."
 
-#: ../user/team_create_form.php:25 ../user/team_create_form.php:30
+#: ../user/team_create_form.php:27 ../user/team_create_form.php:32
 msgid "Create a team"
 msgstr "Luo tiimi"
 
-#: ../user/team_create_form.php:28
+#: ../user/team_create_form.php:30
 msgid ""
 "You belong to %1. You must %2quit this team%3 before creating a new one."
 msgstr ""
 "Kuulut tiimiin %1. Sinun pitää %2erota tästä tiimistä%3 ennen kuin voit "
 "luoda uuden."
 
-#: ../user/team_delta.php:64
+#: ../user/team_delta.php:65
 msgid "Not founder or admin"
 msgstr "Ei perustaja tai ylläpitäjä"
 
-#: ../user/team_delta.php:71
+#: ../user/team_delta.php:72
 msgid "Team history for %1"
 msgstr "Tiimin %1 historia"
 
-#: ../user/team_delta.php:74
+#: ../user/team_delta.php:75
 msgid "When"
 msgstr "Milloin"
 
-#: ../user/team_delta.php:75
+#: ../user/team_delta.php:76
 msgid "User"
 msgstr "Käyttäjä"
 
-#: ../user/team_delta.php:76
+#: ../user/team_delta.php:77
 msgid "Action"
 msgstr "Toiminto"
 
-#: ../user/team_delta.php:77
+#: ../user/team_delta.php:78
 msgid "Total credit at time of action"
 msgstr "Kokonaispisteet toiminnon tapahtuessa"
 
-#: ../user/team_edit_action.php:57
+#: ../user/team_edit_action.php:53
+msgid "bad country"
+msgstr "väärä maa"
+
+#: ../user/team_edit_action.php:59
 msgid "The name '%1' is being used by another team."
 msgstr "Nimi \"%1\" on toisen tiimin käytössä."
 
-#: ../user/team_edit_action.php:60
+#: ../user/team_edit_action.php:62
 msgid "Must specify team name"
 msgstr "Tiiminimi on annettava"
 
-#: ../user/team_edit_action.php:88
+#: ../user/team_edit_action.php:90
 msgid "Could not update team - please try again later."
 msgstr "Tiimin päivitys ei onnistunut - yritä myöhemmin uudelleen."
 
-#: ../user/team_edit_form.php:31
+#: ../user/team_edit_form.php:33
 msgid "Edit %1"
 msgstr "Muokkaa %1"
 
-#: ../user/team_edit_form.php:32
+#: ../user/team_edit_form.php:34
 msgid "Update team info"
 msgstr "Päivitä tiimitiedot"
 
-#: ../user/team_email_list.php:59
+#: ../user/team_email_list.php:61
 msgid "%1 Email List"
 msgstr "%1 Postituslista"
 
-#: ../user/team_email_list.php:61
+#: ../user/team_email_list.php:63
 msgid "Member list of %1"
 msgstr "%1:n jäsenlista"
 
-#: ../user/team_email_list.php:76
+#: ../user/team_email_list.php:78
 msgid "Show as plain text"
 msgstr "Näytä pelkkkänä tekstinä"
 
-#: ../user/team_forum.php:26 ../user/team_forum.php:37
+#: ../user/team_forum.php:28 ../user/team_forum.php:39
 msgid "Create Message Board"
 msgstr "Luo keskustelupalsta"
 
-#: ../user/team_forum.php:27
+#: ../user/team_forum.php:29
 msgid "You may create a message board for use by %1."
 msgstr "Voit luoda keskustelupalstan %1 -tiimille."
 
-#: ../user/team_forum.php:29
+#: ../user/team_forum.php:31
 msgid "Only team members will be able to post."
 msgstr "Vain tiimin jäsenet voivat lähettää viestejä."
 
-#: ../user/team_forum.php:30
+#: ../user/team_forum.php:32
 msgid "At your option, only members will be able to read."
 msgstr "Lukuoikeus voidaan rajoittaa vain jäsenille."
 
-#: ../user/team_forum.php:31
+#: ../user/team_forum.php:33
 msgid "You and your Team Admins will have moderator privileges."
 msgstr "Sinulla ja tiimin ylläpitäjillä on moderaattorin oikeudet."
 
-#: ../user/team_forum.php:38
+#: ../user/team_forum.php:40
 msgid "Create a message board for %1"
 msgstr "Luo keskustelupalsta %1 -tiimille"
 
-#: ../user/team_forum.php:46
+#: ../user/team_forum.php:48
 msgid "Team already has a message board"
 msgstr "Tiimillä on jo keskustelupalsta"
 
-#: ../user/team_forum.php:51
-msgid "couldn't create message board"
-msgstr "keskustelupalstan luonti ei onnistunut"
-
-#: ../user/team_forum.php:57
+#: ../user/team_forum.php:59
 msgid "Team Message Board"
 msgstr "Tiimin keskustelupalsta"
 
-#: ../user/team_forum.php:66
-msgid "Discussion among members of %1"
-msgstr "Keskustelua %1 -jäsenten kanssa"
-
-#: ../user/team_forum.php:69
+#: ../user/team_forum.php:71
 msgid "Minimum time between posts (seconds)"
 msgstr "Lyhin aika viestien välillä (sekuntia)"
 
-#: ../user/team_forum.php:72
+#: ../user/team_forum.php:74
 msgid "Minimum total credit to post"
 msgstr "Viestin lähettämiseen vaadittava pistemäärä"
 
-#: ../user/team_forum.php:75
+#: ../user/team_forum.php:77
 msgid "Minimum average credit to post"
 msgstr "Viestin lähettämiseen vaadittava keskimääräinen pistemäärä"
 
-#: ../user/team_forum.php:78
+#: ../user/team_forum.php:80
 msgid "Submit"
 msgstr "Lähetä"
 
-#: ../user/team_forum.php:87
+#: ../user/team_forum.php:89
 msgid "Remove your team's message board."
 msgstr "Poista tiimisi keskustelupalsta."
 
-#: ../user/team_forum.php:95
+#: ../user/team_forum.php:97
 msgid "Really remove message board?"
 msgstr "Poistetaanko keskustelupalsta?"
 
-#: ../user/team_forum.php:96
+#: ../user/team_forum.php:98
 msgid ""
 "Are you sure you want to remove your team's message board? All threads and "
 "posts will be permanently removed. (You may, however, create a new message "
@@ -3656,56 +5612,45 @@ msgstr ""
 "Poistetaanko tiimin keskustelupalsta? Kaikki viestiketjut viesteineen "
 "poistetaan pysyvästi (voit luoda uuden keskustelupalstan myöhemmin)."
 
-#: ../user/team_forum.php:98
+#: ../user/team_forum.php:100
 msgid "Yes - remove message board"
 msgstr "Kyllä - poista keskustelupalsta"
 
-#: ../user/team_forum.php:105
-msgid "message board not found"
-msgstr "keskustelupalstaa ei löydy"
-
-#: ../user/team_forum.php:119
+#: ../user/team_forum.php:121
 msgid "Message board removed"
 msgstr "Keskustelupalsta poistettu"
 
-#: ../user/team_forum.php:122
+#: ../user/team_forum.php:124
 msgid ""
 "Your team's message board has been removed. You may now %1create a new one%2."
 msgstr "Tiimisi keskustelupalsta on poistettu. Voit %1luoda uuden%2."
 
-#: ../user/team_forum.php:141
+#: ../user/team_forum.php:143
 msgid "Team Message Board Updated"
 msgstr "Tiimin keskustelupalsta päivitetty"
 
-#: ../user/team_forum.php:142
+#: ../user/team_forum.php:144
 msgid "Update successful"
 msgstr "Päivitys onnistui"
 
-#: ../user/team_forum.php:145
+#: ../user/team_forum.php:147
 msgid "Update failed"
 msgstr "Päivitys epäonnistui"
 
-#: ../user/team_forum.php:152
-msgid "team has no forum"
+#: ../user/team_forum.php:154
+#, fuzzy
+msgid "Team has no forum"
 msgstr "tiimillä ei ole foorumia"
 
-#: ../user/team_forum.php:187
-msgid "no such forum"
-msgstr "foorumia ei ole"
-
-#: ../user/team_forum.php:198
-msgid "unknown command %1"
-msgstr "tuntematon kometo %1"
-
-#: ../user/team_founder_transfer_action.php:34
+#: ../user/team_founder_transfer_action.php:36
 msgid "You must be a member of a team to access this page."
 msgstr "Nähdäksesi sivun sinun pitää olla tiimin jäsen."
 
-#: ../user/team_founder_transfer_action.php:88
+#: ../user/team_founder_transfer_action.php:90
 msgid "Requesting foundership of %1"
 msgstr "Pyydetään tiimin %1 perustajuutta"
 
-#: ../user/team_founder_transfer_action.php:96
+#: ../user/team_founder_transfer_action.php:98
 msgid ""
 "The current founder has been notified of your request by email and private "
 "message.<br /><br />\n"
@@ -3717,16 +5662,16 @@ msgstr ""
 "                       Jos perustaja ei vastaa 60 päivän kuluessa, saat "
 "ryhtyä perustajaksi."
 
-#: ../user/team_founder_transfer_action.php:100
-#: ../user/team_founder_transfer_action.php:111
+#: ../user/team_founder_transfer_action.php:102
+#: ../user/team_founder_transfer_action.php:113
 msgid "Foundership request not allowed now"
 msgstr "Perustajuutta ei voi nyt pyytää"
 
-#: ../user/team_founder_transfer_action.php:107
+#: ../user/team_founder_transfer_action.php:109
 msgid "Assumed foundership of %1"
 msgstr "Otettiin tiimin %1 perustajuus"
 
-#: ../user/team_founder_transfer_action.php:109
+#: ../user/team_founder_transfer_action.php:111
 msgid ""
 "Congratulations, you are now the founder of team %1. Go to %2Your Account "
 "page%3 to find the Team Admin options."
@@ -3734,44 +5679,44 @@ msgstr ""
 "Onnittelut, olet nyt tiimin %1 perustaja. Käy %2tilisivulla%3 katsomassa "
 "ylläpitäjän asetukset."
 
-#: ../user/team_founder_transfer_action.php:118
+#: ../user/team_founder_transfer_action.php:120
 msgid "Decline founder change request"
 msgstr "Torju pyyntö perustajan vaihdosta"
 
-#: ../user/team_founder_transfer_action.php:125
+#: ../user/team_founder_transfer_action.php:127
 msgid "The foundership request from %1 has been declined."
 msgstr "Perustajuuspyyntö käyttäjältä %1 on torjuttu."
 
-#: ../user/team_founder_transfer_action.php:128
+#: ../user/team_founder_transfer_action.php:130
 msgid "There were no foundership requests."
 msgstr "Perustajuuspyyntöjä ei löytynyt."
 
-#: ../user/team_founder_transfer_action.php:132
+#: ../user/team_founder_transfer_action.php:134
 msgid "undefined action %1"
 msgstr "määrittämätön toiminto %1"
 
-#: ../user/team_founder_transfer_action.php:135
-#: ../user/team_founder_transfer_form.php:81
+#: ../user/team_founder_transfer_action.php:137
+#: ../user/team_founder_transfer_form.php:83
 msgid "Return to team page"
 msgstr "Takaisin tiimin sivulle"
 
-#: ../user/team_founder_transfer_form.php:26
+#: ../user/team_founder_transfer_form.php:28
 msgid "You need to be a member of a team to access this page."
 msgstr "Sinun pitää olla tiimin jäsen nähdäksesi tämän sivun."
 
-#: ../user/team_founder_transfer_form.php:29
+#: ../user/team_founder_transfer_form.php:31
 msgid "Request foundership of %1"
 msgstr "Pyydä tiimin %1 perustajuutta"
 
-#: ../user/team_founder_transfer_form.php:36
+#: ../user/team_founder_transfer_form.php:38
 msgid "You are now founder of team %1."
 msgstr "Olet nyt tiimin %1 perustaja."
 
-#: ../user/team_founder_transfer_form.php:42
+#: ../user/team_founder_transfer_form.php:44
 msgid "You requested the foundership of %1 on %2."
 msgstr "Pyysit %1 perustajuutta %2."
 
-#: ../user/team_founder_transfer_form.php:45
+#: ../user/team_founder_transfer_form.php:47
 msgid ""
 "60 days have elapsed since your request, and the founder has not responded. "
 "You may now assume foundership by clicking here:"
@@ -3779,11 +5724,11 @@ msgstr ""
 "60 päivää on kulunut pyynnöstäsi eikä perustaja ole vastannut. Voit nyt "
 "ottaa perustajuuden napsauttamalla tästä:"
 
-#: ../user/team_founder_transfer_form.php:48
+#: ../user/team_founder_transfer_form.php:50
 msgid "Assume foundership"
 msgstr "Ota perustajuus"
 
-#: ../user/team_founder_transfer_form.php:52
+#: ../user/team_founder_transfer_form.php:54
 msgid ""
 "The founder was notified of your request. If he/she does not respond by %1 "
 "you will be given an option to become founder."
@@ -3791,7 +5736,7 @@ msgstr ""
 "Perustajalle ilmoitettiin pyynnöstäsi. Jos hän ei vastaa tietyn ajan "
 "kuluessa (%1) saat mahdollisuuden olla perustaja."
 
-#: ../user/team_founder_transfer_form.php:58
+#: ../user/team_founder_transfer_form.php:60
 msgid ""
 "If the team founder is not active and you want to assume the role of "
 "founder, click the button below. The current founder will be sent an email "
@@ -3803,19 +5748,19 @@ msgstr ""
 "Jos tiimin perustaja ei ole aktiivinen ja haluat omaksua perustajan roolin, "
 "napsauta allaolevaa nappia. Nykyiselle perustajalle lähetetään sähköposti "
 "koskien pyyntöäsi ja mahdollisuus siirtää tai evätä perustajuus. Jos "
-"perustaja ei vastaa 60 päivän kuluessa, voit saada perustajuuden.<br /><br "
-"/>\n"
+"perustaja ei vastaa 60 päivän kuluessa, voit saada perustajuuden.<br /><br /"
+">\n"
 "                       Haluatko pyytää perustajuutta?"
 
-#: ../user/team_founder_transfer_form.php:63
+#: ../user/team_founder_transfer_form.php:65
 msgid "Request foundership"
 msgstr "Pyydä perustajuutta"
 
-#: ../user/team_founder_transfer_form.php:72
+#: ../user/team_founder_transfer_form.php:74
 msgid "Founder change has already been requested by %1 on %2."
 msgstr "%1 on jo pyytänyt perustajuuden vaihtoa %2."
 
-#: ../user/team_founder_transfer_form.php:75
+#: ../user/team_founder_transfer_form.php:77
 msgid ""
 "A foundership change was requested during the last 90 days, so new requests "
 "are not allowed. Please try again later."
@@ -3823,152 +5768,152 @@ msgstr ""
 "Perustajuuden vaihtoa on pyydetty viimeisen 90 päivän aikana, joten uusia "
 "pyyntöjä ei sallita. Yritä myöhemmin uudelleen."
 
-#: ../user/team_join.php:30 ../user/team_join_action.php:30
-#: ../user/team_join_form.php:29
+#: ../user/team_join.php:32 ../user/team_join_action.php:32
+#: ../user/team_join_form.php:31
 msgid "The team %1 is not joinable."
 msgstr "Tiimiin %1 ei voi liittyä."
 
-#: ../user/team_join.php:33 ../user/team_join_action.php:33
+#: ../user/team_join.php:35 ../user/team_join_action.php:35
 msgid "Already a member"
 msgstr "On jo jäsen"
 
-#: ../user/team_join.php:34 ../user/team_join_action.php:34
+#: ../user/team_join.php:36 ../user/team_join_action.php:36
 msgid "You are already a member of %1."
 msgstr "Olet jo jäsenenä %1."
 
-#: ../user/team_join.php:40 ../user/team_join_action.php:41
+#: ../user/team_join.php:42 ../user/team_join_action.php:43
 msgid "Couldn't join team - please try again later."
 msgstr "Tiimiin liittyminen epäonnistui - yritä myöhemmin uudelleen."
 
-#: ../user/team_join_action.php:38
+#: ../user/team_join_action.php:40
 msgid "Joined %1"
 msgstr "Liityttiin %1"
 
-#: ../user/team_join_action.php:39
+#: ../user/team_join_action.php:41
 msgid "You have joined %1."
 msgstr "Liityit %1."
 
-#: ../user/team_join_form.php:32
+#: ../user/team_join_form.php:34
 msgid "Join %1"
 msgstr "Liity %1"
 
-#: ../user/team_join_form.php:33
+#: ../user/team_join_form.php:35
 msgid "Please note:"
 msgstr "Huomaa:"
 
-#: ../user/team_join_form.php:35
+#: ../user/team_join_form.php:37
 msgid "Joining a team gives its founder access to your email address."
 msgstr "Liittymällä tiimiin sen perustaja saa sähköpostiosoitteesi."
 
-#: ../user/team_join_form.php:36
+#: ../user/team_join_form.php:38
 msgid "Joining a team does not affect your account's credit."
 msgstr "Tiimiin liittyminen ei vaikuta mitenkään tilisi pisteisiin."
 
-#: ../user/team_join_form.php:43
+#: ../user/team_join_form.php:45
 msgid "Join team"
 msgstr "Liity tiimiin"
 
-#: ../user/team_lookup.php:82
+#: ../user/team_lookup.php:84
 msgid "Search Results"
 msgstr "Hakutulokset"
 
-#: ../user/team_lookup.php:84
+#: ../user/team_lookup.php:86
 msgid "Search results for '%1'"
 msgstr "Hakutulokset haulle \"%1\""
 
-#: ../user/team_lookup.php:86
+#: ../user/team_lookup.php:88
 msgid "You may view these teams' members, statistics, and information."
 msgstr "Voit katsoa näiden tiimien jäseniä, tilastoja ja tietoja."
 
-#: ../user/team_lookup.php:96
+#: ../user/team_lookup.php:98
 msgid "More than 100 teams match your search. The first 100 are shown."
 msgstr "Yli 100 tiimiä vastaa hakuasi. Ensimmäiset 100 näytetään."
 
-#: ../user/team_lookup.php:102
+#: ../user/team_lookup.php:104
 msgid ""
 "End of results. %1 If you cannot find the team you are looking for, you may %"
 "2create a team%3 yourself."
 msgstr ""
-"Tulosten loppu. %1 Jos et löydä hakemaasi tiimiä, voit itse %2luoda tiimin%"
-"3."
+"Tulosten loppu. %1 Jos et löydä hakemaasi tiimiä, voit itse %2luoda tiimin%3."
 
-#: ../user/team_manage.php:24
+#: ../user/team_manage.php:26
 msgid "Team administration for %1"
 msgstr "%1 -tiimin ylläpitäjät"
 
-#: ../user/team_manage.php:27
+#: ../user/team_manage.php:29
 msgid "Edit team info"
 msgstr "Muokkaa tiimin tietoja"
 
-#: ../user/team_manage.php:28
+#: ../user/team_manage.php:30
 msgid "Change team name, URL, description, type, or country"
 msgstr "Muuta tiimin nimeä, URL-osoitetta, kuvausta, tyyppiä tai valtiota"
 
-#: ../user/team_manage.php:30
+#: ../user/team_manage.php:32
 msgid "Member list:"
 msgstr "Käyttäjälista:"
 
-#: ../user/team_manage.php:31 ../user/team_manage.php:35
+#: ../user/team_manage.php:33 ../user/team_manage.php:37
 msgid "HTML"
 msgstr "HTML"
 
-#: ../user/team_manage.php:32
+#: ../user/team_manage.php:34
 msgid "text"
 msgstr "teksti"
 
-#: ../user/team_manage.php:33
+#: ../user/team_manage.php:35
 msgid "View member names and email addresses"
 msgstr "Selaa jäsenten nimiä ja sähköpostiosoitteita"
 
-#: ../user/team_manage.php:34
+#: ../user/team_manage.php:36
 msgid "View change history:"
 msgstr "Selaa muutoshistoriaa:"
 
-#: ../user/team_manage.php:36
+#: ../user/team_manage.php:38
 msgid "XML"
 msgstr "XML"
 
-#: ../user/team_manage.php:37
+#: ../user/team_manage.php:39
 msgid "See when members joined or quit this team"
-msgstr "Tarkastele, milloin jäsenet ovat liittyneet tai eronneet tästä tiimistä"
+msgstr ""
+"Tarkastele, milloin jäsenet ovat liittyneet tai eronneet tästä tiimistä"
 
-#: ../user/team_manage.php:48
+#: ../user/team_manage.php:50
 msgid "Respond to foundership request."
 msgstr "Vastaa perustajuuspyyntöön."
 
-#: ../user/team_manage.php:48
+#: ../user/team_manage.php:50
 msgid "If you don't respond by %1, %2 may assume foundership of this team."
 msgstr "Jos et vastaa %1 mennessä, %2 voi ottaa tämän tiimin perustajuuden."
 
-#: ../user/team_manage.php:53
+#: ../user/team_manage.php:55
 msgid "Remove inactive or unwanted members from this team"
 msgstr "Poista ei-aktiiviset tai ei-toivotut jäsenet tästä tiimistä"
 
-#: ../user/team_manage.php:55
+#: ../user/team_manage.php:57
 msgid "Transfer foundership to another member"
 msgstr "Siirrä perustajuus toiselle jäsenelle"
 
-#: ../user/team_manage.php:56
+#: ../user/team_manage.php:58
 msgid "Add/remove Team Admins"
 msgstr "Lisää/poista ylläpitäjiä"
 
-#: ../user/team_manage.php:57
+#: ../user/team_manage.php:59
 msgid "Give selected team members Team Admin privileges"
 msgstr "Anna valituille jäsenille ylläpitäjän oikeudet"
 
-#: ../user/team_manage.php:59
+#: ../user/team_manage.php:61
 msgid "Remove team"
 msgstr "Poista tiimi"
 
-#: ../user/team_manage.php:60
+#: ../user/team_manage.php:62
 msgid "Allowed only if team has no members"
 msgstr "Sallittu vain jos tiimillä ei ole jäseniä"
 
-#: ../user/team_manage.php:62
+#: ../user/team_manage.php:64
 msgid "Create or manage a team message board"
 msgstr "Luo tai hoida tiimin keskustelupalstaa"
 
-#: ../user/team_manage.php:69
+#: ../user/team_manage.php:71
 msgid ""
 "To have this team created on all BOINC projects (current and future) you can "
 "make it into a %1BOINC-wide team%2."
@@ -3976,7 +5921,7 @@ msgstr ""
 "Jotta tämä tiimi olisi kaikissa BOINC-projekteissa (nykyisissä ja tulevissa) "
 "voit tehdä siitä %1BOINC-laajuisen tiimin%2."
 
-#: ../user/team_manage.php:71
+#: ../user/team_manage.php:73
 msgid ""
 "Team admins are encouraged to join and participate in the Google %1boinc-"
 "team-founders%2 group."
@@ -3984,43 +5929,43 @@ msgstr ""
 "Tiimin ylläpitäjiä rohkaistaan liittymään ja osallistumaan Googlen %1boinc-"
 "team-founders%2 -ryhmään."
 
-#: ../user/team_manage.php:73
+#: ../user/team_manage.php:75
 msgid ""
 "Other resources for BOINC team admins are available from a third-party site, "
 "%1www.boincteams.com%2."
 msgstr ""
-"Lisää tietoa BOINC-tiimien ylläpitäjille löytyy osoitteesta %"
-"1www.boincteams.com%2."
+"Lisää tietoa BOINC-tiimien ylläpitäjille löytyy osoitteesta %1www.boincteams."
+"com%2."
 
-#: ../user/team_manage.php:89
+#: ../user/team_manage.php:91
 msgid "Can't delete non-empty team"
 msgstr "Tiimin pitää olla tyhjä ennen poistamista"
 
-#: ../user/team_manage.php:93
+#: ../user/team_manage.php:95
 msgid "Team %1 deleted"
 msgstr "Tiimi %1 poistettu"
 
-#: ../user/team_members.php:33
+#: ../user/team_members.php:35
 msgid "Limit exceeded:  Can only display the first 1000 members."
 msgstr "Raja saavutettu: näytetään vain ensimmäiset 1000 jäsentä."
 
-#: ../user/team_members.php:43
+#: ../user/team_members.php:47
 msgid "Members of %1"
 msgstr "%1:n jäsenet"
 
-#: ../user/team_quit_action.php:32
+#: ../user/team_quit_action.php:34
 msgid "Unable to quit team"
 msgstr "Tiimistä eroaminen ei onnistu"
 
-#: ../user/team_quit_action.php:33
+#: ../user/team_quit_action.php:35
 msgid "Team doesn't exist, or you don't belong to it."
 msgstr "Tiimiä ei ole tai et kuulu siihen."
 
-#: ../user/team_quit_form.php:31
+#: ../user/team_quit_form.php:33
 msgid "Quit %1"
 msgstr "Eroa %1"
 
-#: ../user/team_quit_form.php:32
+#: ../user/team_quit_form.php:34
 msgid ""
 "<strong>Please note before quitting a team:</strong>\n"
 "         <ul>\n"
@@ -4037,55 +5982,59 @@ msgstr ""
 "         <li>Tiimistä eroaminen ei vaikuta mitenkään pistetilastoihisi.\n"
 "         </ul>"
 
-#: ../user/team_quit_form.php:40
+#: ../user/team_quit_form.php:42
 msgid "Quit Team"
 msgstr "Eroa tiimistä"
 
-#: ../user/team_remove_inactive_action.php:29
+#: ../user/team_remove_inactive_action.php:31
 msgid "Removing users from %1"
 msgstr "Poistetaan käyttäjiä tiimistä %1"
 
-#: ../user/team_remove_inactive_action.php:37
+#: ../user/team_remove_inactive_action.php:39
 msgid "%1 is not a member of %2"
 msgstr "%1 ei ole %2 jäsen"
 
-#: ../user/team_remove_inactive_action.php:40
+#: ../user/team_remove_inactive_action.php:42
 msgid "%1 has been removed"
 msgstr "%1 on poistettu"
 
-#: ../user/team_remove_inactive_form.php:30
+#: ../user/team_remove_inactive_form.php:32
 msgid "Remove members from %1"
 msgstr "Poista jäseniä tiimistä %1"
 
-#: ../user/team_remove_inactive_form.php:37
+#: ../user/team_remove_inactive_form.php:39
 msgid "Remove?"
 msgstr "Poista?"
 
-#: ../user/team_remove_inactive_form.php:38
+#: ../user/team_remove_inactive_form.php:40
 msgid "Name (ID)"
 msgstr "Nimi (ID)"
 
-#: ../user/team_remove_inactive_form.php:63
+#: ../user/team_remove_inactive_form.php:65
 msgid "No members are eligible for removal."
 msgstr "Poistettavia jäseniä ei ole."
 
-#: ../user/team_remove_inactive_form.php:66
+#: ../user/team_remove_inactive_form.php:68
 msgid "Remove users"
 msgstr "Poista käyttäjiä"
 
-#: ../user/team_search.php:65
+#: ../user/team_search.php:68
 msgid "Team name"
 msgstr "Tiiminimi"
 
-#: ../user/team_search.php:127
+#: ../user/team_search.php:92
+msgid "Team search results"
+msgstr "Tiimihaun tulokset"
+
+#: ../user/team_search.php:94
 msgid "No teams were found matching your criteria. Try another search."
 msgstr "Hakuehdollasi ei löytynyt tiimiä. Kokeile uutta hakua."
 
-#: ../user/team_search.php:129
+#: ../user/team_search.php:96
 msgid "Or you can %1create a new team%2."
 msgstr "Tai %1voit luoda uuden tiimin%2."
 
-#: ../user/team_search.php:133
+#: ../user/team_search.php:100
 msgid ""
 "The following teams match one or more of your search criteria.\n"
 "            To join a team, click its name to go to the team page,\n"
@@ -4096,15 +6045,11 @@ msgstr ""
 "nettisivulle,\n"
 "               jossa napsauta %1Liity tähän tiimiin%2."
 
-#: ../user/team_search.php:140
+#: ../user/team_search.php:107
 msgid "Change your search"
 msgstr "Muuta hakua"
 
-#: ../user/team_search.php:152
-msgid "Team search results"
-msgstr "Tiimihaun tulokset"
-
-#: ../user/team_search.php:156
+#: ../user/team_search.php:180
 msgid ""
 "You can team up with other people with similar interests, or from the same "
 "country, company, or school."
@@ -4112,127 +6057,124 @@ msgstr ""
 "Tiimin voi perustaa ihmisten kanssa, joilla on samat mielenkiinnon kohteet "
 "tai ovat samasta maasta, yrityksestä tai koulusta."
 
-#: ../user/team_search.php:158
+#: ../user/team_search.php:182
 msgid "Use this form to find teams that might be right for you."
 msgstr "Käytä tätä lomaketta hakeaksesi itsellesi sopivia tiimejä."
 
-#: ../user/team_search.php:163
+#: ../user/team_search.php:187
 msgid "%1I'm not interested%2 in joining a team right now."
 msgstr "%1En halua nyt%2 liittyä tiimiin."
 
-#: ../user/top_hosts.php:65 ../user/top_teams.php:98 ../user/top_users.php:110
+#: ../user/top_hosts.php:67 ../user/top_teams.php:100
+#: ../user/top_users.php:112
 msgid "Limit exceeded - Sorry, first %1 items only"
 msgstr "Raja saavutettu - vain ensimmäiset %1 näytetään"
 
-#: ../user/top_hosts.php:80
+#: ../user/top_hosts.php:82
 msgid "Top hosts"
 msgstr "Koneiden kärki"
 
-#: ../user/top_teams.php:103
+#: ../user/top_teams.php:105
 msgid "Top %1 teams"
 msgstr "%1 -tiimien kärki"
 
-#: ../user/top_teams.php:106
+#: ../user/top_teams.php:108
 msgid "There are no %1 teams"
 msgstr "%1 -tiimejä ei ole"
 
-#: ../user/top_users.php:62
+#: ../user/top_users.php:64
 msgid "Participant since"
 msgstr "Osallistunut alkaen"
 
-#: ../user/uotd.php:27
+#: ../user/uotd.php:29
 msgid "No user of the day has been chosen."
 msgstr "Päivän käyttäjää ei ole valittu."
 
-#: ../user/uotd.php:31
+#: ../user/uotd.php:33
 msgid "User of the Day for %1: %2"
 msgstr "%1:n päivän käyttäjä: %2"
 
-#: ../user/user_search.php:102 ../user/user_search.php:158
+#: ../user/user_search.php:104 ../user/user_search.php:160
 msgid "Joined"
 msgstr "Liittynyt"
 
-#: ../user/user_search.php:113
+#: ../user/user_search.php:115
 msgid "Search type"
 msgstr "Hakutapa"
 
-#: ../user/user_search.php:114
+#: ../user/user_search.php:116
 msgid "User name starts with"
 msgstr "Käyttäjänimi alkaa"
 
-#: ../user/user_search.php:115
+#: ../user/user_search.php:117
 msgid "Decreasing sign-up time"
 msgstr "Aleneva järjestys liittymisajan mukaan"
 
-#: ../user/user_search.php:116
+#: ../user/user_search.php:118
 msgid "Decreasing average credit"
 msgstr "Aleneva järjestys keskimääräisten pisteiden mukaan"
 
-#: ../user/user_search.php:117
+#: ../user/user_search.php:119
 msgid "Decreasing total credit"
 msgstr "Aleneva järjestys kokonaispisteiden mukaan"
 
-#: ../user/user_search.php:118
+#: ../user/user_search.php:120
 msgid "Filters"
 msgstr "Suodattimet"
 
-#: ../user/user_search.php:119
+#: ../user/user_search.php:121
 msgid "Any"
 msgstr "Mikä tahansa"
 
-#: ../user/user_search.php:122
+#: ../user/user_search.php:124
 msgid "With profile?"
 msgstr "Profiililla?"
 
-#: ../user/user_search.php:123 ../user/user_search.php:128
+#: ../user/user_search.php:125 ../user/user_search.php:130
 msgid "Either"
 msgstr "Molemmat"
 
-#: ../user/user_search.php:127
+#: ../user/user_search.php:129
 msgid "On a team?"
 msgstr "Tiimissä?"
 
-#: ../user/user_search.php:146
+#: ../user/user_search.php:148
 msgid "search string must be at least 3 characters"
 msgstr "hakuehdossa pitää olla väh. 3 merkkiä"
 
-#: ../user/user_search.php:156
+#: ../user/user_search.php:158
 msgid "User names starting with"
 msgstr "Käyttäjänimet, jotka alkavat"
 
-#: ../user/user_search.php:166
+#: ../user/user_search.php:168
 msgid "No users match your search criteria."
 msgstr "Hakuehdoilla ei löytynyt käyttäjiä."
 
-#: ../user/user_search.php:186
-msgid "missing search type"
-msgstr "hakutapa puuttuu"
-
-#: ../user/user_search.php:224
+#: ../user/user_search.php:226
 msgid "User search results"
 msgstr "Käyttäjähaun tulokset"
 
-#: ../user/userw.php:35
+#: ../user/userw.php:45
 msgid "User not found!"
 msgstr "Käyttäjää ei löytynyt!"
 
-#: ../user/userw.php:42
+#: ../user/userw.php:51
 msgid "Account Data<br/>for %1<br/>Time:"
 msgstr "Tilitiedot<br/>%1<br/>Aika:"
 
-#: ../user/userw.php:46
+#: ../user/userw.php:54
 msgid "Team:"
 msgstr "Tiimi:"
 
-#: ../user/userw.php:47
+#: ../user/userw.php:55
 msgid "Team TotCred:"
 msgstr "Tiimin kok.pisteet:"
 
-#: ../user/userw.php:48
+#: ../user/userw.php:56
 msgid "Team AvgCred:"
 msgstr "Tiimin keskim.pisteet:"
 
-#: ../user/userw.php:51
+#: ../user/userw.php:58
 msgid "Team: None"
 msgstr "Tiimi: Ei mikään"
 
@@ -4279,19 +6221,19 @@ msgstr "Vahvista sähköpostiosoite"
 msgid "The email address of your account has been validated."
 msgstr "Tilisi sähköpostiosoite on vahvistettu."
 
-#: ../user/view_profile.php:27
+#: ../user/view_profile.php:29
 msgid "This user has no profile"
 msgstr "Tällä käyttäjällä ei ole profiilia"
 
-#: ../user/view_profile.php:44
+#: ../user/view_profile.php:46
 msgid "Profile: %1"
 msgstr "Profiili: %1"
 
-#: ../user/view_profile.php:53
+#: ../user/view_profile.php:55
 msgid "Account data"
 msgstr "Tilitiedot"
 
-#: ../user/weak_auth.php:47
+#: ../user/weak_auth.php:50
 msgid ""
 "Your 'weak account key' lets you link a computer to your account without "
 "giving it the ability to log in to your account or to change it in any way."
@@ -4299,7 +6241,7 @@ msgstr ""
 "\"Heikko tiliavain\" mahdollistaa tietokoneesi liittämisen tähän projektiin, "
 "mutta ei anna kirjautua sisään tai muuttaa tiliä mitenkään."
 
-#: ../user/weak_auth.php:48
+#: ../user/weak_auth.php:52
 msgid ""
 "This mechanism works only with projects that have upgraded their server "
 "software 7 Dec 2007 or later."
@@ -4307,25 +6249,25 @@ msgstr ""
 "Tämä toiminto toimii vain projekteissa, jotka ovat päivittäneet "
 "palvelinohjelmistonsa 7.12.2007 tai sen jälkeen."
 
-#: ../user/weak_auth.php:49
+#: ../user/weak_auth.php:54
 msgid "Your weak account key for this project is:"
 msgstr "Tämän projektisi heikko tiliavain on:"
 
-#: ../user/weak_auth.php:51
+#: ../user/weak_auth.php:57
 msgid ""
 "To use your weak account key on a given host, find or create the 'account "
 "file' for this project. This file has a name of the form "
 "<b>account_PROJECT_URL.xml</b>. The account file for %1 is <b>%2</b>."
 msgstr ""
-"Käyttääksesi heikkoa tiliavainta tietokoneella, etsi tai luo \"tilitiedosto\" "
-"projektille. Tiedoston nimi on muotoa <b>account_PROJECT_URL.xml</b>. "
+"Käyttääksesi heikkoa tiliavainta tietokoneella, etsi tai luo \"tilitiedosto"
+"\" projektille. Tiedoston nimi on muotoa <b>account_PROJECT_URL.xml</b>. "
 "Tilitiedosto projektille %1 on <b>%2</b>."
 
-#: ../user/weak_auth.php:52
+#: ../user/weak_auth.php:59
 msgid "Create this file if needed. Set its contents to:"
 msgstr "Luo tämä tiedosto tarvittaessa. Sisällöksi tulee:"
 
-#: ../user/weak_auth.php:60
+#: ../user/weak_auth.php:68
 msgid ""
 "Your weak account key is a function of your password. If you change your "
 "password, your weak account key changes, and your previous weak account key "
@@ -4334,71 +6276,63 @@ msgstr ""
 "Heikko tiliavaimesi perustuu salasanaasi. Jos muutat salasanaasi, heikko "
 "tiliavain muuttuu ja vastaava aiempi avain muuttuu käyttökelvottomaksi."
 
-#: ../user/workunit.php:30
+#: ../user/workunit.php:32
 msgid "can't find workunit"
 msgstr "työpakettia ei löydy"
 
-#: ../user/workunit.php:33
+#: ../user/workunit.php:35
 msgid "Workunit %1"
 msgstr "Työpaketti %1"
 
-#: ../user/workunit.php:37
-msgid "name"
-msgstr "nimi"
-
-#: ../user/workunit.php:39
-msgid "created"
-msgstr "luotu"
-
-#: ../user/workunit.php:41
+#: ../user/workunit.php:43
 msgid "canonical result"
 msgstr "kanoninen tulos"
 
-#: ../user/workunit.php:44
+#: ../user/workunit.php:46
 msgid "granted credit"
 msgstr "myönnetyt pisteet"
 
-#: ../user/workunit.php:52
-msgid "suppressed pending completion"
-msgstr ""
-
 #: ../user/workunit.php:55
+msgid "suppressed pending completion"
+msgstr "julkaisuesto päättynyt"
+
+#: ../user/workunit.php:58
 msgid "minimum quorum"
 msgstr "oikeita tuloksia vähintään"
 
-#: ../user/workunit.php:56
+#: ../user/workunit.php:59
 msgid "initial replication"
 msgstr "alustavia toisintoja"
 
-#: ../user/workunit.php:57
+#: ../user/workunit.php:60
 msgid "max # of error/total/success tasks"
 msgstr "suurin lkm virheitä/kokonaismääriä/onnistuneita tehtäviä"
 
-#: ../user/workunit.php:61
+#: ../user/workunit.php:64
 msgid "errors"
 msgstr "virheet"
 
-#: ../user/workunit.php:64
+#: ../user/workunit.php:67
 msgid "validation"
 msgstr "vahvistus"
 
-#: ../project.sample/project.inc:49
+#: ../project.sample/project.inc:46
 msgid "Main page"
 msgstr "Etusivu"
 
-#: ../project.sample/project.inc:51
+#: ../project.sample/project.inc:48
 msgid "Copyright"
 msgstr "Tekijänoikeus"
 
-#: ../project.sample/project.inc:54
+#: ../project.sample/project.inc:51
 msgid "Generated"
 msgstr "Luotu"
 
-#: ../project.sample/project.inc:85
+#: ../project.sample/project.inc:82
 msgid "Your personal background."
 msgstr "Taustatietoja itsestäsi"
 
-#: ../project.sample/project.inc:89
+#: ../project.sample/project.inc:86
 msgid ""
 "Tell us about yourself. You could tell us where you're from, your age, "
 "occupation, hobbies, or anything else about yourself."
@@ -4406,11 +6340,11 @@ msgstr ""
 "Kerro itsestäsi. Voit kertoa mistä päin olet, ikäsi, ammattisi, "
 "harrastuksesi ja niin edelleen."
 
-#: ../project.sample/project.inc:93
+#: ../project.sample/project.inc:90
 msgid "Your opinions about %1"
 msgstr "Mitä mieltä olet %1"
 
-#: ../project.sample/project.inc:97
+#: ../project.sample/project.inc:94
 msgid ""
 "Tell us your thoughts about %1<ol>\n"
 "    <li>Why do you run %1?\n"
@@ -4448,8 +6382,45 @@ msgstr ""
 msgid "(all applications)"
 msgstr "(kaikki sovellukset)"
 
-#~ msgid "Please log in"
-#~ msgstr "Ole hyvä ja kirjaudu"
+#~ msgid "- private message"
+#~ msgstr "- yksityisviesti"
+
+#~ msgid "Private message from"
+#~ msgstr "Yksityisviesti käyttäjältä"
+
+#~ msgid "Email address verification pending"
+#~ msgstr "Sähköpostiosoitteen vahvistus odottaa"
+
+#~ msgid "Logged in as %1."
+#~ msgstr "Kirjauduttu nimellä %1."
+
+#~ msgid "Log in as someone else."
+#~ msgstr "Kirjaudu jonakin toisena."
+
+#~ msgid "No thread with id %1. Please check the link and try again."
+#~ msgstr ""
+#~ "Viestiketjua tunnisteella %1 ei ole. Tarkista linkki ja yritä uudelleen."
+
+#~ msgid "Request not found"
+#~ msgstr "Pyyntöä ei löydy"
+
+#~ msgid "%1 has added you as a friend."
+#~ msgstr "%1 on lisännyt sinut ystäväkseen."
+
+#~ msgid "Account data for %1"
+#~ msgstr "Käyttäjän %1 tilitiedot"
+
+#~ msgid "couldn't create message board"
+#~ msgstr "keskustelupalstan luonti ei onnistunut"
+
+#~ msgid "message board not found"
+#~ msgstr "keskustelupalstaa ei löydy"
+
+#~ msgid "no such forum"
+#~ msgstr "foorumia ei ole"
+
+#~ msgid "unknown command %1"
+#~ msgstr "tuntematon kometo %1"
 
 #~ msgid "ERROR: %1 does not exist!  Cannot create combo box.<br>"
 #~ msgstr "VIRHE: %1 ei ole olemassa!  Valikkoa ei voi luoda.<br>"
@@ -4465,9 +6436,6 @@ msgstr "(kaikki sovellukset)"
 
 #~ msgid "Client detached"
 #~ msgstr "Ohjelman lopettama"
-
-#~ msgid "Client error"
-#~ msgstr "Ohjelman virhe"
 
 #~ msgid "Maximum daily WU quota per CPU"
 #~ msgstr "Suurin työpakettien päivittäinen määrä suoritinta kohden"

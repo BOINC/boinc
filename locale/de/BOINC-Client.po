@@ -7,13 +7,13 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-01-26 13:27-0800\n"
-"PO-Revision-Date: 2011-05-13 15:17+0200\n"
+"PO-Revision-Date: 2011-06-20 20:25+0200\n"
 "Last-Translator: Christian <djangofett@gmx.net>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: de\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Pootle 2.1.1\n"
 
@@ -114,7 +114,7 @@ msgstr "Dieses Projekt unterstützt kein Betriebssystem"
 # Im Quellcode folgt nach diesem Satz die Angabe des erkannten Prozessortyps!
 #: ../sched/handle_request.cpp:942
 msgid "This project doesn't support CPU type"
-msgstr "Dieses Projekt unterstützt keine Prozessortypen"
+msgstr "Dieses Projekt unterstützt nicht den Prozessortyp"
 
 #: ../sched/handle_request.cpp:966
 msgid ""
@@ -173,7 +173,8 @@ msgstr "Der Computertyp wird von diesem Projekt nicht unterstützt."
 
 #: ../sched/sched_send.cpp:1449
 msgid "Newer BOINC version required; please install current version"
-msgstr "Neuere BOINC Version benötigt. Bitte die neueste Software installieren."
+msgstr ""
+"Neuere BOINC Version benötigt. Bitte die neueste Software installieren."
 
 #: ../sched/sched_send.cpp:1459
 msgid ""
@@ -195,8 +196,7 @@ msgstr ""
 msgid ""
 "Tasks for CPU are available, but your preferences are set to not accept them"
 msgstr ""
-"Aufgaben für die CPU sind verfügbar, aber Ihre Einstellungen verbieten "
-"diese."
+"Aufgaben für die CPU sind verfügbar, aber Ihre Einstellungen verbieten diese."
 
 #: ../sched/sched_types.cpp:268
 msgid "Unknown app name in app_info.xml"

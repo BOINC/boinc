@@ -7,13 +7,13 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2011-04-04 22:09 PDT\n"
-"PO-Revision-Date: 2011-05-03 22:41+0200\n"
+"PO-Revision-Date: 2011-08-10 18:14+0200\n"
 "Last-Translator: Sami Nordlund <sami.nordlund@kolumbus.fi>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: fi\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: fi\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Pootle 2.1.1\n"
 "X-Poedit-SourceCharset: utf-8\n"
@@ -41,6 +41,9 @@ msgid ""
 "databases, and part of speech taggers in order to imitate human behavior in "
 "conversations."
 msgstr ""
+"Muuntaa ja jäsentää semanttisia verkkoja FreeHAL-tekoälyn käyttöön, joka "
+"käyttää semanttisia verkkoja, sanojen vartaloita ja osia puhetietokannoista "
+"jäljitelläkseen ihmisen käyttäytymistä keskustelutilanteissa."
 
 #: projects.inc:27
 msgid "Biology and Medicine"
@@ -102,11 +105,11 @@ msgstr "GPUGrid.net"
 
 #: projects.inc:48
 msgid "Barcelona Biomedical Research Park (PRBB)"
-msgstr ""
+msgstr "Barcelona Biomedical Research Park (PRBB)"
 
 #: projects.inc:49
 msgid "Molecular simulations of proteins"
-msgstr ""
+msgstr "Proteiinien molekyylisimuloinnit"
 
 #: projects.inc:50
 msgid ""
@@ -145,7 +148,7 @@ msgstr "Lattice-projekti"
 #: projects.inc:72
 msgid ""
 "University of Maryland Center for Bioinformatics and Computational Biology"
-msgstr ""
+msgstr "Marylandin yliopiston bioinformatiikan keskus"
 
 #: projects.inc:73
 msgid "Life science research"
@@ -165,7 +168,7 @@ msgstr "Malariacontrol.net"
 
 #: projects.inc:80
 msgid "The Swiss Tropical Institute"
-msgstr ""
+msgstr "The Swiss Tropical Institute"
 
 #: projects.inc:81
 msgid "Epidemiology"
@@ -352,7 +355,7 @@ msgstr "Milkyway@home"
 
 #: projects.inc:176
 msgid "Rensselaer Polytechnic Institute"
-msgstr ""
+msgstr "Rensselaerin teknillinen yliopisto"
 
 #: projects.inc:178
 msgid ""
@@ -380,6 +383,12 @@ msgid ""
 "argon, or to test the validity of the ideal gas law by actually doing the "
 "simulations through the grid."
 msgstr ""
+"Classical Dynamics käyttää pintatiedelaskentaa. Leiden Classical sallii "
+"vapaaehtoisten, opiskelijoiden ja muiden tutkijoiden lähettää omia "
+"laskelmiaan verkkoon. Jokaisella käyttäjällä on oma jononsa Classical "
+"Dynamicsissa. Tällä tavalla opiskelijat ovat käyttäneet verkkoa simuloimaan "
+"nestemäistä argonia tai testaamaan ideaalikaasulain oikeellisuutta tekemällä "
+"simulaatioita verkossa."
 
 #: projects.inc:190
 msgid "uFluids@home"
@@ -518,8 +527,7 @@ msgid ""
 msgstr ""
 "Tutkimus molekyylimagneeteista ja nanomittakaavan magnetismista. "
 "Magneettisia molekyylejä voidaan käyttää pieninä magneettisina kytkiminä "
-"lääketieteellisissä sovelluksissa (kuten kemoterapiassa) ja "
-"bioteknologiassa."
+"lääketieteellisissä sovelluksissa (kuten kemoterapiassa) ja bioteknologiassa."
 
 #: projects.inc:241
 msgid "Multiple applications"
@@ -569,6 +577,7 @@ msgstr "EDGeS@Home"
 #: projects.inc:261 projects.inc:360
 msgid "MTA-SZTAKI Laboratory of Parallel and Distributed Systems (Hungary)"
 msgstr ""
+"MTA-SZTAKI Rinnakkaisten ja hajautettujen järjestelmien laboratorio (Unkari)"
 
 #: projects.inc:262
 msgid "European research projects"
@@ -581,6 +590,10 @@ msgid ""
 "processed by the volunteers of this project. The scientific projects covered "
 "by the project include math, physics, biology, etc."
 msgstr ""
+"EDGeS@Home Beta -projekti yhdistää vapaaehtoista laskentaa Euroopan "
+"palveluverkostoon sallimalla verkon lähettää työpaketteja projektin "
+"vapaaehtoisten käsiteltäväksi. Tieteelliset projektit sisältävät mm. "
+"matematiikkaa, fysiikkaa ja biologiaa."
 
 #: projects.inc:267
 msgid "Ibercivis"
@@ -604,7 +617,7 @@ msgstr "World Community Grid"
 
 #: projects.inc:277
 msgid "IBM Corporate Community Relations"
-msgstr ""
+msgstr "IBM Corporate Community Relations"
 
 #: projects.inc:278
 msgid "Humanitarian research on disease, natural disasters and hunger."
@@ -618,8 +631,7 @@ msgid ""
 "includes HIV/AIDS, cancer, muscular dystrophy, dengue fever, and many more."
 msgstr ""
 "Edistää tutkimusta joissakin ihmiskunnan kovimmissa ongelmissa. Tutkimus "
-"käsittää mm. seuraavat taudit: HIV/AIDS, syöpä, lihasrappeuma ja "
-"Denguekuume."
+"käsittää mm. seuraavat taudit: HIV/AIDS, syöpä, lihasrappeuma ja Denguekuume."
 
 #: projects.inc:285
 msgid "Mathematics, computing, and games"
@@ -685,6 +697,8 @@ msgid ""
 "Vilnius Gediminas Technical University and Kaunas University of Technology "
 "(Lithuania)"
 msgstr ""
+"Vilnan Gediminasin teknillinen yliopisto ja Kaunasin teknillinen yliopisto "
+"(Liettua)"
 
 #: projects.inc:313
 msgid "Software testing"
@@ -697,6 +711,9 @@ msgid ""
 "well as others Lithuanian academic institutions.  Current applications "
 "involve the study of Monte-Carlo based software testing."
 msgstr ""
+"Projekti antaa hajautetun laskennan alustan Vilnan teknillisen yliopiston "
+"(VGTU) tutkijoille ja muille Liettuan akatemian laitoksille. Nykyiset "
+"sovellukset käsittelevät Monte-Carlo -pohjaista ohjelmistotestausta."
 
 #: projects.inc:318
 msgid "AQUA@home"
@@ -719,6 +736,11 @@ msgid ""
 "computers to help design and analyze quantum computing algorithms, using "
 "Quantum Monte Carlo techniques."
 msgstr ""
+"D-Wave's AQUA (Adiabatic QUantum Algorithms) on projekti, jonka päämääränä "
+"on ennustaa suprajohtavien adiabaattisten kvanttitietokoneiden suorituskykyä "
+"materiaalitieteen ja koneopin vaikeissa ongelmissa. AQUA@home käyttää "
+"internetiin yhdistettyjä tietokoneita kvanttilaskennan algoritmien "
+"suunnitteluun ja analysointiin käyttäen Quantum Monte Carlo -tekniikkaa."
 
 #: projects.inc:334
 msgid "ABC@home"
@@ -753,6 +775,9 @@ msgid ""
 "searching for large twin primes of the form k*2<sup>n</sup>+1 and k*2<sup>n</"
 "sup>-1"
 msgstr ""
+"Primegrid muodostaa julkista peräkkäisten alkulukujen tietokantaa ja etsii "
+"suuria alkulukupareja, jotka ovat muotoa k*2<sup>n</sup>+1 ja k*2<sup>n</"
+"sup>-1"
 
 #: projects.inc:350
 msgid "primaboinca"
@@ -760,7 +785,7 @@ msgstr "primaboinca"
 
 #: projects.inc:352
 msgid "Hochschule RheinMain University of Applied Sciences"
-msgstr ""
+msgstr "RheinMainin ammattikorkeakoulu"
 
 #: projects.inc:354
 msgid ""
@@ -971,8 +996,7 @@ msgstr ""
 #: help_funcs.php:110
 msgid "%1Never%2 give email address or password information to BOINC helpers."
 msgstr ""
-"%1Älä milloinkaan%2 anna sähköpostiosoitetta tai salasanaa BOINC-"
-"avustajalle."
+"%1Älä milloinkaan%2 anna sähköpostiosoitetta tai salasanaa BOINC-avustajalle."
 
 #: index.php:23
 msgid "Computing power"

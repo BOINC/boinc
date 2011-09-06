@@ -4,13 +4,13 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2011-04-04 22:09 PDT\n"
-"PO-Revision-Date: 2011-05-13 15:58+0200\n"
+"PO-Revision-Date: 2011-08-28 10:11+0200\n"
 "Last-Translator: Christian <djangofett@gmx.net>\n"
 "Language-Team: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
-"Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: de\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Pootle 2.1.1\n"
 "X-Poedit-SourceCharset: utf-8\n"
@@ -32,17 +32,16 @@ msgid "Artificial intelligence"
 msgstr "Künstliche Intelligenz"
 
 #: projects.inc:21
-#, fuzzy
 msgid ""
 "Parse and convert semantic nets for use in FreeHAL, an artificial "
 "intelligence that uses semantic networks, stemmers, part of speech "
 "databases, and part of speech taggers in order to imitate human behavior in "
 "conversations."
 msgstr ""
-"Analysiere und konvertiere Netzwerke für die Nutzung durch FreeHAL, eine "
-"künstliche Intelligenz welche unter anderem semantische Netzwerke und Teile "
-"von Sprachdatenbanken verwendet um menschliches Verhalten in Konversationen "
-"zu imitieren."
+"Analysiere und konvertiere semantische Netze für die Nutzung mit FreeHAL, "
+"einer künstlichen Intelligenz, die semantische Netzwerke, Stemming "
+"Verfahren, Teile von Sprachdatenbanken und Part-of-speech Tagging verwendet "
+"um menschliches Verhalten in Konversationen zu imitieren."
 
 #: projects.inc:27
 msgid "Biology and Medicine"
@@ -68,6 +67,12 @@ msgid ""
 "protein malfunction or aggregation, and to develop new drugs on the basis of "
 "the three-dimensions structure of biologically important proteins."
 msgstr ""
+"POEM@HOME verwendet einen rechenbetonten Ansatz für die Vorhersage der "
+"biologisch aktiven Struktur von Proteinen, um die "
+"Signalverarbeitungsmechanismen bei der Interaktion mehrerer Proteine, "
+"Krankheiten mit Ursache von Proteinfehlern oder Ansammlung zu verstehen und "
+"um neue Medikamente auf Basis der Dreidimensionalen Struktur von, biologisch "
+"wichtigen, Proteinen zu entwickeln."
 
 #: projects.inc:38
 msgid "Docking@Home"
@@ -88,18 +93,22 @@ msgid ""
 "interactions and, by doing so, will search for insights into the discovery "
 "of novel pharmaceuticals."
 msgstr ""
+"Docking@Home hat Bio- und Computerwissenschaftliche Ziele. Das Projekt zielt "
+"auf weiteres Wissen über die atomaren Details von Protein-Ligand "
+"Interaktionen und damit wird nach einblicken in die Entdeckung von neuen "
+"Arzneimitteln gesucht."
 
 #: projects.inc:46
 msgid "GPUGrid.net"
-msgstr ""
+msgstr "GPUGrid.net"
 
 #: projects.inc:48
 msgid "Barcelona Biomedical Research Park (PRBB)"
-msgstr ""
+msgstr "Barcelona Biomedical Research Park (PRBB)"
 
 #: projects.inc:49
 msgid "Molecular simulations of proteins"
-msgstr ""
+msgstr "Molekularsimulationen von Proteinen"
 
 #: projects.inc:50
 msgid ""
@@ -108,18 +117,23 @@ msgid ""
 "New biomedical applications suddenly become possible giving a new role to "
 "computational biology for biomedical research."
 msgstr ""
+"GPUGrid.net eröffnet neue rechnergestützte Szenarios mit der ersten "
+"Anwendung für Molekulardynamik auf Atomebene (CellMD), optimiert für NVIDIA "
+"GPUs. Dadurch sind neue biomedizinische Anwendungen möglich, die eine neu "
+"Rolle in der  Bioinformatik und der biomedizinischen Forschung spielen "
+"werden."
 
 #: projects.inc:54
 msgid "Superlink@Technion"
-msgstr ""
+msgstr "Superlink@Technion"
 
 #: projects.inc:56
 msgid "Technion, Israel"
-msgstr ""
+msgstr "Technion, Israel"
 
 #: projects.inc:57
 msgid "Genetic linkage analysis"
-msgstr ""
+msgstr "Genetische Bindungsanalyse"
 
 #: projects.inc:58
 msgid ""
@@ -127,16 +141,19 @@ msgid ""
 "provoking genes causing some types of diabetes, hypertension (high blood "
 "pressure), cancer, schizophrenia and many others."
 msgstr ""
+"Superlink@Technion hilft Genetikern auf der ganzen Welt Krankheits-"
+"provozierende Gene zu finden, die manche Arten von Diabetes, hohen "
+"Blutdruck, Krebs, Schizophrenie und viele andere Krankheiten, auslösen."
 
 #: projects.inc:70
-#, fuzzy
 msgid "The Lattice Project"
-msgstr "Das BOINC Projekt"
+msgstr "Das Lattice Projekt"
 
 #: projects.inc:72
 msgid ""
 "University of Maryland Center for Bioinformatics and Computational Biology"
 msgstr ""
+"University of Maryland, Zentrum für Bioinformatik und Rechenbetonte Biologie"
 
 #: projects.inc:73
 msgid "Life science research"
@@ -149,14 +166,18 @@ msgid ""
 "bacterial, plasmid, and virus protein sequences; and biological diversity in "
 "nature reserves. "
 msgstr ""
+"DasLattice Projekt liefert Rechenkraft an Wissenschaftler der University of "
+"Maryland, die evolutionäre Beziehungen basierend auf DNA Sequenzdaten, "
+"Bakterien-, Plasmid-, und Viren Protein Sequenzen und Biologische Vielfalt "
+"in Naturschutzgebieten, studieren."
 
 #: projects.inc:78
 msgid "Malariacontrol.net"
-msgstr ""
+msgstr "Malariacontrol.net"
 
 #: projects.inc:80
 msgid "The Swiss Tropical Institute"
-msgstr ""
+msgstr "Schweizerisches Tropen- und Public Health-Institut"
 
 #: projects.inc:81
 msgid "Epidemiology"
@@ -175,15 +196,15 @@ msgstr ""
 
 #: projects.inc:102
 msgid "Rosetta@home"
-msgstr ""
+msgstr "Rosetta@home"
 
 #: projects.inc:104
 msgid "University of Washington"
-msgstr ""
+msgstr "Universität von Washington"
 
 #: projects.inc:105 projects.inc:113
 msgid "Biology"
-msgstr ""
+msgstr "Biologie"
 
 #: projects.inc:106
 msgid ""
@@ -197,11 +218,11 @@ msgstr ""
 
 #: projects.inc:110
 msgid "SIMAP"
-msgstr ""
+msgstr "SIMAP"
 
 #: projects.inc:112
 msgid "University of Vienna"
-msgstr ""
+msgstr "Universität Wien"
 
 #: projects.inc:114
 msgid ""
@@ -209,6 +230,9 @@ msgid ""
 "the resulting data, which plays a key role in many bioinformatics research "
 "projects."
 msgstr ""
+"Berechne Ahnlichkeiten zwischen Proteinen. SIMAP stellt eine öffentliche "
+"Datenbank der Ergebnisdaten, welche eine wichtige Rolle in vielen "
+"Forschungsprojekten der Bioinformatik spielen, zur Verfügung."
 
 #: projects.inc:120
 msgid "Earth Sciences"
@@ -216,33 +240,35 @@ msgstr "Geowissenschaften"
 
 #: projects.inc:130
 msgid "Virtual Prairie"
-msgstr ""
+msgstr "Virtuelle Prärie"
 
 #: projects.inc:132
 msgid "University of Houston"
-msgstr ""
+msgstr "Universität von Houston"
 
 #: projects.inc:133
 msgid "Study of botanical ecosystems"
-msgstr ""
+msgstr "Studium der botanischen Ökosysteme"
 
 #: projects.inc:134
 msgid ""
 "Provide ecological guidelines on the design of prairies with the best "
 "potential for water purification."
 msgstr ""
+"Stelle ökologische Richtlinen für die Gestaltung von Prärien, mit dem "
+"höchsten Potential für Wasserreinigung, zur Verfügung."
 
 #: projects.inc:137
 msgid "Climateprediction.net"
-msgstr ""
+msgstr "Climateprediction.net"
 
 #: projects.inc:139
 msgid "Oxford University"
-msgstr ""
+msgstr "Universität Oxford"
 
 #: projects.inc:140
 msgid "Climate study"
-msgstr ""
+msgstr "Klimastudien"
 
 #: projects.inc:141
 msgid ""
@@ -287,11 +313,11 @@ msgstr ""
 
 #: projects.inc:158
 msgid "Orbit@home"
-msgstr ""
+msgstr "Orbit@home"
 
 #: projects.inc:160
 msgid "Planetary Science Institute"
-msgstr ""
+msgstr "Planetary Science Institute (Institut für planetarische Wissenschaft)"
 
 #: projects.inc:161 projects.inc:169 projects.inc:177
 msgid "Astronomy"
@@ -299,11 +325,11 @@ msgstr "Astronomie"
 
 #: projects.inc:162
 msgid "Monitor and study the hazard posed by near-Earth asteroids"
-msgstr ""
+msgstr "Überwachung und Untersuchung der Gefährdung durch erdnahe Asteroiden"
 
 #: projects.inc:166
 msgid "Cosmology@Home"
-msgstr ""
+msgstr "Cosmology@Home"
 
 #: projects.inc:168
 msgid "University of Illinois at Urbana-Chamapign"
@@ -391,9 +417,8 @@ msgid ""
 msgstr ""
 
 #: projects.inc:206
-#, fuzzy
 msgid "LHC@home"
-msgstr "zu Hause"
+msgstr "LHC@home"
 
 #: projects.inc:208
 msgid "CERN (European Organization for Nuclear Research)"
@@ -417,9 +442,8 @@ msgid "SETI@home"
 msgstr ""
 
 #: projects.inc:216
-#, fuzzy
 msgid "University of California, Berkeley"
-msgstr "BOINC wird an der Universität von Kalifornien in Berkeley entwickelt."
+msgstr "Universität von Kalifornien in Berkeley"
 
 #: projects.inc:217
 msgid "Astrophysics, astrobiology"
@@ -440,7 +464,7 @@ msgstr ""
 
 #: projects.inc:224
 msgid "University of Muenster (Germany)"
-msgstr ""
+msgstr "Universität Münster (Deutschland)"
 
 #: projects.inc:226
 msgid ""
@@ -453,11 +477,11 @@ msgstr ""
 
 #: projects.inc:232
 msgid "Bielefeld University of Applied Sciences"
-msgstr ""
+msgstr "Fachhochschule Bielefeld"
 
 #: projects.inc:233
 msgid "Chemical engineering and nanotechnology"
-msgstr ""
+msgstr "Chemietechnik und Nanotechnologie"
 
 #: projects.inc:234
 msgid ""
@@ -477,7 +501,7 @@ msgstr ""
 
 #: projects.inc:246
 msgid "Chinese Academy of Sciences"
-msgstr ""
+msgstr "Chinesische Akademie der Wissenschaften"
 
 #: projects.inc:247
 msgid "Physics, biochemistry, and others"
@@ -683,8 +707,9 @@ msgid "PrimeGrid"
 msgstr ""
 
 #: projects.inc:344
+#, fuzzy
 msgid "Private"
-msgstr ""
+msgstr "privat"
 
 #: projects.inc:346
 msgid ""
@@ -692,6 +717,9 @@ msgid ""
 "searching for large twin primes of the form k*2<sup>n</sup>+1 and k*2<sup>n</"
 "sup>-1"
 msgstr ""
+"Primegrid erstellt eine öffentlich sequentielle Primzahl-Datenbank, und "
+"sucht nach großen Primzahlzwillingen der Form k*2<sup>n</sup>+1 and "
+"k*2<sup>n</sup>-1"
 
 #: projects.inc:350
 msgid "primaboinca"
@@ -948,7 +976,7 @@ msgstr "Computer.\n"
 
 #: index.php:54
 msgid "24-hour average:"
-msgstr "24-Stunden Durchschnitt:"
+msgstr "24-Stunden-Durchschnitt:"
 
 #: index.php:54
 msgid "TeraFLOPS."
