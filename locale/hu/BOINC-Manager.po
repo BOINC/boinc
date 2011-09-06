@@ -23,6 +23,8 @@ msgstr ""
 "X-Poedit-SourceCharset: utf-8\n"
 "X-Poedit-Basepath: C:\\Src\\BOINCSVN\\branches\\boinc_core_release_6_12\n"
 "X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
+"X-Poedit-Country: UNITED STATES\n"
+"X-Poedit-Language: English\n"
 
 #: clientgui/AccountInfoPage.cpp:386
 msgid "Identify your account "
@@ -534,7 +536,6 @@ msgstr "%s - %s használatának befejezése"
 
 #: clientgui/AdvancedFrame.cpp:1188
 #, c-format
-#, c-format
 msgid ""
 "If you stop using %s,\n"
 "you'll keep all your current projects,\n"
@@ -742,7 +743,6 @@ msgid "%s - Unexpected Exit"
 msgstr "%s - Váratlan kilépés"
 
 #: clientgui/BOINCClientManager.cpp:547
-#, c-format
 #, c-format
 msgid ""
 "The %s client has exited unexpectedly 3 times within the last %d minutes.\n"
@@ -3807,7 +3807,6 @@ msgstr ""
 
 #: clientgui/ViewWork.cpp:437
 #, c-format
-#, c-format
 msgid "Are you sure you want to abort these %d tasks?"
 msgstr "Biztosan eldobja ezeket a(z) %d feladatokat?"
 
@@ -3943,6 +3942,7 @@ msgid "Old Page Index = %i"
 msgstr "Régi oldalszám = %i"
 
 #: clientgui/common/wxFlatNotebook.cpp:2052
+#, c-format
 #, c-format, fuzzy
 msgid "OnDropTarget: index by HitTest = %i"
 msgstr "OnDropTarget: HitTest index = %i"
@@ -4037,6 +4037,7 @@ msgid "selected row %d of %d; "
 msgstr "%d/%d sor kiválasztva;"
 
 #: clientgui/mac/MacAccessiblity.cpp:1577
+#, c-format
 #, c-format, fuzzy
 msgid "row %d of %d; "
 msgstr "%d / %d sor; "
@@ -4063,7 +4064,6 @@ msgid "Show All"
 msgstr "Mutasd mindet"
 
 #: clientgui/mac/Mac_GUI.cpp:181
-#, c-format
 #, c-format
 msgid "Quit %s"
 msgstr "%s bezárása"

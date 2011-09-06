@@ -23,6 +23,8 @@ msgstr ""
 "X-Poedit-SourceCharset: utf-8\n"
 "X-Poedit-Basepath: C:\\Src\\BOINCSVN\\branches\\boinc_core_release_6_12\n"
 "X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
+"X-Poedit-Country: UNITED STATES\n"
+"X-Poedit-Language: English\n"
 
 #: clientgui/AccountInfoPage.cpp:386
 msgid "Identify your account "
@@ -3975,7 +3977,6 @@ msgid "Show All"
 msgstr "הצג הכל"
 
 #: clientgui/mac/Mac_GUI.cpp:181
-#, c-format
 #, c-format
 msgid "Quit %s"
 msgstr "הפסק %s"

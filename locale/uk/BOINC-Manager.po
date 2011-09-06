@@ -24,6 +24,8 @@ msgstr ""
 "X-Poedit-SourceCharset: utf-8\n"
 "X-Poedit-Basepath: C:\\Src\\BOINCSVN\\branches\\boinc_core_release_6_12\n"
 "X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
+"X-Poedit-Country: UNITED STATES\n"
+"X-Poedit-Language: English\n"
 
 #: clientgui/AccountInfoPage.cpp:386
 msgid "Identify your account "
@@ -1155,8 +1157,9 @@ msgstr ""
 
 #: clientgui/DlgAdvPreferencesBase.cpp:108
 #: clientgui/DlgEventLog.cpp:305
+#, fuzzy
 msgid "Help"
-msgstr ""
+msgstr "&Допомога"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:109
 msgid "shows the preferences web page"
@@ -1584,8 +1587,9 @@ msgstr ""
 #: clientgui/DlgGenericMessage.cpp:125
 #: clientgui/DlgOptions.cpp:383
 #: clientgui/DlgSelectComputer.cpp:167
+#, fuzzy
 msgid "&Cancel"
-msgstr ""
+msgstr "Відмінити"
 
 #: clientgui/DlgGenericMessage.cpp:112
 msgid "Don't show this dialog again."
@@ -1948,8 +1952,9 @@ msgstr ""
 #: clientgui/DlgOptions.cpp:299
 #: clientgui/DlgOptions.cpp:363
 #: clientgui/DlgSelectComputer.cpp:151
+#, fuzzy
 msgid "Password:"
-msgstr ""
+msgstr "&Пароль:"
 
 #: clientgui/DlgOptions.cpp:306
 msgid "HTTP Proxy"
@@ -2214,8 +2219,9 @@ msgid "Starting client"
 msgstr ""
 
 #: clientgui/MainDocument.cpp:592
+#, fuzzy
 msgid "Connecting to client"
-msgstr ""
+msgstr "Повторне підключення до клієнту."
 
 #: clientgui/MainDocument.cpp:1190
 msgid "Retrieving system state; please wait..."
@@ -2460,8 +2466,11 @@ msgid "Choose a project"
 msgstr ""
 
 #: clientgui/ProjectInfoPage.cpp:260
+#, fuzzy
 msgid "To choose a project, click its name or type its URL below."
 msgstr ""
+"Оберіть вподобаний менеджер проектів, натиснувши на його назву,\n"
+"або введіть його адресу URL в полі нижче."
 
 #: clientgui/ProjectInfoPage.cpp:263
 msgid "Project &URL:"
@@ -2496,8 +2505,9 @@ msgid "Project Website"
 msgstr ""
 
 #: clientgui/ProjectProcessingPage.cpp:321
+#, fuzzy
 msgid "Communicating with project."
-msgstr ""
+msgstr "Спілкування з сервером."
 
 #: clientgui/ProjectProcessingPage.cpp:503
 msgid "Required files not found on the server."
@@ -2505,8 +2515,9 @@ msgstr ""
 
 #: clientgui/ProjectProcessingPage.cpp:506
 #: clientgui/ProjectProcessingPage.cpp:568
+#, fuzzy
 msgid "An internal server error has occurred."
-msgstr ""
+msgstr "Сталася внутрішня помилка сервера.\n"
 
 #: clientgui/ProjectPropertiesPage.cpp:334
 msgid ""
@@ -2761,8 +2772,9 @@ msgid "Skin:"
 msgstr ""
 
 #: clientgui/sg_DlgPreferences.cpp:309
+#, fuzzy
 msgid "Preferences"
-msgstr ""
+msgstr "Налаштування..."
 
 #: clientgui/sg_DlgPreferences.cpp:326
 msgid "I want to customize my preferences for this computer only."
@@ -3100,8 +3112,9 @@ msgstr ""
 #: clientgui/ViewProjects.cpp:712
 #: clientgui/ViewWork.cpp:198
 #: clientgui/ViewWork.cpp:738
+#, fuzzy
 msgid "Suspend"
-msgstr ""
+msgstr "Припинити обробку"
 
 #: clientgui/ViewProjects.cpp:181
 #: clientgui/ViewProjects.cpp:712
@@ -3485,8 +3498,9 @@ msgid "Click 'Abort transfer' to delete the file from the transfer queue. This w
 msgstr ""
 
 #: clientgui/ViewTransfers.cpp:182
+#, fuzzy
 msgid "File"
-msgstr ""
+msgstr "&Файл"
 
 #: clientgui/ViewTransfers.cpp:183
 #: clientgui/ViewWork.cpp:223
@@ -3510,8 +3524,9 @@ msgid "Transfers"
 msgstr ""
 
 #: clientgui/ViewTransfers.cpp:279
+#, fuzzy
 msgid "Network activity is suspended - "
-msgstr ""
+msgstr "Мережева активність призупинена"
 
 #: clientgui/ViewTransfers.cpp:281
 msgid ""
@@ -3666,8 +3681,9 @@ msgid "Suspend work for this task."
 msgstr ""
 
 #: clientgui/WelcomePage.cpp:254
+#, fuzzy
 msgid "Add project or account manager"
-msgstr ""
+msgstr "&Додати проект або менеджер проектів..."
 
 #: clientgui/WelcomePage.cpp:262
 #, c-format
@@ -3813,9 +3829,9 @@ msgid "; row %d; "
 msgstr ""
 
 #: clientgui/mac/MacAccessiblity.cpp:862
-#, c-format
+#, c-format, fuzzy
 msgid "; selected row %d of %d; "
-msgstr ""
+msgstr "вибраний рядок %d з %d; "
 
 #: clientgui/mac/MacAccessiblity.cpp:864
 #, c-format
@@ -3823,9 +3839,9 @@ msgid "; selected row %d ; "
 msgstr ""
 
 #: clientgui/mac/MacAccessiblity.cpp:868
-#, c-format
+#, c-format, fuzzy
 msgid "; row %d of %d; "
-msgstr ""
+msgstr "рядок %d з %d;"
 
 #: clientgui/mac/MacAccessiblity.cpp:881
 msgid "blank"

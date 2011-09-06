@@ -24,6 +24,8 @@ msgstr ""
 "X-Poedit-SourceCharset: utf-8\n"
 "X-Poedit-Basepath: C:\\Src\\BOINCSVN\\branches\\boinc_core_release_6_12\n"
 "X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
+"X-Poedit-Country: UNITED STATES\n"
+"X-Poedit-Language: English\n"
 
 #: clientgui/AccountInfoPage.cpp:386
 msgid "Identify your account "
@@ -585,7 +587,7 @@ msgstr "%s"
 
 #: clientgui/AdvancedFrame.cpp:1722
 #, c-format
-#, c-format, 
+#, c-format,
 msgid "%s has successfully added %s"
 msgstr "%s został poprawnie dołączony %s"
 
@@ -3414,8 +3416,9 @@ msgid "Requested by project"
 msgstr ""
 
 #: clientgui/ViewProjects.cpp:1055
+#, fuzzy
 msgid "Unknown reason"
-msgstr ""
+msgstr "nieznany powód"
 
 #: clientgui/ViewProjects.cpp:1069
 msgid "Suspended by user"
@@ -3626,8 +3629,9 @@ msgid "Show project list"
 msgstr "Wyświetl listę projektów"
 
 #: clientgui/ViewStatistics.cpp:2411
+#, fuzzy
 msgid "Uses smaller area for graphs"
-msgstr ""
+msgstr "Wykorzystaj cały obszar dla wykresów"
 
 #: clientgui/ViewTransfers.cpp:163
 msgid "Retry Now"
@@ -3977,7 +3981,7 @@ msgstr "lista wydarzeń jest pusta"
 
 #: clientgui/mac/MacAccessiblity.cpp:739
 #, c-format
-#, c-format, 
+#, c-format,
 msgid "list of %s"
 msgstr "lista %s"
 
