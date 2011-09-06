@@ -10,10 +10,10 @@ msgstr ""
 "PO-Revision-Date: 2011-01-04 11:31+0200\n"
 "Last-Translator: Dima <dima666@012.net.il>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: he\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: he\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Pootle 2.1.1\n"
 "X-Poedit-SourceCharset: utf-8\n"
@@ -735,8 +735,7 @@ msgstr ""
 msgid ""
 "Disconnect when done? %1 Matters only if you have a modem, ISDN or VPN "
 "connection %2"
-msgstr ""
-"להתנתק בעת סיום? %1 הכרחי רק אם ברשותך חיבור בעזרת מודם, ISDN או VPN %2"
+msgstr "להתנתק בעת סיום? %1 הכרחי רק אם ברשותך חיבור בעזרת מודם, ISDN או VPN %2"
 
 #: ../inc/prefs.inc:249
 msgid "Maximum download rate:"
@@ -3477,8 +3476,9 @@ msgid "2 weeks"
 msgstr ""
 
 #: ../user/forum_moderate_post.php:85
+#, fuzzy
 msgid "1 month"
-msgstr ""
+msgstr "הרשומות של %1"
 
 #: ../user/forum_moderate_post.php:86
 msgid "Forever"
@@ -3496,8 +3496,9 @@ msgid "OK"
 msgstr ""
 
 #: ../user/forum_moderate_post_action.php:57
+#, fuzzy
 msgid "You are not authorized to moderate this post."
-msgstr ""
+msgstr "אתה כעת חבר של %1."
 
 #: ../user/forum_moderate_post_action.php:85
 msgid "Can't move to different category type"
@@ -3622,8 +3623,9 @@ msgid "Input Recorded"
 msgstr "הצבעה נרשמה"
 
 #: ../user/forum_rate.php:73
+#, fuzzy
 msgid "Your input has been recorded. Thanks for your help."
-msgstr ""
+msgstr "המלצתך נרשמה."
 
 #: ../user/forum_rate.php:75
 #, fuzzy
@@ -3682,8 +3684,9 @@ msgid "Report Registered"
 msgstr "תאריך יעד לדיווח"
 
 #: ../user/forum_report_post.php:65
+#, fuzzy
 msgid "Your report has been recorded. Thanks you for your input."
-msgstr ""
+msgstr "המלצתך נרשמה."
 
 #: ../user/forum_report_post.php:66
 msgid ""
@@ -3711,8 +3714,9 @@ msgid ""
 msgstr ""
 
 #: ../user/forum_report_post.php:89
+#, fuzzy
 msgid "Report not registered"
-msgstr ""
+msgstr "תאריך יעד לדיווח"
 
 #: ../user/forum_report_post.php:90
 msgid "Your report could not be recorded. Please wait a while and try again."
@@ -4539,8 +4543,8 @@ msgid ""
 msgstr ""
 "אם אתה נוטל חלק ב-%1, מידע אודות מחשבך (כגון סוג מעבד, כמות זכרון וכו') "
 "יתועד על-ידי %1 וינוצל בכדי להחליט לגבי סוג העבודה אשר יוקצב עבור מחשבך. כמו "
-"כן, מידע זה יוצג באתר של %1. לא יוצג אף פרט אשר חושף את מיקום מחשבך (כגון שם "
-"תחום או כתובת רשת)."
+"כן, מידע זה יוצג באתר של %1. לא יוצג אף פרט אשר חושף את מיקום מחשבך (כגון "
+"שם תחום או כתובת רשת)."
 
 #: ../user/info.php:45
 msgid ""
@@ -4890,8 +4894,8 @@ msgid ""
 "Browse profiles %1at random%2, %3at random with pictures%2, or %4at random "
 "without pictures%2."
 msgstr ""
-"דפדף בפרופילים %1באקראיות%2, %3באקראיות עם תמונות%2 או %4באקראיות ללא תמונות%"
-"2."
+"דפדף בפרופילים %1באקראיות%2, %3באקראיות עם תמונות%2 או %4באקראיות ללא תמונות"
+"%2."
 
 #: ../user/profile_menu.php:67
 msgid "Alphabetical profile listings:"
@@ -5704,8 +5708,7 @@ msgid ""
 msgstr ""
 "אם מייסד הקבוצה אינו פעיל וברצונך לקבל את תפקיד המייסד, לחץ על הלחצן למטה. "
 "המייסד הנוכחי יקבל דוא\"ל המפרט את בקשתך ויוכל להעביר לך את הרשאות המייסד או "
-"לסרב לבקשה. במידה והמייסד לא יענה תוך 60 יום, תוכל להפוך למייסד.<br /><br /"
-">\n"
+"לסרב לבקשה. במידה והמייסד לא יענה תוך 60 יום, תוכל להפוך למייסד.<br /><br />\n"
 " האם אתה בטוח שברצונך לבקש הרשאות מייסד?"
 
 #: ../user/team_founder_transfer_form.php:65
@@ -5790,8 +5793,8 @@ msgid ""
 "End of results. %1 If you cannot find the team you are looking for, you may %"
 "2create a team%3 yourself."
 msgstr ""
-"סוף התוצאות. %1 אם אינך מוצא את הקבוצה אותה אתה מחפש, באפשרותך %2ליצור קבוצה%"
-"3 בעצמך."
+"סוף התוצאות. %1 אם אינך מוצא את הקבוצה אותה אתה מחפש, באפשרותך %2ליצור קבוצה"
+"%3 בעצמך."
 
 #: ../user/team_manage.php:26
 msgid "Team administration for %1"
@@ -5890,8 +5893,8 @@ msgid ""
 "Other resources for BOINC team admins are available from a third-party site, "
 "%1www.boincteams.com%2."
 msgstr ""
-"משאבים אחרים עבור מנהלי קבוצות BOINC ניתן למצוא באתר צד שלישי, %1www."
-"boincteams.com%2"
+"משאבים אחרים עבור מנהלי קבוצות BOINC ניתן למצוא באתר צד שלישי, %"
+"1www.boincteams.com%2"
 
 #: ../user/team_manage.php:91
 msgid "Can't delete non-empty team"
@@ -6294,7 +6297,8 @@ msgid ""
 "Tell us about yourself. You could tell us where you're from, your age, "
 "occupation, hobbies, or anything else about yourself."
 msgstr ""
-"ספר לנו על עצמך. תוכל לספר מהיכן אתה, מה גילך, עיסוקך, תחביביך או כל דבר אחר."
+"ספר לנו על עצמך. תוכל לספר מהיכן אתה, מה גילך, עיסוקך, תחביביך או כל דבר "
+"אחר."
 
 #: ../project.sample/project.inc:90
 msgid "Your opinions about %1"
@@ -6330,8 +6334,7 @@ msgstr "הרץ את היישומים הנבחרים בלבד"
 msgid ""
 "If no work for selected applications is available, accept work from other "
 "applications?"
-msgstr ""
-"אם לא קיימת עבודה עבור היישומים הנבחרים, האם לקבל עבודה מיישומים אחרים?"
+msgstr "אם לא קיימת עבודה עבור היישומים הנבחרים, האם לקבל עבודה מיישומים אחרים?"
 
 #: ../project.sample/project_specific_prefs.inc:80
 msgid "(all applications)"

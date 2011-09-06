@@ -10,10 +10,10 @@ msgstr ""
 "PO-Revision-Date: 2011-08-08 15:43+0200\n"
 "Last-Translator: Sami Nordlund <sami.nordlund@kolumbus.fi>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: fi\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: fi\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Pootle 2.1.1\n"
 "X-Poedit-SourceCharset: utf-8\n"
@@ -987,8 +987,8 @@ msgid ""
 "are displayed only to logged-in users. We apologize for this inconvenience."
 msgstr ""
 "Spämmin estämiseksi niiden käyttäjien profiilit, joiden keskim. pisteet ovat "
-"alle %1, näkyvät vain kirjautuneille käyttäjille.  Pahoittelemme mahdollista "
-"haittaa."
+"alle %1, näkyvät vain kirjautuneille käyttäjille.  Pahoittelemme "
+"mahdollista haittaa."
 
 #: ../inc/profile.inc:196
 msgid "User is banished"
@@ -1542,7 +1542,8 @@ msgid ""
 "be overwritten. Edit the %1BOINC-wide team%2 instead."
 msgstr ""
 "VAROITUS: tämä on BOINC-laajuinen tiimi. Jos teet muutoksia tässä, ne "
-"tulevat pian ylikirjoitetuksi. Muokkaa sen sijaan %1BOINC-laajuista tiimiä%2."
+"tulevat pian ylikirjoitetuksi. Muokkaa sen sijaan %1BOINC-laajuista tiimiä%"
+"2."
 
 #: ../inc/team.inc:422
 msgid ""
@@ -1938,7 +1939,8 @@ msgstr ""
 #: ../user/account_finish.php:41 ../user/create_account_form.php:87
 msgid "Identifies you on our web site. Use your real name or a nickname."
 msgstr ""
-"Sinut tunnistetaan tällä nettisivullamme. Voit käyttää oikeaa tai lempinimeä."
+"Sinut tunnistetaan tällä nettisivullamme. Voit käyttää oikeaa tai "
+"lempinimeä."
 
 #: ../user/account_finish.php:45 ../user/create_account_form.php:106
 msgid "Select the country you want to represent, if any."
@@ -2228,8 +2230,8 @@ msgid ""
 "To replace it, click the \"Browse\" button and select a JPEG or PNG file (%1 "
 "or less)."
 msgstr ""
-"Vaihda se napsauttamalla \"Selaa\" ja valitse joko JPEG- tai PNG-tiedosto (%"
-"1 tai vähemmän)."
+"Vaihda se napsauttamalla \"Selaa\" ja valitse joko JPEG- tai PNG-tiedosto (%1 "
+"tai vähemmän)."
 
 #: ../user/create_profile.php:69
 msgid "To remove it from your profile, check this box:"
@@ -3491,8 +3493,9 @@ msgid "2 weeks"
 msgstr ""
 
 #: ../user/forum_moderate_post.php:85
+#, fuzzy
 msgid "1 month"
-msgstr ""
+msgstr "%1 viestiä"
 
 #: ../user/forum_moderate_post.php:86
 msgid "Forever"
@@ -3510,8 +3513,9 @@ msgid "OK"
 msgstr ""
 
 #: ../user/forum_moderate_post_action.php:57
+#, fuzzy
 msgid "You are not authorized to moderate this post."
-msgstr ""
+msgstr "Olet nyt ystävä %1 kanssa."
 
 #: ../user/forum_moderate_post_action.php:85
 msgid "Can't move to different category type"
@@ -3637,8 +3641,9 @@ msgid "Input Recorded"
 msgstr "Ehdotus tallennettiin"
 
 #: ../user/forum_rate.php:73
+#, fuzzy
 msgid "Your input has been recorded. Thanks for your help."
-msgstr ""
+msgstr "Suosituksesi tallennettiin."
 
 #: ../user/forum_rate.php:75
 #, fuzzy
@@ -3688,8 +3693,9 @@ msgid "Add my signature to this reply"
 msgstr "Lisää siguni tähän viestiin"
 
 #: ../user/forum_report_post.php:45
+#, fuzzy
 msgid "You need more average or total credit to report a post."
-msgstr ""
+msgstr "Viestin lähettämiseen vaadittava keskimääräinen pistemäärä"
 
 #: ../user/forum_report_post.php:64
 #, fuzzy
@@ -3697,8 +3703,9 @@ msgid "Report Registered"
 msgstr "Raportoinnin takaraja"
 
 #: ../user/forum_report_post.php:65
+#, fuzzy
 msgid "Your report has been recorded. Thanks you for your input."
-msgstr ""
+msgstr "Suosituksesi tallennettiin."
 
 #: ../user/forum_report_post.php:66
 msgid ""
@@ -3726,8 +3733,9 @@ msgid ""
 msgstr ""
 
 #: ../user/forum_report_post.php:89
+#, fuzzy
 msgid "Report not registered"
-msgstr ""
+msgstr "Raportoinnin takaraja"
 
 #: ../user/forum_report_post.php:90
 msgid "Your report could not be recorded. Please wait a while and try again."
@@ -4546,9 +4554,9 @@ msgid ""
 "done for %1. If you want to be anonymous, choose a name that doesn't reveal "
 "your identity."
 msgstr ""
-"%1 -tilisi tunnistetaan valitsemallasi nimellä. Nimi saattaa näkyä %1 -"
-"projektin nettisivulla samoin kuin tietokoneesi suorittamat työt %1 -"
-"projektille. Jos haluat pysyä anonyyminä, valitse nimi joka ei paljasta "
+"%1 -tilisi tunnistetaan valitsemallasi nimellä. Nimi saattaa näkyä %1 "
+"-projektin nettisivulla samoin kuin tietokoneesi suorittamat työt %1 "
+"-projektille. Jos haluat pysyä anonyyminä, valitse nimi joka ei paljasta "
 "identiteettiäsi."
 
 #: ../user/info.php:44
@@ -4635,8 +4643,7 @@ msgstr ""
 #: ../user/info.php:51
 msgid ""
 "%1 was developed by %2. BOINC was developed at the University of California."
-msgstr ""
-"%1 kehitettiin %2 toimesta. BOINC kehitettiin Kalifornian yliopistolla."
+msgstr "%1 kehitettiin %2 toimesta. BOINC kehitettiin Kalifornian yliopistolla."
 
 #: ../user/info.php:53
 msgid "Liability"
@@ -4685,8 +4692,7 @@ msgstr "Kielivalinta"
 msgid ""
 "This web site is available in several languages. The currently selected "
 "language is %1."
-msgstr ""
-"Tämä nettisivu löytyy useammalla kielellä. Nykyinen kielivalinta on %1."
+msgstr "Tämä nettisivu löytyy useammalla kielellä. Nykyinen kielivalinta on %1."
 
 #: ../user/language_select.php:75
 msgid ""
@@ -4699,8 +4705,8 @@ msgstr ""
 #: ../user/language_select.php:80
 msgid "Firefox: Tools/Options/General"
 msgstr ""
-"Firefox: Työkalut/Asetukset/Sisältö-välilehti, josta Kielet-kohta ja Valitse-"
-"nappi"
+"Firefox: Työkalut/Asetukset/Sisältö-välilehti, josta Kielet-kohta ja "
+"Valitse-nappi"
 
 #: ../user/language_select.php:82
 msgid "Microsoft IE: Tools/Internet Options/Languages"
@@ -4888,8 +4894,8 @@ msgid ""
 "%1Profiles%2 let individuals share backgrounds and opinions with the %3 "
 "community."
 msgstr ""
-"%1Profiilien%2 avulla voi jakaa taustatietojaan ja mielipiteitään %3 -"
-"yhteisön kanssa."
+"%1Profiilien%2 avulla voi jakaa taustatietojaan ja mielipiteitään %3 "
+"-yhteisön kanssa."
 
 #: ../user/profile_menu.php:39
 msgid ""
@@ -4926,8 +4932,8 @@ msgid ""
 "Browse profiles %1at random%2, %3at random with pictures%2, or %4at random "
 "without pictures%2."
 msgstr ""
-"Selaa profiileja %1satunnaisjärjestyksessä%2, %3satunnaisesti kuvilla%2 tai %"
-"4satunnaisesti ilman kuvia%2."
+"Selaa profiileja %1satunnaisjärjestyksessä%2, %3satunnaisesti kuvilla%2 tai "
+"%4satunnaisesti ilman kuvia%2."
 
 #: ../user/profile_menu.php:67
 msgid "Alphabetical profile listings:"
@@ -5748,8 +5754,8 @@ msgstr ""
 "Jos tiimin perustaja ei ole aktiivinen ja haluat omaksua perustajan roolin, "
 "napsauta allaolevaa nappia. Nykyiselle perustajalle lähetetään sähköposti "
 "koskien pyyntöäsi ja mahdollisuus siirtää tai evätä perustajuus. Jos "
-"perustaja ei vastaa 60 päivän kuluessa, voit saada perustajuuden.<br /><br /"
-">\n"
+"perustaja ei vastaa 60 päivän kuluessa, voit saada perustajuuden.<br /><br "
+"/>\n"
 "                       Haluatko pyytää perustajuutta?"
 
 #: ../user/team_founder_transfer_form.php:65
@@ -5834,7 +5840,8 @@ msgid ""
 "End of results. %1 If you cannot find the team you are looking for, you may %"
 "2create a team%3 yourself."
 msgstr ""
-"Tulosten loppu. %1 Jos et löydä hakemaasi tiimiä, voit itse %2luoda tiimin%3."
+"Tulosten loppu. %1 Jos et löydä hakemaasi tiimiä, voit itse %2luoda tiimin%"
+"3."
 
 #: ../user/team_manage.php:26
 msgid "Team administration for %1"
@@ -5874,8 +5881,7 @@ msgstr "XML"
 
 #: ../user/team_manage.php:39
 msgid "See when members joined or quit this team"
-msgstr ""
-"Tarkastele, milloin jäsenet ovat liittyneet tai eronneet tästä tiimistä"
+msgstr "Tarkastele, milloin jäsenet ovat liittyneet tai eronneet tästä tiimistä"
 
 #: ../user/team_manage.php:50
 msgid "Respond to foundership request."
@@ -5934,8 +5940,8 @@ msgid ""
 "Other resources for BOINC team admins are available from a third-party site, "
 "%1www.boincteams.com%2."
 msgstr ""
-"Lisää tietoa BOINC-tiimien ylläpitäjille löytyy osoitteesta %1www.boincteams."
-"com%2."
+"Lisää tietoa BOINC-tiimien ylläpitäjille löytyy osoitteesta %"
+"1www.boincteams.com%2."
 
 #: ../user/team_manage.php:91
 msgid "Can't delete non-empty team"
@@ -6259,8 +6265,8 @@ msgid ""
 "file' for this project. This file has a name of the form "
 "<b>account_PROJECT_URL.xml</b>. The account file for %1 is <b>%2</b>."
 msgstr ""
-"Käyttääksesi heikkoa tiliavainta tietokoneella, etsi tai luo \"tilitiedosto"
-"\" projektille. Tiedoston nimi on muotoa <b>account_PROJECT_URL.xml</b>. "
+"Käyttääksesi heikkoa tiliavainta tietokoneella, etsi tai luo \"tilitiedosto\" "
+"projektille. Tiedoston nimi on muotoa <b>account_PROJECT_URL.xml</b>. "
 "Tilitiedosto projektille %1 on <b>%2</b>."
 
 #: ../user/weak_auth.php:59

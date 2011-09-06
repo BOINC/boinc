@@ -10,10 +10,10 @@ msgstr ""
 "PO-Revision-Date: 2011-07-09 17:37+0200\n"
 "Last-Translator: Xavier <xavi.mormur@gmail.com>\n"
 "Language-Team: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
+"Language: ca\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: ca\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Pootle 2.1.1\n"
 "X-Poedit-SearchPath-0: html\\user\n"
@@ -633,8 +633,7 @@ msgstr ""
 
 #: ../inc/prefs.inc:121
 msgid "Do work only between the hours of %1 No restriction if equal %2"
-msgstr ""
-"Només treballar entre les hores de %1 Sense restricció si es igual a %2"
+msgstr "Només treballar entre les hores de %1 Sense restricció si es igual a %2"
 
 #: ../inc/prefs.inc:129
 msgid ""
@@ -659,7 +658,8 @@ msgstr "processadors"
 #: ../inc/prefs.inc:152
 msgid "On multiprocessors, use at most %1 Enforced by version 6.1+ %2"
 msgstr ""
-"Amb multiprocessadors, utilitzar com a màxim %1 Imposat per la versió 6.1+ %2"
+"Amb multiprocessadors, utilitzar com a màxim %1 Imposat per la versió 6.1+ %"
+"2"
 
 #: ../inc/prefs.inc:157
 #, php-format
@@ -669,8 +669,8 @@ msgstr "% dels processadors"
 #: ../inc/prefs.inc:161
 msgid "Use at most %1 Can be used to reduce CPU heat %2"
 msgstr ""
-"Utilitzar com a màxim %1 Pot ser utilitzat per reduir la escalfor de la CPU %"
-"2"
+"Utilitzar com a màxim %1 Pot ser utilitzat per reduir la escalfor de la CPU "
+"%2"
 
 #: ../inc/prefs.inc:166
 #, php-format
@@ -1955,8 +1955,7 @@ msgstr ""
 
 #: ../user/account_finish.php:41 ../user/create_account_form.php:87
 msgid "Identifies you on our web site. Use your real name or a nickname."
-msgstr ""
-"Us identifica a la pàgina web. Utilitzeu el vostre nom real o un àlies."
+msgstr "Us identifica a la pàgina web. Utilitzeu el vostre nom real o un àlies."
 
 #: ../user/account_finish.php:45 ../user/create_account_form.php:106
 msgid "Select the country you want to represent, if any."
@@ -2248,8 +2247,8 @@ msgid ""
 "To replace it, click the \"Browse\" button and select a JPEG or PNG file (%1 "
 "or less)."
 msgstr ""
-"Per canviar-ho, premi el botó \"Navegar\" i seleccioni un arxiu JPEG o PNG (%"
-"1 o menys)."
+"Per canviar-ho, premi el botó \"Navegar\" i seleccioni un arxiu JPEG o PNG (%1 "
+"o menys)."
 
 #: ../user/create_profile.php:69
 msgid "To remove it from your profile, check this box:"
@@ -2261,7 +2260,8 @@ msgid ""
 "button and select a JPEG or PNG file. Please select images of %1 or less."
 msgstr ""
 "Si desitja incloure una imatge en el seu perfil, premi el botó \"Navegar\" i "
-"seleccioni un fitxer JPEG o PNG. Si us plau seleccioni imatges de %1 o menys."
+"seleccioni un fitxer JPEG o PNG. Si us plau seleccioni imatges de %1 o "
+"menys."
 
 #: ../user/create_profile.php:89
 msgid "Language"
@@ -2292,8 +2292,8 @@ msgid ""
 "Your %1profile%2 lets you share your opinions and background with the %3 "
 "community."
 msgstr ""
-"El seu %1perfil%2 li permet compartir les seves opinions i coneixements amb %"
-"3 comunitat."
+"El seu %1perfil%2 li permet compartir les seves opinions i coneixements amb "
+"%3 comunitat."
 
 #: ../user/create_profile.php:213
 msgid "Your ReCaptcha response was not correct.  Please try again."
@@ -2581,7 +2581,8 @@ msgstr "Les instruccions per instal·lar i executar BOINC es troben %1aquí%2."
 #: ../user/download_network.php:38
 msgid "This list is managed centrally at %1the BOINC website%2."
 msgstr ""
-"Aquesta llista està gestionada per el servidor de la %1pagína web de BOINC%2."
+"Aquesta llista està gestionada per el servidor de la %1pagína web de BOINC%"
+"2."
 
 #: ../user/edit_email_action.php:31
 #, fuzzy
@@ -3516,8 +3517,9 @@ msgid "2 weeks"
 msgstr ""
 
 #: ../user/forum_moderate_post.php:85
+#, fuzzy
 msgid "1 month"
-msgstr ""
+msgstr "%1 minuts"
 
 #: ../user/forum_moderate_post.php:86
 msgid "Forever"
@@ -3535,8 +3537,9 @@ msgid "OK"
 msgstr ""
 
 #: ../user/forum_moderate_post_action.php:57
+#, fuzzy
 msgid "You are not authorized to moderate this post."
-msgstr ""
+msgstr "Ara es amic de %1."
 
 #: ../user/forum_moderate_post_action.php:85
 msgid "Can't move to different category type"
@@ -3662,8 +3665,9 @@ msgid "Input Recorded"
 msgstr "Vot registrat"
 
 #: ../user/forum_rate.php:73
+#, fuzzy
 msgid "Your input has been recorded. Thanks for your help."
-msgstr ""
+msgstr "La seva recomanació ha estat enregistrada."
 
 #: ../user/forum_rate.php:75
 #, fuzzy
@@ -3713,8 +3717,9 @@ msgid "Add my signature to this reply"
 msgstr "Afegir la meva firma a aquest correu"
 
 #: ../user/forum_report_post.php:45
+#, fuzzy
 msgid "You need more average or total credit to report a post."
-msgstr ""
+msgstr "Crèdit mitja mínim per enviar"
 
 #: ../user/forum_report_post.php:64
 #, fuzzy
@@ -3722,8 +3727,9 @@ msgid "Report Registered"
 msgstr "Informe termini"
 
 #: ../user/forum_report_post.php:65
+#, fuzzy
 msgid "Your report has been recorded. Thanks you for your input."
-msgstr ""
+msgstr "La seva recomanació ha estat enregistrada."
 
 #: ../user/forum_report_post.php:66
 msgid ""
@@ -3751,8 +3757,9 @@ msgid ""
 msgstr ""
 
 #: ../user/forum_report_post.php:89
+#, fuzzy
 msgid "Report not registered"
-msgstr ""
+msgstr "Informe termini"
 
 #: ../user/forum_report_post.php:90
 msgid "Your report could not be recorded. Please wait a while and try again."
@@ -4471,8 +4478,7 @@ msgstr "Informació de l'ordinador"
 #, fuzzy
 msgid ""
 "This user has chosen not to show information about his or her computers."
-msgstr ""
-"Aquest usuari ha optat per no mostrar informació sobre els seus equips."
+msgstr "Aquest usuari ha optat per no mostrar informació sobre els seus equips."
 
 #: ../user/hosts_user.php:64
 #, fuzzy
@@ -4561,8 +4567,8 @@ msgid ""
 "on its web site. The application programs may change from time to time."
 msgstr ""
 "El treball realitzat per el vostre ordinador contribueix a assolir les fites "
-"de %1, tal i com és descrit a la seva pàgina web. L’aplicació pot canviar en "
-"el temps."
+"de %1, tal i com és descrit a la seva pàgina web. L’aplicació pot canviar "
+"en el temps."
 
 #: ../user/info.php:42
 msgid "Privacy policy"
@@ -4589,11 +4595,11 @@ msgid ""
 "location (e.g. its domain name or network address) will be shown."
 msgstr ""
 "Si participeu a %1, informació respecte el vostre ordinador (com el tipus de "
-"processador, quantitat de memòria, etc.) serà registrada per %1 i utilitzada "
-"per decidir el tipus de feina a assignar al vostre ordinador. Aquesta "
-"informació també es mostrarà a les pàgines web de %1. No es mostrarà res que "
-"pugui revelar la localització del vostre ordinador (per exemple el seu nom "
-"de domini o adreça de xarxa)."
+"processador, quantitat de memòria, etc.) serà registrada per %1 i "
+"utilitzada per decidir el tipus de feina a assignar al vostre ordinador. "
+"Aquesta informació també es mostrarà a les pàgines web de %1. No es mostrarà "
+"res que pugui revelar la localització del vostre ordinador (per exemple el "
+"seu nom de domini o adreça de xarxa)."
 
 #: ../user/info.php:45
 msgid ""
@@ -4660,8 +4666,8 @@ msgid ""
 "happens, stop running %1 or use a %2utility program%3 that limits CPU usage."
 msgstr ""
 "Les aplicacions executades per %1 poden causar l’escalfament d'alguns "
-"ordinadors. Si passa això, atureu l'execució de %1 o utilitzeu un %2programa%"
-"3 que limiti la utilització de la CPU."
+"ordinadors. Si passa això, atureu l'execució de %1 o utilitzeu un %2programa"
+"%3 que limiti la utilització de la CPU."
 
 #: ../user/info.php:51
 msgid ""
@@ -5528,8 +5534,8 @@ msgstr "Crear un equip"
 msgid ""
 "You belong to %1. You must %2quit this team%3 before creating a new one."
 msgstr ""
-"Vostè pertany a %1. Vostè ha de %2separar-se d'aquest equip%3 abans de crear-"
-"ne un de nou."
+"Vostè pertany a %1. Vostè ha de %2separar-se d'aquest equip%3 abans de "
+"crear-ne un de nou."
 
 #: ../user/team_delta.php:65
 msgid "Not founder or admin"
@@ -5609,8 +5615,7 @@ msgstr "En la seva opció, només els membres ho podran llegir."
 
 #: ../user/team_forum.php:33
 msgid "You and your Team Admins will have moderator privileges."
-msgstr ""
-"Vostè i el seus Administradors d'Equip tindran privilegis de moderador."
+msgstr "Vostè i el seus Administradors d'Equip tindran privilegis de moderador."
 
 #: ../user/team_forum.php:40
 msgid "Create a message board for %1"
@@ -6082,7 +6087,8 @@ msgstr "Resultats de la recerca de l'equip"
 #: ../user/team_search.php:94
 msgid "No teams were found matching your criteria. Try another search."
 msgstr ""
-"No s'han trobat equips amb la seu criteri de selecció. Provi una altra cerca."
+"No s'han trobat equips amb la seu criteri de selecció. Provi una altra "
+"cerca."
 
 #: ../user/team_search.php:96
 msgid "Or you can %1create a new team%2."
@@ -6320,8 +6326,8 @@ msgid ""
 msgstr ""
 "Per utilitzar la clau de compte feble en un ordinador, trobeu o creeu 'el "
 "fitxer del compte' per aquest projecte. El nom d'aquest fitxer és de la "
-"forma <b>compte_URL_DEL_PROJECTE.xml</b>. El fitxer del compte per %1 és <b>%"
-"2</b>."
+"forma <b>compte_URL_DEL_PROJECTE.xml</b>. El fitxer del compte per %1 és <b>"
+"%2</b>."
 
 #: ../user/weak_auth.php:59
 msgid "Create this file if needed. Set its contents to:"

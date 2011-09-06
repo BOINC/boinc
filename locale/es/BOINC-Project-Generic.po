@@ -10,10 +10,10 @@ msgstr ""
 "PO-Revision-Date: 2010-09-23 23:50+0200\n"
 "Last-Translator: David M <davidcomp2 at telefonica dot net>\n"
 "Language-Team: \n"
+"Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: es\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Pootle 2.1.1\n"
 "X-Poedit-SearchPath-0: html\\user\n"
@@ -593,8 +593,7 @@ msgstr "no leído"
 
 #: ../inc/pm.inc:186
 msgid "For email notification, %1edit community prefs%2"
-msgstr ""
-"Para notificaciones por email, %1editar las preferencias comunitarias%2"
+msgstr "Para notificaciones por email, %1editar las preferencias comunitarias%2"
 
 # ########################################
 # Private messages
@@ -959,8 +958,7 @@ msgid ""
 "             On computers participating in multiple projects, the most "
 "recently modified preferences will be used."
 msgstr ""
-"Estas se aplican a todos los proyectos BOINC en los que usted participa."
-"<br>\n"
+"Estas se aplican a todos los proyectos BOINC en los que usted participa.<br>\n"
 "                         En ordenadores unidos a múltiples proyectos, se "
 "usarán las preferencias modificadas más recientemente."
 
@@ -1292,8 +1290,9 @@ msgid "Sent"
 msgstr "Enviado"
 
 #: ../inc/result.inc:323
+#, fuzzy
 msgid "Time reported<br />or deadline"
-msgstr ""
+msgstr "Límite de tiempo para informar"
 
 #: ../inc/result.inc:324
 msgid "explain"
@@ -1426,7 +1425,8 @@ msgstr "Buscar"
 #: ../inc/team.inc:54
 msgid "Requested by you, and founder response deadline has passed."
 msgstr ""
-"Solicitado por usted, y el tiempo límite de repuesta del fundador ha acabado."
+"Solicitado por usted, y el tiempo límite de repuesta del fundador ha "
+"acabado."
 
 #: ../inc/team.inc:56
 msgid "Complete foundership transfer"
@@ -1976,8 +1976,7 @@ msgstr ""
 
 #: ../user/account_finish.php:41 ../user/create_account_form.php:87
 msgid "Identifies you on our web site. Use your real name or a nickname."
-msgstr ""
-"Le identifica en nuestra página web. Utilice su nombre real o un apodo."
+msgstr "Le identifica en nuestra página web. Utilice su nombre real o un apodo."
 
 #: ../user/account_finish.php:45 ../user/create_account_form.php:106
 msgid "Select the country you want to represent, if any."
@@ -2287,8 +2286,8 @@ msgid ""
 "If you would like include a picture with your profile, click the \"Browse\" "
 "button and select a JPEG or PNG file. Please select images of %1 or less."
 msgstr ""
-"Si desea incluir una imagen en su perfil, haga clic en el botón \"Explorar\" "
-"y seleccione un archivo JPEG o PNG. Por favor seleccione imágenes de %1 o "
+"Si desea incluir una imagen en su perfil, haga clic en el botón \"Explorar\" y "
+"seleccione un archivo JPEG o PNG. Por favor seleccione imágenes de %1 o "
 "menos."
 
 #: ../user/create_profile.php:89
@@ -2333,16 +2332,16 @@ msgid ""
 "Your first response was flagged as spam by the Akismet anti-spam system.  "
 "Please modify your text and try again."
 msgstr ""
-"Su primera respuesta fue marcada como spam por el sistema anti-spam "
-"Akismet.  Por favor, modifique su texto e inténtelo de nuevo."
+"Su primera respuesta fue marcada como spam por el sistema anti-spam Akismet. "
+" Por favor, modifique su texto e inténtelo de nuevo."
 
 #: ../user/create_profile.php:230
 msgid ""
 "Your second response was flagged as spam by the Akismet anti-spam system.  "
 "Please modify your text and try again."
 msgstr ""
-"Su segunda respuesta fue marcada como spam por el sistema anti-spam "
-"Akismet.  Por favor, modifique su texto e inténtelo de nuevo."
+"Su segunda respuesta fue marcada como spam por el sistema anti-spam Akismet. "
+" Por favor, modifique su texto e inténtelo de nuevo."
 
 #: ../user/create_profile.php:246
 msgid "Your profile submission was empty."
@@ -3424,8 +3423,9 @@ msgid "sticky/locked"
 msgstr ""
 
 #: ../user/forum_forum.php:194
+#, fuzzy
 msgid "This thread is sticky"
-msgstr ""
+msgstr "Editar el título del hilo"
 
 #: ../user/forum_forum.php:194
 msgid "sticky"
@@ -3552,9 +3552,12 @@ msgstr ""
 msgid "2 weeks"
 msgstr ""
 
+# ########################################
+# Forum
 #: ../user/forum_moderate_post.php:85
+#, fuzzy
 msgid "1 month"
-msgstr ""
+msgstr "%1 mensajes"
 
 #: ../user/forum_moderate_post.php:86
 msgid "Forever"
@@ -3572,8 +3575,9 @@ msgid "OK"
 msgstr ""
 
 #: ../user/forum_moderate_post_action.php:57
+#, fuzzy
 msgid "You are not authorized to moderate this post."
-msgstr ""
+msgstr "Ahora %1 y tu sois amigos."
 
 #: ../user/forum_moderate_post_action.php:85
 msgid "Can't move to different category type"
@@ -3642,8 +3646,8 @@ msgid ""
 "Your message was flagged as spam by the Akismet anti-spam system. Please "
 "modify your text and try again."
 msgstr ""
-"Su primera respuesta fue marcada como spam por el sistema anti-spam "
-"Akismet.  Por favor, modifique su texto e inténtelo de nuevo."
+"Su primera respuesta fue marcada como spam por el sistema anti-spam Akismet. "
+" Por favor, modifique su texto e inténtelo de nuevo."
 
 #: ../user/forum_post.php:70
 #, fuzzy
@@ -3696,8 +3700,9 @@ msgid "Input Recorded"
 msgstr ""
 
 #: ../user/forum_rate.php:73
+#, fuzzy
 msgid "Your input has been recorded. Thanks for your help."
-msgstr ""
+msgstr "Su recomendación ha sido grabada."
 
 #: ../user/forum_rate.php:75
 msgid "Vote Registered"
@@ -3718,8 +3723,8 @@ msgid ""
 "Your post has been flagged as spam by the Akismet anti-spam system. Please "
 "modify your text and try again."
 msgstr ""
-"Su primera respuesta fue marcada como spam por el sistema anti-spam "
-"Akismet.  Por favor, modifique su texto e inténtelo de nuevo."
+"Su primera respuesta fue marcada como spam por el sistema anti-spam Akismet. "
+" Por favor, modifique su texto e inténtelo de nuevo."
 
 #: ../user/forum_reply.php:87 ../user/forum_thread.php:156
 #: ../user/forum_thread.php:276
@@ -3755,8 +3760,9 @@ msgid "Report Registered"
 msgstr "Límite de tiempo para informar"
 
 #: ../user/forum_report_post.php:65
+#, fuzzy
 msgid "Your report has been recorded. Thanks you for your input."
-msgstr ""
+msgstr "Su recomendación ha sido grabada."
 
 #: ../user/forum_report_post.php:66
 msgid ""
@@ -3784,8 +3790,9 @@ msgid ""
 msgstr ""
 
 #: ../user/forum_report_post.php:89
+#, fuzzy
 msgid "Report not registered"
-msgstr ""
+msgstr "Límite de tiempo para informar"
 
 #: ../user/forum_report_post.php:90
 msgid "Your report could not be recorded. Please wait a while and try again."
@@ -4597,8 +4604,8 @@ msgid ""
 "resources are used by %1, and when it uses them."
 msgstr ""
 "Cuando ejecute %1 en su ordenador, utilizará parte de la potencia de su CPU, "
-"espacio en disco, y ancho de banda de red. Usted puede controlar la cantidad "
-"de recursos que usa %1, y cuándo son utilizados."
+"espacio en disco, y ancho de banda de red. Usted puede controlar la "
+"cantidad de recursos que usa %1, y cuándo son utilizados."
 
 #: ../user/info.php:40
 msgid ""
@@ -4941,8 +4948,9 @@ msgid "Are you sure you want to delete your separate %1 preferences for %2?"
 msgstr ""
 
 #: ../user/prefs_remove.php:55
+#, fuzzy
 msgid "Remove preferences"
-msgstr ""
+msgstr "Editar las preferencias"
 
 #: ../user/prefs_remove.php:57
 msgid "Cancel"
@@ -4997,8 +5005,8 @@ msgid ""
 "Browse profiles %1at random%2, %3at random with pictures%2, or %4at random "
 "without pictures%2."
 msgstr ""
-"Ver perfiles %1al azar%2, %3al azar con imágenes%2, o %4al azar sin imágenes%"
-"2."
+"Ver perfiles %1al azar%2, %3al azar con imágenes%2, o %4al azar sin imágenes"
+"%2."
 
 #: ../user/profile_menu.php:67
 msgid "Alphabetical profile listings:"
@@ -5636,9 +5644,12 @@ msgstr ""
 msgid "You and your Team Admins will have moderator privileges."
 msgstr ""
 
+# ########################################
+# Forum sample index page
 #: ../user/team_forum.php:40
+#, fuzzy
 msgid "Create a message board for %1"
-msgstr ""
+msgstr "foro de %1"
 
 #: ../user/team_forum.php:48
 msgid "Team already has a message board"
@@ -5759,8 +5770,9 @@ msgstr ""
 
 #: ../user/team_founder_transfer_action.php:137
 #: ../user/team_founder_transfer_form.php:83
+#, fuzzy
 msgid "Return to team page"
-msgstr ""
+msgstr "Regresar al perfil."
 
 #: ../user/team_founder_transfer_form.php:28
 msgid "You need to be a member of a team to access this page."
@@ -6308,8 +6320,8 @@ msgid ""
 msgstr ""
 "Para usar su clave débil en cierta computadora, busque o cree el 'archivo de "
 "cuenta' para este proyecto. El nombre de este archivo está en la forma "
-"<b>cuenta_URL_DEL_PROYECTO.xml</b>. El archivo de cuenta para %1 es <b>%2</"
-"b>."
+"<b>cuenta_URL_DEL_PROYECTO.xml</b>. El archivo de cuenta para %1 es <b>%"
+"2</b>."
 
 #: ../user/weak_auth.php:59
 msgid "Create this file if needed. Set its contents to:"
@@ -6422,18 +6434,6 @@ msgstr ""
 #: ../project.sample/project_specific_prefs.inc:80
 msgid "(all applications)"
 msgstr "(todas las aplicaciones)"
-
-# ########################################
-# Private messages
-#, fuzzy
-#~ msgid "- private message"
-#~ msgstr "Enviar mensaje privado"
-
-# ########################################
-# Private messages
-#, fuzzy
-#~ msgid "Private message from"
-#~ msgstr "Mensajes privados"
 
 #~ msgid "No thread with id %1. Please check the link and try again."
 #~ msgstr ""

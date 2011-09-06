@@ -10,10 +10,10 @@ msgstr ""
 "PO-Revision-Date: 2011-08-29 20:55+0200\n"
 "Last-Translator: aceman <acelists@atlas.sk>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: sk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: sk\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 "X-Generator: Pootle 2.1.1\n"
 "X-Poedit-SourceCharset: utf-8\n"
@@ -467,8 +467,9 @@ msgid "Retired old computer %1"
 msgstr ""
 
 #: ../inc/host.inc:597 ../inc/host.inc:600
+#, fuzzy
 msgid "Show:"
-msgstr ""
+msgstr "Zobraziť"
 
 #: ../inc/host.inc:597 ../inc/host.inc:600
 msgid "All computers"
@@ -479,12 +480,14 @@ msgid "Only computers active in past 30 days"
 msgstr ""
 
 #: ../inc/host.inc:609 ../inc/result.inc:428
+#, fuzzy
 msgid "Computer ID"
-msgstr ""
+msgstr "Informácie o počítači"
 
 #: ../inc/host.inc:622
+#, fuzzy
 msgid "BOINC<br>version"
-msgstr ""
+msgstr "Verzia BOINC"
 
 #: ../inc/host.inc:629
 msgid "Last contact"
@@ -541,8 +544,9 @@ msgstr ""
 #: ../user/forum_post.php:116 ../user/forum_reply.php:115
 #: ../user/forum_report_post.php:75 ../user/forum_thread.php:265
 #: ../user/pm.php:90 ../user/pm.php:144
+#, fuzzy
 msgid "Message"
-msgstr ""
+msgstr "Nástenky"
 
 #: ../inc/pm.inc:89
 msgid "Send message"
@@ -633,8 +637,9 @@ msgid "On multiprocessors, use at most"
 msgstr ""
 
 #: ../inc/prefs.inc:148
+#, fuzzy
 msgid "processors"
-msgstr ""
+msgstr "Koprocesory"
 
 #: ../inc/prefs.inc:152
 msgid "On multiprocessors, use at most %1 Enforced by version 6.1+ %2"
@@ -1205,8 +1210,9 @@ msgid "Show names"
 msgstr ""
 
 #: ../inc/result.inc:313
+#, fuzzy
 msgid "Task"
-msgstr ""
+msgstr "Úlohy"
 
 #: ../inc/result.inc:316
 msgid "Work unit"
@@ -1281,8 +1287,9 @@ msgid "Run time"
 msgstr ""
 
 #: ../inc/result.inc:431
+#, fuzzy
 msgid "CPU time"
-msgstr ""
+msgstr "Typ procesora"
 
 #: ../inc/result.inc:432
 msgid "Validate state"
@@ -1397,12 +1404,14 @@ msgid "Type"
 msgstr ""
 
 #: ../inc/team.inc:119 ../user/team_manage.php:63
+#, fuzzy
 msgid "Message board"
-msgstr ""
+msgstr "Nástenky"
 
 #: ../inc/team.inc:120 ../user/forum_forum.php:136 ../user/forum_index.php:93
+#, fuzzy
 msgid "Threads"
-msgstr ""
+msgstr "Vlákno"
 
 #: ../inc/team.inc:128
 msgid "Join this team"
@@ -1577,8 +1586,9 @@ msgstr ""
 #: ../inc/user.inc:150 ../inc/user.inc:152 ../inc/user.inc:153
 #: ../inc/user.inc:241 ../inc/user.inc:323 ../inc/user.inc:398
 #: ../user/view_profile.php:56
+#, fuzzy
 msgid "View"
-msgstr ""
+msgstr "Zobrazenia"
 
 #: ../inc/user.inc:152
 msgid "Computers on this account"
@@ -1598,8 +1608,9 @@ msgstr ""
 
 #: ../inc/user.inc:166 ../inc/user.inc:279 ../inc/user.inc:365
 #: ../inc/user.inc:367 ../user/user_search.php:104 ../user/user_search.php:160
+#, fuzzy
 msgid "Team"
-msgstr ""
+msgstr "Úlohy"
 
 #: ../inc/user.inc:168
 msgid "Cross-project"
@@ -1715,8 +1726,9 @@ msgid "Delete"
 msgstr ""
 
 #: ../inc/user.inc:243
+#, fuzzy
 msgid "Create"
-msgstr ""
+msgstr "Vytvorený"
 
 #: ../inc/user.inc:245 ../inc/user.inc:398 ../inc/util.inc:476
 msgid "Profile"
@@ -3255,8 +3267,9 @@ msgid "Discussion among members of %1"
 msgstr ""
 
 #: ../user/forum_index.php:69
+#, fuzzy
 msgid "%1 Message boards"
-msgstr ""
+msgstr "nástenka %1"
 
 #: ../user/forum_index.php:78
 msgid ""
@@ -4155,12 +4168,14 @@ msgid ""
 msgstr ""
 
 #: ../user/host_edit_form.php:70 ../user/workunit.php:39
+#, fuzzy
 msgid "name"
-msgstr ""
+msgstr "Názov"
 
 #: ../user/host_edit_form.php:70 ../user/workunit.php:41
+#, fuzzy
 msgid "created"
-msgstr ""
+msgstr "Vytvorený"
 
 #: ../user/host_edit_form.php:70
 #, fuzzy
@@ -5235,8 +5250,9 @@ msgid "You and your Team Admins will have moderator privileges."
 msgstr ""
 
 #: ../user/team_forum.php:40
+#, fuzzy
 msgid "Create a message board for %1"
-msgstr ""
+msgstr "nástenka %1"
 
 #: ../user/team_forum.php:48
 msgid "Team already has a message board"
@@ -5738,8 +5754,9 @@ msgid "Decreasing sign-up time"
 msgstr ""
 
 #: ../user/user_search.php:118
+#, fuzzy
 msgid "Decreasing average credit"
-msgstr ""
+msgstr "Súčasný priemerný kredit"
 
 #: ../user/user_search.php:119
 msgid "Decreasing total credit"
@@ -5790,8 +5807,9 @@ msgid "Account Data<br/>for %1<br/>Time:"
 msgstr ""
 
 #: ../user/userw.php:54
+#, fuzzy
 msgid "Team:"
-msgstr ""
+msgstr "Úlohy"
 
 #: ../user/userw.php:55
 msgid "Team TotCred:"

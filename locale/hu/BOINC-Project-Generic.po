@@ -10,17 +10,17 @@ msgstr ""
 "PO-Revision-Date: 2011-09-01 15:49+0200\n"
 "Last-Translator: Gabor Cseh <csega@mailbox.hu>\n"
 "Language-Team: \n"
+"Language: hu\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: hu\n"
 "Plural-Forms: nplurals=2; plural=(n !=1);\n"
 "X-Generator: Pootle 2.1.1\n"
 "X-Poedit-Bookmarks: 7,-1,-1,-1,-1,-1,-1,-1,-1,-1\n"
-"X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
 "X-Poedit-SourceCharset: utf-8\n"
 "X-Poedit-SearchPath-0: html\\user\n"
 "X-Poedit-Basepath: C:\\Src\\BOINCSVN\\trunk\\boinc\n"
+"X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
 
 # The name of this language in this language
 msgid "LANG_NAME_NATIVE"
@@ -358,6 +358,7 @@ msgid "Last time contacted server"
 msgstr "Utolsó kapcsolódás a kiszolgálóhoz"
 
 #: ../inc/host.inc:181
+#, php-format
 #, fuzzy, php-format
 msgid "% of time BOINC is running"
 msgstr "%-a az időnek, amikor a BOINC fut"
@@ -672,8 +673,8 @@ msgid ""
 "space if 'yes' %2"
 msgstr ""
 "A feladatokat a memóriában hagyjam a felfüggesztés alatt? %1 A "
-"felfüggesztett feladatok swap területet foglalnak, ha az 'igen'-t választja %"
-"2"
+"felfüggesztett feladatok swap területet foglalnak, ha az 'igen'-t választja "
+"%2"
 
 #: ../inc/prefs.inc:138
 #, fuzzy
@@ -691,7 +692,8 @@ msgstr "processzor"
 #: ../inc/prefs.inc:152
 msgid "On multiprocessors, use at most %1 Enforced by version 6.1+ %2"
 msgstr ""
-"Többprocesszoros rendszereken legfeljebb %1 Kényszerítve a 6.1+ verzióknál %2"
+"Többprocesszoros rendszereken legfeljebb %1 Kényszerítve a 6.1+ verzióknál %"
+"2"
 
 #: ../inc/prefs.inc:157
 #, php-format
@@ -723,6 +725,7 @@ msgstr ""
 
 #: ../inc/prefs.inc:190 ../inc/prefs.inc:200 ../inc/prefs.inc:205
 #: ../inc/prefs.inc:210
+#, php-format
 #, fuzzy, php-format
 msgid "% of total"
 msgstr "%-a a teljesnek"
@@ -773,10 +776,13 @@ msgid "Maintain enough work for an additional"
 msgstr ""
 
 #: ../inc/prefs.inc:232
+#, fuzzy
 msgid ""
 "Confirm before connecting to Internet? %1 Matters only if you have a modem, "
 "ISDN or VPN connection %2"
 msgstr ""
+"Lecsatlakozik, ha kész? %1 Csak modemes, ISDN vagy VPN kapcsolat esetén "
+"számít. %2"
 
 #: ../inc/prefs.inc:241
 msgid ""
@@ -1068,8 +1074,9 @@ msgid "Not in DB"
 msgstr ""
 
 #: ../inc/result.inc:80
+#, fuzzy
 msgid "pending"
-msgstr ""
+msgstr "Függőben"
 
 #: ../inc/result.inc:102 ../user/forum_search.php:59
 msgid "All"
@@ -2613,8 +2620,9 @@ msgid "Change email address"
 msgstr ""
 
 #: ../user/edit_email_form.php:37
+#, fuzzy
 msgid "Change the email address of your account"
-msgstr ""
+msgstr "email cím"
 
 #: ../user/edit_email_form.php:38
 #, fuzzy
@@ -2909,8 +2917,9 @@ msgid "HTML tags are not allowed in your name."
 msgstr ""
 
 #: ../user/edit_user_info_action.php:34
+#, fuzzy
 msgid "You must supply a name for your account."
-msgstr ""
+msgstr "Új fiók létrehozásához Önnek meghívókóddal kell rendelkeznie."
 
 #: ../user/edit_user_info_action.php:58
 msgid "Couldn't update user info."
@@ -3373,9 +3382,12 @@ msgstr ""
 msgid "sticky"
 msgstr ""
 
+# #######################################
+# Forum thread
 #: ../user/forum_forum.php:198
+#, fuzzy
 msgid "This thread is locked"
-msgstr ""
+msgstr "Ezt a témát adminisztratív okokból rejtetté tették"
 
 #: ../user/forum_forum.php:198
 #, fuzzy
@@ -3489,8 +3501,9 @@ msgid "2 weeks"
 msgstr ""
 
 #: ../user/forum_moderate_post.php:85
+#, fuzzy
 msgid "1 month"
-msgstr ""
+msgstr "%1 üzenet"
 
 #: ../user/forum_moderate_post.php:86
 msgid "Forever"
@@ -3861,8 +3874,9 @@ msgid ""
 msgstr ""
 
 #: ../user/forum_subscribe.php:51
+#, fuzzy
 msgid "Subscription failed"
-msgstr ""
+msgstr "Leiratkozás"
 
 #: ../user/forum_subscribe.php:52
 #, fuzzy
@@ -4609,14 +4623,15 @@ msgid ""
 "happens, stop running %1 or use a %2utility program%3 that limits CPU usage."
 msgstr ""
 "A(z) %1 által futtatott alkalmazások a számítógép túlmelegedését okozhatják. "
-"Ha ez megtörténik, ne futtassa tovább a(z) %1 projektet, vagy használjon egy "
-"%2segédprogramot%3, mely limitálja a CPU-használatot."
+"Ha ez megtörténik, ne futtassa tovább a(z) %1 projektet, vagy használjon "
+"egy %2segédprogramot%3, mely limitálja a CPU-használatot."
 
 #: ../user/info.php:51
 msgid ""
 "%1 was developed by %2. BOINC was developed at the University of California."
 msgstr ""
-"A(z) %1 %2 által fejlesztve. A BOINCot a Kaliforniai Egyetemen fejlesztették."
+"A(z) %1 %2 által fejlesztve. A BOINCot a Kaliforniai Egyetemen "
+"fejlesztették."
 
 # Vagy kötelezettség, még meg kéne nézni!!!
 #: ../user/info.php:53
@@ -4776,8 +4791,7 @@ msgstr "%1 nevű felhasználóból több is van. Használja a felhasználó ID-j
 
 #: ../user/pm.php:217
 msgid "User %1 (ID: %2) is not accepting private messages from you."
-msgstr ""
-"A %1 nevű felhasználó (ID-je: %2) nem fogad Öntől személyes üzeneteket."
+msgstr "A %1 nevű felhasználó (ID-je: %2) nem fogad Öntől személyes üzeneteket."
 
 #: ../user/pm.php:240 ../user/view_profile.php:26
 msgid "No such user"
@@ -4817,7 +4831,8 @@ msgstr "A(z) %1 nevű felhasználó blokkolva"
 #: ../user/pm.php:265
 msgid "User %1 has been blocked from sending you private messages."
 msgstr ""
-"A(z) %1 nevű felhasználót blokkolta, így Ő nem küldhet Önnek privát üzenetet."
+"A(z) %1 nevű felhasználót blokkolta, így Ő nem küldhet Önnek privát "
+"üzenetet."
 
 # Ez sem biztos, hogy jó, ellenőrizni kell!!!
 #: ../user/pm.php:266
@@ -4848,8 +4863,9 @@ msgid "Are you sure you want to delete your separate %1 preferences for %2?"
 msgstr ""
 
 #: ../user/prefs_remove.php:55
+#, fuzzy
 msgid "Remove preferences"
-msgstr ""
+msgstr "Beállítások szerkesztése"
 
 #: ../user/prefs_remove.php:57
 msgid "Cancel"
@@ -4965,8 +4981,9 @@ msgid "No profiles found containing '%1'"
 msgstr "Címek, melyek ezt tartalmazzás: '%1'"
 
 #: ../user/result.php:30
+#, fuzzy
 msgid "No such task"
-msgstr ""
+msgstr "Nincs ilyen csapat."
 
 #: ../user/result.php:32
 msgid "Task %1"
@@ -5017,8 +5034,9 @@ msgid "Server software version: %1"
 msgstr ""
 
 #: ../user/server_status.php:244
+#, fuzzy
 msgid "Server status"
-msgstr ""
+msgstr "Szerver állapot"
 
 #: ../user/server_status.php:246
 msgid "Program"
@@ -5132,12 +5150,14 @@ msgid "application"
 msgstr "Alkalmazások"
 
 #: ../user/server_status.php:427
+#, fuzzy
 msgid "unsent"
-msgstr ""
+msgstr "Nincs elküldve"
 
 #: ../user/server_status.php:428
+#, fuzzy
 msgid "in progress"
-msgstr ""
+msgstr "Folyamatban"
 
 #: ../user/server_status.php:429
 msgid "avg runtime of last 100 results in h (min-max)"
@@ -5167,8 +5187,9 @@ msgid "Top participants"
 msgstr "Kiemelkedő résztvevők"
 
 #: ../user/stats.php:31
+#, fuzzy
 msgid "Top computers"
-msgstr ""
+msgstr "Minden számítógép"
 
 #: ../user/stats.php:32 ../user/team.php:46
 msgid "Top teams"
@@ -5347,15 +5368,17 @@ msgstr ""
 
 #: ../user/team_admins.php:110 ../user/team_manage.php:85
 #: ../user/team_quit_form.php:30 ../user/team_remove_inactive_action.php:28
+#, fuzzy
 msgid "No such team"
-msgstr ""
+msgstr "Nincs ilyen csapat."
 
 #: ../user/team_change_founder_action.php:30
 #: ../user/team_change_founder_form.php:33 ../user/team_display.php:67
 #: ../user/team_edit_action.php:30 ../user/team_edit_form.php:29
 #: ../user/team_email_list.php:55
+#, fuzzy
 msgid "no such team"
-msgstr ""
+msgstr "Nincs ilyen csapat."
 
 #: ../user/team_change_founder_action.php:38
 msgid "User is not a member of %1"
@@ -5518,8 +5541,9 @@ msgid "You and your Team Admins will have moderator privileges."
 msgstr ""
 
 #: ../user/team_forum.php:40
+#, fuzzy
 msgid "Create a message board for %1"
-msgstr ""
+msgstr "%1 üzenőfal"
 
 #: ../user/team_forum.php:48
 msgid "Team already has a message board"
@@ -5582,8 +5606,9 @@ msgid "Update successful"
 msgstr ""
 
 #: ../user/team_forum.php:147
+#, fuzzy
 msgid "Update failed"
-msgstr ""
+msgstr "Frissítés sikertelen:"
 
 #: ../user/team_forum.php:154
 #, fuzzy
@@ -5786,8 +5811,9 @@ msgid "HTML"
 msgstr ""
 
 #: ../user/team_manage.php:34
+#, fuzzy
 msgid "text"
-msgstr ""
+msgstr "Következő"
 
 #: ../user/team_manage.php:35
 msgid "View member names and email addresses"

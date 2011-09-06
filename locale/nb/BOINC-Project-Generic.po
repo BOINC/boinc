@@ -10,10 +10,10 @@ msgstr ""
 "PO-Revision-Date: 2009-11-29 09:58+0100\n"
 "Last-Translator: Kenneth Skjold <kenneth@skjold.biz>\n"
 "Language-Team: Hjelp andre <kenneth@skjold.biz>\n"
+"Language: nb\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: nb\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Pootle 1.2.1\n"
 "X-Poedit-SourceCharset: utf-8\n"
@@ -485,8 +485,9 @@ msgid "Only computers active in past 30 days"
 msgstr ""
 
 #: ../inc/host.inc:609 ../inc/result.inc:428
+#, fuzzy
 msgid "Computer ID"
-msgstr ""
+msgstr "Datamaskiner"
 
 #: ../inc/host.inc:622
 msgid "BOINC<br>version"
@@ -1235,8 +1236,9 @@ msgid "Computer"
 msgstr "Datamaskiner"
 
 #: ../inc/result.inc:322 ../inc/result.inc:422
+#, fuzzy
 msgid "Sent"
-msgstr ""
+msgstr "Avsender"
 
 #: ../inc/result.inc:323
 msgid "Time reported<br />or deadline"
@@ -2552,8 +2554,9 @@ msgid "Change email address"
 msgstr ""
 
 #: ../user/edit_email_form.php:37
+#, fuzzy
 msgid "Change the email address of your account"
-msgstr ""
+msgstr "epost adresse"
 
 #: ../user/edit_email_form.php:38
 #, fuzzy
@@ -2847,8 +2850,9 @@ msgid "HTML tags are not allowed in your name."
 msgstr ""
 
 #: ../user/edit_user_info_action.php:34
+#, fuzzy
 msgid "You must supply a name for your account."
-msgstr ""
+msgstr "Du må ha en invitasjons kode for å lage en konto."
 
 #: ../user/edit_user_info_action.php:58
 msgid "Couldn't update user info."
@@ -3258,8 +3262,9 @@ msgid "This message board is available as an %1RSS feed%2"
 msgstr ""
 
 #: ../user/forum_forum.php:174
+#, fuzzy
 msgid "This thread is hidden"
-msgstr ""
+msgstr "Rediger tråd tittel"
 
 #: ../user/forum_forum.php:178
 msgid "This thread is sticky and locked, and you haven't read it yet"
@@ -3300,8 +3305,9 @@ msgid "sticky/locked"
 msgstr ""
 
 #: ../user/forum_forum.php:194
+#, fuzzy
 msgid "This thread is sticky"
-msgstr ""
+msgstr "Rediger tråd tittel"
 
 #: ../user/forum_forum.php:194
 msgid "sticky"
@@ -3420,8 +3426,9 @@ msgid "2 weeks"
 msgstr ""
 
 #: ../user/forum_moderate_post.php:85
+#, fuzzy
 msgid "1 month"
-msgstr ""
+msgstr "%1 innlegg"
 
 #: ../user/forum_moderate_post.php:86
 msgid "Forever"
@@ -3439,8 +3446,9 @@ msgid "OK"
 msgstr ""
 
 #: ../user/forum_moderate_post_action.php:57
+#, fuzzy
 msgid "You are not authorized to moderate this post."
-msgstr ""
+msgstr "Du er nå venn med %1."
 
 #: ../user/forum_moderate_post_action.php:85
 msgid "Can't move to different category type"
@@ -3558,8 +3566,9 @@ msgid "Input Recorded"
 msgstr "Stemme registrert"
 
 #: ../user/forum_rate.php:73
+#, fuzzy
 msgid "Your input has been recorded. Thanks for your help."
-msgstr ""
+msgstr "Din anbefaling har blitt registrert"
 
 #: ../user/forum_rate.php:75
 #, fuzzy
@@ -3613,8 +3622,9 @@ msgid "Report Registered"
 msgstr ""
 
 #: ../user/forum_report_post.php:65
+#, fuzzy
 msgid "Your report has been recorded. Thanks you for your input."
-msgstr ""
+msgstr "Din anbefaling har blitt registrert"
 
 #: ../user/forum_report_post.php:66
 msgid ""
@@ -4708,8 +4718,9 @@ msgid "Are you sure you want to delete your separate %1 preferences for %2?"
 msgstr ""
 
 #: ../user/prefs_remove.php:55
+#, fuzzy
 msgid "Remove preferences"
-msgstr ""
+msgstr "%1 preferanser"
 
 #: ../user/prefs_remove.php:57
 msgid "Cancel"
@@ -5373,8 +5384,9 @@ msgid "You and your Team Admins will have moderator privileges."
 msgstr ""
 
 #: ../user/team_forum.php:40
+#, fuzzy
 msgid "Create a message board for %1"
-msgstr ""
+msgstr "%1 oppslagstavle"
 
 #: ../user/team_forum.php:48
 msgid "Team already has a message board"
@@ -5494,8 +5506,9 @@ msgstr ""
 
 #: ../user/team_founder_transfer_action.php:137
 #: ../user/team_founder_transfer_form.php:83
+#, fuzzy
 msgid "Return to team page"
-msgstr ""
+msgstr "Retuner til profil."
 
 #: ../user/team_founder_transfer_form.php:28
 msgid "You need to be a member of a team to access this page."
@@ -6133,14 +6146,6 @@ msgstr ""
 #: ../project.sample/project_specific_prefs.inc:80
 msgid "(all applications)"
 msgstr ""
-
-#, fuzzy
-#~ msgid "- private message"
-#~ msgstr "Send en privat melding"
-
-#, fuzzy
-#~ msgid "Private message from"
-#~ msgstr "Private meldinger"
 
 #~ msgid "Request not found"
 #~ msgstr "Forespørselen ikke funnet"

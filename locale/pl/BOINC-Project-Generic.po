@@ -10,10 +10,10 @@ msgstr ""
 "PO-Revision-Date: 2010-10-02 13:17+0200\n"
 "Last-Translator: Bartosz Kaszubowski <gosimek@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: pl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: pl\n"
 "Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
 "|| n%100>=20) ? 1 : 2);\n"
 "X-Generator: Pootle 2.1.1\n"
@@ -498,8 +498,9 @@ msgid "Only computers active in past 30 days"
 msgstr ""
 
 #: ../inc/host.inc:609 ../inc/result.inc:428
+#, fuzzy
 msgid "Computer ID"
-msgstr ""
+msgstr "Komputery"
 
 #: ../inc/host.inc:622
 #, fuzzy
@@ -1254,8 +1255,9 @@ msgid "Computer"
 msgstr "Komputery"
 
 #: ../inc/result.inc:322 ../inc/result.inc:422
+#, fuzzy
 msgid "Sent"
-msgstr ""
+msgstr "Nadawca"
 
 #: ../inc/result.inc:323
 msgid "Time reported<br />or deadline"
@@ -2587,8 +2589,9 @@ msgid "Change email address"
 msgstr ""
 
 #: ../user/edit_email_form.php:37
+#, fuzzy
 msgid "Change the email address of your account"
-msgstr ""
+msgstr "adres email"
 
 #: ../user/edit_email_form.php:38
 #, fuzzy
@@ -2886,8 +2889,9 @@ msgid "HTML tags are not allowed in your name."
 msgstr ""
 
 #: ../user/edit_user_info_action.php:34
+#, fuzzy
 msgid "You must supply a name for your account."
-msgstr ""
+msgstr "Aby stworzyć konto w tym projekcie musisz posiadać kod rejestracyjny."
 
 #: ../user/edit_user_info_action.php:58
 msgid "Couldn't update user info."
@@ -3346,9 +3350,12 @@ msgstr ""
 msgid "sticky"
 msgstr ""
 
+# #######################################
+# Forum thread
 #: ../user/forum_forum.php:198
+#, fuzzy
 msgid "This thread is locked"
-msgstr ""
+msgstr "Ten temat został ukryty przez administrację forum"
 
 #: ../user/forum_forum.php:198
 #, fuzzy
@@ -3458,8 +3465,9 @@ msgid "2 weeks"
 msgstr ""
 
 #: ../user/forum_moderate_post.php:85
+#, fuzzy
 msgid "1 month"
-msgstr ""
+msgstr "%1 postów"
 
 #: ../user/forum_moderate_post.php:86
 msgid "Forever"
@@ -4495,8 +4503,8 @@ msgstr ""
 "Twoje konto w projekcie %1 jest identyfikowane dzięki nazwie, którą sam "
 "określasz. Nazwa uczestnika może być wyświetlana na stronie internetowej "
 "projektu wraz z podsumowaniem pracy, którą dla potrzeb tego projektu wykonał "
-"twój komputer. Jeżeli jednak chcesz pozostać anonimowy, możesz wybrać nazwę, "
-"która nie zdradzi twojej tożsamości."
+"twój komputer. Jeżeli jednak chcesz pozostać anonimowy, możesz wybrać "
+"nazwę, która nie zdradzi twojej tożsamości."
 
 #: ../user/info.php:44
 msgid ""
@@ -4809,8 +4817,9 @@ msgid "Are you sure you want to delete your separate %1 preferences for %2?"
 msgstr ""
 
 #: ../user/prefs_remove.php:55
+#, fuzzy
 msgid "Remove preferences"
-msgstr ""
+msgstr "Ustawienia %1"
 
 #: ../user/prefs_remove.php:57
 msgid "Cancel"
@@ -5131,8 +5140,9 @@ msgid "Top participants"
 msgstr "Najlepsi uczestnicy"
 
 #: ../user/stats.php:31
+#, fuzzy
 msgid "Top computers"
-msgstr ""
+msgstr "Komputery"
 
 #: ../user/stats.php:32 ../user/team.php:46
 #, fuzzy
@@ -5484,9 +5494,12 @@ msgstr ""
 msgid "You and your Team Admins will have moderator privileges."
 msgstr ""
 
+# #######################################<br />
+# Forum sample index page
 #: ../user/team_forum.php:40
+#, fuzzy
 msgid "Create a message board for %1"
-msgstr ""
+msgstr "Forum dyskusyjne %1"
 
 #: ../user/team_forum.php:48
 msgid "Team already has a message board"
@@ -6144,7 +6157,8 @@ msgid ""
 msgstr ""
 "Aby użyć słaby klucz konta na wybranym komputerze znajdź lub stwórz 'plik "
 "konta' dla tego projektu. Plik ten ma nazwę według formuły "
-"<b>konto_ADRES_URL_PROJEKTU.xml</b>. Plik konta dla projektu %1 to <b>%2</b>."
+"<b>konto_ADRES_URL_PROJEKTU.xml</b>. Plik konta dla projektu %1 to <b>%"
+"2</b>."
 
 #: ../user/weak_auth.php:59
 msgid "Create this file if needed. Set its contents to:"
@@ -6258,16 +6272,6 @@ msgstr ""
 #: ../project.sample/project_specific_prefs.inc:80
 msgid "(all applications)"
 msgstr ""
-
-#, fuzzy
-#~ msgid "- private message"
-#~ msgstr "Wyślij prywatną wiadomość"
-
-# #######################################
-# Private messages
-#, fuzzy
-#~ msgid "Private message from"
-#~ msgstr "Prywatne wiadomości"
 
 #~ msgid "Last %1"
 #~ msgstr "Poprzednia %1"

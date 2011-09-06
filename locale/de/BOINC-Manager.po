@@ -23,6 +23,8 @@ msgstr ""
 "X-Poedit-SourceCharset: utf-8\n"
 "X-Poedit-Basepath: C:\\Src\\BOINCSVN\\trunk\\boinc\n"
 "X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
+"X-Poedit-Country: UNITED STATES\n"
+"X-Poedit-Language: English\n"
 
 #: clientgui/AccountInfoPage.cpp:386
 msgid "Identify your account "
@@ -3173,12 +3175,14 @@ msgid "Project Commands"
 msgstr "Projekt-Befehle"
 
 #: clientgui/sg_ProjectPanel.cpp:257
-#, c-format, 
+#, c-format
+#, c-format,
 msgid "Pop up a menu of websites for project %s"
 msgstr "Öffne Menü für die Webseiten von %s"
 
 #: clientgui/sg_ProjectPanel.cpp:259
-#, c-format, 
+#, c-format
+#, c-format,
 msgid "Pop up a menu of commands to apply to project %s"
 msgstr "Blende ein Menü mit Befehlen für Projekt %s ein"
 
@@ -3242,7 +3246,7 @@ msgstr "Unterbricht die Arbeit an der ausgewählten (markierte) Aufgabe."
 
 #: clientgui/sg_TaskCommandPopup.cpp:240
 #, c-format
-#, c-format, 
+#, c-format,
 msgid ""
 "Are you sure you want to abort this task '%s'?\n"
 "(Progress: %.1lf%%, Status: %s)"
@@ -3284,7 +3288,7 @@ msgstr "Blende ein Menü ein für anwendbare Befehle für diese Aufgabe"
 
 #: clientgui/sg_TaskPanel.cpp:448
 #, c-format
-#, c-format, 
+#, c-format,
 msgid "Application: %s"
 msgstr "Anwendung: %s"
 
@@ -3303,13 +3307,13 @@ msgstr "Nicht Verfügbar"
 
 #: clientgui/sg_TaskPanel.cpp:603
 #, c-format
-#, c-format, 
+#, c-format,
 msgid "Elapsed Time: %s"
 msgstr "Vergangene Zeit: %s"
 
 #: clientgui/sg_TaskPanel.cpp:617
 #, c-format
-#, c-format, 
+#, c-format,
 msgid "Time Remaining: %s"
 msgstr "Verbleibende Zeit: %s"
 
@@ -4202,7 +4206,7 @@ msgstr "Alle einblenden"
 
 #: clientgui/mac/Mac_GUI.cpp:181
 #, c-format
-#, c-format, 
+#, c-format,
 msgid "Quit %s"
 msgstr "Beende %s"
 

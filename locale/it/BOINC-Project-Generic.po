@@ -10,10 +10,10 @@ msgstr ""
 "PO-Revision-Date: 2011-08-23 14:17+0200\n"
 "Last-Translator: clasprea <clasprea@libero.it>\n"
 "Language-Team: \n"
+"Language: it\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: it\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Pootle 2.1.1\n"
 "X-Poedit-SearchPath-0: html\\user\n"
@@ -607,8 +607,8 @@ msgid ""
 "Suspend work while computer is on battery power? %1 Matters only for "
 "portable computers %2"
 msgstr ""
-"Sospendere l'elaborazione mentre il computer funziona a batterie? %1"
-"(riguarda solo i computer portatili)%2"
+"Sospendere l'elaborazione mentre il computer funziona a batterie? %"
+"1(riguarda solo i computer portatili)%2"
 
 #: ../inc/prefs.inc:84
 msgid "Suspend work while computer is in use?"
@@ -634,9 +634,9 @@ msgid ""
 "Suspend work if no mouse/keyboard activity in last %1 Needed to enter low-"
 "power mode on some computers %2"
 msgstr ""
-"Sospende l'elaborazione se non c'è attività del mouse/tastiera negli ultimi %"
-"1(Necessario per entrare in modalità risparmio energetico in certi computer)%"
-"2"
+"Sospende l'elaborazione se non c'è attività del mouse/tastiera negli ultimi "
+"%1(Necessario per entrare in modalità risparmio energetico in certi "
+"computer)%2"
 
 #: ../inc/prefs.inc:113
 #, fuzzy
@@ -827,8 +827,8 @@ msgstr "Usa la GPU ATI % Si applica dalla versione 6.10+ dei client %2"
 #: ../inc/prefs.inc:332
 msgid "Use NVIDIA GPU %1 Enforced by version 6.10+ %2"
 msgstr ""
-"Usa la GPU NVIDIA se presente %1 Si applica dalla versione 6.10+ dei client %"
-"2"
+"Usa la GPU NVIDIA se presente %1 Si applica dalla versione 6.10+ dei client "
+"%2"
 
 #: ../inc/prefs.inc:346
 msgid ""
@@ -2300,8 +2300,8 @@ msgid ""
 "If you would like include a picture with your profile, click the \"Browse\" "
 "button and select a JPEG or PNG file. Please select images of %1 or less."
 msgstr ""
-"Se vuoi aggiungere una immagine al tuo profilo, clicca sul pulsante \"Browse"
-"\" e seleziona una file JPEG o PNG. Sei pregato di scegliere un file più "
+"Se vuoi aggiungere una immagine al tuo profilo, clicca sul pulsante \"Browse\" "
+"e seleziona una file JPEG o PNG. Sei pregato di scegliere un file più "
 "piccolo di %1."
 
 #: ../user/create_profile.php:89
@@ -3568,8 +3568,9 @@ msgid "2 weeks"
 msgstr ""
 
 #: ../user/forum_moderate_post.php:85
+#, fuzzy
 msgid "1 month"
-msgstr ""
+msgstr "%1 minuti"
 
 #: ../user/forum_moderate_post.php:86
 msgid "Forever"
@@ -3587,8 +3588,9 @@ msgid "OK"
 msgstr ""
 
 #: ../user/forum_moderate_post_action.php:57
+#, fuzzy
 msgid "You are not authorized to moderate this post."
-msgstr ""
+msgstr "Tu ora sei amico/a di %1."
 
 #: ../user/forum_moderate_post_action.php:85
 msgid "Can't move to different category type"
@@ -3714,8 +3716,9 @@ msgid "Input Recorded"
 msgstr "Il voto è stato registrato"
 
 #: ../user/forum_rate.php:73
+#, fuzzy
 msgid "Your input has been recorded. Thanks for your help."
-msgstr ""
+msgstr "La tua raccomandazione è stata registrata."
 
 #: ../user/forum_rate.php:75
 #, fuzzy
@@ -3765,8 +3768,9 @@ msgid "Add my signature to this reply"
 msgstr "Aggiungi la mia firma a questo messaggio"
 
 #: ../user/forum_report_post.php:45
+#, fuzzy
 msgid "You need more average or total credit to report a post."
-msgstr ""
+msgstr "Credito medio minimo per scrivere"
 
 #: ../user/forum_report_post.php:64
 #, fuzzy
@@ -3774,8 +3778,9 @@ msgid "Report Registered"
 msgstr "Scadenza del report"
 
 #: ../user/forum_report_post.php:65
+#, fuzzy
 msgid "Your report has been recorded. Thanks you for your input."
-msgstr ""
+msgstr "La tua raccomandazione è stata registrata."
 
 #: ../user/forum_report_post.php:66
 msgid ""
@@ -3803,8 +3808,9 @@ msgid ""
 msgstr ""
 
 #: ../user/forum_report_post.php:89
+#, fuzzy
 msgid "Report not registered"
-msgstr ""
+msgstr "Scadenza del report"
 
 #: ../user/forum_report_post.php:90
 msgid "Your report could not be recorded. Please wait a while and try again."
@@ -4178,8 +4184,8 @@ msgid ""
 "You have asked to add %1 as a friend. We will notify %1 and will ask him/her "
 "to confirm that you are friends."
 msgstr ""
-"Hai richiesto di aggiungere %1 agli amici. Notificheremo la cosa a %2 e gli/"
-"le chiederemo di confermare che siete amici."
+"Hai richiesto di aggiungere %1 agli amici. Notificheremo la cosa a %2 e "
+"gli/le chiederemo di confermare che siete amici."
 
 #: ../user/friend.php:77
 msgid "Add an optional message here:"
@@ -4609,8 +4615,8 @@ msgid ""
 "using their computers for projects such as %1."
 msgstr ""
 "Avvia %1 solo sui tuoi computer o su quelli per cui hai ottenuto il permesso "
-"dal proprietario. Alcune aziende e scuole proibiscono l'uso di progetti come "
-"%1 sui propri computer."
+"dal proprietario. Alcune aziende e scuole proibiscono l'uso di progetti "
+"come %1 sui propri computer."
 
 #: ../user/info.php:38
 msgid "How %1 will use your computer"
@@ -4663,8 +4669,8 @@ msgstr ""
 "processore, quantità di memoria, ecc...) saranno registrate da %1 e usate "
 "per decidere il tipo di lavoro da assegnare al tuo computer. Queste "
 "informazioni saranno inoltre mostrati sul sito web di %1. Non verrà mostrato "
-"niente che possa rivelare l'ubicazione del tuo computer (per esempio il nome "
-"del suo dominio o gli indirizzi di rete)."
+"niente che possa rivelare l'ubicazione del tuo computer (per esempio il "
+"nome del suo dominio o gli indirizzi di rete)."
 
 #: ../user/info.php:45
 msgid ""
@@ -5331,8 +5337,8 @@ msgid ""
 "You can also get your current statistics in the form of a \"signature image"
 "\":"
 msgstr ""
-"Puoi anche ottenere le tue attuali statistiche in forma di immagine (\"firma"
-"\"):"
+"Puoi anche ottenere le tue attuali statistiche in forma di immagine "
+"(\"firma\"):"
 
 #: ../user/stats.php:42
 msgid ""
@@ -5545,8 +5551,9 @@ msgid ""
 "Team member %1 requested this team's foundership on %2, but left the team, "
 "thus canceling the request."
 msgstr ""
-"Il membro del team %1 ha richiesto la carica di fondatore di questo team in %"
-"2, ma ha abbandonato il team, di conseguenza la richiesta è stata cancellata."
+"Il membro del team %1 ha richiesto la carica di fondatore di questo team in "
+"%2, ma ha abbandonato il team, di conseguenza la richiesta è stata "
+"cancellata."
 
 #: ../user/team_change_founder_form.php:49
 msgid ""

@@ -10,10 +10,10 @@ msgstr ""
 "PO-Revision-Date: 2011-07-07 22:27+0200\n"
 "Last-Translator: Nikolay Saharov <saharovna@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: ru\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: ru\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%"
 "10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 "X-Generator: Pootle 2.1.1\n"
@@ -624,8 +624,8 @@ msgid ""
 "power mode on some computers %2"
 msgstr ""
 "Приостанавливать обработку, если нет активности мыши/клавиатуры за последние "
-"%1 Необходимо для входа в режим пониженного потребления энергии на некоторых "
-"компьютерах %2"
+"%1 Необходимо для входа в режим пониженного потребления энергии на "
+"некоторых компьютерах %2"
 
 #: ../inc/prefs.inc:113
 #, fuzzy
@@ -665,8 +665,8 @@ msgstr "процессоров"
 #: ../inc/prefs.inc:152
 msgid "On multiprocessors, use at most %1 Enforced by version 6.1+ %2"
 msgstr ""
-"На мультипроцессорных системах использовать не более %1 Начиная с версии 6.1"
-"+ %2"
+"На мультипроцессорных системах использовать не более %1 Начиная с версии "
+"6.1+ %2"
 
 #: ../inc/prefs.inc:157
 #, php-format
@@ -2274,8 +2274,8 @@ msgid ""
 "If you would like include a picture with your profile, click the \"Browse\" "
 "button and select a JPEG or PNG file. Please select images of %1 or less."
 msgstr ""
-"Если Вы хотите добавить фотографию в ваш профиль, нажмите кнопку \"Обзор..."
-"\" и выберите файл формата JPEG или PNG. Пожалуйста выберите изображения "
+"Если Вы хотите добавить фотографию в ваш профиль, нажмите кнопку \"Обзор...\" "
+"и выберите файл формата JPEG или PNG. Пожалуйста выберите изображения "
 "размером %1 или меньше."
 
 #: ../user/create_profile.php:89
@@ -2407,8 +2407,8 @@ msgstr ""
 #, fuzzy
 msgid "Are you sure you want to delete your account?"
 msgstr ""
-"Вы уверены, что хотите удалить ваши отдельные настройки %1 для конфигурации %"
-"2?"
+"Вы уверены, что хотите удалить ваши отдельные настройки %1 для конфигурации "
+"%2?"
 
 #: ../user/delete_account.php:79 ../user/delete_profile.php:52
 #: ../user/donations.php:322 ../user/donations.php:326 ../user/friend.php:238
@@ -3534,8 +3534,9 @@ msgid "2 weeks"
 msgstr ""
 
 #: ../user/forum_moderate_post.php:85
+#, fuzzy
 msgid "1 month"
-msgstr ""
+msgstr "%1 сообщений"
 
 #: ../user/forum_moderate_post.php:86
 msgid "Forever"
@@ -3553,8 +3554,9 @@ msgid "OK"
 msgstr ""
 
 #: ../user/forum_moderate_post_action.php:57
+#, fuzzy
 msgid "You are not authorized to moderate this post."
-msgstr ""
+msgstr "Вы теперь друзья с %1."
 
 #: ../user/forum_moderate_post_action.php:85
 msgid "Can't move to different category type"
@@ -3680,8 +3682,9 @@ msgid "Input Recorded"
 msgstr "Голос принят"
 
 #: ../user/forum_rate.php:73
+#, fuzzy
 msgid "Your input has been recorded. Thanks for your help."
-msgstr ""
+msgstr "Ваша рекомендация была принята."
 
 #: ../user/forum_rate.php:75
 #, fuzzy
@@ -3731,8 +3734,9 @@ msgid "Add my signature to this reply"
 msgstr "Добавить мою подпись к этому сообщению"
 
 #: ../user/forum_report_post.php:45
+#, fuzzy
 msgid "You need more average or total credit to report a post."
-msgstr ""
+msgstr "Минимальное среднее количество очков для написания сообщений"
 
 #: ../user/forum_report_post.php:64
 #, fuzzy
@@ -3740,8 +3744,9 @@ msgid "Report Registered"
 msgstr "Крайний срок отчёта"
 
 #: ../user/forum_report_post.php:65
+#, fuzzy
 msgid "Your report has been recorded. Thanks you for your input."
-msgstr ""
+msgstr "Ваша рекомендация была принята."
 
 #: ../user/forum_report_post.php:66
 msgid ""
@@ -3769,8 +3774,9 @@ msgid ""
 msgstr ""
 
 #: ../user/forum_report_post.php:89
+#, fuzzy
 msgid "Report not registered"
-msgstr ""
+msgstr "Крайний срок отчёта"
 
 #: ../user/forum_report_post.php:90
 msgid "Your report could not be recorded. Please wait a while and try again."
@@ -4613,10 +4619,10 @@ msgid ""
 msgstr ""
 "Если Вы принимаете участие в %1, информация о Вашем компьютере (такая как "
 "тип процессора, объем оперативной памяти, и т.д.) будет записана проектом %1 "
-"и использована для принятия решения о том, какой тип работы назначить Вашему "
-"компьютеру. Эта информация также будет показана на web-сайте %1. Ничего, что "
-"указывало бы на местонахождение Вашего компьютера (например, его доменное "
-"или сетевое имя), не будет показываться."
+"и использована для принятия решения о том, какой тип работы назначить "
+"Вашему компьютеру. Эта информация также будет показана на web-сайте %1. "
+"Ничего, что указывало бы на местонахождение Вашего компьютера (например, его "
+"доменное или сетевое имя), не будет показываться."
 
 #: ../user/info.php:45
 msgid ""
@@ -4742,8 +4748,8 @@ msgid ""
 "This web site is available in several languages. The currently selected "
 "language is %1."
 msgstr ""
-"Этот веб-сайт доступен на нескольких языках. В настоящее время выбран язык: %"
-"1."
+"Этот веб-сайт доступен на нескольких языках. В настоящее время выбран язык: "
+"%1."
 
 #: ../user/language_select.php:75
 msgid ""
@@ -4760,8 +4766,8 @@ msgstr "Firefox: Сервис/Настройки/Общие (Tools/Options/Gener
 #: ../user/language_select.php:82
 msgid "Microsoft IE: Tools/Internet Options/Languages"
 msgstr ""
-"Microsoft IE: Сервис/Свойства обозревателя/Языки (Tools/Internet Options/"
-"Languages)"
+"Microsoft IE: Сервис/Свойства обозревателя/Языки (Tools/Internet "
+"Options/Languages)"
 
 #: ../user/language_select.php:86
 msgid ""
@@ -4936,8 +4942,8 @@ msgstr "Подтверждение удаления настроек"
 #: ../user/prefs_remove.php:51
 msgid "Are you sure you want to delete your separate %1 preferences for %2?"
 msgstr ""
-"Вы уверены, что хотите удалить ваши отдельные настройки %1 для конфигурации %"
-"2?"
+"Вы уверены, что хотите удалить ваши отдельные настройки %1 для конфигурации "
+"%2?"
 
 #: ../user/prefs_remove.php:55
 msgid "Remove preferences"
@@ -5701,8 +5707,8 @@ msgstr "Доска сообщений удалена"
 msgid ""
 "Your team's message board has been removed. You may now %1create a new one%2."
 msgstr ""
-"Доска сообщений вашей команды была удалена. Теперь Вы можете %1создать новую%"
-"2."
+"Доска сообщений вашей команды была удалена. Теперь Вы можете %1создать новую"
+"%2."
 
 #: ../user/team_forum.php:143
 msgid "Team Message Board Updated"
@@ -5757,7 +5763,8 @@ msgid ""
 "page%3 to find the Team Admin options."
 msgstr ""
 "Поздравляем, Вы теперь основатель команды %1. Перейдите на %2страницу вашей "
-"учетной записи%3, чтобы воспользоваться возможностями Администратора команды."
+"учетной записи%3, чтобы воспользоваться возможностями Администратора "
+"команды."
 
 #: ../user/team_founder_transfer_action.php:120
 msgid "Decline founder change request"
@@ -5830,8 +5837,8 @@ msgstr ""
 "нажмите на кнопку ниже. Текущему основателю будет отправлено электронное "
 "письмо с подробной информацией о вашем запросе, и у него будет возможность "
 "передать Вам полномочия основателя или отклонить ваш запрос. Если основатель "
-"не ответит в течение 60 дней, у Вас будет возможность стать основателем.<br /"
-"><br />\n"
+"не ответит в течение 60 дней, у Вас будет возможность стать основателем.<br "
+"/><br />\n"
 "                        Вы уверены, что хотите запросить полномочия "
 "основателя?"
 

@@ -781,8 +781,8 @@ msgid ""
 "reduces the security of BOINC. %3"
 msgstr ""
 "Resim dosyasıyla doğrulama atlansın mı? %1 YALNIZCA, internet sağlayıcınız "
-"resim dosyalarını değiştiriyorsa işaretleyin (örneğin UMTS bunu yapabilir). %"
-"2 Resim dosyasıyla doğrulamayı atlamak, BOINC'in güvenliğini azaltır. %3"
+"resim dosyalarını değiştiriyorsa işaretleyin (örneğin UMTS bunu yapabilir). "
+"%2 Resim dosyasıyla doğrulamayı atlamak, BOINC'in güvenliğini azaltır. %3"
 
 #: ../inc/prefs.inc:287
 msgid ""
@@ -3519,8 +3519,9 @@ msgid "2 weeks"
 msgstr ""
 
 #: ../user/forum_moderate_post.php:85
+#, fuzzy
 msgid "1 month"
-msgstr ""
+msgstr "%1 dakika"
 
 #: ../user/forum_moderate_post.php:86
 msgid "Forever"
@@ -3538,8 +3539,9 @@ msgid "OK"
 msgstr ""
 
 #: ../user/forum_moderate_post_action.php:57
+#, fuzzy
 msgid "You are not authorized to moderate this post."
-msgstr ""
+msgstr "%1 ile artık arkadaşsınız."
 
 #: ../user/forum_moderate_post_action.php:85
 msgid "Can't move to different category type"
@@ -3665,8 +3667,9 @@ msgid "Input Recorded"
 msgstr "Oy Kaydedildi"
 
 #: ../user/forum_rate.php:73
+#, fuzzy
 msgid "Your input has been recorded. Thanks for your help."
-msgstr ""
+msgstr "Öneriniz kaydedildi."
 
 #: ../user/forum_rate.php:75
 #, fuzzy
@@ -3716,8 +3719,9 @@ msgid "Add my signature to this reply"
 msgstr "İmzamı bu iletiye ekle"
 
 #: ../user/forum_report_post.php:45
+#, fuzzy
 msgid "You need more average or total credit to report a post."
-msgstr ""
+msgstr "İleti gönderebilmek için sahip olunması gereken en az ortalama kredi"
 
 #: ../user/forum_report_post.php:64
 #, fuzzy
@@ -3725,8 +3729,9 @@ msgid "Report Registered"
 msgstr "Son teslim tarihi"
 
 #: ../user/forum_report_post.php:65
+#, fuzzy
 msgid "Your report has been recorded. Thanks you for your input."
-msgstr ""
+msgstr "Öneriniz kaydedildi."
 
 #: ../user/forum_report_post.php:66
 msgid ""
@@ -3754,8 +3759,9 @@ msgid ""
 msgstr ""
 
 #: ../user/forum_report_post.php:89
+#, fuzzy
 msgid "Report not registered"
-msgstr ""
+msgstr "Son teslim tarihi"
 
 #: ../user/forum_report_post.php:90
 msgid "Your report could not be recorded. Please wait a while and try again."
@@ -4713,8 +4719,8 @@ msgid ""
 "own risk."
 msgstr ""
 "Bu diğer projeler, %1 ile ortak değildir ve onların güvenlik yöntemlerine ya "
-"da araştırmalarının doğasına kefil olmayız. Diğer projelere, riski kendinize "
-"ait olmak üzere katılın."
+"da araştırmalarının doğasına kefil olmayız. Diğer projelere, riski "
+"kendinize ait olmak üzere katılın."
 
 #: ../user/language_select.php:44
 msgid "Language selection"
@@ -5312,8 +5318,8 @@ msgstr "Üyesi yoksa takımı kaldırma."
 #: ../user/team.php:40
 msgid "To join a team, visit its team page and click %1Join this team%2."
 msgstr ""
-"Bir takıma katılmak için, takımın sayfasını ziyaret edin ve %1Bu takıma katıl"
-"%2 bağlantısına tıklayın."
+"Bir takıma katılmak için, takımın sayfasını ziyaret edin ve %1Bu takıma "
+"katıl%2 bağlantısına tıklayın."
 
 #: ../user/team.php:41 ../user/team_search.php:179
 msgid "Find a team"
@@ -5673,8 +5679,8 @@ msgstr "Mesaj panosu kaldırıldı"
 msgid ""
 "Your team's message board has been removed. You may now %1create a new one%2."
 msgstr ""
-"Takımınızın mesaj panosu kaldırıldı. Şimdi yeni bir tane %1oluşturabilirsiniz"
-"%2."
+"Takımınızın mesaj panosu kaldırıldı. Şimdi yeni bir tane %"
+"1oluşturabilirsiniz%2."
 
 #: ../user/team_forum.php:143
 msgid "Team Message Board Updated"
@@ -5708,8 +5714,8 @@ msgid ""
 "                       If the founder does not respond within 60 days you "
 "will be allowed to become the founder."
 msgstr ""
-"Mevcut kurucu, talebiniz hakkında e-posta ve özel mesaj yollarıyla uyarıldı."
-"<br /><br />\n"
+"Mevcut kurucu, talebiniz hakkında e-posta ve özel mesaj yollarıyla "
+"uyarıldı.<br /><br />\n"
 "                       Kurucu 60 gün içerisinde yanıt vermezse, yeni kurucu "
 "olabileceksiniz."
 
@@ -5797,8 +5803,8 @@ msgid ""
 "                       Are you sure you want to request foundership?"
 msgstr ""
 "Eğer takım kurucusu aktif değilse ve kuruculuğu üstlenmek istiyorsanız, "
-"aşağıdaki butona tıklayın. Mevcut kurucuya isteğinizle ilgili detaylı bir e-"
-"posta gönderilecek ve kuruculuğu size devretme ya da talebi reddetme "
+"aşağıdaki butona tıklayın. Mevcut kurucuya isteğinizle ilgili detaylı bir "
+"e-posta gönderilecek ve kuruculuğu size devretme ya da talebi reddetme "
 "seçenekleri olacak. Kurucu 60 gün içerisinde bir yanıt vermezse, kurucu "
 "olabileceksiniz.<br /><br />\n"
 "                       Kurucu olma talebi göndermek istediğinize emin "

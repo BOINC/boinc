@@ -10,10 +10,10 @@ msgstr ""
 "PO-Revision-Date: 2010-10-11 15:12+0200\n"
 "Last-Translator: chris g <chr1407@hotmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: el\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: el\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Pootle 2.1.1\n"
 "X-Poedit-SourceCharset: utf-8\n"
@@ -123,8 +123,7 @@ msgstr "Σημάδεψε όλα τα νήματα ως διαβασμένα"
 
 #: ../inc/forum.inc:1201
 msgid "Mark all threads in all message boards as 'read'."
-msgstr ""
-"Σημάδεψε όλα τα νήματα σε όλους τους πίνακες μηνυμάτων ως \"διαβασμένα\"."
+msgstr "Σημάδεψε όλα τα νήματα σε όλους τους πίνακες μηνυμάτων ως \"διαβασμένα\"."
 
 #: ../inc/host.inc:24
 msgid "No host"
@@ -541,8 +540,9 @@ msgstr ""
 #: ../user/forum_post.php:116 ../user/forum_reply.php:115
 #: ../user/forum_report_post.php:75 ../user/forum_thread.php:265
 #: ../user/pm.php:90 ../user/pm.php:144
+#, fuzzy
 msgid "Message"
-msgstr ""
+msgstr "Πίνακας μηνυμάτων"
 
 #: ../inc/pm.inc:89
 msgid "Send message"
@@ -1601,8 +1601,9 @@ msgstr ""
 
 #: ../inc/user.inc:166 ../inc/user.inc:279 ../inc/user.inc:365
 #: ../inc/user.inc:367 ../user/user_search.php:104 ../user/user_search.php:160
+#, fuzzy
 msgid "Team"
-msgstr ""
+msgstr "Νήμα"
 
 #: ../inc/user.inc:168
 msgid "Cross-project"
@@ -5223,8 +5224,9 @@ msgid "You and your Team Admins will have moderator privileges."
 msgstr ""
 
 #: ../user/team_forum.php:40
+#, fuzzy
 msgid "Create a message board for %1"
-msgstr ""
+msgstr "%1 πίνακας μηνυμάτων"
 
 #: ../user/team_forum.php:48
 msgid "Team already has a message board"
@@ -5778,8 +5780,9 @@ msgid "Account Data<br/>for %1<br/>Time:"
 msgstr ""
 
 #: ../user/userw.php:54
+#, fuzzy
 msgid "Team:"
-msgstr ""
+msgstr "Νήμα"
 
 #: ../user/userw.php:55
 msgid "Team TotCred:"
@@ -5975,11 +5978,3 @@ msgstr ""
 #: ../project.sample/project_specific_prefs.inc:80
 msgid "(all applications)"
 msgstr ""
-
-#, fuzzy
-#~ msgid "- private message"
-#~ msgstr "Προσωπικά μηνύματα"
-
-#, fuzzy
-#~ msgid "Private message from"
-#~ msgstr "Προσωπικά μηνύματα"

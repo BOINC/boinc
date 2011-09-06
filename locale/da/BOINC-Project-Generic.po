@@ -90,8 +90,8 @@ msgid ""
 "In order to create a new thread in %1 you must have a certain amount of "
 "credit. This is to prevent and protect against abuse of the system."
 msgstr ""
-"For at starte et nyt emne i %t skal du have optjent points. Denne begr&aelig;"
-"nsning er til for at forhindre misbrug af systemet."
+"For at starte et nyt emne i %t skal du have optjent points. Denne "
+"begr&aelig;nsning er til for at forhindre misbrug af systemet."
 
 #: ../inc/forum.inc:1084
 msgid ""
@@ -489,8 +489,9 @@ msgid "Only computers active in past 30 days"
 msgstr ""
 
 #: ../inc/host.inc:609 ../inc/result.inc:428
+#, fuzzy
 msgid "Computer ID"
-msgstr ""
+msgstr "Computere"
 
 #: ../inc/host.inc:622
 msgid "BOINC<br>version"
@@ -1239,8 +1240,9 @@ msgid "Computer"
 msgstr "Computere"
 
 #: ../inc/result.inc:322 ../inc/result.inc:422
+#, fuzzy
 msgid "Sent"
-msgstr ""
+msgstr "Afsender"
 
 #: ../inc/result.inc:323
 msgid "Time reported<br />or deadline"
@@ -1532,8 +1534,8 @@ msgid ""
 "share, graphics preferences) will be visible to the public."
 msgstr ""
 "%1Om sikkerheden%2: hvis du laver et hold vil dine projekt-indstillinger "
-"(dvs. resource-fordeling, grafik-indstillinger osv.) blive tilg&aelig;"
-"ngelige for offentligheden."
+"(dvs. resource-fordeling, grafik-indstillinger osv.) blive "
+"tilg&aelig;ngelige for offentligheden."
 
 #: ../inc/team.inc:426
 msgid "Team name, text version"
@@ -2134,8 +2136,8 @@ msgstr "Opret brugerkonto"
 #: ../user/create_account_form.php:44
 msgid "Account creation is currently disabled. Please try again later."
 msgstr ""
-"Der er midlertidigt lukket for oprettelse af nye brugerkonto, men pr&oslash;"
-"v igen senere."
+"Der er midlertidigt lukket for oprettelse af nye brugerkonto, men "
+"pr&oslash;v igen senere."
 
 #: ../user/create_account_form.php:53
 #, fuzzy
@@ -2363,8 +2365,8 @@ msgstr "Computere p&aring; denne konto"
 #, fuzzy
 msgid "couldn't delete profile - please try again later"
 msgstr ""
-"Der er midlertidigt lukket for oprettelse af nye brugerkonto, men pr&oslash;"
-"v igen senere."
+"Der er midlertidigt lukket for oprettelse af nye brugerkonto, men "
+"pr&oslash;v igen senere."
 
 #: ../user/delete_profile.php:33
 msgid "Delete Confirmation"
@@ -2551,16 +2553,17 @@ msgid ""
 "We can't update your email address due to a database problem.  Please try "
 "again later."
 msgstr ""
-"Der er midlertidigt lukket for oprettelse af nye brugerkonto, men pr&oslash;"
-"v igen senere."
+"Der er midlertidigt lukket for oprettelse af nye brugerkonto, men "
+"pr&oslash;v igen senere."
 
 #: ../user/edit_email_form.php:28 ../user/edit_email_form.php:52
 msgid "Change email address"
 msgstr ""
 
 #: ../user/edit_email_form.php:37
+#, fuzzy
 msgid "Change the email address of your account"
-msgstr ""
+msgstr "emailaddresse"
 
 #: ../user/edit_email_form.php:38
 #, fuzzy
@@ -2814,8 +2817,8 @@ msgid ""
 "We can't update your password due to a database problem. Please try again "
 "later."
 msgstr ""
-"Der er midlertidigt lukket for oprettelse af nye brugerkonto, men pr&oslash;"
-"v igen senere."
+"Der er midlertidigt lukket for oprettelse af nye brugerkonto, men "
+"pr&oslash;v igen senere."
 
 #: ../user/edit_passwd_form.php:42
 msgid "You can identify yourself using either"
@@ -2855,8 +2858,9 @@ msgid "HTML tags are not allowed in your name."
 msgstr ""
 
 #: ../user/edit_user_info_action.php:34
+#, fuzzy
 msgid "You must supply a name for your account."
-msgstr ""
+msgstr "Du skal angive en invitationskode for at oprette en konto."
 
 #: ../user/edit_user_info_action.php:58
 msgid "Couldn't update user info."
@@ -3310,8 +3314,9 @@ msgid "sticky"
 msgstr ""
 
 #: ../user/forum_forum.php:198
+#, fuzzy
 msgid "This thread is locked"
-msgstr ""
+msgstr "Dette emne er blevet skjuldt af administrationelle &aring;rsager"
 
 #: ../user/forum_forum.php:198
 msgid "locked"
@@ -3417,8 +3422,9 @@ msgid "2 weeks"
 msgstr ""
 
 #: ../user/forum_moderate_post.php:85
+#, fuzzy
 msgid "1 month"
-msgstr ""
+msgstr "%1 indl&aelig;g"
 
 #: ../user/forum_moderate_post.php:86
 msgid "Forever"
@@ -3794,8 +3800,8 @@ msgstr "Beskrivelse af holdet"
 msgid ""
 "We are currently unable to subscribe you to %1. Please try again later.."
 msgstr ""
-"Der er midlertidigt lukket for oprettelse af nye brugerkonto, men pr&oslash;"
-"v igen senere."
+"Der er midlertidigt lukket for oprettelse af nye brugerkonto, men "
+"pr&oslash;v igen senere."
 
 #: ../user/forum_subscribe.php:61
 msgid "Unsubscription successful"
@@ -3817,8 +3823,8 @@ msgstr "Afmeld notificering"
 msgid ""
 "We are currently unable to unsubscribe you from %1. Please try again later.."
 msgstr ""
-"Der er midlertidigt lukket for oprettelse af nye brugerkonto, men pr&oslash;"
-"v igen senere."
+"Der er midlertidigt lukket for oprettelse af nye brugerkonto, men "
+"pr&oslash;v igen senere."
 
 #: ../user/forum_subscribe.php:74
 msgid "Unknown subscription action"
@@ -4158,7 +4164,8 @@ msgstr "Velkommen til %1"
 #: ../user/home.php:43
 msgid "View and edit your account preferences using the links below."
 msgstr ""
-"Se og rediger dine konto-indstillinger ved at bruge nedenst&aring;ende links."
+"Se og rediger dine konto-indstillinger ved at bruge nedenst&aring;ende "
+"links."
 
 #: ../user/home.php:46
 msgid "If you have not already done so, %1download BOINC client software%2."
@@ -4441,10 +4448,10 @@ msgid ""
 "your identity."
 msgstr ""
 "Din brugetkonto p&aring; %1 er identificeret af et navn som du v&aelig;lger. "
-"Dette navn vil blive vist p&aring; %1's website sammen med en opsummering af "
-"hvor meget arbejde din computer har fuldf&oslash;rt for %1. Hvis du &oslash;"
-"nsker at v&aelig;re anonym b&oslash;r du v&aelig;lge et navn som ikke "
-"afsl&oslash;rer din identitet."
+"Dette navn vil blive vist p&aring; %1's website sammen med en opsummering "
+"af hvor meget arbejde din computer har fuldf&oslash;rt for %1. Hvis du "
+"&oslash;nsker at v&aelig;re anonym b&oslash;r du v&aelig;lge et navn som "
+"ikke afsl&oslash;rer din identitet."
 
 #: ../user/info.php:44
 msgid ""
@@ -4505,10 +4512,10 @@ msgid ""
 "to the Internet."
 msgstr ""
 "Hver gang du downloader er program fra Internettet tager du en chance: "
-"programmet har m&aring;ske farlige fejl eller download-serveren kan v&aelig;"
-"re blevet hacket. %1 har foretaget en solid indsats for at minimere disse "
-"risici. Vi har testet vores applikation for fejl. Vores servere er placeret "
-"bag en firewall og er blevet konfigureret til et h&oslash;jt "
+"programmet har m&aring;ske farlige fejl eller download-serveren kan "
+"v&aelig;re blevet hacket. %1 har foretaget en solid indsats for at minimere "
+"disse risici. Vi har testet vores applikation for fejl. Vores servere er "
+"placeret bag en firewall og er blevet konfigureret til et h&oslash;jt "
 "sikkerhedsniveau. For at sikre integriteten af applikationerne bliver alle "
 "eksekverbare filer sikret med en digital signatur fra en computer der ikke "
 "er tilsluttet Internettet."
@@ -4760,8 +4767,9 @@ msgid "Are you sure you want to delete your separate %1 preferences for %2?"
 msgstr ""
 
 #: ../user/prefs_remove.php:55
+#, fuzzy
 msgid "Remove preferences"
-msgstr ""
+msgstr "%1-indstillinger"
 
 #: ../user/prefs_remove.php:57
 msgid "Cancel"
@@ -4776,8 +4784,8 @@ msgid ""
 "%1Profiles%2 let individuals share backgrounds and opinions with the %3 "
 "community."
 msgstr ""
-"%1Profiler%2 lader brugere dele deres baggrund og synspunkter med andre %3-"
-"brugere."
+"%1Profiler%2 lader brugere dele deres baggrund og synspunkter med andre %"
+"3-brugere."
 
 #: ../user/profile_menu.php:39
 msgid ""
@@ -5082,8 +5090,9 @@ msgid "Top participants"
 msgstr "Top deltagere"
 
 #: ../user/stats.php:31
+#, fuzzy
 msgid "Top computers"
-msgstr ""
+msgstr "Computere"
 
 #: ../user/stats.php:32 ../user/team.php:46
 #, fuzzy
@@ -5437,8 +5446,9 @@ msgid "You and your Team Admins will have moderator privileges."
 msgstr ""
 
 #: ../user/team_forum.php:40
+#, fuzzy
 msgid "Create a message board for %1"
-msgstr ""
+msgstr "Forum for %1"
 
 #: ../user/team_forum.php:48
 msgid "Team already has a message board"
@@ -6096,13 +6106,14 @@ msgid ""
 msgstr ""
 "For at bruge din svage konton&oslash;gle p&aring; en given maskine skal du "
 "finde eller oprette 'konto filen' for projektet. Denne fil har et filnavn "
-"p&aring; formen <b>account_PROJECT_URL.xml</b>. Konto-filen for %1 er <b>%2</"
-"b>."
+"p&aring; formen <b>account_PROJECT_URL.xml</b>. Konto-filen for %1 er <b>%"
+"2</b>."
 
 #: ../user/weak_auth.php:59
 msgid "Create this file if needed. Set its contents to:"
 msgstr ""
-"Opret denne fil hvis ikke den eksisterer allerede. Indholdet skal v&aelig;re:"
+"Opret denne fil hvis ikke den eksisterer allerede. Indholdet skal "
+"v&aelig;re:"
 
 #: ../user/weak_auth.php:68
 msgid ""
@@ -6110,9 +6121,9 @@ msgid ""
 "password, your weak account key changes, and your previous weak account key "
 "becomes invalid."
 msgstr ""
-"Din svage konton&oslash;gle er baseret p&aring; dit password. Hvis du &aelig;"
-"ndrer dit password vil din svage konton&oslash;gle ogs&aring; &aelig;ndres "
-"og den tidligere n&oslash;gle holder op med at virke."
+"Din svage konton&oslash;gle er baseret p&aring; dit password. Hvis du "
+"&aelig;ndrer dit password vil din svage konton&oslash;gle ogs&aring; "
+"&aelig;ndres og den tidligere n&oslash;gle holder op med at virke."
 
 #: ../user/workunit.php:32
 msgid "can't find workunit"
@@ -6210,14 +6221,6 @@ msgstr ""
 #: ../project.sample/project_specific_prefs.inc:80
 msgid "(all applications)"
 msgstr ""
-
-#, fuzzy
-#~ msgid "- private message"
-#~ msgstr "Send personlig meddelelse"
-
-#, fuzzy
-#~ msgid "Private message from"
-#~ msgstr "Personlige beskeder"
 
 #~ msgid "Last %1"
 #~ msgstr "Sidste %1"
