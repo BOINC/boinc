@@ -5373,23 +5373,23 @@ David  31 Aug 2011
         boinc_opencl.cpp,h
 
 David  31 Aug 2011
-	- client: fix bugs related to white space around code signing keys
-	- win compile fixes
+    - client: fix bugs related to white space around code signing keys
+    - win compile fixes
 
-	api/
-		boinc_opencl.cpp
-	client/
-		client_types.cpp
-		cs_scheduler.cpp
-		scheduler_op.cpp
-	win_build/
-		libboincapi_staticrt.vcproj
+    api/
+        boinc_opencl.cpp
+    client/
+        client_types.cpp
+        cs_scheduler.cpp
+        scheduler_op.cpp
+    win_build/
+        libboincapi_staticrt.vcproj
 
 David  31 Aug 2011
-	- web: show actual project info on "forget password?" page
+    - web: show actual project info on "forget password?" page
 
-	html/user/
-		get_passwd.php
+    html/user/
+        get_passwd.php
 
 David  31 Aug 2011
     - API: boinc_get_opencl_ids() doesn't need to link
@@ -5427,10 +5427,10 @@ Charlie 31 Aug 2011
         coproc.cpp
 
 David  31 Aug 2011
-	- web: show relative performance on GPU list
+    - web: show relative performance on GPU list
 
-	html/user/
-		gpu_list.php
+    html/user/
+        gpu_list.php
 
 Charlie 1 Sep 2011
     - api: More fixes to boinc_get_opencl_ids()
@@ -5584,11 +5584,11 @@ David  2 Sept 2011
         procinfo_win.cpp
 
 David  2 Sept 2011
-	- web: when displaying a user's posts, limit the query to 1000
-		so the page doesn't exceed CPU limit
+    - web: when displaying a user's posts, limit the query to 1000
+        so the page doesn't exceed CPU limit
 
-	html/user/
-		forum_user_posts.php
+    html/user/
+        forum_user_posts.php
 
 David  5 Sept 2011
     - web: fix warnings in forum pages
@@ -5636,10 +5636,20 @@ David  6 Sept 2011
         sched_send.cpp
 
 David  6 Sept 2011
-	- client: fix bugs with white space around code sign keys
-		and file signatures
-	- client: when describing app versions in scheduler requests,
-		we still must use CUDA instead of NVIDIA; that's what's in the server code.
+    - client: fix bugs with white space around code sign keys
+        and file signatures
+    - client: when describing app versions in scheduler requests,
+        we still must use CUDA instead of NVIDIA;
+        that's what's in the server code.
 
-	client/
-		client_types.cpp
+    client/
+        client_types.cpp
+
+David  6 Sept 2011
+    - scheduler: use new XML parser for most request elements
+    - scheduler: parse NVIDIA as well as CUDA in app version descriptions
+        (workaround for recent clients)
+
+    sched/
+        sched_send.cpp
+        sched_types.cpp

@@ -995,6 +995,7 @@ bool work_needed(bool locality_sched) {
             log_messages.printf(MSG_NORMAL,
                 "[quota] reached limit on GPU jobs in progress\n"
             );
+            config.max_jobs_in_progress.print_log();
         }
         g_wreq->clear_gpu_req();
         if (g_wreq->effective_ngpus) {
@@ -1011,6 +1012,7 @@ bool work_needed(bool locality_sched) {
             log_messages.printf(MSG_NORMAL,
                 "[quota] reached limit on CPU jobs in progress\n"
             );
+            config.max_jobs_in_progress.print_log();
         }
         g_wreq->clear_cpu_req();
         g_wreq->max_jobs_on_host_cpu_exceeded = true;

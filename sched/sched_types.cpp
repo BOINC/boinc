@@ -39,6 +39,8 @@
 #include "boinc_fcgi.h"
 #endif
 
+using std::string;
+
 SCHEDULER_REQUEST* g_request;
 SCHEDULER_REPLY* g_reply;
 WORK_REQ* g_wreq;
@@ -93,6 +95,9 @@ int CLIENT_APP_VERSION::parse(XML_PARSER& xp) {
             COPROC_REQ coproc_req;
             int retval = coproc_req.parse(xp);
             if (!retval && !strcmp(coproc_req.type, "CUDA")) {
+                host_usage.ncudas = coproc_req.count;
+            }
+            if (!retval && !strcmp(coproc_req.type, "NVIDIA")) {
                 host_usage.ncudas = coproc_req.count;
             }
             if (!retval && !strcmp(coproc_req.type, "ATI")) {
@@ -650,11 +655,11 @@ int SCHEDULER_REPLY::write(FILE* fout, SCHEDULER_REQUEST& sreq) {
     );
 
     if (sreq.core_client_version <= 41900) {
-        std::string msg;
-        std::string pri = "low";
+        string msg;
+        string pri = "low";
         for (i=0; i<messages.size(); i++) {
             USER_MESSAGE& um = messages[i];
-            msg += um.message + std::string(" ");
+            msg += um.message + string(" ");
             if (um.priority == "notice") {
                 pri = "notice";
             }
@@ -664,8 +669,8 @@ int SCHEDULER_REPLY::write(FILE* fout, SCHEDULER_REQUEST& sreq) {
             // replace them with spaces.
             //
             while (1) {
-                std::string::size_type pos = msg.find("\n", 0);
-                if (pos == std::string::npos) break;
+                string::size_type pos = msg.find("\n", 0);
+                if (pos == string::npos) break;
                 msg.replace(pos, 1, " ");
             }
             fprintf(fout,
@@ -1072,117 +1077,113 @@ int SCHED_DB_RESULT::write_to_client(FILE* fout) {
 }
 
 int SCHED_DB_RESULT::parse_from_client(XML_PARSER& xp) {
-    char buf[256];
     double dtemp;
+    bool btemp;
+    string stemp;
+    int itemp;
 
     // should be non-zero if exit_status is not found
     exit_status = ERR_NO_EXIT_STATUS;
     memset(this, 0, sizeof(*this));
-    MIOFILE& in = *(xp.f);
-    while (in.fgets(buf, sizeof(buf))) {
-        if (match_tag(buf, "</result>")) {
+    while (!xp.get_tag()) {
+        if (xp.match_tag("/result")) {
             return 0;
         }
-        if (parse_str(buf, "<name>", name, sizeof(name))) continue;
-        if (parse_int(buf, "<state>", client_state)) continue;
-        if (parse_double(buf, "<final_cpu_time>", cpu_time)) continue;
-        if (parse_double(buf, "<final_elapsed_time>", elapsed_time)) continue;
-        if (parse_int(buf, "<exit_status>", exit_status)) continue;
-        if (parse_int(buf, "<app_version_num>", app_version_num)) continue;
-        if (match_tag(buf, "<file_info>")) {
-            safe_strcat(xml_doc_out, buf);
-            while (in.fgets(buf, sizeof(buf))) {
-                safe_strcat(xml_doc_out, buf);
-                if (match_tag(buf, "</file_info>")) break;
-            }
+        if (xp.parse_str("name", name, sizeof(name))) continue;
+        if (xp.parse_int("state", client_state)) continue;
+        if (xp.parse_double("final_cpu_time", cpu_time)) continue;
+        if (xp.parse_double("final_elapsed_time", elapsed_time)) continue;
+        if (xp.parse_int("exit_status", exit_status)) continue;
+        if (xp.parse_int("app_version_num", app_version_num)) continue;
+        if (xp.match_tag("file_info")) {
+            string s;
+            xp.copy_element(s);
+            safe_strcat(xml_doc_out, s.c_str());
             continue;
         }
-        if (match_tag(buf, "<stderr_out>" )) {
-            while (in.fgets(buf, sizeof(buf))) {
-                if (match_tag(buf, "</stderr_out>")) break;
-                safe_strcat(stderr_out, buf);
-            }
+        if (xp.match_tag("stderr_out" )) {
+            copy_element_contents(xp.f->f, "</stderr_out>", stderr_out, sizeof(stderr_out));
             continue;
         }
-        if (match_tag(buf, "<platform>")) continue;
-        if (match_tag(buf, "<version_num>")) continue;
-        if (match_tag(buf, "<plan_class>")) continue;
-        if (match_tag(buf, "<completed_time>")) continue;
-        if (match_tag(buf, "<file_name>")) continue;
-        if (match_tag(buf, "<file_ref>")) continue;
-        if (match_tag(buf, "</file_ref>")) continue;
-        if (match_tag(buf, "<open_name>")) continue;
-        if (match_tag(buf, "<ready_to_report>")) continue;
-        if (match_tag(buf, "<ready_to_report/>")) continue;
-        if (match_tag(buf, "<report_deadline>")) continue;
-        if (match_tag(buf, "<wu_name>")) continue;
+        if (xp.parse_string("platform", stemp)) continue;
+        if (xp.parse_int("version_num", itemp)) continue;
+        if (xp.parse_string("plan_class", stemp)) continue;
+        if (xp.parse_double("completed_time", dtemp)) continue;
+        if (xp.parse_string("file_name", stemp)) continue;
+        if (xp.match_tag("file_ref")) {
+            xp.copy_element(stemp);
+            continue;
+        }
+        if (xp.parse_string("open_name", stemp)) continue;
+        if (xp.parse_bool("ready_to_report", btemp)) continue;
+        if (xp.parse_double("report_deadline", dtemp)) continue;
+        if (xp.parse_string("wu_name", stemp)) continue;
 
         // deprecated stuff
-        if (parse_double(buf, "<fpops_per_cpu_sec>", dtemp)) continue;
-        if (parse_double(buf, "<fpops_cumulative>", dtemp)) continue;
-        if (parse_double(buf, "<intops_per_cpu_sec>", dtemp)) continue;
-        if (parse_double(buf, "<intops_cumulative>", dtemp)) continue;
+        if (xp.parse_double("fpops_per_cpu_sec", dtemp)) continue;
+        if (xp.parse_double("fpops_cumulative", dtemp)) continue;
+        if (xp.parse_double("intops_per_cpu_sec", dtemp)) continue;
+        if (xp.parse_double("intops_cumulative", dtemp)) continue;
 
         log_messages.printf(MSG_NORMAL,
             "RESULT::parse_from_client(): unrecognized: %s\n",
-            buf
+            xp.parsed_tag
         );
     }
     return ERR_XML_PARSE;
 }
 
 int HOST::parse(XML_PARSER& xp) {
-    char buf[1024];
-
     p_ncpus = 1;
-    MIOFILE& in = *(xp.f);
-    while (in.fgets(buf, sizeof(buf))) {
-        if (match_tag(buf, "</host_info>")) return 0;
-        if (parse_int(buf, "<timezone>", timezone)) continue;
-        if (parse_str(buf, "<domain_name>", domain_name, sizeof(domain_name))) continue;
-        if (parse_str(buf, "<ip_addr>", last_ip_addr, sizeof(last_ip_addr))) continue;
-        if (parse_str(buf, "<host_cpid>", host_cpid, sizeof(host_cpid))) continue;
-        if (parse_int(buf, "<p_ncpus>", p_ncpus)) continue;
-        if (parse_str(buf, "<p_vendor>", p_vendor, sizeof(p_vendor))) continue;
-        if (parse_str(buf, "<p_model>", p_model, sizeof(p_model))) continue;
-        if (parse_double(buf, "<p_fpops>", p_fpops)) continue;
-        if (parse_double(buf, "<p_iops>", p_iops)) continue;
-        if (parse_double(buf, "<p_membw>", p_membw)) continue;
-        if (parse_str(buf, "<os_name>", os_name, sizeof(os_name))) continue;
-        if (parse_str(buf, "<os_version>", os_version, sizeof(os_version))) continue;
-        if (parse_double(buf, "<m_nbytes>", m_nbytes)) continue;
-        if (parse_double(buf, "<m_cache>", m_cache)) continue;
-        if (parse_double(buf, "<m_swap>", m_swap)) continue;
-        if (parse_double(buf, "<d_total>", d_total)) continue;
-        if (parse_double(buf, "<d_free>", d_free)) continue;
-        if (parse_double(buf, "<n_bwup>", n_bwup)) continue;
-        if (parse_double(buf, "<n_bwdown>", n_bwdown)) continue;
-        if (parse_str(buf, "<p_features>", p_features, sizeof(p_features))) continue;
-        if (parse_str(buf, "<virtualbox_version>", virtualbox_version, sizeof(virtualbox_version))) continue;
+    double dtemp;
+    string stemp;
+    while (!xp.get_tag()) {
+        if (xp.match_tag("/host_info")) return 0;
+        if (xp.parse_int("timezone", timezone)) continue;
+        if (xp.parse_str("domain_name", domain_name, sizeof(domain_name))) continue;
+        if (xp.parse_str("ip_addr", last_ip_addr, sizeof(last_ip_addr))) continue;
+        if (xp.parse_str("host_cpid", host_cpid, sizeof(host_cpid))) continue;
+        if (xp.parse_int("p_ncpus", p_ncpus)) continue;
+        if (xp.parse_str("p_vendor", p_vendor, sizeof(p_vendor))) continue;
+        if (xp.parse_str("p_model", p_model, sizeof(p_model))) continue;
+        if (xp.parse_double("p_fpops", p_fpops)) continue;
+        if (xp.parse_double("p_iops", p_iops)) continue;
+        if (xp.parse_double("p_membw", p_membw)) continue;
+        if (xp.parse_str("os_name", os_name, sizeof(os_name))) continue;
+        if (xp.parse_str("os_version", os_version, sizeof(os_version))) continue;
+        if (xp.parse_double("m_nbytes", m_nbytes)) continue;
+        if (xp.parse_double("m_cache", m_cache)) continue;
+        if (xp.parse_double("m_swap", m_swap)) continue;
+        if (xp.parse_double("d_total", d_total)) continue;
+        if (xp.parse_double("d_free", d_free)) continue;
+        if (xp.parse_double("n_bwup", n_bwup)) continue;
+        if (xp.parse_double("n_bwdown", n_bwdown)) continue;
+        if (xp.parse_str("p_features", p_features, sizeof(p_features))) continue;
+        if (xp.parse_str("virtualbox_version", virtualbox_version, sizeof(virtualbox_version))) continue;
 
         // parse deprecated fields to avoid error messages
         //
-        if (match_tag(buf, "<p_calculated>")) continue;
-        if (match_tag(buf, "<p_fpop_err>")) continue;
-        if (match_tag(buf, "<p_iop_err>")) continue;
-        if (match_tag(buf, "<p_membw_err>")) continue;
+        if (xp.parse_double("p_calculated", dtemp)) continue;
+        if (xp.match_tag("p_fpop_err")) continue;
+        if (xp.match_tag("p_iop_err")) continue;
+        if (xp.match_tag("p_membw_err")) continue;
 
         // fields reported by 5.5+ clients, not currently used
         //
-        if (match_tag(buf, "<p_capabilities>")) continue;
-        if (match_tag(buf, "<accelerators>")) continue;
+        if (xp.parse_string("p_capabilities", stemp)) continue;
+        if (xp.parse_string("accelerators", stemp)) continue;
 
 #if 1
         // not sure where these fields belong in the above categories
         //
-        if (match_tag(buf, "<cpu_caps>")) continue;
-        if (match_tag(buf, "<cache_l1>")) continue;
-        if (match_tag(buf, "<cache_l2>")) continue;
-        if (match_tag(buf, "<cache_l3>")) continue;
+        if (xp.parse_string("cpu_caps", stemp)) continue;
+        if (xp.parse_string("cache_l1", stemp)) continue;
+        if (xp.parse_string("cache_l2", stemp)) continue;
+        if (xp.parse_string("cache_l3", stemp)) continue;
 #endif
 
         log_messages.printf(MSG_NORMAL,
-            "HOST::parse(): unrecognized: %s\n", buf
+            "HOST::parse(): unrecognized: %s\n", xp.parsed_tag
         );
     }
     return ERR_XML_PARSE;
@@ -1190,22 +1191,19 @@ int HOST::parse(XML_PARSER& xp) {
 
 
 int HOST::parse_time_stats(XML_PARSER& xp) {
-    char buf[256];
-
-    MIOFILE& in = *(xp.f);
-    while (in.fgets(buf, sizeof(buf))) {
-        if (match_tag(buf, "</time_stats>")) return 0;
-        if (parse_double(buf, "<on_frac>", on_frac)) continue;
-        if (parse_double(buf, "<connected_frac>", connected_frac)) continue;
-        if (parse_double(buf, "<active_frac>", active_frac)) continue;
+    while (!xp.get_tag()) {
+        if (xp.match_tag("/time_stats")) return 0;
+        if (xp.parse_double("on_frac", on_frac)) continue;
+        if (xp.parse_double("connected_frac", connected_frac)) continue;
+        if (xp.parse_double("active_frac", active_frac)) continue;
 #if 0
-        if (match_tag(buf, "<outages>")) continue;
-        if (match_tag(buf, "<outage>")) continue;
-        if (match_tag(buf, "<start>")) continue;
-        if (match_tag(buf, "<end>")) continue;
+        if (xp.match_tag("outages")) continue;
+        if (xp.match_tag("outage")) continue;
+        if (xp.match_tag("start")) continue;
+        if (xp.match_tag("end")) continue;
         log_messages.printf(MSG_NORMAL,
             "HOST::parse_time_stats(): unrecognized: %s\n",
-            buf
+            xp.parsed_tag
         );
 #endif
     }
@@ -1213,40 +1211,35 @@ int HOST::parse_time_stats(XML_PARSER& xp) {
 }
 
 int HOST::parse_net_stats(XML_PARSER& xp) {
-    char buf[256];
-
-    MIOFILE& in = *(xp.f);
-    while (in.fgets(buf, sizeof(buf))) {
-        if (match_tag(buf, "</net_stats>")) return 0;
-        if (parse_double(buf, "<bwup>", n_bwup)) continue;
-        if (parse_double(buf, "<bwdown>", n_bwdown)) continue;
+    double dtemp;
+    while (!xp.get_tag()) {
+        if (xp.match_tag("/net_stats")) return 0;
+        if (xp.parse_double("bwup", n_bwup)) continue;
+        if (xp.parse_double("bwdown", n_bwdown)) continue;
 
         // items reported by 5.10+ clients, not currently used
         //
-        if (match_tag(buf, "<avg_time_up>")) continue;
-        if (match_tag(buf, "<avg_up>")) continue;
-        if (match_tag(buf, "<avg_time_down>")) continue;
-        if (match_tag(buf, "<avg_down>")) continue;
+        if (xp.parse_double("avg_time_up", dtemp)) continue;
+        if (xp.parse_double("avg_up", dtemp)) continue;
+        if (xp.parse_double("avg_time_down", dtemp)) continue;
+        if (xp.parse_double("avg_down", dtemp)) continue;
 
         log_messages.printf(MSG_NORMAL,
             "HOST::parse_net_stats(): unrecognized: %s\n",
-            buf
+            xp.parsed_tag
         );
     }
     return ERR_XML_PARSE;
 }
 
 int HOST::parse_disk_usage(XML_PARSER& xp) {
-    char buf[256];
-
-    MIOFILE& in = *(xp.f);
-    while (in.fgets(buf, sizeof(buf))) {
-        if (match_tag(buf, "</disk_usage>")) return 0;
-        if (parse_double(buf, "<d_boinc_used_total>", d_boinc_used_total)) continue;
-        if (parse_double(buf, "<d_boinc_used_project>", d_boinc_used_project)) continue;
+    while (!xp.get_tag()) {
+        if (xp.match_tag("/disk_usage")) return 0;
+        if (xp.parse_double("d_boinc_used_total", d_boinc_used_total)) continue;
+        if (xp.parse_double("d_boinc_used_project", d_boinc_used_project)) continue;
         log_messages.printf(MSG_NORMAL,
             "HOST::parse_disk_usage(): unrecognized: %s\n",
-            buf
+            xp.parsed_tag
         );
     }
     return ERR_XML_PARSE;
