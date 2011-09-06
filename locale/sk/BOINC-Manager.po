@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 5.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-03-07 12:00-0500\n"
-"PO-Revision-Date: 2011-03-28 21:00+0200\n"
+"PO-Revision-Date: 2011-09-04 18:58+0200\n"
 "Last-Translator: aceman <acelists@atlas.sk>\n"
 "Language-Team: BOINC SK\n"
 "Language: sk\n"
@@ -23,8 +23,6 @@ msgstr ""
 "X-Poedit-SourceCharset: utf-8\n"
 "X-Poedit-Basepath: C:\\Src\\BOINCSVN\\branches\\boinc_core_release_6_12\n"
 "X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
-"X-Poedit-Country: UNITED STATES\n"
-"X-Poedit-Language: English\n"
 
 #: clientgui/AccountInfoPage.cpp:386
 msgid "Identify your account "
@@ -213,7 +211,7 @@ msgstr "&Zavrieť okno"
 #: clientgui/AdvancedFrame.cpp:344
 #, c-format
 msgid "Exit %s"
-msgstr "&Ukončiť %s"
+msgstr "Ukončiť %s"
 
 #: clientgui/AdvancedFrame.cpp:359
 msgid "&Notices\tCtrl+Shift+N"
@@ -293,7 +291,7 @@ msgstr "Získať aktuálne nastavenia z %s"
 
 #: clientgui/AdvancedFrame.cpp:437
 msgid "&Add project..."
-msgstr "Pripojiť k &projektu..."
+msgstr "P&ripojiť k projektu..."
 
 #: clientgui/AdvancedFrame.cpp:438
 msgid "Add a project"
@@ -483,7 +481,7 @@ msgstr "Pomoc s &%s"
 #: clientgui/AdvancedFrame.cpp:643
 #, c-format
 msgid "Show information about the %s"
-msgstr "Ukázať informácie o %s"
+msgstr "Zobraziť informácie o %s"
 
 #: clientgui/AdvancedFrame.cpp:655
 #, c-format
@@ -493,7 +491,7 @@ msgstr "%s &web stránka"
 #: clientgui/AdvancedFrame.cpp:661
 #, c-format
 msgid "Show information about BOINC and %s"
-msgstr "Ukázať informácie o BOINC a %s"
+msgstr "Zobraziť informácie o BOINC a %s"
 
 #: clientgui/AdvancedFrame.cpp:673
 #, c-format
@@ -1481,7 +1479,7 @@ msgstr "% keď je počítač používaný"
 #: clientgui/DlgAdvPreferencesBase.cpp:660
 #, no-c-format
 msgid "% when computer is idle"
-msgstr "% keď je počítač nevyužitý"
+msgstr "% keď je počítač nepoužívaný"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:665
 msgid "Leave applications in memory while suspended"
@@ -2124,9 +2122,10 @@ msgstr "Bežné otázky"
 msgid "Read the Einstein@Home Frequently Asked Question list"
 msgstr "Prečítajte si zoznam často kladených otázok k Einstein@Home"
 
+# 'Info' je zamerne kratke, aby sa tlacidlo zmestilo do okna.
 #: clientgui/Localization.cpp:65
 msgid "Screensaver info"
-msgstr "Informácie o šetriči obrazovky"
+msgstr "Info o šetriči obrazovky"
 
 #: clientgui/Localization.cpp:67
 msgid "Read a detailed description of the Einstein@Home screensaver"
@@ -3325,7 +3324,7 @@ msgstr "Povoliť sťahovanie nových úloh pre tento projekt."
 
 #: clientgui/ViewProjects.cpp:731
 msgid "Don't fetch new tasks for this project."
-msgstr "Nevolať nové úlohy pre tento projekt."
+msgstr "Nesťahovať nové úlohy pre tento projekt."
 
 #: clientgui/ViewProjects.cpp:1048
 msgid "Requested by user"
@@ -3559,9 +3558,10 @@ msgstr "Štatistiky"
 msgid "Updating charts..."
 msgstr "Aktualizovanie grafov..."
 
+# 'Zobrazit' je prilis dlhe, natahuje tlacidlo.
 #: clientgui/ViewStatistics.cpp:2411
 msgid "Show project list"
-msgstr "Zobraziť zoznam projektov"
+msgstr "Ukázať zoznam projektov"
 
 #: clientgui/ViewStatistics.cpp:2411
 msgid "Uses smaller area for graphs"

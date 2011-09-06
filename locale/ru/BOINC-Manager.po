@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 6.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-03-07 12:00-0500\n"
-"PO-Revision-Date: 2011-03-20 19:57+0200\n"
+"PO-Revision-Date: 2011-07-07 22:29+0200\n"
 "Last-Translator: Nikolay Saharov <saharovna@gmail.com>\n"
 "Language-Team: Russia\n"
 "Language: ru\n"
@@ -24,8 +24,6 @@ msgstr ""
 "X-Poedit-SourceCharset: utf-8\n"
 "X-Poedit-Basepath: C:\\Src\\BOINCSVN\\branches\\boinc_core_release_6_12\n"
 "X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
-"X-Poedit-Country: UNITED STATES\n"
-"X-Poedit-Language: English\n"
 
 #: clientgui/AccountInfoPage.cpp:386
 msgid "Identify your account "
@@ -1077,7 +1075,7 @@ msgstr "Вы теперь используете %s для управления 
 
 #: clientgui/CompletionPage.cpp:267
 msgid "You are now using this account manager."
-msgstr " Вы теперь используете этот менеджер проектов."
+msgstr "Вы теперь используете этот менеджер проектов."
 
 #: clientgui/DlgAbout.cpp:102
 #, c-format
@@ -2446,7 +2444,7 @@ msgstr "Загрузка данных"
 #: clientgui/MainDocument.cpp:2426
 #: clientgui/MainDocument.cpp:2484
 msgid " (suspended - "
-msgstr "(приостановлено - "
+msgstr " (приостановлено - "
 
 #: clientgui/MainDocument.cpp:2428
 #: clientgui/MainDocument.cpp:2486
@@ -2499,7 +2497,7 @@ msgstr "Готово к запуску"
 
 #: clientgui/MainDocument.cpp:2472
 msgid " (waiting for GPU memory)"
-msgstr "(ожидание освобождения памяти ГП)"
+msgstr " (ожидание освобождения памяти ГП)"
 
 #: clientgui/MainDocument.cpp:2476
 msgid "Computation error"
@@ -3047,7 +3045,7 @@ msgstr "%d%%"
 
 #: clientgui/sg_DlgPreferences.cpp:868
 msgid "0 (Run Always)"
-msgstr "работать всегда"
+msgstr "0 (работать всегда)"
 
 #: clientgui/sg_DlgPreferences.cpp:871
 #, c-format

@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-10-06 08:58-0700\n"
-"PO-Revision-Date: 2011-04-21 08:35+0200\n"
+"PO-Revision-Date: 2011-07-26 20:57+0200\n"
 "Last-Translator: Gabor Cseh <csega@mailbox.hu>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: hu\n"
@@ -52,7 +52,7 @@ msgstr ""
 
 #: cs_scheduler.cpp:545
 msgid "Message from"
-msgstr "Üzenetet küldött a(z)"
+msgstr "Üzenet innen: "
 
 #: cs_statefile.cpp:805 ../sched/sched_types.cpp:273
 msgid "Syntax error in app_info.xml"
@@ -201,7 +201,7 @@ msgstr "Ismeretlen alkalmazás név az app_info.xml-ben"
 
 #: ../sched/sched_version.cpp:234
 msgid "Your app_info.xml file doesn't have a usable version of"
-msgstr "Az app_info.xml fájlnak nincs használható (megfelelő?) verziója"
+msgstr "Az app_info.xml fájlnak nincs használható verziója"
 
 #: ../sched/sched_version.cpp:691
 msgid "is not available for your type of computer"

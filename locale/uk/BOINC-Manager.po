@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-03-07 12:00-0500\n"
-"PO-Revision-Date: 2011-05-14 01:16+0200\n"
+"PO-Revision-Date: 2011-06-14 23:35+0200\n"
 "Last-Translator: Dead J. Dona <deadjdona@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: uk\n"
@@ -410,7 +410,7 @@ msgstr "Виберіть комп'ютер..."
 
 #: clientgui/AdvancedFrame.cpp:568
 msgid "Shut down connected client..."
-msgstr "Завершити роботу підключеного BOINC клієнта..."
+msgstr "Завершити роботу підключеного клієнта..."
 
 #: clientgui/AdvancedFrame.cpp:569
 msgid "Shut down the currently connected client"
@@ -596,6 +596,10 @@ msgid ""
 "\n"
 "Please visit the project's web site and follow the instructions there."
 msgstr ""
+"Обліковий запис з таким ім'ям учасника вже існує і його\n"
+"пароль відрізняється від введеного вами.\n"
+"\n"
+"Відвідайте домашню сторінку проекту для отримання інструкцій."
 
 #: clientgui/AlreadyExistsPage.cpp:191
 msgid "Email address already in use"
@@ -608,59 +612,68 @@ msgid ""
 "\n"
 "Please visit the project's web site and follow the instructions there."
 msgstr ""
+"Обліковий запис з такою адресою електронної пошти вже існує\n"
+"і його пароль відрізняється від введеного вами.\n"
+"\n"
+"Відвідайте домашню сторінку проекту для отримання інструкцій."
 
 #: clientgui/AsyncRPC.cpp:1234
 msgid "Communicating with BOINC client.  Please wait ..."
-msgstr ""
+msgstr "Встановлюється зв'язок з BOINC клієнтом. Будь-ласка, зачекайте..."
 
 #: clientgui/AsyncRPC.cpp:1237
 #, c-format
 msgid "&Quit %s"
-msgstr ""
+msgstr "&Вийти з %s"
 
 #: clientgui/AsyncRPC.cpp:1239
 #, c-format
 msgid "E&xit %s"
-msgstr ""
+msgstr "В&ийти з %s"
 
 #: clientgui/AsyncRPC.cpp:1243
 #, c-format
 msgid "%s - Communication"
-msgstr ""
+msgstr "%s - Встановлення зв'язку"
 
 #: clientgui/AsyncRPC.cpp:1259
 msgid "Cancel"
-msgstr ""
+msgstr "Відмінити"
 
 #: clientgui/BOINCBaseFrame.cpp:503
 #, c-format
 msgid "%s - Connection Error"
-msgstr ""
+msgstr "%s - Помилка з'єднання"
 
 #: clientgui/BOINCBaseFrame.cpp:512
 msgid ""
 "You currently are not authorized to manage the client.\n"
 "Please contact your administrator to add you to the 'boinc_users' local user group."
 msgstr ""
+"У вас недостатньо прав для управління BOINC клієнтом.\n"
+"Управління стане можливе після додавання вас в групу 'boinc_users' "
+"адміністратором комп'ютера."
 
 #: clientgui/BOINCBaseFrame.cpp:521
 msgid ""
 "Authorization failed connecting to running client.\n"
 "Make sure you start this program in the same directory as the client."
 msgstr ""
+"Підключення до клієнта не вдалося через помилку контролю доступу.\n"
+"Переконайтеся, що програма запускається з тієї ж папки, що і клієнт."
 
 #: clientgui/BOINCBaseFrame.cpp:523
 msgid "Authorization failed connecting to running client."
-msgstr ""
+msgstr "Підключення до клієнта не вдалося через помилку контролю доступу."
 
 #: clientgui/BOINCBaseFrame.cpp:531
 msgid "The password you have provided is incorrect, please try again."
-msgstr ""
+msgstr "Введений неправильний пароль, спробуйте, будь-ласка, ще раз."
 
 #: clientgui/BOINCBaseFrame.cpp:575
 #, c-format
 msgid "%s - Connection Failed"
-msgstr ""
+msgstr "%s - помилка підключення"
 
 #: clientgui/BOINCBaseFrame.cpp:584
 #, c-format
@@ -668,11 +681,13 @@ msgid ""
 "%s is not able to connect to a %s client.\n"
 "Would you like to try to connect again?"
 msgstr ""
+"%s не може підключитися до клієнта %s.\n"
+"Спробувати повторити підключення?"
 
 #: clientgui/BOINCBaseFrame.cpp:620
 #, c-format
 msgid "%s - Daemon Start Failed"
-msgstr ""
+msgstr "%s - збій при старті демона"
 
 #: clientgui/BOINCBaseFrame.cpp:630
 #, c-format
@@ -680,6 +695,9 @@ msgid ""
 "%s is not able to start a %s client.\n"
 "Please launch the Control Panel->Administative Tools->Services applet and start the BOINC service."
 msgstr ""
+"%s не може запустити клієнта %s.\n"
+"Спробуйте запустити службу BOINC ще раз з 'Панель "
+"управління/Адміністрування/Служби'."
 
 #: clientgui/BOINCBaseFrame.cpp:636
 #, c-format
@@ -687,11 +705,13 @@ msgid ""
 "%s is not able to start a %s client.\n"
 "Please start the daemon and try again."
 msgstr ""
+"%s не може запустити клієнта %s.\n"
+"Спробуйте запустити ще раз."
 
 #: clientgui/BOINCBaseFrame.cpp:687
 #, c-format
 msgid "%s - Connection Status"
-msgstr ""
+msgstr "%s - стан підключення"
 
 #: clientgui/BOINCBaseFrame.cpp:698
 #, c-format
@@ -700,15 +720,20 @@ msgid ""
 "Please use the 'Advanced\\Select Computer...' menu option to connect up to a %s client.\n"
 "To connect up to your local computer please use 'localhost' as the host name."
 msgstr ""
+"%s не підключений до клієнта %s.\n"
+"Для підключення до клієнта %s скористайтеся меню 'Додатково\\Змінити "
+"комп'ютер...'.\n"
+"Для локального комп'ютера використовуйте 'localhost' в якості імені "
+"комп'ютера."
 
 #: clientgui/BOINCBaseView.cpp:778
 msgid "Web sites"
-msgstr ""
+msgstr "Веб-сайти"
 
 #: clientgui/BOINCClientManager.cpp:537
 #, c-format
 msgid "%s - Unexpected Exit"
-msgstr ""
+msgstr "%s - Несподіваний вихід"
 
 #: clientgui/BOINCClientManager.cpp:547
 #, c-format
@@ -716,11 +741,13 @@ msgid ""
 "The %s client has exited unexpectedly 3 times within the last %d minutes.\n"
 "Would you like to restart it again?"
 msgstr ""
+"Клієнт %s несподівано завершив роботу 3 рази за останні %d хвилин.\n"
+"Хочете перезапустити його ще раз?"
 
 #: clientgui/BOINCDialupManager.cpp:61
 #, c-format
 msgid "%s - Network Status"
-msgstr ""
+msgstr "%s - статус мережного з'єднання"
 
 #: clientgui/BOINCDialupManager.cpp:241
 #, c-format
@@ -728,21 +755,23 @@ msgid ""
 "%s needs to connect to the Internet.\n"
 "May it do so now?"
 msgstr ""
+"%s необхідно під'єднатися до інтернету.\n"
+"Виконати підключення зараз?"
 
 #: clientgui/BOINCDialupManager.cpp:254
 #, c-format
 msgid "%s is connecting to the Internet."
-msgstr ""
+msgstr "%s виконує підключення до інтернету."
 
 #: clientgui/BOINCDialupManager.cpp:303
 #, c-format
 msgid "%s has successfully connected to the Internet."
-msgstr ""
+msgstr "%s успішно під'єднався до інтернету."
 
 #: clientgui/BOINCDialupManager.cpp:331
 #, c-format
 msgid "%s failed to connect to the Internet."
-msgstr ""
+msgstr "%s не вдалося під'єднатись до інтернету."
 
 #: clientgui/BOINCDialupManager.cpp:372
 #, c-format
@@ -750,16 +779,18 @@ msgid ""
 "%s has detected it is now connected to the Internet.\n"
 "Updating all projects and retrying all transfers."
 msgstr ""
+"%s виявив встановлене з'єднання з інтернетом.\n"
+"Проводиться оновлення всіх проектів та передача даних."
 
 #: clientgui/BOINCDialupManager.cpp:417
 #, c-format
 msgid "%s has successfully disconnected from the Internet."
-msgstr ""
+msgstr "%s успішно від'єднався від інтернету."
 
 #: clientgui/BOINCDialupManager.cpp:433
 #, c-format
 msgid "%s failed to disconnected from the Internet."
-msgstr ""
+msgstr "%s не вдалось від'єднатись від інтернету."
 
 #: clientgui/BOINCGUIApp.cpp:326
 msgid ""
@@ -772,6 +803,14 @@ msgid ""
 "  - contact your administrator to add you to the 'boinc_master'\n"
 "     user group."
 msgstr ""
+"На даний момент Ви не маєте прав на управління клієнтом.\n"
+"\n"
+"Щоб запустити BOINC під цим користувачем, будь ласка:\n"
+"- перевстановіть BOINC, давши відповідь \"Так\" на питання про\n"
+"неадміністративних користувачів\n"
+"або\n"
+"- зверніться до Вашого адміністратора, щоб він додав Вас\n"
+"до групи 'boinc_master'."
 
 #: clientgui/BOINCGUIApp.cpp:329
 #, c-format
@@ -779,151 +818,160 @@ msgid ""
 "BOINC ownership or permissions are not set properly; please reinstall BOINC.\n"
 "(Error code %d)"
 msgstr ""
+"Власник BOINC або права доступу задані неправильно; будь ласка "
+"перевстановіть BOINC.\n"
+"(Код помилки %d)"
 
 #: clientgui/BOINCGUIApp.cpp:374
 msgid ""
 "A reboot is required in order for BOINC to run properly.\n"
 "Please reboot your computer and try again."
 msgstr ""
+"Необхідне перезавантаження для коректної роботи клієнта BOINC.\n"
+"Будь ласка, перезавантажте Ваш комп'ютер і спробуйте знову."
 
 #: clientgui/BOINCGUIApp.cpp:375
 msgid "BOINC Manager"
-msgstr ""
+msgstr "BOINC менеджер"
 
 #: clientgui/BOINCGUIApp.cpp:526
 msgid "BOINC Manager was started by the operating system automatically"
-msgstr ""
+msgstr "BOINC менеджер був автоматично запущений операційною системою"
 
 #: clientgui/BOINCGUIApp.cpp:528
 msgid "Startup BOINC so only the system tray icon is visible"
-msgstr ""
+msgstr "При запуску згортати BOINC менеджер в значок на панелі завдань"
 
 #: clientgui/BOINCGUIApp.cpp:530
 msgid "Directory containing the BOINC Client executable"
-msgstr ""
+msgstr "Каталог, що містить виконуваний файл клієнта BOINC"
 
 #: clientgui/BOINCGUIApp.cpp:531
 msgid "BOINC data directory"
-msgstr ""
+msgstr "Каталог даних BOINC"
 
 #: clientgui/BOINCGUIApp.cpp:533
 msgid "Host name or IP address"
-msgstr ""
+msgstr "Ім'я комп'ютера або IP-адреса"
 
 #: clientgui/BOINCGUIApp.cpp:534
 msgid "GUI RPC port number"
-msgstr ""
+msgstr "Номер порту GUI RPC"
 
 #: clientgui/BOINCGUIApp.cpp:535
 msgid "Password"
-msgstr ""
+msgstr "Пароль"
 
 #: clientgui/BOINCGUIApp.cpp:536
 msgid "Startup BOINC with these optional arguments"
-msgstr ""
+msgstr "Запускати BOINC з додатковими параметрами"
 
 #: clientgui/BOINCGUIApp.cpp:537
 msgid "disable BOINC security users and permissions"
-msgstr ""
+msgstr "вимкнути політику безпеки доступу користувачів до BOINC"
 
 #: clientgui/BOINCGUIApp.cpp:538
 msgid "set skin debugging mode to enable skin manager error messages"
 msgstr ""
+"увімкнути режим налагодження менеджера оболонок для виводу повідомлень про "
+"помилки"
 
 #: clientgui/BOINCGUIApp.cpp:539
 msgid "multiple instances of BOINC Manager allowed"
-msgstr ""
+msgstr "дозволено запуск кількох екземплярів менеджера BOINC"
 
 #: clientgui/BOINCGUIApp.cpp:806
 msgid "(Automatic Detection)"
-msgstr ""
+msgstr "(Автовизначення)"
 
 #: clientgui/BOINCGUIApp.cpp:807
 msgid "(Unknown)"
-msgstr ""
+msgstr "(Невідомо)"
 
 #: clientgui/BOINCGUIApp.cpp:808
 msgid "(User Defined)"
-msgstr ""
+msgstr "(Визначено користувачем)"
 
 #: clientgui/BOINCTaskBar.cpp:484
 #, c-format
 msgid "Open %s Web..."
-msgstr ""
+msgstr "Відкрити %s Веб..."
 
 #: clientgui/BOINCTaskBar.cpp:491
 #, c-format
 msgid "Open %s..."
-msgstr ""
+msgstr "Відкрити %s..."
 
 #: clientgui/BOINCTaskBar.cpp:498
 msgid "Snooze"
-msgstr ""
+msgstr "Призупинити"
 
 #: clientgui/BOINCTaskBar.cpp:500
 msgid "Snooze GPU"
-msgstr ""
+msgstr "Призупинити ГП"
 
 #: clientgui/BOINCTaskBar.cpp:516
 msgid "E&xit"
-msgstr ""
+msgstr "В&ихід"
 
 #: clientgui/BOINCTaskBar.cpp:677
 msgid "Computing is enabled"
-msgstr ""
+msgstr "Обчислення дозволене"
 
 #: clientgui/BOINCTaskBar.cpp:680
 msgid "Computing is suspended - "
-msgstr ""
+msgstr "Обчислення призупинено - "
 
 #: clientgui/BOINCTaskBar.cpp:690
 msgid "GPU computing is enabled"
-msgstr ""
+msgstr "Обчислення на ГП дозволено"
 
 #: clientgui/BOINCTaskBar.cpp:693
 msgid "GPU computing is suspended - "
-msgstr ""
+msgstr "Обчислення на ГП призупинено - "
 
 #: clientgui/BOINCTaskBar.cpp:702
 msgid "Network is enabled"
-msgstr ""
+msgstr "Доступ до мережі дозволено"
 
 #: clientgui/BOINCTaskBar.cpp:705
 msgid "Network is suspended - "
-msgstr ""
+msgstr "Доступ в інтернет призупинений - "
 
 #: clientgui/BOINCTaskBar.cpp:713
 msgid "Reconnecting to client."
-msgstr ""
+msgstr "Повторне підключення до клієнту."
 
 #: clientgui/BOINCTaskBar.cpp:715
 msgid "Not connected to a client."
-msgstr ""
+msgstr "Не підключений до клієнта."
 
 #: clientgui/BOINCTaskBar.cpp:770
 #, c-format
 msgid "%s Notices"
-msgstr ""
+msgstr "Повідомлення %s"
 
 #: clientgui/BOINCTaskBar.cpp:776
 msgid "There are new notices - click to view."
-msgstr ""
+msgstr "Є нові повідомлення - натисніть для перегляду."
 
 #: clientgui/CompletionErrorPage.cpp:199
 msgid "Failed to add project"
-msgstr ""
+msgstr "Не вдалося додати проект"
 
 #: clientgui/CompletionErrorPage.cpp:204
 msgid "Failed to update account manager"
-msgstr ""
+msgstr "Не вдалося оновити дані з менеджера проектів"
 
 #: clientgui/CompletionErrorPage.cpp:208
 msgid "Failed to remove account manager"
 msgstr ""
+"Не вдалося від'єднатися від менеджера\n"
+"облікових записів"
 
 #: clientgui/CompletionErrorPage.cpp:212
 msgid "Failed to add account manager"
-msgstr ""
+msgstr "Не вдалося підключитися до менеджера облікових записів"
 
 #: clientgui/CompletionErrorPage.cpp:221
 msgid ""
@@ -932,86 +980,98 @@ msgid ""
 "\n"
 "Click Finish to close."
 msgstr ""
+"Сталася помилка;\n"
+"щоб отримати докладнішу інформацію\n"
+"перевірте Журнал Подій.\n"
+"\n"
+"Натисніть 'Завершити' для закриття."
 
 #: clientgui/CompletionErrorPage.cpp:225
 #: clientgui/CompletionPage.cpp:222
 #: clientgui/CompletionPage.cpp:242
 #: clientgui/CompletionPage.cpp:273
 msgid "Click Finish to close."
-msgstr ""
+msgstr "Натисніть 'Завершити' для закриття."
 
 #: clientgui/CompletionErrorPage.cpp:234
 msgid "Messages from server:"
-msgstr ""
+msgstr "Повідомлення від сервера:"
 
 #: clientgui/CompletionPage.cpp:207
 msgid "Project added"
-msgstr ""
+msgstr "Проект додано"
 
 #: clientgui/CompletionPage.cpp:213
 msgid "This project has been successfully added."
-msgstr ""
+msgstr "Цей проект був успішно доданий."
 
 #: clientgui/CompletionPage.cpp:218
 msgid ""
 "When you click Finish, your web browser will go to a page where\n"
 "you can set your account name and preferences."
 msgstr ""
+"Після натиснення кнопки 'Готовo', у вашому браузері автоматично відкриється "
+"сторінка,\n"
+"де ви зможете вказати ім'я вашого облікового запису і змінити його "
+"налаштування."
 
 #: clientgui/CompletionPage.cpp:232
 #, c-format
 msgid "Update from %s completed."
-msgstr ""
+msgstr "Оновлення з %s завершене."
 
 #: clientgui/CompletionPage.cpp:236
 msgid "Update completed."
-msgstr ""
+msgstr "Оновлення завершене."
 
 #: clientgui/CompletionPage.cpp:247
 msgid "Now using account manager"
-msgstr ""
+msgstr "З цього моменту використовується менеджер проектів"
 
 #: clientgui/CompletionPage.cpp:252
 #, c-format
 msgid "Welcome to %s!"
-msgstr ""
+msgstr "Ласкаво просимо в %s!"
 
 #: clientgui/CompletionPage.cpp:263
 #, c-format
 msgid "You are now using %s to manage accounts."
-msgstr ""
+msgstr "Ви тепер використовуєте %s для управління проектами."
 
 #: clientgui/CompletionPage.cpp:267
 msgid "You are now using this account manager."
-msgstr ""
+msgstr "Ви тепер використовуєте цей менеджер проектів."
 
 #: clientgui/DlgAbout.cpp:102
 #, c-format
 msgid "About %s"
-msgstr ""
+msgstr "Про %s"
 
 #: clientgui/DlgAbout.cpp:159
 msgid "Version:"
-msgstr ""
+msgstr "Версія:"
 
 #: clientgui/DlgAbout.cpp:167
 msgid "wxWidgets Version:"
-msgstr ""
+msgstr "Версія wxWidgets:"
 
 #: clientgui/DlgAbout.cpp:175
 msgid "Copyright:"
-msgstr ""
+msgstr "Авторські права:"
 
 #: clientgui/DlgAbout.cpp:179
 msgid ""
 "(C) 2003-2011 University of California, Berkeley.\n"
 "All Rights Reserved."
 msgstr ""
+"(C) 2003-2011 Каліфорнійський університет, Берклі.\n"
+"Всі права захищені.\n"
+"Переклад http://distributed.org.ua/"
 
 #: clientgui/DlgAbout.cpp:183
 #: clientgui/DlgAbout.cpp:187
 msgid "Berkeley Open Infrastructure for Network Computing"
-msgstr ""
+msgstr "Відкрита Інфраструктура для Розподілених Обчислень університету Берклі"
 
 #: clientgui/DlgAbout.cpp:199
 #: clientgui/DlgExitMessage.cpp:172
@@ -1019,40 +1079,40 @@ msgstr ""
 #: clientgui/DlgOptions.cpp:378
 #: clientgui/DlgSelectComputer.cpp:162
 msgid "&OK"
-msgstr ""
+msgstr "&ТАК"
 
 #: clientgui/DlgAdvPreferences.cpp:499
 msgid "invalid float"
-msgstr ""
+msgstr "помилка введення числа"
 
 #: clientgui/DlgAdvPreferences.cpp:500
 msgid "invalid time, format is HH:MM"
-msgstr ""
+msgstr "помилка введення, формат часу ГГ:XX"
 
 #: clientgui/DlgAdvPreferences.cpp:501
 msgid "invalid time interval, format is HH:MM-HH:MM"
-msgstr ""
+msgstr "помилка при завданні інтервалу, правильний формат ГГ:XX-ГГ:XX"
 
 #: clientgui/DlgAdvPreferences.cpp:615
 msgid "invalid input value detected"
-msgstr ""
+msgstr "виявлено некоректне значення"
 
 #: clientgui/DlgAdvPreferences.cpp:617
 msgid "Validation Error"
-msgstr ""
+msgstr "Помилка перевірки"
 
 #: clientgui/DlgAdvPreferences.cpp:761
 msgid "Do you really want to clear all local preferences ?"
-msgstr ""
+msgstr "Видалити усі налаштування BOINC клієнта, що зберігаються локально?"
 
 #: clientgui/DlgAdvPreferences.cpp:762
 msgid "Confirmation"
-msgstr ""
+msgstr "Підтвердження"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:45
 #, c-format
 msgid "%s - Preferences"
-msgstr ""
+msgstr "%s - Налаштування"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:61
 msgid ""

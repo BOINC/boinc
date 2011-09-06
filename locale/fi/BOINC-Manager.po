@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-03-07 12:00-0500\n"
-"PO-Revision-Date: 2011-04-13 14:39+0200\n"
+"PO-Revision-Date: 2011-08-10 18:48+0200\n"
 "Last-Translator: Sami Nordlund <sami.nordlund@kolumbus.fi>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: fi\n"
@@ -568,7 +568,7 @@ msgstr "%s"
 #: clientgui/AdvancedFrame.cpp:1722
 #, c-format
 msgid "%s has successfully added %s"
-msgstr ""
+msgstr "%s on onnistuneesti lisätty %s:iin"
 
 #: clientgui/AdvancedFrame.cpp:1862
 #, c-format
@@ -802,6 +802,14 @@ msgid ""
 "  - contact your administrator to add you to the 'boinc_master'\n"
 "     user group."
 msgstr ""
+"Sinulla ei ole oikeuksia hallinnoida ohjelmaa.\n"
+"\n"
+"Käyttääksesi BOINCia tällä käyttäjällä:\n"
+"  - asenna BOINC uudelleen ja vastaa \"Kyllä\" kysymykseen\n"
+"     ei-ylläpitäjäkäyttäjistä\n"
+" tai\n"
+"  - ota yhteyttä ylläpitoon joka lisää sinut 'boinc_master-'\n"
+"     käyttäjäryhmään."
 
 #: clientgui/BOINCGUIApp.cpp:329
 #, c-format
@@ -858,7 +866,7 @@ msgstr "Käynnistä BOINC näillä lisäoptioilla"
 
 #: clientgui/BOINCGUIApp.cpp:537
 msgid "disable BOINC security users and permissions"
-msgstr ""
+msgstr "poista käytöstä BOINCin turvakäyttäjät ja käyttöoikeudet"
 
 #: clientgui/BOINCGUIApp.cpp:538
 msgid "set skin debugging mode to enable skin manager error messages"
@@ -995,7 +1003,7 @@ msgid ""
 "When you click Finish, your web browser will go to a page where\n"
 "you can set your account name and preferences."
 msgstr ""
-"Kun napsautat Lopeta, selaimesi siirtyy sivulle, jossa\n"
+"Kun napsautat Valmis, selaimesi siirtyy sivulle, jossa\n"
 "voit muuttaa tilisi nimen ja asetuksia."
 
 #: clientgui/CompletionPage.cpp:232
@@ -1447,7 +1455,7 @@ msgstr "Paketin tarkistuspiste levylle joka"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:619
 msgid "seconds"
-msgstr "sekuntia"
+msgstr "sekuntti"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:629
 #, no-c-format
@@ -1870,7 +1878,7 @@ msgstr "Prosessin tunniste"
 
 #: clientgui/DlgItemProperties.cpp:407
 msgid "Local: "
-msgstr ""
+msgstr "Paikallinen:"
 
 #: clientgui/DlgOptions.cpp:118
 #, c-format
@@ -2969,7 +2977,7 @@ msgstr "Projektini:"
 #: clientgui/sg_StatImageLoader.cpp:101
 #, c-format
 msgid "%s. Work done by %s: %0.2f"
-msgstr ""
+msgstr "%s. %s:n tekemä työ: %0.2f"
 
 #: clientgui/sg_StatImageLoader.cpp:138
 #: clientgui/sg_StatImageLoader.cpp:198
@@ -3874,10 +3882,12 @@ msgstr "Ympyräkaavion hallinta"
 #: clientgui/mac/MacAccessiblity.cpp:257
 msgid "for accessibility support, please select advanced from the view menu or type command shift a"
 msgstr ""
+"paremman tuen saamiseksi valitse laajennettu näkymä näytä-valikosta tai "
+"käytä näppäinyhdistelmää command shift a"
 
 #: clientgui/mac/MacAccessiblity.cpp:302
 msgid "This panel contains graphs showing user totals for projects"
-msgstr ""
+msgstr "Tässä paneelissa näkyvät käyttäjän kokonaispisteet projektille"
 
 #: clientgui/mac/MacAccessiblity.cpp:726
 msgid "list headers"

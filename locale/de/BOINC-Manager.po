@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 6.4x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-03-07 12:00-0500\n"
-"PO-Revision-Date: 2011-05-13 15:38+0200\n"
+"PO-Revision-Date: 2011-08-28 10:14+0200\n"
 "Last-Translator: Christian <djangofett@gmx.net>\n"
 "Language-Team: BOINC.DE Team <webmaster@boinc.de>\n"
 "Language: de\n"
@@ -2341,9 +2341,8 @@ msgstr "CPU ist beschäftigt"
 
 # Gemeint ist eigentlich keine Geschwindigkeit sondern eine Trafficbegrenzung.
 #: clientgui/MainDocument.cpp:2394
-#, fuzzy
 msgid "network bandwidth limit exceeded"
-msgstr "Bandbreitenbegrenzung überschritten!"
+msgstr "Maximales Netzwerkvolumen überschritten"
 
 #: clientgui/MainDocument.cpp:2396
 msgid "unknown reason"
@@ -2518,9 +2517,8 @@ msgstr "Nachrichtenliste"
 
 #: clientgui/NoticeListCtrl.cpp:172
 #, c-format
-#, fuzzy
 msgid "%s; received on %s"
-msgstr "%s; erhalten am %s"
+msgstr "%s; empfangen am %s"
 
 #: clientgui/NoticeListCtrl.cpp:174
 #, c-format
@@ -3393,7 +3391,7 @@ msgstr "Vom Benutzer angefragt"
 #: clientgui/ViewProjects.cpp:1049
 #, fuzzy
 msgid "To fetch work"
-msgstr "Um Arbeit zu holen"
+msgstr "Um Arbeit abzurufen"
 
 #: clientgui/ViewProjects.cpp:1050
 msgid "To report completed tasks"
@@ -3411,7 +3409,7 @@ msgstr "Von der Kontenverwaltung angefordert"
 #: clientgui/ViewProjects.cpp:1053
 #, fuzzy
 msgid "Project initialization"
-msgstr "Projektinitialisierung"
+msgstr "Projektstart"
 
 #: clientgui/ViewProjects.cpp:1054
 msgid "Requested by project"
@@ -3420,7 +3418,7 @@ msgstr "Vom Projekt angefordert"
 #: clientgui/ViewProjects.cpp:1055
 #, fuzzy
 msgid "Unknown reason"
-msgstr "Ursache unbekannt"
+msgstr "unbekannter Grund"
 
 #: clientgui/ViewProjects.cpp:1069
 msgid "Suspended by user"
@@ -3579,7 +3577,7 @@ msgstr "Ein Projekt"
 
 #: clientgui/ViewStatistics.cpp:2021
 msgid "Show one chart with selected project"
-msgstr "Eine Grafik mit dem ausgewählten Projekt anzeigen"
+msgstr "Zeige Diagramm vom ausgewählten Projekt"
 
 #: clientgui/ViewStatistics.cpp:2027
 msgid "All projects (separate)"
@@ -3620,11 +3618,11 @@ msgstr "Statistiken"
 #: clientgui/ViewStatistics.cpp:2263
 #: clientgui/ViewStatistics.cpp:2287
 msgid "Updating charts..."
-msgstr "Grafiken werden aktualisiert..."
+msgstr "Aktualisiere Diagramme..."
 
 #: clientgui/ViewStatistics.cpp:2411
 msgid "Show project list"
-msgstr "Projektliste anzeigen"
+msgstr "Zeige Projektliste"
 
 #: clientgui/ViewStatistics.cpp:2411
 msgid "Uses smaller area for graphs"
@@ -3745,13 +3743,11 @@ msgstr "Zeige aktive Aufgaben"
 #: clientgui/ViewWork.cpp:185
 #: clientgui/ViewWork.cpp:715
 msgid "Show only active tasks."
-msgstr "Zeigt nur aktive Aufgaben an."
+msgstr "Zeigt nur aktive Aufgaben."
 
 #: clientgui/ViewWork.cpp:192
 msgid "Show application graphics in a window."
-msgstr ""
-"Zeigt die Anwendungsgrafik der ausgewählten (markierten), aktiven Berechnung "
-"in einem Fenster."
+msgstr "Zeigt Anwendungsgrafik in einem Fenster."
 
 #: clientgui/ViewWork.cpp:199
 msgid "Suspend work for this result."
@@ -4052,7 +4048,7 @@ msgstr "Einstellungen..."
 #: clientgui/mac/Mac_GUI.cpp:117
 #, fuzzy
 msgid "Services"
-msgstr "Extras"
+msgstr "Dienste"
 
 #: clientgui/mac/Mac_GUI.cpp:139
 #, c-format
@@ -4065,7 +4061,7 @@ msgstr "Andere ausblenden"
 
 #: clientgui/mac/Mac_GUI.cpp:167
 msgid "Show All"
-msgstr "Alle einblenden"
+msgstr "Zeige alle"
 
 #: clientgui/mac/Mac_GUI.cpp:181
 #, c-format

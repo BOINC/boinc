@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 4.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-03-07 12:00-0500\n"
-"PO-Revision-Date: 2010-11-24 19:56+0200\n"
+"PO-Revision-Date: 2011-08-18 13:56+0200\n"
 "Last-Translator: chris g <chr1407@hotmail.com>\n"
 "Language-Team: BOINC Development Team <rwalton@ssl.berkeley.edu>\n"
 "Language: el\n"
@@ -23,12 +23,10 @@ msgstr ""
 "X-Poedit-SourceCharset: utf-8\n"
 "X-Poedit-Basepath: C:\\Src\\BOINCSVN\\branches\\boinc_core_release_6_12\n"
 "X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
-"X-Poedit-Country: UNITED STATES\n"
-"X-Poedit-Language: English\n"
 
 #: clientgui/AccountInfoPage.cpp:386
 msgid "Identify your account "
-msgstr "Αναγνωρίστε τον λογαριασμό σας"
+msgstr "Ταυτοποιήστε τον λογαριασμό σας"
 
 #: clientgui/AccountInfoPage.cpp:392
 msgid ""
@@ -83,7 +81,7 @@ msgstr "Έυρεση πληροφοριών σύνδεσης"
 #: clientgui/AccountInfoPage.cpp:435
 #: clientgui/AccountInfoPage.cpp:635
 msgid "&Password:"
-msgstr "&Κωδικός:"
+msgstr "Κωδικός:"
 
 #: clientgui/AccountInfoPage.cpp:442
 #: clientgui/AccountInfoPage.cpp:659
@@ -92,7 +90,7 @@ msgstr "Επιλέξτε έναν &κωδικό:"
 
 #: clientgui/AccountInfoPage.cpp:445
 msgid "C&onfirm password:"
-msgstr "Ε&πιβεβαίωση Κωδικού:"
+msgstr "Επιβεβαίωση Κωδικού:"
 
 #: clientgui/AccountInfoPage.cpp:452
 #, c-format
@@ -139,9 +137,8 @@ msgid "Update account manager"
 msgstr "Ενημέρωση του προγράμματος διαχείρισης λογαριασμού"
 
 #: clientgui/AccountInfoPage.cpp:575
-#, fuzzy
 msgid "Use account manager"
-msgstr "Προσθήκη ενός διαχειριστής λογαριασμού"
+msgstr "Χρήση ενός διαχειριστή  λογαριασμού"
 
 #: clientgui/AccountInfoPage.cpp:583
 #, c-format
@@ -990,7 +987,6 @@ msgid "Failed to add account manager"
 msgstr "Αποτυχία προσθήκες διαχειριστή λογαριασμού"
 
 #: clientgui/CompletionErrorPage.cpp:221
-#, fuzzy
 msgid ""
 "An error has occurred;\n"
 "check the Event Log for details.\n"
@@ -998,7 +994,7 @@ msgid ""
 "Click Finish to close."
 msgstr ""
 "Ένα σφάλμα συνέβει;\n"
-"ελέγξτε τα Μηνύματα για λεπτομέρειες.\n"
+"ελέγξτε τα μηνύματα συμβάντων για λεπτομέρειες.\n"
 "\n"
 "Πατήστε Τέλος για κλείσιμο."
 
@@ -1075,12 +1071,11 @@ msgid "Copyright:"
 msgstr "Copyright:"
 
 #: clientgui/DlgAbout.cpp:179
-#, fuzzy
 msgid ""
 "(C) 2003-2011 University of California, Berkeley.\n"
 "All Rights Reserved."
 msgstr ""
-"(C)2003-2010 Πανεπιστήμιο της Καλιφόρνιας, Berkeley.\n"
+"(C) 2003-2010 Πανεπιστήμιο της Καλιφόρνιας, Berkeley.\n"
 "Όλα τα δικαιώματα καταχωρυμένα."
 
 #: clientgui/DlgAbout.cpp:183
@@ -1098,7 +1093,7 @@ msgstr "Εντάξει"
 
 #: clientgui/DlgAdvPreferences.cpp:499
 msgid "invalid float"
-msgstr ""
+msgstr "λανθασμένος αριθμός κινητής υποδιαστολής"
 
 #: clientgui/DlgAdvPreferences.cpp:500
 msgid "invalid time, format is HH:MM"
@@ -1727,14 +1722,12 @@ msgstr "Μη ζητήσετε επιπλέον εργασίες"
 
 #: clientgui/DlgItemProperties.cpp:220
 #: clientgui/DlgItemProperties.cpp:222
-#, fuzzy
 msgid "Host location"
-msgstr "Σύνολο Υπολογιστή"
+msgstr "Τοποθεσία φιλοξενίας"
 
 #: clientgui/DlgItemProperties.cpp:222
-#, fuzzy
 msgid "default"
-msgstr "Καθορισμός Εξ' ορισμού"
+msgstr "Προκαθορισμένο"
 
 #: clientgui/DlgItemProperties.cpp:225
 msgid "Added via account manager"
@@ -1787,33 +1780,34 @@ msgid "CPU work fetch deferred for"
 msgstr "Η αποδοχή εργασιών για την κεντρική μονάδα επεξεργασίας αναβλήθηκε για"
 
 #: clientgui/DlgItemProperties.cpp:254
-#, fuzzy
 msgid "CPU work fetch deferral interval"
-msgstr "Η αποδοχή εργασιών για την κεντρική μονάδα επεξεργασίας αναβλήθηκε για"
+msgstr ""
+"Διάστημα αναβολής αποδοχής εργασιών για την κεντρική μονάδα επεξεργασίας"
 
 #: clientgui/DlgItemProperties.cpp:257
 msgid "Don't fetch NVIDIA GPU tasks"
 msgstr "Να μη δέχεται εργασίες για την μονάδα επεξεργασίας γραφικών NVIDIA"
 
 #: clientgui/DlgItemProperties.cpp:259
-#, fuzzy
 msgid "NVIDIA GPU scheduling priority"
-msgstr "Προτεραιότητα χρονοδιαγράμματος της κεντρικής μονάδας επεξεργασίας"
+msgstr ""
+"Προτεραιότητα χρονοδιαγράμματος της μονάδας επεξεργασίας γραφικών NVIDIA"
 
 #: clientgui/DlgItemProperties.cpp:260
-#, fuzzy
 msgid "NVIDIA GPU work fetch priority"
-msgstr "Προτεραιότητα αποδοχής εργασιών για την κεντρική μονάδα επεξεργασίας "
+msgstr "Προτεραιότητα αποδοχής εργασιών μονάδας επεξεργασίας γραφικών NVIDIA"
 
 #: clientgui/DlgItemProperties.cpp:263
-#, fuzzy
 msgid "NVIDIA GPU work fetch deferred for"
-msgstr "Η αποδοχή εργασιών για την κεντρική μονάδα επεξεργασίας αναβλήθηκε για"
+msgstr ""
+"Η αποδοχή εργασιών για την μονάδα επεξεργασίας γραφικών NVIDIA αναβλήθηκε "
+"για"
 
 #: clientgui/DlgItemProperties.cpp:264
-#, fuzzy
 msgid "NVIDIA GPU work fetch deferral interval"
-msgstr "Η αποδοχή εργασιών για την κεντρική μονάδα επεξεργασίας αναβλήθηκε για"
+msgstr ""
+"Διάστημα αναβολής αποδοχής εργασιών για τη μονάδα επεξεργασίας γραφικών "
+"NVIDIA"
 
 #: clientgui/DlgItemProperties.cpp:268
 msgid "Don't fetch ATI GPU tasks"

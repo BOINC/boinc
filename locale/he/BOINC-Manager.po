@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: BOINC 6.10.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-03-07 12:00-0500\n"
-"PO-Revision-Date: 2011-02-09 22:35+0200\n"
+"PO-Revision-Date: 2011-07-19 16:51+0200\n"
 "Last-Translator: Ido Schwartz <dj_legolas1@hotmail.com>\n"
 "Language-Team: IOPanel.net\n"
 "Language: he\n"
@@ -23,8 +23,6 @@ msgstr ""
 "X-Poedit-SourceCharset: utf-8\n"
 "X-Poedit-Basepath: C:\\Src\\BOINCSVN\\branches\\boinc_core_release_6_12\n"
 "X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
-"X-Poedit-Country: UNITED STATES\n"
-"X-Poedit-Language: English\n"
 
 #: clientgui/AccountInfoPage.cpp:386
 msgid "Identify your account "
@@ -970,9 +968,9 @@ msgid ""
 "Click Finish to close."
 msgstr ""
 "אירעה שגיאה;\n"
-"בדוק ב'הודעות' לפרטים.\n"
+"בדוק ביומן האירועים לפרטים.\n"
 "\n"
-"לחץ 'סיום' כדי לסגור."
+"לחץ סיום כדי לסגור."
 
 #: clientgui/CompletionErrorPage.cpp:225
 #: clientgui/CompletionPage.cpp:222
@@ -1051,7 +1049,7 @@ msgid ""
 "(C) 2003-2011 University of California, Berkeley.\n"
 "All Rights Reserved."
 msgstr ""
-"(C) 2003-2010 אוניברסיטת קליפורניה, ברקלי.\n"
+"(C) 2003-2011 אוניברסיטת קליפורניה, ברקלי.\n"
 "כל הזכויות שמורות."
 
 #: clientgui/DlgAbout.cpp:183
@@ -1526,7 +1524,7 @@ msgstr "&סגור"
 #: clientgui/DlgEventLog.cpp:307
 #, c-format
 msgid "Get help with %s"
-msgstr ""
+msgstr "קבל עזרה עם s%"
 
 #: clientgui/DlgEventLog.cpp:321
 msgid "Show all messages"
@@ -1679,12 +1677,12 @@ msgstr "אל תבקש עוד עבודה"
 #: clientgui/DlgItemProperties.cpp:222
 #, fuzzy
 msgid "Host location"
-msgstr "סה\"כ למחשב"
+msgstr "מיקום המארח"
 
 #: clientgui/DlgItemProperties.cpp:222
 #, fuzzy
 msgid "default"
-msgstr "&הגדר ברירת מחדל"
+msgstr "ברירת מחדל"
 
 #: clientgui/DlgItemProperties.cpp:225
 msgid "Added via account manager"
@@ -1883,9 +1881,7 @@ msgstr "באיזו שפה על BOINC להשתמש?"
 #: clientgui/DlgOptions.cpp:168
 #, fuzzy
 msgid "Notice reminder interval:"
-msgstr ""
-"מרווח התזכורות להתראות:\n"
-"(דקות; 0 משמעותו ללא תזכורות)"
+msgstr "פרק הזמן בין תזכורות:"
 
 #: clientgui/DlgOptions.cpp:175
 msgid "How often should BOINC remind you of new notices?"
@@ -1985,29 +1981,29 @@ msgstr "שרת פרוקסי מסוג SOCKS"
 #: clientgui/DlgOptions.cpp:571
 #, fuzzy
 msgid "always"
-msgstr "&הרץ תמיד"
+msgstr "תמיד"
 
 #: clientgui/DlgOptions.cpp:572
 msgid "1 hour"
-msgstr ""
+msgstr "שעה אחת"
 
 #: clientgui/DlgOptions.cpp:573
 msgid "6 hours"
-msgstr ""
+msgstr "6 שעות"
 
 #: clientgui/DlgOptions.cpp:574
 #, fuzzy
 msgid "1 day"
-msgstr "ימים"
+msgstr "יום אחד"
 
 #: clientgui/DlgOptions.cpp:575
 msgid "1 week"
-msgstr ""
+msgstr "שבוע אחד"
 
 #: clientgui/DlgOptions.cpp:576
 #, fuzzy
 msgid "never"
-msgstr "כל"
+msgstr "אף פעם"
 
 #: clientgui/DlgOptions.cpp:673
 #, c-format
@@ -3306,35 +3302,34 @@ msgstr "אל תקבל משימות חדשות לפרוייקט זה."
 #: clientgui/ViewProjects.cpp:1048
 #, fuzzy
 msgid "Requested by user"
-msgstr "הושהה על ידי המשתמש"
+msgstr "התבקש על ידי המשתמש"
 
 #: clientgui/ViewProjects.cpp:1049
 msgid "To fetch work"
-msgstr ""
+msgstr "להביא ל-"
 
 #: clientgui/ViewProjects.cpp:1050
 msgid "To report completed tasks"
-msgstr ""
+msgstr "לדווח על משימות מוכנות"
 
 #: clientgui/ViewProjects.cpp:1051
 #, fuzzy
 msgid "To send trickle-up message"
-msgstr "הודעת Trickle Up ממתינה"
+msgstr "לשלוח הודעה מהדהדת"
 
 #: clientgui/ViewProjects.cpp:1052
 #, fuzzy
 msgid "Requested by account manager"
-msgstr "השתמש במנהל חשבונות"
+msgstr "התבקש על ידי מנהל החשבונות"
 
 #: clientgui/ViewProjects.cpp:1053
-#, fuzzy
 msgid "Project initialization"
-msgstr "הפרוייקט לא נמצא"
+msgstr "איתחול הפרוייקט"
 
 #: clientgui/ViewProjects.cpp:1054
 #, fuzzy
 msgid "Requested by project"
-msgstr "בוטל על ידי הפרוייקט"
+msgstr "התבקש על ידי הפרוייקט"
 
 #: clientgui/ViewProjects.cpp:1055
 #, fuzzy
@@ -3981,9 +3976,9 @@ msgstr "הצג הכל"
 
 #: clientgui/mac/Mac_GUI.cpp:181
 #, c-format
-#, fuzzy, c-format
+#, c-format
 msgid "Quit %s"
-msgstr "&הפסק %s"
+msgstr "הפסק %s"
 
 #: clientgui/DlgAdvPreferences.h:29
 msgid "specify work start and stop hours in format HH:MM-HH:MM"
