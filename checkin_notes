@@ -5590,7 +5590,7 @@ David  2 Sept 2011
 	html/user/
 		forum_user_posts.php
 
-David  5 Sept
+David  5 Sept 2011
     - web: fix warnings in forum pages
     - scheduler: when using elapsed time stats to predict runtime,
         cap the estimated FLOPS at twice the peak FLOPS;
@@ -5609,7 +5609,7 @@ David  5 Sept
         inc/
             forum.inc
 
-David  5 Sept
+David  5 Sept 2011
     - scheduler RPC: add <override_file_present> element to
         the <working_global_preferences> element in
         scheduler RPC request
@@ -5628,3 +5628,9 @@ David  5 Sept
         forum_search.php
         forum_search_action.php
         forum_user_posts.php
+
+David  6 Sept 2011
+    - scheduler: add a debug message
+
+    sched/
+        sched_send.cpp

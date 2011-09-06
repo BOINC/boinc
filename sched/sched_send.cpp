@@ -1040,15 +1040,17 @@ bool work_needed(bool locality_sched) {
         return false;
     }
 
-#if 0
-    log_messages.printf(MSG_NORMAL,
-        "work_needed: spec req %d sec to fill %.2f; CPU (%.2f, %.2f) CUDA (%.2f, %.2f) ATI(%.2f, %.2f)\n",
-        g_wreq->rsc_spec_request,
-        g_wreq->seconds_to_fill,
-        g_wreq->cpu_req_secs, g_wreq->cpu_req_instances,
-        g_wreq->cuda_req_secs, g_wreq->cuda_req_instances,
-        g_wreq->ati_req_secs, g_wreq->ati_req_instances
-    );
+#if 1
+    if (config.debug_send) {
+        log_messages.printf(MSG_NORMAL,
+            "[send] work_needed: spec req %d sec to fill %.2f; CPU (%.2f, %.2f) CUDA (%.2f, %.2f) ATI(%.2f, %.2f)\n",
+            g_wreq->rsc_spec_request,
+            g_wreq->seconds_to_fill,
+            g_wreq->cpu_req_secs, g_wreq->cpu_req_instances,
+            g_wreq->cuda_req_secs, g_wreq->cuda_req_instances,
+            g_wreq->ati_req_secs, g_wreq->ati_req_instances
+        );
+    }
 #endif
     if (g_wreq->rsc_spec_request) {
         if (g_wreq->need_cpu()) {
