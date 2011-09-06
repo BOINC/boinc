@@ -227,7 +227,6 @@ int PROJECT::parse_state(XML_PARSER& xp) {
             );
             if (retval) return retval;
             strip_whitespace(code_sign_key);
-            strcat(code_sign_key, "\n");
             continue;
         }
         if (xp.parse_int("nrpc_failures", nrpc_failures)) continue;
@@ -969,6 +968,7 @@ int FILE_INFO::parse(XML_PARSER& xp) {
                 sizeof(file_signature)
             );
             if (retval) return retval;
+            strip_whitespace(file_signature);
             continue;
         }
         if (xp.match_tag("signatures")) {
@@ -1081,7 +1081,7 @@ int FILE_INFO::write(MIOFILE& out, bool to_server) {
         if (gzip_when_done) out.printf("    <gzip_when_done/>\n");
         if (signature_required) out.printf("    <signature_required/>\n");
         if (is_user_file) out.printf("    <is_user_file/>\n");
-        if (strlen(file_signature)) out.printf("    <file_signature>\n%s</file_signature>\n", file_signature);
+        if (strlen(file_signature)) out.printf("    <file_signature>\n%s\n</file_signature>\n", file_signature);
     }
     for (i=0; i<download_urls.urls.size(); i++) {
         xml_escape(download_urls.urls[i].c_str(), buf, sizeof(buf));
@@ -1395,12 +1395,14 @@ int APP_VERSION::write(MIOFILE& out, bool write_file_info) {
         }
     }
     if (gpu_usage.rsc_type) {
+        const char* p = rsc_name(gpu_usage.rsc_type);
+        if (!strcmp(p, "NVIDIA")) p = "CUDA";
         out.printf(
             "    <coproc>\n"
             "        <type>%s</type>\n"
             "        <count>%f</count>\n"
             "    </coproc>\n",
-            rsc_name(gpu_usage.rsc_type),
+            p,
             gpu_usage.usage
         );
     }

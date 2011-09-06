@@ -5634,3 +5634,12 @@ David  6 Sept 2011
 
     sched/
         sched_send.cpp
+
+David  6 Sept 2011
+	- client: fix bugs with white space around code sign keys
+		and file signatures
+	- client: when describing app versions in scheduler requests,
+		we still must use CUDA instead of NVIDIA; that's what's in the server code.
+
+	client/
+		client_types.cpp
