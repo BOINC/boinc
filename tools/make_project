@@ -354,8 +354,7 @@ cronjob_filename = os.path.join(
     options.project_root,
     project_shortname+'.cronjob'
     )
-print >>open(cronjob_filename,'w'), '''
-0,5,10,15,20,25,30,35,40,45,50,55 * * * * %(proot)s/bin/start --cron
+print >>open(cronjob_filename,'w'), '''0,5,10,15,20,25,30,35,40,45,50,55 * * * * cd %(proot)s ; %(proot)s/bin/start --cron
 '''%locals()
 
 readme_filename = os.path.join(
@@ -393,7 +392,7 @@ print >>open(readme_filename,'w'), '''Steps to complete installation:
 
     and add the line:
 
-    0,5,10,15,20,25,30,35,40,45,50,55 * * * * %(proot)s/bin/start --cron
+    0,5,10,15,20,25,30,35,40,45,50,55 * * * * cd %(proot)s ; %(proot)s/bin/start --cron
 
 -  In the project home directory (%(proot)s) run
 

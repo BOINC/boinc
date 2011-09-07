@@ -67,7 +67,7 @@ function handle_edit_form() {
     $usub = BoincUserSubmit::lookup_userid($user_id);
     admin_page_head("Set permissions for $user->name");
     echo "
-        $user->name will be allowed to submit jobs for:
+        Can submit jobs for:
         <form action=submit_permissions.php>
         <input type=hidden name=action value=edit_action>
         <input type=hidden name=user_id value=$user_id>
@@ -82,7 +82,6 @@ function handle_edit_form() {
     echo "<input type=radio name=all_apps value=1 $all_checked> All apps
         <br>
         <input type=radio name=all_apps value=0 $not_all_checked> Only selected apps:
-        <br>
     ";
     $apps = BoincApp::enum("deprecated=0");
     foreach ($apps as $app) {
@@ -91,11 +90,13 @@ function handle_edit_form() {
         echo "<br>&nbsp;&nbsp;&nbsp; <input type=checkbox name=app_$app->id $checked> $app->name\n";
     }
     $q = (string) $usub->quota;
+    $sav = $usub->create_app_versions?"checked":"";
+    $sa = $usub->create_apps?"checked":"";
     echo "
         <p>
-        <input type=checkbox name=submit_app_versions> Allowed to create new versions of the above apps
+        <input type=checkbox name=create_app_versions $sav> Can create new versions of the above apps
         <p>
-        <input type=checkbox name=submit_apps> Allowed to create new apps
+        <input type=checkbox name=create_apps $sa> Can create new apps
         <p>
         Quota: <input name=quota value=$q>
         <p>
@@ -127,6 +128,11 @@ function handle_edit_action() {
     if ($quota != $us->quota) {
         $us->update("quota=$quota");
     }
+    $x = get_str('create_apps', true)?1:0;
+    $us->update("create_apps=$x");
+    $x = get_str('create_app_versions', true)?1:0;
+    $us->update("create_app_versions=$x");
+
     admin_page_head("User permissions updated");
     admin_page_tail();
 }

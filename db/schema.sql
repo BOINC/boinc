@@ -308,7 +308,9 @@ create table user_submit (
     user_id             integer         not null,
     quota               double          not null,
     logical_start_time  double          not null,
-    all_apps            tinyint         not null
+    all_apps            tinyint         not null,
+    create_apps         tinyint         not null,
+    create_app_versions tinyint         not null
 ) engine = InnoDB;
 
 -- (user, app) submit permissions

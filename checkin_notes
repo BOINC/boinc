@@ -5653,3 +5653,19 @@ David  6 Sept 2011
     sched/
         sched_send.cpp
         sched_types.cpp
+
+David  6 Sept 2011
+    - preliminary stuff for mechanism where privileged users
+        can create apps and app versions
+    - crontab commands should be preceded by cd to project root
+
+    db/
+        schema.sql
+    tools/
+        make_project
+    html/
+        ops/
+            submit_permissions.php
+            db_update.php
+        user/
+            submit_app.php
