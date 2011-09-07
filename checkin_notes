@@ -5676,3 +5676,11 @@ David  7 Sept 2011
 	sched/
 		sched_version.cpp
 		sched_assign.cpp
+
+Rom    7 Sept 2011
+    - Tag for 6.13.2 release, all platforms
+      boinc_core_release_6_13_2
+
+    /
+        configure.ac
+        version.h
