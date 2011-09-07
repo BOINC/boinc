@@ -5684,3 +5684,13 @@ Rom    7 Sept 2011
     /
         configure.ac
         version.h
+
+David  7 Sept 2011
+    - feeder: change the DB query to skip jobs for deprecated apps.
+        Otherwise, if you have a deprecated app with >= 200 jobs
+        (200 is the query's limit)
+        it could always get jobs for that app,
+        and never put anything into the cache.
+
+    db/
+        boinc_db.cpp
