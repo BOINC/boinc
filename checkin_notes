@@ -5694,3 +5694,18 @@ David  7 Sept 2011
 
     db/
         boinc_db.cpp
+
+David  7 Sept 2011
+    - client: make exit_before_start a cc_config.xml option
+        (as well as a cmdline option)
+    - wrapper: print error messages if stdin/out/err files don't exist
+
+    lib/
+        cc_config.cpp,h
+    samples/wrapper/
+        wrapper.cpp
+    client/
+        client_state.cpp,h
+        app_start.cpp
+        cs_cmdline.cpp
+        app_control.cpp

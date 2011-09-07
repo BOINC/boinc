@@ -76,7 +76,6 @@ CLIENT_STATE::CLIENT_STATE()
     scheduler_op = new SCHEDULER_OP(http_ops);
 #endif
     client_state_dirty = false;
-    exit_before_start = false;
     check_all_logins = false;
     cmdline_gui_rpc_port = 0;
     run_cpu_benchmarks = false;

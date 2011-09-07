@@ -156,7 +156,7 @@ void CLIENT_STATE::parse_cmdline(int argc, char** argv) {
         } else if (ARG(exit_after_finish)) {
             config.exit_after_finish = true;
         } else if (ARG(exit_before_start)) {
-            exit_before_start = true;
+            config.exit_before_start = true;
         } else if (ARG(exit_before_upload)) {
             exit_before_upload = true;
         } else if (ARG(exit_when_idle)) {

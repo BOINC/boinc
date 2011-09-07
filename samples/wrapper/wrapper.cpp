@@ -491,17 +491,26 @@ int TASK::run(int argct, char** argvt) {
         if (stdout_filename != "") {
             boinc_resolve_filename_s(stdout_filename.c_str(), stdout_path);
             stdout_file = freopen(stdout_path.c_str(), "a", stdout);
-            if (!stdout_file) return ERR_FOPEN;
+            if (!stdout_file) {
+                fprintf(stderr, "Can't open %s for stdout; exiting\n", stdout_path.c_str());
+                return ERR_FOPEN;
+            }
         }
         if (stdin_filename != "") {
             boinc_resolve_filename_s(stdin_filename.c_str(), stdin_path);
             stdin_file = freopen(stdin_path.c_str(), "r", stdin);
-            if (!stdin_file) return ERR_FOPEN;
+            if (!stdin_file) {
+                fprintf(stderr, "Can't open %s for stdin; exiting\n", stdin_path.c_str());
+                return ERR_FOPEN;
+            }
         }
         if (stderr_filename != "") {
             boinc_resolve_filename_s(stderr_filename.c_str(), stderr_path);
             stderr_file = freopen(stderr_path.c_str(), "a", stderr);
-            if (!stderr_file) return ERR_FOPEN;
+            if (!stderr_file) {
+                fprintf(stderr, "Can't open %s for stderr; exiting\n", stderr_path.c_str());
+                return ERR_FOPEN;
+            }
         }
 
         // construct argv

@@ -195,6 +195,7 @@ void CONFIG::defaults() {
     exclusive_apps.clear();
     exclusive_gpu_apps.clear();
     exit_after_finish = false;
+    exit_before_start = false;
     exit_when_idle = false;
     fetch_minimal_work = false;
     force_auth = "default";
@@ -325,6 +326,7 @@ int CONFIG::parse_options(XML_PARSER& xp) {
             continue;
         }
         if (xp.parse_bool("exit_after_finish", exit_after_finish)) continue;
+        if (xp.parse_bool("exit_before_start", exit_before_start)) continue;
         if (xp.parse_bool("exit_when_idle", exit_when_idle)) {
             if (exit_when_idle) {
                 report_results_immediately = true;
@@ -499,6 +501,7 @@ int CONFIG::write(MIOFILE& out, LOG_FLAGS& log_flags) {
             
     out.printf(
         "        <exit_after_finish>%d</exit_after_finish>\n"
+        "        <exit_before_start>%d</exit_before_start>\n"
         "        <exit_when_idle>%d</exit_when_idle>\n"
         "        <fetch_minimal_work>%d</fetch_minimal_work>\n"
         "        <force_auth>%s</force_auth>\n"
@@ -506,6 +509,7 @@ int CONFIG::write(MIOFILE& out, LOG_FLAGS& log_flags) {
         "        <http_transfer_timeout>%d</http_transfer_timeout>\n"
         "        <http_transfer_timeout_bps>%d</http_transfer_timeout_bps>\n",
         exit_after_finish,
+        exit_before_start,
         exit_when_idle,
         fetch_minimal_work,
         force_auth.c_str(),

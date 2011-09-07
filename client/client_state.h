@@ -105,7 +105,6 @@ struct CLIENT_STATE {
     RUN_MODE gpu_run_mode;
     RUN_MODE network_run_mode;
     bool started_by_screensaver;
-    bool exit_before_start;
     bool check_all_logins;
     bool user_active;       // there has been recent mouse/kbd input
     int cmdline_gui_rpc_port;

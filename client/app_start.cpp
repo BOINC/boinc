@@ -570,7 +570,8 @@ int ACTIVE_TASK::start(bool first_time) {
     sprintf(file_path, "%s/%s", slot_dir, TEMPORARY_EXIT_FILE);
     delete_project_owned_file(file_path, true);
 
-    if (gstate.exit_before_start) {
+    if (config.exit_before_start) {
+        msg_printf(0, MSG_INFO, "about to start a job; exiting");
         exit(0);
     }
 

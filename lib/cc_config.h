@@ -138,6 +138,7 @@ struct CONFIG {
     std::vector<std::string> exclusive_apps;
     std::vector<std::string> exclusive_gpu_apps;
     bool exit_after_finish;
+    bool exit_before_start;
     bool exit_when_idle;
     bool fetch_minimal_work;
     std::string force_auth;
