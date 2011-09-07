@@ -5669,3 +5669,10 @@ David  6 Sept 2011
             db_update.php
         user/
             submit_app.php
+
+David  7 Sept 2011
+	- scheduler: fix crashing bug
+
+	sched/
+		sched_version.cpp
+		sched_assign.cpp

@@ -295,7 +295,7 @@ void estimate_flops_anon_platform() {
                 if (config.debug_version_select) {
                     log_messages.printf(MSG_NORMAL,
                         "[version] (%s) capping new_flops; %f > 2*%f\n",
-                        new_flops, cav.host_usage.projected_flops
+                        cav.plan_class, new_flops, cav.host_usage.projected_flops
                     );
                 }
                 new_flops = 2*cav.host_usage.projected_flops;
