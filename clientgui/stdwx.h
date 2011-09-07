@@ -141,6 +141,7 @@
 #include <oleauto.h>
 #include <wininet.h>
 #include <shlobj.h>
+#include <userenv.h>
 
 #if wxUSE_ACCESSIBILITY
     #include <oleacc.h>
