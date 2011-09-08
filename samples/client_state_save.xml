@@ -28,7 +28,6 @@
 <file_info>
     <name>output.txt</name>
     <generated_locally/>
-    <upload_when_present/>
     <max_nbytes>1e6</max_nbytes>
 </file_info>
 

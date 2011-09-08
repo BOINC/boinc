@@ -5709,3 +5709,19 @@ David  7 Sept 2011
         app_start.cpp
         cs_cmdline.cpp
         app_control.cpp
+
+David  8 Sept 2011
+    - scheduler: in work_needed(), ignore requests for resource
+        types for which we have no app versions
+    - client: if too many <coproc> elements in cc_config.xml,
+        detect it and inform user
+
+    sched/
+        sched_send.cpp
+    lib/
+        coproc.h
+        cc_config.cpp
+    samples/
+        client_state_save.xml
+    client/
+        log_flags.cpp

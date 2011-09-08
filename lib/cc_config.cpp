@@ -298,6 +298,7 @@ int CONFIG::parse_options(XML_PARSER& xp) {
             retval = c.parse(xp);
             if (retval) return retval;
             retval = config_coprocs.add(c);
+            if (retval) return retval;
             continue;
         }
         if (xp.parse_str("data_dir", data_dir, sizeof(data_dir))) {

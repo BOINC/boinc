@@ -1055,13 +1055,13 @@ bool work_needed(bool locality_sched) {
     }
 #endif
     if (g_wreq->rsc_spec_request) {
-        if (g_wreq->need_cpu()) {
+        if (g_wreq->need_cpu() && ssp->have_cpu_apps) {
             return true;
         }
-        if (g_wreq->need_cuda()) {
+        if (g_wreq->need_cuda() && ssp->have_cuda_apps) {
             return true;
         }
-        if (g_wreq->need_ati()) {
+        if (g_wreq->need_ati() && ssp->have_ati_apps) {
             return true;
         }
     } else {

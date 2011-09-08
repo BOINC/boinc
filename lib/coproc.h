@@ -71,6 +71,7 @@
 #endif
 
 #include "miofile.h"
+#include "error_numbers.h"
 #include "parse.h"
 #include "cal_boinc.h"
 #include "cl_boinc.h"
@@ -391,6 +392,7 @@ struct COPROCS {
         return (ati.count > 0);
     }
     int add(COPROC& c) {
+        if (n_rsc >= MAX_RSC) return ERR_BUFFER_OVERFLOW;
         coprocs[n_rsc++] = c;
         return 0;
     }

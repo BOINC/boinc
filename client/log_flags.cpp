@@ -355,7 +355,15 @@ int CONFIG::parse_client(FILE* f) {
             continue;
         }
         if (xp.match_tag("options")) {
-            parse_options(xp);
+            int retval = parse_options(xp);
+            if (retval) {
+                msg_printf_notice(NULL, false,
+                    "http://boinc.berkeley.edu/manager_links.php?target=notice&controlid=config",
+                    "%s: %s",
+                    _("Error in cc_config.xml options"),
+                    boincerror(retval)
+                );
+            }
             continue;
         }
         if (xp.match_tag("options/")) continue;
