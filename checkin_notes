@@ -5731,3 +5731,11 @@ David  8 Sept 2011
 
     html/inc/
         result.inc
+
+David  8 Sept 2011
+    - validator: old scheduler bugs may cause result.flops_estimate
+        to be negative in some cases.
+        Detect this, and use 1e10 instead
+
+    sched/
+        credit.cpp

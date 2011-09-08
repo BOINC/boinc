@@ -467,11 +467,11 @@ int get_pfc(
         return 0;
     }
 
-    // r.flops_estimate shouldn't be zero,
-    // but (because of scheduler bug) it can be.
+    // r.flops_estimate should be positive
+    // but (because of scheduler bug) it may not be.
     // At this point we don't have much to go on, so use 1e10.
     //
-    if (!r.flops_estimate) {
+    if (r.flops_estimate <= 0) {
         r.flops_estimate = 1e10;
     }
 
