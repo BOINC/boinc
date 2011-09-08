@@ -414,7 +414,7 @@ function exit_status_string($result) {
     return sprintf("%d (0x%x)", $x, $x);
 }
 
-function show_result($result, $show_outfile_links) {
+function show_result($result, $show_outfile_links=false) {
     start_table();
     row2(tra("Name"), $result->name);
     row2(tra("Workunit"), "<a href=\"workunit.php?wuid=$result->workunitid\">$result->workunitid</a>");
@@ -557,8 +557,6 @@ function get_outfile_paths($result) {
     $paths = array();
     $xml = "<a>".$result->xml_doc_out."</a>";
     $r = simplexml_load_string($xml);
-    echo "xml_doc_out:\n";
-    print_r($r);
     if (!$r) return $paths;
     foreach ($r->file_info as $fi) {
         $path = dir_hier_path((string)($fi->name), $upload_dir, $fanout);
