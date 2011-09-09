@@ -2386,7 +2386,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "if [ \"$CONFIGURATION\" = \"Deployment\" ]; then\n  ## echo \"Starting script 1\"\n  echo ${BUILT_PRODUCTS_DIR}  > \"${PROJECT_DIR}/Build_Deployment_Dir\"\n  mkdir -p \"${BUILT_PRODUCTS_DIR}/SymbolTables\"\n  if [ \"${BUILT_PRODUCTS_DIR}/BOINCManager.app/Contents/MacOS/BOINCManager\" -nt \"$TARGET_BUILD_DIR/SymbolTables/BOINCManager_i386\" ]; then\n    ## echo \"${BUILT_PRODUCTS_DIR}/BOINCManager.app/Contents/MacOS/BOINCManager is newer than ${TARGET_BUILD_DIR}/SymbolTables/BOINCManager_i386\"\n    rm -f \"$TARGET_BUILD_DIR/SymbolTables/BOINCManager_i386\"\n    rm -f \"$TARGET_BUILD_DIR/SymbolTables/BOINCManager_ppc\"\n    lipo \"${BUILT_PRODUCTS_DIR}/BOINCManager.app/Contents/MacOS/BOINCManager\" -thin i386 -output \"$TARGET_BUILD_DIR/SymbolTables/BOINCManager_i386\"\n    if [ $? -ne 0 ]; then\n      cp -fp \"${BUILT_PRODUCTS_DIR}/BOINCManager.app/Contents/MacOS/BOINCManager\" \"$TARGET_BUILD_DIR/SymbolTables/BOINCManager_i386\"\n      ## echo \"cp returned {$?}\"\n    fi\n    touch \"$TARGET_BUILD_DIR/SymbolTables/BOINCManager_i386\"\n    lipo \"${BUILT_PRODUCTS_DIR}/BOINCManager.app/Contents/MacOS/BOINCManager\" -thin ppc7400 -output \"$TARGET_BUILD_DIR/SymbolTables/BOINCManager_ppc\"\n    if [ $? -eq 0 ]; then\n      touch \"$TARGET_BUILD_DIR/SymbolTables/BOINCManager_ppc\"\n    fi\n    /usr/bin/strip \"${BUILT_PRODUCTS_DIR}/BOINCManager.app/Contents/MacOS/BOINCManager\"\n  fi\nelse\n  echo ${BUILT_PRODUCTS_DIR}  > \"${PROJECT_DIR}/Build_Development_Dir\"\nfi\n";
+			shellScript = "if [ \"$CONFIGURATION\" = \"Deployment\" ]; then\n  ## echo \"Starting script 1\"\n  echo ${BUILT_PRODUCTS_DIR}  > \"${PROJECT_DIR}/Build_Deployment_Dir\"\n  mkdir -p \"${BUILT_PRODUCTS_DIR}/SymbolTables\"\n  if [ \"${BUILT_PRODUCTS_DIR}/BOINCManager.app/Contents/MacOS/BOINCManager\" -nt \"${BUILT_PRODUCTS_DIR}/SymbolTables/BOINCManager_i386\" ]; then\n    ## echo \"${BUILT_PRODUCTS_DIR}/BOINCManager.app/Contents/MacOS/BOINCManager is newer than ${TARGET_BUILD_DIR}/SymbolTables/BOINCManager_i386\"\n    rm -f \"${BUILT_PRODUCTS_DIR}/SymbolTables/BOINCManager_i386\"\n    rm -f \"${BUILT_PRODUCTS_DIR}/SymbolTables/BOINCManager_ppc\"\n    cp -fp \"${BUILT_PRODUCTS_DIR}/BOINCManager.app/Contents/MacOS/BOINCManager\" \"${BUILT_PRODUCTS_DIR}/SymbolTables/BOINCManager_i386\"\n    touch \"${BUILT_PRODUCTS_DIR}/SymbolTables/BOINCManager_i386\"\n    /usr/bin/strip \"${BUILT_PRODUCTS_DIR}/BOINCManager.app/Contents/MacOS/BOINCManager\"\n  fi\nelse\n  echo ${BUILT_PRODUCTS_DIR}  > \"${PROJECT_DIR}/Build_Development_Dir\"\nfi\n";
 		};
 		DD7355180D9110AE0006A9D1 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -2401,7 +2401,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "if [ \"$CONFIGURATION\" = \"Deployment\" ]; then\n  ## echo \"Starting script 1\"\n  echo ${BUILT_PRODUCTS_DIR}  > \"${PROJECT_DIR}/Build_Deployment_Dir\"\nmkdir -p \"${BUILT_PRODUCTS_DIR}/SymbolTables\"\n  if [ \"${BUILT_PRODUCTS_DIR}/$PRODUCT_NAME\" -nt \"$TARGET_BUILD_DIR/SymbolTables/${PRODUCT_NAME}_i386\" ]; then\n    ## echo \"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME} is newer than ${TARGET_BUILD_DIR}/SymbolTables/${PRODUCT_NAME}_i386\"\n    rm -f \"$TARGET_BUILD_DIR/SymbolTables/${PRODUCT_NAME}_i386\"\n    rm -f \"$TARGET_BUILD_DIR/SymbolTables/${PRODUCT_NAME}_ppc\"\n    lipo \"${BUILT_PRODUCTS_DIR}/$PRODUCT_NAME\" -thin i386 -output \"$TARGET_BUILD_DIR/SymbolTables/${PRODUCT_NAME}_i386\"\n    if [ $? -ne 0 ]; then\n      cp -fp \"${BUILT_PRODUCTS_DIR}/$PRODUCT_NAME\" \"$TARGET_BUILD_DIR/SymbolTables/${PRODUCT_NAME}_i386\"\n## echo \"cp returned {$?}\"\n    fi\n    touch \"$TARGET_BUILD_DIR/SymbolTables/${PRODUCT_NAME}_i386\"\n    lipo \"${BUILT_PRODUCTS_DIR}/$PRODUCT_NAME\" -thin ppc7400 -output \"$TARGET_BUILD_DIR/SymbolTables/${PRODUCT_NAME}_ppc\"\n    if [ $? -eq 0 ]; then\n      touch \"$TARGET_BUILD_DIR/SymbolTables/${PRODUCT_NAME}_ppc\"\n    fi\n    /usr/bin/strip \"${BUILT_PRODUCTS_DIR}/$PRODUCT_NAME\"\n  fi\nelse\n  echo ${BUILT_PRODUCTS_DIR}  > \"${PROJECT_DIR}/Build_Development_Dir\"\n\nfi";
+			shellScript = "if [ \"$CONFIGURATION\" = \"Deployment\" ]; then\n  ## echo \"Starting script 1\"\n  echo ${BUILT_PRODUCTS_DIR}  > \"${PROJECT_DIR}/Build_Deployment_Dir\"\nmkdir -p \"${BUILT_PRODUCTS_DIR}/SymbolTables\"\n  if [ \"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}\" -nt \"${BUILT_PRODUCTS_DIR}/SymbolTables/${PRODUCT_NAME}_i386\" ]; then\n    ## echo \"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME} is newer than ${BUILT_PRODUCTS_DIR}/SymbolTables/${PRODUCT_NAME}_i386\"\n    rm -f \"${BUILT_PRODUCTS_DIR}/SymbolTables/${PRODUCT_NAME}_i386\"\n    rm -f \"${BUILT_PRODUCTS_DIR}/SymbolTables/${PRODUCT_NAME}_ppc\"\n    cp -fp \"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}\" \"${BUILT_PRODUCTS_DIR}/SymbolTables/${PRODUCT_NAME}_i386\"\n    touch \"${BUILT_PRODUCTS_DIR}/SymbolTables/${PRODUCT_NAME}_i386\"\n    /usr/bin/strip \"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}\"\n  fi\nelse\n  echo ${BUILT_PRODUCTS_DIR}  > \"${PROJECT_DIR}/Build_Development_Dir\"\n\nfi";
 		};
 		DD73551E0D9111150006A9D1 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -2416,7 +2416,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "if [ \"$CONFIGURATION\" = \"Deployment\" ]; then\n  touch \"$TARGET_BUILD_DIR/SymbolTables/${PRODUCT_NAME}_i386\"\n  if [ -s \"$TARGET_BUILD_DIR/SymbolTables/${PRODUCT_NAME}_ppc\" ]; then\n    touch \"$TARGET_BUILD_DIR/SymbolTables/${PRODUCT_NAME}_ppc\"\n  fi\nfi";
+			shellScript = "if [ \"$CONFIGURATION\" = \"Deployment\" ]; then\n  touch \"${BUILT_PRODUCTS_DIR}/SymbolTables/${PRODUCT_NAME}_i386\"\nfi";
 		};
 		DDAD1A380909139E004E7DD0 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -2461,7 +2461,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "if [ \"$CONFIGURATION\" = \"Deployment\" ]; then\n\ttouch \"$TARGET_BUILD_DIR/SymbolTables/BOINCManager_i386\"\n    if [ -s \"$TARGET_BUILD_DIR/SymbolTables/BOINCManager_ppc\" ]; then\n        touch \"$TARGET_BUILD_DIR/SymbolTables/BOINCManager_ppc\"\n    fi\nfi";
+			shellScript = "if [ \"$CONFIGURATION\" = \"Deployment\" ]; then\n\ttouch \"${BUILT_PRODUCTS_DIR}/SymbolTables/BOINCManager_i386\"\nfi";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -3119,6 +3119,8 @@
 		DD1AFEB90A512D8700EE5B82 /* Deployment */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT_PRE_XCODE_3_1)";
+				ARCHS_STANDARD_32_BIT_PRE_XCODE_3_1 = "ppc i386";
 				HEADER_SEARCH_PATHS = ../lib;
 				INFOPLIST_FILE = "Installer-Info.plist";
 				OTHER_LDFLAGS = (
@@ -3182,6 +3184,8 @@
 		DD3E15410A774397007E0084 /* Deployment */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT_PRE_XCODE_3_1)";
+				ARCHS_STANDARD_32_BIT_PRE_XCODE_3_1 = "ppc i386";
 				COPY_PHASE_STRIP = NO;
 				DEAD_CODE_STRIPPING = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
@@ -3245,6 +3249,8 @@
 		DD4688490C165F3C0089F500 /* Deployment */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT_PRE_XCODE_3_1)";
+				ARCHS_STANDARD_32_BIT_PRE_XCODE_3_1 = "ppc i386";
 				INFOPLIST_FILE = "Uninstaller-Info.plist";
 				OTHER_LDFLAGS = (
 					"-framework",
@@ -3269,6 +3275,8 @@
 		DD7748A90A356CAE0025D05E /* Deployment */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT_PRE_XCODE_3_1)";
+				ARCHS_STANDARD_32_BIT_PRE_XCODE_3_1 = "ppc i386";
 				OTHER_LDFLAGS = (
 					"-framework",
 					Carbon,
@@ -3293,6 +3301,8 @@
 		DD8916250F3B17E900DE5B1C /* Deployment */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT_PRE_XCODE_3_1)";
+				ARCHS_STANDARD_32_BIT_PRE_XCODE_3_1 = "ppc i386";
 				HEADER_SEARCH_PATHS = ../api/;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -3306,11 +3316,8 @@
 		DD9843D909920F220090855B /* Deployment */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = (
-					i386,
-					ppc,
-					x86_64,
-				);
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT_PRE_XCODE_3_1)";
+				ARCHS_STANDARD_32_64_BIT_PRE_XCODE_3_1 = "x86_64 i386 ppc";
 				OTHER_CFLAGS = (
 					"-D_THREAD_SAFE",
 					"-DNDEBUG",
@@ -3340,11 +3347,8 @@
 		DD9843DB09920F220090855B /* Deployment */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = (
-					i386,
-					ppc,
-					x86_64,
-				);
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT_PRE_XCODE_3_1)";
+				ARCHS_STANDARD_32_64_BIT_PRE_XCODE_3_1 = "x86_64 i386 ppc";
 				HEADER_SEARCH_PATHS = ../lib;
 				LIBRARY_SEARCH_PATHS = ../lib;
 				"OTHER_CFLAGS[arch=ppc]" = (
@@ -3368,6 +3372,8 @@
 		DD9843DC09920F220090855B /* Deployment */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT_PRE_XCODE_3_1)";
+				ARCHS_STANDARD_32_BIT_PRE_XCODE_3_1 = "ppc i386";
 				PRODUCT_NAME = SetVersion;
 				STRINGS_FILE_OUTPUT_ENCODING = "UTF-16";
 			};
@@ -3376,11 +3382,8 @@
 		DD9843DD09920F220090855B /* Deployment */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = (
-					i386,
-					ppc,
-					x86_64,
-				);
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT_PRE_XCODE_3_1)";
+				ARCHS_STANDARD_32_64_BIT_PRE_XCODE_3_1 = "x86_64 i386 ppc";
 				GCC_ENABLE_OBJC_GC = supported;
 				INFOPLIST_FILE = "ScreenSaver-Info.plist";
 				"MACOSX_DEPLOYMENT_TARGET[arch=x86_64]" = 10.6;
@@ -3399,10 +3402,8 @@
 		DD9843DE09920F220090855B /* Deployment */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = (
-					i386,
-					ppc,
-				);
+				ARCHS = "$(ARCHS_STANDARD_32_BIT_PRE_XCODE_3_1)";
+				ARCHS_STANDARD_32_BIT_PRE_XCODE_3_1 = "ppc i386";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEPLOYMENT_POSTPROCESSING = YES;
@@ -3431,6 +3432,8 @@
 		DD9843DF09920F220090855B /* Deployment */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT_PRE_XCODE_3_1)";
+				ARCHS_STANDARD_32_BIT_PRE_XCODE_3_1 = "ppc i386";
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				INFOPLIST_FILE = "SystemMenu-Info.plist";
 				OTHER_LDFLAGS = (
@@ -3446,6 +3449,8 @@
 		DD9843E109920F220090855B /* Deployment */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT_PRE_XCODE_3_1)";
+				ARCHS_STANDARD_32_BIT_PRE_XCODE_3_1 = "ppc i386";
 				HEADER_SEARCH_PATHS = ../lib;
 				INFOPLIST_FILE = "PostInstall-Info.plist";
 				OTHER_CFLAGS = (
@@ -3467,6 +3472,8 @@
 		DD9843E209920F220090855B /* Deployment */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT_PRE_XCODE_3_1)";
+				ARCHS_STANDARD_32_BIT_PRE_XCODE_3_1 = "ppc i386";
 				OTHER_LDFLAGS = "-lboinc";
 				PRODUCT_NAME = boinccmd;
 			};
@@ -3475,6 +3482,8 @@
 		DD9843E309920F220090855B /* Deployment */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT_PRE_XCODE_3_1)";
+				ARCHS_STANDARD_32_BIT_PRE_XCODE_3_1 = "ppc i386";
 				PRODUCT_NAME = MakeAppIcon_h;
 			};
 			name = Deployment;
@@ -3482,6 +3491,7 @@
 		DD9843E409920F220090855B /* Deployment */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = i386;
 				COPY_PHASE_STRIP = YES;
 				DEAD_CODE_STRIPPING = YES;
 				DEPLOYMENT_POSTPROCESSING = YES;
@@ -3746,6 +3756,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT_PRE_XCODE_3_1)";
+				ARCHS_STANDARD_32_BIT_PRE_XCODE_3_1 = "ppc i386";
 				COPY_PHASE_STRIP = YES;
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				GCC_MODEL_TUNING = G5;
@@ -3775,11 +3787,8 @@
 		DDB874010C850BC800E0DE1F /* Deployment */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = (
-					i386,
-					ppc,
-					x86_64,
-				);
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT_PRE_XCODE_3_1)";
+				ARCHS_STANDARD_32_64_BIT_PRE_XCODE_3_1 = "x86_64 i386 ppc";
 				HEADER_SEARCH_PATHS = "../../jpeg-6b";
 				"OTHER_CFLAGS[arch=ppc]" = (
 					"-D_THREAD_SAFE",
@@ -3809,6 +3818,8 @@
 		DDD095450A3EDD4300C95BA4 /* Deployment */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT_PRE_XCODE_3_1)";
+				ARCHS_STANDARD_32_BIT_PRE_XCODE_3_1 = "ppc i386";
 				PRODUCT_NAME = switcher;
 			};
 			name = Deployment;
@@ -3824,6 +3835,8 @@
 		DDD336FF1062235D00867C7D /* Deployment */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT_PRE_XCODE_3_1)";
+				ARCHS_STANDARD_32_BIT_PRE_XCODE_3_1 = "ppc i386";
 				PRODUCT_NAME = AddRemoveUser;
 				STRINGS_FILE_OUTPUT_ENCODING = "UTF-16";
 			};
@@ -3839,6 +3852,8 @@
 		DDFA60D20CB337D40037B88C /* Deployment */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT_PRE_XCODE_3_1)";
+				ARCHS_STANDARD_32_BIT_PRE_XCODE_3_1 = "ppc i386";
 				PRODUCT_NAME = gfx_switcher;
 			};
 			name = Deployment;
@@ -3853,6 +3868,8 @@
 		DDFF2AD20A53D4AE002BC19D /* Deployment */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT_PRE_XCODE_3_1)";
+				ARCHS_STANDARD_32_BIT_PRE_XCODE_3_1 = "ppc i386";
 				PRODUCT_NAME = setprojectgrp;
 			};
 			name = Deployment;

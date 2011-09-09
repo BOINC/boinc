@@ -23,7 +23,7 @@
 ## updated 9/28/10 by Charlie Fenton for new BOINC skins
 ## updated 12/2/10 by Charlie Fenton to remove obsolete items
 ## updated 1/18/11 by Charlie Fenton to remove BOINC skins
-## updated 7/26/11 by Charlie Fenton for XCode 4.1 and OS 10.7
+## updated 11/9/11 by Charlie Fenton for XCode 4.1 and OS 10.7
 ##
 ## NOTE: This script uses PackageMaker, which is installed as part of the 
 ##   XCode developer tools.  So you must have installed XCode Developer 
@@ -32,6 +32,9 @@
 ## NOTE: PackageMaker may write 3 lines to the terminal with "Setting to : 0 (null)" 
 ##   and "relocate: (null) 0".  This is normal and does not indicate a problem.
 ##
+
+## NOTE: To build the executables under Lion and XCode 4, select from XCode's
+## menu: "Product/Buildfor/Build for Archiving", NOT "Product/Archive"
 
 ## Usage:
 ## cd to the root directory of the boinc tree, for example:
@@ -58,17 +61,6 @@ fi
 #pushd ./
 BOINCPath=$PWD
 
-# XCode 3.x and 4.x use different paths for their build products.
-# Our scripts in XCode's script build phase write those paths to 
-# files to help this release script find the build products.
-if [ "$4" = "-dev" ]; then
-    exec 7<"mac_build/Build_Development_Dir"
-    read -u 7 BUILDPATH
-else
-    exec 7<"mac_build/Build_Deployment_Dir"
-    read -u 7 BUILDPATH
-fi
-
 DarwinVersion=`uname -r`;
 DarwinMajorVersion=`echo $DarwinVersion | sed 's/\([0-9]*\)[.].*/\1/' `;
 # DarwinMinorVersion=`echo $version | sed 's/[0-9]*[.]\([0-9]*\).*/\1/' `;
@@ -82,12 +74,39 @@ DarwinMajorVersion=`echo $DarwinVersion | sed 's/\([0-9]*\)[.].*/\1/' `;
 # Darwin version 7.x.y corresponds to OS 10.3.x
 # Darwin version 6.x corresponds to OS 10.2.x
 
-if [ "$DarwinMajorVersion" = "11" ]; then
+if [ "$DarwinMajorVersion" -gt 10 ]; then
     # XCode 4.1 on OS 10.7 builds only Intel binaries
     arch="i686"
+
+    # XCode 3.x and 4.x use different paths for their build products.
+    # Our scripts in XCode's script build phase write those paths to 
+    # files to help this release script find the build products.
+    if [ "$4" = "-dev" ]; then
+        exec 7<"mac_build/Build_Development_Dir"
+        read -u 7 BUILDPATH
+    else
+        exec 7<"mac_build/Build_Deployment_Dir"
+        read -u 7 BUILDPATH
+    fi
+
 else
     # XCode 3.2 on OS 10.6 does sbuild Intel and PowerPC Universal binaries
     arch="universal"
+
+    # XCode 3.x and 4.x use different paths for their build products.
+    if [ "$4" = "-dev" ]; then
+        if [ -d mac_build/build/Development/ ]; then
+            BUILDPATH="mac_build/build/Development"
+        else
+            BUILDPATH="mac_build/build"
+        fi
+    else
+        if [ -d mac_build/build/Deployment/ ]; then
+            BUILDPATH="mac_build/build/Deployment"
+        else
+            BUILDPATH="mac_build/build"
+        fi
+    fi
 fi
 
 sudo rm -dfR ../BOINC_Installer/Installer\ Resources/
@@ -201,7 +220,9 @@ sudo chmod -R 755 ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_
 /Developer/usr/bin/packagemaker -r ../BOINC_Installer/Pkg_Root -e ../BOINC_Installer/Installer\ Resources/ -s ../BOINC_Installer/Installer\ Scripts/ -f mac_build/Pkg-Info.plist -t "BOINC Manager" -n "$1.$2.$3" -b -o ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_$arch/BOINC\ Installer.pkg
 # Remove TokenDefinitions.plist and IFPkgPathMappings in Info.plist, which would cause installer to find a previous copy of BOINCManager and install there
 sudo rm -f ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_$arch/BOINC\ Installer.pkg/Contents/Resources/TokenDefinitions.plist
-defaults delete "$BOINCPath/../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_$arch/BOINC Installer.pkg/Contents/Info" IFPkgPathMappings
+if [ "$DarwinMajorVersion" -lt 11 ]; then
+    defaults delete "$BOINCPath/../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_$arch/BOINC Installer.pkg/Contents/Info" IFPkgPathMappings
+fi
 # Add our custom icon
 ditto -xk clientgui/res/MacPkgIcon.zip ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_$arch/BOINC\ Installer.pkg/
 SetFile -a CE "$BOINCPath/../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_$arch/BOINC Installer.pkg"

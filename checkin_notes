@@ -5746,3 +5746,12 @@ David  8 Sept 2011
 
     lib/
         parse.cpp
+
+Charlie 9 Sep 2011
+    - Mac: More fixes for building under XCode 4.1.
+
+    mac_build/
+        boinc.xcodeproj/
+            project.pbxproj
+    mac_installer/
+        release_boinc.sh
