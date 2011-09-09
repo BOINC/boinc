@@ -572,6 +572,7 @@ int RSS_FEED::read_archive_file() {
 // parse a feed descriptor (in scheduler reply or feed list file)
 //
 int RSS_FEED::parse_desc(XML_PARSER& xp) {
+    char buf[256];
     strcpy(url, "");
     poll_interval = 0;
     next_poll_time = 0;
@@ -591,7 +592,10 @@ int RSS_FEED::parse_desc(XML_PARSER& xp) {
             if (p) *p = 0;
             return 0;
         }
-        if (xp.parse_str("url", url, sizeof(url))) continue;
+        if (xp.parse_str("url", buf, sizeof(buf))) {
+            xml_unescape(buf, url, sizeof(url));
+            continue;
+        }
         if (xp.parse_double("poll_interval", poll_interval)) continue;
         if (xp.parse_double("next_poll_time", next_poll_time)) continue;
     }
@@ -599,13 +603,16 @@ int RSS_FEED::parse_desc(XML_PARSER& xp) {
 }
 
 void RSS_FEED::write(MIOFILE& fout) {
+    char buf[256];
+    strcpy(buf, url);
+    xml_escape(url, buf, sizeof(buf));
     fout.printf(
         "  <rss_feed>\n"
         "    <url>%s</url>\n"
         "    <poll_interval>%f</poll_interval>\n"
         "    <next_poll_time>%f</next_poll_time>\n"
         "  </rss_feed>\n",
-        url,
+        buf,
         poll_interval,
         next_poll_time
     );

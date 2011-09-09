@@ -402,9 +402,11 @@ void xml_escape(const char* in, char* out, int len) {
 // output buffer need not be larger than input
 //
 void xml_unescape(string& in) {
-    char buf[2048];
-    xml_unescape(in.c_str(), buf, sizeof(buf));
+    int n = in.size()+1;
+    char* buf = (char*)malloc(n);
+    xml_unescape(in.c_str(), buf, n);
     in = buf;
+    free(buf);
 }
 
 void xml_unescape(const char* in, char* out, int len) {

@@ -5769,3 +5769,12 @@ David  9 Sept 2011
 
     html/inc/
         cache.inc
+
+David  9 Sept 2011
+    - client: XML-escape the URLs in RSS feed lists
+    - lib: make xml_unescape work for arbitrarily large strings
+
+    lib/
+        parse.cpp
+    client/
+        cs_notice.cpp
