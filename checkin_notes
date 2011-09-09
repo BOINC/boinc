@@ -5739,3 +5739,10 @@ David  8 Sept 2011
 
     sched/
         credit.cpp
+
+David  8 Sept 2011
+    - client: new XML parser had a limit of 8KB for strings.
+        This broke things.  Increase it to 256KB.
+
+    lib/
+        parse.cpp

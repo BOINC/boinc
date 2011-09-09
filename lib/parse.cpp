@@ -662,6 +662,8 @@ bool XML_PARSER::get(char* buf, int len, bool& _is_tag, char* attr_buf, int attr
     return false;
 }
 
+#define MAX_XML_STRING  262144
+
 // We just parsed "parsed_tag".
 // If it matches "start_tag", and is followed by a string
 // and by the matching close tag, return the string in "buf",
@@ -669,7 +671,7 @@ bool XML_PARSER::get(char* buf, int len, bool& _is_tag, char* attr_buf, int attr
 //
 bool XML_PARSER::parse_str(const char* start_tag, char* buf, int len) {
     bool eof;
-    char end_tag[256], tag[256], tmp[64000];
+    char end_tag[256], tag[256], tmp[MAX_XML_STRING];
 
     // handle the archaic form <tag/>, which means empty string
     //
@@ -692,7 +694,7 @@ bool XML_PARSER::parse_str(const char* start_tag, char* buf, int len) {
 
     // get text after start tag
     //
-    int retval = get_aux(tmp, 64000, 0, 0);
+    int retval = get_aux(tmp, sizeof(tmp), 0, 0);
     if (retval == XML_PARSE_EOF) return false;
 
     // if it's the end tag, return empty string
@@ -719,7 +721,7 @@ bool XML_PARSER::parse_str(const char* start_tag, char* buf, int len) {
 }
 
 bool XML_PARSER::parse_string(const char* start_tag, string& str) {
-    char buf[8192];
+    char buf[MAX_XML_STRING];
     bool flag = parse_str(start_tag, buf, sizeof(buf));
     if (!flag) return false;
     str = buf;
