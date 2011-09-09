@@ -295,7 +295,7 @@ function clear_cache_entry($phpfile, $params) {
         return;
     }
     $path = get_path($params, $phpfile);
-    unlink($path);
+    @unlink($path);
 }
 
 // Memcached class
