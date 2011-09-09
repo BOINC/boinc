@@ -5755,3 +5755,11 @@ Charlie 9 Sep 2011
             project.pbxproj
     mac_installer/
         release_boinc.sh
+
+Rom    9 Sept 2011
+    - Tag for 6.13.3 release, all platforms
+      boinc_core_release_6_13_3
+
+    /
+        configure.ac
+        version.h
