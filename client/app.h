@@ -256,7 +256,8 @@ struct ACTIVE_TASK {
     bool finish_file_present();
     bool temporary_exit_file_present(double&);
     bool supports_graphics();
-    int write_app_init_file();
+    void init_app_init_data(APP_INIT_DATA&);
+    int write_app_init_file(APP_INIT_DATA&);
     int move_trickle_file();
     int handle_upload_files();
     void upload_notify_app(const FILE_INFO*, const FILE_REF*);

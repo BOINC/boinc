@@ -5795,3 +5795,11 @@ David  10 Sept 2011
 
 	lib/
 		parse.cpp
+
+David  11 Sept 2011
+    - client: finish next-to-last checkin
+
+    client/
+        app_control.cpp
+        app_start.cpp
+        app.h

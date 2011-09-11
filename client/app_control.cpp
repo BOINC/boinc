@@ -795,10 +795,12 @@ bool ACTIVE_TASK::read_stderr_file() {
 //
 int ACTIVE_TASK::request_reread_prefs() {
     int retval;
+    APP_INIT_DATA aid;
 
     link_user_files();
 
-    retval = write_app_init_file();
+    init_app_init_data(aid);
+    retval = write_app_init_file(aid);
     if (retval) return retval;
     graphics_request_queue.msg_queue_send(
         xml_graphics_modes[MODE_REREAD_PREFS],
@@ -811,7 +813,9 @@ int ACTIVE_TASK::request_reread_prefs() {
 // (e.g. because proxy settings have changed: this is for F@h)
 //
 int ACTIVE_TASK::request_reread_app_info() {
-    int retval = write_app_init_file();
+    APP_INIT_DATA aid;
+    init_app_init_data(aid);
+    int retval = write_app_init_file(aid);
     if (retval) return retval;
     process_control_queue.msg_queue_send(
         "<reread_app_info/>",

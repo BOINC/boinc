@@ -191,7 +191,9 @@ int ACTIVE_TASK::get_shmem_seg_name() {
     return 0;
 }
 
-static void init_app_init_data(APP_INIT_DATA& aid, ACTIVE_TASK& at) {
+void ACTIVE_TASK::init_app_init_data(APP_INIT_DATA& aid) {
+    char project_dir[256], project_path[256];
+
     aid.major_version = BOINC_MAJOR_VERSION;
     aid.minor_version = BOINC_MINOR_VERSION;
     aid.release = BOINC_RELEASE;
@@ -200,7 +202,9 @@ static void init_app_init_data(APP_INIT_DATA& aid, ACTIVE_TASK& at) {
     safe_strcpy(aid.symstore, wup->project->symstore);
     safe_strcpy(aid.acct_mgr_url, gstate.acct_mgr_info.master_url);
     if (wup->project->project_specific_prefs.length()) {
-        aid.project_preferences = strdup(wup->project->project_specific_prefs.c_str());
+        aid.project_preferences = strdup(
+            wup->project->project_specific_prefs.c_str()
+        );
     }
     aid.userid = wup->project->userid;
     aid.teamid = wup->project->teamid;
@@ -234,21 +238,21 @@ static void init_app_init_data(APP_INIT_DATA& aid, ACTIVE_TASK& at) {
     aid.rsc_memory_bound = wup->rsc_memory_bound;
     aid.rsc_disk_bound = wup->rsc_disk_bound;
     aid.computation_deadline = result->computation_deadline();
-    int rt = at.app_version->gpu_usage.rsc_type;
+    int rt = app_version->gpu_usage.rsc_type;
     if (rt) {
         COPROC& cp = coprocs.coprocs[rt];
         strcpy(aid.gpu_type, cp.type);
         int k = result->coproc_indices[0];
-        if (k<0 || k>=cp->count) {
+        if (k<0 || k>=cp.count) {
             msg_printf(0, MSG_INTERNAL_ERROR,
                 "coproc_cmdline: coproc index %d out of range", k
             );
             k = 0;
         }
-        gpu_device_num = cp->device_nums[k];
+        aid.gpu_device_num = cp.device_nums[k];
     } else {
         strcpy(aid.gpu_type, "");
-        gpu_device_num = -1;
+        aid.gpu_device_num = -1;
     }
     aid.checkpoint_period = gstate.global_prefs.disk_interval;
     aid.fraction_done_start = 0;
@@ -265,9 +269,9 @@ static void init_app_init_data(APP_INIT_DATA& aid, ACTIVE_TASK& at) {
 // This is done before starting the app,
 // and when project prefs have changed during app execution
 //
-static int write_app_init_file(APP_INIT_DATA& aid) {
+int ACTIVE_TASK::write_app_init_file(APP_INIT_DATA& aid) {
     FILE *f;
-    char init_data_path[256], project_dir[256], project_path[256];
+    char init_data_path[256];
 
     sprintf(init_data_path, "%s/%s", slot_dir, INIT_DATA_FILE);
 
@@ -467,6 +471,7 @@ int ACTIVE_TASK::start(bool first_time) {
     FILE_REF fref;
     FILE_INFO* fip;
     int retval, rt;
+    APP_INIT_DATA aid;
 
     // if this job less than one CPU, run it at above idle priority
     //
@@ -507,9 +512,8 @@ int ACTIVE_TASK::start(bool first_time) {
     // this must go AFTER creating shmem name,
     // since the shmem name is part of the file
     //
-    APP_INIT_DATA aid;
-    init_app_init_data(aid, *this);
-    retval = write_app_init_file();
+    init_app_init_data(aid);
+    retval = write_app_init_file(aid);
     if (retval) {
         sprintf(buf, "Can't write init file: %d", retval);
         goto error;
