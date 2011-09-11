@@ -150,7 +150,7 @@ void CSlideShowPanel::OnPaint(wxPaintEvent& WXUNUSED(event))
         wxPen oldPen = dc.GetPen();
         wxBrush oldBrush = dc.GetBrush();
         int oldMode = dc.GetBackgroundMode();
-        wxPen bgPen(*wxBLUE, 3);
+        wxPen bgPen(*wxLIGHT_GREY, 3);
         dc.SetBackgroundMode(wxSOLID);
         dc.SetPen(bgPen);
         dc.SetBrush(*wxBLACK_BRUSH);
@@ -223,7 +223,7 @@ CSimpleTaskPanel::CSimpleTaskPanel( wxWindow* parent ) :
 	wxBoxSizer* bSizer2;
 	bSizer2 = new wxBoxSizer( wxHORIZONTAL );
 	
-	m_myTasksLabel = new CTransparentStaticText( this, wxID_ANY, _("My Tasks:"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_myTasksLabel = new CTransparentStaticText( this, wxID_ANY, _("Tasks:"), wxDefaultPosition, wxDefaultSize, 0 );
 	m_myTasksLabel->Wrap( -1 );
 	bSizer2->Add( m_myTasksLabel, 0, wxRIGHT, 5 );
 	
@@ -249,13 +249,13 @@ CSimpleTaskPanel::CSimpleTaskPanel( wxWindow* parent ) :
 	wxBoxSizer* bSizer3;
 	bSizer3 = new wxBoxSizer( wxHORIZONTAL );
 	
-	m_TaskProjectLabel = new CTransparentStaticText( this, wxID_ANY, _("From Project:"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_TaskProjectLabel = new CTransparentStaticText( this, wxID_ANY, _("From:"), wxDefaultPosition, wxDefaultSize, 0 );
 	m_TaskProjectLabel->Wrap( -1 );
 	bSizer3->Add( m_TaskProjectLabel, 0, wxRIGHT, 5 );
 	
 	m_TaskProjectName = new CTransparentStaticText( this, wxID_ANY, wxT("SETI@home"), wxDefaultPosition, wxDefaultSize, wxST_NO_AUTORESIZE );
 	m_TaskProjectName->Wrap( -1 );
-	m_TaskProjectName->SetFont(wxFont(LARGE_FONT,wxSWISS,wxNORMAL,wxNORMAL,false,wxT("Arial"))); 
+	m_TaskProjectName->SetFont(wxFont(MEDIUM_FONT,wxSWISS,wxNORMAL,wxNORMAL,false,wxT("Arial"))); 
 	bSizer3->Add( m_TaskProjectName, 1, 0, 0 );
 	
 	bSizer1->Add( bSizer3, 0, wxLEFT | wxRIGHT | wxEXPAND, SIDEMARGINS );
@@ -560,8 +560,8 @@ void CSimpleTaskPanel::GetApplicationAndProjectNames(RESULT* result, wxString* a
 
 #if SELECTBYRESULTNAME
         appName->Printf(
-            wxT("%d: %s%s %d.%02d %s"),
-            state_result->slot,
+            wxT("%d. %s%s %d.%02d %s"),
+            state_result->slot+1,
             state_result->project->anonymous_platform?_("Local: "):wxT(""),
             strAppBuffer.c_str(),
             state_result->avp->version_num / 100,
@@ -569,13 +569,13 @@ void CSimpleTaskPanel::GetApplicationAndProjectNames(RESULT* result, wxString* a
             strClassBuffer.c_str()
         );
 #else
-        appName->Printf(wxT("%s%s %d.%02d %s (in slot %d)"),
+        appName->Printf(wxT("%d. %s%s %d.%02d %s"),
+            state_result->slot+1,
             state_result->project->anonymous_platform?_("Local: "):wxT(""),
             strAppBuffer.c_str(),
             state_result->avp->version_num / 100,
             state_result->avp->version_num % 100,
-            strClassBuffer.c_str(),
-            state_result->slot
+            strClassBuffer.c_str()
         );
 #endif
     }
@@ -598,7 +598,7 @@ wxString CSimpleTaskPanel::GetElapsedTimeString(double f) {
     } else {
         s = FormatTime(f);
     }
-    str.Printf(_("Elapsed Time: %s"), s.c_str());
+    str.Printf(_("Elapsed: %s"), s.c_str());
     return str;
 }
 
@@ -612,7 +612,7 @@ wxString CSimpleTaskPanel::GetTimeRemainingString(double f) {
     } else {
         s = FormatTime(f);
     }
-    str.Printf(_("Time Remaining: %s"), s.c_str());
+    str.Printf(_("Remaining: %s"), s.c_str());
     return str;
 }
 

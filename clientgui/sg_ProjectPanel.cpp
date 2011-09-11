@@ -69,7 +69,7 @@ CSimpleProjectPanel::CSimpleProjectPanel( wxWindow* parent ) :
 
     m_sAddProjectString = _("Add Project");
     m_sSynchronizeString = _("Synchronize");
-    m_sTotalWorkDoneString = _("My total work done this Project");
+    m_sTotalWorkDoneString = _("Work done for this project");
     
     m_sAddProjectToolTip = _("Volunteer for any or all of 30+ projects in many areas of science");
     m_sSynchronizeToolTip = _("Synchronize projects with account manager system");
@@ -85,7 +85,7 @@ CSimpleProjectPanel::CSimpleProjectPanel( wxWindow* parent ) :
 	bSizer2 = new wxBoxSizer( wxHORIZONTAL );
 	
     bSizer1->AddSpacer(5);
-	m_myProjectsLabel = new CTransparentStaticText( this, wxID_ANY, _("My Projects:"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_myProjectsLabel = new CTransparentStaticText( this, wxID_ANY, _("Projects:"), wxDefaultPosition, wxDefaultSize, 0 );
 	m_myProjectsLabel->Wrap( -1 );
 	bSizer2->Add( m_myProjectsLabel, 0, wxRIGHT, 5 );
     bSizer2->AddStretchSpacer();
@@ -94,8 +94,9 @@ CSimpleProjectPanel::CSimpleProjectPanel( wxWindow* parent ) :
     GetTextExtent(m_sAddProjectString, &addProjectWidth, &y);
     GetTextExtent(m_sSynchronizeString, &synchronizeWidth, &y);
     m_TaskAddProjectButton = new wxButton( this, ID_ADDROJECTBUTTON, 
-                            (addProjectWidth > synchronizeWidth) ? m_sAddProjectString : m_sSynchronizeString,
-                            wxDefaultPosition, wxDefaultSize, 0 );
+        (addProjectWidth > synchronizeWidth) ? m_sAddProjectString : m_sSynchronizeString,
+        wxDefaultPosition, wxDefaultSize, 0
+    );
                             
 	bSizer2->Add( m_TaskAddProjectButton, 0, wxRIGHT | wxEXPAND | wxALIGN_RIGHT, SIDEMARGINS );
 	bSizer1->Add( bSizer2, 0, wxEXPAND | wxTOP | wxLEFT, 10 );
@@ -129,7 +130,7 @@ CSimpleProjectPanel::CSimpleProjectPanel( wxWindow* parent ) :
     
     // Make sure m_TotalCreditValue string is large enough 
     m_fDisplayedCredit = 9999999999.99;
-    str.Printf(_("%s: %0.2f"), m_sTotalWorkDoneString.c_str(), m_fDisplayedCredit);
+    str.Printf(_("%s: %.0f"), m_sTotalWorkDoneString.c_str(), m_fDisplayedCredit);
 	m_TotalCreditValue = new CTransparentStaticText( this, wxID_ANY, str, wxDefaultPosition, wxDefaultSize, wxST_NO_AUTORESIZE );
 	m_TotalCreditValue->Wrap( -1 );
 	
@@ -248,7 +249,7 @@ void CSimpleProjectPanel::UpdateInterface() {
         
         if (m_fDisplayedCredit != project->user_total_credit) {
             m_fDisplayedCredit = project->user_total_credit;
-            str.Printf(_("%s: %0.2f"), m_sTotalWorkDoneString.c_str(), m_fDisplayedCredit);
+            str.Printf(_("%s: %.0f"), m_sTotalWorkDoneString.c_str(), m_fDisplayedCredit);
             UpdateStaticText(&m_TotalCreditValue, str);
             m_TotalCreditValue->SetName(str);   // For accessibility on Windows
         }

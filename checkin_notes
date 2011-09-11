@@ -5803,3 +5803,21 @@ David  11 Sept 2011
         app_control.cpp
         app_start.cpp
         app.h
+
+David  11 Sept 2011
+	- manager, simple view:
+		- edit label text
+		- increase opacity of main area;
+			otherwise some text is hard to read
+		- change borders from blue to light gray.
+			In general shouldn't use primary colors
+		- display credit as integer
+		- reduce size of project name;
+			otherwise long names don't fit (on Win)
+		- don't use "(in slot x)".
+			"Slot" is not part of the vocabulary here.
+
+	clientgui/
+		sg_PanelBase.cpp
+		sg_ProjectPanel.cpp
+		sg_TaskPanel.cpp

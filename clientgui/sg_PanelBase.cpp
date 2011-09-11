@@ -52,6 +52,8 @@ void CSimplePanelBase::ReskinInterface() {
     m_GotBGBitMap = false;
 }
 
+#define WHITE_WEIGHT    60
+#define IMAGE_WEIGHT (100-WHITE_WEIGHT)
 
 // Create a background bitmap simulating partial transparency
 void CSimplePanelBase::MakeBGBitMap() {
@@ -106,11 +108,11 @@ void CSimplePanelBase::MakeBGBitMap() {
     for (i=0; i<r.width; ++i) {
         for (j=0; j<r.height; ++j) {
             if (*whitePixels) {
-                k = (((unsigned int)*bgImagePixels * 55) + ((unsigned int)*whitePixels++ * 45));
+                k = (((unsigned int)*bgImagePixels * IMAGE_WEIGHT) + ((unsigned int)*whitePixels++ * WHITE_WEIGHT));
                 *bgImagePixels++ = k / 100;
-                k = (((unsigned int)*bgImagePixels * 55) + ((unsigned int)*whitePixels++ * 45));
+                k = (((unsigned int)*bgImagePixels * IMAGE_WEIGHT) + ((unsigned int)*whitePixels++ * WHITE_WEIGHT));
                 *bgImagePixels++ = k / 100;
-                k = (((unsigned int)*bgImagePixels * 55) + ((unsigned int)*whitePixels++ * 45));
+                k = (((unsigned int)*bgImagePixels * IMAGE_WEIGHT) + ((unsigned int)*whitePixels++ * WHITE_WEIGHT));
                 *bgImagePixels++ = k / 100;
             } else {
                 bgImagePixels += 3;
@@ -138,8 +140,8 @@ void CSimplePanelBase::OnPaint(wxPaintEvent& /*event*/) {
     wxBrush oldBrush = dc.GetBrush();
     int oldMode = dc.GetBackgroundMode();
     wxCoord w, h;
-    wxPen bgPen(*wxBLUE, 3);
-    wxBrush bgBrush(*wxBLUE, wxTRANSPARENT);
+    wxPen bgPen(*wxLIGHT_GREY, 3);
+    wxBrush bgBrush(*wxLIGHT_GREY, wxTRANSPARENT);
 
     dc.SetBackgroundMode(wxSOLID);
     dc.SetPen(bgPen);
