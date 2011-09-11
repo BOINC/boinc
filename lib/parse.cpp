@@ -514,7 +514,7 @@ int XML_PARSER::scan_comment() {
         }
         if (strlen(buf) > 32) {
             strcpy_overlap(buf, buf+16);
-            p = buf;
+            p -= 16;
         }
     }
 }
