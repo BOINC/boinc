@@ -187,6 +187,10 @@ struct APP_INIT_DATA {
     double fraction_done_start;
     double fraction_done_end;
 
+    // info for GPU apps
+    char gpu_type[64];
+    int gpu_device_num;
+
     // Items below here are for BOINC runtime system,
     // and should not be directly accessed by apps
     //

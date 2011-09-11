@@ -115,14 +115,13 @@ static void debug_print_argv(char** argv) {
 #endif
 
 // For apps that use coprocessors, append "--device x" to the command line.
+// NOTE: this is deprecated.  Use app_init_data instead.
 //
 static void coproc_cmdline(
     int rsc_type, RESULT* rp, double ninstances, char* cmdline
 ) {
     char buf[256];
     COPROC* coproc = &coprocs.coprocs[rsc_type];
-    sprintf(buf, " --gpu_type %s", coproc->type);
-    strcat(cmdline, buf);
     for (int j=0; j<ninstances; j++) {
         int k = rp->coproc_indices[j];
         // sanity check
@@ -192,16 +191,7 @@ int ACTIVE_TASK::get_shmem_seg_name() {
     return 0;
 }
 
-// write the app init file.
-// This is done before starting the app,
-// and when project prefs have changed during app execution
-//
-int ACTIVE_TASK::write_app_init_file() {
-    APP_INIT_DATA aid;
-    FILE *f;
-    char init_data_path[256], project_dir[256], project_path[256];
-    int retval;
-
+static void init_app_init_data(APP_INIT_DATA& aid, ACTIVE_TASK& at) {
     aid.major_version = BOINC_MAJOR_VERSION;
     aid.minor_version = BOINC_MINOR_VERSION;
     aid.release = BOINC_RELEASE;
@@ -235,11 +225,31 @@ int ACTIVE_TASK::write_app_init_file() {
     } else {
         aid.resource_share_fraction = 1;
     }
+    aid.host_info = gstate.host_info;
+    aid.proxy_info = working_proxy_info;
+    aid.global_prefs = gstate.global_prefs;
+    aid.starting_elapsed_time = checkpoint_elapsed_time;
     aid.rsc_fpops_est = wup->rsc_fpops_est;
     aid.rsc_fpops_bound = wup->rsc_fpops_bound;
     aid.rsc_memory_bound = wup->rsc_memory_bound;
     aid.rsc_disk_bound = wup->rsc_disk_bound;
     aid.computation_deadline = result->computation_deadline();
+    int rt = at.app_version->gpu_usage.rsc_type;
+    if (rt) {
+        COPROC& cp = coprocs.coprocs[rt];
+        strcpy(aid.gpu_type, cp.type);
+        int k = result->coproc_indices[0];
+        if (k<0 || k>=cp->count) {
+            msg_printf(0, MSG_INTERNAL_ERROR,
+                "coproc_cmdline: coproc index %d out of range", k
+            );
+            k = 0;
+        }
+        gpu_device_num = cp->device_nums[k];
+    } else {
+        strcpy(aid.gpu_type, "");
+        gpu_device_num = -1;
+    }
     aid.checkpoint_period = gstate.global_prefs.disk_interval;
     aid.fraction_done_start = 0;
     aid.fraction_done_end = 1;
@@ -249,7 +259,15 @@ int ACTIVE_TASK::write_app_init_file() {
     aid.shmem_seg_name = shmem_seg_name;
 #endif
     aid.wu_cpu_time = checkpoint_cpu_time;
-    aid.starting_elapsed_time = checkpoint_elapsed_time;
+}
+
+// write the app init file.
+// This is done before starting the app,
+// and when project prefs have changed during app execution
+//
+static int write_app_init_file(APP_INIT_DATA& aid) {
+    FILE *f;
+    char init_data_path[256], project_dir[256], project_path[256];
 
     sprintf(init_data_path, "%s/%s", slot_dir, INIT_DATA_FILE);
 
@@ -266,10 +284,7 @@ int ACTIVE_TASK::write_app_init_file() {
         return ERR_FOPEN;
     }
 
-    aid.host_info = gstate.host_info;
-    aid.global_prefs = gstate.global_prefs;
-    aid.proxy_info = working_proxy_info;
-    retval = write_init_data_file(f, aid);
+    int retval = write_init_data_file(f, aid);
     fclose(f);
     return retval;
 }
@@ -492,6 +507,8 @@ int ACTIVE_TASK::start(bool first_time) {
     // this must go AFTER creating shmem name,
     // since the shmem name is part of the file
     //
+    APP_INIT_DATA aid;
+    init_app_init_data(aid, *this);
     retval = write_app_init_file();
     if (retval) {
         sprintf(buf, "Can't write init file: %d", retval);

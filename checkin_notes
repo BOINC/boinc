@@ -5778,3 +5778,14 @@ David  9 Sept 2011
         parse.cpp
     client/
         cs_notice.cpp
+
+David  10 Sept 2011
+    - client: don't pass --gpu_type to GPU apps;
+        this breaks many existing apps.
+        Instead, pass the GPU type (and the device number)
+        in app_init_data.xml
+
+    client/
+        app_start.cpp
+    lib/
+        app_ipc.cpp,h

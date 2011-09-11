@@ -77,18 +77,18 @@ APP_INIT_DATA &APP_INIT_DATA::operator=(const APP_INIT_DATA& a) {
 }
 
 void APP_INIT_DATA::copy(const APP_INIT_DATA& a) {
-    // memcpy the strings
-    memcpy(app_name, a.app_name, 256); 
-    memcpy(symstore, a.symstore, 256); 
-    memcpy(acct_mgr_url, a.acct_mgr_url, 256); 
-    memcpy(user_name, a.user_name, 256); 
-    memcpy(team_name, a.team_name, 256); 
-    memcpy(project_dir, a.project_dir, 256); 
-    memcpy(boinc_dir, a.boinc_dir, 256); 
-    memcpy(wu_name, a.wu_name, 256); 
-    memcpy(result_name, a.result_name, 256); 
-    memcpy(authenticator, a.authenticator, 256); 
-    memcpy(&shmem_seg_name, &a.shmem_seg_name, sizeof(SHMEM_SEG_NAME)); 
+    strcpy(app_name, a.app_name);
+    strcpy(symstore, a.symstore);
+    strcpy(acct_mgr_url, a.acct_mgr_url);
+    strcpy(user_name, a.user_name);
+    strcpy(team_name, a.team_name);
+    strcpy(project_dir, a.project_dir);
+    strcpy(boinc_dir, a.boinc_dir);
+    strcpy(wu_name, a.wu_name);
+    strcpy(result_name, a.result_name);
+    strcpy(authenticator, a.authenticator);
+    memcpy(&shmem_seg_name, &a.shmem_seg_name, sizeof(SHMEM_SEG_NAME));
+    strcpy(gpu_type, a.gpu_type);
                 
     // use assignment for the rest, especially the classes
     // (so that the overloaded operators are called!)
@@ -116,6 +116,7 @@ void APP_INIT_DATA::copy(const APP_INIT_DATA& a) {
     computation_deadline          = a.computation_deadline;
     fraction_done_start           = a.fraction_done_start;
     fraction_done_end             = a.fraction_done_end;
+    gpu_device_num                = a.gpu_device_num;
     checkpoint_period             = a.checkpoint_period;
     wu_cpu_time                   = a.wu_cpu_time;
     if (a.project_preferences) {
@@ -198,6 +199,8 @@ int write_init_data_file(FILE* f, APP_INIT_DATA& ai) {
         "<checkpoint_period>%f</checkpoint_period>\n"
         "<fraction_done_start>%f</fraction_done_start>\n"
         "<fraction_done_end>%f</fraction_done_end>\n"
+        "<gpu_type>%s</gpu_type>\n"
+        "<gpu_device_num>%d</gpu_device_num>\n"
         "<rsc_fpops_est>%f</rsc_fpops_est>\n"
         "<rsc_fpops_bound>%f</rsc_fpops_bound>\n"
         "<rsc_memory_bound>%f</rsc_memory_bound>\n"
@@ -214,6 +217,8 @@ int write_init_data_file(FILE* f, APP_INIT_DATA& ai) {
         ai.checkpoint_period,
         ai.fraction_done_start,
         ai.fraction_done_end,
+        ai.gpu_type,
+        ai.gpu_device_num,
         ai.rsc_fpops_est,
         ai.rsc_fpops_bound,
         ai.rsc_memory_bound,
@@ -266,6 +271,8 @@ void APP_INIT_DATA::clear() {
     fraction_done_start = 0;
     fraction_done_end = 0;
     checkpoint_period = 0;
+    strcpy(gpu_type, "");
+    gpu_device_num = 0;
     memset(&shmem_seg_name, 0, sizeof(shmem_seg_name));
     wu_cpu_time = 0;
 }
@@ -361,6 +368,8 @@ int parse_init_data_file(FILE* f, APP_INIT_DATA& ai) {
         if (xp.parse_double("wu_cpu_time", ai.wu_cpu_time)) continue;
         if (xp.parse_double("starting_elapsed_time", ai.starting_elapsed_time)) continue;
         if (xp.parse_double("checkpoint_period", ai.checkpoint_period)) continue;
+        if (xp.parse_str("gpu_type", ai.gpu_type, sizeof(ai.gpu_type))) continue;
+        if (xp.parse_int("gpu_device_num", ai.gpu_device_num)) continue;
         if (xp.parse_double("fraction_done_start", ai.fraction_done_start)) continue;
         if (xp.parse_double("fraction_done_end", ai.fraction_done_end)) continue;
         xp.skip_unexpected(false, "parse_init_data_file");
