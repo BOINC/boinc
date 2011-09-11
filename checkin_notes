@@ -5821,3 +5821,11 @@ David  11 Sept 2011
 		sg_PanelBase.cpp
 		sg_ProjectPanel.cpp
 		sg_TaskPanel.cpp
+
+David  11 Sept 2011
+    - API: change boinc_get_opencl_ids() to use APP_INIT_DATA
+        instead of cmdline
+
+    api/
+        boinc_api.cpp,h
+        boinc_opencl.cpp,h

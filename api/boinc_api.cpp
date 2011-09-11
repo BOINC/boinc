@@ -112,7 +112,7 @@ using std::vector;
 #endif
 
 const char* api_version="API_VERSION_"PACKAGE_VERSION;
-static APP_INIT_DATA aid;
+APP_INIT_DATA aid;
 static FILE_LOCK file_lock;
 APP_CLIENT_SHM* app_client_shm = 0;
 static volatile int time_until_checkpoint;
@@ -660,7 +660,7 @@ void boinc_exit(int status) {
     fflush(NULL);
 
 #if defined(_WIN32)
-    // Halt all the threads and cleans up.
+    // Halt all the threads and clean up.
     TerminateProcess(GetCurrentProcess(), status);
     // note: the above CAN return!
     Sleep(1000);

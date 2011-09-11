@@ -47,6 +47,7 @@
 #include <string>
 
 #include "error_numbers.h"
+#include "boinc_api.h"
 
 #include "coproc.h"
 
@@ -101,35 +102,22 @@ int boinc_get_opencl_ids_aux(
     return 0;
 }
 
-int boinc_get_opencl_ids(
-    int argc, char** argv, cl_device_id* device, cl_platform_id* platform
-) {
-    char type[256];
-    int device_num, retval=0;
+int boinc_get_opencl_ids(cl_device_id* device, cl_platform_id* platform) {
+    int retval=0;
     
-    strcpy(type, "");
-    device_num = -1;
-    
-    for (int i=1; i<argc; i++) {
-        if (!strcmp(argv[i], "--gpu_type")) {
-            strcpy(type, argv[++i]);
-        }
-        if (!strcmp(argv[i], "--device")) {
-            device_num = atoi(argv[++i]);
-        }
-    }
-
-    if (!strlen(type)) {
+    if (!strlen(aid.gpu_type)) {
         return CL_INVALID_DEVICE_TYPE;
     }
     
-    if (device_num < 0) {
+    if (aid.gpu_device_num < 0) {
         return CL_INVALID_DEVICE;
     }
 
 #ifdef _WIN32
     try {
-        retval = boinc_get_opencl_ids_aux(type, device_num, device, platform);
+        retval = boinc_get_opencl_ids_aux(
+            aid.gpu_type, aid.gpu_device_num, device, platform
+        );
     }
     catch (...) {
         return ERR_SIGNAL_CATCH;
@@ -139,7 +127,9 @@ int boinc_get_opencl_ids(
     if (setjmp(resume)) {
         return ERR_SIGNAL_CATCH;
     } else {
-        retval = boinc_get_opencl_ids_aux(type, device_num, device, platform);
+        retval = boinc_get_opencl_ids_aux(
+            aid.gpu_type, aid.gpu_device_num, device, platform
+        );
     }
 
     signal(SIGSEGV, old_sig);
