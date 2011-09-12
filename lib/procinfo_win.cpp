@@ -135,8 +135,6 @@ int procinfo_setup(PROC_MAP& pm) {
     osvi.dwOSVersionInfoSize = sizeof(osvi);
     GetVersionEx(&osvi);
 
-    pi.clear();
-
     switch(osvi.dwPlatformId) {
     case VER_PLATFORM_WIN32_WINDOWS:
         // Win95, Win98, WinME
