@@ -28,6 +28,14 @@
 #include <sys/types.h>
 #include <sys/wait.h>
 #include <unistd.h>
+
+#ifdef HAVE_CSIGNAL
+#include <csignal>
+#elif defined(HAVE_SYS_SIGNAL_H)
+#include <sys/signal.h>
+#elif defined(HAVE_SIGNAL_H)
+#include <signal.h>
+#endif
 #endif
 
 #include "procinfo.h"
@@ -128,12 +136,20 @@ bool any_process_exists(vector<int>& pids) {
     return false;
 }
 
+#endif
+
 void kill_all(vector<int>& pids) {
     for (unsigned int i=0; i<pids.size(); i++) {
+#ifdef _WIN32
+        HANDLE h = OpenProcess(READ_CONTROL | PROCESS_TERMINATE, false, pids[i]);
+        if (h == NULL) continue;
+        TerminateProcess(h, 0);
+        CloseHandle(h);
+#else
         kill(pids[i], SIGTERM);
+#endif
     }
 }
-#endif
 
 // Kill the descendants of the calling process.
 //

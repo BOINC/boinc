@@ -16,6 +16,8 @@
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
 
+// process-enumeration stuff for Unix other than Mac OS X
+
 #include "config.h"
 
 #ifdef HAVE_PROCFS_H
@@ -32,7 +34,9 @@
 #include <string.h>
 #include <ctype.h>
 #include <sys/types.h>
+#include <sys/wait.h>
 #include <dirent.h>
+#include <signal.h>
 
 #ifdef HAVE_UNISTD_H
 #include <unistd.h>

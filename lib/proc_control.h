@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2011 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -15,12 +15,20 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-extern HANDLE sandbox_account_interactive_token;
-extern HANDLE sandbox_account_service_token;
+#ifndef _PROC_CONTROL_
+#define _PROC_CONTROL_
 
-extern void get_sandbox_account_interactive_token();
-extern void get_sandbox_account_service_token();
+#include <vector>
 
-extern int run_app_windows(
-    const char* path, const char* cdir, int argc, char *const argv[], HANDLE&
-);
+extern void get_descendants(int pid, std::vector<int>& pids);
+extern bool any_process_exists(std::vector<int>& pids);
+extern void kill_all(std::vector<int>& pids);
+#ifdef _WIN32
+extern void kill_descendants();
+#else
+extern void kill_descendants(int child_pid=0);
+#endif
+extern void suspend_or_resume_descendants(int pid, bool resume);
+extern void suspend_or_resume_process(int pid, bool resume);
+
+#endif
