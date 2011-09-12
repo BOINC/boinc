@@ -5829,3 +5829,11 @@ David  11 Sept 2011
     api/
         boinc_api.cpp,h
         boinc_opencl.cpp,h
+
+David  11 Sept 2011
+    - API; fix the above fix
+
+    api/
+        boinc_api.cpp,h
+        boinc_opencl.cpp
+        Makefile.am

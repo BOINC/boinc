@@ -112,7 +112,7 @@ using std::vector;
 #endif
 
 const char* api_version="API_VERSION_"PACKAGE_VERSION;
-APP_INIT_DATA aid;
+static APP_INIT_DATA aid;
 static FILE_LOCK file_lock;
 APP_CLIENT_SHM* app_client_shm = 0;
 static volatile int time_until_checkpoint;

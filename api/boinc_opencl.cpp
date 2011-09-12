@@ -104,6 +104,10 @@ int boinc_get_opencl_ids_aux(
 
 int boinc_get_opencl_ids(cl_device_id* device, cl_platform_id* platform) {
     int retval=0;
+    APP_INIT_DATA aid;
+
+    boinc_parse_init_data_file();
+    boinc_get_init_data(aid);
     
     if (!strlen(aid.gpu_type)) {
         return CL_INVALID_DEVICE_TYPE;

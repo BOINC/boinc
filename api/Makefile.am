@@ -69,7 +69,7 @@ all_local += $(LIBBOINC_GRAPHICS2_STATIC)
 endif
 endif
 
-all-local: $(all_local)
+all-local: $(all_local) boinc_opencl.o
 
 $(LIBBOINC_API_STATIC): libboinc_api.la
 	rm -f $(LIBBOINC_API_STATIC)

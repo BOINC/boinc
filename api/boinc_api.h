@@ -85,7 +85,6 @@ extern volatile BOINC_STATUS boinc_status;
 typedef void (*FUNC_PTR)();
 
 struct APP_INIT_DATA;
-extern APP_INIT_DATA aid;
 
 extern int boinc_init(void);
 extern int boinc_finish(int status);
