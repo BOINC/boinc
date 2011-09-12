@@ -82,6 +82,7 @@ int LOG_FLAGS::parse(XML_PARSER& xp) {
         if (xp.parse_bool("poll_debug", poll_debug)) continue;
         if (xp.parse_bool("proxy_debug", proxy_debug)) continue;
         if (xp.parse_bool("rr_simulation", rr_simulation)) continue;
+        if (xp.parse_bool("rrsim_detail", rrsim_detail)) continue;
         if (xp.parse_bool("sched_op_debug", sched_op_debug)) continue;
         if (xp.parse_bool("scrsave_debug", scrsave_debug)) continue;
         if (xp.parse_bool("slot_debug", slot_debug)) continue;
@@ -123,6 +124,7 @@ int LOG_FLAGS::write(MIOFILE& out) {
         "        <poll_debug>%d</poll_debug>\n"
         "        <proxy_debug>%d</proxy_debug>\n"
         "        <rr_simulation>%d</rr_simulation>\n"
+        "        <rrsim_detail>%d</rrsim_detail>\n"
         "        <sched_op_debug>%d</sched_op_debug>\n"
         "        <scrsave_debug>%d</scrsave_debug>\n"
         "        <slot_debug>%d</slot_debug>\n"
@@ -158,6 +160,7 @@ int LOG_FLAGS::write(MIOFILE& out) {
         poll_debug ? 1 : 0,
         proxy_debug ? 1 : 0,
         rr_simulation ? 1 : 0,
+        rrsim_detail ? 1 : 0,
         sched_op_debug ? 1 : 0,
         scrsave_debug ? 1 : 0,
         slot_debug ? 1 : 0,

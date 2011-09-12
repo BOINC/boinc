@@ -581,15 +581,18 @@ static double rec_sum;
 // compute resource share and REC fractions
 // among compute-intensive, non-suspended projects
 //
-void project_priority_init() {
+void project_priority_init(bool set_rec_temp) {
     double rs_sum = 0;
     rec_sum = 0;
     for (unsigned int i=0; i<gstate.projects.size(); i++) {
         PROJECT* p = gstate.projects[i];
         if (p->non_cpu_intensive) continue;
         if (p->suspended_via_gui) continue;
+        if (set_rec_temp) {
+            p->pwf.rec_temp = p->pwf.rec;
+        }
         rs_sum += p->resource_share;
-        rec_sum += p->pwf.rec;
+        rec_sum += p->pwf.rec_temp;
     }
     if (rec_sum == 0) {
         rec_sum = 1;
@@ -601,7 +604,6 @@ void project_priority_init() {
             continue;
         }
         p->resource_share_frac = p->resource_share/rs_sum;
-        p->pwf.rec_temp = p->pwf.rec;
 
     }
 }

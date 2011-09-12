@@ -455,10 +455,6 @@ struct CLIENT_STATE {
     void check_all();
     void free_mem();
 
-// --------------- rr_sim.cpp:
-    void rr_simulation();
-    void print_deadline_misses();
-
 // --------------- work_fetch.cpp:
     int proj_min_results(PROJECT*, double);
     void check_project_timeout();

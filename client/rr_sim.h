@@ -18,38 +18,8 @@
 #ifndef __RR_SIM__
 #define __RR_SIM__
 
-#include <vector>
-#include <deque>
 
-struct RESULT;
-
-struct RR_SIM_PROJECT_STATUS {
-    std::vector<RESULT*>active;
-        // jobs currently running (in simulation)
-    std::deque<RESULT*>pending;
-        // CPU jobs runnable but not running yet
-
-    inline void clear() {
-        active.clear();
-        pending.clear();
-    }
-    void activate(RESULT* rp);
-    inline void add_pending(RESULT* rp) {
-        pending.push_back(rp);
-    }
-    inline bool none_active() {
-        return !active.size();
-    }
-    inline bool none_pending() {
-        return !pending.size();
-    }
-    void remove_active(RESULT* r);
-    inline RESULT* get_pending() {
-        if (!pending.size()) return NULL;
-        RESULT* rp = pending[0];
-        pending.erase(pending.begin());
-        return rp;
-    }
-};
+extern void rr_simulation();
+extern void print_deadline_misses();
 
 #endif

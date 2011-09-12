@@ -82,7 +82,9 @@ struct LOG_FLAGS {
         // show what polls are responding
     bool proxy_debug;
     bool rr_simulation;
-        // results of rr simulator
+        // results of RR sim
+    bool rrsim_detail;
+        // details of RR sim
     bool sched_op_debug;
     bool scrsave_debug;
     bool slot_debug;

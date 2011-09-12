@@ -126,9 +126,6 @@ void PROJECT::init() {
     nuploading_results = 0;
     too_many_uploading_results = false;
 
-    // Initialize scratch variables.
-    rr_sim_status.clear();
-
 #ifdef SIM
     idle_time = 0;
     idle_time_sumsq = 0;

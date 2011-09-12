@@ -422,8 +422,10 @@ struct PROJECT : PROJ_AM {
         // in last X minutes and is still active
     bool uploading();
 
+#if 0
     RR_SIM_PROJECT_STATUS rr_sim_status;
         // temps used in CLIENT_STATE::rr_simulation();
+#endif
 
     struct RESULT *next_runnable_result;
         // the next result to run for this project
@@ -752,6 +754,7 @@ struct RESULT {
     double rrsim_flops_left;
     double rrsim_finish_delay;
     double rrsim_flops;
+    bool rrsim_done;
 
     bool already_selected;
         // used to keep cpu scheduler from scheduling a result twice

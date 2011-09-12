@@ -5837,3 +5837,19 @@ David  11 Sept 2011
         boinc_api.cpp,h
         boinc_opencl.cpp
         Makefile.am
+
+David  12 Sept 2011
+    - client: make RR simulation more accurate
+        by simulating time-slicing explicitly.
+        Also simulate changes in project REC
+        and hence in scheduling priority.
+    - client: add a log flag "rrsim_detail" that prints
+        time-slice-level info.
+
+    lib/
+        cc_config.cpp,h
+    client/
+        work_fetch.cpp,h
+        client_types.cpp,h
+        rr_sim.cpp,h
+        cpu_sched.cpp

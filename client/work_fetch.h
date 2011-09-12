@@ -193,7 +193,7 @@ struct RSC_WORK_FETCH {
         // used to calculate work request
     double deadline_missed_instances;
         // instance count for jobs that miss deadline
-    std::deque<RESULT*> pending;
+    std::vector<RESULT*> pending;
     BUSY_TIME_ESTIMATOR busy_time_estimator;
 #ifdef SIM
     double estimated_delay;
@@ -305,7 +305,7 @@ extern WORK_FETCH work_fetch;
 extern void set_no_rsc_config();
 
 //#ifdef USE_REC
-void project_priority_init();
+void project_priority_init(bool init_rec_temp=true);
 double project_priority(PROJECT*);
 void adjust_rec_sched(RESULT*);
 void adjust_rec_work_fetch(RESULT*);
