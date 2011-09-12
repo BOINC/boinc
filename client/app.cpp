@@ -255,9 +255,10 @@ void ACTIVE_TASK_SET::free_mem() {
 
 #ifndef SIM
 
-bool app_running(vector<PROCINFO>& piv, const char* p) {
-    for (unsigned int i=0; i<piv.size(); i++) {
-        PROCINFO& pi = piv[i];
+bool app_running(PROC_MAP& pm, const char* p) {
+    PROC_MAP::iterator i;
+    for (i=pm.begin(); i!=pm.end(); i++) {
+        PROCINFO& pi = i->second;
         //msg_printf(0, MSG_INFO, "running: [%s]", pi.command);
         if (!strcasecmp(pi.command, p)) {
             return true;
@@ -267,12 +268,12 @@ bool app_running(vector<PROCINFO>& piv, const char* p) {
 }
 
 #if 0  // debugging
-void procinfo_show(PROCINFO& pi, vector<PROCINFO>& piv) {
-	unsigned int i;
-	memset(&pi, 0, sizeof(pi));
-	for (i=0; i<piv.size(); i++) {
-		PROCINFO& p = piv[i];
-
+void procinfo_show(PROCINFO& pi, PROC_MAP& pm) {
+    unsigned int i;
+    memset(&pi, 0, sizeof(pi));
+    PROC_MAP::iterator i;
+    for (i=pm.begin(); i!=pm.end(); i++) {
+        PROCINFO& p = i->second;
         pi.kernel_time += p.kernel_time;
         pi.user_time += p.user_time;
         msg_printf(NULL, MSG_INFO, "%d %s: boinc %d low %d (%f %f) total (%f %f)",
@@ -300,8 +301,8 @@ void ACTIVE_TASK_SET::get_memory_usage() {
     if (diff < MEMORY_USAGE_PERIOD) return;
 
     last_mem_time = gstate.now;
-    vector<PROCINFO> piv;
-    retval = procinfo_setup(piv);
+    PROC_MAP pm;
+    retval = procinfo_setup(pm);
 	if (retval) {
 		if (log_flags.mem_usage_debug) {
 			msg_printf(NULL, MSG_INTERNAL_ERROR,
@@ -326,7 +327,7 @@ void ACTIVE_TASK_SET::get_memory_usage() {
         unsigned long last_page_fault_count = pi.page_fault_count;
         memset(&pi, 0, sizeof(pi));
         pi.id = atp->pid;
-        procinfo_app(pi, piv, atp->app_version->graphics_exec_file);
+        procinfo_app(pi, pm, atp->app_version->graphics_exec_file);
         pi.working_set_size_smoothed = .5*pi.working_set_size_smoothed + pi.working_set_size;
 
         int pf = pi.page_fault_count - last_page_fault_count;
@@ -345,13 +346,13 @@ void ACTIVE_TASK_SET::get_memory_usage() {
     }
 
     for (i=0; i<config.exclusive_apps.size(); i++) {
-        if (app_running(piv, config.exclusive_apps[i].c_str())) {
+        if (app_running(pm, config.exclusive_apps[i].c_str())) {
             exclusive_app_running = gstate.now;
             break;
         }
     }
     for (i=0; i<config.exclusive_gpu_apps.size(); i++) {
-        if (app_running(piv, config.exclusive_gpu_apps[i].c_str())) {
+        if (app_running(pm, config.exclusive_gpu_apps[i].c_str())) {
             exclusive_gpu_app_running = gstate.now;
             break;
         }
@@ -365,8 +366,8 @@ void ACTIVE_TASK_SET::get_memory_usage() {
     // so they're not useful for detecting paging/thrashing.
     //
     PROCINFO pi;
-    //procinfo_show(pi, piv);
-    procinfo_other(pi, piv);
+    //procinfo_show(pi, pm);
+    procinfo_non_boinc(pi, pm);
     if (log_flags.mem_usage_debug) {
         msg_printf(NULL, MSG_INFO,
             "[mem_usage] All others: RAM %.2fMB, page %.2fMB, user %.3f, kernel %.3f",

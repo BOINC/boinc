@@ -158,7 +158,7 @@ int PROC_STAT::parse(char* buf) {
 
 // build table of all processes in system
 //
-int procinfo_setup(vector<PROCINFO>& pi) {
+int procinfo_setup(PROC_MAP& pm) {
 
 #ifdef HAVE_DIRENT_H
     DIR *dir;
@@ -207,7 +207,7 @@ int procinfo_setup(vector<PROCINFO>& pi) {
                 }
                 fclose(fd);
                 p.is_boinc_app = (p.id == pid || strcasestr(p.command, "boinc"));
-                pi.push_back(p);
+                pm.insert(std::pair(p.id, p));
             }
         }
 #else  // linux
@@ -239,73 +239,14 @@ int procinfo_setup(vector<PROCINFO>& pi) {
                 p.is_low_priority = (ps.priority == 39);
                     // Linux seems to add 20 here,
                     // but this isn't documented anywhere
-                pi.push_back(p);
+                pm.insert(std::pair<int, PROCINFO>(p.id, p));
             }
         }
 #endif
     }
     closedir(dir);
 #endif
+    find_children(pm);
     return final_retval;
 
 }
-
-// Scan the process table adding in CPU time and mem usage.
-// Loop thru entire table as the entries aren't in order.
-// Recurse at most 4 times to get additional child processes
-//
-void add_child_totals(PROCINFO& pi, vector<PROCINFO>& piv, int pid, int rlvl) {
-    unsigned int i;
-
-    if (rlvl > 3) {
-        return;
-    }
-    for (i=0; i<piv.size(); i++) {
-        PROCINFO& p = piv[i];
-        if (p.parentid == pid) {
-            pi.kernel_time += p.kernel_time;
-            pi.user_time += p.user_time;
-
-            // only count process with most swap and memory
-            if (p.swap_size > pi.swap_size) {
-                pi.swap_size = p.swap_size;
-            }
-            if (p.working_set_size > pi.working_set_size) {
-                pi.working_set_size = p.working_set_size;
-            }
-
-            p.is_boinc_app = true;
-            // look for child process of this one
-            add_child_totals(pi, piv, p.id, rlvl+1); // recursion - woo hoo!
-        }
-    }
-}
-
-// fill in the given PROCINFO (which initially is zero except for id)
-// with totals from that process and all its descendants
-//
-void procinfo_app(
-    PROCINFO& pi, vector<PROCINFO>& piv, char* graphics_exec_file
-) {
-    unsigned int i;
-
-    for (i=0; i<piv.size(); i++) {
-        PROCINFO& p = piv[i];
-        if (p.id == pi.id) {
-            pi.kernel_time += p.kernel_time;
-            pi.user_time += p.user_time;
-            pi.swap_size += p.swap_size;
-            pi.working_set_size += p.working_set_size;
-            p.is_boinc_app = true;
-
-            // look for child processes
-            //
-            add_child_totals(pi, piv, pi.id, 0);
-            return;
-        }
-        if (!strcmp(p.command, graphics_exec_file)) {
-            p.is_boinc_app = true;
-        }
-    }
-}
-

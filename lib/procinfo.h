@@ -19,6 +19,7 @@
 #define _PROCINFO_
 
 #include <vector>
+#include <map>
 
 struct PROCINFO {
 	int id;
@@ -35,16 +36,21 @@ struct PROCINFO {
     char command[256];
 
 	double page_fault_rate;		// derived by higher-level code
+    std::vector<int> children;
 };
 
-extern int procinfo_setup(std::vector<PROCINFO>&);
+typedef std::map<int, PROCINFO> PROC_MAP;
+
+extern void find_children(PROC_MAP&);
+    // fill in the children fields
+
+extern int procinfo_setup(PROC_MAP&);
 	// call this first to get data structure
-extern void procinfo_app(PROCINFO&, std::vector<PROCINFO>&, char* graphics_exec_file);
-	// call this to get mem usage for a given app
-	// (marks process as BOINC)
-extern void procinfo_other(PROCINFO&, std::vector<PROCINFO>&);
-	// After getting mem usage for all BOINC apps,
-	// call this to get mem usage for everything else
+extern void procinfo_app(PROCINFO&, PROC_MAP&, char* graphics_exec_file);
+	// get mem usage for a given app (marks process as BOINC)
+extern void procinfo_non_boinc(PROCINFO&, PROC_MAP&);
+	// After getting info for all BOINC apps,
+	// call this to get info for everything else
 extern void get_descendants(int pid, std::vector<int>& pids);
 extern bool any_process_exists(std::vector<int>& pids);
 extern void kill_all(std::vector<int>& pids);

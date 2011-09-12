@@ -35,13 +35,77 @@
 
 using std::vector;
 
-static void get_descendants_aux(vector<PROCINFO>& piv, int pid, vector<int>& pids) {
-    for (unsigned int i=0; i<pids.size(); i++) {
-        PROCINFO& p = piv[i];
-        if (p.parentid == pid) {
-            pids.push_back(p.id);
-            get_descendants_aux(piv, p.id, pids);
+// Scan the process table adding in CPU time and mem usage.
+// Loop thru entire table as the entries aren't in order.
+// Recurse at most 4 times to get additional child processes
+//
+void add_child_totals(PROCINFO& pi, PROC_MAP& pm, PROC_MAP::iterator i) {
+    PROCINFO parent = i->second;
+    for (unsigned int j=0; j<parent.children.size(); j++) {
+        int child_pid = parent.children[j];
+        PROC_MAP::iterator i2 = pm.find(child_pid);
+        if (i2 == pm.end()) continue;
+        PROCINFO& p = i2->second;
+        pi.kernel_time += p.kernel_time;
+        pi.user_time += p.user_time;
+
+        // only count process with most swap and memory
+        if (p.swap_size > pi.swap_size) {
+            pi.swap_size = p.swap_size;
         }
+        if (p.working_set_size > pi.working_set_size) {
+            pi.working_set_size = p.working_set_size;
+        }
+
+        p.is_boinc_app = true;
+        add_child_totals(pi, pm, i2); // recursion - woo hoo!
+    }
+}
+
+// fill in the given PROCINFO (which initially is zero except for id)
+// with totals from that process and all its descendants
+//
+void procinfo_app(
+    PROCINFO& pi, PROC_MAP& pm, char* graphics_exec_file
+) {
+    PROC_MAP::iterator i;
+    for (i=pm.begin(); i!=pm.end(); i++) {
+        PROCINFO& p = i->second;
+        if (p.id == pi.id) {
+            pi.kernel_time += p.kernel_time;
+            pi.user_time += p.user_time;
+            pi.swap_size += p.swap_size;
+            pi.working_set_size += p.working_set_size;
+            p.is_boinc_app = true;
+
+            // look for child processes
+            //
+            add_child_totals(pi, pm, i);
+            return;
+        }
+        if (!strcmp(p.command, graphics_exec_file)) {
+            p.is_boinc_app = true;
+        }
+    }
+}
+
+void find_children(PROC_MAP& pm) {
+    PROC_MAP::iterator i;
+    for (i=pm.begin(); i!=pm.end(); i++) {
+        int parentid = i->second.parentid;
+        PROC_MAP::iterator j = pm.find(parentid);
+        if (j == pm.end()) continue;    // should never happen
+        j->second.children.push_back(i->first);
+    }
+}
+
+static void get_descendants_aux(PROC_MAP& pm, int pid, vector<int>& pids) {
+    PROC_MAP::iterator i = pm.find(pid);
+    if (i == pm.end()) return;
+    for (unsigned int j=0; j<i->second.children.size(); j++) {
+        int child_pid = i->second.children[j];
+        pids.push_back(child_pid);
+        get_descendants_aux(pm, child_pid, pids);
     }
 }
 
@@ -49,10 +113,10 @@ static void get_descendants_aux(vector<PROCINFO>& piv, int pid, vector<int>& pid
 //
 void get_descendants(int pid, vector<int>& pids) {
     int retval;
-    vector<PROCINFO> piv;
-    retval = procinfo_setup(piv);
+    PROC_MAP pm;
+    retval = procinfo_setup(pm);
     if (retval) return;
-    get_descendants_aux(piv, pid, pids);
+    get_descendants_aux(pm, pid, pids);
 }
 
 
@@ -60,12 +124,14 @@ void get_descendants(int pid, vector<int>& pids) {
 
 // get resource usage of non-BOINC apps
 //
-void procinfo_other(PROCINFO& pi, vector<PROCINFO>& piv) {
-    unsigned int i;
-
+void procinfo_non_boinc(PROCINFO& pi, PROC_MAP& pm) {
     memset(&pi, 0, sizeof(pi));
-    for (i=0; i<piv.size(); i++) {
-        PROCINFO& p = piv[i];
+    PROC_MAP::iterator i;
+    for (i=pm.begin(); i!=pm.end(); i++) {
+        PROCINFO& p = i->second;
+#ifdef _WIN32
+        if (p.id == 0) continue;    // idle process
+#endif
         if (p.is_boinc_app) continue;
         if (p.is_low_priority) continue;
 
