@@ -86,7 +86,9 @@ extern int boinc_checkpoint_completed(void);
 extern int boinc_fraction_done(double);
 extern int boinc_suspend_other_activities(void);
 extern int boinc_resume_other_activities(void);
-extern int boinc_report_app_status(double, double, double);
+extern int boinc_report_app_status(
+    double cpu_time, double checkpoint_cpu_time, double _fraction_done
+);
 extern int boinc_time_to_checkpoint();
 extern void boinc_begin_critical_section();
 extern int boinc_try_critical_section();
@@ -127,6 +129,10 @@ extern double boinc_elapsed_time();
 extern int boinc_upload_file(std::string& name);
 extern int boinc_upload_status(std::string& name);
 extern char* boinc_msg_prefix(char*, int);
+extern int boinc_report_app_status_aux(
+    double cpu_time, double checkpoint_cpu_time, double _fraction_done,
+    std::vector<int>* other_pids
+);
 
 /////////// API ENDS HERE
 

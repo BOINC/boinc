@@ -142,6 +142,11 @@ struct ACTIVE_TASK {
         // core/app shared mem segment
     MSG_QUEUE graphics_request_queue;
     MSG_QUEUE process_control_queue;
+    std::vector<int> other_pids;
+        // IDs of processes that are part of this task
+        // but not descendants of the main process
+        // (e.g. VMs created by vboxwrapper)
+        // These are communicated via the app_status message channel
 
     void set_task_state(int, const char*);
     inline int task_state() {

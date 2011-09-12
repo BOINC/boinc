@@ -62,16 +62,26 @@ void add_child_totals(PROCINFO& pi, PROC_MAP& pm, PROC_MAP::iterator i) {
     }
 }
 
-// fill in the given PROCINFO (which initially is zero except for id)
-// with totals from that process and all its descendants
+static inline bool in_vector(int n, vector<int>& v) {
+    for (unsigned int i=0; i<v.size(); i++) {
+        if (n == v[i]) return true;
+    }
+    return false;
+}
+
+// Fill in the given PROCINFO (initially zero except for id)
+// with totals from that process and all its descendants.
+// Set PROCINFO.is_boinc_app for all of them.
 //
 void procinfo_app(
-    PROCINFO& pi, PROC_MAP& pm, char* graphics_exec_file
+    PROCINFO& pi, vector<int>* other_pids, PROC_MAP& pm, char* graphics_exec_file
 ) {
     PROC_MAP::iterator i;
     for (i=pm.begin(); i!=pm.end(); i++) {
         PROCINFO& p = i->second;
-        if (p.id == pi.id) {
+        if (p.id == pi.id
+            || (other_pids && in_vector(p.id, *other_pids))
+        ) {
             pi.kernel_time += p.kernel_time;
             pi.user_time += p.user_time;
             pi.swap_size += p.swap_size;
@@ -102,7 +112,7 @@ void find_children(PROC_MAP& pm) {
 // get resource usage of non-BOINC apps
 //
 void procinfo_non_boinc(PROCINFO& pi, PROC_MAP& pm) {
-    memset(&pi, 0, sizeof(pi));
+    pi.clear();
     PROC_MAP::iterator i;
     for (i=pm.begin(); i!=pm.end(); i++) {
         PROCINFO& p = i->second;

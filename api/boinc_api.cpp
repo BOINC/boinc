@@ -55,6 +55,8 @@
 // Unless otherwise noted, "CPU time" refers to the sum over all episodes
 // (not counting the part after the last checkpoint in an episode).
 
+#include <vector>
+
 #if defined(_WIN32) && !defined(__STDWX_H__) && !defined(_BOINC_WIN_) && !defined(_AFX_STDAFX_H_)
 #include "boinc_win.h"
 #endif
@@ -94,6 +96,8 @@
 #include "app_ipc.h"
 
 #include "boinc_api.h"
+
+using std::vector;
 
 //#define DEBUG_BOINC_API
 
@@ -639,12 +643,13 @@ int boinc_parse_init_data_file() {
     return 0;
 }
 
-int boinc_report_app_status(
+int boinc_report_app_status_aux(
     double cpu_time,
     double checkpoint_cpu_time,
-    double _fraction_done
+    double _fraction_done,
+    vector<int>* other_pids
 ) {
-    char msg_buf[MSG_CHANNEL_SIZE];
+    char msg_buf[MSG_CHANNEL_SIZE], buf[256];
     if (standalone) return 0;
 
     sprintf(msg_buf,
@@ -655,8 +660,24 @@ int boinc_report_app_status(
         checkpoint_cpu_time,
         _fraction_done
     );
+    if (other_pids) {
+        for (unsigned int i=0; i<other_pids->size(); i++) {
+            sprintf(buf, "<other_pid>%d</other_pid>\n", (*other_pids)[i]);
+            strcat(msg_buf, buf);
+        }
+    }
     app_client_shm->shm->app_status.send_msg(msg_buf);
     return 0;
+}
+
+int boinc_report_app_status(
+    double cpu_time,
+    double checkpoint_cpu_time,
+    double _fraction_done
+){
+    return boinc_report_app_status_aux(
+        cpu_time, checkpoint_cpu_time, _fraction_done, NULL
+    );
 }
 
 int boinc_get_init_data_p(APP_INIT_DATA* app_init_data) {
