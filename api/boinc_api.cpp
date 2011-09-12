@@ -82,6 +82,7 @@
 
 #include "diagnostics.h"
 #include "parse.h"
+#include "proc_control.h"
 #include "shmem.h"
 #include "util.h"
 #include "str_util.h"

@@ -69,7 +69,7 @@ using std::vector;
 #include "client_msgs.h"
 #include "client_state.h"
 #include "file_names.h"
-#include "procinfo.h"
+#include "proc_control.h"
 #include "sandbox.h"
 
 #include "app.h"

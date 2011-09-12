@@ -56,6 +56,7 @@ generic_sources = \
     prefs.cpp \
     procinfo.cpp \
     procinfo_unix.cpp \
+	proc_control.cpp \
     proxy_info.cpp \
     shmem.cpp \
     str_util.cpp \
