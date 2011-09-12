@@ -741,64 +741,6 @@ GetAccountSid(
     return bSuccess;
 }
 
-// signature of OpenThread()
-//
-typedef HANDLE (WINAPI *tOT)(
-    DWORD dwDesiredAccess, BOOL bInheritHandle, DWORD dwThreadId
-);
-
-// Suspend or resume the threads in a given process,
-// but don't suspend 'calling_thread'.
-//
-// The only way to do this on Windows is to enumerate
-// all the threads in the entire system,
-// and find those belonging to the process (ugh!!)
-//
-
-int suspend_or_resume_threads(
-    DWORD pid, DWORD calling_thread_id, bool resume
-) { 
-    HANDLE threads, thread;
-    static HMODULE hKernel32Lib = NULL;
-    THREADENTRY32 te = {0}; 
-    static tOT pOT = NULL;
- 
-    // Dynamically link to the proper function pointers.
-    if (!hKernel32Lib) {
-        hKernel32Lib = GetModuleHandleA("kernel32.dll");
-    }
-    if (!pOT) {
-        pOT = (tOT) GetProcAddress( hKernel32Lib, "OpenThread" );
-    }
-
-    if (!pOT) {
-        return -1;
-    }
-
-    threads = CreateToolhelp32Snapshot(TH32CS_SNAPTHREAD, 0); 
-    if (threads == INVALID_HANDLE_VALUE) return -1;
- 
-    te.dwSize = sizeof(THREADENTRY32); 
-    if (!Thread32First(threads, &te)) { 
-        CloseHandle(threads); 
-        return -1;
-    }
-
-    do { 
-        if (!diagnostics_is_thread_exempt_suspend(te.th32ThreadID)) continue;
-        if (te.th32ThreadID == calling_thread_id) continue;
-        if (te.th32OwnerProcessID == pid) {
-            thread = pOT(THREAD_SUSPEND_RESUME, FALSE, te.th32ThreadID);
-            resume ?  ResumeThread(thread) : SuspendThread(thread);
-            CloseHandle(thread);
-        } 
-    } while (Thread32Next(threads, &te)); 
-
-    CloseHandle (threads); 
-
-    return 0;
-} 
-
 void chdir_to_data_dir() {
 	LONG    lReturnValue;
 	HKEY    hkSetupHive;
