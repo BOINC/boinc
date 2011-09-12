@@ -23,9 +23,6 @@
 
 #include <vector>
 
-extern bool use_rec;
-#define USE_REC
-
 extern bool use_hyst_fetch;
 
 #define RSC_TYPE_ANY    -1
@@ -44,12 +41,6 @@ struct RSC_PROJECT_WORK_FETCH {
     // the following are persistent (saved in state file)
     double backoff_time;
     double backoff_interval;
-//#ifndef USE_REC
-    double long_term_debt;
-    double short_term_debt;
-    double anticipated_debt;
-        // short-term debt, adjusted by scheduled jobs
-//#endif
 
     // the following used by debt accounting
     double secs_this_debt_interval;
@@ -62,13 +53,6 @@ struct RSC_PROJECT_WORK_FETCH {
     bool anon_skip;
         // set if this project is anonymous platform
         // and it has no app version that uses this resource
-
-    // the following are used by rr_simulation()
-    //
-    double runnable_share;
-        // this project's share relative to projects that have
-        // nearly runnable jobs for this resource;
-        // determines processing rate for CPU
     double fetchable_share;
         // this project's share relative to projects from which
         // we could probably get work for this resource;
@@ -84,25 +68,9 @@ struct RSC_PROJECT_WORK_FETCH {
         memset(this, 0, sizeof(*this));
     }
 
-//#ifndef USE_REC
-    // whether this project should accumulate debt for this resource
-    //
-    bool debt_eligible(PROJECT*, RSC_WORK_FETCH&);
-
-    inline void zero_debt() {
-        long_term_debt = 0;
-        short_term_debt = 0;
-    }
-//#endif
-
     inline void reset() {
         backoff_time = 0;
         backoff_interval = 0;
-//#ifndef USE_REC
-        long_term_debt = 0;
-        short_term_debt = 0;
-        anticipated_debt = 0;
-//#endif
     }
 
     bool may_have_work;
@@ -113,9 +81,6 @@ struct RSC_PROJECT_WORK_FETCH {
         backoff_time = 0;
         backoff_interval = 0;
     }
-//#ifndef USE_REC
-    bool overworked();
-//#endif
 };
 
 // estimate the time a resources will be saturated
@@ -186,8 +151,6 @@ struct RSC_WORK_FETCH {
     double sim_nused;
     double total_fetchable_share;
         // total RS of projects from which we could fetch jobs for this device
-    double total_runnable_share;
-        // total RS of projects with runnable jobs for this device
     double saturated_time;
         // estimated time until resource is not saturated
         // used to calculate work request
@@ -224,10 +187,6 @@ struct RSC_WORK_FETCH {
     PROJECT* choose_project(int);
     void supplement(PROJECT*);
     RSC_PROJECT_WORK_FETCH& project_state(PROJECT*);
-//#ifndef USE_REC
-    void update_long_term_debts();
-    void update_short_term_debts();
-//#endif
     void print_state(const char*);
     void clear_request();
     void set_request(PROJECT*, bool allow_overworked);
@@ -240,7 +199,6 @@ struct RSC_WORK_FETCH {
         nidle_now = 0;
         sim_nused = 0;
         total_fetchable_share = 0;
-        total_runnable_share = 0;
         saturated_time = 0;
         deadline_missed_instances = 0;
     }
@@ -250,16 +208,12 @@ struct RSC_WORK_FETCH {
 // per project state
 //
 struct PROJECT_WORK_FETCH {
-//#ifdef USE_REC
     double rec;
         // recent estimated credit
     double rec_time;
         // when it was last updated
     double rec_temp;
         // temporary copy used during schedule_cpus()
-//#else
-    double overall_debt;
-//#endif
     bool can_fetch_work;
     bool compute_can_fetch_work(PROJECT*);
     bool has_runnable_jobs;
@@ -272,10 +226,6 @@ struct PROJECT_WORK_FETCH {
 // global work fetch state
 //
 struct WORK_FETCH {
-//#ifndef USE_REC
-    void set_overall_debts();
-    void zero_debts();
-//#endif
     PROJECT* choose_project();
         // find a project to ask for work
     PROJECT* non_cpu_intensive_project_needing_work();
@@ -304,11 +254,9 @@ extern WORK_FETCH work_fetch;
 
 extern void set_no_rsc_config();
 
-//#ifdef USE_REC
 void project_priority_init(bool init_rec_temp=true);
 double project_priority(PROJECT*);
 void adjust_rec_sched(RESULT*);
 void adjust_rec_work_fetch(RESULT*);
-//#endif
 
 #endif

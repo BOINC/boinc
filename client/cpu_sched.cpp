@@ -340,31 +340,14 @@ RESULT* CLIENT_STATE::largest_debt_project_best_result() {
         PROJECT* p = projects[i];
         if (!p->next_runnable_result) continue;
         if (p->non_cpu_intensive) continue;
-        if (use_rec) {
-            if (first || project_priority(p)> best_debt) {
-                first = false;
-                best_project = p;
-                best_debt = project_priority(p);
-            }
-        } else {
-            if (first || p->rsc_pwf[0].anticipated_debt > best_debt) {
-                first = false;
-                best_project = p;
-                best_debt = p->rsc_pwf[0].anticipated_debt;
-            }
+        if (first || project_priority(p)> best_debt) {
+            first = false;
+            best_project = p;
+            best_debt = project_priority(p);
         }
     }
     if (!best_project) return NULL;
 
-    if (!use_rec) {
-        if (log_flags.cpu_sched_debug) {
-            msg_printf(best_project, MSG_INFO,
-                "[cpu_sched_debug] highest debt: %f %s",
-                best_project->rsc_pwf[0].anticipated_debt,
-                best_project->next_runnable_result->name
-            );
-        }
-    }
     RESULT* rp = best_project->next_runnable_result;
     best_project->next_runnable_result = 0;
     return rp;
@@ -392,11 +375,7 @@ RESULT* first_coproc_result(int rsc_type) {
         if (!rp->runnable()) continue;
         if (rp->non_cpu_intensive()) continue;
         if (rp->already_selected) continue;
-        if (use_rec) {
-                std = project_priority(rp->project);
-        } else {
-                std = rp->project->anticipated_debt(rsc_type);
-        }
+        std = project_priority(rp->project);
         if (!best) {
             best = rp;
             best_std = std;
@@ -683,14 +662,7 @@ void CLIENT_STATE::adjust_debts() {
         work_fetch.accumulate_inst_sec(atp, elapsed_time);
     }
 
-    if (use_rec) {
-        update_rec();
-    } else {
-        for (int j=0; j<coprocs.n_rsc; j++) {
-            rsc_work_fetch[j].update_long_term_debts();
-            rsc_work_fetch[j].update_short_term_debts();
-        }
-    }
+    update_rec();
 
     reset_debt_accounting();
 }
@@ -757,21 +729,12 @@ static bool schedule_if_possible(
     if (log_flags.cpu_sched_debug) {
         msg_printf(rp->project, MSG_INFO,
             "[cpu_sched_debug] scheduling %s (%s) (%f)", rp->name, description,
-            use_rec?project_priority(rp->project):0
+            project_priority(rp->project)
         );
     }
     proc_rsc.schedule(rp, atp);
 
-    if (use_rec) {
-        adjust_rec_sched(rp);
-    } else {
-        // project STD at end of time slice
-        //
-        double dt = gstate.global_prefs.cpu_scheduling_period();
-        for (int i=0; i<coprocs.n_rsc; i++) {
-            rp->project->rsc_pwf[i].anticipated_debt -= dt*rp->avp->avg_ncpus/rsc_work_fetch[i].ninstances;
-        }
-    }
+    adjust_rec_sched(rp);
     return true;
 }
 
@@ -893,9 +856,7 @@ void CLIENT_STATE::make_run_list(vector<RESULT*>& run_list) {
 
     // set temporary variables
     //
-    if (use_rec) {
-        project_priority_init();
-    }
+    project_priority_init();
     for (i=0; i<results.size(); i++) {
         rp = results[i];
         rp->already_selected = false;
@@ -904,11 +865,6 @@ void CLIENT_STATE::make_run_list(vector<RESULT*>& run_list) {
     for (i=0; i<projects.size(); i++) {
         p = projects[i];
         p->next_runnable_result = NULL;
-    if (!use_rec) {
-        for (int j=0; j<coprocs.n_rsc; j++) {
-            p->rsc_pwf[j].anticipated_debt = p->rsc_pwf[j].short_term_debt;
-        }
-    }
         for (int j=0; j<coprocs.n_rsc; j++) {
             p->rsc_pwf[j].deadlines_missed_copy = p->rsc_pwf[j].deadlines_missed;
         }

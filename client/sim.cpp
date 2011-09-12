@@ -59,8 +59,6 @@
 //      simulate use of EDF sim by scheduler
 //  [--cpu_sched_rr_only]
 //      use only RR scheduling
-//  [--use_rec]
-//      client scheduling is based on recent estimated credit (REC)
 //  [--use_hyst_fetch]
 //      client work fetch uses hysteresis
 //  [--rec_half_life X]
@@ -127,7 +125,6 @@ void usage(char* prog) {
         "[--delta X]\n"
         "[--server_uses_workload]\n"
         "[--cpu_sched_rr_only]\n"
-        "[--use_rec]\n"
         "[--use_hyst_fetch]\n"
         "[--rec_half_life X]\n",
         prog
@@ -919,8 +916,6 @@ void html_end() {
     fclose(html_out);
 }
 
-//#ifdef USE_REC
-
 void set_initial_rec() {
     unsigned int i;
     double sum=0;
@@ -969,84 +964,6 @@ void make_graph(const char* title, const char* fname, int field) {
     system(cmd);
 }
 
-//#else
-
-// lines in the debt file have these fields:
-// time
-// per project:
-//      overall LTD
-//      CPU LTD
-//      CPU STD
-//      [NVIDIA LTD]
-//      [NVIDIA STD]
-//      [ATI LTD]
-//      [ATI STD]
-//
-void write_debts() {
-    fprintf(debt_file, "%f ", gstate.now);
-    for (unsigned int i=0; i<gstate.projects.size(); i++) {
-        PROJECT* p = gstate.projects[i];
-        fprintf(debt_file, "%f %f %f ",
-            p->pwf.overall_debt,
-            p->rsc_pwf[0].long_term_debt,
-            p->rsc_pwf[0].short_term_debt
-        );
-        for (int j=1; j<coprocs.n_rsc; j++) {
-            fprintf(debt_file, "%f %f ",
-                p->rsc_pwf[j].long_term_debt,
-                p->rsc_pwf[j].short_term_debt
-            );
-        }
-    }
-    fprintf(debt_file, "\n");
-}
-
-// generate a bunch of debt graphs
-//
-
-void make_graph(const char* title, const char* fname, int field, int nfields) {
-    char gp_fname[256], cmd[256], png_fname[256];
-
-    sprintf(gp_fname, "%s%s.gp", outfile_prefix, fname);
-    FILE* f = fopen(gp_fname, "w");
-    fprintf(f,
-        "set terminal png small size 1024, 768\n"
-        "set title \"%s\"\n"
-        "plot ",
-        title
-    );
-    for (unsigned int i=0; i<gstate.projects.size(); i++) {
-        PROJECT* p = gstate.projects[i];
-        fprintf(f, "\"%sdebt.dat\" using 1:%d title \"%s\" with lines%s",
-            outfile_prefix, 2+field+i*nfields, p->project_name,
-            (i==gstate.projects.size()-1)?"\n":", \\\n"
-        );
-    }
-    fclose(f);
-    sprintf(png_fname, "%s%s.png", outfile_prefix, fname);
-    sprintf(cmd, "gnuplot < %s > %s", gp_fname, png_fname);
-    fprintf(index_file, "<br><a href=%s.png>Graph of %s</a>\n", fname, title);
-    system(cmd);
-}
-
-void debt_graphs() {
-    int nfields = 3 + (coprocs.have_nvidia()?2:0) + (coprocs.have_ati()?2:0);
-    make_graph("Overall debt", "debt_overall", 0, nfields);
-    make_graph("CPU LTD", "debt_cpu_ltd", 1, nfields);
-    make_graph("CPU STD", "debt_cpu_std", 2, nfields);
-    if (coprocs.have_nvidia()) {
-        make_graph("NVIDIA LTD", "debt_nvidia_ltd", 3, nfields);
-        make_graph("NVIDIA STD", "debt_nvidia_std", 4, nfields);
-    }
-    if (coprocs.have_ati()) {
-        int off = coprocs.have_nvidia()?2:0;
-        make_graph("ATI LTD", "debt_ati_ltd", 3+off, nfields);
-        make_graph("ATI STD", "debt_ati_std", 4+off, nfields);
-    }
-}
-
-//#endif
-
 static void write_inputs() {
     char buf[256];
     sprintf(buf, "%s/%s", outfile_prefix, INPUTS_FNAME);
@@ -1054,18 +971,14 @@ static void write_inputs() {
     fprintf(f,
         "Round-robin only: %s\n"
         "scheduler EDF sim: %s\n"
-        "hysteresis work fetch: %s\n"
-        "REC-based scheduling: %s\n",
+        "hysteresis work fetch: %s\n",
         cpu_sched_rr_only?"yes":"no",
         server_uses_workload?"yes":"no",
-        use_hyst_fetch?"yes":"no",
-        use_rec?"yes":"no"
+        use_hyst_fetch?"yes":"no"
     );
-    if (use_rec) {
-        fprintf(f,
-            "REC half-life: %f\n", config.rec_half_life
-        );
-    }
+    fprintf(f,
+        "REC half-life: %f\n", config.rec_half_life
+    );
     fprintf(f,
         "Simulation duration: %f\nTime step: %f\n",
         duration, delta
@@ -1097,20 +1010,16 @@ void simulate() {
         "Scheduling policies\n"
         "   Round-robin only: %s\n"
         "   Scheduler EDF simulation: %s\n"
-        "   Hysteresis work fetch: %s\n"
-        "   REC-based scheduling: %s\n",
+        "   Hysteresis work fetch: %s\n",
         gstate.work_buf_min(), gstate.work_buf_total(),
         gstate.global_prefs.cpu_scheduling_period(),
         cpu_sched_rr_only?"yes":"no",
         server_uses_workload?"yes":"no",
-        use_hyst_fetch?"yes":"no",
-        use_rec?"yes":"no"
+        use_hyst_fetch?"yes":"no"
     );
-    if (use_rec) {
-        fprintf(summary_file,
-            "   REC half-life: %f\n", config.rec_half_life
-        );
-    }
+    fprintf(summary_file,
+        "   REC half-life: %f\n", config.rec_half_life
+    );
     fprintf(summary_file,
         "Simulation parameters\n"
         "   time step %f, duration %f\n"
@@ -1155,11 +1064,7 @@ void simulate() {
             }
         }
         html_rec();
-if (use_rec) {
         write_recs();
-} else {
-        write_debts();
-}
         gstate.now += delta;
         if (gstate.now > start + duration) break;
     }
@@ -1372,9 +1277,7 @@ void do_client_simulation() {
     gstate.set_ncpus();
     work_fetch.init();
 
-if (use_rec) {
     set_initial_rec();
-}
 
     gstate.request_work_fetch("init");
     simulate();
@@ -1406,11 +1309,7 @@ if (use_rec) {
     );
     print_project_results(summary_file);
 
-if (use_rec) {
     make_graph("REC", "rec", 0);
-} else {
-    debt_graphs();
-}
 }
 
 char* next_arg(int argc, char** argv, int& i) {
@@ -1442,8 +1341,6 @@ int main(int argc, char** argv) {
             server_uses_workload = true;
         } else if (!strcmp(opt, "--cpu_sched_rr_only")) {
             cpu_sched_rr_only = true;
-        } else if (!strcmp(opt, "--use_rec")) {
-            use_rec = true;
         } else if (!strcmp(opt, "--use_hyst_fetch")) {
             use_hyst_fetch = true;
         } else if (!strcmp(opt, "--rec_half_life")) {

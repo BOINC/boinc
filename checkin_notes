@@ -5671,11 +5671,11 @@ David  6 Sept 2011
             submit_app.php
 
 David  7 Sept 2011
-	- scheduler: fix crashing bug
+    - scheduler: fix crashing bug
 
-	sched/
-		sched_version.cpp
-		sched_assign.cpp
+    sched/
+        sched_version.cpp
+        sched_assign.cpp
 
 Rom    7 Sept 2011
     - Tag for 6.13.2 release, all platforms
@@ -5791,10 +5791,10 @@ David  10 Sept 2011
         app_ipc.cpp,h
 
 David  10 Sept 2011
-	- client: fix error in parsing of XML comments
+    - client: fix error in parsing of XML comments
 
-	lib/
-		parse.cpp
+    lib/
+        parse.cpp
 
 David  11 Sept 2011
     - client: finish next-to-last checkin
@@ -5805,22 +5805,22 @@ David  11 Sept 2011
         app.h
 
 David  11 Sept 2011
-	- manager, simple view:
-		- edit label text
-		- increase opacity of main area;
-			otherwise some text is hard to read
-		- change borders from blue to light gray.
-			In general shouldn't use primary colors
-		- display credit as integer
-		- reduce size of project name;
-			otherwise long names don't fit (on Win)
-		- don't use "(in slot x)".
-			"Slot" is not part of the vocabulary here.
+    - manager, simple view:
+        - edit label text
+        - increase opacity of main area;
+            otherwise some text is hard to read
+        - change borders from blue to light gray.
+            In general shouldn't use primary colors
+        - display credit as integer
+        - reduce size of project name;
+            otherwise long names don't fit (on Win)
+        - don't use "(in slot x)".
+            "Slot" is not part of the vocabulary here.
 
-	clientgui/
-		sg_PanelBase.cpp
-		sg_ProjectPanel.cpp
-		sg_TaskPanel.cpp
+    clientgui/
+        sg_PanelBase.cpp
+        sg_ProjectPanel.cpp
+        sg_TaskPanel.cpp
 
 David  11 Sept 2011
     - API: change boinc_get_opencl_ids() to use APP_INIT_DATA
@@ -5852,4 +5852,13 @@ David  12 Sept 2011
         work_fetch.cpp,h
         client_types.cpp,h
         rr_sim.cpp,h
+        cpu_sched.cpp
+
+David  12 Sept 2011
+    - client: remove code related to debt-based scheduling
+
+    client/
+        work_fetch.cpp,h
+        client_types.cpp,h
+        sim.cpp
         cpu_sched.cpp

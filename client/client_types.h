@@ -451,11 +451,6 @@ struct PROJECT : PROJ_AM {
     inline int deadlines_missed(int rsc_type) {
         return rsc_pwf[rsc_type].deadlines_missed;
     }
-//#ifndef USE_REC
-    inline double anticipated_debt(int rsc_type) {
-        return rsc_pwf[rsc_type].anticipated_debt;
-    }
-//#endif
     void get_task_durs(double& not_started_dur, double& in_progress_dur);
 
     int nresults_returned;

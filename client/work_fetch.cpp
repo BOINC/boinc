@@ -33,7 +33,6 @@
 
 using std::vector;
 
-bool use_rec = true;
 bool use_hyst_fetch = true;
 
 RSC_WORK_FETCH rsc_work_fetch[MAX_RSC];
@@ -141,56 +140,12 @@ bool RSC_PROJECT_WORK_FETCH::compute_may_have_work(PROJECT* p, int rsc_type) {
 
 void RSC_PROJECT_WORK_FETCH::rr_init(PROJECT* p, int rsc_type) {
     may_have_work = compute_may_have_work(p, rsc_type);
-    runnable_share = 0;
     fetchable_share = 0;
     has_runnable_jobs = false;
     sim_nused = 0;
     nused_total = 0;
     deadlines_missed = 0;
 }
-
-//#ifndef USE_REC
-// see if the project's debt is beyond what would normally happen;
-// if so we conclude that it had a long job that ran in EDF mode;
-// avoid asking it for work unless absolutely necessary.
-//
-bool RSC_PROJECT_WORK_FETCH::overworked() {
-    double x = gstate.work_buf_total() + gstate.global_prefs.cpu_scheduling_period(); 
-    if (x < 86400) x = 86400;
-    return (long_term_debt < -x);
-}
-
-// should this project be accumulating LTD for this resource?
-//
-bool RSC_PROJECT_WORK_FETCH::debt_eligible(PROJECT* p, RSC_WORK_FETCH& rwf) {
-    if (p->non_cpu_intensive) return false;
-    if (p->suspended_via_gui) return false;
-    if (p->some_result_suspended()) return false;
-    if (has_runnable_jobs) return true;
-        // must precede the done_request_more_work check
-    if (p->dont_request_more_work) return false;
-    if (backoff_time > gstate.now) return false;
-    if (dont_fetch(p, rwf.rsc_type)) return false;
-
-    // NOTE: it's critical that all conditions that might prevent
-    // us from asking the project for work of this type
-    // be included in the above list.
-    // Otherwise we might get in a state where debt accumulates,
-    // pushing other projects into overworked state
-
-    // The last time we asked for work we didn't get any,
-    // but it's been a while since we asked.
-    // In this case, accumulate debt until we reach (around) zero, then stop.
-    //
-    if (backoff_interval == WF_MAX_BACKOFF_INTERVAL) {
-        if (long_term_debt > -DEBT_ADJUST_PERIOD) {
-            return false;
-        }
-    }
-    if (p->min_rpc_time > gstate.now) return false;
-    return true;
-}
-//#endif
 
 void RSC_PROJECT_WORK_FETCH::backoff(PROJECT* p, const char* name) {
     if (backoff_interval) {
@@ -225,7 +180,6 @@ void RSC_WORK_FETCH::rr_init() {
     nidle_now = 0;
     sim_nused = 0;
     total_fetchable_share = 0;
-    total_runnable_share = 0;
     deadline_missed_instances = 0;
     saturated_time = 0;
     pending.clear();
@@ -271,15 +225,9 @@ PROJECT* RSC_WORK_FETCH::choose_project_hyst() {
         RSC_PROJECT_WORK_FETCH& rpwf = project_state(p);
         if (rpwf.anon_skip) continue;
         if (pbest) {
-if (use_rec) {
             if (project_priority(pbest) > project_priority(p)) {
                 continue;
             }
-} else {
-            if (pbest->pwf.overall_debt > p->pwf.overall_debt) {
-                continue;
-            }
-}
         }
         pbest = p;
     }
@@ -318,9 +266,6 @@ PROJECT* RSC_WORK_FETCH::choose_project(int criterion) {
         if (rpwf.anon_skip) continue;
         switch (criterion) {
         case FETCH_IF_MINOR_SHORTFALL:
-if (!use_rec) {
-            if (rpwf.overworked()) continue;
-}
             if (wacky_dcf(p)) continue;
             if (!p->resource_share) continue;
             break;
@@ -329,13 +274,8 @@ if (!use_rec) {
             if (!p->resource_share) continue;
             break;
         case FETCH_IF_PROJECT_STARVED:
-if (!use_rec) {
-            if (rpwf.overworked()) continue;
-            if (rpwf.nused_total >= ninstances*rpwf.fetchable_share) continue;
-} else {
             if (project_priority(p) < 0) continue;
             if (rpwf.nused_total >= ninstances) continue;
-}
             if (!p->resource_share) continue;
             break;
         }
@@ -344,15 +284,9 @@ if (!use_rec) {
             if (!p->resource_share) {
                 continue;
             }
-if (use_rec) {
             if (project_priority(pbest) > project_priority(p)) {
                 continue;
             }
-} else {
-            if (pbest->pwf.overall_debt > p->pwf.overall_debt) {
-                continue;
-            }
-}
         }
         pbest = p;
     }
@@ -372,7 +306,7 @@ if (use_rec) {
     case FETCH_IF_MINOR_SHORTFALL:
         // in this case, potentially request work for all resources
         //
-        if (use_rec && (project_priority(pbest) < 0)) {
+        if (project_priority(pbest) < 0) {
             set_request(pbest, true);
         } else {
             work_fetch.set_all_requests(pbest);
@@ -423,9 +357,6 @@ void RSC_WORK_FETCH::set_request(PROJECT* p, bool allow_overworked) {
     RSC_PROJECT_WORK_FETCH& w = project_state(p);
     if (!w.may_have_work) return;
     if (w.anon_skip) return;
-if (!use_rec) {
-    if (!allow_overworked && w.overworked()) return;
-}
     if (shortfall) {
         if (wacky_dcf(p)) {
             // if project's DCF is too big or small,
@@ -433,22 +364,14 @@ if (!use_rec) {
             //
             req_secs = 1;
         } else {
-            if (use_rec) {
-                req_secs = shortfall;
-            } else {
-                req_secs = shortfall * w.fetchable_share;
-            }
+            req_secs = shortfall;
         }
     }
 
     // the number of additional instances needed to have our share
     //
     double x1;
-    if (use_rec) {
-        x1 = ninstances - w.nused_total;
-    } else {
-        x1 = (ninstances * w.fetchable_share) - w.nused_total;
-    }
+    x1 = ninstances - w.nused_total;
 
     // our share of the idle instances
     //
@@ -462,10 +385,10 @@ if (!use_rec) {
 
 void RSC_WORK_FETCH::print_state(const char* name) {
     msg_printf(0, MSG_INFO,
-        "[work_fetch] %s: shortfall %.2f nidle %.2f saturated %.2f busy %.2f RS fetchable %.2f runnable %.2f",
+        "[work_fetch] %s: shortfall %.2f nidle %.2f saturated %.2f busy %.2f",
         name,
-        shortfall, nidle_now, saturated_time, busy_time_estimator.get_busy_time(),
-        total_fetchable_share, total_runnable_share
+        shortfall, nidle_now, saturated_time,
+        busy_time_estimator.get_busy_time()
     );
     for (unsigned int i=0; i<gstate.projects.size(); i++) {
         PROJECT* p = gstate.projects[i];
@@ -476,7 +399,6 @@ void RSC_WORK_FETCH::print_state(const char* name) {
         bool no_rsc_apps = p->no_rsc_apps[rsc_type];
         bool no_rsc_ams = p->no_rsc_ams[rsc_type];
         double bt = pwf.backoff_time>gstate.now?pwf.backoff_time-gstate.now:0;
-if (use_rec) {
         msg_printf(p, MSG_INFO,
             "[work_fetch] %s: fetch share %.2f rec %.5f prio %.5f backoff dt %.2f int %.2f%s%s%s%s%s%s%s%s%s",
             name,
@@ -491,21 +413,6 @@ if (use_rec) {
             no_rsc_ams?" (blocked by account manager)":"",
             no_rsc_config?" (blocked by configuration file)":""
         );
-} else {
-        msg_printf(p, MSG_INFO,
-            "[work_fetch] %s: fetch share %.2f LTD %.2f backoff dt %.2f int %.2f%s%s%s%s%s%s%s%s",
-            name,
-            pwf.fetchable_share, pwf.long_term_debt, bt, pwf.backoff_interval,
-            p->suspended_via_gui?" (susp via GUI)":"",
-            p->master_url_fetch_pending?" (master fetch pending)":"",
-            p->min_rpc_time > gstate.now?" (comm deferred)":"",
-            p->dont_request_more_work?" (no new tasks)":"",
-            pwf.overworked()?" (overworked)":"",
-            p->too_many_uploading_results?" (too many uploads)":"",
-            no_rsc_pref?" (blocked by prefs)":"",
-            no_rsc_config?" (blocked by configuration file)":""
-        );
-}
     }
 }
 
@@ -513,202 +420,6 @@ void RSC_WORK_FETCH::clear_request() {
     req_secs = 0;
     req_instances = 0;
 }
-
-//#ifndef USE_REC
-// update long-term debts for a resource.
-//
-void RSC_WORK_FETCH::update_long_term_debts() {
-    unsigned int i;
-    int neligible = 0;
-    double ders = 0;
-    PROJECT* p;
-
-    // find the total resource share of eligible projects
-    //
-    for (i=0; i<gstate.projects.size(); i++) {
-        p = gstate.projects[i];
-        RSC_PROJECT_WORK_FETCH& w = project_state(p);
-        if (w.debt_eligible(p, *this)) {
-            ders += p->resource_share;
-            neligible++;
-        }
-    }
-    if (!neligible) {
-        if (log_flags.debt_debug) {
-            msg_printf(0, MSG_INFO,
-                "[debt] %s: no eligible projects", rsc_name(rsc_type)
-            );
-        }
-        return;
-    }
-
-    double max_debt=0;
-    bool first = true;
-    for (i=0; i<gstate.projects.size(); i++) {
-        p = gstate.projects[i];
-        if (p->non_cpu_intensive) continue;
-        if (!p->resource_share) continue;
-        RSC_PROJECT_WORK_FETCH& w = project_state(p);
-        if (w.debt_eligible(p, *this)) {
-            double share_frac = p->resource_share/ders;
-
-            // the change to a project's debt is:
-            // (how much it's owed) - (how much it got)
-            //
-            double delta = share_frac*secs_this_debt_interval - w.secs_this_debt_interval;
-            delta /= ninstances;
-            w.long_term_debt += delta;
-            if (log_flags.debt_debug) {
-                msg_printf(p, MSG_INFO,
-                    "[debt] %s LTD %.2f delta %.2f (%.2f*%.2f - %.2f)/%d",
-                    rsc_name(rsc_type),
-                    w.long_term_debt, delta, share_frac,
-                    secs_this_debt_interval,
-                    w.secs_this_debt_interval,
-                    ninstances
-                );
-            }
-            if (first) {
-                max_debt = w.long_term_debt;
-                first = false;
-            } else {
-                if (w.long_term_debt > max_debt) {
-                    max_debt = w.long_term_debt;
-                }
-            }
-        } else {
-            if (log_flags.debt_debug) {
-                msg_printf(p, MSG_INFO,
-                    "[debt] %s ineligible; LTD %.2f",
-                    rsc_name(rsc_type), w.long_term_debt
-                );
-            }
-        }
-    }
-
-    // The net change may be
-    // - positive if the resource wasn't fully utilized during the debt interval
-    // - negative it was overcommitted (e.g., CPU)
-    // We need to keep eligible projects from diverging from non-eligible ones;
-    // also, if all the debts are large negative we need to gradually
-    // shift them towards zero.
-    // To do this, we add an offset as follows:
-    // delta_limit is the largest rate at which any project's debt
-    // could increase or decrease.
-    // If the largest debt is close to zero (relative to delta_limit)
-    // than add an offset that will bring it exactly to zero.
-    // Otherwise add an offset of 2*delta_limit,
-    // which will gradually bring all the debts towards zero
-    //
-    // The policy of keeping the max debt at zero is important;
-    // it means that new projects will begin in parity with high-debt project,
-    // and won't wait for months to get work.
-    //
-    double offset;
-    double delta_limit = secs_this_debt_interval;
-    if (max_debt > -2*delta_limit) {
-        if (fabs(max_debt) < 1e-6) max_debt = 0;
-        offset = max_debt?-max_debt:0;  // avoid -0
-    } else {
-        offset = 2*delta_limit;
-    }
-    if (log_flags.debt_debug) {
-        msg_printf(0, MSG_INFO, "[debt] %s LTD: adding offset %f",
-            rsc_name(rsc_type), offset
-        );
-    }
-    for (i=0; i<gstate.projects.size(); i++) {
-        p = gstate.projects[i];
-        if (p->non_cpu_intensive) continue;
-        if (!p->resource_share) continue;
-        RSC_PROJECT_WORK_FETCH& w = project_state(p);
-        if (w.debt_eligible(p, *this)) {
-            w.long_term_debt += offset;
-        } else {
-            if (offset > 0) {
-                w.long_term_debt += offset;
-            }
-        }
-        if (w.long_term_debt > 0) w.long_term_debt = 0;
-    }
-}
-
-
-// update short-term debts for a resource.
-//
-void RSC_WORK_FETCH::update_short_term_debts() {
-    unsigned int i;
-    PROJECT* p;
-    int nprojects=0, nrprojects=0;
-    double share_frac;
-    double total_short_term_debt = 0;
-    double rrs = gstate.runnable_resource_share(rsc_type);
-
-    // for projects with no runnable jobs,
-    // STD decays by a factor of e every day
-    //
-    double decay_factor = exp(-secs_this_debt_interval/86400);
-
-    for (i=0; i<gstate.projects.size(); i++) {
-        double delta;
-        p = gstate.projects[i];
-        if (p->non_cpu_intensive) continue;
-        if (!p->resource_share) continue;
-        RSC_PROJECT_WORK_FETCH& rpwf = project_state(p);
-        nprojects++;
-
-        if (p->runnable(rsc_type)) {
-            nrprojects++;
-            share_frac = p->resource_share/rrs;
-            delta = share_frac*secs_this_debt_interval
-                - rpwf.secs_this_debt_interval;
-            delta /= ninstances;
-            if (log_flags.std_debug) {
-                msg_printf(p, MSG_INFO,
-                    "[std] %s STD delta %.2f (%.2f*%.2f - %.2f)/%d",
-                    rsc_name(rsc_type),
-                    delta,
-                    share_frac,
-                    secs_this_debt_interval,
-                    rpwf.secs_this_debt_interval,
-                    ninstances
-                );
-            }
-            rpwf.short_term_debt += delta;
-        } else {
-            rpwf.short_term_debt *= decay_factor;
-        }
-        total_short_term_debt += rpwf.short_term_debt;
-    }
-
-    //  normalize so mean is zero, and limit abs value to MAX_STD
-    //
-    if (nrprojects) {
-        double avg_short_term_debt = total_short_term_debt / nprojects;
-        for (i=0; i<gstate.projects.size(); i++) {
-            p = gstate.projects[i];
-            if (p->non_cpu_intensive) continue;
-            if (!p->resource_share) continue;
-            if (p->runnable(rsc_type)) {
-                RSC_PROJECT_WORK_FETCH& rpwf = project_state(p);
-                rpwf.short_term_debt -= avg_short_term_debt;
-                if (rpwf.short_term_debt > MAX_STD) {
-                    rpwf.short_term_debt = MAX_STD;
-                }
-                if (rpwf.short_term_debt < -MAX_STD) {
-                    rpwf.short_term_debt = -MAX_STD;
-                }
-                if (log_flags.std_debug) {
-                    msg_printf(p, MSG_INFO,
-                        "[std] %s STD %.2f",
-                        rsc_name(rsc_type), rpwf.short_term_debt
-                    );
-                }
-            }
-        }
-    }
-}
-//#endif
 
 ///////////////  PROJECT_WORK_FETCH  ///////////////
 
@@ -786,57 +497,6 @@ void WORK_FETCH::set_all_requests(PROJECT* p) {
     }
 }
 
-//#ifndef USE_REC
-// Compute an "overall long-term debt" for each project.
-// This is a sum of per-resource terms, scaled by the relative speed of the resource.
-// The term for a resource is its LTD plus an estimate of queued work.
-//
-void WORK_FETCH::set_overall_debts() {
-    unsigned int i;
-    PROJECT* p;
-    RESULT* rp;
-    APP_VERSION* avp;
-
-    for (i=0; i<gstate.projects.size(); i++) {
-        p = gstate.projects[i];
-        for (int j=0; j<coprocs.n_rsc; j++) {
-            p->rsc_pwf[j].queue_est = 0;
-        }
-    }
-    for (i=0; i<gstate.results.size(); i++) {
-        rp = gstate.results[i];
-        p = rp->project;
-        if (!rp->nearly_runnable()) continue;
-        if (p->non_cpu_intensive) continue;
-        double dt = rp->estimated_time_remaining();
-        avp = rp->avp;
-        p->rsc_pwf[0].queue_est += dt*avp->avg_ncpus;
-        int rt = avp->gpu_usage.rsc_type;
-        if (rt) {
-            p->rsc_pwf[rt].queue_est += dt*avp->gpu_usage.usage;
-        }
-    }
-    for (i=0; i<gstate.projects.size(); i++) {
-        p = gstate.projects[i];
-        double queue_debt = p->rsc_pwf[0].queue_est/gstate.ncpus;
-        p->pwf.overall_debt = p->rsc_pwf[0].long_term_debt - queue_debt;
-        for (int j=1; j<coprocs.n_rsc; j++) {
-            p->pwf.overall_debt += rsc_work_fetch[j].relative_speed*
-                (p->rsc_pwf[j].long_term_debt - p->rsc_pwf[j].queue_est/coprocs.coprocs[j].count);
-        }
-    }
-}
-
-void WORK_FETCH::zero_debts() {
-    for (unsigned i=0; i<gstate.projects.size(); i++) {
-        PROJECT* p = gstate.projects[i];
-        for (int j=0; j<coprocs.n_rsc; j++) {
-            p->rsc_pwf[j].zero_debt();
-        }
-    }
-}
-//#endif
-
 void WORK_FETCH::print_state() {
     msg_printf(0, MSG_INFO, "[work_fetch] ------- start work fetch state -------");
     msg_printf(0, MSG_INFO, "[work_fetch] target work buffer: %.2f + %.2f sec",
@@ -848,13 +508,7 @@ void WORK_FETCH::print_state() {
     for (unsigned int i=0; i<gstate.projects.size(); i++) {
         PROJECT* p = gstate.projects[i];
         if (p->non_cpu_intensive) continue;
-if (use_rec) {
         msg_printf(p, MSG_INFO, "[work_fetch] REC %f", p->pwf.rec);
-} else {
-        msg_printf(p, MSG_INFO, "[work_fetch] overall LTD %.2f",
-            p->pwf.overall_debt
-        );
-}
     }
     msg_printf(0, MSG_INFO, "[work_fetch] ------- end work fetch state -------");
 }
@@ -939,15 +593,11 @@ PROJECT* WORK_FETCH::choose_project() {
 
     rr_simulation();
     compute_shares();
-if (use_rec) {
     project_priority_init();
     for (unsigned int i=0; i<gstate.results.size(); i++) {
         RESULT* rp = gstate.results[i];
         adjust_rec_work_fetch(rp);
     }
-} else {
-    set_overall_debts();
-}
 
 if (use_hyst_fetch) {
     if (gpus_usable) {
@@ -1033,11 +683,6 @@ void WORK_FETCH::compute_shares() {
     for (i=0; i<gstate.projects.size(); i++) {
         p = gstate.projects[i];
         if (p->non_cpu_intensive) continue;
-        for (int j=0; j<coprocs.n_rsc; j++) {
-            if (p->rsc_pwf[j].has_runnable_jobs) {
-                rsc_work_fetch[j].total_runnable_share += p->resource_share;
-            }
-        }
         if (!p->pwf.can_fetch_work) continue;
         for (int j=0; j<coprocs.n_rsc; j++) {
             if (p->rsc_pwf[j].may_have_work) {
@@ -1048,11 +693,6 @@ void WORK_FETCH::compute_shares() {
     for (i=0; i<gstate.projects.size(); i++) {
         p = gstate.projects[i];
         if (p->non_cpu_intensive) continue;
-        for (int j=0; j<coprocs.n_rsc; j++) {
-            if (p->rsc_pwf[j].has_runnable_jobs) {
-                p->rsc_pwf[j].runnable_share = p->resource_share/rsc_work_fetch[j].total_runnable_share;
-            }
-        }
         if (!p->pwf.can_fetch_work) continue;
         for (int j=0; j<coprocs.n_rsc; j++) {
             if (p->rsc_pwf[j].may_have_work) {
@@ -1172,12 +812,6 @@ void WORK_FETCH::init() {
             coprocs.coprocs[i].count*0.2*coprocs.coprocs[i].peak_flops/cpu_flops
         );
     }
-
-if (!use_rec) {
-    if (config.zero_debts) {
-        zero_debts();
-    }
-}
 
     // see what resources anon platform projects can use
     //

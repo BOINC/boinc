@@ -242,13 +242,8 @@ int PROJECT::parse_state(XML_PARSER& xp) {
         if (xp.parse_bool("dont_request_more_work", dont_request_more_work)) continue;
         if (xp.parse_bool("detach_when_done", detach_when_done)) continue;
         if (xp.parse_bool("ended", ended)) continue;
-//#ifdef USE_REC
         if (xp.parse_double("rec", pwf.rec)) continue;
         if (xp.parse_double("rec_time", pwf.rec_time)) continue;
-//#else
-        if (xp.parse_double("short_term_debt", rsc_pwf[0].short_term_debt)) continue;
-        if (xp.parse_double("long_term_debt", rsc_pwf[0].long_term_debt)) continue;
-//#endif
         if (xp.parse_double("cpu_backoff_interval", rsc_pwf[0].backoff_interval)) continue;
         if (xp.parse_double("cpu_backoff_time", rsc_pwf[0].backoff_time)) {
             if (rsc_pwf[0].backoff_time > gstate.now + 28*SECONDS_PER_DAY) {
@@ -256,20 +251,6 @@ int PROJECT::parse_state(XML_PARSER& xp) {
             }
             continue;
         }
-//#ifndef USE_REC
-        if (xp.match_tag("rsc_short_term_debt")) {
-            if (parse_rsc_param(xp, "/rsc_short_term_debt", rt, x)) {
-                rsc_pwf[rt].short_term_debt = x;
-            }
-            continue;
-        }
-        if (xp.match_tag("rsc_long_term_debt")) {
-            if (parse_rsc_param(xp, "/rsc_long_term_debt", rt, x)) {
-                rsc_pwf[rt].long_term_debt = x;
-            }
-            continue;
-        }
-//#endif
         if (xp.match_tag("rsc_backoff_interval")) {
             if (parse_rsc_param(xp, "/rsc_backoff_interval", rt, x)) {
                 rsc_pwf[rt].backoff_interval = x;
@@ -377,10 +358,8 @@ int PROJECT::write_state(MIOFILE& out, bool gui_rpc) {
         "    <master_fetch_failures>%d</master_fetch_failures>\n"
         "    <min_rpc_time>%f</min_rpc_time>\n"
         "    <next_rpc_time>%f</next_rpc_time>\n"
-//#ifdef USE_REC
         "    <rec>%f</rec>\n"
         "    <rec_time>%f</rec_time>\n"
-//#endif
 
         "    <resource_share>%f</resource_share>\n"
         "    <duration_correction_factor>%f</duration_correction_factor>\n"
@@ -411,10 +390,8 @@ int PROJECT::write_state(MIOFILE& out, bool gui_rpc) {
         master_fetch_failures,
         min_rpc_time,
         next_rpc_time,
-//#ifdef USE_REC
         pwf.rec,
         pwf.rec_time,
-//#else
         resource_share,
         duration_correction_factor,
         sched_rpc_pending,
@@ -436,16 +413,6 @@ int PROJECT::write_state(MIOFILE& out, bool gui_rpc) {
     );
     for (int j=0; j<coprocs.n_rsc; j++) {
         out.printf(
-//#ifndef USE_REC
-            "    <rsc_short_term_debt>\n"
-            "        <name>%s</name>\n"
-            "        <value>%f</value>\n"
-            "    </rsc_short_term_debt>\n"
-            "    <rsc_long_term_debt>\n"
-            "        <name>%s</name>\n"
-            "        <value>%f</value>\n"
-            "    </rsc_long_term_debt>\n"
-//#endif
             "    <rsc_backoff_time>\n"
             "        <name>%s</name>\n"
             "        <value>%f</value>\n"
@@ -454,10 +421,6 @@ int PROJECT::write_state(MIOFILE& out, bool gui_rpc) {
             "        <name>%s</name>\n"
             "        <value>%f</value>\n"
             "    </rsc_backoff_interval>\n",
-//#ifndef USE_REC
-            rsc_name(j), rsc_pwf[j].short_term_debt,
-            rsc_name(j), rsc_pwf[j].long_term_debt,
-//#endif
             rsc_name(j), rsc_pwf[j].backoff_interval,
             rsc_name(j), rsc_pwf[j].backoff_time
         );
