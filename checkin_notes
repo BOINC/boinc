@@ -5868,3 +5868,18 @@ David  12 Sept 2011
 
 	client/
 		file_xfer.cpp
+
+David  12 Sept 2011
+    - web: add <no_web_account_creation> config option
+
+    html/user/
+        create_account_form.php
+        create_account_action.php
+        sample_index.php
+
+David  12 Sept 2011
+    - validator: add --no_credit option;
+        maintains stats but doesn't grant credit
+
+    sched/
+        validator.cpp

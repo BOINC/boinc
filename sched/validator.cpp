@@ -79,6 +79,7 @@ double max_claimed_credit = 0;
 bool grant_claimed_credit = false;
 bool update_credited_job = false;
 bool credit_from_wu = false;
+bool no_credit = false;
 WORKUNIT* g_wup;
 vector<DB_APP_VERSION> app_versions;
     // cache of app_versions; used by v2 credit system
@@ -263,10 +264,13 @@ int handle_wu(
                 //
                 rv.push_back(result);
                 assign_credit_set(
-                    wu, rv, app, app_versions, havv, max_granted_credit, credit
+                    wu, rv, app, app_versions, havv,
+                    max_granted_credit, credit
                 );
-                result.granted_credit = canonical_result.granted_credit;
-                grant_credit(host, result.sent_time, result.granted_credit);
+                if (!no_credit) {
+                    result.granted_credit = canonical_result.granted_credit;
+                    grant_credit(host, result.sent_time, result.granted_credit);
+                }
                 break;
             case VALIDATE_STATE_INVALID:
                 update_result = true;
@@ -437,20 +441,22 @@ int handle_wu(
                             result.id, result.name, boincerror(retval)
                         );
                     }
-                    result.granted_credit = credit;
-                    if (credit_from_wu) {
-                        DB_RESULT r;
-                        r = result;
-                        char buf[256];
-                        sprintf(buf, "claimed_credit=%f", credit_new);
-                        r.update_field(buf);
+                    if (!no_credit) {
+                        result.granted_credit = credit;
+                        if (credit_from_wu) {
+                            DB_RESULT r;
+                            r = result;
+                            char buf[256];
+                            sprintf(buf, "claimed_credit=%f", credit_new);
+                            r.update_field(buf);
+                        }
+                        grant_credit(host, result.sent_time, credit);
+                        log_messages.printf(MSG_NORMAL,
+                            "[RESULT#%d %s] Valid; granted %f credit [HOST#%d]\n",
+                            result.id, result.name, result.granted_credit,
+                            result.hostid
+                        );
                     }
-                    grant_credit(host, result.sent_time, credit);
-                    log_messages.printf(MSG_NORMAL,
-                        "[RESULT#%d %s] Valid; granted %f credit [HOST#%d]\n",
-                        result.id, result.name, result.granted_credit,
-                        result.hostid
-                    );
                     break;
                 case VALIDATE_STATE_INVALID:
                     update_result = true;
@@ -671,6 +677,7 @@ int main(int argc, char** argv) {
       "  --grant_claimed_credit  Grant the claimed credit, regardless of what other results for this workunit claimed\n"
       "  --update_credited_job   Add record to credited_job table after granting credit\n"
       "  --credit_from_wu        Credit is specified in WU XML\n"
+      "  --no_credit             Don't grant credit\n"
       "  --sleep_interval n      Set sleep-interval to n\n"
       "  -d n, --debug_level n   Set log verbosity level, 1-4\n"
       "  -h | --help             Show this\n"
@@ -710,6 +717,8 @@ int main(int argc, char** argv) {
             update_credited_job = true;
         } else if (is_arg(argv[i], "credit_from_wu")) {
             credit_from_wu = true;
+        } else if (is_arg(argv[i], "no_credit")) {
+            no_credit = true;
         } else if (is_arg(argv[i], "v") || is_arg(argv[i], "version")) {
             printf("%s\n", SVN_VERSION);
             exit(0);
