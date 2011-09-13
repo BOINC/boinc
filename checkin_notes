@@ -5944,3 +5944,9 @@ Rom    13 Sept 2011
         
     samples/vboxwrapper/
         vbox.cpp
+
+Rom    13 Sept 2011
+    - VBOX: Don't attempt to stop a VM that is already shut down.
+        
+    samples/vboxwrapper/
+        vbox.cpp

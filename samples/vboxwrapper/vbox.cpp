@@ -778,23 +778,31 @@ int VBOX_VM::stop() {
     char buf[256];
     int retval;
 
-    fprintf(
-        stderr,
-        "%s Stopping virtual machine.\n",
-        boinc_msg_prefix(buf, sizeof(buf))
-    );
-    command = "controlvm \"" + vm_name + "\" savestate";
-    retval = vbm_popen(command, output);
-    if (retval) {
+    if (is_running()) {
         fprintf(
             stderr,
-            "%s Error stopping virtual machine! rc = 0x%x\nCommand:\n%s\nOutput:\n%s\n",
-            boinc_msg_prefix(buf, sizeof(buf)),
-            retval,
-            command.c_str(),
-            output.c_str()
+            "%s Stopping virtual machine.\n",
+            boinc_msg_prefix(buf, sizeof(buf))
         );
-        return retval;
+        command = "controlvm \"" + vm_name + "\" savestate";
+        retval = vbm_popen(command, output);
+        if (retval) {
+            fprintf(
+                stderr,
+                "%s Error stopping virtual machine! rc = 0x%x\nCommand:\n%s\nOutput:\n%s\n",
+                boinc_msg_prefix(buf, sizeof(buf)),
+                retval,
+                command.c_str(),
+                output.c_str()
+            );
+            return retval;
+        }
+    } else {
+        fprintf(
+            stderr,
+            "%s Virtual machine is already in a stopped state.\n",
+            boinc_msg_prefix(buf, sizeof(buf))
+        );
     }
     return 0;
 }
