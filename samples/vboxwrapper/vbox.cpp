@@ -258,12 +258,30 @@ int VBOX_VM::generate_vm_root_dir( string& dir ) {
 bool VBOX_VM::is_registered() {
     string command;
     string output;
+    char buf[256];
 
-    command = "showvminfo " + vm_name;
+    command  = "showvminfo \"" + vm_name + "\" ";
+    command += "--machinereadable ";
 
     if (vbm_popen(command, output) == 0) {
         if (output.find("VBOX_E_OBJECT_NOT_FOUND") != string::npos) {
+            fprintf(
+                stderr,
+                "%s Virtual machine '%s' is already registered.\nCommand:\n%s\nOutput:\n%s\n",
+                boinc_msg_prefix(buf, sizeof(buf)),
+                vm_name.c_str(),
+                command.c_str(),
+                output.c_str()
+            );
             return true;
+        } else {
+            fprintf(
+                stderr,
+                "%s Virtual machine '%s' is NOT registered.\nCommand:\n%s\nOutput:\n%s\n",
+                boinc_msg_prefix(buf, sizeof(buf)),
+                command.c_str(),
+                output.c_str()
+            );
         }
     }
     return false;
@@ -295,9 +313,10 @@ bool VBOX_VM::is_running() {
     size_t vmstate_location;
     size_t vmstate_length;
 
-    command  = "showvminfo \"" + vm_name + "\" --machinereadable ";
-    if (vbm_popen(command, output) == 0) {
+    command  = "showvminfo \"" + vm_name + "\" ";
+    command += "--machinereadable ";
 
+    if (vbm_popen(command, output) == 0) {
         vmstate_location = output.find("VMState=\"");
         if (vmstate_location != string::npos) {
             vmstate_location += 9;
