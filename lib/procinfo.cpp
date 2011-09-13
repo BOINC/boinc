@@ -43,6 +43,9 @@ void add_child_totals(PROCINFO& pi, PROC_MAP& pm, PROC_MAP::iterator i) {
     PROCINFO parent = i->second;
     for (unsigned int j=0; j<parent.children.size(); j++) {
         int child_pid = parent.children[j];
+		if (child_pid == parent.id) {
+			return;		// shouldn't happen
+		}
         PROC_MAP::iterator i2 = pm.find(child_pid);
         if (i2 == pm.end()) continue;
         PROCINFO& p = i2->second;

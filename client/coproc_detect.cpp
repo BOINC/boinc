@@ -104,20 +104,16 @@ cl_int (*__clGetDeviceInfo)(cl_device_id    /* device */,
 void COPROC::print_available_ram() {
     for (int i=0; i<count; i++) {
         if (available_ram_unknown[i]) {
-            if (log_flags.coproc_debug) {
-                msg_printf(0, MSG_INFO,
-                    "[coproc] %s device %d: available RAM unknown",
-                    type, device_nums[i]
-                );
-            }
+            msg_printf(0, MSG_INFO,
+                "[coproc] %s device %d: available RAM unknown",
+                type, device_nums[i]
+            );
         } else {
-            if (log_flags.coproc_debug) {
-                msg_printf(0, MSG_INFO,
-                    "[coproc] %s device %d: available RAM %d MB",
-                    type, device_nums[i],
-                    (int)(available_ram[i]/MEGA)
-                );
-            }
+            msg_printf(0, MSG_INFO,
+                "[coproc] %s device %d: available RAM %d MB",
+                type, device_nums[i],
+                (int)(available_ram[i]/MEGA)
+            );
         }
     }
 }
@@ -676,8 +672,8 @@ typedef int (__stdcall *CUDA_GDA)(int*, int, int);
 typedef int (__stdcall *CUDA_GDN)(char*, int, int);
 typedef int (__stdcall *CUDA_GDM)(unsigned int*, int);
 typedef int (__stdcall *CUDA_GDCC)(int*, int*, int);
-typedef int (__stdcall *CUDA_CC)(unsigned int*, unsigned int, unsigned int);
-typedef int (__stdcall *CUDA_CD)(unsigned int);
+typedef int (__stdcall *CUDA_CC)(void**, unsigned int, unsigned int);
+typedef int (__stdcall *CUDA_CD)(void*);
 typedef int (__stdcall *CUDA_MA)(unsigned int*, unsigned int);
 typedef int (__stdcall *CUDA_MF)(unsigned int);
 typedef int (__stdcall *CUDA_MGI)(unsigned int*, unsigned int*);
@@ -705,8 +701,8 @@ int (*__cuDeviceGetAttribute)(int*, int, int);
 int (*__cuDeviceGetName)(char*, int, int);
 int (*__cuDeviceTotalMem)(unsigned int*, int);
 int (*__cuDeviceComputeCapability)(int*, int*, int);
-int (*__cuCtxCreate)(unsigned int*, unsigned int, unsigned int);
-int (*__cuCtxDestroy)(unsigned int);
+int (*__cuCtxCreate)(void**, unsigned int, unsigned int);
+int (*__cuCtxDestroy)(void*);
 int (*__cuMemAlloc)(unsigned int*, unsigned int);
 int (*__cuMemFree)(unsigned int);
 int (*__cuMemGetInfo)(unsigned int*, unsigned int*);
@@ -772,8 +768,8 @@ void COPROC_NVIDIA::get(
     __cuDeviceGetName = (int(*)(char*, int, int)) dlsym( cudalib, "cuDeviceGetName" );
     __cuDeviceTotalMem = (int(*)(unsigned int*, int)) dlsym( cudalib, "cuDeviceTotalMem" );
     __cuDeviceComputeCapability = (int(*)(int*, int*, int)) dlsym( cudalib, "cuDeviceComputeCapability" );
-    __cuCtxCreate = (int(*)(unsigned int*, unsigned int, unsigned int)) dlsym( cudalib, "cuCtxCreate" );
-    __cuCtxDestroy = (int(*)(unsigned int)) dlsym( cudalib, "cuCtxDestroy" );
+    __cuCtxCreate = (int(*)(void**, unsigned int, unsigned int)) dlsym( cudalib, "cuCtxCreate" );
+    __cuCtxDestroy = (int(*)(void*)) dlsym( cudalib, "cuCtxDestroy" );
     __cuMemAlloc = (int(*)(unsigned int*, unsigned int)) dlsym( cudalib, "cuMemAlloc" );
     __cuMemFree = (int(*)(unsigned int)) dlsym( cudalib, "cuMemFree" );
     __cuMemGetInfo = (int(*)(unsigned int*, unsigned int*)) dlsym( cudalib, "cuMemGetInfo" );
@@ -903,7 +899,8 @@ void COPROC_NVIDIA::get(
         cc.have_cuda = true;
         cc.cuda_version = cuda_version;
         cc.device_num = j;
-		cc.set_peak_flops();
+        cc.set_peak_flops();
+        cc.get_available_ram();
         gpus.push_back(cc);
     }
 
@@ -911,8 +908,6 @@ void COPROC_NVIDIA::get(
         warnings.push_back("No CUDA-capable NVIDIA GPUs found");
         return;
     }
-
-    get_available_ram();
 
     // identify the most capable non-ignored instance
     //
@@ -983,55 +978,44 @@ void COPROC_NVIDIA::fake(int driver_version, double ram, int n) {
 // If this fails, set "available_ram_unknown"
 //
 void COPROC_NVIDIA::get_available_ram() {
-    int device, i, retval;
+    int retval;
     unsigned int memfree, memtotal;
-    unsigned int ctx;
+	int device;
+    void* ctx;
     
-    // avoid crash if faked GPU
-    //
-    if (!__cuDeviceGet) {
-        for (i=0; i<count; i++) {
-            available_ram[i] = available_ram_fake[i];
-            available_ram_unknown[i] = false;
+    available_ram[0] = 0;
+    available_ram_unknown[0] = true;
+    retval = (*__cuDeviceGet)(&device, device_num);
+    if (retval) {
+        if (log_flags.coproc_debug) {
+            msg_printf(0, MSG_INFO,
+                "[coproc] cuDeviceGet(%d) returned %d", device_num, retval
+            );
         }
         return;
     }
-    for (i=0; i<count; i++) {
-        int devnum = device_nums[i];
-        available_ram[i] = 0;
-        available_ram_unknown[i] = true;
-        retval = (*__cuDeviceGet)(&device, devnum);
-        if (retval) {
-            if (log_flags.coproc_debug) {
-                msg_printf(0, MSG_INFO,
-                    "[coproc] cuDeviceGet(%d) returned %d", devnum, retval
-                );
-            }
-            continue;
+    retval = (*__cuCtxCreate)(&ctx, 0, device);
+    if (retval) {
+        if (log_flags.coproc_debug) {
+            msg_printf(0, MSG_INFO,
+                "[coproc] cuCtxCreate(%d) returned %d", device_num, retval
+            );
         }
-        retval = (*__cuCtxCreate)(&ctx, 0, device);
-        if (retval) {
-            if (log_flags.coproc_debug) {
-                msg_printf(0, MSG_INFO,
-                    "[coproc] cuCtxCreate(%d) returned %d", devnum, retval
-                );
-            }
-            continue;
-        }
-        retval = (*__cuMemGetInfo)(&memfree, &memtotal);
-        if (retval) {
-            if (log_flags.coproc_debug) {
-                msg_printf(0, MSG_INFO,
-                    "[coproc] cuMemGetInfo(%d) returned %d", devnum, retval
-                );
-            }
-            (*__cuCtxDestroy)(ctx);
-            continue;
+        return;
+    }
+    retval = (*__cuMemGetInfo)(&memfree, &memtotal);
+    if (retval) {
+        if (log_flags.coproc_debug) {
+            msg_printf(0, MSG_INFO,
+                "[coproc] cuMemGetInfo(%d) returned %d", device_num, retval
+            );
         }
         (*__cuCtxDestroy)(ctx);
-        available_ram[i] = (double) memfree;
-        available_ram_unknown[i] = false;
+        return;
     }
+    (*__cuCtxDestroy)(ctx);
+    available_ram[0] = (double) memfree;
+    available_ram_unknown[0] = false;
 }
 
 // check whether each GPU is running a graphics app (assume yes)
@@ -1401,7 +1385,7 @@ void COPROC_ATI::get(
         cc.amdrt_detected = amdrt_detected;
         cc.atirt_detected = atirt_detected;
         cc.device_num = i;
-		cc.set_peak_flops();
+        cc.set_peak_flops();
         gpus.push_back(cc);
     }
 
@@ -1459,7 +1443,7 @@ void COPROC_ATI::fake(double ram, int n) {
     for (int i=0; i<count; i++) {
         device_nums[i] = i;
     }
-	set_peak_flops();
+    set_peak_flops();
 }
 
 // get available RAM of ATI GPUs
