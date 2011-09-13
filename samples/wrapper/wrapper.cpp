@@ -379,9 +379,6 @@ int TASK::run(int argct, char** argvt) {
     string stdout_path, stdin_path, stderr_path;
     char app_path[1024], buf[256];
 
-    if (checkpoint_filename.size()) {
-        boinc_delete_file(checkpoint_filename.c_str());
-    }
     if (fraction_done_filename.size()) {
         boinc_delete_file(fraction_done_filename.c_str());
     }

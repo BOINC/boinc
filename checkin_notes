@@ -5929,3 +5929,10 @@ David  13 Sept 2011
         trickle_echo.cpp
         validate_util2.cpp
         validator.cpp
+
+David  13 Sept 2011
+    - wrapper: don't delete task-level checkpoint file when starting task;
+        that defeats the purpose.  From Uwe Becker.
+
+    samples/wrapper/
+        wrapper.cpp
