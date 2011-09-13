@@ -10210,3 +10210,16 @@ Rom    12 Sep 2011
     /
         configure.ac
         version.h
+
+Charlie 1 Sep 2011
+    - mac: add proc_control.cpp to XCode project.
+    - lib: if OS_Darwin use procinfo_mac.cpp instead of procinfo_unix.cpp.
+    - lib, api: update XCode project to build same source files in each 
+        library as corresponding make files.
+        (Checked into 6.12.36 tag)
+
+    lib/
+        makefile.am
+     mac_build/
+        boinc.xcodeproj/
+            project.pbxproj
