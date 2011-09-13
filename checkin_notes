@@ -5862,3 +5862,9 @@ David  12 Sept 2011
         client_types.cpp,h
         sim.cpp
         cpu_sched.cpp
+
+David  12 Sept 2011
+	- client: make file upload work w/ old handlers
+
+	client/
+		file_xfer.cpp
