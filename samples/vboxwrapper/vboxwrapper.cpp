@@ -209,8 +209,8 @@ int main(int argc, char** argv) {
 
     set_throttles(aid, vm);
 
-    bool have_vm_pid = false;
     int vm_pid;
+    bool have_vm_pid = false;
     bool reported_vm_pid = false;
 
     while (1) {

@@ -80,6 +80,9 @@ int VBOX_VM::run() {
     retval = startvm();
     if (retval) return retval;
 
+    // Give time enough for external processes to begin the VM boot process
+    boinc_sleep(1.0);
+
     return 0;
 }
 
@@ -288,12 +291,42 @@ bool VBOX_VM::is_hdd_registered() {
 bool VBOX_VM::is_running() {
     string command;
     string output;
+    string vmstate;
+    size_t vmstate_location;
+    size_t vmstate_length;
 
-    command = "list runningvms";
-
+    command  = "showvminfo \"" + vm_name + "\" --machinereadable ";
     if (vbm_popen(command, output) == 0) {
-        if (output.find(vm_name) != string::npos) {
-            return true;
+
+        vmstate_location = output.find("VMState=\"");
+        if (vmstate_location != string::npos) {
+            vmstate_location += 9;
+            vmstate_length = output.find("\"", vmstate_location);
+            vmstate = output.substr(vmstate_location, vmstate_length);
+
+            // VirtualBox Documentation suggests that that a VM is running when its
+            // machine state is between MachineState_FirstOnline and MachineState_LastOnline
+            // which as of this writing is 5 and 17.
+            //
+            // VboxManage's source shows more than that though:
+            // see: http://www.virtualbox.org/browser/trunk/src/VBox/Frontends/VBoxManage/VBoxManageInfo.cpp
+            //
+            // So for now, go with what VboxManage is reporting.
+            //
+            if (vmstate == "running") return true;
+            if (vmstate == "paused") return true;
+            if (vmstate == "gurumeditation") return true;
+            if (vmstate == "livesnapshotting") return true;
+            if (vmstate == "teleporting") return true;
+            if (vmstate == "starting") return true;
+            if (vmstate == "stopping") return true;
+            if (vmstate == "saving") return true;
+            if (vmstate == "restoring") return true;
+            if (vmstate == "teleportingpausedvm") return true;
+            if (vmstate == "teleportingin") return true;
+            if (vmstate == "restoringsnapshot") return true;
+            if (vmstate == "deletingsnapshot") return true;
+            if (vmstate == "deletingsnapshotlive") return true;
         }
     }
 

@@ -5950,3 +5950,10 @@ Rom    13 Sept 2011
         
     samples/vboxwrapper/
         vbox.cpp
+
+Rom    13 Sept 2011
+    - VBOX: Make is_running() a bit smarter about detecting the running state
+        of a virtual machine.
+        
+    samples/vboxwrapper/
+        vbox.cpp
