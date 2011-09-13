@@ -258,7 +258,6 @@ int VBOX_VM::generate_vm_root_dir( string& dir ) {
 bool VBOX_VM::is_registered() {
     string command;
     string output;
-    char buf[256];
 
     command  = "showvminfo \"" + vm_name + "\" ";
     command += "--machinereadable ";
