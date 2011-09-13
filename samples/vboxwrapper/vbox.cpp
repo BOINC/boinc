@@ -422,6 +422,11 @@ int VBOX_VM::register_vm() {
 
     // Create and register the VM
     //
+    fprintf(
+        stderr,
+        "%s Registering virtual machine with VirtualBox.\n",
+        boinc_msg_prefix(buf, sizeof(buf)),
+    );
     command  = "createvm ";
     command += "--name \"" + vm_name + "\" ";
     command += "--basefolder \"" + virtual_machine_root_dir + "\" ";
@@ -432,7 +437,7 @@ int VBOX_VM::register_vm() {
     if (retval) {
         fprintf(
             stderr,
-            "%s Error registering virtual machine! rc = 0x%x\nCommand:\n%s\nOutput:\n%s\n",
+            "%s Error registering virtual machine with VirtualBox! rc = 0x%x\nCommand:\n%s\nOutput:\n%s\n",
             boinc_msg_prefix(buf, sizeof(buf)),
             retval,
             command.c_str(),
@@ -444,6 +449,11 @@ int VBOX_VM::register_vm() {
 
     // Tweak the VM from it's default configuration
     //
+    fprintf(
+        stderr,
+        "%s Modifing virtual machine.\n",
+        boinc_msg_prefix(buf, sizeof(buf)),
+    );
     command  = "modifyvm \"" + vm_name + "\" ";
     command += "--memory " + memory_size_mb + " ";
     command += "--acpi on ";
@@ -472,6 +482,11 @@ int VBOX_VM::register_vm() {
 
     // Add storage controller to VM
     //
+    fprintf(
+        stderr,
+        "%s Adding storage controller to virtual machine.\n",
+        boinc_msg_prefix(buf, sizeof(buf)),
+    );
     command  = "storagectl \"" + vm_name + "\" ";
     command += "--name \"IDE Controller\" ";
     command += "--add ide ";
@@ -493,6 +508,11 @@ int VBOX_VM::register_vm() {
 
     // Adding virtual hard drive to VM
     //
+    fprintf(
+        stderr,
+        "%s Adding virtual disk drive to virtual machine.\n",
+        boinc_msg_prefix(buf, sizeof(buf)),
+    );
     command  = "storageattach \"" + vm_name + "\" ";
     command += "--storagectl \"IDE Controller\" ";
     command += "--port 0 ";
@@ -522,6 +542,11 @@ int VBOX_VM::register_vm() {
     // Enable the shared folder if a shared folder is specified.
     //
     if (enable_shared_directory) {
+        fprintf(
+            stderr,
+            "%s Enabling shared directory for virtual machine.\n",
+            boinc_msg_prefix(buf, sizeof(buf)),
+        );
         command  = "sharedfolder add \"" + vm_name + "\" ";
         command += "--name \"shared\" ";
         command += "--hostpath \"" + virtual_machine_root_dir + "/shared\"";
@@ -563,6 +588,11 @@ int VBOX_VM::deregister_vm() {
 
     // First step in deregistering a VM is to delete its storage controller
     //
+    fprintf(
+        stderr,
+        "%s Removing storage controller from virtual machine.\n",
+        boinc_msg_prefix(buf, sizeof(buf)),
+    );
     command  = "storagectl \"" + vm_name + "\" ";
     command += "--name \"IDE Controller\" ";
     command += "--remove ";
@@ -583,6 +613,11 @@ int VBOX_VM::deregister_vm() {
 
     // Next delete VM
     //
+    fprintf(
+        stderr,
+        "%s Removing virtual machine from VirtualBox.\n",
+        boinc_msg_prefix(buf, sizeof(buf)),
+    );
     command  = "unregistervm \"" + vm_name + "\" ";
     command += "--delete ";
 
@@ -590,7 +625,7 @@ int VBOX_VM::deregister_vm() {
     if (retval) {
         fprintf(
             stderr,
-            "%s Error removing virtual machine from virtual box! rc = 0x%x\nCommand:\n%s\nOutput:\n%s\n",
+            "%s Error removing virtual machine from VirtualBox! rc = 0x%x\nCommand:\n%s\nOutput:\n%s\n",
             boinc_msg_prefix(buf, sizeof(buf)),
             retval,
             command.c_str(),
@@ -602,13 +637,18 @@ int VBOX_VM::deregister_vm() {
 
     // Lastly delete medium from Virtual Box Media Registry
     //
+    fprintf(
+        stderr,
+        "%s Removing virtual disk drive from VirtualBox.\n",
+        boinc_msg_prefix(buf, sizeof(buf)),
+    );
     command  = "closemedium disk \"" + virtual_machine_root_dir + "/" + image_filename + "\" ";
 
     retval = vbm_popen(command, output);
     if (retval) {
         fprintf(
             stderr,
-            "%s Error removing virtual hdd from virtual box! rc = 0x%x\nCommand:\n%s\nOutput:\n%s\n",
+            "%s Error removing virtual disk drive from VirtualBox! rc = 0x%x\nCommand:\n%s\nOutput:\n%s\n",
             boinc_msg_prefix(buf, sizeof(buf)),
             retval,
             command.c_str(),
@@ -674,13 +714,18 @@ int VBOX_VM::deregister_stale_vm() {
     } else {
         // Did the user delete the VM in VirtualBox and not the medium?  If so,
         // just remove the medium.
+        fprintf(
+            stderr,
+            "%s Removing virtual disk drive from VirtualBox.\n",
+            boinc_msg_prefix(buf, sizeof(buf)),
+        );
         command  = "closemedium \"" + virtual_machine_root_dir + "/" + image_filename + "\" ";
 
         retval = vbm_popen(command, output);
         if (retval) {
             fprintf(
                 stderr,
-                "%s Error removing virtual hdd from virtual box! rc = 0x%x\nCommand:\n%s\nOutput:\n%s\n",
+                "%s Error virtual disk drive from VirtualBox! rc = 0x%x\nCommand:\n%s\nOutput:\n%s\n",
                 boinc_msg_prefix(buf, sizeof(buf)),
                 retval,
                 command.c_str(),
@@ -802,6 +847,11 @@ int VBOX_VM::set_network_access(bool enabled) {
     network_suspended = !enabled;
 
     if (enabled) {
+        fprintf(
+            stderr,
+            "%s Enabling network access for virtual machine.\n",
+            boinc_msg_prefix(buf, sizeof(buf)),
+        );
         command  = "modifyvm \"" + vm_name + "\" ";
         command += "--cableconnected1 on ";
 
@@ -818,6 +868,11 @@ int VBOX_VM::set_network_access(bool enabled) {
             return retval;
         }
     } else {
+        fprintf(
+            stderr,
+            "%s Disabling network access for virtual machine.\n",
+            boinc_msg_prefix(buf, sizeof(buf)),
+        );
         command  = "modifyvm \"" + vm_name + "\" ";
         command += "--cableconnected1 off ";
 
@@ -846,6 +901,11 @@ int VBOX_VM::set_cpu_usage_fraction(double x) {
 
     // the arg to modifyvm is percentage
     //
+    fprintf(
+        stderr,
+        "%s Setting cpu throttle for virtual machine.\n",
+        boinc_msg_prefix(buf, sizeof(buf)),
+    );
     sprintf(buf, "%d", (int)(x*100.));
     command  = "modifyvm \"" + vm_name + "\" ";
     command += "--cpuexecutioncap ";
@@ -877,6 +937,11 @@ int VBOX_VM::set_network_max_bytes_sec(double x) {
 
     // the argument to modifyvm is in Kbps
     //
+    fprintf(
+        stderr,
+        "%s Setting network throttle for virtual machine.\n",
+        boinc_msg_prefix(buf, sizeof(buf)),
+    );
     sprintf(buf, "%d", (int)(x*8./1000.));
     command  = "modifyvm \"" + vm_name + "\" ";
     command += "--nicspeed1 ";

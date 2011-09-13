@@ -5898,3 +5898,10 @@ David  12 Sept 2011
         gui_rpc_client_ops.cpp
     client/
         client_types.cpp
+
+Rom    13 Sept 2011
+    - VBOX: Add more trace messages to the wrapper to help resolve
+        issues.
+        
+    samples/vboxwrapper/
+        vbox.cpp
