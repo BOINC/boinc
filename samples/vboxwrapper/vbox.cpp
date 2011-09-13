@@ -264,25 +264,9 @@ bool VBOX_VM::is_registered() {
     command += "--machinereadable ";
 
     if (vbm_popen(command, output) == 0) {
-        if (output.find("VBOX_E_OBJECT_NOT_FOUND") != string::npos) {
-            fprintf(
-                stderr,
-                "%s Virtual machine '%s' is already registered.\nCommand:\n%s\nOutput:\n%s\n",
-                boinc_msg_prefix(buf, sizeof(buf)),
-                vm_name.c_str(),
-                command.c_str(),
-                output.c_str()
-            );
+        if (output.find("VBOX_E_OBJECT_NOT_FOUND") == string::npos) {
+            // Error message not found in text
             return true;
-        } else {
-            fprintf(
-                stderr,
-                "%s Virtual machine '%s' is NOT registered.\nCommand:\n%s\nOutput:\n%s\n",
-                boinc_msg_prefix(buf, sizeof(buf)),
-                vm_name.c_str(),
-                command.c_str(),
-                output.c_str()
-            );
         }
     }
     return false;
@@ -299,7 +283,8 @@ bool VBOX_VM::is_hdd_registered() {
     command = "showhdinfo \"" + virtual_machine_root_dir + "/" + image_filename + "\" ";
 
     if (vbm_popen(command, output) == 0) {
-        if (output.find("VBOX_E_FILE_ERROR") != string::npos) {
+        if (output.find("VBOX_E_FILE_ERROR") == string::npos) {
+            // Error message not found in text
             return true;
         }
     }
