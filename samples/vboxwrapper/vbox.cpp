@@ -279,6 +279,7 @@ bool VBOX_VM::is_registered() {
                 stderr,
                 "%s Virtual machine '%s' is NOT registered.\nCommand:\n%s\nOutput:\n%s\n",
                 boinc_msg_prefix(buf, sizeof(buf)),
+                vm_name.c_str(),
                 command.c_str(),
                 output.c_str()
             );
