@@ -32,7 +32,9 @@ function show_error($str) {
 }
 
 $config = get_config();
-if (parse_bool($config, "disable_account_creation")) {
+if (parse_bool($config, "disable_account_creation")
+    || parse_bool($config, "no_web_account_creation")
+) {
     page_head(tra("Account creation is disabled"));
     echo "
         <h3>".tra("Account creation is disabled")."</h3>

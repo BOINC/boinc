@@ -37,6 +37,7 @@ function show_nav() {
     $config = get_config();
     $master_url = parse_config($config, "<master_url>");
     $no_computing = parse_config($config, "<no_computing>");
+    $no_web_account_creation = parse_bool($config, "no_web_account_creation");
     echo "<div class=\"mainnav\">
         <h2 class=headline>About ".PROJECT."</h2>
     ";
@@ -75,8 +76,14 @@ function show_nav() {
                 If you're already running BOINC, select Add Project.
                 If not, <a target=\"_new\" href=\"http://boinc.berkeley.edu/download.php\">download BOINC</a>.
             <li> When prompted, enter <br><b>".$master_url."</b>
-            <li> If you're running a command-line version of BOINC,
-                <a href=\"create_account_form.php\">create an account</a> first.
+        ";
+        if (!$no_web_account_creation) {
+            echo "
+                <li> If you're running a command-line version of BOINC,
+                    <a href=\"create_account_form.php\">create an account</a> first.
+            ";
+        }
+        echo "
             <li> If you have any problems,
                 <a target=\"_new\" href=\"http://boinc.berkeley.edu/wiki/BOINC_Help\">get help here</a>.
         ";
