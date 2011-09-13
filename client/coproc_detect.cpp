@@ -47,8 +47,6 @@
 using std::string;
 using std::vector;
 
-//#define MEASURE_AVAILABLE_RAM
-
 static bool in_vector(int n, vector<int>& v) {
     for (unsigned int i=0; i<v.size(); i++) {
         if (v[i] == n) return true;
@@ -104,10 +102,6 @@ cl_int (*__clGetDeviceInfo)(cl_device_id    /* device */,
 #endif
 
 void COPROC::print_available_ram() {
-#ifdef MEASURE_AVAILABLE_RAM
-    if (gstate.now - last_print_time < 60) return;
-    last_print_time = gstate.now;
-
     for (int i=0; i<count; i++) {
         if (available_ram_unknown[i]) {
             if (log_flags.coproc_debug) {
@@ -126,7 +120,6 @@ void COPROC::print_available_ram() {
             }
         }
     }
-#endif
 }
 
 
@@ -919,6 +912,8 @@ void COPROC_NVIDIA::get(
         return;
     }
 
+    get_available_ram();
+
     // identify the most capable non-ignored instance
     //
     bool first = true;
@@ -988,7 +983,6 @@ void COPROC_NVIDIA::fake(int driver_version, double ram, int n) {
 // If this fails, set "available_ram_unknown"
 //
 void COPROC_NVIDIA::get_available_ram() {
-#ifdef MEASURE_AVAILABLE_RAM
     int device, i, retval;
     unsigned int memfree, memtotal;
     unsigned int ctx;
@@ -1038,12 +1032,6 @@ void COPROC_NVIDIA::get_available_ram() {
         available_ram[i] = (double) memfree;
         available_ram_unknown[i] = false;
     }
-#else
-    for (int i=0; i<count; i++) {
-        available_ram_unknown[i] = false;
-        available_ram[i] = prop.totalGlobalMem;
-    }
-#endif
 }
 
 // check whether each GPU is running a graphics app (assume yes)
@@ -1417,6 +1405,8 @@ void COPROC_ATI::get(
         gpus.push_back(cc);
     }
 
+    get_available_ram();
+
     // shut down, otherwise Lenovo won't be able to switch to low-power GPU
     //
     retval = (*__calShutdown)();
@@ -1472,8 +1462,10 @@ void COPROC_ATI::fake(double ram, int n) {
 	set_peak_flops();
 }
 
+// get available RAM of ATI GPUs
+// NOTE: last time we checked, repeated calls to this crash the driver
+//
 void COPROC_ATI::get_available_ram() {
-#ifdef MEASURE_AVAILABLE_RAM
     CALdevicestatus st;
     CALdevice dev;
     int i, retval;
@@ -1491,18 +1483,6 @@ void COPROC_ATI::get_available_ram() {
     for (i=0; i<count; i++) {
         available_ram[i] = 0;
         available_ram_unknown[i] = true;
-    }
-    retval = (*__calInit)();
-    if (retval) {
-        if (log_flags.coproc_debug) {
-            msg_printf(0, MSG_INFO,
-                "[coproc] calInit() returned %d", retval
-            );
-        }
-        return;
-    }
-
-    for (i=0; i<count; i++) {
         int devnum = device_nums[i];
         retval = (*__calDeviceOpen)(&dev, devnum);
         if (retval) {
@@ -1528,13 +1508,6 @@ void COPROC_ATI::get_available_ram() {
         available_ram_unknown[i] = false;
         (*__calDeviceClose)(dev);
     }
-    (*__calShutdown)();
-#else
-    for (int i=0; i<count; i++) {
-        available_ram_unknown[i] = false;
-        available_ram[i] = attribs.localRAM*MEGA;
-    }
-#endif
 }
 
 bool COPROC_ATI::matches(OPENCL_DEVICE_PROP& OpenCLprop) {

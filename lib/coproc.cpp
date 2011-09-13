@@ -365,7 +365,6 @@ void COPROC_NVIDIA::write_xml(MIOFILE& f, bool include_request) {
         prop.multiProcessorCount
     );
 
-
     if (have_opencl) {
         opencl_write_xml(f);
     }

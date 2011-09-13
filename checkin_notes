@@ -5957,3 +5957,15 @@ Rom    13 Sept 2011
         
     samples/vboxwrapper/
         vbox.cpp
+
+David  13 Sept 2011
+    - client: get GPU available RAM at startup (only)
+    - client: fix compile warning
+
+    lib/
+        coproc.cpp
+    client/
+        work_fetch.cpp,h
+        client_state.cpp
+        coproc_detect.cpp
+        cpu_sched.cpp

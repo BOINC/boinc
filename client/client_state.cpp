@@ -386,6 +386,7 @@ int CLIENT_STATE::init() {
             msg_printf(NULL, MSG_INFO, "NVIDIA GPU info taken from cc_config.xml");
         } else {
             coprocs.add(coprocs.nvidia);
+            coprocs.nvidia.print_available_ram();
         }
     }
     if (coprocs.have_ati()) {
@@ -393,6 +394,7 @@ int CLIENT_STATE::init() {
             msg_printf(NULL, MSG_INFO, "ATI GPU info taken from cc_config.xml");
         } else {
             coprocs.add(coprocs.ati);
+            coprocs.ati.print_available_ram();
         }
     }
     host_info._coprocs = coprocs;

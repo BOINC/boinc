@@ -298,16 +298,16 @@ PROJECT* RSC_WORK_FETCH::choose_project(int criterion) {
     switch (criterion) {
     case FETCH_IF_IDLE_INSTANCE:
     case FETCH_IF_MAJOR_SHORTFALL:
-        set_request(pbest, true);
+        set_request(pbest);
         break;
     case FETCH_IF_PROJECT_STARVED:
-        set_request(pbest, false);
+        set_request(pbest);
         break;
     case FETCH_IF_MINOR_SHORTFALL:
         // in this case, potentially request work for all resources
         //
         if (project_priority(pbest) < 0) {
-            set_request(pbest, true);
+            set_request(pbest);
         } else {
             work_fetch.set_all_requests(pbest);
         }
@@ -339,7 +339,7 @@ PROJECT* RSC_WORK_FETCH::choose_project(int criterion) {
 // request this project's share of shortfall and instances.
 // don't request anything if project is overworked or backed off.
 //
-void RSC_WORK_FETCH::set_request(PROJECT* p, bool allow_overworked) {
+void RSC_WORK_FETCH::set_request(PROJECT* p) {
     if (dont_fetch(p, rsc_type)) return;
 
     // if backup project, fetch 1 job per idle instance
@@ -474,13 +474,13 @@ void RSC_WORK_FETCH::supplement(PROJECT* pp) {
         }
     }
     // didn't find a better project; ask for work
-    set_request(pp, true);
+    set_request(pp);
 }
 
 void WORK_FETCH::set_all_requests_hyst(PROJECT* p, int rsc_type) {
     for (int i=0; i<coprocs.n_rsc; i++) {
         if (i == rsc_type) {
-            rsc_work_fetch[i].set_request(p, true);
+            rsc_work_fetch[i].set_request(p);
         } else {
             if (i==0 || gpus_usable) {
                 rsc_work_fetch[i].supplement(p);
@@ -492,7 +492,7 @@ void WORK_FETCH::set_all_requests_hyst(PROJECT* p, int rsc_type) {
 void WORK_FETCH::set_all_requests(PROJECT* p) {
     for (int i=0; i<coprocs.n_rsc; i++) {
         if (i==0 || gpus_usable) {
-            rsc_work_fetch[i].set_request(p, false);
+            rsc_work_fetch[i].set_request(p);
         }
     }
 }

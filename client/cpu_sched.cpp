@@ -1357,17 +1357,9 @@ static inline void assign_coprocs(vector<RESULT*>& jobs) {
 
     coprocs.clear_usage();
     if (coprocs.have_nvidia()) {
-        coprocs.nvidia.get_available_ram();
-        if (log_flags.coproc_debug) {
-            coprocs.nvidia.print_available_ram();
-        }
         copy_available_ram(coprocs.nvidia, GPU_TYPE_NVIDIA);
     }
     if (coprocs.have_ati()) {
-        coprocs.ati.get_available_ram();
-        if (log_flags.coproc_debug) {
-            coprocs.ati.print_available_ram();
-        }
         copy_available_ram(coprocs.ati, GPU_TYPE_ATI);
     }
 

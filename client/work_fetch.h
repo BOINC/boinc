@@ -189,7 +189,7 @@ struct RSC_WORK_FETCH {
     RSC_PROJECT_WORK_FETCH& project_state(PROJECT*);
     void print_state(const char*);
     void clear_request();
-    void set_request(PROJECT*, bool allow_overworked);
+    void set_request(PROJECT*);
     bool may_have_work(PROJECT*);
     RSC_WORK_FETCH() {
         rsc_type = 0;
