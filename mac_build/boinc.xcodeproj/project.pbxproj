@@ -257,6 +257,10 @@
 		DD8917F40F3B21EA00DE5B1C /* texfont.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD635A410D384FA500BAC1A5 /* texfont.cpp */; };
 		DD8917F60F3B21EF00DE5B1C /* texture.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD4EC60F08A0A083009AA08F /* texture.cpp */; };
 		DD8917F80F3B21F500DE5B1C /* txf_util.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD65020809F599B9008E8A3A /* txf_util.cpp */; };
+		DD9838CA141F63F8006AF957 /* proc_control.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD9838C8141F63F8006AF957 /* proc_control.cpp */; };
+		DD9838CB141F63F8006AF957 /* proc_control.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD9838C8141F63F8006AF957 /* proc_control.cpp */; };
+		DD9838CC141F63F8006AF957 /* proc_control.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD9838C8141F63F8006AF957 /* proc_control.cpp */; };
+		DD9838CD141F63F8006AF957 /* proc_control.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD9838C8141F63F8006AF957 /* proc_control.cpp */; };
 		DD9AB0340EB7D5DE00AF1616 /* rr_sim.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD9AB0320EB7D5DE00AF1616 /* rr_sim.cpp */; };
 		DDA0C8350FE1D704001E02E6 /* procinfo_mac.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDB6934F0ABFE9C600689FD8 /* procinfo_mac.cpp */; };
 		DDA12A6D0A36974600FBDD12 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD1929D80918A2F100C31BCF /* Security.framework */; };
@@ -880,6 +884,9 @@
 		DD8DD4A609D9432F0043019E /* BOINCDialupManager.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = BOINCDialupManager.h; path = ../clientgui/BOINCDialupManager.h; sourceTree = SOURCE_ROOT; };
 		DD96AFF90811075000A06F22 /* BOINCSaver.saver */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BOINCSaver.saver; sourceTree = BUILT_PRODUCTS_DIR; };
 		DD96AFFA0811075100A06F22 /* ScreenSaver-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "ScreenSaver-Info.plist"; sourceTree = SOURCE_ROOT; };
+		DD9838C8141F63F8006AF957 /* proc_control.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = proc_control.cpp; path = ../lib/proc_control.cpp; sourceTree = SOURCE_ROOT; };
+		DD9838C9141F63F8006AF957 /* proc_control.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = proc_control.h; path = ../lib/proc_control.h; sourceTree = SOURCE_ROOT; };
+		DD983916141F68D9006AF957 /* procinfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = procinfo.h; path = ../lib/procinfo.h; sourceTree = SOURCE_ROOT; };
 		DD9AB0320EB7D5DE00AF1616 /* rr_sim.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = rr_sim.cpp; sourceTree = "<group>"; };
 		DD9AB0330EB7D5DE00AF1616 /* rr_sim.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = rr_sim.h; sourceTree = "<group>"; };
 		DD9C94A00A5A3A4100AB0D10 /* AdvancedFrame.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = AdvancedFrame.cpp; path = ../clientgui/AdvancedFrame.cpp; sourceTree = SOURCE_ROOT; };
@@ -1596,8 +1603,11 @@
 				F54B901502AC0A2201FB7237 /* parse.h */,
 				DD344BE407C5B1670043025C /* prefs.cpp */,
 				DD344BE507C5B1670043025C /* prefs.h */,
+				DD9838C8141F63F8006AF957 /* proc_control.cpp */,
+				DD9838C9141F63F8006AF957 /* proc_control.h */,
 				DDB6934F0ABFE9C600689FD8 /* procinfo_mac.cpp */,
 				DD29B89E139F0CED0014477D /* procinfo.cpp */,
+				DD983916141F68D9006AF957 /* procinfo.h */,
 				DD344BEF07C5B1770043025C /* proxy_info.cpp */,
 				DD344BEE07C5B1770043025C /* proxy_info.h */,
 				AAA31C97042157A800A80164 /* shmem.cpp */,
@@ -2601,6 +2611,7 @@
 				DD4FA2621218290600154856 /* BOINCVListBox.cpp in Sources */,
 				DD5FD0C7139CDD30001092E5 /* sqlite3.c in Sources */,
 				DD29B89F139F0CED0014477D /* procinfo.cpp in Sources */,
+				DD9838CC141F63F8006AF957 /* proc_control.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2644,6 +2655,7 @@
 				DDE1372F10DC5E8D00161D6B /* notice.cpp in Sources */,
 				DD29B8A1139F0CED0014477D /* procinfo.cpp in Sources */,
 				DD29B8AC139F15080014477D /* procinfo_mac.cpp in Sources */,
+				DD9838CB141F63F8006AF957 /* proc_control.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2738,6 +2750,7 @@
 				DDF5F85A10DD05DB006A50CD /* notice.cpp in Sources */,
 				DD29B8A2139F0CED0014477D /* procinfo.cpp in Sources */,
 				DD29B8A7139F14D10014477D /* procinfo_mac.cpp in Sources */,
+				DD9838CD141F63F8006AF957 /* proc_control.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2915,6 +2928,7 @@
 				DDE1373210DC5EA400161D6B /* notice.cpp in Sources */,
 				DD40BEEF1270EECE009D9AA6 /* current_version.cpp in Sources */,
 				DD29B8A0139F0CED0014477D /* procinfo.cpp in Sources */,
+				DD9838CA141F63F8006AF957 /* proc_control.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
