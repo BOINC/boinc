@@ -778,12 +778,12 @@ int VBOX_VM::stop() {
     char buf[256];
     int retval;
 
+    fprintf(
+        stderr,
+        "%s Stopping virtual machine.\n",
+        boinc_msg_prefix(buf, sizeof(buf))
+    );
     if (is_running()) {
-        fprintf(
-            stderr,
-            "%s Stopping virtual machine.\n",
-            boinc_msg_prefix(buf, sizeof(buf))
-        );
         command = "controlvm \"" + vm_name + "\" savestate";
         retval = vbm_popen(command, output);
         if (retval) {
