@@ -5936,3 +5936,11 @@ David  13 Sept 2011
 
     samples/wrapper/
         wrapper.cpp
+
+Rom    13 Sept 2011
+    - VBOX: Properly trap stderr output from vboxmanage by redirecting it to
+        stdout.  Error messages should now be properly detected on Linux and
+        Mac.
+        
+    samples/vboxwrapper/
+        vbox.cpp

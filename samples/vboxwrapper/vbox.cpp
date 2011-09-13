@@ -106,6 +106,7 @@ int VBOX_VM::vbm_popen(string& arguments, string& output) {
     command = "VBoxManage -q " + arguments;
 
 #ifdef _WIN32
+
     STARTUPINFO si;
     PROCESS_INFORMATION pi;
     SECURITY_ATTRIBUTES sa;
@@ -205,10 +206,14 @@ CLEANUP:
     return retval;
 
 #else
+
     FILE* fp;
 
+    // redirect stderr to stdout for the child process so we can trap it with popen.
+    string modified_command = command + " 2>&1";
+
     // Execute command
-    fp = popen(command.c_str(), "r");
+    fp = popen(modified_command.c_str(), "r");
     if (fp == NULL){
         fprintf(
             stderr,
