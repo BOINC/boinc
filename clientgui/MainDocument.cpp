@@ -2445,8 +2445,8 @@ wxString result_description(RESULT* result, bool show_resources) {
         } else {
             strBuffer += _("Ready to start");
         }
-        if (result->gpu_mem_wait) {
-            strBuffer += _(" (waiting for GPU memory)");
+        if (result->scheduler_wait) {
+            strBuffer += _(" (Scheduler wait)");
         }
         break;
     case RESULT_COMPUTE_ERROR:

@@ -5883,3 +5883,18 @@ David  12 Sept 2011
 
     sched/
         validator.cpp
+
+David  12 Sept 2011
+    - client, GUI RPC, Manager:
+        in GUI RPC, change RESULT.gpu_mem_wait to scheduler_wait.
+        It means that the app did a boinc_temporary_exit(),
+        and is waiting to be rescheduled.
+        GPU mem wait is one source of this, not the only one
+
+    clientgui/
+        MainDocument.cpp
+    lib/
+        gui_rpc_client.h
+        gui_rpc_client_ops.cpp
+    client/
+        client_types.cpp

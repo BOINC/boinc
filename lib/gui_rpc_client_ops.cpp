@@ -490,7 +490,7 @@ int RESULT::parse(XML_PARSER& xp) {
         if (parse_bool(buf, "suspended_via_gui", suspended_via_gui)) continue;
         if (parse_bool(buf, "project_suspended_via_gui", project_suspended_via_gui)) continue;
         if (parse_bool(buf, "coproc_missing", coproc_missing)) continue;
-        if (parse_bool(buf, "gpu_mem_wait", gpu_mem_wait)) continue;
+        if (parse_bool(buf, "scheduler_wait", scheduler_wait)) continue;
         if (match_tag(buf, "<active_task>")) {
             active_task = true;
             continue;
@@ -553,7 +553,7 @@ void RESULT::clear() {
     suspended_via_gui = false;
     project_suspended_via_gui = false;
     coproc_missing = false;
-    gpu_mem_wait = false;
+    scheduler_wait = false;
 
     active_task = false;
     active_task_state = 0;
