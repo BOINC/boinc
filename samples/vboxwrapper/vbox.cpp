@@ -745,6 +745,11 @@ int VBOX_VM::startvm() {
     char buf[256];
     int retval;
 
+    fprintf(
+        stderr,
+        "%s Starting virtual machine.\n",
+        boinc_msg_prefix(buf, sizeof(buf))
+    );
     command = "startvm \"" + vm_name + "\" --type headless";
     retval = vbm_popen(command, output);
     if (retval) {
@@ -768,6 +773,11 @@ int VBOX_VM::stop() {
     char buf[256];
     int retval;
 
+    fprintf(
+        stderr,
+        "%s Stopping virtual machine.\n",
+        boinc_msg_prefix(buf, sizeof(buf))
+    );
     command = "controlvm \"" + vm_name + "\" savestate";
     retval = vbm_popen(command, output);
     if (retval) {
