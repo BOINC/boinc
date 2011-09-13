@@ -766,6 +766,22 @@ int DB_HOST::update_diff_sched(HOST& h) {
     return db->do_query(query);
 }
 
+int DB_HOST::fpops_percentile(double percentile, double& fpops) {
+    char query[256];
+    int n, retval;
+
+    sprintf(query, "where expavg_credit>10");
+    retval = count(n, query);
+    if (retval) return retval;
+    if (n==0) return ERR_NULL;
+    int m = (int)(n*percentile/100.);
+    sprintf(query,
+        "select p_fpops from host where expavg_credit>10 order by p_fpops limit %d,1",
+        m
+    );
+    return get_double(query, fpops);
+}
+
 void DB_WORKUNIT::db_print(char* buf){
     sprintf(buf,
         "create_time=%d, appid=%d, "
@@ -1465,7 +1481,6 @@ void VALIDATOR_ITEM::parse(MYSQL_ROW& r) {
     res.validate_state = atoi(r[i++]);
     res.server_state = atoi(r[i++]);
     res.outcome = atoi(r[i++]);
-    res.claimed_credit = atof(r[i++]);
     res.granted_credit = atof(r[i++]);
     strcpy2(res.xml_doc_in, r[i++]);
     strcpy2(res.xml_doc_out, r[i++]);
@@ -1526,7 +1541,6 @@ int DB_VALIDATOR_ITEM_SET::enumerate(
             "   res.validate_state, "
             "   res.server_state, "
             "   res.outcome, "
-            "   res.claimed_credit, "
             "   res.granted_credit, "
             "   res.xml_doc_in, "
             "   res.xml_doc_out, "
@@ -1939,7 +1953,6 @@ int DB_SCHED_RESULT_ITEM_SET::update_result(SCHED_RESULT_ITEM& ri) {
         "    cpu_time=%.15e, "
         "    exit_status=%d, "
         "    app_version_num=%d, "
-        "    claimed_credit=%.15e, "
         "    server_state=%d, "
         "    outcome=%d, "
         "    stderr_out='%s', "
@@ -1955,7 +1968,6 @@ int DB_SCHED_RESULT_ITEM_SET::update_result(SCHED_RESULT_ITEM& ri) {
         ri.cpu_time,
         ri.exit_status,
         ri.app_version_num,
-        ri.claimed_credit,
         ri.server_state,
         ri.outcome,
         ri.stderr_out,

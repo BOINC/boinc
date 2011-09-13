@@ -78,16 +78,6 @@ int main_loop(bool one_pass) {
     int retval;
     bool did_something;
 
-    retval = boinc_db.open(
-        config.db_name, config.db_host, config.db_user, config.db_passwd
-    );
-    if (retval) {
-        log_messages.printf(MSG_CRITICAL,
-            "boinc_db.open failed: %s\n", boincerror(retval)
-        );
-        exit(1);
-    }
-
     while (1) {
         check_stop_daemons();
         did_something = do_trickle_scan();
@@ -102,7 +92,9 @@ int main_loop(bool one_pass) {
 void usage(char *name) {
     fprintf(stderr,
         "Framework for trickle-up message handler\n"
-        "This program must be linked with an app-specific function:\n\n"
+        "This program must be linked with app-specific functions:\n\n"
+        "int handle_trickle_init(int argc, char** argv)\n"
+        "  - initialize\n\n"
         "int handle_trickle(MSG_FROM_HOST&)\n"
         "  - handle a trickle message\n\n"
         "return nonzero on error\n\n"
@@ -123,6 +115,7 @@ int main(int argc, char** argv) {
 
     check_stop_daemons();
 
+    int j=1;
     for (i=1; i<argc; i++) {
         if (is_arg(argv[i], "one_pass")) {
             one_pass = true;
@@ -154,14 +147,10 @@ int main(int argc, char** argv) {
             usage(argv[0]);
             exit(0);
         } else {
-            log_messages.printf(MSG_CRITICAL,
-                "unknown command line argument: %s\n\n", argv[i]
-            );
-            usage(argv[0]);
-            exit(1);
+            // unknown arg - pass to handler
+            argv[j++] = argv[i];
         }
     }
-
     retval = config.parse_file();
     if (retval) {
         log_messages.printf(MSG_CRITICAL,
@@ -170,9 +159,21 @@ int main(int argc, char** argv) {
         exit(1);
     }
 
-    log_messages.printf(MSG_NORMAL,
-        "Starting trickle handler\n"
+    retval = boinc_db.open(
+        config.db_name, config.db_host, config.db_user, config.db_passwd
     );
+    if (retval) {
+        log_messages.printf(MSG_CRITICAL,
+            "boinc_db.open failed: %s\n", boincerror(retval)
+        );
+        exit(1);
+    }
+
+    argv[j] = 0;
+    retval = handle_trickle_init(argc, argv);
+    if (retval) exit(1);
+
+    log_messages.printf(MSG_NORMAL, "Starting trickle handler\n");
 
     install_stop_signal_handler();
 

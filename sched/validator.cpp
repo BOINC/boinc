@@ -17,15 +17,22 @@
 
 // validator - check and validate results, and grant credit
 //  --app appname
-//  [-d N] [--debug_level N]    // log verbosity (1=least, 4=most)
-//  [--one_pass_N_WU N]         // Validate only N WU in one pass, then exit
-//  [--one_pass]                // make one pass through WU table, then exit
-//  [--mod n i]                 // process only WUs with (id mod n) == i
-//  [--max_granted_credit X]    // limit maximum granted credit to X
-//  [--max_claimed_credit Y]    // invalid if claims more than Y
-//  [--grant_claimed_credit]    // just grant whatever is claimed 
-//  [--update_credited_job]     // add userid/wuid pair to credited_job table
-//  [--credit_from_wu]          // get credit from WU XML
+//  [-d N] [--debug_level N]    log verbosity (1=least, 4=most)
+//  [--one_pass_N_WU N]         Validate only N WU in one pass, then exit
+//  [--one_pass]                make one pass through WU table, then exit
+//  [--mod n i]                 process only WUs with (id mod n) == i
+//  [--max_granted_credit X]    limit maximum granted credit to X
+//  [--update_credited_job]     add userid/wuid pair to credited_job table
+//
+//  credit options.  The default is to grant credit using an
+//  adaptive scheme that provides devices neutrality
+//
+//  [--no_credit]               don't grant credit
+//                              Use this, e.g., if using trickles for credit
+//  [--credit_from_wu]          get credit from WU XML
+//  [--credit_from_runtime X]   grant credit based on runtime,
+//                              assuming single-CPU app.
+//                              X is the max runtime.
 
 #include "config.h"
 #include <unistd.h>
@@ -41,6 +48,7 @@
 #include "str_util.h"
 #include "error_numbers.h"
 #include "svn_version.h"
+#include "common_defs.h"
 
 #include "credit.h"
 #include "sched_config.h"
@@ -75,11 +83,14 @@ int wu_id_remainder=0;
 int one_pass_N_WU=0;
 bool one_pass = false;
 double max_granted_credit = 0;
-double max_claimed_credit = 0;
-bool grant_claimed_credit = false;
 bool update_credited_job = false;
 bool credit_from_wu = false;
+bool credit_from_runtime = false;
+double max_runtime = 0;
+double fpops_50_percentile; // used if credit_from_runtime
+double fpops_95_percentile;
 bool no_credit = false;
+
 WORKUNIT* g_wup;
 vector<DB_APP_VERSION> app_versions;
     // cache of app_versions; used by v2 credit system
@@ -150,7 +161,7 @@ int handle_wu(
     bool update_result, retry;
     TRANSITION_TIME transition_time = NO_CHANGE;
     int retval = 0, canonicalid = 0, x;
-    double credit = 0, credit_new = 0;
+    double credit = 0;
     unsigned int i;
 
     WORKUNIT& wu = items[0].wu;
@@ -357,41 +368,66 @@ int handle_wu(
             }
             if (retry) transition_time = DELAYED;
 
-            if (credit_from_wu) {
-                // do the credit calculation anyway, to update statistics
+            // if we found a canonical instance, decide on credit
+            //
+            if (canonicalid) {
+                // always do the credit calculation, to update statistics
                 //
                 retval = assign_credit_set(
                     wu, results, app, app_versions, host_app_versions,
                     max_granted_credit, credit
                 );
-
-                retval = get_credit_from_wu(wu, results, credit);
                 if (retval) {
                     log_messages.printf(MSG_CRITICAL,
-                        "[WU#%d %s] get_credit_from_wu(): credit not specified in WU\n",
-                        wu.id, wu.name
+                        "[WU#%d %s] assign_credit_set(): %s\n",
+                        wu.id, wu.name, boincerror(retval)
                     );
-                    credit = 0;
+                    transition_time = DELAYED;
+                    goto leave;
                 }
-            } else {
-                if (canonicalid) {
-                    retval = assign_credit_set(
-                        wu, results, app, app_versions, host_app_versions,
-                        max_granted_credit, credit
-                    );
+
+                if (credit_from_wu) {
+                    retval = get_credit_from_wu(wu, results, credit);
                     if (retval) {
                         log_messages.printf(MSG_CRITICAL,
-                            "[WU#%d %s] assign_credit_set(): %s\n",
-                            wu.id, wu.name, boincerror(retval)
+                            "[WU#%d %s] get_credit_from_wu(): credit not specified in WU\n",
+                            wu.id, wu.name
                         );
-                        transition_time = DELAYED;
-                        goto leave;
+                        credit = 0;
                     }
+                } else if (credit_from_runtime) {
+                    credit = 0;
+                    for (i=0; i<results.size(); i++) {
+                        RESULT& result = results[i];
+                        if (result.id == canonicalid) {
+                            DB_HOST host;
+                            retval = host.lookup_id(result.hostid);
+                            if (retval) {
+                                log_messages.printf(MSG_CRITICAL,
+                                    "[WU#%d %s] host %d lookup failed\n",
+                                    wu.id, wu.name, result.hostid
+                                );
+                                break;
+                            }
+                            double fpops = host.p_fpops;
+                            if (fpops <= 0) fpops = fpops_50_percentile;
+                            if (fpops > fpops_95_percentile) {
+                                fpops = fpops_95_percentile;
+                            }
+                            double runtime = result.elapsed_time;
+                            if (runtime <=0 || runtime > max_runtime) {
+                                runtime = max_runtime;
+                            }
+                            credit = (fpops * runtime) * COBBLESTONE_SCALE;
+                            break;
+                        }
+                    }
+                } else if (no_credit) {
+                    credit = 0;
                 }
-            }
-
-            if (max_granted_credit && credit>max_granted_credit) {
-                credit = max_granted_credit;
+                if (max_granted_credit && credit>max_granted_credit) {
+                    credit = max_granted_credit;
+                }
             }
 
             // scan results.
@@ -443,13 +479,6 @@ int handle_wu(
                     }
                     if (!no_credit) {
                         result.granted_credit = credit;
-                        if (credit_from_wu) {
-                            DB_RESULT r;
-                            r = result;
-                            char buf[256];
-                            sprintf(buf, "claimed_credit=%f", credit_new);
-                            r.update_field(buf);
-                        }
                         grant_credit(host, result.sent_time, credit);
                         log_messages.printf(MSG_NORMAL,
                             "[RESULT#%d %s] Valid; granted %f credit [HOST#%d]\n",
@@ -617,16 +646,6 @@ int main_loop() {
     bool did_something;
     char buf[256];
 
-    retval = boinc_db.open(
-        config.db_name, config.db_host, config.db_user, config.db_passwd
-    );
-    if (retval) {
-        log_messages.printf(MSG_CRITICAL,
-            "boinc_db.open failed: %s\n", boincerror(retval)
-        );
-        exit(1);
-    }
-
     sprintf(buf, "where name='%s'", app_name);
 
     while (1) {
@@ -672,9 +691,7 @@ int main(int argc, char** argv) {
       "  --one_pass_N_WU N       Validate at most N WUs, then exit\n"
       "  --one_pass              Make one pass through WU table, then exit\n"
       "  --mod n i               Process only WUs with (id mod n) == i\n"
-      "  --max_claimed_credit X  If a result claims more credit than this, mark it as invalid\n"
       "  --max_granted_credit X  Grant no more than this amount of credit to a result\n"
-      "  --grant_claimed_credit  Grant the claimed credit, regardless of what other results for this workunit claimed\n"
       "  --update_credited_job   Add record to credited_job table after granting credit\n"
       "  --credit_from_wu        Credit is specified in WU XML\n"
       "  --no_credit             Don't grant credit\n"
@@ -709,14 +726,13 @@ int main(int argc, char** argv) {
             wu_id_remainder = atoi(argv[++i]);
         } else if (is_arg(argv[i], "max_granted_credit")) {
             max_granted_credit = atof(argv[++i]);
-        } else if (is_arg(argv[i], "max_claimed_credit")) {
-            max_claimed_credit = atof(argv[++i]);
-        } else if (is_arg(argv[i], "grant_claimed_credit")) {
-            grant_claimed_credit = true;
         } else if (is_arg(argv[i], "update_credited_job")) {
             update_credited_job = true;
         } else if (is_arg(argv[i], "credit_from_wu")) {
             credit_from_wu = true;
+        } else if (is_arg(argv[i], "credit_from_runtime")) {
+            credit_from_runtime = true;
+            max_runtime = atof(argv[++i]);
         } else if (is_arg(argv[i], "no_credit")) {
             no_credit = true;
         } else if (is_arg(argv[i], "v") || is_arg(argv[i], "version")) {
@@ -748,9 +764,38 @@ int main(int argc, char** argv) {
         exit(1);
     }
 
+    retval = boinc_db.open(
+        config.db_name, config.db_host, config.db_user, config.db_passwd
+    );
+    if (retval) {
+        log_messages.printf(MSG_CRITICAL,
+            "boinc_db.open failed: %s\n", boincerror(retval)
+        );
+        exit(1);
+    }
+
     log_messages.printf(MSG_NORMAL,
         "Starting validator, debug level %d\n", log_messages.debug_level
     );
+
+    if (credit_from_runtime) {
+        DB_HOST host;
+        retval = host.fpops_percentile(50, fpops_50_percentile);
+        if (retval) {
+            log_messages.printf(MSG_CRITICAL, "fpops_percentile failed: %d\n", retval);
+            return retval;
+        }
+        retval = host.fpops_percentile(95, fpops_95_percentile);
+        if (retval) {
+            log_messages.printf(MSG_CRITICAL, "fpops_percentile failed: %d\n", retval);
+            return retval;
+        }
+
+        log_messages.printf(MSG_NORMAL, "default FLOPS: %f\n", fpops_50_percentile);
+        log_messages.printf(MSG_NORMAL, "max FLOPS: %f\n", fpops_95_percentile);
+        log_messages.printf(MSG_NORMAL, "max runtime: %f\n", max_runtime);
+    }
+
     if (wu_id_modulus) {
         log_messages.printf(MSG_NORMAL,
             "Modulus %d, remainder %d\n", wu_id_modulus, wu_id_remainder

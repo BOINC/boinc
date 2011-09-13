@@ -533,7 +533,7 @@ struct RESULT {
     int batch;
     int file_delete_state;          // see above; values for file_delete_state
     int validate_state;
-    double claimed_credit;          // CPU time times host credit/sec
+    double claimed_credit;          // deprecated
     double granted_credit;          // == canonical credit of WU
     double opaque;                  // project-specific; usually external ID
     int random;                     // determines send order
@@ -792,6 +792,8 @@ public:
     int get_id();
     int update_diff_sched(HOST&);
     int update_diff_validator(HOST&);
+    int fpops_percentile(double percentile, double& fpops);
+        // return the given percentile of p_fpops
     void db_print(char*);
     void db_parse(MYSQL_ROW &row);
     void operator=(HOST& r) {HOST::operator=(r);}
@@ -960,7 +962,6 @@ struct SCHED_RESULT_ITEM {
     int sent_time;
     int received_time;
     double cpu_time;
-    double claimed_credit;
     char xml_doc_out[BLOB_SIZE];
     char stderr_out[BLOB_SIZE];
     int app_version_num;

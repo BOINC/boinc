@@ -5905,3 +5905,27 @@ Rom    13 Sept 2011
         
     samples/vboxwrapper/
         vbox.cpp
+
+David  13 Sept 2011
+    - validator: add a --credit_from_runtime option.
+        This assigns credit proportional to runtime*p_fpops.
+        To prevent cheating, p_fpops is capped at the 95th percentile value
+        among active hosts,
+        and runtime is capped at a specified limit.
+        This option supports apps, like LHC's CERNvm app,
+        that run for a certain amount of time and then exit.
+        The CreditNew system doesn't work for such apps.
+    - trickle_credit:
+        To prevent cheating,
+        cap p_fpops at the 95th percentile value among active hosts,
+        and require a limit on runtime.
+    - require that trickle handlers supply an initialization function
+
+    db/
+        boinc_db.cpp,h
+    sched/
+        trickle_handler.cpp,h
+        trickle_credit.cpp
+        trickle_echo.cpp
+        validate_util2.cpp
+        validator.cpp

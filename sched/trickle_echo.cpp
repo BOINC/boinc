@@ -15,7 +15,6 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-
 // The following is an example trickle handler.
 // It echoes whatever the app sent us, as a trickle-down message.
 // Replace it with your own function.
@@ -26,15 +25,14 @@
 // DB_USER user;
 // host.lookup_id(mfh.hostid);
 // user.lookup_id(host.userid);
-//
-// Then you can modify and update these as needed, e.g. to grant credit.
-// (in that case you may also need update the team).
-// See is_valid() in validator.cpp.
-//
 
 #include "error_numbers.h"
 
 #include "trickle_handler.h"
+
+int handle_trickle_init(int, char**) {
+    return 0;
+}
 
 int handle_trickle(MSG_FROM_HOST& mfh) {
     int retval;
