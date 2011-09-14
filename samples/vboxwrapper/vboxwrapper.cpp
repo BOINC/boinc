@@ -228,6 +228,11 @@ int main(int argc, char** argv) {
             boinc_finish(EXIT_ABORTED_BY_CLIENT);
         }
         if (!is_running) {
+            fprintf(
+                stderr,
+                "%s Virtual machine is no longer running, it must have completed its work.\n",
+                boinc_msg_prefix(buf, sizeof(buf))
+            );
             vm.cleanup();
             write_checkpoint(checkpoint_cpu_time);
             boinc_finish(0);

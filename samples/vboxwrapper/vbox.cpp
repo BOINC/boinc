@@ -255,6 +255,7 @@ int VBOX_VM::generate_vm_root_dir( string& dir ) {
     return 0;
 }
 
+
 bool VBOX_VM::is_registered() {
     string command;
     string output;
@@ -756,13 +757,7 @@ int VBOX_VM::deregister_stale_vm() {
     } else {
         // Did the user delete the VM in VirtualBox and not the medium?  If so,
         // just remove the medium.
-        fprintf(
-            stderr,
-            "%s Removing virtual disk drive from VirtualBox.\n",
-            boinc_msg_prefix(buf, sizeof(buf))
-        );
         command  = "closemedium \"" + virtual_machine_root_dir + "/" + image_filename + "\" ";
-
         retval = vbm_popen(command, output);
         if (retval) {
             fprintf(
