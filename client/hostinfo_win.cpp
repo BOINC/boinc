@@ -265,6 +265,33 @@
 #ifndef PRODUCT_ULTIMATE_E
 #define PRODUCT_ULTIMATE_E                          0x00000047
 #endif
+#ifndef PRODUCT_ENTERPRISE_EVALUATION
+#define PRODUCT_ENTERPRISE_EVALUATION               0x00000048
+#endif
+#ifndef PRODUCT_PRERELEASE
+#define PRODUCT_PRERELEASE                          0x0000004A
+#endif
+#ifndef PRODUCT_MULTIPOINT_STANDARD_SERVER
+#define PRODUCT_MULTIPOINT_STANDARD_SERVER          0x0000004C
+#endif
+#ifndef PRODUCT_MULTIPOINT_PREMIUM_SERVER
+#define PRODUCT_MULTIPOINT_PREMIUM_SERVER           0x0000004D
+#endif
+#ifndef PRODUCT_STANDARD_EVALUATION_SERVER
+#define PRODUCT_STANDARD_EVALUATION_SERVER          0x0000004F
+#endif
+#ifndef PRODUCT_DATACENTER_EVALUATION_SERVER
+#define PRODUCT_DATACENTER_EVALUATION_SERVER        0x00000050
+#endif
+#ifndef PRODUCT_PRERELEASE_ARM
+#define PRODUCT_PRERELEASE_ARM                      0x00000051
+#endif
+#ifndef PRODUCT_PRERELEASE_N
+#define PRODUCT_PRERELEASE_N                        0x00000052
+#endif
+#ifndef PRODUCT_ENTERPRISE_N_EVALUATION
+#define PRODUCT_ENTERPRISE_N_EVALUATION             0x00000054
+#endif
 
 
 // Newer suite types than what is currently defined in
@@ -359,6 +386,15 @@ int get_os_information(
 
     switch (osvi.dwPlatformId) {
         case VER_PLATFORM_WIN32_NT:
+
+            if ( osvi.dwMajorVersion == 6 && osvi.dwMinorVersion == 2 ) {
+                if( osvi.wProductType == VER_NT_WORKSTATION ) {
+                    strcat(os_name, "Windows 8");
+                } else {
+                    strcat(os_name, "Windows 8 Server ");
+                }
+                pGPI( 6, 2, 0, 0, &dwType);
+            }
 
             if ( osvi.dwMajorVersion == 6 && osvi.dwMinorVersion == 1 ) {
                 if( osvi.wProductType == VER_NT_WORKSTATION ) {
@@ -499,7 +535,13 @@ int get_os_information(
                             case PRODUCT_ENTERPRISE_E:
                                strcat(szSKU, "Enterprise E ");
                                break;
-                        }
+ 							case PRODUCT_PRERELEASE:
+								strcat(szSKU, "Developer Preview ");
+								break;
+							case PRODUCT_PRERELEASE_N:
+								strcat(szSKU, "Developer Preview N ");
+								break;
+                       }
                     } else if( (osvi.dwMajorVersion == 5 && osvi.dwMinorVersion == 2) ) {
                         if( osvi.wSuiteMask & VER_SUITE_PERSONAL ) {
                             strcat(szSKU, "Home ");

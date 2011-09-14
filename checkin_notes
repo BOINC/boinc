@@ -6025,3 +6025,10 @@ David  14 Sept 2011
         app_ipc.cpp
     client/
         cs_notice.cpp
+
+Rom    14 Sept 2011
+    - client: Update Windows detection code to support Windows 8.
+        (From: [P3D] Crashtest)
+        
+    client/
+        hostinfo_win.cpp
