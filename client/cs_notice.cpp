@@ -255,9 +255,9 @@ void NOTICES::init_rss() {
     // sort by decreasing arrival time, then assign seqnos
     //
     sort(notices.begin(), notices.end(), cmp);
-    unsigned int n = notices.size();
+    size_t n = notices.size();
     for (unsigned int i=0; i<n; i++) {
-        notices[i].seqno = n - i;
+        notices[i].seqno = (int)(n - i);
     }
 }
 
@@ -508,7 +508,7 @@ void NOTICES::remove_network_msg() {
 // Write them in order of increasing seqno
 //
 void NOTICES::write(int seqno, GUI_RPC_CONN& grpc, MIOFILE& fout, bool public_only) {
-    unsigned int i;
+    size_t i;
     MIOFILE mf;
 
     if (!net_status.need_physical_connection) {

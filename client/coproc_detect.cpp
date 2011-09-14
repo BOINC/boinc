@@ -234,14 +234,14 @@ void COPROCS::get_opencl(bool use_all, vector<string>&warnings,
             if (ciErrNum != CL_SUCCESS) break;
             
             if (strstr(prop.vendor, GPU_TYPE_NVIDIA)) {
-                prop.device_num = nvidia_opencls.size();
+                prop.device_num = (int)(nvidia_opencls.size());
                 nvidia_opencls.push_back(prop);
             }
             if ((strstr(prop.vendor, GPU_TYPE_ATI)) || 
                 (strstr(prop.vendor, "AMD")) ||  
                 (strstr(prop.vendor, "Advanced Micro Devices, Inc."))
             ) {
-                prop.device_num = ati_opencls.size();
+                prop.device_num = (int)(ati_opencls.size());
                 ati_opencls.push_back(prop);
             }
         }
