@@ -422,9 +422,9 @@ int HTTP_OP::libcurl_exec(
     // the following seems to be a no-op
     // curl_easy_setopt(curlEasy, CURLOPT_ERRORBUFFER, error_msg);
 
-    char* esc_url = curl_easy_escape(curlEasy, m_url, 0);
+    char esc_url[1024];
+    string_substitute(m_url, esc_url, sizeof(esc_url), " ", "%20");
     curl_easy_setopt(curlEasy, CURLOPT_URL, esc_url);
-    curl_free(esc_url);
 
     // This option determines whether curl verifies that the server
     // claims to be who you want it to be.

@@ -6007,3 +6007,9 @@ David  13 Sept 2011
         procinfo.cpp
     client/
         http_curl.cpp
+
+David  13 Sept 2011
+	- client: curl_easy_escape() escapes way too much.  Just escape spaces.
+
+	client/
+		http_curl.cpp
