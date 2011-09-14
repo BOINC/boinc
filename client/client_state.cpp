@@ -369,15 +369,11 @@ int CLIENT_STATE::init() {
         }
 #if 0
         msg_printf(NULL, MSG_INFO, "Faking an NVIDIA GPU");
-        coprocs.nvidia.fake(18000, 256*MEGA, 2);
-        coprocs.nvidia.available_ram_fake[0] = 256*MEGA;
-        coprocs.nvidia.available_ram_fake[1] = 192*MEGA;
+        coprocs.nvidia.fake(18000, 256*MEGA, 192*MEGA, 2);
 #endif
 #if 0
         msg_printf(NULL, MSG_INFO, "Faking an ATI GPU");
-        coprocs.ati.fake(512*MEGA, 2);
-        coprocs.ati.available_ram_fake[0] = 256*MEGA;
-        coprocs.ati.available_ram_fake[1] = 192*MEGA;
+        coprocs.ati.fake(512*MEGA, 256*MEGA, 2);
 #endif
     }
 
@@ -386,7 +382,6 @@ int CLIENT_STATE::init() {
             msg_printf(NULL, MSG_INFO, "NVIDIA GPU info taken from cc_config.xml");
         } else {
             coprocs.add(coprocs.nvidia);
-            coprocs.nvidia.print_available_ram();
         }
     }
     if (coprocs.have_ati()) {
@@ -394,7 +389,6 @@ int CLIENT_STATE::init() {
             msg_printf(NULL, MSG_INFO, "ATI GPU info taken from cc_config.xml");
         } else {
             coprocs.add(coprocs.ati);
-            coprocs.ati.print_available_ram();
         }
     }
     host_info._coprocs = coprocs;

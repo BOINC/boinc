@@ -49,9 +49,9 @@ function show_totals() {
     $users = number_format($users);
     $hosts = number_format($hosts);
 
-    $teraflops = number_format($credit_day/200000, 2);
+    $petaflops = number_format($credit_day/200000000, 3);
     echo tra("Active:")." $users ".tra("volunteers,")." $hosts ".tra("computers.
-")."        <br>".tra("24-hour average:")." $teraflops ".tra("TeraFLOPS.")."
+")."        <br>".tra("24-hour average:")." $petaflops ".tra("PetaFLOPS.")."
         <hr size=1 width=\"80%\">
     ";
 }

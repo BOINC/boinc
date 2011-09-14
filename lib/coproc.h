@@ -95,8 +95,9 @@ struct COPROC_REQ {
     int parse(XML_PARSER&);
 };
 
-// For now, there will be some duplication between the values present in 
-// the OPENCL_DEVICE_PROP struct and the NVIDA and / or ATI structs
+// For now, there will be some duplication between the values in 
+// the OPENCL_DEVICE_PROP struct and the NVIDIA/ATI structs
+//
 struct OPENCL_DEVICE_PROP {
     cl_device_id device_id;
     char name[256];                     // Device name
@@ -159,10 +160,9 @@ struct COPROC {
     int opencl_device_count;
     bool running_graphics_app[MAX_COPROC_INSTANCES];
         // is this GPU running a graphics app (NVIDIA only)
-    double available_ram[MAX_COPROC_INSTANCES];
-    bool available_ram_unknown[MAX_COPROC_INSTANCES];
-        // couldn't get available RAM; don't start new apps on this instance
-    double available_ram_fake[MAX_COPROC_INSTANCES];
+    double available_ram;
+    double available_ram_temp[MAX_COPROC_INSTANCES];
+        // used during job scheduling
 
     double last_print_time;
     
@@ -189,13 +189,11 @@ struct COPROC {
         req_instances = 0;
         opencl_device_count = 0;
         estimated_delay = 0;
+        available_ram = 0;
         for (int i=0; i<MAX_COPROC_INSTANCES; i++) {
             device_nums[i] = 0;
             opencl_device_ids[i] = 0;
             running_graphics_app[i] = true;
-            available_ram[i] = 0;
-            available_ram_fake[i] = 0;
-            available_ram_unknown[i] = true;
         }
         memset(&opencl_prop, 0, sizeof(opencl_prop));
     }
@@ -212,7 +210,6 @@ struct COPROC {
     COPROC() {
         clear();
     }
-    void print_available_ram();
 };
 
 // based on cudaDeviceProp from /usr/local/cuda/include/driver_types.h
@@ -285,7 +282,7 @@ struct COPROC_NVIDIA : public COPROC {
 
     bool check_running_graphics_app();
     bool matches(OPENCL_DEVICE_PROP& OpenCLprop);
-    void fake(int driver_version, double ram, int count);
+    void fake(int driver_version, double ram, double avail_ram, int count);
 
 };
 
@@ -318,7 +315,7 @@ struct COPROC_ATI : public COPROC {
         // clock is in MHz
         peak_flops = (x>0)?x:5e10;
 	}
-    void fake(double, int);
+    void fake(double ram, double avail_ram, int);
 };
 
 struct COPROCS {

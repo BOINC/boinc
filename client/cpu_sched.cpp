@@ -1156,7 +1156,7 @@ static inline void confirm_current_assignment(
                 cp->type, j, rp->name
             );
         }
-        cp->available_ram[j] -= rp->avp->gpu_ram;
+        cp->available_ram_temp[j] -= rp->avp->gpu_ram;
     }
 }
 
@@ -1169,22 +1169,19 @@ static inline bool get_fractional_assignment(
     // try to assign an instance that's already fractionally assigned
     //
     for (i=0; i<cp->count; i++) {
-        if (cp->available_ram_unknown[i]) {
-            continue;
-        }
         if (excluded(rp, cp, i)) {
             continue;
         }
         if ((cp->usage[i] || cp->pending_usage[i])
             && (cp->usage[i] + cp->pending_usage[i] + usage <= 1)
         ) {
-            if (rp->avp->gpu_ram > cp->available_ram[i]) {
+            if (rp->avp->gpu_ram > cp->available_ram_temp[i]) {
                 defer_sched = true;
                 continue;
             }
             rp->coproc_indices[0] = i;
             cp->usage[i] += usage;
-            cp->available_ram[i] -= rp->avp->gpu_ram;
+            cp->available_ram_temp[i] -= rp->avp->gpu_ram;
             if (log_flags.coproc_debug) {
                 msg_printf(rp->project, MSG_INFO,
                     "[coproc] Assigning %f of %s instance %d to %s",
@@ -1198,20 +1195,17 @@ static inline bool get_fractional_assignment(
     // failing that, assign an unreserved instance
     //
     for (i=0; i<cp->count; i++) {
-        if (cp->available_ram_unknown[i]) {
-            continue;
-        }
         if (excluded(rp, cp, i)) {
             continue;
         }
         if (!cp->usage[i]) {
-            if (rp->avp->gpu_ram > cp->available_ram[i]) {
+            if (rp->avp->gpu_ram > cp->available_ram_temp[i]) {
                 defer_sched = true;
                 continue;
             }
             rp->coproc_indices[0] = i;
             cp->usage[i] += usage;
-            cp->available_ram[i] -= rp->avp->gpu_ram;
+            cp->available_ram_temp[i] -= rp->avp->gpu_ram;
             if (log_flags.coproc_debug) {
                 msg_printf(rp->project, MSG_INFO,
                     "[coproc] Assigning %f of %s free instance %d to %s",
@@ -1241,14 +1235,11 @@ static inline bool get_integer_assignment(
     //
     int nfree = 0;
     for (i=0; i<cp->count; i++) {
-        if (cp->available_ram_unknown[i]) {
-            continue;
-        }
         if (excluded(rp, cp, i)) {
             continue;
         }
         if (!cp->usage[i]) {
-            if (rp->avp->gpu_ram > cp->available_ram[i]) {
+            if (rp->avp->gpu_ram > cp->available_ram_temp[i]) {
                 defer_sched = true;
                 continue;
             };
@@ -1275,18 +1266,15 @@ static inline bool get_integer_assignment(
     // assign non-pending instances first
 
     for (i=0; i<cp->count; i++) {
-        if (cp->available_ram_unknown[i]) {
-            continue;
-        }
         if (excluded(rp, cp, i)) {
             continue;
         }
         if (!cp->usage[i]
             && !cp->pending_usage[i]
-            && (rp->avp->gpu_ram <= cp->available_ram[i])
+            && (rp->avp->gpu_ram <= cp->available_ram_temp[i])
         ) {
             cp->usage[i] = 1;
-            cp->available_ram[i] -= rp->avp->gpu_ram;
+            cp->available_ram_temp[i] -= rp->avp->gpu_ram;
             rp->coproc_indices[n++] = i;
             if (log_flags.coproc_debug) {
                 msg_printf(rp->project, MSG_INFO,
@@ -1301,17 +1289,14 @@ static inline bool get_integer_assignment(
     // if needed, assign pending instances
 
     for (i=0; i<cp->count; i++) {
-        if (cp->available_ram_unknown[i]) {
-            continue;
-        }
         if (excluded(rp, cp, i)) {
             continue;
         }
         if (!cp->usage[i]
-            && (rp->avp->gpu_ram <= cp->available_ram[i])
+            && (rp->avp->gpu_ram <= cp->available_ram_temp[i])
         ) {
             cp->usage[i] = 1;
-            cp->available_ram[i] -= rp->avp->gpu_ram;
+            cp->available_ram_temp[i] -= rp->avp->gpu_ram;
             rp->coproc_indices[n++] = i;
             if (log_flags.coproc_debug) {
                 msg_printf(rp->project, MSG_INFO,
@@ -1344,8 +1329,7 @@ static void copy_available_ram(COPROC& cp, const char* name) {
     int rt = rsc_index(name);
     if (rt > 0) {
         for (int i=0; i<MAX_COPROC_INSTANCES; i++) {
-            coprocs.coprocs[rt].available_ram[i] = cp.available_ram[i];
-            coprocs.coprocs[rt].available_ram_unknown[i] = cp.available_ram_unknown[i];
+            coprocs.coprocs[rt].available_ram_temp[i] = cp.available_ram;
         }
     }
 }

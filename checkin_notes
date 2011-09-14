@@ -6032,3 +6032,23 @@ Rom    14 Sept 2011
         
     client/
         hostinfo_win.cpp
+
+David  14 Sept 2011
+    - client: change in the use of GPU available RAM:
+        - measure the available RAM of each GPU when BOINC starts up.
+            If this fails, set available = physical.
+            Show available RAM in startup messages.
+        - use available RAM rather than physical RAM in selecting
+            the "best" GPU instance
+        - report available RAM to the scheduler
+    TODO: change the scheduler to use available rather than physical
+        if it's reported
+
+    sched/
+        sample_trivial_validator.cpp
+    lib/
+        coproc.cpp,h
+    client/
+        client_state.cpp
+        coproc_detect.cpp
+        cpu_sched.cpp

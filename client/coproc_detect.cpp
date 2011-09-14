@@ -101,24 +101,6 @@ cl_int (*__clGetDeviceInfo)(cl_device_id    /* device */,
 
 #endif
 
-void COPROC::print_available_ram() {
-    for (int i=0; i<count; i++) {
-        if (available_ram_unknown[i]) {
-            msg_printf(0, MSG_INFO,
-                "[coproc] %s device %d: available RAM unknown",
-                type, device_nums[i]
-            );
-        } else {
-            msg_printf(0, MSG_INFO,
-                "[coproc] %s device %d: available RAM %d MB",
-                type, device_nums[i],
-                (int)(available_ram[i]/MEGA)
-            );
-        }
-    }
-}
-
-
 //TODO: Determine how we want to compare OpenCL devices - this is only a placeholder
 // return 1/-1/0 if device 1 is more/less/same capable than device 2.
 // factors (decreasing priority):
@@ -614,7 +596,7 @@ void COPROCS::get(
 // factors (decreasing priority):
 // - compute capability
 // - software version
-// - memory
+// - available memory
 // - speed
 //
 // If "loose", ignore FLOPS and tolerate small memory diff
@@ -627,12 +609,12 @@ int nvidia_compare(COPROC_NVIDIA& c1, COPROC_NVIDIA& c2, bool loose) {
     if (c1.cuda_version > c2.cuda_version) return 1;
     if (c1.cuda_version < c2.cuda_version) return -1;
     if (loose) {
-        if (c1.prop.totalGlobalMem > 1.4*c2.prop.totalGlobalMem) return 1;
-        if (c1.prop.totalGlobalMem < .7* c2.prop.totalGlobalMem) return -1;
+        if (c1.available_ram> 1.4*c2.available_ram) return 1;
+        if (c1.available_ram < .7* c2.available_ram) return -1;
         return 0;
     }
-    if (c1.prop.totalGlobalMem > c2.prop.totalGlobalMem) return 1;
-    if (c1.prop.totalGlobalMem < c2.prop.totalGlobalMem) return -1;
+    if (c1.available_ram > c2.available_ram) return 1;
+    if (c1.available_ram < c2.available_ram) return -1;
     double s1 = c1.peak_flops;
     double s2 = c2.peak_flops;
     if (s1 > s2) return 1;
@@ -944,12 +926,15 @@ void COPROC_NVIDIA::get(
 
 // fake a NVIDIA GPU (for debugging)
 //
-void COPROC_NVIDIA::fake(int driver_version, double ram, int n) {
+void COPROC_NVIDIA::fake(
+    int driver_version, double ram, double avail_ram, int n
+) {
    strcpy(type, GPU_TYPE_NVIDIA);
    count = n;
    for (int i=0; i<count; i++) {
        device_nums[i] = i;
    }
+   available_ram = avail_ram;
    display_driver_version = driver_version;
    cuda_version = 2020;
    strcpy(prop.name, "Fake NVIDIA GPU");
@@ -974,8 +959,7 @@ void COPROC_NVIDIA::fake(int driver_version, double ram, int n) {
    set_peak_flops();
 }
 
-// See how much RAM is available on each GPU.
-// If this fails, set "available_ram_unknown"
+// See how much RAM is available on this GPU.
 //
 void COPROC_NVIDIA::get_available_ram() {
     int retval;
@@ -983,8 +967,7 @@ void COPROC_NVIDIA::get_available_ram() {
 	int device;
     void* ctx;
     
-    available_ram[0] = 0;
-    available_ram_unknown[0] = true;
+    available_ram = prop.dtotalGlobalMem;
     retval = (*__cuDeviceGet)(&device, device_num);
     if (retval) {
         if (log_flags.coproc_debug) {
@@ -1014,8 +997,7 @@ void COPROC_NVIDIA::get_available_ram() {
         return;
     }
     (*__cuCtxDestroy)(ctx);
-    available_ram[0] = (double) memfree;
-    available_ram_unknown[0] = false;
+    available_ram = (double) memfree;
 }
 
 // check whether each GPU is running a graphics app (assume yes)
@@ -1429,11 +1411,12 @@ void COPROC_ATI::get(
     }
 }
 
-void COPROC_ATI::fake(double ram, int n) {
+void COPROC_ATI::fake(double ram, double avail_ram, int n) {
     strcpy(type, GPU_TYPE_ATI);
     strcpy(version, "1.4.3");
     strcpy(name, "foobar");
     count = n;
+    available_ram = avail_ram;
     memset(&attribs, 0, sizeof(attribs));
     memset(&info, 0, sizeof(info));
     attribs.localRAM = (int)(ram/MEGA);
@@ -1446,52 +1429,39 @@ void COPROC_ATI::fake(double ram, int n) {
     set_peak_flops();
 }
 
-// get available RAM of ATI GPUs
-// NOTE: last time we checked, repeated calls to this crash the driver
+// get available RAM of ATI GPU
 //
 void COPROC_ATI::get_available_ram() {
     CALdevicestatus st;
     CALdevice dev;
-    int i, retval;
+    int retval;
+
+    available_ram = attribs.localRAM*MEGA;
 
     st.struct_size = sizeof(CALdevicestatus);
 
-    // avoid crash if faked GPU
-    if (!__calInit) {
-        for (i=0; i<count; i++) {
-            available_ram[i] = available_ram_fake[i];
-            available_ram_unknown[i] = false;
+    retval = (*__calDeviceOpen)(&dev, device_num);
+    if (retval) {
+        if (log_flags.coproc_debug) {
+            msg_printf(0, MSG_INFO,
+                "[coproc] calDeviceOpen(%d) returned %d", device_num, retval
+            );
         }
         return;
     }
-    for (i=0; i<count; i++) {
-        available_ram[i] = 0;
-        available_ram_unknown[i] = true;
-        int devnum = device_nums[i];
-        retval = (*__calDeviceOpen)(&dev, devnum);
-        if (retval) {
-            if (log_flags.coproc_debug) {
-                msg_printf(0, MSG_INFO,
-                    "[coproc] calDeviceOpen(%d) returned %d", devnum, retval
-                );
-            }
-            continue;
+    retval = (*__calDeviceGetStatus)(&st, dev);
+    if (retval) {
+        if (log_flags.coproc_debug) {
+            msg_printf(0, MSG_INFO,
+                "[coproc] calDeviceGetStatus(%d) returned %d",
+                device_num, retval
+            );
         }
-        retval = (*__calDeviceGetStatus)(&st, dev);
-        if (retval) {
-            if (log_flags.coproc_debug) {
-                msg_printf(0, MSG_INFO,
-                    "[coproc] calDeviceGetStatus(%d) returned %d",
-                    devnum, retval
-                );
-            }
-            (*__calDeviceClose)(dev);
-            continue;
-        }
-        available_ram[i] = st.availLocalRAM*MEGA;
-        available_ram_unknown[i] = false;
         (*__calDeviceClose)(dev);
+        return;
     }
+    available_ram = st.availLocalRAM*MEGA;
+    (*__calDeviceClose)(dev);
 }
 
 bool COPROC_ATI::matches(OPENCL_DEVICE_PROP& OpenCLprop) {

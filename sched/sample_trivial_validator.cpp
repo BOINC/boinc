@@ -15,8 +15,7 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-// A sample validator that grants credit to any result whose CPU time is above
-// a certain minimum
+// A sample validator that accepts all results
 
 #include <cstdlib>
 #include "config.h"
@@ -24,18 +23,12 @@
 
 using std::vector;
 
-static const double MIN_CPU_TIME = 0;
-
-int init_result(RESULT& /*result*/, void*& /*data*/) {
+int init_result(RESULT&, void*&) {
     return 0;
 }
 
-int compare_results(
-    RESULT & r1, void* /*data1*/,
-    RESULT const& r2, void* /*data2*/,
-    bool& match
-) {
-    match = (r1.cpu_time >= MIN_CPU_TIME && r2.cpu_time >= MIN_CPU_TIME);
+int compare_results(RESULT&, void*, RESULT const&, void*, bool& match) {
+    match = true;
     return 0;
 }
 
