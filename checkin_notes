@@ -5864,10 +5864,10 @@ David  12 Sept 2011
         cpu_sched.cpp
 
 David  12 Sept 2011
-	- client: make file upload work w/ old handlers
+    - client: make file upload work w/ old handlers
 
-	client/
-		file_xfer.cpp
+    client/
+        file_xfer.cpp
 
 David  12 Sept 2011
     - web: add <no_web_account_creation> config option
@@ -6009,10 +6009,10 @@ David  13 Sept 2011
         http_curl.cpp
 
 David  13 Sept 2011
-	- client: curl_easy_escape() escapes way too much.  Just escape spaces.
+    - client: curl_easy_escape() escapes way too much.  Just escape spaces.
 
-	client/
-		http_curl.cpp
+    client/
+        http_curl.cpp
 
 David  14 Sept 2011
     - XML parsing: do XML unescaping in place rather than allocating
@@ -6052,3 +6052,10 @@ David  14 Sept 2011
         client_state.cpp
         coproc_detect.cpp
         cpu_sched.cpp
+
+David  14 Sept 2011
+    - vboxwrapper: we don't seem to be getting the VM PID.
+        Add some printfs.
+
+    samples/vboxwrapper/
+        vbox.cpp

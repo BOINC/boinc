@@ -1069,11 +1069,19 @@ int VBOX_VM::get_vm_process_id(int& process_id) {
     // 00:00:06.015   None installed!
     //
     pid_location = output.find("Process ID: ");
-    if (pid_location == string::npos) return ERR_NOT_FOUND;
+    if (pid_location == string::npos) {
+        fprintf(stderr, "couldn't find 'Process ID: ' in %s\n", output.c_str());
+        return ERR_NOT_FOUND;
+    }
     pid_location += 12;
     pid_length = output.find("\n", pid_location);
     pid = output.substr(pid_location, pid_length - pid_location);
-    if (pid.size() <= 0) return ERR_NOT_FOUND;
+    if (pid.size() <= 0) {
+        fprintf(stderr, "no PID: location %d length %d\n",
+            (int)pid_location, (int)pid_length
+        );
+        return ERR_NOT_FOUND;
+    }
     process_id = atol(pid.c_str());
     return 0;
 }
