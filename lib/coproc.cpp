@@ -312,11 +312,13 @@ void COPROC_NVIDIA::write_xml(MIOFILE& f, bool include_request) {
         "<coproc_cuda>\n"
         "   <count>%d</count>\n"
         "   <name>%s</name>\n"
+        "   <available_ram>%f</available_ram>\n"
         "   <have_cuda>%d</have_cuda>\n"
         "   <have_cal>%d</have_cal>\n"
         "   <have_opencl>%d</have_opencl>\n",
         count,
         prop.name,
+        available_ram,
         have_cuda ? 1 : 0,
         have_cal ? 1 : 0,
         have_opencl ? 1 : 0
@@ -490,11 +492,13 @@ void COPROC_ATI::write_xml(MIOFILE& f, bool include_request) {
         "<coproc_ati>\n"
         "   <count>%d</count>\n"
         "   <name>%s</name>\n"
+        "   <available_ram>%f</available_ram>\n"
         "   <have_cuda>%d</have_cuda>\n"
         "   <have_cal>%d</have_cal>\n"
         "   <have_opencl>%d</have_opencl>\n",
         count,
         name,
+        available_ram,
         have_cuda ? 1 : 0,
         have_cal ? 1 : 0,
         have_opencl ? 1 : 0

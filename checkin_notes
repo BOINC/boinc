@@ -6059,3 +6059,9 @@ David  14 Sept 2011
 
     samples/vboxwrapper/
         vbox.cpp
+
+David  14 Sept 2011
+    - client: report available GPU RAM to scheduler
+
+    lib/
+        coproc.cpp
