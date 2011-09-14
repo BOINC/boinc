@@ -299,7 +299,6 @@ bool VBOX_VM::is_running() {
     string vmstate;
     size_t vmstate_location;
     size_t vmstate_length;
-    char buf[256];
 
     command  = "showvminfo \"" + vm_name + "\" ";
     command += "--machinereadable ";
