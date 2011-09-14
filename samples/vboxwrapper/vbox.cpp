@@ -301,6 +301,7 @@ bool VBOX_VM::is_running() {
     char buf[256];
 
     command  = "showvminfo \"" + vm_name + "\" ";
+    command += "--machinereadable ";
 
     if (vbm_popen(command, output) == 0) {
         vmstate_location = output.find("VMState=\"");
