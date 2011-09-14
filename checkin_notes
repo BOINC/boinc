@@ -5980,3 +5980,12 @@ David  13 Sept 2011
         coproc_detect.cpp
     lib/
         procinfo.cpp
+
+Rom    13 Sept 2011
+    - VBOX: Increase the pipe buffer on Windows from the default to 128k. Despite what
+        the docs say, if the buffer isn't large enough VboxManage hangs attempting to
+        write the VM log file to it.  Luckly the VM log file is only 64k.
+    - VBOX: Fix a couple of parsing errors.
+        
+    samples/vboxwrapper/
+        vbox.cpp

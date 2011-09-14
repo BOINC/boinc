@@ -135,7 +135,7 @@ int VBOX_VM::vbm_popen(string& arguments, string& output) {
     sa.lpSecurityDescriptor = &sd;
 
 
-    if (!CreatePipe(&hReadPipe, &hWritePipe, &sa, 0)) {
+    if (!CreatePipe(&hReadPipe, &hWritePipe, &sa, 128*1024)) {
         fprintf(
             stderr,
             "%s CreatePipe failed! (%d).\n",
@@ -171,6 +171,7 @@ int VBOX_VM::vbm_popen(string& arguments, string& output) {
     while(1) {
         GetExitCodeProcess(pi.hProcess, &ulExitCode);
         if (ulExitCode != STILL_ACTIVE) break;
+        Sleep(250);
     }
 
 
@@ -283,7 +284,7 @@ bool VBOX_VM::is_hdd_registered() {
     command = "showhdinfo \"" + virtual_machine_root_dir + "/" + image_filename + "\" ";
 
     if (vbm_popen(command, output) == 0) {
-        if (output.find("VBOX_E_FILE_ERROR") == string::npos) {
+        if ((output.find("VBOX_E_FILE_ERROR") == string::npos) && (output.find("VBOX_E_OBJECT_NOT_FOUND") == string::npos)) {
             // Error message not found in text
             return true;
         }
@@ -307,15 +308,8 @@ bool VBOX_VM::is_running() {
         vmstate_location = output.find("VMState=\"");
         if (vmstate_location != string::npos) {
             vmstate_location += 9;
-            vmstate_length = output.find("\n", vmstate_location);
-            vmstate = output.substr(vmstate_location, vmstate_length-1);
-
-            fprintf(
-                stderr,
-                "%s Current VM State is '%s'.\n",
-                boinc_msg_prefix(buf, sizeof(buf)),
-                vmstate.c_str()
-            );
+            vmstate_length = output.find("\"", vmstate_location);
+            vmstate = output.substr(vmstate_location, vmstate_length - vmstate_location);
 
             // VirtualBox Documentation suggests that that a VM is running when its
             // machine state is between MachineState_FirstOnline and MachineState_LastOnline
@@ -758,25 +752,30 @@ int VBOX_VM::deregister_stale_vm() {
         // We can parse the virtual machine ID from the output
         uuid_location += 7;
         uuid_length = output.find(")", uuid_location);
-        vm_name = output.substr(uuid_location, uuid_length);
+        vm_name = output.substr(uuid_location, uuid_length - uuid_location);
 
         // Deregister stale VM by UUID
         return deregister_vm();
     } else {
         // Did the user delete the VM in VirtualBox and not the medium?  If so,
         // just remove the medium.
-        command  = "closemedium \"" + virtual_machine_root_dir + "/" + image_filename + "\" ";
+        command  = "closemedium disk \"" + virtual_machine_root_dir + "/" + image_filename + "\" ";
         retval = vbm_popen(command, output);
-        if (retval) {
-            fprintf(
-                stderr,
-                "%s Error virtual disk drive from VirtualBox! rc = 0x%x\nCommand:\n%s\nOutput:\n%s\n",
-                boinc_msg_prefix(buf, sizeof(buf)),
-                retval,
-                command.c_str(),
-                output.c_str()
-            );
-            return retval;
+        if ((ERR_FOPEN == retval) && (output.find("VBOX_E_OBJECT_NOT_FOUND") != string::npos)) {
+            // Starting with VirtualBox 4.1.0+ calling closemedium disk no longer sliently noops closing
+            // a medium not already registered in the medium registry
+        } else {
+            if (retval) {
+                fprintf(
+                    stderr,
+                    "%s Error virtual disk drive from VirtualBox! rc = 0x%x\nCommand:\n%s\nOutput:\n%s\n",
+                    boinc_msg_prefix(buf, sizeof(buf)),
+                    retval,
+                    command.c_str(),
+                    output.c_str()
+                );
+                return retval;
+            }
         }
     }
 
@@ -1069,7 +1068,7 @@ int VBOX_VM::get_vm_process_id(int& process_id) {
     if (pid_location == string::npos) return ERR_NOT_FOUND;
     pid_location += 12;
     pid_length = output.find("\n", pid_location);
-    pid = output.substr(pid_location, pid_length);
+    pid = output.substr(pid_location, pid_length - pid_location);
     if (pid.size() <= 0) return ERR_NOT_FOUND;
     process_id = atol(pid.c_str());
     return 0;
