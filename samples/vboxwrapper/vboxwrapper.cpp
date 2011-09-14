@@ -250,7 +250,11 @@ int main(int argc, char** argv) {
             // Steps to debug a VM within the BOINC/VboxWrapper framework:
             // 1. Launch BOINC with the --exit_before_start command line argument
             // 2. When BOINC exits, launch the VboxWrapper with the --register_only command line argument
-            // 3. Now Launch the VM using the VirtualBox UI.  You should now be able to interact with your VM.
+            // 3. Set the VBOX_USER_HOME environment variable to the vbox directory under the slot directory.
+            //    NOTE: This changes where the VirtualBox applications look for the root VirtualBox configuration
+            //          files.  It may or may not apply to your installation of VirtualBox.  It depends on where
+            //          your copy of VirtualBox came from and what type of system it is installed on.
+            // 4. Now Launch the VM using the VirtualBox UI.  You should now be able to interact with your VM.
             fprintf(
                 stderr,
                 "%s Virtual machine is no longer running, it must have completed its work.\n"
