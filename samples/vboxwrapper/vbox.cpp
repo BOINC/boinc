@@ -298,6 +298,7 @@ bool VBOX_VM::is_running() {
     string vmstate;
     size_t vmstate_location;
     size_t vmstate_length;
+    char buf[256];
 
     command  = "showvminfo \"" + vm_name + "\" ";
     command += "--machinereadable ";
@@ -308,6 +309,13 @@ bool VBOX_VM::is_running() {
             vmstate_location += 9;
             vmstate_length = output.find("\"", vmstate_location);
             vmstate = output.substr(vmstate_location, vmstate_length);
+
+            fprintf(
+                stderr,
+                "%s Current VM State is '%s'.\n",
+                boinc_msg_prefix(buf, sizeof(buf)),
+                vmstate.c_str()
+            );
 
             // VirtualBox Documentation suggests that that a VM is running when its
             // machine state is between MachineState_FirstOnline and MachineState_LastOnline
