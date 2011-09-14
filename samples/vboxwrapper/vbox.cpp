@@ -57,6 +57,7 @@ VBOX_VM::VBOX_VM() {
     network_suspended = false;
     enable_network = false;
     enable_shared_directory = false;
+    register_only = false;
 }
 
 int VBOX_VM::run() {
@@ -76,6 +77,10 @@ int VBOX_VM::run() {
         retval = register_vm();
         if (retval) return retval;
     }
+
+    // The user has requested that we exit after registering the VM, so return an
+    // error to stop further processing.
+    if (register_only) return ERR_FOPEN;
 
     retval = startvm();
     if (retval) return retval;

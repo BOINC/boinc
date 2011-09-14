@@ -27,20 +27,24 @@ struct VBOX_VM {
     VBOX_VM();
     ~VBOX_VM(){};
 
+    // name of the OS the VM runs
     std::string os_name;
-        // name of the OS the VM runs
+    // size of the memory allocation for the VM, in megabytes
     std::string memory_size_mb;
-        // size of the memory allocation for the VM, in megabytes
+    // name of the virtual machine disk image file
     std::string image_filename;
-        // name of the virtual machine disk image file
+    // unique name for the VM
     std::string vm_name;
-        // unique name for the VM
     bool suspended;
+    // whether network access is temporarily suspended
     bool network_suspended;
-        // whether network access is temporarily suspended
+    // whether to allow network access at all
     bool enable_network;
-        // whether to allow network access at all
     bool enable_shared_directory;
+    // whether we were instructed to only register the VM.
+    // useful for debugging VMs.
+    bool register_only;
+
 
     void poll();
     int run();

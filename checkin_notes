@@ -5989,3 +5989,13 @@ Rom    13 Sept 2011
         
     samples/vboxwrapper/
         vbox.cpp
+
+Rom    14 Sept 2011
+    - VBOX: Add a register_only command line argument to help debug VM related issues.
+    - VBOX: Add some suggestions to the source on how to debug VM related issues.
+    - VBOX: Add a quick sanity check when the enable_shared_directory option is
+        enabled.
+
+    samples/vboxwrapper/
+        vbox.cpp, .h
+        vboxwrapper.cpp

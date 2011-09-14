@@ -151,14 +151,18 @@ void set_throttles(APP_INIT_DATA& aid, VBOX_VM& vm) {
 
 int main(int argc, char** argv) {
     BOINC_OPTIONS boinc_options;
-    double elapsed_time = 0.0;
-    double checkpoint_cpu_time = 0.0;
-    bool is_running = false;
-    char buf[256];
-    int retval;
     VBOX_VM vm;
     APP_INIT_DATA aid;
-    double trickle_period = 0, trickle_cpu_time = 0;;
+    double elapsed_time = 0.0;
+    double checkpoint_cpu_time = 0.0;
+    double trickle_period = 0.0;
+    double trickle_cpu_time = 0.0;
+    bool is_running = false;
+    bool have_vm_pid = false;
+    bool reported_vm_pid = false;
+    int vm_pid;
+    char buf[256];
+    int retval;
 
     memset(&boinc_options, 0, sizeof(boinc_options));
     boinc_options.main_program = true;
@@ -169,6 +173,9 @@ int main(int argc, char** argv) {
     for (int i=1; i<argc; i++) {
         if (!strcmp(argv[i], "--trickle")) {
             trickle_period = atof(argv[++i]);
+        }
+        if (!strcmp(argv[i], "--register_only")) {
+            vm.register_only = true;
         }
     }
 
@@ -188,6 +195,22 @@ int main(int argc, char** argv) {
         );
         boinc_finish(retval);
     }
+
+    // Validate whatever configuration options we can
+    if (vm.enable_shared_directory) {
+        if (!is_dir("shared")) {
+            fprintf(
+                stderr,
+                "%s vbox_job.xml specifies that the shared directory should be enabled, but the\n"
+                "%s 'shared' subdirectory could not be found. Please check your app_version and verify\n"
+                "%s that the <file_prefix> element has been specified.\n",
+                boinc_msg_prefix(buf, sizeof(buf)),
+                boinc_msg_prefix(buf, sizeof(buf)),
+                boinc_msg_prefix(buf, sizeof(buf))
+            );
+        }
+    }
+
     boinc_get_init_data_p(&aid);
     vm.vm_name = "boinc_";
     if (boinc_is_standalone()) {
@@ -209,10 +232,6 @@ int main(int argc, char** argv) {
 
     set_throttles(aid, vm);
 
-    int vm_pid;
-    bool have_vm_pid = false;
-    bool reported_vm_pid = false;
-
     while (1) {
         vm.poll();
         is_running = vm.is_running();
@@ -228,9 +247,15 @@ int main(int argc, char** argv) {
             boinc_finish(EXIT_ABORTED_BY_CLIENT);
         }
         if (!is_running) {
+            // Steps to debug a VM within the BOINC/VboxWrapper framework:
+            // 1. Launch BOINC with the --exit_before_start command line argument
+            // 2. When BOINC exits, launch the VboxWrapper with the --register_only command line argument
+            // 3. Now Launch the VM using the VirtualBox UI.  You should now be able to interact with your VM.
             fprintf(
                 stderr,
-                "%s Virtual machine is no longer running, it must have completed its work.\n",
+                "%s Virtual machine is no longer running, it must have completed its work.\n"
+                "%s NOTE: If this is in error, check the vboxwrapper source code for additional steps to debug this issue.\n",
+                boinc_msg_prefix(buf, sizeof(buf)),
                 boinc_msg_prefix(buf, sizeof(buf))
             );
             vm.cleanup();
