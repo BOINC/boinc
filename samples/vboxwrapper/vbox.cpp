@@ -1070,15 +1070,15 @@ int VBOX_VM::get_vm_process_id(int& process_id) {
     //
     pid_location = output.find("Process ID: ");
     if (pid_location == string::npos) {
-        fprintf(stderr, "couldn't find 'Process ID: ' in %s\n", output.c_str());
+        fprintf(stderr, "%s couldn't find 'Process ID: ' in %s\n", boinc_msg_prefix(buf, sizeof(buf)), output.c_str());
         return ERR_NOT_FOUND;
     }
     pid_location += 12;
     pid_length = output.find("\n", pid_location);
     pid = output.substr(pid_location, pid_length - pid_location);
     if (pid.size() <= 0) {
-        fprintf(stderr, "no PID: location %d length %d\n",
-            (int)pid_location, (int)pid_length
+        fprintf(stderr, "%s no PID: location %d length %d\n",
+            boinc_msg_prefix(buf, sizeof(buf)), (int)pid_location, (int)pid_length - pid_location
         );
         return ERR_NOT_FOUND;
     }
