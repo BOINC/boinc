@@ -535,12 +535,12 @@ int get_os_information(
                             case PRODUCT_ENTERPRISE_E:
                                strcat(szSKU, "Enterprise E ");
                                break;
- 							case PRODUCT_PRERELEASE:
-								strcat(szSKU, "Developer Preview ");
-								break;
-							case PRODUCT_PRERELEASE_N:
-								strcat(szSKU, "Developer Preview N ");
-								break;
+                            case PRODUCT_PRERELEASE:
+                                strcat(szSKU, "Developer Preview ");
+                                break;
+                            case PRODUCT_PRERELEASE_N:
+                                strcat(szSKU, "Developer Preview N ");
+                                break;
                        }
                     } else if( (osvi.dwMajorVersion == 5 && osvi.dwMinorVersion == 2) ) {
                         if( osvi.wSuiteMask & VER_SUITE_PERSONAL ) {
