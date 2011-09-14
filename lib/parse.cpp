@@ -92,7 +92,6 @@ bool parse_bool(const char* buf, const char* tag, bool& result) {
 bool parse_str(const char* buf, const char* tag, char* dest, int destlen) {
     string str;
     const char* p;
-    char tempbuf[1024];
     int len;
 
     p = strstr(buf, tag);
@@ -103,10 +102,10 @@ bool parse_str(const char* buf, const char* tag, char* dest, int destlen) {
     if (!q) return false;
     len = (int)(q-p);
     if (len >= destlen) len = destlen-1;
-    memcpy(tempbuf, p, len);
-    tempbuf[len] = 0;
-    strip_whitespace(tempbuf);
-    xml_unescape(tempbuf, dest, destlen);
+    memcpy(dest, p, len);
+    dest[len] = 0;
+    strip_whitespace(dest);
+    xml_unescape(dest);
     return true;
 }
 
@@ -399,48 +398,49 @@ void xml_escape(const char* in, char* out, int len) {
     *p = 0;
 }
 
-// output buffer need not be larger than input
+// Note: XML unescaping never increases string length
 //
 void xml_unescape(string& in) {
     int n = in.size()+1;
     char* buf = (char*)malloc(n);
-    xml_unescape(in.c_str(), buf, n);
+    strcpy(buf, in.c_str());
+    xml_unescape(buf);
     in = buf;
     free(buf);
 }
 
-void xml_unescape(const char* in, char* out, int len) {
-    char* p = out;
+void xml_unescape(char* buf) {
+    char* out = buf;
+    char* in = buf;
     while (*in) {
         if (*in != '&') {       // avoid strncmp's if possible
-            *p++ = *in++;
+            *out++ = *in++;
         } else if (!strncmp(in, "&lt;", 4)) {
-            *p++ = '<';
+            *out++ = '<';
             in += 4;
         } else if (!strncmp(in, "&gt;", 4)) {
-            *p++ = '>';
+            *out++ = '>';
             in += 4;
         } else if (!strncmp(in, "&quot;", 4)) {
-            *p++ = '"';
+            *out++ = '"';
             in += 6;
         } else if (!strncmp(in, "&apos;", 4)) {
-            *p++ = '\'';
+            *out++ = '\'';
             in += 6;
         } else if (!strncmp(in, "&amp;", 5)) {
-            *p++ = '&';
+            *out++ = '&';
             in += 5;
         } else if (!strncmp(in, "&#", 2)) {
             in += 2;
             char c = atoi(in);
-            *p++ = c;
+            *out++ = c;
             in = strchr(in, ';');
             if (in) in++;
         } else {
-            *p++ = *in++;
+            *out++ = *in++;
         }
-        if (p > out + len - 2) break;
     }
-    *p = 0;
+    *out = 0;
 }
 
 // we got an unrecognized line.
@@ -673,7 +673,7 @@ bool XML_PARSER::get(char* buf, int len, bool& _is_tag, char* attr_buf, int attr
 //
 bool XML_PARSER::parse_str(const char* start_tag, char* buf, int len) {
     bool eof;
-    char end_tag[256], tag[256], tmp[MAX_XML_STRING];
+    char end_tag[256], tag[256];
 
     // handle the archaic form <tag/>, which means empty string
     //
@@ -696,13 +696,13 @@ bool XML_PARSER::parse_str(const char* start_tag, char* buf, int len) {
 
     // get text after start tag
     //
-    int retval = get_aux(tmp, sizeof(tmp), 0, 0);
+    int retval = get_aux(buf, len, 0, 0);
     if (retval == XML_PARSE_EOF) return false;
 
     // if it's the end tag, return empty string
     //
     if (retval == XML_PARSE_TAG) {
-        if (strcmp(tmp, end_tag)) {
+        if (strcmp(buf, end_tag)) {
             return false;
         } else {
             strcpy(buf, "");
@@ -714,10 +714,8 @@ bool XML_PARSER::parse_str(const char* start_tag, char* buf, int len) {
     if (eof) return false;
     if (!is_tag) return false;
     if (strcmp(tag, end_tag)) return false;
-    if (retval == XML_PARSE_CDATA) {
-        strcpy(buf, tmp);
-    } else {
-        xml_unescape(tmp, buf, len);
+    if (retval != XML_PARSE_CDATA) {
+        xml_unescape(buf);
     }
     return true;
 }

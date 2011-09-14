@@ -278,7 +278,6 @@ void APP_INIT_DATA::clear() {
 }
 
 int parse_init_data_file(FILE* f, APP_INIT_DATA& ai) {
-    char buf[256];
     int retval;
     bool flag;
 
@@ -336,12 +335,12 @@ int parse_init_data_file(FILE* f, APP_INIT_DATA& ai) {
         if (xp.parse_int("userid", ai.userid)) continue;
         if (xp.parse_int("teamid", ai.teamid)) continue;
         if (xp.parse_int("hostid", ai.hostid)) continue;
-        if (xp.parse_str("user_name", buf, sizeof(buf))) {
-            xml_unescape(buf, ai.user_name, sizeof(ai.user_name));
+        if (xp.parse_str("user_name", ai.user_name, sizeof(ai.user_name))) {
+            xml_unescape(ai.user_name);
             continue;
         }
-        if (xp.parse_str("team_name", buf, sizeof(buf))) {
-            xml_unescape(buf, ai.team_name, sizeof(ai.team_name));
+        if (xp.parse_str("team_name", ai.team_name, sizeof(ai.team_name))) {
+            xml_unescape(ai.team_name);
             continue;
         }
         if (xp.parse_str("project_dir", ai.project_dir, sizeof(ai.project_dir))) continue;

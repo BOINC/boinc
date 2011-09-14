@@ -6013,3 +6013,15 @@ David  13 Sept 2011
 
 	client/
 		http_curl.cpp
+
+David  14 Sept 2011
+    - XML parsing: do XML unescaping in place rather than allocating
+        a buffer on the stack.
+        Fixes a Manager crash on the Mac,
+        where the default thread stack size seems to be 512KB.
+
+    lib/
+        parse.cpp,h
+        app_ipc.cpp
+    client/
+        cs_notice.cpp
