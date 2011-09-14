@@ -306,8 +306,8 @@ bool VBOX_VM::is_running() {
     if (vbm_popen(command, output) == 0) {
         vmstate_location = output.find("VMState=\"");
         if (vmstate_location != string::npos) {
-            vmstate_location += 10;
-            vmstate_length = output.find("\"", vmstate_location);
+            vmstate_location += 9;
+            vmstate_length = output.find('\"', vmstate_location);
             vmstate = output.substr(vmstate_location, vmstate_length);
 
             fprintf(
