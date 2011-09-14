@@ -36,8 +36,6 @@
 using std::vector;
 
 // Scan the process table adding in CPU time and mem usage.
-// Loop thru entire table as the entries aren't in order.
-// Recurse at most 4 times to get additional child processes
 //
 void add_child_totals(PROCINFO& pi, PROC_MAP& pm, PROC_MAP::iterator i) {
     PROCINFO parent = i->second;

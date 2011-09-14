@@ -5999,3 +5999,11 @@ Rom    14 Sept 2011
     samples/vboxwrapper/
         vbox.cpp, .h
         vboxwrapper.cpp
+
+David  13 Sept 2011
+    - client: escape URLs for curl, otherwise filenames with spaces don't work
+
+    lib/
+        procinfo.cpp
+    client/
+        http_curl.cpp
