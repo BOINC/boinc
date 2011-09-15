@@ -166,7 +166,6 @@ int COPROC::parse(XML_PARSER& xp) {
 
 int COPROC::parse_opencl(XML_PARSER& xp) {
     int n;
-    unsigned long ul;
     unsigned long long ull;
 
     while (!xp.get_tag()) {

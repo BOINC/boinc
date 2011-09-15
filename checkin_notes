@@ -6089,3 +6089,9 @@ David  14 Sept 2011
     sched/
         sched_send.cpp
         sched_version.cpp
+
+Charlie 15 Sep 2011
+    - lib: fix compiler warning.
+
+    lib/
+        coproc.cpp
