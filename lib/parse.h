@@ -51,6 +51,8 @@ public:
     bool parse_string(const char*, std::string&);
     bool parse_int(const char*, int&);
     bool parse_double(const char*, double&);
+    bool parse_ulong(const char*, unsigned long&);
+    bool parse_ulonglong(const char*, unsigned long long&);
     bool parse_bool(const char*, bool&);
 	int element_contents(const char*, char*, int);
     int copy_element(std::string&);
@@ -109,8 +111,9 @@ inline unsigned long long boinc_strtoull(const char *s, char **, int) {
 inline bool parse_int(const char* buf, const char* tag, int& x) {
     const char* p = strstr(buf, tag);
     if (!p) return false;
+    errno = 0;
     int y = strtol(p+strlen(tag), 0, 0);        // this parses 0xabcd correctly
-    if (errno == ERANGE) return false;
+    if (errno) return false;
     x = y;
     return true;
 }
@@ -121,7 +124,9 @@ inline bool parse_double(const char* buf, const char* tag, double& x) {
     double y;
     const char* p = strstr(buf, tag);
     if (!p) return false;
-    y = atof(p+strlen(tag));
+    errno = 0;
+    y = strtod(p+strlen(tag), NULL);
+    if (errno) return false;
     if (!boinc_is_finite(y)) {
         return false;
     }
@@ -129,28 +134,34 @@ inline bool parse_double(const char* buf, const char* tag, double& x) {
     return true;
 }
 
+#if 0
 // Same, for unsigned long
 //
 inline bool parse_ulong(const char* buf, const char* tag, unsigned long& x) {
     const char* p = strstr(buf, tag);
     if (!p) return false;
-    unsigned long y = strtoul(p+strlen(tag), NULL, 0);  // this parses 0xabcd correctly
-    if (errno == ERANGE) return false;
+    errno = 0;
+    unsigned long y = strtoul(p+strlen(tag), NULL, 0);
+    if (errno) return false;
     x = y;
     return true;
 }
 
 // Same, for unsigned long long 
 // 
-inline bool parse_cl_ulong(const char* buf, const char* tag, cl_ulong& x) { 
+inline bool parse_ulonglong(
+    const char* buf, const char* tag, unsigned long long& x
+) { 
     const char* p = strstr(buf, tag); 
     if (!p) return false; 
-    unsigned long long y = boinc_strtoull(p+strlen(tag), NULL, 0);    // this parses 0xabcd correctly 
-    if (errno == ERANGE) return false; 
+    errno = 0;
+    unsigned long long y = boinc_strtoull(p+strlen(tag), NULL, 0);
+    if (errno) return false; 
     x = y;
     return true; 
-    } 
-    
+} 
+#endif
+
 extern bool parse(char* , char* );
 extern bool parse_str(const char*, const char*, char*, int);
 extern bool parse_str(const char* buf, const char* tag, std::string& dest);

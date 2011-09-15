@@ -752,7 +752,7 @@ bool XML_PARSER::parse_int(const char* start_tag, int& i) {
     }
     errno = 0;
     int val = strtol(buf, &end, 0);
-    if (errno == ERANGE) return false;
+    if (errno) return false;
     if (end != buf+strlen(buf)) return false;
 
     eof = get(tag, sizeof(tag), is_tag);
@@ -785,7 +785,79 @@ bool XML_PARSER::parse_double(const char* start_tag, double& x) {
             return false;
         }
     }
+    errno = 0;
     double val = strtod(buf, &end);
+    if (errno) return false;
+    if (end != buf+strlen(buf)) return false;
+
+    eof = get(tag, sizeof(tag), is_tag);
+    if (eof) return false;
+    if (!is_tag) return false;
+    if (strcmp(tag, end_tag)) return false;
+    x = val;
+    return true;
+}
+
+// Same, for unsigned long
+//
+bool XML_PARSER::parse_ulong(const char* start_tag, unsigned long& x) {
+    char buf[256], *end;
+    bool eof;
+    char end_tag[256], tag[256];
+
+    if (strcmp(parsed_tag, start_tag)) return false;
+
+    end_tag[0] = '/';
+    strcpy(end_tag+1, start_tag);
+
+    eof = get(buf, sizeof(buf), is_tag);
+    if (eof) return false;
+    if (is_tag) {
+        if (!strcmp(buf, end_tag)) {
+            x = 0;      // treat <foo></foo> as <foo>0</foo>
+            return true;
+        } else {
+            return false;
+        }
+    }
+    errno = 0;
+    unsigned long val = strtoul(buf, &end, 0);
+    if (errno) return false;
+    if (end != buf+strlen(buf)) return false;
+
+    eof = get(tag, sizeof(tag), is_tag);
+    if (eof) return false;
+    if (!is_tag) return false;
+    if (strcmp(tag, end_tag)) return false;
+    x = val;
+    return true;
+}
+
+// Same, for unsigned long long
+//
+bool XML_PARSER::parse_ulonglong(const char* start_tag, unsigned long long& x) {
+    char buf[256], *end;
+    bool eof;
+    char end_tag[256], tag[256];
+
+    if (strcmp(parsed_tag, start_tag)) return false;
+
+    end_tag[0] = '/';
+    strcpy(end_tag+1, start_tag);
+
+    eof = get(buf, sizeof(buf), is_tag);
+    if (eof) return false;
+    if (is_tag) {
+        if (!strcmp(buf, end_tag)) {
+            x = 0;      // treat <foo></foo> as <foo>0</foo>
+            return true;
+        } else {
+            return false;
+        }
+    }
+    errno = 0;
+    unsigned long long val = boinc_strtoull(buf, &end, 0);
+    if (errno) return false;
     if (end != buf+strlen(buf)) return false;
 
     eof = get(tag, sizeof(tag), is_tag);

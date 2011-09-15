@@ -134,6 +134,7 @@ struct COPROC {
     bool have_cuda;     // True if this GPU supports CUDA on this computer
     bool have_cal;      // True if this GPU supports CAL on this computer
     bool have_opencl;   // True if this GPU supports openCL on this computer
+    double available_ram;
     
     // the following are used in both client and server for work-fetch info
     //
@@ -160,7 +161,6 @@ struct COPROC {
     int opencl_device_count;
     bool running_graphics_app[MAX_COPROC_INSTANCES];
         // is this GPU running a graphics app (NVIDIA only)
-    double available_ram;
     double available_ram_temp[MAX_COPROC_INSTANCES];
         // used during job scheduling
 
@@ -185,6 +185,7 @@ struct COPROC {
         have_cuda = false;
         have_cal = false;
         have_opencl = false;
+        available_ram = -1;
         req_secs = 0;
         req_instances = 0;
         opencl_device_count = 0;

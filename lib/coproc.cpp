@@ -56,17 +56,15 @@ using std::perror;
 #endif
 
 int COPROC_REQ::parse(XML_PARSER& xp) {
-    char buf[1024];
     strcpy(type, "");
     count = 0;
-    MIOFILE& in = *(xp.f);
-    while (in.fgets(buf, sizeof(buf))) {
-        if (match_tag(buf, "</coproc>")) {
+    while (!xp.get_tag()) {
+        if (xp.match_tag("/coproc")) {
             if (!strlen(type)) return ERR_XML_PARSE;
             return 0;
         }
-        if (parse_str(buf, "<type>", type, sizeof(type))) continue;
-        if (parse_double(buf, "<count>", count)) continue;
+        if (xp.parse_str("type", type, sizeof(type))) continue;
+        if (xp.parse_double("count", count)) continue;
     }
     return ERR_XML_PARSE;
 }
@@ -167,57 +165,79 @@ int COPROC::parse(XML_PARSER& xp) {
 #endif
 
 int COPROC::parse_opencl(XML_PARSER& xp) {
-    char buf[1024];
     int n;
+    unsigned long ul;
+    unsigned long long ull;
 
-    MIOFILE& in = *(xp.f);
-    while (in.fgets(buf, sizeof(buf))) {
-        if (match_tag(buf, "</coproc_opencl>")) {
+    while (!xp.get_tag()) {
+        if (xp.match_tag("/coproc_opencl")) {
             return 0;
         }
-        if (parse_str(buf, "<name>", opencl_prop.name, sizeof(opencl_prop.name))) continue;
-        if (parse_str(buf, "<vendor>", opencl_prop.vendor, sizeof(opencl_prop.vendor))) continue;
-        if (parse_double(buf, "<peak_flops>", peak_flops)) continue;
-        if (parse_int(buf, "<available>", n)) {
+        if (xp.parse_str("name", opencl_prop.name, sizeof(opencl_prop.name))) continue;
+        if (xp.parse_str("vendor", opencl_prop.vendor, sizeof(opencl_prop.vendor))) continue;
+        if (xp.parse_double("peak_flops", peak_flops)) continue;
+        if (xp.parse_int("available", n)) {
             opencl_prop.available = n;
             continue;
         }
-        if (parse_cl_ulong(buf, "<hp_fp_config>", opencl_prop.hp_fp_config)) continue; 
-        if (parse_cl_ulong(buf, "<sp_fp_config>", opencl_prop.sp_fp_config)) continue; 
-        if (parse_cl_ulong(buf, "<dp_fp_config>", opencl_prop.dp_fp_config)) continue; 
-        if (parse_int(buf, "<little_endian>", n)) {
+        if (xp.parse_ulonglong("hp_fp_config", ull)) {
+                opencl_prop.hp_fp_config = ull;
+                continue; 
+        }
+        if (xp.parse_ulonglong("sp_fp_config", ull)) {
+            opencl_prop.sp_fp_config = ull;
+            continue; 
+        }
+        if (xp.parse_ulonglong("dp_fp_config", ull)) {
+            opencl_prop.dp_fp_config = ull;
+            continue; 
+        }
+        if (xp.parse_int("little_endian", n)) {
             opencl_prop.little_endian = n;
             continue;
         }
-        if (parse_cl_ulong(buf, "<exec_capabilities>", opencl_prop.exec_capab)) continue;
-        if (parse_str(buf, "<extensions>", 
-                    opencl_prop.extensions, 
-                    sizeof(opencl_prop.extensions))) {
+        if (xp.parse_ulonglong("exec_capabilities", ull)) {
+            opencl_prop.exec_capab = ull;
             continue;
         }
-        if (parse_cl_ulong(buf, "<global_RAM>", opencl_prop.global_RAM)) continue;
-        if (parse_cl_ulong(buf, "<local_RAM>", opencl_prop.local_RAM)) continue;
-        if (parse_int(buf, "<max_clock_freq>", n)) {
+        if (xp.parse_str("extensions", 
+            opencl_prop.extensions, 
+            sizeof(opencl_prop.extensions)
+        )) {
+            continue;
+        }
+        if (xp.parse_ulonglong("global_RAM", ull)) {
+            opencl_prop.global_RAM = ull;
+            continue;
+        }
+        if (xp.parse_ulonglong("local_RAM", ull)) {
+            opencl_prop.local_RAM = ull;
+            continue;
+        }
+        if (xp.parse_int("max_clock_freq", n)) {
             opencl_prop.max_clock_freq = n;
             continue;
         }
-        if (parse_int(buf, "<max_cores>", n)) {
+        if (xp.parse_int("max_cores", n)) {
             opencl_prop.max_cores = n;
             continue;
         }
-        if (parse_str(buf, "<openCL_platform_version>", 
-                    opencl_prop.openCL_platform_version, 
-                    sizeof(opencl_prop.openCL_platform_version))) {
+        if (xp.parse_str("openCL_platform_version", 
+            opencl_prop.openCL_platform_version, 
+            sizeof(opencl_prop.openCL_platform_version)
+        )) {
             continue;
         }
-        if (parse_str(buf, "<openCL_device_version>", 
-                    opencl_prop.openCL_device_version, 
-                    sizeof(opencl_prop.openCL_device_version))) {
+        if (xp.parse_str("openCL_device_version", 
+            opencl_prop.openCL_device_version, 
+            sizeof(opencl_prop.openCL_device_version)
+        )) {
             continue;
         }
-        if (parse_str(buf, "<openCL_driver_version>", 
-                    opencl_prop.openCL_driver_version, 
-                    sizeof(opencl_prop.openCL_driver_version))) {
+        if (xp.parse_str("openCL_driver_version", 
+            opencl_prop.openCL_driver_version, 
+            sizeof(opencl_prop.openCL_driver_version)
+        )) {
             continue;
         }
     }
@@ -314,13 +334,11 @@ void COPROC_NVIDIA::write_xml(MIOFILE& f, bool include_request) {
         "   <name>%s</name>\n"
         "   <available_ram>%f</available_ram>\n"
         "   <have_cuda>%d</have_cuda>\n"
-        "   <have_cal>%d</have_cal>\n"
         "   <have_opencl>%d</have_opencl>\n",
         count,
         prop.name,
         available_ram,
         have_cuda ? 1 : 0,
-        have_cal ? 1 : 0,
         have_opencl ? 1 : 0
     );
     if (include_request) {
@@ -405,40 +423,39 @@ void COPROC_NVIDIA::clear() {
 }
 
 int COPROC_NVIDIA::parse(XML_PARSER& xp) {
-    char buf[1024], buf2[256];
+    char buf2[256];
     int retval;
 
     clear();
-    MIOFILE& in = *(xp.f);
-    while (in.fgets(buf, sizeof(buf))) {
-        if (strstr(buf, "</coproc_cuda>")) {
+    while (!xp.get_tag()) {
+        if (xp.match_tag("/coproc_cuda")) {
             if (!peak_flops) {
 				set_peak_flops();
             }
             return 0;
         }
-        if (parse_int(buf, "<count>", count)) continue;
-        if (parse_double(buf, "<peak_flops>", peak_flops)) continue;
-        if (parse_bool(buf, "have_cuda", have_cuda)) continue;
-        if (parse_bool(buf, "have_cal", have_cal)) continue;
-        if (parse_bool(buf, "have_opencl", have_opencl)) continue;
-        if (parse_double(buf, "<req_secs>", req_secs)) continue;
-        if (parse_double(buf, "<req_instances>", req_instances)) continue;
-        if (parse_double(buf, "<estimated_delay>", estimated_delay)) continue;
-        if (parse_int(buf, "<cudaVersion>", cuda_version)) continue;
-        if (parse_int(buf, "<drvVersion>", display_driver_version)) continue;
-        if (parse_str(buf, "<name>", prop.name, sizeof(prop.name))) continue;
-        if (parse_int(buf, "<deviceHandle>", prop.deviceHandle)) continue;
-        if (parse_double(buf, "<totalGlobalMem>", prop.dtotalGlobalMem)) {
+        if (xp.parse_int("count", count)) continue;
+        if (xp.parse_double("peak_flops", peak_flops)) continue;
+        if (xp.parse_bool("have_cuda", have_cuda)) continue;
+        if (xp.parse_bool("have_opencl", have_opencl)) continue;
+        if (xp.parse_double("available_ram", available_ram)) continue;
+        if (xp.parse_double("req_secs", req_secs)) continue;
+        if (xp.parse_double("req_instances", req_instances)) continue;
+        if (xp.parse_double("estimated_delay", estimated_delay)) continue;
+        if (xp.parse_int("cudaVersion", cuda_version)) continue;
+        if (xp.parse_int("drvVersion", display_driver_version)) continue;
+        if (xp.parse_str("name", prop.name, sizeof(prop.name))) continue;
+        if (xp.parse_int("deviceHandle", prop.deviceHandle)) continue;
+        if (xp.parse_double("totalGlobalMem", prop.dtotalGlobalMem)) {
             prop.totalGlobalMem = (int)prop.dtotalGlobalMem;
             continue;
         }
-        if (parse_int(buf, "<sharedMemPerBlock>", (int&)prop.sharedMemPerBlock)) continue;
-        if (parse_int(buf, "<regsPerBlock>", prop.regsPerBlock)) continue;
-        if (parse_int(buf, "<warpSize>", prop.warpSize)) continue;
-        if (parse_int(buf, "<memPitch>", (int&)prop.memPitch)) continue;
-        if (parse_int(buf, "<maxThreadsPerBlock>", prop.maxThreadsPerBlock)) continue;
-        if (parse_str(buf, "<maxThreadsDim>", buf2, sizeof(buf2))) {
+        if (xp.parse_int("sharedMemPerBlock", (int&)prop.sharedMemPerBlock)) continue;
+        if (xp.parse_int("regsPerBlock", prop.regsPerBlock)) continue;
+        if (xp.parse_int("warpSize", prop.warpSize)) continue;
+        if (xp.parse_int("memPitch", (int&)prop.memPitch)) continue;
+        if (xp.parse_int("maxThreadsPerBlock", prop.maxThreadsPerBlock)) continue;
+        if (xp.parse_str("maxThreadsDim", buf2, sizeof(buf2))) {
             // can't use sscanf here (FCGI)
             //
             prop.maxThreadsDim[0] = atoi(buf2);
@@ -454,7 +471,7 @@ int COPROC_NVIDIA::parse(XML_PARSER& xp) {
             }
             continue;
         }
-        if (parse_str(buf, "<maxGridSize>", buf2, sizeof(buf2))) {
+        if (xp.parse_str("maxGridSize", buf2, sizeof(buf2))) {
             prop.maxGridSize[0] = atoi(buf2);
             char* p = strchr(buf2, ' ');
             if (p) {
@@ -468,14 +485,14 @@ int COPROC_NVIDIA::parse(XML_PARSER& xp) {
             }
             continue;
         }
-        if (parse_int(buf, "<clockRate>", prop.clockRate)) continue;
-        if (parse_int(buf, "<totalConstMem>", (int&)prop.totalConstMem)) continue;
-        if (parse_int(buf, "<major>", prop.major)) continue;
-        if (parse_int(buf, "<minor>", prop.minor)) continue;
-        if (parse_int(buf, "<textureAlignment>", (int&)prop.textureAlignment)) continue;
-        if (parse_int(buf, "<deviceOverlap>", prop.deviceOverlap)) continue;
-        if (parse_int(buf, "<multiProcessorCount>", prop.multiProcessorCount)) continue;
-        if (match_tag(buf, "<coproc_opencl>")) {
+        if (xp.parse_int("clockRate", prop.clockRate)) continue;
+        if (xp.parse_int("totalConstMem", (int&)prop.totalConstMem)) continue;
+        if (xp.parse_int("major", prop.major)) continue;
+        if (xp.parse_int("minor", prop.minor)) continue;
+        if (xp.parse_int("textureAlignment", (int&)prop.textureAlignment)) continue;
+        if (xp.parse_int("deviceOverlap", prop.deviceOverlap)) continue;
+        if (xp.parse_int("multiProcessorCount", prop.multiProcessorCount)) continue;
+        if (xp.match_tag("coproc_opencl")) {
             retval = parse_opencl(xp);
             if (retval) return retval;
             continue;
@@ -493,13 +510,11 @@ void COPROC_ATI::write_xml(MIOFILE& f, bool include_request) {
         "   <count>%d</count>\n"
         "   <name>%s</name>\n"
         "   <available_ram>%f</available_ram>\n"
-        "   <have_cuda>%d</have_cuda>\n"
         "   <have_cal>%d</have_cal>\n"
         "   <have_opencl>%d</have_opencl>\n",
         count,
         name,
         available_ram,
-        have_cuda ? 1 : 0,
         have_cal ? 1 : 0,
         have_opencl ? 1 : 0
     );
@@ -570,15 +585,12 @@ void COPROC_ATI::clear() {
 }
 
 int COPROC_ATI::parse(XML_PARSER& xp) {
-    char buf[1024];
-    int n;
-    int retval;
+    int n, retval;
 
     clear();
 
-    MIOFILE& in = *(xp.f);
-    while (in.fgets(buf, sizeof(buf))) {
-        if (strstr(buf, "</coproc_ati>")) {
+    while (!xp.get_tag()) {
+        if (xp.match_tag("/coproc_ati")) {
             int major, minor, release;
             sscanf(version, "%d.%d.%d", &major, &minor, &release);
             version_num = major*1000000 + minor*1000 + release;
@@ -588,76 +600,76 @@ int COPROC_ATI::parse(XML_PARSER& xp) {
             }
             return 0;
         }
-        if (parse_int(buf, "<count>", count)) continue;
-        if (parse_double(buf, "<peak_flops>", peak_flops)) continue;
-        if (parse_bool(buf, "have_cuda", have_cuda)) continue;
-        if (parse_bool(buf, "have_cal", have_cal)) continue;
-        if (parse_bool(buf, "have_opencl", have_opencl)) continue;
-        if (parse_double(buf, "<req_secs>", req_secs)) continue;
-        if (parse_double(buf, "<req_instances>", req_instances)) continue;
-        if (parse_double(buf, "<estimated_delay>", estimated_delay)) continue;
-        if (parse_str(buf, "<name>", name, sizeof(name))) continue;
-        if (parse_str(buf, "<CALVersion>", version, sizeof(version))) continue;
-        if (parse_bool(buf, "amdrt_detected", amdrt_detected)) continue;
-        if (parse_bool(buf, "atirt_detected", atirt_detected)) continue;
+        if (xp.parse_int("count", count)) continue;
+        if (xp.parse_double("peak_flops", peak_flops)) continue;
+        if (xp.parse_bool("have_cal", have_cal)) continue;
+        if (xp.parse_bool("have_opencl", have_opencl)) continue;
+        if (xp.parse_double("available_ram", available_ram)) continue;
+        if (xp.parse_double("req_secs", req_secs)) continue;
+        if (xp.parse_double("req_instances", req_instances)) continue;
+        if (xp.parse_double("estimated_delay", estimated_delay)) continue;
+        if (xp.parse_str("name", name, sizeof(name))) continue;
+        if (xp.parse_str("CALVersion", version, sizeof(version))) continue;
+        if (xp.parse_bool("amdrt_detected", amdrt_detected)) continue;
+        if (xp.parse_bool("atirt_detected", atirt_detected)) continue;
 
-        if (parse_int(buf, "<target>", n)) {
+        if (xp.parse_int("target", n)) {
             attribs.target = (CALtarget)n;
             continue;
         }
-        if (parse_int(buf, "<localRAM>", n)) {
+        if (xp.parse_int("localRAM", n)) {
             attribs.localRAM = n;
             continue;
         }
-        if (parse_int(buf, "<uncachedRemoteRAM>", n)) {
+        if (xp.parse_int("uncachedRemoteRAM", n)) {
             attribs.uncachedRemoteRAM = n;
             continue;
         }
-        if (parse_int(buf, "<cachedRemoteRAM>", n)) {
+        if (xp.parse_int("cachedRemoteRAM", n)) {
             attribs.cachedRemoteRAM = n;
             continue;
         }
-        if (parse_int(buf, "<engineClock>", n)) {
+        if (xp.parse_int("engineClock", n)) {
             attribs.engineClock = n;
             continue;
         }
-        if (parse_int(buf, "<memoryClock>", n)) {
+        if (xp.parse_int("memoryClock", n)) {
             attribs.memoryClock = n;
             continue;
         }
-        if (parse_int(buf, "<wavefrontSize>", n)) {
+        if (xp.parse_int("wavefrontSize", n)) {
             attribs.wavefrontSize = n;
             continue;
         }
-        if (parse_int(buf, "<numberOfSIMD>"  , n)) {
+        if (xp.parse_int("numberOfSIMD"  , n)) {
             attribs.numberOfSIMD = n;
             continue;
         }
-        if (parse_int(buf, "<doublePrecision>", n)) {
+        if (xp.parse_int("doublePrecision", n)) {
             attribs.doublePrecision = n?CAL_TRUE:CAL_FALSE;
             continue;
         }
-        if (parse_int(buf, "<pitch_alignment>", n)) {
+        if (xp.parse_int("pitch_alignment", n)) {
             attribs.pitch_alignment = n;
             continue;
         }
-        if (parse_int(buf, "<surface_alignment>", n)) {
+        if (xp.parse_int("surface_alignment", n)) {
             attribs.surface_alignment = n;
             continue;
         }
-        if (parse_int(buf, "<maxResource1DWidth>", n)) {
+        if (xp.parse_int("maxResource1DWidth", n)) {
             info.maxResource1DWidth = n;
             continue;
         }
-        if (parse_int(buf, "<maxResource2DWidth>", n)) {
+        if (xp.parse_int("maxResource2DWidth", n)) {
             info.maxResource2DWidth = n;
             continue;
         }
-        if (parse_int(buf, "<maxResource2DHeight>", n)) {
+        if (xp.parse_int("maxResource2DHeight", n)) {
             info.maxResource2DHeight = n;
             continue;
         }
-        if (match_tag(buf, "<coproc_opencl>")) {
+        if (xp.match_tag("coproc_opencl")) {
             retval = parse_opencl(xp);
             if (retval) return retval;
             continue;

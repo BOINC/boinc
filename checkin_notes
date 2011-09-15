@@ -6065,3 +6065,11 @@ David  14 Sept 2011
 
     lib/
         coproc.cpp
+
+David  14 Sept 2011
+    - lib: parse <available_ram> in coproc XML
+    - lib: do coproc XML parsing using new XML parser
+
+    lib/
+        parse.cpp,h
+        coproc.cpp,h
