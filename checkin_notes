@@ -6092,6 +6092,10 @@ David  14 Sept 2011
 
 Charlie 15 Sep 2011
     - lib: fix compiler warning.
+    - vboxwrapper: fix compiler warning.
 
     lib/
         coproc.cpp
+    samples/
+        vboxwrapper/
+            vbox.cpp

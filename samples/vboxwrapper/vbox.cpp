@@ -1078,7 +1078,7 @@ int VBOX_VM::get_vm_process_id(int& process_id) {
     pid = output.substr(pid_location, pid_length - pid_location);
     if (pid.size() <= 0) {
         fprintf(stderr, "%s no PID: location %d length %d\n",
-            boinc_msg_prefix(buf, sizeof(buf)), (int)pid_location, (int)pid_length - pid_location
+            boinc_msg_prefix(buf, sizeof(buf)), (int)pid_location, (int)(pid_length - pid_location)
         );
         return ERR_NOT_FOUND;
     }
