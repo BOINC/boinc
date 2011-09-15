@@ -1042,7 +1042,7 @@ bool work_needed(bool locality_sched) {
         return false;
     }
 
-#if 1
+#if 0
     if (config.debug_send) {
         log_messages.printf(MSG_NORMAL,
             "[send] work_needed: spec req %d sec to fill %.2f; CPU (%.2f, %.2f) CUDA (%.2f, %.2f) ATI(%.2f, %.2f)\n",

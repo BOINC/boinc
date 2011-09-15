@@ -6081,3 +6081,11 @@ David  14 Sept 2011
 
     sched/
         sched_customize.cpp
+
+David  14 Sept 2011
+    - scheduler: revise [21428] to include non-anonymous-platform,
+        and change the ratio limit from 2 to 10.
+
+    sched/
+        sched_send.cpp
+        sched_version.cpp

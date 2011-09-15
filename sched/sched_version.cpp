@@ -235,6 +235,11 @@ CLIENT_APP_VERSION* get_app_version_anonymous(
     return best;
 }
 
+#define ET_RATIO_LIMIT  10.
+    // if the FLOPS estimate based on elapsed time
+    // exceeds project_flops by more than this factor, cap it.
+    // The host may have received a bunch of short jobs recently
+
 // input:
 // cav.host_usage.projected_flops
 //      This is the <flops> specified in app_info.xml
@@ -288,17 +293,19 @@ void estimate_flops_anon_platform() {
             //
             double new_flops = 1./havp->et.get_avg();
 
-            // cap this at 2*projected,
+            // cap this at ET_RATIO_LIMIT*projected,
             // in case we've had a bunch of short jobs recently
             //
-            if (new_flops > 2*cav.host_usage.projected_flops) {
+            if (new_flops > ET_RATIO_LIMIT*cav.host_usage.projected_flops) {
                 if (config.debug_version_select) {
                     log_messages.printf(MSG_NORMAL,
-                        "[version] (%s) capping new_flops; %f > 2*%f\n",
-                        cav.plan_class, new_flops, cav.host_usage.projected_flops
+                        "[version] (%s) capping new_flops; %.1fG > %.0f*%.1fG\n",
+                        cav.plan_class, new_flops/1e9,
+                        ET_RATIO_LIMIT,
+                        cav.host_usage.projected_flops/1e9
                     );
                 }
-                new_flops = 2*cav.host_usage.projected_flops;
+                new_flops = ET_RATIO_LIMIT*cav.host_usage.projected_flops;
             }
             cav.rsc_fpops_scale = cav.host_usage.projected_flops/new_flops;
             cav.host_usage.projected_flops = new_flops;
@@ -330,7 +337,22 @@ void estimate_flops(HOST_USAGE& hu, APP_VERSION& av) {
     DB_HOST_APP_VERSION* havp = gavid_to_havp(av.id);
     if (havp && havp->et.n > MIN_HOST_SAMPLES) {
         double new_flops = 1./havp->et.get_avg();
+        // cap this at ET_RATIO_LIMIT*projected,
+        // in case we've had a bunch of short jobs recently
+        //
+        if (new_flops > ET_RATIO_LIMIT*hu.projected_flops) {
+            if (config.debug_version_select) {
+                log_messages.printf(MSG_NORMAL,
+                    "[version] (%s) capping new_flops; %.1fG > %.0f*%.1fG\n",
+                    av.plan_class, new_flops/1e9,
+                    ET_RATIO_LIMIT,
+                    hu.projected_flops/1e9
+                );
+            }
+            new_flops = ET_RATIO_LIMIT*hu.projected_flops;
+        }
         hu.projected_flops = new_flops;
+
         if (config.debug_version_select) {
             log_messages.printf(MSG_NORMAL,
                 "[version] [AV#%d] (%s) setting projected flops based on host elapsed time avg: %.2fG\n",
