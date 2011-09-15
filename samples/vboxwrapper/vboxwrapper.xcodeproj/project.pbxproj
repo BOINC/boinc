@@ -13,27 +13,6 @@
 		DD90CEA2140CAB3D0074CF46 /* vboxwrapper.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD90CEA0140CAB3D0074CF46 /* vboxwrapper.cpp */; };
 /* End PBXBuildFile section */
 
-/* Begin PBXCopyFilesBuildPhase section */
-		8DD76FAF0486AB0100D96B5E /* CopyFiles */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 8;
-			dstPath = /usr/share/man/man1/;
-			dstSubfolderSpec = 0;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 1;
-		};
-		DD3B677E140CF9470088683F /* CopyFiles */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 8;
-			dstPath = /usr/share/man/man1/;
-			dstSubfolderSpec = 0;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 1;
-		};
-/* End PBXCopyFilesBuildPhase section */
-
 /* Begin PBXFileReference section */
 		8DD76FB20486AB0100D96B5E /* vboxwrapper_1686 */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = vboxwrapper_1686; sourceTree = BUILT_PRODUCTS_DIR; };
 		DD3B6783140CF9470088683F /* vboxwrapper_x86_64 */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = vboxwrapper_x86_64; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -97,7 +76,7 @@
 			buildPhases = (
 				8DD76FAB0486AB0100D96B5E /* Sources */,
 				8DD76FAD0486AB0100D96B5E /* Frameworks */,
-				8DD76FAF0486AB0100D96B5E /* CopyFiles */,
+				DDB350191421FB6C00EF2DFC /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -115,7 +94,7 @@
 			buildPhases = (
 				DD3B677A140CF9470088683F /* Sources */,
 				DD3B677D140CF9470088683F /* Frameworks */,
-				DD3B677E140CF9470088683F /* CopyFiles */,
+				DDB3501A1421FBF000EF2DFC /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -151,6 +130,35 @@
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		DDB350191421FB6C00EF2DFC /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "mkdir -p \"${SRCROOT}/build/${CONFIGURATION}\"\nif [ \"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}\" -nt \"${SRCROOT}/build/${CONFIGURATION}/${PRODUCT_NAME}\" ]; then\n    cp -fp \"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}\" \"${SRCROOT}/build/${CONFIGURATION}/${PRODUCT_NAME}\"\n    if [ \"$CONFIGURATION\" = \"Release\" ]; then\n        cp -fpR \"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.dSYM\" \"${SRCROOT}/build/${CONFIGURATION}/${PRODUCT_NAME}.dSYM\"\n    fi\nfi\n";
+		};
+		DDB3501A1421FBF000EF2DFC /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "mkdir -p \"${SRCROOT}/build/${CONFIGURATION}\"\nif [ \"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}\" -nt \"${SRCROOT}/build/${CONFIGURATION}/${PRODUCT_NAME}\" ]; then\n    cp -fp \"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}\" \"${SRCROOT}/build/${CONFIGURATION}/${PRODUCT_NAME}\"\n    if [ \"$CONFIGURATION\" = \"Release\" ]; then\n        cp -fpR \"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.dSYM\" \"${SRCROOT}/build/${CONFIGURATION}/${PRODUCT_NAME}.dSYM\"\n    fi\nfi\n";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		8DD76FAB0486AB0100D96B5E /* Sources */ = {
@@ -205,7 +213,7 @@
 			buildSettings = {
 				ARCHS = i386;
 				COPY_PHASE_STRIP = NO;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEBUG_INFORMATION_FORMAT = dwarf;
 				GCC_ENABLE_SYMBOL_SEPARATION = NO;
 				GCC_INLINES_ARE_PRIVATE_EXTERN = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -255,7 +263,7 @@
 				PRIVATE_HEADERS_FOLDER_PATH = "";
 				PRODUCT_NAME = vboxwrapper;
 				SDKROOT = macosx10.5;
-				STRIP_INSTALLED_PRODUCT = NO;
+				STRIP_INSTALLED_PRODUCT = YES;
 			};
 			name = Release;
 		};
@@ -268,7 +276,6 @@
 					"../../**",
 					"/usr/include/c++/4.0.0/x86_64-apple-darwin8",
 				);
-				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = vboxwrapper_x86_64;
 				USER_HEADER_SEARCH_PATHS = "../../clientgui/mac ../../**";
 			};
@@ -283,7 +290,6 @@
 					"../../**",
 					"/usr/include/c++/4.0.0/x86_64-apple-darwin8",
 				);
-				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = vboxwrapper_x86_64;
 				USER_HEADER_SEARCH_PATHS = "../../clientgui/mac ../../**";
 			};
