@@ -6114,3 +6114,9 @@ David  15 Sept 2011
 
     client/
         rr_sim.cpp
+
+Rom    15 Sept 2011
+    - VBOX: Add a way to track overall network utilization of a VM.
+
+    samples/vboxwrapper/
+        vbox.cpp, .h

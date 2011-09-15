@@ -140,7 +140,7 @@ int VBOX_VM::vbm_popen(string& arguments, string& output) {
     sa.lpSecurityDescriptor = &sd;
 
 
-    if (!CreatePipe(&hReadPipe, &hWritePipe, &sa, 128*1024)) {
+    if (!CreatePipe(&hReadPipe, &hWritePipe, &sa, NULL)) {
         fprintf(
             stderr,
             "%s CreatePipe failed! (%d).\n",
@@ -175,31 +175,26 @@ int VBOX_VM::vbm_popen(string& arguments, string& output) {
     // Wait until process has completed
     while(1) {
         GetExitCodeProcess(pi.hProcess, &ulExitCode);
-        if (ulExitCode != STILL_ACTIVE) break;
-        Sleep(250);
-    }
 
+        // Copy stdout/stderr to output buffer, handle in the loop so that we can
+        // copy the pipe as it is populated and prevent the child process from blocking
+        // in case the output is bigger than pipe buffer.
+        PeekNamedPipe(hReadPipe, NULL, NULL, NULL, &dwCount, NULL);
+        if (dwCount) {
+            pBuf = malloc(dwCount+1);
+            memset(pBuf, 0, dwCount+1);
 
-    // Copy stdout/stderr to output buffer
-    if (!PeekNamedPipe(hReadPipe, NULL, NULL, NULL, &dwCount, NULL)) {
-        fprintf(
-            stderr,
-            "%s PeekNamedPipe failed! (%d).\n",
-            boinc_msg_prefix(buf, sizeof(buf)),
-            GetLastError()
-        );
-    }
+            if (ReadFile(hReadPipe, pBuf, dwCount, &dwCount, NULL)) {
+                output += (char*)pBuf;
+            }
 
-    if (dwCount) {
-        pBuf = malloc(dwCount+1);
-        memset(pBuf, 0, dwCount+1);
-
-        if (ReadFile(hReadPipe, pBuf, dwCount, &dwCount, NULL)) {
-            output += (char*)pBuf;
+            free(pBuf);
         }
 
-        free(pBuf);
+        if (ulExitCode != STILL_ACTIVE) break;
+        Sleep(100);
     }
+
 
 
 CLEANUP:
@@ -302,18 +297,18 @@ bool VBOX_VM::is_running() {
     string command;
     string output;
     string vmstate;
-    size_t vmstate_location;
-    size_t vmstate_length;
+    size_t vmstate_start;
+    size_t vmstate_end;
 
     command  = "showvminfo \"" + vm_name + "\" ";
     command += "--machinereadable ";
 
     if (vbm_popen(command, output) == 0) {
-        vmstate_location = output.find("VMState=\"");
-        if (vmstate_location != string::npos) {
-            vmstate_location += 9;
-            vmstate_length = output.find("\"", vmstate_location);
-            vmstate = output.substr(vmstate_location, vmstate_length - vmstate_location);
+        vmstate_start = output.find("VMState=\"");
+        if (vmstate_start != string::npos) {
+            vmstate_start += 9;
+            vmstate_end = output.find("\"", vmstate_start);
+            vmstate = output.substr(vmstate_start, vmstate_end - vmstate_start);
 
             // VirtualBox Documentation suggests that that a VM is running when its
             // machine state is between MachineState_FirstOnline and MachineState_LastOnline
@@ -714,8 +709,8 @@ int VBOX_VM::deregister_stale_vm() {
     string command;
     string output;
     string virtual_machine_root_dir;
-    size_t uuid_location;
-    size_t uuid_length;
+    size_t uuid_start;
+    size_t uuid_end;
     char buf[256];
     int retval;
 
@@ -751,12 +746,12 @@ int VBOX_VM::deregister_stale_vm() {
     //   In use by VMs:        test2 (UUID: 000ab2be-1254-4c6a-9fdc-1536a478f601)
     //   Location:             C:\Users\romw\VirtualBox VMs\test2\test2.vdi
     //
-    uuid_location = output.find("(UUID: ");
-    if (uuid_location != string::npos) {
+    uuid_start = output.find("(UUID: ");
+    if (uuid_start != string::npos) {
         // We can parse the virtual machine ID from the output
-        uuid_location += 7;
-        uuid_length = output.find(")", uuid_location);
-        vm_name = output.substr(uuid_location, uuid_length - uuid_location);
+        uuid_start += 7;
+        uuid_end = output.find(")", uuid_start);
+        vm_name = output.substr(uuid_start, uuid_end - uuid_start);
 
         // Deregister stale VM by UUID
         return deregister_vm();
@@ -1034,8 +1029,8 @@ int VBOX_VM::get_vm_process_id(int& process_id) {
     string command;
     string output;
     string pid;
-    size_t pid_location;
-    size_t pid_length;
+    size_t pid_start;
+    size_t pid_end;
     char buf[256];
     int retval;
 
@@ -1068,20 +1063,126 @@ int VBOX_VM::get_vm_process_id(int& process_id) {
     // 00:00:06.015 Installed Extension Packs:
     // 00:00:06.015   None installed!
     //
-    pid_location = output.find("Process ID: ");
-    if (pid_location == string::npos) {
+    pid_start = output.find("Process ID: ");
+    if (pid_start == string::npos) {
         fprintf(stderr, "%s couldn't find 'Process ID: ' in %s\n", boinc_msg_prefix(buf, sizeof(buf)), output.c_str());
         return ERR_NOT_FOUND;
     }
-    pid_location += 12;
-    pid_length = output.find("\n", pid_location);
-    pid = output.substr(pid_location, pid_length - pid_location);
+    pid_start += 12;
+    pid_end = output.find("\n", pid_start);
+    pid = output.substr(pid_start, pid_end - pid_start);
     if (pid.size() <= 0) {
         fprintf(stderr, "%s no PID: location %d length %d\n",
-            boinc_msg_prefix(buf, sizeof(buf)), (int)pid_location, (int)(pid_length - pid_location)
+            boinc_msg_prefix(buf, sizeof(buf)), (int)pid_start, (int)(pid_end - pid_start)
         );
         return ERR_NOT_FOUND;
     }
     process_id = atol(pid.c_str());
+    if (process_id) {
+        fprintf(stderr, "%s Virtual Machine PID Detected\n",
+            boinc_msg_prefix(buf, sizeof(buf)), process_id
+        );
+    }
+    return 0;
+}
+
+int VBOX_VM::get_vm_network_bytes_received(unsigned long long& received) {
+    string command;
+    string output;
+    string counter_value;
+    size_t counter_start;
+    size_t counter_end;
+    char buf[256];
+    int retval;
+
+    command  = "debugvm \"" + vm_name + "\" ";
+    command += "statistics --pattern \"/Devices/*/ReceiveBytes\" ";
+
+    retval = vbm_popen(command, output);
+    if (retval) {
+        fprintf(
+            stderr,
+            "%s Error getting network statistics for virtual machine! rc = 0x%x\nCommand:\n%s\nOutput:\n%s\n",
+            boinc_msg_prefix(buf, sizeof(buf)),
+            retval,
+            command.c_str(),
+            output.c_str()
+        );
+        return retval;
+    }
+
+    // Output should look like this:
+    // <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+    // <Statistics>
+    // <Counter c="9423150" unit="bytes" name="/Devices/PCNet0/ReceiveBytes"/>
+    // <Counter c="256" unit="bytes" name="/Devices/PCNet1/ReceiveBytes"/>
+    // </Statistics>
+
+    // Reset the return value, we'll end up summing any c="*" values returned.
+    received = 0;
+
+    // Begin looking for the counter(s)
+    counter_start = output.find("c=\"");
+    while (counter_start != string::npos) {
+        counter_start += 3;
+        counter_end = output.find("\"", counter_start);
+        counter_value = output.substr(counter_start, counter_end - counter_start);
+
+        received += boinc_strtoull(counter_value.c_str(), NULL, 10);
+
+        counter_start = output.find("\n", counter_start);
+    }
+
+    return 0;
+}
+
+int VBOX_VM::get_vm_network_bytes_transmitted(unsigned long long& transmited)
+{
+    string command;
+    string output;
+    string counter_value;
+    size_t counter_start;
+    size_t counter_end;
+    char buf[256];
+    int retval;
+
+    command  = "debugvm \"" + vm_name + "\" ";
+    command += "statistics --pattern \"/Devices/*/TransmitBytes\" ";
+
+    retval = vbm_popen(command, output);
+    if (retval) {
+        fprintf(
+            stderr,
+            "%s Error getting network statistics for virtual machine! rc = 0x%x\nCommand:\n%s\nOutput:\n%s\n",
+            boinc_msg_prefix(buf, sizeof(buf)),
+            retval,
+            command.c_str(),
+            output.c_str()
+        );
+        return retval;
+    }
+
+    // Output should look like this:
+    //<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+    //<Statistics>
+    //<Counter c="397229" unit="bytes" name="/Devices/PCNet0/TransmitBytes"/>
+    //<Counter c="256" unit="bytes" name="/Devices/PCNet1/TransmitBytes"/>
+    //</Statistics>
+
+    // Reset the return value, we'll end up summing any c="*" values returned.
+    transmited = 0;
+
+    // Begin looking for the counter(s)
+    counter_start = output.find("c=\"");
+    while (counter_start != string::npos) {
+        counter_start += 3;
+        counter_end = output.find("\"", counter_start);
+        counter_value = output.substr(counter_start, counter_end - counter_start);
+
+        transmited += boinc_strtoull(counter_value.c_str(), NULL, 10);
+
+        counter_start = output.find("\n", counter_start);
+    }
+
     return 0;
 }
