@@ -1163,11 +1163,11 @@ int VBOX_VM::get_vm_network_bytes_transmitted(unsigned long long& transmited)
     }
 
     // Output should look like this:
-    //<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-    //<Statistics>
-    //<Counter c="397229" unit="bytes" name="/Devices/PCNet0/TransmitBytes"/>
-    //<Counter c="256" unit="bytes" name="/Devices/PCNet1/TransmitBytes"/>
-    //</Statistics>
+    // <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+    // <Statistics>
+    // <Counter c="397229" unit="bytes" name="/Devices/PCNet0/TransmitBytes"/>
+    // <Counter c="256" unit="bytes" name="/Devices/PCNet1/TransmitBytes"/>
+    // </Statistics>
 
     // Reset the return value, we'll end up summing any c="*" values returned.
     transmited = 0;
