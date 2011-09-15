@@ -167,7 +167,11 @@ static bool ati_check(COPROC_ATI& c, HOST_USAGE& hu,
     if (c.version_num < min_driver_version) {
         return false;
     }
-    if (c.attribs.localRAM*MEGA < min_ram) {
+    double avail_ram = c.available_ram;
+    if (avail_ram < 0) {
+        avail_ram = c.attribs.localRAM*MEGA;
+    }
+    if (avail_ram < min_ram) {
         return false;
     }
 
@@ -296,7 +300,11 @@ static bool cuda_check(COPROC_NVIDIA& c, HOST_USAGE& hu,
             return false;
         }
     }
-    if (c.prop.dtotalGlobalMem < min_ram) {
+    double avail_ram = c.available_ram;
+    if (avail_ram < 0) {
+        avail_ram = c.prop.dtotalGlobalMem;
+    }
+    if (avail_ram < min_ram) {
         return false;
     }
 

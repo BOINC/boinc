@@ -6073,3 +6073,11 @@ David  14 Sept 2011
     lib/
         parse.cpp,h
         coproc.cpp,h
+
+David  14 Sept 2011
+    - scheduler: in app_plan functions for GPUs,
+        use available RAM if reported by client;
+        otherwise use physical RAM.
+
+    sched/
+        sched_customize.cpp
