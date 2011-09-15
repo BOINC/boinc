@@ -6108,3 +6108,9 @@ Charlie 15 Sep 2011
      mac_build/
         boinc.xcodeproj/
             project.pbxproj
+
+David  15 Sept 2011
+    - minor code shuffle
+
+    client/
+        rr_sim.cpp

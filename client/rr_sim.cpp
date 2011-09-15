@@ -59,7 +59,7 @@ inline void rsc_string(RESULT* rp, char* buf) {
 // this is here (rather than rr_sim.h) because its inline functions
 // refer to RESULT
 //
-struct RR_SIM_STATUS {
+struct RR_SIM {
     std::vector<RESULT*> active;
 
     inline void activate(RESULT* rp) {
@@ -74,8 +74,11 @@ struct RR_SIM_STATUS {
         }
     }
 
-    RR_SIM_STATUS() {}
-    ~RR_SIM_STATUS() {}
+    void pick_jobs_to_run(double reltime);
+    void simulate();
+
+    RR_SIM() {}
+    ~RR_SIM() {}
 
 };
 
@@ -169,8 +172,8 @@ static void sort_pending_lists() {
     }
 }
 
-static void pick_jobs_to_run(RR_SIM_STATUS& sim_status, double reltime) {
-    sim_status.active.clear();
+void RR_SIM::pick_jobs_to_run(double reltime) {
+    active.clear();
 
     // do the GPUs first
     //
@@ -186,7 +189,7 @@ static void pick_jobs_to_run(RR_SIM_STATUS& sim_status, double reltime) {
         for (unsigned int i=0; i<rsc_work_fetch[rt].pending.size(); i++) {
             if (rsc_work_fetch[rt].sim_nused >= ndevs) break;
             RESULT* rp = rsc_work_fetch[rt].pending[i];
-            sim_status.activate(rp);
+            activate(rp);
             if (log_flags.rrsim_detail) {
                 char buf[256];
                 rsc_string(rp, buf);
@@ -242,10 +245,9 @@ static void handle_missed_deadline(RESULT* rpbest, double diff, double ar) {
     }
 }
 
-void rr_simulation() {
+void RR_SIM::simulate() {
     PROJECT* pbest;
     RESULT* rp, *rpbest;
-    RR_SIM_STATUS sim_status;
     unsigned int u;
 
     double ar = gstate.available_ram();
@@ -273,19 +275,19 @@ void rr_simulation() {
     project_priority_init(true);
     while (1) {
         sort_pending_lists();   // sort jobs by project priority
-        pick_jobs_to_run(sim_status, sim_now-gstate.now);
+        pick_jobs_to_run(sim_now-gstate.now);
         if (first) {
             record_nidle_now();
             first = false;
         }
 
-        if (!sim_status.active.size()) break;
+        if (!active.size()) break;
 
         // compute finish times and see which job finishes first
         //
         rpbest = NULL;
-        for (u=0; u<sim_status.active.size(); u++) {
-            rp = sim_status.active[u];
+        for (u=0; u<active.size(); u++) {
+            rp = active[u];
             if (rp->rrsim_flops) {
                 rp->rrsim_finish_delay = rp->rrsim_flops_left/rp->rrsim_flops;
                 if (!rpbest || rp->rrsim_finish_delay < rpbest->rrsim_finish_delay) {
@@ -337,8 +339,8 @@ void rr_simulation() {
             }
         }
         // adjust FLOPS left
-        for (unsigned int i=0; i<sim_status.active.size(); i++) {
-            RESULT* rp = sim_status.active[i];
+        for (unsigned int i=0; i<active.size(); i++) {
+            RESULT* rp = active[i];
             rp->rrsim_flops_left -= rp->rrsim_flops*delta_t;
 
             // can be slightly less than 0 due to roundoff
@@ -407,4 +409,9 @@ void rr_simulation() {
             rsc_work_fetch[i].accumulate_shortfall(d_time);
         }
     }
+}
+
+void rr_simulation() {
+    RR_SIM rr_sim;
+    rr_sim.simulate();
 }
