@@ -6093,9 +6093,14 @@ David  14 Sept 2011
 Charlie 15 Sep 2011
     - lib: fix compiler warning.
     - vboxwrapper: fix compiler warning.
+    - Mac: Change XCode project to build both 32-bit and 64-bit 
+        BOINC libraries for debug as well as for deployment.
 
     lib/
         coproc.cpp
     samples/
         vboxwrapper/
             vbox.cpp
+      mac_build/
+        boinc.xcodeproj/
+            project.pbxproj

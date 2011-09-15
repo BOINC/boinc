@@ -3554,6 +3554,8 @@
 		DD9E2352091CBDAE0048316E /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT_PRE_XCODE_3_1)";
+				ARCHS_STANDARD_32_64_BIT_PRE_XCODE_3_1 = "x86_64 i386 ppc";
 				OTHER_LDFLAGS = "";
 				PRODUCT_NAME = boinc;
 			};
@@ -3562,6 +3564,8 @@
 		DD9E235A091CBDAE0048316E /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT_PRE_XCODE_3_1)";
+				ARCHS_STANDARD_32_64_BIT_PRE_XCODE_3_1 = "x86_64 i386 ppc";
 				HEADER_SEARCH_PATHS = ../lib;
 				LIBRARY_SEARCH_PATHS = ../lib;
 				PRODUCT_NAME = boinc_api;
@@ -3779,6 +3783,8 @@
 		DDB873FD0C850BC800E0DE1F /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT_PRE_XCODE_3_1)";
+				ARCHS_STANDARD_32_64_BIT_PRE_XCODE_3_1 = "x86_64 i386 ppc";
 				HEADER_SEARCH_PATHS = "../../jpeg-6b";
 				PRODUCT_NAME = boinc_graphics2;
 			};
