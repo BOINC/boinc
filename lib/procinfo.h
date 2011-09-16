@@ -34,6 +34,7 @@ struct PROCINFO {
     bool is_low_priority;
         // running at or below priority of BOINC apps
     char command[256];
+    bool scanned;
 
 	double page_fault_rate;		// derived by higher-level code
     std::vector<int> children;
@@ -51,6 +52,7 @@ struct PROCINFO {
         is_boinc_app = false;
         is_low_priority = false;
         command[0] = 0;
+        scanned = false;
         page_fault_rate = 0;
         children.clear();
     }

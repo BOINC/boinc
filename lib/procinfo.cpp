@@ -41,14 +41,15 @@ void add_child_totals(PROCINFO& pi, PROC_MAP& pm, PROC_MAP::iterator i) {
     PROCINFO parent = i->second;
     for (unsigned int j=0; j<parent.children.size(); j++) {
         int child_pid = parent.children[j];
-		if (child_pid == parent.id) {
-			return;		// shouldn't happen
-		}
         PROC_MAP::iterator i2 = pm.find(child_pid);
         if (i2 == pm.end()) continue;
         PROCINFO& p = i2->second;
+        if (p.scanned) {
+            return;     // cycle in graph - shouldn't happen
+        }
         pi.kernel_time += p.kernel_time;
         pi.user_time += p.user_time;
+        p.scanned = true;
 
         // only count process with most swap and memory
         if (p.swap_size > pi.swap_size) {
@@ -88,6 +89,7 @@ void procinfo_app(
             pi.swap_size += p.swap_size;
             pi.working_set_size += p.working_set_size;
             p.is_boinc_app = true;
+            p.scanned = true;
 
             // look for child processes
             //
