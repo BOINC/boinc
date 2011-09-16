@@ -6166,3 +6166,9 @@ David  16 Sept 2011
         app_control.cpp
     sched/
         trickle_handler.cpp
+
+David  16 Sept 2011
+    - transitioner: fix bug related to new runtime_outlier field
+
+    db/
+        boinc_db.cpp

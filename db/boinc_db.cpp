@@ -919,7 +919,7 @@ void DB_RESULT::db_print_values(char* buf){
         "'%s', '%s', '%s', "
         "%d, %d, %d, "
         "%.15e, %.15e, %.15e, %d, "
-        "%d, %d, %d, %d, %d, null, 0, 0, 0)",
+        "%d, %d, %d, %d, %d, null, 0, 0, 0, 0)",
         create_time, workunitid,
         server_state, outcome, client_state,
         hostid, userid,
