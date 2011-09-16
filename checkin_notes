@@ -6186,3 +6186,10 @@ David  16 Sept 2011
 
     lib/
         procinfo.cpp,h
+
+Charlie 16 Sep 2011
+    - wrapper: Update Mac build script for XCode 4.1 and OS 10.7.  
+        NOTE: We no longer support PowerPC Macs.
+
+    samples/wrapper/
+        wrapper.cpp
