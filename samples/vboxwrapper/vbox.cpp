@@ -103,12 +103,12 @@ void VBOX_VM::cleanup() {
     boinc_sleep(5.0);
 }
 
-// Execute the vbox manage application and copy the output to the
-// designated buffer.
+// Execute the vbox manage application and copy the output to the buffer.
 //
-int VBOX_VM::vbm_popen(string& arguments, string& output) {
+int VBOX_VM::vbm_popen(string& arguments, string& output, const char* item) {
     char buf[256];
     string command;
+    int retval = 0;
 
     // Initialize command line
     command = "VBoxManage -q " + arguments;
@@ -123,14 +123,11 @@ int VBOX_VM::vbm_popen(string& arguments, string& output) {
     void* pBuf;
     DWORD dwCount;
     unsigned long ulExitCode = 0;
-    int retval = ERR_FOPEN;
-
 
     memset(&si, 0, sizeof(si));
     memset(&pi, 0, sizeof(pi));
     memset(&sa, 0, sizeof(sa));
     memset(&sd, 0, sizeof(sd));
-
 
     InitializeSecurityDescriptor(&sd, SECURITY_DESCRIPTOR_REVISION);
     SetSecurityDescriptorDacl(&sd, true, NULL, false);
@@ -138,7 +135,6 @@ int VBOX_VM::vbm_popen(string& arguments, string& output) {
     sa.nLength = sizeof(SECURITY_ATTRIBUTES);
     sa.bInheritHandle = TRUE;
     sa.lpSecurityDescriptor = &sd;
-
 
     if (!CreatePipe(&hReadPipe, &hWritePipe, &sa, NULL)) {
         fprintf(
@@ -151,14 +147,12 @@ int VBOX_VM::vbm_popen(string& arguments, string& output) {
     }
     SetHandleInformation(hReadPipe, HANDLE_FLAG_INHERIT, 0);
 
-
     si.cb = sizeof(STARTUPINFO);
     si.dwFlags |= STARTF_FORCEOFFFEEDBACK | STARTF_USESHOWWINDOW | STARTF_USESTDHANDLES;
     si.wShowWindow = SW_HIDE;
     si.hStdOutput = hWritePipe;
     si.hStdError = hWritePipe;
     si.hStdInput = NULL;
-
 
     // Execute command
     if (!CreateProcess(NULL, (LPTSTR)command.c_str(), NULL, NULL, TRUE, CREATE_NO_WINDOW, NULL, NULL, &si, &pi)) {
@@ -170,7 +164,6 @@ int VBOX_VM::vbm_popen(string& arguments, string& output) {
         );
         goto CLEANUP;
     }
-
 
     // Wait until process has completed
     while(1) {
@@ -195,20 +188,15 @@ int VBOX_VM::vbm_popen(string& arguments, string& output) {
         Sleep(100);
     }
 
-
-
 CLEANUP:
     if (pi.hThread) CloseHandle(pi.hThread);
     if (pi.hProcess) CloseHandle(pi.hProcess);
     if (hReadPipe) CloseHandle(hReadPipe);
     if (hWritePipe) CloseHandle(hWritePipe);
 
-    if ((ulExitCode == 0) && (pi.hProcess)) {
-        retval = 0;
+    if ((ulExitCode != 0) || (!pi.hProcess)) {
+        retval = ERR_FOPEN;
     }
-
-    return retval;
-
 #else
 
     FILE* fp;
@@ -225,22 +213,32 @@ CLEANUP:
             boinc_msg_prefix(buf, sizeof(buf)),
             errno
         );
-        return ERR_FOPEN;
-    }
+        retval = ERR_FOPEN;
+    } else {
+        // Copy output to buffer
+        while (fgets(buf, 256, fp)) {
+            output += buf;
+        }
 
-    // Copy output to buffer
-    while (fgets(buf, 256, fp)) {
-        output += buf;
+        // Close stream
+        pclose(fp);
+        retval = 0;
     }
-
-    // Close stream
-    pclose(fp);
 
 #endif
-
-    return 0;
+    if (retval) {
+        fprintf(
+            stderr,
+            "%s Error in %s for VM: %d\nCommand:\n%s\nOutput:\n%s\n",
+            boinc_msg_prefix(buf, sizeof(buf)),
+            item,
+            retval,
+            command.c_str(),
+            output.c_str()
+        );
+    }
+    return retval;
 }
-
 
 // Returns the current directory in which the executable resides.
 //
@@ -256,7 +254,6 @@ int VBOX_VM::generate_vm_root_dir( string& dir ) {
     return 0;
 }
 
-
 bool VBOX_VM::is_registered() {
     string command;
     string output;
@@ -264,7 +261,7 @@ bool VBOX_VM::is_registered() {
     command  = "showvminfo \"" + vm_name + "\" ";
     command += "--machinereadable ";
 
-    if (vbm_popen(command, output) == 0) {
+    if (vbm_popen(command, output, "registration") == 0) {
         if (output.find("VBOX_E_OBJECT_NOT_FOUND") == string::npos) {
             // Error message not found in text
             return true;
@@ -272,7 +269,6 @@ bool VBOX_VM::is_registered() {
     }
     return false;
 }
-
 
 bool VBOX_VM::is_hdd_registered() {
     string command;
@@ -283,7 +279,7 @@ bool VBOX_VM::is_hdd_registered() {
 
     command = "showhdinfo \"" + virtual_machine_root_dir + "/" + image_filename + "\" ";
 
-    if (vbm_popen(command, output) == 0) {
+    if (vbm_popen(command, output, "hdd registration") == 0) {
         if ((output.find("VBOX_E_FILE_ERROR") == string::npos) && (output.find("VBOX_E_OBJECT_NOT_FOUND") == string::npos)) {
             // Error message not found in text
             return true;
@@ -291,7 +287,6 @@ bool VBOX_VM::is_hdd_registered() {
     }
     return false;
 }
-
 
 bool VBOX_VM::is_running() {
     string command;
@@ -303,7 +298,7 @@ bool VBOX_VM::is_running() {
     command  = "showvminfo \"" + vm_name + "\" ";
     command += "--machinereadable ";
 
-    if (vbm_popen(command, output) == 0) {
+    if (vbm_popen(command, output, "VM state") == 0) {
         vmstate_start = output.find("VMState=\"");
         if (vmstate_start != string::npos) {
             vmstate_start += 9;
@@ -335,7 +330,6 @@ bool VBOX_VM::is_running() {
             if (vmstate == "deletingsnapshotlive") return true;
         }
     }
-
     return false;
 }
 
@@ -391,7 +385,6 @@ int VBOX_VM::get_install_directory(string& virtualbox_install_directory ) {
     return 0;
 }
 
-
 int VBOX_VM::initialize() {
     string virtualbox_install_directory;
     string virtual_machine_root_dir;
@@ -442,10 +435,8 @@ int VBOX_VM::initialize() {
             );
         }
     }
-
     return 0;
 }
-
 
 int VBOX_VM::register_vm() {
     string command;
@@ -477,19 +468,8 @@ int VBOX_VM::register_vm() {
     command += "--ostype \"" + os_name + "\" ";
     command += "--register";
     
-    retval = vbm_popen(command, output);
-    if (retval) {
-        fprintf(
-            stderr,
-            "%s Error registering virtual machine with VirtualBox! rc = 0x%x\nCommand:\n%s\nOutput:\n%s\n",
-            boinc_msg_prefix(buf, sizeof(buf)),
-            retval,
-            command.c_str(),
-            output.c_str()
-        );
-        return retval;
-    }
-
+    retval = vbm_popen(command, output, "register");
+    if (retval) return retval;
 
     // Tweak the VM from it's default configuration
     //
@@ -510,19 +490,8 @@ int VBOX_VM::register_vm() {
     command += "--natdnsproxy1 on ";
     command += "--cableconnected1 off ";
 
-    retval = vbm_popen(command, output);
-    if (retval) {
-        fprintf(
-            stderr,
-            "%s Error modifing virtual machine! rc = 0x%x\nCommand:\n%s\nOutput:\n%s\n",
-            boinc_msg_prefix(buf, sizeof(buf)),
-            retval,
-            command.c_str(),
-            output.c_str()
-        );
-        return retval;
-    }
-
+    retval = vbm_popen(command, output, "modify");
+    if (retval) return retval;
 
     // Add storage controller to VM
     //
@@ -536,19 +505,8 @@ int VBOX_VM::register_vm() {
     command += "--add ide ";
     command += "--controller PIIX4 ";
 
-    retval = vbm_popen(command, output);
-    if (retval) {
-        fprintf(
-            stderr,
-            "%s Error adding storage controller to virtual machine! rc = 0x%x\nCommand:\n%s\nOutput:\n%s\n",
-            boinc_msg_prefix(buf, sizeof(buf)),
-            retval,
-            command.c_str(),
-            output.c_str()
-        );
-        return retval;
-    }
-
+    retval = vbm_popen(command, output, "add storage controller");
+    if (retval) return retval;
 
     // Adding virtual hard drive to VM
     //
@@ -564,18 +522,8 @@ int VBOX_VM::register_vm() {
     command += "--type hdd ";
     command += "--medium \"" + virtual_machine_root_dir + "/" + image_filename + "\" ";
 
-    retval = vbm_popen(command, output);
-    if (retval) {
-        fprintf(
-            stderr,
-            "%s Error adding virtual disk drive to virtual machine! rc = 0x%x\nCommand:\n%s\nOutput:\n%s\n",
-            boinc_msg_prefix(buf, sizeof(buf)),
-            retval,
-            command.c_str(),
-            output.c_str()
-        );
-        return retval;
-    }
+    retval = vbm_popen(command, output, "storage attach");
+    if (retval) return retval;
 
     // Enable the network adapter if a network connection is required.
     //
@@ -595,23 +543,11 @@ int VBOX_VM::register_vm() {
         command += "--name \"shared\" ";
         command += "--hostpath \"" + virtual_machine_root_dir + "/shared\"";
 
-        retval = vbm_popen(command, output);
-        if (retval) {
-            fprintf(
-                stderr,
-                "%s Error enabling shared directory for virtual machine! rc = 0x%x\nCommand:\n%s\nOutput:\n%s\n",
-                boinc_msg_prefix(buf, sizeof(buf)),
-                retval,
-                command.c_str(),
-                output.c_str()
-            );
-            return retval;
-        }
+        retval = vbm_popen(command, output, "enable shared dir");
+        if (retval) return retval;
     }
-
     return 0;
 }
-
 
 int VBOX_VM::deregister_vm() {
     string command;
@@ -641,19 +577,8 @@ int VBOX_VM::deregister_vm() {
     command += "--name \"IDE Controller\" ";
     command += "--remove ";
 
-    retval = vbm_popen(command, output);
-    if (retval) {
-        fprintf(
-            stderr,
-            "%s Error removing storage controller from virtual machine! rc = 0x%x\nCommand:\n%s\nOutput:\n%s\n",
-            boinc_msg_prefix(buf, sizeof(buf)),
-            retval,
-            command.c_str(),
-            output.c_str()
-        );
-        return retval;
-    }
-
+    retval = vbm_popen(command, output, "deregister");
+    if (retval) return retval;
 
     // Next delete VM
     //
@@ -665,19 +590,8 @@ int VBOX_VM::deregister_vm() {
     command  = "unregistervm \"" + vm_name + "\" ";
     command += "--delete ";
 
-    retval = vbm_popen(command, output);
-    if (retval) {
-        fprintf(
-            stderr,
-            "%s Error removing virtual machine from VirtualBox! rc = 0x%x\nCommand:\n%s\nOutput:\n%s\n",
-            boinc_msg_prefix(buf, sizeof(buf)),
-            retval,
-            command.c_str(),
-            output.c_str()
-        );
-        return retval;
-    }
-
+    retval = vbm_popen(command, output, "delete VM");
+    if (retval) return retval;
 
     // Lastly delete medium from Virtual Box Media Registry
     //
@@ -688,22 +602,10 @@ int VBOX_VM::deregister_vm() {
     );
     command  = "closemedium disk \"" + virtual_machine_root_dir + "/" + image_filename + "\" ";
 
-    retval = vbm_popen(command, output);
-    if (retval) {
-        fprintf(
-            stderr,
-            "%s Error removing virtual disk drive from VirtualBox! rc = 0x%x\nCommand:\n%s\nOutput:\n%s\n",
-            boinc_msg_prefix(buf, sizeof(buf)),
-            retval,
-            command.c_str(),
-            output.c_str()
-        );
-        return retval;
-    }
-
+    retval = vbm_popen(command, output, "remove virtual disk");
+    if (retval) return retval;
     return 0;
 }
-
 
 int VBOX_VM::deregister_stale_vm() {
     string command;
@@ -711,7 +613,6 @@ int VBOX_VM::deregister_stale_vm() {
     string virtual_machine_root_dir;
     size_t uuid_start;
     size_t uuid_end;
-    char buf[256];
     int retval;
 
     generate_vm_root_dir(virtual_machine_root_dir);
@@ -721,19 +622,8 @@ int VBOX_VM::deregister_stale_vm() {
     //
     command  = "showhdinfo \"" + virtual_machine_root_dir + "/" + image_filename + "\" ";
 
-    retval = vbm_popen(command, output);
-    if (retval) {
-        fprintf(
-            stderr,
-            "%s Error retrieving virtual hard disk information from virtual box! rc = 0x%x\nCommand:\n%s\nOutput:\n%s\n",
-            boinc_msg_prefix(buf, sizeof(buf)),
-            retval,
-            command.c_str(),
-            output.c_str()
-        );
-        return retval;
-    }
-
+    retval = vbm_popen(command, output, "get HDD info");
+    if (retval) return retval;
 
     // Output should look a little like this:
     //   UUID:                 c119acaf-636c-41f6-86c9-38e639a31339
@@ -759,28 +649,10 @@ int VBOX_VM::deregister_stale_vm() {
         // Did the user delete the VM in VirtualBox and not the medium?  If so,
         // just remove the medium.
         command  = "closemedium disk \"" + virtual_machine_root_dir + "/" + image_filename + "\" ";
-        retval = vbm_popen(command, output);
-        if ((ERR_FOPEN == retval) && (output.find("VBOX_E_OBJECT_NOT_FOUND") != string::npos)) {
-            // Starting with VirtualBox 4.1.0+ calling closemedium disk no longer sliently noops closing
-            // a medium not already registered in the medium registry
-        } else {
-            if (retval) {
-                fprintf(
-                    stderr,
-                    "%s Error virtual disk drive from VirtualBox! rc = 0x%x\nCommand:\n%s\nOutput:\n%s\n",
-                    boinc_msg_prefix(buf, sizeof(buf)),
-                    retval,
-                    command.c_str(),
-                    output.c_str()
-                );
-                return retval;
-            }
-        }
+        retval = vbm_popen(command, output, "remove medium");
     }
-
     return 0;
 }
-
 
 int VBOX_VM::startvm() {
     string command;
@@ -794,21 +666,10 @@ int VBOX_VM::startvm() {
         boinc_msg_prefix(buf, sizeof(buf))
     );
     command = "startvm \"" + vm_name + "\" --type headless";
-    retval = vbm_popen(command, output);
-    if (retval) {
-        fprintf(
-            stderr,
-            "%s Error starting virtual machine! rc = 0x%x\nCommand:\n%s\nOutput:\n%s\n",
-            boinc_msg_prefix(buf, sizeof(buf)),
-            retval,
-            command.c_str(),
-            output.c_str()
-        );
-        return retval;
-    }
+    retval = vbm_popen(command, output, "start VM");
+    if (retval) return retval;
     return 0;
 }
-
 
 int VBOX_VM::stop() {
     string command;
@@ -823,18 +684,8 @@ int VBOX_VM::stop() {
     );
     if (is_running()) {
         command = "controlvm \"" + vm_name + "\" savestate";
-        retval = vbm_popen(command, output);
-        if (retval) {
-            fprintf(
-                stderr,
-                "%s Error stopping virtual machine! rc = 0x%x\nCommand:\n%s\nOutput:\n%s\n",
-                boinc_msg_prefix(buf, sizeof(buf)),
-                retval,
-                command.c_str(),
-                output.c_str()
-            );
-            return retval;
-        }
+        retval = vbm_popen(command, output, "stop VM");
+        if (retval) return retval;
     } else {
         fprintf(
             stderr,
@@ -845,54 +696,29 @@ int VBOX_VM::stop() {
     return 0;
 }
 
-
 int VBOX_VM::pause() {
     string command;
     string output;
-    char buf[256];
     int retval;
 
     command = "controlvm \"" + vm_name + "\" pause";
-    retval = vbm_popen(command, output);
-    if (retval) {
-        fprintf(
-            stderr,
-            "%s Error pausing virtual machine! rc = 0x%x\nCommand:\n%s\nOutput:\n%s\n",
-            boinc_msg_prefix(buf, sizeof(buf)),
-            retval,
-            command.c_str(),
-            output.c_str()
-        );
-        return retval;
-    }
+    retval = vbm_popen(command, output, "pause VM");
+    if (retval) return retval;
     suspended = true;
     return 0;
 }
 
-
 int VBOX_VM::resume() {
     string command;
     string output;
-    char buf[256];
     int retval;
 
     command = "controlvm \"" + vm_name + "\" resume";
-    retval = vbm_popen(command, output);
-    if (retval) {
-        fprintf(
-            stderr,
-            "%s Error resuming virtual machine! rc = 0x%x\nCommand:\n%s\nOutput:\n%s\n",
-            boinc_msg_prefix(buf, sizeof(buf)),
-            retval,
-            command.c_str(),
-            output.c_str()
-        );
-        return retval;
-    }
+    retval = vbm_popen(command, output, "resume VM");
+    if (retval) return retval;
     suspended = false;
     return 0;
 }
-
 
 // Enable the network adapter if a network connection is required.
 // NOTE: Network access should never be allowed if the code running in a 
@@ -916,18 +742,8 @@ int VBOX_VM::set_network_access(bool enabled) {
         command  = "modifyvm \"" + vm_name + "\" ";
         command += "--cableconnected1 on ";
 
-        retval = vbm_popen(command, output);
-        if (retval) {
-            fprintf(
-                stderr,
-                "%s Error enabling network access for virtual machine! rc = 0x%x\nCommand:\n%s\nOutput:\n%s\n",
-                boinc_msg_prefix(buf, sizeof(buf)),
-                retval,
-                command.c_str(),
-                output.c_str()
-            );
-            return retval;
-        }
+        retval = vbm_popen(command, output, "enable network");
+        if (retval) return retval;
     } else {
         fprintf(
             stderr,
@@ -937,22 +753,11 @@ int VBOX_VM::set_network_access(bool enabled) {
         command  = "modifyvm \"" + vm_name + "\" ";
         command += "--cableconnected1 off ";
 
-        retval = vbm_popen(command, output);
-        if (retval) {
-            fprintf(
-                stderr,
-                "%s Error disabling network access for virtual machine! rc = 0x%x\nCommand:\n%s\nOutput:\n%s\n",
-                boinc_msg_prefix(buf, sizeof(buf)),
-                retval,
-                command.c_str(),
-                output.c_str()
-            );
-            return retval;
-        }
+        retval = vbm_popen(command, output, "disable network");
+        if (retval) return retval;
     }
     return 0;
 }
-
 
 int VBOX_VM::set_cpu_usage_fraction(double x) {
     string command;
@@ -973,21 +778,10 @@ int VBOX_VM::set_cpu_usage_fraction(double x) {
     command += buf;
     command += " ";
 
-    retval = vbm_popen(command, output);
-    if (retval) {
-        fprintf(
-            stderr,
-            "%s Error setting cpu throttle for virtual machine! rc = 0x%x\nCommand:\n%s\nOutput:\n%s\n",
-            boinc_msg_prefix(buf, sizeof(buf)),
-            retval,
-            command.c_str(),
-            output.c_str()
-        );
-        return retval;
-    }
+    retval = vbm_popen(command, output, "CPU throttle");
+    if (retval) return retval;
     return 0;
 }
-
 
 int VBOX_VM::set_network_max_bytes_sec(double x) {
     string command;
@@ -1009,21 +803,10 @@ int VBOX_VM::set_network_max_bytes_sec(double x) {
     command += buf;
     command += " ";
 
-    retval = vbm_popen(command, output);
-    if (retval) {
-        fprintf(
-            stderr,
-            "%s Error setting network throttle for virtual machine! rc = 0x%x\nCommand:\n%s\nOutput:\n%s\n",
-            boinc_msg_prefix(buf, sizeof(buf)),
-            retval,
-            command.c_str(),
-            output.c_str()
-        );
-        return retval;
-    }
+    retval = vbm_popen(command, output, "network throttle");
+    if (retval) return retval;
     return 0;
 }
-
 
 int VBOX_VM::get_vm_process_id(int& process_id) {
     string command;
@@ -1037,18 +820,8 @@ int VBOX_VM::get_vm_process_id(int& process_id) {
     command  = "showvminfo \"" + vm_name + "\" ";
     command += "--log 0 ";
 
-    retval = vbm_popen(command, output);
-    if (retval) {
-        fprintf(
-            stderr,
-            "%s Error getting process id from log file for virtual machine! rc = 0x%x\nCommand:\n%s\nOutput:\n%s\n",
-            boinc_msg_prefix(buf, sizeof(buf)),
-            retval,
-            command.c_str(),
-            output.c_str()
-        );
-        return retval;
-    }
+    retval = vbm_popen(command, output, "get process ID");
+    if (retval) return retval;
 
     // Output should look like this:
     // VirtualBox 4.1.0 r73009 win.amd64 (Jul 19 2011 13:05:53) release log
@@ -1079,37 +852,26 @@ int VBOX_VM::get_vm_process_id(int& process_id) {
     }
     process_id = atol(pid.c_str());
     if (process_id) {
-        fprintf(stderr, "%s Virtual Machine PID Detected\n",
+        fprintf(stderr, "%s Virtual Machine PID %d Detected\n",
             boinc_msg_prefix(buf, sizeof(buf)), process_id
         );
     }
     return 0;
 }
 
-int VBOX_VM::get_vm_network_bytes_received(unsigned long long& received) {
+int VBOX_VM::get_vm_network_bytes_received(double& received) {
     string command;
     string output;
     string counter_value;
     size_t counter_start;
     size_t counter_end;
-    char buf[256];
     int retval;
 
     command  = "debugvm \"" + vm_name + "\" ";
     command += "statistics --pattern \"/Devices/*/ReceiveBytes\" ";
 
-    retval = vbm_popen(command, output);
-    if (retval) {
-        fprintf(
-            stderr,
-            "%s Error getting network statistics for virtual machine! rc = 0x%x\nCommand:\n%s\nOutput:\n%s\n",
-            boinc_msg_prefix(buf, sizeof(buf)),
-            retval,
-            command.c_str(),
-            output.c_str()
-        );
-        return retval;
-    }
+    retval = vbm_popen(command, output, "get bytes received");
+    if (retval) return retval;
 
     // Output should look like this:
     // <?xml version="1.0" encoding="UTF-8" standalone="no"?>
@@ -1118,49 +880,34 @@ int VBOX_VM::get_vm_network_bytes_received(unsigned long long& received) {
     // <Counter c="256" unit="bytes" name="/Devices/PCNet1/ReceiveBytes"/>
     // </Statistics>
 
-    // Reset the return value, we'll end up summing any c="*" values returned.
+    // add up the counter(s)
+    //
     received = 0;
-
-    // Begin looking for the counter(s)
     counter_start = output.find("c=\"");
     while (counter_start != string::npos) {
         counter_start += 3;
         counter_end = output.find("\"", counter_start);
         counter_value = output.substr(counter_start, counter_end - counter_start);
-
-        received += boinc_strtoull(counter_value.c_str(), NULL, 10);
-
+        received += atof(counter_value.c_str());
         counter_start = output.find("\n", counter_start);
     }
 
     return 0;
 }
 
-int VBOX_VM::get_vm_network_bytes_transmitted(unsigned long long& transmited)
-{
+int VBOX_VM::get_vm_network_bytes_sent(double& sent) {
     string command;
     string output;
     string counter_value;
     size_t counter_start;
     size_t counter_end;
-    char buf[256];
     int retval;
 
     command  = "debugvm \"" + vm_name + "\" ";
     command += "statistics --pattern \"/Devices/*/TransmitBytes\" ";
 
-    retval = vbm_popen(command, output);
-    if (retval) {
-        fprintf(
-            stderr,
-            "%s Error getting network statistics for virtual machine! rc = 0x%x\nCommand:\n%s\nOutput:\n%s\n",
-            boinc_msg_prefix(buf, sizeof(buf)),
-            retval,
-            command.c_str(),
-            output.c_str()
-        );
-        return retval;
-    }
+    retval = vbm_popen(command, output, "get bytes sent");
+    if (retval) return retval;
 
     // Output should look like this:
     // <?xml version="1.0" encoding="UTF-8" standalone="no"?>
@@ -1169,20 +916,16 @@ int VBOX_VM::get_vm_network_bytes_transmitted(unsigned long long& transmited)
     // <Counter c="256" unit="bytes" name="/Devices/PCNet1/TransmitBytes"/>
     // </Statistics>
 
-    // Reset the return value, we'll end up summing any c="*" values returned.
-    transmited = 0;
-
-    // Begin looking for the counter(s)
+    // add up the counter(s)
+    //
+    sent = 0;
     counter_start = output.find("c=\"");
     while (counter_start != string::npos) {
         counter_start += 3;
         counter_end = output.find("\"", counter_start);
         counter_value = output.substr(counter_start, counter_end - counter_start);
-
-        transmited += boinc_strtoull(counter_value.c_str(), NULL, 10);
-
+        sent += atof(counter_value.c_str());
         counter_start = output.find("\n", counter_start);
     }
-
     return 0;
 }

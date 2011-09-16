@@ -6121,7 +6121,7 @@ Rom    15 Sept 2011
     samples/vboxwrapper/
         vbox.cpp, .h
 
-David  15 Sept 2011
+David  16 Sept 2011
     - Validator: allow project-specific code to mark a result
         is a "runtime outlier", i.e. its runtime does
         not correspond to the job's rsc_fpops_est.
@@ -6143,3 +6143,11 @@ David  15 Sept 2011
         validator.cpp
     html/ops/
         db_update.php
+
+David  16 Sept 2011
+    - vboxwrapper: code cleanup
+        - use double for potentially large quantities
+        - factor out repetitive code, rather than copy and paste
+
+    samples/vboxwrapper/
+        vbox.cpp,h

@@ -63,13 +63,15 @@ struct VBOX_VM {
     int set_cpu_usage_fraction(double);
     int set_network_max_bytes_sec(double);
     int get_vm_process_id(int& process_id);
-    int get_vm_network_bytes_received(unsigned long long& received);
-    int get_vm_network_bytes_transmitted(unsigned long long& transmited);
+    int get_vm_network_bytes_sent(double& sent);
+    int get_vm_network_bytes_received(double& received);
 
     static int initialize();
     static int get_install_directory(std::string& dir);
     static int generate_vm_root_dir(std::string& dir);
-    static int vbm_popen(std::string& command, std::string& output);
+    static int vbm_popen(
+        std::string& command, std::string& output, const char* item
+    );
 };
 
 #endif
