@@ -36,6 +36,19 @@
 // Rom Walton
 // David Anderson
 
+// To debug a VM within the BOINC/VboxWrapper framework:
+// 1. Launch BOINC with --exit_before_start
+// 2. When BOINC exits, launch the VboxWrapper with the register_only
+// 3. Set the VBOX_USER_HOME environment variable to the vbox directory
+//    under the slot directory.
+//    This changes where the VirtualBox applications look for the
+//    root VirtualBox configuration files.
+//    It may or may not apply to your installation of VirtualBox.
+//    It depends on where your copy of VirtualBox came from
+//    and what type of system it is installed on.
+// 4. Now Launch the VM using the VirtualBox UI.
+//    You should now be able to interact with your VM.
+
 #ifdef _WIN32
 #include "boinc_win.h"
 #include "win_util.h"
@@ -158,9 +171,10 @@ int main(int argc, char** argv) {
     double trickle_period = 0.0;
     double trickle_cpu_time = 0.0;
     bool is_running = false;
-    bool have_vm_pid = false;
-    bool reported_vm_pid = false;
-    int vm_pid;
+    bool report_vm_pid = false;
+    double bytes_sent=0, bytes_received=0;
+    bool report_net_usage = false;
+    int vm_pid=0;
     char buf[256];
     int retval;
 
@@ -247,14 +261,6 @@ int main(int argc, char** argv) {
             boinc_finish(EXIT_ABORTED_BY_CLIENT);
         }
         if (!is_running) {
-            // Steps to debug a VM within the BOINC/VboxWrapper framework:
-            // 1. Launch BOINC with the --exit_before_start command line argument
-            // 2. When BOINC exits, launch the VboxWrapper with the --register_only command line argument
-            // 3. Set the VBOX_USER_HOME environment variable to the vbox directory under the slot directory.
-            //    NOTE: This changes where the VirtualBox applications look for the root VirtualBox configuration
-            //          files.  It may or may not apply to your installation of VirtualBox.  It depends on where
-            //          your copy of VirtualBox came from and what type of system it is installed on.
-            // 4. Now Launch the VM using the VirtualBox UI.  You should now be able to interact with your VM.
             fprintf(
                 stderr,
                 "%s Virtual machine is no longer running, it must have completed its work.\n"
@@ -275,18 +281,19 @@ int main(int argc, char** argv) {
                 vm.resume();
             }
             elapsed_time += POLL_PERIOD;
-            if (!have_vm_pid) {
-                retval = vm.get_vm_process_id(vm_pid);
-                if (!retval) {
-                    have_vm_pid = true;
-                }
+            if (!vm_pid) {
+                vm.get_process_id(vm_pid);
+                report_vm_pid = true;
             }
-            if (have_vm_pid && !reported_vm_pid) {
-                vector<int> v;
-                v.push_back(vm_pid);
-                boinc_report_app_status_aux(
-                    elapsed_time, checkpoint_cpu_time, 0, &v
+            if (report_vm_pid || report_net_usage) {
+                retval = boinc_report_app_status_aux(
+                    elapsed_time, checkpoint_cpu_time, 0, vm_pid,
+                    bytes_sent, bytes_received
                 );
+                if (!retval) {
+                    report_vm_pid = false;
+                    report_net_usage = false;
+                }
             } else {
                 boinc_report_app_status(elapsed_time, checkpoint_cpu_time, 0);
             }
@@ -325,6 +332,30 @@ int main(int argc, char** argv) {
             boinc_parse_init_data_file();
             boinc_get_init_data_p(&aid);
             set_throttles(aid, vm);
+        }
+
+        // report network usage every 10 min so the client can enforce quota
+        //
+        static double net_usage_timer=600;
+        if (aid.global_prefs.daily_xfer_limit_mb
+            && vm.enable_network
+            && !vm.suspended
+        ) {
+            net_usage_timer -= POLL_PERIOD;
+            if (net_usage_timer <= 0) {
+                net_usage_timer = 600;
+                double sent, received;
+                retval = vm.get_network_bytes_sent(sent);
+                if (!retval && (sent != bytes_sent)) {
+                    bytes_sent = sent;
+                    report_net_usage = true;
+                }
+                retval = vm.get_network_bytes_received(received);
+                if (!retval && (received != bytes_received)) {
+                    bytes_received = received;
+                    report_net_usage = true;
+                }
+            }
         }
         boinc_sleep(POLL_PERIOD);
     }

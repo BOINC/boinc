@@ -75,12 +75,9 @@ bool do_trickle_scan() {
 }
 
 int main_loop(bool one_pass) {
-    int retval;
-    bool did_something;
-
     while (1) {
         check_stop_daemons();
-        did_something = do_trickle_scan();
+        bool did_something = do_trickle_scan();
         if (one_pass) break;
         if (!did_something) {
             sleep(5);

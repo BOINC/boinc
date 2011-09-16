@@ -82,7 +82,7 @@ int VBOX_VM::run() {
     // error to stop further processing.
     if (register_only) return ERR_FOPEN;
 
-    retval = startvm();
+    retval = start();
     if (retval) return retval;
 
     // Give time enough for external processes to begin the VM boot process
@@ -654,7 +654,7 @@ int VBOX_VM::deregister_stale_vm() {
     return 0;
 }
 
-int VBOX_VM::startvm() {
+int VBOX_VM::start() {
     string command;
     string output;
     char buf[256];
@@ -808,7 +808,7 @@ int VBOX_VM::set_network_max_bytes_sec(double x) {
     return 0;
 }
 
-int VBOX_VM::get_vm_process_id(int& process_id) {
+int VBOX_VM::get_process_id(int& process_id) {
     string command;
     string output;
     string pid;
@@ -859,7 +859,7 @@ int VBOX_VM::get_vm_process_id(int& process_id) {
     return 0;
 }
 
-int VBOX_VM::get_vm_network_bytes_received(double& received) {
+int VBOX_VM::get_network_bytes_received(double& received) {
     string command;
     string output;
     string counter_value;
@@ -895,7 +895,7 @@ int VBOX_VM::get_vm_network_bytes_received(double& received) {
     return 0;
 }
 
-int VBOX_VM::get_vm_network_bytes_sent(double& sent) {
+int VBOX_VM::get_network_bytes_sent(double& sent) {
     string command;
     string output;
     string counter_value;

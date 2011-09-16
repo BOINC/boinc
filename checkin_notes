@@ -6151,3 +6151,18 @@ David  16 Sept 2011
 
     samples/vboxwrapper/
         vbox.cpp,h
+
+David  16 Sept 2011
+    - vboxwrapper: report network usage to the client
+    - client: include the above in enforcing network quota preferences
+
+    api/
+        boinc_api.cpp,h
+    samples/vboxwrapper/
+        vbox.cpp,h
+        vboxwrapper.cpp
+    client/
+        app.cpp,h
+        app_control.cpp
+    sched/
+        trickle_handler.cpp
