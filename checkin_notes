@@ -6172,3 +6172,9 @@ David  16 Sept 2011
 
     db/
         boinc_db.cpp
+
+David  16 Sept 2011
+    - validator: add runtime_outlier message
+
+    sched/
+        credit.cpp

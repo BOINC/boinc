@@ -363,6 +363,13 @@ int get_pfc(
 
     mode = PFC_MODE_APPROX;
 
+    if (r.runtime_outlier && config.debug_credit) {
+        log_messages.printf(MSG_NORMAL,
+            "[credit] [RESULT#%d] runtime outlier, not updating stats\n",
+            r.id
+        );
+    }
+
     // is result from old scheduler that didn't set r.app_version_id correctly?
     // if so, use WU estimate (this is a transient condition)
     //
