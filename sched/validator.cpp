@@ -371,7 +371,8 @@ int handle_wu(
             // if we found a canonical instance, decide on credit
             //
             if (canonicalid) {
-                // always do the credit calculation, to update statistics
+                // always do the credit calculation, to update statistics,
+                // even if we're granting credit a different way
                 //
                 retval = assign_credit_set(
                     wu, results, app, app_versions, host_app_versions,

@@ -555,6 +555,9 @@ struct RESULT {
         // 0 if unknown (relic of old scheduler)
         // -1 anon platform, unknown resource type (relic)
         // -2/-3/-4 anonymous platform (see variants above)
+    bool runtime_outlier;
+        // the validator tagged this as having an unusual elapsed time;
+        // don't include it in PFC or elapsed time statistics.
 
     void clear();
 };

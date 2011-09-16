@@ -6120,3 +6120,26 @@ Rom    15 Sept 2011
 
     samples/vboxwrapper/
         vbox.cpp, .h
+
+David  15 Sept 2011
+    - Validator: allow project-specific code to mark a result
+        is a "runtime outlier", i.e. its runtime does
+        not correspond to the job's rsc_fpops_est.
+        Runtime outliers are not counted in the statistics for
+        elapsed time, turnaround time, and peak FLOPs count.
+
+        The is intended for applications like SETI@home,
+        some of whose jobs finish more or less instantly
+        (this happens if the data contains a lot of interference).
+        If a host happens to get a bunch of these short jobs,
+        its statistics will get skewed: in essence, the server
+        will think that the host is extremely fast,
+        and will send it too many jobs.
+
+    db/
+        boinc_db.cpp,h
+    sched/
+        credit.cpp
+        validator.cpp
+    html/ops/
+        db_update.php

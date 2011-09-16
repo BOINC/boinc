@@ -774,6 +774,13 @@ function update_9_6_2011() {
     ");
 }
 
+function update_9_15_2011() {
+    do_query("
+        alter table result
+        add runtime_outlier tinyint not null
+    ");
+}
+
 // Updates are done automatically if you use "upgrade".
 //
 // If you need to do updates manually,
@@ -795,6 +802,7 @@ $db_updates = array (
     array(23762, "update_6_20_2011"),
     array(23881, "update_7_26_2011"),
     array(24137, "update_9_6_2011"),
+    array(24225, "update_9_15_2011"),
 );
 
 ?>

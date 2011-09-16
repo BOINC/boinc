@@ -886,7 +886,7 @@ void DB_RESULT::db_print(char* buf){
         "claimed_credit=%.15e, granted_credit=%.15e, opaque=%.15e, random=%d, "
         "app_version_num=%d, appid=%d, exit_status=%d, teamid=%d, "
         "priority=%d, mod_time=null, elapsed_time=%.15e, flops_estimate=%.15e, "
-        "app_version_id=%d",
+        "app_version_id=%d, runtime_outlier=%d",
         create_time, workunitid,
         server_state, outcome, client_state,
         hostid, userid,
@@ -896,7 +896,9 @@ void DB_RESULT::db_print(char* buf){
         batch, file_delete_state, validate_state,
         claimed_credit, granted_credit, opaque, random,
         app_version_num, appid, exit_status, teamid,
-        priority, elapsed_time, flops_estimate, app_version_id
+        priority, elapsed_time, flops_estimate,
+        app_version_id,
+        runtime_outlier?1:0
     );
     UNESCAPE(xml_doc_out);
     UNESCAPE(stderr_out);
@@ -993,6 +995,7 @@ void DB_RESULT::db_parse(MYSQL_ROW &r) {
     elapsed_time = atof(r[i++]);
     flops_estimate = atof(r[i++]);
     app_version_id = atoi(r[i++]);
+    runtime_outlier = (atoi(r[i++]) != 0);
 }
 
 void DB_MSG_FROM_HOST::db_print(char* buf) {
@@ -1498,6 +1501,7 @@ void VALIDATOR_ITEM::parse(MYSQL_ROW& r) {
     res.elapsed_time = atof(r[i++]);
     res.flops_estimate = atof(r[i++]);
     res.app_version_id = atoi(r[i++]);
+    res.runtime_outlier = (atoi(r[i++]) != 0);
 }
 
 int DB_VALIDATOR_ITEM_SET::enumerate(
@@ -1557,7 +1561,8 @@ int DB_VALIDATOR_ITEM_SET::enumerate(
             "   res.appid, "
             "   res.elapsed_time, "
             "   res.flops_estimate, "
-            "   res.app_version_id "
+            "   res.app_version_id, "
+            "   res.runtime_outlier "
             "FROM "
             "   workunit AS wu, result AS res where wu.id = res.workunitid "
             "   and wu.appid = %d and wu.need_validate > 0 %s "
@@ -1619,7 +1624,7 @@ int DB_VALIDATOR_ITEM_SET::update_result(RESULT& res) {
 
     sprintf(query,
         "update result set validate_state=%d, granted_credit=%.15e, "
-        "server_state=%d, outcome=%d, opaque=%lf, random=%d "
+        "server_state=%d, outcome=%d, opaque=%lf, random=%d, runtime_outlier=%d "
         "where id=%d",
         res.validate_state,
         res.granted_credit,
@@ -1627,6 +1632,7 @@ int DB_VALIDATOR_ITEM_SET::update_result(RESULT& res) {
         res.outcome,
         res.opaque,
         res.random,
+        res.runtime_outlier?1:0,
         res.id
     );
     int retval = db->do_query(query);

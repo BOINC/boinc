@@ -415,10 +415,12 @@ int get_pfc(
                 r.id
             );
         }
-        hav.et.update_var(
-            r.cpu_time/wu.rsc_fpops_est,
-            HAV_AVG_THRESH, HAV_AVG_WEIGHT, HAV_AVG_LIMIT
-        );
+        if (!r.runtime_outlier) {
+            hav.et.update_var(
+                r.cpu_time/wu.rsc_fpops_est,
+                HAV_AVG_THRESH, HAV_AVG_WEIGHT, HAV_AVG_LIMIT
+            );
+        }
         pfc = wu_estimated_pfc(wu, app);
         if (config.debug_credit) {
             log_messages.printf(MSG_NORMAL,
@@ -651,7 +653,7 @@ int get_pfc(
             );
         }
         double x = raw_pfc / wu.rsc_fpops_est;
-        if (is_pfc_sane(x, wu, app)) {
+        if (!r.runtime_outlier && is_pfc_sane(x, wu, app)) {
             avp->pfc_samples.push_back(x);
         }
     }
@@ -666,17 +668,19 @@ int get_pfc(
     }
 
     double x = raw_pfc / wu.rsc_fpops_est;
-    if (is_pfc_sane(x, wu, app)) {
+    if (!r.runtime_outlier && is_pfc_sane(x, wu, app)) {
         hav.pfc.update(x, HAV_AVG_THRESH, HAV_AVG_WEIGHT, HAV_AVG_LIMIT);
     }
-    hav.et.update_var(
-        r.elapsed_time / wu.rsc_fpops_est,
-        HAV_AVG_THRESH, HAV_AVG_WEIGHT, HAV_AVG_LIMIT
-    );
-    hav.turnaround.update_var(
-        (r.received_time - r.sent_time),
-        HAV_AVG_THRESH, HAV_AVG_WEIGHT, HAV_AVG_LIMIT
-    );
+    if (!r.runtime_outlier) {
+        hav.et.update_var(
+            r.elapsed_time / wu.rsc_fpops_est,
+            HAV_AVG_THRESH, HAV_AVG_WEIGHT, HAV_AVG_LIMIT
+        );
+        hav.turnaround.update_var(
+            (r.received_time - r.sent_time),
+            HAV_AVG_THRESH, HAV_AVG_WEIGHT, HAV_AVG_LIMIT
+        );
+    }
 
     // keep track of credit per app version
     //
@@ -718,7 +722,8 @@ double vec_min(vector<double>& v) {
 }
 
 // Called by validator when canonical result has been selected.
-// Compute credit for valid instances
+// Compute credit for valid instances.
+// This is called exactly once for each valid result.
 //
 int assign_credit_set(
     WORKUNIT& wu, vector<RESULT>& results,
