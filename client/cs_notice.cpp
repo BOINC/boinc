@@ -507,7 +507,7 @@ void NOTICES::remove_network_msg() {
 // write notices newer than seqno as XML (for GUI RPC).
 // Write them in order of increasing seqno
 //
-void NOTICES::write(int seqno, GUI_RPC_CONN& grpc, MIOFILE& fout, bool public_only) {
+void NOTICES::write(int seqno, GUI_RPC_CONN& grc, bool public_only) {
     size_t i;
     MIOFILE mf;
 
@@ -516,16 +516,16 @@ void NOTICES::write(int seqno, GUI_RPC_CONN& grpc, MIOFILE& fout, bool public_on
     }
     if (log_flags.notice_debug) {
         msg_printf(0, MSG_INFO, "NOTICES::write: seqno %d, refresh %s, %d notices",
-            seqno, grpc.get_notice_refresh()?"true":"false", (int)notices.size()
+            seqno, grc.get_notice_refresh()?"true":"false", (int)notices.size()
         );
     }
-    fout.printf("<notices>\n");
-    if (grpc.get_notice_refresh()) {
+    grc.mfout.printf("<notices>\n");
+    if (grc.get_notice_refresh()) {
         NOTICE n;
         n.seqno = -1;
         seqno = -1;
         i = notices.size();
-        n.write(fout, true);
+        n.write(grc.mfout, true);
         if (log_flags.notice_debug) {
             msg_printf(0, MSG_INFO, "NOTICES::write: sending -1 seqno notice");
         }
@@ -541,9 +541,9 @@ void NOTICES::write(int seqno, GUI_RPC_CONN& grpc, MIOFILE& fout, bool public_on
         if (log_flags.notice_debug) {
             msg_printf(0, MSG_INFO, "NOTICES::write: sending notice %d", n.seqno);
         }
-        n.write(fout, true);
+        n.write(grc.mfout, true);
     }
-    fout.printf("</notices>\n");
+    grc.mfout.printf("</notices>\n");
 }
 
 ///////////// RSS_FEED ////////////////

@@ -38,6 +38,9 @@ public:
     bool is_tag;
     MIOFILE* f;
     XML_PARSER(MIOFILE*);
+    void init(MIOFILE* mf) {
+        f = mf;
+    }
     bool get(char*, int, bool&, char* ab=0, int al=0);
     inline bool get_tag(char* ab=0, int al=0) {
         return get(parsed_tag, sizeof(parsed_tag), is_tag, ab, al);

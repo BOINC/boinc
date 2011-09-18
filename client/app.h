@@ -156,14 +156,6 @@ struct ACTIVE_TASK {
         return _task_state;
     }
 
-    // info related to app's graphics mode (win, screensaver, etc.)
-    //
-    int graphics_mode_acked;
-        // mode acked by app
-    int graphics_mode_before_ss;
-        // mode before last screensaver request
-    double graphics_mode_ack_timeout;
-
 #ifdef SIM
     double flops_left;
 #endif
@@ -173,11 +165,8 @@ struct ACTIVE_TASK {
     int powerpc_emulated_on_i386;
     int is_native_i386_app(char*);
 #endif
-    GRAPHICS_MSG graphics_msg;
-    void request_graphics_mode(GRAPHICS_MSG&);
     int request_reread_prefs();
     int request_reread_app_info();
-    void check_graphics_mode_ack();
     int link_user_files();
     int get_shmem_seg_name();
     bool runnable() {
@@ -258,7 +247,6 @@ struct ACTIVE_TASK {
     bool read_stderr_file();
     bool finish_file_present();
     bool temporary_exit_file_present(double&);
-    bool supports_graphics();
     void init_app_init_data(APP_INIT_DATA&);
     int write_app_init_file(APP_INIT_DATA&);
     int move_trickle_file();
@@ -310,8 +298,6 @@ public:
     bool slot_taken(int);
     void get_memory_usage();
 
-    // graphics-related functions
-    void graphics_poll();
     void process_control_poll();
     void request_reread_prefs(PROJECT*);
     void request_reread_app_info();

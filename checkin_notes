@@ -6193,3 +6193,20 @@ Charlie 16 Sep 2011
 
     samples/wrapper/
         wrapper.cpp
+
+David  18 Sept 2011
+    - client: make the attributes of GUI RPCs (network, authentication)
+        explicit rather than determined by position in a list.
+    - client: add a new "read-only" attribute for GUI RPCs.
+        This is in preparation for handling GUI RPCs in separate threads.
+    - client: remove code to support pre-V6 graphics.
+
+    lib/
+        parse.h
+    client/
+        cs_notice.cpp,h
+        gui_rpc_server.cpp,h
+        gui_rpc_server_ops.cpp
+        app.cpp
+        app_control.cpp
+        Makefile.am

@@ -42,6 +42,10 @@
 class GUI_RPC_CONN {
 public:
     int sock;
+    MIOFILE mfout;
+    MFILE mout;
+    MIOFILE mfin;
+    XML_PARSER xp;
     char request_msg[GUI_RPC_REQ_MSG_SIZE+1];
     int request_nbytes;
     char nonce[256];
@@ -82,12 +86,6 @@ public:
     int handle_rpc();
     void handle_auth1(MIOFILE&);
     int handle_auth2(char*, MIOFILE&);
-    void handle_get_project_config(char* buf, MIOFILE& fout);
-    void handle_get_project_config_poll(char*, MIOFILE& fout);
-    void handle_lookup_account(char* buf, MIOFILE& fout);
-    void handle_lookup_account_poll(char*, MIOFILE& fout);
-    void handle_create_account(char* buf, MIOFILE& fout);
-    void handle_create_account_poll(char*, MIOFILE& fout);
 };
 
 // authentication for GUI RPCs:

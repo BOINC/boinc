@@ -35,7 +35,6 @@ boinc_client_SOURCES = \
     acct_setup.cpp \
     app.cpp \
     app_control.cpp \
-    app_graphics.cpp \
     app_start.cpp \
     check_state.cpp \
     client_msgs.cpp \

@@ -64,7 +64,7 @@
 struct NOTICES {
     std::deque<NOTICE> notices;
         // stored newest (i.e. highest seqno) message first
-    void write(int seqno, GUI_RPC_CONN&, MIOFILE&, bool public_only);
+    void write(int seqno, GUI_RPC_CONN&, bool public_only);
     bool append(NOTICE&);
     void init();
     void init_rss();

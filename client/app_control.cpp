@@ -89,7 +89,6 @@ bool ACTIVE_TASK_SET::poll() {
     action = check_app_exited();
     send_heartbeats();
     send_trickle_downs();
-    graphics_poll();
     process_control_poll();
     action |= check_rsc_limits_exceeded();
     get_msgs();

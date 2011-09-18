@@ -104,8 +104,6 @@ ACTIVE_TASK::ACTIVE_TASK() {
     bytes_sent = 0;
     bytes_received = 0;
     strcpy(slot_dir, "");
-    graphics_mode_acked = MODE_UNSUPPORTED;
-    graphics_mode_ack_timeout = 0;
     have_trickle_down = false;
     send_upload_file_status = false;
     too_large = false;
@@ -586,13 +584,6 @@ int ACTIVE_TASK::write_gui(MIOFILE& fout) {
             "   <slot_path>%s</slot_path>\n",
             app_version->graphics_exec_path,
             slot_path
-        );
-    }
-    if (supports_graphics() && !gstate.disable_graphics) {
-        fout.printf(
-            "   <supports_graphics/>\n"
-            "   <graphics_mode_acked>%d</graphics_mode_acked>\n",
-            graphics_mode_acked
         );
     }
     fout.printf("</active_task>\n");
