@@ -484,10 +484,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\client\app_graphics.cpp"
-				>
-			</File>
-			<File
 				RelativePath="..\client\app_start.cpp"
 				>
 			</File>

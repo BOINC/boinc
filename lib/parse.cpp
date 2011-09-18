@@ -401,7 +401,7 @@ void xml_escape(const char* in, char* out, int len) {
 // Note: XML unescaping never increases string length
 //
 void xml_unescape(string& in) {
-    int n = in.size()+1;
+    int n = (int)in.size()+1;
     char* buf = (char*)malloc(n);
     strcpy(buf, in.c_str());
     xml_unescape(buf);

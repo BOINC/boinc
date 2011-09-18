@@ -6210,3 +6210,12 @@ David  18 Sept 2011
         app.cpp
         app_control.cpp
         Makefile.am
+
+David  18 Sept 2011
+	- Win fixes
+
+	lib/
+		mfile.cpp
+		parse.cpp
+	win_build/
+		boinc_cli.vcproj
