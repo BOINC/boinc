@@ -6219,3 +6219,9 @@ David  18 Sept 2011
 		parse.cpp
 	win_build/
 		boinc_cli.vcproj
+
+David  18 Sept 2011
+    - lib: add generic interfaces for threads and thread synchronization
+
+    lib/
+        thread.cpp,h
