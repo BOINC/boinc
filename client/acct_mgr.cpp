@@ -40,10 +40,6 @@
 
 static const char *run_mode_name[] = {"", "always", "auto", "never"};
 
-ACCT_MGR_OP::ACCT_MGR_OP() {
-    global_prefs_xml = 0;
-}
-
 // do an account manager RPC;
 // if URL is null, detach from current account manager
 //
@@ -199,7 +195,7 @@ int ACCT_MGR_OP::do_rpc(
     fprintf(f, "</acct_mgr_request>\n");
     fclose(f);
     sprintf(buf, "%srpc.php", url);
-    retval = gstate.gui_http.do_rpc_post(
+    retval = gui_http->do_rpc_post(
         this, buf, ACCT_MGR_REQUEST_FILENAME, ACCT_MGR_REPLY_FILENAME, true
     );
     if (retval) {
@@ -812,7 +808,7 @@ int ACCT_MGR_INFO::init() {
 
 bool ACCT_MGR_INFO::poll() {
     if (!using_am()) return false;
-    if (gstate.gui_http.is_busy()) return false;
+    if (gstate.acct_mgr_op.gui_http->is_busy()) return false;
 
     if (gstate.now > next_rpc_time) {
 

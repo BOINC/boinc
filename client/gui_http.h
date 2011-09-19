@@ -20,9 +20,31 @@
 
 // A high-level interface for client-initiated HTTP requests.
 
-// GUI_HTTP represents a "channel" for doing HTTP ops.
-// There's one of these for each GUI RPC connection,
-// and one for the client itself (so the name is a misnomer).
+// GUI_HTTP represents a "channel" for doing a sequence of HTTP ops,
+// possibly to different servers.
+// There's no queuing:
+// if you call do_rpc() while an op is in progress, you get an error.
+// You must call poll() periodically to make things work.
+//
+// GUI_HTTP_OP is base class for various types of ops.
+// Each instance is tied to a particular GUI_HTTP.
+// When the op is completed or failed, its handle_reply() is called
+//
+// The set of GUI_HTTPs:
+// - one for each GUI RPC connection
+//   GUI_HTTP_OPs that use this channel:
+//      GUI_RPC_CONN::get_project_config_op
+//      GUI_RPC_CONN::lookup_account_op
+//      GUI_RPC_CONN::create_account_op
+//      
+// - one for the client itself
+//   GUI_HTTP_OPs that use this channel:
+//      CLIENT_STATE::lookup_website_op
+//      CLIENT_STATE::get_current_version
+//      CLIENT_STATE::get_project_list
+//      CLIENT_STATE::acct_mgr_op
+//   These are all "best effort": if an op is requested while
+//   another is in progress, it's OK; it will be retried later.
 
 #include "http_curl.h"
 

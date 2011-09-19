@@ -899,7 +899,7 @@ static void handle_acct_mgr_rpc(GUI_RPC_CONN& grc) {
     if (bad_arg) {
         grc.mfout.printf("<error>bad arg</error>\n");
     } else {
-        gstate.acct_mgr_op.do_rpc(url, name, password_hash, true);
+        gstate.acct_mgr_info.next_rpc_time = gstate.now;
         grc.mfout.printf("<success/>\n");
     }
 }
@@ -1214,6 +1214,8 @@ GUI_RPC gui_rpcs[] = {
     GUI_RPC("retry_file_transfer", handle_retry_file_transfer,      true,   true,   false),
 };
 
+// return nonzero only if we need to close the connection
+//
 static int handle_rpc_aux(GUI_RPC_CONN& grc) {
     int retval = 0;
     grc.mfin.init_buf_read(grc.request_msg);
@@ -1242,6 +1244,8 @@ static int handle_rpc_aux(GUI_RPC_CONN& grc) {
     return 0;
 }
 
+// return nonzero only if we need to close the connection
+//
 int GUI_RPC_CONN::handle_rpc() {
     int n, retval=0;
     char* p;
@@ -1366,4 +1370,3 @@ int GUI_RPC_CONN::handle_rpc() {
     }
     return retval;
 }
-

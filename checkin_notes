@@ -6241,3 +6241,23 @@ Rom    19 Sept 2011
     /
         configure.ac
         version.h
+
+David  19 Sept 2011
+    - client: in handling the acct_mgr GUI RPC,
+        don't start the RPC directly;
+        that might fail if CLIENT_STATE::gui_http is busy.
+        Instead, set a timer field.
+    - client: structure ACCT_MGR_OP the same as other GUI_HTTP_OP variants
+    - client: clarify the comments on GUI_HTTP and GUI_HTTP_OP
+    
+    Note: GUI_HTTP and GUI_HTTP_OP are misnomers; they refer to
+    any HTTP op other than scheduler requests and file transfers.
+    Should change the name, maybe to CLIENT_HTTP*
+
+    client/
+        client_state.cpp
+        gui_rpc_server.cpp
+        gui_rpc_server_ops.cpp
+        gui_http.cpp,h
+        acct_mgr.cpp,h
+        cs_trickle.h

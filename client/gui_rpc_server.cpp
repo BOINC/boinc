@@ -54,12 +54,13 @@
 #endif
 #endif
 
-#include "str_util.h"
-#include "util.h"
 #include "error_numbers.h"
-#include "network.h"
 #include "filesys.h"
 #include "md5_file.h"
+#include "network.h"
+#include "str_util.h"
+#include "thread.h"
+#include "util.h"
 
 #include "file_names.h"
 #include "client_msgs.h"
@@ -508,3 +509,11 @@ bool GUI_RPC_CONN_SET::quits_sent() {
     return true;
 }
 
+void* gui_rpc_handler(void* p) {
+    THREAD& thread = *((THREAD*)p);
+    GUI_RPC_CONN& grc = *((GUI_RPC_CONN*)thread.arg);
+    while (1) {
+        int retval = grc.handle_rpc();
+    }
+    return NULL;
+}

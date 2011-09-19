@@ -67,7 +67,8 @@ COPROCS coprocs;
 CLIENT_STATE::CLIENT_STATE()
     : lookup_website_op(&gui_http),
     get_current_version_op(&gui_http),
-    get_project_list_op(&gui_http)
+    get_project_list_op(&gui_http),
+    acct_mgr_op(&gui_http)
 {
     http_ops = new HTTP_OP_SET();
     file_xfers = new FILE_XFER_SET(http_ops);
@@ -242,7 +243,7 @@ static void check_too_large_jobs() {
     }
 }
 
-// Sometime has failed N times.
+// Something has failed N times.
 // Calculate an exponential backoff between MIN and MAX
 //
 double calculate_exponential_backoff(int n, double MIN, double MAX) {
@@ -1720,6 +1721,8 @@ int CLIENT_STATE::reset_project(PROJECT* project, bool detaching) {
     msg_printf(project, MSG_INFO, "Resetting project");
     active_tasks.abort_project(project);
 
+    // stop and remove file transfers
+    //
     for (i=0; i<pers_file_xfers->pers_file_xfers.size(); i++) {
         pxp = pers_file_xfers->pers_file_xfers[i];
         if (pxp->fip->project == project) {
@@ -1736,6 +1739,10 @@ int CLIENT_STATE::reset_project(PROJECT* project, bool detaching) {
     // if we're in the middle of a scheduler op to the project, abort it
     //
     scheduler_op->abort(project);
+
+    // abort other HTTP operations
+    //
+    //http_ops.abort_project_ops(project);
 
     // mark results as server-acked.
     // This will cause garbage_collect to delete them,

@@ -131,7 +131,11 @@ struct ACCT_MGR_OP: public GUI_HTTP_OP {
     int parse(FILE*);
     virtual void handle_reply(int http_op_retval);
 
-    ACCT_MGR_OP();
+    ACCT_MGR_OP(GUI_HTTP* p) {
+        gui_http = p;
+        global_prefs_xml = 0;
+        error_num = BOINC_SUCCESS;
+    }
     virtual ~ACCT_MGR_OP(){}
 };
 

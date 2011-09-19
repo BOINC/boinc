@@ -87,4 +87,3 @@ bool GUI_HTTP::poll() {
     }
     return true;
 }
-
