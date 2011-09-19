@@ -6233,3 +6233,11 @@ David  18 Sept 2011
         thread.cpp,h
 	win_build/
 		libboinc.vcproj
+
+Rom    19 Sept 2011
+    - Tag for 6.13.4 release, all platforms
+      boinc_core_release_6_13_4
+
+    /
+        configure.ac
+        version.h
