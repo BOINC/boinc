@@ -21,15 +21,17 @@
 
 #include "thread.h"
 
-int THREAD::run(void*(*func)(void*), void* _arg) {
 #ifdef _WIN32
-    CreateThread(NULL, 0, func, 0, 0, NULL);
+int THREAD::run(LPTHREAD_START_ROUTINE func, void* _arg) {
+    CreateThread(NULL, 0, func, this, 0, NULL);
 #else
+int THREAD::run(void*(*func)(void*), void* _arg) {
     pthread_t id;
     pthread_attr_t thread_attrs;
     pthread_attr_init(&thread_attrs);
-    pthread_create(&id, &thread_attrs, func, NULL);
+    pthread_create(&id, &thread_attrs, func, this);
 #endif
+    arg = _arg;
     return 0;
 }
 

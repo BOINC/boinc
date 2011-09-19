@@ -6225,3 +6225,11 @@ David  18 Sept 2011
 
     lib/
         thread.cpp,h
+
+David  18 Sept 2011
+	- win fixes
+
+    lib/
+        thread.cpp,h
+	win_build/
+		libboinc.vcproj

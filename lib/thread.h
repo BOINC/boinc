@@ -23,7 +23,11 @@
 struct THREAD {
     void* arg;
     bool quit_flag;
+#ifdef _WIN32
+    int run(LPTHREAD_START_ROUTINE, void*);
+#else
     int run(void*(*func)(void*), void*);
+#endif
     void quit();
 };
 
