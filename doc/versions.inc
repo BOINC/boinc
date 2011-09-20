@@ -124,7 +124,7 @@ $w610x64 = array(
 $m613 = array(
 	"num"=>"6.13.4",
 	"status"=>"Development version (standard GUI)",
-	"file"=>"boinc_6.13.4_macOSX_universal.zip",
+	"file"=>"boinc_6.13.4_macOSX_i686.zip",
 	"date"=>"20 Sept 2011",
 	"type"=>"mac_advanced",
 );
@@ -156,7 +156,7 @@ $m66 = array(
 $m613c = array(
 	"num"=>"6.13.4",
 	"status"=>"Development version (Unix command-line version)",
-	"file"=>"boinc_6.13.4_universal-apple-darwin.zip",
+	"file"=>"boinc_6.13.4_i686-apple-darwin.zip",
 	"date"=>"20 Sept 2011",
 	"type"=>"bare_core",
 );
