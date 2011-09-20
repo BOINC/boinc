@@ -174,6 +174,7 @@
 		DD52C81408B5D484008D9AA4 /* network.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD6D0A8507E9A61B007F882B /* network.cpp */; };
 		DD531BC60C193D3800742E50 /* MacInstaller.icns in Resources */ = {isa = PBXBuildFile; fileRef = DD531BC50C193D3800742E50 /* MacInstaller.icns */; };
 		DD531BC80C193D5200742E50 /* MacUninstaller.icns in Resources */ = {isa = PBXBuildFile; fileRef = DD531BC70C193D5200742E50 /* MacUninstaller.icns */; };
+		DD5A3F17142877A5008148CA /* thread.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD5A3F15142877A5008148CA /* thread.cpp */; };
 		DD5BF77D0D4F3D0C00EDF980 /* mac_icon.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD6381450870DB78007A2F8E /* mac_icon.cpp */; };
 		DD5D7EBB0FE320F600ACF87B /* Uninstaller.r in Rez */ = {isa = PBXBuildFile; fileRef = DD5D7EBA0FE320F600ACF87B /* Uninstaller.r */; };
 		DD616A3008150050006981C1 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = F51BDF4903086C46012012A7 /* InfoPlist.strings */; };
@@ -330,7 +331,6 @@
 		DDD74D8907CF48E50065AC9D /* acct_mgr.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD344B3D07C5ABF40043025C /* acct_mgr.cpp */; };
 		DDD74D8A07CF48E70065AC9D /* app.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F54B8FC102AC0A0C01FB7237 /* app.cpp */; };
 		DDD74D8B07CF48E80065AC9D /* app_control.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD344B4807C5AC4C0043025C /* app_control.cpp */; };
-		DDD74D8C07CF48E90065AC9D /* app_graphics.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD344B4907C5AC4C0043025C /* app_graphics.cpp */; };
 		DDD74D8D07CF48EA0065AC9D /* app_start.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD344B5A07C5AC9F0043025C /* app_start.cpp */; };
 		DDD74D8F07CF48EC0065AC9D /* client_msgs.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD344B6C07C5AD270043025C /* client_msgs.cpp */; };
 		DDD74D9007CF48ED0065AC9D /* check_state.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F54B8FC302AC0A0C01FB7237 /* check_state.cpp */; };
@@ -676,7 +676,6 @@
 		DD344B3D07C5ABF40043025C /* acct_mgr.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = acct_mgr.cpp; sourceTree = "<group>"; };
 		DD344B3E07C5ABF40043025C /* acct_mgr.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = acct_mgr.h; path = ../client/acct_mgr.h; sourceTree = SOURCE_ROOT; };
 		DD344B4807C5AC4C0043025C /* app_control.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = app_control.cpp; sourceTree = "<group>"; };
-		DD344B4907C5AC4C0043025C /* app_graphics.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = app_graphics.cpp; sourceTree = "<group>"; };
 		DD344B5A07C5AC9F0043025C /* app_start.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = app_start.cpp; sourceTree = "<group>"; };
 		DD344B6307C5ACEB0043025C /* base64.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = base64.cpp; sourceTree = "<group>"; };
 		DD344B6407C5ACEB0043025C /* base64.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = base64.h; path = ../lib/base64.h; sourceTree = SOURCE_ROOT; };
@@ -785,6 +784,8 @@
 		DD58C46408F334EA00C1DF66 /* WelcomePage.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = WelcomePage.h; path = ../clientgui/WelcomePage.h; sourceTree = SOURCE_ROOT; };
 		DD58C46908F334EA00C1DF66 /* wizardex.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = wizardex.cpp; path = ../clientgui/wizardex.cpp; sourceTree = SOURCE_ROOT; };
 		DD58C46A08F334EA00C1DF66 /* wizardex.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = wizardex.h; path = ../clientgui/wizardex.h; sourceTree = SOURCE_ROOT; };
+		DD5A3F15142877A5008148CA /* thread.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = thread.cpp; sourceTree = "<group>"; };
+		DD5A3F16142877A5008148CA /* thread.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = thread.h; sourceTree = "<group>"; };
 		DD5D7EBA0FE320F600ACF87B /* Uninstaller.r */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.rez; name = Uninstaller.r; path = ../mac_installer/Uninstaller.r; sourceTree = SOURCE_ROOT; };
 		DD5EF07007C5B329007CCE8D /* whetstone.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = whetstone.cpp; sourceTree = "<group>"; };
 		DD5EF08807C5B7C7007CCE8D /* version.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = version.h; path = ../version.h; sourceTree = SOURCE_ROOT; };
@@ -1588,6 +1589,8 @@
 				DD7BF7D80B8E7A9800A009F7 /* str_util.h */,
 				DD407AED07D2FE7200163EF5 /* synch.cpp */,
 				DD407AEA07D2FE6500163EF5 /* synch.h */,
+				DD5A3F15142877A5008148CA /* thread.cpp */,
+				DD5A3F16142877A5008148CA /* thread.h */,
 				DDC06AB210A3E93F00C8D9A5 /* url.cpp */,
 				DDC06AB310A3E93F00C8D9A5 /* url.h */,
 				F5EAD479031AF001018E201A /* util.cpp */,
@@ -1607,7 +1610,6 @@
 				F54B8FC102AC0A0C01FB7237 /* app.cpp */,
 				F54B8FC202AC0A0C01FB7237 /* app.h */,
 				DD344B4807C5AC4C0043025C /* app_control.cpp */,
-				DD344B4907C5AC4C0043025C /* app_graphics.cpp */,
 				DD344B5A07C5AC9F0043025C /* app_start.cpp */,
 				DD6617870A3FFD8C00FFEBEB /* check_security.cpp */,
 				F54B8FC302AC0A0C01FB7237 /* check_state.cpp */,
@@ -2653,6 +2655,7 @@
 				DDA6BD1E0BD4551F008F7921 /* QSymbols.c in Sources */,
 				DDA6BD1F0BD4551F008F7921 /* QTaskMemory.c in Sources */,
 				DDB4A91F1411840800032E5D /* proc_control.cpp in Sources */,
+				DD5A3F17142877A5008148CA /* thread.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2851,7 +2854,6 @@
 				DD33C6F808B5BB4500768630 /* acct_setup.cpp in Sources */,
 				DDD74D8A07CF48E70065AC9D /* app.cpp in Sources */,
 				DDD74D8B07CF48E80065AC9D /* app_control.cpp in Sources */,
-				DDD74D8C07CF48E90065AC9D /* app_graphics.cpp in Sources */,
 				DDD74DC307CF492A0065AC9D /* app_ipc.cpp in Sources */,
 				DDD74D8D07CF48EA0065AC9D /* app_start.cpp in Sources */,
 				DDD74D8F07CF48EC0065AC9D /* client_msgs.cpp in Sources */,

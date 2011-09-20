@@ -6261,3 +6261,12 @@ David  19 Sept 2011
         gui_http.cpp,h
         acct_mgr.cpp,h
         cs_trickle.h
+
+Charlie 20 Sep 2011
+    - Mac: Remove app_graphics.cpp from Client in XCode project, add new 
+        files thread.cpp,.h to libboinc.a in XCode project.  
+        (Checked in to 6.13.4 tag.)
+
+     mac_build/
+        boinc.xcodeproj/
+            project.pbxproj
