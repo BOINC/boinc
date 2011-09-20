@@ -144,3 +144,124 @@ int CLIENT_STATE::handle_trickle_down(PROJECT* project, FILE* in) {
     return ERR_XML_PARSE;
 }
 
+/////////////// STUFF RELATED TO REPLICATED TRICKLES FOLLOWS //////////////
+
+bool trickle_up_poll() {
+    unsigned int i, j;
+    bool action = false;
+    for (i=0; i<gstate.projects.size(); i++) {
+        PROJECT* p = gstate.projects[i];
+        for (j=0; j<p->trickle_up_ops.size(); j++) {
+            TRICKLE_UP_OP *t = p->trickle_up_ops[j];
+            action |= t->gui_http->poll();
+        }
+    }
+    return action;
+}
+
+void send_replicated_trickles(PROJECT* p, string& msg) {
+    for (unsigned int i=0; i<p->trickle_up_ops.size(); i++) {
+        TRICKLE_UP_OP *t = p->trickle_up_ops[i];
+        if (t->gui_http->is_busy()) return;
+        t->do_rpc(msg);
+    }
+}
+
+// A scheduler reply gave us a list of trickle handler URLs.
+// If this is different than the list we currently have, replace it.
+//
+void update_trickle_up_urls(PROJECT* p, vector<string> &urls) {
+    unsigned int i, j;
+    bool lists_equal = true;
+    for (i=0; i<urls.size(); i++) {
+        string& url = urls[i];
+        bool found = false;
+        for (j=0; j<p->trickle_up_ops.size(); j++) {
+            TRICKLE_UP_OP *t = p->trickle_up_ops[j];
+            if (t->url == url) {
+                found = true;
+                break;
+            }
+        }
+        if (!found) {
+            lists_equal = false;
+            break;
+        }
+    }
+    if (lists_equal) {
+        for (j=0; j<p->trickle_up_ops.size(); j++) {
+            TRICKLE_UP_OP *t = p->trickle_up_ops[j];
+            bool found = false;
+            for (i=0; i<urls.size(); i++) {
+                string& url = urls[i];
+                if (t->url == url) {
+                    found = true;
+                    break;
+                }
+            }
+            if (!found) {
+                lists_equal = false;
+                break;
+            }
+        }
+    }
+    if (lists_equal) return;
+    for (j=0; j<p->trickle_up_ops.size(); j++) {
+        TRICKLE_UP_OP *t = p->trickle_up_ops[j];
+        delete t;
+    }
+    p->trickle_up_ops.clear();
+    for (i=0; i<urls.size(); i++) {
+        string& url = urls[i];
+        p->trickle_up_ops.push_back(new TRICKLE_UP_OP(url));
+    }
+}
+
+int TRICKLE_UP_OP::do_rpc(string msg) {
+    req_buf = strdup(msg.c_str());
+    int retval = gui_http->do_rpc_post_str(
+        this, const_cast<char*>(url.c_str()), req_buf
+    );
+    if (retval) {
+        free(req_buf);
+        req_buf = 0;
+    }
+    return retval;
+}
+
+int parse_trickle_up_urls(XML_PARSER& xp, std::vector<std::string>& urls) {
+    string s;
+    while (!xp.get_tag()) {
+        if (xp.match_tag("/trickle_up_urls")) {
+            return 0;
+        }
+        if (xp.parse_string("url", s)) {
+            urls.push_back(s);
+        }
+    }
+    return ERR_XML_PARSE;
+}
+
+void trickle_up_request_message(MIOFILE& fout, PROJECT* p) {
+    fout.printf(
+        "<scheduler_request>\n"
+        "    <authenticator>%s</authenticator>\n"
+        "    <hostid>%d</hostid>\n"
+        "    <rpc_seqno>%d</rpc_seqno>\n"
+        "    <core_client_major_version>%d</core_client_major_version>\n"
+        "    <core_client_minor_version>%d</core_client_minor_version>\n"
+        "    <core_client_release>%d</core_client_release>\n"
+        "    <msg_from_host>\n"
+        "        <result_name>%s</result_name>\n"
+        "        <time>%d</time>\n"
+        "%s\n"
+        "    </msg_from_host>\n"
+        "</scheduler_request>\n",
+        p->authenticator,
+        p->hostid,
+        p->rpc_seqno,
+        gstate.core_client_version.major,
+        gstate.core_client_version.minor,
+        gstate.core_client_version.release
+    );
+}

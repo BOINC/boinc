@@ -589,6 +589,7 @@ int SCHEDULER_REPLY::parse(FILE* in, PROJECT* project) {
         // or doesn't check the DB because no work.
         // Don't overwrite the host venue in that case.
     sr_feeds.clear();
+    trickle_up_urls.clear();
 
     // First line should either be tag (HTTP 1.0) or
     // hex length of response (HTTP 1.1)
@@ -886,7 +887,10 @@ int SCHEDULER_REPLY::parse(FILE* in, PROJECT* project) {
 #endif
         } else if (xp.match_tag("rss_feeds")) {
             got_rss_feeds = true;
-            parse_rss_feed_descs(mf, sr_feeds);
+            parse_rss_feed_descs(xp, sr_feeds);
+            continue;
+        } else if (xp.match_tag("trickle_up_urls")) {
+            parse_trickle_up_urls(xp, trickle_up_urls);
             continue;
         } else if (xp.parse_int("userid", project->userid)) {
             continue;

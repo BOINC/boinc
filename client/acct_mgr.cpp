@@ -383,7 +383,7 @@ int ACCT_MGR_OP::parse(FILE* f) {
         }
         if (xp.match_tag("rss_feeds")) {
             got_rss_feeds = true;
-            parse_rss_feed_descs(mf, rss_feeds);
+            parse_rss_feed_descs(xp, rss_feeds);
             continue;
         }
         if (log_flags.unparsed_xml) {

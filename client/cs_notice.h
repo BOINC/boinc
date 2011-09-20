@@ -126,7 +126,7 @@ struct RSS_FEEDS {
 
 extern RSS_FEEDS rss_feeds;
 
-int parse_rss_feed_descs(MIOFILE& fin, std::vector<RSS_FEED>&);
+int parse_rss_feed_descs(XML_PARSER&, std::vector<RSS_FEED>&);
 void handle_sr_feeds(std::vector<RSS_FEED>&, struct PROJ_AM*);
     // process the feeds in a scheduler reply
 

@@ -17,15 +17,35 @@
 
 // support for replicated trickles
 
+#ifndef _TRICKLE_H_
+#define _TRICKLE_H_
+
+#include "gui_http.h"
+
 struct TRICKLE_UP_OP: public GUI_HTTP_OP {
     std::string reply;
+    std::string url;
     int error_num;
+    char* req_buf;
 
-    TRICKLE_UP_OP(GUI_HTTP* p) {
-        error_num = BOINC_SUCCESS;
-        gui_http = p;
+    TRICKLE_UP_OP(std::string& u) {
+        url = u;
+        error_num = 0;
+        gui_http = new GUI_HTTP;
+        req_buf = NULL;
     }
     virtual ~TRICKLE_UP_OP(){}
-    int do_rpc(std::string url);
-    virtual void handle_reply(int http_op_retval);
+    int do_rpc(std::string msg);
+    virtual void handle_reply(int){
+        if (req_buf) {
+            free(req_buf);
+            req_buf = 0;
+        }
+    };
 };
+
+extern bool trickle_up_poll();
+extern int parse_trickle_up_urls(XML_PARSER&, std::vector<std::string>&);
+extern void update_trickle_up_urls(PROJECT* p, std::vector<std::string> &urls);
+
+#endif

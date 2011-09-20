@@ -60,10 +60,8 @@ static void project_feed_list_file_name(PROJ_AM* p, char* buf) {
 
 // parse feed descs from scheduler reply or feed list file
 //
-int parse_rss_feed_descs(MIOFILE& fin, vector<RSS_FEED>& feeds) {
-    XML_PARSER xp(&fin);
+int parse_rss_feed_descs(XML_PARSER& xp, vector<RSS_FEED>& feeds) {
     int retval;
-
     while (!xp.get_tag()) {
         if (!xp.is_tag) continue;
         if (xp.match_tag("/rss_feeds")) return 0;
@@ -775,7 +773,8 @@ static void init_proj_am(PROJ_AM* p) {
     f = fopen(path, "r");
     if (f) {
         fin.init_file(f);
-        parse_rss_feed_descs(fin, p->proj_feeds);
+        XML_PARSER xp(&fin);
+        parse_rss_feed_descs(xp, p->proj_feeds);
         fclose(f);
     }
 }

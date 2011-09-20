@@ -513,7 +513,12 @@ void* gui_rpc_handler(void* p) {
     THREAD& thread = *((THREAD*)p);
     GUI_RPC_CONN& grc = *((GUI_RPC_CONN*)thread.arg);
     while (1) {
-        int retval = grc.handle_rpc();
+        if(grc.handle_rpc()){
+            break;
+        }
+        if (grc.quit_flag) {
+            break;
+        }
     }
     return NULL;
 }

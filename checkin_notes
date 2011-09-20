@@ -6212,13 +6212,13 @@ David  18 Sept 2011
         Makefile.am
 
 David  18 Sept 2011
-	- Win fixes
+    - Win fixes
 
-	lib/
-		mfile.cpp
-		parse.cpp
-	win_build/
-		boinc_cli.vcproj
+    lib/
+        mfile.cpp
+        parse.cpp
+    win_build/
+        boinc_cli.vcproj
 
 David  18 Sept 2011
     - lib: add generic interfaces for threads and thread synchronization
@@ -6227,12 +6227,12 @@ David  18 Sept 2011
         thread.cpp,h
 
 David  18 Sept 2011
-	- win fixes
+    - win fixes
 
     lib/
         thread.cpp,h
-	win_build/
-		libboinc.vcproj
+    win_build/
+        libboinc.vcproj
 
 Rom    19 Sept 2011
     - Tag for 6.13.4 release, all platforms
@@ -6270,3 +6270,22 @@ Charlie 20 Sep 2011
      mac_build/
         boinc.xcodeproj/
             project.pbxproj
+
+David  20 Sept 2011
+    - client: intermediate checkin for replicated trickle-ups.
+        Not finished yet.
+    - example app: add --trickle_up and --trickle_down options,
+        for testing trickle messages
+
+    client/
+        acct_mgr.cpp
+        client_types.h
+        cs_notice.cpp,h
+        cs_scheduler.cpp
+        cs_trickle.cpp,h
+        gui_http.cpp,h
+        gui_rpc_server.cpp,h
+        http_curl.cpp,h
+        scheduler_op.cpp,h
+    samples/example_app/
+        uc2.php

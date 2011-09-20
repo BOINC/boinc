@@ -323,7 +323,7 @@ int HTTP_OP::init_post(
 // Initialize an HTTP POST operation,
 // where the input is a memory string (r1) followed by an optional file (in)
 // with optional offset,
-// and the output goes to memory (also r1)
+// and the output goes to memory (also r1, limited by r1_len)
 // This is used for file upload (both get_file_size and file_upload)
 //
 int HTTP_OP::init_post2(

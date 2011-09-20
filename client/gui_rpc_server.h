@@ -60,6 +60,7 @@ public:
         // On next auth failure, disconnect
     bool is_local;
         // connection is from local host
+    bool quit_flag;
     int au_ss_state;
     int au_mgr_state;
     GUI_HTTP gui_http;

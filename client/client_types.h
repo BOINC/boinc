@@ -41,6 +41,7 @@
 #include "rr_sim.h"
 #include "work_fetch.h"
 #include "cs_notice.h"
+#include "cs_trickle.h"
 
 #ifdef SIM
 #include "sim.h"
@@ -422,11 +423,6 @@ struct PROJECT : PROJ_AM {
         // in last X minutes and is still active
     bool uploading();
 
-#if 0
-    RR_SIM_PROJECT_STATUS rr_sim_status;
-        // temps used in CLIENT_STATE::rr_simulation();
-#endif
-
     struct RESULT *next_runnable_result;
         // the next result to run for this project
     int nuploading_results;
@@ -465,6 +461,10 @@ struct PROJECT : PROJ_AM {
     inline FILE_XFER_BACKOFF& file_xfer_backoff(bool is_upload) {
         return is_upload?upload_backoff:download_backoff;
     }
+
+    // support for replicated trickle-ups
+    //
+    std::vector<TRICKLE_UP_OP*> trickle_up_ops;
 
     PROJECT();
     ~PROJECT(){}

@@ -129,6 +129,7 @@ struct SCHEDULER_REPLY {
     AUTO_UPDATE auto_update;
 #endif
     std::vector<RSS_FEED> sr_feeds;
+    std::vector<std::string> trickle_up_urls;
     bool got_rss_feeds;
         // whether scheduler reply included <rss_feeds>
 

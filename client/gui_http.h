@@ -27,7 +27,7 @@
 // You must call poll() periodically to make things work.
 //
 // GUI_HTTP_OP is base class for various types of ops.
-// Each instance is tied to a particular GUI_HTTP.
+// Each instance has a pointer to a particular GUI_HTTP.
 // When the op is completed or failed, its handle_reply() is called
 //
 // The set of GUI_HTTPs:
@@ -45,6 +45,10 @@
 //      CLIENT_STATE::acct_mgr_op
 //   These are all "best effort": if an op is requested while
 //   another is in progress, it's OK; it will be retried later.
+//
+// - for each project:
+//   a vector of TRICKLE_UP_OPs for that project's alternative trickle URLs.
+//   Each one has a pointer to a dynamically allocated GUI_HTTP.
 
 #include "http_curl.h"
 
@@ -58,14 +62,15 @@ struct GUI_HTTP {
 
     GUI_HTTP(): gui_http_state(GUI_HTTP_STATE_IDLE) {}
     int do_rpc(
-        struct GUI_HTTP_OP*, const char* url, const char* output_file,
+        GUI_HTTP_OP*, const char* url, const char* output_file,
         bool is_background
     );
     int do_rpc_post(
-        struct GUI_HTTP_OP*, char* url,
+        GUI_HTTP_OP*, char* url,
         const char* input_file, const char* output_file,
         bool is_background
     );
+    int do_rpc_post_str(GUI_HTTP_OP*, char* url, char* req);
     bool poll();
     inline bool is_busy() {
         return (gui_http_state == GUI_HTTP_STATE_BUSY);

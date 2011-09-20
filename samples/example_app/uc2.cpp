@@ -29,10 +29,12 @@
 // read "in", convert to upper case, write to "out"
 //
 // command line options
-// -run_slow: sleep 1 second after each character
-// -cpu_time N: use about N CPU seconds after copying files
-// -early_exit: exit(10) after 30 chars
-// -early_crash: crash after 30 chars
+// --run_slow: sleep 1 second after each character
+// --cpu_time N: use about N CPU seconds after copying files
+// --early_exit: exit(10) after 30 chars
+// --early_crash: crash after 30 chars
+// --trickle_up: sent a trickle-up message
+// --trickle_down: receive a trickle-up message
 //
 
 #ifdef _WIN32
@@ -70,6 +72,8 @@ bool run_slow = false;
 bool early_exit = false;
 bool early_crash = false;
 bool early_sleep = false;
+bool trickle_up = false;
+bool trickle_down = false;
 double cpu_time = 20, comp_result;
 
 // do a billion floating-point ops
@@ -139,13 +143,15 @@ int main(int argc, char **argv) {
     FILE* state, *infile;
 
     for (i=0; i<argc; i++) {
-        if (!strcmp(argv[i], "-early_exit")) early_exit = true;
-        if (!strcmp(argv[i], "-early_crash")) early_crash = true;
-        if (!strcmp(argv[i], "-early_sleep")) early_sleep = true;
-        if (!strcmp(argv[i], "-run_slow")) run_slow = true;
-        if (!strcmp(argv[i], "-cpu_time")) {
+        if (strstr(argv[i], "early_exit")) early_exit = true;
+        if (strstr(argv[i], "early_crash")) early_crash = true;
+        if (strstr(argv[i], "early_sleep")) early_sleep = true;
+        if (strstr(argv[i], "run_slow")) run_slow = true;
+        if (strstr(argv[i], "cpu_time")) {
             cpu_time = atof(argv[++i]);
         }
+        if (strstr(argv[i], "trickle_up")) trickle_up = true;
+        if (strstr(argv[i], "trickle_down")) trickle_down = true;
     }
 
     retval = boinc_init();
@@ -261,6 +267,18 @@ int main(int argc, char **argv) {
             boinc_msg_prefix(buf, sizeof(buf)), retval
         );
         exit(1);
+    }
+
+    if (trickle_up) {
+        boinc_send_trickle_up("example_app", "sample trickle message");
+    }
+
+    if (trickle_down) {
+        boinc_sleep(10);
+        retval = boinc_receive_trickle_down(buf, sizeof(buf));
+        if (!retval) {
+            fprintf(stderr, "Got trickle-down message: %s\n", buf);
+        }
     }
 
     // burn up some CPU time if needed

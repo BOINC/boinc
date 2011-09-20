@@ -46,6 +46,7 @@
 
 #include "client_msgs.h"
 #include "cs_notice.h"
+#include "cs_trickle.h"
 #include "scheduler_op.h"
 #include "sandbox.h"
 
@@ -1017,6 +1018,8 @@ int CLIENT_STATE::handle_scheduler_reply(PROJECT* project, char* scheduler_url) 
     if (sr.got_rss_feeds) {
         handle_sr_feeds(sr.sr_feeds, project);
     }
+
+    update_trickle_up_urls(project, sr.trickle_up_urls);
 
     // garbage collect in case the project sent us some irrelevant FILE_INFOs;
     // avoid starting transfers for them

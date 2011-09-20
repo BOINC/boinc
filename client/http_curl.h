@@ -37,8 +37,6 @@ extern int curl_cleanup();
     // data sink is a file (used for file download)
 #define HTTP_OP_POST    2
     // data source and sink are files (used for scheduler op)
-#define HTTP_OP_HEAD    4
-    // no data (used for file upload)
 #define HTTP_OP_POST2   5
     // a POST operation where the request comes from a combination
     // of a string and a file w/offset,
@@ -63,7 +61,6 @@ public:
         // string needed for proxy username/password
 
     int content_length;
-    double file_offset;
     unsigned int trace_id;
     char request_header[4096];
 
@@ -81,16 +78,31 @@ public:
 	unsigned char* pByte;
         // pointer to bytes for reading via libcurl_read function
 
+    // request message stuff
+    //
+    char* req1;
+        // if not NULL, send this string first
+    char infile[256];
+        // then (is nonempty) this file
+    double file_offset;
+        // starting at this offset
+
+    // reply message stuff
+    //
+    // reply is always written to a file
+    char outfile[256];
+        // if specified, it's written to this file w/ optional offset 
+        // otherwise it's written to a temp file
+    // if type POST2, copy output to req1 buffer
+    int req1_len;
+        // with this limit
+
 	long lSeek;
         // offset within the file or memory buffer we're reading,
-    char infile[256];
-    char outfile[256];
     char error_msg[256];
         // put Curl error message here
 	bool bTempOutfile;
         // CMC -- flag that outfile is really a tempfile we should delete
-    char* req1;
-    int req1_len;
 	bool bSentHeader;
         // CMC -- a flag that I already sent the header
 	CURLcode CurlResult;
