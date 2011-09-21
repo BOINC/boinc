@@ -678,7 +678,7 @@ int COPROC_ATI::parse(XML_PARSER& xp) {
 }
 
 void COPROC_ATI::description(char* buf) {
-    sprintf(buf, "%s (CAL version %s, %.0fMB, %.0fMB available, %.0f GFLOPS peak)",
-        name, version, attribs.localRAM/MEGA, available_ram/MEGA, peak_flops/1.e9
+    sprintf(buf, "%s (CAL version %s, %dMB, %.0fMB available, %.0f GFLOPS peak)",
+        name, version, attribs.localRAM, available_ram/MEGA, peak_flops/1.e9
     );
 }

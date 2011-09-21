@@ -6334,3 +6334,9 @@ David  21 Sept 2011
 
     client/
         coproc_detect.cpp
+
+Rom    21 Sept 2011
+    - client: fix ATI GPU max mem display issue.
+
+    lib/
+        coproc.cpp
