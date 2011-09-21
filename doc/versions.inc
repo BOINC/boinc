@@ -282,8 +282,8 @@ $mac = array(
     "description"=>"Version 10.4.0+",
     "dbname" => "powerpc-apple-darwin",
     "versions"=>array(
-		$m613,
-		$m613c,
+		//$m613,
+		//$m613c,
 		$m612,
 		$m612c,
 		$m610,
