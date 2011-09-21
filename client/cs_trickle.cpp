@@ -19,6 +19,9 @@
 
 #ifdef _WIN32
 #include "boinc_win.h"
+#ifdef _MSC_VER
+#define strdup _strdup
+#endif
 #else
 #include "config.h"
 #include <cstring>
