@@ -6299,7 +6299,7 @@ David  21 Sept 2011
         - deprecate/undeprecate versions of the app.
         - abort jobs for that app
 
-        You can also designate a user a manage for the project.
+        You can also designate a user as manager for the project.
         They can then edit permissions and quotas,
         as well as performing the app-specific functions for all apps.
 
@@ -6328,3 +6328,9 @@ David  21 Sept 2011
             submit.php
     py/Boinc/
         setup_project.py
+
+David  21 Sept 2011
+    - client: fix bug in ATI GPU detection, caused zero RAM measurements
+
+    client/
+        coproc_detect.cpp

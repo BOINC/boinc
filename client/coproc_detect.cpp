@@ -1368,12 +1368,11 @@ void COPROC_ATI::get(
         cc.atirt_detected = atirt_detected;
         cc.device_num = i;
         cc.set_peak_flops();
+        cc.get_available_ram();
         gpus.push_back(cc);
     }
 
-    get_available_ram();
-
-    // shut down, otherwise Lenovo won't be able to switch to low-power GPU
+    // shut down CAL, otherwise Lenovo won't be able to switch to low-power GPU
     //
     retval = (*__calShutdown)();
 
@@ -1382,6 +1381,8 @@ void COPROC_ATI::get(
         return;
     }
 
+    // find the most capable non-ignored instance
+    //
     bool first = true;
     unsigned int i;
     for (i=0; i<gpus.size(); i++) {
@@ -1394,6 +1395,9 @@ void COPROC_ATI::get(
         }
     }
 
+    // see which other instances are equivalent,
+    // and set the "count" and "device_nums" fields
+    //
     count = 0;
     for (i=0; i<gpus.size(); i++) {
         char buf2[256];
