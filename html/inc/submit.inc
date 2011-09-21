@@ -106,17 +106,6 @@ function batch_xml_to_object($batch) {
     return $b;
 }
 
-function batch_state_string($state) {
-    switch ($state) {
-    case BATCH_STATE_INIT: return "new";
-    case BATCH_STATE_IN_PROGRESS: return "in progress";
-    case BATCH_STATE_COMPLETE: return "completed";
-    case BATCH_STATE_ABORTED: return "aborted";
-    case BATCH_STATE_RETIRED: return "retired";
-    }
-    return "unknown state $state";
-}
-
 //// API functions follow
 
 function boinc_estimate_batch($req) {

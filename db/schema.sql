@@ -30,11 +30,11 @@
 */
 
 create table platform (
-    id                  integer     not null auto_increment,
-    create_time         integer     not null,
-    name                varchar(254) not null,
-    user_friendly_name  varchar(254) not null,
-    deprecated          tinyint     not null default 0,
+    id                      integer     not null auto_increment,
+    create_time             integer     not null,
+    name                    varchar(254) not null,
+    user_friendly_name      varchar(254) not null,
+    deprecated              tinyint     not null default 0,
     primary key (id)
 ) engine=InnoDB;
 
@@ -56,153 +56,153 @@ create table app (
 ) engine=InnoDB;
 
 create table app_version (
-    id                  integer     not null auto_increment,
-    create_time         integer     not null,
-    appid               integer     not null,
-    version_num         integer     not null,
-    platformid          integer     not null,
-    xml_doc             mediumblob,
-    min_core_version    integer     not null default 0,
-    max_core_version    integer     not null default 0,
-    deprecated          tinyint     not null default 0,
-    plan_class          varchar(254) not null default '',
-    pfc_n               double      not null default 0,
-    pfc_avg             double      not null default 0,
-    pfc_scale           double      not null default 0,
-    expavg_credit       double      not null default 0,
-    expavg_time         double      not null default 0,
+    id                      integer         not null auto_increment,
+    create_time             integer         not null,
+    appid                   integer         not null,
+    version_num             integer         not null,
+    platformid              integer         not null,
+    xml_doc                 mediumblob,
+    min_core_version        integer         not null default 0,
+    max_core_version        integer         not null default 0,
+    deprecated              tinyint         not null default 0,
+    plan_class              varchar(254)    not null default '',
+    pfc_n                   double          not null default 0,
+    pfc_avg                 double          not null default 0,
+    pfc_scale               double          not null default 0,
+    expavg_credit           double          not null default 0,
+    expavg_time             double          not null default 0,
     primary key (id)
 ) engine=InnoDB;
 
 create table user (
-    id                  integer     not null auto_increment,
-    create_time         integer     not null,
-    email_addr          varchar(254) not null,
-    name                varchar(254),
-    authenticator       varchar(254),
-    country             varchar(254),
-    postal_code         varchar(254),
-    total_credit        double      not null,
-    expavg_credit       double      not null,
-    expavg_time         double      not null,
-    global_prefs        blob,
-    project_prefs       blob,
-    teamid              integer     not null,
-    venue               varchar(254)    not null,
-    url                 varchar(254),
-    send_email          smallint    not null,
-    show_hosts          smallint    not null,
-    posts               smallint    not null,
+    id                      integer         not null auto_increment,
+    create_time             integer         not null,
+    email_addr              varchar(254)    not null,
+    name                    varchar(254),
+    authenticator           varchar(254),
+    country                 varchar(254),
+    postal_code             varchar(254),
+    total_credit            double          not null,
+    expavg_credit           double          not null,
+    expavg_time             double          not null,
+    global_prefs            blob,
+    project_prefs           blob,
+    teamid                  integer         not null,
+    venue                   varchar(254)    not null,
+    url                     varchar(254),
+    send_email              smallint        not null,
+    show_hosts              smallint        not null,
+    posts                   smallint        not null,
         -- reused: salt for weak auth
-    seti_id             integer     not null,
-    seti_nresults       integer     not null,
-    seti_last_result_time   integer not null,
-    seti_total_cpu      double      not null,
-    signature           varchar(254),
+    seti_id                 integer         not null,
+    seti_nresults           integer         not null,
+    seti_last_result_time   integer     not null,
+    seti_total_cpu          double          not null,
+    signature               varchar(254),
         -- deprecated
-    has_profile         smallint    not null,
-    cross_project_id    varchar(254) not null,
-    passwd_hash         varchar(254) not null,
-    email_validated     smallint    not null,
-    donated             smallint    not null,
+    has_profile             smallint        not null,
+    cross_project_id        varchar(254)    not null,
+    passwd_hash             varchar(254)    not null,
+    email_validated         smallint        not null,
+    donated                 smallint        not null,
     primary key (id)
 ) engine=InnoDB;
 
 create table team (
-    id                  integer     not null auto_increment,
-    create_time         integer     not null,
-    userid              integer     not null,
-    name                varchar(254) not null,
-    name_lc             varchar(254),
-    url                 varchar(254),
-    type                integer     not null,
-    name_html           varchar(254),
-    description         text,
-    nusers              integer     not null,   /* temp */
-    country             varchar(254),
-    total_credit        double      not null,   /* temp */
-    expavg_credit       double      not null,   /* temp */
-    expavg_time         double      not null,
-    seti_id             integer     not null,
-    ping_user           integer     not null default 0,
-    ping_time           integer unsigned not null default 0,
-    joinable            tinyint     not null default 1,
+    id                      integer         not null auto_increment,
+    create_time             integer         not null,
+    userid                  integer         not null,
+    name                    varchar(254)    not null,
+    name_lc                 varchar(254),
+    url                     varchar(254),
+    type                    integer         not null,
+    name_html               varchar(254),
+    description             text,
+    nusers                  integer         not null,   /* temp */
+    country                 varchar(254),
+    total_credit            double          not null,   /* temp */
+    expavg_credit           double          not null,   /* temp */
+    expavg_time             double          not null,
+    seti_id                 integer         not null,
+    ping_user               integer         not null default 0,
+    ping_time               integer unsigned not null default 0,
+    joinable                tinyint         not null default 1,
     primary key (id)
 ) engine=MyISAM;  
 
 create table host (
-    id                  integer     not null auto_increment,
-    create_time         integer     not null,
-    userid              integer     not null,
-    rpc_seqno           integer     not null,
-    rpc_time            integer     not null,
-    total_credit        double      not null,
-    expavg_credit       double      not null,
-    expavg_time         double      not null,
+    id                      integer         not null auto_increment,
+    create_time             integer         not null,
+    userid                  integer         not null,
+    rpc_seqno               integer         not null,
+    rpc_time                integer         not null,
+    total_credit            double          not null,
+    expavg_credit           double          not null,
+    expavg_time             double          not null,
 
-    timezone            integer     not null,
-    domain_name         varchar(254),
-    serialnum           varchar(254),
-    last_ip_addr        varchar(254),
-    nsame_ip_addr       integer     not null,
+    timezone                integer         not null,
+    domain_name             varchar(254),
+    serialnum               varchar(254),
+    last_ip_addr            varchar(254),
+    nsame_ip_addr           integer         not null,
 
-    on_frac             double      not null,
-    connected_frac      double      not null,
-    active_frac         double      not null,
-    cpu_efficiency      double      not null,
-    duration_correction_factor double not null,
-    p_ncpus             integer     not null,
-    p_vendor            varchar(254),
-    p_model             varchar(254),
-    p_fpops             double      not null,
-    p_iops              double      not null,
-    p_membw             double      not null,
+    on_frac                 double          not null,
+    connected_frac          double          not null,
+    active_frac             double          not null,
+    cpu_efficiency          double          not null,
+    duration_correction_factor double       not null,
+    p_ncpus                 integer         not null,
+    p_vendor                varchar(254),
+    p_model                 varchar(254),
+    p_fpops                 double          not null,
+    p_iops                  double          not null,
+    p_membw                 double          not null,
 
-    os_name             varchar(254),
-    os_version          varchar(254),
+    os_name                 varchar(254),
+    os_version              varchar(254),
 
-    m_nbytes            double      not null,
-    m_cache             double      not null,
-    m_swap              double      not null,
+    m_nbytes                double          not null,
+    m_cache                 double          not null,
+    m_swap                  double          not null,
 
-    d_total             double      not null,
-    d_free              double      not null,
-    d_boinc_used_total  double      not null,
-    d_boinc_used_project double     not null,
-    d_boinc_max         double      not null,
+    d_total                 double          not null,
+    d_free                  double          not null,
+    d_boinc_used_total      double          not null,
+    d_boinc_used_project    double          not null,
+    d_boinc_max             double          not null,
 
-    n_bwup              double      not null,
-    n_bwdown            double      not null,
+    n_bwup                  double          not null,
+    n_bwdown                double          not null,
 
-    credit_per_cpu_sec  double      not null,
-    venue               varchar(254) not null,
-    nresults_today      integer     not null,
-    avg_turnaround      double      not null,
-    host_cpid           varchar(254),
-    external_ip_addr    varchar(254),
-    max_results_day     integer     not null,
-    error_rate          double      not null default 0,
+    credit_per_cpu_sec      double          not null,
+    venue                   varchar(254)    not null,
+    nresults_today          integer         not null,
+    avg_turnaround          double          not null,
+    host_cpid               varchar(254),
+    external_ip_addr        varchar(254),
+    max_results_day         integer         not null,
+    error_rate              double          not null default 0,
 
     primary key (id)
 ) engine=InnoDB;
 
 -- see comments in boinc_db.h
 create table host_app_version (
-    host_id             integer     not null,
-    app_version_id      integer     not null,
-    pfc_n               double      not null,
-    pfc_avg             double      not null,
-    et_n                double      not null,
-    et_avg              double      not null,
-    et_var              double      not null,
-    et_q                double      not null,
-    max_jobs_per_day    integer     not null,
-    n_jobs_today        integer     not null,
-    turnaround_n        double      not null,
-    turnaround_avg      double      not null,
-    turnaround_var      double      not null,
-    turnaround_q        double      not null,
-    consecutive_valid   integer     not null
+    host_id                 integer         not null,
+    app_version_id          integer         not null,
+    pfc_n                   double          not null,
+    pfc_avg                 double          not null,
+    et_n                    double          not null,
+    et_avg                  double          not null,
+    et_var                  double          not null,
+    et_q                    double          not null,
+    max_jobs_per_day        integer         not null,
+    n_jobs_today            integer         not null,
+    turnaround_n            double          not null,
+    turnaround_avg          double          not null,
+    turnaround_var          double          not null,
+    turnaround_q            double          not null,
+    consecutive_valid       integer         not null
 ) engine = InnoDB;
 
 /*
@@ -212,166 +212,176 @@ create table host_app_version (
  * is stored in the XML doc
  */
 create table workunit (
-    id                  integer     not null auto_increment,
-    create_time         integer     not null,
-    appid               integer     not null,
-    name                varchar(254) not null,
-    xml_doc             blob,
-    batch               integer     not null,
-    rsc_fpops_est       double      not null,
-    rsc_fpops_bound     double      not null,
-    rsc_memory_bound    double      not null,
-    rsc_disk_bound      double      not null,
-    need_validate       smallint    not null,
-    canonical_resultid  integer     not null,
-    canonical_credit    double      not null,
-    transition_time     integer     not null,
-    delay_bound         integer     not null,
-    error_mask          integer     not null,
-    file_delete_state   integer     not null,
-    assimilate_state    integer     not null,
-    hr_class            integer     not null,
-    opaque              double      not null,
-    min_quorum          integer     not null,
-    target_nresults     integer     not null,
-    max_error_results   integer     not null,
-    max_total_results   integer     not null,
-    max_success_results integer     not null,
-    result_template_file varchar(63) not null,
-    priority            integer     not null,
-    mod_time            timestamp,
-    rsc_bandwidth_bound double      not null,
-    fileset_id          integer     not null,
-    app_version_id      integer     not null,
+    id                      integer         not null auto_increment,
+    create_time             integer         not null,
+    appid                   integer         not null,
+    name                    varchar(254)    not null,
+    xml_doc                 blob,
+    batch                   integer         not null,
+    rsc_fpops_est           double          not null,
+    rsc_fpops_bound         double          not null,
+    rsc_memory_bound        double          not null,
+    rsc_disk_bound          double          not null,
+    need_validate           smallint        not null,
+    canonical_resultid      integer         not null,
+    canonical_credit        double          not null,
+    transition_time         integer         not null,
+    delay_bound             integer         not null,
+    error_mask              integer         not null,
+    file_delete_state       integer         not null,
+    assimilate_state        integer         not null,
+    hr_class                integer         not null,
+    opaque                  double          not null,
+    min_quorum              integer         not null,
+    target_nresults         integer         not null,
+    max_error_results       integer         not null,
+    max_total_results       integer         not null,
+    max_success_results     integer         not null,
+    result_template_file    varchar(63)    not null,
+    priority                integer         not null,
+    mod_time                timestamp,
+    rsc_bandwidth_bound     double          not null,
+    fileset_id              integer         not null,
+    app_version_id          integer         not null,
     primary key (id)
 ) engine=InnoDB;
 
 create table result (
-    id                  integer     not null auto_increment,
-    create_time         integer     not null,
-    workunitid          integer     not null,
-    server_state        integer     not null,
-    outcome             integer     not null,
-    client_state        integer     not null,
-    hostid              integer     not null,
-    userid              integer     not null,
-    report_deadline     integer     not null,
-    sent_time           integer     not null,
-    received_time       integer     not null,
-    name                varchar(254) not null,
-    cpu_time            double      not null,
-    xml_doc_in          blob,
-    xml_doc_out         blob,
-    stderr_out          blob,
-    batch               integer     not null,
-    file_delete_state   integer     not null,
-    validate_state      integer     not null,
-    claimed_credit      double      not null,
-    granted_credit      double      not null,
-    opaque              double      not null,
-    random              integer     not null,
-    app_version_num     integer     not null,
-    appid               integer     not null,
-    exit_status         integer     not null,
-    teamid              integer     not null,
-    priority            integer     not null,
-    mod_time            timestamp,
-    elapsed_time        double      not null,
-    flops_estimate      double      not null,
-    app_version_id      integer     not null,
+    id                      integer         not null auto_increment,
+    create_time             integer         not null,
+    workunitid              integer         not null,
+    server_state            integer         not null,
+    outcome                 integer         not null,
+    client_state            integer         not null,
+    hostid                  integer         not null,
+    userid                  integer         not null,
+    report_deadline         integer         not null,
+    sent_time               integer         not null,
+    received_time           integer         not null,
+    name                    varchar(254)    not null,
+    cpu_time                double          not null,
+    xml_doc_in              blob,
+    xml_doc_out             blob,
+    stderr_out              blob,
+    batch                   integer         not null,
+    file_delete_state       integer         not null,
+    validate_state          integer         not null,
+    claimed_credit          double          not null,
+    granted_credit          double          not null,
+    opaque                  double          not null,
+    random                  integer         not null,
+    app_version_num         integer         not null,
+    appid                   integer         not null,
+    exit_status             integer         not null,
+    teamid                  integer         not null,
+    priority                integer         not null,
+    mod_time                timestamp,
+    elapsed_time            double          not null,
+    flops_estimate          double          not null,
+    app_version_id          integer         not null,
+    runtime_outlier         tinyint         not null,
     primary key (id)
 ) engine=InnoDB;
 
 -- see boinc_db.h for doc
 create table batch (
-    id                  serial          primary key,
-    user_id             integer         not null,
-    create_time         integer         not null,
-    logical_start_time  double          not null,
-    logical_end_time    double          not null,
-    est_completion_time double          not null,
-    njobs               integer         not null,
-    fraction_done       double          not null,
-    nerror_jobs         integer         not null,
-    state               integer         not null,
-    completion_time     double          not null,
-    credit_estimate     double          not null,
-    credit_canonical    double          not null,
-    credit_total        double          not null,
-    name                varchar(255)    not null,
-    app_id              integer         not null
+    id                      serial          primary key,
+    user_id                 integer         not null,
+    create_time             integer         not null,
+    logical_start_time      double          not null,
+    logical_end_time        double          not null,
+    est_completion_time     double          not null,
+    njobs                   integer         not null,
+    fraction_done           double          not null,
+    nerror_jobs             integer         not null,
+    state                   integer         not null,
+    completion_time         double          not null,
+    credit_estimate         double          not null,
+    credit_canonical        double          not null,
+    credit_total            double          not null,
+    name                    varchar(255)    not null,
+    app_id                  integer         not null
 ) engine = InnoDB;
 
 -- permissions for job submission
 --
 create table user_submit (
-    user_id             integer         not null,
-    quota               double          not null,
-    logical_start_time  double          not null,
-    all_apps            tinyint         not null,
-    create_apps         tinyint         not null,
-    create_app_versions tinyint         not null
+    user_id                 integer         not null,
+    quota                   double          not null,
+    logical_start_time      double          not null,
+    submit_all              tinyint         not null,
+        -- can submit jobs to any app
+    manage_all              tinyint         not null,
+        -- manager privileges for all apps
+        -- grant/revoke permissions (except manage), change quotas
+        -- create apps
 ) engine = InnoDB;
 
 -- (user, app) submit permissions
+-- The existence of the record implies permission to submit jobs
 --
 create table user_submit_app (
-    user_id             integer         not null,
-    app_id              integer         not null
+    user_id                 integer         not null,
+    app_id                  integer         not null
+    manage                  tinyint         not null
+        -- can
+        --   create/deprecated app versions of this app
+        --   grant/revoke permissions (except admin) this app
+        --   abort their jobs
 ) engine = InnoDB;
 
 -- the following are used to implement trickle messages
 
 create table msg_from_host (
-    id                  integer     not null auto_increment,
-    create_time         integer     not null,
-    hostid              integer     not null,
-    variety             varchar(254) not null,
-    handled             smallint    not null,
-    xml                 mediumtext,
+    id                      integer         not null auto_increment,
+    create_time             integer         not null,
+    hostid                  integer         not null,
+    variety                 varchar(254)    not null,
+    handled                 smallint        not null,
+    xml                     mediumtext,
     primary key (id)
 ) engine=InnoDB;
 
 create table msg_to_host (
-    id                  integer     not null auto_increment,
-    create_time         integer     not null,
-    hostid              integer     not null,
-    variety             varchar(254) not null,
-    handled             smallint    not null,
-    xml                 mediumtext,
+    id                      integer         not null auto_increment,
+    create_time             integer         not null,
+    hostid                  integer         not null,
+    variety                 varchar(254)    not null,
+    handled                 smallint        not null,
+    xml                     mediumtext,
     primary key (id)
 ) engine=InnoDB;
 
 -- An assignment of a WU to a specific host, user, or team, or to all hosts
 --
 create table assignment (
-    id                  integer     not null auto_increment,
-    create_time         integer     not null,
-    target_id           integer     not null,
+    id                      integer         not null auto_increment,
+    create_time             integer         not null,
+    target_id               integer         not null,
         -- ID of target entity (see below)
-    target_type         integer     not null,
+    target_type             integer         not null,
         -- 0=none, 1=host, 2=user, 3=team
-    multi               tinyint     not null,
+    multi                   tinyint         not null,
         -- 0=single host, 1=all hosts in set
-    workunitid          integer     not null,
-    resultid            integer     not null,
+    workunitid              integer         not null,
+    resultid                integer         not null,
         -- if not multi, the result
     primary key (id)
 ) engine = InnoDB;
 
 -- the following not used for anything right now
 create table state_counts (
-    appid               integer     not null,
-    last_update_time    integer     not null,
-    result_server_state_2       integer not null,
-    result_server_state_4       integer not null,
-    result_file_delete_state_1  integer not null,
-    result_file_delete_state_2  integer not null,
+    appid                       integer     not null,
+    last_update_time            integer     not null,
+    result_server_state_2       integer     not null,
+    result_server_state_4       integer     not null,
+    result_file_delete_state_1  integer     not null,
+    result_file_delete_state_2  integer     not null,
     result_server_state_5_and_file_delete_state_0       integer not null,
     workunit_need_validate_1    integer not null,
     workunit_assimilate_state_1 integer not null,
-    workunit_file_delete_state_1        integer not null,
-    workunit_file_delete_state_2        integer not null,
+    workunit_file_delete_state_1    integer not null,
+    workunit_file_delete_state_2    integer not null,
     primary key (appid)
 ) engine=MyISAM; 
 
@@ -382,16 +392,16 @@ create table state_counts (
 -- user profile (description, pictures)
 --
 create table profile (
-    userid              integer     not null,
-    language            varchar(254),
-    response1           text,
-    response2           text,
-    has_picture         smallint    not null,
-    recommend           integer     not null,
-    reject              integer     not null,
-    posts               integer     not null,
-    uotd_time           integer,
-    verification        integer     not null,
+    userid                  integer         not null,
+    language                varchar(254),
+    response1               text,
+    response2               text,
+    has_picture             smallint        not null,
+    recommend               integer         not null,
+    reject                  integer         not null,
+    posts                   integer         not null,
+    uotd_time               integer,
+    verification            integer         not null,
         -- UOD screening status: -1 denied, 0 unrated, 1 approved
     primary key (userid)
 ) engine=MyISAM;

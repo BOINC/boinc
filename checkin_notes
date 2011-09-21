@@ -6289,3 +6289,42 @@ David  20 Sept 2011
         scheduler_op.cpp,h
     samples/example_app/
         uc2.php
+
+David  21 Sept 2011
+    - back end: extend the access control system for remote job submission
+        and other operations.
+        You can now designate a user as "manager" for a particular app.
+        They can then:
+        - control job-submit permissions for that app
+        - deprecate/undeprecate versions of the app.
+        - abort jobs for that app
+
+        You can also designate a user a manage for the project.
+        They can then edit permissions and quotas,
+        as well as performing the app-specific functions for all apps.
+
+        This is described here:
+        http://boinc.berkeley.edu/trac/wiki/MultiUser#Accesscontrol
+
+        This required some changes to the DB schema.
+
+    db/
+        schema.sql
+    tools/
+        manage_privileges
+    html/
+        inc/
+            submit.inc
+            submit_util.inc (new)
+            result.inc
+        ops/
+            submit_permissions.php (removed)
+            db_update.php
+        user/
+            manage_project.php (new)
+            submit_example.php
+            manage.php (new)
+            manage_app.php (new)
+            submit.php
+    py/Boinc/
+        setup_project.py

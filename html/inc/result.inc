@@ -19,6 +19,8 @@
 require_once("../inc/translation.inc");
 require_once("../inc/dir_hier.inc");
 
+// used by app_version_string(), see below
+//
 $apps = array();
 $app_versions = array();
 
@@ -537,39 +539,6 @@ function result_navigation($info, $where_clause) {
 
     $x .= "</center><br>";
 	return $x;
-}
-
-function get_outfile_names($result) {
-    $names = array();
-    $xml = "<a>".$result->xml_doc_out."</a>";
-    $r = simplexml_load_string($xml);
-    if (!$r) return $names;
-    foreach ($r->file_info as $fi) {
-        $names[] = (string)($fi->name);
-    }
-    return $names;
-}
-
-function get_outfile_paths($result) {
-    $fanout = parse_config(get_config(), "<uldl_dir_fanout>");
-    $upload_dir = parse_config(get_config(), "<upload_dir>");
-
-    $paths = array();
-    $xml = "<a>".$result->xml_doc_out."</a>";
-    $r = simplexml_load_string($xml);
-    if (!$r) return $paths;
-    foreach ($r->file_info as $fi) {
-        $path = dir_hier_path((string)($fi->name), $upload_dir, $fanout);
-        $paths[] = $path;
-    }
-    return $paths;
-}
-
-function abort_workunit($wu) {
-    BoincResult::update_aux(
-        "server_state=5, outcome=5 where server_state=2 and workunitid=$wu->id"
-    );
-    $wu->update("error_mask=error_mask|16");
 }
 
 $cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit

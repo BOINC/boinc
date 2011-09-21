@@ -149,7 +149,7 @@ function eligible_apps() {
     if (!$user_submit) return null;
     $a = array();
     foreach($apps as $app) {
-        if ($user_submit->all_apps) {
+        if ($user_submit->submit_all) {
             $a[] = $app;
         } else {
             if (BoincUserSubmitApp::lookup("user_id=$user->id and app_id=$app->id")) {

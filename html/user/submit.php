@@ -24,6 +24,7 @@ require_once("../inc/submit_db.inc");
 require_once("../inc/xml.inc");
 require_once("../inc/dir_hier.inc");
 require_once("../inc/result.inc");
+require_once("../inc/submit_util.inc");
 
 error_reporting(E_ALL);
 ini_set('display_errors', true);
@@ -41,7 +42,7 @@ function authenticate_user($r, $app) {
     if (!$user) error("bad authenticator");
     $user_submit = BoincUserSubmit::lookup_userid($user->id);
     if (!$user_submit) error("no submit access");
-    if ($app && !$user_submit->all_apps) {
+    if ($app && !$user_submit->submit_all) {
         $usa = BoincUserSubmitApp::lookup("user_id=$user->id and app_id=$app->id");
         if (!$usa) {
             error("no submit access");
@@ -326,34 +327,25 @@ function query_job($r) {
     echo "</job>\n";
 }
 
-function abort_batch($r) {
+function handle_abort_batch($r) {
     list($user, $user_submit) = authenticate_user($r, null);
     $batch_id = (int)($r->batch_id);
     $batch = BoincBatch::lookup_id($batch_id);
     if ($batch->user_id != $user->id) {
         error("not owner");
     }
-    $wus = BoincWorkunit::enum("batch=$batch_id");
-    foreach ($wus as $wu) {
-        abort_workunit($wu);
-    }
-    $batch->update("state=".BATCH_STATE_ABORTED);
+    abort_batch($batch);
     echo "<success>1</success>";
 }
 
-function retire_batch($r) {
+function handle_retire_batch($r) {
     list($user, $user_submit) = authenticate_user($r, null);
     $batch_id = (int)($r->batch_id);
     $batch = BoincBatch::lookup_id($batch_id);
     if ($batch->user_id != $user->id) {
         error("not owner");
     }
-    $wus = BoincWorkunit::enum("batch=$batch_id");
-    $now = time();
-    foreach ($wus as $wu) {
-        $wu->update("assimilate_state=2, transition_time=$now");
-    }
-    $batch->update("state=".BATCH_STATE_RETIRED);
+    retire_batch($batch);
     echo "<success>1</success>";
 }
 
@@ -413,8 +405,8 @@ switch ($r->getName()) {
     case 'query_batches': query_batches($r); break;
     case 'query_batch': query_batch($r); break;
     case 'query_job': query_job($r); break;
-    case 'abort_batch': abort_batch($r); break;
-    case 'retire_batch': retire_batch($r); break;
+    case 'abort_batch': handle_abort_batch($r); break;
+    case 'retire_batch': handle_retire_batch($r); break;
     default: error("bad command");
 }
 

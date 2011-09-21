@@ -781,6 +781,21 @@ function update_9_15_2011() {
     ");
 }
 
+function update_9_20_2011() {
+    do_query("
+        alter table user_submit
+        drop column all_apps,
+        drop column create_apps,
+        drop column create_app_versions,
+        add submit_all tinyint not null,
+        add manage_all tinyint not null
+    ");
+
+    do_query("
+        alter table user_submit_app
+        add manage tinyint not null
+    ");
+}
 // Updates are done automatically if you use "upgrade".
 //
 // If you need to do updates manually,
@@ -803,6 +818,9 @@ $db_updates = array (
     array(23881, "update_7_26_2011"),
     array(24137, "update_9_6_2011"),
     array(24225, "update_9_15_2011"),
+    array(24248, "update_9_20_2011"),
 );
+
+
 
 ?>

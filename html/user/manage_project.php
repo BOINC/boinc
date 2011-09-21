@@ -17,21 +17,24 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-// Interface for controlling user permissions to submit jobs
+// Interface for project-wide functions:
+//   - control user quotas and permissions to submit jobs
+//   - create apps
 
 require_once("../inc/submit_db.inc");
 require_once("../inc/util.inc");
-require_once("../inc/util_ops.inc");
 
 function user_row($u) {
     $user = BoincUser::lookup_id($u->user_id);
     echo "
         <tr>
-        <td>$user->name<br>$user->email_addr</td>
+        <td>$user->name (ID: $user->id)
+        <a href=manage_project.php?action=edit_form&user_id=$u->user_id>Edit permissions</a>
+        </td>
     ";
     echo "<td>";
-    if ($u->all_apps) {
-        echo "All\n";
+    if ($u->submit_all) {
+        echo "All applications\n";
     } else {
         $uas = BoincUserSubmitApp::enum("user_id=$u->user_id");
         foreach ($uas as $ua) {
@@ -42,46 +45,53 @@ function user_row($u) {
     echo "</td>\n";
     echo "<td>$u->quota</td>\n";
     echo "<td>
-        <a href=submit_permissions.php?action=edit_form&user_id=$u->user_id>Edit</a>
         </td>
         </tr>
     ";
 }
 
 function handle_list() {
-    admin_page_head("User job submission permissions");
+    page_head("Project-wide management functions");
+    echo "<h3>User permissions and quotas</h3>
+        The following users are allowed to remotely submit jobs.
+        <p>
+    ";
+    show_button("manage_project.php?action=add_form",
+        "Add user", "Allow a new user to submit jobs"
+    );
+
     $us = BoincUserSubmit::enum("");
     start_table();
-    table_header("User", "Applications", "Quota", "");
+    table_header("User", "Can submit jobs for", "Quota");
     foreach ($us as $u) {
         user_row($u);
     }
     end_table();
-    show_button("submit_permissions.php?action=add_form", "Add user", "Add user");
-    admin_page_tail();
+    page_tail();
 }
 
 function handle_edit_form() {
     $user_id = get_int('user_id');
     $user = BoincUser::lookup_id($user_id);
     $usub = BoincUserSubmit::lookup_userid($user_id);
-    admin_page_head("Set permissions for $user->name");
+    page_head("Permissions for $user->name");
     echo "
-        Can submit jobs for:
-        <form action=submit_permissions.php>
+        $user->name is allowed to submit jobs for:
+        <p>
+        <form action=manage_project.php>
         <input type=hidden name=action value=edit_action>
         <input type=hidden name=user_id value=$user_id>
     ";
-    if ($usub->all_apps) {
+    if ($usub->submit_all) {
         $all_checked = "checked";
         $not_all_checked = "";
     } else {
         $all_checked = "";
         $not_all_checked = "checked";
     }
-    echo "<input type=radio name=all_apps value=1 $all_checked> All apps
+    echo "<input type=radio name=submit_all value=1 $all_checked> All apps
         <br>
-        <input type=radio name=all_apps value=0 $not_all_checked> Only selected apps:
+        <input type=radio name=submit_all value=0 $not_all_checked> Only selected apps:
     ";
     $apps = BoincApp::enum("deprecated=0");
     foreach ($apps as $app) {
@@ -94,28 +104,27 @@ function handle_edit_form() {
     $sa = $usub->create_apps?"checked":"";
     echo "
         <p>
-        <input type=checkbox name=create_app_versions $sav> Can create new versions of the above apps
-        <p>
-        <input type=checkbox name=create_apps $sa> Can create new apps
-        <p>
         Quota: <input name=quota value=$q>
+        This determines how much computing capacity is allocated to $user->name.
         <p>
         <input type=submit value=OK>
         </form>
+        <p>
+        <a href=manage_project.php>Return to project-wide management functions</a>
     ";
-    admin_page_tail();
+    page_tail();
 }
 
 function handle_edit_action() {
     $user_id = get_int('user_id');
     $us = BoincUserSubmit::lookup_userid($user_id);
-    if (!$us) admin_error_page("user not found");
+    if (!$us) error_page("user not found");
     BoincUserSubmitApp::delete_user($user_id);
-    $all_apps = get_str('all_apps');
-    if ($all_apps) {
-        $us->update("all_apps=1");
+    $submit_all = get_str('submit_all');
+    if ($submit_all) {
+        $us->update("submit_all=1");
     } else {
-        $us->update("all_apps=0");
+        $us->update("submit_all=0");
         $apps = BoincApp::enum("deprecated=0");
         foreach ($apps as $app) {
             $x = "app_$app->id";
@@ -128,39 +137,41 @@ function handle_edit_action() {
     if ($quota != $us->quota) {
         $us->update("quota=$quota");
     }
-    $x = get_str('create_apps', true)?1:0;
-    $us->update("create_apps=$x");
-    $x = get_str('create_app_versions', true)?1:0;
-    $us->update("create_app_versions=$x");
-
-    admin_page_head("User permissions updated");
-    admin_page_tail();
+    page_head("Update successful");
+    echo "<a href=manage_project.php>Return to project-wide management functions</a>";
+    page_tail();
 }
 
 function handle_add_form() {
-    admin_page_head("Add user");
+    page_head("Add user");
     echo "
-        <form action=submit_permissions.php>
+        <form action=manage_project.php>
         <input type=hidden name=action value=add_action>
         User ID: <input name=user_id>
         <br>
         <input type=submit value=OK>
         </form>
     ";
-    admin_page_tail();
+    page_tail();
 }
 
 function handle_add_action() {
     $user_id = get_int('user_id');
     $user = BoincUser::lookup_id($user_id);
-    if (!$user) admin_error_page("no such user");
+    if (!$user) error_page("no such user");
     $us = BoincUserSubmit::lookup_userid($user_id);
     if (!$us) {
         if (!BoincUserSubmit::insert("(user_id) values ($user_id)")) {
-            admin_error_page("Insert failed");
+            error_page("Insert failed");
         }
     }
-    header("Location: submit_permissions.php?action=edit_form&user_id=$user_id");
+    header("Location: manage_project.php?action=edit_form&user_id=$user_id");
+}
+
+$user = get_logged_in_user();
+$bus = BoincUserSubmit::lookup_userid($user->id);
+if (!$bus) {
+    die("no access");
 }
 
 $action = get_str('action', true);
@@ -177,7 +188,7 @@ case 'edit_form':
 case 'edit_action':
     handle_edit_action(); break;
 default:
-    admin_error_page("unknown action: $action");
+    error_page("unknown action: $action");
 }
 
 ?>
