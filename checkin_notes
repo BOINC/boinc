@@ -10233,3 +10233,11 @@ David  16 Sept 2011
     client/
         app.cpp,h
         app_control.cpp
+
+Rom    22 Sept 2011
+    - Tag for 6.12.37 release, all platforms
+      boinc_core_release_6_12_37
+
+    /
+        configure.ac
+        version.h
