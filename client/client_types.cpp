@@ -178,7 +178,7 @@ static bool parse_rsc_param(XML_PARSER& xp, const char* end_tag, int& rsc_type, 
 //
 int PROJECT::parse_state(XML_PARSER& xp) {
     char buf[256];
-    std::string sched_url;
+    std::string sched_url, stemp;
     string str1, str2;
     int retval, rt;
     double x;
@@ -312,6 +312,9 @@ int PROJECT::parse_state(XML_PARSER& xp) {
         if (xp.parse_bool("scheduler_rpc_in_progress", btemp)) continue;
         if (xp.parse_bool("use_symlinks", use_symlinks)) continue;
         if (xp.parse_bool("anonymous_platform", btemp)) continue;
+        if (xp.parse_string("trickle_up_url", stemp)) {
+            trickle_up_ops.push_back(new TRICKLE_UP_OP(stemp));
+        }
         if (log_flags.unparsed_xml) {
             msg_printf(0, MSG_INFO,
                 "[unparsed_xml] PROJECT::parse_state(): unrecognized: %s",
@@ -475,6 +478,13 @@ int PROJECT::write_state(MIOFILE& out, bool gui_rpc) {
         if (strlen(code_sign_key)) {
             out.printf(
                 "    <code_sign_key>\n%s\n</code_sign_key>\n", code_sign_key
+            );
+        }
+        for (i=0; i<trickle_up_ops.size(); i++) {
+            TRICKLE_UP_OP* t = trickle_up_ops[i];
+            out.printf(
+                "    <trickle_up_url>%s</trickle_up_url>\n",
+                t->url.c_str()
             );
         }
     }

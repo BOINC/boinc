@@ -6349,3 +6349,11 @@ David  21 Sept 2011
         schema.sql
     py/Boinc/
         setup_project.py
+
+David  21 Sept 2011
+    - client: more stuff for replicated trickle ups
+
+    client/
+        cs_trickle.cpp
+        client_types.cpp
+        http_curl.cpp

@@ -740,7 +740,6 @@ int HTTP_OP_SET::remove(HTTP_OP* p) {
         }
         iter++;
     }
-    msg_printf(NULL, MSG_INTERNAL_ERROR, "HTTP operation not found");
     return ERR_NOT_FOUND;
 }
 

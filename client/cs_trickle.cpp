@@ -171,11 +171,13 @@ void send_replicated_trickles(PROJECT* p, string& msg) {
 }
 
 // A scheduler reply gave us a list of trickle handler URLs.
-// If this is different than the list we currently have, replace it.
+// Add and remove as needed.
 //
 void update_trickle_up_urls(PROJECT* p, vector<string> &urls) {
     unsigned int i, j;
-    bool lists_equal = true;
+
+    // add new URLs
+    //
     for (i=0; i<urls.size(); i++) {
         string& url = urls[i];
         bool found = false;
@@ -187,36 +189,31 @@ void update_trickle_up_urls(PROJECT* p, vector<string> &urls) {
             }
         }
         if (!found) {
-            lists_equal = false;
+            p->trickle_up_ops.push_back(new TRICKLE_UP_OP(url));
             break;
         }
     }
-    if (lists_equal) {
-        for (j=0; j<p->trickle_up_ops.size(); j++) {
-            TRICKLE_UP_OP *t = p->trickle_up_ops[j];
-            bool found = false;
-            for (i=0; i<urls.size(); i++) {
-                string& url = urls[i];
-                if (t->url == url) {
-                    found = true;
-                    break;
-                }
-            }
-            if (!found) {
-                lists_equal = false;
+
+    // remove old URLs
+    //
+    vector<TRICKLE_UP_OP*>::iterator iter = p->trickle_up_ops.begin();
+    while (iter != p->trickle_up_ops.end()) {
+        TRICKLE_UP_OP *t = *iter;
+        bool found = false;
+        for (i=0; i<urls.size(); i++) {
+            string& url = urls[i];
+            if (t->url == url) {
+                found = true;
                 break;
             }
         }
-    }
-    if (lists_equal) return;
-    for (j=0; j<p->trickle_up_ops.size(); j++) {
-        TRICKLE_UP_OP *t = p->trickle_up_ops[j];
-        delete t;
-    }
-    p->trickle_up_ops.clear();
-    for (i=0; i<urls.size(); i++) {
-        string& url = urls[i];
-        p->trickle_up_ops.push_back(new TRICKLE_UP_OP(url));
+        if (!found) {
+            gstate.http_ops->remove(&(t->gui_http->http_op));
+            delete t;
+            iter = p->trickle_up_ops.erase(iter);
+        } else {
+            iter++;
+        }
     }
 }
 
