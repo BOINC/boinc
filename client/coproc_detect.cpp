@@ -62,6 +62,59 @@ void segv_handler(int) {
 }
 #endif
 
+
+void COPROCS::get(
+    bool use_all, vector<string>&descs, vector<string>&warnings,
+    vector<int>& ignore_nvidia_dev,
+    vector<int>& ignore_ati_dev
+) {
+
+#ifdef _WIN32
+    try {
+        nvidia.get(use_all, descs, warnings, ignore_nvidia_dev);
+    }
+    catch (...) {
+        warnings.push_back("Caught SIGSEGV in NVIDIA GPU detection");
+    }
+    try {
+        ati.get(use_all, descs, warnings, ignore_ati_dev);
+    } 
+    catch (...) {
+        warnings.push_back("Caught SIGSEGV in ATI GPU detection");
+    }
+    try {
+        get_opencl(use_all, warnings, ignore_ati_dev, ignore_nvidia_dev);
+    } 
+    catch (...) {
+        warnings.push_back("Caught SIGSEGV in OpenCL detection");
+    }
+#else
+    void (*old_sig)(int) = signal(SIGSEGV, segv_handler);
+    if (setjmp(resume)) {
+        warnings.push_back("Caught SIGSEGV in NVIDIA GPU detection");
+    } else {
+        nvidia.get(use_all, descs, warnings, ignore_nvidia_dev);
+    }
+#ifndef __APPLE__       // ATI does not yet support CAL on Macs
+    if (setjmp(resume)) {
+        warnings.push_back("Caught SIGSEGV in ATI GPU detection");
+    } else {
+        ati.get(use_all, descs, warnings, ignore_ati_dev);
+    }
+#endif
+    if (setjmp(resume)) {
+        warnings.push_back("Caught SIGSEGV in OpenCL detection");
+    } else {
+        get_opencl(use_all, warnings, ignore_ati_dev, ignore_nvidia_dev);
+    }
+    signal(SIGSEGV, old_sig);
+#endif
+}
+
+
+////////////////// OPENCL STARTS HERE /////////////////
+//
+
 #ifdef _WIN32
 
 HMODULE opencl_lib = NULL;
@@ -539,55 +592,6 @@ cl_int COPROCS::get_opencl_info(
 
     return CL_SUCCESS;
 }
-
-void COPROCS::get(
-    bool use_all, vector<string>&descs, vector<string>&warnings,
-    vector<int>& ignore_nvidia_dev,
-    vector<int>& ignore_ati_dev
-) {
-
-#ifdef _WIN32
-    try {
-        nvidia.get(use_all, descs, warnings, ignore_nvidia_dev);
-    }
-    catch (...) {
-        warnings.push_back("Caught SIGSEGV in NVIDIA GPU detection");
-    }
-    try {
-        ati.get(use_all, descs, warnings, ignore_ati_dev);
-    } 
-    catch (...) {
-        warnings.push_back("Caught SIGSEGV in ATI GPU detection");
-    }
-    try {
-        get_opencl(use_all, warnings, ignore_ati_dev, ignore_nvidia_dev);
-    } 
-    catch (...) {
-        warnings.push_back("Caught SIGSEGV in OpenCL detection");
-    }
-#else
-    void (*old_sig)(int) = signal(SIGSEGV, segv_handler);
-    if (setjmp(resume)) {
-        warnings.push_back("Caught SIGSEGV in NVIDIA GPU detection");
-    } else {
-        nvidia.get(use_all, descs, warnings, ignore_nvidia_dev);
-    }
-#ifndef __APPLE__       // ATI does not yet support CAL on Macs
-    if (setjmp(resume)) {
-        warnings.push_back("Caught SIGSEGV in ATI GPU detection");
-    } else {
-        ati.get(use_all, descs, warnings, ignore_ati_dev);
-    }
-#endif
-    if (setjmp(resume)) {
-        warnings.push_back("Caught SIGSEGV in OpenCL detection");
-    } else {
-        get_opencl(use_all, warnings, ignore_ati_dev, ignore_nvidia_dev);
-    }
-    signal(SIGSEGV, old_sig);
-#endif
-}
-
 
 ////////////////// NVIDIA STARTS HERE /////////////////
 //
