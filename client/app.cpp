@@ -101,6 +101,8 @@ ACTIVE_TASK::ACTIVE_TASK() {
     run_interval_start_wall_time = gstate.now;
     checkpoint_wall_time = 0;
     elapsed_time = 0;
+    bytes_sent = 0;
+    bytes_received = 0;
     strcpy(slot_dir, "");
     graphics_mode_acked = MODE_UNSUPPORTED;
     graphics_mode_ack_timeout = 0;

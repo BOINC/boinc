@@ -1086,6 +1086,7 @@ bool ACTIVE_TASK::get_app_status_msg() {
     char msg_buf[MSG_CHANNEL_SIZE];
     double fd;
     int pid;
+    double dtemp;
 
     if (!app_client_shm.shm) {
         msg_printf(result->project, MSG_INFO,
@@ -1119,6 +1120,18 @@ bool ACTIVE_TASK::get_app_status_msg() {
     parse_double(msg_buf, "<fpops_cumulative>", result->fpops_cumulative);
     parse_double(msg_buf, "<intops_per_cpu_sec>", result->intops_per_cpu_sec);
     parse_double(msg_buf, "<intops_cumulative>", result->intops_cumulative);
+    if (parse_double(msg_buf, "<bytes_sent>", dtemp)) {
+        if (dtemp > bytes_sent) {
+            daily_xfer_history.add(dtemp - bytes_sent, true);
+        }
+        bytes_sent = dtemp;
+    }
+    if (parse_double(msg_buf, "<bytes_received>", dtemp)) {
+        if (dtemp > bytes_received) {
+            daily_xfer_history.add(dtemp - bytes_received, false);
+        }
+        bytes_received = dtemp;
+    }
     parse_int(msg_buf, "<want_network>", want_network);
     if (parse_int(msg_buf, "<other_pid>", pid)) {
         // for now, we handle only one of these

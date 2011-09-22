@@ -106,6 +106,9 @@ struct ACTIVE_TASK {
         // wall time at the last checkpoint
     double elapsed_time;
         // current total elapsed (running) time
+    double bytes_sent;
+        // reported by the app if it does network I/O
+    double bytes_received;
     char slot_dir[256];
         // directory where process runs (relative)
     char slot_path[512];

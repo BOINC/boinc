@@ -10223,3 +10223,13 @@ Charlie 1 Sep 2011
      mac_build/
         boinc.xcodeproj/
             project.pbxproj
+
+David  16 Sept 2011
+    - client: include the above in enforcing network quota preferences
+        for virtual machine wrappers.
+
+    api/
+        boinc_api.cpp,h
+    client/
+        app.cpp,h
+        app_control.cpp

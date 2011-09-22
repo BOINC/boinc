@@ -647,7 +647,9 @@ int boinc_report_app_status_aux(
     double cpu_time,
     double checkpoint_cpu_time,
     double _fraction_done,
-    vector<int>* other_pids
+    int other_pid,
+    double bytes_sent,
+    double bytes_received
 ) {
     char msg_buf[MSG_CHANNEL_SIZE], buf[256];
     if (standalone) return 0;
@@ -660,14 +662,22 @@ int boinc_report_app_status_aux(
         checkpoint_cpu_time,
         _fraction_done
     );
-    if (other_pids) {
-        for (unsigned int i=0; i<other_pids->size(); i++) {
-            sprintf(buf, "<other_pid>%d</other_pid>\n", (*other_pids)[i]);
-            strcat(msg_buf, buf);
-        }
+    if (other_pid) {
+        sprintf(buf, "<other_pid>%d</other_pid>\n", other_pid);
+        strcat(msg_buf, buf);
     }
-    app_client_shm->shm->app_status.send_msg(msg_buf);
-    return 0;
+    if (bytes_sent) {
+        sprintf(buf, "<bytes_sent>%f</bytes_sent>\n", bytes_sent);
+        strcat(msg_buf, buf);
+    }
+    if (bytes_received) {
+        sprintf(buf, "<bytes_received>%f</bytes_received>\n", bytes_received);
+        strcat(msg_buf, buf);
+    }
+    if (app_client_shm->shm->app_status.send_msg(msg_buf)) {
+        return 0;
+    }
+    return ERR_WRITE;
 }
 
 int boinc_report_app_status(
@@ -676,7 +686,7 @@ int boinc_report_app_status(
     double _fraction_done
 ){
     return boinc_report_app_status_aux(
-        cpu_time, checkpoint_cpu_time, _fraction_done, NULL
+        cpu_time, checkpoint_cpu_time, _fraction_done, 0, 0, 0
     );
 }
 
