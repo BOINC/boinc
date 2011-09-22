@@ -6397,3 +6397,11 @@ David  22 Sept 2011
 		httl_curl.cpp
 	lib/
 		cc_config.cpp,h
+
+Rom    22 Sept 2011
+    - Tag for 6.13.5 release, all platforms
+      boinc_core_release_6_13_5
+
+    /
+        configure.ac
+        version.h
