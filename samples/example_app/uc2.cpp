@@ -270,7 +270,10 @@ int main(int argc, char **argv) {
     }
 
     if (trickle_up) {
-        boinc_send_trickle_up("example_app", "sample trickle message");
+        boinc_send_trickle_up(
+            const_cast<char*>("example_app"),
+            const_cast<char*>("sample trickle message")
+        );
     }
 
     if (trickle_down) {
