@@ -68,7 +68,7 @@ struct VBOX_VM {
 
     static int initialize();
     static int get_install_directory(std::string& dir);
-    static int generate_vm_root_dir(std::string& dir);
+    static int get_slot_directory(std::string& dir);
     static int vbm_popen(
         std::string& command, std::string& output, const char* item
     );

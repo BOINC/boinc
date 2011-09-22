@@ -31,12 +31,8 @@
 
 using std::string;
 
-#if defined(_MSC_VER) || defined(__MINGW32__)
-#define popen       _popen
-#define pclose      _pclose
+#if defined(_MSC_VER)
 #define getcwd      _getcwd
-//#define putenv      _putenv
-#define setenv      _setenv
 #endif
 
 #include "diagnostics.h"
@@ -243,11 +239,11 @@ CLEANUP:
 
 // Returns the current directory in which the executable resides.
 //
-int VBOX_VM::generate_vm_root_dir( string& dir ) {
-    char root_dir[256];
+int VBOX_VM::get_slot_directory( string& dir ) {
+    char slot_dir[256];
 
-    getcwd(root_dir, (sizeof(root_dir)*sizeof(char)));
-    dir = root_dir;
+    getcwd(slot_dir, sizeof(slot_dir));
+    dir = slot_dir;
 
     if (!dir.empty()) {
         return 1;
@@ -276,7 +272,7 @@ bool VBOX_VM::is_hdd_registered() {
     string output;
     string virtual_machine_root_dir;
 
-    generate_vm_root_dir(virtual_machine_root_dir);
+    get_slot_directory(virtual_machine_root_dir);
 
     command = "showhdinfo \"" + virtual_machine_root_dir + "/" + image_filename + "\" ";
 
@@ -388,30 +384,26 @@ int VBOX_VM::get_install_directory(string& virtualbox_install_directory ) {
 
 int VBOX_VM::initialize() {
     string virtualbox_install_directory;
-    string virtual_machine_root_dir;
+    string virtual_machine_slot_directory;
     string old_path;
     string new_path;
     string virtualbox_user_home;
     char buf[256];
 
     get_install_directory(virtualbox_install_directory);
-    generate_vm_root_dir(virtual_machine_root_dir);
+    get_slot_directory(virtual_machine_slot_directory);
 
     // Prep the environment so we can execute the vboxmanage application
+    //
+    // TODO: Fix for non-Windows environments if we ever find another platform
+    // where vboxmanage is not already in the search path
 #ifdef _WIN32
     if (!virtualbox_install_directory.empty())
-#endif
     {
         old_path = getenv("PATH");
-
-        // Path environment variable seperator
-#ifdef _WIN32
         new_path = virtualbox_install_directory + ";" + old_path;
-#else
-        new_path = virtual_machine_root_dir + ":" + old_path;
-#endif
-        // putenv does not copy its input buffer, so we must use setenv
-        if (setenv("PATH", const_cast<char*>(new_path.c_str()), 1)) {
+
+        if (!SetEnvironmentVariable("PATH", const_cast<char*>(new_path.c_str()))) {
             fprintf(
                 stderr,
                 "%s Failed to modify the search path.\n",
@@ -419,12 +411,23 @@ int VBOX_VM::initialize() {
             );
         }
     }
+#endif
 
     // Set the location in which the VirtualBox Configuration files can be
     // stored for this instance.
-    virtualbox_user_home = virtual_machine_root_dir;
+    //
+    virtualbox_user_home = virtual_machine_slot_directory;
     virtualbox_user_home += "/vbox";
 
+#ifdef _WIN32
+    if (!SetEnvironmentVariable("VBOX_USER_HOME", const_cast<char*>(virtualbox_user_home.c_str()))) {
+        fprintf(
+            stderr,
+            "%s Failed to modify the search path.\n",
+            boinc_msg_prefix(buf, sizeof(buf))
+        );
+    }
+#else
     // putenv does not copy its input buffer, so we must use setenv
     if (setenv("VBOX_USER_HOME", const_cast<char*>(virtualbox_user_home.c_str()), 1)) {
         fprintf(
@@ -433,6 +436,7 @@ int VBOX_VM::initialize() {
             boinc_msg_prefix(buf, sizeof(buf))
         );
     }
+#endif
 
     return 0;
 }
@@ -440,11 +444,11 @@ int VBOX_VM::initialize() {
 int VBOX_VM::register_vm() {
     string command;
     string output;
-    string virtual_machine_root_dir;
+    string virtual_machine_slot_directory;
     char buf[256];
     int retval;
 
-    generate_vm_root_dir(virtual_machine_root_dir);
+    get_slot_directory(virtual_machine_slot_directory);
 
     fprintf(
         stderr,
@@ -463,7 +467,7 @@ int VBOX_VM::register_vm() {
     );
     command  = "createvm ";
     command += "--name \"" + vm_name + "\" ";
-    command += "--basefolder \"" + virtual_machine_root_dir + "\" ";
+    command += "--basefolder \"" + virtual_machine_slot_directory + "\" ";
     command += "--ostype \"" + os_name + "\" ";
     command += "--register";
     
@@ -519,7 +523,7 @@ int VBOX_VM::register_vm() {
     command += "--port 0 ";
     command += "--device 0 ";
     command += "--type hdd ";
-    command += "--medium \"" + virtual_machine_root_dir + "/" + image_filename + "\" ";
+    command += "--medium \"" + virtual_machine_slot_directory + "/" + image_filename + "\" ";
 
     retval = vbm_popen(command, output, "storage attach");
     if (retval) return retval;
@@ -540,7 +544,7 @@ int VBOX_VM::register_vm() {
         );
         command  = "sharedfolder add \"" + vm_name + "\" ";
         command += "--name \"shared\" ";
-        command += "--hostpath \"" + virtual_machine_root_dir + "/shared\"";
+        command += "--hostpath \"" + virtual_machine_slot_directory + "/shared\"";
 
         retval = vbm_popen(command, output, "enable shared dir");
         if (retval) return retval;
@@ -551,11 +555,11 @@ int VBOX_VM::register_vm() {
 int VBOX_VM::deregister_vm() {
     string command;
     string output;
-    string virtual_machine_root_dir;
+    string virtual_machine_slot_directory;
     char buf[256];
     int retval;
 
-    generate_vm_root_dir(virtual_machine_root_dir);
+    get_slot_directory(virtual_machine_slot_directory);
 
     fprintf(
         stderr,
@@ -599,7 +603,7 @@ int VBOX_VM::deregister_vm() {
         "%s Removing virtual disk drive from VirtualBox.\n",
         boinc_msg_prefix(buf, sizeof(buf))
     );
-    command  = "closemedium disk \"" + virtual_machine_root_dir + "/" + image_filename + "\" ";
+    command  = "closemedium disk \"" + virtual_machine_slot_directory + "/" + image_filename + "\" ";
 
     retval = vbm_popen(command, output, "remove virtual disk");
     if (retval) return retval;
@@ -609,17 +613,17 @@ int VBOX_VM::deregister_vm() {
 int VBOX_VM::deregister_stale_vm() {
     string command;
     string output;
-    string virtual_machine_root_dir;
+    string virtual_machine_slot_directory;
     size_t uuid_start;
     size_t uuid_end;
     int retval;
 
-    generate_vm_root_dir(virtual_machine_root_dir);
+    get_slot_directory(virtual_machine_slot_directory);
 
     // We need to determine what the name or uuid is of the previous VM which owns
     // this virtual disk
     //
-    command  = "showhdinfo \"" + virtual_machine_root_dir + "/" + image_filename + "\" ";
+    command  = "showhdinfo \"" + virtual_machine_slot_directory + "/" + image_filename + "\" ";
 
     retval = vbm_popen(command, output, "get HDD info");
     if (retval) return retval;
@@ -647,7 +651,7 @@ int VBOX_VM::deregister_stale_vm() {
     } else {
         // Did the user delete the VM in VirtualBox and not the medium?  If so,
         // just remove the medium.
-        command  = "closemedium disk \"" + virtual_machine_root_dir + "/" + image_filename + "\" ";
+        command  = "closemedium disk \"" + virtual_machine_slot_directory + "/" + image_filename + "\" ";
         retval = vbm_popen(command, output, "remove medium");
     }
     return 0;

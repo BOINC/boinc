@@ -6373,3 +6373,9 @@ Charlie 22 Sep 2011
     samples/
         vboxwrapper/
             vbox.cpp
+
+Rom    22 Sept 2011
+    - VBOX: More environment variable tweaks.
+
+    samples/vboxwrapper/
+        vbox.cpp, .h
