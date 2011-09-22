@@ -6340,3 +6340,12 @@ Rom    21 Sept 2011
 
     lib/
         coproc.cpp
+
+David  21 Sept 2011
+    - fix typo in DB schema
+    - msg tweaks in make_project
+
+    db/
+        schema.sql
+    py/Boinc/
+        setup_project.py

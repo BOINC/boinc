@@ -30,11 +30,11 @@
 */
 
 create table platform (
-    id                      integer     not null auto_increment,
-    create_time             integer     not null,
-    name                    varchar(254) not null,
-    user_friendly_name      varchar(254) not null,
-    deprecated              tinyint     not null default 0,
+    id                      integer         not null auto_increment,
+    create_time             integer         not null,
+    name                    varchar(254)    not null,
+    user_friendly_name      varchar(254)    not null,
+    deprecated              tinyint         not null default 0,
     primary key (id)
 ) engine=InnoDB;
 
@@ -311,7 +311,7 @@ create table user_submit (
     logical_start_time      double          not null,
     submit_all              tinyint         not null,
         -- can submit jobs to any app
-    manage_all              tinyint         not null,
+    manage_all              tinyint         not null
         -- manager privileges for all apps
         -- grant/revoke permissions (except manage), change quotas
         -- create apps
@@ -322,7 +322,7 @@ create table user_submit (
 --
 create table user_submit_app (
     user_id                 integer         not null,
-    app_id                  integer         not null
+    app_id                  integer         not null,
     manage                  tinyint         not null
         -- can
         --   create/deprecated app versions of this app
@@ -369,23 +369,6 @@ create table assignment (
     primary key (id)
 ) engine = InnoDB;
 
--- the following not used for anything right now
-create table state_counts (
-    appid                       integer     not null,
-    last_update_time            integer     not null,
-    result_server_state_2       integer     not null,
-    result_server_state_4       integer     not null,
-    result_file_delete_state_1  integer     not null,
-    result_file_delete_state_2  integer     not null,
-    result_server_state_5_and_file_delete_state_0       integer not null,
-    workunit_need_validate_1    integer not null,
-    workunit_assimilate_state_1 integer not null,
-    workunit_file_delete_state_1    integer not null,
-    workunit_file_delete_state_2    integer not null,
-    primary key (appid)
-) engine=MyISAM; 
-
-
 -- EVERYTHING FROM HERE ON IS USED ONLY FROM PHP,
 -- SO NOT IN BOINC_DB.H ETC.
 
@@ -410,38 +393,38 @@ create table profile (
 -- help desk is a group of categories that are handled separately
 --
 create table category (
-    id                  integer     not null auto_increment,
-    orderID             integer     not null,
+    id                      integer         not null auto_increment,
+    orderID                 integer         not null,
         -- order in which to display
-    lang                integer     not null,
+    lang                    integer         not null,
         -- not used
-    name                varchar(254) binary,
-    is_helpdesk         smallint    not null,
+    name                    varchar(254) binary,
+    is_helpdesk             smallint        not null,
     primary key (id)
 ) engine=InnoDB;
 
 -- message board topic
 --
 create table forum (
-    id                  integer     not null auto_increment,
-    category            integer     not null,
+    id                      integer         not null auto_increment,
+    category                integer         not null,
         -- ID of entity to which this forum is attached.
         -- The type (table) of the entity is determined by parent_type
-    orderID             integer     not null,
-    title               varchar(254) not null,
-    description         varchar(254) not null,
-    timestamp           integer     not null,
+    orderID                 integer         not null,
+    title                   varchar(254)    not null,
+    description             varchar(254)    not null,
+    timestamp               integer         not null,
         -- time of last new or modified thread or post
-    threads             integer     not null,
+    threads                 integer         not null,
         -- number of non-hidden threads in forum
-    posts               integer     not null,
-    rate_min_expavg_credit integer not null,
-    rate_min_total_credit integer not null,
-    post_min_interval   integer not null,
-    post_min_expavg_credit integer not null,
-    post_min_total_credit integer not null,
-    is_dev_blog            tinyint not null default 0,
-    parent_type         integer     not null,
+    posts                   integer         not null,
+    rate_min_expavg_credit  integer         not null,
+    rate_min_total_credit   integer         not null,
+    post_min_interval       integer         not null,
+    post_min_expavg_credit  integer         not null,
+    post_min_total_credit   integer         not null,
+    is_dev_blog             tinyint         not null default 0,
+    parent_type             integer         not null,
         -- entity type to which this forum is attached:
         -- 0 == category (public)
         -- 1 == team
@@ -452,33 +435,33 @@ create table forum (
 -- threads in a topic (or questions)
 --
 create table thread (
-    id                  integer     not null auto_increment,
-    forum               integer     not null,
-    owner               integer     not null,
+    id                      integer         not null auto_increment,
+    forum                   integer         not null,
+    owner                   integer         not null,
         -- user ID of creator
-    status              integer     not null,
+    status                  integer         not null,
         -- whether a question has been answered
         -- News forum: if set, don't export as notice
-    title               varchar(254) not null,
-    timestamp           integer     not null,
+    title                   varchar(254)    not null,
+    timestamp               integer         not null,
         -- time of last new or modified post
-    views               integer     not null,
+    views                   integer         not null,
         -- number of times this has been viewed
-    replies             integer     not null,
+    replies                 integer         not null,
         -- number of non-hidden posts in thread, not counting the initial one
-    activity            double      not null,
+    activity                double          not null,
         -- for questions: number of askers / time since asked
         -- (set periodically by update_forum_activity.php)
-    sufferers           integer     not null,
+    sufferers               integer         not null,
         -- in help desk: # people who indicated they had same problem
-    score               double      not null,
-    votes               integer     not null,
-    create_time         integer     not null,
+    score                   double          not null,
+    votes                   integer         not null,
+    create_time             integer         not null,
         -- when this record was created
-    hidden              integer     not null,
+    hidden                  integer         not null,
         -- nonzero if hidden by moderators
-    sticky              tinyint not null default 0,
-    locked              tinyint not null default 0,
+    sticky                  tinyint         not null default 0,
+    locked                  tinyint         not null default 0,
     primary key (id)
 ) engine=MyISAM;
 
@@ -486,20 +469,20 @@ create table thread (
 -- Each thread has an initial post
 --
 create table post (
-    id                  integer     not null auto_increment,
-    thread              integer     not null,
-    user                integer     not null,
-    timestamp           integer     not null,
+    id                      integer         not null auto_increment,
+    thread                  integer         not null,
+    user                    integer         not null,
+    timestamp               integer         not null,
         -- create time
-    content             text        not null,
-    modified            integer     not null,
+    content                 text            not null,
+    modified                integer         not null,
         -- when last modified
-    parent_post         integer     not null,
+    parent_post             integer         not null,
         -- post that was replied to, if any
-    score               double      not null,
-    votes               integer     not null,
-    signature           tinyint     not null default 0,
-    hidden              integer     not null,
+    score                   double          not null,
+    votes                   integer         not null,
+    signature               tinyint         not null default 0,
+    hidden                  integer         not null,
         -- nonzero if hidden by moderators
     primary key (id)
 ) engine=MyISAM;
@@ -507,68 +490,68 @@ create table post (
 -- subscription to a thread
 --
 create table subscriptions (
-    userid              integer     not null,
-    threadid            integer     not null,
-    notified_time       integer     not null default 0
+    userid                  integer         not null,
+    threadid                integer         not null,
+    notified_time           integer         not null default 0
         -- deprecated
 ) engine=InnoDB;
 
 -- actually: prefs for all community features
 --
 create table forum_preferences (
-    userid              integer     not null default 0,
-    signature           varchar(254) not null default '',
-    posts               integer     not null default 0,
-    last_post           integer     not null,
-    avatar              varchar(254) not null default '',
-    hide_avatars        tinyint     not null default 0,
-    forum_sorting       integer     not null,
-    thread_sorting      integer     not null,
-    no_signature_by_default tinyint not null default 1,
-    images_as_links     tinyint     not null default 0,
-    link_popup          tinyint     not null default 0,
-    mark_as_read_timestamp integer  not null default 0,
-    special_user        char(12)    not null default '0',
-    jump_to_unread      tinyint     not null default 1,
-    hide_signatures     tinyint     not null default 0,
-    rated_posts         varchar(254) not null,
-    low_rating_threshold integer not null default -25,
+    userid                  integer         not null default 0,
+    signature               varchar(254)    not null default '',
+    posts                   integer         not null default 0,
+    last_post               integer         not null,
+    avatar                  varchar(254)    not null default '',
+    hide_avatars            tinyint         not null default 0,
+    forum_sorting           integer         not null,
+    thread_sorting          integer         not null,
+    no_signature_by_default tinyint         not null default 1,
+    images_as_links         tinyint         not null default 0,
+    link_popup              tinyint         not null default 0,
+    mark_as_read_timestamp  integer         not null default 0,
+    special_user            char(12)        not null default '0',
+    jump_to_unread          tinyint         not null default 1,
+    hide_signatures         tinyint         not null default 0,
+    rated_posts             varchar(254)    not null,
+    low_rating_threshold    integer         not null default -25,
         -- deprecated
-    high_rating_threshold integer not null default 5,
+    high_rating_threshold   integer         not null default 5,
         -- deprecated
-    minimum_wrap_postcount integer  DEFAULT 100 NOT NULL,
-    display_wrap_postcount integer  DEFAULT 75 NOT NULL,
-    ignorelist          varchar(254) not null,
-    ignore_sticky_posts tinyint     not null default 0,
-    banished_until      integer     not null default 0,
-    pm_notification     tinyint    not null default 0,
+    minimum_wrap_postcount  integer         DEFAULT 100 NOT NULL,
+    display_wrap_postcount  integer         DEFAULT 75 NOT NULL,
+    ignorelist              varchar(254)    not null,
+    ignore_sticky_posts     tinyint         not null default 0,
+    banished_until          integer         not null default 0,
+    pm_notification         tinyint         not null default 0,
         -- actually controls all notifications.
         -- 0 = no email
         -- 1 = email per event
         -- 2 = digest email
-    highlight_special   tinyint     not null default 1,
+    highlight_special       tinyint         not null default 1,
     primary key (userid)
 ) engine=MyISAM; 
 
 -- keep track of last time a user read a thread
 create table forum_logging (
-    userid              integer     not null default 0,
-    threadid            integer     not null default 0,
-    timestamp           integer     not null default 0,
+    userid                  integer         not null default 0,
+    threadid                integer         not null default 0,
+    timestamp               integer         not null default 0,
     primary key (userid,threadid)
 ) engine=MyISAM;
 
 create table post_ratings (
-    post                integer     not null,
-    user                integer     not null,
-    rating              tinyint     not null,
+    post                    integer         not null,
+    user                    integer         not null,
+    rating                  tinyint         not null,
     primary key(post, user)
 ) engine=MyISAM;
 
 create table sent_email (
-    userid              integer     not null,
-    time_sent           integer     not null,
-    email_type          smallint    not null,
+    userid                  integer         not null,
+    time_sent               integer         not null,
+    email_type              smallint        not null,
         -- 0 = other
         -- 1 = newsletter
         -- 2 = lapsed reminder
@@ -580,95 +563,95 @@ create table sent_email (
 ) engine=MyISAM;
 
 create table private_messages (
-    id                  integer     not null auto_increment,
-    userid              integer     not null,
-    senderid            integer     not null,
-    date                integer     not null,
-    opened              tinyint     not null default 0,
-    subject             varchar(255)  not null,
-    content             text        not null,
+    id                      integer         not null auto_increment,
+    userid                  integer         not null,
+    senderid                integer         not null,
+    date                    integer         not null,
+    opened                  tinyint         not null default 0,
+    subject                 varchar(255)    not null,
+    content                 text            not null,
     primary key(id),
     key userid (userid)
 ) engine=MyISAM;
 
 create table credited_job (
-    userid              integer     not null,
-    workunitid          bigint      not null
+    userid                  integer         not null,
+    workunitid              bigint          not null
 ) engine=MyISAM;
 
 create table donation_items (
-    id                  integer         not null auto_increment,
-    item_name           varchar(32)     not null,
-    title               varchar(255)    not null,
-    description         varchar(255)    not null,
-    required            double          not null default '0',
+    id                      integer         not null auto_increment,
+    item_name               varchar(32)     not null,
+    title                   varchar(255)    not null,
+    description             varchar(255)    not null,
+    required                double          not null default '0',
     PRIMARY KEY(id)
 ) engine=MyISAM;
 
 create table donation_paypal (
-    id                  integer         not null auto_increment,
-    order_time          integer         not null,
-    userid              integer         not null,
-    email_addr          varchar(255)    not null,
-    order_amount        double(6,2)     not null,
-    processed           tinyint         not null default '0',
-    payment_time        integer         not null,
-    item_name           varchar(255)            not null,
-    item_number         varchar(255)            not null,
-    payment_status      varchar(255)            not null,
-    payment_amount      double(6,2)             not null,
-    payment_fee         double(5,2)             default null,
-    payment_currency    varchar(255)            not null,
-    txn_id              varchar(255)            not null,
-    receiver_email      varchar(255)            not null,
-    payer_email         varchar(255)            not null,
-    payer_name          varchar(255)            not null,
+    id                      integer         not null auto_increment,
+    order_time              integer         not null,
+    userid                  integer         not null,
+    email_addr              varchar(255)    not null,
+    order_amount            double(6,2)     not null,
+    processed               tinyint         not null default '0',
+    payment_time            integer         not null,
+    item_name               varchar(255)    not null,
+    item_number             varchar(255)    not null,
+    payment_status          varchar(255)    not null,
+    payment_amount          double(6,2)     not null,
+    payment_fee             double(5,2)     default null,
+    payment_currency        varchar(255)    not null,
+    txn_id                  varchar(255)    not null,
+    receiver_email          varchar(255)    not null,
+    payer_email             varchar(255)    not null,
+    payer_name              varchar(255)    not null,
     PRIMARY KEY(id)
 ) engine=MyISAM;
 
 -- record changes in team membership
 create table team_delta (
-    userid              integer         not null,
-    teamid              integer         not null,
-    timestamp           integer         not null,
-    joining             tinyint         not null,
-    total_credit        double          not null
+    userid                  integer         not null,
+    teamid                  integer         not null,
+    timestamp               integer         not null,
+    joining                 tinyint         not null,
+    total_credit            double          not null
 ) engine=MyISAM;
 
 -- tables for moderator banishment votes
 create table banishment_vote (
-    id                  serial          primary key,
-    userid              integer         not null,
-    modid               integer         not null,
-    start_time          integer         not null,
-    end_time            integer         not null
+    id                      serial          primary key,
+    userid                  integer         not null,
+    modid                   integer         not null,
+    start_time              integer         not null,
+    end_time                integer         not null
 ) engine=MyISAM;
 
 create table banishment_votes (
-    id                  serial          primary key,
-    voteid              integer         not null,
-    modid               integer         not null,
-    time                integer         not null,
-    yes                 tinyint         not null
+    id                      serial          primary key,
+    voteid                  integer         not null,
+    modid                   integer         not null,
+    time                    integer         not null,
+    yes                     tinyint         not null
 ) engine=MyISAM;
 
 create table team_admin (
-    teamid              integer         not null,
-    userid              integer         not null,
-    create_time         integer         not null,
-    rights              integer         not null
+    teamid                  integer         not null,
+    userid                  integer         not null,
+    create_time             integer         not null,
+    rights                  integer         not null
 ) engine=MyISAM;
 
 -- A friendship request.
 -- The friendship exists if (x,y) and (y,x)
 create table friend (
-    user_src            integer         not null,
+    user_src                integer         not null,
         -- initiator
-    user_dest           integer         not null,
+    user_dest               integer         not null,
         -- target
-    message             varchar(255)    not null,
-    create_time         integer         not null,
-    reciprocated        tinyint         not null
+    message                 varchar(255)    not null,
+    create_time             integer         not null,
+    reciprocated            tinyint         not null
         -- whether the reciprocal exists
 );
 
@@ -678,11 +661,11 @@ create table friend (
 --   a personal message
 -- These records are deleted when the user acts on them
 create table notify (
-    id                  serial          primary key,
-    userid              integer         not null,
+    id                      serial          primary key,
+    userid                  integer         not null,
         -- destination of notification
-    create_time         integer         not null,
-    type                integer         not null,
-    opaque              integer         not null
+    create_time             integer         not null,
+    type                    integer         not null,
+    opaque                  integer         not null
         -- some other ID, e.g. that of the thread, user or PM record
 );
