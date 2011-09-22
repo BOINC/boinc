@@ -56,6 +56,7 @@
 #include "shmem.h"
 #include "sandbox.h"
 #include "cs_notice.h"
+#include "cs_trickle.h"
 
 #include "client_state.h"
 
@@ -862,6 +863,7 @@ bool CLIENT_STATE::poll_slow_events() {
     POLL_ACTION(garbage_collect        , garbage_collect        );
     POLL_ACTION(gui_http               , gui_http.poll          );
     POLL_ACTION(gui_rpc_http           , gui_rpcs.poll          );
+    POLL_ACTION(trickle_up_ops,        trickle_up_poll);
     if (!network_suspended && suspend_reason != SUSPEND_REASON_BENCHMARKS) {
         // don't initiate network activity if we're doing CPU benchmarks
         net_status.poll();

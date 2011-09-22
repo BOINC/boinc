@@ -817,6 +817,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\client\cs_trickle.h"
+				>
+			</File>
+			<File
 				RelativePath="..\client\current_version.h"
 				>
 			</File>

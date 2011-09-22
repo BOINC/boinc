@@ -6379,3 +6379,10 @@ Rom    22 Sept 2011
 
     samples/vboxwrapper/
         vbox.cpp, .h
+
+David  22 Sept 2011
+	- client: more work on replicated trickles.  Not working yet.
+
+	client/
+		client_state.cpp
+		cs_trickle.cpp,h

@@ -35,17 +35,13 @@ struct TRICKLE_UP_OP: public GUI_HTTP_OP {
         req_buf = NULL;
     }
     virtual ~TRICKLE_UP_OP(){}
-    int do_rpc(std::string msg);
-    virtual void handle_reply(int){
-        if (req_buf) {
-            free(req_buf);
-            req_buf = 0;
-        }
-    };
+    int do_rpc(const char*);
+    virtual void handle_reply(int);
 };
 
 extern bool trickle_up_poll();
 extern int parse_trickle_up_urls(XML_PARSER&, std::vector<std::string>&);
 extern void update_trickle_up_urls(PROJECT* p, std::vector<std::string> &urls);
+extern void send_replicated_trickles(PROJECT* p, const char* msg, char* result_name, int t);
 
 #endif
