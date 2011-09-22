@@ -35,7 +35,8 @@ using std::string;
 #define popen       _popen
 #define pclose      _pclose
 #define getcwd      _getcwd
-#define putenv      _putenv
+//#define putenv      _putenv
+#define setenv      _setenv
 #endif
 
 #include "diagnostics.h"
@@ -397,44 +398,42 @@ int VBOX_VM::initialize() {
     generate_vm_root_dir(virtual_machine_root_dir);
 
     // Prep the environment so we can execute the vboxmanage application
-    if (!virtualbox_install_directory.empty()) {
-        old_path = getenv("path");
-
-        new_path  = "path=";
-        new_path += virtualbox_install_directory;
+#ifdef _WIN32
+    if (!virtualbox_install_directory.empty())
+#endif
+    {
+        old_path = getenv("PATH");
 
         // Path environment variable seperator
 #ifdef _WIN32
-        new_path += ";";
+        new_path = virtualbox_install_directory + ";" + old_path;
 #else
-        new_path += ":";
+        new_path = virtual_machine_root_dir + ":" + old_path;
 #endif
-
-        new_path += old_path;
-
-        if (putenv(const_cast<char*>(new_path.c_str()))) {
+        // putenv does not copy its input buffer, so we must use setenv
+        if (setenv("PATH", const_cast<char*>(new_path.c_str()), 1)) {
             fprintf(
                 stderr,
                 "%s Failed to modify the search path.\n",
                 boinc_msg_prefix(buf, sizeof(buf))
             );
         }
-
-
-        // Set the location in which the VirtualBox Configuration files can be
-        // stored for this instance.
-        virtualbox_user_home  = "VBOX_USER_HOME=";
-        virtualbox_user_home += virtual_machine_root_dir;
-        virtualbox_user_home += "/vbox";
-
-        if (putenv(const_cast<char*>(virtualbox_user_home.c_str()))) {
-            fprintf(
-                stderr,
-                "%s Failed to modify the VBOX_USER_HOME path.\n",
-                boinc_msg_prefix(buf, sizeof(buf))
-            );
-        }
     }
+
+    // Set the location in which the VirtualBox Configuration files can be
+    // stored for this instance.
+    virtualbox_user_home = virtual_machine_root_dir;
+    virtualbox_user_home += "/vbox";
+
+    // putenv does not copy its input buffer, so we must use setenv
+    if (setenv("VBOX_USER_HOME", const_cast<char*>(virtualbox_user_home.c_str()), 1)) {
+        fprintf(
+            stderr,
+            "%s Failed to modify the VBOX_USER_HOME path.\n",
+            boinc_msg_prefix(buf, sizeof(buf))
+        );
+    }
+
     return 0;
 }
 

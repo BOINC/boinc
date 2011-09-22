@@ -6364,3 +6364,12 @@ David  21 Sept 2011
 
     lib/
         Makefile.am
+
+Charlie 22 Sep 2011
+    - vboxwrapper: fix code which sets environment variables.
+        - "PATH" must be upper case.
+        - putenv() does not copy its input string, so must use setenv().
+
+    samples/
+        vboxwrapper/
+            vbox.cpp
