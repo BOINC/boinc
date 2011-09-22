@@ -61,7 +61,6 @@ generic_sources = \
     shmem.cpp \
     str_util.cpp \
     synch.cpp \
-	thread.cpp \
     unix_util.cpp \
 	url.cpp \
     util.cpp

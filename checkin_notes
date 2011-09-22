@@ -6357,3 +6357,10 @@ David  21 Sept 2011
         cs_trickle.cpp
         client_types.cpp
         http_curl.cpp
+
+David  21 Sept 2011
+    - lib: don't include thread.cpp;
+        not needed for server, and causes errors on some 64-bit Linux 
+
+    lib/
+        Makefile.am
