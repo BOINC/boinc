@@ -201,10 +201,18 @@ void send_replicated_trickles(PROJECT* p, const char* msg, char* result_name, in
     for (unsigned int i=0; i<p->trickle_up_ops.size(); i++) {
         TRICKLE_UP_OP *t = p->trickle_up_ops[i];
         if (t->gui_http->is_busy()) {
-            msg_printf(p, MSG_INFO, "TRICKLE CHANNEL IS BUSY");
+            if (log_flags.trickle_debug) {
+                msg_printf(p, MSG_INFO,
+                    "[trickle] Trickle channel to %s is busy", t->url.c_str()
+                );
+            }
             return;
         }
-        msg_printf(p, MSG_INFO, "SENDING REPLICATED TRICKLE TO %s", t->url.c_str());
+        if (log_flags.trickle_debug) {
+            msg_printf(p, MSG_INFO,
+                "[trickle] Sending replicated trickle to %s", t->url.c_str()
+            );
+        }
         t->do_rpc(buf);
     }
 }
@@ -257,11 +265,15 @@ void update_trickle_up_urls(PROJECT* p, vector<string> &urls) {
 }
 
 int TRICKLE_UP_OP::do_rpc(const char* msg) {
-    req_buf = strdup(msg);
+    int n = strlen(msg)+1;
+    if (n<65536) n = 65536;
+    req_buf = (char*)malloc(n);
+    strcpy(req_buf, msg);
     int retval = gui_http->do_rpc_post_str(
-        this, const_cast<char*>(url.c_str()), req_buf
+        this, const_cast<char*>(url.c_str()), req_buf, n
     );
     if (retval) {
+        msg_printf(0, MSG_INTERNAL_ERROR, "Trickle-up post failed: %d", retval);
         free(req_buf);
         req_buf = 0;
     }
@@ -282,7 +294,11 @@ int parse_trickle_up_urls(XML_PARSER& xp, std::vector<std::string>& urls) {
 }
 
 void TRICKLE_UP_OP::handle_reply(int http_op_retval) {
-    msg_printf(0, MSG_INFO, "TRICKLE RETVAL: %d", http_op_retval);
+    if (log_flags.trickle_debug) {
+        msg_printf(0, MSG_INFO,
+            "[trickle] Replicated trickle done; retval %d", http_op_retval
+        );
+    }
     if (req_buf) {
         free(req_buf);
         req_buf = 0;

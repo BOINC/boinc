@@ -335,6 +335,7 @@ int HTTP_OP::init_post2(
     init();
     req1 = r1;
     req1_len = r1_len;
+    content_length = 0;
     if (in) {
         safe_strcpy(infile, in);
         file_offset = offset;

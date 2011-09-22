@@ -90,6 +90,7 @@ int LOG_FLAGS::parse(XML_PARSER& xp) {
         if (xp.parse_bool("statefile_debug", statefile_debug)) continue;
         if (xp.parse_bool("task_debug", task_debug)) continue;
         if (xp.parse_bool("time_debug", time_debug)) continue;
+        if (xp.parse_bool("trickle_debug", trickle_debug)) continue;
         if (xp.parse_bool("unparsed_xml", unparsed_xml)) continue;
         if (xp.parse_bool("work_fetch_debug", work_fetch_debug)) continue;
         if (xp.parse_bool("notice_debug", notice_debug)) continue;
@@ -133,6 +134,7 @@ int LOG_FLAGS::write(MIOFILE& out) {
         "        <std_debug>%d</std_debug>\n"
         "        <task_debug>%d</task_debug>\n"
         "        <time_debug>%d</time_debug>\n"
+        "        <trickle_debug>%d</trickle_debug>\n"
         "        <unparsed_xml>%d</unparsed_xml>\n"
         "        <work_fetch_debug>%d</work_fetch_debug>\n"
         "        <notice_debug>%d</notice_debug>\n"
@@ -169,6 +171,7 @@ int LOG_FLAGS::write(MIOFILE& out) {
         std_debug ? 1 : 0,
         task_debug ? 1 : 0,
         time_debug ? 1 : 0,
+        trickle_debug ? 1 : 0,
         unparsed_xml ? 1 : 0,
         work_fetch_debug ? 1 : 0,
         notice_debug ? 1 : 0

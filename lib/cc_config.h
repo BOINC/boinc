@@ -101,6 +101,8 @@ struct LOG_FLAGS {
         // task start and control details, and when apps checkpoint
     bool time_debug;
         // changes in on_frac, active_frac, connected_frac
+    bool trickle_debug;
+        // show trickle messages
     bool unparsed_xml;
         // show unparsed XML lines
     bool work_fetch_debug;

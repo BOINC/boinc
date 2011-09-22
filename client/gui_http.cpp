@@ -73,11 +73,11 @@ int GUI_HTTP::do_rpc_post(
     return 0;
 }
 
-int GUI_HTTP::do_rpc_post_str(GUI_HTTP_OP* op, char* url, char* req_buf) {
+int GUI_HTTP::do_rpc_post_str(GUI_HTTP_OP* op, char* url, char* req_buf, int len) {
     if (gui_http_state != GUI_HTTP_STATE_IDLE) {
         return ERR_RETRY;
     }
-    int retval = http_op.init_post2(url, req_buf, 0, NULL, 0);
+    int retval = http_op.init_post2(url, req_buf, len, NULL, 0);
     if (retval) return retval;
     gstate.http_ops->insert(&http_op);
     gui_http_op = op;

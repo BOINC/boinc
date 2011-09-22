@@ -70,7 +70,7 @@ struct GUI_HTTP {
         const char* input_file, const char* output_file,
         bool is_background
     );
-    int do_rpc_post_str(GUI_HTTP_OP*, char* url, char* req);
+    int do_rpc_post_str(GUI_HTTP_OP*, char* url, char* req, int len);
     bool poll();
     inline bool is_busy() {
         return (gui_http_state == GUI_HTTP_STATE_BUSY);

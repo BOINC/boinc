@@ -6386,3 +6386,14 @@ David  22 Sept 2011
 	client/
 		client_state.cpp
 		cs_trickle.cpp,h
+
+David  22 Sept 2011
+	- client: replicated trickles.  Seems to be working now.
+	- client: added <trickle_debug> config option
+
+	client/
+		cs_trickle.cpp
+		gui_http.cpp,h
+		httl_curl.cpp
+	lib/
+		cc_config.cpp,h
