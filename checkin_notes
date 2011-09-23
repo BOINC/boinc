@@ -10256,3 +10256,11 @@ Rom    22 Sept 2011
         
     client/
         client_state.cpp
+
+Rom    22 Sept 2011
+    - Tag for 6.12.38 release, all platforms
+      boinc_core_release_6_12_38
+
+    /
+        configure.ac
+        version.h
