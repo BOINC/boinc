@@ -6442,3 +6442,9 @@ David  23 Sept 2011
 
     html/inc/
         util.inc
+
+David  23 Sept 2011
+    - web: message tweak
+
+    html/inc/
+        forum.inc
