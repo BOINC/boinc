@@ -314,6 +314,7 @@ int PROJECT::parse_state(XML_PARSER& xp) {
         if (xp.parse_bool("anonymous_platform", btemp)) continue;
         if (xp.parse_string("trickle_up_url", stemp)) {
             trickle_up_ops.push_back(new TRICKLE_UP_OP(stemp));
+            continue;
         }
         if (log_flags.unparsed_xml) {
             msg_printf(0, MSG_INFO,

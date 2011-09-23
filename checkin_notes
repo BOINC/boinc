@@ -6448,3 +6448,9 @@ David  23 Sept 2011
 
     html/inc/
         forum.inc
+
+David  23 Sept 2011
+    - client: fix spurious error message about trickle-up URLs
+
+    client/
+        client_types.cpp
