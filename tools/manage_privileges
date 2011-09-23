@@ -147,7 +147,7 @@ if ($argv[3] === "all") {
         }
     } else {
         if ($grant) {
-            $bus = BoincUserSubmit::lookup(userid($user->id);
+            $bus = BoincUserSubmit::lookup_userid($user->id);
             if (!$bus) {
                 BoincUserSubmit::insert("user_id=$user->id=1");
             }

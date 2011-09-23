@@ -6429,3 +6429,9 @@ Rom    22 Sept 2011
     /
         configure.ac
         version.h
+
+David  23 Sept 2011
+    - fix typo in manage_privileges
+
+    tools/
+        manage_privileges
