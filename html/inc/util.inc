@@ -709,7 +709,7 @@ function current_url() {
 //
 function show_button($url, $text, $desc=null, $class="button") {
     if (!$desc) $desc = $text;
-    echo "<a href=\"".$url."\" title=\"".addslashes($desc)."\" class=\"".$class."\">".$text."</a>\n";
+    echo "<a href=\"".$url."\" title=\"$desc)\" class=\"".$class."\">".$text."</a>\n";
 }
 
 // When multiple buttons (or actions) are presented in a list you can

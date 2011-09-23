@@ -6435,3 +6435,10 @@ David  23 Sept 2011
 
     tools/
         manage_privileges
+
+David  23 Sept 2011
+    - web: don't addslashes() for button titles; this was left over
+        from when buttons were implemented in Javascript
+
+    html/inc/
+        util.inc
