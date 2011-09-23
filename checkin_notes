@@ -10248,3 +10248,11 @@ Rom    14 Sept 2011
         
     client/
         hostinfo_win.cpp
+
+Rom    22 Sept 2011
+    - client: Disable GPU detection of Windows when running as a
+        service to avoid a deadlock condition with the latest ATI
+        drivers.
+        
+    client/
+        client_state.cpp

@@ -312,7 +312,11 @@ int CLIENT_STATE::init() {
 
     // check for GPUs.
     //
-    if (!config.no_gpus) {
+    if (!config.no_gpus
+#ifdef _WIN32
+        && !executing_as_daemon
+#endif
+        ) {
         vector<string> descs;
         vector<string> warnings;
         host_info.coprocs.get(
