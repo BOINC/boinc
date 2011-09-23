@@ -10241,3 +10241,10 @@ Rom    22 Sept 2011
     /
         configure.ac
         version.h
+
+Rom    14 Sept 2011
+    - client: Update Windows detection code to support Windows 8.
+        (From: [P3D] Crashtest)
+        
+    client/
+        hostinfo_win.cpp
