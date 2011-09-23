@@ -6421,3 +6421,11 @@ Charlie 23 Sep 2011
      mac_build/
         boinc.xcodeproj/
             project.pbxproj
+
+Rom    22 Sept 2011
+    - Tag for 6.13.6 release, all platforms
+      boinc_core_release_6_13_6
+
+    /
+        configure.ac
+        version.h
