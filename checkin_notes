@@ -6454,3 +6454,10 @@ David  23 Sept 2011
 
     client/
         client_types.cpp
+
+David  23 Sept 2011
+    - client: don't call CLIENT_STATE::free_mem() on shutdown.
+        This is for debugging only, and it can cause crashes.
+
+    client/
+        main.cpp

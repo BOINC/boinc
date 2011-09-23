@@ -291,7 +291,7 @@ static int finalize() {
 
     curl_cleanup();
 
-    gstate.free_mem();
+    //gstate.free_mem();
 
     diagnostics_finish();
     gstate.cleanup_completed = true;
