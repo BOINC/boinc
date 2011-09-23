@@ -3173,7 +3173,6 @@
 					"-D_THREAD_SAFE",
 					"-lz",
 					"-lpthread",
-					"-liconv",
 					"-lz",
 					"-lm",
 				);
@@ -3225,7 +3224,6 @@
 					"-D_THREAD_SAFE",
 					"-lz",
 					"-lpthread",
-					"-liconv",
 					"-lz",
 					"-lm",
 				);
@@ -3409,7 +3407,12 @@
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEPLOYMENT_POSTPROCESSING = YES;
-				HEADER_SEARCH_PATHS = "../../curl-7.21.7/include";
+				GCC_VERSION = com.apple.compilers.llvmgcc42;
+				HEADER_SEARCH_PATHS = (
+					"../../curl-7.21.7/include",
+					"/usr/include/c++/4.0.0/i686-apple-darwin9",
+				);
+				INFOPLIST_PREPROCESSOR_DEFINITIONS = "";
 				"OTHER_CFLAGS[arch=x86_64]" = (
 					"-D_THREAD_SAFE",
 					"-DNDEBUG",
@@ -3426,8 +3429,10 @@
 					"-lz",
 				);
 				PRODUCT_NAME = boinc;
+				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.5.sdk";
 				SKIP_INSTALL = NO;
 				STRIP_INSTALLED_PRODUCT = NO;
+				USER_HEADER_SEARCH_PATHS = "../../curl-7.21.7/include";
 			};
 			name = Deployment;
 		};
@@ -3609,7 +3614,13 @@
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEPLOYMENT_POSTPROCESSING = YES;
-				HEADER_SEARCH_PATHS = "../../curl-7.21.7/include";
+				GCC_VERSION = com.apple.compilers.llvmgcc42;
+				HEADER_SEARCH_PATHS = (
+					"../../curl-7.21.7/include",
+					"/usr/include/c++/4.0.0/i686-apple-darwin9",
+				);
+				INFOPLIST_PREPROCESSOR_DEFINITIONS = "";
+				MACOSX_DEPLOYMENT_TARGET = 10.4;
 				OTHER_LDFLAGS = (
 					"../../curl-7.21.7/lib/.libs/libcurl.a",
 					"../../c-ares-1.7.4/.libs/libcares.a",
@@ -3619,8 +3630,10 @@
 					"-lz",
 				);
 				PRODUCT_NAME = boinc;
+				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.5.sdk";
 				SKIP_INSTALL = NO;
 				STRIP_INSTALLED_PRODUCT = NO;
+				USER_HEADER_SEARCH_PATHS = "../../curl-7.21.7/include";
 			};
 			name = Development;
 		};

@@ -6414,3 +6414,10 @@ Rom    22 Sept 2011
     client/
         client_state.cpp
         coproc_detect.cpp
+
+Charlie 23 Sep 2011
+    - Mac: fixes for problems with OS 10.4 compatibility.
+
+     mac_build/
+        boinc.xcodeproj/
+            project.pbxproj
