@@ -6417,6 +6417,7 @@ Rom    22 Sept 2011
 
 Charlie 23 Sep 2011
     - Mac: fixes for problems with OS 10.4 compatibility.
+        (checked into 6.13.5 and 6.13.6 tags)
 
      mac_build/
         boinc.xcodeproj/
