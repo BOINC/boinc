@@ -423,7 +423,7 @@ static OSStatus CleanupAllVisibleUsers(void)
 
         // Delete our login item(s) for this user
         if (OSVersion >= 0x1070) {
-            DeleteLoginItemOSAScript(dp->d_name, "BOINCSaver");
+            DeleteLoginItemOSAScript(dp->d_name, "BOINCManager");
             DeleteLoginItemOSAScript(dp->d_name, "GridRepublic Desktop");
             DeleteLoginItemOSAScript(dp->d_name, "Progress Thru Processors Desktop");
             DeleteLoginItemOSAScript(dp->d_name, "Charity Engine Desktop");
@@ -594,7 +594,7 @@ static void DeleteLoginItemOSAScript(char* user, char* appName)
     char                    cmd[2048];
     OSErr                   err;
 
-    sprintf(cmd, "sudo -u %s osascript -e 'tell application \"System Events\"' -e 'delete (every login item whose path contains \"%s\")' -e 'end tell'", user, appName);
+    sprintf(cmd, "sudo -u %s osascript -e 'tell application \"System Events\"' -e 'delete (every login item whose name contains \"%s\")' -e 'end tell'", user, appName);
     err = system(cmd);
     if (err) {
         printf("[2] Delete login item containing %s for user %s returned error %d\n", appName, user, err);
