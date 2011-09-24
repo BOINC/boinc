@@ -71,6 +71,8 @@
 #include <cerrno>
 #include <time.h>       // for time()
 
+#include "LoginItemAPI.h"
+
 #include "SetupSecurity.h"
 
 
@@ -85,7 +87,8 @@ Boolean myFilterProc(DialogRef theDialog, EventRecord *theEvent, DialogItemIndex
 int DeleteReceipt(void);
 OSStatus CheckLogoutRequirement(int *finalAction);
 void CheckUserAndGroupConflicts();
-Boolean SetLoginItem(long brandID, Boolean deleteLogInItem);
+Boolean SetLoginItemOSAScript(long brandID, Boolean deleteLogInItem);
+Boolean SetLoginItemAPI(long brandID, Boolean deleteLogInItem);
 void SetSkinInUserPrefs(char *userName, char *skinName);
 Boolean CheckDeleteFile(char *name);
 void SetEUIDBackToUser (void);
@@ -729,7 +732,7 @@ void CheckUserAndGroupConflicts()
 }
 
 
-Boolean SetLoginItem(long brandID, Boolean deleteLogInItem)
+Boolean SetLoginItemOSAScript(long brandID, Boolean deleteLogInItem)
 {
     int                     i;
     char                    cmd[2048];
@@ -760,6 +763,60 @@ Boolean SetLoginItem(long brandID, Boolean deleteLogInItem)
 
     return (err == noErr);
 }
+
+
+Boolean SetLoginItemAPI(long brandID, Boolean deleteLogInItem)
+{
+    Boolean                 Success;
+    int                     NumberOfLoginItems, Counter;
+    char                    *p, *q;
+    char                    s[256];
+    int                     i;
+
+    Success = false;
+    
+    NumberOfLoginItems = GetCountOfLoginItems(kCurrentUser);
+    
+    // Search existing login items in reverse order, deleting any duplicates of ours
+    for (Counter = NumberOfLoginItems ; Counter > 0 ; Counter--)
+    {
+        p = ReturnLoginItemPropertyAtIndex(kCurrentUser, kApplicationNameInfo, Counter-1);
+        q = p;
+        while (*q)
+        {
+            // It is OK to modify the returned string because we "own" it
+            *q = toupper(*q);	// Make it case-insensitive
+            q++;
+        }
+    
+        for (i=0; i<NUMBRANDS; i++) {
+            q = strrchr(appPath[i], '/');
+            if (!q) continue;       // Should never happen
+            strncpy(s, q+1, sizeof(s)-1);
+            q = s;
+            while (*q) {
+                *q = toupper(*q);
+                q++;
+            }
+
+            // if (strcmp(p, "BOINCMANAGER.APP") == 0)
+            // if (strcmp(p, "GRIDREPUBLIC DESKTOP.APP") == 0)
+            // if (strcmp(p, "PROGRESS THRU PROCESSORS DESKTOP.APP") == 0)
+            // if (strcmp(p, "CHARITY ENGINE DESKTOP.APP") == 0)
+            if (strcmp(p, s) == 0) {
+                Success = RemoveLoginItemAtIndex(kCurrentUser, Counter-1);
+            }
+        }
+    }
+
+    if (deleteLogInItem)
+        return false;
+        
+    Success = AddLoginItemWithPropertiesToUser(kCurrentUser, appPath[brandID], kHideOnLaunch);
+
+    return Success;
+}
+
 
 
 // Sets the skin selection in the specified user's preferences to the specified skin
@@ -1222,8 +1279,15 @@ OSErr UpdateAllVisibleUsers(long brandID)
             deleteLoginItem = true;
         }
 
-        SetLoginItem(brandID, deleteLoginItem);     // Set login item for this user
-
+     // Set login item for this user
+        if (OSVersion < 0x1070) {
+            printf("[2] calling SetLoginItemAPI for user %s, euid = %d\n", pw->pw_name, geteuid());
+            SetLoginItemAPI(brandID, deleteLoginItem);
+        } else {
+            printf("[2] calling SetLoginItemOSAScript for user %s, euid = %d\n", pw->pw_name, geteuid());
+            SetLoginItemOSAScript(brandID, deleteLoginItem);
+        }
+        
         if (isBMGroupMember) {
             SetSkinInUserPrefs(dp->d_name, skinName);
         

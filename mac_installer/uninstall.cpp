@@ -30,13 +30,16 @@
 #include <dirent.h>
 #include <sys/param.h>  // for MAXPATHLEN
 
+#include "LoginItemAPI.h"
+
 static OSStatus DoUninstall(void);
 static OSStatus GetpathToBOINCManagerApp(char* path, int maxLen, FSRef *theFSRef);
 static OSStatus CleanupAllVisibleUsers(void);
 static OSStatus DeleteOurBundlesFromDirectory(CFStringRef bundleID, char *extension, char *dirPath);
 static OSStatus GetAuthorization(AuthorizationRef * authRef, const char *pathToTool, char *brandName);
 static OSStatus DoPrivilegedExec(char *brandName, const char *pathToTool, char *arg1, char *arg2, char *arg3, char *arg4, char *arg5);
-static void DeleteLoginItem(char* user, char* appName);
+static void DeleteLoginItemOSAScript(char* user, char* appName);
+static void DeleteLoginItemAPI(void);
 static char * PersistentFGets(char *buf, size_t buflen, FILE *f);
 static pid_t FindProcessPID(char* name, pid_t thePID);
 static OSStatus QuitBOINCManager(OSType signature);
@@ -419,11 +422,14 @@ static OSStatus CleanupAllVisibleUsers(void)
         seteuid(pw->pw_uid);                        // Temporarily set effective uid to this user
 
         // Delete our login item(s) for this user
-        DeleteLoginItem(dp->d_name, "BOINCSaver");
-        DeleteLoginItem(dp->d_name, "GridRepublic");
-        DeleteLoginItem(dp->d_name, "Progress Thru Processors");
-        DeleteLoginItem(dp->d_name, "Charity Engine");
-
+        if (OSVersion >= 0x1070) {
+            DeleteLoginItemOSAScript(dp->d_name, "BOINCSaver");
+            DeleteLoginItemOSAScript(dp->d_name, "GridRepublic Desktop");
+            DeleteLoginItemOSAScript(dp->d_name, "Progress Thru Processors Desktop");
+            DeleteLoginItemOSAScript(dp->d_name, "Charity Engine Desktop");
+        } else {
+            DeleteLoginItemAPI();
+        }
 //        sprintf(s, "rm -f \"/Users/%s/Library/Preferences/BOINC Manager Preferences\"", dp->d_name);
 //        system (s);
         
@@ -583,7 +589,7 @@ if (err != noErr)
 }
 
 
-static void DeleteLoginItem(char* user, char* appName)
+static void DeleteLoginItemOSAScript(char* user, char* appName)
 {
     char                    cmd[2048];
     OSErr                   err;
@@ -592,6 +598,40 @@ static void DeleteLoginItem(char* user, char* appName)
     err = system(cmd);
     if (err) {
         printf("[2] Delete login item containing %s for user %s returned error %d\n", appName, user, err);
+    }
+}
+    
+    
+static void DeleteLoginItemAPI(void)
+{
+    Boolean                 Success;
+    int                     NumberOfLoginItems, Counter;
+    char                    *p, *q;
+
+    Success = false;
+
+    NumberOfLoginItems = GetCountOfLoginItems(kCurrentUser);
+    
+    // Search existing login items in reverse order, deleting ours
+    for (Counter = NumberOfLoginItems ; Counter > 0 ; Counter--)
+    {
+        p = ReturnLoginItemPropertyAtIndex(kCurrentUser, kApplicationNameInfo, Counter-1);
+        q = p;
+        while (*q)
+        {
+            // It is OK to modify the returned string because we "own" it
+            *q = toupper(*q);	// Make it case-insensitive
+            q++;
+        }
+            
+        if (strcmp(p, "BOINCMANAGER.APP") == 0)
+            Success = RemoveLoginItemAtIndex(kCurrentUser, Counter-1);
+        if (strcmp(p, "GRIDREPUBLIC DESKTOP.APP") == 0)
+            Success = RemoveLoginItemAtIndex(kCurrentUser, Counter-1);
+        if (strcmp(p, "PROGRESS THRU PROCESSORS DESKTOP.APP") == 0)
+            Success = RemoveLoginItemAtIndex(kCurrentUser, Counter-1);
+        if (strcmp(p, "CHARITY ENGINE DESKTOP.APP") == 0)
+            Success = RemoveLoginItemAtIndex(kCurrentUser, Counter-1);
     }
 }
 

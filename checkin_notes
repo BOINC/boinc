@@ -6462,3 +6462,14 @@ David  23 Sept 2011
 
     client/
         main.cpp
+
+Charlie 24 Sep 2011
+    - Mac: more fixes for problems with OS 10.4 compatibility.
+        (checked into 6.13.5 and 6.13.6 tags)
+
+     mac_build/
+        boinc.xcodeproj/
+            project.pbxproj
+    mac_installer/
+        PostInstall.cpp
+        uninstall.cpp
