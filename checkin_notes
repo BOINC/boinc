@@ -10264,3 +10264,14 @@ Rom    22 Sept 2011
     /
         configure.ac
         version.h
+
+Charlie 24 Sep 2011
+    - Mac: more fixes for problems with OS 10.4 compatibility.
+        (checked into 6.12.38 tag)
+
+     mac_build/
+        boinc.xcodeproj/
+            project.pbxproj
+    mac_installer/
+        PostInstall.cpp
+        uninstall.cpp
