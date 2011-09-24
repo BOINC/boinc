@@ -64,6 +64,8 @@
 		DD29B8A2139F0CED0014477D /* procinfo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD29B89E139F0CED0014477D /* procinfo.cpp */; };
 		DD29B8A7139F14D10014477D /* procinfo_mac.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDB6934F0ABFE9C600689FD8 /* procinfo_mac.cpp */; };
 		DD29B8AC139F15080014477D /* procinfo_mac.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDB6934F0ABFE9C600689FD8 /* procinfo_mac.cpp */; };
+		DD3030AB142E19BA008F779C /* LoginItemAPI.c in Sources */ = {isa = PBXBuildFile; fileRef = DD3CFF8913F4A8FD007BC4EF /* LoginItemAPI.c */; };
+		DD3030AC142E19C5008F779C /* LoginItemAPI.c in Sources */ = {isa = PBXBuildFile; fileRef = DD3CFF8913F4A8FD007BC4EF /* LoginItemAPI.c */; };
 		DD3048CD13E032DD00D47966 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DDE2552B07C62F3E008E7D6E /* IOKit.framework */; };
 		DD32CC830C27CEFB0016F571 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = F51BDF4903086C46012012A7 /* InfoPlist.strings */; };
 		DD32CC8F0C27CF860016F571 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = F51BDF4903086C46012012A7 /* InfoPlist.strings */; };
@@ -2476,6 +2478,7 @@
 				DD1277C4081F3E73007B5DE1 /* PostInstall.cpp in Sources */,
 				DDA12AA20A369B5500FBDD12 /* SetupSecurity.cpp in Sources */,
 				DD51DC8F0A4943A300BD24E6 /* check_security.cpp in Sources */,
+				DD3030AC142E19C5008F779C /* LoginItemAPI.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2672,6 +2675,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				DD46885A0C1661970089F500 /* uninstall.cpp in Sources */,
+				DD3030AB142E19BA008F779C /* LoginItemAPI.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
