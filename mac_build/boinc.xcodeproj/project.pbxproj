@@ -3108,7 +3108,10 @@
 		DD1AFEB60A512D8700EE5B82 /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				HEADER_SEARCH_PATHS = ../lib;
+				HEADER_SEARCH_PATHS = (
+					../lib,
+					"/usr/include/c++/4.0.0/i686-apple-darwin9",
+				);
 				INFOPLIST_FILE = "Installer-Info.plist";
 				OTHER_LDFLAGS = (
 					"-framework",
@@ -3123,7 +3126,10 @@
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT_PRE_XCODE_3_1)";
 				ARCHS_STANDARD_32_BIT_PRE_XCODE_3_1 = "ppc i386";
-				HEADER_SEARCH_PATHS = ../lib;
+				HEADER_SEARCH_PATHS = (
+					../lib,
+					"/usr/include/c++/4.0.0/i686-apple-darwin9",
+				);
 				INFOPLIST_FILE = "Installer-Info.plist";
 				OTHER_LDFLAGS = (
 					"-framework",
@@ -3148,6 +3154,7 @@
 					"../../wxMac-2.8.10/src/build/include/",
 					"../../wxMac-2.8.10/include",
 					../clientgui,
+					"/usr/include/c++/4.0.0/i686-apple-darwin9",
 				);
 				INFOPLIST_FILE = Info.plist;
 				LIBRARY_SEARCH_PATHS = (
@@ -3173,7 +3180,6 @@
 					"-D_THREAD_SAFE",
 					"-lz",
 					"-lpthread",
-					"-liconv",
 					"-lz",
 					"-lm",
 				);
@@ -3199,6 +3205,7 @@
 					"../../wxMac-2.8.10/src/build/include/",
 					"../../wxMac-2.8.10/include",
 					../clientgui,
+					"/usr/include/c++/4.0.0/i686-apple-darwin9",
 				);
 				INFOPLIST_FILE = Info.plist;
 				LIBRARY_SEARCH_PATHS = (
@@ -3225,7 +3232,6 @@
 					"-D_THREAD_SAFE",
 					"-lz",
 					"-lpthread",
-					"-liconv",
 					"-lz",
 					"-lm",
 				);
@@ -3290,7 +3296,10 @@
 		DD8916210F3B17E900DE5B1C /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				HEADER_SEARCH_PATHS = ../api/;
+				HEADER_SEARCH_PATHS = (
+					../api/,
+					"/usr/include/c++/4.0.0/i686-apple-darwin9",
+				);
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/../../jpeg-6b\"",
@@ -3305,7 +3314,10 @@
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT_PRE_XCODE_3_1)";
 				ARCHS_STANDARD_32_BIT_PRE_XCODE_3_1 = "ppc i386";
-				HEADER_SEARCH_PATHS = ../api/;
+				HEADER_SEARCH_PATHS = (
+					../api/,
+					"/usr/include/c++/4.0.0/i686-apple-darwin9",
+				);
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/../../jpeg-6b\"",
@@ -3320,6 +3332,7 @@
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_64_BIT_PRE_XCODE_3_1)";
 				ARCHS_STANDARD_32_64_BIT_PRE_XCODE_3_1 = "x86_64 i386 ppc";
+				HEADER_SEARCH_PATHS = "";
 				OTHER_CFLAGS = (
 					"-D_THREAD_SAFE",
 					"-DNDEBUG",
@@ -3343,6 +3356,7 @@
 				);
 				OTHER_LDFLAGS = "";
 				PRODUCT_NAME = boinc;
+				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.6.sdk";
 			};
 			name = Deployment;
 		};
@@ -3368,6 +3382,7 @@
 					../clientgui/mac/config.h,
 				);
 				PRODUCT_NAME = boinc_api;
+				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.6.sdk";
 			};
 			name = Deployment;
 		};
@@ -3387,6 +3402,7 @@
 				ARCHS = "$(ARCHS_STANDARD_32_64_BIT_PRE_XCODE_3_1)";
 				ARCHS_STANDARD_32_64_BIT_PRE_XCODE_3_1 = "x86_64 i386 ppc";
 				GCC_ENABLE_OBJC_GC = supported;
+				HEADER_SEARCH_PATHS = "";
 				INFOPLIST_FILE = "ScreenSaver-Info.plist";
 				"MACOSX_DEPLOYMENT_TARGET[arch=x86_64]" = 10.6;
 				OTHER_LDFLAGS = (
@@ -3396,6 +3412,7 @@
 					AppKit,
 				);
 				PRODUCT_NAME = BOINCSaver;
+				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.6.sdk";
 				"SDKROOT[arch=x86_64]" = "$(DEVELOPER_SDK_DIR)/MacOSX10.6.sdk";
 				WRAPPER_EXTENSION = saver;
 			};
@@ -3409,7 +3426,12 @@
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEPLOYMENT_POSTPROCESSING = YES;
-				HEADER_SEARCH_PATHS = "../../curl-7.21.7/include";
+				GCC_VERSION = com.apple.compilers.llvmgcc42;
+				HEADER_SEARCH_PATHS = (
+					"../../curl-7.21.7/include",
+					"/usr/include/c++/4.0.0/i686-apple-darwin9",
+				);
+				INFOPLIST_PREPROCESSOR_DEFINITIONS = "";
 				"OTHER_CFLAGS[arch=x86_64]" = (
 					"-D_THREAD_SAFE",
 					"-DNDEBUG",
@@ -3428,6 +3450,7 @@
 				PRODUCT_NAME = boinc;
 				SKIP_INSTALL = NO;
 				STRIP_INSTALLED_PRODUCT = NO;
+				USER_HEADER_SEARCH_PATHS = "../../curl-7.21.7/include";
 			};
 			name = Deployment;
 		};
@@ -3453,7 +3476,10 @@
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT_PRE_XCODE_3_1)";
 				ARCHS_STANDARD_32_BIT_PRE_XCODE_3_1 = "ppc i386";
-				HEADER_SEARCH_PATHS = ../lib;
+				HEADER_SEARCH_PATHS = (
+					../lib,
+					"/usr/include/c++/4.0.0/i686-apple-darwin9",
+				);
 				INFOPLIST_FILE = "PostInstall-Info.plist";
 				OTHER_CFLAGS = (
 					"-D_THREAD_SAFE",
@@ -3529,6 +3555,7 @@
 				GCC_VERSION = com.apple.compilers.llvmgcc42;
 				GCC_WARN_ABOUT_DEPRECATED_FUNCTIONS = NO;
 				GCC_WARN_TYPECHECK_CALLS_TO_PRINTF = NO;
+				HEADER_SEARCH_PATHS = "/usr/include/c++/4.0.0/i686-apple-darwin9";
 				LIBRARY_STYLE = STATIC;
 				MACOSX_DEPLOYMENT_TARGET = 10.4;
 				"MACOSX_DEPLOYMENT_TARGET[arch=ppc]" = 10.4;
@@ -3541,7 +3568,7 @@
 					../clientgui/mac/config.h,
 				);
 				PREBINDING = NO;
-				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.6.sdk";
+				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.5.sdk";
 				"SDKROOT[arch=x86_64]" = "$(DEVELOPER_SDK_DIR)/MacOSX10.6.sdk";
 				STRIP_INSTALLED_PRODUCT = YES;
 				WARNING_CFLAGS = (
@@ -3558,8 +3585,10 @@
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_64_BIT_PRE_XCODE_3_1)";
 				ARCHS_STANDARD_32_64_BIT_PRE_XCODE_3_1 = "x86_64 i386 ppc";
+				HEADER_SEARCH_PATHS = "";
 				OTHER_LDFLAGS = "";
 				PRODUCT_NAME = boinc;
+				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.6.sdk";
 			};
 			name = Development;
 		};
@@ -3571,6 +3600,7 @@
 				HEADER_SEARCH_PATHS = ../lib;
 				LIBRARY_SEARCH_PATHS = ../lib;
 				PRODUCT_NAME = boinc_api;
+				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.6.sdk";
 			};
 			name = Development;
 		};
@@ -3587,6 +3617,7 @@
 			buildSettings = {
 				ARCHS = "$(NATIVE_ARCH_ACTUAL)";
 				GCC_ENABLE_OBJC_GC = supported;
+				HEADER_SEARCH_PATHS = "";
 				INFOPLIST_FILE = "ScreenSaver-Info.plist";
 				"MACOSX_DEPLOYMENT_TARGET[arch=x86_64]" = 10.6;
 				OTHER_LDFLAGS = (
@@ -3596,6 +3627,7 @@
 					AppKit,
 				);
 				PRODUCT_NAME = BOINCSaver;
+				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.6.sdk";
 				"SDKROOT[arch=x86_64]" = "$(DEVELOPER_SDK_DIR)/MacOSX10.6.sdk";
 				WRAPPER_EXTENSION = saver;
 			};
@@ -3609,7 +3641,13 @@
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEPLOYMENT_POSTPROCESSING = YES;
-				HEADER_SEARCH_PATHS = "../../curl-7.21.7/include";
+				GCC_VERSION = com.apple.compilers.llvmgcc42;
+				HEADER_SEARCH_PATHS = (
+					"../../curl-7.21.7/include",
+					"/usr/include/c++/4.0.0/i686-apple-darwin9",
+				);
+				INFOPLIST_PREPROCESSOR_DEFINITIONS = "";
+				MACOSX_DEPLOYMENT_TARGET = 10.4;
 				OTHER_LDFLAGS = (
 					"../../curl-7.21.7/lib/.libs/libcurl.a",
 					"../../c-ares-1.7.4/.libs/libcares.a",
@@ -3621,6 +3659,7 @@
 				PRODUCT_NAME = boinc;
 				SKIP_INSTALL = NO;
 				STRIP_INSTALLED_PRODUCT = NO;
+				USER_HEADER_SEARCH_PATHS = "../../curl-7.21.7/include";
 			};
 			name = Development;
 		};
@@ -3642,7 +3681,10 @@
 		DD9E2372091CBDAE0048316E /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				HEADER_SEARCH_PATHS = ../lib;
+				HEADER_SEARCH_PATHS = (
+					../lib,
+					"/usr/include/c++/4.0.0/i686-apple-darwin9",
+				);
 				INFOPLIST_FILE = "PostInstall-Info.plist";
 				OTHER_CFLAGS = (
 					"-D_THREAD_SAFE",
@@ -3711,6 +3753,7 @@
 				GCC_VERSION = com.apple.compilers.llvmgcc42;
 				GCC_WARN_ABOUT_DEPRECATED_FUNCTIONS = NO;
 				GCC_WARN_TYPECHECK_CALLS_TO_PRINTF = NO;
+				HEADER_SEARCH_PATHS = "/usr/include/c++/4.0.0/i686-apple-darwin9";
 				LIBRARY_STYLE = STATIC;
 				MACOSX_DEPLOYMENT_TARGET = 10.4;
 				"MACOSX_DEPLOYMENT_TARGET[arch=ppc]" = 10.4;
@@ -3723,7 +3766,7 @@
 					../clientgui/mac/config.h,
 				);
 				PREBINDING = NO;
-				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.6.sdk";
+				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.5.sdk";
 				"SDKROOT[arch=x86_64]" = "$(DEVELOPER_SDK_DIR)/MacOSX10.6.sdk";
 				STRIP_INSTALLED_PRODUCT = NO;
 				WARNING_CFLAGS = (
@@ -3789,6 +3832,7 @@
 				ARCHS_STANDARD_32_64_BIT_PRE_XCODE_3_1 = "x86_64 i386 ppc";
 				HEADER_SEARCH_PATHS = "../../jpeg-6b";
 				PRODUCT_NAME = boinc_graphics2;
+				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.6.sdk";
 			};
 			name = Development;
 		};
@@ -3813,6 +3857,7 @@
 					../clientgui/mac/config.h,
 				);
 				PRODUCT_NAME = boinc_graphics2;
+				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.6.sdk";
 			};
 			name = Deployment;
 		};
