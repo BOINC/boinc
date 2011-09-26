@@ -590,6 +590,9 @@ void project_priority_init(bool set_rec_temp) {
 double project_priority(PROJECT* p) {
     double x = p->resource_share_frac - p->pwf.rec_temp/rec_sum;
 
+    if (isnan(x)) {
+        x = 1;
+    }
     // projects with zero resource share are always lower priority
     // than those with positive resource share
     //
@@ -625,9 +628,9 @@ void adjust_rec_work_fetch(RESULT* rp) {
     p->pwf.rec_temp += rp->estimated_flops_remaining()*COBBLESTONE_SCALE;
 }
 
-// adjust project debts (short, long-term) or REC
+// adjust project REC
 //
-void CLIENT_STATE::adjust_debts() {
+void CLIENT_STATE::adjust_rec() {
     unsigned int i;
     double elapsed_time = now - debt_interval_start;
 
@@ -692,11 +695,11 @@ bool CLIENT_STATE::schedule_cpus() {
     last_reschedule = now;
     must_schedule_cpus = false;
 
-    // NOTE: there's an assumption that debt is adjusted at
+    // NOTE: there's an assumption that REC is adjusted at
     // least as often as the CPU sched period (see client_state.h).
     // If you remove the following, make changes accordingly
     //
-    adjust_debts();
+    adjust_rec();
 
     make_run_list(run_list);
     return enforce_run_list(run_list);
@@ -728,7 +731,7 @@ static bool schedule_if_possible(
 
     if (log_flags.cpu_sched_debug) {
         msg_printf(rp->project, MSG_INFO,
-            "[cpu_sched_debug] scheduling %s (%s) (%f)", rp->name, description,
+            "[cpu_sched_debug] scheduling %s (%s) (prio %f)", rp->name, description,
             project_priority(rp->project)
         );
     }

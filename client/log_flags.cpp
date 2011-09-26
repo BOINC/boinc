@@ -111,6 +111,31 @@ static void show_gpu_ignore(vector<int>& devs, const char* name) {
     }
 }
 
+static void show_exclude_gpu(EXCLUDE_GPU& e) {
+    char t[256], app[256], dev[256];
+    PROJECT *p = gstate.lookup_project(e.url.c_str());
+    if (!p) return;
+    if (e.type.empty()) {
+        strcpy(t, "all");
+    } else {
+        strcpy(t, e.type.c_str());
+    }
+    if (e.appname.empty()) {
+        strcpy(app, "all");
+    } else {
+        strcpy(app, e.appname.c_str());
+    }
+    if (e.device_num < 0) {
+        strcpy(dev, "all");
+    } else {
+        sprintf(dev, "%d", e.device_num);
+    }
+    msg_printf(p, MSG_INFO,
+        "Config: excluded GPU.  Type: %s.  App: %s.  Device: %s",
+        t, app, dev
+    );
+}
+
 // TODO: show other config options
 //
 void CONFIG::show() {
@@ -141,6 +166,9 @@ void CONFIG::show() {
     }
     show_gpu_ignore(ignore_nvidia_dev, GPU_TYPE_NVIDIA);
     show_gpu_ignore(ignore_ati_dev, GPU_TYPE_ATI);
+    for (i=0; i<exclude_gpus.size(); i++) {
+        show_exclude_gpu(exclude_gpus[i]);
+    }
     for (i=0; i<exclusive_apps.size(); i++) {
         msg_printf(NULL, MSG_INFO,
             "Config: don't compute while %s is running",
@@ -399,7 +427,10 @@ int read_config_file(bool init, const char* fname) {
         log_flags.init();
     }
     FILE* f = boinc_fopen(fname, "r");
-    if (!f) return ERR_FOPEN;
+    if (!f) {
+        msg_printf(NULL, MSG_INFO, "No config file found - using defaults");
+        return ERR_FOPEN;
+    }
     int retval = config.parse(f);
     fclose(f);
     if (retval) return retval;

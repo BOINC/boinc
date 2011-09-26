@@ -118,9 +118,9 @@ struct LOG_FLAGS {
 
 struct EXCLUDE_GPU {
     std::string url;
-    std::string type;
-    std::string appname;
-    int device_num;     // -1 means all
+    std::string type;       // empty means all types
+    std::string appname;    // empty means all apps
+    int device_num;         // -1 means all instances
 };
 
 // if you add anything, you must add it to

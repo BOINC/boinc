@@ -192,8 +192,8 @@ function create_scenario_form() {
         <table>
     ";
     row2("* client_state.xml", "<input name=client_state type=file>");
-    row2("global_prefs.xml", "<input name=prefs type=file>");
-    row2("global_prefs_override.xml", "<input name=prefs_override type=file>");
+    row2("global_prefs.xml", "<input name=global_prefs type=file>");
+    row2("global_prefs_override.xml", "<input name=global_prefs_override type=file>");
     row2("* Description", "<textarea name=description cols=40></textarea>");
     row2("", "<input type=submit value=OK>");
     echo "
@@ -336,19 +336,22 @@ function show_scenario() {
 function simulation_form() {
     $scen = get_str("scen");
     page_head("Do simulation");
-    echo "<form action=sim_web.php>
+    start_table();
+    echo "
+        <form action=sim_web.php method=post enctype=\"multipart/form-data\">
         <input type=hidden name=action value=simulation_action>
         <input type=hidden name=scen value=$scen>
     ";
-    start_table();
     row2("Duration", "<input name=duration value=86400> seconds");
     row2("Time step", "<input name=delta value=60> seconds");
-    row2("cc_config.xml", "<input name=cc_config type=file>");
-    row2("Use Recent Estimated Credit
-        <br><span class=note>If checked, use 6.14 scheduling policies
-        based on Recent Estimated Credit (REC)
-        rather than short- and long-term debt.</span>",
-        "<input type=checkbox name=use_rec checked>"
+    row2("Half life of average-credit decay", "<input name=rec_half_life_days value=10> days");
+    row2("cc_config.xml", "<input type=file name=cc_config>");
+    row2("Existing jobs only?
+        <br><span class=note>If checked, simulate only the
+        jobs in the client state file.
+        Otherwise, simulate an infinite stream of jobs
+        modeled after those in the state file.",
+        "<input type=checkbox name=existing_jobs_only>"
     );
     row2("Use hysteresis work fetch?
         <br><span class=note>If checked, use 6.14 work fetch policies.
@@ -369,6 +372,7 @@ function simulation_form() {
         "<input type=checkbox name=cpu_sched_rr_only>"
     );
     row2("", "<input type=submit value=OK>");
+    echo "</form>\n";
     end_table();
     page_tail();
 }
@@ -379,7 +383,7 @@ function simulation_form() {
 //
 function simulation_action() {
     $user = get_logged_in_user();
-    $scen = get_str("scen");
+    $scen = post_str("scen");
     if (!is_dir("scenarios/$scen")) {
         error_page("no such scenario");
     }
@@ -387,10 +391,13 @@ function simulation_action() {
     $sim_name = create_dir_seqno($sim_dir);
     $sim_path = "$sim_dir/$sim_name";
     $policy = new POLICY("");
-    $policy->use_rec = get_str("use_rec", true);
-    $policy->use_hyst_fetch = get_str("use_hyst_fetch", true);
-    $policy->cpu_sched_rr_only = get_str("cpu_sched_rr_only", true);
-    $policy->server_uses_workload = get_str("server_uses_workload", true);
+    $policy->duration = (double)post_str("duration");
+    $policy->delta = (double)post_str("delta");
+    $policy->rec_half_life = (double)post_str("rec_half_life_days")*86400;
+    $policy->existing_jobs_only = post_str("existing_jobs_only", true);
+    $policy->use_hyst_fetch = post_str("use_hyst_fetch", true);
+    $policy->cpu_sched_rr_only = post_str("cpu_sched_rr_only", true);
+    $policy->server_uses_workload = post_str("server_uses_workload", true);
     file_put_contents("$sim_path/userid", "$user->id");
     $cc = $_FILES['cc_config']['tmp_name'];
     if (is_uploaded_file($cc)) {

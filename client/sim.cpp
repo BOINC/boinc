@@ -381,7 +381,7 @@ bool CLIENT_STATE::simulate_rpc(PROJECT* p) {
     }
 
     bool sent_something = false;
-    while (1) {
+    while (!existing_jobs_only) {
         vector<APP*> apps;
         get_apps_needing_work(p, apps);
         if (apps.empty()) break;
@@ -430,6 +430,26 @@ bool CLIENT_STATE::simulate_rpc(PROJECT* p) {
     msg_printf(0, MSG_INFO, "Got %d tasks", new_results.size());
     sprintf(buf, "got %d tasks<br>", new_results.size());
     html_msg += buf;
+
+    if (new_results.size() == 0) {
+        for (int i=0; i<coprocs.n_rsc; i++) {
+            if (rsc_work_fetch[i].req_secs) {
+                p->rsc_pwf[i].backoff(p, rsc_name(i));
+            }
+        }
+    } else {
+        bool got_rsc[MAX_RSC];
+        for (int i=0; i<coprocs.n_rsc; i++) {
+            got_rsc[i] = false;
+        }
+        for (unsigned int i=0; i<new_results.size(); i++) {
+            RESULT* rp = new_results[i];
+            got_rsc[rp->avp->gpu_usage.rsc_type] = true;
+        }
+        for (int i=0; i<coprocs.n_rsc; i++) {
+            if (got_rsc[i]) p->rsc_pwf[i].clear_backoff();
+        }
+    }
 
     SCHEDULER_REPLY sr;
     rsc_work_fetch[0].req_secs = save_cpu_req_secs;
@@ -966,9 +986,11 @@ static void write_inputs() {
     sprintf(buf, "%s/%s", outfile_prefix, INPUTS_FNAME);
     FILE* f = fopen(buf, "w");
     fprintf(f,
+        "Existing jobs only: %s\n"
         "Round-robin only: %s\n"
         "scheduler EDF sim: %s\n"
         "hysteresis work fetch: %s\n",
+        existing_jobs_only?"yes":"no",
         cpu_sched_rr_only?"yes":"no",
         server_uses_workload?"yes":"no",
         use_hyst_fetch?"yes":"no"
@@ -1043,7 +1065,7 @@ void simulate() {
             while (1) {
                 action = false;
                 action |= gstate.schedule_cpus();
-                if (connected && !existing_jobs_only) {
+                if (connected) {
                     action |= gstate.scheduler_rpc_poll();
                 }
                 action |= gstate.active_tasks.poll();
@@ -1234,6 +1256,7 @@ void do_client_simulation() {
     int retval;
 
     sprintf(buf, "%s%s", config_prefix, CONFIG_FILE);
+    config.defaults();
     read_config_file(true, buf);
     config.show();
 
@@ -1248,6 +1271,10 @@ void do_client_simulation() {
         fprintf(stderr, "state file parse error %d\n", retval);
         exit(1);
     }
+
+    config.show();
+    log_flags.show();
+
     sprintf(buf, "%s%s", infile_prefix, GLOBAL_PREFS_FILE_NAME);
     sprintf(buf2, "%s%s", infile_prefix, GLOBAL_PREFS_OVERRIDE_FILE);
     gstate.read_global_prefs(buf, buf2);
@@ -1273,10 +1300,12 @@ void do_client_simulation() {
         gstate.results.clear();
     }
 
+    gstate.log_show_projects();
     gstate.set_ncpus();
     work_fetch.init();
 
     set_initial_rec();
+    project_priority_init();
 
     gstate.request_work_fetch("init");
     simulate();

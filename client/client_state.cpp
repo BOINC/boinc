@@ -528,24 +528,7 @@ int CLIENT_STATE::init() {
         }
     }
 
-
-    // show projects
-    //
-    for (i=0; i<projects.size(); i++) {
-        p = projects[i];
-        if (p->hostid) {
-            sprintf(buf, "%d", p->hostid);
-        } else {
-            strcpy(buf, "not assigned yet");
-        }
-        msg_printf(p, MSG_INFO,
-            "URL %s; Computer ID %s; resource share %.0f",
-            p->master_url, buf, p->resource_share
-        );
-        if (p->ended) {
-            msg_printf(p, MSG_INFO, "Project has ended - OK to detach");
-        }
-    }
+    log_show_projects();
 
     read_global_prefs();
 
@@ -1896,7 +1879,7 @@ int CLIENT_STATE::detach_project(PROJECT* project) {
     delete project;
     write_state_file();
 
-    adjust_debts();
+    adjust_rec();
     request_schedule_cpus("Detach");
     request_work_fetch("Detach");
     return 0;
@@ -1910,7 +1893,7 @@ int CLIENT_STATE::detach_project(PROJECT* project) {
 int CLIENT_STATE::quit_activities() {
     // calculate long-term debts (for state file)
     //
-    adjust_debts();
+    adjust_rec();
 
     int retval = active_tasks.exit_tasks();
     if (retval) {
@@ -1981,6 +1964,25 @@ void CLIENT_STATE::clear_absolute_times() {
     for (i=0; i<results.size(); i++) {
         RESULT* rp = results[i];
         rp->schedule_backoff = 0;
+    }
+}
+
+void CLIENT_STATE::log_show_projects() {
+    char buf[256];
+    for (unsigned int i=0; i<projects.size(); i++) {
+        PROJECT* p = projects[i];
+        if (p->hostid) {
+            sprintf(buf, "%d", p->hostid);
+        } else {
+            strcpy(buf, "not assigned yet");
+        }
+        msg_printf(p, MSG_INFO,
+            "URL %s; Computer ID %s; resource share %.0f",
+            p->master_url, buf, p->resource_share
+        );
+        if (p->ended) {
+            msg_printf(p, MSG_INFO, "Project has ended - OK to detach");
+        }
     }
 }
 

@@ -405,11 +405,11 @@ void CLIENT_STATE::read_global_prefs(
     if (retval) {
         if (retval == ERR_FOPEN) {
             msg_printf(NULL, MSG_INFO,
-                "No general preferences found - using BOINC defaults"
+                "No general preferences found - using defaults"
             );
         } else {
             msg_printf(NULL, MSG_INFO,
-                "Couldn't parse preferences file - using BOINC defaults"
+                "Couldn't parse preferences file - using defaults"
             );
             boinc_delete_file(fname);
         }

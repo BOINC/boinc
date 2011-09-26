@@ -6491,3 +6491,17 @@ Charlie 26 Sep 2011
 
      mac_build/
         buildWxMac.sh
+
+David  26 Sept 2011
+    - client simulator: fixes
+    - client: message tweaks
+
+    client/
+        client_state.cpp,h
+        sim.cpp
+        cs_prefs.cpp
+        cs_apps.cpp
+        log_flags.cpp
+        cpu_sched.cpp
+    lib/
+        cc_config.h

@@ -263,6 +263,7 @@ struct CLIENT_STATE {
     void check_clock_reset();
     void clear_absolute_times();
     void set_now();
+    void log_show_projects();
 
 // --------------- cpu_sched.cpp:
     double total_resource_share();
@@ -283,7 +284,7 @@ struct CLIENT_STATE {
     void append_unfinished_time_slice(vector<RESULT*>&);
 
     double runnable_resource_share(int);
-    void adjust_debts();
+    void adjust_rec();
     double retry_shmem_time;
         // if we fail to start a task due to no shared-mem segments,
         // wait until at least this time to try running
