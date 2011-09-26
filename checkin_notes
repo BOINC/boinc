@@ -6483,4 +6483,11 @@ David  26 Sept 2011
     client/
         sim.cpp,h
         cs_prefs.cpp
-        makefile_sim
+ 
+Charlie 26 Sep 2011
+     - Mac: update wxMac build script for building with XCode 4.1 
+        under OS 10.7 while maintaining OS 10.4 compatibility.
+        (checked into 6.13.6 tag)
+
+     mac_build/
+        buildWxMac.sh

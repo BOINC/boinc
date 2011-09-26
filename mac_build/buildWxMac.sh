@@ -22,7 +22,7 @@
 #
 # by Charlie Fenton    7/21/06
 # Updated for wx-Mac 2.8.10 and Unicode 4/17/09
-# Updated 10/11/10
+# Updated for OS 10.7 and XCode 4.1 with OS 10.4 compatibility 9/26/11
 
 #
 ## In Terminal, CD to the wxMac-2.8.10 directory.
@@ -53,10 +53,28 @@ else
   doclean=""
 fi
 
-if [ ! -d /Developer/SDKs/MacOSX10.4u.sdk/ ]; then
-    echo "ERROR: System 10.4 SDK is missing.  For details, see build instructions at"
+if [ ! -d /Developer/SDKs/MacOSX10.5.sdk/ ]; then
+    echo "ERROR: System 10.5 SDK is missing.  For details, see build instructions at"
     echo "boinc/mac_build/HowToBuildBOINC_XCode.rtf or http://boinc.berkeley.edu/trac/wiki/MacBuild"
     return 1
+fi
+
+## By default, wxMac 2.8.10 links with libiconv.dyld, but building with OS 10.5 SDK 
+## makes it require libiconv.2.4.0.dylib, while OS 10.4 supplies only libiconv.2.2.0.dylib.
+## This causes the Manager to fail under OS 10.4 with a dyld error.  
+## But libiconv is not really needed for BOINC Manager, so we patch wxMac's config file to 
+## avoid using libiconv.
+if [ ! -f "include/wx/mac/carbon/config_xcode.h.orig" ]; then
+    ## Make sure sed uses UTF-8 text encoding
+    unset LC_CTYPE
+    unset LC_MESSAGES
+    unset __CF_USER_TEXT_ENCODING
+    export LANG=en_US.UTF-8
+
+    echo "patching file include/wx/mac/carbon/config_xcode.h"
+    sed -i ".orig" s%"#define HAVE_ICONV 1"%"//#undef HAVE_ICONV"%g "include/wx/mac/carbon/config_xcode.h"
+else
+    echo "config_xcode.h already patched"
 fi
 
 ## Fix a bug in wxMutex.  This patch should not be needed for wxMac-2.8.11 and later
@@ -90,7 +108,7 @@ if [ "$1" != "-clean" ] && [ -f src/build/Deployment/libwx_mac_static.a ]; then
 else
     export DEVELOPER_SDK_DIR="/Developer/SDKs"
     ## We must override some of the build settings in wxWindows.xcodeproj 
-    xcodebuild -project src/wxWindows.xcodeproj -target static -configuration Deployment $doclean build GCC_VERSION_ppc=4.0 MACOSX_DEPLOYMENT_TARGET_ppc=10.3 SDKROOT=/Developer/SDKs/MacOSX10.4u.sdk GCC_VERSION_i386=4.0 MACOSX_DEPLOYMENT_TARGET_i386=10.4 ARCHS="i386 ppc" OTHER_CPLUSPLUSFLAGS="-DHAVE_LOCALTIME_R=1 -DHAVE_GMTIME_R=1 -DwxUSE_UNICODE=1 -fvisibility=hidden -fvisibility-inlines-hidden"
+    xcodebuild -project src/wxWindows.xcodeproj -target static -configuration Deployment $doclean build SDKROOT=/Developer/SDKs/MacOSX10.6.sdk GCC_VERSION_i386=4.2 MACOSX_DEPLOYMENT_TARGET_i386=10.4 ARCHS="i386" OTHER_CPLUSPLUSFLAGS="-DHAVE_LOCALTIME_R=1 -DHAVE_GMTIME_R=1 -DwxUSE_UNICODE=1 -fvisibility=hidden -fvisibility-inlines-hidden"
 
 if [  $? -ne 0 ]; then return 1; fi
 fi
@@ -100,7 +118,7 @@ if [ "$1" != "-clean" ] && [ -f src/build/Development/libwx_mac_static.a ]; then
 else
     export DEVELOPER_SDK_DIR="/Developer/SDKs"
     ## We must override some of the build settings in wxWindows.xcodeproj 
-    xcodebuild -project src/wxWindows.xcodeproj -target static -configuration Development $doclean build GCC_VERSION_ppc=4.0 MACOSX_DEPLOYMENT_TARGET_ppc=10.3 GCC_VERSION_i386=4.0 MACOSX_DEPLOYMENT_TARGET_i386=10.4 SDKROOT=/Developer/SDKs/MacOSX10.4u.sdk OTHER_CPLUSPLUSFLAGS="-DHAVE_LOCALTIME_R=1 -DHAVE_GMTIME_R=1 -DwxUSE_UNICODE=1 -fvisibility=hidden -fvisibility-inlines-hidden"
+    xcodebuild -project src/wxWindows.xcodeproj -target static -configuration Development $doclean build SDKROOT=/Developer/SDKs/MacOSX10.6.sdk GCC_VERSION_i386=4.2 MACOSX_DEPLOYMENT_TARGET_i386=10.4 ARCHS="i386" OTHER_CPLUSPLUSFLAGS="-DHAVE_LOCALTIME_R=1 -DHAVE_GMTIME_R=1 -DwxUSE_UNICODE=1 -fvisibility=hidden -fvisibility-inlines-hidden"
 
 if [  $? -ne 0 ]; then return 1; fi
 fi
