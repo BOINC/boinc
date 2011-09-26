@@ -6441,3 +6441,11 @@ Charlie 23 Sep 2011
     mac_installer/
         PostInstall.cpp
         uninstall.cpp
+
+ Charlie 26 Sep 2011
+     - Mac: update wxMac build script for building with XCode 4.1 
+        under OS 10.7 while maintaining OS 10.4 compatibility.
+        (checked into 6.13.6 tag)
+
+     mac_build/
+        buildWxMac.sh
