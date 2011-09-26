@@ -34,7 +34,7 @@ struct SIM_RESULTS {
     double idle_frac;
     int nrpcs;
 
-    void compute();
+    void compute_figures_of_merit();
     void print(FILE* f, bool human_readable=false);
     void parse(FILE* f);
     void add(SIM_RESULTS& r);

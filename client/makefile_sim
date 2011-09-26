@@ -23,6 +23,7 @@ OBJS = \
     cs_proxy.o \
     cs_scheduler.o \
     cs_statefile.o \
+    cs_trickle.o \
 	current_version.o \
 	file_names.o \
 	file_xfer.o \

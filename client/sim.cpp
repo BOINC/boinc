@@ -17,7 +17,7 @@
 
 // BOINC client simulator.
 //
-// usage: sim options
+// usage: directory options
 //
 //  [--infile_prefix dir/]
 //      Prefix of input filenames; default is blank.
@@ -37,18 +37,13 @@
 //          results.txt (simulation results, human-readable)
 //          inputs.txt (sim parameters)
 //          summary.txt (summary of inputs; detailed outputs)
-//          if using REC:
-//              rec.png
-//          if not using REC:
-//              debt.dat
-//              debt_overall.png
-//              debt_cpu_std.png
-//              debt_cpu_ltd.png
-//              debt_nvidia_std.png
-//              debt_nvidia_ltd.png
-//              ...
+//          rec.png
 //
 //  Simulation params:
+//  [--existing_jobs_only]
+//      If set, simulate the specific set of jobs in the state file.
+//      Otherwise simulate an infinite stream of jobs
+//      modeled after those found in the state file.
 //  [--duration x]
 //      simulation duration (default 86400)
 //  [--delta x]
@@ -102,7 +97,8 @@ string html_msg;
 double active_time = 0;
 double gpu_active_time = 0;
 bool server_uses_workload = false;
-bool cpu_sched_rr_only;
+bool cpu_sched_rr_only = false;
+bool existing_jobs_only = false;
 
 RANDOM_PROCESS on_proc;
 RANDOM_PROCESS active_proc;
@@ -121,6 +117,7 @@ void usage(char* prog) {
         "[--infile_prefix F]\n"
         "[--config_prefix F]\n"
         "[--outfile_prefix F]\n"
+        "[--existing_jobs_only]\n"
         "[--duration X]\n"
         "[--delta X]\n"
         "[--server_uses_workload]\n"
@@ -687,7 +684,7 @@ double CLIENT_STATE::monotony() {
 
 // the CPU totals are there; compute the other fields
 //
-void SIM_RESULTS::compute() {
+void SIM_RESULTS::compute_figures_of_merit() {
     double flops_total = cpu_peak_flops()*active_time
         + gpu_peak_flops()*gpu_active_time;
     double flops_idle = flops_total - flops_used;
@@ -909,7 +906,7 @@ void html_rec() {
 
 void html_end() {
     fprintf(html_out, "<pre>\n");
-    sim_results.compute();
+    sim_results.compute_figures_of_merit();
     sim_results.print(html_out);
     print_project_results(html_out);
     fprintf(html_out, "</pre>\n");
@@ -1046,7 +1043,7 @@ void simulate() {
             while (1) {
                 action = false;
                 action |= gstate.schedule_cpus();
-                if (connected) {
+                if (connected && !existing_jobs_only) {
                     action |= gstate.scheduler_rpc_poll();
                 }
                 action |= gstate.active_tasks.poll();
@@ -1271,8 +1268,10 @@ void do_client_simulation() {
     }
 
     clear_backoff();
-    gstate.workunits.clear();
-    gstate.results.clear();
+    if (!existing_jobs_only) {
+        gstate.workunits.clear();
+        gstate.results.clear();
+    }
 
     gstate.set_ncpus();
     work_fetch.init();
@@ -1282,7 +1281,7 @@ void do_client_simulation() {
     gstate.request_work_fetch("init");
     simulate();
 
-    sim_results.compute();
+    sim_results.compute_figures_of_merit();
 
     sprintf(buf, "%s%s", outfile_prefix, RESULTS_DAT_FNAME);
     FILE* f = fopen(buf, "w");
@@ -1333,6 +1332,8 @@ int main(int argc, char** argv) {
             config_prefix = argv[i++];
         } else if (!strcmp(opt, "--outfile_prefix")) {
             outfile_prefix = argv[i++];
+        } else if (!strcmp(opt, "--existing_jobs_only")) {
+            existing_jobs_only = true;
         } else if (!strcmp(opt, "--duration")) {
             duration = atof(next_arg(argc, argv, i));
         } else if (!strcmp(opt, "--delta")) {

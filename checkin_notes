@@ -6473,3 +6473,14 @@ Charlie 24 Sep 2011
     mac_installer/
         PostInstall.cpp
         uninstall.cpp
+
+David  26 Sept 2011
+    - client simulator: add --existing_jobs_only option.
+        This simulates just the jobs in the state file,
+        rather than simulating an infinite stream of jobs
+        modeled after the ones in the state file.
+
+    client/
+        sim.cpp,h
+        cs_prefs.cpp
+        makefile_sim
