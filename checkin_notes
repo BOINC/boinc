@@ -6537,3 +6537,8 @@ Rom    27 Sept 2011
 
     lib/
         Makefile.am
+
+David  27 Sept 2011
+    - fix comment
+    client/
+        app_control.cpp

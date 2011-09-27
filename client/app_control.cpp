@@ -273,7 +273,11 @@ static void limbo_message(ACTIVE_TASK& at) {
 #endif
 }
 
-static void clear_backoffs(ACTIVE_TASK* atp) {
+// the job just exited.  If it's a GPU job,
+// clear the "schedule_backoff" field of all other jobs
+// that use the GPU type, in case they're waiting for GPU RAM
+//
+static void clear_schedule_backoffs(ACTIVE_TASK* atp) {
     int rt = atp->result->avp->rsc_type();
     if (rt == RSC_TYPE_CPU) return;
     for (unsigned int i=0; i<gstate.results.size(); i++) {
@@ -488,7 +492,8 @@ void ACTIVE_TASK::handle_exited_app(int stat) {
         copy_output_files();
         read_stderr_file();
         client_clean_out_dir(slot_dir, "handle_exited_app()");
-        clear_backoffs(this);   // clear scheduling backoffs of jobs waiting for GPU
+        clear_schedule_backoffs(this);
+            // clear scheduling backoffs of jobs waiting for GPU
     }
     gstate.request_schedule_cpus("application exited");
     gstate.request_work_fetch("application exited");
