@@ -18,13 +18,13 @@
 #ifndef _MSG_QUEUE_
 #define _MSG_QUEUE_
 
-#ifdef HAVE_SYS_TYPES_H
+#if HAVE_SYS_TYPES_H
 #include <sys/types.h>
 #endif
-#ifdef HAVE_SYS_IPC_H
+#if HAVE_SYS_IPC_H
 #include <sys/ipc.h>
 #endif
-#ifdef HAVE_SYS_MSG_H
+#if HAVE_SYS_MSG_H
 #include <sys/msg.h>
 #endif
 

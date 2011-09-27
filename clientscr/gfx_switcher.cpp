@@ -26,7 +26,7 @@
 #include <cstdio>
 #include <cstring>
 #include <cerrno>
-#ifdef HAVE_SYS_PARAM_H
+#if HAVE_SYS_PARAM_H
 #include <sys/param.h>  // for MAXPATHLEN
 #endif
 #include <pwd.h>	// getpwuid

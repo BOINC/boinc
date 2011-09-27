@@ -31,7 +31,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include <ctype.h>
-#ifdef HAVE_ALLOCA_H
+#if HAVE_ALLOCA_H
 #include "alloca.h"
 #endif
 #endif
@@ -52,7 +52,7 @@ using std::string;
 // Result will always be null-terminated, and it's faster.
 // see http://www.gratisoft.us/todd/papers/strlcpy.html
 //
-#if !defined(HAVE_STRLCPY)
+#if !HAVE_STRLCPY
 size_t strlcpy(char *dst, const char *src, size_t size) {
     size_t ret = strlen(src);
 
@@ -66,7 +66,7 @@ size_t strlcpy(char *dst, const char *src, size_t size) {
 }
 #endif
 
-#if !defined(HAVE_STRLCAT)
+#if !HAVE_STRLCAT
 size_t strlcat(char *dst, const char *src, size_t size) {
     size_t dst_len = strlen(dst);
     size_t src_len = strlen(src);
@@ -81,23 +81,23 @@ size_t strlcat(char *dst, const char *src, size_t size) {
 }
 #endif // !HAVE_STRLCAT
 
-#if !defined(HAVE_STRCASESTR)
+#if !HAVE_STRCASESTR
 const char *strcasestr(const char *s1, const char *s2) {
     char *needle=NULL, *haystack=NULL, *p=NULL;
     bool need_free = false;
-    // Is alloca() really less likely to fail with out of memory error 
+    // Is alloca() really less likely to fail with out of memory error
     // than strdup?
-#if defined(HAVE_STRDUPA)
+#if HAVE_STRDUPA
     haystack=strdupa(s1);
     needle=strdupa(s2);
-#elif defined(HAVE_ALLOCA_H) || defined(HAVE_ALLOCA)
+#elif HAVE_ALLOCA_H || HAVE_ALLOCA
     haystack=(char *)alloca(strlen(s1)+1);
     needle=(char *)alloca(strlen(s2)+1);
     if (needle && haystack) {
         strlcpy(haystack,s1,strlen(s1)+1);
         strlcpy(needle,s2,strlen(s2)+1);
     }
-#elif defined(HAVE_STRDUP)
+#elif HAVE_STRDUP
     haystack=strdup(s1);
     needle=strdup(s1)
     need_free = true;
@@ -128,7 +128,7 @@ const char *strcasestr(const char *s1, const char *s2) {
         if (p) {
             p = const_cast<char *>(s1)+(p-haystack);
         }
-    } 
+    }
     if (need_free) {
         if (needle) free(needle);
         if (haystack) free(haystack);

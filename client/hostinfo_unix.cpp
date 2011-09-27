@@ -16,30 +16,20 @@
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
 // There is a reason that having a file called "cpp.h" that includes config.h
-// and some of the C++ header files is bad.  That reason is because there are 
-// #defines that alter the behiour of the standard C and C++ headers.  In 
-// this case we need to use the "small files" environment on some unix 
+// and some of the C++ header files is bad.  That reason is because there are
+// #defines that alter the behiour of the standard C and C++ headers.  In
+// this case we need to use the "small files" environment on some unix
 // systems.  That can't be done if we include "cpp.h"
 
-// copied directly from cpp.h
-#if defined(_WIN32) && !defined(__CYGWIN32__)
-
-#if defined(_WIN64) && defined(_M_X64)
-#define HOSTTYPE    "windows_x86_64"
-#define HOSTTYPEALT "windows_intelx86"
-#else
-#define HOSTTYPE "windows_intelx86"
-#endif
-
 #include "version.h"         // version numbers from autoconf
-#endif
 
+#include "cpp.h"
 #include "config.h"
 
 #if !defined(_WIN32) || defined(__CYGWIN32__)
 
 // Access to binary files in /proc filesystem doesn't work in the 64bit
-// files environment on some systems.  None of the functions here need 
+// files environment on some systems.  None of the functions here need
 // 64bit file functions, so we'll undefine _FILE_OFFSET_BITS and _LARGE_FILES.
 #undef _FILE_OFFSET_BITS
 #undef _LARGE_FILES
@@ -61,13 +51,13 @@
 #if HAVE_SYS_TYPES_H
 #include <sys/types.h>
 #endif
-#ifdef HAVE_SYS_MOUNT_H
+#if HAVE_SYS_MOUNT_H
 #include <sys/mount.h>
 #endif
-#ifdef HAVE_SYS_VFS_H
+#if HAVE_SYS_VFS_H
 #include <sys/vfs.h>
 #endif
-#ifdef HAVE_SYS_VMMETER_H
+#if HAVE_SYS_VMMETER_H
 #include <sys/vmmeter.h>
 #endif
 
@@ -110,12 +100,15 @@
 #include "client_types.h"
 #include "client_msgs.h"
 #include "hostinfo_network.h"
+#include "hostinfo.h"
 
 using std::string;
 
 #ifdef __APPLE__
+#include <IOKit/IOKitLib.h>
 #include <Carbon/Carbon.h>
 #include <CoreFoundation/CoreFoundation.h>
+
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -160,26 +153,13 @@ mach_port_t gEventHandle = NULL;
 //
 #define LINUX_LIKE_SYSTEM (defined(__linux__) || defined(__GNU__) || defined(__GLIBC__)) && !defined(__HAIKU__)
 
-// functions to get name/addr of local host
-
-// Converts a int ip address to a string representation (i.e. "66.218.71.198")
-//
-#if 0
-char* ip_addr_string(int ip_addr) {
-    in_addr ia;
-
-    ia.s_addr = ip_addr;
-    return inet_ntoa(ia);
-}
-#endif
-
 // Returns the offset between LOCAL STANDARD TIME and UTC.
 // LOCAL_STANDARD_TIME = UTC_TIME + get_timezone().
 //
 int get_timezone() {
     tzset();
     // TODO: take daylight savings time into account
-#ifdef HAVE_STRUCT_TM_TM_ZONE
+#if HAVE_STRUCT_TM_TM_ZONE
     time_t cur_time;
     struct tm *time_data;
 
@@ -193,7 +173,7 @@ int get_timezone() {
     return -1*(_timezone);
 #elif defined(unix)
     return -1*timezone;
-#elif defined(HAVE_TZNAME)
+#elif HAVE_TZNAME
     return -1*timezone;
 #else
 #error timezone
@@ -210,7 +190,7 @@ bool HOST_INFO::host_is_running_on_batteries() {
     CFStringRef psState;
     int i;
     bool retval = false;
-  
+
     CFTypeRef blob = IOPSCopyPowerSourcesInfo();
     CFArrayRef list = IOPSCopyPowerSourcesList(blob);
 
@@ -446,7 +426,7 @@ static void parse_cpuinfo_linux(HOST_INFO& host) {
                 /* there might be conflicts if we dont #ifdef */
 #ifdef __ia64__
             strstr(buf, "vendor     : ")
-#elif __hppa__        
+#elif __hppa__
             strstr(buf, "cpu\t\t: ")
 #elif __powerpc__
             strstr(buf, "machine\t\t: ") || strstr(buf, "platform\t: ")
@@ -639,7 +619,7 @@ static void get_cpu_info_maxosx(HOST_INFO& host) {
 #if defined(__i386__) || defined(__x86_64__)
     char brand_string[256];
     int family, stepping, model;
-    
+
     len = sizeof(host.p_vendor);
     sysctlbyname("machdep.cpu.vendor", host.p_vendor, &len, NULL, 0);
 
@@ -660,7 +640,7 @@ static void get_cpu_info_maxosx(HOST_INFO& host) {
 
     snprintf(
         host.p_model, sizeof(host.p_model),
-        "%s [x86 Family %d Model %d Stepping %d]", 
+        "%s [x86 Family %d Model %d Stepping %d]",
         brand_string, family, model, stepping
     );
 #else       // PowerPC
@@ -672,7 +652,7 @@ static void get_cpu_info_maxosx(HOST_INFO& host) {
     if (response && (!retval)) {
         safe_strcpy(host.p_features, "AltiVec");
     }
-        
+
     len = sizeof(model);
     sysctlbyname("hw.model", model, &len, NULL, 0);
 
@@ -705,7 +685,7 @@ static void get_cpu_info_haiku(HOST_INFO& host) {
     cpuid_info cpuInfo;
     int32 maxStandardFunction;
     int32 maxExtendedFunction = 0;
-    
+
     char brand_string[256];
 
     if (get_system_info(&sys_info) != B_OK) {
@@ -720,7 +700,7 @@ static void get_cpu_info_haiku(HOST_INFO& host) {
 
     snprintf(host.p_vendor, sizeof(host.p_vendor), "%.12s",
         cpuInfo.eax_0.vendor_id);
-    
+
     maxStandardFunction = cpuInfo.eax_0.max_eax;
     if (maxStandardFunction >= 500)
         maxStandardFunction = 0; /* old Pentium sample chips has
@@ -857,7 +837,7 @@ int get_network_usage_totals(unsigned int& total_received, unsigned int& total_s
 
     total_received = 0;
     total_sent = 0;
-    
+
     if (sysctl(mib, 6, NULL, &currentSize, NULL, 0) != 0) return errno;
     if (!sysctlBuffer || (currentSize > sysctlBufferSize)) {
         if (sysctlBuffer) free(sysctlBuffer);
@@ -998,27 +978,34 @@ kern_return_t SMCClose()
     return kIOReturnSuccess;
 }
 
-
 kern_return_t SMCReadKey(UInt32 key, SMCBytes_t val) {
     kern_return_t       result;
     SMCKeyData_t        inputStructure;
     SMCKeyData_t        outputStructure;
-     size_t              structureInputSize;
-    size_t              structureOutputSize;
+    size_t              structureOutputSize = 0;
 
-    memset(&inputStructure, 0, sizeof(SMCKeyData_t));
-    memset(&outputStructure, 0, sizeof(SMCKeyData_t));
+    memset(&inputStructure, 0, sizeof(inputStructure));
+    memset(&outputStructure, 0, sizeof(outputStructure));
     memset(val, 0, sizeof(val));
 
     inputStructure.key = key;
-    inputStructure.data8 = SMC_CMD_READ_KEYINFO;    
+    inputStructure.data8 = SMC_CMD_READ_KEYINFO;
 
-    structureInputSize = sizeof(inputStructure);
-    structureOutputSize = sizeof(outputStructure);
-    result = IOConnectMethodStructureIStructureO(
-        conn, KERNEL_INDEX_SMC, structureInputSize, &structureOutputSize, 
-        &inputStructure, &outputStructure
-    );
+#if MAC_OS_X_VERSION_10_5
+    result = IOConnectCallStructMethod(conn,
+                                       KERNEL_INDEX_SMC,
+                                       &inputStructure,
+                                       sizeof(inputStructure),
+                                       &inputStructure,
+                                       &structureOutputSize);
+#else
+    result = IOConnectMethodStructureIStructureO(conn,
+                                                 KERNEL_INDEX_SMC,
+                                                 sizeof(inputStructure),
+                                                 &structureOutputSize,
+                                                 &inputStructure,
+                                                 &outputStructure);
+#endif
     if (result != kIOReturnSuccess) {
         return result;
     }
@@ -1026,12 +1013,22 @@ kern_return_t SMCReadKey(UInt32 key, SMCBytes_t val) {
     inputStructure.keyInfo.dataSize = outputStructure.keyInfo.dataSize;
     inputStructure.data8 = SMC_CMD_READ_BYTES;
 
+#if MAC_OS_X_VERSION_10_5
+    result = IOConnectCallStructMethod(conn,
+                                       KERNEL_INDEX_SMC,
+                                       &inputStructure,
+                                       sizeof(inputStructure),
+                                       &inputStructure,
+                                       &structureOutputSize);
+#else
     result = IOConnectMethodStructureIStructureO(
-        conn, KERNEL_INDEX_SMC, structureInputSize, &structureOutputSize, 
+        conn, KERNEL_INDEX_SMC, sizeof(inputStructure), &structureOutputSize),
         &inputStructure, &outputStructure
     );
-    if (result != kIOReturnSuccess)
+#endif
+    if (result != kIOReturnSuccess) {
         return result;
+    }
 
     memcpy(val, outputStructure.bytes, sizeof(outputStructure.bytes));
 
@@ -1174,7 +1171,7 @@ int HOST_INFO::get_host_info() {
     strlcpy( p_model, cpuInfo.name.fromID, sizeof(p_model));
 #elif defined(__HAIKU__)
     get_cpu_info_haiku(*this);
-#elif defined(HAVE_SYS_SYSCTL_H)
+#elif HAVE_SYS_SYSCTL_H
     int mib[2];
     size_t len;
 
@@ -1212,7 +1209,7 @@ int HOST_INFO::get_host_info() {
     strncpy( p_model, "Alpha ", sizeof( p_model));
     strncat( p_model, cpu_type_name, (sizeof( p_model)- strlen( p_model)- 1));
     p_model[sizeof(p_model)-1]=0;
-#elif defined(HAVE_SYS_SYSTEMINFO_H)
+#elif HAVE_SYS_SYSTEMINFO_H
     sysinfo(SI_PLATFORM, p_vendor, sizeof(p_vendor));
     sysinfo(SI_ISALIST, p_model, sizeof(p_model));
     for (unsigned int i=0; i<sizeof(p_model); i++) {
@@ -1318,7 +1315,7 @@ int HOST_INFO::get_host_info() {
 #error Need to specify a method to get memory size
 #endif
 
-#if defined(HAVE_SYS_SWAP_H) && defined(SC_GETNSWP)
+#if HAVE_SYS_SWAP_H && defined(SC_GETNSWP)
     // Solaris, ...
     char buf[256];
     swaptbl_t* s;
@@ -1334,7 +1331,7 @@ int HOST_INFO::get_host_info() {
     for (i=0; i<n; i++) {
         m_swap += 512.*(double)s->swt_ent[i].ste_length;
     }
-#elif defined(HAVE_SYS_SWAP_H) && defined(SWAP_NSWAP)
+#elif HAVE_SYS_SWAP_H && defined(SWAP_NSWAP)
     // NetBSD (the above line should probably be more comprehensive
     struct swapent * s;
     int i, n;
@@ -1394,14 +1391,14 @@ int HOST_INFO::get_host_info() {
 
 ///////////// os_name, os_version /////////////////
 
-#ifdef HAVE_SYS_UTSNAME_H
+#if HAVE_SYS_UTSNAME_H
     struct utsname u;
     uname(&u);
     safe_strcpy(os_name, u.sysname);
 #if defined(__EMX__) // OS2: version is in u.version
     safe_strcpy(os_version, u.version);
 #elif defined(__HAIKU__)
-    snprintf(os_version, sizeof(os_version), "%s, %s", u.release, u.version); 
+    snprintf(os_version, sizeof(os_version), "%s, %s", u.release, u.version);
 #else
     safe_strcpy(os_version, u.release);
 #endif
@@ -1409,7 +1406,7 @@ int HOST_INFO::get_host_info() {
     safe_strcpy(p_model, u.machine);
     safe_strcpy(p_vendor, "Hewlett-Packard");
 #endif
-#elif defined(HAVE_SYS_SYSCTL_H) && defined(CTL_KERN) && defined(KERN_OSTYPE) && defined(KERN_OSRELEASE)
+#elif HAVE_SYS_SYSCTL_H && defined(CTL_KERN) && defined(KERN_OSTYPE) && defined(KERN_OSRELEASE)
     mib[0] = CTL_KERN;
     mib[1] = KERN_OSTYPE;
     len = sizeof(os_name);
@@ -1501,7 +1498,7 @@ inline bool all_tty_idle(time_t t) {
     return true;
 }
 
-#ifdef HAVE_UTMP_H
+#if HAVE_UTMP_H
 inline bool user_idle(time_t t, struct utmp* u) {
     char tty[5 + sizeof u->ut_line + 1] = "/dev/";
     unsigned int i;
@@ -1517,7 +1514,7 @@ inline bool user_idle(time_t t, struct utmp* u) {
     return device_idle(t, tty);
 }
 
-#if !defined(HAVE_SETUTENT) || !defined(HAVE_GETUTENT)
+#if !HAVE_SETUTENT || !HAVE_GETUTENT
   static FILE *ufp = NULL;
   static struct utmp ut;
 
@@ -1728,7 +1725,7 @@ bool xss_idle(long idle_treshold) {
 bool HOST_INFO::users_idle(bool check_all_logins, double idle_time_to_run) {
     time_t idle_time = time(0) - (long) (60 * idle_time_to_run);
 
-#ifdef HAVE_UTMP_H
+#if HAVE_UTMP_H
     if (check_all_logins) {
         if (!all_logins_idle(idle_time)) {
             return false;

@@ -28,7 +28,7 @@
 #endif
 #else
 #include "config.h"
-#if defined (HAVE_SCHED_SETSCHEDULER) && defined (__linux__)
+#if HAVE_SCHED_SETSCHEDULER && defined (__linux__)
 #include <sched.h>
 #endif
 #if HAVE_SYS_TIME_H
@@ -159,7 +159,7 @@ int ACTIVE_TASK::get_shmem_seg_name() {
 #else
     char init_data_path[256];
 #ifndef __EMX__
-    // shmem_seg_name is not used with mmap() shared memory 
+    // shmem_seg_name is not used with mmap() shared memory
     if (app_version->api_major_version() >= 6) {
         shmem_seg_name = -1;
         return 0;
@@ -950,14 +950,14 @@ int ACTIVE_TASK::start(bool first_time) {
         freopen(STDERR_FILE, "a", stderr);
 
         if (!config.no_priority_change) {
-#ifdef HAVE_SETPRIORITY
+#if HAVE_SETPRIORITY
             if (setpriority(PRIO_PROCESS, 0,
                 high_priority?PROCESS_MEDIUM_PRIORITY:PROCESS_IDLE_PRIORITY)
             ) {
                 perror("setpriority");
             }
 #endif
-#if defined (HAVE_SCHED_SETSCHEDULER) && defined(SCHED_BATCH) && defined (__linux__)
+#if HAVE_SCHED_SETSCHEDULER && defined(SCHED_BATCH) && defined (__linux__)
             if (!high_priority) {
                 struct sched_param sp;
                 sp.sched_priority = 0;
@@ -981,8 +981,8 @@ int ACTIVE_TASK::start(bool first_time) {
                 debug_print_argv(argv);
             }
             // Files written by projects have user boinc_project
-            // and group boinc_project, 
-            // so they must be world-readable so BOINC CLient can read them 
+            // and group boinc_project,
+            // so they must be world-readable so BOINC CLient can read them
             //
             umask(2);
             retval = execv(switcher_path, argv);

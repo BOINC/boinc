@@ -39,25 +39,25 @@ extern "C" int daemon(int nochdir, int noclose);
 // then try defining HAVE_ETHER_NTOA in your configuration file.
 #ifndef HAVE_ETHER_NTOA
 
-#ifdef HAVE_SYS_TYPES_H
+#if HAVE_SYS_TYPES_H
 #include <sys/types.h>
 #endif
-#ifdef HAVE_SYS_SOCKET_H
+#if HAVE_SYS_SOCKET_H
 #include <sys/socket.h>
 #endif
-#ifdef HAVE_NETINET_IN_H
+#if HAVE_NETINET_IN_H
 #include <netinet/in.h>
 #endif
-#ifdef HAVE_ARPA_INET_H
+#if HAVE_ARPA_INET_H
 #include <arpa/inet.h>
 #endif
-#ifdef HAVE_NET_IF_H
+#if HAVE_NET_IF_H
 #include <net/if.h>
 #endif
-#ifdef HAVE_NETINET_IF_ETHER_H
+#if HAVE_NETINET_IF_ETHER_H
 #include <netinet/if_ether.h>
 #endif
-#ifdef HAVE_NETINET_ETHER_H
+#if HAVE_NETINET_ETHER_H
 #include <netinet/ether.h>
 #endif
 

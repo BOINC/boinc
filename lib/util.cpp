@@ -44,7 +44,7 @@
 #include <errno.h>
 #include <string>
 #include <cstring>
-#ifdef HAVE_IEEEFP_H
+#if HAVE_IEEEFP_H
 #include <ieeefp.h>
 extern "C" {
     int finite(double);
@@ -329,7 +329,7 @@ int read_file_malloc(const char* path, char*& buf, size_t max_len, bool tail) {
     FILE *f = fopen(path, "rb");
 #else
     FCGI_FILE *f = FCGI::fopen(path, "rb");
-#endif 
+#endif
     if (!f) return ERR_FOPEN;
 
 #ifndef _USING_FCGI_

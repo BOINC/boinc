@@ -21,7 +21,7 @@
 #include <cstdio>
 #include <cstring>
 #include <cstdlib>
-#ifdef HAVE_UNISTD_H
+#if HAVE_UNISTD_H
 #include <unistd.h>
 #endif
 

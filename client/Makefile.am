@@ -19,15 +19,15 @@ endif ## ENABLE_CLIENT_RELEASE
 LIBS += $(CLIENTLIBS)
 
 if OS_DARWIN
-   LIBS += -framework IOKit -framework Foundation -framework ScreenSaver -framework Cocoa
+   LIBS += -framework IOKit -framework Foundation -framework ScreenSaver -framework Cocoa -framework CoreServices
 endif
 
 bin_PROGRAMS = boinc_client switcher boinccmd
 
 boinccmd_SOURCES = boinc_cmd.cpp
-boinccmd_DEPENDENCIES = $(LIBBOINC) 
+boinccmd_DEPENDENCIES = $(LIBBOINC)
 boinccmd_CPPFLAGS = $(AM_CPPFLAGS)
-boinccmd_LDFLAGS = $(AM_LDFLAGS) -L../lib 
+boinccmd_LDFLAGS = $(AM_LDFLAGS) -L../lib
 boinccmd_LDADD = $(LIBBOINC) $(BOINC_EXTRA_LIBS) $(PTHREAD_LIBS)
 
 boinc_client_SOURCES = \
@@ -78,13 +78,16 @@ boinc_client_SOURCES = \
 
 boinc_client_DEPENDENCIES = $(LIBBOINC)
 boinc_client_CPPFLAGS = $(AM_CPPFLAGS)
-boinc_client_LDFLAGS = $(AM_LDFLAGS) -L../lib 
-boinc_client_LDADD = $(LIBBOINC) $(LIBBOINC_CRYPT) $(BOINC_EXTRA_LIBS) $(PTHREAD_LIBS) 
+boinc_client_LDFLAGS = $(AM_LDFLAGS) -L../lib
+if OS_DARWIN
+boinc_client_LDFLAGS += -Wl,-flat_namespace,-undefined,dynamic_lookup
+endif
+boinc_client_LDADD = $(LIBBOINC) $(LIBBOINC_CRYPT) $(BOINC_EXTRA_LIBS) $(PTHREAD_LIBS)
 
 boinc_clientdir = $(bindir)
 
 switcher_SOURCES = switcher.cpp
-switcher_LDFLAGS = $(AM_LDFLAGS) -L../lib 
+switcher_LDFLAGS = $(AM_LDFLAGS) -L../lib
 switcher_LDADD = $(LIBBOINC)
 
 ## since we are using libtool we need some magic to get boinc and boinc_client

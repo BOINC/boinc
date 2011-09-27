@@ -47,17 +47,17 @@
 #include <unistd.h>
 #include <dirent.h>
 
-#ifdef HAVE_SYS_RESOURCE_H
+#if HAVE_SYS_RESOURCE_H
 #include <sys/resource.h>
 #endif
-#ifdef HAVE_SYS_MOUNT_H
-#ifdef HAVE_SYS_PARAM_H
+#if HAVE_SYS_MOUNT_H
+#if HAVE_SYS_PARAM_H
 #include <sys/param.h>
 #endif
 #include <sys/mount.h>
 #endif
 
-#ifdef HAVE_SYS_STATVFS_H
+#if HAVE_SYS_STATVFS_H
 #include <sys/statvfs.h>
 #define STATFS statvfs
 #elif defined(HAVE_SYS_STATFS_H)
@@ -782,7 +782,7 @@ int get_filesystem_info(double &total_space, double &free_space, char* path) {
     struct STATFS fs_info;
 
     STATFS(path, &fs_info);
-#ifdef HAVE_SYS_STATVFS_H
+#if HAVE_SYS_STATVFS_H
     total_space = (double)fs_info.f_frsize * (double)fs_info.f_blocks;
     free_space = (double)fs_info.f_frsize * (double)fs_info.f_bavail;
 #else

@@ -265,7 +265,7 @@ void CLIENT_STATE::start_cpu_benchmarks() {
         sprintf(benchmark_descs[i].filename, "%s_%d.xml", CPU_BENCHMARKS_FILE_NAME, i);
         PROCESS_ID pid = fork();
         if (pid == 0) {
-#ifdef HAVE_SETPRIORITY
+#if HAVE_SETPRIORITY
             if (setpriority(PRIO_PROCESS, 0, PROCESS_IDLE_PRIORITY)) {
                 perror("setpriority");
             }

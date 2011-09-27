@@ -44,13 +44,13 @@ extern "C" {
 #endif
 
 #ifndef _WIN32
-#if defined(HAVE_MALLOC_H) || defined(_WIN32)
+#if HAVE_MALLOC_H || defined(_WIN32)
 #include <malloc.h>
 #if defined(__MINGW32__) && !defined(alloca)
 #define alloca(x) _alloca(x)
 #endif
 #endif
-#if defined(HAVE_ALLOCA_H)
+#if HAVE_ALLOCA_H
 #include <alloca.h>
 #endif
 #ifdef __APPLE__
@@ -701,8 +701,8 @@ tImageJPG *LoadJPG(const char *filename) {
 	struct jpeg_decompress_struct cinfo;
 	tImageJPG *pImageData = NULL;
 	FILE *pFile;
-#if defined(HAVE_ALLOCA) || defined(_WIN32)
-	alloca(16);  // Force a frame pointer even when compiled with 
+#if HAVE_ALLOCA || defined(_WIN32)
+	alloca(16);  // Force a frame pointer even when compiled with
                  // -fomit-frame-pointer
 #endif
 
@@ -814,7 +814,7 @@ int TEXTURE_DESC::CreateTextureRGB(const char* strFileName) {
 	gluBuild2DMipmaps(GL_TEXTURE_2D, 3, sizeX, sizeY, GL_RGBA, GL_UNSIGNED_BYTE, pImage);
 	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR_MIPMAP_NEAREST);
 	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR_MIPMAP_LINEAR);
-    if (pImage) 
+    if (pImage)
 		free(pImage);
 	return 0;
 }

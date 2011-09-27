@@ -19,10 +19,10 @@
 #define H_BOINC_GLUT
 
 
-#if defined(_WIN32)
-#if defined(HAVE_GL_GLUT_H)
+#ifdef _WIN32
+#if HAVE_GL_GLUT_H
 #  include <GL/glut.h>
-#else 
+#else
 #  include<glut.h>
 #endif
 
@@ -34,13 +34,13 @@
 
 #include "config.h"
 
-#  if defined(HAVE_GLUT_H)
+#  if HAVE_GLUT_H
 #    include "glut.h"
-#  elif defined(HAVE_GL_GLUT_H)
+#  elif HAVE_GL_GLUT_H
 #    include <GL/glut.h>
-#  elif defined(HAVE_OPENGL_GLUT_H)
+#  elif HAVE_OPENGL_GLUT_H
 #    include <OpenGL/glut.h>
-#  elif defined(HAVE_GLUT_GLUT_H)
+#  elif HAVE_GLUT_GLUT_H
 #    include <GLUT/glut.h>
 #  endif
 

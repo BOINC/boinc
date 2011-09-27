@@ -24,19 +24,19 @@
 #include "config.h"
 #endif
 
-#if !defined(HAVE_STRLCPY)
+#if !HAVE_STRLCPY
 extern size_t strlcpy(char*, const char*, size_t);
 #endif
 
-#if !defined(HAVE_STRLCAT)
+#if !HAVE_STRLCAT
 extern size_t strlcat(char *dst, const char *src, size_t size);
 #endif
 
-#if !defined(HAVE_STRCASESTR)
+#if !HAVE_STRCASESTR
 extern const char *strcasestr(const char *s1, const char *s2);
 #endif
 
-#if !defined(HAVE_STRCASECMP)
+#if !HAVE_STRCASECMP
 inline int strcasecmp(const char* s1, const char* s2) {
     while (*s1 && *s2) {
         char c1 = tolower(*s1++);

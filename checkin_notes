@@ -6542,3 +6542,36 @@ David  27 Sept 2011
     - fix comment
     client/
         app_control.cpp
+
+David  27 Sept 2011
+    - Updates Linux notifications to use current libnotify.
+    - Fix build problems on Mac OS X using autotools
+    - Consistently use #if HAVE_X for platform checks,
+        rather than #ifdef HAVE_X or #if defined(HAVE_X)
+    - In Unix build, make lots of compiler checks standard
+    - Fix some compile warnings
+
+    From Matt Arsenault.
+
+    Note: there are now lots of compile warnings in clientgui/ on Unix,
+    mostly in WxWidgets code
+
+    configure.ac
+    Makefile.incl
+    clientgui/gtk
+        taskbarex.cpp
+    db/
+        boinc_db.cpp
+    clientscr/
+        gfxswitcher.cpp
+    sched/
+        file_deleter.cpp
+        hr.h
+    lib/
+        various
+    win_build/
+        win-config.h
+    api/
+        various
+    client/
+        various

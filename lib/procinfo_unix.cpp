@@ -20,7 +20,7 @@
 
 #include "config.h"
 
-#ifdef HAVE_PROCFS_H
+#if HAVE_PROCFS_H
 // Can't use large file calls with solaris procfs.
 #if defined(_FILE_OFFSET_BITS) && ( _FILE_OFFSET_BITS == 64 )
 #undef _FILE_OFFSET_BITS
@@ -38,11 +38,11 @@
 #include <dirent.h>
 #include <signal.h>
 
-#ifdef HAVE_UNISTD_H
+#if HAVE_UNISTD_H
 #include <unistd.h>
 #endif
 
-#ifdef HAVE_PROCFS_H
+#if HAVE_PROCFS_H
 #include <procfs.h>  // definitions for solaris /proc structs
 #endif
 
@@ -164,7 +164,7 @@ int PROC_STAT::parse(char* buf) {
 //
 int procinfo_setup(PROC_MAP& pm) {
 
-#ifdef HAVE_DIRENT_H
+#if HAVE_DIRENT_H
     DIR *dir;
     dirent *piddir;
     FILE* fd;

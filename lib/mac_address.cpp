@@ -15,37 +15,37 @@
 #else  // used to be if defined(__linux__)
 #include "config.h"
 #include <cstdio>
-#ifdef HAVE_UNISTD_H
+#if HAVE_UNISTD_H
 #include <unistd.h>
 #endif
-#ifdef HAVE_SYS_TYPES_H
+#if HAVE_SYS_TYPES_H
 #include <sys/types.h>
 #endif
-#ifdef HAVE_SYS_FCNTL_H
+#if HAVE_SYS_FCNTL_H
 #include <sys/fcntl.h>
 #endif
-#ifdef HAVE_SYS_IOCTL_H
+#if HAVE_SYS_IOCTL_H
 #include <sys/ioctl.h>
 #endif
-#ifdef HAVE_SYS_SOCKIO_H
+#if HAVE_SYS_SOCKIO_H
 #include <sys/sockio.h>
 #endif
-#ifdef HAVE_SYS_SOCKET_H
+#if HAVE_SYS_SOCKET_H
 #include <sys/socket.h>
 #endif
-#ifdef HAVE_NET_IF_H
+#if HAVE_NET_IF_H
 #include <net/if.h>
 #endif
-#ifdef HAVE_NET_ARP_H
+#if HAVE_NET_ARP_H
 #include <net/arp.h>
 #endif
-#ifdef HAVE_NETINET_IN_H
+#if HAVE_NETINET_IN_H
 #include <netinet/in.h>
 #endif
-#ifdef HAVE_NETINET_IF_ETHER_H
+#if HAVE_NETINET_IF_ETHER_H
 #include <netinet/if_ether.h>
 #endif
-#ifdef HAVE_NETINET_ETHER_H
+#if HAVE_NETINET_ETHER_H
 #include <netinet/ether.h>
 #endif
 #include <string.h>
@@ -188,7 +188,7 @@ get_mac_addresses(char* addresses) {
 
 #elif defined(SIOCGIFCONF) || defined(SIOCGLIFCONF)
     char          buf[1024];
-#ifdef HAVE_STRUCT_LIFCONF
+#if HAVE_STRUCT_LIFCONF
     struct lifconf ifc;
     struct lifreq *ifr;
 #else
@@ -207,7 +207,7 @@ get_mac_addresses(char* addresses) {
         return false;
     }
     /* Query available interfaces. */
-#ifdef HAVE_STRUCT_LIFCONF
+#if HAVE_STRUCT_LIFCONF
     ifc.lifc_len = sizeof(buf);
     ifc.lifc_buf = buf;
     if(ioctl(sck, SIOCGLIFCONF, &ifc) < 0)
@@ -225,7 +225,7 @@ get_mac_addresses(char* addresses) {
     }
 #endif
 
-#ifdef HAVE_STRUCT_LIFCONF
+#if HAVE_STRUCT_LIFCONF
     /* Iterate through the list of interfaces. */
     ifr         = ifc.lifc_req;
     nInterfaces = ifc.lifc_len / sizeof(struct lifreq);

@@ -21,7 +21,7 @@
 #include "stdwx.h"
 #else
 #include "config.h"
-#ifdef HAVE_PROCFS_H
+#if HAVE_PROCFS_H
 // Can't use large file calls with solaris procfs.
 #if defined(_FILE_OFFSET_BITS) && ( _FILE_OFFSET_BITS == 64 )
 #undef _FILE_OFFSET_BITS
@@ -34,7 +34,7 @@
 #include <cstring>
 #include <cstdlib>
 #include <unistd.h>
-#ifdef HAVE_PROCFS_H
+#if HAVE_PROCFS_H
 #include <procfs.h> // definitions for solaris /proc structs
 #endif
 #endif
@@ -74,7 +74,7 @@ int mem_usage(double& vm_usage, double& resident_set) {
 #else
 
 
-#if defined(HAVE_PROCFS_H) && defined(HAVE__PROC_SELF_PSINFO)
+#if HAVE_PROCFS_H && HAVE__PROC_SELF_PSINFO
     FILE* f;
 
     // guess that this is solaris
@@ -95,7 +95,7 @@ int mem_usage(double& vm_usage, double& resident_set) {
     }
 #endif
 
-#if defined(HAVE__PROC_SELF_STAT)
+#if HAVE__PROC_SELF_STAT
     FILE* f;
     // guess that this is linux
     //

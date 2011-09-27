@@ -98,8 +98,8 @@ extern "C" {
 #include <IOKit/hidsystem/event_status_driver.h>
 
 // Apple has removed NxIdleTime() beginning with OS 10.6, so we must try
-// loading it at run time to avoid a link error.  For details, please see 
-// the comments in the __APPLE__ version of HOST_INFO::users_idle() in 
+// loading it at run time to avoid a link error.  For details, please see
+// the comments in the __APPLE__ version of HOST_INFO::users_idle() in
 // client/hostinfo_unix.cpp.
 typedef double (*nxIdleTimeProc)(NXEventHandle handle);
 #ifdef __cplusplus

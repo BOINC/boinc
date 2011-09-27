@@ -27,7 +27,7 @@
 #include <grp.h>
 #include <cstdio>
 #include <cerrno>
-#ifdef HAVE_SYS_STAT_H
+#if HAVE_SYS_STAT_H
 #include <sys/stat.h>
 #endif
 

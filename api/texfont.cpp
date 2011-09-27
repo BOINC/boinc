@@ -1,7 +1,7 @@
-// Copyright (c) Mark J. Kilgard, 1997. 
+// Copyright (c) Mark J. Kilgard, 1997.
 // This program is freely distributable without licensing fees and is
-// provided without guarantee or warrantee expressed or implied. 
-// This program is -not- in the public domain. 
+// provided without guarantee or warrantee expressed or implied.
+// This program is -not- in the public domain.
 
 #if defined(_WIN32)
 #pragma warning (disable:4244)          // disable bogus conversion warnings
@@ -35,7 +35,7 @@ using std::strncmp;
 using std::memcpy;
 
 using std::FILE;
-using std::fprintf; 
+using std::fprintf;
 using std::fopen;
 using std::fclose;
 using std::fread;
@@ -48,9 +48,9 @@ using std::free;
 
 #include "texfont.h"
 
-const char *font_names [] = 
+const char *font_names [] =
 {
-	"Helvetica.txf",                   // 0. This is the default 
+	"Helvetica.txf",                   // 0. This is the default
 	"Helvetica-Bold.txf",		       // 1
 	"Helvetica-Oblique.txf",	       // 2
 	"Helvetica-BoldOblique.txf",       // 3
@@ -84,7 +84,7 @@ const char *font_names [] =
 
 
 #if 1
-// Uncomment to debug various scenarios. 
+// Uncomment to debug various scenarios.
 #undef GL_VERSION_1_1
 #undef GL_EXT_texture_object
 #undef GL_EXT_texture
@@ -105,16 +105,16 @@ const char *font_names [] =
      int useLuminanceAlpha = 0;
 #  else
      // Intensity texture format not in OpenGL 1.0; added by the EXT_texture
-     // extension and now part of OpenGL 1.1. 
+     // extension and now part of OpenGL 1.1.
      int useLuminanceAlpha = 1;
 #  endif
 
 #else
-   // OpenGL 1.1 case. 
+   // OpenGL 1.1 case.
    int useLuminanceAlpha = 0;
 #endif
 
-// byte swap a 32-bit value 
+// byte swap a 32-bit value
 #define SWAPL(x, n) { \
                  n = ((char *) (x))[0];\
                  ((char *) (x))[0] = ((char *) (x))[3];\
@@ -123,7 +123,7 @@ const char *font_names [] =
                  ((char *) (x))[1] = ((char *) (x))[2];\
                  ((char *) (x))[2] = n; }
 
-// byte swap a short 
+// byte swap a short
 #define SWAPS(x, n) { \
                  n = ((char *) (x))[0];\
                  ((char *) (x))[0] = ((char *) (x))[1];\
@@ -133,7 +133,7 @@ const char *font_names [] =
 static TexGlyphVertexInfo * getTCVI(TexFont * txf, int c){
 	TexGlyphVertexInfo *tgvi;
 	// Automatically substitute uppercase letters with lowercase if not
-	// uppercase available (and vice versa). 
+	// uppercase available (and vice versa).
 	if ((c >= txf->min_glyph) && (c < txf->min_glyph + txf->range)) {
 		tgvi = txf->lut[c - txf->min_glyph];
 		if (tgvi) {
@@ -154,15 +154,14 @@ static TexGlyphVertexInfo * getTCVI(TexFont * txf, int c){
 	}
 	fprintf(stderr, "texfont: tried to access unavailable font character \"%c\" (%d)\n",isprint(c) ? c : ' ', c);
 	abort();
-	// NOT REACHED 
+	// NOT REACHED
 	return NULL;
 }
 
 
-static char *lastError;
+static const char *lastError;
 
-
-char * txfErrorString(void) {
+const char * txfErrorString(void) {
 	return lastError;
 }
 
@@ -188,7 +187,7 @@ TexFont * txfLoadFont(const char *filename) {
 		lastError = "out of memory.";
 		goto error;
 	}
-	// For easy cleanup in error case. 
+	// For easy cleanup in error case.
 	txf->tgi = NULL;
 	txf->tgvi = NULL;
 	txf->lut = NULL;
@@ -199,7 +198,7 @@ TexFont * txfLoadFont(const char *filename) {
 		goto error;
 	}
 	// CONSTANT CONDITION
-	assert(sizeof(int) == 4);  // Ensure external file format size. 
+	assert(sizeof(int) == 4);  // Ensure external file format size.
 	got = (unsigned long)fread(&endianness, sizeof(int), 1, file);
 	if (got == 1 && endianness == 0x12345678) {
 		swap = 0;
@@ -325,7 +324,7 @@ TexFont * txfLoadFont(const char *filename) {
 			txf->teximage[i * 2 + 1] = orig[i];
 		}
 		free(orig);
-	} 
+	}
 	else {
 		txf->teximage = (unsigned char *)
         malloc(txf->tex_width * txf->tex_height);
@@ -362,7 +361,7 @@ TexFont * txfLoadFont(const char *filename) {
 				}
 			}
 		}
-	} 
+	}
 	else {
 		txf->teximage = (unsigned char *) calloc(width * height, 1);
 		if (txf->teximage == NULL) {
@@ -400,7 +399,7 @@ GLuint CreateTexFont(TexFont * txf,GLuint texobj, GLboolean setupMipmaps){
 	glBindTexture(GL_TEXTURE_2D, txf->texobj);
 #if 1
 	// XXX Indigo2 IMPACT in IRIX 5.3 and 6.2 does not support the GL_INTENSITY
-    // internal texture format. Sigh. Win32 non-GLX users should disable this code. 
+    // internal texture format. Sigh. Win32 non-GLX users should disable this code.
 	if (useLuminanceAlpha == 0) {
 		char *vendor, *renderer, *version;
 		renderer = (char *) glGetString(GL_RENDERER);
@@ -414,7 +413,7 @@ GLuint CreateTexFont(TexFont * txf,GLuint texobj, GLboolean setupMipmaps){
 				int i;
 				useLuminanceAlpha = 1;
 				latex = (unsigned char *) calloc(width * height * 2, 1);
-				// XXX unprotected alloc. 
+				// XXX unprotected alloc.
 				for (i = 0; i < height * width; i++) {
 					latex[i * 2] = txf->teximage[i];
 					latex[i * 2 + 1] = txf->teximage[i];
@@ -430,22 +429,22 @@ GLuint CreateTexFont(TexFont * txf,GLuint texobj, GLboolean setupMipmaps){
 			gluBuild2DMipmaps(GL_TEXTURE_2D, GL_LUMINANCE_ALPHA,
 			txf->tex_width, txf->tex_height,
 			GL_LUMINANCE_ALPHA, GL_UNSIGNED_BYTE, txf->teximage);
-		} 
+		}
 		else {
 			glTexImage2D(GL_TEXTURE_2D, 0, GL_LUMINANCE_ALPHA,
 			txf->tex_width, txf->tex_height, 0,
 			GL_LUMINANCE_ALPHA, GL_UNSIGNED_BYTE, txf->teximage);
 		}
-	} 
+	}
 	else {
 #if defined(GL_VERSION_1_1) || defined(GL_EXT_texture)
 		// Use GL_INTENSITY4 as internal texture format since we want to use as
-		// little texture memory as possible. 
+		// little texture memory as possible.
 		if (setupMipmaps) {
 			gluBuild2DMipmaps(GL_TEXTURE_2D, GL_INTENSITY4,
 			txf->tex_width, txf->tex_height,
 			GL_LUMINANCE, GL_UNSIGNED_BYTE, txf->teximage);
-		} 
+		}
 		else {
 			glTexImage2D(GL_TEXTURE_2D, 0, GL_INTENSITY4,
 			txf->tex_width, txf->tex_height, 0,
@@ -486,7 +485,7 @@ void txfGetStringMetrics(
 			case 'L': i += 7; break;
 			case 'F': i += 13;break;
 			}
-		} 
+		}
 		else {
 			tgvi = getTCVI(txf, string[i]);
 			w += (int)tgvi->advance;
@@ -560,7 +559,7 @@ void txfRenderFancyString( TexFont * txf, char *string, int len){
 			i += 13;
 			break;
 			}
-		} 
+		}
 		else {
 			switch (mode) {
 			case MONO:
@@ -625,7 +624,7 @@ void txfRenderFancyString( TexFont * txf, char *string, int len){
 
 
 int txfInFont(TexFont * txf, int c) {
-	// NOTE: No uppercase/lowercase substituion. 
+	// NOTE: No uppercase/lowercase substituion.
 	if ((c >= txf->min_glyph) && (c < txf->min_glyph + txf->range)) {
 		if (txf->lut[c - txf->min_glyph]) {
 			return 1;

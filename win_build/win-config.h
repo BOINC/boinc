@@ -26,7 +26,7 @@
 #define HAVE_ATEXIT 1
 
 /* Define to 1 if you have the `atoll' function. */
-/* #define HAVE_ATOLL 1 */
+#define HAVE_ATOLL 0
 
 /* Define to 1 if the system has the type `bool'. */
 #define HAVE_BOOL 1
@@ -35,7 +35,7 @@
 #define HAVE_COSF 1
 
 /* Define to 1 if you have the <dirent.h> header file. */
-/* #define HAVE_DIRENT_H 1 */
+#define HAVE_DIRENT_H 0
 
 /* Define to 1 if you have the <fcntl.h> header file. */
 #define HAVE_FCNTL_H 1
@@ -44,7 +44,7 @@
 #define HAVE_FLOOR 1
 
 /* Define to 1 if you have the `fork' function. */
-//#define HAVE_FORK 1
+#define HAVE_FORK 0
 
 /* Define to 1 if you have the `getcwd' function. */
 #define HAVE_GETCWD 1
@@ -68,67 +68,67 @@
 #define HAVE_GL_GL_H 1
 
 /* Define to 1 if you have the <gl.h> header file. */
-/* #undef HAVE_GL_H */
+#define HAVE_GL_H 0
 
 /* Define to 1 if you have the <inttypes.h> header file. */
-/* #undef HAVE_INTTYPES_H */ 
+#define HAVE_INTTYPES_H 0
 
 /* Define to 1 if you have the `aio' library (-laio). */
-//#define HAVE_LIBAIO 1
+#define HAVE_LIBAIO 0
 
 /* Define to 1 if you have the `dl' library (-ldl). */
-//#define HAVE_LIBDL 1
+#define HAVE_LIBDL 0
 
 /* Define to 1 if you have the `elf' library (-lelf). */
-//#define HAVE_LIBELF 1
+#define HAVE_LIBELF 0
 
 /* Define to 1 if you have the `fftw' library (-lfftw). */
-/* #undef HAVE_LIBFFTW */
+#define HAVE_LIBFFTW 0
 
 /* Define to 1 if you have the `GL' library (-lGL). */
 #define HAVE_LIBGL 1
 
 /* Define to 1 if you have the `ICE' library (-lICE). */
-//#define HAVE_LIBICE 1
+#define HAVE_LIBICE 0
 
 /* Define to 1 if you have the `m' library (-lm). */
 #define HAVE_LIBM 1
 
 /* Define to 1 if you have the `nsl' library (-lnsl). */
-//#define HAVE_LIBNSL 1
+#define HAVE_LIBNSL 0
 
 /* Define to 1 if you have the `rsaeuro' library (-lrsaeuro). */
-/* #undef HAVE_LIBRSAEURO */
+#define HAVE_LIBRSAEURO 0
 
 /* Define to 1 if you have the `s4' library (-ls4). */
-/* #undef HAVE_LIBS4 */
+#define HAVE_LIBS4 0
 
 /* Define to 1 if you have the `SM' library (-lSM). */
-//#define HAVE_LIBSM 1
+#define HAVE_LIBSM 0
 
 /* Define to 1 if you have the `socket' library (-lsocket). */
-//#define HAVE_LIBSOCKET 1
+#define HAVE_LIBSOCKET 0
 
 /* Define to 1 if you have the `stdc++' library (-lstdc++). */
-//#define HAVE_LIBSTDC__ 1
+#define HAVE_LIBSTDC__ 0
 
 /* Define to 1 if you have the `X11' library (-lX11). */
-//#define HAVE_LIBX11 1
+#define HAVE_LIBX11 0
 
 /* Define to 1 if you have the `Xaw' library (-lXaw). */
-//#define HAVE_LIBXAW 1
+#define HAVE_LIBXAW 0
 
 /* Define to 1 if you have the `Xext' library (-lXext). */
-//#define HAVE_LIBXEXT 1
+#define HAVE_LIBXEXT 0
 
 /* Define to 1 if you have the `Xmu' library (-lXmu). */
-//#define HAVE_LIBXMU 1
+#define HAVE_LIBXMU 0
 
 /* Define to 1 if you have the `Xt' library (-lXt). */
-/* #define HAVE_LIBXT 1 */
+#define HAVE_LIBXT 0
 
 /* Define to 1 if you have the `z' library (-lz). */
-/* #define HAVE_LIBZ 1 */
+#define HAVE_LIBZ 0
 
 /* Define to 1 if you have the <limits.h> header file. */
 #define HAVE_LIMITS_H 1
@@ -151,19 +151,19 @@
 #define HAVE_MEMSET 1
 
 /* Define to 1 if you have the `munmap' function. */
-/* #define HAVE_MUNMAP 1 */
+#define HAVE_MUNMAP 0
 
 /* Define if your C++ compiler supports namespaces */
 #define HAVE_NAMESPACES 1
 
 /* Define to 1 if you have the <OpenGL/glut.h> header file. */
-/* #undef HAVE_OPENGL_GLUT_H */
+#define HAVE_OPENGL_GLUT_H 0
 
 /* Define to 1 if you have the <OpenGL/glu.h> header file. */
-/* #undef HAVE_OPENGL_GLU_H */
+#define HAVE_OPENGL_GLU_H 0
 
 /* Define to 1 if you have the <OpenGL/gl.h> header file. */
-/* #undef HAVE_OPENGL_GL_H */
+#define HAVE_OPENGL_GL_H 0
 
 /* Define to 1 if you have the `putenv' function. */
 #define HAVE_PUTENV 1
@@ -180,7 +180,7 @@
 
 /* Define to 1 if `stat' has the bug that it succeeds when given the
    zero-length file name argument. */
-/* #undef HAVE_STAT_EMPTY_STRING_BUG */
+#define HAVE_STAT_EMPTY_STRING_BUG 0
 
 #if ( _MSC_VER > 1300 )
   /* Define to 1 if the max template is in namespace std. */
@@ -194,10 +194,10 @@
 #define HAVE_STD_TRANSFORM 1
 
 /* Define to 1 if stdbool.h conforms to C99. */
-/* #undef HAVE_STDBOOL_H */
+#define HAVE_STDBOOL_H 0
 
 /* Define to 1 if you have the <stdint.h> header file. */
-/* #undef HAVE_STDINT_H */
+#define HAVE_STDINT_H 0
 
 /* Define to 1 if you have the <stdlib.h> header file. */
 #define HAVE_STDLIB_H 1
@@ -209,7 +209,7 @@
 #define HAVE_STRFTIME 1
 
 /* Define to 1 if you have the <strings.h> header file. */
-/* #define HAVE_STRINGS_H 1 */
+#define HAVE_STRINGS_H 0
 
 /* Define to 1 if you have the <string.h> header file. */
 #define HAVE_STRING_H 1
@@ -218,54 +218,54 @@
 #define HAVE_STRSTR 1
 
 /* Define to 1 if `st_blocks' is member of `struct stat'. */
-/* #define HAVE_STRUCT_STAT_ST_BLOCKS 1 */
+#define HAVE_STRUCT_STAT_ST_BLOCKS 0
 
 /* Define to 1 if your `struct stat' has `st_blocks'. Deprecated, use
    `HAVE_STRUCT_STAT_ST_BLOCKS' instead. */
-/* #define HAVE_ST_BLOCKS 1 */
+#define HAVE_ST_BLOCKS 0
 
 /* Define to 1 if you have the <sys/ioctl.h> header file. */
-/* #define HAVE_SYS_IOCTL_H 1 */
+#define HAVE_SYS_IOCTL_H 0
 
 /* Define to 1 if you have the <sys/statvfs.h> header file. */
-/* #define HAVE_SYS_STATVFS_H 1 */
+#define HAVE_SYS_STATVFS_H 0
 
 /* Define to 1 if you have the <sys/stat.h> header file. */
 #define HAVE_SYS_STAT_H 1
 
 /* Define to 1 if you have the <sys/time.h> header file. */
-/* #undef HAVE_SYS_TIME_H */
+#define HAVE_SYS_TIME_H 0
 
 /* Define to 1 if you have the <sys/types.h> header file. */
 #define HAVE_SYS_TYPES_H 1
 
 /* Define to 1 if you have <sys/wait.h> that is POSIX.1 compatible. */
-/* #define HAVE_SYS_WAIT_H 1 */
+#define HAVE_SYS_WAIT_H 0
 
 /* Define to 1 if you have the <unistd.h> header file. */
-/* #define HAVE_UNISTD_H 1 */
+#define HAVE_UNISTD_H 0
 
 /* Define to 1 if you have the `vfork' function. */
-/* #define HAVE_VFORK 1
+#define HAVE_VFORK 0
 
 /* Define to 1 if you have the <vfork.h> header file. */
-/* #undef HAVE_VFORK_H */
+#undef HAVE_VFORK_H 0
 
 /* Define to 1 if `fork' works. */
-/* #define HAVE_WORKING_FORK 1 */
+#define HAVE_WORKING_FORK 0
 
 /* Define to 1 if `vfork' works. */
-/* #define HAVE_WORKING_VFORK 1 */
+#define HAVE_WORKING_VFORK 0
 
 /* Define to 1 if the system has the type `_Bool'. */
-/* #undef HAVE__BOOL */
+#undef HAVE__BOOL 0
 
 /* Define to 1 if the system has the type `_int64'. */
-/* #define HAVE__INT64 1 */
+#define HAVE__INT64 0
 
 /* Define to 1 if `lstat' dereferences a symlink specified with a trailing
    slash. */
-/* #undef LSTAT_FOLLOWS_SLASHED_SYMLINK */
+#define LSTAT_FOLLOWS_SLASHED_SYMLINK 0
 
 /* Define to 1 if `major', `minor', and `makedev' are declared in <mkdev.h>.
    */
@@ -273,7 +273,7 @@
 
 /* Define to 1 if `major', `minor', and `makedev' are declared in
    <sysmacros.h>. */
-/* #undef MAJOR_IN_SYSMACROS */
+#define MAJOR_IN_SYSMACROS 0
 
 /* Define to the address where bug reports for this package should be sent. */
 #define PACKAGE_BUGREPORT "ports@setiathome.ssl.berkeley.edu"
@@ -300,13 +300,13 @@
 #define STDC_HEADERS 1
 
 /* Define to 1 if your <sys/time.h> declares `struct tm'. */
-/* #undef TM_IN_SYS_TIME */
+#define TM_IN_SYS_TIME 0
 
 /* Define to 1 if informix is installed */
-/* #undef USE_INFORMIX */
+#define USE_INFORMIX 0
 
 /* Define if MYSQL is installed */
-/* #undef USE_MYSQL */
+#define USE_MYSQL 0
 
 /* SETI@home major version number */
 #define VERSION_MAJOR 4

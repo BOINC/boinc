@@ -66,10 +66,6 @@ extern void update_average(double, double, double, double, double&, double&);
 
 extern int boinc_calling_thread_cpu_time(double&);
 
-// convert UNIX time to MySQL timestamp (yyyymmddhhmmss)
-//
-extern void mysql_timestamp(double, char*);
-
 // fake a crash
 //
 extern void boinc_crash();

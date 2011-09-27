@@ -39,7 +39,7 @@ libboinc_api_la_LDFLAGS = -L$(libdir) -rpath $(libdir) -version-number $(LIBBOIN
 if BUILD_GRAPHICS_API
 lib_LTLIBRARIES += libboinc_graphics2.la
 libboinc_graphics2_la_SOURCES = $(graphics2_files)
-libboinc_graphics2_la_CPPFLAGS = -I$(top_srcdir)/lib 
+libboinc_graphics2_la_CPPFLAGS = -I$(top_srcdir)/lib
 libboinc_graphics2_la_LDFLAGS = -L$(libdir) -rpath $(libdir) -version-number $(LIBBOINC_VERSION)
 endif #BUILD_GRAPHICS_API
 
@@ -51,7 +51,7 @@ pkginclude_HEADERS = 	\
 	gutil.h
 endif ## INSTALL_HEADERS
 
-# Some OSs may not prefix libraries with lib. 
+# Some OSs may not prefix libraries with lib.
 # For example OS2
 if OS_OS2
 LIBBOINC_API_STATIC=boinc_api.${LIBEXT}

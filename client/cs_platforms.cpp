@@ -29,16 +29,23 @@ LPFN_ISWOW64PROCESS fnIsWow64Process;
 #include <cstdio>
 #include <cstdlib>
 #include <signal.h>
-#ifdef HAVE_UNISTD_H
+#if HAVE_UNISTD_H
 #include <unistd.h>
 #endif
-#ifdef HAVE_SYS_TYPES_H
+#if HAVE_SYS_TYPES_H
 #include <sys/types.h>
 #endif
-#ifdef HAVE_SYS_WAIT_H
+#if HAVE_SYS_WAIT_H
 #include <sys/wait.h>
 #endif
 #endif
+
+#if defined(__APPLE__) && (defined(__i386__) || defined(__x86_64__))
+#include <CoreServices/CoreServices.h>
+#include <sys/sysctl.h>
+#endif
+
+
 
 #include "client_types.h"
 #include "client_state.h"
@@ -48,13 +55,6 @@ LPFN_ISWOW64PROCESS fnIsWow64Process;
 #include "str_util.h"
 #include "str_replace.h"
 #include "util.h"
-
-#if (defined (__APPLE__) && (defined(__i386__) || defined(__x86_64__)))
-#include <sys/sysctl.h>
-#include <Carbon/Carbon.h>
-
-char *HOSTTYPE = "";
-#endif
 
 // return the primary platform id.
 //
@@ -109,18 +109,15 @@ void CLIENT_STATE::detect_platforms() {
     err = Gestalt(gestaltSystemVersion, &version);
     retval = sysctlbyname("hw.optional.x86_64", &response, &len, NULL, 0);
     if ((err == noErr) && (version >= 0x1050) && response && (!retval)) {
-        HOSTTYPE = "x86_64-apple-darwin";
         add_platform("x86_64-apple-darwin");
-    } else {
-        HOSTTYPE = "i686-apple-darwin";
     }
 
     // Supported on both Mac Intel architectures
     add_platform("i686-apple-darwin");
 #else
-    // We no longer request PowerPC applications on Intel Macs 
-    // because all projects supporting Macs should have Intel 
-    // applications by now, and PowerPC emulation ("Rosetta") 
+    // We no longer request PowerPC applications on Intel Macs
+    // because all projects supporting Macs should have Intel
+    // applications by now, and PowerPC emulation ("Rosetta")
     // is not always supported in newer versions of OS X.
     add_platform("powerpc-apple-darwin");
 #endif

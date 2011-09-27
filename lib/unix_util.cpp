@@ -80,13 +80,13 @@ int setenv(const char *name, const char *value, int overwrite) {
     // this memory.  But unsetenv() is even less trivial than setenv.
     return rv;
 }
-#endif /*  !HAVE_SETENV */       
+#endif /*  !HAVE_SETENV */
 
 #ifndef HAVE_DAEMON
 
 #include <cstdio>
 #include <cstdlib>
-#ifdef HAVE_UNISTD_H
+#if HAVE_UNISTD_H
 #include <unistd.h>
 #endif
 
@@ -108,7 +108,7 @@ int daemon(int nochdir, int noclose) {
     if (childpid>0) {
         // Fork successful.    We are the parent process.
         _exit(0);
-    } 
+    }
     if (childpid < 0) {
         // Fork unsuccessful.    Return -1
         return -1;

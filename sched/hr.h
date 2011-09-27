@@ -15,6 +15,9 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
+#ifndef _HR_H_
+#define _HR_H_
+
 #include "boinc_db.h"
 
 #define HR_NTYPES 3
@@ -24,3 +27,5 @@ extern int hr_class(HOST&, int hr_type);
 extern bool hr_unknown_class(HOST&, int hr_type);
 extern const char* hr_names[HR_NTYPES];
 extern int hr_nclasses[HR_NTYPES];
+
+#endif

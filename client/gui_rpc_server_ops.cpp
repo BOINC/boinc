@@ -28,24 +28,24 @@
 #else
 #include "config.h"
 #include <cstdio>
-#ifdef HAVE_UNISTD_H
+#if HAVE_UNISTD_H
 #include <unistd.h>
 #endif
-#ifdef HAVE_SYS_SOCKET_H
+#if HAVE_SYS_SOCKET_H
 #include <sys/socket.h>
 #endif
-#ifdef HAVE_SYS_UN_H
+#if HAVE_SYS_UN_H
 #include <sys/un.h>
 #endif
 #include <vector>
 #include <cstring>
-#ifdef HAVE_NETINET_IN_H
+#if HAVE_NETINET_IN_H
 #include <netinet/in.h>
 #endif
-#ifdef HAVE_NETINET_TCP_H
+#if HAVE_NETINET_TCP_H
 #include <netinet/tcp.h>
 #endif
-#ifdef HAVE_ARPA_INET_H
+#if HAVE_ARPA_INET_H
 #include <arpa/inet.h>
 #endif
 #endif

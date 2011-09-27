@@ -13,18 +13,14 @@
 #pragma implementation "taskbarex.h"
 #endif
 
-#include "stdwx.h"
-
-#ifndef __GTK_H__
 #define GSocket GlibGSocket
 #include <gtk/gtk.h>
 #undef GSocket
-#endif
 
-#ifndef _LIBNOTIFY_NOTIFY_H_
+
+#include "stdwx.h"
+
 #include <libnotify/notify.h>
-#endif 
-
 #include <glib/gtypes.h>
 #include <glib-object.h>
 
@@ -33,14 +29,13 @@
 #include "BOINCTaskBar.h"
 
 
-GtkStatusIcon*      g_pStatusIcon;
-NotifyNotification* g_pNotification;
+static GtkStatusIcon*      g_pStatusIcon = NULL;
+static NotifyNotification* g_pNotification = NULL;
 
 
 //-----------------------------------------------------------------------------
 
 extern "C" {
-
     static void
     status_icon_activate(GtkStatusIcon*, wxTaskBarIconEx* taskBarIcon)
     {
@@ -58,7 +53,7 @@ extern "C" {
     }
 
     static void
-    statis_icon_notification_actions(NotifyNotification* notification, gchar *action, wxTaskBarIconEx* taskBarIcon)
+    status_icon_notification_actions(NotifyNotification* notification, gchar *action, wxTaskBarIconEx* taskBarIcon)
     {
         if (strcmp(action, "default") == 0) {
             taskBarIcon->FireUserClickedEvent();
@@ -66,7 +61,7 @@ extern "C" {
     }
 
     static void
-    statis_icon_notification_closed(NotifyNotification* notification, wxTaskBarIconEx* taskBarIcon)
+    status_icon_notification_closed(NotifyNotification* notification, wxTaskBarIconEx* taskBarIcon)
     {
         if (taskBarIcon->IsUserClicked()) {
             wxTaskBarIconExEvent eventUserClicked(wxEVT_TASKBAR_BALLOON_USERCLICK, taskBarIcon);
@@ -78,14 +73,13 @@ extern "C" {
 
         taskBarIcon->ClearEvents();
     }
-
 }
 
 
 //-----------------------------------------------------------------------------
 
 
-wxChar* wxTaskBarExWindow      = (wxChar*) wxT("wxTaskBarExWindow");
+static wxChar* wxTaskBarExWindow      = (wxChar*) wxT("wxTaskBarExWindow");
 
 
 DEFINE_EVENT_TYPE( wxEVT_TASKBAR_CREATED )
@@ -110,7 +104,6 @@ wxTaskBarIconEx::wxTaskBarIconEx()
     m_iTaskbarID = 1;
     g_pStatusIcon = NULL;
     g_pNotification = NULL;
-
     notify_init((const char*)wxString(wxTaskBarExWindow).mb_str());
 }
 
@@ -125,10 +118,8 @@ wxTaskBarIconEx::wxTaskBarIconEx( wxChar* szWindowTitle, wxInt32 iTaskbarID )
     notify_init((const char*)wxString(szWindowTitle).mb_str());
 }
 
-wxTaskBarIconEx::~wxTaskBarIconEx()
+static void exitNotificationAndIcons(wxWindow* m_pWnd)
 {
-    m_bUserClicked = false;
-
     if (m_pWnd)
     {
         m_pWnd->PopEventHandler();
@@ -145,13 +136,19 @@ wxTaskBarIconEx::~wxTaskBarIconEx()
     if (g_pNotification)
     {
         notify_notification_close(g_pNotification, NULL);
-        notify_uninit();
         g_pNotification = NULL;
     }
 }
 
+wxTaskBarIconEx::~wxTaskBarIconEx()
+{
+    m_bUserClicked = false;
+    exitNotificationAndIcons(m_pWnd);
+
+}
+
 bool wxTaskBarIconEx::IsIconInstalled() const {
-    return g_pStatusIcon;
+    return (g_pStatusIcon != NULL);
 }
 
 void wxTaskBarIconEx::ClearEvents() {
@@ -226,18 +223,17 @@ bool wxTaskBarIconEx::SetBalloon(const wxIcon& icon, const wxString title, const
 
     if (!g_pNotification)
     {
-        g_pNotification = 
-            notify_notification_new_with_status_icon(
+        g_pNotification =
+            notify_notification_new(
                 title.mb_str(),
                 message.mb_str(),
-                desired_icon,
-                g_pStatusIcon
+                gtk_status_icon_get_icon_name(g_pStatusIcon)
         );
 
         g_signal_connect(
             g_pNotification,
             "closed",
-            G_CALLBACK(statis_icon_notification_closed),
+            G_CALLBACK(status_icon_notification_closed),
             this
         );
 
@@ -245,7 +241,7 @@ bool wxTaskBarIconEx::SetBalloon(const wxIcon& icon, const wxString title, const
             g_pNotification,
             "default",
             "Do Default Action",
-            NOTIFY_ACTION_CALLBACK(statis_icon_notification_actions),
+            NOTIFY_ACTION_CALLBACK(status_icon_notification_actions),
             this,
             NULL
         );
@@ -278,25 +274,7 @@ bool wxTaskBarIconEx::RemoveIcon()
     if (!IsOK())
         return false;
 
-    if (m_pWnd)
-    {
-        m_pWnd->PopEventHandler();
-        m_pWnd->Destroy();
-        m_pWnd = NULL;
-    }
-
-    if (g_pStatusIcon)
-    {
-        g_object_unref(g_pStatusIcon);
-        g_pStatusIcon = NULL;
-    }
-
-    if (g_pNotification)
-    {
-        notify_notification_close(g_pNotification, NULL);
-        g_pNotification = NULL;
-    }
-
+    exitNotificationAndIcons(m_pWnd);
     return true;
 }
 

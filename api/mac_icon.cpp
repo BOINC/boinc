@@ -16,13 +16,13 @@
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
 /* Mac-specific code to display custom icon for science application (optional)
-   adapted from code written by Bernd Machenschalk.  Used with permission of the 
+   adapted from code written by Bernd Machenschalk.  Used with permission of the
    Einstein@home project.
-   
+
     To use this code:
     1. Create a *.icns file using "/Developer/Applications/utilities/Icon Composer.app"
-    2. Convert the *.icns file to an app_icon.h file as follows: in Terminal, run 
-      "MakeAppIcon_h <source_file> <dest_file>".  (The MakeAppIcon_h command-line utility 
+    2. Convert the *.icns file to an app_icon.h file as follows: in Terminal, run
+      "MakeAppIcon_h <source_file> <dest_file>".  (The MakeAppIcon_h command-line utility
       is built by the Mac boinc XCode project.)
     3. In the science application's main(), #include "app_icon.h" and call:
         setMacIcon(argv[0], MacAppIconData, sizeof(MacAppIconData));
@@ -52,8 +52,8 @@ char MacPListData[] = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
     return(e); } }
 
 // Adds the specified resource to the file given as an argument.
-int setMacRsrcForFile(char *filename, char *rsrcData, long rsrcSize, 
-                            OSType rsrcType, int rsrcID, StringPtr rsrcName) {
+int setMacRsrcForFile(char *filename, char *rsrcData, long rsrcSize,
+                            OSType rsrcType, int rsrcID, ConstStringPtr rsrcName) {
     OSErr oserr;                    /* stores an OS error code */
 //    FSSpec fsspec;                  /* FileSpec */
     HFSUniStr255 forkName;          /* Unicode name of resource fork "RESOURCE_FORK" */
@@ -62,13 +62,13 @@ int setMacRsrcForFile(char *filename, char *rsrcData, long rsrcSize,
     short rref;                     /* Resource Reference */
     Handle hand;
     int retry;
-    
+
     /* get finder spec for this file */
     CHECK_OSERR((int)FSPathMakeRef((StringPtr)filename, &fsref, NULL));
 //    CHECK_OSERR(FSGetCatalogInfo(&fsref, nil, NULL, NULL, &fsspec, NULL));
 
     /* Open the resource fork for writing, create it if it does not exist.
-        On a dual-processor system, the other cpu may have the resource fork 
+        On a dual-processor system, the other cpu may have the resource fork
         open for writing, so if we fail we wait and retry.
     */
     for (retry=0;retry<5;retry++) {
@@ -92,13 +92,13 @@ int setMacRsrcForFile(char *filename, char *rsrcData, long rsrcSize,
         }
         // We may not have permissions to set resources in debug runs
         if ((oserr == noErr) || (oserr == wrPermErr) || (oserr == permErr))
-            break; 
+            break;
         sleep (1);
     };
 
     if (oserr)
         return oserr; // give up after 5 seconds
-        
+
     /* add the resource if not already present */
     if (!GetResource(rsrcType, rsrcID)) { /* if resource not found */
         oserr = PtrToHand(rsrcData, &hand, rsrcSize);
@@ -145,19 +145,19 @@ void getPathToThisApp(char* pathBuf, size_t bufSize) {
     pid_t myPID = getpid();
     int i;
     struct stat stat_buf;
-    
+
     strcpy(pathBuf, GRAPHICS_APP_FILENAME);
     if (!stat(pathBuf, &stat_buf)) {
        // stat() returns zero on success
        return;
     }
-   
+
     *pathBuf = 0;    // in case of failure
-    
-    // Before launching this project application, the BOINC client set the 
-    // current directory to the slot directory which contains this application 
-    // (or the soft-link to it.)  So all we need for the path to this 
-    // application is the file name.  We use the -c option so ps strips off 
+
+    // Before launching this project application, the BOINC client set the
+    // current directory to the slot directory which contains this application
+    // (or the soft-link to it.)  So all we need for the path to this
+    // application is the file name.  We use the -c option so ps strips off
     // any command-line arguments for us.
     sprintf(buf, "ps -wcp %d -o command=", myPID);
     f = popen(buf,  "r");
@@ -167,10 +167,10 @@ void getPathToThisApp(char* pathBuf, size_t bufSize) {
     PersistentFGets(pathBuf, bufSize, f);  // Get the UNIX command which ran us
     pclose(f);
 
-    c = strstr(pathBuf, " -"); 
+    c = strstr(pathBuf, " -");
     if (c)
         *c = 0;     // Strip off any command-line arguments
-        
+
     for (i=strlen(pathBuf)-1; i>=0; --i) {
         if (pathBuf[i] <= ' ')
             pathBuf[i] = 0;  // Strip off trailing spaces, newlines, etc.
@@ -179,39 +179,56 @@ void getPathToThisApp(char* pathBuf, size_t bufSize) {
     }
 }
 
-
-// Adds plst resource 0 to the file given as an argument.  This 
-// identifies the application to the OS as an NSUIElement, so 
-// that the application does not show in the Dock and it has no 
+// Adds plst resource 0 to the file given as an argument.  This
+// identifies the application to the OS as an NSUIElement, so
+// that the application does not show in the Dock and it has no
 // menu bar.
 int setMacPList() {
+    int rc;
     char path[1024], resolvedPath[1024];
-    StringPtr rsrcName = (StringPtr)"\pApplication PList";
+    const char plistStr[] = "Application PList";
+    CFStringRef plistCFStr = CFStringCreateWithCString(kCFAllocatorDefault, plistStr, kCFStringEncodingMacRoman);
+    ConstStringPtr rsrcName = CFStringGetPascalStringPtr(plistCFStr, kCFStringEncodingMacRoman);
+    if (!rsrcName) {
+        return -2;
+    }
 
-    // If resource already exists, don't call getPathToThisApp() 
+    // If resource already exists, don't call getPathToThisApp()
     // which leaves a zombie process.
-    if (GetResource('plst', 0)) { 
+    if (GetResource('plst', 0)) {
         return 0;
     }
-    
+
     getPathToThisApp(path, sizeof(path));
     if (path[0] == 0)
         return -1; // Should never happen
-    
+
     setMacRsrcForFile(path, MacPListData, sizeof(MacPListData), 'plst', 0, rsrcName);
     boinc_resolve_filename(path, resolvedPath, sizeof(resolvedPath));
-    return(setMacRsrcForFile(resolvedPath, MacPListData, sizeof(MacPListData), 'plst', 0, rsrcName));
+    rc = setMacRsrcForFile(resolvedPath, MacPListData, sizeof(MacPListData), 'plst', 0, rsrcName);
+
+    CFRelease(plistCFStr);
+    return rc;
 }
 
 
 // Adds icns resource to the file given as an argument.
-// If the file is a soft link, also adds icns resource to the resolved flle. 
+// If the file is a soft link, also adds icns resource to the resolved flle.
 // Typically called from a main() with argv[0] to attach resources to itself */
 int setMacIcon(char *filename, char *iconData, long iconSize) {
+    int rc;
     char path[1024];
-    StringPtr rsrcName = (StringPtr)"\pApplication icons";
+    const char iconStr[] = "Application icons";
+    CFStringRef iconCFStr = CFStringCreateWithCString(kCFAllocatorDefault, iconStr, kCFStringEncodingMacRoman);
+    ConstStringPtr rsrcName = CFStringGetPascalStringPtr(iconCFStr, kCFStringEncodingMacRoman);  // FIXME: How to release this?
+    if (!rsrcName) {
+        return -2;
+    }
 
     setMacRsrcForFile(filename, iconData, iconSize, 'icns', RESIDICON, rsrcName);
     boinc_resolve_filename(filename, path, sizeof(path));
-    return(setMacRsrcForFile(path, iconData, iconSize, 'icns', RESIDICON, rsrcName));
+    rc = setMacRsrcForFile(path, iconData, iconSize, 'icns', RESIDICON, rsrcName);
+
+    CFRelease(iconCFStr);
+    return rc;
 }

@@ -43,11 +43,11 @@
 #if HAVE_SYS_RESOURCE_H
 #include <sys/resource.h>
 #endif
-#ifdef HAVE_CSIGNAL
+#if HAVE_CSIGNAL
 #include <csignal>
-#elif defined(HAVE_SYS_SIGNAL_H)
+#elif HAVE_SYS_SIGNAL_H
 #include <sys/signal.h>
-#elif defined(HAVE_SIGNAL_H)
+#elif HAVE_SIGNAL_H
 #include <signal.h>
 #endif
 #if HAVE_SYS_WAIT_H

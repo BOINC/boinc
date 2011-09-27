@@ -33,25 +33,25 @@
 #else // !_WIN32, !__APPLE_CC__
 #include "config.h"
 
-#  if defined(HAVE_GL_H)
+#  if HAVE_GL_H
 #    include <gl.h>
-#  elif defined(HAVE_GL_GL_H)
+#  elif HAVE_GL_GL_H
 #    include <GL/gl.h>
-#  elif defined(HAVE_OPENGL_GL_H)
+#  elif HAVE_OPENGL_GL_H
 #    include <OpenGL/gl.h>
 #  endif
 
-#  if defined(HAVE_GLX_H)
+#  if HAVE_GLX_H
 #    include <glx.h>
-#  elif defined(HAVE_GL_GLX_H)
+#  elif HAVE_GL_GLX_H
 #    include <GL/glx.h>
 #  endif
 
-#  if defined(HAVE_GLU_H)
+#  if HAVE_GLU_H
 #    include <glu.h>
-#  elif defined(HAVE_GL_GLU_H)
+#  elif HAVE_GL_GLU_H
 #    include <GL/glu.h>
-#  elif defined(HAVE_OPENGL_GLU_H)
+#  elif HAVE_OPENGL_GLU_H
 #    include <OpenGL/glu.h>
 #  endif
 

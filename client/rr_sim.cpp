@@ -340,7 +340,7 @@ void RR_SIM::simulate() {
         }
         // adjust FLOPS left
         for (unsigned int i=0; i<active.size(); i++) {
-            RESULT* rp = active[i];
+            rp = active[i];
             rp->rrsim_flops_left -= rp->rrsim_flops*delta_t;
 
             // can be slightly less than 0 due to roundoff
@@ -379,7 +379,8 @@ void RR_SIM::simulate() {
         double f = gstate.host_info.p_fpops;
         for (unsigned int i=0; i<gstate.projects.size(); i++) {
             PROJECT* p = gstate.projects[i];
-            double x=0, dtemp;
+            double dtemp;
+            x = 0;
             for (int j=0; j<coprocs.n_rsc; j++) {
                 x += p->rsc_pwf[j].sim_nused * delta_t * f * rsc_work_fetch[j].relative_speed;
             }
