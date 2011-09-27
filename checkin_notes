@@ -6531,3 +6531,9 @@ Rom    27 Sept 2011
         
     html/user/
         get_project_config.php
+
+Rom    27 Sept 2011
+    lib: only build the static version of libboinc.
+
+    lib/
+        Makefile.am
