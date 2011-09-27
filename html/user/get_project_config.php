@@ -84,8 +84,13 @@ if (web_stopped()) {
 } else {
     echo "<web_stopped>0</web_stopped>\n";
 }
+
 if ($disable_account_creation || defined('INVITE_CODES')) {
-    echo "    <account_creation_disabled/>\n";
+	echo "    <account_creation_disabled/>\n";
+}
+
+if (defined('INVITE_CODES')) {
+	echo "    <invite_code_required/>\n";
 }
 
 echo "

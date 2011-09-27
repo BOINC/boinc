@@ -6522,3 +6522,12 @@ Charlie 27 Sep 2011
     
     client/
         cpu_sched.cpp
+
+Rom    27 Sept 2011
+    - web: The create_account RPC supports taking an invite_code parameter
+        but we currently do not expose a way in get_project_config to determine
+        that a UI should prompt for one.  Add a <invite_code_required/> tag
+        if the project is only accepting new accounts by invitation.
+        
+    html/user/
+        get_project_config.php
