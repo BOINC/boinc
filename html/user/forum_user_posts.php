@@ -87,6 +87,9 @@ foreach ($posts as $post) {
         if ($forum->parent_type == 1) {
             // post to team msg board
             if ($forum->category == $teamid) {
+				if ($thread->hidden && !$show_team_hidden) {
+					continue;
+				}
                 if ($post->hidden && !$show_team_hidden) {
                     continue;
                 }
@@ -94,6 +97,9 @@ foreach ($posts as $post) {
                 continue;
             }
         } else {
+			if ($thread->hidden && !$show_hidden) {
+				continue;
+			}
             if ($post->hidden && !$show_hidden) {
                 continue;
             }

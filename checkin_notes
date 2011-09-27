@@ -6505,3 +6505,14 @@ David  26 Sept 2011
         cpu_sched.cpp
     lib/
         cc_config.h
+
+David  26 Sept 2011
+	- web: when showing a user's posts, don't show the ones
+		in hidden threads
+	- web: in showing the context of a post, link the thread also.
+
+	html/
+		user/
+			forum_user_posts.php
+		inc/
+			forum.inc

@@ -671,7 +671,7 @@ function show_post_and_context($post, $thread, $forum, $options, $n) {
     switch ($forum->parent_type) {
     case 0:
         $category = BoincCategory::lookup_id($forum->category);
-        show_forum_title($category, $forum, $thread);
+        show_forum_title($category, $forum, $thread, true);
         break;
     case 1:
         show_team_forum_title($forum);
