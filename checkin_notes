@@ -6516,3 +6516,9 @@ David  26 Sept 2011
 			forum_user_posts.php
 		inc/
 			forum.inc
+
+Charlie 27 Sep 2011
+    - client: Fix compile break on Mac.
+    
+    client/
+        cpu_sched.cpp

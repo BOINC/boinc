@@ -79,6 +79,10 @@
 using std::vector;
 using std::list;
 
+#ifdef __APPLE__
+using std::isnan;
+#endif
+
 #define DEADLINE_CUSHION    0
     // try to finish jobs this much in advance of their deadline
 
