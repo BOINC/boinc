@@ -240,10 +240,10 @@ void CLIENT_STATE::parse_cmdline(int argc, char** argv) {
             if (i == argc-1) show_options = true;
             else safe_strcpy(update_prefs_url, argv[++i]);
         } else if (ARG(version)) {
-#if (defined (__APPLE__) && (defined(__i386__) || defined(__x86_64__)))
+#ifdef __APPLE__
             CLIENT_STATE cs;
             cs.detect_platforms();
-            printf(BOINC_VERSION_STRING " %s\n", HOSTTYPE);
+            printf(BOINC_VERSION_STRING " %s\n", cs.get_primary_platform());
 #else
             printf(BOINC_VERSION_STRING " " HOSTTYPE "\n");
 #endif

@@ -6582,5 +6582,6 @@ Charlie 27 Sep 2011
     
     client/
         client_state.cpp
+        cs_cmdline.cpp
         mac/
             config.h
