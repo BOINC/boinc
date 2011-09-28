@@ -366,11 +366,11 @@ int CLIENT_STATE::init() {
             config.ignore_nvidia_dev, config.ignore_ati_dev
         );
         for (i=0; i<descs.size(); i++) {
-            msg_printf(NULL, MSG_INFO, descs[i].c_str());
+            msg_printf(NULL, MSG_INFO, "%s", descs[i].c_str());
         }
         if (log_flags.coproc_debug) {
             for (i=0; i<warnings.size(); i++) {
-                msg_printf(NULL, MSG_INFO, warnings[i].c_str());
+                msg_printf(NULL, MSG_INFO, "%s", warnings[i].c_str());
             }
         }
 #if 0
@@ -809,7 +809,7 @@ bool CLIENT_STATE::poll_slow_events() {
                     suspend_reason_string(network_suspend_reason)
                 );
             }
-            msg_printf(NULL, MSG_INFO, buf);
+            msg_printf(NULL, MSG_INFO, "%s", buf);
             pers_file_xfers->suspend();
         }
     } else {

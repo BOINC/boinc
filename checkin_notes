@@ -6577,8 +6577,10 @@ David  27 Sept 2011
         various
 
 Charlie 27 Sep 2011
+    - client: Fix compiler warnings on Mac.
     - client: Fix compile break on Mac.
     
     client/
+        client_state.cpp
         mac/
             config.h
