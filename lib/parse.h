@@ -86,7 +86,7 @@ inline bool match_tag(const std::string &s, const char* tag) {
 #ifdef _WIN32
 #define boinc_strtoull _strtoui64
 #else
-#ifdef HAVE_STRTOULL
+#if HAVE_STRTOULL
 #define boinc_strtoull strtoull
 #else
 inline unsigned long long boinc_strtoull(const char *s, char **, int) {

@@ -223,12 +223,22 @@ bool wxTaskBarIconEx::SetBalloon(const wxIcon& icon, const wxString title, const
 
     if (!g_pNotification)
     {
+#if 1
+        g_pNotification =
+            notify_notification_new_with_status_icon(
+                title.mb_str(),
+                message.mb_str(),
+                desired_icon,
+                g_pStatusIcon
+        );
+#else
         g_pNotification =
             notify_notification_new(
                 title.mb_str(),
                 message.mb_str(),
                 gtk_status_icon_get_icon_name(g_pStatusIcon)
         );
+#endif
 
         g_signal_connect(
             g_pNotification,

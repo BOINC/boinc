@@ -552,13 +552,13 @@ int diagnostics_cycle_logs() {
 // Diagnostics for POSIX Compatible systems.
 //
 
-#ifdef HAVE_SIGNAL_H
+#if HAVE_SIGNAL_H
 
 
 // Set a signal handler only if it is not currently ignored
 //
 extern "C" void boinc_set_signal_handler(int sig, void(*handler)(int)) {
-#ifdef HAVE_SIGACTION
+#if HAVE_SIGACTION
     struct sigaction temp;
     sigaction(sig, NULL, &temp);
     if (temp.sa_handler != SIG_IGN) {
@@ -579,7 +579,7 @@ extern "C" void boinc_set_signal_handler(int sig, void(*handler)(int)) {
 // Set a signal handler even if it is currently ignored
 //
 void boinc_set_signal_handler_force(int sig, void(*handler)(int)) {
-#ifdef HAVE_SIGACTION
+#if HAVE_SIGACTION
     struct sigaction temp;
     sigaction(sig, NULL, &temp);
     temp.sa_handler = handler;

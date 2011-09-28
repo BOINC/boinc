@@ -15,6 +15,8 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
+#include "config.h"
+
 #include <vector>
 #ifdef _WIN32
 #include "diagnostics.h"
@@ -29,11 +31,11 @@
 #include <sys/wait.h>
 #include <unistd.h>
 
-#ifdef HAVE_CSIGNAL
+#if HAVE_CSIGNAL
 #include <csignal>
-#elif defined(HAVE_SYS_SIGNAL_H)
+#elif HAVE_SYS_SIGNAL_H
 #include <sys/signal.h>
-#elif defined(HAVE_SIGNAL_H)
+#elif HAVE_SIGNAL_H
 #include <signal.h>
 #endif
 #endif

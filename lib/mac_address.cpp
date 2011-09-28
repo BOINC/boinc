@@ -239,7 +239,7 @@ get_mac_addresses(char* addresses) {
     for(i = 0; i < nInterfaces; i++)
     {
 
-#ifdef HAVE_STRUCT_LIFCONF
+#if HAVE_STRUCT_LIFCONF
         struct lifreq *item = &ifr[i];
 #else
         struct ifreq *item = &ifr[i];

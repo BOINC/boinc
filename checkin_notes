@@ -6585,3 +6585,16 @@ Charlie 27 Sep 2011
         cs_cmdline.cpp
         mac/
             config.h
+
+David  28 Sept 2011
+    - manager: fix build break on Linux
+        Undoes part of yesterday's checkin.
+    - more changes from #ifdef HAVE_X to #if HAVE_X
+
+    clientgui/gtk/
+        taskbarex.cpp
+    lib/
+        proc_control.cpp
+        mac_address.cpp
+        diagnostics.cpp
+        parse.h
