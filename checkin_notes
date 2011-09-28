@@ -6575,3 +6575,10 @@ David  27 Sept 2011
         various
     client/
         various
+
+Charlie 27 Sep 2011
+    - client: Fix compile break on Mac.
+    
+    client/
+        mac/
+            config.h
