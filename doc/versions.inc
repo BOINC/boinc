@@ -58,10 +58,10 @@ function type_text($type) {
 }
 
 $w613 = array(
-	"num"=>"6.13.4",
+	"num"=>"6.13.6",
 	"status"=>"Development version",
-	"file"=>"boinc_6.13.4_windows_intelx86.exe",
-	"date"=>"20 Sept 2011",
+	"file"=>"boinc_6.13.6_windows_intelx86.exe",
+	"date"=>"30 Sept 2011",
 	"type"=>"win_new",
 );
 
@@ -98,10 +98,10 @@ $w5816 = array(
 );
 
 $w613x64 = array(
-	"num"=>"6.13.4",
+	"num"=>"6.13.6",
 	"status"=>"Development version",
-	"file"=>"boinc_6.13.4_windows_x86_64.exe",
-	"date"=>"20 Sept 2011",
+	"file"=>"boinc_6.13.6_windows_x86_64.exe",
+	"date"=>"30 Sept 2011",
 	"type"=>"win_new",
 );
 
@@ -202,10 +202,10 @@ $l66 = array(
 	);
 
 $l613ubuntu = array(
-	"num"=>"6.13.1",
+	"num"=>"6.13.6",
 	"status"=>"Development version",
-	"file"=>"boinc_6.13.1_i686-pc-linux-gnu.sh",
-	"date"=>"20 Jun 2011",
+	"file"=>"boinc_6.13.6_i686-pc-linux-gnu.sh",
+	"date"=>"30 Sept 2011",
 	"type"=>"sea",
 );
 
@@ -226,10 +226,10 @@ $l610ubuntu = array(
 );
 
 $l613ubuntux64 = array(
-	"num"=>"6.13.1",
+	"num"=>"6.13.6",
 	"status"=>"Development version",
-	"file"=>"boinc_6.13.1_x86_64-pc-linux-gnu.sh",
-	"date"=>"20 July 2011",
+	"file"=>"boinc_6.13.6_x86_64-pc-linux-gnu.sh",
+	"date"=>"30 Sept 2011",
 	"type"=>"sea",
 );
 
@@ -258,7 +258,7 @@ $windows = array(
     "description"=>"2000/XP/Vista/7",
     "dbname" => "windows_intelx86",
     "versions"=>array(
-		//$w613,
+		$w613,
 		$w612,
 		$w610,
 		$w66,
@@ -271,7 +271,7 @@ $windowsx64 = array(
     "description"=>"XP/Vista/7",
     "dbname" => "windows_x86_64",
     "versions"=>array(
-		//$w613x64,
+		$w613x64,
 		$w612x64,
 		$w610x64,
     )
