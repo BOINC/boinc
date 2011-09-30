@@ -6598,3 +6598,16 @@ David  28 Sept 2011
         mac_address.cpp
         diagnostics.cpp
         parse.h
+
+Rom    30 Sept 2011
+    - WINSETUP: Add more logging to the create group and add user to group
+        functions in an attempt to figure out what is going on with Windows 8.
+        
+    win_build/installerv2/redist/Windows/src/boinccas/
+        CACreateBOINCGroups.cpp
+    win_build/installerv2/redist/Windows/Win32/
+        boinccas.dll
+        boinccas95.dll
+    win_build/installerv2/redist/Windows/x64/
+        boinccas.dll
+        boinccas95.dll

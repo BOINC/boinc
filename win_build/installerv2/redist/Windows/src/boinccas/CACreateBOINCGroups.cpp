@@ -174,6 +174,14 @@ UINT CACreateBOINCGroups::OnExecution()
 
     if ((NERR_Success != nasReturnValue) && (ERROR_ALIAS_EXISTS != nasReturnValue)) {
         LogMessage(
+            INSTALLMESSAGE_INFO,
+            NULL, 
+            NULL,
+            NULL,
+            nasReturnValue,
+            _T("NetLocalGroupAdd retval")
+        );
+        LogMessage(
             INSTALLMESSAGE_ERROR,
             NULL, 
             NULL,
@@ -203,6 +211,14 @@ UINT CACreateBOINCGroups::OnExecution()
 
     if ((NERR_Success != nasReturnValue) && (ERROR_MEMBER_IN_ALIAS != nasReturnValue)) {
         LogMessage(
+            INSTALLMESSAGE_INFO,
+            NULL, 
+            NULL,
+            NULL,
+            nasReturnValue,
+            _T("NetLocalGroupAddMembers retval")
+        );
+        LogMessage(
             INSTALLMESSAGE_ERROR,
             NULL, 
             NULL,
@@ -225,6 +241,14 @@ UINT CACreateBOINCGroups::OnExecution()
 
     if ((NERR_Success != nasReturnValue) && (ERROR_MEMBER_IN_ALIAS != nasReturnValue)) {
         LogMessage(
+            INSTALLMESSAGE_INFO,
+            NULL, 
+            NULL,
+            NULL,
+            nasReturnValue,
+            _T("NetLocalGroupAddMembers retval")
+        );
+        LogMessage(
             INSTALLMESSAGE_ERROR,
             NULL, 
             NULL,
@@ -246,6 +270,14 @@ UINT CACreateBOINCGroups::OnExecution()
     );
 
     if ((NERR_Success != nasReturnValue) && (ERROR_MEMBER_IN_ALIAS != nasReturnValue)) {
+        LogMessage(
+            INSTALLMESSAGE_INFO,
+            NULL, 
+            NULL,
+            NULL,
+            nasReturnValue,
+            _T("NetLocalGroupAddMembers retval")
+        );
         LogMessage(
             INSTALLMESSAGE_ERROR,
             NULL, 
@@ -273,6 +305,14 @@ UINT CACreateBOINCGroups::OnExecution()
     );
 
     if ((NERR_Success != nasReturnValue) && (ERROR_ALIAS_EXISTS != nasReturnValue)) {
+        LogMessage(
+            INSTALLMESSAGE_INFO,
+            NULL, 
+            NULL,
+            NULL,
+            nasReturnValue,
+            _T("NetLocalGroupAdd retval")
+        );
         LogMessage(
             INSTALLMESSAGE_ERROR,
             NULL, 
@@ -304,6 +344,14 @@ UINT CACreateBOINCGroups::OnExecution()
     );
 
     if ((NERR_Success != nasReturnValue) && (ERROR_ALIAS_EXISTS != nasReturnValue)) {
+        LogMessage(
+            INSTALLMESSAGE_INFO,
+            NULL, 
+            NULL,
+            NULL,
+            nasReturnValue,
+            _T("NetLocalGroupAdd retval")
+        );
         LogMessage(
             INSTALLMESSAGE_ERROR,
             NULL, 
@@ -338,6 +386,14 @@ UINT CACreateBOINCGroups::OnExecution()
 
         if ((NERR_Success != nasReturnValue) && (ERROR_MEMBER_IN_ALIAS != nasReturnValue)) {
             LogMessage(
+                INSTALLMESSAGE_INFO,
+                NULL, 
+                NULL,
+                NULL,
+                nasReturnValue,
+                _T("NetLocalGroupAddMembers retval")
+            );
+            LogMessage(
                 INSTALLMESSAGE_ERROR,
                 NULL, 
                 NULL,
@@ -357,6 +413,14 @@ UINT CACreateBOINCGroups::OnExecution()
         );
 
         if ((NERR_Success != nasReturnValue) && (ERROR_MEMBER_IN_ALIAS != nasReturnValue)) {
+            LogMessage(
+                INSTALLMESSAGE_INFO,
+                NULL, 
+                NULL,
+                NULL,
+                nasReturnValue,
+                _T("NetLocalGroupAddMembers retval")
+            );
             LogMessage(
                 INSTALLMESSAGE_ERROR,
                 NULL, 
@@ -379,6 +443,14 @@ UINT CACreateBOINCGroups::OnExecution()
         );
 
         if ((NERR_Success != nasReturnValue) && (ERROR_MEMBER_IN_ALIAS != nasReturnValue)) {
+            LogMessage(
+                INSTALLMESSAGE_INFO,
+                NULL, 
+                NULL,
+                NULL,
+                nasReturnValue,
+                _T("NetLocalGroupAddMembers retval")
+            );
             LogMessage(
                 INSTALLMESSAGE_ERROR,
                 NULL, 
