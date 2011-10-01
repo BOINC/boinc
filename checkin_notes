@@ -6660,3 +6660,11 @@ David  1 Oct 2011
         rr_sim.cpp
         gui_rpc_serever_ops.cpp
         log_flags.cpp,h
+
+David  1 Oct 2011
+    - client: specify the project in "Some tasks need more memory
+        than allowed by your preferences" messages
+
+    client
+        cs_trickle.cpp
+        client_state.cpp

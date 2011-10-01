@@ -195,9 +195,11 @@ static void trickle_up_request_message(
     );
 }
 
-void send_replicated_trickles(PROJECT* p, const char* msg, char* result_name, int t) {
+void send_replicated_trickles(
+    PROJECT* p, const char* msg, char* result_name, int now
+) {
     char buf[65536];
-    trickle_up_request_message(p, msg, result_name, t, buf);
+    trickle_up_request_message(p, msg, result_name, now, buf);
     for (unsigned int i=0; i<p->trickle_up_ops.size(); i++) {
         TRICKLE_UP_OP *t = p->trickle_up_ops[i];
         if (t->gui_http->is_busy()) {

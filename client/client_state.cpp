@@ -228,19 +228,23 @@ static void check_no_apps(PROJECT* p) {
 // alert user if any jobs need more RAM than available
 //
 static void check_too_large_jobs() {
+    unsigned int i, j;
     double m = gstate.max_available_ram();
-    bool found = false;
-    for (unsigned int i=0; i<gstate.results.size(); i++) {
-        RESULT* rp = gstate.results[i];
-        if (rp->wup->rsc_memory_bound > m) {
-            found = true;
-            break;
+    for (i=0; i<gstate.projects.size(); i++) {
+        PROJECT* p = gstate.projects[i];
+        bool found = false;
+        for (j=0; j<gstate.results.size(); j++) {
+            RESULT* rp = gstate.results[j];
+            if (rp->project == p && rp->wup->rsc_memory_bound > m) {
+                found = true;
+                break;
+            }
         }
-    }
-    if (found) {
-        msg_printf(0, MSG_USER_ALERT,
-            _("Some tasks need more memory than allowed by your preferences.  Please check the preferences.")
-        );
+        if (found) {
+            msg_printf(p, MSG_USER_ALERT,
+                _("Some tasks need more memory than allowed by your preferences.  Please check the preferences.")
+            );
+        }
     }
 }
 
