@@ -453,3 +453,31 @@ int read_config_file(bool init, const char* fname) {
     return 0;
 }
 
+// Count excluded GPUS per project.
+// NOTE: this is currently done just on the project level.
+// Could do it at the app level also.
+//
+void set_ncoprocs_excluded() {
+    unsigned int i, j;
+    PROJECT *p;
+
+    for (i=0; i<gstate.projects.size(); i++) {
+        p = gstate.projects[i];
+        for (int k=1; k<coprocs.n_rsc; k++) {
+            int n=0;
+            COPROC& cp = coprocs.coprocs[k];
+            for (j=0; j<config.exclude_gpus.size(); j++) {
+                EXCLUDE_GPU& eg = config.exclude_gpus[j];
+                if (strcmp(eg.url.c_str(), p->master_url)) continue;
+                if (!eg.appname.empty()) continue;
+                if (!eg.type.empty() && (eg.type != cp.type)) continue;
+                if (eg.device_num >= 0) {
+                    n++;
+                } else {
+                    n = cp.count;
+                }
+            }
+            p->ncoprocs_excluded[k] = n;
+        }
+    }
+}

@@ -185,10 +185,14 @@ void RR_SIM::pick_jobs_to_run(double reltime) {
             PROJECT* p = gstate.projects[i];
             p->rsc_pwf[rt].sim_nused = 0;
         }
-        int ndevs = rt?coprocs.coprocs[rt].count:gstate.ncpus;
         for (unsigned int i=0; i<rsc_work_fetch[rt].pending.size(); i++) {
-            if (rsc_work_fetch[rt].sim_nused >= ndevs) break;
             RESULT* rp = rsc_work_fetch[rt].pending[i];
+            if (rt) {
+                PROJECT* p = rp->project;
+                if (rsc_work_fetch[rt].sim_nused >= coprocs.coprocs[rt].count - p->ncoprocs_excluded[rt]) break;
+            } else {
+                if (rsc_work_fetch[rt].sim_nused >= gstate.ncpus) break;
+            }
             activate(rp);
             if (log_flags.rrsim_detail) {
                 char buf[256];

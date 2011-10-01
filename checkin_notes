@@ -6611,3 +6611,49 @@ Rom    30 Sept 2011
     win_build/installerv2/redist/Windows/x64/
         boinccas.dll
         boinccas95.dll
+
+David  1 Oct 2011
+    - client: fix a bug reported by Jacob Klein,
+        where work fetch didn't work right in the presence of
+        multiple GPUs and <exclude_gpu> config options.
+        For example: suppose:
+            - you have 2 GPUs and 2 projects
+            - Project A is excluded from GPU 1
+            - you have lots of jobs for project A
+        Then the client won't try to fetch jobs from project B.
+
+        The problem had 2 parts:
+        a) round-robin simulation wasn't taking GPU exclusions into account.
+            In the above example, it would think that both GPUs had jobs.
+            I fixed this by computing the # of GPUs from each project
+            is excluded, and using this in the RR simulation.
+        b) Once this was done, I needed to make the client
+            request GPU jobs from project B rather than project A.
+            I did this with following policy:
+            If a project has excluded GPUs of a given type,
+            and has a runnable job of that type,
+            don't ask it for more work of that type.
+
+        Notes:
+        - the policy in b) is crude, and it means that work-buffer
+            preferences are ignored in some cases.
+        - neither a) nor b) takes into account app-level exclusions.
+
+        I could fix both of these with a lot of work,
+        but I'd rather move to a model in which dissimilar GPUs
+        are modeled as different resources,
+        which would remove the need for the <exclude_gpu> mechanism
+        in the first place.
+
+    - web: remove extraneous ) at end of button tooltips
+
+    html/inc/
+        util.inc
+    client/
+        client_types.h
+        client_state.cpp
+        sim.cpp
+        work_fetch.cpp
+        rr_sim.cpp
+        gui_rpc_serever_ops.cpp
+        log_flags.cpp,h

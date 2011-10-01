@@ -814,6 +814,7 @@ void job_count(PROJECT* p, int rsc_type, int& in_progress, int& done) {
 
 void show_resource(int rsc_type) {
     unsigned int i;
+    char buf[256];
 
     fprintf(html_out, "<td width=%d valign=top>", WIDTH2);
     bool found = false;
@@ -825,17 +826,20 @@ void show_resource(int rsc_type) {
         if (rsc_type) {
             if (rp->avp->gpu_usage.rsc_type != rsc_type) continue;
             ninst = rp->avp->gpu_usage.usage;
+            sprintf(buf, " GPU %d", rp->coproc_indices[0]);
         } else {
             ninst = rp->avp->avg_ncpus;
+            strcpy(buf, "");
         }
 
         PROJECT* p = rp->project;
-        fprintf(html_out, "%.2f: <font color=%s>%s%s: %.2fG</font><br>",
+        fprintf(html_out, "%.2f: <font color=%s>%s%s: %.2fG%s</font><br>\n",
             ninst,
             colors[p->index%NCOLORS],
             atp->result->rr_sim_misses_deadline?"*":"",
             atp->result->name,
-            atp->flops_left/1e9
+            atp->flops_left/1e9,
+            buf
         );
         found = true;
     }
@@ -1165,6 +1169,16 @@ void get_app_params() {
         for (i=0; i<gstate.apps.size(); i++) {
             app = gstate.apps[i];
             if (app->project != p) continue;
+
+            // if missing app params, fill in defaults
+            //
+            if (!app->fpops_est) {
+                app->fpops_est = 3600e9;
+            }
+            if (!app->latency_bound) {
+                app->latency_bound = 86400;
+            }
+
             if (!app->fpops_est || !app->latency_bound) {
                 app->ignore = true;
                 fprintf(summary_file,
@@ -1294,11 +1308,18 @@ void do_client_simulation() {
         gstate.projects[i]->index = j++;
     }
 
-    clear_backoff();
-    if (!existing_jobs_only) {
-        gstate.workunits.clear();
-        gstate.results.clear();
+    // fill in GPU device nums
+    //
+    for (int i=0; i<coprocs.n_rsc; i++) {
+        COPROC& cp = coprocs.coprocs[i];
+        for (j=0; j<cp.count; j++) {
+            cp.device_nums[j] = j;
+        }
     }
+
+    set_ncoprocs_excluded();
+
+    clear_backoff();
 
     gstate.log_show_projects();
     gstate.set_ncpus();

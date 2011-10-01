@@ -1084,6 +1084,7 @@ static void handle_read_cc_config(GUI_RPC_CONN& grc) {
     config.show();
     log_flags.show();
     gstate.set_ncpus();
+    set_ncoprocs_excluded();
     gstate.request_schedule_cpus("Core client configuration");
     gstate.request_work_fetch("Core client configuration");
     set_no_rsc_config();

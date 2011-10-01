@@ -466,6 +466,8 @@ int CLIENT_STATE::init() {
         }
     }
 
+    set_ncoprocs_excluded();
+
     check_clock_reset();
 
     // Check to see if we can write the state file.

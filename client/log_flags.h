@@ -37,5 +37,6 @@
 extern LOG_FLAGS log_flags;
 extern CONFIG config;
 extern int read_config_file(bool init, const char* fname=CONFIG_FILE);
+extern void set_ncoprocs_excluded();
 
 #endif

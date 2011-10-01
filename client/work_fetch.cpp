@@ -222,6 +222,21 @@ PROJECT* RSC_WORK_FETCH::choose_project_hyst() {
         PROJECT* p = gstate.projects[i];
         if (!p->pwf.can_fetch_work) continue;
         if (!project_state(p).may_have_work) continue;
+
+        // if project has excluded GPUs of this type,
+        // and it has runnable jobs for this type,
+        // don't fetch work for it.
+        // TODO: THIS IS CRUDE. Making it smarter would require
+        // computing shortfall etc. on a per-project basis
+        //
+        if (rsc_type) {
+            if (p->ncoprocs_excluded[rsc_type]
+                && p->rsc_pwf[rsc_type].has_runnable_jobs
+            ){
+                continue;
+            }
+        }
+
         RSC_PROJECT_WORK_FETCH& rpwf = project_state(p);
         if (rpwf.anon_skip) continue;
         if (pbest) {
