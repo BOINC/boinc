@@ -6645,6 +6645,9 @@ David  1 Oct 2011
         which would remove the need for the <exclude_gpu> mechanism
         in the first place.
 
+        Other note: I figured out this problem using the client simulator,
+        based on the client state file that Jacob sent me.
+
     - web: remove extraneous ) at end of button tooltips
 
     html/inc/
