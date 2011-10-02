@@ -6668,3 +6668,12 @@ David  1 Oct 2011
     client
         cs_trickle.cpp
         client_state.cpp
+
+David  1 Oct 2011
+	- team import script: don't exit if fail to create user.
+		The failure may be because the email is banned
+		(as happened w/ SETI@home)
+
+	html/ops/
+		team_import.php
+	

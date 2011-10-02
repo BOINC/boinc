@@ -140,8 +140,7 @@ function insert_case($t, $user) {
         $user = make_user(mysql_real_escape_string($t->user_email), mysql_real_escape_string($t->user_name), random_string());
         if (!$user) {
             echo "   Can't make user $t->user_email\n";
-            echo mysql_error();
-            exit;
+            return;
         }
     }
     echo "   making team $t->name\n";
