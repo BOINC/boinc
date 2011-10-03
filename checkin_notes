@@ -6730,3 +6730,16 @@ David  3 Oct 2011
 
     html/user/
         profile_menu.php
+
+David  3 Oct 2011
+    - lib: move XML parse test program to its own file.
+
+    Note: XML_PARSER::parse_str() doesn't currently work right
+        for something like <foo><a>xx</a></foo>.
+        It should return "<a>xx</a>".
+        TODO.
+
+    lib/
+        parse.cpp,h
+        parse_test.cpp (new)
+        Makefile.am

@@ -8,7 +8,7 @@ bin_PROGRAMS =
 # Stuff needed for server builds goes here.
 if ENABLE_SERVER
 
-bin_PROGRAMS += crypt_prog
+bin_PROGRAMS += crypt_prog parse_test
 
 endif
 # end of "if ENABLE_SERVER"
@@ -221,4 +221,6 @@ msg_test_LDADD = $(LIBBOINC)
 crypt_prog_SOURCES = crypt_prog.cpp 
 crypt_prog_CXXFLAGS = $(PTHREAD_CFLAGS)
 crypt_prog_LDADD = $(LIBBOINC_CRYPT_STATIC) $(LIBBOINC) $(SSL_LIBS) 
-
+parse_test_SOURCES = parse_test.cpp 
+parse_test_CXXFLAGS = $(PTHREAD_CFLAGS)
+parse_test_LDADD = $(LIBBOINC)

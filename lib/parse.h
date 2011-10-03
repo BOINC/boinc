@@ -27,6 +27,8 @@
 #include "str_util.h"
 #include "cl_boinc.h"
 
+// see parse_test.cpp for example usage of XML_PARSER
+
 class XML_PARSER {
     bool scan_nonws(int&);
     int scan_comment();
