@@ -964,6 +964,30 @@ void unlock_sema() {
     unlock_semaphore(sema_key);
 }
 
+static inline bool have_cpu_apps() {
+    if (g_wreq->anonymous_platform) {
+        return g_wreq->have_cpu_apps;
+    } else {
+        return ssp->have_cpu_apps;
+    }
+}
+
+static inline bool have_cuda_apps() {
+    if (g_wreq->anonymous_platform) {
+        return g_wreq->have_cuda_apps;
+    } else {
+        return ssp->have_cuda_apps;
+    }
+}
+
+static inline bool have_ati_apps() {
+    if (g_wreq->anonymous_platform) {
+        return g_wreq->have_ati_apps;
+    } else {
+        return ssp->have_ati_apps;
+    }
+}
+
 // return true if additional work is needed,
 // and there's disk space left,
 // and we haven't exceeded result per RPC limit,
@@ -1055,13 +1079,13 @@ bool work_needed(bool locality_sched) {
     }
 #endif
     if (g_wreq->rsc_spec_request) {
-        if (g_wreq->need_cpu() && ssp->have_cpu_apps) {
+        if (g_wreq->need_cpu() && have_cpu_apps()) {
             return true;
         }
-        if (g_wreq->need_cuda() && ssp->have_cuda_apps) {
+        if (g_wreq->need_cuda() && have_cuda_apps()) {
             return true;
         }
-        if (g_wreq->need_ati() && ssp->have_ati_apps) {
+        if (g_wreq->need_ati() && have_ati_apps()) {
             return true;
         }
     } else {
@@ -1273,7 +1297,7 @@ int add_result_to_reply(
 // and low-priority messages about things that can't easily be changed,
 // but which may be interfering with getting tasks or latest apps
 //
-static void send_gpu_messages(
+static void send_gpu_property_messages(
     GPU_REQUIREMENTS& req, double ram, int version, const char* rsc_name
 ) {
     char buf[256];
@@ -1306,14 +1330,9 @@ static void send_gpu_messages(
     }
 }
 
-// send messages to user about why jobs were or weren't sent,
-// recommendations for GPU driver upgrades, etc.
+// send messages complaining about lack of GPU or the properties of GPUs
 //
-static void send_user_messages() {
-    char buf[512];
-    unsigned int i;
-    int j;
-
+void send_gpu_messages() {
     // Mac client with GPU but too-old client
     //
     if (g_request->coprocs.nvidia.count
@@ -1353,20 +1372,34 @@ static void send_user_messages() {
     }
 
     if (g_request->coprocs.nvidia.count && ssp->have_cuda_apps) {
-        send_gpu_messages(cuda_requirements,
+        send_gpu_property_messages(cuda_requirements,
             g_request->coprocs.nvidia.prop.dtotalGlobalMem,
             g_request->coprocs.nvidia.display_driver_version,
             "NVIDIA GPU"
         );
     }
     if (g_request->coprocs.ati.count && ssp->have_ati_apps) {
-        send_gpu_messages(ati_requirements,
+        send_gpu_property_messages(ati_requirements,
             g_request->coprocs.ati.attribs.localRAM*MEGA,
             g_request->coprocs.ati.version_num,
             "ATI GPU"
         );
     }
+}
 
+// send messages to user about why jobs were or weren't sent,
+// recommendations for GPU driver upgrades, etc.
+//
+static void send_user_messages() {
+    char buf[512];
+    unsigned int i;
+    int j;
+
+    // GPU messages aren't relevant if anonymous platform
+    //
+    if (!g_wreq->anonymous_platform) {
+        send_gpu_messages();
+    }
 
     // If work was sent from apps the user did not select, explain.
     // NOTE: this will have to be done differently with matchmaker scheduling
@@ -1542,6 +1575,20 @@ void send_work_setup() {
 
     if (g_wreq->anonymous_platform) {
         estimate_flops_anon_platform();
+
+        g_wreq->have_cpu_apps = false;
+        g_wreq->have_cuda_apps = false;
+        g_wreq->have_ati_apps = false;
+        for (i=0; i<g_request->client_app_versions.size(); i++) {
+            CLIENT_APP_VERSION& cav = g_request->client_app_versions[i];
+            if (cav.host_usage.ncudas) {
+                g_wreq->have_cuda_apps = true;
+            } else if (cav.host_usage.natis) {
+                g_wreq->have_ati_apps = true;
+            } else {
+                g_wreq->have_cpu_apps = true;
+            }
+        }
     }
     cuda_requirements.clear();
     ati_requirements.clear();

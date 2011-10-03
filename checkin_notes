@@ -6743,3 +6743,11 @@ David  3 Oct 2011
         parse.cpp,h
         parse_test.cpp (new)
         Makefile.am
+
+David  3 Oct 2011
+    - scheduler: fix bugs that broke work fetch for anonymous platform;
+        don't send irrelevant messages to anon platform clients
+
+    sched/
+        sched_types.h
+        sched_send.cpp

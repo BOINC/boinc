@@ -294,6 +294,7 @@ struct SCHEDULER_REQUEST {
     char code_sign_key[4096];
 
     std::vector<CLIENT_APP_VERSION> client_app_versions;
+
     GLOBAL_PREFS global_prefs;
     char global_prefs_source_email_hash[MD5_LEN];
 
@@ -347,6 +348,12 @@ struct DISK_LIMITS {
 //
 struct WORK_REQ {
     bool anonymous_platform;
+
+    // the following defined if anonymous platform
+    //
+    bool have_cpu_apps;
+    bool have_cuda_apps;
+    bool have_ati_apps;
 
     // Flags used by old-style scheduling,
     // while making multiple passes through the work array
