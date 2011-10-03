@@ -10283,3 +10283,12 @@ David  16 Sept 2011
 
     lib/
         procinfo.cpp,h
+
+Rom    3 Oct 2011
+    - Tag for 6.12.39 release, all platforms
+      boinc_core_release_6_12_39
+
+    /
+        configure.ac
+        version.h
+
