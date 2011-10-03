@@ -24,6 +24,30 @@
 $cli_only = true;
 require_once("../inc/util_ops.inc");
 
+function escape2($strin) {
+    $strout = null;
+
+    for ($i = 0; $i < strlen($strin); $i++) {
+        $ord = ord($strin[$i]);
+
+        if (($ord > 0 && $ord < 32) || ($ord >= 127)) {
+            $strout .= "&amp;#{$ord};";
+        } else {
+            switch ($strin[$i]) {
+            case '<': $strout .= '&lt;'; break;
+            case '>': $strout .= '&gt;'; break;
+            case '&': $strout .= '&amp;'; break;
+            case '"': $strout .= '&quot;'; break;
+            default: $strout .= $strin[$i]; }
+        }
+    }
+    return $strout;
+}
+
+function escape($strin) {
+    return htmlspecialchars($strin);
+}
+
 function handle_team($team, $f) {
     $user = BoincUser::lookup_id($team->userid);
     if (!$user) {
@@ -41,20 +65,20 @@ function handle_team($team, $f) {
     $user_email_munged = str_rot13($user->email_addr);
     fwrite($f, 
 "<team>
-   <name>".htmlspecialchars($team->name)."</name>
-   <url>".htmlspecialchars($team->url)."</url>
+   <name>".escape($team->name)."</name>
+   <url>".escape($team->url)."</url>
    <type>$team->type</type>
-   <name_html>".htmlspecialchars($team->name_html)."</name_html>
+   <name_html>".escape($team->name_html)."</name_html>
    <description>
-".htmlspecialchars($team->description)."
+".escape($team->description)."
     </description>
    <country>$team->country</country>
    <id>$team->id</id>
    <user_email_munged>$user_email_munged</user_email_munged>
-   <user_name>".htmlspecialchars($user->name)."</user_name>
-   <user_country>".htmlspecialchars($user->country)."</user_country>
-   <user_postal_code>".htmlspecialchars($user->postal_code)."</user_postal_code>
-   <user_url>".htmlspecialchars($user->url)."</user_url>
+   <user_name>".escape($user->name)."</user_name>
+   <user_country>".escape($user->country)."</user_country>
+   <user_postal_code>".escape($user->postal_code)."</user_postal_code>
+   <user_url>".escape($user->url)."</user_url>
 </team>
 "
     );

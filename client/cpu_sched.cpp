@@ -86,6 +86,19 @@ using std::isnan;
 #define DEADLINE_CUSHION    0
     // try to finish jobs this much in advance of their deadline
 
+static inline bool gpu_excluded(RESULT& r, COPROC& cp, int ind) {
+    PROJECT* p = r.project;
+    for (unsigned int i=0; i<config.exclude_gpus.size(); i++) {
+        EXCLUDE_GPU& eg = config.exclude_gpus[i];
+        if (strcmp(eg.url.c_str(), p->master_url)) continue;
+        if (!eg.type.empty() && (eg.type != cp.type)) continue;
+        if (!eg.appname.empty() && (eg.appname != r.app->name)) continue;
+        if (eg.device_num >= 0 && eg.device_num != cp.device_nums[ind]) continue;
+        return true;
+    }
+    return false;
+}
+
 // used in schedule_cpus() to keep track of resources used
 // by jobs tentatively scheduled so far
 //
@@ -96,6 +109,15 @@ struct PROC_RESOURCES {
     COPROCS pr_coprocs;
     double ram_left;
 
+    void init() {
+        ncpus = gstate.ncpus;
+        ncpus_used_st = 0;
+        ncpus_used_mt = 0;
+        pr_coprocs.clone(coprocs, false);
+        pr_coprocs.clear_usage();
+        ram_left = gstate.available_ram();
+    }
+
     // should we stop scanning jobs?
     //
     inline bool stop_scan_cpu() {
@@ -103,7 +125,11 @@ struct PROC_RESOURCES {
     }
 
     inline bool stop_scan_coproc(int rsc_type) {
-        return pr_coprocs.coprocs[rsc_type].used >= pr_coprocs.coprocs[rsc_type].count;
+        COPROC& cp = pr_coprocs.coprocs[rsc_type];
+        for (int i=0; i<cp.count; i++) {
+            if (cp.usage[i] < 1) return false;
+        }
+        return true;
     }
 
     // should we consider scheduling this job?
@@ -111,6 +137,19 @@ struct PROC_RESOURCES {
     bool can_schedule(RESULT* rp, ACTIVE_TASK* atp) {
         double wss;
         if (atp) {
+            if (gstate.retry_shmem_time > gstate.now) {
+                if (atp->app_client_shm.shm == NULL) {
+                    if (log_flags.cpu_sched_debug) {
+                        msg_printf(rp->project, MSG_INFO,
+                            "[cpu_sched_debug] waiting for shared mem: %s",
+                            rp->name
+                        );
+                    }
+                    atp->needs_shmem = true;
+                    return false;
+                }
+                atp->needs_shmem = false;
+            }
             wss = atp->procinfo.working_set_size_smoothed;
         } else {
             wss = rp->avp->max_working_set_size;
@@ -119,7 +158,7 @@ struct PROC_RESOURCES {
         if (rp->schedule_backoff > gstate.now) return false;
         if (rp->uses_coprocs()) {
             if (gpu_suspend_reason) return false;
-            if (sufficient_coprocs(*rp->avp, log_flags.cpu_sched_debug)) {
+            if (sufficient_coprocs(*rp)) {
                 return true;
             } else {
                 if (log_flags.cpu_sched_debug) {
@@ -138,10 +177,14 @@ struct PROC_RESOURCES {
 
     // we've decided to run this - update bookkeeping
     //
-    void schedule(RESULT* rp, ACTIVE_TASK* atp) {
-        reserve_coprocs(
-            *rp->avp, log_flags.cpu_sched_debug, "cpu_sched_debug"
-        );
+    void schedule(RESULT* rp, ACTIVE_TASK* atp, const char* description) {
+        if (log_flags.cpu_sched_debug) {
+            msg_printf(rp->project, MSG_INFO,
+                "[cpu_sched_debug] scheduling %s (%s) (prio %f)", rp->name, description,
+                project_priority(rp->project)
+            );
+        }
+        reserve_coprocs(*rp);
         if (rp->uses_coprocs()) {
             ncpus_used_st += rp->avp->avg_ncpus;
         } else if (rp->avp->avg_ncpus > 1) {
@@ -156,42 +199,48 @@ struct PROC_RESOURCES {
             wss = rp->avp->max_working_set_size;
         }
         ram_left -= wss;
+
+        adjust_rec_sched(rp);
     }
 
-    bool sufficient_coprocs(APP_VERSION& av, bool log_flag) {
+    bool sufficient_coprocs(RESULT& r) {
         double x;
-        COPROC* cp2;
+        APP_VERSION& av = *r.avp;
         int rt = av.gpu_usage.rsc_type;
         if (!rt) return true;
         x = av.gpu_usage.usage;
-        cp2 = &(pr_coprocs.coprocs[rt]);
-        if (cp2->used + x > cp2->count) {
-            if (log_flag) {
-                msg_printf(NULL, MSG_INFO,
-                    "[cpu_sched_debug] insufficient coproc %s (%f + %f > %d)",
-                    cp2->type, cp2->used, x, cp2->count
-                );
-            }
-            return false;
+        COPROC& cp = pr_coprocs.coprocs[rt];
+        for (int i=0; i<cp.count; i++) {
+            if (gpu_excluded(r, cp, i)) continue;
+            if (cp.usage[i]+x <=1) return true;
         }
-        return true;
-    }
-
-    void reserve_coprocs(
-        APP_VERSION& av, bool log_flag, const char* prefix
-    ) {
-        double x;
-        COPROC* cp2;
-        int rt = av.gpu_usage.rsc_type;
-        if (!rt) return;
-        cp2 = &(pr_coprocs.coprocs[rt]);
-        x = av.gpu_usage.usage;
-        if (log_flag) {
-            msg_printf(NULL, MSG_INFO,
-                "[%s] reserving %f of coproc %s", prefix, x, cp2->type
+        if (log_flags.cpu_sched_debug) {
+            msg_printf(r.project, MSG_INFO,
+                "[cpu_sched_debug] insufficient %s for %s",
+                cp.type, r.name
             );
         }
-        cp2->used += x;
+        return false;
+    }
+
+    void reserve_coprocs(RESULT& r) {
+        double x;
+        APP_VERSION& av = *r.avp;
+        int rt = av.gpu_usage.rsc_type;
+        if (!rt) return;
+        COPROC& cp = pr_coprocs.coprocs[rt];
+        x = av.gpu_usage.usage;
+        for (int i=0; i<cp.count; i++) {
+            if (gpu_excluded(r, cp, i)) continue;
+            if (cp.usage[i]+x >1) continue;
+            cp.usage[i] += x;
+            break;
+        }
+        if (log_flags.cpu_sched_debug) {
+            msg_printf(r.project, MSG_INFO,
+                "[cpu_sched_debug] reserving %f of coproc %s", x, cp.type
+            );
+        }
     }
 };
 
@@ -709,42 +758,6 @@ bool CLIENT_STATE::schedule_cpus() {
     return enforce_run_list(run_list);
 }
 
-// Check whether the job can be run:
-// - we have enough shared-mem segments (old Mac problem)
-// If so, update proc_rsc and anticipated debts, and return true
-//
-static bool schedule_if_possible(
-    RESULT* rp, ACTIVE_TASK* atp, PROC_RESOURCES& proc_rsc,
-    const char* description
-) {
-    if (atp) {
-        if (gstate.retry_shmem_time > gstate.now) {
-            if (atp->app_client_shm.shm == NULL) {
-                if (log_flags.cpu_sched_debug) {
-                    msg_printf(rp->project, MSG_INFO,
-                        "[cpu_sched_debug] waiting for shared mem: %s",
-                        rp->name
-                    );
-                }
-                atp->needs_shmem = true;
-                return false;
-            }
-            atp->needs_shmem = false;
-        }
-    }
-
-    if (log_flags.cpu_sched_debug) {
-        msg_printf(rp->project, MSG_INFO,
-            "[cpu_sched_debug] scheduling %s (%s) (prio %f)", rp->name, description,
-            project_priority(rp->project)
-        );
-    }
-    proc_rsc.schedule(rp, atp);
-
-    adjust_rec_sched(rp);
-    return true;
-}
-
 // Mark a job J as a deadline miss if either
 // - it once ran in EDF, and its project has another job
 //   of the same resource type marked as deadline miss.
@@ -802,10 +815,7 @@ void add_coproc_jobs(
         rp->already_selected = true;
         atp = gstate.lookup_active_task_by_result(rp);
         if (!proc_rsc.can_schedule(rp, atp)) continue;
-        can_run = schedule_if_possible(
-            rp, atp, proc_rsc, "coprocessor job, EDF"
-        );
-        if (!can_run) continue;
+        proc_rsc.schedule(rp, atp, "coprocessor job, EDF");
         rp->project->rsc_pwf[rsc_type].deadlines_missed_copy--;
         rp->edf_scheduled = true;
         run_list.push_back(rp);
@@ -822,10 +832,7 @@ void add_coproc_jobs(
         rp->already_selected = true;
         atp = gstate.lookup_active_task_by_result(rp);
         if (!proc_rsc.can_schedule(rp, atp)) continue;
-        can_run = schedule_if_possible(
-            rp, atp, proc_rsc, "coprocessor job, FIFO"
-        );
-        if (!can_run) continue;
+        proc_rsc.schedule(rp, atp, "coprocessor job, FIFO");
         run_list.push_back(rp);
     }
 }
@@ -840,15 +847,11 @@ void CLIENT_STATE::make_run_list(vector<RESULT*>& run_list) {
     ACTIVE_TASK* atp;
     bool can_run;
 
-    proc_rsc.ncpus = ncpus;
-    proc_rsc.ncpus_used_st = 0;
-    proc_rsc.ncpus_used_mt = 0;
-    proc_rsc.pr_coprocs.clone(coprocs, false);
-    proc_rsc.ram_left = available_ram();
-
     if (log_flags.cpu_sched_debug) {
         msg_printf(0, MSG_INFO, "[cpu_sched_debug] schedule_cpus(): start");
     }
+
+    proc_rsc.init();
 
     // do round-robin simulation to find what results miss deadline
     //
@@ -912,10 +915,7 @@ void CLIENT_STATE::make_run_list(vector<RESULT*>& run_list) {
         rp->already_selected = true;
         atp = lookup_active_task_by_result(rp);
         if (!proc_rsc.can_schedule(rp, atp)) continue;
-        can_run = schedule_if_possible(
-            rp, atp, proc_rsc, "CPU job, EDF"
-        );
-        if (!can_run) continue;
+        proc_rsc.schedule(rp, atp, "CPU job, EDF");
         rp->project->rsc_pwf[0].deadlines_missed_copy--;
         rp->edf_scheduled = true;
         run_list.push_back(rp);
@@ -932,10 +932,7 @@ void CLIENT_STATE::make_run_list(vector<RESULT*>& run_list) {
         if (!rp) break;
         atp = lookup_active_task_by_result(rp);
         if (!proc_rsc.can_schedule(rp, atp)) continue;
-        can_run = schedule_if_possible(
-            rp, atp, proc_rsc, "CPU job, debt order"
-        );
-        if (!can_run) continue;
+        proc_rsc.schedule(rp, atp, "CPU job, debt order");
         run_list.push_back(rp);
     }
 
@@ -1093,19 +1090,6 @@ void CLIENT_STATE::append_unfinished_time_slice(vector<RESULT*> &run_list) {
 //                else
 //                    prune J
 
-static inline bool excluded(RESULT* rp, COPROC* cp, int ind) {
-    PROJECT* p = rp->project;
-    for (unsigned int i=0; i<config.exclude_gpus.size(); i++) {
-        EXCLUDE_GPU& eg = config.exclude_gpus[i];
-        if (strcmp(eg.url.c_str(), p->master_url)) continue;
-        if (!eg.type.empty() && (eg.type != cp->type)) continue;
-        if (!eg.appname.empty() && (eg.appname != rp->app->name)) continue;
-        if (eg.device_num >= 0 && eg.device_num != cp->device_nums[ind]) continue;
-        return true;
-    }
-    return false;
-}
-
 static inline void increment_pending_usage(
     RESULT* rp, double usage, COPROC* cp
 ) {
@@ -1176,7 +1160,7 @@ static inline bool get_fractional_assignment(
     // try to assign an instance that's already fractionally assigned
     //
     for (i=0; i<cp->count; i++) {
-        if (excluded(rp, cp, i)) {
+        if (gpu_excluded(*rp, *cp, i)) {
             continue;
         }
         if ((cp->usage[i] || cp->pending_usage[i])
@@ -1202,7 +1186,7 @@ static inline bool get_fractional_assignment(
     // failing that, assign an unreserved instance
     //
     for (i=0; i<cp->count; i++) {
-        if (excluded(rp, cp, i)) {
+        if (gpu_excluded(*rp, *cp, i)) {
             continue;
         }
         if (!cp->usage[i]) {
@@ -1242,7 +1226,7 @@ static inline bool get_integer_assignment(
     //
     int nfree = 0;
     for (i=0; i<cp->count; i++) {
-        if (excluded(rp, cp, i)) {
+        if (gpu_excluded(*rp, *cp, i)) {
             continue;
         }
         if (!cp->usage[i]) {
@@ -1273,7 +1257,7 @@ static inline bool get_integer_assignment(
     // assign non-pending instances first
 
     for (i=0; i<cp->count; i++) {
-        if (excluded(rp, cp, i)) {
+        if (gpu_excluded(*rp, *cp, i)) {
             continue;
         }
         if (!cp->usage[i]
@@ -1296,7 +1280,7 @@ static inline bool get_integer_assignment(
     // if needed, assign pending instances
 
     for (i=0; i<cp->count; i++) {
-        if (excluded(rp, cp, i)) {
+        if (gpu_excluded(*rp, *cp, i)) {
             continue;
         }
         if (!cp->usage[i]

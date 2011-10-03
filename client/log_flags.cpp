@@ -472,7 +472,11 @@ void set_ncoprocs_excluded() {
                 if (!eg.appname.empty()) continue;
                 if (!eg.type.empty() && (eg.type != cp.type)) continue;
                 if (eg.device_num >= 0) {
-                    n++;
+                    // exclusion may refer to nonexistent GPU
+                    //
+                    if (cp.device_num_exists(eg.device_num)) {
+                        n++;
+                    }
                 } else {
                     n = cp.count;
                 }

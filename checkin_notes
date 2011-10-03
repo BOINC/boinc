@@ -6677,3 +6677,27 @@ David  1 Oct 2011
 	html/ops/
 		team_import.php
 	
+David  1 Oct 2011
+    - client: fix bug that could cause GPU idleness
+        in the presence of GPU exclusions.
+        The problem was in the job-selection phase,
+        which picks enough jobs to use all devices.
+        It was ignoring GPU exclusions, so for example on
+        a 2 GPU system it could pick 2 jobs from a project
+        for which 1 GPU is excluded,
+        and as a result 1 GPU would be idle.
+
+        Solution: during job selection,
+        keep track of GPU usage on a per-instance basis.
+        Select a job only if it can run on a non-excluded GPU.
+
+    - client: in computing ncprocs_excluded (which is used in
+        work fetch policy) don't count exclusions of non-existent devices
+
+    html/ops/
+        team_export.php
+    lib/
+        coproc.h
+    client/
+        log_flags.cpp
+        cpu_sched.cpp

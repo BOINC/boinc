@@ -211,6 +211,12 @@ struct COPROC {
     COPROC() {
         clear();
     }
+    bool device_num_exists(int n) {
+        for (int i=0; i<count; i++) {
+            if (device_nums[i] == n) return true;
+        }
+        return false;
+    }
 };
 
 // based on cudaDeviceProp from /usr/local/cuda/include/driver_types.h
