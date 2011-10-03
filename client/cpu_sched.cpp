@@ -821,7 +821,6 @@ void CLIENT_STATE::make_run_list(vector<RESULT*>& run_list) {
     unsigned int i;
     PROC_RESOURCES proc_rsc;
     ACTIVE_TASK* atp;
-    bool can_run;
 
     if (log_flags.cpu_sched_debug) {
         msg_printf(0, MSG_INFO, "[cpu_sched_debug] schedule_cpus(): start");
