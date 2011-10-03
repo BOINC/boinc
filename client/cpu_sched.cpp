@@ -779,7 +779,6 @@ void add_coproc_jobs(
 ) {
     ACTIVE_TASK* atp;
     RESULT* rp;
-    bool can_run;
 
 #ifdef SIM
     if (!cpu_sched_rr_only) {

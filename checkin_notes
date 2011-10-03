@@ -6717,3 +6717,9 @@ David  2 Oct 2011
         rr_sim.cpp
         sim.cpp
         work_fetch.cpp
+
+Charlie 3 Oct 2011
+    - client: Fix compiler warnings.
+    
+    client/
+        cpu_sched.cpp
