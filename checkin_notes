@@ -10275,3 +10275,11 @@ Charlie 24 Sep 2011
     mac_installer/
         PostInstall.cpp
         uninstall.cpp
+
+David  16 Sept 2011
+    - client: with VBox on Win, the process graph sometimes has cycles.
+        Not sure where this comes from.
+        But avoid infinite recursion when traversing descendants.
+
+    lib/
+        procinfo.cpp,h
