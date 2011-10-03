@@ -22,7 +22,7 @@ require_once("../inc/util.inc");
 require_once("../inc/profile.inc");
 require_once("../inc/uotd.inc");
 
-check_get_args(array("cmd"));
+check_get_args(array("cmd", "pic"));
 
 db_init();
 

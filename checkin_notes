@@ -6723,3 +6723,10 @@ Charlie 3 Oct 2011
     
     client/
         cpu_sched.cpp
+
+David  3 Oct 2011
+    - web: fix error in profile listings.
+        From Uwe Becker.
+
+    html/user/
+        profile_menu.php
