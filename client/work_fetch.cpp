@@ -240,7 +240,7 @@ PROJECT* RSC_WORK_FETCH::choose_project_hyst() {
         RSC_PROJECT_WORK_FETCH& rpwf = project_state(p);
         if (rpwf.anon_skip) continue;
         if (pbest) {
-            if (project_priority(pbest) > project_priority(p)) {
+            if (pbest->sched_priority > p->sched_priority) {
                 continue;
             }
         }
@@ -289,7 +289,7 @@ PROJECT* RSC_WORK_FETCH::choose_project(int criterion) {
             if (!p->resource_share) continue;
             break;
         case FETCH_IF_PROJECT_STARVED:
-            if (project_priority(p) < 0) continue;
+            if (p->sched_priority < 0) continue;
             if (rpwf.nused_total >= ninstances) continue;
             if (!p->resource_share) continue;
             break;
@@ -299,7 +299,7 @@ PROJECT* RSC_WORK_FETCH::choose_project(int criterion) {
             if (!p->resource_share) {
                 continue;
             }
-            if (project_priority(pbest) > project_priority(p)) {
+            if (pbest->sched_priority > p->sched_priority) {
                 continue;
             }
         }
@@ -321,7 +321,7 @@ PROJECT* RSC_WORK_FETCH::choose_project(int criterion) {
     case FETCH_IF_MINOR_SHORTFALL:
         // in this case, potentially request work for all resources
         //
-        if (project_priority(pbest) < 0) {
+        if (pbest->sched_priority < 0) {
             set_request(pbest);
         } else {
             work_fetch.set_all_requests(pbest);
@@ -417,7 +417,7 @@ void RSC_WORK_FETCH::print_state(const char* name) {
         msg_printf(p, MSG_INFO,
             "[work_fetch] %s: fetch share %.2f rec %.5f prio %.5f backoff dt %.2f int %.2f%s%s%s%s%s%s%s%s%s",
             name,
-            pwf.fetchable_share, p->pwf.rec, project_priority(p), bt, pwf.backoff_interval,
+            pwf.fetchable_share, p->pwf.rec, p->sched_priority, bt, pwf.backoff_interval,
             p->suspended_via_gui?" (susp via GUI)":"",
             p->master_url_fetch_pending?" (master fetch pending)":"",
             p->min_rpc_time > gstate.now?" (comm deferred)":"",
@@ -476,7 +476,7 @@ void WORK_FETCH::rr_init() {
 // eligible for the resource, set request fields
 //
 void RSC_WORK_FETCH::supplement(PROJECT* pp) {
-    double x = project_priority(pp);
+    double x = pp->sched_priority;
     for (unsigned i=0; i<gstate.projects.size(); i++) {
         PROJECT* p = gstate.projects[i];
         if (p == pp) continue;
@@ -484,7 +484,7 @@ void RSC_WORK_FETCH::supplement(PROJECT* pp) {
         if (!project_state(p).may_have_work) continue;
         RSC_PROJECT_WORK_FETCH& rpwf = project_state(p);
         if (rpwf.anon_skip) continue;
-        if (project_priority(p) > x) {
+        if (p->sched_priority > x) {
             return;
         }
     }

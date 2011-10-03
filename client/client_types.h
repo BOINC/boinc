@@ -430,6 +430,11 @@ struct PROJECT : PROJ_AM {
         // Don't start new results if these exceeds 2*ncpus.
     bool too_many_uploading_results;
 
+    // scheduling (work fetch and job scheduling)
+    //
+    double sched_priority;
+    void compute_sched_priority();
+
     // stuff for RR sim
     //
     double rr_sim_cpu_share;

@@ -470,7 +470,7 @@ int CLIENT_STATE::init() {
         }
     }
 
-    set_ncoprocs_excluded();
+    process_gpu_exclusions();
 
     check_clock_reset();
 

@@ -1160,6 +1160,7 @@ void get_app_params() {
     }
     for (i=0; i<gstate.app_versions.size(); i++) {
         APP_VERSION* avp = gstate.app_versions[i];
+        if (avp->missing_coproc) continue;
         avp->app->ignore = false;
     }
     fprintf(summary_file, "Applications and version\n");
@@ -1169,6 +1170,14 @@ void get_app_params() {
         for (i=0; i<gstate.apps.size(); i++) {
             app = gstate.apps[i];
             if (app->project != p) continue;
+
+            if (app->ignore) {
+                fprintf(summary_file,
+                    "   app %s: ignoring - no usable app versions\n",
+                    app->name
+                );
+                continue;
+            }
 
             // if missing app params, fill in defaults
             //
@@ -1299,6 +1308,16 @@ void do_client_simulation() {
         SUMMARY_FNAME, LOG_FNAME
     );
 
+    // fill in GPU device nums
+    //
+    for (int i=0; i<coprocs.n_rsc; i++) {
+        COPROC& cp = coprocs.coprocs[i];
+        for (int j=0; j<cp.count; j++) {
+            cp.device_nums[j] = j;
+        }
+    }
+    process_gpu_exclusions();
+
     get_app_params();
     cull_projects();
     fprintf(summary_file, "--------------------------\n");
@@ -1307,17 +1326,6 @@ void do_client_simulation() {
     for (unsigned int i=0; i<gstate.projects.size(); i++) {
         gstate.projects[i]->index = j++;
     }
-
-    // fill in GPU device nums
-    //
-    for (int i=0; i<coprocs.n_rsc; i++) {
-        COPROC& cp = coprocs.coprocs[i];
-        for (j=0; j<cp.count; j++) {
-            cp.device_nums[j] = j;
-        }
-    }
-
-    set_ncoprocs_excluded();
 
     clear_backoff();
 

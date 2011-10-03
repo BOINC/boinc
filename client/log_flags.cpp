@@ -453,11 +453,13 @@ int read_config_file(bool init, const char* fname) {
     return 0;
 }
 
-// Count excluded GPUS per project.
-// NOTE: this is currently done just on the project level.
-// Could do it at the app level also.
+// Do stuff involving GPU exclusions.
+// - Count excluded GPUS per project.
+//   NOTE: this is currently done just on the project level.
+//   Could do it at the app level also.
+// - Flag app versions and results for which all GPUs are excluded
 //
-void set_ncoprocs_excluded() {
+void process_gpu_exclusions() {
     unsigned int i, j;
     PROJECT *p;
 
@@ -484,4 +486,47 @@ void set_ncoprocs_excluded() {
             p->ncoprocs_excluded[k] = n;
         }
     }
+
+    for (i=0; i<gstate.app_versions.size(); i++) {
+        APP_VERSION* avp = gstate.app_versions[i];
+        if (avp->missing_coproc) continue;
+        int rt = avp->gpu_usage.rsc_type;
+        if (!rt) continue;
+        COPROC& cp = coprocs.coprocs[rt];
+        bool found = false;
+        for (int k=0; k<cp.count; k++) {
+            if (!gpu_excluded(avp->app, cp, k)) {
+                found = true;
+                break;
+            }
+        }
+        if (found) continue;
+        avp->missing_coproc = true;
+        msg_printf(avp->project, MSG_INFO,
+            "All GPUs excluded for %s %d (%s)",
+            avp->app->name, avp->version_num, avp->plan_class
+        );
+        for (j=0; j<gstate.results.size(); j++) {
+            RESULT* rp = gstate.results[j];
+            if (rp->avp != avp) continue;
+            rp->coproc_missing = true;
+            msg_printf(avp->project, MSG_INFO,
+                "marking %s as coproc missing",
+                rp->name
+            );
+        }
+    }
+}
+
+bool gpu_excluded(APP* app, COPROC& cp, int ind) {
+    PROJECT* p = app->project;
+    for (unsigned int i=0; i<config.exclude_gpus.size(); i++) {
+        EXCLUDE_GPU& eg = config.exclude_gpus[i];
+        if (strcmp(eg.url.c_str(), p->master_url)) continue;
+        if (!eg.type.empty() && (eg.type != cp.type)) continue;
+        if (!eg.appname.empty() && (eg.appname != app->name)) continue;
+        if (eg.device_num >= 0 && eg.device_num != cp.device_nums[ind]) continue;
+        return true;
+    }
+    return false;
 }

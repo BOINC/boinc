@@ -450,7 +450,7 @@ int PROJECT::write_state(MIOFILE& out, bool gui_rpc) {
             "    <last_rpc_time>%f</last_rpc_time>\n"
             "    <project_files_downloaded_time>%f</project_files_downloaded_time>\n",
             gui_urls.c_str(),
-            project_priority(this),
+            sched_priority,
             last_rpc_time,
             project_files_downloaded_time
         );

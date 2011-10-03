@@ -6677,7 +6677,7 @@ David  1 Oct 2011
 	html/ops/
 		team_import.php
 	
-David  1 Oct 2011
+David  2 Oct 2011
     - client: fix bug that could cause GPU idleness
         in the presence of GPU exclusions.
         The problem was in the job-selection phase,
@@ -6701,3 +6701,19 @@ David  1 Oct 2011
     client/
         log_flags.cpp
         cpu_sched.cpp
+
+David  2 Oct 2011
+    - client: compute project scheduling priority more efficiently
+    - client: if an app version can't be used because the GPUs it needs
+        are all excluded, mark it and all its results as "coproc missing"
+        so that they won't be looked at in scheduling logic.
+
+    client/
+        client_state.cpp
+        client_types.cpp,h
+        cpu_sched.cpp
+        gui_rpc_server_ops.cpp
+        log_flags.cpp,h
+        rr_sim.cpp
+        sim.cpp
+        work_fetch.cpp

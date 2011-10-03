@@ -156,7 +156,7 @@ static inline void init_pending_lists() {
 bool result_less_than(RESULT* r1, RESULT* r2) {
     if (r2->rrsim_done) return true;
     if (r1->rrsim_done) return false;
-    return (project_priority(r1->project) > project_priority(r2->project));
+    return (r1->project->sched_priority > r2->project->sched_priority);
 }
 
 static void sort_pending_lists() {

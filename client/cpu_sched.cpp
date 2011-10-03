@@ -86,19 +86,6 @@ using std::isnan;
 #define DEADLINE_CUSHION    0
     // try to finish jobs this much in advance of their deadline
 
-static inline bool gpu_excluded(RESULT& r, COPROC& cp, int ind) {
-    PROJECT* p = r.project;
-    for (unsigned int i=0; i<config.exclude_gpus.size(); i++) {
-        EXCLUDE_GPU& eg = config.exclude_gpus[i];
-        if (strcmp(eg.url.c_str(), p->master_url)) continue;
-        if (!eg.type.empty() && (eg.type != cp.type)) continue;
-        if (!eg.appname.empty() && (eg.appname != r.app->name)) continue;
-        if (eg.device_num >= 0 && eg.device_num != cp.device_nums[ind]) continue;
-        return true;
-    }
-    return false;
-}
-
 // used in schedule_cpus() to keep track of resources used
 // by jobs tentatively scheduled so far
 //
@@ -161,11 +148,6 @@ struct PROC_RESOURCES {
             if (sufficient_coprocs(*rp)) {
                 return true;
             } else {
-                if (log_flags.cpu_sched_debug) {
-                    msg_printf(rp->project, MSG_INFO,
-                        "[cpu_sched_debug] insufficient coprocessors for %s", rp->name
-                    );
-                }
                 return false;
             }
         } else if (rp->avp->avg_ncpus > 1) {
@@ -181,7 +163,7 @@ struct PROC_RESOURCES {
         if (log_flags.cpu_sched_debug) {
             msg_printf(rp->project, MSG_INFO,
                 "[cpu_sched_debug] scheduling %s (%s) (prio %f)", rp->name, description,
-                project_priority(rp->project)
+                rp->project->sched_priority
             );
         }
         reserve_coprocs(*rp);
@@ -211,7 +193,7 @@ struct PROC_RESOURCES {
         x = av.gpu_usage.usage;
         COPROC& cp = pr_coprocs.coprocs[rt];
         for (int i=0; i<cp.count; i++) {
-            if (gpu_excluded(r, cp, i)) continue;
+            if (gpu_excluded(r.app, cp, i)) continue;
             if (cp.usage[i]+x <=1) return true;
         }
         if (log_flags.cpu_sched_debug) {
@@ -231,7 +213,7 @@ struct PROC_RESOURCES {
         COPROC& cp = pr_coprocs.coprocs[rt];
         x = av.gpu_usage.usage;
         for (int i=0; i<cp.count; i++) {
-            if (gpu_excluded(r, cp, i)) continue;
+            if (gpu_excluded(r.app, cp, i)) continue;
             if (cp.usage[i]+x >1) continue;
             cp.usage[i] += x;
             break;
@@ -393,10 +375,10 @@ RESULT* CLIENT_STATE::largest_debt_project_best_result() {
         PROJECT* p = projects[i];
         if (!p->next_runnable_result) continue;
         if (p->non_cpu_intensive) continue;
-        if (first || project_priority(p)> best_debt) {
+        if (first || p->sched_priority > best_debt) {
             first = false;
             best_project = p;
-            best_debt = project_priority(p);
+            best_debt = p->sched_priority;
         }
     }
     if (!best_project) return NULL;
@@ -428,7 +410,7 @@ RESULT* first_coproc_result(int rsc_type) {
         if (!rp->runnable()) continue;
         if (rp->non_cpu_intensive()) continue;
         if (rp->already_selected) continue;
-        std = project_priority(rp->project);
+        std = rp->project->sched_priority;
         if (!best) {
             best = rp;
             best_std = std;
@@ -636,29 +618,22 @@ void project_priority_init(bool set_rec_temp) {
             continue;
         }
         p->resource_share_frac = p->resource_share/rs_sum;
-
+        p->compute_sched_priority();
     }
 }
 
-double project_priority(PROJECT* p) {
-    double x = p->resource_share_frac - p->pwf.rec_temp/rec_sum;
+void PROJECT::compute_sched_priority() {
+    sched_priority= resource_share_frac - pwf.rec_temp/rec_sum;
 
-    if (isnan(x)) {
-        x = 1;
+    if (isnan(sched_priority)) {
+        sched_priority = 1;
     }
     // projects with zero resource share are always lower priority
     // than those with positive resource share
     //
-    if (p->resource_share == 0) {
-        x -= 1;
+    if (resource_share == 0) {
+        sched_priority -= 1;
     }
-#if 0
-    msg_printf(p, MSG_INFO,
-        "priority: rs frac %.3f rec_temp %.3f rec_sum %.3f prio %f\n",
-        p->resource_share_frac, p->pwf.rec_temp, rec_sum, x
-    );
-#endif
-    return x;
 }
 
 // called from the scheduler's job-selection loop;
@@ -670,6 +645,7 @@ void adjust_rec_sched(RESULT* rp) {
     PROJECT* p = rp->project;
     double f = peak_flops(rp->avp)*gstate.global_prefs.cpu_scheduling_period();
     p->pwf.rec_temp += f*COBBLESTONE_SCALE;
+    p->compute_sched_priority();
 }
 
 // called from work fetch initialization;
@@ -679,6 +655,7 @@ void adjust_rec_sched(RESULT* rp) {
 void adjust_rec_work_fetch(RESULT* rp) {
     PROJECT* p = rp->project;
     p->pwf.rec_temp += rp->estimated_flops_remaining()*COBBLESTONE_SCALE;
+    p->compute_sched_priority();
 }
 
 // adjust project REC
@@ -1160,7 +1137,7 @@ static inline bool get_fractional_assignment(
     // try to assign an instance that's already fractionally assigned
     //
     for (i=0; i<cp->count; i++) {
-        if (gpu_excluded(*rp, *cp, i)) {
+        if (gpu_excluded(rp->app, *cp, i)) {
             continue;
         }
         if ((cp->usage[i] || cp->pending_usage[i])
@@ -1186,7 +1163,7 @@ static inline bool get_fractional_assignment(
     // failing that, assign an unreserved instance
     //
     for (i=0; i<cp->count; i++) {
-        if (gpu_excluded(*rp, *cp, i)) {
+        if (gpu_excluded(rp->app, *cp, i)) {
             continue;
         }
         if (!cp->usage[i]) {
@@ -1226,7 +1203,7 @@ static inline bool get_integer_assignment(
     //
     int nfree = 0;
     for (i=0; i<cp->count; i++) {
-        if (gpu_excluded(*rp, *cp, i)) {
+        if (gpu_excluded(rp->app, *cp, i)) {
             continue;
         }
         if (!cp->usage[i]) {
@@ -1257,7 +1234,7 @@ static inline bool get_integer_assignment(
     // assign non-pending instances first
 
     for (i=0; i<cp->count; i++) {
-        if (gpu_excluded(*rp, *cp, i)) {
+        if (gpu_excluded(rp->app, *cp, i)) {
             continue;
         }
         if (!cp->usage[i]
@@ -1280,7 +1257,7 @@ static inline bool get_integer_assignment(
     // if needed, assign pending instances
 
     for (i=0; i<cp->count; i++) {
-        if (gpu_excluded(*rp, *cp, i)) {
+        if (gpu_excluded(rp->app, *cp, i)) {
             continue;
         }
         if (!cp->usage[i]
