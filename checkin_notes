@@ -6759,3 +6759,10 @@ David  3 Oct 2011
         handle_request.cpp
     lib/
         coproc.cpp,h
+
+David  4 Oct 2011
+    - client: don't generate notice if lookup of host
+        in remote_hosts.cfg fails.
+
+    client/
+        gui_rpc_server.cpp
