@@ -15,8 +15,6 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "config.h"
-
 #include <vector>
 #ifdef _WIN32
 #include "diagnostics.h"
@@ -27,6 +25,7 @@
 #include "win_util.h"
 #endif
 #else
+#include "config.h"
 #include <sys/types.h>
 #include <sys/wait.h>
 #include <unistd.h>

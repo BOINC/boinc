@@ -625,9 +625,6 @@ void project_priority_init(bool set_rec_temp) {
 void PROJECT::compute_sched_priority() {
     sched_priority= resource_share_frac - pwf.rec_temp/rec_sum;
 
-    if (isnan(sched_priority)) {
-        sched_priority = 1;
-    }
     // projects with zero resource share are always lower priority
     // than those with positive resource share
     //

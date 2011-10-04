@@ -6772,3 +6772,9 @@ David  4 Oct 2011
 
     client/
         client_types.cpp
+
+David  4 Oct 2011
+	- client: win compile fixes
+
+	client/
+		cpu_sched.cpp
