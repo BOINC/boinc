@@ -6766,3 +6766,9 @@ David  4 Oct 2011
 
     client/
         gui_rpc_server.cpp
+
+David  4 Oct 2011
+    - client: don't show "(device N)" if there's only 1 device
+
+    client/
+        client_types.cpp
