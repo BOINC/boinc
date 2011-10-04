@@ -6751,3 +6751,11 @@ David  3 Oct 2011
     sched/
         sched_types.h
         sched_send.cpp
+
+David  3 Oct 2011
+    - scheduler: record VirtualBox version # in the host table
+
+    sched/
+        handle_request.cpp
+    lib/
+        coproc.cpp,h

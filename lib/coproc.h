@@ -348,7 +348,7 @@ struct COPROCS {
         std::vector<std::string> &warnings
     );
     int parse(XML_PARSER&);
-    void summary_string(char*, int);
+    void summary_string(char* buf, int len);
 
     // Copy a coproc set, possibly setting usage to zero.
     // used in round-robin simulator and CPU scheduler,

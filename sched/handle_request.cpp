@@ -499,6 +499,10 @@ static int modify_host_struct(HOST& host) {
     g_request->coprocs.summary_string(buf2, sizeof(buf2));
     strlcpy(host.serialnum, buf, sizeof(host.serialnum));
     strlcat(host.serialnum, buf2, sizeof(host.serialnum));
+    if (strlen(host.virtualbox_version)) {
+        sprintf(buf2, "[vbox|%s]", host.virtualbox_version);
+        strlcat(host.serialnum, buf2, sizeof(host.serialnum));
+    }
     if (strcmp(host.last_ip_addr, g_request->host.last_ip_addr)) {
         strncpy(host.last_ip_addr, g_request->host.last_ip_addr, sizeof(host.last_ip_addr));
     } else {

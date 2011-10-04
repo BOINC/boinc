@@ -47,6 +47,7 @@
 #include "error_numbers.h"
 #include "filesys.h"
 #include "parse.h"
+#include "str_replace.h"
 #include "util.h"
 
 #include "coproc.h"
@@ -244,24 +245,22 @@ int COPROC::parse_opencl(XML_PARSER& xp) {
 }
 
 void COPROCS::summary_string(char* buf, int len) {
-    char bigbuf[8192], buf2[1024];
+    char buf2[1024];
 
-    strcpy(bigbuf, "");
+    strcpy(buf, "");
     if (nvidia.count) {
         int mem = (int)(nvidia.prop.dtotalGlobalMem/MEGA);
         sprintf(buf2, "[CUDA|%s|%d|%dMB|%d]",
             nvidia.prop.name, nvidia.count, mem, nvidia.display_driver_version
         );
-        strcat(bigbuf, buf2);
+        strlcat(buf, buf2, len);
     }
     if (ati.count) {
         sprintf(buf2,"[CAL|%s|%d|%dMB|%s]",
             ati.name, ati.count, ati.attribs.localRAM, ati.version
         );
-        strcat(bigbuf,buf2);
+        strlcat(buf, buf2, len);
     }
-    bigbuf[len-1] = 0;
-    strcpy(buf, bigbuf);
 }
 
 int COPROCS::parse(XML_PARSER& xp) {
