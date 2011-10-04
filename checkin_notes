@@ -6778,3 +6778,14 @@ David  4 Oct 2011
 
 	client/
 		cpu_sched.cpp
+
+Rom    4 Oct 2011
+    - WINSCR: Before shutting down the screensaver, quickly reinitialize the OpenGL device
+        on the primary display.  Some of the issues being reported with the screensaver
+        is a left over ghost image of the OpenGL display before the graphics application
+        was terminated because keyboard/mouse activity was detected.
+
+    clientscr/
+        screensaver_win.cpp
+    win_build/
+        boinc_os_ss.vcproj

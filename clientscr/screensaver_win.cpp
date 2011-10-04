@@ -22,6 +22,7 @@
 
 #include "boinc_win.h"
 #include "boinc_ss.h"
+#include "boinc_gl.h"
 #include "diagnostics.h"
 #include "common_defs.h"
 #include "util.h"
@@ -92,7 +93,7 @@ INT WINAPI WinMain(
     BOINCSS.Cleanup();
 
     // Resetting the primary display.  We need to do this because abnormally
-    // terminating grtaphics applications can sometimes leave a ghosted image
+    // terminating graphics applications can sometimes leave a ghosted image
     // on the primary display which leaves users believing that their machines
     // are locked up.
     BOINCTRACE("WinMain - Reset Primary Display\n");
@@ -1274,6 +1275,67 @@ HRESULT CScreensaver::ResetPrimaryDisplay() {
 		return E_FAIL;
     }
 	
+    HDC hWindowDC = GetDC(pMonitorInfo->hWnd);
+    if (!hWindowDC) {
+    	BOINCTRACE(_T("CScreensaver::ResetPrimaryDisplay: Failed to get the device context '%d'\n"), GetLastError());
+    }
+
+    static PIXELFORMATDESCRIPTOR pfd = {
+        sizeof(PIXELFORMATDESCRIPTOR),   // size of structure.
+        1,                               // always 1.
+        PFD_DRAW_TO_WINDOW |             // support window
+        PFD_SUPPORT_OPENGL |             // support OpenGl
+        PFD_DOUBLEBUFFER,                // support double buffering
+        PFD_TYPE_RGBA,                   // support RGBA
+        32,                              // 32 bit color mode
+        0, 0, 0, 0, 0, 0,                // ignore color bits
+        0,                               // no alpha buffer
+        0,                               // ignore shift bit
+        0,                               // no accumulation buffer
+        0, 0, 0, 0,                      // ignore accumulation bits.
+        16,                              // number of depth buffer bits.
+        0,                               // number of stencil buffer bits.
+        0,                               // 0 means no auxiliary buffer
+        PFD_MAIN_PLANE,                  // The main drawing plane
+        0,                               // this is reserved
+        0, 0, 0                          // layer masks ignored.
+    };
+
+    // chooses the best pixel format
+    //
+    int nPixelFormat = ChoosePixelFormat(hWindowDC, &pfd);
+
+    // set pixel format to device context.
+    //
+    if (!SetPixelFormat(hWindowDC, nPixelFormat, &pfd)) {
+    	BOINCTRACE(_T("CScreensaver::ResetPrimaryDisplay: Failed to set pixel format for device context '%d'\n"), GetLastError());
+    }
+
+    HGLRC hOpenGLDC = wglCreateContext(hWindowDC);
+    if (!hOpenGLDC) {
+    	BOINCTRACE(_T("CScreensaver::ResetPrimaryDisplay: wglCreateContext() failed '%d'\n"), GetLastError());
+        ReleaseDC(pMonitorInfo->hWnd, hWindowDC);
+        return E_FAIL;
+    }
+
+    if(!wglMakeCurrent(hWindowDC, hOpenGLDC)) {
+    	BOINCTRACE(_T("CScreensaver::ResetPrimaryDisplay: wglMakeCurrent() failed '%d'\n"), GetLastError());
+        ReleaseDC(pMonitorInfo->hWnd, hWindowDC);
+        wglDeleteContext(hOpenGLDC);
+        return E_FAIL;
+    }
+
+    // Init Colors
+    glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+
+    // Init Lights
+    GLfloat ambient[] = {1., 1., 1., 1.0};
+    GLfloat position[] = {-13.0, 6.0, 20.0, 1.0};
+    GLfloat dir[] = {-1, -.5, -3, 1.0};
+    glLightfv(GL_LIGHT0, GL_AMBIENT, ambient);
+    glLightfv(GL_LIGHT0, GL_POSITION, position);
+    glLightfv(GL_LIGHT0, GL_SPOT_DIRECTION, dir);
+
 	SetTimer(pMonitorInfo->hWnd, 2, 250, NULL);
 
     if (m_hWnd == NULL) {
@@ -1293,6 +1355,10 @@ HRESULT CScreensaver::ResetPrimaryDisplay() {
             Sleep(10);
         }
     }
+
+    wglMakeCurrent(NULL, NULL);
+    wglDeleteContext(hOpenGLDC);
+    ReleaseDC(pMonitorInfo->hWnd, hWindowDC);
 
     return S_OK;
 }
@@ -1674,16 +1740,6 @@ LRESULT CScreensaver::ResetProc(
                     break;
             }
             break;
-        case WM_PAINT:
-                PAINTSTRUCT ps;
-                BeginPaint(hWnd, &ps);
-                RECT rc;
-                GetClientRect(hWnd,&rc);
-			    FillRect(ps.hdc, &rc, (HBRUSH)GetStockObject(BLACK_BRUSH));
-                EndPaint(hWnd, &ps);
-            return 0;
-            break;
-
         case WM_CLOSE:
             BOINCTRACE(_T("CScreensaver::ResetProc Received WM_CLOSE\n"));
             break;
