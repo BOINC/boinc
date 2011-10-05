@@ -693,14 +693,19 @@ int handle_global_prefs() {
     g_reply->send_global_prefs = false;
     bool have_working_prefs = (strlen(g_request->working_global_prefs_xml)>0);
     bool have_master_prefs = (strlen(g_request->global_prefs_xml)>0);
+        // absent if the host has host-specific prefs
     bool have_db_prefs = (strlen(g_reply->user.global_prefs)>0);
     bool same_account = !strcmp(
         g_request->global_prefs_source_email_hash, g_reply->email_hash
     );
-    double master_mod_time=0, db_mod_time=0;
+    double master_mod_time=0, db_mod_time=0, working_mod_time=0;
     if (have_master_prefs) {
         parse_double(g_request->global_prefs_xml, "<mod_time>", master_mod_time);
         if (master_mod_time > dtime()) master_mod_time = dtime();
+    }
+    if (have_working_prefs) {
+        parse_double(g_request->working_global_prefs_xml, "<mod_time>", working_mod_time);
+        if (working_mod_time > dtime()) working_mod_time = dtime();
     }
     if (have_db_prefs) {
         parse_double(g_reply->user.global_prefs, "<mod_time>", db_mod_time);
@@ -788,14 +793,14 @@ int handle_global_prefs() {
     //
     if (config.debug_prefs) {
         log_messages.printf(MSG_NORMAL,
-            "[prefs] have db %d; dbmod %f; global mod %f\n",
-            have_db_prefs, db_mod_time, g_request->global_prefs.mod_time
+            "[prefs] have DB prefs: %d; dbmod %f; global mod %f; working mod %f\n",
+            have_db_prefs, db_mod_time, g_request->global_prefs.mod_time, working_mod_time
         );
     }
-    if (have_db_prefs && db_mod_time > master_mod_time) {
+    if (have_db_prefs && db_mod_time > master_mod_time && db_mod_time > working_mod_time) {
         if (config.debug_prefs) {
             log_messages.printf(MSG_DEBUG,
-                "[prefs] sending db prefs in reply\n"
+                "[prefs] sending DB prefs in reply\n"
             );
         }
         g_reply->send_global_prefs = true;

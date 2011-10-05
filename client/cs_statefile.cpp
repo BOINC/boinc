@@ -75,8 +75,7 @@ static inline bool arrived_first(RESULT* r0, RESULT* r1) {
     if (r0->received_time > r1->received_time) {
         return false;
     }
-    return (strcmp(r0->name, r1->name) > 0);
-        // arbitrary but deterministic
+    return (r0 < r1);    // arbitrary but deterministic
 }
 
 // Parse the client_state.xml file

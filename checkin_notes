@@ -6789,3 +6789,22 @@ Rom    4 Oct 2011
         screensaver_win.cpp
     win_build/
         boinc_os_ss.vcproj
+
+David  4 Oct 2011
+    - client: in the function that sorts jobs by arrival time,
+        don't use name as a tiebreaker.
+        The will typically group jobs of the same application,
+        and (it is believed that) things run faster when
+        applications are mixed.
+    - scheduler: bug: if a client gets host-specific prefs
+        (e.g. from an account manager)
+        it will send only the working prefs to the scheduler.
+        The scheduler then always sends back the DB prefs,
+        overwriting the host-specific prefs.
+        Fix: note the mod time in the working prefs,
+        and only send the DB prefs if they're more recent.
+
+    client/
+        cs_statefile.cpp
+    sched/
+        handle_request.cpp
