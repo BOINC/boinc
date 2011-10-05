@@ -393,26 +393,21 @@ int diagnostics_finish() {
 
 #ifdef _DEBUG
 
-    // Only perform the memory leak dump if it is a boinc application
-    //   and not the BOINC Manager, BOINC Core Client, or BOINC
-    //   Screen saver since they'll check on close.
-    if (flags & BOINC_DIAG_BOINCAPPLICATION) {
-        if (flags & BOINC_DIAG_MEMORYLEAKCHECKENABLED) {
-            _CrtMemCheckpoint(&finish_snapshot);
-            if (_CrtMemDifference(&difference_snapshot, &start_snapshot, &finish_snapshot)) {
+    if (flags & BOINC_DIAG_MEMORYLEAKCHECKENABLED) {
+        _CrtMemCheckpoint(&finish_snapshot);
+        if (_CrtMemDifference(&difference_snapshot, &start_snapshot, &finish_snapshot)) {
 
-                fprintf(stdout, "\n\n");
-                fprintf(stdout, "**********\n");
-                fprintf(stdout, "**********\n");
-                fprintf(stdout, "\n");
-                fprintf(stdout, "Memory Leaks Detected!!!\n");
-                fprintf(stdout, "\n");
-                fprintf(stdout, "Memory Statistics:\n");
-                _CrtMemDumpStatistics(&difference_snapshot);
-                fprintf(stdout, "\n");
-                _CrtMemDumpAllObjectsSince(&difference_snapshot);
-                fprintf(stdout, "\n");
-            }
+            fprintf(stdout, "\n\n");
+            fprintf(stdout, "**********\n");
+            fprintf(stdout, "**********\n");
+            fprintf(stdout, "\n");
+            fprintf(stdout, "Memory Leaks Detected!!!\n");
+            fprintf(stdout, "\n");
+            fprintf(stdout, "Memory Statistics:\n");
+            _CrtMemDumpStatistics(&difference_snapshot);
+            fprintf(stdout, "\n");
+            _CrtMemDumpAllObjectsSince(&difference_snapshot);
+            fprintf(stdout, "\n");
         }
     }
 

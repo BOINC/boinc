@@ -6814,3 +6814,10 @@ David  5 Oct 2011
 
 	lib/
 		filesys.cpp
+
+Rom    5 Oct 2011
+    - Lib: Re-enable boinc lib mem snapshots for BOINC based applications (boinc,
+        boincmgr, boinc.scr) on Windows.
+        
+    lib/
+        diagnostics.cpp
