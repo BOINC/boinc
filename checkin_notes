@@ -6808,3 +6808,9 @@ David  4 Oct 2011
         cs_statefile.cpp
     sched/
         handle_request.cpp
+
+David  5 Oct 2011
+	- client: fix a memory leak; would lose ~120 bytes each time a job is started
+
+	lib/
+		filesys.cpp

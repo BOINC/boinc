@@ -204,12 +204,9 @@ bool is_dir_empty(const char *p) {
     DIRREF dir = dir_open(p);
     if (!dir) return true;
 
-    if (!dir_scan(file, dir, sizeof(file))) {
-        dir_close(dir);
-        return false;
-    }
-
-    return true;
+    bool retval = (dir_scan(file, dir, sizeof(file)) != 0);
+    dir_close(dir);
+    return retval;
 }
 
 DirScanner::DirScanner(string const& path) {
