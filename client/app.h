@@ -244,7 +244,7 @@ struct ACTIVE_TASK {
     bool get_app_status_msg();
     bool get_trickle_up_msg();
     double est_dur();
-    bool read_stderr_file();
+    int read_stderr_file();
     bool finish_file_present();
     bool temporary_exit_file_present(double&);
     void init_app_init_data(APP_INIT_DATA&);

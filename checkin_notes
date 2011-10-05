@@ -6821,3 +6821,13 @@ Rom    5 Oct 2011
         
     lib/
         diagnostics.cpp
+
+David  5 Oct
+    - client: fix memory leak when reading stderr of completed job.
+        This caused 128KB + size of stderr loss for each job.
+    - client: print error message if reading stderr fails
+        (e.g. because of malloc failure)
+
+    client/
+        app.h
+        app_control.cpp
