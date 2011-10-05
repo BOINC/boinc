@@ -401,17 +401,17 @@ int diagnostics_finish() {
             _CrtMemCheckpoint(&finish_snapshot);
             if (_CrtMemDifference(&difference_snapshot, &start_snapshot, &finish_snapshot)) {
 
-                fprintf( stderr, "\n\n");
-                fprintf( stderr, "**********\n");
-                fprintf( stderr, "**********\n");
-                fprintf( stderr, "\n");
-                fprintf( stderr, "Memory Leaks Detected!!!\n");
-                fprintf( stderr, "\n");
-                fprintf( stderr, "Memory Statistics:\n");
+                fprintf(stdout, "\n\n");
+                fprintf(stdout, "**********\n");
+                fprintf(stdout, "**********\n");
+                fprintf(stdout, "\n");
+                fprintf(stdout, "Memory Leaks Detected!!!\n");
+                fprintf(stdout, "\n");
+                fprintf(stdout, "Memory Statistics:\n");
                 _CrtMemDumpStatistics(&difference_snapshot);
-                fprintf( stderr, "\n");
+                fprintf(stdout, "\n");
                 _CrtMemDumpAllObjectsSince(&difference_snapshot);
-                fprintf( stderr, "\n");
+                fprintf(stdout, "\n");
             }
         }
     }
