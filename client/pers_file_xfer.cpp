@@ -178,7 +178,7 @@ bool PERS_FILE_XFER::poll() {
             return false;
         }
         FILE_XFER_BACKOFF& fxb = fip->project->file_xfer_backoff(is_upload);
-        if (!fxb.ok_to_transfer()) {
+        if (!fxb.ok_to_transfer() && nretry>0) {
 #if 0
             if (log_flags.file_xfer_debug) {
                 msg_printf(fip->project, MSG_INFO,

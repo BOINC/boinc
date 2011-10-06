@@ -6848,3 +6848,17 @@ David  5 Oct
         sched_customize.cpp
     lib/
         coproc.cpp
+
+David  5 Oct
+    - client: problem: suppose a project has 2 data servers,
+        and one of them is down.
+        If several downloads from the broken one fail,
+        we go into "project-level backoff"
+        and don't start downloads from either server.
+        (Same applies to uploads).
+
+        Solution: make project-level backoff apply only to
+        transfers that have already failed at least once
+
+    client/
+        pers_file_xfer.cpp
