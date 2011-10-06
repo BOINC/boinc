@@ -295,8 +295,8 @@ int DAILY_XFER::parse(XML_PARSER& xp) {
     return ERR_XML_PARSE;
 }
 
-void DAILY_XFER::write(FILE* f) {
-    fprintf(f,
+void DAILY_XFER::write(MIOFILE& mf) {
+    mf.printf(
         "<dx>\n"
         "   <when>%d</when>\n"
         "   <up>%f</up>\n"
@@ -368,22 +368,29 @@ void DAILY_XFER_HISTORY::poll() {
     if (!dirty) return;
     if (gstate.now - last_time < DAILY_XFER_HISTORY_PERIOD) return;
     last_time = gstate.now;
-    write_state();
+    write_file();
 }
 
-
-void DAILY_XFER_HISTORY::write_state() {
-    FILE* f = fopen(TEMP_FILE_NAME, "w");
-    if (!f) return;
-    fprintf(f, "<daily_xfers>\n");
+int DAILY_XFER_HISTORY::write_xml(MIOFILE& out) {
+    out.printf("<daily_xfers>\n");
     for (unsigned int i=0; i<daily_xfers.size(); i++) {
         DAILY_XFER& dx = daily_xfers[i];
-        dx.write(f);
+        dx.write(out);
     }
-    int n = fprintf(f, "</daily_xfers>\n");
+    int n = out.printf("</daily_xfers>\n");
+    if (n != 1) return ERR_FWRITE;
+    return 0;
+}
+
+void DAILY_XFER_HISTORY::write_file() {
+    FILE* f = fopen(TEMP_FILE_NAME, "w");
+    if (!f) return;
+    MIOFILE mf;
+    mf.init_file(f);
+    int retval = write_xml(mf);
     fclose(f);
-    if (n > 0) {
-        int retval = boinc_rename(TEMP_FILE_NAME, DAILY_XFER_HISTORY_FILENAME);
+    if (!retval) {
+        retval = boinc_rename(TEMP_FILE_NAME, DAILY_XFER_HISTORY_FILENAME);
         if (!retval) {
             dirty = false;
         }

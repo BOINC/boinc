@@ -1090,6 +1090,10 @@ static void handle_read_cc_config(GUI_RPC_CONN& grc) {
     set_no_rsc_config();
 }
 
+static void handle_get_daily_xfer_history(GUI_RPC_CONN& grc) {
+    daily_xfer_history.write_xml(grc.mfout);
+}
+
 static bool complete_post_request(char* buf) {
     if (strncmp(buf, "POST", 4)) return false;
     char* p = strstr(buf, "Content-Length: ");
@@ -1144,6 +1148,8 @@ GUI_RPC gui_rpcs[] = {
     GUI_RPC("get_all_projects_list", handle_get_all_projects_list,  false,  false,  true),
     GUI_RPC("get_cc_status", handle_get_cc_status,                  false,  false,  true),
     GUI_RPC("get_disk_usage", handle_get_disk_usage,                false,  false,  true),
+    GUI_RPC("get_daily_xfer_history", handle_get_daily_xfer_history,
+                                                                    false,  false,  true),
     GUI_RPC("get_file_transfers", handle_get_file_transfers,        false,  false,  true),
     GUI_RPC("get_host_info", handle_get_host_info,                  false,  false,  true),
     GUI_RPC("get_messages", handle_get_messages,                    false,  false,  true),

@@ -48,6 +48,19 @@
 using std::string;
 using std::vector;
 
+void DAILY_XFER_HISTORY::print() {
+    for (unsigned int i=0; i<daily_xfers.size(); i++) {
+        DAILY_XFER& dx = daily_xfers[i];
+        char buf[256];
+        time_t t = dx.when*86400;
+        struct tm* tm = localtime(&t);
+        strftime(buf, sizeof(buf)-1, "%d-%b-%Y", tm);
+        printf("%s: %d bytes uploaded, %d bytes downloaded\n",
+            buf, (int)dx.up, (int)dx.down
+        );
+    }
+}
+
 void GUI_URL::print() {
     printf(
         "GUI URL:\n"

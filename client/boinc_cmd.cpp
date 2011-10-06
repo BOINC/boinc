@@ -60,6 +60,7 @@ Commands:\n\
  --file_transfer URL filename op    file transfer operation\n\
    op = retry | abort\n\
  --get_cc_status\n\
+ --get_daily_xfer_history           show network traffic history\n\
  --get_disk_usage                   show disk usage\n\
  --get_file_transfers               show file transfers\n\
  --get_host_info\n\
@@ -227,6 +228,10 @@ int main(int argc, char** argv) {
         FILE_TRANSFERS ft;
         retval = rpc.get_file_transfers(ft);
         if (!retval) ft.print();
+    } else if (!strcmp(cmd, "--get_daily_xfer_history")) {
+        DAILY_XFER_HISTORY dxh;
+        retval = rpc.get_daily_xfer_history(dxh);
+        if (!retval) dxh.print();
     } else if (!strcmp(cmd, "--get_project_status")) {
         PROJECTS ps;
         retval = rpc.get_project_status(ps);

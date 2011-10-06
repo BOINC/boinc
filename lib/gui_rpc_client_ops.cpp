@@ -75,6 +75,30 @@ using std::string;
 using std::vector;
 using std::sort;
 
+int DAILY_XFER::parse(XML_PARSER& xp) {
+    while (!xp.get_tag()) {
+        if (xp.match_tag("/dx")) return 0;
+        if (xp.parse_int("when", when)) continue;
+        if (xp.parse_double("up", up)) continue;
+        if (xp.parse_double("down", down)) continue;
+    }
+    return ERR_XML_PARSE;
+}
+
+int DAILY_XFER_HISTORY::parse(XML_PARSER& xp) {
+    while (!xp.get_tag()) {
+        if (!xp.is_tag) continue;
+        if (xp.match_tag("dx")) {
+            DAILY_XFER dx;
+            int retval = dx.parse(xp);
+            if (!retval) {
+                daily_xfers.push_back(dx);
+            }
+        }
+    }
+    return 0;
+}
+
 DISPLAY_INFO::DISPLAY_INFO() {
     memset(this, 0, sizeof(DISPLAY_INFO));
 }
@@ -2483,3 +2507,12 @@ int RPC_CLIENT::get_notices_public(int seqno, NOTICES& notices) {
     return parse_notices(rpc.xp, notices);
 }
 
+int RPC_CLIENT::get_daily_xfer_history(DAILY_XFER_HISTORY& dxh) {
+    SET_LOCALE sl;
+    RPC rpc(this);
+    int retval;
+
+    retval = rpc.do_rpc("<get_daily_xfer_history/>\n");
+    if (retval) return retval;
+    return dxh.parse(rpc.xp);
+}

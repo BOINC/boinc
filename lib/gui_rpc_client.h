@@ -615,8 +615,21 @@ struct SIMPLE_GUI_INFO {
     void print();
 };
 
-class RPC_CLIENT {
-public:
+struct DAILY_XFER {
+    int when;
+    double up;
+    double down;
+
+    int parse(XML_PARSER&);
+};
+
+struct DAILY_XFER_HISTORY {
+    std::vector <DAILY_XFER> daily_xfers;
+    int parse(XML_PARSER&);
+    void print();
+};
+
+struct RPC_CLIENT {
     int sock;
     double start_time;
     double timeout;
@@ -716,7 +729,7 @@ public:
     int set_global_prefs_override_struct(GLOBAL_PREFS&, GLOBAL_PREFS_MASK&);
     int get_cc_config(CONFIG& config, LOG_FLAGS& log_flags);
     int set_cc_config(CONFIG& config, LOG_FLAGS& log_flags);
-
+    int get_daily_xfer_history(DAILY_XFER_HISTORY&);
 };
 
 struct RPC {
@@ -773,7 +786,7 @@ extern int		freelocale(locale_t) __attribute__((weak_import));
 extern locale_t	newlocale(int, __const char *, locale_t) __attribute__((weak_import));
 extern locale_t	uselocale(locale_t) __attribute__((weak_import));
 
- struct SET_LOCALE {
+struct SET_LOCALE {
     locale_t old_locale, RPC_locale;
     std::string locale;
     inline SET_LOCALE() {
@@ -803,4 +816,3 @@ struct SET_LOCALE {
 extern int read_gui_rpc_password(char*);
 
 #endif /* _GUI_RPC_CLIENT_H_ */
-
