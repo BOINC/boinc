@@ -430,6 +430,9 @@ int COPROC_NVIDIA::parse(XML_PARSER& xp) {
             if (!peak_flops) {
 				set_peak_flops();
             }
+            if (!available_ram) {
+                available_ram = prop.dtotalGlobalMem;
+            }
             return 0;
         }
         if (xp.parse_int("count", count)) continue;
@@ -595,6 +598,9 @@ int COPROC_ATI::parse(XML_PARSER& xp) {
 
             if (!peak_flops) {
 				set_peak_flops();
+            }
+            if (!available_ram) {
+                available_ram = attribs.localRAM*MEGA;
             }
             return 0;
         }

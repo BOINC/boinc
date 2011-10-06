@@ -6840,3 +6840,11 @@ David  5 Oct
         cs_notice.h
         check_state.cpp
         net_stats.h
+
+David  5 Oct
+    - scheduler: fix bug that caused scheduler to not send GPU jobs
+
+    sched/
+        sched_customize.cpp
+    lib/
+        coproc.cpp
