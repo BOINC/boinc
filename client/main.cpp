@@ -280,7 +280,7 @@ static int finalize() {
 
 #ifdef USE_WINSOCK
     if (WinsockCleanup()) {
-        log_message_error("Failed to cleanup the Windows Sockets interface");
+        log_message_error("WinSockCleanup() failed");
         return ERR_IO;
     }
 #endif

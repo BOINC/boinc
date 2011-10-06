@@ -378,7 +378,7 @@ int DAILY_XFER_HISTORY::write_xml(MIOFILE& out) {
         dx.write(out);
     }
     int n = out.printf("</daily_xfers>\n");
-    if (n != 1) return ERR_FWRITE;
+    if (n <= 0) return ERR_FWRITE;
     return 0;
 }
 
@@ -389,11 +389,21 @@ void DAILY_XFER_HISTORY::write_file() {
     mf.init_file(f);
     int retval = write_xml(mf);
     fclose(f);
-    if (!retval) {
-        retval = boinc_rename(TEMP_FILE_NAME, DAILY_XFER_HISTORY_FILENAME);
-        if (!retval) {
-            dirty = false;
-        }
+    if (retval) {
+        msg_printf(0, MSG_INTERNAL_ERROR,
+            "failed to write xfer history: %s",
+            boincerror(retval)
+        );
+        return;
+    }
+    retval = boinc_rename(TEMP_FILE_NAME, DAILY_XFER_HISTORY_FILENAME);
+    if (retval) {
+        msg_printf(0, MSG_INTERNAL_ERROR,
+            "failed to rename xfer history file: %s",
+            boincerror(retval)
+        );
+    } else {
+        dirty = false;
     }
 }
 

@@ -6863,7 +6863,7 @@ David  5 Oct
     client/
         pers_file_xfer.cpp
 
-David  5 Oct
+David  6 Oct
     - GUI RPC: add get_daily_xfer_history() RPC for getting
         the daily records of #bytes uploaded and downloaded
 
@@ -6876,3 +6876,10 @@ David  5 Oct
         gui_rpc_server_ops.cpp
         net_stats.cpp,h
         main.cpp
+
+David  6 Oct
+	- client: fix bug in writing daily xfer history file
+
+	client/
+		main.cpp
+		net_stats.cpp
