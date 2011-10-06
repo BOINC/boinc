@@ -140,6 +140,9 @@ struct DAILY_XFER_HISTORY {
     DAILY_XFER_HISTORY() {
         dirty = false;
     }
+    void clear() {
+        daily_xfers.clear();
+    }
 };
 
 extern NET_STATUS net_status;

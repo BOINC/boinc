@@ -240,4 +240,8 @@ void CLIENT_STATE::free_mem() {
     delete file_xfers;
     delete pers_file_xfers;
     delete scheduler_op;
+
+    notices.clear();
+    rss_feeds.clear();
+    daily_xfer_history.clear();
 }

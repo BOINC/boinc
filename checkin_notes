@@ -6381,22 +6381,22 @@ Rom    22 Sept 2011
         vbox.cpp, .h
 
 David  22 Sept 2011
-	- client: more work on replicated trickles.  Not working yet.
+    - client: more work on replicated trickles.  Not working yet.
 
-	client/
-		client_state.cpp
-		cs_trickle.cpp,h
+    client/
+        client_state.cpp
+        cs_trickle.cpp,h
 
 David  22 Sept 2011
-	- client: replicated trickles.  Seems to be working now.
-	- client: added <trickle_debug> config option
+    - client: replicated trickles.  Seems to be working now.
+    - client: added <trickle_debug> config option
 
-	client/
-		cs_trickle.cpp
-		gui_http.cpp,h
-		httl_curl.cpp
-	lib/
-		cc_config.cpp,h
+    client/
+        cs_trickle.cpp
+        gui_http.cpp,h
+        httl_curl.cpp
+    lib/
+        cc_config.cpp,h
 
 Rom    22 Sept 2011
     - Tag for 6.13.5 release, all platforms
@@ -6507,15 +6507,15 @@ David  26 Sept 2011
         cc_config.h
 
 David  26 Sept 2011
-	- web: when showing a user's posts, don't show the ones
-		in hidden threads
-	- web: in showing the context of a post, link the thread also.
+    - web: when showing a user's posts, don't show the ones
+        in hidden threads
+    - web: in showing the context of a post, link the thread also.
 
-	html/
-		user/
-			forum_user_posts.php
-		inc/
-			forum.inc
+    html/
+        user/
+            forum_user_posts.php
+        inc/
+            forum.inc
 
 Charlie 27 Sep 2011
     - client: Fix compile break on Mac.
@@ -6670,13 +6670,13 @@ David  1 Oct 2011
         client_state.cpp
 
 David  1 Oct 2011
-	- team import script: don't exit if fail to create user.
-		The failure may be because the email is banned
-		(as happened w/ SETI@home)
+    - team import script: don't exit if fail to create user.
+        The failure may be because the email is banned
+        (as happened w/ SETI@home)
 
-	html/ops/
-		team_import.php
-	
+    html/ops/
+        team_import.php
+    
 David  2 Oct 2011
     - client: fix bug that could cause GPU idleness
         in the presence of GPU exclusions.
@@ -6774,10 +6774,10 @@ David  4 Oct 2011
         client_types.cpp
 
 David  4 Oct 2011
-	- client: win compile fixes
+    - client: win compile fixes
 
-	client/
-		cpu_sched.cpp
+    client/
+        cpu_sched.cpp
 
 Rom    4 Oct 2011
     - WINSCR: Before shutting down the screensaver, quickly reinitialize the OpenGL device
@@ -6810,10 +6810,10 @@ David  4 Oct 2011
         handle_request.cpp
 
 David  5 Oct 2011
-	- client: fix a memory leak; would lose ~120 bytes each time a job is started
+    - client: fix a memory leak; would lose ~120 bytes each time a job is started
 
-	lib/
-		filesys.cpp
+    lib/
+        filesys.cpp
 
 Rom    5 Oct 2011
     - Lib: Re-enable boinc lib mem snapshots for BOINC based applications (boinc,
@@ -6831,3 +6831,12 @@ David  5 Oct
     client/
         app.h
         app_control.cpp
+
+David  5 Oct
+    - client: free vectors in NOTICES, RSS_FEEDS, and DAILY_XFER_HISTORY
+        in free_mem() (for mem leak checking)
+
+    client
+        cs_notice.h
+        check_state.cpp
+        net_stats.h

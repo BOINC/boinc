@@ -78,6 +78,9 @@ struct NOTICES {
     void unkeep(const char* url);
         // called after parsing an RSS feed,
         // to remove notices that weren't in the feed.
+    void clear() {
+        notices.clear();
+    }
 };
 
 extern NOTICES notices;
@@ -122,6 +125,9 @@ struct RSS_FEEDS {
     RSS_FEED* lookup_url(char*);
     void update_proj_am(PROJ_AM*);
     void write_feed_list();
+    void clear() {
+        feeds.clear();
+    }
 };
 
 extern RSS_FEEDS rss_feeds;
