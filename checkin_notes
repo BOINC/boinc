@@ -6945,3 +6945,15 @@ David  7 Oct 2011
         client_types.h
         work_fetch.cpp
         cs_scheduler.cpp
+
+David  7 Oct 2011
+    - client/scheduler: the code for estimating peak FLOPS of ATI GPUs
+        (from Crunch3r) has a multiplier of 2.5 for cores/processor.
+        This is possibly because give a double-precision estimate.
+        But actually we want single-precision.  Change it to 5. See
+        http://golubev.com/about_cpu_and_gpu_2_en.htm
+
+    lib/
+        coproc.cpp
+    lib/
+        coproc.cpp

@@ -735,7 +735,7 @@ void COPROC_ATI::description(char* buf) {
 void COPROC_ATI::set_peak_flops() {
     double x = 0;
     if (have_cal) {
-        x = attribs.numberOfSIMD * attribs.wavefrontSize * 2.5 * attribs.engineClock * 1.e6;
+        x = attribs.numberOfSIMD * attribs.wavefrontSize * 5 * attribs.engineClock * 1.e6;
         // clock is in MHz
     } else if (have_opencl) {
         // OpenCL gives us only:
@@ -745,7 +745,7 @@ void COPROC_ATI::set_peak_flops() {
         // It doesn't give wavefrontSize, which can be 16/32/64.
         // So let's be conservative and use 16
         //
-        x = opencl_prop.max_compute_units * 16 * 2.5 * opencl_prop.max_clock_frequency * 1e6;
+        x = opencl_prop.max_compute_units * 16 * 5 * opencl_prop.max_clock_frequency * 1e6;
     }
     peak_flops = (x>0)?x:5e10;
 }
