@@ -443,6 +443,12 @@ static inline bool app_plan_opencl_ati(
     return false;
 }
 
+static inline bool app_plan_opencl(
+    SCHEDULER_REQUEST& sreq, const char* plan_class, HOST_USAGE& hu
+) {
+    
+}
+
 static inline bool app_plan_vbox(
     SCHEDULER_REQUEST& sreq, HOST_USAGE& hu, bool is_64bit
 ) {
@@ -489,6 +495,8 @@ bool app_plan(SCHEDULER_REQUEST& sreq, char* plan_class, HOST_USAGE& hu) {
         return app_plan_vbox(sreq, hu, false);
     } else if (!strcmp(plan_class, "vbox64")) {
         return app_plan_vbox(sreq, hu, true);
+    } else if (!strcmp(plan_class, "opencl")) {
+        return app_plan_opencl(sreq, plan_class, hu);
     }
     log_messages.printf(MSG_CRITICAL,
         "Unknown plan class: %s\n", plan_class

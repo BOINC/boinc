@@ -6894,4 +6894,17 @@ Charlie 7 Oct 2011
         coproc_detect.cpp
     lib/
         coproc.cpp, .h
-        
+
+David  7 Oct 2011
+    - client/server: change field names in OPENCL_DEVICE_PROP
+        to match those in the clGetDeviceInfo() calls.
+        Principles:
+        - if there's already a name for something, use it.
+        - follow case conventions
+
+    lib/
+        coproc.cpp,h
+    client/
+        coproc_detect.cpp
+    sched/
+        sched_customize.cpp,h

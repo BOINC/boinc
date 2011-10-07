@@ -95,7 +95,7 @@ struct COPROC_REQ {
     int parse(XML_PARSER&);
 };
 
-// For now, there will be some duplication between the values in 
+// there's some duplication between the values in 
 // the OPENCL_DEVICE_PROP struct and the NVIDIA/ATI structs
 //
 struct OPENCL_DEVICE_PROP {
@@ -104,19 +104,19 @@ struct OPENCL_DEVICE_PROP {
     char vendor[256];                   // Device vendor (NVIDIA, ATI, AMD, etc.)
     cl_uint vendor_id;                  // OpenCL ID of device vendor
     cl_bool available;                  // Is this device available?
-    cl_device_fp_config hp_fp_config;   // Half precision floating point capabilities
-    cl_device_fp_config sp_fp_config;   // Single precision floating point capabilities
-    cl_device_fp_config dp_fp_config;   // Double precision floating point capabilities
-    cl_bool little_endian;              // TRUE if little-endian
-    cl_device_exec_capabilities exec_capab; // Execution capabilities
+    cl_device_fp_config half_fp_config; // Half precision capabilities
+    cl_device_fp_config single_fp_config;   // Single precision
+    cl_device_fp_config double_fp_config;   // Double precision
+    cl_bool endian_little;              // TRUE if little-endian
+    cl_device_exec_capabilities execution_capabilities;
     char extensions[1024];              // List of device extensions
-    cl_ulong global_RAM;                // Size of global memory
-    cl_ulong local_RAM;                 // Size of local memory
-    cl_uint max_clock_freq;             // Max configured clock frequencin in MHz
-    cl_uint max_cores;                  // Max number of parallel computer cores
-    char openCL_platform_version[64];   // Version of OpenCL platform for this device
-    char openCL_device_version[64];     // OpenCL version supported by device; example: "OpenCL 1.1 beta"
-    char openCL_driver_version[32];     // For example: "CLH 1.0"
+    cl_ulong global_mem_size;
+    cl_ulong local_mem_size;
+    cl_uint max_clock_frequency;        // Max clock frequency in MHz
+    cl_uint max_compute_units;
+    char opencl_platform_version[64];   // Version of OpenCL platform for this device
+    char opencl_device_version[64];     // OpenCL version supported by device; example: "OpenCL 1.1 beta"
+    char opencl_driver_version[32];     // For example: "CLH 1.0"
     int device_num;                     // temp used in scan process
 };
 

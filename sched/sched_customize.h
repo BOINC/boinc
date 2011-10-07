@@ -18,6 +18,9 @@
 #include "boinc_db.h"
 #include "sched_types.h"
 
+// this keeps track of the project's lowest and highest requirements
+// for a GPU type, so that we can send users an appropriate message
+//
 struct GPU_REQUIREMENTS {
     double min_ram;
     double opt_ram;
