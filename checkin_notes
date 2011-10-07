@@ -6883,3 +6883,15 @@ David  6 Oct
 	client/
 		main.cpp
 		net_stats.cpp
+
+Charlie 7 Oct 2011
+    - client: write descriptions of OpenCL devices to stdout 
+        (and display in manager's Event log).
+    - client: work around a bug where OpenCL reports global RAM of ATI 
+        GPUs incorrectly (1/2 of actual value.)
+    
+    client/
+        coproc_detect.cpp
+    lib/
+        coproc.cpp, .h
+        
