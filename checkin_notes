@@ -6935,3 +6935,13 @@ David  7 Oct 2011
 
     client/
         app_start.cpp
+
+David  7 Oct 2011
+    - client: don't do scheduler-requested RPCs if
+        - project is set to No New Work, and
+        - project has no jobs on the client
+
+    client/
+        client_types.h
+        work_fetch.cpp
+        cs_scheduler.cpp

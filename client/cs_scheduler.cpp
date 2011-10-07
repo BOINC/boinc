@@ -1095,8 +1095,15 @@ PROJECT* CLIENT_STATE::next_project_sched_rpc_pending() {
         bool honor_backoff = true;
         bool honor_suspend = true;
 
+        // is a scheduler-requested RPC due?
+        //
         if (!p->sched_rpc_pending && p->next_rpc_time && p->next_rpc_time<now) {
-            p->sched_rpc_pending = RPC_REASON_PROJECT_REQ;
+            // don't do it if project is set to no new work
+            // and has no jobs currently
+            //
+            if (!p->dont_request_more_work || p->has_results()) {
+                p->sched_rpc_pending = RPC_REASON_PROJECT_REQ;
+            }
         }
 
         switch (p->sched_rpc_pending) {

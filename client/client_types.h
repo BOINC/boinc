@@ -422,6 +422,7 @@ struct PROJECT : PROJ_AM {
         // don't request work from a project if an upload started
         // in last X minutes and is still active
     bool uploading();
+    bool has_results();
 
     struct RESULT *next_runnable_result;
         // the next result to run for this project

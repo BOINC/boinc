@@ -915,13 +915,21 @@ bool PROJECT::downloading() {
     return false;
 }
 
+bool PROJECT::has_results() {
+    for (unsigned i=0; i<gstate.results.size(); i++) {
+        RESULT *rp = gstate.results[i];
+        if (rp->project == this) return true;
+    }
+    return false;
+}
+
 bool PROJECT::some_result_suspended() {
     unsigned int i;
     for (i=0; i<gstate.results.size(); i++) {
-         RESULT *rp = gstate.results[i];
-         if (rp->project != this) continue;
-         if (rp->suspended_via_gui) return true;
-     }
+        RESULT *rp = gstate.results[i];
+        if (rp->project != this) continue;
+        if (rp->suspended_via_gui) return true;
+    }
     return false;
 }
 
