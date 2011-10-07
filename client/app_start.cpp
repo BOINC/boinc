@@ -841,6 +841,13 @@ int ACTIVE_TASK::start(bool first_time) {
             retval = create_shmem_mmap(
                 buf, sizeof(SHARED_MEM), (void**)&app_client_shm.shm
             );
+            if (retval) {
+                msg_printf(wup->project, MSG_INTERNAL_ERROR,
+                    "ACTIVE_TASK::start(): can't create memory-mapped file: %s",
+                    boincerror(retval)
+                );
+                return retval;
+            }
         } else {
             // Use shmget() shared memory
             retval = create_shmem(

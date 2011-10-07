@@ -6927,3 +6927,11 @@ David  7 Oct 2011
 
     lib/
         coproc.cpp,h
+
+David  7 Oct 2011
+    - client (Mac): there was no error check of the creation
+         of a memory-mapped file used for communication with an app.
+         Add a check, and don't start the job if it fails.
+
+    client/
+        app_start.cpp
