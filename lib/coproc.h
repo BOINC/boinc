@@ -264,30 +264,7 @@ struct COPROC_NVIDIA : public COPROC {
     void clear();
     int parse(XML_PARSER&);
     void get_available_ram();
-	void set_peak_flops() {
-        int flops_per_clock=0, cores_per_proc=0;
-        switch (prop.major) {
-        case 1:
-            flops_per_clock = 3;
-            cores_per_proc = 8;
-            break;
-        case 2:
-            flops_per_clock = 2;
-            switch (prop.minor) {
-            case 0:
-                cores_per_proc = 32;
-                break;
-            default:
-                cores_per_proc = 48;
-                break;
-            }
-        }
-        // clock rate is scaled down by 1000
-        //
-        double x = (1000.*prop.clockRate) * prop.multiProcessorCount * cores_per_proc * flops_per_clock;
-        peak_flops =  (x>0)?x:5e10;
-	}
-
+	void set_peak_flops();
     bool check_running_graphics_app();
     bool matches(OPENCL_DEVICE_PROP& OpenCLprop);
     void fake(int driver_version, double ram, double avail_ram, int count);
@@ -318,11 +295,7 @@ struct COPROC_ATI : public COPROC {
     int parse(XML_PARSER&);
     void get_available_ram();
     bool matches(OPENCL_DEVICE_PROP& OpenCLprop);
-	void set_peak_flops() {
-        double x = attribs.numberOfSIMD * attribs.wavefrontSize * 2.5 * attribs.engineClock * 1.e6;
-        // clock is in MHz
-        peak_flops = (x>0)?x:5e10;
-	}
+	void set_peak_flops();
     void fake(double ram, double avail_ram, int);
 };
 

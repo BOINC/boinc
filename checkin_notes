@@ -6915,3 +6915,15 @@ David  7 Oct 2011
 
     sched/
         sched_customize.cpp
+
+David  7 Oct 2011
+    - client and scheduler: estimate peak FLOPS for GPUs that
+        are detected by OpenCL but not by native APIs (CUDA/CAL).
+        This is limited by the fact that OpenCL doesn't give
+        us the necessary hardware info
+        (ATI; wavefrontSize; NVIDIA: compute capability).
+        We use the minimum values for these,
+        so in most cases we'll be underestimating the peak FLOPS.
+
+    lib/
+        coproc.cpp,h

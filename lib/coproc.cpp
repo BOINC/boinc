@@ -514,6 +514,37 @@ int COPROC_NVIDIA::parse(XML_PARSER& xp) {
     }
     return ERR_XML_PARSE;
 }
+void COPROC_NVIDIA::set_peak_flops() {
+    double x=0;
+    if (have_cuda) {
+        int flops_per_clock=0, cores_per_proc=0;
+        switch (prop.major) {
+        case 1:
+            flops_per_clock = 3;
+            cores_per_proc = 8;
+            break;
+        case 2:
+            flops_per_clock = 2;
+            switch (prop.minor) {
+            case 0:
+                cores_per_proc = 32;
+                break;
+            default:
+                cores_per_proc = 48;
+                break;
+            }
+        }
+        // clock rate is scaled down by 1000
+        //
+        x = (1000.*prop.clockRate) * prop.multiProcessorCount * cores_per_proc * flops_per_clock;
+    } else if (have_opencl) {
+        // OpenCL doesn't give us compute capability.
+        // assume cores_per_proc is 8 and flops_per_clock is 2
+        //
+        x = opencl_prop.max_compute_units * 8 * 2 * opencl_prop.max_clock_frequency * 1e6;
+    }
+    peak_flops =  (x>0)?x:5e10;
+}
 
 ////////////////// ATI STARTS HERE /////////////////
 
@@ -699,4 +730,22 @@ void COPROC_ATI::description(char* buf) {
     sprintf(buf, "%s (CAL version %s, %dMB, %.0fMB available, %.0f GFLOPS peak)",
         name, version, attribs.localRAM, available_ram/MEGA, peak_flops/1.e9
     );
+}
+
+void COPROC_ATI::set_peak_flops() {
+    double x = 0;
+    if (have_cal) {
+        x = attribs.numberOfSIMD * attribs.wavefrontSize * 2.5 * attribs.engineClock * 1.e6;
+        // clock is in MHz
+    } else if (have_opencl) {
+        // OpenCL gives us only:
+        // - max_compute_units
+        //   (which I'll assume is the same as attribs.numberOfSIMD)
+        // - max_clock_frequency (which I'll assume is the same as engineClock)
+        // It doesn't give wavefrontSize, which can be 16/32/64.
+        // So let's be conservative and use 16
+        //
+        x = opencl_prop.max_compute_units * 16 * 2.5 * opencl_prop.max_clock_frequency * 1e6;
+    }
+    peak_flops = (x>0)?x:5e10;
 }
