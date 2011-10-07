@@ -355,15 +355,6 @@ static inline bool app_plan_cuda(
         )) {
             return false;
         }
-    } else if (!strcmp(plan_class, "cuda_opencl")) {
-        if (!cuda_check(c, hu,
-            100, 0,
-            0, CUDA_OPENCL_MIN_DRIVER_VERSION,
-            384*MEGA,
-            1, .01, 1
-        )) {
-            return false;
-        }
     } else if (!strcmp(plan_class, "cuda")) {
         if (!cuda_check(c, hu,
             100,
@@ -431,22 +422,100 @@ static inline bool app_plan_sse3(
     return true;
 }
 
-static inline bool app_plan_opencl_nvidia(
-    SCHEDULER_REQUEST& sreq, char* plan_class, HOST_USAGE& hu
+static inline bool opencl_check(
+    COPROC& cp, HOST_USAGE& hu,
+    int min_opencl_device_version,
+    double min_global_mem_size,
+    double ndevs,
+    double cpu_frac,
+    double flops_scale
 ) {
-    return false;
-}
+    int device_version, maj, min;
+    int n = sscanf(
+        cp.opencl_prop.opencl_device_version, "OpenCL %d.%d", &maj, &min
+    );
+    if (n != 2) {
+        log_messages.printf(MSG_CRITICAL,
+            "can't parse device version: %s\n",
+            cp.opencl_prop.opencl_device_version
+        );
+        return false;
+    }
+    device_version = 100*maj + min;
+    if (device_version < min_opencl_device_version) {
+        return false;
+    }
+    if (cp.opencl_prop.global_mem_size < min_global_mem_size) {
+        return false;
+    }
 
-static inline bool app_plan_opencl_ati(
-    SCHEDULER_REQUEST& sreq, char* plan_class, HOST_USAGE& hu
-) {
-    return false;
+    hu.gpu_ram = min_global_mem_size;
+    if (!strcmp(cp.type, "NVIDIA")) {
+        hu.ncudas = ndevs;
+    } else if (!strcmp(cp.type, "ATI")) {
+        hu.natis = ndevs;
+    }
+
+    coproc_perf(
+        g_request->host.p_fpops,
+        ndevs * cp.peak_flops,
+        cpu_frac,
+        hu.projected_flops,
+        hu.avg_ncpus
+    );
+    hu.peak_flops = ndevs*cp.peak_flops + hu.avg_ncpus*g_request->host.p_fpops;
+    hu.max_ncpus = hu.avg_ncpus;
+    hu.projected_flops *= flops_scale;
+    return true;
 }
 
 static inline bool app_plan_opencl(
     SCHEDULER_REQUEST& sreq, const char* plan_class, HOST_USAGE& hu
 ) {
-    
+    if (strstr(plan_class, "nvidia")) {
+        COPROC_NVIDIA& c = sreq.coprocs.nvidia;
+        if (!c.count) return false;
+        if (!c.have_opencl) return false;
+        if (!strcmp(plan_class, "opencl_nvidia_101")) {
+            return opencl_check(
+                c, hu,
+                101,
+                256*MEGA,
+                1,
+                .1,
+                .2
+            );
+        } else {
+            log_messages.printf(MSG_CRITICAL,
+                "Unknown plan class: %s\n", plan_class
+            );
+            return false;
+        }
+    } else if (strstr(plan_class, "ati")) {
+        COPROC_ATI& c = sreq.coprocs.ati;
+        if (!c.count) return false;
+        if (!c.have_opencl) return false;
+        if (!strcmp(plan_class, "opencl_ati_101")) {
+            return opencl_check(
+                c, hu,
+                101,
+                256*MEGA,
+                1,
+                .1,
+                .2
+            );
+        } else {
+            log_messages.printf(MSG_CRITICAL,
+                "Unknown plan class: %s\n", plan_class
+            );
+            return false;
+        }
+    } else {
+        log_messages.printf(MSG_CRITICAL,
+            "Unknown plan class: %s\n", plan_class
+        );
+        return false;
+    }
 }
 
 static inline bool app_plan_vbox(
@@ -495,7 +564,7 @@ bool app_plan(SCHEDULER_REQUEST& sreq, char* plan_class, HOST_USAGE& hu) {
         return app_plan_vbox(sreq, hu, false);
     } else if (!strcmp(plan_class, "vbox64")) {
         return app_plan_vbox(sreq, hu, true);
-    } else if (!strcmp(plan_class, "opencl")) {
+    } else if (strstr(plan_class, "opencl")) {
         return app_plan_opencl(sreq, plan_class, hu);
     }
     log_messages.printf(MSG_CRITICAL,

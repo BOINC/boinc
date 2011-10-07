@@ -6908,3 +6908,10 @@ David  7 Oct 2011
         coproc_detect.cpp
     sched/
         sched_customize.cpp,h
+
+David  7 Oct 2011
+    - scheduler add app_plan() support for plan classes
+        opencl_nvidia_101 and opencl_ati_101
+
+    sched/
+        sched_customize.cpp

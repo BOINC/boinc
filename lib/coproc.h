@@ -110,12 +110,13 @@ struct OPENCL_DEVICE_PROP {
     cl_bool endian_little;              // TRUE if little-endian
     cl_device_exec_capabilities execution_capabilities;
     char extensions[1024];              // List of device extensions
-    cl_ulong global_mem_size;
+    cl_ulong global_mem_size;           // in bytes
     cl_ulong local_mem_size;
-    cl_uint max_clock_frequency;        // Max clock frequency in MHz
+    cl_uint max_clock_frequency;        // in MHz
     cl_uint max_compute_units;
     char opencl_platform_version[64];   // Version of OpenCL platform for this device
-    char opencl_device_version[64];     // OpenCL version supported by device; example: "OpenCL 1.1 beta"
+    char opencl_device_version[64];     // OpenCL version supported by device;
+                                        // example: "OpenCL 1.1 beta"
     char opencl_driver_version[32];     // For example: "CLH 1.0"
     int device_num;                     // temp used in scan process
 };
