@@ -338,15 +338,19 @@ struct COPROCS {
         std::vector<int>& ignore_nvidia_dev,
         std::vector<int>& ignore_ati_dev
     );
-    void get_opencl(bool use_all, std::vector<std::string> &warnings,
+    void get_opencl(
+        bool use_all, std::vector<std::string>& descs, 
+        std::vector<std::string> &warnings,
         std::vector<int>& ignore_nvidia_dev, 
         std::vector<int>& ignore_ati_dev
     );
     cl_int get_opencl_info(
         OPENCL_DEVICE_PROP& prop, 
         cl_uint device_index, 
-        std::vector<std::string> &warnings
+        std::vector<std::string>& descs, 
+        std::vector<std::string>& warnings
     );
+    void opencl_description(OPENCL_DEVICE_PROP& prop, char* buf);
     int parse(XML_PARSER&);
     void summary_string(char* buf, int len);
 

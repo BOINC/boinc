@@ -83,7 +83,7 @@ void COPROCS::get(
         warnings.push_back("Caught SIGSEGV in ATI GPU detection");
     }
     try {
-        get_opencl(use_all, warnings, ignore_ati_dev, ignore_nvidia_dev);
+        get_opencl(use_all, descs, warnings, ignore_ati_dev, ignore_nvidia_dev);
     } 
     catch (...) {
         warnings.push_back("Caught SIGSEGV in OpenCL detection");
@@ -105,7 +105,7 @@ void COPROCS::get(
     if (setjmp(resume)) {
         warnings.push_back("Caught SIGSEGV in OpenCL detection");
     } else {
-        get_opencl(use_all, warnings, ignore_ati_dev, ignore_nvidia_dev);
+        get_opencl(use_all, descs, warnings, ignore_ati_dev, ignore_nvidia_dev);
     }
     signal(SIGSEGV, old_sig);
 #endif
@@ -190,7 +190,14 @@ int opencl_compare(OPENCL_DEVICE_PROP& c1, OPENCL_DEVICE_PROP& c2, bool loose) {
     return 0;
 }
 
-void COPROCS::get_opencl(bool use_all, vector<string>&warnings, 
+
+// OpenCL interfaces are documented here:
+// http://www.khronos.org/registry/cl/sdk/1.0/docs/man/xhtml/ and 
+// http://www.khronos.org/registry/cl/sdk/1.1/docs/man/xhtml/
+
+void COPROCS::get_opencl(bool use_all, 
+    vector<string>& descs, 
+    vector<string>&warnings, 
     vector<int>& ignore_nvidia_dev,
     vector<int>& ignore_ati_dev
 ) {
@@ -283,7 +290,7 @@ void COPROCS::get_opencl(bool use_all, vector<string>&warnings,
 //TODO: Should we store the platform(s) for each GPU found?
 //TODO: Must we check if multiple platforms found the same GPU and merge the records?
 
-            ciErrNum = get_opencl_info(prop, device_index, warnings);
+            ciErrNum = get_opencl_info(prop, device_index, descs, warnings);
             if (ciErrNum != CL_SUCCESS) break;
             
             if (strstr(prop.vendor, GPU_TYPE_NVIDIA)) {
@@ -360,28 +367,29 @@ void COPROCS::get_opencl(bool use_all, vector<string>&warnings,
         nvidia.count = 0;
         nvidia.opencl_device_count = 0;
         for (i=0; i<nvidia_opencls.size(); i++) {
-            char buf2[256];
-#if 0
-//TODO: What should description() be for OpenCL?
-            nvidia_opencls[i].description(buf);
-#else
-            buf[0] = '\0';
-#endif
-            if (in_vector(nvidia_opencls[i].device_num, ignore_nvidia_dev)) {
-                sprintf(buf2, "OpenCL: NVIDIA GPU %d (ignored by config): %s", nvidia_opencls[i].device_num, buf);
-            } else {
+            if (!in_vector(nvidia_opencls[i].device_num, ignore_nvidia_dev)) {
                 if (use_all || !opencl_compare(nvidia_opencls[i], nvidia.opencl_prop, true)) {
                     nvidia.device_nums[nvidia.count++] = nvidia_opencls[i].device_num;
                     nvidia.opencl_device_ids[nvidia.opencl_device_count++] = nvidia_opencls[i].device_id;
-                    
-                    sprintf(buf2, "OpenCL: NVIDIA GPU %d: %s", nvidia_opencls[i].device_num, buf);
-                } else {
-                    sprintf(buf2, "OpenCL: NVIDIA GPU %d (not used): %s", nvidia_opencls[i].device_num, buf);
                 }
-//                descs.push_back(string(buf2));
             }
         }
     }           // End if (! nvidia.have_cuda)
+
+    for (i=0; i<(unsigned int)nvidia.opencl_device_count; i++) {
+        char buf2[256];
+        opencl_description(nvidia_opencls[i], buf);
+        if (in_vector(nvidia_opencls[i].device_num, ignore_nvidia_dev)) {
+            sprintf(buf2, "OpenCL: NVIDIA GPU %d (ignored by config): %s", nvidia_opencls[i].device_num, buf);
+        } else {
+            if (use_all || !opencl_compare(nvidia_opencls[i], nvidia.opencl_prop, true)) {
+                sprintf(buf2, "OpenCL: NVIDIA GPU %d: %s", nvidia_opencls[i].device_num, buf);
+            } else {
+                sprintf(buf2, "OpenCL: NVIDIA GPU %d (not used): %s", nvidia_opencls[i].device_num, buf);
+            }
+        }
+        descs.push_back(string(buf2));
+    }
 
     if (ati.have_cal) { // If CAL already found the "best" CAL GPU
         for (i=0; i<ati_opencls.size(); i++) {
@@ -390,6 +398,11 @@ void COPROCS::get_opencl(bool use_all, vector<string>&warnings,
                 ati.opencl_prop = ati_opencls[i];
                 ati.opencl_device_ids[0] = ati_opencls[i].device_id;
                 ati.have_opencl = true;
+                
+                // Work around a bug in OpenCL which returns only 
+                // 1/2 of total global RAM size. 
+                // This bug applies only to ATI GPUs, not to NVIDIA
+                ati.opencl_prop.global_RAM = ati.attribs.localRAM;
                 break;
             }
         }
@@ -403,6 +416,15 @@ void COPROCS::get_opencl(bool use_all, vector<string>&warnings,
         //
         bool first = true;
         for (i=0; i<ati_opencls.size(); i++) {
+            // Work around a bug in OpenCL which returns only 
+            // 1/2 of total global RAM size. 
+            // This bug applies only to ATI GPUs, not to NVIDIA
+            // Assume this will be fixed in openCL 1.2.
+            if ((!strstr("1.0", ati_opencls[i].openCL_platform_version)) ||
+                    (!strstr("1.1", ati_opencls[i].openCL_platform_version))) {
+                ati_opencls[i].global_RAM *= 2;
+            }
+            
 //TODO: Temporary code for testing
             if (log_flags.coproc_debug) {
                 msg_printf(0, MSG_INFO,
@@ -437,27 +459,29 @@ void COPROCS::get_opencl(bool use_all, vector<string>&warnings,
         ati.count = 0;
         ati.opencl_device_count = 0;
         for (i=0; i<ati_opencls.size(); i++) {
-            char buf2[256];
-#if 0
-//TODO: What should description() be for OpenCL?
-            ati_opencls[i].description(buf);
-#else
-            buf[0] = '\0';
-#endif
-            if (in_vector(ati_opencls[i].device_num, ignore_ati_dev)) {
-                sprintf(buf2, "OpenCL: ATI GPU %d (ignored by config): %s", ati_opencls[i].device_num, buf);
-            } else {
+            if (!in_vector(ati_opencls[i].device_num, ignore_ati_dev)) {
                 if (use_all || !opencl_compare(ati_opencls[i], ati.opencl_prop, true)) {
                     ati.device_nums[ati.count++] = ati_opencls[i].device_num;
                     ati.opencl_device_ids[ati.opencl_device_count++] = ati_opencls[i].device_id;
-                    sprintf(buf2, "OpenCL: ATI GPU %d: %s", ati_opencls[i].device_num, buf);
-                } else {
-                    sprintf(buf2, "OpenCL: ATI GPU %d (not used): %s", ati_opencls[i].device_num, buf);
                 }
-    //            descs.push_back(string(buf2));
             }
         }
-    }           // End if (! ati.have_cuda)
+    }           // End if (! ati.have_cal)
+
+    for (i=0; i<(unsigned int)ati.opencl_device_count; i++) {
+        char buf2[256];
+        opencl_description(ati_opencls[i], buf);
+        if (in_vector(ati_opencls[i].device_num, ignore_ati_dev)) {
+            sprintf(buf2, "OpenCL: ATI GPU %d (ignored by config): %s", ati_opencls[i].device_num, buf);
+        } else {
+            if (use_all || !opencl_compare(ati_opencls[i], ati.opencl_prop, true)) {
+                sprintf(buf2, "OpenCL: ATI GPU %d: %s", ati_opencls[i].device_num, buf);
+            } else {
+                sprintf(buf2, "OpenCL: ATI GPU %d (not used): %s", ati_opencls[i].device_num, buf);
+            }
+        }
+        descs.push_back(string(buf2));
+    }
     
 //TODO: Add code to allow adding other GPU vendors
 }
@@ -465,6 +489,7 @@ void COPROCS::get_opencl(bool use_all, vector<string>&warnings,
 cl_int COPROCS::get_opencl_info(
     OPENCL_DEVICE_PROP& prop, 
     cl_uint device_index, 
+    vector<string>& descs, 
     vector<string>&warnings
 ) {
     cl_int ciErrNum;

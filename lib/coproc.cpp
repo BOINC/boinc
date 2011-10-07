@@ -244,6 +244,19 @@ int COPROC::parse_opencl(XML_PARSER& xp) {
     return ERR_XML_PARSE;
 }
 
+void COPROCS::opencl_description(OPENCL_DEVICE_PROP& prop, char* buf) {
+    char s[256];
+    int n;
+    
+    // openCL_device_version may have a trailing space
+    strlcpy(s, prop.openCL_device_version, sizeof(s));
+    n = strlen(s) - 1;
+    if ((n > 0) && (s[n] == ' ')) s[n] = '\0';
+    sprintf(buf, "%s (driver version %s, device version %s, %.0fMB)",
+        prop.name, prop.openCL_driver_version, s, prop.global_RAM/MEGA
+    );
+}
+
 void COPROCS::summary_string(char* buf, int len) {
     char buf2[1024];
 
