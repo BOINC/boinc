@@ -280,6 +280,7 @@ void COPROCS::get_opencl(bool use_all,
                 prop.device_num = (int)(nvidia_opencls.size());
                 COPROC_NVIDIA c;
                 c.opencl_prop = prop;
+                c.set_peak_flops();
                 nvidia_opencls.push_back(c);
             }
             if ((strstr(prop.vendor, GPU_TYPE_ATI)) || 
@@ -289,6 +290,7 @@ void COPROCS::get_opencl(bool use_all,
                 prop.device_num = (int)(ati_opencls.size());
                 COPROC_ATI c;
                 c.opencl_prop = prop;
+                c.set_peak_flops();
                 ati_opencls.push_back(c);
             }
         }

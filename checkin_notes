@@ -7000,3 +7000,10 @@ David  8 Oct 2011
 
     sched/
         sched_version.cpp
+
+Charlie 8 Oct 2011
+    - client: Fill in peak flops for each OpenCL GPU before compare; 
+        else there is nothing to ompare with.
+
+    client/
+        coproc_detect.cpp
