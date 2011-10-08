@@ -1075,7 +1075,7 @@ static inline bool requesting_work() {
 void process_request(char* code_sign_key) {
     PLATFORM* platform;
     int retval;
-    double last_rpc_time;
+    double last_rpc_time, x;
     struct tm *rpc_time_tm;
     bool ok_to_send_work = !config.dont_send_jobs;
     bool have_no_work = false;
@@ -1195,13 +1195,22 @@ void process_request(char* code_sign_key) {
         }
     }
 
+    // in deciding whether it's a new day,
+    // add a random factor (based on host ID)
+    // to smooth out network traffic over the day
+    //
+    retval = rand();
+    srand(g_reply->host.id);
+    x = drand()*86400;
+    srand(retval);
     last_rpc_time = g_reply->host.rpc_time;
-    t = g_reply->host.rpc_time;
+    t = g_reply->host.rpc_time + x;
     rpc_time_tm = localtime(&t);
     g_request->last_rpc_dayofyear = rpc_time_tm->tm_yday;
 
     t = time(0);
     g_reply->host.rpc_time = t;
+    t += x;
     rpc_time_tm = localtime(&t);
     g_request->current_rpc_dayofyear = rpc_time_tm->tm_yday;
 

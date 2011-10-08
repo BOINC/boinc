@@ -6969,3 +6969,17 @@ Charlie 7 Oct 2011
         coproc_detect.cpp
     lib/
         coproc.cpp,h
+
+David  7 Oct 2011
+    - scheduler: problem: in the daily quota mechanism,
+        the boundary between days is 00:00 in server local time.
+        This creates a spike of jobs being dispatched
+        (and files being downloaded) after that time.
+
+        Solution: distribute the boundary uniformly,
+        using a random number determined by the host ID.
+        (Make sure to save/restore the seed around this,
+        so we don't destroy the randomness of other things)
+
+    sched/
+        handle_request.cpp
