@@ -154,9 +154,6 @@ cl_int (*__clGetDeviceInfo)(cl_device_id    /* device */,
 
 #endif
 
-//TODO: Determine how we want to compare OpenCL devices - this is only a placeholder
-// return 1/-1/0 if device 1 is more/less/same capable than device 2.
-//
 // If "loose", tolerate small diff
 //
 int nvidia_opencl_compare(OPENCL_DEVICE_PROP& opencl_prop, COPROC_NVIDIA& coproc_nvidia, bool loose) {
