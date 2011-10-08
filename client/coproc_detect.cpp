@@ -156,39 +156,18 @@ cl_int (*__clGetDeviceInfo)(cl_device_id    /* device */,
 
 // If "loose", tolerate small diff
 //
-int nvidia_opencl_compare(OPENCL_DEVICE_PROP& opencl_prop, COPROC_NVIDIA& coproc_nvidia, bool loose) {
-    double peak_flops1, peak_flops2;
-    
-    peak_flops1 = coproc_nvidia.get_peak_flops(opencl_prop);
-    peak_flops2 = coproc_nvidia.get_peak_flops(coproc_nvidia.opencl_prop);
+int opencl_compare(COPROC& c1, COPROC& c2, bool loose) {
+    if (c1.opencl_prop.opencl_device_version_int > c2.opencl_prop.opencl_device_version_int) return 1;
+    if (c1.opencl_prop.opencl_device_version_int < c2.opencl_prop.opencl_device_version_int) return -1;
     if (loose) {
-        if (peak_flops1 > (peak_flops2 * 1.1)) return 1;
-        if ((peak_flops1 * 1.1) < (peak_flops2)) return -1;
+        if (c1.opencl_prop.global_mem_size > 1.4*c2.opencl_prop.global_mem_size) return 1;
+        if (c1.opencl_prop.global_mem_size < .7*c2.opencl_prop.global_mem_size) return -1;
         return 0;
     }
-
-    if (peak_flops1 > peak_flops2) return 1;
-    if (peak_flops1 < peak_flops2) return -1;
-    
-    return 0;
-}
-
-
-int ati_opencl_compare(OPENCL_DEVICE_PROP& opencl_prop, COPROC_ATI& coproc_ati, bool loose) {
-
-    double peak_flops1, peak_flops2;
-    
-    peak_flops1 = coproc_ati.get_peak_flops(opencl_prop);
-    peak_flops2 = coproc_ati.get_peak_flops(coproc_ati.opencl_prop);
-    if (loose) {
-        if (peak_flops1 > (peak_flops2 * 1.1)) return 1;
-        if ((peak_flops1 * 1.1) < (peak_flops2)) return -1;
-        return 0;
-    }
-
-    if (peak_flops1 > peak_flops2) return 1;
-    if (peak_flops1 < peak_flops2) return -1;
-    
+    if (c1.opencl_prop.global_mem_size > c2.opencl_prop.global_mem_size) return 1;
+    if (c1.opencl_prop.global_mem_size < c2.opencl_prop.global_mem_size) return -1;
+    if (c1.peak_flops > c2.peak_flops) return 1;
+    if (c1.peak_flops < c2.peak_flops) return -1;
     return 0;
 }
 
@@ -208,8 +187,8 @@ void COPROCS::get_opencl(bool use_all,
     cl_device_id devices[MAX_COPROC_INSTANCES];
     char platform_version[64];
     OPENCL_DEVICE_PROP prop;
-    vector<OPENCL_DEVICE_PROP> nvidia_opencls;
-    vector<OPENCL_DEVICE_PROP> ati_opencls;
+    vector<COPROC_NVIDIA> nvidia_opencls;
+    vector<COPROC_ATI> ati_opencls;
     unsigned int i;
     int j;
     char buf[256];
@@ -293,19 +272,24 @@ void COPROCS::get_opencl(bool use_all,
 //TODO: Should we store the platform(s) for each GPU found?
 //TODO: Must we check if multiple platforms found the same GPU and merge the records?
 
-            ciErrNum = get_opencl_info(prop, device_index, descs, warnings);
+            ciErrNum = get_opencl_info(prop, device_index, warnings);
             if (ciErrNum != CL_SUCCESS) break;
             
+            prop.get_device_version_int();
             if (strstr(prop.vendor, GPU_TYPE_NVIDIA)) {
                 prop.device_num = (int)(nvidia_opencls.size());
-                nvidia_opencls.push_back(prop);
+                COPROC_NVIDIA c;
+                c.opencl_prop = prop;
+                nvidia_opencls.push_back(c);
             }
             if ((strstr(prop.vendor, GPU_TYPE_ATI)) || 
                 (strstr(prop.vendor, "AMD")) ||  
                 (strstr(prop.vendor, "Advanced Micro Devices, Inc."))
             ) {
                 prop.device_num = (int)(ati_opencls.size());
-                ati_opencls.push_back(prop);
+                COPROC_ATI c;
+                c.opencl_prop = prop;
+                ati_opencls.push_back(c);
             }
         }
     }
@@ -318,16 +302,19 @@ void COPROCS::get_opencl(bool use_all,
     if (nvidia.have_cuda) { // If CUDA already found the "best" NVIDIA GPU
         for (i=0; i<nvidia_opencls.size(); i++) {
             if (in_vector(nvidia_opencls[i].device_num, ignore_nvidia_dev)) continue;
-            if (nvidia.matches(nvidia_opencls[i])) {
-                nvidia.opencl_prop = nvidia_opencls[i];
-                nvidia.opencl_device_ids[0] = nvidia_opencls[i].device_id;
+            if (nvidia.matches(nvidia_opencls[i].opencl_prop)) {
+                nvidia.opencl_prop = nvidia_opencls[i].opencl_prop;
+                nvidia.opencl_device_ids[0] = nvidia_opencls[i].opencl_prop.device_id;
                 nvidia.have_opencl = true;
                 break;
             }
         }
-//TODO: This assumes OpenCL and NVIDIA return the same device with the same index
+
+        //TODO: This assumes OpenCL and NVIDIA return the same device
+        // with the same index
+        //
         for (i=0; i<(unsigned int)nvidia.count; ++i) {
-            nvidia.opencl_device_ids[i] = nvidia_opencls[nvidia.device_nums[i]].device_id;
+            nvidia.opencl_device_ids[i] = nvidia_opencls[nvidia.device_nums[i]].opencl_prop.device_id;
         }
         nvidia.opencl_device_count = nvidia.count;
     } else {
@@ -339,27 +326,30 @@ void COPROCS::get_opencl(bool use_all,
             if (log_flags.coproc_debug) {
                 msg_printf(0, MSG_INFO,
                    "[coproc_debug] COPROC_NVIDIA [no CUDA]: nvidia_opencls[%d].global_mem_size = %llu; nvidia_opencls[%d].local_mem_size = %llu", 
-                        i, (unsigned long long)nvidia_opencls[i].global_mem_size, 
-                        i, (unsigned long long)nvidia_opencls[i].local_mem_size); 
+                    i, (unsigned long long)nvidia_opencls[i].opencl_prop.global_mem_size, 
+                    i, (unsigned long long)nvidia_opencls[i].opencl_prop.local_mem_size
+                ); 
                 msg_printf(0, MSG_INFO,
                     "[coproc_debug] COPROC_NVIDIA [no CUDA]: nvidia_opencls[%d].global_mem_size = %llu; nvidia_opencls[%d].local_mem_size = %llu",
-                    i, (unsigned long long)nvidia_opencls[i].global_mem_size, 
-                    i, (unsigned long long)nvidia_opencls[i].local_mem_size);
+                    i, (unsigned long long)nvidia_opencls[i].opencl_prop.global_mem_size, 
+                    i, (unsigned long long)nvidia_opencls[i].opencl_prop.local_mem_size
+                );
             }
-            if (in_vector(nvidia_opencls[i].device_num, ignore_nvidia_dev)) continue;
+            if (in_vector(nvidia_opencls[i].opencl_prop.device_num, ignore_nvidia_dev)) continue;
             bool is_best = false;
             if (first) {
                 is_best = true;
                 first = false;
-            } else if (nvidia_opencl_compare(nvidia_opencls[i], nvidia, false) > 0) {
+            } else if (opencl_compare(nvidia_opencls[i], nvidia, false) > 0) {
                 is_best = true;
             }
             if (is_best) {
-                nvidia.opencl_prop = nvidia_opencls[i];     // fill in what info we have
-                strcpy(nvidia.prop.name, nvidia_opencls[i].name);
-                nvidia.prop.totalGlobalMem = nvidia_opencls[i].global_mem_size;
-                nvidia.prop.clockRate = nvidia_opencls[i].max_clock_frequency * 1000;
-                nvidia.device_num = nvidia_opencls[i].device_num;
+                // fill in what info we have
+                nvidia.opencl_prop = nvidia_opencls[i].opencl_prop;
+                strcpy(nvidia.prop.name, nvidia_opencls[i].opencl_prop.name);
+                nvidia.prop.totalGlobalMem = nvidia_opencls[i].opencl_prop.global_mem_size;
+                nvidia.prop.clockRate = nvidia_opencls[i].opencl_prop.max_clock_frequency * 1000;
+                nvidia.device_num = nvidia_opencls[i].opencl_prop.device_num;
                 nvidia.have_opencl = true;
                 nvidia.set_peak_flops();
             }
@@ -371,10 +361,10 @@ void COPROCS::get_opencl(bool use_all,
         nvidia.count = 0;
         nvidia.opencl_device_count = 0;
         for (i=0; i<nvidia_opencls.size(); i++) {
-            if (!in_vector(nvidia_opencls[i].device_num, ignore_nvidia_dev)) {
-                if (use_all || !nvidia_opencl_compare(nvidia_opencls[i], nvidia, true)) {
-                    nvidia.device_nums[nvidia.count++] = nvidia_opencls[i].device_num;
-                    nvidia.opencl_device_ids[nvidia.opencl_device_count++] = nvidia_opencls[i].device_id;
+            if (!in_vector(nvidia_opencls[i].opencl_prop.device_num, ignore_nvidia_dev)) {
+                if (use_all || !opencl_compare(nvidia_opencls[i], nvidia, true)) {
+                    nvidia.device_nums[nvidia.count++] = nvidia_opencls[i].opencl_prop.device_num;
+                    nvidia.opencl_device_ids[nvidia.opencl_device_count++] = nvidia_opencls[i].opencl_prop.device_id;
                 }
             }
         }
@@ -383,13 +373,13 @@ void COPROCS::get_opencl(bool use_all,
     // Create descriptions for OpenCL ATI GPUs
     for (i=0; i<nvidia_opencls.size(); i++) {
         char buf2[256];
-        opencl_description(nvidia_opencls[i], buf);
+        opencl_description(nvidia_opencls[i].opencl_prop, buf);
         if (in_vector(nvidia_opencls[i].device_num, ignore_nvidia_dev)) {
             sprintf(buf2, "OpenCL: NVIDIA GPU %d (ignored by config): %s", nvidia_opencls[i].device_num, buf);
         } else {
             used = false;
             for (j=0; j<nvidia.opencl_device_count; j++) {
-                if (nvidia_opencls[i].device_id == nvidia.opencl_device_ids[j]) {
+                if (nvidia_opencls[i].opencl_prop.device_id == nvidia.opencl_device_ids[j]) {
                     used = true;
                     break;
                 }
@@ -405,10 +395,10 @@ void COPROCS::get_opencl(bool use_all,
 
     if (ati.have_cal) { // If CAL already found the "best" CAL GPU
         for (i=0; i<ati_opencls.size(); i++) {
-            if (in_vector(ati_opencls[i].device_num, ignore_ati_dev)) continue;
-            if (ati.matches(ati_opencls[i])) {
-                ati.opencl_prop = ati_opencls[i];
-                ati.opencl_device_ids[0] = ati_opencls[i].device_id;
+            if (in_vector(ati_opencls[i].opencl_prop.device_num, ignore_ati_dev)) continue;
+            if (ati.matches(ati_opencls[i].opencl_prop)) {
+                ati.opencl_prop = ati_opencls[i].opencl_prop;
+                ati.opencl_device_ids[0] = ati_opencls[i].opencl_prop.device_id;
                 ati.have_opencl = true;
                 
                 // Work around a bug in OpenCL which returns only 
@@ -420,7 +410,7 @@ void COPROCS::get_opencl(bool use_all,
         }
 //TODO: This assumes OpenCL and CAL return the same device with the same index
           for (i=0; i<(unsigned int)ati.count; ++i) {
-            ati.opencl_device_ids[i] = ati_opencls[ati.device_nums[i]].device_id;
+            ati.opencl_device_ids[i] = ati_opencls[ati.device_nums[i]].opencl_prop.device_id;
         }
         ati.opencl_device_count = ati.count;
     } else {
@@ -432,35 +422,35 @@ void COPROCS::get_opencl(bool use_all,
             // 1/2 of total global RAM size. 
             // This bug applies only to ATI GPUs, not to NVIDIA
             // Assume this will be fixed in openCL 1.2.
-            if ((!strstr("1.0", ati_opencls[i].opencl_platform_version)) ||
-                    (!strstr("1.1", ati_opencls[i].opencl_platform_version))) {
-                ati_opencls[i].global_mem_size *= 2;
+            if ((!strstr("1.0", ati_opencls[i].opencl_prop.opencl_platform_version)) ||
+                    (!strstr("1.1", ati_opencls[i].opencl_prop.opencl_platform_version))) {
+                ati_opencls[i].opencl_prop.global_mem_size *= 2;
             }
             
 //TODO: Temporary code for testing
             if (log_flags.coproc_debug) {
                 msg_printf(0, MSG_INFO,
-                    "[coproc_debug] COPROC_ATI [no CAL]: ati_opencls[%d].name = '%s'; ati_opencls[%d].device_id = %p, ati_opencls[%d].device_num = %d",
-                    i, ati_opencls[i].name, i, ati_opencls[i].device_id, i, ati_opencls[i].device_num);
+                    "[coproc_debug] COPROC_ATI [no CAL]: ati_opencls[%d].opencl_prop.name = '%s'; ati_opencls[%d].opencl_prop.device_id = %p, ati_opencls[%d].opencl_prop.device_num = %d",
+                    i, ati_opencls[i].opencl_prop.name, i, ati_opencls[i].opencl_prop.device_id, i, ati_opencls[i].opencl_prop.device_num);
                 msg_printf(0, MSG_INFO,
-                    "[coproc_debug] COPROC_ATI [no CAL]: ati_opencls[%d].global_mem_size = %llu; ati_opencls[%d].local_mem_size = %llu",
-                    i, (unsigned long long)ati_opencls[i].global_mem_size, 
-                    i, (unsigned long long)ati_opencls[i].local_mem_size);
+                    "[coproc_debug] COPROC_ATI [no CAL]: ati_opencls[%d].opencl_prop.global_mem_size = %llu; ati_opencls[%d].opencl_prop.local_mem_size = %llu",
+                    i, (unsigned long long)ati_opencls[i].opencl_prop.global_mem_size, 
+                    i, (unsigned long long)ati_opencls[i].opencl_prop.local_mem_size);
             }
-            if (in_vector(ati_opencls[i].device_num, ignore_ati_dev)) continue;
+            if (in_vector(ati_opencls[i].opencl_prop.device_num, ignore_ati_dev)) continue;
             bool is_best = false;
             if (first) {
                 is_best = true;
                 first = false;
-            } else if (ati_opencl_compare(ati_opencls[i], ati, false) > 0) {
+            } else if (opencl_compare(ati_opencls[i], ati, false) > 0) {
                 is_best = true;
             }
             if (is_best) {
-                ati.opencl_prop = ati_opencls[i];     // fill in what info we have
-                strcpy(ati.name, ati_opencls[i].name);
-                ati.attribs.localRAM = ati_opencls[i].local_mem_size;
-                ati.attribs.engineClock = ati_opencls[i].max_clock_frequency;
-                ati.device_num = ati_opencls[i].device_num;
+                ati.opencl_prop = ati_opencls[i].opencl_prop;     // fill in what info we have
+                strcpy(ati.name, ati_opencls[i].opencl_prop.name);
+                ati.attribs.localRAM = ati_opencls[i].opencl_prop.local_mem_size;
+                ati.attribs.engineClock = ati_opencls[i].opencl_prop.max_clock_frequency;
+                ati.device_num = ati_opencls[i].opencl_prop.device_num;
                 ati.set_peak_flops();
                 ati.have_opencl = true;
             }
@@ -473,9 +463,9 @@ void COPROCS::get_opencl(bool use_all,
         ati.opencl_device_count = 0;
         for (i=0; i<ati_opencls.size(); i++) {
             if (!in_vector(ati_opencls[i].device_num, ignore_ati_dev)) {
-                if (use_all || !ati_opencl_compare(ati_opencls[i], ati, true)) {
+                if (use_all || !opencl_compare(ati_opencls[i], ati, true)) {
                     ati.device_nums[ati.count++] = ati_opencls[i].device_num;
-                    ati.opencl_device_ids[ati.opencl_device_count++] = ati_opencls[i].device_id;
+                    ati.opencl_device_ids[ati.opencl_device_count++] = ati_opencls[i].opencl_prop.device_id;
                 }
             }
         }
@@ -484,13 +474,13 @@ void COPROCS::get_opencl(bool use_all,
     // Create descriptions for OpenCL ATI GPUs
     for (i=0; i<(unsigned int)ati.opencl_device_count; i++) {
         char buf2[256];
-        opencl_description(ati_opencls[i], buf);
+        opencl_description(ati_opencls[i].opencl_prop, buf);
         if (in_vector(ati_opencls[i].device_num, ignore_ati_dev)) {
             sprintf(buf2, "OpenCL: ATI GPU %d (ignored by config): %s", ati_opencls[i].device_num, buf);
         } else {
             used = false;
             for (j=0; j<ati.opencl_device_count; j++) {
-                if (ati_opencls[i].device_id == ati.opencl_device_ids[j]) {
+                if (ati_opencls[i].opencl_prop.device_id == ati.opencl_device_ids[j]) {
                     used = true;
                     break;
                 }
@@ -510,7 +500,6 @@ void COPROCS::get_opencl(bool use_all,
 cl_int COPROCS::get_opencl_info(
     OPENCL_DEVICE_PROP& prop, 
     cl_uint device_index, 
-    vector<string>& descs, 
     vector<string>&warnings
 ) {
     cl_int ciErrNum;

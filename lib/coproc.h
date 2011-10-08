@@ -114,11 +114,15 @@ struct OPENCL_DEVICE_PROP {
     cl_ulong local_mem_size;
     cl_uint max_clock_frequency;        // in MHz
     cl_uint max_compute_units;
-    char opencl_platform_version[64];   // Version of OpenCL platform for this device
+    char opencl_platform_version[64];   // Version of OpenCL supported
+                                        // the device's platform
     char opencl_device_version[64];     // OpenCL version supported by device;
                                         // example: "OpenCL 1.1 beta"
+    int opencl_device_version_int;      // same, encoded as e.g. 101
+    int get_device_version_int();       // call this to encode
     char opencl_driver_version[32];     // For example: "CLH 1.0"
     int device_num;                     // temp used in scan process
+
 };
 
 
@@ -260,12 +264,11 @@ struct COPROC_NVIDIA : public COPROC {
         std::vector<std::string>&, std::vector<std::string>&,
         std::vector<int>& ignore_devs
     );
-	void description(char*);
+    void description(char*);
     void clear();
     int parse(XML_PARSER&);
     void get_available_ram();
-	double get_peak_flops(OPENCL_DEVICE_PROP& prop);
-	void set_peak_flops();
+    void set_peak_flops();
     bool check_running_graphics_app();
     bool matches(OPENCL_DEVICE_PROP& OpenCLprop);
     void fake(int driver_version, double ram, double avail_ram, int count);
@@ -296,8 +299,7 @@ struct COPROC_ATI : public COPROC {
     int parse(XML_PARSER&);
     void get_available_ram();
     bool matches(OPENCL_DEVICE_PROP& OpenCLprop);
-	double get_peak_flops(OPENCL_DEVICE_PROP& prop);
-	void set_peak_flops();
+    void set_peak_flops();
     void fake(double ram, double avail_ram, int);
 };
 
@@ -323,7 +325,6 @@ struct COPROCS {
     cl_int get_opencl_info(
         OPENCL_DEVICE_PROP& prop, 
         cl_uint device_index, 
-        std::vector<std::string>& descs, 
         std::vector<std::string>& warnings
     );
     void opencl_description(OPENCL_DEVICE_PROP& prop, char* buf);

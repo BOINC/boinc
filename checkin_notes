@@ -6983,3 +6983,14 @@ David  7 Oct 2011
 
     sched/
         handle_request.cpp
+
+David  7 Oct 2011
+    - client: compare OpenCL-only devices the same as other devices
+    - code cleanup
+
+    lib/
+        coproc.cpp,h
+    client/
+        coproc_detect.cpp
+    sched/
+        sched_customize.cpp

@@ -430,19 +430,7 @@ static inline bool opencl_check(
     double cpu_frac,
     double flops_scale
 ) {
-    int device_version, maj, min;
-    int n = sscanf(
-        cp.opencl_prop.opencl_device_version, "OpenCL %d.%d", &maj, &min
-    );
-    if (n != 2) {
-        log_messages.printf(MSG_CRITICAL,
-            "can't parse device version: %s\n",
-            cp.opencl_prop.opencl_device_version
-        );
-        return false;
-    }
-    device_version = 100*maj + min;
-    if (device_version < min_opencl_device_version) {
+    if (cp.opencl_prop.opencl_device_version_int < min_opencl_device_version) {
         return false;
     }
     if (cp.opencl_prop.global_mem_size < min_global_mem_size) {

@@ -171,6 +171,7 @@ int COPROC::parse_opencl(XML_PARSER& xp) {
 
     while (!xp.get_tag()) {
         if (xp.match_tag("/coproc_opencl")) {
+            opencl_prop.get_device_version_int();
             return 0;
         }
         if (xp.parse_str("name", opencl_prop.name, sizeof(opencl_prop.name))) continue;
@@ -242,6 +243,18 @@ int COPROC::parse_opencl(XML_PARSER& xp) {
         }
     }
     return ERR_XML_PARSE;
+}
+
+int OPENCL_DEVICE_PROP::get_device_version_int() {
+    int maj, min;
+    int n = sscanf(
+        opencl_device_version, "OpenCL %d.%d", &maj, &min
+    );
+    if (n != 2) {
+        return ERR_NOT_FOUND;
+    }
+    opencl_device_version_int = 100*maj + min;
+    return 0;
 }
 
 void COPROCS::opencl_description(OPENCL_DEVICE_PROP& prop, char* buf) {
@@ -515,15 +528,6 @@ int COPROC_NVIDIA::parse(XML_PARSER& xp) {
     return ERR_XML_PARSE;
 }
 
-double COPROC_NVIDIA::get_peak_flops(OPENCL_DEVICE_PROP& prop) {
-    double x=0;
-    // OpenCL doesn't give us compute capability.
-    // assume cores_per_proc is 8 and flops_per_clock is 2
-    //
-    x = prop.max_compute_units * 8 * 2 * prop.max_clock_frequency * 1e6;
-    return x;
-}
-
 void COPROC_NVIDIA::set_peak_flops() {
     double x=0;
     if (have_cuda) {
@@ -551,7 +555,7 @@ void COPROC_NVIDIA::set_peak_flops() {
         // OpenCL doesn't give us compute capability.
         // assume cores_per_proc is 8 and flops_per_clock is 2
         //
-        x = get_peak_flops(opencl_prop);
+        x = opencl_prop.max_compute_units * 8 * 2 * opencl_prop.max_clock_frequency * 1e6;
     }
     peak_flops =  (x>0)?x:5e10;
 }
@@ -742,19 +746,6 @@ void COPROC_ATI::description(char* buf) {
     );
 }
 
-double COPROC_ATI::get_peak_flops(OPENCL_DEVICE_PROP& prop) {
-    double x = 0;
-    // OpenCL gives us only:
-    // - max_compute_units
-    //   (which I'll assume is the same as attribs.numberOfSIMD)
-    // - max_clock_frequency (which I'll assume is the same as engineClock)
-    // It doesn't give wavefrontSize, which can be 16/32/64.
-    // So let's be conservative and use 16
-    //
-    x = prop.max_compute_units * 16 * 5 * prop.max_clock_frequency * 1e6;
-    return x;
-}
-
 void COPROC_ATI::set_peak_flops() {
     double x = 0;
     if (have_cal) {
@@ -768,7 +759,7 @@ void COPROC_ATI::set_peak_flops() {
         // It doesn't give wavefrontSize, which can be 16/32/64.
         // So let's be conservative and use 16
         //
-        x = get_peak_flops(opencl_prop);
+        x = opencl_prop.max_compute_units * 16 * 5 * opencl_prop.max_clock_frequency * 1e6;
     }
     peak_flops = (x>0)?x:5e10;
 }
