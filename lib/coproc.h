@@ -264,6 +264,7 @@ struct COPROC_NVIDIA : public COPROC {
     void clear();
     int parse(XML_PARSER&);
     void get_available_ram();
+	double get_peak_flops(OPENCL_DEVICE_PROP& prop);
 	void set_peak_flops();
     bool check_running_graphics_app();
     bool matches(OPENCL_DEVICE_PROP& OpenCLprop);
@@ -295,6 +296,7 @@ struct COPROC_ATI : public COPROC {
     int parse(XML_PARSER&);
     void get_available_ram();
     bool matches(OPENCL_DEVICE_PROP& OpenCLprop);
+	double get_peak_flops(OPENCL_DEVICE_PROP& prop);
 	void set_peak_flops();
     void fake(double ram, double avail_ram, int);
 };

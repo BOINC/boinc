@@ -156,40 +156,44 @@ cl_int (*__clGetDeviceInfo)(cl_device_id    /* device */,
 
 //TODO: Determine how we want to compare OpenCL devices - this is only a placeholder
 // return 1/-1/0 if device 1 is more/less/same capable than device 2.
-// factors (decreasing priority):
-// - global memory
-// - local memory
-// - number of cores
-// - speed
 //
-// If "loose", tolerate small memory diff
+// If "loose", tolerate small diff
 //
-int opencl_compare(OPENCL_DEVICE_PROP& c1, OPENCL_DEVICE_PROP& c2, bool loose) {
+int nvidia_opencl_compare(OPENCL_DEVICE_PROP& opencl_prop, COPROC_NVIDIA& coproc_nvidia, bool loose) {
+    double peak_flops1, peak_flops2;
+    
+    peak_flops1 = coproc_nvidia.get_peak_flops(opencl_prop);
+    peak_flops2 = coproc_nvidia.get_peak_flops(coproc_nvidia.opencl_prop);
     if (loose) {
-        if (c1.global_mem_size > 1.4*c2.global_mem_size) return 1;
-        if (c1.global_mem_size < .7* c2.global_mem_size) return -1;
+        if (peak_flops1 > (peak_flops2 * 1.1)) return 1;
+        if ((peak_flops1 * 1.1) < (peak_flops2)) return -1;
         return 0;
     }
-    if (c1.global_mem_size > c2.global_mem_size) return 1;
-    if (c1.global_mem_size < c2.global_mem_size) return -1;
 
-    if (loose) {
-        if (c1.local_mem_size > 1.4*c2.local_mem_size) return 1;
-        if (c1.local_mem_size < .7* c2.local_mem_size) return -1;
-        return 0;
-    }
-    if (c1.local_mem_size > c2.local_mem_size) return 1;
-    if (c1.local_mem_size < c2.local_mem_size) return -1;
-
-    if (c1.max_compute_units > c2.max_compute_units) return 1;
-    if (c1.max_compute_units < c2.max_compute_units) return -1;
-
-    if (c1.max_clock_frequency > c2.max_clock_frequency) return 1;
-    if (c1.max_clock_frequency < c2.max_clock_frequency) return -1;
-
+    if (peak_flops1 > peak_flops2) return 1;
+    if (peak_flops1 < peak_flops2) return -1;
+    
     return 0;
 }
 
+
+int ati_opencl_compare(OPENCL_DEVICE_PROP& opencl_prop, COPROC_ATI& coproc_ati, bool loose) {
+
+    double peak_flops1, peak_flops2;
+    
+    peak_flops1 = coproc_ati.get_peak_flops(opencl_prop);
+    peak_flops2 = coproc_ati.get_peak_flops(coproc_ati.opencl_prop);
+    if (loose) {
+        if (peak_flops1 > (peak_flops2 * 1.1)) return 1;
+        if ((peak_flops1 * 1.1) < (peak_flops2)) return -1;
+        return 0;
+    }
+
+    if (peak_flops1 > peak_flops2) return 1;
+    if (peak_flops1 < peak_flops2) return -1;
+    
+    return 0;
+}
 
 // OpenCL interfaces are documented here:
 // http://www.khronos.org/registry/cl/sdk/1.0/docs/man/xhtml/ and 
@@ -350,7 +354,7 @@ void COPROCS::get_opencl(bool use_all,
             if (first) {
                 is_best = true;
                 first = false;
-            } else if (opencl_compare(nvidia_opencls[i], nvidia.opencl_prop, false) > 0) {
+            } else if (nvidia_opencl_compare(nvidia_opencls[i], nvidia, false) > 0) {
                 is_best = true;
             }
             if (is_best) {
@@ -360,6 +364,7 @@ void COPROCS::get_opencl(bool use_all,
                 nvidia.prop.clockRate = nvidia_opencls[i].max_clock_frequency * 1000;
                 nvidia.device_num = nvidia_opencls[i].device_num;
                 nvidia.have_opencl = true;
+                nvidia.set_peak_flops();
             }
         }
 
@@ -370,7 +375,7 @@ void COPROCS::get_opencl(bool use_all,
         nvidia.opencl_device_count = 0;
         for (i=0; i<nvidia_opencls.size(); i++) {
             if (!in_vector(nvidia_opencls[i].device_num, ignore_nvidia_dev)) {
-                if (use_all || !opencl_compare(nvidia_opencls[i], nvidia.opencl_prop, true)) {
+                if (use_all || !nvidia_opencl_compare(nvidia_opencls[i], nvidia, true)) {
                     nvidia.device_nums[nvidia.count++] = nvidia_opencls[i].device_num;
                     nvidia.opencl_device_ids[nvidia.opencl_device_count++] = nvidia_opencls[i].device_id;
                 }
@@ -450,7 +455,7 @@ void COPROCS::get_opencl(bool use_all,
             if (first) {
                 is_best = true;
                 first = false;
-            } else if (opencl_compare(ati_opencls[i], ati.opencl_prop, false) > 0) {
+            } else if (ati_opencl_compare(ati_opencls[i], ati, false) > 0) {
                 is_best = true;
             }
             if (is_best) {
@@ -459,6 +464,7 @@ void COPROCS::get_opencl(bool use_all,
                 ati.attribs.localRAM = ati_opencls[i].local_mem_size;
                 ati.attribs.engineClock = ati_opencls[i].max_clock_frequency;
                 ati.device_num = ati_opencls[i].device_num;
+                ati.set_peak_flops();
                 ati.have_opencl = true;
             }
         }
@@ -470,7 +476,7 @@ void COPROCS::get_opencl(bool use_all,
         ati.opencl_device_count = 0;
         for (i=0; i<ati_opencls.size(); i++) {
             if (!in_vector(ati_opencls[i].device_num, ignore_ati_dev)) {
-                if (use_all || !opencl_compare(ati_opencls[i], ati.opencl_prop, true)) {
+                if (use_all || !ati_opencl_compare(ati_opencls[i], ati, true)) {
                     ati.device_nums[ati.count++] = ati_opencls[i].device_num;
                     ati.opencl_device_ids[ati.opencl_device_count++] = ati_opencls[i].device_id;
                 }
