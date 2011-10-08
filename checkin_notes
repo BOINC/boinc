@@ -6994,3 +6994,9 @@ David  7 Oct 2011
         coproc_detect.cpp
     sched/
         sched_customize.cpp
+
+David  8 Oct 2011
+    - scheduler: fix crashing bug when using HR.  From Kevin Reed.
+
+    sched/
+        sched_version.cpp

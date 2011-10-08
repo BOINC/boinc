@@ -427,6 +427,7 @@ static BEST_APP_VERSION* check_homogeneous_app_version(
         PLATFORM* p = g_request->platforms.list[i];
         if (p->id == avp->platformid) {
             found = true;
+            bav.avp = avp;
             break;
         }
     }

@@ -176,9 +176,9 @@ struct COPROC {
 #ifndef _USING_FCGI_
     void write_xml(MIOFILE&);
     void write_request(MIOFILE&);
-    int parse(XML_PARSER&);
     void opencl_write_xml(MIOFILE&);
 #endif
+    int parse(XML_PARSER&);
     int parse_opencl(XML_PARSER&);
 
     inline void clear() {
