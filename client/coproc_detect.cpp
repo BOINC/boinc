@@ -210,7 +210,9 @@ void COPROCS::get_opencl(bool use_all,
     vector<OPENCL_DEVICE_PROP> nvidia_opencls;
     vector<OPENCL_DEVICE_PROP> ati_opencls;
     unsigned int i;
+    int j;
     char buf[256];
+    bool used;
 
 #ifdef _WIN32
     opencl_lib = LoadLibrary("OpenCL.dll");
@@ -376,13 +378,21 @@ void COPROCS::get_opencl(bool use_all,
         }
     }           // End if (! nvidia.have_cuda)
 
-    for (i=0; i<(unsigned int)nvidia.opencl_device_count; i++) {
+    // Create descriptions for OpenCL ATI GPUs
+    for (i=0; i<nvidia_opencls.size(); i++) {
         char buf2[256];
         opencl_description(nvidia_opencls[i], buf);
         if (in_vector(nvidia_opencls[i].device_num, ignore_nvidia_dev)) {
             sprintf(buf2, "OpenCL: NVIDIA GPU %d (ignored by config): %s", nvidia_opencls[i].device_num, buf);
         } else {
-            if (use_all || !opencl_compare(nvidia_opencls[i], nvidia.opencl_prop, true)) {
+            used = false;
+            for (j=0; j<nvidia.opencl_device_count; j++) {
+                if (nvidia_opencls[i].device_id == nvidia.opencl_device_ids[j]) {
+                    used = true;
+                    break;
+                }
+            }
+            if (used) {
                 sprintf(buf2, "OpenCL: NVIDIA GPU %d: %s", nvidia_opencls[i].device_num, buf);
             } else {
                 sprintf(buf2, "OpenCL: NVIDIA GPU %d (not used): %s", nvidia_opencls[i].device_num, buf);
@@ -468,13 +478,21 @@ void COPROCS::get_opencl(bool use_all,
         }
     }           // End if (! ati.have_cal)
 
+    // Create descriptions for OpenCL ATI GPUs
     for (i=0; i<(unsigned int)ati.opencl_device_count; i++) {
         char buf2[256];
         opencl_description(ati_opencls[i], buf);
         if (in_vector(ati_opencls[i].device_num, ignore_ati_dev)) {
             sprintf(buf2, "OpenCL: ATI GPU %d (ignored by config): %s", ati_opencls[i].device_num, buf);
         } else {
-            if (use_all || !opencl_compare(ati_opencls[i], ati.opencl_prop, true)) {
+            used = false;
+            for (j=0; j<ati.opencl_device_count; j++) {
+                if (ati_opencls[i].device_id == ati.opencl_device_ids[j]) {
+                    used = true;
+                    break;
+                }
+            }
+            if (used) {
                 sprintf(buf2, "OpenCL: ATI GPU %d: %s", ati_opencls[i].device_num, buf);
             } else {
                 sprintf(buf2, "OpenCL: ATI GPU %d (not used): %s", ati_opencls[i].device_num, buf);

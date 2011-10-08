@@ -6955,5 +6955,9 @@ David  7 Oct 2011
 
     lib/
         coproc.cpp
-    lib/
-        coproc.cpp
+
+Charlie 7 Oct 2011
+    - client: improve code which writes OpenCL descriptions. 
+    
+    client/
+        coproc_detect.cpp
