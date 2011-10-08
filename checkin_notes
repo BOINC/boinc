@@ -7007,3 +7007,10 @@ Charlie 8 Oct 2011
 
     client/
         coproc_detect.cpp
+
+David  8 Oct 2011
+    - API: don't crash if send trickle msg running standalone.
+        From Christian Ries.
+
+    api/
+        boinc_api.cpp

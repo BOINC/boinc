@@ -563,6 +563,7 @@ int boinc_get_status(BOINC_STATUS *s) {
 static void send_trickle_up_msg() {
     char buf[MSG_CHANNEL_SIZE];
     BOINCINFO("Sending Trickle Up Message");
+    if (standalone) return;
     strcpy(buf, "");
     if (have_new_trickle_up) {
         strcat(buf, "<have_new_trickle_up/>\n");
