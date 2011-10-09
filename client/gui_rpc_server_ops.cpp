@@ -865,15 +865,25 @@ static void handle_acct_mgr_rpc(GUI_RPC_CONN& grc) {
     string password_hash, name_lc;
     bool use_config_file = false;
     bool bad_arg = false;
+    bool url_found=false, name_found=false, password_found = false;
 
     while (!grc.xp.get_tag()) {
-        if (grc.xp.parse_string("url", url)) continue;
-        if (grc.xp.parse_string("name", name)) continue;
-        if (grc.xp.parse_string("password", password)) continue;
+        if (grc.xp.parse_string("url", url)) {
+            url_found = true;
+            continue;
+        }
+        if (grc.xp.parse_string("name", name)) {
+            name_found = true;
+            continue;
+        }
+        if (grc.xp.parse_string("password", password)) {
+            password_found = true;
+            continue;
+        }
         if (grc.xp.parse_bool("use_config_file", use_config_file)) continue;
     }
     if (!use_config_file) {
-        bad_arg = url.empty() || name.empty() || password.empty();
+        bad_arg = !url_found || !name_found || !password_found;
         if (!bad_arg) {
             name_lc = name;
             downcase_string(name_lc);
