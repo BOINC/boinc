@@ -872,7 +872,7 @@ static void handle_acct_mgr_rpc(GUI_RPC_CONN& grc) {
         if (grc.xp.parse_string("password", password)) continue;
         if (grc.xp.parse_bool("use_config_file", use_config_file)) continue;
     }
-    if (use_config_file) {
+    if (!use_config_file) {
         bad_arg = url.empty() || name.empty() || password.empty();
         if (!bad_arg) {
             name_lc = name;
@@ -899,7 +899,7 @@ static void handle_acct_mgr_rpc(GUI_RPC_CONN& grc) {
     if (bad_arg) {
         grc.mfout.printf("<error>bad arg</error>\n");
     } else {
-        gstate.acct_mgr_info.next_rpc_time = gstate.now;
+        gstate.acct_mgr_op.do_rpc(url, name, password_hash, true);
         grc.mfout.printf("<success/>\n");
     }
 }

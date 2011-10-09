@@ -7014,3 +7014,9 @@ David  8 Oct 2011
 
     api/
         boinc_api.cpp
+
+David  8 Oct 2011
+	- client: fix bugs in acct manager attach/detach
+
+	client/
+		gui_rpc_server_ops.cpp
