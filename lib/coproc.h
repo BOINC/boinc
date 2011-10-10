@@ -234,6 +234,15 @@ struct COPROC {
         }
         return false;
     }
+    void merge_opencl(
+        std::vector<OPENCL_DEVICE_PROP> &opencls, 
+        std::vector<int>& ignore_dev
+    );
+    void find_best_opencls(
+        bool use_all,
+        std::vector<OPENCL_DEVICE_PROP> &opencls, 
+        std::vector<int>& ignore_dev
+    );
 };
 
 // based on cudaDeviceProp from /usr/local/cuda/include/driver_types.h
@@ -338,17 +347,6 @@ struct COPROCS {
         OPENCL_DEVICE_PROP& prop, 
         cl_uint device_index, 
         std::vector<std::string>& warnings
-    );
-    void merge_opencl_into_best(
-        COPROC &best, 
-        std::vector<OPENCL_DEVICE_PROP> &opencls, 
-        std::vector<int>& ignore_dev
-    );
-    void find_best_opencls(
-        bool use_all,
-        COPROC &best, 
-        std::vector<OPENCL_DEVICE_PROP> &opencls, 
-        std::vector<int>& ignore_dev
     );
     int parse(XML_PARSER&);
     void summary_string(char* buf, int len);

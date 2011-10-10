@@ -314,9 +314,9 @@ void COPROCS::get_opencl(
     }
         
     if (nvidia.have_cuda) { // If CUDA already found the "best" NVIDIA GPU
-        merge_opencl_into_best(nvidia, nvidia_opencls, ignore_nvidia_dev);
+        nvidia.merge_opencl(nvidia_opencls, ignore_nvidia_dev);
     } else {
-        find_best_opencls(use_all, nvidia, nvidia_opencls, ignore_nvidia_dev);
+        nvidia.find_best_opencls(use_all, nvidia_opencls, ignore_nvidia_dev);
         nvidia.prop.totalGlobalMem = nvidia.opencl_prop.global_mem_size;
         nvidia.prop.clockRate = nvidia.opencl_prop.max_clock_frequency * 1000;
     }
@@ -328,13 +328,13 @@ void COPROCS::get_opencl(
     }
 
     if (ati.have_cal) { // If CAL already found the "best" CAL GPU
-        merge_opencl_into_best(ati, ati_opencls, ignore_ati_dev);
+        ati.merge_opencl(ati_opencls, ignore_ati_dev);
         // Work around a bug in OpenCL which returns only 
         // 1/2 of total global RAM size: use the value from CAL. 
         // This bug applies only to ATI GPUs, not to NVIDIA
         ati.opencl_prop.global_mem_size = ati.attribs.localRAM;
     } else {
-        find_best_opencls(use_all, ati, ati_opencls, ignore_ati_dev);
+        ati.find_best_opencls(use_all, ati_opencls, ignore_ati_dev);
         ati.attribs.localRAM = ati.opencl_prop.local_mem_size;
         ati.attribs.engineClock = ati.opencl_prop.max_clock_frequency;
     }           // End if (! ati.have_cal)
@@ -510,8 +510,7 @@ cl_int COPROCS::get_opencl_info(
 }
 
 //This assumes OpenCL and CAL return the same device with the same index
-void COPROCS::merge_opencl_into_best(
-    COPROC &best, 
+void COPROC::merge_opencl(
     vector<OPENCL_DEVICE_PROP> &opencls, 
     vector<int>& ignore_dev
 ) {
@@ -522,24 +521,23 @@ void COPROCS::merge_opencl_into_best(
             opencls[i].is_used = COPROC_IGNORED;
             continue;
         }
-        if (best.device_num == opencls[i].device_num) {
-            best.opencl_prop = opencls[i];
-            best.opencl_device_ids[0] = opencls[i].device_id;
-            best.have_opencl = true;
+        if (device_num == opencls[i].device_num) {
+            opencl_prop = opencls[i];
+            opencl_device_ids[0] = opencls[i].device_id;
+            have_opencl = true;
             break;
         }
     }
-      for (i=0; i<(unsigned int)best.count; ++i) {
-        best.opencl_device_ids[i] = opencls[best.device_nums[i]].device_id;
-        opencls[best.device_nums[i]].is_used = COPROC_USED;
+      for (i=0; i<(unsigned int)count; ++i) {
+        opencl_device_ids[i] = opencls[device_nums[i]].device_id;
+        opencls[device_nums[i]].is_used = COPROC_USED;
     }
-    best.opencl_device_count = best.count;
+    opencl_device_count = count;
 }
 
 //This assumes OpenCL and CAL return the same device with the same index
-void COPROCS::find_best_opencls(
+void COPROC::find_best_opencls(
     bool use_all,
-    COPROC &best, 
     vector<OPENCL_DEVICE_PROP> &opencls, 
     vector<int>& ignore_dev
 ) {
@@ -554,31 +552,31 @@ void COPROCS::find_best_opencls(
         if (first) {
             is_best = true;
             first = false;
-        } else if (opencl_compare(opencls[i], best.opencl_prop, false) > 0) {
+        } else if (opencl_compare(opencls[i], opencl_prop, false) > 0) {
             is_best = true;
         }
         if (is_best) {
             // fill in what info we have
-            best.opencl_prop = opencls[i];
-            best.device_num = opencls[i].device_num;
-            best.peak_flops = opencls[i].peak_flops;
-            best.have_opencl = true;
+            opencl_prop = opencls[i];
+            device_num = opencls[i].device_num;
+            peak_flops = opencls[i].peak_flops;
+            have_opencl = true;
         }
     }
 
     // see which other instances are equivalent, and set the count, 
     // device_nums, opencl_device_count and opencl_device_ids fields
     //
-    best.count = 0;
-    best.opencl_device_count = 0;
+    count = 0;
+    opencl_device_count = 0;
     for (i=0; i<opencls.size(); i++) {
         if (in_vector(opencls[i].device_num, ignore_dev)) {
             opencls[i].is_used = COPROC_IGNORED;
             continue;
         }
-        if (use_all || !opencl_compare(opencls[i], best.opencl_prop, true)) {
-            best.device_nums[best.count++] = opencls[i].device_num;
-            best.opencl_device_ids[best.opencl_device_count++] = opencls[i].device_id;
+        if (use_all || !opencl_compare(opencls[i], opencl_prop, true)) {
+            device_nums[count++] = opencls[i].device_num;
+            opencl_device_ids[opencl_device_count++] = opencls[i].device_id;
             opencls[i].is_used = COPROC_USED;
         }
     }
