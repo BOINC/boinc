@@ -7028,3 +7028,12 @@ Charlie 10 Oct 2011
         coproc.cpp,h
     client/
         coproc_detect.cpp
+
+Rom    10 Oct 2011
+    - client: Fix crashing bug in OpenCL detection on Windows.
+    - lib: Fix crashing bug for debug builds of the BOINC client
+    
+    client/
+        coproc_detect.cpp
+    lib/
+        diagnostics.cpp

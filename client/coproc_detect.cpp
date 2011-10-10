@@ -186,7 +186,7 @@ void COPROCS::get_opencl(
     cl_platform_id platforms[MAX_OPENCL_PLATFORMS];
     cl_uint num_platforms, platform_index, num_devices, device_index;
     cl_device_id devices[MAX_COPROC_INSTANCES];
-    char platform_version[64];
+    char platform_version[256];
     OPENCL_DEVICE_PROP prop;
     vector<OPENCL_DEVICE_PROP> nvidia_opencls;
     vector<OPENCL_DEVICE_PROP> ati_opencls;
@@ -203,7 +203,7 @@ void COPROCS::get_opencl(
     }
 
     __clGetPlatformIDs = (CL_PLATFORMIDS)GetProcAddress( opencl_lib, "clGetPlatformIDs" );
-    __clGetPlatformInfo = (CL_PLATFORMINFO)( opencl_lib, "clGetPlatformInfo" );
+    __clGetPlatformInfo = (CL_PLATFORMINFO)GetProcAddress( opencl_lib, "clGetPlatformInfo" );
     __clGetDeviceIDs = (CL_DEVICEIDS)GetProcAddress( opencl_lib, "clGetDeviceIDs" );
     __clGetDeviceInfo = (CL_INFO)GetProcAddress( opencl_lib, "clGetDeviceInfo" );
 #else
