@@ -10307,3 +10307,11 @@ David  5 Oct
     client/
         app.h
         app_control.cpp
+
+Rom    10 Oct 2011
+    - Tag for 6.12.40 release, all platforms
+      boinc_core_release_6_12_40
+
+    /
+        configure.ac
+        version.h
