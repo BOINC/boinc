@@ -10292,3 +10292,8 @@ Rom    3 Oct 2011
         configure.ac
         version.h
 
+David  5 Oct 2011
+	- client: fix a memory leak; would lose ~120 bytes each time a job is started
+
+	lib/
+		filesys.cpp
