@@ -10323,3 +10323,11 @@ David  7 Oct 2011
 
     client/
         app_start.cpp
+
+Rom    10 Oct 2011
+    - Tag for 6.12.41 release, all platforms
+      boinc_core_release_6_12_41
+
+    /
+        configure.ac
+        version.h
