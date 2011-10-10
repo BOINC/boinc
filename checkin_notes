@@ -7020,3 +7020,11 @@ David  8 Oct 2011
 
 	client/
 		gui_rpc_server_ops.cpp
+
+Charlie 10 Oct 2011
+    - code cleanup
+
+    lib/
+        coproc.cpp,h
+    client/
+        coproc_detect.cpp

@@ -123,6 +123,12 @@ struct OPENCL_DEVICE_PROP {
     char opencl_driver_version[32];     // For example: "CLH 1.0"
     int device_num;                     // temp used in scan process
 
+#ifndef _USING_FCGI_
+    void write_xml(MIOFILE&);
+#endif
+    int parse(XML_PARSER&);
+    void description(char*);
+
 };
 
 
@@ -176,10 +182,8 @@ struct COPROC {
 #ifndef _USING_FCGI_
     void write_xml(MIOFILE&);
     void write_request(MIOFILE&);
-    void opencl_write_xml(MIOFILE&);
 #endif
     int parse(XML_PARSER&);
-    int parse_opencl(XML_PARSER&);
 
     inline void clear() {
         // can't just memcpy() - trashes vtable
@@ -327,7 +331,6 @@ struct COPROCS {
         cl_uint device_index, 
         std::vector<std::string>& warnings
     );
-    void opencl_description(OPENCL_DEVICE_PROP& prop, char* buf);
     int parse(XML_PARSER&);
     void summary_string(char* buf, int len);
 

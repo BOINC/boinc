@@ -93,7 +93,7 @@ void COPROC::write_request(MIOFILE& f) {
     );
 }
 
-void COPROC::opencl_write_xml(MIOFILE& f) {
+void OPENCL_DEVICE_PROP::write_xml(MIOFILE& f) {
     f.printf(
         "   <coproc_opencl>\n"
         "      <name>%s</name>\n"
@@ -114,23 +114,23 @@ void COPROC::opencl_write_xml(MIOFILE& f) {
         "      <opencl_device_version>%s</opencl_device_version>\n"
         "      <opencl_driver_version>%s</opencl_driver_version>\n"
         "   </coproc_opencl>\n",
-        opencl_prop.name,
-        opencl_prop.vendor,
-        opencl_prop.vendor_id,
-        opencl_prop.available ? 1 : 0,
-        opencl_prop.half_fp_config,
-        opencl_prop.single_fp_config,
-        opencl_prop.double_fp_config,
-        opencl_prop.endian_little ? 1 : 0,
-        opencl_prop.execution_capabilities,
-        opencl_prop.extensions,
-        opencl_prop.global_mem_size,
-        opencl_prop.local_mem_size,
-        opencl_prop.max_clock_frequency,
-        opencl_prop.max_compute_units,
-        opencl_prop.opencl_platform_version,
-        opencl_prop.opencl_device_version,
-        opencl_prop.opencl_driver_version
+        name,
+        vendor,
+        vendor_id,
+        available ? 1 : 0,
+        half_fp_config,
+        single_fp_config,
+        double_fp_config,
+        endian_little ? 1 : 0,
+        execution_capabilities,
+        extensions,
+        global_mem_size,
+        local_mem_size,
+        max_clock_frequency,
+        max_compute_units,
+        opencl_platform_version,
+        opencl_device_version,
+        opencl_driver_version
     );
 }
 
@@ -165,79 +165,78 @@ int COPROC::parse(XML_PARSER& xp) {
 
 #endif
 
-int COPROC::parse_opencl(XML_PARSER& xp) {
+int OPENCL_DEVICE_PROP::parse(XML_PARSER& xp) {
     int n;
     unsigned long long ull;
 
     while (!xp.get_tag()) {
         if (xp.match_tag("/coproc_opencl")) {
-            opencl_prop.get_device_version_int();
+            get_device_version_int();
             return 0;
         }
-        if (xp.parse_str("name", opencl_prop.name, sizeof(opencl_prop.name))) continue;
-        if (xp.parse_str("vendor", opencl_prop.vendor, sizeof(opencl_prop.vendor))) continue;
-        if (xp.parse_double("peak_flops", peak_flops)) continue;
+        if (xp.parse_str("name", name, sizeof(name))) continue;
+        if (xp.parse_str("vendor", vendor, sizeof(vendor))) continue;
         if (xp.parse_int("available", n)) {
-            opencl_prop.available = n;
+            available = n;
             continue;
         }
         if (xp.parse_ulonglong("half_fp_config", ull)) {
-                opencl_prop.half_fp_config = ull;
+                half_fp_config = ull;
                 continue; 
         }
         if (xp.parse_ulonglong("single_fp_config", ull)) {
-            opencl_prop.single_fp_config = ull;
+            single_fp_config = ull;
             continue; 
         }
         if (xp.parse_ulonglong("double_fp_config", ull)) {
-            opencl_prop.double_fp_config = ull;
+            double_fp_config = ull;
             continue; 
         }
         if (xp.parse_int("endian_little", n)) {
-            opencl_prop.endian_little = n;
+            endian_little = n;
             continue;
         }
         if (xp.parse_ulonglong("execution_capabilities", ull)) {
-            opencl_prop.execution_capabilities = ull;
+            execution_capabilities = ull;
             continue;
         }
         if (xp.parse_str("extensions", 
-            opencl_prop.extensions, 
-            sizeof(opencl_prop.extensions)
+            extensions, 
+            sizeof(extensions)
         )) {
             continue;
         }
         if (xp.parse_ulonglong("global_mem_size", ull)) {
-            opencl_prop.global_mem_size = ull;
+            global_mem_size = ull;
             continue;
         }
         if (xp.parse_ulonglong("local_mem_size", ull)) {
-            opencl_prop.local_mem_size = ull;
+            local_mem_size = ull;
             continue;
         }
         if (xp.parse_int("max_clock_frequency", n)) {
-            opencl_prop.max_clock_frequency = n;
+            max_clock_frequency = n;
             continue;
         }
         if (xp.parse_int("max_compute_units", n)) {
-            opencl_prop.max_compute_units = n;
+            max_compute_units = n;
             continue;
         }
         if (xp.parse_str("opencl_platform_version", 
-            opencl_prop.opencl_platform_version, 
-            sizeof(opencl_prop.opencl_platform_version)
+            opencl_platform_version, 
+            sizeof(opencl_platform_version)
         )) {
             continue;
         }
         if (xp.parse_str("opencl_device_version", 
-            opencl_prop.opencl_device_version, 
-            sizeof(opencl_prop.opencl_device_version)
+            opencl_device_version, 
+            sizeof(opencl_device_version)
         )) {
             continue;
         }
         if (xp.parse_str("opencl_driver_version", 
-            opencl_prop.opencl_driver_version, 
-            sizeof(opencl_prop.opencl_driver_version)
+            opencl_driver_version, 
+            sizeof(opencl_driver_version)
         )) {
             continue;
         }
@@ -257,16 +256,16 @@ int OPENCL_DEVICE_PROP::get_device_version_int() {
     return 0;
 }
 
-void COPROCS::opencl_description(OPENCL_DEVICE_PROP& prop, char* buf) {
+void OPENCL_DEVICE_PROP::description(char* buf) {
     char s[256];
     int n;
     
     // openCL_device_version may have a trailing space
-    strlcpy(s, prop.opencl_device_version, sizeof(s));
+    strlcpy(s, opencl_device_version, sizeof(s));
     n = strlen(s) - 1;
     if ((n > 0) && (s[n] == ' ')) s[n] = '\0';
     sprintf(buf, "%s (driver version %s, device version %s, %.0fMB)",
-        prop.name, prop.opencl_driver_version, s, prop.global_mem_size/MEGA
+        name, opencl_driver_version, s, global_mem_size/MEGA
     );
 }
 
@@ -410,7 +409,7 @@ void COPROC_NVIDIA::write_xml(MIOFILE& f, bool include_request) {
     );
 
     if (have_opencl) {
-        opencl_write_xml(f);
+        opencl_prop.write_xml(f);
     }
     
     f.printf("</coproc_cuda>\n");
@@ -520,7 +519,7 @@ int COPROC_NVIDIA::parse(XML_PARSER& xp) {
         if (xp.parse_int("deviceOverlap", prop.deviceOverlap)) continue;
         if (xp.parse_int("multiProcessorCount", prop.multiProcessorCount)) continue;
         if (xp.match_tag("coproc_opencl")) {
-            retval = parse_opencl(xp);
+            retval = opencl_prop.parse(xp);
             if (retval) return retval;
             continue;
         }
@@ -624,7 +623,7 @@ void COPROC_ATI::write_xml(MIOFILE& f, bool include_request) {
     }
 
     if (have_opencl) {
-        opencl_write_xml(f);
+        opencl_prop.write_xml(f);
     }
         
     f.printf("</coproc_ati>\n");
@@ -732,7 +731,7 @@ int COPROC_ATI::parse(XML_PARSER& xp) {
             continue;
         }
         if (xp.match_tag("coproc_opencl")) {
-            retval = parse_opencl(xp);
+            retval = opencl_prop.parse(xp);
             if (retval) return retval;
             continue;
         }

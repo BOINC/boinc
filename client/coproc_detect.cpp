@@ -375,7 +375,7 @@ void COPROCS::get_opencl(bool use_all,
     // Create descriptions for OpenCL ATI GPUs
     for (i=0; i<nvidia_opencls.size(); i++) {
         char buf2[256];
-        opencl_description(nvidia_opencls[i].opencl_prop, buf);
+        nvidia_opencls[i].description(buf);
         if (in_vector(nvidia_opencls[i].device_num, ignore_nvidia_dev)) {
             sprintf(buf2, "OpenCL: NVIDIA GPU %d (ignored by config): %s", nvidia_opencls[i].device_num, buf);
         } else {
@@ -476,7 +476,7 @@ void COPROCS::get_opencl(bool use_all,
     // Create descriptions for OpenCL ATI GPUs
     for (i=0; i<(unsigned int)ati.opencl_device_count; i++) {
         char buf2[256];
-        opencl_description(ati_opencls[i].opencl_prop, buf);
+        ati_opencls[i].description(buf);
         if (in_vector(ati_opencls[i].device_num, ignore_ati_dev)) {
             sprintf(buf2, "OpenCL: ATI GPU %d (ignored by config): %s", ati_opencls[i].device_num, buf);
         } else {
