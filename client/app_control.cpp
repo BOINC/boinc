@@ -473,7 +473,12 @@ void ACTIVE_TASK::handle_exited_app(int stat) {
 
     if (!will_restart) {
         copy_output_files();
-        read_stderr_file();
+        int retval = read_stderr_file();
+        if (retval) {
+            msg_printf(result->project, MSG_INTERNAL_ERROR,
+                "read_stderr_file(): %s", boincerror(retval)
+            );
+        }
         client_clean_out_dir(slot_dir, "handle_exited_app()");
         clear_backoffs(this);   // clear scheduling backoffs of jobs waiting for GPU
     }
@@ -753,7 +758,7 @@ int ACTIVE_TASK::abort_task(int exit_status, const char* msg) {
 
 // check for the stderr file, copy to result record
 //
-bool ACTIVE_TASK::read_stderr_file() {
+int ACTIVE_TASK::read_stderr_file() {
     char* buf1, *buf2;
     char path[256];
 
@@ -762,16 +767,22 @@ bool ACTIVE_TASK::read_stderr_file() {
     //
     int max_len = 63*1024;
     sprintf(path, "%s/%s", slot_dir, STDERR_FILE);
-    if (!boinc_file_exists(path)) return false;
+    if (!boinc_file_exists(path)) return 0;
     if (read_file_malloc(path, buf1, max_len, !config.stderr_head)) {
-        return false;
+        return ERR_MALLOC;
     }
     buf2 = (char*)malloc(2*max_len);
+    if (!buf2) {
+        free(buf1);
+        return ERR_MALLOC;
+    }
     non_ascii_escape(buf1, buf2, 2*max_len);
     result->stderr_out += "<stderr_txt>\n";
     result->stderr_out += buf2;
     result->stderr_out += "\n</stderr_txt>\n";
-    return true;
+    free(buf1);
+    free(buf2);
+    return 0;
 }
 
 // tell a running app to reread project preferences.
