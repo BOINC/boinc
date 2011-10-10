@@ -85,6 +85,13 @@
 #define GPU_TYPE_NVIDIA "NVIDIA"
 #define GPU_TYPE_ATI "ATI"
 
+enum COPROC_USAGE {
+    COPROC_IGNORED,
+    COPROC_UNUSED,
+    COPROC_USED
+};
+    
+
 // represents a requirement for a coproc.
 // This is a parsed version of the <coproc> elements in an <app_version>
 // (used in client only)
@@ -122,13 +129,14 @@ struct OPENCL_DEVICE_PROP {
     int get_device_version_int();       // call this to encode
     char opencl_driver_version[32];     // For example: "CLH 1.0"
     int device_num;                     // temp used in scan process
+    double peak_flops;                  // temp used in scan process
+    COPROC_USAGE is_used;               // temp used in scan process
 
 #ifndef _USING_FCGI_
     void write_xml(MIOFILE&);
 #endif
     int parse(XML_PARSER&);
-    void description(char*);
-
+void description(char* buf, char* type);
 };
 
 
@@ -274,7 +282,6 @@ struct COPROC_NVIDIA : public COPROC {
     void get_available_ram();
     void set_peak_flops();
     bool check_running_graphics_app();
-    bool matches(OPENCL_DEVICE_PROP& OpenCLprop);
     void fake(int driver_version, double ram, double avail_ram, int count);
 
 };
@@ -302,7 +309,6 @@ struct COPROC_ATI : public COPROC {
     void clear();
     int parse(XML_PARSER&);
     void get_available_ram();
-    bool matches(OPENCL_DEVICE_PROP& OpenCLprop);
     void set_peak_flops();
     void fake(double ram, double avail_ram, int);
 };
@@ -315,13 +321,15 @@ struct COPROCS {
 
     void write_xml(MIOFILE& out, bool include_request);
     void get(
-        bool use_all, std::vector<std::string> &descs,
+        bool use_all, 
+        std::vector<std::string> &descs,
         std::vector<std::string> &warnings,
         std::vector<int>& ignore_nvidia_dev,
         std::vector<int>& ignore_ati_dev
     );
     void get_opencl(
-        bool use_all, std::vector<std::string>& descs, 
+        bool use_all, 
+        std::vector<std::string>& descs, 
         std::vector<std::string> &warnings,
         std::vector<int>& ignore_nvidia_dev, 
         std::vector<int>& ignore_ati_dev
@@ -330,6 +338,17 @@ struct COPROCS {
         OPENCL_DEVICE_PROP& prop, 
         cl_uint device_index, 
         std::vector<std::string>& warnings
+    );
+    void merge_opencl_into_best(
+        COPROC &best, 
+        std::vector<OPENCL_DEVICE_PROP> &opencls, 
+        std::vector<int>& ignore_dev
+    );
+    void find_best_opencls(
+        bool use_all,
+        COPROC &best, 
+        std::vector<OPENCL_DEVICE_PROP> &opencls, 
+        std::vector<int>& ignore_dev
     );
     int parse(XML_PARSER&);
     void summary_string(char* buf, int len);

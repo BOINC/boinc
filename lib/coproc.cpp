@@ -256,17 +256,30 @@ int OPENCL_DEVICE_PROP::get_device_version_int() {
     return 0;
 }
 
-void OPENCL_DEVICE_PROP::description(char* buf) {
-    char s[256];
+void OPENCL_DEVICE_PROP::description(char* buf, char* type) {
+    char s1[256], s2[256];
     int n;
     
     // openCL_device_version may have a trailing space
-    strlcpy(s, opencl_device_version, sizeof(s));
-    n = strlen(s) - 1;
-    if ((n > 0) && (s[n] == ' ')) s[n] = '\0';
-    sprintf(buf, "%s (driver version %s, device version %s, %.0fMB)",
-        name, opencl_driver_version, s, global_mem_size/MEGA
+    strlcpy(s1, opencl_device_version, sizeof(s1));
+    n = strlen(s1) - 1;
+    if ((n > 0) && (s1[n] == ' ')) s1[n] = '\0';
+    sprintf(s2, "%s (driver version %s, device version %s, %.0fMB)",
+        name, opencl_driver_version, s1, global_mem_size/MEGA
     );
+
+    switch(is_used) {
+    case COPROC_IGNORED:
+        sprintf(buf, "OpenCL: %s GPU %d (ignored by config): %s", type, device_num, s2);
+        break;
+    case COPROC_USED:
+        sprintf(buf, "OpenCL: %s GPU %d: %s", type, device_num, s2);
+        break;
+    case COPROC_UNUSED:
+    default:
+        sprintf(buf, "OpenCL: %s GPU %d (not used): %s", type, device_num, s2);
+        break;
+    }
 }
 
 void COPROCS::summary_string(char* buf, int len) {
