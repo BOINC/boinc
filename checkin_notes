@@ -7031,7 +7031,7 @@ Charlie 10 Oct 2011
 
 Rom    10 Oct 2011
     - client: Fix crashing bug in OpenCL detection on Windows.
-    - lib: Fix crashing bug for debug builds of the BOINC client
+    - lib: Fix crashing bug for debug builds of the BOINC client software
     
     client/
         coproc_detect.cpp
