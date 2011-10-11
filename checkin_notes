@@ -4874,7 +4874,7 @@ David  10 Aug 2011
 
 Charlie 11 Aug 2011
     - Mac installer: Bug fixes for OS 10.7 Lion: LoginItemAPI.c did not 
-        set hidden properlty for login items, so use AppleScript instead, 
+        set hidden property for login items, so use AppleScript instead, 
         to prevent Lion from opening BOINC windows at system startup.
         - Fix a bug I introduced on 8 August which prevented launching 
         WaitPermissions.app.
@@ -7043,3 +7043,18 @@ Charlie 10 Oct 2011
 
     client/
         coproc_detect.cpp
+
+Charlie 11 Oct 2011
+    - Mac installer: follow recommendations of Apple Developer Technical
+        Support: create users and groups boinc_master and boinc_project 
+        at first available UserIDs and GroupIDs starting at 501 instead 
+        of 25 to avoid conflicts with UserIDs and groupIDs which may be 
+        added in the future; use Directory Services to find the user 
+        names of all human users instead of stepping through the entries 
+        in the /Users directory.
+    - Mac installer: revert to using LoginItemAPI.c under OS 10.7.1, 
+        because it once again sets hidden property for login items, but 
+        the AppleScript seems not to work under OS 10.7.1.
+        
+    mac_installer/
+        PostInstall.cpp

@@ -70,6 +70,11 @@
 #include <netinet/in.h>
 #include <cerrno>
 #include <time.h>       // for time()
+#include <vector>
+#include <string>
+
+using std::vector;
+using std::string;
 
 #include "LoginItemAPI.h"
 
@@ -283,7 +288,6 @@ int main(int argc, char *argv[])
 #ifdef SANDBOX
 
     CheckUserAndGroupConflicts();
-
     for (i=0; i<5; ++i) {
         err = CreateBOINCUsersAndGroups();
         if (err != noErr) {
@@ -627,6 +631,12 @@ OSStatus CheckLogoutRequirement(int *finalAction)
 // also happen when the user installs new software.  So we must check for such 
 // duplicate UserIDs and groupIDs; if found, we delete our user or group so that 
 // the PostInstall application will create a new one that does not conflict.
+//
+// Older versions of the installer created our users and groups at the first
+// unused IDs at or above 25.  Apple now recommends using IDs at or above 501, 
+// to reduce the likelihood of conflicts with future UserIDs and groupIDs.
+// If we have previously created UserIDs and / or groupIDs below 501, this code 
+// now removes them so we can create new ones above 500.
 void CheckUserAndGroupConflicts()
 {
 #ifdef SANDBOX
@@ -643,19 +653,20 @@ void CheckUserAndGroupConflicts()
     grp = getgrnam(boinc_master_group_name);
     if (grp) {
         boinc_master_gid = grp->gr_gid;
-        sprintf(cmd, "dscl . -search /Groups PrimaryGroupID %d", boinc_master_gid);
-        f = popen(cmd, "r");
-        if (f) {
-            while (PersistentFGets(buf, sizeof(buf), f)) {
-                if (strstr(buf, "PrimaryGroupID")) {
-                    ++entryCount;
+        if (boinc_master_gid > 500) {
+            sprintf(cmd, "dscl . -search /Groups PrimaryGroupID %d", boinc_master_gid);
+            f = popen(cmd, "r");
+            if (f) {
+                while (PersistentFGets(buf, sizeof(buf), f)) {
+                    if (strstr(buf, "PrimaryGroupID")) {
+                        ++entryCount;
+                    }
                 }
-            }
-            pclose(f);
-        }    
+                pclose(f);
+            }    
+        }
     }
-        
-    if (entryCount > 1) {
+    if ((boinc_master_gid < 501) || (entryCount > 1)) {
         system ("dscl . -delete /groups/boinc_master");
         // User boinc_master must have group boinc_master as its primary group.
         // Since this group no longer exists, delete the user as well.
@@ -667,24 +678,30 @@ void CheckUserAndGroupConflicts()
     grp = getgrnam(boinc_project_group_name);
     if (grp) {
         boinc_project_gid = grp->gr_gid;
-        sprintf(cmd, "dscl . -search /Groups PrimaryGroupID %d", boinc_project_gid);
-        f = popen(cmd, "r");
-        if (f) {
-            while (PersistentFGets(buf, sizeof(buf), f)) {
-                if (strstr(buf, "PrimaryGroupID")) {
-                    ++entryCount;
+        if (boinc_project_gid > 500) {
+            sprintf(cmd, "dscl . -search /Groups PrimaryGroupID %d", boinc_project_gid);
+            f = popen(cmd, "r");
+            if (f) {
+                while (PersistentFGets(buf, sizeof(buf), f)) {
+                    if (strstr(buf, "PrimaryGroupID")) {
+                        ++entryCount;
+                    }
                 }
-            }
-            pclose(f);
-        }    
+                pclose(f);
+            }    
+        }
     }
-
-    if (entryCount > 1) {
+    
+    if ((boinc_project_gid < 501) || (entryCount > 1)) {
        system ("dscl . -delete /groups/boinc_project");
         // User boinc_project must have group boinc_project as its primary group.
         // Since this group no longer exists, delete the user as well.
         system ("dscl . -delete /users/boinc_project");
         ResynchSystem();
+    }
+
+    if ((boinc_master_gid < 500) && (boinc_project_gid < 500)) {
+        return;
     }
 
     entryCount = 0;
@@ -1028,11 +1045,12 @@ int CountGroupMembershipEntries(const char *userName, const char *groupName) {
 // Optionally set BOINC as screensaver for all users running BOINC.
 OSErr UpdateAllVisibleUsers(long brandID)
 {
-    DIR                 *dirp;
-    dirent              *dp;
     passwd              *pw;
+    vector<string>      human_user_names;
+    vector<uid_t>       human_user_IDs;
     uid_t               saved_uid;
     Boolean             deleteLoginItem;
+    char                human_user_name[256];
     char                skinName[256];
     char                s[256];
     Boolean             saverAlreadySetForAll = true;
@@ -1046,40 +1064,85 @@ OSErr UpdateAllVisibleUsers(long brandID)
     struct stat         sbuf;
 #ifdef SANDBOX
     char                cmd[256];
-    int                 i;
     int                 BMGroupMembershipCount, BPGroupMembershipCount; 
+    int                 i;
 #endif
+    int                 userIndex;
+    char                buf[256];
+    char                *p;
+    int                 flag;
     
     FindSkinName(skinName, sizeof(skinName));
 
     // Step through all users
     puts("Beginning first pass through all users\n");
 
-    dirp = opendir("/Users");
-    if (dirp == NULL) {      // Should never happen
-        puts("[1] opendir(\"/Users\") failed\n");
-        return -1;
+    f = popen("dscl . list /Users UniqueID", "r");
+    if (f) {
+        while (PersistentFGets(buf, sizeof(buf), f)) {
+            p = strrchr(buf, ' ');
+            if (p) {
+                int id = atoi(p+1);
+                if (id < 501) continue;
+                human_user_IDs.push_back((uid_t)id);
+            }
+            p = strchr(buf, ' ');
+            if (p) {
+                *p = '\0';
+                human_user_names.push_back(string(buf));
+                *p = ' ';
+            }
+        }
+        pclose(f);
     }
     
-    while (true) {
-        dp = readdir(dirp);
-        if (dp == NULL)
-            break;                  // End of list
+    for (userIndex=human_user_names.size(); userIndex>0; --userIndex) {
+        flag = 0;
+        strlcpy(human_user_name, human_user_names[userIndex-1].c_str(), sizeof(human_user_name));
+        sprintf(cmd, "dscl . -read /Users/%s NFSHomeDirectory", human_user_name);    
+        f = popen(cmd, "r");
+        if (f) {
+            while (PersistentFGets(buf, sizeof(buf), f)) {
+                p = strrchr(buf, ' ');
+                if (p) {
+                    if (strcmp(p, " /var/empty\n") == 0) flag = 1;
+                }
+            }
+            pclose(f);
+        }
 
-        printf("[1] Checking user %s\n", dp->d_name);
-            
-        if (dp->d_name[0] == '.')
-            continue;               // Ignore names beginning with '.'
+        sprintf(cmd, "dscl . -read /Users/%s UserShell", human_user_name);    
+        f = popen(cmd, "r");
+        if (f) {
+            while (PersistentFGets(buf, sizeof(buf), f)) {
+                p = strrchr(buf, ' ');
+                if (p) {
+                    if (strcmp(p, " /usr/bin/false\n") == 0) flag |= 2;
+                }
+            }
+            pclose(f);
+        }
+        
+        if (flag == 3) { // if (Home Directory == "/var/empty") && (UserShell == "/usr/bin/false")
+            human_user_names.erase(human_user_names.begin()+userIndex-1);
+            human_user_IDs.erase(human_user_IDs.begin()+userIndex-1);
+        }
+    }
+
     
+    for (userIndex=0; userIndex< (int)human_user_names.size(); ++userIndex) {
+        strlcpy(human_user_name, human_user_names[userIndex].c_str(), sizeof(human_user_name));
+        printf("[1] Checking user %s\n", human_user_name);
+            
         // getpwnam works with either the full / login name (pw->pw_gecos) 
         // or the short / Posix name (pw->pw_name)
-        pw = getpwnam(dp->d_name);
+        pw = getpwnam(human_user_name);
         if (pw == NULL) {           // "Deleted Users", "Shared", etc.
-            printf("[1] %s not in getpwnam data base\n", dp->d_name);
+            printf("[1] %s not in getpwnam data base\n", human_user_name);
             continue;
         }
 
-        printf("[1] User %s: Posix name=%s, Full name=%s\n", dp->d_name, pw->pw_name, pw->pw_gecos);
+        printf("[1] User %s: Posix name=%s, Full name=%s\n", human_user_name, pw->pw_name, pw->pw_gecos);
         
 #ifdef SANDBOX
         isAdminGroupMember = false;
@@ -1101,9 +1164,10 @@ OSErr UpdateAllVisibleUsers(long brandID)
 #else   // SANDBOX
         isGroupMember = true;
 #endif  // SANDBOX
-
         if (isAdminGroupMember || isBMGroupMember) {
-            if ((strcmp(loginName, dp->d_name) == 0) || (strcmp(loginName, pw->pw_name) == 0)) {
+            if ((strcmp(loginName, human_user_name) == 0) 
+                || (strcmp(loginName, pw->pw_name) == 0) 
+                    || (strcmp(loginName, pw->pw_gecos) == 0)) {
                 currentUserCanRunBOINC = true;
             }
             
@@ -1134,10 +1198,8 @@ OSErr UpdateAllVisibleUsers(long brandID)
             
             seteuid(saved_uid);                         // Set effective uid back to privileged user
         }       // End if (isGroupMember)
-    }           // End while (true)
+    }           // End for (userIndex=0; userIndex< human_user_names.size(); ++userIndex)
     
-    closedir(dirp);
-
     ResynchSystem();
 
     if (allNonAdminUsersAreSet) {
@@ -1189,29 +1251,18 @@ OSErr UpdateAllVisibleUsers(long brandID)
     // Step through all users a second time, setting non-admin users and / or our screensaver
     puts("Beginning second pass through all users\n");
 
-    dirp = opendir("/Users");
-    if (dirp == NULL) {      // Should never happen
-        puts("[2] opendir(\"/Users\") failed\n");
-        return -1;
-    }
-    
-    while (true) {
-        dp = readdir(dirp);
-        if (dp == NULL)
-            break;                  // End of list
+    for (userIndex=0; userIndex<(int)human_user_names.size(); ++userIndex) {
+        strlcpy(human_user_name, human_user_names[userIndex].c_str(), sizeof(human_user_name));
 
-        printf("[2] Checking user %s\n", dp->d_name);
+        printf("[2] Checking user %s\n", human_user_name);
             
-        if (dp->d_name[0] == '.')
-            continue;               // Ignore names beginning with '.'
-    
-        pw = getpwnam(dp->d_name);
+        pw = getpwnam(human_user_name);
         if (pw == NULL) {           // "Deleted Users", "Shared", etc.
-            printf("[2] %s not in getpwnam data base\n", dp->d_name);
+            printf("[2] %s not in getpwnam data base\n", human_user_name);
             continue;
         }
 
-        printf("[2] User %s: Posix name=%s, Full name=%s\n", dp->d_name, pw->pw_name, pw->pw_gecos);
+        printf("[2] User %s: Posix name=%s, Full name=%s\n", human_user_name, pw->pw_name, pw->pw_gecos);
         
 #ifdef SANDBOX
         isAdminGroupMember = false;
@@ -1264,15 +1315,16 @@ OSErr UpdateAllVisibleUsers(long brandID)
                 }
             }
         }
-        
 #else   // SANDBOX
         isBMGroupMember = true;
 #endif  // SANDBOX
-
         saved_uid = geteuid();
         seteuid(pw->pw_uid);                        // Temporarily set effective uid to this user
-        deleteLoginItem = CheckDeleteFile(dp->d_name);
+        deleteLoginItem = CheckDeleteFile(human_user_name);
         if (CheckDeleteFile(pw->pw_name)) {
+            deleteLoginItem = true;
+        }
+        if (CheckDeleteFile(pw->pw_gecos)) {
             deleteLoginItem = true;
         }
         if (!isBMGroupMember) {
@@ -1280,16 +1332,18 @@ OSErr UpdateAllVisibleUsers(long brandID)
         }
 
      // Set login item for this user
-        if (OSVersion < 0x1070) {
-            printf("[2] calling SetLoginItemAPI for user %s, euid = %d\n", pw->pw_name, geteuid());
-            SetLoginItemAPI(brandID, deleteLoginItem);
-        } else {
-            printf("[2] calling SetLoginItemOSAScript for user %s, euid = %d\n", pw->pw_name, geteuid());
+        if (OSVersion == 0x1070) {
+            printf("[2] calling SetLoginItemOSAScript for user %s, euid = %d, deleteLoginItem = %d\n", 
+                pw->pw_name, geteuid(), deleteLoginItem);
             SetLoginItemOSAScript(brandID, deleteLoginItem);
+        } else {
+            printf("[2] calling SetLoginItemAPI for user %s, euid = %d, deleteLoginItem = %d\n", 
+                    pw->pw_name, geteuid(), deleteLoginItem);
+            SetLoginItemAPI(brandID, deleteLoginItem);
         }
         
         if (isBMGroupMember) {
-            SetSkinInUserPrefs(dp->d_name, skinName);
+            SetSkinInUserPrefs(pw->pw_name, skinName);
         
             if (setSaverForAllUsers) {
                 if (OSVersion < 0x1060) {
@@ -1306,9 +1360,7 @@ OSErr UpdateAllVisibleUsers(long brandID)
         }
         
         seteuid(saved_uid);                         // Set effective uid back to privileged user
-    }
-    
-    closedir(dirp);
+    }   // End for (userIndex=0; userIndex< human_user_names.size(); ++userIndex)
 
     ResynchSystem();
 

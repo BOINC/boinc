@@ -73,7 +73,7 @@ static char boinc_project_group_name[64];
 #define boinc_project_group_name REAL_BOINC_PROJECT_NAME
 #endif
 
-#define MIN_ID 25   /* Minimum user ID / Group ID to create */
+#define MIN_ID 501   /* Minimum user ID / Group ID to create */
 
 static char                    dsclPath[] = "/usr/bin/dscl";
 static char                    chmodPath[] = "/bin/chmod";
