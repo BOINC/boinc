@@ -7100,3 +7100,11 @@ David  11 Oct 2011
         host.inc
     lib/
         coproc.cpp
+
+Rom    11 Oct 2011
+    - vbox: Move the destination of the VBOX_USER_HOME environment variable to
+        <boinc_data_dir>/projects/virtualbox so that the virtualbox configuration
+        can remain consistent across one or more projects.
+
+    samples/vboxwrapper/
+        vbox.cpp

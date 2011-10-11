@@ -384,14 +384,14 @@ int VBOX_VM::get_install_directory(string& virtualbox_install_directory ) {
 
 int VBOX_VM::initialize() {
     string virtualbox_install_directory;
-    string virtual_machine_slot_directory;
     string old_path;
     string new_path;
     string virtualbox_user_home;
+    APP_INIT_DATA aid;
     char buf[256];
 
+    boinc_get_init_data_p(&aid);
     get_install_directory(virtualbox_install_directory);
-    get_slot_directory(virtual_machine_slot_directory);
 
     // Prep the environment so we can execute the vboxmanage application
     //
@@ -416,8 +416,10 @@ int VBOX_VM::initialize() {
     // Set the location in which the VirtualBox Configuration files can be
     // stored for this instance.
     //
-    virtualbox_user_home = virtual_machine_slot_directory;
-    virtualbox_user_home += "/vbox";
+    virtualbox_user_home = aid.project_dir;
+    virtualbox_user_home += "/../virtualbox";
+
+    if (!boinc_file_exists(virtualbox_user_home.c_str())) boinc_mkdir(virtualbox_user_home.c_str());
 
 #ifdef _WIN32
     if (!SetEnvironmentVariable("VBOX_USER_HOME", const_cast<char*>(virtualbox_user_home.c_str()))) {
