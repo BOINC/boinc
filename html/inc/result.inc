@@ -183,6 +183,7 @@ function state_string($result) {
             case 3: return tra("Error while computing");
             case 4: return tra("Error while uploading");
             case 6: return tra("Aborted by user");
+            case 6: return tra("Upload failed");
             }
             return tra("Error");
         case 4: return tra("Timed out - no response");
@@ -235,7 +236,9 @@ function result_client_state_string($result) {
             return tra("Cancelled by server");
         }
         return tra("Aborted by user");
+    case 7: return tra("Upload failed");
     }
+    return tra("Unknown");
 }
 
 function validate_state_str($result) {

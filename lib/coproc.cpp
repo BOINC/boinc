@@ -256,7 +256,7 @@ int OPENCL_DEVICE_PROP::get_device_version_int() {
     return 0;
 }
 
-void OPENCL_DEVICE_PROP::description(char* buf, char* type) {
+void OPENCL_DEVICE_PROP::description(char* buf, const char* type) {
     char s1[256], s2[256];
     int n;
     

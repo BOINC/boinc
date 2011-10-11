@@ -929,6 +929,7 @@ int FILE_INFO::parse(XML_PARSER& xp) {
                 sizeof(xml_signature)
             );
             if (retval) return retval;
+            strip_whitespace(xml_signature);
             continue;
         }
         if (xp.match_tag("file_signature")) {
@@ -1975,7 +1976,6 @@ bool RESULT::is_upload_done() {
 }
 
 // resets all FILE_INFO's in result to uploaded = false
-// if upload_when_present is true.
 //
 void RESULT::clear_uploaded_flags() {
     unsigned int i;

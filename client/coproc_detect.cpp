@@ -297,8 +297,9 @@ void COPROCS::get_opencl(
                 // 1/2 of total global RAM size. 
                 // This bug applies only to ATI GPUs, not to NVIDIA
                 // Assume this will be fixed in openCL 1.2.
-                if ((!strstr("1.0", prop.opencl_platform_version)) ||
-                        (!strstr("1.1", prop.opencl_platform_version))) {
+                if ((!strstr("1.0", prop.opencl_platform_version))
+                    || (!strstr("1.1", prop.opencl_platform_version))
+                ){
                     prop.global_mem_size *= 2;
                 }
                 if (!ati.have_cal) {
@@ -326,6 +327,7 @@ void COPROCS::get_opencl(
     }
 
     // Create descriptions for OpenCL NVIDIA GPUs
+    //
     for (i=0; i<nvidia_opencls.size(); i++) {
         nvidia_opencls[i].description(buf, GPU_TYPE_NVIDIA);
         descs.push_back(string(buf));
@@ -336,6 +338,7 @@ void COPROCS::get_opencl(
         // Work around a bug in OpenCL which returns only 
         // 1/2 of total global RAM size: use the value from CAL. 
         // This bug applies only to ATI GPUs, not to NVIDIA
+        //
         ati.opencl_prop.global_mem_size = ati.attribs.localRAM;
     } else {
         ati.find_best_opencls(use_all, ati_opencls, ignore_ati_dev);
@@ -344,6 +347,7 @@ void COPROCS::get_opencl(
     }           // End if (! ati.have_cal)
 
     // Create descriptions for OpenCL ATI GPUs
+    //
     for (i=0; i<ati_opencls.size(); i++) {
         ati_opencls[i].description(buf, GPU_TYPE_ATI);
         descs.push_back(string(buf));

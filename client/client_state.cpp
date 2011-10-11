@@ -1678,6 +1678,7 @@ int CLIENT_STATE::report_result_error(RESULT& res, const char* format, ...) {
         if (!res.exit_status) {
             res.exit_status = ERR_RESULT_UPLOAD;
         }
+        res.set_state(RESULT_UPLOAD_FAILED, "CS::report_result_error");
         break;
     case RESULT_FILES_UPLOADED:
         msg_printf(res.project, MSG_INTERNAL_ERROR,

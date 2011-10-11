@@ -90,10 +90,11 @@ struct URL_LIST {
     }
 };
 
+// Values of FILE_INFO::status.
 // If the status is neither of these two,
-// it will be an error code defined in error_numbers.h,
-// indicating an unrecoverable error in the upload or download of the file,
-// or that the file was too big and was deleted
+// it's an error code indicating an unrecoverable error
+// in the transfer of the file,
+// or that the file was too big and was deleted.
 //
 #define FILE_NOT_PRESENT    0
 #define FILE_PRESENT        1
@@ -104,7 +105,7 @@ struct FILE_INFO {
     double max_nbytes;
     double nbytes;
     double upload_offset;
-    int status;
+    int status;             // see above
     bool executable;        // change file protections to make executable
     bool uploaded;          // file has been uploaded
     bool sticky;            // don't delete unless instructed to do so

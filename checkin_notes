@@ -4239,9 +4239,9 @@ David  20 July 2011
         gui_rpc_client_ops.cpp
 
 David  20 July 2011
-    - client/server: change the implementation of upload signatures
+    - client/server: change the implementation of upload certificates
         as described here: http://boinc.berkeley.edu/trac/wiki/ClientDataModel
-        Compatibility: if your project is using upload signatures:
+        Compatibility: if your project is using upload certificates:
             - set ignore_upload_certificates
             - disable job creation
             - let your job queue drain
@@ -7066,3 +7066,28 @@ Rom    11 Oct 2011
     /
         configure.ac
         version.h
+
+David  11 Oct 2011
+    - client/server: add a new result state RESULT_UPLOAD_FAILED
+        for when the job completed successfully but
+        one or more output files had permanent upload failures.
+        Show this state in web interfaces.
+    - sample_work_generator: check return value of count_unsent_results(),
+        so that we don't generate infinite work if there's a DB problem
+    - web: RSS feed shows news items from last 90 days, rather than 14
+
+    sched/
+        sample_work_generator.cpp
+    html/
+        inc/
+            result.inc
+        user/
+            rss_main.php
+    lib/
+        coproc.cpp,h
+        error_numbers.h
+        common_defs.h
+    client/
+        client_types.cpp,h
+        client_state.cpp
+        coproc_detect.cpp

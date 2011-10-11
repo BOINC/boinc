@@ -136,7 +136,7 @@ struct OPENCL_DEVICE_PROP {
     void write_xml(MIOFILE&);
 #endif
     int parse(XML_PARSER&);
-void description(char* buf, char* type);
+void description(char* buf, const char* type);
 };
 
 

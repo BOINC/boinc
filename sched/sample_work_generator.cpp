@@ -117,6 +117,12 @@ void main_loop() {
         check_stop_daemons();
         int n;
         retval = count_unsent_results(n, 0);
+        if (retval) {
+            log_messages.printf(MSG_CRITICAL,
+                "count_unsent_jobs() failed: %s\n", boincerror(retval)
+            );
+            exit(retval);
+        }
         if (n > CUSHION) {
             sleep(10);
         } else {
@@ -145,7 +151,6 @@ void usage(char *name) {
     fprintf(stderr, "This is an example BOINC work generator.\n"
         "This work generator has the following properties\n"
         "(you may need to change some or all of these):\n"
-        "- Runs as a daemon, and creates an unbounded supply of work.\n"
         "  It attempts to maintain a \"cushion\" of 100 unsent job instances.\n"
         "  (your app may not work this way; e.g. you might create work in batches)\n"
         "- Creates work for the application \"example_app\".\n"
