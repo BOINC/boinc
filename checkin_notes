@@ -7037,3 +7037,9 @@ Rom    10 Oct 2011
         coproc_detect.cpp
     lib/
         diagnostics.cpp
+
+Charlie 10 Oct 2011
+    - code optimization
+
+    client/
+        coproc_detect.cpp

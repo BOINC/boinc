@@ -280,10 +280,12 @@ void COPROCS::get_opencl(
             prop.get_device_version_int();
             if (strstr(prop.vendor, GPU_TYPE_NVIDIA)) {
                 prop.device_num = (int)(nvidia_opencls.size());
-                COPROC_NVIDIA c;
-                c.opencl_prop = prop;
-                c.set_peak_flops();
-                prop.peak_flops = c.peak_flops;
+                if (!nvidia.have_cuda) {
+                    COPROC_NVIDIA c;
+                    c.opencl_prop = prop;
+                    c.set_peak_flops();
+                    prop.peak_flops = c.peak_flops;
+                }
                 nvidia_opencls.push_back(prop);
             }
             if ((strstr(prop.vendor, GPU_TYPE_ATI)) || 
@@ -299,10 +301,12 @@ void COPROCS::get_opencl(
                         (!strstr("1.1", prop.opencl_platform_version))) {
                     prop.global_mem_size *= 2;
                 }
-                COPROC_ATI c;
-                c.opencl_prop = prop;
-                c.set_peak_flops();
-                prop.peak_flops = c.peak_flops;
+                if (!ati.have_cal) {
+                    COPROC_ATI c;
+                    c.opencl_prop = prop;
+                    c.set_peak_flops();
+                    prop.peak_flops = c.peak_flops;
+                }
                 ati_opencls.push_back(prop);
             }
         }
