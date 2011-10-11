@@ -350,14 +350,23 @@ void COPROCS::write_xml(MIOFILE& mf, bool include_request) {
 }
 
 void COPROC_NVIDIA::description(char* buf) {
-    char vers[256];
+    char vers[256], cuda_vers[256];
     if (display_driver_version) {
-        sprintf(vers, "%d", display_driver_version);
+        int maj = display_driver_version/100;
+        int min = display_driver_version%100;
+        sprintf(vers, "%d.%d", maj, min);
     } else {
         strcpy(vers, "unknown");
     }
-    sprintf(buf, "%s (driver version %s, CUDA version %d, compute capability %d.%d, %.0fMB, %.0fMB available, %.0f GFLOPS peak)",
-        prop.name, vers, cuda_version, prop.major, prop.minor,
+    if (cuda_version) {
+        int maj = cuda_version/100;
+        int min = cuda_version%100;
+        sprintf(cuda_vers, "%d.%d", maj, min);
+    } else {
+        strcpy(cuda_vers, "unknown");
+    }
+    sprintf(buf, "%s (driver version %s, CUDA version %s, compute capability %d.%d, %.0fMB, %.0fMB available, %.0f GFLOPS peak)",
+        prop.name, vers, cuda_vers, prop.major, prop.minor,
         prop.totalGlobalMem/MEGA, available_ram/MEGA, peak_flops/1e9
     );
 }
