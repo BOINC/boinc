@@ -7058,3 +7058,11 @@ Charlie 11 Oct 2011
         
     mac_installer/
         PostInstall.cpp
+
+Rom    11 Oct 2011
+    - Tag for 6.13.7 release, all platforms
+      boinc_core_release_6_13_7
+
+    /
+        configure.ac
+        version.h
