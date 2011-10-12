@@ -7114,3 +7114,11 @@ Charlie 11 Oct 2011
 
     lib/
         coproc.cpp
+
+Rom    11 Oct 2011
+    - Tag for 6.13.8 release, all platforms
+      boinc_core_release_6_13_8
+
+    /
+        configure.ac
+        version.h
