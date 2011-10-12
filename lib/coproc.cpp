@@ -352,15 +352,27 @@ void COPROCS::write_xml(MIOFILE& mf, bool include_request) {
 void COPROC_NVIDIA::description(char* buf) {
     char vers[256], cuda_vers[256];
     if (display_driver_version) {
+#ifdef __APPLE__
+     	int maj = display_driver_version >> 16;
+    	int min = (display_driver_version >> 8) & 0xff;
+    	int rev = display_driver_version & 0xff;
+        sprintf(vers, "%d.%d.%d", maj, min, rev);
+#else
         int maj = display_driver_version/100;
         int min = display_driver_version%100;
         sprintf(vers, "%d.%d", maj, min);
+#endif
     } else {
         strcpy(vers, "unknown");
     }
     if (cuda_version) {
+#ifdef __APPLE__
+        int maj = cuda_version/1000;
+        int min = cuda_version%1000;
+#else
         int maj = cuda_version/100;
         int min = cuda_version%100;
+#endif
         sprintf(cuda_vers, "%d.%d", maj, min);
     } else {
         strcpy(cuda_vers, "unknown");

@@ -7108,3 +7108,9 @@ Rom    11 Oct 2011
 
     samples/vboxwrapper/
         vbox.cpp
+
+Charlie 11 Oct 2011
+    - client: fix NVIDIA driver version and CUDA version display for Mac.
+
+    lib/
+        coproc.cpp
