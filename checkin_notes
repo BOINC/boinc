@@ -7122,3 +7122,34 @@ Rom    11 Oct 2011
     /
         configure.ac
         version.h
+
+David  11 Oct 2011
+    - scheduler: fix a bug that would choose app versions erroneously.
+        The problem: the choice of app version was based on
+        the "projected FLOPS" return by estimate_flops(av).
+        If usage stats exist for the host / app version,
+        this returns a number X such that
+        WU.rsc_fpops_est/X approximates the runtime of a job
+        using the given app version..
+        (If WU.rsc_fpops_est is way off, this will be correspondingly way off
+        from the actual FLOPS the app version will get.)
+        However, if there are no usage stats,
+        it return an estimate based on host hardware speed,
+        which might be 100X less.
+        Hence, in some cases a new app version would never get used.
+
+        Solution: choose app versions based on the values
+        returned by the app plan functions.
+        Use estimate_flops() AFTER choosing the version.
+    - scheduler: improve the accuracy of FLOPS estimation for GPU apps.
+        The "flops_scale" argument to coproc_perf
+        (which expresses the difference between peak GPU FLOPS
+        and actual FLOPS) should be used to scale GPU FLOPS
+        prior to calling coproc_perf(),
+        rather than scaling the estimate returned by coproc_perf().
+    - show_shmem: show have_X_apps flags
+
+    sched/
+        sched_customize.cpp
+        sched_version.cpp
+        sched_shmem.cpp

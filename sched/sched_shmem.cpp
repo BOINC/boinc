@@ -174,6 +174,8 @@ int SCHED_SHMEM::scan_tables() {
         APP_VERSION& av = app_versions[i];
         if (strstr(av.plan_class, "cuda")) {
             have_cuda_apps = true;
+        } else if (strstr(av.plan_class, "nvidia")) {
+            have_cuda_apps = true;
         } else if (strstr(av.plan_class, "ati")) {
             have_ati_apps = true;
         } else {
@@ -267,6 +269,14 @@ void SCHED_SHMEM::show(FILE* f) {
             av.appid, av.platformid, av.version_num, av.plan_class
         );
     }
+    fprintf(f,
+        "have CPU: %s\n"
+        "have NVIDIA: %s\n"
+        "have ATI: %s\n",
+        have_cpu_apps?"yes":"no",
+        have_cuda_apps?"yes":"no",
+        have_ati_apps?"yes":"no"
+    );
     fprintf(f,
         "Jobs; key:\n"
         "ap: app ID\n"

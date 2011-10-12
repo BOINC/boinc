@@ -446,14 +446,13 @@ static inline bool opencl_check(
 
     coproc_perf(
         g_request->host.p_fpops,
-        ndevs * cp.peak_flops,
+        flops_scale * ndevs * cp.peak_flops,
         cpu_frac,
         hu.projected_flops,
         hu.avg_ncpus
     );
     hu.peak_flops = ndevs*cp.peak_flops + hu.avg_ncpus*g_request->host.p_fpops;
     hu.max_ncpus = hu.avg_ncpus;
-    hu.projected_flops *= flops_scale;
     return true;
 }
 

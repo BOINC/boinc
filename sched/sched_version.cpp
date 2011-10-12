@@ -746,8 +746,6 @@ BEST_APP_VERSION* get_app_version(
             //
             found_feasible_version = true;
 
-            estimate_flops(host_usage, av);
-
             // pick the fastest version.
             // Throw in a random factor in case the estimates are off.
             //
@@ -766,6 +764,7 @@ BEST_APP_VERSION* get_app_version(
     }   // loop over client platforms
 
     if (bavp->avp) {
+        estimate_flops(bavp->host_usage, *bavp->avp);
         if (config.debug_version_select) {
             log_messages.printf(MSG_NORMAL,
                 "[version] Best version of app %s is [AV#%d] (%.2f GFLOPS)\n",
