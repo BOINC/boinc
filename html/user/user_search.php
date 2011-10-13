@@ -63,7 +63,7 @@ function filter_user($user, $filter) {
 function show_user($user) {
     echo "
         <tr class=row1>
-        <td>", $user->id, user_links($user), "</td>
+        <td>", user_links($user), " (ID $user->id)</td>
     ";
     if ($user->teamid) {
         $team = BoincTeam::lookup_id($user->teamid);
@@ -100,12 +100,14 @@ function do_search($order, $filter) {
             }
         }
     }
+    page_head(tra("User search results"));
     start_table();
     table_header(tra("Name"), tra("Team"), tra("Average credit"), tra("Total credit"), tra("Country"), tra("Joined"));
     foreach ($filtered_list as $user) {
         show_user($user);
     }
     end_table();
+    page_tail();
 }
 
 function search_form() {
@@ -147,6 +149,7 @@ function name_search($filter) {
     if (strlen($search_string)<3) {
         error_page(tra("search string must be at least 3 characters"));
     }
+    page_head(tra("User search results"));
     $s = BoincDb::escape_string($search_string);
     $s = escape_pattern($s);
     $fields = "id, create_time, name, country, total_credit, expavg_credit, teamid, url, has_profile, donated";
@@ -167,6 +170,7 @@ function name_search($filter) {
     if (!$n) {
         echo tra("No users match your search criteria.");
     }
+    page_tail();
 }
 
 function main() {
@@ -223,13 +227,11 @@ function main() {
             $filter->do_team = false;
             break;
         }
-        page_head(tra("User search results"));
         if ($search_type == 'name_prefix') {
             name_search($filter);
         } else {
             do_search($order, $filter);
         }
-        page_tail();
     } else {
         search_form();
     }

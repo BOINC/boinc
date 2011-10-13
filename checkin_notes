@@ -7196,3 +7196,9 @@ David  13 Oct 2011
         cs_files.cpp
     sched/
         file_upload_handler.cpp
+
+David  13 Oct 2011
+    - web: fix bug in user search when enter empty name prefix
+
+    html/user/
+        user_search.php
