@@ -231,6 +231,7 @@ void CLIENT_STATE::check_suspend_network() {
 
     if (os_requested_suspend) {
         network_suspend_reason = SUSPEND_REASON_OS;
+        network_suspended = true;
         return;
     }
 

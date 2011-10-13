@@ -7175,3 +7175,10 @@ Rom    13 Oct 2011
         
     clientscr/
         screensaver_win.cpp
+
+David  13 Oct 2011
+	- client: fix bug where network suspend got ignored when
+		OS suspends (e.g. sleep or hibernate)
+
+	client/
+		cs_prefs.cpp
