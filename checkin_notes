@@ -7202,3 +7202,9 @@ David  13 Oct 2011
 
     html/user/
         user_search.php
+
+Rom    13 Oct 2011
+    - MGR: Support both the old and new libnotify at runtime on Linux
+    
+    clientgui/gtk/
+        taskbarex.cpp
