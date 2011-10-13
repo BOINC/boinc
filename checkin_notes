@@ -7167,3 +7167,11 @@ Charlie 13 Oct 2011
     samples/
         atiopencl/
             atiopencl.cpp
+
+Rom    13 Oct 2011
+    - WINSCR: Move the reset display call to the end of the full screensaver
+        section.  We do not need to perform a display reset in the various
+        test modes.
+        
+    clientscr/
+        screensaver_win.cpp

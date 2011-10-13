@@ -92,13 +92,6 @@ INT WINAPI WinMain(
     BOINCTRACE("WinMain - Cleanup Screensaver Resources\n");
     BOINCSS.Cleanup();
 
-    // Resetting the primary display.  We need to do this because abnormally
-    // terminating graphics applications can sometimes leave a ghosted image
-    // on the primary display which leaves users believing that their machines
-    // are locked up.
-    BOINCTRACE("WinMain - Reset Primary Display\n");
-    BOINCSS.ResetPrimaryDisplay();
-
     // Cleanup the Windows sockets interface.
     BOINCTRACE("WinMain - Cleanup Winsock Resources\n");
     WSACleanup();
@@ -354,6 +347,12 @@ HRESULT CScreensaver::Run() {
             DestroyDataManagementThread();
             DestroyGraphicsWindowPromotionThread();
             DestroyInputActivityThread();
+
+            // Resetting the primary display.  We need to do this because abnormally
+            // terminating graphics applications can sometimes leave a ghosted image
+            // on the primary display which leaves users believing that their machines
+            // are locked up.
+            ResetPrimaryDisplay();
             break;
     }
     return S_OK;
