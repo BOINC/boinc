@@ -114,6 +114,7 @@ int CLIENT_STATE::parse_state_file_aux(const char* fname) {
     int retval=0;
     int failnum;
     bool btemp;
+    string stemp;
 
     FILE* f = fopen(fname, "r");
     if (!f) return ERR_FOPEN;
@@ -438,7 +439,7 @@ int CLIENT_STATE::parse_state_file_aux(const char* fname) {
         if (xp.parse_string("platform_name", statefile_platform_name)) {
             continue;
         }
-        if (xp.match_tag("alt_platform")) {
+        if (xp.parse_string("alt_platform", stemp)) {
             continue;
         }
         if (xp.parse_int("user_run_request", retval)) {

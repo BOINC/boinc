@@ -233,8 +233,9 @@ int FILE_INFO::verify_file(bool strict, bool show_errors) {
 }
 
 #ifndef SIM
-// scan all FILE_INFOs and PERS_FILE_XFERs.
-// start and finish downloads and uploads as needed.
+// scan FILE_INFOs and create PERS_FILE_XFERs as needed.
+// NOTE: this doesn't start the file transfers
+// scan PERS_FILE_XFERs and delete finished ones.
 //
 bool CLIENT_STATE::handle_pers_file_xfers() {
     unsigned int i;

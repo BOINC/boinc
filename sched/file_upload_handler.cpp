@@ -131,12 +131,16 @@ int copy_socket_to_file(FILE* in, char* path, double offset, double nbytes) {
     // This will prevent OTHER instances of file_upload_handler
     // from being able to write to the file.
     //
-    if ((pid=mylockf(fd))) {
+    pid = mylockf(fd);
+    if (pid>0) {
         close(fd);
         return return_error(ERR_TRANSIENT,
             "can't lock file %s: %s locked by PID=%d\n",
             path, strerror(errno), pid
         );
+    } else if (pid < 0) {
+        close(fd);
+        return return_error(ERR_TRANSIENT, "can't lock file %s\n", path);
     }
 
     // check that file length corresponds to offset

@@ -857,6 +857,7 @@ bool CLIENT_STATE::poll_slow_events() {
     POLL_ACTION(gui_http               , gui_http.poll          );
     POLL_ACTION(gui_rpc_http           , gui_rpcs.poll          );
     POLL_ACTION(trickle_up_ops,        trickle_up_poll);
+    POLL_ACTION(handle_pers_file_xfers , handle_pers_file_xfers );
     if (!network_suspended && suspend_reason != SUSPEND_REASON_BENCHMARKS) {
         // don't initiate network activity if we're doing CPU benchmarks
         net_status.poll();
@@ -864,7 +865,6 @@ bool CLIENT_STATE::poll_slow_events() {
         POLL_ACTION(acct_mgr               , acct_mgr_info.poll     );
         POLL_ACTION(file_xfers             , file_xfers->poll       );
         POLL_ACTION(pers_file_xfers        , pers_file_xfers->poll  );
-        POLL_ACTION(handle_pers_file_xfers , handle_pers_file_xfers );
         if (!config.no_info_fetch) {
             POLL_ACTION(rss_feed_op            , rss_feed_op.poll );
         }

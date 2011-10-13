@@ -7182,3 +7182,17 @@ David  13 Oct 2011
 
 	client/
 		cs_prefs.cpp
+
+David  13 Oct 2011
+    - client: create and destroy PERS_FILE_XFERs even if network suspended.
+        This will show pending uploads in the Transfers tab.
+    - file_upload_handler: fix message to client when can't acquire lock
+    - client: parse <alt_platform> in state file correctly
+
+    client/
+        client_stte.cpp
+        sim.cpp
+        cs_statefile.cpp
+        cs_files.cpp
+    sched/
+        file_upload_handler.cpp

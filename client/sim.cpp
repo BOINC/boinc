@@ -1281,7 +1281,6 @@ void do_client_simulation() {
     sprintf(buf, "%s%s", config_prefix, CONFIG_FILE);
     config.defaults();
     read_config_file(true, buf);
-    config.show();
 
     gstate.add_platform("client simulator");
     sprintf(buf, "%s%s", infile_prefix, STATE_FILE_NAME);
