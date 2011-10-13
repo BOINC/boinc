@@ -122,7 +122,7 @@ END_EVENT_TABLE ()
 
 wxTaskBarIconEx::wxTaskBarIconEx()
 {
-    wxTaskBarIconEx((wxChar*)wxTaskBarExWindow), 1);
+    wxTaskBarIconEx((wxChar*)wxTaskBarExWindow, 1);
 }
 
 wxTaskBarIconEx::wxTaskBarIconEx( wxChar* szWindowTitle, wxInt32 iTaskbarID )
