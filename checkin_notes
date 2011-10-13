@@ -7153,3 +7153,9 @@ David  11 Oct 2011
         sched_customize.cpp
         sched_version.cpp
         sched_shmem.cpp
+
+Charlie 12 Oct 2011
+    - client: fix honoring of cc_config ignore GPU options.
+
+    client/
+        coproc_detect.cpp

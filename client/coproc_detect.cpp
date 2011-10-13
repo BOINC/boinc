@@ -179,8 +179,8 @@ void COPROCS::get_opencl(
     bool use_all,
     vector<string>& descs, 
     vector<string>& warnings, 
-    vector<int>& ignore_nvidia_dev,
-    vector<int>& ignore_ati_dev
+    vector<int>& ignore_ati_dev,
+    vector<int>& ignore_nvidia_dev
 ) {
     cl_int ciErrNum;
     cl_platform_id platforms[MAX_OPENCL_PLATFORMS];
@@ -555,7 +555,10 @@ void COPROC::find_best_opencls(
     //
     bool first = true;
     for (i=0; i<opencls.size(); i++) {
-        if (in_vector(opencls[i].device_num, ignore_dev)) continue;
+        if (in_vector(opencls[i].device_num, ignore_dev)) {
+            opencls[i].is_used = COPROC_IGNORED;
+            continue;
+        }
         bool is_best = false;
         if (first) {
             is_best = true;
