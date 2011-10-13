@@ -33,6 +33,8 @@
 // Contributor: Tuan Le (tuanle86@berkeley.edu)
 
 #include "atiopencl.hpp"
+#include "boinc_opencl.h"
+
 using std::string;
 
 int main(int argc, char * argv[]) {
@@ -57,8 +59,9 @@ int main(int argc, char * argv[]) {
 	
     retval = boinc_init();
     if (retval) {
-        fprintf(stderr, "%s boinc_init returned %d\n",
-                boinc_msg_prefix(buf, sizeof(buf)), retval );
+        fprintf(stderr, 
+            "ERROR: %s boinc_init returned %d\n",
+            boinc_msg_prefix(buf, sizeof(buf)), retval );
         exit(retval);
     }
     
@@ -68,7 +71,7 @@ int main(int argc, char * argv[]) {
     infile = boinc_fopen(input_path, "r");
     if (!infile) {
         fprintf(stderr,
-            "%s Couldn't find input file in boinc\\win_build, resolved name %s.\n",
+            "ERROR: %s Couldn't find input file, resolved name %s.\n",
             boinc_msg_prefix(buf, sizeof(buf)), input_path
         );
         getchar();
@@ -101,10 +104,12 @@ int main(int argc, char * argv[]) {
     retval = out.open(output_path, "wb");
 
     if (retval) {
-        fprintf(stderr, "%s APP: matrix_inversion output open failed:\n",
+        fprintf(stderr, 
+            "ERROR: %s APP: matrix_inversion output open failed:\n",
             boinc_msg_prefix(buf, sizeof(buf))
         );
-        fprintf(stderr, "%s resolved name %s, retval %d\n",
+        fprintf(stderr, 
+            "ERROR: %s resolved name %s, retval %d\n",
             boinc_msg_prefix(buf, sizeof(buf)), output_path, retval
         );
         perror("open");
@@ -116,7 +121,8 @@ int main(int argc, char * argv[]) {
     //
     shmem = (UC_SHMEM*)boinc_graphics_make_shmem("matrix_inversion", sizeof(UC_SHMEM));
     if (!shmem) {
-        fprintf(stderr, "%s failed to create shared mem segment\n",
+        fprintf(stderr, 
+            "%s failed to create shared mem segment\n",
             boinc_msg_prefix(buf, sizeof(buf))
         );
     }
@@ -179,7 +185,8 @@ int main(int argc, char * argv[]) {
             //we'll need to write the current matrix to the state file.
             retval = do_checkpoint(out, i, input, matrixSize); 
             if (retval) {
-                fprintf(stderr, "%s APP: matrix_inversion checkpoint failed %d\n",
+                fprintf(stderr, 
+                    "ERROR: %s APP: matrix_inversion checkpoint failed %d\n",
                     boinc_msg_prefix(buf, sizeof(buf)), retval
                 );
                 exit(retval);
@@ -197,7 +204,8 @@ int main(int argc, char * argv[]) {
 
     retval = out.flush(); //force the output file to be closed.
     if (retval) {
-        fprintf(stderr, "%s APP: matrix_inversion flush failed %d\n",
+        fprintf(stderr, 
+            "ERROR: %s APP: matrix_inversion flush failed %d\n",
             boinc_msg_prefix(buf, sizeof(buf)), retval
         );
         exit(1);
@@ -205,7 +213,7 @@ int main(int argc, char * argv[]) {
 
     // Releases OpenCL resources 
     if (cleanup_cl()==1) {
-        printf("Error!");
+        printf("Error from cleanup_cl() !");
         return 1;
     }
 
@@ -226,7 +234,8 @@ int main(int argc, char * argv[]) {
             if (boinc_time_to_checkpoint()) {
                 retval = do_checkpoint(out, NUM_ITERATIONS, input, matrixSize);
                 if (retval) {
-                    fprintf(stderr, "%s APP: maxtrix_inversion checkpoint failed %d\n",
+                    fprintf(stderr, 
+                        "ERROR: %s APP: maxtrix_inversion checkpoint failed %d\n",
                         boinc_msg_prefix(buf, sizeof(buf)), retval
                     );
                     exit(1);
@@ -242,8 +251,10 @@ int main(int argc, char * argv[]) {
     update_shmem();
 #endif
 
-    printf("\nDone! Please press ENTER to exit. ");
-    getchar();
+    if (boinc_is_standalone()) {
+        printf("\nDone! Please press ENTER to exit. ");
+        getchar();
+    }
     boinc_finish(0);
 }
 
@@ -372,7 +383,7 @@ int initialize_host(FILE *infile) {
     output = NULL;
 
     if (width!=height) {
-        printf("Error: non nxn matrix cannot be invertiable.\n");
+        fprintf(stderr, "Error: non nxn matrix cannot be invertiable.\n");
         return 1;
     }
 
@@ -382,13 +393,13 @@ int initialize_host(FILE *infile) {
     cl_uint sizeInBytes = width * height * sizeof(cl_float);
     input = (cl_float *) malloc(sizeInBytes);
     if (input == NULL) {
-        printf("Error: Failed to allocate input memory on host\n");
+        fprintf(stderr, "Error: Failed to allocate input memory on host\n");
         return 1; 
     }
 
     output = (cl_float *) malloc(sizeInBytes);
     if(output == NULL) {
-        printf("Error: Failed to allocate output memory on host\n");
+        fprintf(stderr, "Error: Failed to allocate output memory on host\n");
         return 1; 
     }
 
@@ -429,7 +440,7 @@ char * convert_to_string(const char *fileName) {
         //look for "atiopencl_kernels.cl" in "boinc/sample/atiopencl/" instead.
         infile = fopen(KERNELS_FILEPATH,"r"); 
         if (!infile) {
-            printf("File open Error!");
+            fprintf(stderr, "File open Error!");
             exit(0);
         }
     }
@@ -456,101 +467,157 @@ char * convert_to_string(const char *fileName) {
 int initialize_cl(void) {
     cl_int status = 0;
     size_t deviceListSize;
+    bool standalone = false;
+    int retval;
+
+    devices = NULL;
 
     localThreads[0]  = LOCAL_WORK_SIZE;
     globalThreads[0] = GLOBAL_WORK_SIZE;
-
-    /*
-     * Have a look at the available platforms and pick either
-     * the AMD one if available or a reasonable default.
-     */
-
-    cl_uint numPlatforms;
     cl_platform_id platform = NULL;
-    status = clGetPlatformIDs(0, NULL, &numPlatforms);
-    if(status != CL_SUCCESS) {
-        printf("Error: Getting Platforms. (clGetPlatformsIDs)\n");
-        return 1;
-    }
-    
-    if (numPlatforms > 0) {
-        cl_platform_id* platforms = (cl_platform_id *)
-			                            malloc(sizeof(cl_platform_id)*numPlatforms);
-        status = clGetPlatformIDs(numPlatforms, platforms, NULL);
-        if (status != CL_SUCCESS) {
-            printf("Error: Getting Platform Ids. (clGetPlatformsIDs)\n");
+    cl_device_id device;
+
+    if (boinc_is_standalone()) {
+        /*
+         * Have a look at the available platforms and pick either
+         * the AMD one if available or a reasonable default.
+         */
+
+        cl_uint numPlatforms;
+        status = clGetPlatformIDs(0, NULL, &numPlatforms);
+        if(status != CL_SUCCESS) {
+            fprintf(stderr, 
+                "Error: Getting Platforms. (clGetPlatformsIDs) returned %d\n", 
+                status
+            );
             return 1;
         }
-        for (unsigned int i=0; i < numPlatforms; ++i) {
-            char pbuff[100];
-            status = clGetPlatformInfo(platforms[i],
-                                       CL_PLATFORM_VENDOR,
-                                       sizeof(pbuff),
-                                       pbuff,
-                                       NULL);
+        
+        if (numPlatforms > 0) {
+            cl_platform_id* platforms = (cl_platform_id *)
+                                            malloc(sizeof(cl_platform_id)*numPlatforms);
+            status = clGetPlatformIDs(numPlatforms, platforms, NULL);
             if (status != CL_SUCCESS) {
-                printf("Error: Getting Platform Info.(clGetPlatformInfo)\n");
+                fprintf(stderr, 
+                    "Error: Getting Platform Ids. (clGetPlatformsIDs) returned %d\n", 
+                    status
+                );
+
                 return 1;
             }
-            platform = platforms[i];
-            if (!strcmp(pbuff, "Advanced Micro Devices, Inc.")) {
-                break;
+            for (unsigned int i=0; i < numPlatforms; ++i) {
+                char pbuff[100];
+                status = clGetPlatformInfo(platforms[i],
+                                           CL_PLATFORM_VENDOR,
+                                           sizeof(pbuff),
+                                           pbuff,
+                                           NULL);
+                if (status != CL_SUCCESS) {
+                    fprintf(stderr, 
+                        "Error: Getting Platform Info.(clGetPlatformInfo)returned %d\n", 
+                        status
+                    );
+
+                    return 1;
+                }
+                platform = platforms[i];
+                if (!strcmp(pbuff, "Advanced Micro Devices, Inc.")) {
+                    break;
+                }
             }
+            delete platforms;
         }
-        delete platforms;
-    }
 
-    if(NULL == platform) {
-        printf("NULL platform found so Exiting Application.");
-        return 1;
-    }
+        if(NULL == platform) {
+            fprintf(stderr, "ERROR: NULL platform found so Exiting Application.");
+            return 1;
+        }
 
-    /*
-     * If we could find our platform, use it. Otherwise use just available platform.
-     */
-    cl_context_properties cps[3] = { CL_CONTEXT_PLATFORM,
-		                             (cl_context_properties)platform,
-									 0 
-	                               };
+        /*
+         * If we could find our platform, use it. Otherwise use just available platform.
+         */
+        cl_context_properties cps[3] = { CL_CONTEXT_PLATFORM,
+                                         (cl_context_properties)platform,
+                                         0 
+                                       };
 
-    /////////////////////////////////////////////////////////////////
-    // Create an OpenCL context
-    /////////////////////////////////////////////////////////////////
-    context = clCreateContextFromType(cps, CL_DEVICE_TYPE_ALL, NULL, NULL, &status);
-    if (status != CL_SUCCESS) {  
-        printf("Error: Creating Context. (clCreateContextFromType)\n");
-        return 1; 
-    }
+        /////////////////////////////////////////////////////////////////
+        // Create an OpenCL context
+        /////////////////////////////////////////////////////////////////
+        context = clCreateContextFromType(cps, CL_DEVICE_TYPE_ALL, NULL, NULL, &status);
+        if (status != CL_SUCCESS) {  
+            fprintf(stderr, 
+                "Error: Creating Context. (clCreateContextFromType) returned %d\n", 
+                status
+            );
 
-    /* First, get the size of device list data */
-    status = clGetContextInfo(context, CL_CONTEXT_DEVICES, 0, NULL, &deviceListSize);
-    if (status != CL_SUCCESS) {  
-        printf("Error: Getting Context Info (device list size, clGetContextInfo)\n");
-        return 1;
-    }
+            return 1; 
+        }
 
-    /////////////////////////////////////////////////////////////////
-    // Detect OpenCL devices
-    /////////////////////////////////////////////////////////////////
-    devices = (cl_device_id *)malloc(deviceListSize);
-    if (devices == 0) {
-        printf("Error: No devices found.\n");
-        return 1;
-    }
+        /* First, get the size of device list data */
+        status = clGetContextInfo(context, CL_CONTEXT_DEVICES, 0, NULL, &deviceListSize);
+        if (status != CL_SUCCESS) {  
+            fprintf(stderr, 
+                "Error: Getting Context Info (device list size, clGetContextInfo)returned %d\n", 
+                status
+            );
 
-    /* Now, get the device list data */
-    status = clGetContextInfo(context, CL_CONTEXT_DEVICES, deviceListSize, devices, NULL);
-    if (status != CL_SUCCESS) { 
-        printf("Error: Getting Context Info (device list, clGetContextInfo)\n");
-        return 1;
+            return 1;
+        }
+
+        /////////////////////////////////////////////////////////////////
+        // Detect OpenCL devices
+        /////////////////////////////////////////////////////////////////
+        devices = (cl_device_id *)malloc(deviceListSize);
+        if (devices == 0) {
+            fprintf(stderr, "Error: No devices found.\n");
+            return 1;
+        }
+
+        /* Now, get the device list data */
+        status = clGetContextInfo(context, CL_CONTEXT_DEVICES, deviceListSize, devices, NULL);
+        if (status != CL_SUCCESS) { 
+            fprintf(stderr, 
+                "Error: Getting Context Info (device list, clGetContextInfo) returned %d\n", 
+                status
+            );
+
+            return 1;
+        }
+        
+        device = devices[0];
+
+    } else {    // NOT stand_alone
+        retval = boinc_get_opencl_ids(&device, &platform);
+        if (retval) {
+            fprintf(stderr, 
+                "Error: boinc_get_opencl_ids() failed with error %d\n", 
+                retval
+            );
+            return 1;
+        }
+        
+       cl_context_properties cps[3] = { CL_CONTEXT_PLATFORM,
+                                         (cl_context_properties)platform,
+                                         0 
+                                       };
+        context = clCreateContext(cps, 1, &device, NULL, NULL, &status);
+        if (status != CL_SUCCESS) {  
+            fprintf(stderr, "Error: clCreateContext() returned %d\n", status);
+            return 1; 
+        }
     }
 
     /////////////////////////////////////////////////////////////////
     // Create an OpenCL command queue
     /////////////////////////////////////////////////////////////////
-    commandQueue = clCreateCommandQueue(context, devices[0], 0, &status);
+    commandQueue = clCreateCommandQueue(context, device, 0, &status);
     if(status != CL_SUCCESS) { 
-        printf("Creating Command Queue. (clCreateCommandQueue)\n");
+        fprintf(stderr, 
+            "Error: Creating Command Queue. (clCreateCommandQueue) returned %d\n", 
+            status
+        );
+
         return 1;
     }
     
@@ -561,33 +628,53 @@ int initialize_cl(void) {
     size_t sourceSize[]    = { strlen(source) };
     program = clCreateProgramWithSource(context, 1, &source, sourceSize, &status);
     if (status != CL_SUCCESS) { 
-        printf("Error: Loading Binary into cl_program (clCreateProgramWithBinary)\n");
+        fprintf(stderr, 
+            "Error: Loading Binary into cl_program (clCreateProgramWithBinary) returned %d\n", 
+            status
+        );
+
         return 1;
     }
 
     /* create a cl program executable for all the devices specified */
     status = clBuildProgram(program, 1, devices, NULL, NULL, NULL);
     if (status != CL_SUCCESS)  {
-        printf("Error: Building Program (clBuildProgram)\n");
+        fprintf(stderr, 
+            "Error: Building Program (clBuildProgram) returned %d\n", 
+            status
+        );
+
         return 1; 
     }
 
     /* get a kernel object handle for a kernel with the given name */
     GEStep1A_kernel = clCreateKernel(program, "GEStep1A", &status);
-    if (status != CL_SUCCESS) {  
-        printf("Error: clCreateKernel (GEStep1A)\n");
+    if (status != CL_SUCCESS) { 
+        fprintf(stderr, 
+            "Error: clCreateKernel (GEStep1A) returned %d\n",
+            status
+        );
+
         return 1;
     }
 
     GEStep2_kernel = clCreateKernel(program, "GEStep2", &status);
     if (status != CL_SUCCESS) {
-        printf("Error: clCreateKernel (GEStep2)\n");
+        fprintf(stderr, 
+            "Error: clCreateKernel (GEStep2) returned %d\n", 
+            status
+        );
+
         return 1;
     }
 
 	GEStep3_kernel = clCreateKernel(program, "GEStep3", &status);
     if (status != CL_SUCCESS) {
-        printf("Error: clCreateKernel (GEStep3)\n");
+        fprintf(stderr, 
+            "Error: clCreateKernel (GEStep3) returned %d\n", 
+            status
+        );
+        
         return 1;
     }
 
@@ -602,43 +689,64 @@ int cleanup_cl(void) {
 
     status = clReleaseKernel(GEStep1A_kernel);
     if (status != CL_SUCCESS) {
-        printf("Error: In clReleaseKernel (GEStep1A_kernel)\n");
+        fprintf(stderr, 
+            "Error: In clReleaseKernel (GEStep1A_kernel) returned %d\n", 
+            status
+        );
         return 1; 
     }
 
     status = clReleaseKernel(GEStep2_kernel);
     if (status != CL_SUCCESS) {
-        printf("Error: In clReleaseKernel (GEStep2_kernel)\n");
+        fprintf(stderr, 
+            "Error: In clReleaseKernel (GEStep2_kernel) returned %d\n", 
+            status
+        );
         return 1; 
 	}
 
     status = clReleaseKernel(GEStep3_kernel);
     if (status != CL_SUCCESS) {
-        printf("Error: In clReleaseKernel (GEStep3_kernel)\n");
+        fprintf(stderr, 
+            "Error: In clReleaseKernel (GEStep3_kernel) returned %d\n", 
+            status
+        );
         return 1; 
     }
 
     status = clReleaseProgram(program);
     if (status != CL_SUCCESS) {
-        printf("Error: In clReleaseProgram\n");
+        fprintf(stderr, 
+            "Error: clReleaseProgram returned %d\n", 
+            status
+        );
         return 1; 
     }
 
     status = clReleaseMemObject(inputBuffer);
     if (status != CL_SUCCESS) {
-        printf("Error: In clReleaseMemObject (inputBuffer)\n");
+        fprintf(stderr, 
+            "Error: In clReleaseMemObject (inputBuffer) returned %d\n", 
+            status
+        );
         return 1; 
     }
 
     status = clReleaseCommandQueue(commandQueue);
     if (status != CL_SUCCESS) {
-        printf("Error: In clReleaseCommandQueue\n");
+        fprintf(stderr, 
+            "Error: In clReleaseCommandQueue returned %d\n", 
+            status
+        );
         return 1;
     }
 
     status = clReleaseContext(context);
     if (status != CL_SUCCESS) {
-        printf("Error: In clReleaseContext\n");
+        fprintf(stderr, 
+            "Error: In clReleaseContext returned %d\n",
+            status
+        );
         return 1;
     }
 
@@ -705,28 +813,40 @@ int run_GEStep1A_kernel(cl_float * AI, int i, int n2, int lda2) {
      */
     status = clSetKernelArg(GEStep1A_kernel, 0, sizeof(cl_mem), (void *)&inputBuffer);
     if (status != CL_SUCCESS) { 
-        printf("Error: Setting kernel argument. (input)\n");
+        fprintf(stderr, 
+            "Error: Setting kernel argument. (input) returned %d\n", 
+            status
+        );
         return 1;
     }
 
     /*i*/
     status = clSetKernelArg(GEStep1A_kernel, 1, sizeof(int), (void *)&i);
     if (status != CL_SUCCESS) { 
-        printf("Error: Setting kernel argument. (i)\n");
+        fprintf(stderr, 
+            "Error: Setting kernel argument. (i) returned %d\n", 
+            status
+        );
         return 1;
     }
 
     /*n2*/
     status = clSetKernelArg(GEStep1A_kernel, 2, sizeof(int), (void *)&n2);
     if (status != CL_SUCCESS) { 
-        printf("Error: Setting kernel argument. (n2)\n");
+        fprintf(stderr, 
+            "Error: Setting kernel argument. (n2) returned %d\n", 
+            status
+        );
         return 1;
     }
 
     /*lda2*/
     status = clSetKernelArg(GEStep1A_kernel, 3, sizeof(int), (void *)&lda2);
     if (status != CL_SUCCESS) { 
-        printf("Error: Setting kernel argument. (lda2)\n");
+        fprintf(stderr, 
+            "Error: Setting kernel argument. (lda2) returned %d\n", 
+            status
+        );
         return 1;
     }
 
@@ -743,20 +863,29 @@ int run_GEStep1A_kernel(cl_float * AI, int i, int n2, int lda2) {
                                     NULL,
                                     &events[0]);
     if (status != CL_SUCCESS) { 
-        printf("Error: Enqueueing kernel onto command queue. (clEnqueueNDRangeKernel)\n");
+        fprintf(stderr, 
+            "Error: Enqueueing kernel onto command queue. (clEnqueueNDRangeKernel) returned %d\n", 
+            status
+        );
         return 1;
     }
 
     /* wait for the kernel call to finish execution */
     status = clWaitForEvents(1, &events[0]);
     if (status != CL_SUCCESS) { 
-        printf("Error: Waiting for kernel run to finish. (clWaitForEvents)\n");
+        fprintf(stderr, 
+            "Error: Waiting for kernel run to finish. (clWaitForEvents) returned %d\n", 
+            status
+        );
         return 1;
     }
 
     status = clReleaseEvent(events[0]);
     if (status != CL_SUCCESS) { 
-        printf("Error: Release event object. (clReleaseEvent)\n");
+        fprintf(stderr, 
+            "Error: Release event object. (clReleaseEvent) returned %d\n", 
+            status
+        );
         return 1;
     }
 
@@ -772,20 +901,29 @@ int run_GEStep1A_kernel(cl_float * AI, int i, int n2, int lda2) {
                                  &events[1]);
 
     if(status != CL_SUCCESS) { 
-        printf("Error: clEnqueueReadBuffer failed. (clEnqueueReadBuffer)\n");
+        fprintf(stderr, 
+            "Error: clEnqueueReadBuffer failed. (clEnqueueReadBuffer) returned %d\n", 
+            status
+        );
         return 1;
     }
 
     /* Wait for the read buffer to finish execution */
     status = clWaitForEvents(1, &events[1]);
     if (status != CL_SUCCESS) {
-        printf("Error: Waiting for read buffer call to finish. (clWaitForEvents)\n");
+        fprintf(stderr, 
+            "Error: Waiting for read buffer call to finish. (clWaitForEvents) returned %d\n", 
+            status
+        );
         return 1;
     }
 
     status = clReleaseEvent(events[1]);
     if (status != CL_SUCCESS) { 
-        printf("Error: Release event object. (clReleaseEvent)\n");
+        fprintf(stderr, 
+            "Error: Release event object. (clReleaseEvent) returned %d\n", 
+            status
+        );
         return 1;
     }
     return 0;
@@ -801,35 +939,50 @@ int run_GEStep2_kernel(cl_float * AI, cl_float diag, int i, int n2, int lda2) {
      */
     status = clSetKernelArg(GEStep2_kernel, 0, sizeof(cl_mem), (void *)&inputBuffer);
     if (status != CL_SUCCESS) { 
-        printf("Error: Setting kernel argument. (AI)\n");
+        fprintf(stderr, 
+            "Error: Setting kernel argument. (AI) returned %d\n", 
+            status
+        );
         return 1;
     }
 
     /*diag*/
     status = clSetKernelArg(GEStep2_kernel, 1, sizeof(cl_float), (void *)&diag);
     if (status != CL_SUCCESS) { 
-        printf("Error: Setting kernel argument. (diag)\n");
+        fprintf(stderr, 
+            "Error: Setting kernel argument. (diag) returned %d\n", 
+            status
+        );
         return 1;
     }
 
     /*i*/
     status = clSetKernelArg(GEStep2_kernel, 2, sizeof(int), (void *)&i);
     if (status != CL_SUCCESS) { 
-        printf("Error: Setting kernel argument. (i)\n");
+        fprintf(stderr, 
+            "Error: Setting kernel argument. (i) returned %d\n", 
+            status
+        );
         return 1;
     }
 
     /*n2*/
     status = clSetKernelArg(GEStep2_kernel, 3, sizeof(int), (void *)&n2);
     if (status != CL_SUCCESS) { 
-        printf("Error: Setting kernel argument. (n2)\n");
+        fprintf(stderr, 
+            "Error: Setting kernel argument. (n2) returned %d\n", 
+            status
+        );
         return 1;
     }
 
     /*lda2*/
     status = clSetKernelArg(GEStep2_kernel, 4, sizeof(int), (void *)&lda2);
     if (status != CL_SUCCESS) {
-        printf("Error: Setting kernel argument. (lda2)\n");
+        fprintf(stderr, 
+            "Error: Setting kernel argument. (lda2) returned %d\n", 
+            status
+        );
         return 1;
     }
 
@@ -846,20 +999,29 @@ int run_GEStep2_kernel(cl_float * AI, cl_float diag, int i, int n2, int lda2) {
                                     NULL,
                                     &events[0]);
     if (status != CL_SUCCESS) { 
-        printf("Error: Enqueueing kernel onto command queue. (clEnqueueNDRangeKernel)\n");
+        fprintf(stderr, 
+            "Error: Enqueueing kernel onto command queue. (clEnqueueNDRangeKernel) returned %d\n", 
+            status
+        );
         return 1;
     }
 
     /* wait for the kernel call to finish execution */
     status = clWaitForEvents(1, &events[0]);
     if (status != CL_SUCCESS) { 
-        printf("Error: Waiting for kernel run to finish. (clWaitForEvents)\n");
+        fprintf(stderr, 
+            "Error: Waiting for kernel run to finish. (clWaitForEvents) returned %d\n", 
+            status
+        );
         return 1;
     }
 
     status = clReleaseEvent(events[0]);
     if (status != CL_SUCCESS) { 
-        printf("Error: Release event object. (clReleaseEvent)\n");
+        fprintf(stderr, 
+            "Error: Release event object. (clReleaseEvent) returned %d\n", 
+            status
+        );
         return 1;
     }
 
@@ -875,20 +1037,26 @@ int run_GEStep2_kernel(cl_float * AI, cl_float diag, int i, int n2, int lda2) {
                                  NULL,
                                  &events[1]);
     if (status != CL_SUCCESS) { 
-        printf("Error: clEnqueueReadBuffer failed. (clEnqueueReadBuffer)\n");
+        fprintf(stderr, "Error: clEnqueueReadBuffer failed. (clEnqueueReadBuffer) returned %d\n", status);
         return 1;
     }
     
     /* Wait for the read buffer to finish execution */
     status = clWaitForEvents(1, &events[1]);
     if (status != CL_SUCCESS) { 
-        printf("Error: Waiting for read buffer call to finish. (clWaitForEvents)\n");
+        fprintf(stderr, 
+            "Error: Waiting for read buffer call to finish. (clWaitForEvents) returned %d\n", 
+            status
+        );
         return 1;
     }
 
     status = clReleaseEvent(events[1]);
     if (status != CL_SUCCESS) { 
-        printf("Error: Release event object. (clReleaseEvent)\n");
+        fprintf(stderr, 
+            "Error: Release event object. (clReleaseEvent) returned %d\n", 
+            status
+        );
         return 1;
     }
     return 0;
@@ -904,28 +1072,40 @@ int run_GEStep3_kernel(cl_float * AI, int i, int n2, int lda2) {
      */
     status = clSetKernelArg(GEStep3_kernel, 0, sizeof(cl_mem), (void *)&inputBuffer);
     if (status != CL_SUCCESS) { 
-        printf("Error: Setting kernel argument. (input)\n");
+        fprintf(stderr, 
+            "Error: Setting kernel argument. (input) returned %d\n", 
+            status
+        );
         return 1;
     }
 
     /*i*/
     status = clSetKernelArg(GEStep3_kernel, 1, sizeof(int), (void *)&i);
     if (status != CL_SUCCESS) { 
-        printf("Error: Setting kernel argument. (i)\n");
+        fprintf(stderr, 
+            "Error: Setting kernel argument. (i) returned %d\n", 
+            status
+        );
         return 1;
     }
 
     /*n2*/
     status = clSetKernelArg(GEStep3_kernel, 2, sizeof(int), (void *)&n2);
     if (status != CL_SUCCESS) { 
-        printf("Error: Setting kernel argument. (n2)\n");
+        fprintf(stderr, 
+            "Error: Setting kernel argument. (n2) returned %d\n", 
+            status
+        );
         return 1;
     }
 
 	/*lda2*/
     status = clSetKernelArg(GEStep3_kernel, 3, sizeof(int), (void *)&lda2);
     if (status != CL_SUCCESS) { 
-        printf("Error: Setting kernel argument. (lda2)\n");
+        fprintf(stderr, 
+            "Error: Setting kernel argument. (lda2) returned %d\n", 
+            status
+        );
         return 1;
     }
 
@@ -942,20 +1122,29 @@ int run_GEStep3_kernel(cl_float * AI, int i, int n2, int lda2) {
                                     NULL,
                                     &events[0]);
     if (status != CL_SUCCESS) { 
-        printf("Error: Enqueueing kernel onto command queue. (clEnqueueNDRangeKernel)\n");
+        fprintf(stderr, 
+            "Error: Enqueueing kernel onto command queue. (clEnqueueNDRangeKernel) returned %d\n", 
+            status
+        );
         return 1;
     }
 
     /* wait for the kernel call to finish execution */
     status = clWaitForEvents(1, &events[0]);
     if (status != CL_SUCCESS) { 
-        printf("Error: Waiting for kernel run to finish. (clWaitForEvents)\n");
+        fprintf(stderr, 
+            "Error: Waiting for kernel run to finish. (clWaitForEvents) returned %d\n", 
+            status
+        );
         return 1;
     }
 
     status = clReleaseEvent(events[0]);
     if (status != CL_SUCCESS) { 
-        printf("Error: Release event object. (clReleaseEvent)\n");
+        fprintf(stderr, 
+            "Error: Release event object. (clReleaseEvent) returned %d\n", 
+            status
+        );
         return 1;
     }
 
@@ -971,20 +1160,29 @@ int run_GEStep3_kernel(cl_float * AI, int i, int n2, int lda2) {
                                  NULL,
                                  &events[1]);
     if (status != CL_SUCCESS) { 
-        printf("Error: clEnqueueReadBuffer failed. (clEnqueueReadBuffer)\n");
+        fprintf(stderr, 
+            "Error: clEnqueueReadBuffer failed. (clEnqueueReadBuffer) returned %d\n", 
+            status
+        );
         return 1;
     }
 
     /* Wait for the read buffer to finish execution */
     status = clWaitForEvents(1, &events[1]);
     if (status != CL_SUCCESS) { 
-        printf("Error: Waiting for read buffer call to finish. (clWaitForEvents)\n");
+        fprintf(stderr, 
+            "Error: Waiting for read buffer call to finish. (clWaitForEvents) returned %d\n", 
+            status
+        );
         return 1;
     }
 
     status = clReleaseEvent(events[1]);
     if(status != CL_SUCCESS) { 
-        printf("Error: Release event object. (clReleaseEvent)\n");
+        fprintf(stderr, 
+            "Error: Release event object. (clReleaseEvent) returned %d\n", 
+            status
+        );
         return 1;
     }
 
@@ -1010,7 +1208,7 @@ void invertge(cl_float * AI_d, int lda, int n) {
 
 /* inverts nxn matrix input and stores the result in output */
 void invert(cl_float * input, cl_float *output, int n) {
-    fprintf(stderr,"starting inversion n = %d ", n);
+    printf("starting inversion n = %d ", n);
     volatile clock_t gputime;
     gputime=clock();
 
@@ -1033,7 +1231,10 @@ void invert(cl_float * input, cl_float *output, int n) {
                                  AI_d,
                                  &status);
     if (status != CL_SUCCESS) { 
-        printf("Error: clCreateBuffer (inputBuffer)\n");
+        fprintf(stderr, 
+            "Error: clCreateBuffer (inputBuffer) returned %d\n", 
+            status
+        );
         exit(0);
     }
     // Note: there's no output buffer. In kernel, AI_d is modified directly.

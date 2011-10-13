@@ -7159,3 +7159,11 @@ Charlie 12 Oct 2011
 
     client/
         coproc_detect.cpp
+
+Charlie 13 Oct 2011
+    - atiopencl sample: call boinc_get_opencl_ids() if not stand-alone; 
+        improve error messages.
+        
+    samples/
+        atiopencl/
+            atiopencl.cpp
