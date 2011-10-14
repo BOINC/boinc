@@ -18,7 +18,8 @@
 #ifndef __sg_TaskPanel__
 #define __sg_TaskPanel__
 
-
+// Comment???
+//
 #define SELECTBYRESULTNAME 0
 
 #include "sg_PanelBase.h"

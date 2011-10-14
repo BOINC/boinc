@@ -7208,3 +7208,9 @@ Rom    13 Oct 2011
     
     clientgui/gtk/
         taskbarex.cpp
+
+David  13 Oct 2011
+    - manager: don't show slot number in simple view task list
+
+    clientgui/
+        sg_TaskPanel.cpp,h

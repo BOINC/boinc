@@ -558,26 +558,14 @@ void CSimpleTaskPanel::GetApplicationAndProjectNames(RESULT* result, wxString* a
             );
         }
 
-#if SELECTBYRESULTNAME
         appName->Printf(
-            wxT("%d. %s%s %d.%02d %s"),
-            state_result->slot+1,
+            wxT("%s%s %d.%02d %s"),
             state_result->project->anonymous_platform?_("Local: "):wxT(""),
             strAppBuffer.c_str(),
             state_result->avp->version_num / 100,
             state_result->avp->version_num % 100,
             strClassBuffer.c_str()
         );
-#else
-        appName->Printf(wxT("%d. %s%s %d.%02d %s"),
-            state_result->slot+1,
-            state_result->project->anonymous_platform?_("Local: "):wxT(""),
-            strAppBuffer.c_str(),
-            state_result->avp->version_num / 100,
-            state_result->avp->version_num % 100,
-            strClassBuffer.c_str()
-        );
-#endif
     }
     
     if (projName != NULL) {
