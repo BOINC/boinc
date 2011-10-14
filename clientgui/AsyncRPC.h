@@ -92,7 +92,6 @@ enum RPC_SELECTOR {
     RPC_GET_PROJECT_STATUS2,
     RPC_GET_ALL_PROJECTS_LIST,              // 10
     RPC_GET_DISK_USAGE,
-    RPC_SHOW_GRAPHICS,
     RPC_PROJECT_OP,
     RPC_SET_RUN_MODE,
     RPC_SET_GPU_MODE,
@@ -242,9 +241,6 @@ public:
             { return RPC_Wait(RPC_GET_ALL_PROJECTS_LIST, (void*)&arg1); }
     int get_disk_usage(DISK_USAGE& arg1)
             { return RPC_Wait(RPC_GET_DISK_USAGE, (void*)&arg1); }
-    int show_graphics(
-        const char* project, const char* result_name, int graphics_mode, DISPLAY_INFO& di)
-            { return RPC_Wait(RPC_SHOW_GRAPHICS, (void*)project, (void*)result_name, (void*)&graphics_mode, (void*)&di); }
     int project_op(PROJECT& arg1, const char* op)
             { return RPC_Wait(RPC_PROJECT_OP, (void*)&arg1, (void*)op); }
     int set_run_mode(int mode, double duration)

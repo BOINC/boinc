@@ -99,10 +99,6 @@ int DAILY_XFER_HISTORY::parse(XML_PARSER& xp) {
     return 0;
 }
 
-DISPLAY_INFO::DISPLAY_INFO() {
-    memset(this, 0, sizeof(DISPLAY_INFO));
-}
-
 int GUI_URL::parse(XML_PARSER& xp) {
     char buf[256];
     MIOFILE& in = *(xp.f);
@@ -1616,55 +1612,6 @@ int RPC_CLIENT::network_available() {
 
     retval = rpc.do_rpc("<network_available/>\n");
 
-    return retval;
-}
-
-void DISPLAY_INFO::print_str(char* p) {
-    char buf[768];
-    if (strlen(window_station)) {
-        sprintf(buf,
-            "   <window_station>%s</window_station>\n", window_station
-        );
-        strcat(p, buf);
-    }
-    if (strlen(desktop)) {
-        sprintf(buf,
-            "   <desktop>%s</desktop>\n", desktop
-        );
-        strcat(p, buf);
-    }
-    if (strlen(display)) {
-        sprintf(buf,
-            "   <display>%s</display>\n", display
-        );
-        strcat(p, buf);
-    }
-}
-
-int RPC_CLIENT::show_graphics(
-    const char* project_url, const char* result_name, int graphics_mode,
-    DISPLAY_INFO& di
-) {
-    int retval;
-    SET_LOCALE sl;
-    char buf[1536];
-    RPC rpc(this);
-
-    sprintf(buf, 
-        "<result_show_graphics>\n"
-        "   <project_url>%s</project_url>\n"
-        "   <result_name>%s</result_name>\n"
-        "%s%s%s",
-        project_url,
-        result_name,
-        graphics_mode == MODE_HIDE_GRAPHICS?"   <hide/>\n":"",
-        graphics_mode == MODE_WINDOW       ?"   <window/>\n":"",
-        graphics_mode == MODE_FULLSCREEN   ?"   <full_screen/>\n":""
-    );
-    di.print_str(buf);
-    strcat(buf, "</result_show_graphics>\n");
-
-    retval = rpc.do_rpc(buf);
     return retval;
 }
 

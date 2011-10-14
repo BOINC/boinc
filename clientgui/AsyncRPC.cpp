@@ -485,14 +485,6 @@ int RPCThread::ProcessRPCRequest() {
     case RPC_GET_DISK_USAGE:
         retval = (m_pDoc->rpcClient).get_disk_usage(*(DISK_USAGE*)(current_request->arg1));
         break;
-    case RPC_SHOW_GRAPHICS:
-        retval = (m_pDoc->rpcClient).show_graphics(
-            (const char*)(current_request->arg1), 
-            (const char*)(current_request->arg2), 
-            *(int*)(current_request->arg3), 
-            *(DISPLAY_INFO*)(current_request->arg4)
-        );
-        break;
     case RPC_PROJECT_OP:
         retval = (m_pDoc->rpcClient).project_op(
             *(PROJECT*)(current_request->arg1), 

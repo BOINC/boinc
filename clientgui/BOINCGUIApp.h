@@ -58,8 +58,6 @@ protected:
     void                OnInitCmdLine(wxCmdLineParser &parser);
     bool                OnCmdLineParsed(wxCmdLineParser &parser);
 
-    void                DetectDisplayInfo();
-    void                DetectAccessibilityEnabled();
     bool                DetectDuplicateInstance();
     void                DetectExecutableName();
     void                DetectRootDirectory();
@@ -91,8 +89,6 @@ protected:
     wxString            m_strBOINCArguments;
     int                 m_iRPCPortArg;
 
-    bool                m_bAccessibilityEnabled;
-
     bool                m_bBOINCMGRAutoStarted;
     int                 m_iBOINCMGRDisableAutoStart;
     int                 m_iShutdownCoreClient;
@@ -120,10 +116,6 @@ protected:
 
 public:
 
-    wxString            m_strDefaultWindowStation;
-    wxString            m_strDefaultDesktop;
-    wxString            m_strDefaultDisplay;
-
     bool                OnInit();
 
     wxLocale*           GetLocale()                 { return m_pLocale; }
@@ -141,7 +133,6 @@ public:
     CTaskBarIcon*       GetTaskBarIcon()            { return m_pTaskBarIcon; }
     void                DeleteTaskBarIcon();
 
-    bool                IsAccessibilityEnabled()    { return m_bAccessibilityEnabled; }
     bool                IsMgrMultipleInstance()     { return m_bMultipleInstancesOK; }
 
 #ifdef __WXMAC__

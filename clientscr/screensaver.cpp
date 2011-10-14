@@ -210,49 +210,12 @@ int CScreensaver::launch_screensaver(RESULT* rp, int& graphics_application)
             graphics_application
         );
 #endif
-    } else {
-        // V5 and Older
-        DISPLAY_INFO di;
-#ifdef _WIN32
-        graphics_application = NULL;
-
-        memset(di.window_station, 0, sizeof(di.window_station));
-        memset(di.desktop, 0, sizeof(di.desktop));
-        memset(di.display, 0, sizeof(di.display));
-
-        // Retrieve the current window station and desktop names
-        GetUserObjectInformation(
-            GetProcessWindowStation(), 
-            UOI_NAME, 
-            di.window_station,
-            (sizeof(di.window_station)),
-            NULL
-        );
-        GetUserObjectInformation(
-            GetThreadDesktop(GetCurrentThreadId()), 
-            UOI_NAME, 
-            di.desktop,
-            sizeof(di.desktop),
-            NULL
-        );
-#else
-        char *p = getenv("DISPLAY");
-        if (p) strcpy(di.display, p);
-        
-        graphics_application = 0;
-#endif
-        retval = rpc->show_graphics(
-            rp->project_url,
-            rp->name,
-            MODE_FULLSCREEN,
-            di
-        );
     }
     return retval;
 }
 
 
-// Terminate any V6 acreensaver graphics application
+// Terminate any screensaver graphics application
 //
 #ifdef _WIN32
 int CScreensaver::terminate_v6_screensaver(HANDLE& graphics_application)
@@ -322,23 +285,6 @@ int CScreensaver::terminate_screensaver(int& graphics_application, RESULT *worke
         if (m_bScience_gfx_running) {
             terminate_v6_screensaver(graphics_application);
         }
-    } else {
-        // V5 and Older
-        DISPLAY_INFO di;
-
-        if (worker_app == NULL) return 0;
-        if (!strlen(worker_app->name)) return 0;
-
-        memset(di.window_station, 0, sizeof(di.window_station));
-        memset(di.desktop, 0, sizeof(di.desktop));
-        memset(di.display, 0, sizeof(di.display));
-
-        rpc->show_graphics(
-            worker_app->project_url,
-            worker_app->name,
-            MODE_HIDE_GRAPHICS,
-            di
-        );
     }
     return retval;
 }

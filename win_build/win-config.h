@@ -249,7 +249,7 @@
 #define HAVE_VFORK 0
 
 /* Define to 1 if you have the <vfork.h> header file. */
-#undef HAVE_VFORK_H 0
+/* #undef HAVE_VFORK_H 0 */
 
 /* Define to 1 if `fork' works. */
 #define HAVE_WORKING_FORK 0
@@ -258,7 +258,7 @@
 #define HAVE_WORKING_VFORK 0
 
 /* Define to 1 if the system has the type `_Bool'. */
-#undef HAVE__BOOL 0
+/* #undef HAVE__BOOL 0 */
 
 /* Define to 1 if the system has the type `_int64'. */
 #define HAVE__INT64 0

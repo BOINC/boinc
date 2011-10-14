@@ -7222,3 +7222,23 @@ Rom    13 Oct 2011
     clientgui/
         BOINCGUIApp.cpp
         AdvancedFrame.cpp
+
+Rom    14 Oct 2011
+    - Remove dead code related to v5 graphics applications from the 
+      client software.
+    
+    client/
+        boinc_cmd.cpp
+    clientgui/
+        AsyncRPC.cpp, .h
+        BOINCGUIApp.cpp, .h
+        MainDocument.cpp
+    clientgui/gtk/
+        taskbarex.cpp
+    clientscr/
+        screensaver.cpp
+    lib/
+        gui_rpc_client.h
+        gui_rpc_client_ops.cpp
+    win_build/
+        win-config.h

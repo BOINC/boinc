@@ -469,15 +469,6 @@ public:
     void clear();
 };
 
-struct DISPLAY_INFO {
-    char window_station[256];   // windows
-    char desktop[256];          // windows
-    char display[256];          // X11
-
-    DISPLAY_INFO();
-    void print_str(char*);
-};
-
 struct ACCT_MGR_INFO {
     std::string acct_mgr_name;
     std::string acct_mgr_url;
@@ -665,10 +656,6 @@ struct RPC_CLIENT {
     int get_project_status(PROJECTS&);
     int get_all_projects_list(ALL_PROJECTS_LIST&);
     int get_disk_usage(DISK_USAGE&);
-    int show_graphics(
-        const char* project, const char* result_name, int graphics_mode,
-        DISPLAY_INFO&
-    );
     int project_op(PROJECT&, const char* op);
     int set_run_mode(int mode, double duration);
         // if duration is zero, change is permanent.

@@ -1746,7 +1746,6 @@ int CMainDocument::WorkShowGraphics(RESULT* result)
             id
         );
 #endif
-
         if (!iRetVal) {
             gfx_app.slot = slot;
             gfx_app.project_url = result->project_url;
@@ -1754,23 +1753,7 @@ int CMainDocument::WorkShowGraphics(RESULT* result)
             gfx_app.pid = id;
             m_running_gfx_apps.push_back(gfx_app);
         }
-
-    } else {
-        // V5 and Older
-        DISPLAY_INFO di;
-
-        strcpy(di.window_station, (const char*)wxGetApp().m_strDefaultWindowStation.mb_str());
-        strcpy(di.desktop, (const char*)wxGetApp().m_strDefaultDesktop.mb_str());
-        strcpy(di.display, (const char*)wxGetApp().m_strDefaultDisplay.mb_str());
-
-        iRetVal = rpc.show_graphics(
-            result->project_url,
-            result->name,
-            MODE_WINDOW,
-            di
-        );
     }
-
     return iRetVal;
 }
 
