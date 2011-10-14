@@ -115,17 +115,13 @@ CPanelMessages::~CPanelMessages()
 void CPanelMessages::CreateControls()
 {
     CPanelMessages* itemDialog1 = this;
-    CSkinAdvanced*     pSkinAdvanced = wxGetApp().GetSkinManager()->GetAdvanced();
-
-    wxASSERT(pSkinAdvanced);
-    wxASSERT(wxDynamicCast(pSkinAdvanced, CSkinAdvanced));
 
     wxFlexGridSizer* itemFlexGridSizer2 = new wxFlexGridSizer(2, 1, 0, 0);
     itemFlexGridSizer2->AddGrowableRow(0);
     itemFlexGridSizer2->AddGrowableCol(0);
     itemDialog1->SetSizer(itemFlexGridSizer2);
 
-    m_pHtmlListPane = new CNoticeListCtrl(this);
+    m_pHtmlListPane = new CNoticeListCtrl(itemDialog1);
     itemFlexGridSizer2->Add(m_pHtmlListPane, 0, wxGROW|wxALL, 5);
 
     wxBoxSizer* itemBoxSizer4 = new wxBoxSizer(wxHORIZONTAL);
@@ -136,25 +132,9 @@ void CPanelMessages::CreateControls()
     itemFlexGridSizer2->Add(itemBoxSizer4, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 #endif
 
-    wxButton* itemButton44 = new wxButton(this, wxID_OK, _("Close"),  wxDefaultPosition, wxDefaultSize);
+    wxButton* itemButton44 = new wxButton(itemDialog1, wxID_OK, _("Close"),  wxDefaultPosition, wxDefaultSize);
 
     itemBoxSizer4->Add(itemButton44, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
-
-#ifndef __WXMSW__
-#ifdef __WXMAC__
-    wxButton* itemButton45 = new wxButton( this, ID_SIMPLE_HELP, _("Help"), wxDefaultPosition, wxDefaultSize, 0 );
-#ifdef wxUSE_TOOLTIPS
-    wxString helpTip;
-    helpTip.Printf(_("Get help with %s"), pSkinAdvanced->GetApplicationShortName().c_str());
-    itemButton45->SetToolTip(helpTip);
-#endif
-    itemBoxSizer4->Add(itemButton45, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
-#else
-    wxContextHelpButton* itemButton45 = new wxContextHelpButton(this);
-    itemBoxSizer4->Add(itemButton45, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
-#endif
-#endif
-
 }
 
 
@@ -343,7 +323,7 @@ bool CDlgMessages::Create( wxWindow* parent, wxWindowID id, const wxString& capt
     wxASSERT(wxDynamicCast(pSkinAdvanced, CSkinAdvanced));
 
         
-    SetExtraStyle(GetExtraStyle()|wxDIALOG_EX_CONTEXTHELP|wxWS_EX_BLOCK_EVENTS);
+    SetExtraStyle(GetExtraStyle()|wxWS_EX_BLOCK_EVENTS);
 
     wxDialog::Create( parent, id, caption, pos, size, style );
 
@@ -500,17 +480,13 @@ void CDlgMessages::SaveWindowDimensions() {
 
     pConfig->SetPath(strBaseConfigLocation);
 
-    bool iconized = IsIconized();
-    pConfig->Write(wxT("WindowIconized"), iconized);
+    pConfig->Write(wxT("WindowIconized"), IsIconized());
     pConfig->Write(wxT("WindowMaximized"), IsMaximized());
-    if (!iconized) {
+    if (!IsIconized()) {
         pConfig->Write(wxT("Width"), GetSize().GetWidth());
         pConfig->Write(wxT("Height"), GetSize().GetHeight());
-
-#ifdef __WXMAC__
         pConfig->Write(wxT("XPos"), GetPosition().x);
         pConfig->Write(wxT("YPos"), GetPosition().y);
-#endif  // ! __WXMAC__
     }
 }
     
@@ -568,10 +544,23 @@ void CDlgMessages::RestoreWindowDimensions() {
 
 #ifndef __WXMAC__
 
+    // If either co-ordinate is less then 0 then set it equal to 0 to ensure
+    // it displays on the screen.
+    if ( iLeft < 0 ) iLeft = 30;
+    if ( iTop < 0 ) iTop = 30;
+
+    // Read the size of the screen
+    wxInt32 iMaxWidth = wxSystemSettings::GetMetric( wxSYS_SCREEN_X );
+    wxInt32 iMaxHeight = wxSystemSettings::GetMetric( wxSYS_SCREEN_Y );
+
+    // Max sure that it doesn't go off to the right or bottom
+    if ( iLeft + iWidth > iMaxWidth ) iLeft = iMaxWidth - iWidth;
+    if ( iTop + iHeight > iMaxHeight ) iTop = iMaxHeight - iHeight;
+
     Iconize(bWindowIconized);
     Maximize(bWindowMaximized);
     if (!IsIconized() && !IsMaximized()) {
-        SetSize(-1, -1, iWidth, iHeight);
+        SetSize(iLeft, iTop, iWidth, iHeight);
     }
 
 #else   // ! __WXMAC__

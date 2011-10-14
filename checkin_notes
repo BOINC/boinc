@@ -7249,3 +7249,11 @@ Rom    14 Oct 2011
 
     clientgui/res/skins/default/graphic/
         project_image.xpm
+
+Rom    14 Oct 2011
+    - MGR: Persist Simple GUI notification dialog size and position
+        information.
+    - MGR: Remove context menu help buttons from dialog.
+    
+    clientgui/
+        sg_DlgMessages.cpp
