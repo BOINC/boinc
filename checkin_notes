@@ -7242,3 +7242,10 @@ Rom    14 Oct 2011
         gui_rpc_client_ops.cpp
     win_build/
         win-config.h
+
+Rom    14 Oct 2011
+    - MGR: Remove the triangle in the lower right-hand corner of the
+        default project image for the simple GUI
+
+    clientgui/res/skins/default/graphic/
+        project_image.xpm
