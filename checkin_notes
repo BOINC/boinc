@@ -7214,3 +7214,11 @@ David  13 Oct 2011
 
     clientgui/
         sg_TaskPanel.cpp,h
+
+Rom    13 Oct 2011
+    - MGR: Remove code that blocks the switch to simple view when an
+        accessibility aid is running.
+        
+    clientgui/
+        BOINCGUIApp.cpp
+        AdvancedFrame.cpp
