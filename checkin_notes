@@ -7257,3 +7257,8 @@ Rom    14 Oct 2011
     
     clientgui/
         sg_DlgMessages.cpp
+
+David  14 Oct 2011
+    - client: show OpenCL version correctly on Win
+    lib/
+        coproc.cpp
