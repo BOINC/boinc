@@ -1077,12 +1077,18 @@ int ACTIVE_TASK::resume_or_start(bool first_time) {
         return 0;
     }
     if (log_flags.task) {
+        char buf[256];
+        strcpy(buf, "");
+        if (strlen(app_version->plan_class)) {
+            sprintf(buf, " (%s)", app_version->plan_class);
+        }
         msg_printf(result->project, MSG_INFO,
-            "%s task %s using %s version %d",
+            "%s task %s using %s version %d%s",
             str,
             result->name,
             app_version->app->name,
-            app_version->version_num
+            app_version->version_num,
+            buf
         );
     }
     return 0;

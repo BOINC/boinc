@@ -609,9 +609,25 @@ PROJECT* WORK_FETCH::choose_project() {
     rr_simulation();
     compute_shares();
     project_priority_init();
+
+    // adjust project priorities according to how much work they currently have queued
+    //
+    double total_flops_remaining = 0;
     for (unsigned int i=0; i<gstate.results.size(); i++) {
         RESULT* rp = gstate.results[i];
-        adjust_rec_work_fetch(rp);
+        total_flops_remaining += rp->estimated_flops_remaining();
+    }
+#define CURRENT_QUEUE_WEIGHT .3
+    if (total_flops_remaining) {
+        for (unsigned int i=0; i<gstate.projects.size(); i++) {
+            p = gstate.projects[i];
+            p->sched_priority += CURRENT_QUEUE_WEIGHT * p->resource_share_frac;
+        }
+        for (unsigned int i=0; i<gstate.results.size(); i++) {
+            RESULT* rp = gstate.results[i];
+            PROJECT* p = rp->project;
+            p->sched_priority -= CURRENT_QUEUE_WEIGHT * rp->estimated_flops_remaining()/total_flops_remaining;
+        }
     }
 
 if (use_hyst_fetch) {

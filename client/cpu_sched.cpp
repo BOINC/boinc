@@ -579,7 +579,7 @@ static void update_rec() {
     }
 }
 
-double peak_flops(APP_VERSION* avp) {
+static double peak_flops(APP_VERSION* avp) {
     double f = gstate.host_info.p_fpops;
     double x = f * avp->avg_ncpus;
     int rt = avp->gpu_usage.rsc_type;
@@ -587,6 +587,20 @@ double peak_flops(APP_VERSION* avp) {
         x += f * avp->gpu_usage.usage * rsc_work_fetch[rt].relative_speed;
     }
     return x;
+}
+
+static double total_peak_flops() {
+    static bool first=true;
+    static double tpf;
+    if (first) {
+        first = false;
+        tpf = gstate.host_info.p_fpops * gstate.ncpus;
+        for (int i=1; i<coprocs.n_rsc; i++) {
+            COPROC& cp = coprocs.coprocs[i];
+            tpf += rsc_work_fetch[i].relative_speed * gstate.host_info.p_fpops * cp.count;
+        }
+    }
+    return tpf;
 }
 
 static double rec_sum;
@@ -615,43 +629,33 @@ void project_priority_init(bool set_rec_temp) {
         PROJECT* p = gstate.projects[i];
         if (p->non_cpu_intensive || p->suspended_via_gui || rs_sum==0) {
             p->resource_share_frac = 0;
-            continue;
+            p->sched_priority = 0;
+        } else {
+            p->resource_share_frac = p->resource_share/rs_sum;
+            p->compute_sched_priority();
         }
-        p->resource_share_frac = p->resource_share/rs_sum;
-        p->compute_sched_priority();
     }
 }
 
 void PROJECT::compute_sched_priority() {
-    sched_priority= resource_share_frac - pwf.rec_temp/rec_sum;
+    sched_priority = resource_share_frac - pwf.rec_temp/rec_sum;
 
     // projects with zero resource share are always lower priority
     // than those with positive resource share
     //
     if (resource_share == 0) {
-        sched_priority -= 1;
+        sched_priority -= 2;
     }
 }
 
 // called from the scheduler's job-selection loop;
 // we plan to run this job;
-// bump the project's temp REC by the estimated credit for 1 scheduling period.
+// bump the project's temp REC by the estimated credit for 1 hour.
 // This encourages a mixture jobs from different projects.
 //
 void adjust_rec_sched(RESULT* rp) {
     PROJECT* p = rp->project;
-    double f = peak_flops(rp->avp)*gstate.global_prefs.cpu_scheduling_period();
-    p->pwf.rec_temp += f*COBBLESTONE_SCALE;
-    p->compute_sched_priority();
-}
-
-// called from work fetch initialization;
-// bump the project's temp REC by the amount of credit
-// projected for the rest of the job.
-//
-void adjust_rec_work_fetch(RESULT* rp) {
-    PROJECT* p = rp->project;
-    p->pwf.rec_temp += rp->estimated_flops_remaining()*COBBLESTONE_SCALE;
+    p->pwf.rec_temp += peak_flops(rp->avp)/total_peak_flops() * rec_sum/24;
     p->compute_sched_priority();
 }
 

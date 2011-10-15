@@ -6878,11 +6878,11 @@ David  6 Oct
         main.cpp
 
 David  6 Oct
-	- client: fix bug in writing daily xfer history file
+    - client: fix bug in writing daily xfer history file
 
-	client/
-		main.cpp
-		net_stats.cpp
+    client/
+        main.cpp
+        net_stats.cpp
 
 Charlie 7 Oct 2011
     - client: write descriptions of OpenCL devices to stdout 
@@ -7016,10 +7016,10 @@ David  8 Oct 2011
         boinc_api.cpp
 
 David  8 Oct 2011
-	- client: fix bugs in acct manager attach/detach
+    - client: fix bugs in acct manager attach/detach
 
-	client/
-		gui_rpc_server_ops.cpp
+    client/
+        gui_rpc_server_ops.cpp
 
 Charlie 10 Oct 2011
     - code cleanup
@@ -7177,11 +7177,11 @@ Rom    13 Oct 2011
         screensaver_win.cpp
 
 David  13 Oct 2011
-	- client: fix bug where network suspend got ignored when
-		OS suspends (e.g. sleep or hibernate)
+    - client: fix bug where network suspend got ignored when
+        OS suspends (e.g. sleep or hibernate)
 
-	client/
-		cs_prefs.cpp
+    client/
+        cs_prefs.cpp
 
 David  13 Oct 2011
     - client: create and destroy PERS_FILE_XFERs even if network suspended.
@@ -7262,3 +7262,38 @@ David  14 Oct 2011
     - client: show OpenCL version correctly on Win
     lib/
         coproc.cpp
+
+David  14 Oct 2011
+    - client: improvements to job scheduling and work fetch policies.
+        - Job scheduling: the baseline policy is to schedule based on "project priority",
+            which is how much processing P should receive based on resource share
+            minus how much it actually has received recently.
+            This policy tends to run jobs from the same project together,
+            so we modified it by adding a priority adjustment as jobs are scheduled.
+            The idea is that if 2 projects have about the same priority
+            they should split the processors.
+
+            The problem: the adjustment was too large on hosts that are on
+            only a small fraction of the time,
+            thus tending to run 1 job from each project, regardless of priority.
+
+            Solution: make an adjustment that reflects the host's actual throughput.
+            See adjust_rec_sched() for details.
+
+        - Work fetch: similar situation.
+            We were making an adjustment based on how much work the project currently has queued,
+            but the adjustment drowned out the project priority,
+            so we'd tend to always get work from the project that has least work queued.
+            Solution: make a smaller adjustment (-.3 ... .3)
+
+    - client: in message announcing app start, show the plan class
+
+    - client: don't show "unrecognized XML" messages for account files.
+        It's typically project-specific prefs that the client doesn't know about.
+
+    client/
+        app_start.cpp
+        client_state.cpp
+        cpu_sched.cpp
+        cs_account.cpp
+        work_fetch.cpp
