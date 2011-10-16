@@ -7297,3 +7297,8 @@ David  14 Oct 2011
         cpu_sched.cpp
         cs_account.cpp
         work_fetch.cpp
+
+David  14 Oct 2011
+	- client: bug fix for the above
+	client/
+		work_fetch.cpp

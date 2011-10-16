@@ -595,7 +595,7 @@ PROJECT* WORK_FETCH::non_cpu_intensive_project_needing_work() {
 // and set the request fields of resource objects
 //
 PROJECT* WORK_FETCH::choose_project() {
-    PROJECT* p = 0;
+    PROJECT* p;
 
     if (log_flags.work_fetch_debug) {
         msg_printf(0, MSG_INFO, "[work_fetch] work fetch start");
@@ -630,6 +630,7 @@ PROJECT* WORK_FETCH::choose_project() {
         }
     }
 
+    p = 0;
 if (use_hyst_fetch) {
     if (gpus_usable) {
         for (int i=1; i<coprocs.n_rsc; i++) {
