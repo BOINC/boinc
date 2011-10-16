@@ -7302,3 +7302,19 @@ David  14 Oct 2011
 	- client: bug fix for the above
 	client/
 		work_fetch.cpp
+
+David  14 Oct 2011
+    - scheduler: in cuda_check(), ati_check() and opencl_check()
+        (in sched_customize.cpp)
+        the flops_scale argument is intended to express the
+        GPU efficiency (actual/peak).
+        Pass appropriate values.
+
+    sched/
+        sched_customize.cpp
+        sched_version.cpp
+    html/
+        ops/
+            index.php
+        inc/
+            db_ops.inc

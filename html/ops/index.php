@@ -166,7 +166,7 @@ echo "
     </table>
 ";
 
-// Application Result Summaries:
+// Result Summaries:
 
 $show_deprecated = get_str("show_deprecated", true);
 $show_only = array("all"); // Add all appids you want to display, or "all"

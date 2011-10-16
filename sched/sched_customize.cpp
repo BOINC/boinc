@@ -176,14 +176,13 @@ static bool ati_check(COPROC_ATI& c, HOST_USAGE& hu,
 
     coproc_perf(
         g_request->host.p_fpops,
-        hu.natis*c.peak_flops,
+        flops_scale * hu.natis*c.peak_flops,
         cpu_frac,
         hu.projected_flops,
         hu.avg_ncpus
     );
     hu.peak_flops = hu.natis*c.peak_flops + hu.avg_ncpus*g_request->host.p_fpops;
     hu.max_ncpus = hu.avg_ncpus;
-    hu.projected_flops *= flops_scale;
     return true;
 }
 
@@ -201,8 +200,9 @@ static inline bool app_plan_ati(
             1000000,
             true,
             ATI_MIN_RAM,
-            1, .01,
-            1
+            1,
+            .01,
+            .20
         )) {
             return false;
         }
@@ -214,7 +214,7 @@ static inline bool app_plan_ati(
             true,
             ATI_MIN_RAM,
             1, .01,
-            1.01
+            .21
         )) {
             return false;
         }
@@ -226,7 +226,7 @@ static inline bool app_plan_ati(
             false,
             ATI_MIN_RAM,
             1, .01,
-            1.02
+            .22
         )) {
             return false;
         }
@@ -238,7 +238,7 @@ static inline bool app_plan_ati(
             false,
             ATI_MIN_RAM,
             1, .01,
-            1.03
+            .23
         )) {
             return false;
         }
@@ -305,14 +305,13 @@ static bool cuda_check(COPROC_NVIDIA& c, HOST_USAGE& hu,
 
     coproc_perf(
         g_request->host.p_fpops,
-        hu.ncudas*c.peak_flops,
+        flops_scale * hu.ncudas*c.peak_flops,
         cpu_frac,
         hu.projected_flops,
         hu.avg_ncpus
     );
     hu.peak_flops = hu.ncudas*c.peak_flops + hu.avg_ncpus*g_request->host.p_fpops;
     hu.max_ncpus = hu.avg_ncpus;
-    hu.projected_flops *= flops_scale;
     return true;
 }
 
@@ -341,7 +340,9 @@ static inline bool app_plan_cuda(
             200, 0,
             CUDA3_MIN_CUDA_VERSION, CUDA3_MIN_DRIVER_VERSION,
             384*MEGA,
-            1, .01, 1.02
+            1,
+            .01,
+            .22
         )) {
             return false;
         }
@@ -351,7 +352,9 @@ static inline bool app_plan_cuda(
             200,    // change to zero if app is compiled to byte code
             CUDA23_MIN_CUDA_VERSION, CUDA23_MIN_DRIVER_VERSION,
             384*MEGA,
-            1, .01, 1.01
+            1,
+            .01,
+            .21
         )) {
             return false;
         }
@@ -361,7 +364,9 @@ static inline bool app_plan_cuda(
             200,    // change to zero if app is compiled to byte code
             0, CUDA_MIN_DRIVER_VERSION,
             254*MEGA,
-            1, .01, 1
+            1,
+            .01,
+            .20
         )) {
             return false;
         }

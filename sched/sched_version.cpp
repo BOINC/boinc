@@ -275,11 +275,15 @@ void estimate_flops_anon_platform() {
         }
 
         // if projected_flops is missing, make a wild guess
+        // Note: 6.12+ clients supply a project FLOPS,
+        // even if the user didn't
         //
         if (cav.host_usage.projected_flops == 0) {
             cav.host_usage.projected_flops = g_reply->host.p_fpops;
         }
 
+        // If data is available, estimate FLOPS based on average elapsed time
+        //
         DB_HOST_APP_VERSION* havp = gavid_to_havp(
             generalized_app_version_id(
                 cav.host_usage.resource_type(), cav.app->id
@@ -289,8 +293,6 @@ void estimate_flops_anon_platform() {
             && (havp->et.n > MIN_HOST_SAMPLES)
             && (havp->et.get_avg() > 0)
         ) {
-            // estimate FLOPS based on average elapsed time
-            //
             double new_flops = 1./havp->et.get_avg();
 
             // cap this at ET_RATIO_LIMIT*projected,
@@ -653,6 +655,12 @@ BEST_APP_VERSION* get_app_version(
             }
             if (strlen(av.plan_class)) {
                 if (!app_plan(*g_request, av.plan_class, host_usage)) {
+                    if (config.debug_version_select) {
+                        log_messages.printf(MSG_NORMAL,
+                            "[version] [AV#%d] app_plan() returned false\n",
+                            av.id
+                        );
+                    }
                     continue;
                 }
                 if (!g_request->client_cap_plan_class) {
