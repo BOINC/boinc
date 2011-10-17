@@ -156,10 +156,6 @@ struct ACTIVE_TASK {
         return _task_state;
     }
 
-#ifdef SIM
-    double flops_left;
-#endif
-
 #if (defined (__APPLE__) && (defined(__i386__) || defined(__x86_64__)))
     // PowerPC apps emulated on i386 Macs crash if running graphics
     int powerpc_emulated_on_i386;

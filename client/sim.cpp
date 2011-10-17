@@ -237,6 +237,7 @@ void make_job(
     sprintf(rp->name, "%s_%d", p->project_name, p->result_index++);
     wup->project = p;
     wup->rsc_fpops_est = app->fpops_est;
+    rp->sim_flops_left = rp->wup->rsc_fpops_est;
     strcpy(wup->name, rp->name);
     strcpy(wup->app_name, app->name);
     wup->app = app;
@@ -610,12 +611,12 @@ bool ACTIVE_TASK_SET::poll() {
             flops *= cpu_scale;
         }
 
-        atp->flops_left -= diff*flops;
+        rp->sim_flops_left -= diff*flops;
 
-        atp->fraction_done = 1 - (atp->flops_left / rp->wup->rsc_fpops_est);
+        atp->fraction_done = 1 - rp->sim_flops_left / rp->wup->rsc_fpops_est;
         atp->checkpoint_wall_time = gstate.now;
 
-        if (atp->flops_left <= 0) {
+        if (rp->sim_flops_left <= 0) {
             atp->set_task_state(PROCESS_EXITED, "poll");
             rp->exit_status = 0;
             rp->ready_to_report = true;
@@ -708,6 +709,7 @@ void SIM_RESULTS::compute_figures_of_merit() {
     double flops_total = cpu_peak_flops()*active_time
         + gpu_peak_flops()*gpu_active_time;
     double flops_idle = flops_total - flops_used;
+    if (flops_idle<0) flops_idle=0;
     wasted_frac = flops_wasted/flops_total;
     idle_frac = flops_idle/flops_total;
     share_violation = gstate.share_violation();
@@ -715,7 +717,7 @@ void SIM_RESULTS::compute_figures_of_merit() {
 }
 
 void SIM_RESULTS::print(FILE* f, bool human_readable) {
-    double r = ((double)nrpcs)/(njobs*2);
+    double r = njobs?((double)nrpcs)/(njobs*2):0;
     if (human_readable) {
         fprintf(f,
             "wasted fraction %f\n"
@@ -858,9 +860,9 @@ void show_resource(int rsc_type) {
         fprintf(html_out, "<tr><td>%.2f</td><td bgcolor=%s><font color=#ffffff>%s%s</font></td><td>%.0f</td>%s</tr>\n",
             ninst,
             colors[p->index%NCOLORS],
-            atp->result->rr_sim_misses_deadline?"*":"",
-            atp->result->name,
-            atp->flops_left/1e9,
+            rp->rr_sim_misses_deadline?"*":"",
+            rp->name,
+            rp->sim_flops_left/1e9,
             buf
         );
     }
@@ -926,8 +928,8 @@ void html_start() {
 void html_rec() {
     if (html_msg.size()) {
         fprintf(html_out,
-            "<table border=0 cellpadding=4><tr><td width=%d valign=top>%.0f</td>",
-            WIDTH1, gstate.now
+            "<table border=0 cellpadding=4><tr><td width=%d valign=top>%s</td>",
+            WIDTH1, sim_time_string(gstate.now)
         );
         fprintf(html_out,
             "<td width=%d valign=top><font size=-2>%s</font></td></tr></table>\n",
@@ -936,7 +938,7 @@ void html_rec() {
         );
         html_msg = "";
     }
-    fprintf(html_out, "<table border=0 cellpadding=4><tr><td width=%d valign=top>%.0f</td>", WIDTH1, gstate.now);
+    fprintf(html_out, "<table border=0 cellpadding=4><tr><td width=%d valign=top>%s</td>", WIDTH1, sim_time_string(gstate.now));
 
     if (active) {
         show_resource(0);
@@ -1174,9 +1176,13 @@ void get_app_params() {
     for (i=0; i<gstate.results.size(); i++) {
         RESULT* rp = gstate.results[i];
         app = rp->app;
+        double latency_bound = rp->report_deadline - rp->received_time;
         if (!app->latency_bound) {
-            app->latency_bound = rp->report_deadline - rp->received_time;
+            app->latency_bound = latency_bound;
         }
+        rp->received_time = START_TIME;
+        rp->report_deadline = START_TIME + latency_bound;
+        rp->sim_flops_left = rp->wup->rsc_fpops_est;
     }
     for (i=0; i<gstate.workunits.size(); i++) {
         WORKUNIT* wup = gstate.workunits[i];
@@ -1465,5 +1471,6 @@ int main(int argc, char** argv) {
     sprintf(buf, "%s%s", outfile_prefix, SUMMARY_FNAME);
     summary_file = fopen(buf, "w");
 
+    srand(1);       // make it deterministic
     do_client_simulation();
 }

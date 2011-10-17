@@ -1029,7 +1029,11 @@ double RESULT::estimated_time_remaining() {
     if (computing_done()) return 0;
     ACTIVE_TASK* atp = gstate.lookup_active_task_by_result(this);
     if (atp) {
+#ifdef SIM
+        return sim_flops_left/avp->flops;
+#else
         return atp->est_dur() - atp->elapsed_time;
+#endif
     }
     return estimated_duration();
 }

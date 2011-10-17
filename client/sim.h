@@ -90,6 +90,7 @@ extern SIM_RESULTS sim_results;
 extern double calculate_exponential_backoff(
     int n, double MIN, double MAX
 );
+extern char* sim_time_string(int t);
 
 extern bool dcf_dont_use;
 extern bool dcf_stats;

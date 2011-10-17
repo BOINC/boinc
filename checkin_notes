@@ -7336,3 +7336,15 @@ David  17 Oct 2011
     client/
         sim.cpp
         sim_util.cpp
+
+David  17 Oct 2011
+    - client: call xp.skip_unexpected() if get unexpected tag,
+        to avoid showing multiple error messages
+    - client simulator: bug fixes and tweaks
+
+    client/
+        client_types.cpp,h
+        app.h
+        sim.cpp,h
+        work_fetch.cpp
+        sim_util.cpp

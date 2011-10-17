@@ -655,6 +655,7 @@ struct RESULT {
     double final_elapsed_time;
 #ifdef SIM
     double peak_flop_count;
+    double sim_flops_left;
 #endif
 
     // the following are nonzero if reported by app
@@ -718,7 +719,11 @@ struct RESULT {
     double estimated_duration_uncorrected();
     double estimated_time_remaining();
     inline double estimated_flops_remaining() {
+#ifdef SIM
+        return sim_flops_left;
+#else
         return estimated_time_remaining()*avp->flops;
+#endif
     }
 
     inline bool computing_done() {

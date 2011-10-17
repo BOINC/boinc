@@ -53,6 +53,28 @@ void HOST_INFO::generate_host_cpid() {}
 
 //int get_connected_state() {return 1;}
 
+char* sim_time_string(int t) {
+    static char buf[256];
+    char buf2[256];
+    if (t > 86400) {
+        int n = t/86400;
+        t %= 86400;
+        if (n == 1) {
+            sprintf(buf2, "1 day ");
+        } else {
+            sprintf(buf2, "%d days ", n);
+        }
+    } else {
+        strcpy(buf2, "");
+    }
+    int hours = t / 3600;
+    t %= 3600;
+    int mins = t/60;
+    int secs = t%60;
+    sprintf(buf, "%s%02d:%02d:%02d", buf2, hours, mins, secs);
+    return buf;
+}
+
 void show_message(PROJ_AM *p, char* msg, int priority, bool, const char*) {
     const char* x;
     char message[1024];
@@ -73,7 +95,7 @@ void show_message(PROJ_AM *p, char* msg, int priority, bool, const char*) {
         x = "---";
     }
 
-    fprintf(logfile, "%.0f [%s] %s\n", gstate.now, x, message);
+    fprintf(logfile, "%s [%s] %s\n", sim_time_string(gstate.now), x, message);
 }
 
 APP_CLIENT_SHM::APP_CLIENT_SHM() {}
@@ -99,12 +121,15 @@ int ACTIVE_TASK::resume_or_start(bool first_time) {
     if (log_flags.task) {
         msg_printf(result->project, MSG_INFO,
             "[task] %s task %s: FLOPS left %.2fG",
-            first_time?"Starting":"Resuming", result->name, flops_left/1e9
+            first_time?"Starting":"Resuming",
+            result->name, result->sim_flops_left/1e9
         );
     }
     set_task_state(PROCESS_EXECUTING, "start");
     char buf[256];
-    sprintf(buf, "Starting %s<br>", result->name);
+    sprintf(buf, "Starting %s; deadline %s<br>",
+        result->name, sim_time_string(result->report_deadline)
+    );
     html_msg += buf;
     return 0;
 }
@@ -116,7 +141,6 @@ int ACTIVE_TASK::init(RESULT* rp) {
     max_elapsed_time = rp->wup->rsc_fpops_bound/result->avp->flops;
     max_disk_usage = rp->wup->rsc_disk_bound;
     max_mem_usage = rp->wup->rsc_memory_bound;
-    flops_left = rp->wup->rsc_fpops_est;
     _task_state = PROCESS_UNINITIALIZED;
     scheduler_state = CPU_SCHED_UNINITIALIZED;
     return 0;
