@@ -1094,6 +1094,7 @@ static int install_input_files(DC_Workunit *wu)
 
 static void fill_wu_params(const DC_Workunit *wu, struct wu_params *params)
 {
+    int min_quorum = 0;
 	memset(params, 0, sizeof(*params));
 
 	params->rsc_fpops_est = DC_getClientCfgDouble(wu->client_name,
@@ -1107,20 +1108,50 @@ static void fill_wu_params(const DC_Workunit *wu, struct wu_params *params)
 	params->delay_bound = DC_getClientCfgInt(wu->client_name,
 		CFG_DELAYBOUND, 4 * 7 * 24 * 60 * 60, TRUE);
 
-	params->min_quorum = DC_getClientCfgInt(wu->client_name,
-		CFG_REDUNDANCY, 1, TRUE);
-	if (params->min_quorum < 1)
-		params->min_quorum = 1;
+	min_quorum = DC_getClientCfgInt(wu->client_name,
+		CFG_MIN_QUORUM, -1, FALSE);
+		
+    if (min_quorum != -1) 
+    {
+    	params->min_quorum = min_quorum;
+    	if (params->min_quorum < 1)
+    		params->min_quorum = 1;
+    		
+    	params->target_nresults = DC_getClientCfgInt(wu->client_name,
+    		CFG_TARGET_NRESULTS, 1, FALSE);
+    	if (params->target_nresults < params->min_quorum)
+            params->target_nresults = params->min_quorum;
 
-	params->target_nresults = params->min_quorum;
+    	params->max_error_results = DC_getClientCfgInt(wu->client_name,
+    		CFG_MAX_ERROR_RESULTS, 0, FALSE);
+    	if (params->max_error_results < 0)
+    		params->max_error_results = 0;
 
-	/* Calculate with logarithmic error */
-	params->max_error_results = params->target_nresults +
-		(int)log(params->min_quorum + 2) + 1;
-	params->max_total_results = (params->target_nresults +
-		(int)log(params->min_quorum + 2)) * 2;
-	params->max_success_results = params->target_nresults +
-		(int)log(params->min_quorum + 2) + 1;
+    	params->max_total_results = DC_getClientCfgInt(wu->client_name,
+    		CFG_MAX_TOTAL_RESULTS, 1, FALSE);
+    	if (params->max_total_results < params->min_quorum)
+            params->max_total_results = params->min_quorum;
+            
+    	params->max_success_results = DC_getClientCfgInt(wu->client_name,
+    		CFG_MAX_SUCCESS_RESULTS, 1, FALSE);
+    	if (params->max_success_results < params->min_quorum)
+            params->max_success_results = params->min_quorum;
+    } else {
+    	params->min_quorum = DC_getClientCfgInt(wu->client_name,
+    		CFG_REDUNDANCY, 1, TRUE);
+    	if (params->min_quorum < 1)
+    		params->min_quorum = 1;
+
+    	params->target_nresults = params->min_quorum + 1;
+
+    	/* Calculate with logarithmic error */
+    	params->max_error_results = params->target_nresults +
+    		(int)log(params->min_quorum + 2) + 1;
+    	params->max_total_results = (params->target_nresults +
+    		(int)log(params->min_quorum + 2)) * 2;
+    	params->max_success_results = params->target_nresults +
+    		(int)log(params->min_quorum + 2) + 1;
+    }
 }
 
 static void append_wu_file_info(GString *tmpl, int idx)

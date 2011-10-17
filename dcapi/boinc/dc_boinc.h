@@ -25,9 +25,15 @@ extern "C" {
  */
 
 /* The root direcory of the BOINC project */
-#define CFG_PROJECTROOT		"ProjectRootDir"
-/* Level of redundancy (per-client) */
-#define CFG_REDUNDANCY		"Redundancy"
+#define CFG_PROJECTROOT		    "ProjectRootDir"
+/* Level of redundancy (per-client) variant 1. */
+#define CFG_REDUNDANCY		    "Redundancy"
+/* Level of redundancy (per-client) variant 2.: fine tune parameters */
+#define CFG_MIN_QUORUM          "MinQuorum"
+#define CFG_TARGET_NRESULTS     "TargetNResults"
+#define CFG_MAX_ERROR_RESULTS   "MaxErrorResults"
+#define CFG_MAX_TOTAL_RESULTS   "MaxTotalResults"
+#define CFG_MAX_SUCCESS_RESULTS "MaxSuccessResults"
 /* Max. size of output files, including subresults & checkpoint (per-client) */
 #define CFG_MAXOUTPUT		"MaxOutputSize"
 /* Max. memory usage (per-client) */
