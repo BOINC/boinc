@@ -590,22 +590,25 @@ function post_int($name, $optional=false) {
 }
 
 function get_str($name, $optional=false) {
-    if (!isset($_GET[$name])) {
+    if (isset($_GET[$name])) {
+        $x = $_GET[$name];
+    } else {
         if (!$optional) {
             error_page("missing or bad parameter: $name");
         }
         $x = null;
-    } else {
-        $x = $_GET[$name];
     }
     return undo_magic_quotes($x);
 }
 
 function post_str($name, $optional=false) {
-    $x = null;
-    if (isset($_POST[$name])) $x = $_POST[$name];
-    if (!$x && !$optional) {
-        error_page("missing or bad parameter: $name");
+    if (isset($_POST[$name])) {
+        $x = $_POST[$name];
+    } else {
+        if (!$optional) {
+            error_page("missing or bad parameter: $name");
+        }
+        $x = null;
     }
     return undo_magic_quotes($x);
 }

@@ -86,7 +86,7 @@ function show_scenarios() {
         <h3>Scenarios</h3>
         The inputs to BCE, called <b>scenarios</b>,
         describe a particular computer and the project to which it's attached.
-        A scenario consists of 4 files:
+        A scenario consists of:
         <ul>
         <li> <b>client_state.xml</b>: describes the host and projects.
           Any projects that don't currently have tasks are ignored.
@@ -305,7 +305,7 @@ function show_scenario() {
     }
     row2("Input files", $x);
     end_table();
-    show_button("sim_web.php?action=simulation_form&scen=$name",
+    show_button("sim_web.php?action=simulation_form_short&scen=$name",
         "Do new simulation",
         "Do new simulation"
     );
@@ -330,9 +330,29 @@ function show_scenario() {
     page_tail();
 }
 
-// form for simulation parameters:
-// duration, time step, policy options
-//
+function simulation_form_short() {
+    $scen = get_str("scen");
+    page_head("Do simulation");
+    start_table();
+    echo "
+        <form action=sim_web.php method=post enctype=\"multipart/form-data\">
+        <input type=hidden name=action value=simulation_action>
+        <input type=hidden name=scen value=$scen>
+        <input type=hidden name=rec_half_life_days value=10>
+        <input type=hidden name=existing_jobs_only value=0>
+        <input type=hidden name=use_hyst_fetch value=1>
+        <input type=hidden name=cpu_sched_rr_only value=0>
+        <input type=hidden name=server_uses_workload value=0>
+    ";
+    row2("Duration", "<input name=duration value=86400> seconds");
+    row2("Time step", "<input name=delta value=60> seconds");
+    row2("cc_config.xml", "<input type=file name=cc_config>");
+    row2("", "<input type=submit value=OK>");
+    echo "</form>\n";
+    end_table();
+    page_tail();
+}
+
 function simulation_form() {
     $scen = get_str("scen");
     page_head("Do simulation");
@@ -483,6 +503,9 @@ case "show_scenario":
     break;
 case "simulation_form":
     simulation_form();
+    break;
+case "simulation_form_short":
+    simulation_form_short();
     break;
 case "simulation_action":
     simulation_action();

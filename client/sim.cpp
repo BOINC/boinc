@@ -784,18 +784,29 @@ const char* colors[] = {
     "#aa00aa",
     "#aaaa00",
     "#00aaaa",
-    "#0000cc",
-    "#00cc00",
-    "#cc0000",
-    "#cc00cc",
-    "#cccc00",
-    "#00cccc",
+    "#8800aa",
+    "#aa0088",
+    "#88aa00",
+    "#aa8800",
+    "#00aa88",
+    "#0088aa",
 };
 
-#define NCOLORS 12
+#define NCOLORS 18
 #define WIDTH1  100
 #define WIDTH2  400
 
+void show_project_colors() {
+    fprintf(html_out, "Projects:<br><table>\n");
+    for (unsigned int i=0; i<gstate.projects.size(); i++) {
+        PROJECT* p = gstate.projects[i];
+        fprintf(html_out,
+            "<tr><td bgcolor=%s><font color=ffffff>%s</font></td></tr>\n",
+            colors[p->index%NCOLORS], p->project_name
+        );
+    }
+    fprintf(html_out, "</table>\n");
+}
 
 void job_count(PROJECT* p, int rsc_type, int& in_progress, int& done) {
     in_progress = done = 0;
@@ -833,7 +844,14 @@ void show_resource(int rsc_type) {
         }
 
         PROJECT* p = rp->project;
-        fprintf(html_out, "%.2f: <font color=%s>%s%s: %.2fG%s</font><br>\n",
+        if (!found) {
+            found = true;
+            fprintf(html_out,
+                "<table>\n"
+                "<tr><th>#devs</th><th>Job name</th><th>FLOPS left</th></tr>\n"
+            );
+        }
+        fprintf(html_out, "<tr><td>%.2f</td><td bgcolor=%s><font color=#ffffff>%s%s</font></td><td>%.0fG%s</td></tr>\n",
             ninst,
             colors[p->index%NCOLORS],
             atp->result->rr_sim_misses_deadline?"*":"",
@@ -841,24 +859,29 @@ void show_resource(int rsc_type) {
             atp->flops_left/1e9,
             buf
         );
-        found = true;
     }
-    if (!found) fprintf(html_out, "IDLE");
-    fprintf(html_out, "<br>Jobs");
+    if (found) {
+        fprintf(html_out, "</table>\n");
+    } else {
+        fprintf(html_out, "IDLE\n");
+    }
+    fprintf(html_out,
+        "<table><tr><td>Project</td><td>Jobs in progress</td><td>Jobs done</td></tr>\n"
+    );
     found = false;
     for (i=0; i<gstate.projects.size(); i++) {
         PROJECT* p = gstate.projects[i];
         int in_progress, done;
         job_count(p, rsc_type, in_progress, done);
         if (in_progress || done) {
-            fprintf(html_out, "<br>%s: %d in prog, %d done\n",
-                p->project_name, in_progress, done
+            fprintf(html_out, "<td bgcolor=%s><font color=#ffffff>%s</font></td><td>%d</td><td>%d</td></tr>\n",
+                colors[p->index%NCOLORS], p->project_name, in_progress, done
             );
             found = true;
         }
     }
-    if (!found) fprintf(html_out, " ---\n");
-    fprintf(html_out, "</td>");
+    //if (!found) fprintf(html_out, " ---\n");
+    fprintf(html_out, "</table></td>");
 }
 
 int nproc_types = 1;
@@ -874,12 +897,16 @@ void html_start() {
     }
     setbuf(html_out, 0);
     fprintf(index_file, "<br><a href=%s>Timeline</a>\n", TIMELINE_FNAME);
-    fprintf(html_out, "<h2>BOINC client simulator</h2>\n");
+    fprintf(html_out,
+        "<head><style> body, td, th { font-family: Verdana; font-size: 12px;} th {white-space: nowrap;}</style></head>\n"
+        "<h2>BOINC client emulator results</h2>\n"
+    );
+    show_project_colors();
     fprintf(html_out,
         "<table border=0 cellpadding=4><tr><th width=%d>Time</th>\n", WIDTH1
     );
     fprintf(html_out,
-        "<th width=%d>CPU<br><font size=-2>Job name and estimated time left<br>color denotes project<br>* means EDF mode</font></th>", WIDTH2
+        "<th width=%d>CPU<br>* means EDF mode</th>", WIDTH2
     );
     if (coprocs.have_nvidia()) {
         fprintf(html_out, "<th width=%d>NVIDIA GPU</th>", WIDTH2);

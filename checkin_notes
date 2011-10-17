@@ -7318,3 +7318,12 @@ David  14 Oct 2011
             index.php
         inc/
             db_ops.inc
+
+David  16 Oct 2011
+    - client simulator: make the output more graphical
+
+    html/
+        inc/
+            util.inc
+    client/
+        sim.cpp
