@@ -32,6 +32,7 @@
 #include <cstdlib>
 #include <string>
 #include <math.h>
+#include <ctype.h>
 #include <errno.h>
 #if HAVE_IEEEFP_H
 #include <ieeefp.h>
@@ -412,6 +413,7 @@ void xml_unescape(string& in) {
 void xml_unescape(char* buf) {
     char* out = buf;
     char* in = buf;
+    char* p;
     while (*in) {
         if (*in != '&') {       // avoid strncmp's if possible
             *out++ = *in++;
@@ -434,8 +436,12 @@ void xml_unescape(char* buf) {
             in += 2;
             char c = atoi(in);
             *out++ = c;
-            in = strchr(in, ';');
-            if (in) in++;
+            p = strchr(in, ';');
+            if (p) {
+	      in=p+1; 
+	    } else {
+	      while (isdigit(*in)) in++;
+	    }
         } else {
             *out++ = *in++;
         }
