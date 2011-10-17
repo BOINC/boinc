@@ -47,6 +47,7 @@ if INSTALL_HEADERS
 ## install only headers that are meant for exporting the API !!
 pkginclude_HEADERS = 	\
 	boinc_api.h   	\
+	boinc_opencl.h   	\
 	graphics2.h	\
 	gutil.h
 endif ## INSTALL_HEADERS

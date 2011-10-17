@@ -7327,3 +7327,12 @@ David  16 Oct 2011
             util.inc
     client/
         sim.cpp
+
+David  17 Oct 2011
+    - add boinc_opencl.h to set of installed headers
+    - emulator tweaks
+    lib/
+        Makefile.am
+    client/
+        sim.cpp
+        sim_util.cpp

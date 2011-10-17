@@ -837,10 +837,8 @@ void show_resource(int rsc_type) {
         if (rsc_type) {
             if (rp->avp->gpu_usage.rsc_type != rsc_type) continue;
             ninst = rp->avp->gpu_usage.usage;
-            sprintf(buf, " GPU %d", rp->coproc_indices[0]);
         } else {
             ninst = rp->avp->avg_ncpus;
-            strcpy(buf, "");
         }
 
         PROJECT* p = rp->project;
@@ -848,10 +846,16 @@ void show_resource(int rsc_type) {
             found = true;
             fprintf(html_out,
                 "<table>\n"
-                "<tr><th>#devs</th><th>Job name</th><th>FLOPS left</th></tr>\n"
+                "<tr><th>#devs</th><th>Job name</th><th>GFLOPs left</th>%s</tr>\n",
+                rsc_type?"<th>GPU</th>":""
             );
         }
-        fprintf(html_out, "<tr><td>%.2f</td><td bgcolor=%s><font color=#ffffff>%s%s</font></td><td>%.0fG%s</td></tr>\n",
+        if (rsc_type) {
+            sprintf(buf, "<td>%d</td>", rp->coproc_indices[0]);
+        } else {
+            strcpy(buf, "");
+        }
+        fprintf(html_out, "<tr><td>%.2f</td><td bgcolor=%s><font color=#ffffff>%s%s</font></td><td>%.0f</td>%s</tr>\n",
             ninst,
             colors[p->index%NCOLORS],
             atp->result->rr_sim_misses_deadline?"*":"",
@@ -906,7 +910,7 @@ void html_start() {
         "<table border=0 cellpadding=4><tr><th width=%d>Time</th>\n", WIDTH1
     );
     fprintf(html_out,
-        "<th width=%d>CPU<br>* means EDF mode</th>", WIDTH2
+        "<th width=%d>CPU</th>", WIDTH2
     );
     if (coprocs.have_nvidia()) {
         fprintf(html_out, "<th width=%d>NVIDIA GPU</th>", WIDTH2);

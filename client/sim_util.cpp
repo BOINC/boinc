@@ -104,7 +104,7 @@ int ACTIVE_TASK::resume_or_start(bool first_time) {
     }
     set_task_state(PROCESS_EXECUTING, "start");
     char buf[256];
-    sprintf(buf, "Starting %s: %.2fG<br>", result->name, flops_left/1e9);
+    sprintf(buf, "Starting %s<br>", result->name);
     html_msg += buf;
     return 0;
 }
