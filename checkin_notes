@@ -7436,3 +7436,11 @@ Charlie 18 Oct 2011
     samples/
         jpeglib/
             jconfig.h
+
+Rom    18 Oct 2011
+    - MGR: More simple GUI text changes
+    - MHR: Reduce clutter in log file
+    
+    clientgui/
+        sg_BoincSimpleFrame.cpp
+        sg_ProjectPanel.cpp, .h

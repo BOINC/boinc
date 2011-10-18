@@ -28,20 +28,9 @@ typedef struct {
     double project_files_downloaded_time;
 } ProjectSelectionData;
 
-
-
 ///////////////////////////////////////////////////////////////////////////////
 /// Class CSimpleProjectPanel
 ///////////////////////////////////////////////////////////////////////////////
-
-#if 0
-#ifdef __WXMAC__
-#include "MacBitmapComboBox.h"
-#else
-#define CBOINCBitmapComboBox wxBitmapComboBox
-#define EVT_BOINCBITMAPCOMBOBOX EVT_COMBOBOX
-#endif
-#endif
 
 class CSimpleProjectPanel : public CSimplePanelBase 
 {
@@ -68,10 +57,10 @@ class CSimpleProjectPanel : public CSimplePanelBase
         wxBitmap* GetProjectSpecificBitmap(char* project_url);
 
 	protected:
-		CTransparentStaticText*             			m_myProjectsLabel;
+		CTransparentStaticText*             m_myProjectsLabel;
 		CBOINCBitmapComboBox*               m_ProjectSelectionCtrl;
 		wxButton*                           m_TaskAddProjectButton;
-        CTransparentStaticText*             			m_TotalCreditValue;
+        CTransparentStaticText*             m_TotalCreditValue;
 		CSimpleProjectWebSitesPopupButton*  m_ProjectWebSitesButton;
 		CSimpleProjectCommandPopupButton*   m_ProjectCommandsButton;
         wxString                            m_sAddProjectString;

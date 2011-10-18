@@ -584,11 +584,10 @@ CSimpleGUIPanel::CSimpleGUIPanel(wxWindow* parent) :
 	checkForNewNoticesTimer->Start(5000); 
 
 	dlgOpen = false;
-    m_sPauseString = _("Pause");
-    m_sResumeString = _("Resume");
-    m_sPauseButtonToolTip = _("Stop all activity");
-    m_sResumeButtonToolTip = _("Resume activity");
-
+    m_sPauseString = _("Suspend Computing");
+    m_sResumeString = _("Resume Computing");
+    m_sPauseButtonToolTip = _("Suspend computational activity");
+    m_sResumeButtonToolTip = _("Resume computational activity");
 
 	m_taskPanel = new CSimpleTaskPanel(this);
     m_projPanel = new CSimpleProjectPanel(this);
