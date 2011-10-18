@@ -72,7 +72,7 @@ int parse_rss_feed_descs(XML_PARSER& xp, vector<RSS_FEED>& feeds) {
                 if (log_flags.sched_op_debug) {
                     msg_printf(0, MSG_INFO,
                         "[sched_op] error in <rss_feed> element"
-                     );
+                    );
                 }
             } else {
                 feeds.push_back(rf);
