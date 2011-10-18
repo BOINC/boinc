@@ -15,8 +15,8 @@
 //
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
-static const char *project_image_xpm[] = {
 /* columns rows colors chars-per-pixel */
+static const char *project_image_xpm[] = {
 "40 40 233 2",
 "#X c #F7D991",
 "H. c #AAB8CC",

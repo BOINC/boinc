@@ -33,9 +33,12 @@
 
 ////@begin XPM images
 #include "res/skins/default/graphic/background_image.xpm"
-#include "res/skins/default/graphic/workunit_animation_image.xpm"
-#include "res/skins/default/graphic/project_image.xpm"
 #include "res/skins/default/graphic/dialog_background_image.xpm"
+#include "res/skins/default/graphic/project_image.xpm"
+#include "res/skins/default/graphic/workunit_animation_image.xpm"
+#include "res/skins/default/graphic/workunit_running_image.xpm"
+#include "res/skins/default/graphic/workunit_suspended_image.xpm"
+#include "res/skins/default/graphic/workunit_waiting_image.xpm"
 #include "res/boinc.xpm"
 #include "res/boinc32.xpm"
 #include "res/boincdisconnect.xpm"
@@ -269,11 +272,13 @@ CSkinSimple::~CSkinSimple() {
 
 void CSkinSimple::Clear() {
 	m_BackgroundImage.Clear();
-	m_StaticLineColor = wxNullColour;
-
-    m_WorkunitAnimationImage.Clear();
-    m_ProjectImage.Clear();
     m_DialogBackgroundImage.Clear();
+    m_ProjectImage.Clear();
+	m_StaticLineColor = wxNullColour;
+    m_WorkunitAnimationImage.Clear();
+    m_WorkunitRunningImage.Clear();
+    m_WorkunitSuspendedImage.Clear();
+    m_WorkunitWaitingImage.Clear();
 }
 
 
@@ -286,17 +291,26 @@ int CSkinSimple::Parse(MIOFILE& in) {
         else if (match_tag(buf, "<background_image>")) {
             m_BackgroundImage.Parse(in);
             continue;
+        } else if (match_tag(buf, "<dialog_background_image>")) {
+            m_DialogBackgroundImage.Parse(in);
+            continue;
+        } else if (match_tag(buf, "<project_image>")) {
+            m_ProjectImage.Parse(in);
+            continue;
         } else if (parse_str(buf, "<static_line_color>", strBuffer)) {
             m_StaticLineColor = ParseColor(wxString(strBuffer.c_str(), wxConvUTF8));
             continue;
         } else if (match_tag(buf, "<workunit_animation_image>")) {
             m_WorkunitAnimationImage.Parse(in);
             continue;
-        } else if (match_tag(buf, "<project_image>")) {
-            m_ProjectImage.Parse(in);
+        } else if (match_tag(buf, "<workunit_running_image>")) {
+            m_WorkunitRunningImage.Parse(in);
             continue;
-        } else if (match_tag(buf, "<dialog_background_image>")) {
-            m_DialogBackgroundImage.Parse(in);
+        } else if (match_tag(buf, "<workunit_suspended_image>")) {
+            m_WorkunitSuspendedImage.Parse(in);
+            continue;
+        } else if (match_tag(buf, "<workunit_waiting_image>")) {
+            m_WorkunitWaitingImage.Parse(in);
             continue;
         }
     }
@@ -309,16 +323,25 @@ int CSkinSimple::Parse(MIOFILE& in) {
 
 bool CSkinSimple::InitializeDelayedValidation() {
     m_BackgroundImage.SetDefaults(
-        wxT("background"), (const char**)background_image_xpm, wxT("0:0:0")
+        wxT("background"), (const char**)background_image_xpm, wxT("211:211:211")
     );
-     m_WorkunitAnimationImage.SetDefaults(
-        wxT("workunit animation"), (const char**)workunit_animation_image_xpm
+    m_DialogBackgroundImage.SetDefaults(
+        wxT("dialog background"), (const char**)dialog_background_image_xpm, wxT("211:211:211")
     );
     m_ProjectImage.SetDefaults(
         wxT("project"), (const char**)project_image_xpm
     );
-    m_DialogBackgroundImage.SetDefaults(
-        wxT("dialog background"), (const char**)dialog_background_image_xpm
+     m_WorkunitAnimationImage.SetDefaults(
+        wxT("workunit animation"), (const char**)workunit_animation_image_xpm
+    );
+     m_WorkunitRunningImage.SetDefaults(
+        wxT("workunit running"), (const char**)workunit_running_image_xpm
+    );
+     m_WorkunitSuspendedImage.SetDefaults(
+        wxT("workunit suspended"), (const char**)workunit_suspended_image_xpm
+    );
+     m_WorkunitWaitingImage.SetDefaults(
+        wxT("workunit waiting"), (const char**)workunit_waiting_image_xpm
     );
     return true;
 }
@@ -704,20 +727,11 @@ bool CSkinManager::ReloadSkin(wxString strSkin) {
         strSkin = GetDefaultSkinName();
     }
     
-    // Check to make sure that we are not trying to load the skin we
-    //   are already using.
-    if (m_strSelectedSkin == strSkin) return true;
-
     // Clear out all the old stuff 
     Clear();
 
     // Set the default skin back to Default
     m_strSelectedSkin = strSkin;
-
-    // Check to see if the skin we want to change to is the default skin
-    if (GetDefaultSkinName() == m_strSelectedSkin || GetDefaultBOINCSkinName() == m_strSelectedSkin) {
-        m_strSelectedSkin = GetDefaultSkinName();
-    }
 
     // TODO: Eliminate the <en> tags: localization is no longer in skin files.
     p = fopen((const char*)ConstructSkinFileName().mb_str(wxConvUTF8), "r");
@@ -775,11 +789,6 @@ wxArrayString& CSkinManager::GetCurrentSkins() {
 
 wxString CSkinManager::GetDefaultSkinName() {
     return wxString(wxT("Default"));
-}
-
-
-wxString CSkinManager::GetDefaultBOINCSkinName() {
-    return wxString(wxT("BOINC"));
 }
 
 

@@ -695,7 +695,7 @@ bool CPanelPreferences::ReadPreferenceSettings() {
     if (retval == ERR_NOT_FOUND) {
         // Older clients don't support get_global_prefs_working_struct RPC
         global_preferences_working = pDoc->state.global_prefs;
-	retval = pDoc->rpc.get_global_prefs_override_struct(global_preferences_working, global_preferences_mask);
+        retval = pDoc->rpc.get_global_prefs_override_struct(global_preferences_working, global_preferences_mask);
     }
 
     if (!retval && global_preferences_override_mask.are_simple_prefs_set()) {
@@ -1068,6 +1068,4 @@ void CDlgPreferences::OnOK( wxCommandEvent& WXUNUSED(event) ) {
     m_pBackgroundPanel->OnOK();
     EndModal(wxID_OK);
 }
-
-
 

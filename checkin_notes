@@ -7363,3 +7363,31 @@ David  17 Oct 2011
         file_xfer.cpp
         gui_http.cpp
         scheduler_op.cpp
+
+Rom    17 Oct 2011
+    - MGR: Make the Default skin loadable from the file system.
+    - MGR: Change the in-memory defaults for the skin to be a light-gray
+        background.
+    - MGR: Change the dots used in the simple gui.
+    - MGR: Make the dots used in the simple gui skinable.
+    - MGR: Change the 'Project Web Sites' button text to 'Project Web Pages'.
+    - MGR: Add a basic 'Default' skin to be included by the various
+        installers
+    - MGR: Remove a bunch of files that are not used by the default skin
+        anymore.
+
+    clientgui/res/skins/default/graphic/
+        <various files>
+    clientgui/res/templates/
+        dotgreen.gif
+        dotred.gif
+        dotyellow.gif
+    clientgui/
+        sg_DlgPreferences.cpp
+        sg_ProjectPanel.cpp
+        sg_TaskPanel.cpp, .h
+        SkinManager.cpp, .h
+    clientgui/skins/Default/
+        background_image.png
+    clientgui/skins/Default/
+        skin.xml

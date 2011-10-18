@@ -1,0 +1,70 @@
+/* XPM */
+// This file is part of BOINC.
+// http://boinc.berkeley.edu
+// Copyright (C) 2011 University of California
+//
+// BOINC is free software; you can redistribute it and/or modify it
+// under the terms of the GNU Lesser General Public License
+// as published by the Free Software Foundation,
+// either version 3 of the License, or (at your option) any later version.
+//
+// BOINC is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+// See the GNU Lesser General Public License for more details.
+//
+// You should have received a copy of the GNU Lesser General Public License
+// along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
+static const char *workunit_running_image_xpm[] = {
+/* columns rows colors chars-per-pixel */
+"16 16 32 1",
+"% c #97D297",
+"; c #006C00",
+"e c #E9ECE9",
+"0 c #001700",
+"= c #02A602",
+"O c #F6F8F6",
+"X c #D4E3D4",
+". c #FBFCFB",
+"- c #E3F2E3",
+"w c #8E998E",
+"* c #005700",
+"+ c #508350",
+"  c None",
+"# c #049704",
+"7 c #C5CBC5",
+"9 c #87B887",
+"@ c #018101",
+"6 c #4FFF4F",
+"5 c #11BA11",
+"3 c #74C074",
+"> c #06C206",
+"o c #ABCFAB",
+"$ c #32AD32",
+"8 c #002A00",
+"4 c #364F36",
+"q c #203C20",
+"& c #F0F4F0",
+"< c #004100",
+"1 c #1FE11F",
+", c #A2B3A2",
+"2 c #2FF72F",
+": c #06B206",
+/* pixels */
+"     .XooXO     ",
+"   .o+@@##$%O   ",
+"  &+*@##====$-  ",
+" .+*;@#:>>>::$& ",
+" ,<*;@:12221>=3 ",
+"O4<*;@5266661=#-",
+"78<*;@=126661=#o",
+",8<<*;@#51215#@9",
+",88<**;@@#==#@@9",
+"708<<**;;;@@@@;,",
+"&q888<***;;;;;*X",
+" w0888<<*****<+ ",
+" O400888<<<<<qe ",
+"  e400008888qX  ",
+"   Owq00008we   ",
+"     &7ww7&     "
+};

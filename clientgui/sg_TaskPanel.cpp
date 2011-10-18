@@ -27,9 +27,6 @@
 #include "sg_TaskPanel.h"
 #include "boinc_api.h"
 #include "filesys.h"
-#include "res/GreenDot16.xpm"
-#include "res/YellowDot16.xpm"
-#include "res/RedDot16.xpm"
 
 
 enum { redDot, yellowDot, greenDot };
@@ -204,9 +201,6 @@ CSimpleTaskPanel::CSimpleTaskPanel( wxWindow* parent ) :
 	m_pulseTimer = new wxTimer(this, ID_SIMPLE_PROGRESSPULSETIMER);
     m_oldWorkCount = -1;
     error_time = 0;
-    m_GreenDot = wxBitmap((const char**)GreenDot16_xpm);
-    m_YellowDot = wxBitmap((const char**)YellowDot16_xpm);
-    m_RedDot = wxBitmap((const char**)RedDot16_xpm);
     m_GotBGBitMap = false; // Can't be made until parent has been laid out.
     m_bStableTaskInfoChanged = false;
     m_CurrentTaskSelection = -1;
@@ -638,7 +632,6 @@ wxString CSimpleTaskPanel::FormatTime(float fBuffer) {
 
         strBuffer = ts.Format();
     }
-
     return strBuffer;
 }
 
@@ -697,7 +690,11 @@ void CSimpleTaskPanel::UpdateTaskSelectionList() {
     PROJECT* project;
     std::vector<bool>is_alive;
     CMainDocument*      pDoc = wxGetApp().GetDocument();
+    CSkinSimple* pSkinSimple = wxGetApp().GetSkinManager()->GetSimple();
+
     wxASSERT(pDoc);
+    wxASSERT(pSkinSimple);
+    wxASSERT(wxDynamicCast(pSkinSimple, CSkinSimple));
     
     count = m_TaskSelectionCtrl->GetCount();
 
@@ -793,13 +790,13 @@ void CSimpleTaskPanel::UpdateTaskSelectionList() {
         if (newColor != selData->dotColor) {
             switch (newColor) {
             case greenDot:
-            m_TaskSelectionCtrl->SetItemBitmap(j, m_GreenDot);
+                m_TaskSelectionCtrl->SetItemBitmap(j, *pSkinSimple->GetWorkunitRunningImage()->GetBitmap());
                 break;
             case yellowDot:
-            m_TaskSelectionCtrl->SetItemBitmap(j, m_YellowDot);
+                m_TaskSelectionCtrl->SetItemBitmap(j, *pSkinSimple->GetWorkunitWaitingImage()->GetBitmap());
                 break;
             case redDot:
-            m_TaskSelectionCtrl->SetItemBitmap(j, m_RedDot);
+                m_TaskSelectionCtrl->SetItemBitmap(j, *pSkinSimple->GetWorkunitWaitingImage()->GetBitmap());
                 break;
             }
             selData->dotColor = newColor;

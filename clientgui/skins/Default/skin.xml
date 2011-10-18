@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<skin>
+  <completed/>
+	<en>
+		<simple>
+			<background_image>
+				<!-- Background Image for the Simple GUI-->
+				<!--	410x540 -->
+				<image>
+					<imagesrc>background_image.png</imagesrc>
+					<background_color>213:213:213</background_color>
+				</image>
+			</background_image>
+		</simple>
+	</en>
+</skin>

@@ -129,9 +129,6 @@ class CSimpleTaskPanel : public CSimplePanelBase
         int                         m_oldWorkCount;
         int                         m_iPctDoneX10;
 		time_t                      error_time;
-        wxBitmap                    m_GreenDot;
-        wxBitmap                    m_YellowDot;
-        wxBitmap                    m_RedDot;
         wxTimer*                    m_pulseTimer;
         bool                        m_bStableTaskInfoChanged;
         int                         m_CurrentTaskSelection;

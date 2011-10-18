@@ -141,7 +141,7 @@ CSimpleProjectPanel::CSimpleProjectPanel( wxWindow* parent ) :
 	wxBoxSizer* bSizer3;
 	bSizer3 = new wxBoxSizer( wxHORIZONTAL );
 
-	m_ProjectWebSitesButton = new CSimpleProjectWebSitesPopupButton( this, ID_PROJECTWEBSITESBUTTON, _("Project Web Sites"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_ProjectWebSitesButton = new CSimpleProjectWebSitesPopupButton( this, ID_PROJECTWEBSITESBUTTON, _("Project Web Pages"), wxDefaultPosition, wxDefaultSize, 0 );
 	bSizer3->Add( m_ProjectWebSitesButton, 0, wxEXPAND | wxALIGN_LEFT, 0 );
     bSizer3->AddStretchSpacer();
 
