@@ -625,7 +625,7 @@ PROJECT* WORK_FETCH::choose_project() {
         }
         for (unsigned int i=0; i<gstate.results.size(); i++) {
             RESULT* rp = gstate.results[i];
-            PROJECT* p = rp->project;
+            p = rp->project;
             p->sched_priority -= CURRENT_QUEUE_WEIGHT * rp->estimated_flops_remaining()/total_flops_remaining;
         }
     }

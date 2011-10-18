@@ -43,7 +43,7 @@ int GUI_HTTP::do_rpc(
     }
 
     boinc_delete_file(output_file);
-    retval = http_op.init_get(url, output_file, true);
+    retval = http_op.init_get(0, url, output_file, true);
     if (retval) return retval;
     gstate.http_ops->insert(&http_op);
     gui_http_op = op;
@@ -64,7 +64,7 @@ int GUI_HTTP::do_rpc_post(
     }
 
     boinc_delete_file(output_file);
-    retval = http_op.init_post(url, input_file, output_file);
+    retval = http_op.init_post(0, url, input_file, output_file);
     if (retval) return retval;
     gstate.http_ops->insert(&http_op);
     gui_http_op = op;
@@ -77,7 +77,7 @@ int GUI_HTTP::do_rpc_post_str(GUI_HTTP_OP* op, char* url, char* req_buf, int len
     if (gui_http_state != GUI_HTTP_STATE_IDLE) {
         return ERR_RETRY;
     }
-    int retval = http_op.init_post2(url, req_buf, len, NULL, 0);
+    int retval = http_op.init_post2(0, url, req_buf, len, NULL, 0);
     if (retval) return retval;
     gstate.http_ops->insert(&http_op);
     gui_http_op = op;

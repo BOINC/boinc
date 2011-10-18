@@ -116,7 +116,7 @@ function show_scenarios() {
             <li>Whether to use Hysteresis-based work fetch
                 (the proposed policy for the 6.14 client)
             </ul>
-        <li> <b>cc_config.xml</b>: client configuration (optional).
+        <li> log flags
         </ul>
         The outputs of a simulation include
         <ul>
@@ -194,6 +194,7 @@ function create_scenario_form() {
     row2("* client_state.xml", "<input name=client_state type=file>");
     row2("global_prefs.xml", "<input name=global_prefs type=file>");
     row2("global_prefs_override.xml", "<input name=global_prefs_override type=file>");
+    row2("cc_config.xml", "<input name=cc_config type=file>");
     row2("* Description", "<textarea name=description cols=40></textarea>");
     row2("", "<input type=submit value=OK>");
     echo "
@@ -249,6 +250,10 @@ function create_scenario() {
     $gpo = $_FILES['global_prefs_override']['tmp_name'];
     if (is_uploaded_file($gpo)) {
         move_uploaded_file($gpo, "$d/global_prefs_override.xml");
+    }
+    $ccc = $_FILES['cc_config']['tmp_name'];
+    if (is_uploaded_file($ccc)) {
+        move_uploaded_file($ccc, "$d/cc_config.xml");
     }
     file_put_contents("$d/userid", "$user->id");
     file_put_contents("$d/description", $desc);
@@ -330,6 +335,14 @@ function show_scenario() {
     page_tail();
 }
 
+function log_flag_boxes() {
+    return "
+        <input type=checkbox name=cpu_sched_debug> CPU scheduling debug
+        <br> <input type=checkbox name=rr_simulation> Round-robin simulation info
+        <br> <input type=checkbox name=work_fetch_debug> Work fetch debug
+    ";
+}
+
 function simulation_form_short() {
     $scen = get_str("scen");
     page_head("Do simulation");
@@ -346,7 +359,7 @@ function simulation_form_short() {
     ";
     row2("Duration", "<input name=duration value=86400> seconds");
     row2("Time step", "<input name=delta value=60> seconds");
-    row2("cc_config.xml", "<input type=file name=cc_config>");
+    row2("Log flags", log_flag_boxes());
     row2("", "<input type=submit value=OK>");
     echo "</form>\n";
     end_table();
@@ -419,12 +432,21 @@ function simulation_action() {
     $policy->cpu_sched_rr_only = post_str("cpu_sched_rr_only", true);
     $policy->server_uses_workload = post_str("server_uses_workload", true);
     file_put_contents("$sim_path/userid", "$user->id");
-    $cc = $_FILES['cc_config']['tmp_name'];
-    if (is_uploaded_file($cc)) {
-        move_uploaded_file($cc, "$sim_path/cc_config.xml");
-    }
 
-    do_sim("scenarios/$scen", $sim_path, $policy, $sim_path);
+    $x = "<log_flags>\n";
+    if (post_str("cpu_sched_debug", true)) {
+        $x .= "<cpu_sched_debug/>\n";
+    }
+    if (post_str("rr_simulation", true)) {
+        $x .= "<rr_simulation/>\n";
+    }
+    if (post_str("work_fetch_debug", true)) {
+        $x .= "<work_fetch_debug/>\n";
+    }
+    $x .= "</log_flags>\n";
+    file_put_contents("$sim_path/log_flags.xml", $x);
+
+    do_sim("scenarios/$scen", $sim_path, $policy);
     header("Location: sim_web.php?action=show_simulation&scen=$scen&sim=$sim_name");
 }
 

@@ -47,12 +47,15 @@ extern int curl_cleanup();
 #define HTTP_STATE_CONNECTING       1
 #define HTTP_STATE_DONE             2
 
+struct PROJECT;
+
 class HTTP_OP {
 public:
     HTTP_OP();
     ~HTTP_OP();
 
     PROXY_INFO pi;
+    PROJECT* project;   // associated project, if any
 
 	char m_url[256];  
 	char m_curl_ca_bundle_location[256];
@@ -144,7 +147,7 @@ public:
         // For example: notice RSS feed fetches
 
     void reset();
-    void init();
+    void init(PROJECT*);
     int get_ip_addr(int &ip_addr);
     void close_socket();
     void close_file();
@@ -153,9 +156,15 @@ public:
     void handle_messages(CURLMsg*);
 
 	//int init_head(const char* url);
-    int init_get(const char* url, const char* outfile, bool del_old_file, double offset=0);
-    int init_post(const char* url, const char* infile, const char* outfile);
+    int init_get(
+        PROJECT*, const char* url, const char* outfile,
+        bool del_old_file, double offset=0
+    );
+    int init_post(
+        PROJECT*, const char* url, const char* infile, const char* outfile
+    );
     int init_post2(
+        PROJECT*,
         const char* url,
         char* req1,     // first part of request.  ALSO USED FOR REPLY
         int req1_len,

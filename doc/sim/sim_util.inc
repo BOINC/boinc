@@ -74,7 +74,7 @@ class RESULT {
 
 // do a simulation
 //
-function do_sim($in, $out, $policy, $config_prefix=null) {
+function do_sim($in, $out, $policy) {
     $args = "";
     if ($policy->existing_jobs_only) $args .= " --existing_jobs_only";
     if ($policy->use_hyst_fetch) $args .= " --use_hyst_fetch";
@@ -84,8 +84,7 @@ function do_sim($in, $out, $policy, $config_prefix=null) {
     $args .= " --delta $policy->delta";
     $args .= " --rec_half_life $policy->rec_half_life";
 
-    $c = $config_prefix?"--config_prefix $config_prefix/":"";
-    $cmd = "./sim $args --infile_prefix $in/ --outfile_prefix $out/ $c";
+    $cmd = "./sim $args --infile_prefix $in/ --outfile_prefix $out/";
     //echo "cmd: $cmd\n"; die;
     system($cmd, $ret);
     if ($ret) {

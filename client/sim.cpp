@@ -25,8 +25,6 @@
 //          client_state.xml
 //          global_prefs.xml
 //          global_prefs_override.xml
-//  [--config_prefix dir/]
-//      Prefix of cc_config.xml
 //  [--outfile_prefix X]
 //      Prefix of output filenames; default is blank.
 //      Output files are:
@@ -73,7 +71,6 @@
 #define SCHED_RETRY_DELAY_MAX    (60*60*4)         // 4 hours
 
 const char* infile_prefix = "./";
-const char* config_prefix = "./";
 const char* outfile_prefix = "./";
 
 #define TIMELINE_FNAME "timeline.html"
@@ -115,7 +112,6 @@ int njobs;
 void usage(char* prog) {
     fprintf(stderr, "usage: %s\n"
         "[--infile_prefix F]\n"
-        "[--config_prefix F]\n"
         "[--outfile_prefix F]\n"
         "[--existing_jobs_only]\n"
         "[--duration X]\n"
@@ -1314,10 +1310,23 @@ void cull_projects() {
 void do_client_simulation() {
     char buf[256], buf2[256];
     int retval;
+    FILE* f;
 
-    sprintf(buf, "%s%s", config_prefix, CONFIG_FILE);
+    sprintf(buf, "%s%s", infile_prefix, CONFIG_FILE);
     config.defaults();
     read_config_file(true, buf);
+
+    log_flags.init();
+    sprintf(buf, "%s%s", outfile_prefix, "log_flags.xml");
+    f = fopen(buf, "r");
+    if (f) {
+        MIOFILE mf;
+        mf.init_file(f);
+        XML_PARSER xp(&mf);
+        xp.get_tag();   // skip open tag
+        log_flags.parse(xp);
+        fclose(f);
+    }
 
     gstate.add_platform("client simulator");
     sprintf(buf, "%s%s", infile_prefix, STATE_FILE_NAME);
@@ -1378,7 +1387,7 @@ void do_client_simulation() {
     sim_results.compute_figures_of_merit();
 
     sprintf(buf, "%s%s", outfile_prefix, RESULTS_DAT_FNAME);
-    FILE* f = fopen(buf, "w");
+    f = fopen(buf, "w");
     sim_results.print(f);
     fclose(f);
     sprintf(buf, "%s%s", outfile_prefix, RESULTS_TXT_FNAME);
@@ -1422,8 +1431,6 @@ int main(int argc, char** argv) {
         char* opt = argv[i++];
         if (!strcmp(opt, "--infile_prefix")) {
             infile_prefix = argv[i++];
-        } else if (!strcmp(opt, "--config_prefix")) {
-            config_prefix = argv[i++];
         } else if (!strcmp(opt, "--outfile_prefix")) {
             outfile_prefix = argv[i++];
         } else if (!strcmp(opt, "--existing_jobs_only")) {

@@ -7348,3 +7348,18 @@ David  17 Oct 2011
         sim.cpp,h
         work_fetch.cpp
         sim_util.cpp
+
+David  17 Oct 2011
+    - client: associate a PROJECT with HTTP_OP where applicable,
+        so that if you use <http_debug> and filter by project
+        you don't see other projects' HTTP stuff
+    - client simulator: cc_config.xml is part of the scenario;
+        log flags are part of the simulation
+
+    client/
+        http_curl.cpp,h
+        sim.cpp
+        work_fetch.cpp
+        file_xfer.cpp
+        gui_http.cpp
+        scheduler_op.cpp
