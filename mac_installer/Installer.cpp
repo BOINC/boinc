@@ -317,7 +317,7 @@ void Initialize()	/* Initialize some managers */
 {
     OSErr	err;
         
-    InitCursor();
+//    InitCursor();
 
     err = AEInstallEventHandler( kCoreEventClass, kAEQuitApplication, NewAEEventHandlerUPP((AEEventHandlerProcPtr)QuitAppleEventHandler), 0, false );
     if (err != noErr)

@@ -148,7 +148,9 @@ First checked in.
 // for our machine.  So we include both here.
 
 
+#if TARGET_CPU_PPC
 #include <mach/ppc/thread_status.h>
+#endif
 #include <mach/i386/thread_status.h>
 
 #if defined(__cplusplus)
@@ -937,6 +939,8 @@ static int MachInitContextFromTask(
 
 #pragma mark ***** CPU Specific
 
+#if TARGET_CPU_PPC
+
 #pragma mark - PowerPC
 
 /*	PowerPC Stack Frame Basics
@@ -1472,6 +1476,7 @@ static int PowerPCCrossSignalFrame(QBTContext *context, QTMAddr thisFrame, QTMAd
 	
 	return err;
 }
+#endif //TARGET_CPU_PPC
 
 #pragma mark - Intel
 #if TARGET_CPU_X86 || TARGET_CPU_X86_64
@@ -2004,6 +2009,7 @@ static int Intel64CrossSignalFrame(QBTContext *context, QTMAddr thisFrame, QTMAd
 // each field.
 
 static const QBTArchInfo kArchitectures[] = {
+#if TARGET_CPU_PPC
 	{	// PowerPC
         "ppc",                      // name
 		CPU_TYPE_POWERPC,			// cputype
@@ -2017,6 +2023,8 @@ static const QBTArchInfo kArchitectures[] = {
 		PPC_THREAD_STATE,			// stateFlavor
 		PPC_THREAD_STATE_COUNT		// stateCount
 	},
+#endif  // TARGET_CPU_PPC
+
 #if 0       // Not supported by BOINC
 	{	// PowerPC64
         "ppc64",                    // name

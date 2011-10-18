@@ -19,10 +19,11 @@
 #
 #
 # Master script to build Universal Binary libraries needed by BOINC:
-# curl-7.21.7 with c-ares-1.7.4, jpeg-6b and wxMac-2.8.10
+# curl-7.21.7 with c-ares-1.7.4 and wxMac-2.8.10
 #
 # by Charlie Fenton 7/21/06
 # Updated 7/6/11 for curl-7.21.7, c-ares-1.7.4 and wxMac-2.8.10 and Unicode
+# Updated 10/18/11 for OS 10.7 lion and XCode 4.2
 #
 # Download these three packages and place them in a common parent 
 # directory with the BOINC source tree.
@@ -68,19 +69,6 @@ cd "${SCRIPT_DIR}"
 cd ../../curl-7.21.7/
 if [  $? -ne 0 ]; then return 1; fi
 source "${SCRIPT_DIR}/buildcurl.sh" ${doclean}
-if [  $? -ne 0 ]; then return 1; fi
-
-echo ""
-echo "----------------------------------"
-echo "--------- BUILD JPEG-6B ----------"
-echo "----------------------------------"
-echo ""
-
-cd "${SCRIPT_DIR}"
-
-cd ../../jpeg-6b/
-if [  $? -ne 0 ]; then return 1; fi
-source "${SCRIPT_DIR}/buildjpeg.sh" ${doclean}
 if [  $? -ne 0 ]; then return 1; fi
 
 echo ""

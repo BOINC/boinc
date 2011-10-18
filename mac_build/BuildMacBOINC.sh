@@ -23,8 +23,7 @@
 # by Charlie Fenton 3/27/08
 # with thanks to Reinhard Prix for his assistance
 #
-# Updated for OS 10.6 and XCode 3.2 on 2/11/10
-# Updated 10/11/10
+# Updated for OS 10.7 Lion and XCode 4.2 on 10/18/11
 ##
 
 ## Usage:
@@ -39,7 +38,7 @@
 ##
 ## optional arguments
 ## -dev         build the development (debug) version (native architecture only). 
-##              default is deployment (release) version (universal binaries: ppc and i386).
+##              default is deployment (release) version (i386).
 ##
 ## -noclean     don't do a "clean" of each target before building.
 ##              default is to clean all first.
@@ -112,14 +111,8 @@ if [ "$major" -lt "10" ]; then
     return 1
 fi
 
-if [ ! -d /Developer/SDKs/MacOSX10.4u.sdk/ ]; then
-    echo "ERROR: System 10.4u SDK is missing.  For details, see build instructions at"
-    echo "boinc/mac_build/HowToBuildBOINC_XCode.rtf or http://boinc.berkeley.edu/trac/wiki/MacBuild"
-    return 1
-fi
-
-if [ ! -d /Developer/SDKs/MacOSX10.5.sdk/ ]; then
-    echo "ERROR: System 10.5 SDK is missing.  For details, see build instructions at"
+if [ ! -d /Developer/SDKs/MacOSX10.6.sdk/ ]; then
+    echo "ERROR: System 10.6 SDK is missing.  For details, see build instructions at"
     echo "boinc/mac_build/HowToBuildBOINC_XCode.rtf or http://boinc.berkeley.edu/trac/wiki/MacBuild"
     return 1
 fi
@@ -138,7 +131,7 @@ if [ "${style}" = "Development" ]; then
     echo "Development (debug) build"
 else
     style="Deployment"
-    echo "Deployment (release) build for architectures: i386, ppc, x86_64"
+    echo "Deployment (release) build for architectures: i386, x86_64"
 fi
 
 echo ""

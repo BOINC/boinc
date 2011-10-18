@@ -141,7 +141,9 @@ First checked in.
 // By default, the system only gives us the one that's appropriate 
 // for our machine.  So we include both here.
 
+#if TARGET_CPU_PPC
 #include <mach/ppc/thread_status.h>
+#endif
 #include <mach/i386/thread_status.h>
 
 #if defined(__cplusplus)
@@ -936,6 +938,7 @@ extern void QCRPrintBacktraces(QCrashReportRef crRef, FILE *f)
     }
 }
 
+#if TARGET_CPU_PPC
 static void PrintPowerPCThreadState(
     QCrashReportRef crRef, 
     const char *    threadID, 
@@ -1007,6 +1010,7 @@ Thread 0 crashed with PPC Thread State:
         }
         fprintf(f, "\n");
     }
+
 }
 
 static void PrintPowerPC64ThreadState(
@@ -1072,6 +1076,7 @@ Thread 0 crashed with PPC Thread State 64:
         fprintf(f, "\n");
     }
 }
+#endif // TARGET_CPU_PPC
 
 #if TARGET_CPU_X86 || TARGET_CPU_X86_64
 
@@ -1206,6 +1211,7 @@ extern void QCRPrintThreadState(QCrashReportRef crRef, FILE *f)
         // Each CPU type has its own thread state flavor namespace, although it's 
         // shared by the 32- and 64-bit variants.
         switch (crRef->actualCPUType) {
+#if TARGET_CPU_PPC
             case CPU_TYPE_POWERPC:
 #if 0       // BOINC does not support 64-bit PowerPC
             case CPU_TYPE_POWERPC64:
@@ -1222,6 +1228,9 @@ extern void QCRPrintThreadState(QCrashReportRef crRef, FILE *f)
                         break;
                 }
                 break;
+#endif  // TARGET_CPU_PPC
+
+
 #if TARGET_CPU_X86 || TARGET_CPU_X86_64
             case CPU_TYPE_X86:
             case CPU_TYPE_X86_64:

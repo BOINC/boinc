@@ -13,12 +13,10 @@
 #undef void
 #undef const
 #define HAVE_STDDEF_H 
-#define HAVE_STDLIB_H 
 #define INLINE __inline__
 /* These are for configuring the JPEG memory manager. */
 #undef DEFAULT_MAX_MEM
 #undef NO_MKTEMP
-#define HAVE_SYS_TYPES_H
 #endif
 #undef CHAR_IS_UNSIGNED
 #undef NEED_BSD_STRINGS

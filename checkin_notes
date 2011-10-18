@@ -755,8 +755,9 @@ Charlie 15 Feb 2011
     Mac: Make backtrace compile properly with OS 10.5 and OS 10.6 SDKs.
     
     lib/
-        QBacktrace.c
-        QCrashReport.c
+        mac/
+            QBacktrace.c
+            QCrashReport.c
 
 Charlie 15 Feb 2011
     Mac Installer: Fix the code which deletes installer receipts to use  
@@ -7410,3 +7411,28 @@ David  18 Oct 2011
         parse.cpp
     py/Boinc/
         setup_project.py
+
+Charlie 18 Oct 2011
+    - Mac: Update Mac build scripts, XCode project and source files 
+        to allow automated builds under OS 10.7 Lion and XCode 4.2.
+    - Mac: Build and link jpeglib from boinc/samples/jpeglib instead 
+        of requiring a separate jpeglib-6b directory.
+    
+    lib/
+        mac/
+            QBackTrace.c
+            QCrashReport.c
+    mac_build/
+        boinc.xcodeproj/
+            project.pbxproj
+        buildc-ares.sh
+        buildcurl.sh
+        BuildMacBOINC.sh
+        buildWxMac.sh
+        setupForBOINC.sh
+    mac_installer/
+        Installer.cpp
+        PostInstall.cpp
+    samples/
+        jpeglib/
+            jconfig.h

@@ -212,6 +212,59 @@
 		DD80632D131FAA4100DC8971 /* sg_BoincSimpleFrame.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDAFA7AC12D4834D00997329 /* sg_BoincSimpleFrame.cpp */; };
 		DD806336131FAD9A00DC8971 /* sg_CustomControls.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD1C822F0AF372D900F709AC /* sg_CustomControls.cpp */; };
 		DD806339131FADE700DC8971 /* sg_DlgMessages.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD4C560C0AD389A2009E23C6 /* sg_DlgMessages.cpp */; };
+		DD81C7E3144D900B000BE61A /* jcapimin.c in Sources */ = {isa = PBXBuildFile; fileRef = DD81C7A1144D900B000BE61A /* jcapimin.c */; };
+		DD81C7E4144D900B000BE61A /* jcapistd.c in Sources */ = {isa = PBXBuildFile; fileRef = DD81C7A2144D900B000BE61A /* jcapistd.c */; };
+		DD81C7E5144D900B000BE61A /* jccoefct.c in Sources */ = {isa = PBXBuildFile; fileRef = DD81C7A3144D900B000BE61A /* jccoefct.c */; };
+		DD81C7E6144D900B000BE61A /* jccolor.c in Sources */ = {isa = PBXBuildFile; fileRef = DD81C7A4144D900B000BE61A /* jccolor.c */; };
+		DD81C7E7144D900B000BE61A /* jcdctmgr.c in Sources */ = {isa = PBXBuildFile; fileRef = DD81C7A5144D900B000BE61A /* jcdctmgr.c */; };
+		DD81C7E8144D900B000BE61A /* jchuff.c in Sources */ = {isa = PBXBuildFile; fileRef = DD81C7A6144D900B000BE61A /* jchuff.c */; };
+		DD81C7EA144D900B000BE61A /* jcinit.c in Sources */ = {isa = PBXBuildFile; fileRef = DD81C7A8144D900B000BE61A /* jcinit.c */; };
+		DD81C7EB144D900B000BE61A /* jcmainct.c in Sources */ = {isa = PBXBuildFile; fileRef = DD81C7A9144D900B000BE61A /* jcmainct.c */; };
+		DD81C7EC144D900B000BE61A /* jcmarker.c in Sources */ = {isa = PBXBuildFile; fileRef = DD81C7AA144D900B000BE61A /* jcmarker.c */; };
+		DD81C7ED144D900B000BE61A /* jcmaster.c in Sources */ = {isa = PBXBuildFile; fileRef = DD81C7AB144D900B000BE61A /* jcmaster.c */; };
+		DD81C7EE144D900B000BE61A /* jcomapi.c in Sources */ = {isa = PBXBuildFile; fileRef = DD81C7AC144D900B000BE61A /* jcomapi.c */; };
+		DD81C7F0144D900B000BE61A /* jcparam.c in Sources */ = {isa = PBXBuildFile; fileRef = DD81C7AE144D900B000BE61A /* jcparam.c */; };
+		DD81C7F1144D900B000BE61A /* jcphuff.c in Sources */ = {isa = PBXBuildFile; fileRef = DD81C7AF144D900B000BE61A /* jcphuff.c */; };
+		DD81C7F2144D900B000BE61A /* jcprepct.c in Sources */ = {isa = PBXBuildFile; fileRef = DD81C7B0144D900B000BE61A /* jcprepct.c */; };
+		DD81C7F3144D900B000BE61A /* jcsample.c in Sources */ = {isa = PBXBuildFile; fileRef = DD81C7B1144D900B000BE61A /* jcsample.c */; };
+		DD81C7F4144D900B000BE61A /* jctrans.c in Sources */ = {isa = PBXBuildFile; fileRef = DD81C7B2144D900B000BE61A /* jctrans.c */; };
+		DD81C7F5144D900B000BE61A /* jdapimin.c in Sources */ = {isa = PBXBuildFile; fileRef = DD81C7B3144D900B000BE61A /* jdapimin.c */; };
+		DD81C7F6144D900B000BE61A /* jdapistd.c in Sources */ = {isa = PBXBuildFile; fileRef = DD81C7B4144D900B000BE61A /* jdapistd.c */; };
+		DD81C7F7144D900B000BE61A /* jdatadst.c in Sources */ = {isa = PBXBuildFile; fileRef = DD81C7B5144D900B000BE61A /* jdatadst.c */; };
+		DD81C7F8144D900B000BE61A /* jdatasrc.c in Sources */ = {isa = PBXBuildFile; fileRef = DD81C7B6144D900B000BE61A /* jdatasrc.c */; };
+		DD81C7F9144D900B000BE61A /* jdcoefct.c in Sources */ = {isa = PBXBuildFile; fileRef = DD81C7B7144D900B000BE61A /* jdcoefct.c */; };
+		DD81C7FA144D900B000BE61A /* jdcolor.c in Sources */ = {isa = PBXBuildFile; fileRef = DD81C7B8144D900B000BE61A /* jdcolor.c */; };
+		DD81C7FC144D900B000BE61A /* jddctmgr.c in Sources */ = {isa = PBXBuildFile; fileRef = DD81C7BA144D900B000BE61A /* jddctmgr.c */; };
+		DD81C7FD144D900B000BE61A /* jdhuff.c in Sources */ = {isa = PBXBuildFile; fileRef = DD81C7BB144D900B000BE61A /* jdhuff.c */; };
+		DD81C7FF144D900B000BE61A /* jdinput.c in Sources */ = {isa = PBXBuildFile; fileRef = DD81C7BD144D900B000BE61A /* jdinput.c */; };
+		DD81C800144D900B000BE61A /* jdmainct.c in Sources */ = {isa = PBXBuildFile; fileRef = DD81C7BE144D900B000BE61A /* jdmainct.c */; };
+		DD81C801144D900B000BE61A /* jdmarker.c in Sources */ = {isa = PBXBuildFile; fileRef = DD81C7BF144D900B000BE61A /* jdmarker.c */; };
+		DD81C802144D900B000BE61A /* jdmaster.c in Sources */ = {isa = PBXBuildFile; fileRef = DD81C7C0144D900B000BE61A /* jdmaster.c */; };
+		DD81C803144D900B000BE61A /* jdmerge.c in Sources */ = {isa = PBXBuildFile; fileRef = DD81C7C1144D900B000BE61A /* jdmerge.c */; };
+		DD81C804144D900B000BE61A /* jdphuff.c in Sources */ = {isa = PBXBuildFile; fileRef = DD81C7C2144D900B000BE61A /* jdphuff.c */; };
+		DD81C805144D900B000BE61A /* jdpostct.c in Sources */ = {isa = PBXBuildFile; fileRef = DD81C7C3144D900B000BE61A /* jdpostct.c */; };
+		DD81C806144D900B000BE61A /* jdsample.c in Sources */ = {isa = PBXBuildFile; fileRef = DD81C7C4144D900B000BE61A /* jdsample.c */; };
+		DD81C807144D900B000BE61A /* jdtrans.c in Sources */ = {isa = PBXBuildFile; fileRef = DD81C7C5144D900B000BE61A /* jdtrans.c */; };
+		DD81C808144D900B000BE61A /* jerror.c in Sources */ = {isa = PBXBuildFile; fileRef = DD81C7C6144D900B000BE61A /* jerror.c */; };
+		DD81C80A144D900B000BE61A /* jfdctflt.c in Sources */ = {isa = PBXBuildFile; fileRef = DD81C7C8144D900B000BE61A /* jfdctflt.c */; };
+		DD81C80B144D900B000BE61A /* jfdctfst.c in Sources */ = {isa = PBXBuildFile; fileRef = DD81C7C9144D900B000BE61A /* jfdctfst.c */; };
+		DD81C80C144D900B000BE61A /* jfdctint.c in Sources */ = {isa = PBXBuildFile; fileRef = DD81C7CA144D900B000BE61A /* jfdctint.c */; };
+		DD81C80D144D900B000BE61A /* jidctflt.c in Sources */ = {isa = PBXBuildFile; fileRef = DD81C7CB144D900B000BE61A /* jidctflt.c */; };
+		DD81C80E144D900B000BE61A /* jidctfst.c in Sources */ = {isa = PBXBuildFile; fileRef = DD81C7CC144D900B000BE61A /* jidctfst.c */; };
+		DD81C80F144D900B000BE61A /* jidctint.c in Sources */ = {isa = PBXBuildFile; fileRef = DD81C7CD144D900B000BE61A /* jidctint.c */; };
+		DD81C810144D900B000BE61A /* jidctred.c in Sources */ = {isa = PBXBuildFile; fileRef = DD81C7CE144D900B000BE61A /* jidctred.c */; };
+		DD81C812144D900B000BE61A /* jmemmgr.c in Sources */ = {isa = PBXBuildFile; fileRef = DD81C7D0144D900B000BE61A /* jmemmgr.c */; };
+		DD81C813144D900B000BE61A /* jmemnobs.c in Sources */ = {isa = PBXBuildFile; fileRef = DD81C7D1144D900B000BE61A /* jmemnobs.c */; };
+		DD81C818144D900B000BE61A /* jquant1.c in Sources */ = {isa = PBXBuildFile; fileRef = DD81C7D6144D900B000BE61A /* jquant1.c */; };
+		DD81C819144D900B000BE61A /* jquant2.c in Sources */ = {isa = PBXBuildFile; fileRef = DD81C7D7144D900B000BE61A /* jquant2.c */; };
+		DD81C81A144D900B000BE61A /* jutils.c in Sources */ = {isa = PBXBuildFile; fileRef = DD81C7D8144D900B000BE61A /* jutils.c */; };
+		DD81C81C144D900B000BE61A /* rdbmp.c in Sources */ = {isa = PBXBuildFile; fileRef = DD81C7DA144D900B000BE61A /* rdbmp.c */; };
+		DD81C81D144D900B000BE61A /* rdcolmap.c in Sources */ = {isa = PBXBuildFile; fileRef = DD81C7DB144D900B000BE61A /* rdcolmap.c */; };
+		DD81C81E144D900B000BE61A /* rdgif.c in Sources */ = {isa = PBXBuildFile; fileRef = DD81C7DC144D900B000BE61A /* rdgif.c */; };
+		DD81C81F144D900B000BE61A /* rdppm.c in Sources */ = {isa = PBXBuildFile; fileRef = DD81C7DD144D900B000BE61A /* rdppm.c */; };
+		DD81C820144D900B000BE61A /* rdrle.c in Sources */ = {isa = PBXBuildFile; fileRef = DD81C7DE144D900B000BE61A /* rdrle.c */; };
+		DD81C821144D900B000BE61A /* rdswitch.c in Sources */ = {isa = PBXBuildFile; fileRef = DD81C7DF144D900B000BE61A /* rdswitch.c */; };
+		DD81C822144D900B000BE61A /* rdtarga.c in Sources */ = {isa = PBXBuildFile; fileRef = DD81C7E0144D900B000BE61A /* rdtarga.c */; };
 		DD85AE4B0F5D284D0031F7AC /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD1929D80918A2F100C31BCF /* Security.framework */; };
 		DD867B7510DCE77700128AB4 /* notice.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDE1372D10DC5E8D00161D6B /* notice.cpp */; };
 		DD89163D0F3B182700DE5B1C /* ss_app.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD89163C0F3B182700DE5B1C /* ss_app.cpp */; };
@@ -225,7 +278,6 @@
 		DD89169A0F3B1C0600DE5B1C /* QMachOImageList.c in Sources */ = {isa = PBXBuildFile; fileRef = DDA6BD0C0BD4551F008F7921 /* QMachOImageList.c */; };
 		DD89169B0F3B1C0700DE5B1C /* QSymbols.c in Sources */ = {isa = PBXBuildFile; fileRef = DDA6BD0E0BD4551F008F7921 /* QSymbols.c */; };
 		DD89169C0F3B1C0900DE5B1C /* QTaskMemory.c in Sources */ = {isa = PBXBuildFile; fileRef = DDA6BD100BD4551F008F7921 /* QTaskMemory.c */; };
-		DD8917950F3B1FDE00DE5B1C /* libjpeg.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DD8917940F3B1FDE00DE5B1C /* libjpeg.a */; };
 		DD89179B0F3B206600DE5B1C /* app_ipc.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AA8B6B1B046C364400A80164 /* app_ipc.cpp */; };
 		DD8917A30F3B207800DE5B1C /* diagnostics.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD344BA207C5AE5A0043025C /* diagnostics.cpp */; };
 		DD8917A50F3B207E00DE5B1C /* filesys.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5EAD475031AEFF8018E201A /* filesys.cpp */; };
@@ -529,6 +581,20 @@
 			remoteGlobalIDString = DD96AFF80811075000A06F22;
 			remoteInfo = ScreenSaver;
 		};
+		DD81C823144D904D000BE61A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 20286C28FDCF999611CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = DD81C799144D8DA9000BE61A;
+			remoteInfo = jpeg;
+		};
+		DD81C825144D9059000BE61A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 20286C28FDCF999611CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = DD81C799144D8DA9000BE61A;
+			remoteInfo = jpeg;
+		};
 		DDA12AD00A369DEC00FBDD12 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 20286C28FDCF999611CA2CEA /* Project object */;
@@ -725,7 +791,7 @@
 		DD40825707D3076400163EF5 /* reduce_lib.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = reduce_lib.cpp; sourceTree = "<group>"; };
 		DD40825807D3076400163EF5 /* reduce_main.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = reduce_main.cpp; sourceTree = "<group>"; };
 		DD40825907D3076400163EF5 /* reduce.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = reduce.h; path = ../api/reduce.h; sourceTree = SOURCE_ROOT; };
-		DD40827D07D30AA800163EF5 /* jpeglib.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = jpeglib.h; path = "../../jpeg-6b/jpeglib.h"; sourceTree = SOURCE_ROOT; };
+		DD40827D07D30AA800163EF5 /* jpeglib.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = jpeglib.h; path = ../samples/jpeglib/jpeglib.h; sourceTree = SOURCE_ROOT; };
 		DD40CDF907F0386A0096C645 /* SystemMenu.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SystemMenu.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
 		DD40CDFA07F0386B0096C645 /* SystemMenu-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "SystemMenu-Info.plist"; sourceTree = SOURCE_ROOT; };
 		DD40CDFE07F038990096C645 /* SystemMenu.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = SystemMenu.m; path = ../clientgui/mac/SystemMenu.m; sourceTree = SOURCE_ROOT; };
@@ -864,12 +930,78 @@
 		DD81C5CC07C5D7D90098A04D /* gui_rpc_client.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = gui_rpc_client.cpp; sourceTree = "<group>"; };
 		DD81C5F007C5D8290098A04D /* boinc_win.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = boinc_win.h; path = ../lib/boinc_win.h; sourceTree = SOURCE_ROOT; };
 		DD81C60307C5D8630098A04D /* gui_rpc_client.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = gui_rpc_client.h; path = ../lib/gui_rpc_client.h; sourceTree = SOURCE_ROOT; };
+		DD81C79A144D8DA9000BE61A /* libjpeg.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libjpeg.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		DD81C79F144D900B000BE61A /* cderror.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = cderror.h; path = ../samples/jpeglib/cderror.h; sourceTree = "<group>"; };
+		DD81C7A0144D900B000BE61A /* cdjpeg.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = cdjpeg.h; path = ../samples/jpeglib/cdjpeg.h; sourceTree = "<group>"; };
+		DD81C7A1144D900B000BE61A /* jcapimin.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = jcapimin.c; path = ../samples/jpeglib/jcapimin.c; sourceTree = "<group>"; };
+		DD81C7A2144D900B000BE61A /* jcapistd.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = jcapistd.c; path = ../samples/jpeglib/jcapistd.c; sourceTree = "<group>"; };
+		DD81C7A3144D900B000BE61A /* jccoefct.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = jccoefct.c; path = ../samples/jpeglib/jccoefct.c; sourceTree = "<group>"; };
+		DD81C7A4144D900B000BE61A /* jccolor.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = jccolor.c; path = ../samples/jpeglib/jccolor.c; sourceTree = "<group>"; };
+		DD81C7A5144D900B000BE61A /* jcdctmgr.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = jcdctmgr.c; path = ../samples/jpeglib/jcdctmgr.c; sourceTree = "<group>"; };
+		DD81C7A6144D900B000BE61A /* jchuff.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = jchuff.c; path = ../samples/jpeglib/jchuff.c; sourceTree = "<group>"; };
+		DD81C7A7144D900B000BE61A /* jchuff.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = jchuff.h; path = ../samples/jpeglib/jchuff.h; sourceTree = "<group>"; };
+		DD81C7A8144D900B000BE61A /* jcinit.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = jcinit.c; path = ../samples/jpeglib/jcinit.c; sourceTree = "<group>"; };
+		DD81C7A9144D900B000BE61A /* jcmainct.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = jcmainct.c; path = ../samples/jpeglib/jcmainct.c; sourceTree = "<group>"; };
+		DD81C7AA144D900B000BE61A /* jcmarker.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = jcmarker.c; path = ../samples/jpeglib/jcmarker.c; sourceTree = "<group>"; };
+		DD81C7AB144D900B000BE61A /* jcmaster.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = jcmaster.c; path = ../samples/jpeglib/jcmaster.c; sourceTree = "<group>"; };
+		DD81C7AC144D900B000BE61A /* jcomapi.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = jcomapi.c; path = ../samples/jpeglib/jcomapi.c; sourceTree = "<group>"; };
+		DD81C7AD144D900B000BE61A /* jconfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = jconfig.h; path = ../samples/jpeglib/jconfig.h; sourceTree = "<group>"; };
+		DD81C7AE144D900B000BE61A /* jcparam.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = jcparam.c; path = ../samples/jpeglib/jcparam.c; sourceTree = "<group>"; };
+		DD81C7AF144D900B000BE61A /* jcphuff.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = jcphuff.c; path = ../samples/jpeglib/jcphuff.c; sourceTree = "<group>"; };
+		DD81C7B0144D900B000BE61A /* jcprepct.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = jcprepct.c; path = ../samples/jpeglib/jcprepct.c; sourceTree = "<group>"; };
+		DD81C7B1144D900B000BE61A /* jcsample.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = jcsample.c; path = ../samples/jpeglib/jcsample.c; sourceTree = "<group>"; };
+		DD81C7B2144D900B000BE61A /* jctrans.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = jctrans.c; path = ../samples/jpeglib/jctrans.c; sourceTree = "<group>"; };
+		DD81C7B3144D900B000BE61A /* jdapimin.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = jdapimin.c; path = ../samples/jpeglib/jdapimin.c; sourceTree = "<group>"; };
+		DD81C7B4144D900B000BE61A /* jdapistd.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = jdapistd.c; path = ../samples/jpeglib/jdapistd.c; sourceTree = "<group>"; };
+		DD81C7B5144D900B000BE61A /* jdatadst.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = jdatadst.c; path = ../samples/jpeglib/jdatadst.c; sourceTree = "<group>"; };
+		DD81C7B6144D900B000BE61A /* jdatasrc.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = jdatasrc.c; path = ../samples/jpeglib/jdatasrc.c; sourceTree = "<group>"; };
+		DD81C7B7144D900B000BE61A /* jdcoefct.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = jdcoefct.c; path = ../samples/jpeglib/jdcoefct.c; sourceTree = "<group>"; };
+		DD81C7B8144D900B000BE61A /* jdcolor.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = jdcolor.c; path = ../samples/jpeglib/jdcolor.c; sourceTree = "<group>"; };
+		DD81C7B9144D900B000BE61A /* jdct.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = jdct.h; path = ../samples/jpeglib/jdct.h; sourceTree = "<group>"; };
+		DD81C7BA144D900B000BE61A /* jddctmgr.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = jddctmgr.c; path = ../samples/jpeglib/jddctmgr.c; sourceTree = "<group>"; };
+		DD81C7BB144D900B000BE61A /* jdhuff.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = jdhuff.c; path = ../samples/jpeglib/jdhuff.c; sourceTree = "<group>"; };
+		DD81C7BC144D900B000BE61A /* jdhuff.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = jdhuff.h; path = ../samples/jpeglib/jdhuff.h; sourceTree = "<group>"; };
+		DD81C7BD144D900B000BE61A /* jdinput.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = jdinput.c; path = ../samples/jpeglib/jdinput.c; sourceTree = "<group>"; };
+		DD81C7BE144D900B000BE61A /* jdmainct.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = jdmainct.c; path = ../samples/jpeglib/jdmainct.c; sourceTree = "<group>"; };
+		DD81C7BF144D900B000BE61A /* jdmarker.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = jdmarker.c; path = ../samples/jpeglib/jdmarker.c; sourceTree = "<group>"; };
+		DD81C7C0144D900B000BE61A /* jdmaster.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = jdmaster.c; path = ../samples/jpeglib/jdmaster.c; sourceTree = "<group>"; };
+		DD81C7C1144D900B000BE61A /* jdmerge.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = jdmerge.c; path = ../samples/jpeglib/jdmerge.c; sourceTree = "<group>"; };
+		DD81C7C2144D900B000BE61A /* jdphuff.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = jdphuff.c; path = ../samples/jpeglib/jdphuff.c; sourceTree = "<group>"; };
+		DD81C7C3144D900B000BE61A /* jdpostct.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = jdpostct.c; path = ../samples/jpeglib/jdpostct.c; sourceTree = "<group>"; };
+		DD81C7C4144D900B000BE61A /* jdsample.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = jdsample.c; path = ../samples/jpeglib/jdsample.c; sourceTree = "<group>"; };
+		DD81C7C5144D900B000BE61A /* jdtrans.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = jdtrans.c; path = ../samples/jpeglib/jdtrans.c; sourceTree = "<group>"; };
+		DD81C7C6144D900B000BE61A /* jerror.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = jerror.c; path = ../samples/jpeglib/jerror.c; sourceTree = "<group>"; };
+		DD81C7C7144D900B000BE61A /* jerror.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = jerror.h; path = ../samples/jpeglib/jerror.h; sourceTree = "<group>"; };
+		DD81C7C8144D900B000BE61A /* jfdctflt.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = jfdctflt.c; path = ../samples/jpeglib/jfdctflt.c; sourceTree = "<group>"; };
+		DD81C7C9144D900B000BE61A /* jfdctfst.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = jfdctfst.c; path = ../samples/jpeglib/jfdctfst.c; sourceTree = "<group>"; };
+		DD81C7CA144D900B000BE61A /* jfdctint.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = jfdctint.c; path = ../samples/jpeglib/jfdctint.c; sourceTree = "<group>"; };
+		DD81C7CB144D900B000BE61A /* jidctflt.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = jidctflt.c; path = ../samples/jpeglib/jidctflt.c; sourceTree = "<group>"; };
+		DD81C7CC144D900B000BE61A /* jidctfst.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = jidctfst.c; path = ../samples/jpeglib/jidctfst.c; sourceTree = "<group>"; };
+		DD81C7CD144D900B000BE61A /* jidctint.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = jidctint.c; path = ../samples/jpeglib/jidctint.c; sourceTree = "<group>"; };
+		DD81C7CE144D900B000BE61A /* jidctred.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = jidctred.c; path = ../samples/jpeglib/jidctred.c; sourceTree = "<group>"; };
+		DD81C7CF144D900B000BE61A /* jinclude.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = jinclude.h; path = ../samples/jpeglib/jinclude.h; sourceTree = "<group>"; };
+		DD81C7D0144D900B000BE61A /* jmemmgr.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = jmemmgr.c; path = ../samples/jpeglib/jmemmgr.c; sourceTree = "<group>"; };
+		DD81C7D1144D900B000BE61A /* jmemnobs.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = jmemnobs.c; path = ../samples/jpeglib/jmemnobs.c; sourceTree = "<group>"; };
+		DD81C7D2144D900B000BE61A /* jmemsys.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = jmemsys.h; path = ../samples/jpeglib/jmemsys.h; sourceTree = "<group>"; };
+		DD81C7D3144D900B000BE61A /* jmorecfg.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = jmorecfg.h; path = ../samples/jpeglib/jmorecfg.h; sourceTree = "<group>"; };
+		DD81C7D4144D900B000BE61A /* jpegint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = jpegint.h; path = ../samples/jpeglib/jpegint.h; sourceTree = "<group>"; };
+		DD81C7D5144D900B000BE61A /* jpeglib.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = jpeglib.h; path = ../samples/jpeglib/jpeglib.h; sourceTree = "<group>"; };
+		DD81C7D6144D900B000BE61A /* jquant1.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = jquant1.c; path = ../samples/jpeglib/jquant1.c; sourceTree = "<group>"; };
+		DD81C7D7144D900B000BE61A /* jquant2.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = jquant2.c; path = ../samples/jpeglib/jquant2.c; sourceTree = "<group>"; };
+		DD81C7D8144D900B000BE61A /* jutils.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = jutils.c; path = ../samples/jpeglib/jutils.c; sourceTree = "<group>"; };
+		DD81C7D9144D900B000BE61A /* jversion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = jversion.h; path = ../samples/jpeglib/jversion.h; sourceTree = "<group>"; };
+		DD81C7DA144D900B000BE61A /* rdbmp.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = rdbmp.c; path = ../samples/jpeglib/rdbmp.c; sourceTree = "<group>"; };
+		DD81C7DB144D900B000BE61A /* rdcolmap.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = rdcolmap.c; path = ../samples/jpeglib/rdcolmap.c; sourceTree = "<group>"; };
+		DD81C7DC144D900B000BE61A /* rdgif.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = rdgif.c; path = ../samples/jpeglib/rdgif.c; sourceTree = "<group>"; };
+		DD81C7DD144D900B000BE61A /* rdppm.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = rdppm.c; path = ../samples/jpeglib/rdppm.c; sourceTree = "<group>"; };
+		DD81C7DE144D900B000BE61A /* rdrle.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = rdrle.c; path = ../samples/jpeglib/rdrle.c; sourceTree = "<group>"; };
+		DD81C7DF144D900B000BE61A /* rdswitch.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = rdswitch.c; path = ../samples/jpeglib/rdswitch.c; sourceTree = "<group>"; };
+		DD81C7E0144D900B000BE61A /* rdtarga.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = rdtarga.c; path = ../samples/jpeglib/rdtarga.c; sourceTree = "<group>"; };
 		DD8916280F3B17E900DE5B1C /* boincscr */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = boincscr; sourceTree = BUILT_PRODUCTS_DIR; };
 		DD89163B0F3B182700DE5B1C /* boinc_ss_opengl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = boinc_ss_opengl.h; path = ../clientscr/boinc_ss_opengl.h; sourceTree = SOURCE_ROOT; };
 		DD89163C0F3B182700DE5B1C /* ss_app.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ss_app.cpp; path = ../clientscr/ss_app.cpp; sourceTree = SOURCE_ROOT; };
 		DD89165D0F3B1BC200DE5B1C /* GLUT.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLUT.framework; path = /System/Library/Frameworks/GLUT.framework; sourceTree = "<absolute>"; };
 		DD89165E0F3B1BC200DE5B1C /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = /System/Library/Frameworks/OpenGL.framework; sourceTree = "<absolute>"; };
-		DD8917940F3B1FDE00DE5B1C /* libjpeg.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libjpeg.a; path = "../../jpeg-6b/libjpeg.a"; sourceTree = SOURCE_ROOT; };
 		DD8DD4A509D9432F0043019E /* BOINCDialupManager.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = BOINCDialupManager.cpp; path = ../clientgui/BOINCDialupManager.cpp; sourceTree = SOURCE_ROOT; };
 		DD8DD4A609D9432F0043019E /* BOINCDialupManager.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = BOINCDialupManager.h; path = ../clientgui/BOINCDialupManager.h; sourceTree = SOURCE_ROOT; };
 		DD96AFF90811075000A06F22 /* BOINCSaver.saver */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BOINCSaver.saver; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -1126,6 +1258,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		DD81C797144D8DA9000BE61A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		DD89161F0F3B17E900DE5B1C /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -1133,7 +1272,6 @@
 				DD89165A0F3B1B9000DE5B1C /* AppKit.framework in Frameworks */,
 				DD89165F0F3B1BC200DE5B1C /* GLUT.framework in Frameworks */,
 				DD8916600F3B1BC200DE5B1C /* OpenGL.framework in Frameworks */,
-				DD8917950F3B1FDE00DE5B1C /* libjpeg.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1234,6 +1372,7 @@
 				DD8916280F3B17E900DE5B1C /* boincscr */,
 				DDD337021062235D00867C7D /* AddRemoveUser */,
 				DDB219A410B3BB6100417AEF /* WaitPermissions.app */,
+				DD81C79A144D8DA9000BE61A /* libjpeg.a */,
 			);
 			name = Products;
 			sourceTree = SOURCE_ROOT;
@@ -1247,8 +1386,9 @@
 				DDB873950C85072500E0DE1F /* clientscr */,
 				DD1277BC081F3E59007B5DE1 /* mac_installer */,
 				DDF9385307E288F0004DC076 /* Documentation */,
-				F515955F029EB02001F5651B /* lib */,
 				F54FF8B6029F2FFC012012A7 /* api */,
+				F515955F029EB02001F5651B /* lib */,
+				DD81C79E144D8F97000BE61A /* jpeg */,
 				20286C2CFDCF999611CA2CEA /* Resources */,
 				20286C32FDCF999611CA2CEA /* External Frameworks and Libraries */,
 				195DF8C9FE9D4F0611CA2CBB /* Products */,
@@ -1292,7 +1432,6 @@
 				DDA90F260B64673D008F2E87 /* libwx_mac_static.a */,
 				DD89165D0F3B1BC200DE5B1C /* GLUT.framework */,
 				DD89165E0F3B1BC200DE5B1C /* OpenGL.framework */,
-				DD8917940F3B1FDE00DE5B1C /* libjpeg.a */,
 			);
 			name = "External Frameworks and Libraries";
 			sourceTree = SOURCE_ROOT;
@@ -1467,6 +1606,80 @@
 			name = clientgui;
 			path = ../clientgui;
 			sourceTree = SOURCE_ROOT;
+		};
+		DD81C79E144D8F97000BE61A /* jpeg */ = {
+			isa = PBXGroup;
+			children = (
+				DD81C79F144D900B000BE61A /* cderror.h */,
+				DD81C7A0144D900B000BE61A /* cdjpeg.h */,
+				DD81C7A1144D900B000BE61A /* jcapimin.c */,
+				DD81C7A2144D900B000BE61A /* jcapistd.c */,
+				DD81C7A3144D900B000BE61A /* jccoefct.c */,
+				DD81C7A4144D900B000BE61A /* jccolor.c */,
+				DD81C7A5144D900B000BE61A /* jcdctmgr.c */,
+				DD81C7A6144D900B000BE61A /* jchuff.c */,
+				DD81C7A7144D900B000BE61A /* jchuff.h */,
+				DD81C7A8144D900B000BE61A /* jcinit.c */,
+				DD81C7A9144D900B000BE61A /* jcmainct.c */,
+				DD81C7AA144D900B000BE61A /* jcmarker.c */,
+				DD81C7AB144D900B000BE61A /* jcmaster.c */,
+				DD81C7AC144D900B000BE61A /* jcomapi.c */,
+				DD81C7AD144D900B000BE61A /* jconfig.h */,
+				DD81C7AE144D900B000BE61A /* jcparam.c */,
+				DD81C7AF144D900B000BE61A /* jcphuff.c */,
+				DD81C7B0144D900B000BE61A /* jcprepct.c */,
+				DD81C7B1144D900B000BE61A /* jcsample.c */,
+				DD81C7B2144D900B000BE61A /* jctrans.c */,
+				DD81C7B3144D900B000BE61A /* jdapimin.c */,
+				DD81C7B4144D900B000BE61A /* jdapistd.c */,
+				DD81C7B5144D900B000BE61A /* jdatadst.c */,
+				DD81C7B6144D900B000BE61A /* jdatasrc.c */,
+				DD81C7B7144D900B000BE61A /* jdcoefct.c */,
+				DD81C7B8144D900B000BE61A /* jdcolor.c */,
+				DD81C7B9144D900B000BE61A /* jdct.h */,
+				DD81C7BA144D900B000BE61A /* jddctmgr.c */,
+				DD81C7BB144D900B000BE61A /* jdhuff.c */,
+				DD81C7BC144D900B000BE61A /* jdhuff.h */,
+				DD81C7BD144D900B000BE61A /* jdinput.c */,
+				DD81C7BE144D900B000BE61A /* jdmainct.c */,
+				DD81C7BF144D900B000BE61A /* jdmarker.c */,
+				DD81C7C0144D900B000BE61A /* jdmaster.c */,
+				DD81C7C1144D900B000BE61A /* jdmerge.c */,
+				DD81C7C2144D900B000BE61A /* jdphuff.c */,
+				DD81C7C3144D900B000BE61A /* jdpostct.c */,
+				DD81C7C4144D900B000BE61A /* jdsample.c */,
+				DD81C7C5144D900B000BE61A /* jdtrans.c */,
+				DD81C7C6144D900B000BE61A /* jerror.c */,
+				DD81C7C7144D900B000BE61A /* jerror.h */,
+				DD81C7C8144D900B000BE61A /* jfdctflt.c */,
+				DD81C7C9144D900B000BE61A /* jfdctfst.c */,
+				DD81C7CA144D900B000BE61A /* jfdctint.c */,
+				DD81C7CB144D900B000BE61A /* jidctflt.c */,
+				DD81C7CC144D900B000BE61A /* jidctfst.c */,
+				DD81C7CD144D900B000BE61A /* jidctint.c */,
+				DD81C7CE144D900B000BE61A /* jidctred.c */,
+				DD81C7CF144D900B000BE61A /* jinclude.h */,
+				DD81C7D0144D900B000BE61A /* jmemmgr.c */,
+				DD81C7D1144D900B000BE61A /* jmemnobs.c */,
+				DD81C7D2144D900B000BE61A /* jmemsys.h */,
+				DD81C7D3144D900B000BE61A /* jmorecfg.h */,
+				DD81C7D4144D900B000BE61A /* jpegint.h */,
+				DD81C7D5144D900B000BE61A /* jpeglib.h */,
+				DD81C7D6144D900B000BE61A /* jquant1.c */,
+				DD81C7D7144D900B000BE61A /* jquant2.c */,
+				DD81C7D8144D900B000BE61A /* jutils.c */,
+				DD81C7D9144D900B000BE61A /* jversion.h */,
+				DD81C7DA144D900B000BE61A /* rdbmp.c */,
+				DD81C7DB144D900B000BE61A /* rdcolmap.c */,
+				DD81C7DC144D900B000BE61A /* rdgif.c */,
+				DD81C7DD144D900B000BE61A /* rdppm.c */,
+				DD81C7DE144D900B000BE61A /* rdrle.c */,
+				DD81C7DF144D900B000BE61A /* rdswitch.c */,
+				DD81C7E0144D900B000BE61A /* rdtarga.c */,
+			);
+			name = jpeg;
+			path = ../api;
+			sourceTree = "<group>";
 		};
 		DDA6BCED0BD4546D008F7921 /* mac */ = {
 			isa = PBXGroup;
@@ -1923,6 +2136,23 @@
 			productReference = DD7748980A356C880025D05E /* SetUpSecurity */;
 			productType = "com.apple.product-type.tool";
 		};
+		DD81C799144D8DA9000BE61A /* jpeg */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = DD81C79B144D8DA9000BE61A /* Build configuration list for PBXNativeTarget "jpeg" */;
+			buildPhases = (
+				DD81C796144D8DA9000BE61A /* Sources */,
+				DD81C797144D8DA9000BE61A /* Frameworks */,
+				DD81C827144D90FC000BE61A /* ShellScript */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = jpeg;
+			productName = libjpeg;
+			productReference = DD81C79A144D8DA9000BE61A /* libjpeg.a */;
+			productType = "com.apple.product-type.library.static";
+		};
 		DD89161C0F3B17E900DE5B1C /* ss_app */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = DD8916200F3B17E900DE5B1C /* Build configuration list for PBXNativeTarget "ss_app" */;
@@ -1933,6 +2163,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				DD81C826144D9059000BE61A /* PBXTargetDependency */,
 			);
 			name = ss_app;
 			productName = switcher;
@@ -2004,6 +2235,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				DD81C824144D904D000BE61A /* PBXTargetDependency */,
 			);
 			name = gfx2libboinc;
 			productName = libboincgfx;
@@ -2100,7 +2332,7 @@
 		20286C28FDCF999611CA2CEA /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0410;
+				LastUpgradeCheck = 0420;
 			};
 			buildConfigurationList = DD9E2381091CBDAE0048316E /* Build configuration list for PBXProject "boinc" */;
 			compatibilityVersion = "Xcode 3.0";
@@ -2137,6 +2369,7 @@
 				DD89161C0F3B17E900DE5B1C /* ss_app */,
 				DDD336F51062235D00867C7D /* AddRemoveUser */,
 				DDB219A310B3BB6100417AEF /* WaitPermissions */,
+				DD81C799144D8DA9000BE61A /* jpeg */,
 			);
 		};
 /* End PBXProject section */
@@ -2422,6 +2655,19 @@
 			shellPath = /bin/sh;
 			shellScript = "if [ \"$CONFIGURATION\" = \"Deployment\" ]; then\n  touch \"${BUILT_PRODUCTS_DIR}/SymbolTables/${PRODUCT_NAME}_i386\"\nfi";
 		};
+		DD81C827144D90FC000BE61A /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "## echo \"BuiltProductsDir = ${BUILT_PRODUCTS_DIR}\"\n# echo \"SRC ROOT = ${SRCROOT}\"\n# echo \"CONFIGURATION = ${CONFIGURATION}\"\n# echo \"PRODUCT_NAME = ${PRODUCT_NAME}\"\nmkdir -p \"${SRCROOT}/build/${CONFIGURATION}\"\nif [ \"${BUILT_PRODUCTS_DIR}/lib${PRODUCT_NAME}.a\" -nt \"${SRCROOT}/build/${CONFIGURATION}/lib${PRODUCT_NAME}.a\" ]; then\n    cp -fp \"${BUILT_PRODUCTS_DIR}/lib${PRODUCT_NAME}.a\" \"${SRCROOT}/build/${CONFIGURATION}/lib${PRODUCT_NAME}.a\"\n    if [ \"$CONFIGURATION\" = \"Deployment\" ]; then\n        /Developer/usr/bin/strip -S \"${SRCROOT}/build/${CONFIGURATION}/lib${PRODUCT_NAME}.a\"\n    fi\nfi\n";
+		};
 		DDAD1A380909139E004E7DD0 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -2706,6 +2952,66 @@
 			files = (
 				DD7748B50A356D6C0025D05E /* SetupSecurity.cpp in Sources */,
 				DDA12AAE0A369C5800FBDD12 /* SecurityUtility.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DD81C796144D8DA9000BE61A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DD81C7E3144D900B000BE61A /* jcapimin.c in Sources */,
+				DD81C7E4144D900B000BE61A /* jcapistd.c in Sources */,
+				DD81C7E5144D900B000BE61A /* jccoefct.c in Sources */,
+				DD81C7E6144D900B000BE61A /* jccolor.c in Sources */,
+				DD81C7E7144D900B000BE61A /* jcdctmgr.c in Sources */,
+				DD81C7E8144D900B000BE61A /* jchuff.c in Sources */,
+				DD81C7EA144D900B000BE61A /* jcinit.c in Sources */,
+				DD81C7EB144D900B000BE61A /* jcmainct.c in Sources */,
+				DD81C7EC144D900B000BE61A /* jcmarker.c in Sources */,
+				DD81C7ED144D900B000BE61A /* jcmaster.c in Sources */,
+				DD81C7EE144D900B000BE61A /* jcomapi.c in Sources */,
+				DD81C7F0144D900B000BE61A /* jcparam.c in Sources */,
+				DD81C7F1144D900B000BE61A /* jcphuff.c in Sources */,
+				DD81C7F2144D900B000BE61A /* jcprepct.c in Sources */,
+				DD81C7F3144D900B000BE61A /* jcsample.c in Sources */,
+				DD81C7F4144D900B000BE61A /* jctrans.c in Sources */,
+				DD81C7F5144D900B000BE61A /* jdapimin.c in Sources */,
+				DD81C7F6144D900B000BE61A /* jdapistd.c in Sources */,
+				DD81C7F7144D900B000BE61A /* jdatadst.c in Sources */,
+				DD81C7F8144D900B000BE61A /* jdatasrc.c in Sources */,
+				DD81C7F9144D900B000BE61A /* jdcoefct.c in Sources */,
+				DD81C7FA144D900B000BE61A /* jdcolor.c in Sources */,
+				DD81C7FC144D900B000BE61A /* jddctmgr.c in Sources */,
+				DD81C7FD144D900B000BE61A /* jdhuff.c in Sources */,
+				DD81C7FF144D900B000BE61A /* jdinput.c in Sources */,
+				DD81C800144D900B000BE61A /* jdmainct.c in Sources */,
+				DD81C801144D900B000BE61A /* jdmarker.c in Sources */,
+				DD81C802144D900B000BE61A /* jdmaster.c in Sources */,
+				DD81C803144D900B000BE61A /* jdmerge.c in Sources */,
+				DD81C804144D900B000BE61A /* jdphuff.c in Sources */,
+				DD81C805144D900B000BE61A /* jdpostct.c in Sources */,
+				DD81C806144D900B000BE61A /* jdsample.c in Sources */,
+				DD81C807144D900B000BE61A /* jdtrans.c in Sources */,
+				DD81C808144D900B000BE61A /* jerror.c in Sources */,
+				DD81C80A144D900B000BE61A /* jfdctflt.c in Sources */,
+				DD81C80B144D900B000BE61A /* jfdctfst.c in Sources */,
+				DD81C80C144D900B000BE61A /* jfdctint.c in Sources */,
+				DD81C80D144D900B000BE61A /* jidctflt.c in Sources */,
+				DD81C80E144D900B000BE61A /* jidctfst.c in Sources */,
+				DD81C80F144D900B000BE61A /* jidctint.c in Sources */,
+				DD81C810144D900B000BE61A /* jidctred.c in Sources */,
+				DD81C812144D900B000BE61A /* jmemmgr.c in Sources */,
+				DD81C813144D900B000BE61A /* jmemnobs.c in Sources */,
+				DD81C818144D900B000BE61A /* jquant1.c in Sources */,
+				DD81C819144D900B000BE61A /* jquant2.c in Sources */,
+				DD81C81A144D900B000BE61A /* jutils.c in Sources */,
+				DD81C81C144D900B000BE61A /* rdbmp.c in Sources */,
+				DD81C81D144D900B000BE61A /* rdcolmap.c in Sources */,
+				DD81C81E144D900B000BE61A /* rdgif.c in Sources */,
+				DD81C81F144D900B000BE61A /* rdppm.c in Sources */,
+				DD81C820144D900B000BE61A /* rdrle.c in Sources */,
+				DD81C821144D900B000BE61A /* rdswitch.c in Sources */,
+				DD81C822144D900B000BE61A /* rdtarga.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3035,6 +3341,16 @@
 			target = DD96AFF80811075000A06F22 /* ScreenSaver */;
 			targetProxy = DD791FF00819063C00BE2906 /* PBXContainerItemProxy */;
 		};
+		DD81C824144D904D000BE61A /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = DD81C799144D8DA9000BE61A /* jpeg */;
+			targetProxy = DD81C823144D904D000BE61A /* PBXContainerItemProxy */;
+		};
+		DD81C826144D9059000BE61A /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = DD81C799144D8DA9000BE61A /* jpeg */;
+			targetProxy = DD81C825144D9059000BE61A /* PBXContainerItemProxy */;
+		};
 		DDA12AD10A369DEC00FBDD12 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = DD7748970A356C880025D05E /* SetUpSecurity */;
@@ -3112,10 +3428,7 @@
 		DD1AFEB60A512D8700EE5B82 /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				HEADER_SEARCH_PATHS = (
-					../lib,
-					"/usr/include/c++/4.0.0/i686-apple-darwin9",
-				);
+				HEADER_SEARCH_PATHS = ../lib;
 				INFOPLIST_FILE = "Installer-Info.plist";
 				OTHER_LDFLAGS = (
 					"-framework",
@@ -3130,10 +3443,7 @@
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT_PRE_XCODE_3_1)";
 				ARCHS_STANDARD_32_BIT_PRE_XCODE_3_1 = "ppc i386";
-				HEADER_SEARCH_PATHS = (
-					../lib,
-					"/usr/include/c++/4.0.0/i686-apple-darwin9",
-				);
+				HEADER_SEARCH_PATHS = ../lib;
 				INFOPLIST_FILE = "Installer-Info.plist";
 				OTHER_LDFLAGS = (
 					"-framework",
@@ -3158,12 +3468,10 @@
 					"../../wxMac-2.8.10/src/build/include/",
 					"../../wxMac-2.8.10/include",
 					../clientgui,
-					"/usr/include/c++/4.0.0/i686-apple-darwin9",
 				);
 				INFOPLIST_FILE = Info.plist;
 				LIBRARY_SEARCH_PATHS = (
 					"../../wxMac-2.8.10/src/build/Deployment/",
-					"\"$(SRCROOT)/../../jpeg-6b\"",
 					"\"$(SRCROOT)/../../wxMac-2.8.10/src/build/Deployment\"",
 				);
 				OTHER_CFLAGS = (
@@ -3209,12 +3517,10 @@
 					"../../wxMac-2.8.10/src/build/include/",
 					"../../wxMac-2.8.10/include",
 					../clientgui,
-					"/usr/include/c++/4.0.0/i686-apple-darwin9",
 				);
 				INFOPLIST_FILE = Info.plist;
 				LIBRARY_SEARCH_PATHS = (
 					"../../wxMac-2.8.10/src/build/Deployment/",
-					"\"$(SRCROOT)/../../jpeg-6b\"",
 					"\"$(SRCROOT)/../../wxMac-2.8.10/src/build/Deployment\"",
 				);
 				OTHER_CFLAGS = (
@@ -3297,18 +3603,52 @@
 			};
 			name = Deployment;
 		};
+		DD81C79C144D8DA9000BE61A /* Development */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ONLY_ACTIVE_ARCH_PRE_XCODE_3_1)";
+				EXECUTABLE_PREFIX = lib;
+				ONLY_ACTIVE_ARCH_PRE_XCODE_3_1 = "$(NATIVE_ARCH_ACTUAL)";
+				PRODUCT_NAME = jpeg;
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+					"-Wno-write-strings",
+					"-Wno-main",
+				);
+			};
+			name = Development;
+		};
+		DD81C79D144D8DA9000BE61A /* Deployment */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT_PRE_XCODE_3_1)";
+				ARCHS_STANDARD_32_64_BIT_PRE_XCODE_3_1 = "x86_64 i386 ppc";
+				EXECUTABLE_PREFIX = lib;
+				PRODUCT_NAME = jpeg;
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+					"-Wno-write-strings",
+					"-Wno-main",
+				);
+			};
+			name = Deployment;
+		};
 		DD8916210F3B17E900DE5B1C /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				HEADER_SEARCH_PATHS = (
-					../api/,
-					"/usr/include/c++/4.0.0/i686-apple-darwin9",
-				);
+				HEADER_SEARCH_PATHS = ../api/;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/../../jpeg-6b\"",
+					"${BUILT_PRODUCTS_DIR}/",
 				);
-				OTHER_LDFLAGS = "-lresolv";
+				OTHER_LDFLAGS = (
+					"-lresolv",
+					"-ljpeg",
+				);
 				PRODUCT_NAME = boincscr;
 			};
 			name = Development;
@@ -3318,15 +3658,15 @@
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT_PRE_XCODE_3_1)";
 				ARCHS_STANDARD_32_BIT_PRE_XCODE_3_1 = "ppc i386";
-				HEADER_SEARCH_PATHS = (
-					../api/,
-					"/usr/include/c++/4.0.0/i686-apple-darwin9",
-				);
+				HEADER_SEARCH_PATHS = ../api/;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/../../jpeg-6b\"",
+					"${BUILT_PRODUCTS_DIR}/",
 				);
-				OTHER_LDFLAGS = "-lresolv";
+				OTHER_LDFLAGS = (
+					"-lresolv",
+					"-ljpeg",
+				);
 				PRODUCT_NAME = boincscr;
 			};
 			name = Deployment;
@@ -3360,7 +3700,6 @@
 				);
 				OTHER_LDFLAGS = "";
 				PRODUCT_NAME = boinc;
-				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.6.sdk";
 			};
 			name = Deployment;
 		};
@@ -3386,7 +3725,6 @@
 					../clientgui/mac/config.h,
 				);
 				PRODUCT_NAME = boinc_api;
-				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.6.sdk";
 			};
 			name = Deployment;
 		};
@@ -3408,7 +3746,6 @@
 				GCC_ENABLE_OBJC_GC = supported;
 				HEADER_SEARCH_PATHS = "";
 				INFOPLIST_FILE = "ScreenSaver-Info.plist";
-				"MACOSX_DEPLOYMENT_TARGET[arch=x86_64]" = 10.6;
 				OTHER_LDFLAGS = (
 					"-framework",
 					Foundation,
@@ -3416,8 +3753,6 @@
 					AppKit,
 				);
 				PRODUCT_NAME = BOINCSaver;
-				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.6.sdk";
-				"SDKROOT[arch=x86_64]" = "$(DEVELOPER_SDK_DIR)/MacOSX10.6.sdk";
 				WRAPPER_EXTENSION = saver;
 			};
 			name = Deployment;
@@ -3431,10 +3766,7 @@
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEPLOYMENT_POSTPROCESSING = YES;
 				GCC_VERSION = com.apple.compilers.llvmgcc42;
-				HEADER_SEARCH_PATHS = (
-					"../../curl-7.21.7/include",
-					"/usr/include/c++/4.0.0/i686-apple-darwin9",
-				);
+				HEADER_SEARCH_PATHS = "../../curl-7.21.7/include";
 				INFOPLIST_PREPROCESSOR_DEFINITIONS = "";
 				"OTHER_CFLAGS[arch=x86_64]" = (
 					"-D_THREAD_SAFE",
@@ -3480,10 +3812,7 @@
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT_PRE_XCODE_3_1)";
 				ARCHS_STANDARD_32_BIT_PRE_XCODE_3_1 = "ppc i386";
-				HEADER_SEARCH_PATHS = (
-					../lib,
-					"/usr/include/c++/4.0.0/i686-apple-darwin9",
-				);
+				HEADER_SEARCH_PATHS = ../lib;
 				INFOPLIST_FILE = "PostInstall-Info.plist";
 				OTHER_CFLAGS = (
 					"-D_THREAD_SAFE",
@@ -3523,12 +3852,8 @@
 		DD9843E409920F220090855B /* Deployment */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = i386;
-				COPY_PHASE_STRIP = YES;
-				DEAD_CODE_STRIPPING = YES;
 				DEPLOYMENT_POSTPROCESSING = YES;
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
-				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = "";
 				OTHER_REZFLAGS = "";
 				PRODUCT_NAME = Build_All;
@@ -3545,10 +3870,8 @@
 		DD9843E509920F220090855B /* Deployment */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = (
-					i386,
-					ppc,
-				);
+				ARCHS = "$(ARCHS_STANDARD_32_BIT_PRE_XCODE_3_1)";
+				ARCHS_STANDARD_32_BIT_PRE_XCODE_3_1 = "ppc i386";
 				COPY_PHASE_STRIP = YES;
 				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
@@ -3559,7 +3882,6 @@
 				GCC_VERSION = com.apple.compilers.llvmgcc42;
 				GCC_WARN_ABOUT_DEPRECATED_FUNCTIONS = NO;
 				GCC_WARN_TYPECHECK_CALLS_TO_PRINTF = NO;
-				HEADER_SEARCH_PATHS = "/usr/include/c++/4.0.0/i686-apple-darwin9";
 				LIBRARY_STYLE = STATIC;
 				MACOSX_DEPLOYMENT_TARGET = 10.4;
 				"MACOSX_DEPLOYMENT_TARGET[arch=ppc]" = 10.4;
@@ -3572,7 +3894,7 @@
 					../clientgui/mac/config.h,
 				);
 				PREBINDING = NO;
-				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.5.sdk";
+				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.6.sdk";
 				"SDKROOT[arch=x86_64]" = "$(DEVELOPER_SDK_DIR)/MacOSX10.6.sdk";
 				STRIP_INSTALLED_PRODUCT = YES;
 				WARNING_CFLAGS = (
@@ -3592,7 +3914,6 @@
 				HEADER_SEARCH_PATHS = "";
 				OTHER_LDFLAGS = "";
 				PRODUCT_NAME = boinc;
-				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.6.sdk";
 			};
 			name = Development;
 		};
@@ -3604,7 +3925,6 @@
 				HEADER_SEARCH_PATHS = ../lib;
 				LIBRARY_SEARCH_PATHS = ../lib;
 				PRODUCT_NAME = boinc_api;
-				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.6.sdk";
 			};
 			name = Development;
 		};
@@ -3623,7 +3943,6 @@
 				GCC_ENABLE_OBJC_GC = supported;
 				HEADER_SEARCH_PATHS = "";
 				INFOPLIST_FILE = "ScreenSaver-Info.plist";
-				"MACOSX_DEPLOYMENT_TARGET[arch=x86_64]" = 10.6;
 				OTHER_LDFLAGS = (
 					"-framework",
 					Foundation,
@@ -3631,8 +3950,6 @@
 					AppKit,
 				);
 				PRODUCT_NAME = BOINCSaver;
-				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.6.sdk";
-				"SDKROOT[arch=x86_64]" = "$(DEVELOPER_SDK_DIR)/MacOSX10.6.sdk";
 				WRAPPER_EXTENSION = saver;
 			};
 			name = Development;
@@ -3646,12 +3963,8 @@
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEPLOYMENT_POSTPROCESSING = YES;
 				GCC_VERSION = com.apple.compilers.llvmgcc42;
-				HEADER_SEARCH_PATHS = (
-					"../../curl-7.21.7/include",
-					"/usr/include/c++/4.0.0/i686-apple-darwin9",
-				);
+				HEADER_SEARCH_PATHS = "../../curl-7.21.7/include";
 				INFOPLIST_PREPROCESSOR_DEFINITIONS = "";
-				MACOSX_DEPLOYMENT_TARGET = 10.4;
 				OTHER_LDFLAGS = (
 					"../../curl-7.21.7/lib/.libs/libcurl.a",
 					"../../c-ares-1.7.4/.libs/libcares.a",
@@ -3685,10 +3998,7 @@
 		DD9E2372091CBDAE0048316E /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				HEADER_SEARCH_PATHS = (
-					../lib,
-					"/usr/include/c++/4.0.0/i686-apple-darwin9",
-				);
+				HEADER_SEARCH_PATHS = ../lib;
 				INFOPLIST_FILE = "PostInstall-Info.plist";
 				OTHER_CFLAGS = (
 					"-D_THREAD_SAFE",
@@ -3724,12 +4034,10 @@
 		DD9E237E091CBDAE0048316E /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				COPY_PHASE_STRIP = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
-				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = "";
 				OTHER_REZFLAGS = "";
 				PRODUCT_NAME = Build_All;
@@ -3757,7 +4065,6 @@
 				GCC_VERSION = com.apple.compilers.llvmgcc42;
 				GCC_WARN_ABOUT_DEPRECATED_FUNCTIONS = NO;
 				GCC_WARN_TYPECHECK_CALLS_TO_PRINTF = NO;
-				HEADER_SEARCH_PATHS = "/usr/include/c++/4.0.0/i686-apple-darwin9";
 				LIBRARY_STYLE = STATIC;
 				MACOSX_DEPLOYMENT_TARGET = 10.4;
 				"MACOSX_DEPLOYMENT_TARGET[arch=ppc]" = 10.4;
@@ -3770,7 +4077,7 @@
 					../clientgui/mac/config.h,
 				);
 				PREBINDING = NO;
-				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.5.sdk";
+				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.6.sdk";
 				"SDKROOT[arch=x86_64]" = "$(DEVELOPER_SDK_DIR)/MacOSX10.6.sdk";
 				STRIP_INSTALLED_PRODUCT = NO;
 				WARNING_CFLAGS = (
@@ -3834,9 +4141,8 @@
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_64_BIT_PRE_XCODE_3_1)";
 				ARCHS_STANDARD_32_64_BIT_PRE_XCODE_3_1 = "x86_64 i386 ppc";
-				HEADER_SEARCH_PATHS = "../../jpeg-6b";
+				HEADER_SEARCH_PATHS = ../samples/jpeglib;
 				PRODUCT_NAME = boinc_graphics2;
-				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.6.sdk";
 			};
 			name = Development;
 		};
@@ -3845,7 +4151,7 @@
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_64_BIT_PRE_XCODE_3_1)";
 				ARCHS_STANDARD_32_64_BIT_PRE_XCODE_3_1 = "x86_64 i386 ppc";
-				HEADER_SEARCH_PATHS = "../../jpeg-6b";
+				HEADER_SEARCH_PATHS = ../samples/jpeglib;
 				"OTHER_CFLAGS[arch=ppc]" = (
 					"-D_THREAD_SAFE",
 					"-DNDEBUG",
@@ -3861,7 +4167,6 @@
 					../clientgui/mac/config.h,
 				);
 				PRODUCT_NAME = boinc_graphics2;
-				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.6.sdk";
 			};
 			name = Deployment;
 		};
@@ -3902,6 +4207,13 @@
 		DDFA60CE0CB337D40037B88C /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				OTHER_CFLAGS = (
+					"-D_THREAD_SAFE",
+					"-D_DEBUG",
+					"-DSANDBOX",
+					"-include",
+					../clientgui/mac/config.h,
+				);
 				PRODUCT_NAME = gfx_switcher;
 			};
 			name = Development;
@@ -3911,6 +4223,13 @@
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT_PRE_XCODE_3_1)";
 				ARCHS_STANDARD_32_BIT_PRE_XCODE_3_1 = "ppc i386";
+				OTHER_CFLAGS = (
+					"-D_THREAD_SAFE",
+					"-DNDEBUG",
+					"-DSANDBOX",
+					"-include",
+					../clientgui/mac/config.h,
+				);
 				PRODUCT_NAME = gfx_switcher;
 			};
 			name = Deployment;
@@ -3969,6 +4288,14 @@
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Development;
+		};
+		DD81C79B144D8DA9000BE61A /* Build configuration list for PBXNativeTarget "jpeg" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				DD81C79C144D8DA9000BE61A /* Development */,
+				DD81C79D144D8DA9000BE61A /* Deployment */,
+			);
+			defaultConfigurationIsVisible = 0;
 		};
 		DD8916200F3B17E900DE5B1C /* Build configuration list for PBXNativeTarget "ss_app" */ = {
 			isa = XCConfigurationList;

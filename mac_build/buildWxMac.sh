@@ -53,13 +53,13 @@ else
   doclean=""
 fi
 
-if [ ! -d /Developer/SDKs/MacOSX10.5.sdk/ ]; then
-    echo "ERROR: System 10.5 SDK is missing.  For details, see build instructions at"
+if [ ! -d /Developer/SDKs/MacOSX10.6.sdk/ ]; then
+    echo "ERROR: System 10.6 SDK is missing.  For details, see build instructions at"
     echo "boinc/mac_build/HowToBuildBOINC_XCode.rtf or http://boinc.berkeley.edu/trac/wiki/MacBuild"
     return 1
 fi
 
-## By default, wxMac 2.8.10 links with libiconv.dyld, but building with OS 10.5 SDK 
+## By default, wxMac 2.8.10 links with libiconv.dyld, but building with OS 10.6 SDK 
 ## makes it require libiconv.2.4.0.dylib, while OS 10.4 supplies only libiconv.2.2.0.dylib.
 ## This causes the Manager to fail under OS 10.4 with a dyld error.  
 ## But libiconv is not really needed for BOINC Manager, so we patch wxMac's config file to 
@@ -108,7 +108,7 @@ if [ "$1" != "-clean" ] && [ -f src/build/Deployment/libwx_mac_static.a ]; then
 else
     export DEVELOPER_SDK_DIR="/Developer/SDKs"
     ## We must override some of the build settings in wxWindows.xcodeproj 
-    xcodebuild -project src/wxWindows.xcodeproj -target static -configuration Deployment $doclean build SDKROOT=/Developer/SDKs/MacOSX10.6.sdk GCC_VERSION_i386=4.2 MACOSX_DEPLOYMENT_TARGET_i386=10.4 ARCHS="i386" OTHER_CPLUSPLUSFLAGS="-DHAVE_LOCALTIME_R=1 -DHAVE_GMTIME_R=1 -DwxUSE_UNICODE=1 -fvisibility=hidden -fvisibility-inlines-hidden"
+    xcodebuild -project src/wxWindows.xcodeproj -target static -configuration Deployment $doclean build SDKROOT=/Developer/SDKs/MacOSX10.6.sdk CC=/usr/bin/llvm-gcc-4.2 CXX=/usr/bin/llvm-g++-4.2 GCC_VERSION_i386=com.apple.compilers.llvmgcc42 MACOSX_DEPLOYMENT_TARGET_i386=10.4 ARCHS="i386" OTHER_CPLUSPLUSFLAGS="-DHAVE_LOCALTIME_R=1 -DHAVE_GMTIME_R=1 -DwxUSE_UNICODE=1 -fvisibility=hidden -fvisibility-inlines-hidden"
 
 if [  $? -ne 0 ]; then return 1; fi
 fi
@@ -118,7 +118,7 @@ if [ "$1" != "-clean" ] && [ -f src/build/Development/libwx_mac_static.a ]; then
 else
     export DEVELOPER_SDK_DIR="/Developer/SDKs"
     ## We must override some of the build settings in wxWindows.xcodeproj 
-    xcodebuild -project src/wxWindows.xcodeproj -target static -configuration Development $doclean build SDKROOT=/Developer/SDKs/MacOSX10.6.sdk GCC_VERSION_i386=4.2 MACOSX_DEPLOYMENT_TARGET_i386=10.4 ARCHS="i386" OTHER_CPLUSPLUSFLAGS="-DHAVE_LOCALTIME_R=1 -DHAVE_GMTIME_R=1 -DwxUSE_UNICODE=1 -fvisibility=hidden -fvisibility-inlines-hidden"
+    xcodebuild -project src/wxWindows.xcodeproj -target static -configuration Development $doclean build SDKROOT=/Developer/SDKs/MacOSX10.6.sdk CC=/usr/bin/llvm-gcc-4.2 CXX=/usr/bin/llvm-g++-4.2 GCC_VERSION_i386=com.apple.compilers.llvmgcc42 MACOSX_DEPLOYMENT_TARGET_i386=10.4 ARCHS="i386" OTHER_CPLUSPLUSFLAGS="-DHAVE_LOCALTIME_R=1 -DHAVE_GMTIME_R=1 -DwxUSE_UNICODE=1 -fvisibility=hidden -fvisibility-inlines-hidden"
 
 if [  $? -ne 0 ]; then return 1; fi
 fi
