@@ -464,4 +464,28 @@ int put_file(
     return 0;
 }
 
+int cancel_jobs(int min_id, int max_id) {
+    DB_WORKUNIT wu;
+    DB_RESULT result;
+    char set_clause[256], where_clause[256];
+    int retval;
+
+    sprintf(set_clause, "server_state=%d, outcome=%d",
+        RESULT_SERVER_STATE_OVER, RESULT_OUTCOME_DIDNT_NEED
+    );
+    sprintf(where_clause, "server_state=%d and workunitid >=%d and workunitid<= %d",
+        RESULT_SERVER_STATE_UNSENT, min_id, max_id
+    );
+    retval = result.update_fields_noid(set_clause, where_clause);
+    if (retval) return retval;
+
+    sprintf(set_clause, "error_mask=error_mask|%d, transition_time=%d",
+        WU_ERROR_CANCELLED, (int)(time(0))
+    );
+    sprintf(where_clause, "id>=%d and id<=%d", min_id, max_id);
+    retval = wu.update_fields_noid(set_clause, where_clause);
+    if (retval) return retval;
+    return 0;
+}
+
 const char *BOINC_RCSID_b5f8b10eb5 = "$Id$";

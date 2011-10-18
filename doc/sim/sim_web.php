@@ -75,12 +75,10 @@ function show_scenario_summary($f) {
 function show_scenarios() {
     page_head("The BOINC Client Emulator");
     echo "
-        Welcome to the BOINC Client Emulator (BCE).
-        BCE <b>emulates</b> a BOINC client attached to one or more projects.
+        The BOINC Client Emulator (BCE)
+        <b>emulates</b> a BOINC client attached to one or more projects.
         It predicts, in a few seconds,
-        what the BOINC client will do over a period of day or months.
-        This lets you predict how future versions of BOINC
-        will perform on your computers.
+        what the latest BOINC client will do over a period of day or months.
         By reporting problem situations to BOINC developers,
         you can help us fix bugs and improve performance.
         <h3>Scenarios</h3>
@@ -92,37 +90,33 @@ function show_scenarios() {
           Any projects that don't currently have tasks are ignored.
         <li> <b>global_prefs.xml</b> and <b>global_prefs_override.xml</b>:
             computing preferences (optional).
+        <li> <b>cc_config.xml</b>: options such as GPU exclusions
         </ul>
+        You create a scenario by uploading these files
+        using the <b>Create a scenario</b> button below.
         You can use the files from a running BOINC client
         to emulate that client.
-        You can modify these files, or create new ones, to study hypothetical scenarios
+        <p>
+        You can modify these files, or create new ones,
+        to study hypothetical scenarios
         (e.g. hosts with a large number of CPUs,
         hosts attached to a large number of projects,
         projects with very short or long jobs, and so on).
         See <a href=http://boinc.berkeley.edu/trac/wiki/ClientSim>The
         BCE documentation</a> for details.
-        <p>
-        You create a scenario by uploading these files to the BOINC server.
         <h3>Simulations</h3>
         You can run <b>simulations</b> based on existing scenarios
         (including scenarios created by other people).
         The parameters of a simulation include
         <ul>
         <li> The duration and time resolution of the simulation.
-        <li> Choices for various client policy alternatives, including:
-            <ul>
-            <li>Whether to use Recent Estimated Credit scheduling
-                (the proposed policy for the 6.14 client)
-            <li>Whether to use Hysteresis-based work fetch
-                (the proposed policy for the 6.14 client)
-            </ul>
-        <li> log flags
+        <li> Log flags
         </ul>
         The outputs of a simulation include
         <ul>
         <li> A 'time line' showing CPU and GPU usage.
         <li> The client's message log
-        <li> graphs of scheduling-related data (debt, REC).
+        <li> graphs of scheduling-related data (REC).
         <li> A summary of several <b>figures of merit</b>, including
             <ul>
             <li>idle fraction: the fraction of processing power that was unused
@@ -140,14 +134,17 @@ function show_scenarios() {
         made bad scheduling or work-fetch decisions.
         Or you find may places where the simulator doesn't
         seem to be working correctly.
-        <p>
         In such cases, please add a <b>comment</b> to the simulation,
         indicating the nature of the problem
         and the simulation time when it occurred.
         <p>
-        Also, please post to the <a href=http://lists.ssl.berkeley.edu/mailman/listinfo/boinc_dev>boinc_dev</a> email list
-        if you have problems using BCE,
-        or if you have suggestions for new features.
+        Please post to the <a href=http://lists.ssl.berkeley.edu/mailman/listinfo/boinc_dev>boinc_dev</a> email list if
+        <ul>
+        <li> a simulation reveals a bug or bad scheduling decision
+        <li> you have problems using BCE
+        <li> BCE doesn't do more or less the same thing as your client
+        <li> you have suggestions for new features.
+        </ul>
         <hr>
     ";
     show_button(

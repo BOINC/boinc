@@ -15,18 +15,18 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-//a program for polling the status of a WU in the BOINC
-//system this is needed for integration with GRID.
+// a program for polling the status of a WU in the BOINC
+// system this is needed for integration with GRID.
 //
-//the states have  to be the of the type the GRAM framework supplies:
-//Globus::GRAM::JobState
+// the states have  to be the of the type the GRAM framework supplies:
+// Globus::GRAM::JobState
 //
-//Pending: 1
-//Active: 2
-//Done: 3
-//Failed: 4
-//Suspended: 5
-//Unsubmitted: 6
+// Pending: 1
+// Active: 2
+// Done: 3
+// Failed: 4
+// Suspended: 5
+// Unsubmitted: 6
 //
 //
 // Author: Christian Soettrup

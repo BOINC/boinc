@@ -438,10 +438,10 @@ void xml_unescape(char* buf) {
             *out++ = c;
             p = strchr(in, ';');
             if (p) {
-	      in=p+1; 
-	    } else {
-	      while (isdigit(*in)) in++;
-	    }
+                in = p+1; 
+            } else {
+                while (isdigit(*in)) in++;
+            }
         } else {
             *out++ = *in++;
         }

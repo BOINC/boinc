@@ -329,7 +329,6 @@ int DB_BASE::update_fields_noid(char* set_clause, char* where_clause) {
     );
     int retval = db->do_query(query);
     if (retval) return retval;
-    if (db->affected_rows() != 1) return ERR_DB_NOT_FOUND;
     return 0;
 }
 

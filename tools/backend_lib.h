@@ -86,4 +86,8 @@ extern int get_file(
     R_RSA_PRIVATE_KEY& key
 );
 
+// cancel jobs from min_id to max_id inclusive
+//
+extern int cancel_jobs(int min_id, int max_id);
+
 #endif

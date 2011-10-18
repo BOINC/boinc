@@ -7391,3 +7391,22 @@ Rom    17 Oct 2011
         background_image.png
     clientgui/skins/Default/
         skin.xml
+
+David  18 Oct 2011
+    - backend API: added function cancel_jobs(minid, maxid)
+        for canceling jobs
+    - added program cancel_jobs for canceling jobs
+    - DB interface: it's not an error if update_fields_noid()
+        affects != 1 rows
+
+    db/
+        db_base.cpp
+    tools/
+        backend_lib.cpp,h
+        cancel_jobs.cpp (new)
+        poll_wu.cpp
+        Makefile.am
+    lib/
+        parse.cpp
+    py/Boinc/
+        setup_project.py
