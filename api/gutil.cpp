@@ -53,9 +53,6 @@ extern "C" {
 #if HAVE_ALLOCA_H
 #include <alloca.h>
 #endif
-#ifdef __APPLE__
-#undef HAVE_STDLIB_H /* Avoid compiler warning (redefined in jconfig,h) */
-#endif
 
 #ifndef SANS_JPEGLIB
 extern "C"{

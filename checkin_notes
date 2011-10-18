@@ -7418,6 +7418,9 @@ Charlie 18 Oct 2011
     - Mac: Build and link jpeglib from boinc/samples/jpeglib instead 
         of requiring a separate jpeglib-6b directory.
     
+    api/
+        gutil.cpp
+        gutil_text.cpp
     lib/
         mac/
             QBackTrace.c

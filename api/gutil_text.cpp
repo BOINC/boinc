@@ -42,9 +42,6 @@ extern "C" {
 #endif
 
 #ifndef _WIN32
-#ifdef __APPLE__
-#undef HAVE_STDLIB_H /* Avoid compiler warning (redefined in jconfig,h) */
-#endif
 extern "C"{
 #include <jpeglib.h>
 }
