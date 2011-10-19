@@ -237,6 +237,12 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "wrappture_example", "wrappt
 		{07BDA8F7-4AAF-4A3B-B96E-EA72A143C5AE} = {07BDA8F7-4AAF-4A3B-B96E-EA72A143C5AE}
 	EndProjectSection
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libboincopencl_staticcrt", "libboinopencl_staticcrt.vcproj", "{C0A2DEEE-2EC5-4F67-8048-53264B6BD14D}"
+	ProjectSection(WebsiteProperties) = preProject
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.Debug = "False"
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -661,6 +667,22 @@ Global
 		{D9AF7F68-B881-45B1-A41C-B10E61D764EF}.EmuRelease|x64.Build.0 = Release|x64
 		{D9AF7F68-B881-45B1-A41C-B10E61D764EF}.Release|Win32.ActiveCfg = Release|Win32
 		{D9AF7F68-B881-45B1-A41C-B10E61D764EF}.Release|x64.ActiveCfg = Release|x64
+		{C0A2DEEE-2EC5-4F67-8048-53264B6BD14D}.Debug|Win32.ActiveCfg = Debug|Win32
+		{C0A2DEEE-2EC5-4F67-8048-53264B6BD14D}.Debug|Win32.Build.0 = Debug|Win32
+		{C0A2DEEE-2EC5-4F67-8048-53264B6BD14D}.Debug|x64.ActiveCfg = Debug|x64
+		{C0A2DEEE-2EC5-4F67-8048-53264B6BD14D}.Debug|x64.Build.0 = Debug|x64
+		{C0A2DEEE-2EC5-4F67-8048-53264B6BD14D}.EmuDebug|Win32.ActiveCfg = Debug|Win32
+		{C0A2DEEE-2EC5-4F67-8048-53264B6BD14D}.EmuDebug|Win32.Build.0 = Debug|Win32
+		{C0A2DEEE-2EC5-4F67-8048-53264B6BD14D}.EmuDebug|x64.ActiveCfg = Debug|x64
+		{C0A2DEEE-2EC5-4F67-8048-53264B6BD14D}.EmuDebug|x64.Build.0 = Debug|x64
+		{C0A2DEEE-2EC5-4F67-8048-53264B6BD14D}.EmuRelease|Win32.ActiveCfg = Release|Win32
+		{C0A2DEEE-2EC5-4F67-8048-53264B6BD14D}.EmuRelease|Win32.Build.0 = Release|Win32
+		{C0A2DEEE-2EC5-4F67-8048-53264B6BD14D}.EmuRelease|x64.ActiveCfg = Release|x64
+		{C0A2DEEE-2EC5-4F67-8048-53264B6BD14D}.EmuRelease|x64.Build.0 = Release|x64
+		{C0A2DEEE-2EC5-4F67-8048-53264B6BD14D}.Release|Win32.ActiveCfg = Release|Win32
+		{C0A2DEEE-2EC5-4F67-8048-53264B6BD14D}.Release|Win32.Build.0 = Release|Win32
+		{C0A2DEEE-2EC5-4F67-8048-53264B6BD14D}.Release|x64.ActiveCfg = Release|x64
+		{C0A2DEEE-2EC5-4F67-8048-53264B6BD14D}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
