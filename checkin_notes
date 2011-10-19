@@ -7485,3 +7485,26 @@ David  19 Oct 2011
         procinfo_mac.cpp
         procinfo_unix.cpp
         procinfo_win.cpp
+
+Charlie 19 Oct 2011
+    - Mac: Update XCode project and Mac build scripts to build 
+        libboinc_opencl.a library and to work both with XCode 3.2 on 
+        OS 10.6.8 and with XCode 4.2 on OS 10.7.2.
+        
+    mac_build/
+        boinc.xcodeproj/
+            project.pbxproj
+        BuildMacBOINC.sh
+
+Charlie 19 Oct 2011
+    - MGR: Replace backup images RedDot16.xpm, YellowDot16.xpm and 
+        GreenDot16.xpm with XPM files created from Rom's new files 
+        dotred.gif, dotyellow.gif and dotgreen.gif.  These need to
+        be cmpiled into the source code as backups in case the GIFs 
+        are missing, because these images are essential resources. 
+
+    clientgui/
+        res/
+            RedDot16.xpm
+            YellowDot16.xpm
+            GreenDot16.xpm
