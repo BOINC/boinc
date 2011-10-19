@@ -83,6 +83,8 @@ using std::list;
 using std::isnan;
 #endif
 
+static double rec_sum;
+
 #define DEADLINE_CUSHION    0
     // try to finish jobs this much in advance of their deadline
 
@@ -162,7 +164,8 @@ struct PROC_RESOURCES {
     void schedule(RESULT* rp, ACTIVE_TASK* atp, const char* description) {
         if (log_flags.cpu_sched_debug) {
             msg_printf(rp->project, MSG_INFO,
-                "[cpu_sched_debug] scheduling %s (%s) (prio %f)", rp->name, description,
+                "[cpu_sched_debug] scheduling %s (%s) (prio %f)",
+                rp->name, description,
                 rp->project->sched_priority
             );
         }
@@ -569,7 +572,7 @@ static void update_rec() {
             p->pwf.rec_time
         );
 
-        if (log_flags.debt_debug) {
+        if (log_flags.priority_debug) {
             double dt = gstate.now - gstate.debt_interval_start;
             msg_printf(p, MSG_INFO,
                 "[debt] recent est credit: %.2fG in %.2f sec, %f + %f ->%f",
@@ -603,22 +606,22 @@ static double total_peak_flops() {
     return tpf;
 }
 
-static double rec_sum;
-
 // Initialize project "priorities" based on REC:
 // compute resource share and REC fractions
 // among compute-intensive, non-suspended projects
 //
-void project_priority_init(bool set_rec_temp) {
+void project_priority_init(bool for_work_fetch) {
     double rs_sum = 0;
     rec_sum = 0;
     for (unsigned int i=0; i<gstate.projects.size(); i++) {
         PROJECT* p = gstate.projects[i];
         if (p->non_cpu_intensive) continue;
-        if (p->suspended_via_gui) continue;
-        if (set_rec_temp) {
-            p->pwf.rec_temp = p->pwf.rec;
+        if (for_work_fetch) {
+            if (!p->can_request_work()) continue;
+        } else {
+            if (!p->runnable(RSC_TYPE_ANY)) continue;
         }
+        p->pwf.rec_temp = p->pwf.rec;
         rs_sum += p->resource_share;
         rec_sum += p->pwf.rec_temp;
     }
@@ -633,19 +636,27 @@ void project_priority_init(bool set_rec_temp) {
         } else {
             p->resource_share_frac = p->resource_share/rs_sum;
             p->compute_sched_priority();
+            if (log_flags.priority_debug) {
+                msg_printf(p, MSG_INFO, "[prio] %f rsf %f rt %f rs %f",
+                    p->sched_priority, p->resource_share_frac,
+                    p->pwf.rec_temp, rec_sum
+                );
+            }
         }
     }
 }
 
 void PROJECT::compute_sched_priority() {
-    sched_priority = resource_share_frac - pwf.rec_temp/rec_sum;
+    double rec_frac = pwf.rec_temp/rec_sum;
 
     // projects with zero resource share are always lower priority
     // than those with positive resource share
     //
     if (resource_share == 0) {
-        sched_priority -= 2;
+        sched_priority = -1e6 - rec_frac;
     }
+    sched_priority = - rec_frac/resource_share_frac;
+
 }
 
 // called from the scheduler's job-selection loop;
@@ -659,6 +670,10 @@ void adjust_rec_sched(RESULT* rp) {
     p->compute_sched_priority();
 }
 
+// make this a variable so simulator can change it
+//
+double debt_adjust_period = DEBT_ADJUST_PERIOD;
+
 // adjust project REC
 //
 void CLIENT_STATE::adjust_rec() {
@@ -669,11 +684,11 @@ void CLIENT_STATE::adjust_rec() {
     // it must be because the host was suspended for a long time.
     // In this case, ignore the last period
     //
-    if (elapsed_time > 2*DEBT_ADJUST_PERIOD || elapsed_time < 0) {
-        if (log_flags.debt_debug) {
+    if (elapsed_time > 2*debt_adjust_period || elapsed_time < 0) {
+        if (log_flags.priority_debug) {
             msg_printf(NULL, MSG_INFO,
-                "[debt] adjust_debt: elapsed time (%d) longer than sched enforce period(%d).  Ignoring this period.",
-                (int)elapsed_time, (int)DEBT_ADJUST_PERIOD
+                "[priority] adjust_rec: elapsed time (%d) longer than sched enforce period(%d).  Ignoring this period.",
+                (int)elapsed_time, (int)debt_adjust_period
             );
         }
         reset_debt_accounting();
@@ -842,7 +857,7 @@ void CLIENT_STATE::make_run_list(vector<RESULT*>& run_list) {
 
     // set temporary variables
     //
-    project_priority_init();
+    project_priority_init(false);
     for (i=0; i<results.size(); i++) {
         rp = results[i];
         rp->already_selected = false;

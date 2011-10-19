@@ -106,6 +106,8 @@ bool active;
 bool gpu_active;
 bool connected;
 
+extern double debt_adjust_period;
+
 SIM_RESULTS sim_results;
 int njobs;
 
@@ -1274,7 +1276,7 @@ void cull_projects() {
 
     for (i=0; i<gstate.projects.size(); i++) {
         p = gstate.projects[i];
-        p->dont_request_more_work = true;
+        p->no_apps = true;
         for (int j=0; j<coprocs.n_rsc; j++) {
             p->no_rsc_apps[j] = true;
         }
@@ -1288,16 +1290,22 @@ void cull_projects() {
     for (i=0; i<gstate.apps.size(); i++) {
         APP* app = gstate.apps[i];
         if (!app->ignore) {
-            app->project->dont_request_more_work = false;
+            app->project->no_apps = false;
         }
     }
     vector<PROJECT*>::iterator iter;
     iter = gstate.projects.begin();
     while (iter != gstate.projects.end()) {
         p = *iter;
-        if (p->dont_request_more_work) {
+        if (p->no_apps) {
             fprintf(summary_file,
                 "%s: Removing from simulation - no apps\n",
+                p->project_name
+            );
+            iter = gstate.projects.erase(iter);
+        } else if (p->non_cpu_intensive) {
+            fprintf(summary_file,
+                "%s: Removing from simulation - non CPU intensive\n",
                 p->project_name
             );
             iter = gstate.projects.erase(iter);
@@ -1378,8 +1386,9 @@ void do_client_simulation() {
     gstate.set_ncpus();
     work_fetch.init();
 
-    set_initial_rec();
-    project_priority_init();
+    //set_initial_rec();
+
+    debt_adjust_period = delta;
 
     gstate.request_work_fetch("init");
     simulate();

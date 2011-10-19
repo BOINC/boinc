@@ -67,8 +67,8 @@ struct LOG_FLAGS {
         // show what's running
     bool dcf_debug;
         // show changes to duration correction factors
-    bool debt_debug;
-        // changes to long-term debt
+    bool priority_debug;
+        // info related to REC and scheduling priority
     bool file_xfer_debug;
         // show completion of FILE_XFER
     bool gui_rpc_debug;

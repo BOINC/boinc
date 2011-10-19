@@ -276,7 +276,7 @@ void RR_SIM::simulate() {
     double buf_end = gstate.now + gstate.work_buf_total();
     double sim_now = gstate.now;
     bool first = true;
-    project_priority_init(true);
+    project_priority_init(false);
     while (1) {
         sort_pending_lists();   // sort jobs by project priority
         pick_jobs_to_run(sim_now-gstate.now);
@@ -397,11 +397,8 @@ void RR_SIM::simulate() {
                 p->pwf.rec_temp,
                 dtemp
             );
+            p->compute_sched_priority();
         }
-
-        // recalculate project priorities
-        //
-        project_priority_init(false);
 
         sim_now += delta_t;
     }

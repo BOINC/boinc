@@ -7447,3 +7447,22 @@ Rom    18 Oct 2011
     clientgui/
         sg_BoincSimpleFrame.cpp
         sg_ProjectPanel.cpp, .h
+
+David  18 Oct 2011
+    - client: change the way project priorities are computed,
+        so that they do what they're supposed to
+        (i.e. enforce resource shares)
+    - client: change log flag <debt_debug> to <priority_debug>
+    - client simulator: update REC even with large delta-t.
+    - client simulator: handle "no new work" apps correctly
+
+    api/
+        Makefile.am
+    client/
+        work_fetch.cpp,h
+        client_types.h
+        client_state.cpp
+        sim.cpp
+        rr_sim.cpp
+        sim_util.cpp
+        cpu_sched.cpp

@@ -383,16 +383,16 @@ void RSC_WORK_FETCH::set_request(PROJECT* p) {
         }
     }
 
-    // the number of additional instances needed to have our share
-    //
-    double x1;
-    x1 = ninstances - w.nused_total;
-
     // our share of the idle instances
     //
-    double x2 = nidle_now * w.fetchable_share;
+    req_instances = nidle_now * w.fetchable_share;
 
-    req_instances = std::max(x1, x2);
+    if (log_flags.work_fetch_debug) {
+        msg_printf(0, MSG_INFO,
+            "[wfd] ninst %d nused_total %f nidle_now %f fetch share %f req_inst %f",
+            ninstances, w.nused_total, nidle_now, w.fetchable_share, req_instances
+        );
+    }
     if (req_instances && !req_secs) {
         req_secs = 1;
     }
@@ -608,7 +608,7 @@ PROJECT* WORK_FETCH::choose_project() {
 
     rr_simulation();
     compute_shares();
-    project_priority_init();
+    project_priority_init(true);
 
     // adjust project priorities according to how much work they currently have queued
     //
@@ -617,7 +617,7 @@ PROJECT* WORK_FETCH::choose_project() {
         RESULT* rp = gstate.results[i];
         total_flops_remaining += rp->estimated_flops_remaining();
     }
-#define CURRENT_QUEUE_WEIGHT .3
+#define CURRENT_QUEUE_WEIGHT 1.
     if (total_flops_remaining) {
         for (unsigned int i=0; i<gstate.projects.size(); i++) {
             p = gstate.projects[i];

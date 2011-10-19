@@ -77,7 +77,7 @@ void LOG_FLAGS::show() {
     show_flag(buf, cpu_sched_debug, "cpu_sched_debug");
     show_flag(buf, cpu_sched_status, "cpu_sched_status");
     show_flag(buf, dcf_debug, "dcf_debug");
-    show_flag(buf, debt_debug, "debt_debug");
+    show_flag(buf, priority_debug, "priority_debug");
     show_flag(buf, file_xfer_debug, "file_xfer_debug");
     show_flag(buf, gui_rpc_debug, "gui_rpc_debug");
     show_flag(buf, heartbeat_debug, "heartbeat_debug");

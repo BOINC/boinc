@@ -611,8 +611,6 @@ int CLIENT_STATE::init() {
     //
     check_too_large_jobs();
 
-    project_priority_init();
-
     initialized = true;
     return 0;
 }

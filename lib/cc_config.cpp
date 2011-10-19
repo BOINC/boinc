@@ -70,7 +70,7 @@ int LOG_FLAGS::parse(XML_PARSER& xp) {
         if (xp.parse_bool("cpu_sched_debug", cpu_sched_debug)) continue;
         if (xp.parse_bool("cpu_sched_status", cpu_sched_status)) continue;
         if (xp.parse_bool("dcf_debug", dcf_debug)) continue;
-        if (xp.parse_bool("debt_debug", debt_debug)) continue;
+        if (xp.parse_bool("priority_debug", priority_debug)) continue;
         if (xp.parse_bool("std_debug", std_debug)) continue;
         if (xp.parse_bool("file_xfer_debug", file_xfer_debug)) continue;
         if (xp.parse_bool("gui_rpc_debug", gui_rpc_debug)) continue;
@@ -114,7 +114,7 @@ int LOG_FLAGS::write(MIOFILE& out) {
         "        <cpu_sched_debug>%d</cpu_sched_debug>\n"
         "        <cpu_sched_status>%d</cpu_sched_status>\n"
         "        <dcf_debug>%d</dcf_debug>\n"
-        "        <debt_debug>%d</debt_debug>\n"
+        "        <priority_debug>%d</priority_debug>\n"
         "        <file_xfer_debug>%d</file_xfer_debug>\n"
         "        <gui_rpc_debug>%d</gui_rpc_debug>\n"
         "        <heartbeat_debug>%d</heartbeat_debug>\n"
@@ -151,7 +151,7 @@ int LOG_FLAGS::write(MIOFILE& out) {
         cpu_sched_debug ? 1 : 0,
         cpu_sched_status ? 1 : 0,
         dcf_debug ? 1 : 0,
-        debt_debug ? 1 : 0,
+        priority_debug ? 1 : 0,
         file_xfer_debug ? 1 : 0,
         gui_rpc_debug ? 1 : 0,
         heartbeat_debug ? 1 : 0,

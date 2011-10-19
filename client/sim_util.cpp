@@ -127,8 +127,9 @@ int ACTIVE_TASK::resume_or_start(bool first_time) {
     }
     set_task_state(PROCESS_EXECUTING, "start");
     char buf[256];
-    sprintf(buf, "Starting %s; deadline %s<br>",
-        result->name, sim_time_string(result->report_deadline)
+    sprintf(buf, "Starting %s<br>&nbsp;&nbsp;%s<br>&nbsp;&nbsp;deadline %s<br>",
+        result->name, result->project->get_project_name(),
+        sim_time_string(result->report_deadline)
     );
     html_msg += buf;
     return 0;
