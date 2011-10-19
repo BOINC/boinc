@@ -13,6 +13,12 @@
 			buildPhases = (
 			);
 			dependencies = (
+				DDF9EC11144EB36E005D6144 /* PBXTargetDependency */,
+				DDF9EC13144EB36E005D6144 /* PBXTargetDependency */,
+				DDF9EC15144EB36E005D6144 /* PBXTargetDependency */,
+				DDF9EC17144EB36E005D6144 /* PBXTargetDependency */,
+				DDF9EC0F144EB34E005D6144 /* PBXTargetDependency */,
+				DDF9EC0D144EB338005D6144 /* PBXTargetDependency */,
 				DDBD681107FA830E0082C20D /* PBXTargetDependency */,
 				DDB874670C850DB600E0DE1F /* PBXTargetDependency */,
 				DDBD681507FA830E0082C20D /* PBXTargetDependency */,
@@ -23,7 +29,6 @@
 				DD6D35F40871509300BBCDEE /* PBXTargetDependency */,
 				DDA12AD10A369DEC00FBDD12 /* PBXTargetDependency */,
 				DDD095510A3EE09900C95BA4 /* PBXTargetDependency */,
-				DD1AFEE60A512FF000EE5B82 /* PBXTargetDependency */,
 				DD45C4A10A53E73500E923D1 /* PBXTargetDependency */,
 				DDBD52900C16C3790074905B /* PBXTargetDependency */,
 				DD095D1F0F3B22DE000902F5 /* PBXTargetDependency */,
@@ -459,6 +464,8 @@
 		DDE586B310FC8E9B00DFA887 /* mfile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD344BD207C5B1150043025C /* mfile.cpp */; };
 		DDF5F85A10DD05DB006A50CD /* notice.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDE1372D10DC5E8D00161D6B /* notice.cpp */; };
 		DDF5F85B10DD05E4006A50CD /* notice.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDE1372D10DC5E8D00161D6B /* notice.cpp */; };
+		DDF9EC0A144EB2BB005D6144 /* boinc_opencl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDF9EC08144EB2BB005D6144 /* boinc_opencl.cpp */; };
+		DDF9EC0B144EB2BB005D6144 /* boinc_opencl.h in Headers */ = {isa = PBXBuildFile; fileRef = DDF9EC09144EB2BB005D6144 /* boinc_opencl.h */; };
 		DDFA60E20CB3391C0037B88C /* gfx_switcher in Resources */ = {isa = PBXBuildFile; fileRef = DDFA60D40CB337D40037B88C /* gfx_switcher */; };
 		DDFA60E40CB3396C0037B88C /* gfx_switcher.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDFA60E30CB3396C0037B88C /* gfx_switcher.cpp */; };
 		DDFA61520CB347500037B88C /* app_ipc.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AA8B6B1B046C364400A80164 /* app_ipc.cpp */; };
@@ -510,13 +517,6 @@
 			proxyType = 1;
 			remoteGlobalIDString = DDAEC9E007FA583B00A7BC36;
 			remoteInfo = SetVersion;
-		};
-		DD1AFEE50A512FF000EE5B82 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 20286C28FDCF999611CA2CEA /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = DD1AFEA40A512D8700EE5B82;
-			remoteInfo = Install_BOINC;
 		};
 		DD3E14D50A774397007E0084 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -671,6 +671,48 @@
 			proxyType = 1;
 			remoteGlobalIDString = DDD336F51062235D00867C7D;
 			remoteInfo = AddRemoveUser;
+		};
+		DDF9EC0C144EB338005D6144 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 20286C28FDCF999611CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = DD81C799144D8DA9000BE61A;
+			remoteInfo = jpeg;
+		};
+		DDF9EC0E144EB34E005D6144 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 20286C28FDCF999611CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = DDF9EC02144EB14B005D6144;
+			remoteInfo = boinc_opencl;
+		};
+		DDF9EC10144EB36E005D6144 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 20286C28FDCF999611CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = DDD74D8607CF482E0065AC9D;
+			remoteInfo = BOINC_Client;
+		};
+		DDF9EC12144EB36E005D6144 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 20286C28FDCF999611CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = DD40CDF807F0386A0096C645;
+			remoteInfo = SystemMenu;
+		};
+		DDF9EC14144EB36E005D6144 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 20286C28FDCF999611CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = DDAEC9E007FA583B00A7BC36;
+			remoteInfo = SetVersion;
+		};
+		DDF9EC16144EB36E005D6144 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 20286C28FDCF999611CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = DDFA60C90CB337D40037B88C;
+			remoteInfo = gfx_switcher;
 		};
 		DDFA60DC0CB338940037B88C /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -1122,6 +1164,9 @@
 		DDF1F4A409822F8A00482C89 /* GR-Branding */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text; name = "GR-Branding"; path = "../mac_installer/GR-Branding"; sourceTree = SOURCE_ROOT; };
 		DDF3028907CCCE2C00701169 /* BOINCMgr.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = BOINCMgr.icns; path = ../clientgui/res/BOINCMgr.icns; sourceTree = SOURCE_ROOT; };
 		DDF9385407E28906004DC076 /* checkin_notes */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text; name = checkin_notes; path = ../checkin_notes; sourceTree = SOURCE_ROOT; };
+		DDF9EC03144EB14B005D6144 /* libboinc_opencl.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libboinc_opencl.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		DDF9EC08144EB2BB005D6144 /* boinc_opencl.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = boinc_opencl.cpp; sourceTree = "<group>"; };
+		DDF9EC09144EB2BB005D6144 /* boinc_opencl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = boinc_opencl.h; sourceTree = "<group>"; };
 		DDFA60D40CB337D40037B88C /* gfx_switcher */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = gfx_switcher; sourceTree = BUILT_PRODUCTS_DIR; };
 		DDFA60E30CB3396C0037B88C /* gfx_switcher.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = gfx_switcher.cpp; path = ../clientscr/gfx_switcher.cpp; sourceTree = SOURCE_ROOT; };
 		DDFE84E10B60CD66009B43D9 /* DlgAdvPreferences.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = DlgAdvPreferences.cpp; path = ../clientgui/DlgAdvPreferences.cpp; sourceTree = SOURCE_ROOT; };
@@ -1332,6 +1377,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		DDF9EC00144EB14B005D6144 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		DDFA60CC0CB337D40037B88C /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -1373,6 +1425,7 @@
 				DDD337021062235D00867C7D /* AddRemoveUser */,
 				DDB219A410B3BB6100417AEF /* WaitPermissions.app */,
 				DD81C79A144D8DA9000BE61A /* libjpeg.a */,
+				DDF9EC03144EB14B005D6144 /* libboinc_opencl.a */,
 			);
 			name = Products;
 			sourceTree = SOURCE_ROOT;
@@ -1903,6 +1956,8 @@
 			children = (
 				F5755AD302FE063A012012A7 /* boinc_api.cpp */,
 				F5755AD402FE063A012012A7 /* boinc_api.h */,
+				DDF9EC08144EB2BB005D6144 /* boinc_opencl.cpp */,
+				DDF9EC09144EB2BB005D6144 /* boinc_opencl.h */,
 				DDE41C250C1FCA8F00CA1F86 /* graphics2_util.cpp */,
 				DDB874450C850D3000E0DE1F /* graphics2_unix.cpp */,
 				DDB874460C850D3000E0DE1F /* graphics2.cpp */,
@@ -1950,6 +2005,17 @@
 			sourceTree = SOURCE_ROOT;
 		};
 /* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		DDF9EC01144EB14B005D6144 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DDF9EC0B144EB2BB005D6144 /* boinc_opencl.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
 		DD1277B2081F3D67007B5DE1 /* PostInstall */ = {
@@ -2294,6 +2360,24 @@
 			productReference = DDD74D8707CF482E0065AC9D /* boinc */;
 			productType = "com.apple.product-type.tool";
 		};
+		DDF9EC02144EB14B005D6144 /* boinc_opencl */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = DDF9EC06144EB14B005D6144 /* Build configuration list for PBXNativeTarget "boinc_opencl" */;
+			buildPhases = (
+				DDF9EBFF144EB14B005D6144 /* Sources */,
+				DDF9EC00144EB14B005D6144 /* Frameworks */,
+				DDF9EC01144EB14B005D6144 /* Headers */,
+				DDF9EC07144EB255005D6144 /* ShellScript */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = boinc_opencl;
+			productName = boinc_opencl;
+			productReference = DDF9EC03144EB14B005D6144 /* libboinc_opencl.a */;
+			productType = "com.apple.product-type.library.static";
+		};
 		DDFA60C90CB337D40037B88C /* gfx_switcher */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = DDFA60CD0CB337D40037B88C /* Build configuration list for PBXNativeTarget "gfx_switcher" */;
@@ -2354,6 +2438,8 @@
 				DD407A4907D2FB1200163EF5 /* libboinc */,
 				DDB873E90C850BC800E0DE1F /* gfx2libboinc */,
 				DD35353007E1E05C00C4718D /* api_libboinc */,
+				DD81C799144D8DA9000BE61A /* jpeg */,
+				DDF9EC02144EB14B005D6144 /* boinc_opencl */,
 				DD40CDF807F0386A0096C645 /* SystemMenu */,
 				DDAEC9E007FA583B00A7BC36 /* SetVersion */,
 				DD96AFF80811075000A06F22 /* ScreenSaver */,
@@ -2369,7 +2455,6 @@
 				DD89161C0F3B17E900DE5B1C /* ss_app */,
 				DDD336F51062235D00867C7D /* AddRemoveUser */,
 				DDB219A310B3BB6100417AEF /* WaitPermissions */,
-				DD81C799144D8DA9000BE61A /* jpeg */,
 			);
 		};
 /* End PBXProject section */
@@ -2506,7 +2591,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "## echo \"BuiltProductsDir = ${BUILT_PRODUCTS_DIR}\"\n# echo \"SRC ROOT = ${SRCROOT}\"\n# echo \"CONFIGURATION = ${CONFIGURATION}\"\n# echo \"PRODUCT_NAME = ${PRODUCT_NAME}\"\nmkdir -p \"${SRCROOT}/build/${CONFIGURATION}\"\nif [ \"${BUILT_PRODUCTS_DIR}/lib${PRODUCT_NAME}.a\" -nt \"${SRCROOT}/build/${CONFIGURATION}/lib${PRODUCT_NAME}.a\" ]; then\n    cp -fp \"${BUILT_PRODUCTS_DIR}/lib${PRODUCT_NAME}.a\" \"${SRCROOT}/build/${CONFIGURATION}/lib${PRODUCT_NAME}.a\"\n    if [ \"$CONFIGURATION\" = \"Deployment\" ]; then\n        /Developer/usr/bin/strip -S \"${SRCROOT}/build/${CONFIGURATION}/lib${PRODUCT_NAME}.a\"\n    fi\nfi\n";
-			showEnvVarsInLog = 0;
 		};
 		DD3E15380A774397007E0084 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -2549,7 +2633,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "# echo \"BuiltProductsDir = ${BUILT_PRODUCTS_DIR}\"\n# echo \"SRC ROOT = ${SRCROOT}\"\n# echo \"CONFIGURATION = ${CONFIGURATION}\"\n# echo \"PRODUCT_NAME = ${PRODUCT_NAME}\"\nmkdir -p \"${SRCROOT}/build/${CONFIGURATION}\"\nif [ \"${BUILT_PRODUCTS_DIR}/lib${PRODUCT_NAME}.a\" -nt \"${SRCROOT}/build/${CONFIGURATION}/lib${PRODUCT_NAME}.a\" ]; then\n    cp -fp \"${BUILT_PRODUCTS_DIR}/lib${PRODUCT_NAME}.a\" \"${SRCROOT}/build/${CONFIGURATION}/lib${PRODUCT_NAME}.a\"\n    if [ \"$CONFIGURATION\" = \"Deployment\" ]; then\n        /Developer/usr/bin/strip -S \"${SRCROOT}/build/${CONFIGURATION}/lib${PRODUCT_NAME}.a\"\n    fi\nfi";
-			showEnvVarsInLog = 0;
 		};
 		DD5E20A8140CE842000FADAA /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -2563,7 +2646,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "# echo \"BuiltProductsDir = ${BUILT_PRODUCTS_DIR}\"\n# echo \"SRC ROOT = ${SRCROOT}\"\n# echo \"CONFIGURATION = ${CONFIGURATION}\"\n# echo \"PRODUCT_NAME = ${PRODUCT_NAME}\"\nmkdir -p \"${SRCROOT}/build/${CONFIGURATION}\"\nif [ \"${BUILT_PRODUCTS_DIR}/lib${PRODUCT_NAME}.a\" -nt \"${SRCROOT}/build/${CONFIGURATION}/lib${PRODUCT_NAME}.a\" ]; then\n    cp -fp \"${BUILT_PRODUCTS_DIR}/lib${PRODUCT_NAME}.a\" \"${SRCROOT}/build/${CONFIGURATION}/lib${PRODUCT_NAME}.a\"\n    if [ \"$CONFIGURATION\" = \"Deployment\" ]; then\n        /Developer/usr/bin/strip -S \"${SRCROOT}/build/${CONFIGURATION}/lib${PRODUCT_NAME}.a\"\n    fi\nfi";
-			showEnvVarsInLog = 0;
 		};
 		DD5FD5830A0232F30093C19F /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -2712,6 +2794,19 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "if [ \"$CONFIGURATION\" = \"Deployment\" ]; then\n\ttouch \"${BUILT_PRODUCTS_DIR}/SymbolTables/BOINCManager_i386\"\nfi";
+		};
+		DDF9EC07144EB255005D6144 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "## echo \"BuiltProductsDir = ${BUILT_PRODUCTS_DIR}\"\n# echo \"SRC ROOT = ${SRCROOT}\"\n# echo \"CONFIGURATION = ${CONFIGURATION}\"\n# echo \"PRODUCT_NAME = ${PRODUCT_NAME}\"\nmkdir -p \"${SRCROOT}/build/${CONFIGURATION}\"\nif [ \"${BUILT_PRODUCTS_DIR}/lib${PRODUCT_NAME}.a\" -nt \"${SRCROOT}/build/${CONFIGURATION}/lib${PRODUCT_NAME}.a\" ]; then\n    cp -fp \"${BUILT_PRODUCTS_DIR}/lib${PRODUCT_NAME}.a\" \"${SRCROOT}/build/${CONFIGURATION}/lib${PRODUCT_NAME}.a\"\n    if [ \"$CONFIGURATION\" = \"Deployment\" ]; then\n        /Developer/usr/bin/strip -S \"${SRCROOT}/build/${CONFIGURATION}/lib${PRODUCT_NAME}.a\"\n    fi\nfi\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -3243,6 +3338,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		DDF9EBFF144EB14B005D6144 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DDF9EC0A144EB2BB005D6144 /* boinc_opencl.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		DDFA60CA0CB337D40037B88C /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -3290,11 +3393,6 @@
 			isa = PBXTargetDependency;
 			target = DDAEC9E007FA583B00A7BC36 /* SetVersion */;
 			targetProxy = DD1AFEA60A512D8700EE5B82 /* PBXContainerItemProxy */;
-		};
-		DD1AFEE60A512FF000EE5B82 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = DD1AFEA40A512D8700EE5B82 /* Install_BOINC */;
-			targetProxy = DD1AFEE50A512FF000EE5B82 /* PBXContainerItemProxy */;
 		};
 		DD3E14D40A774397007E0084 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -3406,6 +3504,36 @@
 			target = DDD336F51062235D00867C7D /* AddRemoveUser */;
 			targetProxy = DDD3370B106224FF00867C7D /* PBXContainerItemProxy */;
 		};
+		DDF9EC0D144EB338005D6144 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = DD81C799144D8DA9000BE61A /* jpeg */;
+			targetProxy = DDF9EC0C144EB338005D6144 /* PBXContainerItemProxy */;
+		};
+		DDF9EC0F144EB34E005D6144 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = DDF9EC02144EB14B005D6144 /* boinc_opencl */;
+			targetProxy = DDF9EC0E144EB34E005D6144 /* PBXContainerItemProxy */;
+		};
+		DDF9EC11144EB36E005D6144 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = DDD74D8607CF482E0065AC9D /* BOINC_Client */;
+			targetProxy = DDF9EC10144EB36E005D6144 /* PBXContainerItemProxy */;
+		};
+		DDF9EC13144EB36E005D6144 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = DD40CDF807F0386A0096C645 /* SystemMenu */;
+			targetProxy = DDF9EC12144EB36E005D6144 /* PBXContainerItemProxy */;
+		};
+		DDF9EC15144EB36E005D6144 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = DDAEC9E007FA583B00A7BC36 /* SetVersion */;
+			targetProxy = DDF9EC14144EB36E005D6144 /* PBXContainerItemProxy */;
+		};
+		DDF9EC17144EB36E005D6144 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = DDFA60C90CB337D40037B88C /* gfx_switcher */;
+			targetProxy = DDF9EC16144EB36E005D6144 /* PBXContainerItemProxy */;
+		};
 		DDFA60DD0CB338940037B88C /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = DDFA60C90CB337D40037B88C /* gfx_switcher */;
@@ -3441,8 +3569,6 @@
 		DD1AFEB90A512D8700EE5B82 /* Deployment */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_BIT_PRE_XCODE_3_1)";
-				ARCHS_STANDARD_32_BIT_PRE_XCODE_3_1 = "ppc i386";
 				HEADER_SEARCH_PATHS = ../lib;
 				INFOPLIST_FILE = "Installer-Info.plist";
 				OTHER_LDFLAGS = (
@@ -3504,8 +3630,6 @@
 		DD3E15410A774397007E0084 /* Deployment */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_BIT_PRE_XCODE_3_1)";
-				ARCHS_STANDARD_32_BIT_PRE_XCODE_3_1 = "ppc i386";
 				COPY_PHASE_STRIP = NO;
 				DEAD_CODE_STRIPPING = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
@@ -3567,8 +3691,6 @@
 		DD4688490C165F3C0089F500 /* Deployment */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_BIT_PRE_XCODE_3_1)";
-				ARCHS_STANDARD_32_BIT_PRE_XCODE_3_1 = "ppc i386";
 				INFOPLIST_FILE = "Uninstaller-Info.plist";
 				OTHER_LDFLAGS = (
 					"-framework",
@@ -3593,8 +3715,6 @@
 		DD7748A90A356CAE0025D05E /* Deployment */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_BIT_PRE_XCODE_3_1)";
-				ARCHS_STANDARD_32_BIT_PRE_XCODE_3_1 = "ppc i386";
 				OTHER_LDFLAGS = (
 					"-framework",
 					Carbon,
@@ -3623,8 +3743,10 @@
 		DD81C79D144D8DA9000BE61A /* Deployment */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_64_BIT_PRE_XCODE_3_1)";
-				ARCHS_STANDARD_32_64_BIT_PRE_XCODE_3_1 = "x86_64 i386 ppc";
+				ARCHS = (
+					i386,
+					x86_64,
+				);
 				EXECUTABLE_PREFIX = lib;
 				PRODUCT_NAME = jpeg;
 				WARNING_CFLAGS = (
@@ -3656,8 +3778,6 @@
 		DD8916250F3B17E900DE5B1C /* Deployment */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_BIT_PRE_XCODE_3_1)";
-				ARCHS_STANDARD_32_BIT_PRE_XCODE_3_1 = "ppc i386";
 				HEADER_SEARCH_PATHS = ../api/;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -3674,8 +3794,10 @@
 		DD9843D909920F220090855B /* Deployment */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_64_BIT_PRE_XCODE_3_1)";
-				ARCHS_STANDARD_32_64_BIT_PRE_XCODE_3_1 = "x86_64 i386 ppc";
+				ARCHS = (
+					i386,
+					x86_64,
+				);
 				HEADER_SEARCH_PATHS = "";
 				OTHER_CFLAGS = (
 					"-D_THREAD_SAFE",
@@ -3706,8 +3828,10 @@
 		DD9843DB09920F220090855B /* Deployment */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_64_BIT_PRE_XCODE_3_1)";
-				ARCHS_STANDARD_32_64_BIT_PRE_XCODE_3_1 = "x86_64 i386 ppc";
+				ARCHS = (
+					i386,
+					x86_64,
+				);
 				HEADER_SEARCH_PATHS = ../lib;
 				LIBRARY_SEARCH_PATHS = ../lib;
 				"OTHER_CFLAGS[arch=ppc]" = (
@@ -3731,8 +3855,6 @@
 		DD9843DC09920F220090855B /* Deployment */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_BIT_PRE_XCODE_3_1)";
-				ARCHS_STANDARD_32_BIT_PRE_XCODE_3_1 = "ppc i386";
 				PRODUCT_NAME = SetVersion;
 				STRINGS_FILE_OUTPUT_ENCODING = "UTF-16";
 			};
@@ -3741,8 +3863,10 @@
 		DD9843DD09920F220090855B /* Deployment */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_64_BIT_PRE_XCODE_3_1)";
-				ARCHS_STANDARD_32_64_BIT_PRE_XCODE_3_1 = "x86_64 i386 ppc";
+				ARCHS = (
+					i386,
+					x86_64,
+				);
 				GCC_ENABLE_OBJC_GC = supported;
 				HEADER_SEARCH_PATHS = "";
 				INFOPLIST_FILE = "ScreenSaver-Info.plist";
@@ -3760,8 +3884,6 @@
 		DD9843DE09920F220090855B /* Deployment */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_BIT_PRE_XCODE_3_1)";
-				ARCHS_STANDARD_32_BIT_PRE_XCODE_3_1 = "ppc i386";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEPLOYMENT_POSTPROCESSING = YES;
@@ -3793,8 +3915,6 @@
 		DD9843DF09920F220090855B /* Deployment */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_BIT_PRE_XCODE_3_1)";
-				ARCHS_STANDARD_32_BIT_PRE_XCODE_3_1 = "ppc i386";
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				INFOPLIST_FILE = "SystemMenu-Info.plist";
 				OTHER_LDFLAGS = (
@@ -3810,8 +3930,6 @@
 		DD9843E109920F220090855B /* Deployment */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_BIT_PRE_XCODE_3_1)";
-				ARCHS_STANDARD_32_BIT_PRE_XCODE_3_1 = "ppc i386";
 				HEADER_SEARCH_PATHS = ../lib;
 				INFOPLIST_FILE = "PostInstall-Info.plist";
 				OTHER_CFLAGS = (
@@ -3833,8 +3951,6 @@
 		DD9843E209920F220090855B /* Deployment */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_BIT_PRE_XCODE_3_1)";
-				ARCHS_STANDARD_32_BIT_PRE_XCODE_3_1 = "ppc i386";
 				OTHER_LDFLAGS = "-lboinc";
 				PRODUCT_NAME = boinccmd;
 			};
@@ -3843,8 +3959,6 @@
 		DD9843E309920F220090855B /* Deployment */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_BIT_PRE_XCODE_3_1)";
-				ARCHS_STANDARD_32_BIT_PRE_XCODE_3_1 = "ppc i386";
 				PRODUCT_NAME = MakeAppIcon_h;
 			};
 			name = Deployment;
@@ -3870,8 +3984,7 @@
 		DD9843E509920F220090855B /* Deployment */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_BIT_PRE_XCODE_3_1)";
-				ARCHS_STANDARD_32_BIT_PRE_XCODE_3_1 = "ppc i386";
+				ARCHS = i386;
 				COPY_PHASE_STRIP = YES;
 				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
@@ -4116,8 +4229,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_32_BIT_PRE_XCODE_3_1)";
-				ARCHS_STANDARD_32_BIT_PRE_XCODE_3_1 = "ppc i386";
 				COPY_PHASE_STRIP = YES;
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				GCC_MODEL_TUNING = G5;
@@ -4149,8 +4260,10 @@
 		DDB874010C850BC800E0DE1F /* Deployment */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_64_BIT_PRE_XCODE_3_1)";
-				ARCHS_STANDARD_32_64_BIT_PRE_XCODE_3_1 = "x86_64 i386 ppc";
+				ARCHS = (
+					i386,
+					x86_64,
+				);
 				HEADER_SEARCH_PATHS = ../samples/jpeglib;
 				"OTHER_CFLAGS[arch=ppc]" = (
 					"-D_THREAD_SAFE",
@@ -4180,8 +4293,6 @@
 		DDD095450A3EDD4300C95BA4 /* Deployment */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_BIT_PRE_XCODE_3_1)";
-				ARCHS_STANDARD_32_BIT_PRE_XCODE_3_1 = "ppc i386";
 				PRODUCT_NAME = switcher;
 			};
 			name = Deployment;
@@ -4197,10 +4308,30 @@
 		DDD336FF1062235D00867C7D /* Deployment */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_BIT_PRE_XCODE_3_1)";
-				ARCHS_STANDARD_32_BIT_PRE_XCODE_3_1 = "ppc i386";
 				PRODUCT_NAME = AddRemoveUser;
 				STRINGS_FILE_OUTPUT_ENCODING = "UTF-16";
+			};
+			name = Deployment;
+		};
+		DDF9EC04144EB14B005D6144 /* Development */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ONLY_ACTIVE_ARCH_PRE_XCODE_3_1)";
+				EXECUTABLE_PREFIX = lib;
+				ONLY_ACTIVE_ARCH_PRE_XCODE_3_1 = "$(NATIVE_ARCH_ACTUAL)";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Development;
+		};
+		DDF9EC05144EB14B005D6144 /* Deployment */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = (
+					i386,
+					x86_64,
+				);
+				EXECUTABLE_PREFIX = lib;
+				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Deployment;
 		};
@@ -4221,8 +4352,6 @@
 		DDFA60D20CB337D40037B88C /* Deployment */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_BIT_PRE_XCODE_3_1)";
-				ARCHS_STANDARD_32_BIT_PRE_XCODE_3_1 = "ppc i386";
 				OTHER_CFLAGS = (
 					"-D_THREAD_SAFE",
 					"-DNDEBUG",
@@ -4244,8 +4373,6 @@
 		DDFF2AD20A53D4AE002BC19D /* Deployment */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_BIT_PRE_XCODE_3_1)";
-				ARCHS_STANDARD_32_BIT_PRE_XCODE_3_1 = "ppc i386";
 				PRODUCT_NAME = setprojectgrp;
 			};
 			name = Deployment;
@@ -4296,6 +4423,7 @@
 				DD81C79D144D8DA9000BE61A /* Deployment */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Development;
 		};
 		DD8916200F3B17E900DE5B1C /* Build configuration list for PBXNativeTarget "ss_app" */ = {
 			isa = XCConfigurationList;
@@ -4437,6 +4565,15 @@
 			buildConfigurations = (
 				DDD336FB1062235D00867C7D /* Development */,
 				DDD336FF1062235D00867C7D /* Deployment */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Development;
+		};
+		DDF9EC06144EB14B005D6144 /* Build configuration list for PBXNativeTarget "boinc_opencl" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				DDF9EC04144EB14B005D6144 /* Development */,
+				DDF9EC05144EB14B005D6144 /* Deployment */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Development;

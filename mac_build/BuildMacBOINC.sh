@@ -23,7 +23,7 @@
 # by Charlie Fenton 3/27/08
 # with thanks to Reinhard Prix for his assistance
 #
-# Updated for OS 10.7 Lion and XCode 4.2 on 10/18/11
+# Updated for OS 10.7 Lion and XCode 4.2 on 10/19/11
 ##
 
 ## Usage:
@@ -47,8 +47,9 @@
 ##
 ## -all         build all targets (i.e. target "Build_All" -- this is the default)
 ##
-## -lib         build the three libraries: libboinc_api.a, libboinc_graphics2.a, libboinc.a 
-##              and the utility application MakeAppIcon_h.
+## -lib         build the five libraries: libboinc_api.a, libboinc_graphics2.a,  
+##              libboinc.a, libboinc_opncl.a, jpeglib.a and the utility 
+##              application MakeAppIcon_h.
 ##
 ## -client      build two targets: boinc client and command-line utility boinc_cmd
 ##              (also builds libboinc.a if needed, since boinc_cmd requires it.)
@@ -79,7 +80,7 @@ if [ "${doclean}" = "clean" ]; then
 fi
 
 if [ "${buildlibs}" = "1" ]; then
-targets="$targets -target libboinc -target gfx2libboinc -target api_libboinc -target MakeAppIcon_h"
+targets="$targets -target libboinc -target gfx2libboinc -target api_libboinc -target api_libboinc_opencl -target jpeg -target MakeAppIcon_h"
 fi
 
 if [ "${buildclient}" = "1" ]; then
