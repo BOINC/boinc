@@ -7514,3 +7514,15 @@ Charlie 19 Oct 2011
      
     clientgui/
         sg_TaskPanel.cpp
+
+Rom    19 Oct 2011
+    - MGR: Fix dot images
+    
+    clientgui/res/skins/default/graphic/
+        workunit_running_image.xpm
+        workunit_suspended_image.xpm
+        workunit_waiting_image.xpm
+    clientgui/res/templates/
+        dotgreen.gif
+        dotred.gif
+        dotyellow.gif
