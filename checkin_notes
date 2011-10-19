@@ -7508,3 +7508,9 @@ Charlie 19 Oct 2011
             RedDot16.xpm
             YellowDot16.xpm
             GreenDot16.xpm
+
+Charlie 19 Oct 2011
+    - MGR: Simple View bug fix.
+     
+    clientgui/
+        sg_TaskPanel.cpp

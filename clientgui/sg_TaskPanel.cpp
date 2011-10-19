@@ -796,7 +796,7 @@ void CSimpleTaskPanel::UpdateTaskSelectionList() {
                 m_TaskSelectionCtrl->SetItemBitmap(j, *pSkinSimple->GetWorkunitWaitingImage()->GetBitmap());
                 break;
             case redDot:
-                m_TaskSelectionCtrl->SetItemBitmap(j, *pSkinSimple->GetWorkunitWaitingImage()->GetBitmap());
+                m_TaskSelectionCtrl->SetItemBitmap(j, *pSkinSimple->GetWorkunitSuspendedImage()->GetBitmap());
                 break;
             }
             selData->dotColor = newColor;
