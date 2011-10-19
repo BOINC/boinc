@@ -113,7 +113,7 @@ int procinfo_setup(PROC_MAP& pm) {
     } while (c != '\n');
 
     while (1) {
-        memset(&p, 0, sizeof(p));
+        p.clear();
         c = fscanf(fd, "%d%d%d%d%ld%d%d:%lf ",
             &p.id,
             &p.parentid,

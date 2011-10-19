@@ -7300,9 +7300,9 @@ David  14 Oct 2011
         work_fetch.cpp
 
 David  14 Oct 2011
-	- client: bug fix for the above
-	client/
-		work_fetch.cpp
+    - client: bug fix for the above
+    client/
+        work_fetch.cpp
 
 David  14 Oct 2011
     - scheduler: in cuda_check(), ati_check() and opencl_check()
@@ -7468,9 +7468,20 @@ David  18 Oct 2011
         cpu_sched.cpp
 
 David  18 Oct 2011
-	- client: fix bug that caused extra "<" to get written at
-		end of global_prefs_override.xml and cc_config.xml
-		when they are modified via GUI RPCs
+    - client: fix bug that caused extra "<" to get written at
+        end of global_prefs_override.xml and cc_config.xml
+        when they are modified via GUI RPCs
 
-	client/
-		gui_rpc_server_ops.cpp
+    client/
+        gui_rpc_server_ops.cpp
+
+David  19 Oct 2011
+    - client: fix crashing bug when there's a cycle in the process graph.
+        I had fixed this in one place but not another.
+    - client: don't memset(0,) a PROCINFO; use clear() instead
+
+    lib/
+        proc_control.cpp
+        procinfo_mac.cpp
+        procinfo_unix.cpp
+        procinfo_win.cpp

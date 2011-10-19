@@ -87,6 +87,7 @@ int get_procinfo_XP(PROC_MAP& pm) {
     pProcesses = (PSYSTEM_PROCESSES)pBuffer;
     while (pProcesses) {
         PROCINFO p;
+        p.clear();
 		p.id = pProcesses->ProcessId;
 		p.parentid = pProcesses->InheritedFromProcessId;
         p.swap_size = pProcesses->VmCounters.PagefileUsage;

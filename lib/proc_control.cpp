@@ -48,8 +48,11 @@ using std::vector;
 static void get_descendants_aux(PROC_MAP& pm, int pid, vector<int>& pids) {
     PROC_MAP::iterator i = pm.find(pid);
     if (i == pm.end()) return;
-    for (unsigned int j=0; j<i->second.children.size(); j++) {
-        int child_pid = i->second.children[j];
+    PROCINFO& p = i->second;
+    if (p.scanned) return;  // avoid infinite recursion
+    p.scanned = true;
+    for (unsigned int j=0; j<p.children.size(); j++) {
+        int child_pid = p.children[j];
         pids.push_back(child_pid);
         get_descendants_aux(pm, child_pid, pids);
     }

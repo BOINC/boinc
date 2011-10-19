@@ -188,7 +188,7 @@ int procinfo_setup(PROC_MAP& pm) {
         sprintf(pidpath, "/proc/%s/psinfo", piddir->d_name);
         fd = fopen(pidpath, "r");
         if (fd) {
-            memset(&p, 0, sizeof(p));
+            p.clear();
             if (fread(&psinfo, sizeof(psinfo_t), 1, fd) == 1) {
                 p.id = psinfo.pr_pid;
                 p.parentid = psinfo.pr_ppid;
@@ -225,7 +225,7 @@ int procinfo_setup(PROC_MAP& pm) {
             if (retval) {
                 final_retval = retval;
             } else {
-                memset(&p, 0, sizeof(p));
+                p.clear();
                 p.id = ps.pid;
                 p.parentid = ps.ppid;
                 p.swap_size = ps.vsize;
