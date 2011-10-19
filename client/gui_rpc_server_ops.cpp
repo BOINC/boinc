@@ -974,7 +974,7 @@ static void handle_set_global_prefs_override(GUI_RPC_CONN& grc) {
     int retval;
     char buf[65536];
 
-    retval = grc.xp.element_contents("/set_global_prefs_override", buf, sizeof(buf));
+    retval = grc.xp.element_contents("</set_global_prefs_override>", buf, sizeof(buf));
     if (!retval) {
         if (strlen(buf)) {
             FILE* f = boinc_fopen(GLOBAL_PREFS_OVERRIDE_FILE, "w");
@@ -1023,7 +1023,7 @@ static void handle_set_cc_config(GUI_RPC_CONN& grc) {
     int retval;
     char buf[65536];
 
-    retval = grc.xp.element_contents("/set_cc_config", buf, sizeof(buf));
+    retval = grc.xp.element_contents("</set_cc_config>", buf, sizeof(buf));
 
     if (!retval) {
         if (strlen(buf)) {

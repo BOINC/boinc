@@ -7466,3 +7466,11 @@ David  18 Oct 2011
         rr_sim.cpp
         sim_util.cpp
         cpu_sched.cpp
+
+David  18 Oct 2011
+	- client: fix bug that caused extra "<" to get written at
+		end of global_prefs_override.xml and cc_config.xml
+		when they are modified via GUI RPCs
+
+	client/
+		gui_rpc_server_ops.cpp
