@@ -80,7 +80,7 @@ if [ "${doclean}" = "clean" ]; then
 fi
 
 if [ "${buildlibs}" = "1" ]; then
-targets="$targets -target libboinc -target gfx2libboinc -target api_libboinc -target api_libboinc_opencl -target jpeg -target MakeAppIcon_h"
+targets="$targets -target libboinc -target gfx2libboinc -target api_libboinc -target boinc_opencl -target jpeg -target MakeAppIcon_h"
 fi
 
 if [ "${buildclient}" = "1" ]; then
