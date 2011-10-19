@@ -7526,3 +7526,11 @@ Rom    19 Oct 2011
         dotgreen.gif
         dotred.gif
         dotyellow.gif
+
+David  19 Oct 2011
+    - client simulator: bug fix
+
+    client/
+        sim.cpp
+    lib/
+        parse.cpp

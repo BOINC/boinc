@@ -984,7 +984,7 @@ void XML_PARSER::skip_unexpected(
         }
         if (!is_tag) continue;
         if (!strcmp(tag, end_tag)) return;
-        skip_unexpected(tag, verbose, where);
+        skip_unexpected(tag, false, where);
     }
 }
 

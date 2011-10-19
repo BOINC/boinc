@@ -358,7 +358,7 @@ bool CLIENT_STATE::simulate_rpc(PROJECT* p) {
     }
 
     if (!server_uses_workload) {
-        for (int i=1; i<coprocs.n_rsc; i++) {
+        for (int i=0; i<coprocs.n_rsc; i++) {
             rsc_work_fetch[i].estimated_delay = rsc_work_fetch[i].busy_time_estimator.get_busy_time();
         }
     }
@@ -394,7 +394,7 @@ bool CLIENT_STATE::simulate_rpc(PROJECT* p) {
             if (check_candidate(c, ncpus, ip_results)) {
                 ip_results.push_back(c);
             } else {
-                //printf("%d: %s misses deadline\n", (int)gstate.now, p->project_name);
+                msg_printf(p, MSG_INFO, "job for %s misses deadline sim\n", rp->app->name);
                 APP_VERSION* avp = rp->avp;
                 delete rp;
                 delete wup;
@@ -402,8 +402,13 @@ bool CLIENT_STATE::simulate_rpc(PROJECT* p) {
                 continue;
             }
         } else {
-            if (get_estimated_delay(rp) + et > wup->app->latency_bound) {
-                //printf("%d: %s misses deadline\n", (int)gstate.now, p->project_name);
+            double est_delay = get_estimated_delay(rp);
+            if (est_delay + et > wup->app->latency_bound) {
+                msg_printf(p, MSG_INFO,
+                    "job for %s misses deadline approx: del %f + et %f > %f\n",
+                    rp->app->name,
+                    est_delay, et, wup->app->latency_bound
+                );
                 APP_VERSION* avp = rp->avp;
                 delete rp;
                 delete wup;
