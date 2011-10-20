@@ -120,7 +120,7 @@ EXTRA_DIST = *.h \
 
 boincmgr_CPPFLAGS = $(AM_CPPFLAGS) $(WX_CPPFLAGS) $(SQLITE3_CPPFLAGS) $(LIBNOTIFY_CFLAGS) $(CLIENTGUIFLAGS) `pkg-config --cflags gtk+-2.0`
 boincmgr_CXXFLAGS = $(AM_CXXFLAGS) $(WX_CXXFLAGS) $(SQLITE3_CPPFLAGS) $(LIBNOTIFY_CFLAGS) $(CLIENTGUIFLAGS) `pkg-config --cflags gtk+-2.0`
-boincmgr_LDADD = $(LIBBOINC) $(SQLITE3_LIBS) $(LIBNOTIFY_LIBS) $(CLIENTGUILIBS) $(BOINC_EXTRA_LIBS) $(CLIENTLIBS) `pkg-config --libs gtk+-2.0` -lnotify
+boincmgr_LDADD = $(LIBBOINC) $(SQLITE3_LIBS) $(LIBNOTIFY_LIBS) $(CLIENTGUILIBS) $(BOINC_EXTRA_LIBS) $(CLIENTLIBS)
 
 win_config.h: $(top_srcdir)/config.h
 	grep '#define.*BOINC.*VERSION' $^ > $@
