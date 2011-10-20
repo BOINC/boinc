@@ -8,7 +8,7 @@
 				<!--	410x540 -->
 				<image>
 					<imagesrc>background_image.png</imagesrc>
-					<background_color>213:213:213</background_color>
+					<background_color>0:0:0</background_color>
 				</image>
 			</background_image>
             <workunit_running_image>

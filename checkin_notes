@@ -7560,3 +7560,13 @@ Charlie 20 Oct 2011
     
     clientgui/
         sg_TaskPanel.cpp,h
+
+Charlie 20 Oct 2011
+    - MGR: Move skin file to correct place, set background image's 
+        background color to black for this background_image.png.
+        
+    clientgui/
+        res/skins/default/
+            skin.xml (deleted)
+        skins/Default/
+            skin.xml
