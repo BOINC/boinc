@@ -98,7 +98,7 @@ class CSimpleTaskPanel : public CSimplePanelBase
         wxString GetStatusString(RESULT* result);
         wxString FormatTime(float fBuffer);
         void FindSlideShowFiles(TaskSelectionData *selData);
-        void UpdateTaskSelectionList();
+        void UpdateTaskSelectionList(bool reskin);
         bool isRunning(RESULT* result);
 		bool DownloadingResults();
 		bool Suspended();

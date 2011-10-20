@@ -418,7 +418,7 @@ void CSimpleTaskPanel::Update(bool delayShow) {
             this->Layout();
         }
 
-        UpdateTaskSelectionList();
+        UpdateTaskSelectionList(false);
         
         // We now have valid result pointers, so extract our data
         int count = m_TaskSelectionCtrl->GetCount();
@@ -494,6 +494,7 @@ void CSimpleTaskPanel::Update(bool delayShow) {
 void CSimpleTaskPanel::ReskinInterface() {
     CSimplePanelBase::ReskinInterface();
     m_SlideShowArea->AdvanceSlideShow(false);
+    UpdateTaskSelectionList(true);
 }
 
 
@@ -682,7 +683,7 @@ void CSimpleTaskPanel::FindSlideShowFiles(TaskSelectionData *selData) {
 }
 
 
-void CSimpleTaskPanel::UpdateTaskSelectionList() {
+void CSimpleTaskPanel::UpdateTaskSelectionList(bool reskin) {
     int i, j, count, newColor;
     TaskSelectionData *selData;
 	RESULT* result;
@@ -787,7 +788,7 @@ void CSimpleTaskPanel::UpdateTaskSelectionList() {
             newColor = redDot;
         }
 
-        if (newColor != selData->dotColor) {
+        if (reskin || (newColor != selData->dotColor)) {
             switch (newColor) {
             case greenDot:
                 m_TaskSelectionCtrl->SetItemBitmap(j, *pSkinSimple->GetWorkunitRunningImage()->GetBitmap());

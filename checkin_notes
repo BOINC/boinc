@@ -7554,4 +7554,9 @@ Charlie 20 Oct 2011
         Green_dot.png (added)
         Red_dot.png (added)
         Yellow_dot.png (added)
-        
+
+Charlie 20 Oct 2011
+    - MGR: Force update of Task Selection List on reskin interface.
+    
+    clientgui/
+        sg_TaskPanel.cpp,h
