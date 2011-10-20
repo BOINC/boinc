@@ -11,6 +11,21 @@
 					<background_color>213:213:213</background_color>
 				</image>
 			</background_image>
-		</simple>
+            <workunit_running_image>
+                <image>
+                    <imagesrc>workunit_running_image.png</imagesrc>
+                </image>
+            </workunit_running_image>
+            <workunit_waiting_image>
+                <image>
+                    <imagesrc>workunit_waiting_image.png</imagesrc>
+                </image>
+            </workunit_waiting_image>
+            <workunit_suspended_image>
+                <image>
+                    <imagesrc>workunit_suspended_image.png</imagesrc>
+                </image>
+            </workunit_suspended_image>>
+        </simple>
 	</en>
 </skin>
