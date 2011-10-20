@@ -7534,3 +7534,24 @@ David  19 Oct 2011
         sim.cpp
     lib/
         parse.cpp
+
+Charlie 20 Oct 2011
+    - MGR: Replace colored dot GIF files with new PNG files which do 
+        the anti-aliasing in the alpha channel, so they look correct 
+        when highlighted on the Mac.  Generate new XPM files from 
+        these PNG files.
+
+    clientgui/res/skins/default/
+        graphic/
+            workunit_running_image.xpm
+            workunit_suspended_image.xpm
+            workunit_waiting_image.xpm
+        skin.xml (added)
+    clientgui/res/templates/
+        dotgreen.gif (deleted)
+        dotred.gif (deleted)
+        dotyellow.gif (deleted)
+        Green_dot.png (added)
+        Red_dot.png (added)
+        Yellow_dot.png (added)
+        
