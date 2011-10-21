@@ -776,10 +776,10 @@ void COPROC_ATI::description(char* buf) {
 
 void COPROC_ATI::set_peak_flops() {
     double x = 0;
-    if (have_cal) {
+    if (attribs.numberOfSIMD) {
         x = attribs.numberOfSIMD * attribs.wavefrontSize * 5 * attribs.engineClock * 1.e6;
         // clock is in MHz
-    } else if (have_opencl) {
+    } else if (opencl_prop.max_compute_units) {
         // OpenCL gives us only:
         // - max_compute_units
         //   (which I'll assume is the same as attribs.numberOfSIMD)

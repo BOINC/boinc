@@ -7630,3 +7630,10 @@ Rom    21 Oct 2011
     clientgui/
         sg_PanelBase.cpp
         sg_TaskPanel.cpp
+
+David  21 Oct 2011
+    - scheduler: fix calculation of ATI peak FLOPS;
+        older clients don't report have_cal.
+
+    lib/
+        coproc.cpp
