@@ -7651,3 +7651,9 @@ David  21 Oct 2011
 
     lib/
         coproc.cpp
+
+David  21 Oct 2011
+    - update_versions: touch trigger file so that feeder rereads DB
+
+    tools/
+        update_versions

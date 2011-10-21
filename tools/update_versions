@@ -445,5 +445,6 @@ function scan_apps() {
 }
 
 scan_apps();
+touch("reread_db");     // if feeder is running, tell it to reread DB
 
 ?>
