@@ -207,7 +207,6 @@ IMPLEMENT_DYNAMIC_CLASS( CPanelPreferences, wxPanel )
 BEGIN_EVENT_TABLE( CPanelPreferences, wxPanel )
 ////@begin CPanelPreferences event table entries
     EVT_ERASE_BACKGROUND( CPanelPreferences::OnEraseBackground )
-    EVT_CHECKBOX( ID_CUSTOMIZEPREFERENCES, CPanelPreferences::OnCustomizePreferencesClick )
     EVT_COMBOBOX( ID_WORKBETWEENBEGIN, CPanelPreferences::OnWorkBetweenBeginSelected )
     EVT_COMBOBOX( ID_CONNECTBETWEENBEGIN, CPanelPreferences::OnConnectBetweenBeginSelected )
     EVT_BUTTON( ID_SIMPLE_HELP, CPanelPreferences::OnButtonHelp )
@@ -237,8 +236,6 @@ CPanelPreferences::CPanelPreferences( wxWindow* parent ) :
 bool CPanelPreferences::Create()
 {
 ////@begin CPanelPreferences member initialisation
-    m_SkinSelectorCtrl = NULL;
-    m_CustomizePreferencesCtrl = NULL;
     m_WorkBetweenBeginCtrl = NULL;
     m_WorkBetweenEndCtrl = NULL;
     m_ConnectBetweenBeginCtrl = NULL;
@@ -252,7 +249,6 @@ bool CPanelPreferences::Create()
     CreateControls();
 
     ReadPreferenceSettings();
-    ReadSkinSettings();
 
     GetSizer()->Fit(this);
     GetSizer()->SetSizeHints(this);
@@ -283,20 +279,32 @@ void CPanelPreferences::CreateControls()
     wxFlexGridSizer* itemFlexGridSizer3 = new wxFlexGridSizer(1, 1, 0, 0);
     itemBoxSizer2->Add(itemFlexGridSizer3, 0, wxGROW|wxALL, 5);
 
-    CTransparentStaticText* itemStaticText4 = new CTransparentStaticText( itemDialog1, wxID_ANY, _("Skin"), wxDefaultPosition, wxDefaultSize, 0 );
-    itemStaticText4->SetFont(wxFont(LARGE_FONT, wxSWISS, wxNORMAL, wxBOLD, false, _T("Arial")));
-    itemFlexGridSizer3->Add(itemStaticText4, 0, wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL, 5);
+    CTransparentStaticText* itemStaticText4 = new CTransparentStaticText( itemDialog1, wxID_ANY, _("This dialog controls preferences for this computer only."), wxDefaultPosition, wxDefaultSize, 0 );
+    
+//    itemStaticText4->SetFont(wxFont(MEDIUM_FONT, wxSWISS, wxNORMAL, wxBOLD, false, _T("Arial")));
+    itemFlexGridSizer3->Add(itemStaticText4, 0, wxALL, 0);
 
-    wxBoxSizer* itemBoxSizer5 = new wxBoxSizer(wxHORIZONTAL);
-    itemBoxSizer2->Add(itemBoxSizer5, 0, wxALIGN_LEFT|wxLEFT|wxBOTTOM, 20);
+    CTransparentStaticText* itemStaticText5 = new CTransparentStaticText( itemDialog1, wxID_ANY, _("Click OK to set preferences."), wxDefaultPosition, wxDefaultSize, 0 );
+    
+//    itemStaticText5->SetFont(wxFont(MEDIUM_FONT, wxSWISS, wxNORMAL, wxBOLD, false, _T("Arial")));
+    itemFlexGridSizer3->Add(itemStaticText5, 0, wxALL, 0);
 
-    CTransparentStaticText* itemStaticText6 = new CTransparentStaticText( itemDialog1, wxID_ANY, _("Skin:"), wxDefaultPosition, wxDefaultSize, 0 );
-    itemStaticText6->SetFont(wxFont(TINY_FONT, wxSWISS, wxNORMAL, wxNORMAL, false, _T("Arial")));
-    itemBoxSizer5->Add(itemStaticText6, 0, wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT|wxADJUST_MINSIZE, 5);
+    CTransparentStaticText* itemStaticText6 = new CTransparentStaticText( itemDialog1, wxID_ANY, _("Click Clear to restore web-based settings."), wxDefaultPosition, wxDefaultSize, 0 );
+    
+//    itemStaticText6->SetFont(wxFont(MEDIUM_FONT, wxSWISS, wxNORMAL, wxBOLD, false, _T("Arial")));
+    itemFlexGridSizer3->Add(itemStaticText6, 0, wxALL, 0);
 
-    wxString* m_SkinSelectorCtrlStrings = NULL;
-    m_SkinSelectorCtrl = new wxComboBox( itemDialog1, ID_SKINSELECTOR, _T(""), wxDefaultPosition, wxSize(-1, -1), 0, m_SkinSelectorCtrlStrings, wxCB_READONLY );
-    itemBoxSizer5->Add(m_SkinSelectorCtrl, 0, wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT, 5);
+    itemFlexGridSizer3->AddSpacer(10);
+    
+    CTransparentStaticText* itemStaticText7 = new CTransparentStaticText( itemDialog1, wxID_ANY, _("For additional settings, select Computing Preferences in "), wxDefaultPosition, wxDefaultSize, 0 );
+    
+//    itemStaticText7->SetFont(wxFont(MEDIUM_FONT, wxSWISS, wxNORMAL, wxBOLD, false, _T("Arial")));
+    itemFlexGridSizer3->Add(itemStaticText7, 0, wxALL, 0);
+
+    CTransparentStaticText* itemStaticText8 = new CTransparentStaticText( itemDialog1, wxID_ANY, _("the Advanced View."), wxDefaultPosition, wxDefaultSize, 0 );
+    
+//    itemStaticText8->SetFont(wxFont(MEDIUM_FONT, wxSWISS, wxNORMAL, wxBOLD, false, _T("Arial")));
+    itemFlexGridSizer3->Add(itemStaticText8, 0, wxALL, 0);
 
     CTransparentStaticLine* itemStaticLine8 = new CTransparentStaticLine( itemDialog1, wxID_ANY, wxDefaultPosition, wxSize(300, 1), wxLI_HORIZONTAL|wxNO_BORDER );
     itemStaticLine8->SetLineColor(pSkinSimple->GetStaticLineColor());
@@ -306,35 +314,8 @@ void CPanelPreferences::CreateControls()
     itemFlexGridSizer9->AddGrowableCol(0);
     itemBoxSizer2->Add(itemFlexGridSizer9, 0, wxGROW|wxALL, 5);
 
-    CTransparentStaticText* itemStaticText10 = new CTransparentStaticText( itemDialog1, wxID_ANY, _("Preferences"), wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT );
-    itemStaticText10->SetFont(wxFont(LARGE_FONT, wxSWISS, wxNORMAL, wxBOLD, false, _T("Arial")));
-    itemFlexGridSizer9->Add(itemStaticText10, 0, wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL|wxADJUST_MINSIZE, 5);
-
     wxBoxSizer* itemBoxSizer11 = new wxBoxSizer(wxVERTICAL);
     itemBoxSizer2->Add(itemBoxSizer11, 0, wxALIGN_CENTER_HORIZONTAL|wxLEFT, 20);
-
-    wxBoxSizer* itemBoxSizer12 = new wxBoxSizer(wxHORIZONTAL);
-    itemBoxSizer11->Add(itemBoxSizer12, 0, wxALIGN_LEFT|wxALL, 0);
-
-    m_CustomizePreferencesCtrl = new wxCheckBox( itemDialog1, ID_CUSTOMIZEPREFERENCES, wxT(""), wxDefaultPosition, wxDefaultSize, wxCHK_2STATE );
-    m_CustomizePreferencesCtrl->SetValue(false);
-    itemBoxSizer12->Add(m_CustomizePreferencesCtrl, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
-
-    CTransparentStaticTextAssociate* itemStaticText14 = new CTransparentStaticTextAssociate( 
-        itemDialog1, 
-        wxID_ANY, 
-        _("I want to customize my preferences for this computer only."), 
-        wxDefaultPosition, 
-        wxDefaultSize, 
-        0
-    );
-    itemStaticText14->SetFont(wxFont(SMALL_FONT, wxSWISS, wxNORMAL, wxNORMAL, false, _T("Arial")));
-    itemStaticText14->AssociateWindow(m_CustomizePreferencesCtrl);
-    itemBoxSizer12->Add(itemStaticText14, 0, wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM, 5);
-
-    CTransparentStaticText* itemStaticText15 = new CTransparentStaticText( itemDialog1, wxID_ANY, _("Customized Preferences"), wxDefaultPosition, wxDefaultSize, 0 );
-    itemStaticText15->SetFont(wxFont(MEDIUM_FONT, wxSWISS, wxNORMAL, wxBOLD, false, _T("Arial")));
-    itemBoxSizer11->Add(itemStaticText15, 0, wxALIGN_LEFT|wxALL|wxADJUST_MINSIZE, 5);
 
     wxFlexGridSizer* itemFlexGridSizer15 = new wxFlexGridSizer(7, 2, 0, 0);
     itemFlexGridSizer15->AddGrowableRow(0);
@@ -463,8 +444,14 @@ void CPanelPreferences::CreateControls()
 
     itemBoxSizer44->Add(itemButton44, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
+    m_btnClear = new wxButton( this, ID_SGPREFERENCESCLEAR, _("Clear"), wxDefaultPosition, wxDefaultSize, 0 );
+    m_btnClear->SetToolTip( _("clear all local preferences and close the dialog") );
+
+    itemBoxSizer44->Add(m_btnClear, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
+    
     wxButton* itemButton45 = new wxButton( itemDialog1, wxID_CANCEL, _("Cancel"), wxDefaultPosition, wxDefaultSize, 0 );
     itemBoxSizer44->Add(itemButton45, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
+    
 
 #ifndef __WXMSW__
 #ifdef __WXMAC__
@@ -481,8 +468,6 @@ void CPanelPreferences::CreateControls()
 #endif
 
     // Set validators
-    m_SkinSelectorCtrl->SetValidator( wxGenericValidator(& m_strSkinSelector) );
-    m_CustomizePreferencesCtrl->SetValidator( wxGenericValidator(& m_bCustomizedPreferences) );
     m_WorkBetweenBeginCtrl->SetValidator( wxGenericValidator(& m_strWorkBetweenBegin) );
     m_WorkBetweenEndCtrl->SetValidator( wxGenericValidator(& m_strWorkBetweenEnd) );
     m_ConnectBetweenBeginCtrl->SetValidator( wxGenericValidator(& m_strConnectBetweenBegin) );
@@ -492,15 +477,6 @@ void CPanelPreferences::CreateControls()
     m_WorkWhileOnBatteryCtrl->SetValidator( wxGenericValidator(& m_bWorkWhileOnBattery) );
     m_WorkWhenIdleCtrl->SetValidator( wxGenericValidator(& m_strWorkWhenIdle) );
 ////@end CPanelPreferences content construction
-}
-
-
-/*!
- * wxEVT_COMMAND_CHECKBOX_CLICKED event handler for ID_CUSTOMIZEPREFERENCES
- */
-
-void CPanelPreferences::OnCustomizePreferencesClick( wxCommandEvent& /*event*/ ) {
-    UpdateControlStates();
 }
 
 
@@ -605,24 +581,27 @@ void CPanelPreferences::OnEraseBackground( wxEraseEvent& event ) {
 }
 
 
+void CPanelPreferences::OnButtonClear() {
+    CMainDocument*    pDoc = wxGetApp().GetDocument();
+
+    wxASSERT(pDoc);
+    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
+
+    ClearPreferenceSettings();
+
+    pDoc->rpc.set_global_prefs_override_struct(global_preferences_working, global_preferences_override_mask);
+    pDoc->rpc.read_global_prefs_override();
+}
+
+
 void CPanelPreferences::OnOK() {
     CMainDocument*    pDoc = wxGetApp().GetDocument();
 
     wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
 
-
     TransferDataFromWindow();
-
-    SaveSkinSettings();
-
-
-    if (m_bCustomizedPreferences) {
-        SavePreferenceSettings();
-    } else {
-        ClearPreferenceSettings();
-    }
-
+    SavePreferenceSettings();
 
 	pDoc->rpc.set_global_prefs_override_struct(global_preferences_working, global_preferences_override_mask);
 	pDoc->rpc.read_global_prefs_override();
@@ -630,7 +609,6 @@ void CPanelPreferences::OnOK() {
 
 
 bool CPanelPreferences::UpdateControlStates() {
-    if (m_CustomizePreferencesCtrl->IsChecked()) {
         m_WorkBetweenBeginCtrl->Enable();
         m_WorkBetweenEndCtrl->Enable();
         m_ConnectBetweenBeginCtrl->Enable();
@@ -646,17 +624,6 @@ bool CPanelPreferences::UpdateControlStates() {
         if (m_ConnectBetweenBeginCtrl->GetValue() == _("Anytime")) {
             m_ConnectBetweenEndCtrl->Disable();
         }
-
-    } else {
-        m_WorkBetweenBeginCtrl->Disable();
-        m_WorkBetweenEndCtrl->Disable();
-        m_ConnectBetweenBeginCtrl->Disable();
-        m_ConnectBetweenEndCtrl->Disable();
-        m_MaxDiskUsageCtrl->Disable();
-        m_MaxCPUUsageCtrl->Disable();
-        m_WorkWhileOnBatteryCtrl->Disable();
-        m_WorkWhenIdleCtrl->Disable();
-    }
     return true;
 }
 
@@ -698,11 +665,13 @@ bool CPanelPreferences::ReadPreferenceSettings() {
         retval = pDoc->rpc.get_global_prefs_override_struct(global_preferences_working, global_preferences_mask);
     }
 
+#if 0   // We might use this to tell user whether local prefs exist
     if (!retval && global_preferences_override_mask.are_simple_prefs_set()) {
         m_bCustomizedPreferences = true;
     } else {
         m_bCustomizedPreferences = false;
     }
+#endif
 	
 	// Allow this structure to be modified for display purposes
     display_global_preferences = global_preferences_working;
@@ -872,21 +841,6 @@ bool CPanelPreferences::ReadPreferenceSettings() {
 }
 
 
-bool CPanelPreferences::ReadSkinSettings() {
-    CSkinManager* pSkinManager = wxGetApp().GetSkinManager();
-
-    wxASSERT(pSkinManager);
-    wxASSERT(wxDynamicCast(pSkinManager, CSkinManager));
-
-
-    // Setup the values for all the skins, and then set the default.
-    m_SkinSelectorCtrl->Append(pSkinManager->GetCurrentSkins());
-    m_SkinSelectorCtrl->SetValue(pSkinManager->GetSelectedSkin());
-
-    return true;
-}
-
-
 bool CPanelPreferences::SavePreferenceSettings() {
     // Do work only between:
     if (_("Anytime") == m_strWorkBetweenBegin) {
@@ -940,18 +894,6 @@ bool CPanelPreferences::SavePreferenceSettings() {
 }
 
 
-bool CPanelPreferences::SaveSkinSettings() {
-    CSkinManager* pSkinManager = wxGetApp().GetSkinManager();
-
-    wxASSERT(pSkinManager);
-    wxASSERT(wxDynamicCast(pSkinManager, CSkinManager));
-
-    pSkinManager->ReloadSkin(m_strSkinSelector);
-
-    return true;
-}
-
-
 /*!
  * CDlgPreferences type definition
  */
@@ -965,6 +907,7 @@ IMPLEMENT_DYNAMIC_CLASS( CDlgPreferences, wxDialog )
 BEGIN_EVENT_TABLE( CDlgPreferences, wxDialog )
 ////@begin CDlgPreferences event table entries
     EVT_HELP(wxID_ANY, CDlgPreferences::OnHelp)
+    EVT_BUTTON( ID_SGPREFERENCESCLEAR, CDlgPreferences::OnButtonClear )
     EVT_BUTTON( wxID_OK, CDlgPreferences::OnOK )
 ////@end CDlgPreferences event table entries
 END_EVENT_TABLE()
@@ -1002,7 +945,7 @@ bool CDlgPreferences::Create( wxWindow* parent, wxWindowID id, const wxString& c
     // Initialize Application Title
     wxString strCaption = caption;
     if (strCaption.IsEmpty()) {
-        strCaption.Printf(_("%s - Preferences"), pSkinAdvanced->GetApplicationName().c_str());
+        strCaption.Printf(_("%s - Preferences"), pSkinAdvanced->GetApplicationShortName().c_str());
     }
     SetTitle(strCaption);
 
@@ -1029,6 +972,8 @@ bool CDlgPreferences::Create( wxWindow* parent, wxWindowID id, const wxString& c
     GetSizer()->Fit(this);
     GetSizer()->SetSizeHints(this);
     Centre();
+    
+    SetEscapeId(wxID_CANCEL);
 
     Thaw();
 
@@ -1061,6 +1006,17 @@ void CDlgPreferences::OnHelp(wxHelpEvent& event) {
 
 
 /*!
+ * wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_SGPREFERENCESCLEAR
+ */
+
+void CDlgPreferences::OnButtonClear( wxCommandEvent& WXUNUSED(event) ) {
+	if(ConfirmClear()) {
+        m_pBackgroundPanel->OnButtonClear();
+        EndModal(wxID_OK);
+    }
+}
+
+/*!
  * wxEVT_COMMAND_BUTTON_CLICKED event handler for wxID_OK
  */
 
@@ -1069,3 +1025,11 @@ void CDlgPreferences::OnOK( wxCommandEvent& WXUNUSED(event) ) {
     EndModal(wxID_OK);
 }
 
+
+bool CDlgPreferences::ConfirmClear() {
+	int res = wxGetApp().SafeMessageBox(_(
+	    "Do you really want to clear all local preferences?\n"),
+		_("Confirmation"),wxCENTER | wxICON_QUESTION | wxYES_NO | wxNO_DEFAULT,this);
+	
+	return res==wxYES;
+}

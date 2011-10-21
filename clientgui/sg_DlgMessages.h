@@ -68,7 +68,7 @@ class CNoticeListCtrl;
 
 
 /*!
- * CPanelPreferences class declaration
+ * CPanelMessages class declaration
  */
 
 class CPanelMessages : public wxPanel

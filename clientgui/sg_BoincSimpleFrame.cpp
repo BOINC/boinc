@@ -62,6 +62,8 @@ IMPLEMENT_DYNAMIC_CLASS(CSimpleFrame, CBOINCBaseFrame)
 BEGIN_EVENT_TABLE(CSimpleFrame, CBOINCBaseFrame)
     EVT_SIZE(CSimpleFrame::OnSize)
     EVT_MENU(ID_CHANGEGUI, CSimpleFrame::OnChangeGUI)
+    EVT_MENU(ID_SGDEFAULTSKINSELECTOR, CSimpleFrame::OnSelectDefaultSkin)
+    EVT_MENU(ID_SGSKINSELECTOR, CSimpleFrame::OnSelectSkin)
     EVT_HELP(wxID_ANY, CSimpleFrame::OnHelp)
     EVT_FRAME_CONNECT(CSimpleFrame::OnConnect)
     EVT_FRAME_RELOADSKIN(CSimpleFrame::OnReloadSkin)
@@ -116,14 +118,39 @@ CSimpleFrame::CSimpleFrame(wxString title, wxIcon* icon, wxIcon* icon32, wxPoint
         strMenuDescription
     );
 
+    // Skins submenu
+    wxMenu *submenuSkins = new wxMenu;
+    
+    BuildSkinSubmenu(submenuSkins);
+    
+    // All other skin names will be appended as radio 
+    // menu items with ID_SGSKINSELECTOR
+    
     // View menu
-    wxMenu *menuTools = new wxMenu;
+    wxMenu *menuView = new wxMenu;
 
-    menuTools->Append(
+    menuView->Append(
         ID_CHANGEGUI,
         _("Advanced View...\tCtrl+Shift+A"),
         _("Display the advanced graphical interface.")
     );
+
+    menuView->AppendSeparator();
+
+    menuView->Append(
+        ID_SGSKINSELECTOR,
+        _("Skin"),
+        submenuSkins,
+        _("Select the appearance of the user interface.")
+    );
+
+    // Skins sumenu always contains the Default entry
+    if (submenuSkins->GetMenuItemCount() <= 1) {
+        menuView->Enable(ID_SGSKINSELECTOR, false);
+    }
+
+    // Tools menu
+    wxMenu *menuTools = new wxMenu;
 
     menuTools->Append(
         ID_PREFERENCES,
@@ -133,7 +160,7 @@ CSimpleFrame::CSimpleFrame(wxString title, wxIcon* icon, wxIcon* icon32, wxPoint
     
     menuTools->Append(
         ID_SGOPTIONS, 
-        _("Manager Settings..."),
+        _("&Options..."),
         _("Configure display options and proxy settings")
     );
 
@@ -211,6 +238,10 @@ CSimpleFrame::CSimpleFrame(wxString title, wxIcon* icon, wxIcon* icon32, wxPoint
     m_pMenubar->Append(
         menuFile,
         _("&File")
+    );
+    m_pMenubar->Append(
+        menuView,
+        _("&View")
     );
     m_pMenubar->Append(
         menuTools,
@@ -306,6 +337,93 @@ void CSimpleFrame::OnChangeGUI(wxCommandEvent& WXUNUSED(event)) {
     wxGetApp().SetActiveGUI(BOINC_ADVANCEDGUI, true);
 
     wxLogTrace(wxT("Function Start/End"), wxT("CSimpleFrame::OnChangeGUI - Function End"));
+}
+
+
+void CSimpleFrame::BuildSkinSubmenu( wxMenu *submenu) {
+    unsigned int i;
+    wxMenuItem *skinItem;
+    wxArrayString astrSkins;
+    wxString strSelectedSkin;
+    CSkinManager* pSkinManager = wxGetApp().GetSkinManager();
+
+    wxASSERT(pSkinManager);
+    wxASSERT(wxDynamicCast(pSkinManager, CSkinManager));
+
+
+    // The "Default" skin menu item is localized, but 
+    // the name of the default skin is not localized
+    skinItem = submenu->AppendRadioItem(
+        ID_SGDEFAULTSKINSELECTOR,
+        _("Default")
+    );
+
+    astrSkins = pSkinManager->GetCurrentSkins();
+    strSelectedSkin = pSkinManager->GetSelectedSkin();
+    
+    if (strSelectedSkin == pSkinManager->GetDefaultSkinName()) {
+        skinItem->Check(true);
+    }
+          
+    // Skins list always contains the Default entry
+    if (astrSkins.GetCount() <= 1) {
+        skinItem->Check(true);
+        skinItem->Enable(false);
+        return; // No non-default skins
+    }
+ 
+//    I'd like to put a separator here, but we can't separate radio items
+    
+    for (i = 0; i < astrSkins.GetCount(); i++) {
+        if (astrSkins[i] == pSkinManager->GetDefaultSkinName()) {
+            continue;
+        }
+
+        skinItem = submenu->AppendRadioItem(
+            ID_SGSKINSELECTOR,
+            astrSkins[i]
+        );
+        if (astrSkins[i] == strSelectedSkin) {
+            skinItem->Check(true);
+        }
+    }
+}
+
+
+
+void CSimpleFrame::OnSelectDefaultSkin( wxCommandEvent& WXUNUSED(event) ) {
+    CSkinManager* pSkinManager = wxGetApp().GetSkinManager();
+
+    wxASSERT(pSkinManager);
+    wxASSERT(wxDynamicCast(pSkinManager, CSkinManager));
+
+    // The "Default" skin menu item is localized, but 
+    // the name of the default skin is not localized
+    pSkinManager->ReloadSkin(pSkinManager->GetDefaultSkinName());
+}
+
+
+void CSimpleFrame::OnSelectSkin( wxCommandEvent& event ){
+    wxMenu *theMenu;
+    size_t i, n;
+    CSkinManager* pSkinManager = wxGetApp().GetSkinManager();
+
+    wxASSERT(pSkinManager);
+    wxASSERT(wxDynamicCast(pSkinManager, CSkinManager));
+    
+    wxString strSelectedSkin = pSkinManager->GetDefaultSkinName();   // For safety
+    
+    theMenu = (wxMenu*)event.GetEventObject();
+    n = theMenu->GetMenuItemCount();
+    for (i=0; i<n; ++i) {
+        wxMenuItem* item = theMenu->FindItemByPosition(i);
+        if (item->IsChecked()) {
+            strSelectedSkin = item->GetItemLabelText();
+            break;
+        }
+    }
+    
+    pSkinManager->ReloadSkin(strSelectedSkin);
 }
 
 
@@ -550,7 +668,7 @@ BEGIN_EVENT_TABLE(CSimpleGUIPanel, wxPanel)
     EVT_SIZE(CSimpleGUIPanel::OnSize)
     EVT_ERASE_BACKGROUND(CSimpleGUIPanel::OnEraseBackground)    
 	EVT_BUTTON(ID_SGNOTICESBUTTON,CSimpleGUIPanel::OnShowNotices)
-	EVT_BUTTON(ID_SGPAUSERESUMEBUTTON,CSimpleGUIPanel::OnPauseResume)
+	EVT_BUTTON(ID_SGSUSPENDRESUMEBUTTON,CSimpleGUIPanel::OnSuspendResume)
 	EVT_BUTTON(ID_SIMPLE_HELP,CSimpleGUIPanel::OnHelp)
 	EVT_TIMER(ID_SIMPLEMESSAGECHECKTIMER, CSimpleGUIPanel::OnCheckForNewNotices)
     EVT_PAINT(CSimpleGUIPanel::OnPaint)
@@ -584,10 +702,10 @@ CSimpleGUIPanel::CSimpleGUIPanel(wxWindow* parent) :
 	checkForNewNoticesTimer->Start(5000); 
 
 	dlgOpen = false;
-    m_sPauseString = _("Suspend Computing");
-    m_sResumeString = _("Resume Computing");
-    m_sPauseButtonToolTip = _("Suspend computational activity");
-    m_sResumeButtonToolTip = _("Resume computational activity");
+    m_sSuspendString = _("Suspend");
+    m_sResumeString = _("Resume");
+    m_sSuspendButtonToolTip = _("Suspend Computing");
+    m_sResumeButtonToolTip = _("Resume Computing");
 
 	m_taskPanel = new CSimpleTaskPanel(this);
     m_projPanel = new CSimpleProjectPanel(this);
@@ -608,17 +726,17 @@ CSimpleGUIPanel::CSimpleGUIPanel(wxWindow* parent) :
 	buttonsSizer->Add( m_NoticesButton, 0, wxEXPAND | wxALIGN_LEFT, 0 );
     buttonsSizer->AddStretchSpacer();
 
-    int pauseWidth, resumeWidth, y;
-    GetTextExtent(m_sPauseString, &pauseWidth, &y);
+    int suspendWidth, resumeWidth, y;
+    GetTextExtent(m_sSuspendString, &suspendWidth, &y);
     GetTextExtent(m_sResumeString, &resumeWidth, &y);
     
-    m_bisPaused = pauseWidth > resumeWidth;
-    m_PauseResumeButton = new wxButton( this, ID_SGPAUSERESUMEBUTTON, 
-                            m_bisPaused ? m_sPauseString : m_sResumeString,
+    m_bIsSuspended = suspendWidth > resumeWidth;
+    m_SuspendResumeButton = new wxButton( this, ID_SGSUSPENDRESUMEBUTTON, 
+                            m_bIsSuspended ? m_sSuspendString : m_sResumeString,
                             wxDefaultPosition, wxDefaultSize, 0 );
-    m_PauseResumeButton->SetToolTip(wxEmptyString);
+    m_SuspendResumeButton->SetToolTip(wxEmptyString);
     
-	buttonsSizer->Add( m_PauseResumeButton, 0, wxEXPAND | wxALIGN_RIGHT, 0 );
+	buttonsSizer->Add( m_SuspendResumeButton, 0, wxEXPAND | wxALIGN_RIGHT, 0 );
     buttonsSizer->AddStretchSpacer();
 
     m_HelpButton = new wxButton( this, ID_SIMPLE_HELP, _("Help"), wxDefaultPosition, wxDefaultSize, 0 );
@@ -643,7 +761,7 @@ CSimpleGUIPanel::CSimpleGUIPanel(wxWindow* parent) :
     HIObjectSetAccessibilityIgnored((HIObjectRef)GetHandle(), true);
 #endif    
 
-    m_PauseResumeButton->Disable();
+    m_SuspendResumeButton->Disable();
     OnFrameRender();
 
     wxLogTrace(wxT("Function Start/End"), wxT("CSimpleGUIPanel::CSimpleGUIPanel - Overloaded Constructor Function End"));
@@ -720,7 +838,7 @@ void CSimpleGUIPanel::OnFrameRender() {
     wxASSERT(pDoc);
     int                 workCount = pDoc->GetSimpleGUIWorkCount();
 	CC_STATUS           status;
-    bool                isPaused;
+    bool                isSuspended;
 
     // OnFrameRender() may be called while SimpleGUI initialization is 
     // in progress due to completion of a periodic get_messages RPC, 
@@ -748,19 +866,19 @@ void CSimpleGUIPanel::OnFrameRender() {
     if (IsShown()) {
 	    if ( pDoc->IsConnected() ) {
         
-            // Show resume or pause as appropriate
+            // Show Resume or Suspend as appropriate
             pDoc->GetCoreClientStatus(status);
 
-            isPaused = (RUN_MODE_NEVER == status.task_mode);
-            if ((isPaused != m_bisPaused) || (!m_PauseResumeButton->IsEnabled())) {
-                m_bisPaused = isPaused;
-                m_PauseResumeButton->SetLabel(m_bisPaused ? m_sResumeString : m_sPauseString);
-                m_PauseResumeButton->SetToolTip(m_bisPaused ? m_sResumeButtonToolTip : m_sPauseButtonToolTip);
+            isSuspended = (RUN_MODE_NEVER == status.task_mode);
+            if ((isSuspended != m_bIsSuspended) || (!m_SuspendResumeButton->IsEnabled())) {
+                m_bIsSuspended = isSuspended;
+                m_SuspendResumeButton->SetLabel(m_bIsSuspended ? m_sResumeString : m_sSuspendString);
+                m_SuspendResumeButton->SetToolTip(m_bIsSuspended ? m_sResumeButtonToolTip : m_sSuspendButtonToolTip);
             }
-            m_PauseResumeButton->Enable();
+            m_SuspendResumeButton->Enable();
 	    } else {
-            m_PauseResumeButton->SetToolTip(wxEmptyString);
-            m_PauseResumeButton->Disable();
+            m_SuspendResumeButton->SetToolTip(wxEmptyString);
+            m_SuspendResumeButton->Disable();
         }
 
 		UpdateProjectView();
@@ -834,14 +952,14 @@ void CSimpleGUIPanel::OnShowNotices(wxCommandEvent& /*event*/) {
 }
 
 
-void CSimpleGUIPanel::OnPauseResume(wxCommandEvent& /*event*/) {
+void CSimpleGUIPanel::OnSuspendResume(wxCommandEvent& /*event*/) {
     CMainDocument* pDoc      = wxGetApp().GetDocument();
     CC_STATUS ccs;
 
     wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
 
-    if (m_bisPaused) {
+    if (m_bIsSuspended) {
         pDoc->GetCoreClientStatus(ccs);
         
         if ((RUN_MODE_NEVER == ccs.task_mode) && (0 >= ccs.task_mode_delay)) {
@@ -853,8 +971,8 @@ void CSimpleGUIPanel::OnPauseResume(wxCommandEvent& /*event*/) {
         pDoc->SetActivityRunMode(RUN_MODE_NEVER, 3600);
     }
     
-    m_PauseResumeButton->SetLabel(m_bisPaused ? m_sResumeString : m_sPauseString);
-    m_PauseResumeButton->SetToolTip(m_bisPaused ? m_sResumeButtonToolTip : m_sPauseButtonToolTip);
+    m_SuspendResumeButton->SetLabel(m_bIsSuspended ? m_sResumeString : m_sSuspendString);
+    m_SuspendResumeButton->SetToolTip(m_bIsSuspended ? m_sResumeButtonToolTip : m_sSuspendButtonToolTip);
 }
 
 

@@ -111,11 +111,15 @@ bool CDlgOptions::Create(wxWindow* parent, wxWindowID id, const wxString& captio
 
     wxString strCaption = caption;
     if (strCaption.IsEmpty()) {
+#if 1       // I don't think we want to include the application name here
+        strCaption.Printf(_("Options"));
+#else
         CSkinAdvanced* pSkinAdvanced = wxGetApp().GetSkinManager()->GetAdvanced();
         wxASSERT(pSkinAdvanced);
         wxASSERT(wxDynamicCast(pSkinAdvanced, CSkinAdvanced));
 
-        strCaption.Printf(_("%s - Options"), pSkinAdvanced->GetApplicationName().c_str());
+        strCaption.Printf(_("Options"), pSkinAdvanced->GetApplicationShortName().c_str());
+#endif
     }
 
     SetExtraStyle(GetExtraStyle()|wxWS_EX_BLOCK_EVENTS);

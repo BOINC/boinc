@@ -159,8 +159,10 @@
 #define ID_PROJECTWEBSITESBUTTON                6608
 #define ID_PROJECTCOMMANDBUTTON                 6609
 #define ID_SGNOTICESBUTTON                      6610
-#define ID_SGPAUSERESUMEBUTTON                  6611
+#define ID_SGSUSPENDRESUMEBUTTON                6611
 #define ID_SGOPTIONS                            6612
+#define ID_SGDEFAULTSKINSELECTOR                6613
+#define ID_SGSKINSELECTOR                       6614
 
 //
 // Taskbar/System Tray

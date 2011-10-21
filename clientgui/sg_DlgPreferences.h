@@ -51,8 +51,6 @@ class CTransparentCheckBox;
 #define SYMBOL_CDLGPREFERENCES_IDNAME ID_DLGPREFERENCES
 #define SYMBOL_CDLGPREFERENCES_SIZE wxDefaultSize
 #define SYMBOL_CDLGPREFERENCES_POSITION wxDefaultPosition
-#define ID_SKINSELECTOR 10001
-#define ID_CUSTOMIZEPREFERENCES 10002
 #define ID_WORKBETWEENBEGIN 10004
 #define ID_WORKBETWEENEND 10006
 #define ID_CONNECTBETWEENBEGIN 10007
@@ -61,6 +59,7 @@ class CTransparentCheckBox;
 #define ID_MAXCPUUSAGE 10011
 #define ID_WORKWHILEONBATTERY 10005
 #define ID_WORKWHENIDLE 10012
+#define ID_SGPREFERENCESCLEAR 10001
 ////@end control identifiers
 
 /*!
@@ -98,24 +97,18 @@ public:
     /// wxEVT_ERASE_BACKGROUND event handler for ID_DLGPREFERENCES
     void OnEraseBackground( wxEraseEvent& event );
 
-    /// wxEVT_COMMAND_CHECKBOX_CLICKED event handler for ID_CUSTOMIZEPREFERENCES
-    void OnCustomizePreferencesClick( wxCommandEvent& event );
-
     /// wxEVT_COMMAND_COMBOBOX_SELECTED event handler for ID_WORKBETWEENBEGIN
     void OnWorkBetweenBeginSelected( wxCommandEvent& event );
 
     /// wxEVT_COMMAND_COMBOBOX_SELECTED event handler for ID_CONNECTBETWEENBEGIN
     void OnConnectBetweenBeginSelected( wxCommandEvent& event );
-
+    
     /// wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_SIMPLE_HELP
     void OnButtonHelp( wxCommandEvent& event );
-
+    
 ////@end CPanelPreferences event handler declarations
 
 ////@begin CPanelPreferences member function declarations
-    wxString GetSkinSelector() const { return m_strSkinSelector ; }
-    void SetSkinSelector(wxString value) { m_strSkinSelector = value ; }
-
     wxString GetWorkBetweenBegin() const { return m_strWorkBetweenBegin ; }
     void SetWorkBetweenBegin(wxString value) { m_strWorkBetweenBegin = value ; }
 
@@ -140,24 +133,19 @@ public:
     wxString GetWorkWhenIdle() const { return m_strWorkWhenIdle ; }
     void SetWorkWhenIdle(wxString value) { m_strWorkWhenIdle = value ; }
 
-    bool GetCustomizedPreferences() const { return m_bCustomizedPreferences ; }
-    void SetCustomizedPreferences(bool value) { m_bCustomizedPreferences = value ; }
 ////@end CPanelPreferences member function declarations
 
+    void OnButtonClear();
     void OnOK();
 
     bool UpdateControlStates();
 
     bool ClearPreferenceSettings();
     bool ReadPreferenceSettings();
-    bool ReadSkinSettings();
     bool SavePreferenceSettings();
-    bool SaveSkinSettings();
 
 private:
 ////@begin CPanelPreferences member variables
-    wxComboBox* m_SkinSelectorCtrl;
-    wxCheckBox* m_CustomizePreferencesCtrl;
     wxComboBox* m_WorkBetweenBeginCtrl;
     wxComboBox* m_WorkBetweenEndCtrl;
     wxComboBox* m_ConnectBetweenBeginCtrl;
@@ -166,8 +154,6 @@ private:
     wxComboBox* m_MaxCPUUsageCtrl;
     wxCheckBox* m_WorkWhileOnBatteryCtrl;
     wxComboBox* m_WorkWhenIdleCtrl;
-    wxString m_strSkinSelector;
-    bool m_bCustomizedPreferences;
     wxString m_strWorkBetweenBegin;
     wxString m_strWorkBetweenEnd;
     wxString m_strConnectBetweenBegin;
@@ -176,6 +162,8 @@ private:
     wxString m_strMaxCPUUsage;
     bool m_bWorkWhileOnBattery;
     wxString m_strWorkWhenIdle;
+    wxButton* m_btnClear;
+    
 ////@end CPanelPreferences member variables
     GLOBAL_PREFS      global_preferences_working;
     GLOBAL_PREFS_MASK global_preferences_mask;
@@ -203,8 +191,13 @@ public:
     /// wxEVT_HELP event handler for ID_DLGPREFERENCES
     void OnHelp( wxHelpEvent& event );
 
+    /// wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_SGPREFERENCESCLEAR
+    void OnButtonClear( wxCommandEvent& event );
+
     /// wxEVT_COMMAND_BUTTON_CLICKED event handler for wxID_OK
     void OnOK( wxCommandEvent& event );
+
+    bool ConfirmClear();
 
 private:
 ////@begin CDlgPreferences member variables

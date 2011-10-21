@@ -7594,3 +7594,17 @@ David  21 Oct 2011
         make_project
     py/Boinc/
         setup_project.py
+
+Charlie 21 Oct 2011
+    - MGR: Adjust preference dialog titles, improve Simple View menus 
+        and other text, make Simple Preferences dialog more like 
+        Advanced Preferences dialog.
+        
+        clientgui/
+            AdvancedFrame.cpp
+            DlgAdvPreferencesBase.cpp
+            DlgOptions.cpp
+            Events.h
+            sg_BoincSimpleFrame.cpp,.h
+            sg_DlgMessages.cpp,.h
+            sg_DlgPreferences.cpp,.h

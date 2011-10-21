@@ -52,7 +52,7 @@ public:
     void OnFrameRender();
 	void OnProjectsAttachToProject();
     void OnShowNotices(wxCommandEvent& event);
-    void OnPauseResume(wxCommandEvent& event);
+    void OnSuspendResume(wxCommandEvent& event);
     void OnHelp( wxCommandEvent& event );
 	void SetDlgOpen(bool newDlgState) { dlgOpen = newDlgState; }
 	bool GetDlgOpen() { return dlgOpen; }
@@ -79,18 +79,18 @@ protected:
 #endif
     wxBitmap    m_bmpBg;
     wxButton    *m_NoticesButton;
-    wxButton    *m_PauseResumeButton;
+    wxButton    *m_SuspendResumeButton;
     wxButton    *m_HelpButton;
-    wxString    m_sPauseString;
+    wxString    m_sSuspendString;
     wxString    m_sResumeString;
     int         m_oldWorkCount;
-    bool        m_bisPaused;
+    bool        m_bIsSuspended;
 
 private:
     int		m_irefreshCount;
     bool        dlgOpen;
 	wxTimer*    checkForNewNoticesTimer;
-    wxString    m_sPauseButtonToolTip;
+    wxString    m_sSuspendButtonToolTip;
     wxString    m_sResumeButtonToolTip;
 };
 
@@ -107,6 +107,9 @@ public:
    ~CSimpleFrame();
 
     void OnChangeGUI( wxCommandEvent& event );
+    void BuildSkinSubmenu( wxMenu *submenu );
+    void OnSelectDefaultSkin( wxCommandEvent& event );
+    void OnSelectSkin( wxCommandEvent& event );
     void OnPreferences( wxCommandEvent& event );
     void OnOptions( wxCommandEvent& event );
     void OnOldSG( wxCommandEvent& event );

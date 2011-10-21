@@ -50,22 +50,22 @@
 #define COLUMN_MESSAGE              2
 
 /*!
- * CPanelPreferences type definition
+ * CPanelMessages type definition
  */
 
 IMPLEMENT_DYNAMIC_CLASS( CPanelMessages, wxPanel )
 
 /*!
- * CPanelPreferences event table definition
+ * CPanelMessages event table definition
  */
 
 BEGIN_EVENT_TABLE( CPanelMessages, wxPanel )
-////@begin CPanelPreferences event table entries
+////@begin CPanelMessages event table entries
     EVT_NOTICELIST_ITEM_DISPLAY( CPanelMessages::OnLinkClicked )
     EVT_ERASE_BACKGROUND( CPanelMessages::OnEraseBackground )
     EVT_BUTTON( wxID_OK, CPanelMessages::OnOK )
     EVT_BUTTON(ID_SIMPLE_HELP, CPanelMessages::OnButtonHelp)
-////@end CPanelPreferences event table entries
+////@end CPanelMessages event table entries
 END_EVENT_TABLE()
 
 /*!
@@ -109,7 +109,7 @@ CPanelMessages::~CPanelMessages()
 
 
 /*!
- * Control creation for CPanelPreferences
+ * Control creation for CPanelMessages
  */
 
 void CPanelMessages::CreateControls()
