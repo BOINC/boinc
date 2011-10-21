@@ -416,29 +416,31 @@ int VBOX_VM::initialize() {
     // Set the location in which the VirtualBox Configuration files can be
     // stored for this instance.
     //
-    virtualbox_user_home = aid.project_dir;
-    virtualbox_user_home += "/../virtualbox";
+    if (aid.using_sandbox) {
+        virtualbox_user_home = aid.project_dir;
+        virtualbox_user_home += "/../virtualbox";
 
-    if (!boinc_file_exists(virtualbox_user_home.c_str())) boinc_mkdir(virtualbox_user_home.c_str());
+        if (!boinc_file_exists(virtualbox_user_home.c_str())) boinc_mkdir(virtualbox_user_home.c_str());
 
 #ifdef _WIN32
-    if (!SetEnvironmentVariable("VBOX_USER_HOME", const_cast<char*>(virtualbox_user_home.c_str()))) {
-        fprintf(
-            stderr,
-            "%s Failed to modify the search path.\n",
-            boinc_msg_prefix(buf, sizeof(buf))
-        );
-    }
+        if (!SetEnvironmentVariable("VBOX_USER_HOME", const_cast<char*>(virtualbox_user_home.c_str()))) {
+            fprintf(
+                stderr,
+                "%s Failed to modify the search path.\n",
+                boinc_msg_prefix(buf, sizeof(buf))
+            );
+        }
 #else
-    // putenv does not copy its input buffer, so we must use setenv
-    if (setenv("VBOX_USER_HOME", const_cast<char*>(virtualbox_user_home.c_str()), 1)) {
-        fprintf(
-            stderr,
-            "%s Failed to modify the VBOX_USER_HOME path.\n",
-            boinc_msg_prefix(buf, sizeof(buf))
-        );
-    }
+        // putenv does not copy its input buffer, so we must use setenv
+        if (setenv("VBOX_USER_HOME", const_cast<char*>(virtualbox_user_home.c_str()), 1)) {
+            fprintf(
+                stderr,
+                "%s Failed to modify the VBOX_USER_HOME path.\n",
+                boinc_msg_prefix(buf, sizeof(buf))
+            );
+        }
 #endif
+    }
 
     return 0;
 }

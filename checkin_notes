@@ -7608,3 +7608,13 @@ Charlie 21 Oct 2011
             sg_BoincSimpleFrame.cpp,.h
             sg_DlgMessages.cpp,.h
             sg_DlgPreferences.cpp,.h
+
+Rom    21 Oct 2011
+    - VBOX: Don't redirect VirtualBox to a different directory structure for
+        the root configuration file when the client is NOT in sandbox mode.
+        Doing so could cause confusion if the volunteer uses VirtualBox for
+        any of their own work.  If BOINC started up first it would have appeared
+        that their own VM's no longer existed.
+        
+    samples/vboxwrapper/
+        vbox.cpp
