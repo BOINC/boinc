@@ -7637,3 +7637,11 @@ David  21 Oct 2011
 
     lib/
         coproc.cpp
+
+Rom    21 Oct 2011
+    - MGR: Scale background skin so that it now fits in the new simple gui
+        NOTE: We are in the process of trying to get new artwork so that we
+          can handle the localization issues better.
+        
+    clientgui/skins/Default/
+        background_image.png
