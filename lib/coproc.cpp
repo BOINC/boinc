@@ -558,7 +558,7 @@ int COPROC_NVIDIA::parse(XML_PARSER& xp) {
 
 void COPROC_NVIDIA::set_peak_flops() {
     double x=0;
-    if (have_cuda) {
+    if (prop.clockRate) {
         int flops_per_clock=0, cores_per_proc=0;
         switch (prop.major) {
         case 1:
@@ -579,7 +579,7 @@ void COPROC_NVIDIA::set_peak_flops() {
         // clock rate is scaled down by 1000
         //
         x = (1000.*prop.clockRate) * prop.multiProcessorCount * cores_per_proc * flops_per_clock;
-    } else if (have_opencl) {
+    } else if (opencl_prop.max_compute_units) {
         // OpenCL doesn't give us compute capability.
         // assume cores_per_proc is 8 and flops_per_clock is 2
         //

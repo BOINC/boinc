@@ -7645,3 +7645,9 @@ Rom    21 Oct 2011
         
     clientgui/skins/Default/
         background_image.png
+
+David  21 Oct 2011
+    - fix NVIDIA peak FLOPS
+
+    lib/
+        coproc.cpp
