@@ -174,6 +174,7 @@ struct APP_INIT_DATA {
     PROXY_INFO proxy_info;  // in case app wants to use network
     GLOBAL_PREFS global_prefs;
     double starting_elapsed_time;   // elapsed time, counting previous episodes
+    bool using_sandbox;     // client is using account-based sandboxing
 
     // info about the WU
     double rsc_fpops_est;
@@ -184,10 +185,12 @@ struct APP_INIT_DATA {
 
     // the following are used for compound apps,
     // where each stage of the computation is a fixed fraction of the total.
+    //
     double fraction_done_start;
     double fraction_done_end;
 
     // info for GPU apps
+    //
     char gpu_type[64];
     int gpu_device_num;
 

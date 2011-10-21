@@ -7570,3 +7570,27 @@ Charlie 20 Oct 2011
             skin.xml (deleted)
         skins/Default/
             skin.xml
+
+David  21 Oct 2011
+    - client/API: pass bool using_sandbox in APP_INIT_DATA;
+        says whether the client is using account-based sandboxing.
+        Needed by vboxwrapper.
+    - web: don't show authenticator in Your Account page.
+        The problem with authenticators is that if a bad guys gets yours,
+        they can log in to your account even if you change your password.
+        Eventually we should not use them at all
+        (i.e. in cookies and sent to client).
+    - make_project: copy python stuff (e.g. bin/start) for web-only projects;
+        generate appropriate project.readme file for web-only projects.
+
+    html/inc/
+        user.inc
+    lib/
+        app_ipc.cpp,h
+    client/
+        app_start.cpp
+        cs_scheduler.cpp
+    tools/
+        make_project
+    py/Boinc/
+        setup_project.py

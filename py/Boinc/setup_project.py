@@ -338,9 +338,6 @@ def install_boinc_files(dest_dir, install_web_files, install_server_files):
         os.system("rm -f "+dir('html/languages/translations/*'))
         install_glob(srcdir('html/languages/translations/*.po'), dir('html/languages/translations/'))
 
-    if not install_server_files:
-        return
-
     # copy Python stuff
     map(lambda (s): install(srcdir('sched',s), dir('bin',s)),
         [ 'start' ])
@@ -356,6 +353,9 @@ def install_boinc_files(dest_dir, install_web_files, install_server_files):
 import sys, os
 sys.path.insert(0, os.path.join('%s', 'py'))
 ''' % dest_dir
+
+    if not install_server_files:
+        return
 
     # copy backend (C++) programs;
     # rename current web daemons in case they're in use

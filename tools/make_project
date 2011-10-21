@@ -370,7 +370,26 @@ if options.test_app:
         cd %(proot)s
         bin/update_versions
 '''%locals()
+
+xadd_msg = ''
+if not options.web_only:
+    xadd_msg = '''
+-  In the project home directory (%(proot)s) run
+
+    bin/xadd
+'''%locals()
     
+compute_msg = ''
+if not options.web_only:
+    compute_msg = '''
+----------------------------
+
+To use this project for your own computations, you'll need to
+- Port your application(s) and add them
+- Develop programs to submit and handle jobs
+See the online documentation at http://boinc.berkeley.edu/
+'''
+
 html_user_url = options.html_user_url
 html_ops_url = options.html_ops_url
 
@@ -394,10 +413,7 @@ print >>open(readme_filename,'w'), '''Steps to complete installation:
 
     0,5,10,15,20,25,30,35,40,45,50,55 * * * * cd %(proot)s ; %(proot)s/bin/start --cron
 
--  In the project home directory (%(proot)s) run
-
-    bin/xadd
-%(test_app_msg)s
+%(xadd_msg)s%(test_app_msg)s
 -  Add a .htpasswd file in the project's html/ops directory:
     (You'll need this to access the project's Administrative page)
 
@@ -413,14 +429,7 @@ To start, show status, and stop the project, run:
 The project's URLs are:
 Home page (and master URL): %(html_user_url)s
 Administrative page:        %(html_ops_url)s
-
-----------------------------
-
-To use this project for your own computations, you'll need to
-- Port your application(s) and add them
-- Develop programs to submit and handle jobs
-See the online documentation at http://boinc.berkeley.edu/
-
+%(compute_msg)s
 '''%locals()
 
 print '''
