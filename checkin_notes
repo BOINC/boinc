@@ -7624,6 +7624,8 @@ Rom    21 Oct 2011
         radius.
     - MGR: Fix project name font in the tasks area, normal size.  Increase
         it's weight to BOLD.
+    - MGR: Make sure the dot is red if the project has been suspended for
+        the given task.
         
     clientgui/
         sg_PanelBase.cpp

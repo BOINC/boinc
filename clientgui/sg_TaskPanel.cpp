@@ -778,7 +778,7 @@ void CSimpleTaskPanel::UpdateTaskSelectionList(bool reskin) {
     for(j = 0; j < count; ++j) {
         selData = (TaskSelectionData*)m_TaskSelectionCtrl->GetClientData(j);
         ctrlResult = selData->result;
-		if (Suspended() || (ctrlResult->suspended_via_gui)) {
+        if (Suspended() || ctrlResult->suspended_via_gui || ctrlResult->project_suspended_via_gui) {
             newColor = redDot;
         } else if (isRunning(ctrlResult)) {
             newColor = greenDot;
