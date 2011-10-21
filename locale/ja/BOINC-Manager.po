@@ -7,8 +7,8 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 5.10 Japanese\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-03-07 12:02-0500\n"
-"PO-Revision-Date: 2011-08-28 19:14+0900\n"
-"Last-Translator: je2bwm <je2bwm@jarl.com>\n"
+"PO-Revision-Date: 2011-09-21 01:07+0200\n"
+"Last-Translator: komo <je2bwm@jarl.com>\n"
 "Language-Team: \n"
 "Language: ja\n"
 "MIME-Version: 1.0\n"
@@ -16,14 +16,12 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Generator: Pootle 2.1.1\n"
+"X-Poedit-SourceCharset: utf-8\n"
+"X-Poedit-Basepath: C:\\Src\\BOINCSVN\\trunk\\boinc\n"
 "X-Poedit-SearchPath-0: clientgui\n"
 "X-Poedit-SearchPath-1: clientgui/msw\n"
 "X-Poedit-SearchPath-2: clientgui/gtk\n"
 "X-Poedit-SearchPath-3: clientgui/mac\n"
-"X-Poedit-SourceCharset: utf-8\n"
-"X-Poedit-Basepath: C:\\Src\\BOINCSVN\\trunk\\boinc\n"
-"X-Poedit-Country: UNITED STATES\n"
-"X-Poedit-Language: English\n"
 
 #: clientgui/AccountInfoPage.cpp:386
 msgid "Identify your account "
@@ -70,7 +68,7 @@ msgstr ""
 "\n"
 "次の 'ログイン情報を探す' のリンクをクリックして、\n"
 "Eメイルアドレスとパスワードのフィールドに入れる内容を\n"
-"見つけて下さい。"
+"見つけてください。"
 
 #: clientgui/AccountInfoPage.cpp:415
 msgid "Find login information"
@@ -120,7 +118,7 @@ msgid ""
 msgstr ""
 "このアカウントマネージャに未登録でしたら、処理を開始する\n"
 "前にぜひ登録をお願いします。次のリンクをクリックして登録に\n"
-"進んで下さい。忘れたパスワードを見つけることも可能です。"
+"進んでください。忘れたパスワードを見つけることも可能です。"
 
 #: clientgui/AccountInfoPage.cpp:531
 msgid "Account manager website"
@@ -141,12 +139,12 @@ msgstr "アカウント・マネージャを使用する"
 #: clientgui/AccountInfoPage.cpp:583
 #, c-format
 msgid "The minimum password length for this project is %d. Please enter a different password."
-msgstr "このプロジェクトでは、パスワードの最短長は %d 文字です。 別のパスワードを入力して下さい。"
+msgstr "このプロジェクトでは、パスワードの最短長は %d 文字です。 別のパスワードを入力してください。"
 
 #: clientgui/AccountInfoPage.cpp:589
 #, c-format
 msgid "The minimum password length for this account manager is %d. Please enter a different password."
-msgstr "このアカウント・マネージャでは、パスワードの最短長は %d 文字です。別のパスワードを入力して下さい。"
+msgstr "このアカウント・マネージャでは、パスワードの最短長は %d 文字です。別のパスワードを入力してください。"
 
 #: clientgui/AccountInfoPage.cpp:601
 msgid "The password and confirmation password do not match. Please type them again."
@@ -182,7 +180,7 @@ msgstr "サーバと通信中です。"
 #: clientgui/AccountManagerProcessingPage.cpp:200
 #: clientgui/AccountManagerPropertiesPage.cpp:206
 msgid "Please wait..."
-msgstr "お待ち下さい..."
+msgstr "お待ちください..."
 
 #: clientgui/AccountManagerProcessingPage.cpp:327
 msgid "An internal server error has occurred.\n"
@@ -203,7 +201,7 @@ msgstr "この %s ウィンドーを閉じる"
 
 #: clientgui/AdvancedFrame.cpp:318
 msgid "&Close Window"
-msgstr "ウィンドーを閉じる（&C)"
+msgstr "ウィンドーを閉じる(&C)"
 
 #: clientgui/AdvancedFrame.cpp:329
 #: clientgui/AdvancedFrame.cpp:336
@@ -418,7 +416,7 @@ msgstr "BOINC の CPU ベンチマークを実行します"
 
 #: clientgui/AdvancedFrame.cpp:577
 msgid "Do network communication"
-msgstr "通信を今すぐ実施(&C)"
+msgstr "通信を今すぐ実施"
 
 #: clientgui/AdvancedFrame.cpp:578
 msgid "Do all pending network communication"
@@ -596,7 +594,7 @@ msgstr ""
 "指定した名前のアカウントは既にあり、あなたが入力した\n"
 "ものとは異なるパスワードが設定されています。\n"
 "\n"
-"プロジェクトのウェブサイトに行って、そこにある指示に従って下さい。"
+"プロジェクトのウェブサイトに行って、そこにある指示に従ってください。"
 
 #: clientgui/AlreadyExistsPage.cpp:191
 msgid "Email address already in use"
@@ -612,7 +610,7 @@ msgstr ""
 "指定した電子メールアドレスのアカウントは既にあり、あなたが入力した\n"
 "ものとは異なるパスワードが設定されています。\n"
 "\n"
-"プロジェクトのウェブサイトに行って、そこにある指示に従って下さい。"
+"プロジェクトのウェブサイトに行って、そこにある指示に従ってください。"
 
 #: clientgui/AsyncRPC.cpp:1234
 msgid "Communicating with BOINC client.  Please wait ..."
@@ -649,7 +647,7 @@ msgid ""
 msgstr ""
 "現在のところあなたにはこのクライアントを管理する権限がありません。\n"
 "管理者に連絡して、'boinc_users' ローカルユーザグループにあなたを\n"
-"加えて下さい。"
+"加えてください。"
 
 #: clientgui/BOINCBaseFrame.cpp:521
 msgid ""
@@ -694,7 +692,7 @@ msgid ""
 msgstr ""
 "%s は %s クライアントを開始することができません。\n"
 "コントロールパネルから、管理ツールのサービスを開いて、\n"
-"BOINC サービスを開始して下さい。"
+"BOINC サービスを開始してください。"
 
 #: clientgui/BOINCBaseFrame.cpp:636
 #, c-format
@@ -703,7 +701,7 @@ msgid ""
 "Please start the daemon and try again."
 msgstr ""
 "%s は %s クライアントを開始することができません。\n"
-"このクライアント用のデーモンを開始してから、もう一度試してみて下さい。"
+"このクライアント用のデーモンを開始してから、もう一度試してみてください。"
 
 #: clientgui/BOINCBaseFrame.cpp:687
 #, c-format
@@ -719,7 +717,7 @@ msgid ""
 msgstr ""
 "%s は現在 %s クライアントと繋がっていません。メニューの [高度な操作(D)] から\n"
 "[コンピュータの選択...] へ進み、接続する %s クライアントのコンピュータを選びます。\n"
-"あなたの操作しているコンピュータ自身に接続するには、「コンピュータ名 (ホスト名)」の欄に localhost と入力して下さい。"
+"あなたの操作しているコンピュータ自身に接続するには、「コンピュータ名 (ホスト名)」の欄に localhost と入力してください。"
 
 #: clientgui/BOINCBaseView.cpp:778
 msgid "Web sites"
@@ -800,7 +798,7 @@ msgid ""
 msgstr ""
 "このクライアントを管理する権限が現在あなたにはありません。\n"
 "\n"
-"このユーザのもとで BOINC を走らせるためには、以下のようにして下さい:\n"
+"このユーザのもとで BOINC を走らせるためには、以下のようにしてください:\n"
 "  - BOINC を再インストールし、その際に、non-administrative users に関する\n"
 "    質問に\"Yes\"（はい）と答えます\n"
 " あるいは、\n"
@@ -814,7 +812,7 @@ msgid ""
 "(Error code %d)"
 msgstr ""
 "BOINC 関連ファイルの所有権あるいはパーミッションの設定が不適切です。 BOINC を\n"
-"再インストールして下さい。 (エラーコード %d)"
+"再インストールしてください。 (エラーコード %d)"
 
 #: clientgui/BOINCGUIApp.cpp:371
 msgid ""
@@ -822,7 +820,7 @@ msgid ""
 "Please reboot your computer and try again."
 msgstr ""
 "BOINC を正常に実行するためには再起動が必要です。\n"
-"あなたのコンピュータを再起動してから、もう一度試して下さい。"
+"あなたのコンピュータを再起動してから、もう一度試してください。"
 
 #: clientgui/BOINCGUIApp.cpp:372
 msgid "BOINC Manager"
@@ -942,7 +940,7 @@ msgstr "クライアントに接続されていません。"
 #: clientgui/BOINCTaskBar.cpp:770
 #, c-format
 msgid "%s Notices"
-msgstr "お知らせが %s個あります"
+msgstr "%s からのお知らせ"
 
 #: clientgui/BOINCTaskBar.cpp:776
 msgid "There are new notices - click to view."
@@ -974,14 +972,14 @@ msgstr ""
 "異常が発生しました。\n"
 "詳細はイベント・ログを見て確かめてください。\n"
 "\n"
-"[終了] をクリックして閉じて下さい。"
+"[終了] をクリックして閉じてください。"
 
 #: clientgui/CompletionErrorPage.cpp:225
 #: clientgui/CompletionPage.cpp:222
 #: clientgui/CompletionPage.cpp:242
 #: clientgui/CompletionPage.cpp:273
 msgid "Click Finish to close."
-msgstr "[終了] をクリックして閉じて下さい。"
+msgstr "[終了] をクリックして閉じてください。"
 
 #: clientgui/CompletionErrorPage.cpp:234
 msgid "Messages from server:"
@@ -1236,7 +1234,7 @@ msgstr "曜日ごとの設定："
 #: clientgui/DlgAdvPreferencesBase.cpp:258
 #: clientgui/DlgAdvPreferencesBase.cpp:498
 msgid "check box to specify hours for this day of week"
-msgstr "この曜日で時間帯を指定するにはチェックを入れて下さい"
+msgstr "この曜日で時間帯を指定するにはチェックを入れてください"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:264
 #: clientgui/DlgAdvPreferencesBase.cpp:504
@@ -1520,9 +1518,7 @@ msgstr "選択したメッセージをクリップボードにコピーします
 #: clientgui/DlgEventLog.cpp:283
 #: clientgui/DlgEventLog.cpp:291
 msgid "Copy the selected messages to the clipboard. You can select multiple messages by holding down the shift or control key while clicking on messages."
-msgstr ""
-"選択したメッセージをクリップボードにコピーします。シフトまたはコントロールキーを押しながら、メッセージをクリックすれば複数のメッセージを選択状態にできま"
-"す。 "
+msgstr "選択したメッセージをクリップボードにコピーします。シフトまたはコントロールキーを押しながら、メッセージをクリックすれば複数のメッセージを選択状態にできます。 "
 
 #: clientgui/DlgEventLog.cpp:298
 msgid "Close"
@@ -1567,7 +1563,7 @@ msgstr ""
 "ためのマネージャ・プログラムです。\n"
 "\n"
 "もし、科学計算アプリケーションの方もマネージャ・プログラムと\n"
-"同時に停止させたいのなら、以下の選択肢から選んで下さい："
+"同時に停止させたいのなら、以下の選択肢から選んでください："
 
 #: clientgui/DlgExitMessage.cpp:135
 #, c-format
@@ -2030,7 +2026,7 @@ msgid ""
 "on this computer.  Please select a client to monitor."
 msgstr ""
 "このコンピュータではすでに %s の別のインスタンスが\n"
-"走っています。監視するクライアントを選択して下さい。"
+"走っています。監視するクライアントを選択してください。"
 
 #: clientgui/DlgSelectComputer.cpp:142
 msgid "Host name:"
@@ -2266,7 +2262,7 @@ msgstr "CPU ベンチマーク実行中"
 
 #: clientgui/MainDocument.cpp:2389
 msgid "need disk space - check preferences"
-msgstr "ディスク容量の不足 - 好みの設定(プレファレンス)を確認して下さい"
+msgstr "ディスク容量の不足 - 好みの設定(プレファレンス)を確認してください"
 
 #: clientgui/MainDocument.cpp:2390
 msgid "computer is not in use"
@@ -2410,7 +2406,7 @@ msgstr "インターネット接続が見つかりません"
 
 #: clientgui/NoInternetConnectionPage.cpp:182
 msgid "Please connect to the Internet and try again."
-msgstr "インターネットへ接続してから、もう一度試して下さい。"
+msgstr "インターネットへ接続してから、もう一度試してください。"
 
 #: clientgui/NotDetectedPage.cpp:181
 msgid "Project not found"
@@ -2424,7 +2420,7 @@ msgid ""
 msgstr ""
 "指定した URL は BOINC ベースのプロジェクトのものではありません。\n"
 "\n"
-"URL を確認の上、もう一度試して下さい。"
+"URL を確認の上、もう一度試してください。"
 
 #: clientgui/NotDetectedPage.cpp:188
 msgid "Account manager not found"
@@ -2440,7 +2436,7 @@ msgstr ""
 "指定した URL は BOINC ベースのアカウント・マネージャの\n"
 "ものではありません。\n"
 "\n"
-"URL を確認の上、もう一度試して下さい。"
+"URL を確認の上、もう一度試してください。"
 
 #: clientgui/NotFoundPage.cpp:181
 msgid "Login Failed."
@@ -2448,11 +2444,11 @@ msgstr "ログイン失敗。"
 
 #: clientgui/NotFoundPage.cpp:185
 msgid "Check the username and password, and try again."
-msgstr "名前とパスワードを確認の上、もう一度試して下さい。"
+msgstr "名前とパスワードを確認の上、もう一度試してください。"
 
 #: clientgui/NotFoundPage.cpp:189
 msgid "Check the email address and password, and try again."
-msgstr "電子メールアドレスとパスワードを確認の上、もう一度試して下さい。"
+msgstr "電子メールアドレスとパスワードを確認の上、もう一度試してください。"
 
 #: clientgui/NoticeListCtrl.cpp:52
 msgid "Notice List"
@@ -2500,7 +2496,7 @@ msgstr "このプロジェクトにはあなたのコンピュータに適合す
 
 #: clientgui/ProjectInfoPage.cpp:415
 msgid "You already added this project. Please choose a different project."
-msgstr "すでに指定したプロジェクトは追加済みです。別のプロジェクトを選んで下さい。"
+msgstr "すでに指定したプロジェクトは追加済みです。別のプロジェクトを選んでください。"
 
 #: clientgui/ProjectListCtrl.cpp:67
 msgid "Project List"
@@ -2541,7 +2537,7 @@ msgid ""
 "Please wait..."
 msgstr ""
 "プロジェクトと通信中\n"
-"お待ち下さい..."
+"お待ちください..."
 
 #: clientgui/ProxyInfoPage.cpp:195
 msgid "Network communication failure"
@@ -2567,15 +2563,15 @@ msgstr ""
 "通信に失敗しました。よくある原因は以下のとおりです。\n"
 "\n"
 "1) 接続に問題がある場合。 あなたのネットワークまたはモデムの接続を\n"
-"チェックし、[戻る] をクリックしてもう一度試して下さい。\n"
+"チェックし、[戻る] をクリックしてもう一度試してください。\n"
 "\n"
 "2) パーソナル・ファイアウォールが The World Community Grid - BOINC の\n"
 "通信をブロックしている場合。 BOINC および BOINC Manager が\n"
 "ポート番号 80 と 443で通信できるようにパーソナル・ファイアウォールを設定\n"
-"します。設定したら [戻る] をクリックしてもう一度試して下さい。\n"
+"します。設定したら [戻る] をクリックしてもう一度試してください。\n"
 "\n"
 "3) プロキシ・サーバを使っている場合。\n"
-"[次へ] をクリックして BOINC のプロキシ設定を行って下さい。"
+"[次へ] をクリックして BOINC のプロキシ設定を行ってください。"
 
 #: clientgui/ProxyInfoPage.cpp:203
 msgid ""
@@ -2597,15 +2593,15 @@ msgstr ""
 "よくある原因は以下のとおりです。\n"
 "\n"
 "1) 接続に問題がある場合。あなたのネットワークまたはモデムの接続を\n"
-"チェックし、[戻る] をクリックしてもう一度試して下さい。\n"
+"チェックし、[戻る] をクリックしてもう一度試してください。\n"
 "\n"
 "2) パーソナル・ファイアウォールが BOINC の通信をブロックしている場合。\n"
 "BOINC および  BOINC Manager がポート番号 80 で通信できるように\n"
 "パーソナル・ファイアウォールを設定します。設定したら [戻る] をクリック\n"
-"してもう一度試して下さい。\n"
+"してもう一度試してください。\n"
 "\n"
 "3) プロキシ・サーバを使っている場合。\n"
-"[次へ] をクリックして BOINC のプロキシ設定を行って下さい。"
+"[次へ] をクリックして BOINC のプロキシ設定を行ってください。"
 
 #: clientgui/ProxyPage.cpp:331
 msgid "Proxy configuration"
@@ -2681,7 +2677,7 @@ msgstr "現在の状態を読み出し中"
 
 #: clientgui/sg_ClientStateIndicator.cpp:291
 msgid "You don't have any projects.  Please Add a Project."
-msgstr "どこのプロジェクトにも参加していません。プロジェクトを追加して下さい。"
+msgstr "どこのプロジェクトにも参加していません。プロジェクトを追加してください。"
 
 #: clientgui/sg_ClientStateIndicator.cpp:294
 msgid "Downloading work from the server."
@@ -2996,9 +2992,7 @@ msgstr "プロジェクトをリセット"
 
 #: clientgui/sg_ProjectCommandPopup.cpp:80
 msgid "Delete all files and tasks associated with this project, and get new tasks.  You can update the project first to report any completed tasks."
-msgstr ""
-"このプロジェクトに関係するすべてのファイルとタスクを削除し新しいタスクを取得します。 "
-"完了した仕事を報告するには、先にプロジェクトを最新状態に「更新」してください。"
+msgstr "このプロジェクトに関係するすべてのファイルとタスクを削除し新しいタスクを取得します。 完了した仕事を報告するには、先にプロジェクトを最新状態に「更新」してください。"
 
 #: clientgui/sg_ProjectCommandPopup.cpp:85
 msgid "Remove"
@@ -3006,8 +3000,7 @@ msgstr "削除"
 
 #: clientgui/sg_ProjectCommandPopup.cpp:86
 msgid "Remove this project.  Tasks in progress will be lost (use 'Update' first to report any completed tasks)."
-msgstr ""
-"このプロジェクトを削除します。作業中のタスクは消えてしまいます。 (完了したタスクを報告するため、削除する前にプロジェクトの「更新」を行ってください)"
+msgstr "このプロジェクトを削除します。作業中のタスクは消えてしまいます。 (完了したタスクを報告するため、削除する前にプロジェクトの「更新」を行ってください)"
 
 #: clientgui/sg_ProjectCommandPopup.cpp:91
 #: clientgui/sg_TaskCommandPopup.cpp:78
@@ -3286,7 +3279,7 @@ msgid ""
 msgstr ""
 "プロジェクトは一時的に利用できません。\n"
 "\n"
-"少し待ってからもう一度試して下さい。"
+"少し待ってからもう一度試してください。"
 
 #: clientgui/UnavailablePage.cpp:190
 msgid "Account manager temporarily unavailable"
@@ -3300,7 +3293,7 @@ msgid ""
 msgstr ""
 "アカウント・マネージャは一時的に利用できません。\n"
 "\n"
-"少し待ってからもう一度試して下さい。"
+"少し待ってからもう一度試してください。"
 
 #: clientgui/ValidateAccountKey.cpp:68
 msgid "Please specify an account key to continue."
@@ -3308,7 +3301,7 @@ msgstr "アカウント・キーを入力し、次に進んでください。"
 
 #: clientgui/ValidateAccountKey.cpp:71
 msgid "Invalid Account Key; please enter a valid Account Key"
-msgstr "アカウント・キーが正しくありません。正しいアカウント・キーを入力して下さい"
+msgstr "アカウント・キーが正しくありません。正しいアカウント・キーを入力してください"
 
 #: clientgui/ValidateAccountKey.cpp:82
 #: clientgui/ValidateEmailAddress.cpp:86
@@ -3321,7 +3314,7 @@ msgstr "電子メールアドレスを指定してください"
 
 #: clientgui/ValidateEmailAddress.cpp:75
 msgid "Invalid email address; please enter a valid email address"
-msgstr "電子メールアドレスが正しくありません。正しい電子メールアドレスを入力して下さい"
+msgstr "電子メールアドレスが正しくありません。正しい電子メールアドレスを入力してください"
 
 #: clientgui/ValidateURL.cpp:69
 msgid "Missing URL"
@@ -3720,9 +3713,7 @@ msgstr "ファイル転送を中止"
 
 #: clientgui/ViewTransfers.cpp:171
 msgid "Click 'Abort transfer' to delete the file from the transfer queue. This will prevent you from being granted credit for this result."
-msgstr ""
-"ファイル転送の待ち行列からこのファイルを削除するには、「ファイル転送を中止」をクリックします。 この場合、対応するリザルトについての功績 "
-"(credit) は付与されなくなります。"
+msgstr "ファイル転送の待ち行列からこのファイルを削除するには、「ファイル転送を中止」をクリックします。 この場合、対応するリザルトについての功績 (credit) は付与されなくなります。"
 
 #: clientgui/ViewTransfers.cpp:182
 msgid "File"
@@ -3894,7 +3885,7 @@ msgid ""
 "listed on or managed via %s."
 msgstr ""
 "可能ならば、%sウェブサイトで\n"
-"プロジェクトを追加して下さい。\n"
+"プロジェクトを追加してください。\n"
 "\n"
 "このウィザードでプロジェクトを追加すると\n"
 "%s 上で表示・管理できません。"
@@ -3931,7 +3922,7 @@ msgstr ""
 "これから、新たな BOINC プロジェクトを参加範囲に追加しようとしています。 新た\n"
 "なプロジェクトに参加するということは、あなたのコンピュータを新たな組織に接続\n"
 "することを意味します。 これがあなたの望む事でしたら、以下にある「次へ(Next)」\n"
-"ボタンをクリックして下さい。\n"
+"ボタンをクリックしてください。\n"
 "\n"
 "World Community Grid のようなプロジェクトでは、複数種類の研究アプリケーション\n"
 "を実行します。あなたのコンピュータへもってきて動作させる研究アプリケーション\n"
@@ -3947,7 +3938,7 @@ msgstr "World Community Grid の研究アプリケーションを変更"
 
 #: clientgui/WelcomePage.cpp:303
 msgid "To continue, click Next."
-msgstr "続けるには [次へ] をクリックして下さい。"
+msgstr "続けるには [次へ] をクリックしてください。"
 
 #: clientgui/WizardAttach.cpp:612
 msgid "Do you really want to cancel?"
@@ -3996,9 +3987,7 @@ msgstr "Pie Ctrl"
 
 #: clientgui/mac/MacAccessiblity.cpp:257
 msgid "for accessibility support, please select advanced from the view menu or type command shift a"
-msgstr ""
-"アクセシビリティサポートは詳細表示で提供しています。詳細表示に切り替えるには表示メニューから操作するか、コマンド - シフト - a "
-"とタイプしてください。"
+msgstr "アクセシビリティサポートは詳細表示で提供しています。詳細表示に切り替えるには表示メニューから操作するか、コマンド - シフト - a とタイプしてください。"
 
 #: clientgui/mac/MacAccessiblity.cpp:302
 msgid "This panel contains graphs showing user totals for projects"
@@ -4112,11 +4101,11 @@ msgstr "%s を終了する"
 
 #: clientgui/DlgAdvPreferences.h:29
 msgid "specify work start and stop hours in format HH:MM-HH:MM"
-msgstr "仕事をする時間帯の始めと終わりを HH:MM-HH:MM の形式で記入して下さい"
+msgstr "仕事をする時間帯の始めと終わりを HH:MM-HH:MM の形式で記入してください"
 
 #: clientgui/DlgAdvPreferences.h:30
 msgid "specify network usage start and stop hours in format HH:MM-HH:MM"
-msgstr "ネットワークを使う時間帯の始めと終わりを HH:MM-HH:MM の形式で記入して下さい"
+msgstr "ネットワークを使う時間帯の始めと終わりを HH:MM-HH:MM の形式で記入してください"
 
 #~ msgid "Scheduler call in progress"
 #~ msgstr "スケジューラへ要求中"
@@ -4139,7 +4128,7 @@ msgstr "ネットワークを使う時間帯の始めと終わりを HH:MM-HH:MM
 #~ msgid "Couldn't write state file; check directory permissions"
 #~ msgstr ""
 #~ "状態ファイルを書き出すことができませんでした。ディレクトリのパーミッション"
-#~ "を調べてみて下さい。"
+#~ "を調べてみてください。"
 
 #~ msgid "The HTTP_PROXY environment variable must specify an HTTP proxy"
 #~ msgstr "環境変数 HTTP_PROXY には HTTP プロキシを指定しなければなりません。"
@@ -4278,4 +4267,4 @@ msgstr "ネットワークを使う時間帯の始めと終わりを HH:MM-HH:MM
 #~ "configuration."
 #~ msgstr ""
 #~ "BOINC はインターネットにアクセスできません。ネットワーク接続とプロキシの設"
-#~ "定を調べて下さい。"
+#~ "定を調べてください。"

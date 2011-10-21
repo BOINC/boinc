@@ -7,15 +7,15 @@ msgstr ""
 "Project-Id-Version: BOINC-prject-generic\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2011-08-25 15:10 PDT\n"
-"PO-Revision-Date: 2009-11-29 09:58+0100\n"
-"Last-Translator: Kenneth Skjold <kenneth@skjold.biz>\n"
+"PO-Revision-Date: 2011-09-10 16:40+0200\n"
+"Last-Translator: Kenneth <kenneth@skjold.biz>\n"
 "Language-Team: Hjelp andre <kenneth@skjold.biz>\n"
 "Language: nb\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Pootle 1.2.1\n"
+"X-Generator: Pootle 2.1.1\n"
 "X-Poedit-SourceCharset: utf-8\n"
 
 msgid "LANG_NAME_NATIVE"
@@ -26,11 +26,11 @@ msgstr "English"
 
 #: ../inc/forum.inc:37
 msgid "Oldest first"
-msgstr ""
+msgstr "Eldste først"
 
 #: ../inc/forum.inc:38 ../inc/forum.inc:44
 msgid "Newest first"
-msgstr ""
+msgstr "Nyeste først"
 
 #: ../inc/forum.inc:39
 msgid "Highest rated posts first"
@@ -38,7 +38,7 @@ msgstr ""
 
 #: ../inc/forum.inc:41
 msgid "Newest post first"
-msgstr ""
+msgstr "Nyeste post først"
 
 #: ../inc/forum.inc:42
 msgid "Most views first"
@@ -132,37 +132,37 @@ msgstr "Merk alle trådene i alle meldings-tavler som 'lest'."
 
 #: ../inc/host.inc:24
 msgid "No host"
-msgstr ""
+msgstr "Ingen vert"
 
 #: ../inc/host.inc:26
 msgid "Unavailable"
-msgstr ""
+msgstr "Ikke tilgjengelig"
 
 #: ../inc/host.inc:55 ../inc/prefs.inc:626 ../inc/prefs.inc:1026
 msgid "Home"
-msgstr ""
+msgstr "Hjem"
 
 #: ../inc/host.inc:56 ../inc/prefs.inc:628 ../inc/prefs.inc:1027
 #: ../user/server_status.php:319
 msgid "Work"
-msgstr ""
+msgstr "Arbeid"
 
 #: ../inc/host.inc:57 ../inc/prefs.inc:627 ../inc/prefs.inc:1028
 msgid "School"
-msgstr ""
+msgstr "Skole"
 
 #: ../inc/host.inc:59 ../user/edit_forum_preferences_form.php:173
 #: ../user/edit_forum_preferences_form.php:174
 msgid "Update"
-msgstr ""
+msgstr "Oppdater"
 
 #: ../inc/host.inc:83
 msgid "Computer information"
-msgstr ""
+msgstr "Datamaskin informasjon"
 
 #: ../inc/host.inc:87 ../inc/host.inc:92
 msgid "IP address"
-msgstr ""
+msgstr "IP adresse"
 
 #: ../inc/host.inc:87
 msgid "(same the last %1 times)"
@@ -174,19 +174,19 @@ msgstr ""
 
 #: ../inc/host.inc:92
 msgid "Show IP address"
-msgstr ""
+msgstr "Vis IP adresse"
 
 #: ../inc/host.inc:94
 msgid "Domain name"
-msgstr ""
+msgstr "Domene navn"
 
 #: ../inc/host.inc:97
 msgid "Local Standard Time"
-msgstr ""
+msgstr "Lokal standard tid"
 
 #: ../inc/host.inc:97
 msgid "UTC %1 hours"
-msgstr ""
+msgstr "UTC %1 timer"
 
 #: ../inc/host.inc:98 ../inc/host.inc:612 ../inc/result.inc:419
 #: ../inc/team.inc:202 ../inc/team.inc:350 ../inc/user.inc:200
@@ -199,16 +199,15 @@ msgstr "Navn"
 
 #: ../inc/host.inc:102 ../inc/host.inc:104 ../inc/host.inc:213
 msgid "Owner"
-msgstr ""
+msgstr "Eier"
 
 #: ../inc/host.inc:104 ../inc/host.inc:318
 msgid "Anonymous"
-msgstr ""
+msgstr "Anonym"
 
 #: ../inc/host.inc:108 ../inc/result.inc:421
-#, fuzzy
 msgid "Created"
-msgstr "Lag"
+msgstr "Opprettet"
 
 #: ../inc/host.inc:109 ../inc/host.inc:217 ../inc/host.inc:222
 #: ../inc/host.inc:621 ../inc/team.inc:94 ../inc/team.inc:207
@@ -233,11 +232,11 @@ msgstr ""
 
 #: ../inc/host.inc:114
 msgid "CPU type"
-msgstr ""
+msgstr "CPU type"
 
 #: ../inc/host.inc:115
 msgid "Number of processors"
-msgstr ""
+msgstr "Antall prosessorer"
 
 #: ../inc/host.inc:117
 msgid "Coprocessors"
@@ -245,27 +244,27 @@ msgstr ""
 
 #: ../inc/host.inc:119 ../inc/host.inc:627
 msgid "Operating System"
-msgstr ""
+msgstr "Operativsystem"
 
 #: ../inc/host.inc:122 ../inc/host.inc:226
 msgid "BOINC version"
-msgstr ""
+msgstr "BOINC versjon"
 
 #: ../inc/host.inc:126
 msgid "Memory"
-msgstr ""
+msgstr "Minne"
 
 #: ../inc/host.inc:126 ../inc/host.inc:134
 msgid "%1 MB"
-msgstr ""
+msgstr "%1 MB"
 
 #: ../inc/host.inc:129
 msgid "Cache"
-msgstr ""
+msgstr "Buffer"
 
 #: ../inc/host.inc:129
 msgid "%1 KB"
-msgstr ""
+msgstr "%1 KB"
 
 #: ../inc/host.inc:134
 msgid "Swap space"
@@ -273,15 +272,15 @@ msgstr ""
 
 #: ../inc/host.inc:137
 msgid "Total disk space"
-msgstr ""
+msgstr "Total diskplass"
 
 #: ../inc/host.inc:137 ../inc/host.inc:140
 msgid "%1 GB"
-msgstr ""
+msgstr "%1 GB"
 
 #: ../inc/host.inc:140
 msgid "Free Disk Space"
-msgstr ""
+msgstr "Ledig diskplass"
 
 #: ../inc/host.inc:144
 msgid "Measured floating point speed"
@@ -297,21 +296,21 @@ msgstr ""
 
 #: ../inc/host.inc:151 ../inc/host.inc:153
 msgid "Average upload rate"
-msgstr ""
+msgstr "Gjennomsnittlig opplastingshastighet  "
 
 #: ../inc/host.inc:151 ../inc/host.inc:158
 msgid "%1 KB/sec"
-msgstr ""
+msgstr "%1 KB/sek"
 
 #: ../inc/host.inc:153 ../inc/host.inc:160 ../inc/result.inc:192
 #: ../inc/result.inc:202 ../inc/result.inc:220 ../inc/result.inc:252
 #: ../user/explain_state.php:56 ../user/host_app_versions.php:29
 msgid "Unknown"
-msgstr ""
+msgstr "Ukjent"
 
 #: ../inc/host.inc:158 ../inc/host.inc:160
 msgid "Average download rate"
-msgstr ""
+msgstr "Gjennomsnittlig nedlastingshastighet"
 
 #: ../inc/host.inc:163 ../user/host_app_versions.php:65
 msgid "Average turnaround time"
@@ -320,16 +319,15 @@ msgstr ""
 #: ../inc/host.inc:163 ../user/forum_search.php:46 ../user/forum_search.php:47
 #: ../user/forum_search.php:48 ../user/forum_search.php:49
 msgid "%1 days"
-msgstr ""
+msgstr "%1 dager"
 
 #: ../inc/host.inc:164
-#, fuzzy
 msgid "Application details"
-msgstr "Programmer"
+msgstr "Program detaljer"
 
 #: ../inc/host.inc:165
 msgid "Show"
-msgstr ""
+msgstr "Vis"
 
 #: ../inc/host.inc:175 ../inc/host.inc:302 ../inc/user.inc:153
 msgid "Tasks"
@@ -337,7 +335,7 @@ msgstr "Oppgaver"
 
 #: ../inc/host.inc:179
 msgid "Number of times BOINC has contacted server"
-msgstr ""
+msgstr "Antall ganger BOINC har kontaktet tjener"
 
 #: ../inc/host.inc:180
 msgid "Last time contacted server"
@@ -368,24 +366,23 @@ msgstr ""
 
 #: ../inc/host.inc:192 ../inc/host.inc:614
 msgid "Location"
-msgstr ""
+msgstr "Plassering"
 
 #: ../inc/host.inc:194
 msgid "Delete this computer"
-msgstr ""
+msgstr "Slett denne datamaskinen"
 
 #: ../inc/host.inc:198
 msgid "Merge duplicate records of this computer"
 msgstr ""
 
 #: ../inc/host.inc:198
-#, fuzzy
 msgid "Merge"
-msgstr "Melding"
+msgstr "Flett"
 
 #: ../inc/host.inc:211
 msgid "Computer info"
-msgstr ""
+msgstr "Datamaskin informasjon"
 
 #: ../inc/host.inc:212 ../inc/host.inc:616 ../inc/team.inc:349
 #: ../user/top_users.php:48
@@ -408,15 +405,15 @@ msgstr "Nylig gjennomsnitts kreditt"
 #: ../inc/host.inc:227 ../inc/host.inc:624 ../inc/result.inc:45
 #: ../user/host_app_versions.php:25
 msgid "CPU"
-msgstr ""
+msgstr "CPU"
 
 #: ../inc/host.inc:228 ../inc/host.inc:625
 msgid "GPU"
-msgstr ""
+msgstr "GPU"
 
 #: ../inc/host.inc:229
 msgid "Operating system"
-msgstr ""
+msgstr "Operativsystem"
 
 #: ../inc/host.inc:281
 msgid "(%1 processors)"
@@ -424,7 +421,7 @@ msgstr ""
 
 #: ../inc/host.inc:301
 msgid "Details"
-msgstr ""
+msgstr "Detaljer"
 
 #: ../inc/host.inc:306
 #, fuzzy
@@ -437,15 +434,15 @@ msgstr ""
 
 #: ../inc/host.inc:467
 msgid "Host %1 has an incompatible OS:"
-msgstr ""
+msgstr "Vert %1 har et ikke kompatibelt operativsystem:"
 
 #: ../inc/host.inc:473
 msgid "Host %1 has an incompatible CPU:"
-msgstr ""
+msgstr "Vert %1 har en ikke kompatibel prosessor:"
 
 #: ../inc/host.inc:540
 msgid "same host"
-msgstr ""
+msgstr "samme vert"
 
 #: ../inc/host.inc:543
 msgid "Can't merge host %1 into %2 - they're incompatible"
@@ -453,7 +450,7 @@ msgstr ""
 
 #: ../inc/host.inc:546
 msgid "Merging host %1 into host %2"
-msgstr ""
+msgstr "Flett vert %1 inn i vert %2"
 
 #: ../inc/host.inc:563
 msgid "Couldn't update credit of new computer"
@@ -461,7 +458,7 @@ msgstr ""
 
 #: ../inc/host.inc:567
 msgid "Couldn't update results"
-msgstr ""
+msgstr "Kunne ikke oppdatere resultater"
 
 #: ../inc/host.inc:572
 msgid "Couldn't retire old computer"
@@ -473,29 +470,27 @@ msgstr ""
 
 #: ../inc/host.inc:597 ../inc/host.inc:600
 msgid "Show:"
-msgstr ""
+msgstr "Vis:"
 
 #: ../inc/host.inc:597 ../inc/host.inc:600
-#, fuzzy
 msgid "All computers"
-msgstr "Topp datamaskiner"
+msgstr "Alle datamaskiner"
 
 #: ../inc/host.inc:597 ../inc/host.inc:600
 msgid "Only computers active in past 30 days"
-msgstr ""
+msgstr "Bare datamaskiner som har vært aktiv de siste 30 dager"
 
 #: ../inc/host.inc:609 ../inc/result.inc:428
-#, fuzzy
 msgid "Computer ID"
-msgstr "Datamaskiner"
+msgstr "Datamaskin ID"
 
 #: ../inc/host.inc:622
 msgid "BOINC<br>version"
-msgstr ""
+msgstr "BOINC<br>versjon"
 
 #: ../inc/host.inc:629
 msgid "Last contact"
-msgstr ""
+msgstr "Siste kontakt"
 
 #: ../inc/host.inc:678
 msgid "Merge computers by name"
@@ -503,12 +498,12 @@ msgstr ""
 
 #: ../inc/news.inc:40
 msgid "Comment"
-msgstr ""
+msgstr "Kommentar"
 
 #: ../inc/news.inc:111
 #, php-format
 msgid "News is available as an %sRSS feed%s"
-msgstr ""
+msgstr "Nyheter er tilgjengelig som en %sRSS feed%s"
 
 #: ../inc/pm.inc:25 ../inc/pm.inc:174 ../user/pm.php:69 ../user/pm.php:148
 msgid "Inbox"
@@ -561,11 +556,11 @@ msgstr ""
 
 #: ../inc/pm.inc:127
 msgid "Private message%1 from %2, subject:"
-msgstr ""
+msgstr "Privat melding%1 fra %2, emne:"
 
 #: ../inc/pm.inc:135
 msgid "Couldn't create message"
-msgstr ""
+msgstr "Kunne ikke lage melding"
 
 #: ../inc/pm.inc:166
 msgid ""
@@ -609,7 +604,7 @@ msgstr ""
 
 #: ../inc/prefs.inc:100 ../inc/prefs.inc:109 ../inc/prefs.inc:143
 msgid "minutes"
-msgstr ""
+msgstr "minutter"
 
 #: ../inc/prefs.inc:104
 msgid ""
@@ -643,7 +638,7 @@ msgstr ""
 
 #: ../inc/prefs.inc:148
 msgid "processors"
-msgstr ""
+msgstr "prosessorer"
 
 #: ../inc/prefs.inc:152
 msgid "On multiprocessors, use at most %1 Enforced by version 6.1+ %2"
@@ -652,7 +647,7 @@ msgstr ""
 #: ../inc/prefs.inc:157
 #, php-format
 msgid "% of the processors"
-msgstr ""
+msgstr "% av prosessorene"
 
 #: ../inc/prefs.inc:161
 msgid "Use at most %1 Can be used to reduce CPU heat %2"
@@ -661,7 +656,7 @@ msgstr ""
 #: ../inc/prefs.inc:166
 #, php-format
 msgid "% of CPU time"
-msgstr ""
+msgstr "% av CPU tid"
 
 #: ../inc/prefs.inc:174 ../inc/prefs.inc:188
 msgid "Disk: use at most"
@@ -669,7 +664,7 @@ msgstr ""
 
 #: ../inc/prefs.inc:176 ../inc/prefs.inc:185
 msgid "GB"
-msgstr ""
+msgstr "GB"
 
 #: ../inc/prefs.inc:179
 msgid "Disk: leave free at least %1 Values smaller than %2 are ignored %3"
@@ -679,7 +674,7 @@ msgstr ""
 #: ../inc/prefs.inc:210
 #, php-format
 msgid "% of total"
-msgstr ""
+msgstr "% av total"
 
 #: ../inc/prefs.inc:193
 msgid "Tasks checkpoint to disk at most every"
@@ -687,7 +682,7 @@ msgstr ""
 
 #: ../inc/prefs.inc:195
 msgid "seconds"
-msgstr ""
+msgstr "sekunder"
 
 #: ../inc/prefs.inc:198
 msgid "Swap space: use at most"
@@ -711,7 +706,7 @@ msgstr ""
 #: ../inc/prefs.inc:223 ../inc/prefs.inc:228 ../inc/prefs.inc:270
 #: ../inc/util.inc:236
 msgid "days"
-msgstr ""
+msgstr "dager"
 
 #: ../inc/prefs.inc:226
 msgid "Maintain enough work for an additional"
@@ -731,15 +726,15 @@ msgstr ""
 
 #: ../inc/prefs.inc:249
 msgid "Maximum download rate:"
-msgstr ""
+msgstr "Maksimum nedlastingshastighet:"
 
 #: ../inc/prefs.inc:251 ../inc/prefs.inc:256
 msgid "Kbytes/sec"
-msgstr ""
+msgstr "Kbytes/sek"
 
 #: ../inc/prefs.inc:254
 msgid "Maximum upload rate:"
-msgstr ""
+msgstr "Maksimum opplastingshastighet:"
 
 #: ../inc/prefs.inc:259
 msgid "Use network only between the hours of"
@@ -805,15 +800,15 @@ msgstr ""
 
 #: ../inc/prefs.inc:375
 msgid "Disk and memory usage"
-msgstr ""
+msgstr "Disk og minne bruk"
 
 #: ../inc/prefs.inc:376
 msgid "Processor usage"
-msgstr ""
+msgstr "Prosessor bruk"
 
 #: ../inc/prefs.inc:377
 msgid "Network usage"
-msgstr ""
+msgstr "Nettverk bruk"
 
 #: ../inc/prefs.inc:380
 msgid ""
@@ -835,66 +830,63 @@ msgid "bad subset: %1"
 msgstr ""
 
 #: ../inc/prefs.inc:625
-#, fuzzy
 msgid "Default"
-msgstr "Slett"
+msgstr "Forvalg"
 
 #: ../inc/prefs.inc:657 ../inc/prefs.inc:660 ../inc/prefs.inc:1003
 #: ../inc/prefs_util.inc:93 ../project.sample/project_specific_prefs.inc:74
 msgid "yes"
-msgstr ""
+msgstr "ja"
 
 #: ../inc/prefs.inc:657 ../inc/prefs.inc:660 ../inc/prefs.inc:1005
 #: ../inc/prefs_util.inc:93 ../project.sample/project_specific_prefs.inc:76
 msgid "no"
-msgstr ""
+msgstr "nei"
 
 #: ../inc/prefs.inc:665
 msgid "no limit"
-msgstr ""
+msgstr "ingen grense"
 
 #: ../inc/prefs.inc:690 ../user/team_admins.php:79
 msgid "Add"
-msgstr ""
+msgstr "Legg til"
 
 #: ../inc/prefs.inc:691 ../inc/prefs.inc:693
 msgid "Edit"
-msgstr ""
+msgstr "Rediger"
 
 #: ../inc/prefs.inc:692 ../inc/prefs.inc:818
 #: ../user/edit_forum_preferences_form.php:161 ../user/team_admins.php:34
 msgid "Remove"
-msgstr ""
+msgstr "Fjern"
 
 #: ../inc/prefs.inc:798 ../user/explain_state.php:94
 msgid "Computing"
-msgstr ""
+msgstr "Databehandling"
 
 #: ../inc/prefs.inc:809
 msgid "Separate preferences for %1"
-msgstr ""
+msgstr "Separate innstillinger for %1"
 
 #: ../inc/prefs.inc:818 ../inc/prefs.inc:893
-#, fuzzy
 msgid "Edit preferences"
-msgstr "%1 preferanser"
+msgstr "Rediger innstillinger"
 
 #: ../inc/prefs.inc:822
 msgid "Add separate preferences for %1"
-msgstr ""
+msgstr "Legg til separate innstillinger for %1"
 
 #: ../inc/prefs.inc:830 ../inc/prefs.inc:875
 msgid "(Switch View)"
-msgstr ""
+msgstr "(Bytt visning)"
 
 #: ../inc/prefs.inc:832 ../inc/prefs.inc:878
-#, fuzzy
 msgid "Combined preferences"
-msgstr "Databehandling preferanser"
+msgstr "Kombinerte innstillinger"
 
 #: ../inc/prefs.inc:837
 msgid "Project specific settings"
-msgstr ""
+msgstr "Prosjekt spesifikke innstillinger"
 
 #: ../inc/prefs.inc:845 ../inc/prefs.inc:887
 msgid "Primary (default) preferences"
@@ -903,9 +895,8 @@ msgstr ""
 #: ../inc/prefs.inc:854 ../user/add_venue.php:43 ../user/add_venue.php:68
 #: ../user/prefs_edit.php:40 ../user/prefs_edit.php:65
 #: ../user/prefs_edit.php:93
-#, fuzzy
 msgid "Edit %1 preferences"
-msgstr "%1 preferanser"
+msgstr "Redigere %1 innstillinger"
 
 #: ../inc/prefs.inc:868
 msgid ""
@@ -916,17 +907,15 @@ msgstr ""
 
 #: ../inc/prefs.inc:872
 msgid "Preferences last modified:"
-msgstr ""
+msgstr "Innstillinger sist endret:"
 
 #: ../inc/prefs.inc:922
-#, fuzzy
 msgid "Add preferences"
-msgstr "%1 preferanser"
+msgstr "Legg til innstillinger"
 
 #: ../inc/prefs.inc:926
-#, fuzzy
 msgid "Update preferences"
-msgstr "%1 preferanser"
+msgstr "Oppdater innstillinger"
 
 #: ../inc/prefs.inc:1014 ../inc/prefs.inc:1023
 msgid "Default computer location"
@@ -934,11 +923,11 @@ msgstr ""
 
 #: ../inc/prefs.inc:1174
 msgid "Update failed: "
-msgstr ""
+msgstr "Oppdatering feilet:"
 
 #: ../inc/prefs_util.inc:305 ../inc/prefs_util.inc:315
 msgid "and"
-msgstr ""
+msgstr "og"
 
 #: ../inc/profile.inc:86
 msgid ""
@@ -964,15 +953,15 @@ msgstr ""
 
 #: ../inc/profile.inc:196
 msgid "User is banished"
-msgstr ""
+msgstr "Bruker er utestengt"
 
 #: ../inc/profile.inc:210
 msgid "No profile exists for that user ID."
-msgstr ""
+msgstr "Ingen profil eksisterer for den bruker ID."
 
 #: ../inc/profile.inc:218 ../user/create_profile.php:313
 msgid "Edit your profile"
-msgstr "Redigere din profil"
+msgstr "Rediger din profil"
 
 #: ../inc/profile.inc:261
 msgid "Your feedback on this profile"
@@ -996,19 +985,19 @@ msgstr "Jeg %1like ikke%2 denne profilen"
 
 #: ../inc/result.inc:32
 msgid "Anonymous platform"
-msgstr ""
+msgstr "Anonym plattform"
 
 #: ../inc/result.inc:46
 msgid "NVIDIA GPU"
-msgstr ""
+msgstr "NVIDIA GPU"
 
 #: ../inc/result.inc:47 ../user/host_app_versions.php:27
 msgid "ATI GPU"
-msgstr ""
+msgstr "ATI GPU"
 
 #: ../inc/result.inc:54
 msgid "Not in DB"
-msgstr ""
+msgstr "Ikke i DB"
 
 #: ../inc/result.inc:80
 msgid "pending"
@@ -1016,11 +1005,11 @@ msgstr ""
 
 #: ../inc/result.inc:102 ../user/forum_search.php:59
 msgid "All"
-msgstr ""
+msgstr "Alle"
 
 #: ../inc/result.inc:103 ../inc/result.inc:160 ../inc/result.inc:199
 msgid "In progress"
-msgstr ""
+msgstr "I prosess"
 
 #: ../inc/result.inc:104 ../user/workunit.php:67
 msgid "Pending"
@@ -1036,15 +1025,15 @@ msgstr ""
 
 #: ../inc/result.inc:107 ../inc/result.inc:185
 msgid "Error"
-msgstr ""
+msgstr "Feilet"
 
 #: ../inc/result.inc:158 ../inc/result.inc:197 ../user/explain_state.php:34
 msgid "Inactive"
-msgstr ""
+msgstr "Inaktiv"
 
 #: ../inc/result.inc:159 ../inc/result.inc:198 ../user/explain_state.php:37
 msgid "Unsent"
-msgstr ""
+msgstr "Usent"
 
 #: ../inc/result.inc:165
 msgid "Completed, waiting for validation"

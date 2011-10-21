@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2011-04-04 22:09 PDT\n"
-"PO-Revision-Date: 2011-07-07 22:20+0200\n"
+"PO-Revision-Date: 2011-09-21 21:26+0200\n"
 "Last-Translator: Nikolay Saharov <saharovna@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: ru\n"
@@ -99,11 +99,10 @@ msgid ""
 "interactions and, by doing so, will search for insights into the discovery "
 "of novel pharmaceuticals."
 msgstr ""
-"Docking@Home решает одновременно проблемы биологии и вычислительной техники. "
-"Проект стремится к получению большего количества знаний о строении белка, а "
-"именно о взаимодействии лиганд (молекул, связанных с центром, который "
-"называется акцептором) и в результате должен помочь сделать прорывы в "
-"разработке новых лекарств."
+"Целями Docking@Home являются одновременно и биология, и информатика. Проект "
+"нацелен на получение большего количества знаний о взаимодействиях "
+"белок-лиганд на атомарном уровне и, в результате, будет искать идеи для "
+"открытия новых лекарственных препаратов."
 
 #: projects.inc:46
 msgid "GPUGrid.net"
@@ -194,7 +193,6 @@ msgid "Epidemiology"
 msgstr "Эпидемиология"
 
 #: projects.inc:82
-#, fuzzy
 msgid ""
 "Simulation models of the transmission dynamics and health effects of malaria "
 "are an important tool for malaria control. They can be used to determine "
@@ -208,8 +206,8 @@ msgstr ""
 "важный инструмент для контроля малярии. Они могут быть использованы для "
 "определения оптимальной стратегии для поставки противомоскитных сеток, "
 "химиотерапии или новых вакцин, которые в настоящее время разрабатываются и "
-"испытываются. Такие модели чрезвычайно требовательны к вычислительным "
-"ресурсам, требуют моделирования больших человеческих поселений с "
+"испытываются. Такое моделирование чрезвычайно требовательно к вычислительным "
+"ресурсам, которые необходимы для моделирования больших групп населения с "
 "разнообразным набором параметров, связанных с биологическими и социальными "
 "факторами, которые влияют на распространение болезни."
 
@@ -335,7 +333,6 @@ msgid "Chemistry"
 msgstr "Химия"
 
 #: projects.inc:155
-#, fuzzy
 msgid ""
 "A common problem in theoretical chemistry, condensed matter physics and "
 "materials science is the calculation of the time evolution of an atomic "
@@ -355,7 +352,7 @@ msgstr ""
 "отслеживающее каждое движение атомов, заняло бы тысячи лет компьютерных "
 "вычислений на самом быстром современном компьютере, прежде чем произошло бы "
 "единственное ожидаемое интересующее событие. Наша группа исследователей "
-"заинтересована в расчетах длительной динамики систем."
+"заинтересована в расчётах длительной динамики систем."
 
 #: projects.inc:158
 msgid "Orbit@home"
@@ -396,18 +393,16 @@ msgid "Milkyway@home"
 msgstr "Milkyway@home"
 
 #: projects.inc:176
-#, fuzzy
 msgid "Rensselaer Polytechnic Institute"
-msgstr "Политехнический институт Ренсселира"
+msgstr "Ренсселеровский политехнический институт"
 
 #: projects.inc:178
-#, fuzzy
 msgid ""
 "The goal of Milkyway@Home is to create a highly accurate three dimensional "
 "model of the Milky Way galaxy using data gathered by the Sloan Digital Sky "
 "Survey."
 msgstr ""
-"Цель Milkyway@Home состоит в том, чтобы создать очень точную трехмерную "
+"Цель Milkyway@Home состоит в том, чтобы создать очень точную трёхмерную "
 "модель галактики Млечный путь используя данные, собранные Слоановским "
 "цифровым обзором неба."
 
@@ -731,7 +726,6 @@ msgid "Factorization of large integers"
 msgstr "Разложение на множители больших целых чисел"
 
 #: projects.inc:306
-#, fuzzy
 msgid ""
 "NFS@Home is a research project that uses Internet-connected computers to do "
 "the lattice sieving step in the Number Field Sieve factorization of large "
@@ -742,7 +736,7 @@ msgid ""
 msgstr ""
 "NFS@Home - это исследовательский проект, который использует подключенные к "
 "Интернету компьютеры, чтобы рассчитать шаг решетки просеивания при "
-"факторизации больших целых чисел в Number Field Sieve (NFS). Школьником вы "
+"факторизации больших целых чисел в Number Field Sieve (NFS). Школьником Вы "
 "получили ваш первый опыт в разложении целых чисел на простые, такие как 15 = "
 "3 * 5 или 35 = 5 * 7. NFS@Home является продолжением этого опыта, только с "
 "целыми числами, состоящими из сотен цифр."
@@ -874,13 +868,12 @@ msgid "SZTAKI Desktop Grid"
 msgstr "SZTAKI Desktop Grid"
 
 #: projects.inc:362
-#, fuzzy
 msgid ""
 "Find all the generalized binary number systems (in which bases are matrices "
 "and digits are vectors) up to dimension 11."
 msgstr ""
 "Поиск всех систем обобщенных двоичных чисел (в которых основания являются "
-"матрицами, а цифры - векторами) до 11-го измерения"
+"матрицами, а цифры - векторами) до 11-го измерения."
 
 #: projects.inc:382
 msgid "Chess960@home"

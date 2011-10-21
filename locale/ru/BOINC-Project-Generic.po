@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2011-08-25 15:10 PDT\n"
-"PO-Revision-Date: 2011-07-07 22:27+0200\n"
+"PO-Revision-Date: 2011-10-10 22:08+0200\n"
 "Last-Translator: Nikolay Saharov <saharovna@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: ru\n"
@@ -31,27 +31,27 @@ msgstr "Russian"
 
 #: ../inc/forum.inc:37
 msgid "Oldest first"
-msgstr ""
+msgstr "Сначала самые старые"
 
 #: ../inc/forum.inc:38 ../inc/forum.inc:44
 msgid "Newest first"
-msgstr ""
+msgstr "Сначала самые новые"
 
 #: ../inc/forum.inc:39
 msgid "Highest rated posts first"
-msgstr ""
+msgstr "Сначала сообщения с наивысшим рейтингом"
 
 #: ../inc/forum.inc:41
 msgid "Newest post first"
-msgstr ""
+msgstr "Сначала с самыми новыми сообщениями"
 
 #: ../inc/forum.inc:42
 msgid "Most views first"
-msgstr ""
+msgstr "Сначала с наибольшим количеством просмотров"
 
 #: ../inc/forum.inc:43
 msgid "Most posts first"
-msgstr ""
+msgstr "Сначала с наибольшим количеством сообщений"
 
 #: ../inc/forum.inc:125
 msgid "Search for words in forum messages"
@@ -587,9 +587,8 @@ msgstr ""
 "сообщества%2"
 
 #: ../inc/pm.inc:198
-#, fuzzy
 msgid "Private message"
-msgstr "Личные сообщения"
+msgstr "Личное сообщение"
 
 #: ../inc/prefs.inc:76
 msgid ""
@@ -628,13 +627,12 @@ msgstr ""
 "некоторых компьютерах %2"
 
 #: ../inc/prefs.inc:113
-#, fuzzy
 msgid ""
 "Suspend work when non-BOINC CPU usage is above %1 0 means no "
 "restriction<br>Enforced by version 6.10.30+ %2"
 msgstr ""
-"Приостанавливать обработку, если использование ЦП выше %1 0 - без "
-"ограничений<br>Начиная с версии 6.10.30+ %2"
+"Приостанавливать обработку, когда использование ЦП остальными программами "
+"(кроме BOINC) выше %1 0 - без ограничений<br>Начиная с версии 6.10.30+ %2"
 
 #: ../inc/prefs.inc:121
 msgid "Do work only between the hours of %1 No restriction if equal %2"
@@ -725,7 +723,6 @@ msgid "Memory: when computer is not in use, use at most"
 msgstr "Память: когда компьютер не используется, использовать не более"
 
 #: ../inc/prefs.inc:217
-#, fuzzy
 msgid ""
 "Computer is connected to the Internet about every %1 Leave blank or 0 if "
 "always connected. %2 BOINC will try to maintain at least this much work (max "
@@ -733,7 +730,7 @@ msgid ""
 msgstr ""
 "Компьютер подключен к Интернету примерно каждые %1 Оставить пустым или 0 "
 "если всегда подключен. %2 BOINC будет пытаться поддерживать по крайней мере "
-"такой объем работы. %3"
+"такой объем работы (макс. 10 дней). %3"
 
 #: ../inc/prefs.inc:223 ../inc/prefs.inc:228 ../inc/prefs.inc:270
 #: ../inc/util.inc:236
@@ -809,6 +806,8 @@ msgstr ""
 #: ../inc/prefs.inc:298
 msgid "Accelerate GPU tasks by dedicating a CPU to each one?"
 msgstr ""
+"Ускорить обработку заданий на ГП, используя отдельный ЦП для каждого "
+"задания?"
 
 #: ../inc/prefs.inc:308
 msgid "Use CPU %1 Enforced by version 6.10+ %2"
@@ -869,7 +868,7 @@ msgid ""
 "range or not numeric."
 msgstr ""
 "%1Невозможно обновить настройки.%2 Значения, отмеченные красным ниже, вне "
-"диапазона или нечисловые."
+"диапазона или не числовые."
 
 #: ../inc/prefs.inc:432
 msgid "bad venue: %1"
@@ -1003,13 +1002,12 @@ msgid "Database error"
 msgstr "Ошибка базы данных"
 
 #: ../inc/profile.inc:192
-#, fuzzy
 msgid ""
 "To prevent spam, profiles of users with an average credit of less than %1 "
 "are displayed only to logged-in users. We apologize for this inconvenience."
 msgstr ""
 "Чтобы предотвратить спам, профили пользователей со средним количеством очков "
-"меньше чем %1 показываются только вошедшим пользователям.  Мы приносим "
+"меньше чем %1 показываются только вошедшим пользователям. Мы приносим "
 "извинения за это неудобство."
 
 #: ../inc/profile.inc:196
@@ -1360,7 +1358,7 @@ msgstr "Версия приложения"
 
 #: ../inc/result.inc:447
 msgid "Output files"
-msgstr ""
+msgstr "Выходные файлы"
 
 #: ../inc/result.inc:450
 msgid "Stderr output"
@@ -1375,9 +1373,8 @@ msgid "Next"
 msgstr "Следующие"
 
 #: ../inc/result.inc:497
-#, fuzzy
 msgid "State"
-msgstr "Статус"
+msgstr "Состояние"
 
 #: ../inc/team.inc:33
 msgid "Search criteria (use one or more)"
@@ -1871,14 +1868,12 @@ msgid "Add as friend"
 msgstr "Добавить друга"
 
 #: ../inc/util.inc:113
-#, fuzzy
 msgid "log out"
-msgstr "Выйти"
+msgstr "выйти"
 
 #: ../inc/util.inc:115
-#, fuzzy
 msgid "log in"
-msgstr "Войти"
+msgstr "войти"
 
 #: ../inc/util.inc:171 ../user/login_form.php:37 ../user/login_form.php:60
 msgid "Log in"
@@ -1889,9 +1884,8 @@ msgid "Create an account"
 msgstr "Создание учетной записи"
 
 #: ../inc/util.inc:173
-#, fuzzy
 msgid "Server status page"
-msgstr "Статус сервера"
+msgstr "Информация о состоянии сервера"
 
 #: ../inc/util.inc:210
 msgid ""
@@ -1936,11 +1930,10 @@ msgid "Project down for maintenance"
 msgstr "Проект остановлен для обслуживания"
 
 #: ../inc/util.inc:738
-#, fuzzy
 msgid "%1 is temporarily shut down for maintenance.  Please try again later."
 msgstr ""
-"Для этой страницы необходим доступ к базе данных. Наш сервер базы данных "
-"временно остановлен для обслуживания. Пожалуйста попробуйте ещё раз позже."
+"%1 временно остановлен для обслуживания. Пожалуйста попробуйте ещё раз "
+"позже."
 
 #: ../inc/util.inc:756
 msgid "Unable to connect to database - please try again later"
@@ -1961,7 +1954,7 @@ msgstr "Оставаться авторизованным на этом комп
 
 #: ../user/account_finish.php:34
 msgid "Finish account setup"
-msgstr ""
+msgstr "Завершение настройки учётной записи"
 
 #: ../user/account_finish.php:41 ../user/create_account_form.php:87
 msgid "Identifies you on our web site. Use your real name or a nickname."
@@ -1982,14 +1975,12 @@ msgid "Optional"
 msgstr "Необязательно"
 
 #: ../user/account_finish_action.php:27 ../user/create_account_action.php:84
-#, fuzzy
 msgid "You must supply a name for your account"
-msgstr "Вы должны указать имя для вашей учётной информации."
+msgstr "Вы должны указать имя для вашей учётной информации"
 
 #: ../user/account_finish_action.php:30 ../user/create_account_action.php:87
-#, fuzzy
 msgid "HTML tags not allowed in name"
-msgstr "Тэги HTML недопустимы в Вашем имени."
+msgstr "Тэги HTML недопустимы в Вашем имени"
 
 #: ../user/add_venue.php:86
 msgid "Add %1 preferences for %2"
@@ -2026,7 +2017,7 @@ msgstr "Время сборки"
 
 #: ../user/bbcode.php:23
 msgid "BBCode tags"
-msgstr ""
+msgstr "Тэги BBCode"
 
 #: ../user/bbcode.php:25
 msgid ""
@@ -2035,106 +2026,107 @@ msgid ""
 "have used %1 in HTML) and end with ] (where you would have used %2 in\n"
 "HTML)."
 msgstr ""
+"Тэги BBCode позволяют вам форматировать текст в вашем профиле\n"
+"и в сообщениях форума. Они похожи на HTML, только проще. Тэги начинаются\n"
+"с символа [ (вместо %1в HTML) и заканчиваются символом ] (вместо %2 в HTML)."
 
 #: ../user/bbcode.php:31
 msgid "Examples"
-msgstr ""
+msgstr "Примеры"
 
 #: ../user/bbcode.php:32
 msgid "Bold"
-msgstr ""
+msgstr "Жирный"
 
 #: ../user/bbcode.php:33
-#, fuzzy
 msgid "Italic"
-msgstr "Неправильный"
+msgstr "Наклонный"
 
 #: ../user/bbcode.php:34
-#, fuzzy
 msgid "Underline"
-msgstr "Отклонить"
+msgstr "Подчёркнутый"
 
 #: ../user/bbcode.php:35
-#, fuzzy
 msgid "Big text"
-msgstr "текст"
+msgstr "Большой текст"
 
 #: ../user/bbcode.php:36
-#, fuzzy
 msgid "Red text"
-msgstr "текст"
+msgstr "Красный текст"
 
 #: ../user/bbcode.php:37
 msgid "link to website"
-msgstr ""
+msgstr "ссылка на вебсайт"
 
 #: ../user/bbcode.php:38
-#, fuzzy
 msgid "Quoted text"
-msgstr "Выйти из команды"
+msgstr "Цитируемый текст"
 
 #: ../user/bbcode.php:38
 msgid "use for quoted blocks of text"
-msgstr ""
+msgstr "используется для цитирования блоков текста"
 
 #: ../user/bbcode.php:39
 msgid "use to display an image"
-msgstr ""
+msgstr "используется для показа изображения"
 
 #: ../user/bbcode.php:40
 msgid "Code snippet here"
-msgstr ""
+msgstr "Здесь фрагмент кода"
 
 #: ../user/bbcode.php:40
 msgid "use to display some code"
-msgstr ""
+msgstr "используется для показа некоторого кода"
 
 #: ../user/bbcode.php:41
 msgid "Pre-formatted text"
-msgstr ""
+msgstr "Отформатированный текст"
 
 #: ../user/bbcode.php:41
 msgid "use to display pre-formatted (usually monospaced) text"
 msgstr ""
+"используется для показа предварительно отформатированного текста (обычно "
+"моноширинного)"
 
 #: ../user/bbcode.php:42
 msgid "Item 1"
-msgstr ""
+msgstr "Элемент 1"
 
 #: ../user/bbcode.php:42
 msgid "Item2"
-msgstr ""
+msgstr "Элемент 2"
 
 #: ../user/bbcode.php:42
 msgid "Item 2"
-msgstr ""
+msgstr "Элемент 2"
 
 #: ../user/bbcode.php:44
 msgid "use to link to Trac ticket on BOINC website"
-msgstr ""
+msgstr "ссылка на билет в системе Trac на сайте BOINC"
 
 #: ../user/bbcode.php:46
 msgid "use to link to Trac Wiki on BOINC website"
-msgstr ""
+msgstr "ссылка на статью Wiki на сайте BOINC"
 
 #: ../user/bbcode.php:48
 msgid "use to link to SVN changeset on BOINC website"
-msgstr ""
+msgstr "ссылка на SVN-метку изменения на сайте BOINC"
 
 #: ../user/bbcode.php:52
 msgid ""
 "If you don't close a tag or don't specify a parameter correctly,\n"
 "the raw tag itself will display instead of the formatted text."
 msgstr ""
+"Если Вы не закроете тэг или некорректно укажете параметр,\n"
+"вместо отформатированного текста будет просто показан сам тэг."
 
 #: ../user/create_account_action.php:26
-#, fuzzy
 msgid "Can't create account"
-msgstr "Создать учетную запись"
+msgstr "Не удалось создать учетную запись"
 
 #: ../user/create_account_action.php:29
 msgid "Click your browser's <b>Back</b> button to try again."
-msgstr ""
+msgstr "Нажмите кнопку  <b>Назад</b> вашего браузера, чтобы попытаться ещё раз."
 
 #: ../user/create_account_action.php:36 ../user/create_account_action.php:38
 #: ../user/create_account_form.php:43
@@ -2146,11 +2138,12 @@ msgid ""
 "Sorry, this project has disabled the creation of new accounts.\n"
 "Please try again later."
 msgstr ""
+"Извините, но этот проект запретил создание новых учётных записей.\n"
+"Пожалуйста попробуйте ещё раз позже."
 
 #: ../user/create_account_action.php:51
-#, fuzzy
 msgid "Your reCAPTCHA response was not correct. Please try again."
-msgstr "Ваш ответ ReCaptcha был неправилен. Пожалуйста попробуйте еще раз."
+msgstr "Ваш ответ reCAPTCHA был неправилен. Пожалуйста попробуйте ещё раз."
 
 #: ../user/create_account_action.php:75
 msgid "You must supply an invitation code to create an account."
@@ -2161,32 +2154,31 @@ msgid "The invitation code you gave is not valid."
 msgstr "Указанный Вами пригласительный код не действителен."
 
 #: ../user/create_account_action.php:92
-#, fuzzy
 msgid ""
 "Invalid email address: you must enter a valid address of the form name@domain"
-msgstr "Должен быть действительным адресом в форме 'name@domain'"
+msgstr ""
+"Неправильный адрес электронной почты: Вы должны указать правильный адрес в "
+"форме name@domain"
 
 #: ../user/create_account_action.php:96
 msgid "There's already an account with that email address."
-msgstr ""
+msgstr "Уже имеется учётная запись с таким же адресом электронной почты."
 
 #: ../user/create_account_action.php:102 ../user/edit_passwd_action.php:33
-#, fuzzy
 msgid "New passwords are different"
-msgstr "Новый пароль, ещё раз"
+msgstr "Новые пароли отличаются"
 
 #: ../user/create_account_action.php:109 ../user/edit_passwd_action.php:41
 msgid "Passwords may only include ASCII characters."
-msgstr ""
+msgstr "Пароли могут содержать только ASCII-символы."
 
 #: ../user/create_account_action.php:114 ../user/edit_passwd_action.php:45
 msgid "New password is too short: minimum password length is %1 characters."
-msgstr ""
+msgstr "Новый пароль слишком короткий: минимальная длина пароля - %1 символов."
 
 #: ../user/create_account_action.php:135
-#, fuzzy
 msgid "Couldn't create account"
-msgstr "Создать учетную запись"
+msgstr "Не удалось создать учётную запись"
 
 #: ../user/create_account_form.php:44
 msgid "Account creation is currently disabled. Please try again later."
@@ -2241,9 +2233,8 @@ msgid "Confirm password"
 msgstr "Подтвердите пароль"
 
 #: ../user/create_account_form.php:122
-#, fuzzy
 msgid "Please enter the words shown in the image"
-msgstr "Пожалуйста, введите слова, показанные на картинке."
+msgstr "Пожалуйста, введите слова, показанные на картинке"
 
 #: ../user/create_account_form.php:128
 msgid "Create account"
@@ -2369,24 +2360,20 @@ msgstr ""
 "неудобство."
 
 #: ../user/delete_account.php:57
-#, fuzzy
 msgid "Couldn't delete account"
-msgstr "Невозможно удалить старый компьютер"
+msgstr "Невозможно удалить учётную запись"
 
 #: ../user/delete_account.php:59
-#, fuzzy
 msgid "Account deleted"
-msgstr "Данные учетной записи"
+msgstr "Учётная запись удалена"
 
 #: ../user/delete_account.php:60
-#, fuzzy
 msgid "Your account has been deleted."
-msgstr "Ваша рекомендация была принята."
+msgstr "Ваша учётная запись была удалена."
 
 #: ../user/delete_account.php:64
-#, fuzzy
 msgid "Confirm delete account"
-msgstr "Создать учетную запись"
+msgstr "Подтверждение удаления учётной записи"
 
 #: ../user/delete_account.php:67
 msgid ""
@@ -2396,19 +2383,23 @@ msgid ""
 "No jobs will be issued to any computers attached\n"
 "to this account."
 msgstr ""
+"При удалении вашей учётной записи с наших серверов\n"
+"будет удалена вся ваша персональная информация,\n"
+"включая ваш профиль и сообщения с доски сообщений.\n"
+"Компьютеры, подключенные к этой учётной записи,\n"
+"не будут получать новые задания."
 
 #: ../user/delete_account.php:73
 msgid ""
 "This cannot be undone.\n"
 "Once your account has been deleted, you cannot get it back."
 msgstr ""
+"Эта операция не может быть отменена.\n"
+"Как только ваша учётная запись будет удалена, вы не сможете её восстановить."
 
 #: ../user/delete_account.php:76
-#, fuzzy
 msgid "Are you sure you want to delete your account?"
-msgstr ""
-"Вы уверены, что хотите удалить ваши отдельные настройки %1 для конфигурации "
-"%2?"
+msgstr "Вы уверены, что хотите удалить вашу учётную запись?"
 
 #: ../user/delete_account.php:79 ../user/delete_profile.php:52
 #: ../user/donations.php:322 ../user/donations.php:326 ../user/friend.php:238
@@ -2418,9 +2409,8 @@ msgid "Yes"
 msgstr "Да"
 
 #: ../user/delete_account.php:79
-#, fuzzy
 msgid "Delete this account"
-msgstr "Удалить этот компьютер"
+msgstr "Удалить эту  учётную запись"
 
 #: ../user/delete_account.php:80 ../user/delete_profile.php:53
 #: ../user/friend.php:239 ../user/user_search.php:126
@@ -2429,33 +2419,28 @@ msgid "No"
 msgstr "Нет"
 
 #: ../user/delete_account.php:80
-#, fuzzy
 msgid "Do not delete this account"
-msgstr "Удалить этот компьютер"
+msgstr "Не удалять эту учётную запись"
 
 #: ../user/delete_profile.php:30
-#, fuzzy
 msgid "couldn't delete profile - please try again later"
-msgstr ""
-"Не удалось присоединиться к команде - пожалуйста, попробуйте ещё раз позже."
+msgstr "не удалось удалить профиль - пожалуйста, попробуйте ещё раз позже."
 
 #: ../user/delete_profile.php:33
-#, fuzzy
 msgid "Delete Confirmation"
-msgstr "Информация о компьютере"
+msgstr "Подтверждение удаления"
 
 #: ../user/delete_profile.php:35
-#, fuzzy
 msgid "Your profile has been deleted."
-msgstr "Ваше сообщение было отправлено."
+msgstr "Ваш профиль был удалён."
 
 #: ../user/delete_profile.php:40
 msgid "Profile delete confirmation"
-msgstr ""
+msgstr "Подтверждение удаления профиля"
 
 #: ../user/delete_profile.php:43
 msgid "Are you sure?"
-msgstr ""
+msgstr "Вы уверены?"
 
 #: ../user/delete_profile.php:44
 msgid ""
@@ -2463,60 +2448,62 @@ msgid ""
 "you will have to start from scratch\n"
 "if you want another profile in the future."
 msgstr ""
+"Удалённые профили исчезают навсегда и их невозможно восстановить --\n"
+"если Вы захотите в будущем другой профиль,\n"
+"Вы должны будете ввести его с самого начала."
 
 #: ../user/delete_profile.php:48
 msgid ""
 "If you're sure, click 'Delete'\n"
 "to remove your profile from our database."
 msgstr ""
+"Если Вы уверены, нажмите 'Удалить'\n"
+"для удаления вашего профиля из нашей базы данных."
 
 #: ../user/delete_profile.php:52
-#, fuzzy
 msgid "Delete my profile"
-msgstr "Создать профиль"
+msgstr "Удалить мой профиль"
 
 #: ../user/delete_profile.php:53
-#, fuzzy
 msgid "Do not delete my profile"
-msgstr "Мне %1не нравится%2 этот профиль"
+msgstr "Не удалять мой профиль"
 
 #: ../user/donated.php:25
 msgid "PayPal - Transaction Completed"
-msgstr ""
+msgstr "PayPal -Транзакция завершена"
 
 #: ../user/donated.php:28
 msgid "Thank you for donating!"
-msgstr ""
+msgstr "Спасибо за пожертвование!"
 
 #: ../user/donated.php:29
-#, fuzzy
 msgid "Your donation for has been completed."
-msgstr "Ваша рекомендация была принята."
+msgstr "Ваше пожертвование было принято."
 
 #: ../user/donated.php:30
 msgid ""
 "Your donation will be added to the progress bar after confirmation by PayPal."
-msgstr ""
+msgstr "Ваше пожертвование будет добавлено после подтверждения от PayPal."
 
 #: ../user/donated.php:32
 msgid "You have canceled your donation."
-msgstr ""
+msgstr "Вы отменили ваше пожертвование."
 
 #: ../user/donations.php:24
-#, fuzzy
 msgid "This project is not accepting donations."
-msgstr "Этот запрос все еще ожидает подтверждение."
+msgstr "Этот проект не принимает пожертвования."
 
 #: ../user/donations.php:34
-#, fuzzy
 msgid "%1 donations"
-msgstr "%1 дней"
+msgstr "Пожертвования для %1"
 
 #: ../user/donations.php:39
 msgid ""
 "This project is accepting donations via\n"
 "%1."
 msgstr ""
+"Этот проект принимает пожертвования через\n"
+"%1."
 
 #: ../user/donations.php:42
 msgid ""
@@ -2532,38 +2519,51 @@ msgid ""
 "        (please note that the rates are only estimates\n"
 "         and the actual amount may differ)."
 msgstr ""
+"Укажите в поле ниже то количество, которое Вы желаете пожертвовать.\n"
+"PayPal принимает различные валюты\n"
+"(Канадские доллары, Евро, Фунты стерлингов, Доллары США,\n"
+"Йены, Австралийские доллары, Новозеландские доллары,\n"
+"Швейцарские франки, Гонгконгские доллары, Сингапурские доллары,\n"
+"Шведские кроны, Датские кроны, Польские злотые, Норвежские кроны,\n"
+"Венгерские форинты, Чешские кроны).\n"
+"Вы можете использовать встроенный конвертёр валют,\n"
+"чтобы увидеть эквивалентный объём пожертвований в различных валютах\n"
+"(пожалуйста, учтите, что курсы валют приблизительные,\n"
+"и фактическое количество может отличаться)."
 
 #: ../user/donations.php:316
 msgid "Amount you would like to donate"
-msgstr ""
+msgstr "Количество, которое Вы хотите пожертвовать"
 
 #: ../user/donations.php:317
 msgid "Estimated value in"
-msgstr ""
+msgstr "Ориентировочное значение в"
 
 #: ../user/donations.php:320 ../user/donations.php:324
-#, fuzzy
 msgid "Anonymous donation"
-msgstr "Анонимная платформа"
+msgstr "Анонимное пожертвование"
 
 #: ../user/donations.php:320
 msgid ""
 "Select this if you dont want your name and account number displayed in\n"
 "donator lists.<br>If not checked, you will be recorded as user ID %1"
 msgstr ""
+"Отметьте, если Вы не хотите, чтобы ваше имя и номер учётной записи "
+"показывались\n"
+"в списках пожертвований.<br>Если не отмечено, Вы будете зарегистрированы как "
+"пользователь ID %1"
 
 #: ../user/donations.php:324
 msgid "To assign the donation with your user ID, please log in."
-msgstr ""
+msgstr "Чтобы пожертвовать под вашей учётной записью, пожалуйста авторизуйтесь."
 
 #: ../user/donations.php:328
-#, fuzzy
 msgid "Proceed"
-msgstr "Профиль сохранен"
+msgstr "Продолжить"
 
 #: ../user/donations.php:329
 msgid "Donations are accepted through"
-msgstr ""
+msgstr "Пожертвования приняты через"
 
 #: ../user/download_network.php:25
 msgid "Download BOINC add-on software"
@@ -2600,44 +2600,42 @@ msgid "This list is managed centrally at %1the BOINC website%2."
 msgstr "Этот список ведется централизованно на %1web-сайте BOINC%2."
 
 #: ../user/edit_email_action.php:31
-#, fuzzy
 msgid "Change email address of account"
-msgstr "Изменение адреса электронной почты вашей учётной записи"
+msgstr "Изменение адреса электронной почты учётной записи"
 
 #: ../user/edit_email_action.php:34 ../user/edit_email_action.php:36
-#, fuzzy
 msgid "New email address '%1' is invalid."
-msgstr "Новый адрес email"
+msgstr "Новый адрес электронной почты '%1' неправильный."
 
 #: ../user/edit_email_action.php:38
 msgid "New email address is same as existing address. Nothing is changed."
 msgstr ""
+"Новый адрес электронной почты такой же, как и существующий. Ничего не "
+"изменено."
 
 #: ../user/edit_email_action.php:42
 msgid "There's already an account with that email address"
-msgstr ""
+msgstr "Уже есть учётная запись с таким же адресом электронной почты."
 
 #: ../user/edit_email_action.php:54
-#, fuzzy
 msgid "Invalid password."
-msgstr "Подтвердите пароль"
+msgstr "Неправильный пароль."
 
 #: ../user/edit_email_action.php:62
-#, fuzzy
 msgid "The email address of your account is now %1."
-msgstr "Адрес электронной почты вашей учётной записи был подтвержден."
+msgstr "Адрес электронной почты вашей учётной записи теперь %1."
 
 #: ../user/edit_email_action.php:64
-#, fuzzy
 msgid "Please %1validate this email address%2."
-msgstr "Проверка адреса электронной почты"
+msgstr "Пожалуйста, %1проверьте этот адрес электронной почты%2."
 
 #: ../user/edit_email_action.php:67
-#, fuzzy
 msgid ""
 "We can't update your email address due to a database problem.  Please try "
 "again later."
-msgstr "Невозможно выбрать базу данных - пожалуйста попробуйте ещё раз позже"
+msgstr ""
+"Невозможно обновить ваш адрес электронной почты из-за проблем с базой "
+"данных. Пожалуйста попробуйте ещё раз позже."
 
 #: ../user/edit_email_form.php:28 ../user/edit_email_form.php:52
 msgid "Change email address"
@@ -2660,97 +2658,95 @@ msgid "No password?"
 msgstr "Нет пароля?"
 
 #: ../user/edit_forum_preferences_action.php:35
-#, fuzzy
 msgid "Confirm reset"
-msgstr "Подтвердите пароль"
+msgstr "Подтвердите сброс"
 
 #: ../user/edit_forum_preferences_action.php:36
 msgid ""
 "This action will erase any changes you have made in your community "
 "preferences. To cancel, click your browser's Back button."
 msgstr ""
+"Это действие сотрёт все изменения, которые Вы сделали в своих настройках "
+"сообщества. Для отмены нажмите кнопку Назад в вашем обозревателе."
 
 #: ../user/edit_forum_preferences_action.php:40
-#, fuzzy
 msgid "Reset preferences"
-msgstr "Удалить настройки"
+msgstr "Сбросить настройки"
 
 #: ../user/edit_forum_preferences_action.php:90
 msgid "Error: Not the right kind of file, only PNG and JPEG are supported."
-msgstr ""
+msgstr "Ошибка: Неправильный тип файла, поддерживаются только PNG и JPEG."
 
 #: ../user/edit_forum_preferences_action.php:116
 msgid "Your signature was too long, please keep it less than 250 characters."
 msgstr ""
+"Ваша подпись слишком длинная, пожалуйста используйте не более чем 250 "
+"символов."
 
 #: ../user/edit_forum_preferences_action.php:139
 #: ../user/edit_forum_preferences_action.php:153
-#, fuzzy
 msgid "No such user: %1"
-msgstr "Нет такого пользователя"
+msgstr "Нет такого пользователя: %1"
 
 #: ../user/edit_forum_preferences_form.php:56
 msgid ""
 "How should we notify you of new private messages, friend requests, posts in "
 "subscribed threads, and other events?"
 msgstr ""
+"Как мы должны уведомлять Вас о новых личных сообщениях, запросах на дружбу, "
+"сообщениях в подписанных обсуждениях и о других событиях?"
 
 #: ../user/edit_forum_preferences_form.php:57
-#, fuzzy
 msgid "On my Account page (no email)"
-msgstr "Получить ключ учетной записи по электронной почте"
+msgstr "На моей странице учётной записи (без электронной почты)"
 
 #: ../user/edit_forum_preferences_form.php:58
-#, fuzzy
 msgid "Immediately, by email"
-msgstr "Получить ключ учетной записи по электронной почте"
+msgstr "Немедленно, по электронной почте"
 
 #: ../user/edit_forum_preferences_form.php:59
 msgid "In a single daily email"
-msgstr ""
+msgstr "Ежедневно одним письмом по электронной почте"
 
 #: ../user/edit_forum_preferences_form.php:75
-#, fuzzy
 msgid "Message-board identity"
-msgstr "Доска сообщений"
+msgstr "Идентификация в доске сообщений"
 
 #: ../user/edit_forum_preferences_form.php:76
 msgid "Avatar"
-msgstr ""
+msgstr "Аватар"
 
 #: ../user/edit_forum_preferences_form.php:77
 msgid "An image representing you on the message boards."
-msgstr ""
+msgstr "Изображение, представляющее Вас на доске сообщений."
 
 #: ../user/edit_forum_preferences_form.php:78
 msgid "Format: JPG or PNG. Size: at most 4 KB, 100x100 pixels"
-msgstr ""
+msgstr "Формат: JPG или PNG. Размер: не более 4 Кб, 100x100 пикселей."
 
 #: ../user/edit_forum_preferences_form.php:80
-#, fuzzy
 msgid "Don't use an avatar"
-msgstr "Не использовать тэги HTML."
+msgstr "Не использовать аватар"
 
 #: ../user/edit_forum_preferences_form.php:82
 msgid "Use a Globally Recognized Avatar provided by %1"
-msgstr ""
+msgstr "Использовать Глобально Признанный Аватар, предоставляемый %1"
 
 #: ../user/edit_forum_preferences_form.php:84
 msgid "Use this uploaded avatar:"
-msgstr ""
+msgstr "Использовать этот загруженный аватар:"
 
 #: ../user/edit_forum_preferences_form.php:87
 msgid "Avatar preview"
-msgstr ""
+msgstr "Предварительный просмотр аватара"
 
 #: ../user/edit_forum_preferences_form.php:87
 msgid "This is how your avatar will look"
-msgstr ""
+msgstr "Так будет выглядеть ваш аватар"
 
 #: ../user/edit_forum_preferences_form.php:96
-#, fuzzy
 msgid "Signature for message board posts"
-msgstr "Создать доску сообщений для команды %1"
+msgstr "Подпись для сообщений на доске сообщений"
 
 #: ../user/edit_forum_preferences_form.php:99
 msgid ""
@@ -2758,133 +2754,129 @@ msgid ""
 "<br> providing dynamic 'signature images'\n"
 "<br> showing your latest credit info, project news, etc."
 msgstr ""
+"Проверьте %1различные бесплатные сервисы%2,\n"
+"<br> предоставляющие динамические 'изображения для подписи',\n"
+"<br> которые показывают последнюю информацию о ваших очках, новости "
+"проектов, и т.д."
 
 #: ../user/edit_forum_preferences_form.php:104
 msgid "characters remaining"
-msgstr ""
+msgstr "осталось символов"
 
 #: ../user/edit_forum_preferences_form.php:105
 msgid "Attach signature by default"
-msgstr ""
+msgstr "Подключать подпись по умолчанию"
 
 #: ../user/edit_forum_preferences_form.php:108
 msgid "Signature preview"
-msgstr ""
+msgstr "Предварительный просмотр подписи"
 
 #: ../user/edit_forum_preferences_form.php:109
 msgid "This is how your signature will look in the forums"
-msgstr ""
+msgstr "Так будет выглядеть ваша подпись на форумах"
 
 #: ../user/edit_forum_preferences_form.php:127
-#, fuzzy
 msgid "Message display"
-msgstr "Доска сообщений"
+msgstr "Показ сообщений"
 
 #: ../user/edit_forum_preferences_form.php:129
-#, fuzzy
 msgid "What to display"
-msgstr "Нет заданий для показа"
+msgstr "Что показывать"
 
 #: ../user/edit_forum_preferences_form.php:130
 msgid "Hide avatar images"
-msgstr ""
+msgstr "Скрыть изображения аватаров"
 
 #: ../user/edit_forum_preferences_form.php:131
 msgid "Hide signatures"
-msgstr ""
+msgstr "Скрыть подписи"
 
 #: ../user/edit_forum_preferences_form.php:132
 msgid "Show images as links"
-msgstr ""
+msgstr "Показать изображения как ссылки"
 
 #: ../user/edit_forum_preferences_form.php:133
 msgid "Open links in new window/tab"
-msgstr ""
+msgstr "Открыть ссылки в новом окне/вкладке"
 
 #: ../user/edit_forum_preferences_form.php:134
 msgid "Highlight special users"
-msgstr ""
+msgstr "Подцветить специальных пользователей"
 
 #: ../user/edit_forum_preferences_form.php:138
 msgid "How to sort"
-msgstr ""
+msgstr "Как сортировать"
 
 #: ../user/edit_forum_preferences_form.php:139
-#, fuzzy
 msgid "Threads:"
-msgstr "Обсуждения"
+msgstr "Обсуждения:"
 
 #: ../user/edit_forum_preferences_form.php:139
-#, fuzzy
 msgid "Posts:"
-msgstr "Сообщения"
+msgstr "Сообщения:"
 
 #: ../user/edit_forum_preferences_form.php:140
 msgid "Jump to first new post in thread automatically"
-msgstr ""
+msgstr "Автоматически переместиться к первому новому сообщению в обсуждении"
 
 #: ../user/edit_forum_preferences_form.php:141
 msgid "Do not reorder sticky posts"
-msgstr ""
+msgstr "Не переупорядочевать закреплённые сообщения"
 
 #: ../user/edit_forum_preferences_form.php:142
 msgid "If a thread contains more than this number of posts"
-msgstr ""
+msgstr "Если обсуждение содержит более чем данное количество сообщений"
 
 #: ../user/edit_forum_preferences_form.php:143
 msgid "only display the first one and this many of the last ones"
-msgstr ""
+msgstr "показать только первое и данное количество последних сообщений"
 
 #: ../user/edit_forum_preferences_form.php:149
-#, fuzzy
 msgid "Message filtering"
-msgstr "Доска сообщений"
+msgstr "Фильтрация сообщений"
 
 #: ../user/edit_forum_preferences_form.php:165
-#, fuzzy
 msgid "Filtered users"
-msgstr "Фильтры"
+msgstr "Фильтрованные пользователи"
 
 #: ../user/edit_forum_preferences_form.php:166
-#, fuzzy
 msgid "Ignore message board posts and private messages from these users."
-msgstr "Доска сообщений или личные сообщения"
+msgstr ""
+"Игнорирование сообщений на доске сообщений и личных сообщений от этих "
+"пользователей."
 
 #: ../user/edit_forum_preferences_form.php:168
 msgid "User ID (For instance: 123456789)"
-msgstr ""
+msgstr "ID пользователя (Например: 123456789)"
 
 #: ../user/edit_forum_preferences_form.php:169 ../user/pm.php:251
 msgid "Add user to filter"
 msgstr "Добавить пользователя в фильтр"
 
 #: ../user/edit_forum_preferences_form.php:174
-#, fuzzy
 msgid "Click here to update preferences"
-msgstr "Обновить настройки"
+msgstr "Нажмите здесь, чтобы обновить настройки"
 
 #: ../user/edit_forum_preferences_form.php:176
 #: ../user/edit_forum_preferences_form.php:178
 msgid "Reset"
-msgstr ""
+msgstr "Сбросить"
 
 #: ../user/edit_forum_preferences_form.php:177
 msgid "Or click here to reset preferences to the defaults"
-msgstr ""
+msgstr "Или нажмите здесь, чтобы сбросить настройки к параметрам по умолчанию"
 
 #: ../user/edit_passwd_action.php:50
-#, fuzzy
 msgid "Invalid account key"
-msgstr "Слабый ключ учетной записи"
+msgstr "Неправильный ключ учётной записи"
 
 #: ../user/edit_passwd_action.php:55
 msgid "No account with that email address was found"
-msgstr ""
+msgstr "Не найдена учётная запись с таким адресом электронной почты"
 
 #: ../user/edit_passwd_action.php:59
-#, fuzzy
 msgid "Invalid password"
-msgstr "Подтвердите пароль"
+msgstr "Неправильный пароль"
 
 #: ../user/edit_passwd_action.php:63 ../user/edit_passwd_form.php:28
 #: ../user/edit_passwd_form.php:58
@@ -2892,17 +2884,16 @@ msgid "Change password"
 msgstr "Поменять пароль"
 
 #: ../user/edit_passwd_action.php:67
-#, fuzzy
 msgid "Your password has been changed."
-msgstr "Ваше сообщение было отправлено."
+msgstr "Ваш пароль был изменён."
 
 #: ../user/edit_passwd_action.php:69
-#, fuzzy
 msgid ""
 "We can't update your password due to a database problem. Please try again "
 "later."
 msgstr ""
-"Невозможно подключиться к базе данных - пожалуйста попробуйте ещё раз позже"
+"Невозможно обновить ваш пароль из-за проблем с базой данных. Пожалуйста "
+"попробуйте ещё раз позже."
 
 #: ../user/edit_passwd_form.php:42
 msgid "You can identify yourself using either"
@@ -2969,9 +2960,8 @@ msgid "Update info"
 msgstr "Обновить информацию"
 
 #: ../user/explain_state.php:27
-#, fuzzy
 msgid "Server states"
-msgstr "Состояние сервера"
+msgstr "Состояния сервера"
 
 #: ../user/explain_state.php:30
 msgid ""
@@ -2979,214 +2969,231 @@ msgid ""
 "computer, and if so whether the computer has finished it. Possible values "
 "are:"
 msgstr ""
+"Поле задания <b>состояние сервера</b> показывает, было ли задание отправлено "
+"на компьютер, и если да, было ли оно завершено компьютером. Возможные "
+"значения:"
 
 #: ../user/explain_state.php:35
 msgid ""
 "The task is not ready to send (for example, because its input files are "
 "unavailable)"
 msgstr ""
+"Задание не готово к отправке (например, потому что его входные файлы "
+"недоступны)"
 
 #: ../user/explain_state.php:38
 msgid "The task is ready to send, but hasn't been sent yet."
-msgstr ""
+msgstr "Задание готово к отправке, но ещё не было отправлено."
 
 #: ../user/explain_state.php:40
-#, fuzzy
 msgid "In Progress"
 msgstr "В процессе"
 
 #: ../user/explain_state.php:41
-#, fuzzy
 msgid "The task has been sent; waiting for completion."
-msgstr "Задания, ожидающие удаления"
+msgstr "Задание было отправлено; ожидание завершения."
 
 #: ../user/explain_state.php:44
 msgid ""
 "The task has been sent to a computer and either it has timed out or the "
 "computer has reported its completion."
 msgstr ""
+"Задание было отправлено на компьютер, и либо оно было просрочено, либо "
+"компьютер сообщил о его завершении."
 
 #: ../user/explain_state.php:49
-#, fuzzy
 msgid "Outcomes"
-msgstr "Результат выполнения"
+msgstr "Результаты"
 
 #: ../user/explain_state.php:52
 msgid ""
 "A tasks's <b>outcome</b> is defined if its server state is <b>over</b>. "
 "Possible values are:"
 msgstr ""
+"Поле задания <b>результат</b> определено, если его состояние сервера равно "
+"<b>завершено</b>. Возможные значения:"
 
 #: ../user/explain_state.php:57
 msgid ""
 "The task was sent to a computer, but the computer has not yet completed the "
 "work and reported the outcome."
 msgstr ""
+"Задание было отправлено на компьютер, но компьютер ещё не закончил работу и "
+"не сообщил о результате."
 
 #: ../user/explain_state.php:60
 msgid "A computer completed and reported the task successfully."
-msgstr ""
+msgstr "Компьютер завершил задание и сообщил об успехе."
 
 #: ../user/explain_state.php:63
 msgid ""
 "The server wasn't able to send the task to a computer (perhaps because its "
 "resource requirements were too large)"
 msgstr ""
+"Сервер не смог отправить задание на компьютер (возможно, потому что его "
+"требования к ресурсам были слишком большими)"
 
 #: ../user/explain_state.php:65
-#, fuzzy
 msgid "Client error"
-msgstr "Ошибка проверки"
+msgstr "Ошибка клиента"
 
 #: ../user/explain_state.php:66
 msgid "The task was sent to a computer and an error occurred."
-msgstr ""
+msgstr "Задание было отправлено на компьютер и произошла ошибка."
 
 #: ../user/explain_state.php:69
 msgid ""
 "The task was sent to a computer and no reply was received within the time "
 "limit."
 msgstr ""
+"Задание было отправлено на компьютер и ответ не был получен за отведённое "
+"время."
 
 #: ../user/explain_state.php:72
 msgid ""
 "The task wasn't sent to a computer because enough other tasks were completed "
 "for this workunit."
 msgstr ""
+"Задание не было отправлено на компьютер, так как было завершено достаточное "
+"число других заданий для этой задачи."
 
 #: ../user/explain_state.php:75
 msgid ""
 "The task was reported but could not be validated, typically because the "
 "output files were lost on the server."
 msgstr ""
+"Было сообщено о завершении задания, но его не удалось проверить, обычно "
+"из-за того что выходные файлы были потеряны на сервере."
 
 #: ../user/explain_state.php:80
-#, fuzzy
 msgid "Client states"
-msgstr "Состояние клиента"
+msgstr "Состояния клиента"
 
 #: ../user/explain_state.php:81
 msgid ""
 "A result's <b>client state</b> indicates the stage of processing at which an "
 "error occurred."
 msgstr ""
+"Поле задания <b>состояние клиента</b> показывает стадию обработки, на "
+"которой произошла ошибка."
 
 #: ../user/explain_state.php:86
 msgid "The computer has not yet completed the task."
-msgstr ""
+msgstr "Компьютер ещё не завершил задание."
 
 #: ../user/explain_state.php:89
 msgid "The computer completed the task successfully."
-msgstr ""
+msgstr "Компьютер успешно завершил задание."
 
 #: ../user/explain_state.php:92
 msgid "The computer couldn't download the application or input files."
-msgstr ""
+msgstr "Компьютер не смог загрузить приложение или входные файлы."
 
 #: ../user/explain_state.php:95
 msgid "An error occurred during computation."
-msgstr ""
+msgstr "Во время вычислений произошла ошибка."
 
 #: ../user/explain_state.php:98
 msgid "The computer couldn't upload the output files."
-msgstr ""
+msgstr "Компьютер не смог выгрузить выходные файлы."
 
 #: ../user/explain_state.php:103
-#, fuzzy
 msgid "Time reported and deadline"
-msgstr "Время подтверждения<br />или крайний срок"
+msgstr "Время подтверждения и крайний срок"
 
 #: ../user/explain_state.php:106
 msgid ""
 "A task's <b>Time reported or deadline</b> field depends on whether the task "
 "has been reported yet:"
 msgstr ""
+"Поле задания <b>Время подтверждения или крайний срок</b> зависит от того, "
+"было ли сообщено о завершении задания:"
 
 #: ../user/explain_state.php:110
-#, fuzzy
 msgid "Already reported"
-msgstr "Уже друзья"
+msgstr "Уже сообщено"
 
 #: ../user/explain_state.php:110
 msgid "The date/time it was reported"
-msgstr ""
+msgstr "Дата/время, когда было сообщено"
 
 #: ../user/explain_state.php:111
 msgid "Not reported yet, deadline in the future"
-msgstr ""
+msgstr "Ещё не сообщено, крайний срок в будущем"
 
 #: ../user/explain_state.php:112
 msgid "Deadline, shown in green."
-msgstr ""
+msgstr "Крайний срок, показанный зелёным."
 
 #: ../user/explain_state.php:114
 msgid "Not reported yet, deadline in the past"
-msgstr ""
+msgstr "Ещё не сообщено, крайний срок в прошлом"
 
 #: ../user/explain_state.php:115
 msgid "Deadline, shown in red."
-msgstr ""
+msgstr "Крайний срок, показанный красным."
 
 #: ../user/explain_state.php:120
-#, fuzzy
 msgid "Unknown field"
-msgstr "Неизвестно"
+msgstr "Неизвестное поле"
 
 #: ../user/ffmail_action.php:47
-#, fuzzy
 msgid "Email preview"
-msgstr "Адрес email"
+msgstr "Предварительный просмотр электронного письма"
 
 #: ../user/ffmail_action.php:48
 msgid "Your email will appear as follows:"
-msgstr ""
+msgstr "Ваше письмо будет выглядеть следующим образом:"
 
 #: ../user/ffmail_action.php:57
-#, fuzzy
 msgid "Send email"
-msgstr "Отправить сообщение"
+msgstr "Отправить письмо"
 
 #: ../user/ffmail_action.php:59
 msgid "Use your browser's back button to return to message form"
 msgstr ""
+"Используйте кнопку Назад вашего обозревателя, чтобы вернуться к форме "
+"сообщения"
 
 #: ../user/ffmail_action.php:63
-#, fuzzy
 msgid "Sending emails"
-msgstr "Очки, ожидающие подтверждения"
+msgstr "Отправка электронных писем"
 
 #: ../user/ffmail_action.php:84
 msgid "email sent successfully to %1"
-msgstr ""
+msgstr "письмо успешно отправлено для %1"
 
 #: ../user/ffmail_action.php:86
 msgid "failed to send email to %1: %2"
-msgstr ""
+msgstr "не удалось отправить письмо для %1: %2"
 
 #: ../user/ffmail_action.php:92
 msgid "Thanks for telling your friends about %1"
-msgstr ""
+msgstr "Спасибо, что Вы рассказали своим друзьям о %1"
 
 #: ../user/ffmail_action.php:94
 msgid ""
 "You forgot to enter your friends' names and/or email addresses; Please %"
 "1return to the form%2 and enter them."
 msgstr ""
+"Вы забыли ввести имена и/или адреса электронной почты ваших друзей; "
+"пожалуйста %1вернитесь в форму%2 и введите их."
 
 #: ../user/ffmail_form.php:31
 msgid ""
 "This project hasn\\'t created an email message - please notify its "
 "administrators"
 msgstr ""
+"Этот проект не создал электронное письмо - пожалуйста сообщите об этом "
+"администраторам"
 
 #: ../user/ffmail_form.php:34
-#, fuzzy
 msgid "Tell your friends about %1"
-msgstr "Ваше мнение о %1"
+msgstr "Расскажите своим друзьям о %1"
 
 #: ../user/ffmail_form.php:38
 msgid "Help us by telling your friends, family and coworkers about %1"
-msgstr ""
+msgstr "Окажите нам помощь, расскажите своим друзьям, семье и сотрудникам о %1"
 
 #: ../user/ffmail_form.php:40
 msgid ""
@@ -3194,55 +3201,50 @@ msgid ""
 "might be interested in %1. We'll send them an email in your name, and you "
 "can add your own message if you like."
 msgstr ""
+"Заполните эту форму именами и адресами электронной почты людей, которые, по "
+"вашему мнению, могут быть заинтересованы в %1. Мы отправим им письмо от "
+"вашего имени, и если Вы пожелаете, Вы можете добавить своё сообщение."
 
 #: ../user/ffmail_form.php:43
-#, fuzzy
 msgid "Your name:"
-msgstr "Показать имена"
+msgstr "Ваше имя:"
 
 #: ../user/ffmail_form.php:43
-#, fuzzy
 msgid "Your email address:"
-msgstr "адрес email"
+msgstr "Ваш адрес электронной почты:"
 
 #: ../user/ffmail_form.php:49
-#, fuzzy
 msgid "Friend's name:"
-msgstr "Друзья"
+msgstr "Имя друга:"
 
 #: ../user/ffmail_form.php:49
-#, fuzzy
 msgid "Friend's email address:"
-msgstr "Новый адрес email"
+msgstr "Адрес электронной почты друга:"
 
 #: ../user/ffmail_form.php:57
-#, fuzzy
 msgid "Additional message (optional)"
-msgstr "Введите дополнительное сообщение здесь:"
+msgstr "Дополнительное сообщение (необязательно)"
 
 #: ../user/ffmail_form.php:60
-#, fuzzy
 msgid "Send"
-msgstr "Отправитель"
+msgstr "Отправить"
 
 #: ../user/forum_banishment_vote.php:35
 #: ../user/forum_banishment_vote_action.php:33
 msgid "You are not authorized to banish users."
-msgstr ""
+msgstr "У вас нет прав для блокировки пользователей."
 
 #: ../user/forum_banishment_vote.php:41 ../user/forum_banishment_vote.php:46
 msgid "Banishment Vote"
-msgstr ""
+msgstr "Голосование за блокировку"
 
 #: ../user/forum_banishment_vote.php:50
-#, fuzzy
 msgid "No user with this ID found."
-msgstr "Компьютер с ID %1 не найден"
+msgstr "Пользователь с этим ID не найден."
 
 #: ../user/forum_banishment_vote.php:54 ../user/forum_moderate_post.php:76
-#, fuzzy
 msgid "User is already banished"
-msgstr "Пользователь заблокирован"
+msgstr "Пользователь уже заблокирован"
 
 #: ../user/forum_banishment_vote.php:59 ../user/forum_moderate_post.php:79
 msgid ""
@@ -3250,82 +3252,83 @@ msgid ""
 "for chosen time period.<br/>It should be done only if %1 has consistently "
 "exhibited trollish behavior."
 msgstr ""
+"Вы действительно хотите заблокировать %1?<br/>%1 не сможет публиковать "
+"сообщения в течение выбранного периода.<br/>Заблокируйте %1 только если "
+"он(а) регулярно ведёт себя как тролль."
 
 #: ../user/forum_banishment_vote.php:61
 msgid ""
 "Select the reason category, optionally write a longer description of why the "
 "user should be banished."
 msgstr ""
+"Выберите категорию причины, при необходимости напишите более подробное "
+"описание того, почему пользователь должен быть заблокирован."
 
 #: ../user/forum_banishment_vote.php:62 ../user/forum_moderate_thread.php:50
 msgid "Category"
-msgstr ""
+msgstr "Категория"
 
 #: ../user/forum_banishment_vote.php:64
 #: ../user/forum_banishment_vote_action.php:57
 #: ../user/forum_moderate_post.php:55 ../user/forum_moderate_thread.php:52
 msgid "Obscene"
-msgstr ""
+msgstr "Непристойное"
 
 #: ../user/forum_banishment_vote.php:65
 #: ../user/forum_banishment_vote_action.php:59
 #: ../user/forum_moderate_post.php:56 ../user/forum_moderate_thread.php:53
 msgid "Flame/Hate mail"
-msgstr ""
+msgstr "Флейм/Ненависть/Угрозы"
 
 #: ../user/forum_banishment_vote.php:66
 #: ../user/forum_banishment_vote_action.php:61
 #: ../user/forum_moderate_post.php:59
-#, fuzzy
 msgid "User Request"
-msgstr "Нет запроса"
+msgstr "Пользовательский запрос"
 
 #: ../user/forum_banishment_vote.php:67
 #: ../user/forum_banishment_vote_action.php:63
 #: ../user/forum_moderate_post.php:60 ../user/forum_moderate_thread.php:55
-#, fuzzy
 msgid "Other"
-msgstr "Любой"
+msgstr "Другое"
 
 #: ../user/forum_banishment_vote.php:69 ../user/forum_moderate_post.php:53
 #: ../user/forum_moderate_thread.php:85
-#, fuzzy
 msgid "Reason"
-msgstr "Версия"
+msgstr "Причина"
 
 #: ../user/forum_banishment_vote.php:69 ../user/forum_moderate_thread.php:85
 msgid "Mailed if nonempty"
-msgstr ""
+msgstr "Будет отправлено если заполнено"
 
 #: ../user/forum_banishment_vote.php:74
 msgid "Proceed with vote"
-msgstr ""
+msgstr "Продолжить голосование"
 
 #: ../user/forum_banishment_vote_action.php:39
 #: ../user/forum_moderate_post_action.php:63
-#, fuzzy
 msgid "You must specify an action..."
-msgstr "Вы должны указать имя для вашей учётной информации."
+msgstr "Вы должны указать действие..."
 
 #: ../user/forum_edit.php:41
 msgid ""
 "You can no longer edit this post.<br/>Posts can only be edited at most %1 "
 "minutes after they have been created."
 msgstr ""
+"Вы больше не можете редактировать это сообщение.<br/>Сообщения могут быть "
+"отредактированы максимум %1 минут после того, как они были созданы."
 
 #: ../user/forum_edit.php:47
-#, fuzzy
 msgid "You are not authorized to edit this post."
-msgstr "Вы теперь друзья с %1."
+msgstr "У Вас нет прав редактировать это сообщение."
 
 #: ../user/forum_edit.php:86 ../user/forum_search.php:71
 msgid "Forum"
-msgstr ""
+msgstr "Форум"
 
 #: ../user/forum_edit.php:110
-#, fuzzy
 msgid "Edit your message"
-msgstr "Редактировать профиль"
+msgstr "Редактирование сообщения"
 
 #: ../user/forum_edit.php:115 ../user/forum_edit.php:120
 #: ../user/forum_post.php:109 ../user/forum_post.php:111
@@ -3338,106 +3341,90 @@ msgid "Add my signature to this post"
 msgstr "Добавить мою подпись к этому сообщению"
 
 #: ../user/forum_forum.php:41
-#, fuzzy
 msgid "Not visible to you"
-msgstr "Этот форум для Вас невидим."
+msgstr "Невидим для Вас"
 
 #: ../user/forum_forum.php:82
-#, fuzzy
 msgid "Team message board for %1"
-msgstr "Создать доску сообщений для команды %1"
+msgstr "Доска сообщений команды %1"
 
 #: ../user/forum_forum.php:98
-#, fuzzy
 msgid "New thread"
-msgstr "Обсуждение"
+msgstr "Новое обсуждение"
 
 #: ../user/forum_forum.php:98
-#, fuzzy
 msgid "Add a new thread to this forum"
-msgstr "Добавить новое сообщение в это обсуждение"
+msgstr "Добавить новое обсуждение в этот форум"
 
 #: ../user/forum_forum.php:118
-#, fuzzy
 msgid "This message board is available as an %1RSS feed%2"
-msgstr "Новости доступны в формате %sленты RSS%s"
+msgstr "Эта доска сообщений доступна в формате %1ленты RSS%2"
 
 #: ../user/forum_forum.php:174
-#, fuzzy
 msgid "This thread is hidden"
-msgstr "Это обсуждение было скрыто в административных целях"
+msgstr "Это обсуждение скрыто"
 
 #: ../user/forum_forum.php:178
 msgid "This thread is sticky and locked, and you haven't read it yet"
-msgstr ""
+msgstr "Это обсуждение закреплено и заблокировано, и Вы его ещё не прочитали"
 
 #: ../user/forum_forum.php:178
 msgid "sticky/locked/unread"
-msgstr ""
+msgstr "закреплено/заблокировано/не прочтено"
 
 #: ../user/forum_forum.php:180
 msgid "This thread is sticky and you haven't read it yet"
-msgstr ""
+msgstr "Это обсуждение закреплено и Вы его ещё не прочитали"
 
 #: ../user/forum_forum.php:180
-#, fuzzy
 msgid "sticky/unread"
-msgstr "непрочтенных"
+msgstr "закреплено/не прочтено"
 
 #: ../user/forum_forum.php:184
 msgid "You haven't read this thread yet, and it's locked"
-msgstr ""
+msgstr "Вы ещё не прочитали это обсуждение, и оно заблокировано"
 
 #: ../user/forum_forum.php:184
-#, fuzzy
 msgid "unread/locked"
-msgstr "непрочтенных"
+msgstr "не прочтено/заблокировано"
 
 #: ../user/forum_forum.php:186
 msgid "You haven't read this thread yet"
-msgstr ""
+msgstr "Вы ещё не прочитали это обсуждение"
 
 #: ../user/forum_forum.php:192
-#, fuzzy
 msgid "This thread is sticky and locked"
-msgstr "Закрепить это обсуждение"
+msgstr "Это обсуждение закреплено и заблокировано"
 
 #: ../user/forum_forum.php:192
 msgid "sticky/locked"
-msgstr ""
+msgstr "закреплено/заблокировано"
 
 #: ../user/forum_forum.php:194
-#, fuzzy
 msgid "This thread is sticky"
-msgstr "Закрепить это обсуждение"
+msgstr "Это обсуждение закреплено"
 
 #: ../user/forum_forum.php:194
-#, fuzzy
 msgid "sticky"
-msgstr "Закрепить"
+msgstr "закреплено"
 
 #: ../user/forum_forum.php:198
-#, fuzzy
 msgid "This thread is locked"
-msgstr "Закрепить это обсуждение"
+msgstr "Это обсуждение заблокировано"
 
 #: ../user/forum_forum.php:198
-#, fuzzy
 msgid "locked"
-msgstr "Разблокировать"
+msgstr "заблокировано"
 
 #: ../user/forum_forum.php:200
-#, fuzzy
 msgid "You read this thread"
-msgstr "Скрыть это обсуждение"
+msgstr "Вы читаете это обсуждение"
 
 #: ../user/forum_forum.php:200
-#, fuzzy
 msgid "read"
-msgstr "Обсуждение"
+msgstr "читается"
 
 #: ../user/forum_help_desk.php:27
-#, fuzzy
 msgid "Questions and answers"
 msgstr "Вопросы и ответы"
 
@@ -3446,15 +3433,16 @@ msgid ""
 "Talk live via Skype with a volunteer, in any of several languages. Go to %"
 "1BOINC Online Help%2."
 msgstr ""
+"Общайтесь с добровольцами напрямую через Skype, на любом из нескольких "
+"языков. Воспользуйтесь %1горячей линией BOINC%2."
 
 #: ../user/forum_help_desk.php:44 ../user/forum_index.php:92
 msgid "Topic"
 msgstr "Тема"
 
 #: ../user/forum_help_desk.php:45
-#, fuzzy
 msgid "Questions"
-msgstr "Версия"
+msgstr "Вопросы"
 
 #: ../user/forum_index.php:53 ../user/team_forum.php:68
 msgid "Discussion among members of %1"
@@ -3473,241 +3461,222 @@ msgstr ""
 "1Вопросы и ответы%2 этой доски сообщений."
 
 #: ../user/forum_index.php:123
-#, fuzzy
 msgid "Subscribed threads"
-msgstr "Подписаться"
+msgstr "Подписанные обсуждения"
 
 #: ../user/forum_moderate_post.php:43
-#, fuzzy
 msgid "Moderate post"
-msgstr "Последнее сообщение"
+msgstr "Модерация сообщения"
 
 #: ../user/forum_moderate_post.php:52
-#, fuzzy
 msgid "Hide post"
-msgstr "Скрыть"
+msgstr "Скрыть сообщение"
 
 #: ../user/forum_moderate_post.php:57 ../user/forum_moderate_thread.php:54
 msgid "Commercial spam"
-msgstr ""
+msgstr "Коммерческий спам"
 
 #: ../user/forum_moderate_post.php:58
 msgid "Doublepost"
-msgstr ""
+msgstr "Дубликат"
 
 #: ../user/forum_moderate_post.php:63
-#, fuzzy
 msgid "Move post"
-msgstr "Нет компьютера"
+msgstr "Переместить сообщение"
 
 #: ../user/forum_moderate_post.php:65
-#, fuzzy
 msgid "Destination thread ID:"
-msgstr "Ответить на обсуждение"
+msgstr "ID целевого обсуждения:"
 
 #: ../user/forum_moderate_post.php:78
-#, fuzzy
 msgid "Banish user"
-msgstr "нет такого пользователя"
+msgstr "Заблокировать пользователя"
 
 #: ../user/forum_moderate_post.php:80
-#, fuzzy
 msgid "Ban duration"
-msgstr "проверка"
+msgstr "Период блокировки"
 
 #: ../user/forum_moderate_post.php:81
-#, fuzzy
 msgid "4 hours"
-msgstr "часов"
+msgstr "4 часа"
 
 #: ../user/forum_moderate_post.php:82 ../user/forum_search.php:45
-#, fuzzy
 msgid "1 day"
-msgstr "%1 дней"
+msgstr "1 день"
 
 #: ../user/forum_moderate_post.php:83
 msgid "1 week"
-msgstr ""
+msgstr "1 неделя"
 
 #: ../user/forum_moderate_post.php:84
 msgid "2 weeks"
-msgstr ""
+msgstr "2 недели"
 
 #: ../user/forum_moderate_post.php:85
-#, fuzzy
 msgid "1 month"
-msgstr "%1 сообщений"
+msgstr "1 месяц"
 
 #: ../user/forum_moderate_post.php:86
 msgid "Forever"
-msgstr ""
+msgstr "Навсегда"
 
 #: ../user/forum_moderate_post.php:96
 msgid "Optional explanation %1 This is included in email to user.%2"
 msgstr ""
+"Дополнительное объяснение %1 Будет включено в электронное письмо "
+"пользователю.%2"
 
 #: ../user/forum_moderate_post.php:101 ../user/forum_moderate_thread.php:91
 #: ../user/forum_post.php:130 ../user/forum_report_post.php:84
 #: ../user/forum_rss.php:55 ../user/friend.php:81 ../user/get_passwd.php:41
 #: ../user/get_passwd.php:75
 msgid "OK"
-msgstr ""
+msgstr "OK"
 
 #: ../user/forum_moderate_post_action.php:57
-#, fuzzy
 msgid "You are not authorized to moderate this post."
-msgstr "Вы теперь друзья с %1."
+msgstr "У Вас нет прав на модерацию этого сообщения."
 
 #: ../user/forum_moderate_post_action.php:85
 msgid "Can't move to different category type"
-msgstr ""
+msgstr "Не удалось переместить в другой тип категории"
 
 #: ../user/forum_moderate_post_action.php:89
 msgid "Can't move to different category"
-msgstr ""
+msgstr "Не удалось переместить в другую категорию"
 
 #: ../user/forum_moderate_post_action.php:110
 msgid "Not authorized to banish users"
-msgstr ""
+msgstr "Нет прав на блокировку пользователей"
 
 #: ../user/forum_moderate_post_action.php:126
-#, fuzzy
 msgid "Banishment"
-msgstr "Неотправлен"
+msgstr "Блокировка"
 
 #: ../user/forum_moderate_post_action.php:128
-#, fuzzy
 msgid "User %1 has been banished."
-msgstr "Пользователь заблокирован"
+msgstr "Пользователь %1 был заблокирован."
 
 #: ../user/forum_moderate_post_action.php:131
 msgid "Action failed: possible database problem"
-msgstr ""
+msgstr "Действие не удалось: возможны проблемы с базой данных"
 
 #: ../user/forum_moderate_thread.php:33
 msgid "not authorized"
-msgstr ""
+msgstr "нет прав"
 
 #: ../user/forum_moderate_thread.php:36
 msgid "Moderate thread '%1'"
-msgstr ""
+msgstr "Модерация обсуждения '%1'"
 
 #: ../user/forum_moderate_thread.php:48
 msgid ""
 "Select the reason category, or write a longer description of why you're "
 "hiding or locking the thread; then press OK."
 msgstr ""
+"Выберите категорию причины, или напишите подробное описание, почему Вы "
+"скрываете или блокируете это обсуждение; затем нажмите OK."
 
 #: ../user/forum_moderate_thread.php:72
-#, fuzzy
 msgid "Current forum"
-msgstr "Текущий пароль"
+msgstr "Текущий форум"
 
 #: ../user/forum_moderate_thread.php:73
-#, fuzzy
 msgid "Destination forum"
-msgstr "Описание команды"
+msgstr "Форум-цель"
 
 #: ../user/forum_moderate_thread.php:77
-#, fuzzy
 msgid "New title:"
-msgstr "Редактировать тему"
+msgstr "Новое название:"
 
 #: ../user/forum_post.php:40
 msgid ""
 "Only project admins may create a thread here. However, you may reply to "
 "existing threads."
 msgstr ""
+"Только администраторы проекта могут создать здесь обсуждение. Но Вы можете "
+"отвечать в существующих обсуждениях."
 
 #: ../user/forum_post.php:60
-#, fuzzy
 msgid ""
 "Your message was flagged as spam by the Akismet anti-spam system. Please "
 "modify your text and try again."
 msgstr ""
-"Ваш первый ответ был помечен как спам антиспам-системой Akismet. Пожалуйста "
-"измените ваш текст и попробуйте еще раз."
+"Ваше сообщение было помечено как спам антиспам-системой Akismet. Пожалуйста "
+"измените ваш текст и попробуйте ещё раз."
 
 #: ../user/forum_post.php:70
-#, fuzzy
 msgid "Create new thread"
-msgstr "Создать новую тему"
+msgstr "Создание нового обсуждения"
 
 #: ../user/forum_post.php:100
 msgid "Create a new thread"
-msgstr "Создать новую тему"
+msgstr "Создание нового обсуждения"
 
 #: ../user/forum_post.php:105
 msgid "Remember to add a title"
-msgstr ""
+msgstr "Не забудьте добавить название"
 
 #: ../user/forum_post.php:127
 msgid "Show this item as a Notice in the BOINC Manager"
-msgstr ""
+msgstr "Показать этот элемент как Уведомление в менеджере BOINC"
 
 #: ../user/forum_post.php:127
 msgid "Do so only for items likely to be of interest to all volunteers."
-msgstr ""
+msgstr "Отметьте, только если этот элемент будет интересен всем добровольцам."
 
 #: ../user/forum_rate.php:26
 msgid "Rating offline"
-msgstr ""
+msgstr "Рейтинги отключены"
 
 #: ../user/forum_rate.php:27
-#, fuzzy
 msgid "This function is turned off by the project"
-msgstr "Эта возможность временно отключена"
+msgstr "Эта функция отключена проектом"
 
 #: ../user/forum_rate.php:58
-#, fuzzy
 msgid "You need more average or total credit to rate a post."
-msgstr "Минимальное среднее количество очков для написания сообщений"
+msgstr ""
+"Для того, чтобы оценить сообщение, У Вас должно быть больше среднее или "
+"общее количество очков."
 
 #: ../user/forum_rate.php:62
-#, fuzzy
 msgid "You have already rated this post."
-msgstr "Вы уже участник команды %1."
+msgstr "Вы уже оценили это сообщение."
 
 #: ../user/forum_rate.php:62 ../user/forum_rate.php:78
 #: ../user/forum_rate.php:83 ../user/forum_report_post.php:68
 #: ../user/forum_report_post.php:93 ../user/forum_subscribe.php:54
 #: ../user/forum_subscribe.php:69 ../user/forum_thread_status.php:51
-#, fuzzy
 msgid "Return to thread"
-msgstr "Вернуться на страницу команды"
+msgstr "Вернуться к обсуждению"
 
 #: ../user/forum_rate.php:72
-#, fuzzy
 msgid "Input Recorded"
-msgstr "Голос принят"
+msgstr "Ввод принят"
 
 #: ../user/forum_rate.php:73
-#, fuzzy
 msgid "Your input has been recorded. Thanks for your help."
-msgstr "Ваша рекомендация была принята."
+msgstr "Ваша оценка была принята. Спасибо за помощь."
 
 #: ../user/forum_rate.php:75
-#, fuzzy
 msgid "Vote Registered"
 msgstr "Голос принят"
 
 #: ../user/forum_rate.php:76
-#, fuzzy
 msgid "Your rating has been recorded. Thanks for your input."
-msgstr "Ваша рекомендация была принята."
+msgstr "Ваша оценка была принята. Спасибо."
 
 #: ../user/forum_rate.php:80
 msgid "Vote Submission Problem"
-msgstr ""
+msgstr "Проблема подсистемы голосования"
 
 #: ../user/forum_reply.php:76
-#, fuzzy
 msgid ""
 "Your post has been flagged as spam by the Akismet anti-spam system. Please "
 "modify your text and try again."
 msgstr ""
-"Ваш первый ответ был помечен как спам антиспам-системой Akismet. Пожалуйста "
-"измените ваш текст и попробуйте еще раз."
+"Ваше сообщение было помечено как спам антиспам-системой Akismet. Пожалуйста "
+"измените ваш текст и попробуйте ещё раз."
 
 #: ../user/forum_reply.php:87 ../user/forum_thread.php:156
 #: ../user/forum_thread.php:276
@@ -3715,44 +3684,42 @@ msgid "Post to thread"
 msgstr "Ответить на обсуждение"
 
 #: ../user/forum_reply.php:127
-#, fuzzy
 msgid "Message:"
-msgstr "Сообщение"
+msgstr "Сообщение:"
 
 #: ../user/forum_reply.php:130
 msgid "reply to %1Message ID%2:"
-msgstr ""
+msgstr "ответ на %1сообщение ID%2:"
 
 #: ../user/forum_reply.php:154
-#, fuzzy
 msgid "Post reply"
-msgstr "Нет ответа"
+msgstr "Отправить ответ"
 
 #: ../user/forum_reply.php:157
-#, fuzzy
 msgid "Add my signature to this reply"
-msgstr "Добавить мою подпись к этому сообщению"
+msgstr "Добавить мою подпись к этому ответу"
 
 #: ../user/forum_report_post.php:45
-#, fuzzy
 msgid "You need more average or total credit to report a post."
-msgstr "Минимальное среднее количество очков для написания сообщений"
+msgstr ""
+"У Вас должно быть больше среднее или общее количество очков, чтобы "
+"пожаловаться на это сообщение."
 
 #: ../user/forum_report_post.php:64
-#, fuzzy
 msgid "Report Registered"
-msgstr "Крайний срок отчёта"
+msgstr "Обращение зарегистрировано"
 
 #: ../user/forum_report_post.php:65
-#, fuzzy
 msgid "Your report has been recorded. Thanks you for your input."
-msgstr "Ваша рекомендация была принята."
+msgstr "Ваше обращение было записано. Спасибо за вашу помощь."
 
 #: ../user/forum_report_post.php:66
 msgid ""
 "A moderator will now look at your report and decide what will happen - this "
 "may take a little while, so please be patient"
 msgstr ""
+"Модератор вскоре просмотрит ваше обращение и решит, что делать дальше - это "
+"может занять некоторое время, поэтому запаситесь терпением"
 
 #: ../user/forum_report_post.php:72
 msgid ""
@@ -3760,11 +3727,14 @@ msgid ""
 "enough users rate a post negatively it will eventually be hidden.<br />You "
 "can find the rating system at the bottom of the post."
 msgstr ""
+"Прежде чем предупредить об этом сообщении, попробуйте вместо этого "
+"использовать +/- систему оценок. Если достаточное количество пользователей "
+"негативно оценит сообение, оно в конечном итоге будет скрыто.<br />Вы можете "
+"найти систему оценок в нижней части сообщения."
 
 #: ../user/forum_report_post.php:79
-#, fuzzy
 msgid "Report post"
-msgstr "Последнее сообщение"
+msgstr "Предупредить о сообщении"
 
 #: ../user/forum_report_post.php:80
 msgid ""
@@ -3772,222 +3742,218 @@ msgid ""
 "that a person that\n"
 "has not yet read the thread will quickly be able to identify the issue.%2"
 msgstr ""
+"Почему Вы считаете это сообщение оскорбительным: %1Пожалуйста дайте "
+"достаточно информации, чтобы человек,\n"
+"который ещё не читал данное обсуждение, мог быстро обнаружить проблему.%2"
 
 #: ../user/forum_report_post.php:89
-#, fuzzy
 msgid "Report not registered"
-msgstr "Крайний срок отчёта"
+msgstr "Обращение не зарегистрировано"
 
 #: ../user/forum_report_post.php:90
 msgid "Your report could not be recorded. Please wait a while and try again."
 msgstr ""
+"Ваше обращение не удалось записать. Пожалуйста подождите немного и "
+"попробуйте ещё раз."
 
 #: ../user/forum_report_post.php:91
 msgid ""
 "If this is not a temporary error, please report it to the project developers."
 msgstr ""
+"Если это не временная ошибка, пожалуйста сообщите о ней разработчикам "
+"проекта."
 
 #: ../user/forum_rss.php:41
 msgid "%1 RSS feed"
-msgstr ""
+msgstr "RSS-лента форума %1"
 
 #: ../user/forum_rss.php:42
-#, fuzzy
 msgid "This message board is available as an RSS feed."
-msgstr "Новости доступны в формате %sленты RSS%s"
+msgstr "Эта доска сообщений доступна в формате ленты RSS."
 
 #: ../user/forum_rss.php:43
-#, fuzzy
 msgid "Options:"
-msgstr "Необязательно"
+msgstr "Варианты:"
 
 #: ../user/forum_rss.php:47
 msgid "Include only posts by user ID %1 (default: all users)."
 msgstr ""
+"Включить только сообщения пользователя с ID %1 (по умолчанию: все "
+"пользователи)."
 
 #: ../user/forum_rss.php:49
 msgid "Include only posts from the last %1 days (default: 30)."
-msgstr ""
+msgstr "Включить только сообщения за последние %1 дней (по умолчанию: 30)."
 
 #: ../user/forum_rss.php:51
 msgid "Truncate posts: %1 (Include only first 265 characters of each post)"
 msgstr ""
+"Обрезать сообщения: %1 (Включить только первые 265 символов от каждого "
+"сообщения)"
 
 #: ../user/forum_rss.php:53
 msgid "Threads only: %1 (Include only the first post of every thread)"
 msgstr ""
+"Только обсуждения: %1 (Включить только первое сообщение каждого обсуждения)"
 
 #: ../user/forum_search.php:27
 msgid "Forum search"
 msgstr "Поиск в форуме"
 
 #: ../user/forum_search.php:31
-#, fuzzy
 msgid "Search query"
-msgstr "Тип поиска"
+msgstr "Поисковый запрос"
 
 #: ../user/forum_search.php:32
-#, fuzzy
 msgid "Search for keywords:"
-msgstr "Найти в форумах"
+msgstr "Поиск ключевых слов:"
 
 #: ../user/forum_search.php:33
 msgid "Posts that contain all the specified words will be displayed"
-msgstr ""
+msgstr "Будут показаны сообщения, содержащие все указанные слова"
 
 #: ../user/forum_search.php:35
 msgid "For example: \"screensaver freeze\""
-msgstr ""
+msgstr "Например: \"зависание заставки\""
 
 #: ../user/forum_search.php:36
-#, fuzzy
 msgid "Search for author ID:"
-msgstr "Найти в форумах"
+msgstr "Поиск по автору с ID:"
 
 #: ../user/forum_search.php:37
 msgid "Only posts by this author will be displayed"
-msgstr ""
+msgstr "Будут показаны сообщения только этого автора"
 
 #: ../user/forum_search.php:39
 msgid "For example: \"43214\""
-msgstr ""
+msgstr "Например: \"43214\""
 
 #: ../user/forum_search.php:41
-#, fuzzy
 msgid "Search options"
-msgstr "Найти в форумах"
+msgstr "Опции поиска"
 
 #: ../user/forum_search.php:42
-#, fuzzy
 msgid "Search limits"
-msgstr "Результаты поиска"
+msgstr "Ограничение поиска"
 
 #: ../user/forum_search.php:43
 msgid "Search at most this many days back in time"
-msgstr ""
+msgstr "Искать не более указанного количества дней назад"
 
 #: ../user/forum_search.php:50 ../user/forum_search.php:51
-#, fuzzy
 msgid "%1 months"
-msgstr "%1 сообщений"
+msgstr "%1 месяцев"
 
 #: ../user/forum_search.php:52
 msgid "1 year"
-msgstr ""
+msgstr "1 год"
 
 #: ../user/forum_search.php:72
 msgid "Only display posts from this forum"
-msgstr ""
+msgstr "Показать сообщения только этого форума"
 
 #: ../user/forum_search.php:83
-#, fuzzy
 msgid "Sort by"
-msgstr "Сортировать"
+msgstr "Сортировка"
 
 #: ../user/forum_search.php:87
 msgid "Start the search"
-msgstr ""
+msgstr "Начать поиск"
 
 #: ../user/forum_search_action.php:141
 msgid "Forum search results"
 msgstr "Результаты поиска по форуму"
 
 #: ../user/forum_search_action.php:169
-#, fuzzy
 msgid "Thread titles matching your query:"
-msgstr "Нет профилей, соответствующих Вашему запросу."
+msgstr "Темы обсуждений, соответствующие вашему запросу:"
 
 #: ../user/forum_search_action.php:189
-#, fuzzy
 msgid "Messages matching your query:"
-msgstr "Нет профилей, соответствующих Вашему запросу."
+msgstr "Сообщения, соответствующие вашему запросу:"
 
 #: ../user/forum_search_action.php:212
 msgid ""
 "Sorry, couldn't find anything matching your search query. You can try to "
 "broaden your search by using less words (or less specific words)."
 msgstr ""
+"Извините, ничего не найдено соответсвующего вашему поисковому запросу. Вы "
+"можете расширить условия поиска, используя меньше слов (или менее "
+"специфичные слова)."
 
 #: ../user/forum_search_action.php:214
 msgid "You can also %1try the same search on Google.%2"
-msgstr ""
+msgstr "Вы также можете %1попробовать найти то же самое с помощью Google.%2"
 
 #: ../user/forum_search_action.php:219
 msgid "Perform another search"
-msgstr ""
+msgstr "Выполнить другой поиск"
 
 #: ../user/forum_subscribe.php:46
-#, fuzzy
 msgid "Subscription successful"
-msgstr "Обновление завершено успешно"
+msgstr "Успешная подписка"
 
 #: ../user/forum_subscribe.php:49
 msgid ""
 "You are now subscribed to %1. You will be notified whenever there is a new "
 "post."
 msgstr ""
+"Вы подписаны на %1. Вы получите уведомление, как только там появится новое "
+"сообщение."
 
 #: ../user/forum_subscribe.php:51
-#, fuzzy
 msgid "Subscription failed"
-msgstr "Описание команды"
+msgstr "Подписка не удалась"
 
 #: ../user/forum_subscribe.php:52
-#, fuzzy
 msgid ""
 "We are currently unable to subscribe you to %1. Please try again later.."
 msgstr ""
-"Создание учетной записи в данный момент запрещено. Пожалуйста, попробуйте "
-"ещё раз немного позднее."
+"В данный момент не удалось подписать Вас на %1. Пожалуйста, попробуйте ещё "
+"раз немного позднее..."
 
 #: ../user/forum_subscribe.php:61
-#, fuzzy
 msgid "Unsubscription successful"
-msgstr "Обновление завершено успешно"
+msgstr "Успешное прекращение подписки"
 
 #: ../user/forum_subscribe.php:64
 msgid ""
 "You are no longer subscribed to %1. You will no longer receive notifications "
 "for this thread."
 msgstr ""
+"Вы больше не подписаны на %1. Вы больше не будете получать уведомления для "
+"этого обсуждения."
 
 #: ../user/forum_subscribe.php:66
-#, fuzzy
 msgid "Unsubscription failed"
-msgstr "Отписаться"
+msgstr "Прекращение подписки не удалось"
 
 #: ../user/forum_subscribe.php:67
-#, fuzzy
 msgid ""
 "We are currently unable to unsubscribe you from %1. Please try again later.."
 msgstr ""
-"Создание учетной записи в данный момент запрещено. Пожалуйста, попробуйте "
-"ещё раз немного позднее."
+"В данный момент невозможно прекратить подписку на %1. Пожалуйста, попробуйте "
+"ещё раз немного позднее..."
 
 #: ../user/forum_subscribe.php:74
-#, fuzzy
 msgid "Unknown subscription action"
-msgstr "Неизвестное действие"
+msgstr "Неизвестное действие подписки"
 
 #: ../user/forum_thread.php:61
 msgid "This forum is not visible to you."
 msgstr "Этот форум для Вас невидим."
 
 #: ../user/forum_thread.php:69
-#, fuzzy
 msgid "This thread has been hidden by moderators."
-msgstr "Это обсуждение было скрыто в административных целях"
+msgstr "Это обсуждение было скрыто модераторами."
 
 #: ../user/forum_thread.php:127
 msgid "My question was answered"
 msgstr "Мой вопрос отвечен"
 
 #: ../user/forum_thread.php:128
-#, fuzzy
 msgid "Click here if your question has been adequately answered"
-msgstr ""
-"Если Ваш вопрос был адекватно отвечен, пожалуйста нажмите сюда, чтобы "
-"закрыть его!"
+msgstr "Если ваш вопрос был адекватно отвечен, пожалуйста нажмите сюда"
 
 #: ../user/forum_thread.php:136
 msgid "I've also got this question"
@@ -4079,21 +4045,20 @@ msgid "Edit thread title"
 msgstr "Редактировать тему обсуждения"
 
 #: ../user/forum_thread.php:243
-#, fuzzy
 msgid "Export"
-msgstr "Сортировать"
+msgstr "Экспортировать"
 
 #: ../user/forum_thread.php:244
 msgid "Export this news item as a Notice"
-msgstr ""
+msgstr "Экспортировать эту новость как уведомление"
 
 #: ../user/forum_thread.php:249
 msgid "Don't export"
-msgstr ""
+msgstr "Не экспортировать"
 
 #: ../user/forum_thread.php:250
 msgid "Don't export this news item as a Notice"
-msgstr ""
+msgstr "Не экспортировать эту новость как уведомление"
 
 #: ../user/forum_thread.php:258
 msgid "Sort"
@@ -4101,16 +4066,15 @@ msgstr "Сортировать"
 
 #: ../user/forum_thread_status.php:49
 msgid "Thread status updated"
-msgstr ""
+msgstr "Статус обсуждения обновлён"
 
 #: ../user/forum_thread_status.php:50
 msgid "The status has been updated."
-msgstr ""
+msgstr "Статус был обновлён."
 
 #: ../user/forum_user_posts.php:73
-#, fuzzy
 msgid "Posts by %1"
-msgstr "Сообщения"
+msgstr "Сообщения пользователя %1"
 
 #: ../user/friend.php:33
 msgid "Already friends"
@@ -4137,12 +4101,11 @@ msgid "Add friend"
 msgstr "Добавить друга"
 
 #: ../user/friend.php:74
-#, fuzzy
 msgid ""
 "You have asked to add %1 as a friend. We will notify %1 and will ask him/her "
 "to confirm that you are friends."
 msgstr ""
-"Вы попросили добавить %1 как друга. Мы уведомим %2 и попросим его/ее "
+"Вы попросили добавить %1 как друга. Мы уведомим %1 и попросим его/её "
 "подтвердить, что Вы - друзья."
 
 #: ../user/friend.php:77
@@ -4158,22 +4121,20 @@ msgid "We have notified %1 of your request."
 msgstr "Мы оповестили %1 о Вашем запросе."
 
 #: ../user/friend.php:126
-#, fuzzy
 msgid "Please log in as %1"
-msgstr "Авторизован как %1."
+msgstr "Пожалуйста авторизуйтесь как %1"
 
 #: ../user/friend.php:127
 msgid "You must log in as %1 to view this friend request"
-msgstr ""
+msgstr "Вы должны авторизоваться как %1, чтобы увидеть этот запрос дружбы"
 
 #: ../user/friend.php:138
 msgid "Friend request"
 msgstr "Запрос на дружбу"
 
 #: ../user/friend.php:141
-#, fuzzy
 msgid "%1 has requested friendship with you."
-msgstr "Вы запросили дружбу с %1 %2."
+msgstr "%1 запросил дружбу с Вами."
 
 #: ../user/friend.php:143
 msgid "%1 says: %2"
@@ -4244,32 +4205,39 @@ msgid "Your friendship with %1 has been cancelled."
 msgstr "Ваша дружба с %1 была прекращена."
 
 #: ../user/get_passwd.php:25
-#, fuzzy
 msgid "Forgot your account info?"
-msgstr "другая учетная информация"
+msgstr "Забыли свою учётную информацию?"
 
 #: ../user/get_passwd.php:28
 msgid ""
 "1) If you know your account's email address, and you can receive email there:"
 msgstr ""
+"1) Если Вы знаете адрес электронной почты вашей учётной записи, и Вы можете "
+"получить письмо:"
 
 #: ../user/get_passwd.php:29
 msgid ""
 "Enter the email address below, and click OK. You will be sent email "
 "instructions for resetting your password."
 msgstr ""
+"Введите адрес электронной почты ниже и нажмите OK. Вам будут высланы "
+"инструкции для сброса вашего пароля."
 
 #: ../user/get_passwd.php:46
 msgid ""
 "2) If you forgot your account's email address, or you can't receive email "
 "there:"
 msgstr ""
+"2) Если Вы забыли адрес электронной почты вашей учётной записи, или Вы не "
+"можете получить письмо:"
 
 #: ../user/get_passwd.php:47
 msgid ""
 "If you have run BOINC under this account, you can still access it. Here's "
 "how:"
 msgstr ""
+"Если BOINC запускался под этой вашей учётной записью, Вы можете получить "
+"доступ к ней. Для этого нужно сделать следующее:"
 
 #: ../user/get_passwd.php:50
 msgid ""
@@ -4277,35 +4245,42 @@ msgid ""
 "<b>C:\\Documents and Settings\\All Users\\Application Data\\BOINC</b> or "
 "<b>C:\\Program Files\\BOINC</b>."
 msgstr ""
+"Перейдите в каталог данных BOINC на вашем компьютере (в Windows это обычно  "
+"<b>C:\\Documents and Settings\\All Users\\Application Data\\BOINC</b> или "
+"<b>C:\\Program Files\\BOINC</b>)."
 
 #: ../user/get_passwd.php:51
 msgid "Find your account file for this project; it will be named <b>%1</b>."
 msgstr ""
+"Найдите там файл учётной записи для этого проекта; он будет называться <b>%"
+"1</b>."
 
 #: ../user/get_passwd.php:52
 msgid "Open the file in a text editor like Notepad. You'll see something like"
 msgstr ""
+"Откройте этот файл в текстовом редакторе, например в Блокноте. Вы увидите "
+"что-то вроде"
 
 #: ../user/get_passwd.php:62
 msgid "Select and Copy the string between %1 and %2 (%3 in the above example)."
 msgstr ""
+"Выберите и скопируйте строку между %1 и %2 (%3 в вышеприведённом примере)."
 
 #: ../user/get_passwd.php:64
 msgid "Paste the string into the field below, and click OK."
-msgstr ""
+msgstr "Вставьте эту строку в расположенное ниже поле, и нажмите OK."
 
 #: ../user/get_passwd.php:65
-#, fuzzy
 msgid ""
 "You will now be logged in to your account; update the email and password of "
 "your account."
 msgstr ""
-"Пожалуйста посетите следующую ссылку, чтобы подтвердить адрес электронной "
-"почты вашей учетной записи в %1:"
+"Теперь Вы авторизованы; обновите адрес электронной почты и пароль для вашей "
+"учётной записи."
 
 #: ../user/get_passwd.php:71
 msgid "Log in with authenticator"
-msgstr ""
+msgstr "Авторизоваться с аутентификатором"
 
 #: ../user/home.php:42
 msgid "Welcome to %1"
@@ -4319,70 +4294,63 @@ msgstr ""
 
 #: ../user/home.php:46
 msgid "If you have not already done so, %1download BOINC client software%2."
-msgstr ""
+msgstr "Если Вы этого ещё не сделали, %1загрузите клиентское ПО BOINC%2."
 
 #: ../user/home.php:49 ../project.sample/project.inc:46
 msgid "Your account"
-msgstr "Ваша учетная запись"
+msgstr "Ваша учётная запись"
 
 #: ../user/host_app_versions.php:26
 msgid "nvidia GPU"
-msgstr ""
+msgstr "ГП NVIDIA"
 
 #: ../user/host_app_versions.php:36
-#, fuzzy
 msgid "Anonymous platform, missing app"
-msgstr "Анонимная платформа"
+msgstr "анонимная платформа, приложение отсутствует"
 
 #: ../user/host_app_versions.php:39
-#, fuzzy
 msgid "anonymous platform"
-msgstr "Анонимная платформа"
+msgstr "анонимная платформа"
 
 #: ../user/host_app_versions.php:43
 msgid "Missing app version"
-msgstr ""
+msgstr "Версия приложения отсутствует"
 
 #: ../user/host_app_versions.php:45
-#, fuzzy
 msgid "Missing app"
-msgstr "отсутствует тип поиска"
+msgstr "Приложение отсутствует"
 
 #: ../user/host_app_versions.php:47
 msgid "Missing platform"
-msgstr ""
+msgstr "Платформа отсутствует"
 
 #: ../user/host_app_versions.php:56
 msgid "Number of tasks completed"
-msgstr ""
+msgstr "Число завершённых заданий"
 
 #: ../user/host_app_versions.php:57
-#, fuzzy
 msgid "Max tasks per day"
-msgstr "Нет заданий для показа"
+msgstr "Максимум заданий в день"
 
 #: ../user/host_app_versions.php:58
-#, fuzzy
 msgid "Number of tasks today"
-msgstr "Нет заданий для показа"
+msgstr "Число заданий сегодня"
 
 #: ../user/host_app_versions.php:59
 msgid "Consecutive valid tasks"
-msgstr ""
+msgstr "Правильные задания завершённые подряд"
 
 #: ../user/host_app_versions.php:63
-#, fuzzy
 msgid "Average processing rate"
-msgstr "Средняя скорость отправки данных"
+msgstr "Средняя скорость обработки"
 
 #: ../user/host_app_versions.php:72
 msgid "Application details for host %1"
 msgstr "Подробная информация о приложениях для компьютера %1"
 
 #: ../user/host_delete.php:31
-#, fuzzy
 msgid "We have no record of that computer."
-msgstr "Объединить дублирующиеся записи этого компьютера"
+msgstr "У нас нет записи об этом компьютере."
 
 #: ../user/host_delete.php:38
 msgid ""
@@ -4390,51 +4358,51 @@ msgid ""
 "contains work for it. You must wait a few days until the work for this "
 "computer has been deleted from the project database."
 msgstr ""
+"Вы не можете удалить запись об этом компьютере, так как в базе всё ещё "
+"содержится для него работа. Вы должны подождать несколько дней, пока работа "
+"для этого компьютера не будет удалена из базы данных проекта."
 
 #: ../user/host_delete.php:40
-#, fuzzy
 msgid "Delete record of computer"
-msgstr "Удалить этот компьютер"
+msgstr "Удаление записи об этом компьютере"
 
 #: ../user/host_delete.php:41
-#, fuzzy
 msgid "Record deleted."
-msgstr "Крайний срок отчёта"
+msgstr "Запись удалена."
 
 #: ../user/host_delete.php:42 ../user/host_edit_action.php:65
-#, fuzzy
 msgid "Return to list of your computers"
-msgstr "Запускайте %1 только на авторизованных компьютерах"
+msgstr "Вернуться к списку ваших компьютеров"
 
 #: ../user/host_edit_action.php:39
-#, fuzzy
 msgid "Merge computer records"
-msgstr "Объединить компьютеры по имени"
+msgstr "Объединение записей о компьютерах"
 
 #: ../user/host_edit_form.php:35
-#, fuzzy
 msgid "Merge computers"
-msgstr "Объединить компьютеры по имени"
+msgstr "Объединение компьютеров"
 
 #: ../user/host_edit_form.php:38
 msgid ""
 "Sometimes BOINC assigns separate identities to the same computer by mistake. "
 "You can correct this by merging old identities with the newest one."
 msgstr ""
+"Иногда BOINC по ошибке назначает различные идентификаторы одному и тому же "
+"компьютеру. Вы можете исправить это объединив старые идентификаторы с самым "
+"новым."
 
 #: ../user/host_edit_form.php:56
 msgid "No hosts are eligible for merging with this one."
-msgstr ""
+msgstr "Нет подходящих компьютеров для объединения с текущим."
 
 #: ../user/host_edit_form.php:58 ../user/host_edit_form.php:114
-#, fuzzy
 msgid "Show details"
-msgstr "Показать имена"
+msgstr "Показать подробности"
 
 #: ../user/host_edit_form.php:66
 msgid ""
 "Check the computers that are the same as %1 (created %2, computer ID %3):"
-msgstr ""
+msgstr "Отметьте компьютеры, такие же как и %1 (создан %2, ID компьютера %3):"
 
 #: ../user/host_edit_form.php:70 ../user/workunit.php:39
 msgid "name"
@@ -4445,111 +4413,106 @@ msgid "created"
 msgstr "создан"
 
 #: ../user/host_edit_form.php:70
-#, fuzzy
 msgid "computer ID"
 msgstr "ID компьютера"
 
 #: ../user/host_edit_form.php:77
-#, fuzzy
 msgid "no hostname"
-msgstr "Нет компьютера"
+msgstr "без имени"
 
 #: ../user/host_edit_form.php:109
-#, fuzzy
 msgid "Merge hosts"
-msgstr "Объединить"
+msgstr "Объединить компьютеры"
 
 #: ../user/host_update_credit.php:28
 msgid "Updating computer credit"
-msgstr ""
+msgstr "Обновление очков компьютера"
 
 #: ../user/host_venue_action.php:41
 msgid "Host venue updated"
-msgstr ""
+msgstr "Размещение компьютера обновлено"
 
 #: ../user/host_venue_action.php:43
-#, fuzzy
 msgid "none"
-msgstr "Готово"
+msgstr "не указано"
 
 #: ../user/host_venue_action.php:46
 msgid "The venue of this host has been set to %1."
-msgstr ""
+msgstr "Размещение этого компьютера было установлено в %1."
 
 #: ../user/host_venue_action.php:48
 msgid ""
 "This change will take effect the next time the host communicates with this "
 "project."
 msgstr ""
+"Это изменение будет учтено в следующий раз, когда компьютер свяжется с "
+"данным проектом."
 
 #: ../user/host_venue_action.php:50
-#, fuzzy
 msgid "Return to host page"
-msgstr "Вернуться на страницу команды"
+msgstr "Вернуться на страницу компьютера"
 
 #: ../user/hosts_user.php:53
 msgid "Computers belonging to %1"
 msgstr "Компьютеры, принадлежащие пользователю %1"
 
 #: ../user/hosts_user.php:55
-#, fuzzy
 msgid "Computers hidden"
-msgstr "Информация о компьютере"
+msgstr "Компьютеры скрыты"
 
 #: ../user/hosts_user.php:56
-#, fuzzy
 msgid ""
 "This user has chosen not to show information about his or her computers."
-msgstr "Этот пользователь скрыл информацию о своих компьютерах."
+msgstr "Этот пользователь предпочёл скрыть информацию о своих компьютерах."
 
 #: ../user/hosts_user.php:64
-#, fuzzy
 msgid "Your computers"
-msgstr "Лучшие компьютеры"
+msgstr "Ваши компьютеры"
 
 #: ../user/html.php:23
-#, fuzzy
 msgid "Allowed HTML tags"
-msgstr "Не использовать тэги HTML."
+msgstr "Разрешённые тэги HTML"
 
 #: ../user/html.php:25
 msgid "The following HTML tags are allowed in team descriptions:"
-msgstr ""
+msgstr "Следующие тэги HTML разрешены в описаниях команд:"
 
 #: ../user/html.php:27
 msgid "bold"
-msgstr ""
+msgstr "жирный"
 
 #: ../user/html.php:28
 msgid "italics"
-msgstr ""
+msgstr "наклонный"
 
 #: ../user/html.php:29
 msgid "hyperlink"
-msgstr ""
+msgstr "гиперссылка"
 
 #: ../user/html.php:30
 msgid "paragraph"
-msgstr ""
+msgstr "параграф"
 
 #: ../user/html.php:31
 msgid "break"
-msgstr ""
+msgstr "разрыв"
 
 #: ../user/html.php:32
-#, fuzzy
 msgid "preformatted"
-msgstr "Создан"
+msgstr "предварительное форматирование"
 
 #: ../user/html.php:33
 msgid ""
 "image; height cannot exceed 450 pixels. Please do not link to images without "
 "permission of the web site where the image is hosted."
 msgstr ""
+"изображение; высота не должна превышать 450 пикселей. Пожалуйста, не "
+"публикуйте ссылки на изображения без разрешения вебсайта, где размещено "
+"изображение."
 
 #: ../user/html.php:35
 msgid "You can also use ampersand notation for special characters."
-msgstr ""
+msgstr "Вы также можете использовать специальные символы с амперсандами."
 
 #: ../user/info.php:24 ../user/sample_index.php:73
 msgid "Read our rules and policies"
@@ -4812,9 +4775,8 @@ msgid "forgot password?"
 msgstr "забыли пароль?"
 
 #: ../user/login_form.php:55
-#, fuzzy
 msgid "Stay logged in"
-msgstr "Не авторизован."
+msgstr "Оставаться авторизованным"
 
 #: ../user/login_form.php:61
 msgid "or %1create an account%2."
@@ -4917,15 +4879,14 @@ msgid "To unblock, visit %1message board preferences%2"
 msgstr "Чтобы разблокировать, посетите %1настройки доски сообщений%2"
 
 #: ../user/prefs.php:36
-#, fuzzy
 msgid ""
 "Your preferences have been updated, and\n"
 "          will take effect when your computer communicates with %1\n"
 "          or you issue the %2Update%3 command from the BOINC Manager."
 msgstr ""
 "Ваши настройки обновлены и\n"
-"\t будут задействованы, когда ваш компьютер свяжется с %1,\n"
-"\t или Вы выполните команду %2Обновить%3 из Менеджера BOINC."
+"          будут задействованы, когда ваш компьютер свяжется с %1,\n"
+"          или Вы выполните команду %2Обновить%3 из Менеджера BOINC."
 
 #: ../user/prefs_edit.php:66 ../user/prefs_edit.php:94
 msgid "%1 for %2"
@@ -5047,26 +5008,23 @@ msgstr "Вернуться к профилю."
 
 #: ../user/profile_search_action.php:36
 msgid "Profiles containing '%1'"
-msgstr ""
+msgstr "Профили, содержащие '%1'"
 
 #: ../user/profile_search_action.php:40
-#, fuzzy
 msgid "User name"
-msgstr "Имя задания"
+msgstr "Имя пользователя"
 
 #: ../user/profile_search_action.php:41
-#, fuzzy
 msgid "Joined project"
-msgstr "Присоединение к команде %1."
+msgstr "Присоединился к проекту"
 
 #: ../user/profile_search_action.php:44
-#, fuzzy
 msgid "Recent credit"
-msgstr "с недавними очками"
+msgstr "В среднем за день"
 
 #: ../user/profile_search_action.php:54
 msgid "No profiles found containing '%1'"
-msgstr ""
+msgstr "Не найдено профилей, содержащих '%1'"
 
 #: ../user/result.php:30
 msgid "No such task"
@@ -5249,9 +5207,8 @@ msgid "users in last 24h"
 msgstr "пользователей за последние 24ч."
 
 #: ../user/show_host_detail.php:40
-#, fuzzy
 msgid "Computer %1"
-msgstr "Компьютер"
+msgstr "Компьютер %1"
 
 #: ../user/stats.php:21
 msgid "Statistics and leaderboards"
@@ -5298,14 +5255,12 @@ msgstr ""
 "всем проектам BOINC с нескольких вебсайтов; см. вашу %1домашнюю страницу%2."
 
 #: ../user/team.php:25
-#, fuzzy
 msgid "Teams"
-msgstr "Команда"
+msgstr "Команды"
 
 #: ../user/team.php:27
-#, fuzzy
 msgid "%1 participants may form %2teams%3."
-msgstr "Участники %1 могут объединяться в %2команды%3"
+msgstr "Участники %1 могут объединяться в %2команды%3."
 
 #: ../user/team.php:29
 msgid ""
@@ -5327,9 +5282,8 @@ msgid "edit the team's name and description"
 msgstr "редактировать название и описание команды"
 
 #: ../user/team.php:35
-#, fuzzy
 msgid "add or remove team admins"
-msgstr "Добавить или удалить Администраторов команды"
+msgstr "добавить или удалить Администраторов команды"
 
 #: ../user/team.php:36
 msgid "remove members from the team"
@@ -5723,9 +5677,8 @@ msgid "Update failed"
 msgstr "Обновление не удалось"
 
 #: ../user/team_forum.php:154
-#, fuzzy
 msgid "Team has no forum"
-msgstr "у команды нет форума"
+msgstr "У команды нет форума"
 
 #: ../user/team_founder_transfer_action.php:36
 msgid "You must be a member of a team to access this page."

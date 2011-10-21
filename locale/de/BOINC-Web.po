@@ -4,7 +4,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2011-04-04 22:09 PDT\n"
-"PO-Revision-Date: 2011-08-28 10:11+0200\n"
+"PO-Revision-Date: 2011-10-13 21:31+0200\n"
 "Last-Translator: Christian <djangofett@gmx.net>\n"
 "Language-Team: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
 "Language: de\n"
@@ -157,7 +157,7 @@ msgstr ""
 
 #: projects.inc:73
 msgid "Life science research"
-msgstr ""
+msgstr "Biowissenschaftliche Forschung"
 
 #: projects.inc:74
 msgid ""
@@ -193,6 +193,15 @@ msgid ""
 "populations with a diverse set of parameters related to biological and "
 "social factors that influence the distribution of the disease. "
 msgstr ""
+"Simulationsmodelle der Transmissionsdynamik und gesundheitlichen "
+"Auswirkungen von Malaria sind ein wichtiges Werkzeug für die Kontrolle von "
+"Malaria. Diese können verwendet werden um optimale Strategien auszuarbeiten "
+"um Moskitonetze zu liefern, Chemotherapie oder neue Impfstoffe hervorbringen "
+"welche im Moment noch in Entwicklung sind und getestet werden. Solche "
+"Modellierungen sind extrem rechenintensiv, benötigen Simulationen von "
+"größeren Bevölkerungsmengen mit diversen Sets von Parametern in Zusammenhang "
+"zu den biologischen und sozialen Faktoren welche die Verteilung der "
+"Krankheit beeinflussen."
 
 #: projects.inc:102
 msgid "Rosetta@home"
@@ -215,6 +224,13 @@ msgid ""
 "efforts at designing new proteins to fight diseases such as HIV, Malaria, "
 "Cancer, and Alzheimer's"
 msgstr ""
+"Bestimmen Sie die 3-dimensionalen Formen von Proteinen in der Forschung, die "
+"letztlich zur Erforschung von Heilverfahren für einige wichtige Krankheiten "
+"des Menschen führen können. Durch die Ausführung von Rosetta@home werden "
+"Sie uns helfen das ganze zu beschleunigen und unsere Forschung zu erweitern, "
+"wie wir es ohne Ihre Mithilfe nicht erst versuchen könnten. Sie werden auch "
+"helfen, unsere Anstrengungen bei der Entwicklung neuer Proteine​​, um "
+"Krankheiten wie HIV, Malaria, Krebs und Alzheimer zu bekämpfen"
 
 #: projects.inc:110
 msgid "SIMAP"
@@ -288,11 +304,11 @@ msgstr "Astronomie/Physik/Chemie"
 
 #: projects.inc:151
 msgid "eOn"
-msgstr ""
+msgstr "eOn"
 
 #: projects.inc:153
 msgid "University of Texas at Austin"
-msgstr ""
+msgstr "Universität von Texas in Austin"
 
 #: projects.inc:154 projects.inc:185 projects.inc:225
 msgid "Chemistry"
@@ -341,14 +357,18 @@ msgid ""
 "our Universe and to find the range of models that agree with the available "
 "astronomical particle physics data."
 msgstr ""
+"Das Ziel von Cosmology@Home ist es ein Modell zu suchen, welches unser "
+"Universum am besten beschreibt und eine Auswahl von Modellen zu finden, "
+"welche mit den verfügbaren astronomischen partikelphysischen Daten "
+"übereinstimmt."
 
 #: projects.inc:174
 msgid "Milkyway@home"
-msgstr ""
+msgstr "Milkyway@home"
 
 #: projects.inc:176
 msgid "Rensselaer Polytechnic Institute"
-msgstr ""
+msgstr "politechnisches Institut von Rensselaer"
 
 #: projects.inc:178
 msgid ""
@@ -356,14 +376,17 @@ msgid ""
 "model of the Milky Way galaxy using data gathered by the Sloan Digital Sky "
 "Survey."
 msgstr ""
+"Das Ziel von Milkyway@Home ist es ein sehr genaues dreidimensionales Modell "
+"der Milchstraße mit Hilfe von Daten, die man vom Sloan Digital Sky Survey "
+"erhalten hat, herzustellen."
 
 #: projects.inc:182
 msgid "Leiden Classical"
-msgstr ""
+msgstr "Leiden Classical"
 
 #: projects.inc:184
 msgid "Leiden University, The Netherlands"
-msgstr ""
+msgstr "Leiden Universität, Niederlande"
 
 #: projects.inc:186
 msgid ""
@@ -377,15 +400,15 @@ msgstr ""
 
 #: projects.inc:190
 msgid "uFluids@home"
-msgstr ""
+msgstr "uFluids@home"
 
 #: projects.inc:192
 msgid "Purdue University"
-msgstr ""
+msgstr "Purdue Universität"
 
 #: projects.inc:193
 msgid "Physics/Aeronautics"
-msgstr ""
+msgstr "Physik/Luft- und Raumfahrt"
 
 #: projects.inc:194
 msgid ""
@@ -397,11 +420,11 @@ msgstr ""
 
 #: projects.inc:198
 msgid "Einstein@home"
-msgstr ""
+msgstr "Einstein@home"
 
 #: projects.inc:200
 msgid "Univ. of Wisconsin - Milwaukee, Max Planck Institute"
-msgstr ""
+msgstr "Univ. von Wisconsin in Milwaukee,  Max Planck Institut"
 
 #: projects.inc:201
 msgid "Astrophysics"
@@ -422,7 +445,7 @@ msgstr "LHC@home"
 
 #: projects.inc:208
 msgid "CERN (European Organization for Nuclear Research)"
-msgstr ""
+msgstr "CERN (Europäische Organisation für Nuklearforschung)"
 
 #: projects.inc:209
 msgid "Physics"
@@ -436,10 +459,15 @@ msgid ""
 "investigate on particles proprieties. LHC@home runs simulations to improve "
 "the design of LHC and its detectors."
 msgstr ""
+"Der Large Hadron Collider (LHC) ist ein Teilchenbeschleuniger beim CERN, der "
+"europäischen Organisation für Nuklearforschung, das weltgrößte "
+"Partikelphysiklabor. Es ist das leistungsstärkste bis jetzt gebaute Gerät, "
+"um das Partikelverhalten zu untersuchen. LHC@home führt Simulationen aus, um "
+"die Bauform des LHC und seine Detektoren zu verbessern."
 
 #: projects.inc:214
 msgid "SETI@home"
-msgstr ""
+msgstr "SETI@home"
 
 #: projects.inc:216
 msgid "University of California, Berkeley"
@@ -470,10 +498,12 @@ msgstr "Universität Münster (Deutschland)"
 msgid ""
 "Study the structure and reactivity of molecules using Quantum Chemistry."
 msgstr ""
+"Untersucht die Struktur und die Reaktionsfähigkeit von Molekülen mittels "
+"Quantenchemie."
 
 #: projects.inc:230
 msgid "Spinhenge@home"
-msgstr ""
+msgstr "Spinhenge@home"
 
 #: projects.inc:232
 msgid "Bielefeld University of Applied Sciences"

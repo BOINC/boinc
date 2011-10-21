@@ -2,41 +2,44 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-01-26 13:27-0800\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"PO-Revision-Date: 2011-09-09 17:14+0200\n"
+"Last-Translator: Kenneth Skjold <kenneth@skjold.biz>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: nb\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Translate Toolkit 1.2.1\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Pootle 2.1.1\n"
 
 #: acct_mgr.cpp:411 acct_mgr.cpp:421
 msgid "error"
-msgstr ""
+msgstr "feil"
 
 #: client_msgs.cpp:79
 msgid "Message from server"
-msgstr ""
+msgstr "Melding fra server"
 
 #: client_state.cpp:232
 msgid ""
 "Some tasks need more memory than allowed by your preferences.  Please check "
 "the preferences."
 msgstr ""
+"Noen oppgaver trenger mer minne enn du tillater i dine innstillinger. "
+"Vennligst sjekk dine innstillinger."
 
 #: client_state.cpp:414
 msgid "Couldn't write state file; check directory permissions"
-msgstr ""
+msgstr "Kunne ikke skrive til tilstandsfilen; sjekk mapperettighetene"
 
 #: cs_cmdline.cpp:284
 msgid "The HTTP_PROXY environment variable must specify an HTTP proxy"
-msgstr ""
+msgstr "HTTP_PROXY variabelen må spesifisere en HTTP mellomtjener"
 
 #: cs_scheduler.cpp:529
 #, c-format
@@ -44,140 +47,170 @@ msgid ""
 "You used the wrong URL for this project.  When convenient, remove this "
 "project, then add %s"
 msgstr ""
+"Du brukte en feil nettadresse for dette prosjektet, fjern dette prosjektet "
+"og legg til %s"
 
 #: cs_statefile.cpp:794 ../sched/sched_types.cpp:273
 msgid "Syntax error in app_info.xml"
-msgstr ""
+msgstr "Syntaksfeil i app_info.xml"
 
 #: cs_statefile.cpp:833
 msgid "File referenced in app_info.xml does not exist: "
-msgstr ""
+msgstr "Filen det vises til i app_info.xml eksisterer ikke:"
 
 #: current_version.cpp:84
 msgid "A new version of BOINC is available."
-msgstr ""
+msgstr "En ny versjon av BOINC er tilgjengelig."
 
 #: current_version.cpp:86
 msgid "Download it."
-msgstr ""
+msgstr "Last ned."
 
 #: gui_rpc_server.cpp:191
 msgid "Can't resolve hostname in remote_hosts.cfg"
-msgstr ""
+msgstr "Kan ikke løse vertsnavnet det vises til i remote_hosts.cfg"
 
 #: log_flags.cpp:73 log_flags.cpp:328 log_flags.cpp:461
 msgid "Unexpected text in cc_config.xml"
-msgstr ""
+msgstr "Uventet tekst i cc_config.xml"
 
 #: log_flags.cpp:117 log_flags.cpp:433 log_flags.cpp:480
 msgid "Unrecognized tag in cc_config.xml"
-msgstr ""
+msgstr "Ukjent tagg i cc_config.xml"
 
 #: log_flags.cpp:452
 msgid "Missing start tag in cc_config.xml"
-msgstr ""
+msgstr "Manglende starttagg i cc_config.xml"
 
 #: log_flags.cpp:488
 msgid "Missing end tag in cc_config.xml"
-msgstr ""
+msgstr "Manglende stopptagg i cc_config.xml"
 
 #: ../sched/handle_request.cpp:299
 msgid "Invalid or missing account key.  To fix, remove and add this project."
 msgstr ""
+"Ugyldig eller manglende kontonøkkel. For å fikse dette, fjern og legg til "
+"dette prosjektet"
 
 #: ../sched/handle_request.cpp:822
 msgid "Invalid code signing key.  To fix, remove and add this project."
 msgstr ""
+"Ugyldig signeringskodenøkkel. For å fikse dette, fjern og legg til dette "
+"prosjektet."
 
 #: ../sched/handle_request.cpp:832
 msgid ""
 "The project has changed its security key.  Please remove and add this "
 "project."
 msgstr ""
+"Sikkerhetsnøkkelen til prosjektet er endret. Fjern og legg til dette "
+"prosjektet."
 
 #: ../sched/handle_request.cpp:916
 msgid "This project doesn't support operating system"
-msgstr ""
+msgstr "Dette prosjektet støtter ikke operativsystemet"
 
 #: ../sched/handle_request.cpp:942
 msgid "This project doesn't support CPU type"
-msgstr ""
+msgstr "Dette prosjektet støtter ikke prosessortype"
 
 #: ../sched/handle_request.cpp:966
 msgid ""
 "Your BOINC client software is too old.  Please install the current version."
 msgstr ""
+"Du bruker en for gammel versjon av BOINC klienten. Vær vennlig å installere "
+"den siste versjonen."
 
 #: ../sched/handle_request.cpp:1217
 msgid "This project doesn't support computers of type"
-msgstr ""
+msgstr "Dette prosjektet støtter ikke datamaskiner av type"
 
 #: ../sched/sched_send.cpp:1267
 msgid "Upgrade to the latest driver to process tasks using your computer's GPU"
 msgstr ""
+"Oppgradere til den siste versjon av grafikkdriver for å bruke PCens "
+"grafikkkort til å gjøre beregninger"
 
 #: ../sched/sched_send.cpp:1274
 msgid ""
 "Upgrade to the latest driver to use all of this project's GPU applications"
 msgstr ""
+"Oppgradere til siste versjon av grafikkdriver for bruke dette prosjektets "
+"applikasjoner for grafikkprosessorer"
 
 #: ../sched/sched_send.cpp:1298
 msgid ""
 "A newer version of BOINC is needed to use your NVIDIA GPU; please upgrade to "
 "the current version"
 msgstr ""
+"For å bruke din NVIDIA grafikkprosessor trenger du en nyere versjon av "
+"BOINC. Oppgrader til nyeste versjon"
 
 #: ../sched/sched_send.cpp:1311
 msgid "An NVIDIA or ATI GPU is required to run tasks for this project"
 msgstr ""
+"For å utføre oppgaver til dette prosjektet trenger du en NVIDIA eller ATI "
+"grafikkprosessor"
 
 #: ../sched/sched_send.cpp:1316
 msgid "An NVIDIA GPU is required to run tasks for this project"
 msgstr ""
+"For å utføre oppgaver til dette prosjektet trenger du en NVIDIA "
+"grafikkprosessor"
 
 #: ../sched/sched_send.cpp:1322
 msgid "An ATI GPU is required to run tasks for this project"
 msgstr ""
+"For å utføre oppgaver til dette prosjektet trenger du en ATI "
+"grafikkprosessor"
 
 #: ../sched/sched_send.cpp:1417
 msgid ""
 "No work available for the applications you have selected.  Please check your "
 "project preferences on the web site."
 msgstr ""
+"Det er ikke tilgjengelig noe arbeid for programmene du har valgt. Sjekk "
+"prosjektenes innstillinger på nettsiden deres."
 
 #: ../sched/sched_send.cpp:1443
 msgid "Your computer type is not supported by this project"
-msgstr ""
+msgstr "Din datamaskintype er ikke støttet av dette prosjektet"
 
 #: ../sched/sched_send.cpp:1449
 msgid "Newer BOINC version required; please install current version"
-msgstr ""
+msgstr "Det kreves nyere versjon av BOINC. Installer siste versjon"
 
 #: ../sched/sched_send.cpp:1459
 msgid ""
 "Tasks for NVIDIA GPU are available, but your preferences are set to not "
 "accept them"
 msgstr ""
+"Oppgaver for NVIDIA grafikkprosessor er tilgjengelig, men dine innstillinger "
+"er satt til å ikke akseptere dem"
 
 #: ../sched/sched_send.cpp:1465
 msgid ""
 "Tasks for ATI GPU are available, but your preferences are set to not accept "
 "them"
 msgstr ""
+"Oppgaver for ATI grafikkprosessor er tilgjengelig, men dine innstillinger er "
+"satt til å ikke akseptere dem"
 
 #: ../sched/sched_send.cpp:1471
 msgid ""
 "Tasks for CPU are available, but your preferences are set to not accept them"
 msgstr ""
+"Oppgaver for prosessor er tilgjengelig, men dine innstillinger er satt til å "
+"ikke akseptere dem"
 
 #: ../sched/sched_types.cpp:268
 msgid "Unknown app name in app_info.xml"
-msgstr ""
+msgstr "Ukjent applikasjonsnavn i app_info.xml"
 
 #: ../sched/sched_version.cpp:230
 msgid "Your app_info.xml file doesn't have a usable version of"
-msgstr ""
+msgstr "Din app_info.xml fil har ikke en brukbar versjon av"
 
 #: ../sched/sched_version.cpp:709
 msgid "is not available for"
-msgstr ""
+msgstr "er ikke tilgjengelig for"

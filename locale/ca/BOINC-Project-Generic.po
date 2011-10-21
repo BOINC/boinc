@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2011-08-25 15:10 PDT\n"
-"PO-Revision-Date: 2011-07-09 17:37+0200\n"
+"PO-Revision-Date: 2011-09-20 00:26+0200\n"
 "Last-Translator: Xavier <xavi.mormur@gmail.com>\n"
 "Language-Team: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
 "Language: ca\n"
@@ -29,27 +29,27 @@ msgstr "Catalan"
 
 #: ../inc/forum.inc:37
 msgid "Oldest first"
-msgstr ""
+msgstr "El més antic primer"
 
 #: ../inc/forum.inc:38 ../inc/forum.inc:44
 msgid "Newest first"
-msgstr ""
+msgstr "El més recent primer"
 
 #: ../inc/forum.inc:39
 msgid "Highest rated posts first"
-msgstr ""
+msgstr "El de més alta puntuació primer"
 
 #: ../inc/forum.inc:41
 msgid "Newest post first"
-msgstr ""
+msgstr "El més recent primer"
 
 #: ../inc/forum.inc:42
 msgid "Most views first"
-msgstr ""
+msgstr "Els més vistos primer"
 
 #: ../inc/forum.inc:43
 msgid "Most posts first"
-msgstr ""
+msgstr "Els de més missatges primer"
 
 #: ../inc/forum.inc:125
 msgid "Search for words in forum messages"
@@ -583,9 +583,8 @@ msgstr ""
 "comunitat%2"
 
 #: ../inc/pm.inc:198
-#, fuzzy
 msgid "Private message"
-msgstr "Missatges privats"
+msgstr "Missatge privat"
 
 #: ../inc/prefs.inc:76
 msgid ""
@@ -623,13 +622,12 @@ msgstr ""
 "Necessari per entrar en mode de baix consum en alguns ordinadors %2"
 
 #: ../inc/prefs.inc:113
-#, fuzzy
 msgid ""
 "Suspend work when non-BOINC CPU usage is above %1 0 means no "
 "restriction<br>Enforced by version 6.10.30+ %2"
 msgstr ""
-"Suspendre el treball si l'ús de CPU és superior a %1 0 significa sense "
-"restricció<br>Imposat per la versió 6.10.30+ %2"
+"Suspendre el treball si l'ús de CPU per programari no-BOINC és superior a %1 "
+"0 significa sense restricció<br>Imposat per la versió 6.10.30+ %2"
 
 #: ../inc/prefs.inc:121
 msgid "Do work only between the hours of %1 No restriction if equal %2"
@@ -716,14 +714,14 @@ msgid "Memory: when computer is not in use, use at most"
 msgstr "Memòria: quan l'ordinador no està en ús, utilitzar com a màxim"
 
 #: ../inc/prefs.inc:217
-#, fuzzy
 msgid ""
 "Computer is connected to the Internet about every %1 Leave blank or 0 if "
 "always connected. %2 BOINC will try to maintain at least this much work (max "
 "10 days). %3"
 msgstr ""
 "L'ordinador està connectat a Internet cada %1 Deixar en blanc o 0 si està "
-"sempre connectat. %2 BOINC tractarà de fer el màxim de feina. %3"
+"sempre connectat. %2 BOINC tractarà de fer el màxim de feina (màx 10 dies). "
+"%3"
 
 #: ../inc/prefs.inc:223 ../inc/prefs.inc:228 ../inc/prefs.inc:270
 #: ../inc/util.inc:236
@@ -798,7 +796,7 @@ msgstr ""
 
 #: ../inc/prefs.inc:298
 msgid "Accelerate GPU tasks by dedicating a CPU to each one?"
-msgstr ""
+msgstr "Accelerar les tasques de la GPU dedicant una CPU a cada un?"
 
 #: ../inc/prefs.inc:308
 msgid "Use CPU %1 Enforced by version 6.10+ %2"
@@ -994,7 +992,6 @@ msgid "Database error"
 msgstr "Error de base de dades"
 
 #: ../inc/profile.inc:192
-#, fuzzy
 msgid ""
 "To prevent spam, profiles of users with an average credit of less than %1 "
 "are displayed only to logged-in users. We apologize for this inconvenience."
@@ -1350,7 +1347,7 @@ msgstr "Versió de l'aplicació"
 
 #: ../inc/result.inc:447
 msgid "Output files"
-msgstr ""
+msgstr "Arxius de sortida"
 
 #: ../inc/result.inc:450
 msgid "Stderr output"
@@ -1365,9 +1362,8 @@ msgid "Next"
 msgstr "Següent"
 
 #: ../inc/result.inc:497
-#, fuzzy
 msgid "State"
-msgstr "Estatus"
+msgstr "Estat"
 
 #: ../inc/team.inc:33
 msgid "Search criteria (use one or more)"
@@ -1861,12 +1857,10 @@ msgid "Add as friend"
 msgstr "Afegir com amic"
 
 #: ../inc/util.inc:113
-#, fuzzy
 msgid "log out"
 msgstr "Finalitzar la sessió"
 
 #: ../inc/util.inc:115
-#, fuzzy
 msgid "log in"
 msgstr "Registrar-se"
 
@@ -1879,9 +1873,8 @@ msgid "Create an account"
 msgstr "Crear un compte"
 
 #: ../inc/util.inc:173
-#, fuzzy
 msgid "Server status page"
-msgstr "Estat del servidor"
+msgstr "Pàgina de l'estat del servidor"
 
 #: ../inc/util.inc:210
 msgid ""
@@ -1926,12 +1919,9 @@ msgid "Project down for maintenance"
 msgstr "Projecte aturat per manteniment"
 
 #: ../inc/util.inc:738
-#, fuzzy
 msgid "%1 is temporarily shut down for maintenance.  Please try again later."
 msgstr ""
-"Aquesta pàgina requereix d'accés a base de dades.  El nostre servidor de "
-"base de dades està temporalment aturat per manteniment.  Si us plau, provi-"
-"ho més tard."
+"%1 està temporalment aturat per manteniment.  Si us plau, provi-ho més tard."
 
 #: ../inc/util.inc:756
 msgid "Unable to connect to database - please try again later"
@@ -1951,7 +1941,7 @@ msgstr "Mantenir-me en aquest ordinador"
 
 #: ../user/account_finish.php:34
 msgid "Finish account setup"
-msgstr ""
+msgstr "Finalitzar la configuració del compte"
 
 #: ../user/account_finish.php:41 ../user/create_account_form.php:87
 msgid "Identifies you on our web site. Use your real name or a nickname."
@@ -1970,14 +1960,12 @@ msgid "Optional"
 msgstr "Opcional"
 
 #: ../user/account_finish_action.php:27 ../user/create_account_action.php:84
-#, fuzzy
 msgid "You must supply a name for your account"
 msgstr "Ha de proporcionar un nom per al seu compte."
 
 #: ../user/account_finish_action.php:30 ../user/create_account_action.php:87
-#, fuzzy
 msgid "HTML tags not allowed in name"
-msgstr "Etiquetes HTML no estan permesos en el seu nom."
+msgstr "No estan permeses les etiquetes HTML en el nom"
 
 #: ../user/add_venue.php:86
 msgid "Add %1 preferences for %2"
@@ -2013,7 +2001,7 @@ msgstr "Temps d'instal·lació"
 
 #: ../user/bbcode.php:23
 msgid "BBCode tags"
-msgstr ""
+msgstr "Etiquetes BBCode"
 
 #: ../user/bbcode.php:25
 msgid ""
@@ -2022,106 +2010,107 @@ msgid ""
 "have used %1 in HTML) and end with ] (where you would have used %2 in\n"
 "HTML)."
 msgstr ""
+"Les etiquetes BBCode li permeten donar format al text en el seu perfil i en "
+"els missatges.\n"
+"És similar a l'HTML, però més simple. Les etiquetes comencen amb un [ (on\n"
+"utilitzaveu %1 en HTML) i acaba amb ] (on uutilitzaveu %2 en\n"
+"HTML)."
 
 #: ../user/bbcode.php:31
 msgid "Examples"
-msgstr ""
+msgstr "Exemples"
 
 #: ../user/bbcode.php:32
 msgid "Bold"
-msgstr ""
+msgstr "Negreta"
 
 #: ../user/bbcode.php:33
-#, fuzzy
 msgid "Italic"
-msgstr "No vàlid"
+msgstr "Itàlica"
 
 #: ../user/bbcode.php:34
-#, fuzzy
 msgid "Underline"
-msgstr "Rebutjar"
+msgstr "Subratllar"
 
 #: ../user/bbcode.php:35
-#, fuzzy
 msgid "Big text"
-msgstr "text"
+msgstr "Text gran"
 
 #: ../user/bbcode.php:36
-#, fuzzy
 msgid "Red text"
-msgstr "text"
+msgstr "Text en vermell"
 
 #: ../user/bbcode.php:37
 msgid "link to website"
-msgstr ""
+msgstr "enllaç al lloc web"
 
 #: ../user/bbcode.php:38
-#, fuzzy
 msgid "Quoted text"
-msgstr "Deixar el grup"
+msgstr "Text remarcat"
 
 #: ../user/bbcode.php:38
 msgid "use for quoted blocks of text"
-msgstr ""
+msgstr "utilitzar per remarcar blocs de text"
 
 #: ../user/bbcode.php:39
 msgid "use to display an image"
-msgstr ""
+msgstr "utilitzar per a mostrar una imatge"
 
 #: ../user/bbcode.php:40
 msgid "Code snippet here"
-msgstr ""
+msgstr "Fragment de codi aquí"
 
 #: ../user/bbcode.php:40
 msgid "use to display some code"
-msgstr ""
+msgstr "utilitzar per mostrar un codi"
 
 #: ../user/bbcode.php:41
 msgid "Pre-formatted text"
-msgstr ""
+msgstr "Text amb format"
 
 #: ../user/bbcode.php:41
 msgid "use to display pre-formatted (usually monospaced) text"
-msgstr ""
+msgstr "utilitzar per mostrar text pre-formatat (en general sol espai)"
 
 #: ../user/bbcode.php:42
 msgid "Item 1"
-msgstr ""
+msgstr "Item 1"
 
 #: ../user/bbcode.php:42
 msgid "Item2"
-msgstr ""
+msgstr "Item2"
 
 #: ../user/bbcode.php:42
 msgid "Item 2"
-msgstr ""
+msgstr "Item 2"
 
 #: ../user/bbcode.php:44
 msgid "use to link to Trac ticket on BOINC website"
-msgstr ""
+msgstr "utilitzar per enllaçar al Trac de revisions al lloc web de BOINC"
 
 #: ../user/bbcode.php:46
 msgid "use to link to Trac Wiki on BOINC website"
-msgstr ""
+msgstr "utilitzar per enllaçar a Trac Wiki en la pàgina web de BOINC"
 
 #: ../user/bbcode.php:48
 msgid "use to link to SVN changeset on BOINC website"
-msgstr ""
+msgstr "utilitzar per enllaçar a SVN de canvis en el lloc web de BOINC"
 
 #: ../user/bbcode.php:52
 msgid ""
 "If you don't close a tag or don't specify a parameter correctly,\n"
 "the raw tag itself will display instead of the formatted text."
 msgstr ""
+"Si no tanca una etiqueta o no s'especifica un paràmetre correctament,\n"
+"es mostrarà l'etiqueta en lloc del text amb format."
 
 #: ../user/create_account_action.php:26
-#, fuzzy
 msgid "Can't create account"
-msgstr "Crear un compte"
+msgstr "No es pot crear el compte"
 
 #: ../user/create_account_action.php:29
 msgid "Click your browser's <b>Back</b> button to try again."
-msgstr ""
+msgstr "Feu clic a <b>Enrere</b> del navegador per intentar-ho de nou."
 
 #: ../user/create_account_action.php:36 ../user/create_account_action.php:38
 #: ../user/create_account_form.php:43
@@ -2133,12 +2122,12 @@ msgid ""
 "Sorry, this project has disabled the creation of new accounts.\n"
 "Please try again later."
 msgstr ""
+"Ho sentim, aquest projecte ha desactivat la creació de nous comptes.\n"
+"Si us plau provar-ho més tard."
 
 #: ../user/create_account_action.php:51
-#, fuzzy
 msgid "Your reCAPTCHA response was not correct. Please try again."
-msgstr ""
-"La seva resposta ReCaptcha no es correcte.  Si us plau, provi-ho de nou."
+msgstr "La seva resposta reCAPTCHA no es correcte. Si us plau, provi-ho de nou."
 
 #: ../user/create_account_action.php:75
 msgid "You must supply an invitation code to create an account."
@@ -2149,32 +2138,33 @@ msgid "The invitation code you gave is not valid."
 msgstr "El codi d'alta que heu introduït no és vàlid."
 
 #: ../user/create_account_action.php:92
-#, fuzzy
 msgid ""
 "Invalid email address: you must enter a valid address of the form name@domain"
-msgstr "Ha de ser una adreça de correu vàlida del tipus 'nom@domini'"
+msgstr ""
+"Adreça de correu incorrecta: ha d'entrar una adreça de correu vàlida del "
+"tipus nom@domini"
 
 #: ../user/create_account_action.php:96
 msgid "There's already an account with that email address."
-msgstr ""
+msgstr "Ja existeix un compte amb aquesta adreça de correu electrònic."
 
 #: ../user/create_account_action.php:102 ../user/edit_passwd_action.php:33
-#, fuzzy
 msgid "New passwords are different"
-msgstr "Nova contrasenya, una vegada més"
+msgstr "Les contrasenyes noves son diferents"
 
 #: ../user/create_account_action.php:109 ../user/edit_passwd_action.php:41
 msgid "Passwords may only include ASCII characters."
-msgstr ""
+msgstr "Les contrasenyes només poden contenir caràcters ASCII."
 
 #: ../user/create_account_action.php:114 ../user/edit_passwd_action.php:45
 msgid "New password is too short: minimum password length is %1 characters."
 msgstr ""
+"La nova contrasenya és massa curta: la longitud mínima de la contrasenya és "
+"de %1 caràcters."
 
 #: ../user/create_account_action.php:135
-#, fuzzy
 msgid "Couldn't create account"
-msgstr "Crear un compte"
+msgstr "No es pot crear el compte"
 
 #: ../user/create_account_form.php:44
 msgid "Account creation is currently disabled. Please try again later."
@@ -2226,7 +2216,6 @@ msgid "Confirm password"
 msgstr "Introduïu de nou la contrasenya"
 
 #: ../user/create_account_form.php:122
-#, fuzzy
 msgid "Please enter the words shown in the image"
 msgstr "Si us plau, introduïu les paraules que es mostren a la imatge."
 
@@ -2354,24 +2343,20 @@ msgstr ""
 "o editar un perfil.  Disculpin aquestes molèsties."
 
 #: ../user/delete_account.php:57
-#, fuzzy
 msgid "Couldn't delete account"
-msgstr "No es pot treure l'ordinador vell"
+msgstr "No es eliminar el compte"
 
 #: ../user/delete_account.php:59
-#, fuzzy
 msgid "Account deleted"
-msgstr "Dades del compte"
+msgstr "Compte eliminat"
 
 #: ../user/delete_account.php:60
-#, fuzzy
 msgid "Your account has been deleted."
-msgstr "La seva recomanació ha estat enregistrada."
+msgstr "El seu compte ha estat eliminat."
 
 #: ../user/delete_account.php:64
-#, fuzzy
 msgid "Confirm delete account"
-msgstr "Crear un compte"
+msgstr "Confirmi l'eliminació del compte"
 
 #: ../user/delete_account.php:67
 msgid ""
@@ -2381,17 +2366,23 @@ msgid ""
 "No jobs will be issued to any computers attached\n"
 "to this account."
 msgstr ""
+"Eliminant el seu compte s'eliminarà tota la seva\n"
+"informació personal dels nostres servidors,\n"
+"incloent el seu perfil i els seus missages en el fòrum.\n"
+"No es lliuraran treballs als equips connectats\n"
+"a aquest compte."
 
 #: ../user/delete_account.php:73
 msgid ""
 "This cannot be undone.\n"
 "Once your account has been deleted, you cannot get it back."
 msgstr ""
+"Això no es pot desfer.\n"
+"Un cop el compte ha estat eliminat, no podreu retrocedir."
 
 #: ../user/delete_account.php:76
-#, fuzzy
 msgid "Are you sure you want to delete your account?"
-msgstr "Estàs segur que voleu suprimir les preferències independents %1 de %2?"
+msgstr "Estàs segur que vols eliminar el teu compte?"
 
 #: ../user/delete_account.php:79 ../user/delete_profile.php:52
 #: ../user/donations.php:322 ../user/donations.php:326 ../user/friend.php:238
@@ -2401,9 +2392,8 @@ msgid "Yes"
 msgstr "Si"
 
 #: ../user/delete_account.php:79
-#, fuzzy
 msgid "Delete this account"
-msgstr "Eliminar aquest equip"
+msgstr "Eliminar aquest compte"
 
 #: ../user/delete_account.php:80 ../user/delete_profile.php:53
 #: ../user/friend.php:239 ../user/user_search.php:126
@@ -2412,32 +2402,28 @@ msgid "No"
 msgstr "No"
 
 #: ../user/delete_account.php:80
-#, fuzzy
 msgid "Do not delete this account"
-msgstr "Eliminar aquest equip"
+msgstr "No eliminar aquest compte"
 
 #: ../user/delete_profile.php:30
-#, fuzzy
 msgid "couldn't delete profile - please try again later"
-msgstr "No es pot unir a l'equip - si us plau provi-ho més tard."
+msgstr "no es pot eliminar el perfil - si us plau provi-ho més tard"
 
 #: ../user/delete_profile.php:33
-#, fuzzy
 msgid "Delete Confirmation"
-msgstr "Informació de l'ordinador"
+msgstr "Confirma la Eliminació"
 
 #: ../user/delete_profile.php:35
-#, fuzzy
 msgid "Your profile has been deleted."
-msgstr "El vostre missatge ha estat lliurat."
+msgstr "El teu perfil ha estat eliminat."
 
 #: ../user/delete_profile.php:40
 msgid "Profile delete confirmation"
-msgstr ""
+msgstr "Confirmar l'eliminació del perfil"
 
 #: ../user/delete_profile.php:43
 msgid "Are you sure?"
-msgstr ""
+msgstr "Està segur?"
 
 #: ../user/delete_profile.php:44
 msgid ""
@@ -2445,60 +2431,64 @@ msgid ""
 "you will have to start from scratch\n"
 "if you want another profile in the future."
 msgstr ""
+"En perfil eliminat ho es per sempres i no es pot recuperar --\n"
+"vostè haurà de començar de zero\n"
+"si vol un altre perfil en el futur."
 
 #: ../user/delete_profile.php:48
 msgid ""
 "If you're sure, click 'Delete'\n"
 "to remove your profile from our database."
 msgstr ""
+"Si està segur, feu clic a 'Eliminar'\n"
+"per eliminar el vostre perfil de la nostra base de dades."
 
 #: ../user/delete_profile.php:52
-#, fuzzy
 msgid "Delete my profile"
-msgstr "Crear un perfil"
+msgstr "Eliminar el meu perfil"
 
 #: ../user/delete_profile.php:53
-#, fuzzy
 msgid "Do not delete my profile"
-msgstr "No %1m'agrada%2 aquest perfil"
+msgstr "No eliminar el meu perfil"
 
 #: ../user/donated.php:25
 msgid "PayPal - Transaction Completed"
-msgstr ""
+msgstr "PayPal - Transacció Completada"
 
 #: ../user/donated.php:28
 msgid "Thank you for donating!"
-msgstr ""
+msgstr "Gràcies per la donació!"
 
 #: ../user/donated.php:29
-#, fuzzy
 msgid "Your donation for has been completed."
-msgstr "La seva recomanació ha estat enregistrada."
+msgstr "La seva donació ha estat competada."
 
 #: ../user/donated.php:30
 msgid ""
 "Your donation will be added to the progress bar after confirmation by PayPal."
 msgstr ""
+"La seva donació s'afegirà a la barra de progrés després de la confirmació a "
+"través de PayPal."
 
 #: ../user/donated.php:32
 msgid "You have canceled your donation."
-msgstr ""
+msgstr "Ha cancel.lat la seva donació."
 
 #: ../user/donations.php:24
-#, fuzzy
 msgid "This project is not accepting donations."
-msgstr "Aquesta petició està pendent de confirmació."
+msgstr "Aquest pprojecte no accepta donacions."
 
 #: ../user/donations.php:34
-#, fuzzy
 msgid "%1 donations"
-msgstr "%1 dies"
+msgstr "%1 donacions"
 
 #: ../user/donations.php:39
 msgid ""
 "This project is accepting donations via\n"
 "%1."
 msgstr ""
+"Aquest projecte està acceptant donacions a través de\n"
+"%1."
 
 #: ../user/donations.php:42
 msgid ""
@@ -2514,38 +2504,54 @@ msgid ""
 "        (please note that the rates are only estimates\n"
 "         and the actual amount may differ)."
 msgstr ""
+"Per fer una donació, escriviu la quantitat que desitja donar utilitzant el "
+"camp de sota.\n"
+"        PayPal accepta múltiples monedes\n"
+"        (Dòlars canadencs, Euros, Lliures Esterlines, Dòlars dels EUA,\n"
+"         Iens, Dòlars Australians, Dòlars Neozelandesos,\n"
+"        Francs suïssos, Dòlars de Hong Kong, Dòlars de Singapur, Corones "
+"Sueques,\n"
+"        Corones Daneses, Zloty Polonès, Corones Norugues,\n"
+"        Florí Hongarès, Corona Txeca).\n"
+"        Podeu utilitzar el convertidor de moneda inclos\n"
+"        per veure la quantitat equivalent de donació en diferents monedes\n"
+"        (tingueu en compte que les taxes són només estimacions\n"
+"         i la quantitat real pot ser diferent)."
 
 #: ../user/donations.php:316
 msgid "Amount you would like to donate"
-msgstr ""
+msgstr "Quantitat que voleu fer una donació"
 
 #: ../user/donations.php:317
 msgid "Estimated value in"
-msgstr ""
+msgstr "Valor estimat en"
 
 #: ../user/donations.php:320 ../user/donations.php:324
-#, fuzzy
 msgid "Anonymous donation"
-msgstr "Plataforma anònima"
+msgstr "Donació anònima"
 
 #: ../user/donations.php:320
 msgid ""
 "Select this if you dont want your name and account number displayed in\n"
 "donator lists.<br>If not checked, you will be recorded as user ID %1"
 msgstr ""
+"Seleccioneu aquesta opció si no voleu que el vostre nom i número de compte "
+"apareixi a les\n"
+"llistes de donacions.<br>Si no està activada, apareixerà registrat com "
+"l'usuari de ID %1"
 
 #: ../user/donations.php:324
 msgid "To assign the donation with your user ID, please log in."
 msgstr ""
+"Per assignar la donació amb el seu ID d'usuari, si us plau registreu-vos."
 
 #: ../user/donations.php:328
-#, fuzzy
 msgid "Proceed"
-msgstr "S'ha guardat el perfil"
+msgstr "Procedir"
 
 #: ../user/donations.php:329
 msgid "Donations are accepted through"
-msgstr ""
+msgstr "S'accepten donacions a través de"
 
 #: ../user/download_network.php:25
 msgid "Download BOINC add-on software"
@@ -2585,44 +2591,40 @@ msgstr ""
 "2."
 
 #: ../user/edit_email_action.php:31
-#, fuzzy
 msgid "Change email address of account"
-msgstr "Canviï l'adreça de correu electrònic del seu compte"
+msgstr "Canviï l'adreça de correu electrònic del compte"
 
 #: ../user/edit_email_action.php:34 ../user/edit_email_action.php:36
-#, fuzzy
 msgid "New email address '%1' is invalid."
-msgstr "Nova adreça de correu electrònic"
+msgstr "La nova adreça de correu electrònic '%1' es incorrecte."
 
 #: ../user/edit_email_action.php:38
 msgid "New email address is same as existing address. Nothing is changed."
-msgstr ""
+msgstr "La nova adreça de correu és la mateixa que l'actual. No ha canviat res."
 
 #: ../user/edit_email_action.php:42
 msgid "There's already an account with that email address"
-msgstr ""
+msgstr "Ja existeix un compte amb aquesta adreça de correu electrònic"
 
 #: ../user/edit_email_action.php:54
-#, fuzzy
 msgid "Invalid password."
-msgstr "Introduïu de nou la contrasenya"
+msgstr "Contrasenya incorrecte."
 
 #: ../user/edit_email_action.php:62
-#, fuzzy
 msgid "The email address of your account is now %1."
-msgstr "L'adreça de correu electrònic del vostre compte ha estat validada."
+msgstr "L'adreça de correu electrònic del vostre compte ara és %1."
 
 #: ../user/edit_email_action.php:64
-#, fuzzy
 msgid "Please %1validate this email address%2."
-msgstr "Validar adreça de correu electrònic"
+msgstr "Si us plau %1valideu aquesta adreça de correu electrònic%2."
 
 #: ../user/edit_email_action.php:67
-#, fuzzy
 msgid ""
 "We can't update your email address due to a database problem.  Please try "
 "again later."
-msgstr "No es pot seleccionar la base de dades - si us plau, provi-ho més tard"
+msgstr ""
+"No podem actualitzar la vostra adreça de correu electrònic a causa d'un "
+"problema de base de dades. Si us plau provi-ho més tard."
 
 #: ../user/edit_email_form.php:28 ../user/edit_email_form.php:52
 msgid "Change email address"
@@ -2645,97 +2647,96 @@ msgid "No password?"
 msgstr "Sense contrasenya?"
 
 #: ../user/edit_forum_preferences_action.php:35
-#, fuzzy
 msgid "Confirm reset"
-msgstr "Introduïu de nou la contrasenya"
+msgstr "Confirmi que vol restaurar"
 
 #: ../user/edit_forum_preferences_action.php:36
 msgid ""
 "This action will erase any changes you have made in your community "
 "preferences. To cancel, click your browser's Back button."
 msgstr ""
+"Aquesta acció esborrarà tots els canvis realitzats en les preferències de la "
+"seva comunitat. Per cancel lar, feu clic al botó Enrere del navegador."
 
 #: ../user/edit_forum_preferences_action.php:40
-#, fuzzy
 msgid "Reset preferences"
-msgstr "Eliminar preferències"
+msgstr "Restablir les preferències"
 
 #: ../user/edit_forum_preferences_action.php:90
 msgid "Error: Not the right kind of file, only PNG and JPEG are supported."
 msgstr ""
+"Error: No es el tipus correcte d'arxiu, només PNG i JPEG són compatibles."
 
 #: ../user/edit_forum_preferences_action.php:116
 msgid "Your signature was too long, please keep it less than 250 characters."
 msgstr ""
+"La seva signatura era massa llarga, si us plau redueixi-la a un màxim de 250 "
+"caràcters."
 
 #: ../user/edit_forum_preferences_action.php:139
 #: ../user/edit_forum_preferences_action.php:153
-#, fuzzy
 msgid "No such user: %1"
-msgstr "No existeix l'usuari"
+msgstr "No existeix l'usuari: %1"
 
 #: ../user/edit_forum_preferences_form.php:56
 msgid ""
 "How should we notify you of new private messages, friend requests, posts in "
 "subscribed threads, and other events?"
 msgstr ""
+"Com prefereixes que t'avisem dels nous missatges privats, sol·licituds "
+"d'amistat, missatges en les discussions subscrites, i altres esdeveniments?"
 
 #: ../user/edit_forum_preferences_form.php:57
-#, fuzzy
 msgid "On my Account page (no email)"
-msgstr "Obtenir la clau de compte per correu electrònic"
+msgstr "A la pàgina del meu compte (no email)"
 
 #: ../user/edit_forum_preferences_form.php:58
-#, fuzzy
 msgid "Immediately, by email"
-msgstr "Obtenir la clau de compte per correu electrònic"
+msgstr "Immediatament, per correu electrònic"
 
 #: ../user/edit_forum_preferences_form.php:59
 msgid "In a single daily email"
-msgstr ""
+msgstr "En un únic correu electrònic diàri"
 
 #: ../user/edit_forum_preferences_form.php:75
-#, fuzzy
 msgid "Message-board identity"
-msgstr "Panell de missatges"
+msgstr "Identitat del plafó de missatges"
 
 #: ../user/edit_forum_preferences_form.php:76
 msgid "Avatar"
-msgstr ""
+msgstr "Avatar"
 
 #: ../user/edit_forum_preferences_form.php:77
 msgid "An image representing you on the message boards."
-msgstr ""
+msgstr "Una imatge que el representi en els fòrums."
 
 #: ../user/edit_forum_preferences_form.php:78
 msgid "Format: JPG or PNG. Size: at most 4 KB, 100x100 pixels"
-msgstr ""
+msgstr "Format: JPG o PNG. Mida: màxim de 4 KB, 100x100 píxels"
 
 #: ../user/edit_forum_preferences_form.php:80
-#, fuzzy
 msgid "Don't use an avatar"
-msgstr "No utilitzi etiquetes HTML."
+msgstr "No usar un avatar"
 
 #: ../user/edit_forum_preferences_form.php:82
 msgid "Use a Globally Recognized Avatar provided by %1"
-msgstr ""
+msgstr "Utilitzar un Avatar Reconegut Globalment proporcionat per %1"
 
 #: ../user/edit_forum_preferences_form.php:84
 msgid "Use this uploaded avatar:"
-msgstr ""
+msgstr "Utilitzar aquest avatar enviat:"
 
 #: ../user/edit_forum_preferences_form.php:87
 msgid "Avatar preview"
-msgstr ""
+msgstr "Vista prèvia del avatar"
 
 #: ../user/edit_forum_preferences_form.php:87
 msgid "This is how your avatar will look"
-msgstr ""
+msgstr "Així és com es veurà el teu avatar"
 
 #: ../user/edit_forum_preferences_form.php:96
-#, fuzzy
 msgid "Signature for message board posts"
-msgstr "Crea un tauler de missatges per %1"
+msgstr "Signatura per els missatges en el plafons d'anuncis"
 
 #: ../user/edit_forum_preferences_form.php:99
 msgid ""
@@ -2743,133 +2744,127 @@ msgid ""
 "<br> providing dynamic 'signature images'\n"
 "<br> showing your latest credit info, project news, etc."
 msgstr ""
+"Fes una ullada  a %1diversos serveis gratuïts%2\n"
+"<br> proporcionan 'imatges de la signatura' dinàmicament\n"
+"<br> mostrant la seva informació de crèdit més recent, notícies de "
+"projectes, etc"
 
 #: ../user/edit_forum_preferences_form.php:104
 msgid "characters remaining"
-msgstr ""
+msgstr "caràcters restants"
 
 #: ../user/edit_forum_preferences_form.php:105
 msgid "Attach signature by default"
-msgstr ""
+msgstr "Adjuntar signatura per defecte"
 
 #: ../user/edit_forum_preferences_form.php:108
 msgid "Signature preview"
-msgstr ""
+msgstr "Vista prèvia de la signatura"
 
 #: ../user/edit_forum_preferences_form.php:109
 msgid "This is how your signature will look in the forums"
-msgstr ""
+msgstr "Aquesta és la forma en què la seva signatura es veurà en els fòrums"
 
 #: ../user/edit_forum_preferences_form.php:127
-#, fuzzy
 msgid "Message display"
-msgstr "Panells de missatges"
+msgstr "Panell del missatge"
 
 #: ../user/edit_forum_preferences_form.php:129
-#, fuzzy
 msgid "What to display"
-msgstr "No hi ha tasques per mostrar"
+msgstr "El que vol mostrar"
 
 #: ../user/edit_forum_preferences_form.php:130
 msgid "Hide avatar images"
-msgstr ""
+msgstr "Amaga les imatges dels avatars"
 
 #: ../user/edit_forum_preferences_form.php:131
 msgid "Hide signatures"
-msgstr ""
+msgstr "Amaga les signatures"
 
 #: ../user/edit_forum_preferences_form.php:132
 msgid "Show images as links"
-msgstr ""
+msgstr "Mostra les imatges com enllaços"
 
 #: ../user/edit_forum_preferences_form.php:133
 msgid "Open links in new window/tab"
-msgstr ""
+msgstr "Obrir els enllaços en una nova finestra/pestanya"
 
 #: ../user/edit_forum_preferences_form.php:134
 msgid "Highlight special users"
-msgstr ""
+msgstr "Ressaltar usuaris especials"
 
 #: ../user/edit_forum_preferences_form.php:138
 msgid "How to sort"
-msgstr ""
+msgstr "Com ordenar"
 
 #: ../user/edit_forum_preferences_form.php:139
-#, fuzzy
 msgid "Threads:"
-msgstr "Fils"
+msgstr "Fils:"
 
 #: ../user/edit_forum_preferences_form.php:139
-#, fuzzy
 msgid "Posts:"
-msgstr "Correu"
+msgstr "Missatges:"
 
 #: ../user/edit_forum_preferences_form.php:140
 msgid "Jump to first new post in thread automatically"
-msgstr ""
+msgstr "Anar al primer missatge nou en el fil de forma automàtica"
 
 #: ../user/edit_forum_preferences_form.php:141
 msgid "Do not reorder sticky posts"
-msgstr ""
+msgstr "No ordenar els missatges enganxats"
 
 #: ../user/edit_forum_preferences_form.php:142
 msgid "If a thread contains more than this number of posts"
-msgstr ""
+msgstr "Si el fil conté més d'aquest nombre de missatges"
 
 #: ../user/edit_forum_preferences_form.php:143
 msgid "only display the first one and this many of the last ones"
-msgstr ""
+msgstr "només mostren el primer i llavors molts dels últims"
 
 #: ../user/edit_forum_preferences_form.php:149
-#, fuzzy
 msgid "Message filtering"
-msgstr "Panell de missatges"
+msgstr "Filtratge de missatges"
 
 #: ../user/edit_forum_preferences_form.php:165
-#, fuzzy
 msgid "Filtered users"
-msgstr "Filtres"
+msgstr "Usuaris filtrats"
 
 #: ../user/edit_forum_preferences_form.php:166
-#, fuzzy
 msgid "Ignore message board posts and private messages from these users."
-msgstr "Panell de missatges i missatges privats"
+msgstr "No feu cas dels missatges i dels missatges privats d'aquests usuaris."
 
 #: ../user/edit_forum_preferences_form.php:168
 msgid "User ID (For instance: 123456789)"
-msgstr ""
+msgstr "ID d'usuari (per exemple: 123456789)"
 
 #: ../user/edit_forum_preferences_form.php:169 ../user/pm.php:251
 msgid "Add user to filter"
 msgstr "Afegir l'usuari al filtre"
 
 #: ../user/edit_forum_preferences_form.php:174
-#, fuzzy
 msgid "Click here to update preferences"
-msgstr "Actualitzar les preferències"
+msgstr "Premeu aqui per actualitzar les preferències"
 
 #: ../user/edit_forum_preferences_form.php:176
 #: ../user/edit_forum_preferences_form.php:178
 msgid "Reset"
-msgstr ""
+msgstr "Reinicialitza"
 
 #: ../user/edit_forum_preferences_form.php:177
 msgid "Or click here to reset preferences to the defaults"
-msgstr ""
+msgstr "O feu clic aquí per restablir les preferències als valors per defecte"
 
 #: ../user/edit_passwd_action.php:50
-#, fuzzy
 msgid "Invalid account key"
-msgstr "Clau de compte feble"
+msgstr "Clau de compte incorrecte"
 
 #: ../user/edit_passwd_action.php:55
 msgid "No account with that email address was found"
-msgstr ""
+msgstr "No s'ha trobat cap compta amb aquesta direcció de correu electrònic"
 
 #: ../user/edit_passwd_action.php:59
-#, fuzzy
 msgid "Invalid password"
-msgstr "Introduïu de nou la contrasenya"
+msgstr "Contrasenya incorrecte"
 
 #: ../user/edit_passwd_action.php:63 ../user/edit_passwd_form.php:28
 #: ../user/edit_passwd_form.php:58
@@ -2877,16 +2872,16 @@ msgid "Change password"
 msgstr "Canviï la contrasenya"
 
 #: ../user/edit_passwd_action.php:67
-#, fuzzy
 msgid "Your password has been changed."
-msgstr "El vostre missatge ha estat lliurat."
+msgstr "La seva contrasenya ha estat canviada."
 
 #: ../user/edit_passwd_action.php:69
-#, fuzzy
 msgid ""
 "We can't update your password due to a database problem. Please try again "
 "later."
-msgstr "No es pot connectar a la base de dades - si us plau, provi-ho més tard"
+msgstr ""
+"No podem actualitzar la contrasenya a causa d'un problema de base de dades. "
+"Si us plau provi-ho més tard."
 
 #: ../user/edit_passwd_form.php:42
 msgid "You can identify yourself using either"
@@ -2953,9 +2948,8 @@ msgid "Update info"
 msgstr "Actualitzar informació"
 
 #: ../user/explain_state.php:27
-#, fuzzy
 msgid "Server states"
-msgstr "Estat del servidor"
+msgstr "Estats del servidor"
 
 #: ../user/explain_state.php:30
 msgid ""
@@ -2963,59 +2957,69 @@ msgid ""
 "computer, and if so whether the computer has finished it. Possible values "
 "are:"
 msgstr ""
+"A les tasques <b>estat del servidor</b> indica si la tasca ha estat enviada "
+"a un ordinador, i si és així si l'equip l'ha acabat. Els valors possibles "
+"són:"
 
 #: ../user/explain_state.php:35
 msgid ""
 "The task is not ready to send (for example, because its input files are "
 "unavailable)"
 msgstr ""
+"La tasca no està llesta per a enviar (per exemple, per que els seus arxius "
+"d'entrada no estan disponibles)"
 
 #: ../user/explain_state.php:38
 msgid "The task is ready to send, but hasn't been sent yet."
-msgstr ""
+msgstr "La tasca està llesta per enviar, però no s'ha enviat encara."
 
 #: ../user/explain_state.php:40
-#, fuzzy
 msgid "In Progress"
-msgstr "En progrés"
+msgstr "En Procés"
 
 #: ../user/explain_state.php:41
-#, fuzzy
 msgid "The task has been sent; waiting for completion."
-msgstr "Tasques esperan l'eliminació d'arxius"
+msgstr "La tasca ha estat enviada, esperant que es s'acabi."
 
 #: ../user/explain_state.php:44
 msgid ""
 "The task has been sent to a computer and either it has timed out or the "
 "computer has reported its completion."
 msgstr ""
+"La tasca ha estat enviada a un ordinador i o bé s'ha esgotat el temps o bé "
+"l'equip ha informat de la seva terminació."
 
 #: ../user/explain_state.php:49
-#, fuzzy
 msgid "Outcomes"
-msgstr "Final"
+msgstr "Resultats"
 
 #: ../user/explain_state.php:52
 msgid ""
 "A tasks's <b>outcome</b> is defined if its server state is <b>over</b>. "
 "Possible values are:"
 msgstr ""
+"El <b>resultat</b> de una tasca es defineix si l'estat de servidor és "
+"<b>acabat</b>. Els valors possibles són:"
 
 #: ../user/explain_state.php:57
 msgid ""
 "The task was sent to a computer, but the computer has not yet completed the "
 "work and reported the outcome."
 msgstr ""
+"La tasca va ser enviada a un ordinador, però l'equip encara no ha completat "
+"el treball i informat dels resultats."
 
 #: ../user/explain_state.php:60
 msgid "A computer completed and reported the task successfully."
-msgstr ""
+msgstr "Un equip ha finalitzat i reportartat la tasca amb èxit."
 
 #: ../user/explain_state.php:63
 msgid ""
 "The server wasn't able to send the task to a computer (perhaps because its "
 "resource requirements were too large)"
 msgstr ""
+"El servidor no ha pogut enviar la tasca a un equip (potser perquè les seves "
+"necessitats de recursos són massa grans)"
 
 #: ../user/explain_state.php:65
 msgid "Client error"
@@ -3023,153 +3027,162 @@ msgstr "Error del client"
 
 #: ../user/explain_state.php:66
 msgid "The task was sent to a computer and an error occurred."
-msgstr ""
+msgstr "La tasca s'ha enviat a un ordinador i s'ha produït un error."
 
 #: ../user/explain_state.php:69
 msgid ""
 "The task was sent to a computer and no reply was received within the time "
 "limit."
 msgstr ""
+"La tasca va ser enviada a un ordinador i no s'ha rebut resposta dins del "
+"termini."
 
 #: ../user/explain_state.php:72
 msgid ""
 "The task wasn't sent to a computer because enough other tasks were completed "
 "for this workunit."
 msgstr ""
+"La tasca no s'ha enviat a un equip, ja n'hi ha prou d'altres tasques "
+"acabades per aquest workunit."
 
 #: ../user/explain_state.php:75
 msgid ""
 "The task was reported but could not be validated, typically because the "
 "output files were lost on the server."
 msgstr ""
+"Es va reportar el resultat de la tasca però no s'ha pogut validar, en "
+"general a causa de que els arxius de sortida en el servidor s'han perdut."
 
 #: ../user/explain_state.php:80
-#, fuzzy
 msgid "Client states"
-msgstr "Estat del client"
+msgstr "Estats del client"
 
 #: ../user/explain_state.php:81
 msgid ""
 "A result's <b>client state</b> indicates the stage of processing at which an "
 "error occurred."
 msgstr ""
+"Un resultat de <b>estat del client</b> indica el grau de procés en què va "
+"produir."
 
 #: ../user/explain_state.php:86
 msgid "The computer has not yet completed the task."
-msgstr ""
+msgstr "L'equip encara no ha completat la tasca."
 
 #: ../user/explain_state.php:89
 msgid "The computer completed the task successfully."
-msgstr ""
+msgstr "L'equip ha finalitzat la tasca correctament."
 
 #: ../user/explain_state.php:92
 msgid "The computer couldn't download the application or input files."
-msgstr ""
+msgstr "L'equip no ha pogut descarregar els arxius d'aplicació o d'entrada."
 
 #: ../user/explain_state.php:95
 msgid "An error occurred during computation."
-msgstr ""
+msgstr "S'ha produït un error durant el càlcul."
 
 #: ../user/explain_state.php:98
 msgid "The computer couldn't upload the output files."
-msgstr ""
+msgstr "L'equip no ha pogut carregar els arxius de sortida."
 
 #: ../user/explain_state.php:103
-#, fuzzy
 msgid "Time reported and deadline"
-msgstr "Temps informat<br />o termini"
+msgstr "Temps reportat i temps límit"
 
 #: ../user/explain_state.php:106
 msgid ""
 "A task's <b>Time reported or deadline</b> field depends on whether the task "
 "has been reported yet:"
 msgstr ""
+"El camp d'una tasca <b>Temps reportat i limit</b> depend de si ja s'ha "
+"reportat la tasca:"
 
 #: ../user/explain_state.php:110
-#, fuzzy
 msgid "Already reported"
-msgstr "Ja sou amics"
+msgstr "Ja s'ha informat"
 
 #: ../user/explain_state.php:110
 msgid "The date/time it was reported"
-msgstr ""
+msgstr "La data/hora que es va informar"
 
 #: ../user/explain_state.php:111
 msgid "Not reported yet, deadline in the future"
-msgstr ""
+msgstr "No informat, temps límit en el futur"
 
 #: ../user/explain_state.php:112
 msgid "Deadline, shown in green."
-msgstr ""
+msgstr "Temps límit, mostrat en color verd."
 
 #: ../user/explain_state.php:114
 msgid "Not reported yet, deadline in the past"
-msgstr ""
+msgstr "No informat, temps límit superat"
 
 #: ../user/explain_state.php:115
 msgid "Deadline, shown in red."
-msgstr ""
+msgstr "Temps límit, mostrat en color vermell."
 
 #: ../user/explain_state.php:120
-#, fuzzy
 msgid "Unknown field"
-msgstr "Desconegut"
+msgstr "Camp desconegut"
 
 #: ../user/ffmail_action.php:47
-#, fuzzy
 msgid "Email preview"
-msgstr "Adreça de correu"
+msgstr "Vista prèvia del correu electrònic"
 
 #: ../user/ffmail_action.php:48
 msgid "Your email will appear as follows:"
-msgstr ""
+msgstr "El seu correu electrònic apareixerà en la següent forma:"
 
 #: ../user/ffmail_action.php:57
-#, fuzzy
 msgid "Send email"
-msgstr "Enviar missatge"
+msgstr "Enviar un correu electrònic"
 
 #: ../user/ffmail_action.php:59
 msgid "Use your browser's back button to return to message form"
 msgstr ""
+"Utilitzeu el botó del navegador cap enrere per tornar al formulari de "
+"missatges"
 
 #: ../user/ffmail_action.php:63
-#, fuzzy
 msgid "Sending emails"
-msgstr "Crèdits pendents"
+msgstr "Enviant correus electrònics"
 
 #: ../user/ffmail_action.php:84
 msgid "email sent successfully to %1"
-msgstr ""
+msgstr "correu electrònic enviat amb èxit a %1"
 
 #: ../user/ffmail_action.php:86
 msgid "failed to send email to %1: %2"
-msgstr ""
+msgstr "no s'ha pogut enviar el correu electrònic a %1: %2"
 
 #: ../user/ffmail_action.php:92
 msgid "Thanks for telling your friends about %1"
-msgstr ""
+msgstr "Gràcies per informar als seus amics sobre %1"
 
 #: ../user/ffmail_action.php:94
 msgid ""
 "You forgot to enter your friends' names and/or email addresses; Please %"
 "1return to the form%2 and enter them."
 msgstr ""
+"Ha oblidat d'entrar els noms del seus amics i/o adreces de correu "
+"electrònic; Si us plau %1torneu al formulari%2 i entrreu-los."
 
 #: ../user/ffmail_form.php:31
 msgid ""
 "This project hasn\\'t created an email message - please notify its "
 "administrators"
 msgstr ""
+"Aquest projecte no ha creat un missatge de correu electrònic - si us plau "
+"notifiqui-ho als seus administradors"
 
 #: ../user/ffmail_form.php:34
-#, fuzzy
 msgid "Tell your friends about %1"
-msgstr "Les seves opinions sobre %1"
+msgstr "Informa als teus amics sobre %1"
 
 #: ../user/ffmail_form.php:38
 msgid "Help us by telling your friends, family and coworkers about %1"
 msgstr ""
+"Ajuda'ns a infornar als teus amics, familiars i companys de treball sobre%1"
 
 #: ../user/ffmail_form.php:40
 msgid ""
@@ -3177,55 +3190,51 @@ msgid ""
 "might be interested in %1. We'll send them an email in your name, and you "
 "can add your own message if you like."
 msgstr ""
+"Ompli el següent formulari amb els noms i adreces de correu electrònic de "
+"persones que puguin estar interessades en %1. I els enviarem un correu "
+"electrònic en nom seu, i vostè pot afegir el seu propi missatge si ho "
+"desitja."
 
 #: ../user/ffmail_form.php:43
-#, fuzzy
 msgid "Your name:"
-msgstr "Mostra els noms"
+msgstr "El seu nom:"
 
 #: ../user/ffmail_form.php:43
-#, fuzzy
 msgid "Your email address:"
-msgstr "adreça de correu electrònic"
+msgstr "La seva adreça de correu electrònic:"
 
 #: ../user/ffmail_form.php:49
-#, fuzzy
 msgid "Friend's name:"
-msgstr "Amics"
+msgstr "Nom del seu amic:"
 
 #: ../user/ffmail_form.php:49
-#, fuzzy
 msgid "Friend's email address:"
-msgstr "Nova adreça de correu electrònic"
+msgstr "Adreça de correu electrònic del seu amic:"
 
 #: ../user/ffmail_form.php:57
-#, fuzzy
 msgid "Additional message (optional)"
-msgstr "Afegir aquí un missatge opcional:"
+msgstr "Missatge addicional (opcional)"
 
 #: ../user/ffmail_form.php:60
-#, fuzzy
 msgid "Send"
 msgstr "Enviar"
 
 #: ../user/forum_banishment_vote.php:35
 #: ../user/forum_banishment_vote_action.php:33
 msgid "You are not authorized to banish users."
-msgstr ""
+msgstr "No està autoritzat per expulsar usuaris."
 
 #: ../user/forum_banishment_vote.php:41 ../user/forum_banishment_vote.php:46
 msgid "Banishment Vote"
-msgstr ""
+msgstr "Voti expulsió"
 
 #: ../user/forum_banishment_vote.php:50
-#, fuzzy
 msgid "No user with this ID found."
-msgstr "No s'ha trobat cap ordinador amb el ID %1"
+msgstr "No s'ha trobat cap usuari amb aquest ID."
 
 #: ../user/forum_banishment_vote.php:54 ../user/forum_moderate_post.php:76
-#, fuzzy
 msgid "User is already banished"
-msgstr "Usuari expulsat"
+msgstr "L'usuari ja està expulsat"
 
 #: ../user/forum_banishment_vote.php:59 ../user/forum_moderate_post.php:79
 msgid ""
@@ -3233,82 +3242,83 @@ msgid ""
 "for chosen time period.<br/>It should be done only if %1 has consistently "
 "exhibited trollish behavior."
 msgstr ""
+"Està segur que vol expulsar %1?<br/>Això evitarà que %1 posi missatges "
+"durant al període de temps especificat.<br/>S'ha de fer només si %1 mostrat "
+"un comportament controvertit."
 
 #: ../user/forum_banishment_vote.php:61
 msgid ""
 "Select the reason category, optionally write a longer description of why the "
 "user should be banished."
 msgstr ""
+"Seleccioneu una raó de la llista, opcionalment escrigui una descripció més "
+"detallada de per què l'usuari ha de ser expulsat."
 
 #: ../user/forum_banishment_vote.php:62 ../user/forum_moderate_thread.php:50
 msgid "Category"
-msgstr ""
+msgstr "Categoria"
 
 #: ../user/forum_banishment_vote.php:64
 #: ../user/forum_banishment_vote_action.php:57
 #: ../user/forum_moderate_post.php:55 ../user/forum_moderate_thread.php:52
 msgid "Obscene"
-msgstr ""
+msgstr "Obscè"
 
 #: ../user/forum_banishment_vote.php:65
 #: ../user/forum_banishment_vote_action.php:59
 #: ../user/forum_moderate_post.php:56 ../user/forum_moderate_thread.php:53
 msgid "Flame/Hate mail"
-msgstr ""
+msgstr "Correus amb ira/odi"
 
 #: ../user/forum_banishment_vote.php:66
 #: ../user/forum_banishment_vote_action.php:61
 #: ../user/forum_moderate_post.php:59
-#, fuzzy
 msgid "User Request"
-msgstr "Cap petició"
+msgstr "Sol.licitud d'usuari"
 
 #: ../user/forum_banishment_vote.php:67
 #: ../user/forum_banishment_vote_action.php:63
 #: ../user/forum_moderate_post.php:60 ../user/forum_moderate_thread.php:55
-#, fuzzy
 msgid "Other"
-msgstr "Qualsevol"
+msgstr "Un altre"
 
 #: ../user/forum_banishment_vote.php:69 ../user/forum_moderate_post.php:53
 #: ../user/forum_moderate_thread.php:85
-#, fuzzy
 msgid "Reason"
-msgstr "Versió"
+msgstr "Raó"
 
 #: ../user/forum_banishment_vote.php:69 ../user/forum_moderate_thread.php:85
 msgid "Mailed if nonempty"
-msgstr ""
+msgstr "Enviat per correu si no està buit"
 
 #: ../user/forum_banishment_vote.php:74
 msgid "Proceed with vote"
-msgstr ""
+msgstr "Procedir amb la votació"
 
 #: ../user/forum_banishment_vote_action.php:39
 #: ../user/forum_moderate_post_action.php:63
-#, fuzzy
 msgid "You must specify an action..."
-msgstr "Ha de proporcionar un nom per al seu compte."
+msgstr "Heu d'especificar una acció..."
 
 #: ../user/forum_edit.php:41
 msgid ""
 "You can no longer edit this post.<br/>Posts can only be edited at most %1 "
 "minutes after they have been created."
 msgstr ""
+"Ja no es pot editar aquest missatge.<br/>Missatges només es poden editar en "
+"durant els %1 minuts posteriors a la seva creació."
 
 #: ../user/forum_edit.php:47
-#, fuzzy
 msgid "You are not authorized to edit this post."
-msgstr "Ara es amic de %1."
+msgstr "No tens permís per editar aquest missatge."
 
 #: ../user/forum_edit.php:86 ../user/forum_search.php:71
 msgid "Forum"
-msgstr ""
+msgstr "Fòrum"
 
 #: ../user/forum_edit.php:110
-#, fuzzy
 msgid "Edit your message"
-msgstr "Editi el seu perfil"
+msgstr "Edita el teu missatge"
 
 #: ../user/forum_edit.php:115 ../user/forum_edit.php:120
 #: ../user/forum_post.php:109 ../user/forum_post.php:111
@@ -3321,106 +3331,90 @@ msgid "Add my signature to this post"
 msgstr "Afegir la meva firma a aquest correu"
 
 #: ../user/forum_forum.php:41
-#, fuzzy
 msgid "Not visible to you"
-msgstr "Aquest fòrum no està disponible per a vostè."
+msgstr "No és visible per a tu"
 
 #: ../user/forum_forum.php:82
-#, fuzzy
 msgid "Team message board for %1"
-msgstr "Crea un tauler de missatges per %1"
+msgstr "Equip del plafó de missatges de %1"
 
 #: ../user/forum_forum.php:98
-#, fuzzy
 msgid "New thread"
-msgstr "Fil"
+msgstr "Nou fil"
 
 #: ../user/forum_forum.php:98
-#, fuzzy
 msgid "Add a new thread to this forum"
-msgstr "Afegir un nou missatge a aquest fil"
+msgstr "Afegir un nou fil a aquest fòrum"
 
 #: ../user/forum_forum.php:118
-#, fuzzy
 msgid "This message board is available as an %1RSS feed%2"
-msgstr "Les notícies estan disponibles en format %sRSS%s"
+msgstr "Aquest plafó de missatges està disponible en format %1RSS%2"
 
 #: ../user/forum_forum.php:174
-#, fuzzy
 msgid "This thread is hidden"
-msgstr "Aquest fil ha estat ocultat per els moderadors"
+msgstr "Aquest fil es ocult"
 
 #: ../user/forum_forum.php:178
 msgid "This thread is sticky and locked, and you haven't read it yet"
-msgstr ""
+msgstr "Aquest fil està fixat i tancat, i no l'has llegit encara"
 
 #: ../user/forum_forum.php:178
 msgid "sticky/locked/unread"
-msgstr ""
+msgstr "fixat/tancat/no llegit"
 
 #: ../user/forum_forum.php:180
 msgid "This thread is sticky and you haven't read it yet"
-msgstr ""
+msgstr "Aquest fil està fixat i no l'has llegit encara"
 
 #: ../user/forum_forum.php:180
-#, fuzzy
 msgid "sticky/unread"
-msgstr "no llegit"
+msgstr "fixat/no llegit"
 
 #: ../user/forum_forum.php:184
 msgid "You haven't read this thread yet, and it's locked"
-msgstr ""
+msgstr "Encara no has llegit aquest fil i està tancat"
 
 #: ../user/forum_forum.php:184
-#, fuzzy
 msgid "unread/locked"
-msgstr "no llegit"
+msgstr "no llegit/tancat"
 
 #: ../user/forum_forum.php:186
 msgid "You haven't read this thread yet"
-msgstr ""
+msgstr "Encara no has llegit aquest fil"
 
 #: ../user/forum_forum.php:192
-#, fuzzy
 msgid "This thread is sticky and locked"
-msgstr "Permetre enganxar-se a aquest fil"
+msgstr "Aquest fil està fixat i tancat"
 
 #: ../user/forum_forum.php:192
 msgid "sticky/locked"
-msgstr ""
+msgstr "fixat/tancat"
 
 #: ../user/forum_forum.php:194
-#, fuzzy
 msgid "This thread is sticky"
-msgstr "Permetre enganxar-se a aquest fil"
+msgstr "Aquest fil està fixat"
 
 #: ../user/forum_forum.php:194
-#, fuzzy
 msgid "sticky"
-msgstr "Enganxar-se"
+msgstr "fixar"
 
 #: ../user/forum_forum.php:198
-#, fuzzy
 msgid "This thread is locked"
-msgstr "Permetre enganxar-se a aquest fil"
+msgstr "Aquest fil està tancat"
 
 #: ../user/forum_forum.php:198
-#, fuzzy
 msgid "locked"
-msgstr "Des bloquejar"
+msgstr "tancat"
 
 #: ../user/forum_forum.php:200
-#, fuzzy
 msgid "You read this thread"
-msgstr "Ocultar aquest fil"
+msgstr "Has llegit aquest fil"
 
 #: ../user/forum_forum.php:200
-#, fuzzy
 msgid "read"
-msgstr "Fil"
+msgstr "llegeix"
 
 #: ../user/forum_help_desk.php:27
-#, fuzzy
 msgid "Questions and answers"
 msgstr "Preguntes i respostes"
 
@@ -3429,15 +3423,16 @@ msgid ""
 "Talk live via Skype with a volunteer, in any of several languages. Go to %"
 "1BOINC Online Help%2."
 msgstr ""
+"Parla en viu a través de Skype amb un voluntari, en qualsevol de diversos "
+"idiomes. Vés a%1BOINC Ajuda en Línia%2."
 
 #: ../user/forum_help_desk.php:44 ../user/forum_index.php:92
 msgid "Topic"
 msgstr "Tema"
 
 #: ../user/forum_help_desk.php:45
-#, fuzzy
 msgid "Questions"
-msgstr "Versió"
+msgstr "Preguntes"
 
 #: ../user/forum_index.php:53 ../user/team_forum.php:68
 msgid "Discussion among members of %1"
@@ -3456,163 +3451,151 @@ msgstr ""
 "1Preguntes i Respostes%2 dels plafons de missatges."
 
 #: ../user/forum_index.php:123
-#, fuzzy
 msgid "Subscribed threads"
-msgstr "Subscriure"
+msgstr "Fils subscrits"
 
 #: ../user/forum_moderate_post.php:43
-#, fuzzy
 msgid "Moderate post"
-msgstr "Últim correu"
+msgstr "Moderar missatges"
 
 #: ../user/forum_moderate_post.php:52
-#, fuzzy
 msgid "Hide post"
-msgstr "Ocultar"
+msgstr "Ocultar el missatge"
 
 #: ../user/forum_moderate_post.php:57 ../user/forum_moderate_thread.php:54
 msgid "Commercial spam"
-msgstr ""
+msgstr "Correu brosa comercial"
 
 #: ../user/forum_moderate_post.php:58
 msgid "Doublepost"
-msgstr ""
+msgstr "Missatge doble"
 
 #: ../user/forum_moderate_post.php:63
-#, fuzzy
 msgid "Move post"
-msgstr "No hi ha servidor"
+msgstr "Moure el missatge"
 
 #: ../user/forum_moderate_post.php:65
-#, fuzzy
 msgid "Destination thread ID:"
-msgstr "Correu del fil"
+msgstr "ID destí del fil:"
 
 #: ../user/forum_moderate_post.php:78
-#, fuzzy
 msgid "Banish user"
-msgstr "aquest usuari no existeix"
+msgstr "Expulsar l'usuari"
 
 #: ../user/forum_moderate_post.php:80
-#, fuzzy
 msgid "Ban duration"
-msgstr "validació"
+msgstr "Durada de l'expulsió"
 
 #: ../user/forum_moderate_post.php:81
-#, fuzzy
 msgid "4 hours"
-msgstr "hores"
+msgstr "4 hores"
 
 #: ../user/forum_moderate_post.php:82 ../user/forum_search.php:45
-#, fuzzy
 msgid "1 day"
-msgstr "%1 dies"
+msgstr "1 dia"
 
 #: ../user/forum_moderate_post.php:83
 msgid "1 week"
-msgstr ""
+msgstr "1 setmana"
 
 #: ../user/forum_moderate_post.php:84
 msgid "2 weeks"
-msgstr ""
+msgstr "2 setmanes"
 
 #: ../user/forum_moderate_post.php:85
-#, fuzzy
 msgid "1 month"
-msgstr "%1 minuts"
+msgstr "1 mes"
 
 #: ../user/forum_moderate_post.php:86
 msgid "Forever"
-msgstr ""
+msgstr "Per sempre"
 
 #: ../user/forum_moderate_post.php:96
 msgid "Optional explanation %1 This is included in email to user.%2"
 msgstr ""
+"Explicació opcional %1 Aquesta s'inclou en el correu electrònic a l'usuari.%"
+"2"
 
 #: ../user/forum_moderate_post.php:101 ../user/forum_moderate_thread.php:91
 #: ../user/forum_post.php:130 ../user/forum_report_post.php:84
 #: ../user/forum_rss.php:55 ../user/friend.php:81 ../user/get_passwd.php:41
 #: ../user/get_passwd.php:75
 msgid "OK"
-msgstr ""
+msgstr "CORRECTE"
 
 #: ../user/forum_moderate_post_action.php:57
-#, fuzzy
 msgid "You are not authorized to moderate this post."
-msgstr "Ara es amic de %1."
+msgstr "No estas autoritzat a moderar aquest missatge."
 
 #: ../user/forum_moderate_post_action.php:85
 msgid "Can't move to different category type"
-msgstr ""
+msgstr "No es pot moure a un tipus diferent de categoria"
 
 #: ../user/forum_moderate_post_action.php:89
 msgid "Can't move to different category"
-msgstr ""
+msgstr "No es pot moure a una categoria diferent"
 
 #: ../user/forum_moderate_post_action.php:110
 msgid "Not authorized to banish users"
-msgstr ""
+msgstr "No tens permís per expulsar usuaris"
 
 #: ../user/forum_moderate_post_action.php:126
-#, fuzzy
 msgid "Banishment"
-msgstr "No enviats"
+msgstr "Expulsió"
 
 #: ../user/forum_moderate_post_action.php:128
-#, fuzzy
 msgid "User %1 has been banished."
-msgstr "Usuari expulsat"
+msgstr "L'usuari %1 ha estat expulsat."
 
 #: ../user/forum_moderate_post_action.php:131
 msgid "Action failed: possible database problem"
-msgstr ""
+msgstr "L'acció a fallat: possible problema de la base de dades"
 
 #: ../user/forum_moderate_thread.php:33
 msgid "not authorized"
-msgstr ""
+msgstr "no autoritzat"
 
 #: ../user/forum_moderate_thread.php:36
 msgid "Moderate thread '%1'"
-msgstr ""
+msgstr "Moderar el fil '%1'"
 
 #: ../user/forum_moderate_thread.php:48
 msgid ""
 "Select the reason category, or write a longer description of why you're "
 "hiding or locking the thread; then press OK."
 msgstr ""
+"Selecciona la categoria de raó, o escriu una descripció més detallada de per "
+"què ocultes o tanques el fil, i després prem CORRECTE."
 
 #: ../user/forum_moderate_thread.php:72
-#, fuzzy
 msgid "Current forum"
-msgstr "Contrasenya actual"
+msgstr "Fòrum actual"
 
 #: ../user/forum_moderate_thread.php:73
-#, fuzzy
 msgid "Destination forum"
-msgstr "Descripció de l'equip"
+msgstr "Fòrum destí"
 
 #: ../user/forum_moderate_thread.php:77
-#, fuzzy
 msgid "New title:"
-msgstr "Editar el títol"
+msgstr "Nou títol:"
 
 #: ../user/forum_post.php:40
 msgid ""
 "Only project admins may create a thread here. However, you may reply to "
 "existing threads."
 msgstr ""
+"Només els administradors del projecte poden crear un fil aquí. No obstant "
+"això, ppots respondre a les discussions existents."
 
 #: ../user/forum_post.php:60
-#, fuzzy
 msgid ""
 "Your message was flagged as spam by the Akismet anti-spam system. Please "
 "modify your text and try again."
 msgstr ""
-"La seva primera resposta ha estat marcada com spam per el sistema anti-spam "
-"Akimest.  Si us plau modifiqui el text i provi-ho de nou."
+"El teu missatge ha estat marcat com correu brossa per Akismet el sistema "
+"anti-correu brossa. Si us plau, modifica el text i torna a intentar-ho."
 
 #: ../user/forum_post.php:70
-#, fuzzy
 msgid "Create new thread"
 msgstr "Crear un nou fil"
 
@@ -3622,120 +3605,109 @@ msgstr "Crear un nou fil"
 
 #: ../user/forum_post.php:105
 msgid "Remember to add a title"
-msgstr ""
+msgstr "Recordi que ha de afegir un títol"
 
 #: ../user/forum_post.php:127
 msgid "Show this item as a Notice in the BOINC Manager"
-msgstr ""
+msgstr "Mostra aquest article com una Notícia a l'Administrador de BOINC"
 
 #: ../user/forum_post.php:127
 msgid "Do so only for items likely to be of interest to all volunteers."
 msgstr ""
+"Fer-ho només per als articles que puguin ser d'interès per a tots els "
+"voluntaris."
 
 #: ../user/forum_rate.php:26
 msgid "Rating offline"
-msgstr ""
+msgstr "Classificació fora de línia"
 
 #: ../user/forum_rate.php:27
-#, fuzzy
 msgid "This function is turned off by the project"
-msgstr "Aquesta opció està desactivada temporalment"
+msgstr "Aquesta opció està desactivada per el projecte"
 
 #: ../user/forum_rate.php:58
-#, fuzzy
 msgid "You need more average or total credit to rate a post."
-msgstr "Crèdit mitja mínim per enviar"
+msgstr "Necessita més crèdit mitja o crèdit total per classificar una noticia."
 
 #: ../user/forum_rate.php:62
-#, fuzzy
 msgid "You have already rated this post."
-msgstr "Vostè ja és membre de %1."
+msgstr "Vostè ja és valorat aquestmissatge."
 
 #: ../user/forum_rate.php:62 ../user/forum_rate.php:78
 #: ../user/forum_rate.php:83 ../user/forum_report_post.php:68
 #: ../user/forum_report_post.php:93 ../user/forum_subscribe.php:54
 #: ../user/forum_subscribe.php:69 ../user/forum_thread_status.php:51
-#, fuzzy
 msgid "Return to thread"
-msgstr "Tornar a la pàgina de l'equip"
+msgstr "Tornar al fil"
 
 #: ../user/forum_rate.php:72
-#, fuzzy
 msgid "Input Recorded"
-msgstr "Vot registrat"
+msgstr "Entrada registrada"
 
 #: ../user/forum_rate.php:73
-#, fuzzy
 msgid "Your input has been recorded. Thanks for your help."
-msgstr "La seva recomanació ha estat enregistrada."
+msgstr "La seva entrada ha estat registrada. Gràcies per la seva ajuda."
 
 #: ../user/forum_rate.php:75
-#, fuzzy
 msgid "Vote Registered"
-msgstr "Vot registrat"
+msgstr "Vot Registrat"
 
 #: ../user/forum_rate.php:76
-#, fuzzy
 msgid "Your rating has been recorded. Thanks for your input."
-msgstr "La seva recomanació ha estat enregistrada."
+msgstr "La seva valoració ha estat enregistrada. Mercés per el seu interes."
 
 #: ../user/forum_rate.php:80
 msgid "Vote Submission Problem"
-msgstr ""
+msgstr "Problemes en el Enviament del Vot"
 
 #: ../user/forum_reply.php:76
-#, fuzzy
 msgid ""
 "Your post has been flagged as spam by the Akismet anti-spam system. Please "
 "modify your text and try again."
 msgstr ""
-"La seva primera resposta ha estat marcada com spam per el sistema anti-spam "
-"Akimest.  Si us plau modifiqui el text i provi-ho de nou."
+"El seu missatge ha estat marcat com a correu brossa pel Akismet sistema "
+"anti-spam. Si us plau, modifiqui el text i torni a intentar-ho."
 
 #: ../user/forum_reply.php:87 ../user/forum_thread.php:156
 #: ../user/forum_thread.php:276
 msgid "Post to thread"
-msgstr "Correu del fil"
+msgstr "Publiqui-ho al fil"
 
 #: ../user/forum_reply.php:127
-#, fuzzy
 msgid "Message:"
-msgstr "Missatge"
+msgstr "Missatge:"
 
 #: ../user/forum_reply.php:130
 msgid "reply to %1Message ID%2:"
-msgstr ""
+msgstr "respongui a %1ID Missatge%2:"
 
 #: ../user/forum_reply.php:154
-#, fuzzy
 msgid "Post reply"
-msgstr "Sense resposta"
+msgstr "Respongui amb un missatge"
 
 #: ../user/forum_reply.php:157
-#, fuzzy
 msgid "Add my signature to this reply"
-msgstr "Afegir la meva firma a aquest correu"
+msgstr "Afegir la meva firma a aquesta resposta"
 
 #: ../user/forum_report_post.php:45
-#, fuzzy
 msgid "You need more average or total credit to report a post."
-msgstr "Crèdit mitja mínim per enviar"
+msgstr "Vostè necessita més crèdit mitjana o total per per inserir un missatge."
 
 #: ../user/forum_report_post.php:64
-#, fuzzy
 msgid "Report Registered"
-msgstr "Informe termini"
+msgstr "Informe Registrat"
 
 #: ../user/forum_report_post.php:65
-#, fuzzy
 msgid "Your report has been recorded. Thanks you for your input."
-msgstr "La seva recomanació ha estat enregistrada."
+msgstr "El seu informe ha estat enregistrat. Mercés per la seva aportació."
 
 #: ../user/forum_report_post.php:66
 msgid ""
 "A moderator will now look at your report and decide what will happen - this "
 "may take a little while, so please be patient"
 msgstr ""
+"Un moderador ara revisarà el seu informe i decidirà què fer - això pot "
+"trigar una mica, així que si us plau sigui pacient"
 
 #: ../user/forum_report_post.php:72
 msgid ""
@@ -3743,11 +3715,14 @@ msgid ""
 "enough users rate a post negatively it will eventually be hidden.<br />You "
 "can find the rating system at the bottom of the post."
 msgstr ""
+"Abans d'informar d'aquest missatge, pot utilitzar sistema +/- de "
+"classificació. Si un nombre important d'usuaris valora negativament un "
+"missatge, pot ser ocultat temporalment.<br />Vostè pot trobar el sistema de "
+"valoració en la part inferior del missatge."
 
 #: ../user/forum_report_post.php:79
-#, fuzzy
 msgid "Report post"
-msgstr "Últim correu"
+msgstr "Informar d'un missatge"
 
 #: ../user/forum_report_post.php:80
 msgid ""
@@ -3755,218 +3730,214 @@ msgid ""
 "that a person that\n"
 "has not yet read the thread will quickly be able to identify the issue.%2"
 msgstr ""
+"Per què trobeu ofensiu el missatge: %1Si us plau, inclogui informació "
+"suficient per que qui\n"
+"no l'ha llegit pugui identificar ràpidament el problema.%2"
 
 #: ../user/forum_report_post.php:89
-#, fuzzy
 msgid "Report not registered"
-msgstr "Informe termini"
+msgstr "Informe no registrat"
 
 #: ../user/forum_report_post.php:90
 msgid "Your report could not be recorded. Please wait a while and try again."
 msgstr ""
+"El seu informe no es pot registrar. Si us plau, espereu una mica i torneu a "
+"intentar-ho."
 
 #: ../user/forum_report_post.php:91
 msgid ""
 "If this is not a temporary error, please report it to the project developers."
 msgstr ""
+"Si això no és un error temporal, si us plau informeu-ne als desenvolupadors "
+"del projecte."
 
 #: ../user/forum_rss.php:41
 msgid "%1 RSS feed"
-msgstr ""
+msgstr "%1 RSS"
 
 #: ../user/forum_rss.php:42
-#, fuzzy
 msgid "This message board is available as an RSS feed."
-msgstr "Les notícies estan disponibles en format %sRSS%s"
+msgstr "Aquest plafó de notícies està disponible en format RSS."
 
 #: ../user/forum_rss.php:43
-#, fuzzy
 msgid "Options:"
-msgstr "Opcional"
+msgstr "Opcions:"
 
 #: ../user/forum_rss.php:47
 msgid "Include only posts by user ID %1 (default: all users)."
 msgstr ""
+"Incloure només els missatges de l'usuari amb ID %1 (per defecte: tots els "
+"usuaris)."
 
 #: ../user/forum_rss.php:49
 msgid "Include only posts from the last %1 days (default: 30)."
-msgstr ""
+msgstr "Incloure només els missatges dels darrers %1 dies (per defecte: 30)."
 
 #: ../user/forum_rss.php:51
 msgid "Truncate posts: %1 (Include only first 265 characters of each post)"
 msgstr ""
+"Retellar els missatges: %1 (incloure només els primers 265 caracters de cada "
+"missatge)"
 
 #: ../user/forum_rss.php:53
 msgid "Threads only: %1 (Include only the first post of every thread)"
-msgstr ""
+msgstr "Només fils: %1 (incloure només el primer missatge de cada fil)"
 
 #: ../user/forum_search.php:27
 msgid "Forum search"
 msgstr "Recerca al fòrum"
 
 #: ../user/forum_search.php:31
-#, fuzzy
 msgid "Search query"
-msgstr "Tipus de cerca"
+msgstr "Executar la cerca"
 
 #: ../user/forum_search.php:32
-#, fuzzy
 msgid "Search for keywords:"
-msgstr "Cercar en els fòrums"
+msgstr "Cerca de paraules clau:"
 
 #: ../user/forum_search.php:33
 msgid "Posts that contain all the specified words will be displayed"
-msgstr ""
+msgstr "Es mostraran els missatges que continguin totes les paraules"
 
 #: ../user/forum_search.php:35
 msgid "For example: \"screensaver freeze\""
-msgstr ""
+msgstr "Per exemple: \"congelació de pantalla\""
 
 #: ../user/forum_search.php:36
-#, fuzzy
 msgid "Search for author ID:"
-msgstr "Cercar en els fòrums"
+msgstr "Cercar per l'ID de l'autor:"
 
 #: ../user/forum_search.php:37
 msgid "Only posts by this author will be displayed"
-msgstr ""
+msgstr "Només es mostraran els missatges d'aquest autor"
 
 #: ../user/forum_search.php:39
 msgid "For example: \"43214\""
-msgstr ""
+msgstr "Per exemple: \"43214\""
 
 #: ../user/forum_search.php:41
-#, fuzzy
 msgid "Search options"
-msgstr "Cercar en els fòrums"
+msgstr "Opcions de cerca"
 
 #: ../user/forum_search.php:42
-#, fuzzy
 msgid "Search limits"
-msgstr "Resultats de la cerca"
+msgstr "Límits de la cerca"
 
 #: ../user/forum_search.php:43
 msgid "Search at most this many days back in time"
-msgstr ""
+msgstr "Cercar com a molt aquest temps enrera"
 
 #: ../user/forum_search.php:50 ../user/forum_search.php:51
-#, fuzzy
 msgid "%1 months"
-msgstr "%1 minuts"
+msgstr "%1 mesos"
 
 #: ../user/forum_search.php:52
 msgid "1 year"
-msgstr ""
+msgstr "1 any"
 
 #: ../user/forum_search.php:72
 msgid "Only display posts from this forum"
-msgstr ""
+msgstr "Només mostrar els missatges d'aquest forum"
 
 #: ../user/forum_search.php:83
-#, fuzzy
 msgid "Sort by"
-msgstr "Ordenar"
+msgstr "Ordenar per"
 
 #: ../user/forum_search.php:87
 msgid "Start the search"
-msgstr ""
+msgstr "Iniciar la cerca"
 
 #: ../user/forum_search_action.php:141
 msgid "Forum search results"
 msgstr "Resultats de la recerca al fòrum"
 
 #: ../user/forum_search_action.php:169
-#, fuzzy
 msgid "Thread titles matching your query:"
-msgstr "No hi ha perfils que coincideixin amb la seva cerca."
+msgstr "Fils que concorden amb la seva cerca:"
 
 #: ../user/forum_search_action.php:189
-#, fuzzy
 msgid "Messages matching your query:"
-msgstr "No hi ha perfils que coincideixin amb la seva cerca."
+msgstr "Missatges que concorden amb la seva cerca:"
 
 #: ../user/forum_search_action.php:212
 msgid ""
 "Sorry, couldn't find anything matching your search query. You can try to "
 "broaden your search by using less words (or less specific words)."
 msgstr ""
+"Ho sentim, no hem trobat res que coincideixi amb la seva de cerca. Pot "
+"tractar d'ampliar la cerca utilitzant menys paraules (o paraules menys "
+"específiques)."
 
 #: ../user/forum_search_action.php:214
 msgid "You can also %1try the same search on Google.%2"
-msgstr ""
+msgstr "També pot %1intentar la mateixa cerca a Google.%2"
 
 #: ../user/forum_search_action.php:219
 msgid "Perform another search"
-msgstr ""
+msgstr "Fer un altre cerca"
 
 #: ../user/forum_subscribe.php:46
-#, fuzzy
 msgid "Subscription successful"
-msgstr "Actualització satisfactoria"
+msgstr "Subscripció satisfactoria"
 
 #: ../user/forum_subscribe.php:49
 msgid ""
 "You are now subscribed to %1. You will be notified whenever there is a new "
 "post."
 msgstr ""
+"Ara està subscrit a %1. Vostè serà notificat cada vegada que hi ha un nou "
+"missatge."
 
 #: ../user/forum_subscribe.php:51
-#, fuzzy
 msgid "Subscription failed"
-msgstr "Descripció de l'equip"
+msgstr "A fallat la subscripció"
 
 #: ../user/forum_subscribe.php:52
-#, fuzzy
 msgid ""
 "We are currently unable to subscribe you to %1. Please try again later.."
-msgstr "La creació de comptes està desactivada. Si us plau provi-ho mes tard."
+msgstr ""
+"En aquest moments no el podem subscriure a %1. Torni a provar-ho més tard.."
 
 #: ../user/forum_subscribe.php:61
-#, fuzzy
 msgid "Unsubscription successful"
-msgstr "Actualització satisfactoria"
+msgstr "Cancel·lació de la suscripció satisfactoria"
 
 #: ../user/forum_subscribe.php:64
 msgid ""
 "You are no longer subscribed to %1. You will no longer receive notifications "
 "for this thread."
-msgstr ""
+msgstr "Ja no està subscrit a %1. Ja no rebrà més notificacions d'aquest fil."
 
 #: ../user/forum_subscribe.php:66
-#, fuzzy
 msgid "Unsubscription failed"
-msgstr "Finalitzar subscripció"
+msgstr "Ha fallat la cancel·lació de la suscripció"
 
 #: ../user/forum_subscribe.php:67
-#, fuzzy
 msgid ""
 "We are currently unable to unsubscribe you from %1. Please try again later.."
-msgstr "La creació de comptes està desactivada. Si us plau provi-ho mes tard."
+msgstr ""
+"En aquests moments no podem cancel·lar la seva suscripció a %1. Si us plau "
+"provi-ho mes tard.."
 
 #: ../user/forum_subscribe.php:74
-#, fuzzy
 msgid "Unknown subscription action"
-msgstr "Acció desconeguda"
+msgstr "Acció de suscripció desconeguda"
 
 #: ../user/forum_thread.php:61
 msgid "This forum is not visible to you."
 msgstr "Aquest fòrum no està disponible per a vostè."
 
 #: ../user/forum_thread.php:69
-#, fuzzy
 msgid "This thread has been hidden by moderators."
-msgstr "Aquest fil ha estat ocultat per els moderadors"
+msgstr "Aquest fil ha estat ocultat per els moderadors."
 
 #: ../user/forum_thread.php:127
 msgid "My question was answered"
 msgstr "La meva pregunta ja va ser contestada"
 
 #: ../user/forum_thread.php:128
-#, fuzzy
 msgid "Click here if your question has been adequately answered"
-msgstr ""
-"Si la seva pregunta ha estat resposta satisfactòriment si us plau premi aqui "
-"per finalitzar-la!"
+msgstr "Feu clic aquí si la seva pregunta ha estat resposta adequadament"
 
 #: ../user/forum_thread.php:136
 msgid "I've also got this question"
@@ -4057,21 +4028,20 @@ msgid "Edit thread title"
 msgstr "Editar el títol del fil"
 
 #: ../user/forum_thread.php:243
-#, fuzzy
 msgid "Export"
-msgstr "Ordenar"
+msgstr "Exportar"
 
 #: ../user/forum_thread.php:244
 msgid "Export this news item as a Notice"
-msgstr ""
+msgstr "Exportar aquesta noticia com a Avís"
 
 #: ../user/forum_thread.php:249
 msgid "Don't export"
-msgstr ""
+msgstr "No exportar"
 
 #: ../user/forum_thread.php:250
 msgid "Don't export this news item as a Notice"
-msgstr ""
+msgstr "No exportar aquesta noticia com Avís"
 
 #: ../user/forum_thread.php:258
 msgid "Sort"
@@ -4079,16 +4049,15 @@ msgstr "Ordenar"
 
 #: ../user/forum_thread_status.php:49
 msgid "Thread status updated"
-msgstr ""
+msgstr "S'ha actualitzat l'estat del fil"
 
 #: ../user/forum_thread_status.php:50
 msgid "The status has been updated."
-msgstr ""
+msgstr "S'ha actualitzat l'estat."
 
 #: ../user/forum_user_posts.php:73
-#, fuzzy
 msgid "Posts by %1"
-msgstr "Correu"
+msgstr "Missatges de %1"
 
 #: ../user/friend.php:33
 msgid "Already friends"
@@ -4115,13 +4084,12 @@ msgid "Add friend"
 msgstr "Afegir un amic"
 
 #: ../user/friend.php:74
-#, fuzzy
 msgid ""
 "You have asked to add %1 as a friend. We will notify %1 and will ask him/her "
 "to confirm that you are friends."
 msgstr ""
-"Heu demanat d'afegir %1 com amic. Ho notificarem a %2 i li demanarem que "
-"confirmi que sou amics."
+"Vostè ha demanat que afegir %1 com amic. Li notificarem a %1 i li demanarem "
+"confirmi que són amics."
 
 #: ../user/friend.php:77
 msgid "Add an optional message here:"
@@ -4136,22 +4104,20 @@ msgid "We have notified %1 of your request."
 msgstr "Hem notificat a %1 la seva petició."
 
 #: ../user/friend.php:126
-#, fuzzy
 msgid "Please log in as %1"
-msgstr "Si us plau registris"
+msgstr "Si us plau registris com %1"
 
 #: ../user/friend.php:127
 msgid "You must log in as %1 to view this friend request"
-msgstr ""
+msgstr "Ha de registrar-se com %1 per veure aquesta sol.licitud d'amic"
 
 #: ../user/friend.php:138
 msgid "Friend request"
 msgstr "Petició d'amic"
 
 #: ../user/friend.php:141
-#, fuzzy
 msgid "%1 has requested friendship with you."
-msgstr "Heu sol·licitat l'amistat de %1 a %2."
+msgstr "%1 ha sol·licitat l'amistat amb vosté."
 
 #: ../user/friend.php:143
 msgid "%1 says: %2"
@@ -4222,32 +4188,39 @@ msgid "Your friendship with %1 has been cancelled."
 msgstr "La seva amistat amb %1 ha estat cancel·lada."
 
 #: ../user/get_passwd.php:25
-#, fuzzy
 msgid "Forgot your account info?"
-msgstr "altre informació del compte"
+msgstr "Ha oblidat la informació del seu compte?"
 
 #: ../user/get_passwd.php:28
 msgid ""
 "1) If you know your account's email address, and you can receive email there:"
 msgstr ""
+"1) Si coneix l'adreça de correu electrònic del seu compte, i hi pot rebre "
+"correu electrònic:"
 
 #: ../user/get_passwd.php:29
 msgid ""
 "Enter the email address below, and click OK. You will be sent email "
 "instructions for resetting your password."
 msgstr ""
+"Introduïu l'adreça de correu electrònic, i premeu CORRECTE. Se li enviaràn "
+"per correu electrònic les instruccions per restablir la seva contrasenya."
 
 #: ../user/get_passwd.php:46
 msgid ""
 "2) If you forgot your account's email address, or you can't receive email "
 "there:"
 msgstr ""
+"2) Si ha oblidat el compte de seva l'adreça de correu electrònic, o no hi "
+"pot rebre correu electrònic:"
 
 #: ../user/get_passwd.php:47
 msgid ""
 "If you have run BOINC under this account, you can still access it. Here's "
 "how:"
 msgstr ""
+"Si heu executat BOINC amb aquest compte, pot accedir-hi. Així és com ho ha "
+"de fer:"
 
 #: ../user/get_passwd.php:50
 msgid ""
@@ -4255,35 +4228,42 @@ msgid ""
 "<b>C:\\Documents and Settings\\All Users\\Application Data\\BOINC</b> or "
 "<b>C:\\Program Files\\BOINC</b>."
 msgstr ""
+"Aneu al directori de dades de BOINC en el vostre sistema (a Windows en "
+"general és <b>C:\\Documents and Settings\\All Users\\Application Data\\BOINC</b> "
+"o <b>C:\\Program Files\\BOINC</b>."
 
 #: ../user/get_passwd.php:51
 msgid "Find your account file for this project; it will be named <b>%1</b>."
 msgstr ""
+"Cerqui l'arxiu del seu compte per a aquest projecte, que s'anomena <b>%"
+"1</b>."
 
 #: ../user/get_passwd.php:52
 msgid "Open the file in a text editor like Notepad. You'll see something like"
 msgstr ""
+"Obri l'arxiu en un editor de text com el Bloc de notes. Veurà alguna cosa "
+"com"
 
 #: ../user/get_passwd.php:62
 msgid "Select and Copy the string between %1 and %2 (%3 in the above example)."
 msgstr ""
+"Seleccioni i copií la cadena d'entre %1 i %2 (%3 en l'exemple anterior)."
 
 #: ../user/get_passwd.php:64
 msgid "Paste the string into the field below, and click OK."
-msgstr ""
+msgstr "Enganxi la cadena en el camp de sota i premi CORRECTE."
 
 #: ../user/get_passwd.php:65
-#, fuzzy
 msgid ""
 "You will now be logged in to your account; update the email and password of "
 "your account."
 msgstr ""
-"Si us plau, visiti el següent enllaç per a validar l'adreça de correu "
-"electrònic del seu %1 compte:"
+"Ara podrà accedir al seu compte, actualitzi el correu electrònic i la "
+"contrasenya del seu compte."
 
 #: ../user/get_passwd.php:71
 msgid "Log in with authenticator"
-msgstr ""
+msgstr "Registrar-se amb autenticador"
 
 #: ../user/home.php:42
 msgid "Welcome to %1"
@@ -4297,7 +4277,7 @@ msgstr ""
 
 #: ../user/home.php:46
 msgid "If you have not already done so, %1download BOINC client software%2."
-msgstr ""
+msgstr "Si encara no ho ha fet, %1descarregui el programari client de BOINC %2."
 
 #: ../user/home.php:49 ../project.sample/project.inc:46
 msgid "Your account"
@@ -4305,62 +4285,55 @@ msgstr "El seu compte"
 
 #: ../user/host_app_versions.php:26
 msgid "nvidia GPU"
-msgstr ""
+msgstr "GPU nvidia"
 
 #: ../user/host_app_versions.php:36
-#, fuzzy
 msgid "Anonymous platform, missing app"
-msgstr "Plataforma anònima"
+msgstr "Plataforma anònima, falta l'aplicació"
 
 #: ../user/host_app_versions.php:39
-#, fuzzy
 msgid "anonymous platform"
-msgstr "Plataforma anònima"
+msgstr "plataforma anònima"
 
 #: ../user/host_app_versions.php:43
 msgid "Missing app version"
-msgstr ""
+msgstr "Manca la versió de l'aplicació"
 
 #: ../user/host_app_versions.php:45
-#, fuzzy
 msgid "Missing app"
-msgstr "falta el tipus de cerca"
+msgstr "Manca l'aplicació"
 
 #: ../user/host_app_versions.php:47
 msgid "Missing platform"
-msgstr ""
+msgstr "Falta la plataforma"
 
 #: ../user/host_app_versions.php:56
 msgid "Number of tasks completed"
-msgstr ""
+msgstr "Nombre de tasques completades"
 
 #: ../user/host_app_versions.php:57
-#, fuzzy
 msgid "Max tasks per day"
-msgstr "No hi ha tasques per mostrar"
+msgstr "Nombre màxim de tasques per dia"
 
 #: ../user/host_app_versions.php:58
-#, fuzzy
 msgid "Number of tasks today"
-msgstr "No hi ha tasques per mostrar"
+msgstr "Nombre de tasques d'avui"
 
 #: ../user/host_app_versions.php:59
 msgid "Consecutive valid tasks"
-msgstr ""
+msgstr "Tasques vàlides consecutives"
 
 #: ../user/host_app_versions.php:63
-#, fuzzy
 msgid "Average processing rate"
-msgstr "Velocitat mitja de càrrega"
+msgstr "Taxa mitjana de processament"
 
 #: ../user/host_app_versions.php:72
 msgid "Application details for host %1"
 msgstr "Característiques de l'aplicació del host %1"
 
 #: ../user/host_delete.php:31
-#, fuzzy
 msgid "We have no record of that computer."
-msgstr "Combinar registres duplicats d'aquest equip"
+msgstr "No tenim cap registre d'aquest equip."
 
 #: ../user/host_delete.php:38
 msgid ""
@@ -4368,51 +4341,52 @@ msgid ""
 "contains work for it. You must wait a few days until the work for this "
 "computer has been deleted from the project database."
 msgstr ""
+"No pot eliminar l'historial d'aquest equip, ja que la nostra base de dades "
+"conté encara treballs per ell. Ha d'esperar uns dies fins que la feina "
+"d'aquest equip hagi estat esborrada de la base de dades del projecte."
 
 #: ../user/host_delete.php:40
-#, fuzzy
 msgid "Delete record of computer"
-msgstr "Eliminar aquest equip"
+msgstr "Eliminar el registre de l'ordinador"
 
 #: ../user/host_delete.php:41
-#, fuzzy
 msgid "Record deleted."
-msgstr "Informe termini"
+msgstr "Registre eliminat."
 
 #: ../user/host_delete.php:42 ../user/host_edit_action.php:65
-#, fuzzy
 msgid "Return to list of your computers"
-msgstr "Executeu %1 només en ordinadors autoritzats"
+msgstr "Tornar a la llista dels equips"
 
 #: ../user/host_edit_action.php:39
-#, fuzzy
 msgid "Merge computer records"
-msgstr "Combinar ordinadors per el nom"
+msgstr "Combinar els registres dels equips"
 
 #: ../user/host_edit_form.php:35
-#, fuzzy
 msgid "Merge computers"
-msgstr "Combinar ordinadors per el nom"
+msgstr "Combinar ordinadors"
 
 #: ../user/host_edit_form.php:38
 msgid ""
 "Sometimes BOINC assigns separate identities to the same computer by mistake. "
 "You can correct this by merging old identities with the newest one."
 msgstr ""
+"De vegades BOINC assigna per error diferents identitats al mateix equip. Pot "
+"corregir això combinant les identitats antigues amb la més recent."
 
 #: ../user/host_edit_form.php:56
 msgid "No hosts are eligible for merging with this one."
-msgstr ""
+msgstr "No hi ha servidors disponibles per combinar amb aquest."
 
 #: ../user/host_edit_form.php:58 ../user/host_edit_form.php:114
-#, fuzzy
 msgid "Show details"
-msgstr "Mostra els noms"
+msgstr "Mostrar els detalls"
 
 #: ../user/host_edit_form.php:66
 msgid ""
 "Check the computers that are the same as %1 (created %2, computer ID %3):"
 msgstr ""
+"Comprovar els equips que són els mateixos que el %1 (creat %2, ID ordinador "
+"%3):"
 
 #: ../user/host_edit_form.php:70 ../user/workunit.php:39
 msgid "name"
@@ -4423,111 +4397,107 @@ msgid "created"
 msgstr "creat"
 
 #: ../user/host_edit_form.php:70
-#, fuzzy
 msgid "computer ID"
 msgstr "ID de l'ordinador"
 
 #: ../user/host_edit_form.php:77
-#, fuzzy
 msgid "no hostname"
-msgstr "No hi ha servidor"
+msgstr "no hi ha nom de l'ordinador central"
 
 #: ../user/host_edit_form.php:109
-#, fuzzy
 msgid "Merge hosts"
-msgstr "Combinar"
+msgstr "Combinar ordinadors"
 
 #: ../user/host_update_credit.php:28
 msgid "Updating computer credit"
-msgstr ""
+msgstr "Actualitzant el crèdit de l'ordinador"
 
 #: ../user/host_venue_action.php:41
 msgid "Host venue updated"
-msgstr ""
+msgstr "Posició del ervidor actualitzada"
 
 #: ../user/host_venue_action.php:43
-#, fuzzy
 msgid "none"
-msgstr "Fet"
+msgstr "cap"
 
 #: ../user/host_venue_action.php:46
 msgid "The venue of this host has been set to %1."
-msgstr ""
+msgstr "La posició d'aquest servidor s'ha establert a %1."
 
 #: ../user/host_venue_action.php:48
 msgid ""
 "This change will take effect the next time the host communicates with this "
 "project."
 msgstr ""
+"Aquest canvi tindrà efecte la pròxima vegada que el servidor es comuniqui "
+"amb aquest projecte."
 
 #: ../user/host_venue_action.php:50
-#, fuzzy
 msgid "Return to host page"
-msgstr "Tornar a la pàgina de l'equip"
+msgstr "Tornar a la pàgina del servidor"
 
 #: ../user/hosts_user.php:53
 msgid "Computers belonging to %1"
 msgstr "Equips que pertanyen a %1"
 
 #: ../user/hosts_user.php:55
-#, fuzzy
 msgid "Computers hidden"
-msgstr "Informació de l'ordinador"
+msgstr "Ordinadors ocults"
 
 #: ../user/hosts_user.php:56
-#, fuzzy
 msgid ""
 "This user has chosen not to show information about his or her computers."
-msgstr "Aquest usuari ha optat per no mostrar informació sobre els seus equips."
+msgstr ""
+"Aquest usuari ha optat per no mostrar informació sobre ell o els seus "
+"equips."
 
 #: ../user/hosts_user.php:64
-#, fuzzy
 msgid "Your computers"
-msgstr "Ordinadors principals"
+msgstr "Els seus ordinadors"
 
 #: ../user/html.php:23
-#, fuzzy
 msgid "Allowed HTML tags"
-msgstr "No utilitzi etiquetes HTML."
+msgstr "Etiquetes HTML permeses"
 
 #: ../user/html.php:25
 msgid "The following HTML tags are allowed in team descriptions:"
-msgstr ""
+msgstr "Les següents etiquetes HTML estan permeses en les descripcions d'equip:"
 
 #: ../user/html.php:27
 msgid "bold"
-msgstr ""
+msgstr "negreta"
 
 #: ../user/html.php:28
 msgid "italics"
-msgstr ""
+msgstr "cursiva"
 
 #: ../user/html.php:29
 msgid "hyperlink"
-msgstr ""
+msgstr "enllaç"
 
 #: ../user/html.php:30
 msgid "paragraph"
-msgstr ""
+msgstr "paràgraf"
 
 #: ../user/html.php:31
 msgid "break"
-msgstr ""
+msgstr "finalitza"
 
 #: ../user/html.php:32
-#, fuzzy
 msgid "preformatted"
-msgstr "Creat"
+msgstr "preformatejat"
 
 #: ../user/html.php:33
 msgid ""
 "image; height cannot exceed 450 pixels. Please do not link to images without "
 "permission of the web site where the image is hosted."
 msgstr ""
+"imatge; l'alçada no pot superar els 450 píxels. Si us plau, no enllaceu amb "
+"les imatges sense el permís del lloc web on es troba la imatge."
 
 #: ../user/html.php:35
 msgid "You can also use ampersand notation for special characters."
-msgstr ""
+msgstr "També pot utilitzar la notació amb ampersand per caràcters especials."
 
 #: ../user/info.php:24 ../user/sample_index.php:73
 msgid "Read our rules and policies"
@@ -4786,9 +4756,8 @@ msgid "forgot password?"
 msgstr "ha oblidat la contrasenya?"
 
 #: ../user/login_form.php:55
-#, fuzzy
 msgid "Stay logged in"
-msgstr "No esteu connectat."
+msgstr "Segueixi connectat"
 
 #: ../user/login_form.php:61
 msgid "or %1create an account%2."
@@ -4888,15 +4857,14 @@ msgid "To unblock, visit %1message board preferences%2"
 msgstr "Per desbloquejar, visiti les %1preferències del panell de missatges%2"
 
 #: ../user/prefs.php:36
-#, fuzzy
 msgid ""
 "Your preferences have been updated, and\n"
 "          will take effect when your computer communicates with %1\n"
 "          or you issue the %2Update%3 command from the BOINC Manager."
 msgstr ""
-"Les vostres preferències han estat actualitzades, i\n"
-"\t      entraràn en efecte quan l'ordinador es comuniqui amb %1\n"
-"\t      o utilitzi el comando %2Actualitzar%3 del gestor BOINC."
+"Les seves preferències han estat actualitzades, i\n"
+"          entraràn en efecte quan l'ordinador es comuniqui amb %1\n"
+"          o utilitzi el comando %2Actualitzar%3 de l'Administrador BOINC."
 
 #: ../user/prefs_edit.php:66 ../user/prefs_edit.php:94
 msgid "%1 for %2"
@@ -5016,26 +4984,23 @@ msgstr "Torna al perfil."
 
 #: ../user/profile_search_action.php:36
 msgid "Profiles containing '%1'"
-msgstr ""
+msgstr "Perfils que continguin '%1'"
 
 #: ../user/profile_search_action.php:40
-#, fuzzy
 msgid "User name"
-msgstr "Nom de la tasca"
+msgstr "Nom d'usuari"
 
 #: ../user/profile_search_action.php:41
-#, fuzzy
 msgid "Joined project"
-msgstr "Antiguitat %1"
+msgstr "Projecte adjuntat"
 
 #: ../user/profile_search_action.php:44
-#, fuzzy
 msgid "Recent credit"
-msgstr "amb crèdit recent"
+msgstr "Crèdit recent"
 
 #: ../user/profile_search_action.php:54
 msgid "No profiles found containing '%1'"
-msgstr ""
+msgstr "No s'han trobat perfils que continguin '%1'"
 
 #: ../user/result.php:30
 msgid "No such task"
@@ -5218,9 +5183,8 @@ msgid "users in last 24h"
 msgstr "usuaris en les últimes 24 hores"
 
 #: ../user/show_host_detail.php:40
-#, fuzzy
 msgid "Computer %1"
-msgstr "Ordinador"
+msgstr "Ordinador %1"
 
 #: ../user/stats.php:21
 msgid "Statistics and leaderboards"
@@ -5266,14 +5230,12 @@ msgstr ""
 "principal%2."
 
 #: ../user/team.php:25
-#, fuzzy
 msgid "Teams"
-msgstr "Grup"
+msgstr "Equips"
 
 #: ../user/team.php:27
-#, fuzzy
 msgid "%1 participants may form %2teams%3."
-msgstr "%1 participants poden formar %2equips%3"
+msgstr "%1 participants poden formar %2equips%3."
 
 #: ../user/team.php:29
 msgid ""
@@ -5295,9 +5257,8 @@ msgid "edit the team's name and description"
 msgstr "editar el nom i descripció de l'equip"
 
 #: ../user/team.php:35
-#, fuzzy
 msgid "add or remove team admins"
-msgstr "Afegir o treure Administradors d'Equip"
+msgstr "afegir o treure administradors d'equip"
 
 #: ../user/team.php:36
 msgid "remove members from the team"
@@ -5691,9 +5652,8 @@ msgid "Update failed"
 msgstr "Error en l'actualització"
 
 #: ../user/team_forum.php:154
-#, fuzzy
 msgid "Team has no forum"
-msgstr "l'equip no té cap fòrum"
+msgstr "L'equip no té cap fòrum"
 
 #: ../user/team_founder_transfer_action.php:36
 msgid "You must be a member of a team to access this page."

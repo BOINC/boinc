@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2011-04-04 22:09 PDT\n"
-"PO-Revision-Date: 2011-09-05 13:36+0200\n"
+"PO-Revision-Date: 2011-10-19 13:04+0200\n"
 "Last-Translator: Gabor Cseh <csega@mailbox.hu>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: hu\n"
@@ -214,14 +214,13 @@ msgid "University of Vienna"
 msgstr "Bécsi Egyetem"
 
 #: projects.inc:114
-#, fuzzy
 msgid ""
 "Calculate similarities between proteins. SIMAP provides a public database of "
 "the resulting data, which plays a key role in many bioinformatics research "
 "projects."
 msgstr ""
-"Fehérjék közötti hasonlóságokat számol. A SIMAP a kapott adatokból egy "
-"nyilvános adatbázist hoz létre, ami jelentős szerepet játszik több "
+"Fehérjék közötti hasonlóságokat számol. A SIMAP a kiszámolt adatokból egy "
+"nyilvános adatbázist hoz létre, amely jelentős szerepet játszik több "
 "bioinformatikai kutatási projektben."
 
 #: projects.inc:120
@@ -324,11 +323,16 @@ msgid "University of Illinois at Urbana-Chamapign"
 msgstr ""
 
 #: projects.inc:170
+#, fuzzy
 msgid ""
 "The goal of Cosmology@Home is to search for the model that best describes "
 "our Universe and to find the range of models that agree with the available "
 "astronomical particle physics data."
 msgstr ""
+"A Cosmology@Home célja egy olyan modell keresése, amely a lehető legjobban "
+"leírja az Univerzumunkat, valamint megtalálni a modellek azon halmazát, "
+"amelyek összhangban vannak a csillagászati részecskefizika elérhető "
+"adataival."
 
 #: projects.inc:174
 msgid "Milkyway@home"
@@ -373,7 +377,7 @@ msgstr ""
 
 #: projects.inc:193
 msgid "Physics/Aeronautics"
-msgstr ""
+msgstr "Fizika/Repüléstan"
 
 #: projects.inc:194
 msgid ""
@@ -389,7 +393,7 @@ msgstr "Einstein@home"
 
 #: projects.inc:200
 msgid "Univ. of Wisconsin - Milwaukee, Max Planck Institute"
-msgstr ""
+msgstr "Wisconsin-i Egyetem - Milwaukee, Max Planck Intézet"
 
 #: projects.inc:201
 msgid "Astrophysics"
@@ -457,26 +461,28 @@ msgid "Quantum Monte Carlo at Home"
 msgstr ""
 
 #: projects.inc:224
-#, fuzzy
 msgid "University of Muenster (Germany)"
-msgstr "Karlsruhe-i Egyetem (Németország)"
+msgstr "Münster-i Egyetem (Németország)"
 
 #: projects.inc:226
 msgid ""
 "Study the structure and reactivity of molecules using Quantum Chemistry."
 msgstr ""
+"Molekulák struktúrájának és reakcióképességének tanulmányozása kvantumkémia "
+"segítségével."
 
 #: projects.inc:230
 msgid "Spinhenge@home"
-msgstr ""
+msgstr "Spinhenge@home"
 
 #: projects.inc:232
+#, fuzzy
 msgid "Bielefeld University of Applied Sciences"
-msgstr ""
+msgstr "Az Alkalmazott Tudományok Bielefeld-i Egyeteme"
 
 #: projects.inc:233
 msgid "Chemical engineering and nanotechnology"
-msgstr ""
+msgstr "Kémiai tervezés és nanotechnológia"
 
 #: projects.inc:234
 msgid ""
@@ -492,15 +498,15 @@ msgstr ""
 
 #: projects.inc:244
 msgid "CAS@home"
-msgstr ""
+msgstr "CAS@home"
 
 #: projects.inc:246
 msgid "Chinese Academy of Sciences"
-msgstr ""
+msgstr "Kínai Tudományos Akadémia"
 
 #: projects.inc:247
 msgid "Physics, biochemistry, and others"
-msgstr ""
+msgstr "Fizika, biokémia és egyebek"
 
 #: projects.inc:248
 msgid ""
@@ -511,30 +517,33 @@ msgstr ""
 
 #: projects.inc:252
 msgid "Yoyo@home"
-msgstr ""
+msgstr "Yoyo@home"
 
 #: projects.inc:255
 msgid "Mathematics, physics, evolution"
-msgstr ""
+msgstr "Matematika, fizika, evolúció"
 
 #: projects.inc:256
 msgid ""
 "Yoyo@home is an adapter between BOINC and several existing volunteer "
 "computing projects: ECM, Muon, Evolution@home, and distributed.net"
 msgstr ""
+"A Yoyo@home egy illesztő alkalmazás a BOINC és különböző, már létező "
+"önkéntes számítási projektek között. Ilyenek az: ECM, Muon, Evolution@home "
+"és a distributed.net"
 
 #: projects.inc:259
 msgid "EDGeS@Home"
-msgstr ""
+msgstr "EDGeS@Home"
 
 #: projects.inc:261 projects.inc:360
 msgid "MTA-SZTAKI Laboratory of Parallel and Distributed Systems (Hungary)"
 msgstr ""
+"MTA-SZTAKI Párhuzamos és Elosztott Rendszerek Laboratóriuma (Magyarország)"
 
 #: projects.inc:262
-#, fuzzy
 msgid "European research projects"
-msgstr "Kutatási projektek"
+msgstr "Európai kutatási projektek"
 
 #: projects.inc:263
 msgid ""
@@ -553,17 +562,16 @@ msgid "Spanish universities and research centers"
 msgstr ""
 
 #: projects.inc:270
-#, fuzzy
 msgid "Various Spanish research projects"
-msgstr "Kutatási projektek"
+msgstr "Különböző spanyol kutatási projektek"
 
 #: projects.inc:271
 msgid "Research in physics, material science, and biomedicine"
-msgstr ""
+msgstr "Kutatások a fizika, az anyagtudomány és a biogyógyászat területén"
 
 #: projects.inc:275
 msgid "World Community Grid"
-msgstr ""
+msgstr "World Community Grid"
 
 #: projects.inc:277
 msgid "IBM Corporate Community Relations"
@@ -582,21 +590,23 @@ msgstr ""
 
 #: projects.inc:285
 msgid "Mathematics, computing, and games"
-msgstr ""
+msgstr "Matematika, számítás és játékok"
 
 #: projects.inc:288
 msgid "Enigma@Home"
-msgstr ""
+msgstr "Enigma@Home"
 
 #: projects.inc:291 projects.inc:345
 msgid "Cryptography"
-msgstr ""
+msgstr "Kriptográfia"
 
 #: projects.inc:292
 msgid ""
 "Attempt to decode 3 original Enigma messages. The signals were intercepted "
 "in the North Atlantic in 1942 and are believed to be unbroken."
 msgstr ""
+"Megpróbálunk dekódolni 3 eredeti Enigma üzenetet. A feltörhetetlennek hitt "
+"jeleket az Észak-Atlanti térségben fogták 1942-ben."
 
 #: projects.inc:295
 msgid "Collatz Conjecture"
@@ -604,7 +614,7 @@ msgstr ""
 
 #: projects.inc:298 projects.inc:337 projects.inc:353 projects.inc:361
 msgid "Mathematics"
-msgstr ""
+msgstr "Matematika"
 
 #: projects.inc:299
 msgid "Study the Collatz Conjecture, an unsolved conjecture in mathematics"
@@ -612,7 +622,7 @@ msgstr ""
 
 #: projects.inc:302
 msgid "NFS@home"
-msgstr ""
+msgstr "NFS@home"
 
 #: projects.inc:304
 msgid "California State University Fullerton"
@@ -677,9 +687,8 @@ msgid ""
 msgstr ""
 
 #: projects.inc:334
-#, fuzzy
 msgid "ABC@home"
-msgstr "Otthon"
+msgstr "ABC@home"
 
 #: projects.inc:336
 msgid "Mathematical Institute of Leiden University / Kennislink"
@@ -698,11 +707,11 @@ msgstr ""
 
 #: projects.inc:342
 msgid "PrimeGrid"
-msgstr ""
+msgstr "PrimeGrid"
 
 #: projects.inc:344
 msgid "Private"
-msgstr "magán"
+msgstr "Magán"
 
 #: projects.inc:346
 msgid ""
@@ -713,7 +722,7 @@ msgstr ""
 
 #: projects.inc:350
 msgid "primaboinca"
-msgstr ""
+msgstr "primaboinca"
 
 #: projects.inc:352
 msgid "Hochschule RheinMain University of Applied Sciences"
@@ -727,7 +736,7 @@ msgstr ""
 
 #: projects.inc:358
 msgid "SZTAKI Desktop Grid"
-msgstr ""
+msgstr "SZTAKI Desktop Grid"
 
 #: projects.inc:362
 msgid ""
@@ -755,6 +764,10 @@ msgid ""
 "before the start of every game, the initial configuration of the chess "
 "pieces is determined randomly."
 msgstr ""
+"Ez a projekt az eredeti sakk játék egy változatát, a Sakk 960-at "
+"tanulmányozza. A klasszikus sakkban a játék kezdőpozíciója soha nem "
+"változik. A Sakk 960-ban a figurák kezdeti pozíciója minden játék elején "
+"véletlenszerűen kerül meghatározásra."
 
 #: versions.inc:6
 msgid "The current release is known to work with these Linux versions:"

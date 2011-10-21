@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 5.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-03-07 12:02-0500\n"
-"PO-Revision-Date: 2011-08-24 10:11+0200\n"
+"PO-Revision-Date: 2011-09-16 14:04+0200\n"
 "Last-Translator: Gabor Cseh <csega@mailbox.hu>\n"
 "Language-Team: BOINC Development Team <rwalton@ssl.berkeley.edu>\n"
 "Language: hu\n"
@@ -23,8 +23,6 @@ msgstr ""
 "X-Poedit-SourceCharset: utf-8\n"
 "X-Poedit-Basepath: C:\\Src\\BOINCSVN\\trunk\\boinc\n"
 "X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
-"X-Poedit-Country: UNITED STATES\n"
-"X-Poedit-Language: English\n"
 
 #: clientgui/AccountInfoPage.cpp:386
 msgid "Identify your account "
@@ -3156,9 +3154,8 @@ msgid "Project Web Sites"
 msgstr "A projekt weboldalai"
 
 #: clientgui/sg_ProjectPanel.cpp:149
-#, fuzzy
 msgid "Project Commands"
-msgstr "Projektparancsok"
+msgstr "Projekt parancsok"
 
 #: clientgui/sg_ProjectPanel.cpp:257
 #, c-format
@@ -3307,9 +3304,8 @@ msgid "%d hr %d min %d sec"
 msgstr "%d óra %d perc %d másodperc"
 
 #: clientgui/sg_ViewTabPage.cpp:423
-#, fuzzy
 msgid "Are you sure you want to display graphics on a remote machine?"
-msgstr "Biztosan egy távoli gépen szeretné megjeleníteni a grafikus ablakot?"
+msgstr "Biztosan egy távoli gépen szeretné megjeleníteni a grafikus felületet?"
 
 #: clientgui/sg_ViewTabPage.cpp:446
 msgid "Application: "

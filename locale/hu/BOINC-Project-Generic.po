@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2011-08-25 15:10 PDT\n"
-"PO-Revision-Date: 2011-09-01 15:49+0200\n"
+"PO-Revision-Date: 2011-10-10 11:40+0200\n"
 "Last-Translator: Gabor Cseh <csega@mailbox.hu>\n"
 "Language-Team: \n"
 "Language: hu\n"
@@ -31,28 +31,31 @@ msgid "LANG_NAME_INTERNATIONAL"
 msgstr "Hungarian"
 
 #: ../inc/forum.inc:37
+#, fuzzy
 msgid "Oldest first"
-msgstr ""
+msgstr "Legrégebbit előre"
 
 #: ../inc/forum.inc:38 ../inc/forum.inc:44
+#, fuzzy
 msgid "Newest first"
-msgstr ""
+msgstr "Legújabbat előre"
 
 #: ../inc/forum.inc:39
 msgid "Highest rated posts first"
-msgstr ""
+msgstr "A legnépszerűbb bejegyzést előre"
 
 #: ../inc/forum.inc:41
 msgid "Newest post first"
-msgstr ""
+msgstr "Legújabb bejegyzést előre"
 
 #: ../inc/forum.inc:42
 msgid "Most views first"
-msgstr ""
+msgstr "A legnézettebbet előre"
 
 #: ../inc/forum.inc:43
+#, fuzzy
 msgid "Most posts first"
-msgstr ""
+msgstr "Legtöbb bejegyzést előre"
 
 #: ../inc/forum.inc:125
 msgid "Search for words in forum messages"
@@ -162,7 +165,7 @@ msgstr "Munka"
 
 #: ../inc/host.inc:57 ../inc/prefs.inc:627 ../inc/prefs.inc:1028
 msgid "School"
-msgstr "Iskola"
+msgstr "Csoport"
 
 #: ../inc/host.inc:59 ../user/edit_forum_preferences_form.php:173
 #: ../user/edit_forum_preferences_form.php:174
@@ -609,9 +612,8 @@ msgstr "Email értesítéshez %1módosítsa a közösségi beállításokat%2"
 # #######################################
 # Private messages
 #: ../inc/pm.inc:198
-#, fuzzy
 msgid "Private message"
-msgstr "Személyes üzenetek"
+msgstr "Személyes üzenet"
 
 #: ../inc/prefs.inc:76
 msgid ""
@@ -905,29 +907,29 @@ msgstr "Alapértelmezett"
 #: ../inc/prefs.inc:657 ../inc/prefs.inc:660 ../inc/prefs.inc:1003
 #: ../inc/prefs_util.inc:93 ../project.sample/project_specific_prefs.inc:74
 msgid "yes"
-msgstr ""
+msgstr "igen"
 
 #: ../inc/prefs.inc:657 ../inc/prefs.inc:660 ../inc/prefs.inc:1005
 #: ../inc/prefs_util.inc:93 ../project.sample/project_specific_prefs.inc:76
 msgid "no"
-msgstr ""
+msgstr "nem"
 
 #: ../inc/prefs.inc:665
 msgid "no limit"
-msgstr ""
+msgstr "nincs korlát"
 
 #: ../inc/prefs.inc:690 ../user/team_admins.php:79
 msgid "Add"
-msgstr ""
+msgstr "Hozzáadás"
 
 #: ../inc/prefs.inc:691 ../inc/prefs.inc:693
 msgid "Edit"
-msgstr ""
+msgstr "Szerkesztés"
 
 #: ../inc/prefs.inc:692 ../inc/prefs.inc:818
 #: ../user/edit_forum_preferences_form.php:161 ../user/team_admins.php:34
 msgid "Remove"
-msgstr ""
+msgstr "Eltávolítás"
 
 #: ../inc/prefs.inc:798 ../user/explain_state.php:94
 msgid "Computing"
@@ -953,7 +955,7 @@ msgstr "(Nézet váltása)"
 #: ../inc/prefs.inc:832 ../inc/prefs.inc:878
 #, fuzzy
 msgid "Combined preferences"
-msgstr "Számítási beállítások"
+msgstr "Kombinált beállítások"
 
 #: ../inc/prefs.inc:837
 msgid "Project specific settings"
@@ -1063,20 +1065,19 @@ msgstr "Névtelen platform"
 
 #: ../inc/result.inc:46
 msgid "NVIDIA GPU"
-msgstr ""
+msgstr "NVIDIA GPU"
 
 #: ../inc/result.inc:47 ../user/host_app_versions.php:27
 msgid "ATI GPU"
-msgstr ""
+msgstr "ATI GPU"
 
 #: ../inc/result.inc:54
 msgid "Not in DB"
 msgstr ""
 
 #: ../inc/result.inc:80
-#, fuzzy
 msgid "pending"
-msgstr "Függőben"
+msgstr "függőben"
 
 #: ../inc/result.inc:102 ../user/forum_search.php:59
 msgid "All"
@@ -1223,8 +1224,9 @@ msgid "Done"
 msgstr "Kész"
 
 #: ../inc/result.inc:241
+#, fuzzy
 msgid "Initial"
-msgstr ""
+msgstr "Kezdeti"
 
 #: ../inc/result.inc:247
 msgid "Not necessary"
@@ -1257,7 +1259,7 @@ msgstr "Túl sok eredmény (lehet, hogy nem meghatározható)"
 
 #: ../inc/result.inc:270
 msgid "Too many total results"
-msgstr ""
+msgstr "Túl sok teljes eredmény"
 
 #: ../inc/result.inc:274
 msgid "WU cancelled"
@@ -1311,7 +1313,7 @@ msgstr ""
 
 #: ../inc/result.inc:326 ../user/server_status.php:246
 msgid "Status"
-msgstr ""
+msgstr "Állapot"
 
 #: ../inc/result.inc:327
 msgid "Run time<br />(sec)"
@@ -1336,8 +1338,9 @@ msgid "Workunit"
 msgstr "Munkacsomag"
 
 #: ../inc/result.inc:423
+#, fuzzy
 msgid "Received"
-msgstr ""
+msgstr "Beérkezett"
 
 #: ../inc/result.inc:424
 msgid "Server state"
@@ -6316,7 +6319,7 @@ msgstr ""
 
 #: ../project.sample/project_specific_prefs.inc:80
 msgid "(all applications)"
-msgstr ""
+msgstr "(minden alkalmazás)"
 
 #~ msgid "- private message"
 #~ msgstr "- privát üzenet"

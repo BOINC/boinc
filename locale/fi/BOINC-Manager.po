@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-03-07 12:02-0500\n"
-"PO-Revision-Date: 2011-08-10 18:53+0200\n"
+"PO-Revision-Date: 2011-09-09 15:53+0200\n"
 "Last-Translator: Sami Nordlund <sami.nordlund@kolumbus.fi>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: fi\n"
@@ -23,8 +23,6 @@ msgstr ""
 "X-Poedit-SourceCharset: utf-8\n"
 "X-Poedit-Basepath: C:\\Src\\BOINCSVN\\trunk\\boinc\n"
 "X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
-"X-Poedit-Country: UNITED STATES\n"
-"X-Poedit-Language: English\n"
 
 #: clientgui/AccountInfoPage.cpp:386
 msgid "Identify your account "
@@ -1344,7 +1342,7 @@ msgstr "Megatavua"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:410
 msgid "every"
-msgstr ""
+msgstr "joka"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:416
 #: clientgui/DlgAdvPreferencesBase.cpp:430
@@ -1880,7 +1878,7 @@ msgstr "Prosessin tunniste"
 
 #: clientgui/DlgItemProperties.cpp:407
 msgid "Local: "
-msgstr "Paikallinen:"
+msgstr "Paikallinen: "
 
 #: clientgui/DlgOptions.cpp:118
 #, c-format
@@ -3102,7 +3100,7 @@ msgstr "Projektini:"
 
 #: clientgui/sg_ProjectPanel.cpp:123
 msgid "Select a project to access with the controls below"
-msgstr ""
+msgstr "Valitse projekti käyttäen alla olevia painikkeita"
 
 #: clientgui/sg_ProjectPanel.cpp:133
 #: clientgui/sg_ProjectPanel.cpp:252
