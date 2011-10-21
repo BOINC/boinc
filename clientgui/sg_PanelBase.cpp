@@ -18,6 +18,8 @@
 #include "stdwx.h"
 #include "sg_PanelBase.h"
 
+#define RECTANGLERADIUS 15.0
+
 IMPLEMENT_DYNAMIC_CLASS(CSimplePanelBase, wxPanel)
 
 BEGIN_EVENT_TABLE(CSimplePanelBase, wxPanel)
@@ -98,7 +100,7 @@ void CSimplePanelBase::MakeBGBitMap() {
     dc.SetBackgroundMode(wxSOLID);
     dc.SetPen(bgPen);
     dc.SetBrush(bgBrush);
-    dc.DrawRoundedRectangle(0, 0, r.width, r.height, 10.0);
+    dc.DrawRoundedRectangle(0, 0, r.width, r.height, RECTANGLERADIUS);
 
     bgImage = rawBmp.ConvertToImage();
     bgImagePixels = bgImage.GetData(); // RGBRGBRGB...
@@ -147,7 +149,7 @@ void CSimplePanelBase::OnPaint(wxPaintEvent& /*event*/) {
     dc.SetPen(bgPen);
     dc.SetBrush(bgBrush);
     dc.GetSize(&w, &h);
-    dc.DrawRoundedRectangle(0, 0, w, h, 10.0);
+    dc.DrawRoundedRectangle(0, 0, w, h, RECTANGLERADIUS);
 
     // Restore Mode, Pen and Brush 
     dc.SetBackgroundMode(oldMode);

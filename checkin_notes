@@ -7618,3 +7618,13 @@ Rom    21 Oct 2011
         
     samples/vboxwrapper/
         vbox.cpp
+
+Rom    21 Oct 2011
+    - MGR: Make the simple gui rounded edges seem smoother by increasing the
+        radius.
+    - MGR: Fix project name font in the tasks area, normal size.  Increase
+        it's weight to BOLD.
+        
+    clientgui/
+        sg_PanelBase.cpp
+        sg_TaskPanel.cpp

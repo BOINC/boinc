@@ -249,7 +249,7 @@ CSimpleTaskPanel::CSimpleTaskPanel( wxWindow* parent ) :
 	
 	m_TaskProjectName = new CTransparentStaticText( this, wxID_ANY, wxT("SETI@home"), wxDefaultPosition, wxDefaultSize, wxST_NO_AUTORESIZE );
 	m_TaskProjectName->Wrap( -1 );
-	m_TaskProjectName->SetFont(wxFont(MEDIUM_FONT,wxSWISS,wxNORMAL,wxNORMAL,false,wxT("Arial"))); 
+	m_TaskProjectName->SetFont(wxFont(SMALL_FONT,wxDEFAULT,wxNORMAL,wxBOLD,false,wxT("Arial"))); 
 	bSizer3->Add( m_TaskProjectName, 1, 0, 0 );
 	
 	bSizer1->Add( bSizer3, 0, wxLEFT | wxRIGHT | wxEXPAND, SIDEMARGINS );
