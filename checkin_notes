@@ -7663,3 +7663,12 @@ Charlie 21 Oct 2011
     
     clientgui/
         sg_BoincSimpleFrame.cpp,.h
+
+Charlie 21 Oct 2011
+    - MGR: Fix project name font on Mac, which uses Lucinda Grande font 
+        not Arial.  SetFont for the parent window does not propogate to 
+        the text controls because CTransparentStaticText uses OnPaint() 
+        to draw. 
+    
+    clientgui/
+        sg_TaskPanel.cpp

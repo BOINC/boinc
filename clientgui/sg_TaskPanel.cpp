@@ -208,7 +208,6 @@ CSimpleTaskPanel::CSimpleTaskPanel( wxWindow* parent ) :
     m_sNotAvailableString = _("Not available");
     m_progressBarRect = NULL;
 
-    SetFont(wxFont(SMALL_FONT,wxSWISS,wxNORMAL,wxNORMAL,false,wxT("Arial")));
 	SetForegroundColour(*wxBLACK);
     
 	wxBoxSizer* bSizer1;
@@ -249,7 +248,9 @@ CSimpleTaskPanel::CSimpleTaskPanel( wxWindow* parent ) :
 	
 	m_TaskProjectName = new CTransparentStaticText( this, wxID_ANY, wxT("SETI@home"), wxDefaultPosition, wxDefaultSize, wxST_NO_AUTORESIZE );
 	m_TaskProjectName->Wrap( -1 );
-	m_TaskProjectName->SetFont(wxFont(SMALL_FONT,wxDEFAULT,wxNORMAL,wxBOLD,false,wxT("Arial"))); 
+    wxFont theFont = m_TaskProjectName->GetFont();
+    theFont.SetWeight(wxFONTWEIGHT_BOLD);
+    m_TaskProjectName->SetFont(theFont); 
 	bSizer3->Add( m_TaskProjectName, 1, 0, 0 );
 	
 	bSizer1->Add( bSizer3, 0, wxLEFT | wxRIGHT | wxEXPAND, SIDEMARGINS );
