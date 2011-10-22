@@ -82,7 +82,7 @@ void CSlideShowPanel::AdvanceSlideShow(bool changeSlide) {
     TaskSelectionData* selData = ((CSimpleTaskPanel*)GetParent())->GetTaskSelectionData();
     if (selData == NULL) return;
 
-    int numSlides = selData->slideShowFileNames.size();
+    int numSlides = (int)selData->slideShowFileNames.size();
 
     if (numSlides <= 0) {
         if (m_bCurrentSlideIsDefault) return;
@@ -691,6 +691,7 @@ void CSimpleTaskPanel::UpdateTaskSelectionList(bool reskin) {
 	RESULT* ctrlResult;
     PROJECT* project;
     std::vector<bool>is_alive;
+    bool needRefresh = false;
     CMainDocument*      pDoc = wxGetApp().GetDocument();
     CSkinSimple* pSkinSimple = wxGetApp().GetSkinManager()->GetSimple();
 
@@ -729,7 +730,7 @@ void CSimpleTaskPanel::UpdateTaskSelectionList(bool reskin) {
 			}
 		}
         
-        // if it isn't currently one of the tabs then we have a new one!  lets add it
+        // if it isn't currently in the list then we have a new one!  lets add it
         if (!found) {
 #if SELECTBYRESULTNAME
             wxString resname(result->name, wxConvUTF8);
@@ -761,7 +762,18 @@ void CSimpleTaskPanel::UpdateTaskSelectionList(bool reskin) {
             delete selData;
 			m_TaskSelectionCtrl->Delete(j);
             if (j == m_CurrentTaskSelection) {
+                int newCount = m_TaskSelectionCtrl->GetCount();
+                if (m_CurrentTaskSelection < newCount) {
+                    // Select the next item if one exists
+                    m_TaskSelectionCtrl->SetSelection(m_CurrentTaskSelection);
+                } else if (newCount > 0) {
+                    // Select the previous item if one exists
+                    m_TaskSelectionCtrl->SetSelection(newCount-1);
+                } else {
+                    m_TaskSelectionCtrl->SetSelection(wxNOT_FOUND);
+                }
                 m_bStableTaskInfoChanged = true;
+                needRefresh = true;
             }
 		}
 	}
@@ -802,8 +814,11 @@ void CSimpleTaskPanel::UpdateTaskSelectionList(bool reskin) {
                 break;
             }
             selData->dotColor = newColor;
-            m_TaskSelectionCtrl->Refresh();
+            needRefresh = true;
         }
+    }
+    if (needRefresh) {
+        m_TaskSelectionCtrl->Refresh();
     }
 }
 

@@ -7672,3 +7672,10 @@ Charlie 21 Oct 2011
     
     clientgui/
         sg_TaskPanel.cpp
+
+Charlie 21 Oct 2011
+    - MGR: Bug fix: when the task currently selected in Simple View 
+        is deleted, change selection to a different task.
+        
+    clientgui/
+        sg_TaskPanel.cpp    
