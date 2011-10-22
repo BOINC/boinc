@@ -147,28 +147,31 @@
 //
 // Simple GUI
 //
-#define ID_SIMPLEFRAME                          6500
-#define ID_SIMPLEMESSAGECHECKTIMER              6501
-#define ID_SIMPLE_HELP                          6601
-#define ID_SIMPLE_MESSAGESVIEW                  6602
-#define ID_SIMPLE_PROGRESSPULSETIMER            6603
-#define ID_SGTASKSELECTOR                       6604
-#define ID_TASKSCOMMANDBUTTON                   6605
-#define ID_ADDROJECTBUTTON                      6606
-#define ID_SGPROJECTSELECTOR                    6607
-#define ID_PROJECTWEBSITESBUTTON                6608
-#define ID_PROJECTCOMMANDBUTTON                 6609
-#define ID_SGNOTICESBUTTON                      6610
-#define ID_SGSUSPENDRESUMEBUTTON                6611
-#define ID_SGOPTIONS                            6612
-#define ID_SGDEFAULTSKINSELECTOR                6613
-#define ID_SGSKINSELECTOR                       6614
+#define ID_SIMPLEFRAME                          6400
+#define ID_SIMPLEMESSAGECHECKTIMER              6401
+#define ID_SIMPLE_HELP                          6402
+#define ID_SIMPLE_MESSAGESVIEW                  6403
+#define ID_SIMPLE_PROGRESSPULSETIMER            6404
+#define ID_SGTASKSELECTOR                       6405
+#define ID_TASKSCOMMANDBUTTON                   6406
+#define ID_ADDROJECTBUTTON                      6407
+#define ID_SGPROJECTSELECTOR                    6408
+#define ID_PROJECTWEBSITESBUTTON                6409
+#define ID_PROJECTCOMMANDBUTTON                 6410
+#define ID_SGNOTICESBUTTON                      6411
+#define ID_SGSUSPENDRESUMEBUTTON                6412
+#define ID_SGOPTIONS                            6413
+#define ID_SGSKINSELECTOR                       6414
+#define ID_SGDEFAULTSKINSELECTOR                6500
+#define ID_SGFIRSTSKINSELECTOR                  6501
+// 6501-6599 Reserved for Skin Selection
+#define ID_LASTSGSKINSELECTOR                   6999
 
 //
 // Taskbar/System Tray
 //
-#define ID_TB_SUSPEND                           6801
-#define ID_TB_SUSPEND_GPU                       6802
+#define ID_TB_SUSPEND                           6301
+#define ID_TB_SUSPEND_GPU                       6302
 
 //
 // Dialogs

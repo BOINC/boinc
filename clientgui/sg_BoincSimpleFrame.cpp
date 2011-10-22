@@ -63,7 +63,7 @@ BEGIN_EVENT_TABLE(CSimpleFrame, CBOINCBaseFrame)
     EVT_SIZE(CSimpleFrame::OnSize)
     EVT_MENU(ID_CHANGEGUI, CSimpleFrame::OnChangeGUI)
     EVT_MENU(ID_SGDEFAULTSKINSELECTOR, CSimpleFrame::OnSelectDefaultSkin)
-    EVT_MENU(ID_SGSKINSELECTOR, CSimpleFrame::OnSelectSkin)
+    EVT_MENU_RANGE(ID_SGFIRSTSKINSELECTOR, ID_LASTSGSKINSELECTOR, CSimpleFrame::OnSelectSkin)
     EVT_HELP(wxID_ANY, CSimpleFrame::OnHelp)
     EVT_FRAME_CONNECT(CSimpleFrame::OnConnect)
     EVT_FRAME_RELOADSKIN(CSimpleFrame::OnReloadSkin)
@@ -124,7 +124,7 @@ CSimpleFrame::CSimpleFrame(wxString title, wxIcon* icon, wxIcon* icon32, wxPoint
     BuildSkinSubmenu(m_pSubmenuSkins);
     
     // All other skin names will be appended as radio 
-    // menu items with ID_SGSKINSELECTOR
+    // menu items with ID_SGFIRSTSKINSELECTOR + index
     
     // View menu
     wxMenu *menuView = new wxMenu;
@@ -380,7 +380,7 @@ void CSimpleFrame::BuildSkinSubmenu( wxMenu *submenu) {
         }
 
         skinItem = submenu->AppendRadioItem(
-            ID_SGSKINSELECTOR,
+            ID_SGFIRSTSKINSELECTOR + i,
             astrSkins[i]
         );
         if (astrSkins[i] == strSelectedSkin) {
@@ -403,25 +403,36 @@ void CSimpleFrame::OnSelectDefaultSkin( wxCommandEvent& WXUNUSED(event) ) {
 }
 
 
-void CSimpleFrame::OnSelectSkin( wxCommandEvent& WXUNUSED(event) ){
-    size_t i, n;
-    CSkinManager* pSkinManager = wxGetApp().GetSkinManager();
-
+void CSimpleFrame::OnSelectSkin( wxCommandEvent& event ){
+    CSkinManager *pSkinManager = wxGetApp().GetSkinManager();
+    wxMenuItem *oldItem, *selectedItem;
+    wxMenuBar *pMenuBar = GetMenuBar();
+    int newSkinId = event.GetId();
+    int oldSkinID;
+    
     wxASSERT(pSkinManager);
     wxASSERT(wxDynamicCast(pSkinManager, CSkinManager));
     
-    wxString strSelectedSkin = pSkinManager->GetDefaultSkinName();   // For safety
     
-    n = m_pSubmenuSkins->GetMenuItemCount();
-    for (i=0; i<n; ++i) {
-        wxMenuItem* item = m_pSubmenuSkins->FindItemByPosition(i);
-        if (item->IsChecked()) {
-            strSelectedSkin = item->GetItemLabelText();
-            break;
-        }
+    selectedItem = pMenuBar->FindItem(newSkinId);
+    if (!selectedItem) return;
+
+    wxString oldSkinName = pSkinManager->GetSelectedSkin();
+    wxString newSkinName = selectedItem->GetItemLabelText();
+    if (newSkinName == oldSkinName) return;
+
+    if (oldSkinName == pSkinManager->GetDefaultSkinName()) {
+        // The "Default" skin menu item is localized, but 
+        // the name of the default skin is not localized
+        oldSkinID = ID_SGDEFAULTSKINSELECTOR;
+    } else {
+        oldSkinID = m_pSubmenuSkins->FindItem(oldSkinName);
     }
-    
-    pSkinManager->ReloadSkin(strSelectedSkin);
+    oldItem = m_pSubmenuSkins->FindItem(oldSkinID);
+    oldItem->Check(false);
+
+    selectedItem->Check(true);
+    pSkinManager->ReloadSkin(newSkinName);
 }
 
 
