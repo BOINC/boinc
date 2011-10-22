@@ -134,6 +134,7 @@ protected:
     virtual int     _GetCurrentViewPage();
 
 	wxMenuBar*          m_pMenubar;
+    wxMenu*             m_pSubmenuSkins;
     wxAcceleratorEntry  m_Shortcuts[1];
     wxAcceleratorTable* m_pAccelTable;
 

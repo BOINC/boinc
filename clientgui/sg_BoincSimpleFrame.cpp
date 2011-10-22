@@ -119,9 +119,9 @@ CSimpleFrame::CSimpleFrame(wxString title, wxIcon* icon, wxIcon* icon32, wxPoint
     );
 
     // Skins submenu
-    wxMenu *submenuSkins = new wxMenu;
+    m_pSubmenuSkins = new wxMenu;
     
-    BuildSkinSubmenu(submenuSkins);
+    BuildSkinSubmenu(m_pSubmenuSkins);
     
     // All other skin names will be appended as radio 
     // menu items with ID_SGSKINSELECTOR
@@ -140,12 +140,12 @@ CSimpleFrame::CSimpleFrame(wxString title, wxIcon* icon, wxIcon* icon32, wxPoint
     menuView->Append(
         ID_SGSKINSELECTOR,
         _("Skin"),
-        submenuSkins,
+        m_pSubmenuSkins,
         _("Select the appearance of the user interface.")
     );
 
     // Skins sumenu always contains the Default entry
-    if (submenuSkins->GetMenuItemCount() <= 1) {
+    if (m_pSubmenuSkins->GetMenuItemCount() <= 1) {
         menuView->Enable(ID_SGSKINSELECTOR, false);
     }
 
@@ -403,8 +403,7 @@ void CSimpleFrame::OnSelectDefaultSkin( wxCommandEvent& WXUNUSED(event) ) {
 }
 
 
-void CSimpleFrame::OnSelectSkin( wxCommandEvent& event ){
-    wxMenu *theMenu;
+void CSimpleFrame::OnSelectSkin( wxCommandEvent& WXUNUSED(event) ){
     size_t i, n;
     CSkinManager* pSkinManager = wxGetApp().GetSkinManager();
 
@@ -413,10 +412,9 @@ void CSimpleFrame::OnSelectSkin( wxCommandEvent& event ){
     
     wxString strSelectedSkin = pSkinManager->GetDefaultSkinName();   // For safety
     
-    theMenu = (wxMenu*)event.GetEventObject();
-    n = theMenu->GetMenuItemCount();
+    n = m_pSubmenuSkins->GetMenuItemCount();
     for (i=0; i<n; ++i) {
-        wxMenuItem* item = theMenu->FindItemByPosition(i);
+        wxMenuItem* item = m_pSubmenuSkins->FindItemByPosition(i);
         if (item->IsChecked()) {
             strSelectedSkin = item->GetItemLabelText();
             break;

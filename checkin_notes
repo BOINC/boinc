@@ -7657,3 +7657,9 @@ David  21 Oct 2011
 
     tools/
         update_versions
+
+Charlie 21 Oct 2011
+    - MGR: Fix crash bug.
+    
+    clientgui/
+        sg_BoincSimpleFrame.cpp,.h
