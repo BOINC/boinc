@@ -7681,9 +7681,16 @@ Charlie 22 Oct 2011
         sg_TaskPanel.cpp    
 
 Charlie 23 Oct 2011
-    - MGR: Sort Simple View task selection control alphabetically.
+    - MGR: Sort Simple View task selection control alphabetically. 
         
     clientgui/
         mac/
             MacBitmapComboBox.cpp,.h
+        sg_TaskPanel.cpp    
+
+Charlie 23 Oct 2011
+    - MGR: Reverted the above change because wxBitmapComboBox on Windows 
+        loses existing items' clientData when we Insert() a new item.
+
+    clientgui/
         sg_TaskPanel.cpp    

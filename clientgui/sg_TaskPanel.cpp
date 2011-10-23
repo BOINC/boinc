@@ -17,8 +17,6 @@
 
 #define TESTBIGICONPOPUP 0
 
-#define SORTTASKLIST 1  /* TRUE to sort task selection control alphabetically */
-
 #include "stdwx.h"
 #include "miofile.h"
 #include "Events.h"
@@ -694,7 +692,6 @@ void CSimpleTaskPanel::UpdateTaskSelectionList(bool reskin) {
     PROJECT* project;
     std::vector<bool>is_alive;
     bool needRefresh = false;
-    wxString resname;
     CMainDocument*      pDoc = wxGetApp().GetDocument();
     CSkinSimple* pSkinSimple = wxGetApp().GetSkinManager()->GetSimple();
 
@@ -719,12 +716,6 @@ void CSimpleTaskPanel::UpdateTaskSelectionList(bool reskin) {
 			continue;
 		}
 
-        resname = wxEmptyString;
-#if SELECTBYRESULTNAME
-        resname = FromUTF8(result->name);
-#else
-        GetApplicationAndProjectNames(result, &resname, NULL);
-#endif
 
 		// loop through the items already in Task Selection Control to find this result
 		for(j = 0; j < count; ++j) {
@@ -737,15 +728,16 @@ void CSimpleTaskPanel::UpdateTaskSelectionList(bool reskin) {
 				is_alive.at(j) = true;
 				break; // skip out of this loop
 			}
-#if SORTTASKLIST
-            if ((m_TaskSelectionCtrl->GetString(j)).Cmp(resname) > 0) {
-                break;  // Insert the new item here (sorted by item label)
-            }
-#endif
 		}
         
         // if it isn't currently in the list then we have a new one!  lets add it
         if (!found) {
+#if SELECTBYRESULTNAME
+            wxString resname(result->name, wxConvUTF8);
+#else
+            wxString resname = wxEmptyString;
+            GetApplicationAndProjectNames(result, &resname, NULL);
+#endif
             selData = new TaskSelectionData;
             selData->result = result;
             strncpy(selData->result_name, result->name, sizeof(selData->result_name));
@@ -758,19 +750,7 @@ void CSimpleTaskPanel::UpdateTaskSelectionList(bool reskin) {
             } else {
                 selData->project_files_downloaded_time = 0.0;
             }
-
-#if SORTTASKLIST
-            if (j < count) {
-                std::vector<bool>::iterator iter = is_alive.begin();
-                m_TaskSelectionCtrl->Insert(resname, j, (void*)selData);
-                is_alive.insert(iter+j, true);
-
-            } else 
-#endif
-            {
-                m_TaskSelectionCtrl->Append(resname, wxNullBitmap, (void*)selData);
-                is_alive.push_back(true);
-            }
+            m_TaskSelectionCtrl->Append(resname, wxNullBitmap, (void*)selData);
         }
     }
 
