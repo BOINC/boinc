@@ -75,13 +75,14 @@ public:
     void SetClientData(unsigned int n, void *data) { m_ChoiceControl->SetClientData(n, data); }
     int GetSelection() { return m_ChoiceControl->GetCurrentSelection(); }
     wxString GetValue() { return m_ChoiceControl->GetStringSelection(); }
+    wxString GetString(unsigned int n) const { return m_ChoiceControl->GetString(n); }
     wxString GetStringSelection() { return m_ChoiceControl->GetStringSelection(); }
 
     int Append(const wxString& text);
     int Append(const wxString& text, void *clientData);
     int Append(const wxString& text, const wxBitmap& bitmap, void *clientData);
-    void Insert(const wxString& item, unsigned int pos);
-    void Insert(const wxString& item, const wxBitmap& bitmap, unsigned int pos);
+    void Insert(const wxString& item, unsigned int pos, void *clientData);
+    void Insert(const wxString& item, const wxBitmap& bitmap, unsigned int pos, void *clientData);
     void Delete(unsigned int n);
     void Clear();
     void SetToolTip(wxString& s);

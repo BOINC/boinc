@@ -7673,9 +7673,17 @@ Charlie 21 Oct 2011
     clientgui/
         sg_TaskPanel.cpp
 
-Charlie 21 Oct 2011
+Charlie 22 Oct 2011
     - MGR: Bug fix: when the task currently selected in Simple View 
         is deleted, change selection to a different task.
         
     clientgui/
+        sg_TaskPanel.cpp    
+
+Charlie 23 Oct 2011
+    - MGR: Sort Simple View task selection control alphabetically.
+        
+    clientgui/
+        mac/
+            MacBitmapComboBox.cpp,.h
         sg_TaskPanel.cpp    
