@@ -758,6 +758,7 @@ wxArrayString& CSkinManager::GetCurrentSkins() {
     unsigned int i;
     wxString     strSkinLocation = wxString(GetSkinsLocation() + wxFileName::GetPathSeparator());
     wxString     strSkinFileName = wxString(wxFileName::GetPathSeparator() + GetSkinFileName());
+    wxString     strBuffer;
 
     // Initialize array
     m_astrSkins.Clear();
@@ -767,15 +768,18 @@ wxArrayString& CSkinManager::GetCurrentSkins() {
 
     // Trim out the path information for all the entries
     for (i = 0; i < m_astrSkins.GetCount(); i++) {
-        m_astrSkins[i] = 
-            m_astrSkins[i].Remove(0, strSkinLocation.Length());
-        m_astrSkins[i] = 
-            m_astrSkins[i].Remove(m_astrSkins[i].Find(strSkinFileName.c_str()), strSkinFileName.Length());
+        strBuffer = m_astrSkins[i];
+
+        strBuffer = strBuffer.Remove(0, strSkinLocation.Length());
+        strBuffer = strBuffer.Remove(strBuffer.Find(strSkinFileName.c_str()), strSkinFileName.Length());
 
         // Special case: 'Default' to mean the embedded default skin.
         //   remove any duplicate entries
-        if (GetDefaultSkinName() == m_astrSkins[i]) {
+        if (GetDefaultSkinName() != strBuffer) {
+            m_astrSkins[i] = strBuffer;
+        } else {
             m_astrSkins.RemoveAt(i);
+            i--;
         }
     }
 

@@ -7724,3 +7724,14 @@ David  21 Oct 2011
         client_types.h
         sim.cpp
         rr_sim.cpp
+
+Rom    24 Oct 2011
+    - MGR Skins: Fix numerious issues related to bad entries in the Skin XML
+        file.
+
+    clientgui/
+        SkinManager.cpp
+    clientgui/skins/GridRepublic/
+        skin.xml
+    clientgui/skins/Progress Thru Processors/
+        skin.xml

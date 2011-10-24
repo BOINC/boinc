@@ -221,8 +221,6 @@
 					<transparency_mask>0:0:0</transparency_mask>
 				</image>
 			</application_snooze_icon> 
-			<!-- logo displayed in about box -->
-			<application_logo>graphic/gr_about.ico</application_logo> 
 			<!-- name displayed in about box -->
 			<company_name>Progress Thru Processors</organization_name> 
 			<!-- web site displayed in about box -->
