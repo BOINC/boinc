@@ -64,9 +64,9 @@ function forum_rss($forumid, $userid, $truncate, $threads_only, $ndays) {
     $tlimit = time() - $ndays*86400;
 
     if ($threads_only) {
-        $q = "$clause and hidden=0 and sticky=0 and create_time > $tlimit order by create_time desc";
+        $q = "$clause and hidden=0 and create_time > $tlimit order by create_time desc";
     } else {
-        $q = "$clause and hidden=0 and sticky=0 and timestamp > $tlimit order by timestamp desc";
+        $q = "$clause and hidden=0 and and timestamp > $tlimit order by timestamp desc";
     }
 
     $threads = BoincThread::enum($q);

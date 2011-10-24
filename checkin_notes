@@ -7694,3 +7694,9 @@ Charlie 23 Oct 2011
 
     clientgui/
         sg_TaskPanel.cpp    
+
+David  23 Oct 2011
+    - web: forum RSS shouldn't filter sticky threads.
+        Not sure why that was in there.
+    html/inc/
+        forum_rss.inc
