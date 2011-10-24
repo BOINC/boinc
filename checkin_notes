@@ -7700,3 +7700,9 @@ David  23 Oct 2011
         Not sure why that was in there.
     html/inc/
         forum_rss.inc
+
+Charlie 24 Oct 2011
+    - Mac installer: Fix a very old bug.
+
+    mac_build/
+        Mac_SA_Secure.sh
