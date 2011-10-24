@@ -85,10 +85,10 @@ inline bool match_tag(const std::string &s, const char* tag) {
     return match_tag(s.c_str(), tag);
 }
 
-#ifdef _WIN32
+#if defined(_WIN32) && !defined(__MINGW32__)
 #define boinc_strtoull _strtoui64
 #else
-#if HAVE_STRTOULL
+#if defined(HAVE_STRTOULL) || defined(__MINGW32__)
 #define boinc_strtoull strtoull
 #else
 inline unsigned long long boinc_strtoull(const char *s, char **, int) {

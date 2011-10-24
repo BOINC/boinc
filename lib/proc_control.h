@@ -19,12 +19,16 @@
 #define _PROC_CONTROL_
 
 #include <vector>
+#ifdef _WIN32
+#include <windows.h>
+#endif
 
 extern void get_descendants(int pid, std::vector<int>& pids);
 extern bool any_process_exists(std::vector<int>& pids);
 extern void kill_all(std::vector<int>& pids);
 #ifdef _WIN32
 extern void kill_descendants();
+extern int suspend_or_resume_threads(DWORD pid, DWORD threadid, bool resume);
 #else
 extern void kill_descendants(int child_pid=0);
 #endif

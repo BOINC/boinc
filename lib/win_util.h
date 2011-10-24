@@ -18,6 +18,10 @@
 #ifndef _WIN_UTIL_
 #define _WIN_UTIL_
 
+#include <string>
+#include <windows.h>
+#include <malloc.h>
+
 extern BOOL IsWindows2000Compatible();
 extern BOOL IsTerminalServicesEnabled();
 extern BOOL ValidateProductSuite(LPSTR SuiteName);
@@ -29,6 +33,8 @@ extern BOOL GetAccountSid(
     LPCSTR AccountName,         // account of interest
     PSID *Sid                   // resultant buffer containing SID
 );
+extern void chdir_to_data_dir();
+extern bool is_remote_desktop();
 
 inline std::wstring A2W(const std::string& str) {
   int length_wide = MultiByteToWideChar(CP_UTF8, 0, str.data(), (int)str.length(), NULL, 0);
@@ -45,9 +51,5 @@ inline std::string W2A(const std::wstring& str) {
   std::string result(string_ansi, length_ansi);
   return result;
 }
-
-extern int suspend_or_resume_threads(DWORD pid, DWORD threadid, bool resume);
-extern void chdir_to_data_dir();
-extern bool is_remote_desktop();
 
 #endif // _WIN_UTIL_

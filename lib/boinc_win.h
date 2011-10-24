@@ -247,8 +247,7 @@ typedef LPCSTR PCTSTR, LPCTSTR, PCUTSTR, LPCUTSTR;
 #define __attribute__(x)
 #endif
 
-#if defined(__MINGW32__) && (__GNUC__ < 4)
-// breaks build on MinGW gcc-4
+#if defined(__MINGW32__)
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -257,6 +256,10 @@ void __cdecl fpreset (void);
 #ifdef __cplusplus
 }
 #endif //cplusplus
+#endif //MINGW32
+
+#if defined(__MINGW32__) && (__GNUC__ < 4)
+// breaks build on MinGW gcc-4
 #define SetClassLongPtr SetClassLong
 #define GCLP_HICON GCL_HICON
 #define GCLP_HICONSM GCL_HICONSM

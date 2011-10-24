@@ -7707,7 +7707,7 @@ Charlie 24 Oct 2011
     mac_build/
         Mac_SA_Secure.sh
 
-David  21 Oct 2011
+David  24 Oct 2011
     - client: reimplement the round-robin simulator to
         reduce its runtime from O(N^2) to O(N),
         where N is the number of runnable jobs
@@ -7735,3 +7735,13 @@ Rom    24 Oct 2011
         skin.xml
     clientgui/skins/Progress Thru Processors/
         skin.xml
+
+David  24 Oct 2011
+    - API: compile fixes for MinGW.  From Oliver Bock.
+
+    lib/
+        win_util.h
+        boinc_win.h
+        proc_control.h
+        Makefile.mingw
+        parse.h
