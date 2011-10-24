@@ -443,6 +443,9 @@ struct PROJECT : PROJ_AM {
     bool rr_sim_active;
     int ncoprocs_excluded[MAX_RSC];
         // number of excluded instances per processor type
+    bool operator<(const PROJECT& p) {
+        return sched_priority > p.sched_priority;
+    }
 
     // stuff related to work fetch
     //

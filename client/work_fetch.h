@@ -22,6 +22,7 @@
 #define _WORK_FETCH_
 
 #include <vector>
+#include <deque>
 
 extern bool use_hyst_fetch;
 
@@ -63,9 +64,21 @@ struct RSC_PROJECT_WORK_FETCH {
     int deadlines_missed;
     int deadlines_missed_copy;
         // copy of the above used during schedule_cpus()
+    std::deque<RESULT*> pending;
+    std::deque<RESULT*>::iterator pending_iter;
 
     RSC_PROJECT_WORK_FETCH() {
-        memset(this, 0, sizeof(*this));
+        backoff_time = 0;
+        backoff_interval = 0;
+        secs_this_debt_interval = 0;
+        queue_est = 0;
+        anon_skip = false;
+        fetchable_share = 0;
+        has_runnable_jobs = false;
+        sim_nused = 0;
+        nused_total = 0;
+        deadlines_missed = 0;
+        deadlines_missed_copy = 0;
     }
 
     inline void reset() {
@@ -156,7 +169,6 @@ struct RSC_WORK_FETCH {
         // used to calculate work request
     double deadline_missed_instances;
         // instance count for jobs that miss deadline
-    std::vector<RESULT*> pending;
     BUSY_TIME_ESTIMATOR busy_time_estimator;
 #ifdef SIM
     double estimated_delay;
@@ -213,7 +225,9 @@ struct PROJECT_WORK_FETCH {
     double rec_time;
         // when it was last updated
     double rec_temp;
-        // temporary copy used during schedule_cpus()
+        // temporary copy used during schedule_cpus() and work fetch
+    double rec_temp_save;
+        // temporary used during RR simulation
     bool can_fetch_work;
     bool compute_can_fetch_work(PROJECT*);
     bool has_runnable_jobs;

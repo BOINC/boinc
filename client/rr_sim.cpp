@@ -44,6 +44,8 @@
 #include "coproc.h"
 #include "client_msgs.h"
 
+using std::vector;
+
 inline void rsc_string(RESULT* rp, char* buf) {
     APP_VERSION* avp = rp->avp;
     if (avp->gpu_usage.rsc_type) {
@@ -60,7 +62,7 @@ inline void rsc_string(RESULT* rp, char* buf) {
 // refer to RESULT
 //
 struct RR_SIM {
-    std::vector<RESULT*> active;
+    vector<RESULT*> active;
 
     inline void activate(RESULT* rp) {
         PROJECT* p = rp->project;
@@ -74,6 +76,7 @@ struct RR_SIM {
         }
     }
 
+    void init_pending_lists();
     void pick_jobs_to_run(double reltime);
     void simulate();
 
@@ -123,10 +126,16 @@ void print_deadline_misses() {
 }
 
 // Decide what jobs to include in the simulation;
-// build the "pending" lists of the respective processor types.
-// NOTE: "results" is sorted by increasing arrival time
+// build the "pending" lists for each (project, processor type) pair.
+// NOTE: "results" is sorted by increasing arrival time.
 //
-static inline void init_pending_lists() {
+void RR_SIM::init_pending_lists() {
+    for (unsigned int i=0; i<gstate.projects.size(); i++) {
+        PROJECT* p = gstate.projects[i];
+        for (int j=0; j<coprocs.n_rsc; j++) {
+            p->rsc_pwf[j].pending.clear();
+        }
+    }
     for (unsigned int i=0; i<gstate.results.size(); i++) {
         RESULT* rp = gstate.results[i];
         rp->rr_sim_misses_deadline = false;
@@ -147,62 +156,108 @@ static inline void init_pending_lists() {
             p->rsc_pwf[rt].nused_total += rp->avp->gpu_usage.usage;
             p->rsc_pwf[rt].has_runnable_jobs = true;
         }
-        rsc_work_fetch[rt].pending.push_back(rp);
+        p->rsc_pwf[rt].pending.push_back(rp);
         set_rrsim_flops(rp);
         rp->rrsim_done = false;
     }
 }
 
-bool result_less_than(RESULT* r1, RESULT* r2) {
-    if (r2->rrsim_done) return true;
-    if (r1->rrsim_done) return false;
-    return (r1->project->sched_priority > r2->project->sched_priority);
-}
-
-static void sort_pending_lists() {
-    for (int i=0; i<coprocs.n_rsc; i++) {
-        vector<RESULT*>& v = rsc_work_fetch[i].pending;
-        std::sort(v.begin(), v.end(), result_less_than);
-
-        // trim off finished jobs
-        //
-        while (v.size() && (v.back())->rrsim_done) {
-            v.pop_back();
-        }
-    }
-}
-
+// pick jobs to run; put them in "active" list.
+// Simulate what the job scheduler would do:
+// pick a job from the project P with highest scheduling priority,
+// then adjust P's scheduling priority
+//
 void RR_SIM::pick_jobs_to_run(double reltime) {
     active.clear();
 
-    // do the GPUs first
+    // save and restore rec_temp
+    //
+    for (unsigned int i=0; i<gstate.projects.size(); i++) {
+        PROJECT* p = gstate.projects[i];
+        p->pwf.rec_temp_save = p->pwf.rec_temp;
+    }
+
+    // loop over resource types; do the GPUs first
     //
     for (int rt=coprocs.n_rsc-1; rt>=0; rt--) {
-        // clear usage counts
+        vector<PROJECT*> project_heap;
+
+        // Make a heap of projects with runnable jobs for this resource,
+        // ordered by scheduling priority.
+        // Clear usage counts.
+        // Initialize iterators to the pending list of each project.
         //
         rsc_work_fetch[rt].sim_nused = 0;
         for (unsigned int i=0; i<gstate.projects.size(); i++) {
             PROJECT* p = gstate.projects[i];
-            p->rsc_pwf[rt].sim_nused = 0;
+            RSC_PROJECT_WORK_FETCH& rsc_pwf = p->rsc_pwf[rt];
+            if (rsc_pwf.pending.size() ==0) continue;
+            rsc_pwf.pending_iter = rsc_pwf.pending.begin();
+            rsc_pwf.sim_nused = 0;
+            p->pwf.rec_temp = p->pwf.rec;
+            p->compute_sched_priority();
+            project_heap.push_back(p);
         }
-        for (unsigned int i=0; i<rsc_work_fetch[rt].pending.size(); i++) {
-            RESULT* rp = rsc_work_fetch[rt].pending[i];
-            if (rt) {
-                PROJECT* p = rp->project;
-                if (rsc_work_fetch[rt].sim_nused >= coprocs.coprocs[rt].count - p->ncoprocs_excluded[rt]) break;
+        make_heap(project_heap.begin(), project_heap.end());
+
+        // Loop over jobs.
+        // Keep going until the resource is saturated or there are no more jobs.
+        //
+        while (1) {
+            if (project_heap.empty()) break;
+
+            // p is the highest-priority project with work for this resource
+            //
+            PROJECT* p = project_heap.front();
+            RSC_PROJECT_WORK_FETCH& rsc_pwf = p->rsc_pwf[rt];
+            RESULT* rp = *rsc_pwf.pending_iter;
+
+            // garbage-collect jobs that already completed in our simulation
+            // (this is just a handy place to do this)
+            //
+            if (rp->rrsim_done) {
+                rsc_pwf.pending_iter = rsc_pwf.pending.erase(rsc_pwf.pending_iter);
             } else {
-                if (rsc_work_fetch[rt].sim_nused >= gstate.ncpus) break;
+                // add job to active list, and adjust project priority
+                //
+                activate(rp);
+                adjust_rec_sched(rp);
+                if (log_flags.rrsim_detail) {
+                    char buf[256];
+                    rsc_string(rp, buf);
+                    msg_printf(rp->project, MSG_INFO,
+                        "[rr_sim_detail] %.2f: starting %s (%s)",
+                        reltime, rp->name, buf
+                    );
+                }
+
+                // check whether resource is saturated
+                //
+                if (rt) {
+                    if (rsc_work_fetch[rt].sim_nused >= coprocs.coprocs[rt].count - p->ncoprocs_excluded[rt]) break;
+                } else {
+                    if (rsc_work_fetch[rt].sim_nused >= gstate.ncpus) break;
+                }
+                rsc_pwf.pending_iter++;
             }
-            activate(rp);
-            if (log_flags.rrsim_detail) {
-                char buf[256];
-                rsc_string(rp, buf);
-                msg_printf(rp->project, MSG_INFO,
-                    "[rr_sim_detail] %.2f: starting %s (%s)",
-                    reltime, rp->name, buf
-                );
+
+            if (rsc_pwf.pending_iter == rsc_pwf.pending.end()) {
+                // if this project now has no more jobs for the resource,
+                // remove it from the project heap
+                //
+                pop_heap(project_heap.begin(), project_heap.end());
+                project_heap.pop_back();
+            } else if (!rp->rrsim_done) {
+                // Otherwise reshuffle the heap
+                //
+                make_heap(project_heap.begin(), project_heap.end());
             }
         }
+    }
+
+    for (unsigned int i=0; i<gstate.projects.size(); i++) {
+        PROJECT* p = gstate.projects[i];
+        p->pwf.rec_temp = p->pwf.rec_temp_save;
     }
 }
 
@@ -269,6 +324,7 @@ void RR_SIM::simulate() {
         );
     }
 
+    project_priority_init(false);
     init_pending_lists();
 
     // Simulation loop.  Keep going until all jobs done
@@ -276,9 +332,7 @@ void RR_SIM::simulate() {
     double buf_end = gstate.now + gstate.work_buf_total();
     double sim_now = gstate.now;
     bool first = true;
-    project_priority_init(false);
     while (1) {
-        sort_pending_lists();   // sort jobs by project priority
         pick_jobs_to_run(sim_now-gstate.now);
         if (first) {
             record_nidle_now();

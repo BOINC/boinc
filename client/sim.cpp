@@ -802,12 +802,15 @@ const char* colors[] = {
 #define WIDTH2  400
 
 void show_project_colors() {
-    fprintf(html_out, "Projects:<br><table>\n");
+    fprintf(html_out,
+        "<table>\n"
+        "  <tr><th>Project</th><th>Resource share</th></tr>\n"
+    );
     for (unsigned int i=0; i<gstate.projects.size(); i++) {
         PROJECT* p = gstate.projects[i];
         fprintf(html_out,
-            "<tr><td bgcolor=%s><font color=ffffff>%s</font></td></tr>\n",
-            colors[p->index%NCOLORS], p->project_name
+            "<tr><td bgcolor=%s><font color=ffffff>%s</font></td><td>%.0f</td></tr>\n",
+            colors[p->index%NCOLORS], p->project_name, p->resource_share
         );
     }
     fprintf(html_out, "</table>\n");
@@ -875,7 +878,7 @@ void show_resource(int rsc_type) {
         fprintf(html_out, "IDLE\n");
     }
     fprintf(html_out,
-        "<table><tr><td>Project</td><td>Jobs in progress</td><td>Jobs done</td></tr>\n"
+        "<table><tr><td>Project</td><td>In progress</td><td>done</td><td>REC</td></tr>\n"
     );
     found = false;
     for (i=0; i<gstate.projects.size(); i++) {
@@ -883,8 +886,9 @@ void show_resource(int rsc_type) {
         int in_progress, done;
         job_count(p, rsc_type, in_progress, done);
         if (in_progress || done) {
-            fprintf(html_out, "<td bgcolor=%s><font color=#ffffff>%s</font></td><td>%d</td><td>%d</td></tr>\n",
-                colors[p->index%NCOLORS], p->project_name, in_progress, done
+            fprintf(html_out, "<td bgcolor=%s><font color=#ffffff>%s</font></td><td>%d</td><td>%d</td><td>%.3f</td></tr>\n",
+                colors[p->index%NCOLORS], p->project_name, in_progress, done,
+                p->pwf.rec
             );
             found = true;
         }

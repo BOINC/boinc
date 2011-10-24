@@ -246,7 +246,7 @@ void ACTIVE_TASK::init_app_init_data(APP_INIT_DATA& aid) {
         int k = result->coproc_indices[0];
         if (k<0 || k>=cp.count) {
             msg_printf(0, MSG_INTERNAL_ERROR,
-                "coproc_cmdline: coproc index %d out of range", k
+                "init_app_init_data(): coproc index %d out of range", k
             );
             k = 0;
         }

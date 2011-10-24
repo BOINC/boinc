@@ -7706,3 +7706,21 @@ Charlie 24 Oct 2011
 
     mac_build/
         Mac_SA_Secure.sh
+
+David  21 Oct 2011
+    - client: reimplement the round-robin simulator to
+        reduce its runtime from O(N^2) to O(N),
+        where N is the number of runnable jobs
+        (which can be in the thousands).
+        This will make the client emulator run a lot faster,
+        and will reduce the client CPU overhead a bit.
+    - API: change boinc_get_opencl_ids() so that it returns
+        a BOINC error code (< -100) if the app_init.xml is
+        missing or bad (i.e. we're running standalone),
+        and an OpenCL error code (> -100) if an OpenCL call failed.
+
+    client/
+        work_fetch.cpp,h
+        client_types.h
+        sim.cpp
+        rr_sim.cpp

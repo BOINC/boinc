@@ -60,6 +60,8 @@ static void segv_handler(int) {
 }
 #endif
 
+// returns an OpenCL error num or zero
+//
 int boinc_get_opencl_ids_aux(
     char *type, int device_num, cl_device_id* device, cl_platform_id* platform
 ) {
@@ -75,14 +77,17 @@ int boinc_get_opencl_ids_aux(
     
     for (platform_index=0; platform_index<num_platforms; ++platform_index) {
         retval = clGetDeviceIDs(
-            platforms[platform_index], CL_DEVICE_TYPE_GPU, MAX_COPROC_INSTANCES, devices, &num_devices
+            platforms[platform_index], CL_DEVICE_TYPE_GPU,
+            MAX_COPROC_INSTANCES, devices, &num_devices
         );
 
         if (num_devices > (cl_uint)(device_num + 1)) continue;
     
         cl_device_id device_id = devices[device_num];
 
-        retval = clGetDeviceInfo(device_id, CL_DEVICE_VENDOR, sizeof(vendor), vendor, NULL);
+        retval = clGetDeviceInfo(
+            device_id, CL_DEVICE_VENDOR, sizeof(vendor), vendor, NULL
+        );
         if (retval || strlen(vendor)==0) continue;
             
         if ((strstr(vendor, "AMD")) ||  
@@ -102,19 +107,29 @@ int boinc_get_opencl_ids_aux(
     return 0;
 }
 
+// returns
+// - 0 if success
+// - ERR_FOPEN if init_data.xml missing
+// - ERR_XML_PARSE if can't parse init_data.xml
+// - ERR_NOT_FOUND if missing <gpu_type> or <gpu_device_num> fields
+// - an OpenCL error number if OpenCL error
+//
 int boinc_get_opencl_ids(cl_device_id* device, cl_platform_id* platform) {
-    int retval=0;
+    int retval;
     APP_INIT_DATA aid;
 
-    boinc_parse_init_data_file();
+    retval = boinc_parse_init_data_file();
+    if (retval) return retval;
     boinc_get_init_data(aid);
     
     if (!strlen(aid.gpu_type)) {
-        return CL_INVALID_DEVICE_TYPE;
+        fprintf(stderr, "GPU type not found in %s\n", INIT_DATA_FILE);
+        return ERR_NOT_FOUND;
     }
     
     if (aid.gpu_device_num < 0) {
-        return CL_INVALID_DEVICE;
+        fprintf(stderr, "GPU device # not found in %s\n", INIT_DATA_FILE);
+        return ERR_NOT_FOUND;
     }
 
 #ifdef _WIN32

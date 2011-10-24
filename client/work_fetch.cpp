@@ -182,7 +182,6 @@ void RSC_WORK_FETCH::rr_init() {
     total_fetchable_share = 0;
     deadline_missed_instances = 0;
     saturated_time = 0;
-    pending.clear();
     busy_time_estimator.reset();
 }
 
