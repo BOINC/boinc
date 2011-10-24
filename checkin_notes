@@ -10337,3 +10337,10 @@ Charlie 24 Oct 2011
 
     mac_build/
         Mac_SA_Secure.sh
+
+Rom    24 Oct 2011
+    - Lib: make sure strip_whitespace can handle the overlapped string
+        case.
+        
+    lib/
+        str_util.cpp, .h

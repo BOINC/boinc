@@ -136,6 +136,17 @@ const char *strcasestr(const char *s1, const char *s2) {
     return p;
 }
 #endif
+
+// version of strcpy that works even if strings overlap (p < q)
+//
+void strcpy_overlap(char* p, const char* q) {
+    while (1) {
+        *p++ = *q;
+        if (!*q) break;
+        q++;
+    }
+}
+
 // Converts a double precision time (where the value of 1 represents
 // a day) into a string.  smallest_timescale determines the smallest
 // unit of time division used
@@ -306,7 +317,7 @@ void strip_whitespace(char *str) {
         if (!str[0]) break;
         if (!isascii(str[0])) break;
         if (!isspace(str[0])) break;
-        strcpy(str, str+1);
+        strcpy_overlap(str, str+1);
     }
     while (1) {
         n = (int)strlen(str);
