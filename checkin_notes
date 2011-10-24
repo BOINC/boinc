@@ -10344,3 +10344,11 @@ Rom    24 Oct 2011
         
     lib/
         str_util.cpp, .h
+
+Rom    24 Oct 2011
+    - Tag for 6.12.42 release, all platforms
+      boinc_core_release_6_12_42
+
+    /
+        configure.ac
+        version.h
