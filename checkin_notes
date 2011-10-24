@@ -10331,3 +10331,9 @@ Rom    10 Oct 2011
     /
         configure.ac
         version.h
+
+Charlie 24 Oct 2011
+    - Mac installer: Fix a very old bug.
+
+    mac_build/
+        Mac_SA_Secure.sh

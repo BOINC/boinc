@@ -63,7 +63,7 @@
 # 
 
 # Updated 1/28/10 for BOINC version 6.8.20, 6.10.30 and 6.11.1
-# Last updated 8/12/11 for OS 10.7 Lion
+# Last updated 10/24/11 for OS 10.7.2 Lion
 # WARNING: do not use this script with versions of BOINC older 
 # than 6.8.20 and 6.10.30
 
@@ -97,7 +97,7 @@ function make_boinc_user() {
             # uid=gid already in use, so find an unused user ID
             uid="25"
             while true; do
-                name=$(dscl . search /groups UniqueID $uid | cut -f1 -s)
+                name=$(dscl . search /users UniqueID $uid | cut -f1 -s)
                 if [ -z "$name" ] ; then
                     break
                 fi
