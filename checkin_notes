@@ -7767,3 +7767,11 @@ Charlie 25 Oct 2011
     clientgui/
         sg_PanelBase.cpp
         SkinManager.cpp,.h
+
+Rom    25 Oct 2011
+    - Tag for 6.13.9 release, all platforms
+      boinc_core_release_6_13_9
+
+    /
+        configure.ac
+        version.h
