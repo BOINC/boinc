@@ -7745,3 +7745,18 @@ David  24 Oct 2011
         proc_control.h
         Makefile.mingw
         parse.h
+
+Charlie 25 Oct 2011
+Charlie 23 Oct 2011
+    - MGR: Sort Simple View task selection control alphabetically.
+        Subclassed CBOINCBitmapComboBox from wxBitmapComboBox to work 
+        around clientData bug in wxBitmapComboBox::Insert().
+        
+    clientgui/
+        mac/
+            MacBitmapComboBox.cpp,.h
+        sg_PanelBase.h
+        sg_ProjectPanel.cpp
+        sg_TaskPanel.cpp,.h
+    win_build/
+        boincmgr.vcproj

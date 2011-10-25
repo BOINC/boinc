@@ -54,14 +54,7 @@ enum{
 #ifdef __WXMAC__
 #include "MacBitmapComboBox.h"
 #else
-// TODO: Subclass CBOINCBitmapComboBox to be accessible on Windows.  Either:
-// Add WxBitmapComboBoxAccessible class (like CNoticeListCtrlAccessible for CNoticeListCtrl)
-// or simulate bitmap combo box using accessible standard Windows controls (as done for 
-// CBOINCBitmapComboBox on Mac)
-// TODO: Add wx/bmpcbox.h to stdwx.h
-#include <wx/bmpcbox.h>
-#define CBOINCBitmapComboBox wxBitmapComboBox
-#define EVT_BOINCBITMAPCOMBOBOX EVT_COMBOBOX
+#include "BOINCBitmapComboBox.h"
 #endif
 
 

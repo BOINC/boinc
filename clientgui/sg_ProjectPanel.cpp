@@ -162,6 +162,14 @@ CSimpleProjectPanel::CSimpleProjectPanel( wxWindow* parent ) :
 
 CSimpleProjectPanel::~CSimpleProjectPanel()
 {
+    ProjectSelectionData *selData;
+    int count = m_ProjectSelectionCtrl->GetCount();
+	for(int j = count-1; j >=0; --j) {
+        selData = (ProjectSelectionData*)m_ProjectSelectionCtrl->GetClientData(j);
+        delete selData;
+        m_ProjectSelectionCtrl->SetClientData(j, NULL);
+	}
+    m_ProjectSelectionCtrl->Clear();
 }
 
 

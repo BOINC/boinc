@@ -738,6 +738,14 @@
 			Name="Simple"
 			>
 			<File
+				RelativePath="..\clientgui\BOINCBitmapComboBox.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\clientgui\BOINCBitmapComboBox.h"
+				>
+			</File>
+			<File
 				RelativePath="..\clientgui\sg_BoincSimpleFrame.cpp"
 				>
 			</File>

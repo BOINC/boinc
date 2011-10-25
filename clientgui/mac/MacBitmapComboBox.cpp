@@ -174,45 +174,39 @@ void CBOINCBitmapComboBox::SetSelection(int sel) {
 }
 
 
-int CBOINCBitmapComboBox::Append(const wxString& text) {
+int CBOINCBitmapComboBox::Append(const wxString& item, const wxBitmap& bitmap) {
     if (m_bHaveLargeBitmaps) {
-        m_BitmapCache.push_back(wxNullBitmap);
+        m_BitmapCache.push_back(bitmap);
     }
     
-    return m_ChoiceControl->Append(text);
+    return m_ChoiceControl->Append(item);
 }
 
 
-int CBOINCBitmapComboBox::Append(const wxString& text, void *clientData) {
-    if (m_bHaveLargeBitmaps) {
-        m_BitmapCache.push_back(wxNullBitmap);
-    }
-    
-    return m_ChoiceControl->Append(text, clientData);
-}
-
-
-int CBOINCBitmapComboBox::Append(const wxString& text, const wxBitmap& bitmap, void *clientData) {
+int CBOINCBitmapComboBox::Append(const wxString& item, const wxBitmap& bitmap, void *clientData) {
     if (m_bHaveLargeBitmaps) {
         m_BitmapCache.push_back(bitmap);
     }
 
-    int n = m_ChoiceControl->Append(text, clientData);
+    int n = m_ChoiceControl->Append(item, clientData);
     SetItemBitmap(n, bitmap);
     return n;
 }
 
 
-void CBOINCBitmapComboBox::Insert(const wxString& item, unsigned int pos, void *clientData) {
+int CBOINCBitmapComboBox::Insert(const wxString& item, const wxBitmap& bitmap, unsigned int pos) {
     if (m_bHaveLargeBitmaps) {
         std::vector<wxBitmap>::iterator insertionPoint = m_BitmapCache.begin();
-        m_BitmapCache.insert(insertionPoint + pos, wxNullBitmap);
+        wxBitmap* bm = new wxBitmap(bitmap);
+        m_BitmapCache.insert(insertionPoint + pos, *bm);
+        delete bm;
     }
-    m_ChoiceControl->Insert(item, pos, clientData);
+    int n = m_ChoiceControl->Insert(item, pos);
+    return n;
 }
 
 
-void CBOINCBitmapComboBox::Insert(const wxString& item, const wxBitmap& bitmap, unsigned int pos, void *clientData) {
+int CBOINCBitmapComboBox::Insert(const wxString& item, const wxBitmap& bitmap, unsigned int pos, void *clientData) {
     if (m_bHaveLargeBitmaps) {
         std::vector<wxBitmap>::iterator insertionPoint = m_BitmapCache.begin();
         wxBitmap* bm = new wxBitmap(bitmap);
@@ -220,7 +214,8 @@ void CBOINCBitmapComboBox::Insert(const wxString& item, const wxBitmap& bitmap, 
         delete bm;
     }
     
-    m_ChoiceControl->Insert(item, pos, clientData);
+    int n = m_ChoiceControl->Insert(item, pos, clientData);
+    return n;
 }
 
 
@@ -239,6 +234,11 @@ void CBOINCBitmapComboBox::Delete(unsigned int n) {
 
 void CBOINCBitmapComboBox::Clear() {
     m_BitmapCache.clear();
+    int count = GetCount();
+	for(int j = count-1; j >=0; --j) {
+        wxASSERT(!m_ChoiceControl->GetClientData(j));
+        m_ChoiceControl->SetClientData(j, NULL);
+    }
     m_ChoiceControl->Clear();
 }
 
