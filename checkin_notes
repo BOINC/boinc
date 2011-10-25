@@ -7775,3 +7775,12 @@ Rom    25 Oct 2011
     /
         configure.ac
         version.h
+
+David  26 Oct 2011
+    - web: typo in forum RSS from Daniel L G; fixes #1147
+    - client: message tweak
+
+    html/inc/
+        forum_rss.inc
+    client/
+        cpu_sched.cpp

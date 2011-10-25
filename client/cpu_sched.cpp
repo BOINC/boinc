@@ -1559,7 +1559,7 @@ bool CLIENT_STATE::enforce_run_list(vector<RESULT*>& run_list) {
             if (ncpus_used >= ncpus) {
                 if (log_flags.cpu_sched_debug) {
                     msg_printf(rp->project, MSG_INFO,
-                        "[cpu_sched_debug] all CPUs used (%.2f > %d), skipping %s",
+                        "[cpu_sched_debug] all CPUs used (%.2f >= %d), skipping %s",
                         ncpus_used, ncpus,
                         rp->name
                     );
