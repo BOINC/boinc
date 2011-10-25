@@ -102,6 +102,11 @@ private:
 };
 
 
+// Default opacity for Simple View white panels 
+// is 60% (153 on a scale of 0 - 255).
+#define MAX_OPACITY 255
+#define DEFAULT_OPACITY 153
+
 class CSkinSimple : public CSkinItem
 {
     DECLARE_DYNAMIC_CLASS( CSkinSimple )
@@ -123,6 +128,7 @@ public:
     CSkinImage*         GetWorkunitRunningImage() { return &m_WorkunitRunningImage; }
     CSkinImage*         GetWorkunitSuspendedImage() { return &m_WorkunitSuspendedImage; }
     CSkinImage*         GetWorkunitWaitingImage() { return &m_WorkunitWaitingImage; }
+    int                 GetPanelOpacity() { return m_iPanelOpacity; }
 
 private:
 	CSkinImage          m_BackgroundImage;
@@ -133,6 +139,7 @@ private:
     CSkinImage          m_WorkunitRunningImage;
     CSkinImage          m_WorkunitSuspendedImage;
     CSkinImage          m_WorkunitWaitingImage;
+    int                 m_iPanelOpacity;
 };
 
 

@@ -16,6 +16,9 @@
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdwx.h"
+#include "BOINCGUIApp.h"
+#include "miofile.h"
+#include "SkinManager.h"
 #include "sg_PanelBase.h"
 
 #define RECTANGLERADIUS 15.0
@@ -54,9 +57,6 @@ void CSimplePanelBase::ReskinInterface() {
     m_GotBGBitMap = false;
 }
 
-#define WHITE_WEIGHT    60
-#define IMAGE_WEIGHT (100-WHITE_WEIGHT)
-
 // Create a background bitmap simulating partial transparency
 void CSimplePanelBase::MakeBGBitMap() {
     wxRect r;
@@ -70,6 +70,13 @@ void CSimplePanelBase::MakeBGBitMap() {
     CSimpleGUIPanel* backgroundPanel = (CSimpleGUIPanel*)GetParent();
     wxPen bgPen(*wxWHITE, 1, wxTRANSPARENT);
     wxBrush bgBrush(*wxWHITE);
+    CSkinSimple* pSkinSimple = wxGetApp().GetSkinManager()->GetSimple();
+
+    wxASSERT(pSkinSimple);
+    wxASSERT(wxDynamicCast(pSkinSimple, CSkinSimple));
+
+    int white_weight = pSkinSimple->GetPanelOpacity();
+    int image_weight = MAX_OPACITY - white_weight;
 
 // Workaround for CSimpleGUIPanel not reliably getting 
 // Paint or EraseBackground events under Linux
@@ -110,12 +117,12 @@ void CSimplePanelBase::MakeBGBitMap() {
     for (i=0; i<r.width; ++i) {
         for (j=0; j<r.height; ++j) {
             if (*whitePixels) {
-                k = (((unsigned int)*bgImagePixels * IMAGE_WEIGHT) + ((unsigned int)*whitePixels++ * WHITE_WEIGHT));
-                *bgImagePixels++ = k / 100;
-                k = (((unsigned int)*bgImagePixels * IMAGE_WEIGHT) + ((unsigned int)*whitePixels++ * WHITE_WEIGHT));
-                *bgImagePixels++ = k / 100;
-                k = (((unsigned int)*bgImagePixels * IMAGE_WEIGHT) + ((unsigned int)*whitePixels++ * WHITE_WEIGHT));
-                *bgImagePixels++ = k / 100;
+                k = (((unsigned int)*bgImagePixels * image_weight) + ((unsigned int)*whitePixels++ * white_weight));
+                *bgImagePixels++ = k / MAX_OPACITY;
+                k = (((unsigned int)*bgImagePixels * image_weight) + ((unsigned int)*whitePixels++ * white_weight));
+                *bgImagePixels++ = k / MAX_OPACITY;
+                k = (((unsigned int)*bgImagePixels * image_weight) + ((unsigned int)*whitePixels++ * white_weight));
+                *bgImagePixels++ = k / MAX_OPACITY;
             } else {
                 bgImagePixels += 3;
                 whitePixels += 3;

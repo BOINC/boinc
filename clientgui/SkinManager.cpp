@@ -279,6 +279,7 @@ void CSkinSimple::Clear() {
     m_WorkunitRunningImage.Clear();
     m_WorkunitSuspendedImage.Clear();
     m_WorkunitWaitingImage.Clear();
+    m_iPanelOpacity = DEFAULT_OPACITY;
 }
 
 
@@ -311,6 +312,8 @@ int CSkinSimple::Parse(MIOFILE& in) {
             continue;
         } else if (match_tag(buf, "<workunit_waiting_image>")) {
             m_WorkunitWaitingImage.Parse(in);
+            continue;
+        } else if (parse_int(buf, "<panel_opacity>", m_iPanelOpacity)) {
             continue;
         }
     }

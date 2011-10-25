@@ -7747,7 +7747,6 @@ David  24 Oct 2011
         parse.h
 
 Charlie 25 Oct 2011
-Charlie 23 Oct 2011
     - MGR: Sort Simple View task selection control alphabetically.
         Subclassed CBOINCBitmapComboBox from wxBitmapComboBox to work 
         around clientData bug in wxBitmapComboBox::Insert().
@@ -7760,3 +7759,11 @@ Charlie 23 Oct 2011
         sg_TaskPanel.cpp,.h
     win_build/
         boincmgr.vcproj
+
+Charlie 25 Oct 2011
+    - MGR: Allow skin to specify the (simulated) opacity of Simple View 
+        task and project panels.
+
+    clientgui/
+        sg_PanelBase.cpp
+        SkinManager.cpp,.h
