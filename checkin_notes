@@ -7875,3 +7875,9 @@ David  26 Oct 2011
 
     sched/
         sched_send.cpp
+
+David  26 Oct 2011
+    - web: fix typo that failed to show ATI GPUs in top-GPU page
+
+    html/user/
+        gpu_list.php

@@ -80,7 +80,7 @@ function get_gpu_list($vendor) {
         if (!$h) continue;
 		$wu = BoincWorkunit::lookup_id($r->workunitid);
         if (!$wu) continue;
-        $v = $vendor=="cuda"?"CUDA":"ATI";
+        $v = $vendor=="cuda"?"CUDA":"CAL";
         $model = get_gpu_model($h->serialnum, $v);
         if (!$model) continue;
         add_model($model, $r, $wu, $total);
