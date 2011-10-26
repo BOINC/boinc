@@ -7881,3 +7881,15 @@ David  26 Oct 2011
 
     html/user/
         gpu_list.php
+
+David  26 Oct 2011
+    - client: smoothed working-set size wasn't being computed correctly.
+        It was always just the most recent size.
+
+    sched/
+        sched_util.cpp
+        sample_work_generator.cpp
+    lib/
+        procinfo.h
+    client/
+        app.cpp

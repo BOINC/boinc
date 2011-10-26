@@ -25,7 +25,7 @@
 // - Creates work for the application "example_app".
 // - Creates a new input file for each job;
 //   the file (and the workunit names) contain a timestamp
-//   and sequence number, so that they're unique.
+//   and sequence number, so they're unique.
 
 #include <unistd.h>
 #include <cstdlib>

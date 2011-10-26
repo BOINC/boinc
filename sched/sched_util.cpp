@@ -236,16 +236,12 @@ int mylockf(int fd) {
 
 int count_results(char* query, int& n) {
     DB_RESULT result;
-    int retval = result.count(n, query);
-    if (retval) return retval;
-    return 0;
+    return result.count(n, query);
 }
 
 int count_workunits(int& n, const char* query) {
     DB_WORKUNIT workunit;
-    int retval = workunit.count(n, query);
-    if (retval) return retval;
-    return 0;
+    return workunit.count(n, query);
 }
 
 int count_unsent_results(int& n, int appid) {

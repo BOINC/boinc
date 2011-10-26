@@ -45,7 +45,8 @@ struct PROCINFO {
         parentid = 0;
         swap_size = 0;
         working_set_size = 0;
-        working_set_size_smoothed = 0;
+        //working_set_size_smoothed = 0;
+            // *Don't* clear this
         page_fault_count = 0;
         user_time = 0;
         kernel_time = 0;

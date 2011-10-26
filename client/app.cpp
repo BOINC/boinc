@@ -111,7 +111,8 @@ ACTIVE_TASK::ACTIVE_TASK() {
     want_network = 0;
     premature_exit_count = 0;
     quit_time = 0;
-    memset(&procinfo, 0, sizeof(procinfo));
+    procinfo.clear();
+    procinfo.working_set_size_smoothed = 0;
 #ifdef _WIN32
     process_handle = NULL;
     shm_handle = NULL;
@@ -332,7 +333,7 @@ void ACTIVE_TASK_SET::get_memory_usage() {
             v = &(atp->other_pids);
         }
         procinfo_app(pi, v, pm, atp->app_version->graphics_exec_file);
-        pi.working_set_size_smoothed = .5*pi.working_set_size_smoothed + pi.working_set_size;
+        pi.working_set_size_smoothed = .5*(pi.working_set_size_smoothed + pi.working_set_size);
 
         int pf = pi.page_fault_count - last_page_fault_count;
         pi.page_fault_rate = pf/diff;
@@ -690,7 +691,7 @@ int ACTIVE_TASK::parse(XML_PARSER& xp) {
         else if (xp.parse_double("fraction_done", fraction_done)) continue;
             // deprecated - for backwards compat
         else if (xp.parse_int("app_version_num", n)) continue;
-        else if (xp.parse_double("swap_size", procinfo.swap_size)) continue;
+        else if (xp.parse_double("swap_size",  procinfo.swap_size)) continue;
         else if (xp.parse_double("working_set_size", procinfo.working_set_size)) continue;
         else if (xp.parse_double("working_set_size_smoothed", procinfo.working_set_size_smoothed)) continue;
         else if (xp.parse_double("page_fault_rate", procinfo.page_fault_rate)) continue;
