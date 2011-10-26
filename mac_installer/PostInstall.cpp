@@ -1343,6 +1343,12 @@ OSErr UpdateAllVisibleUsers(long brandID)
         }
         
         if (isBMGroupMember) {
+            // For some reason we need to call getpwnam again on OS 10.5
+            pw = getpwnam(human_user_name);
+            if (pw == NULL) {           // "Deleted Users", "Shared", etc.
+                printf("[2] ERROR: %s was in getpwnam data base but now is not!\n", human_user_name);
+                continue;
+            }
             SetSkinInUserPrefs(pw->pw_name, skinName);
         
             if (setSaverForAllUsers) {

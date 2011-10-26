@@ -17,7 +17,7 @@ if [ -f "Contents/Resources/acct_mgr_url.xml" ]; then
     cp -fp Contents/Resources/acct_mgr_url.xml "/Library/Application Support/BOINC Data/acct_mgr_url.xml"
 fi
 
- Run the Postinstall Application
+# Run the Postinstall Application
 if [ "${COMMAND_LINE_INSTALL}" = "1" ]; then
 rm -f /tmp/BOINCInstallLog.txt
 Contents/Resources/PostInstall.app/Contents/MacOS/PostInstall -part1 >> /tmp/BOINCInstallLog.txt
