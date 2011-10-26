@@ -55,6 +55,8 @@ int read_sendable_result(SCHED_DB_RESULT& result) {
     return 0;
 }
 
+// TODO: use slow_check()
+//
 bool wu_is_infeasible_slow(
     WU_RESULT& wu_result, SCHEDULER_REQUEST&, SCHEDULER_REPLY&
 ) {
@@ -119,7 +121,7 @@ bool wu_is_infeasible_slow(
     APP* app = ssp->lookup_app(wu_result.workunit.appid);
     WORKUNIT wu = wu_result.workunit;
     if (app_hr_type(*app)) {
-        if (already_sent_to_different_platform_careful(wu, *app)) {
+        if (already_sent_to_different_hr_class(wu, *app)) {
             if (config.debug_send) {
                 log_messages.printf(MSG_NORMAL,
                     "[send] [HOST#%d] [WU#%d %s] WU is infeasible (assigned to different platform)\n",

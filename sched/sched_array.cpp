@@ -153,8 +153,11 @@ static bool quick_check(
 }
 
 // do slow checks (ones that require DB access)
+// return true if OK to send
 //
-static bool slow_check(WU_RESULT& wu_result, WORKUNIT& wu, APP* app) {
+static bool slow_check(
+    WU_RESULT& wu_result, WORKUNIT& wu, APP* app, BEST_APP_VERSION* bavp
+) {
     int n, retval;
     DB_RESULT result;
     char buf[256];
@@ -212,22 +215,50 @@ static bool slow_check(WU_RESULT& wu_result, WORKUNIT& wu, APP* app) {
         }
     }
 
-    if (app_hr_type(*app)) {
-        if (already_sent_to_different_platform_careful(
-            wu_result.workunit, *app
-        )) {
-            if (config.debug_send) {
-                log_messages.printf(MSG_NORMAL,
-                    "[send] [HOST#%d] [WU#%d %s] is assigned to different platform\n",
-                    g_reply->host.id, wu.id, wu.name
-                );
-            }
-            // Mark the workunit as infeasible.
-            // This ensures that jobs already assigned to a platform
-            // are processed first.
-            //
-            wu_result.infeasible_count++;
+    // Checks that require looking up the WU.
+    // Lump these together so we only do 1 lookup
+    //
+    if (app_hr_type(*app) || app->homogeneous_app_version) {
+        DB_WORKUNIT db_wu;
+        db_wu.id = wu_result.workunit.id;
+        int vals[2];
+        retval = db_wu.get_field_ints("hr_class, app_version_id", 2, vals);
+        if (retval) {
+            log_messages.printf(MSG_CRITICAL,
+                "can't get fields for [WU#%d]: %s\n", db_wu.id, boincerror(retval)
+            );
             return false;
+        }
+        if (app_hr_type(*app)) {
+            wu_result.workunit.hr_class = vals[0];
+            if (already_sent_to_different_hr_class( wu_result.workunit, *app)) {
+                if (config.debug_send) {
+                    log_messages.printf(MSG_NORMAL,
+                        "[send] [HOST#%d] [WU#%d %s] is assigned to different HR class\n",
+                        g_reply->host.id, wu.id, wu.name
+                    );
+                }
+                // Mark the workunit as infeasible.
+                // This ensures that jobs already assigned to an HR class
+                // are processed first.
+                //
+                wu_result.infeasible_count++;
+                return false;
+            }
+        }
+        if (app->homogeneous_app_version) {
+            int wu_avid = vals[1];
+            wu_result.workunit.app_version_id = wu_avid;
+            if (wu_avid && wu_avid != bavp->avp->id) {
+                if (config.debug_send) {
+                    log_messages.printf(MSG_NORMAL,
+                        "[send] [HOST#%d] [WU#%d %s] is assigned to different app version\n",
+                        g_reply->host.id, wu.id, wu.name
+                    );
+                }
+                wu_result.infeasible_count++;
+                return false;
+            }
         }
     }
     return true;
@@ -308,7 +339,7 @@ static bool scan_work_array() {
         wu_result.state = g_pid;
         unlock_sema();
 
-        if (!slow_check(wu_result, wu, app)) {
+        if (!slow_check(wu_result, wu, app, bavp)) {
             // if we couldn't send the result to this host,
             // set its state back to PRESENT
             //

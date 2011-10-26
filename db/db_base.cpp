@@ -256,19 +256,25 @@ int DB_BASE::delete_from_db() {
     return db->do_query(query);
 }
 
-int DB_BASE::get_field_int(const char* field, int& val) {
+int DB_BASE::get_field_ints(const char* fields, int nfields, int* vals) {
     char query[MAX_QUERY_LEN];
     int retval;
     MYSQL_ROW row;
     MYSQL_RES* rp;
 
-    sprintf(query, "select %s from %s where id=%d", field, table_name, get_id());
+    sprintf(query,
+        "select %s from %s where id=%d", fields, table_name, get_id()
+    );
     retval = db->do_query(query);
     if (retval) return retval;
     rp = mysql_store_result(db->mysql);
     if (!rp) return -1;
     row = mysql_fetch_row(rp);
-    if (row) val = atoi(row[0]);
+    if (row) {
+        for (int i=0; i<nfields; i++) {
+            vals[i] = atoi(row[i]);
+        }
+    }
     mysql_free_result(rp);
     if (row == 0) return ERR_DB_NOT_FOUND;
     return 0;
@@ -280,7 +286,9 @@ int DB_BASE::get_field_str(const char* field, char* buf, int buflen) {
     MYSQL_ROW row;
     MYSQL_RES* rp;
 
-    sprintf(query, "select %s from %s where id=%d", field, table_name, get_id());
+    sprintf(query,
+        "select %s from %s where id=%d", field, table_name, get_id()
+    );
     retval = db->do_query(query);
     if (retval) return retval;
     rp = mysql_store_result(db->mysql);

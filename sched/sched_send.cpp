@@ -737,7 +737,7 @@ int wu_is_infeasible_fast(
             }
             return INFEASIBLE_HR;
         }
-        if (already_sent_to_different_platform_quick(wu, app)) {
+        if (already_sent_to_different_hr_class(wu, app)) {
             if (config.debug_send) {
                 log_messages.printf(MSG_NORMAL,
                     "[send] [HOST#%d] [WU#%d %s] failed quick HR check: WU is class %d, host is class %d\n",
@@ -920,13 +920,21 @@ static int insert_deadline_tag(RESULT& result) {
     return 0;
 }
 
-// update workunit when send an instance of it:
+// update workunit fields when send an instance of it:
 // - transition time
 // - app_version_id, if app uses homogeneous app version
+//      and WU.app_version_id was originally zero
+// - hr_class, if we're using HR
+//      and WU.hr_class was originally zero.
+//
+// In the latter two cases, the update is conditional on those
+// fields still being zero (some other scheduler instance might
+// have updated them since we read the WU)
 //
 int update_wu_on_send(WORKUNIT wu, time_t x, APP& app, BEST_APP_VERSION& bav) {
     DB_WORKUNIT dbwu;
-    char buf[256];
+    char buf[256], buf2[256], where_clause[256];
+    int retval;
 
     dbwu.id = wu.id;
 
@@ -936,12 +944,27 @@ int update_wu_on_send(WORKUNIT wu, time_t x, APP& app, BEST_APP_VERSION& bav) {
         "transition_time=if(transition_time<%d, transition_time, %d)",
         (int)x, (int)x
     );
-    if (app.homogeneous_app_version && (bav.avp->id != wu.app_version_id)) {
-        char buf2[256];
+    strcpy(where_clause, "");
+    if (app.homogeneous_app_version && wu.app_version_id==0) {
         sprintf(buf2, ", app_version_id=%d", bav.avp->id);
         strcat(buf, buf2);
+        strcpy(where_clause, "app_version_id==0");
     }
-    return dbwu.update_field(buf);
+    if (app_hr_type(app) && wu.hr_class==0) {
+        int host_hr_class = hr_class(g_request->host, app_hr_type(app));
+        sprintf(buf2, ", hr_class=%d", host_hr_class);
+        strcat(buf, buf2);
+        if (strlen(where_clause)) {
+            strcat(where_clause, " and ");
+        }
+        strcat(where_clause, "hr_class=0");
+    }
+    retval = dbwu.update_field(buf, where_clause);
+    if (retval) return retval;
+    if (boinc_db.affected_rows() != 1) {
+        return ERR_DB_NOT_FOUND;
+    }
+    return 0;
 }
 
 // return true iff a result for same WU is already being sent
@@ -1117,19 +1140,32 @@ int add_result_to_reply(
     bool resent_result = false;
     APP* app = ssp->lookup_app(wu.appid);
 
-    retval = add_wu_to_reply(wu, *g_reply, app, bavp);
-    if (retval) return retval;
-
-    // Adjust available disk space.
-    // In the scheduling locality case,
-    // reduce the available space by less than the workunit rsc_disk_bound,
-    // if the host already has the file or the file was not already sent.
+    // update WU DB record.
+    // This can fail in normal operation
+    // (other scheduler already updated hr_class or app_version_id)
+    // so do it before updating the result.
     //
-    if (!locality_scheduling || decrement_disk_space_locality(wu)) {
-        g_wreq->disk_available -= wu.rsc_disk_bound;
+    retval = update_wu_on_send(
+        wu, result.report_deadline + config.report_grace_period, *app, *bavp
+    );
+    if (retval == ERR_DB_NOT_FOUND) {
+        log_messages.printf(MSG_NORMAL,
+            "add_result_to_reply: WU already sent to other HR class or app version\n"
+        );
+        return retval;
+    } else if (retval) {
+        log_messages.printf(MSG_CRITICAL,
+            "add_result_to_reply: WU update failed: %d\n",
+            retval
+        );
+        return retval;
     }
 
-    // update the result in DB
+    // update result DB record.
+    // This can also fail in normal operation.
+    // In this case, in principle we should undo
+    // the changes we just made to the WU (or use a transaction)
+    // but I don't think it actually matters.
     //
     result.hostid = g_reply->host.id;
     result.userid = g_reply->user.id;
@@ -1169,23 +1205,27 @@ int add_result_to_reply(
     }
     if (retval) return retval;
 
+    // done with DB updates.
+    //
+
+    retval = add_wu_to_reply(wu, *g_reply, app, bavp);
+    if (retval) return retval;
+
+    // Adjust available disk space.
+    // In the locality scheduling locality case,
+    // reduce the available space by less than the workunit rsc_disk_bound,
+    // if the host already has the file or the file was not already sent.
+    //
+    if (!locality_scheduling || decrement_disk_space_locality(wu)) {
+        g_wreq->disk_available -= wu.rsc_disk_bound;
+    }
+
     double est_dur = estimate_duration(wu, *bavp);
     if (config.debug_send) {
         log_messages.printf(MSG_NORMAL,
             "[HOST#%d] Sending [RESULT#%d %s] (est. dur. %.2f seconds)\n",
             g_reply->host.id, result.id, result.name, est_dur
         );
-    }
-
-    retval = update_wu_on_send(
-        wu, result.report_deadline + config.report_grace_period, *app, *bavp
-    );
-    if (retval) {
-        log_messages.printf(MSG_CRITICAL,
-            "add_result_to_reply: can't update WU transition time: %d\n",
-            retval
-        );
-        return retval;
     }
 
     // The following overwrites the result's xml_doc field.

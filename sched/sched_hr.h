@@ -18,11 +18,7 @@
 #ifndef __SCHED_HR__
 #define __SCHED_HR__
 
-extern bool already_sent_to_different_platform_quick(WORKUNIT&, APP&);
-
-extern bool already_sent_to_different_platform_careful(
-    WORKUNIT& workunit, APP&
-);
+extern bool already_sent_to_different_hr_class(WORKUNIT& workunit, APP&);
 
 extern bool hr_unknown_platform(HOST&);
 

@@ -7776,7 +7776,7 @@ Rom    25 Oct 2011
         configure.ac
         version.h
 
-David  26 Oct 2011
+David  25 Oct 2011
     - web: typo in forum RSS from Daniel L G; fixes #1147
     - client: message tweak
 
@@ -7784,3 +7784,42 @@ David  26 Oct 2011
         forum_rss.inc
     client/
         cpu_sched.cpp
+
+David  25 Oct 2011
+    - scheduler: fix bug in the "homogeneous app version" (HAV) feature
+        (reported by Kevin Reed).
+        The problem: cache inconsistency.
+        If there are 2 results for the same WU in shared mem,
+        and 2 scheduler instances get them around the same time,
+        they can send them with different app versions.
+        We already fixed this problem for HR by
+        1) rereading the relevant WU fields while deciding
+            whether to send the result
+        2) doing a "careful update" of the WU field using a where clause
+            to make sure it wasn't modified in the (short) interval
+            since rereading it.
+        I fixed the HAV problem in the same way,
+        and merged the two mechanisms to combine the DB queries.
+
+        Also:
+        - The rereads are done in slow_check() (see below).
+        - The careful updates are done in update_wu_on_send(),
+            and this is called *before* doing careful updates on result fields.
+            That way, if the WU updates fail, we don't have orphaned results.
+        - already_sent_to_different_platform_careful() (sic)
+            no longer does DB stuff, so it's merged with
+            already_send_to_different_hr_class() (better name)
+
+        NOTE: slow_check() is used in array scheduling only.
+            Score-based scheduling uses other code,
+            in which this bug is not yet fixed.
+            Locality scheduling doesn't support HR or HAV at all.
+            This should be unified.
+
+    db/
+        db_base.cpp,h
+    sched/
+        sched_hr.cpp,h
+        sched_array.cpp
+        sched_send.cpp
+        sched_score.cpp
