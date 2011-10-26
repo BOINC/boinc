@@ -7775,3 +7775,15 @@ Rom    25 Oct 2011
     /
         configure.ac
         version.h
+
+Charlie 26 Oct 2011
+    - Mac: Modify XCode project to link with libcrypto.0.9.7.dylib and 
+        libssl.0.9.7.dylib if OS 10.5 SDK is present, to allow running 
+        BOINC on OS 10.4 and later. If OS 10.5 SDK is not present then 
+        it will link with libcrypto.0.9.8.dylib and libssl.0.9.87.dylib 
+        and product will require OS 10.6 or later.
+        (Checked into 6.13.9 tag.)
+        
+    mac_build/
+        boinc.xcodeproj/
+            project.pbxproj
