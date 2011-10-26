@@ -7830,7 +7830,21 @@ Charlie 26 Oct 2011
         BOINC on OS 10.4 and later. If OS 10.5 SDK is not present then 
         it will link with libcrypto.0.9.8.dylib and libssl.0.9.87.dylib 
         and product will require OS 10.6 or later.
+        (Checked into 6.13.9 tag.)
         
     mac_build/
         boinc.xcodeproj/
             project.pbxproj
+
+Charlie 26 Oct 2011
+    - Mac: Update build instructions for client and libraries.
+    - Mac installer: fix bugs when installing under OS 10.5.
+    - Mac installer: Update release script to include Default skin.
+    (All checked into 6.13.9 tag.)
+    
+    mac_build/
+        HowToBuildBOINC_XCode.rtf
+    mac_installer/
+        postInstall
+        PostInstall.cpp
+        release_boinc.sh
