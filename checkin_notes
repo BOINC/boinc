@@ -7863,3 +7863,9 @@ David  26 Oct 2011
     sched/
         sched_array.cpp
         sched_send.cpp
+
+David  26 Oct 2011
+    - client: fix typo in project parse code
+
+    client/
+        client_types.cpp

@@ -302,6 +302,7 @@ int PROJECT::parse_state(XML_PARSER& xp) {
         }
         if (xp.parse_str("no_rsc_pref", buf, sizeof(buf))) {
             handle_no_rsc_pref(this, buf);
+            continue;
         }
 
             // backwards compat - old state files had ams_resource_share = 0
