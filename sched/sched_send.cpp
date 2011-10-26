@@ -948,7 +948,7 @@ int update_wu_on_send(WORKUNIT wu, time_t x, APP& app, BEST_APP_VERSION& bav) {
     if (app.homogeneous_app_version && wu.app_version_id==0) {
         sprintf(buf2, ", app_version_id=%d", bav.avp->id);
         strcat(buf, buf2);
-        strcpy(where_clause, "app_version_id==0");
+        strcpy(where_clause, "app_version_id=0");
     }
     if (app_hr_type(app) && wu.hr_class==0) {
         int host_hr_class = hr_class(g_request->host, app_hr_type(app));

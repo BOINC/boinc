@@ -7869,3 +7869,9 @@ David  26 Oct 2011
 
     client/
         client_types.cpp
+
+David  26 Oct 2011
+    - scheduler: typo in a SQL query
+
+    sched/
+        sched_send.cpp
