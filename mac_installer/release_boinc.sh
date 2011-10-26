@@ -24,6 +24,7 @@
 ## updated 12/2/10 by Charlie Fenton to remove obsolete items
 ## updated 1/18/11 by Charlie Fenton to remove BOINC skins
 ## updated 11/9/11 by Charlie Fenton for XCode 4.1 and OS 10.7
+## updated 11/26/11 by Charlie Fenton for new Default skin
 ##
 ## NOTE: This script uses PackageMaker, which is installed as part of the 
 ##   XCode developer tools.  So you must have installed XCode Developer 
@@ -146,6 +147,10 @@ cp -fpR $BUILDPATH/WaitPermissions.app ../BOINC_Installer/Pkg_Root/Library/Appli
 cp -fpR $BUILDPATH/switcher ../BOINC_Installer/Pkg_Root/Library/Application\ Support/BOINC\ Data/switcher/
 cp -fpR $BUILDPATH/setprojectgrp ../BOINC_Installer/Pkg_Root/Library/Application\ Support/BOINC\ Data/switcher/
 ## cp -fpR $BUILDPATH/AppStats ../BOINC_Installer/Pkg_Root/Library/Application\ Support/BOINC\ Data/switcher/
+
+cd "${BOINCPath}/clientgui/skins"
+cp -fpR Default ../../../BOINC_Installer/Pkg_Root/Library/Application\ Support/BOINC\ Data/skins/
+cd "${BOINCPath}"
 
 ## FOR NOW - Don't install WCG Skins.  If you reinstate this, also reinstate preinstall & preupgrade above
 ## Copy the World Community Grid skins into the installer tree, minus the CVS files
