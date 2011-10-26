@@ -514,13 +514,6 @@ int DC_addWUInput(DC_Workunit *wu, const char *logicalFileName, const char *URL,
 	if (ret)
 		return ret;
 
-	if (fileMode & DC_FILE_PERSISTENT_CLIENT)
-    {
-		DC_log(LOG_ERR, "Unsupported file mode for input file %s",
-			logicalFileName);
-		return DC_ERR_BADPARAM;
-    }
-
 	/* Remote files aren't supported */
 	if (DC_FILE_REMOTE == fileMode)
 	{
@@ -566,11 +559,8 @@ int DC_addWUInput(DC_Workunit *wu, const char *logicalFileName, const char *URL,
 				_DC_destroyPhysicalFile(file);
 				return DC_ERR_BADPARAM; /* XXX */
 			}
-		default:
-    		DC_log(LOG_ERR, "Unsupported file mode for input file %s",
-    			logicalFileName);
-		    _DC_destroyPhysicalFile(file);
-    		return DC_ERR_BADPARAM;
+		case DC_FILE_REMOTE:
+			break;
 	}
 
 	wu->input_files = g_list_append(wu->input_files, file);

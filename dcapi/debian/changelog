@@ -1,3 +1,10 @@
+dcapi (0.12-2) unstable; urgency=high
+
+  * Fix: 0.12-1 broke handling of remote files when invoked from previously 
+    compiled binaries/ libraries.
+
+ -- Attila Csaba Marosi <atisu@sztaki.hu>  Mon, 17 Oct 2011 14:33:02 +0200
+
 dcapi (0.12-1) unstable; urgency=low
 
   * Introduce BOINC configuration variable to fine tune redundancy 

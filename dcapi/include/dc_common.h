@@ -61,14 +61,12 @@ typedef enum {
 } DC_GridCapabilities;
 
 /* File classification when passing a physical file name to DC-API */
-typedef int DC_FileMode;
-#define DC_FILE_REGULAR           (1 << 0) /* Not persistent, needs copy */
-#define DC_FILE_PERSISTENT        (1 << 1) /* Persistent, link is enough */
-#define DC_FILE_VOLATILE          (1 << 2) /* DC-API should remove the original */
-#define DC_FILE_REMOTE            (1 << 3) /* HTTP files physically not present */
-#define DC_FILE_PERSISTENT_CLIENT (1 << 4) /* Persistent on client flag for 
-                                              DC_FILE_{REGULAR,PERSISTENT,VOLATILE,REMOTE} 
-                                              types */
+typedef enum {
+	DC_FILE_REGULAR,	/* Not persistent, needs copy */
+	DC_FILE_PERSISTENT,	/* Persistent, link is enough */
+	DC_FILE_VOLATILE,	/* DC-API should remove the original */
+	DC_FILE_REMOTE		/* HTTP files physically not present */
+} DC_FileMode;
 
 /* Default name of the configuration file */
 #define DC_CONFIG_FILE		"dc-api.conf"
@@ -92,7 +90,6 @@ struct _DC_PhysicalFile
 	DC_FileMode		mode;
 	char			*physicalfilename;
 	char			*physicalfilehash;
-    int             persistentclient;
 };
 
 /* Descriptor of a remote file */
@@ -103,7 +100,6 @@ struct _DC_RemoteFile
 	char			*url;
 	char			*remotefilehash;
 	size_t			remotefilesize;
-    int             persistentclient;
 };
 
 
