@@ -296,7 +296,7 @@ static DC_Workunit *alloc_wu(void)
  * @param url the URL to perform the replace on
  * @return NULL-terminated string array of replacement result(s)
  */
-static gchar **replace_regex(const char *url)
+gchar **replace_regex(const char *url)
 {
 	if (!url)
 		return NULL;
@@ -786,7 +786,7 @@ int DC_addWUInput(DC_Workunit *wu, const char *logicalFileName, const char *URL,
 	va_list ap;
 	char *workpath;
 	DC_PhysicalFile *file = NULL;
-	DC_RemoteFile *rfile = NULL;
+	DC_RemoteFile *rfile;
 
 	/* Sanity checks */
 	if (!wu || !logicalFileName)
@@ -802,7 +802,7 @@ int DC_addWUInput(DC_Workunit *wu, const char *logicalFileName, const char *URL,
 	 * does not exceed the max. number of file slots */
 
 	/* Handle remote http:// files */
-	if (fileMode & DC_FILE_REMOTE && !strncmp("http://", URL, 7))
+	if (DC_FILE_REMOTE == fileMode && !strncmp("http://", URL, 7))
 	{
 		va_start(ap, fileMode);
 		char *md5 = va_arg(ap, char *);
@@ -812,11 +812,6 @@ int DC_addWUInput(DC_Workunit *wu, const char *logicalFileName, const char *URL,
 		rfile = _DC_createRemoteFile(logicalFileName, URL, md5, size);
 		if (!rfile)
 			return DC_ERR_INTERNAL;
-
-        if (fileMode & DC_FILE_PERSISTENT_CLIENT) 
-        {
-            rfile->persistentclient = 1;
-        }
 
 		wu->remote_input_files = g_list_append(wu->remote_input_files, rfile);
 		wu->num_remote_inputs++;
@@ -835,7 +830,7 @@ int DC_addWUInput(DC_Workunit *wu, const char *logicalFileName, const char *URL,
 		return DC_ERR_INTERNAL;
 
 	/* Handle remote attic:// files */
-	if (fileMode & DC_FILE_REMOTE && !strncmp("attic://", URL, 8))
+	if (DC_FILE_REMOTE == fileMode && !strncmp("attic://", URL, 8))
 	{
 		va_start(ap, fileMode);
 		char *md5 = va_arg(ap, char *);
@@ -853,11 +848,6 @@ int DC_addWUInput(DC_Workunit *wu, const char *logicalFileName, const char *URL,
 			rfile = _DC_createRemoteFile(logicalFileName, URL, md5, size);
 			if (!rfile)
 				return DC_ERR_INTERNAL;
-
-            if (fileMode & DC_FILE_PERSISTENT_CLIENT) 
-            {
-                rfile->persistentclient = 1;
-            }
 
 			wu->remote_input_files = g_list_append(wu->remote_input_files, rfile);
 			wu->num_remote_inputs++;
@@ -894,19 +884,13 @@ int DC_addWUInput(DC_Workunit *wu, const char *logicalFileName, const char *URL,
 		file->physicalfilehash = strdup(physicalFileHashString);
 		g_free(physicalFileHashString);
 	}
-	else if (fileMode & DC_FILE_REMOTE)
+	else if (DC_FILE_REMOTE == fileMode)
 	{
 		DC_log(LOG_ERR, "%s: Unsupported URL received: '%s'",
 			__func__, URL);
 		_DC_destroyPhysicalFile(file);
 		return DC_ERR_BADPARAM;
 	}
-
-    if (file && fileMode & DC_FILE_PERSISTENT_CLIENT) 
-    {
-        file->persistentclient = 1;
-        fileMode ^= DC_FILE_PERSISTENT_CLIENT;
-    }
 
 	switch (fileMode)
 	{
@@ -1170,15 +1154,10 @@ static void fill_wu_params(const DC_Workunit *wu, struct wu_params *params)
     }
 }
 
-static void append_wu_file_info(GString *tmpl, int idx, DC_PhysicalFile *file)
+static void append_wu_file_info(GString *tmpl, int idx)
 {
 	g_string_append(tmpl, "<file_info>\n");
 	g_string_append_printf(tmpl, "\t<number>%d</number>\n", idx);
-    if (file != NULL && file->persistentclient == 1) 
-    {
-        g_string_append(tmpl, "\t<sticky/>\n");
-        g_string_append(tmpl, "\t<nodelete/>\n");
-    }
 	g_string_append(tmpl, "</file_info>\n");
 }
 
@@ -1186,11 +1165,6 @@ static void append_wu_remote_file_info(GString *tmpl, int idx, DC_RemoteFile *fi
 {
 	g_string_append(tmpl, "<file_info>\n");
 	g_string_append_printf(tmpl, "\t<number>%d</number>\n", idx);
-    if (file != NULL && file->persistentclient == 1) 
-    {
-        g_string_append(tmpl, "\t<sticky/>\n");
-        g_string_append(tmpl, "\t<nodelete/>\n");
-    }
 	gchar **alts = replace_regex(file->url);
 	if (!alts)
 	{
@@ -1233,12 +1207,8 @@ static char *generate_wu_template(DC_Workunit *wu)
 		num_inputs++;
 
 	tmpl = g_string_new("");
-	for (i = 0, l = wu->input_files; l && i < num_inputs; l = l->next, i++)
-	{
-		DC_PhysicalFile *file = (DC_PhysicalFile *)l->data;
-        append_wu_file_info(tmpl, i, file);
-    }
-    
+	for (i = 0; i < num_inputs; i++)
+		append_wu_file_info(tmpl, i);
 	for (l = wu->remote_input_files; l && i < num_inputs + num_remote_inputs;
 			l = l->next, i++)
 	{
@@ -1247,7 +1217,7 @@ static char *generate_wu_template(DC_Workunit *wu)
 	}
 	/* Checkpoint file, if exists */
 	if (wu->ckpt_name)
-		append_wu_file_info(tmpl, i++, NULL);
+		append_wu_file_info(tmpl, i++);
 
 	/* Generate the workunit description */
 	g_string_append(tmpl, "<workunit>\n");
