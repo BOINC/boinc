@@ -1133,7 +1133,9 @@ inline static int get_app_version_id(BEST_APP_VERSION* bavp) {
 }
 
 int add_result_to_reply(
-    SCHED_DB_RESULT& result, WORKUNIT& wu, BEST_APP_VERSION* bavp,
+    SCHED_DB_RESULT& result,
+    WORKUNIT& wu,
+    BEST_APP_VERSION* bavp,
     bool locality_scheduling
 ) {
     int retval;

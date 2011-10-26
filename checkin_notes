@@ -7848,3 +7848,18 @@ Charlie 26 Oct 2011
         postInstall
         PostInstall.cpp
         release_boinc.sh
+
+David  26 Oct 2011
+    - scheduler: tweaks to last night's checkin.
+        In the inner loop of scan_work_array() there are two WORKUNITs:
+        - the one that's part of wu_result (in the shared-mem array)
+        - a temp copy.
+            quick_check() may modify this in host-specific ways
+            (e.g., adjusting rsc_fpops_est or delay_bound).
+            This is the one we pass to add_result_to_reply().
+        When we reread hr_class and app_version_id from the DB,
+        update both structs.
+
+    sched/
+        sched_array.cpp
+        sched_send.cpp
