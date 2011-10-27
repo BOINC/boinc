@@ -147,11 +147,11 @@ curl-7.21.7:\
 \cf0 XCode will automatically check compatibility back to OS 10.4 if the following are defined during compilation:\
 \pard\pardeftab720
 
-\f1\fs26 \cf0 \cb1 MAC_OS_X_VERSION_MAX_ALLOWED=1040\
+\f1\fs26 \cf0 MAC_OS_X_VERSION_MAX_ALLOWED=1040\
 MAC_OS_X_VERSION_MIN_REQUIRED=1040\
 \pard\pardeftab720
 
-\f0\fs24 \cf0 \cb1 \
+\f0\fs24 \cf0 \
 \pard\pardeftab720\sa260
 \cf0 These are not done automatically by either the Xcode projects which come with wxMac-2.8.10, nor  the AutoMake scripts supplied with wxMac-2.8.10, c-ares-1.7.4, curl-7.21.7.  So be sure to use our special scripts to build these packages.\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640
@@ -269,8 +269,17 @@ The options for BuildMacBOINC.sh are:\
 \b not
 \b0  select "Archive."\
 \
-The standard release of BOINC version 6.13.0 and later contains a universal binary of the BOINC Client containing builds for two architectures: i386 and x86_64 (only the libraries and screensaver include the x86_64 architecture.)  \
+The standard release of BOINC version 6.13.0 and later builds only for Macintosh computers with Intel processors.  Most of the executables are built only for the i386 architecture.  The libraries and the screensaver are built as universal binaries containing builds for two architectures: i386 and x86_64.\
 \
+
+\b Important compatibility note
+\b0 : Xcode 4.x comes with only two Mac SDKs: MacOSX10.6.sdk and MacOSX10.7.sdk.  The BOINC Xcode project uses MacOSX10.6.sdk so that it can build with either Xcode 4.x or Xcode 3.2.  However, a couple of the libraries in MacOSX10.6.sdk require OS 10.6 or later to run.  If you are building only to run on OS 10.6 or later, you don't need to do anything else.\
+\
+However, if you want to build BOINC so it will run on OS 10.4 and OS 10.5, you must either:\
+ \'95 build with Xcode 3.2, or \
+ \'95 build with Xcode 4.x after copying the MacOSX10.5.sdk from an older version of Xcode to your 
+\f1\fs26 /Developer/SDKs/
+\f0\fs24  folder .  The BOINC Xcode project will automatically detect the presence of that SDK and use the two older libraries needed for backward compatibility.\
 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\qc
 
@@ -286,8 +295,9 @@ To build the Installer for the BOINC Manager, you must be logged in as an admini
 
 \f1\fs26 \cf0 cd \{path\}/BOINC_dev/boinc/\
 source \{path\}/BOINC_dev/boinc/mac_installer/release_boinc.sh x y z\
+\pard\pardeftab720
 
-\f0\fs24 \
+\f0\fs24 \cf0 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640
 \cf0 Substitute the 3 parts of the BOINC version number for x y and z in the above.  For example, to build the installer for BOINC version 6.13.9, the command would be\
 \pard\pardeftab720
