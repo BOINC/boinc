@@ -25,6 +25,7 @@
 ## updated 1/18/11 by Charlie Fenton to remove BOINC skins
 ## updated 11/9/11 by Charlie Fenton for XCode 4.1 and OS 10.7
 ## updated 11/26/11 by Charlie Fenton for new Default skin
+## updated 11/27/11 by Charlie Fenton for new virtualbox directory
 ##
 ## NOTE: This script uses PackageMaker, which is installed as part of the 
 ##   XCode developer tools.  So you must have installed XCode Developer 
@@ -141,6 +142,10 @@ mkdir -p ../BOINC_Installer/Pkg_Root/Library/Application\ Support/BOINC\ Data
 mkdir -p ../BOINC_Installer/Pkg_Root/Library/Application\ Support/BOINC\ Data/locale
 mkdir -p ../BOINC_Installer/Pkg_Root/Library/Application\ Support/BOINC\ Data/switcher
 mkdir -p ../BOINC_Installer/Pkg_Root/Library/Application\ Support/BOINC\ Data/skins
+# We must create virtualbox directory so installer will set up its 
+# ownership and permissions correctly, because vboxwrapper won't 
+# have permission to set owner to boinc_master.
+mkdir -p ../BOINC_Installer/Pkg_Root/Library/Application\ Support/BOINC\ Data/projects/virtualbox
 
 cp -fpR $BUILDPATH/WaitPermissions.app ../BOINC_Installer/Pkg_Root/Library/Application\ Support/BOINC\ Data/
 

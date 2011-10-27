@@ -7899,3 +7899,11 @@ David  26 Oct 2011
 
     sched/
         sched_send.cpp
+
+Charlie 27 Oct 2011
+    - Mac installer: Update release script to create projects/virtualbox/ 
+        directory, to ensure it has the correct owner and permissions 
+        because vboxwrapper does not have sufficient privileges to do so.
+    
+    mac_installer/
+        release_boinc.sh
