@@ -959,7 +959,7 @@ int update_wu_on_send(WORKUNIT wu, time_t x, APP& app, BEST_APP_VERSION& bav) {
         }
         strcat(where_clause, "hr_class=0");
     }
-    retval = dbwu.update_field(buf, where_clause);
+    retval = dbwu.update_field(buf, strlen(where_clause)?where_clause:NULL);
     if (retval) return retval;
     if (boinc_db.affected_rows() != 1) {
         return ERR_DB_NOT_FOUND;

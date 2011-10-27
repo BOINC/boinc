@@ -7893,3 +7893,9 @@ David  26 Oct 2011
         procinfo.h
     client/
         app.cpp
+
+David  26 Oct 2011
+    - scheduler: bug fix from Kevin
+
+    sched/
+        sched_send.cpp
