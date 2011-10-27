@@ -7907,3 +7907,11 @@ Charlie 27 Oct 2011
     
     mac_installer/
         release_boinc.sh
+
+Rom    25 Oct 2011
+    - Tag for 6.13.10 release, all platforms
+      boinc_core_release_6_13_10
+
+    /
+        configure.ac
+        version.h
