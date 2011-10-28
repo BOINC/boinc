@@ -1,3 +1,9 @@
+dcapi (0.12-3) unstable; urgency=low
+
+  * Documentation update for redundancy parameters.
+
+ -- Attila Csaba Marosi <atisu@sztaki.hu>  Mon, 17 Oct 2011 14:33:02 +0200
+
 dcapi (0.12-2) unstable; urgency=high
 
   * Fix: 0.12-1 broke handling of remote files when invoked from previously 

@@ -155,6 +155,7 @@ DC_PhysicalFile *_DC_createPhysicalFile(const char *label,
 	file->path = strdup(path);
 	file->physicalfilename = NULL;
 	file->physicalfilehash = NULL;
+    file->persistentonclient = 0;
 
 	if (!file->label || !file->path)
 	{
@@ -179,6 +180,7 @@ DC_RemoteFile *_DC_createRemoteFile(const char *label,
 	file->url = strdup(url);
 	file->remotefilehash = strdup(md5);
 	file->remotefilesize = size;
+    file->persistentonclient = 0;
 
 	if (!file->label || !file->url || !file->remotefilehash)
 	{
