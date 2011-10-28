@@ -99,7 +99,7 @@
 	      variable <literal>InputURLRewriteRegExpMatch</literal> defines the match part of the
 	      regular expression, whereas the varibale <literal>InputURLRewriteRegExpReplace</literal>
 	      defines the replacement part of the regular expression. An example value of this variable
-	      is <lireral>attic://([^/]*).*/([^/]*)$</literal>.
+	      is <literal>attic://([^/]*).*/([^/]*)$</literal>.
 	    </para>
 	  </listitem>
 	</varlistentry>
@@ -112,7 +112,7 @@
 	      variable <literal>InputURLRewriteRegExpReplace</literal> defines the replace part of the
 	      regular expression, whereas the varibale <literal>InputURLRewriteRegExpMatch</literal>
 	      defines the match part of the regular expression. An example value of this variable
-	      is <lireral>http://\1/dl/redir/\2\nhttp://localhost:12345/data/\2</literal>.
+	      is <literal>http://\1/dl/redir/\2\nhttp://localhost:12345/data/\2</literal>.
 	    </para>
 	  </listitem>
 	</varlistentry>
@@ -165,9 +165,103 @@
 		  When the redundancy is greater than 1, the work unit can not
 		  be suspended using <function><link
 		      linkend="DC-suspendWU">DC_suspendWU()</link></function>.
+		
+		  In the following the options are listed which allow fine tuning 
+		  redundancy. These options are mutually exclusive with <function><link
+	      linkend="DC-API-Boinc-Redundancy">Redundancy</link></function>.
 		</para>
 	      </note>
 	    </para>
+	  </listitem>
+	</varlistentry>
+	<varlistentry>
+	  <term>MinQuorum</term>
+	  <listitem>
+	    <para>
+		 OPTIONAL. Integer value specifying the quorum required to consider
+		 the work unit as valid. The default value is 1.
+		</para>
+		<note>
+		 <para>
+			This option is mutually exclusive with <function><link
+		      linkend="DC-API-Boinc-Redundancy">Redundancy</link></function>. 
+			<literal>MinQuorum</literal>, <literal>TargetNResults</literal>, 
+			<literal>MaxErrorResults</literal> and <literal>MaxTotalResults</literal> 
+			should be used combined.
+		 </para>
+		</note>
+	  </listitem>
+	</varlistentry>
+	<varlistentry>
+	  <term>TargetNResults</term>
+	  <listitem>
+	    <para>
+		 OPTIONAL. Integer value specifying the number of initial BOINC results to be 
+		 created. The default value is <literal>MinQuorum</literal>.
+		</para>
+		<note>
+		 <para>
+			This option is mutually exclusive with <function><link
+		      linkend="DC-API-Boinc-Redundancy">Redundancy</link></function>. 
+			<literal>MinQuorum</literal>, <literal>TargetNResults</literal>, 
+			<literal>MaxErrorResults</literal> and <literal>MaxTotalResults</literal> 
+			should be used combined.
+		 </para>
+		</note>
+	  </listitem>
+	</varlistentry>
+	<varlistentry>
+	  <term>MaxErrorResults</term>
+	  <listitem>
+	    <para>
+		 OPTIONAL. Integer value specifying the maximum number of failed BOINC results 
+		 for a work unit. The default value is 0.
+		</para>
+		<note>
+		 <para>
+			This option is mutually exclusive with <function><link
+		      linkend="DC-API-Boinc-Redundancy">Redundancy</link></function>. 
+			<literal>MinQuorum</literal>, <literal>TargetNResults</literal>, 
+			<literal>MaxErrorResults</literal> and <literal>MaxTotalResults</literal> 
+			should be used combined.
+		 </para>
+		</note>
+	  </listitem>
+	</varlistentry>
+	<varlistentry>
+	  <term>MaxTotalResults</term>
+	  <listitem>
+	    <para>
+		 OPTIONAL. Integer value specifying the total number of BOINC results for a 
+		 work unit. The default value is <literal>MinQuorum</literal>.
+		</para>
+		<note>
+		 <para>
+			This option is mutually exclusive with <function><link
+		      linkend="DC-API-Boinc-Redundancy">Redundancy</link></function>. 
+			<literal>MinQuorum</literal>, <literal>TargetNResults</literal>, 
+			<literal>MaxErrorResults</literal> and <literal>MaxTotalResults</literal> 
+			should be used combined.
+		 </para>
+		</note>
+	  </listitem>
+	</varlistentry>
+	<varlistentry>
+	  <term>MaxSuccessResults</term>
+	  <listitem>
+	    <para>
+		 OPTIONAL. Integer value specifying the maximum number of successful BOINC results 
+		 for a work unit. The default value is <literal>MinQuorum</literal>.
+		</para>
+		<note>
+		 <para>
+			This option is mutually exclusive with <function><link
+		      linkend="DC-API-Boinc-Redundancy">Redundancy</link></function>. 
+			<literal>MinQuorum</literal>, <literal>TargetNResults</literal>, 
+			<literal>MaxErrorResults</literal> and <literal>MaxTotalResults</literal> 
+			should be used combined.
+		 </para>
+		</note>
 	  </listitem>
 	</varlistentry>
 	<varlistentry>
