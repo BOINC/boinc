@@ -16,17 +16,31 @@
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
 // BOINC API for OpenCL
+
+// The BOINC client calls the project application with the arguments:
+//   --gpu_type TYPE --device N
+// where TYPE is ATI or NVIDIA, and N is the GPU number of that type
+// For example, for ATI GPU number 0, the arguments will be:
+//   --gpu_type ATI --device 0
 //
 // To get the cl_device_id and cl_platform_id for the OpenCL GPU 
-// assigned to your application call this function:
+// asigned to your application call this function:
 // int boinc_get_opencl_ids(int argc, char** argv, cl_device_id*, cl_platform_id*);
 //
-// To use this function, link your application with libboinc_opencl.a
+// NOTE: You should compile and link this function as part of your 
+// application; it is not included in the standard BOINC libraries.
 //
 
 #ifdef _WIN32
 #include "win_util.h"
 #else
+#ifdef __APPLE__
+// Suppress obsolete warning when building for OS 10.3.9
+#define DLOPEN_NO_WARN
+#include <mach-o/dyld.h>
+#endif
+#include "config.h"
+#include <dlfcn.h>
 #include <setjmp.h>
 #include <signal.h>
 #endif
@@ -56,6 +70,7 @@ int boinc_get_opencl_ids_aux(
     cl_device_id devices[MAX_COPROC_INSTANCES];
     char vendor[256];                 // Device vendor (NVIDIA, ATI, AMD, etc.)
     int retval = 0;
+    bool found = false;
 
     retval = clGetPlatformIDs(MAX_OPENCL_PLATFORMS, platforms, &num_platforms);
     if (num_platforms == 0) return CL_DEVICE_NOT_FOUND;
@@ -85,11 +100,12 @@ int boinc_get_opencl_ids_aux(
         if (!strcmp(vendor, type)) {
             *device = device_id;
             *platform = platforms[platform_index];
+            found = true;
             break;
         }
     }
 
-    if (device == NULL) return CL_DEVICE_NOT_FOUND;
+    if (!found) return CL_DEVICE_NOT_FOUND;
     return 0;
 }
 

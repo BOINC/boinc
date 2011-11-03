@@ -7969,3 +7969,16 @@ Charlie 31 Oct 2011
     
     api/
         boinc_opencl.cpp
+
+David  2 Nov 2011
+    - API: fix bug in boinc_get_opencl_ids()
+    - add simulator for distributed storage (not finished)
+
+    api/
+        boinc_opencl.cpp
+    client/
+        app_start.cpp
+    ssim/
+        des.h
+        ssimp.cpp
+        makefile

@@ -267,7 +267,7 @@ void ACTIVE_TASK::init_app_init_data(APP_INIT_DATA& aid) {
 }
 
 // write the app init file.
-// This is done before starting the app,
+// This is done before starting or restarting the app,
 // and when project prefs have changed during app execution
 //
 int ACTIVE_TASK::write_app_init_file(APP_INIT_DATA& aid) {
@@ -462,7 +462,7 @@ int ACTIVE_TASK::copy_output_files() {
 // If any error occurs
 //   ACTIVE_TASK::task_state is PROCESS_COULDNT_START
 //   report_result_error() is called
-//  else
+// else
 //   ACTIVE_TASK::task_state is PROCESS_EXECUTING
 //
 int ACTIVE_TASK::start(bool first_time) {
@@ -484,7 +484,8 @@ int ACTIVE_TASK::start(bool first_time) {
         if (retval) {
             if (fip) {
                 snprintf(
-                    buf, sizeof(buf), "Input file %s missing or invalid: %d", fip->name, retval
+                    buf, sizeof(buf),
+                    "Input file %s missing or invalid: %d", fip->name, retval
                 );
             } else {
                 strcpy(buf, "Input file missing or invalid");
