@@ -267,7 +267,7 @@ void update_trickle_up_urls(PROJECT* p, vector<string> &urls) {
 }
 
 int TRICKLE_UP_OP::do_rpc(const char* msg) {
-    int n = strlen(msg)+1;
+    int n = (int)strlen(msg)+1;
     if (n<65536) n = 65536;
     req_buf = (char*)malloc(n);
     strcpy(req_buf, msg);

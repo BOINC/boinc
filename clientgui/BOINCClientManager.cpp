@@ -447,14 +447,19 @@ void CBOINCClientManager::KillClient() {
 #endif
 
 
-void CBOINCClientManager::ShutdownBOINCCore() {
+void CBOINCClientManager::ShutdownBOINCCore(bool ShuttingDownManager) {
     wxLogTrace(wxT("Function Start/End"), wxT("CBOINCClientManager::ShutdownBOINCCore - Function Begin"));
 
-    CMainDocument*     pDoc = wxGetApp().GetDocument();
-    wxInt32            iCount = 0;
-    bool               bClientQuit = false;
-    wxString           strConnectedCompter = wxEmptyString;
-    wxString           strPassword = wxEmptyString;
+    CMainDocument*      pDoc = wxGetApp().GetDocument();
+    wxInt32             iCount = 0;
+    bool                bClientQuit = false;
+    wxString            strConnectedCompter = wxEmptyString;
+    wxString            strPassword = wxEmptyString;
+    double              startTime = 0;
+    wxDateTime          zeroTime = wxDateTime((time_t)0);
+    wxDateTime          rpcCompletionTime = zeroTime;
+    ASYNC_RPC_REQUEST   request;
+    int                 quit_result;
 
     wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
@@ -495,15 +500,35 @@ void CBOINCClientManager::ShutdownBOINCCore() {
             rpc.close();
         } else {
             if (IsBOINCCoreRunning()) {
-                pDoc->CoreClientQuit();
-                for (iCount = 0; iCount <= 10; iCount++) {
-                    if (!bClientQuit && !IsBOINCCoreRunning()) {
+                if (ShuttingDownManager) {
+                    // Set event filtering to allow RPC completion 
+                    // events but not events which start new RPCs
+                    wxGetApp().SetEventFiltering(true);
+                }
+                quit_result = -1;
+                request.clear();
+                request.which_rpc = RPC_QUIT;
+                request.rpcType = RPC_TYPE_ASYNC_NO_REFRESH;
+                request.completionTime = &rpcCompletionTime;
+                request.resultPtr = &quit_result;
+                pDoc->RequestRPC(request);  // Issue an asynchronous Quit RPC
+
+                // Client needs time to shut down project applications, so don't wait
+                // for it to shut down; assume it will exit OK if Quit RPC succeeds.
+                startTime = dtime();
+                while ((dtime() - startTime) < 10.0) {  // Allow 10 seconds
+                    boinc_sleep(0.25);          // Check 4 times per second
+                    wxSafeYield(NULL, true);    // To allow handling RPC completion events
+                    if (!bClientQuit && (rpcCompletionTime != zeroTime)) {
+                        // If Quit RPC finished, check its returned value
+                        if (quit_result) {
+                            break;  // Quit RPC returned an error
+                        }
                         wxLogTrace(wxT("Function Status"), wxT("CBOINCClientManager::ShutdownBOINCCore - Application Exit Detected"));
                         bClientQuit = true;
                         break;
                     }
                     wxLogTrace(wxT("Function Status"), wxT("CBOINCClientManager::ShutdownBOINCCore - Application Exit NOT Detected, Sleeping..."));
-                    ::wxSleep(1);
                 }
             } else {
                 bClientQuit = true;

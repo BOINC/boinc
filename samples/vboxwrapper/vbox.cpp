@@ -482,7 +482,7 @@ int VBOX_VM::register_vm() {
     //
     fprintf(
         stderr,
-        "%s Modifing virtual machine.\n",
+        "%s Modifying virtual machine.\n",
         boinc_msg_prefix(buf, sizeof(buf))
     );
     command  = "modifyvm \"" + vm_name + "\" ";

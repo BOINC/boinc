@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# $Id:$
+# $Id$
 
 # An authentication test script
 

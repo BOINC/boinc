@@ -116,6 +116,7 @@ bool CBOINCGUIApp::OnInit() {
 #endif
 
     s_bSkipExitConfirmation = false;
+    m_bFilterEvents = false;
 
     // Initialize class variables
     m_pLocale = NULL;
@@ -1220,28 +1221,38 @@ void CBOINCGUIApp::DeleteMacSystemMenu() {
 
 // Prevent recursive entry of CMainDocument::RequestRPC()
 int CBOINCGUIApp::FilterEvent(wxEvent &event) {
+    int theEventType;
+    wxDialog* theRPCWaitDialog;
+    wxObject* theObject;
+
     if (!m_pDocument) return -1;
-    if (!m_pDocument->WaitingForRPC()) return -1;
 
-    // If in RPC Please Wait dialog, reject all command 
-    // and timer events except: 
-    //  - RPC Finished
-    //  - those for that dialog or its children
-    //  - Open Manager menu item from system tray icon
-    int theEventType = event.GetEventType();
+    if (m_pDocument->WaitingForRPC()) {
+        // If in RPC Please Wait dialog, reject all command 
+        // and timer events except: 
+        //  - RPC Finished
+        //  - those for that dialog or its children
+        //  - Open Manager menu item from system tray icon
+        theEventType = event.GetEventType();
 
-    if ((theEventType == wxEVT_COMMAND_MENU_SELECTED) && (event.GetId() == wxID_OPEN)) {
-        return -1;        
+        if ((theEventType == wxEVT_COMMAND_MENU_SELECTED) && (event.GetId() == wxID_OPEN)) {
+            return -1;        
+        }
+
+        theRPCWaitDialog = m_pDocument->GetRPCWaitDialog();
+        theObject = event.GetEventObject();
+        while (theObject) {
+            if (!theObject->IsKindOf(CLASSINFO(wxWindow))) break;
+            if (theObject == theRPCWaitDialog) return -1;
+            theObject = ((wxWindow*)theObject)->GetParent();
+        }
+        // Continue with rest of filtering below
+    } else {
+        // Do limited filtering if shutting down to allow RPC 
+        // completion events but not events which start new RPCs
+        if (!m_bFilterEvents) return -1;
     }
 
-    wxDialog* theRPCWaitDialog = m_pDocument->GetRPCWaitDialog();
-    wxObject* theObject = event.GetEventObject();
-    while (theObject) {
-        if (!theObject->IsKindOf(CLASSINFO(wxWindow))) break;
-        if (theObject == theRPCWaitDialog) return -1;
-        theObject = ((wxWindow*)theObject)->GetParent();
-    }
-    
     // Allow all except Command, Timer and Mouse Moved events
     if (event.IsCommandEvent()) {
         return false;

@@ -7,7 +7,7 @@
 
 # 0 0 * * * bash /home/ps3grid/remote/monitoring/monitoring_cron.sh
 
-# $Id:$
+# $Id$
 
 mon_dir=  PATH TO MONITOR DIR
 mysql="/usr/bin/mysql  -pPASSWORD DB_NAME"

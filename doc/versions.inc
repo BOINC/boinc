@@ -122,10 +122,10 @@ $w610x64 = array(
 );
 
 $m613 = array(
-	"num"=>"6.13.6",
+	"num"=>"6.13.10",
 	"status"=>"Development version (standard GUI)",
-	"file"=>"boinc_6.13.6_macOSX_i686.zip",
-	"date"=>"30 Sept 2011",
+	"file"=>"boinc_6.13.10_macOSX_i686.zip",
+	"date"=>"28 Oct 2011",
 	"type"=>"mac_advanced",
 );
 
@@ -154,10 +154,10 @@ $m66 = array(
 );
 
 $m613c = array(
-	"num"=>"6.13.6",
+	"num"=>"6.13.10",
 	"status"=>"Development version (Unix command-line version)",
-	"file"=>"boinc_6.13.6_i686-apple-darwin.zip",
-	"date"=>"30 Sept 2011",
+	"file"=>"boinc_6.13.10_i686-apple-darwin.zip",
+	"date"=>"28 Oct 2011",
 	"type"=>"bare_core",
 );
 
@@ -202,10 +202,10 @@ $l66 = array(
 	);
 
 $l613ubuntu = array(
-	"num"=>"6.13.6",
+	"num"=>"6.13.10",
 	"status"=>"Development version",
-	"file"=>"boinc_6.13.6_i686-pc-linux-gnu.sh",
-	"date"=>"30 Sept 2011",
+	"file"=>"boinc_6.13.10_i686-pc-linux-gnu.sh",
+	"date"=>"28 Oct 2011",
 	"type"=>"sea",
 );
 
@@ -226,10 +226,10 @@ $l610ubuntu = array(
 );
 
 $l613ubuntux64 = array(
-	"num"=>"6.13.6",
+	"num"=>"6.13.10",
 	"status"=>"Development version",
-	"file"=>"boinc_6.13.6_x86_64-pc-linux-gnu.sh",
-	"date"=>"30 Sept 2011",
+	"file"=>"boinc_6.13.10_x86_64-pc-linux-gnu.sh",
+	"date"=>"28 Oct 2011",
 	"type"=>"sea",
 );
 

@@ -38,7 +38,7 @@ public:
 
     bool                IsBOINCCoreRunning();
     bool                StartupBOINCCore();
-    void                ShutdownBOINCCore();
+    void                ShutdownBOINCCore(bool ShuttingDownManager);
     void                KillClient();
 
 protected:

@@ -102,6 +102,7 @@ $body .= "
 For further information and assistance with ".PROJECT.", visit
 $master_url
 ";
+
     return send_email($user, $subject, $body);
 }
 

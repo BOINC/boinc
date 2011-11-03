@@ -1,6 +1,6 @@
 #/bin/bash
 
-# $Id:$
+# $Id$
 
 # Duplicates workunits which are late (sent time < 3 days ago),
 # state=INPROGRESS.  Does not duplicate WUs which have been already

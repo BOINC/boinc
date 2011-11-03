@@ -2000,11 +2000,17 @@ int RPC_CLIENT::get_host_info(HOST_INFO& h) {
 
 int RPC_CLIENT::quit() {
     int retval;
+    char buf[256];
     SET_LOCALE sl;
     RPC rpc(this);
 
     retval = rpc.do_rpc("<quit/>\n");
-    return retval;
+    while (rpc.fin.fgets(buf, 256)) {
+        if (match_tag(buf, "success")) {
+            return 0;
+        }
+    }
+    return ERR_XML_PARSE;
 }
 
 int RPC_CLIENT::acct_mgr_rpc(const char* url, const char* name, const char* password, bool use_config_file) {

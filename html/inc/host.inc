@@ -254,6 +254,8 @@ function gpu_desc($x) {
         if ($d[2]!="" && $d[2]!="1") $str .= "[".$d[2]."] ";
         if ($d[0] == "CUDA") {
             $str .= "NVIDIA";
+        } else if ($d[0] == "CAL") {
+            $str .= "AMD";
         } else {
             $str .= $d[0];
         }
@@ -261,10 +263,16 @@ function gpu_desc($x) {
         $str .= " (".$d[3].")";
         if (array_key_exists(4, $d)) {
             if ($d[4] != "" && $d[4] != 0) {
-                $i = (int)$d[4];
-                $maj = (int)($i/100);
-                $min = $i%100;
-                $str .= " driver: $maj.$min";
+                // if version has no '.', assume it's in 100*maj+min form
+                //
+                if (strchr($d[4], '.')) {
+                    $str .= " driver: ".$d[4];
+                } else {
+                    $i = (int)$d[4];
+                    $maj = (int)($i/100);
+                    $min = $i%100;
+                    $str .= " driver: $maj.$min";
+                }
             }
         }
 

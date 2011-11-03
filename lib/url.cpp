@@ -257,7 +257,7 @@ void canonicalize_master_url(char* url) {
     while (1) {
         p = strstr(buf, "//");
         if (!p) break;
-        strcpy(p, p+1);
+        strcpy_overlap(p, p+1);
     }
     n = strlen(buf);
     if (buf[n-1] != '/') {

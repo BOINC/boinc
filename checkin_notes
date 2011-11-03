@@ -7908,10 +7908,64 @@ Charlie 27 Oct 2011
     mac_installer/
         release_boinc.sh
 
-Rom    25 Oct 2011
+Rom    27 Oct 2011
     - Tag for 6.13.10 release, all platforms
       boinc_core_release_6_13_10
 
     /
         configure.ac
         version.h
+
+Charlie 28 Oct 2011
+    - Mgr: Exit manager as soon as quit rpc to client succeeds, instead 
+        of waiting for client to exit.
+        (Checked in to 6.13.10 for Mac build only.)
+        
+        The problem: if suspended tasks are kept in memory, some project 
+        applications don't respond to exit request from client, but client 
+        needs to allow 20 seconds before killing them in case they are 
+        writing a large checkpoint file.  But if the manager waits that 
+        long to exit, it seems unresponsive to users, so it was killing 
+        the client after only 10 seconds. This left orphan project apps 
+        in RAM.
+        
+        The solution: assume that if the quit rpc to the client succeeds, 
+        the client will exit properly, so kill client only if RPC fails 
+        or is not completed in 10 seconds.
+    
+    clientgui/
+        BOINCClientManager.cpp
+        BOINCGUIApp.cpp,.h
+
+David  28 Oct 2011
+    - GUI RPC client: parse the reply of quit(),
+        so that it returns an error if no response
+
+    lib/
+        gui_rpc_client_ops.cpp
+
+David  28 Oct 2011
+    - web: Display AMD GPU info correctly.  From Teemu Mannermaa.
+
+    html/inc/
+        host.inc
+
+Charlie 29 Oct 2011
+    - Mgr: Code cleanup.
+    
+    clientgui/
+        BOINCClientManager.cpp,.h
+        BOINCGUIApp.cpp,.h
+        MainDocument.cpp
+
+David  29 Oct 2011
+    - lib: fix a "strcpy(p, p+1)" instance
+
+    lib/
+        url.cpp
+
+Charlie 31 Oct 2011
+    - api: Update comments, remove unused includes for boinc_opencl.a.
+    
+    api/
+        boinc_opencl.cpp

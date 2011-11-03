@@ -515,7 +515,7 @@ int CMainDocument::OnExit() {
         if (wxGetApp().ShouldShutdownCoreClient()) {
             // Shut down only local clients on Manager exit
             if (!wxGetApp().IsMgrMultipleInstance()) {
-                m_pClientManager->ShutdownBOINCCore();
+                m_pClientManager->ShutdownBOINCCore(true);
             }
         }
         
