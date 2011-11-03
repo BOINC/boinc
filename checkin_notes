@@ -8061,3 +8061,15 @@ David  3 Nov 2011
 
     samples/wrapper/
         wrapper.cpp
+
+David  3 Nov 2011
+	- client: show GPU exclusions at startup
+		(need to do this after reading the state file,
+		since GPU exclusions refer to projects).
+	- client: fix bug that added garbage <coproc> element
+		to <app_version> in state file when using GPU exclusions
+
+	client/
+		client_types.cpp
+		client_state.cpp
+		log_flags.cpp

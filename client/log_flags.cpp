@@ -502,10 +502,7 @@ void process_gpu_exclusions() {
         }
         if (found) continue;
         avp->missing_coproc = true;
-        msg_printf(avp->project, MSG_INFO,
-            "All GPUs excluded for %s %d (%s)",
-            avp->app->name, avp->version_num, avp->plan_class
-        );
+        strcpy(avp->missing_coproc_name, "");
         for (j=0; j<gstate.results.size(); j++) {
             RESULT* rp = gstate.results[j];
             if (rp->avp != avp) continue;

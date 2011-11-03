@@ -1385,7 +1385,7 @@ int APP_VERSION::write(MIOFILE& out, bool write_file_info) {
             gpu_usage.usage
         );
     }
-    if (missing_coproc) {
+    if (missing_coproc && strlen(missing_coproc_name)) {
         out.printf(
             "    <coproc>\n"
             "        <type>%s</type>\n"

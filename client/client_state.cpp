@@ -323,7 +323,6 @@ int CLIENT_STATE::init() {
         );
     }
 
-    config.show();
     log_flags.show();
 
     msg_printf(NULL, MSG_INFO, "Libraries: %s", curl_version());
@@ -377,7 +376,7 @@ int CLIENT_STATE::init() {
                 msg_printf(NULL, MSG_INFO, "%s", warnings[i].c_str());
             }
         }
-#if 0
+#if 1
         msg_printf(NULL, MSG_INFO, "Faking an NVIDIA GPU");
         coprocs.nvidia.fake(18000, 512*MEGA, 490*MEGA, 1);
 #endif
@@ -432,6 +431,11 @@ int CLIENT_STATE::init() {
     // for projects with no account file
     //
     parse_state_file();
+
+    // this needs to go after parse_state_file because
+    // GPU exclusions refer to projects
+    //
+    config.show();
 
     // inform the user if there's a newer version of client
     //
