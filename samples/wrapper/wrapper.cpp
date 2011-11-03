@@ -448,7 +448,6 @@ int TASK::run(int argct, char** argvt) {
         sprintf(cmd, "cmd.exe /c %s", command.c_str());
         success = CreateProcess(
             "cmd.exe",
-            app_path,
             (LPSTR)cmd,
             NULL,
             NULL,
