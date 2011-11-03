@@ -8021,9 +8021,12 @@ David  2 Nov 2011
 
 Charlie 3 Nov 2011
     - api: Restore lost checkin of 31 October 2011.
-    - Mac installer: update ReadMe file for BOINC 6.13.x.
+    - Mac installer: update ReadMe files for BOINC 6.13.x.
     
     api/
         boinc_opencl.cpp
     mac_installer/
+        CE-ReadMe.rtf
+        GR-ReadMe.rtf
+        PTP-ReadMe.rtf
         ReadMe.rtf

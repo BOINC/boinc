@@ -20,12 +20,10 @@
 \b Dual GPU Macbook Pros:
 \b0  Some newer Macbook Pros have dual graphics processors, one that is more powerful and another that is more energy-efficient, and they switch between them automatically.  This can cause your screensaver to flash on and off frequently, and can prevent BOINC from detecting the more powerful GPU which is needed to process some applications.  You can force selection either {\field{\*\fldinst{HYPERLINK "http://support.apple.com/kb/HT4110"}}{\fldrslt \cf2 permanently}} or temporarily using a {\field{\*\fldinst{HYPERLINK "http://codykrieger.com/gfxCardStatus/"}}{\fldrslt \cf2 third-party utility}}. But be aware that forcing the use of the NVIDIA GPU may cause faster battery drain; this of course is not an issue when running on AC power.\
 \
-\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640
 
-\b \cf0 Upgrade warning 1: 
-\b0 There have been changes to BOINC's internal file formats.   When you upgrade from version 6.12.x, BOINC will automatically upgrade its files.  However, if for any reason you wish to downgrade again to a version earlier than 6.13.x, you will lose any unreported work.  The project servers will send you the tasks again, but they will be restarted from the beginning.  If you think you might need to revert to an older version of BOINC, you should back up your BOINC Data folder before upgrading.\
-\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640
-\cf0 \
+\b Upgrade warning 1: 
+\b0 There have been changes to BOINC's internal file formats.   When you upgrade from version 6.12.x or earlier, BOINC will automatically upgrade its files.  However, if for any reason you wish to downgrade again to a version earlier than 6.13.x, you will lose any unreported work.  The project servers will send you the tasks again, but they will be restarted from the beginning.  If you think you might need to revert to an older version of BOINC, you should back up your BOINC Data folder before upgrading.\
+\
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural
 \cf0 If you are upgrading from a version earlier than 6.8.0, you may see a message "Failed to convert file BOINC Manager Preferences to Unicode."  This is due to our addition of full Unicode support to the BOINC Manager.  If you get this message, you may need to readjust your column widths and other BOINC Manager view options, but no other problems will result.  When  you quit BOINC Manager, these settings will be saved in the new Unicode format.\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640
@@ -36,13 +34,13 @@ For more options, please see the BOINC Macintosh administrator tools at:\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640
 {\field{\*\fldinst{HYPERLINK "http://boinc.berkeley.edu/wiki/Tools_for_Mac_OS_X"}}{\fldrslt \cf0 http://boinc.berkeley.edu/wiki/Tools_for_Mac_OS_X}}\
 \
-BOINC on the Mac now supports processing with your graphics card, or GPU.  Please see {\field{\*\fldinst{HYPERLINK "http://boinc.berkeley.edu/gpu.php"}}{\fldrslt http://boinc.berkeley.edu/gpu.php}} for more information.   If you have a CUDA-capable NVIDIA GPU and you wish to run CUDA applicationa, you will need to download and install the CUDA driver and libraries for your system from {\field{\*\fldinst{HYPERLINK "http://www.nvidia.com/object/mac-driver-archive.html"}}{\fldrslt http://www.nvidia.com/object/mac-driver-archive.html}}.  BOINC 6.13.x also supports openCL applications on NVIDIA and ATI / AMD graphics processors.  OpenCL support is standard as part of Mac OS 10.6 and OS 10.7.\
+BOINC on the Mac now supports processing with your graphics card, or GPU.  Please see {\field{\*\fldinst{HYPERLINK "http://boinc.berkeley.edu/gpu.php"}}{\fldrslt http://boinc.berkeley.edu/gpu.php}} for more information.   If you have a CUDA-capable NVIDIA GPU and you wish to run CUDA applications, you will need to download and install the CUDA driver and libraries for your system from {\field{\*\fldinst{HYPERLINK "http://www.nvidia.com/object/mac-driver-archive.html"}}{\fldrslt http://www.nvidia.com/object/mac-driver-archive.html}}.  BOINC 6.13.x also supports openCL applications on NVIDIA and ATI / AMD graphics processors.  OpenCL support is standard as part of Mac OS 10.6 and OS 10.7.\
 \
 Starting with version 5.5.4, BOINC has featured new, stricter security measures.  See the 
 \b Security
 \b0  section below for important information.\
 \
-This version of BOINC no longer supports PowerPC Macs; it runs natively on Intel Macs and requires Macintosh OS X version 10.4 or greater.  if you wish to run on a PowerPC Mac, please install BOINC 6.12.x.  \
+As of version 6.13.x, BOINC no longer supports PowerPC Macs; it runs natively on Intel Macs and requires Macintosh OS X version 10.4 or greater.  If you wish to run on a PowerPC Mac, please install an earlier version of BOINC.  \
 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640
 
@@ -70,7 +68,7 @@ Note: on some versions of the Mac OS, you may not be able to exit the BOINC scre
 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
 
-\b0 \cf0 Since version 5.5.4 of BOINC Manager for the Macintosh has featured new, stricter security measures.  This additional security helps protect your computer data from potential theft or accidental or malicious damage by limiting BOINC projects' access to your  system and data.  \
+\b0 \cf0 Since version 5.5.4, BOINC Manager for the Macintosh has featured new, stricter security measures.  This additional security helps protect your computer data from potential theft or accidental or malicious damage by limiting BOINC projects' access to your  system and data.  \
 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640
 \cf0 The installer sets special permission for the BOINCManager and Client, which allows them to write to the shared BOINC Data regardless of which user is logged in.  If you 
@@ -137,7 +135,7 @@ The installer creates the BOINC Data folder in your
 \b /Library/Application Support
 \b0  folder.  If you have previously been running BOINC in a different folder, copy your data into this folder before running the installer.  \
 \
-All users who log in on the same Macintosh will share one set of BOINC data, ensuring that work units are processed in the most timely manner.  \
+All users who log in on the same Macintosh will share one set of BOINC Data, ensuring that work units are processed in the most timely manner.  \
 \
 You can move (
 \b not
