@@ -8018,3 +8018,9 @@ David  2 Nov 2011
 
     sched/
         credit.cpp
+
+Charlie 3 Nov 2011
+    - api: Restore list checkin of 31 October 2011.
+    
+    api/
+        boinc_opencl.cpp

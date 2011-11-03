@@ -16,31 +16,17 @@
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
 // BOINC API for OpenCL
-
-// The BOINC client calls the project application with the arguments:
-//   --gpu_type TYPE --device N
-// where TYPE is ATI or NVIDIA, and N is the GPU number of that type
-// For example, for ATI GPU number 0, the arguments will be:
-//   --gpu_type ATI --device 0
 //
 // To get the cl_device_id and cl_platform_id for the OpenCL GPU 
-// asigned to your application call this function:
+// assigned to your application call this function:
 // int boinc_get_opencl_ids(int argc, char** argv, cl_device_id*, cl_platform_id*);
 //
-// NOTE: You should compile and link this function as part of your 
-// application; it is not included in the standard BOINC libraries.
+// To use this function, link your application with libboinc_opencl.a
 //
 
 #ifdef _WIN32
 #include "win_util.h"
 #else
-#ifdef __APPLE__
-// Suppress obsolete warning when building for OS 10.3.9
-#define DLOPEN_NO_WARN
-#include <mach-o/dyld.h>
-#endif
-#include "config.h"
-#include <dlfcn.h>
 #include <setjmp.h>
 #include <signal.h>
 #endif
