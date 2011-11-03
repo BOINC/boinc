@@ -7996,3 +7996,17 @@ David  2 Nov 2011
         util.inc
     lib/
         gui_rpc_client_ops.cpp
+
+David  2 Nov 2011
+    - scheduler: in update_wu_on_send(), always try to update
+        the hr_class and app_version_id fields,
+        with the where clause that they be either zero or the target value.
+        This handles the cases where
+        1) because of the failure of a results, the transitioner set
+            the field back to zero;
+        2) another scheduler set the field to the target value
+
+    sched/
+        sched_send.cpp
+    client/
+        makefile_sim

@@ -64,4 +64,4 @@ OBJS = \
 all: sim
 
 sim: $(OBJS) sim.h
-	$(CXX) $(CXXFLAGS) $(OBJS) -o sim -ldl -lcurl
+	$(CXX) $(CXXFLAGS) $(OBJS) -o sim -ldl -lcurl -lz -lssl -lcrypto
