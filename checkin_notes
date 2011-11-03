@@ -8020,7 +8020,10 @@ David  2 Nov 2011
         credit.cpp
 
 Charlie 3 Nov 2011
-    - api: Restore list checkin of 31 October 2011.
+    - api: Restore lost checkin of 31 October 2011.
+    - Mac installer: update ReadMe file for BOINC 6.13.x.
     
     api/
         boinc_opencl.cpp
+    mac_installer/
+        ReadMe.rtf
