@@ -793,6 +793,9 @@ function get_app_types() {
         } else if (strstr($av->plan_class, "cuda")) {
             $t->cuda = true;
             $t->count++;
+        } else if (strstr($av->plan_class, "nvidia")) {
+            $t->cuda = true;
+            $t->count++;
         } else {
             $t->cpu = true;
             $t->count++;

@@ -7982,3 +7982,17 @@ David  2 Nov 2011
         des.h
         ssimp.cpp
         makefile
+
+David  2 Nov 2011
+    - server: plan class names containing 'nvidia' or 'cuda'
+        are assumed to be for NVIDIA GPU apps;
+        plan class names containing 'ati' are assumed to be for AMD GPU apps.
+        Clauses for 'nvidia' were missing in a couple of places.
+
+    sched/
+        sched_customize.cpp
+        sched_version.cpp
+    html/inc/
+        util.inc
+    lib/
+        gui_rpc_client_ops.cpp

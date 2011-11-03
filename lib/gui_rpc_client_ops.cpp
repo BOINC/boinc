@@ -2005,6 +2005,7 @@ int RPC_CLIENT::quit() {
     RPC rpc(this);
 
     retval = rpc.do_rpc("<quit/>\n");
+    if (retval) return retval;
     while (rpc.fin.fgets(buf, 256)) {
         if (match_tag(buf, "success")) {
             return 0;
