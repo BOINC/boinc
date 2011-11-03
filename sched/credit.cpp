@@ -252,43 +252,35 @@ int update_av_scales(SCHED_SHMEM* ssp) {
             }
         }
 
-        // If there are only CPU or only GPU versions,
-        // and at least 2 are above threshold, normalize to the average
-        //
-        // If there are both, and at least 1 of each is above threshold,
+        // If there are both CPU and GPU versions,
+        // and at least 1 of each is above threshold,
         // normalize to the min of the averages
+        // 
+        // Otherwise, if either CPU or GPU has at least
+        // 2 versions above threshold, normalize to the average
         //
-        if (cpu_info.nvers_total) {
-            if (gpu_info.nvers_total) {
-                if (cpu_info.nvers_thresh && gpu_info.nvers_thresh) {
-                    if (config.debug_credit) {
-                        log_messages.printf(MSG_NORMAL,
-                            "CPU avg: %g; GPU avg: %g\n",
-                            cpu_info.avg(), gpu_info.avg()
-                        );
-                    }
-                    scale_versions(app,
-                        cpu_info.avg()<gpu_info.avg()?cpu_info.avg():gpu_info.avg(),
-                        ssp
-                    );
-                }
-            } else {
-                if (cpu_info.nvers_thresh > 1) {
-                    log_messages.printf(MSG_NORMAL,
-                        "CPU avg: %g\n", cpu_info.avg()
-                    );
-                    scale_versions(app, cpu_info.avg(), ssp);
-                }
-            }
-        } else {
-            if (gpu_info.nvers_thresh > 1) {
+        if (cpu_info.nvers_thresh && gpu_info.nvers_thresh) {
+            if (config.debug_credit) {
                 log_messages.printf(MSG_NORMAL,
-                    "GPU avg: %g\n", gpu_info.avg()
+                    "CPU avg: %g; GPU avg: %g\n",
+                    cpu_info.avg(), gpu_info.avg()
                 );
-                scale_versions(app, gpu_info.avg(), ssp);
             }
+            scale_versions(app,
+                cpu_info.avg()<gpu_info.avg()?cpu_info.avg():gpu_info.avg(),
+                ssp
+            );
+        } else if (cpu_info.nvers_thresh > 1) {
+            log_messages.printf(MSG_NORMAL,
+                "CPU avg: %g\n", cpu_info.avg()
+            );
+            scale_versions(app, cpu_info.avg(), ssp);
+        } else if (gpu_info.nvers_thresh > 1) {
+            log_messages.printf(MSG_NORMAL,
+                "GPU avg: %g\n", gpu_info.avg()
+            );
+            scale_versions(app, gpu_info.avg(), ssp);
         }
-
 
     }
     if (config.debug_credit) {

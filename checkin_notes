@@ -8005,8 +8005,16 @@ David  2 Nov 2011
         1) because of the failure of a results, the transitioner set
             the field back to zero;
         2) another scheduler set the field to the target value
+        (from Kevin Reed)
 
     sched/
         sched_send.cpp
     client/
         makefile_sim
+
+David  2 Nov 2011
+    - feeder: fix logic error in the way app_version.pfc_scale is updated
+        (from Kevin Reed)
+
+    sched/
+        credit.cpp
