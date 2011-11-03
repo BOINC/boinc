@@ -442,18 +442,38 @@ int TASK::run(int argct, char** argvt) {
         set_up_env_vars(&env_vars, nvars);
     }
 
-    if (!CreateProcess(
-        app_path,
-        (LPSTR)command.c_str(),
-        NULL,
-        NULL,
-        TRUE,        // bInheritHandles
-        CREATE_NO_WINDOW|IDLE_PRIORITY_CLASS,
-        (LPVOID) env_vars,
-        exec_dir.empty()?NULL:exec_dir.c_str(),
-        &startup_info,
-        &process_info
-    )) {
+    BOOL success;
+    if (ends_with((string)app_path, ".bat")) {
+        char cmd[1024];
+        sprintf(cmd, "cmd.exe /c %s", command.c_str());
+        success = CreateProcess(
+            "cmd.exe",
+            app_path,
+            (LPSTR)cmd,
+            NULL,
+            NULL,
+            TRUE,        // bInheritHandles
+            CREATE_NO_WINDOW|IDLE_PRIORITY_CLASS,
+            (LPVOID) env_vars,
+            exec_dir.empty()?NULL:exec_dir.c_str(),
+            &startup_info,
+            &process_info
+        );
+    } else {
+        success = CreateProcess(
+            app_path,
+            (LPSTR)command.c_str(),
+            NULL,
+            NULL,
+            TRUE,        // bInheritHandles
+            CREATE_NO_WINDOW|IDLE_PRIORITY_CLASS,
+            (LPVOID) env_vars,
+            exec_dir.empty()?NULL:exec_dir.c_str(),
+            &startup_info,
+            &process_info
+        );
+    }
+    if (!success) {
         char error_msg[1024];
         windows_error_string(error_msg, sizeof(error_msg));
         fprintf(stderr, "can't run app: %s\n", error_msg);

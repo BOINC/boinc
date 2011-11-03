@@ -8055,3 +8055,9 @@ David  3 Nov 2011
         acct_mgr.cpp
         app.cpp
         cpu_sched.cpp
+
+David  3 Nov 2011
+    - wrapper: handle Windows .bat files as main programs
+
+    samples/wrapper/
+        wrapper.cpp
