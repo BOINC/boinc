@@ -127,7 +127,6 @@ ACTIVE_TASK::ACTIVE_TASK() {
 // and ACTIVE_TASK_SET::suspend_all()
 //
 int ACTIVE_TASK::preempt(int preempt_type) {
-    int retval;
     bool remove=false;
 
     switch (preempt_type) {
@@ -164,7 +163,7 @@ int ACTIVE_TASK::preempt(int preempt_type) {
                 result->name
             );
         }
-        retval = request_exit();
+        return request_exit();
     } else {
         if (log_flags.cpu_sched) {
             msg_printf(result->project, MSG_INFO,
@@ -172,7 +171,7 @@ int ACTIVE_TASK::preempt(int preempt_type) {
                 result->name
             );
         }
-        retval = suspend();
+        return suspend();
     }
     return 0;
 }

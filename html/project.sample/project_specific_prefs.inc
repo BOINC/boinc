@@ -55,10 +55,11 @@ define('ACCEPT_ANY_DESC', tra('If no work for selected applications is available
 // which means that if the project adds a new app such users will run it also.
 //
 if (APP_SELECT_PREFS) {
-    $app_array = array(
-        array(1, "Application one"),
-        array(2, "Application two"),
-    );
+    $app_array = array();
+    $apps = BoincApp::enum("deprecated=0");
+    foreach($apps as $app) {
+        $app_array[] = array($app->id, $app->user_friendly_name);
+    }
 } else {
     $app_array = null;
 }

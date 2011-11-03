@@ -8030,3 +8030,28 @@ Charlie 3 Nov 2011
         GR-ReadMe.rtf
         PTP-ReadMe.rtf
         ReadMe.rtf
+
+David  3 Nov 2011
+    - client: fix bugs when writing/parsing cc_config.xml via GUI RPCs
+        (e.g. when editing it via the Manager).
+        Include only the GPUs that were specified in the original cc_config.xml,
+        not those detected by the client.
+    - client: fix bug that failed to require authorization for
+        GUI RPCs that are supposed to be authorized
+    - client: report parse errors in acct_mgr_url.xml and acct_mgr_login.xml
+    - fix compile warnings
+    - user web: in sample project_specific_prefs.inc,
+        get app names from the DB instead of listing them in the PHP code.
+
+    html/project.sample/
+        project_specific_prefs.inc
+    lib/
+        coproc.h
+        cc_config.cpp
+    client/
+        switcher.cpp
+        coproc_detect.cpp
+        gui_rpc_server_ops.cpp
+        acct_mgr.cpp
+        app.cpp
+        cpu_sched.cpp

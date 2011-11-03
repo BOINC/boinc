@@ -154,6 +154,9 @@ struct COPROC {
     bool have_cal;      // True if this GPU supports CAL on this computer
     bool have_opencl;   // True if this GPU supports openCL on this computer
     double available_ram;
+    bool specified_in_config;
+        // If true, this coproc was listed in cc_config.xml
+        // rather than being detected by the client.
     
     // the following are used in both client and server for work-fetch info
     //
@@ -202,6 +205,7 @@ struct COPROC {
         have_cuda = false;
         have_cal = false;
         have_opencl = false;
+        specified_in_config = false;
         available_ram = -1;
         req_secs = 0;
         req_instances = 0;
@@ -398,6 +402,11 @@ struct COPROCS {
     }
     int add(COPROC& c) {
         if (n_rsc >= MAX_RSC) return ERR_BUFFER_OVERFLOW;
+        for (int i=1; i<n_rsc; i++) {
+            if (!strcmp(c.type, coprocs[i].type)) {
+                return ERR_DUP_NAME;
+            }
+        }
         coprocs[n_rsc++] = c;
         return 0;
     }

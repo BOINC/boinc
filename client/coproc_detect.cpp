@@ -1098,12 +1098,10 @@ void COPROC_ATI::get(
     vector<string>& descs, vector<string>& warnings, vector<int>& ignore_devs
 ) {
     CALuint numDevices, cal_major, cal_minor, cal_imp;
-    CALdevice device;
     char buf[256];
     int retval;
 
     attribs.struct_size = sizeof(CALdeviceattribs);
-    device = 0;
     numDevices =0;
 
 #ifdef _WIN32

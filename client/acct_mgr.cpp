@@ -745,11 +745,16 @@ int ACCT_MGR_INFO::parse_login_file(FILE* p) {
         else if (xp.parse_double("next_rpc_time", next_rpc_time)) continue;
         else if (xp.match_tag("opaque")) {
             retval = xp.element_contents("</opaque>", opaque, sizeof(opaque));
+            if (retval) {
+                msg_printf(NULL, MSG_INFO,
+                    "error parsing <opaque> in acct_mgr_login.xml"
+                );
+            }
             continue;
         }
         if (log_flags.unparsed_xml) {
             msg_printf(NULL, MSG_INFO,
-                "[unparsed_xml] ACCT_MGR_INFO::parse_login: unrecognized %s",
+                "[unparsed_xml] unrecognized %s in acct_mgr_login.xml",
                 xp.parsed_tag
             );
         }
@@ -784,6 +789,11 @@ int ACCT_MGR_INFO::init() {
         else if (xp.parse_bool("send_gui_rpc_info", send_gui_rpc_info)) continue;
         else if (xp.match_tag("signing_key")) {
             retval = xp.element_contents("</signing_key>", signing_key, sizeof(signing_key));
+            if (retval) {
+                msg_printf(NULL, MSG_INFO,
+                    "error parsing <signing_key> in acct_mgr_url.xml"
+                );
+            }
             continue;
         }
         else if (xp.parse_bool("cookie_required", cookie_required)) continue;

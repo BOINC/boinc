@@ -35,7 +35,7 @@
 
 using std::strcpy;
 
-int main(int argc, char** argv) {
+int main(int /*argc*/, char** argv) {
     passwd          *pw;
     group           *grp;
     char            user_name[256], group_name[256];

@@ -302,7 +302,9 @@ int CONFIG::parse_options(XML_PARSER& xp) {
         if (xp.match_tag("coproc")) {
             COPROC c;
             retval = c.parse(xp);
+            c.specified_in_config = true;
             if (retval) return retval;
+            if (!strcmp(c.type, "CPU")) continue;
             retval = config_coprocs.add(c);
             if (retval) return retval;
             continue;
@@ -423,8 +425,8 @@ int CONFIG::parse(XML_PARSER& xp, LOG_FLAGS& log_flags) {
 }
 
 int CONFIG::write(MIOFILE& out, LOG_FLAGS& log_flags) {
-    unsigned int i;
     int j;
+    unsigned int i;
 
     out.printf("<set_cc_config>\n");
     out.printf("<cc_config>\n");
@@ -455,20 +457,21 @@ int CONFIG::write(MIOFILE& out, LOG_FLAGS& log_flags) {
         client_download_url.c_str()
     );
     
-    for (i=0; i<(unsigned int)config_coprocs.n_rsc; ++i) {
+    for (int k=1; k<config_coprocs.n_rsc; k++) {
+        if (!config_coprocs.coprocs[k].specified_in_config) continue;
         out.printf(
             "        <coproc>\n"
             "            <type>%s</type>\n"
             "            <count>%d</count>\n"
             "            <peak_flops>%f</peak_flops>\n"
             "            <device_nums>",
-            config_coprocs.coprocs[i].type,
-            config_coprocs.coprocs[i].count,
-            config_coprocs.coprocs[i].peak_flops
+            config_coprocs.coprocs[k].type,
+            config_coprocs.coprocs[k].count,
+            config_coprocs.coprocs[k].peak_flops
         );
-        for (j=0; j<config_coprocs.coprocs[i].count; ++i) {
-            out.printf("%d", config_coprocs.coprocs[i].device_nums[j]);
-            if (j < (config_coprocs.coprocs[i].count - 1)) {
+        for (j=0; j<config_coprocs.coprocs[k].count; j++) {
+            out.printf("%d", config_coprocs.coprocs[k].device_nums[j]);
+            if (j < (config_coprocs.coprocs[k].count - 1)) {
                 out.printf(" ");
             }
         }

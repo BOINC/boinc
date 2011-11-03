@@ -1144,7 +1144,7 @@ struct GUI_RPC {
         strcpy(alt_req_tag, req);
         strcat(alt_req_tag, "/");
         handler = h;
-        ar = auth_required;
+        auth_required = ar;
         enable_network = en;
         read_only = ro;
     }
