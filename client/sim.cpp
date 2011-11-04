@@ -1422,9 +1422,14 @@ void do_client_simulation() {
 
     sim_results.print(summary_file, true);
 
+    double cpu_time;
+    boinc_calling_thread_cpu_time(cpu_time);
     fprintf(summary_file,
         "-------------------------\n"
+        "Simulator CPU time: %f secs\n"
+        "-------------------------\n"
         "Peak FLOPS: CPU %.2fG GPU %.2fG\n",
+        cpu_time,
         cpu_peak_flops()/1e9,
         gpu_peak_flops()/1e9
     );

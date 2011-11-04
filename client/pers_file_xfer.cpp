@@ -161,7 +161,9 @@ int PERS_FILE_XFER::create_xfer() {
 
 // Poll the status of this persistent file transfer.
 // If it's time to start it, then attempt to start it.
-// If it has finished or failed, then deal with it appropriately
+// If it has finished or failed:
+//      handle the success or failure
+//      remove the FILE_XFER from gstate.file_xfers and delete it
 //
 bool PERS_FILE_XFER::poll() {
     int retval;

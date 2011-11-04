@@ -8116,3 +8116,32 @@ David  4 Nov 2011
     - client: fix compile warning
     client/
         cs_scheduler.cpp
+
+David  4 Nov 2011
+    - client: attempt to fix bug reported by John McLeod,
+        where the client crashes after giving up (90 day timeout) on an upload.
+        I'm guessing this was caused by [24391],
+        which changed the order in the poll loop from
+            garbage_collect
+            file_xfers->poll
+            pers_file_xfers->poll
+            handle_pers_file_xfers
+        to
+            garbage_collect
+            handle_pers_file_xfers
+            file_xfers->poll
+            pers_file_xfers->poll
+        I don't understand why this would have caused a crash,
+        but so be it.
+        I restored the original order, but with handle_pers_file_xfers
+        not inside the if (!network_suspended).
+    - client renamed handle_pers_file_xfers() to
+        create_and_delete_pers_file_xfers()
+    - client simulator: show simulator CPU time
+
+    client/
+        client_state.cpp
+        sim.cpp
+        client_state.h
+        pers_file_xfer.cpp
+        cs_files.cpp

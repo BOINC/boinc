@@ -237,7 +237,7 @@ int FILE_INFO::verify_file(bool strict, bool show_errors) {
 // NOTE: this doesn't start the file transfers
 // scan PERS_FILE_XFERs and delete finished ones.
 //
-bool CLIENT_STATE::handle_pers_file_xfers() {
+bool CLIENT_STATE::create_and_delete_pers_file_xfers() {
     unsigned int i;
     FILE_INFO* fip;
     PERS_FILE_XFER *pfx;

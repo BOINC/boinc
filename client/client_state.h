@@ -363,7 +363,7 @@ struct CLIENT_STATE {
     bool start_new_file_xfer(PERS_FILE_XFER&);
 
     int make_project_dirs();
-    bool handle_pers_file_xfers();
+    bool create_and_delete_pers_file_xfers();
 
 // --------------- cs_platforms.cpp:
     const char* get_primary_platform();
