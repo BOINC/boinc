@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2011-08-25 15:10 PDT\n"
-"PO-Revision-Date: 2011-09-14 18:59+0200\n"
+"PO-Revision-Date: 2011-10-30 22:18+0200\n"
 "Last-Translator: Sami Nordlund <sami.nordlund@kolumbus.fi>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: fi\n"
@@ -15,7 +15,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Pootle 2.1.1\n"
+"X-Generator: Pootle 2.1.6\n"
 "X-Poedit-SourceCharset: utf-8\n"
 
 msgid "LANG_NAME_NATIVE"
@@ -2072,7 +2072,7 @@ msgstr "Kohta 2"
 
 #: ../user/bbcode.php:44
 msgid "use to link to Trac ticket on BOINC website"
-msgstr ""
+msgstr "käytetään linkittämään Trac-lipukkeeseen BOINCin nettisivulla"
 
 #: ../user/bbcode.php:46
 msgid "use to link to Trac Wiki on BOINC website"
@@ -2080,7 +2080,7 @@ msgstr "käytetään linkittämään Trac Wikiin BOINCin nettisivulla"
 
 #: ../user/bbcode.php:48
 msgid "use to link to SVN changeset on BOINC website"
-msgstr ""
+msgstr "käytetään linkittämään SVN muutoksiin BOINCin nettisivulla"
 
 #: ../user/bbcode.php:52
 msgid ""
@@ -2691,7 +2691,7 @@ msgstr "Älä käytä avataria"
 
 #: ../user/edit_forum_preferences_form.php:82
 msgid "Use a Globally Recognized Avatar provided by %1"
-msgstr ""
+msgstr "Käytä avataria, jonka tarjoaa %1"
 
 #: ../user/edit_forum_preferences_form.php:84
 msgid "Use this uploaded avatar:"

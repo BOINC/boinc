@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2011-08-25 15:10 PDT\n"
-"PO-Revision-Date: 2011-10-18 21:11+0200\n"
+"PO-Revision-Date: 2011-10-27 19:06+0200\n"
 "Last-Translator: Rene <oskamjr@wanadoo.nl>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: nl\n"
@@ -2991,7 +2991,6 @@ msgid "Outcomes"
 msgstr "Uitkomst"
 
 #: ../user/explain_state.php:52
-#, fuzzy
 msgid ""
 "A tasks's <b>outcome</b> is defined if its server state is <b>over</b>. "
 "Possible values are:"
@@ -3000,7 +2999,6 @@ msgstr ""
 "(beëindigd)</b> aangeeft. Geldige waarden zijn:"
 
 #: ../user/explain_state.php:57
-#, fuzzy
 msgid ""
 "The task was sent to a computer, but the computer has not yet completed the "
 "work and reported the outcome."
@@ -3013,7 +3011,6 @@ msgid "A computer completed and reported the task successfully."
 msgstr "Een computer heeft de taak voltooid en deze succesvol verzonden."
 
 #: ../user/explain_state.php:63
-#, fuzzy
 msgid ""
 "The server wasn't able to send the task to a computer (perhaps because its "
 "resource requirements were too large)"
@@ -3060,7 +3057,6 @@ msgid "Client states"
 msgstr "Client status"
 
 #: ../user/explain_state.php:81
-#, fuzzy
 msgid ""
 "A result's <b>client state</b> indicates the stage of processing at which an "
 "error occurred."
@@ -3069,27 +3065,22 @@ msgstr ""
 "fout in de verwerking optrad."
 
 #: ../user/explain_state.php:86
-#, fuzzy
 msgid "The computer has not yet completed the task."
 msgstr "De computer heeft de verwerking nog niet voltooid."
 
 #: ../user/explain_state.php:89
-#, fuzzy
 msgid "The computer completed the task successfully."
 msgstr "De taakverwerking is geslaagd."
 
 #: ../user/explain_state.php:92
-#, fuzzy
 msgid "The computer couldn't download the application or input files."
 msgstr "De computer kon de applicatie of  invoerbestanden niet downloaden."
 
 #: ../user/explain_state.php:95
-#, fuzzy
 msgid "An error occurred during computation."
 msgstr "Er is een fout opgetreden tijdens de verwerking."
 
 #: ../user/explain_state.php:98
-#, fuzzy
 msgid "The computer couldn't upload the output files."
 msgstr "De computer kon de uitvoerbestanden niet uploaden."
 
@@ -3098,7 +3089,6 @@ msgid "Time reported and deadline"
 msgstr "Rapportage tijd en deadline"
 
 #: ../user/explain_state.php:106
-#, fuzzy
 msgid ""
 "A task's <b>Time reported or deadline</b> field depends on whether the task "
 "has been reported yet:"
@@ -3115,22 +3105,18 @@ msgid "The date/time it was reported"
 msgstr "De datum/tijd van rapportage"
 
 #: ../user/explain_state.php:111
-#, fuzzy
 msgid "Not reported yet, deadline in the future"
 msgstr "Uitslag nog niet bekend, tijdslimiet aanstaande"
 
 #: ../user/explain_state.php:112
-#, fuzzy
 msgid "Deadline, shown in green."
 msgstr "Tijdslimiet wordt weergegeven in groen."
 
 #: ../user/explain_state.php:114
-#, fuzzy
 msgid "Not reported yet, deadline in the past"
 msgstr "Uitslag nog niet bekend, tijdslimiet verstreken"
 
 #: ../user/explain_state.php:115
-#, fuzzy
 msgid "Deadline, shown in red."
 msgstr "Tijdslimiet wordt weergegeven in rood."
 
@@ -3143,7 +3129,6 @@ msgid "Email preview"
 msgstr "Email voorbeeld"
 
 #: ../user/ffmail_action.php:48
-#, fuzzy
 msgid "Your email will appear as follows:"
 msgstr "Uw e-mail wordt als volgt weergegeven:"
 
@@ -3152,14 +3137,12 @@ msgid "Send email"
 msgstr "Verstuur e-mail"
 
 #: ../user/ffmail_action.php:59
-#, fuzzy
 msgid "Use your browser's back button to return to message form"
 msgstr ""
 "Klik in uw browser op de knop 'vorige pagina' om terug te keren naar het "
 "berichtenformulier"
 
 #: ../user/ffmail_action.php:63
-#, fuzzy
 msgid "Sending emails"
 msgstr "Bezig met versturen van e-mailberichten"
 
@@ -3168,17 +3151,14 @@ msgid "email sent successfully to %1"
 msgstr "e-mail succesvol verzonden naar %1"
 
 #: ../user/ffmail_action.php:86
-#, fuzzy
 msgid "failed to send email to %1: %2"
 msgstr "e-mail versturen naar %1: %2 is mislukt"
 
 #: ../user/ffmail_action.php:92
-#, fuzzy
 msgid "Thanks for telling your friends about %1"
 msgstr "Bedankt dat u uw vrienden hebt verteld over %1"
 
 #: ../user/ffmail_action.php:94
-#, fuzzy
 msgid ""
 "You forgot to enter your friends' names and/or email addresses; Please %"
 "1return to the form%2 and enter them."
@@ -3187,7 +3167,6 @@ msgstr ""
 "naar het formulier%2 en vul deze in."
 
 #: ../user/ffmail_form.php:31
-#, fuzzy
 msgid ""
 "This project hasn\\'t created an email message - please notify its "
 "administrators"
@@ -3200,13 +3179,11 @@ msgid "Tell your friends about %1"
 msgstr "Vertel je vrienden over %1"
 
 #: ../user/ffmail_form.php:38
-#, fuzzy
 msgid "Help us by telling your friends, family and coworkers about %1"
 msgstr ""
 "U helpt ons door uw vrienden, familieleden en collega's te vertellen over %1"
 
 #: ../user/ffmail_form.php:40
-#, fuzzy
 msgid ""
 "Fill in this form with the names and email addresses of people you think "
 "might be interested in %1. We'll send them an email in your name, and you "
@@ -3243,27 +3220,22 @@ msgstr "Verzenden"
 
 #: ../user/forum_banishment_vote.php:35
 #: ../user/forum_banishment_vote_action.php:33
-#, fuzzy
 msgid "You are not authorized to banish users."
 msgstr "U bent niet gemachtigd om deelnemers uit te sluiten."
 
 #: ../user/forum_banishment_vote.php:41 ../user/forum_banishment_vote.php:46
-#, fuzzy
 msgid "Banishment Vote"
 msgstr "Uitsluitingsvoorstel"
 
 #: ../user/forum_banishment_vote.php:50
-#, fuzzy
 msgid "No user with this ID found."
 msgstr "Geen gebruiker met dit ID gevonden."
 
 #: ../user/forum_banishment_vote.php:54 ../user/forum_moderate_post.php:76
-#, fuzzy
 msgid "User is already banished"
 msgstr "Deelnemer is reeds uitgesloten"
 
 #: ../user/forum_banishment_vote.php:59 ../user/forum_moderate_post.php:79
-#, fuzzy
 msgid ""
 "Are you sure you want to banish %1?<br/>This will prevent %1 from posting "
 "for chosen time period.<br/>It should be done only if %1 has consistently "
@@ -3274,7 +3246,6 @@ msgstr ""
 "indien %1 zich herhaaldelijk onbehoorlijk heeft gedragen."
 
 #: ../user/forum_banishment_vote.php:61
-#, fuzzy
 msgid ""
 "Select the reason category, optionally write a longer description of why the "
 "user should be banished."
@@ -3321,18 +3292,15 @@ msgid "Mailed if nonempty"
 msgstr "Mailed if nonempty"
 
 #: ../user/forum_banishment_vote.php:74
-#, fuzzy
 msgid "Proceed with vote"
 msgstr "Doorgaan met uitsluitingsvoorstel"
 
 #: ../user/forum_banishment_vote_action.php:39
 #: ../user/forum_moderate_post_action.php:63
-#, fuzzy
 msgid "You must specify an action..."
 msgstr "U dient een actie te specificeren..."
 
 #: ../user/forum_edit.php:41
-#, fuzzy
 msgid ""
 "You can no longer edit this post.<br/>Posts can only be edited at most %1 "
 "minutes after they have been created."
@@ -3341,7 +3309,6 @@ msgstr ""
 "bewerkt binnen %1 minuten nadat deze zijn aangemaakt."
 
 #: ../user/forum_edit.php:47
-#, fuzzy
 msgid "You are not authorized to edit this post."
 msgstr "U bent niet gemachtigd om dit bericht te bewerken."
 
@@ -3388,7 +3355,6 @@ msgid "This thread is hidden"
 msgstr "Dit onderwerp is verborgen"
 
 #: ../user/forum_forum.php:178
-#, fuzzy
 msgid "This thread is sticky and locked, and you haven't read it yet"
 msgstr ""
 "Dit onderwerp is gemarkeerd en vergrendeld en u hebt het nog niet gelezen"
@@ -3398,7 +3364,6 @@ msgid "sticky/locked/unread"
 msgstr "vastgezet/afgesloten/ongelezen"
 
 #: ../user/forum_forum.php:180
-#, fuzzy
 msgid "This thread is sticky and you haven't read it yet"
 msgstr "Dit onderwerp is gemarkeerd en u hebt het nog niet gelezen"
 
@@ -3407,7 +3372,6 @@ msgid "sticky/unread"
 msgstr "vastgezet/ongelezen"
 
 #: ../user/forum_forum.php:184
-#, fuzzy
 msgid "You haven't read this thread yet, and it's locked"
 msgstr "U hebt dit onderwerp nog niet gelezen en het is vergrendeld"
 
@@ -3416,12 +3380,10 @@ msgid "unread/locked"
 msgstr "ongelezen/afgesloten"
 
 #: ../user/forum_forum.php:186
-#, fuzzy
 msgid "You haven't read this thread yet"
 msgstr "U hebt dit onderwerp nog niet gelezen"
 
 #: ../user/forum_forum.php:192
-#, fuzzy
 msgid "This thread is sticky and locked"
 msgstr "Dit onderwerp is gemarkeerd en vergrendeld"
 
@@ -3446,7 +3408,6 @@ msgid "locked"
 msgstr "afgesloten"
 
 #: ../user/forum_forum.php:200
-#, fuzzy
 msgid "You read this thread"
 msgstr "U hebt dit onderwerp gelezen"
 
@@ -3459,7 +3420,6 @@ msgid "Questions and answers"
 msgstr "Vraag en antwoord"
 
 #: ../user/forum_help_desk.php:30
-#, fuzzy
 msgid ""
 "Talk live via Skype with a volunteer, in any of several languages. Go to %"
 "1BOINC Online Help%2."
@@ -3504,7 +3464,6 @@ msgid "Hide post"
 msgstr "Bericht verbergen"
 
 #: ../user/forum_moderate_post.php:57 ../user/forum_moderate_thread.php:54
-#, fuzzy
 msgid "Commercial spam"
 msgstr "Commerciële spam"
 
@@ -3521,12 +3480,10 @@ msgid "Destination thread ID:"
 msgstr "ID van doel onderwerp:"
 
 #: ../user/forum_moderate_post.php:78
-#, fuzzy
 msgid "Banish user"
 msgstr "Deelnemer uitsluiten"
 
 #: ../user/forum_moderate_post.php:80
-#, fuzzy
 msgid "Ban duration"
 msgstr "Duur van uitsluiting"
 
@@ -3555,7 +3512,6 @@ msgid "Forever"
 msgstr "Altijd"
 
 #: ../user/forum_moderate_post.php:96
-#, fuzzy
 msgid "Optional explanation %1 This is included in email to user.%2"
 msgstr ""
 "Optionele eigen motivatie %1 Deze wordt bijgevoegd in het e-mailbericht aan "
@@ -3574,51 +3530,44 @@ msgid "You are not authorized to moderate this post."
 msgstr "U bent niet gemachtigd om hier als moderator op te treden."
 
 #: ../user/forum_moderate_post_action.php:85
-#, fuzzy
 msgid "Can't move to different category type"
-msgstr "Can't move to different category type"
+msgstr "Kan niet verplaatst worden naar ander categorie type"
 
 #: ../user/forum_moderate_post_action.php:89
-#, fuzzy
 msgid "Can't move to different category"
-msgstr "Can't move to different category"
+msgstr "Kan niet verplaatst worden naar andere categorie"
 
 #: ../user/forum_moderate_post_action.php:110
-#, fuzzy
 msgid "Not authorized to banish users"
-msgstr "Not authorized to banish users"
+msgstr "Niet geautoriseerd om gebruikers uit te sluiten"
 
 #: ../user/forum_moderate_post_action.php:126
-#, fuzzy
 msgid "Banishment"
-msgstr "Banishment"
+msgstr "Uitsluiting"
 
 #: ../user/forum_moderate_post_action.php:128
 msgid "User %1 has been banished."
-msgstr "Gebruiker %1 is geroyeerd."
+msgstr "Gebruiker %1 is uitgesloten."
 
 #: ../user/forum_moderate_post_action.php:131
-#, fuzzy
 msgid "Action failed: possible database problem"
-msgstr "Action failed: possible database problem"
+msgstr "Actie mislukt: mogelijk database probleem"
 
 #: ../user/forum_moderate_thread.php:33
-#, fuzzy
 msgid "not authorized"
-msgstr "not authorized"
+msgstr "niet geautoriseerd"
 
 #: ../user/forum_moderate_thread.php:36
 msgid "Moderate thread '%1'"
 msgstr "Onderwerp '%1' aanpassen"
 
 #: ../user/forum_moderate_thread.php:48
-#, fuzzy
 msgid ""
 "Select the reason category, or write a longer description of why you're "
 "hiding or locking the thread; then press OK."
 msgstr ""
-"Select the reason category, or write a longer description of why you're "
-"hiding or locking the thread; then press OK."
+"Selecteer een reden categorie, of omschrijf de reden voor verbergen of "
+"sluiten van het onderwerp; klik daarna op OK."
 
 #: ../user/forum_moderate_thread.php:72
 msgid "Current forum"

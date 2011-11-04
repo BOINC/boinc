@@ -7,15 +7,15 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2011-04-04 22:09 PDT\n"
-"PO-Revision-Date: 2010-12-10 11:16+0200\n"
-"Last-Translator: Morris83 <zara-83@libero.it>\n"
+"PO-Revision-Date: 2011-11-04 20:45+0200\n"
+"Last-Translator: z-tech <zamber@email.it>\n"
 "Language-Team: \n"
 "Language: it\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Pootle 2.1.1\n"
+"X-Generator: Pootle 2.1.6\n"
 "X-Poedit-SearchPath-0: doc\n"
 "X-Poedit-SourceCharset: utf-8\n"
 "X-Poedit-Basepath: C:\\Src\\BOINCSVN\\trunk\\boinc\n"
@@ -24,11 +24,11 @@ msgstr ""
 
 #: projects.inc:14
 msgid "Cognitive science and artifical intelligence"
-msgstr ""
+msgstr "Scienze cognitive e intelligenza artificiale"
 
 #: projects.inc:17
 msgid "FreeHAL"
-msgstr ""
+msgstr "FreeHAL"
 
 #: projects.inc:19 projects.inc:254 projects.inc:290 projects.inc:297
 msgid "private"
@@ -36,7 +36,7 @@ msgstr ""
 
 #: projects.inc:20
 msgid "Artificial intelligence"
-msgstr ""
+msgstr "Intelligenza artificiale"
 
 #: projects.inc:21
 msgid ""
@@ -48,7 +48,7 @@ msgstr ""
 
 #: projects.inc:27
 msgid "Biology and Medicine"
-msgstr ""
+msgstr "Biologia e Medicina"
 
 #: projects.inc:30
 #, fuzzy

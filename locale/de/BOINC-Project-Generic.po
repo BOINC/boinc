@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: BOINC Project (Generic) 6.x\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2011-08-25 15:10 PDT\n"
-"PO-Revision-Date: 2011-10-13 21:29+0200\n"
+"PO-Revision-Date: 2011-10-25 17:56+0200\n"
 "Last-Translator: Christian <djangofett@gmx.net>\n"
 "Language-Team: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
 "Language: de\n"
@@ -2638,7 +2638,7 @@ msgstr "Diese Liste ist zentral verwaltet von der %1BOINC Webseite%2."
 #: ../user/edit_email_action.php:31
 #, fuzzy
 msgid "Change email address of account"
-msgstr "Die E-Mail-Adresse Ihres Kontos ändern."
+msgstr "Die E-Mail-Adresse des Kontos ändern."
 
 #: ../user/edit_email_action.php:34 ../user/edit_email_action.php:36
 msgid "New email address '%1' is invalid."
@@ -4112,7 +4112,7 @@ msgstr "Den Titel des Themas bearbeiten"
 #: ../user/forum_thread.php:243
 #, fuzzy
 msgid "Export"
-msgstr "Sortieren"
+msgstr "Exportieren"
 
 #: ../user/forum_thread.php:244
 msgid "Export this news item as a Notice"
@@ -4556,8 +4556,9 @@ msgid "The following HTML tags are allowed in team descriptions:"
 msgstr ""
 
 #: ../user/html.php:27
+#, fuzzy
 msgid "bold"
-msgstr ""
+msgstr "Fett"
 
 #: ../user/html.php:28
 msgid "italics"

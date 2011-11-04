@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2011-04-04 22:09 PDT\n"
-"PO-Revision-Date: 2011-10-19 13:04+0200\n"
+"PO-Revision-Date: 2011-10-19 13:05+0200\n"
 "Last-Translator: Gabor Cseh <csega@mailbox.hu>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: hu\n"
@@ -27,7 +27,6 @@ msgid "Cognitive science and artifical intelligence"
 msgstr "Kognitív tudomány és mesterséges intelligencia"
 
 #: projects.inc:17
-#, fuzzy
 msgid "FreeHAL"
 msgstr "FreeHAL"
 
@@ -745,7 +744,6 @@ msgid ""
 msgstr ""
 
 #: projects.inc:382
-#, fuzzy
 msgid "Chess960@home"
 msgstr "Chess960@home"
 

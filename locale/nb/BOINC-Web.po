@@ -434,8 +434,9 @@ msgid "Quantum Monte Carlo at Home"
 msgstr ""
 
 #: projects.inc:224
+#, fuzzy
 msgid "University of Muenster (Germany)"
-msgstr ""
+msgstr "University of Karlsruhe (Tyskland)"
 
 #: projects.inc:226
 msgid ""
@@ -651,8 +652,9 @@ msgid ""
 msgstr ""
 
 #: projects.inc:334
+#, fuzzy
 msgid "ABC@home"
-msgstr ""
+msgstr "LHC@home"
 
 #: projects.inc:336
 msgid "Mathematical Institute of Leiden University / Kennislink"
@@ -674,8 +676,9 @@ msgid "PrimeGrid"
 msgstr ""
 
 #: projects.inc:344
+#, fuzzy
 msgid "Private"
-msgstr ""
+msgstr "privat"
 
 #: projects.inc:346
 msgid ""

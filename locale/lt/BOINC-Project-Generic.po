@@ -488,8 +488,9 @@ msgid "Show:"
 msgstr "Rodyti"
 
 #: ../inc/host.inc:597 ../inc/host.inc:600
+#, fuzzy
 msgid "All computers"
-msgstr ""
+msgstr "Kompiuteriai"
 
 #: ../inc/host.inc:597 ../inc/host.inc:600
 msgid "Only computers active in past 30 days"
@@ -3348,9 +3349,12 @@ msgstr ""
 msgid "sticky/locked"
 msgstr ""
 
+# ########################################<br />
+# Forum thread
 #: ../user/forum_forum.php:194
+#, fuzzy
 msgid "This thread is sticky"
-msgstr ""
+msgstr "Ši tema buvo paslėpta moderatorių"
 
 #: ../user/forum_forum.php:194
 msgid "sticky"

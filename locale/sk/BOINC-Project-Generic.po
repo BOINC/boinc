@@ -1460,8 +1460,9 @@ msgid "Total members"
 msgstr ""
 
 #: ../inc/team.inc:177 ../inc/team.inc:178 ../inc/team.inc:179
+#, fuzzy
 msgid "view"
-msgstr ""
+msgstr "Zobrazenia"
 
 #: ../inc/team.inc:178
 msgid "Active members"
@@ -5759,8 +5760,9 @@ msgid "Decreasing average credit"
 msgstr "Súčasný priemerný kredit"
 
 #: ../user/user_search.php:119
+#, fuzzy
 msgid "Decreasing total credit"
-msgstr ""
+msgstr "Súčasný priemerný kredit"
 
 #: ../user/user_search.php:120
 msgid "Filters"

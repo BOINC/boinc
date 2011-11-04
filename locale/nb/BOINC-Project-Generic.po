@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: BOINC-prject-generic\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2011-08-25 15:10 PDT\n"
-"PO-Revision-Date: 2011-09-10 16:40+0200\n"
+"PO-Revision-Date: 2011-09-11 16:00+0200\n"
 "Last-Translator: Kenneth <kenneth@skjold.biz>\n"
 "Language-Team: Hjelp andre <kenneth@skjold.biz>\n"
 "Language: nb\n"
@@ -239,8 +239,9 @@ msgid "Number of processors"
 msgstr "Antall prosessorer"
 
 #: ../inc/host.inc:117
+#, fuzzy
 msgid "Coprocessors"
-msgstr ""
+msgstr "prosessorer"
 
 #: ../inc/host.inc:119 ../inc/host.inc:627
 msgid "Operating System"
@@ -424,7 +425,6 @@ msgid "Details"
 msgstr "Detaljer"
 
 #: ../inc/host.inc:306
-#, fuzzy
 msgid "Cross-project stats:"
 msgstr "Kryss-prosjekt statistikk"
 
@@ -579,7 +579,6 @@ msgid "For email notification, %1edit community prefs%2"
 msgstr ""
 
 #: ../inc/pm.inc:198
-#, fuzzy
 msgid "Private message"
 msgstr "Private meldinger"
 
@@ -1292,8 +1291,9 @@ msgid "Run time"
 msgstr ""
 
 #: ../inc/result.inc:431
+#, fuzzy
 msgid "CPU time"
-msgstr ""
+msgstr "CPU type"
 
 #: ../inc/result.inc:432
 msgid "Validate state"
@@ -1883,8 +1883,9 @@ msgid "Unable to connect to database - please try again later"
 msgstr ""
 
 #: ../inc/util.inc:757
+#, fuzzy
 msgid "Error:"
-msgstr ""
+msgstr "Feilet"
 
 #: ../inc/util.inc:761
 msgid "Unable to select database - please try again later"
@@ -2890,8 +2891,9 @@ msgid "The task is ready to send, but hasn't been sent yet."
 msgstr ""
 
 #: ../user/explain_state.php:40
+#, fuzzy
 msgid "In Progress"
-msgstr ""
+msgstr "I prosess"
 
 #: ../user/explain_state.php:41
 msgid "The task has been sent; waiting for completion."
@@ -4182,8 +4184,9 @@ msgid "Anonymous platform, missing app"
 msgstr ""
 
 #: ../user/host_app_versions.php:39
+#, fuzzy
 msgid "anonymous platform"
-msgstr ""
+msgstr "Anonym plattform"
 
 #: ../user/host_app_versions.php:43
 msgid "Missing app version"
@@ -4988,12 +4991,14 @@ msgid "application"
 msgstr "Programmer"
 
 #: ../user/server_status.php:427
+#, fuzzy
 msgid "unsent"
-msgstr ""
+msgstr "Usent"
 
 #: ../user/server_status.php:428
+#, fuzzy
 msgid "in progress"
-msgstr ""
+msgstr "I prosess"
 
 #: ../user/server_status.php:429
 msgid "avg runtime of last 100 results in h (min-max)"
@@ -5438,8 +5443,9 @@ msgid "Update successful"
 msgstr ""
 
 #: ../user/team_forum.php:147
+#, fuzzy
 msgid "Update failed"
-msgstr ""
+msgstr "Oppdatering feilet:"
 
 #: ../user/team_forum.php:154
 #, fuzzy
@@ -5778,8 +5784,9 @@ msgid "Remove members from %1"
 msgstr ""
 
 #: ../user/team_remove_inactive_form.php:39
+#, fuzzy
 msgid "Remove?"
-msgstr ""
+msgstr "Fjern"
 
 #: ../user/team_remove_inactive_form.php:40
 msgid "Name (ID)"

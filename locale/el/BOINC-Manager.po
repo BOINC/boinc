@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BOINC Manager 4.x\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-03-07 12:02-0500\n"
+"POT-Creation-Date: 2011-10-21 15:38-0500\n"
 "PO-Revision-Date: 2010-11-26 20:50+0200\n"
 "Last-Translator: chris g <chr1407@hotmail.com>\n"
 "Language-Team: BOINC Development Team <rwalton@ssl.berkeley.edu>\n"
@@ -281,272 +281,272 @@ msgstr "Απλή &Εμφάνιση...\tCtrl+Shift+Ε"
 msgid "Display the simple graphical interface."
 msgstr "Εμφάνιση της απλής γραφικής διεπιφάνειας."
 
-#: clientgui/AdvancedFrame.cpp:417
+#: clientgui/AdvancedFrame.cpp:411
 msgid "&Add project or account manager..."
 msgstr "&Προσθήκη έργου ή διαχειριστή λογαριασμού..."
 
-#: clientgui/AdvancedFrame.cpp:418
+#: clientgui/AdvancedFrame.cpp:412
 msgid "Volunteer for any or all of 30+ projects in many areas of science"
 msgstr ""
 "Προσφέρετε εθελοντικό έργο για οποιοδήποτε απο τα 30+ ή και για όλα τα έργα "
 "σε πολλούς επιστημονικούς τομείς "
 
-#: clientgui/AdvancedFrame.cpp:422
+#: clientgui/AdvancedFrame.cpp:416
 #, c-format
 msgid "&Synchronize with %s"
 msgstr "&Συγχρονισμός με %s"
 
-#: clientgui/AdvancedFrame.cpp:426
+#: clientgui/AdvancedFrame.cpp:420
 #, c-format
 msgid "Get current settings from %s"
 msgstr "Παραλαβή τρεχόντων ρυθμίσεων από το %s"
 
-#: clientgui/AdvancedFrame.cpp:436
+#: clientgui/AdvancedFrame.cpp:430
 msgid "&Add project..."
 msgstr "&Προσθήκη έργου..."
 
-#: clientgui/AdvancedFrame.cpp:437
+#: clientgui/AdvancedFrame.cpp:431
 msgid "Add a project"
 msgstr "Προσθήκη ενός έργου"
 
-#: clientgui/AdvancedFrame.cpp:440
+#: clientgui/AdvancedFrame.cpp:434
 #, c-format
 msgid "S&top using %s..."
 msgstr "Π&αύση χρήσης του %s..."
 
-#: clientgui/AdvancedFrame.cpp:446
+#: clientgui/AdvancedFrame.cpp:440
 msgid "Remove this computer from account manager control."
 msgstr ""
 "Αφαίρεση αυτού του υπολογιστή απο τον έλεγχο του διαχειριστή λογαριασμών."
 
-#: clientgui/AdvancedFrame.cpp:451
-msgid "Display and network &options..."
-msgstr "&Επιλογές προβολής και δικτύου..."
+#: clientgui/AdvancedFrame.cpp:445
+msgid "&Options..."
+msgstr "&Επιλογές..."
 
-#: clientgui/AdvancedFrame.cpp:452
+#: clientgui/AdvancedFrame.cpp:446
 msgid "Configure display options and proxy settings"
 msgstr "Διαμόρφωση επιλογών προβολής και ρυθμίσεων proxy"
 
-#: clientgui/AdvancedFrame.cpp:456
+#: clientgui/AdvancedFrame.cpp:450
 msgid "Computing &preferences..."
 msgstr "&Προτιμήσεις επεξεργασίας..."
 
-#: clientgui/AdvancedFrame.cpp:457
+#: clientgui/AdvancedFrame.cpp:451
 msgid "Configure computing preferences"
 msgstr "Διαμόρφωση προτιμήσεων επεξεργασίας"
 
-#: clientgui/AdvancedFrame.cpp:465
+#: clientgui/AdvancedFrame.cpp:459
 msgid "&Run always"
 msgstr "&Διαρκής εκτέλεση"
 
-#: clientgui/AdvancedFrame.cpp:466
+#: clientgui/AdvancedFrame.cpp:460
 msgid "Allow work regardless of preferences"
 msgstr "Εκτέλεση &ανεξαρτήτως των προτιμήσεων"
 
-#: clientgui/AdvancedFrame.cpp:470
+#: clientgui/AdvancedFrame.cpp:464
 msgid "Run based on &preferences"
 msgstr "Εκτέλεση βάση των &προτιμήσεων"
 
-#: clientgui/AdvancedFrame.cpp:471
+#: clientgui/AdvancedFrame.cpp:465
 msgid "Allow work according to preferences"
 msgstr "Εκτέλεση σύμφωνα με τις προτιμήσεις σας"
 
-#: clientgui/AdvancedFrame.cpp:475
+#: clientgui/AdvancedFrame.cpp:469
 msgid "&Suspend"
 msgstr "Προσωρινή παύση"
 
-#: clientgui/AdvancedFrame.cpp:476
+#: clientgui/AdvancedFrame.cpp:470
 msgid "Stop work regardless of preferences"
 msgstr "Παύση ανεξαρτήτως των προτιμήσεων"
 
-#: clientgui/AdvancedFrame.cpp:501
+#: clientgui/AdvancedFrame.cpp:495
 msgid "Use GPU always"
 msgstr "Συνεχής χρήση της μονάδας επεξεργασίας γραφικών"
 
-#: clientgui/AdvancedFrame.cpp:502
+#: clientgui/AdvancedFrame.cpp:496
 msgid "Allow GPU work regardless of preferences"
 msgstr ""
 "Εκτέλεση εργασιών για τη μονάδα επεξεργασίας γραφικών ανεξαρτήτως των "
 "προτιμήσεων"
 
-#: clientgui/AdvancedFrame.cpp:506
+#: clientgui/AdvancedFrame.cpp:500
 msgid "Use GPU based on preferences"
 msgstr "Χρήση της μονάδα επεξεργασίας γραφικών βάση των προτιμήσεων"
 
-#: clientgui/AdvancedFrame.cpp:507
+#: clientgui/AdvancedFrame.cpp:501
 msgid "Allow GPU work according to preferences"
 msgstr ""
 "Χρήση εργασιών για τη μονάδα επεξεργασίας γραφικών σύμφωνα με τις "
 "προτιμήσεις σας"
 
-#: clientgui/AdvancedFrame.cpp:511
+#: clientgui/AdvancedFrame.cpp:505
 msgid "Suspend GPU"
 msgstr "Παύση της μονάδας επεξεργασίας γραφικών"
 
-#: clientgui/AdvancedFrame.cpp:512
+#: clientgui/AdvancedFrame.cpp:506
 msgid "Stop GPU work regardless of preferences"
 msgstr "Παύση της μονάδας επεξεργασίας γραφικών ανεξαρτήτως των προτιμήσεων"
 
-#: clientgui/AdvancedFrame.cpp:536
+#: clientgui/AdvancedFrame.cpp:530
 msgid "Network activity always available"
 msgstr "Συνεχής πρόβαση στο δίκτυο"
 
-#: clientgui/AdvancedFrame.cpp:537
+#: clientgui/AdvancedFrame.cpp:531
 msgid "Allow network activity regardless of preferences"
 msgstr "Σύνδεση στο δίκτυο &ανεξαρτήτως των προτιμήσεων"
 
-#: clientgui/AdvancedFrame.cpp:541
+#: clientgui/AdvancedFrame.cpp:535
 msgid "Network activity based on preferences"
 msgstr "Πρόσβαση στο δίκτυο βάση προτιμήσεων"
 
-#: clientgui/AdvancedFrame.cpp:542
+#: clientgui/AdvancedFrame.cpp:536
 msgid "Allow network activity according to preferences"
 msgstr "Σύνδεση στο δίκτυο σύμφωνα με τις προτιμήσεις"
 
-#: clientgui/AdvancedFrame.cpp:546
+#: clientgui/AdvancedFrame.cpp:540
 msgid "Network activity suspended"
 msgstr "Παύση πρόσβασης στο δίκτυο"
 
-#: clientgui/AdvancedFrame.cpp:547
+#: clientgui/AdvancedFrame.cpp:541
 msgid "Stop BOINC network activity"
 msgstr "Να σταματήσει η χρήση του δικτύου απο το BOINC"
 
-#: clientgui/AdvancedFrame.cpp:557
+#: clientgui/AdvancedFrame.cpp:551
 #, c-format
 msgid "Connect to another computer running %s"
 msgstr "Σύνδεση σε κάποιον άλλον υπολογιστή εκτελόντας %s"
 
-#: clientgui/AdvancedFrame.cpp:562
+#: clientgui/AdvancedFrame.cpp:556
 msgid "Select computer..."
 msgstr "Επιλογή Υπολογιστή..."
 
-#: clientgui/AdvancedFrame.cpp:567
+#: clientgui/AdvancedFrame.cpp:561
 msgid "Shut down connected client..."
 msgstr "Κλείσιμο συνδεδεμένου προογράμματος..."
 
-#: clientgui/AdvancedFrame.cpp:568
+#: clientgui/AdvancedFrame.cpp:562
 msgid "Shut down the currently connected client"
 msgstr "Κλείσιμο του τρέχοντος συνδεδεμένου προγράμματος"
 
-#: clientgui/AdvancedFrame.cpp:572
+#: clientgui/AdvancedFrame.cpp:566
 msgid "Run CPU &benchmarks"
 msgstr "Εκτέλεση &μετρήσεων κεντρικής μονάδας επεξεργασίας"
 
-#: clientgui/AdvancedFrame.cpp:573
+#: clientgui/AdvancedFrame.cpp:567
 msgid "Runs BOINC CPU benchmarks"
 msgstr "Εκτέλεση μετρήσεων υπολογιστικής ισχύως επεξεργαστή για το BOINC"
 
-#: clientgui/AdvancedFrame.cpp:577
+#: clientgui/AdvancedFrame.cpp:571
 msgid "Do network communication"
 msgstr "Επικοινωνία με το δίκτυο"
 
-#: clientgui/AdvancedFrame.cpp:578
+#: clientgui/AdvancedFrame.cpp:572
 msgid "Do all pending network communication"
 msgstr "Εκτέλεση επικοινωνιών με το δίκτυο που εκκρεμούν"
 
-#: clientgui/AdvancedFrame.cpp:582
+#: clientgui/AdvancedFrame.cpp:576
 msgid "Read config file"
 msgstr "Άνοιγμα αρχείου διαμόρφωσης"
 
-#: clientgui/AdvancedFrame.cpp:583
+#: clientgui/AdvancedFrame.cpp:577
 msgid "Read configuration info from cc_config.xml"
 msgstr "Άνοιγμα των πληροφοριών διαμόρφωσης από το αρχείο cc_config.xml"
 
-#: clientgui/AdvancedFrame.cpp:587
+#: clientgui/AdvancedFrame.cpp:581
 msgid "Read local prefs file"
 msgstr "Άνοιγμα του αρχείου τοπικών προτιμήσεων"
 
-#: clientgui/AdvancedFrame.cpp:588
+#: clientgui/AdvancedFrame.cpp:582
 msgid "Read preferences from global_prefs_override.xml."
 msgstr "Άνοιγμα των προτιμήσεων από το αρχείο global_prefs_override.xml."
 
-#: clientgui/AdvancedFrame.cpp:593
+#: clientgui/AdvancedFrame.cpp:587
 #, c-format
 msgid "Launch another instance of %s..."
 msgstr "Εκτέλεση ενός αντίτυπου του %s..."
 
-#: clientgui/AdvancedFrame.cpp:597
+#: clientgui/AdvancedFrame.cpp:591
 #, c-format
 msgid "Launch another %s"
 msgstr "Εκτέλεση ενός %s"
 
-#: clientgui/AdvancedFrame.cpp:607
+#: clientgui/AdvancedFrame.cpp:601
 msgid "Event Log...\tCtrl+Shift+E"
 msgstr "Ημερολόγιο γεγονότων...\t Ctrl+Shift+E"
 
-#: clientgui/AdvancedFrame.cpp:608
+#: clientgui/AdvancedFrame.cpp:602
 msgid "Display diagnostic messages."
 msgstr "Εμφάνιση διαγνωστικών μηνυμάτων."
 
-#: clientgui/AdvancedFrame.cpp:618
+#: clientgui/AdvancedFrame.cpp:612
 #, c-format
 msgid "%s &help"
 msgstr "%s &βοήθεια"
 
-#: clientgui/AdvancedFrame.cpp:624
+#: clientgui/AdvancedFrame.cpp:618
 #, c-format
 msgid "Show information about %s"
 msgstr "Προβολή πληροφοριών σχετικά με το %s"
 
-#: clientgui/AdvancedFrame.cpp:636
+#: clientgui/AdvancedFrame.cpp:630
 #, c-format
 msgid "&%s help"
 msgstr "&Βοήθεια για το %s "
 
-#: clientgui/AdvancedFrame.cpp:642
+#: clientgui/AdvancedFrame.cpp:636
 #, c-format
 msgid "Show information about the %s"
 msgstr "Προβολή πληροφοριών σχετικά με το %s"
 
-#: clientgui/AdvancedFrame.cpp:654
+#: clientgui/AdvancedFrame.cpp:648
 #, c-format
 msgid "%s &website"
 msgstr "&Ιστοσελίδα του %s"
 
-#: clientgui/AdvancedFrame.cpp:660
+#: clientgui/AdvancedFrame.cpp:654
 #, c-format
 msgid "Show information about BOINC and %s"
 msgstr "Προβολή πληροφοριών για το BOINC και το %s"
 
-#: clientgui/AdvancedFrame.cpp:672
+#: clientgui/AdvancedFrame.cpp:666
 #, c-format
 msgid "&About %s..."
 msgstr "&Σχετικά με το %s..."
 
-#: clientgui/AdvancedFrame.cpp:678
+#: clientgui/AdvancedFrame.cpp:672
 msgid "Licensing and copyright information."
 msgstr "Πληροφορίες άδειας χρήσης και copyright."
 
-#: clientgui/AdvancedFrame.cpp:685
+#: clientgui/AdvancedFrame.cpp:679
 msgid "&File"
 msgstr "&Αρχείο"
 
-#: clientgui/AdvancedFrame.cpp:689
+#: clientgui/AdvancedFrame.cpp:683
 msgid "&View"
 msgstr "&Προβολή"
 
-#: clientgui/AdvancedFrame.cpp:693
+#: clientgui/AdvancedFrame.cpp:687
 msgid "&Tools"
 msgstr "&Εργαλεία"
 
-#: clientgui/AdvancedFrame.cpp:697
+#: clientgui/AdvancedFrame.cpp:691
 msgid "&Activity"
 msgstr "&Δραστηριότητα"
 
-#: clientgui/AdvancedFrame.cpp:701
+#: clientgui/AdvancedFrame.cpp:695
 msgid "A&dvanced"
 msgstr "&Για προχωρημένους"
 
-#: clientgui/AdvancedFrame.cpp:705
+#: clientgui/AdvancedFrame.cpp:699
 msgid "&Help"
 msgstr "&Βοήθεια"
 
-#: clientgui/AdvancedFrame.cpp:1182
+#: clientgui/AdvancedFrame.cpp:1174
 #, c-format
 msgid "%s - Stop using %s"
 msgstr "%s - Παύση χρήσης του %s"
 
-#: clientgui/AdvancedFrame.cpp:1187
+#: clientgui/AdvancedFrame.cpp:1179
 #, c-format
 msgid ""
 "If you stop using %s,\n"
@@ -561,12 +561,12 @@ msgstr ""
 "\n"
 "Θέλετε όντως να σταματήσετε να χρησιμοποιείτε το %s;"
 
-#: clientgui/AdvancedFrame.cpp:1385
+#: clientgui/AdvancedFrame.cpp:1377
 #, c-format
 msgid "%s - Shut down the current client..."
 msgstr "%s - Κλείσιμο του τρέχοντος προγράμματος..."
 
-#: clientgui/AdvancedFrame.cpp:1394
+#: clientgui/AdvancedFrame.cpp:1386
 #, c-format
 msgid ""
 "%s will shut down the current client\n"
@@ -575,27 +575,27 @@ msgstr ""
 "%s θα κλείσει το τρέχον πρόγραμμα\n"
 "και θα σας παρακινήσει για να συνδεθείτε σε άλλο πάροχο."
 
-#: clientgui/AdvancedFrame.cpp:1712
+#: clientgui/AdvancedFrame.cpp:1705
 #, c-format
 msgid "%s"
 msgstr "%s"
 
-#: clientgui/AdvancedFrame.cpp:1721
+#: clientgui/AdvancedFrame.cpp:1714
 #, c-format
 msgid "%s has successfully added %s"
 msgstr "%s προσέθεσε επιτυχώς το %s"
 
-#: clientgui/AdvancedFrame.cpp:1861
+#: clientgui/AdvancedFrame.cpp:1854
 #, c-format
 msgid "%s - (%s)"
 msgstr "%s - (%s)"
 
-#: clientgui/AdvancedFrame.cpp:1865
+#: clientgui/AdvancedFrame.cpp:1858
 #, c-format
 msgid "Connecting to %s"
 msgstr "Σύνδεση στο %s"
 
-#: clientgui/AdvancedFrame.cpp:1868
+#: clientgui/AdvancedFrame.cpp:1861
 #, c-format
 msgid "Connected to %s (%s)"
 msgstr "Συνδέθηκε στο %s (%s)"
@@ -634,35 +634,35 @@ msgstr ""
 "Παρακαλούμε επισκεφθείτε την ιστοσελίδα του προγράμματος και ακολουθήστε τις "
 "οδηγίες εκεί."
 
-#: clientgui/AsyncRPC.cpp:1234
+#: clientgui/AsyncRPC.cpp:1235
 msgid "Communicating with BOINC client.  Please wait ..."
 msgstr "Γίνεται επικοινωνία με το πρόγραμμα του BOINC. Παρακαλώ περιμένετε..."
 
-#: clientgui/AsyncRPC.cpp:1237
+#: clientgui/AsyncRPC.cpp:1238
 #, c-format
 msgid "&Quit %s"
 msgstr "&Έξοδος %s"
 
-#: clientgui/AsyncRPC.cpp:1239
+#: clientgui/AsyncRPC.cpp:1240
 #, c-format
 msgid "E&xit %s"
 msgstr "Έ&ξοδος %s"
 
-#: clientgui/AsyncRPC.cpp:1243
+#: clientgui/AsyncRPC.cpp:1244
 #, c-format
 msgid "%s - Communication"
 msgstr "%s - Επικοινωνία"
 
-#: clientgui/AsyncRPC.cpp:1259
+#: clientgui/AsyncRPC.cpp:1260
 msgid "Cancel"
 msgstr "Ακύρωση"
 
-#: clientgui/BOINCBaseFrame.cpp:503
+#: clientgui/BOINCBaseFrame.cpp:499
 #, c-format
 msgid "%s - Connection Error"
 msgstr "%s - Σφάλμα Επικοινωνίας"
 
-#: clientgui/BOINCBaseFrame.cpp:512
+#: clientgui/BOINCBaseFrame.cpp:508
 msgid ""
 "You currently are not authorized to manage the client.\n"
 "Please contact your administrator to add you to the 'boinc_users' local user group."
@@ -671,7 +671,7 @@ msgstr ""
 "Παρακαλώ επικοινωνήστε με τον διαχειριστή σας για να σας προσθέσει στην "
 "τοπική λίστα χρηστών 'χρήστες του BOINC'.  "
 
-#: clientgui/BOINCBaseFrame.cpp:521
+#: clientgui/BOINCBaseFrame.cpp:517
 msgid ""
 "Authorization failed connecting to running client.\n"
 "Make sure you start this program in the same directory as the client."
@@ -679,51 +679,51 @@ msgstr ""
 "Η άδεια σύνδεσης για την εκτέλεση του προγράμματος απέτυχε.\n"
 "Φροντίστε να ξεκινήσετε το έργο στην ίδια τοποθεσία με το πρόγραμμα."
 
-#: clientgui/BOINCBaseFrame.cpp:523
+#: clientgui/BOINCBaseFrame.cpp:519
 msgid "Authorization failed connecting to running client."
 msgstr "Η άδεια εισόδου για την εκτέλεση του προγράμματος απέτυχε."
 
-#: clientgui/BOINCBaseFrame.cpp:531
+#: clientgui/BOINCBaseFrame.cpp:527
 msgid "The password you have provided is incorrect, please try again."
 msgstr "Ο κωδικός που εισάγατε είναι λανθασμένος, παρακαλούμε ξαναδοκιμάστε"
 
-#: clientgui/BOINCBaseFrame.cpp:575
+#: clientgui/BOINCBaseFrame.cpp:571
 #, c-format
 msgid "%s - Connection Failed"
 msgstr "%s- Η σύνδεση απέτυχε"
 
-#: clientgui/BOINCBaseFrame.cpp:584
+#: clientgui/BOINCBaseFrame.cpp:580
 #, c-format
 msgid ""
 "%s is not able to connect to a %s client.\n"
 "Would you like to try to connect again?"
 msgstr ""
 
-#: clientgui/BOINCBaseFrame.cpp:620
+#: clientgui/BOINCBaseFrame.cpp:616
 #, c-format
 msgid "%s - Daemon Start Failed"
 msgstr "%s - Η εκκίνηση του Daemon απέτυχε"
 
-#: clientgui/BOINCBaseFrame.cpp:630
+#: clientgui/BOINCBaseFrame.cpp:626
 #, c-format
 msgid ""
 "%s is not able to start a %s client.\n"
 "Please launch the Control Panel->Administative Tools->Services applet and start the BOINC service."
 msgstr ""
 
-#: clientgui/BOINCBaseFrame.cpp:636
+#: clientgui/BOINCBaseFrame.cpp:632
 #, c-format
 msgid ""
 "%s is not able to start a %s client.\n"
 "Please start the daemon and try again."
 msgstr ""
 
-#: clientgui/BOINCBaseFrame.cpp:687
+#: clientgui/BOINCBaseFrame.cpp:683
 #, c-format
 msgid "%s - Connection Status"
 msgstr "%s - Κατάσταση Σύνδεσης"
 
-#: clientgui/BOINCBaseFrame.cpp:698
+#: clientgui/BOINCBaseFrame.cpp:694
 #, c-format
 msgid ""
 "%s is not currently connected to a %s client.\n"
@@ -735,12 +735,12 @@ msgstr ""
 msgid "Web sites"
 msgstr "Ιστοσελίδες"
 
-#: clientgui/BOINCClientManager.cpp:537
+#: clientgui/BOINCClientManager.cpp:539
 #, c-format
 msgid "%s - Unexpected Exit"
 msgstr "%s - Απρόσμενη Έξοδος"
 
-#: clientgui/BOINCClientManager.cpp:547
+#: clientgui/BOINCClientManager.cpp:549
 #, c-format
 msgid ""
 "The %s client has exited unexpectedly 3 times within the last %d minutes.\n"
@@ -795,7 +795,7 @@ msgstr "%s αποσυνδέθηκε επιτυχώς από το διαδίκτ�
 msgid "%s failed to disconnected from the Internet."
 msgstr "%s απέτυχε να αποσυνδεθεί από το διαδίκτυο."
 
-#: clientgui/BOINCGUIApp.cpp:323
+#: clientgui/BOINCGUIApp.cpp:316
 msgid ""
 "You currently are not authorized to manage the client.\n"
 "\n"
@@ -807,140 +807,140 @@ msgid ""
 "     user group."
 msgstr ""
 
-#: clientgui/BOINCGUIApp.cpp:326
+#: clientgui/BOINCGUIApp.cpp:319
 #, c-format
 msgid ""
 "BOINC ownership or permissions are not set properly; please reinstall BOINC.\n"
 "(Error code %d)"
 msgstr ""
 
-#: clientgui/BOINCGUIApp.cpp:371
+#: clientgui/BOINCGUIApp.cpp:361
 msgid ""
 "A reboot is required in order for BOINC to run properly.\n"
 "Please reboot your computer and try again."
 msgstr ""
 
-#: clientgui/BOINCGUIApp.cpp:372
+#: clientgui/BOINCGUIApp.cpp:362
 msgid "BOINC Manager"
 msgstr "Διαχειριστής του BOINC"
 
-#: clientgui/BOINCGUIApp.cpp:523
+#: clientgui/BOINCGUIApp.cpp:503
 msgid "BOINC Manager was started by the operating system automatically"
 msgstr ""
 
-#: clientgui/BOINCGUIApp.cpp:525
+#: clientgui/BOINCGUIApp.cpp:505
 msgid "Startup BOINC so only the system tray icon is visible"
 msgstr ""
 "Εκίννηση του BOINC ούτως ώστε μόνο το εικονίδιο στη μπάρα να είναι ορατό"
 
-#: clientgui/BOINCGUIApp.cpp:527
+#: clientgui/BOINCGUIApp.cpp:507
 msgid "Directory containing the BOINC Client executable"
 msgstr ""
 
-#: clientgui/BOINCGUIApp.cpp:528
+#: clientgui/BOINCGUIApp.cpp:508
 msgid "BOINC data directory"
 msgstr "διεύθυνση δεδομένων του BOINC"
 
-#: clientgui/BOINCGUIApp.cpp:530
+#: clientgui/BOINCGUIApp.cpp:510
 msgid "Host name or IP address"
 msgstr "Όνομα παρόχου ή διεύθυνση IP"
 
-#: clientgui/BOINCGUIApp.cpp:531
+#: clientgui/BOINCGUIApp.cpp:511
 msgid "GUI RPC port number"
 msgstr "Αριθμός θύρας GUI RPC"
 
-#: clientgui/BOINCGUIApp.cpp:532
+#: clientgui/BOINCGUIApp.cpp:512
 msgid "Password"
 msgstr "Κωδικός"
 
-#: clientgui/BOINCGUIApp.cpp:533
+#: clientgui/BOINCGUIApp.cpp:513
 msgid "Startup BOINC with these optional arguments"
 msgstr ""
 
-#: clientgui/BOINCGUIApp.cpp:534
+#: clientgui/BOINCGUIApp.cpp:514
 msgid "disable BOINC security users and permissions"
 msgstr "Απενεργοποιήστε τις ασφάλειες και τα δικαιώματα του χρήστη"
 
-#: clientgui/BOINCGUIApp.cpp:535
+#: clientgui/BOINCGUIApp.cpp:515
 msgid "set skin debugging mode to enable skin manager error messages"
 msgstr ""
 
-#: clientgui/BOINCGUIApp.cpp:536
+#: clientgui/BOINCGUIApp.cpp:516
 msgid "multiple instances of BOINC Manager allowed"
 msgstr ""
 
-#: clientgui/BOINCGUIApp.cpp:803
+#: clientgui/BOINCGUIApp.cpp:733
 msgid "(Automatic Detection)"
 msgstr "(Αυτόματη Αναγνώριση)"
 
-#: clientgui/BOINCGUIApp.cpp:804
+#: clientgui/BOINCGUIApp.cpp:734
 msgid "(Unknown)"
 msgstr "(Άγνωστο)"
 
-#: clientgui/BOINCGUIApp.cpp:805
+#: clientgui/BOINCGUIApp.cpp:735
 msgid "(User Defined)"
 msgstr "(Καθορισμός από το Χρήστη)"
 
-#: clientgui/BOINCTaskBar.cpp:484
+#: clientgui/BOINCTaskBar.cpp:485
 #, c-format
 msgid "Open %s Web..."
 msgstr "Άνοιγμα %s ιστού..."
 
-#: clientgui/BOINCTaskBar.cpp:491
+#: clientgui/BOINCTaskBar.cpp:492
 #, c-format
 msgid "Open %s..."
 msgstr "Άνοιγμα %s..."
 
-#: clientgui/BOINCTaskBar.cpp:498
+#: clientgui/BOINCTaskBar.cpp:499
 msgid "Snooze"
 msgstr "Αδρανοποίηση"
 
-#: clientgui/BOINCTaskBar.cpp:500
+#: clientgui/BOINCTaskBar.cpp:501
 msgid "Snooze GPU"
 msgstr "Αδρανοποίηση μονάδας επεξεργασίας γραφικών"
 
-#: clientgui/BOINCTaskBar.cpp:516
+#: clientgui/BOINCTaskBar.cpp:517
 msgid "E&xit"
 msgstr "Έ%ξοδος"
 
-#: clientgui/BOINCTaskBar.cpp:677
+#: clientgui/BOINCTaskBar.cpp:678
 msgid "Computing is enabled"
 msgstr "Η επεξεργασία έχει ενεργοποιηθεί"
 
-#: clientgui/BOINCTaskBar.cpp:680
+#: clientgui/BOINCTaskBar.cpp:681
 msgid "Computing is suspended - "
 msgstr "Η επεξεργασία έχει παυθεί -"
 
-#: clientgui/BOINCTaskBar.cpp:690
+#: clientgui/BOINCTaskBar.cpp:691
 msgid "GPU computing is enabled"
 msgstr "Η επεξεργασία με την μονάδα επεξεργασίας γραφικών έχει ενεργοποιηθεί"
 
-#: clientgui/BOINCTaskBar.cpp:693
+#: clientgui/BOINCTaskBar.cpp:694
 msgid "GPU computing is suspended - "
 msgstr "Η επεξεργασία με την μονάδα επεξεργασίας γραφικών έχει παυθεί -"
 
-#: clientgui/BOINCTaskBar.cpp:702
+#: clientgui/BOINCTaskBar.cpp:703
 msgid "Network is enabled"
 msgstr "Το δίκτυο έχει ενεργοποιηθεί"
 
-#: clientgui/BOINCTaskBar.cpp:705
+#: clientgui/BOINCTaskBar.cpp:706
 msgid "Network is suspended - "
 msgstr "Το δίκτυο έχει παυθεί -"
 
-#: clientgui/BOINCTaskBar.cpp:713
+#: clientgui/BOINCTaskBar.cpp:714
 msgid "Reconnecting to client."
 msgstr "Επανασύνδεση με το πρόγραμμα."
 
-#: clientgui/BOINCTaskBar.cpp:715
+#: clientgui/BOINCTaskBar.cpp:716
 msgid "Not connected to a client."
 msgstr "Μη συνδεδεμένος με το πρόγραμμα."
 
-#: clientgui/BOINCTaskBar.cpp:770
+#: clientgui/BOINCTaskBar.cpp:769
 #, c-format
 msgid "%s Notices"
 msgstr "%s Ανακοινώσεις"
 
-#: clientgui/BOINCTaskBar.cpp:776
+#: clientgui/BOINCTaskBar.cpp:775
 msgid "There are new notices - click to view."
 msgstr "Υπάρχουν νέες ανακοινώσεις - πατήστε για να τις δείτε."
 
@@ -1029,24 +1029,24 @@ msgstr ""
 msgid "You are now using this account manager."
 msgstr "Αυτή τη στιγμή γίνεται χρήση αυτού του διαχειριστή λογαριασμού."
 
-#: clientgui/DlgAbout.cpp:102
+#: clientgui/DlgAbout.cpp:104
 #, c-format
 msgid "About %s"
 msgstr "Σχετικά με %s"
 
-#: clientgui/DlgAbout.cpp:159
+#: clientgui/DlgAbout.cpp:161
 msgid "Version:"
 msgstr "Έκδοση:"
 
-#: clientgui/DlgAbout.cpp:167
+#: clientgui/DlgAbout.cpp:169
 msgid "wxWidgets Version:"
 msgstr "Έκδοση των wxWidgets:"
 
-#: clientgui/DlgAbout.cpp:175
+#: clientgui/DlgAbout.cpp:177
 msgid "Copyright:"
 msgstr "Copyright:"
 
-#: clientgui/DlgAbout.cpp:179
+#: clientgui/DlgAbout.cpp:181
 #, fuzzy
 msgid ""
 "(C) 2003-2011 University of California, Berkeley.\n"
@@ -1055,44 +1055,80 @@ msgstr ""
 "(C) 2003-2010 Πανεπιστήμιο της Καλιφόρνια, Μπερκελέυ.\n"
 "Όλα τα δικαιώματα κατοχυρώθηκαν."
 
-#: clientgui/DlgAbout.cpp:183
-#: clientgui/DlgAbout.cpp:187
+#: clientgui/DlgAbout.cpp:185
+#: clientgui/DlgAbout.cpp:189
 msgid "Berkeley Open Infrastructure for Network Computing"
 msgstr "Berkeley Open Infrastructure for Network Computing"
 
-#: clientgui/DlgAbout.cpp:199
-#: clientgui/DlgExitMessage.cpp:172
+#: clientgui/DlgAbout.cpp:201
+#: clientgui/DlgExitMessage.cpp:173
 #: clientgui/DlgGenericMessage.cpp:120
-#: clientgui/DlgOptions.cpp:378
-#: clientgui/DlgSelectComputer.cpp:162
+#: clientgui/DlgOptions.cpp:382
 msgid "&OK"
 msgstr "Εντάξει"
 
-#: clientgui/DlgAdvPreferences.cpp:499
+#: clientgui/DlgAdvPreferences.cpp:539
 msgid "invalid float"
 msgstr ""
 
-#: clientgui/DlgAdvPreferences.cpp:500
+#: clientgui/DlgAdvPreferences.cpp:540
 msgid "invalid time, format is HH:MM"
 msgstr "Εσφαλμένος χρόνος, η μορφή είναι ΩΩ:ΛΛ"
 
-#: clientgui/DlgAdvPreferences.cpp:501
+#: clientgui/DlgAdvPreferences.cpp:541
 msgid "invalid time interval, format is HH:MM-HH:MM"
 msgstr "εσφαλμένο χρονικό διάστημα, η μορφή είναι ΩΩ:ΛΛ-ΩΩ:ΛΛ"
 
-#: clientgui/DlgAdvPreferences.cpp:615
+#: clientgui/DlgAdvPreferences.cpp:655
 msgid "invalid input value detected"
 msgstr "εντοπίστηκε εσφαλμένη εισαγμένη τιμή"
 
-#: clientgui/DlgAdvPreferences.cpp:617
+#: clientgui/DlgAdvPreferences.cpp:657
 msgid "Validation Error"
 msgstr "Σφάλμα επικύρωσης"
 
-#: clientgui/DlgAdvPreferences.cpp:761
-msgid "Do you really want to clear all local preferences ?"
-msgstr "Θέλετε όντως να αφαιρέσετε όλες τις τοπικές προτιμήσεις;"
+#: clientgui/DlgAdvPreferences.cpp:788
+#: clientgui/DlgAdvPreferences.cpp:793
+#: clientgui/DlgAdvPreferences.cpp:798
+msgid "Applications to add"
+msgstr ""
 
-#: clientgui/DlgAdvPreferences.cpp:762
+#: clientgui/DlgAdvPreferences.cpp:814
+#, c-format
+msgid "'%s' is not an executable application."
+msgstr ""
+
+#: clientgui/DlgAdvPreferences.cpp:815
+#: clientgui/DlgAdvPreferences.cpp:848
+#: clientgui/DlgAdvPreferences.cpp:872
+msgid "Add Exclusive App"
+msgstr ""
+
+#: clientgui/DlgAdvPreferences.cpp:826
+msgid "Name of application to add?"
+msgstr ""
+
+#: clientgui/DlgAdvPreferences.cpp:826
+msgid "Add exclusive app"
+msgstr ""
+
+#: clientgui/DlgAdvPreferences.cpp:847
+#, c-format
+msgid "Application names must end with '%s'"
+msgstr ""
+
+#: clientgui/DlgAdvPreferences.cpp:871
+#, c-format
+msgid "'%s' is already in the list."
+msgstr ""
+
+#: clientgui/DlgAdvPreferences.cpp:962
+msgid ""
+"Do you really want to clear all local preferences?\n"
+"(This will not affect exclusive applications.)"
+msgstr ""
+
+#: clientgui/DlgAdvPreferences.cpp:963
 msgid "Confirmation"
 msgstr "Επιβεβαίωση"
 
@@ -1102,10 +1138,11 @@ msgid "%s - Preferences"
 msgstr "%s - Προτιμήσεις"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:62
+#, fuzzy
 msgid ""
 "This dialog controls preferences for this computer only.\n"
 "Click OK to set preferences.\n"
-"Click Clear to restore web-based settings."
+"Click Clear to restore web-based settings (except exclusive apps)."
 msgstr ""
 "Αυτό το παράθυρο ελέγχει τις προτιμήσεις για αυτόν τον υπολογιστή μόνο.\n"
 "Πατήστε Εντάξει για να θέσετε τις προτιμήσεις σας.\n"
@@ -1131,270 +1168,273 @@ msgstr "χρήση δικτύου"
 msgid "disk and memory usage"
 msgstr "χρήση δίσκου και μνήμης"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:99
+#: clientgui/DlgAdvPreferencesBase.cpp:90
+msgid "exclusive applications"
+msgstr ""
+
+#: clientgui/DlgAdvPreferencesBase.cpp:102
 msgid "OK"
 msgstr "ΕΝΤΑΞΕΙ"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:100
+#: clientgui/DlgAdvPreferencesBase.cpp:103
 msgid "save all values and close the dialog"
 msgstr "σώσε όλες τις τιμές και κλείσε το παράθυρο"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:105
+#: clientgui/DlgAdvPreferencesBase.cpp:108
 msgid "close the dialog without saving"
 msgstr "κλείσε το παράθυρο χωρίς να σωθούν οι τιμές"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:109
-#: clientgui/DlgEventLog.cpp:305
+#: clientgui/DlgAdvPreferencesBase.cpp:112
 msgid "Help"
 msgstr "Βοήθεια"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:110
+#: clientgui/DlgAdvPreferencesBase.cpp:113
 msgid "shows the preferences web page"
 msgstr "δείχνει την ιστοσελίδα προτιμήσεων"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:132
+#: clientgui/DlgAdvPreferencesBase.cpp:135
 msgid "Computing allowed"
 msgstr "Επεξεργασία επιτρέπεται"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:136
+#: clientgui/DlgAdvPreferencesBase.cpp:139
 msgid "While computer is on batteries"
 msgstr "Ενώ ο υπολογιστής τροφοδοτείται απο μπαταρίες"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:139
+#: clientgui/DlgAdvPreferencesBase.cpp:142
 msgid "check this if you want this computer to do work while it runs on batteries"
 msgstr ""
 "επιλέξτε αυτό αν θέλετε ο υπολογιστής σας να εκτελεί εργασίες , ενώ "
 "τροφοδοτείται απο μπαταρίες"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:145
+#: clientgui/DlgAdvPreferencesBase.cpp:148
 msgid "While computer is in use"
 msgstr "Όταν ο υπολογιστης είναι σε χρήση"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:148
+#: clientgui/DlgAdvPreferencesBase.cpp:151
 msgid "check this if you want this computer to do work even when you're using it"
 msgstr ""
 "επιλέξτε αυτό αν θέλετε ο υπολογιστής σας να εκτελεί εργασίες ακόμη και αν "
 "τον χρησιμοποιείτε"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:154
+#: clientgui/DlgAdvPreferencesBase.cpp:157
 msgid "Use GPU while computer is in use"
 msgstr ""
 "Χρήση της μονάδας επεξεργασίας γραφικών ενώ ο υπολογιστής χρησιμοποιείται"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:157
+#: clientgui/DlgAdvPreferencesBase.cpp:160
 msgid "check this if you want your GPU to do work even when you're using the computer"
 msgstr ""
 "επιλέξτε αυτό, αν θέλετε η μονάδα επεξεργασίας γραφικών να εκτελεί εργασίες "
 "ακόμη και αν χρησιμοποιείτε τον υπολογιστή σας"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:169
+#: clientgui/DlgAdvPreferencesBase.cpp:172
 msgid "Only after computer has been idle for"
 msgstr "Μόνο αν ο υπολογιστής ήταν αδρανής για"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:179
+#: clientgui/DlgAdvPreferencesBase.cpp:182
 msgid "do work only after you haven't used the computer for this number of minutes"
 msgstr ""
 "εκτέλεση εργασιών μόνο αν δεν έχετε χρησιμοποιήσει τον υπολογιστή σας για "
 "τον εξής αριθμό λεπτών"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:184
-#: clientgui/DlgAdvPreferencesBase.cpp:333
+#: clientgui/DlgAdvPreferencesBase.cpp:187
+#: clientgui/DlgAdvPreferencesBase.cpp:336
 msgid "minutes"
 msgstr "λεπτά"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:203
+#: clientgui/DlgAdvPreferencesBase.cpp:206
 msgid "While processor usage is less than"
 msgstr "Ενώ η χρήση του επεξεργαστή είναι μικρότερη απο"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:213
+#: clientgui/DlgAdvPreferencesBase.cpp:216
 msgid "suspend work if processor usage exceeds this level"
 msgstr "αναστολή εργασιών εάν η χρήση του επεξεργαστή υπερβεί το όριο"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:218
+#: clientgui/DlgAdvPreferencesBase.cpp:221
 msgid "percent (0 means no restriction)"
 msgstr "τοις εκατό (0 σημαίνει κανένας περιορισμός)"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:232
-#: clientgui/DlgAdvPreferencesBase.cpp:472
+#: clientgui/DlgAdvPreferencesBase.cpp:235
+#: clientgui/DlgAdvPreferencesBase.cpp:476
 msgid "Every day between hours of"
 msgstr "Κάθε μέρα μεταξύ των ορών"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:236
+#: clientgui/DlgAdvPreferencesBase.cpp:239
 msgid "start work at this time"
 msgstr "εκκίνηση εργασιών αυτή την ώρα"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:240
-#: clientgui/DlgAdvPreferencesBase.cpp:480
+#: clientgui/DlgAdvPreferencesBase.cpp:243
+#: clientgui/DlgAdvPreferencesBase.cpp:484
 msgid "and"
 msgstr "και"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:244
+#: clientgui/DlgAdvPreferencesBase.cpp:247
 msgid "stop work at this time"
 msgstr "σταμάτημα εργασιών αυτή την ώρα"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:248
-#: clientgui/DlgAdvPreferencesBase.cpp:488
+#: clientgui/DlgAdvPreferencesBase.cpp:251
+#: clientgui/DlgAdvPreferencesBase.cpp:492
 msgid "(no restriction if equal)"
 msgstr "(κανένας περιορισμός εάν είναι ίσα)"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:253
-#: clientgui/DlgAdvPreferencesBase.cpp:493
+#: clientgui/DlgAdvPreferencesBase.cpp:256
+#: clientgui/DlgAdvPreferencesBase.cpp:497
 msgid "Day-of-week override:"
 msgstr ""
 
-#: clientgui/DlgAdvPreferencesBase.cpp:258
-#: clientgui/DlgAdvPreferencesBase.cpp:498
+#: clientgui/DlgAdvPreferencesBase.cpp:261
+#: clientgui/DlgAdvPreferencesBase.cpp:502
 msgid "check box to specify hours for this day of week"
 msgstr ""
 "επιλέξτε το κουτάκι για να προσδιορίσετε τις ώρες για αυτή τη μέρα της "
 "εβδομάδας"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:264
-#: clientgui/DlgAdvPreferencesBase.cpp:504
+#: clientgui/DlgAdvPreferencesBase.cpp:267
+#: clientgui/DlgAdvPreferencesBase.cpp:508
 msgid "Monday"
 msgstr "Δευτέρα"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:271
-#: clientgui/DlgAdvPreferencesBase.cpp:511
+#: clientgui/DlgAdvPreferencesBase.cpp:274
+#: clientgui/DlgAdvPreferencesBase.cpp:515
 msgid "Tuesday"
 msgstr "Τρίτη"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:278
-#: clientgui/DlgAdvPreferencesBase.cpp:518
+#: clientgui/DlgAdvPreferencesBase.cpp:281
+#: clientgui/DlgAdvPreferencesBase.cpp:522
 msgid "Wednesday"
 msgstr "Τετάρτη"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:285
-#: clientgui/DlgAdvPreferencesBase.cpp:525
+#: clientgui/DlgAdvPreferencesBase.cpp:288
+#: clientgui/DlgAdvPreferencesBase.cpp:529
 msgid "Thursday"
 msgstr "Πέμπτη"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:292
-#: clientgui/DlgAdvPreferencesBase.cpp:532
+#: clientgui/DlgAdvPreferencesBase.cpp:295
+#: clientgui/DlgAdvPreferencesBase.cpp:536
 msgid "Friday"
 msgstr "Παρασκευή"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:299
-#: clientgui/DlgAdvPreferencesBase.cpp:539
+#: clientgui/DlgAdvPreferencesBase.cpp:302
+#: clientgui/DlgAdvPreferencesBase.cpp:543
 msgid "Saturday"
 msgstr "Σάββατο"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:306
-#: clientgui/DlgAdvPreferencesBase.cpp:546
+#: clientgui/DlgAdvPreferencesBase.cpp:309
+#: clientgui/DlgAdvPreferencesBase.cpp:550
 msgid "Sunday"
 msgstr "Κυριακή"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:320
+#: clientgui/DlgAdvPreferencesBase.cpp:323
 msgid "Other options"
 msgstr "Άλλες επιλογές"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:327
+#: clientgui/DlgAdvPreferencesBase.cpp:330
 msgid "Switch between applications every"
 msgstr "Αλλαγή ανάμεσα στις εφαρμογές κάθε"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:336
+#: clientgui/DlgAdvPreferencesBase.cpp:339
 msgid "On multiprocessor systems, use at most"
 msgstr "Σε πολυεπεξεργαστικά συστήματα, χρήση μέχρι"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:343
+#: clientgui/DlgAdvPreferencesBase.cpp:346
 #, no-c-format
 msgid "% of the processors"
 msgstr "% των επεξεργαστών"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:346
-#: clientgui/DlgAdvPreferencesBase.cpp:580
-#: clientgui/DlgAdvPreferencesBase.cpp:602
-#: clientgui/DlgAdvPreferencesBase.cpp:623
-#: clientgui/DlgAdvPreferencesBase.cpp:644
-#: clientgui/DlgAdvPreferencesBase.cpp:654
+#: clientgui/DlgAdvPreferencesBase.cpp:349
+#: clientgui/DlgAdvPreferencesBase.cpp:585
+#: clientgui/DlgAdvPreferencesBase.cpp:607
+#: clientgui/DlgAdvPreferencesBase.cpp:628
+#: clientgui/DlgAdvPreferencesBase.cpp:649
+#: clientgui/DlgAdvPreferencesBase.cpp:659
 msgid "Use at most"
 msgstr "Χρήση μέχρι"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:353
+#: clientgui/DlgAdvPreferencesBase.cpp:356
 #, no-c-format
 msgid "% CPU time"
 msgstr "% χρόνος χρήσης κεντρικής μονάδας επεξεργασίας"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:373
+#: clientgui/DlgAdvPreferencesBase.cpp:377
 msgid "General options"
 msgstr "Γενικές επιλογές"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:381
+#: clientgui/DlgAdvPreferencesBase.cpp:385
 msgid "Maximum download rate"
 msgstr "Μέγιστος ρυθμός λήψης"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:387
-#: clientgui/DlgAdvPreferencesBase.cpp:396
+#: clientgui/DlgAdvPreferencesBase.cpp:391
+#: clientgui/DlgAdvPreferencesBase.cpp:400
 msgid "KBytes/sec."
 msgstr "ΚBytes/sec."
 
-#: clientgui/DlgAdvPreferencesBase.cpp:390
+#: clientgui/DlgAdvPreferencesBase.cpp:394
 msgid "Maximum upload rate"
 msgstr "Μέγιστος ρυθμός αποστολής"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:401
+#: clientgui/DlgAdvPreferencesBase.cpp:405
 msgid "Transfer at most"
 msgstr "Μεταφορά το μέγιστο"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:407
+#: clientgui/DlgAdvPreferencesBase.cpp:411
 msgid "Mbytes"
 msgstr "Mbytes"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:410
+#: clientgui/DlgAdvPreferencesBase.cpp:414
 msgid "every"
 msgstr "κάθε"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:416
-#: clientgui/DlgAdvPreferencesBase.cpp:430
+#: clientgui/DlgAdvPreferencesBase.cpp:420
+#: clientgui/DlgAdvPreferencesBase.cpp:434
 msgid "days"
 msgstr "μέρες"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:422
+#: clientgui/DlgAdvPreferencesBase.cpp:426
 msgid "Connect about every"
 msgstr "Σύνδεση κάθε"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:426
+#: clientgui/DlgAdvPreferencesBase.cpp:430
 msgid ""
 "this computer is connected to the Internet about every X days\n"
 "(0 if it's always connected)"
 msgstr ""
 
-#: clientgui/DlgAdvPreferencesBase.cpp:433
+#: clientgui/DlgAdvPreferencesBase.cpp:437
 msgid "Additional work buffer"
 msgstr ""
 
-#: clientgui/DlgAdvPreferencesBase.cpp:439
+#: clientgui/DlgAdvPreferencesBase.cpp:443
 msgid "days (max. 10)"
 msgstr "μέρες (μέγιστο 10)"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:442
+#: clientgui/DlgAdvPreferencesBase.cpp:446
 msgid "Skip image file verification"
 msgstr "Παράκαμψη επαλήθευσης αρχείου εικόνας"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:444
+#: clientgui/DlgAdvPreferencesBase.cpp:448
 msgid "check this if your Internet provider modifies image files"
 msgstr ""
 "επιλέξτε αυτό εάν ο διαδικτυακός σας πάροχος τροποποιεί τα εικονικά αρχεία"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:452
+#: clientgui/DlgAdvPreferencesBase.cpp:456
 msgid "Connect options"
 msgstr "Επιλογές σύνδεσης"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:454
+#: clientgui/DlgAdvPreferencesBase.cpp:458
 msgid "Confirm before connecting to internet"
 msgstr "Επιβεβαιώστε πρωτού συνδεθείτε στο διαδίκτυο"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:456
+#: clientgui/DlgAdvPreferencesBase.cpp:460
 msgid "if checked, a confirmation dialog will be displayed before trying to connect to the Internet"
 msgstr ""
 "εάν επιλεχθεί, ένα παράθυρο επιβεβαίωσης θα εμφανιστεί πρωτού προσπαθήσετε "
 "να συνδεθείτε στο διαδίκτυο"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:460
+#: clientgui/DlgAdvPreferencesBase.cpp:464
 msgid "Disconnect when done"
 msgstr "Αποσύνδεση όταν τελειώσει"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:462
+#: clientgui/DlgAdvPreferencesBase.cpp:466
 msgid ""
 "if checked, BOINC hangs up when network usage is done\n"
 "(only relevant for dialup-connection)"
@@ -1402,87 +1442,111 @@ msgstr ""
 "εάν επιλεχθεί, το BOINC θα κολλάει όταν η χρήση του δικτύου ολοκληρώνεται\n"
 "(σχετικό μόνο με dialup-συνδέσεις)"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:468
+#: clientgui/DlgAdvPreferencesBase.cpp:472
 msgid "Network usage allowed"
 msgstr "Χρήση του δικτύου επιτρέπεται"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:476
+#: clientgui/DlgAdvPreferencesBase.cpp:480
 msgid "network usage start hour"
 msgstr "Ώρα εκκίνησης χρήσης δικτύου"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:484
+#: clientgui/DlgAdvPreferencesBase.cpp:488
 msgid "network usage stop hour"
 msgstr "Ώρα σταματήματος χρήσης δικτύου"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:573
+#: clientgui/DlgAdvPreferencesBase.cpp:578
 #: clientgui/DlgItemProperties.cpp:214
 msgid "Disk usage"
 msgstr "Χρήση δίσκου"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:584
+#: clientgui/DlgAdvPreferencesBase.cpp:589
 msgid "the maximum disk space used by BOINC (in Gigabytes)"
 msgstr "μέγιστος χώρος χρήσης του δίσκου απο το BOINC (σε Gigabytes)"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:588
+#: clientgui/DlgAdvPreferencesBase.cpp:593
 msgid "Gigabytes disk space"
 msgstr "Gigabytes χώρος δίσκου"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:591
+#: clientgui/DlgAdvPreferencesBase.cpp:596
 msgid "Leave at least"
 msgstr "Άφησε τουλάχιστον "
 
-#: clientgui/DlgAdvPreferencesBase.cpp:595
+#: clientgui/DlgAdvPreferencesBase.cpp:600
 msgid "BOINC leaves at least this amount of disk space free (in Gigabytes)"
 msgstr ""
 "Το BOINC αφήνει τουλάχιστον αυτό το ποσό του δίσκου ελεύθερο (σε Gigabytes)"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:599
+#: clientgui/DlgAdvPreferencesBase.cpp:604
 msgid "Gigabytes disk space free"
 msgstr "Gigabytes ελεύθερου χώρου στο δίσκο"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:606
+#: clientgui/DlgAdvPreferencesBase.cpp:611
 msgid "BOINC uses at most this percentage of total disk space"
 msgstr "Το BOINC χρησιμοποιεί μέγιστο αυτό το ποσοστό του χώρου του δίσκου"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:611
+#: clientgui/DlgAdvPreferencesBase.cpp:616
 #, no-c-format
 msgid "% of total disk space"
 msgstr "% του συνολικού χώρου του δίσκου"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:614
+#: clientgui/DlgAdvPreferencesBase.cpp:619
 msgid "Tasks checkpoint to disk at most every"
 msgstr "Εγγραφή σημείων ελέγχου της εφαρμογής στο δίσκο κάθε"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:620
+#: clientgui/DlgAdvPreferencesBase.cpp:625
 msgid "seconds"
 msgstr "δευτερόλεπτα"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:630
+#: clientgui/DlgAdvPreferencesBase.cpp:635
 #, no-c-format
 msgid "% of page file (swap space)"
 msgstr ""
 
-#: clientgui/DlgAdvPreferencesBase.cpp:637
+#: clientgui/DlgAdvPreferencesBase.cpp:642
 msgid "Memory usage"
 msgstr "Χρήση μνήμης"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:651
+#: clientgui/DlgAdvPreferencesBase.cpp:656
 #, no-c-format
 msgid "% when computer is in use"
 msgstr "% όταν ο υπολογιστης είναι σε χρήση"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:661
+#: clientgui/DlgAdvPreferencesBase.cpp:666
 #, no-c-format
 msgid "% when computer is idle"
 msgstr "% όταν ο υπολογιστής είναι αδρανής"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:666
+#: clientgui/DlgAdvPreferencesBase.cpp:671
 msgid "Leave applications in memory while suspended"
 msgstr ""
 
-#: clientgui/DlgAdvPreferencesBase.cpp:668
+#: clientgui/DlgAdvPreferencesBase.cpp:673
 msgid "if checked, suspended work units are left in memory"
 msgstr "εάν επιλεγεί, οι αναβληθείσες εργασίες παραμένουν στη μνήμη"
+
+#: clientgui/DlgAdvPreferencesBase.cpp:693
+msgid "Suspend processor and network usage when these applications are running:"
+msgstr ""
+
+#: clientgui/DlgAdvPreferencesBase.cpp:702
+msgid "Add..."
+msgstr ""
+
+#: clientgui/DlgAdvPreferencesBase.cpp:703
+msgid "Add an application to this list"
+msgstr ""
+
+#: clientgui/DlgAdvPreferencesBase.cpp:708
+msgid "Remove"
+msgstr "Αφαίρεση"
+
+#: clientgui/DlgAdvPreferencesBase.cpp:709
+msgid "Remove an application from this list"
+msgstr ""
+
+#: clientgui/DlgAdvPreferencesBase.cpp:718
+msgid "For advanced options, refer to "
+msgstr ""
 
 #: clientgui/DlgEventLog.cpp:194
 #, c-format
@@ -1503,11 +1567,13 @@ msgstr "Μήνυμα"
 
 #: clientgui/DlgEventLog.cpp:263
 #: clientgui/DlgEventLog.cpp:327
-msgid "Show only this project"
+#, fuzzy
+msgid "&Show only this project"
 msgstr "Εμφάνιση μόνο αυτού του προγράμματος"
 
 #: clientgui/DlgEventLog.cpp:267
-msgid "Copy All"
+#, fuzzy
+msgid "Copy &All"
 msgstr "Αντιγραφή Όλων"
 
 #: clientgui/DlgEventLog.cpp:269
@@ -1516,7 +1582,8 @@ msgid "Copy all the messages to the clipboard."
 msgstr "Αντιγραφή όλων των μηνυμάτων στο πρόχειρο"
 
 #: clientgui/DlgEventLog.cpp:278
-msgid "Copy Selected"
+#, fuzzy
+msgid "Copy &Selected"
 msgstr "Αντιγραφή Επιλεγμένων"
 
 #: clientgui/DlgEventLog.cpp:281
@@ -1536,8 +1603,9 @@ msgstr ""
 "κλίκ στα μηνύματα."
 
 #: clientgui/DlgEventLog.cpp:298
-msgid "Close"
-msgstr "Έξοδος"
+#: clientgui/DlgItemProperties.cpp:66
+msgid "&Close"
+msgstr "&Έξοδος"
 
 #: clientgui/DlgEventLog.cpp:307
 #, c-format
@@ -1545,7 +1613,8 @@ msgid "Get help with %s"
 msgstr ""
 
 #: clientgui/DlgEventLog.cpp:321
-msgid "Show all messages"
+#, fuzzy
+msgid "Show all &messages"
 msgstr "Εμφάνιση όλων των μηνυμάτων"
 
 #: clientgui/DlgEventLog.cpp:322
@@ -1568,24 +1637,17 @@ msgstr "%s- Έξοδος επιβεβαίωσης"
 msgid ""
 "You have requested to exit the %s,\n"
 "which allows you to view and manage\n"
-"the science applications running on your computer.\n"
+"the tasks running on your computer.\n"
 "\n"
-"If you also want to stop running the science applications when you\n"
-"exit the Manager, then choose from the following options:"
+"If you also want to stop running the tasks,\n"
+"choose from the following options:"
 msgstr ""
-"Έχετε επιλέξει να κλείσετε το %s,\n"
-"το οποίο σας επιτρέπει να βλέπετε και να διαχειρίζεστε\n"
-"τις επιστημονικές εφαρμογές που εκτελούνται στον υπολογιστή σας.\n"
-"\n"
-"Εάν θέλετε να σταματήσετε να εκτελείτε και τις επιστημονικές εφαρμογές όταν "
-"εσείς\n"
-"κλείνετε τον Διαχειριστή, τότε επιλέξτε ανάμεσα απο τις επόμενες επιλογές: "
 
 #: clientgui/DlgExitMessage.cpp:135
-#, c-format
+#, c-format, fuzzy
 msgid ""
-"This will shut down %s and its tasks entirely until either the\n"
-"%s application or the %s screen saver is run again.\n"
+"This will shut down %s and its tasks until either the\n"
+"%s or the %s screen saver is run again.\n"
 "\n"
 "In most cases, it is better just to close the %s window\n"
 "rather than to exit the application; that will allow %s to run its\n"
@@ -1601,19 +1663,18 @@ msgstr ""
 "εργασίες τις στιγμές που έχετε επιλέξει στις προτιμήσεις σας. "
 
 #: clientgui/DlgExitMessage.cpp:153
-msgid "Stop running science applications when exiting the Manager"
+#, c-format
+msgid "Stop running tasks when exiting the %s"
 msgstr ""
-"Σταμάτημα εκτέλεσης επιστημονικών εργασιών, όταν θα κλείσει ο διαχειριστής"
 
-#: clientgui/DlgExitMessage.cpp:164
+#: clientgui/DlgExitMessage.cpp:165
 msgid "Remember this decision and do not show this dialog."
 msgstr ""
 "Να απομνημονευτεί η απόφαση και να μην εμφανιστεί ξανά αυτό το παράθυρο."
 
-#: clientgui/DlgExitMessage.cpp:177
+#: clientgui/DlgExitMessage.cpp:178
 #: clientgui/DlgGenericMessage.cpp:125
-#: clientgui/DlgOptions.cpp:383
-#: clientgui/DlgSelectComputer.cpp:167
+#: clientgui/DlgOptions.cpp:387
 msgid "&Cancel"
 msgstr "Ακύρωση"
 
@@ -1621,16 +1682,12 @@ msgstr "Ακύρωση"
 msgid "Don't show this dialog again."
 msgstr "Μην ξαναεμφανίσεις αυτό το μήνυμα."
 
-#: clientgui/DlgItemProperties.cpp:66
-msgid "&Close"
-msgstr "&Έξοδος"
-
 #: clientgui/DlgItemProperties.cpp:196
 msgid "Properties of project "
 msgstr "Ρυθμίσεις του προγράμματος"
 
 #: clientgui/DlgItemProperties.cpp:200
-#: clientgui/DlgOptions.cpp:200
+#: clientgui/DlgOptions.cpp:204
 msgid "General"
 msgstr "Γενικά"
 
@@ -1666,376 +1723,353 @@ msgstr "Η αποστολή του αρχείου αναβλήθηκε για"
 msgid "Computer ID"
 msgstr "Ταυτότητα υπολογιστή"
 
-#: clientgui/DlgItemProperties.cpp:216
+#: clientgui/DlgItemProperties.cpp:217
 msgid "Non CPU intensive"
 msgstr ""
 
-#: clientgui/DlgItemProperties.cpp:216
 #: clientgui/DlgItemProperties.cpp:217
-#: clientgui/DlgItemProperties.cpp:218
+#: clientgui/DlgItemProperties.cpp:219
+#: clientgui/DlgItemProperties.cpp:220
+#: clientgui/DlgItemProperties.cpp:222
 #: clientgui/DlgItemProperties.cpp:225
-#: clientgui/DlgItemProperties.cpp:226
-#: clientgui/DlgItemProperties.cpp:227
+#: clientgui/DlgItemProperties.cpp:234
+#: clientgui/DlgItemProperties.cpp:237
+#: clientgui/DlgItemProperties.cpp:240
 msgid "yes"
 msgstr "ναί"
 
-#: clientgui/DlgItemProperties.cpp:216
-#: clientgui/DlgItemProperties.cpp:217
-#: clientgui/DlgItemProperties.cpp:218
-#: clientgui/DlgItemProperties.cpp:225
-#: clientgui/DlgItemProperties.cpp:226
-#: clientgui/DlgItemProperties.cpp:227
-msgid "no"
-msgstr "όχι"
-
-#: clientgui/DlgItemProperties.cpp:217
+#: clientgui/DlgItemProperties.cpp:219
 msgid "Suspended via GUI"
 msgstr "Παύθηκε μέσω GUI"
 
-#: clientgui/DlgItemProperties.cpp:218
+#: clientgui/DlgItemProperties.cpp:219
+#: clientgui/DlgItemProperties.cpp:220
+msgid "no"
+msgstr "όχι"
+
+#: clientgui/DlgItemProperties.cpp:220
 msgid "Don't request more work"
 msgstr "Μη ζητήσετε επιπλέον εργασίες"
 
-#: clientgui/DlgItemProperties.cpp:220
 #: clientgui/DlgItemProperties.cpp:222
+msgid "Scheduler call in progress"
+msgstr "Κλήση χρονοδιαγράμματος σε εξέλιξη"
+
+#: clientgui/DlgItemProperties.cpp:225
+msgid "Trickle-up pending"
+msgstr ""
+
+#: clientgui/DlgItemProperties.cpp:228
+#: clientgui/DlgItemProperties.cpp:230
 #, fuzzy
 msgid "Host location"
 msgstr "Σύνολο Υπολογιστή"
 
-#: clientgui/DlgItemProperties.cpp:222
+#: clientgui/DlgItemProperties.cpp:230
 #, fuzzy
 msgid "default"
 msgstr "Καθορισμός Εξ' ορισμού"
 
-#: clientgui/DlgItemProperties.cpp:225
+#: clientgui/DlgItemProperties.cpp:234
 msgid "Added via account manager"
 msgstr "Προστέθηκε μέσω του διαχειριστή λογαριασμού"
 
-#: clientgui/DlgItemProperties.cpp:226
+#: clientgui/DlgItemProperties.cpp:237
 msgid "Remove when tasks done"
 msgstr "Αφαίρεση όταν οι εργασίες ολοκληρωθούν"
 
-#: clientgui/DlgItemProperties.cpp:227
+#: clientgui/DlgItemProperties.cpp:240
 msgid "Ended"
 msgstr "Τελειωμένο"
 
-#: clientgui/DlgItemProperties.cpp:228
+#: clientgui/DlgItemProperties.cpp:242
 msgid "Credit"
 msgstr "Πόντοι"
 
-#: clientgui/DlgItemProperties.cpp:229
+#: clientgui/DlgItemProperties.cpp:243
 msgid "User"
 msgstr "Χρήστης"
 
-#: clientgui/DlgItemProperties.cpp:236
+#: clientgui/DlgItemProperties.cpp:250
 msgid "Host"
 msgstr "Πάροχος"
 
-#: clientgui/DlgItemProperties.cpp:245
+#: clientgui/DlgItemProperties.cpp:259
 msgid "Scheduling"
 msgstr "Χρήση χρονοδιαγράμματος"
 
-#: clientgui/DlgItemProperties.cpp:247
-#: clientgui/DlgItemProperties.cpp:257
-#: clientgui/DlgItemProperties.cpp:268
+#: clientgui/DlgItemProperties.cpp:261
+#: clientgui/DlgItemProperties.cpp:270
+#: clientgui/DlgItemProperties.cpp:279
 msgid "Project preference"
 msgstr "Προτιμήσεις έργου"
 
-#: clientgui/DlgItemProperties.cpp:247
+#: clientgui/DlgItemProperties.cpp:261
 #, fuzzy
 msgid "Don't fetch CPU tasks"
 msgstr "Δεν δέχεται νέες εργασίες"
 
-#: clientgui/DlgItemProperties.cpp:249
-msgid "CPU scheduling priority"
+#: clientgui/DlgItemProperties.cpp:263
+msgid "Scheduling priority"
 msgstr ""
 
-#: clientgui/DlgItemProperties.cpp:250
-msgid "CPU work fetch priority"
-msgstr ""
-
-#: clientgui/DlgItemProperties.cpp:253
+#: clientgui/DlgItemProperties.cpp:266
 msgid "CPU work fetch deferred for"
 msgstr ""
 
-#: clientgui/DlgItemProperties.cpp:254
+#: clientgui/DlgItemProperties.cpp:267
 msgid "CPU work fetch deferral interval"
 msgstr ""
 
-#: clientgui/DlgItemProperties.cpp:257
+#: clientgui/DlgItemProperties.cpp:270
 #, fuzzy
 msgid "Don't fetch NVIDIA GPU tasks"
 msgstr "Δεν δέχεται νέες εργασίες"
 
-#: clientgui/DlgItemProperties.cpp:259
-msgid "NVIDIA GPU scheduling priority"
-msgstr ""
-
-#: clientgui/DlgItemProperties.cpp:260
-msgid "NVIDIA GPU work fetch priority"
-msgstr ""
-
-#: clientgui/DlgItemProperties.cpp:263
+#: clientgui/DlgItemProperties.cpp:274
 msgid "NVIDIA GPU work fetch deferred for"
 msgstr ""
 
-#: clientgui/DlgItemProperties.cpp:264
+#: clientgui/DlgItemProperties.cpp:275
 msgid "NVIDIA GPU work fetch deferral interval"
 msgstr ""
 
-#: clientgui/DlgItemProperties.cpp:268
+#: clientgui/DlgItemProperties.cpp:279
 #, fuzzy
 msgid "Don't fetch ATI GPU tasks"
 msgstr "Δεν δέχεται νέες εργασίες"
 
-#: clientgui/DlgItemProperties.cpp:270
-msgid "ATI GPU scheduling priority"
-msgstr ""
-
-#: clientgui/DlgItemProperties.cpp:271
-msgid "ATI GPU work fetch priority"
-msgstr ""
-
-#: clientgui/DlgItemProperties.cpp:274
+#: clientgui/DlgItemProperties.cpp:283
 msgid "ATI GPU work fetch deferred for"
 msgstr ""
 
-#: clientgui/DlgItemProperties.cpp:275
+#: clientgui/DlgItemProperties.cpp:284
 msgid "ATI GPU work fetch deferral interval"
 msgstr ""
 
-#: clientgui/DlgItemProperties.cpp:277
+#: clientgui/DlgItemProperties.cpp:286
 msgid "Duration correction factor"
 msgstr "Παράγοντας διόρθωσης διάρκειας"
 
-#: clientgui/DlgItemProperties.cpp:288
+#: clientgui/DlgItemProperties.cpp:297
 msgid "Properties of task "
 msgstr "Ιδιότητες εργασίας"
 
-#: clientgui/DlgItemProperties.cpp:300
+#: clientgui/DlgItemProperties.cpp:309
 msgid "Application"
 msgstr "Εφαρμογή"
 
-#: clientgui/DlgItemProperties.cpp:301
+#: clientgui/DlgItemProperties.cpp:310
 msgid "Workunit name"
 msgstr "Όνομα εργασίας"
 
-#: clientgui/DlgItemProperties.cpp:302
+#: clientgui/DlgItemProperties.cpp:311
 msgid "State"
 msgstr "Κατάσταση"
 
-#: clientgui/DlgItemProperties.cpp:305
+#: clientgui/DlgItemProperties.cpp:314
 msgid "Received"
 msgstr "Ληφθέντα"
 
-#: clientgui/DlgItemProperties.cpp:308
+#: clientgui/DlgItemProperties.cpp:317
 msgid "Report deadline"
 msgstr "Προθεσμία αναφοράς"
 
-#: clientgui/DlgItemProperties.cpp:310
+#: clientgui/DlgItemProperties.cpp:319
 msgid "Resources"
 msgstr "Πόροι"
 
-#: clientgui/DlgItemProperties.cpp:313
-msgid "Estimated app speed"
-msgstr "Εκτιμώμενη ταχύτητα εφαρμογής"
-
-#: clientgui/DlgItemProperties.cpp:316
-msgid "Estimated task size"
-msgstr "Εκτιμώμενο μέγεθος εργασίας"
-
-#: clientgui/DlgItemProperties.cpp:317
-msgid "Max RAM usage"
+#: clientgui/DlgItemProperties.cpp:322
+msgid "Estimated computation size"
 msgstr ""
 
-#: clientgui/DlgItemProperties.cpp:320
+#: clientgui/DlgItemProperties.cpp:325
 msgid "CPU time at last checkpoint"
 msgstr ""
 "Χρόνος χρήσης κεντρικής μονάδας επεξεργασίας στο τελευταίο σημείο ελέγχου"
 
-#: clientgui/DlgItemProperties.cpp:321
-#: clientgui/DlgItemProperties.cpp:336
+#: clientgui/DlgItemProperties.cpp:326
+#: clientgui/DlgItemProperties.cpp:341
 msgid "CPU time"
 msgstr "Χρόνος Επεξεργαστή"
 
-#: clientgui/DlgItemProperties.cpp:323
-#: clientgui/DlgItemProperties.cpp:337
+#: clientgui/DlgItemProperties.cpp:328
+#: clientgui/DlgItemProperties.cpp:342
 msgid "Elapsed time"
 msgstr "Χρόνος που έχει περάσει"
 
-#: clientgui/DlgItemProperties.cpp:325
+#: clientgui/DlgItemProperties.cpp:330
 msgid "Estimated time remaining"
 msgstr "Εκτιμώμενος χρόνος που απομένει"
 
-#: clientgui/DlgItemProperties.cpp:326
+#: clientgui/DlgItemProperties.cpp:331
 msgid "Fraction done"
 msgstr "Ολοκλήρωση κλάσματος"
 
-#: clientgui/DlgItemProperties.cpp:327
+#: clientgui/DlgItemProperties.cpp:332
 msgid "Virtual memory size"
 msgstr "Μέγεθος εικονικής μνήμης"
 
-#: clientgui/DlgItemProperties.cpp:328
+#: clientgui/DlgItemProperties.cpp:333
 msgid "Working set size"
 msgstr ""
 
-#: clientgui/DlgItemProperties.cpp:330
+#: clientgui/DlgItemProperties.cpp:335
 msgid "Directory"
 msgstr "Διεύθυνση"
 
-#: clientgui/DlgItemProperties.cpp:333
+#: clientgui/DlgItemProperties.cpp:338
 msgid "Process ID"
 msgstr "Ταυτότητα διαδικασίας"
 
-#: clientgui/DlgItemProperties.cpp:407
+#: clientgui/DlgItemProperties.cpp:412
 msgid "Local: "
 msgstr "Τοπικό:"
 
-#: clientgui/DlgOptions.cpp:118
-#, c-format
-msgid "%s - Options"
-msgstr "%s - Επιλογές"
+#: clientgui/DlgOptions.cpp:115
+#: clientgui/DlgOptions.cpp:121
+msgid "Options"
+msgstr "Επιλογές"
 
-#: clientgui/DlgOptions.cpp:157
+#: clientgui/DlgOptions.cpp:161
 msgid "Language:"
 msgstr "Γλώσσα:"
 
-#: clientgui/DlgOptions.cpp:164
+#: clientgui/DlgOptions.cpp:168
 msgid "What language should BOINC use?"
 msgstr "Τι γλώσσα να χρησιμοποιεί το BOINC;"
 
-#: clientgui/DlgOptions.cpp:168
+#: clientgui/DlgOptions.cpp:172
 msgid "Notice reminder interval:"
 msgstr ""
 
-#: clientgui/DlgOptions.cpp:175
+#: clientgui/DlgOptions.cpp:179
 msgid "How often should BOINC remind you of new notices?"
 msgstr ""
 
-#: clientgui/DlgOptions.cpp:180
+#: clientgui/DlgOptions.cpp:184
 msgid "Run Manager at login?"
 msgstr "Εκτέλεση διαχειριστή κατά τη σύνδεση;"
 
-#: clientgui/DlgOptions.cpp:186
+#: clientgui/DlgOptions.cpp:190
 msgid "Run the BOINC Manager when you log on."
 msgstr "Εκτέλεση του BOINC διαχειριστή όταν συνδέεστε."
 
-#: clientgui/DlgOptions.cpp:191
+#: clientgui/DlgOptions.cpp:195
 msgid "Enable Manager exit dialog?"
 msgstr "Ενεργοποίηση παράθυρου εξόδου Διαχειριστή;"
 
-#: clientgui/DlgOptions.cpp:197
+#: clientgui/DlgOptions.cpp:201
 msgid "Display the exit dialog when shutting down the Manager."
 msgstr "Εμφάνιση του παράθυρου εξόδου όταν τερματίζεται ο Διαχειριστής."
 
-#: clientgui/DlgOptions.cpp:208
+#: clientgui/DlgOptions.cpp:212
 msgid "Dial-up and Virtual Private Network settings"
 msgstr "Ρυθμίσεις σύνδεσης μέσω τηλεφώνου και Ιδιωτικού Εικονικού Δικτύου"
 
-#: clientgui/DlgOptions.cpp:222
+#: clientgui/DlgOptions.cpp:226
 msgid "&Set Default"
 msgstr "Καθορισμός Εξ' ορισμού"
 
-#: clientgui/DlgOptions.cpp:227
+#: clientgui/DlgOptions.cpp:231
 msgid "&Clear Default"
 msgstr "Καθάρισμα Εξ' ορισμού"
 
-#: clientgui/DlgOptions.cpp:234
+#: clientgui/DlgOptions.cpp:238
 msgid "Default Connection:"
 msgstr "Εξ' ορισμού Σύνδεση:"
 
-#: clientgui/DlgOptions.cpp:241
+#: clientgui/DlgOptions.cpp:245
 msgid "Connections"
 msgstr "Συνδέσεις"
 
-#: clientgui/DlgOptions.cpp:250
+#: clientgui/DlgOptions.cpp:254
 msgid "Connect via HTTP proxy server"
 msgstr "Σύνδεση μέσω διακομιστή HTTP proxy"
 
-#: clientgui/DlgOptions.cpp:254
+#: clientgui/DlgOptions.cpp:258
 msgid "HTTP Proxy Server Configuration"
 msgstr "Ρυθμίσεις διακομιστή HTTP Proxy"
 
-#: clientgui/DlgOptions.cpp:262
-#: clientgui/DlgOptions.cpp:326
+#: clientgui/DlgOptions.cpp:266
+#: clientgui/DlgOptions.cpp:330
 msgid "Address:"
 msgstr "Διεύθυνση:"
 
-#: clientgui/DlgOptions.cpp:270
-#: clientgui/DlgOptions.cpp:334
+#: clientgui/DlgOptions.cpp:274
+#: clientgui/DlgOptions.cpp:338
 msgid "Port:"
 msgstr "Πόρτα:"
 
-#: clientgui/DlgOptions.cpp:278
-#: clientgui/DlgOptions.cpp:342
+#: clientgui/DlgOptions.cpp:282
+#: clientgui/DlgOptions.cpp:346
 msgid "Don't use proxy for:"
 msgstr "Να μη χρησιμοποιείται η proy για:"
 
-#: clientgui/DlgOptions.cpp:285
-#: clientgui/DlgOptions.cpp:349
+#: clientgui/DlgOptions.cpp:289
+#: clientgui/DlgOptions.cpp:353
 msgid "Leave these blank if not needed"
 msgstr "Αφήστε τα κενά εάν δεν χρειάζονται"
 
-#: clientgui/DlgOptions.cpp:291
-#: clientgui/DlgOptions.cpp:355
+#: clientgui/DlgOptions.cpp:295
+#: clientgui/DlgOptions.cpp:359
 msgid "User Name:"
 msgstr "Όνομα Χρήστη"
 
-#: clientgui/DlgOptions.cpp:299
-#: clientgui/DlgOptions.cpp:363
-#: clientgui/DlgSelectComputer.cpp:151
+#: clientgui/DlgOptions.cpp:303
+#: clientgui/DlgOptions.cpp:367
 msgid "Password:"
 msgstr "Κωδικός:"
 
-#: clientgui/DlgOptions.cpp:306
+#: clientgui/DlgOptions.cpp:310
 msgid "HTTP Proxy"
 msgstr "HTTP Proxy"
 
-#: clientgui/DlgOptions.cpp:314
+#: clientgui/DlgOptions.cpp:318
 msgid "Connect via SOCKS proxy server"
 msgstr "Σύνδεση μέσω διακομιστή SOCKS proxy"
 
-#: clientgui/DlgOptions.cpp:318
+#: clientgui/DlgOptions.cpp:322
 msgid "SOCKS Proxy Server Configuration"
 msgstr "Ρυθμίσεις διακομιστή SOCKS Proxy"
 
-#: clientgui/DlgOptions.cpp:370
+#: clientgui/DlgOptions.cpp:374
 msgid "SOCKS Proxy"
 msgstr "SOCKS Proxy"
 
-#: clientgui/DlgOptions.cpp:571
+#: clientgui/DlgOptions.cpp:572
 #, fuzzy
 msgid "always"
 msgstr "&Διαρκής εκτέλεση"
 
-#: clientgui/DlgOptions.cpp:572
+#: clientgui/DlgOptions.cpp:573
 msgid "1 hour"
 msgstr ""
 
-#: clientgui/DlgOptions.cpp:573
+#: clientgui/DlgOptions.cpp:574
 msgid "6 hours"
 msgstr ""
 
-#: clientgui/DlgOptions.cpp:574
+#: clientgui/DlgOptions.cpp:575
 #, fuzzy
 msgid "1 day"
 msgstr "μέρες"
 
-#: clientgui/DlgOptions.cpp:575
+#: clientgui/DlgOptions.cpp:576
 msgid "1 week"
 msgstr ""
 
-#: clientgui/DlgOptions.cpp:576
+#: clientgui/DlgOptions.cpp:577
 #, fuzzy
 msgid "never"
 msgstr "κάθε"
 
-#: clientgui/DlgOptions.cpp:673
+#: clientgui/DlgOptions.cpp:674
 #, c-format
 msgid "%s - Language Selection"
 msgstr "%s- Επιλογή γλώσσας"
 
-#: clientgui/DlgOptions.cpp:680
+#: clientgui/DlgOptions.cpp:681
 #, c-format
 msgid "The %s's default language has been changed, in order for this change to take affect you must restart the %s."
 msgstr ""
@@ -2263,178 +2297,178 @@ msgstr "Έρευνα"
 msgid "Learn about the projects hosted at World Community Grid"
 msgstr ""
 
-#: clientgui/MainDocument.cpp:584
+#: clientgui/MainDocument.cpp:582
 msgid "Starting client"
 msgstr "Εκκίνηση προγράμματος"
 
-#: clientgui/MainDocument.cpp:592
+#: clientgui/MainDocument.cpp:590
 msgid "Connecting to client"
 msgstr "Σύνδεση με το πρόγραμμα"
 
-#: clientgui/MainDocument.cpp:1190
+#: clientgui/MainDocument.cpp:1175
 msgid "Retrieving system state; please wait..."
 msgstr "Ανάκτηση κατάστασης συστήματος: παρακαλώ περιμένετε..."
 
-#: clientgui/MainDocument.cpp:1199
-msgid "Retrieving host information; please wait..."
-msgstr "Ανάκτηση πληροφοριών υπολογιστή: παρακαλώ περιμένετε..."
-
-#: clientgui/MainDocument.cpp:2384
+#: clientgui/MainDocument.cpp:2344
 msgid "on batteries"
 msgstr ""
 
-#: clientgui/MainDocument.cpp:2385
+#: clientgui/MainDocument.cpp:2345
 msgid "computer is in use"
 msgstr "ο υπολογιστης είναι σε χρήση"
 
-#: clientgui/MainDocument.cpp:2386
+#: clientgui/MainDocument.cpp:2346
 msgid "user request"
 msgstr "αίτημα του χρήστη"
 
-#: clientgui/MainDocument.cpp:2387
+#: clientgui/MainDocument.cpp:2347
 msgid "time of day"
 msgstr "ώρα της ημέρας"
 
-#: clientgui/MainDocument.cpp:2388
+#: clientgui/MainDocument.cpp:2348
 msgid "CPU benchmarks in progress"
 msgstr "Εκτέλεση μετρήσεων επεξεργαστή σε πρόοδο"
 
-#: clientgui/MainDocument.cpp:2389
+#: clientgui/MainDocument.cpp:2349
 msgid "need disk space - check preferences"
 msgstr "χρειάζεται επιπλέον χώρος στο δίσκο - ελέγξτε προτιμήσεις"
 
-#: clientgui/MainDocument.cpp:2390
+#: clientgui/MainDocument.cpp:2350
 msgid "computer is not in use"
 msgstr "ο υπολογιστής δε χρησιμοποιείται"
 
-#: clientgui/MainDocument.cpp:2391
+#: clientgui/MainDocument.cpp:2351
 msgid "starting up"
 msgstr "γίνεται εκκίνηση"
 
-#: clientgui/MainDocument.cpp:2392
+#: clientgui/MainDocument.cpp:2352
 msgid "an exclusive app is running"
 msgstr "μια αποκλειστική εφαρμογή εκτελείται"
 
-#: clientgui/MainDocument.cpp:2393
+#: clientgui/MainDocument.cpp:2353
 msgid "CPU is busy"
 msgstr "η κεντρική μονάδα επεξεργασίας είναι απασχολημένη"
 
-#: clientgui/MainDocument.cpp:2394
+#: clientgui/MainDocument.cpp:2354
 msgid "network bandwidth limit exceeded"
 msgstr "ξεπεράστηκε το όριο εύρους ζώνης του δικτύου"
 
-#: clientgui/MainDocument.cpp:2396
+#: clientgui/MainDocument.cpp:2355
+msgid "requested by operating system"
+msgstr ""
+
+#: clientgui/MainDocument.cpp:2357
 msgid "unknown reason"
 msgstr "άγνωστος λόγος"
 
-#: clientgui/MainDocument.cpp:2412
+#: clientgui/MainDocument.cpp:2374
 msgid "GPU missing, "
 msgstr "η μονάδα επεξεργασίας γραφικών απουσιάζει,"
 
-#: clientgui/MainDocument.cpp:2418
+#: clientgui/MainDocument.cpp:2381
 msgid "New"
 msgstr "Νέο"
 
-#: clientgui/MainDocument.cpp:2422
+#: clientgui/MainDocument.cpp:2385
 msgid "Download failed"
 msgstr "Αποτυχία κατεβάσματος"
 
-#: clientgui/MainDocument.cpp:2424
+#: clientgui/MainDocument.cpp:2387
 msgid "Downloading"
 msgstr "Κατέβασμα"
 
-#: clientgui/MainDocument.cpp:2426
-#: clientgui/MainDocument.cpp:2484
+#: clientgui/MainDocument.cpp:2389
+#: clientgui/MainDocument.cpp:2444
 msgid " (suspended - "
 msgstr "(παύθηκε -"
 
-#: clientgui/MainDocument.cpp:2428
-#: clientgui/MainDocument.cpp:2486
+#: clientgui/MainDocument.cpp:2391
+#: clientgui/MainDocument.cpp:2446
 msgid ")"
 msgstr ")"
 
-#: clientgui/MainDocument.cpp:2434
+#: clientgui/MainDocument.cpp:2397
 msgid "Project suspended by user"
 msgstr "Το πρόγραμμα παύθηκε απο τον χρήστη"
 
-#: clientgui/MainDocument.cpp:2436
+#: clientgui/MainDocument.cpp:2399
 msgid "Task suspended by user"
 msgstr "Η εγασία παύθηκε απο τον χρήστη"
 
-#: clientgui/MainDocument.cpp:2438
+#: clientgui/MainDocument.cpp:2401
 msgid "Suspended - "
 msgstr "Παύθηκε -"
 
-#: clientgui/MainDocument.cpp:2445
+#: clientgui/MainDocument.cpp:2408
 msgid "Waiting for memory"
 msgstr "Αναμονή της μνήμης"
 
-#: clientgui/MainDocument.cpp:2447
+#: clientgui/MainDocument.cpp:2410
 msgid "Waiting for shared memory"
 msgstr "Αναμονή της μοιραζόμενης μνήμης"
 
-#: clientgui/MainDocument.cpp:2450
+#: clientgui/MainDocument.cpp:2413
 msgid "Running, high priority"
 msgstr "Εκτελείται, υψηλή προτεραιότητα"
 
-#: clientgui/MainDocument.cpp:2452
+#: clientgui/MainDocument.cpp:2415
 msgid "Running"
 msgstr "Εκτελείται"
 
-#: clientgui/MainDocument.cpp:2457
+#: clientgui/MainDocument.cpp:2418
 msgid " (non-CPU-intensive)"
 msgstr ""
 
-#: clientgui/MainDocument.cpp:2461
+#: clientgui/MainDocument.cpp:2421
 msgid "Waiting to run"
 msgstr "Αναμένοντας για εκτέλεση"
 
-#: clientgui/MainDocument.cpp:2463
-#: clientgui/MainDocument.cpp:2469
+#: clientgui/MainDocument.cpp:2423
+#: clientgui/MainDocument.cpp:2429
 msgid "Ready to start"
 msgstr "Έτοιμο για εκκίνηση"
 
-#: clientgui/MainDocument.cpp:2472
-msgid " (waiting for GPU memory)"
-msgstr "(αναμονή για τη μνήμη της μονάδας επεξεργασίας γραφικών)"
+#: clientgui/MainDocument.cpp:2432
+msgid " (Scheduler wait)"
+msgstr ""
 
-#: clientgui/MainDocument.cpp:2476
+#: clientgui/MainDocument.cpp:2436
 msgid "Computation error"
 msgstr "Λάθος Υπολογισμών"
 
-#: clientgui/MainDocument.cpp:2480
+#: clientgui/MainDocument.cpp:2440
 msgid "Upload failed"
 msgstr "Αποτυχία ανεβάσματος"
 
-#: clientgui/MainDocument.cpp:2482
+#: clientgui/MainDocument.cpp:2442
 msgid "Uploading"
 msgstr "Ανέβασμα"
 
-#: clientgui/MainDocument.cpp:2493
+#: clientgui/MainDocument.cpp:2453
 msgid "Aborted by user"
 msgstr "Εγκαταλείφθηκε από το χρήστη"
 
-#: clientgui/MainDocument.cpp:2496
+#: clientgui/MainDocument.cpp:2456
 msgid "Aborted by project"
 msgstr "Εγκαταλείφθηκε απο το πρόγραμμα"
 
-#: clientgui/MainDocument.cpp:2499
+#: clientgui/MainDocument.cpp:2459
 msgid "Aborted: not started by deadline"
 msgstr ""
 
-#: clientgui/MainDocument.cpp:2502
+#: clientgui/MainDocument.cpp:2462
 msgid "Aborted"
 msgstr "Εγκαταλείφθηκε"
 
-#: clientgui/MainDocument.cpp:2507
+#: clientgui/MainDocument.cpp:2467
 msgid "Acknowledged"
 msgstr "Αναγνώριση"
 
-#: clientgui/MainDocument.cpp:2509
+#: clientgui/MainDocument.cpp:2469
 msgid "Ready to report"
 msgstr "Έτοιμο για αναφορά"
 
-#: clientgui/MainDocument.cpp:2511
+#: clientgui/MainDocument.cpp:2471
 #, c-format
 msgid "Error: invalid state '%d'"
 msgstr "Σφάλμα: μη έγκυρη κατάσταση '%d'"
@@ -2509,25 +2543,62 @@ msgstr "Δεν υπάρχουν ανακοινώσεις αυτή τη στιγ�
 msgid "more..."
 msgstr "περισσότερα..."
 
-#: clientgui/ProjectInfoPage.cpp:257
+#: clientgui/ProjectInfoPage.cpp:451
+#: clientgui/ProjectInfoPage.cpp:734
+#: clientgui/ProjectInfoPage.cpp:738
+msgid "All"
+msgstr ""
+
+#: clientgui/ProjectInfoPage.cpp:576
 msgid "Choose a project"
 msgstr "Επιλέξτε ένα πρόγραμμα"
 
-#: clientgui/ProjectInfoPage.cpp:260
+#: clientgui/ProjectInfoPage.cpp:580
 msgid "To choose a project, click its name or type its URL below."
 msgstr ""
 "Για να επιλέξετε ένα έργο, πατήστε το όνομά του ή πληκτρολογήστε τη "
 "διεύθυνσή του παρακάτω."
 
-#: clientgui/ProjectInfoPage.cpp:263
-msgid "Project &URL:"
+#: clientgui/ProjectInfoPage.cpp:584
+msgid "Categories:"
+msgstr ""
+
+#: clientgui/ProjectInfoPage.cpp:588
+#, fuzzy
+msgid "Projects:"
+msgstr "Προγράμματα"
+
+#: clientgui/ProjectInfoPage.cpp:592
+msgid "Project details"
+msgstr ""
+
+#: clientgui/ProjectInfoPage.cpp:596
+msgid "Research area:"
+msgstr ""
+
+#: clientgui/ProjectInfoPage.cpp:600
+msgid "Organization:"
+msgstr ""
+
+#: clientgui/ProjectInfoPage.cpp:604
+#, fuzzy
+msgid "Web site:"
+msgstr "Ιστοσελίδες"
+
+#: clientgui/ProjectInfoPage.cpp:608
+msgid "Supported systems:"
+msgstr ""
+
+#: clientgui/ProjectInfoPage.cpp:612
+#, fuzzy
+msgid "Project URL:"
 msgstr "Έργο &URL:"
 
-#: clientgui/ProjectInfoPage.cpp:391
+#: clientgui/ProjectInfoPage.cpp:782
 msgid "This project may not have work for your type of computer.  Do you want to add it anyway?"
 msgstr ""
 
-#: clientgui/ProjectInfoPage.cpp:415
+#: clientgui/ProjectInfoPage.cpp:806
 msgid "You already added this project. Please choose a different project."
 msgstr ""
 
@@ -2555,12 +2626,12 @@ msgstr "Ιστοσελίδα Έργου"
 msgid "Communicating with project."
 msgstr "Επικοινωνία με το έργο."
 
-#: clientgui/ProjectProcessingPage.cpp:503
+#: clientgui/ProjectProcessingPage.cpp:507
 msgid "Required files not found on the server."
 msgstr "Απαραίτητα αρχεία δε βρέθηκαν στον διακομιστή."
 
-#: clientgui/ProjectProcessingPage.cpp:506
-#: clientgui/ProjectProcessingPage.cpp:568
+#: clientgui/ProjectProcessingPage.cpp:510
+#: clientgui/ProjectProcessingPage.cpp:572
 msgid "An internal server error has occurred."
 msgstr "Προέκυψε ένα εσωτερικό σφάλμα στον διακομιστή."
 
@@ -2631,48 +2702,56 @@ msgstr "Αυτόματος εντοπισμός"
 msgid "SOCKS proxy"
 msgstr "SOCKS proxy"
 
-#: clientgui/sg_BoincSimpleFrame.cpp:117
+#: clientgui/sg_BoincSimpleFrame.cpp:134
 #: clientgui/sg_BoincSimpleGUI.cpp:119
 msgid "Advanced View...\tCtrl+Shift+A"
 msgstr "Προηγμένη προβολή...\t Ctrl+Shift+A"
 
-#: clientgui/sg_BoincSimpleFrame.cpp:118
+#: clientgui/sg_BoincSimpleFrame.cpp:135
 #, fuzzy
 msgid "Display the advanced graphical interface."
 msgstr "Εμφάνιση της απλής γραφικής διεπιφάνειας."
 
-#: clientgui/sg_BoincSimpleFrame.cpp:129
-msgid "Manager Settings..."
+#: clientgui/sg_BoincSimpleFrame.cpp:142
+msgid "Skin"
+msgstr "Εμφάνιση"
+
+#: clientgui/sg_BoincSimpleFrame.cpp:144
+msgid "Select the appearance of the user interface."
 msgstr ""
 
-#: clientgui/sg_BoincSimpleFrame.cpp:157
+#: clientgui/sg_BoincSimpleFrame.cpp:191
 #: clientgui/sg_BoincSimpleGUI.cpp:147
 #, c-format
 msgid "&%s"
 msgstr "&%s"
 
-#: clientgui/sg_BoincSimpleFrame.cpp:577
+#: clientgui/sg_BoincSimpleFrame.cpp:358
 #, fuzzy
-msgid "Pause"
-msgstr "Παύθηκε"
+msgid "Default"
+msgstr "Καθορισμός Εξ' ορισμού"
 
-#: clientgui/sg_BoincSimpleFrame.cpp:578
+#: clientgui/sg_BoincSimpleFrame.cpp:705
+msgid "Suspend"
+msgstr "Παύση"
+
+#: clientgui/sg_BoincSimpleFrame.cpp:706
 msgid "Resume"
 msgstr "Συνέχεια μετά από παύση"
 
-#: clientgui/sg_BoincSimpleFrame.cpp:579
-msgid "Stop all activity"
-msgstr "Σταμάτημα όλων των ενεργειών"
+#: clientgui/sg_BoincSimpleFrame.cpp:707
+msgid "Suspend Computing"
+msgstr ""
 
-#: clientgui/sg_BoincSimpleFrame.cpp:580
-msgid "Resume activity"
-msgstr "Συνέχιση ενεργειών"
+#: clientgui/sg_BoincSimpleFrame.cpp:708
+msgid "Resume Computing"
+msgstr ""
 
-#: clientgui/sg_BoincSimpleFrame.cpp:597
+#: clientgui/sg_BoincSimpleFrame.cpp:724
 msgid "Notices"
 msgstr "Ανακοινώσεις"
 
-#: clientgui/sg_BoincSimpleFrame.cpp:598
+#: clientgui/sg_BoincSimpleFrame.cpp:725
 msgid "Open a window to view notices from projects or BOINC"
 msgstr ""
 
@@ -2682,62 +2761,80 @@ msgid "Display the advanced (accessible) graphical interface."
 msgstr "Εμφάνιση της απλής γραφικής διεπιφάνειας."
 
 #: clientgui/sg_ClientStateIndicator.cpp:288
+#: clientgui/sg_TaskPanel.cpp:885
 msgid "Retrieving current status."
 msgstr "Ανάκτηση τρέχουσας κατάστασης."
 
 #: clientgui/sg_ClientStateIndicator.cpp:291
+#: clientgui/sg_TaskPanel.cpp:207
 msgid "You don't have any projects.  Please Add a Project."
 msgstr "Δεν έχετε άλλα προγράμματα. Παρακαλώ προσθέστε ένα πρόγραμμα."
 
 #: clientgui/sg_ClientStateIndicator.cpp:294
+#: clientgui/sg_TaskPanel.cpp:891
 msgid "Downloading work from the server."
 msgstr "Λήψη εργασιών απο τον διακομιστή."
 
 #: clientgui/sg_ClientStateIndicator.cpp:299
+#: clientgui/sg_TaskPanel.cpp:896
 msgid "Processing Suspended:  Running On Batteries."
 msgstr "Επεξεργασία παύθηκε:Λειτουργία απο μπαταρίες."
 
 #: clientgui/sg_ClientStateIndicator.cpp:301
+#: clientgui/sg_TaskPanel.cpp:898
 msgid "Processing Suspended:  User Active."
 msgstr "Επεξεργασία παύθηκε:Χρήστης ενεργός."
 
 #: clientgui/sg_ClientStateIndicator.cpp:303
+#: clientgui/sg_TaskPanel.cpp:900
 msgid "Processing Suspended:  User paused processing."
 msgstr "Επεξεργασία παύθηκε: Η επεξεργασία παύθηκε απο τον χρήστη."
 
 #: clientgui/sg_ClientStateIndicator.cpp:305
+#: clientgui/sg_TaskPanel.cpp:902
 msgid "Processing Suspended:  Time of Day."
 msgstr "Επεξεργασία παύθηκε: Ώρα της ημέρας."
 
 #: clientgui/sg_ClientStateIndicator.cpp:307
+#: clientgui/sg_TaskPanel.cpp:904
 msgid "Processing Suspended:  Benchmarks Running."
 msgstr ""
 
 #: clientgui/sg_ClientStateIndicator.cpp:309
+#: clientgui/sg_TaskPanel.cpp:906
 msgid "Processing Suspended."
 msgstr "Επεξεργασία παύθηκε."
 
 #: clientgui/sg_ClientStateIndicator.cpp:313
+#: clientgui/sg_TaskPanel.cpp:910
 msgid "Waiting to contact project servers."
 msgstr "Αναμονή για επικοινωνία με τους διακομιστές του έργου."
 
 #: clientgui/sg_ClientStateIndicator.cpp:317
 #: clientgui/sg_ClientStateIndicator.cpp:325
+#: clientgui/sg_TaskPanel.cpp:914
+#: clientgui/sg_TaskPanel.cpp:923
 msgid "Retrieving current status"
 msgstr "Ανακτώντας την τρέχουσα κατάσταση"
 
 #: clientgui/sg_ClientStateIndicator.cpp:320
+#: clientgui/sg_TaskPanel.cpp:918
 msgid "No work available to process"
 msgstr "Καμία εργασία διαθέσιμη για επεξεργασία"
 
 #: clientgui/sg_ClientStateIndicator.cpp:322
+#: clientgui/sg_TaskPanel.cpp:920
 msgid "Unable to connect to the core client"
 msgstr "Αδύνατη η σύνδεση με τον πυρήνα του προγράμματος"
 
-#: clientgui/sg_DlgMessages.cpp:340
-#, c-format
-msgid "%s - Messages"
-msgstr "%s - Μηνύματα"
+#: clientgui/sg_DlgMessages.cpp:135
+msgid "Close"
+msgstr "Έξοδος"
+
+#: clientgui/sg_DlgMessages.cpp:332
+#, c-format, fuzzy
+msgid "%s - Notices"
+msgstr "%s Ανακοινώσεις"
 
 #: clientgui/sg_DlgPreferences.cpp:94
 msgid "100 MB"
@@ -2847,89 +2944,94 @@ msgstr "30"
 msgid "60"
 msgstr "60"
 
-#: clientgui/sg_DlgPreferences.cpp:286
-msgid "Skin"
-msgstr "Εμφάνιση"
+#: clientgui/sg_DlgPreferences.cpp:282
+msgid "This dialog controls preferences for this computer only."
+msgstr ""
 
-#: clientgui/sg_DlgPreferences.cpp:293
-msgid "Skin:"
-msgstr "Εμφάνιση:"
+#: clientgui/sg_DlgPreferences.cpp:287
+msgid "Click OK to set preferences."
+msgstr ""
 
-#: clientgui/sg_DlgPreferences.cpp:309
-msgid "Preferences"
-msgstr "Προτιμήσεις"
+#: clientgui/sg_DlgPreferences.cpp:292
+msgid "Click Clear to restore web-based settings."
+msgstr ""
 
-#: clientgui/sg_DlgPreferences.cpp:326
-msgid "I want to customize my preferences for this computer only."
-msgstr "Θέλω να τροποποιήσω τις προτιμήσεις μου μόνο για αυτόν τον υπολογιστή."
+#: clientgui/sg_DlgPreferences.cpp:299
+msgid "For additional settings, select Computing Preferences in "
+msgstr ""
 
-#: clientgui/sg_DlgPreferences.cpp:335
-msgid "Customized Preferences"
-msgstr "Τροποποιημένες προτιμήσεις"
+#: clientgui/sg_DlgPreferences.cpp:304
+msgid "the Advanced View."
+msgstr ""
 
-#: clientgui/sg_DlgPreferences.cpp:351
+#: clientgui/sg_DlgPreferences.cpp:332
 msgid "Do work only between:"
 msgstr "Εκτέλεση εργασιών μόνο μεταξύ:"
 
-#: clientgui/sg_DlgPreferences.cpp:373
+#: clientgui/sg_DlgPreferences.cpp:354
 msgid "Connect to internet only between:"
 msgstr "Σύνδεση στο διαδίκτυο μόνο μεταξύ:"
 
-#: clientgui/sg_DlgPreferences.cpp:395
-#: clientgui/sg_DlgPreferences.cpp:412
+#: clientgui/sg_DlgPreferences.cpp:376
+#: clientgui/sg_DlgPreferences.cpp:393
 msgid "Use no more than:"
 msgstr "Χρήση όχι περισσότερο απο:"
 
-#: clientgui/sg_DlgPreferences.cpp:408
+#: clientgui/sg_DlgPreferences.cpp:389
 msgid "of disk space"
 msgstr "του χώρου του δίσκου"
 
-#: clientgui/sg_DlgPreferences.cpp:425
+#: clientgui/sg_DlgPreferences.cpp:406
 msgid "of the processor"
 msgstr "του επεξεργαστή"
 
-#: clientgui/sg_DlgPreferences.cpp:429
+#: clientgui/sg_DlgPreferences.cpp:410
 msgid "Do work while on battery?"
 msgstr ""
 
-#: clientgui/sg_DlgPreferences.cpp:442
+#: clientgui/sg_DlgPreferences.cpp:423
 msgid "Do work after idle for:"
 msgstr "Εκτέλεση εργασίων ενώ είναι αδρανής για:"
 
-#: clientgui/sg_DlgPreferences.cpp:643
-#: clientgui/sg_DlgPreferences.cpp:646
-#: clientgui/sg_DlgPreferences.cpp:714
-#: clientgui/sg_DlgPreferences.cpp:718
-#: clientgui/sg_DlgPreferences.cpp:730
-#: clientgui/sg_DlgPreferences.cpp:734
-#: clientgui/sg_DlgPreferences.cpp:892
-#: clientgui/sg_DlgPreferences.cpp:903
+#: clientgui/sg_DlgPreferences.cpp:621
+#: clientgui/sg_DlgPreferences.cpp:624
+#: clientgui/sg_DlgPreferences.cpp:683
+#: clientgui/sg_DlgPreferences.cpp:687
+#: clientgui/sg_DlgPreferences.cpp:699
+#: clientgui/sg_DlgPreferences.cpp:703
+#: clientgui/sg_DlgPreferences.cpp:846
+#: clientgui/sg_DlgPreferences.cpp:857
 msgid "Anytime"
 msgstr "Οποιαδήποτε στιγμη"
 
-#: clientgui/sg_DlgPreferences.cpp:750
+#: clientgui/sg_DlgPreferences.cpp:719
 #, c-format
 msgid "%d MB"
 msgstr "%d MB"
 
-#: clientgui/sg_DlgPreferences.cpp:752
+#: clientgui/sg_DlgPreferences.cpp:721
 #, c-format
 msgid "%4.2f GB"
 msgstr "%4.2f GB"
 
-#: clientgui/sg_DlgPreferences.cpp:793
+#: clientgui/sg_DlgPreferences.cpp:762
 #, c-format
 msgid "%d%%"
 msgstr "%d%%"
 
-#: clientgui/sg_DlgPreferences.cpp:829
+#: clientgui/sg_DlgPreferences.cpp:798
 msgid "0 (Run Always)"
 msgstr "0 (Διαρκής Εκτέλεση)"
 
-#: clientgui/sg_DlgPreferences.cpp:832
+#: clientgui/sg_DlgPreferences.cpp:801
 #, c-format
 msgid "%d"
 msgstr "%d"
+
+#: clientgui/sg_DlgPreferences.cpp:1031
+#, fuzzy
+msgid "Do you really want to clear all local preferences?\n"
+msgstr "Θέλετε όντως να αφαιρέσετε όλες τις τοπικές προτιμήσεις;"
 
 #: clientgui/sg_ImageButton.cpp:90
 msgid "Paused: Other work running"
@@ -2977,13 +3079,6 @@ msgstr ""
 "Αναφορά όλων των ολοκληρωμένων εργασιών, ανάκτηση βαθμολογίας, ανάκτηση "
 "προτιμήσεων και πιθανών νέων εργασιών."
 
-#: clientgui/sg_ProjectCommandPopup.cpp:67
-#: clientgui/sg_ProjectCommandPopup.cpp:113
-#: clientgui/sg_TaskCommandPopup.cpp:66
-#: clientgui/sg_TaskCommandPopup.cpp:103
-msgid "Suspend"
-msgstr "Παύση"
-
 #: clientgui/sg_ProjectCommandPopup.cpp:68
 #: clientgui/sg_ProjectCommandPopup.cpp:114
 msgid "Suspend tasks for this project."
@@ -3008,10 +3103,6 @@ msgstr ""
 "Διαγραφή όλων των αρχείων και των εργασιων που σχετίζονται με αυτό το έργο, "
 "και λήψη νέων εργασιών. Μπορείτε να κάνετε ενημέρωση του έργου πρώτα ώστε να "
 "αναφέρετε τυχόν ολοκληρωμένες εργασίες."
-
-#: clientgui/sg_ProjectCommandPopup.cpp:85
-msgid "Remove"
-msgstr "Αφαίρεση"
 
 #: clientgui/sg_ProjectCommandPopup.cpp:86
 msgid "Remove this project.  Tasks in progress will be lost (use 'Update' first to report any completed tasks)."
@@ -3076,18 +3167,13 @@ msgid "Synchronize"
 msgstr ""
 
 #: clientgui/sg_ProjectPanel.cpp:72
-msgid "My total work done this Project"
+msgid "Work done for this project"
 msgstr ""
 
 #: clientgui/sg_ProjectPanel.cpp:75
 #: clientgui/sg_ProjectsComponent.cpp:123
 msgid "Synchronize projects with account manager system"
 msgstr ""
-
-#: clientgui/sg_ProjectPanel.cpp:87
-#: clientgui/sg_ProjectsComponent.cpp:298
-msgid "My Projects:"
-msgstr "Τα προγράμματά μου:"
 
 #: clientgui/sg_ProjectPanel.cpp:123
 msgid "Select a project to access with the controls below"
@@ -3096,15 +3182,15 @@ msgstr ""
 #: clientgui/sg_ProjectPanel.cpp:133
 #: clientgui/sg_ProjectPanel.cpp:252
 #, c-format
-msgid "%s: %0.2f"
+msgid "%s: %.0f"
 msgstr ""
 
-#: clientgui/sg_ProjectPanel.cpp:145
+#: clientgui/sg_ProjectPanel.cpp:144
 #, fuzzy
-msgid "Project Web Sites"
+msgid "Project Web Pages"
 msgstr "Ιστοσελίδα Έργου"
 
-#: clientgui/sg_ProjectPanel.cpp:149
+#: clientgui/sg_ProjectPanel.cpp:148
 msgid "Project Commands"
 msgstr ""
 
@@ -3123,6 +3209,14 @@ msgstr ""
 msgid "Open a window to view messages"
 msgstr "Ανοίξτε ένα παράθυρο για να δείτε τα μηνύματα"
 
+#: clientgui/sg_ProjectsComponent.cpp:225
+msgid "Stop all activity"
+msgstr "Σταμάτημα όλων των ενεργειών"
+
+#: clientgui/sg_ProjectsComponent.cpp:237
+msgid "Resume activity"
+msgstr "Συνέχιση ενεργειών"
+
 #: clientgui/sg_ProjectsComponent.cpp:254
 msgid "Open a window to set your preferences"
 msgstr "Ανοίξτε ένα παράθυρο για να ορίσετε της προτιμήσεις σας"
@@ -3130,6 +3224,10 @@ msgstr "Ανοίξτε ένα παράθυρο για να ορίσετε της
 #: clientgui/sg_ProjectsComponent.cpp:271
 msgid "Switch to the BOINC advanced view"
 msgstr "Μεταβείτε στη προχωρημένη μορφή του BOINC"
+
+#: clientgui/sg_ProjectsComponent.cpp:298
+msgid "My Projects:"
+msgstr "Τα προγράμματά μου:"
 
 #: clientgui/sg_StatImageLoader.cpp:101
 #, c-format
@@ -3162,85 +3260,84 @@ msgstr ""
 msgid "Show task details."
 msgstr "Εμφάνιση λεπτομερειών εργασίας."
 
-#: clientgui/sg_TaskCommandPopup.cpp:100
+#: clientgui/sg_TaskCommandPopup.cpp:103
 msgid "Resume work for this task."
 msgstr "Συνέχεια επεξεργασίας για αυτή την εργασία."
 
-#: clientgui/sg_TaskCommandPopup.cpp:104
+#: clientgui/sg_TaskCommandPopup.cpp:107
 msgid "Suspend work for this task."
 msgstr "Παύση επεξεργασίας για αυτή την εργασία."
 
-#: clientgui/sg_TaskCommandPopup.cpp:240
+#: clientgui/sg_TaskCommandPopup.cpp:253
 #, c-format
 msgid ""
 "Are you sure you want to abort this task '%s'?\n"
 "(Progress: %.1lf%%, Status: %s)"
 msgstr ""
 
-#: clientgui/sg_TaskCommandPopup.cpp:245
+#: clientgui/sg_TaskCommandPopup.cpp:258
 msgid "Abort task"
 msgstr "Ακύρωση εργασίας"
 
-#: clientgui/sg_TaskPanel.cpp:215
+#: clientgui/sg_TaskPanel.cpp:208
 msgid "Not available"
 msgstr ""
 
-#: clientgui/sg_TaskPanel.cpp:226
-msgid "My Tasks:"
-msgstr ""
+#: clientgui/sg_TaskPanel.cpp:220
+#, fuzzy
+msgid "Tasks:"
+msgstr "Εργασίες"
 
-#: clientgui/sg_TaskPanel.cpp:243
+#: clientgui/sg_TaskPanel.cpp:235
 msgid "Select a task to access"
 msgstr ""
 
-#: clientgui/sg_TaskPanel.cpp:254
-msgid "From Project:"
+#: clientgui/sg_TaskPanel.cpp:246
+msgid "From:"
 msgstr ""
 
-#: clientgui/sg_TaskPanel.cpp:311
+#: clientgui/sg_TaskPanel.cpp:298
 msgid "This task's progress"
 msgstr ""
 
-#: clientgui/sg_TaskPanel.cpp:332
+#: clientgui/sg_TaskPanel.cpp:317
 msgid "Task Commands"
 msgstr ""
 
-#: clientgui/sg_TaskPanel.cpp:333
+#: clientgui/sg_TaskPanel.cpp:318
 msgid "Pop up a menu of commands to apply to this task"
 msgstr ""
 
-#: clientgui/sg_TaskPanel.cpp:448
+#: clientgui/sg_TaskPanel.cpp:440
 #, c-format
 #, fuzzy, c-format
 msgid "Application: %s"
 msgstr "Εφαρμογή:"
 
-#: clientgui/sg_TaskPanel.cpp:472
+#: clientgui/sg_TaskPanel.cpp:464
 #, c-format
 msgid "%d.%d%%"
 msgstr ""
 
-#: clientgui/sg_TaskPanel.cpp:480
+#: clientgui/sg_TaskPanel.cpp:472
 msgid "Application: Not available"
 msgstr ""
 
-#: clientgui/sg_TaskPanel.cpp:588
+#: clientgui/sg_TaskPanel.cpp:569
 msgid "Not Available"
 msgstr ""
 
-#: clientgui/sg_TaskPanel.cpp:603
+#: clientgui/sg_TaskPanel.cpp:584
 #, c-format
-#, fuzzy, c-format
-msgid "Elapsed Time: %s"
-msgstr "Χρόνος που έχει περάσει:"
+msgid "Elapsed: %s"
+msgstr ""
 
-#: clientgui/sg_TaskPanel.cpp:617
+#: clientgui/sg_TaskPanel.cpp:598
 #, c-format
-#, fuzzy, c-format
-msgid "Time Remaining: %s"
-msgstr "Χρόνος που απομένει:"
+msgid "Remaining: %s"
+msgstr ""
 
-#: clientgui/sg_TaskPanel.cpp:632
+#: clientgui/sg_TaskPanel.cpp:613
 #, c-format
 msgid "Status: %s"
 msgstr ""
@@ -3404,6 +3501,11 @@ msgstr "Αντιγραφή όλων των μηνυμάτων"
 msgid "Copy selected messages"
 msgstr "Αντιγραφή επιλεγμένων μηνυμάτων"
 
+#: clientgui/ViewMessages.cpp:106
+#: clientgui/ViewMessages.cpp:502
+msgid "Show only this project"
+msgstr "Εμφάνιση μόνο αυτού του προγράμματος"
+
 #: clientgui/ViewMessages.cpp:107
 #: clientgui/ViewMessages.cpp:503
 msgid "Show only the messages for the selected project."
@@ -3424,6 +3526,10 @@ msgstr "Αντιγραφή των επιλεγμένων μηνυμάτων στ
 #: clientgui/ViewMessages.cpp:286
 msgid "Filtering messages..."
 msgstr "Φιλτράρισμα μηνυμάτων..."
+
+#: clientgui/ViewMessages.cpp:494
+msgid "Show all messages"
+msgstr "Εμφάνιση όλων των μηνυμάτων"
 
 #: clientgui/ViewMessages.cpp:495
 msgid "Show messages for all projects."
@@ -3816,27 +3922,36 @@ msgstr ""
 msgid "Abort File Transfer"
 msgstr "Ακύρωση Μεταφοράς Αρχείου"
 
-#: clientgui/ViewTransfers.cpp:771
-msgid "Retry in "
+#: clientgui/ViewTransfers.cpp:769
+msgid "Upload"
+msgstr ""
+
+#: clientgui/ViewTransfers.cpp:769
+msgid "Download"
+msgstr ""
+
+#: clientgui/ViewTransfers.cpp:773
+#, fuzzy
+msgid "retry in "
 msgstr "Επανάληψη σε"
 
-#: clientgui/ViewTransfers.cpp:779
-msgid "Upload suspended - "
-msgstr "Το ανέβασμα παύθηκε -"
+#: clientgui/ViewTransfers.cpp:775
+msgid "failed"
+msgstr ""
 
-#: clientgui/ViewTransfers.cpp:780
-msgid "Download suspended - "
-msgstr "Η λήψη παύθηκε -"
+#: clientgui/ViewTransfers.cpp:778
+msgid "suspended"
+msgstr ""
 
-#: clientgui/ViewTransfers.cpp:787
-msgid "Upload pending"
-msgstr "Η αποστολή εκκρεμεί"
+#: clientgui/ViewTransfers.cpp:783
+msgid "active"
+msgstr ""
 
-#: clientgui/ViewTransfers.cpp:787
-msgid "Download pending"
-msgstr "Η λήψη εκκρεμεί"
+#: clientgui/ViewTransfers.cpp:785
+msgid "pending"
+msgstr ""
 
-#: clientgui/ViewTransfers.cpp:794
+#: clientgui/ViewTransfers.cpp:792
 msgid " (project backoff: "
 msgstr "(υπαναχώρηση έργου:"
 
@@ -3953,11 +4068,11 @@ msgstr ""
 msgid "To continue, click Next."
 msgstr "Για συνέχεια πατήστε στο Επόμενο."
 
-#: clientgui/WizardAttach.cpp:612
+#: clientgui/WizardAttach.cpp:614
 msgid "Do you really want to cancel?"
 msgstr "Είστε σίγουρος ότι θέλετε να ακυρώστε;"
 
-#: clientgui/WizardAttach.cpp:613
+#: clientgui/WizardAttach.cpp:615
 msgid "Question"
 msgstr "Ερώτηση"
 
@@ -4116,16 +4231,81 @@ msgstr ""
 msgid "Quit %s"
 msgstr "&Έξοδος %s"
 
-#: clientgui/DlgAdvPreferences.h:29
+#: clientgui/DlgAdvPreferences.h:30
 msgid "specify work start and stop hours in format HH:MM-HH:MM"
 msgstr ""
 
-#: clientgui/DlgAdvPreferences.h:30
+#: clientgui/DlgAdvPreferences.h:31
 msgid "specify network usage start and stop hours in format HH:MM-HH:MM"
 msgstr ""
 
-#~ msgid "Scheduler call in progress"
-#~ msgstr "Κλήση χρονοδιαγράμματος σε εξέλιξη"
+#~ msgid "Display and network &options..."
+#~ msgstr "&Επιλογές προβολής και δικτύου..."
+
+#, c-format
+#~ msgid ""
+#~ "You have requested to exit the %s,\n"
+#~ "which allows you to view and manage\n"
+#~ "the science applications running on your computer.\n"
+#~ "\n"
+#~ "If you also want to stop running the science applications when you\n"
+#~ "exit the Manager, then choose from the following options:"
+#~ msgstr ""
+#~ "Έχετε επιλέξει να κλείσετε το %s,\n"
+#~ "το οποίο σας επιτρέπει να βλέπετε και να διαχειρίζεστε\n"
+#~ "τις επιστημονικές εφαρμογές που εκτελούνται στον υπολογιστή σας.\n"
+#~ "\n"
+#~ "Εάν θέλετε να σταματήσετε να εκτελείτε και τις επιστημονικές εφαρμογές όταν "
+#~ "εσείς\n"
+#~ "κλείνετε τον Διαχειριστή, τότε επιλέξτε ανάμεσα απο τις επόμενες επιλογές: "
+
+#~ msgid "Stop running science applications when exiting the Manager"
+#~ msgstr ""
+#~ "Σταμάτημα εκτέλεσης επιστημονικών εργασιών, όταν θα κλείσει ο διαχειριστής"
+
+#~ msgid "Estimated app speed"
+#~ msgstr "Εκτιμώμενη ταχύτητα εφαρμογής"
+
+#~ msgid "Estimated task size"
+#~ msgstr "Εκτιμώμενο μέγεθος εργασίας"
+
+#, c-format
+#~ msgid "%s - Options"
+#~ msgstr "%s - Επιλογές"
+
+#~ msgid "Retrieving host information; please wait..."
+#~ msgstr "Ανάκτηση πληροφοριών υπολογιστή: παρακαλώ περιμένετε..."
+
+#~ msgid " (waiting for GPU memory)"
+#~ msgstr "(αναμονή για τη μνήμη της μονάδας επεξεργασίας γραφικών)"
+
+#, c-format
+#~ msgid "%s - Messages"
+#~ msgstr "%s - Μηνύματα"
+
+#~ msgid "Skin:"
+#~ msgstr "Εμφάνιση:"
+
+#~ msgid "Preferences"
+#~ msgstr "Προτιμήσεις"
+
+#~ msgid "I want to customize my preferences for this computer only."
+#~ msgstr "Θέλω να τροποποιήσω τις προτιμήσεις μου μόνο για αυτόν τον υπολογιστή."
+
+#~ msgid "Customized Preferences"
+#~ msgstr "Τροποποιημένες προτιμήσεις"
+
+#~ msgid "Upload suspended - "
+#~ msgstr "Το ανέβασμα παύθηκε -"
+
+#~ msgid "Download suspended - "
+#~ msgstr "Η λήψη παύθηκε -"
+
+#~ msgid "Upload pending"
+#~ msgstr "Η αποστολή εκκρεμεί"
+
+#~ msgid "Download pending"
+#~ msgstr "Η λήψη εκκρεμεί"
 
 #~ msgid "Get help with BOINC"
 #~ msgstr "Λάβετε βοήθεια με το BOINC"
@@ -4194,9 +4374,6 @@ msgstr ""
 
 #~ msgid "Attach to a project to begin processing work"
 #~ msgstr "Σύνδεση σε ένα πρόγραμμα για έναρξη εκτέλεσης εργασιών"
-
-#~ msgid "&Options..."
-#~ msgstr "&Επιλογές..."
 
 #~ msgid "&Close Window\tCtrl+W"
 #~ msgstr "&Κλείσιμο του Παραθύρου\tCtrl+W"
@@ -4547,6 +4724,3 @@ msgstr ""
 
 #~ msgid "Dialup Logon"
 #~ msgstr "Σύνδεση σε λογαριασμό μέσω τηλεφώνου"
-
-#~ msgid "Options"
-#~ msgstr "Επιλογές"

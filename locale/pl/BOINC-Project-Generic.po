@@ -490,8 +490,9 @@ msgid "Show:"
 msgstr ""
 
 #: ../inc/host.inc:597 ../inc/host.inc:600
+#, fuzzy
 msgid "All computers"
-msgstr ""
+msgstr "Komputery"
 
 #: ../inc/host.inc:597 ../inc/host.inc:600
 msgid "Only computers active in past 30 days"
@@ -3342,9 +3343,12 @@ msgstr ""
 msgid "sticky/locked"
 msgstr ""
 
+# #######################################
+# Forum thread
 #: ../user/forum_forum.php:194
+#, fuzzy
 msgid "This thread is sticky"
-msgstr ""
+msgstr "Ten temat został ukryty przez administrację forum"
 
 #: ../user/forum_forum.php:194
 msgid "sticky"

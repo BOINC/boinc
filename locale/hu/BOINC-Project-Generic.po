@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2011-08-25 15:10 PDT\n"
-"PO-Revision-Date: 2011-10-10 11:40+0200\n"
+"PO-Revision-Date: 2011-10-19 12:48+0200\n"
 "Last-Translator: Gabor Cseh <csega@mailbox.hu>\n"
 "Language-Team: \n"
 "Language: hu\n"
@@ -31,12 +31,10 @@ msgid "LANG_NAME_INTERNATIONAL"
 msgstr "Hungarian"
 
 #: ../inc/forum.inc:37
-#, fuzzy
 msgid "Oldest first"
 msgstr "Legrégebbit előre"
 
 #: ../inc/forum.inc:38 ../inc/forum.inc:44
-#, fuzzy
 msgid "Newest first"
 msgstr "Legújabbat előre"
 
@@ -329,7 +327,6 @@ msgid "Average download rate"
 msgstr "Átlagos letöltési sebesség"
 
 #: ../inc/host.inc:163 ../user/host_app_versions.php:65
-#, fuzzy
 msgid "Average turnaround time"
 msgstr "Átlagos fordulási idő"
 
@@ -383,7 +380,6 @@ msgid "Average CPU efficiency"
 msgstr "Átlagos CPU teljesítmény"
 
 #: ../inc/host.inc:190
-#, fuzzy
 msgid "Task duration correction factor"
 msgstr "Feladat időtartam korrekciós faktor"
 
@@ -396,7 +392,6 @@ msgid "Delete this computer"
 msgstr "Számítógép törlése"
 
 #: ../inc/host.inc:198
-#, fuzzy
 msgid "Merge duplicate records of this computer"
 msgstr "Egyesítse ezen számítógép kettőzött bejegyzéseit"
 
@@ -436,7 +431,6 @@ msgid "GPU"
 msgstr "GPU"
 
 #: ../inc/host.inc:229
-#, fuzzy
 msgid "Operating system"
 msgstr "Operációs rendszer"
 
@@ -463,7 +457,6 @@ msgid "Host %1 has an incompatible OS:"
 msgstr "A(z) %1 számítógépnek nem kompatibilis az operációs rendszere:"
 
 #: ../inc/host.inc:473
-#, fuzzy
 msgid "Host %1 has an incompatible CPU:"
 msgstr "A(z) %1 számítógépnek nem kompatibilis a CPU-ja:"
 
@@ -488,17 +481,14 @@ msgid "Couldn't update results"
 msgstr "Az eredmények nem frissíthetők"
 
 #: ../inc/host.inc:572
-#, fuzzy
 msgid "Couldn't retire old computer"
 msgstr "A régi számítógép nem leválaszható"
 
 #: ../inc/host.inc:574
-#, fuzzy
 msgid "Retired old computer %1"
 msgstr "%1 régi számítógép leválasztva"
 
 #: ../inc/host.inc:597 ../inc/host.inc:600
-#, fuzzy
 msgid "Show:"
 msgstr "Mutasd:"
 
@@ -585,7 +575,6 @@ msgid "sent you a private message; subject:"
 msgstr "privát üzenetet küldött; tárgy:"
 
 #: ../inc/pm.inc:127
-#, fuzzy
 msgid "Private message%1 from %2, subject:"
 msgstr "Privát üzenet%1, küldte: %2, tárgy:"
 
@@ -900,7 +889,6 @@ msgid "bad subset: %1"
 msgstr ""
 
 #: ../inc/prefs.inc:625
-#, fuzzy
 msgid "Default"
 msgstr "Alapértelmezett"
 
@@ -940,7 +928,6 @@ msgid "Separate preferences for %1"
 msgstr ""
 
 #: ../inc/prefs.inc:818 ../inc/prefs.inc:893
-#, fuzzy
 msgid "Edit preferences"
 msgstr "Beállítások szerkesztése"
 
@@ -3377,9 +3364,12 @@ msgstr ""
 msgid "sticky/locked"
 msgstr ""
 
+# #######################################
+# Forum thread
 #: ../user/forum_forum.php:194
+#, fuzzy
 msgid "This thread is sticky"
-msgstr ""
+msgstr "Ezt a témát adminisztratív okokból rejtetté tették"
 
 #: ../user/forum_forum.php:194
 msgid "sticky"
@@ -5949,8 +5939,9 @@ msgid "Remove members from %1"
 msgstr ""
 
 #: ../user/team_remove_inactive_form.php:39
+#, fuzzy
 msgid "Remove?"
-msgstr ""
+msgstr "Eltávolítás"
 
 #: ../user/team_remove_inactive_form.php:40
 msgid "Name (ID)"
