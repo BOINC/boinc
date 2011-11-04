@@ -8111,3 +8111,8 @@ Charlie 5 Nov 2011
 
     client/
         hostinfo_unix.cpp
+
+David  4 Nov 2011
+    - client: fix compile warning
+    client/
+        cs_scheduler.cpp
