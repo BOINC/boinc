@@ -8089,3 +8089,9 @@ David  4 Nov 2011
         sim.cpp
         work_fetch.cpp
         cpu_sched.cpp
+
+Charlie 5 Nov 2011
+    - client: Fix compile error.
+    
+    client/
+        cs_scheduler.cpp
