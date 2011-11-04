@@ -8104,3 +8104,10 @@ Charlie 5 Nov 2011
     mac_build/
         boinc.xcodeproj/
             project.pbxproj
+
+Charlie 5 Nov 2011
+    - client: fix errors in (currently unused) get_max_cpu_temperature() 
+        code for Macintosh.
+
+    client/
+        hostinfo_unix.cpp

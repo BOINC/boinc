@@ -986,25 +986,27 @@ kern_return_t SMCReadKey(UInt32 key, SMCBytes_t val) {
 
     memset(&inputStructure, 0, sizeof(inputStructure));
     memset(&outputStructure, 0, sizeof(outputStructure));
-    memset(val, 0, sizeof(val));
+    memset(val, 0, sizeof(SMCBytes_t));
 
     inputStructure.key = key;
     inputStructure.data8 = SMC_CMD_READ_KEYINFO;
 
-#if MAC_OS_X_VERSION_10_5
+#if MAC_OS_X_VERSION_MIN_REQUIRED >= MAC_OS_X_VERSION_10_5
     result = IOConnectCallStructMethod(conn,
                                        KERNEL_INDEX_SMC,
                                        &inputStructure,
                                        sizeof(inputStructure),
-                                       &inputStructure,
-                                       &structureOutputSize);
+                                       &outputStructure,
+                                       &structureOutputSize
+                                       );
 #else
     result = IOConnectMethodStructureIStructureO(conn,
                                                  KERNEL_INDEX_SMC,
                                                  sizeof(inputStructure),
                                                  &structureOutputSize,
                                                  &inputStructure,
-                                                 &outputStructure);
+                                                 &outputStructure
+                                                 );
 #endif
     if (result != kIOReturnSuccess) {
         return result;
@@ -1013,18 +1015,22 @@ kern_return_t SMCReadKey(UInt32 key, SMCBytes_t val) {
     inputStructure.keyInfo.dataSize = outputStructure.keyInfo.dataSize;
     inputStructure.data8 = SMC_CMD_READ_BYTES;
 
-#if MAC_OS_X_VERSION_10_5
+#if MAC_OS_X_VERSION_MIN_REQUIRED >= MAC_OS_X_VERSION_10_5
     result = IOConnectCallStructMethod(conn,
                                        KERNEL_INDEX_SMC,
                                        &inputStructure,
                                        sizeof(inputStructure),
-                                       &inputStructure,
-                                       &structureOutputSize);
+                                       &outputStructure,
+                                       &structureOutputSize
+                                       );
 #else
-    result = IOConnectMethodStructureIStructureO(
-        conn, KERNEL_INDEX_SMC, sizeof(inputStructure), &structureOutputSize),
-        &inputStructure, &outputStructure
-    );
+    result = IOConnectMethodStructureIStructureO(conn,
+                                                 KERNEL_INDEX_SMC,
+                                                 sizeof(inputStructure),
+                                                 &structureOutputSize,
+                                                 &inputStructure,
+                                                 &outputStructure
+                                                 );
 #endif
     if (result != kIOReturnSuccess) {
         return result;
@@ -1091,7 +1097,7 @@ int get_max_cpu_temperature() {
 
 #else       // PowerPC
 
-int GetMaxCPUTemperature() {
+int get_max_cpu_temperature() {
     return 0;
 }
 
