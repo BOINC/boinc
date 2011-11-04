@@ -214,6 +214,9 @@ static bool wacky_dcf(PROJECT* p) {
     return (dcf < 0.02 || dcf > 80.0);
 }
 
+// If this resource is below min buffer level,
+// return the highest-priority project that may have jobs for it.
+//
 PROJECT* RSC_WORK_FETCH::choose_project_hyst() {
     PROJECT* pbest = NULL;
     if (saturated_time > gstate.work_buf_min()) return NULL;
@@ -488,9 +491,14 @@ void RSC_WORK_FETCH::supplement(PROJECT* pp) {
         }
     }
     // didn't find a better project; ask for work
+    //
     set_request(pp);
 }
 
+// we're going to ask the given project for work of the given type.
+// (or -1 if none)
+// Set requests for this type and perhaps other types
+//
 void WORK_FETCH::set_all_requests_hyst(PROJECT* p, int rsc_type) {
     for (int i=0; i<coprocs.n_rsc; i++) {
         if (i == rsc_type) {
@@ -547,31 +555,7 @@ void WORK_FETCH::compute_work_request(PROJECT* p) {
         return;
     }
 
-    // See if this is the project we'd ask for work anyway.
-    // Temporarily clear resource backoffs,
-    // since we're going to contact this project in any case.
-    //
-    double backoff_save[MAX_RSC];
-    for (int i=0; i<coprocs.n_rsc; i++) {
-        backoff_save[i] = p->rsc_pwf[i].backoff_time;
-        p->rsc_pwf[i].backoff_time = 0;
-    }
-    PROJECT* pbest = choose_project();
-    for (int i=0; i<coprocs.n_rsc; i++) {
-        p->rsc_pwf[i].backoff_time = backoff_save[i];
-    }
-    if (p == pbest) {
-        // Ask for work for all devices w/ a shortfall.
-        // Otherwise we can have a situation where a CPU is idle,
-        // we ask only for GPU work, and the project never has any
-        //
-        work_fetch.set_all_requests(pbest);
-        return;
-    }
-
-    // if not, don't request any work
-    //
-    clear_request();
+    work_fetch.set_all_requests_hyst(p, -1);
 }
 
 // see if there's a fetchable non-CPU-intensive project without work

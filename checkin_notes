@@ -8073,3 +8073,19 @@ David  3 Nov 2011
 		client_types.cpp
 		client_state.cpp
 		log_flags.cpp
+
+David  4 Nov 2011
+    - client: fix work fetch bug.
+        If we're contacting a project to report results,
+        only piggyback work requests for resources for which
+        that project is the highest priority that may have work.
+    - client: compute result.not_started more efficiently
+
+    TODO: continue efficiency work.  There's still some quadratic stuff
+
+    client/
+        client_types.cpp,h
+        client_state.cpp
+        sim.cpp
+        work_fetch.cpp
+        cpu_sched.cpp

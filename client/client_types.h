@@ -694,6 +694,7 @@ struct RESULT {
         // a coproc needed by this job is missing
         // (e.g. because user removed their GPU board).
     bool report_immediately;
+    bool not_started;   // temp for CPU sched
 
     APP* app;
     WORKUNIT* wup;
@@ -719,6 +720,7 @@ struct RESULT {
 
     // stuff related to CPU scheduling
 
+    bool is_not_started();
     double estimated_duration();
     double estimated_duration_uncorrected();
     double estimated_time_remaining();
@@ -735,7 +737,6 @@ struct RESULT {
         if (ready_to_report) return true;
         return false;
     }
-    bool not_started();
     bool runnable();
         // downloaded, not finished, not suspended, project not suspended
     bool nearly_runnable();

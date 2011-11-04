@@ -1178,7 +1178,7 @@ bool CLIENT_STATE::abort_unstarted_late_jobs() {
     if (now < 1235668593) return false; // skip if user reset system clock
     for (unsigned int i=0; i<results.size(); i++) {
         RESULT* rp = results[i];
-        if (!rp->not_started()) continue;
+        if (!rp->is_not_started()) continue;
         if (rp->report_deadline > now) continue;
         msg_printf(rp->project, MSG_INFO,
             "Aborting task %s; not started and deadline has passed",

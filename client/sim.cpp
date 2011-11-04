@@ -371,7 +371,7 @@ bool CLIENT_STATE::simulate_rpc(PROJECT* p) {
     sprintf(buf, "RPC to %s: %s<br>", p->project_name, buf2);
     html_msg += buf;
 
-    msg_printf(0, MSG_INFO, buf);
+    msg_printf(p, MSG_INFO, "RPC: %s", buf2);
 
     handle_completed_results(p);
 
@@ -527,6 +527,7 @@ bool CLIENT_STATE::scheduler_rpc_poll() {
         last_work_fetch_time = now;
 
         p = work_fetch.choose_project();
+
         if (p) {
             action = simulate_rpc(p);
             break;
@@ -623,8 +624,8 @@ bool ACTIVE_TASK_SET::poll() {
             atp->set_task_state(PROCESS_EXITED, "poll");
             rp->exit_status = 0;
             rp->ready_to_report = true;
-            gstate.request_schedule_cpus("ATP poll");
-            gstate.request_work_fetch("ATP poll");
+            gstate.request_schedule_cpus("job finished");
+            gstate.request_work_fetch("job finished");
             sprintf(buf, "result %s finished<br>", rp->name);
             html_msg += buf;
             action = true;

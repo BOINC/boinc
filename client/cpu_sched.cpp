@@ -393,7 +393,7 @@ RESULT* CLIENT_STATE::largest_debt_project_best_result() {
 
 // Return a job of the given type according to the following criteria
 // (desc priority):
-//  - from project with higher STD for that resource
+//  - from project with higher priority
 //  - already-started job
 //  - earlier received_time
 //  - lexicographically earlier name
@@ -406,34 +406,34 @@ RESULT* CLIENT_STATE::largest_debt_project_best_result() {
 RESULT* first_coproc_result(int rsc_type) {
     unsigned int i;
     RESULT* best = NULL;
-    double best_std=0, std;
+    double best_prio=0, prio;
     for (i=0; i<gstate.results.size(); i++) {
         RESULT* rp = gstate.results[i];
         if (rp->resource_type() != rsc_type) continue;
         if (!rp->runnable()) continue;
         if (rp->non_cpu_intensive()) continue;
         if (rp->already_selected) continue;
-        std = rp->project->sched_priority;
+        prio = rp->project->sched_priority;
         if (!best) {
             best = rp;
-            best_std = std;
+            best_prio = prio;
             continue;
         }
 
-        if (std < best_std) {
+        if (prio < best_prio) {
             continue;
         }
-        if (std > best_std) {
+        if (prio > best_prio) {
             best = rp;
-            best_std = std;
+            best_prio = prio;
             continue;
         }
 
-        bool bs = !best->not_started();
-        bool rs = !rp->not_started();
+        bool bs = !best->not_started;
+        bool rs = !rp->not_started;
         if (rs && !bs) {
             best = rp;
-            best_std = std;
+            best_prio = prio;
             continue;
         }
         if (!rs && bs) {
@@ -441,13 +441,13 @@ RESULT* first_coproc_result(int rsc_type) {
         }
         if (rp->received_time < best->received_time) {
             best = rp;
-            best_std = std;
+            best_prio = prio;
         } else if (rp->received_time == best->received_time) {
             // make it deterministic by looking at name
             //
             if (strcmp(rp->name, best->name) > 0) {
                 best = rp;
-                best_std = std;
+                best_prio = prio;
             }
         }
     }
@@ -862,6 +862,7 @@ void CLIENT_STATE::make_run_list(vector<RESULT*>& run_list) {
         rp = results[i];
         rp->already_selected = false;
         rp->edf_scheduled = false;
+        rp->not_started = !rp->computing_done();
     }
     for (i=0; i<projects.size(); i++) {
         p = projects[i];
@@ -881,6 +882,7 @@ void CLIENT_STATE::make_run_list(vector<RESULT*>& run_list) {
         if (w > avp->max_working_set_size) {
             avp->max_working_set_size = w;
         }
+        atp->result->not_started = false;
     }
 
     // first, add GPU jobs
@@ -1834,12 +1836,6 @@ ACTIVE_TASK* CLIENT_STATE::lookup_active_task_by_result(RESULT* rep) {
         }
     }
     return NULL;
-}
-
-bool RESULT::not_started() {
-    if (computing_done()) return false;
-    if (gstate.lookup_active_task_by_result(this)) return false;
-    return true;
 }
 
 // find total resource shares of all projects

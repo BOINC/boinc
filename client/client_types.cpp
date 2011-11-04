@@ -601,7 +601,7 @@ void PROJECT::abort_not_started() {
     for (unsigned int i=0; i<gstate.results.size(); i++) {
         RESULT* rp = gstate.results[i];
         if (rp->project != this) continue;
-        if (rp->not_started()) {
+        if (rp->is_not_started()) {
             rp->abort_inactive(ERR_ABORTED_VIA_GUI);
         }
     }
@@ -614,7 +614,7 @@ void PROJECT::get_task_durs(double& not_started_dur, double& in_progress_dur) {
         RESULT* rp = gstate.results[i];
         if (rp->project != this) continue;
         double d = rp->estimated_time_remaining();
-        if (rp->not_started()) {
+        if (rp->is_not_started()) {
             not_started_dur += d;
         } else {
             in_progress_dur += d;
@@ -1997,6 +1997,12 @@ void RESULT::clear_uploaded_flags() {
         fip = output_files[i].file_info;
         fip->uploaded = false;
     }
+}
+
+bool RESULT::is_not_started() {
+    if (computing_done()) return false;
+    if (gstate.active_tasks.lookup_result(this)) return false;
+    return true;
 }
 
 bool PROJECT::some_download_stalled() {
