@@ -8145,3 +8145,10 @@ David  4 Nov 2011
         client_state.h
         pers_file_xfer.cpp
         cs_files.cpp
+
+Charlie 5 Nov 2011
+    - Mac: remove -Wno-format-security compiler flag (no longer needed).
+    
+    mac_build/
+        boinc.xcodeproj/
+            project.pbxproj

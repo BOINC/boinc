@@ -4044,7 +4044,6 @@
 					"-Wno-four-char-constants",
 					"-Wno-unknown-pragmas",
 					"-Wno-write-strings",
-					"-Wno-format-security",
 				);
 			};
 			name = Deployment;
@@ -4229,7 +4228,6 @@
 					"-Wno-four-char-constants",
 					"-Wno-unknown-pragmas",
 					"-Wno-write-strings",
-					"-Wno-format-security",
 				);
 			};
 			name = Development;
