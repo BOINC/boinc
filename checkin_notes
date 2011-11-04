@@ -8095,3 +8095,12 @@ Charlie 5 Nov 2011
     
     client/
         cs_scheduler.cpp
+
+Charlie 5 Nov 2011
+    - Mac: add -Wno-format-security compiler flag to suppress warning 
+        that format string is not a string literal in code to show 
+        messages from server in CLIENT_STATE::handle_scheduler_reply().
+    
+    mac_build/
+        boinc.xcodeproj/
+            project.pbxproj
