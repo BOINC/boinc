@@ -6957,3 +6957,11 @@ Rom    10 Aug 2011
     /
         configure.ac
         version.h
+
+Rom    31 Oct 2011
+    - Tag for 6.8.31 release, all platforms
+      boinc_core_release_6_8_31
+
+    /
+        configure.ac
+        version.h
