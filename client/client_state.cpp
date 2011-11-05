@@ -376,7 +376,7 @@ int CLIENT_STATE::init() {
                 msg_printf(NULL, MSG_INFO, "%s", warnings[i].c_str());
             }
         }
-#if 1
+#if 0
         msg_printf(NULL, MSG_INFO, "Faking an NVIDIA GPU");
         coprocs.nvidia.fake(18000, 512*MEGA, 490*MEGA, 1);
 #endif
