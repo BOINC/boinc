@@ -958,8 +958,8 @@ int update_wu_on_send(WORKUNIT wu, time_t x, APP& app, BEST_APP_VERSION& bav) {
         if (strlen(where_clause)) {
             strcat(where_clause, " and ");
         }
-        sprintf(buf, "(hr_class=0 or hr_class=%d)", host_hr_class);
-        strcat(where_clause, buf);
+        sprintf(buf2, "(hr_class=0 or hr_class=%d)", host_hr_class);
+        strcat(where_clause, buf2);
     }
     retval = dbwu.update_field(buf, strlen(where_clause)?where_clause:NULL);
     if (retval) return retval;

@@ -8152,3 +8152,9 @@ Charlie 5 Nov 2011
     mac_build/
         boinc.xcodeproj/
             project.pbxproj
+
+David  5 Nov 2011
+    - scheduler: fix bug in HR code (from Kevin)
+
+    sched/
+        sched_send.cpp
