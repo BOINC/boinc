@@ -183,7 +183,7 @@ void DB_BASE::db_print(char*) {}
 void DB_BASE::db_parse(MYSQL_ROW&) {}
 
 int DB_BASE::insert() {
-    char vals[MAX_QUERY_LEN], query[MAX_QUERY_LEN];
+    char vals[MAX_QUERY_LEN*2], query[MAX_QUERY_LEN*2];
     db_print(vals);
     sprintf(query, "insert into %s set %s", table_name, vals);
     return db->do_query(query);
@@ -451,11 +451,13 @@ void escape_string(char* field, int len) {
     char buf[MAX_QUERY_LEN];
     char* q = buf, *p = field;
 
+    if (len > MAX_QUERY_LEN) {
+        len = MAX_QUERY_LEN;
+    }
+
     // Make sure that final result won't overflow field[].
-    // Don't need to worry about overflowing buf[] since 
-    // in worst case string length only doubles.
     //
-    while (*p && q < buf+len-2) {
+    while (*p && q < buf+len-3) {
         if (*p == '\'') {
             // this does ' to \' transformation 
             //

@@ -8158,3 +8158,13 @@ David  5 Nov 2011
 
     sched/
         sched_send.cpp
+
+David  5 Nov 2011
+    - client: don't crash if trickle up exceeds 64KB
+        (this bug was introduced Sept 20)
+    - scheduler: truncate long trickle-ups to 256KB; don't crash
+
+    db/
+        db_base.cpp,h
+    client/
+        cs_trickle.cpp
