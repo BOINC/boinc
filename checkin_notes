@@ -10352,3 +10352,14 @@ Rom    24 Oct 2011
     /
         configure.ac
         version.h
+
+David  21 Oct 2011
+    - client/API: pass bool using_sandbox in APP_INIT_DATA;
+        says whether the client is using account-based sandboxing.
+        Needed by vboxwrapper.
+
+    lib/
+        app_ipc.cpp,h
+    client/
+        app_start.cpp
+        cs_scheduler.cpp

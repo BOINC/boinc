@@ -109,6 +109,7 @@ void APP_INIT_DATA::copy(const APP_INIT_DATA& a) {
     proxy_info                    = a.proxy_info;
     global_prefs                  = a.global_prefs;
     starting_elapsed_time         = a.starting_elapsed_time;
+    using_sandbox                 = a.using_sandbox;
     rsc_fpops_est                 = a.rsc_fpops_est;
     rsc_fpops_bound               = a.rsc_fpops_bound;
     rsc_memory_bound              = a.rsc_memory_bound;
@@ -190,6 +191,7 @@ int write_init_data_file(FILE* f, APP_INIT_DATA& ai) {
         "<slot>%d</slot>\n"
         "<wu_cpu_time>%f</wu_cpu_time>\n"
         "<starting_elapsed_time>%f</starting_elapsed_time>\n"
+        "<using_sandbox>%d</using_sandbox>\n"
         "<user_total_credit>%f</user_total_credit>\n"
         "<user_expavg_credit>%f</user_expavg_credit>\n"
         "<host_total_credit>%f</host_total_credit>\n"
@@ -206,6 +208,7 @@ int write_init_data_file(FILE* f, APP_INIT_DATA& ai) {
         ai.slot,
         ai.wu_cpu_time,
         ai.starting_elapsed_time,
+        ai.using_sandbox?1:0,
         ai.user_total_credit,
         ai.user_expavg_credit,
         ai.host_total_credit,
@@ -258,6 +261,7 @@ void APP_INIT_DATA::clear() {
     proxy_info.clear();
     global_prefs.defaults();
     starting_elapsed_time = 0;
+    using_sandbox = false;
     rsc_fpops_est = 0;
     rsc_fpops_bound = 0;
     rsc_memory_bound = 0;
@@ -345,23 +349,26 @@ int parse_init_data_file(FILE* f, APP_INIT_DATA& ai) {
 #else
         if (xp.parse_int(tag, "shm_key", ai.shmem_seg_name)) continue;
 #endif
-        if (xp.parse_int(tag, "slot", ai.slot)) continue;
-        if (xp.parse_double(tag, "user_total_credit", ai.user_total_credit)) continue;
-        if (xp.parse_double(tag, "user_expavg_credit", ai.user_expavg_credit)) continue;
-        if (xp.parse_double(tag, "host_total_credit", ai.host_total_credit)) continue;
-        if (xp.parse_double(tag, "host_expavg_credit", ai.host_expavg_credit)) continue;
-        if (xp.parse_double(tag, "resource_share_fraction", ai.resource_share_fraction)) continue;
-        if (xp.parse_double(tag, "rsc_fpops_est", ai.rsc_fpops_est)) continue;
-        if (xp.parse_double(tag, "rsc_fpops_bound", ai.rsc_fpops_bound)) continue;
-        if (xp.parse_double(tag, "rsc_memory_bound", ai.rsc_memory_bound)) continue;
-        if (xp.parse_double(tag, "rsc_disk_bound", ai.rsc_disk_bound)) continue;
-        if (xp.parse_double(tag, "computation_deadline", ai.computation_deadline)) continue;
-        if (xp.parse_double(tag, "wu_cpu_time", ai.wu_cpu_time)) continue;
-        if (xp.parse_double(tag, "starting_elapsed_time", ai.starting_elapsed_time)) continue;
-        if (xp.parse_double(tag, "checkpoint_period", ai.checkpoint_period)) continue;
-        if (xp.parse_double(tag, "fraction_done_start", ai.fraction_done_start)) continue;
-        if (xp.parse_double(tag, "fraction_done_end", ai.fraction_done_end)) continue;
-        xp.skip_unexpected(tag, false, "parse_init_data_file");
+        if (xp.parse_int("slot", ai.slot)) continue;
+        if (xp.parse_double("user_total_credit", ai.user_total_credit)) continue;
+        if (xp.parse_double("user_expavg_credit", ai.user_expavg_credit)) continue;
+        if (xp.parse_double("host_total_credit", ai.host_total_credit)) continue;
+        if (xp.parse_double("host_expavg_credit", ai.host_expavg_credit)) continue;
+        if (xp.parse_double("resource_share_fraction", ai.resource_share_fraction)) continue;
+        if (xp.parse_double("rsc_fpops_est", ai.rsc_fpops_est)) continue;
+        if (xp.parse_double("rsc_fpops_bound", ai.rsc_fpops_bound)) continue;
+        if (xp.parse_double("rsc_memory_bound", ai.rsc_memory_bound)) continue;
+        if (xp.parse_double("rsc_disk_bound", ai.rsc_disk_bound)) continue;
+        if (xp.parse_double("computation_deadline", ai.computation_deadline)) continue;
+        if (xp.parse_double("wu_cpu_time", ai.wu_cpu_time)) continue;
+        if (xp.parse_double("starting_elapsed_time", ai.starting_elapsed_time)) continue;
+        if (xp.parse_bool("using_sandbox", ai.using_sandbox)) continue;
+        if (xp.parse_double("checkpoint_period", ai.checkpoint_period)) continue;
+        if (xp.parse_str("gpu_type", ai.gpu_type, sizeof(ai.gpu_type))) continue;
+        if (xp.parse_int("gpu_device_num", ai.gpu_device_num)) continue;
+        if (xp.parse_double("fraction_done_start", ai.fraction_done_start)) continue;
+        if (xp.parse_double("fraction_done_end", ai.fraction_done_end)) continue;
+        xp.skip_unexpected(false, "parse_init_data_file");
     }
     fprintf(stderr, "parse_init_data_file: no end tag\n");
     return ERR_XML_PARSE;

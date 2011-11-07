@@ -846,7 +846,7 @@ int CLIENT_STATE::handle_scheduler_reply(PROJECT* project, char* scheduler_url) 
         );
         if (!rp->avp) {
             msg_printf(project, MSG_INTERNAL_ERROR,
-                "No app version found for app %s platform %s ver %d class%s; discarding %s",
+                "No app version found for app %s platform %s ver %d class %s; discarding %s",
                 rp->wup->app->name, rp->platform, rp->version_num, rp->plan_class, rp->name
             );
             delete rp;

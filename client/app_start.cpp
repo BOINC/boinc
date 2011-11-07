@@ -233,6 +233,7 @@ int ACTIVE_TASK::write_app_init_file() {
     } else {
         aid.resource_share_fraction = 1;
     }
+    aid.using_sandbox = g_use_sandbox;
     aid.rsc_fpops_est = wup->rsc_fpops_est;
     aid.rsc_fpops_bound = wup->rsc_fpops_bound;
     aid.rsc_memory_bound = wup->rsc_memory_bound;
@@ -765,13 +766,6 @@ int ACTIVE_TASK::start(bool first_time) {
             retval = create_shmem_mmap(
                 buf, sizeof(SHARED_MEM), (void**)&app_client_shm.shm
             );
-            if (retval) {
-                msg_printf(wup->project, MSG_INTERNAL_ERROR,
-                    "ACTIVE_TASK::start(): can't create memory-mapped file: %s",
-                    boincerror(retval)
-                );
-                return retval;
-            }
         } else {
             // Use shmget() shared memory
             retval = create_shmem(
