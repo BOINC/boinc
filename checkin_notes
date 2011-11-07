@@ -8212,3 +8212,15 @@ Rom    7 Nov 2011
         
     client/
         cs_prefs.cpp
+
+Rom    7 Nov 2011
+    - MGR: Change default skin to the one Jacob Klein purposed.
+    
+    clientgui/res/templates/
+        <various files>
+    clientgui/skins/Default/
+        background_image.png
+        skin.xml
+        workunit_running_image.png
+        workunit_suspended_image.png
+        workunit_waiting_image.png

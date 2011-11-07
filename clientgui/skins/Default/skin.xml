@@ -1,31 +1,39 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <skin>
-  <completed/>
-	<en>
-		<simple>
-			<background_image>
-				<!-- Background Image for the Simple GUI-->
-				<!--	410x540 -->
-				<image>
-					<imagesrc>background_image.png</imagesrc>
-					<background_color>0:0:0</background_color>
-				</image>
-			</background_image>
-            <workunit_running_image>
-                <image>
-                    <imagesrc>workunit_running_image.png</imagesrc>
-                </image>
-            </workunit_running_image>
-            <workunit_waiting_image>
-                <image>
-                    <imagesrc>workunit_waiting_image.png</imagesrc>
-                </image>
-            </workunit_waiting_image>
-            <workunit_suspended_image>
-                <image>
-                    <imagesrc>workunit_suspended_image.png</imagesrc>
-                </image>
-            </workunit_suspended_image>>
-        </simple>
-	</en>
+   <completed/>
+   <en>
+      <simple>
+
+         <panel_opacity>58</panel_opacity>
+
+         <background_image>
+            <!-- Background Image for Simple GUI -->
+            <!-- Recommended size: 600x750       -->
+            <!-- EN-Win: 416x582 as of v6.13.10  -->
+            <image>
+               <imagesrc>background_image.png</imagesrc>
+               <background_color>0:0:0</background_color>
+            </image>
+         </background_image>
+
+         <workunit_running_image>
+            <image>
+               <imagesrc>workunit_running_image.png</imagesrc>
+            </image>
+         </workunit_running_image>
+
+         <workunit_waiting_image>
+            <image>
+               <imagesrc>workunit_waiting_image.png</imagesrc>
+            </image>
+         </workunit_waiting_image>
+
+         <workunit_suspended_image>
+            <image>
+               <imagesrc>workunit_suspended_image.png</imagesrc>
+            </image>
+         </workunit_suspended_image>
+
+      </simple>
+   </en>
 </skin>
