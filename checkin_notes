@@ -10363,3 +10363,11 @@ David  21 Oct 2011
     client/
         app_start.cpp
         cs_scheduler.cpp
+
+Rom    7 Nov 2011
+    - Tag for 6.12.43 release, all platforms
+      boinc_core_release_6_12_43
+
+    /
+        configure.ac
+        version.h
