@@ -8168,3 +8168,9 @@ David  5 Nov 2011
         db_base.cpp,h
     client/
         cs_trickle.cpp
+
+David  5 Nov 2011
+	- client: actually do the checking described above
+
+	client/
+		cs_trickle.cpp
