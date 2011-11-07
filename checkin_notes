@@ -8187,3 +8187,15 @@ Charlie 7 Nov 2011
     
     clientgui/
         BOINCGUIApp.cpp
+
+David  7 Nov 2011
+	- manager: apparently WxWidget's combo box has problems (bugs)
+		if multiple items have the same string.
+		So, in simple view task combo box:
+		- show % done (unique in most cases)
+		- remove version number
+		- instead of showing plan class, show "NVIDIA GPU" or "ATI GPU"
+		TODO: update the fraction done
+
+	clientgui/
+		sg_TaskPanel.cpp

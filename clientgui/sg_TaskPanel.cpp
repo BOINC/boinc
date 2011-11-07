@@ -464,7 +464,7 @@ void CSimpleTaskPanel::Update(bool delayShow) {
                     if (pctDone != (m_iPctDoneX10 / 10)) {
                         m_ProgressBar->SetValue(pctDone);
                     }
-                    s.Printf(_("%d.%d%%"), pctDoneX10 / 10, pctDoneX10 % 10 );
+                    s.Printf(_("%.3f%%"), result->fraction_done*100);
                     m_iPctDoneX10 = pctDoneX10;
                     UpdateStaticText(&m_ProgressValueText, s);
                 }
@@ -522,7 +522,8 @@ void CSimpleTaskPanel::GetApplicationAndProjectNames(RESULT* result, wxString* a
     CMainDocument* pDoc = wxGetApp().GetDocument();
     RESULT*        state_result = NULL;
     wxString       strAppBuffer = wxEmptyString;
-    wxString       strClassBuffer = wxEmptyString;
+    wxString       strGPUBuffer = wxEmptyString;
+    wxString pct_done_str = wxEmptyString;
 
     wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
@@ -549,20 +550,19 @@ void CSimpleTaskPanel::GetApplicationAndProjectNames(RESULT* result, wxString* a
             strAppBuffer = wxString(state_result->avp->app_name, wxConvUTF8);
         }
         
-        if (strlen(avp->plan_class)) {
-            strClassBuffer.Printf(
-                wxT(" (%s)"),
-                wxString(avp->plan_class, wxConvUTF8).c_str()
-            );
+        if (avp->ncudas) {
+            strGPUBuffer = wxString(" (NVIDIA GPU)", wxConvUTF8);
+        }
+        if (avp->natis) {
+            strGPUBuffer = wxString(" (ATI GPU)", wxConvUTF8);
         }
 
         appName->Printf(
-            wxT("%s%s %d.%02d %s"),
+            wxT("%s%s%s (%.3f%% done)"),
             state_result->project->anonymous_platform?_("Local: "):wxT(""),
             strAppBuffer.c_str(),
-            state_result->avp->version_num / 100,
-            state_result->avp->version_num % 100,
-            strClassBuffer.c_str()
+            strGPUBuffer.c_str(),
+            state_result->fraction_done*100
         );
     }
     
