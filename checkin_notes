@@ -8199,3 +8199,9 @@ David  7 Nov 2011
 
 	clientgui/
 		sg_TaskPanel.cpp
+
+David  7 Nov 2011
+    - client: condition RR sim negative FLOPs message on rr_simulation.
+
+    client/
+        rr_sim.cpp

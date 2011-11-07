@@ -404,10 +404,12 @@ void RR_SIM::simulate() {
 
             // can be slightly less than 0 due to roundoff
             //
-            if (rp->rrsim_flops_left < -1) {
-                msg_printf(rp->project, MSG_INTERNAL_ERROR,
-                    "%s: negative FLOPs left %f", rp->name, rp->rrsim_flops_left
-                );
+            if (rp->rrsim_flops_left < -1e6) {
+                if (log_flags.rr_simulation) {
+                    msg_printf(rp->project, MSG_INTERNAL_ERROR,
+                        "%s: negative FLOPs left %f", rp->name, rp->rrsim_flops_left
+                    );
+                }
             }
             if (rp->rrsim_flops_left < 0) {
                 rp->rrsim_flops_left = 0;
