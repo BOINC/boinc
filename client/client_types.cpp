@@ -1268,6 +1268,7 @@ int FILE_INFO::gzip() {
 
 int APP_VERSION::parse(XML_PARSER& xp) {
     FILE_REF file_ref;
+    double dtemp;
 
     strcpy(app_name, "");
     strcpy(api_version, "");
@@ -1302,7 +1303,16 @@ int APP_VERSION::parse(XML_PARSER& xp) {
         if (xp.parse_str("plan_class", plan_class, sizeof(plan_class))) continue;
         if (xp.parse_double("avg_ncpus", avg_ncpus)) continue;
         if (xp.parse_double("max_ncpus", max_ncpus)) continue;
-        if (xp.parse_double("flops", flops)) continue;
+        if (xp.parse_double("flops", dtemp)) {
+            if (dtemp <= 0) {
+                msg_printf(0, MSG_INTERNAL_ERROR,
+                    "non-positive FLOPS in app version"
+                );
+            } else {
+                flops = dtemp;
+            }
+            continue;
+        }
         if (xp.parse_str("cmdline", cmdline, sizeof(cmdline))) continue;
         if (xp.parse_str("file_prefix", file_prefix, sizeof(file_prefix))) continue;
         if (xp.parse_double("gpu_ram", gpu_ram)) continue;

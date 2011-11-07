@@ -8169,8 +8169,15 @@ David  5 Nov 2011
     client/
         cs_trickle.cpp
 
-David  5 Nov 2011
+David  6 Nov 2011
 	- client: actually do the checking described above
 
 	client/
 		cs_trickle.cpp
+
+David  6 Nov 2011
+	- client: don't crash if a project sends app_version.flops = 0.
+
+	client/
+		client_types.cpp
+		rr_sim.cpp

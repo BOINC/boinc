@@ -96,6 +96,9 @@ void set_rrsim_flops(RESULT* rp) {
     } else {
         rp->rrsim_flops =  rp->avp->flops * gstate.overall_cpu_frac();
     }
+    if (rp->rrsim_flops == 0) {
+        rp->rrsim_flops = 1e6;      // just in case
+    }
 }
 
 void print_deadline_misses() {
@@ -346,11 +349,9 @@ void RR_SIM::simulate() {
         rpbest = NULL;
         for (u=0; u<active.size(); u++) {
             rp = active[u];
-            if (rp->rrsim_flops) {
-                rp->rrsim_finish_delay = rp->rrsim_flops_left/rp->rrsim_flops;
-                if (!rpbest || rp->rrsim_finish_delay < rpbest->rrsim_finish_delay) {
-                    rpbest = rp;
-                }
+            rp->rrsim_finish_delay = rp->rrsim_flops_left/rp->rrsim_flops;
+            if (!rpbest || rp->rrsim_finish_delay < rpbest->rrsim_finish_delay) {
+                rpbest = rp;
             }
         }
 
