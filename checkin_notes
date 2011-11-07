@@ -8205,3 +8205,10 @@ David  7 Nov 2011
 
     client/
         rr_sim.cpp
+
+Rom    7 Nov 2011
+    - client: reduce complexity, possibly get rid of a crash condition
+        on 64-bit Windows.
+        
+    client/
+        cs_prefs.cpp
