@@ -8181,3 +8181,9 @@ David  6 Nov 2011
 	client/
 		client_types.cpp
 		rr_sim.cpp
+
+Charlie 7 Nov 2011
+    - Mgr: Bug fix.
+    
+    clientgui/
+        BOINCGUIApp.cpp

@@ -1227,13 +1227,14 @@ int CBOINCGUIApp::FilterEvent(wxEvent &event) {
 
     if (!m_pDocument) return -1;
 
+    theEventType = event.GetEventType();
+
     if (m_pDocument->WaitingForRPC()) {
         // If in RPC Please Wait dialog, reject all command 
         // and timer events except: 
         //  - RPC Finished
         //  - those for that dialog or its children
         //  - Open Manager menu item from system tray icon
-        theEventType = event.GetEventType();
 
         if ((theEventType == wxEVT_COMMAND_MENU_SELECTED) && (event.GetId() == wxID_OPEN)) {
             return -1;        
