@@ -8224,3 +8224,12 @@ Rom    7 Nov 2011
         workunit_running_image.png
         workunit_suspended_image.png
         workunit_waiting_image.png
+
+David  7 Nov 2011
+	- client: on transient upload failure, don't do start_xfer()
+		within PERS_FILE_XFER::transient_failure();
+		we're about to delete and free the FILE_XFER.
+		The transfer will be restarted in the next poll.
+
+	client/
+		pers_file_xfer.cpp

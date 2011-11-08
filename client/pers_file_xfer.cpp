@@ -335,9 +335,7 @@ void PERS_FILE_XFER::transient_failure(int retval) {
     //
 
     URL_LIST& ul = fip->get_url_list(is_upload);
-    if (ul.get_next_url()) {
-        start_xfer();
-    } else {
+    if (!ul.get_next_url()) {
         do_backoff();
     }
 }
