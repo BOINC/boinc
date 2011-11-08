@@ -8245,3 +8245,10 @@ Charlie 8 Nov 2011
 
     mac_installer/
         PostInstall.cpp
+
+Rom    8 Nov 2011
+    - API: Remove exception trapping stuff from the 
+        boinc_get_opencl_ids.
+        
+    api/
+        boinc_opencl.cpp

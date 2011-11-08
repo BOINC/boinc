@@ -26,25 +26,13 @@
 
 #ifdef _WIN32
 #include "win_util.h"
-#else
-#include <setjmp.h>
-#include <signal.h>
 #endif
 #include <string>
 
 #include "error_numbers.h"
 #include "boinc_api.h"
-
 #include "coproc.h"
-
 #include "boinc_opencl.h"
-
-#ifndef _WIN32
-static jmp_buf resume;
-static void segv_handler(int) {
-    longjmp(resume, 1);
-}
-#endif
 
 // returns an OpenCL error num or zero
 //
@@ -120,27 +108,9 @@ int boinc_get_opencl_ids(cl_device_id* device, cl_platform_id* platform) {
         return ERR_NOT_FOUND;
     }
 
-#ifdef _WIN32
-    try {
-        retval = boinc_get_opencl_ids_aux(
-            aid.gpu_type, aid.gpu_device_num, device, platform
-        );
-    }
-    catch (...) {
-        return ERR_SIGNAL_CATCH;
-    }
-#else
-    void (*old_sig)(int) = signal(SIGSEGV, segv_handler);
-    if (setjmp(resume)) {
-        return ERR_SIGNAL_CATCH;
-    } else {
-        retval = boinc_get_opencl_ids_aux(
-            aid.gpu_type, aid.gpu_device_num, device, platform
-        );
-    }
+    retval = boinc_get_opencl_ids_aux(
+        aid.gpu_type, aid.gpu_device_num, device, platform
+    );
 
-    signal(SIGSEGV, old_sig);
-#endif
-    
     return retval;
 }
