@@ -8239,3 +8239,9 @@ Charlie 8 Nov 2011
 
 	clientgui/
 		sg_TaskPanel.cpp
+
+Charlie 8 Nov 2011
+    - Mac installer: fixes for OS 10.4 compatibility.
+
+    mac_installer/
+        PostInstall.cpp
