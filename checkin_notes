@@ -8233,3 +8233,9 @@ David  7 Nov 2011
 
 	client/
 		pers_file_xfer.cpp
+
+Charlie 8 Nov 2011
+    - Mgr: Fix Simple View layout to fit 3 decimal places for % done.
+
+	clientgui/
+		sg_TaskPanel.cpp

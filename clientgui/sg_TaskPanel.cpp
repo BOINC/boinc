@@ -301,7 +301,7 @@ CSimpleTaskPanel::CSimpleTaskPanel( wxWindow* parent ) :
     m_ProgressBar->SetToolTip(_("This task's progress"));
 	bSizer4->Add( m_ProgressBar, 0, wxRIGHT, 5 );
 	
-	m_ProgressValueText = new CTransparentStaticText( this, wxID_ANY, wxT("100.0%"), wxDefaultPosition, wxDefaultSize, wxALIGN_RIGHT | wxST_NO_AUTORESIZE );
+	m_ProgressValueText = new CTransparentStaticText( this, wxID_ANY, wxT("100.000%"), wxDefaultPosition, wxDefaultSize, wxALIGN_RIGHT | wxST_NO_AUTORESIZE );
 	m_ProgressValueText->Wrap( -1 );
 	bSizer4->Add( m_ProgressValueText, 0, wxALIGN_RIGHT, 0 );
 	
@@ -720,7 +720,7 @@ void CSimpleTaskPanel::UpdateTaskSelectionList(bool reskin) {
 
         resname = wxEmptyString;
 #if SELECTBYRESULTNAME
-        resname = FromUTF8(result->name);
+        resname = wxString::FromUTF8(result->name);
 #else
         GetApplicationAndProjectNames(result, &resname, NULL);
 #endif
