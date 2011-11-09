@@ -770,7 +770,7 @@ BOOL CScreensaver::SetError(BOOL bErrorMode, HRESULT hrError) {
 VOID CScreensaver::UpdateErrorBoxText() {
     // Load error string
     GetTextForError(m_hrError, m_szError, sizeof(m_szError) / sizeof(TCHAR));
-    BOINCTRACE(_T("CScreensaver::UpdateErrorBoxText - Updated Text '%s'\n"), m_szError);
+    BOINCTRACE(_T("CScreensaver::UpdateErrorBoxText - HRESULT '%d' Updated Text '%s'\n"), m_hrError, m_szError);
 }
 
 
