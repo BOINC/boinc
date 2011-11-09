@@ -1744,14 +1744,6 @@ LRESULT CScreensaver::ResetProc(
             BOINCTRACE(_T("CScreensaver::ResetProc Received WM_CLOSE\n"));
             break;
     }
-
-    if (WM_SETTIMER == uMsg) {
-        BOINCTRACE(_T("CScreensaver::ResetProc Received WM_SETTIMER\n"));
-        // All initialization messages have gone through.  Allow
-        // 500ms of idle time, then proceed with initialization.
-        SetTimer(hWnd, 1, 250, NULL);
-    }
-
     return DefWindowProc(hWnd, uMsg, wParam, lParam);
 }
 
