@@ -1146,6 +1146,13 @@ int add_result_to_reply(
     bool resent_result = false;
     APP* app = ssp->lookup_app(wu.appid);
 
+    result.hostid = g_reply->host.id;
+    result.userid = g_reply->user.id;
+    result.sent_time = time(0);
+    result.report_deadline = result.sent_time + wu.delay_bound;
+    result.flops_estimate = bavp->host_usage.peak_flops;
+    result.app_version_id = get_app_version_id(bavp);
+
     // update WU DB record.
     // This can fail in normal operation
     // (other scheduler already updated hr_class or app_version_id)
@@ -1173,12 +1180,6 @@ int add_result_to_reply(
     // the changes we just made to the WU (or use a transaction)
     // but I don't think it actually matters.
     //
-    result.hostid = g_reply->host.id;
-    result.userid = g_reply->user.id;
-    result.sent_time = time(0);
-    result.report_deadline = result.sent_time + wu.delay_bound;
-    result.flops_estimate = bavp->host_usage.peak_flops;
-    result.app_version_id = get_app_version_id(bavp);
     int old_server_state = result.server_state;
 
     if (result.server_state != RESULT_SERVER_STATE_IN_PROGRESS) {

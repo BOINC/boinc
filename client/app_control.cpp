@@ -1218,7 +1218,8 @@ bool ACTIVE_TASK::get_trickle_up_msg() {
     return found;
 }
 
-// check for msgs from active tasks.
+// check for msgs from active tasks,
+// and update their elapsed time and other info
 //
 void ACTIVE_TASK_SET::get_msgs() {
     unsigned int i;

@@ -8328,3 +8328,10 @@ David  9 Nov 2011
 
     api/
         boinc_opencl.cpp
+
+David  9 Nov 2011
+    - scheduler: compute result.report_deadline BEFORE passing it
+        as an arg to update_wu_on_send()
+
+    sched/
+        sched_send.cpp
