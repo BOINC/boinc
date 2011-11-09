@@ -48,13 +48,14 @@ int boinc_get_opencl_ids_aux(
 
     retval = clGetPlatformIDs(MAX_OPENCL_PLATFORMS, platforms, &num_platforms);
     if (num_platforms == 0) return CL_DEVICE_NOT_FOUND;
-    if (retval) return retval;
+    if (retval != CL_SUCCESS) return retval;
     
     for (platform_index=0; platform_index<num_platforms; ++platform_index) {
         retval = clGetDeviceIDs(
             platforms[platform_index], CL_DEVICE_TYPE_GPU,
             MAX_COPROC_INSTANCES, devices, &num_devices
         );
+        if (retval != CL_SUCCESS) continue;
 
         if (device_num >= (int)num_devices) continue;
     
@@ -63,7 +64,7 @@ int boinc_get_opencl_ids_aux(
         retval = clGetDeviceInfo(
             device_id, CL_DEVICE_VENDOR, sizeof(vendor), vendor, NULL
         );
-        if (retval || strlen(vendor)==0) continue;
+        if ((retval != CL_SUCCESS) || (strlen(vendor)==0)) continue;
             
         if ((strstr(vendor, "AMD")) ||  
             (strstr(vendor, "Advanced Micro Devices, Inc."))

@@ -8322,3 +8322,9 @@ David  9 Nov 2011
 
     api/
         boinc_opencl.cpp
+
+David  9 Nov 2011
+    - OpenCL API: check return value from clGetDeviceIDs()
+
+    api/
+        boinc_opencl.cpp
