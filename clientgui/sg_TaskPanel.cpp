@@ -736,20 +736,22 @@ void CSimpleTaskPanel::UpdateTaskSelectionList(bool reskin) {
 				is_alive.at(j) = true;
 				break; // skip out of this loop
 			}
-#if SORTTASKLIST
             alphaOrder = (m_TaskSelectionCtrl->GetString(j)).Cmp(resname);
-            
+#if SORTTASKLIST
             if (alphaOrder > 0) {
                 break;  // Insert the new item here (sorted by item label)
             }
+#endif
             // wxComboBox and wxBitmapComboBox have bugs on Windows when multiple 
             // entries have identical text, so add enough spaces to make each 
             // entry's text unique.
             if (alphaOrder == 0) {
                 resname.Append((const wxChar *)wxT(" "));
+#if !SORTTASKLIST
+                j = -1;  // If not sorted, check new name from start for duplicate 
+#endif
                 continue;
             }
-#endif
 		}
         
         // if it isn't currently in the list then we have a new one!  lets add it
