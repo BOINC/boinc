@@ -63,7 +63,6 @@ using std::string;
 bool parse_bool(const char* buf, const char* tag, bool& result) {
     char tag2[256], tag3[256];
     int x;
-
     // quick check to reject most cases
     //
     if (!strstr(buf, tag)) {

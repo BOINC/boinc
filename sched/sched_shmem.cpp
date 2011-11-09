@@ -292,7 +292,7 @@ void SCHED_SHMEM::show(FILE* f) {
         WU_RESULT& wu_result = wu_results[i];
         switch(wu_result.state) {
         case WR_STATE_PRESENT:
-            fprintf(f, "%4d: ap %d ic %d wu %d rs %d hr %d nr %d\n",
+            fprintf(f, "%4d: ap %d ic %d wu %d rs %u hr %d nr %d\n",
                 i, wu_result.workunit.appid, wu_result.infeasible_count,
                 wu_result.workunit.id, wu_result.resultid,
                 wu_result.workunit.hr_class, wu_result.need_reliable
@@ -302,7 +302,7 @@ void SCHED_SHMEM::show(FILE* f) {
             fprintf(f, "%4d: ---\n", i);
             break;
         default:
-            fprintf(f, "%4d: PID %d: result %d\n", i, wu_result.state, wu_result.resultid);
+            fprintf(f, "%4d: PID %d: result %u\n", i, wu_result.state, wu_result.resultid);
         }
     }
 }

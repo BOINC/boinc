@@ -96,7 +96,7 @@ static int send_assigned_job(ASSIGNMENT& asg) {
     if (!asg.multi && asg.target_type!=ASSIGN_NONE) {
         DB_ASSIGNMENT db_asg;
         db_asg.id = asg.id;
-        sprintf(buf, "resultid=%d", result_id);
+        sprintf(buf, "resultid=%u", result_id);
         retval = db_asg.update_field(buf);
         if (retval) {
             log_messages.printf(MSG_CRITICAL,

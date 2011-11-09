@@ -371,7 +371,7 @@ int archive_wu(DB_WORKUNIT& wu) {
         "  <rsc_memory_bound>%.15e</rsc_memory_bound>\n"
         "  <rsc_disk_bound>%.15e</rsc_disk_bound>\n"
         "  <need_validate>%d</need_validate>\n"
-        "  <canonical_resultid>%d</canonical_resultid>\n"
+        "  <canonical_resultid>%u</canonical_resultid>\n"
         "  <canonical_credit>%.15e</canonical_credit>\n"
         "  <transition_time>%d</transition_time>\n"
         "  <delay_bound>%d</delay_bound>\n"
