@@ -8299,3 +8299,9 @@ Rom    9 Nov 2011
        
     clientscr/
         screensaver_win.cpp
+
+David  10 Nov 2011
+    - server: more fixes to DB to handle unsigned result IDs
+
+    db/
+        boinc_db.cpp

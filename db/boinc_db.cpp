@@ -943,7 +943,7 @@ int DB_RESULT::mark_as_sent(int old_server_state, int report_grace_period) {
     int retval;
 
     sprintf(query,
-        "update result set server_state=%d, hostid=%d, userid=%d, sent_time=%d, report_deadline=%d, flops_estimate=%.15e, app_version_id=%d  where id=%d and server_state=%d",
+        "update result set server_state=%d, hostid=%d, userid=%d, sent_time=%d, report_deadline=%d, flops_estimate=%.15e, app_version_id=%d  where id=%u and server_state=%d",
         server_state,
         hostid,
         userid,
@@ -1401,7 +1401,7 @@ int DB_TRANSITIONER_ITEM_SET::update_result(TRANSITIONER_ITEM& ti) {
 
     sprintf(query,
         "update result set server_state=%d, outcome=%d, "
-        "validate_state=%d, file_delete_state=%d where id=%d",
+        "validate_state=%d, file_delete_state=%d where id=%u",
         ti.res_server_state,
         ti.res_outcome,
         ti.res_validate_state,
@@ -1625,7 +1625,7 @@ int DB_VALIDATOR_ITEM_SET::update_result(RESULT& res) {
     sprintf(query,
         "update result set validate_state=%d, granted_credit=%.15e, "
         "server_state=%d, outcome=%d, opaque=%lf, random=%d, runtime_outlier=%d "
-        "where id=%d",
+        "where id=%u",
         res.validate_state,
         res.granted_credit,
         res.server_state,
@@ -1967,7 +1967,7 @@ int DB_SCHED_RESULT_ITEM_SET::update_result(SCHED_RESULT_ITEM& ri) {
         "    teamid=%d, "
         "    elapsed_time=%.15e "
         "WHERE "
-        "    id=%d",
+        "    id=%u",
         ri.hostid,
         ri.received_time,
         ri.client_state,
