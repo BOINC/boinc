@@ -8269,3 +8269,13 @@ David  8 Nov 2011
         sched_send.cpp
     html/project.sample/
         project_specific_prefs.inc
+
+Charlie 9 Nov 2011
+    - Mgr: to fix Windows combo box problem when multiple items have 
+        the same string, add spaces to identical application names in
+        Task Selection control as needed to make each entry unique.  
+        Don't append % done to Task Selection control entries, as that  
+        varies over time, causing significant complications.
+
+	clientgui/
+		sg_TaskPanel.cpp

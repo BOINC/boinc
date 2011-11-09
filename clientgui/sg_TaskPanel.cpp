@@ -558,11 +558,10 @@ void CSimpleTaskPanel::GetApplicationAndProjectNames(RESULT* result, wxString* a
         }
 
         appName->Printf(
-            wxT("%s%s%s (%.3f%% done)"),
+            wxT("%s%s%s"),
             state_result->project->anonymous_platform?_("Local: "):wxT(""),
             strAppBuffer.c_str(),
-            strGPUBuffer.c_str(),
-            state_result->fraction_done*100
+            strGPUBuffer.c_str()
         );
     }
     
@@ -687,7 +686,7 @@ void CSimpleTaskPanel::FindSlideShowFiles(TaskSelectionData *selData) {
 
 
 void CSimpleTaskPanel::UpdateTaskSelectionList(bool reskin) {
-    int i, j, count, newColor;
+    int i, j, count, newColor, alphaOrder;;
     TaskSelectionData *selData;
 	RESULT* result;
 	RESULT* ctrlResult;
@@ -738,8 +737,14 @@ void CSimpleTaskPanel::UpdateTaskSelectionList(bool reskin) {
 				break; // skip out of this loop
 			}
 #if SORTTASKLIST
-            if ((m_TaskSelectionCtrl->GetString(j)).Cmp(resname) > 0) {
+            alphaOrder = (m_TaskSelectionCtrl->GetString(j)).Cmp(resname);
+            
+            if (alphaOrder > 0) {
                 break;  // Insert the new item here (sorted by item label)
+            }
+            if (alphaOrder == 0) {
+                resname.Append((const wxChar *)wxT(" "));
+                continue;
             }
 #endif
 		}
