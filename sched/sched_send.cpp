@@ -267,6 +267,8 @@ double estimate_duration(WORKUNIT& wu, BEST_APP_VERSION& bav) {
     return ed;
 }
 
+// TODO: use XML_PARSER
+//
 static void get_prefs_info() {
     char buf[8096];
     std::string str;

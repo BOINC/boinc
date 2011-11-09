@@ -789,7 +789,7 @@ void DB_WORKUNIT::db_print(char* buf){
         "rsc_fpops_est=%.15e, rsc_fpops_bound=%.15e, "
         "rsc_memory_bound=%.15e, rsc_disk_bound=%.15e, "
         "need_validate=%d, "
-        "canonical_resultid=%d, canonical_credit=%.15e, "
+        "canonical_resultid=%u, canonical_credit=%.15e, "
         "transition_time=%d, delay_bound=%d, "
         "error_mask=%d, file_delete_state=%d, assimilate_state=%d, "
         "hr_class=%d, opaque=%.15e, "
@@ -1055,7 +1055,7 @@ void DB_ASSIGNMENT::db_print(char* buf) {
         "target_type=%d, "
         "multi=%d, "
         "workunitid=%d, "
-        "resultid=%d",
+        "resultid=%u",
         create_time,
         target_id,
         target_type,
@@ -1648,7 +1648,7 @@ int DB_VALIDATOR_ITEM_SET::update_workunit(WORKUNIT& wu) {
         "update workunit set need_validate=0, error_mask=%d, "
         "assimilate_state=%d, transition_time=%d, "
         "target_nresults=%d, "
-        "canonical_resultid=%d, canonical_credit=%.15e "
+        "canonical_resultid=%u, canonical_credit=%.15e "
         "where id=%d",
         wu.error_mask,
         wu.assimilate_state,

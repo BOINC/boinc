@@ -8252,3 +8252,20 @@ Rom    8 Nov 2011
         
     api/
         boinc_opencl.cpp
+
+David  8 Nov 2011
+    - DB: use %u when writing result IDs in SQL queries;
+        this is to support SETI@home, which ran out of result IDs
+        and changed the DB field type to int unsigned.
+        Note: eventually I'll make this change official
+        and change the .h types as well.
+    - web: put <apps_selected> tags around <app_id> elements
+        in project-specific prefs.
+
+    db/
+        boinc_db.cpp
+        db_base.cpp
+    sched/
+        sched_send.cpp
+    html/project.sample/
+        project_specific_prefs.inc

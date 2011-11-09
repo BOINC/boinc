@@ -49,7 +49,7 @@ define("MAX_GFX_CPU_PCT_DESC", tra("Maximum CPU % for graphics%10 ... 100%2", "<
 define('APP_SELECT_DESC', tra('Run only the selected applications'));
 define('ACCEPT_ANY_DESC', tra('If no work for selected applications is available, accept work from other applications?'));
 
-// The following array is for app filtering; uncomment if you want it.
+// stuff related to app filtering.
 // Note: in this implementation, if a user selects all apps,
 // no <app_id> elements are included in their prefs,
 // which means that if the project adds a new app such users will run it also.
@@ -143,7 +143,7 @@ function project_specific_prefs_parse_form(&$error) {
     }
 
     if (APP_SELECT_PREFS) {
-        $y = "";
+        $y = "<apps_selected>\n";
         $some_unchecked = false;
         foreach ($app_array as $app) {
             $app_id = $app[0];
@@ -154,6 +154,8 @@ function project_specific_prefs_parse_form(&$error) {
                 $some_unchecked = true;
             }
         }
+        $y .= "</apps_selected>\n";
+
         if ($some_unchecked) {
             $x .= $y;
         }
