@@ -8286,3 +8286,10 @@ Rom    9 Nov 2011
        
     clientscr/
         screensaver_win.cpp
+
+Rom    9 Nov 2011
+    - WINSCR: In the ResetProc message pump, change the call for CloseWindow()
+        to DestroyWindow().
+       
+    clientscr/
+        screensaver_win.cpp

@@ -1735,7 +1735,7 @@ LRESULT CScreensaver::ResetProc(
 			switch (wParam) { 
 				case 1: 
 					KillTimer(hWnd, 1);
-                    CloseWindow(hWnd);
+                    DestroyWindow(hWnd);
                     return 0;
                     break;
             }
