@@ -1336,7 +1336,7 @@ HRESULT CScreensaver::ResetPrimaryDisplay() {
     glLightfv(GL_LIGHT0, GL_POSITION, position);
     glLightfv(GL_LIGHT0, GL_SPOT_DIRECTION, dir);
 
-	SetTimer(pMonitorInfo->hWnd, 2, 250, NULL);
+	SetTimer(pMonitorInfo->hWnd, 1, 250, NULL);
 
     if (m_hWnd == NULL) {
         return E_FAIL;

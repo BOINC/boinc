@@ -8293,3 +8293,9 @@ Rom    9 Nov 2011
        
     clientscr/
         screensaver_win.cpp
+
+Rom    9 Nov 2011
+    - WINSCR: Sync up the timer IDs.
+       
+    clientscr/
+        screensaver_win.cpp
