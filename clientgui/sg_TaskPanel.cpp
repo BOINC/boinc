@@ -742,6 +742,9 @@ void CSimpleTaskPanel::UpdateTaskSelectionList(bool reskin) {
             if (alphaOrder > 0) {
                 break;  // Insert the new item here (sorted by item label)
             }
+            // wxComboBox and wxBitmapComboBox have bugs on Windows when multiple 
+            // entries have identical text, so add enough spaces to make each 
+            // entry's text unique.
             if (alphaOrder == 0) {
                 resname.Append((const wxChar *)wxT(" "));
                 continue;
