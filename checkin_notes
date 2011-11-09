@@ -8316,3 +8316,9 @@ Jeff    9 Nov 2011
         sched_assign.cpp
     lib/
         parse.cpp
+
+David  9 Nov 2011
+    - OpenCL API: fix logic error
+
+    api/
+        boinc_opencl.cpp

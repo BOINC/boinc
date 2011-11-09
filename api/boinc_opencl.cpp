@@ -56,7 +56,7 @@ int boinc_get_opencl_ids_aux(
             MAX_COPROC_INSTANCES, devices, &num_devices
         );
 
-        if (num_devices > (cl_uint)(device_num + 1)) continue;
+        if (device_num >= (int)num_devices) continue;
     
         cl_device_id device_id = devices[device_num];
 
