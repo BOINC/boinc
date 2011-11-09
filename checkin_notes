@@ -8279,3 +8279,10 @@ Charlie 9 Nov 2011
 
 	clientgui/
 		sg_TaskPanel.cpp
+
+Rom    9 Nov 2011
+    - WINSCR: Add a reference to SCRAPPERR_BOINCNOGRAPHICSAPPSEXECUTING
+       in the message lookup table.
+       
+    clientscr/
+        screensaver_win.cpp
