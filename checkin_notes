@@ -8341,3 +8341,9 @@ Charlie 9 Nov 2011
        
     clientscr/
         screensaver_win.cpp
+
+Rom    10 Nov 2011
+    - WINSCR: Attempt to gracefully shutdown a graphics application first
+    
+    clientscr/
+        screensaver.cpp

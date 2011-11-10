@@ -264,6 +264,18 @@ int CScreensaver::terminate_v6_screensaver(int& graphics_application)
     }
 #endif
 
+#ifdef _WIN32
+        HWND hBOINCGraphicsWindow = FindWindow(BOINC_WINDOW_CLASS_NAME, NULL);
+        if (hBOINCGraphicsWindow) {
+            CloseWindow(hBOINCGraphicsWindow);
+            Sleep(1000);
+            hBOINCGraphicsWindow = FindWindow(BOINC_WINDOW_CLASS_NAME, NULL);
+            if (hBOINCGraphicsWindow) {
+                kill_program(graphics_application);
+            }
+        }
+#endif
+
     // For safety, call kill_program even under Apple sandbox security
     kill_program(graphics_application);
     return retval;
