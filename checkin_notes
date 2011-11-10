@@ -8362,3 +8362,15 @@ Rom    10 Nov 2011
     /
         configure.ac
         version.h
+
+Charlie 9 Nov 2011
+    - MGR: On Mac, work around bug in XCode 4.2 by accepting and ignoring 
+        command line argument "-NSDocumentRevisionsDebugMode=YES"
+    - client: On Mac, work around bug in XCode 4.2 by accepting and ignoring 
+        command line argument "-NSDocumentRevisionsDebugMode=YES"
+    (checked into 6.13.11 tag)
+
+    client/
+        cs_cmdline.cpp
+    clientgui/
+        BOINCGUIApp.cpp
