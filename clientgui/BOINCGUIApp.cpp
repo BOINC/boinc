@@ -515,6 +515,9 @@ void CBOINCGUIApp::OnInitCmdLine(wxCmdLineParser &parser) {
         { wxCMD_LINE_SWITCH, wxT("i"), wxT("insecure"), _("disable BOINC security users and permissions")},
         { wxCMD_LINE_SWITCH, wxT("c"), wxT("checkskins"), _("set skin debugging mode to enable skin manager error messages")},
         { wxCMD_LINE_SWITCH, wxT("m"), wxT("multiple"), _("multiple instances of BOINC Manager allowed")},
+#ifdef __WXMAC__
+        { wxCMD_LINE_OPTION, wxT("NSDocumentRevisionsDebugMode"), NULL, _("Not used: workaround for bug in XCode 4.2")},
+#endif
         { wxCMD_LINE_NONE}  //DON'T forget this line!!
     };
     parser.SetDesc(cmdLineDesc);

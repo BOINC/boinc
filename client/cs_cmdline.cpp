@@ -248,6 +248,12 @@ void CLIENT_STATE::parse_cmdline(int argc, char** argv) {
             printf(BOINC_VERSION_STRING " " HOSTTYPE "\n");
 #endif
             exit(0);
+#ifdef __APPLE__
+        // workaround for bug in XCode 4.2: accept but ignore 
+        // argument -NSDocumentRevisionsDebugMode=YES 
+        } else if (ARG(NSDocumentRevisionsDebugMode)) {
+            ++i; 
+#endif
         } else {
             printf("Unknown option: %s\n", argv[i]);
             show_options = true;
