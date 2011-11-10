@@ -3,6 +3,11 @@
 #ifndef __CL_BOINC_H
 #define __CL_BOINC_H
 
+#ifdef __APPLE__
+    /* Contains #defines for AVAILABLE_MAC_OS_X_VERSION_10_6_AND_LATER below */
+    #include <AvailabilityMacros.h>
+#endif
+
 #if defined(_WIN32)
 #define CL_API_ENTRY
 #define CL_API_CALL __stdcall
