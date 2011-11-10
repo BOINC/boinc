@@ -8335,3 +8335,9 @@ David  9 Nov 2011
 
     sched/
         sched_send.cpp
+
+Charlie 9 Nov 2011
+    - WINSCR: Fix compile error.
+       
+    clientscr/
+        screensaver_win.cpp
