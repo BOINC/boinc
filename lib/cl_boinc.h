@@ -3,9 +3,33 @@
 #ifndef __CL_BOINC_H
 #define __CL_BOINC_H
 
+#if defined(_WIN32)
+#define CL_API_ENTRY
+#define CL_API_CALL __stdcall
+    #define CL_CALLBACK     __stdcall
+#else
+#define CL_API_ENTRY
+#define CL_API_CALL
+    #define CL_CALLBACK
+#endif
+
+#ifdef __APPLE__
+    #define CL_EXTENSION_WEAK_LINK                  __attribute__((weak_import))       
+    #define CL_API_SUFFIX__VERSION_1_0              AVAILABLE_MAC_OS_X_VERSION_10_6_AND_LATER
+    #define CL_EXT_SUFFIX__VERSION_1_0              CL_EXTENSION_WEAK_LINK AVAILABLE_MAC_OS_X_VERSION_10_6_AND_LATER
+    #define CL_API_SUFFIX__VERSION_1_1              CL_EXTENSION_WEAK_LINK
+    #define CL_EXT_SUFFIX__VERSION_1_1              CL_EXTENSION_WEAK_LINK
+    #define CL_EXT_SUFFIX__VERSION_1_0_DEPRECATED   CL_EXTENSION_WEAK_LINK AVAILABLE_MAC_OS_X_VERSION_10_6_AND_LATER
+#else
+    #define CL_EXTENSION_WEAK_LINK                         
+    #define CL_API_SUFFIX__VERSION_1_0
+    #define CL_EXT_SUFFIX__VERSION_1_0
+    #define CL_API_SUFFIX__VERSION_1_1
+    #define CL_EXT_SUFFIX__VERSION_1_1
+    #define CL_EXT_SUFFIX__VERSION_1_0_DEPRECATED
+#endif
 
 #if (defined (_WIN32) && defined(_MSC_VER))
-
 /* scalar types  */
 typedef signed   __int8         cl_char;
 typedef unsigned __int8         cl_uchar;
@@ -188,25 +212,32 @@ extern "C" {
 #endif
 
 /* Platform API */
-extern cl_int 
+extern CL_API_ENTRY cl_int CL_API_CALL
 clGetPlatformIDs(cl_uint          /* num_entries */,
                  cl_platform_id * /* platforms */,
-                 cl_uint *        /* num_platforms */);
+                 cl_uint *        /* num_platforms */) CL_API_SUFFIX__VERSION_1_0;
+
+extern CL_API_ENTRY cl_int CL_API_CALL
+clGetPlatformInfo(cl_platform_id   /* platform */,
+                  cl_platform_info /* param_name */,
+                  size_t           /* param_value_size */,
+                  void *           /* param_value */,
+                  size_t *         /* param_value_size_ret */) CL_API_SUFFIX__VERSION_1_0;
 
 /* Device APIs */
-extern cl_int 
+extern CL_API_ENTRY cl_int CL_API_CALL
 clGetDeviceIDs(cl_platform_id   /* platform */,
-               cl_device_type   /* device_type */, 
-               cl_uint          /* num_entries */, 
-               cl_device_id *   /* devices */, 
-               cl_uint *        /* num_devices */);
+               cl_device_type   /* device_type */,
+               cl_uint          /* num_entries */,
+               cl_device_id *   /* devices */,
+               cl_uint *        /* num_devices */) CL_API_SUFFIX__VERSION_1_0;
 
-extern cl_int 
+extern CL_API_ENTRY cl_int CL_API_CALL
 clGetDeviceInfo(cl_device_id    /* device */,
-                cl_device_info  /* param_name */, 
-                size_t          /* param_value_size */, 
+                cl_device_info  /* param_name */,
+                size_t          /* param_value_size */,
                 void *          /* param_value */,
-                size_t *        /* param_value_size_ret */);
+                size_t *        /* param_value_size_ret */) CL_API_SUFFIX__VERSION_1_0;
 
 #ifdef __cplusplus
 }

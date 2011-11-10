@@ -8347,3 +8347,10 @@ Rom    10 Nov 2011
     
     clientscr/
         screensaver.cpp
+
+Rom    10 Nov 2011
+    - client & lib: Update the OpenCL header to include calling conventions
+        and weak link information for Mac machines.
+
+    lib/
+        cl_boinc.h
