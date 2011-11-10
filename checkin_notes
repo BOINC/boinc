@@ -8354,3 +8354,11 @@ Rom    10 Nov 2011
 
     lib/
         cl_boinc.h
+
+Rom    10 Nov 2011
+    - Tag for 6.13.11 release, all platforms
+      boinc_core_release_6_13_11
+
+    /
+        configure.ac
+        version.h
