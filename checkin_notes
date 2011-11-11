@@ -8405,3 +8405,11 @@ Rom    11 Nov 2011
         workunit_running_image.png
         workunit_suspended_image.png
         workunit_waiting_image.png
+
+Rom    11 Nov 2011
+    - Tag for 6.13.12 release, all platforms
+      boinc_core_release_6_13_12
+
+    /
+        configure.ac
+        version.h
