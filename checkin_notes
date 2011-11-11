@@ -8384,3 +8384,12 @@ Charlie 11 Nov 2011
     
 	clientgui/
 		sg_TaskPanel.cpp
+
+David  11 Nov 2011
+    - client: check return value of FILE_REF when parse project file.
+        Fixes crashing bug.
+
+    client/
+        client_types.cpp
+    ssim/
+        ssim.cpp

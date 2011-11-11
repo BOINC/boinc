@@ -11,9 +11,9 @@ using std::set;
     // this many packets per meta-packet
 #define N 10
     // need this many to reconstruct the meta-packet
-#define METAK   15
+#define META_K   15
     // similar, meta-packets per file
-#define METAN   10
+#define META_N   10
 
 #define HOSTS_PER_DAY   10.
 #define HOST_LIFE_MEAN  100.*86400
@@ -38,6 +38,8 @@ struct HOST : public EVENT {
     double upload_bytes_sec;
     double download_bytes_sec;
     virtual void handle() {
+        // the host has departed
+        //
         set<HOST*>::iterator i = hosts.find(this);
         hosts.erase(i);
     }
@@ -62,15 +64,16 @@ struct REPORT_STATS : public EVENT {
     }
 };
 
-struct PACKET_HOST : public EVENT {
-    enum {DOWNLOADING, PRESENT, UPLOADING} state;
-    virtual void handle() {
-    }
-};
-
+// a packet is associated with at most one host
+//
 struct PACKET {
-    set<PACKET_HOST*> packet_hosts;
+    enum {DOWNLOADING, PRESENT, UPLOADING} state;
+    HOST* host;
     bool present;       // present on server
+    virtual void handle() {
+        // transfer has finished
+        //
+    }
 };
 
 struct META_PACKET {
@@ -84,12 +87,13 @@ struct DFILE : EVENT {
         // hosts that don't have any packets of this file
     int nmeta_packets_present;
     virtual void handle() {
-        for (int i=0; i<META_N; i++) {
+        for (int i=0; i<META_K; i++) {
             META_PACKET* mp = new META_PACKET;
-            mp->present = true;
-            meta_packts.push_back(mp);
-            for (int j=0; j<N; j++) {
+            mp->npackets_present = K;
+            meta_packets.push_back(mp);
+            for (int j=0; j<K; j++) {
                 PACKET* p = new PACKET;
+                p->present = true;
                 mp->packets.push_back(p);
             }
         }

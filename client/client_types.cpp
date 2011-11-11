@@ -667,6 +667,7 @@ void FILE_XFER_BACKOFF::file_xfer_succeeded() {
 int PROJECT::parse_project_files(XML_PARSER& xp, bool delete_existing_symlinks) {
     unsigned int i;
     char project_dir[256], path[256];
+    int retval;
 
     if (delete_existing_symlinks) {
         // delete current sym links.
@@ -687,8 +688,10 @@ int PROJECT::parse_project_files(XML_PARSER& xp, bool delete_existing_symlinks) 
         if (xp.match_tag("/project_files")) return 0;
         if (xp.match_tag("file_ref")) {
             FILE_REF file_ref;
-            file_ref.parse(xp);
-            project_files.push_back(file_ref);
+            retval = file_ref.parse(xp);
+            if (!retval) {
+                project_files.push_back(file_ref);
+            }
         } else {
             if (log_flags.unparsed_xml) {
                 msg_printf(0, MSG_INFO,
@@ -1486,7 +1489,7 @@ int FILE_REF::parse(XML_PARSER& xp) {
         if (xp.parse_bool("no_validate", temp)) continue;
         if (log_flags.unparsed_xml) {
             msg_printf(0, MSG_INFO,
-                "[unparsed_xml] FILE_REF::parse(): unrecognized: %s\n",
+                "[unparsed_xml] FILE_REF::parse(): unrecognized: '%s'\n",
                 xp.parsed_tag
             );
         }
