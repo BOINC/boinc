@@ -8393,3 +8393,15 @@ David  11 Nov 2011
         client_types.cpp
     ssim/
         ssim.cpp
+
+Rom    11 Nov 2011
+    - MGR: Update default skin to v4.
+    
+    clientgui/res/templates/
+        <various files>
+    clientgui/skins/Default/
+        background_image.png
+        skin.xml
+        workunit_running_image.png
+        workunit_suspended_image.png
+        workunit_waiting_image.png
