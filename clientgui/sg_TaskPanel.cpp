@@ -99,24 +99,30 @@ void CSlideShowPanel::AdvanceSlideShow(bool changeSlide) {
         }
     } else {
         // TODO: Should we allow slide show to advance if task is not running?
+        int newSlide = selData->lastSlideShown;
+        
         if (selData->dotColor == greenDot) {    // Advance only if running
             if (changeSlide) {
-                if (++(selData->lastSlideShown) >= numSlides) {
-                    selData->lastSlideShown = 0;
+                if (++newSlide >= numSlides) {
+                    newSlide = 0;
                 }
             }
         }
-        if (selData->lastSlideShown < 0) {
-            selData->lastSlideShown = 0;
+        if (newSlide < 0) {
+            newSlide = 0;
         }
         
-        wxBitmap *bm = new wxBitmap();
-        bm->LoadFile(selData->slideShowFileNames[selData->lastSlideShown], wxBITMAP_TYPE_ANY);
-        m_SlideBitmap = *bm;
-        delete bm;
+        if (selData->lastSlideShown != newSlide) {  // Don't update if only one slide
+        
+            selData->lastSlideShown = newSlide;
 
-        if (m_SlideBitmap.Ok()) {
-            m_bCurrentSlideIsDefault = false;
+            wxBitmap *bm = new wxBitmap();
+            bm->LoadFile(selData->slideShowFileNames[newSlide], wxBITMAP_TYPE_ANY);
+            if (bm->Ok()) {
+                m_SlideBitmap = *bm;
+                delete bm;
+                m_bCurrentSlideIsDefault = false;
+            }
         }
     }
     if (m_SlideBitmap.Ok()) {

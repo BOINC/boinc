@@ -8380,6 +8380,7 @@ Charlie 11 Nov 2011
         introduced on 9 November.  Deleting an entry cvan create a gap in 
         the alphabetically sorted sequence, so we can't use my earlier 
         shortcut in checking for existing entries. 
-
+    - Mgr: If a slide show has only one slide, load it only once.
+    
 	clientgui/
 		sg_TaskPanel.cpp
