@@ -1658,13 +1658,13 @@ static OSErr QuitBOINCManager(OSType signature) {
     while (done == false) {		
         err = GetNextProcess(&thisPSN);
         if (err == procNotFound)	
-            done = true;		// apparently the demo app isn't running.  Odd but not impossible
+            done = true;		// Finished stepping through all running applications.
         else {		
             err = GetProcessInformation(&thisPSN,&thisPIR);
             if (err != noErr)
                 goto bail;
                     
-            if (thisPIR.processSignature == signature) {	// is it or target process?
+            if (thisPIR.processSignature == signature) {	// is it our target process?
                 err = AECreateDesc(typeProcessSerialNumber, (Ptr)&thisPSN,
                                             sizeof(thisPSN), &thisPSNDesc);
                 if (err != noErr)
@@ -1692,7 +1692,7 @@ static OSErr QuitBOINCManager(OSType signature) {
                         err = kill(thisPID, SIGKILL);
                 }
 #endif
-                continue;		// Thee can be multiple instances of the Manager
+                continue;		// There can be multiple instances of the Manager
             }
         }
     }
