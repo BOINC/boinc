@@ -1692,7 +1692,7 @@ static OSErr QuitBOINCManager(OSType signature) {
                         err = kill(thisPID, SIGKILL);
                 }
 #endif
-                done = true;		// we've killed the process, presumably
+                continue;		// Thee can be multiple instances of the Manager
             }
         }
     }

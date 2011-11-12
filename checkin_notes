@@ -8413,3 +8413,10 @@ Rom    11 Nov 2011
     /
         configure.ac
         version.h
+
+Charlie 11 Nov 2011
+    - Mac installer: There can now be multiple instances of the Manager 
+        running, so shut them all down.
+
+    mac_installer/
+        PostInstall.cpp
