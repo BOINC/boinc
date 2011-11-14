@@ -412,6 +412,7 @@ const char* SCHEDULER_REQUEST::parse(XML_PARSER& xp) {
         if (xp.parse_bool("client_cap_plan_class", client_cap_plan_class)) continue;
         if (xp.parse_int("sandbox", sandbox)) continue;
         if (xp.parse_int("allow_multiple_clients", allow_multiple_clients)) continue;
+        if (xp.parse_string("client_opaque", client_opaque)) continue;
 
         if (xp.match_tag("active_task_set")) continue;
         if (xp.match_tag("app")) continue;

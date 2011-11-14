@@ -8063,16 +8063,16 @@ David  3 Nov 2011
         wrapper.cpp
 
 David  3 Nov 2011
-	- client: show GPU exclusions at startup
-		(need to do this after reading the state file,
-		since GPU exclusions refer to projects).
-	- client: fix bug that added garbage <coproc> element
-		to <app_version> in state file when using GPU exclusions
+    - client: show GPU exclusions at startup
+        (need to do this after reading the state file,
+        since GPU exclusions refer to projects).
+    - client: fix bug that added garbage <coproc> element
+        to <app_version> in state file when using GPU exclusions
 
-	client/
-		client_types.cpp
-		client_state.cpp
-		log_flags.cpp
+    client/
+        client_types.cpp
+        client_state.cpp
+        log_flags.cpp
 
 David  4 Nov 2011
     - client: fix work fetch bug.
@@ -8170,17 +8170,17 @@ David  5 Nov 2011
         cs_trickle.cpp
 
 David  6 Nov 2011
-	- client: actually do the checking described above
+    - client: actually do the checking described above
 
-	client/
-		cs_trickle.cpp
+    client/
+        cs_trickle.cpp
 
 David  6 Nov 2011
-	- client: don't crash if a project sends app_version.flops = 0.
+    - client: don't crash if a project sends app_version.flops = 0.
 
-	client/
-		client_types.cpp
-		rr_sim.cpp
+    client/
+        client_types.cpp
+        rr_sim.cpp
 
 Charlie 7 Nov 2011
     - Mgr: Bug fix.
@@ -8189,16 +8189,16 @@ Charlie 7 Nov 2011
         BOINCGUIApp.cpp
 
 David  7 Nov 2011
-	- manager: apparently WxWidget's combo box has problems (bugs)
-		if multiple items have the same string.
-		So, in simple view task combo box:
-		- show % done (unique in most cases)
-		- remove version number
-		- instead of showing plan class, show "NVIDIA GPU" or "ATI GPU"
-		TODO: update the fraction done
+    - manager: apparently WxWidget's combo box has problems (bugs)
+        if multiple items have the same string.
+        So, in simple view task combo box:
+        - show % done (unique in most cases)
+        - remove version number
+        - instead of showing plan class, show "NVIDIA GPU" or "ATI GPU"
+        TODO: update the fraction done
 
-	clientgui/
-		sg_TaskPanel.cpp
+    clientgui/
+        sg_TaskPanel.cpp
 
 David  7 Nov 2011
     - client: condition RR sim negative FLOPs message on rr_simulation.
@@ -8226,19 +8226,19 @@ Rom    7 Nov 2011
         workunit_waiting_image.png
 
 David  7 Nov 2011
-	- client: on transient upload failure, don't do start_xfer()
-		within PERS_FILE_XFER::transient_failure();
-		we're about to delete and free the FILE_XFER.
-		The transfer will be restarted in the next poll.
+    - client: on transient upload failure, don't do start_xfer()
+        within PERS_FILE_XFER::transient_failure();
+        we're about to delete and free the FILE_XFER.
+        The transfer will be restarted in the next poll.
 
-	client/
-		pers_file_xfer.cpp
+    client/
+        pers_file_xfer.cpp
 
 Charlie 8 Nov 2011
     - Mgr: Fix Simple View layout to fit 3 decimal places for % done.
 
-	clientgui/
-		sg_TaskPanel.cpp
+    clientgui/
+        sg_TaskPanel.cpp
 
 Charlie 8 Nov 2011
     - Mac installer: fixes for OS 10.4 compatibility.
@@ -8277,8 +8277,8 @@ Charlie 9 Nov 2011
         Don't append % done to Task Selection control entries, as that  
         varies over time, causing significant complications.
 
-	clientgui/
-		sg_TaskPanel.cpp
+    clientgui/
+        sg_TaskPanel.cpp
 
 Rom    9 Nov 2011
     - WINSCR: Add a reference to SCRAPPERR_BOINCNOGRAPHICSAPPSEXECUTING
@@ -8382,8 +8382,8 @@ Charlie 11 Nov 2011
         shortcut in checking for existing entries. 
     - Mgr: If a slide show has only one slide, load it only once.
     
-	clientgui/
-		sg_TaskPanel.cpp
+    clientgui/
+        sg_TaskPanel.cpp
 
 David  11 Nov 2011
     - client: check return value of FILE_REF when parse project file.
@@ -8420,3 +8420,16 @@ Charlie 11 Nov 2011
 
     mac_installer/
         PostInstall.cpp
+
+David  13 Nov 2011
+    - client/scheduler:
+        If the file "client_opaque.txt" exists on the client,
+        include its contents in scheduler request messages.
+        On the scheduler, parse this into SCHEDULER_REQUEST::client_opaque,
+        where it can be used by the customizable scheduler functions.
+
+    sched/
+        sched_types.cpp,h
+    client/
+        file_names.h
+        cs_scheduler.cpp

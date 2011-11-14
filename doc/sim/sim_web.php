@@ -25,6 +25,9 @@
 require_once("../inc/util.inc");
 require_once("../inc/sim_util.inc");
 
+ini_set ("memory_limit", "1G");
+set_time_limit(0);
+
 function get_comments($dir) {
     $d = "$dir/comments";
     if (!is_dir($d)) return null;

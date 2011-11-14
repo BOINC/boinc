@@ -328,6 +328,7 @@ struct SCHEDULER_REQUEST {
         // Don't modify user prefs or CPID
     int last_rpc_dayofyear;
     int current_rpc_dayofyear;
+    std::string client_opaque;
 
     SCHEDULER_REQUEST(){};
     ~SCHEDULER_REQUEST(){};

@@ -362,6 +362,12 @@ int CLIENT_STATE::make_scheduler_request(PROJECT* p) {
         }
         fprintf(f, "</in_progress_results>\n");
     }
+    FILE* cof = boinc_fopen(CLIENT_OPAQUE_FILENAME, "r");
+    if (cof) {
+        fprintf(f, "<client_opaque>\n<![CDATA[\n");
+        copy_stream(cof, f);
+        fprintf(f, "\n]]>\n</client_opaque>\n");
+    }
 
     fprintf(f, "</scheduler_request>\n");
 

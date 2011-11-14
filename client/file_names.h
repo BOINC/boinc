@@ -62,6 +62,7 @@ extern void send_log_after(const char* filename, double t, MIOFILE& mf);
 #define CA_BUNDLE_FILENAME          "ca-bundle.crt"
 #define CERTIFICATE_DIRECTORY       "certificates"
 #define CLIENT_AUTH_FILENAME        "client_auth.xml"
+#define CLIENT_OPAQUE_FILENAME      "client_opaque.txt"
 #define CONFIG_FILE                 "cc_config.xml"
 #define CPU_BENCHMARKS_FILE_NAME    "cpu_benchmarks"
 #define CREATE_ACCOUNT_FILENAME     "create_account.xml"

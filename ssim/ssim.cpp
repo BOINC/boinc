@@ -67,6 +67,8 @@ struct REPORT_STATS : public EVENT {
 // a packet is associated with at most one host
 //
 struct PACKET {
+    DFILE* dfile;
+    META_PACKET* meta_packet;
     enum {DOWNLOADING, PRESENT, UPLOADING} state;
     HOST* host;
     bool present;       // present on server
@@ -74,11 +76,38 @@ struct PACKET {
         // transfer has finished
         //
     }
+
+    void assign() {
+        set<HOST*>::iterator i = dfile.unused_hosts.front();
+        HOST* h = *i;
+        dfile.unused_hosts.erase(i);
+        double t = now + 1/h->bw_down;
+    }
+
+    // This packet has been lost.
+    // If it's present on server, assign it to a host.
+    // Otherwise reassemble the meta-packet
+    //
+    void lost() {
+        if (present_on_server) {
+            assign();
+        } else {
+            meta_packet->reassemble();
+        }
+    }
 };
 
 struct META_PACKET {
     vector<PACKET*> packets;
     int npackets_present;
+
+    // we need to reassemble this meta-packet on the server
+    //
+    void reassemble() {
+    }
+
+    void reassembly_complete() {
+    }
 };
 
 struct DFILE : EVENT {
