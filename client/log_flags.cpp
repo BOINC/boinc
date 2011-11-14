@@ -141,8 +141,12 @@ static void show_exclude_gpu(EXCLUDE_GPU& e) {
             for (unsigned int i=0; i<gstate.apps.size(); i++) {
                 app = gstate.apps[i];
                 if (app->project != p) continue;
+				if (!app_list.empty()) {
+					app_list += ", ";
+				}
+                app_list += "'";
                 app_list += app->name;
-                app_list += " ";
+                app_list += "'";
             }
             msg_printf(p, MSG_USER_ALERT,
                 "A GPU exclusion in your cc_config.xml file specifies a non-existent application '%s'.  Existing applications: %s",
@@ -276,14 +280,14 @@ int CONFIG::parse_options_client(XML_PARSER& xp) {
             COPROC c;
             retval = c.parse(xp);
             if (retval) {
-                msg_printf(0, MSG_USER_ALERT,
-                    "Can't parse <coproc> in cc_config.xml"
+                msg_printf_notice(NULL, false, NULL,
+                    "Can't parse <coproc> element in cc_config.xml"
                 );
             }
             retval = coprocs.add(c);
             if (retval) {
-                msg_printf(0, MSG_USER_ALERT,
-                    "Duplicate <coproc> in cc_config.xml"
+                msg_printf_notice(NULL, false, NULL,
+                    "Duplicate <coproc> element in cc_config.xml"
                 );
             }
             continue;
@@ -302,8 +306,8 @@ int CONFIG::parse_options_client(XML_PARSER& xp) {
             EXCLUDE_GPU eg;
             retval = eg.parse(xp);
             if (retval) {
-                msg_printf(0, MSG_USER_ALERT,
-                    "Can't parse <exclude_gpu> in cc_config.xml"
+                msg_printf_notice(NULL, false, NULL,
+                    "Can't parse <exclude_gpu> element in cc_config.xml"
                 );
             } else {
                 exclude_gpus.push_back(eg);
@@ -362,8 +366,8 @@ int CONFIG::parse_options_client(XML_PARSER& xp) {
         if (xp.match_tag("proxy_info")) {
             retval = config_proxy_info.parse_config(xp);
             if (retval) {
-                msg_printf(NULL, MSG_USER_ALERT,
-                    "Can't parse <proxy_info> in cc_config.xml"
+                msg_printf_notice(NULL, false, NULL,
+                    "Can't parse <proxy_info> element in cc_config.xml"
                 );
             }
             continue;

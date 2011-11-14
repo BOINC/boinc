@@ -8456,3 +8456,9 @@ David  14 Nov 2011
         cc_config.cpp,h
     client/
         log_flags.cpp
+
+David  14 Nov 2011
+    - client: improve messages for the above
+
+    client/
+        log_flags.cpp
