@@ -121,6 +121,8 @@ struct EXCLUDE_GPU {
     std::string type;       // empty means all types
     std::string appname;    // empty means all apps
     int device_num;         // -1 means all instances
+
+    int parse(XML_PARSER&);
 };
 
 // if you add anything, you must add it to
@@ -183,9 +185,9 @@ struct CONFIG {
     CONFIG();
     void defaults();
 	int parse(FILE*);
-	//int parse(XML_PARSER&, LOG_FLAGS&, std::string& errmsg);
+	int parse(XML_PARSER&, LOG_FLAGS&);
     int parse_client(FILE*);
-	int parse_options(XML_PARSER&, std::string& errmsg);
+	int parse_options(XML_PARSER&);
     int parse_options_client(XML_PARSER&);
     int write(MIOFILE&, LOG_FLAGS&);
     void show();

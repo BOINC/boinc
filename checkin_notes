@@ -8440,3 +8440,19 @@ Charlie 14 Nov 2011
         
     clientgui/
         MainDocument.cpp
+
+David  14 Nov 2011
+    - client: show error messages (as notices) when get an error
+        parsing cc_config.xml
+    - client: if an <exclude_cpu> element in cc_config.xml
+        specifies a nonexistent app, show an error msg with
+        a list of existing app names
+    - web: increase the default mem limit from 64MB to 256MB
+        TODO: change user_hosts.php to show N at a time
+
+    html/inc/
+        util.inc
+    lib/
+        cc_config.cpp,h
+    client/
+        log_flags.cpp

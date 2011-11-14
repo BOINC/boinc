@@ -30,7 +30,7 @@ if (array_key_exists("PATH_INFO", $_SERVER)) {
     die("bad URL");
 }
 
-ini_set("memory_limit", "64M");
+ini_set("memory_limit", "256M");
 
 if (!defined('SECURE_URL_BASE')) {
     define('SECURE_URL_BASE', URL_BASE);
