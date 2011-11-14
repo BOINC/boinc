@@ -1014,9 +1014,8 @@ void CMainDocument::RunPeriodicRPCs(int frameRefreshRate) {
     ts = dtNow - m_dtLastFrameViewRefreshRPCTime;
     if (ts.GetMilliseconds() < (frameRefreshRate - 500)) return;
     
-    // TODO: modify SimpleGUI to not do direct RPC calls when hidden / minimized
-    // Don't do periodic RPC calls when hidden / minimized unless SimpleGui
-    if (! ((currentTabView & VW_SGUI) || pFrame->IsShown()) ) return;
+    // Don't do periodic RPC calls when hidden / minimized
+    if (!pFrame->IsShown()) return;
    
     m_dtLastFrameViewRefreshRPCTime = dtNow;
    

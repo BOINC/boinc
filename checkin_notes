@@ -8433,3 +8433,10 @@ David  13 Nov 2011
     client/
         file_names.h
         cs_scheduler.cpp
+
+Charlie 14 Nov 2011
+    - Mgr: Don't call Simple View specific periodic RPCs when BOINC is 
+        hidden or minimized.
+        
+    clientgui/
+        MainDocument.cpp
