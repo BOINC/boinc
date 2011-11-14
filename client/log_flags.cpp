@@ -383,13 +383,12 @@ int CONFIG::parse_client(FILE* f) {
             continue;
         }
         if (xp.match_tag("options")) {
-            int retval = parse_options(xp);
+            int retval = parse_options_client(xp, errmsg);
             if (retval) {
                 msg_printf_notice(NULL, false,
                     "http://boinc.berkeley.edu/manager_links.php?target=notice&controlid=config",
-                    "%s: %s",
-                    _("Error in cc_config.xml options"),
-                    boincerror(retval)
+                    "%s",
+                    _("Error in cc_config.xml options")
                 );
             }
             continue;
@@ -412,7 +411,7 @@ int CONFIG::parse_client(FILE* f) {
     return ERR_XML_PARSE;
 }
 
-int CONFIG::parse(FILE* f) {
+int CONFIG::parse(FILE* f, string& errmsg) {
     MIOFILE mf;
     mf.init_file(f);
     XML_PARSER xp(&mf);
@@ -421,6 +420,7 @@ int CONFIG::parse(FILE* f) {
 }
 
 int read_config_file(bool init, const char* fname) {
+	string errmsg;
     if (!init) {
         msg_printf(NULL, MSG_INFO, "Re-reading %s", fname);
         config.defaults();
@@ -431,9 +431,11 @@ int read_config_file(bool init, const char* fname) {
         msg_printf(NULL, MSG_INFO, "No config file found - using defaults");
         return ERR_FOPEN;
     }
-    int retval = config.parse(f);
+    int retval = config.parse_client(f, errmsg);
     fclose(f);
-    if (retval) return retval;
+	if (retval) {
+		msg_printf(NULL, MSG_USER_ALERT, "Error in cc_config.xml: %s", errmsg.c_str());
+	}
 #ifndef SIM
     diagnostics_set_max_file_sizes(
         config.max_stdout_file_size, config.max_stderr_file_size

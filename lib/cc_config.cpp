@@ -239,7 +239,7 @@ void CONFIG::defaults() {
     zero_debts = false;
 }
 
-static bool parse_exclude_gpu(XML_PARSER& xp, EXCLUDE_GPU& eg) {
+static int parse_exclude_gpu(XML_PARSER& xp, EXCLUDE_GPU& eg) {
     bool found_url = false;
     eg.type = "";
     eg.appname = "";
@@ -247,7 +247,8 @@ static bool parse_exclude_gpu(XML_PARSER& xp, EXCLUDE_GPU& eg) {
     while (!xp.get_tag()) {
         if (!xp.is_tag) continue;
         if (xp.match_tag("/exclude_gpu")) {
-            return found_url;
+            if (!found_url) return ERR_XML_PARSE;
+			return 0;
         }
         if (xp.parse_string("url", eg.url)) {
             canonicalize_master_url(eg.url);
@@ -258,12 +259,13 @@ static bool parse_exclude_gpu(XML_PARSER& xp, EXCLUDE_GPU& eg) {
         if (xp.parse_string("type", eg.type)) continue;
         if (xp.parse_string("app", eg.appname)) continue;
     }
-    return false;
+    return ERR_XML_PARSE;
 }
 
-int CONFIG::parse_options(XML_PARSER& xp) {
+int CONFIG::parse_options(XML_PARSER& xp, string& errmsg) {
     string s;
     int n, retval;
+	errmsg = "";
 
     //clear();
     // don't do this here because some options are set by cmdline args,
@@ -303,10 +305,15 @@ int CONFIG::parse_options(XML_PARSER& xp) {
             COPROC c;
             retval = c.parse(xp);
             c.specified_in_config = true;
-            if (retval) return retval;
+			if (retval) {
+				errmsg += "Invalid <coproc> element. ";
+				continue;
+			}
             if (!strcmp(c.type, "CPU")) continue;
             retval = config_coprocs.add(c);
-            if (retval) return retval;
+			if (retval) {
+				errmsg += "Duplicate <coproc> element. ";
+			}
             continue;
         }
         if (xp.parse_str("data_dir", data_dir, sizeof(data_dir))) {
@@ -318,6 +325,8 @@ int CONFIG::parse_options(XML_PARSER& xp) {
         if (xp.match_tag("exclude_gpu")) {
             EXCLUDE_GPU eg;
             if (parse_exclude_gpu(xp, eg)) {
+				errmsg += "Invalid <exclude_gpu> element. ";
+			} else {
                 exclude_gpus.push_back(eg);
             }
             continue;
@@ -376,7 +385,9 @@ int CONFIG::parse_options(XML_PARSER& xp) {
 #ifndef SIM
         if (xp.match_tag("proxy_info")) {
             retval = proxy_info.parse_config(xp);
-            if (retval) return retval;
+			if (retval) {
+				errmsg += "Invalid <proxy_info> elements. ";
+			}
             continue;
         }
 #endif
@@ -405,17 +416,18 @@ int CONFIG::parse_options(XML_PARSER& xp) {
 }
 
 int CONFIG::parse(XML_PARSER& xp, LOG_FLAGS& log_flags) {
+	string errmsg;	// not used in this case
     while (!xp.get_tag()) {
         if (!xp.is_tag) {
             continue;
         }
         if (xp.match_tag("/cc_config")) return 0;
         if (xp.match_tag("log_flags")) {
-            log_flags.parse(xp);
+            log_flags.parse(xp, errmsg);
             continue;
         }
         if (xp.match_tag("options")) {
-            parse_options(xp);
+            parse_options(xp, errmsg);
             continue;
         }
         if (xp.match_tag("options/")) continue;

@@ -182,10 +182,10 @@ struct CONFIG {
 
     CONFIG();
     void defaults();
-    int parse(FILE*);
-    int parse(XML_PARSER&, LOG_FLAGS&);
+	int parse(FILE*);
+	//int parse(XML_PARSER&, LOG_FLAGS&, std::string& errmsg);
     int parse_client(FILE*);
-    int parse_options(XML_PARSER&);
+	int parse_options(XML_PARSER&, std::string& errmsg);
     int parse_options_client(XML_PARSER&);
     int write(MIOFILE&, LOG_FLAGS&);
     void show();
