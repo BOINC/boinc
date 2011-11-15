@@ -8479,3 +8479,10 @@ Charlie 14 Nov 2011
     clientgui/
         sg_BoincSimpleFrame.cpp
         sg_TaskPanel.cpp,.h
+
+Charlie 9 Nov 2011
+    - MGR: Limit change of 9 November to only Debug builds: accept and 
+        ignore command line argument "-NSDocumentRevisionsDebugMode=YES"
+
+    clientgui/
+        BOINCGUIApp.cpp
