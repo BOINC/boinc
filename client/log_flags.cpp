@@ -327,6 +327,7 @@ int CONFIG::parse_options_client(XML_PARSER& xp) {
             continue;
         }
         if (xp.parse_bool("exit_after_finish", exit_after_finish)) continue;
+        if (xp.parse_bool("exit_before_start", exit_before_start)) continue;
         if (xp.parse_bool("exit_when_idle", exit_when_idle)) {
             if (exit_when_idle) {
                 report_results_immediately = true;
@@ -339,6 +340,8 @@ int CONFIG::parse_options_client(XML_PARSER& xp) {
             continue;
         }
         if (xp.parse_bool("http_1_0", http_1_0)) continue;
+        if (xp.parse_int("http_transfer_timeout", http_transfer_timeout)) continue;
+        if (xp.parse_int("http_transfer_timeout_bps", http_transfer_timeout_bps)) continue;
         if (xp.parse_int("ignore_cuda_dev", n)||xp.parse_int("ignore_nvidia_dev", n)) {
             ignore_nvidia_dev.push_back(n);
             continue;

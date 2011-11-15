@@ -331,7 +331,6 @@ void PERS_FILE_XFER::transient_failure(int retval) {
 
     // Cycle to the next URL to try.
     // If we reach the URL that we started at, then back off.
-    // Otherwise immediately try the next URL
     //
 
     URL_LIST& ul = fip->get_url_list(is_upload);
