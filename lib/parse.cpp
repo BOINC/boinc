@@ -963,6 +963,29 @@ int XML_PARSER::element_contents(const char* end_tag, char* buf, int buflen) {
     return retval;
 }
 
+#if 0
+int XML_PARSER::element_contents(const char* end_tag, string& buf) {
+    int retval=0;
+    while (1) {
+        int c = f->_getc();
+        if (c == EOF) {
+            retval = ERR_XML_PARSE;
+            break;
+        }
+        buf += c;
+        char* p = strstr(buf.c_str(), end_tag);
+        if (p) {
+            int k = strlen(end_tag);
+            int n = buf.length();
+            buf.erase(n-k, k);
+            break;
+        }
+    }
+    strip_whitespace(buf);
+    return retval;
+}
+#endif
+
 // We got an unexpected tag.
 // If it's an end tag, do nothing.
 // Otherwise skip until the end tag, if any

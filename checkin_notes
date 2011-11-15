@@ -8462,3 +8462,12 @@ David  14 Nov 2011
 
     client/
         log_flags.cpp
+
+David  14 Nov 2011
+    - scheduler: increase buffer for global prefs from 8K to 64K
+    - lay the groundwork for changing it to std::string
+
+    sched/
+        sched_types.cpp
+    lib/
+        parse.cpp,h

@@ -280,7 +280,7 @@ const char* SCHEDULER_REQUEST::parse(XML_PARSER& xp) {
         if (xp.parse_double("duration_correction_factor", host.duration_correction_factor)) continue;
         if (xp.match_tag("global_preferences")) {
             strcpy(global_prefs_xml, "<global_preferences>\n");
-            char buf[8192];
+            char buf[BLOB_SIZE];
             retval = xp.element_contents(
                 "</global_preferences>", buf, sizeof(buf)
             );
