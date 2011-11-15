@@ -364,12 +364,12 @@ void CSimpleTaskPanel::OnTaskSelection(wxCommandEvent& /*event*/)
     if (sel != m_CurrentTaskSelection) {
         m_CurrentTaskSelection = sel;
         m_bStableTaskInfoChanged = true;
-        Update();
+        UpdatePanel();
     }
 }
 
 
-void CSimpleTaskPanel::Update(bool delayShow) {
+void CSimpleTaskPanel::UpdatePanel(bool delayShow) {
     wxString s = wxEmptyString;
     wxString projName = wxEmptyString;
     TaskSelectionData *selData;

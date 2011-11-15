@@ -8471,3 +8471,11 @@ David  14 Nov 2011
         sched_types.cpp
     lib/
         parse.cpp,h
+
+Charlie 14 Nov 2011
+    - Mgr: In CSimpleTaskPanel, change name of Update() to UpdatePanel() 
+        to fix compiler warning about overloading wxWindow::Update().
+    
+    clientgui/
+        sg_BoincSimpleFrame.cpp
+        sg_TaskPanel.cpp,.h

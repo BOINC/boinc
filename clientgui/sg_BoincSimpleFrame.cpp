@@ -858,7 +858,7 @@ void CSimpleGUIPanel::OnFrameRender() {
     // Workaround for Linux refresh problem
     if (m_irefreshCount < REFRESH_WAIT) {
         ++m_irefreshCount;
-        m_taskPanel->Update(true);
+        m_taskPanel->UpdatePanel(true);
 	return;
     }
 	
@@ -908,7 +908,7 @@ void CSimpleGUIPanel::OnFrameRender() {
         
         m_oldWorkCount = workCount;
         
-	m_taskPanel->Update(false);
+	m_taskPanel->UpdatePanel(false);
 
     }
 }
