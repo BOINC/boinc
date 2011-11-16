@@ -30,6 +30,7 @@ $ati_scale_sum = 0;
 $ati_credit_sum = 0;
 $nvidia_scale_sum = 0;
 $nvidia_credit_sum = 0;
+$total_credit_sum= 0;
 
 $apps = BoincApp::enum("deprecated=0");
 foreach ($apps as $app) {
@@ -45,19 +46,22 @@ foreach ($apps as $app) {
             $cpu_scale_sum += $av->pfc_scale * $av->expavg_credit;
             $cpu_credit_sum += $av->expavg_credit;
         }
+        $total_credit_sum += $av->expavg_credit;
     }
 }
 
 xml_header();
-echo "<scale_factors>\n";
+echo "<scale_factors>
+   <total_credit>$total_credit_sum</total_credit>
+";
 if ($cpu_credit_sum) {
-    echo "<cpu>", $cpu_scale_sum/$cpu_credit_sum, "</cpu>\n";
+    echo "   <cpu>", $cpu_scale_sum/$cpu_credit_sum, "</cpu>\n";
 }
 if ($ati_credit_sum) {
-    echo "<ati>", $ati_scale_sum/$ati_credit_sum, "</ati>\n";
+    echo "   <ati>", $ati_scale_sum/$ati_credit_sum, "</ati>\n";
 }
 if ($nvidia_credit_sum) {
-    echo "<nvidia>", $nvidia_scale_sum/$nvidia_credit_sum, "</nvidia>\n";
+    echo "   <nvidia>", $nvidia_scale_sum/$nvidia_credit_sum, "</nvidia>\n";
 }
 echo "</scale_factors>\n";
 ?>
