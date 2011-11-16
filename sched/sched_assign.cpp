@@ -15,6 +15,9 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 //
+
+// scheduler functions to send assigned jobs.
+
 #include "config.h"
 
 #ifdef _USING_FCGI_

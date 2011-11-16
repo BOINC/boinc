@@ -1,31 +1,5 @@
 <?php
 
-function show_linux_info() {
-    echo "
-        <p>
-        ".tra("The current release is known to work with these Linux versions:")."
-        <ul>
-        <li> Ubuntu 10.04+
-        </ul>
-        <p>
-        ".tra("For other Linux versions, check if a BOINC package is offered by your Linux distribution.")."
-        <ul>
-        <li> Fedora 7+: type
-          <pre>yum install boinc-client boinc-manager</pre> as root.
-        <li> Debian and Ubuntu: package names <b>boinc-client</b>,
-            <b>boinc-manager</b>
-            (more info <a href=\"http://wiki.debian.org/BOINC\">here</a>).
-            Also <b>boinc-dev</b> (for project developers).
-        <li> Gentoo: package name <b>sci-misc/boinc</b>
-        </ul>
-        <p>
-        ".tra("Alternatively, download the %1BOINC client for older Linux versions%2. This doesn't have a graphical interface, but it should work on all Linux systems, both x86 and x64.",
-            "<a href=http://boinc.berkeley.edu/download_all.php>",
-            "</a>"
-        )
-    ;
-}
-
 function type_text($type) {
     global $xml;
     if ($xml) {
@@ -305,7 +279,12 @@ $linuxcompat = array(
 
 $linux = array(
     "name"=>"Linux x86",
-    "description"=>"For most current Linux/x86 versions; graphical and command-line interfaces",
+    "description"=>"Tested on the current Ubuntu release; may work on others.
+    <br>If available, we recommend that you install a
+    <a href=http://boinc.berkeley.edu/wiki/Installing_BOINC#Linux>
+    distribution-specific package</a>
+    instead.
+    ",
     "dbname" => "i686-pc-linux-gnu",
     "versions"=>array(
 		$l613ubuntu,
@@ -316,8 +295,12 @@ $linux = array(
 
 $linuxx64 = array(
     "name"=>"Linux x64",
-    "description"=>"For most current Linux/x64 versions; graphical and command-line interfaces",
-    "dbname" => "x86_64-pc-linux-gnu",
+    "description"=>"Tested on the current Ubuntu release; may work on others.
+    <br>If available, we recommend that you install a
+    <a href=http://boinc.berkeley.edu/wiki/Installing_BOINC#Linux>
+    distribution-specific package</a>
+    instead.
+    ",
     "versions"=>array(
 		$l613ubuntux64,
 		$l612ubuntux64,

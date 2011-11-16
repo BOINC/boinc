@@ -44,9 +44,9 @@ function add_model($model, $r, $wu, &$models) {
         $models[$model]->count++;
         $models[$model]->time += $r->elapsed_time;
     } else {
-		$x = null;
-		$x->count = 1;
-		$x->time = $r->elapsed_time/$wu->rsc_fpops_est;
+        $x = null;
+        $x->count = 1;
+        $x->time = $r->elapsed_time/$wu->rsc_fpops_est;
         $models[$model] = $x;
     }
 }
@@ -57,9 +57,13 @@ function add_model($model, $r, $wu, &$models) {
 // $x->linux
 // $x->mac
 //
-function get_gpu_list($vendor) {
-    $avs = BoincAppVersion::enum("plan_class like '%$vendor%'");
-	if (count($avs) == 0) return null;
+function get_gpu_list($vendor, $alt_vendor=null) {
+    $clause = "plan_class like '%$vendor%'";
+    if ($alt_vendor) {
+        $clause .= " or plan_class like '%$alt_vendor%'";
+    }
+    $avs = BoincAppVersion::enum($clause);
+    if (count($avs) == 0) return null;
 
     $av_ids = "";
     foreach($avs as $av) {
@@ -68,9 +72,11 @@ function get_gpu_list($vendor) {
     $av_ids .= "0";
 
     $t = time() - 30*86400;
-	//echo "start enum $vendor $av_ids\n";
-    $results = BoincResult::enum("app_version_id in ($av_ids) and create_time > $t and elapsed_time>100 limit 500");
-	//echo "end enum\n";
+    //echo "start enum $vendor $av_ids\n";
+    $results = BoincResult::enum(
+        "app_version_id in ($av_ids) and create_time > $t and elapsed_time>100 limit 500"
+    );
+    //echo "end enum\n";
     $total = array();
     $win = array();
     $linux = array();
@@ -78,7 +84,7 @@ function get_gpu_list($vendor) {
     foreach ($results as $r) {
         $h = BoincHost::lookup_id($r->hostid);
         if (!$h) continue;
-		$wu = BoincWorkunit::lookup_id($r->workunitid);
+        $wu = BoincWorkunit::lookup_id($r->workunitid);
         if (!$wu) continue;
         $v = $vendor=="cuda"?"CUDA":"CAL";
         $model = get_gpu_model($h->serialnum, $v);
@@ -105,13 +111,13 @@ function get_gpu_list($vendor) {
 
 function get_gpu_lists() {
     $x = null;
-    $x->cuda = get_gpu_list("cuda");
+    $x->cuda = get_gpu_list("cuda", "nvidia");
     $x->ati = get_gpu_list("ati");
     return $x;
 }
 
 function gpucmp($x1, $x2) {
-	return $x1->avg_time > $x2->avg_time;
+    return $x1->avg_time > $x2->avg_time;
 }
 
 function show_list($models, $name) {
@@ -120,21 +126,21 @@ function show_list($models, $name) {
         echo tra("No GPU tasks reported")."</td>\n";
         return;
     }
-	$max_count = 0;
+    $max_count = 0;
     foreach ($models as $model=>$x) {
-		if ($x->count > $max_count) $max_count = $x->count;
-		$x->avg_time = $x->time/$x->count;
-	}
-	$min_time = 1e9;
+        if ($x->count > $max_count) $max_count = $x->count;
+        $x->avg_time = $x->time/$x->count;
+    }
+    $min_time = 1e9;
     foreach ($models as $model=>$x) {
-		if ($x->count < $max_count/10) continue;
-		if ($x->avg_time < $min_time) $min_time = $x->avg_time;
-	}
+        if ($x->count < $max_count/10) continue;
+        if ($x->avg_time < $min_time) $min_time = $x->avg_time;
+    }
     uasort($models, 'gpucmp');
     echo "<ol>\n";
     foreach ($models as $model=>$x) {
-		if ($x->count < $max_count/10) continue;
-		$s = number_format($min_time/$x->avg_time, 3);
+        if ($x->count < $max_count/10) continue;
+        $s = number_format($min_time/$x->avg_time, 3);
         echo "<li>($s)  $model\n";
     }
     echo "</ol></td>\n";

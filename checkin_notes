@@ -8501,3 +8501,18 @@ Charlie 16 Nov 2011
         
     clientgui/
         BOINCBitmapComboBox.cpp
+
+David  16 Nov 2011
+    - web: in GPU model list page,
+        look for plan classes containing "nvidia" as well as "cuda".
+
+    db/
+        boinc_db.h
+    sched/
+        transitioner.cpp
+        sched_assign.cpp
+    html/user/
+        gpu_ratios.php (new)
+        gpu_list.php
+    client/
+        net_stats.h

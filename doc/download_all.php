@@ -192,10 +192,6 @@ if ($xml) {
         }
         list_end();
         echo "
-            <h3>GPU computing</h3>
-            If your computer is equipped with a Graphics Processing Unit (GPU),
-            you may be able to
-            <a href=http://boinc.berkeley.edu/wiki/GPU_computing>use it to compute faster</a>.
             <h3>Other platforms</h3>
             If your computer is not of one of these types, you can
             <ul>
@@ -203,29 +199,10 @@ if ($xml) {
             <li> <a href=\"trac/wiki/DownloadOther\">download executables from a third-party site</a>
                 (available for Solaris/Opteron, Linux/Opteron, Linux/PPC, HP-UX, and FreeBSD, and others).
             </ul>
-
-            <h3>Linux info</h3>
         ";
-        show_linux_info();
     }
     echo "
-        <a name=dotsch>
-        <h3>Ubuntu image for USB/diskless/CD-ROM install</h3>
-        <a href=http://www.dotsch.de/boinc/Dotsch_UX.html>Dotsch/UX</a>
-        is an ISO-format Linux distribution, based on Ubuntu Linux.
-        It lets you easily install and boot from a USB stick, hard disk and
-        from diskless clients,
-        and it also has some interfaces to set up the diskless server
-        and the clients automatically.
-        The current version (1.2) has the 6.10.17 BOINC client pre-installed.
-
-        <ul>
-        <li> <a href=http://boincdl3.ssl.berkeley.edu/mirror/dotsch_ux-12_i386.iso>Dotsch/UX for x86 (32-bit)</a> (585 MB)
-        <li> <a href=http://boincdl3.ssl.berkeley.edu/mirror/dotsch_ux-12_x64.iso>Dotsch/UX for x64 (64-bit)</a> (655 MB)
-        <li> <a href=http://boincdl3.ssl.berkeley.edu/mirror/dotsch_ux-1.2_patch.run>1.1->1.2 upgrade script (32/64 bit)</a> (43 MB)
-        </ul>
-
-        <h3>Customizing this page</h3>
+        <hr size=1>
         The information on this page can be
         <a href=\"trac/wiki/DownloadInfo\">
         restricted by platform and/or version number,

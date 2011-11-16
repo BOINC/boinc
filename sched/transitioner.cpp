@@ -157,7 +157,7 @@ int handle_wu(
     TRANSITIONER_ITEM& wu_item = items[0];
     TRANSITIONER_ITEM wu_item_original = wu_item;
 
-    // "assigned" WUs aren't supposed to pass through the transitioner.
+    // "assigned" WUs aren't supposed to be handled by the transitioner.
     // If we get one, it's an error
     //
     if (config.enable_assignment && strstr(wu_item.name, ASSIGNED_WU_STR)) {

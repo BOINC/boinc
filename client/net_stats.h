@@ -45,6 +45,7 @@ struct NET_INFO {
         // This ignores concurrency of transfers.
     double avg_rate;
         // recent average transfer rate
+        // i.e. over all time, not just when transfers are active
     double avg_time;
         // when avg_rate was last updated
     void update(double nbytes, double dt);

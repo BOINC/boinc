@@ -627,11 +627,11 @@ struct MSG_TO_HOST {
 struct ASSIGNMENT {
     int id;
     int create_time;
-    int target_id;
-    int target_type;
-    int multi;
+    int target_id;              // ID of target host, user, or team
+    int target_type;            // none/host/user/team
+    int multi;                  // 0 = single host, 1 = all hosts in set
     int workunitid;
-    int resultid;
+    int resultid;               // if not multi, the result ID
     void clear();
 };
 
