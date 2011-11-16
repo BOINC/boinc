@@ -8516,3 +8516,9 @@ David  16 Nov 2011
         gpu_list.php
     client/
         net_stats.h
+
+David  16 Nov 2011
+    - fix gpu_ratios.php
+
+    html/user/
+        gpu_ratios.php

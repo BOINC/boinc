@@ -1,3 +1,4 @@
+<?php
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
 // Copyright (C) 2011 University of California
@@ -21,6 +22,7 @@
 // for projects that have only GPU versions
 
 require_once("../inc/boinc_db.inc");
+require_once("../inc/xml.inc");
 
 $cpu_scale_sum = 0;
 $cpu_credit_sum = 0;
@@ -44,8 +46,18 @@ foreach ($apps as $app) {
             $cpu_credit_sum += $av->expavg_credit;
         }
     }
-
-    echo "CPU: ", $cpu_scale_sum/$cpu_credit_sum, "\n";
-    echo "ATI: ", $ati_scale_sum/$ati_credit_sum, "\n";
-    echo "NVIDIA: ", $nvidia_scale_sum/$nvidia_credit_sum, "\n";
 }
+
+xml_header();
+echo "<scale_factors>\n";
+if ($cpu_credit_sum) {
+    echo "<cpu>", $cpu_scale_sum/$cpu_credit_sum, "</cpu>\n";
+}
+if ($ati_credit_sum) {
+    echo "<ati>", $ati_scale_sum/$ati_credit_sum, "</ati>\n";
+}
+if ($nvidia_credit_sum) {
+    echo "<nvidia>", $nvidia_scale_sum/$nvidia_credit_sum, "</nvidia>\n";
+}
+echo "</scale_factors>\n";
+?>
