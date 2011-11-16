@@ -111,7 +111,6 @@ void CBOINCBitmapComboBox::Delete(unsigned int n) {
 void CBOINCBitmapComboBox::Clear() {
     int count = GetCount();
 	for(int j = count-1; j >=0; --j) {
-        wxASSERT(!m_pClientData[j]);
         m_pClientData[j] = NULL;
         }
     m_pClientData.clear();
