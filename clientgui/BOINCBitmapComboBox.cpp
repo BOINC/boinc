@@ -99,6 +99,8 @@ int CBOINCBitmapComboBox::Insert(const wxString& item, const wxBitmap& bitmap, u
 
 void CBOINCBitmapComboBox::Delete(unsigned int n) {
     if (n < GetCount()) {
+        // Caller must have already deleted the data and set the pointer to NULL
+        wxASSERT(!m_pClientData[n]);    
         std::vector<void*>::iterator deletionPoint = m_pClientData.begin();
         m_pClientData.erase(deletionPoint + n);
     }
@@ -111,6 +113,8 @@ void CBOINCBitmapComboBox::Delete(unsigned int n) {
 void CBOINCBitmapComboBox::Clear() {
     int count = GetCount();
 	for(int j = count-1; j >=0; --j) {
+        // Caller must have already deleted the data and set the pointer to NULL
+        wxASSERT(!m_pClientData[j]);    
         m_pClientData[j] = NULL;
         }
     m_pClientData.clear();
