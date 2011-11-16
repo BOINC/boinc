@@ -76,7 +76,7 @@ int CBOINCBitmapComboBox::Append(const wxString& item, const wxBitmap& bitmap) {
 
 int CBOINCBitmapComboBox::Append(const wxString& item, const wxBitmap& bitmap, void *clientData) {
     m_pClientData.push_back(clientData);
-    int n = wxBitmapComboBox::Append(item, bitmap, (void*)NULL);
+    int n = wxBitmapComboBox::Append(item, bitmap);
     return n;
 }
 
@@ -92,7 +92,7 @@ int CBOINCBitmapComboBox::Insert(const wxString& item, const wxBitmap& bitmap, u
 int CBOINCBitmapComboBox::Insert(const wxString& item, const wxBitmap& bitmap, unsigned int pos, void *clientData) {
     std::vector<void*>::iterator insertionPoint = m_pClientData.begin();
     m_pClientData.insert(insertionPoint + pos, clientData);
-    int n = wxBitmapComboBox::Insert(item, bitmap, pos, (void*)NULL);
+    int n = wxBitmapComboBox::Insert(item, bitmap, pos);
     return n;
 }
 
