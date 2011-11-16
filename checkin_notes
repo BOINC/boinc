@@ -8496,8 +8496,8 @@ David  14 Nov 2011
 		pers_file_xfer.cpp
 
 Charlie 16 Nov 2011
-    - MGR: use wxBitMapComboBox insert and append calls without client 
-        data argument.
+    - MGR: use wxBitmapComboBox insert() and append() calls without 
+        client data argument instead of passing NULL.
         
     clientgui/
         BOINCBitmapComboBox.cpp
