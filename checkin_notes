@@ -8522,3 +8522,9 @@ David  16 Nov 2011
 
     html/user/
         gpu_ratios.php
+
+Charlie 17 Nov 2011
+    Remove include of boinc_cl.h from parse.h; it is no longer needed.
+    
+    lib/
+        parse.h

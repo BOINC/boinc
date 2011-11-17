@@ -25,7 +25,6 @@
 
 #include "miofile.h"
 #include "str_util.h"
-#include "cl_boinc.h"
 
 // see parse_test.cpp for example usage of XML_PARSER
 
