@@ -8525,6 +8525,9 @@ David  16 Nov 2011
 
 Charlie 17 Nov 2011
     Remove include of boinc_cl.h from parse.h; it is no longer needed.
-    
+    Remove Mac Availability Macro and weak-link support from cl_boin.ch 
+        as it prevented building BOINC libraries under OS 10.5.
+        
     lib/
+        cl_boinc.h
         parse.h
