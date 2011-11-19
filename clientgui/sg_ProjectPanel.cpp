@@ -75,7 +75,6 @@ CSimpleProjectPanel::CSimpleProjectPanel( wxWindow* parent ) :
     m_sSynchronizeToolTip = _("Synchronize projects with account manager system");
     
     m_GotBGBitMap = false; // Can't be made until parent has been laid out.
-    SetFont(wxFont(SMALL_FONT,wxSWISS,wxNORMAL,wxNORMAL,false,wxT("Arial")));
 	SetForegroundColour(*wxBLACK);
     
 	wxBoxSizer* bSizer1;

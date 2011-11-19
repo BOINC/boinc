@@ -8540,3 +8540,9 @@ David  18 Nov 2011
     ssim/
         des.h
         ssim.cpp
+
+Charlie 19 Nov 2011
+    - MGR: Fix button font sizes in Simple View Projects panel.
+    
+    clientgui/
+        sg_ProjectPanel.cpp
