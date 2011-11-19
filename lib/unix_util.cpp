@@ -53,19 +53,19 @@ int setenv(const char *name, const char *value, int overwrite) {
         if (strlen(buf)<(strlen(name)+strlen(value)+1)) {
             // no.  See if we originally allocated this string.
             std::vector<char *>::iterator i=envstrings.begin();
-	    for (;i!=envstrings.end();i++) {
+            for (;i!=envstrings.end();i++) {
                 if (*i == buf) break;
-	    }
-	    if (i!=envstrings.end()) {
+            }
+            if (i!=envstrings.end()) {
                 // we allocated this string.  Reallocate it.
                 buf=(char *)realloc(buf,strlen(name)+strlen(value)+2);
                 *i=buf;
-	    } else {
+            } else {
                 // someone else allocated the string.  Allocate new memory.
                 buf=(char *)malloc(strlen(name)+strlen(value)+2);
                 if (buf) envstrings.push_back(buf);
             }
-	}
+        }
     }
     if (!buf) {
         errno=ENOMEM;

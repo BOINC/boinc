@@ -8531,3 +8531,12 @@ Charlie 17 Nov 2011
     lib/
         cl_boinc.h
         parse.h
+
+David  18 Nov 2011
+    - storage simulator work
+
+    lib/
+        unix_util.cpp
+    ssim/
+        des.h
+        ssim.cpp

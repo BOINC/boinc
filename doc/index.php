@@ -75,6 +75,8 @@ function show_news_items() {
 function show_participate() {
     echo "
         <tr><td class=heading_left>
+    <a href=http://www.facebook.com/pages/BOINC/32672338584><img width=36 src=images/facebook_logo.jpg align=left title='BOINC on Facebook'></a>
+    <a href=https://plus.google.com/117150698502685192946/posts><img width=36 src=images/google_plus_logo.jpg align=left title='BOINC on Google+'></a>
         <center>
         <span class=section_title>".tra("Volunteer")."</span>
         <br>
@@ -247,6 +249,7 @@ echo "
     <head>
     <link rel=\"shortcut icon\" href=\"logo/favicon.gif\">
     <link rel=\"stylesheet\" type=\"text/css\" href=\"white.css\">
+    <link href=\"https://plus.google.com/117150698502685192946\" rel=\"publisher\" />
     <title>BOINC</title>
     <meta name=description content=\"BOINC is an open-source software platform for computing using volunteered resources\">
     <meta name=keywords content=\"distributed scientific computing supercomputing grid SETI@home public computing volunteer computing \">

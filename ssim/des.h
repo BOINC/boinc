@@ -14,6 +14,7 @@ bool compare(EVENT* e1, EVENT* e2) {
 
 struct SIMULATOR {
     vector<EVENT*> events;
+    double now;
     void insert(EVENT* e) {
         events.push_back(e);
         push_heap(events.begin(), events.end(), compare);
@@ -23,7 +24,8 @@ struct SIMULATOR {
             EVENT* e = events.front();
             pop_heap(events.begin(), events.end(), compare);
             events.pop_back();
-            if (e->t > dur) break;
+            now = e->t;
+            if (now > dur) break;
             e->handle();
         }
     }
