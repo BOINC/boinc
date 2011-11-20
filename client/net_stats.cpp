@@ -172,6 +172,8 @@ void NET_STATUS::network_available() {
     for (i=0; i<gstate.projects.size(); i++) {
         PROJECT* p = gstate.projects[i];
         p->min_rpc_time = 0;
+        p->upload_backoff.clear_temporary();
+        p->download_backoff.clear_temporary();
     }
 
     // tell active tasks that network is available (for Folding@home)

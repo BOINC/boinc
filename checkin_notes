@@ -8546,3 +8546,16 @@ Charlie 19 Nov 2011
     
     clientgui/
         sg_ProjectPanel.cpp
+
+David  20 Nov 2011
+    - client: on network_available() GUI RPC,
+        clear project-level upload and download backoffs,
+        as well as RPC and individual xfer backoffs.
+        This was an oversight.
+
+    client/
+        client_types.h
+        net_stats.cpp
+    ssim/
+        ssim.cpp
+        makefile
