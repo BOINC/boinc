@@ -285,6 +285,15 @@ $math = array(
     tra("Mathematics, computing, and games"),
     array(
         array(
+            "Mersenne@home",
+            "http://mersenneathome.net/",
+            tra("Private"),
+            tra("Mathematics"),
+            tra("Mersenne@home searches for 'Mersenne primes' - prime numbers of the form 2<sup>p</sup>-1."),
+
+            "mersenne_logo80.png"
+        ),
+        array(
             "DistrRTgen",
             "http://boinc.freerainbowtables.com/distrrtgen/",
             "Private",

@@ -536,7 +536,7 @@ function close_output_buffer($filename) {
 }
 
 function html_info() {
-    return "<br><a href=\"bbcode.php\" target=\"_new\"><span class=\"smalltext\">".tra("Use BBCode tags to format your text")."</span></a>\n";
+    return "<br><a href=\"bbcode.php\"><span class=\"smalltext\">".tra("Use BBCode tags to format your text")."</span></a>\n";
 }
 
 // strip slashes if magic quotes in effect

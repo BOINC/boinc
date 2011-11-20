@@ -8559,3 +8559,16 @@ David  20 Nov 2011
     ssim/
         ssim.cpp
         makefile
+
+David  20 Nov 2011
+    - web: add [sup] BBCode tag for superscripts.
+    - web: show BBCode info in the same page, rather than target=new.
+        On Firefox, this opens a new tab but doesn't switch to it,
+        which makes it look like nothing happened.
+
+    html/
+        inc/
+            text_transform.inc
+            util.inc
+        user/
+            bbcode.php
