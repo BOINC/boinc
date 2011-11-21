@@ -8613,3 +8613,9 @@ Rom    21 Nov 2011
 
     clientgui/
         sg_BoincSimpleFrame.cpp
+
+Rom    21 Nov 2011
+    - MGR: Fix bad asserts.
+    
+    clientgui/
+        BOINCBitmapComboBox.cpp
