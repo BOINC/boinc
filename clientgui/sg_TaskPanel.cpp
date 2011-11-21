@@ -340,9 +340,12 @@ CSimpleTaskPanel::CSimpleTaskPanel( wxWindow* parent ) :
 	
 	this->SetSizer( bSizer1 );
 	this->Layout();
-    
+
     m_ProgressRect = m_ProgressBar->GetRect();
-    m_ProgressRect.Inflate(1, 0);
+#ifdef __WXMAC__
+    m_ProgressRect.Inflate(0, -2);
+    m_ProgressRect.Offset(0, -2);
+#endif
 }
 
 
@@ -395,7 +398,7 @@ void CSimpleTaskPanel::UpdatePanel(bool delayShow) {
     
     if ((workCount <= 0) || delayShow) {
         if ((workCount != m_oldWorkCount) || delayShow) {
-	    wasDelayed = true;
+            wasDelayed = true;
             m_myTasksLabel->Hide();
             m_TaskSelectionCtrl->Hide();
             m_TaskProjectLabel->Hide();
@@ -414,13 +417,19 @@ void CSimpleTaskPanel::UpdatePanel(bool delayShow) {
                 m_pulseTimer->Start(100);
             }
             this->Layout();
+
+#ifdef __WXMAC__
+            m_ProgressRect = m_ProgressBar->GetRect();
+            m_ProgressRect.Inflate(0, -2);
+            m_ProgressRect.Offset(0, -2);
+#endif
         }
         
         DisplayIdleState();
         
     } else {
         if ((m_oldWorkCount == 0) || wasDelayed) {
-	    wasDelayed = false;
+            wasDelayed = false;
             m_myTasksLabel->Show();
             m_TaskSelectionCtrl->Show();
             m_TaskProjectLabel->Show();
@@ -434,6 +443,12 @@ void CSimpleTaskPanel::UpdatePanel(bool delayShow) {
             m_ProgressValueText->Show();
             m_TaskCommandsButton->Show();
             this->Layout();
+    
+#ifdef __WXMAC__
+            m_ProgressRect = m_ProgressBar->GetRect();
+            m_ProgressRect.Inflate(0, -2);
+            m_ProgressRect.Offset(0, -2);
+#endif
         }
 
         UpdateTaskSelectionList(false);
