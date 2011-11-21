@@ -8591,3 +8591,19 @@ Charlie 21 Nov 2011
         sg_BoincSimpleFrame.cpp,.h
         sg_PanelBase.cpp
         sg_TaskPanel.cpp
+
+Rom    21 Nov 2011
+    - MGR: const fixes for platform bitmaps.
+      (From: Steffen Möller)
+    - MGR: Add trace statements to help track down RemoveAt bug
+    - MGR: Remove static var guard, may not be needed with the SetDlgOpen()
+        routines blocking timer based updates.  If there is a buffer overrun
+        hopefully it'll manifest itself in a detectable way.
+
+    clientgui/res/
+        linuxicon.xpm
+        macosicon.xpm
+        windowsicon.xpm
+    clientgui/
+        sg_BoincSimpleFrame.cpp
+        sg_TaskPanel.cpp

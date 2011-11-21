@@ -1,5 +1,5 @@
 /* XPM */
-static char *Linux_xpm[] = {
+static const char *Linux_xpm[] = {
 /* columns rows colors chars-per-pixel */
 "14 14 17 1",
 ". c #8F8979",

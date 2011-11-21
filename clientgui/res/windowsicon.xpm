@@ -1,5 +1,5 @@
 /* XPM */
-static char *Win32_xpm[] = {
+static const char *Win32_xpm[] = {
 /* columns rows colors chars-per-pixel */
 "14 14 23 1",
 "4 c #6CC0EE",

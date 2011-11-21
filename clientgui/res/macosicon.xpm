@@ -1,5 +1,5 @@
 /* XPM */
-static char *MacOS_xpm[] = {
+static const char *MacOS_xpm[] = {
 /* columns rows colors chars-per-pixel */
 "14 14 14 1",
 "= c #295A9C",
