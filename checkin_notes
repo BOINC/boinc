@@ -8581,8 +8581,10 @@ Charlie 20 Nov 2011
 
 Charlie 21 Nov 2011
     - MGR: In Simple View, draw Mac progress bar on white background for 
-        better visibility.
+        better visibility; adjust red New Notices ring for new button
+        shapes if on Mac OS 10.7.
 
     clientgui/
+        sg_BoincSimpleFrame.cpp,.h
         sg_PanelBase.cpp
         sg_TaskPanel.cpp
