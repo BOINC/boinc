@@ -6965,3 +6965,37 @@ Rom    31 Oct 2011
     /
         configure.ac
         version.h
+        
+Charlie 24 Sep 2011
+    - Mac: more fixes for problems with OS 10.4 compatibility.
+        (All checked into 6.18.31 tag)
+
+    mac_installer/
+        PostInstall.cpp
+        uninstall.cpp
+
+Charlie 11 Oct 2011
+    - Mac installer: follow recommendations of Apple Developer Technical
+        Support: create users and groups boinc_master and boinc_project 
+        at first available UserIDs and GroupIDs starting at 501 instead 
+        of 25 to avoid conflicts with UserIDs and groupIDs which may be 
+        added in the future; use Directory Services to find the user 
+        names of all human users instead of stepping through the entries 
+        in the /Users directory.
+    - Mac installer: revert to using LoginItemAPI.c under OS 10.7.1, 
+        because it once again sets hidden property for login items, but 
+        the AppleScript seems not to work under OS 10.7.1.
+        (All checked into 6.18.31 tag)
+        
+    mac_installer/
+        PostInstall.cpp
+
+Charlie 21 Nov 2011
+    - Mac installer: update ReadMe files for BOINC 6.13.x.
+        (All checked into 6.18.31 tag)
+    
+    mac_installer/
+        CE-ReadMe.rtf
+        GR-ReadMe.rtf
+        PTP-ReadMe.rtf
+        ReadMe.rtf
