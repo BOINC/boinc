@@ -25,7 +25,6 @@
 #include <unistd.h>     // usleep
 #include <sys/param.h>  // for MAXPATHLEN
 #include <sys/stat.h>
-#include <sys/wait.h>
 #include <dirent.h>
 
 #include <Carbon/Carbon.h>
@@ -74,7 +73,7 @@ static char boinc_project_group_name[64];
 #define boinc_project_group_name REAL_BOINC_PROJECT_NAME
 #endif
 
-#define MIN_ID 25   /* Minimum user ID / Group ID to create */
+#define MIN_ID 501   /* Minimum user ID / Group ID to create */
 
 static char                    dsclPath[] = "/usr/bin/dscl";
 static char                    chmodPath[] = "/bin/chmod";
@@ -1041,6 +1040,9 @@ OSStatus DoPrivilegedExec(const char *pathToTool, char *arg1, char *arg2, char *
                 fclose (ioPipe);
             }
 
+            // AuthorizationExecuteWithPrivileges() does a fork() and so 
+            // leaves a zombie process.  Clear these so we don't exceed 
+            // the system-imposed limit of processes per user (MAXUPRC).
             while (waitpid(-1, 0, WNOHANG) > 0);
 #if 0
             if (strcmp(arg2, "-R") == 0)

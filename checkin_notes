@@ -6987,6 +6987,9 @@ Charlie 11 Oct 2011
         the AppleScript seems not to work under OS 10.7.1.
         (All checked into 6.18.31 tag)
         
+    clientgui/
+        mac/
+            SetupSecurity.cpp
     mac_build/
         boinc.xcodeproj/
             project.pbxproj
