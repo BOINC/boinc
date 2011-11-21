@@ -43,7 +43,7 @@ BEGIN_EVENT_TABLE(CSlideShowPanel, wxPanel)
 END_EVENT_TABLE()
 
 #define SLIDESHOWBORDER 3
-#define HIDEDEFAULTSLIDE true
+#define HIDEDEFAULTSLIDE 1
 
 CSlideShowPanel::CSlideShowPanel() {
 }
