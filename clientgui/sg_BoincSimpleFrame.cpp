@@ -429,7 +429,9 @@ void CSimpleFrame::OnSelectSkin( wxCommandEvent& event ){
         oldSkinID = m_pSubmenuSkins->FindItem(oldSkinName);
     }
     oldItem = m_pSubmenuSkins->FindItem(oldSkinID);
-    oldItem->Check(false);
+    if (oldItem) {
+        oldItem->Check(false);
+    }
 
     selectedItem->Check(true);
     pSkinManager->ReloadSkin(newSkinName);

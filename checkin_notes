@@ -8607,3 +8607,9 @@ Rom    21 Nov 2011
     clientgui/
         sg_BoincSimpleFrame.cpp
         sg_TaskPanel.cpp
+
+Rom    21 Nov 2011
+    - MGR: Prevent crash, check returned pointer of menu entry.
+
+    clientgui/
+        sg_BoincSimpleFrame.cpp
