@@ -8572,3 +8572,9 @@ David  20 Nov 2011
             util.inc
         user/
             bbcode.php
+
+Charlie 20 Nov 2011
+    - MGR: Hide slideshow subpanel if no slides for current task.
+    
+    clientgui/
+        sg_TaskPanel.cpp

@@ -43,6 +43,7 @@ BEGIN_EVENT_TABLE(CSlideShowPanel, wxPanel)
 END_EVENT_TABLE()
 
 #define SLIDESHOWBORDER 3
+#define HIDEDEFAULTSLIDE true
 
 CSlideShowPanel::CSlideShowPanel() {
 }
@@ -87,6 +88,10 @@ void CSlideShowPanel::AdvanceSlideShow(bool changeSlide) {
     int numSlides = (int)selData->slideShowFileNames.size();
 
     if (numSlides <= 0) {
+#if HIDEDEFAULTSLIDE
+        Show(false);
+        return;
+#else
         if (m_bCurrentSlideIsDefault) return;
         
         CSkinSimple* pSkinSimple = wxGetApp().GetSkinManager()->GetSimple();
@@ -97,7 +102,11 @@ void CSlideShowPanel::AdvanceSlideShow(bool changeSlide) {
         if (m_SlideBitmap.Ok()) {
             m_bCurrentSlideIsDefault = true;
         }
+#endif
     } else {
+#if HIDEDEFAULTSLIDE
+        Show(true);
+#endif
         // TODO: Should we allow slide show to advance if task is not running?
         int newSlide = selData->lastSlideShown;
         
