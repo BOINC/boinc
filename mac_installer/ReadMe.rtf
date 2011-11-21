@@ -66,11 +66,7 @@ Note: on some versions of the Mac OS, you may not be able to exit the BOINC scre
 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural\pardirnatural
 
-\b0 \cf0 Version 5.5.4 of BOINC Manager for the Macintosh features new, stricter security measures.  This additional security helps protect your computer data from potential theft or accidental or malicious damage by limiting BOINC projects' access to your  system and data.  \
-\
-If you experience problems with this software, you can re-install a version of BOINC prior to  5.5.4; this will automatically revert ownership and permissions to the earlier  implementation.\
-\
-Once we have tested this security implementation on the Mac, we plan to extend it to other computer platforms, including Linux and Windows.\
+\b0 \cf0 Since version 5.5.4, BOINC Manager for the Macintosh has featured new, stricter security measures.  This additional security helps protect your computer data from potential theft or accidental or malicious damage by limiting BOINC projects' access to your  system and data.  \
 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
 \cf0 The installer sets special permission for the BOINCManager and Client, which allows them to write to the shared BOINC Data regardless of which user is logged in.  If you 
@@ -106,17 +102,15 @@ Starting with version 5.5.4 of the BOINC Manager for the Macintosh, the BOINC in
 \b boinc_project
 \b0  (unless they were created by a previous installation of BOINC.)\
 \
-The installer automatically gives administrators (users who are members of the "admin" group) membership in the two new groups, so that they can easily manipulate BOINC files.  Non-admin users are denied access to these files and to he BOINC Manager, protecting BOINC and its projects files.  This is particularly useful where many people have access to the computer, as in a school computer lab.\
+The installer automatically gives administrators (users who are members of the "admin" group) membership in the two new groups, so that they can easily manipulate BOINC files.  The installer asks you if you would like non-admin users to be able to run the BOINC Manager and to have access to these files.  This is particularly useful where many people have access to the computer, as in a school computer lab.\
 \
 BOINC projects are given permission to access only project files, protecting your computer in the event someone downloads bad software from a bogus project, or in the unlikely case that a legitimate project's server is infiltrated by a cracker.\
 \
-The BOINC Manager also blocks non-admin users' access to certain functions, such as Attach, Detach, Reset Project.  BOINC permits a non-admin user to override this restriction by entering an administrator user name and password.\
-\
 For technical details of the implementation, please see {\field{\*\fldinst{HYPERLINK "http://boinc.berkeley.edu/trac/wiki/SandboxUser"}}{\fldrslt http://boinc.berkeley.edu/trac/wiki/SandboxUser}} and {\field{\*\fldinst{HYPERLINK "http://boinc.berkeley.edu/sandbox.php"}}{\fldrslt http://boinc.berkeley.edu/sandbox.php}}\
 \
-As of Version 5.5.4, the installer now sets BOINCManager as a Login item for 
+The installer sets BOINCManager as a Login item for 
 \b all
-\b0  users, not just the user who ran the installer.  You can add or remove Login Items by using the Accounts Pane in the System Preferences (accessible from the Apple menu).  (These items are called "Login Items" in OS 10.4 or "Startup Items" in OS 10.3.)\
+\b0  authorized users, not just the user who ran the installer.  You can add or remove Login Items by using the Accounts Pane in the System Preferences (accessible from the Apple menu).  \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
 \cf0 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
@@ -138,9 +132,9 @@ The installer places two items onto your hard drive: BOINCManager.app in your
 \
 The installer creates the BOINC Data folder in your 
 \b /Library/Application Support
-\b0  folder.  If you have previously been running BOINC in a different folder, copy your data into this folder.  \
+\b0  folder.  If you have previously been running BOINC in a different folder, copy your data into this folder before running the installer.  \
 \
-All users who log in on the same Macintosh will share one set of BOINC data, ensuring that work units are processed in the most timely manner.  \
+All users who log in on the same Macintosh will share one set of BOINC Data, ensuring that work units are processed in the most timely manner.  \
 \
 You can move (
 \b not
