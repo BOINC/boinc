@@ -667,7 +667,7 @@ void CheckUserAndGroupConflicts()
     FILE            *f;
     char            cmd[256], buf[256];
     int             entryCount;
-    OSErr           err;
+    OSErr           err = noErr;
 
     if (OSVersion < 0x1050) {
         // This fails under OS 10.4, but should not be needed under OS 10.4
