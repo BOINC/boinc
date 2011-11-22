@@ -8625,3 +8625,11 @@ Charlie 21 Nov 2011
     
     clientgui/res/skins/default/graphic/
         project_image.xpm
+
+Charlie 21 Nov 2011
+    - MGR: The asserts were correct; fix minor errors in calling code.
+    
+    clientgui/
+        BOINCBitmapComboBox.cpp
+        sg_ProjectPanel.cpp
+        sg_TaskPanel.cpp
