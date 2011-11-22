@@ -96,7 +96,7 @@ struct RSC_PROJECT_WORK_FETCH {
     }
 };
 
-// estimate the time a resources will be saturated
+// estimate the time a resource will be saturated
 // with high-priority jobs.
 //
 struct BUSY_TIME_ESTIMATOR {

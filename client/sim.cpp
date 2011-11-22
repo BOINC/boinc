@@ -545,8 +545,6 @@ bool CLIENT_STATE::scheduler_rpc_poll() {
 }
 
 bool ACTIVE_TASK_SET::poll() {
-    if (!active) return false;
-
     unsigned int i;
     char buf[256];
     bool action = false;
@@ -1106,12 +1104,20 @@ void simulate() {
         } else {
             active = gpu_active = connected = false;
         }
+        // do accounting for the period that just ended,
+        // even if we're now in an "off" state.
+        //
+        // need both of the following, else crash
+        //
+        action |= gstate.active_tasks.poll();
+        action |= gstate.handle_finished_apps();
         if (on) {
             while (1) {
                 action = false;
                 action |= gstate.schedule_cpus();
                 if (connected) {
                     action |= gstate.scheduler_rpc_poll();
+                        // this deletes completed results
                 }
                 action |= gstate.active_tasks.poll();
                 action |= gstate.handle_finished_apps();
@@ -1435,6 +1441,7 @@ void do_client_simulation() {
     );
     print_project_results(summary_file);
 
+    fclose(debt_file);
     make_graph("REC", "rec", 0);
 }
 

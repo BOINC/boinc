@@ -8633,3 +8633,10 @@ Charlie 21 Nov 2011
         BOINCBitmapComboBox.cpp
         sg_ProjectPanel.cpp
         sg_TaskPanel.cpp
+
+David  21 Nov 2011
+    - client emulator fixes
+
+    client/
+        work_fetch.h
+        sim.cpp
