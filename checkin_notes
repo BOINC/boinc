@@ -8619,3 +8619,9 @@ Rom    21 Nov 2011
     
     clientgui/
         BOINCBitmapComboBox.cpp
+
+Charlie 21 Nov 2011
+    - MGR: Fix bad transparency in default project icon.
+    
+    clientgui/res/skins/default/graphic/
+        project_image.xpm
