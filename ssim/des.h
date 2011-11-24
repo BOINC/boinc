@@ -19,6 +19,16 @@ struct SIMULATOR {
         events.push_back(e);
         push_heap(events.begin(), events.end(), compare);
     }
+    void remove(EVENT* e) {
+        vector<EVENT*>::iterator i;
+        for (i=events.begin(); i!=events.end(); i++) {
+            if (*i == e) {
+                events.erase(i);
+                make_heap(events.begin(), events.end(), compare);
+                break;
+            }
+        }
+    }
     void simulate(double dur) {
         while (events.size()) {
             EVENT* e = events.front();

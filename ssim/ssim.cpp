@@ -189,7 +189,7 @@ struct CHUNK : DATA_UNIT {
         //
         CHUNK_ON_HOST *c = *(hosts.begin());
         c->transfer_in_progress = true;
-        c->t = sim.now + size/UPLOAD_BYTES_SEC;
+        c->t = sim.now + (drand()+.5)*size/UPLOAD_BYTES_SEC;
         printf("%.0f: starting upload of %s\n", sim.now, c->name);
         sim.insert(c);
     }
@@ -197,8 +197,9 @@ struct CHUNK : DATA_UNIT {
         // see if we can remove chunk from server
         //
         int n=0;
-        for (unsigned int i=0; i<hosts.size(); i++) {
-            CHUNK_ON_HOST* c = hosts[i];
+        set<CHUNK_ON_HOST*>::iterator i;
+        for (i=hosts.begin(); i!=hosts.end(); i++) {
+            CHUNK_ON_HOST* c = *i;
             if (c->present_on_host) {
                 n++;
             }
@@ -256,6 +257,12 @@ struct META_CHUNK : DATA_UNIT {
         }
     }
 
+    virtual void cleanup() {
+        for (unsigned int i=0; i<children.size(); i++) {
+            children[i]->cleanup();
+        }
+    }
+
     // this is called only if we're uploading
     //
     void child_upload_complete() {
@@ -272,6 +279,11 @@ struct META_CHUNK : DATA_UNIT {
         assign();
         if (parent && parent->uploading) {
             parent->child_upload_complete();
+        } else {
+            // if we're not reconstructing parent,
+            // delete any chunks not being downloaded
+            //
+            cleanup();
         }
     }
 };
@@ -328,6 +340,9 @@ void HOST::handle() {
     for (p = chunks.begin(); p != chunks.end(); p++) {
         CHUNK_ON_HOST* c = *p;
         c->chunk->host_failed(c);
+        if (c->transfer_in_progress) {
+            sim.remove(c);
+        }
         delete c;
     }
 }
@@ -375,7 +390,7 @@ void CHUNK::assign() {
         printf("%.0f: assigning chunk %s to host %d\n", sim.now, name, h->id);
         c->host = h;
         c->chunk = this;
-        c->t = sim.now + size/DOWNLOAD_BYTES_SEC;
+        c->t = sim.now + (drand()+.5)*size/DOWNLOAD_BYTES_SEC;
         hosts.insert(c);
         h->chunks.insert(c);
         sim.insert(c);
