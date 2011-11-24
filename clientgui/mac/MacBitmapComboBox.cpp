@@ -179,7 +179,9 @@ int CBOINCBitmapComboBox::Append(const wxString& item, const wxBitmap& bitmap) {
         m_BitmapCache.push_back(bitmap);
     }
     
-    return m_ChoiceControl->Append(item);
+    int n = m_ChoiceControl->Append(item);
+    SetItemBitmap(n, bitmap);
+    return n;
 }
 
 
@@ -202,6 +204,7 @@ int CBOINCBitmapComboBox::Insert(const wxString& item, const wxBitmap& bitmap, u
         delete bm;
     }
     int n = m_ChoiceControl->Insert(item, pos);
+    SetItemBitmap(n, bitmap);
     return n;
 }
 
@@ -215,6 +218,7 @@ int CBOINCBitmapComboBox::Insert(const wxString& item, const wxBitmap& bitmap, u
     }
     
     int n = m_ChoiceControl->Insert(item, pos, clientData);
+    SetItemBitmap(n, bitmap);
     return n;
 }
 

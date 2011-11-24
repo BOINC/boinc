@@ -8648,3 +8648,15 @@ Charlie 23 Nov 2011
     
     clientgui/
         sg_TaskPanel.cpp,.h
+
+Charlie 23 Nov 2011
+    - MGR: In Simple View, sort Project Selection Control; make sorting of 
+        Project and Task Selection controls case-insensitive, fix bugs in 
+        MacBitmapComboBox.cpp.
+    
+    clientgui/
+        mac/
+            MacBitmapComboBox.cpp
+        MacBitmapComboBox.cpp
+        sg_ProjectPanel.cpp
+        sg_TaskPanel.cpp
