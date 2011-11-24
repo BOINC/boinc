@@ -8640,3 +8640,10 @@ David  21 Nov 2011
     client/
         work_fetch.h
         sim.cpp
+
+Charlie 23 Nov 2011
+    - MGR: In Simple View, if deleting a task above the current selection, 
+        decrement the index of the current selection.
+    
+    clientgui/
+        sg_TaskPanel.cpp
