@@ -8644,6 +8644,7 @@ David  21 Nov 2011
 Charlie 23 Nov 2011
     - MGR: In Simple View, if deleting a task above the current selection, 
         decrement the index of the current selection.
+    - MGR: In Simple View, reload slide show when task selection changed.
     
     clientgui/
-        sg_TaskPanel.cpp
+        sg_TaskPanel.cpp,.h

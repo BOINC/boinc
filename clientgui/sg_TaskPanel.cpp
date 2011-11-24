@@ -76,14 +76,19 @@ CSlideShowPanel::~CSlideShowPanel()
 
 
 void CSlideShowPanel::OnSlideShowTimer(wxTimerEvent& WXUNUSED(event)) {
-    AdvanceSlideShow(true);
+    AdvanceSlideShow(true, false);
 }
 
 
-void CSlideShowPanel::AdvanceSlideShow(bool changeSlide) {
+void CSlideShowPanel::AdvanceSlideShow(bool changeSlide, bool reload) {
 	double xRatio, yRatio, ratio;
     TaskSelectionData* selData = ((CSimpleTaskPanel*)GetParent())->GetTaskSelectionData();
     if (selData == NULL) return;
+
+    if (reload) {
+        m_bCurrentSlideIsDefault = false;
+        selData->lastSlideShown = -1;
+    }
 
     int numSlides = (int)selData->slideShowFileNames.size();
 
@@ -478,7 +483,7 @@ void CSimpleTaskPanel::UpdatePanel(bool delayShow) {
                     GetApplicationAndProjectNames(result, NULL, &projName);
 #endif
                     UpdateStaticText(&m_TaskProjectName, projName);
-                    m_SlideShowArea->AdvanceSlideShow(false);
+                    m_SlideShowArea->AdvanceSlideShow(false, true);
                     m_bStableTaskInfoChanged = false;
                 }
                 float f = result->elapsed_time;
@@ -528,7 +533,7 @@ void CSimpleTaskPanel::UpdatePanel(bool delayShow) {
 void CSimpleTaskPanel::ReskinInterface() {
     wxLogTrace(wxT("Function Start/End"), wxT("CSimpleTaskPanel::ReskinInterface - Function Begin"));
     CSimplePanelBase::ReskinInterface();
-    m_SlideShowArea->AdvanceSlideShow(false);
+    m_SlideShowArea->AdvanceSlideShow(false, false);
     UpdateTaskSelectionList(true);
     wxLogTrace(wxT("Function Start/End"), wxT("CSimpleTaskPanel::ReskinInterface - Function Begin"));
 }
