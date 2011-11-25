@@ -8670,3 +8670,9 @@ David  24 Nov 2011
     ssim/
         ssim.cpp
         des.h
+
+David  24 Nov 2011
+    - default screensaver: fix divide-by-zero; code cleanup
+
+    clientsrc/
+        ss_app.cpp

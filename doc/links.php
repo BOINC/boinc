@@ -305,7 +305,7 @@ language("Polish", array(
     site("http://www.boinc.org.pl/", "Team boinc.pl"),
     site("http://www.boinc.prv.pl", "BOINC@Kolobrzeg"),
     site("http://www.boincatpoland.org", "BOINC@Poland"),
-    //site("http://www.boinc.pl", "www.boinc.pl"),
+    site("http://boinc.pl", "BOINC Polish National Team"),
     site("http://www.tomaszpawel.republika.pl/", "TomaszPawelTeam"),
     site("http://www.gpuforce.oxyone.pl/", "GPU Force"),
 ));
