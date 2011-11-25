@@ -339,10 +339,10 @@ void COPROCS::get_opencl(
         // 1/2 of total global RAM size: use the value from CAL. 
         // This bug applies only to ATI GPUs, not to NVIDIA
         //
-        ati.opencl_prop.global_mem_size = ati.attribs.localRAM;
+        ati.opencl_prop.global_mem_size = ati.attribs.localRAM * MEGA;
     } else {
         ati.find_best_opencls(use_all, ati_opencls, ignore_ati_dev);
-        ati.attribs.localRAM = ati.opencl_prop.local_mem_size;
+        ati.attribs.localRAM = ati.opencl_prop.global_mem_size/MEGA;
         ati.attribs.engineClock = ati.opencl_prop.max_clock_frequency;
     }           // End if (! ati.have_cal)
 
