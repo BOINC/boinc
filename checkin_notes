@@ -7005,3 +7005,9 @@ Charlie 21 Nov 2011
         GR-ReadMe.rtf
         PTP-ReadMe.rtf
         ReadMe.rtf
+
+David  24 Nov 2011
+    - default screensaver: fix divide-by-zero
+
+    clientsrc/
+        ss_app.cpp
