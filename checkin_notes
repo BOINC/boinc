@@ -10371,3 +10371,9 @@ Rom    7 Nov 2011
     /
         configure.ac
         version.h
+
+David  24 Nov 2011
+    - default screensaver: fix divide-by-zero
+
+    clientsrc/
+        ss_app.cpp

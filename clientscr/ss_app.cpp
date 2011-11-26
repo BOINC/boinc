@@ -425,8 +425,13 @@ void app_graphics_render(int xs, int ys, double t) {
                 showing_project = false;
                 project_index++;
             } else {
-                job_index += MAX_JOBS_DISPLAY;
-                job_index %= cc_state.results.size();
+                int n = cc_state.results.size();
+                if (n) {
+                    job_index += MAX_JOBS_DISPLAY;
+                    job_index %= n;
+                } else {
+                    job_index = 0;
+                }
                 showing_project = true;
             }
         }
