@@ -496,19 +496,19 @@ int main(int argc, char** argv) {
     }
     
 #ifdef __APPLE__
-    long brandId;
+    long brandId = BOINC_BRAND_ID;
     // For GridRepublic or CharityEngine, the installer put a branding file in our data directory
     FILE *f = fopen("/Library/Application Support/BOINC Data/Branding", "r");
     if (f) {
         fscanf(f, "BrandId=%ld\n", &brandId);
         fclose(f);
-    }
-    if (brandId == GRIDREPUBLIC_BRAND_ID) {
-        brand_name = "GridRepublic";
-        logo_file = "gridrepublic_ss_logo.jpg";
-    } else if (brandId == CHARITYENGINE_BRAND_ID) {
-        brand_name = "Charity Engine";
-        logo_file = "CE_ss_logo.jpg";
+        if (brandId == GRIDREPUBLIC_BRAND_ID) {
+            brand_name = "GridRepublic";
+            logo_file = "gridrepublic_ss_logo.jpg";
+        } else if (brandId == CHARITYENGINE_BRAND_ID) {
+            brand_name = "Charity Engine";
+            logo_file = "CE_ss_logo.jpg";
+        }
     }
 #endif
 
