@@ -104,6 +104,7 @@ inline double drand() {
 }
 
 // place-holder
+//
 double ran_exp(double mean) {
     // gsl_ran_exponential(mean);
     return (drand() + .5)*mean;
@@ -165,7 +166,9 @@ struct DATA_UNIT {
         // assuming that current downloads succeed
     virtual void start_upload(){die("start_upload undef"); };
     virtual void assign(){die("assign undef"); };
-    bool present_on_server;
+    virtual bool is_present_on_server(){die("pos undef"); return false;};
+    virtual void delete_chunks_from_server(){die("dcfs undef");};
+    virtual void now_present(){die("now_present undef");};
     bool is_uploading;
     char name[64];
 };
@@ -174,6 +177,7 @@ struct CHUNK : DATA_UNIT {
     set<CHUNK_ON_HOST*> hosts;
     META_CHUNK* parent;
     double size;
+    bool _is_present_on_server;
 
     CHUNK(META_CHUNK* mc, double s, int index);
 
@@ -182,6 +186,9 @@ struct CHUNK : DATA_UNIT {
     void upload_complete();
     virtual bool recoverable() {
         return (!hosts.empty());
+    }
+    virtual bool is_present_on_server() {
+        return _is_present_on_server;
     }
     virtual void start_upload() {
         // if there's another replica, start upload of 1st instance
@@ -194,7 +201,8 @@ struct CHUNK : DATA_UNIT {
         sim.insert(c);
     }
     void download_complete() {
-        // see if we can remove chunk from server
+        // we can remove chunk from server if enough replicas
+        // have downloaded
         //
         int n=0;
         set<CHUNK_ON_HOST*>::iterator i;
@@ -206,9 +214,16 @@ struct CHUNK : DATA_UNIT {
         }
         if (n >= REPLICATION_LEVEL) {
             printf("%.0f: %s replicated, removing from server\n", sim.now, name);
-            present_on_server = false;
+            _is_present_on_server = false;
         }
 
+    }
+    virtual void delete_chunks_from_server() {
+        printf("%0f: deleting %s from server\n", sim.now, name);
+        _is_present_on_server = false;
+    }
+    virtual void now_present() {
+        _is_present_on_server = true;
     }
 };
 
@@ -222,9 +237,27 @@ struct META_CHUNK : DATA_UNIT {
     META_CHUNK(
         DFILE* d, META_CHUNK* par, double size, int encoding_level, int index
     );
+
+    virtual bool is_present_on_server() {
+        int n=0;
+        for (int i=0; i<ENCODING_M; i++) {
+            if (children[i]->is_present_on_server()) {
+                n++;
+                if (n == ENCODING_N) return true;
+            }
+        }
+        return false;
+    }
+
+    virtual void now_present() {
+        for (int i=0; i<ENCODING_M; i++) {
+            children[i]->now_present();
+        }
+    }
+
     int n_recoverable_children() {
         int n = 0;
-        for (int i=0; i<ENCODING_N; i++) {
+        for (int i=0; i<ENCODING_M; i++) {
             if (children[i]->recoverable()) {
                 n++;
             }
@@ -251,39 +284,42 @@ struct META_CHUNK : DATA_UNIT {
         }
     }
 
+    // start download of descendant chunks as needed
+    //
     virtual void assign() {
         for (unsigned int i=0; i<children.size(); i++) {
             children[i]->assign();
         }
     }
 
-    virtual void cleanup() {
+    virtual void delete_chunks_from_server() {
         for (unsigned int i=0; i<children.size(); i++) {
-            children[i]->cleanup();
+            children[i]->delete_chunks_from_server();
         }
     }
 
     // this is called only if we're uploading
     //
     void child_upload_complete() {
+        printf("%.0f: child upload complete for %s\n", sim.now, name);
         int n = 0;
         for (unsigned int i=0; i<children.size(); i++) {
             DATA_UNIT* c = children[i];
-            if (c->present_on_server) {
+            if (c->is_present_on_server()) {
                 n++;
             }
         }
         if (n >= ENCODING_N) {
-            present_on_server = true;
-        }
-        assign();
-        if (parent && parent->uploading) {
-            parent->child_upload_complete();
-        } else {
-            // if we're not reconstructing parent,
-            // delete any chunks not being downloaded
-            //
-            cleanup();
+            now_present();
+            assign();
+            if (parent && parent->uploading) {
+                parent->child_upload_complete();
+            } else {
+                // if we're not reconstructing parent,
+                // delete any chunks not being downloaded
+                //
+                delete_chunks_from_server();
+            }
         }
     }
 };
@@ -320,8 +356,8 @@ void CHUNK_ON_HOST::handle() {
     transfer_in_progress = false;
     if (present_on_host) {
         // it was an upload
-        chunk->upload_complete();    // create new replicas if needed
         printf("%.f: upload of %s completed\n", sim.now, name);
+        chunk->upload_complete();    // create new replicas if needed
     } else {
         present_on_host = true;
         printf("%.f: download of %s completed\n", sim.now, name);
@@ -349,7 +385,7 @@ void HOST::handle() {
 
 CHUNK::CHUNK(META_CHUNK* mc, double s, int index) {
     parent = mc;
-    present_on_server = true;
+    _is_present_on_server = true;
     size = s;
     sprintf(name, "%s.%d", parent->name, index);
 }
@@ -358,7 +394,7 @@ void CHUNK::host_failed(CHUNK_ON_HOST* p) {
     set<CHUNK_ON_HOST*>::iterator i = hosts.find(p);
     hosts.erase(i);
     printf("%.0f: handling loss of %s\n", sim.now, p->name);
-    if (present_on_server) {
+    if (_is_present_on_server) {
         // if data is on server, make a new replica
         //
         assign();
@@ -370,7 +406,7 @@ void CHUNK::host_failed(CHUNK_ON_HOST* p) {
 }
 
 void CHUNK::upload_complete() {
-    present_on_server = true;
+    _is_present_on_server = true;
     assign();
     if (parent->uploading) {
         parent->child_upload_complete();
@@ -378,6 +414,7 @@ void CHUNK::upload_complete() {
 }
 
 void CHUNK::assign() {
+    if (!_is_present_on_server) return;
     while (hosts.size() < REPLICATION_LEVEL) {
         if (parent->dfile->unused_hosts.size() == 0) {
             die("no more hosts!\n");
@@ -393,6 +430,7 @@ void CHUNK::assign() {
         c->t = sim.now + (drand()+.5)*size/DOWNLOAD_BYTES_SEC;
         hosts.insert(c);
         h->chunks.insert(c);
+        c->transfer_in_progress = true;
         sim.insert(c);
     }
 }

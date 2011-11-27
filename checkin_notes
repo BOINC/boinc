@@ -8690,3 +8690,9 @@ Charlie 26 Nov 2011
 
     clientsrc/
         ss_app.cpp
+
+David  26 Nov 2011
+    - storage simulator work
+
+    ssim/
+        ssim.cpp
