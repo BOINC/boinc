@@ -31,39 +31,81 @@
 #include "filesys.h"
 
 
+#define SLIDESHOWBORDER 3
+#define HIDEDEFAULTSLIDE 1
+
 enum { redDot, yellowDot, greenDot };
+
+
+IMPLEMENT_DYNAMIC_CLASS(CTextBox, wxTextCtrl)
+
+BEGIN_EVENT_TABLE(CTextBox, wxTextCtrl)
+	EVT_ERASE_BACKGROUND(CTextBox::OnEraseBackground)
+END_EVENT_TABLE()
+
+CTextBox::CTextBox() {
+}
+
+CTextBox::CTextBox( wxWindow* parent) :
+    wxTextCtrl( parent, wxID_ANY, wxT(""), wxDefaultPosition, wxDefaultSize, wxTE_MULTILINE | wxTE_READONLY )
+{
+    SetDefaultStyle(wxTextAttr(wxNullColour, wxColour(255, 255, 255, 0)));
+    SetBackgroundColour(wxColour(255, 255, 255, 0));
+
+}
+		
+void CTextBox::OnEraseBackground(wxEraseEvent& event) {
+    wxDC *dc = event.GetDC();
+    wxRect r = GetRect();
+    wxBitmap backgroundBitmap = ((CSimpleTaskPanel*)GetGrandParent())->GetBackgroundBmp().GetSubBitmap(r);
+    dc->DrawBitmap(backgroundBitmap, 0, 0);
+//dc->SetBrush(*wxRED_BRUSH);
+//dc->DrawRectangle(r.x, r.y, r.width, r.height);
+}
+
 
 
 IMPLEMENT_DYNAMIC_CLASS(CSlideShowPanel, wxPanel)
 
 BEGIN_EVENT_TABLE(CSlideShowPanel, wxPanel)
-//	EVT_ERASE_BACKGROUND(CSlideShowPanel::OnEraseBackground)
+	EVT_ERASE_BACKGROUND(CSlideShowPanel::OnEraseBackground)
 	EVT_TIMER(ID_CHANGE_SLIDE_TIMER, CSlideShowPanel::OnSlideShowTimer)
     EVT_PAINT(CSlideShowPanel::OnPaint)
 END_EVENT_TABLE()
-
-#define SLIDESHOWBORDER 3
-#define HIDEDEFAULTSLIDE 1
 
 CSlideShowPanel::CSlideShowPanel() {
 }
 
 
 CSlideShowPanel::CSlideShowPanel( wxWindow* parent ) :
-    wxPanel( parent, wxID_ANY, wxDefaultPosition, wxSize(290+(2*SLIDESHOWBORDER), 126+(2*SLIDESHOWBORDER)), wxSTATIC_BORDER )
+    wxPanel( parent, wxID_ANY, wxDefaultPosition, wxSize(290+(2*SLIDESHOWBORDER), 126+(2*SLIDESHOWBORDER)), wxBORDER_NONE )
 {
-    SetBackgroundColour(*wxBLACK);
+	wxBoxSizer* bSizer1;
+	bSizer1 = new wxBoxSizer( wxVERTICAL );
 
-    m_ChangeSlideTimer = new wxTimer(this, ID_CHANGE_SLIDE_TIMER);
-	m_ChangeSlideTimer->Start(10000);
-    
+    m_institution = new CTransparentStaticText( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer1->Add( m_institution, 0, 0, 0 );
+    m_scienceArea = new CTransparentStaticText( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer1->Add( m_scienceArea, 0, 0, 0 );
+//    m_description = new CTextBox( this );
+    m_description = new wxTextCtrl( this, wxID_ANY, wxT(""), wxDefaultPosition, wxDefaultSize, wxTE_MULTILINE | wxTE_READONLY );
+//    m_description->SetDefaultStyle(wxTextAttr(*wxBLACK, wxColour(0,0,0,0)));
+	bSizer1->Add( m_description, 1, wxEXPAND, 0 );
+
+	this->SetSizer( bSizer1 );
+	this->Layout();
+
     m_SlideBitmap = wxNullBitmap;
     m_bCurrentSlideIsDefault = false;
+    m_bGotAllProjectsList = false;
 
 #ifdef __WXMAC__
     // Tell accessibility aids to ignore this panel (but not its contents)
     HIObjectSetAccessibilityIgnored((HIObjectRef)GetHandle(), true);
 #endif    
+
+    m_ChangeSlideTimer = new wxTimer(this, ID_CHANGE_SLIDE_TIMER);
+	m_ChangeSlideTimer->Start(10000);
 }
 
 CSlideShowPanel::~CSlideShowPanel()
@@ -82,6 +124,7 @@ void CSlideShowPanel::OnSlideShowTimer(wxTimerEvent& WXUNUSED(event)) {
 
 void CSlideShowPanel::AdvanceSlideShow(bool changeSlide, bool reload) {
 	double xRatio, yRatio, ratio;
+    unsigned int i;
     TaskSelectionData* selData = ((CSimpleTaskPanel*)GetParent())->GetTaskSelectionData();
     if (selData == NULL) return;
 
@@ -94,9 +137,44 @@ void CSlideShowPanel::AdvanceSlideShow(bool changeSlide, bool reload) {
 
     if (numSlides <= 0) {
 #if HIDEDEFAULTSLIDE
-        Show(false);
+        if (!reload) {
+            return;
+        }
+        wxRect r = GetRect();
+        wxBitmap backgroundBitmap = ((CSimpleTaskPanel*)GetParent())->GetBackgroundBmp().GetSubBitmap(r);
+        wxWindowDC dc(this);
+        dc.DrawBitmap(backgroundBitmap, 0, 0);
+
+        // Force redraws if text unchanged; hide all if not in all-projects list
+        m_institution->Show(false);
+        m_scienceArea->Show(false);
+        m_description->Show(false);
+
+        if (!m_bGotAllProjectsList) {
+            CMainDocument* pDoc = wxGetApp().GetDocument();
+            wxASSERT(pDoc);
+
+            pDoc->rpc.get_all_projects_list(m_AllProjectsList);
+            m_bGotAllProjectsList = true;
+        }
+
+        for (i=0; i<m_AllProjectsList.projects.size(); i++) {
+            if (!strcmp(m_AllProjectsList.projects[i]->url.c_str(), selData->project_url)) {
+                m_institution->SetLabel(wxString(m_AllProjectsList.projects[i]->home.c_str(), wxConvUTF8));
+                m_scienceArea->SetLabel(wxString(m_AllProjectsList.projects[i]->specific_area.c_str(), wxConvUTF8));
+                m_description->SetValue(wxString(m_AllProjectsList.projects[i]->description.c_str(), wxConvUTF8));
+
+                m_institution->Show(true);
+                m_scienceArea->Show(true);
+                m_description->Show(true);
+                m_description->Enable();
+                break;
+            }
+        }
         return;
 #else
+        SetBackgroundColour(*wxBLACK);
+
         if (m_bCurrentSlideIsDefault) return;
         
         CSkinSimple* pSkinSimple = wxGetApp().GetSkinManager()->GetSimple();
@@ -110,7 +188,9 @@ void CSlideShowPanel::AdvanceSlideShow(bool changeSlide, bool reload) {
 #endif
     } else {
 #if HIDEDEFAULTSLIDE
-        Show(true);
+        m_institution->Show(false);
+        m_scienceArea->Show(false);
+        m_description->Show(false);
 #endif
         // TODO: Should we allow slide show to advance if task is not running?
         int newSlide = selData->lastSlideShown;
@@ -164,7 +244,16 @@ void CSlideShowPanel::AdvanceSlideShow(bool changeSlide, bool reload) {
 
 void CSlideShowPanel::OnPaint(wxPaintEvent& WXUNUSED(event)) 
 { 
-        wxPaintDC dc(this);
+    wxPaintDC dc(this);
+#if HIDEDEFAULTSLIDE
+    int numSlides = 0;
+    TaskSelectionData* selData = ((CSimpleTaskPanel*)GetParent())->GetTaskSelectionData();
+    if (selData) {
+        numSlides = (int)selData->slideShowFileNames.size();
+    }
+    if (numSlides > 0)
+#endif
+    {
         int w, h;
         wxPen oldPen = dc.GetPen();
         wxBrush oldBrush = dc.GetBrush();
@@ -187,9 +276,17 @@ void CSlideShowPanel::OnPaint(wxPaintEvent& WXUNUSED(event))
                             (w - m_SlideBitmap.GetWidth())/2, 
                             (h - m_SlideBitmap.GetHeight())/2
                             ); 
-        } 
+        }
+    }
 } 
 
+
+void CSlideShowPanel::OnEraseBackground(wxEraseEvent& event) {
+    wxDC *dc = event.GetDC();
+    wxRect r = GetRect();
+    wxBitmap backgroundBitmap = ((CSimpleTaskPanel*)GetParent())->GetBackgroundBmp().GetSubBitmap(r);
+    dc->DrawBitmap(backgroundBitmap, 0, 0);
+}
         
 
 

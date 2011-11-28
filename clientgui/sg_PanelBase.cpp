@@ -174,6 +174,15 @@ void CSimplePanelBase::OnPaint(wxPaintEvent& /*event*/) {
 }
 
 
+wxBitmap CSimplePanelBase::GetBackgroundBmp() {
+    if (!m_GotBGBitMap) {
+        MakeBGBitMap();
+    }
+
+    return m_TaskPanelBGBitMap;
+}
+
+
 void CSimplePanelBase::UpdateStaticText(CTransparentStaticText **whichText, wxString s) {
     EllipseStringIfNeeded(s, *whichText);
     if ((*whichText)->GetLabel() != s) {

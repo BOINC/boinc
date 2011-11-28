@@ -8696,3 +8696,12 @@ David  26 Nov 2011
 
     ssim/
         ssim.cpp
+
+Charlie 28 Nov 2011
+    - MGR: In Simple View, if task has no slide show, then display the 
+        institution, science area and description. 
+        This is in progress: not yet finished.
+
+    clientgui/
+        sg_PanelBase.cpp,.h
+        sg_TaskPanel.cpp,.h
