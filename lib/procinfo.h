@@ -70,9 +70,13 @@ extern int procinfo_setup(PROC_MAP&);
 extern void procinfo_app(
     PROCINFO&, std::vector<int>* other_pids, PROC_MAP&, char* graphics_exec_file
 );
-	// get mem usage for a given app, and mark processes as BOINC
+	// get info for a given app, and mark processes as BOINC
 
 extern void procinfo_non_boinc(PROCINFO&, PROC_MAP&);
 	// After getting info for all BOINC apps,
 	// call this to get info for everything else
+
+extern double process_tree_cpu_time(int pid);
+    // get the CPU time of the given process and its descendants
+
 #endif

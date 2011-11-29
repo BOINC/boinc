@@ -96,7 +96,7 @@ void procinfo_app(
             add_child_totals(pi, pm, i);
             return;
         }
-        if (!strcmp(p.command, graphics_exec_file)) {
+        if (graphics_exec_file && !strcmp(p.command, graphics_exec_file)) {
             p.is_boinc_app = true;
         }
     }
@@ -130,4 +130,17 @@ void procinfo_non_boinc(PROCINFO& pi, PROC_MAP& pm) {
         pi.swap_size += p.swap_size;
         pi.working_set_size += p.working_set_size;
     }
+}
+
+double process_tree_cpu_time(int pid) {
+    PROC_MAP pm;
+    PROCINFO pi;
+    int retval;
+
+    retval = procinfo_setup(pm);
+    if (retval) return 0;
+
+    pi.id = pid;
+    procinfo_app(pi, NULL, pm, NULL);
+    return pi.user_time + pi.kernel_time;
 }

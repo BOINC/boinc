@@ -41,15 +41,16 @@
 #include <unistd.h>
 #endif
 
-#include "proc_control.h"
 #include "boinc_api.h"
 #include "diagnostics.h"
+#include "error_numbers.h"
 #include "filesys.h"
 #include "parse.h"
+#include "proc_control.h"
+#include "procinfo.h"
 #include "str_util.h"
 #include "str_replace.h"
 #include "util.h"
-#include "error_numbers.h"
 
 #define JOB_FILENAME "job.xml"
 #define CHECKPOINT_FILENAME "wrapper_checkpoint.txt"
@@ -485,7 +486,7 @@ int TASK::run(int argct, char** argvt) {
     thread_handle = process_info.hThread;
     SetThreadPriority(thread_handle, THREAD_PRIORITY_IDLE);
 #else
-    int retval, argc;
+    int retval;
     char* argv[256];
     char arglist[4096];
     FILE* stdout_file;
@@ -534,7 +535,7 @@ int TASK::run(int argct, char** argvt) {
         //
         argv[0] = app_path;
         strlcpy(arglist, command_line.c_str(), sizeof(arglist));
-        argc = parse_command_line(arglist, argv+1);
+        parse_command_line(arglist, argv+1);
         setpriority(PRIO_PROCESS, 0, PROCESS_IDLE_PRIORITY);
         if (!exec_dir.empty()) {
             retval = chdir(exec_dir.c_str());
@@ -617,18 +618,7 @@ void TASK::resume() {
 }
 
 double TASK::cpu_time() {
-#ifdef _WIN32
-    double x;
-    int retval = boinc_process_cpu_time(pid_handle, x);
-    if (retval) return wall_cpu_time;
-    return x;
-#elif defined(__APPLE__)
-    // There's no easy way to get another process's CPU time in Mac OS X
-    //
-    return wall_cpu_time;
-#else
-    return linux_cpu_time(pid);
-#endif
+    return process_tree_cpu_time(pid);
 }
 
 void poll_boinc_messages(TASK& task) {
@@ -655,17 +645,6 @@ void poll_boinc_messages(TASK& task) {
             task.resume();
         }
     }
-}
-
-void send_status_message(
-    TASK& task, double frac_done, double checkpoint_cpu_time
-) {
-    double current_cpu_time = task.starting_cpu + task.cpu_time();
-    boinc_report_app_status(
-        current_cpu_time,
-        checkpoint_cpu_time,
-        frac_done
-    );
 }
 
 // Support for multiple tasks.
@@ -754,12 +733,14 @@ int main(int argc, char** argv) {
             continue;
         }
         double frac_done = weight_completed/total_weight;
+        double cpu_time = 0;
 
         task.starting_cpu = checkpoint_cpu_time;
         retval = task.run(argc, argv);
         if (retval) {
             boinc_finish(retval);
         }
+        int counter = 0;
         while (1) {
             int status;
             if (task.poll(status)) {
@@ -779,12 +760,25 @@ int main(int argc, char** argv) {
             poll_boinc_messages(task);
             double task_fraction_done = task.fraction_done();
             double delta = task_fraction_done*task.weight/total_weight;
-            send_status_message(task, frac_done+delta, checkpoint_cpu_time);
+
+            // getting CPU time of task tree is inefficient,
+            // so do it only every 10 sec
+            //
+            if (counter%10 == 0) {
+                cpu_time = task.cpu_time();
+            }
+            boinc_report_app_status(
+                task.starting_cpu + cpu_time,
+                checkpoint_cpu_time,
+                frac_done + delta
+            );
             if (task.has_checkpointed()) {
-                checkpoint_cpu_time = task.starting_cpu + task.cpu_time();
+                cpu_time = task.cpu_time();
+                checkpoint_cpu_time = task.starting_cpu + cpu_time;
                 write_checkpoint(i, checkpoint_cpu_time);
             }
             boinc_sleep(POLL_PERIOD);
+            counter++;
         }
         checkpoint_cpu_time = task.starting_cpu + task.final_cpu_time;
         write_checkpoint(i+1, checkpoint_cpu_time);
