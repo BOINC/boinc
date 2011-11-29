@@ -8620,3 +8620,11 @@ David  24 Nov 2011
 
     clientsrc/
         ss_app.cpp
+
+David  25 Nov 2011
+    - client: fix errors in transferring RAM info between CAL and OpenCL.
+        (bytes vs MB units, local/global terminology issue).
+        From Oliver Bock>
+
+    client/
+        coproc_detect.cpp
