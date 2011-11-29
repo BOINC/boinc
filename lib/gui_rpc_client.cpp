@@ -127,12 +127,19 @@ int RPC_CLIENT::init(const char* host, int port) {
 
     // set up receive timeout; avoid hang if client doesn't respond
     //
+#ifdef _WIN32
+    DWORD dwTime = 30000;
+    if (setsockopt(sock, SOL_SOCKET, SO_RCVTIMEO, (char *)&dwTime,  sizeof dwTime)) {
+        // not fatal
+    } 
+#else
     struct timeval tv;
     tv.tv_sec = 30;
     tv.tv_usec = 0;
     if (setsockopt(sock, SOL_SOCKET, SO_RCVTIMEO, (char *)&tv,  sizeof tv)) {
         // not fatal
     } 
+#endif
     retval = connect(sock, (const sockaddr*)(&addr), addr_len(addr));
     if (retval) {
 #ifdef _WIN32

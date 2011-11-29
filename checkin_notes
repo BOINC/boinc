@@ -8607,3 +8607,13 @@ Charlie 23 Nov 2011
         MacBitmapComboBox.cpp
         sg_ProjectPanel.cpp
         sg_TaskPanel.cpp
+
+David  24 Nov 2011
+    - GUI RPC client lib: change setsockopt() for receive timeout
+        to work on Windows.  From Fred.
+
+    lib/
+        gui_rpc_client.cpp
+    ssim/
+        ssim.cpp
+        des.h
