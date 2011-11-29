@@ -768,6 +768,14 @@ CSimpleGUIPanel::CSimpleGUIPanel(wxWindow* parent) :
 #ifdef __WXMAC__
     // Tell accessibility aids to ignore this panel (but not its contents)
     HIObjectSetAccessibilityIgnored((HIObjectRef)GetHandle(), true);
+    
+    SInt32 response;
+    OSStatus err = Gestalt(gestaltSystemVersion, &response);
+    if ((err == noErr) && (response >= 0x1070)) {
+        m_iRedRingRadius = 4;
+    } else {
+        m_iRedRingRadius = 12;
+    }
 #endif    
 
     m_SuspendResumeButton->Disable();
@@ -1011,7 +1019,6 @@ void CSimpleGUIPanel::OnPaint(wxPaintEvent& WXUNUSED(event)) {
 
     if (m_bNewNoticeAlert) {
         wxRect r = m_NoticesButton->GetRect();
-        r.Inflate(3, 3);
         if (m_bNoticesButtonIsRed) {
             wxPen oldPen = myDC.GetPen();
             wxBrush oldBrush = myDC.GetBrush();
@@ -1021,10 +1028,13 @@ void CSimpleGUIPanel::OnPaint(wxPaintEvent& WXUNUSED(event)) {
             myDC.SetPen(bgPen);
             myDC.SetBrush(*wxTRANSPARENT_BRUSH);
 #ifdef __WXMAC__
-            myDC.DrawRoundedRectangle(r.x, r.y, r.width, r.height, 12);
+            r.Inflate(2, 2);
+            myDC.DrawRoundedRectangle(r.x, r.y, r.width, r.height+1, m_iRedRingRadius);
 #elif defined(__WXMSW__)
+            r.Inflate(3, 3);
             myDC.DrawRectangle(r.x, r.y, r.width, r.height);
 #else
+            r.Inflate(3, 3);
             myDC.DrawRoundedRectangle(r.x, r.y, r.width, r.height, 6);
 #endif
             // Restore Mode, Pen and Brush 

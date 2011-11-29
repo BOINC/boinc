@@ -76,6 +76,7 @@ protected:
     
 //    EventHandlerRef m_pSGAccessibilityEventHandlerRef;
 
+    int         m_iRedRingRadius;
 #endif
     wxBitmap    m_bmpBg;
     wxButton    *m_NoticesButton;
@@ -87,7 +88,7 @@ protected:
     bool        m_bIsSuspended;
 
 private:
-    int		m_irefreshCount;
+    int         m_irefreshCount;
     bool        dlgOpen;
 	wxTimer*    checkForNewNoticesTimer;
     wxString    m_sSuspendButtonToolTip;
