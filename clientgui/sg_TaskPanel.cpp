@@ -66,6 +66,7 @@ CScrolledTextBox::CScrolledTextBox( wxWindow* parent) :
 
 
 CScrolledTextBox::~CScrolledTextBox() {
+    // Delete sizer & its children (CTransparentStaticText objects)
     m_TextSizer->Clear(true);
 }
 
@@ -80,6 +81,7 @@ void CScrolledTextBox::SetValue(const wxString& s) {
         m_iAvailableWidth -= 20;
     }
     
+    // Delete sizer & its children (CTransparentStaticText objects)
     m_TextSizer->Clear(true);
     
     // Change all occurrences of "<sup>n</sup>" to "^n"
