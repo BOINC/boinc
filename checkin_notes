@@ -8532,3 +8532,11 @@ Charlie 20 Nov 2011
     
     clientgui/
         sg_TaskPanel.cpp
+
+Charlie 21 Nov 2011
+    - MGR: In Simple View, draw Mac progress bar on white background for 
+        better visibility.
+
+    clientgui/
+        sg_PanelBase.cpp
+        sg_TaskPanel.cpp
