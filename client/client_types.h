@@ -198,6 +198,13 @@ struct FILE_XFER_BACKOFF {
         file_xfer_failures = 0;
         next_xfer_time = 0;
     }
+
+    // clear backoff but maintain failure count;
+    // called when network becomes available
+    //
+    void clear_temporary() {
+        next_xfer_time = 0;
+    }
 };
 
 // statistics at a specific day
