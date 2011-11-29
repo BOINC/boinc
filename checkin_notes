@@ -8526,6 +8526,3 @@ David  20 Nov 2011
     client/
         client_types.h
         net_stats.cpp
-    ssim/
-        ssim.cpp
-        makefile
