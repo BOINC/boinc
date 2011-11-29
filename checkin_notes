@@ -7752,6 +7752,7 @@ Charlie 25 Oct 2011
         around clientData bug in wxBitmapComboBox::Insert().
         
     clientgui/
+        BOINCBitmapComboBox.cpp,.h (added)
         mac/
             MacBitmapComboBox.cpp,.h
         sg_PanelBase.h
@@ -8493,3 +8494,10 @@ David  14 Nov 2011
 	client/
 		log_flags.cpp
 		pers_file_xfer.cpp
+
+Charlie 16 Nov 2011
+    - MGR: use wxBitmapComboBox insert() and append() calls without 
+        client data argument instead of passing NULL.
+        
+    clientgui/
+        BOINCBitmapComboBox.cpp
