@@ -853,6 +853,8 @@ void CSimpleTaskPanel::UpdateTaskSelectionList(bool reskin) {
                 }
                 m_bStableTaskInfoChanged = true;
                 needRefresh = true;
+            } else if (j < m_CurrentTaskSelection) {
+                --m_CurrentTaskSelection;
             }
 		}
 	}
