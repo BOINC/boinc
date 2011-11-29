@@ -725,7 +725,7 @@ void CSimpleTaskPanel::FindSlideShowFiles(TaskSelectionData *selData) {
 
 void CSimpleTaskPanel::UpdateTaskSelectionList(bool reskin) {
     wxLogTrace(wxT("Function Start/End"), wxT("CSimpleTaskPanel::UpdateTaskSelectionList - Function Begin"));
-    int i, j, count, newColor, alphaOrder;;
+    int i, j, count, newColor;
     TaskSelectionData *selData;
 	RESULT* result;
 	RESULT* ctrlResult;
@@ -779,8 +779,9 @@ void CSimpleTaskPanel::UpdateTaskSelectionList(bool reskin) {
         
         // if it isn't currently in the list then we have a new one!  lets add it
         if (!found) {
+            int alphaOrder;
 		    for(j = 0; j < count; ++j) {
-                alphaOrder = (m_TaskSelectionCtrl->GetString(j)).Cmp(resname);
+                alphaOrder = (m_TaskSelectionCtrl->GetString(j)).CmpNoCase(resname);
 #if SORTTASKLIST
                 if (alphaOrder > 0) {
                     break;  // Insert the new item here (sorted by item label)
@@ -860,6 +861,7 @@ void CSimpleTaskPanel::UpdateTaskSelectionList(bool reskin) {
                 needRefresh = true;
             } else if (j < m_CurrentTaskSelection) {
                 --m_CurrentTaskSelection;
+                m_TaskSelectionCtrl->SetSelection(m_CurrentTaskSelection);
             }
 		}
 	}

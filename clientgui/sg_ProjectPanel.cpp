@@ -17,6 +17,8 @@
 
 #define TESTBIGICONPOPUP 0
 
+#define SORTPROJECTLIST 1
+
 #include "stdwx.h"
 #include "Events.h"
 #include "app_ipc.h"
@@ -389,36 +391,58 @@ void CSimpleProjectPanel::UpdateProjectList() {
     ProjectSelectionData* selData;
     PROJECT* project;
     char* ctrl_url;
-    int i, j;
+    int i, j, oldProjectSelection, newProjectSelection;
 
 	if ( pDoc->IsConnected() ) {
 		int projCnt = pDoc->GetSimpleProjectCount();
         int ctrlCount = m_ProjectSelectionCtrl->GetCount();
-
-		// If a new project has been added, figure out which one and then add it;
-		while ( projCnt > ctrlCount ) {
-			for(i=0; i<projCnt; i++) {
-				project = pDoc->state.projects[i];
-				bool found = false;
-				for(j=0; j<ctrlCount; j++) {
-                    ctrl_url = ((ProjectSelectionData*)m_ProjectSelectionCtrl->GetClientData(j))->project_url;
-					if (!strcmp(project->master_url, ctrl_url)) {
-						found = true;
-						break;
-					}
-				}
-				if ( !found ) {
-                    selData = new ProjectSelectionData;
-                    strncpy(selData->project_url, project->master_url, sizeof(selData->project_url));
-                    selData->project_files_downloaded_time = 0.0;
-                    wxBitmap* projectBM = GetProjectSpecificBitmap(selData->project_url);
-                    wxString projname(project->project_name.c_str(), wxConvUTF8);
-                    m_ProjectSelectionCtrl->Append(projname, *projectBM, (void*)selData);
-                    ctrlCount = m_ProjectSelectionCtrl->GetCount();
-				}
-			}
-		}
+        oldProjectSelection = m_ProjectSelectionCtrl->GetSelection();
         
+		// If a new project has been added, figure out which one
+        for(i=0; i<projCnt; i++) {
+            project = pDoc->state.projects[i];
+            bool found = false;
+            for(j=0; j<ctrlCount; j++) {
+                ctrl_url = ((ProjectSelectionData*)m_ProjectSelectionCtrl->GetClientData(j))->project_url;
+                if (!strcmp(project->master_url, ctrl_url)) {
+                    found = true;
+                    break;
+                }
+            }
+
+            // if it isn't currently in the list then we have a new one!  lets add it
+            if ( !found ) {
+                wxString projname(project->project_name.c_str(), wxConvUTF8);
+#if SORTPROJECTLIST
+                int alphaOrder;
+                for(j = 0; j < ctrlCount; ++j) {
+                    alphaOrder = (m_ProjectSelectionCtrl->GetString(j)).CmpNoCase(projname);
+                    if (alphaOrder > 0) {
+                        break;  // Insert the new item here (sorted by item label)
+                    }
+                }
+#endif
+                selData = new ProjectSelectionData;
+                strncpy(selData->project_url, project->master_url, sizeof(selData->project_url));
+                selData->project_files_downloaded_time = project->project_files_downloaded_time;
+                wxBitmap* projectBM = GetProjectSpecificBitmap(selData->project_url);
+#if SORTPROJECTLIST
+                if (j < ctrlCount) {
+                    m_ProjectSelectionCtrl->Insert(projname, *projectBM, j, (void*)selData);
+                    if (j <= oldProjectSelection) {
+                        ++oldProjectSelection;
+                        m_ProjectSelectionCtrl->SetSelection(oldProjectSelection);
+                    }
+                } else 
+#endif
+                {
+                    m_ProjectSelectionCtrl->Append(projname, *projectBM, (void*)selData);
+                }
+                ctrlCount = m_ProjectSelectionCtrl->GetCount();
+            }
+        }
+        
+        newProjectSelection = oldProjectSelection;
         if ( projCnt < ctrlCount ) {
 			project = NULL;
             // Check items in descending order so deletion won't change indexes of items yet to be checked
@@ -431,9 +455,22 @@ void CSimpleProjectPanel::UpdateProjectList() {
                     // Indicate to Delete() we have cleaned up the Selection Data
                     m_ProjectSelectionCtrl->SetClientData(j, NULL);
                     m_ProjectSelectionCtrl->Delete(j);
+                    if (j == oldProjectSelection) {
+                        int newCount = m_ProjectSelectionCtrl->GetCount();
+                        if (newProjectSelection < newCount) {
+                            // Select the next item if one exists
+                            m_ProjectSelectionCtrl->SetSelection(newProjectSelection);
+                        } else if (newCount > 0) {
+                            // Select the previous item if one exists
+                            newProjectSelection = newCount-1;
+                            m_ProjectSelectionCtrl->SetSelection(newProjectSelection);
+                        } else {
+                            newProjectSelection = -1;
+                            m_ProjectSelectionCtrl->SetSelection(wxNOT_FOUND);
+                        }
+                    }
 				}
 			}
-
 		}
     
         // Check to see if we need to reload the project icon
