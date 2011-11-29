@@ -8614,6 +8614,9 @@ David  24 Nov 2011
 
     lib/
         gui_rpc_client.cpp
-    ssim/
-        ssim.cpp
-        des.h
+
+David  24 Nov 2011
+    - default screensaver: fix divide-by-zero; code cleanup
+
+    clientsrc/
+        ss_app.cpp
