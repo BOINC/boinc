@@ -43,18 +43,25 @@ typedef struct {
 class CScrolledTextBox : public wxScrolledWindow 
 {
     DECLARE_DYNAMIC_CLASS( CScrolledTextBox )
-//    DECLARE_EVENT_TABLE()
+    DECLARE_EVENT_TABLE()
 	public:
         CScrolledTextBox();
 		CScrolledTextBox( wxWindow* parent);
+        ~CScrolledTextBox();
 		
         void SetValue(const wxString& s);
-//        void OnEraseBackground(wxEraseEvent& event);
-//        virtual bool HasTransparentBackground() { return true; };
+        virtual void OnEraseBackground(wxEraseEvent& event);
     
     private:
-        wxStaticText*               m_text;
+        int Wrap(const wxString& text, int widthMax, int *lineHeight);
+        bool IsStartOfNewLine();
+        void OnOutputLine(const wxString& line);
+
+        wxBoxSizer*                 m_TextSizer;
         int                         m_iAvailableWidth;
+        bool                        m_eol;
+        wxString                    m_text;
+        int                         m_hLine;
 };
 
 

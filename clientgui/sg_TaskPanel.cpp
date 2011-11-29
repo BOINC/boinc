@@ -33,77 +33,144 @@
 
 #define SLIDESHOWBORDER 3
 #define HIDEDEFAULTSLIDE 1
+#define TESTALLDESCRIPTIONS 0
+#define TESTVERYLONGDESCRIPTION 0
 
 enum { redDot, yellowDot, greenDot };
 
 
 IMPLEMENT_DYNAMIC_CLASS(CScrolledTextBox, wxScrolledWindow)
 
-#if 0
 BEGIN_EVENT_TABLE(CScrolledTextBox, wxScrolledWindow)
 	EVT_ERASE_BACKGROUND(CScrolledTextBox::OnEraseBackground)
 END_EVENT_TABLE()
-#endif
 
 CScrolledTextBox::CScrolledTextBox() {
 }
 
+
 CScrolledTextBox::CScrolledTextBox( wxWindow* parent) :
     wxScrolledWindow( parent, ID_SGPROJECTDESCRIPTION, wxDefaultPosition, wxDefaultSize, wxVSCROLL)
 {
-    int h;
-//    SetBackgroundColour(wxColour(255, 255, 255, 0));
 	SetForegroundColour(*wxBLACK);
     EnableScrolling(false, true);
 
-	wxBoxSizer* bSizer1;
-	bSizer1 = new wxBoxSizer( wxVERTICAL );
+	m_TextSizer = new wxBoxSizer( wxVERTICAL );
 
-    m_text = new wxStaticText( this, wxID_ANY, wxT(""), wxDefaultPosition, wxDefaultSize, 0 );
-	bSizer1->Add( m_text, 0, wxEXPAND, 0 );
-
-	this->SetSizerAndFit( bSizer1 );
+	this->SetSizerAndFit( m_TextSizer );
 	this->Layout();
-//	this->Fit();
 	this->FitInside();
 
-    SetScrollbars(0, 1, 0, 200, 0, 0);
-    GetVirtualSize(&m_iAvailableWidth, &h);
+    m_iAvailableWidth = 0;
 }
 
+
+CScrolledTextBox::~CScrolledTextBox() {
+    m_TextSizer->Clear(true);
+}
+
+
 void CScrolledTextBox::SetValue(const wxString& s) {
-    int w, h;
+    int h, n;
     
     Fit();
-        GetVirtualSize(&m_iAvailableWidth, &h);
-
-//    m_iAvailableWidth = 304;
-    SetScrollbars(0, 1, 0, 200, 0, 0);
-    m_text->SetLabel(s);
-    m_text->Wrap(m_iAvailableWidth);
-    m_text->SetForegroundColour(*wxBLACK);
+    if (!m_iAvailableWidth) {
+        GetSize(&m_iAvailableWidth, &h);
+        m_iAvailableWidth -= 20;
+    }
+    
+    m_TextSizer->Clear(true);
+    
+    h = Wrap(s, m_iAvailableWidth, &n);
     
     Enable();
-    SetScrollbars(0, 1, 0, 200, 0, 0);
+    SetScrollRate(1, h);
+    SetScrollbars(1, h, 0, n);
     EnableScrolling(false, true);
-    
-    m_text->Enable();
-//	this->Layout();
-    GetVirtualSize(&w, &h);
-//    m_text->Wrap(w);
 }
 
 		
-#if 0
 void CScrolledTextBox::OnEraseBackground(wxEraseEvent& event) {
     wxDC *dc = event.GetDC();
+    wxPoint p = GetParent()->GetPosition();
     wxRect r = GetRect();
+    r.Offset(p);
     wxBitmap backgroundBitmap = ((CSimpleTaskPanel*)GetGrandParent())->GetBackgroundBmp().GetSubBitmap(r);
     dc->DrawBitmap(backgroundBitmap, 0, 0);
-//dc->SetBrush(*wxRED_BRUSH);
-//dc->DrawRectangle(r.x, r.y, r.width, r.height);
 }
-#endif
+
+
+// Text wrapping code adapted from wxWindows dlgcmn.cpp
+bool CScrolledTextBox::IsStartOfNewLine() {
+    if ( !m_eol ) return false;
+    m_eol = false;
+    return true;
+}
+
+
+void CScrolledTextBox::OnOutputLine(const wxString& line) {
+    if ( !line.empty() ) {
+        m_TextSizer->Add(new CTransparentStaticText(this, wxID_ANY, line));
+    } else { // empty line, no need to create a control for it
+        if ( !m_hLine ) {
+            m_hLine = GetCharHeight();
+        }
+        m_TextSizer->Add(5, m_hLine);
+    }
+}
+
+
+// Returns the number of lines
+int CScrolledTextBox::Wrap(const wxString& text, int widthMax, int *lineHeight) {
+    const wxChar *lastSpace = NULL;
+    wxString line;
+    int height = 0, numLines = 0;
+
+    const wxChar *lineStart = text.c_str();
+    for ( const wxChar *p = lineStart; ; p++ ) {
+        if ( IsStartOfNewLine() ) {
+            m_text += _T('\n');
+
+            lastSpace = NULL;
+            line.clear();
+            lineStart = p;
+        }
+
+        if ( *p == _T('\n') || *p == _T('\0') ) {
+            OnOutputLine(line);
+            m_eol = true;
+            ++numLines;
+
+            if ( *p == _T('\0') )
+                break;
+        } else {       // not EOL
+            if ( *p == _T(' ') ) {
+                lastSpace = p;
+            }
+            line += *p;
+
+            if ( widthMax >= 0 && lastSpace ) {
+                int width;
+                GetTextExtent(line, &width, &height);
+
+                if ( width > widthMax ) {
+                    // remove the last word from this line
+                    line.erase(lastSpace - lineStart, p + 1 - lineStart);
+                    OnOutputLine(line);
+                    m_eol = true;
+                    ++numLines;
+
+                    // go back to the last word of this line which we didn't
+                    // output yet
+                    p = lastSpace;
+                }
+            }
+            //else: no wrapping at all or impossible to wrap
+        }
+    }
+    *lineHeight = height;
+    return numLines;
+}
 
 
 
@@ -131,6 +198,7 @@ CSlideShowPanel::CSlideShowPanel( wxWindow* parent ) :
 	bSizer1->Add( m_institution, 0, 0, 0 );
     m_scienceArea = new CTransparentStaticText( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
 	bSizer1->Add( m_scienceArea, 0, 0, 0 );
+    bSizer1->AddSpacer(5);
     m_description = new CScrolledTextBox( this );
     m_description->SetMinSize(wxSize(w, 1));
 	bSizer1->Add( m_description, 1, wxEXPAND, 0 );
@@ -177,7 +245,9 @@ void CSlideShowPanel::AdvanceSlideShow(bool changeSlide, bool reload) {
     }
 
     int numSlides = (int)selData->slideShowFileNames.size();
-
+#if TESTALLDESCRIPTIONS // For testing
+numSlides = 0;
+#endif
     if (numSlides <= 0) {
 #if HIDEDEFAULTSLIDE
         if (!reload) {
@@ -200,16 +270,20 @@ void CSlideShowPanel::AdvanceSlideShow(bool changeSlide, bool reload) {
             pDoc->rpc.get_all_projects_list(m_AllProjectsList);
             m_bGotAllProjectsList = true;
         }
-#if 1   // FOR TESTING ONLY
+        
+#if TESTVERYLONGDESCRIPTION   // FOR TESTING ONLY
+
 m_institution->SetLabel(wxT("University of Washington"));
 m_scienceArea->SetLabel(wxT("Biology"));
-m_description->SetValue(wxT("Determine the 3-dimensional shapes of proteins in research that may ultimately lead to finding cures for some major human diseases. By running Rosetta@home you will help us speed up and extend our research in ways we couldn't possibly attempt without your help. You will also be helping our efforts at designing new proteins to fight diseases such as HIV, Malaria, Cancer, and Alzheimers"));
+m_description->SetValue(wxT("Determine the 3-dimensional shapes of proteins in research that may ultimately lead to finding cures for some major human diseases. By running Rosetta@home you will help us speed up and extend our research in ways we couldn't possibly attempt without your help. You will also be helping our efforts at designing new proteins to fight diseases such as HIV, Malaria, Cancer, and Alzheimers Determine the 3-dimensional shapes of proteins in research that may ultimately lead to finding cures for some major human diseases. By running Rosetta@home you will help us speed up and extend our research in ways we couldn't possibly attempt without your help. You will also be helping our efforts at designing new proteins to fight diseases such as HIV, Malaria, Cancer, and Alzheimers"));
 m_institution->Show(true);
 m_scienceArea->Show(true);
 m_description->Show(true);
 m_description->Enable();
 this->Layout();
-#endif
+
+#else   // TESTVERYLONGDESCRIPTION
+
         for (i=0; i<m_AllProjectsList.projects.size(); i++) {
             if (!strcmp(m_AllProjectsList.projects[i]->url.c_str(), selData->project_url)) {
                 m_institution->SetLabel(wxString(m_AllProjectsList.projects[i]->home.c_str(), wxConvUTF8));
@@ -224,8 +298,9 @@ this->Layout();
                 break;
             }
         }
+#endif  // TESTVERYLONGDESCRIPTION
         return;
-#else
+#else   // HIDEDEFAULTSLIDE
         SetBackgroundColour(*wxBLACK);
 
         if (m_bCurrentSlideIsDefault) return;
@@ -238,13 +313,13 @@ this->Layout();
         if (m_SlideBitmap.Ok()) {
             m_bCurrentSlideIsDefault = true;
         }
-#endif
+#endif  // HIDEDEFAULTSLIDE
     } else {
 #if HIDEDEFAULTSLIDE
         m_institution->Show(false);
         m_scienceArea->Show(false);
         m_description->Show(false);
-#endif
+#endif  // HIDEDEFAULTSLIDE
         // TODO: Should we allow slide show to advance if task is not running?
         int newSlide = selData->lastSlideShown;
         
@@ -304,8 +379,12 @@ void CSlideShowPanel::OnPaint(wxPaintEvent& WXUNUSED(event))
     if (selData) {
         numSlides = (int)selData->slideShowFileNames.size();
     }
+#if TESTALLDESCRIPTIONS // For testing
+numSlides = 0;
+#endif  // TESTALLDESCRIPTIONS
+
     if (numSlides > 0)
-#endif
+#endif  // HIDEDEFAULTSLIDE
     {
         int w, h;
         wxPen oldPen = dc.GetPen();
@@ -348,8 +427,6 @@ IMPLEMENT_DYNAMIC_CLASS(CSimpleTaskPanel, CSimplePanelBase)
 
 BEGIN_EVENT_TABLE(CSimpleTaskPanel, CSimplePanelBase)
     EVT_BOINCBITMAPCOMBOBOX(ID_SGTASKSELECTOR, CSimpleTaskPanel::OnTaskSelection)
-//    EVT_BUTTON(ID_TASKSCOMMANDBUTTON, CSimpleTaskPanel::OnTasksCommand)
-//    EVT_LEFT_DOWN(CSimpleTaskPanel::OnTasksCommand)
     EVT_TIMER(ID_SIMPLE_PROGRESSPULSETIMER, CSimpleTaskPanel::OnPulseProgressIndicator)
 #ifdef __WXMAC__
     EVT_ERASE_BACKGROUND(CSimpleTaskPanel::OnEraseBackground)    
@@ -399,9 +476,9 @@ CSimpleTaskPanel::CSimpleTaskPanel( wxWindow* parent ) :
     m_TaskSelectionCtrl->SetItemBitmap(2, m_YellowDot);
 //    m_TaskSelectionCtrl->SetStringSelection(tempArray[1]);
     m_TaskSelectionCtrl->SetSelection(1);
-#else
+#else   // TESTBIGICONPOPUP
 	m_TaskSelectionCtrl = new CBOINCBitmapComboBox( this, ID_SGTASKSELECTOR, wxT(""), wxDefaultPosition, wxDefaultSize, 0, NULL, wxCB_READONLY ); 
-#endif
+#endif  // TESTBIGICONPOPUP
     // TODO: Might want better wording for Task Selection Combo Box tooltip
     str = _("Select a task to access");
     m_TaskSelectionCtrl->SetToolTip(str);
@@ -432,7 +509,7 @@ CSimpleTaskPanel::CSimpleTaskPanel( wxWindow* parent ) :
 	m_TaskApplicationName->Wrap( -1 );
 
 	bSizer1->Add( m_TaskApplicationName, 0, wxLEFT | wxRIGHT | wxEXPAND, SIDEMARGINS );
-#endif
+#endif  // SELECTBYRESULTNAME
 
     bSizer1->AddSpacer(10);
 	
@@ -481,7 +558,6 @@ CSimpleTaskPanel::CSimpleTaskPanel( wxWindow* parent ) :
 	
     // TODO: Can we determine the longest status string and initialize with it?
 	m_StatusValueText = new CTransparentStaticText( this, wxID_ANY, m_sNoProjectsString, wxDefaultPosition, wxDefaultSize, wxST_NO_AUTORESIZE );
-//	m_StatusValueText = new CTransparentStaticText( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxST_NO_AUTORESIZE );
 	m_StatusValueText->Wrap( -1 );
 	bSizer1->Add( m_StatusValueText, 0, wxLEFT | wxRIGHT | wxEXPAND, SIDEMARGINS );
 
@@ -561,7 +637,7 @@ void CSimpleTaskPanel::UpdatePanel(bool delayShow) {
             m_TaskProjectName->Hide();
 #if SELECTBYRESULTNAME
             m_TaskApplicationName->Hide();
-#endif
+#endif  // SELECTBYRESULTNAME
             m_SlideShowArea->Hide();
             m_ElapsedTimeValue->Hide();
             m_TimeRemainingValue->Hide();
@@ -592,7 +668,7 @@ void CSimpleTaskPanel::UpdatePanel(bool delayShow) {
             m_TaskProjectName->Show();
 #if SELECTBYRESULTNAME
             m_TaskApplicationName->Show();
-#endif
+#endif  // SELECTBYRESULTNAME
             m_SlideShowArea->Show();
             m_ElapsedTimeValue->Show();
             m_TimeRemainingValue->Show();
@@ -629,9 +705,9 @@ void CSimpleTaskPanel::UpdatePanel(bool delayShow) {
                     str.Printf(_("Application: %s"), s.c_str());
                     UpdateStaticText(&m_TaskApplicationName, str);
                     UpdateStaticText(&m_TaskProjectName, projName);
-#else
+#else   // SELECTBYRESULTNAME
                     GetApplicationAndProjectNames(result, NULL, &projName);
-#endif
+#endif  // SELECTBYRESULTNAME
                     UpdateStaticText(&m_TaskProjectName, projName);
                     m_SlideShowArea->AdvanceSlideShow(false, true);
                     m_bStableTaskInfoChanged = false;
@@ -659,7 +735,7 @@ void CSimpleTaskPanel::UpdatePanel(bool delayShow) {
                 UpdateStaticText(&m_TaskProjectName, m_sNotAvailableString);
 #if SELECTBYRESULTNAME
                 UpdateStaticText(&m_TaskApplicationName, _("Application: Not available") );
-#endif
+#endif  // SELECTBYRESULTNAME
                 UpdateStaticText(&m_ElapsedTimeValue, GetElapsedTimeString(-1.0));
                 UpdateStaticText(&m_TimeRemainingValue, GetTimeRemainingString(-1.0));
                 if (m_iPctDoneX10 >= 0) {
@@ -909,9 +985,9 @@ void CSimpleTaskPanel::UpdateTaskSelectionList(bool reskin) {
         resname = wxEmptyString;
 #if SELECTBYRESULTNAME
         resname = wxString::FromUTF8(result->name);
-#else
+#else   // SELECTBYRESULTNAME
         GetApplicationAndProjectNames(result, &resname, NULL);
-#endif
+#endif  // SELECTBYRESULTNAME
         
 		// loop through the items already in Task Selection Control to find this result
         count = m_TaskSelectionCtrl->GetCount();
