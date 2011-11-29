@@ -8501,29 +8501,6 @@ Charlie 16 Nov 2011
         
     clientgui/
         BOINCBitmapComboBox.cpp
-<<<<<<< .working
-=======
-
-David  16 Nov 2011
-    - web: in GPU model list page,
-        look for plan classes containing "nvidia" as well as "cuda".
-
-    db/
-        boinc_db.h
-    sched/
-        transitioner.cpp
-        sched_assign.cpp
-    html/user/
-        gpu_ratios.php (new)
-        gpu_list.php
-    client/
-        net_stats.h
-
-David  16 Nov 2011
-    - fix gpu_ratios.php
-
-    html/user/
-        gpu_ratios.php
 
 Charlie 17 Nov 2011
     Remove include of boinc_cl.h from parse.h; it is no longer needed.
@@ -8533,4 +8510,9 @@ Charlie 17 Nov 2011
     lib/
         cl_boinc.h
         parse.h
->>>>>>> .merge-right.r24618
+
+Charlie 19 Nov 2011
+    - MGR: Fix button font sizes in Simple View Projects panel.
+    
+    clientgui/
+        sg_ProjectPanel.cpp
