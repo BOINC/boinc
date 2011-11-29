@@ -71,21 +71,24 @@ CScrolledTextBox::~CScrolledTextBox() {
 
 
 void CScrolledTextBox::SetValue(const wxString& s) {
-    int h, n;
+    int lineHeight, visibleHeight, totalLines, visibleLines;
     
     Fit();
     if (!m_iAvailableWidth) {
-        GetSize(&m_iAvailableWidth, &h);
+        GetSize(&m_iAvailableWidth, &visibleHeight);
         m_iAvailableWidth -= 20;
     }
     
     m_TextSizer->Clear(true);
     
-    h = Wrap(s, m_iAvailableWidth, &n);
+    lineHeight = Wrap(s, m_iAvailableWidth, &totalLines);
+    visibleLines = visibleHeight / lineHeight;
     
     Enable();
-    SetScrollRate(1, h);
-    SetScrollbars(1, h, 0, n);
+//    SetScrollRate(1, lineHeight);
+//    SetScrollbar(wxVERTICAL, 0, visibleLines, totalLines);
+//    SetVirtualSize( m_iAvailableWidth, totalLines * lineHeight );
+    SetScrollbars(1, lineHeight, 0, totalLines - visibleLines);
     EnableScrolling(false, true);
 }
 
