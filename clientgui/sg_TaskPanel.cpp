@@ -357,6 +357,7 @@ CSimpleTaskPanel::~CSimpleTaskPanel()
         selData = (TaskSelectionData*)m_TaskSelectionCtrl->GetClientData(j);
         selData->slideShowFileNames.Clear();
         delete selData;
+        // Indicate to Clear() we have cleaned up the Selection Data
         m_TaskSelectionCtrl->SetClientData(j, NULL);
 	}
     m_TaskSelectionCtrl->Clear();
@@ -834,6 +835,8 @@ void CSimpleTaskPanel::UpdateTaskSelectionList(bool reskin) {
             wxLogTrace(wxT("Function Status"), wxT("CSimpleTaskPanel::UpdateTaskSelectionList - Deleting selData"));
             delete selData;
             wxLogTrace(wxT("Function Status"), wxT("CSimpleTaskPanel::UpdateTaskSelectionList - Deleting control data"));
+            // Indicate to Delete() we have cleaned up the Selection Data
+            m_TaskSelectionCtrl->SetClientData(j, NULL);
 			m_TaskSelectionCtrl->Delete(j);
             if (j == m_CurrentTaskSelection) {
                 int newCount = m_TaskSelectionCtrl->GetCount();

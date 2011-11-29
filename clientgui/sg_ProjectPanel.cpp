@@ -166,6 +166,7 @@ CSimpleProjectPanel::~CSimpleProjectPanel()
 	for(int j = count-1; j >=0; --j) {
         selData = (ProjectSelectionData*)m_ProjectSelectionCtrl->GetClientData(j);
         delete selData;
+        // Indicate to Clear() we have cleaned up the Selection Data
         m_ProjectSelectionCtrl->SetClientData(j, NULL);
 	}
     m_ProjectSelectionCtrl->Clear();
@@ -427,6 +428,8 @@ void CSimpleProjectPanel::UpdateProjectList() {
 				if ( project == NULL ) {
                     selData = (ProjectSelectionData*)m_ProjectSelectionCtrl->GetClientData(j);
                     delete selData;
+                    // Indicate to Delete() we have cleaned up the Selection Data
+                    m_ProjectSelectionCtrl->SetClientData(j, NULL);
                     m_ProjectSelectionCtrl->Delete(j);
 				}
 			}
