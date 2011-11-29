@@ -50,7 +50,7 @@ class CSlideShowPanel : public wxPanel
 		~CSlideShowPanel();
 
         void OnSlideShowTimer(wxTimerEvent& WXUNUSED(event));
-        void AdvanceSlideShow(bool changeSlide);
+        void AdvanceSlideShow(bool changeSlide, bool reload);
         void OnPaint(wxPaintEvent& WXUNUSED(event));
                 
     private:

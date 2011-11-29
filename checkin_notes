@@ -8587,20 +8587,11 @@ Charlie 21 Nov 2011
         BOINCBitmapComboBox.cpp
         sg_ProjectPanel.cpp
         sg_TaskPanel.cpp
-<<<<<<< .working
-=======
-
-David  21 Nov 2011
-    - client emulator fixes
-
-    client/
-        work_fetch.h
-        sim.cpp
 
 Charlie 23 Nov 2011
     - MGR: In Simple View, if deleting a task above the current selection, 
         decrement the index of the current selection.
+    - MGR: In Simple View, reload slide show when task selection changed.
     
     clientgui/
-        sg_TaskPanel.cpp
->>>>>>> .merge-right.r24645
+        sg_TaskPanel.cpp,.h
