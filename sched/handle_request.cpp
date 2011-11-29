@@ -1362,7 +1362,6 @@ void handle_request(FILE* fin, FILE* fout, char* code_sign_key) {
     g_reply = &sreply;
     g_wreq = &sreply.wreq;
 
-    memset(&sreq, 0, sizeof(sreq));
     sreply.nucleus_only = true;
 
     log_messages.set_indent_level(1);

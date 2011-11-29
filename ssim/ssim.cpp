@@ -36,13 +36,13 @@
 // We simulate policies based on coding and replication.
 //
 // Coding means that data is divided into M = N+K units,
-// of which any N are sufficient to reconstruct the data.
+// of which any N are sufficient to reconstruct the original data.
 // 
 // The units in an encoding can themselves be encoded.
 // In general we model C levels of encoding.
 //
 // The bottom-level data units ("chunks") are stored on hosts,
-// with R-fold replication
+// possibly with replication
 
 #define ENCODING_N          4
 #define ENCODING_K          2
@@ -123,6 +123,9 @@ struct CHUNK_ON_HOST : public EVENT {
     bool present_on_host;
     bool transfer_in_progress;  // upload if present_on_host, else download
     virtual void handle();
+    inline bool download_in_progress() {
+        return (transfer_in_progress && !present_on_host);
+    }
 };
 
 static int next_host_id=0;
@@ -219,7 +222,12 @@ struct CHUNK : DATA_UNIT {
 
     }
     virtual void delete_chunks_from_server() {
-        printf("%0f: deleting %s from server\n", sim.now, name);
+        set<CHUNK_ON_HOST*>::iterator i;
+        for (i=hosts.begin(); i!=hosts.end(); i++) {
+            CHUNK_ON_HOST* c = *i;
+            if (c->download_in_progress()) return;
+        }
+        printf("%.0f: deleting %s from server\n", sim.now, name);
         _is_present_on_server = false;
     }
     virtual void now_present() {

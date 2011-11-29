@@ -96,7 +96,6 @@ int handle_results() {
     unsigned int i;
     int retval;
     RESULT* rp;
-    bool changed_host=false;
 
     if (g_request->results.size() == 0) return 0;
 
@@ -283,7 +282,6 @@ int handle_results() {
                     "[HOST#%d] [RESULT#%d] [WU#%d] Allowing result because same USER#%d\n",
                     g_reply->host.id, srip->id, srip->workunitid, g_reply->host.userid
                 );
-                changed_host = true;
             }
         } // hostids do not match
 

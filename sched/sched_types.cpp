@@ -185,6 +185,7 @@ const char* SCHEDULER_REQUEST::parse(XML_PARSER& xp) {
     core_client_major_version = 0;
     core_client_minor_version = 0;
     core_client_release = 0;
+    core_client_version = 0;
     rpc_seqno = 0;
     work_req_seconds = 0;
     cpu_req_secs = 0;

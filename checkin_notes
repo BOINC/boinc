@@ -8706,3 +8706,13 @@ Charlie 28 Nov 2011
         Events.h
         sg_PanelBase.cpp,.h
         sg_TaskPanel.cpp,.h
+
+David  28 Nov 2011
+    - scheduler: fix crashing bug (don't memset SCHED_REQUEST).
+
+    sched/
+        sched_result.cpp
+        handle_request.cpp
+        sched_types.cpp
+    ssim/
+        ssim.cpp
