@@ -38,18 +38,23 @@ typedef struct {
 
 
 ///////////////////////////////////////////////////////////////////////////
-/// Class CTextBox
+/// Class CScrolledTextBox
 ///////////////////////////////////////////////////////////////////////////////
-class CTextBox : public wxTextCtrl 
+class CScrolledTextBox : public wxScrolledWindow 
 {
-    DECLARE_DYNAMIC_CLASS( CTextBox )
-    DECLARE_EVENT_TABLE()
+    DECLARE_DYNAMIC_CLASS( CScrolledTextBox )
+//    DECLARE_EVENT_TABLE()
 	public:
-        CTextBox();
-		CTextBox( wxWindow* parent);
+        CScrolledTextBox();
+		CScrolledTextBox( wxWindow* parent);
 		
-        void OnEraseBackground(wxEraseEvent& event);
-        virtual bool HasTransparentBackground() { return true; };
+        void SetValue(const wxString& s);
+//        void OnEraseBackground(wxEraseEvent& event);
+//        virtual bool HasTransparentBackground() { return true; };
+    
+    private:
+        wxStaticText*               m_text;
+        int                         m_iAvailableWidth;
 };
 
 
@@ -76,7 +81,7 @@ class CSlideShowPanel : public wxPanel
     private:
         CTransparentStaticText*     m_institution;
         CTransparentStaticText*     m_scienceArea;
-        wxTextCtrl*                 m_description;
+        CScrolledTextBox*           m_description;
         wxTimer*                    m_ChangeSlideTimer;
         wxBitmap                    m_SlideBitmap;
         bool                        m_bCurrentSlideIsDefault;
