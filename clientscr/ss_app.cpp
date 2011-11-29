@@ -70,15 +70,27 @@ double next_connect_time = 0.0;
 CC_STATE cc_state;
 CC_STATUS cc_status;
 
+#ifdef __APPLE__
+// Possible values of brandId (determined at run time on Mac):
+#define BOINC_BRAND_ID 0
+#define GRIDREPUBLIC_BRAND_ID 1
+#define PROGRESSTHRUPROCESSORS_BRAND_ID 2
+#define CHARITYENGINE_BRAND_ID 3
+
+char* brand_name = "BOINC";
+char* logo_file = "boinc_logo_black.jpg";
+# else
+// These defines are used only on Windows builds
 #ifdef _GRIDREPUBLIC
 const char* brand_name = "GridRepublic";
 const char* logo_file = "gridrepublic_ss_logo.jpg";
 #elif defined(_CHARITYENGINE)
 const char* brand_name = "Charity Engine";
-const char* logo_file = "CE_ss_logo.jpg"
+const char* logo_file = "CE_ss_logo.jpg";
 #else
 const char* brand_name = "BOINC";
 const char* logo_file = "boinc_logo_black.jpg";
+#endif
 #endif
 
 #if 0
@@ -484,13 +496,20 @@ int main(int argc, char** argv) {
     }
     
 #ifdef __APPLE__
-    // For GridRepublic, the installer put a branding file in our data directory
+    long brandId = BOINC_BRAND_ID;
+    // For GridRepublic or CharityEngine, the installer put a branding file in our data directory
     FILE *f = fopen("/Library/Application Support/BOINC Data/Branding", "r");
     if (f) {
-        fscanf(f, "BrandId=%ld\n", &iBrandId);
+        fscanf(f, "BrandId=%ld\n", &brandId);
         fclose(f);
+        if (brandId == GRIDREPUBLIC_BRAND_ID) {
+            brand_name = "GridRepublic";
+            logo_file = "gridrepublic_ss_logo.jpg";
+        } else if (brandId == CHARITYENGINE_BRAND_ID) {
+            brand_name = "Charity Engine";
+            logo_file = "CE_ss_logo.jpg";
+        }
     }
-#else
 #endif
 
     boinc_graphics_loop(argc, argv, "BOINC screensaver");
