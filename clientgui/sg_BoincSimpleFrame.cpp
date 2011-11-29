@@ -550,11 +550,6 @@ void CSimpleFrame::OnNotification(CFrameEvent& WXUNUSED(event)) {
 void CSimpleFrame::OnRefreshView(CFrameEvent& WXUNUSED(event)) {
     wxLogTrace(wxT("Function Start/End"), wxT("CSimpleFrame::OnRefreshView - Function Start"));
     
-    static bool bAlreadyRunning = false;
-    
-    if (bAlreadyRunning) return;
-    bAlreadyRunning = true;
-    
     m_pBackgroundPanel->OnFrameRender();
     
     if (dlgMsgsPtr) {
@@ -565,8 +560,6 @@ void CSimpleFrame::OnRefreshView(CFrameEvent& WXUNUSED(event)) {
     // We disabled tooltips on Mac while menus were popped up because they cover menus
     wxToolTip::Enable(true);
 #endif
-
-    bAlreadyRunning = false;
 
     wxLogTrace(wxT("Function Start/End"), wxT("CSimpleFrame::OnRefreshView - Function End"));
 }
@@ -867,7 +860,7 @@ void CSimpleGUIPanel::OnFrameRender() {
     if (m_irefreshCount < REFRESH_WAIT) {
         ++m_irefreshCount;
         m_taskPanel->UpdatePanel(true);
-	return;
+        return;
     }
 	
     if (workCount != m_oldWorkCount) {
@@ -916,8 +909,7 @@ void CSimpleGUIPanel::OnFrameRender() {
         
         m_oldWorkCount = workCount;
         
-	m_taskPanel->UpdatePanel(false);
-
+        m_taskPanel->UpdatePanel(false);
     }
 }
 

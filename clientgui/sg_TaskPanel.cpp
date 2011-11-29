@@ -525,9 +525,11 @@ void CSimpleTaskPanel::UpdatePanel(bool delayShow) {
 
 
 void CSimpleTaskPanel::ReskinInterface() {
+    wxLogTrace(wxT("Function Start/End"), wxT("CSimpleTaskPanel::ReskinInterface - Function Begin"));
     CSimplePanelBase::ReskinInterface();
     m_SlideShowArea->AdvanceSlideShow(false);
     UpdateTaskSelectionList(true);
+    wxLogTrace(wxT("Function Start/End"), wxT("CSimpleTaskPanel::ReskinInterface - Function Begin"));
 }
 
 
@@ -716,6 +718,7 @@ void CSimpleTaskPanel::FindSlideShowFiles(TaskSelectionData *selData) {
 
 
 void CSimpleTaskPanel::UpdateTaskSelectionList(bool reskin) {
+    wxLogTrace(wxT("Function Start/End"), wxT("CSimpleTaskPanel::UpdateTaskSelectionList - Function Begin"));
     int i, j, count, newColor, alphaOrder;;
     TaskSelectionData *selData;
 	RESULT* result;
@@ -822,10 +825,15 @@ void CSimpleTaskPanel::UpdateTaskSelectionList(bool reskin) {
 
     // Check items in descending order so deletion won't change indexes of items yet to be checked
 	for(j = count-1; j >=0; --j) {
-		if(! is_alive.at(j)) {
+		if(!is_alive.at(j)) {
+            wxLogTrace(wxT("Function Status"), wxT("CSimpleTaskPanel::UpdateTaskSelectionList - Task '%d' no longer alive"), j);
             selData = (TaskSelectionData*)m_TaskSelectionCtrl->GetClientData(j);
+            wxLogTrace(wxT("Function Status"), wxT("CSimpleTaskPanel::UpdateTaskSelectionList - selData '%p' "), selData);
+            wxLogTrace(wxT("Function Status"), wxT("CSimpleTaskPanel::UpdateTaskSelectionList - result_name '%s' "), selData->result_name);
             selData->slideShowFileNames.Clear();
+            wxLogTrace(wxT("Function Status"), wxT("CSimpleTaskPanel::UpdateTaskSelectionList - Deleting selData"));
             delete selData;
+            wxLogTrace(wxT("Function Status"), wxT("CSimpleTaskPanel::UpdateTaskSelectionList - Deleting control data"));
 			m_TaskSelectionCtrl->Delete(j);
             if (j == m_CurrentTaskSelection) {
                 int newCount = m_TaskSelectionCtrl->GetCount();
@@ -888,6 +896,7 @@ void CSimpleTaskPanel::UpdateTaskSelectionList(bool reskin) {
     if (needRefresh) {
         m_TaskSelectionCtrl->Refresh();
     }
+    wxLogTrace(wxT("Function Start/End"), wxT("CSimpleTaskPanel::UpdateTaskSelectionList - Function End"));
 }
 
 
