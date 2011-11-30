@@ -8644,3 +8644,10 @@ Charlie 28 Nov 2011
         Events.h
         sg_PanelBase.cpp,.h
         sg_TaskPanel.cpp,.h
+
+Charlie 29 Nov 2011
+    - MGR: Continue work on Simple View to display the description if 
+        task has no slide show.
+        
+    clientgui/
+        sg_TaskPanel.cpp,.h
