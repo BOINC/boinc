@@ -46,7 +46,7 @@ class CScrolledTextBox : public wxScrolledWindow
     DECLARE_EVENT_TABLE()
 	public:
         CScrolledTextBox();
-		CScrolledTextBox( wxWindow* parent);
+		CScrolledTextBox( wxWindow* parent, const wxSize& size);
         ~CScrolledTextBox();
 		
         void SetValue(const wxString& s);
@@ -59,6 +59,7 @@ class CScrolledTextBox : public wxScrolledWindow
 
         wxBoxSizer*                 m_TextSizer;
         int                         m_iAvailableWidth;
+        int                         m_iAvailableHeight;
         bool                        m_eol;
         wxString                    m_text;
         int                         m_hLine;

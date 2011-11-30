@@ -8652,3 +8652,10 @@ Charlie 29 Nov 2011
         
     clientgui/
         sg_TaskPanel.cpp,.h
+
+Charlie 30 Nov 2011
+    - MGR: Complete work on Simple View to display the description if 
+        task has no slide show.  
+        
+    clientgui/
+        sg_TaskPanel.cpp,.h
