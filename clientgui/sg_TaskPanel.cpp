@@ -32,6 +32,7 @@
 
 
 #define SLIDESHOWBORDER 3
+#define DESCRIPTIONSPACER 4
 #define HIDEDEFAULTSLIDE 1
 #define TESTALLDESCRIPTIONS 0
 #define TESTVERYLONGDESCRIPTION 0
@@ -74,6 +75,7 @@ CScrolledTextBox::~CScrolledTextBox() {
 void CScrolledTextBox::SetValue(const wxString& s) {
     int lineHeight, visibleHeight, totalLines, visibleLines;
     wxString t = s;
+    int pw, ph;
     
     if (!m_iAvailableWidth) {
 #ifdef __WXMAC__
@@ -86,6 +88,9 @@ void CScrolledTextBox::SetValue(const wxString& s) {
 #endif
     }
     
+    GetParent()->GetSize(&pw, &ph);
+    visibleHeight = ph - 2*GetCharHeight() - DESCRIPTIONSPACER;
+    
     // Delete sizer & its children (CTransparentStaticText objects)
     m_TextSizer->Clear(true);
     
@@ -93,7 +98,7 @@ void CScrolledTextBox::SetValue(const wxString& s) {
     t.Replace(wxT("<sup>"), wxT("^"), true);
     t.Replace(wxT("</sup>"), wxT(""), true);
     
-    lineHeight = Wrap(t, m_iAvailableWidth, &totalLines);
+    totalLines = Wrap(t, m_iAvailableWidth, &lineHeight);
     visibleLines = visibleHeight / lineHeight;
     
     m_TextSizer->FitInside(this);
@@ -214,7 +219,7 @@ CSlideShowPanel::CSlideShowPanel( wxWindow* parent ) :
 	bSizer1->Add( m_institution, 0, 0, 0 );
     m_scienceArea = new CTransparentStaticText( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
 	bSizer1->Add( m_scienceArea, 0, 0, 0 );
-    bSizer1->AddSpacer(5);
+    bSizer1->AddSpacer(DESCRIPTIONSPACER);
     m_description = new CScrolledTextBox( this );
     m_description->SetMinSize(wxSize(w, 1));
 	bSizer1->Add( m_description, 1, wxEXPAND, 0 );
