@@ -75,10 +75,15 @@ void CScrolledTextBox::SetValue(const wxString& s) {
     int lineHeight, visibleHeight, totalLines, visibleLines;
     wxString t = s;
     
-    Fit();
     if (!m_iAvailableWidth) {
+#ifdef __WXMAC__
+        m_TextSizer->Fit(this);
+        GetSize(&m_iAvailableWidth, &visibleHeight);
+#else
+        Fit();
         GetSize(&m_iAvailableWidth, &visibleHeight);
         m_iAvailableWidth -= 20;
+#endif
     }
     
     // Delete sizer & its children (CTransparentStaticText objects)
@@ -91,6 +96,7 @@ void CScrolledTextBox::SetValue(const wxString& s) {
     lineHeight = Wrap(t, m_iAvailableWidth, &totalLines);
     visibleLines = visibleHeight / lineHeight;
     
+    m_TextSizer->FitInside(this);
     Enable();
 //    SetScrollRate(1, lineHeight);
 //    SetScrollbar(wxVERTICAL, 0, visibleLines, totalLines);
