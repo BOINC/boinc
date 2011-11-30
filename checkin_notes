@@ -8647,7 +8647,8 @@ Charlie 28 Nov 2011
 
 Charlie 29 Nov 2011
     - MGR: Continue work on Simple View to display the description if 
-        task has no slide show.
+        task has no slide show.  
+        Change all occurrences of "<sup>n</sup>" to "^n"
         
     clientgui/
         sg_TaskPanel.cpp,.h

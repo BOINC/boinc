@@ -71,21 +71,29 @@ CScrolledTextBox::~CScrolledTextBox() {
 
 
 void CScrolledTextBox::SetValue(const wxString& s) {
-    int h, n;
+    int lineHeight, visibleHeight, totalLines, visibleLines;
+    wxString t = s;
     
     Fit();
     if (!m_iAvailableWidth) {
-        GetSize(&m_iAvailableWidth, &h);
+        GetSize(&m_iAvailableWidth, &visibleHeight);
         m_iAvailableWidth -= 20;
     }
     
     m_TextSizer->Clear(true);
     
-    h = Wrap(s, m_iAvailableWidth, &n);
+    // Change all occurrences of "<sup>n</sup>" to "^n"
+    t.Replace(wxT("<sup>"), wxT("^"), true);
+    t.Replace(wxT("</sup>"), wxT(""), true);
+    
+    lineHeight = Wrap(t, m_iAvailableWidth, &totalLines);
+    visibleLines = visibleHeight / lineHeight;
     
     Enable();
-    SetScrollRate(1, h);
-    SetScrollbars(1, h, 0, n);
+//    SetScrollRate(1, lineHeight);
+//    SetScrollbar(wxVERTICAL, 0, visibleLines, totalLines);
+//    SetVirtualSize( m_iAvailableWidth, totalLines * lineHeight );
+    SetScrollbars(1, lineHeight, 0, totalLines - visibleLines);
     EnableScrolling(false, true);
 }
 
@@ -275,7 +283,7 @@ numSlides = 0;
 
 m_institution->SetLabel(wxT("University of Washington"));
 m_scienceArea->SetLabel(wxT("Biology"));
-m_description->SetValue(wxT("Determine the 3-dimensional shapes of proteins in research that may ultimately lead to finding cures for some major human diseases. By running Rosetta@home you will help us speed up and extend our research in ways we couldn't possibly attempt without your help. You will also be helping our efforts at designing new proteins to fight diseases such as HIV, Malaria, Cancer, and Alzheimers Determine the 3-dimensional shapes of proteins in research that may ultimately lead to finding cures for some major human diseases. By running Rosetta@home you will help us speed up and extend our research in ways we couldn't possibly attempt without your help. You will also be helping our efforts at designing new proteins to fight diseases such as HIV, Malaria, Cancer, and Alzheimers"));
+m_description->SetValue(wxT("Determine the 3-dimensional shapes of proteins in research that may ultimately lead to finding cures for some major human diseases. Two to the nth power is 2<sup>n</sup>. By running Rosetta@home you will help us speed up and extend our research in ways we couldn't possibly attempt without your help. You will also be helping our efforts at designing new proteins to fight diseases such as HIV, Malaria, Cancer, and Alzheimers Determine the 3-dimensional shapes of proteins in research that may ultimately lead to finding cures for some major human diseases. By running Rosetta@home you will help us speed up and extend our research in ways we couldn't possibly attempt without your help. You will also be helping our efforts at designing new proteins to fight diseases such as HIV, Malaria, Cancer, and Alzheimers"));
 m_institution->Show(true);
 m_scienceArea->Show(true);
 m_description->Show(true);
