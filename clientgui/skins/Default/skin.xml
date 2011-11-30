@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <skin>
-   <completed/>
    <en>
       <simple>
 
-         <panel_opacity>58</panel_opacity>
+         <panel_opacity>90</panel_opacity>
 
          <background_image>
             <!-- Background Image for Simple GUI -->
-            <!-- Recommended size: 600x750       -->
-            <!-- EN-Win: 416x582 as of v6.13.10  -->
+            <!-- Recommended total size: 600x750 (to accomodate OS size differences and localizations of text) -->
+            <!-- Top banner height: about 68 -->
+            <!-- EN-Win total size: about 422x582 as of 6.13.12 -->
             <image>
                <imagesrc>background_image.png</imagesrc>
                <background_color>0:0:0</background_color>
