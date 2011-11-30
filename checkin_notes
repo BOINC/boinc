@@ -8659,3 +8659,11 @@ Charlie 30 Nov 2011
         
     clientgui/
         sg_TaskPanel.cpp,.h
+
+Rom    30 Nov 2011
+    - Tag for 7.0.1 release, all platforms
+      boinc_core_release_7_0_1
+
+    /
+        configure.ac
+        version.h
