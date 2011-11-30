@@ -38,6 +38,25 @@ typedef struct {
 
 
 ///////////////////////////////////////////////////////////////////////////
+/// Class CTextBox
+///////////////////////////////////////////////////////////////////////////////
+class CTextBox : public wxTextCtrl 
+{
+    DECLARE_DYNAMIC_CLASS( CTextBox )
+    DECLARE_EVENT_TABLE()
+	public:
+        CTextBox();
+		CTextBox( wxWindow* parent);
+		
+        void OnEraseBackground(wxEraseEvent& event);
+        virtual bool HasTransparentBackground() { return true; };
+};
+
+
+
+///////////////////////////////////////////////////////////////////////////
+/// Class CSlideShowPanel
+///////////////////////////////////////////////////////////////////////////////
 
 class CSlideShowPanel : public wxPanel 
 {
@@ -52,12 +71,17 @@ class CSlideShowPanel : public wxPanel
         void OnSlideShowTimer(wxTimerEvent& WXUNUSED(event));
         void AdvanceSlideShow(bool changeSlide, bool reload);
         void OnPaint(wxPaintEvent& WXUNUSED(event));
+        void OnEraseBackground(wxEraseEvent& event);
                 
     private:
+        CTransparentStaticText*     m_institution;
+        CTransparentStaticText*     m_scienceArea;
+        wxTextCtrl*                 m_description;
         wxTimer*                    m_ChangeSlideTimer;
         wxBitmap                    m_SlideBitmap;
         bool                        m_bCurrentSlideIsDefault;
-        
+        bool                        m_bGotAllProjectsList;
+        ALL_PROJECTS_LIST           m_AllProjectsList;
 };
 
 
