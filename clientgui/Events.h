@@ -162,6 +162,7 @@
 #define ID_SGSUSPENDRESUMEBUTTON                6412
 #define ID_SGOPTIONS                            6413
 #define ID_SGSKINSELECTOR                       6414
+#define ID_SGPROJECTDESCRIPTION                 6415
 #define ID_SGDEFAULTSKINSELECTOR                6500
 #define ID_SGFIRSTSKINSELECTOR                  6501
 // 6501-6599 Reserved for Skin Selection

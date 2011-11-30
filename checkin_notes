@@ -8641,5 +8641,6 @@ Charlie 28 Nov 2011
         This is in progress: not yet finished.
 
     clientgui/
+        Events.h
         sg_PanelBase.cpp,.h
         sg_TaskPanel.cpp,.h

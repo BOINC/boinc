@@ -37,24 +37,65 @@
 enum { redDot, yellowDot, greenDot };
 
 
-IMPLEMENT_DYNAMIC_CLASS(CTextBox, wxTextCtrl)
+IMPLEMENT_DYNAMIC_CLASS(CScrolledTextBox, wxScrolledWindow)
 
-BEGIN_EVENT_TABLE(CTextBox, wxTextCtrl)
-	EVT_ERASE_BACKGROUND(CTextBox::OnEraseBackground)
+#if 0
+BEGIN_EVENT_TABLE(CScrolledTextBox, wxScrolledWindow)
+	EVT_ERASE_BACKGROUND(CScrolledTextBox::OnEraseBackground)
 END_EVENT_TABLE()
+#endif
 
-CTextBox::CTextBox() {
+CScrolledTextBox::CScrolledTextBox() {
 }
 
-CTextBox::CTextBox( wxWindow* parent) :
-    wxTextCtrl( parent, wxID_ANY, wxT(""), wxDefaultPosition, wxDefaultSize, wxTE_MULTILINE | wxTE_READONLY )
+CScrolledTextBox::CScrolledTextBox( wxWindow* parent) :
+    wxScrolledWindow( parent, ID_SGPROJECTDESCRIPTION, wxDefaultPosition, wxDefaultSize, wxVSCROLL)
 {
-    SetDefaultStyle(wxTextAttr(wxNullColour, wxColour(255, 255, 255, 0)));
-    SetBackgroundColour(wxColour(255, 255, 255, 0));
+    int h;
+//    SetBackgroundColour(wxColour(255, 255, 255, 0));
+	SetForegroundColour(*wxBLACK);
+    EnableScrolling(false, true);
 
+	wxBoxSizer* bSizer1;
+	bSizer1 = new wxBoxSizer( wxVERTICAL );
+
+    m_text = new wxStaticText( this, wxID_ANY, wxT(""), wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer1->Add( m_text, 0, wxEXPAND, 0 );
+
+	this->SetSizerAndFit( bSizer1 );
+	this->Layout();
+//	this->Fit();
+	this->FitInside();
+
+    SetScrollbars(0, 1, 0, 200, 0, 0);
+    GetVirtualSize(&m_iAvailableWidth, &h);
 }
+
+void CScrolledTextBox::SetValue(const wxString& s) {
+    int w, h;
+    
+    Fit();
+        GetVirtualSize(&m_iAvailableWidth, &h);
+
+//    m_iAvailableWidth = 304;
+    SetScrollbars(0, 1, 0, 200, 0, 0);
+    m_text->SetLabel(s);
+    m_text->Wrap(m_iAvailableWidth);
+    m_text->SetForegroundColour(*wxBLACK);
+    
+    Enable();
+    SetScrollbars(0, 1, 0, 200, 0, 0);
+    EnableScrolling(false, true);
+    
+    m_text->Enable();
+//	this->Layout();
+    GetVirtualSize(&w, &h);
+//    m_text->Wrap(w);
+}
+
 		
-void CTextBox::OnEraseBackground(wxEraseEvent& event) {
+#if 0
+void CScrolledTextBox::OnEraseBackground(wxEraseEvent& event) {
     wxDC *dc = event.GetDC();
     wxRect r = GetRect();
     wxBitmap backgroundBitmap = ((CSimpleTaskPanel*)GetGrandParent())->GetBackgroundBmp().GetSubBitmap(r);
@@ -62,6 +103,7 @@ void CTextBox::OnEraseBackground(wxEraseEvent& event) {
 //dc->SetBrush(*wxRED_BRUSH);
 //dc->DrawRectangle(r.x, r.y, r.width, r.height);
 }
+#endif
 
 
 
@@ -80,16 +122,17 @@ CSlideShowPanel::CSlideShowPanel() {
 CSlideShowPanel::CSlideShowPanel( wxWindow* parent ) :
     wxPanel( parent, wxID_ANY, wxDefaultPosition, wxSize(290+(2*SLIDESHOWBORDER), 126+(2*SLIDESHOWBORDER)), wxBORDER_NONE )
 {
+    int w, h;
 	wxBoxSizer* bSizer1;
 	bSizer1 = new wxBoxSizer( wxVERTICAL );
 
+    GetSize(&w, &h);
     m_institution = new CTransparentStaticText( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
 	bSizer1->Add( m_institution, 0, 0, 0 );
     m_scienceArea = new CTransparentStaticText( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
 	bSizer1->Add( m_scienceArea, 0, 0, 0 );
-//    m_description = new CTextBox( this );
-    m_description = new wxTextCtrl( this, wxID_ANY, wxT(""), wxDefaultPosition, wxDefaultSize, wxTE_MULTILINE | wxTE_READONLY );
-//    m_description->SetDefaultStyle(wxTextAttr(*wxBLACK, wxColour(0,0,0,0)));
+    m_description = new CScrolledTextBox( this );
+    m_description->SetMinSize(wxSize(w, 1));
 	bSizer1->Add( m_description, 1, wxEXPAND, 0 );
 
 	this->SetSizer( bSizer1 );
@@ -157,7 +200,16 @@ void CSlideShowPanel::AdvanceSlideShow(bool changeSlide, bool reload) {
             pDoc->rpc.get_all_projects_list(m_AllProjectsList);
             m_bGotAllProjectsList = true;
         }
-
+#if 1   // FOR TESTING ONLY
+m_institution->SetLabel(wxT("University of Washington"));
+m_scienceArea->SetLabel(wxT("Biology"));
+m_description->SetValue(wxT("Determine the 3-dimensional shapes of proteins in research that may ultimately lead to finding cures for some major human diseases. By running Rosetta@home you will help us speed up and extend our research in ways we couldn't possibly attempt without your help. You will also be helping our efforts at designing new proteins to fight diseases such as HIV, Malaria, Cancer, and Alzheimers"));
+m_institution->Show(true);
+m_scienceArea->Show(true);
+m_description->Show(true);
+m_description->Enable();
+this->Layout();
+#endif
         for (i=0; i<m_AllProjectsList.projects.size(); i++) {
             if (!strcmp(m_AllProjectsList.projects[i]->url.c_str(), selData->project_url)) {
                 m_institution->SetLabel(wxString(m_AllProjectsList.projects[i]->home.c_str(), wxConvUTF8));
@@ -168,6 +220,7 @@ void CSlideShowPanel::AdvanceSlideShow(bool changeSlide, bool reload) {
                 m_scienceArea->Show(true);
                 m_description->Show(true);
                 m_description->Enable();
+                this->Layout();
                 break;
             }
         }
