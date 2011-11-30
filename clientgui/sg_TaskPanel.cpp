@@ -15,10 +15,6 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-#define TESTBIGICONPOPUP 0
-
-#define SORTTASKLIST 1  /* TRUE to sort task selection control alphabetically */
-
 #include "stdwx.h"
 #include "miofile.h"
 #include "Events.h"
@@ -31,13 +27,13 @@
 #include "filesys.h"
 
 
+#define SORTTASKLIST 1  /* TRUE to sort task selection control alphabetically */
 #define SLIDESHOWBORDER 3
 #define DESCRIPTIONSPACER 4
 #define HIDEDEFAULTSLIDE 1
 #define TESTALLDESCRIPTIONS 0
-#define TESTVERYLONGDESCRIPTION 0
 
-enum { redDot, yellowDot, greenDot };
+enum { suspendedIcon, waitingIcon, runningIcon };
 
 
 IMPLEMENT_DYNAMIC_CLASS(CScrolledTextBox, wxScrolledWindow)
@@ -50,19 +46,25 @@ CScrolledTextBox::CScrolledTextBox() {
 }
 
 
-CScrolledTextBox::CScrolledTextBox( wxWindow* parent) :
+CScrolledTextBox::CScrolledTextBox( wxWindow* parent, const wxSize& size) :
     wxScrolledWindow( parent, ID_SGPROJECTDESCRIPTION, wxDefaultPosition, wxDefaultSize, wxVSCROLL)
 {
+    // We need dimensions before sizers have set them, so 
+    // parent must calculate them and pass them in to us
+    
+    m_iAvailableWidth = size.GetWidth();
+    m_iAvailableHeight = size.GetHeight();
+#ifndef __WXMAC__
+    m_iAvailableWidth -= 20;
+#endif
+
 	SetForegroundColour(*wxBLACK);
-    EnableScrolling(false, true);
 
 	m_TextSizer = new wxBoxSizer( wxVERTICAL );
 
 	this->SetSizerAndFit( m_TextSizer );
 	this->Layout();
 	this->FitInside();
-
-    m_iAvailableWidth = 0;
 }
 
 
@@ -73,24 +75,9 @@ CScrolledTextBox::~CScrolledTextBox() {
 
 
 void CScrolledTextBox::SetValue(const wxString& s) {
-    int lineHeight, visibleHeight, totalLines, visibleLines;
+    int lineHeight, totalLines;
     wxString t = s;
-    int pw, ph;
-    
-    if (!m_iAvailableWidth) {
-#ifdef __WXMAC__
-        m_TextSizer->Fit(this);
-        GetSize(&m_iAvailableWidth, &visibleHeight);
-#else
-        Fit();
-        GetSize(&m_iAvailableWidth, &visibleHeight);
-        m_iAvailableWidth -= 20;
-#endif
-    }
-    
-    GetParent()->GetSize(&pw, &ph);
-    visibleHeight = ph - 2*GetCharHeight() - DESCRIPTIONSPACER;
-    
+
     // Delete sizer & its children (CTransparentStaticText objects)
     m_TextSizer->Clear(true);
     
@@ -99,15 +86,9 @@ void CScrolledTextBox::SetValue(const wxString& s) {
     t.Replace(wxT("</sup>"), wxT(""), true);
     
     totalLines = Wrap(t, m_iAvailableWidth, &lineHeight);
-    visibleLines = visibleHeight / lineHeight;
     
     m_TextSizer->FitInside(this);
-    Enable();
-//    SetScrollRate(1, lineHeight);
-//    SetScrollbar(wxVERTICAL, 0, visibleLines, totalLines);
-//    SetVirtualSize( m_iAvailableWidth, totalLines * lineHeight );
-    SetScrollbars(1, lineHeight, 0, totalLines - visibleLines);
-    EnableScrolling(false, true);
+    SetScrollRate(1, lineHeight);
 }
 
 		
@@ -211,6 +192,7 @@ CSlideShowPanel::CSlideShowPanel( wxWindow* parent ) :
     wxPanel( parent, wxID_ANY, wxDefaultPosition, wxSize(290+(2*SLIDESHOWBORDER), 126+(2*SLIDESHOWBORDER)), wxBORDER_NONE )
 {
     int w, h;
+    wxSize descriptionBoxSize;
 	wxBoxSizer* bSizer1;
 	bSizer1 = new wxBoxSizer( wxVERTICAL );
 
@@ -220,7 +202,10 @@ CSlideShowPanel::CSlideShowPanel( wxWindow* parent ) :
     m_scienceArea = new CTransparentStaticText( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
 	bSizer1->Add( m_scienceArea, 0, 0, 0 );
     bSizer1->AddSpacer(DESCRIPTIONSPACER);
-    m_description = new CScrolledTextBox( this );
+    descriptionBoxSize.SetWidth(w);
+    descriptionBoxSize.SetHeight(h - 2*GetCharHeight() - DESCRIPTIONSPACER);
+    m_description = new CScrolledTextBox( this, descriptionBoxSize );
+
     m_description->SetMinSize(wxSize(w, 1));
 	bSizer1->Add( m_description, 1, wxEXPAND, 0 );
 
@@ -283,7 +268,8 @@ numSlides = 0;
         m_institution->Show(false);
         m_scienceArea->Show(false);
         m_description->Show(false);
-
+        Enable( false );
+        
         if (!m_bGotAllProjectsList) {
             CMainDocument* pDoc = wxGetApp().GetDocument();
             wxASSERT(pDoc);
@@ -292,19 +278,6 @@ numSlides = 0;
             m_bGotAllProjectsList = true;
         }
         
-#if TESTVERYLONGDESCRIPTION   // FOR TESTING ONLY
-
-m_institution->SetLabel(wxT("University of Washington"));
-m_scienceArea->SetLabel(wxT("Biology"));
-m_description->SetValue(wxT("Determine the 3-dimensional shapes of proteins in research that may ultimately lead to finding cures for some major human diseases. Two to the nth power is 2<sup>n</sup>. By running Rosetta@home you will help us speed up and extend our research in ways we couldn't possibly attempt without your help. You will also be helping our efforts at designing new proteins to fight diseases such as HIV, Malaria, Cancer, and Alzheimers Determine the 3-dimensional shapes of proteins in research that may ultimately lead to finding cures for some major human diseases. By running Rosetta@home you will help us speed up and extend our research in ways we couldn't possibly attempt without your help. You will also be helping our efforts at designing new proteins to fight diseases such as HIV, Malaria, Cancer, and Alzheimers"));
-m_institution->Show(true);
-m_scienceArea->Show(true);
-m_description->Show(true);
-m_description->Enable();
-this->Layout();
-
-#else   // TESTVERYLONGDESCRIPTION
-
         for (i=0; i<m_AllProjectsList.projects.size(); i++) {
             if (!strcmp(m_AllProjectsList.projects[i]->url.c_str(), selData->project_url)) {
                 m_institution->SetLabel(wxString(m_AllProjectsList.projects[i]->home.c_str(), wxConvUTF8));
@@ -314,12 +287,12 @@ this->Layout();
                 m_institution->Show(true);
                 m_scienceArea->Show(true);
                 m_description->Show(true);
+                Enable( true );
                 m_description->Enable();
                 this->Layout();
                 break;
             }
         }
-#endif  // TESTVERYLONGDESCRIPTION
         return;
 #else   // HIDEDEFAULTSLIDE
         SetBackgroundColour(*wxBLACK);
@@ -340,11 +313,13 @@ this->Layout();
         m_institution->Show(false);
         m_scienceArea->Show(false);
         m_description->Show(false);
+        Enable( false );
+
 #endif  // HIDEDEFAULTSLIDE
         // TODO: Should we allow slide show to advance if task is not running?
         int newSlide = selData->lastSlideShown;
         
-        if (selData->dotColor == greenDot) {    // Advance only if running
+        if (selData->dotColor == runningIcon) {    // Advance only if running
             if (changeSlide) {
                 if (++newSlide >= numSlides) {
                     newSlide = 0;
@@ -454,10 +429,6 @@ BEGIN_EVENT_TABLE(CSimpleTaskPanel, CSimplePanelBase)
 #endif
 END_EVENT_TABLE()
 
-#if TESTBIGICONPOPUP
-static wxString tempArray[] = {_T("String1"), _T("String2"), _T("String3") };
-#endif
-
 CSimpleTaskPanel::CSimpleTaskPanel() {
 }
 
@@ -490,16 +461,7 @@ CSimpleTaskPanel::CSimpleTaskPanel( wxWindow* parent ) :
 	m_myTasksLabel->Wrap( -1 );
 	bSizer2->Add( m_myTasksLabel, 0, wxRIGHT, 5 );
 	
-#if TESTBIGICONPOPUP
-	m_TaskSelectionCtrl = new CBOINCBitmapComboBox( this, ID_SGTASKSELECTOR, wxT(""), wxDefaultPosition, wxDefaultSize, 3, tempArray, wxCB_READONLY ); 
-    m_TaskSelectionCtrl->SetItemBitmap(0, m_RedDot);
-    m_TaskSelectionCtrl->SetItemBitmap(1, m_GreenDot);
-    m_TaskSelectionCtrl->SetItemBitmap(2, m_YellowDot);
-//    m_TaskSelectionCtrl->SetStringSelection(tempArray[1]);
-    m_TaskSelectionCtrl->SetSelection(1);
-#else   // TESTBIGICONPOPUP
 	m_TaskSelectionCtrl = new CBOINCBitmapComboBox( this, ID_SGTASKSELECTOR, wxT(""), wxDefaultPosition, wxDefaultSize, 0, NULL, wxCB_READONLY ); 
-#endif  // TESTBIGICONPOPUP
     // TODO: Might want better wording for Task Selection Combo Box tooltip
     str = _("Select a task to access");
     m_TaskSelectionCtrl->SetToolTip(str);
@@ -972,7 +934,7 @@ void CSimpleTaskPanel::FindSlideShowFiles(TaskSelectionData *selData) {
 
 void CSimpleTaskPanel::UpdateTaskSelectionList(bool reskin) {
     wxLogTrace(wxT("Function Start/End"), wxT("CSimpleTaskPanel::UpdateTaskSelectionList - Function Begin"));
-    int i, j, count, newColor;
+    int i, j, count, newIcon;
     TaskSelectionData *selData;
 	RESULT* result;
 	RESULT* ctrlResult;
@@ -1127,28 +1089,28 @@ void CSimpleTaskPanel::UpdateTaskSelectionList(bool reskin) {
         selData = (TaskSelectionData*)m_TaskSelectionCtrl->GetClientData(j);
         ctrlResult = selData->result;
         if (Suspended() || ctrlResult->suspended_via_gui || ctrlResult->project_suspended_via_gui) {
-            newColor = redDot;
+            newIcon = suspendedIcon;
         } else if (isRunning(ctrlResult)) {
-            newColor = greenDot;
+            newIcon = runningIcon;
         } else if (ctrlResult->scheduler_state == CPU_SCHED_PREEMPTED) {
-            newColor = yellowDot;
+            newIcon = waitingIcon;
         } else {
-            newColor = redDot;
+            newIcon = suspendedIcon;
         }
 
-        if (reskin || (newColor != selData->dotColor)) {
-            switch (newColor) {
-            case greenDot:
+        if (reskin || (newIcon != selData->dotColor)) {
+            switch (newIcon) {
+            case runningIcon:
                 m_TaskSelectionCtrl->SetItemBitmap(j, *pSkinSimple->GetWorkunitRunningImage()->GetBitmap());
                 break;
-            case yellowDot:
+            case waitingIcon:
                 m_TaskSelectionCtrl->SetItemBitmap(j, *pSkinSimple->GetWorkunitWaitingImage()->GetBitmap());
                 break;
-            case redDot:
+            case suspendedIcon:
                 m_TaskSelectionCtrl->SetItemBitmap(j, *pSkinSimple->GetWorkunitSuspendedImage()->GetBitmap());
                 break;
             }
-            selData->dotColor = newColor;
+            selData->dotColor = newIcon;
             needRefresh = true;
         }
     }

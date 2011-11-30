@@ -8725,7 +8725,7 @@ Charlie 29 Nov 2011
     clientgui/
         sg_TaskPanel.cpp,.h
 
-David  28 Nov 2011
+David  29 Nov 2011
     - wrapper: measure CPU time of app's process tree,
         not just the top-level process
     - wrapper: handle fraction-done files correctly
@@ -8734,3 +8734,10 @@ David  28 Nov 2011
         procinfo.cpp,h
     samples/wrapper/
         wrapper.cpp
+
+Charlie 30 Nov 2011
+    - MGR: Complete work on Simple View to display the description if 
+        task has no slide show.  
+        
+    clientgui/
+        sg_TaskPanel.cpp,.h
