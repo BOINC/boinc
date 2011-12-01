@@ -8747,3 +8747,20 @@ Charlie 30 Nov 2011
         
     clientgui/
         sg_TaskPanel.cpp,.h
+
+David  1 Dec 2011
+    - API and client: add "ncpus" field to APP_INIT_DATA.
+        Tells multicore apps how many cores to use.
+        The --nthreads command line arg to the app is now deprecated
+        though we'll keep it around for the time being.
+
+    sched/
+        sched_util.cpp,h
+        sched_customize.cpp,h
+        credit.cpp
+    html/user/
+        show_user.php
+    lib/
+        app_ipc.cpp,h
+    client/
+        app_start.cpp

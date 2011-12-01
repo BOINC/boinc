@@ -194,6 +194,10 @@ struct APP_INIT_DATA {
     char gpu_type[64];
     int gpu_device_num;
 
+    // info for multicore apps: how many cores to use
+    //
+    double ncpus;
+
     // Items below here are for BOINC runtime system,
     // and should not be directly accessed by apps
     //

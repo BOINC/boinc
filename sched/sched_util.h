@@ -80,6 +80,8 @@ inline int generalized_app_version_id(int avid, int appid) {
 //
 extern bool is_arg(const char*, const char*);
 
+extern bool app_plan_uses_gpu(const char* plan_class);
+
 #ifdef GCL_SIMULATOR
 extern void simulator_signal_handler(int signum);
 extern void continue_simulation(const char *daemonname);

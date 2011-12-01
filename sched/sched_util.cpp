@@ -266,6 +266,24 @@ bool is_arg(const char* x, const char* y) {
     return false;
 }
 
+// the following is used, among other things,
+// to enforce limits on in-progress jobs
+// for GPUs and CPUs (see handle_request.cpp)
+//
+bool app_plan_uses_gpu(const char* plan_class) {
+    if (strstr(plan_class, "cuda")) {
+        return true;
+    }
+    if (strstr(plan_class, "nvidia")) {
+        return true;
+    }
+    if (strstr(plan_class, "ati")) {
+        return true;
+    }
+    return false;
+}
+
+
 #ifdef GCL_SIMULATOR
 
 void simulator_signal_handler(int signum) {

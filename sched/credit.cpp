@@ -28,6 +28,7 @@
 #include "error_numbers.h"
 
 #include "sched_config.h"
+#include "sched_customize.h"
 #include "sched_msgs.h"
 #include "sched_util.h"
 #include "sched_shmem.h"
@@ -233,7 +234,7 @@ int update_av_scales(SCHED_SHMEM* ssp) {
             retval = av.lookup_id(avr.id);
             if (retval) return retval;
             avr = av;       // update shared mem array
-            if (strstr(av.plan_class, "cuda") || strstr(av.plan_class, "ati")) {
+            if (app_plan_uses_gpu(av.plan_class)) {
                 if (config.debug_credit) {
                     log_messages.printf(MSG_NORMAL,
                         "add to gpu totals: (%d %s) %g %g\n",

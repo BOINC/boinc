@@ -60,5 +60,4 @@ extern GPU_REQUIREMENTS ati_requirements;
 
 extern bool wu_is_infeasible_custom(WORKUNIT&, APP&, BEST_APP_VERSION&);
 extern bool app_plan(SCHEDULER_REQUEST&, char* plan_class, HOST_USAGE&);
-extern bool app_plan_uses_gpu(const char* plan_class);
 extern void handle_file_xfer_results();

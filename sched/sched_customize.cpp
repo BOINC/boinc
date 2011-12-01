@@ -502,6 +502,9 @@ static inline bool app_plan_opencl(
             );
             return false;
         }
+
+    // maybe add a clause for multicore CPU
+
     } else {
         log_messages.printf(MSG_CRITICAL,
             "Unknown plan class: %s\n", plan_class
@@ -562,22 +565,6 @@ bool app_plan(SCHEDULER_REQUEST& sreq, char* plan_class, HOST_USAGE& hu) {
     log_messages.printf(MSG_CRITICAL,
         "Unknown plan class: %s\n", plan_class
     );
-    return false;
-}
-
-// the following is used to enforce limits on in-progress jobs
-// for GPUs and CPUs (see handle_request.cpp)
-//
-bool app_plan_uses_gpu(const char* plan_class) {
-    if (strstr(plan_class, "cuda")) {
-        return true;
-    }
-    if (strstr(plan_class, "nvidia")) {
-        return true;
-    }
-    if (strstr(plan_class, "ati")) {
-        return true;
-    }
     return false;
 }
 
