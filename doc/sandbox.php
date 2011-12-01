@@ -270,13 +270,13 @@ This can be done by moving BOINC Manager out of the
 installer traverses the BOINC Data directory and sets the users, groups and 
 permissions of all files as shown in the above table.  This allows it to 
 repair corrupted permissions.  <b>Note</b> that the BOINC installer will 
-change the users of <i>all</i> files in the projects directory, the slots 
-directory, and all their subdirectories to <b>boinc_master</b>.  This means 
-that if a project file should be executable by another project file, its 
-executable-by-group permission bit <b>must</b> be set. 
-The BOINC installer will <i>not</i> alter the executable-by-user and executable-by-group 
-permission bits of files in these directories (though it will set these bits for 
-the directories themselves.)
+<b>change all files</b> in the projects directory, the slots directory, and 
+all their subdirectories to <b>user boinc_master</b> and 
+<b>group boinc_project</b>.  This means that if a project file needs to be 
+executable by another project file, its executable-by-group permission bit 
+<b>must</b> be set.  The BOINC installer will <i>not</i> alter the 
+executable-by-user and executable-by-group permission bits of files in these 
+directories (though it will set these bits for the directories themselves.)
 </ul>
 </p>
 ";
