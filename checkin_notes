@@ -7011,3 +7011,11 @@ David  24 Nov 2011
 
     clientsrc/
         ss_app.cpp
+
+Charlie 1 Dec 2011
+    - Tag for 6.8.32 release, all platforms
+      boinc_core_release_6_8_32
+
+    /
+        configure.ac
+        version.h
