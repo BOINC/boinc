@@ -8667,3 +8667,9 @@ Rom    30 Nov 2011
     /
         configure.ac
         version.h
+
+Charlie 30 Nov 2011
+    - MGR: Better sizing of Simple View description text box.
+        
+    clientgui/
+        sg_TaskPanel.cpp,.h
