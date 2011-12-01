@@ -46,17 +46,10 @@ CScrolledTextBox::CScrolledTextBox() {
 }
 
 
-CScrolledTextBox::CScrolledTextBox( wxWindow* parent, const wxSize& size) :
+CScrolledTextBox::CScrolledTextBox( wxWindow* parent) :
     wxScrolledWindow( parent, ID_SGPROJECTDESCRIPTION, wxDefaultPosition, wxDefaultSize, wxVSCROLL)
 {
-    // We need dimensions before sizers have set them, so 
-    // parent must calculate them and pass them in to us
-    
-    m_iAvailableWidth = size.GetWidth();
-    m_iAvailableHeight = size.GetHeight();
-#ifndef __WXMAC__
-    m_iAvailableWidth -= 20;
-#endif
+    m_iAvailableWidth = 296;    // This will be overwritten
 
 	SetForegroundColour(*wxBLACK);
 
@@ -80,12 +73,21 @@ void CScrolledTextBox::SetValue(const wxString& s) {
 
     // Delete sizer & its children (CTransparentStaticText objects)
     m_TextSizer->Clear(true);
-    
+
     // Change all occurrences of "<sup>n</sup>" to "^n"
     t.Replace(wxT("<sup>"), wxT("^"), true);
     t.Replace(wxT("</sup>"), wxT(""), true);
+    wxString tt = t;
     
-    totalLines = Wrap(t, m_iAvailableWidth, &lineHeight);
+    // First, determine if scroll bars needed so sizer can recompute
+    totalLines = Wrap(tt, m_iAvailableWidth, &lineHeight);
+    m_TextSizer->FitInside(this);
+
+    // Now get the actual client size with or without scroll bars
+    GetClientSize(&m_iAvailableWidth, &lineHeight);
+    m_TextSizer->Clear(true);   // Delete sizer & its children
+    
+    totalLines = Wrap(t, m_iAvailableWidth - 3, &lineHeight);
     
     m_TextSizer->FitInside(this);
     SetScrollRate(1, lineHeight);
@@ -192,21 +194,20 @@ CSlideShowPanel::CSlideShowPanel( wxWindow* parent ) :
     wxPanel( parent, wxID_ANY, wxDefaultPosition, wxSize(290+(2*SLIDESHOWBORDER), 126+(2*SLIDESHOWBORDER)), wxBORDER_NONE )
 {
     int w, h;
-    wxSize descriptionBoxSize;
 	wxBoxSizer* bSizer1;
 	bSizer1 = new wxBoxSizer( wxVERTICAL );
 
-    GetSize(&w, &h);
     m_institution = new CTransparentStaticText( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
 	bSizer1->Add( m_institution, 0, 0, 0 );
+
     m_scienceArea = new CTransparentStaticText( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
 	bSizer1->Add( m_scienceArea, 0, 0, 0 );
+    
     bSizer1->AddSpacer(DESCRIPTIONSPACER);
-    descriptionBoxSize.SetWidth(w);
-    descriptionBoxSize.SetHeight(h - 2*GetCharHeight() - DESCRIPTIONSPACER);
-    m_description = new CScrolledTextBox( this, descriptionBoxSize );
 
-    m_description->SetMinSize(wxSize(w, 1));
+    m_description = new CScrolledTextBox( this );
+    GetSize(&w, &h);
+    m_description->SetMinSize(wxSize(w, h - (2 * GetCharHeight()) - DESCRIPTIONSPACER));
 	bSizer1->Add( m_description, 1, wxEXPAND, 0 );
 
 	this->SetSizer( bSizer1 );
