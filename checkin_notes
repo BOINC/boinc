@@ -8776,3 +8776,12 @@ Charlie 2 Dec 2011
         Installer.cpp
         PostInstall.cpp
         release_boinc.sh
+
+Charlie 2 Dec 2011
+    - Mac installer: for files in projects and slots directories, if the 
+        executable-by-owner permission is set, ensure that the 
+        executable-by-group bit is also set.
+        
+    clientgui/
+        mac/
+            SetupSecurity.cpp
