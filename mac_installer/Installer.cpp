@@ -95,6 +95,10 @@ int main(int argc, char *argv[])
     if (p)
         *p = '\0'; 
 
+    p = strstr(brand, " Installer.app");  // Strip off trailing " Installer.app"
+    if (p)
+        *p = '\0'; 
+
     err = Gestalt(gestaltSystemVersion, &response);
     if (err != noErr)
         return err;
@@ -115,6 +119,11 @@ int main(int argc, char *argv[])
 
 	ExitToShell();
     }
+
+    // Remove previous installer package receipt so we can run installer again
+    // "rm -rf /Library/Receipts/GridRepublic.pkg"
+    sprintf(s, "rm -rf \"/Library/Receipts/%s.pkg\"", brand);
+    system (s);
 
     strlcat(pkgPath, ".pkg", sizeof(pkgPath));
     
