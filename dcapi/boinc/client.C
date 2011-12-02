@@ -282,8 +282,17 @@ char *DC_resolveFileName(DC_FileType type, const char *logicalFileName)
 		return strdup(logicalFileName);
 
 	ret = boinc_resolve_filename(logicalFileName, buf, sizeof(buf));
-	if (!ret)
-		return strdup(buf);
+	if (!ret) {
+        if (type == DC_FILE_IN) {
+    	    if (FILE * file = fopen(buf, "r")) 
+    	    {
+                fclose(file);
+        		return strdup(buf);	    
+    	    }
+            return NULL;
+    	}
+		return strdup(buf);	    
+	}
 
 	/* Do not fail for missing output files in stand-alone mode */
 	if (!wu_name[0] && type == DC_FILE_OUT)

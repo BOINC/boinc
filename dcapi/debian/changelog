@@ -1,3 +1,9 @@
+dcapi (0.12-4) unstable; urgency=low
+
+  * Fix: DC_FILE_IN type files should only be resolved if present.
+
+ -- Attila Csaba Marosi <atisu@sztaki.hu>  Mon, 02 Dec 2011 16:33:02 +0100
+
 dcapi (0.12-3) unstable; urgency=low
 
   * Documentation update for redundancy parameters.
@@ -17,6 +23,7 @@ dcapi (0.12-1) unstable; urgency=low
     related parameters for workunits.
 
  -- Attila Csaba Marosi <atisu@sztaki.hu>  Mon, 17 Oct 2011 14:33:02 +0200
+
 dcapi (0.11-1) unstable; urgency=low
 
   * Introduce BOINC configuration variable to define upload URL.
