@@ -518,18 +518,6 @@ int DeleteReceipt()
 
     err = CheckLogoutRequirement(&finalInstallAction);
 //    print_to_log_file("CheckLogoutRequirement returned %d\n", finalInstallAction);
-    err = FindProcess ('APPL', 'xins', &installerPSN);
-    if (err == noErr) {
-        err = GetProcessPID(&installerPSN , &installerPID);
-
-       // Launch BOINC Manager when user closes installer or after 15 seconds
-        for (i=0; i<15; i++) { // Wait 15 seconds max for installer to quit
-            sleep (1);
-            if (err == noErr)
-                if (FindProcessPID(NULL, installerPID) == 0)
-                    break;
-        }
-    }
     
     brandID = GetBrandID();
 
@@ -541,6 +529,20 @@ int DeleteReceipt()
     // err_fsref = FSPathMakeRef((StringPtr)"/Applications/GridRepublic Desktop.app", &fileRef, NULL);
     err_fsref = FSPathMakeRef((StringPtr)appPath[brandID], &fileRef, NULL);
     if (finalInstallAction == launchWhenDone) {
+
+        err = FindProcess ('APPL', 'xins', &installerPSN);
+        if (err == noErr) {
+            err = GetProcessPID(&installerPSN , &installerPID);
+
+           // Launch BOINC Manager when user closes installer or after 15 seconds
+            for (i=0; i<15; i++) { // Wait 15 seconds max for installer to quit
+                sleep (1);
+                if (err == noErr)
+                    if (FindProcessPID(NULL, installerPID) == 0)
+                        break;
+            }
+        }
+
         // If system is set up to run BOINC Client as a daemon using launchd, launch it 
         //  as a daemon and allow time for client to start before launching BOINC Manager.
         err = stat("/Library/LaunchDaemons/edu.berkeley.boinc.plist", &sbuf);
@@ -557,11 +559,7 @@ int DeleteReceipt()
 
 
 OSStatus CheckLogoutRequirement(int *finalAction)
-{
-#ifdef SANDBOX
-    Boolean                 isMember = false;
-#endif  // SANDBOX
-    
+{    
     *finalAction = restartRequired;
 
     if (OSVersion < 0x1040) {
@@ -570,20 +568,13 @@ OSStatus CheckLogoutRequirement(int *finalAction)
     
 #ifdef SANDBOX
     if (loginName[0]) {
-        if (IsUserMemberOfGroup(loginName, boinc_master_group_name)) {
-            isMember = true;                // Logged in user is a member of group boinc_master
+        if (!IsUserMemberOfGroup(loginName, boinc_master_group_name)) {
+            *finalAction = nothingrequired;
+            return noErr;   // Logged in user is not a member of group boinc_master
         }
     }
-
-    if (isMember) {
-        *finalAction = launchWhenDone;
-    } else {
-        *finalAction = nothingrequired;
-    }
-    return noErr;
 #endif  // SANDBOX
 
-#if 0    // We no longer require restart or logout
     char                    path[MAXPATHLEN];
     FSRef                   infoPlistFileRef;
     Boolean                 isDirectory, result;
@@ -641,7 +632,6 @@ OSStatus CheckLogoutRequirement(int *finalAction)
     if (propertyListRef)
         CFRelease(propertyListRef);
     return err;
-#endif
 }
 
 

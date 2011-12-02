@@ -24,6 +24,7 @@
 				DDBD681507FA830E0082C20D /* PBXTargetDependency */,
 				DD791FF10819063C00BE2906 /* PBXTargetDependency */,
 				DD58247D0B198BDD003B6A2F /* PBXTargetDependency */,
+				DD6178CE1488F09E0042482E /* PBXTargetDependency */,
 				DD127877081F44E5007B5DE1 /* PBXTargetDependency */,
 				DD664F19084321A2009BFB11 /* PBXTargetDependency */,
 				DD6D35F40871509300BBCDEE /* PBXTargetDependency */,
@@ -552,6 +553,13 @@
 			proxyType = 1;
 			remoteGlobalIDString = DD3E14D30A774397007E0084;
 			remoteInfo = mgr_boinc;
+		};
+		DD6178CD1488F09E0042482E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 20286C28FDCF999611CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = DD1AFEA40A512D8700EE5B82;
+			remoteInfo = Install_BOINC;
 		};
 		DD664F18084321A2009BFB11 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -2776,7 +2784,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "rm -f \"${SRCROOT}\"/libcrypto.dylib\nrm -f \"${SRCROOT}\"/libssl.dylib\n";
+			shellScript = "rm -f \"${SRCROOT}\"/libmycrypto.dylib\nrm -f \"${SRCROOT}\"/libssl.dylib\n";
 		};
 		DDAD1A380909139E004E7DD0 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -3447,6 +3455,11 @@
 			target = DD3E14D30A774397007E0084 /* mgr_boinc */;
 			targetProxy = DD58247C0B198BDD003B6A2F /* PBXContainerItemProxy */;
 		};
+		DD6178CE1488F09E0042482E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = DD1AFEA40A512D8700EE5B82 /* Install_BOINC */;
+			targetProxy = DD6178CD1488F09E0042482E /* PBXContainerItemProxy */;
+		};
 		DD664F19084321A2009BFB11 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = DD69FEE708416C1300C01361 /* cmd_boinc */;
@@ -3918,6 +3931,7 @@
 				GCC_VERSION = com.apple.compilers.llvmgcc42;
 				HEADER_SEARCH_PATHS = "../../curl-7.21.7/include";
 				INFOPLIST_PREPROCESSOR_DEFINITIONS = "";
+				LIBRARY_SEARCH_PATHS = "";
 				"OTHER_CFLAGS[arch=x86_64]" = (
 					"-D_THREAD_SAFE",
 					"-DNDEBUG",
@@ -4107,6 +4121,7 @@
 				GCC_VERSION = com.apple.compilers.llvmgcc42;
 				HEADER_SEARCH_PATHS = "../../curl-7.21.7/include";
 				INFOPLIST_PREPROCESSOR_DEFINITIONS = "";
+				LIBRARY_SEARCH_PATHS = "";
 				OTHER_LDFLAGS = (
 					"-L.",
 					"../../curl-7.21.7/lib/.libs/libcurl.a",
