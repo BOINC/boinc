@@ -691,6 +691,12 @@ static OSStatus UpdateNestedDirectories(char * basepath) {
             retval = UpdateNestedDirectories(fullpath);
             if (retval)
                 break;
+        } else {
+            // Since we are changing ownership from boinc_project to boinc_master, 
+            // make sure executable-by-group bit is set if executable-by-owner is set 
+            if ((sbuf.st_mode & 0110) == 0100) {    // If executable by owner but not by group
+                retval = DoPrivilegedExec(chmodPath, "g+x", fullpath, NULL, NULL, NULL);
+            }
         }
             
     }       // End while (true)
