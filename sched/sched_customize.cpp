@@ -547,6 +547,8 @@ static inline bool app_plan_vbox(
 bool app_plan(SCHEDULER_REQUEST& sreq, char* plan_class, HOST_USAGE& hu) {
     if (!strcmp(plan_class, "mt")) {
         return app_plan_mt(sreq, hu);
+    } else if (strstr(plan_class, "opencl")) {
+        return app_plan_opencl(sreq, plan_class, hu);
     } else if (strstr(plan_class, "ati")) {
         return app_plan_ati(sreq, plan_class, hu);
     } else if (strstr(plan_class, "cuda")) {
@@ -559,8 +561,6 @@ bool app_plan(SCHEDULER_REQUEST& sreq, char* plan_class, HOST_USAGE& hu) {
         return app_plan_vbox(sreq, hu, false);
     } else if (!strcmp(plan_class, "vbox64")) {
         return app_plan_vbox(sreq, hu, true);
-    } else if (strstr(plan_class, "opencl")) {
-        return app_plan_opencl(sreq, plan_class, hu);
     }
     log_messages.printf(MSG_CRITICAL,
         "Unknown plan class: %s\n", plan_class

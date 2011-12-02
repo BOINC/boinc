@@ -8785,3 +8785,11 @@ Charlie 2 Dec 2011
     clientgui/
         mac/
             SetupSecurity.cpp
+
+David  2 Dec 2011
+    - scheduler: in app_plan(), check for "opencl" before "ati".
+        Otherwise "opencl_ati" won't get handled right.
+        Fixes #1158
+
+    sched/
+        sched_customize.cpp
