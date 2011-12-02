@@ -248,6 +248,8 @@ OSStatus GetFinalAction(CFStringRef *restartValue)
     pw = getpwnam(boinc_project_user_name);
     if (pw == NULL)
         return noErr;       // User boinc_project does not exist
+
+    boinc_project_uid = pw->pw_uid;
         
     if (pw->pw_gid != boinc_project_gid)
         return noErr;       // User boinc_project does not have group boinc_project as its primary group
