@@ -2784,7 +2784,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "rm -f \"${SRCROOT}\"/libmycrypto.dylib\nrm -f \"${SRCROOT}\"/libssl.dylib\n";
+			shellScript = "rm -f \"${SRCROOT}\"/libcrypto.dylib\nrm -f \"${SRCROOT}\"/libssl.dylib\n";
 		};
 		DDAD1A380909139E004E7DD0 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
