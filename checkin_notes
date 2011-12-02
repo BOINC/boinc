@@ -8764,3 +8764,15 @@ David  1 Dec 2011
         app_ipc.cpp,h
     client/
         app_start.cpp
+
+Charlie 2 Dec 2011
+    - Mac installer: revert to using a wrapper application around installer 
+        package to require a system restart if creating users and groups.
+        
+    mac_build/
+        boinc.xcodeproj/
+            project.pbxproj
+    mac_installer/
+        Installer.cpp
+        PostInstall.cpp
+        release_boinc.sh
