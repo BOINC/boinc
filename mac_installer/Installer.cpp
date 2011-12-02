@@ -218,6 +218,8 @@ OSStatus GetFinalAction(CFStringRef *restartValue)
     group           *grp = NULL;
     gid_t           boinc_master_gid = 0, boinc_project_gid = 0;
     uid_t           boinc_master_uid = 0, boinc_project_uid = 0;
+    OSStatus        err = noErr;
+    long            response;
     char            loginName[256];
     
     *restartValue = valueRestartRequired;
@@ -227,24 +229,18 @@ OSStatus GetFinalAction(CFStringRef *restartValue)
         return noErr;       // Group boinc_master does not exist
 
     boinc_master_gid = grp->gr_gid;
-    if (boinc_master_gid < 501)
-        return noErr;       // We will change boinc_master_gid to a value > 501
         
     grp = getgrnam(boinc_project_group_name);
     if (grp == NULL)
         return noErr;       // Group boinc_project does not exist
 
     boinc_project_gid = grp->gr_gid;
-    if (boinc_project_gid < 501)
-        return noErr;       // We will change boinc_project_gid to a value > 501
 
     pw = getpwnam(boinc_master_user_name);
     if (pw == NULL)
         return noErr;       // User boinc_master does not exist
 
     boinc_master_uid = pw->pw_uid;
-    if (boinc_master_uid < 501)
-        return noErr;       // We will change boinc_master_uid to a value > 501
 
     if (pw->pw_gid != boinc_master_gid)
         return noErr;       // User boinc_master does not have group boinc_master as its primary group
@@ -253,12 +249,20 @@ OSStatus GetFinalAction(CFStringRef *restartValue)
     if (pw == NULL)
         return noErr;       // User boinc_project does not exist
         
-    boinc_project_uid = pw->pw_uid;
-    if (boinc_project_uid < 501)
-        return noErr;       // We will change boinc_project_uid to a value > 501
-
     if (pw->pw_gid != boinc_project_gid)
         return noErr;       // User boinc_project does not have group boinc_project as its primary group
+
+    err = Gestalt(gestaltSystemVersion, &response);
+    if ((err == noErr) && (response >= 0x1050)) {
+        if (boinc_master_gid < 501)
+            return noErr;       // We will change boinc_master_gid to a value > 501
+        if (boinc_project_gid < 501)
+            return noErr;       // We will change boinc_project_gid to a value > 501
+        if (boinc_master_uid < 501)
+            return noErr;       // We will change boinc_master_uid to a value > 501
+        if (boinc_project_uid < 501)
+            return noErr;       // We will change boinc_project_uid to a value > 501
+}
     
     #ifdef SANDBOX
     strncpy(loginName, getenv("USER"), sizeof(loginName)-1);
