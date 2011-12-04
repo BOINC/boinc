@@ -385,13 +385,13 @@ public:
     CC_STATE();
     ~CC_STATE();
 
-    PROJECT* lookup_project(char* url);
-    APP* lookup_app(PROJECT*, char* name);
+    PROJECT* lookup_project(const char* url);
+    APP* lookup_app(PROJECT*, const char* name);
     APP_VERSION* lookup_app_version(PROJECT*, APP*, int, char* plan_class);
     APP_VERSION* lookup_app_version_old(PROJECT*, APP*, int);
-    WORKUNIT* lookup_wu(PROJECT*, char* name);
-    RESULT* lookup_result(PROJECT*, char* name);
-    RESULT* lookup_result(char* url, char* name);
+    WORKUNIT* lookup_wu(PROJECT*, const char* name);
+    RESULT* lookup_result(PROJECT*, const char* name);
+    RESULT* lookup_result(const char* url, const char* name);
 
     void print();
     void clear();

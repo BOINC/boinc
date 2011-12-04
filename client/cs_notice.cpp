@@ -268,11 +268,11 @@ static inline bool string_equal_nodigits(string& s1, string& s2) {
     const char *p = s1.c_str();
     const char *q = s2.c_str();
     while (1) {
-        if (isdigit(*p)) {
+        if (isascii(*p) && isdigit(*p)) {
             p++;
             continue;
         }
-        if (isdigit(*q)) {
+        if (isascii(*q) && isdigit(*q)) {
             q++;
             continue;
         }

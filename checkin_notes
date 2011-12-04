@@ -8793,3 +8793,11 @@ David  2 Dec 2011
 
     sched/
         sched_customize.cpp
+
+David  4 Dec 2011
+	- client: isdigit() asserts if its arg is negative (which it can be).
+		Call isascii() first.
+	- GUI RPC lib: add some consts
+
+	client/
+		cs_notice.cpp
