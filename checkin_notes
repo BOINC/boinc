@@ -8704,3 +8704,10 @@ Charlie 2 Dec 2011
     clientgui/
         mac/
             SetupSecurity.cpp
+
+Rom    5 Dec 2011
+    - MGR: Increase the opacity of the panels to make the black text more
+        readable.
+        
+    clientgui/skins/Default/
+        skin.xml
