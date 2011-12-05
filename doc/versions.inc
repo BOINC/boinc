@@ -175,7 +175,7 @@ $l66 = array(
 	"type"=>"sea",
 	);
 
-$l613ubuntu = array(
+$l70ubuntu = array(
 	"num"=>"7.0.2",
 	"status"=>"Development version",
 	"file"=>"boinc_7.0.2_i686-pc-linux-gnu.sh",
@@ -199,7 +199,7 @@ $l610ubuntu = array(
 	"type"=>"sea",
 );
 
-$l613ubuntux64 = array(
+$l70ubuntux64 = array(
 	"num"=>"7.0.2",
 	"status"=>"Development version",
 	"file"=>"boinc_7.0.2_x86_64-pc-linux-gnu.sh",
