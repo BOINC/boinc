@@ -8801,3 +8801,11 @@ David  4 Dec 2011
 
 	client/
 		cs_notice.cpp
+
+Rom    11 Nov 2011
+    - Bump the version number to the next developmental release cycle
+      7.1.x
+
+    /
+        configure.ac
+        version.h
