@@ -8802,10 +8802,17 @@ David  4 Dec 2011
 	client/
 		cs_notice.cpp
 
-Rom    11 Nov 2011
+Rom    5 Dec 2011
     - Bump the version number to the next developmental release cycle
       7.1.x
 
     /
         configure.ac
         version.h
+
+Rom    5 Dec 2011
+    - MGR: Increase the opacity of the panels to make the black text more
+        readable.
+        
+    clientgui/skins/Default/
+        skin.xml
