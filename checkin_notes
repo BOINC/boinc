@@ -8711,3 +8711,9 @@ Rom    5 Dec 2011
         
     clientgui/skins/Default/
         skin.xml
+
+Charlie 6 Dec 2011
+    - MGR: eliminate "ghost" Notices window when running on Windows OS.
+    
+    clientgui/
+        sg_DlgMessages.cpp

@@ -352,7 +352,6 @@ bool CDlgMessages::Create( wxWindow* parent, wxWindowID id, const wxString& capt
 
     GetSizer()->Fit(this);
     GetSizer()->SetSizeHints(this);
-    Center();
 
     // To work properly on Mac, RestoreState() must be called _after_ 
     //  calling GetSizer()->Fit(), GetSizer()->SetSizeHints() and Center()
@@ -557,11 +556,11 @@ void CDlgMessages::RestoreWindowDimensions() {
     if ( iLeft + iWidth > iMaxWidth ) iLeft = iMaxWidth - iWidth;
     if ( iTop + iHeight > iMaxHeight ) iTop = iMaxHeight - iHeight;
 
-    Iconize(bWindowIconized);
-    Maximize(bWindowMaximized);
     if (!IsIconized() && !IsMaximized()) {
         SetSize(iLeft, iTop, iWidth, iHeight);
     }
+    Iconize(bWindowIconized);
+    Maximize(bWindowMaximized);
 
 #else   // ! __WXMAC__
 
