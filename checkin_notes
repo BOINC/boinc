@@ -8492,11 +8492,11 @@ Charlie 14 Nov 2011
         BOINCGUIApp.cpp
 
 David  14 Nov 2011
-	- client: add some missing items to CONFIG::parse_options_client().
+    - client: add some missing items to CONFIG::parse_options_client().
 
-	client/
-		log_flags.cpp
-		pers_file_xfer.cpp
+    client/
+        log_flags.cpp
+        pers_file_xfer.cpp
 
 Charlie 16 Nov 2011
     - MGR: use wxBitmapComboBox insert() and append() calls without 
@@ -8795,12 +8795,12 @@ David  2 Dec 2011
         sched_customize.cpp
 
 David  4 Dec 2011
-	- client: isdigit() asserts if its arg is negative (which it can be).
-		Call isascii() first.
-	- GUI RPC lib: add some consts
+    - client: isdigit() asserts if its arg is negative (which it can be).
+        Call isascii() first.
+    - GUI RPC lib: add some consts
 
-	client/
-		cs_notice.cpp
+    client/
+        cs_notice.cpp
 
 Rom    5 Dec 2011
     - Bump the version number to the next developmental release cycle
@@ -8863,3 +8863,12 @@ Charlie 6 Dec 2011
         Events.h
         sg_PanelBase.cpp,.h
         sg_TaskPanel.cpp,.h
+
+David  6 Dec 2011
+    - client: if a file download was in progress at the time of
+        an upgrade from 6.12 to 6.13+,
+        it could get erroneously marked as an upload and get stuck forever.
+        Problem: uninitialized member.
+
+    client/
+        pers_file_xfer.cpp
