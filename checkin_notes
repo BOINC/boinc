@@ -8840,3 +8840,10 @@ David  5 Dec 2011
     ssim/
         des.h
         ssim.cpp
+
+David  6 Dec 2011
+    - client: compile fix; remove redundant total_peak_flops()
+
+    client/
+        work_fetch.cpp,h
+        cpu_sched.cpp
