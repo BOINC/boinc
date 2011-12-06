@@ -197,7 +197,7 @@ static inline bool app_plan_ati(
 
     if (!strcmp(plan_class, "ati")) {
         if (!ati_check(c, hu,
-            1000000,
+            ati_version_int(1, 0, 0),
             true,
             ATI_MIN_RAM,
             1,
@@ -210,7 +210,7 @@ static inline bool app_plan_ati(
 
     if (!strcmp(plan_class, "ati13amd")) {
         if (!ati_check(c, hu,
-            1003000,
+            ati_version_int(1, 3, 0),
             true,
             ATI_MIN_RAM,
             1, .01,
@@ -222,7 +222,7 @@ static inline bool app_plan_ati(
 
     if (!strcmp(plan_class, "ati13ati")) {
         if (!ati_check(c, hu,
-            1003186,
+            ati_version_int(1, 3, 186),
             false,
             ATI_MIN_RAM,
             1, .01,
@@ -234,7 +234,7 @@ static inline bool app_plan_ati(
 
     if (!strcmp(plan_class, "ati14")) {
         if (!ati_check(c, hu,
-            1004000,
+            ati_version_int(1, 4, 0),
             false,
             ATI_MIN_RAM,
             1, .01,

@@ -299,12 +299,18 @@ struct COPROC_NVIDIA : public COPROC {
 
 };
 
+// encode a 3-part version as // 10000000*major + 10000*minor + release
+// Note: ATI release #s can exceed 1000
+//
+inline int ati_version_int(int major, int minor, int release) {
+    return major*10000000 + minor*10000 + release;
+}
+
 struct COPROC_ATI : public COPROC {
     char name[256];
     char version[50];
     int version_num;
-        // based on CAL version (not driver version)
-        // encoded as 1000000*major + 1000*minor + release
+        // CAL version (not driver version) encoded as an int
     bool atirt_detected;
     bool amdrt_detected;
     CALdeviceattribs attribs; 

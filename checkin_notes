@@ -8883,3 +8883,12 @@ Rom    6 Dec 2011
         ViewNotices.cpp
         ViewResources.cpp
         ViewStatistics.cpp
+
+David  6 Dec 2011
+    - scheduler: encode CAL version numbers in a way that handles
+        release #s > 1000
+
+    sched/
+        sched_customize.cpp
+    lib/
+        coproc.cpp,h
