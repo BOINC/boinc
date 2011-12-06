@@ -352,7 +352,7 @@ bool CDlgMessages::Create( wxWindow* parent, wxWindowID id, const wxString& capt
 
     GetSizer()->Fit(this);
     GetSizer()->SetSizeHints(this);
-
+
     // To work properly on Mac, RestoreState() must be called _after_ 
     //  calling GetSizer()->Fit(), GetSizer()->SetSizeHints() and Center()
     RestoreState();   
