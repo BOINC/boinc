@@ -365,7 +365,7 @@ void CLIENT_STATE::assign_results_to_projects() {
 }
 
 // Among projects with a "next runnable result",
-// find the project P with the greatest anticipated debt,
+// find the project P with the largest priority,
 // and return its next runnable result
 //
 RESULT* CLIENT_STATE::largest_debt_project_best_result() {
@@ -656,7 +656,6 @@ void PROJECT::compute_sched_priority() {
         sched_priority = -1e6 - rec_frac;
     }
     sched_priority = - rec_frac/resource_share_frac;
-
 }
 
 // called from the scheduler's job-selection loop;
@@ -847,7 +846,7 @@ void CLIENT_STATE::make_run_list(vector<RESULT*>& run_list) {
     // do round-robin simulation to find what results miss deadline
     //
     rr_simulation();
-    if (log_flags.cpu_sched_debug) {
+    if (log_flags.rr_simulation) {
         print_deadline_misses();
     }
 
@@ -925,7 +924,7 @@ void CLIENT_STATE::make_run_list(vector<RESULT*>& run_list) {
         if (!rp) break;
         atp = lookup_active_task_by_result(rp);
         if (!proc_rsc.can_schedule(rp, atp)) continue;
-        proc_rsc.schedule(rp, atp, "CPU job, debt order");
+        proc_rsc.schedule(rp, atp, "CPU job, priority order");
         run_list.push_back(rp);
     }
 

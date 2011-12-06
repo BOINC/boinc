@@ -16,18 +16,22 @@ struct SIMULATOR {
     vector<EVENT*> events;
     double now;
     void insert(EVENT* e) {
+        //printf("adding %x\n", e);
         events.push_back(e);
         push_heap(events.begin(), events.end(), compare);
     }
     void remove(EVENT* e) {
         vector<EVENT*>::iterator i;
+        //printf("removing %x\n", e);
         for (i=events.begin(); i!=events.end(); i++) {
             if (*i == e) {
                 events.erase(i);
                 make_heap(events.begin(), events.end(), compare);
-                break;
+                //printf("removed %x\n", e);
+                return;
             }
         }
+        //printf("%x not found\n", e);
     }
     void simulate(double dur) {
         while (events.size()) {

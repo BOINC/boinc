@@ -22,14 +22,13 @@
 // The model of the host population is:
 // - hosts arrival is a Poisson process
 // - host lifetime is exponentially distributed
-// - the time needed to upload or download n bytes of data
-//   to/from a host is
-//   MTD*U() + n/XFER_BYTES_SEC
-//   where C1 and C2 are parameters and U() is a uniform random var
+// - the time needed to download n bytes of data to/from a host is
+//   U()*n/DOWNLOAD_BYTES_SEC
+//   where U() is a uniform random var
+// TODO: add a factor corresponding to host availability
 
 #define HOSTS_PER_DAY   10.
 #define HOST_LIFE_MEAN  100.*86400
-#define MAX_TRANSFER_DELAY  86400
 #define UPLOAD_BYTES_SEC  1e6
 #define DOWNLOAD_BYTES_SEC  5e6
 
@@ -60,12 +59,12 @@
 //
 // A chunk may or may not be "present_on_server".
 // An encoded data unit is "present_on_server" if at least N
-// of its subunits are present_on_server (recursive definition).
+// of its subunits are present_on_server.
 
 // A data unit is "recoverable" if it can be reconstruct on the server,
 // based on current state.
 // A chunk is "recoverable" if it is assigned at least 1 host.
-//   (if it is downloading, it's still present on the server)
+// (if it is downloading, it's still present on the server)
 // An encoded data unit is "recoverable" if at least N
 // of its subunits are recoverable.
 
@@ -81,6 +80,18 @@
 // 2) if a data unit becomes unrecoverable,
 //    upload its parent unit, reconstruct the data, then do 1)
 
+// Figures of merit
+//
+// for each file, we compute:
+// - the average and peak server network rate, up and down
+// - the average and peak disk usage
+// - the average and min fault tolerance level
+//   (i.e. number of simultaneous host failures needed to lose the file)
+//
+// These are measured starting from the time when the file's
+// initial downloads have all succeeded or failed
+
+#include <math.h>
 #include <stdio.h>
 #include <set>
 
@@ -103,11 +114,26 @@ inline double drand() {
     return (double)rand()/(double)RAND_MAX;
 }
 
-// place-holder
-//
 double ran_exp(double mean) {
-    // gsl_ran_exponential(mean);
-    return (drand() + .5)*mean;
+    return -log(drand())*mean;
+}
+
+char* time_str(double t) {
+    static char buf[256];
+    struct tm;
+    int n = (int)t;
+    int nsec = n % 60;
+    n /= 60;
+    int nmin = n % 60;
+    n /= 60;
+    int nhour = n % 24;
+    n /= 24;
+    sprintf(buf, "%4d days %02d:%02d:%02d", n, nhour, nmin, nsec);
+    return buf;
+}
+
+char* now_str() {
+    return time_str(sim.now);
 }
 
 struct CHUNK;
@@ -157,7 +183,7 @@ struct REPORT_STATS : public EVENT {
 };
 
 void die(const char* msg) {
-    printf("%.0f: %s\n", sim.now, msg);
+    printf("%s: %s\n", now_str(), msg);
     exit(1);
 }
 
@@ -194,40 +220,29 @@ struct CHUNK : DATA_UNIT {
         return _is_present_on_server;
     }
     virtual void start_upload() {
-        // if there's another replica, start upload of 1st instance
+        // if no upload of this chunk is in progress, start one.
         // NOTE: all instances are inherently present_on_host
         //
-        CHUNK_ON_HOST *c = *(hosts.begin());
-        c->transfer_in_progress = true;
-        c->t = sim.now + (drand()+.5)*size/UPLOAD_BYTES_SEC;
-        printf("%.0f: starting upload of %s\n", sim.now, c->name);
-        sim.insert(c);
-    }
-    void download_complete() {
-        // we can remove chunk from server if enough replicas
-        // have downloaded
-        //
-        int n=0;
+        CHUNK_ON_HOST* c;
         set<CHUNK_ON_HOST*>::iterator i;
         for (i=hosts.begin(); i!=hosts.end(); i++) {
-            CHUNK_ON_HOST* c = *i;
-            if (c->present_on_host) {
-                n++;
-            }
+            c = *i;
+            if (c->transfer_in_progress) return;
         }
-        if (n >= REPLICATION_LEVEL) {
-            printf("%.0f: %s replicated, removing from server\n", sim.now, name);
-            _is_present_on_server = false;
-        }
-
+        c = *(hosts.begin());
+        c->transfer_in_progress = true;
+        c->t = sim.now + (drand()+.5)*size/UPLOAD_BYTES_SEC;
+        printf("%s: starting upload of %s\n", now_str(), c->name);
+        sim.insert(c);
     }
+    void download_complete();
     virtual void delete_chunks_from_server() {
         set<CHUNK_ON_HOST*>::iterator i;
         for (i=hosts.begin(); i!=hosts.end(); i++) {
             CHUNK_ON_HOST* c = *i;
             if (c->download_in_progress()) return;
         }
-        printf("%.0f: deleting %s from server\n", sim.now, name);
+        printf("%s: deleting %s from server\n", now_str(), name);
         _is_present_on_server = false;
     }
     virtual void now_present() {
@@ -278,7 +293,7 @@ struct META_CHUNK : DATA_UNIT {
     //
     void child_unrecoverable() {
         int n = n_recoverable_children();
-        printf("%.0f: a child of %s has become unrecoverable\n", sim.now, name);
+        printf("%s: a child of %s has become unrecoverable\n", now_str(), name);
         if (n >= ENCODING_N) {
             uploading = true;
             for (unsigned int i=0; i<children.size(); i++) {
@@ -288,7 +303,7 @@ struct META_CHUNK : DATA_UNIT {
                 }
             }
         } else {
-            printf("%.0f: only %d recoverable children\n", sim.now, n);
+            printf("%s: only %d recoverable children\n", now_str(), n);
         }
     }
 
@@ -309,7 +324,7 @@ struct META_CHUNK : DATA_UNIT {
     // this is called only if we're uploading
     //
     void child_upload_complete() {
-        printf("%.0f: child upload complete for %s\n", sim.now, name);
+        printf("%s: child upload complete for %s\n", now_str(), name);
         int n = 0;
         for (unsigned int i=0; i<children.size(); i++) {
             DATA_UNIT* c = children[i];
@@ -334,12 +349,71 @@ struct META_CHUNK : DATA_UNIT {
 
 static int next_file_id=0;
 
+// keeps track of a time-varying property of a file
+// (server disk usage, up/download rate, fault tolerance)
+//
+struct STATS_ITEM {
+    double value;
+    double integral;
+    double max_val;
+    double max_val_time;
+    double prev_t;
+    double start_time;
+    bool first;
+
+    STATS_ITEM() {
+        value = 0;
+        integral = 0;
+        max_val = 0;
+        max_val_time = 0;
+        first = true;
+    }
+
+    void sample(double v, bool collecting_stats) {
+        double old_val = value;
+        value = v;
+        if (!collecting_stats) return;
+        if (first) {
+            first = false;
+            prev_t = sim.now;
+            return;
+        }
+        double dt = sim.now - prev_t;
+        prev_t = sim.now;
+        integral += dt*old_val;
+        if (v > max_val) {
+            max_val = v;
+            max_val_time = sim.now;
+        }
+    }
+
+    void sample_inc(double inc, bool collecting_stats) {
+        sample(value+inc, collecting_stats);
+    }
+
+    void print() {
+        sample_inc(0, true);
+        double dt = sim.now - start_time;
+        printf("    mean: %f\n", integral/dt);
+        printf("    max: %f\n", max_val);
+        printf("    time of max: %s\n", time_str(max_val_time));
+    }
+};
+
 struct DFILE : EVENT {
     META_CHUNK* meta_chunk;
     double size;
     int id;
     set<HOST*> unused_hosts;
         // hosts that don't have any packets of this file
+    int pending_init_downloads;
+        // # of initial downloads pending.
+        // When this is zero, we start collecting stats for the file
+    double accounting_start_time;
+    STATS_ITEM disk_usage;
+    STATS_ITEM upload_rate;
+    STATS_ITEM download_rate;
+    STATS_ITEM fault_tolerance;
 
     DFILE(double s) {
         id = next_file_id++;
@@ -354,6 +428,22 @@ struct DFILE : EVENT {
         meta_chunk = new META_CHUNK(this, NULL, size, ENCODING_LEVELS, id);
         meta_chunk->assign();
     }
+
+    inline bool collecting_stats() {
+        return (pending_init_downloads == 0);
+    }
+
+    void print_stats() {
+        printf("Statistics for file %d\n", id);
+        printf("  Server disk usage:\n");
+        disk_usage.print();
+        printf("  Upload rate:\n");
+        upload_rate.print();
+        printf("  Download rate:\n");
+        download_rate.print();
+        printf("  Fault tolerance level:\n");
+        fault_tolerance.print();
+    }
 };
 
 //////////////////// method defs ////////////////////
@@ -364,22 +454,22 @@ void CHUNK_ON_HOST::handle() {
     transfer_in_progress = false;
     if (present_on_host) {
         // it was an upload
-        printf("%.f: upload of %s completed\n", sim.now, name);
+        printf("%s: upload of %s completed\n", now_str(), name);
         chunk->upload_complete();    // create new replicas if needed
     } else {
         present_on_host = true;
-        printf("%.f: download of %s completed\n", sim.now, name);
+        printf("%s: download of %s completed\n", now_str(), name);
         chunk->download_complete();
     }
 }
 
-// the host has departed
+// the host has failed
 //
 void HOST::handle() {
     set<HOST*>::iterator i = hosts.find(this);
     hosts.erase(i);
 
-    printf("%.0f: host %d failed\n", sim.now, id);
+    printf("%s: host %d failed\n", now_str(), id);
     set<CHUNK_ON_HOST*>::iterator p;
     for (p = chunks.begin(); p != chunks.end(); p++) {
         CHUNK_ON_HOST* c = *p;
@@ -396,12 +486,14 @@ CHUNK::CHUNK(META_CHUNK* mc, double s, int index) {
     _is_present_on_server = true;
     size = s;
     sprintf(name, "%s.%d", parent->name, index);
+    parent->dfile->pending_init_downloads += REPLICATION_LEVEL;
+    parent->dfile->disk_usage.sample_inc(size, false);
 }
 
 void CHUNK::host_failed(CHUNK_ON_HOST* p) {
     set<CHUNK_ON_HOST*>::iterator i = hosts.find(p);
     hosts.erase(i);
-    printf("%.0f: handling loss of %s\n", sim.now, p->name);
+    printf("%s: handling loss of %s\n", now_str(), p->name);
     if (_is_present_on_server) {
         // if data is on server, make a new replica
         //
@@ -414,10 +506,41 @@ void CHUNK::host_failed(CHUNK_ON_HOST* p) {
 }
 
 void CHUNK::upload_complete() {
-    _is_present_on_server = true;
+    if (!_is_present_on_server) {
+        _is_present_on_server = true;
+        parent->dfile->disk_usage.sample_inc(
+            size,
+            parent->dfile->collecting_stats()
+        );
+    }
     assign();
     if (parent->uploading) {
         parent->child_upload_complete();
+    }
+}
+
+void CHUNK::download_complete() {
+    // we can remove chunk from server if enough replicas
+    // have downloaded
+    //
+    int n=0;
+    set<CHUNK_ON_HOST*>::iterator i;
+    for (i=hosts.begin(); i!=hosts.end(); i++) {
+        CHUNK_ON_HOST* c = *i;
+        if (c->present_on_host) {
+            n++;
+        }
+    }
+    if (n >= REPLICATION_LEVEL) {
+        printf("%s: %s replicated, removing from server\n", now_str(), name);
+        _is_present_on_server = false;
+        parent->dfile->disk_usage.sample_inc(
+            -size,
+            parent->dfile->collecting_stats()
+        );
+    }
+    if (parent->dfile->pending_init_downloads) {
+        parent->dfile->pending_init_downloads--;
     }
 }
 
@@ -432,7 +555,7 @@ void CHUNK::assign() {
         parent->dfile->unused_hosts.erase(i);
         CHUNK_ON_HOST *c = new CHUNK_ON_HOST();
         sprintf(c->name, "chunk %s on host %d", name, h->id);
-        printf("%.0f: assigning chunk %s to host %d\n", sim.now, name, h->id);
+        printf("%s: assigning chunk %s to host %d\n", now_str(), name, h->id);
         c->host = h;
         c->chunk = this;
         c->t = sim.now + (drand()+.5)*size/DOWNLOAD_BYTES_SEC;
@@ -485,7 +608,11 @@ int main() {
     for (int i=0; i<100; i++) {
         sim.insert(new HOST);
     }
-    sim.insert(new DFILE(1e12));
+    DFILE* dfile = new DFILE(1e2);
+    sim.insert(dfile);
 
     sim.simulate(200*86400);
+
+    printf("%s: simulation finished\n", now_str());
+    dfile->print_stats();
 }

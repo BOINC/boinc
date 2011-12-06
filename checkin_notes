@@ -8816,3 +8816,27 @@ Rom    5 Dec 2011
         
     clientgui/skins/Default/
         skin.xml
+
+David  5 Dec 2011
+    - client: when contacting a project for reasons other than
+        work fetch (e.g. to report completed jobs)
+        only request work if it's the project we would have chosen
+        if we were fetching work.
+    - client: the way in which project priorities were adjusted
+        in work fetch to reflected currently queued work was wrong.
+    - client: fix bug in the way project priorities are adjusted
+        in RR simulator
+    - client emulator: if there are results in the state file
+        with states DOWNLOADING or UPLOADING,
+        change them to DOWNLOADED or UPLOADED.
+        Otherwise they're stuck.
+
+    client/
+        work_fetch.cpp,h
+        sim.cpp
+        rr_sim.cpp
+        cs_scheduler.cpp
+        cpu_sched.cpp
+    ssim/
+        des.h
+        ssim.cpp

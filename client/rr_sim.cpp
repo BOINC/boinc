@@ -109,7 +109,7 @@ void print_deadline_misses() {
         rp = gstate.results[i];
         if (rp->rr_sim_misses_deadline) {
             msg_printf(rp->project, MSG_INFO,
-                "[cpu_sched] Result %s projected to miss deadline.",
+                "[rr_sim] Result %s projected to miss deadline.",
                 rp->name
             );
         }
@@ -119,7 +119,7 @@ void print_deadline_misses() {
         for (int j=0; j<coprocs.n_rsc; j++) {
             if (p->rsc_pwf[j].deadlines_missed) {
                 msg_printf(p, MSG_INFO,
-                    "[cpu_sched] Project has %d projected %s deadline misses",
+                    "[rr_sim] Project has %d projected %s deadline misses",
                     p->rsc_pwf[j].deadlines_missed,
                     rsc_name(j)
                 );
@@ -440,7 +440,7 @@ void RR_SIM::simulate() {
         double f = gstate.host_info.p_fpops;
         for (unsigned int i=0; i<gstate.projects.size(); i++) {
             PROJECT* p = gstate.projects[i];
-            double dtemp;
+            double dtemp = sim_now;
             x = 0;
             for (int j=0; j<coprocs.n_rsc; j++) {
                 x += p->rsc_pwf[j].sim_nused * delta_t * f * rsc_work_fetch[j].relative_speed;
