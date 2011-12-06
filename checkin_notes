@@ -8872,3 +8872,14 @@ David  6 Dec 2011
 
     client/
         pers_file_xfer.cpp
+
+Rom    6 Dec 2011
+    - MGR: Scale the task pane in the advanced view to encompass the largest button.
+    
+    clientgui/
+        BOINCBaseView.cpp, .h
+        BOINCTaskCtrl.cpp
+        stdwx.h
+        ViewNotices.cpp
+        ViewResources.cpp
+        ViewStatistics.cpp

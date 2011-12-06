@@ -115,6 +115,7 @@
 #include <wx/mstream.h>
 #include <wx/hash.h>
 #include <wx/selstore.h>
+#include <wx/splitter.h>        // splitter control support
 
 #ifdef _WIN32
 // Visual Studio 2005 has extended the C Run-Time Library by including "secure"
