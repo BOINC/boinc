@@ -8849,7 +8849,17 @@ David  6 Dec 2011
         cpu_sched.cpp
 
 Charlie 6 Dec 2011
-    - MGR: eliminate "ghost" Notices window when running on Windows OS.
+    - MGR: eliminate "ghost" Notices window in Simple View when running 
+        on Windows OS.
+    - MGR: don't show "indeterminate" progress bar in Simple View.
     
     clientgui/
         sg_DlgMessages.cpp
+
+Charlie 6 Dec 2011
+    - MGR: don't show "indeterminate" progress bar in Simple View.
+
+    clientgui/
+        Events.h
+        sg_PanelBase.cpp,.h
+        sg_TaskPanel.cpp,.h

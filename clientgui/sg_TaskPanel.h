@@ -124,7 +124,7 @@ class CSimpleTaskPanel : public CSimplePanelBase
         TaskSelectionData* GetTaskSelectionData();
         wxString GetSelectedTaskString() { return m_TaskSelectionCtrl->GetValue(); }
         void UpdatePanel(bool delayShow=false);
-        wxRect GetProgressRect() { return m_ProgressRect; }
+        wxRect* GetProgressRect();
         void ReskinInterface();
 
 	private:
@@ -141,7 +141,6 @@ class CSimpleTaskPanel : public CSimplePanelBase
 		bool Suspended();
 		bool ProjectUpdateScheduled();
 		void DisplayIdleState();
-        void OnPulseProgressIndicator(wxTimerEvent& event);
 
 	protected:
 #ifdef __WXMAC__
@@ -166,7 +165,6 @@ class CSimpleTaskPanel : public CSimplePanelBase
         int                         m_oldWorkCount;
         int                         m_iPctDoneX10;
 		time_t                      error_time;
-        wxTimer*                    m_pulseTimer;
         bool                        m_bStableTaskInfoChanged;
         int                         m_CurrentTaskSelection;
         wxString                    m_sNotAvailableString;
