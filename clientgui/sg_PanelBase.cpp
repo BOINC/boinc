@@ -161,10 +161,12 @@ void CSimplePanelBase::OnPaint(wxPaintEvent& /*event*/) {
 #ifdef __WXMAC__
     // Mac progress bar can be hard to see on a colored 
     // background, so put it on a white background
-    wxRect progressRect = GetProgressRect();
-    dc.SetPen(*wxBLACK_PEN);
-    dc.SetBrush(*wxWHITE_BRUSH);
-    dc.DrawRoundedRectangle(progressRect.x, progressRect.y, progressRect.width, progressRect.height, 2);
+    wxRect* progressRect = GetProgressRect();
+    if (progressRect) {
+        dc.SetPen(*wxBLACK_PEN);
+        dc.SetBrush(*wxWHITE_BRUSH);
+        dc.DrawRoundedRectangle(progressRect->x, progressRect->y, progressRect->width, progressRect->height, 2);
+    }
 #endif
 
     // Restore Mode, Pen and Brush 

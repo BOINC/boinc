@@ -424,7 +424,6 @@ IMPLEMENT_DYNAMIC_CLASS(CSimpleTaskPanel, CSimplePanelBase)
 
 BEGIN_EVENT_TABLE(CSimpleTaskPanel, CSimplePanelBase)
     EVT_BOINCBITMAPCOMBOBOX(ID_SGTASKSELECTOR, CSimpleTaskPanel::OnTaskSelection)
-    EVT_TIMER(ID_SIMPLE_PROGRESSPULSETIMER, CSimpleTaskPanel::OnPulseProgressIndicator)
 #ifdef __WXMAC__
     EVT_ERASE_BACKGROUND(CSimpleTaskPanel::OnEraseBackground)    
 #endif
@@ -440,7 +439,6 @@ CSimpleTaskPanel::CSimpleTaskPanel( wxWindow* parent ) :
     int w, h;
     wxString str = wxEmptyString;
 
-	m_pulseTimer = new wxTimer(this, ID_SIMPLE_PROGRESSPULSETIMER);
     m_oldWorkCount = -1;
     error_time = 0;
     m_GotBGBitMap = false; // Can't be made until parent has been laid out.
@@ -576,10 +574,7 @@ CSimpleTaskPanel::~CSimpleTaskPanel()
         m_TaskSelectionCtrl->SetClientData(j, NULL);
 	}
     m_TaskSelectionCtrl->Clear();
-    
-    m_pulseTimer->Stop(); 
-    delete m_pulseTimer;
-    
+        
     if (m_progressBarRect) {
         delete m_progressBarRect;
     }
@@ -625,13 +620,12 @@ void CSimpleTaskPanel::UpdatePanel(bool delayShow) {
             m_SlideShowArea->Hide();
             m_ElapsedTimeValue->Hide();
             m_TimeRemainingValue->Hide();
-            m_ProgressValueText->Hide();
-            m_TaskCommandsButton->Hide();
             if (m_iPctDoneX10 >= 0) {
                 m_iPctDoneX10 = -1;
-                m_ProgressBar->Pulse();
-                m_pulseTimer->Start(100);
+                m_ProgressBar->Hide();
             }
+            m_ProgressValueText->Hide();
+            m_TaskCommandsButton->Hide();
             this->Layout();
 
 #ifdef __WXMAC__
@@ -656,6 +650,7 @@ void CSimpleTaskPanel::UpdatePanel(bool delayShow) {
             m_SlideShowArea->Show();
             m_ElapsedTimeValue->Show();
             m_TimeRemainingValue->Show();
+            m_ProgressBar->Show();
             m_ProgressValueText->Show();
             m_TaskCommandsButton->Show();
             this->Layout();
@@ -703,11 +698,8 @@ void CSimpleTaskPanel::UpdatePanel(bool delayShow) {
                 UpdateStaticText(&m_TimeRemainingValue, GetTimeRemainingString(result->estimated_cpu_time_remaining));
                 int pctDoneX10 = result->fraction_done * 1000.0;
                 if (m_iPctDoneX10 != pctDoneX10) {
-                    if (m_iPctDoneX10 < 0) {
-                        m_pulseTimer->Stop();
-                    }
                     int pctDone = pctDoneX10 / 10;
-                    if (pctDone != (m_iPctDoneX10 / 10)) {
+                    if (m_iPctDoneX10 != (pctDone * 10)) {
                         m_ProgressBar->SetValue(pctDone);
                     }
                     s.Printf(_("%.3f%%"), result->fraction_done*100);
@@ -724,8 +716,7 @@ void CSimpleTaskPanel::UpdatePanel(bool delayShow) {
                 UpdateStaticText(&m_TimeRemainingValue, GetTimeRemainingString(-1.0));
                 if (m_iPctDoneX10 >= 0) {
                     m_iPctDoneX10 = -1;
-                    m_ProgressBar->Pulse();
-                    m_pulseTimer->Start(100);
+                    m_ProgressBar->Hide();
                 }
                 UpdateStaticText(&m_ProgressValueText, wxEmptyString);
                 UpdateStaticText(&m_StatusValueText, GetStatusString(NULL));
@@ -740,17 +731,21 @@ void CSimpleTaskPanel::UpdatePanel(bool delayShow) {
 }
 
 
+wxRect* CSimpleTaskPanel::GetProgressRect() {
+    if (m_ProgressBar->IsShown()) {
+        return &m_ProgressRect;
+    } else {
+        return NULL;
+    }
+}
+
+
 void CSimpleTaskPanel::ReskinInterface() {
     wxLogTrace(wxT("Function Start/End"), wxT("CSimpleTaskPanel::ReskinInterface - Function Begin"));
     CSimplePanelBase::ReskinInterface();
     m_SlideShowArea->AdvanceSlideShow(false, false);
     UpdateTaskSelectionList(true);
     wxLogTrace(wxT("Function Start/End"), wxT("CSimpleTaskPanel::ReskinInterface - Function Begin"));
-}
-
-
-void CSimpleTaskPanel::OnPulseProgressIndicator(wxTimerEvent& /*event*/) {
-    m_ProgressBar->Pulse();
 }
 
 
@@ -1246,16 +1241,18 @@ void CSimpleTaskPanel::DisplayIdleState() {
 void CSimpleTaskPanel::OnEraseBackground(wxEraseEvent& event) {
     wxRect clipRect;
     wxDC *dc = event.GetDC();
-     
-    if (m_progressBarRect == NULL) {
-        m_progressBarRect = new wxRect(m_ProgressBar->GetRect());
-        m_progressBarRect->Inflate(1, 0);
+    
+    if (m_ProgressBar->IsShown()) {
+        if (m_progressBarRect == NULL) {
+            m_progressBarRect = new wxRect(m_ProgressBar->GetRect());
+            m_progressBarRect->Inflate(1, 0);
+        }
+        dc->GetClippingBox(&clipRect.x, &clipRect.y, &clipRect.width, &clipRect.height);
+        if (clipRect.IsEmpty() || m_progressBarRect->Contains(clipRect)) {
+            return;
+        }
     }
-    dc->GetClippingBox(&clipRect.x, &clipRect.y, &clipRect.width, &clipRect.height);
-    if (clipRect.IsEmpty() || m_progressBarRect->Contains(clipRect)) {
-        return;
-    }
-
+    
     CSimplePanelBase::OnEraseBackground(event);
 }
 #endif
