@@ -154,18 +154,12 @@ int main(int argc, char *argv[])
     short                   itemHit;
     long                    brandID = 0;
     int                     i;
-    pid_t                   installerPID = 0, coreClientPID = 0, waitPermissionsPID = 0;
+    pid_t                   installerPID = 0, coreClientPID = 0;
     FSRef                   fileRef;
     OSStatus                err, err_fsref;
     FILE                    *f;
     char                    s[256];
-#ifdef SANDBOX
-    uid_t                   saved_euid, saved_uid, b_m_uid;
-    passwd                  *pw;
-    int                     finalInstallAction;
-    DialogRef               theWin;
-
-#else   // SANDBOX
+#ifndef SANDBOX
     group                   *grp;
 #endif  // SANDBOX
 
@@ -400,13 +394,21 @@ int main(int argc, char *argv[])
     err = UpdateAllVisibleUsers(brandID);
     if (err != noErr)
         return err;
- 
+
+#if 0   // WaitPermissions is not needed when using wrapper
 #ifdef SANDBOX
+    pid_t                   waitPermissionsPID = 0;
+    uid_t                   saved_euid, saved_uid, b_m_uid;
+    passwd                  *pw;
+    int                     finalInstallAction;
+    DialogRef               theWin;
+
     err = CheckLogoutRequirement(&finalInstallAction);
     printf("CheckLogoutRequirement returned %d\n", finalInstallAction);
     fflush(stdout);
     
     if (finalInstallAction == launchWhenDone) {
+
         // Wait for BOINC's RPC socket address to become available to user boinc_master, in
         // case we are upgrading from a version which did not run as user boinc_master.
         saved_uid = getuid();
@@ -471,6 +473,8 @@ int main(int argc, char *argv[])
         }
     }
 #endif   // SANDBOX
+#endif  // WaitPermissions is not needed when using wrapper
+
     
     return 0;
 }
@@ -657,7 +661,7 @@ void CheckUserAndGroupConflicts()
     FILE            *f;
     char            cmd[256], buf[256];
     int             entryCount;
-    OSErr           err;
+    OSErr           err = noErr;
 
     if (OSVersion < 0x1050) {
         // This fails under OS 10.4, but should not be needed under OS 10.4

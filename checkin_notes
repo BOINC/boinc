@@ -8892,3 +8892,9 @@ David  6 Dec 2011
         sched_customize.cpp
     lib/
         coproc.cpp,h
+
+Charlie 7 Dec 2011
+    - Mac installer: eliminate use of WaitPermissions.app. 
+        
+    mac_installer/
+        PostInstall.cpp
