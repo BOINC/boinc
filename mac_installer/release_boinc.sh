@@ -26,7 +26,7 @@
 ## updated 11/9/11 by Charlie Fenton for XCode 4.1 and OS 10.7
 ## updated 11/26/11 by Charlie Fenton for new Default skin
 ## updated 11/27/11 by Charlie Fenton for new virtualbox directory
-## updated 12/2/11 by Charlie Fenton to restor wrapper and reboot if needed
+## updated 12/2/11 by Charlie Fenton to restore wrapper and reboot if needed
 ##
 ## NOTE: This script uses PackageMaker, which is installed as part of the 
 ##   XCode developer tools.  So you must have installed XCode Developer 

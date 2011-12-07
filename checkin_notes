@@ -8895,7 +8895,7 @@ David  6 Dec 2011
 
 Charlie 7 Dec 2011
     - Mac installer: eliminate use of WaitPermissions.app. 
-    - Mac installer: revert branded build script for wrapper application 
+    - Mac installer: revert branded build scripts for wrapper application 
         around installer package.
         
     mac_installer/
@@ -8903,3 +8903,4 @@ Charlie 7 Dec 2011
         make_GridRepublic.sh
         make_ProgThruProc.sh
         PostInstall.cpp
+        release_boinc.sh
