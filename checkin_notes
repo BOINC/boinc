@@ -7032,3 +7032,11 @@ Charlie 7 Dec 2011
         make_ProgThruProc.sh
         PostInstall.cpp
         release_boinc.sh
+
+Charlie 7 Dec 2011
+    - Tag for 6.8.33 release, all platforms
+      boinc_core_release_6_8_33
+
+    /
+        configure.ac
+        version.h
