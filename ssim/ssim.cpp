@@ -236,18 +236,8 @@ struct CHUNK : DATA_UNIT {
         sim.insert(c);
     }
     void download_complete();
-    virtual void delete_chunks_from_server() {
-        set<CHUNK_ON_HOST*>::iterator i;
-        for (i=hosts.begin(); i!=hosts.end(); i++) {
-            CHUNK_ON_HOST* c = *i;
-            if (c->download_in_progress()) return;
-        }
-        printf("%s: deleting %s from server\n", now_str(), name);
-        _is_present_on_server = false;
-    }
-    virtual void now_present() {
-        _is_present_on_server = true;
-    }
+    virtual void now_present();
+    virtual void delete_chunks_from_server();
 };
 
 struct META_CHUNK : DATA_UNIT {
@@ -321,7 +311,7 @@ struct META_CHUNK : DATA_UNIT {
         }
     }
 
-    // this is called only if we're uploading
+    // a child is now present on the server.
     //
     void child_upload_complete() {
         printf("%s: child upload complete for %s\n", now_str(), name);
@@ -388,7 +378,9 @@ struct STATS_ITEM {
     }
 
     void sample_inc(double inc, bool collecting_stats) {
+        double old = value;
         sample(value+inc, collecting_stats);
+        printf("sample_inc: %f %f->%f\n", inc, old, value);
     }
 
     void print() {
@@ -426,6 +418,9 @@ struct DFILE : EVENT {
     virtual void handle() {
         printf("creating file %d\n", id);
         meta_chunk = new META_CHUNK(this, NULL, size, ENCODING_LEVELS, id);
+        printf("file %d: size %f encoded size %f\n",
+            id, size, disk_usage.value
+        );
         meta_chunk->assign();
     }
 
@@ -519,6 +514,12 @@ void CHUNK::upload_complete() {
     }
 }
 
+void CHUNK::now_present() {
+    if (_is_present_on_server) return;
+    _is_present_on_server = true;
+    parent->dfile->disk_usage.sample_inc(size, false);
+}
+
 void CHUNK::download_complete() {
     // we can remove chunk from server if enough replicas
     // have downloaded
@@ -564,6 +565,18 @@ void CHUNK::assign() {
         c->transfer_in_progress = true;
         sim.insert(c);
     }
+}
+
+void CHUNK::delete_chunks_from_server() {
+    set<CHUNK_ON_HOST*>::iterator i;
+    for (i=hosts.begin(); i!=hosts.end(); i++) {
+        CHUNK_ON_HOST* c = *i;
+        if (c->download_in_progress()) return;
+    }
+    if (!_is_present_on_server) return;
+    printf("%s: deleting %s from server\n", now_str(), name);
+    parent->dfile->disk_usage.sample_inc(-size, parent->dfile->collecting_stats());
+    _is_present_on_server = false;
 }
 
 META_CHUNK::META_CHUNK(
