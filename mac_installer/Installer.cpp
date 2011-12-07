@@ -36,13 +36,19 @@
 #define boinc_project_group_name "boinc_project"
 
 void Initialize(void);	/* function prototypes */
-OSStatus IsLogoutNeeded(Boolean *result);
+Boolean IsUserMemberOfGroup(const char *userName, const char *groupName);
+OSStatus GetFinalAction(CFStringRef *restartValue);
 OSErr FindProcess (OSType typeToFind, OSType creatorToFind, ProcessSerialNumberPtr processSN);
 static OSErr QuitAppleEventHandler(const AppleEvent *appleEvt, AppleEvent* reply, UInt32 refcon);
 void print_to_log_file(const char *format, ...);
 void strip_cr(char *buf);
 
 Boolean			gQuitFlag = false;	/* global */
+
+CFStringRef     valueRestartRequired = CFSTR("RequiredRestart");
+CFStringRef     valueLogoutRequired = CFSTR("RequiredLogout");
+CFStringRef     valueNoRestart = CFSTR("NoRestart");
+
 
 int main(int argc, char *argv[])
 {
@@ -62,13 +68,9 @@ int main(int argc, char *argv[])
     CFPropertyListRef       propertyListRef = NULL;
     CFStringRef             restartKey = CFSTR("IFPkgFlagRestartAction");
     CFStringRef             currentValue = NULL, desiredValue = NULL;
-    CFStringRef             valueRestartRequired = CFSTR("RequiredRestart");
-    CFStringRef             valueLogoutRequired = CFSTR("RequiredLogout");
-    CFStringRef             valueNoRestart = CFSTR("NoRestart");
     CFStringRef             errorString = NULL;
-    Boolean                 needLogout;
     OSStatus                err = noErr;
-    
+
     Initialize();
 
     // Get the full path to Installer package inside this application's bundle
@@ -93,16 +95,20 @@ int main(int argc, char *argv[])
     if (p)
         *p = '\0'; 
 
+    p = strstr(brand, " Installer.app");  // Strip off trailing " Installer.app"
+    if (p)
+        *p = '\0'; 
+
     err = Gestalt(gestaltSystemVersion, &response);
     if (err != noErr)
         return err;
 
-    if (response < 0x1039) {
+    if (response < 0x1040) {
         ::SetFrontProcess(&ourPSN);
         p = strrchr(brand, ' ');         // Strip off last space character and everything following
         if (p)
             *p = '\0'; 
-        s[0] = sprintf(s+1, "Sorry, this version of %s requires system 10.3.9 or higher.", brand);
+        s[0] = sprintf(s+1, "Sorry, this version of %s requires system 10.4 or higher.", brand);
         StandardAlert (kAlertStopAlert, (StringPtr)s, NULL, NULL, &itemHit);
 
         err = FindProcess ('APPL', 'xins', &installerPSN);
@@ -114,24 +120,18 @@ int main(int argc, char *argv[])
 	ExitToShell();
     }
 
+    // Remove previous installer package receipt so we can run installer again
+    // "rm -rf /Library/Receipts/GridRepublic.pkg"
+    sprintf(s, "rm -rf \"/Library/Receipts/%s.pkg\"", brand);
+    system (s);
+
     strlcat(pkgPath, ".pkg", sizeof(pkgPath));
-    
-    needLogout = false;
-    desiredValue = valueNoRestart;
     
     err = Gestalt(gestaltSystemVersion, &response);
     if (err != noErr)
         return err;
     
-    if (response < 0x1040) {   // Logout is never needed on OS 10.4 and later    
-    err = IsLogoutNeeded(&needLogout);
-        if (needLogout) {
-            if (response < 0x1039)
-                desiredValue = valueRestartRequired;    // Restart is required before OS 10.3.9
-            else
-                desiredValue = valueLogoutRequired;    // Logout is requires and sufficient on OS 10.3.9
-        }
-    }
+    err = GetFinalAction(&desiredValue);
     
     strlcpy(infoPlistPath, pkgPath, sizeof(infoPlistPath));
     strlcat(infoPlistPath, "/Contents/Info.plist", sizeof(infoPlistPath));
@@ -199,18 +199,39 @@ int main(int argc, char *argv[])
 }
 
 
-OSStatus IsLogoutNeeded(Boolean *result)
+Boolean IsUserMemberOfGroup(const char *userName, const char *groupName) {
+    group               *grp;
+    short               i = 0;
+    char                *p;
+
+    grp = getgrnam(groupName);
+    if (!grp) {
+        printf("getgrnam(%s) failed\n", groupName);
+        fflush(stdout);
+        return false;  // Group not found
+    }
+
+    while ((p = grp->gr_mem[i]) != NULL) {  // Step through all users in group admin
+        if (strcmp(p, userName) == 0) {
+            return true;
+        }
+        ++i;
+    }
+    return false;
+}
+
+
+OSStatus GetFinalAction(CFStringRef *restartValue)
 {
     passwd          *pw = NULL;
     group           *grp = NULL;
     gid_t           boinc_master_gid = 0, boinc_project_gid = 0;
     uid_t           boinc_master_uid = 0, boinc_project_uid = 0;
-    short           i, j;
-    char            *p;
-    DIR             *dirp;
-    dirent          *dp;
+    OSStatus        err = noErr;
+    long            response;
+    char            loginName[256];
     
-    *result = true;
+    *restartValue = valueRestartRequired;
 
     grp = getgrnam(boinc_master_group_name);
     if (grp == NULL)
@@ -229,81 +250,40 @@ OSStatus IsLogoutNeeded(Boolean *result)
         return noErr;       // User boinc_master does not exist
 
     boinc_master_uid = pw->pw_uid;
+
     if (pw->pw_gid != boinc_master_gid)
         return noErr;       // User boinc_master does not have group boinc_master as its primary group
     
     pw = getpwnam(boinc_project_user_name);
     if (pw == NULL)
         return noErr;       // User boinc_project does not exist
-        
+
     boinc_project_uid = pw->pw_uid;
+        
     if (pw->pw_gid != boinc_project_gid)
         return noErr;       // User boinc_project does not have group boinc_project as its primary group
-        
-    // Step through all visible users.  If user is a member of group admin, verify 
-    // that user is also a member of both groups boinc_master and boinc_project.
-    // NOTE: getgrnam and getgrgid use one static memory area to return their results, 
-    //  so each call to getgrnam or getgrgid overwrites the data from any previous calls.
-    dirp = opendir("/Users");
-    if (dirp == NULL)           // Should never happen
-        return noErr;
+
+    err = Gestalt(gestaltSystemVersion, &response);
+    if ((err == noErr) && (response >= 0x1050)) {
+        if (boinc_master_gid < 501)
+            return noErr;       // We will change boinc_master_gid to a value > 501
+        if (boinc_project_gid < 501)
+            return noErr;       // We will change boinc_project_gid to a value > 501
+        if (boinc_master_uid < 501)
+            return noErr;       // We will change boinc_master_uid to a value > 501
+        if (boinc_project_uid < 501)
+            return noErr;       // We will change boinc_project_uid to a value > 501
+}
     
-    while (true) {
-        dp = readdir(dirp);
-        if (dp == NULL)
-            break;                  // End of list
-            
-        if (dp->d_name[0] == '.')
-            continue;               // Ignore names beginning with '.'
-    
-        pw = getpwnam(dp->d_name);
-        if (pw == NULL)             // "Deleted Users", "Shared", etc.
-            continue;
-
-        for (j=0; ; j++) {                              // Step through all users in group admin
-            grp = getgrnam("admin");                    // See NOTE above
-            if (grp == NULL)                            // Should never happen
-                return noErr;
-
-           p = grp->gr_mem[j];
-            if(p == NULL)
-                break;              // User is not a member of group admin
-                
-            if (strcmp(p, dp->d_name) == 0) {
-                // User is a member of group admin, so should also be member of groups boinc_master and boinc_project
-
-                grp = getgrgid(boinc_master_gid);       // See NOTE above
-                if (grp == NULL)                        // Should never happen
-                    return noErr;
-
-                for (i=0; ; i++) {                      // Step through all users in group boinc_master
-                    p = grp->gr_mem[i];
-                    if (p == NULL)
-                        return noErr;           // User is not a member of group boinc_master
-                    if (strcmp(p, dp->d_name) == 0)
-                        break;
-                }
-
-                grp = getgrgid(boinc_project_gid);      // See NOTE above
-                if (grp == NULL)                        // Should never happen
-                    return noErr;
-
-                for (i=0; ; i++) {                      // Step through all users in group boinc_project
-                    p = grp->gr_mem[i];
-                    if (p == NULL)
-                        return noErr;           // User is not a member of group boinc_project
-                    if (strcmp(p, dp->d_name) == 0)
-                        break;
-                }
-
-                break;       // Check next user
-            }       // End if (strcmp(p, dp->d_name) == 0)
-        }           // End for j
-    }               // End stepping through /Users directory
-    
-    closedir(dirp);
-
-    *result = false;
+    #ifdef SANDBOX
+    strncpy(loginName, getenv("USER"), sizeof(loginName)-1);
+    if (loginName[0]) {
+        if (IsUserMemberOfGroup(loginName, boinc_master_group_name)) {
+            *restartValue = valueNoRestart;
+            return noErr;   // Logged in user is already a member of group boinc_master
+        }
+    }
+#endif  // SANDBOX
 
     return noErr;
 }
@@ -313,7 +293,7 @@ void Initialize()	/* Initialize some managers */
 {
     OSErr	err;
         
-    InitCursor();
+//    InitCursor();
 
     err = AEInstallEventHandler( kCoreEventClass, kAEQuitApplication, NewAEEventHandlerUPP((AEEventHandlerProcPtr)QuitAppleEventHandler), 0, false );
     if (err != noErr)
@@ -405,4 +385,3 @@ void strip_cr(char *buf)
         *theCR = '\0';
 }
 #endif	// CREATE_LOG
-const char *BOINC_RCSID_c7abe0490e="$Id$";

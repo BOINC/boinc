@@ -7019,3 +7019,16 @@ Charlie 1 Dec 2011
     /
         configure.ac
         version.h
+
+Charlie 7 Dec 2011
+    - Mac installer: revert to using a wrapper application around installer 
+        package to require a system restart if creating users and groups.
+    - Mac installer: eliminate use of WaitPermissions.app. 
+        
+    mac_installer/
+        Installer.cpp
+        make_CharityEngine.sh
+        make_GridRepublic.sh
+        make_ProgThruProc.sh
+        PostInstall.cpp
+        release_boinc.sh

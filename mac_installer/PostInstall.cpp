@@ -154,18 +154,12 @@ int main(int argc, char *argv[])
     short                   itemHit;
     long                    brandID = 0;
     int                     i;
-    pid_t                   installerPID = 0, coreClientPID = 0, waitPermissionsPID = 0;
+    pid_t                   installerPID = 0, coreClientPID = 0;
     FSRef                   fileRef;
     OSStatus                err, err_fsref;
     FILE                    *f;
     char                    s[256];
-#ifdef SANDBOX
-    uid_t                   saved_euid, saved_uid, b_m_uid;
-    passwd                  *pw;
-    int                     finalInstallAction;
-    DialogRef               theWin;
-
-#else   // SANDBOX
+#ifndef SANDBOX
     group                   *grp;
 #endif  // SANDBOX
 
@@ -400,13 +394,21 @@ int main(int argc, char *argv[])
     err = UpdateAllVisibleUsers(brandID);
     if (err != noErr)
         return err;
- 
+
+#if 0   // WaitPermissions is not needed when using wrapper
 #ifdef SANDBOX
+    pid_t                   waitPermissionsPID = 0;
+    uid_t                   saved_euid, saved_uid, b_m_uid;
+    passwd                  *pw;
+    int                     finalInstallAction;
+    DialogRef               theWin;
+
     err = CheckLogoutRequirement(&finalInstallAction);
     printf("CheckLogoutRequirement returned %d\n", finalInstallAction);
     fflush(stdout);
     
     if (finalInstallAction == launchWhenDone) {
+
         // Wait for BOINC's RPC socket address to become available to user boinc_master, in
         // case we are upgrading from a version which did not run as user boinc_master.
         saved_uid = getuid();
@@ -471,6 +473,8 @@ int main(int argc, char *argv[])
         }
     }
 #endif   // SANDBOX
+#endif  // WaitPermissions is not needed when using wrapper
+
     
     return 0;
 }
@@ -518,18 +522,6 @@ int DeleteReceipt()
 
     err = CheckLogoutRequirement(&finalInstallAction);
 //    print_to_log_file("CheckLogoutRequirement returned %d\n", finalInstallAction);
-    err = FindProcess ('APPL', 'xins', &installerPSN);
-    if (err == noErr) {
-        err = GetProcessPID(&installerPSN , &installerPID);
-
-       // Launch BOINC Manager when user closes installer or after 15 seconds
-        for (i=0; i<15; i++) { // Wait 15 seconds max for installer to quit
-            sleep (1);
-            if (err == noErr)
-                if (FindProcessPID(NULL, installerPID) == 0)
-                    break;
-        }
-    }
     
     brandID = GetBrandID();
 
@@ -541,6 +533,20 @@ int DeleteReceipt()
     // err_fsref = FSPathMakeRef((StringPtr)"/Applications/GridRepublic Desktop.app", &fileRef, NULL);
     err_fsref = FSPathMakeRef((StringPtr)appPath[brandID], &fileRef, NULL);
     if (finalInstallAction == launchWhenDone) {
+
+        err = FindProcess ('APPL', 'xins', &installerPSN);
+        if (err == noErr) {
+            err = GetProcessPID(&installerPSN , &installerPID);
+
+           // Launch BOINC Manager when user closes installer or after 15 seconds
+            for (i=0; i<15; i++) { // Wait 15 seconds max for installer to quit
+                sleep (1);
+                if (err == noErr)
+                    if (FindProcessPID(NULL, installerPID) == 0)
+                        break;
+            }
+        }
+
         // If system is set up to run BOINC Client as a daemon using launchd, launch it 
         //  as a daemon and allow time for client to start before launching BOINC Manager.
         err = stat("/Library/LaunchDaemons/edu.berkeley.boinc.plist", &sbuf);
@@ -557,11 +563,7 @@ int DeleteReceipt()
 
 
 OSStatus CheckLogoutRequirement(int *finalAction)
-{
-#ifdef SANDBOX
-    Boolean                 isMember = false;
-#endif  // SANDBOX
-    
+{    
     *finalAction = restartRequired;
 
     if (OSVersion < 0x1040) {
@@ -570,20 +572,13 @@ OSStatus CheckLogoutRequirement(int *finalAction)
     
 #ifdef SANDBOX
     if (loginName[0]) {
-        if (IsUserMemberOfGroup(loginName, boinc_master_group_name)) {
-            isMember = true;                // Logged in user is a member of group boinc_master
+        if (!IsUserMemberOfGroup(loginName, boinc_master_group_name)) {
+            *finalAction = nothingrequired;
+            return noErr;   // Logged in user is not a member of group boinc_master
         }
     }
-
-    if (isMember) {
-        *finalAction = launchWhenDone;
-    } else {
-        *finalAction = nothingrequired;
-    }
-    return noErr;
 #endif  // SANDBOX
 
-#if 0    // We no longer require restart or logout
     char                    path[MAXPATHLEN];
     FSRef                   infoPlistFileRef;
     Boolean                 isDirectory, result;
@@ -641,7 +636,6 @@ OSStatus CheckLogoutRequirement(int *finalAction)
     if (propertyListRef)
         CFRelease(propertyListRef);
     return err;
-#endif
 }
 
 
