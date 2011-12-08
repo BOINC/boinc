@@ -122,11 +122,11 @@ void CViewTabPage::CreatePage()
 		projectFrName = wxString("Not Available", wxConvUTF8);
 	}
 	//Line Proj Name
-	lnProjName = new CTransparentStaticLine(this, wxID_ANY, wxPoint(20,36), wxSize(316,1));
+	lnProjName = new CTransparentStaticLine(this, wxID_ANY, wxPoint(20,36), wxSize(305,1));
     lnProjName->SetLineColor(pSkinSimple->GetStaticLineColor());
 	//Create with a two step process to eliminate compiler warning
-	wxStaticLine* spacerLine = new wxStaticLine();
-	spacerLine->Create(this,-1,wxPoint(20,36),wxSize(305,1));
+//	wxStaticLine* spacerLine = new wxStaticLine();
+//	spacerLine->Create(this,-1,wxPoint(20,36),wxSize(305,1));
 
 	//My Progress
 	wrkUnitName = wxString(resultWU->name.c_str(),wxConvUTF8);
