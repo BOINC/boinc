@@ -7020,6 +7020,15 @@ Charlie 1 Dec 2011
         configure.ac
         version.h
 
+Charlie 2 Dec 2011
+    - Mac installer: for files in projects and slots directories, if the 
+        executable-by-owner permission is set, ensure that the 
+        executable-by-group bit is also set.
+        
+    clientgui/
+        mac/
+            SetupSecurity.cpp
+
 Charlie 7 Dec 2011
     - Mac installer: revert to using a wrapper application around installer 
         package to require a system restart if creating users and groups.
