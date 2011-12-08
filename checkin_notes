@@ -7049,3 +7049,9 @@ Charlie 7 Dec 2011
     /
         configure.ac
         version.h
+
+Charlie 8 Dec 2011
+    - MGR: Eliminate spurious divider line in Simple View (a bug since 2006.)
+
+    clientgui/
+        sg_ViewTabPage.cpp
