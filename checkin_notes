@@ -7056,3 +7056,18 @@ Charlie 8 Dec 2011
 
     clientgui/
         sg_ViewTabPage.cpp
+
+Rom    9 Dec 2011
+    - MGR: Update Progress Through Processor's skin files.
+    
+    clientgui/res/
+        progress.ico
+    clientgui/skins/Progress Thru Processors/graphic
+        <Various Files>
+    clientgui/skins/Progress Thru Processors/
+        skin.xml
+    win_build/installerv2/redist/Progress/
+        ptp_IsDialogBanner.bmp
+        ptp_IsDialogBitmap.bmp
+        ptp_splash.bmp
+        ptp_Wizard.bmp
