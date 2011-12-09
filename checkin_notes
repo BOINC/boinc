@@ -8918,5 +8918,4 @@ Rom    9 Dec 2011
       process for the vm crashes.
       
     samples/vboxwrapper/
-        vbox.cpp, .h
-        vboxwrapper.cpp
+        vbox.cpp
