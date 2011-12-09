@@ -190,6 +190,7 @@ CLEANUP:
     if ((ulExitCode != 0) || (!pi.hProcess)) {
         retval = ERR_FOPEN;
     }
+
 #else
 
     FILE* fp;
@@ -219,6 +220,7 @@ CLEANUP:
     }
 
 #endif
+
     if (retval) {
         fprintf(
             stderr,
