@@ -8919,3 +8919,11 @@ Rom    9 Dec 2011
       
     samples/vboxwrapper/
         vbox.cpp
+
+Rom    9 Dec 2011
+    - VBOX: Add the ability for the wrapper to know if vboxmanage has hung or is stuck
+      in a loop.  If so, terminate the process and return an error to the calling
+      function.
+      
+    samples/vboxwrapper/
+        vbox.cpp

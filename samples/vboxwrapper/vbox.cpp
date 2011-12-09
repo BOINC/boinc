@@ -116,6 +116,7 @@ int VBOX_VM::vbm_popen(string& arguments, string& output, const char* item) {
     void* pBuf = NULL;
     DWORD dwCount = 0;
     unsigned long ulExitCode = 0;
+    unsigned long ulExitTimeout = 0;
 
     memset(&si, 0, sizeof(si));
     memset(&pi, 0, sizeof(pi));
@@ -178,7 +179,20 @@ int VBOX_VM::vbm_popen(string& arguments, string& output, const char* item) {
         }
 
         if (ulExitCode != STILL_ACTIVE) break;
-        Sleep(100);
+
+        // Timeout?
+        if (ulExitTimeout >= 60000) {
+            fprintf(
+                stderr,
+                "%s Process Timeout!.\n",
+                boinc_msg_prefix(buf, sizeof(buf))
+            );
+
+            TerminateProcess(pi.hProcess, EXIT_FAILURE);
+        }
+
+        Sleep(250);
+        ulExitTimeout += 250;
     }
 
 CLEANUP:
