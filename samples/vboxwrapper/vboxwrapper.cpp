@@ -247,7 +247,6 @@ int main(int argc, char** argv) {
     set_throttles(aid, vm);
 
     while (1) {
-        vm.poll();
         is_running = vm.is_running();
 
         if (boinc_status.no_heartbeat || boinc_status.quit_request) {

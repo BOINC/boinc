@@ -88,10 +88,6 @@ int VBOX_VM::run() {
     return 0;
 }
 
-void VBOX_VM::poll() {
-    return;
-}
-
 void VBOX_VM::cleanup() {
     stop();
     deregister_vm();

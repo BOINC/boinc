@@ -45,7 +45,6 @@ struct VBOX_VM {
     // useful for debugging VMs.
     bool register_only;
 
-    void poll();
     int run();
     int stop();
     int pause();
