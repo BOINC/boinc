@@ -724,8 +724,8 @@ int VBOX_VM::resume() {
 
 // Enable the network adapter if a network connection is required.
 // NOTE: Network access should never be allowed if the code running in a 
-//   shared directory or the VM itself is NOT signed.  Doing so opens up 
-//   the network behind the firewall to attack.
+//   shared directory or the VM image itself is NOT signed.  Doing so
+//   opens up the network behind the firewall to attack.
 //
 int VBOX_VM::set_network_access(bool enabled) {
     string command;
