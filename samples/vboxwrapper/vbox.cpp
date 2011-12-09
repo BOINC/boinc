@@ -309,7 +309,6 @@ bool VBOX_VM::is_running() {
             //
             if (vmstate == "running") return true;
             if (vmstate == "paused") return true;
-            if (vmstate == "gurumeditation") return true;
             if (vmstate == "livesnapshotting") return true;
             if (vmstate == "teleporting") return true;
             if (vmstate == "starting") return true;
