@@ -112,9 +112,9 @@ int VBOX_VM::vbm_popen(string& arguments, string& output, const char* item) {
     PROCESS_INFORMATION pi;
     SECURITY_ATTRIBUTES sa;
     SECURITY_DESCRIPTOR sd;
-    HANDLE hReadPipe, hWritePipe;
-    void* pBuf;
-    DWORD dwCount;
+    HANDLE hReadPipe = NULL, hWritePipe = NULL;
+    void* pBuf = NULL;
+    DWORD dwCount = 0;
     unsigned long ulExitCode = 0;
 
     memset(&si, 0, sizeof(si));
