@@ -122,13 +122,13 @@ if ($argv[3] === "all") {
         }
     } else {
         if ($grant) {
-            BoincUserSubmit::insert("user_id=$user->id and manage_all=1");
+            BoincUserSubmit::insert("set user_id=$user->id, manage_all=1)");
         } else {
             die("User $user->id does not have global manage access\n");
         }
     }
 } else {
-    $app = BoincApp::lookup_name($argv[3]);
+    $app = BoincApp::lookup("name='".$argv[3]."'");
     if (!$app) die("no such app: ".$argv[2]."\n");
     $busa = BoincUserSubmitApp::lookup("user_id=$user->id and app_id=$app->id");
     if ($busa) {
@@ -149,9 +149,9 @@ if ($argv[3] === "all") {
         if ($grant) {
             $bus = BoincUserSubmit::lookup_userid($user->id);
             if (!$bus) {
-                BoincUserSubmit::insert("user_id=$user->id=1");
+                BoincUserSubmit::insert("set user_id=$user->id");
             }
-            BoincUserSubmitApp::insert("user_id=$user->id and app_id=$app->id and manage=1");
+            BoincUserSubmitApp::insert("set user_id=$user->id, app_id=$app->id,  manage=1");
         } else {
             die("User $user->id does not have manage access for $app->name\n");
         }

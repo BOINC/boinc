@@ -306,8 +306,8 @@ if options.test_app:
     app_dir = proot+'/apps/example_app/'
     os.mkdir(app_dir)
     os.system('cp -r ../samples/example_app/bin/* ' + app_dir);
-    shutil.copy('example_app_in.xml', proot+'/templates/')
-    shutil.copy('example_app_out.xml', proot+'/templates/')
+    shutil.copy('example_app_in', proot+'/templates/')
+    shutil.copy('example_app_out', proot+'/templates/')
     shutil.copy('../tools/create_work_example', proot+'/bin/')
 
 httpd_conf_template_filename = os.path.join(

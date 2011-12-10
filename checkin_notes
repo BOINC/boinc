@@ -8906,24 +8906,24 @@ Charlie 7 Dec 2011
         release_boinc.sh
 
 Rom    9 Dec 2011
-    - VBOX: Remove unused function, I don't remember what I was going to use that
-      hook for.
+    - VBOX: Remove unused function,
+        I don't remember what I was going to use that hook for.
       
     samples/vboxwrapper/
         vbox.cpp, .h
         vboxwrapper.cpp
 
 Rom    9 Dec 2011
-    - VBOX: Remove the guru meditation state, apparently that is when the vbox host
-      process for the vm crashes.
+    - VBOX: Remove the guru meditation state,
+        apparently that is when the vbox host process for the vm crashes.
       
     samples/vboxwrapper/
         vbox.cpp
 
 Rom    9 Dec 2011
-    - VBOX: Add the ability for the wrapper to know if vboxmanage has hung or is stuck
-      in a loop.  If so, terminate the process and return an error to the calling
-      function.
+    - VBOX: Add the ability for the wrapper to know if vboxmanage has hung
+        or is stuck in a loop.
+        If so, terminate the process and return an error.
       
     samples/vboxwrapper/
         vbox.cpp
@@ -8942,3 +8942,21 @@ Rom    9 Dec 2011
         ptp_IsDialogBitmap.bmp
         ptp_splash.bmp
         ptp_Wizard.bmp
+
+David  10 Dec 2011
+    - bug fixes in remote job submission tools
+        (manage_privileges and get_output.php).
+        From Nico Schlitter.
+    - change things so that
+        make_project --test_app
+        will produce input/output templates that are compatible
+        with the remote job submission tools
+
+    tools/
+        example_app_in,out (removed .xml from name)
+        manage_privileges
+        make_project
+    html/user/
+        get_output.php
+    ssim/
+        ssim.cpp

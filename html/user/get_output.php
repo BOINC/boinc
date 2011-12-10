@@ -22,7 +22,7 @@
 
 require_once("../inc/util.inc");
 require_once("../inc/result.inc");
-require_once("../inc/submit_db.inc");
+require_once("../inc/submit_util.inc");
 
 // get a single output file
 //
