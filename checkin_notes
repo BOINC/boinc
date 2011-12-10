@@ -7071,3 +7071,9 @@ Rom    9 Dec 2011
         ptp_IsDialogBitmap.bmp
         ptp_splash.bmp
         ptp_Wizard.bmp
+
+Charlie 9 Dec 2011
+    - MGR: Check in Progress Through Processors Macintosh application icon. 
+ 
+    clientgui/res/
+        ProgThruProc.icns
