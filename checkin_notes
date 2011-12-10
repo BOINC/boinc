@@ -7072,8 +7072,19 @@ Rom    9 Dec 2011
         ptp_splash.bmp
         ptp_Wizard.bmp
 
-Charlie 9 Dec 2011
+Charlie 10 Dec 2011
     - MGR: Check in Progress Through Processors Macintosh application icon. 
- 
+    - MGR: Fix Progress Through Processors skin file problems for Macintosh: 
+        - If a PNG icon file has an alpha channel, the skin must not have a 
+            <transparency_mask> entry for it, or the alpha channel will be 
+            ignored.
+        - The <application_icon> (play), <application_disconnected_icon> and 
+            <application_snooze_icon> must all be the same size.
+
     clientgui/res/
         ProgThruProc.icns
+    clientgui/skins/Progress Thru Processors/
+        skin.xml
+    clientgui/skins/Progress Thru Processors/graphic
+        ptp_play.png
+        ptp_icon_play.png

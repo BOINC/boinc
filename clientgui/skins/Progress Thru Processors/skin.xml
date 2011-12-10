@@ -210,21 +210,18 @@
 				<image>
 					<!-- Taskbar Icon -->
 					<imagesrc>graphic/ptp_icon_play.png</imagesrc> 
-					<transparency_mask>255:255:255</transparency_mask>
 				</image>
 			</application_icon>
 			<application_disconnected_icon>
 				<image>
 					<!-- Taskbar Icon when disconnected -->
 					<imagesrc>graphic/ptp_stop.png</imagesrc> 
-					<transparency_mask>255:255:255</transparency_mask>
 				</image>
 			</application_disconnected_icon>
 			<application_snooze_icon>
 				<image>
 					<!-- Taskbar Icon when snoozing -->
 					<imagesrc>graphic/ptp_pause.png</imagesrc> 
-					<transparency_mask>255:255:255</transparency_mask>
 				</image>
 			</application_snooze_icon> 
 			<!-- logo displayed in about box -->
