@@ -1015,7 +1015,7 @@ int get_processor_features(char* vendor, char* features, int features_size) {
         FEATURE_TEST(ext_supported, (ext_ecx & (1 << 2)), "svm ");
         FEATURE_TEST(ext_supported, (ext_ecx & (1 << 6)), "sse4a ");
         FEATURE_TEST(ext_supported, (ext_ecx & (1 << 9)), "osvw ");
-         FEATURE_TEST(ext_supported, (ext_ecx & (1 << 10)), "ibs ");
+        FEATURE_TEST(ext_supported, (ext_ecx & (1 << 10)), "ibs ");
         FEATURE_TEST(ext_supported, (ext_ecx & (1 << 11)), "xop ");
         FEATURE_TEST(ext_supported, (ext_ecx & (1 << 12)), "skinit ");
         FEATURE_TEST(ext_supported, (ext_ecx & (1 << 13)), "wdt ");
