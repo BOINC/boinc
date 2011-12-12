@@ -192,6 +192,7 @@ void die(const char* msg) {
 // base class for chunks and meta-chunks
 //
 struct DATA_UNIT {
+#if 0
     virtual bool recoverable(){die("recoverable undef"); return false;};
         // can be reconstructed w/o reconstructing parent,
         // assuming that current downloads succeed
@@ -201,6 +202,14 @@ struct DATA_UNIT {
     virtual void delete_chunks_from_server(){die("dcfs undef");};
     virtual void now_present(){die("now_present undef");};
     bool is_uploading;
+#endif
+    virtual void recovery_plan(){};
+    virtual void recovery_action(){};
+    enum {PRESENT, RECOVERABLE, UNRECOVERABLE} status;
+    bool in_recovery_set;
+    bool data_now_present;
+    bool data_needed;
+    double cost;
     char name[64];
 };
 
@@ -208,20 +217,21 @@ struct CHUNK : DATA_UNIT {
     set<CHUNK_ON_HOST*> hosts;
     META_CHUNK* parent;
     double size;
-    bool _is_present_on_server;
+    bool present_on_server;
 
     CHUNK(META_CHUNK* mc, double s, int index);
 
-    virtual void assign();
-    void host_failed(CHUNK_ON_HOST* p);
-    void upload_complete();
+#if 0
     virtual bool recoverable() {
         return (!hosts.empty());
     }
     virtual bool is_present_on_server() {
         return _is_present_on_server;
     }
-    virtual void start_upload() {
+    virtual void now_present();
+    virtual void delete_chunks_from_server();
+#endif
+    void start_upload() {
         // if no upload of this chunk is in progress, start one.
         // NOTE: all instances are inherently present_on_host,
         // since this is only called if chunk is not present on server
@@ -238,15 +248,19 @@ struct CHUNK : DATA_UNIT {
         printf("%s: starting upload of %s\n", now_str(), c->name);
         sim.insert(c);
     }
+    void host_failed(CHUNK_ON_HOST* p);
+    void upload_complete();
     void download_complete();
-    virtual void now_present();
-    virtual void delete_chunks_from_server();
+    void assign();
+    virtual void recovery_plan();
+    virtual void recovery_action();
 };
 
 struct META_CHUNK : DATA_UNIT {
     vector<DATA_UNIT*> children;
     META_CHUNK* parent;
     int n_children_present;
+    bool have_unrecoverable_children;
     DFILE* dfile;
     bool uploading;
 
@@ -254,6 +268,7 @@ struct META_CHUNK : DATA_UNIT {
         DFILE* d, META_CHUNK* par, double size, int encoding_level, int index
     );
 
+#if 0
     virtual bool is_present_on_server() {
         int n=0;
         for (int i=0; i<ENCODING_M; i++) {
@@ -303,6 +318,9 @@ struct META_CHUNK : DATA_UNIT {
     // a child is now present on the server.
     //
     void child_upload_complete();
+#endif
+    virtual void recovery_plan();
+    virtual void recovery_action();
 };
 
 static int next_file_id=0;
@@ -389,9 +407,14 @@ struct DFILE : EVENT {
         printf("file %d: size %f encoded size %f\n",
             id, size, disk_usage.value
         );
-        meta_chunk->assign();
+        meta_chunk->recovery_plan();
+        meta_chunk->recovery_action();
     }
 
+    void recover() {
+        meta_chunk->recovery_plan();
+        meta_chunk->recovery_action();
+    }
     inline bool collecting_stats() {
         return (pending_init_downloads == 0);
     }
@@ -446,24 +469,26 @@ void HOST::handle() {
 
 CHUNK::CHUNK(META_CHUNK* mc, double s, int index) {
     parent = mc;
-    _is_present_on_server = true;
+    present_on_server = true;
     size = s;
     sprintf(name, "%s.%d", parent->name, index);
     parent->dfile->pending_init_downloads += REPLICATION_LEVEL;
     parent->dfile->disk_usage.sample_inc(size, false);
 }
 
+#if 0
 void CHUNK::now_present() {
     if (_is_present_on_server) return;
     _is_present_on_server = true;
     parent->dfile->disk_usage.sample_inc(size, false);
 }
+#endif
 
 // if there aren't enough replicas of this chunk,
 // pick new hosts and start downloads
 //
 void CHUNK::assign() {
-    if (!_is_present_on_server) return;
+    if (!present_on_server) return;
     while (hosts.size() < REPLICATION_LEVEL) {
         if (parent->dfile->unused_hosts.size() == 0) {
             die("no more hosts!\n");
@@ -484,6 +509,7 @@ void CHUNK::assign() {
     }
 }
 
+#if 0
 void CHUNK::delete_chunks_from_server() {
     set<CHUNK_ON_HOST*>::iterator i;
     for (i=hosts.begin(); i!=hosts.end(); i++) {
@@ -495,6 +521,7 @@ void CHUNK::delete_chunks_from_server() {
     parent->dfile->disk_usage.sample_inc(-size, parent->dfile->collecting_stats());
     _is_present_on_server = false;
 }
+#endif
 
 META_CHUNK::META_CHUNK(
     DFILE* d, META_CHUNK* par, double size, int encoding_level, int index
@@ -529,17 +556,10 @@ void CHUNK::host_failed(CHUNK_ON_HOST* p) {
     set<CHUNK_ON_HOST*>::iterator i = hosts.find(p);
     hosts.erase(i);
     printf("%s: handling loss of %s\n", now_str(), p->name);
-    if (_is_present_on_server) {
-        // if data is on server, make a new replica
-        //
-        assign();
-    } else if (!hosts.empty()) {
-        start_upload();
-    } else {
-        parent->child_unrecoverable();
-    }
+    parent->dfile->recover();
 }
 
+#if 0
 void META_CHUNK::child_unrecoverable() {
     int n = n_recoverable_children();
     printf("%s: a child of %s has become unrecoverable\n", now_str(), name);
@@ -555,23 +575,22 @@ void META_CHUNK::child_unrecoverable() {
         printf("%s: only %d recoverable children\n", now_str(), n);
     }
 }
+#endif
 
 //////////////////// UPLOAD COMPLETION //////////////////
 
 void CHUNK::upload_complete() {
-    if (!_is_present_on_server) {
-        _is_present_on_server = true;
+    if (!present_on_server) {
+        present_on_server = true;
         parent->dfile->disk_usage.sample_inc(
             size,
             parent->dfile->collecting_stats()
         );
     }
-    assign();
-    if (parent->uploading) {
-        parent->child_upload_complete();
-    }
+    parent->dfile->recover();
 }
 
+#if 0
 void META_CHUNK::child_upload_complete() {
     printf("%s: child upload complete for %s\n", now_str(), name);
     int n = 0;
@@ -594,6 +613,7 @@ void META_CHUNK::child_upload_complete() {
         }
     }
 }
+#endif
 
 //////////////////// DOWNLOAD COMPLETION ////////////////
 
@@ -604,24 +624,121 @@ void META_CHUNK::child_upload_complete() {
 // - this chunk isn't needed for recovery going on elsewhere
 //
 void CHUNK::download_complete() {
-    int n=0;
-    set<CHUNK_ON_HOST*>::iterator i;
-    for (i=hosts.begin(); i!=hosts.end(); i++) {
-        CHUNK_ON_HOST* c = *i;
-        if (c->present_on_host) {
-            n++;
-        }
-    }
-    if (n >= REPLICATION_LEVEL) {
-        printf("%s: %s replicated, removing from server\n", now_str(), name);
-        _is_present_on_server = false;
-        parent->dfile->disk_usage.sample_inc(
-            -size,
-            parent->dfile->collecting_stats()
-        );
-    }
     if (parent->dfile->pending_init_downloads) {
         parent->dfile->pending_init_downloads--;
+    }
+    parent->dfile->recover();
+}
+
+void META_CHUNK::recovery_plan() {
+    vector<DATA_UNIT*> recoverable;
+    vector<DATA_UNIT*> present;
+
+    unsigned int i;
+    have_unrecoverable_children = false;
+
+    for (i=0; i<children.size(); i++) {
+        DATA_UNIT* c = children[i];
+        c->in_recovery_set = false;
+        c->recovery_plan();
+        switch (c->status) {
+        case PRESENT:
+            present.push_back(c);
+            break;
+        case RECOVERABLE:
+            recoverable.push_back(c);
+            break;
+        case UNRECOVERABLE:
+            have_unrecoverable_children = true;
+            break;
+        }
+    }
+
+    if (present.size() >= ENCODING_N) {
+        status = PRESENT;
+        sort(present.begin(), present.end());
+        present.resize(ENCODING_N);
+        cost = 0;
+        for (i=0; i<present.size(); i++) {
+            DATA_UNIT* c= present[i];
+            cost += c->cost;
+            c->in_recovery_set = true;
+        }
+    } else if (present.size() + recoverable.size() >= ENCODING_N) {
+        status = RECOVERABLE;
+        int j = ENCODING_N - present.size();
+        sort(recoverable.begin(), recoverable.end());
+        recoverable.resize(j);
+        cost = 0;
+        for (i=0; i<present.size(); i++) {
+            DATA_UNIT* c= present[i];
+            c->in_recovery_set = true;
+        }
+        for (i=0; i<recoverable.size(); i++) {
+            DATA_UNIT* c= recoverable[i];
+            c->in_recovery_set = true;
+            cost += c->cost;
+        }
+    } else {
+        status = UNRECOVERABLE;
+    }
+}
+
+void CHUNK::recovery_plan() {
+    if (present_on_server) {
+        status = PRESENT;
+        cost = 0;
+    } else if (hosts.size() > 0) {
+        status = RECOVERABLE;
+        cost = size;
+        if (hosts.size() < REPLICATION_LEVEL) {
+            data_needed = true;
+        }
+    } else {
+        status = UNRECOVERABLE;
+    }
+}
+
+void META_CHUNK::recovery_action() {
+    if (data_now_present) {
+        status = PRESENT;
+    }
+    for (unsigned i=0; i<children.size(); i++) {
+        DATA_UNIT* c = children[i];
+        if (status == PRESENT) {
+            if (c->in_recovery_set && have_unrecoverable_children) {
+                c->data_needed = true;
+            }
+        }
+        c->recovery_action();
+    }
+}
+
+void CHUNK::recovery_action() {
+    if (data_now_present) {
+        present_on_server = true;
+        parent->dfile->disk_usage.sample_inc(
+            size,
+            parent->dfile->collecting_stats()
+        );
+        status = PRESENT;
+    }
+    if (status == PRESENT && hosts.size() < REPLICATION_LEVEL) {
+        assign();
+    }
+    if (data_needed) {
+        if (!present_on_server) {
+            start_upload();
+        }
+    } else {
+        if (present_on_server) {
+            present_on_server = false;
+            printf("%s: %s replicated, removing from server\n", now_str(), name);
+            parent->dfile->disk_usage.sample_inc(
+                -size,
+                parent->dfile->collecting_stats()
+            );
+        }
     }
 }
 

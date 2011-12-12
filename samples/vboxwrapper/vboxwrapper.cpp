@@ -82,9 +82,9 @@ using std::vector;
 
 int parse_job_file(VBOX_VM& vm) {
     MIOFILE mf;
-    char buf[256], buf2[256];
+    char buf[1024], buf2[256];
 
-    boinc_resolve_filename(JOB_FILENAME, buf, 1024);
+    boinc_resolve_filename(JOB_FILENAME, buf, sizeof(buf));
     FILE* f = boinc_fopen(buf, "r");
     if (!f) {
         fprintf(stderr,

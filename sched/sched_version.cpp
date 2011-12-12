@@ -426,6 +426,7 @@ static BEST_APP_VERSION* check_homogeneous_app_version(
 
     bool found=false;
     APP_VERSION *avp = ssp->lookup_app_version(wu.app_version_id);
+    if (!avp) return NULL;      // in case it was deprecated
     for (unsigned int i=0; i<g_request->platforms.list.size(); i++) {
         PLATFORM* p = g_request->platforms.list[i];
         if (p->id == avp->platformid) {

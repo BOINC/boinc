@@ -8960,3 +8960,20 @@ David  10 Dec 2011
         get_output.php
     ssim/
         ssim.cpp
+
+David  12 Dec 2011
+    - client: tweak parameters of file xfer backoff to
+        reduce backoff intervals somewhat
+    - vboxwrapper: fix buffer size typo (from Attila)
+    - scheduler: fix crash if using homogeneous app version,
+        and a WU is committed to an old or deprecated app version.
+        From Kevin Reed.
+
+    sched/
+        sched_version.cpp
+    samples/vboxwrapper/
+        vboxwrapper.cpp
+    ssim/
+        ssim.cpp
+    client/
+        pers_file_xfer.h
