@@ -8986,3 +8986,23 @@ David  12 Dec 2011
     sched/
         sched_shmem.cpp,h
         sched_version.cpp
+
+Rom    12 Dec 2011
+    - MGR: Add IE8-10 support for browser cookies when UAC is enabled.  Use the
+        supported API.  It appears MS changed the cookie file format in their
+        latest browsers which broke our hack.  I have to leave the hack in
+        for now because IE7 on Vista didn't expose the IEGetProtectedModeCookie
+        API.
+    - WINSETUP: Start BOINCMgr as a restricted process on Windows Vista+.
+    
+    clientgui/
+        browser.cpp
+    win_build/installerv2/redist/Windows/src/boinccas/
+        boinccas.vcproj
+        CALaunchBOINCManager.cpp, .h
+    win_build/installerv2/redist/Windows/Win32/
+        boinccas.dll
+        boinccas95.dll
+    win_build/installerv2/redist/Windows/x64/
+        boinccas.dll
+        boinccas95.dll
