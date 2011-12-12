@@ -426,7 +426,21 @@ static BEST_APP_VERSION* check_homogeneous_app_version(
 
     bool found=false;
     APP_VERSION *avp = ssp->lookup_app_version(wu.app_version_id);
-    if (!avp) return NULL;      // in case it was deprecated
+    if (!avp) {
+        // the WU may be committed to a version that's been superceded.
+        // In that case use the later version.
+        //
+        DB_APP_VERSION av;
+        int retval = av.lookup_id(wu.app_version_id);
+        if (retval) return NULL;
+        avp = ssp->lookup_app_version_platform_plan_class(
+            av.platformid, av.plan_class
+        );
+        if (!avp) return NULL;
+    }
+
+    // see if this host supports the version's platform
+    //
     for (unsigned int i=0; i<g_request->platforms.list.size(); i++) {
         PLATFORM* p = g_request->platforms.list[i];
         if (p->id == avp->platformid) {
@@ -436,6 +450,9 @@ static BEST_APP_VERSION* check_homogeneous_app_version(
         }
     }
     if (!found) return NULL;
+
+    // and see if it supports the plan class
+    //
     if (strlen(avp->plan_class)) {
         if (!app_plan(*g_request, avp->plan_class, bav.host_usage)) {
             return NULL;
@@ -443,6 +460,9 @@ static BEST_APP_VERSION* check_homogeneous_app_version(
     } else {
         bav.host_usage.sequential_app(g_reply->host.p_fpops);
     }
+
+    // and see if the client is asking for this resource
+    //
     if (!need_this_resource(bav.host_usage, avp, NULL)) {
         return NULL;
     }

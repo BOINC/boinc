@@ -236,6 +236,19 @@ APP_VERSION* SCHED_SHMEM::lookup_app_version(int id) {
     return NULL;
 }
 
+APP_VERSION* SCHED_SHMEM::lookup_app_version_platform_plan_class(
+    int platformid, char* plan_class
+) {
+    APP_VERSION* avp;
+    for (int i=0; i<napp_versions; i++) {
+        avp = &app_versions[i];
+        if (avp->platformid == platformid && !strcmp(avp->plan_class, plan_class)) {
+            return avp;
+        }
+    }
+    return NULL;
+}
+
 // see if there's any work.
 // If there is, reserve it for this process
 // (if we don't do this, there's a race condition where lots

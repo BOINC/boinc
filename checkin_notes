@@ -8977,3 +8977,12 @@ David  12 Dec 2011
         ssim.cpp
     client/
         pers_file_xfer.h
+
+David  12 Dec 2011
+    - scheduler: if using homogeneous app version,
+        and a WU is committed to an app version that's been superceded,
+        treat it as committed to the later version.
+
+    sched/
+        sched_shmem.cpp,h
+        sched_version.cpp
