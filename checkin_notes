@@ -7115,3 +7115,12 @@ Charlie 12 Dec 2011
         
     clientgui/
         SkinManager.cpp
+
+Rom    13 Dec 2011
+    - Tag for 6.8.34 release, all platforms
+      boinc_core_release_6_8_34
+
+    /
+        configure.ac
+        version.h
+        
