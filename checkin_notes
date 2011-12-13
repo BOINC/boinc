@@ -10377,3 +10377,10 @@ David  24 Nov 2011
 
     clientsrc/
         ss_app.cpp
+
+Charlie 12 Dec 2011
+    - MGR: If CSkinIcon PNG file has an alpha channel, use it as mask and 
+        ignore any <transparency_mask> tag.
+        
+    clientgui/
+        SkinManager.cpp
