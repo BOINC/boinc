@@ -9007,7 +9007,7 @@ Rom    12 Dec 2011
         boinccas.dll
         boinccas95.dll
 
-Charlie 7 Dec 2011
+Charlie 12 Dec 2011
     - MGR: If CSkinIcon PNG file has an alpha channel, use it as mask and 
         ignore any <transparency_mask> tag.
         
