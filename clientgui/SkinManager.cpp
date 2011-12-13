@@ -238,8 +238,10 @@ bool CSkinIcon::Validate() {
     if (!m_icoIcon.Ok()) {
         if (!m_strDesiredIcon.IsEmpty()) {
             // Configure bitmap object with optional transparency mask
-            wxBitmap bmp = wxBitmap(wxImage(m_strDesiredIcon, wxBITMAP_TYPE_ANY));
-            if (!m_strDesiredTransparencyMask.IsEmpty()) {
+            wxImage img = wxImage(m_strDesiredIcon, wxBITMAP_TYPE_ANY);
+            wxBitmap bmp = wxBitmap(img);
+            // If PNG file has alpha channel use it as mask & ignore <transparency_mask> tag 
+            if (!(m_strDesiredTransparencyMask.IsEmpty() || img.HasAlpha())) {
                 bmp.SetMask(new wxMask(bmp, ParseColor(m_strDesiredTransparencyMask)));
             }
             // Now set the icon object using the newly created bitmap with optional transparency mask
