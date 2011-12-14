@@ -9021,3 +9021,26 @@ David  13 Dec 2011
 
     ssim/
         ssim.cpp
+
+Charlie 14 Dec 2011
+    - MGR: Check in remaining Progress Through Processors artwork for Macintosh. 
+    - MGR: Fix Progress Through Processors skin file problems for Macintosh: 
+        - If a PNG icon file has an alpha channel, the skin must not have a 
+            <transparency_mask> entry for it, or the alpha channel will be 
+            ignored.
+        - The <application_icon> (play), <application_disconnected_icon> and 
+            <application_snooze_icon> must all be the same size.
+
+    clientgui/mac/
+        ProgThruProc.tiff
+    clientgui/res/
+        ProgThruProc.icns
+        PTP_install.icns
+        PTP_uninstall.icns
+    clientgui/skins/Progress Thru Processors/
+        skin.xml
+    clientgui/skins/Progress Thru Processors/graphic
+        ptp_play.png
+        ptp_icon_play.png
+    clientscr/res/
+        ProgThruProc_ss_logo.png
