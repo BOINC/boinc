@@ -426,6 +426,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\CALaunchBOINCManager.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\CASetPermissionBOINC.cpp"
 				>
 			</File>
@@ -572,6 +576,10 @@
 			</File>
 			<File
 				RelativePath=".\CAHideBOINCProjectProfile.h"
+				>
+			</File>
+			<File
+				RelativePath=".\CALaunchBOINCManager.h"
 				>
 			</File>
 			<File

@@ -20,7 +20,9 @@
 #include "boinc_win.h"
 #endif
 
-#ifndef _WIN32
+#ifdef _WIN32
+#include "win_util.h"
+#else
 #include <string>
 #include <vector>
 #include <time.h>
@@ -38,13 +40,6 @@
 // Utility Functions
 //
 
-#ifdef _WIN32
-
-// Prototype for SHGetFolderPath() in shell32.dll.
-typedef HRESULT (WINAPI *MYSHGETFOLDERPATH)(HWND hwnd, int csidl, HANDLE hToken, DWORD dwFlags, LPSTR pszPath);
-
-#endif
-
 // retrieve the user's application data directory.
 // Win  : C:\Documents and Settings\<username>\Application Data
 // Unix: ~/
@@ -54,16 +49,8 @@ typedef HRESULT (WINAPI *MYSHGETFOLDERPATH)(HWND hwnd, int csidl, HANDLE hToken,
 //
 void get_home_dir_path( std::string& path, bool local = false ) {
 #ifdef _WIN32
-    CHAR                szBuffer[MAX_PATH];
-    HMODULE             hShell32;
-	MYSHGETFOLDERPATH   pfnMySHGetFolderPath = NULL;
-    int                 iCSIDLFlags = CSIDL_FLAG_CREATE;
-
-    // Attempt to link to dynamic function if it exists
-    hShell32 = LoadLibrary(_T("SHELL32.DLL"));
-    if (NULL != hShell32) {
-        pfnMySHGetFolderPath = (MYSHGETFOLDERPATH) GetProcAddress(hShell32, "SHGetFolderPathA");
-    }
+    CHAR szBuffer[MAX_PATH];
+    int  iCSIDLFlags = CSIDL_FLAG_CREATE;
 
     if (local) {
         iCSIDLFlags |= CSIDL_LOCAL_APPDATA;
@@ -71,16 +58,9 @@ void get_home_dir_path( std::string& path, bool local = false ) {
         iCSIDLFlags |= CSIDL_APPDATA;
     }
 
-    if (NULL != pfnMySHGetFolderPath) {
-		if (SUCCEEDED((pfnMySHGetFolderPath)(NULL, iCSIDLFlags, NULL, SHGFP_TYPE_CURRENT, szBuffer))) {
-            path  = std::string(szBuffer);
-            path += std::string("\\");
-        }
-    }
-
-	// Free the dynamically linked to library
-    if (NULL != hShell32) {
-    	FreeLibrary(hShell32);
+	if (SUCCEEDED(SHGetFolderPathA(NULL, iCSIDLFlags, NULL, SHGFP_TYPE_CURRENT, szBuffer))) {
+        path  = std::string(szBuffer);
+        path += std::string("\\");
     }
 #elif defined(__APPLE__)
     path = std::string(getenv("HOME")) + std::string("/");
@@ -98,29 +78,13 @@ void get_home_dir_path( std::string& path, bool local = false ) {
 //
 void get_internet_explorer_cookie_path( bool low_rights, std::string& path ) {
 #ifdef _WIN32
-    CHAR                szBuffer[MAX_PATH];
-    HMODULE             hShell32;
-	MYSHGETFOLDERPATH   pfnMySHGetFolderPath = NULL;
-
-    // Attempt to link to dynamic function if it exists
-    hShell32 = LoadLibrary(_T("SHELL32.DLL"));
-    if (NULL != hShell32) {
-        pfnMySHGetFolderPath = (MYSHGETFOLDERPATH) GetProcAddress(hShell32, "SHGetFolderPathA");
-    }
-
-    if (NULL != pfnMySHGetFolderPath) {
-		if (SUCCEEDED((pfnMySHGetFolderPath)(NULL, CSIDL_COOKIES|CSIDL_FLAG_CREATE, NULL, SHGFP_TYPE_CURRENT, szBuffer))) {
-            path  = std::string(szBuffer);
-            path += std::string("\\");
-            if (low_rights) {
-                path += std::string("Low\\");
-            }
+    CHAR szBuffer[MAX_PATH];
+	if (SUCCEEDED(SHGetFolderPathA(NULL, CSIDL_COOKIES|CSIDL_FLAG_CREATE, NULL, SHGFP_TYPE_CURRENT, szBuffer))) {
+        path  = std::string(szBuffer);
+        path += std::string("\\");
+        if (low_rights) {
+            path += std::string("Low\\");
         }
-    }
-
-	// Free the dynamically linked to library
-    if (NULL != hShell32) {
-    	FreeLibrary(hShell32);
     }
 #endif
 }
@@ -896,7 +860,8 @@ bool detect_cookie_chrome(
 
 //
 // Detect a cookie in Internet Explorer by using the InternetGetCookie API.
-// Supports: 3.x, 4.x, 5.x, 6.x, 7.x (UAC Turned Off), and 8.x (UAC Turned Off).
+// Supports: 3.x, 4.x, 5.x, 6.x, 7.x (UAC Turned Off), 8.x (UAC Turned Off), 9.x (UAC Turned Off), and 
+// 10.x (UAC Turned Off).
 //
 bool detect_cookie_ie_supported(std::string& project_url, std::string& name, std::string& value)
 {
@@ -955,6 +920,93 @@ bool detect_cookie_ie_supported(std::string& project_url, std::string& name, std
         }
 
         pszCookieFragment = strtok(NULL, "; ");
+    }
+
+    return bReturnValue;
+}
+
+//
+// Detect a cookie in Internet Explorer by using the InternetGetCookie API.
+// Supports: 8.x (UAC Turned On), 9.x (UAC Turned On), 10.x (UAC Turned On).
+//
+typedef HRESULT (__stdcall *tIEGPMC)( IN LPCWSTR, IN LPCWSTR, OUT LPWSTR, OUT DWORD*, IN DWORD );
+
+bool detect_cookie_ie_supported_uac(std::string& project_url, std::string& name, std::string& value)
+{
+    static       HMODULE ieframelib = NULL;
+    static       tIEGPMC pIEGPMC = NULL;
+    bool         bReturnValue = false;
+    bool         bCheckDomainName = false;
+    WCHAR        szCookieBuffer[2048];
+    WCHAR*       pszCookieFragment = NULL;
+    DWORD        dwSize = sizeof(szCookieBuffer)/sizeof(WCHAR);
+    std::wstring strCookieFragment;
+    std::wstring strCookieName;
+    std::wstring strCookieValue;
+    std::string  hostname;
+    std::wstring hostname_w;
+    std::string  domainname;
+    std::wstring domainname_w;
+    std::wstring name_w;
+    std::wstring value_w;
+    size_t       uiDelimeterLocation;
+
+    if (!ieframelib) {
+        ieframelib = LoadLibraryA("ieframe.dll");
+        if (ieframelib) {
+            pIEGPMC = (tIEGPMC)GetProcAddress(ieframelib, "IEGetProtectedModeCookie");
+        }
+    }
+
+    if (!pIEGPMC) {
+        return false;
+    }
+
+    // Convert name into wide character string
+    name_w = A2W(name);
+
+    // if we don't find the cookie at the exact project dns name, check one higher
+    //   (i.e. www.worldcommunitygrid.org becomes worldcommunitygrid.org
+    parse_hostname_ie_compatible(project_url, hostname, domainname);
+
+    // InternetGetCookie expects them in URL format
+    hostname_w = std::wstring(_T("http://")) + A2W(hostname) + std::wstring(_T("/"));
+    domainname_w = std::wstring(_T("http://")) + A2W(domainname) + std::wstring(_T("/"));
+
+    // First check to see if the desired cookie is assigned to the hostname.
+    bReturnValue = pIEGPMC(hostname_w.c_str(), NULL, szCookieBuffer, &dwSize, NULL) == TRUE;
+    if (!bReturnValue || (!wcsstr(szCookieBuffer, name_w.c_str()))) {
+        bCheckDomainName = true;
+    }
+
+    // Next check if it was assigned to the domainname.
+    if (bCheckDomainName) {
+        bReturnValue = pIEGPMC(domainname_w.c_str(), NULL, szCookieBuffer, &dwSize, NULL) == TRUE;
+        if (!bReturnValue || (!wcsstr(szCookieBuffer, name_w.c_str()))) {
+            return false;
+        }
+    }
+
+    // Format of cookie buffer:
+    // 'cookie1=value1; cookie2=value2; cookie3=value3;
+    //
+    pszCookieFragment = wcstok(szCookieBuffer, _T("; "));
+    while(pszCookieFragment) {
+        // Convert to a std::string so we can go to town
+        strCookieFragment = pszCookieFragment;
+
+        // Extract the name & value
+        uiDelimeterLocation = strCookieFragment.find(_T("="), 0);
+        strCookieName = strCookieFragment.substr(0, uiDelimeterLocation);
+        strCookieValue = strCookieFragment.substr(uiDelimeterLocation + 1);
+
+        if (name_w == strCookieName) {
+            // Now we found it!  Yea - auto attach!
+            value = W2A(strCookieValue);
+            bReturnValue = true;
+        }
+
+        pszCookieFragment = wcstok(NULL, _T("; "));
     }
 
     return bReturnValue;
@@ -1058,7 +1110,7 @@ bool find_site_cookie_ie(
     
 //
 // Detect a cookie in Internet Explorer by parsing cookie files.
-// Supports: 7.x (UAC Turned On), and 8.x (UAC Turned On).
+// Supports: 7.x (UAC Turned On).
 //
 // Example cookie file names:
 //   romw@boinc.berkeley[1].txt
@@ -1147,13 +1199,18 @@ bool detect_cookie_ie_unsupported(std::string& project_url, std::string& name, s
 //
 bool detect_cookie_ie(std::string& project_url, std::string& name, std::string& value)
 {
-    // Check using the supported method first
+    // Check using the supported methods first
     if (detect_cookie_ie_supported( project_url, name, value )) return true;
+    if (detect_cookie_ie_supported_uac( project_url, name, value )) return true;
 
-    // If the supported method didn't return a hit we need to use the
-    //   unsupported method for Windows Vista machines or better to account
+    // If the supported methods didn't return a hit we need to use the
+    //   unsupported method for Windows Vista machines to account
     //   for UAC which stores browser cookies in a different directory
     //   which keeps the InternetGetCookie() API from detecting them.
+    //
+    // NOTE: Windows Vista with IE 7 did not expose the IEGetProtectedModeCookie
+    // API.
+    //
     OSVERSIONINFO osvi;
     ZeroMemory(&osvi, sizeof(OSVERSIONINFO));
     osvi.dwOSVersionInfoSize = sizeof(OSVERSIONINFO);
