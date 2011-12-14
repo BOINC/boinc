@@ -273,4 +273,8 @@ double project_priority(PROJECT*);
 void adjust_rec_sched(RESULT*);
 void adjust_rec_work_fetch(RESULT*);
 
+double gpu_peak_flops();
+double cpu_peak_flops();
+double total_peak_flops();
+
 #endif

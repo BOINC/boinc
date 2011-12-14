@@ -464,7 +464,7 @@ bool CLIENT_STATE::scheduler_rpc_poll() {
     if (p) {
         if (actively_uploading(p)) {
             if (log_flags.work_fetch_debug) {
-                msg_printf(p, MSG_INFO, "[wfd] deferring work fetch; upload active");
+                msg_printf(p, MSG_INFO, "[work_fetch] deferring work fetch; upload active");
             }
             return false;
         }
