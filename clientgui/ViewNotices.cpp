@@ -51,20 +51,10 @@ CViewNotices::CViewNotices(wxNotebook* pNotebook) :
     //
     // Setup View
     //
-    SetAutoLayout(TRUE);
-
-    wxBoxSizer *pSizer = new wxBoxSizer(wxVERTICAL);
-    wxASSERT(pSizer);
-
 	m_pHtmlListPane = new CNoticeListCtrl(this);
 	wxASSERT(m_pHtmlListPane);
 
-    pSizer->Add(m_pHtmlListPane, 1, wxGROW|wxALL, 1);
-
-    SetSizer(pSizer);
-
-    Layout();
-
+    Initialize(m_pHtmlListPane);
 }
 
 

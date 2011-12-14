@@ -43,9 +43,6 @@ CBOINCTaskCtrl::CBOINCTaskCtrl(CBOINCBaseView* pView, wxWindowID iTaskWindowID, 
 #ifdef __WXMAC__
     //Accessibility
     HIObjectSetAccessibilityIgnored((HIObjectRef)GetHandle(), true);
-//    HIViewRef parentView = (HIViewRef)m_pParent->GetHandle();
-//    HIObjectSetAccessibilityIgnored((HIObjectRef)parentView, true);
-
 #endif
 }
 

@@ -1940,24 +1940,13 @@ CViewStatistics::CViewStatistics(wxNotebook* pNotebook) :
     //
     // Setup View
     //
-    wxFlexGridSizer* itemFlexGridSizer = new wxFlexGridSizer(2, 0, 0);
-    wxASSERT(itemFlexGridSizer);
-
-    itemFlexGridSizer->AddGrowableRow(0);
-    itemFlexGridSizer->AddGrowableCol(1);
-    
     m_pTaskPane = new CBOINCTaskCtrl(this, ID_TASK_STATISTICSVIEW, DEFAULT_TASK_FLAGS);
     wxASSERT(m_pTaskPane);
 
 	m_PaintStatistics = new CPaintStatistics(this, ID_LIST_STATISTICSVIEW, wxDefaultPosition, wxSize(-1, -1), 0);
 	wxASSERT(m_PaintStatistics);
 
-    itemFlexGridSizer->Add(m_pTaskPane, 1, wxGROW|wxALL, 1);
-    itemFlexGridSizer->Add(m_PaintStatistics, 1, wxGROW|wxALL, 1);
-
-    SetSizer(itemFlexGridSizer);
-
-    Layout();
+    SplitVertically(m_pTaskPane, m_PaintStatistics, 250);
 
 	pGroup = new CTaskItemGroup( _("Commands") );
 	m_TaskGroups.push_back( pGroup );
