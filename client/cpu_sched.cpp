@@ -592,7 +592,7 @@ static double peak_flops(APP_VERSION* avp) {
     return x;
 }
 
-static double total_peak_flops() {
+double total_peak_flops() {
     static bool first=true;
     static double tpf;
     if (first) {

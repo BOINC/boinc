@@ -268,13 +268,11 @@ extern WORK_FETCH work_fetch;
 
 extern void set_no_rsc_config();
 
-void project_priority_init(bool for_work_fetch);
-double project_priority(PROJECT*);
-void adjust_rec_sched(RESULT*);
-void adjust_rec_work_fetch(RESULT*);
+extern void project_priority_init(bool for_work_fetch);
+extern double project_priority(PROJECT*);
+extern void adjust_rec_sched(RESULT*);
+extern void adjust_rec_work_fetch(RESULT*);
 
-double gpu_peak_flops();
-double cpu_peak_flops();
-double total_peak_flops();
+extern double total_peak_flops();
 
 #endif

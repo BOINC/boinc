@@ -107,22 +107,6 @@ void set_no_rsc_config() {
     }
 }
 
-double gpu_peak_flops() {
-    double x = 0;
-    for (int i=1; i<coprocs.n_rsc; i++) {
-        x += coprocs.coprocs[i].count * rsc_work_fetch[i].relative_speed * gstate.host_info.p_fpops;
-    }
-    return x;
-}
-
-double cpu_peak_flops() {
-    return gstate.ncpus * gstate.host_info.p_fpops;
-}
-
-double total_peak_flops() {
-    return gpu_peak_flops() + cpu_peak_flops();
-}
-
 // does the project have a downloading or runnable job?
 //
 static bool has_a_job(PROJECT* p) {
