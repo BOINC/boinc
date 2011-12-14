@@ -680,7 +680,7 @@ int COPROC_ATI::parse(XML_PARSER& xp) {
         if (xp.match_tag("/coproc_ati")) {
             int major, minor, release;
             sscanf(version, "%d.%d.%d", &major, &minor, &release);
-            version_num = major*1000000 + minor*1000 + release;
+            version_num = ati_version_int(major, minor, release);
 
             if (!peak_flops) {
 				set_peak_flops();
