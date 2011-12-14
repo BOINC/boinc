@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 5.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-10-21 15:38-0500\n"
-"PO-Revision-Date: 2011-11-04 09:29+0200\n"
+"PO-Revision-Date: 2011-12-06 22:07+0200\n"
 "Last-Translator: Gabor Cseh <csega@mailbox.hu>\n"
 "Language-Team: BOINC Development Team <rwalton@ssl.berkeley.edu>\n"
 "Language: hu\n"
@@ -1113,20 +1113,20 @@ msgstr "'%s' nem végrehajtható alkalmazás."
 #: clientgui/DlgAdvPreferences.cpp:848
 #: clientgui/DlgAdvPreferences.cpp:872
 msgid "Add Exclusive App"
-msgstr ""
+msgstr "Exkluzív alkalmazás hozzáadása"
 
 #: clientgui/DlgAdvPreferences.cpp:826
 msgid "Name of application to add?"
-msgstr ""
+msgstr "Mi a hozzáadandó alkalmazás neve?"
 
 #: clientgui/DlgAdvPreferences.cpp:826
 msgid "Add exclusive app"
-msgstr ""
+msgstr "Exkluzív alkalmazás hozzáadása"
 
 #: clientgui/DlgAdvPreferences.cpp:847
 #, c-format
 msgid "Application names must end with '%s'"
-msgstr ""
+msgstr "Az alkalmazás nevének '%s'-re kell végződnie"
 
 #: clientgui/DlgAdvPreferences.cpp:871
 #, c-format
@@ -1138,6 +1138,8 @@ msgid ""
 "Do you really want to clear all local preferences?\n"
 "(This will not affect exclusive applications.)"
 msgstr ""
+"BIztosan törölni szeretne minden helyi beállítást?\n"
+"(Ez nem érinti az exkluzív alkalmazásokat.)"
 
 #: clientgui/DlgAdvPreferences.cpp:963
 msgid "Confirmation"
@@ -1149,7 +1151,6 @@ msgid "%s - Preferences"
 msgstr "%s - Beállítások"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:62
-#, fuzzy
 msgid ""
 "This dialog controls preferences for this computer only.\n"
 "Click OK to set preferences.\n"
@@ -1158,7 +1159,8 @@ msgstr ""
 "Ez a párbeszédpanel csak az ehhez a számítógéphez tartozó beállításokat "
 "kezeli.\n"
 "Kattintson az OK-ra a beállítások módosításához.\n"
-"Kattintson a Törlés-re a webes beállítások visszaállításához."
+"Kattintson a Törlés-re a webes beállítások visszaállításához (kivéve az "
+"exkluzív alkalmazásokat)."
 
 #: clientgui/DlgAdvPreferencesBase.cpp:65
 msgid "Clear"
@@ -1182,7 +1184,7 @@ msgstr "lemez- és memóriahasználat"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:90
 msgid "exclusive applications"
-msgstr ""
+msgstr "exkluzív alkalmazások"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:102
 msgid "OK"
@@ -3128,11 +3130,11 @@ msgstr "Ezen projekt feladatainak felfüggesztése."
 #: clientgui/sg_ProjectCommandPopup.cpp:73
 #: clientgui/sg_ProjectCommandPopup.cpp:121
 msgid "No new tasks"
-msgstr "Új feladatokat ne"
+msgstr "Nincs új feladat"
 
 #: clientgui/sg_ProjectCommandPopup.cpp:74
 msgid "Don't get new tasks for this project."
-msgstr "Ehhez a projekthez nem tölt le új feladatokat."
+msgstr "Ehhez a projekthez nem töltődnek le új feladatok."
 
 #: clientgui/sg_ProjectCommandPopup.cpp:79
 msgid "Reset project"

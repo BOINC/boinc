@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2011-08-25 15:10 PDT\n"
-"PO-Revision-Date: 2011-10-30 22:18+0200\n"
+"PO-Revision-Date: 2011-11-09 15:58+0200\n"
 "Last-Translator: Sami Nordlund <sami.nordlund@kolumbus.fi>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: fi\n"
@@ -795,7 +795,7 @@ msgstr "Käytä ATI-näytönohjainta %1 (versiosta 6.10+) %2"
 
 #: ../inc/prefs.inc:332
 msgid "Use NVIDIA GPU %1 Enforced by version 6.10+ %2"
-msgstr "käytä NVIDIA-näytönohjainta %1 (versiosta 6.10+) %2"
+msgstr "Käytä NVIDIA-näytönohjainta %1 (versiosta 6.10+) %2"
 
 #: ../inc/prefs.inc:346
 msgid ""
@@ -983,8 +983,8 @@ msgid ""
 "are displayed only to logged-in users. We apologize for this inconvenience."
 msgstr ""
 "Spämmin estämiseksi niiden käyttäjien profiilit, joiden keskim. pisteet ovat "
-"alle %1, näkyvät vain kirjautuneille käyttäjille.  Pahoittelemme "
-"mahdollista haittaa."
+"alle %1, näkyvät vain kirjautuneille käyttäjille. Pahoittelemme mahdollista "
+"haittaa."
 
 #: ../inc/profile.inc:196
 msgid "User is banished"
@@ -1904,7 +1904,7 @@ msgstr "Projekti suljettu ylläpidon ajaksi"
 #: ../inc/util.inc:738
 msgid "%1 is temporarily shut down for maintenance.  Please try again later."
 msgstr ""
-"%1 on tilapäisesti suljettu ylläpitotoimien vuoksi. Yritä myöhemmin "
+"%1 on tilapäisesti suljettu ylläpitotoimien vuoksi.  Yritä myöhemmin "
 "uudelleen."
 
 #: ../inc/util.inc:756
@@ -1947,7 +1947,7 @@ msgstr "Valinnainen"
 
 #: ../user/account_finish_action.php:27 ../user/create_account_action.php:84
 msgid "You must supply a name for your account"
-msgstr "Tilillesi täytyy antaa nimi."
+msgstr "Tilillesi täytyy antaa nimi"
 
 #: ../user/account_finish_action.php:30 ../user/create_account_action.php:87
 msgid "HTML tags not allowed in name"
@@ -2160,7 +2160,7 @@ msgid ""
 "NOTE: If you use the BOINC Manager, don't use this form. Just run BOINC, "
 "select Add Project, and enter an email address and password."
 msgstr ""
-"HUOM: Jos käytät BOINC-manageria, älä käytä tätä lomaketta. Käynnistä BOINC, "
+"HUOM: Jos käytät BOINC Manageria, älä käytä tätä lomaketta. Käynnistä BOINC, "
 "valitse Liity projektiin ja syötä sähköpostiosoite ja salana."
 
 #: ../user/create_account_form.php:69
@@ -2274,7 +2274,7 @@ msgid ""
 "Please modify your text and try again."
 msgstr ""
 "Ensimmäinen kirjoituksesi merkittiin spämmiksi Akismet-"
-"spämminestojärjestelmän toimesta. Muokkaa tekstiäsi ja yritä uudelleen."
+"spämminestojärjestelmän toimesta.  Muokkaa tekstiäsi ja yritä uudelleen."
 
 #: ../user/create_profile.php:230
 msgid ""
@@ -2282,7 +2282,7 @@ msgid ""
 "Please modify your text and try again."
 msgstr ""
 "Toinen kirjoituksesi merkittiin spämmiksi Akismet-spämminestojärjestelmän "
-"toimesta. Muokkaa tekstiäsi ja yritä uudelleen."
+"toimesta.  Muokkaa tekstiäsi ja yritä uudelleen."
 
 #: ../user/create_profile.php:246
 msgid "Your profile submission was empty."
@@ -2597,7 +2597,7 @@ msgid ""
 "We can't update your email address due to a database problem.  Please try "
 "again later."
 msgstr ""
-"Sähköpostiosoitettasi ei voida päivittää tietokantaongelman vuoksi. Yritä "
+"Sähköpostiosoitettasi ei voida päivittää tietokantaongelman vuoksi.  Yritä "
 "myöhemmin uudelleen."
 
 #: ../user/edit_email_form.php:28 ../user/edit_email_form.php:52
@@ -3259,7 +3259,7 @@ msgstr "Postitetaan jos ei ole tyhjä"
 
 #: ../user/forum_banishment_vote.php:74
 msgid "Proceed with vote"
-msgstr ""
+msgstr "Jatka ehdotusta"
 
 #: ../user/forum_banishment_vote_action.php:39
 #: ../user/forum_moderate_post_action.php:63
@@ -3884,7 +3884,7 @@ msgstr "Tämä foorumi ei näy sinulle."
 
 #: ../user/forum_thread.php:69
 msgid "This thread has been hidden by moderators."
-msgstr "Tämä viestiketju on piilotettu moderaattorien toimesta"
+msgstr "Tämä viestiketju on piilotettu moderaattorien toimesta."
 
 #: ../user/forum_thread.php:127
 msgid "My question was answered"
@@ -3908,7 +3908,7 @@ msgstr "Peruuta tilaus"
 
 #: ../user/forum_thread.php:170
 msgid "You are subscribed to this thread.  Click here to unsubscribe."
-msgstr "Olet tilannut tämän viestiketjun. Napsauta peruuttaaksesi tilauksen."
+msgstr "Olet tilannut tämän viestiketjun.  Napsauta peruuttaaksesi tilauksen."
 
 #: ../user/forum_thread.php:176
 msgid "Subscribe"
@@ -4662,8 +4662,9 @@ msgid ""
 "send your browser a cookie; make sure your browser accepts cookies from our "
 "domain."
 msgstr ""
-"Kielen voi myös valita napsauttamalla jotain linkeistä. Tällöin selaimellesi "
-"lähetetään eväste. Varmista, että selaimesi hyväksyy meidän evästeet."
+"Kielen voi myös valita napsauttamalla jotain linkeistä.  Tällöin "
+"selaimellesi lähetetään eväste. Varmista, että selaimesi hyväksyy meidän "
+"evästeet."
 
 #: ../user/language_select.php:92
 msgid "Language name (click to select)"
@@ -4800,8 +4801,8 @@ msgid ""
 "          or you issue the %2Update%3 command from the BOINC Manager."
 msgstr ""
 "Asetukset on päivitetty ja ne tulevat voimaan\n"
-"kun tietokoneesi on yhteydessä %1 kanssa\n"
-"tai kun napsautat %2Päivitä%3 BOINC Managerissa."
+"          kun tietokoneesi on yhteydessä %1 kanssa\n"
+"          tai kun napsautat %2Päivitä%3 BOINC Managerissa."
 
 #: ../user/prefs_edit.php:66 ../user/prefs_edit.php:94
 msgid "%1 for %2"
@@ -5243,7 +5244,7 @@ msgstr "Voi valita tiimin jäsenen tiimin ylläpitäjäksi. Ylläpitäjä voi:"
 
 #: ../user/team_admins.php:43
 msgid "Edit team information (name, URL, description, country)"
-msgstr "muokata tiimin tietoja (nimeä, URL-osoitetta, kuvausta, valtiota)"
+msgstr "Muokata tiimin tietoja (nimeä, URL-osoitetta, kuvausta, valtiota)"
 
 #: ../user/team_admins.php:44
 msgid "View the team's join/quit history"
@@ -5887,7 +5888,7 @@ msgstr "Tiimi %1 poistettu"
 
 #: ../user/team_members.php:35
 msgid "Limit exceeded:  Can only display the first 1000 members."
-msgstr "Raja saavutettu: näytetään vain ensimmäiset 1000 jäsentä."
+msgstr "Raja saavutettu:  näytetään vain ensimmäiset 1000 jäsentä."
 
 #: ../user/team_members.php:47
 msgid "Members of %1"
@@ -6270,7 +6271,7 @@ msgstr "Luotu"
 
 #: ../project.sample/project.inc:82
 msgid "Your personal background."
-msgstr "Taustatietoja itsestäsi"
+msgstr "Taustatietoja itsestäsi."
 
 #: ../project.sample/project.inc:86
 msgid ""

@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: BOINC Project (Generic) 6.x\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2011-08-25 15:10 PDT\n"
-"PO-Revision-Date: 2011-10-25 17:56+0200\n"
+"PO-Revision-Date: 2011-12-06 16:20+0200\n"
 "Last-Translator: Christian <djangofett@gmx.net>\n"
 "Language-Team: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
 "Language: de\n"
@@ -15,7 +15,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Pootle 2.1.1\n"
+"X-Generator: Pootle 2.1.6\n"
 "X-Poedit-SearchPath-0: html\\user\n"
 "X-Poedit-SourceCharset: utf-8\n"
 "X-Poedit-Basepath: C:\\Src\\BOINCSVN\\trunk\\boinc\n"
@@ -3479,7 +3479,6 @@ msgstr "gelesen"
 # ########################################
 # Links from the main page
 #: ../user/forum_help_desk.php:27
-#, fuzzy
 msgid "Questions and answers"
 msgstr "Fragen und Antworten"
 
@@ -4110,21 +4109,20 @@ msgid "Edit thread title"
 msgstr "Den Titel des Themas bearbeiten"
 
 #: ../user/forum_thread.php:243
-#, fuzzy
 msgid "Export"
 msgstr "Exportieren"
 
 #: ../user/forum_thread.php:244
 msgid "Export this news item as a Notice"
-msgstr ""
+msgstr "Diesen Beitrag als Client-Nachricht exportieren"
 
 #: ../user/forum_thread.php:249
 msgid "Don't export"
-msgstr ""
+msgstr "Nicht exportieren"
 
 #: ../user/forum_thread.php:250
 msgid "Don't export this news item as a Notice"
-msgstr ""
+msgstr "Diesen Beitrag nicht als Client-Nachricht exportieren"
 
 #: ../user/forum_thread.php:258
 msgid "Sort"
@@ -4132,18 +4130,17 @@ msgstr "Sortieren"
 
 #: ../user/forum_thread_status.php:49
 msgid "Thread status updated"
-msgstr ""
+msgstr "Themenstatus aktualisiert"
 
 #: ../user/forum_thread_status.php:50
 msgid "The status has been updated."
-msgstr ""
+msgstr "Der Status wurde aktualisiert."
 
 # ########################################
 # Forum
 #: ../user/forum_user_posts.php:73
-#, fuzzy
 msgid "Posts by %1"
-msgstr "Beiträge"
+msgstr "Beiträge von %1"
 
 #: ../user/friend.php:33
 msgid "Already friends"
@@ -4170,7 +4167,6 @@ msgid "Add friend"
 msgstr "als Freund hinzufügen"
 
 #: ../user/friend.php:74
-#, fuzzy
 msgid ""
 "You have asked to add %1 as a friend. We will notify %1 and will ask him/her "
 "to confirm that you are friends."
@@ -4191,22 +4187,20 @@ msgid "We have notified %1 of your request."
 msgstr "Wir haben %1 über die Anfrage benachrichtigt."
 
 #: ../user/friend.php:126
-#, fuzzy
 msgid "Please log in as %1"
-msgstr "Bitte melden Sie sich an"
+msgstr "Bitte melden Sie sich als %1 an"
 
 #: ../user/friend.php:127
 msgid "You must log in as %1 to view this friend request"
-msgstr ""
+msgstr "Sie müssen sich als %1 anmelden um die Freundschaftsanfrage zu sehen"
 
 #: ../user/friend.php:138
 msgid "Friend request"
 msgstr "Freundschaftsanfrage"
 
 #: ../user/friend.php:141
-#, fuzzy
 msgid "%1 has requested friendship with you."
-msgstr "Sie haben die Freundschaft mit %1 am %2 angefragt."
+msgstr "%1 hat die Freundschaft mit Ihnen angefragt."
 
 #: ../user/friend.php:143
 msgid "%1 says: %2"
@@ -4277,32 +4271,39 @@ msgid "Your friendship with %1 has been cancelled."
 msgstr "Ihre Freundschaft mit %1 wurde aufgehoben."
 
 #: ../user/get_passwd.php:25
-#, fuzzy
 msgid "Forgot your account info?"
-msgstr "Andere Kontoinformationen"
+msgstr "Kontoinformationen vergessen?"
 
 #: ../user/get_passwd.php:28
 msgid ""
 "1) If you know your account's email address, and you can receive email there:"
 msgstr ""
+"1) Wenn Sie die E-Mail-Adresse des Kontos noch wissen und die E-Mails auch "
+"abrufen können:"
 
 #: ../user/get_passwd.php:29
 msgid ""
 "Enter the email address below, and click OK. You will be sent email "
 "instructions for resetting your password."
 msgstr ""
+"Bitte die E-Mail-Adresse eingeben und bestätigen. Eine E-Mail mit "
+"Anweisungen zum zurücksetzen Ihres Passwortes wird in kürze verschickt."
 
 #: ../user/get_passwd.php:46
 msgid ""
 "2) If you forgot your account's email address, or you can't receive email "
 "there:"
 msgstr ""
+"2) Wenn Sie die E-Mail-Adresse Ihres Kontos vergessen haben oder die E-Mails "
+"nicht mehr abrufen können:"
 
 #: ../user/get_passwd.php:47
 msgid ""
 "If you have run BOINC under this account, you can still access it. Here's "
 "how:"
 msgstr ""
+"Wenn Sie BOINC mit diesem Konto eingesetzt haben gibt es einen weiteren Weg "
+"sich anzumelden:"
 
 #: ../user/get_passwd.php:50
 msgid ""
@@ -4310,35 +4311,43 @@ msgid ""
 "<b>C:\\Documents and Settings\\All Users\\Application Data\\BOINC</b> or "
 "<b>C:\\Program Files\\BOINC</b>."
 msgstr ""
+"Wechseln Sie in das BOINC Datenverzeichnis auf Ihrem Computer (unter Windows "
+"normalerweise: <b>C:\\Dokumente und einstellungen\\All "
+"Users\\Anwendungsdaten\\BOINC</b> oder <b>C:\\Programme\\BOINC</b>)."
 
 #: ../user/get_passwd.php:51
 msgid "Find your account file for this project; it will be named <b>%1</b>."
 msgstr ""
+"Finden Sie Ihre Kontodatei des Projektes, der Dateiname lautet: <b>%1</b>."
 
 #: ../user/get_passwd.php:52
+#, fuzzy
 msgid "Open the file in a text editor like Notepad. You'll see something like"
 msgstr ""
+"Öffnen Sie die Datei mit einem Texteditor (z.B. Editor oder WordPad). Sie "
+"sehen ungefähr folgendes:"
 
 #: ../user/get_passwd.php:62
 msgid "Select and Copy the string between %1 and %2 (%3 in the above example)."
 msgstr ""
+"Kopieren Sie die Zeichenfolge zwischen %1 und %2 (%3 im obigen Beispiel)."
 
 #: ../user/get_passwd.php:64
 msgid "Paste the string into the field below, and click OK."
 msgstr ""
+"Fügen Sie die Zeichenfolge in das untere Feld ein und bestätigen mit OK."
 
 #: ../user/get_passwd.php:65
-#, fuzzy
 msgid ""
 "You will now be logged in to your account; update the email and password of "
 "your account."
 msgstr ""
-"Bitte besuchen Sie den folgenden Link um ihre E-Mail Adresse für Ihren %1 "
-"Account zu bestätigen:"
+"Sie werden jetzt mit Ihrem Konto angemeldet, bitte aktualisieren Sie als "
+"erstes Ihre E-Mail-Adresse und Ihr Passwort."
 
 #: ../user/get_passwd.php:71
 msgid "Log in with authenticator"
-msgstr ""
+msgstr "Einloggen mit Authentikator"
 
 #: ../user/home.php:42
 msgid "Welcome to %1"
@@ -4364,53 +4373,48 @@ msgstr "Ihr Konto"
 
 #: ../user/host_app_versions.php:26
 msgid "nvidia GPU"
-msgstr ""
+msgstr "nvidia Grafikkarte"
 
 #: ../user/host_app_versions.php:36
-#, fuzzy
 msgid "Anonymous platform, missing app"
-msgstr "Anonyme Plattform"
+msgstr "Anonyme Plattform, fehlende Anwendung"
 
 #: ../user/host_app_versions.php:39
-#, fuzzy
 msgid "anonymous platform"
 msgstr "Anonyme Plattform"
 
 #: ../user/host_app_versions.php:43
 msgid "Missing app version"
-msgstr ""
+msgstr "fehlende Anwendungsversion"
 
 #: ../user/host_app_versions.php:45
-#, fuzzy
 msgid "Missing app"
-msgstr "fehlender Suchtyp"
+msgstr "fehlende Anwendung"
 
 #: ../user/host_app_versions.php:47
 msgid "Missing platform"
-msgstr ""
+msgstr "fehlende Plattform"
 
 #: ../user/host_app_versions.php:56
 msgid "Number of tasks completed"
-msgstr ""
+msgstr "Anzahl der abgeschloßenen Aufgaben"
 
 #: ../user/host_app_versions.php:57
-#, fuzzy
 msgid "Max tasks per day"
-msgstr "Keine Aufgaben verfügbar"
+msgstr "Max. Aufgaben pro Tag"
 
 #: ../user/host_app_versions.php:58
-#, fuzzy
 msgid "Number of tasks today"
-msgstr "Keine Aufgaben verfügbar"
+msgstr "Anzahl der Aufgaben heute"
 
 #: ../user/host_app_versions.php:59
+#, fuzzy
 msgid "Consecutive valid tasks"
-msgstr ""
+msgstr "fortlaufende gültige Aufgaben"
 
 #: ../user/host_app_versions.php:63
-#, fuzzy
 msgid "Average processing rate"
-msgstr "mittlere Uploadgeschwindigkeit"
+msgstr "mittlere Berechnungsgeschwindigkeit"
 
 # ########################################<br />
 # Apps page (apps.php)
@@ -4419,9 +4423,8 @@ msgid "Application details for host %1"
 msgstr "Anwendungsdetails für Rechner %1"
 
 #: ../user/host_delete.php:31
-#, fuzzy
 msgid "We have no record of that computer."
-msgstr "Doppelte Einträge dieses Computer zusammenführen"
+msgstr "Es gibt keine Aufzeichnungen zu diesem Computer."
 
 #: ../user/host_delete.php:38
 msgid ""
@@ -4429,51 +4432,53 @@ msgid ""
 "contains work for it. You must wait a few days until the work for this "
 "computer has been deleted from the project database."
 msgstr ""
+"Sie können den Eintrag für diesen Computer nicht löschen, da  für ihn noch "
+"Arbeitspakete in der Datenbank existieren. Bitte warten Sie einige Tage bis "
+"die Einträge vom Projekt gelöscht werden."
 
 #: ../user/host_delete.php:40
-#, fuzzy
 msgid "Delete record of computer"
-msgstr "Diesen Computer löschen"
+msgstr "Den Eintrag für diesen Computer löschen"
 
 #: ../user/host_delete.php:41
-#, fuzzy
 msgid "Record deleted."
-msgstr "Wirklich löschen?"
+msgstr "Eintrag gelöscht."
 
 #: ../user/host_delete.php:42 ../user/host_edit_action.php:65
-#, fuzzy
 msgid "Return to list of your computers"
-msgstr "Installieren Sie %1 nur, wenn Sie dazu befugt sind"
+msgstr "Zurück zur Liste der Computer"
 
 #: ../user/host_edit_action.php:39
-#, fuzzy
 msgid "Merge computer records"
-msgstr "Computer nach Namen zusammen führen"
+msgstr "Computereinträge zusammen führen"
 
 #: ../user/host_edit_form.php:35
-#, fuzzy
 msgid "Merge computers"
-msgstr "Computer nach Namen zusammen führen"
+msgstr "Computer zusammenführen"
 
 #: ../user/host_edit_form.php:38
 msgid ""
 "Sometimes BOINC assigns separate identities to the same computer by mistake. "
 "You can correct this by merging old identities with the newest one."
 msgstr ""
+"Es kann vorkommen das BOINC mehrere Einträge für einen Computer anlegt. Sie "
+"können dies korrigieren indem Sie ältere Einträge mit dem aktuellsten "
+"zusammenführen."
 
 #: ../user/host_edit_form.php:56
 msgid "No hosts are eligible for merging with this one."
-msgstr ""
+msgstr "Es gibt keine Computer die mit diesem zusammengeführt werden können."
 
 #: ../user/host_edit_form.php:58 ../user/host_edit_form.php:114
-#, fuzzy
 msgid "Show details"
-msgstr "Zeige Namen"
+msgstr "Details anzeigen"
 
 #: ../user/host_edit_form.php:66
 msgid ""
 "Check the computers that are the same as %1 (created %2, computer ID %3):"
 msgstr ""
+"Überprüfen der Computer die mit %1 übereinstimmen (erstellt %2, Computer ID "
+"%3):"
 
 #: ../user/host_edit_form.php:70 ../user/workunit.php:39
 msgid "name"
@@ -4484,112 +4489,109 @@ msgid "created"
 msgstr "erstellt"
 
 #: ../user/host_edit_form.php:70
-#, fuzzy
 msgid "computer ID"
 msgstr "Computer ID"
 
 #: ../user/host_edit_form.php:77
-#, fuzzy
 msgid "no hostname"
-msgstr "Kein Computer angegeben"
+msgstr "kein Computername"
 
 #: ../user/host_edit_form.php:109
-#, fuzzy
 msgid "Merge hosts"
-msgstr "Zusammenführen"
+msgstr "Computer zusammenführen"
 
 #: ../user/host_update_credit.php:28
 msgid "Updating computer credit"
-msgstr ""
+msgstr "Punkte der Computer werden aktualisiert"
 
 #: ../user/host_venue_action.php:41
 msgid "Host venue updated"
-msgstr ""
+msgstr "Ort des Computer aktualisiert"
 
 #: ../user/host_venue_action.php:43
-#, fuzzy
 msgid "none"
-msgstr "Fertig"
+msgstr "keine"
 
 #: ../user/host_venue_action.php:46
 msgid "The venue of this host has been set to %1."
-msgstr ""
+msgstr "Der Ort dieses Computer wurde auf %1 gesetzt."
 
 #: ../user/host_venue_action.php:48
 msgid ""
 "This change will take effect the next time the host communicates with this "
 "project."
 msgstr ""
+"Diese Änderung wird erst bei der nächsten Kommunikation des Computers mit "
+"dem Projekt wirksam."
 
 #: ../user/host_venue_action.php:50
-#, fuzzy
 msgid "Return to host page"
-msgstr "Zurück zur Teamseite"
+msgstr "Zurück zur Computerseite"
 
 #: ../user/hosts_user.php:53
 msgid "Computers belonging to %1"
 msgstr "Computer von %1"
 
 #: ../user/hosts_user.php:55
-#, fuzzy
 msgid "Computers hidden"
-msgstr "Informationen zum Computer"
+msgstr "Computer sind versteckt"
 
 #: ../user/hosts_user.php:56
-#, fuzzy
 msgid ""
 "This user has chosen not to show information about his or her computers."
 msgstr "Dieser Benutzer hat die Informationen zu seinen Computern verborgen."
 
 #: ../user/hosts_user.php:64
-#, fuzzy
 msgid "Your computers"
-msgstr "Die besten Computer"
+msgstr "Ihre Computer"
 
 #: ../user/html.php:23
-#, fuzzy
 msgid "Allowed HTML tags"
-msgstr "Keine HTML-Tags möglich."
+msgstr "Erlaubte HTML-Tags"
 
 #: ../user/html.php:25
 msgid "The following HTML tags are allowed in team descriptions:"
-msgstr ""
+msgstr "Die folgenden HTML-Tags sind in der Teambeschreibung erlaubt:"
 
 #: ../user/html.php:27
-#, fuzzy
 msgid "bold"
 msgstr "Fett"
 
 #: ../user/html.php:28
 msgid "italics"
-msgstr ""
+msgstr "kursiv"
 
 #: ../user/html.php:29
 msgid "hyperlink"
-msgstr ""
+msgstr "Verlinkung"
 
 #: ../user/html.php:30
 msgid "paragraph"
-msgstr ""
+msgstr "Absatz"
 
 #: ../user/html.php:31
 msgid "break"
-msgstr ""
+msgstr "Zeilenumbruch"
 
 #: ../user/html.php:32
-#, fuzzy
 msgid "preformatted"
-msgstr "Erstellt"
+msgstr "vorformatiert"
 
 #: ../user/html.php:33
+#, fuzzy
 msgid ""
 "image; height cannot exceed 450 pixels. Please do not link to images without "
 "permission of the web site where the image is hosted."
 msgstr ""
+"Bild, max. Höhe: 450 pixel. Bitte nicht auf Bilder, ohne das Einverständnis "
+"des Urhebers, verlinken."
 
 #: ../user/html.php:35
+#, fuzzy
 msgid "You can also use ampersand notation for special characters."
 msgstr ""
+"Sie können auch die Kaufmännisch-Und Notation für spezielle Zeichen "
+"benutzen."
 
 # ########################################
 # Rules and Policies page (info.php)
@@ -4860,9 +4862,8 @@ msgid "forgot password?"
 msgstr "Passwort vergessen?"
 
 #: ../user/login_form.php:55
-#, fuzzy
 msgid "Stay logged in"
-msgstr "Nicht angemeldet."
+msgstr "angemeldet bleiben"
 
 #: ../user/login_form.php:61
 msgid "or %1create an account%2."
@@ -4969,7 +4970,6 @@ msgstr ""
 "2 aufheben."
 
 #: ../user/prefs.php:36
-#, fuzzy
 msgid ""
 "Your preferences have been updated, and\n"
 "          will take effect when your computer communicates with %1\n"
@@ -4977,7 +4977,7 @@ msgid ""
 msgstr ""
 "Ihre Einstellungen wurden aktualisiert. Clienteinstellungen\n"
 "werden aktiviert wenn der Computer mit %1 kommuniziert\n"
-"oder die %2Aktualisieren%3 im Manager ausgelöst wurde."
+"oder durch %2Aktualisieren%3 im Manager ausgelöst wurde."
 
 #: ../user/prefs_edit.php:66 ../user/prefs_edit.php:94
 msgid "%1 for %2"
@@ -5096,19 +5096,16 @@ msgid "Return to profile."
 msgstr "Zum Profil zurückkehren."
 
 #: ../user/profile_search_action.php:36
-#, fuzzy
 msgid "Profiles containing '%1'"
-msgstr "Überschriften, die '%1' enthalten"
+msgstr "Profile die '%1' enthalten"
 
 #: ../user/profile_search_action.php:40
-#, fuzzy
 msgid "User name"
-msgstr "Paketname"
+msgstr "Benutzername"
 
 #: ../user/profile_search_action.php:41
-#, fuzzy
 msgid "Joined project"
-msgstr "%1 beigetreten"
+msgstr "beigetreten am"
 
 #: ../user/profile_search_action.php:44
 #, fuzzy
@@ -5116,9 +5113,8 @@ msgid "Recent credit"
 msgstr "mit neuesten Punkten"
 
 #: ../user/profile_search_action.php:54
-#, fuzzy
 msgid "No profiles found containing '%1'"
-msgstr "Überschriften, die '%1' enthalten"
+msgstr "Keine Profile die '%1' enthalten gefunden"
 
 #: ../user/result.php:30
 msgid "No such task"
@@ -5304,9 +5300,8 @@ msgid "users in last 24h"
 msgstr "Benutzer in den letzten 24h"
 
 #: ../user/show_host_detail.php:40
-#, fuzzy
 msgid "Computer %1"
-msgstr "Computer"
+msgstr "Computer %1"
 
 #: ../user/stats.php:21
 msgid "Statistics and leaderboards"
@@ -5359,7 +5354,6 @@ msgid "Teams"
 msgstr "Teams"
 
 #: ../user/team.php:27
-#, fuzzy
 msgid "%1 participants may form %2teams%3."
 msgstr "%1 Teilnehmer können %2Teams%2 bilden."
 
@@ -5383,7 +5377,6 @@ msgid "edit the team's name and description"
 msgstr "den Namen und die Beschreibung des Teams ändern kann,"
 
 #: ../user/team.php:35
-#, fuzzy
 msgid "add or remove team admins"
 msgstr "Hinzufügen oder entfernen von Teamadmins"
 
@@ -5779,7 +5772,6 @@ msgid "Update failed"
 msgstr "Aktualisierung fehlgeschlagen"
 
 #: ../user/team_forum.php:154
-#, fuzzy
 msgid "Team has no forum"
 msgstr "Das Team hat kein Forum"
 

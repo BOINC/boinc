@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-01-26 13:27-0800\n"
-"PO-Revision-Date: 2011-04-19 14:50+0200\n"
+"PO-Revision-Date: 2011-12-11 21:27+0200\n"
 "Last-Translator: Dead J. Dona <deadjdona@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: uk\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%"
 "10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
-"X-Generator: Pootle 2.1.1\n"
+"X-Generator: Pootle 2.1.6\n"
 
 #: acct_mgr.cpp:411 acct_mgr.cpp:421
 msgid "error"
@@ -129,68 +129,81 @@ msgstr "Цей проект не підтримує комп'ютери типу
 #: ../sched/sched_send.cpp:1267
 msgid "Upgrade to the latest driver to process tasks using your computer's GPU"
 msgstr ""
+"Для обробки завдань, які використовують графічний процесор вашого "
+"комп'ютера, оновіть драйвер до самої останньої версії"
 
 #: ../sched/sched_send.cpp:1274
 msgid ""
 "Upgrade to the latest driver to use all of this project's GPU applications"
 msgstr ""
+"Для використання усіх додатків цього проекту, працюючих на ГП, оновіть "
+"драйвер до самої останньої версії"
 
 #: ../sched/sched_send.cpp:1298
 msgid ""
 "A newer version of BOINC is needed to use your NVIDIA GPU; please upgrade to "
 "the current version"
 msgstr ""
+"Потрібна новіша версія BOINC для використання вашого ГП NVIDIA; будь ласка, "
+"оновіться до поточної версії"
 
 #: ../sched/sched_send.cpp:1311
 msgid "An NVIDIA or ATI GPU is required to run tasks for this project"
-msgstr ""
+msgstr "Для обробки завдань цього проекту потрібна відеокарта NVIDIA або ATI"
 
 #: ../sched/sched_send.cpp:1316
 msgid "An NVIDIA GPU is required to run tasks for this project"
-msgstr ""
+msgstr "Для обробки завдань цього проекту потрібна відеокарта NVIDIA"
 
 #: ../sched/sched_send.cpp:1322
 msgid "An ATI GPU is required to run tasks for this project"
-msgstr ""
+msgstr "Для обробки завдань цього проекту потрібна відеокарта ATI"
 
 #: ../sched/sched_send.cpp:1417
 msgid ""
 "No work available for the applications you have selected.  Please check your "
 "project preferences on the web site."
 msgstr ""
+"Нема доступних завдань для додатків, які Ви вибрали. Будь ласка, перевірте "
+"ваші налаштування проекту на вебсайті."
 
 #: ../sched/sched_send.cpp:1443
 msgid "Your computer type is not supported by this project"
-msgstr ""
+msgstr "Тип вашого комп'ютера не підтримується цим проектом"
 
 #: ../sched/sched_send.cpp:1449
 msgid "Newer BOINC version required; please install current version"
-msgstr ""
+msgstr "Потрібна новіша версія BOINC; будь ласка, встановіть поточну версію"
 
 #: ../sched/sched_send.cpp:1459
 msgid ""
 "Tasks for NVIDIA GPU are available, but your preferences are set to not "
 "accept them"
 msgstr ""
+"Доступні завдання для ГП NVIDIA, але ваші налаштування не дозволяють "
+"приймати їх"
 
 #: ../sched/sched_send.cpp:1465
 msgid ""
 "Tasks for ATI GPU are available, but your preferences are set to not accept "
 "them"
 msgstr ""
+"Доступні завдання для ГП ATI, але ваші налаштування не дозволяють приймати "
+"їх"
 
 #: ../sched/sched_send.cpp:1471
 msgid ""
 "Tasks for CPU are available, but your preferences are set to not accept them"
 msgstr ""
+"Доступні завдання для ЦП, але ваші налаштування не дозволяють приймати їх"
 
 #: ../sched/sched_types.cpp:268
 msgid "Unknown app name in app_info.xml"
-msgstr ""
+msgstr "Невідоме ім'я додатка у файлі app_info.xml"
 
 #: ../sched/sched_version.cpp:230
 msgid "Your app_info.xml file doesn't have a usable version of"
-msgstr ""
+msgstr "Ваш файл app_info.xml не має придатної версії"
 
 #: ../sched/sched_version.cpp:709
 msgid "is not available for"

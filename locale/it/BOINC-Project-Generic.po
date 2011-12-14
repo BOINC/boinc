@@ -7,15 +7,15 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2011-08-25 15:10 PDT\n"
-"PO-Revision-Date: 2011-08-23 14:17+0200\n"
-"Last-Translator: clasprea <clasprea@libero.it>\n"
+"PO-Revision-Date: 2011-11-17 10:04+0200\n"
+"Last-Translator: Gianfranco <costamagnagianfranco@yahoo.it>\n"
 "Language-Team: \n"
 "Language: it\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Pootle 2.1.1\n"
+"X-Generator: Pootle 2.1.6\n"
 "X-Poedit-SearchPath-0: html\\user\n"
 "X-Poedit-SourceCharset: utf-8\n"
 "X-Poedit-Basepath: C:\\Src\\BOINCSVN\\trunk\\boinc\n"
@@ -488,7 +488,7 @@ msgstr "Visualizza:"
 
 #: ../inc/host.inc:597 ../inc/host.inc:600
 msgid "All computers"
-msgstr "Tutti i  computer"
+msgstr "Tutti i computer"
 
 #: ../inc/host.inc:597 ../inc/host.inc:600
 msgid "Only computers active in past 30 days"
@@ -780,7 +780,7 @@ msgstr "Velocità massima upload:"
 
 #: ../inc/prefs.inc:259
 msgid "Use network only between the hours of"
-msgstr "Utilizza la connessione  di rete solamente tra le ore"
+msgstr "Utilizza la connessione di rete solamente tra le ore"
 
 #: ../inc/prefs.inc:263
 msgid "Transfer at most %1 Enforced by version 6.10.46+ %2"
@@ -835,7 +835,7 @@ msgid ""
 "Run test applications? %1 This helps us develop applications, but may cause "
 "jobs to fail on your computer %2"
 msgstr ""
-"Avviare le applicazioni  test? %1 Questo ci aiuta a sviluppare le "
+"Avviare le applicazioni test %1? Questo ci aiuta a sviluppare le "
 "applicazioni, ma potrebbe causare fallimenti dei lavori sul tuo computer %2"
 
 #: ../inc/prefs.inc:355
@@ -2175,9 +2175,8 @@ msgid ""
 msgstr ""
 
 #: ../user/create_account_action.php:51
-#, fuzzy
 msgid "Your reCAPTCHA response was not correct. Please try again."
-msgstr "La tua risposta al ReCaptcha non è corretta.  Prova di nuovo."
+msgstr "La tua risposta al ReCaptcha non è corretta. Prova di nuovo."
 
 #: ../user/create_account_action.php:75
 msgid "You must supply an invitation code to create an account."
@@ -2188,10 +2187,11 @@ msgid "The invitation code you gave is not valid."
 msgstr "Il codice d'invito inserito non è valido."
 
 #: ../user/create_account_action.php:92
-#, fuzzy
 msgid ""
 "Invalid email address: you must enter a valid address of the form name@domain"
-msgstr "Deve essere un indirizzo email valido del tipo 'nome@dominio'"
+msgstr ""
+"Indirizzo email non valido: deve essere un indirizzo email valido del tipo "
+"nome@dominio"
 
 #: ../user/create_account_action.php:96
 msgid "There's already an account with that email address."
@@ -2252,7 +2252,7 @@ msgstr "Email"
 
 #: ../user/create_account_form.php:91
 msgid "Must be a valid address of the form 'name@domain'."
-msgstr "Devi inserire un indirizzo email valido del tipo 'nome@dominio'."
+msgstr "Devi inserire un indirizzo email valido nella forma 'nome@dominio'."
 
 #: ../user/create_account_form.php:100 ../user/edit_email_form.php:48
 msgid "Password"
@@ -2659,11 +2659,10 @@ msgid "Please %1validate this email address%2."
 msgstr ""
 
 #: ../user/edit_email_action.php:67
-#, fuzzy
 msgid ""
 "We can't update your email address due to a database problem.  Please try "
 "again later."
-msgstr "Impossibile selezionare il database - per favore riprova più tardi"
+msgstr "Impossibile selezionare il database, per favore riprova più tardi"
 
 #: ../user/edit_email_form.php:28 ../user/edit_email_form.php:52
 msgid "Change email address"
@@ -3654,13 +3653,12 @@ msgid ""
 msgstr ""
 
 #: ../user/forum_post.php:60
-#, fuzzy
 msgid ""
 "Your message was flagged as spam by the Akismet anti-spam system. Please "
 "modify your text and try again."
 msgstr ""
 "Le cose che hai scritto nel primo spazio sono state segnalate come spam dal "
-"sistema anti-spam Akismet.  Modifica il testo e riprova."
+"sistema anti-spam Akismet. Modifica il testo e riprova."
 
 #: ../user/forum_post.php:70
 #, fuzzy
@@ -4959,15 +4957,14 @@ msgid "To unblock, visit %1message board preferences%2"
 msgstr "Per sboccare un utente, visita la pagina %1preferenze del forum%2"
 
 #: ../user/prefs.php:36
-#, fuzzy
 msgid ""
 "Your preferences have been updated, and\n"
 "          will take effect when your computer communicates with %1\n"
 "          or you issue the %2Update%3 command from the BOINC Manager."
 msgstr ""
 "Le tue preferenze sono state aggiornate e\n"
-"\t avranno effetto quando il tuo computer comunicherà con %1\n"
-"\toppure quando lancerai  il comando %2Aggiorna%3 dal BOINC manager."
+"avranno effetto quando il tuo computer comunicherà con %1\n"
+"oppure quando lancerai  il comando %2Aggiorna%3 dal BOINC manager."
 
 #: ../user/prefs_edit.php:66 ../user/prefs_edit.php:94
 msgid "%1 for %2"
@@ -5576,8 +5573,9 @@ msgid ""
 "form below."
 msgstr ""
 "Se non rifiuti la richiesta di %1. %2 avrà l'opzione di assumere la carica "
-"di fondatore del team. Per accettare la richiesta, assegna la fusione a &3, "
-"utilizzando lo schema sotto. "
+"di fondatore del team.<br /><br />\n"
+" Per accettare la richiesta, assegna la fusione a %3, utilizzando lo schema "
+"sotto. "
 
 #: ../user/team_change_founder_form.php:66
 msgid "No transfer request is pending."
@@ -5797,7 +5795,7 @@ msgid ""
 "will be allowed to become the founder."
 msgstr ""
 "Il fondatore corrente è stato informato della tua richiesta mediante email e "
-"messaggio privato. <br /><br />\n"
+"messaggio privato.<br /><br />\n"
 " Se il fondatore non risponde in 60 giorni,  sarai autorizzato a diventare "
 "il nuovo fondatore."
 
@@ -6049,7 +6047,7 @@ msgstr "Permesso solo se il team non ha membri"
 
 #: ../user/team_manage.php:64
 msgid "Create or manage a team message board"
-msgstr ""
+msgstr "Crea o gestisci un forum del team"
 
 #: ../user/team_manage.php:71
 msgid ""
@@ -6314,7 +6312,7 @@ msgstr "Team: Nessuno"
 
 #: ../user/validate_email_addr.php:30
 msgid "Validate BOINC email address"
-msgstr ""
+msgstr "Convalida indirizzo email BOINC"
 
 #: ../user/validate_email_addr.php:31
 msgid ""
@@ -6324,13 +6322,15 @@ msgstr ""
 
 #: ../user/validate_email_addr.php:34
 msgid "Validate email sent"
-msgstr ""
+msgstr "Email di convalida inviata"
 
 #: ../user/validate_email_addr.php:35
 msgid ""
 "An email has been sent to %1. Visit the link it contains to validate your "
 "email address."
 msgstr ""
+"Una email è stata inviata a %1. Visita il link che contiene per convalidare "
+"il tuo indirizzo email."
 
 #: ../user/validate_email_addr.php:44
 #, fuzzy
@@ -6339,19 +6339,19 @@ msgstr "Nessun utente."
 
 #: ../user/validate_email_addr.php:49
 msgid "Error in URL data - can't validate email address"
-msgstr ""
+msgstr "Errore nei dati dell'URL - impossibile convalidare l'indirizzo email"
 
 #: ../user/validate_email_addr.php:54
 msgid "Database update failed - please try again later."
-msgstr ""
+msgstr "Aggiornamento database fallito - per favore riprovare più tardi."
 
 #: ../user/validate_email_addr.php:57
 msgid "Validate email address"
-msgstr ""
+msgstr "Convalida l'indirizzo email"
 
 #: ../user/validate_email_addr.php:58
 msgid "The email address of your account has been validated."
-msgstr ""
+msgstr "L'indirizzo email del tuo account è stato convalidato."
 
 #: ../user/view_profile.php:29
 msgid "This user has no profile"
@@ -6476,10 +6476,12 @@ msgid ""
 "Tell us about yourself. You could tell us where you're from, your age, "
 "occupation, hobbies, or anything else about yourself."
 msgstr ""
+"Parlaci di te. Puoi dirci da dove vieni, la tua età, occupazione, hobbies o "
+"qualsiasi altra cosa su di te."
 
 #: ../project.sample/project.inc:90
 msgid "Your opinions about %1"
-msgstr ""
+msgstr "Le tue opinioni riguardo %1"
 
 #: ../project.sample/project.inc:94
 msgid ""
