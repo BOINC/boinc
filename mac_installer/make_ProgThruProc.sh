@@ -19,7 +19,7 @@
 
 ##
 # Script to convert Macintosh BOINC installer to Progress Thru Processors Desktop installer
-# updated 12/7/11 by Charlie Fenton for BOINC 6.8.33 / 6.12.44 / 7.0.3 and later
+# updated 12/14/11 by Charlie Fenton for BOINC 6.8.34 / 6.12.44 / 7.0.3 and later
 ##
 
 ## Usage:
@@ -74,6 +74,8 @@ BRAND_NAME="Progress Thru Processors"
 MANAGER_NAME="Progress Thru Processors Desktop"
 LC_BRAND_NAME="Progress Thru Processors"
 SOURCE_PKG_PATH="BOINC Installer.app/Contents/Resources/BOINC.pkg/Contents"
+ZIP_BRAND_NAME="ptp"
+
 
 if [ $# -lt 3 ]; then
 echo "Usage:"
@@ -359,15 +361,15 @@ sudo rm -dfR "${SCRIPTS_PATH}"
 # Compress the products
 cd ${NEW_DIR_PATH}
 ## Use ditto instead of zip utility to preserve resource forks and Finder attributes (custom icon, hide extension) 
-ditto -ck --sequesterRsrc --keepParent "${LC_BRAND_NAME}_$1.$2.$3_macOSX_universal" "${LC_BRAND_NAME}_$1.$2.$3_macOSX_universal.zip"
+ditto -ck --sequesterRsrc --keepParent "${LC_BRAND_NAME}_$1.$2.$3_macOSX_universal" "${ZIP_BRAND_NAME}_$1.$2.$3_macOSX_universal.zip"
 ##### We've decided not to create branded command-line executables; they are identical to standard ones
-#### ditto -ck --sequesterRsrc --keepParent "${LC_BRAND_NAME}_$1.$2.$3_universal-apple-darwin" "${LC_BRAND_NAME}_$1.$2.$3_universal-apple-darwin.zip"
+#### ditto -ck --sequesterRsrc --keepParent "${LC_BRAND_NAME}_$1.$2.$3_universal-apple-darwin" "${ZIP_BRAND_NAME}_$1.$2.$3_universal-apple-darwin.zip"
 ##### We've decided not to create branded symbol table file; it is identical to standard one
-#### ditto -ck --sequesterRsrc --keepParent "${LC_BRAND_NAME}_$1.$2.$3_macOSX_SymbolTables" "${LC_BRAND_NAME}_$1.$2.$3_macOSX_SymbolTables.zip"
+#### ditto -ck --sequesterRsrc --keepParent "${LC_BRAND_NAME}_$1.$2.$3_macOSX_SymbolTables" "${ZIP_BRAND_NAME}_$1.$2.$3_macOSX_SymbolTables.zip"
 
 # Force Finder to recognize changed icons by deleting the uncompressed products and expanding the zip file 
 sudo rm -dfR "${LC_BRAND_NAME}_$1.$2.$3_macOSX_universal"
-open "${LC_BRAND_NAME}_$1.$2.$3_macOSX_universal.zip"
+open "${ZIP_BRAND_NAME}_$1.$2.$3_macOSX_universal.zip"
 
 popd
 exit 0
