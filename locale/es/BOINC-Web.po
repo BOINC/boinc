@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2011-04-04 22:09 PDT\n"
-"PO-Revision-Date: 2010-07-06 13:37-0700\n"
+"PO-Revision-Date: 2011-12-08 19:42+0200\n"
 "Last-Translator: David M <davidcomp2 at telefonica dot net>\n"
 "Language-Team: \n"
 "Language: es\n"
@@ -15,30 +15,28 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Pootle 1.2.1\n"
+"X-Generator: Pootle 2.1.6\n"
 "X-Poedit-SearchPath-0: doc\n"
 "X-Poedit-SourceCharset: utf-8\n"
 "X-Poedit-Basepath: C:\\Src\\BOINCSVN\\trunk\\boinc\n"
 "X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
-"X-Poedit-Country: UNITED STATES\n"
-"X-Poedit-Language: English\n"
 "X-Poedit-KeywordsList: tra\n"
 
 #: projects.inc:14
 msgid "Cognitive science and artifical intelligence"
-msgstr ""
+msgstr "Ciencia cognitiva e inteligencia artificial"
 
 #: projects.inc:17
 msgid "FreeHAL"
-msgstr ""
+msgstr "FreeHAL"
 
 #: projects.inc:19 projects.inc:254 projects.inc:290 projects.inc:297
 msgid "private"
-msgstr ""
+msgstr "privado"
 
 #: projects.inc:20
 msgid "Artificial intelligence"
-msgstr ""
+msgstr "Inteligencia artificial"
 
 #: projects.inc:21
 msgid ""
@@ -47,22 +45,26 @@ msgid ""
 "databases, and part of speech taggers in order to imitate human behavior in "
 "conversations."
 msgstr ""
+"Analizar y convertir redes semánticas para su uso en FreeHAL, inteligencia "
+"artificial que utiliza redes semánticas, lematizadores, bases de datos del "
+"habla, y etiquetado gramatical con el fin de imitar el comportamiento humano "
+"en las conversaciones."
 
 #: projects.inc:27
 msgid "Biology and Medicine"
-msgstr ""
+msgstr "Biología y Medicina"
 
 #: projects.inc:30
 msgid "POEM@HOME"
-msgstr ""
+msgstr "POEM@HOME"
 
 #: projects.inc:32
 msgid "University of Karlsruhe (Germany)"
-msgstr ""
+msgstr "Universidad de Karlsruhe (Alemania)"
 
 #: projects.inc:33
 msgid "Protein structure prediction"
-msgstr ""
+msgstr "Predicción de la estructura de las proteínas"
 
 #: projects.inc:34
 msgid ""
@@ -72,18 +74,24 @@ msgid ""
 "protein malfunction or aggregation, and to develop new drugs on the basis of "
 "the three-dimensions structure of biologically important proteins."
 msgstr ""
+"POEM@HOME usa una aproximación computacional para predecir la estructura "
+"biológicamente activa de las proteínas, para entender los mecanismos del "
+"procesamiento de señales cuando las proteínas interactúan con otra, para "
+"entender enfermedades relacionadas con el mal funcionamiento o agregación de "
+"las proteínas, y para desarrollar nuevos medicamentos basados en las "
+"estructuras tridimensionales de proteínas biológicamente importantes."
 
 #: projects.inc:38
 msgid "Docking@Home"
-msgstr ""
+msgstr "Docking@Home"
 
 #: projects.inc:40
 msgid "University of Delaware"
-msgstr ""
+msgstr "Universidad de Delaware"
 
 #: projects.inc:41
 msgid "Study of protein - ligand interactions"
-msgstr ""
+msgstr "Estudio de las interacciones proteína-ligando"
 
 #: projects.inc:42
 msgid ""
@@ -92,18 +100,22 @@ msgid ""
 "interactions and, by doing so, will search for insights into the discovery "
 "of novel pharmaceuticals."
 msgstr ""
+"Docking@Home tiene objetivos científicos en biociencia y en ciencia "
+"informática. El proyecto aspira ir más lejos en el conocimiento de los "
+"detalles atómicos de las interacciones proteína-ligando y, de esta manera, "
+"buscará el conocimiento para el descubrimiento de fármacos novedosos."
 
 #: projects.inc:46
 msgid "GPUGrid.net"
-msgstr ""
+msgstr "GPUGrid.net"
 
 #: projects.inc:48
 msgid "Barcelona Biomedical Research Park (PRBB)"
-msgstr ""
+msgstr "Parque de Investigación Biomédica de Barcelona (PRBB)"
 
 #: projects.inc:49
 msgid "Molecular simulations of proteins"
-msgstr ""
+msgstr "Simulaciones moleculares de proteínas"
 
 #: projects.inc:50
 msgid ""
@@ -112,18 +124,23 @@ msgid ""
 "New biomedical applications suddenly become possible giving a new role to "
 "computational biology for biomedical research."
 msgstr ""
+"GPUGrid.net abre nuevas posibilidades computacionales con el primer código "
+"de dinámica molecular totalmente atómico (CellMD) especialmente optimizado "
+"para ejecutarse en las GPU NVIDIA. Nuevas aplicaciones biomédicas de pronto "
+"han sido posibles dándole un nuevo papel a la biología computacional para la "
+"investigación biomédica."
 
 #: projects.inc:54
 msgid "Superlink@Technion"
-msgstr ""
+msgstr "Superlink@Technion"
 
 #: projects.inc:56
 msgid "Technion, Israel"
-msgstr ""
+msgstr "Technion, Israel"
 
 #: projects.inc:57
 msgid "Genetic linkage analysis"
-msgstr ""
+msgstr "Análisis del ligamiento genético"
 
 #: projects.inc:58
 msgid ""
@@ -131,20 +148,24 @@ msgid ""
 "provoking genes causing some types of diabetes, hypertension (high blood "
 "pressure), cancer, schizophrenia and many others."
 msgstr ""
+"Superlink@Technion ayuda a genetistas de todo el modo a encontrar genes "
+"provocadores de enfermedades causando algunos tipos de diabetes, "
+"hipertensión (presión alta de la sangre), cancer, esquizofrenia y muchas "
+"otras."
 
 #: projects.inc:70
-#, fuzzy
 msgid "The Lattice Project"
-msgstr "El proyecto BOINC"
+msgstr "El Proyecto Lattice"
 
 #: projects.inc:72
 msgid ""
 "University of Maryland Center for Bioinformatics and Computational Biology"
 msgstr ""
+"Universidad de Maryland Centro de Bioinformática y Biología Computacional"
 
 #: projects.inc:73
 msgid "Life science research"
-msgstr ""
+msgstr "Investigación de las ciencias de la vida"
 
 #: projects.inc:74
 msgid ""
@@ -156,15 +177,15 @@ msgstr ""
 
 #: projects.inc:78
 msgid "Malariacontrol.net"
-msgstr ""
+msgstr "Malariacontrol.net"
 
 #: projects.inc:80
 msgid "The Swiss Tropical Institute"
-msgstr ""
+msgstr "El Instituto Swiss Tropical"
 
 #: projects.inc:81
 msgid "Epidemiology"
-msgstr ""
+msgstr "Epidemiología"
 
 #: projects.inc:82
 msgid ""
@@ -179,15 +200,15 @@ msgstr ""
 
 #: projects.inc:102
 msgid "Rosetta@home"
-msgstr ""
+msgstr "Rosetta@home"
 
 #: projects.inc:104
 msgid "University of Washington"
-msgstr ""
+msgstr "Universidad de Washington"
 
 #: projects.inc:105 projects.inc:113
 msgid "Biology"
-msgstr ""
+msgstr "Biología"
 
 #: projects.inc:106
 msgid ""
@@ -201,11 +222,11 @@ msgstr ""
 
 #: projects.inc:110
 msgid "SIMAP"
-msgstr ""
+msgstr "SIMAP"
 
 #: projects.inc:112
 msgid "University of Vienna"
-msgstr ""
+msgstr "Universidad de Viena"
 
 #: projects.inc:114
 msgid ""
@@ -216,19 +237,19 @@ msgstr ""
 
 #: projects.inc:120
 msgid "Earth Sciences"
-msgstr ""
+msgstr "Ciencias de la Tierra"
 
 #: projects.inc:130
 msgid "Virtual Prairie"
-msgstr ""
+msgstr "Virtual Prairie"
 
 #: projects.inc:132
 msgid "University of Houston"
-msgstr ""
+msgstr "Universidad de Houston"
 
 #: projects.inc:133
 msgid "Study of botanical ecosystems"
-msgstr ""
+msgstr "Estudio de los ecosistemas botánicos"
 
 #: projects.inc:134
 msgid ""
@@ -238,15 +259,15 @@ msgstr ""
 
 #: projects.inc:137
 msgid "Climateprediction.net"
-msgstr ""
+msgstr "Climateprediction.net"
 
 #: projects.inc:139
 msgid "Oxford University"
-msgstr ""
+msgstr "Universidad de Oxford"
 
 #: projects.inc:140
 msgid "Climate study"
-msgstr ""
+msgstr "Estudio del clima"
 
 #: projects.inc:141
 msgid ""
@@ -262,19 +283,19 @@ msgstr ""
 
 #: projects.inc:148
 msgid "Astronomy/Physics/Chemistry"
-msgstr ""
+msgstr "Astronomía/Física/Química"
 
 #: projects.inc:151
 msgid "eOn"
-msgstr ""
+msgstr "eOn"
 
 #: projects.inc:153
 msgid "University of Texas at Austin"
-msgstr ""
+msgstr "Universidad de Texas en Austin"
 
 #: projects.inc:154 projects.inc:185 projects.inc:225
 msgid "Chemistry"
-msgstr ""
+msgstr "Química"
 
 #: projects.inc:155
 msgid ""
@@ -291,27 +312,29 @@ msgstr ""
 
 #: projects.inc:158
 msgid "Orbit@home"
-msgstr ""
+msgstr "Orbit@home"
 
 #: projects.inc:160
 msgid "Planetary Science Institute"
-msgstr ""
+msgstr "Instituto de Ciencias Planetarias"
 
 #: projects.inc:161 projects.inc:169 projects.inc:177
 msgid "Astronomy"
-msgstr ""
+msgstr "Astronomía"
 
 #: projects.inc:162
 msgid "Monitor and study the hazard posed by near-Earth asteroids"
 msgstr ""
+"Monitorizar y estudiar los peligros planteados por los asteroides cercanos a "
+"la Tierra"
 
 #: projects.inc:166
 msgid "Cosmology@Home"
-msgstr ""
+msgstr "Cosmology@Home"
 
 #: projects.inc:168
 msgid "University of Illinois at Urbana-Chamapign"
-msgstr ""
+msgstr "Universidad de Illinois en Urbana-Chamapign"
 
 #: projects.inc:170
 msgid ""
@@ -322,11 +345,11 @@ msgstr ""
 
 #: projects.inc:174
 msgid "Milkyway@home"
-msgstr ""
+msgstr "Milkyway@home"
 
 #: projects.inc:176
 msgid "Rensselaer Polytechnic Institute"
-msgstr ""
+msgstr "Instituto Politécnico Rensselaer"
 
 #: projects.inc:178
 msgid ""
@@ -337,11 +360,11 @@ msgstr ""
 
 #: projects.inc:182
 msgid "Leiden Classical"
-msgstr ""
+msgstr "Leiden Classical"
 
 #: projects.inc:184
 msgid "Leiden University, The Netherlands"
-msgstr ""
+msgstr "Universidad de Leiden, Países Bajos"
 
 #: projects.inc:186
 msgid ""
@@ -355,15 +378,15 @@ msgstr ""
 
 #: projects.inc:190
 msgid "uFluids@home"
-msgstr ""
+msgstr "uFluids@home"
 
 #: projects.inc:192
 msgid "Purdue University"
-msgstr ""
+msgstr "Universidad Purdue"
 
 #: projects.inc:193
 msgid "Physics/Aeronautics"
-msgstr ""
+msgstr "Física/Aeronáutica"
 
 #: projects.inc:194
 msgid ""
@@ -375,15 +398,15 @@ msgstr ""
 
 #: projects.inc:198
 msgid "Einstein@home"
-msgstr ""
+msgstr "Einstein@home"
 
 #: projects.inc:200
 msgid "Univ. of Wisconsin - Milwaukee, Max Planck Institute"
-msgstr ""
+msgstr "Univ. de Wisconsin - Milwaukee, Instituto Max Planck"
 
 #: projects.inc:201
 msgid "Astrophysics"
-msgstr ""
+msgstr "Astrofísica"
 
 #: projects.inc:202
 msgid ""
@@ -395,17 +418,16 @@ msgid ""
 msgstr ""
 
 #: projects.inc:206
-#, fuzzy
 msgid "LHC@home"
-msgstr "En casa"
+msgstr "LHC@home"
 
 #: projects.inc:208
 msgid "CERN (European Organization for Nuclear Research)"
-msgstr ""
+msgstr "CERN (Organización Europea para la Investigación Nuclear)"
 
 #: projects.inc:209
 msgid "Physics"
-msgstr ""
+msgstr "Física"
 
 #: projects.inc:210
 msgid ""
@@ -418,16 +440,15 @@ msgstr ""
 
 #: projects.inc:214
 msgid "SETI@home"
-msgstr ""
+msgstr "SETI@home"
 
 #: projects.inc:216
-#, fuzzy
 msgid "University of California, Berkeley"
-msgstr "BOINC está emplazado en la Universidad de California, Berkeley"
+msgstr "Universidad de California, Berkeley"
 
 #: projects.inc:217
 msgid "Astrophysics, astrobiology"
-msgstr ""
+msgstr "Astrofísica, astrobiología"
 
 #: projects.inc:218
 msgid ""
@@ -440,28 +461,30 @@ msgstr ""
 
 #: projects.inc:222
 msgid "Quantum Monte Carlo at Home"
-msgstr ""
+msgstr "Quantum Monte Carlo at Home"
 
 #: projects.inc:224
 msgid "University of Muenster (Germany)"
-msgstr ""
+msgstr "Universidad de Muenster (Alemania)"
 
 #: projects.inc:226
 msgid ""
 "Study the structure and reactivity of molecules using Quantum Chemistry."
 msgstr ""
+"Estudio de la estructura y reactividad de las moleculas usando Química "
+"Cuántica"
 
 #: projects.inc:230
 msgid "Spinhenge@home"
-msgstr ""
+msgstr "Spinhenge@home"
 
 #: projects.inc:232
 msgid "Bielefeld University of Applied Sciences"
-msgstr ""
+msgstr "Universidad de Bielefeld de Ciencias Aplicadas"
 
 #: projects.inc:233
 msgid "Chemical engineering and nanotechnology"
-msgstr ""
+msgstr "Ingeniería química y nanotecnología"
 
 #: projects.inc:234
 msgid ""
@@ -473,19 +496,19 @@ msgstr ""
 
 #: projects.inc:241
 msgid "Multiple applications"
-msgstr ""
+msgstr "Múltiples aplicaciones"
 
 #: projects.inc:244
 msgid "CAS@home"
-msgstr ""
+msgstr "CAS@home"
 
 #: projects.inc:246
 msgid "Chinese Academy of Sciences"
-msgstr ""
+msgstr "Academia China de las Ciencias"
 
 #: projects.inc:247
 msgid "Physics, biochemistry, and others"
-msgstr ""
+msgstr "Física, bioquímica, y otros"
 
 #: projects.inc:248
 msgid ""
@@ -496,11 +519,11 @@ msgstr ""
 
 #: projects.inc:252
 msgid "Yoyo@home"
-msgstr ""
+msgstr "Yoyo@home"
 
 #: projects.inc:255
 msgid "Mathematics, physics, evolution"
-msgstr ""
+msgstr "Matemáticas, física, evolución"
 
 #: projects.inc:256
 msgid ""
@@ -510,16 +533,15 @@ msgstr ""
 
 #: projects.inc:259
 msgid "EDGeS@Home"
-msgstr ""
+msgstr "EDGeS@Home"
 
 #: projects.inc:261 projects.inc:360
 msgid "MTA-SZTAKI Laboratory of Parallel and Distributed Systems (Hungary)"
-msgstr ""
+msgstr "Laboratorio MTA-SZTAKI de Sistemas Paralelos y Distribuidos (Hungría)"
 
 #: projects.inc:262
-#, fuzzy
 msgid "European research projects"
-msgstr "Proyectos de investigación"
+msgstr "Proyectos de investigación europeos"
 
 #: projects.inc:263
 msgid ""
@@ -531,24 +553,23 @@ msgstr ""
 
 #: projects.inc:267
 msgid "Ibercivis"
-msgstr ""
+msgstr "Ibercivis"
 
 #: projects.inc:269
 msgid "Spanish universities and research centers"
-msgstr ""
+msgstr "Universidades y centros de investigación españoles"
 
 #: projects.inc:270
-#, fuzzy
 msgid "Various Spanish research projects"
-msgstr "Proyectos de investigación"
+msgstr "Varios proyectos de investigación españoles"
 
 #: projects.inc:271
 msgid "Research in physics, material science, and biomedicine"
-msgstr ""
+msgstr "Investigación en física, ciencia de los materiales, y biomedicina"
 
 #: projects.inc:275
 msgid "World Community Grid"
-msgstr ""
+msgstr "World Community Grid"
 
 #: projects.inc:277
 msgid "IBM Corporate Community Relations"
@@ -557,6 +578,7 @@ msgstr ""
 #: projects.inc:278
 msgid "Humanitarian research on disease, natural disasters and hunger."
 msgstr ""
+"Investigaciòn humanitaria de enfermedades, desastres naturales y hambre."
 
 #: projects.inc:279
 msgid ""
@@ -567,15 +589,15 @@ msgstr ""
 
 #: projects.inc:285
 msgid "Mathematics, computing, and games"
-msgstr ""
+msgstr "Matemáticas, computación y juegos"
 
 #: projects.inc:288
 msgid "Enigma@Home"
-msgstr ""
+msgstr "Enigma@Home"
 
 #: projects.inc:291 projects.inc:345
 msgid "Cryptography"
-msgstr ""
+msgstr "Criptografía"
 
 #: projects.inc:292
 msgid ""
@@ -585,19 +607,21 @@ msgstr ""
 
 #: projects.inc:295
 msgid "Collatz Conjecture"
-msgstr ""
+msgstr "Conjetura de Collatz"
 
 #: projects.inc:298 projects.inc:337 projects.inc:353 projects.inc:361
 msgid "Mathematics"
-msgstr ""
+msgstr "Matemáticas"
 
 #: projects.inc:299
 msgid "Study the Collatz Conjecture, an unsolved conjecture in mathematics"
 msgstr ""
+"Estudio de la Conjetura de Collatz, una conjetura no resuelta por las "
+"matemáticas"
 
 #: projects.inc:302
 msgid "NFS@home"
-msgstr ""
+msgstr "NFS@home"
 
 #: projects.inc:304
 msgid "California State University Fullerton"
@@ -605,7 +629,7 @@ msgstr ""
 
 #: projects.inc:305
 msgid "Factorization of large integers"
-msgstr ""
+msgstr "Factorización de enteros grandes"
 
 #: projects.inc:306
 msgid ""
@@ -619,7 +643,7 @@ msgstr ""
 
 #: projects.inc:310
 msgid "VTU@home"
-msgstr ""
+msgstr "VTU@home"
 
 #: projects.inc:312
 msgid ""
@@ -628,9 +652,8 @@ msgid ""
 msgstr ""
 
 #: projects.inc:313
-#, fuzzy
 msgid "Software testing"
-msgstr "Actualizaciones de software"
+msgstr "Prueba de software"
 
 #: projects.inc:314
 msgid ""
@@ -642,15 +665,15 @@ msgstr ""
 
 #: projects.inc:318
 msgid "AQUA@home"
-msgstr ""
+msgstr "AQUA@home"
 
 #: projects.inc:320
 msgid "D-Wave Systems, Inc."
-msgstr ""
+msgstr "D-Wave Systems, Inc."
 
 #: projects.inc:321
 msgid "Quantum computing"
-msgstr ""
+msgstr "Computación cuántica"
 
 #: projects.inc:322
 msgid ""
@@ -663,13 +686,12 @@ msgid ""
 msgstr ""
 
 #: projects.inc:334
-#, fuzzy
 msgid "ABC@home"
-msgstr "En casa"
+msgstr "ABC@home"
 
 #: projects.inc:336
 msgid "Mathematical Institute of Leiden University / Kennislink"
-msgstr ""
+msgstr "Instituto Matemático de la Universidad de Leiden / Kennislink"
 
 #: projects.inc:338
 msgid ""
@@ -684,11 +706,11 @@ msgstr ""
 
 #: projects.inc:342
 msgid "PrimeGrid"
-msgstr ""
+msgstr "PrimeGrid"
 
 #: projects.inc:344
 msgid "Private"
-msgstr ""
+msgstr "Privado"
 
 #: projects.inc:346
 msgid ""
@@ -703,7 +725,7 @@ msgstr ""
 
 #: projects.inc:352
 msgid "Hochschule RheinMain University of Applied Sciences"
-msgstr ""
+msgstr "Universidad Hochschule RheinMain de Ciencias Aplicadas"
 
 #: projects.inc:354
 msgid ""
@@ -723,11 +745,11 @@ msgstr ""
 
 #: projects.inc:382
 msgid "Chess960@home"
-msgstr ""
+msgstr "Chess960@home"
 
 #: projects.inc:384
 msgid "Chess-960.org"
-msgstr ""
+msgstr "Chess-960.org"
 
 #: projects.inc:385
 msgid "Game-playing"
@@ -923,7 +945,7 @@ msgstr ""
 
 #: help_funcs.php:110
 msgid "%1Never%2 give email address or password information to BOINC helpers."
-msgstr ""
+msgstr "%1Nunca%2 revele su email o contraseña a los colaboradores de BOINC."
 
 #: index.php:23
 msgid "Computing power"

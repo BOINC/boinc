@@ -2,20 +2,21 @@
 # Copyright (C) 2008 University of California
 # This file is distributed under the same license as BOINC.
 # FileID  : $Id$
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2011-08-25 15:10 PDT\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"PO-Revision-Date: 2011-12-11 21:39+0200\n"
+"Last-Translator: Dead J. Dona <deadjdona@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: \n"
+"Language: uk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Translate Toolkit 1.2.1\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%"
+"10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"X-Generator: Pootle 2.1.6\n"
 "X-Poedit-SourceCharset: utf-8\n"
 
 msgid "LANG_NAME_NATIVE"
@@ -54,37 +55,40 @@ msgstr ""
 
 #: ../inc/forum.inc:125
 msgid "Search forums"
-msgstr ""
+msgstr "Знайти у форумах"
 
 #: ../inc/forum.inc:126
 msgid "Advanced search"
-msgstr ""
+msgstr "Розширений пошук"
 
 #: ../inc/forum.inc:132 ../inc/user.inc:251 ../user/pm.php:69
 #: ../user/pm.php:133
 msgid "Private messages"
-msgstr ""
+msgstr "Особисті повідомлення"
 
 #: ../inc/forum.inc:151 ../user/forum_forum.php:71
 #: ../user/sample_index.php:112
 msgid "Questions and Answers"
-msgstr ""
+msgstr "Питання та Відповіді"
 
 #: ../inc/forum.inc:151 ../inc/forum.inc:183 ../inc/user.inc:248
 #: ../inc/user.inc:371 ../user/forum_forum.php:74 ../user/sample_index.php:111
 #: ../project.sample/project.inc:46
 msgid "Message boards"
-msgstr ""
+msgstr "Дошка оголошень"
 
 #: ../inc/forum.inc:187 ../inc/forum.inc:195
 msgid "%1 message board"
-msgstr ""
+msgstr "Дошка оголошень %1"
 
 #: ../inc/forum.inc:1077
 msgid ""
 "In order to create a new thread in %1 you must have a certain amount of "
 "credit. This is to prevent and protect against abuse of the system."
 msgstr ""
+"Щоб створити нову тему для обговорень в %1, у Вас повинна бути певна "
+"кількість балів. Це обмеження повинне попередити і захистити систему проти "
+"зловживань."
 
 #: ../inc/forum.inc:1084
 msgid ""
@@ -92,64 +96,67 @@ msgid ""
 "trying again. This delay has been enforced to protect against abuse of the "
 "system."
 msgstr ""
+"Прямо зараз Ви не можете створити тему для обговорення. Будь ласка, трохи "
+"почекайте перед повторною спробою. Ця затримка сталася для того, щоб "
+"захистити систему проти зловживань."
 
 #: ../inc/forum.inc:1124
 msgid "Thread"
-msgstr ""
+msgstr "Обговорення"
 
 #: ../inc/forum.inc:1125 ../inc/team.inc:120 ../user/forum_forum.php:137
 #: ../user/forum_index.php:94
 msgid "Posts"
-msgstr ""
+msgstr "Повідомлення"
 
 #: ../inc/forum.inc:1126 ../user/forum_forum.php:138
 #: ../user/forum_reply.php:115 ../user/forum_report_post.php:75
 #: ../user/forum_thread.php:265
 msgid "Author"
-msgstr ""
+msgstr "Автор"
 
 #: ../inc/forum.inc:1127 ../user/forum_forum.php:139
 msgid "Views"
-msgstr ""
+msgstr "Перегляди"
 
 #: ../inc/forum.inc:1128 ../inc/team.inc:120 ../user/forum_forum.php:140
 #: ../user/forum_help_desk.php:46 ../user/forum_index.php:95
 msgid "Last post"
-msgstr ""
+msgstr "Останнє повідомлення"
 
 #: ../inc/forum.inc:1201
 msgid "Mark all threads as read"
-msgstr ""
+msgstr "Відмітити всі обговорення як прочитані"
 
 #: ../inc/forum.inc:1201
 msgid "Mark all threads in all message boards as 'read'."
-msgstr ""
+msgstr "Відмітити всі обговорення на всіх дошках повідомленя як 'прочитані'."
 
 #: ../inc/host.inc:24
 msgid "No host"
-msgstr ""
+msgstr "Немає комп'ютера"
 
 #: ../inc/host.inc:26
 msgid "Unavailable"
-msgstr ""
+msgstr "Недоступно"
 
 #: ../inc/host.inc:55 ../inc/prefs.inc:626 ../inc/prefs.inc:1026
 msgid "Home"
-msgstr ""
+msgstr "Дім"
 
 #: ../inc/host.inc:56 ../inc/prefs.inc:628 ../inc/prefs.inc:1027
 #: ../user/server_status.php:319
 msgid "Work"
-msgstr ""
+msgstr "Робота"
 
 #: ../inc/host.inc:57 ../inc/prefs.inc:627 ../inc/prefs.inc:1028
 msgid "School"
-msgstr ""
+msgstr "Школа"
 
 #: ../inc/host.inc:59 ../user/edit_forum_preferences_form.php:173
 #: ../user/edit_forum_preferences_form.php:174
 msgid "Update"
-msgstr ""
+msgstr "Оновити"
 
 #: ../inc/host.inc:83
 msgid "Computer information"

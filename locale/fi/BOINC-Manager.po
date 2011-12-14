@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-10-21 15:38-0500\n"
-"PO-Revision-Date: 2011-10-30 22:16+0200\n"
+"PO-Revision-Date: 2011-11-08 10:29+0200\n"
 "Last-Translator: Sami Nordlund <sami.nordlund@kolumbus.fi>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: fi\n"
@@ -241,7 +241,7 @@ msgstr "Näytä työpaketit"
 
 #: clientgui/AdvancedFrame.cpp:376
 msgid "Trans&fers\tCtrl+Shift+X"
-msgstr "&Siirrot\t Ctrl+Shift+X"
+msgstr "Sii&rrot\t Ctrl+Shift+X"
 
 #: clientgui/AdvancedFrame.cpp:377
 msgid "Display transfers"
@@ -491,7 +491,7 @@ msgstr "%s &nettisivu"
 #: clientgui/AdvancedFrame.cpp:654
 #, c-format
 msgid "Show information about BOINC and %s"
-msgstr "Näytä tietoja BOINCista ja %\":sta"
+msgstr "Näytä tietoja BOINCista ja %:sta"
 
 #: clientgui/AdvancedFrame.cpp:666
 #, c-format
@@ -619,7 +619,7 @@ msgstr ""
 
 #: clientgui/AsyncRPC.cpp:1235
 msgid "Communicating with BOINC client.  Please wait ..."
-msgstr "Ollaan yhteydessä BOINC-ohjelmaan. Odota..."
+msgstr "Ollaan yhteydessä BOINC-ohjelmaan.  Odota..."
 
 #: clientgui/AsyncRPC.cpp:1238
 #, c-format
@@ -720,7 +720,7 @@ msgid ""
 "To connect up to your local computer please use 'localhost' as the host name."
 msgstr ""
 "%s ei tällä hetkellä ole yhteydessä %s -ohjelmaan.\n"
-"Valitse valikosta \"Lisäasetukset\\Valitse tietokone...' ottaaksesi yhteyden %"
+"Valitse valikosta \"Lisäasetukset\\Valitse tietokone...\" ottaaksesi yhteyden %"
 "s -ohjelmaan.\n"
 "Jos otat yhteyttä paikalliseen koneeseen, käytä konenimenä \"localhost\"."
 
@@ -1584,7 +1584,7 @@ msgstr "Kopioi kaikki viestit leikepöydälle."
 
 #: clientgui/DlgEventLog.cpp:278
 msgid "Copy &Selected"
-msgstr "Kopioi %valitut"
+msgstr "Kopioi &valitut"
 
 #: clientgui/DlgEventLog.cpp:281
 #: clientgui/DlgEventLog.cpp:289
@@ -2081,7 +2081,7 @@ msgid ""
 "on this computer.  Please select a client to monitor."
 msgstr ""
 "Toinen instanssi %s:sta on jo käynnissä \n"
-"tässä koneessa. Valitse ohjelma seurataksesi."
+"tässä koneessa.  Valitse ohjelma seurataksesi."
 
 #: clientgui/DlgSelectComputer.cpp:142
 msgid "Host name:"
@@ -2588,7 +2588,7 @@ msgstr "Projektin URL-osoite:"
 #: clientgui/ProjectInfoPage.cpp:782
 msgid "This project may not have work for your type of computer.  Do you want to add it anyway?"
 msgstr ""
-"Tällä projektilla ei ehkä ole työtä tietokoneesi tyypille. Lisätäänkö se "
+"Tällä projektilla ei ehkä ole työtä tietokoneesi tyypille.  Lisätäänkö se "
 "kuitenkin?"
 
 #: clientgui/ProjectInfoPage.cpp:806
@@ -2659,11 +2659,11 @@ msgstr ""
 "The World Community Grid - BOINC-ohjelmisto ei onnistunut saamaan\n"
 "yhteyttä internetiin. Yleisimmät syyt ovat:\n"
 "\n"
-"1) Yhteysongelma. Tarkista verkko- tai modeemiyhteys,\n"
+"1) Yhteysongelma.  Tarkista verkko- tai modeemiyhteys,\n"
 "napsauta Takaisin ja yritä uudelleen.\n"
 "\n"
 "2) Palomuuri on estänyt World Community Grid - BOINC\n"
-"-ohjelmiston. Muokkaa palomuurisi asetuksia ja salli\n"
+"-ohjelmiston.  Muokkaa palomuurisi asetuksia ja salli\n"
 "BOINCin ja BOINC Managerin ottaa yhteys porttiin 80 ja porttiin 443,\n"
 "napsauta Takaisin ja yritä uudelleen.\n"
 "\n"
@@ -2689,7 +2689,7 @@ msgstr ""
 "BOINC-ohjelmisto ei onnistunut saamaan\n"
 "yhteyttä internetiin. Yleisimmät syyt ovat:\n"
 "\n"
-"1) Yhteysongelma. Tarkista verkko- tai modeemiyhteys,\n"
+"1) Yhteysongelma.  Tarkista verkko- tai modeemiyhteys,\n"
 "napsauta Takaisin ja yritä uudelleen.\n"
 "\n"
 "2) Palomuuri on estänyt BOINC-ohjelmiston.\n"
@@ -2784,7 +2784,7 @@ msgstr "Noudetaan nykyinen tila."
 #: clientgui/sg_ClientStateIndicator.cpp:291
 #: clientgui/sg_TaskPanel.cpp:207
 msgid "You don't have any projects.  Please Add a Project."
-msgstr "Sinulla ei ole yhtään projektia. Lisää projekti."
+msgstr "Sinulla ei ole yhtään projektia.  Lisää projekti."
 
 #: clientgui/sg_ClientStateIndicator.cpp:294
 #: clientgui/sg_TaskPanel.cpp:891
@@ -2794,27 +2794,27 @@ msgstr "Ladataan työtä palvelimelta."
 #: clientgui/sg_ClientStateIndicator.cpp:299
 #: clientgui/sg_TaskPanel.cpp:896
 msgid "Processing Suspended:  Running On Batteries."
-msgstr "Laskenta hyllytetty: kone akkukäytöllä."
+msgstr "Laskenta hyllytetty:  kone akkukäytöllä."
 
 #: clientgui/sg_ClientStateIndicator.cpp:301
 #: clientgui/sg_TaskPanel.cpp:898
 msgid "Processing Suspended:  User Active."
-msgstr "Laskenta hyllytetty: käyttäjä aktiivinen."
+msgstr "Laskenta hyllytetty:  käyttäjä aktiivinen."
 
 #: clientgui/sg_ClientStateIndicator.cpp:303
 #: clientgui/sg_TaskPanel.cpp:900
 msgid "Processing Suspended:  User paused processing."
-msgstr "Laskenta hyllytetty: käyttäjä tauotti laskennan."
+msgstr "Laskenta hyllytetty:  käyttäjä tauotti laskennan."
 
 #: clientgui/sg_ClientStateIndicator.cpp:305
 #: clientgui/sg_TaskPanel.cpp:902
 msgid "Processing Suspended:  Time of Day."
-msgstr "Laskenta hyllytetty: aika päivästä."
+msgstr "Laskenta hyllytetty:  aika päivästä."
 
 #: clientgui/sg_ClientStateIndicator.cpp:307
 #: clientgui/sg_TaskPanel.cpp:904
 msgid "Processing Suspended:  Benchmarks Running."
-msgstr "Laskenta hyllytetty: suorituskykytestit."
+msgstr "Laskenta hyllytetty:  suorituskykytestit."
 
 #: clientgui/sg_ClientStateIndicator.cpp:309
 #: clientgui/sg_TaskPanel.cpp:906
@@ -3054,7 +3054,7 @@ msgstr "Tauotettu: Toinen työ käynnissä"
 
 #: clientgui/sg_ImageButton.cpp:92
 msgid "Paused: User initiated.  Click 'Resume' to continue"
-msgstr "Tauotettu: Käyttäjän toimesta. Napsauta \"Jatka\""
+msgstr "Tauotettu: Käyttäjän toimesta.  Napsauta \"Jatka\""
 
 #: clientgui/sg_ImageButton.cpp:94
 msgid "Paused: User active"
@@ -3116,12 +3116,12 @@ msgstr "Nollaa projekti"
 msgid "Delete all files and tasks associated with this project, and get new tasks.  You can update the project first to report any completed tasks."
 msgstr ""
 "Poista kaikki tämän projektit tiedostot ja työpaketit sekä lataa uusia "
-"paketteja. Voit ensin päivittää projektin raportoidaksesi valmiit paketit."
+"paketteja.  Voit ensin päivittää projektin raportoidaksesi valmiit paketit."
 
 #: clientgui/sg_ProjectCommandPopup.cpp:86
 msgid "Remove this project.  Tasks in progress will be lost (use 'Update' first to report any completed tasks)."
 msgstr ""
-"Poista tämä projekti. Laskennassa olevat paketit menetetään (käytä "
+"Poista tämä projekti.  Laskennassa olevat paketit menetetään (käytä "
 "Päivitä-nappia ensin raportoidaksesi valmiit paketit)."
 
 #: clientgui/sg_ProjectCommandPopup.cpp:91
@@ -3285,7 +3285,7 @@ msgid ""
 "(Progress: %.1lf%%, Status: %s)"
 msgstr ""
 "Haluatko varmasti hylätä paketin \"%s\"?\n"
-"(Suoritettu: %s, Tila: %s)"
+"(Suoritettu: %.1lf%%, Tila: %s)"
 
 #: clientgui/sg_TaskCommandPopup.cpp:258
 msgid "Abort task"
@@ -3369,16 +3369,16 @@ msgstr "Haluatko näyttää etäkoneen grafiikat?"
 
 #: clientgui/sg_ViewTabPage.cpp:446
 msgid "Application: "
-msgstr "Sovellus:"
+msgstr "Sovellus: "
 
 #: clientgui/sg_ViewTabPage.cpp:449
 #: clientgui/sg_ViewTabPage.cpp:453
 msgid "Time Remaining: "
-msgstr "Aikaa jäljellä:"
+msgstr "Aikaa jäljellä: "
 
 #: clientgui/sg_ViewTabPage.cpp:452
 msgid "Elapsed Time: "
-msgstr "Kulunut aika:"
+msgstr "Kulunut aika: "
 
 #: clientgui/TermsOfUsePage.cpp:218
 msgid "Terms of Use"
@@ -4067,7 +4067,7 @@ msgid ""
 "To change which research applications are sent to you from\n"
 "World Community Grid then please click on the following button:"
 msgstr ""
-"Olet päättänyt lisätä uuden BOINC-projektin. Uuden projektin lisääminen\n"
+"Olet päättänyt lisätä uuden BOINC-projektin.  Uuden projektin lisääminen\n"
 "tarkoittaa, että tietokoneesi on yhteydessä uuteen organisaatioon.\n"
 "Jos tämä oli tarkoituksesi, napsauta\n"
 "allaolevaa \"Seuraava\" nappia.\n"

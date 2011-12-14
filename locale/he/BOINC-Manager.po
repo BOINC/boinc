@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: BOINC 6.10.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-10-21 15:38-0500\n"
-"PO-Revision-Date: 2011-09-09 19:07+0200\n"
+"PO-Revision-Date: 2011-12-12 00:01+0200\n"
 "Last-Translator: Ido Schwartz <dj_legolas1@hotmail.com>\n"
 "Language-Team: IOPanel.net\n"
 "Language: he\n"
@@ -15,7 +15,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Pootle 2.1.1\n"
+"X-Generator: Pootle 2.1.6\n"
 "X-Poedit-SearchPath-1: clientgui/msw\n"
 "X-Poedit-SearchPath-2: clientgui/gtk\n"
 "X-Poedit-SearchPath-3: clientgui/mac\n"
@@ -23,8 +23,6 @@ msgstr ""
 "X-Poedit-SourceCharset: utf-8\n"
 "X-Poedit-Basepath: C:\\Src\\BOINCSVN\\trunk\\boinc\n"
 "X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
-"X-Poedit-Country: UNITED STATES\n"
-"X-Poedit-Language: English\n"
 
 #: clientgui/AccountInfoPage.cpp:386
 msgid "Identify your account "
@@ -1087,43 +1085,49 @@ msgstr "תקלת אימות"
 #: clientgui/DlgAdvPreferences.cpp:788
 #: clientgui/DlgAdvPreferences.cpp:793
 #: clientgui/DlgAdvPreferences.cpp:798
+#, fuzzy
 msgid "Applications to add"
-msgstr ""
+msgstr "רשימת אפליקציות להוספה"
 
 #: clientgui/DlgAdvPreferences.cpp:814
 #, c-format
 msgid "'%s' is not an executable application."
-msgstr ""
+msgstr "\"%s\" אינה אפליקציה הניתנת להרצה."
 
 #: clientgui/DlgAdvPreferences.cpp:815
 #: clientgui/DlgAdvPreferences.cpp:848
 #: clientgui/DlgAdvPreferences.cpp:872
+#, fuzzy
 msgid "Add Exclusive App"
-msgstr ""
+msgstr "הוסף אפליקציה מיוחדת"
 
 #: clientgui/DlgAdvPreferences.cpp:826
 msgid "Name of application to add?"
-msgstr ""
+msgstr "שם האפליקציה להוספה?"
 
 #: clientgui/DlgAdvPreferences.cpp:826
+#, fuzzy
 msgid "Add exclusive app"
-msgstr ""
+msgstr "הוסף אפליקציה מיוחדת"
 
 #: clientgui/DlgAdvPreferences.cpp:847
 #, c-format
 msgid "Application names must end with '%s'"
-msgstr ""
+msgstr "שם האפליקציה חייב להסתיים ב-'%s'"
 
 #: clientgui/DlgAdvPreferences.cpp:871
 #, c-format
 msgid "'%s' is already in the list."
-msgstr ""
+msgstr "'%s' כבר קיים ברשימה."
 
 #: clientgui/DlgAdvPreferences.cpp:962
+#, fuzzy
 msgid ""
 "Do you really want to clear all local preferences?\n"
 "(This will not affect exclusive applications.)"
 msgstr ""
+"אתה בטוח שברצונך למחוק את ההעדפות המקומיות?\n"
+"(פעולה זו לא תשפיעה על האפליקציות המיוחדות.)"
 
 #: clientgui/DlgAdvPreferences.cpp:963
 msgid "Confirmation"
@@ -1143,7 +1147,7 @@ msgid ""
 msgstr ""
 "דיאלוג זה שולט בעדפות של מחשב זה בלבד.\n"
 "לחץ 'אישור' כדי לקבוע את ההעדפות.\n"
-"לחץ 'נקה' כדי לשחזר הגדרות מבוססות-אתר."
+"לחץ 'נקה' כדי לשחזר הגדרות מבוססות-אתר (למעט אפליקציות מיוחדות)."
 
 #: clientgui/DlgAdvPreferencesBase.cpp:65
 msgid "Clear"
@@ -1166,8 +1170,9 @@ msgid "disk and memory usage"
 msgstr "שימוש בדיסק וזיכרון"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:90
+#, fuzzy
 msgid "exclusive applications"
-msgstr ""
+msgstr "אפליקציות מיוחדות"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:102
 msgid "OK"
@@ -1510,15 +1515,15 @@ msgstr "אם מסומן, יחידות העבודה המושהות ישארו ב�
 
 #: clientgui/DlgAdvPreferencesBase.cpp:693
 msgid "Suspend processor and network usage when these applications are running:"
-msgstr ""
+msgstr "השהה השימוש במעבד והרשת כאשר האפליקציות הבאות רצות:"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:702
 msgid "Add..."
-msgstr ""
+msgstr "הוסף..."
 
 #: clientgui/DlgAdvPreferencesBase.cpp:703
 msgid "Add an application to this list"
-msgstr ""
+msgstr "הוסף אפליקציה לרשימה"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:708
 msgid "Remove"
@@ -1526,11 +1531,12 @@ msgstr "הסר"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:709
 msgid "Remove an application from this list"
-msgstr ""
+msgstr "הסר אפליקציה מהרשימה"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:718
+#, fuzzy
 msgid "For advanced options, refer to "
-msgstr ""
+msgstr "לאפשרויות מתקדמות, עבור ל "
 
 #: clientgui/DlgEventLog.cpp:194
 #, c-format
@@ -1551,14 +1557,13 @@ msgstr "הודעה"
 
 #: clientgui/DlgEventLog.cpp:263
 #: clientgui/DlgEventLog.cpp:327
-#, fuzzy
 msgid "&Show only this project"
-msgstr "הצג פרוייקט זה בלבד"
+msgstr "&הצג פרוייקט זה בלבד"
 
 #: clientgui/DlgEventLog.cpp:267
 #, fuzzy
 msgid "Copy &All"
-msgstr "העתק הכל"
+msgstr "ה&עתק הכל"
 
 #: clientgui/DlgEventLog.cpp:269
 #: clientgui/DlgEventLog.cpp:273
@@ -1598,7 +1603,7 @@ msgstr "קבל עזרה עם %s"
 #: clientgui/DlgEventLog.cpp:321
 #, fuzzy
 msgid "Show all &messages"
-msgstr "הצג את כל ההודעות"
+msgstr "ה&צג את כל ההודעות"
 
 #: clientgui/DlgEventLog.cpp:322
 #: clientgui/DlgEventLog.cpp:324
@@ -1616,7 +1621,7 @@ msgid "%s - Exit Confirmation"
 msgstr "%s - אישור יציאה"
 
 #: clientgui/DlgExitMessage.cpp:130
-#, c-format
+#, c-format, fuzzy
 msgid ""
 "You have requested to exit the %s,\n"
 "which allows you to view and manage\n"
@@ -1625,9 +1630,15 @@ msgid ""
 "If you also want to stop running the tasks,\n"
 "choose from the following options:"
 msgstr ""
+"ביקשת לצאת מה-%s,\n"
+"אשר מאפשר לך לצפות ולנהל\n"
+"את היישומים הרצים על המשחב שלך.\n"
+"\n"
+"אם אתה רוצה להפסיק להריץ את היישומים,\n"
+"בחר זאת מהאפשרויות הבאות:"
 
 #: clientgui/DlgExitMessage.cpp:135
-#, c-format, fuzzy
+#, c-format
 msgid ""
 "This will shut down %s and its tasks until either the\n"
 "%s or the %s screen saver is run again.\n"
@@ -1637,16 +1648,16 @@ msgid ""
 "tasks at the times you selected in your preferences."
 msgstr ""
 "אפשרות זו תכבה את %s ואת המשימות לגמרי עד\n"
-"אשר אפליקציית %s או שומר המסך של %s ירוץ שוב.\n"
+"אשר אפליקציית %s או שומר המסך ירוץ שוב.\n"
 "\n"
 "ברוב המקרים, עדיף פשוט לסגור את חלון ה-%s\n"
 "מאשר לצאת מהיישום; דבר זה יאפשר ל-%s להריץ את\n"
 "היישומים בזמנים שבחרת בהעדפות."
 
 #: clientgui/DlgExitMessage.cpp:153
-#, c-format
+#, c-format, fuzzy
 msgid "Stop running tasks when exiting the %s"
-msgstr ""
+msgstr "הפסק להריץ משימות כאשר יוצאים מ-%s"
 
 #: clientgui/DlgExitMessage.cpp:165
 msgid "Remember this decision and do not show this dialog."
@@ -1789,7 +1800,7 @@ msgstr "אל תקבל משימות למעבד"
 #: clientgui/DlgItemProperties.cpp:263
 #, fuzzy
 msgid "Scheduling priority"
-msgstr "עדיפות תזמון למעבד"
+msgstr "עדיפות תזמון"
 
 #: clientgui/DlgItemProperties.cpp:266
 msgid "CPU work fetch deferred for"
@@ -1856,8 +1867,9 @@ msgid "Resources"
 msgstr "משאבים"
 
 #: clientgui/DlgItemProperties.cpp:322
+#, fuzzy
 msgid "Estimated computation size"
-msgstr ""
+msgstr "נפח חישוב משוער"
 
 #: clientgui/DlgItemProperties.cpp:325
 msgid "CPU time at last checkpoint"
@@ -1904,7 +1916,7 @@ msgstr "מקומי:"
 #: clientgui/DlgOptions.cpp:115
 #: clientgui/DlgOptions.cpp:121
 msgid "Options"
-msgstr ""
+msgstr "אפשרויות"
 
 #: clientgui/DlgOptions.cpp:161
 msgid "Language:"
@@ -2316,8 +2328,9 @@ msgid "network bandwidth limit exceeded"
 msgstr "חריגה מהגבלת רוחב הפס של הרשת"
 
 #: clientgui/MainDocument.cpp:2355
+#, fuzzy
 msgid "requested by operating system"
-msgstr ""
+msgstr "נתבקש על ידי מערכת ההפעלה"
 
 #: clientgui/MainDocument.cpp:2357
 msgid "unknown reason"
@@ -2515,7 +2528,7 @@ msgstr "עוד..."
 #: clientgui/ProjectInfoPage.cpp:734
 #: clientgui/ProjectInfoPage.cpp:738
 msgid "All"
-msgstr ""
+msgstr "הכל"
 
 #: clientgui/ProjectInfoPage.cpp:576
 msgid "Choose a project"
@@ -2526,39 +2539,39 @@ msgid "To choose a project, click its name or type its URL below."
 msgstr "כדי לבחור פרוייקט, לחץ על השם שלו או רשום את כתובת האינטרנט שלו למטה."
 
 #: clientgui/ProjectInfoPage.cpp:584
+#, fuzzy
 msgid "Categories:"
-msgstr ""
+msgstr "קטגוריות:"
 
 #: clientgui/ProjectInfoPage.cpp:588
-#, fuzzy
 msgid "Projects:"
-msgstr "פרוייקטים"
+msgstr "פרוייקטים:"
 
 #: clientgui/ProjectInfoPage.cpp:592
 msgid "Project details"
-msgstr ""
+msgstr "פרטי הפרוייקט"
 
 #: clientgui/ProjectInfoPage.cpp:596
 msgid "Research area:"
 msgstr ""
 
 #: clientgui/ProjectInfoPage.cpp:600
+#, fuzzy
 msgid "Organization:"
-msgstr ""
+msgstr "אירגון:"
 
 #: clientgui/ProjectInfoPage.cpp:604
-#, fuzzy
 msgid "Web site:"
-msgstr "אתרי אינטרנט"
+msgstr "אתר אינטרנט:"
 
 #: clientgui/ProjectInfoPage.cpp:608
+#, fuzzy
 msgid "Supported systems:"
-msgstr ""
+msgstr "מערכות נתמכות:"
 
 #: clientgui/ProjectInfoPage.cpp:612
-#, fuzzy
 msgid "Project URL:"
-msgstr "&כתובת האינטרנט של הפרוייקט:"
+msgstr "כתובת האינטרנט של הפרוייקט:"
 
 #: clientgui/ProjectInfoPage.cpp:782
 msgid "This project may not have work for your type of computer.  Do you want to add it anyway?"
@@ -2708,8 +2721,9 @@ msgid "Skin"
 msgstr "מראה"
 
 #: clientgui/sg_BoincSimpleFrame.cpp:144
+#, fuzzy
 msgid "Select the appearance of the user interface."
-msgstr ""
+msgstr "בחר את המראה של ממשק המשתמש."
 
 #: clientgui/sg_BoincSimpleFrame.cpp:191
 #: clientgui/sg_BoincSimpleGUI.cpp:147
@@ -2731,12 +2745,14 @@ msgid "Resume"
 msgstr "המשך"
 
 #: clientgui/sg_BoincSimpleFrame.cpp:707
+#, fuzzy
 msgid "Suspend Computing"
-msgstr ""
+msgstr "השהה חישובים"
 
 #: clientgui/sg_BoincSimpleFrame.cpp:708
+#, fuzzy
 msgid "Resume Computing"
-msgstr ""
+msgstr "המשך חישובים"
 
 #: clientgui/sg_BoincSimpleFrame.cpp:724
 msgid "Notices"
@@ -2824,7 +2840,7 @@ msgstr "&סגור"
 #: clientgui/sg_DlgMessages.cpp:332
 #, c-format, fuzzy
 msgid "%s - Notices"
-msgstr "התראות %s"
+msgstr "%s - התראות"
 
 #: clientgui/sg_DlgPreferences.cpp:94
 msgid "100 MB"

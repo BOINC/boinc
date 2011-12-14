@@ -4,7 +4,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-10-21 15:38-0500\n"
-"PO-Revision-Date: 2011-05-26 14:19+0200\n"
+"PO-Revision-Date: 2011-11-19 00:08+0200\n"
 "Last-Translator: Jerome Cadet <jerome.cadet@pobox.com>\n"
 "Language-Team: <fr@li.org>\n"
 "Language: fr\n"
@@ -12,7 +12,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Pootle 2.1.1\n"
+"X-Generator: Pootle 2.1.6\n"
 "X-Poedit-SearchPath-1: clientgui/msw\n"
 "X-Poedit-SearchPath-2: clientgui/gtk\n"
 "X-Poedit-SearchPath-3: clientgui/mac\n"
@@ -20,8 +20,6 @@ msgstr ""
 "X-Poedit-SourceCharset: utf-8\n"
 "X-Poedit-Basepath: C:\\Src\\BOINCSVN\\trunk\\boinc\n"
 "X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
-"X-Poedit-Country: UNITED STATES\n"
-"X-Poedit-Language: English\n"
 
 #: clientgui/AccountInfoPage.cpp:386
 msgid "Identify your account "
@@ -1105,42 +1103,44 @@ msgstr "Erreur de Validation"
 #: clientgui/DlgAdvPreferences.cpp:793
 #: clientgui/DlgAdvPreferences.cpp:798
 msgid "Applications to add"
-msgstr ""
+msgstr "Applications à ajouter"
 
 #: clientgui/DlgAdvPreferences.cpp:814
 #, c-format
 msgid "'%s' is not an executable application."
-msgstr ""
+msgstr "'%s' n'est pas une application exécutable."
 
 #: clientgui/DlgAdvPreferences.cpp:815
 #: clientgui/DlgAdvPreferences.cpp:848
 #: clientgui/DlgAdvPreferences.cpp:872
 msgid "Add Exclusive App"
-msgstr ""
+msgstr "Ajouter une application exclusive"
 
 #: clientgui/DlgAdvPreferences.cpp:826
 msgid "Name of application to add?"
-msgstr ""
+msgstr "Nom de l'application à ajouter?"
 
 #: clientgui/DlgAdvPreferences.cpp:826
 msgid "Add exclusive app"
-msgstr ""
+msgstr "Ajouter une application exclusive"
 
 #: clientgui/DlgAdvPreferences.cpp:847
 #, c-format
 msgid "Application names must end with '%s'"
-msgstr ""
+msgstr "Les noms d'application doivent finir par '%s'"
 
 #: clientgui/DlgAdvPreferences.cpp:871
 #, c-format
 msgid "'%s' is already in the list."
-msgstr ""
+msgstr "'%s' est déjà dans la liste."
 
 #: clientgui/DlgAdvPreferences.cpp:962
 msgid ""
 "Do you really want to clear all local preferences?\n"
 "(This will not affect exclusive applications.)"
 msgstr ""
+"Voulez-vous réellement supprimer vos préférences locales ? (cela n'affectera "
+"pas vos applications exclusives)"
 
 #: clientgui/DlgAdvPreferences.cpp:963
 msgid "Confirmation"
@@ -1152,7 +1152,6 @@ msgid "%s - Preferences"
 msgstr "%s - Préférences"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:62
-#, fuzzy
 msgid ""
 "This dialog controls preferences for this computer only.\n"
 "Click OK to set preferences.\n"
@@ -1160,7 +1159,8 @@ msgid ""
 msgstr ""
 "Cette fenêtre contrôle les préférences pour cet ordinateur uniquement.\n"
 "Cliquez sur OK pour enregistrer ces préférences.\n"
-"Cliquez sur Effacer pour restaurer les paramètres du site internet."
+"Cliquez sur Effacer pour restaurer les paramètres du site internet(sauf les "
+"applications exclusives)."
 
 #: clientgui/DlgAdvPreferencesBase.cpp:65
 msgid "Clear"
@@ -1184,7 +1184,7 @@ msgstr "utilisation du disque et de la mémoire"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:90
 msgid "exclusive applications"
-msgstr ""
+msgstr "applications exclusives"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:102
 msgid "OK"
@@ -1539,14 +1539,16 @@ msgstr "si coché, les tâches suspendues seront laissées en mémoire"
 #: clientgui/DlgAdvPreferencesBase.cpp:693
 msgid "Suspend processor and network usage when these applications are running:"
 msgstr ""
+"Suspendre l'utilisation du processeur et l'activité réseau quand ces "
+"applications sont en cours:"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:702
 msgid "Add..."
-msgstr ""
+msgstr "Ajouter..."
 
 #: clientgui/DlgAdvPreferencesBase.cpp:703
 msgid "Add an application to this list"
-msgstr ""
+msgstr "Ajouter une application à cette liste"
 
 # changement de terminologie boinc (cf. comm de David Anderson sur boinc_loc)
 #: clientgui/DlgAdvPreferencesBase.cpp:708
@@ -1555,11 +1557,11 @@ msgstr "Retirer"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:709
 msgid "Remove an application from this list"
-msgstr ""
+msgstr "Retirer une application de cette liste"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:718
 msgid "For advanced options, refer to "
-msgstr ""
+msgstr "Pour les paramètres avancés, se référer à"
 
 #: clientgui/DlgEventLog.cpp:194
 #, c-format
@@ -1655,6 +1657,12 @@ msgid ""
 "If you also want to stop running the tasks,\n"
 "choose from the following options:"
 msgstr ""
+"Vous avez demandé à fermer le %s,\n"
+"qui vous permet de voir et gérer\n"
+"les tâches s'exécutant sur votre ordinateur.\n"
+"\n"
+"Si vous voulez également arrêter les applications en cours,\n"
+"choisissez parmi les options suivantes:"
 
 #: clientgui/DlgExitMessage.cpp:135
 #, c-format, fuzzy
@@ -1676,7 +1684,7 @@ msgstr ""
 #: clientgui/DlgExitMessage.cpp:153
 #, c-format
 msgid "Stop running tasks when exiting the %s"
-msgstr ""
+msgstr "Arrêter les tâches en cours en quittant le %s"
 
 #: clientgui/DlgExitMessage.cpp:165
 msgid "Remember this decision and do not show this dialog."
@@ -1768,7 +1776,7 @@ msgstr "Requête au planificateur en cours"
 
 #: clientgui/DlgItemProperties.cpp:225
 msgid "Trickle-up pending"
-msgstr ""
+msgstr "Envoi des notifications d'avancement en attente"
 
 #: clientgui/DlgItemProperties.cpp:228
 #: clientgui/DlgItemProperties.cpp:230
@@ -1818,9 +1826,8 @@ msgid "Don't fetch CPU tasks"
 msgstr "Ne pas charger de tâches CPU"
 
 #: clientgui/DlgItemProperties.cpp:263
-#, fuzzy
 msgid "Scheduling priority"
-msgstr "Priorité de planification CPU"
+msgstr "Priorité de planification"
 
 #: clientgui/DlgItemProperties.cpp:266
 msgid "CPU work fetch deferred for"
@@ -1888,7 +1895,7 @@ msgstr "Ressources"
 
 #: clientgui/DlgItemProperties.cpp:322
 msgid "Estimated computation size"
-msgstr ""
+msgstr "Taille de tâche estimée"
 
 #: clientgui/DlgItemProperties.cpp:325
 msgid "CPU time at last checkpoint"
@@ -1935,7 +1942,7 @@ msgstr "Local: "
 #: clientgui/DlgOptions.cpp:115
 #: clientgui/DlgOptions.cpp:121
 msgid "Options"
-msgstr ""
+msgstr "Options"
 
 #: clientgui/DlgOptions.cpp:161
 msgid "Language:"
@@ -2358,7 +2365,7 @@ msgstr "Dépassement de limite du débit réseau"
 
 #: clientgui/MainDocument.cpp:2355
 msgid "requested by operating system"
-msgstr ""
+msgstr "demandé par le système d'exploitation"
 
 #: clientgui/MainDocument.cpp:2357
 msgid "unknown reason"
@@ -2433,7 +2440,7 @@ msgstr "Prêt à démarrer"
 
 #: clientgui/MainDocument.cpp:2432
 msgid " (Scheduler wait)"
-msgstr ""
+msgstr "(En attente de planification)"
 
 #: clientgui/MainDocument.cpp:2436
 msgid "Computation error"
@@ -2557,7 +2564,7 @@ msgstr "suivant..."
 #: clientgui/ProjectInfoPage.cpp:734
 #: clientgui/ProjectInfoPage.cpp:738
 msgid "All"
-msgstr ""
+msgstr "Tous"
 
 #: clientgui/ProjectInfoPage.cpp:576
 msgid "Choose a project"
@@ -2570,38 +2577,37 @@ msgstr ""
 
 #: clientgui/ProjectInfoPage.cpp:584
 msgid "Categories:"
-msgstr ""
+msgstr "Catégories:"
 
 #: clientgui/ProjectInfoPage.cpp:588
 #, fuzzy
 msgid "Projects:"
-msgstr "Projets"
+msgstr "Projets:"
 
 #: clientgui/ProjectInfoPage.cpp:592
 msgid "Project details"
-msgstr ""
+msgstr "Détails du projet"
 
 #: clientgui/ProjectInfoPage.cpp:596
 msgid "Research area:"
-msgstr ""
+msgstr "Domaine de recherche:"
 
 #: clientgui/ProjectInfoPage.cpp:600
 msgid "Organization:"
-msgstr ""
+msgstr "Organisation:"
 
 #: clientgui/ProjectInfoPage.cpp:604
 #, fuzzy
 msgid "Web site:"
-msgstr "Sites Web"
+msgstr "Site Web:"
 
 #: clientgui/ProjectInfoPage.cpp:608
 msgid "Supported systems:"
-msgstr ""
+msgstr "Systèmes compatibles:"
 
 #: clientgui/ProjectInfoPage.cpp:612
-#, fuzzy
 msgid "Project URL:"
-msgstr "&URL du projet:"
+msgstr "URL du projet:"
 
 #: clientgui/ProjectInfoPage.cpp:782
 msgid "This project may not have work for your type of computer.  Do you want to add it anyway?"
@@ -2752,7 +2758,7 @@ msgstr "Apparence"
 
 #: clientgui/sg_BoincSimpleFrame.cpp:144
 msgid "Select the appearance of the user interface."
-msgstr ""
+msgstr "Choisissez l'apparence de l'interface utilisateur."
 
 #: clientgui/sg_BoincSimpleFrame.cpp:191
 #: clientgui/sg_BoincSimpleGUI.cpp:147
@@ -2775,11 +2781,11 @@ msgstr "Reprendre"
 
 #: clientgui/sg_BoincSimpleFrame.cpp:707
 msgid "Suspend Computing"
-msgstr ""
+msgstr "Suspendre le calcul"
 
 #: clientgui/sg_BoincSimpleFrame.cpp:708
 msgid "Resume Computing"
-msgstr ""
+msgstr "Reprendre le calcul"
 
 #: clientgui/sg_BoincSimpleFrame.cpp:724
 msgid "Notices"
@@ -2980,22 +2986,25 @@ msgstr "60"
 #: clientgui/sg_DlgPreferences.cpp:282
 msgid "This dialog controls preferences for this computer only."
 msgstr ""
+"Cet écran permet de contrôler les préférences pour cet ordinateur "
+"uniquement."
 
 #: clientgui/sg_DlgPreferences.cpp:287
 msgid "Click OK to set preferences."
-msgstr ""
+msgstr "Cliquez sur OK pour enregistrer les préférences."
 
 #: clientgui/sg_DlgPreferences.cpp:292
 msgid "Click Clear to restore web-based settings."
-msgstr ""
+msgstr "Cliquez sur Effacer pour revenir aux réglages du site web."
 
 #: clientgui/sg_DlgPreferences.cpp:299
 msgid "For additional settings, select Computing Preferences in "
 msgstr ""
+"Pour des réglages supplémentaires, choisissez Préférences de Calcul dans"
 
 #: clientgui/sg_DlgPreferences.cpp:304
 msgid "the Advanced View."
-msgstr ""
+msgstr "la Vue avancée."
 
 #: clientgui/sg_DlgPreferences.cpp:332
 msgid "Do work only between:"
@@ -3203,7 +3212,7 @@ msgstr "Synchroniser"
 
 #: clientgui/sg_ProjectPanel.cpp:72
 msgid "Work done for this project"
-msgstr ""
+msgstr "Travail terminé pour ce projet"
 
 #: clientgui/sg_ProjectPanel.cpp:75
 #: clientgui/sg_ProjectsComponent.cpp:123
@@ -3216,14 +3225,13 @@ msgstr "Choisir un projet à accéder avec les contrôles ci-dessous"
 
 #: clientgui/sg_ProjectPanel.cpp:133
 #: clientgui/sg_ProjectPanel.cpp:252
-#, c-format, fuzzy
+#, c-format
 msgid "%s: %.0f"
-msgstr "%s: %0.2f"
+msgstr "%s: %.de"
 
 #: clientgui/sg_ProjectPanel.cpp:144
-#, fuzzy
 msgid "Project Web Pages"
-msgstr "Sites web du projet"
+msgstr "Sites Web du projet"
 
 #: clientgui/sg_ProjectPanel.cpp:148
 msgid "Project Commands"
@@ -3322,18 +3330,16 @@ msgid "Not available"
 msgstr "Non disponible"
 
 #: clientgui/sg_TaskPanel.cpp:220
-#, fuzzy
 msgid "Tasks:"
-msgstr "Tâches"
+msgstr "Tâches:"
 
 #: clientgui/sg_TaskPanel.cpp:235
 msgid "Select a task to access"
 msgstr "Choisir une tâche"
 
 #: clientgui/sg_TaskPanel.cpp:246
-#, fuzzy
 msgid "From:"
-msgstr "De"
+msgstr "De:"
 
 #: clientgui/sg_TaskPanel.cpp:298
 msgid "This task's progress"
@@ -3369,12 +3375,12 @@ msgstr "Non disponible"
 #: clientgui/sg_TaskPanel.cpp:584
 #, c-format
 msgid "Elapsed: %s"
-msgstr ""
+msgstr "Ecoulé: %s"
 
 #: clientgui/sg_TaskPanel.cpp:598
 #, c-format
 msgid "Remaining: %s"
-msgstr ""
+msgstr "Restant: %s"
 
 #: clientgui/sg_TaskPanel.cpp:613
 #, c-format
@@ -3963,32 +3969,31 @@ msgstr "Annuler le transfert de fichier"
 
 #: clientgui/ViewTransfers.cpp:769
 msgid "Upload"
-msgstr ""
+msgstr "Envoi"
 
 #: clientgui/ViewTransfers.cpp:769
 msgid "Download"
-msgstr ""
+msgstr "Téléchargement"
 
 #: clientgui/ViewTransfers.cpp:773
-#, fuzzy
 msgid "retry in "
-msgstr "Réessayer dans "
+msgstr "réessayer dans "
 
 #: clientgui/ViewTransfers.cpp:775
 msgid "failed"
-msgstr ""
+msgstr "échoué"
 
 #: clientgui/ViewTransfers.cpp:778
 msgid "suspended"
-msgstr ""
+msgstr "suspendu"
 
 #: clientgui/ViewTransfers.cpp:783
 msgid "active"
-msgstr ""
+msgstr "actif"
 
 #: clientgui/ViewTransfers.cpp:785
 msgid "pending"
-msgstr ""
+msgstr "en attente"
 
 #: clientgui/ViewTransfers.cpp:792
 msgid " (project backoff: "

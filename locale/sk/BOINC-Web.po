@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: boinc 1.10\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2011-04-04 22:09 PDT\n"
-"PO-Revision-Date: 2011-05-28 14:40+0200\n"
+"PO-Revision-Date: 2011-09-06 15:52+0200\n"
 "Last-Translator: aceman <acelists@atlas.sk>\n"
 "Language-Team: boinc.sk\n"
 "Language: sk\n"
@@ -15,7 +15,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
-"X-Generator: Pootle 2.1.1\n"
+"X-Generator: Pootle 2.1.6\n"
 "X-Poedit-SearchPath-0: doc\n"
 "X-Poedit-SourceCharset: utf-8\n"
 "X-Poedit-Basepath: C:\\Src\\BOINCSVN\\trunk\\boinc\n"
@@ -678,9 +678,8 @@ msgid "PrimeGrid"
 msgstr ""
 
 #: projects.inc:344
-#, fuzzy
 msgid "Private"
-msgstr "súkromný"
+msgstr "Súkromný"
 
 #: projects.inc:346
 msgid ""

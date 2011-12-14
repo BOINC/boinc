@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2011-08-25 15:10 PDT\n"
-"PO-Revision-Date: 2011-10-19 12:48+0200\n"
+"PO-Revision-Date: 2011-12-06 22:09+0200\n"
 "Last-Translator: Gabor Cseh <csega@mailbox.hu>\n"
 "Language-Team: \n"
 "Language: hu\n"
@@ -15,7 +15,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n !=1);\n"
-"X-Generator: Pootle 2.1.1\n"
+"X-Generator: Pootle 2.1.6\n"
 "X-Poedit-Bookmarks: 7,-1,-1,-1,-1,-1,-1,-1,-1,-1\n"
 "X-Poedit-SourceCharset: utf-8\n"
 "X-Poedit-SearchPath-0: html\\user\n"
@@ -452,9 +452,8 @@ msgid "Host %1 has overlapping lifetime:"
 msgstr "A(z) %1 gépnek átfedő élettartama van:"
 
 #: ../inc/host.inc:467
-#, fuzzy
 msgid "Host %1 has an incompatible OS:"
-msgstr "A(z) %1 számítógépnek nem kompatibilis az operációs rendszere:"
+msgstr "A(z) %1 számítógépnek nem kompatibilis operációs rendszere van:"
 
 #: ../inc/host.inc:473
 msgid "Host %1 has an incompatible CPU:"
@@ -4372,9 +4371,8 @@ msgid "name"
 msgstr "Név"
 
 #: ../user/host_edit_form.php:70 ../user/workunit.php:41
-#, fuzzy
 msgid "created"
-msgstr "Létrehoz"
+msgstr "létrehozva"
 
 #: ../user/host_edit_form.php:70
 #, fuzzy
@@ -5261,9 +5259,8 @@ msgid "%1 teams"
 msgstr ""
 
 #: ../user/team.php:58
-#, fuzzy
 msgid "Create a new team"
-msgstr "Új téma létrehozása"
+msgstr "Új csapat létrehozása"
 
 #: ../user/team.php:59
 msgid ""
@@ -5444,9 +5441,8 @@ msgid "Could not create team - please try later."
 msgstr ""
 
 #: ../user/team_create_form.php:27 ../user/team_create_form.php:32
-#, fuzzy
 msgid "Create a team"
-msgstr "Új téma létrehozása"
+msgstr "Csapat létrehozása"
 
 #: ../user/team_create_form.php:30
 msgid ""
