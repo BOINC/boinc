@@ -7123,4 +7123,16 @@ Rom    13 Dec 2011
     /
         configure.ac
         version.h
-        
+
+Charlie 14 Dec 2011
+    - MGR: Check in remaining Progress Through Processors artwork for Macintosh.
+        (Checked into 6.8.34 tag.)
+        clientgui/
+            mac/
+                ProgThruProc.tiff
+            res/
+                PTP_install.icns
+                PTP_uninstall.icns
+        clientscr/
+            res/
+                ProgThruProc_ss_logo.png
