@@ -8751,3 +8751,14 @@ Charlie 14 Dec 2011
     mac_installer/
         make_CharityEngine.sh
         make_ProgThruProc.sh
+
+David  1 Dec 2011
+    - API and client: add "ncpus" field to APP_INIT_DATA.
+        Tells multicore apps how many cores to use.
+        The --nthreads command line arg to the app is now deprecated
+        though we'll keep it around for the time being.
+
+    lib/
+        app_ipc.cpp,h
+    client/
+        app_start.cpp
