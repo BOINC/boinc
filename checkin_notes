@@ -8712,6 +8712,7 @@ Rom    5 Dec 2011
     clientgui/skins/Default/
         skin.xml
 
+<<<<<<< .working
 Charlie 6 Dec 2011
     - MGR: eliminate "ghost" Notices window when running on Windows OS.
     
@@ -8762,3 +8763,15 @@ David  1 Dec 2011
         app_ipc.cpp,h
     client/
         app_start.cpp
+=======
+    sched/
+        sched_customize.cpp
+
+David  4 Dec 2011
+	- client: isdigit() asserts if its arg is negative (which it can be).
+		Call isascii() first.
+	- GUI RPC lib: add some consts
+
+	client/
+		cs_notice.cpp
+>>>>>>> .merge-right.r24726

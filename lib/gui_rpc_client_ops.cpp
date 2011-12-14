@@ -908,7 +908,7 @@ void CC_STATE::clear() {
     have_ati = false;
 }
 
-PROJECT* CC_STATE::lookup_project(char* url) {
+PROJECT* CC_STATE::lookup_project(const char* url) {
     unsigned int i;
     for (i=0; i<projects.size(); i++) {
         if (!strcmp(projects[i]->master_url, url)) return projects[i];
@@ -916,7 +916,7 @@ PROJECT* CC_STATE::lookup_project(char* url) {
     return 0;
 }
 
-APP* CC_STATE::lookup_app(PROJECT* project, char* name) {
+APP* CC_STATE::lookup_app(PROJECT* project, const char* name) {
     unsigned int i;
     for (i=0; i<apps.size(); i++) {
         if (apps[i]->project != project) continue;
@@ -952,7 +952,7 @@ APP_VERSION* CC_STATE::lookup_app_version_old(
     return 0;
 }
 
-WORKUNIT* CC_STATE::lookup_wu(PROJECT* project, char* name) {
+WORKUNIT* CC_STATE::lookup_wu(PROJECT* project, const char* name) {
     unsigned int i;
     for (i=0; i<wus.size(); i++) {
         if (wus[i]->project != project) continue;
@@ -961,7 +961,7 @@ WORKUNIT* CC_STATE::lookup_wu(PROJECT* project, char* name) {
     return 0;
 }
 
-RESULT* CC_STATE::lookup_result(PROJECT* project, char* name) {
+RESULT* CC_STATE::lookup_result(PROJECT* project, const char* name) {
     unsigned int i;
     for (i=0; i<results.size(); i++) {
         if (results[i]->project != project) continue;
@@ -970,7 +970,7 @@ RESULT* CC_STATE::lookup_result(PROJECT* project, char* name) {
     return 0;
 }
 
-RESULT* CC_STATE::lookup_result(char* url, char* name) {
+RESULT* CC_STATE::lookup_result(const char* url, const char* name) {
     unsigned int i;
     for (i=0; i<results.size(); i++) {
         if (strcmp(results[i]->project->master_url, url)) continue;
