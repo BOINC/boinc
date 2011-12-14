@@ -26,4 +26,5 @@ EXPORTS
 	SetPermissionBOINCData
 	SetPermissionBOINCDataProjects
 	SetPermissionBOINCDataSlots
+	LaunchBOINCManager
 	
