@@ -9044,3 +9044,10 @@ Charlie 14 Dec 2011
         ptp_icon_play.png
     clientscr/res/
         ProgThruProc_ss_logo.png
+
+Charlie 14 Dec 2011
+    - Mac installer: update build scripts for naming consistency with other platforms.
+
+    mac_installer/
+        make_CharityEngine.sh
+        make_ProgThruProc.sh
