@@ -8825,3 +8825,10 @@ David  6 Dec 2011
 
     lib/
         coproc.cpp,h
+
+David  12 Dec 2011
+    - client: tweak parameters of file xfer backoff to
+        reduce backoff intervals somewhat
+
+    client/
+        pers_file_xfer.h

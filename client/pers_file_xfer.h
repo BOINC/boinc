@@ -24,8 +24,8 @@
 // min and max for exponential backoff
 // these are multiplied by a random factor .5 .. 1
 //
-#define PERS_RETRY_DELAY_MIN    600
-#define PERS_RETRY_DELAY_MAX    (3600*12)
+#define PERS_RETRY_DELAY_MIN    120
+#define PERS_RETRY_DELAY_MAX    (3600*6)
 #define PERS_GIVEUP             (SECONDS_PER_DAY*90)
     // give up on xfer if this time elapses since last byte xferred
 
