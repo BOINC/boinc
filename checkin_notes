@@ -9013,3 +9013,11 @@ Charlie 12 Dec 2011
         
     clientgui/
         SkinManager.cpp
+
+David  13 Dec 2011
+    - storage simulator: use a top-down approach to recovery policy.
+        As of right now, it seems to work.
+        Need to add statistics for network load and fault-tolerance level.
+
+    ssim/
+        ssim.cpp
