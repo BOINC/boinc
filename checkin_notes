@@ -8832,17 +8832,6 @@ David  12 Dec 2011
 
     client/
         pers_file_xfer.h
-<<<<<<< .working
-=======
-
-David  12 Dec 2011
-    - scheduler: if using homogeneous app version,
-        and a WU is committed to an app version that's been superceded,
-        treat it as committed to the later version.
-
-    sched/
-        sched_shmem.cpp,h
-        sched_version.cpp
 
 Rom    12 Dec 2011
     - MGR: Add IE8-10 support for browser cookies when UAC is enabled.  Use the
@@ -8863,4 +8852,3 @@ Rom    12 Dec 2011
     win_build/installerv2/redist/Windows/x64/
         boinccas.dll
         boinccas95.dll
->>>>>>> .merge-right.r24777
