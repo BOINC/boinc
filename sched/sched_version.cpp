@@ -243,14 +243,14 @@ CLIENT_APP_VERSION* get_app_version_anonymous(
 // input:
 // cav.host_usage.projected_flops
 //      This is the <flops> specified in app_info.xml
-//      If not specific there, it's a conservative estimate
-//      (CPU speed * (ncpus = ngpus))
+//      If not specified there, it's a conservative estimate
+//      (CPU speed * (ncpus + ngpus))
 //      In either case, this value will be used by the client
 //      to estimate job runtime and runtime limit
 //          est runtime = wu.rsc_fpops_est/x
 //          runtime limit = wu.rsc_fpops_bound/x
 //      x may be way off from the actual speed.
-//      To get accurate runtime est, we need to adjust wu.rsc_fpops_est
+//      So to get accurate runtime est, we need to adjust wu.rsc_fpops_est
 //
 // output:
 // cav.host_usage.projected_flops
@@ -332,8 +332,13 @@ void estimate_flops_anon_platform() {
     }
 }
 
-// if we have enough statistics to estimate the app version's
-// actual FLOPS on this host, do so.
+// compute HOST_USAGE::projected_flops as best we can:
+// 1) if we have statistics for (host, app version) elapsed time,
+//    use those.
+// 2) if we have statistics for app version elapsed time, use those.
+// 3) else use a conservative estimate (p_fpops*(cpus+gpus))
+//    This prevents jobs from aborting with "time limit exceeded"
+//    even if the estimate supplied by the plan class function is way off
 //
 void estimate_flops(HOST_USAGE& hu, APP_VERSION& av) {
     DB_HOST_APP_VERSION* havp = gavid_to_havp(av.id);
@@ -371,9 +376,10 @@ void estimate_flops(HOST_USAGE& hu, APP_VERSION& av) {
                 );
             }
         } else {
+            hu.projected_flops = g_reply->host.p_fpops * (hu.avg_ncpus + hu.ncudas + hu.natis);
             if (config.debug_version_select) {
                 log_messages.printf(MSG_NORMAL,
-                    "[version] [AV#%d] (%s) using unscaled projected flops: %.2fG\n",
+                    "[version] [AV#%d] (%s) using conservative projected flops: %.2fG\n",
                     av.id, av.plan_class, hu.projected_flops/1e9
                 );
             }

@@ -25,7 +25,7 @@ using std::vector;
 
 // base class for events.
 // t is the time when the event occurs.
-// handle() is what you want to happen then
+// handle() is the function to call then.
 //
 struct EVENT {
     double t;

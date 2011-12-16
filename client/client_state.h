@@ -290,7 +290,9 @@ struct CLIENT_STATE {
         // wait until at least this time to try running
         // another task that needs a shared-mem seg
     inline double work_buf_min() {
-        return global_prefs.work_buf_min_days * 86400;
+        double x = global_prefs.work_buf_min_days * 86400;
+        if (x < 180) x = 180;
+        return x;
     }
     inline double work_buf_additional() {
         return global_prefs.work_buf_additional_days *86400;

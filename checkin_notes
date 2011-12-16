@@ -9064,3 +9064,25 @@ David  16 Dec 2011
 
     html/inc/
         host.inc
+
+David  14 Dec 2011
+    - storage simulator: add stats for network load and fault tolerance.
+    - client: msg tweak
+    - client: minimum work buffer lower bound is 180 sec
+    - scheduler: in computing HOST_USAGE::project_flops for a job,
+        if we don't have sufficient elapsed_time statistics
+        for either the (host, app_version) or the app_version,
+        use a conservative estimate (p_fpops*(#cpus+#ngpus))
+        rather than the number returned by app_plan().
+        This avoids "time limit exceeded" errors when the latter is way off.
+
+    ssim/
+        ssim.cpp
+        des.h
+    client/
+        scheduler_op.cpp
+        client_state.h
+    sched/
+        sched_version.cpp
+    lib/
+        prefs.cpp

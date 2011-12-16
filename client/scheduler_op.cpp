@@ -263,7 +263,7 @@ int SCHEDULER_OP::start_rpc(PROJECT* p) {
     if (log_flags.sched_op_debug) {
         for (int i=0; i<coprocs.n_rsc; i++) {
             msg_printf(p, MSG_INFO,
-                "[sched_op] %s work request: %.2f seconds; %.2f CPUs",
+                "[sched_op] %s work request: %.2f seconds; %.2f devices",
                 rsc_name(i),
                 rsc_work_fetch[i].req_secs,
                 rsc_work_fetch[i].req_instances

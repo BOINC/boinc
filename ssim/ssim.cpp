@@ -76,6 +76,7 @@
 // initial downloads have all succeeded or failed
 
 #include <math.h>
+#include <limits.h>
 #include <stdio.h>
 #include <set>
 
@@ -183,6 +184,8 @@ struct DATA_UNIT {
     bool data_now_present;
     bool data_needed;
     double cost;
+    int fault_tolerance;
+        // min # of host failures that would make this unrecoverable
     char name[64];
 };
 
@@ -311,12 +314,14 @@ struct DFILE : EVENT {
         meta_chunk->recovery_action();
     }
 
+    inline bool collecting_stats() {
+        return (pending_init_downloads == 0);
+    }
+
     void recover() {
         meta_chunk->recovery_plan();
         meta_chunk->recovery_action();
-    }
-    inline bool collecting_stats() {
-        return (pending_init_downloads == 0);
+        fault_tolerance.sample(meta_chunk->fault_tolerance, collecting_stats());
     }
 
     void print_stats() {
@@ -403,6 +408,10 @@ void CHUNK::assign() {
         c->chunk = this;
         c->t = sim.now + (drand()+.5)*size/DOWNLOAD_BYTES_SEC;
         hosts.insert(c);
+        parent->dfile->download_rate.sample_inc(
+            DOWNLOAD_BYTES_SEC,
+            parent->dfile->collecting_stats()
+        );
         h->chunks.insert(c);
         c->transfer_in_progress = true;
         sim.insert(c);
@@ -432,6 +441,10 @@ void CHUNK::start_upload() {
     c = *(hosts.begin());
     c->transfer_in_progress = true;
     c->t = sim.now + (drand()+.5)*size/UPLOAD_BYTES_SEC;
+    parent->dfile->upload_rate.sample_inc(
+        UPLOAD_BYTES_SEC,
+        parent->dfile->collecting_stats()
+    );
 #ifdef EVENT_DEBUG
     printf("%s: starting upload of %s\n", now_str(), c->name);
 #endif
@@ -456,6 +469,10 @@ void CHUNK::upload_complete() {
         );
     }
     parent->dfile->recover();
+    parent->dfile->upload_rate.sample_inc(
+        -UPLOAD_BYTES_SEC,
+        parent->dfile->collecting_stats()
+    );
 }
 
 void CHUNK::download_complete() {
@@ -463,6 +480,10 @@ void CHUNK::download_complete() {
         parent->dfile->pending_init_downloads--;
     }
     parent->dfile->recover();
+    parent->dfile->download_rate.sample_inc(
+        -DOWNLOAD_BYTES_SEC,
+        parent->dfile->collecting_stats()
+    );
 }
 
 META_CHUNK::META_CHUNK(
@@ -490,6 +511,18 @@ META_CHUNK::META_CHUNK(
             children.push_back(new CHUNK(this, size/ENCODING_N, j));
         }
     }
+}
+
+// sort by increasing cost
+//
+bool compare_cost(const DATA_UNIT* d1, const DATA_UNIT* d2) {
+    return d1->cost < d2->cost;
+}
+
+// sort by decreasing fault tolerance
+//
+bool compare_fault_tolerance(const DATA_UNIT* d1, const DATA_UNIT* d2) {
+    return d1->fault_tolerance > d2->fault_tolerance;
 }
 
 // Recovery logic: decide what to do in response to
@@ -547,9 +580,10 @@ void META_CHUNK::recovery_plan() {
     //
     if (present.size() >= ENCODING_N) {
         status = PRESENT;
-        sort(present.begin(), present.end());
+        sort(present.begin(), present.end(), compare_cost);
         present.resize(ENCODING_N);
         cost = 0;
+        fault_tolerance = INT_MAX;
         for (i=0; i<present.size(); i++) {
             DATA_UNIT* c= present[i];
             cost += c->cost;
@@ -557,18 +591,26 @@ void META_CHUNK::recovery_plan() {
         }
     } else if (present.size() + recoverable.size() >= ENCODING_N) {
         status = RECOVERABLE;
-        int j = ENCODING_N - present.size();
-        sort(recoverable.begin(), recoverable.end());
-        recoverable.resize(j);
+        unsigned int j = ENCODING_N - present.size();
+        sort(recoverable.begin(), recoverable.end(), compare_cost);
         cost = 0;
         for (i=0; i<present.size(); i++) {
             DATA_UNIT* c= present[i];
             c->in_recovery_set = true;
         }
-        for (i=0; i<recoverable.size(); i++) {
+        for (i=0; i<j; i++) {
             DATA_UNIT* c= recoverable[i];
             c->in_recovery_set = true;
             cost += c->cost;
+        }
+
+        // compute our fault tolerance
+        //
+        sort(recoverable.begin(), recoverable.end(), compare_fault_tolerance);
+        fault_tolerance = 0;
+        for (i=0; i<j; i++) {
+            DATA_UNIT* c= recoverable[i];
+            fault_tolerance += c->fault_tolerance;
         }
     } else {
         status = UNRECOVERABLE;
@@ -588,14 +630,17 @@ void CHUNK::recovery_plan() {
     if (present_on_server) {
         status = PRESENT;
         cost = 0;
+        fault_tolerance = INT_MAX;
     } else if (hosts.size() > 0) {
         status = RECOVERABLE;
         cost = size;
         if (hosts.size() < REPLICATION_LEVEL) {
             data_needed = true;
         }
+        fault_tolerance = hosts.size();
     } else {
         status = UNRECOVERABLE;
+        fault_tolerance = 0;
     }
 #ifdef DEBUG_RECOVERY
     printf("chunk plan %s: status %s\n", name, status_str(status));

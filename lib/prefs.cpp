@@ -446,11 +446,7 @@ int GLOBAL_PREFS::parse_override(
             continue;
         }
         if (xp.parse_double("work_buf_min_days", work_buf_min_days)) {
-            // the following is for compatibility with old schedulers,
-            // whose work req is just #secs, rather than #sec and #devices
-            // If this were zero we'd never get work from them
-            //
-            if (work_buf_min_days < 0.00001) work_buf_min_days = 0.00001;
+            if (work_buf_min_days < 0) work_buf_min_days = 0;
             mask.work_buf_min_days = true;
             continue;
         }
