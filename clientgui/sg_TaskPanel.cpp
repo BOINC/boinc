@@ -243,6 +243,7 @@ void CSlideShowPanel::OnSlideShowTimer(wxTimerEvent& WXUNUSED(event)) {
 void CSlideShowPanel::AdvanceSlideShow(bool changeSlide, bool reload) {
 	double xRatio, yRatio, ratio;
     unsigned int i;
+    wxString s;
     TaskSelectionData* selData = ((CSimpleTaskPanel*)GetParent())->GetTaskSelectionData();
     if (selData == NULL) return;
 
@@ -281,9 +282,12 @@ numSlides = 0;
         
         for (i=0; i<m_AllProjectsList.projects.size(); i++) {
             if (!strcmp(m_AllProjectsList.projects[i]->url.c_str(), selData->project_url)) {
-                m_institution->SetLabel(wxString(m_AllProjectsList.projects[i]->home.c_str(), wxConvUTF8));
-                m_scienceArea->SetLabel(wxString(m_AllProjectsList.projects[i]->specific_area.c_str(), wxConvUTF8));
-                m_description->SetValue(wxString(m_AllProjectsList.projects[i]->description.c_str(), wxConvUTF8));
+                s = wxString(m_AllProjectsList.projects[i]->home.c_str(), wxConvUTF8);
+                m_institution->SetLabel(wxGetTranslation(s));
+                s = wxString(m_AllProjectsList.projects[i]->specific_area.c_str(), wxConvUTF8);
+                m_scienceArea->SetLabel(wxGetTranslation(s));
+                s = wxString(m_AllProjectsList.projects[i]->description.c_str(), wxConvUTF8);
+                m_description->SetValue(wxGetTranslation(s));
 
                 m_institution->Show(true);
                 m_scienceArea->Show(true);

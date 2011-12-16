@@ -9051,3 +9051,10 @@ Charlie 14 Dec 2011
     mac_installer/
         make_CharityEngine.sh
         make_ProgThruProc.sh
+
+Charlie 16 Dec 2011
+    - MGR: in Simple View, localize institution, science area and description.
+        
+    clientgui/
+        BOINCGUIApp.cpp
+        sg_TaskPanel.cpp
