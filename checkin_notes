@@ -8860,3 +8860,10 @@ Rom    1 Dec 2011
     /
         configure.ac
         version.h
+
+Charlie 16 Dec 2011
+    - MGR: in Simple View, localize institution, science area and description.
+        
+    clientgui/
+        BOINCGUIApp.cpp
+        sg_TaskPanel.cpp
