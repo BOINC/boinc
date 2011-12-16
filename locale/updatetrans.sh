@@ -39,6 +39,19 @@ for file in `find -name 'BOINC-Client.po'` ; do
 done
 
 
+# Iterrate through the various PO files looking for those that need to be added to SVN.
+#
+for file in `find -name 'BOINC-Web.po'` ; do
+  dir=`dirname $file`
+  locale=`basename $dir`
+  template_name=${projdir}/${locale}/BOINC-Web
+ 
+  # Add any missing PO files to SVN
+  svn add ${template_name}.po > /dev/null 2> /dev/null
+  svn propset svn:mime-type 'text/plain;charset=UTF-8' ${template_name}.po > /dev/null 2> /dev/null
+done
+
+
 # Iterrate through the various PO files looking for those that need to be compiled.
 #
 for file in `find -name 'BOINC-Manager.po'` ; do
@@ -69,6 +82,30 @@ for file in `find -name 'BOINC-Client.po'` ; do
   dir=`dirname $file`
   locale=`basename $dir`
   template_name=${projdir}/${locale}/BOINC-Client
+ 
+  if test ${template_name}.po -nt ${template_name}.mo
+  then
+
+    # Compile the PO file into an MO file.
+    pocompile ${template_name}.po ${template_name}.mo > /dev/null 2> /dev/null
+    
+    # Add any new MO files to SVN
+    svn add ${template_name}.mo > /dev/null 2> /dev/null
+
+    # Touch each file to adjust timestamps
+    touch ${template_name}.po
+    touch ${template_name}.mo 
+
+  fi  
+done
+
+
+# Iterrate through the various PO files looking for those that need to be compiled.
+#
+for file in `find -name 'BOINC-Web.po'` ; do
+  dir=`dirname $file`
+  locale=`basename $dir`
+  template_name=${projdir}/${locale}/BOINC-Web
  
   if test ${template_name}.po -nt ${template_name}.mo
   then
