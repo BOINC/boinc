@@ -377,61 +377,79 @@ function show_host_row($host, $i, $private, $show_owner) {
     echo "</tr>\n";
 }
 
-// return true if it's possible that the hosts are actually
-// the same machine
+// Logic for deciding whether two host records might actually
+// be the same machine, based on CPU info
 //
-function ghz($x) {
-    $y = explode(" ", $x);
+// p_vendor is typically either AuthenticAMD or GenuineIntel.
+// Over time we've changed the contents of p_model.
+// Some examples:
+// Intel(R) Core(TM)2 Duo CPU  E7300  @ 2.66GHz [Family 6 Model 23 Stepping 6]
+// AMD Athlon(tm) II X2 250 Processor [Family 16 Model 6 Stepping 3]
+// Intel(R) Xeon(R) CPU X5650 @ 2.67GHz [x86 Family 6 Model 44 Stepping 2]
+// Intel(R) Core(TM) i5-2500K CPU @ 3.30GHz [Intel64 Family 6 Model 42 Stepping 7]
+//
+// in the last 2 cases, let's call x86 and Intel64 the "architecture"
+//
+// so, here's the policy:
+//
+// if p_ncpus different, return false
+// if p_vendor different, return false
+// if both have family/model/stepping info
+//    if info disagrees, return false
+//    if both have GHz info, and they disagree, return false
+//    if both have architecture, and they disagree, return false
+//    return true
+// if p_model different, return false
+// return true
+//
+
+// parse p_model to produce the following structure:
+// x->speed     "3.00GHz" etc. or null
+// x->arch      "x86" etc. or null
+// x->info      "Family 6 Model 23 Stepping 6" etc. or null
+//
+function parse_model($model) {
+    $y = explode(" ", $model);
+    $x = null;
+    $x->speed = null;
+    $x->arch = null;
+    $x->info = null;
     foreach ($y as $z) {
-        if (strstr($z, "GHz")) return $z;
-        if (strstr($z, "MHz")) return $z;
+        if (strstr($z, "GHz")) $x->speed = $z;
+        if (strstr($z, "MHz")) $x->speed = $z;
     }
+    $pos1 = strpos($model, '[');
+    if ($pos1 === false) return $x;
+    $pos2 = strpos($model, ']');
+    if ($pos2 === false) return $x;
+    $a = substr($model, $pos1+1, $pos2-$pos1-1);
+    $y = explode(" ", $a);
+    if (count($y) == 0) return $x;
+    if ($y[0] == "Family") {
+        $x->info = $a;
+    } else {
+        $x->arch = $y[0];
+        $x->info = substr($a, strlen($y[0])+1);
+    }
+    return $x;
 }
 
 function cpus_compatible($host1, $host2) {
-    // we screwed around with Intel processor names,
-    // so count them as compatible if both contain "Intel" and "Pentium",
-    // and don't have conflicting clock rate info
-    
-    // Get rid of cpu capabilities before check
-    $pos = strpos($host1->p_model, '[');
-    $host1pm = $host1->p_model;
-    if($pos) {
-        $host1pm = trim(substr($host1->p_model, 0, $pos));
-    }
-    $pos = strpos($host2->p_model, '[');
-    $host2pm = $host2->p_model;
-    if($pos) {
-        $host2pm = trim(substr($host2->p_model, 0, $pos));
-    }
-    $p1 = "$host1->p_vendor $host1pm";
-    $p2 = "$host2->p_vendor $host2pm";
-    
-    if (strstr($p1, "Pentium") && strstr($p1, "Intel")
-        && strstr($p2, "Pentium") && strstr($p2, "Intel")
-    ) {
-        $g1 = ghz($p1);
-        $g2 = ghz($p2);
-        if ($g1 && $g2) {
-            if ($g1 != $g2) {
-                return false;
-            }
-        } else if ($g1 && !$g2) {
-            return false;
-        } else if (!$g1 && $g2) {
-            return false;
+    if ($host1->p_ncpus != $host2->p_ncpus) return false;
+    if ($host1->p_vendor != $host2->p_vendor) return false;
+    $x1 = parse_model($host1->p_model);
+    $x2 = parse_model($host2->p_model);
+    if ($x1->info && $x2->info) {
+        if ($x1->info != $x2->info) return false;
+        if ($x1->speed && $x2->speed) {
+            if ($x1->speed != $x2->speed) return false;
         }
-    } else if (strstr($p1, "AuthenticAMD") && strstr($p2, "AuthenticAMD")) {
+        if ($x1->arch && $x2->arch) {
+            if ($x1->arch != $x2->arch) return false;
+        }
         return true;
-    } else {
-        if ($host2->p_vendor != $host1->p_vendor) return false;
-
-        // they're compatible if models are the same,
-        // or contents of [family/model/stepping] are the same
-        if ($host1pm != $host2pm) {
-            return false;
-        }
     }
+    if ($host1->p_model != $host2->p_model) return false;
     return true;
 }
 

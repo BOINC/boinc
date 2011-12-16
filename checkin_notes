@@ -9058,3 +9058,9 @@ Charlie 16 Dec 2011
     clientgui/
         BOINCGUIApp.cpp
         sg_TaskPanel.cpp
+
+David  16 Dec 2011
+    - web: clean up the logic for when to allow 2 hosts to be merged
+
+    html/inc/
+        host.inc
