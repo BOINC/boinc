@@ -9065,7 +9065,7 @@ David  16 Dec 2011
     html/inc/
         host.inc
 
-David  14 Dec 2011
+David  16 Dec 2011
     - storage simulator: add stats for network load and fault tolerance.
     - client: msg tweak
     - client: minimum work buffer lower bound is 180 sec
@@ -9086,3 +9086,11 @@ David  14 Dec 2011
         sched_version.cpp
     lib/
         prefs.cpp
+
+David  16 Dec 2011
+    - client: if we're trying to upload a file and it's missing,
+        that's a permanent error
+
+    client/
+        pers_file_xfer.cpp
+        file_xfer.cpp

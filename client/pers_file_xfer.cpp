@@ -141,7 +141,11 @@ int PERS_FILE_XFER::create_xfer() {
         }
 
         fxp->file_xfer_retval = retval;
-        transient_failure(retval);
+        if (retval == ERR_FILE_NOT_FOUND) {
+            permanent_failure(retval);
+        } else {
+            transient_failure(retval);
+        }
         delete fxp;
         fxp = NULL;
         return retval;
