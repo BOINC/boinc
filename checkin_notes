@@ -9094,3 +9094,13 @@ David  16 Dec 2011
     client/
         pers_file_xfer.cpp
         file_xfer.cpp
+
+Rom    17 Dec 2011
+    - VBOX: Attempt to detect the condition where a Virtual HD image has already been
+        registered with VirtualBox during the RegisterVM phase.  If we detect the
+        already exists error message run the unsupported internal command to reset
+        the HD UUID which then allows us to attach the HD to the VM.  This should allow
+        us to run multiple jobs with the same base VM HD image.
+
+    samples/vboxwrapper/
+        vbox.cpp
