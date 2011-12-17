@@ -430,23 +430,36 @@ static BEST_APP_VERSION* check_homogeneous_app_version(
 ) {
     static BEST_APP_VERSION bav;
 
-    bool found=false;
+    bool found;
     APP_VERSION *avp = ssp->lookup_app_version(wu.app_version_id);
     if (!avp) {
-        // the WU may be committed to a version that's been superceded.
-        // In that case use the later version.
+        // If the app version is not in shmem,
+        // it's been superceded or deprecated.
+        // Use it anyway.
+        // Keep an array of such app versions in
+        // SCHEDULER_REPLY::old_app_versions
         //
-        DB_APP_VERSION av;
-        int retval = av.lookup_id(wu.app_version_id);
-        if (retval) return NULL;
-        avp = ssp->lookup_app_version_platform_plan_class(
-            av.platformid, av.plan_class
-        );
-        if (!avp) return NULL;
+        found = false;
+        for (unsigned int i=0; i<g_reply->old_app_versions.size(); i++) {
+            APP_VERSION& av = g_reply->old_app_versions[i];
+            if (av.id == wu.app_version_id) {
+                avp = &av;
+                found = true;
+                break;
+            }
+        }
+        if (!found) {
+            DB_APP_VERSION av;
+            int retval = av.lookup_id(wu.app_version_id);
+            if (retval) return NULL;
+            g_reply->old_app_versions.push_back(av);
+            avp = &(g_reply->old_app_versions.back());
+        }
     }
 
     // see if this host supports the version's platform
     //
+    found = false;
     for (unsigned int i=0; i<g_request->platforms.list.size(); i++) {
         PLATFORM* p = g_request->platforms.list[i];
         if (p->id == avp->platformid) {

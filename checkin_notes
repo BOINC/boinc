@@ -9104,3 +9104,12 @@ Rom    17 Dec 2011
 
     samples/vboxwrapper/
         vbox.cpp
+
+David  17 Dec 2011
+    - scheduler: if using homogeneous app version and a WU is committed
+        to a superceded or deprecated app version, use it anyway.
+        The current app version may not validate against the old one.
+
+    sched/
+        sched_types.h
+        sched_version.cpp

@@ -511,6 +511,9 @@ struct SCHEDULER_REPLY {
     char code_sign_key_signature[4096];
     bool send_msg_ack;
     bool project_is_down;
+    std::vector<APP_VERSION>old_app_versions;
+        // superceded app versions that we consider using because of
+        // homogeneous app version.
 
     SCHEDULER_REPLY();
     ~SCHEDULER_REPLY();
