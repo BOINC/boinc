@@ -975,9 +975,13 @@ int add_result_to_reply(
 
     double est_dur = estimate_duration(wu, *bavp);
     if (config.debug_send) {
+        double max_time = wu.rsc_fpops_bound / bavp->host_usage.projected_flops;
+        char buf1[64],buf2[64];
+        secs_to_hmsf(est_dur, buf1);
+        secs_to_hmsf(max_time, buf2);
         log_messages.printf(MSG_NORMAL,
-            "[send] [HOST#%d] sending [RESULT#%u %s] (est. dur. %.2f seconds)\n",
-            g_reply->host.id, result.id, result.name, est_dur
+            "[send] [HOST#%d] sending [RESULT#%d %s] (est. dur. %.2fs (%s)) (max time %.2fs (%s))\n",
+            g_reply->host.id, result.id, result.name, est_dur, buf1, max_time, buf2
         );
     }
 
