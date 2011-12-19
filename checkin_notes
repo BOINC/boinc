@@ -7162,3 +7162,11 @@ Rom    19 Dec 2011
         
     clientgui/
         WizardAttachProject.cpp
+
+Rom    19 Dec 2011
+    - Tag for 6.8.35 release, all platforms
+      boinc_core_release_6_8_35
+
+    /
+        configure.ac
+        version.h
