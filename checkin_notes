@@ -7143,3 +7143,14 @@ Charlie 14 Dec 2011
     mac_installer/
         make_CharityEngine.sh
         make_ProgThruProc.sh
+
+Rom    19 Dec 2011
+    - WINSETUP: Copy the explorer primary token to get processes launched by the setup
+        process to launch with reduced permissions.
+        
+    win_build/installerv2/redist/Windows/Win32/
+        boinccas.dll
+        boinccas95.dll
+    win_build/installerv2/redist/Windows/x64/
+        boinccas.dll
+        boinccas95.dll
