@@ -70,16 +70,16 @@ UINT CALaunchBOINCManager::OnExecution()
 
 
     strBuffer = tstring(_T("\"")) + strInstallDirectory + tstring(_T("boincmgr.exe\""));
-    CreateProcessWithExplorerIL( (LPWSTR)strBuffer.c_str(), NULL );
+    CreateProcessWithExplorerIL( NULL, (LPWSTR)strBuffer.c_str() );
 
     strBuffer = tstring(_T("\"")) + strInstallDirectory + tstring(_T("gridrepublic.exe\""));
-    CreateProcessWithExplorerIL( (LPWSTR)strBuffer.c_str(), NULL );
+    CreateProcessWithExplorerIL( NULL, (LPWSTR)strBuffer.c_str() );
 
     strBuffer = tstring(_T("\"")) + strInstallDirectory + tstring(_T("charityengine.exe\""));
-    CreateProcessWithExplorerIL( (LPWSTR)strBuffer.c_str(), NULL );
+    CreateProcessWithExplorerIL( NULL, (LPWSTR)strBuffer.c_str() );
 
     strBuffer = tstring(_T("\"")) + strInstallDirectory + tstring(_T("progressthruprocessors.exe\""));
-    CreateProcessWithExplorerIL( (LPWSTR)strBuffer.c_str(), NULL );
+    CreateProcessWithExplorerIL( NULL, (LPWSTR)strBuffer.c_str() );
 
 
     return ERROR_SUCCESS;

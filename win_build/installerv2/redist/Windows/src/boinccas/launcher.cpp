@@ -105,8 +105,6 @@ inline HRESULT ReducePrivilegesForMediumIL(HANDLE hToken)
 	return hr;
 }
 
-#define TraceLN(Function, Line) OutputDebugStringA(Function " line:" #Line "\n")
-
 /*!
 @brief Gets Integration level of the given process in Vista. 
 In the older OS assumes the integration level is equal to SECURITY_MANDATORY_HIGH_RID
@@ -190,107 +188,99 @@ The parent of new process in taskmgr.exe, but not the current process.
 */
 HRESULT CreateProcessWithExplorerIL(LPWSTR szProcessName, LPWSTR szCmdLine)
 {
-	HRESULT hr=S_OK;
+    HRESULT hr = S_OK;
+    BOOL bRet;
+    PROCESS_INFORMATION ProcInfo = {0};
+    STARTUPINFO StartupInfo = {0};
+    bool bVista = false;
+
+	// When the function is called from IS12, GetVersionEx returns dwMajorVersion=5 on Vista!
+	HMODULE hmodKernel32 = LoadLibrary(_T("Kernel32"));
+    if (hmodKernel32) {
+        if (GetProcAddress(hmodKernel32, "GetProductInfo")) {
+            bVista = true;
+        }
+        FreeLibrary(hmodKernel32);
+    }
 	
-	BOOL bRet;
-	HANDLE hToken;
-	HANDLE hNewToken;
-
-	bool bVista=false;
-	{ // When the function is called from IS12, GetVersionEx returns dwMajorVersion=5 on Vista!
-		HMODULE hmodKernel32=LoadLibrary(L"Kernel32");
-		if(hmodKernel32 && GetProcAddress(hmodKernel32, "GetProductInfo"))
-			bVista=true;
-		if(hmodKernel32) FreeLibrary(hmodKernel32);
-	}
-
-	PROCESS_INFORMATION ProcInfo = {0};
-	STARTUPINFO StartupInfo = {0};
-
 	if(bVista)
 	{
-		DWORD dwCurIL=SECURITY_MANDATORY_HIGH_RID; 
-		DWORD dwExplorerID=0, dwExplorerIL=SECURITY_MANDATORY_HIGH_RID;
+	    HANDLE hToken;
+	    HANDLE hNewToken;
+		DWORD dwCurIL = SECURITY_MANDATORY_HIGH_RID, dwExplorerIL = SECURITY_MANDATORY_HIGH_RID; 
+		DWORD dwExplorerID = 0;
 
-		HWND hwndShell=::FindWindow( _T("Progman"), NULL);
-		if(hwndShell)
-			GetWindowThreadProcessId(hwndShell, &dwExplorerID);
+		HWND hwndShell = ::FindWindow( _T("Progman"), NULL);
+		if(hwndShell) GetWindowThreadProcessId(hwndShell, &dwExplorerID);
 		
-		hr=GetProcessIL(dwExplorerID, &dwExplorerIL);
-		if(SUCCEEDED(hr))
-			hr=GetProcessIL(GetCurrentProcessId(), &dwCurIL);
-		if(SUCCEEDED(hr))
+		GetProcessIL(dwExplorerID, &dwExplorerIL);
+		GetProcessIL(GetCurrentProcessId(), &dwCurIL);
+
+        if( (dwCurIL == SECURITY_MANDATORY_HIGH_RID) && (dwExplorerIL == SECURITY_MANDATORY_MEDIUM_RID) )
 		{
-			if(dwCurIL==SECURITY_MANDATORY_HIGH_RID && dwExplorerIL==SECURITY_MANDATORY_MEDIUM_RID)
+			HANDLE hProcess = OpenProcess(PROCESS_ALL_ACCESS, FALSE, dwExplorerID);
+			if(hProcess)
 			{
-				HANDLE hProcess=OpenProcess(PROCESS_ALL_ACCESS, FALSE, dwExplorerID);
-				if(hProcess)
+				if(OpenProcessToken(hProcess, TOKEN_ALL_ACCESS, &hToken))
 				{
-					if(OpenProcessToken(hProcess, TOKEN_ALL_ACCESS, &hToken))
-					{
-						if(!DuplicateTokenEx(hToken, TOKEN_ALL_ACCESS, NULL,
-							SecurityImpersonation, TokenPrimary, &hNewToken))
-							hr=HRESULT_FROM_WIN32(GetLastError());
-						if(SUCCEEDED(hr))
-						{
-							if(dwCurIL==SECURITY_MANDATORY_MEDIUM_RID && dwExplorerIL==SECURITY_MANDATORY_MEDIUM_RID)
-							{
-								hr=ReducePrivilegesForMediumIL(hNewToken);
-							}//if(dwCurIL==...)
+                    if(!DuplicateTokenEx(hToken, TOKEN_ALL_ACCESS, NULL, SecurityImpersonation, TokenPrimary, &hNewToken)) {
+						hr = HRESULT_FROM_WIN32(GetLastError());
+                    }
 
-							if(SUCCEEDED(hr))
-							{
-								typedef BOOL (WINAPI *LPFN_CreateProcessWithTokenW)(
-									HANDLE hToken,
-									DWORD dwLogonFlags,
-									LPCWSTR lpApplicationName,
-									LPWSTR lpCommandLine,
-									DWORD dwCreationFlags,
-									LPVOID lpEnvironment,
-									LPCWSTR lpCurrentDirectory,
-									LPSTARTUPINFOW lpStartupInfo,
-									LPPROCESS_INFORMATION lpProcessInfo
-									);
-								LPFN_CreateProcessWithTokenW fnCreateProcessWithTokenW=NULL;
-								HINSTANCE hmodAdvApi32=LoadLibraryA("AdvApi32");
-								if(hmodAdvApi32)
-									fnCreateProcessWithTokenW=(LPFN_CreateProcessWithTokenW)GetProcAddress(hmodAdvApi32, "CreateProcessWithTokenW");
-								if(fnCreateProcessWithTokenW)
-								{
-									bRet=fnCreateProcessWithTokenW(hNewToken, 0, 
-										szProcessName, szCmdLine, 
-										0, NULL, NULL, &StartupInfo, &ProcInfo);
-									if(!bRet)
-										hr=HRESULT_FROM_WIN32(GetLastError());
-								}
-								else
-									hr=E_UNEXPECTED;
-								if(hmodAdvApi32)
-									FreeLibrary(hmodAdvApi32);
-							}//if(SUCCEEDED(hr))
-							CloseHandle(hNewToken);
-						}//if (DuplicateTokenEx(...)
-						else
-							hr=HRESULT_FROM_WIN32(GetLastError());
-						CloseHandle(hToken);
-					}//if(OpenProcessToken(...))
-					else
-						hr=HRESULT_FROM_WIN32(GetLastError());
-					CloseHandle(hProcess);
-				}//if(hProcess)
-			}//if(dwCurIL==SECURITY_MANDATORY_HIGH_RID && dwExplorerIL==SECURITY_MANDATORY_MEDIUM_RID)
-			else if(dwCurIL==SECURITY_MANDATORY_MEDIUM_RID && dwExplorerIL==SECURITY_MANDATORY_HIGH_RID)
-				hr=E_ACCESSDENIED;
-		}//if(SUCCEEDED(hr))
-	}//if(bVista)
+					if(SUCCEEDED(hr)) {
 
-	if(SUCCEEDED(hr) && !ProcInfo.dwProcessId)
-	{// 2K | XP | Vista & !UAC
-		bRet = CreateProcess(szProcessName, szCmdLine, 
-			NULL, NULL, FALSE, 0, NULL, NULL, &StartupInfo, &ProcInfo);
-		if(!bRet)
-			hr=HRESULT_FROM_WIN32(GetLastError());
-	}// 2K | XP | Vista & !UAC
+						hr = ReducePrivilegesForMediumIL(hNewToken);
+
+                        if(SUCCEEDED(hr)) {
+							bRet = CreateProcessAsUser(
+                                hNewToken,
+                                szProcessName,
+                                szCmdLine,
+                                NULL,
+                                NULL,
+                                FALSE,
+                                NORMAL_PRIORITY_CLASS,
+                                NULL,
+                                NULL,
+                                &StartupInfo,
+                                &ProcInfo
+                            );
+                            if(!bRet) {
+								hr = HRESULT_FROM_WIN32(GetLastError());
+                            }
+						}
+                        CloseHandle(hNewToken);
+                    } else {
+						hr = HRESULT_FROM_WIN32(GetLastError());
+                    }
+					CloseHandle(hToken);
+                } else {
+					hr = HRESULT_FROM_WIN32(GetLastError());
+                }
+				CloseHandle(hProcess);
+			}
+		} else if ((dwCurIL == SECURITY_MANDATORY_MEDIUM_RID) && (dwExplorerIL == SECURITY_MANDATORY_HIGH_RID)) {
+			hr = E_ACCESSDENIED;
+		}
+	}
+
+	if(!ProcInfo.dwProcessId) {
+		bRet = CreateProcess(
+            szProcessName,
+            szCmdLine, 
+			NULL,
+            NULL,
+            FALSE,
+            0,
+            NULL,
+            NULL,
+            &StartupInfo,
+            &ProcInfo
+        );
+        if(!bRet) {
+			hr = HRESULT_FROM_WIN32(GetLastError());
+        }
+	}
 
 	return hr;
 }
