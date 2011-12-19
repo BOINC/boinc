@@ -9113,3 +9113,12 @@ David  17 Dec 2011
     sched/
         sched_types.h
         sched_version.cpp
+
+David  19 Dec 2011
+    - vboxwrapper: if shared dir is specified and it doesn't exist on startup,
+        that's not necessarily an error.
+        Try to create it.
+        If it exists and is a file, show appropriate error message.
+
+    samples/vboxwrapper/
+        vboxwrapper.cpp

@@ -26,8 +26,6 @@
 // - suspend/resume/quit/abort
 // - reporting CPU time
 // - loss of heartbeat from core client
-// - checkpointing
-//      (at the level of task; or potentially within task)
 //
 // Contributors:
 // Andrew J. Younge (ajy4490 AT umiacs DOT umd DOT edu)
@@ -211,17 +209,25 @@ int main(int argc, char** argv) {
     }
 
     // Validate whatever configuration options we can
+    //
     if (vm.enable_shared_directory) {
-        if (!is_dir("shared")) {
-            fprintf(
-                stderr,
-                "%s vbox_job.xml specifies that the shared directory should be enabled, but the\n"
-                "%s 'shared' subdirectory could not be found. Please check your app_version and verify\n"
-                "%s that the <file_prefix> element has been specified.\n",
-                boinc_msg_prefix(buf, sizeof(buf)),
-                boinc_msg_prefix(buf, sizeof(buf)),
-                boinc_msg_prefix(buf, sizeof(buf))
-            );
+        if (boinc_file_exists("shared")) {
+            if (!is_dir("shared")) {
+                fprintf(
+                    stderr,
+                    "%s 'shared' exists but is not a directory.\n",
+                    boinc_msg_prefix(buf, sizeof(buf))
+                );
+            }
+        } else {
+            retval = boinc_mkdir("shared");
+            if (retval) {
+                fprintf(stderr,
+                    "%s couldn't created shared directory: %s.\n",
+                    boinc_msg_prefix(buf, sizeof(buf)),
+                    boincerror(retval)
+                );
+            }
         }
     }
 
