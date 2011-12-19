@@ -9145,3 +9145,11 @@ Rom    19 Dec 2011
     win_build/installerv2/redist/Windows/x64/
         boinccas.dll
         boinccas95.dll
+
+Rom    19 Dec 2011
+    - MGR: Partial fix for wizard problem when a client automatically attempts to attach
+        to an account manager via cookies.  This fix is good enough for the 6.8 client.
+        We'll need to do a little more for 7.x and beyond.
+        
+    clientgui/
+        WizardAttach.cpp
