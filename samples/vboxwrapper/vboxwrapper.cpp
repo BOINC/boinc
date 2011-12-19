@@ -242,6 +242,12 @@ int main(int argc, char** argv) {
         vm.image_filename = buf;
         boinc_rename(IMAGE_FILENAME, buf);
     }
+    if (aid.ncpus > 1.0) {
+        sprintf(buf, "%d", (int)aid.ncpus);
+        vm.vm_cpu_count = buf;
+    } else {
+        vm.vm_cpu_count = "1";
+    }
 
     read_checkpoint(checkpoint_cpu_time);
 

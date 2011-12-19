@@ -35,11 +35,14 @@ struct VBOX_VM {
     std::string image_filename;
     // unique name for the VM
     std::string vm_name;
+    // Required CPU core count
+    std::string vm_cpu_count;
     bool suspended;
     // whether network access is temporarily suspended
     bool network_suspended;
     // whether to allow network access at all
     bool enable_network;
+    // whether to use shared directory infrastructure at all
     bool enable_shared_directory;
     // whether we were instructed to only register the VM.
     // useful for debugging VMs.

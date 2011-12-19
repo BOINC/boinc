@@ -497,6 +497,7 @@ int VBOX_VM::register_vm() {
         boinc_msg_prefix(buf, sizeof(buf))
     );
     command  = "modifyvm \"" + vm_name + "\" ";
+    command += "--cpus " + vm_cpu_count + " ";
     command += "--memory " + memory_size_mb + " ";
     command += "--acpi on ";
     command += "--ioapic on ";

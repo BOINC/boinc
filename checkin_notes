@@ -9122,3 +9122,11 @@ David  19 Dec 2011
 
     samples/vboxwrapper/
         vboxwrapper.cpp
+
+Rom    19 Dec 2011
+    - VBOX: Use the same mechanism as the multi-threaded apps to determine desired CPU
+        count for the VM.  VM(s) can now be multi-core.
+
+    samples/vboxwrapper/
+        vboxwrapper.cpp
+        vbox.cpp, .h
