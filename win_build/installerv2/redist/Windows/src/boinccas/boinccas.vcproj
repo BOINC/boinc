@@ -466,6 +466,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\launcher.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\lkuprid.cpp"
 				>
 			</File>
@@ -616,6 +620,10 @@
 			</File>
 			<File
 				RelativePath=".\dirops.h"
+				>
+			</File>
+			<File
+				RelativePath=".\launcher.h"
 				>
 			</File>
 			<File
