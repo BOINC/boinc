@@ -110,6 +110,7 @@ int parse_job_file(VBOX_VM& vm) {
         else if (xp.parse_string("os_name", vm.os_name)) continue;
         else if (xp.parse_string("memory_size_mb", vm.memory_size_mb)) continue;
         else if (xp.parse_string("floppy_image_name", vm.floppy_image_filename)) continue;
+        else if (xp.parse_double("max_elapsed_time", vm.max_elapsed_time)) continue;
         else if (xp.parse_bool("enable_network", vm.enable_network)) continue;
         else if (xp.parse_bool("enable_shared_directory", vm.enable_shared_directory)) continue;
         fprintf(stderr, "%s parse_job_file(): unexpected tag %s\n",
@@ -252,6 +253,7 @@ int main(int argc, char** argv) {
         vm.vm_cpu_count = "1";
     }
 
+    elapsed_time = aid.starting_elapsed_time;
     read_checkpoint(checkpoint_cpu_time);
 
     retval = vm.run();
@@ -362,6 +364,17 @@ int main(int argc, char** argv) {
                 vm.stop();
                 write_checkpoint(checkpoint_cpu_time);
                 boinc_temporary_exit(0);
+            }
+
+            // if the VM has a maximum amount of time it is allowed to run,
+            // shut it down gacefully and exit.
+            //
+            if (vm.max_elapsed_time > 0.0) {
+                if (elapsed_time > vm.max_elapsed_time) {
+                    vm.stop();
+                    write_checkpoint(checkpoint_cpu_time);
+                    boinc_finish(0);
+                }
             }
         }
         if (vm.enable_network) {

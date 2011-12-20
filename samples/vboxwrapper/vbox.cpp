@@ -55,6 +55,7 @@ VBOX_VM::VBOX_VM() {
     floppy_image_filename.clear();
     vm_name.clear();
     vm_cpu_count.clear();
+    max_elapsed_time = 0.0;
     suspended = false;
     network_suspended = false;
     enable_cern_dataformat = false;

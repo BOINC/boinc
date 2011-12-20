@@ -9172,3 +9172,12 @@ Rom    20 Dec 2011
         vboxwrapper.cpp
     win_build/
         vboxwrapper.vcproj
+
+Rom    20 Dec 2011
+    - VBOX: Create a configuration item that specifies the maximum amount of
+        wall clock time a VM is allowed, if exceeded shutdown gracefully and tell
+        BOINC that the job is finished.
+        
+    samples/vboxwrapper/
+        vbox.cpp, .h
+        vboxwrapper.cpp
