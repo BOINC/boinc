@@ -360,7 +360,7 @@ int main(int argc, char** argv) {
             // do a checkpoint and temporary exit;
             // the client will run us again if it wants.
             // 
-            if (elapsed_time > aid.global_prefs.cpu_scheduling_period()) {
+            if (elapsed_time > aid.starting_elapsed_time + aid.global_prefs.cpu_scheduling_period()) {
                 vm.stop();
                 write_checkpoint(checkpoint_cpu_time);
                 boinc_temporary_exit(0);
