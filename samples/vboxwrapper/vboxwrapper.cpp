@@ -106,8 +106,10 @@ int parse_job_file(VBOX_VM& vm) {
             fclose(f);
             return 0;
         }
+
         else if (xp.parse_string("os_name", vm.os_name)) continue;
         else if (xp.parse_string("memory_size_mb", vm.memory_size_mb)) continue;
+        else if (xp.parse_string("floppy_image_name", vm.floppy_image_filename)) continue;
         else if (xp.parse_bool("enable_network", vm.enable_network)) continue;
         else if (xp.parse_bool("enable_shared_directory", vm.enable_shared_directory)) continue;
         fprintf(stderr, "%s parse_job_file(): unexpected tag %s\n",
@@ -161,6 +163,7 @@ void set_throttles(APP_INIT_DATA& aid, VBOX_VM& vm) {
 }
 
 int main(int argc, char** argv) {
+    int retval;
     BOINC_OPTIONS boinc_options;
     VBOX_VM vm;
     APP_INIT_DATA aid;
@@ -173,8 +176,8 @@ int main(int argc, char** argv) {
     double bytes_sent=0, bytes_received=0;
     bool report_net_usage = false;
     int vm_pid=0;
+    std::string scratch;
     char buf[256];
-    int retval;
 
     memset(&boinc_options, 0, sizeof(boinc_options));
     boinc_options.main_program = true;
@@ -254,6 +257,40 @@ int main(int argc, char** argv) {
     retval = vm.run();
     if (retval) {
         boinc_finish(retval);
+    }
+
+    // If the Floppy device has been specified, initialize its state so that
+    // it contains the contents of the init_data.xml file.  In theory this
+    // would allow network enabled VMs to know about proxy server configurations
+    // either specified by the volunteer or automatically detected by the
+    // core client.
+    //
+    // CERN decided they only needed a small subset of the data and changed the
+    // data format to 'name=value\n' pairs.  So if we are running under their
+    // environment set things up accordingly.
+    //
+    if (vm.floppy_image_filename.size()) {
+        scratch = "";
+        if (!vm.enable_cern_dataformat) {
+            retval = read_file_string(INIT_DATA_FILE, scratch);
+            if (retval) {
+                fprintf(stderr,
+                    "%s can't write init_data.xml to floppy abstration device\n",
+                    boinc_msg_prefix(buf, sizeof(buf))
+                );
+            }
+        } else {
+            scratch  = "BOINC_USERNAME=" + std::string(aid.user_name) + "\n";
+
+            sprintf(buf, "%d", aid.user_total_credit);
+            scratch += "BOINC_USER_TOTAL_CREDIT=" + std::string(buf) + "\n";
+
+            sprintf(buf, "%d", aid.host_total_credit);
+            scratch += "BOINC_HOST_TOTAL_CREDIT=" + std::string(buf) + "\n";
+
+            scratch += "BOINC_AUTHENTICATOR=" + std::string(aid.authenticator) + "\n";
+        }
+        vm.write_floppy(scratch);
     }
 
     set_throttles(aid, vm);

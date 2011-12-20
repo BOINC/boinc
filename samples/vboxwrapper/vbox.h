@@ -21,11 +21,26 @@
 #ifndef _VBOX_H_
 #define _VBOX_H_
 
-// represents a VirtualBox VM
+// raw floppy drive device
+class FloppyIO;
 
+// represents a port forwarding rule for VirtualBox
+struct VBOX_PORTFORWARDRULE {
+    VBOX_PORTFORWARDRULE();
+    ~VBOX_PORTFORWARDRULE(){};
+
+    std::string name;
+    std::string desired_host_port;
+    std::string desired_guest_port;
+};
+
+// represents a VirtualBox VM
 struct VBOX_VM {
     VBOX_VM();
-    ~VBOX_VM(){};
+    ~VBOX_VM();
+
+    // Floppy IO abstraction
+    FloppyIO* pFloppy;
 
     // name of the OS the VM runs
     std::string os_name;
@@ -33,20 +48,27 @@ struct VBOX_VM {
     std::string memory_size_mb;
     // name of the virtual machine disk image file
     std::string image_filename;
+    // name of the virtual machine floppy disk image file
+    std::string floppy_image_filename;
     // unique name for the VM
     std::string vm_name;
-    // Required CPU core count
+    // required CPU core count
     std::string vm_cpu_count;
+    // is the VM suspended?
     bool suspended;
     // whether network access is temporarily suspended
     bool network_suspended;
-    // whether to allow network access at all
-    bool enable_network;
+    // whether to use CERN specific data structures
+    bool enable_cern_dataformat;
     // whether to use shared directory infrastructure at all
     bool enable_shared_directory;
     // whether we were instructed to only register the VM.
     // useful for debugging VMs.
     bool register_only;
+    // whether to allow network access at all
+    bool enable_network;
+    // desired set of port forwarding rules
+    std::vector<VBOX_PORTFORWARDRULE> port_forward_rules;
 
     int run();
     int stop();
@@ -67,6 +89,8 @@ struct VBOX_VM {
     int get_process_id(int& process_id);
     int get_network_bytes_sent(double& sent);
     int get_network_bytes_received(double& received);
+    int read_floppy(std::string& data);
+    int write_floppy(std::string& data);
 
     static int initialize();
     static int get_install_directory(std::string& dir);

@@ -9162,3 +9162,13 @@ Charlie 20 Dec 2011
     clientgui/
         AccountmanagerPropertiesPage.cpp
         WizardAttachProject.cpp
+
+Rom    20 Dec 2011
+    - VBOX: Implement CERN's FloppyIO IPC technology for the VirtualBox wrapper.
+    
+    samples/vboxwrapper/
+        floppyio.cpp, .h
+        vbox.cpp, .h
+        vboxwrapper.cpp
+    win_build/
+        vboxwrapper.vcproj

@@ -44,17 +44,31 @@ using std::string;
 #include "error_numbers.h"
 #include "procinfo.h"
 #include "boinc_api.h"
+#include "floppyio.h"
 #include "vbox.h"
 
 VBOX_VM::VBOX_VM() {
+    pFloppy = NULL;
     os_name.clear();
     memory_size_mb.clear();
     image_filename.clear();
+    floppy_image_filename.clear();
+    vm_name.clear();
+    vm_cpu_count.clear();
     suspended = false;
     network_suspended = false;
-    enable_network = false;
+    enable_cern_dataformat = false;
     enable_shared_directory = false;
     register_only = false;
+    enable_network = false;
+    port_forward_rules.clear();
+}
+
+VBOX_VM::~VBOX_VM() {
+    if (pFloppy) {
+        delete pFloppy;
+        pFloppy = NULL;
+    }
 }
 
 int VBOX_VM::run() {
@@ -524,8 +538,19 @@ int VBOX_VM::register_vm() {
     command += "--add ide ";
     command += "--controller PIIX4 ";
 
-    retval = vbm_popen(command, output, "add storage controller");
+    retval = vbm_popen(command, output, "add storage controller (fixed disk)");
     if (retval) return retval;
+
+    // Add storage controller for a floppy device if desired
+    //
+    if (floppy_image_filename.size()) {
+        command  = "storagectl \"" + vm_name + "\" ";
+        command += "--name \"Floppy Controller\" ";
+        command += "--add floppy ";
+
+        retval = vbm_popen(command, output, "add storage controller (floppy)");
+        if (retval) return retval;
+    }
 
     // Adding virtual hard drive to VM
     //
@@ -541,7 +566,7 @@ int VBOX_VM::register_vm() {
     command += "--type hdd ";
     command += "--medium \"" + virtual_machine_slot_directory + "/" + image_filename + "\" ";
 
-    retval = vbm_popen(command, output, "storage attach");
+    retval = vbm_popen(command, output, "storage attach (fixed disk)");
     if (retval) {
         // Is this an error condition we know how to handle?
 
@@ -562,12 +587,35 @@ int VBOX_VM::register_vm() {
             command += "--type hdd ";
             command += "--medium \"" + virtual_machine_slot_directory + "/" + image_filename + "\" ";
 
-            retval = vbm_popen(command, output, "storage attach");
+            retval = vbm_popen(command, output, "storage attach (fixed disk)");
             if (retval) return retval;
 
         } else {
             return retval;
         }
+    }
+
+    // Adding virtual floppy disk drive to VM
+    //
+    if (floppy_image_filename.size()) {
+        fprintf(
+            stderr,
+            "%s Adding virtual floppy disk drive to virtual machine.\n",
+            boinc_msg_prefix(buf, sizeof(buf))
+        );
+        command  = "storageattach \"" + vm_name + "\" ";
+        command += "--storagectl \"Floppy Controller\" ";
+        command += "--port 0 ";
+        command += "--device 0 ";
+        command += "--type floppy ";
+        command += "--medium \"" + virtual_machine_slot_directory + "/" + floppy_image_filename + "\" ";
+
+        retval = vbm_popen(command, output, "storage attach (floppy disk)");
+        if (retval) return retval;
+
+        // Put in place the FloppyIO abstraction
+        //
+        pFloppy = new FloppyIO(floppy_image_filename.c_str());
     }
 
     // Enable the network adapter if a network connection is required.
@@ -611,19 +659,28 @@ int VBOX_VM::deregister_vm() {
     );
 
 
-    // First step in deregistering a VM is to delete its storage controller
+    // First step in deregistering a VM is to delete its storage controller(s)
     //
     fprintf(
         stderr,
-        "%s Removing storage controller from virtual machine.\n",
+        "%s Removing storage controller(s) from virtual machine.\n",
         boinc_msg_prefix(buf, sizeof(buf))
     );
     command  = "storagectl \"" + vm_name + "\" ";
     command += "--name \"IDE Controller\" ";
     command += "--remove ";
 
-    retval = vbm_popen(command, output, "deregister");
+    retval = vbm_popen(command, output, "deregister storage controller (fixed disk)");
     if (retval) return retval;
+
+    if (floppy_image_filename.size()) {
+        command  = "storagectl \"" + vm_name + "\" ";
+        command += "--name \"Floppy Controller\" ";
+        command += "--remove ";
+
+        retval = vbm_popen(command, output, "deregister storage controller (floppy disk)");
+        if (retval) return retval;
+    }
 
     // Next delete VM
     //
@@ -980,4 +1037,20 @@ int VBOX_VM::get_network_bytes_sent(double& sent) {
         counter_start = output.find("\n", counter_start);
     }
     return 0;
+}
+
+int VBOX_VM::read_floppy(std::string& data) {
+    if (floppy_image_filename.size() && pFloppy) {
+        data = pFloppy->receive();
+        return 0;
+    }
+    return 1;
+}
+
+int VBOX_VM::write_floppy(std::string& data) {
+    if (floppy_image_filename.size() && pFloppy) {
+        pFloppy->send(data);
+        return 0;
+    }
+    return 1;
 }
