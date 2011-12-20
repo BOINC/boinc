@@ -178,7 +178,7 @@ void CAccountManagerPropertiesPage::CreateControls()
 
 void CAccountManagerPropertiesPage::OnPageChanged( wxWizardExEvent& event )
 {
-    if (event.GetDirection() == false) return;
+//    if (event.GetDirection() == false) return;
  
     CWizardAttach* pWA = ((CWizardAttach*)GetParent());
     wxASSERT(m_pTitleStaticCtrl);
