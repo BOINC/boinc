@@ -7170,3 +7170,12 @@ Rom    19 Dec 2011
     /
         configure.ac
         version.h
+
+Charlie 20 Dec 2011
+    - MGR: Continue partial fix for wizard problem when a client automatically attempts 
+        to attach to an account manager via cookies.  We'll still need to do a little 
+        more for 7.x and beyond.
+        
+    clientgui/
+        AccountmanagerPropertiesPage.cpp
+        WizardAttachProject.cpp

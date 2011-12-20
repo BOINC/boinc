@@ -518,8 +518,8 @@ wxWizardPageEx* CWizardAttachProject::_PopPageTransition() {
         if (m_PageTransition.size() > 0) {
             pPage = m_PageTransition.top();
             m_PageTransition.pop();
-            if ((pPage == m_ProjectPropertiesPage) ||
-                (pPage == m_AccountManagerPropertiesPage)) 
+            if ((pPage == m_ProjectProcessingPage) ||
+                (pPage == m_AccountManagerProcessingPage)) 
             {
                 // We want to go back to the page before we attempted to communicate
                 //   with any server.
