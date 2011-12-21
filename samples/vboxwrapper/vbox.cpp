@@ -826,13 +826,13 @@ int VBOX_VM::resume() {
 // Enable the network adapter if a network connection is required.
 // NOTE: Network access should never be allowed if the code running in a 
 //   shared directory or the VM image itself is NOT signed.  Doing so
-//   opens up the network behind the firewall to attack.
+//   opens up the network behind the company firewall to attack.
 //
 //   Imagine a doomsday scenario where a project has been compromised and
 //   an unsigned executable/VM image has been tampered with.  Volunteer
 //   downloads compromised code and executes it on a company machine.
 //   Now the compromised VM starts attacking other machines on the company
-//   network.  The company firewall cannot help because the originating
+//   network.  The company firewall cannot help because the attacking
 //   machine is already behind the company firewall.
 //
 int VBOX_VM::set_network_access(bool enabled) {
