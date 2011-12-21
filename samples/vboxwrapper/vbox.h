@@ -91,7 +91,7 @@ struct VBOX_VM {
     static int get_install_directory(std::string& dir);
     static int get_slot_directory(std::string& dir);
     static int vbm_popen(
-        std::string& command, std::string& output, const char* item
+        std::string& command, std::string& output, const char* item, bool log_error = true
     );
 };
 

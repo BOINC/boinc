@@ -126,13 +126,16 @@ void VBOX_VM::cleanup() {
 
 // Execute the vbox manage application and copy the output to the buffer.
 //
-int VBOX_VM::vbm_popen(string& arguments, string& output, const char* item) {
+int VBOX_VM::vbm_popen(string& arguments, string& output, const char* item, bool log_error) {
     char buf[256];
     string command;
     int retval = 0;
 
     // Initialize command line
     command = "VBoxManage -q " + arguments;
+
+    // Reset output buffer
+    output.clear();
 
 #ifdef _WIN32
 
@@ -263,7 +266,7 @@ CLEANUP:
 
 #endif
 
-    if (retval) {
+    if (retval && log_error) {
         fprintf(
             stderr,
             "%s Error in %s for VM: %d\nCommand:\n%s\nOutput:\n%s\n",
@@ -298,7 +301,7 @@ bool VBOX_VM::is_registered() {
     command  = "showvminfo \"" + vm_name + "\" ";
     command += "--machinereadable ";
 
-    if (vbm_popen(command, output, "registration") == 0) {
+    if (vbm_popen(command, output, "registration", false) == 0) {
         if (output.find("VBOX_E_OBJECT_NOT_FOUND") == string::npos) {
             // Error message not found in text
             return true;
@@ -316,7 +319,7 @@ bool VBOX_VM::is_hdd_registered() {
 
     command = "showhdinfo \"" + virtual_machine_root_dir + "/" + image_filename + "\" ";
 
-    if (vbm_popen(command, output, "hdd registration") == 0) {
+    if (vbm_popen(command, output, "hdd registration", false) == 0) {
         if ((output.find("VBOX_E_FILE_ERROR") == string::npos) && (output.find("VBOX_E_OBJECT_NOT_FOUND") == string::npos)) {
             // Error message not found in text
             return true;
@@ -335,7 +338,7 @@ bool VBOX_VM::is_running() {
     command  = "showvminfo \"" + vm_name + "\" ";
     command += "--machinereadable ";
 
-    if (vbm_popen(command, output, "VM state") == 0) {
+    if (vbm_popen(command, output, "VM state", false) == 0) {
         vmstate_start = output.find("VMState=\"");
         if (vmstate_start != string::npos) {
             vmstate_start += 9;
@@ -353,17 +356,10 @@ bool VBOX_VM::is_running() {
             //
             if (vmstate == "running") return true;
             if (vmstate == "paused") return true;
-            if (vmstate == "livesnapshotting") return true;
-            if (vmstate == "teleporting") return true;
             if (vmstate == "starting") return true;
             if (vmstate == "stopping") return true;
             if (vmstate == "saving") return true;
             if (vmstate == "restoring") return true;
-            if (vmstate == "teleportingpausedvm") return true;
-            if (vmstate == "teleportingin") return true;
-            if (vmstate == "restoringsnapshot") return true;
-            if (vmstate == "deletingsnapshot") return true;
-            if (vmstate == "deletingsnapshotlive") return true;
         }
     }
     return false;
@@ -580,7 +576,7 @@ int VBOX_VM::register_vm() {
     command += "--type hdd ";
     command += "--medium \"" + virtual_machine_slot_directory + "/" + image_filename + "\" ";
 
-    retval = vbm_popen(command, output, "storage attach (fixed disk)");
+    retval = vbm_popen(command, output, "storage attach (fixed disk)", false);
     if (retval) {
         // Is this an error condition we know how to handle?
 
@@ -605,6 +601,15 @@ int VBOX_VM::register_vm() {
             if (retval) return retval;
 
         } else {
+            fprintf(
+                stderr,
+                "%s Error in %s for VM: %d\nCommand:\n%s\nOutput:\n%s\n",
+                boinc_msg_prefix(buf, sizeof(buf)),
+                "storage attach (fixed disk)",
+                retval,
+                command.c_str(),
+                output.c_str()
+            );
             return retval;
         }
     }
@@ -628,7 +633,6 @@ int VBOX_VM::register_vm() {
         command += "--storagectl \"Floppy Controller\" ";
         command += "--port 0 ";
         command += "--device 0 ";
-        command += "--type floppy ";
         command += "--medium \"" + virtual_machine_slot_directory + "/" + floppy_image_filename + "\" ";
 
         retval = vbm_popen(command, output, "storage attach (floppy disk)");

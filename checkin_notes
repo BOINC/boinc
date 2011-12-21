@@ -9239,3 +9239,14 @@ David  21 Dec 2011
         inc/
             result.inc
             db_ops.inc
+
+Rom    21 Dec 2011
+    - VBOX: Don't log all vbm_popen errors, we expect certain commands to fail when we
+        are looking at the existing state of the host.
+    - VBOX: Reset the output buffer for every command execution.
+    - VBOX: Remove the teleporting and snapshotting states from the list of running
+        states.
+    - VBOX: Remove the '--type floppy' typo when mounting the floppy disk image.
+    
+    samples/vboxwrapper/
+        vbox.cpp, .h
