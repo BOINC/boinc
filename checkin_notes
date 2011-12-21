@@ -7179,3 +7179,11 @@ Charlie 20 Dec 2011
     clientgui/
         AccountmanagerPropertiesPage.cpp
         WizardAttachProject.cpp
+
+Charlie 20 Dec 2011
+    - Tag for 6.8.36 release, all platforms
+      boinc_core_release_6_8_36
+
+    /
+        configure.ac
+        version.h
