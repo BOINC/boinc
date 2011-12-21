@@ -251,7 +251,7 @@ void CProjectInfoPage::CreateControls()
     wxStaticBoxSizer* itemStaticBoxSizer13 = new wxStaticBoxSizer(m_pProjectDetailsStaticCtrl, wxVERTICAL);
     itemFlexGridSizer6->Add(itemStaticBoxSizer13, 0, wxGROW|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
-    m_pProjectDetailsDescriptionCtrl = new wxHtmlWindow( itemWizardPage23, ID_PROJECTDESCRIPTION, wxDefaultPosition, wxSize(DESCRIPTIONSWIDTH, 100), wxHW_SCROLLBAR_AUTO|wxHW_NO_SELECTION );
+    m_pProjectDetailsDescriptionCtrl = new wxTextCtrl( itemWizardPage23, ID_PROJECTDESCRIPTION, wxT(""), wxDefaultPosition, wxSize(DESCRIPTIONSWIDTH, 100), wxTE_MULTILINE|wxTE_READONLY );
     itemStaticBoxSizer13->Add(m_pProjectDetailsDescriptionCtrl, 0, wxGROW|wxLEFT|wxTOP|wxBOTTOM, 5);
 
     wxFlexGridSizer* itemFlexGridSizer16 = new wxFlexGridSizer(0, 2, 0, 0);
@@ -482,12 +482,12 @@ void CProjectInfoPage::OnProjectSelected( wxCommandEvent& WXUNUSED(event) ) {
     EllipseStringIfNeeded(strURL, m_pProjectDetailsURLCtrl);
 
     // Populate the project details area
-#ifdef _WIN32
-    wxString desc = wxT("<font size=-1>") + pProjectInfo->m_strDescription + wxT("</font>");
-#else
     wxString desc = pProjectInfo->m_strDescription;
-#endif
-    m_pProjectDetailsDescriptionCtrl->SetPage(desc);
+    // Change all occurrences of "<sup>n</sup>" to "^n"
+    desc.Replace(wxT("<sup>"), wxT("^"), true);
+    desc.Replace(wxT("</sup>"), wxT(""), true);
+
+    m_pProjectDetailsDescriptionCtrl->SetValue(desc);
     m_pProjectDetailsURLCtrl->SetLabel(strURL);
     m_pProjectDetailsURLCtrl->SetURL(pProjectInfo->m_strURL);
     // Set tooltip to full text in case ellipsed

@@ -9205,3 +9205,11 @@ Rom    20 Dec 2011
         vboxwrapper.cpp
     win_build/
         vboxwrapper.vcproj
+
+Charlie 21 Dec 2011
+    - MGR: Display project descriptions in Attach Wizard using wxTextCtrl 
+        instead of wxHtmlWindow to support screen readers for accessibility,  
+        after converting all occurrences of "<sup>n</sup>" to "^n".
+
+    clientgui/
+        ProjectInfoPage.cpp,.h
