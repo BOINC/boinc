@@ -24,16 +24,6 @@
 // raw floppy drive device
 class FloppyIO;
 
-// represents a port forwarding rule for VirtualBox
-struct VBOX_PORTFORWARDRULE {
-    VBOX_PORTFORWARDRULE();
-    ~VBOX_PORTFORWARDRULE(){};
-
-    std::string name;
-    std::string desired_host_port;
-    std::string desired_guest_port;
-};
-
 // represents a VirtualBox VM
 struct VBOX_VM {
     VBOX_VM();
@@ -70,8 +60,9 @@ struct VBOX_VM {
     bool register_only;
     // whether to allow network access at all
     bool enable_network;
-    // desired set of port forwarding rules
-    std::vector<VBOX_PORTFORWARDRULE> port_forward_rules;
+    int pf_desired_host_port;
+    int pf_desired_guest_port;
+    int pf_assigned_host_port;
 
     int run();
     int stop();
@@ -81,6 +72,7 @@ struct VBOX_VM {
     bool is_running();
 
     int register_vm();
+    int register_vm_firewall_rules();
     bool is_hdd_registered();
     bool is_registered();
     int deregister_stale_vm();

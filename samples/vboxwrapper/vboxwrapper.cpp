@@ -76,6 +76,7 @@ using std::vector;
 #define IMAGE_FILENAME "vm_image.vdi"
 #define JOB_FILENAME "vbox_job.xml"
 #define CHECKPOINT_FILENAME "vbox_checkpoint.txt"
+#define PORTFORWARD_FILENAME "vbox_firewall.txt"
 #define POLL_PERIOD 1.0
 
 int parse_job_file(VBOX_VM& vm) {
@@ -106,7 +107,6 @@ int parse_job_file(VBOX_VM& vm) {
             fclose(f);
             return 0;
         }
-
         else if (xp.parse_string("os_name", vm.os_name)) continue;
         else if (xp.parse_string("memory_size_mb", vm.memory_size_mb)) continue;
         else if (xp.parse_string("floppy_image_name", vm.floppy_image_filename)) continue;
@@ -114,6 +114,8 @@ int parse_job_file(VBOX_VM& vm) {
         else if (xp.parse_bool("enable_cern_dataformat", vm.enable_cern_dataformat)) continue;
         else if (xp.parse_bool("enable_network", vm.enable_network)) continue;
         else if (xp.parse_bool("enable_shared_directory", vm.enable_shared_directory)) continue;
+        else if (xp.parse_int("pf_desired_host_port", vm.pf_desired_host_port)) continue;
+        else if (xp.parse_int("pf_desired_guest_port", vm.pf_desired_guest_port)) continue;
         fprintf(stderr, "%s parse_job_file(): unexpected tag %s\n",
             boinc_msg_prefix(buf, sizeof(buf)), xp.parsed_tag
         );
@@ -164,6 +166,70 @@ void set_throttles(APP_INIT_DATA& aid, VBOX_VM& vm) {
     }
 }
 
+// If the Floppy device has been specified, initialize its state so that
+// it contains the contents of the init_data.xml file.  In theory this
+// would allow network enabled VMs to know about proxy server configurations
+// either specified by the volunteer or automatically detected by the
+// core client.
+//
+// CERN decided they only needed a small subset of the data and changed the
+// data format to 'name=value\n' pairs.  So if we are running under their
+// environment set things up accordingly.
+//
+void set_floppy_image(APP_INIT_DATA& aid, VBOX_VM& vm) {
+    int retval;
+    char buf[256];
+    std::string scratch;
+
+    if (vm.floppy_image_filename.size()) {
+        scratch = "";
+        if (!vm.enable_cern_dataformat) {
+            retval = read_file_string(INIT_DATA_FILE, scratch);
+            if (retval) {
+                fprintf(stderr,
+                    "%s can't write init_data.xml to floppy abstration device\n",
+                    boinc_msg_prefix(buf, sizeof(buf))
+                );
+            }
+        } else {
+            scratch  = "BOINC_USERNAME=" + std::string(aid.user_name) + "\n";
+
+            sprintf(buf, "%d", aid.user_total_credit);
+            scratch += "BOINC_USER_TOTAL_CREDIT=" + std::string(buf) + "\n";
+
+            sprintf(buf, "%d", aid.host_total_credit);
+            scratch += "BOINC_HOST_TOTAL_CREDIT=" + std::string(buf) + "\n";
+
+            scratch += "BOINC_AUTHENTICATOR=" + std::string(aid.authenticator) + "\n";
+        }
+        vm.write_floppy(scratch);
+    }
+}
+
+// If a project has decided it wants to use port forwarding, write the port
+// information to a file so that a graphics application or some other
+// application knows what port number has been assigned to the VM.
+//
+void write_firewall_rules(VBOX_VM& vm) {
+    MIOFILE mf;
+    FILE* f = boinc_fopen(PORTFORWARD_FILENAME, "w");
+    mf.init_file(f);
+
+    mf.printf(
+        "<vbox_firewall>\n"
+        "  <rule>\n"
+        "    <name>vboxwrapper</name>\n"
+        "    <host_port>%d</host_port>\n"
+        "    <guest_port>%d</guest_port>\n"
+        "  </rule>\n"
+        "</vbox_firewall>\n",
+        vm.pf_assigned_host_port,
+        vm.pf_desired_guest_port
+    );
+
+    fclose(f);
+}
+
 int main(int argc, char** argv) {
     int retval;
     BOINC_OPTIONS boinc_options;
@@ -178,7 +244,6 @@ int main(int argc, char** argv) {
     double bytes_sent=0, bytes_received=0;
     bool report_net_usage = false;
     int vm_pid=0;
-    std::string scratch;
     char buf[256];
 
     memset(&boinc_options, 0, sizeof(boinc_options));
@@ -201,6 +266,20 @@ int main(int argc, char** argv) {
         "%s vboxwrapper: starting\n",
         boinc_msg_prefix(buf, sizeof(buf))
     );
+
+#if defined(_WIN32) && defined(USE_WINSOCK)
+    WSADATA wsdata;
+    retval = WSAStartup( MAKEWORD( 1, 1 ), &wsdata);
+    if (retval) {
+        fprintf(
+            stderr,
+            "%s can't initialize winsock: %d\n",
+            boinc_msg_prefix(buf, sizeof(buf)),
+            retval
+        );
+        boinc_finish(retval);
+    }
+#endif
 
     retval = parse_job_file(vm);
     if (retval) {
@@ -262,40 +341,8 @@ int main(int argc, char** argv) {
         boinc_finish(retval);
     }
 
-    // If the Floppy device has been specified, initialize its state so that
-    // it contains the contents of the init_data.xml file.  In theory this
-    // would allow network enabled VMs to know about proxy server configurations
-    // either specified by the volunteer or automatically detected by the
-    // core client.
-    //
-    // CERN decided they only needed a small subset of the data and changed the
-    // data format to 'name=value\n' pairs.  So if we are running under their
-    // environment set things up accordingly.
-    //
-    if (vm.floppy_image_filename.size()) {
-        scratch = "";
-        if (!vm.enable_cern_dataformat) {
-            retval = read_file_string(INIT_DATA_FILE, scratch);
-            if (retval) {
-                fprintf(stderr,
-                    "%s can't write init_data.xml to floppy abstration device\n",
-                    boinc_msg_prefix(buf, sizeof(buf))
-                );
-            }
-        } else {
-            scratch  = "BOINC_USERNAME=" + std::string(aid.user_name) + "\n";
-
-            sprintf(buf, "%d", aid.user_total_credit);
-            scratch += "BOINC_USER_TOTAL_CREDIT=" + std::string(buf) + "\n";
-
-            sprintf(buf, "%d", aid.host_total_credit);
-            scratch += "BOINC_HOST_TOTAL_CREDIT=" + std::string(buf) + "\n";
-
-            scratch += "BOINC_AUTHENTICATOR=" + std::string(aid.authenticator) + "\n";
-        }
-        vm.write_floppy(scratch);
-    }
-
+    write_firewall_rules(vm);
+    set_floppy_image(aid, vm);
     set_throttles(aid, vm);
 
     while (1) {
@@ -421,6 +468,10 @@ int main(int argc, char** argv) {
         }
         boinc_sleep(POLL_PERIOD);
     }
+
+#if defined(_WIN32) && defined(USE_WINSOCK)
+    WSACleanup();
+#endif
 }
 
 #ifdef _WIN32

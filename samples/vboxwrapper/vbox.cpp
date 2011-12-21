@@ -22,6 +22,9 @@
 #include <sys/wait.h>
 #include <sys/types.h>
 #include <sys/stat.h>
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <arpa/inet.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <vector>
@@ -43,6 +46,7 @@ using std::string;
 #include "util.h"
 #include "error_numbers.h"
 #include "procinfo.h"
+#include "network.h"
 #include "boinc_api.h"
 #include "floppyio.h"
 #include "vbox.h"
@@ -62,7 +66,9 @@ VBOX_VM::VBOX_VM() {
     enable_shared_directory = false;
     register_only = false;
     enable_network = false;
-    port_forward_rules.clear();
+    pf_desired_host_port = 0;
+    pf_desired_guest_port = 0;
+    pf_assigned_host_port = 0;
 }
 
 VBOX_VM::~VBOX_VM() {
@@ -93,6 +99,13 @@ int VBOX_VM::run() {
     // The user has requested that we exit after registering the VM, so return an
     // error to stop further processing.
     if (register_only) return ERR_FOPEN;
+
+    // If a project wants to open up a firewall port through the VirtualBox virtual
+    // network firewall/nat do that here.  This has to be done for every execution
+    // of the wrapper because available host ports change depending on what other
+    // software is running.
+    retval = register_vm_firewall_rules();
+    if (retval) return retval;
 
     retval = start();
     if (retval) return retval;
@@ -640,6 +653,93 @@ int VBOX_VM::register_vm() {
         retval = vbm_popen(command, output, "enable shared dir");
         if (retval) return retval;
     }
+
+    return 0;
+}
+
+int VBOX_VM::register_vm_firewall_rules() {
+    string command;
+    string output;
+    string virtual_machine_slot_directory;
+    char buf[256];
+    struct sockaddr_in addr;
+    int addrsize;
+    int sock;
+    int retval;
+
+    // Are we being requested to open a firewall port?  if the desired
+    // guest port is zero, then no.  The desired host port can be zero
+    // which means the OS should dynamically assign one.
+    //
+    if (pf_desired_guest_port == 0) return 0;
+
+    get_slot_directory(virtual_machine_slot_directory);
+
+    fprintf(
+        stderr,
+        "%s Registering virtual machine firewall rules. (%s)\n",
+        boinc_msg_prefix(buf, sizeof(buf)),
+        vm_name.c_str()
+    );
+
+    memset(&addr, 0, sizeof(addr));
+    addr.sin_family = AF_INET;
+    addr.sin_port = htons(pf_desired_host_port);
+    addr.sin_addr.s_addr = inet_addr("127.0.0.1");
+
+    addrsize = sizeof(addr);
+
+    retval = boinc_socket(sock);
+    if(retval) return retval;
+ 
+    // Attempt to use the desired port number
+    //
+    retval = bind(sock, (struct sockaddr *)&addr, addrsize);
+    if(retval < 0)
+    {
+        // Okay the desired port number didn't work, to set the port number
+        // to 0 and try again.  Let the OS choose a valid port number.
+        //
+        addr.sin_port = htons(0);
+        retval = bind(sock, (struct sockaddr *)&addr, addrsize);
+        if(retval < 0)
+        {
+            boinc_close_socket(sock);
+            return ERR_BIND;
+        }
+    }
+
+    // Okay we now have a valid port number, lets see what we have been
+    // assigned. Store it for future use.
+    //
+    getsockname(sock, (struct sockaddr *)&addr, &addrsize);
+    pf_assigned_host_port = addr.sin_port;
+
+    boinc_close_socket(sock);
+
+
+    // Remove any stale firewall rule
+    //
+    command  = "modifyvm \"" + vm_name + "\" ";
+    command += "--natpf1 delete \"vboxwrapper\" ";
+
+    vbm_popen(command, output, "remove stale port forwarding rule");
+
+    // Add new firewall rule
+    //
+    sprintf(buf, "vboxwrapper,tcp,127.0.0.1,%d,,%d", pf_assigned_host_port, pf_desired_guest_port);
+    command  = "modifyvm \"" + vm_name + "\" ";
+    command += "--natpf1 \"" + string(buf) + "\" ";
+
+    retval = vbm_popen(command, output, "add new port forwarding rule");
+    if(retval) return retval;
+
+    fprintf(
+        stderr,
+        "%s VM communication is allowed on port '%d'.\n",
+        boinc_msg_prefix(buf, sizeof(buf)), pf_assigned_host_port
+    );
+
     return 0;
 }
 

@@ -9191,3 +9191,17 @@ David  20 Dec 2011
 
     sched/
         credit.cpp
+
+Rom    20 Dec 2011
+    - VBOX: Implement a basic mechanism for port forwarding through to the VM.
+        Some more work will be required if there is ever a need for more than
+        one port.  But this should work for now.  This should successfully
+        handle running multiple instances of the same job, port information is
+        stored in a file called "vbox_firewall.txt" which is updated for each
+        execution of the wrapper.
+    
+    samples/vboxwrapper/
+        vbox.cpp, .h
+        vboxwrapper.cpp
+    win_build/
+        vboxwrapper.vcproj
