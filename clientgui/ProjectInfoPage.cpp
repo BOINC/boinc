@@ -638,12 +638,12 @@ void CProjectInfoPage::OnPageChanged( wxWizardExEvent& event ) {
             );
 
             // Convert the easy stuff
-            pProjectInfo->m_strURL = wxString(pl.projects[i]->url.c_str(), wxConvUTF8);
-            pProjectInfo->m_strName = wxString(pl.projects[i]->name.c_str(), wxConvUTF8);
+            pProjectInfo->m_strURL = wxGetTranslation(wxString(pl.projects[i]->url.c_str(), wxConvUTF8));
+            pProjectInfo->m_strName = wxGetTranslation(wxString(pl.projects[i]->name.c_str(), wxConvUTF8));
             pProjectInfo->m_strDescription = wxGetTranslation(wxString(pl.projects[i]->description.c_str(), wxConvUTF8));
-            pProjectInfo->m_strGeneralArea = wxString(pl.projects[i]->general_area.c_str(), wxConvUTF8);
-            pProjectInfo->m_strSpecificArea = wxString(pl.projects[i]->specific_area.c_str(), wxConvUTF8);
-            pProjectInfo->m_strOrganization = wxString(pl.projects[i]->home.c_str(), wxConvUTF8);
+            pProjectInfo->m_strGeneralArea = wxGetTranslation(wxString(pl.projects[i]->general_area.c_str(), wxConvUTF8));
+            pProjectInfo->m_strSpecificArea = wxGetTranslation(wxString(pl.projects[i]->specific_area.c_str(), wxConvUTF8));
+            pProjectInfo->m_strOrganization = wxGetTranslation(wxString(pl.projects[i]->home.c_str(), wxConvUTF8));
             
             // Add the category if it isn't already in the category list
             bCategoryFound = false;
