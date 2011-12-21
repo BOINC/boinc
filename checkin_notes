@@ -9214,3 +9214,9 @@ Charlie 21 Dec 2011
 
     clientgui/
         ProjectInfoPage.cpp,.h
+
+Charlie 21 Dec 2011
+    - MGR: Fix horizontal sizing of text in Simple View project description.
+        
+    clientgui/
+        sg_TaskPanel.cpp,.h
