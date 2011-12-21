@@ -9261,3 +9261,11 @@ Rom    21 Dec 2011
     samples/vboxwrapper/
         vbox.cpp
         vboxwrapper.cpp
+
+Rom    21 Dec 2011
+    - VBOX: If vm.cleanup() can be called when a VM hasn't been fully initialized,
+        then all the deregister commands have to be optional. Go ahead and log errors
+        to stderr but continue to run through the various commands anyway.
+
+    samples/vboxwrapper/
+        vbox.cpp
