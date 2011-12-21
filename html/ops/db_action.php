@@ -208,7 +208,7 @@ if ($result) {
                 show_workunit($res);
                 break;
             case "result":
-                show_result($res);
+                show_result_ops($res);
                 break;
             case "team":
                 show_team($res);

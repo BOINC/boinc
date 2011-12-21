@@ -9228,3 +9228,14 @@ Rom    21 Dec 2011
     samples/vboxwrapper/
         floppyio.cpp
         vbox.cpp
+
+David  21 Dec 2011
+    - web: combine ops and regular functions for displaying
+        various result attributes as strings
+
+    html/
+        ops/
+            db_action.php
+        inc/
+            result.inc
+            db_ops.inc

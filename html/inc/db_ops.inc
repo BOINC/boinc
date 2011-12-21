@@ -20,6 +20,8 @@ error_reporting(E_ALL);
 ini_set('display_errors', true);
 ini_set('display_startup_errors', true);
 
+require_once("../inc/result.inc");
+
 class BoincAssignment {
     static function enum($where_clause) {
         $db = BoincDb::get();
@@ -339,149 +341,7 @@ function link_results($n, $mq, $query, $clauses) {
         
     }
 }
-// Decode ErrorNumber into human readable, taken from lib/error_numbers.h keep this up to date
-// @return String A human readable error message
-// @param Integer $x An error number
-function result_error_mask_str($x){
-    switch($x){
-    case 0: return "";
-    case -100: return "ERR_SELECT";
-    case -102: return "ERR_READ";
-    case -103: return "ERR_WRITE";
-    case -104: return "ERR_FREAD";
-    case -105: return "ERR_FWRITE";
-    case -106: return "ERR_IO";
-    case -107: return "ERR_CONNECT";
-    case -108: return "ERR_FOPEN";
-    case -109: return "ERR_RENAME";
-    case -110: return "ERR_UNLINK";
-    case -111: return "ERR_OPENDIR";
-    case -112: return "ERR_XML_PARSE";
-    case -113: return "ERR_GETHOSTBYNAME";
-    case -114: return "ERR_GIVEUP_DOWNLOAD";
-    case -115: return "ERR_GIVEUP_UPLOAD";
-    case -116: return "ERR_NULL";
-    case -117: return "ERR_NEG";
-    case -118: return "ERR_BUFFER_OVERFLOW";
-    case -119: return "ERR_MD5_FAILED";
-    case -120: return "ERR_RSA_FAILED";
-    case -121: return "ERR_OPEN";
-    case -122: return "ERR_DUP2";
-    case -123: return "ERR_NO_SIGNATURE";
-    case -124: return "ERR_THREAD";
-    case -125: return "ERR_SIGNAL_CATCH";
-    case -126: return "ERR_QUIT_REQUEST";
-    case -127: return "ERR_UPLOAD_TRANSIENT";
-    case -128: return "ERR_UPLOAD_PERMANENT";
-    case -129: return "ERR_IDLE_PERIOD";
-    case -130: return "ERR_ALREADY_ATTACHED";
-    case -131: return "ERR_FILE_TOO_BIG";
-    case -132: return "ERR_GETRUSAGE";
-    case -133: return "ERR_BENCHMARK_FAILED";
-    case -134: return "ERR_BAD_HEX_FORMAT";
-    case -135: return "ERR_USER_REJECTED";
-    case -136: return "ERR_DB_NOT_FOUND";
-    case -137: return "ERR_DB_NOT_UNIQUE";
-    case -138: return "ERR_DB_CANT_CONNECT";
-    case -139: return "ERR_GETS";
-    case -140: return "ERR_SCANF";
-    case -141: return "ERR_STRCHR";
-    case -142: return "ERR_STRSTR";
-    case -143: return "ERR_READDIR";
-    case -144: return "ERR_SHMGET";
-    case -145: return "ERR_SHMCTL";
-    case -146: return "ERR_SHMAT";
-    case -147: return "ERR_FORK";
-    case -148: return "ERR_EXEC";
-    case -149: return "ERR_NOT_EXITED";
-    case -150: return "ERR_NOT_IMPLEMENTED";
-    case -151: return "ERR_GETHOSTNAME";
-    case -152: return "ERR_NETOPEN";
-    case -153: return "ERR_SOCKET";
-    case -154: return "ERR_FCNTL";
-    case -155: return "ERR_AUTHENTICATOR";
-    case -156: return "ERR_SCHED_SHMEM";
-    case -157: return "ERR_ASYNCSELECT";
-    case -158: return "ERR_BAD_RESULT_STATE";
-    case -159: return "ERR_DB_CANT_INIT";
-    case -160: return "ERR_NOT_UNIQUE";
-    case -161: return "ERR_NOT_FOUND";
-    case -162: return "ERR_NO_EXIT_STATUS";
-    case -163: return "ERR_FILE_MISSING";
-    case -164: return "ERR_NESTED_UNHANDLED_EXCEPTION_DETECTED";
-    case -165: return "ERR_SEMGET";
-    case -166: return "ERR_SEMCTL";
-    case -167: return "ERR_SEMOP";
-    case -168: return "ERR_FTOK";
-    case -169: return "ERR_SOCKS_UNKNOWN_FAILURE";
-    case -170: return "ERR_SOCKS_REQUEST_FAILED";
-    case -171: return "ERR_SOCKS_BAD_USER_PASS";
-    case -172: return "ERR_SOCKS_UNKNOWN_SERVER_VERSION";
-    case -173: return "ERR_SOCKS_UNSUPPORTED";
-    case -174: return "ERR_SOCKS_CANT_REACH_HOST";
-    case -175: return "ERR_SOCKS_CONN_REFUSED";
-    case -176: return "ERR_TIMER_INIT";
-    case -177: return "ERR_RSC_LIMIT_EXCEEDED";
-    case -178: return "ERR_INVALID_PARAM";
-    case -179: return "ERR_SIGNAL_OP";
-    case -180: return "ERR_BIND";
-    case -181: return "ERR_LISTEN";
-    case -182: return "ERR_TIMEOUT";
-    case -183: return "ERR_PROJECT_DOWN";
-    case -184: return "ERR_HTTP_ERROR";
-    case -185: return "ERR_RESULT_START";
-    case -186: return "ERR_RESULT_DOWNLOAD";
-    case -187: return "ERR_RESULT_UPLOAD";
-    case -189: return "ERR_INVALID_URL";
-    case -190: return "ERR_MAJOR_VERSION";
-    case -191: return "ERR_NO_OPTION";
-    case -192: return "ERR_MKDIR";
-    case -193: return "ERR_INVALID_EVENT";
-    case -194: return "ERR_ALREADY_RUNNING";
-    case -195: return "ERR_NO_APP_VERSION";  
-    case -196: return "ERR_WU_USER_RULE";    
-    case -197: return "ERR_ABORTED_VIA_GUI";
-    case -198: return "ERR_INSUFFICIENT_RESOURCE";
-    case -199: return "ERR_RETRY";
-    case -200: return "ERR_WRONG_SIZE";
-    case -201: return "ERR_USER_PERMISSION";
-    case -202: return "ERR_SHMEM_NAME";
-    case -203: return "ERR_NO_NETWORK_CONNECTION";
-    case -204: return "ERR_IN_PROGRESS";
-    case -205: return "ERR_BAD_EMAIL_ADDR";
-    case -206: return "ERR_BAD_PASSWD";
-    case -207: return "ERR_NONUNIQUE_EMAIL";
-    case -208: return "ERR_ACCT_CREATION_DISABLED";
-    case -209: return "ERR_ATTACH_FAIL_INIT";
-    case -210: return "ERR_ATTACH_FAIL_DOWNLOAD";
-    case -211: return "ERR_ATTACH_FAIL_PARSE";
-    case -212: return "ERR_ATTACH_FAIL_BAD_KEY";
-    case -213: return "ERR_ATTACH_FAIL_FILE_WRITE";
-    case -214: return "ERR_ATTACH_FAIL_SERVER_ERROR";
-    case -215: return "ERR_SIGNING_KEY";
-    case -216: return "ERR_FFLUSH";
-    case -217: return "ERR_FSYNC";
-    case -218: return "ERR_TRUNCATE";
-    case -219: return "ERR_WRONG_URL";
-    case -220: return "ERR_DUP_NAME";
-    case -221: return "ERR_ABORTED_BY_PROJECT";
-    case -222: return "ERR_GETGRNAM";
-    case -223: return "ERR_CHOWN";
-    case -224: return "ERR_FILE_NOT_FOUND";
-    case -225: return "ERR_BAD_FILENAME";
-    case -226: return "ERR_TOO_MANY_EXITS";
-    case -227: return "ERR_RMDIR";
-    case -228: return "ERR_CHILD_FAILED";
-    case -229: return "ERR_SYMLINK";
-    case -230: return "ERR_DB_CONN_LOST";
-    case -231: return "ERR_CRYPTO";
-    case -232: return "ERR_ABORTED_ON_EXIT";
-    case -233: return "ERR_UNSTARTED_LATE";
-    case -234: return "ERR_MISSING_COPROC";
-    case -235: return "ERR_PROC_PARSE";
-    default: return "Unknown error number";
-    }
-}
+
 // Determines if in stderr_out is an error reported and prints as human readable String
 // @return String A human readable string if error otherwise FALSE
 // @param String $stderr_out the stderr_out value to parse
@@ -495,21 +355,6 @@ function stderr_error_string($stderr_out){
         return FALSE;
     } else {
         return "$x ".result_error_mask_str($x);
-    }
-}
-//
-function exit_status_string($result) {
-    $x = $result->exit_status;
-    if ($x == 0) {
-        $y = parse_element($result->stderr_out, "<exit_status>");
-        if ($y) {
-            $x = (int)$y;
-        }
-    }
-    if (0<=$x && $x<=9) {
-        return "$x ".result_error_mask_str($x);
-    } else {
-        return sprintf("%d (0x%x)", $x, $x). " ".result_error_mask_str($x);
     }
 }
 
@@ -669,7 +514,9 @@ FROM result WHERE
     echo "<td><table border=2 cellpadding=4>\n";
     echo "<tr><th>Server state</th><th># results</th></tr>\n";
     for ($ss=1; $ss<6; $ss++) {
-        row2(server_state_string($ss),
+        $res = null;
+        $res->server_state = $ss;
+        row2(result_server_state_string($res),
              link_results("$server_state[$ss]",  $urlquery,"server_state=$ss", '')
         );
     }
@@ -679,7 +526,10 @@ FROM result WHERE
     echo "<tr><th>Outcome</th><th># results</th></tr>\n";
 
     for ($ro=0; $ro<8; $ro++) {
-        c_row2($outcome[$ro]?outcome_color($ro):'', outcome_string($ro),
+        $res = null;
+        $res->outcome = $ro;
+        $res->exit_status = 0;
+        c_row2($outcome[$ro]?outcome_color($ro):'', result_outcome_string($res),
             link_results("$outcome[$ro]", $urlquery, "outcome=$ro", '')
         );
     }
@@ -688,7 +538,10 @@ FROM result WHERE
     echo "<td><table border=2 cellpadding=4>\n";
     echo "<tr><th>Validate state</th><th># results</th></tr>\n";
     for ($vs=0; $vs<NVALIDATE_STATES; $vs++) {
-        c_row2($validate_state[$vs]?validate_color($vs):'', validate_state_str($vs),
+        $res = null;
+        $res->validate_state = $vs;
+        $res->exit_status = 0;
+        c_row2($validate_state[$vs]?validate_color($vs):'', validate_state_str($res),
         link_results("$validate_state[$vs]", $urlquery, "validate_state=$vs", "outcome=1"));
     }
     echo "</table>";
@@ -706,7 +559,10 @@ FROM result WHERE
     echo "<td><table border=2 cellpadding=4>\n";
     echo "<tr><th>Client state</th><th># results</th></tr>\n";
     for ($cs=1; $cs<7; $cs++) {
-        row2(client_state_string($cs),
+        $res = null;
+        $res->client_state = $cs;
+        $res->exit_status = 0;
+        row2(result_client_state_string($res),
             link_results("$client_state[$cs]", $urlquery, "client_state=$cs", "outcome=3")
         );
     }
@@ -721,7 +577,9 @@ function server_state_select() {
         <option value=\"CHOOSE_ALL\" selected=\"selected\"> Any </option>
     ";
     for($i=1; $i<6; $i++) {
-        echo "<option value=\"$i\"> "."[$i]&nbsp;&nbsp;".'   '.server_state_string($i)."</option>\n";
+        $res = null;
+        $res->server_state=$i;
+        echo "<option value=\"$i\"> "."[$i]&nbsp;&nbsp;".'   '.result_server_state_string($res)."</option>\n";
     }
     echo "</select>\n";
 }
@@ -732,7 +590,10 @@ function outcome_select() {
         <option value=\"CHOOSE_ALL\" selected=\"selected\"> Any </option>
     ";
     for($i=0; $i<8; $i++) {
-        echo "<option value=\"$i\"> "."[$i]&nbsp;&nbsp;".'   '.outcome_string($i)."</option>\n";
+        $res = null;
+        $res->outcome = $i;
+        $res->exit_status = 0;
+        echo "<option value=\"$i\"> "."[$i]&nbsp;&nbsp;".'   '.result_outcome_string($res)."</option>\n";
     }
     echo "</select>\n";
 }
@@ -743,7 +604,10 @@ function validate_state_select() {
         <option value=\"CHOOSE_ALL\" selected=\"selected\"> Any </option>
         ";
     for($i=0; $i<NVALIDATE_STATES; $i++) {
-        echo "<option value=\"$i\"> "."[$i]&nbsp;&nbsp;".'   '.validate_state_str($i)."</option>\n";
+        $res = null;
+        $res->validate_state = $vs;
+        $res->exit_status = 0;
+        echo "<option value=\"$i\"> "."[$i]&nbsp;&nbsp;".'   '.validate_state_str($res)."</option>\n";
     }
     echo "</select>\n";
 }
@@ -754,7 +618,10 @@ function client_state_select() {
         <option value=\"CHOOSE_ALL\" selected=\"selected\"> Any </option>
     ";
     for($i=0; $i<7; $i++) {
-        echo "<option value=\"$i\"> "."[$i]&nbsp;&nbsp;".client_state_string($i)."</option>\n";
+        $res = null;
+        $res->client_state = $i;
+        $res->exit_status = 0;
+        echo "<option value=\"$i\"> "."[$i]&nbsp;&nbsp;".result_client_state_string($res)."</option>\n";
     }
     echo "</select>\n";
 }
@@ -902,7 +769,7 @@ function resource_name($x) {
     }
     return "Unknown resource: $x";
 }
-function app_version_string($avid) {
+function hav_app_version_string($avid) {
     if ($avid > 1000000) {
         $appid = (int)($avid/1000000);
         $platform_name = "Anonymous platform";
@@ -933,7 +800,7 @@ function show_host_app_versions($hostid) {
     $havs = BoincHostAppVersion::enum("host_id=$hostid");
     foreach ($havs as $hav) {
         table_row(
-            app_version_string($hav->app_version_id),
+            hav_app_version_string($hav->app_version_id),
             "$hav->pfc_avg ($hav->pfc_n)",
             "$hav->et_avg ($hav->et_n)",
             days_string($hav->turnaround_avg)." ($hav->turnaround_n)"
@@ -995,60 +862,6 @@ function show_host($host) {
     row("Results", "<a href=\"db_action.php?table=result&detail=low&hostid=$host->id&sort_by=sent_time\">click here</a>");
     end_table();
     show_host_app_versions($host->id);
-}
-
-function wu_error_mask_str($s) {
-    $x = "";
-    if ($s & 1) {
-        $x = $x."Couldn't send result;<br>";
-        $s -= 1;
-    }
-    if ($s & 2) {
-        $x = $x."Too many errors (may have bug);<br>";
-        $s -= 2;
-    }
-    if ($s & 4) {
-        $x = $x."Too many results (may be nondeterministic)<br>";
-        $s -= 4;
-    }
-    if ($s & 8) {
-        $x = $x."Too many total results<br>";
-        $s -= 8;
-    }
-    if ($s & 16) {
-        $x = $x."WU cancelled<br>";
-        $s -= 16;
-    }
-    if ($s) {
-        $x = $x."Unrecognized Error: $s<br>";
-    }
-    if (strlen($x)) {
-        $x="<font color=\"#ff3333\">".$x."</font>";
-    } else {
-        $x="<br>";
-    }
-    return $x;
-}
-
-function assimilate_state_str($s) {
-    switch($s) {
-    case 0: return "Initial";
-    case 1: return "Ready to assimilate";
-    case 2: return "Assimilated";
-    }
-    echo "<b>THIS IS AN INTERNAL BUG #1 [$s] IN BOINC: PLEASE CONTACT BOINC DEVELOPERS</b><br/>";
-    return "Unknown";
-}
-
-function file_delete_state_str($s) {
-    switch($s) {
-    case 0: return "Initial";
-    case 1: return "Ready to delete";
-    case 2: return "Deleted";
-    case 3: return "Delete Error";
-    }
-    echo "<b>THIS IS AN INTERNAL BUG #2 [$s] IN BOINC: PLEASE CONTACT BOINC DEVELOPERS</b><br/>";
-    return "Unknown";
 }
 
 function show_workunit($wu) {
@@ -1127,63 +940,7 @@ function show_workunit_short($wu) {
     ";
 }
 
-
-function server_state_string($s) {
-    switch($s) {
-    case 1: return "Inactive";
-    case 2: return "Unsent";
-    case 3: return "Unsent (in work seq)";
-    case 4: return "In Progress";
-    case 5: return "Over";
-    }
-    echo "<b>THIS IS AN INTERNAL BUG #3 [$s] IN BOINC: PLEASE CONTACT BOINC DEVELOPERS</b><br/>";
-    return "Unknown";
-}
-
-function outcome_string($s) {
-    switch($s) {
-    case 0: return "Init";
-    case 1: return "Success";
-    case 2: return "Couldn't send";
-    case 3: return "Client error";
-    case 4: return "No reply";
-    case 5: return "Didn't need";
-    case 6: return "Validate error";
-    case 7: return "Client detached";
-    }
-    echo "<b>THIS IS AN INTERNAL BUG #4 [$s] IN BOINC: PLEASE CONTACT BOINC DEVELOPERS</b><br/>";
-    return "Unknown";
-}
-
-function client_state_string($s) {
-    switch($s) {
-    case 0: return "New";
-    case 1: return "Downloading";
-    case 2: return "Downloaded";
-    case 3: return "Compute error";
-    case 4: return "Uploading";
-    case 5: return "Uploaded";
-    case 6: return "Aborted";
-    }
-    echo "<b>THIS IS AN INTERNAL BUG #5 [$s] IN BOINC: PLEASE CONTACT BOINC DEVELOPERS</b><br/>";
-    return "Unknown";
-}
-
-function validate_state_str($s) {
-    switch($s) {
-    case 0: return "Initial";
-    case 1: return "Valid";
-    case 2: return "Invalid";
-    case 3: return "Skipped";
-    case 4: return "Inconclusive";
-    case 5: return "Too late";
-    }
-    echo "<b>THIS IS AN INTERNAL BUG #6 [$s] IN BOINC: PLEASE CONTACT BOINC DEVELOPERS</b><br/>";
-    return "Unknown";
-}
-
-function host_user_link($hostid)
-{
+function host_user_link($hostid) {
     if (!$hostid) return '----';
 
     $h = "<a href=\"db_action.php?table=host&id=$hostid\">$hostid</a>";
@@ -1209,11 +966,11 @@ function validate_color($validate_state) {
 
 function outcome_color($outcome) {
     switch($outcome) {
-         case 0: return '9900cc'; // "Init", purple 
-         case 1: return '33cc33'; // "Success", green
-         case 3: return 'ff3333'; // "Client error", red
-         case 4: return 'ff6699'; // "No reply", pink 
-         case 6: return 'ffff33'; // "Validate error", yellow
+    case 0: return '9900cc'; // "Init", purple 
+    case 1: return '33cc33'; // "Success", green
+    case 3: return 'ff3333'; // "Client error", red
+    case 4: return 'ff6699'; // "No reply", pink 
+    case 6: return 'ffff33'; // "Validate error", yellow
     }
     return '';
 }
@@ -1226,9 +983,8 @@ function credit_str($c) {
     }
 }
 
-function show_result($result) {
+function show_result_ops($result) {
     $wu_name = wu_name_by_id($result->workunitid);
-
 
     start_table();
 
@@ -1239,9 +995,9 @@ function show_result($result) {
     row("Last time modified",mysqltime_str($result->mod_time));
     row("Name", $result->name);
     row("Workunit", "<a href=\"db_action.php?table=workunit&id=$result->workunitid\">" . wu_name_by_id($result->workunitid) . "</a> [$result->workunitid]" );
-    row("Server state", server_state_string($result->server_state)." [$result->server_state]");
-    row("Outcome", outcome_string($result->outcome)." [$result->outcome]");
-    row("Client state", client_state_string($result->client_state)." [$result->client_state]");
+    row("Server state", result_server_state_string($result)." [$result->server_state]");
+    row("Outcome", result_outcome_string($result)." [$result->outcome]");
+    row("Client state", result_client_state_string($result)." [$result->client_state]");
     row("Exit status", exit_status_string($result));
     row("Host ID", "<a href=\"db_action.php?table=host&id=$result->hostid\">" . host_name_by_id($result->hostid) . "</a> [$result->hostid]");
     row("User ID", "<a href=\"db_action.php?table=user&id=$result->userid\">" . user_name_by_id($result->userid) . "</a> [$result->userid]");
@@ -1252,7 +1008,7 @@ function show_result($result) {
     }
     row("Batch", $result->batch);
     row("File delete state", file_delete_state_str($result->file_delete_state)." [$result->file_delete_state]");
-    row("Validate state", validate_state_str($result->validate_state)." [$result->validate_state]");
+    row("Validate state", validate_state_str($result)." [$result->validate_state]");
     row("claimed credit", $result->claimed_credit);
     row("Granted credit", $result->granted_credit);
     row("Application", "<a href=\"db_action.php?table=app&id=$result->appid\">".app_name_by_id($result->appid)."</a>");
@@ -1297,12 +1053,12 @@ function result_short_header() {
 }
 
 function show_result_short($result) {
-    $ss = server_state_string($result->server_state)." [$result->server_state]";
-    $oc = outcome_string($result->outcome)." [$result->outcome]";
-    $vs = validate_state_str($result->validate_state)." [$result->validate_state]";
-    $cs2 = client_state_string($result->client_state)." [$result->client_state]";
+    $ss = result_server_state_string($result)." [$result->server_state]";
+    $oc = result_outcome_string($result)." [$result->outcome]";
+    $vs = validate_state_str($result)." [$result->validate_state]";
+    $cs2 = result_client_state_string($result)." [$result->client_state]";
     if ($result->outcome == 3) {
-        $cs = client_state_string($result->client_state);
+        $cs = result_client_state_string($result);
         $oc = "$oc ($cs)";
     }
     if ($result->received_time)
@@ -1375,9 +1131,10 @@ function show_user_summary($maxuser) {
     $top_country = array();
     $top_language = array();
     $stats_res = mysql_query("select max(id) as maxuser,
-                              SUM(case when has_profile = '1' then 1 else 0 end) as profuser,
-                              SUM(case when teamid != '0' then 1 else 0 end) as teamuser
-                              from user");
+        SUM(case when has_profile = '1' then 1 else 0 end) as profuser,
+        SUM(case when teamid != '0' then 1 else 0 end) as teamuser
+        from user"
+    );
     $stats = mysql_fetch_assoc($stats_res);
     if ($maxuser > $stats['maxuser']) {
         $maxuser = $stats['maxuser'];
@@ -1425,14 +1182,14 @@ function show_user_summary($maxuser) {
     
     foreach ($top_country as $key => $value) {
         row2_plain($key, $value);
-        }
+    }
     echo "</table></td>";
     echo "<td><table border=\"2\">\n";
     echo "<tr><th>Language</th><th># users</th></tr>\n";
     arsort($top_language);
     foreach ($top_language as $key => $value) {
         row2_plain($key, $value);
-        }
+    }
     echo "</table></td>";
 
     echo "</tr></table></td></tr>";
