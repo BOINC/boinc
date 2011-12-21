@@ -58,7 +58,6 @@ class CScrolledTextBox : public wxScrolledWindow
         void OnOutputLine(const wxString& line);
 
         wxBoxSizer*                 m_TextSizer;
-        int                         m_iAvailableWidth;
         int                         m_iAvailableHeight;
         bool                        m_eol;
         wxString                    m_text;
