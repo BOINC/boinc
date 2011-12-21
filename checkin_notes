@@ -9210,6 +9210,7 @@ Charlie 21 Dec 2011
     - MGR: Display project descriptions in Attach Wizard using wxTextCtrl 
         instead of wxHtmlWindow to support screen readers for accessibility,  
         after converting all occurrences of "<sup>n</sup>" to "^n".
+        Show localized project descriptions in Attach Wizard.
 
     clientgui/
         ProjectInfoPage.cpp,.h
