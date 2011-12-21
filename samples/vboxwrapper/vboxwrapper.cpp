@@ -372,7 +372,7 @@ int main(int argc, char** argv) {
             //
             if (vm.max_elapsed_time > 0.0) {
                 if (elapsed_time > vm.max_elapsed_time) {
-                    vm.stop();
+                    vm.cleanup();
                     write_checkpoint(checkpoint_cpu_time);
                     boinc_finish(0);
                 }
