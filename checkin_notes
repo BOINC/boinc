@@ -8867,3 +8867,11 @@ Charlie 16 Dec 2011
     clientgui/
         BOINCGUIApp.cpp
         sg_TaskPanel.cpp
+
+Charlie 21 Dec 2011
+    - MGR: Display project descriptions in Attach Wizard using wxTextCtrl 
+        instead of wxHtmlWindow to support screen readers for accessibility,  
+        after converting all occurrences of "<sup>n</sup>" to "^n".
+
+    clientgui/
+        ProjectInfoPage.cpp,.h
