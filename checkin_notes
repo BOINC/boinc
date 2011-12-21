@@ -9250,3 +9250,14 @@ Rom    21 Dec 2011
     
     samples/vboxwrapper/
         vbox.cpp, .h
+
+Rom    21 Dec 2011
+    - VBOX: If vm.run() fails, call vm.cleanup() to unregister the VM before exiting
+        vboxwrapper.  Not doing so leaves the drive reference around and the VM in a
+        saved state.  The next attempt to delete it from another instance of
+        vboxwrapper fails with a complaint about the old unnamed vm(all files have
+        been cleaned up by BOINC) being in an non-mutable state.
+
+    samples/vboxwrapper/
+        vbox.cpp
+        vboxwrapper.cpp

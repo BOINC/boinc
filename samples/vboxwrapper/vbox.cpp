@@ -731,7 +731,7 @@ int VBOX_VM::register_vm_firewall_rules() {
     command  = "modifyvm \"" + vm_name + "\" ";
     command += "--natpf1 delete \"vboxwrapper\" ";
 
-    vbm_popen(command, output, "remove stale port forwarding rule");
+    vbm_popen(command, output, "remove stale port forwarding rule", false);
 
     // Add new firewall rule
     //
@@ -739,7 +739,7 @@ int VBOX_VM::register_vm_firewall_rules() {
     command  = "modifyvm \"" + vm_name + "\" ";
     command += "--natpf1 \"" + string(buf) + "\" ";
 
-    retval = vbm_popen(command, output, "add new port forwarding rule");
+    retval = vbm_popen(command, output, "add updated port forwarding rule");
     if(retval) return retval;
 
     fprintf(

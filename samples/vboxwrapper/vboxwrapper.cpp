@@ -338,6 +338,8 @@ int main(int argc, char** argv) {
 
     retval = vm.run();
     if (retval) {
+        vm.cleanup();
+        write_checkpoint(checkpoint_cpu_time);
         boinc_finish(retval);
     }
 
