@@ -9181,3 +9181,13 @@ Rom    20 Dec 2011
     samples/vboxwrapper/
         vbox.cpp, .h
         vboxwrapper.cpp
+
+David  20 Dec 2011
+    - scheduler: if an app has only GPU versions,
+        scale their PFC by 0.1 in credit calculations.
+        This reflects the fact that GPU apps are typically less efficient
+        (relative to device peak FLOPS) than are CPU apps.
+        The actual values from SETI@home and Milkyway are 0.05 and 0.08.
+
+    sched/
+        credit.cpp

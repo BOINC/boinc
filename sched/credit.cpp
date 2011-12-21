@@ -209,6 +209,13 @@ int scale_versions(APP& app, double avg, SCHED_SHMEM* ssp) {
     return 0;
 }
 
+#define DEFAULT_GPU_SCALE   0.1
+// if there are no CPU versions to compare against,
+// multiply pfc_scale of GPU versions by this.
+// This reflects the average lower efficiency of GPU apps compared to CPU apps.
+// The observed values from SETI@home and Milkyway are 0.05 and 0.08.
+// We'll be a little generous and call it 0.1
+
 // Update app version scale factors,
 // and find the min average PFC for each app.
 // Called periodically from the master feeder.
@@ -276,11 +283,11 @@ int update_av_scales(SCHED_SHMEM* ssp) {
                 "CPU avg: %g\n", cpu_info.avg()
             );
             scale_versions(app, cpu_info.avg(), ssp);
-        } else if (gpu_info.nvers_thresh > 1) {
+        } else if (gpu_info.nvers_thresh > 0) {
             log_messages.printf(MSG_NORMAL,
                 "GPU avg: %g\n", gpu_info.avg()
             );
-            scale_versions(app, gpu_info.avg(), ssp);
+            scale_versions(app, gpu_info.avg()*DEFAULT_GPU_SCALE, ssp);
         }
 
     }
