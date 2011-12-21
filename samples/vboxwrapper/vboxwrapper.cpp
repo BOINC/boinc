@@ -111,6 +111,7 @@ int parse_job_file(VBOX_VM& vm) {
         else if (xp.parse_string("memory_size_mb", vm.memory_size_mb)) continue;
         else if (xp.parse_string("floppy_image_name", vm.floppy_image_filename)) continue;
         else if (xp.parse_double("max_elapsed_time", vm.max_elapsed_time)) continue;
+        else if (xp.parse_bool("enable_cern_dataformat", vm.enable_cern_dataformat)) continue;
         else if (xp.parse_bool("enable_network", vm.enable_network)) continue;
         else if (xp.parse_bool("enable_shared_directory", vm.enable_shared_directory)) continue;
         fprintf(stderr, "%s parse_job_file(): unexpected tag %s\n",
