@@ -756,7 +756,6 @@ int VBOX_VM::deregister_vm() {
     string output;
     string virtual_machine_slot_directory;
     char buf[256];
-    int retval;
 
     get_slot_directory(virtual_machine_slot_directory);
 
