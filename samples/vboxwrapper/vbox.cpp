@@ -612,6 +612,13 @@ int VBOX_VM::register_vm() {
     // Adding virtual floppy disk drive to VM
     //
     if (floppy_image_filename.size()) {
+
+        // Put in place the FloppyIO abstraction
+        //
+        // NOTE: This creates the floppy.img file at runtime for use by the VM.
+        //
+        pFloppy = new FloppyIO(floppy_image_filename.c_str());
+
         fprintf(
             stderr,
             "%s Adding virtual floppy disk drive to virtual machine.\n",
@@ -627,9 +634,6 @@ int VBOX_VM::register_vm() {
         retval = vbm_popen(command, output, "storage attach (floppy disk)");
         if (retval) return retval;
 
-        // Put in place the FloppyIO abstraction
-        //
-        pFloppy = new FloppyIO(floppy_image_filename.c_str());
     }
 
     // Enable the network adapter if a network connection is required.

@@ -9220,3 +9220,11 @@ Charlie 21 Dec 2011
         
     clientgui/
         sg_TaskPanel.cpp,.h
+
+Rom    21 Dec 2011
+    - VBOX: Create the FloppyIO image via the FloppyIO constructor before attempting
+        to link the VM to it.
+        
+    samples/vboxwrapper/
+        floppyio.cpp
+        vbox.cpp
