@@ -31,7 +31,7 @@
 #define SLIDESHOWBORDER 3
 #define DESCRIPTIONSPACER 4
 #define HIDEDEFAULTSLIDE 1
-#define TESTALLDESCRIPTIONS 1
+#define TESTALLDESCRIPTIONS 0
 #define SCROLLBARWIDTH 18
 
 enum { suspendedIcon, waitingIcon, runningIcon };
