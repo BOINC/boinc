@@ -9278,4 +9278,11 @@ Rom    21 Dec 2011
         
     samples/vboxwrapper/
         vbox.cpp
+
+Rom    21 Dec 2011
+    - VBOX: It turns out that once you set the firewall rules, you cannot reset the
+        rules for a VM until the VM is in a powered off state.  I guess the VM will
+        just have to fail starting up if it cannot allocate the assigned port.
         
+    samples/vboxwrapper/
+        vbox.cpp

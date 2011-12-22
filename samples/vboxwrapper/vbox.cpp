@@ -100,13 +100,6 @@ int VBOX_VM::run() {
     // error to stop further processing.
     if (register_only) return ERR_FOPEN;
 
-    // If a project wants to open up a firewall port through the VirtualBox virtual
-    // network firewall/nat do that here.  This has to be done for every execution
-    // of the wrapper because available host ports change depending on what other
-    // software is running.
-    retval = register_vm_firewall_rules();
-    if (retval) return retval;
-
     retval = start();
     if (retval) return retval;
 
@@ -641,6 +634,14 @@ int VBOX_VM::register_vm() {
         set_network_access(true);
     }
 
+    // If a project wants to open up a firewall port through the VirtualBox virtual
+    // network firewall/nat do that here.
+    //
+    if (pf_desired_host_port) {
+        retval = register_vm_firewall_rules();
+        if (retval) return retval;
+    }
+
     // Enable the shared folder if a shared folder is specified.
     //
     if (enable_shared_directory) {
@@ -670,19 +671,12 @@ int VBOX_VM::register_vm_firewall_rules() {
     int sock;
     int retval;
 
-    // Are we being requested to open a firewall port?  if the desired
-    // guest port is zero, then no.  The desired host port can be zero
-    // which means the OS should dynamically assign one.
-    //
-    if (pf_desired_guest_port == 0) return 0;
-
     get_slot_directory(virtual_machine_slot_directory);
 
     fprintf(
         stderr,
-        "%s Registering virtual machine firewall rules. (%s)\n",
-        boinc_msg_prefix(buf, sizeof(buf)),
-        vm_name.c_str()
+        "%s Registering virtual machine firewall rules.\n",
+        boinc_msg_prefix(buf, sizeof(buf))
     );
 
     memset(&addr, 0, sizeof(addr));
@@ -720,13 +714,6 @@ int VBOX_VM::register_vm_firewall_rules() {
 
     boinc_close_socket(sock);
 
-
-    // Remove any stale firewall rule
-    //
-    command  = "modifyvm \"" + vm_name + "\" ";
-    command += "--natpf1 delete \"vboxwrapper\" ";
-
-    vbm_popen(command, output, "remove stale port forwarding rule");
 
     // Add new firewall rule
     //
