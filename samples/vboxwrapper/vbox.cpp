@@ -667,7 +667,7 @@ int VBOX_VM::register_vm_firewall_rules() {
     string virtual_machine_slot_directory;
     char buf[256];
     struct sockaddr_in addr;
-    int addrsize;
+    BOINC_SOCKLEN_T addrsize;
     int sock;
     int retval;
 
@@ -682,7 +682,7 @@ int VBOX_VM::register_vm_firewall_rules() {
     memset(&addr, 0, sizeof(addr));
     addr.sin_family = AF_INET;
     addr.sin_port = htons(pf_desired_host_port);
-    addr.sin_addr.s_addr = inet_addr("127.0.0.1");
+    addr.sin_addr.s_addr = htonl(INADDR_LOOPBACK);
 
     addrsize = sizeof(addr);
 
