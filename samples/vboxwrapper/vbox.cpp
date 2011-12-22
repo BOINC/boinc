@@ -458,6 +458,35 @@ int VBOX_VM::initialize() {
                 boinc_msg_prefix(buf, sizeof(buf))
             );
         }
+
+        // Launch VboxSVC.exe before going any further. if we don't, it'll be launched by
+        // svchost.exe with its environment block which will not contain the reference
+        // to VBOX_USER_HOME which is required for running in the BOINC account-based
+        // sandbox.
+        STARTUPINFO si;
+        PROCESS_INFORMATION pi;
+        string command;
+
+        memset(&si, 0, sizeof(si));
+        memset(&pi, 0, sizeof(pi));
+
+        si.cb = sizeof(STARTUPINFO);
+        si.dwFlags |= STARTF_FORCEOFFFEEDBACK | STARTF_USESHOWWINDOW;
+        si.wShowWindow = SW_HIDE;
+
+        command = "\"" + virtualbox_install_directory + "\\VBoxSVC.exe\" -Embedding";
+
+        if (!CreateProcess(NULL, (LPTSTR)command.c_str(), NULL, NULL, TRUE, CREATE_NO_WINDOW, NULL, NULL, &si, &pi)) {
+            fprintf(
+                stderr,
+                "%s Creating VBoxSVC.exe failed! (%d).\n",
+                boinc_msg_prefix(buf, sizeof(buf)),
+                GetLastError()
+            );
+        }
+
+        if (pi.hThread) CloseHandle(pi.hThread);
+        if (pi.hProcess) CloseHandle(pi.hProcess);
 #else
         // putenv does not copy its input buffer, so we must use setenv
         if (setenv("VBOX_USER_HOME", const_cast<char*>(virtualbox_user_home.c_str()), 1)) {

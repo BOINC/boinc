@@ -9299,3 +9299,17 @@ Rom    21 Dec 2011
     
     samples/vboxwrapper/
         vboxwrapper.cpp
+
+Rom    22 Dec 2011
+    - VBOX: Try a new approach to dealing with the Windows sandbox issue. Under Windows
+        VboxSVC.exe is normally launched by svchost.exe which only contains environment
+        variables defined by the system.  In the BOINC sandbox environment we want to
+        add VBOX_USER_HOME to redirect reading/writing configuration files to a
+        different directory.  What happens if we launch it ahead of making any calls to
+        VBoxManage which would cause the OS to launch it?  If we launch it, it should
+        inherit our environment block and work just like it works on Linux and the Mac.
+        
+        This is such a simple solution, why didn't I think of it sooner?
+        
+    samples/vboxwrapper/
+        vbox.cpp
