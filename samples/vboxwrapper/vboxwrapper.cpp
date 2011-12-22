@@ -194,10 +194,10 @@ void set_floppy_image(APP_INIT_DATA& aid, VBOX_VM& vm) {
         } else {
             scratch  = "BOINC_USERNAME=" + std::string(aid.user_name) + "\n";
 
-            sprintf(buf, "%d", aid.user_total_credit);
+            sprintf(buf, "%f", aid.user_total_credit);
             scratch += "BOINC_USER_TOTAL_CREDIT=" + std::string(buf) + "\n";
 
-            sprintf(buf, "%d", aid.host_total_credit);
+            sprintf(buf, "%f", aid.host_total_credit);
             scratch += "BOINC_HOST_TOTAL_CREDIT=" + std::string(buf) + "\n";
 
             scratch += "BOINC_AUTHENTICATOR=" + std::string(aid.authenticator) + "\n";
