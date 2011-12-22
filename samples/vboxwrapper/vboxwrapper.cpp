@@ -388,6 +388,7 @@ int main(int argc, char** argv) {
             }
             if (boinc_time_to_checkpoint()) {
                 checkpoint_cpu_time = elapsed_time;
+                write_checkpoint(checkpoint_cpu_time);
                 if (vm.max_elapsed_time) {
                     fraction_done = elapsed_time / vm.max_elapsed_time;
                     if (fraction_done > 1.0) {
