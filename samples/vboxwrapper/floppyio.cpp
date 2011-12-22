@@ -150,7 +150,6 @@ void FloppyIO::send(string strData) {
     
     // Initialize variables
     int szData = strData.length();
-    int szPad = 0;
     
     // Copy the first szInput bytes
     if (szData > this->szOutput-1) {
@@ -168,7 +167,6 @@ void FloppyIO::send(string strData) {
     // Notify the client that we placed data (Client should clear this on read)
     this->fIO->seekp(this->ofsCtrlByteOut);
     this->fIO->write("\x01", 1);
-    
 }
 
 
