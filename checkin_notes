@@ -9313,3 +9313,14 @@ Rom    22 Dec 2011
         
     samples/vboxwrapper/
         vbox.cpp
+
+Rom    22 Dec 2011
+    - VBOX: Remove code that was meant to force the CC to reschedule jobs.  There was
+        a bug that was fixed last night which prevented the wrapper from properly
+        reporting its checkpoint time to the CC.  The lack of checkpoint information
+        for the job would have prevented the CC from rescheduling the job and removing
+        it from memory.  Now it can so the extra shutdown each scheduling period
+        should not be needed.
+        
+    samples/vboxwrapper/
+        vboxwrapper.cpp
