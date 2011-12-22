@@ -9286,3 +9286,10 @@ Rom    21 Dec 2011
         
     samples/vboxwrapper/
         vbox.cpp
+
+Charlie 21 Dec 2011
+    - VBOX: Update XCode project for OS 10.7 and XCode 4.2.1.
+    
+    samples/vboxwrapper/
+        vboxwrapper.xcodeproj
+            project.pbxproj

@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		DD3B677B140CF9470088683F /* vbox.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD90CE9E140CAB3D0074CF46 /* vbox.cpp */; };
 		DD3B677C140CF9470088683F /* vboxwrapper.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD90CEA0140CAB3D0074CF46 /* vboxwrapper.cpp */; };
+		DD52C39614A2D73900FC2A32 /* floppyio.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD52C39414A2D73900FC2A32 /* floppyio.cpp */; };
+		DD52C39814A2D75900FC2A32 /* floppyio.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD52C39414A2D73900FC2A32 /* floppyio.cpp */; };
 		DD90CEA1140CAB3D0074CF46 /* vbox.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD90CE9E140CAB3D0074CF46 /* vbox.cpp */; };
 		DD90CEA2140CAB3D0074CF46 /* vboxwrapper.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD90CEA0140CAB3D0074CF46 /* vboxwrapper.cpp */; };
 /* End PBXBuildFile section */
@@ -16,6 +18,8 @@
 /* Begin PBXFileReference section */
 		8DD76FB20486AB0100D96B5E /* vboxwrapper_1686 */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = vboxwrapper_1686; sourceTree = BUILT_PRODUCTS_DIR; };
 		DD3B6783140CF9470088683F /* vboxwrapper_x86_64 */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = vboxwrapper_x86_64; sourceTree = BUILT_PRODUCTS_DIR; };
+		DD52C39414A2D73900FC2A32 /* floppyio.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = floppyio.cpp; sourceTree = "<group>"; };
+		DD52C39514A2D73900FC2A32 /* floppyio.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = floppyio.h; sourceTree = "<group>"; };
 		DD90CE9E140CAB3D0074CF46 /* vbox.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = vbox.cpp; sourceTree = SOURCE_ROOT; };
 		DD90CE9F140CAB3D0074CF46 /* vbox.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = vbox.h; sourceTree = SOURCE_ROOT; };
 		DD90CEA0140CAB3D0074CF46 /* vboxwrapper.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = vboxwrapper.cpp; sourceTree = SOURCE_ROOT; };
@@ -51,6 +55,8 @@
 		08FB7795FE84155DC02AAC07 /* Source */ = {
 			isa = PBXGroup;
 			children = (
+				DD52C39414A2D73900FC2A32 /* floppyio.cpp */,
+				DD52C39514A2D73900FC2A32 /* floppyio.h */,
 				DD90CE9E140CAB3D0074CF46 /* vbox.cpp */,
 				DD90CE9F140CAB3D0074CF46 /* vbox.h */,
 				DD90CEA0140CAB3D0074CF46 /* vboxwrapper.cpp */,
@@ -167,6 +173,7 @@
 			files = (
 				DD90CEA1140CAB3D0074CF46 /* vbox.cpp in Sources */,
 				DD90CEA2140CAB3D0074CF46 /* vboxwrapper.cpp in Sources */,
+				DD52C39614A2D73900FC2A32 /* floppyio.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -176,6 +183,7 @@
 			files = (
 				DD3B677B140CF9470088683F /* vbox.cpp in Sources */,
 				DD3B677C140CF9470088683F /* vboxwrapper.cpp in Sources */,
+				DD52C39814A2D75900FC2A32 /* floppyio.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -185,26 +193,18 @@
 		1DEB928608733DD80010E9CD /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				HEADER_SEARCH_PATHS = (
-					../../clientgui/mac,
-					"../../**",
-					"/usr/include/c++/4.0.0/i686-apple-darwin8",
-				);
 				PRODUCT_NAME = vboxwrapper_1686;
-				USER_HEADER_SEARCH_PATHS = "../../clientgui/mac ../../**";
+				SDKROOT = macosx10.6;
+				USER_HEADER_SEARCH_PATHS = ../../clientgui/mac;
 			};
 			name = Debug;
 		};
 		1DEB928708733DD80010E9CD /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				HEADER_SEARCH_PATHS = (
-					../../clientgui/mac,
-					"../../**",
-					"/usr/include/c++/4.0.0/i686-apple-darwin8",
-				);
 				PRODUCT_NAME = vboxwrapper_1686;
-				USER_HEADER_SEARCH_PATHS = "../../clientgui/mac ../../**";
+				SDKROOT = macosx10.6;
+				USER_HEADER_SEARCH_PATHS = ../../clientgui/mac;
 			};
 			name = Release;
 		};
@@ -223,7 +223,9 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = (
 					../../clientgui/mac,
-					"../../**",
+					../../lib,
+					../../api,
+					../..,
 				);
 				LIBRARY_SEARCH_PATHS = "../../mac_build/build/Development/**";
 				OTHER_LDFLAGS = (
@@ -252,7 +254,9 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = (
 					../../clientgui/mac,
-					"../../**",
+					../../lib,
+					../../api,
+					../..,
 				);
 				LIBRARY_SEARCH_PATHS = "../../mac_build/build/Deployment/**";
 				OTHER_LDFLAGS = (
