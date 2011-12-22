@@ -9269,3 +9269,13 @@ Rom    21 Dec 2011
 
     samples/vboxwrapper/
         vbox.cpp
+
+Rom    21 Dec 2011
+    - VBOX: If vm.run() fails, it turns out the VM is parked in some kind of saved
+        state, deregistering the VM would fail all commands because the VM was not
+        mutable.  The first thing we should do when deregistering is discard
+        any saved state.
+        
+    samples/vboxwrapper/
+        vbox.cpp
+        

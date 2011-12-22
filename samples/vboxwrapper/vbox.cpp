@@ -499,11 +499,6 @@ int VBOX_VM::register_vm() {
 
     // Create and register the VM
     //
-    fprintf(
-        stderr,
-        "%s Registering virtual machine with VirtualBox.\n",
-        boinc_msg_prefix(buf, sizeof(buf))
-    );
     command  = "createvm ";
     command += "--name \"" + vm_name + "\" ";
     command += "--basefolder \"" + virtual_machine_slot_directory + "\" ";
@@ -731,7 +726,7 @@ int VBOX_VM::register_vm_firewall_rules() {
     command  = "modifyvm \"" + vm_name + "\" ";
     command += "--natpf1 delete \"vboxwrapper\" ";
 
-    vbm_popen(command, output, "remove stale port forwarding rule", false);
+    vbm_popen(command, output, "remove stale port forwarding rule");
 
     // Add new firewall rule
     //
@@ -767,7 +762,18 @@ int VBOX_VM::deregister_vm() {
     );
 
 
-    // First step in deregistering a VM is to delete its storage controller(s)
+    // Discard any saved state information
+    //
+    fprintf(
+        stderr,
+        "%s Discarding saved state of virtual machine.\n",
+        boinc_msg_prefix(buf, sizeof(buf))
+    );
+    command  = "discardstate \"" + vm_name + "\" ";
+
+    vbm_popen(command, output, "discard state", false);
+
+    // Delete its storage controller(s)
     //
     fprintf(
         stderr,
@@ -855,7 +861,7 @@ int VBOX_VM::deregister_stale_vm() {
         // Did the user delete the VM in VirtualBox and not the medium?  If so,
         // just remove the medium.
         command  = "closemedium disk \"" + virtual_machine_slot_directory + "/" + image_filename + "\" ";
-        retval = vbm_popen(command, output, "remove medium");
+        vbm_popen(command, output, "remove medium", false);
     }
     return 0;
 }
