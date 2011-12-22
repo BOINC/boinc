@@ -239,6 +239,7 @@ int main(int argc, char** argv) {
     double checkpoint_cpu_time = 0.0;
     double trickle_period = 0.0;
     double trickle_cpu_time = 0.0;
+    double fraction_done = 0.0;
     bool is_running = false;
     bool report_vm_pid = false;
     double bytes_sent=0, bytes_received=0;
@@ -385,17 +386,26 @@ int main(int argc, char** argv) {
                 vm.get_process_id(vm_pid);
                 report_vm_pid = true;
             }
+            if (boinc_time_to_checkpoint()) {
+                checkpoint_cpu_time = elapsed_time;
+                if (vm.max_elapsed_time) {
+                    fraction_done = elapsed_time / max_elapsed_time;
+                    if (fraction_done > 1.0) {
+                        fraction_done = 1.0;
+                    }
+                }
+                boinc_checkpoint_completed();
+            }
             if (report_vm_pid || report_net_usage) {
                 retval = boinc_report_app_status_aux(
-                    elapsed_time, checkpoint_cpu_time, 0, vm_pid,
-                    bytes_sent, bytes_received
+                    elapsed_time, checkpoint_cpu_time, fraction_done, vm_pid, bytes_sent, bytes_received
                 );
                 if (!retval) {
                     report_vm_pid = false;
                     report_net_usage = false;
                 }
             } else {
-                boinc_report_app_status(elapsed_time, checkpoint_cpu_time, 0);
+                boinc_report_app_status(elapsed_time, checkpoint_cpu_time, fraction_done);
             }
             if (trickle_period) {
                 trickle_cpu_time += POLL_PERIOD;

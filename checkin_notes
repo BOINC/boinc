@@ -9293,3 +9293,9 @@ Charlie 21 Dec 2011
     samples/vboxwrapper/
         vboxwrapper.xcodeproj
             project.pbxproj
+
+Rom    21 Dec 2011
+    - VBOX: Add missing code for progress complete and check-pointing.
+    
+    samples/vboxwrapper/
+        vboxwrapper.cpp
