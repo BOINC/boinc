@@ -57,6 +57,8 @@ struct VBOX_VM {
     bool enable_cern_dataformat;
     // whether to use shared directory infrastructure at all
     bool enable_shared_directory;
+    // whether to use floppy io infrastructure at all
+    bool enable_floppyio;
     // whether we were instructed to only register the VM.
     // useful for debugging VMs.
     bool register_only;

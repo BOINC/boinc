@@ -65,6 +65,7 @@ VBOX_VM::VBOX_VM() {
     network_suspended = false;
     enable_cern_dataformat = false;
     enable_shared_directory = false;
+    enable_floppyio = false;
     register_only = false;
     enable_network = false;
     pf_desired_host_port = 0;
@@ -581,7 +582,7 @@ int VBOX_VM::register_vm() {
 
     // Add storage controller for a floppy device if desired
     //
-    if (floppy_image_filename.size()) {
+    if (enable_floppyio) {
         command  = "storagectl \"" + vm_name + "\" ";
         command += "--name \"Floppy Controller\" ";
         command += "--add floppy ";
@@ -644,7 +645,7 @@ int VBOX_VM::register_vm() {
 
     // Adding virtual floppy disk drive to VM
     //
-    if (floppy_image_filename.size()) {
+    if (enable_floppyio) {
 
         // Put in place the FloppyIO abstraction
         //
@@ -834,7 +835,7 @@ int VBOX_VM::deregister_vm() {
 
     vbm_popen(command, output, "deregister storage controller (fixed disk)");
 
-    if (floppy_image_filename.size()) {
+    if (enable_floppyio) {
         command  = "storagectl \"" + vm_name + "\" ";
         command += "--name \"Floppy Controller\" ";
         command += "--remove ";
@@ -865,7 +866,7 @@ int VBOX_VM::deregister_vm() {
 
     vbm_popen(command, output, "remove virtual disk");
 
-    if (!floppy_image_filename.empty()) {
+    if (enable_floppyio) {
         fprintf(
             stderr,
             "%s Removing virtual disk drive from VirtualBox.\n",
@@ -922,7 +923,7 @@ int VBOX_VM::deregister_stale_vm() {
         command  = "closemedium disk \"" + virtual_machine_slot_directory + "/" + image_filename + "\" ";
         vbm_popen(command, output, "remove virtual disk ", false);
 
-        if (!floppy_image_filename.empty()) {
+        if (enable_floppyio) {
             command  = "closemedium floppy \"" + virtual_machine_slot_directory + "/" + floppy_image_filename + "\" ";
             vbm_popen(command, output, "remove virtual floppy disk", false);
         }
@@ -1214,7 +1215,7 @@ int VBOX_VM::get_network_bytes_sent(double& sent) {
 }
 
 int VBOX_VM::read_floppy(std::string& data) {
-    if (floppy_image_filename.size() && pFloppy) {
+    if (enable_floppyio && pFloppy) {
         data = pFloppy->receive();
         return 0;
     }
@@ -1222,7 +1223,7 @@ int VBOX_VM::read_floppy(std::string& data) {
 }
 
 int VBOX_VM::write_floppy(std::string& data) {
-    if (floppy_image_filename.size() && pFloppy) {
+    if (enable_floppyio && pFloppy) {
         pFloppy->send(data);
         return 0;
     }

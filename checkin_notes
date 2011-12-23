@@ -9356,3 +9356,12 @@ Rom    23 Dec 2011
     samples/vboxwrapper/
         vbox.cpp, .h
         vboxwrapper.cpp
+
+Rom    23 Dec 2011
+    - VBOX: Rework the unique naming scheme for floppys and disk images so that the slot
+        id is appended after the name instead of after the extension. Avoid problems
+        with the VirtualBox interface.
+        
+    samples/vboxwrapper/
+        vbox.cpp, .h
+        vboxwrapper.cpp, .h

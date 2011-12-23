@@ -109,6 +109,7 @@ int parse_job_file(VBOX_VM& vm) {
         else if (xp.parse_bool("enable_cern_dataformat", vm.enable_cern_dataformat)) continue;
         else if (xp.parse_bool("enable_network", vm.enable_network)) continue;
         else if (xp.parse_bool("enable_shared_directory", vm.enable_shared_directory)) continue;
+        else if (xp.parse_bool("enable_floppyio", vm.enable_floppyio)) continue;
         else if (xp.parse_int("pf_desired_host_port", vm.pf_desired_host_port)) continue;
         else if (xp.parse_int("pf_desired_guest_port", vm.pf_desired_guest_port)) continue;
         fprintf(stderr, "%s parse_job_file(): unexpected tag %s\n",
@@ -176,7 +177,7 @@ void set_floppy_image(APP_INIT_DATA& aid, VBOX_VM& vm) {
     char buf[256];
     std::string scratch;
 
-    if (vm.floppy_image_filename.size()) {
+    if (vm.enable_floppyio) {
         scratch = "";
         if (!vm.enable_cern_dataformat) {
             retval = read_file_string(INIT_DATA_FILE, scratch);
@@ -299,15 +300,18 @@ int main(int argc, char** argv) {
     vm.vm_name = "boinc_";
     if (boinc_is_standalone()) {
         vm.vm_name += "standalone";
-        vm.image_filename = IMAGE_FILENAME;
+        vm.image_filename = IMAGE_FILENAME_COMPLETE;
+        if (vm.enable_floppyio) {
+            sprintf(buf, "%s.%s", FLOPPY_IMAGE_FILENAME, FLOPPY_IMAGE_FILENAME_EXTENSION);
+            vm.floppy_image_filename = buf;
+        }
     } else {
         vm.vm_name += aid.result_name;
-        sprintf(buf, "%s_%d", IMAGE_FILENAME, aid.slot);
+        sprintf(buf, "%s_%d.%s", IMAGE_FILENAME, aid.slot, IMAGE_FILENAME_EXTENSION);
         vm.image_filename = buf;
-        boinc_rename(IMAGE_FILENAME, buf);
-
-        if (!vm.floppy_image_filename.empty()) {
-            sprintf(buf, "%s_%d", vm.floppy_image_filename.c_str(), aid.slot);
+        boinc_rename(IMAGE_FILENAME_COMPLETE, buf);
+        if (vm.enable_floppyio) {
+            sprintf(buf, "%s_%d.%s", FLOPPY_IMAGE_FILENAME, aid.slot, FLOPPY_IMAGE_FILENAME_EXTENSION);
             vm.floppy_image_filename = buf;
         }
     }

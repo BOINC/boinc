@@ -21,7 +21,11 @@
 #ifndef _VBOXWRAPPER_H_
 #define _VBOXWRAPPER_H_
 
-#define IMAGE_FILENAME "vm_image.vdi"
+#define IMAGE_FILENAME_COMPLETE "vm_image.vdi"
+#define IMAGE_FILENAME "vm_image"
+#define IMAGE_FILENAME_EXTENSION "vdi"
+#define FLOPPY_IMAGE_FILENAME "vm_floppy"
+#define FLOPPY_IMAGE_FILENAME_EXTENSION "img"
 #define JOB_FILENAME "vbox_job.xml"
 #define CHECKPOINT_FILENAME "vbox_checkpoint.txt"
 #define PORTFORWARD_FILENAME "vbox_firewall.txt"
