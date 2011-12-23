@@ -49,8 +49,10 @@ struct VBOX_VM {
     double max_elapsed_time;
     // is the VM suspended?
     bool suspended;
-    // whether network access is temporarily suspended
+    // is network access temporarily suspended?
     bool network_suspended;
+    // is VM even online?
+    bool online;
     // whether to use CERN specific data structures
     bool enable_cern_dataformat;
     // whether to use shared directory infrastructure at all
@@ -69,7 +71,9 @@ struct VBOX_VM {
     int pause();
     int resume();
     void cleanup();
+    void poll();
     bool is_running();
+    bool is_paused();
 
     int register_vm();
     int register_vm_firewall_rules();

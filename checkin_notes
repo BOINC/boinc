@@ -9348,3 +9348,11 @@ Rom    23 Dec 2011
     samples/vboxwrapper/
         vbox.cpp
         vboxwrapper.cpp
+
+Rom    23 Dec 2011
+    - VBOX: handle the case where the volunteer has not installed BOINC in the sandboxed
+        environment and they suspend/resume the VM by the VirtualBox application.
+        
+    samples/vboxwrapper/
+        vbox.cpp, .h
+        vboxwrapper.cpp

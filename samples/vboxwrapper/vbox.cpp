@@ -322,7 +322,7 @@ bool VBOX_VM::is_hdd_registered() {
     return false;
 }
 
-bool VBOX_VM::is_running() {
+void VBOX_VM::poll() {
     string command;
     string output;
     string vmstate;
@@ -348,15 +348,25 @@ bool VBOX_VM::is_running() {
             //
             // So for now, go with what VboxManage is reporting.
             //
-            if (vmstate == "running") return true;
-            if (vmstate == "paused") return true;
-            if (vmstate == "starting") return true;
-            if (vmstate == "stopping") return true;
-            if (vmstate == "saving") return true;
-            if (vmstate == "restoring") return true;
+            if (vmstate == "running") {
+                online = true;
+                suspended = false;
+            } else if (vmstate == "paused") {
+                online = true;
+                suspended = true;
+            } else if (vmstate == "starting") {
+                online = true;
+            } else if (vmstate == "stopping") {
+                online = true;
+            } else if (vmstate == "saving") {
+                online = true;
+            } else if (vmstate == "restoring") {
+                online = true;
+            } else {
+                online = false;
+            }
         }
     }
-    return false;
 }
 
 int VBOX_VM::get_install_directory(string& virtualbox_install_directory ) {
@@ -948,7 +958,7 @@ int VBOX_VM::stop() {
         "%s Stopping virtual machine.\n",
         boinc_msg_prefix(buf, sizeof(buf))
     );
-    if (is_running()) {
+    if (online) {
         command = "controlvm \"" + vm_name + "\" savestate";
         retval = vbm_popen(command, output, "stop VM");
         if (retval) return retval;

@@ -336,7 +336,8 @@ int main(int argc, char** argv) {
     set_throttles(aid, vm);
 
     while (1) {
-        is_running = vm.is_running();
+        // Discover the VM's current state
+        vm.poll();
 
         if (boinc_status.no_heartbeat || boinc_status.quit_request) {
             vm.stop();
@@ -348,7 +349,7 @@ int main(int argc, char** argv) {
             write_checkpoint(checkpoint_cpu_time);
             boinc_finish(EXIT_ABORTED_BY_CLIENT);
         }
-        if (!is_running) {
+        if (!vm.online) {
             fprintf(
                 stderr,
                 "%s Virtual machine is no longer running, it must have completed its work.\n"
