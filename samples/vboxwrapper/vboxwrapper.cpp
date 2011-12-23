@@ -69,15 +69,10 @@
 #include "util.h"
 #include "error_numbers.h"
 #include "procinfo.h"
+#include "vboxwrapper.h"
 #include "vbox.h"
 
 using std::vector;
-
-#define IMAGE_FILENAME "vm_image.vdi"
-#define JOB_FILENAME "vbox_job.xml"
-#define CHECKPOINT_FILENAME "vbox_checkpoint.txt"
-#define PORTFORWARD_FILENAME "vbox_firewall.txt"
-#define POLL_PERIOD 1.0
 
 int parse_job_file(VBOX_VM& vm) {
     MIOFILE mf;
@@ -192,42 +187,22 @@ void set_floppy_image(APP_INIT_DATA& aid, VBOX_VM& vm) {
                 );
             }
         } else {
+            // Per: https://github.com/stig/json-framework/issues/48
+            //
+            // Use %.17g to represent doubles
+            //
             scratch  = "BOINC_USERNAME=" + std::string(aid.user_name) + "\n";
 
-            sprintf(buf, "%f", aid.user_total_credit);
+            sprintf(buf, "%.17g", aid.user_total_credit);
             scratch += "BOINC_USER_TOTAL_CREDIT=" + std::string(buf) + "\n";
 
-            sprintf(buf, "%f", aid.host_total_credit);
+            sprintf(buf, "%.17g", aid.host_total_credit);
             scratch += "BOINC_HOST_TOTAL_CREDIT=" + std::string(buf) + "\n";
 
             scratch += "BOINC_AUTHENTICATOR=" + std::string(aid.authenticator) + "\n";
         }
         vm.write_floppy(scratch);
     }
-}
-
-// If a project has decided it wants to use port forwarding, write the port
-// information to a file so that a graphics application or some other
-// application knows what port number has been assigned to the VM.
-//
-void write_firewall_rules(VBOX_VM& vm) {
-    MIOFILE mf;
-    FILE* f = boinc_fopen(PORTFORWARD_FILENAME, "w");
-    mf.init_file(f);
-
-    mf.printf(
-        "<vbox_firewall>\n"
-        "  <rule>\n"
-        "    <name>vboxwrapper</name>\n"
-        "    <host_port>%d</host_port>\n"
-        "    <guest_port>%d</guest_port>\n"
-        "  </rule>\n"
-        "</vbox_firewall>\n",
-        vm.pf_assigned_host_port,
-        vm.pf_desired_guest_port
-    );
-
-    fclose(f);
 }
 
 int main(int argc, char** argv) {
@@ -245,6 +220,7 @@ int main(int argc, char** argv) {
     double bytes_sent=0, bytes_received=0;
     bool report_net_usage = false;
     int vm_pid=0;
+    int vm_max_cpus=0;
     char buf[256];
 
     memset(&boinc_options, 0, sizeof(boinc_options));
@@ -256,6 +232,9 @@ int main(int argc, char** argv) {
     for (int i=1; i<argc; i++) {
         if (!strcmp(argv[i], "--trickle")) {
             trickle_period = atof(argv[++i]);
+        }
+        if (!strcmp(argv[i], "--nthreads")) {
+            vm_max_cpus = atoi(argv[++i]);
         }
         if (!strcmp(argv[i], "--register_only")) {
             vm.register_only = true;
@@ -327,8 +306,12 @@ int main(int argc, char** argv) {
         vm.image_filename = buf;
         boinc_rename(IMAGE_FILENAME, buf);
     }
-    if (aid.ncpus > 1.0) {
-        sprintf(buf, "%d", (int)aid.ncpus);
+    if (aid.ncpus > 1.0 || vm_max_cpus > 1) {
+        if (vm_max_cpus) {
+            sprintf(buf, "%d", vm_max_cpus);
+        } else {
+            sprintf(buf, "%d", (int)aid.ncpus);
+        }
         vm.vm_cpu_count = buf;
     } else {
         vm.vm_cpu_count = "1";
@@ -344,7 +327,6 @@ int main(int argc, char** argv) {
         boinc_finish(retval);
     }
 
-    write_firewall_rules(vm);
     set_floppy_image(aid, vm);
     set_throttles(aid, vm);
 

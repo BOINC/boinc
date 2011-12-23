@@ -449,6 +449,10 @@
 				RelativePath="..\samples\vboxwrapper\vbox.h"
 				>
 			</File>
+			<File
+				RelativePath="..\samples\vboxwrapper\vboxwrapper.h"
+				>
+			</File>
 		</Filter>
 	</Files>
 	<Globals>

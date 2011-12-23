@@ -49,6 +49,7 @@ using std::string;
 #include "network.h"
 #include "boinc_api.h"
 #include "floppyio.h"
+#include "vboxwrapper.h"
 #include "vbox.h"
 
 VBOX_VM::VBOX_VM() {
@@ -758,6 +759,27 @@ int VBOX_VM::register_vm_firewall_rules() {
         "%s VM communication is allowed on port '%d'.\n",
         boinc_msg_prefix(buf, sizeof(buf)), pf_assigned_host_port
     );
+
+
+    // Write firewall rule to disk
+    //
+    MIOFILE mf;
+    FILE* f = boinc_fopen(PORTFORWARD_FILENAME, "w");
+    mf.init_file(f);
+
+    mf.printf(
+        "<vbox_firewall>\n"
+        "  <rule>\n"
+        "    <name>vboxwrapper</name>\n"
+        "    <host_port>%d</host_port>\n"
+        "    <guest_port>%d</guest_port>\n"
+        "  </rule>\n"
+        "</vbox_firewall>\n",
+        pf_assigned_host_port,
+        pf_desired_guest_port
+    );
+
+    fclose(f);
 
     return 0;
 }

@@ -9324,3 +9324,17 @@ Rom    22 Dec 2011
         
     samples/vboxwrapper/
         vboxwrapper.cpp
+
+Rom    23 Dec 2011
+    - VBOX: Write the firewall rules once, after creation.  If the job was suspended
+        and restarted it would null out the host port information.
+    - VBOX: Try to make the CERN compatible datatype for FloppyIO more JSON friendly
+        by following the advice of issue:
+          https://github.com/stig/json-framework/issues/48
+    - VBOX: Support both the old style and new style of determining assigned threads
+        of execution (aka core counts).  6.12 and the early versions of 7.x support
+        the old style.
+        
+    samples/vboxwrapper/
+        vbox.cpp, .h
+        vboxwrapper.cpp, .h
