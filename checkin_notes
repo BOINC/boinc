@@ -9338,3 +9338,13 @@ Rom    23 Dec 2011
     samples/vboxwrapper/
         vbox.cpp, .h
         vboxwrapper.cpp, .h
+
+Rom    23 Dec 2011
+    - VBOX: Append the slot number to the end of the floppy disk image name like we do
+        for virtual hard disks.
+    - VBOX: Execute closemedium against the virtual floppy disks when the VM is being
+        deleted.
+        
+    samples/vboxwrapper/
+        vbox.cpp
+        vboxwrapper.cpp

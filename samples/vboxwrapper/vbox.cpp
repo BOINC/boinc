@@ -854,6 +854,17 @@ int VBOX_VM::deregister_vm() {
     command  = "closemedium disk \"" + virtual_machine_slot_directory + "/" + image_filename + "\" ";
 
     vbm_popen(command, output, "remove virtual disk");
+
+    if (!floppy_image_filename.empty()) {
+        fprintf(
+            stderr,
+            "%s Removing virtual disk drive from VirtualBox.\n",
+            boinc_msg_prefix(buf, sizeof(buf))
+        );
+        command  = "closemedium floppy \"" + virtual_machine_slot_directory + "/" + floppy_image_filename + "\" ";
+
+        vbm_popen(command, output, "remove virtual floppy disk");
+    }
     return 0;
 }
 
@@ -899,7 +910,12 @@ int VBOX_VM::deregister_stale_vm() {
         // Did the user delete the VM in VirtualBox and not the medium?  If so,
         // just remove the medium.
         command  = "closemedium disk \"" + virtual_machine_slot_directory + "/" + image_filename + "\" ";
-        vbm_popen(command, output, "remove medium", false);
+        vbm_popen(command, output, "remove virtual disk ", false);
+
+        if (!floppy_image_filename.empty()) {
+            command  = "closemedium floppy \"" + virtual_machine_slot_directory + "/" + floppy_image_filename + "\" ";
+            vbm_popen(command, output, "remove virtual floppy disk", false);
+        }
     }
     return 0;
 }

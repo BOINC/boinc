@@ -305,6 +305,11 @@ int main(int argc, char** argv) {
         sprintf(buf, "%s_%d", IMAGE_FILENAME, aid.slot);
         vm.image_filename = buf;
         boinc_rename(IMAGE_FILENAME, buf);
+
+        if (!vm.floppy_image_filename.empty()) {
+            sprintf(buf, "%s_%d", vm.floppy_image_filename.c_str(), aid.slot);
+            vm.floppy_image_filename = buf;
+        }
     }
     if (aid.ncpus > 1.0 || vm_max_cpus > 1) {
         if (vm_max_cpus) {
