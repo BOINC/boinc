@@ -9365,3 +9365,9 @@ Rom    23 Dec 2011
     samples/vboxwrapper/
         vbox.cpp, .h
         vboxwrapper.cpp, .h
+
+Charlie 23 Dec 2011
+    - VBOX: Fix "unused variable" warning.
+        
+    samples/vboxwrapper/
+        vboxwrapper.cpp

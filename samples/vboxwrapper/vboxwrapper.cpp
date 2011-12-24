@@ -216,7 +216,6 @@ int main(int argc, char** argv) {
     double trickle_period = 0.0;
     double trickle_cpu_time = 0.0;
     double fraction_done = 0.0;
-    bool is_running = false;
     bool report_vm_pid = false;
     double bytes_sent=0, bytes_received=0;
     bool report_net_usage = false;
