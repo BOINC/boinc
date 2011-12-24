@@ -9388,3 +9388,13 @@ David  23 Dec 2011
         setup_project.py
     sched/
         sched_customize.cpp
+
+David  23 Dec 2011
+    - web: show actual URL and weak auth on weak auth page
+    - web: make merge and pending pages translatable
+    From Uwe Becker
+
+    html/user/
+        weak_auth.php
+        merge_by_name.php
+        pending.php

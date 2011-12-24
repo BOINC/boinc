@@ -61,9 +61,9 @@ if ($format == "xml") {
     $user = get_logged_in_user();
     $sum = 0;
     
-    page_head("Pending credit");
+    page_head(tra("Pending credit"));
     start_table();
-    echo "<tr><th>Result ID</th><th>Workunit ID</th><th>Host ID</th><th>Claimed credit</th></tr>\n";
+    echo "<tr><th>".tra("Result ID")."</th><th>".tra("Workunit ID")."</th><th>".tra("Host ID")."</th><th>".tra("Claimed credit")."</th></tr>\n";
     $results = BoincResult::enum("userid=$user->id AND (validate_state=0 OR validate_state=4) AND claimed_credit > 0");
     foreach($results as $result) {
         echo "<tr>\n";
@@ -76,7 +76,7 @@ if ($format == "xml") {
     }
     end_table();
     
-    echo "Pending credit: ".format_credit($sum);
+    echo tra("Pending credit: %1", format_credit($sum));
     page_tail();
 }
 

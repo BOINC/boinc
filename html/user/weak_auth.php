@@ -60,8 +60,8 @@ echo "<table><tr><td>",
     "<pre>",
     htmlspecialchars(
 "<account>
-    <master_url>PROJECT_URL</master_url>
-    <authenticator>WEAK_ACCOUNT_KEY</authenticator>
+    <master_url>".URL_BASE."</master_url>
+    <authenticator>".$weak_auth."</authenticator>
 </account>"),
     "</pre>",
     "<p>",

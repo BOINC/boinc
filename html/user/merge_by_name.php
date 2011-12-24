@@ -30,7 +30,7 @@ function merge_name($list) {
     // find the newest one
     //
     $newest_host = $list[0];
-    echo "<br><br>Processing $newest_host->domain_name\n";
+    echo "<br><br>".tra("Processing %1", $newest_host->domain_name)."\n";
     foreach ($list as $host) {
         if ($host->create_time > $newest_host->create_time) {
             $newest_host = $host;
@@ -42,7 +42,7 @@ function merge_name($list) {
         }
         $error = merge_hosts($host, $newest_host);
         if (!$error) {
-            echo "<br>Merged $host->id into $newest_host->id\n";
+            echo "<br>".tra("Merged %1 into %2",$host->id,$newest_host->id)."\n";
         } else {
             echo "<br>$error\n";
         }
@@ -64,26 +64,25 @@ function merge_by_name($userid) {
 
 $user = get_logged_in_user();
 
-page_head("Merge computers by name");
+page_head(tra("Merge computers by name"));
 
 if ($confirmed) {
     check_tokens($user->authenticator);
     merge_by_name($user->id);
     echo "
         <p><a href=hosts_user.php>
-        Return to the list of your computers</a>.
+        ".tra("Return to the list of your computers")."</a>.
     ";
 } else {
     $tokens = url_tokens($user->authenticator);
-    echo "
-        This operation merges computers based on their domain name.
+    echo tra("This operation merges computers based on their domain name.
         <p>
         For each domain name, it will merge all older computers
         having that name with the newest computer having that name.
         Incompatible computers will not be merged.
-        <p>
-        <a href=merge_by_name.php?confirmed=1&$tokens>Go ahead and do this</a>.
-        <p><a href=hosts_user.php>Return to the list of computers</a>.
+        <p>")."
+        <a href=merge_by_name.php?confirmed=1&$tokens>".tra("Go ahead and do this")."</a>.
+        <p><a href=hosts_user.php>".tra("Return to the list of computers")."</a>.
     ";
 }
 page_tail();
