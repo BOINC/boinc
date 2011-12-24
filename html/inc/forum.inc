@@ -532,8 +532,8 @@ function show_post(
     
     $url = "pm.php?action=new&amp;userid=".$user->id;
     $name = $user->name;
-    show_button($url, "Send&nbsp;message", "Send $name a private message");
-    echo "<br>Joined: ", gmdate('j M y', $user->create_time), "<br>";
+    show_button($url, tra("Send&nbsp;message"), tra("Send %1 a private message",$name));
+    echo "<br>".tra("Joined: %1", gmdate('j M y', $user->create_time)), "<br>";
 
     if (!isset($user->nposts)) {
         $user->nposts = BoincPost::count("user=$user->id");
@@ -542,14 +542,14 @@ function show_post(
     if (function_exists('project_forum_user_info')){
         project_forum_user_info($user);
     } else {
-        echo "Posts: $user->nposts<br>";
+        echo tra("Posts: %1", $user->nposts)."<br>";
         // circumvent various forms of identity spoofing
         // by displaying the  user id of the poster.
         //
         //echo "ID: ".$user->id."<br>";
         if (!no_computing()) {
-            echo "Credit: ".number_format($user->total_credit)."<br>";
-            echo "RAC: ".number_format($user->expavg_credit)."<br>";
+            echo tra("Credit: %1", number_format($user->total_credit)) ."<br>";
+            echo tra("RAC: %1",    number_format($user->expavg_credit))."<br>";
         }
         // to use this feature:
         // - get flags from http://www.famfamfam.com/lab/icons/flags/famfamfam_flag_icons.zip
@@ -571,27 +571,27 @@ function show_post(
     }
 
     if ($logged_in_user && $post->timestamp>$last_visit){
-        show_image(NEW_IMAGE, "You haven't read this message yet", "Unread", NEW_IMAGE_HEIGHT);
+        show_image(NEW_IMAGE, tra("You haven't read this message yet"), tra("Unread"), NEW_IMAGE_HEIGHT);
     }
 
-    echo " <a href=\"forum_thread.php?id=".$thread->id."&amp;nowrap=true#$post->id\">Message ".$post->id."</a> - ";
-    if ($post->hidden) echo "<font color=red>[hidden] </font>";
-    echo "Posted: ", pretty_time_str($post->timestamp), " ";
+    echo " <a href=\"forum_thread.php?id=".$thread->id."&amp;nowrap=true#$post->id\">".tra("Message %1", $post->id)."</a> - ";
+    if ($post->hidden) echo "<font color=red>[".tra("hidden")."] </font>";
+    echo tra("Posted: %1", pretty_time_str($post->timestamp)), " ";
 
     if ($post->parent_post) {
-        echo " - in response to <a href=\"forum_thread.php?id=".$thread->id."&amp;nowrap=true#".$post->parent_post."\">Message ".$post->parent_post."</a>.";
+        echo tra(" - in response to ")."<a href=\"forum_thread.php?id=".$thread->id."&amp;nowrap=true#".$post->parent_post."\">".tra("Message %1", $post->parent_post)."</a>.";
     }
     if ($can_edit && $controls != NO_CONTROLS) {
-        show_button("forum_edit.php?id=".$post->id."$tokens", "Edit", "Edit this message");
+        show_button("forum_edit.php?id=".$post->id."$tokens", tra("Edit"), tra("Edit this message"));
     }
     if (is_moderator($logged_in_user, $forum)) {
         show_post_moderation_links($config, $logged_in_user, $post, $forum, $tokens);
     }
     if ($post->modified) {
-        echo "<br>Last modified: ", pretty_time_Str($post->modified);
+        echo "<br>".tra("Last modified: %1", pretty_time_Str($post->modified));
     }
     if ($ignore_poster && $filter){
-        echo "<br>This post is not shown because the sender is on your 'ignore' list.  Click <a href=\"?id=".$thread->id."&amp;filter=false#".$post->id."\">here</a> to view this post";
+        echo "<br>".tra("This post is not shown because the sender is on your 'ignore' list.  Click %1here%2 to view this post","<a href=\"?id=".$thread->id."&amp;filter=false#".$post->id."\">","</a>");
     }
     if ($controls == FORUM_CONTROLS) {
         echo "</form>\n";
@@ -619,26 +619,26 @@ function show_post(
         echo "</td></tr><tr><td class=\"postfooter\">ID: <i>", $post->id;
         if ($no_forum_rating) {
             echo " | <a href=\"forum_report_post.php?post=".$post->id."\">";
-            show_image(REPORT_POST_IMAGE, "Report this post as offensive", "Report as offensive", REPORT_POST_IMAGE_HEIGHT);
+            show_image(REPORT_POST_IMAGE, tra("Report this post as offensive"), tra("Report as offensive"), REPORT_POST_IMAGE_HEIGHT);
             echo "</a>";
         } else {
             $rating = $post->rating();
-            echo " | Rating: ", $rating, "</i> | rate:
+            echo " | ".tra("Rating: %1", $rating)."</i> | ".tra("rate: ")."
                 <a href=\"forum_rate.php?post=".$post->id."&amp;choice=p$tokens\">
             ";
-            show_image(RATE_POSITIVE_IMAGE, "Click if you like this message", "Rate +", RATE_POSITIVE_IMAGE_HEIGHT);
+            show_image(RATE_POSITIVE_IMAGE, tra("Click if you like this message"), tra("Rate +"), RATE_POSITIVE_IMAGE_HEIGHT);
             echo "</a> / <a href=\"forum_rate.php?post=".$post->id."&amp;choice=n$tokens\">";
-            show_image(RATE_NEGATIVE_IMAGE, "Click if you don't like this message", "Rate -", RATE_NEGATIVE_IMAGE_HEIGHT);
+            show_image(RATE_NEGATIVE_IMAGE, tra("Click if you don't like this message"), tra("Rate -"), RATE_NEGATIVE_IMAGE_HEIGHT);
             echo "</a> <a href=\"forum_report_post.php?post=".$post->id."\">";
-            show_image(REPORT_POST_IMAGE, "Report this post as offensive", "Report as offensive", REPORT_POST_IMAGE_HEIGHT);
+            show_image(REPORT_POST_IMAGE, tra("Report this post as offensive"), tra("Report as offensive"), REPORT_POST_IMAGE_HEIGHT);
             echo "</a>";
         }
         if (($controls == FORUM_CONTROLS) && (can_reply($thread, $forum, $logged_in_user))) {
             echo "&nbsp;&nbsp;&nbsp;&nbsp;";
             $url = "forum_reply.php?thread=" . $thread->id . "&amp;post=" . $post->id . "&amp;no_quote=1#input";
-            show_button($url, "Reply", "Post a reply to this message");
+            show_button($url, tra("Reply"), tra("Post a reply to this message"));
             $url = "forum_reply.php?thread=" . $thread->id . "&amp;post=" . $post->id . "#input";
-            show_button($url, "Quote", "Post a reply by quoting this message");
+            show_button($url, tra("Quote"), tra("Post a reply by quoting this message"));
         }
         echo "</td></tr>";
     } else {
@@ -659,7 +659,7 @@ function show_post_and_context($post, $thread, $forum, $options, $n) {
     $title = cleanup_title($thread->title);
     $m = $n%2;
     if ($post->hidden) {
-        $deleted = "<br><font color=red>[Hidden by a moderator]</font>";
+        $deleted = "<br><font color=red>[".tra("Hidden by a moderator")."]</font>";
     } else {
         $deleted = "";
     }
@@ -678,9 +678,9 @@ function show_post_and_context($post, $thread, $forum, $options, $n) {
         break;
     }
     echo "
-        (<a href=\"forum_thread.php?id=".$thread->id."&amp;nowrap=true#".$post->id."\">Message ".$post->id."</a>)
+        (<a href=\"forum_thread.php?id=".$thread->id."&amp;nowrap=true#".$post->id."\">".tra("Message %1", $post->id)."</a>)
         <br>
-        Posted $when by ".user_links($user)." $deleted
+        ".tra("Posted %1 by %2", $when, user_links($user))." $deleted
         <hr>
         $content
         </td></tr>
@@ -698,7 +698,7 @@ function is_banished($user) {
 function check_banished($user) {
     if (is_banished($user)) {
         error_page(
-            "You may not post or rate messages until ".gmdate('M j, Y', $user->prefs->banished_until)
+            tra("You may not post or rate messages until %1", gmdate('M j, Y', $user->prefs->banished_until))
         );
     }
 }
@@ -709,7 +709,7 @@ function post_rules() {
     } else {
       $project_rules="";
     }
-    return "
+    return tra("
         <ul>
         <li> Posts must be 'kid friendly': they may not contain
             content that is obscene, hate-related,
@@ -722,7 +722,7 @@ function post_rules() {
         <li> No messages that are deliberately hostile or insulting.
         <li> No abusive comments involving race, religion,
             nationality, gender, class or sexuality.
-        ".$project_rules."
+        ").$project_rules."
         </ul>
     ";
 }
@@ -731,9 +731,8 @@ function post_warning() {
     return "<br><br>
         <table><tr><td align=left>
         <font size=-2>
-        Rules:
-    ".post_rules()."
-        <a href=moderation.php>More info</a>
+        ".tra("Rules:").post_rules()."
+        <a href=moderation.php>".tra("More info")."</a>
         </font>
         </td></tr></table>
     ";
@@ -1006,35 +1005,35 @@ function show_post_moderation_links(
     $moderators_vote_to_ban = parse_bool($config, "moderators_vote_to_ban");
 
     if ($post->hidden) {
-        show_button("forum_moderate_post_action.php?action=unhide&amp;id=".$post->id."$tokens", "Unhide", "Unhide this post");
+        show_button("forum_moderate_post_action.php?action=unhide&amp;id=".$post->id."$tokens", tra("Unhide"), tra("Unhide this post"));
     } else {
-        show_button("forum_moderate_post.php?action=hide&amp;id=".$post->id."$tokens", "Hide", "Hide this post");
+        show_button("forum_moderate_post.php?action=hide&amp;id=".$post->id."$tokens", tra("Hide"), tra("Hide this post"));
     }
 
     show_button(
         "forum_moderate_post.php?action=move&amp;id=".$post->id."$tokens",
-        "Move", "Move post to a different thread"
+        tra("Move"), tra("Move post to a different thread")
     );
 
     if ($forum->parent_type == 0) {
         if ($logged_in_user->prefs->privilege(S_ADMIN) || ($logged_in_user->prefs->privilege(S_MODERATOR) && $moderators_allowed_to_ban)) {
-            show_button("forum_moderate_post.php?action=banish_user&amp;id=".$post->id."&amp;userid=".$post->user."$tokens", "Banish author");
+            show_button("forum_moderate_post.php?action=banish_user&amp;id=".$post->id."&amp;userid=".$post->user."$tokens", tra("Banish author"));
         }
         if ($logged_in_user->prefs->privilege(S_MODERATOR) && $moderators_vote_to_ban) {
             require_once("../inc/forum_banishment_vote.inc");
             if (vote_is_in_progress($post->user)) {
                 show_button(
                     "forum_banishment_vote.php?action=yes&amp;userid=".$post->user,
-                    "Vote to banish author"
+                    tra("Vote to banish author")
                 );
                 show_button(
                     "forum_banishment_vote.php?action=no&amp;userid=".$post->user,
-                    "Vote not to banish author"
+                    tra("Vote not to banish author")
                 );
             } else {
                 show_button(
                     "forum_banishment_vote.php?action=start&amp;userid=".$post->user,
-                    "Start vote to banish author"
+                    tra("Start vote to banish author")
                 );
             }
         }
@@ -1067,7 +1066,7 @@ function check_post_access($user, $forum) {
         // non-team-members can't post
         //
         if ($user->teamid != $team->id) {
-            error_page("Only team members can post to the team message board");
+            error_page(tra("Only team members can post to the team message board"));
         }
         break;
     }
@@ -1091,12 +1090,12 @@ function check_post_access($user, $forum) {
 function check_reply_access($user, $forum, $thread) {
     if ($thread->locked && !is_moderator($user, $forum)) {
         error_page(
-            "This thread is locked. Only forum moderators and administrators are allowed to post there."
+            tra("This thread is locked. Only forum moderators and administrators are allowed to post there.")
         );
     }
     if ($thread->hidden) {
         error_page(
-           "Can't post to a hidden thread."
+           tra("Can't post to a hidden thread.")
         );
     }
 
@@ -1186,13 +1185,13 @@ function subscribed_post_email_line($notify) {
 
 function subscribed_post_web_line($notify) {
     $thread = BoincThread::lookup_id($notify->opaque);
-    return "New posts in the thread <a href=forum_thread.php?id=$thread->id>$thread->title</a>";
+    return tra("New posts in the thread %1","<a href=forum_thread.php?id=$thread->id>$thread->title</a>");
 }
 
 function subscribe_rss($notify, &$title, &$msg, &$url) {
     $thread = BoincThread::lookup_id($notify->opaque);
-    $title = "New posts in subscribed thread";
-    $msg = "There are new posts in the thread '$thread->title'";
+    $title = tra("New posts in subscribed thread");
+    $msg = tra("There are new posts in the thread '%1'",$thread->title);
     $url = URL_BASE."forum_thread.php?id=$thread->id";
 }
 

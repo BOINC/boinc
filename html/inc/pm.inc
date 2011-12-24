@@ -45,7 +45,7 @@ function pm_form($replyto, $userid, $error = null) {
     if ($replyto) {
         $message = BoincPrivateMessage::lookup_id($replyto);
         if (!$message || $message->userid != $g_logged_in_user->id) {
-            error_page("no such message");
+            error_page(tra("no such message"));
         }
         $content = "[quote]".$message->content."[/quote]\n";
         $userid = $message->senderid;

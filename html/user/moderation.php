@@ -23,11 +23,11 @@ require_once("../project/project.inc");
 check_get_args(array());
 
 page_head("Moderation");
-echo "
+echo tra("
 To maximize discussion and flow of information,
 our message boards are moderated.
 Message board postings are subject to the following posting rules:
-".post_rules()."
+").post_rules().tra("
 <p>
 Moderators may delete posts that violate any of these rules.
 The authors of deleted posts will be notified via email.
@@ -58,10 +58,10 @@ a perfectly fair system. So such discussions tend to be counterproductive
 and potentially incendiary. If you have a legitimate claim,
 send email to the address below.
 <p>
-This moderation policy is set by the ".PROJECT." project.
-If you have comments about the policy, email ".SYS_ADMIN_EMAIL.".
+This moderation policy is set by the %1 project.
+If you have comments about the policy, email %2.
 
-";
+",PROJECT,SYS_ADMIN_EMAIL);
 page_tail();
 
 ?>

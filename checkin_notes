@@ -9398,3 +9398,15 @@ David  23 Dec 2011
         weak_auth.php
         merge_by_name.php
         pending.php
+
+David  23 Dec 2011
+    - web: more translatability.  From Uwe Becker.
+
+    html/
+        inc/
+            pm.inc
+            forum.inc
+            bbcode_html.inc
+        user/
+            pm.php
+            moderation.php

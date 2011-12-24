@@ -29,7 +29,7 @@ $userid = get_int("userid", true);
 
 function show_block_link($userid) {
     echo " <a href=\"pm.php?action=block&amp;id=$userid\">";
-    show_image(REPORT_POST_IMAGE, "Block messages from this user",  "Block user", REPORT_POST_IMAGE_HEIGHT);
+    show_image(REPORT_POST_IMAGE, tra("Block messages from this user"), tra("Block user"), REPORT_POST_IMAGE_HEIGHT);
     echo "</a>";
 }
 
@@ -103,15 +103,15 @@ function do_inbox($logged_in_user) {
             echo "<br>".time_str($msg->date)."</td>\n";
             echo "<td valign=top>".output_transform($msg->content, $options)."<p>";
             $tokens = url_tokens($logged_in_user->authenticator);
-            show_button("pm.php?action=new&amp;replyto=$msg->id", tra("Reply"), "Reply to this message");
-            show_button("pm.php?action=delete&amp;id=$msg->id&amp;$tokens", tra("Delete"), "Delete this message");
+            show_button("pm.php?action=new&amp;replyto=$msg->id", tra("Reply"), tra("Reply to this message"));
+            show_button("pm.php?action=delete&amp;id=$msg->id&amp;$tokens", tra("Delete"), tra("Delete this message"));
             echo "</ul></td></tr>\n";
         }
         echo "
             <tr><td>
-            <a href=\"javascript:set_all(1)\">Select all</a>
+            <a href=\"javascript:set_all(1)\">".tra("Select all")."</a>
             |
-            <a href=\"javascript:set_all(0)\">Unselect all</a>
+            <a href=\"javascript:set_all(0)\">".tra("Unselect all")."</a>
             </td>
             <td colspan=2>
             <input type=submit value=\"".tra("Delete selected messages")."\">
@@ -128,7 +128,7 @@ function do_read($logged_in_user) {
     $id = get_int("id");
     $message = BoincPrivateMessage::lookup_id($id);
     if (!$message || $message->userid != $logged_in_user->id) {
-        error_page("no such message");
+        error_page(tra("no such message"));
     }
     page_head(tra("Private messages")." : ".$message->subject);
     pm_header();
@@ -185,9 +185,9 @@ function do_send($logged_in_user) {
         pm_form($replyto, $userid, tra("You need to fill all fields to send a private message"));
     } else {
         if (!akismet_check($logged_in_user, $content)) {
-            pm_form($replyto, $userid, "Your message was flagged as spam
+            pm_form($replyto, $userid, tra("Your message was flagged as spam
                 by the Akismet anti-spam system.
-                Please modify your text and try again."
+                Please modify your text and try again.")
             );
         }
         $to = str_replace(", ", ",", $to); // Filter out spaces after separator
@@ -257,7 +257,7 @@ function do_confirmedblock($logged_in_user) {
     check_tokens($logged_in_user->authenticator);
     $id = post_int("id");
     $blocked_user = BoincUser::lookup_id($id);
-    if (!$blocked_user) error_page("no such user");
+    if (!$blocked_user) error_page(tra("no such user"));
     add_ignored_user($logged_in_user, $blocked_user);
 
     page_head(tra("User %1 blocked", $blocked_user->name));
@@ -299,7 +299,7 @@ if ($action == "inbox") {
 } elseif ($action == "delete_selected") {
     do_delete_selected($logged_in_user);
 } else {
-    error_page("Unknown action");
+    error_page(tra("Unknown action"));
 }
 
 page_tail();
