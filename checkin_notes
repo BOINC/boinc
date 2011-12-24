@@ -9371,3 +9371,10 @@ Charlie 23 Dec 2011
         
     samples/vboxwrapper/
         vboxwrapper.cpp
+
+Rom    23 Dec 2011
+    - Web: Don't display VirtualBox version number information in the coproc field while
+        displaying host information.
+        
+    html/inc/
+        host.inc

@@ -238,7 +238,7 @@ function host_nresults($host) {
     return BoincResult::count("hostid=$host->id");
 }
 
-// Given string of the form [BOINC|vers][type|model|count|RAM|driver-vers],
+// Given string of the form [BOINC|vers][type|model|count|RAM|driver-vers][vbox|vers],
 // return a human-readable version of the GPU info
 //
 function gpu_desc($x) {
@@ -249,8 +249,9 @@ function gpu_desc($x) {
         $desc = trim($desc, "[");
         $d = explode("|", $desc);
         //print_r($d);
-        if ($d[0] == "BOINC") continue;
-        if ($str) $str .= ", ";
+		if ($d[0] == "BOINC") continue;
+		if ($d[0] == "vbox") continue;
+		if ($str) $str .= ", ";
         if ($d[2]!="" && $d[2]!="1") $str .= "[".$d[2]."] ";
         if ($d[0] == "CUDA") {
             $str .= "NVIDIA";
