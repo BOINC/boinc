@@ -9378,3 +9378,13 @@ Rom    23 Dec 2011
         
     html/inc/
         host.inc
+
+David  23 Dec 2011
+    - make_project: don't try to copy nonexistent file; fixes #1166
+    - scheduler: change Vbox app plan function to accommodate
+        single and multithreaded variants
+
+    py/Boinc/
+        setup_project.py
+    sched/
+        sched_customize.cpp

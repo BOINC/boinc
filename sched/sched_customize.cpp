@@ -125,6 +125,7 @@ static inline bool app_plan_mt(
 ) {
     double ncpus = g_wreq->effective_ncpus;
         // number of usable CPUs, taking user prefs into account
+    if (ncpus < 2) return false;
     int nthreads = (int)ncpus;
     if (nthreads > 64) nthreads = 64;
     hu.avg_ncpus = nthreads;
@@ -514,7 +515,7 @@ static inline bool app_plan_opencl(
 }
 
 static inline bool app_plan_vbox(
-    SCHEDULER_REQUEST& sreq, HOST_USAGE& hu, bool is_64bit
+    SCHEDULER_REQUEST& sreq, char* plan_class, HOST_USAGE& hu
 ) {
     // make sure they have VirtualBox
     //
@@ -530,14 +531,30 @@ static inline bool app_plan_vbox(
     // it will look in the 32-bit half of the registry and fail
     //
     PLATFORM* p = g_request->platforms.list[0];
-    if (is_64bit != is_64b_platform(p->name)) {
+    if (strstr(plan_class, "64") && !is_64b_platform(p->name)) {
         return false;
     }
 
-    hu.avg_ncpus = 1;
-    hu.max_ncpus = 1;
-    hu.projected_flops = 1.1*sreq.host.p_fpops;
-    hu.peak_flops = sreq.host.p_fpops;
+    if (strstr(plan_class, "mt")) {
+        double ncpus = g_wreq->effective_ncpus;
+            // number of usable CPUs, taking user prefs into account
+        if (ncpus < 2) return false;
+        int nthreads = (int)ncpus;
+        if (nthreads > 2) nthreads = 2;
+        hu.avg_ncpus = nthreads;
+        sprintf(hu.cmdline, "--nthreads %d", nthreads);
+    } else {
+        hu.avg_ncpus = 1;
+    }
+    hu.max_ncpus = hu.avg_ncpus;
+    hu.projected_flops = sreq.host.p_fpops*hu.avg_ncpus;
+    hu.peak_flops = sreq.host.p_fpops*hu.avg_ncpus;
+    if (config.debug_version_select) {
+        log_messages.printf(MSG_NORMAL,
+            "[version] %s app projected %.2fG\n",
+            plan_class, hu.projected_flops/1e9
+        );
+    }
     return true;
 }
 
@@ -557,10 +574,8 @@ bool app_plan(SCHEDULER_REQUEST& sreq, char* plan_class, HOST_USAGE& hu) {
         return app_plan_nci(sreq, hu);
     } else if (!strcmp(plan_class, "sse3")) {
         return app_plan_sse3(sreq, hu);
-    } else if (!strcmp(plan_class, "vbox32")) {
-        return app_plan_vbox(sreq, hu, false);
-    } else if (!strcmp(plan_class, "vbox64")) {
-        return app_plan_vbox(sreq, hu, true);
+    } else if (strstr(plan_class, "vbox")) {
+        return app_plan_vbox(sreq, plan_class, hu);
     }
     log_messages.printf(MSG_CRITICAL,
         "Unknown plan class: %s\n", plan_class
