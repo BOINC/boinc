@@ -9457,3 +9457,15 @@ Rom    25 Dec 2011
         
     samples/vboxwrapper/
         vbox.cpp,.h
+
+Rom    25 Dec 2011
+    - VBOX: For projects that use vboxwrapper to control how long a VM should run,
+        treat premature events as failures.  Avoids false positive results.
+    - VBOX: Log the VM Execution log if a premature shutdown event has happened.
+    - VBOX: Rename config option max_elapsed_time to job_duration.  Choosing
+        max_elapsed_time turned out to be a bad choice in that its purpose
+        became intermixed with the credit issue(s).
+
+    samples/vboxwrapper/
+        vbox.cpp,.h
+        vboxwrapper.cpp

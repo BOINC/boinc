@@ -46,7 +46,7 @@ struct VBOX_VM {
     std::string vm_cpu_count;
     // maximum amount of wall-clock time this VM is allowed to run before
     // considering itself done.
-    double max_elapsed_time;
+    double job_duration;
     // is the VM suspended?
     bool suspended;
     // is network access temporarily suspended?
