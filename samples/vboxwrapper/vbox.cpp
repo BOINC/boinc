@@ -168,7 +168,9 @@ int VBOX_VM::vbm_popen(string& arguments, string& output, const char* item, bool
     // Add all relivent notes to the output string and log errors
     //
     if (retval && log_error) {
-        output += "\nNotes:\n" + retry_notes;
+        if (!retry_notes.empty()) {
+            output += "\nNotes:\n" + retry_notes;
+        }
 
         fprintf(
             stderr,
