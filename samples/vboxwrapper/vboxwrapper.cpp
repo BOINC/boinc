@@ -110,8 +110,7 @@ int parse_job_file(VBOX_VM& vm) {
         else if (xp.parse_bool("enable_network", vm.enable_network)) continue;
         else if (xp.parse_bool("enable_shared_directory", vm.enable_shared_directory)) continue;
         else if (xp.parse_bool("enable_floppyio", vm.enable_floppyio)) continue;
-        else if (xp.parse_int("pf_desired_host_port", vm.pf_desired_host_port)) continue;
-        else if (xp.parse_int("pf_desired_guest_port", vm.pf_desired_guest_port)) continue;
+        else if (xp.parse_int("pf_guest_port", vm.pf_guest_port)) continue;
         fprintf(stderr, "%s parse_job_file(): unexpected tag %s\n",
             boinc_msg_prefix(buf, sizeof(buf)), xp.parsed_tag
         );

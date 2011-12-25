@@ -70,9 +70,8 @@ VBOX_VM::VBOX_VM() {
     enable_floppyio = false;
     register_only = false;
     enable_network = false;
-    pf_desired_host_port = 0;
-    pf_desired_guest_port = 0;
-    pf_assigned_host_port = 0;
+    pf_guest_port = 0;
+    pf_host_port = 0;
 }
 
 VBOX_VM::~VBOX_VM() {
@@ -129,8 +128,7 @@ int VBOX_VM::vbm_popen(string& arguments, string& output, const char* item, bool
     int retry_count = 0;
     string retry_notes;
 
-    do
-    {
+    do {
         retval = vbm_popen_raw(arguments, output, item);
         if (retval) {
 
@@ -573,6 +571,35 @@ int VBOX_VM::initialize() {
     return 0;
 }
 
+int VBOX_VM::get_port_forwarding_port() {
+    struct sockaddr_in addr;
+    BOINC_SOCKLEN_T addrsize;
+    int sock;
+    int retval;
+
+    memset(&addr, 0, sizeof(addr));
+    addr.sin_family = AF_INET;
+    addr.sin_port = htons(0);
+    addr.sin_addr.s_addr = htonl(INADDR_LOOPBACK);
+
+    addrsize = sizeof(addr);
+
+    retval = boinc_socket(sock);
+    if (retval) return retval;
+ 
+    retval = bind(sock, (struct sockaddr *)&addr, addrsize);
+    if (retval < 0) {
+        boinc_close_socket(sock);
+        return ERR_BIND;
+    }
+
+    getsockname(sock, (struct sockaddr *)&addr, &addrsize);
+    pf_host_port = addr.sin_port;
+
+    boinc_close_socket(sock);
+    return 0;
+}
+
 int VBOX_VM::register_vm() {
     string command;
     string output;
@@ -737,7 +764,9 @@ int VBOX_VM::register_vm() {
     // If a project wants to open up a firewall port through the VirtualBox virtual
     // network firewall/nat do that here.
     //
-    if (pf_desired_host_port) {
+    if (pf_guest_port) {
+        retval = get_port_forwarding_port();
+        if (retval) return retval;
         retval = register_vm_firewall_rules();
         if (retval) return retval;
     }
@@ -766,9 +795,6 @@ int VBOX_VM::register_vm_firewall_rules() {
     string output;
     string virtual_machine_slot_directory;
     char buf[256];
-    struct sockaddr_in addr;
-    BOINC_SOCKLEN_T addrsize;
-    int sock;
     int retval;
 
     get_slot_directory(virtual_machine_slot_directory);
@@ -779,45 +805,9 @@ int VBOX_VM::register_vm_firewall_rules() {
         boinc_msg_prefix(buf, sizeof(buf))
     );
 
-    memset(&addr, 0, sizeof(addr));
-    addr.sin_family = AF_INET;
-    addr.sin_port = htons(pf_desired_host_port);
-    addr.sin_addr.s_addr = htonl(INADDR_LOOPBACK);
-
-    addrsize = sizeof(addr);
-
-    retval = boinc_socket(sock);
-    if(retval) return retval;
- 
-    // Attempt to use the desired port number
-    //
-    retval = bind(sock, (struct sockaddr *)&addr, addrsize);
-    if(retval < 0)
-    {
-        // Okay the desired port number didn't work, to set the port number
-        // to 0 and try again.  Let the OS choose a valid port number.
-        //
-        addr.sin_port = htons(0);
-        retval = bind(sock, (struct sockaddr *)&addr, addrsize);
-        if(retval < 0)
-        {
-            boinc_close_socket(sock);
-            return ERR_BIND;
-        }
-    }
-
-    // Okay we now have a valid port number, lets see what we have been
-    // assigned. Store it for future use.
-    //
-    getsockname(sock, (struct sockaddr *)&addr, &addrsize);
-    pf_assigned_host_port = addr.sin_port;
-
-    boinc_close_socket(sock);
-
-
     // Add new firewall rule
     //
-    sprintf(buf, "vboxwrapper,tcp,127.0.0.1,%d,,%d", pf_assigned_host_port, pf_desired_guest_port);
+    sprintf(buf, "vboxwrapper,tcp,127.0.0.1,%d,,%d", pf_host_port, pf_guest_port);
     command  = "modifyvm \"" + vm_name + "\" ";
     command += "--natpf1 \"" + string(buf) + "\" ";
 
@@ -827,7 +817,7 @@ int VBOX_VM::register_vm_firewall_rules() {
     fprintf(
         stderr,
         "%s VM communication is allowed on port '%d'.\n",
-        boinc_msg_prefix(buf, sizeof(buf)), pf_assigned_host_port
+        boinc_msg_prefix(buf, sizeof(buf)), pf_host_port
     );
 
 
@@ -845,8 +835,8 @@ int VBOX_VM::register_vm_firewall_rules() {
         "    <guest_port>%d</guest_port>\n"
         "  </rule>\n"
         "</vbox_firewall>\n",
-        pf_assigned_host_port,
-        pf_desired_guest_port
+        pf_host_port,
+        pf_guest_port
     );
 
     fclose(f);

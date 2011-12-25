@@ -9434,3 +9434,12 @@ Rom    25 Dec 2011
     samples/vboxwrapper/
         vbox.cpp, .h
     
+David  25 Dec 2011
+    - vboxwrapper: for port-forwarding feature,
+        allow specification of guest port only.
+        Change tag to <pf_guest_port>.
+        Separate getting port from registering firewall rule
+
+    samples/vboxwrapper/
+        vbox.cpp,h
+        vboxwrapper.cpp

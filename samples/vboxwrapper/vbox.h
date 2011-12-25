@@ -66,9 +66,11 @@ struct VBOX_VM {
     bool register_only;
     // whether to allow network access at all
     bool enable_network;
-    int pf_desired_host_port;
-    int pf_desired_guest_port;
-    int pf_assigned_host_port;
+    // the following for optional port forwarding
+    int pf_host_port;
+        // dynamically assigned
+    int pf_guest_port;
+        // specified in config file
 
     int run();
     int stop();
@@ -95,6 +97,7 @@ struct VBOX_VM {
     int get_vm_log(std::string& log);
     int read_floppy(std::string& data);
     int write_floppy(std::string& data);
+    int get_port_forwarding_port();
 
     static int initialize();
     static int get_install_directory(std::string& dir);
