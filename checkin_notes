@@ -9443,3 +9443,10 @@ David  25 Dec 2011
     samples/vboxwrapper/
         vbox.cpp,h
         vboxwrapper.cpp
+
+Rom    25 Dec 2011
+    - VBOX: Extract and dump the VM log before attempting to delete the VM.
+        What was I thinking last night?
+        
+    samples/vboxwrapper/
+        vboxwrapper.cpp

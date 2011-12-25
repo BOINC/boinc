@@ -352,12 +352,9 @@ int main(int argc, char** argv) {
             boinc_finish(EXIT_ABORTED_BY_CLIENT);
         }
         if (!vm.online) {
-            vm.cleanup();
-            write_checkpoint(checkpoint_cpu_time);
             if (vm.crashed) {
                 std::string log;
                 vm.get_vm_log(log);
-
                 fprintf(
                     stderr,
                     "%s VM Crash Detected!!!\n\n"
@@ -371,7 +368,6 @@ int main(int argc, char** argv) {
                     boinc_msg_prefix(buf, sizeof(buf)),
                     log.c_str()
                 );
-
             } else {
                 fprintf(
                     stderr,
@@ -381,6 +377,8 @@ int main(int argc, char** argv) {
                     boinc_msg_prefix(buf, sizeof(buf))
                 );
             }
+            vm.cleanup();
+            write_checkpoint(checkpoint_cpu_time);
             boinc_finish(0);
         }
         if (boinc_status.suspended) {
