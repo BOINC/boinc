@@ -378,6 +378,7 @@ bool VBOX_VM::is_hdd_registered() {
 }
 
 void VBOX_VM::poll() {
+    char buf[256];
     string command;
     string output;
     string vmstate;
@@ -422,6 +423,12 @@ void VBOX_VM::poll() {
                 crashed = true;
             } else {
                 online = false;
+                fprintf(
+                    stderr,
+                    "%s Virtual machine is no longer is a running state. It is in '%s'.\n",
+                    boinc_msg_prefix(buf, sizeof(buf)),
+                    vmstate.c_str()
+                );
             }
         }
     }
@@ -854,9 +861,8 @@ int VBOX_VM::deregister_vm() {
 
     fprintf(
         stderr,
-        "%s Deregistering virtual machine. (%s)\n",
-        boinc_msg_prefix(buf, sizeof(buf)),
-        vm_name.c_str()
+        "%s Deregistering virtual machine.\n",
+        boinc_msg_prefix(buf, sizeof(buf))
     );
 
 

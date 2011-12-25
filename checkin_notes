@@ -9450,3 +9450,10 @@ Rom    25 Dec 2011
         
     samples/vboxwrapper/
         vboxwrapper.cpp
+
+Rom    25 Dec 2011
+    - VBOX: Richard Mitnick's VM didn't crash according to the latest build.
+        So what state did it enter?
+        
+    samples/vboxwrapper/
+        vbox.cpp,.h
