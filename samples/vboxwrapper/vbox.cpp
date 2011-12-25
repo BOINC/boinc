@@ -125,12 +125,13 @@ void VBOX_VM::cleanup() {
 //
 int VBOX_VM::vbm_popen(string& arguments, string& output, const char* item, bool log_error) {
     int retval = 0;
+    char buf[256];
     int retry_count = 0;
     string retry_notes;
 
     do
     {
-        retval = vbm_popen_raw(arguments, output, item, log_error);
+        retval = vbm_popen_raw(arguments, output, item);
         if (retval) {
 
             // VirtualBox designed the concept of sessions to prevent multiple applications using
@@ -164,10 +165,20 @@ int VBOX_VM::vbm_popen(string& arguments, string& output, const char* item, bool
     }
     while (retval);
 
-    // Add all relivent notes to the output string
+    // Add all relivent notes to the output string and log errors
     //
-    if (retval) {
+    if (retval && log_error) {
         output += "\nNotes:\n" + retry_notes;
+
+        fprintf(
+            stderr,
+            "%s Error in %s for VM: %d\nArguments:\n%s\nOutput:\n%s\n",
+            boinc_msg_prefix(buf, sizeof(buf)),
+            item,
+            retval,
+            arguments.c_str(),
+            output.c_str()
+        );
     }
 
     return retval;
@@ -175,7 +186,7 @@ int VBOX_VM::vbm_popen(string& arguments, string& output, const char* item, bool
 
 // Execute the vbox manage application and copy the output to the buffer.
 //
-int VBOX_VM::vbm_popen_raw(string& arguments, string& output, const char* item, bool log_error) {
+int VBOX_VM::vbm_popen_raw(string& arguments, string& output, const char* item) {
     char buf[256];
     string command;
     int retval = 0;
@@ -315,17 +326,6 @@ CLEANUP:
 
 #endif
 
-    if (retval && log_error) {
-        fprintf(
-            stderr,
-            "%s Error in %s for VM: %d\nCommand:\n%s\nOutput:\n%s\n",
-            boinc_msg_prefix(buf, sizeof(buf)),
-            item,
-            retval,
-            command.c_str(),
-            output.c_str()
-        );
-    }
     return retval;
 }
 

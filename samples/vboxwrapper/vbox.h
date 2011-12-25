@@ -103,7 +103,7 @@ struct VBOX_VM {
         std::string& command, std::string& output, const char* item, bool log_error = true
     );
     static int vbm_popen_raw(
-        std::string& command, std::string& output, const char* item, bool log_error = true
+        std::string& command, std::string& output, const char* item
     );
 };
 

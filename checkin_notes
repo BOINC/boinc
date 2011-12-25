@@ -9411,7 +9411,7 @@ David  23 Dec 2011
             pm.php
             moderation.php
 
-Rom    23 Dec 2011
+Rom    24 Dec 2011
     - VBOX: Remove attempts to remove the floppy image from the media registry.
         Apparently when the VM is removed from the VirtualBox server process
         it automatically deletes the floppy image from the media registry.
@@ -9427,3 +9427,10 @@ Rom    23 Dec 2011
     samples/vboxwrapper/
         vbox.cpp, .h
         vboxwrapper.cpp, .h
+
+Rom    25 Dec 2011
+    - VBOX: If an error occurs only log the error once if log_error is true.
+
+    samples/vboxwrapper/
+        vbox.cpp, .h
+    
