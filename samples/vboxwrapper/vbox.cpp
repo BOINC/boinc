@@ -63,6 +63,8 @@ VBOX_VM::VBOX_VM() {
     max_elapsed_time = 0.0;
     suspended = false;
     network_suspended = false;
+    online = false;
+    crashed = false;
     enable_cern_dataformat = false;
     enable_shared_directory = false;
     enable_floppyio = false;
@@ -119,9 +121,61 @@ void VBOX_VM::cleanup() {
     boinc_sleep(5.0);
 }
 
-// Execute the vbox manage application and copy the output to the buffer.
+// If there are errors we can recover from, process them here.
 //
 int VBOX_VM::vbm_popen(string& arguments, string& output, const char* item, bool log_error) {
+    int retval = 0;
+    int retry_count = 0;
+    string retry_notes;
+
+    do
+    {
+        retval = vbm_popen_raw(arguments, output, item, log_error);
+        if (retval) {
+
+            // VirtualBox designed the concept of sessions to prevent multiple applications using
+            // the VirtualBox COM API (virtualbox.exe, vboxmanage.exe) from modifying the same VM
+            // at the same time.
+            //
+            // The problem here is that vboxwrapper uses vboxmanage.exe to modify and control the
+            // VM.  Vboxmanage.exe can only maintain the session lock for as long as it takes it
+            // to run.  So that means 99% of the time that a VM is running under BOINC technology
+            // it is running without a session lock.
+            //
+            // If a volunteer opens another VirtualBox management application and goes poking around
+            // that application can aquire the session lock and not give it up for some time.
+            //
+            // If we detect that condition retry the desired command.
+            //
+            if ((output.find("VBOX_E_INVALID_OBJECT_STATE") != string::npos) &&
+                (output.find("already locked") != string::npos))
+            {
+                if (retry_notes.find("already locked") == string::npos) {
+                    retry_notes += "Virtual Machine session already locked.\n";
+                }
+            }
+            
+            // Timeout?
+            if (retry_count >= 6) break;
+
+            retry_count++;
+            boinc_sleep(5.0);
+        }
+    }
+    while (retval);
+
+    // Add all relivent notes to the output string
+    //
+    if (retval) {
+        output += "\nNotes:\n" + retry_notes;
+    }
+
+    return retval;
+}
+
+// Execute the vbox manage application and copy the output to the buffer.
+//
+int VBOX_VM::vbm_popen_raw(string& arguments, string& output, const char* item, bool log_error) {
     char buf[256];
     string command;
     int retval = 0;
@@ -363,6 +417,9 @@ void VBOX_VM::poll() {
                 online = true;
             } else if (vmstate == "restoring") {
                 online = true;
+            } else if (vmstate == "gurumeditation") {
+                online = false;
+                crashed = true;
             } else {
                 online = false;
             }
@@ -865,17 +922,6 @@ int VBOX_VM::deregister_vm() {
     command  = "closemedium disk \"" + virtual_machine_slot_directory + "/" + image_filename + "\" ";
 
     vbm_popen(command, output, "remove virtual disk");
-
-    if (enable_floppyio) {
-        fprintf(
-            stderr,
-            "%s Removing virtual disk drive from VirtualBox.\n",
-            boinc_msg_prefix(buf, sizeof(buf))
-        );
-        command  = "closemedium floppy \"" + virtual_machine_slot_directory + "/" + floppy_image_filename + "\" ";
-
-        vbm_popen(command, output, "remove virtual floppy disk");
-    }
     return 0;
 }
 
@@ -922,11 +968,6 @@ int VBOX_VM::deregister_stale_vm() {
         // just remove the medium.
         command  = "closemedium disk \"" + virtual_machine_slot_directory + "/" + image_filename + "\" ";
         vbm_popen(command, output, "remove virtual disk ", false);
-
-        if (enable_floppyio) {
-            command  = "closemedium floppy \"" + virtual_machine_slot_directory + "/" + floppy_image_filename + "\" ";
-            vbm_popen(command, output, "remove virtual floppy disk", false);
-        }
     }
     return 0;
 }
@@ -1211,6 +1252,22 @@ int VBOX_VM::get_network_bytes_sent(double& sent) {
         sent += atof(counter_value.c_str());
         counter_start = output.find("\n", counter_start);
     }
+    return 0;
+}
+
+int VBOX_VM::get_vm_log(string& log) {
+    string command;
+    string output;
+    int retval;
+
+    command  = "showvminfo \"" + vm_name + "\" ";
+    command += "--log 0 ";
+
+    retval = vbm_popen(command, output, "get vm log");
+    if (retval) return retval;
+
+    log = output;
+
     return 0;
 }
 

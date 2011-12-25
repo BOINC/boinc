@@ -53,6 +53,8 @@ struct VBOX_VM {
     bool network_suspended;
     // is VM even online?
     bool online;
+    // Has the VM crashed?
+    bool crashed;
     // whether to use CERN specific data structures
     bool enable_cern_dataformat;
     // whether to use shared directory infrastructure at all
@@ -90,6 +92,7 @@ struct VBOX_VM {
     int get_process_id(int& process_id);
     int get_network_bytes_sent(double& sent);
     int get_network_bytes_received(double& received);
+    int get_vm_log(std::string& log);
     int read_floppy(std::string& data);
     int write_floppy(std::string& data);
 
@@ -97,6 +100,9 @@ struct VBOX_VM {
     static int get_install_directory(std::string& dir);
     static int get_slot_directory(std::string& dir);
     static int vbm_popen(
+        std::string& command, std::string& output, const char* item, bool log_error = true
+    );
+    static int vbm_popen_raw(
         std::string& command, std::string& output, const char* item, bool log_error = true
     );
 };

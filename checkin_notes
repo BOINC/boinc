@@ -9410,3 +9410,20 @@ David  23 Dec 2011
         user/
             pm.php
             moderation.php
+
+Rom    23 Dec 2011
+    - VBOX: Remove attempts to remove the floppy image from the media registry.
+        Apparently when the VM is removed from the VirtualBox server process
+        it automatically deletes the floppy image from the media registry.
+    - VBOX: If a VM crashes for one reason or another, append the VM execution
+        log file to the stderr.txt file.  I believe this is what is going on with
+        Richard Mitnick's computer.  At the very least we should be able to give
+        this to the VirtualBox guys.
+    - VBOX: Introduce a way to re-execute commands when a session lock
+        event is detected.  A session lock event happens when a volunteer is
+        tweaking something about the VM while vboxwrapper is attempting to query
+        state information.
+        
+    samples/vboxwrapper/
+        vbox.cpp, .h
+        vboxwrapper.cpp, .h
