@@ -526,10 +526,11 @@ static inline bool app_plan_vbox(
     if (maj < 3) return false;
     if (maj == 3 and min < 2) return false;
 
-    // host must have VM acceleration
+    // host must have VM acceleration in order to run multi-core jobs
     //
-    if (!strstr(sreq.host.p_features, "vmx")
-        && !strstr(sreq.host.p_features, "svm")
+    if (strstr(plan_class, "mt") 
+        && (!strstr(sreq.host.p_features, "vmx")
+        && !strstr(sreq.host.p_features, "svm"))
     ) {
         return false;
     }

@@ -9548,9 +9548,16 @@ David  26 Dec 2011
 David  26 Dec 2011
     - scheduler: in vbox plan class, require that host have
         VM acceleration hardware feature
-    - remove job submission: typo fix
+    - remote job submission: typo fix
 
     sched/
         sched_customize.cpp
     html/user/
-        submit.ph
+        submit.php
+
+Rom    25 Dec 2011
+    - scheduler: in vbox plan class, require that host have
+        VM acceleration hardware feature if the job is multi-core.
+
+    sched/
+        sched_customize.cpp
