@@ -660,20 +660,23 @@ int VBOX_VM::register_vm() {
     retval = vbm_popen(command, output, "modify");
     if (retval) return retval;
 
-    // Check to see if the processor supports hardware acceleration for virtualization
-    // If it does, disable the use of it in VirtualBox.  Some processors have it disabled
-    // in the computers BIOS and so the VM prematurely shuts down when it is enabled.
-    //
-    fprintf(
-        stderr,
-        "%s Disabling hardware accelleration support for virtualization.\n",
-        boinc_msg_prefix(buf, sizeof(buf))
-    );
-    command  = "modifyvm \"" + vm_name + "\" ";
-    command += "--hwvirtex off ";
+    if ((vm_cpu_count == "1") &&
+        !strstr(aid.host_info.p_features, "vmx") && !strstr(aid.host_info.p_features, "svm")) {
+        // Check to see if the processor supports hardware acceleration for virtualization
+        // If it doesn't, disable the use of it in VirtualBox. Multi-core jobs require hardware
+        // acceleration and actually override this setting.
+        //
+        fprintf(
+            stderr,
+            "%s Disabling hardware acceleration support for virtualization.\n",
+            boinc_msg_prefix(buf, sizeof(buf))
+        );
+        command  = "modifyvm \"" + vm_name + "\" ";
+        command += "--hwvirtex off ";
 
-    retval = vbm_popen(command, output, "VT-x/AMD-V support");
-    if (retval) return retval;
+        retval = vbm_popen(command, output, "VT-x/AMD-V support");
+        if (retval) return retval;
+    }
 
     // Add storage controller to VM
     //

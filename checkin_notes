@@ -9561,3 +9561,15 @@ Rom    26 Dec 2011
 
     sched/
         sched_customize.cpp
+
+Rom    26 Dec 2011
+    - VBOX: If a host has been assigned a single-core job and the
+        processor doesn't support hardware acceleration for VMs,
+        manually turn off the hardware acceleration support in the VMs
+        configuration.
+        
+        NOTE: The latest server scheduler should not be assigning
+        multi-core jobs to hosts that do not have hardware acceleration.
+
+    samples/vboxwrapper/
+        vbox.cpp
