@@ -343,6 +343,7 @@ function convert_simplexml($x) {
     $v = null;
     $v->files = $fds;
     $v->dont_throttle = get_bool($x, "dont_throttle");
+    $v->needs_network = get_bool($x, "needs_network");
     $v->file_prefix = (string)$x->file_prefix;
     return $v;
 }
@@ -395,6 +396,9 @@ function process_version($a, $v, $p) {
     }
     if ($vers->dont_throttle) {
         $xml .= "    <dont_throttle/>\n";
+    }
+    if ($vers->needs_network) {
+        $xml .= "    <needs_network/>\n";
     }
     if ($vers->file_prefix != "") {
         $xml .= "    <file_prefix>$vers->file_prefix</file_prefix>\n";

@@ -9536,3 +9536,11 @@ David  26 Dec 2011
         client_types.cpp,h
         work_fetch.cpp
         app_control.cpp
+
+David  26 Dec 2011
+    - update_versions: support <needs_network> flag in version.xml
+
+    tools/
+        update_versions
+    samples/vboxwrapper/
+        vboxwrapper.h

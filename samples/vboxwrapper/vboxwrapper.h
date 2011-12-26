@@ -28,7 +28,7 @@
 #define FLOPPY_IMAGE_FILENAME_EXTENSION "img"
 #define JOB_FILENAME "vbox_job.xml"
 #define CHECKPOINT_FILENAME "vbox_checkpoint.txt"
-#define PORTFORWARD_FILENAME "vbox_firewall.xml"
+#define PORTFORWARD_FILENAME "vbox_port_forward.xml"
 #define POLL_PERIOD 1.0
 
 #endif
