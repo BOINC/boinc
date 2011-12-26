@@ -9582,3 +9582,20 @@ David  26 Dec 2011
 
     sched/
         sched_result.cpp
+
+Rom    26 Dec 2011
+    - VBOX: For hosts who do not have processors with VM extensions try
+        and disable the use of them at VM creation time.  Certain actions
+        within VirtualBox will force enabling them at runtime and cause
+        an error (like SMP support) but it should reduce confusion between
+        volunteers and projects when a VM configuration change now causes
+        a class of machine that used to work suddenly stop working.
+    - VBOX: Add some more helpful text notes for error conditions that
+        the volunteer might be able to address.  For instance other
+        hypervisors locking the VM CPU features for exclusive use.
+    - VBOX: If we have to dump out the VM execution log on Windows, remove
+        excess carriage returns from the spew.
+        
+    samples/vboxwrapper/
+        vbox.cpp
+        vboxwrapper.cpp

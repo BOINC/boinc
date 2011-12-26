@@ -1257,6 +1257,15 @@ int VBOX_VM::get_vm_log(string& log) {
     retval = vbm_popen(command, output, "get vm log");
     if (retval) return retval;
 
+#ifdef _WIN32
+    // Remove \r from the log spew
+    for (string::iterator iter = output.begin(); iter != output.end(); ++iter) {
+        if (*iter == '\r') {
+            output.erase(iter);
+        }
+    }
+#endif
+
     log = output;
 
     return 0;
