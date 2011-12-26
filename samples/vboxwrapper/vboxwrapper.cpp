@@ -359,7 +359,7 @@ int main(int argc, char** argv) {
             write_checkpoint(checkpoint_cpu_time);
 
             if (vm.crashed || (elapsed_time < vm.job_duration)) {
-                if (vm_log.find("VERR_VMX_MSR_LOCKED_OR_DISABLED") != string::npos) {
+                if (vm_log.find("VERR_VMX_MSR_LOCKED_OR_DISABLED") != std::string::npos) {
                     fprintf(
                         stderr,
                         "%s VM Premature Shutdown Detected!!!\n"
