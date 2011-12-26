@@ -9555,7 +9555,7 @@ David  26 Dec 2011
     html/user/
         submit.php
 
-Rom    25 Dec 2011
+Rom    26 Dec 2011
     - scheduler: in vbox plan class, require that host have
         VM acceleration hardware feature if the job is multi-core.
 
