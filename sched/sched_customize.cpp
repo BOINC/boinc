@@ -517,7 +517,7 @@ static inline bool app_plan_opencl(
 static inline bool app_plan_vbox(
     SCHEDULER_REQUEST& sreq, char* plan_class, HOST_USAGE& hu
 ) {
-    // make sure they have VirtualBox
+    // host must have VirtualBox 3.2 or later
     //
     if (strlen(sreq.host.virtualbox_version) == 0) return false;
     int n, maj, min, rel;
@@ -525,6 +525,14 @@ static inline bool app_plan_vbox(
     if (n != 3) return false;
     if (maj < 3) return false;
     if (maj == 3 and min < 2) return false;
+
+    // host must have VM acceleration
+    //
+    if (!strstr(sreq.host.p_features, "vmx")
+        && !strstr(sreq.host.p_features, "svm")
+    ) {
+        return false;
+    }
 
     // only send the version for host's primary platform.
     // A Win64 host can't run a 32-bit VM app:

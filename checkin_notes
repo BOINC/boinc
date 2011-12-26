@@ -9544,3 +9544,13 @@ David  26 Dec 2011
         update_versions
     samples/vboxwrapper/
         vboxwrapper.h
+
+David  26 Dec 2011
+    - scheduler: in vbox plan class, require that host have
+        VM acceleration hardware feature
+    - remove job submission: typo fix
+
+    sched/
+        sched_customize.cpp
+    html/user/
+        submit.ph

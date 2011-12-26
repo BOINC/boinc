@@ -119,7 +119,7 @@ function stage_file($file) {
     }
     $name = "batch_$md5";
     $path = dir_hier_path($name, "../../download", $fanout);
-    if (file_exists($path)) return;
+    if (file_exists($path)) return $name;
     if (!copy($file->source, $path)) {
         error("can't copy file from $file->source to $path");
     }
