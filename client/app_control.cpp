@@ -1194,7 +1194,6 @@ void ACTIVE_TASK::get_graphics_msg() {
     if (app_client_shm.shm->graphics_reply.get_msg(msg_buf)) {
         parse_str(msg_buf, "<web_graphics_url>", web_graphics_url, sizeof(web_graphics_url));
     }
-    strcpy(web_graphics_url, "http://google.com");
 }
 
 bool ACTIVE_TASK::get_trickle_up_msg() {

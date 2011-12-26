@@ -543,7 +543,6 @@ struct APP {
     char name[256];
     char user_friendly_name[256];
     bool non_cpu_intensive;
-    bool needs_network;
     PROJECT* project;
 #ifdef SIM
     double latency_bound;
@@ -581,6 +580,7 @@ struct APP_VERSION {
     char file_prefix[256];
         // prepend this to input/output file logical names
         // (e.g. "share" for VM apps)
+    bool needs_network;
 
     APP* app;
     PROJECT* project;

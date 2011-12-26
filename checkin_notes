@@ -9529,3 +9529,10 @@ David  26 Dec 2011
 		gui_rpc_client.h
 		gui_rpc_client_ops.cpp
 
+David  26 Dec 2011
+    - make "needs network" a property of APP_VERSION rather than APP
+
+    client/
+        client_types.cpp,h
+        work_fetch.cpp
+        app_control.cpp

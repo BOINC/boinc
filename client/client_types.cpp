@@ -782,12 +782,10 @@ void PROJECT::update_project_files_downloaded_time() {
 }
 
 int APP::parse(XML_PARSER& xp) {
-
     strcpy(name, "");
     strcpy(user_friendly_name, "");
     project = NULL;
     non_cpu_intensive = false;
-    needs_network = false;
     while (!xp.get_tag()) {
         if (xp.match_tag("/app")) {
             if (!strlen(user_friendly_name)) {
@@ -811,7 +809,6 @@ int APP::parse(XML_PARSER& xp) {
             continue;
         }
         if (xp.parse_bool("non_cpu_intensive", non_cpu_intensive)) continue;
-        if (xp.parse_bool("needs_network", needs_network)) continue;
 #endif
         if (log_flags.unparsed_xml) {
             msg_printf(0, MSG_INFO,
@@ -830,11 +827,9 @@ int APP::write(MIOFILE& out) {
         "    <name>%s</name>\n"
         "    <user_friendly_name>%s</user_friendly_name>\n"
         "    <non_cpu_intensive>%d</non_cpu_intensive>\n"
-        "    <needs_network>%d</needs_network>\n"
         "</app>\n",
         name, user_friendly_name,
-        non_cpu_intensive?1:0,
-        needs_network?1:0
+        non_cpu_intensive?1:0
     );
     return 0;
 }
@@ -1297,6 +1292,7 @@ int APP_VERSION::parse(XML_PARSER& xp) {
     missing_coproc = false;
     strcpy(missing_coproc_name, "");
     dont_throttle = false;
+    needs_network = false;
 
     while (!xp.get_tag()) {
         if (xp.match_tag("/app_version")) return 0;
@@ -1344,6 +1340,7 @@ int APP_VERSION::parse(XML_PARSER& xp) {
             continue;
         }
         if (xp.parse_bool("dont_throttle", dont_throttle)) continue;
+        if (xp.parse_bool("needs_network", needs_network)) continue;
         if (log_flags.unparsed_xml) {
             msg_printf(0, MSG_INFO,
                 "[unparsed_xml] APP_VERSION::parse(): unrecognized: %s\n",
@@ -1423,6 +1420,11 @@ int APP_VERSION::write(MIOFILE& out, bool write_file_info) {
     if (dont_throttle) {
         out.printf(
             "    <dont_throttle/>\n"
+        );
+    }
+    if (needs_network) {
+        out.printf(
+            "    <needs_network/>\n"
         );
     }
 
@@ -1939,7 +1941,7 @@ int RESULT::write_gui(MIOFILE& out) {
     if (edf_scheduled) out.printf("    <edf_scheduled/>\n");
     if (coproc_missing) out.printf("    <coproc_missing/>\n");
     if (schedule_backoff > gstate.now) out.printf("    <scheduler_wait/>\n");
-    if (avp->app->needs_network && gstate.network_suspended) out.printf("    <network_wait/>\n");
+    if (avp->needs_network && gstate.network_suspended) out.printf("    <network_wait/>\n");
     ACTIVE_TASK* atp = gstate.active_tasks.lookup_result(this);
     if (atp) {
         atp->write_gui(out);
