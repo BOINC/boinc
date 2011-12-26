@@ -9460,7 +9460,7 @@ Rom    25 Dec 2011
 
 Rom    25 Dec 2011
     - VBOX: For projects that use vboxwrapper to control how long a VM should run,
-        treat premature events as failures.  Avoids false positive results.
+        treat premature shutdown events as failures.  Avoids false positive results.
     - VBOX: Log the VM Execution log if a premature shutdown event has happened.
     - VBOX: Rename config option max_elapsed_time to job_duration.  Choosing
         max_elapsed_time turned out to be a bad choice in that its purpose
@@ -9468,4 +9468,15 @@ Rom    25 Dec 2011
 
     samples/vboxwrapper/
         vbox.cpp,.h
+        vboxwrapper.cpp
+
+Rom    25 Dec 2011
+    - VBOX: Disable hardware virtualization acceleration support by default.  There
+        is a ceratin class of machines where the processor supports hardware
+        acceleration but it is disabled in the computers BIOS.  Asking the volunteer
+        to tweak settings in the computers BIOS isn't a good idea.  We might be able
+        to turn it on as an advanced preference thing in the future.
+
+    samples/vboxwrapper/
+        vbox.cpp
         vboxwrapper.cpp

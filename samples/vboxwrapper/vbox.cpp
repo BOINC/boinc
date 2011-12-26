@@ -611,9 +611,11 @@ int VBOX_VM::register_vm() {
     string command;
     string output;
     string virtual_machine_slot_directory;
+    APP_INIT_DATA aid;
     char buf[256];
     int retval;
 
+    boinc_get_init_data_p(&aid);
     get_slot_directory(virtual_machine_slot_directory);
 
     fprintf(
@@ -656,6 +658,21 @@ int VBOX_VM::register_vm() {
     command += "--cableconnected1 off ";
 
     retval = vbm_popen(command, output, "modify");
+    if (retval) return retval;
+
+    // Check to see if the processor supports hardware acceleration for virtualization
+    // If it does, disable the use of it in VirtualBox.  Some processors have it disabled
+    // in the computers BIOS and so the VM prematurely shuts down when it is enabled.
+    //
+    fprintf(
+        stderr,
+        "%s Disabling hardware accelleration support for virtualization.\n",
+        boinc_msg_prefix(buf, sizeof(buf))
+    );
+    command  = "modifyvm \"" + vm_name + "\" ";
+    command += "--hwvirtex off ";
+
+    retval = vbm_popen(command, output, "VT-x/AMD-V support");
     if (retval) return retval;
 
     // Add storage controller to VM
