@@ -296,6 +296,20 @@ int handle_results() {
         srip->cpu_time = rp->cpu_time;
         srip->elapsed_time = rp->elapsed_time;
 
+        // Some buggy clients sporadically report very low elapsed time
+        // but actual CPU time.
+        // Try to fix the elapsed time, since it's critical to credit
+        //
+        if (srip->elapsed_time < srip->cpu_time) {
+            int avid = srip->app_version_id;
+            if (avid > 0) {
+                APP_VERSION* avp = ssp->lookup_app_version(avid);
+                if (avp && !avp->is_multithread()) {
+                    srip->elapsed_time = srip->cpu_time;
+                }
+            }
+        }
+
         // check for impossible elapsed time
         //
         if (srip->elapsed_time < 0) {
@@ -320,20 +334,6 @@ int handle_results() {
                     srip->elapsed_time, turnaround_time
                 );
                 srip->elapsed_time = turnaround_time;
-            }
-        }
-
-        // Some buggy clients sporadically report very low elapsed time
-        // but actual CPU time.
-        // Try to fix the elapsed time, since it's critical to credit
-        //
-        if (srip->elapsed_time < srip->cpu_time) {
-            int avid = srip->app_version_id;
-            if (avid > 0) {
-                APP_VERSION* avp = ssp->lookup_app_version(avid);
-                if (avp && !avp->is_multithread()) {
-                    srip->elapsed_time = srip->cpu_time;
-                }
             }
         }
 

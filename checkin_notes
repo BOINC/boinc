@@ -9573,3 +9573,12 @@ Rom    26 Dec 2011
 
     samples/vboxwrapper/
         vbox.cpp
+
+David  26 Dec 2011
+    - scheduler: we were using CPU time for elapsed time
+        when the latter wasn't reported.
+        Do this BEFORE sanity checks on elapsed time
+        to prevent cheating.
+
+    sched/
+        sched_result.cpp
