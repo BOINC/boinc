@@ -543,6 +543,7 @@ struct APP {
     char name[256];
     char user_friendly_name[256];
     bool non_cpu_intensive;
+    bool needs_network;
     PROJECT* project;
 #ifdef SIM
     double latency_bound;

@@ -486,11 +486,11 @@ int CMainDocument::OnInit() {
      wxASSERT(m_pRPC_Request_Condition);
   
     m_RPCThread = new RPCThread(this, 
-                                m_pRPC_Thread_Mutex, 
-                                m_pRPC_Thread_Condition, 
-                                m_pRPC_Request_Mutex, 
-                                m_pRPC_Request_Condition
-                    );
+        m_pRPC_Thread_Mutex, 
+        m_pRPC_Thread_Condition, 
+        m_pRPC_Request_Mutex, 
+        m_pRPC_Request_Condition
+    );
     wxASSERT(m_RPCThread);
 
     iRetVal = m_RPCThread->Create();
@@ -1456,7 +1456,8 @@ RESULT* CMainDocument::result(unsigned int i) {
     return pResult;
 }
 
-/* get the result not by index, but by name */
+// get the result not by index, but by name
+//
 RESULT* CMainDocument::result(const wxString& name, const wxString& project_url) {
     RESULT* pResult = NULL;
 
@@ -1526,8 +1527,8 @@ int CMainDocument::WorkResume(char* url, char* name) {
 
 // If the graphics application for the current task is already 
 // running, return a pointer to its RUNNING_GFX_APP struct.
-RUNNING_GFX_APP* CMainDocument::GetRunningGraphicsApp(RESULT* result, int slot)
-{
+//
+RUNNING_GFX_APP* CMainDocument::GetRunningGraphicsApp(RESULT* result, int slot) {
     bool exited = false;
     std::vector<RUNNING_GFX_APP>::iterator gfx_app_iter;
     
@@ -1570,8 +1571,7 @@ RUNNING_GFX_APP* CMainDocument::GetRunningGraphicsApp(RESULT* result, int slot)
 
 
 // Kill any running graphics apps whose worker tasks aren't running
-void CMainDocument::KillInactiveGraphicsApps()
-{
+void CMainDocument::KillInactiveGraphicsApps() {
 /*
     std::vector<RUNNING_GFX_APP>::iterator gfx_app_iter;
     unsigned int i;
@@ -1660,10 +1660,14 @@ void CMainDocument::KillGraphicsApp(int pid) {
 }
 #endif
 
-int CMainDocument::WorkShowGraphics(RESULT* result)
-{
+int CMainDocument::WorkShowGraphics(RESULT* result) {
     int iRetVal = 0;
     
+    if (strlen(result->web_graphics_url)) {
+        wxString url(result->web_graphics_url, wxConvUTF8);
+        wxLaunchDefaultBrowser(url);
+        return 0;
+    }
     if (strlen(result->graphics_exec_path)) {
         // V6 Graphics
         RUNNING_GFX_APP gfx_app;
@@ -2429,6 +2433,9 @@ wxString result_description(RESULT* result, bool show_resources) {
         }
         if (result->scheduler_wait) {
             strBuffer += _(" (Scheduler wait)");
+        }
+        if (result->network_wait) {
+            strBuffer += _(" (Waiting for network access)");
         }
         break;
     case RESULT_COMPUTE_ERROR:

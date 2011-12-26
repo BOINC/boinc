@@ -511,12 +511,11 @@ int RESULT::parse(XML_PARSER& xp) {
         if (parse_bool(buf, "project_suspended_via_gui", project_suspended_via_gui)) continue;
         if (parse_bool(buf, "coproc_missing", coproc_missing)) continue;
         if (parse_bool(buf, "scheduler_wait", scheduler_wait)) continue;
+        if (parse_bool(buf, "network_wait", network_wait)) continue;
         if (match_tag(buf, "<active_task>")) {
             active_task = true;
             continue;
         }
-        if (parse_bool(buf, "supports_graphics", supports_graphics)) continue;
-        if (parse_int(buf, "<graphics_mode_acked>", graphics_mode_acked)) continue;
         if (parse_double(buf, "<final_cpu_time>", final_cpu_time)) continue;
         if (parse_double(buf, "<final_elapsed_time>", final_elapsed_time)) continue;
         if (parse_int(buf, "<state>", state)) continue;
@@ -543,9 +542,10 @@ int RESULT::parse(XML_PARSER& xp) {
         if (parse_bool(buf, "too_large", too_large)) continue;
         if (parse_bool(buf, "needs_shmem", needs_shmem)) continue;
         if (parse_bool(buf, "edf_scheduled", edf_scheduled)) continue;
-        if (parse_str(buf, "graphics_exec_path", graphics_exec_path, sizeof(graphics_exec_path))) continue;
-        if (parse_str(buf, "slot_path", slot_path, sizeof(slot_path))) continue;
-        if (parse_str(buf, "resources", resources, sizeof(resources))) continue;
+        if (parse_str(buf, "<graphics_exec_path>", graphics_exec_path, sizeof(graphics_exec_path))) continue;
+        if (parse_str(buf, "<web_graphics_url>", web_graphics_url, sizeof(web_graphics_url))) continue;
+        if (parse_str(buf, "<slot_path>", slot_path, sizeof(slot_path))) continue;
+        if (parse_str(buf, "<resources>", resources, sizeof(resources))) continue;
     }
     return ERR_XML_PARSE;
 }
@@ -557,6 +557,7 @@ void RESULT::clear() {
     strcpy(plan_class, "");
     strcpy(project_url, "");
     strcpy(graphics_exec_path, "");
+    strcpy(web_graphics_url, "");
     strcpy(slot_path, "");
     strcpy(resources, "");
     report_deadline = 0;
@@ -574,6 +575,7 @@ void RESULT::clear() {
     project_suspended_via_gui = false;
     coproc_missing = false;
     scheduler_wait = false;
+    network_wait = false;
 
     active_task = false;
     active_task_state = 0;
@@ -587,8 +589,6 @@ void RESULT::clear() {
     swap_size = 0;
     working_set_size_smoothed = 0;
     estimated_cpu_time_remaining = 0;
-    supports_graphics = false;
-    graphics_mode_acked = 0;
     too_large = false;
     needs_shmem = false;
     edf_scheduled = false;

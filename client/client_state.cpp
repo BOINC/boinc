@@ -811,6 +811,8 @@ bool CLIENT_STATE::poll_slow_events() {
                     "Suspending network activity - %s",
                     suspend_reason_string(network_suspend_reason)
                 );
+                request_schedule_cpus("network suspended");
+                    // in case any "needs_network" jobs are running
             } else {
                 sprintf(buf,
                     "Suspending file transfers - %s",

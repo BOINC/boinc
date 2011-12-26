@@ -9499,3 +9499,33 @@ David  26 Dec 2011
             vboxwrapper.cpp
     api/
         boinc_api.cpp,h
+
+David  26 Dec 2011
+	- add support for APP::needs_network flag.
+		If set, don't run jobs for that app while network is suspended.
+		- client: parse this flag and maintain in state file;
+			do a job reschedule when network suspend state changes
+		- GUI RPC: add RESULT::network_wait flag;
+			if set, this job is waiting for network access to be allowed
+		- Manager: display the above in task info
+	- add support for "web graphics URL" (see above)
+		- client: parse message containing URL on graphics_reply channel
+			and store in ACTIVE_TASK::web_graphics_url
+		- GUI RPC: add RESULT::web_graphics_url
+		- Manager: if web graphics URL is present, Show Graphics opens a browser
+	- remove some vestigial code for pre-V6 graphics
+
+	client/
+		app.cpp,h
+		app_control.cpp
+		client_state.cpp
+		client_types.cpp,h
+		work_fetch.cpp
+	clientgui;
+		MainDocument.cpp
+		sg_TaskCommandPopup.cpp
+		ViewWork.cpp
+	lib/
+		gui_rpc_client.h
+		gui_rpc_client_ops.cpp
+

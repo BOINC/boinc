@@ -1187,6 +1187,16 @@ bool ACTIVE_TASK::get_app_status_msg() {
     return true;
 }
 
+void ACTIVE_TASK::get_graphics_msg() {
+    char msg_buf[MSG_CHANNEL_SIZE];
+
+    if (!app_client_shm.shm) return;
+    if (app_client_shm.shm->graphics_reply.get_msg(msg_buf)) {
+        parse_str(msg_buf, "<web_graphics_url>", web_graphics_url, sizeof(web_graphics_url));
+    }
+    strcpy(web_graphics_url, "http://google.com");
+}
+
 bool ACTIVE_TASK::get_trickle_up_msg() {
     char msg_buf[MSG_CHANNEL_SIZE];
     bool found = false;
@@ -1277,6 +1287,7 @@ void ACTIVE_TASK_SET::get_msgs() {
             }
         }
         atp->get_trickle_up_msg();
+        atp->get_graphics_msg();
     }
 }
 

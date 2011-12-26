@@ -747,10 +747,9 @@ void CViewWork::UpdateSelection() {
             }
         }
         
-        // Disable Show Graphics button if any selected task can't display graphics
-        if (((!result->supports_graphics) || pDoc->GetState()->executing_as_daemon) 
-            && !strlen(result->graphics_exec_path)
-        ) {
+        // Disable Show Graphics button if the selected task can't display graphics
+        //
+        if (!strlen(result->web_graphics_url) && !strlen(result->graphics_exec_path)) {
                 enableShowGraphics = false;
         }
 
