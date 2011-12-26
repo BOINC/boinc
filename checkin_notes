@@ -9480,3 +9480,22 @@ Rom    25 Dec 2011
     samples/vboxwrapper/
         vbox.cpp
         vboxwrapper.cpp
+
+David  26 Dec 2011
+    - API/client/manager:
+        allow applications to supply a "web graphics URL",
+        in which case the manager's "Show Graphics" button
+        opens a browser at that URL.
+        This typically would used for applications that
+        implement a web server that serves pages showing
+        job information in HTML.
+    - vboxwrapper: if <pf_guest_port> is specified in the config file,
+        set up port forwarding to that port
+        and use the above API call with URL "http://localhost:port"
+
+    samples/
+        vboxwrapper/
+            vbox.cpp
+            vboxwrapper.cpp
+    api/
+        boinc_api.cpp,h

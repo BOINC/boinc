@@ -838,33 +838,6 @@ int VBOX_VM::register_vm_firewall_rules() {
     retval = vbm_popen(command, output, "add updated port forwarding rule");
     if(retval) return retval;
 
-    fprintf(
-        stderr,
-        "%s VM communication is allowed on port '%d'.\n",
-        boinc_msg_prefix(buf, sizeof(buf)), pf_host_port
-    );
-
-
-    // Write firewall rule to disk
-    //
-    MIOFILE mf;
-    FILE* f = boinc_fopen(PORTFORWARD_FILENAME, "w");
-    mf.init_file(f);
-
-    mf.printf(
-        "<vbox_firewall>\n"
-        "  <rule>\n"
-        "    <name>vboxwrapper</name>\n"
-        "    <host_port>%d</host_port>\n"
-        "    <guest_port>%d</guest_port>\n"
-        "  </rule>\n"
-        "</vbox_firewall>\n",
-        pf_host_port,
-        pf_guest_port
-    );
-
-    fclose(f);
-
     return 0;
 }
 

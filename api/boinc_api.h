@@ -117,6 +117,7 @@ extern double boinc_get_fraction_done();
 extern void boinc_register_timer_callback(FUNC_PTR);
 extern double boinc_worker_thread_cpu_time();
 extern int boinc_init_parallel();
+extern void boinc_web_graphics_url(char*);
 
 #ifdef __APPLE__
 extern int setMacPList(void);

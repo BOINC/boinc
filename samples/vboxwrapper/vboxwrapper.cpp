@@ -337,6 +337,37 @@ int main(int argc, char** argv) {
     set_floppy_image(aid, vm);
     set_throttles(aid, vm);
 
+    // write port-forwarding info if relevant
+    //
+    if (vm.pf_guest_port && vm.pf_host_port) {
+        fprintf(
+            stderr,
+            "%s port forwarding enabled on port '%d'.\n",
+            boinc_msg_prefix(buf, sizeof(buf)), vm.pf_host_port
+        );
+
+        // Write info to disk
+        //
+        MIOFILE mf;
+        FILE* f = boinc_fopen(PORTFORWARD_FILENAME, "w");
+        mf.init_file(f);
+
+        mf.printf(
+            "<port_forwarding>\n"
+            "  <rule>\n"
+            "    <host_port>%d</host_port>\n"
+            "    <guest_port>%d</guest_port>\n"
+            "  </rule>\n"
+            "</port_forwarding>\n",
+            vm.pf_host_port,
+            vm.pf_guest_port
+        );
+
+        fclose(f);
+        sprintf(buf, "http://localhost:%d", vm.pf_host_port);
+        boinc_web_graphics_url(buf);
+    }
+
     while (1) {
         // Discover the VM's current state
         vm.poll();
