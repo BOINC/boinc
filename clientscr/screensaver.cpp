@@ -81,7 +81,6 @@ bool CScreensaver::is_same_task(RESULT* taska, RESULT* taskb) {
 int CScreensaver::count_active_graphic_apps(RESULTS& results, RESULT* exclude) {
     unsigned int i = 0;
     unsigned int graphics_app_count = 0;
-    m_bV5_GFX_app_is_running = false;
 
     // Count the number of active graphics-capable apps excluding the specified result.
     // If exclude is NULL, don't exclude any results.
@@ -91,15 +90,11 @@ int CScreensaver::count_active_graphic_apps(RESULTS& results, RESULT* exclude) {
             _T("get_random_graphics_app -- name = '%s', path = '%s'\n"),
             results.results[i]->name, results.results[i]->graphics_exec_path
         );
-        if (results.results[i]->supports_graphics) m_bV5_GFX_app_is_running = true;
-        if (!strlen(results.results[i]->graphics_exec_path) 
-            && (state.executing_as_daemon || !(results.results[i]->supports_graphics))
-        ) {
-            continue;
-        }
+
+        if (!strlen(results.results[i]->graphics_exec_path)) continue;
+        if (is_same_task(results.results[i], exclude)) continue;
         BOINCTRACE(_T("get_random_graphics_app -- active task detected w/graphics\n"));
 
-        if (is_same_task(results.results[i], exclude)) continue;
         graphics_app_count++;
     }
     return graphics_app_count;
@@ -140,11 +135,7 @@ RESULT* CScreensaver::get_random_graphics_app(RESULTS& results, RESULT* exclude)
 
     // Lets find the chosen graphics application.
     for (i = 0; i < results.results.size(); i++) {
-        if (!strlen(results.results[i]->graphics_exec_path) 
-            && (state.executing_as_daemon || !(results.results[i]->supports_graphics))
-        ){
-            continue;
-        }
+        if (!strlen(results.results[i]->graphics_exec_path)) continue;
         if (is_same_task(results.results[i], avoid)) continue;
 
         current_counter++;
