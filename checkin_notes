@@ -8932,7 +8932,7 @@ David  26 Dec 2011
         work_fetch.cpp
         app_control.cpp
 
-Rom    1 Dec 2011
+Rom    26 Dec 2011
     - Tag for 7.0.4 release, all platforms
       boinc_core_release_7_0_4
 
@@ -8947,3 +8947,11 @@ Rom    27 Dec 2011
     clientscr/
         screensaver.cpp
         screensaver_win.h
+
+Rom    27 Dec 2011
+    - Tag for 7.0.5 release, all platforms
+      boinc_core_release_7_0_5
+
+    /
+        configure.ac
+        version.h
