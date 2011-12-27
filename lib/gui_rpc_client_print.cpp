@@ -147,7 +147,6 @@ void RESULT::print() {
     printf("   swap size: %f\n", swap_size);
     printf("   working set size: %f\n", working_set_size_smoothed);
     printf("   estimated CPU time remaining: %f\n", estimated_cpu_time_remaining);
-    printf("   supports graphics: %s\n", supports_graphics?"yes":"no");
 }
 
 void FILE_TRANSFER::print() {
