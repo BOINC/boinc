@@ -8939,3 +8939,11 @@ Rom    1 Dec 2011
     /
         configure.ac
         version.h
+
+Rom    27 Dec 2011
+    - SCR: Remove last linger pieces of v5 backward graphics compatibility
+        from the screensaver.
+        
+    clientscr/
+        screensaver.cpp
+        screensaver_win.h

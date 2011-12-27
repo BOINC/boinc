@@ -196,7 +196,6 @@ protected:
     BOOL            m_bResetCoreState;
     bool            m_bQuitDataManagementProc;
     bool            m_bDataManagementProcStopped;
-    bool            m_bV5_GFX_app_is_running;
 	int				m_iLastResultShown;
 	time_t			m_tLastResultChangeTime;
     time_t          m_tThreadCreateTime;
