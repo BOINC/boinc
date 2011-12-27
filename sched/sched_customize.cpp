@@ -540,8 +540,10 @@ static inline bool app_plan_vbox(
     // it will look in the 32-bit half of the registry and fail
     //
     PLATFORM* p = g_request->platforms.list[0];
-    if (strstr(plan_class, "64") && !is_64b_platform(p->name)) {
-        return false;
+    if (is_64b_platform(p->name)) {
+        if (!strstr(plan_class, "64")) return false;
+    } else {
+        if (strstr(plan_class, "64")) return false;
     }
 
     if (strstr(plan_class, "mt")) {

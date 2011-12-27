@@ -9599,3 +9599,10 @@ Rom    26 Dec 2011
     samples/vboxwrapper/
         vbox.cpp
         vboxwrapper.cpp
+
+David  26 Dec 2011
+    - scheduler, vbox plan class function:
+        send only 32/64 bit version to 32/64 bit host
+
+    sched/
+        sched_customize.cpp
