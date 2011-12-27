@@ -959,7 +959,7 @@ bool RESULT::runnable() {
     if (state() != RESULT_FILES_DOWNLOADED) return false;
     if (coproc_missing) return false;
     if (schedule_backoff > gstate.now) return false;
-    if (avp->app->needs_network && gstate.network_suspended) return false;
+    if (avp->needs_network && gstate.network_suspended) return false;
     return true;
 }
 
