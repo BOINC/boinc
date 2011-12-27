@@ -8882,3 +8882,15 @@ Charlie 21 Dec 2011
         
     clientgui/
         sg_TaskPanel.cpp,.h
+
+David  26 Dec 2011
+    - API:
+        allow applications to supply a "web graphics URL",
+        in which case the manager's "Show Graphics" button
+        opens a browser at that URL.
+        This typically would used for applications that
+        implement a web server that serves pages showing
+        job information in HTML.
+
+    api/
+        boinc_api.cpp,h

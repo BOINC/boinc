@@ -1449,3 +1449,10 @@ double boinc_get_fraction_done() {
 double boinc_elapsed_time() {
     return running_interrupt_count*TIMER_PERIOD;
 }
+
+void boinc_web_graphics_url(char* url) {
+    char buf[256];
+    if (standalone) return;
+    sprintf(buf, "<web_graphics_url>%s</web_graphics_url>", url);
+    app_client_shm->shm->graphics_reply.send_msg(buf);
+}
