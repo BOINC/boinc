@@ -256,6 +256,7 @@ public:
     bool project_suspended_via_gui;
     bool coproc_missing;
     bool scheduler_wait;
+    bool network_wait;
 
     // the following defined if active
     bool active_task;
@@ -271,12 +272,11 @@ public:
     double working_set_size_smoothed;
     double estimated_cpu_time_remaining;
         // actually, estimated elapsed time remaining
-    bool supports_graphics;
-    int graphics_mode_acked;
     bool too_large;
     bool needs_shmem;
     bool edf_scheduled;
     char graphics_exec_path[512];
+    char web_graphics_url[256];
     char slot_path[512];
         // only present if graphics_exec_path is
     char resources[256];

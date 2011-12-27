@@ -118,9 +118,7 @@ void CSimpleTaskPopupButton::OnTasksCommandButton(wxMouseEvent& /*event*/) {
     }
 
     // Disable Show Graphics button if selected task can't display graphics
-    if (((!result->supports_graphics) || pDoc->GetState()->executing_as_daemon) 
-        && !strlen(result->graphics_exec_path)
-    ) {
+    if (!strlen(result->web_graphics_url) && !strlen(result->graphics_exec_path)) {
         enableShowGraphics = false;
     }
 

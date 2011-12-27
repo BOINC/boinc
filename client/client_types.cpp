@@ -787,6 +787,7 @@ int APP::parse(XML_PARSER& xp) {
     strcpy(user_friendly_name, "");
     project = NULL;
     non_cpu_intensive = false;
+    needs_network = false;
     while (!xp.get_tag()) {
         if (xp.match_tag("/app")) {
             if (!strlen(user_friendly_name)) {
@@ -810,6 +811,7 @@ int APP::parse(XML_PARSER& xp) {
             continue;
         }
         if (xp.parse_bool("non_cpu_intensive", non_cpu_intensive)) continue;
+        if (xp.parse_bool("needs_network", needs_network)) continue;
 #endif
         if (log_flags.unparsed_xml) {
             msg_printf(0, MSG_INFO,
@@ -827,8 +829,12 @@ int APP::write(MIOFILE& out) {
         "<app>\n"
         "    <name>%s</name>\n"
         "    <user_friendly_name>%s</user_friendly_name>\n"
+        "    <non_cpu_intensive>%d</non_cpu_intensive>\n"
+        "    <needs_network>%d</needs_network>\n"
         "</app>\n",
-        name, user_friendly_name
+        name, user_friendly_name,
+        non_cpu_intensive?1:0,
+        needs_network?1:0
     );
     return 0;
 }
@@ -1933,6 +1939,7 @@ int RESULT::write_gui(MIOFILE& out) {
     if (edf_scheduled) out.printf("    <edf_scheduled/>\n");
     if (coproc_missing) out.printf("    <coproc_missing/>\n");
     if (schedule_backoff > gstate.now) out.printf("    <scheduler_wait/>\n");
+    if (avp->app->needs_network && gstate.network_suspended) out.printf("    <network_wait/>\n");
     ACTIVE_TASK* atp = gstate.active_tasks.lookup_result(this);
     if (atp) {
         atp->write_gui(out);

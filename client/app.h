@@ -150,6 +150,7 @@ struct ACTIVE_TASK {
         // but not descendants of the main process
         // (e.g. VMs created by vboxwrapper)
         // These are communicated via the app_status message channel
+    char web_graphics_url[256];
 
     void set_task_state(int, const char*);
     inline int task_state() {
@@ -239,6 +240,7 @@ struct ACTIVE_TASK {
 
     bool get_app_status_msg();
     bool get_trickle_up_msg();
+    void get_graphics_msg();
     double est_dur();
     int read_stderr_file();
     bool finish_file_present();
