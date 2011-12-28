@@ -100,14 +100,13 @@ int DAILY_XFER_HISTORY::parse(XML_PARSER& xp) {
 }
 
 int GUI_URL::parse(XML_PARSER& xp) {
-    char buf[256];
-    MIOFILE& in = *(xp.f);
-    while (in.fgets(buf, 256)) {
-        if (match_tag(buf, "</gui_url>")) return 0;
-        if (match_tag(buf, "</gui_urls>")) break;
-        if (parse_str(buf, "<name>", name)) continue;
-        if (parse_str(buf, "<description>", description)) continue;
-        if (parse_str(buf, "<url>", url)) continue;
+    while (!xp.get_tag()) {
+        if (!xp.is_tag) continue;
+        if (xp.match_tag("/gui_url")) return 0;
+        if (xp.match_tag("/gui_urls")) break;
+        if (xp.parse_string("name", name)) continue;
+        if (xp.parse_string("description", description)) continue;
+        if (xp.parse_string("url", url)) continue;
     }
     return ERR_XML_PARSE;
 }
@@ -246,57 +245,55 @@ void PROJECT::get_name(std::string& s) {
 }
 
 int PROJECT::parse(XML_PARSER& xp) {
-    char buf[256];
     int retval;
 
-    MIOFILE& in = *(xp.f);
-    while (in.fgets(buf, 256)) {
-        if (match_tag(buf, "</project>")) return 0;
-        if (parse_str(buf, "<master_url>", master_url, sizeof(master_url))) continue;
-        if (parse_double(buf, "<resource_share>", resource_share)) continue;
-        if (parse_str(buf, "<project_name>", project_name)) continue;
-        if (parse_str(buf, "<user_name>", user_name)) {
+    while (!xp.get_tag()) {
+        if (xp.match_tag("/project")) return 0;
+        if (xp.parse_str("master_url", master_url, sizeof(master_url))) continue;
+        if (xp.parse_double("resource_share", resource_share)) continue;
+        if (xp.parse_string("project_name", project_name)) continue;
+        if (xp.parse_string("user_name", user_name)) {
             xml_unescape(user_name);
             continue;
         }
-        if (parse_str(buf, "<team_name>", team_name)) {
+        if (xp.parse_string("team_name", team_name)) {
             xml_unescape(team_name);
             continue;
         }
-        if (parse_int(buf, "<hostid>", hostid)) continue;
-        if (parse_double(buf, "<user_total_credit>", user_total_credit)) continue;
-        if (parse_double(buf, "<user_expavg_credit>", user_expavg_credit)) continue;
-        if (parse_double(buf, "<host_total_credit>", host_total_credit)) continue;
-        if (parse_double(buf, "<host_expavg_credit>", host_expavg_credit)) continue;
-        if (parse_double(buf, "<disk_usage>", disk_usage)) continue;
-        if (parse_int(buf, "<nrpc_failures>", nrpc_failures)) continue;
-        if (parse_int(buf, "<master_fetch_failures>", master_fetch_failures)) continue;
-        if (parse_double(buf, "<min_rpc_time>", min_rpc_time)) continue;
-        if (parse_double(buf, "<download_backoff>", download_backoff)) continue;
-        if (parse_double(buf, "<upload_backoff>", upload_backoff)) continue;
-        if (parse_double(buf, "<sched_priority>", sched_priority)) continue;
-        if (parse_double(buf, "<cpu_backoff_time>", cpu_backoff_time)) continue;
-        if (parse_double(buf, "<cpu_backoff_interval>", cpu_backoff_interval)) continue;
-        if (parse_double(buf, "<cuda_backoff_time>", cuda_backoff_time)) continue;
-        if (parse_double(buf, "<cuda_backoff_interval>", cuda_backoff_interval)) continue;
-        if (parse_double(buf, "<ati_backoff_time>", ati_backoff_time)) continue;
-        if (parse_double(buf, "<ati_backoff_interval>", ati_backoff_interval)) continue;
-        if (parse_double(buf, "<duration_correction_factor>", duration_correction_factor)) continue;
-        if (parse_bool(buf, "anonymous_platform", anonymous_platform)) continue;
-        if (parse_bool(buf, "master_url_fetch_pending", master_url_fetch_pending)) continue;
-        if (parse_int(buf, "<sched_rpc_pending>", sched_rpc_pending)) continue;
-        if (parse_bool(buf, "non_cpu_intensive", non_cpu_intensive)) continue;
-        if (parse_bool(buf, "suspended_via_gui", suspended_via_gui)) continue;
-        if (parse_bool(buf, "dont_request_more_work", dont_request_more_work)) continue;
-        if (parse_bool(buf, "ended", ended)) continue;
-        if (parse_bool(buf, "scheduler_rpc_in_progress", scheduler_rpc_in_progress)) continue;
-        if (parse_bool(buf, "attached_via_acct_mgr", attached_via_acct_mgr)) continue;
-        if (parse_bool(buf, "detach_when_done", detach_when_done)) continue;
-        if (parse_bool(buf, "trickle_up_pending", trickle_up_pending)) continue;
-        if (match_tag(buf, "<gui_urls>")) {
-            while (in.fgets(buf, 256)) {
-                if (match_tag(buf, "</gui_urls>")) break;
-                if (match_tag(buf, "<gui_url>")) {
+        if (xp.parse_int("hostid", hostid)) continue;
+        if (xp.parse_double("user_total_credit", user_total_credit)) continue;
+        if (xp.parse_double("user_expavg_credit", user_expavg_credit)) continue;
+        if (xp.parse_double("host_total_credit", host_total_credit)) continue;
+        if (xp.parse_double("host_expavg_credit", host_expavg_credit)) continue;
+        if (xp.parse_double("disk_usage", disk_usage)) continue;
+        if (xp.parse_int("nrpc_failures", nrpc_failures)) continue;
+        if (xp.parse_int("master_fetch_failures", master_fetch_failures)) continue;
+        if (xp.parse_double("min_rpc_time", min_rpc_time)) continue;
+        if (xp.parse_double("download_backoff", download_backoff)) continue;
+        if (xp.parse_double("upload_backoff", upload_backoff)) continue;
+        if (xp.parse_double("sched_priority", sched_priority)) continue;
+        if (xp.parse_double("cpu_backoff_time", cpu_backoff_time)) continue;
+        if (xp.parse_double("cpu_backoff_interval", cpu_backoff_interval)) continue;
+        if (xp.parse_double("cuda_backoff_time", cuda_backoff_time)) continue;
+        if (xp.parse_double("cuda_backoff_interval", cuda_backoff_interval)) continue;
+        if (xp.parse_double("ati_backoff_time", ati_backoff_time)) continue;
+        if (xp.parse_double("ati_backoff_interval", ati_backoff_interval)) continue;
+        if (xp.parse_double("duration_correction_factor", duration_correction_factor)) continue;
+        if (xp.parse_bool("anonymous_platform", anonymous_platform)) continue;
+        if (xp.parse_bool("master_url_fetch_pending", master_url_fetch_pending)) continue;
+        if (xp.parse_int("sched_rpc_pending", sched_rpc_pending)) continue;
+        if (xp.parse_bool("non_cpu_intensive", non_cpu_intensive)) continue;
+        if (xp.parse_bool("suspended_via_gui", suspended_via_gui)) continue;
+        if (xp.parse_bool("dont_request_more_work", dont_request_more_work)) continue;
+        if (xp.parse_bool("ended", ended)) continue;
+        if (xp.parse_bool("scheduler_rpc_in_progress", scheduler_rpc_in_progress)) continue;
+        if (xp.parse_bool("attached_via_acct_mgr", attached_via_acct_mgr)) continue;
+        if (xp.parse_bool("detach_when_done", detach_when_done)) continue;
+        if (xp.parse_bool("trickle_up_pending", trickle_up_pending)) continue;
+        if (xp.match_tag("gui_urls")) {
+            while (!xp.get_tag()) {
+                if (xp.match_tag("/gui_urls")) break;
+                if (xp.match_tag("gui_url")) {
                     GUI_URL gu;
                     retval = gu.parse(xp);
                     if (retval) break;
@@ -306,12 +303,12 @@ int PROJECT::parse(XML_PARSER& xp) {
             }
             continue;
         }
-        if (parse_double(buf, "<project_files_downloaded_time>", project_files_downloaded_time)) continue;
-        if (parse_double(buf, "<last_rpc_time>", last_rpc_time)) continue;
-        if (parse_bool(buf, "no_cpu_pref", no_cpu_pref)) continue;
-        if (parse_bool(buf, "no_cuda_pref", no_cuda_pref)) continue;
-        if (parse_bool(buf, "no_ati_pref", no_ati_pref)) continue;
-        if (parse_str(buf, "venue", venue, sizeof(venue))) continue;
+        if (xp.parse_double("project_files_downloaded_time", project_files_downloaded_time)) continue;
+        if (xp.parse_double("last_rpc_time", last_rpc_time)) continue;
+        if (xp.parse_bool("no_cpu_pref", no_cpu_pref)) continue;
+        if (xp.parse_bool("no_cuda_pref", no_cuda_pref)) continue;
+        if (xp.parse_bool("no_ati_pref", no_ati_pref)) continue;
+        if (xp.parse_str("venue", venue, sizeof(venue))) continue;
     }
     return ERR_XML_PARSE;
 }
@@ -369,12 +366,10 @@ APP::~APP() {
 }
 
 int APP::parse(XML_PARSER& xp) {
-    char buf[256];
-    MIOFILE& in = *(xp.f);
-    while (in.fgets(buf, 256)) {
-        if (match_tag(buf, "</app>")) return 0;
-        if (parse_str(buf, "<name>", name, sizeof(name))) continue;
-        if (parse_str(buf, "<user_friendly_name>", user_friendly_name, sizeof(user_friendly_name))) continue;
+    while (!xp.get_tag()) {
+        if (xp.match_tag("/app")) return 0;
+        if (xp.parse_str("name", name, sizeof(name))) continue;
+        if (xp.parse_str("user_friendly_name", user_friendly_name, sizeof(user_friendly_name))) continue;
     }
     return ERR_XML_PARSE;
 }
@@ -393,12 +388,12 @@ APP_VERSION::~APP_VERSION() {
     clear();
 }
 
-int APP_VERSION::parse_coproc(MIOFILE& in) {
-    char buf[256], type_buf[256];
+int APP_VERSION::parse_coproc(XML_PARSER& xp) {
+    char type_buf[256];
     double count = 0;
 
-    while (in.fgets(buf, 256)) {
-        if (match_tag(buf, "</coproc>")) {
+    while (!xp.get_tag()) {
+        if (xp.match_tag("/coproc")) {
             if (!strcmp(type_buf, "CUDA")) {
                 ncudas = count;
             } else if (!strcmp(type_buf, GPU_TYPE_ATI)) {
@@ -406,26 +401,24 @@ int APP_VERSION::parse_coproc(MIOFILE& in) {
             }
             return 0;
         }
-        if (parse_str(buf, "<type>", type_buf, sizeof(type_buf))) continue;
-        if (parse_double(buf, "<count>", count)) continue;
+        if (xp.parse_str("type", type_buf, sizeof(type_buf))) continue;
+        if (xp.parse_double("count", count)) continue;
     }
     return ERR_XML_PARSE;
 }
 
 int APP_VERSION::parse(XML_PARSER& xp) {
-    char buf[256];
-    MIOFILE& in = *(xp.f);
-    while (in.fgets(buf, 256)) {
-        if (match_tag(buf, "</app_version>")) return 0;
-        if (parse_str(buf, "<app_name>", app_name, sizeof(app_name))) continue;
-        if (parse_int(buf, "<version_num>", version_num)) continue;
-        if (parse_str(buf, "<plan_class>", plan_class, sizeof(plan_class))) continue;
-        if (parse_str(buf, "<platform>", platform, sizeof(platform))) continue;
-        if (parse_double(buf, "<avg_ncpus>", avg_ncpus)) continue;
-        if (parse_double(buf, "<gpu_ram>", gpu_ram)) continue;
-        if (parse_double(buf, "<flops>", flops)) continue;
-        if (match_tag(buf, "<coproc>")) {
-            parse_coproc(in);
+    while (!xp.get_tag()) {
+        if (xp.match_tag("/app_version")) return 0;
+        if (xp.parse_str("app_name", app_name, sizeof(app_name))) continue;
+        if (xp.parse_int("version_num", version_num)) continue;
+        if (xp.parse_str("plan_class", plan_class, sizeof(plan_class))) continue;
+        if (xp.parse_str("platform", platform, sizeof(platform))) continue;
+        if (xp.parse_double("avg_ncpus", avg_ncpus)) continue;
+        if (xp.parse_double("gpu_ram", gpu_ram)) continue;
+        if (xp.parse_double("flops", flops)) continue;
+        if (xp.match_tag("coproc")) {
+            parse_coproc(xp);
             continue;
         }
     }
@@ -445,17 +438,15 @@ WORKUNIT::~WORKUNIT() {
 }
 
 int WORKUNIT::parse(XML_PARSER& xp) {
-    char buf[256];
-    MIOFILE& in = *(xp.f);
-    while (in.fgets(buf, 256)) {
-        if (match_tag(buf, "</workunit>")) return 0;
-        if (parse_str(buf, "<name>", name, sizeof(name))) continue;
-        if (parse_str(buf, "<app_name>", app_name, sizeof(app_name))) continue;
-        if (parse_int(buf, "<version_num>", version_num)) continue;
-        if (parse_double(buf, "<rsc_fpops_est>", rsc_fpops_est)) continue;
-        if (parse_double(buf, "<rsc_fpops_bound>", rsc_fpops_bound)) continue;
-        if (parse_double(buf, "<rsc_memory_bound>", rsc_memory_bound)) continue;
-        if (parse_double(buf, "<rsc_disk_bound>", rsc_disk_bound)) continue;
+    while (!xp.get_tag()) {
+        if (xp.match_tag("/workunit")) return 0;
+        if (xp.parse_str("name", name, sizeof(name))) continue;
+        if (xp.parse_str("app_name", app_name, sizeof(app_name))) continue;
+        if (xp.parse_int("version_num", version_num)) continue;
+        if (xp.parse_double("rsc_fpops_est", rsc_fpops_est)) continue;
+        if (xp.parse_double("rsc_fpops_bound", rsc_fpops_bound)) continue;
+        if (xp.parse_double("rsc_memory_bound", rsc_memory_bound)) continue;
+        if (xp.parse_double("rsc_disk_bound", rsc_disk_bound)) continue;
     }
     return ERR_XML_PARSE;
 }

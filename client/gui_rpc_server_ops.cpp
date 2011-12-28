@@ -155,19 +155,19 @@ static void handle_get_disk_usage(GUI_RPC_CONN& grc) {
     }
 #endif
     boinc_total = boinc_non_project;
+    gstate.get_disk_usages();
     for (i=0; i<gstate.projects.size(); i++) {
         PROJECT* p = gstate.projects[i];
-        gstate.project_disk_usage(p, size);
         grc.mfout.printf(
             "<project>\n"
             "  <master_url>%s</master_url>\n"
             "  <disk_usage>%f</disk_usage>\n"
             "</project>\n",
-            p->master_url, size
+            p->master_url, p->disk_usage
         );
-        boinc_total += size;
+        boinc_total += p->disk_usage;
     }
-    d_allowed = gstate.allowed_disk_usage(boinc_total);
+    d_allowed = gstate.allowed_disk_usage(gstate.total_disk_usage);
     grc.mfout.printf(
         "<d_total>%f</d_total>\n"
         "<d_free>%f</d_free>\n"

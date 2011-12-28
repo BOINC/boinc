@@ -375,9 +375,11 @@ struct CLIENT_STATE {
     bool is_supported_platform(const char*);
 
 // --------------- cs_prefs.cpp:
-    int project_disk_usage(PROJECT*, double&);
-    int total_disk_usage(double&);
-        // returns the total disk usage of BOINC on this host
+    double client_disk_usage;
+        // disk usage not counting projects
+        // computed by get_disk_usages()
+    double total_disk_usage;
+    int get_disk_usages();
     double allowed_disk_usage(double boinc_total);
     int allowed_project_disk_usage(double&);
     int suspend_tasks(int reason);

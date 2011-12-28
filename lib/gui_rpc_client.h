@@ -209,7 +209,7 @@ public:
     ~APP_VERSION();
 
     int parse(XML_PARSER&);
-    int parse_coproc(MIOFILE&);
+    int parse_coproc(XML_PARSER&);
     void print();
     void clear();
 };

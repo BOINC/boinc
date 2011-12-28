@@ -9628,3 +9628,17 @@ Rom    28 Dec 2011
         
     client/
         hostinfo_unix.cpp
+
+David  28 Dec 2011
+    - client: shuffle disk usage code in preparation for disk accounting
+    - use new XML parser in some GUI RPC code
+
+    lib/
+        gui_rpc_client_ops.cpp
+        gui_rpc_client.h
+    client/
+        client_types.h
+        client_state.h
+        gui_rpc_server_ops.cpp
+        cs_prefs.cpp
+        cs_scheduler.cpp
