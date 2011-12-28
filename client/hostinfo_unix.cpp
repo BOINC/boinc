@@ -386,7 +386,7 @@ static void parse_meminfo_linux(HOST_INFO& host) {
 // See http://people.nl.linux.org/~hch/cpuinfo/ for some examples.
 //
 static void parse_cpuinfo_linux(HOST_INFO& host) {
-    char buf[256], features[1024], model_buf[1024];
+    char buf[1024], features[1024], model_buf[1024];
     bool vendor_found=false, model_found=false;
     bool cache_found=false, features_found=false;
     bool model_hack=false, vendor_hack=false;
@@ -420,7 +420,7 @@ static void parse_cpuinfo_linux(HOST_INFO& host) {
 
     host.m_cache=-1;
     strcpy(features, "");
-    while (fgets(buf, 256, f)) {
+    while (fgets(buf, 1024, f)) {
         strip_whitespace(buf);
          if (
                 /* there might be conflicts if we dont #ifdef */
