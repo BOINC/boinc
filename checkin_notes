@@ -8956,8 +8956,16 @@ Rom    27 Dec 2011
         configure.ac
         version.h
 
-David  28 Jan 2011
+David  28 Dec 2011
 	- client: detect Windows HyperV Server 2008 R2 (from Crashtest)
 
 	client/
 		hostinfo_win.cpp
+
+Rom    28 Dec 2011
+    - client: increase the buffer sizes for retrieving cpu features on *nix
+        type systems.  the latest generation of processors blow past 256 bytes
+        and vmx and svm are truncated.
+        
+    client/
+        hostinfo_unix.cpp
