@@ -9642,3 +9642,10 @@ David  28 Dec 2011
         gui_rpc_server_ops.cpp
         cs_prefs.cpp
         cs_scheduler.cpp
+
+Rom    28 Dec 2011
+    - WINSETUP: Introduce new BOINC setup packages which include VirtualBox.
+    
+    win_build/installerv2/
+        BOINC_vbox.ism
+        BOINCx64_vbox.ism
