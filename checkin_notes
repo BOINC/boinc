@@ -8955,3 +8955,9 @@ Rom    27 Dec 2011
     /
         configure.ac
         version.h
+
+David  28 Jan 2011
+	- client: detect Windows HyperV Server 2008 R2 (from Crashtest)
+
+	client/
+		hostinfo_win.cpp
