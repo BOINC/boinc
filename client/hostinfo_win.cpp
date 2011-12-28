@@ -606,7 +606,7 @@ int get_os_information(
                                strcat( szSKU, "Web Server ");
                                break;
                             case PRODUCT_WEB_SERVER_CORE:
-                               strcat( szSKU, "Web Server (core installtion) ");
+                               strcat( szSKU, "Web Server (core installation) ");
                                break;
                             case PRODUCT_HOME_SERVER:
                                strcat( szSKU, "Home Server ");
@@ -629,6 +629,9 @@ int get_os_information(
                             case PRODUCT_SERVER_FOR_SMALLBUSINESS:
                                strcat( szSKU, "Server For Small Business ");
                                break;
+                            case PRODUCT_HYPERV:
+								strcat( szSKU, "Hyper-V ");
+								break;
                         }
 
                     } else if( (osvi.dwMajorVersion == 5 && osvi.dwMinorVersion == 2) ) {

@@ -9614,3 +9614,9 @@ Rom    27 Dec 2011
     clientscr/
         screensaver.cpp
         screensaver_win.h
+
+David  28 Jan 2011
+	- client: detect Windows HyperV Server 2008 R2 (from Crashtest)
+
+	client/
+		hostinfo_win.cpp
