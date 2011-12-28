@@ -428,7 +428,7 @@ int main(int argc, char** argv) {
                         stderr,
                         "%s NOTE: VirtualBox has reported an improperly configured virtual machine. It was configured to require\n"
                         "%s   hardware acceleration for virtual machines, but your processor does not support the required feature.\n"
-                        "%s   Please report this issue to the project so that it can be addresssed.",
+                        "%s   Please report this issue to the project so that it can be addresssed.\n",
                         boinc_msg_prefix(buf, sizeof(buf)),
                         boinc_msg_prefix(buf, sizeof(buf)),
                         boinc_msg_prefix(buf, sizeof(buf))
