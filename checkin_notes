@@ -8976,3 +8976,11 @@ Rom    28 Dec 2011
     win_build/installerv2/
         BOINC_vbox.ism
         BOINCx64_vbox.ism
+
+Rom    28 Dec 2011
+    - Tag for 7.0.6 release, all platforms
+      boinc_core_release_7_0_6
+
+    /
+        configure.ac
+        version.h
