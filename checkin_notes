@@ -8969,3 +8969,10 @@ Rom    28 Dec 2011
         
     client/
         hostinfo_unix.cpp
+
+Rom    28 Dec 2011
+    - WINSETUP: Introduce new BOINC setup packages which include VirtualBox.
+    
+    win_build/installerv2/
+        BOINC_vbox.ism
+        BOINCx64_vbox.ism
