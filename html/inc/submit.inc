@@ -16,17 +16,30 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-// Remote job submission API.
+// BOINC's remote job submission system allows users to:
+// 1) manage a set of files on the server,
+//    with physical names that are isolated from other users
+// 2) submit batches of jobs
+//
+// These features can be provided by a "portal" web site
+// that is distinct from the BOINC server.
+//
+// This file contains library functions that can be used by portals.
+// It communicates (using HTTP/XML) with the BOINC server.
+//
 // Functions:
-//      boinc_estimate_batch(); esimate completion time of a batch of jobs
-//      boinc_submit_batch(): submit a batch
-//      boinc_query_batches(): get list of batches
-//      boinc_query_batch(): get detaills of a batch
-//      boinc_query_job(): get details of a job
 //      boinc_abort_batch(): abort a batch
+//      boinc_estimate_batch(); estimate completion time of a batch
+//      boinc_file_delete(): delete a file on server
+//      boinc_file_get_list(): get list of this user's files on server
+//      boinc_file_upload(): upload a file to the server
 //      boinc_get_output_file(): get the URL for an output file
 //      boinc_get_output_files(): get the URL for zipped batch output
+//      boinc_query_batch(): get detaills of a batch
+//      boinc_query_batches(): get list of batches
+//      boinc_query_job(): get details of a job
 //      boinc_retire_batch(): retire a batch; delete output files
+//      boinc_submit_batch(): submit a batch
 
 //// Implementation stuff follows
 
@@ -239,6 +252,27 @@ function boinc_retire_batch($req) {
     return null;
 }
 
+function boinc_file_delete($req) {
+    $req_xml = "<file_delete>
+    <authenticator>$req->authenticator</authenticator>
+    <file_name>$req->file_name</file_name>
+</file_delete>
+";
+    list($reply, $errmsg) = do_http_op($req->project, $req_xml);
+    if ($errmsg) return $errmsg;
+    $name = $reply->getName();
+    if ($name == 'error') {
+        return (string)($reply->message);
+    }
+    return null;
+}
+
+function boinc_file_get_list() {
+}
+
+function boinc_file_upload() {
+}
+
 //// example usage follows
 
 $req->project = "http://isaac.ssl.berkeley.edu/test/";
@@ -291,6 +325,5 @@ if (0) {
         print_r($jobs);
     }
 }
-
 
 ?>

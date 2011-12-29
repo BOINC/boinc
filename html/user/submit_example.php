@@ -19,12 +19,14 @@
 
 // example of a web interface to remote job submission
 //
-// Notes:
-// - You'll need to adapt/extend this considerably,
-//   especially if you want to run this
-//   on a server other than the BOINC project serve.
-// - For convenience, this uses some functions from BOINC
-//   (page_head() etc.).
+// Although the architecture is intended to support remote portals,
+// this example must run on the BOINC project server.
+// In particular:
+// - It assumes cookie-based authentication,
+//   as is done by the BOINC code.
+//   You'll need to adapt/extend this considerably to run this
+//   on a server other than the BOINC project server.
+// - It uses some functions from BOINC (page_head() etc.).
 //   When you adapt this to your own purposes,
 //   you can strip out this stuff if the web site doesn't use BOINC
 
@@ -60,13 +62,18 @@ function handle_main() {
     echo "
         This is an example of a web interface
         for remote submission of BOINC jobs.
-        It lets you submit batches of jobs,
-        and see the status of in-progress and completed batches.
+        It lets you
+        <ul>
+        <li> Upload files
+        <li> submit batches of jobs,
+        <li> see the status of in-progress and completed batches.
+        </ul>
         <p>
         To use this, you must be logged in as a user
         with permission to submit jobs.
         <p>
     ";
+    show_button("submit_example.php?action=manage_files", "Manage files");
     show_button("submit_example.php?action=create_form", "Create new batch");
 
     $first = true;
@@ -446,36 +453,23 @@ function handle_retire_batch() {
     page_tail();
 }
 
+function manage_files() {
+    $files = submit_get_file_list();
+}
+
 $action = get_str('action', true);
 
 switch ($action) {
-case '':
-    handle_main();
-    break;
-case 'create_form':
-    handle_create_form();
-    break;
-case 'create_action':
-    handle_create_action();
-    break;
-case 'query_batch':
-    handle_query_batch();
-    break;
-case 'query_job':
-    handle_query_job();
-    break;
-case 'abort_batch_confirm':
-    handle_abort_batch_confirm();
-    break;
-case 'abort_batch':
-    handle_abort_batch();
-    break;
-case 'retire_batch_confirm':
-    handle_retire_batch_confirm();
-    break;
-case 'retire_batch':
-    handle_retire_batch();
-    break;
+case '': handle_main(); break;
+case 'abort_batch': handle_abort_batch(); break;
+case 'abort_batch_confirm': handle_abort_batch_confirm(); break;
+case 'create_action': handle_create_action(); break;
+case 'create_form': handle_create_form(); break;
+case 'manage_files': manage_files(); break;
+case 'query_batch': handle_query_batch(); break;
+case 'query_job': handle_query_job(); break;
+case 'retire_batch': handle_retire_batch(); break;
+case 'retire_batch_confirm': handle_retire_batch_confirm(); break;
 default:
     error_page('no such action');
 }

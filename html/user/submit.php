@@ -349,6 +349,50 @@ function handle_retire_batch($r) {
     echo "<success>1</success>";
 }
 
+function file_delete() {
+    list($user, $user_submit) = authenticate_user($r, null);
+    $file_name = (string)($r->file_name);
+    $dir = user_dir($user);
+    unlink("$dir/$file_name");
+    unlink("$dir/$file_name".".md5");
+}
+
+function file_list() {
+    list($user, $user_submit) = authenticate_user($r, null);
+    $dir = user_dir($user);
+    $d = opendir($dir);
+    echo "<files>\n";
+    if (!$d) {
+        while(($f = readdir($d)) !== false) {
+            if ($f == '.') continue;
+            if ($f == '..') continue;
+            if (strstr($f, ".md5")) continue;
+            $s = stat("$dir/$f");
+            echo "   <file>
+    <name>$f</name>
+    <size>$s->size</size>
+    <created>$s->ctime></created>
+</file>
+";
+        }
+        closedir($d);
+    }
+    echo "</files>\n";
+}
+
+function file_upload($r) {
+    list($user, $user_submit) = authenticate_user($r, null);
+    foreach ($r->files as $f) {
+        if (is_uploaded_file($_FILES[$f->name]['tmp_name'])) {
+            $x = $_FILES[$f->name]['tmp_name'];
+            $dir = user_dir($user);
+            $path = "$dir/$f->name";
+            rename($x, $path);
+            file_put_contents("$path.md5", md5($path));
+        }
+    }
+}
+
 if (0) {
 $r = simplexml_load_string("
 <query_batch>
@@ -400,13 +444,16 @@ if (!$r) {
 }
 
 switch ($r->getName()) {
-    case 'estimate_batch': estimate_batch($r); break;
-    case 'submit_batch': submit_batch($r); break;
-    case 'query_batches': query_batches($r); break;
-    case 'query_batch': query_batch($r); break;
-    case 'query_job': query_job($r); break;
     case 'abort_batch': handle_abort_batch($r); break;
+    case 'estimate_batch': estimate_batch($r); break;
+    case 'file_delete': file_delete($r); break;
+    case 'file_list': file_list($r); break;
+    case 'file_upload': file_upload($r); break;
+    case 'query_batch': query_batch($r); break;
+    case 'query_batches': query_batches($r); break;
+    case 'query_job': query_job($r); break;
     case 'retire_batch': handle_retire_batch($r); break;
+    case 'submit_batch': submit_batch($r); break;
     default: error("bad command");
 }
 

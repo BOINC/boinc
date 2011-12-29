@@ -9649,3 +9649,17 @@ Rom    28 Dec 2011
     win_build/installerv2/
         BOINC_vbox.ism
         BOINCx64_vbox.ism
+
+David  29 Dec 2011
+    - scheduler: record Vbox version correctly in host records
+    - remote job submission: partial checkin for new file sandbox stuff
+
+    sched/
+        handle_request.cpp
+    html/
+        inc/
+            submit.inc
+            submit_util.inc
+        user/
+            submit_example.php
+            submit.php
