@@ -795,6 +795,7 @@ int APP::parse(XML_PARSER& xp) {
         }
         if (xp.parse_str("name", name, sizeof(name))) continue;
         if (xp.parse_str("user_friendly_name", user_friendly_name, sizeof(user_friendly_name))) continue;
+        if (xp.parse_bool("non_cpu_intensive", non_cpu_intensive)) continue;
 #ifdef SIM
         if (xp.parse_double("latency_bound", latency_bound)) continue;
         if (xp.parse_double("fpops_est", fpops_est)) continue;
@@ -808,7 +809,6 @@ int APP::parse(XML_PARSER& xp) {
             checkpoint_period.parse(xp, "/checkpoint_period");
             continue;
         }
-        if (xp.parse_bool("non_cpu_intensive", non_cpu_intensive)) continue;
 #endif
         if (log_flags.unparsed_xml) {
             msg_printf(0, MSG_INFO,
