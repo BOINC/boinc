@@ -8984,3 +8984,12 @@ Rom    28 Dec 2011
     /
         configure.ac
         version.h
+
+David  30 Dec 2011
+	- client: parse APP:non_cpu_intensive correctly.
+		This got broken somehow.
+	- client: don't crash if missing RSS feed file for some reason
+
+	client/
+		client_types.cpp
+		cs_notice.cpp
