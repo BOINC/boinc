@@ -337,6 +337,7 @@ struct HOST {
     // the following not in DB
     char p_features[1024];
     char virtualbox_version[256];
+    bool p_vm_extensions_disabled;
 
     int parse(XML_PARSER&);
     int parse_time_stats(XML_PARSER&);

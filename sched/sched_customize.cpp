@@ -534,6 +534,9 @@ static inline bool app_plan_vbox(
     ) {
         return false;
     }
+    if (strstr(plan_class, "mt") && sreq.host.p_vm_extensions_disabled) {
+        return false;
+    }
 
     // only send the version for host's primary platform.
     // A Win64 host can't run a 32-bit VM app:

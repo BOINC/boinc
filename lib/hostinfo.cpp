@@ -57,6 +57,7 @@ void HOST_INFO::clear_host_info() {
     p_iops = 0;
     p_membw = 0;
     p_calculated = 0;
+    p_vm_extensions_disabled = false;
 
     m_nbytes = 0;
     m_cache = 0;
@@ -103,6 +104,7 @@ int HOST_INFO::parse(XML_PARSER& xp, bool benchmarks_only) {
         else if (parse_str(buf, "<p_vendor>", p_vendor, sizeof(p_vendor))) continue;
         else if (parse_str(buf, "<p_model>", p_model, sizeof(p_model))) continue;
         else if (parse_str(buf, "<p_features>", p_features, sizeof(p_features))) continue;
+        else if (parse_bool(buf, "p_vm_extensions_disabled", p_vm_extensions_disabled)) continue;
         else if (parse_double(buf, "<m_nbytes>", m_nbytes)) continue;
         else if (parse_double(buf, "<m_cache>", m_cache)) continue;
         else if (parse_double(buf, "<m_swap>", m_swap)) continue;
@@ -159,6 +161,7 @@ int HOST_INFO::write(
         "    <p_iops>%f</p_iops>\n"
         "    <p_membw>%f</p_membw>\n"
         "    <p_calculated>%f</p_calculated>\n"
+        "    <p_vm_extensions_disabled>%d</p_vm_extensions_disabled>\n"
         "    <m_nbytes>%f</m_nbytes>\n"
         "    <m_cache>%f</m_cache>\n"
         "    <m_swap>%f</m_swap>\n"
@@ -175,6 +178,7 @@ int HOST_INFO::write(
         p_iops,
         p_membw,
         p_calculated,
+        p_vm_extensions_disabled?1:0,
         m_nbytes,
         m_cache,
         m_swap,

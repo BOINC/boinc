@@ -49,6 +49,7 @@ public:
     double p_iops;
     double p_membw;
     double p_calculated;          // when benchmarks were last run, or zero
+    bool p_vm_extensions_disabled;
 
     double m_nbytes;              // Total amount of memory in bytes
     double m_cache;

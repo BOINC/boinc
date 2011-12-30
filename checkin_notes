@@ -9681,3 +9681,25 @@ David  30 Dec 2011
 	client/
 		client_types.cpp
 		cs_notice.cpp
+
+David  30 Dec 2011
+    - client: for VBox apps, check stderr for "ERR_CPU_VM_EXTENSIONS_DISABLED".
+        If found, set HOST_INFO::p_vm_extensions_disabled,
+        and pass this to the scheduler.
+    - scheduler (VBox app plan function) if a host has p_vm_extensions_disabled
+        set, don't sent it multicore VBox jobs.
+
+    Note: if you have a host with VM extensions, and they're disabled
+        in the BIOS, and you enable them, you can remove the
+        <p_vm_extensions_disabled> line from client_state.xml
+        and you'll be eligible to get multicore VM jobs again.
+
+    client/
+        app_control.cpp
+    lib/
+        hostinfo.cpp,h
+    sched/
+        sched_types.cpp
+        sched_customize.cpp
+    db/
+        boinc_db.h

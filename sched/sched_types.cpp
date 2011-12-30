@@ -1162,6 +1162,7 @@ int HOST::parse(XML_PARSER& xp) {
         if (xp.parse_double("n_bwdown", n_bwdown)) continue;
         if (xp.parse_str("p_features", p_features, sizeof(p_features))) continue;
         if (xp.parse_str("virtualbox_version", virtualbox_version, sizeof(virtualbox_version))) continue;
+        if (xp.parse_bool("p_vm_extensions_disabled", p_vm_extensions_disabled)) continue;
 
         // parse deprecated fields to avoid error messages
         //
