@@ -9703,3 +9703,10 @@ David  30 Dec 2011
         sched_customize.cpp
     db/
         boinc_db.h
+
+Rom    30 Dec 2011
+    - client: processor features buffer is supposed to be 1024 bytes. avoid
+        truncation.
+        
+    lib/
+        hostinfo.cpp
