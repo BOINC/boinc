@@ -9663,3 +9663,12 @@ David  29 Dec 2011
         user/
             submit_example.php
             submit.php
+
+Rom    29 Dec 2011
+    - VBOX: Add ERR_CPU_VM_EXTENSIONS_DISABLED string to the error case where
+        the VM extensions for the CPU have been disabled via the BIOS.  This
+        allows the core-client to parse the response and disable future
+        request for multi-core VM jobs.
+        
+    samples/vboxwrapper/
+        vboxwrapper.cpp

@@ -404,7 +404,9 @@ int main(int argc, char** argv) {
                         "%s   feature in your BIOS.\n"
                         "%s   Intel Processors call it 'VT-x'\n"
                         "%s   AMD Processors call it 'AMD-V'\n"
-                        "%s   More information can be found here: http://en.wikipedia.org/wiki/X86_virtualization\n",
+                        "%s   More information can be found here: http://en.wikipedia.org/wiki/X86_virtualization\n"
+                        "%s   Error Code: ERR_CPU_VM_EXTENSIONS_DISABLED\n",
+                        boinc_msg_prefix(buf, sizeof(buf)),
                         boinc_msg_prefix(buf, sizeof(buf)),
                         boinc_msg_prefix(buf, sizeof(buf)),
                         boinc_msg_prefix(buf, sizeof(buf)),
