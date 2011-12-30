@@ -790,6 +790,19 @@ int ACTIVE_TASK::read_stderr_file() {
     if (read_file_malloc(path, buf1, max_len, !config.stderr_head)) {
         return ERR_MALLOC;
     }
+
+    // if it's a vbox app, check for string in stderr saying
+    // the job failed because CPU VM extensions disabled
+    //
+    if (strstr(app_version->plan_class, "vbox")) {
+        if (strstr(buf1, "ERR_CPU_VM_EXTENSIONS_DISABLED")) {
+            msg_printf(0, MSG_INFO,
+                "Vbox app stderr indicates CPU VM extensions disabled"
+            );
+            gstate.host_info.p_vm_extensions_disabled = true;
+        }
+    }
+
     buf2 = (char*)malloc(2*max_len);
     if (!buf2) {
         free(buf1);
