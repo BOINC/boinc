@@ -9705,7 +9705,7 @@ David  30 Dec 2011
         boinc_db.h
 
 Rom    30 Dec 2011
-    - client: processor features buffer is supposed to be 1024 bytes. avoid
+    - client: the processor features buffer is supposed to be 1024 bytes. avoid
         truncation.
         
     lib/
