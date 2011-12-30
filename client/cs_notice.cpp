@@ -750,6 +750,7 @@ void RSS_FEED_OP::handle_reply(int http_op_retval) {
         msg_printf(0, MSG_INTERNAL_ERROR,
             "RSS feed file '%s' not found", filename
         );
+        return;
     }
     MIOFILE fin;
     fin.init_file(f);

@@ -325,6 +325,7 @@ language("Slovak", array(
     site("http://www.boinc.sk/", "www.boinc.sk")
 ));
 language("Spanish", array(
+    site("http://www.titanesdc.com/", "Foros TitanesDC"),
     site("http://www.seti.cl/", "BOINC SETI Chile"),
     site("http://www.easyboinc.org/", "Computación Distribuida"),
     site("http://foro.noticias3d.com/vbulletin/showthread.php?t=192297", "Noticias3D"),
