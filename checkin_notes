@@ -9008,3 +9008,10 @@ David  30 Dec 2011
         app_control.cpp
     lib/
         hostinfo.cpp,h
+
+Rom    30 Dec 2011
+    - client: processor features buffer is supposed to be 1024 bytes. avoid
+        truncation.
+        
+    lib/
+        hostinfo.cpp
