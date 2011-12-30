@@ -9015,3 +9015,11 @@ Rom    30 Dec 2011
         
     lib/
         hostinfo.cpp
+
+Rom    30 Dec 2011
+    - Tag for 7.0.7 release, all platforms
+      boinc_core_release_7_0_7
+
+    /
+        configure.ac
+        version.h
