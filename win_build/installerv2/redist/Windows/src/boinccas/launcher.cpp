@@ -27,7 +27,9 @@ typedef enum _MANDATORY_LEVEL {
     MandatoryLevelCount
 } MANDATORY_LEVEL, *PMANDATORY_LEVEL;
 
+#define TokenVirtualizationEnabled ((TOKEN_INFORMATION_CLASS)24)
 #define TokenIntegrityLevel ((TOKEN_INFORMATION_CLASS)25)
+
 #endif //!SECURITY_MANDATORY_UNTRUSTED_RID
 
 /*!
@@ -209,6 +211,7 @@ HRESULT CreateProcessWithExplorerIL(LPWSTR szProcessName, LPWSTR szCmdLine)
 	    HANDLE hNewToken;
 		DWORD dwCurIL = SECURITY_MANDATORY_HIGH_RID, dwExplorerIL = SECURITY_MANDATORY_HIGH_RID; 
 		DWORD dwExplorerID = 0;
+        DWORD dwEnableVirtualization = 0;
 
 		HWND hwndShell = ::FindWindow( _T("Progman"), NULL);
 		if(hwndShell) GetWindowThreadProcessId(hwndShell, &dwExplorerID);
@@ -230,6 +233,13 @@ HRESULT CreateProcessWithExplorerIL(LPWSTR szProcessName, LPWSTR szCmdLine)
 					if(SUCCEEDED(hr)) {
 
 						hr = ReducePrivilegesForMediumIL(hNewToken);
+
+                        SetTokenInformation(
+                            hNewToken,
+                            TokenVirtualizationEnabled,
+                            &dwEnableVirtualization,
+                            sizeof(DWORD)
+                        );
 
                         if(SUCCEEDED(hr)) {
 							bRet = CreateProcessAsUser(

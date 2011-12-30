@@ -374,6 +374,10 @@
 			Filter="cpp;c;cxx;def;odl;idl;hpj;bat;asm"
 			>
 			<File
+				RelativePath=".\aclmgmt.cpp"
+				>
+			</File>
+			<File
 				RelativePath="boinccas.cpp"
 				>
 			</File>
@@ -402,6 +406,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\CAGrantBOINCAdminsVirtualBoxRights.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\CAGrantBOINCMasterRights.cpp"
 				>
 			</File>
@@ -411,6 +419,10 @@
 			</File>
 			<File
 				RelativePath=".\CAGrantBOINCProjectsRights.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\CAGrantBOINCProjectsVirtualBoxRights.cpp"
 				>
 			</File>
 			<File
@@ -427,6 +439,10 @@
 			</File>
 			<File
 				RelativePath=".\CALaunchBOINCManager.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\CALaunchBOINCTray.cpp"
 				>
 			</File>
 			<File
@@ -470,6 +486,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\listacl.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\lkuprid.cpp"
 				>
 			</File>
@@ -483,6 +503,14 @@
 			</File>
 			<File
 				RelativePath=".\password.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\sdmgmt.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\srvcmgmt.cpp"
 				>
 			</File>
 			<File
@@ -525,6 +553,14 @@
 				RelativePath=".\terminate.cpp"
 				>
 			</File>
+			<File
+				RelativePath=".\utils.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\wrappers.cpp"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
@@ -559,6 +595,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\CAGrantBOINCAdminsVirtualBoxRights.h"
+				>
+			</File>
+			<File
 				RelativePath=".\CAGrantBOINCMasterRights.h"
 				>
 			</File>
@@ -568,6 +608,10 @@
 			</File>
 			<File
 				RelativePath=".\CAGrantBOINCProjectsRights.h"
+				>
+			</File>
+			<File
+				RelativePath=".\CAGrantBOINCProjectsVirtualBoxRights.h"
 				>
 			</File>
 			<File
@@ -584,6 +628,10 @@
 			</File>
 			<File
 				RelativePath=".\CALaunchBOINCManager.h"
+				>
+			</File>
+			<File
+				RelativePath=".\CALaunchBOINCTray.h"
 				>
 			</File>
 			<File
@@ -616,6 +664,10 @@
 			</File>
 			<File
 				RelativePath=".\CAShutdownUD.h"
+				>
+			</File>
+			<File
+				RelativePath=".\dcomperm.h"
 				>
 			</File>
 			<File

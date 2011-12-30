@@ -9710,3 +9710,33 @@ Rom    30 Dec 2011
         
     lib/
         hostinfo.cpp
+
+Rom    30 Dec 2011
+    - WINSETUP: Give 'boinc_admins' and 'boinc_projects' the ability to access and
+        launch the VirtualBox server-side application.  This should complete the
+        needed work to run VirtualBox within the Windows sandboxed environment.
+    - WINSETUP: Remove the virtualized file system tag from the Windows Explorer
+        copied security token when launching BOINC Manager and BOINC Tray after
+        setup has completed.  I believe this will resolve the new cookie issue
+        experienced by PTP/GR/CE.
+
+    win_build/installerv2/redist/Windows/src/boinccas/
+        aclmgmt.cpp
+        boinccas.def
+        boinccas.vcproj
+        CAGrantBOINCAdminsVirtualBoxRights.cpp, .h
+        CAGrantBOINCProjectsVirtualBoxRights.cpp, .h
+        CALaunchBOINCTray.cpp, .h
+        dcomperm.h
+        launcher.cpp
+        listacl.cpp
+        sdmgmt.cpp
+        srvcmgmt.cpp
+        utils.cpp
+        wrappers.cpp
+    win_build/installerv2/redist/Windows/Win32/
+        boinccas.dll
+        boinccas95.dll
+    win_build/installerv2/redist/Windows/x64/
+        boinccas.dll
+        boinccas95.dll
