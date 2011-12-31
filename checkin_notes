@@ -9747,3 +9747,13 @@ Rom    30 Dec 2011
     win_build/installerv2/
         BOINC.ism
         BOINCx64.ism
+
+David  31 Dec 2011
+    - web: implement file sandbox for remote job submission
+
+    html/
+        inc/
+            sandbox.inc (new)
+        user/
+            submit.php
+            sandbox.php (new)
