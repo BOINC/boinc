@@ -22,25 +22,24 @@ Environment:
 --*/
 
 #include "stdafx.h"
-#include <comdef.h>
+#include "lsaprivs.h"
 #include "ntsecapi.h"
 #include "dcomperm.h"
 
 DWORD
 CreateNewSD (
-    SECURITY_DESCRIPTOR **SD,
-    bool install_defaults
+    SECURITY_DESCRIPTOR **SD
     )
 {
-    PACL    dacl = NULL;
-    DWORD   sidLength = 0;
-    PSID    groupSID = NULL;
-    PSID    ownerSID = NULL;
-    DWORD   returnValue = 0;
+    PACL    dacl;
+    DWORD   sidLength;
+    PSID    sid;
+    PSID    groupSID;
+    PSID    ownerSID;
+    DWORD   returnValue;
 
     *SD = NULL;
 
-    PSID    sid = NULL;
     returnValue = GetCurrentUserSID (&sid);
     if (returnValue != ERROR_SUCCESS)
         return returnValue;
@@ -72,16 +71,14 @@ CreateNewSD (
         return GetLastError();
     }
 
-    if (install_defaults) {
-      if (!AddAccessAllowedAce (dacl,
-                                ACL_REVISION2,
-                                COM_RIGHTS_EXECUTE,
-                                sid))
-      {
-          free (*SD);
-          free (sid);
-          return GetLastError();
-      }
+    if (!AddAccessAllowedAce (dacl,
+                              ACL_REVISION2,
+                              COM_RIGHTS_EXECUTE,
+                              sid))
+    {
+        free (*SD);
+        free (sid);
+        return GetLastError();
     }
 
     if (!SetSecurityDescriptorDacl (*SD, TRUE, dacl, FALSE))
@@ -116,18 +113,18 @@ MakeSDAbsolute (
     PSECURITY_DESCRIPTOR *NewSD
     )
 {
-    PSECURITY_DESCRIPTOR  sd = NULL;
-    DWORD                 descriptorSize = 0;
-    DWORD                 daclSize = 0;
-    DWORD                 saclSize = 0;
-    DWORD                 ownerSIDSize = 0;
-    DWORD                 groupSIDSize = 0;
-    PACL                  dacl = NULL;
-    PACL                  sacl = NULL;
-    PSID                  ownerSID = NULL;
-    PSID                  groupSID = NULL;
-    BOOL                  present = false;
-    BOOL                  systemDefault = false;
+    PSECURITY_DESCRIPTOR  sd=NULL;
+    DWORD                 descriptorSize;
+    DWORD                 daclSize;
+    DWORD                 saclSize;
+    DWORD                 ownerSIDSize;
+    DWORD                 groupSIDSize;
+    PACL                  dacl;
+    PACL                  sacl;
+    PSID                  ownerSID;
+    PSID                  groupSID;
+    BOOL                  present;
+    BOOL                  systemDefault;
 
     //
     // Get SACL
@@ -202,8 +199,8 @@ SetNamedValueSD (
     SECURITY_DESCRIPTOR *SD
     )
 {
-    DWORD   returnValue = 0;
-    DWORD   disposition = 0;
+    DWORD   returnValue;
+    DWORD   disposition;
     HKEY    registryKey;
 
     //
@@ -233,14 +230,13 @@ GetNamedValueSD (
     LPTSTR KeyName,
     LPTSTR ValueName,
     SECURITY_DESCRIPTOR **SD,
-    BOOL *NewSD,
-    bool install_defaults
+    BOOL *NewSD
     )
 {
-    DWORD               returnValue = 0;
+    DWORD               returnValue;
     HKEY                registryKey;
-    DWORD               valueType = 0;
-    DWORD               valueSize = 0;
+    DWORD               valueType;
+    DWORD               valueSize;
 
     *NewSD = FALSE;
 
@@ -256,7 +252,7 @@ GetNamedValueSD (
         if (returnValue == ERROR_FILE_NOT_FOUND)
         {
             *SD = NULL;
-            returnValue = CreateNewSD (SD, install_defaults);
+            returnValue = CreateNewSD (SD);
             if (returnValue != ERROR_SUCCESS)
                 return returnValue;
 
@@ -271,7 +267,7 @@ GetNamedValueSD (
     if (returnValue && returnValue != ERROR_INSUFFICIENT_BUFFER)
     {
         *SD = NULL;
-        returnValue = CreateNewSD (SD, install_defaults);
+        returnValue = CreateNewSD (SD);
         if (returnValue != ERROR_SUCCESS)
             return returnValue;
 
@@ -286,7 +282,7 @@ GetNamedValueSD (
             free (*SD);
 
             *SD = NULL;
-            returnValue = CreateNewSD (SD, install_defaults);
+            returnValue = CreateNewSD (SD);
             if (returnValue != ERROR_SUCCESS)
                 return returnValue;
 
@@ -306,18 +302,17 @@ ListNamedValueSD (
     LPTSTR ValueName
     )
 {
-    DWORD               returnValue = 0;
-    SECURITY_DESCRIPTOR *sd = NULL;
-    BOOL                present = false;
-    BOOL                defaultDACL = false;
-    PACL                dacl = NULL;
+    DWORD               returnValue;
+    SECURITY_DESCRIPTOR *sd;
+    BOOL                present;
+    BOOL                defaultDACL;
+    PACL                dacl;
     BOOL                newSD = FALSE;
 
     returnValue = GetNamedValueSD (RootKey, KeyName, ValueName, &sd, &newSD);
 
     if ((returnValue != ERROR_SUCCESS) || (newSD == TRUE))
     {
-        _tprintf (TEXT("<Using Default Permissions>\n"));
         free (sd);
         return returnValue;
     }
@@ -330,7 +325,6 @@ ListNamedValueSD (
 
     if (!present)
     {
-        _tprintf (TEXT("<Access is denied to everyone>\n"));
         free (sd);
         return ERROR_SUCCESS;
     }
@@ -348,21 +342,20 @@ AddPrincipalToNamedValueSD (
     LPTSTR KeyName,
     LPTSTR ValueName,
     LPTSTR Principal,
-    BOOL Permit,
-    bool install_defaults
+    BOOL Permit
     )
 {
-    DWORD               returnValue = 0;
-    SECURITY_DESCRIPTOR *sd = NULL;
-    SECURITY_DESCRIPTOR *sdSelfRelative = NULL;
-    SECURITY_DESCRIPTOR *sdAbsolute = NULL;
-    DWORD               secDescSize = 0;
-    BOOL                present = false;
-    BOOL                defaultDACL = false;
-    PACL                dacl = NULL;
+    DWORD               returnValue;
+    SECURITY_DESCRIPTOR *sd=NULL;
+    SECURITY_DESCRIPTOR *sdSelfRelative=NULL;
+    SECURITY_DESCRIPTOR *sdAbsolute=NULL;
+    DWORD               secDescSize;
+    BOOL                present;
+    BOOL                defaultDACL;
+    PACL                dacl;
     BOOL                newSD = FALSE;
 
-    returnValue = GetNamedValueSD (RootKey, KeyName, ValueName, &sd, &newSD, install_defaults);
+    returnValue = GetNamedValueSD (RootKey, KeyName, ValueName, &sd, &newSD);
 
     //
     // Get security descriptor from registry or create a new one
@@ -374,7 +367,7 @@ AddPrincipalToNamedValueSD (
     if (!GetSecurityDescriptorDacl (sd, &present, &dacl, &defaultDACL))
         return GetLastError();
 
-    if (newSD && install_defaults)
+    if (newSD)
     {
         AddAccessAllowedACEToACL (&dacl, COM_RIGHTS_EXECUTE, TEXT("SYSTEM"));
         AddAccessAllowedACEToACL (&dacl, COM_RIGHTS_EXECUTE, TEXT("INTERACTIVE"));
@@ -385,8 +378,7 @@ AddPrincipalToNamedValueSD (
     //
 
     if (Permit)
-        returnValue = AddAccessAllowedACEToACL (&dacl, COM_RIGHTS_EXECUTE, Principal);
-    else
+        returnValue = AddAccessAllowedACEToACL (&dacl, COM_RIGHTS_EXECUTE, Principal); else
         returnValue = AddAccessDeniedACEToACL (&dacl, GENERIC_ALL, Principal);
 
     if (returnValue != ERROR_SUCCESS)
@@ -400,8 +392,7 @@ AddPrincipalToNamedValueSD (
     //
 
     if (!newSD)
-        MakeSDAbsolute ((PSECURITY_DESCRIPTOR) sd, (PSECURITY_DESCRIPTOR *) &sdAbsolute);
-    else
+        MakeSDAbsolute ((PSECURITY_DESCRIPTOR) sd, (PSECURITY_DESCRIPTOR *) &sdAbsolute); else
         sdAbsolute = sd;
 
     //
@@ -440,18 +431,17 @@ RemovePrincipalFromNamedValueSD (
     HKEY RootKey,
     LPTSTR KeyName,
     LPTSTR ValueName,
-    LPTSTR Principal,
-    bool install_defaults
+    LPTSTR Principal
     )
 {
-    DWORD               returnValue = 0;
-    SECURITY_DESCRIPTOR *sd = NULL;
-    SECURITY_DESCRIPTOR *sdSelfRelative = NULL;
-    SECURITY_DESCRIPTOR *sdAbsolute = NULL;
-    DWORD               secDescSize = 0;
-    BOOL                present = false;
-    BOOL                defaultDACL = false;
-    PACL                dacl = NULL;
+    DWORD               returnValue;
+    SECURITY_DESCRIPTOR *sd=NULL;
+    SECURITY_DESCRIPTOR *sdSelfRelative=NULL;
+    SECURITY_DESCRIPTOR *sdAbsolute=NULL;
+    DWORD               secDescSize;
+    BOOL                present;
+    BOOL                defaultDACL;
+    PACL                dacl;
     BOOL                newSD = FALSE;
 
     returnValue = GetNamedValueSD (RootKey, KeyName, ValueName, &sd, &newSD);
@@ -470,7 +460,7 @@ RemovePrincipalFromNamedValueSD (
     // If the security descriptor is new, add the required Principals to it
     //
 
-    if (newSD && install_defaults)
+    if (newSD)
     {
         AddAccessAllowedACEToACL (&dacl, COM_RIGHTS_EXECUTE, TEXT("SYSTEM"));
         AddAccessAllowedACEToACL (&dacl, COM_RIGHTS_EXECUTE, TEXT("INTERACTIVE"));
@@ -492,8 +482,8 @@ RemovePrincipalFromNamedValueSD (
     //
 
     if (!newSD)
-        MakeSDAbsolute ((PSECURITY_DESCRIPTOR) sd, (PSECURITY_DESCRIPTOR *) &sdAbsolute);
-    else
+        MakeSDAbsolute ((PSECURITY_DESCRIPTOR) sd, (PSECURITY_DESCRIPTOR *) &sdAbsolute); 
+	else
         sdAbsolute = sd;
 
     //
@@ -522,8 +512,8 @@ RemovePrincipalFromNamedValueSD (
 
     free (sd);
     free (sdSelfRelative);
-    free (sdAbsolute);
+	if (!newSD)
+		free (sdAbsolute);
 
     return ERROR_SUCCESS;
 }
-

@@ -22,6 +22,7 @@ Environment:
 --*/
 
 #include "stdafx.h"
+#include "lsaprivs.h"
 #include "ntsecapi.h"
 #include "dcomperm.h"
 
@@ -79,9 +80,10 @@ AddAccessDeniedACEToACL (
 
     oldACL = *Acl;
 
-    returnValue = GetPrincipalSID (Principal, &principalSID);
-    if (returnValue != ERROR_SUCCESS)
-        return returnValue;
+    if (!GetAccountSid(NULL, Principal, &principalSID))
+    {
+        return GetLastError();
+    }
 
     GetAclInformation (oldACL, (LPVOID) &aclSizeInfo, (DWORD) sizeof (ACL_SIZE_INFORMATION), AclSizeInformation);
 
@@ -93,26 +95,26 @@ AddAccessDeniedACEToACL (
 
     if (!InitializeAcl (newACL, aclSize, ACL_REVISION))
     {
-        free (principalSID);
+        HeapFree(GetProcessHeap(), 0, principalSID);
         return GetLastError();
     }
 
     if (!AddAccessDeniedAce (newACL, ACL_REVISION2, PermissionMask, principalSID))
     {
-        free (principalSID);
+        HeapFree(GetProcessHeap(), 0, principalSID);
         return GetLastError();
     }
 
     returnValue = CopyACL (oldACL, newACL);
     if (returnValue != ERROR_SUCCESS)
     {
-        free (principalSID);
+        HeapFree(GetProcessHeap(), 0, principalSID);
         return returnValue;
     }
 
     *Acl = newACL;
 
-    free (principalSID);
+    if(principalSID != NULL) HeapFree(GetProcessHeap(), 0, principalSID);
     return ERROR_SUCCESS;
 }
 
@@ -131,9 +133,10 @@ AddAccessAllowedACEToACL (
 
     oldACL = *Acl;
 
-    returnValue = GetPrincipalSID (Principal, &principalSID);
-    if (returnValue != ERROR_SUCCESS)
-        return returnValue;
+    if (!GetAccountSid(NULL, Principal, &principalSID))
+    {
+        return GetLastError();
+    }
 
     GetAclInformation (oldACL, (LPVOID) &aclSizeInfo, (DWORD) sizeof (ACL_SIZE_INFORMATION), AclSizeInformation);
 
@@ -145,26 +148,26 @@ AddAccessAllowedACEToACL (
 
     if (!InitializeAcl (newACL, aclSize, ACL_REVISION))
     {
-        free (principalSID);
+        HeapFree(GetProcessHeap(), 0, principalSID);
         return GetLastError();
     }
 
     returnValue = CopyACL (oldACL, newACL);
     if (returnValue != ERROR_SUCCESS)
     {
-        free (principalSID);
+        HeapFree(GetProcessHeap(), 0, principalSID);
         return returnValue;
     }
 
     if (!AddAccessAllowedAce (newACL, ACL_REVISION2, PermissionMask, principalSID))
     {
-        free (principalSID);
+        HeapFree(GetProcessHeap(), 0, principalSID);
         return GetLastError();
     }
 
     *Acl = newACL;
 
-    free (principalSID);
+    if(principalSID != NULL) HeapFree(GetProcessHeap(), 0, principalSID);
     return ERROR_SUCCESS;
 }
 
@@ -184,9 +187,10 @@ RemovePrincipalFromACL (
     DWORD                   returnValue = 0;
     ACE_HEADER              *aceHeader = NULL;
 
-    returnValue = GetPrincipalSID (Principal, &principalSID);
-    if (returnValue != ERROR_SUCCESS)
-        return returnValue;
+    if (!GetAccountSid(NULL, Principal, &principalSID))
+    {
+        return GetLastError();
+    }
 
     GetAclInformation (Acl, (LPVOID) &aclSizeInfo, (DWORD) sizeof (ACL_SIZE_INFORMATION), AclSizeInformation);
 
@@ -194,7 +198,7 @@ RemovePrincipalFromACL (
     {
         if (!GetAce (Acl, i, &ace))
         {
-            free (principalSID);
+            HeapFree(GetProcessHeap(), 0, principalSID);
             return GetLastError();
         }
 
@@ -207,7 +211,7 @@ RemovePrincipalFromACL (
             if (EqualSid (principalSID, (PSID) &accessAllowedAce->SidStart))
             {
                 DeleteAce (Acl, i);
-                free (principalSID);
+                HeapFree(GetProcessHeap(), 0, principalSID);
                 return ERROR_SUCCESS;
             }
         } else
@@ -219,7 +223,7 @@ RemovePrincipalFromACL (
             if (EqualSid (principalSID, (PSID) &accessDeniedAce->SidStart))
             {
                 DeleteAce (Acl, i);
-                free (principalSID);
+                HeapFree(GetProcessHeap(), 0, principalSID);
                 return ERROR_SUCCESS;
             }
         } else
@@ -231,13 +235,13 @@ RemovePrincipalFromACL (
             if (EqualSid (principalSID, (PSID) &systemAuditAce->SidStart))
             {
                 DeleteAce (Acl, i);
-                free (principalSID);
+                HeapFree(GetProcessHeap(), 0, principalSID);
                 return ERROR_SUCCESS;
             }
         }
     }
 
-    free (principalSID);
+    if(principalSID != NULL) HeapFree(GetProcessHeap(), 0, principalSID);
     return ERROR_SUCCESS;
 }
 

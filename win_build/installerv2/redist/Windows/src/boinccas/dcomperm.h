@@ -54,8 +54,6 @@ ListAppIDLaunchACL (
     LPTSTR AppID
     );
 
-DWORD ZapAppIDLaunchACL(LPTSTR AppID);
-
 DWORD
 ChangeDefaultAccessACL (
     LPTSTR Principal,
@@ -113,8 +111,7 @@ DWORD SetRunAsPassword (
 
 DWORD
 CreateNewSD (
-    SECURITY_DESCRIPTOR **SD,
-    bool install_defaults = true
+    SECURITY_DESCRIPTOR **SD
     );
 
 DWORD
@@ -137,8 +134,7 @@ GetNamedValueSD (
     LPTSTR KeyName,
     LPTSTR ValueName,
     SECURITY_DESCRIPTOR **SD,
-    BOOL *NewSD,
-    bool install_defaults = true
+    BOOL *NewSD
     );
 
 DWORD
@@ -154,8 +150,7 @@ AddPrincipalToNamedValueSD (
     LPTSTR KeyName,
     LPTSTR ValueName,
     LPTSTR Principal,
-    BOOL Permit,
-    bool install_defaults = true
+    BOOL Permit
     );
 
 DWORD
@@ -163,18 +158,11 @@ RemovePrincipalFromNamedValueSD (
     HKEY RootKey,
     LPTSTR KeyName,
     LPTSTR ValueName,
-    LPTSTR Principal,
-    bool install_defaults = true
+    LPTSTR Principal
     );
 
 DWORD
 GetCurrentUserSID (
-    PSID *Sid
-    );
-
-DWORD
-GetPrincipalSID (
-    LPTSTR Principal,
     PSID *Sid
     );
 
@@ -208,10 +196,3 @@ void
 ListACL (
     PACL Acl
     );
-
-DWORD
-SetAccountRights (
-    LPTSTR User,
-    LPTSTR Privilege
-    );
-

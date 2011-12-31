@@ -510,10 +510,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\srvcmgmt.cpp"
-				>
-			</File>
-			<File
 				RelativePath="stdafx.cpp"
 				>
 				<FileConfiguration

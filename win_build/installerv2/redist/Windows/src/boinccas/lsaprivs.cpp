@@ -44,7 +44,6 @@ Author:
 --*/
 
 #include "stdafx.h"
-#include "boinccas.h"
 #include "lsaprivs.h"
 
 

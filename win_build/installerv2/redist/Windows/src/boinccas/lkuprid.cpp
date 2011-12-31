@@ -133,7 +133,6 @@ Author:
 --*/
 
 #include "stdafx.h"
-#include "boinccas.h"
 #include "lkuprid.h"
 
 

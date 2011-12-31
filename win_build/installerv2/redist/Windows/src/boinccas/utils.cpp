@@ -22,6 +22,10 @@ Environment:
 --*/
 
 #include "stdafx.h"
+#include <windows.h>
+#include <stdio.h>
+#include <conio.h>
+#include <tchar.h>
 #include "ntsecapi.h"
 #include "dcomperm.h"
 
@@ -30,10 +34,10 @@ GetCurrentUserSID (
     PSID *Sid
     )
 {
-    TOKEN_USER  *tokenUser = NULL;
-    HANDLE      tokenHandle = NULL;
-    DWORD       tokenSize = 0;
-    DWORD       sidLength = 0;
+    TOKEN_USER  *tokenUser=NULL;
+    HANDLE      tokenHandle;
+    DWORD       tokenSize;
+    DWORD       sidLength;
 
     if (OpenProcessToken (GetCurrentProcess(), TOKEN_QUERY, &tokenHandle))
     {
@@ -70,48 +74,3 @@ GetCurrentUserSID (
     free (tokenUser);
     return ERROR_SUCCESS;
 }
-
-DWORD
-GetPrincipalSID (
-    LPTSTR Principal,
-    PSID *Sid
-    )
-{
-    DWORD        sidSize = 0;
-    TCHAR        refDomain [256];
-    DWORD        refDomainSize = 0;
-    DWORD        returnValue = 0;
-    SID_NAME_USE snu;
-
-    sidSize = 0;
-    refDomainSize = 255;
-
-    LookupAccountName (NULL,
-                       Principal,
-                       *Sid,
-                       &sidSize,
-                       refDomain,
-                       &refDomainSize,
-                       &snu);
-
-    returnValue = GetLastError();
-    if (returnValue != ERROR_INSUFFICIENT_BUFFER)
-        return returnValue;
-
-    *Sid = (PSID) malloc (sidSize);
-    refDomainSize = 255;
-
-    if (!LookupAccountName (NULL,
-                            Principal,
-                            *Sid,
-                            &sidSize,
-                            refDomain,
-                            &refDomainSize,
-                            &snu))
-    {
-        return GetLastError();
-    }
-
-    return ERROR_SUCCESS;
-}
-
