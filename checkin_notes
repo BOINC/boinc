@@ -9757,3 +9757,9 @@ David  31 Dec 2011
         user/
             submit.php
             sandbox.php (new)
+
+David  31 Dec 2011
+    - web: add script for submission of batches of LAMMPS jobs
+
+    html/user/
+        lammps.php
