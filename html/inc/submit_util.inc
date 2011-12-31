@@ -21,6 +21,42 @@
 
 require_once("../inc/submit_db.inc");
 
+// given its WUs, compute params of a batch
+// NOTE: eventually this should be done by server components
+// (transitioner, validator etc.) as jobs complete or time out
+//
+// TODO: update est_completion_time
+//
+function get_batch_params($batch, $wus) {
+    $fp_total = 0;
+    $fp_done = 0;
+    $completed = true;
+    $batch->nerror_jobs = 0;
+    $batch->credit_canonical = 0;
+    foreach ($wus as $wu) {
+        $fp_total += $wu->rsc_fpops_est;
+        if ($wu->canonical_resultid) {
+            $fp_done += $wu->rsc_fpops_est;
+            $batch->credit_canonical += $wu->canonical_credit;
+        } else if ($wu->error_mask) {
+            $batch->nerror_jobs++;
+        } else {
+            $completed = false;
+        }
+    }
+    if ($fp_total) {
+        $batch->fraction_done = $fp_done / $fp_total;
+    }
+    if ($completed && $batch->state < BATCH_STATE_COMPLETE) {
+        $batch->state = BATCH_STATE_COMPLETE;
+        $batch->completion_time = time();
+    }
+    $batch->update("fraction_done = $batch->fraction_done, nerror_jobs = $batch->nerror_jobs, state=$batch->state, completion_time = $batch->completion_time, credit_canonical = $batch->credit_canonical");
+
+    $batch->credit_estimate = flops_to_credit($fp_total);
+    return $batch;
+}
+
 function get_outfile_names($result) {
     $names = array();
     $xml = "<a>".$result->xml_doc_out."</a>";
@@ -81,6 +117,17 @@ function batch_state_string($state) {
     case BATCH_STATE_RETIRED: return "retired";
     }
     return "unknown state $state";
+}
+
+function boinc_get_output_file_url($user, $result, $i) {
+    $name = $result->name;
+    $auth_str = md5($user->authenticator.$name);
+    return "get_output.php?instance_name=$name&file_num=$i&auth_str=$auth_str";
+}
+
+function boinc_get_output_files_url($user, $batch_id) {
+    $auth_str = md5($user->authenticator.$batch_id);
+    return "get_output.php?batch_id=$batch_id&auth_str=$auth_str";
 }
 
 ?>

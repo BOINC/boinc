@@ -9763,3 +9763,14 @@ David  31 Dec 2011
 
     html/user/
         lammps.php
+
+David  31 Dec 2011
+    - web: new page to manage job submission
+
+    html/
+        inc/
+            submit.inc
+            submit_util.inc
+        user/
+            submit_rpc_handler.php
+            submit_example.php

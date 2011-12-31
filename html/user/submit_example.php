@@ -31,6 +31,7 @@
 //   you can strip out this stuff if the web site doesn't use BOINC
 
 require_once("../inc/submit.inc");
+require_once("../inc/submit_util.inc");
 require_once("../inc/submit_db.inc");
 require_once("../inc/util.inc");
 require_once("../project/project.inc");

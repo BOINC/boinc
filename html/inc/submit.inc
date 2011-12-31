@@ -30,9 +30,6 @@
 // Functions:
 //      boinc_abort_batch(): abort a batch
 //      boinc_estimate_batch(); estimate completion time of a batch
-//      boinc_file_delete(): delete a file on server
-//      boinc_file_get_list(): get list of this user's files on server
-//      boinc_file_upload(): upload a file to the server
 //      boinc_get_output_file(): get the URL for an output file
 //      boinc_get_output_files(): get the URL for zipped batch output
 //      boinc_query_batch(): get detaills of a batch
@@ -84,7 +81,7 @@ function validate_request($req) {
 }
 
 function do_http_op($project, $xml) {
-    $ch = curl_init("$project/submit.php");
+    $ch = curl_init("$project/submit_rpc_handler.php");
     curl_setopt($ch, CURLOPT_POST, 1);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
     curl_setopt($ch, CURLOPT_POSTFIELDS, "request=$xml");
@@ -250,27 +247,6 @@ function boinc_retire_batch($req) {
         return (string)($reply->message);
     }
     return null;
-}
-
-function boinc_file_delete($req) {
-    $req_xml = "<file_delete>
-    <authenticator>$req->authenticator</authenticator>
-    <file_name>$req->file_name</file_name>
-</file_delete>
-";
-    list($reply, $errmsg) = do_http_op($req->project, $req_xml);
-    if ($errmsg) return $errmsg;
-    $name = $reply->getName();
-    if ($name == 'error') {
-        return (string)($reply->message);
-    }
-    return null;
-}
-
-function boinc_file_get_list() {
-}
-
-function boinc_file_upload() {
 }
 
 //// example usage follows
