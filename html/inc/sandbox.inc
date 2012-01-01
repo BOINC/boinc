@@ -56,7 +56,7 @@ $fanout = parse_config(get_config(), "<uldl_dir_fanout>");
 //
 function sandbox_physical_path($user, $md5) {
     global $fanout;
-    $f = "sb_".$user->id.$md5;
+    $f = "sb_".$user->id."_".$md5;
     return dir_hier_path($f, "../../download", $fanout);
 }
 

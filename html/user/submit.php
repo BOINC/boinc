@@ -19,6 +19,7 @@
 
 require_once("../inc/submit_db.inc");
 require_once("../inc/util.inc");
+require_once("../inc/result.inc");
 require_once("../inc/submit_util.inc");
 require_once("../project/project.inc");
 
@@ -40,6 +41,12 @@ function handle_main($user) {
         if ($batch->state < BATCH_STATE_COMPLETE) {
             $wus = BoincWorkunit::enum("batch = $batch->id");
             $batch = get_batch_params($batch, $wus);
+        }
+        $app = BoincApp::lookup_id($batch->app_id);
+        if ($app) {
+            $batch->app_name = $app->name;
+        } else {
+            $batch->app_name = "unknown";
         }
     }
 
@@ -74,11 +81,12 @@ function handle_main($user) {
             $first = false;
             echo "<h2>Completed batches</h2>\n";
             start_table();
-            table_header("name", "ID", "# jobs", "submitted");
+            table_header("name", "ID", "app", "# jobs", "submitted");
         }
         table_row(
             "<a href=submit.php?action=query_batch&batch_id=$batch->id>$batch->name</a>",
             "<a href=submit.php?action=query_batch&batch_id=$batch->id>$batch->id</a>",
+            $batch->app_name,
             $batch->njobs,
             local_time_str($batch->create_time)
         );
@@ -96,11 +104,12 @@ function handle_main($user) {
             $first = false;
             echo "<h2>Aborted batches</h2>\n";
             start_table();
-            table_header("name", "ID", "# jobs", "submitted");
+            table_header("name", "ID", "app", "# jobs", "submitted");
         }
         table_row(
             "<a href=submit.php?action=query_batch&batch_id=$batch->id>$batch->name</a>",
             "<a href=submit.php?action=query_batch&batch_id=$batch->id>$batch->id</a>",
+            $batch->app_name,
             $batch->njobs,
             local_time_str($batch->create_time)
         );
@@ -163,7 +172,7 @@ function handle_query_batch($user) {
     );
     $wus = BoincWorkunit::enum("batch = $batch->id");
     foreach($wus as $wu) {
-        $resultid = $wu->canonical_instance_id;
+        $resultid = $wu->canonical_resultid;
         if ($resultid) {
             $x = "<a href=result.php?resultid=$resultid>$resultid</a>";
             $y = "completed";
@@ -173,7 +182,7 @@ function handle_query_batch($user) {
         }
 
         echo "<tr>
-                <td><a href=submit.php?action=query_job&job_id=$id>$id</a></td>
+                <td><a href=submit.php?action=query_job&wuid=$wu->id>$wu->id</a></td>
                 <td>$y</td>
                 <td>$x</td>
             </tr>
@@ -197,7 +206,7 @@ function handle_query_job() {
         "Instance ID<br><span class=note>click for result page</span>",
         "State", "Output files"
     );
-    $results = BoincResult::enum("workunitid=$job_id");
+    $results = BoincResult::enum("workunitid=$wuid");
     foreach($results as $result) {
         echo "<tr>
             <td><a href=result.php?resultid=$result->id>$result->id</a></td>

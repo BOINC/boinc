@@ -91,15 +91,16 @@ function prepare_batch($user) {
     page_tail();
 }
 
-function submit_job($app, $batch_id, $rsc_fpops_est, $cmdline, $i) {
-    $cmd = "cd ../..; ./bin/create_work --appname $app->name --batch $batch_id --rsc_fpops_est $rsc_fpops_est";
+function submit_job($app, $batch_id, $info, $cmdline, $i) {
+    $cmd = "cd ../..; ./bin/create_work --appname $app->name --batch $batch_id --rsc_fpops_est $info->rsc_fpops_est";
     if ($cmdline) {
         $cmd .= " --command_line \"$cmdline\"";
     }
     $cmd .= " --wu_name batch_".$batch_id."_".$i;
-    foreach ($job->input_files as $file) {
-        $cmd .= " $file->name";
-    }
+    $cmd .= " $info->structure_file_path";
+    $cmd .= " $info->command_file_path";
+    echo "<br> $cmd\n"; return;
+
     $ret = system($cmd);
     if ($ret === FALSE) {
         error_page("can't create job");
@@ -108,21 +109,23 @@ function submit_job($app, $batch_id, $rsc_fpops_est, $cmdline, $i) {
 
 function submit_batch($user, $app) {
     $tmpfile = get_str('tmpfile');
-    $x = file_get_contents("/tmp/$tmpfile");
-    $info = deserialize($x);
+    $x = file_get_contents("$tmpfile");
+    $info = unserialize($x);
 
     $cmdlines = file($info->cmdline_file_path);
     $njobs = count($cmdlines);
 
     $now = time();
     $batch_name = time_str($now);
-    $batch_id = BoincBatch::insert(
-        "(user_id, create_time, njobs, name, app_id) values ($user->id, $now, $njobs, '$batch_name', $app->id)"
-    );
+
+//    $batch_id = BoincBatch::insert(
+//        "(user_id, create_time, njobs, name, app_id) values ($user->id, $now, $njobs, '$batch_name', $app->id)"
+//    );
+    $batch_id=99;
 
     $i = 0;
     foreach ($cmdlines as $cmdline) {
-        submit_job($app, $batch_id, $info->rsc_fpops_est, $cmdline, $i);
+        submit_job($app, $batch_id, $info, $cmdline, $i);
         $i++;
     }
 }
