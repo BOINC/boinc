@@ -433,8 +433,12 @@ function version_string($version_num) {
 function result_error_mask_str($x){
     switch($x){
     case 0: return "";
-    case -100: return "ERR_SELECT";
-    case -102: return "ERR_READ";
+	case 192: return "EXIT_STATEFILE_WRITE";
+	case 193: return "EXIT_SIGNAL";
+	case 194: return "EXIT_ABORTED_BY_CLIENT";
+	case 195: return "EXIT_CHILD_FAILED";
+	case -100: return "ERR_SELECT";
+	case -102: return "ERR_READ";
     case -103: return "ERR_WRITE";
     case -104: return "ERR_FREAD";
     case -105: return "ERR_FWRITE";

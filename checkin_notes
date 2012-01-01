@@ -11,6 +11,9 @@ David  1 Jan 2012
 Rom    1 Jan 2012
     - OPS: Update failure_result_summary_by_platform.php to include
         plan class information.
+    - OPS: Update error code translation table
         
+    html/inc
+        result.inc
     html/ops
         failure_result_summary_by_platform.php
