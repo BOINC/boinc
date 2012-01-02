@@ -41,13 +41,13 @@ function lammps_est() {
         if (file_exists("log.1")) {
             $avg_cpu = calc_step_cpu("log.1");
             if ($avg_cpu != 0) {
-                echo "avg_cpu is ".$avg_cpu."\n";
+                //echo "avg_cpu is ".$avg_cpu."\n";
                 proc_terminate($p);
                 $test_result = 1;
                 break;
             }
         }
-        echo "sleeping\n";
+        //echo "sleeping\n";
         sleep(1);
     }
 
@@ -147,26 +147,27 @@ function prepare_batch($user) {
     // and set up links to the input files
     //
     $test_dir = "../../lammps_test/$user->id";
+    //echo "test_dir is ".$test_dir;
     if (!is_dir($test_dir)) {
         mkdir($test_dir);
     }
     if (!chdir($test_dir)) {
         error_page("Can't chdir");
     }
-    //system("rm *");
+    system("rm *");
     symlink($structure_file_path, "structure_file");
     symlink($command_file_path, "lammps_script");
     symlink($cmdline_file_path, "cmd_variables");
     list($error, $est_cpu_time, $disk) = lammps_est();
 
-    if ($error) {
+    if ($error==0) {
         error_page("LAMMPS test failed");
     }
 
+
+    system("rm *");
     $info->rsc_fpops_est = $est_cpu_time * 5e9;
 
-    // get disk space per job
-    // TODO
     $info->rsc_disk_bound = 1e8;
 
     $tmpfile = tempnam("/tmp", "lammps_");
@@ -202,9 +203,9 @@ function submit_job($app, $batch_id, $info, $cmdline, $i) {
         $cmd .= " --command_line \"$cmdline\"";
     }
     $cmd .= " --wu_name batch_".$batch_id."_".$i;
-    $cmd .= " $info->structure_file_path";
-    $cmd .= " $info->command_file_path";
-    echo "<br> $cmd\n"; return;
+    $cmd .= " ".basename($info->structure_file_path);
+    $cmd .= " ".basename($info->command_file_path);
+    echo "<br> $cmd\n"; 
 
     $ret = system($cmd);
     if ($ret === FALSE) {
@@ -223,10 +224,10 @@ function submit_batch($user, $app) {
     $now = time();
     $batch_name = time_str($now);
 
-//    $batch_id = BoincBatch::insert(
-//        "(user_id, create_time, njobs, name, app_id) values ($user->id, $now, $njobs, '$batch_name', $app->id)"
-//    );
-    $batch_id=99;
+    $batch_id = BoincBatch::insert(
+        "(user_id, create_time, njobs, name, app_id) values ($user->id, $now, $njobs, '$batch_name', $app->id)"
+    );
+//    $batch_id=99;
 
     $i = 0;
     foreach ($cmdlines as $cmdline) {
