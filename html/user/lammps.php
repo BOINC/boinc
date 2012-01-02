@@ -28,7 +28,7 @@ require_once("../inc/sandbox.inc");
 //
 // output: success flag, CPU time per step, est. disk usage per job
 //
-function lammps_est($testdir) {
+function lammps_est() {
     $avg_cpu = 0;
     $disk_space = 0;
     $test_result = 0;
@@ -157,13 +157,13 @@ function prepare_batch($user) {
     symlink($structure_file_path, "structure_file");
     symlink($command_file_path, "lammps_script");
     symlink($cmdline_file_path, "cmd_variables");
-    list($error, $cpu, $disk) = lammps_est();
+    list($error, $est_cpu_time, $disk) = lammps_est();
 
     if ($error) {
         error_page("LAMMPS test failed");
     }
 
-    $info->rsc_fpops_est = $cpu * 5e9;
+    $info->rsc_fpops_est = $est_cpu_time * 5e9;
 
     // get disk space per job
     // TODO
