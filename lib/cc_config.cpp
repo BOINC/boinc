@@ -70,6 +70,7 @@ int LOG_FLAGS::parse(XML_PARSER& xp) {
         if (xp.parse_bool("cpu_sched_debug", cpu_sched_debug)) continue;
         if (xp.parse_bool("cpu_sched_status", cpu_sched_status)) continue;
         if (xp.parse_bool("dcf_debug", dcf_debug)) continue;
+        if (xp.parse_bool("disk_usage_debug", disk_usage_debug)) continue;
         if (xp.parse_bool("priority_debug", priority_debug)) continue;
         if (xp.parse_bool("std_debug", std_debug)) continue;
         if (xp.parse_bool("file_xfer_debug", file_xfer_debug)) continue;
@@ -114,6 +115,7 @@ int LOG_FLAGS::write(MIOFILE& out) {
         "        <cpu_sched_debug>%d</cpu_sched_debug>\n"
         "        <cpu_sched_status>%d</cpu_sched_status>\n"
         "        <dcf_debug>%d</dcf_debug>\n"
+        "        <disk_usage_debug>%d</disk_usage_debug>\n"
         "        <priority_debug>%d</priority_debug>\n"
         "        <file_xfer_debug>%d</file_xfer_debug>\n"
         "        <gui_rpc_debug>%d</gui_rpc_debug>\n"
@@ -151,6 +153,7 @@ int LOG_FLAGS::write(MIOFILE& out) {
         cpu_sched_debug ? 1 : 0,
         cpu_sched_status ? 1 : 0,
         dcf_debug ? 1 : 0,
+        disk_usage_debug ? 1 : 0,
         priority_debug ? 1 : 0,
         file_xfer_debug ? 1 : 0,
         gui_rpc_debug ? 1 : 0,

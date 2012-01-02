@@ -67,6 +67,8 @@ struct LOG_FLAGS {
         // show what's running
     bool dcf_debug;
         // show changes to duration correction factors
+    bool disk_usage_debug;
+        // disk usage and project share info
     bool priority_debug;
         // info related to REC and scheduling priority
     bool file_xfer_debug;

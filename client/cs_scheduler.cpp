@@ -209,12 +209,14 @@ int CLIENT_STATE::make_scheduler_request(PROJECT* p) {
     // get and write disk usage
     //
     get_disk_usages();
+    get_disk_shares();
     fprintf(f,
         "    <disk_usage>\n"
         "        <d_boinc_used_total>%f</d_boinc_used_total>\n"
         "        <d_boinc_used_project>%f</d_boinc_used_project>\n"
+        "        <d_project_share>%f</d_project_share>\n"
         "    </disk_usage>\n",
-        total_disk_usage, p->disk_usage
+        total_disk_usage, p->disk_usage, p->disk_share
     );
 
     // copy request values from RSC_WORK_FETCH to COPROC

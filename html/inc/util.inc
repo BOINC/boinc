@@ -714,6 +714,10 @@ function show_button($url, $text, $desc=null, $class="button") {
     if (!$desc) $desc = $text;
     echo "<a href=\"".$url."\" title=\"$desc\" class=\"".$class."\">".$text."</a>\n";
 }
+function button_text($url, $text, $desc=null, $class="button") {
+    if (!$desc) $desc = $text;
+    return "<a href=\"".$url."\" title=\"$desc\" class=\"".$class."\">".$text."</a>\n";
+}
 
 // When multiple buttons (or actions) are presented in a list you can
 // use this convenience method to avoid having to wrap each button in <li></li> elements

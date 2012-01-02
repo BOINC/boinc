@@ -380,6 +380,7 @@ struct CLIENT_STATE {
         // computed by get_disk_usages()
     double total_disk_usage;
     int get_disk_usages();
+    void get_disk_shares();
     double allowed_disk_usage(double boinc_total);
     int allowed_project_disk_usage(double&);
     int suspend_tasks(int reason);

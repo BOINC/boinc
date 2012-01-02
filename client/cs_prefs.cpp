@@ -108,6 +108,57 @@ int CLIENT_STATE::get_disk_usages() {
     return 0;
 }
 
+// populate PROJECT::disk_share for all projects
+//
+void CLIENT_STATE::get_disk_shares() {
+    PROJECT* p;
+    unsigned int i;
+
+    double rss = 0;
+    for (i=0; i<projects.size(); i++) {
+        p = projects[i];
+        rss += p->resource_share;
+        p->disk_share = p->disk_usage;
+    }
+    if (!rss) return;
+
+    // a project is "greedy" if it's using more than its share of disk
+    //
+    double greedy_rs = 0;
+    double non_greedy_usage = 0;
+    double allowed = allowed_disk_usage(total_disk_usage);
+    for (i=0; i<projects.size(); i++) {
+        p = projects[i];
+        double rs = p->resource_share/rss;
+        if (p->disk_usage > allowed*rs) {
+            greedy_rs += p->resource_share;
+        } else {
+            non_greedy_usage += p->disk_usage;
+        }
+    }
+
+    double greedy_allowed = allowed - non_greedy_usage;
+    if (log_flags.disk_usage_debug) {
+        msg_printf(0, MSG_INFO,
+            "[disk_usage] allowed %.2fMB used %.2fMB",
+            allowed, total_disk_usage
+        );
+    }
+    for (i=0; i<projects.size(); i++) {
+        p = projects[i];
+        double rs = p->resource_share/rss;
+        if (p->disk_usage > allowed*rs) {
+            p->disk_share = greedy_allowed*p->resource_share/greedy_rs;
+        }
+        if (log_flags.disk_usage_debug) {
+            msg_printf(p, MSG_INFO,
+                "[disk_usage] usage %.2fMB share %.2fMB",
+                p->disk_usage/MEGA, p->disk_share/MEGA
+            );
+        }
+    }
+}
+
 // See if we should suspend processing
 //
 int CLIENT_STATE::check_suspend_processing() {

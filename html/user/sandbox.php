@@ -40,8 +40,9 @@ function list_files($user) {
     echo "
         <form action=sandbox.php method=post ENCTYPE=\"multipart/form-data\">
         <input type=hidden name=action value=upload_file>
-        Upload a file to your sandbox: <input type=file name=new_file>
-        <input type=submit value=OK>
+        Upload a file to your sandbox:
+        <br><input size=80 type=file name=new_file>
+        <br> <input type=submit value=Upload>
         </form>
         <hr>
     ";
@@ -56,7 +57,7 @@ function list_files($user) {
     } else {
         sort($files);
         start_table();
-        table_header("Name<br><span class=note>(click to view)</span>", "Modified", "Size (bytes)", "");
+        table_header("Name<br><span class=note>(click to view)</span>", "Modified", "Size (bytes)", "MD5", "");
         foreach($files as $f) {
             $path = "$dir/$f";
             list($error, $size, $md5) = sandbox_parse_link_file($path);
@@ -64,7 +65,16 @@ function list_files($user) {
                 table_row($f, "Can't parse link file", "", "<a href=sandbox.php?action=delete_files&name=$f>delete</a>");
             } else {
                 $ct = time_str(filemtime($path));
-                table_row("<a href=sandbox.php?action=view_file&name=$f>$f</a>", $ct, $size, "<a href=sandbox.php?action=delete_file&name=$f>delete</a>");
+                table_row(
+                    "<a href=sandbox.php?action=view_file&name=$f>$f</a>",
+                    $ct,
+                    $size,
+                    $md5,
+                    button_text(
+                        "sandbox.php?action=delete_file&name=$f",
+                        "Delete"
+                    )
+                );
             }
         }
         end_table();

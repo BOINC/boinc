@@ -44,6 +44,7 @@ void usage() {
         "   [ --wu_template filename ]      default: appname_in\n"
         "   [ --result_template filename ]  default: appname_out\n"
         "   [ --config_dir path ]\n"
+        "   [ --command_line \"X\" ]\n"
         "   [ --batch n ]\n"
         "   [ --rsc_fpops_est n ]\n"
         "   [ --rsc_fpops_bound n ]\n"
@@ -62,7 +63,7 @@ void usage() {
         "   [ --assign_user_all ID ]\n"
         "   [ --assign_team_one ID ]\n"
         "   [ --assign_team_all ID ]\n"
-        "   [ --wu_id N ]   ID of existing the workunit record (used by boinc_submit)\n"
+        "   [ --wu_id N ]   ID of existing workunit record (used by boinc_submit)\n"
     );
     exit(1);
 }
@@ -196,6 +197,9 @@ int main(int argc, const char** argv) {
             assign_type = ASSIGN_TEAM;
             assign_multi = true;
             assign_id = atoi(argv[++i]);
+        } else if (arg(argv, i, "help")) {
+            usage();
+            exit(0);
         } else {
             if (!strncmp("-", argv[i], 1)) {
                 fprintf(stderr, "create_work: bad argument '%s'\n", argv[i]);
@@ -229,7 +233,7 @@ int main(int argc, const char** argv) {
             exit(1);
         }
     }
-    retval = config.parse_file();
+    retval = config.parse_file(config_dir);
     if (retval) {
         fprintf(stderr, "Can't parse config file: %d\n", retval);
         exit(1);

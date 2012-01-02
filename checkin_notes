@@ -44,3 +44,27 @@ Rom    2 Jan 2012
     samples/vboxwrapper/
         vbox.cpp, .h
         vboxwrapper.cpp
+
+David  2 Jan 2012
+    - client: compute projects' disk share (based on resource share).
+        Report it (along with disk usage) in scheduler request messages.
+        This will allow the scheduler to send file-delete commands
+        if the project is using more than its share.
+    - client: add <disk_usage_debug> log flag
+    - create_work: add --help, show --command_line option
+
+    tools/
+        create_work.cpp
+    html/
+        inc/
+            util.inc
+        user/
+            sandbox.php
+    lib/
+        cc_config.cpp,h
+    client/
+        client_types.h
+        client_state.h
+        cs_prefs.cpp
+        cs_scheduler.cpp
+        cpu_sched.cpp

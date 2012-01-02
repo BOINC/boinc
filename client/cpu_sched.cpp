@@ -1837,7 +1837,7 @@ ACTIVE_TASK* CLIENT_STATE::lookup_active_task_by_result(RESULT* rep) {
     return NULL;
 }
 
-// find total resource shares of all projects
+// find total resource shares of all CPU-intensive projects
 //
 double CLIENT_STATE::total_resource_share() {
     double x = 0;

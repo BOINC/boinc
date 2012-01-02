@@ -361,6 +361,8 @@ struct PROJECT : PROJ_AM {
     bool use_symlinks;
     double disk_usage;
         // computed by get_disk_usages()
+    double disk_share;
+        // computed by get_disk_shares();
 
     // items send in scheduler replies, requesting that
     // various things be sent in the next request
