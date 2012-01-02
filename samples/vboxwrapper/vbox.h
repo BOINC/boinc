@@ -102,13 +102,13 @@ struct VBOX_VM {
     int write_floppy(std::string& data);
     int get_port_forwarding_port();
 
-    static int initialize();
-    static int get_install_directory(std::string& dir);
-    static int get_slot_directory(std::string& dir);
-    static int vbm_popen(
+    int initialize();
+    int get_install_directory(std::string& dir);
+    int get_slot_directory(std::string& dir);
+    int vbm_popen(
         std::string& command, std::string& output, const char* item, bool log_error = true, bool retry_failures = true
     );
-    static int vbm_popen_raw(
+    int vbm_popen_raw(
         std::string& command, std::string& output
     );
 };
