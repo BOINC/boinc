@@ -1,5 +1,16 @@
 <?php
 
+// script for submitting batches of LAMMPS jobs
+//
+// When a batch is submitted, this script runs the first job
+// until 1 time step is completed;
+// this verifies that the input files are OK and gives us
+// an estimate of the FLOPS needed for the batch.
+//
+// These test executions are done in the directory
+// project/lammps_test/USERID.
+// We assume that lammps_test exists and contains the LAMMPS executable
+
 error_reporting(E_ALL);
 ini_set('display_errors', true);
 ini_set('display_startup_errors', true);
@@ -7,6 +18,82 @@ ini_set('display_startup_errors', true);
 require_once("../inc/util.inc");
 require_once("../inc/submit_db.inc");
 require_once("../inc/sandbox.inc");
+
+// test a LAMMPS job
+//
+// the current directory must contain
+//      structure_file
+//      lammps_script
+//      cmd_variables
+//
+// output: success flag, CPU time per step, est. disk usage per job
+//
+function lammps_est($testdir) {
+    $avg_cpu = 0;
+    $disk_space = 0;
+    $test_result = 0;
+    $descs = array();
+    $pipes = array();
+    $options = file_get_contents("cmd_variables");
+    $cmd = "../lmp_linux ".$options;
+    $p = proc_open("$cmd", $descs, $pipes);
+    while (1) {
+        if (file_exists("log.1")) {
+            $avg_cpu = calc_step_cpu("log.1");
+            if ($avg_cpu != 0) {
+                echo "avg_cpu is ".$avg_cpu."\n";
+                proc_terminate($p);
+                $test_result = 1;
+                break;
+            }
+        }
+        echo "sleeping\n";
+        sleep(1);
+    }
+
+    proc_close($p); 
+    return array($test_result, $avg_cpu, $disk_space);
+}
+
+function calc_step_cpu($filename) {
+    $fd = fopen("$filename", "r");
+    $start_line = "Step CPU flow_com avoo";
+    $start = 0;
+    $start_step = 1;
+    $cur_step = 1;
+    $avg_cpu = 0;
+    if (!$fd) {
+        echo "fail to open file log.1";
+        exit(-1);
+    }
+    while (!feof($fd)) {
+        $line = fgets($fd,4096);
+        if (strlen($line) > strlen($start_line)
+            && substr_compare($line, $start_line, 0, strlen($start_line)) == 0
+        ) {
+            $start = 1;
+            continue;
+        }
+        if (!$start) continue;
+        $arr = preg_split("/\s+/", $line);
+        if (count($arr)!=6 || !is_numeric($arr[1])) {
+            continue;
+        }
+        $step = (int)$arr[1];
+        $cpu = (float)$arr[2];
+        if ($cpu==0) {
+            $start_step = $step;
+        } else {
+            $cur_step = $step;
+            if ($cur_step-$start_step>=5) {
+                $avg_cpu = $cpu/($cur_step-$start_step);
+                //echo "avg_cpu is ".$avg_cpu;
+                break;
+            }
+        }
+    }
+    return $avg_cpu;
+}
 
 function show_submit_form() {
     page_head("Submit LAMMPS jobs");
@@ -55,10 +142,28 @@ function prepare_batch($user) {
     $info->command_file_path = $command_file_path;
     $info->cmdline_file_path = $cmdline_file_path;
 
-    // get FLOPS per job
-    // TODO
+    // get the directory in which to run the test,
+    // clear it out,
+    // and set up links to the input files
     //
-    $info->rsc_fpops_est = 1e12;
+    $test_dir = "../../lammps_test/$user->id";
+    if (!is_dir($test_dir)) {
+        mkdir($test_dir);
+    }
+    if (!chdir($test_dir)) {
+        error_page("Can't chdir");
+    }
+    //system("rm *");
+    symlink($structure_file_path, "structure_file");
+    symlink($command_file_path, "lammps_script");
+    symlink($cmdline_file_path, "cmd_variables");
+    list($error, $cpu, $disk) = lammps_est();
+
+    if ($error) {
+        error_page("LAMMPS test failed");
+    }
+
+    $info->rsc_fpops_est = $cpu * 5e9;
 
     // get disk space per job
     // TODO
