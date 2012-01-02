@@ -58,6 +58,8 @@ if ($argc > 1) {
     echo "\nWarning: you are upgrading only web or server code,\nbut these updates may affect the other code as well.\nWe recommend that you run 'upgrade' again to upgrade both parts of the code.\n\n";
 }
 
+db_init_cli();
+
 foreach($updates as $update) {
     list($rev, $func) = $update;
     echo "performing update $func\n";

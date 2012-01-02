@@ -68,3 +68,19 @@ David  2 Jan 2012
         cs_prefs.cpp
         cs_scheduler.cpp
         cpu_sched.cpp
+
+David  2 Jan 2012
+    - upgrade script:
+        - prompt user for DB user/passwd if DB updates needed
+        - error out immediately if any DB update fails
+        Fixes #1169, #1170
+    - create_work: check for duplicate <file_info>s in input template
+        NOTE: the input template syntax is pretty clunky
+
+    tools/
+        process_input_template.cpp
+    html/
+        ops/
+            upgrade_db.php
+        inc/
+            util_ops.inc

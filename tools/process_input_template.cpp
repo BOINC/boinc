@@ -132,6 +132,8 @@ static void write_md5_info(
     return;
 }
 
+static bool input_file_found[1024];
+
 static int process_file_info(
     XML_PARSER& xp, string& out, int ninfiles, const char** infiles,
     SCHED_CONFIG& config_loc
@@ -176,6 +178,13 @@ static int process_file_info(
                 );
                 return ERR_XML_PARSE;
             }
+            if (input_file_found[file_number]) {
+                fprintf(stderr,
+                    "Input file %d listed twice\n", file_number
+                );
+                return ERR_XML_PARSE;
+            }
+            input_file_found[file_number] = true;
             if (generated_locally) {
                 sprintf(buf,
                     "    <name>%s</name>\n"
@@ -381,6 +390,10 @@ int process_input_template(
     int retval;
     bool found_workunit=false;
     int nfiles_parsed = 0;
+
+    for (int i=0; i<1024; i++) {
+        input_file_found[i] = false;
+    }
 
     out = "";
     MIOFILE mf;
