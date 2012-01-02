@@ -26,3 +26,21 @@ David  2 Jan 2012
             index.php
         user/
             sandbox.php
+
+Rom    2 Jan 2012
+    - VBOX: If VirtualBox reports an error snag both the hypervisor system
+        log as well as the VM execution log.  Maybe the hypervisor log
+        will tell us what is up with the virtual floppy device.
+    - VBOX: Don't retry commands that are expected to fail in normal use
+        cases.  It slows down getting the VM up and running.
+    - VBOX: After starting the VM, use a timed loop waiting for the initial
+        VM state change instead of just waiting for 5 seconds.  Older
+        machines can take longer than 5 seconds to switch from poweroff
+        to starting.  If we hit the main poll loop in that state the wrapper
+        thinks we have crashed.
+    - VBOX: Strip carriage returns from all the vboxmanage output on
+        Windows.
+        
+    samples/vboxwrapper/
+        vbox.cpp, .h
+        vboxwrapper.cpp

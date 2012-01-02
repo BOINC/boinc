@@ -83,6 +83,7 @@ VBOX_VM::~VBOX_VM() {
 
 int VBOX_VM::run() {
     int retval;
+    double timeout;
 
     retval = initialize();
     if (retval) return retval;
@@ -106,8 +107,16 @@ int VBOX_VM::run() {
     retval = start();
     if (retval) return retval;
 
-    // Give time enough for external processes to begin the VM boot process
-    boinc_sleep(1.0);
+    // Wait for up to 5 minutes for the VM to switch states.  An older system
+    // under load can take a while.  Since the poll function can wait for up
+    // to a minute to execute a command we need to make this time based instead
+    // of interation based.
+    timeout = dtime() + 300;
+    do {
+        poll(false);
+        if (online) break;
+        boinc_sleep(1.0);
+    } while (timeout <= dtime());
 
     return 0;
 }
@@ -122,14 +131,14 @@ void VBOX_VM::cleanup() {
 
 // If there are errors we can recover from, process them here.
 //
-int VBOX_VM::vbm_popen(string& arguments, string& output, const char* item, bool log_error) {
+int VBOX_VM::vbm_popen(string& arguments, string& output, const char* item, bool log_error, bool retry_failures) {
     int retval = 0;
     char buf[256];
     int retry_count = 0;
     string retry_notes;
 
     do {
-        retval = vbm_popen_raw(arguments, output, item);
+        retval = vbm_popen_raw(arguments, output);
         if (retval) {
 
             // VirtualBox designed the concept of sessions to prevent multiple applications using
@@ -157,11 +166,23 @@ int VBOX_VM::vbm_popen(string& arguments, string& output, const char* item, bool
             // Timeout?
             if (retry_count >= 6) break;
 
+            // Retry?
+            if (!retry_failures) break;
+
             retry_count++;
             boinc_sleep(5.0);
         }
     }
     while (retval);
+
+#ifdef _WIN32
+    // Remove \r from the log spew
+    for (string::iterator iter = output.begin(); iter != output.end(); ++iter) {
+        if (*iter == '\r') {
+            output.erase(iter);
+        }
+    }
+#endif
 
     // Add all relivent notes to the output string and log errors
     //
@@ -186,7 +207,7 @@ int VBOX_VM::vbm_popen(string& arguments, string& output, const char* item, bool
 
 // Execute the vbox manage application and copy the output to the buffer.
 //
-int VBOX_VM::vbm_popen_raw(string& arguments, string& output, const char* item) {
+int VBOX_VM::vbm_popen_raw(string& arguments, string& output) {
     char buf[256];
     string command;
     int retval = 0;
@@ -240,7 +261,17 @@ int VBOX_VM::vbm_popen_raw(string& arguments, string& output, const char* item) 
     si.hStdInput = NULL;
 
     // Execute command
-    if (!CreateProcess(NULL, (LPTSTR)command.c_str(), NULL, NULL, TRUE, CREATE_NO_WINDOW, NULL, NULL, &si, &pi)) {
+    if (!CreateProcess(
+        NULL, 
+        (LPTSTR)command.c_str(),
+        NULL,
+        NULL,
+        TRUE,
+        CREATE_NO_WINDOW, NULL,
+        NULL,
+        &si,
+        &pi
+    )) {
         fprintf(
             stderr,
             "%s CreateProcess failed! (%d).\n",
@@ -350,7 +381,7 @@ bool VBOX_VM::is_registered() {
     command  = "showvminfo \"" + vm_name + "\" ";
     command += "--machinereadable ";
 
-    if (vbm_popen(command, output, "registration", false) == 0) {
+    if (vbm_popen(command, output, "registration", false, false) == 0) {
         if (output.find("VBOX_E_OBJECT_NOT_FOUND") == string::npos) {
             // Error message not found in text
             return true;
@@ -368,7 +399,7 @@ bool VBOX_VM::is_hdd_registered() {
 
     command = "showhdinfo \"" + virtual_machine_root_dir + "/" + image_filename + "\" ";
 
-    if (vbm_popen(command, output, "hdd registration", false) == 0) {
+    if (vbm_popen(command, output, "hdd registration", false, false) == 0) {
         if ((output.find("VBOX_E_FILE_ERROR") == string::npos) && (output.find("VBOX_E_OBJECT_NOT_FOUND") == string::npos)) {
             // Error message not found in text
             return true;
@@ -377,7 +408,7 @@ bool VBOX_VM::is_hdd_registered() {
     return false;
 }
 
-void VBOX_VM::poll() {
+void VBOX_VM::poll(bool log_state) {
     char buf[256];
     string command;
     string output;
@@ -388,7 +419,7 @@ void VBOX_VM::poll() {
     command  = "showvminfo \"" + vm_name + "\" ";
     command += "--machinereadable ";
 
-    if (vbm_popen(command, output, "VM state", false) == 0) {
+    if (vbm_popen(command, output, "VM state", false, false) == 0) {
         vmstate_start = output.find("VMState=\"");
         if (vmstate_start != string::npos) {
             vmstate_start += 9;
@@ -423,12 +454,14 @@ void VBOX_VM::poll() {
                 crashed = true;
             } else {
                 online = false;
-                fprintf(
-                    stderr,
-                    "%s Virtual machine is no longer is a running state. It is in '%s'.\n",
-                    boinc_msg_prefix(buf, sizeof(buf)),
-                    vmstate.c_str()
-                );
+                if (log_state) {
+                    fprintf(
+                        stderr,
+                        "%s Virtual machine is no longer is a running state. It is in '%s'.\n",
+                        boinc_msg_prefix(buf, sizeof(buf)),
+                        vmstate.c_str()
+                    );
+                }
             }
         }
     }
@@ -1246,6 +1279,36 @@ int VBOX_VM::get_network_bytes_sent(double& sent) {
     return 0;
 }
 
+int VBOX_VM::get_system_log(string& log) {
+    string virtualbox_user_home;
+    string virtualbox_system_log;
+    int retval = 0;
+
+    // Where is VirtualBox storing its configuration files?
+    virtualbox_user_home = getenv("VBOX_USER_HOME");
+    if (virtualbox_user_home.empty()) {
+        // If the override environment variable isn't specified then
+        // it is based of the current users HOME directory.
+#ifdef _WIN32
+        virtualbox_user_home = getenv("USERPROFILE");
+#else
+        virtualbox_user_home = getenv("HOME");
+#endif
+        virtualbox_user_home += "/.VirtualBox";
+    }
+
+    // Locate and read log file
+    virtualbox_system_log = virtualbox_user_home + "/VBoxSVC.log";
+    if (boinc_file_exists(virtualbox_system_log.c_str())) {
+        // Keep only the last 16k if it is larger than that.
+        retval = read_file_string(virtualbox_system_log.c_str(), log, 16384, true);
+    } else {
+        retval = ERR_NOT_FOUND;
+    }
+
+    return retval;
+}
+
 int VBOX_VM::get_vm_log(string& log) {
     string command;
     string output;
@@ -1257,16 +1320,13 @@ int VBOX_VM::get_vm_log(string& log) {
     retval = vbm_popen(command, output, "get vm log");
     if (retval) return retval;
 
-#ifdef _WIN32
-    // Remove \r from the log spew
-    for (string::iterator iter = output.begin(); iter != output.end(); ++iter) {
-        if (*iter == '\r') {
-            output.erase(iter);
-        }
+    // Keep only the last 16k if it is larger than that.
+    size_t size = output.size();
+    if (size > 16384) {
+        log = output.substr(size - 16384, size);
+    } else {
+        log = output;
     }
-#endif
-
-    log = output;
 
     return 0;
 }

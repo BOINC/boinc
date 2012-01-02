@@ -77,7 +77,7 @@ struct VBOX_VM {
     int pause();
     int resume();
     void cleanup();
-    void poll();
+    void poll(bool log_state = true);
     bool is_running();
     bool is_paused();
 
@@ -94,6 +94,7 @@ struct VBOX_VM {
     int get_process_id(int& process_id);
     int get_network_bytes_sent(double& sent);
     int get_network_bytes_received(double& received);
+    int get_system_log(std::string& log);
     int get_vm_log(std::string& log);
     int read_floppy(std::string& data);
     int write_floppy(std::string& data);
@@ -103,10 +104,10 @@ struct VBOX_VM {
     static int get_install_directory(std::string& dir);
     static int get_slot_directory(std::string& dir);
     static int vbm_popen(
-        std::string& command, std::string& output, const char* item, bool log_error = true
+        std::string& command, std::string& output, const char* item, bool log_error = true, bool retry_failures = true
     );
     static int vbm_popen_raw(
-        std::string& command, std::string& output, const char* item
+        std::string& command, std::string& output
     );
 };
 
