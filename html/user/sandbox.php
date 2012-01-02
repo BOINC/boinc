@@ -56,7 +56,7 @@ function list_files($user) {
     } else {
         sort($files);
         start_table();
-        table_header("Name (click to view)", "Modified", "Size (bytes)", "");
+        table_header("Name<br><span class=note>(click to view)</span>", "Modified", "Size (bytes)", "");
         foreach($files as $f) {
             $path = "$dir/$f";
             list($error, $size, $md5) = sandbox_parse_link_file($path);

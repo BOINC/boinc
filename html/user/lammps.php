@@ -133,7 +133,7 @@ function submit_batch($user, $app) {
 $user = get_logged_in_user();
 $user_submit = BoincUserSubmit::lookup_userid($user->id);
 if (!$user_submit) error_page("no submit access");
-$app = BoincApp::lookup("name='fake_cuda'");
+$app = BoincApp::lookup("name='lammps'");
 if (!$app) error_page("no lammps app");
 
 if (!$user_submit->submit_all) {
