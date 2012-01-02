@@ -17,3 +17,12 @@ Rom    1 Jan 2012
         result.inc
     html/ops
         failure_result_summary_by_platform.php
+
+David  2 Jan 2012
+    - ops: fix link in index page
+
+    html/
+        ops/
+            index.php
+        user/
+            sandbox.php

@@ -127,7 +127,7 @@ function view_file($user) {
 
 $user = get_logged_in_user();
 $user_submit = BoincUserSubmit::lookup_userid($user->id);
-if (!$user_submit) error("no submit access");
+if (!$user_submit) error_page("no job submission access");
 
 $action = get_str('action', true);
 if (!$action) $action = post_str('action', true);
