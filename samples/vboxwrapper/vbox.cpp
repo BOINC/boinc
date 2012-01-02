@@ -63,6 +63,7 @@ VBOX_VM::VBOX_VM() {
     job_duration = 0.0;
     suspended = false;
     network_suspended = false;
+    startup_completed = false;
     online = false;
     crashed = false;
     enable_cern_dataformat = false;
@@ -117,6 +118,10 @@ int VBOX_VM::run() {
         if (online) break;
         boinc_sleep(1.0);
     } while (timeout <= dtime());
+
+    // From here on out we don't need to report the system log when a vboxmanage
+    // command fails.
+    startup_completed = true;
 
     return 0;
 }
@@ -188,7 +193,13 @@ int VBOX_VM::vbm_popen(string& arguments, string& output, const char* item, bool
     //
     if (retval && log_error) {
         if (!retry_notes.empty()) {
-            output += "\nNotes:\n" + retry_notes;
+            output += "\nNotes:\n\n" + retry_notes;
+        }
+
+        if (!startup_completed) {
+            string system_log;
+            get_system_log(system_log);
+            output += "\nHypervisor System Log:\n\n" + system_log;
         }
 
         fprintf(
@@ -1285,8 +1296,9 @@ int VBOX_VM::get_system_log(string& log) {
     int retval = 0;
 
     // Where is VirtualBox storing its configuration files?
-    virtualbox_user_home = getenv("VBOX_USER_HOME");
-    if (virtualbox_user_home.empty()) {
+    if (getenv("VBOX_USER_HOME")) {
+        virtualbox_user_home = getenv("VBOX_USER_HOME");
+    } else {
         // If the override environment variable isn't specified then
         // it is based of the current users HOME directory.
 #ifdef _WIN32

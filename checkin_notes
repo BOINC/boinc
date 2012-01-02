@@ -84,3 +84,12 @@ David  2 Jan 2012
             upgrade_db.php
         inc/
             util_ops.inc
+
+Rom    2 Jan 2012
+    - VBOX: Fix crashing issue I introduced last night attempting to
+        extract the hypervisor system log.
+    - VBOX: Report the hypervisor system log with any failed vboxmanage
+        command that happens during the phase where we setup the VM.
+        
+    samples/vboxwrapper/
+        vbox.cpp, .h
