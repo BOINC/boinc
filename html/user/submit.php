@@ -199,7 +199,36 @@ function handle_query_job() {
     $wuid = get_int('wuid');
 
     page_head("Job $wuid");
+
     echo "<a href=workunit.php?wuid=$wuid>View workunit page</a>\n";
+
+    // show input files
+    //
+    echo "<h2>Input files</h2>\n";
+    $wu = BoincWorkunit::lookup_id($wuid);
+    $x = "<in>".$wu->xml_doc."</in>";
+    $x = simplexml_load_string($x);
+    start_table();
+    table_header("Logical name<br><span class=note>(click to view)</span>",
+        "Size (bytes)", "MD5"
+    );
+    $fanout = parse_config(get_config(), "<uldl_dir_fanout>");
+    foreach ($x->workunit->file_ref as $fr) {
+        $pname = (string)$fr->file_name;
+        $lname = (string)$fr->open_name;
+        $dir = filename_hash($pname, $fanout);
+        $path = "../../download/$dir/$pname";
+        $md5 = md5_file($path);
+        $s = stat($path);
+        $size = $s['size'];
+        table_row(
+            "<a href=/download/$dir/$pname>$lname</a>",
+            $size,
+            $md5
+        );
+    }
+    end_table();
+
     echo "<h2>Instances</h2>\n";
     start_table();
     table_header(

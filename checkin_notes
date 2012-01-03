@@ -93,3 +93,15 @@ Rom    2 Jan 2012
         
     samples/vboxwrapper/
         vbox.cpp, .h
+
+David  3 Jan 2012
+    - remote job submission: show input file links
+    - ops: fix message: app.min_version applies to HR app versions,
+        not client version
+
+    html/
+        ops/
+            manage_apps.php
+        user/
+            submit.php
+            sandbox.php

@@ -25,12 +25,19 @@
 // The actual files are stored in the download hierarchy,
 // with sb_userid_MD5 as the physical name
 
+// NOTE: PHP's default max file upload size is 2MB.
+// To increase this, edit /etc/php.ini, and change, e.g.
+//
+// upload_max_filesize = 64M
+// post_max_size = 64M
+
 error_reporting(E_ALL);
 ini_set('display_errors', true);
 ini_set('display_startup_errors', true);
-ini_set('post_max_size', '64M');
-ini_set('upload_max_filesize', '64M');
 
+echo ini_get('post_max_size');
+echo ini_get('upload_max_filesize');
+exit;
 require_once("../inc/sandbox.inc");
 require_once("../inc/submit_db.inc");
 

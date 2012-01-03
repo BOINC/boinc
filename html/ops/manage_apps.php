@@ -140,13 +140,13 @@ $self=$_SERVER['PHP_SELF'];
 echo "<form action='$self' method='POST'>\n";
 
 
-start_table("align='center'");
+start_table();
 echo "<TR><TH>ID #</TH>
       <TH>Name and description<br><span class=note>Click for details</span></TH>
       <TH>Created</TH>
-      <TH>minimum<br>client<br>version</TH>
+      <TH>minimum app version for HR</th>
       <TH>weight</TH>
-      <TH>homogeneous<br>redundancy<br>type (0=none)</TH>
+      <TH>homogeneous redundancy type (0=none)</TH>
       <TH>deprecated?</TH>
        </TR>\n";
 
