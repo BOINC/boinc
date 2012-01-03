@@ -111,3 +111,9 @@ David  3 Jan 2012
 
     html/user/
         lammps.php
+
+David  3 Jan 2012
+	- client: calculate disk share for zero-priority projects correctly
+
+	client/
+		cs_prefs.cpp
