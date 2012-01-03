@@ -103,8 +103,8 @@ function show_submit_form() {
     ";
     start_table();
     row2("Structure file", "<input name=structure_file>");
-    row2("Command file", "<input name=command_file>");
-    row2("Command-line file", "<input name=cmdline_file>");
+    row2("Script file", "<input name=command_file>");
+    row2("Command-line file<br><span class=note>List of command lines, one per job</span>", "<input name=cmdline_file>");
     row2("", "<input type=submit value=Prepare>");
     end_table();
     echo "</form>";
