@@ -117,3 +117,11 @@ David  3 Jan 2012
 
 	client/
 		cs_prefs.cpp
+
+Rom    3 Jan 2012
+    - client: Remove scaling factor for AMD OpenCL devices.  Latest
+        generation of drivers now report the correct memory size.
+        They didn't wait for the next OpenCL spec change.
+    
+    client/
+        coproc_detect.cpp

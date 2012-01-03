@@ -293,15 +293,6 @@ void COPROCS::get_opencl(
                 (strstr(prop.vendor, "Advanced Micro Devices, Inc."))
             ) {
                 prop.device_num = (int)(ati_opencls.size());
-                // Work around a bug in OpenCL which returns only 
-                // 1/2 of total global RAM size. 
-                // This bug applies only to ATI GPUs, not to NVIDIA
-                // Assume this will be fixed in openCL 1.2.
-                if ((!strstr("1.0", prop.opencl_platform_version))
-                    || (!strstr("1.1", prop.opencl_platform_version))
-                ){
-                    prop.global_mem_size *= 2;
-                }
                 if (!ati.have_cal) {
                     COPROC_ATI c;
                     c.opencl_prop = prop;
