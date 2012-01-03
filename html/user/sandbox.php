@@ -35,9 +35,6 @@ error_reporting(E_ALL);
 ini_set('display_errors', true);
 ini_set('display_startup_errors', true);
 
-echo ini_get('post_max_size');
-echo ini_get('upload_max_filesize');
-exit;
 require_once("../inc/sandbox.inc");
 require_once("../inc/submit_db.inc");
 
