@@ -144,3 +144,11 @@ Rom    3 Jan 2012
     samples/vboxwrapper/
         vbox.cpp, .h
         vboxwrapper.cpp
+
+Rom    3 Jan 2012
+    - VBOX: Restore the elapsed time from the checkpoint file instead of
+        aid.starting_elapsed_time.  It appears some older client versions
+        are giving erratic results.
+        
+    samples/vboxwrapper/
+        vboxwrapper.cpp

@@ -360,8 +360,9 @@ int main(int argc, char** argv) {
         vm.vm_cpu_count = "1";
     }
 
-    elapsed_time = aid.starting_elapsed_time;
+    // Restore from checkpoint
     read_checkpoint(checkpoint_cpu_time);
+    elapsed_time = checkpoint_cpu_time;
 
     // Should we even try to start things up?
     if (vm.job_duration && (elapsed_time > vm.job_duration)) {
