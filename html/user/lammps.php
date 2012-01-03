@@ -25,6 +25,7 @@ require_once("../inc/sandbox.inc");
 //      structure_file
 //      lammps_script
 //      cmd_variables
+//      pot_files (zipped potential files)
 //
 // output: success flag, CPU time per step, est. disk usage per job
 //
@@ -105,6 +106,7 @@ function show_submit_form() {
     row2("Structure file", "<input name=structure_file>");
     row2("Script file", "<input name=command_file>");
     row2("Command-line file<br><span class=note>List of command lines, one per job</span>", "<input name=cmdline_file>");
+    row2("Zipped potential files", "<input name=pot_files>");
     row2("", "<input type=submit value=Prepare>");
     end_table();
     echo "</form>";
@@ -136,11 +138,13 @@ function prepare_batch($user) {
     $structure_file_path = get_file_path($user, 'structure_file');
     $command_file_path = get_file_path($user, 'command_file');
     $cmdline_file_path = get_file_path($user, 'cmdline_file');
+    $pot_files_path = get_file_path($user, 'pot_files');
 
     $info = null;
     $info->structure_file_path = $structure_file_path;
     $info->command_file_path = $command_file_path;
     $info->cmdline_file_path = $cmdline_file_path;
+    $info->pot_files_path = $pot_files_path;
 
     // get the directory in which to run the test,
     // clear it out,
@@ -158,6 +162,7 @@ function prepare_batch($user) {
     symlink($structure_file_path, "structure_file");
     symlink($command_file_path, "lammps_script");
     symlink($cmdline_file_path, "cmd_variables");
+    symlink($pot_files_path, "pot_files");
     list($error, $est_cpu_time, $disk) = lammps_est();
 
     if ($error==0) {
@@ -205,6 +210,7 @@ function submit_job($app, $batch_id, $info, $cmdline, $i) {
     $cmd .= " --wu_name batch_".$batch_id."_".$i;
     $cmd .= " ".basename($info->structure_file_path);
     $cmd .= " ".basename($info->command_file_path);
+    $cmd .= " ".basename($info->pot_files_path);
     echo "<br> $cmd\n"; 
 
     $ret = system($cmd);
