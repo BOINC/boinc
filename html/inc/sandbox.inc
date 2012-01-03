@@ -60,4 +60,29 @@ function sandbox_physical_path($user, $md5) {
     return dir_hier_path($f, "../../download", $fanout);
 }
 
+// return list of files in sandbox
+//
+function sandbox_file_names($user) {
+    $d = opendir(sandbox_dir($user));
+    $names = array();
+    while (($f = readdir($d)) !== false) {
+        if ($f == '.') continue;
+        if ($f == '..') continue;
+        $names[] = $f;
+    }
+    return $names;
+}
+
+// return a <select> for files in sandbox
+//
+function sandbox_file_select($user, $select_name) {
+    $x = "<select name=$select_name>\n";
+    $files = sandbox_file_names($user);
+    foreach ($files as $f) {
+        $x .= "<option value=\"$f\">$f</option>\n";
+    }
+    $x .= "</select>\n";
+    return $x;
+}
+
 ?>
