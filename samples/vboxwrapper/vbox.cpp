@@ -63,7 +63,6 @@ VBOX_VM::VBOX_VM() {
     job_duration = 0.0;
     suspended = false;
     network_suspended = false;
-    startup_completed = false;
     online = false;
     crashed = false;
     enable_cern_dataformat = false;
@@ -119,10 +118,7 @@ int VBOX_VM::run() {
         boinc_sleep(1.0);
     } while (timeout <= dtime());
 
-    // From here on out we don't need to report the system log when a vboxmanage
-    // command fails.
-    startup_completed = true;
-
+    if (!online) return ERR_EXEC;
     return 0;
 }
 
@@ -163,16 +159,18 @@ int VBOX_VM::vbm_popen(string& arguments, string& output, const char* item, bool
             if ((output.find("VBOX_E_INVALID_OBJECT_STATE") != string::npos) &&
                 (output.find("already locked") != string::npos))
             {
-                if (retry_notes.find("already locked") == string::npos) {
-                    retry_notes += "Virtual Machine session already locked.\n";
+                if (retry_notes.find("Another VirtualBox management") == string::npos) {
+                    retry_notes += "Another VirtualBox management application has locked the session for\n";
+                    retry_notes += "this virtual machine. BOINC cannot properly monitor this virtual machine\n";
+                    retry_notes += "and so this job will be aborted.\n\n";
                 }
             }
             
-            // Timeout?
-            if (retry_count >= 6) break;
-
             // Retry?
             if (!retry_failures) break;
+
+            // Timeout?
+            if (retry_count >= 6) break;
 
             retry_count++;
             boinc_sleep(5.0);
@@ -194,12 +192,6 @@ int VBOX_VM::vbm_popen(string& arguments, string& output, const char* item, bool
     if (retval && log_error) {
         if (!retry_notes.empty()) {
             output += "\nNotes:\n\n" + retry_notes;
-        }
-
-        if (!startup_completed) {
-            string system_log;
-            get_system_log(system_log);
-            output += "\nHypervisor System Log:\n\n" + system_log;
         }
 
         fprintf(
@@ -240,6 +232,9 @@ int VBOX_VM::vbm_popen_raw(string& arguments, string& output) {
     DWORD dwCount = 0;
     unsigned long ulExitCode = 0;
     unsigned long ulExitTimeout = 0;
+    size_t errcode_start;
+    size_t errcode_end;
+    string errcode;
 
     memset(&si, 0, sizeof(si));
     memset(&pi, 0, sizeof(pi));
@@ -335,7 +330,17 @@ CLEANUP:
     if (hWritePipe) CloseHandle(hWritePipe);
 
     if ((ulExitCode != 0) || (!pi.hProcess)) {
-        retval = ERR_FOPEN;
+
+        // Determine the real error code by parsing the output
+        errcode_start = output.find("(0x");
+        errcode_start += 1;
+        errcode_end = output.find(")", errcode_start);
+        errcode = output.substr(errcode_start, errcode_end - errcode_start);
+
+        retval = atol(errcode.c_str());
+
+        // If something couldn't be found, just return ERR_FOPEN
+        if (!retval) retval = ERR_FOPEN;
     }
 
 #else
@@ -1292,7 +1297,10 @@ int VBOX_VM::get_network_bytes_sent(double& sent) {
 
 int VBOX_VM::get_system_log(string& log) {
     string virtualbox_user_home;
-    string virtualbox_system_log;
+    string slot_directory;
+    string virtualbox_system_log_src;
+    string virtualbox_system_log_dst;
+    char buf[256];
     int retval = 0;
 
     // Where is VirtualBox storing its configuration files?
@@ -1309,12 +1317,47 @@ int VBOX_VM::get_system_log(string& log) {
         virtualbox_user_home += "/.VirtualBox";
     }
 
+    // Where should we copy temp files to?
+    get_slot_directory(slot_directory);
+
     // Locate and read log file
-    virtualbox_system_log = virtualbox_user_home + "/VBoxSVC.log";
-    if (boinc_file_exists(virtualbox_system_log.c_str())) {
+    virtualbox_system_log_src = virtualbox_user_home + "/VBoxSVC.log";
+    virtualbox_system_log_dst = slot_directory + "/VBoxSVC.log";
+
+    if (boinc_file_exists(virtualbox_system_log_src.c_str())) {
+        // Skip having to deal with various forms of file locks by just making a temp
+        // copy of the log file.
+        boinc_copy(virtualbox_system_log_src.c_str(), virtualbox_system_log_dst.c_str());
+
         // Keep only the last 16k if it is larger than that.
-        retval = read_file_string(virtualbox_system_log.c_str(), log, 16384, true);
+        read_file_string(virtualbox_system_log_dst.c_str(), log, 16384, true);
+
+#ifdef _WIN32
+        // Remove \r from the log spew
+        for (string::iterator iter = log.begin(); iter != log.end(); ++iter) {
+            if (*iter == '\r') {
+                log.erase(iter);
+            }
+        }
+#endif
+
+        if (log.size() >= 16384) {
+            // Look for the next whole line of text.
+            for (string::iterator iter = log.begin(); iter != log.end(); ++iter) {
+                if (*iter == '\n') {
+                    log.erase(iter);
+                    break;
+                }
+                log.erase(iter);
+            }
+        }
     } else {
+        fprintf(
+            stderr,
+            "%s Could not find the system log at '%s'.\n",
+            boinc_msg_prefix(buf, sizeof(buf)),
+            virtualbox_system_log_src.c_str()
+        );
         retval = ERR_NOT_FOUND;
     }
 
@@ -1336,6 +1379,26 @@ int VBOX_VM::get_vm_log(string& log) {
     size_t size = output.size();
     if (size > 16384) {
         log = output.substr(size - 16384, size);
+
+#ifdef _WIN32
+        // Remove \r from the log spew
+        for (string::iterator iter = log.begin(); iter != log.end(); ++iter) {
+            if (*iter == '\r') {
+                log.erase(iter);
+            }
+        }
+#endif
+
+        if (log.size() >= 16384) {
+            // Look for the next whole line of text.
+            for (string::iterator iter = log.begin(); iter != log.end(); ++iter) {
+                if (*iter == '\n') {
+                    log.erase(iter);
+                    break;
+                }
+                log.erase(iter);
+            }
+        }
     } else {
         log = output;
     }

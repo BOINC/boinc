@@ -119,17 +119,15 @@ int parse_job_file(VBOX_VM& vm) {
 }
 
 void write_checkpoint(double cpu) {
-    boinc_begin_critical_section();
     FILE* f = fopen(CHECKPOINT_FILENAME, "w");
     if (!f) return;
     fprintf(f, "%f\n", cpu);
     fclose(f);
-    boinc_checkpoint_completed();
 }
 
 void read_checkpoint(double& cpu) {
     double c;
-    cpu = 0;
+    cpu = 0.0;
     FILE* f = fopen(CHECKPOINT_FILENAME, "r");
     if (!f) return;
     int n = fscanf(f, "%lf", &c);
@@ -204,18 +202,55 @@ void set_floppy_image(APP_INIT_DATA& aid, VBOX_VM& vm) {
     }
 }
 
+// set port forwarding information if needed
+//
+void set_port_forwarding_info(APP_INIT_DATA& /* aid */, VBOX_VM& vm) {
+    char buf[256];
+
+    if (vm.pf_guest_port && vm.pf_host_port) {
+        fprintf(
+            stderr,
+            "%s port forwarding enabled on port '%d'.\n",
+            boinc_msg_prefix(buf, sizeof(buf)), vm.pf_host_port
+        );
+
+        // Write info to disk
+        //
+        MIOFILE mf;
+        FILE* f = boinc_fopen(PORTFORWARD_FILENAME, "w");
+        mf.init_file(f);
+
+        mf.printf(
+            "<port_forwarding>\n"
+            "  <rule>\n"
+            "    <host_port>%d</host_port>\n"
+            "    <guest_port>%d</guest_port>\n"
+            "  </rule>\n"
+            "</port_forwarding>\n",
+            vm.pf_host_port,
+            vm.pf_guest_port
+        );
+
+        fclose(f);
+        sprintf(buf, "http://localhost:%d", vm.pf_host_port);
+        boinc_web_graphics_url(buf);
+    }
+}
+
 int main(int argc, char** argv) {
     int retval;
     BOINC_OPTIONS boinc_options;
     VBOX_VM vm;
     APP_INIT_DATA aid;
     double elapsed_time = 0.0;
-    double checkpoint_cpu_time = 0.0;
     double trickle_period = 0.0;
     double trickle_cpu_time = 0.0;
     double fraction_done = 0.0;
+    double bytes_sent = 0.0;
+    double bytes_received = 0.0;
+    double checkpoint_cpu_time = 0.0;
+    double last_status_report_time = 0.0;
     bool report_vm_pid = false;
-    double bytes_sent=0, bytes_received=0;
     bool report_net_usage = false;
     int vm_pid=0;
     int vm_max_cpus=0;
@@ -328,46 +363,31 @@ int main(int argc, char** argv) {
     elapsed_time = aid.starting_elapsed_time;
     read_checkpoint(checkpoint_cpu_time);
 
+    // Should we even try to start things up?
+    if (vm.job_duration && (elapsed_time > vm.job_duration)) {
+        return ERR_RSC_LIMIT_EXCEEDED;
+    }
+
     retval = vm.run();
     if (retval) {
         vm.cleanup();
-        write_checkpoint(checkpoint_cpu_time);
+        write_checkpoint(elapsed_time);
+
+        vm.get_system_log(system_log);
+        fprintf(
+            stderr,
+            "%s Hypervisor System Log:\n\n"
+            "%s\n",
+            boinc_msg_prefix(buf, sizeof(buf)),
+            system_log.c_str()
+        );
+
         boinc_finish(retval);
     }
 
     set_floppy_image(aid, vm);
+    set_port_forwarding_info(aid, vm);
     set_throttles(aid, vm);
-
-    // write port-forwarding info if relevant
-    //
-    if (vm.pf_guest_port && vm.pf_host_port) {
-        fprintf(
-            stderr,
-            "%s port forwarding enabled on port '%d'.\n",
-            boinc_msg_prefix(buf, sizeof(buf)), vm.pf_host_port
-        );
-
-        // Write info to disk
-        //
-        MIOFILE mf;
-        FILE* f = boinc_fopen(PORTFORWARD_FILENAME, "w");
-        mf.init_file(f);
-
-        mf.printf(
-            "<port_forwarding>\n"
-            "  <rule>\n"
-            "    <host_port>%d</host_port>\n"
-            "    <guest_port>%d</guest_port>\n"
-            "  </rule>\n"
-            "</port_forwarding>\n",
-            vm.pf_host_port,
-            vm.pf_guest_port
-        );
-
-        fclose(f);
-        sprintf(buf, "http://localhost:%d", vm.pf_host_port);
-        boinc_web_graphics_url(buf);
-    }
 
     while (1) {
         // Discover the VM's current state
@@ -380,7 +400,7 @@ int main(int argc, char** argv) {
         }
         if (boinc_status.abort_request) {
             vm.cleanup();
-            write_checkpoint(checkpoint_cpu_time);
+            write_checkpoint(elapsed_time);
             boinc_finish(EXIT_ABORTED_BY_CLIENT);
         }
         if (!vm.online) {
@@ -389,7 +409,7 @@ int main(int argc, char** argv) {
                 vm.get_vm_log(vm_log);
             }
             vm.cleanup();
-            write_checkpoint(checkpoint_cpu_time);
+            write_checkpoint(elapsed_time);
 
             if (vm.crashed || (elapsed_time < vm.job_duration)) {
                 fprintf(
@@ -478,11 +498,14 @@ int main(int argc, char** argv) {
             if (vm.suspended) {
                 vm.resume();
             }
+
             elapsed_time += POLL_PERIOD;
+
             if (!vm_pid) {
                 vm.get_process_id(vm_pid);
                 report_vm_pid = true;
             }
+
             if (boinc_time_to_checkpoint()) {
                 checkpoint_cpu_time = elapsed_time;
                 write_checkpoint(checkpoint_cpu_time);
@@ -492,19 +515,40 @@ int main(int argc, char** argv) {
                         fraction_done = 1.0;
                     }
                 }
+                if (report_vm_pid || report_net_usage) {
+                    retval = boinc_report_app_status_aux(
+                        elapsed_time,
+                        checkpoint_cpu_time,
+                        fraction_done,
+                        vm_pid,
+                        bytes_sent,
+                        bytes_received
+                    );
+                    if (!retval) {
+                        report_vm_pid = false;
+                        report_net_usage = false;
+                    }
+                } else {
+                    boinc_report_app_status(
+                        elapsed_time,
+                        checkpoint_cpu_time,
+                        fraction_done
+                    );
+                }
+                if ((elapsed_time - last_status_report_time) >= 6000.0) {
+                    last_status_report_time = elapsed_time;
+                    fprintf(
+                        stderr,
+                        "%s Status Report: Elapsed Time: '%f', Network Bytes Sent (Total): '%f', Network Bytes Received (Total): '%f'\n",
+                        boinc_msg_prefix(buf, sizeof(buf)),
+                        elapsed_time,
+                        bytes_sent,
+                        bytes_received
+                    );
+                }
                 boinc_checkpoint_completed();
             }
-            if (report_vm_pid || report_net_usage) {
-                retval = boinc_report_app_status_aux(
-                    elapsed_time, checkpoint_cpu_time, fraction_done, vm_pid, bytes_sent, bytes_received
-                );
-                if (!retval) {
-                    report_vm_pid = false;
-                    report_net_usage = false;
-                }
-            } else {
-                boinc_report_app_status(elapsed_time, checkpoint_cpu_time, fraction_done);
-            }
+
             if (trickle_period) {
                 trickle_cpu_time += POLL_PERIOD;
                 if (trickle_cpu_time >= trickle_period) {
@@ -517,12 +561,10 @@ int main(int argc, char** argv) {
             // if the VM has a maximum amount of time it is allowed to run,
             // shut it down gacefully and exit.
             //
-            if (vm.job_duration > 0.0) {
-                if (elapsed_time > vm.job_duration) {
-                    vm.cleanup();
-                    write_checkpoint(checkpoint_cpu_time);
-                    boinc_finish(0);
-                }
+            if (vm.job_duration && (elapsed_time > vm.job_duration)) {
+                vm.cleanup();
+                write_checkpoint(elapsed_time);
+                boinc_finish(0);
             }
         }
         if (vm.enable_network) {
@@ -538,6 +580,13 @@ int main(int argc, char** argv) {
         }
         if (boinc_status.reread_init_data_file) {
             boinc_status.reread_init_data_file = false;
+
+            fprintf(
+                stderr,
+                "%s Preference change detected\n",
+                boinc_msg_prefix(buf, sizeof(buf))
+            );
+
             boinc_parse_init_data_file();
             boinc_get_init_data_p(&aid);
             set_throttles(aid, vm);

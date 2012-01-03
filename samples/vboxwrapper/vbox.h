@@ -51,8 +51,6 @@ struct VBOX_VM {
     bool suspended;
     // is network access temporarily suspended?
     bool network_suspended;
-    // has the VM successfully completed the startup code
-    bool startup_completed;
     // is VM even online?
     bool online;
     // Has the VM crashed?

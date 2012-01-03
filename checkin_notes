@@ -125,3 +125,22 @@ Rom    3 Jan 2012
     
     client/
         coproc_detect.cpp
+        
+Rom    3 Jan 2012
+    - VBOX: Per tester feedback, at an hourly status report to track
+        network usage.
+    - VBOX: For errors where an error code is specified in the output,
+        use that value when returning from vbm_open().  Make it easier
+        to track failure rates by problem type in the ops pages.
+        (Windows Only)
+    - VBOX: Try making the process of extracting the hypervisor system
+        log more robust, make a temp copy of it in the slot directory.
+        Avoid exclusive file lock issues since VboxSvc will still be
+        logging to it.
+    - VBOX: Change the session lock text to make it clearer that the
+        use of other VirtualBox management tools can cause a problem.
+
+        
+    samples/vboxwrapper/
+        vbox.cpp, .h
+        vboxwrapper.cpp
