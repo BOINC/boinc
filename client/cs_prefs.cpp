@@ -136,6 +136,7 @@ void CLIENT_STATE::get_disk_shares() {
             non_greedy_usage += p->disk_usage;
         }
     }
+    if (!greedy_rs) greedy_rs = 1;      // handle projects w/ zero resource share
 
     double greedy_allowed = allowed - non_greedy_usage;
     if (log_flags.disk_usage_debug) {
