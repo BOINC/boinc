@@ -95,11 +95,6 @@ function get_output_files($batch_id, $auth_str) {
     unlink($zip_filename);
 }
 
-if (0) {
-get_output_files(24, "xxx");
-exit;
-}
-
 $auth_str = get_str('auth_str');
 $instance_name = get_str('instance_name', true);
 if ($instance_name) {

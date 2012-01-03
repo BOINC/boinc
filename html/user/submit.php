@@ -195,7 +195,7 @@ function handle_query_batch($user) {
 
 // show the details of a job, including links to see the output files
 // 
-function handle_query_job() {
+function handle_query_job($user) {
     $wuid = get_int('wuid');
 
     page_head("Job $wuid");
@@ -244,9 +244,15 @@ function handle_query_job() {
 ";
         $i = 0;
         if ($result->server_state == 5) {
-            $paths = get_outfile_paths($result);
-            foreach ($paths as $path) {
-                echo "<a href=$url>$outfile->size bytes</a>";
+            $names = get_outfile_names($result);
+            $fanout = parse_config(get_config(), "<uldl_dir_fanout>");
+            $i = 0;
+            foreach ($names as $name) {
+                $url = boinc_get_output_file_url($user, $result, $i++);
+                $path = dir_hier_path($name, "../../upload", $fanout);
+                $s = stat($path);
+                $size = $s['size'];
+                echo "<a href=$url>$size bytes</a>";
             }
             $i++;
         }
@@ -323,7 +329,7 @@ case '': handle_main($user); break;
 case 'abort_batch': handle_abort_batch(); break;
 case 'abort_batch_confirm': handle_abort_batch_confirm(); break;
 case 'query_batch': handle_query_batch($user); break;
-case 'query_job': handle_query_job(); break;
+case 'query_job': handle_query_job($user); break;
 case 'retire_batch': handle_retire_batch(); break;
 case 'retire_batch_confirm': handle_retire_batch_confirm(); break;
 default:
