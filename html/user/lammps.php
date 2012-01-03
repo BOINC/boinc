@@ -35,9 +35,11 @@ function lammps_est() {
     $test_result = 0;
     $descs = array();
     $pipes = array();
-    $options = file_get_contents("cmd_variables");
-    $cmd = "../lmp_linux ".$options;
+    $options = file("cmd_variables");
+    $cmd = "../lmp_linux ".$options[0];
+    echo $cmd;
     $p = proc_open("$cmd", $descs, $pipes);
+    system("unzip pot.zip");
     while (1) {
         if (file_exists("log.1")) {
             $avg_cpu = calc_step_cpu("log.1");
@@ -52,7 +54,6 @@ function lammps_est() {
         sleep(1);
     }
 
-    proc_close($p); 
     return array($test_result, $avg_cpu, $disk_space);
 }
 
@@ -96,17 +97,28 @@ function calc_step_cpu($filename) {
     return $avg_cpu;
 }
 
-function show_submit_form() {
+function area_select() {
+    return "
+        <select name=area>
+        <option value=\"Air filtration\">Air filtration</option>
+        <option value=\"Water filtration\">Water filtration</option>
+        <option value=\"Ultra-low friction\">Ultra-low friction</option>
+        </select>
+    ";
+}
+
+function show_submit_form($user) {
     page_head("Submit LAMMPS jobs");
     echo "
         <form action=lammps.php>
         <input type=hidden name=action value=prepare>
     ";
     start_table();
-    row2("Structure file", "<input name=structure_file>");
-    row2("Script file", "<input name=command_file>");
-    row2("Command-line file<br><span class=note>List of command lines, one per job</span>", "<input name=cmdline_file>");
-    row2("Zipped potential files", "<input name=pot_files>");
+    row2("Structure file", sandbox_file_select($user, "structure_file"));
+    row2("Script file", sandbox_file_select($user, "command_file"));
+    row2("Command-line file<br><span class=note>List of command lines, one per job</span>", sandbox_file_select($user, "cmdline_file"));
+    row2("Zipped potential files", sandbox_file_select($user, "pot_files"));
+    row2("Area", area_select());
     row2("", "<input type=submit value=Prepare>");
     end_table();
     echo "</form>";
@@ -145,6 +157,7 @@ function prepare_batch($user) {
     $info->command_file_path = $command_file_path;
     $info->cmdline_file_path = $cmdline_file_path;
     $info->pot_files_path = $pot_files_path;
+    $info->area = get_str("area");
 
     // get the directory in which to run the test,
     // clear it out,
@@ -211,7 +224,7 @@ function submit_job($app, $batch_id, $info, $cmdline, $i) {
     $cmd .= " ".basename($info->structure_file_path);
     $cmd .= " ".basename($info->command_file_path);
     $cmd .= " ".basename($info->pot_files_path);
-    echo "<br> $cmd\n"; 
+    echo "<br> $cmd\n";
 
     $ret = system($cmd);
     if ($ret === FALSE) {
@@ -228,7 +241,7 @@ function submit_batch($user, $app) {
     $njobs = count($cmdlines);
 
     $now = time();
-    $batch_name = time_str($now);
+    $batch_name = $info->area;
 
     $batch_id = BoincBatch::insert(
         "(user_id, create_time, njobs, name, app_id) values ($user->id, $now, $njobs, '$batch_name', $app->id)"
@@ -257,7 +270,7 @@ if (!$user_submit->submit_all) {
 
 $action = get_str('action', true);
 switch ($action) {
-case '': show_submit_form(); break;
+case '': show_submit_form($user); break;
 case 'prepare': prepare_batch($user); break;
 case 'submit': submit_batch($user, $app); break;
 default: error_page("no such action $action");
