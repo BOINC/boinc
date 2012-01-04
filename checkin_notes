@@ -182,7 +182,7 @@ Rom    4 Jan 2012
         vbox.cpp
 
 Rom    4 Jan 2012
-    - VBOX: Fix a crash bug if multiple virtual VICs are defined for a VM.
+    - VBOX: Fix a crash bug if multiple virtual NICs are defined for a VM.
         I'm not sure what the heck happened.  It probably has something to
         do with my \r removal code on Windows.  Bugs hidden by other bugs
         I suppose.
