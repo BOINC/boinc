@@ -83,8 +83,6 @@ VBOX_VM::~VBOX_VM() {
 
 int VBOX_VM::run() {
     int retval;
-    char buf[256];
-    double timeout;
 
     retval = initialize();
     if (retval) return retval;
@@ -107,26 +105,6 @@ int VBOX_VM::run() {
 
     retval = start();
     if (retval) return retval;
-
-    // Wait for up to 5 minutes for the VM to switch states.  An older system
-    // under load can take a while.  Since the poll function can wait for up
-    // to a minute to execute a command we need to make this time based instead
-    // of interation based.
-    timeout = dtime() + 300;
-    do {
-        poll(false);
-        if (online) break;
-        boinc_sleep(1.0);
-    } while (timeout <= dtime());
-
-    if (!online) {
-        fprintf(
-            stderr,
-            "%s VM did not start in a timely fashion, aborting job.\n",
-            boinc_msg_prefix(buf, sizeof(buf))
-        );
-        return ERR_EXEC;
-    }
 
     return 0;
 }
@@ -1024,6 +1002,7 @@ int VBOX_VM::deregister_stale_vm() {
 int VBOX_VM::start() {
     string command;
     string output;
+    double timeout;
     char buf[256];
     int retval;
 
@@ -1035,12 +1014,34 @@ int VBOX_VM::start() {
     command = "startvm \"" + vm_name + "\" --type headless";
     retval = vbm_popen(command, output, "start VM");
     if (retval) return retval;
+
+    // Wait for up to 5 minutes for the VM to switch states.  A system
+    // under load can take a while.  Since the poll function can wait for up
+    // to a minute to execute a command we need to make this time based instead
+    // of interation based.
+    timeout = dtime() + 300;
+    do {
+        poll(false);
+        if (online) break;
+        boinc_sleep(1.0);
+    } while (timeout >= dtime());
+
+    if (!online) {
+        fprintf(
+            stderr,
+            "%s VM did not start in a timely fashion, aborting job.\n",
+            boinc_msg_prefix(buf, sizeof(buf))
+        );
+        return ERR_EXEC;
+    }
+
     return 0;
 }
 
 int VBOX_VM::stop() {
     string command;
     string output;
+    double timeout;
     char buf[256];
     int retval;
 
@@ -1053,13 +1054,28 @@ int VBOX_VM::stop() {
         command = "controlvm \"" + vm_name + "\" savestate";
         retval = vbm_popen(command, output, "stop VM");
         if (retval) return retval;
-    } else {
-        fprintf(
-            stderr,
-            "%s Virtual machine is already in a stopped state.\n",
-            boinc_msg_prefix(buf, sizeof(buf))
-        );
+
+        // Wait for up to 5 minutes for the VM to switch states.  A system
+        // under load can take a while.  Since the poll function can wait for up
+        // to a minute to execute a command we need to make this time based instead
+        // of interation based.
+        timeout = dtime() + 300;
+        do {
+            poll(false);
+            if (!online) break;
+            boinc_sleep(1.0);
+        } while (timeout >= dtime());
+
+        if (online) {
+            fprintf(
+                stderr,
+                "%s VM did not stop in a timely fashion.\n",
+                boinc_msg_prefix(buf, sizeof(buf))
+            );
+            return ERR_EXEC;
+        }
     }
+
     return 0;
 }
 

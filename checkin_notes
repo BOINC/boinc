@@ -168,3 +168,15 @@ Rom    4 Jan 2012
     samples/vboxwrapper/
         vbox.cpp, .h
         vboxwrapper.cpp
+
+Rom    4 Jan 2012
+    - VBOX: Move start state change detection code from run() function to
+        start() function and use similar code to handle stop as well.
+        
+        Weird stuff happens when people start/stop BOINC quickly,
+        it looks as though the previous VM instance isn't shutdown before we
+        attempt to start it again.  Hopefully enough of a wait is in there
+        for the VM to fully halt before the wrapper is terminated.
+        
+    samples/vboxwrapper/
+        vbox.cpp
