@@ -83,6 +83,7 @@ VBOX_VM::~VBOX_VM() {
 
 int VBOX_VM::run() {
     int retval;
+    char buf[256];
     double timeout;
 
     retval = initialize();
@@ -118,7 +119,15 @@ int VBOX_VM::run() {
         boinc_sleep(1.0);
     } while (timeout <= dtime());
 
-    if (!online) return ERR_EXEC;
+    if (!online) {
+        fprintf(
+            stderr,
+            "%s VM did not start in a timely fashion, aborting job.\n",
+            boinc_msg_prefix(buf, sizeof(buf))
+        );
+        return ERR_EXEC;
+    }
+
     return 0;
 }
 
@@ -337,7 +346,7 @@ CLEANUP:
         errcode_end = output.find(")", errcode_start);
         errcode = output.substr(errcode_start, errcode_end - errcode_start);
 
-        retval = atol(errcode.c_str());
+        retval = strtol(errcode.c_str(), NULL, NULL);
 
         // If something couldn't be found, just return ERR_FOPEN
         if (!retval) retval = ERR_FOPEN;

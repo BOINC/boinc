@@ -152,3 +152,19 @@ Rom    3 Jan 2012
         
     samples/vboxwrapper/
         vboxwrapper.cpp
+
+Rom    4 Jan 2012
+    - VBOX: Use strtol instead of atol to parse Vbox error codes from
+        stderr/stdout output.
+    - VBOX: Undo my reorg yesterday with regards to report_vm_pid and
+        report_net_usage.
+    - VBOX: Only report network usage in the status report if
+        aid.global_prefs.daily_xfer_limit_mb is non-zero
+    - VBOX: Add the VM log to the list of things reported on a start
+        failure.  Hypervisor log suggests that it launched the VM but
+        it failed unexpectedly.  So there might be cases where it
+        actually exists.
+
+    samples/vboxwrapper/
+        vbox.cpp, .h
+        vboxwrapper.cpp

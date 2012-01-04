@@ -375,12 +375,17 @@ int main(int argc, char** argv) {
         write_checkpoint(elapsed_time);
 
         vm.get_system_log(system_log);
+        vm.get_vm_log(vm_log);
         fprintf(
             stderr,
             "%s Hypervisor System Log:\n\n"
+            "%s\n"
+            "%s VM Execution Log:\n\n"
             "%s\n",
             boinc_msg_prefix(buf, sizeof(buf)),
-            system_log.c_str()
+            system_log.c_str(),
+            boinc_msg_prefix(buf, sizeof(buf)),
+            vm_log.c_str()
         );
 
         boinc_finish(retval);
@@ -516,38 +521,49 @@ int main(int argc, char** argv) {
                         fraction_done = 1.0;
                     }
                 }
-                if (report_vm_pid || report_net_usage) {
-                    retval = boinc_report_app_status_aux(
-                        elapsed_time,
-                        checkpoint_cpu_time,
-                        fraction_done,
-                        vm_pid,
-                        bytes_sent,
-                        bytes_received
-                    );
-                    if (!retval) {
-                        report_vm_pid = false;
-                        report_net_usage = false;
-                    }
-                } else {
-                    boinc_report_app_status(
-                        elapsed_time,
-                        checkpoint_cpu_time,
-                        fraction_done
-                    );
-                }
+                boinc_report_app_status(
+                    elapsed_time,
+                    checkpoint_cpu_time,
+                    fraction_done
+                );
                 if ((elapsed_time - last_status_report_time) >= 6000.0) {
                     last_status_report_time = elapsed_time;
-                    fprintf(
-                        stderr,
-                        "%s Status Report: Elapsed Time: '%f', Network Bytes Sent (Total): '%f', Network Bytes Received (Total): '%f'\n",
-                        boinc_msg_prefix(buf, sizeof(buf)),
-                        elapsed_time,
-                        bytes_sent,
-                        bytes_received
-                    );
+                    if (aid.global_prefs.daily_xfer_limit_mb) {
+                        fprintf(
+                            stderr,
+                            "%s Status Report: Job Duration: '%f', Elapsed Time: '%f', Network Bytes Sent (Total): '%f', Network Bytes Received (Total): '%f'\n",
+                            boinc_msg_prefix(buf, sizeof(buf)),
+                            vm.job_duration,
+                            elapsed_time,
+                            bytes_sent,
+                            bytes_received
+                        );
+                    } else {
+                        fprintf(
+                            stderr,
+                            "%s Status Report: Job Duration: '%f', Elapsed Time: '%f'\n",
+                            boinc_msg_prefix(buf, sizeof(buf)),
+                            vm.job_duration,
+                            elapsed_time
+                        );
+                    }
                 }
                 boinc_checkpoint_completed();
+            }
+
+            if (report_vm_pid || report_net_usage) {
+                retval = boinc_report_app_status_aux(
+                    elapsed_time,
+                    checkpoint_cpu_time,
+                    fraction_done,
+                    vm_pid,
+                    bytes_sent,
+                    bytes_received
+                );
+                if (!retval) {
+                    report_vm_pid = false;
+                    report_net_usage = false;
+                }
             }
 
             if (trickle_period) {
