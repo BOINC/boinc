@@ -1279,7 +1279,7 @@ int VBOX_VM::get_network_bytes_received(double& received) {
         counter_end = output.find("\"", counter_start);
         counter_value = output.substr(counter_start, counter_end - counter_start);
         received += atof(counter_value.c_str());
-        counter_start = output.find("\n", counter_start);
+        counter_start = output.find("c=\"", counter_start);
     }
 
     return 0;
@@ -1315,7 +1315,7 @@ int VBOX_VM::get_network_bytes_sent(double& sent) {
         counter_end = output.find("\"", counter_start);
         counter_value = output.substr(counter_start, counter_end - counter_start);
         sent += atof(counter_value.c_str());
-        counter_start = output.find("\n", counter_start);
+        counter_start = output.find("c=\"", counter_start);
     }
     return 0;
 }

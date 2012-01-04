@@ -180,3 +180,12 @@ Rom    4 Jan 2012
         
     samples/vboxwrapper/
         vbox.cpp
+
+Rom    4 Jan 2012
+    - VBOX: Fix a crash bug if multiple virtual VICs are defined for a VM.
+        I'm not sure what the heck happened.  It probably has something to
+        do with my \r removal code on Windows.  Bugs hidden by other bugs
+        I suppose.
+
+    samples/vboxwrapper/
+        vbox.cpp
