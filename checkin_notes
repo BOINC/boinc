@@ -196,3 +196,9 @@ Rom    5 Jan 2012
         
     samples/vboxwrapper/
         vboxwrapper.cpp
+
+David  5 Jan 2012
+    - GUI RPC: use new XML parser
+
+    lib/
+        gui_rpc_client_ops.cpp

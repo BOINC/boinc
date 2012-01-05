@@ -472,10 +472,8 @@ RESULT::~RESULT() {
 }
 
 int RESULT::parse(XML_PARSER& xp) {
-    char buf[256];
-    MIOFILE& in = *(xp.f);
-    while (in.fgets(buf, 256)) {
-        if (match_tag(buf, "</result>")) {
+    while (!xp.get_tag()) {
+        if (xp.match_tag("/result")) {
             // if CPU time is nonzero but elapsed time is zero,
             // we must be talking to an old client.
             // Set elapsed = CPU
@@ -489,54 +487,54 @@ int RESULT::parse(XML_PARSER& xp) {
             }
             return 0;
         }
-        if (parse_str(buf, "<name>", name, sizeof(name))) continue;
-        if (parse_str(buf, "<wu_name>", wu_name, sizeof(wu_name))) continue;
-        if (parse_int(buf, "<version_num>", version_num)) continue;
-        if (parse_str(buf, "<plan_class>", plan_class, sizeof(plan_class))) continue;
-        if (parse_str(buf, "<project_url>", project_url, sizeof(project_url))) continue;
-        if (parse_double(buf, "<report_deadline>", report_deadline)) continue;
-        if (parse_double(buf, "<received_time>", received_time)) continue;
-        if (parse_bool(buf, "ready_to_report", ready_to_report)) continue;
-        if (parse_bool(buf, "got_server_ack", got_server_ack)) continue;
-        if (parse_bool(buf, "suspended_via_gui", suspended_via_gui)) continue;
-        if (parse_bool(buf, "project_suspended_via_gui", project_suspended_via_gui)) continue;
-        if (parse_bool(buf, "coproc_missing", coproc_missing)) continue;
-        if (parse_bool(buf, "scheduler_wait", scheduler_wait)) continue;
-        if (parse_bool(buf, "network_wait", network_wait)) continue;
-        if (match_tag(buf, "<active_task>")) {
+        if (xp.parse_str("name", name, sizeof(name))) continue;
+        if (xp.parse_str("wu_name", wu_name, sizeof(wu_name))) continue;
+        if (xp.parse_int("version_num", version_num)) continue;
+        if (xp.parse_str("plan_class", plan_class, sizeof(plan_class))) continue;
+        if (xp.parse_str("project_url", project_url, sizeof(project_url))) continue;
+        if (xp.parse_double("report_deadline", report_deadline)) continue;
+        if (xp.parse_double("received_time", received_time)) continue;
+        if (xp.parse_bool("ready_to_report", ready_to_report)) continue;
+        if (xp.parse_bool("got_server_ack", got_server_ack)) continue;
+        if (xp.parse_bool("suspended_via_gui", suspended_via_gui)) continue;
+        if (xp.parse_bool("project_suspended_via_gui", project_suspended_via_gui)) continue;
+        if (xp.parse_bool("coproc_missing", coproc_missing)) continue;
+        if (xp.parse_bool("scheduler_wait", scheduler_wait)) continue;
+        if (xp.parse_bool("network_wait", network_wait)) continue;
+        if (xp.match_tag("active_task")) {
             active_task = true;
             continue;
         }
-        if (parse_double(buf, "<final_cpu_time>", final_cpu_time)) continue;
-        if (parse_double(buf, "<final_elapsed_time>", final_elapsed_time)) continue;
-        if (parse_int(buf, "<state>", state)) continue;
-        if (parse_int(buf, "<scheduler_state>", scheduler_state)) continue;
-        if (parse_int(buf, "<exit_status>", exit_status)) continue;
-        if (parse_int(buf, "<signal>", signal)) continue;
-        if (parse_int(buf, "<active_task_state>", active_task_state)) continue;
+        if (xp.parse_double("final_cpu_time", final_cpu_time)) continue;
+        if (xp.parse_double("final_elapsed_time", final_elapsed_time)) continue;
+        if (xp.parse_int("state", state)) continue;
+        if (xp.parse_int("scheduler_state", scheduler_state)) continue;
+        if (xp.parse_int("exit_status", exit_status)) continue;
+        if (xp.parse_int("signal", signal)) continue;
+        if (xp.parse_int("active_task_state", active_task_state)) continue;
 #if 0
-        if (match_tag(buf, "<stderr_out>")) {
-            copy_element_contents(in, "</stderr_out>", stderr_out);
+        if (xp.match_tag("stderr_out")) {
+            copy_element_contents((xp.f->f, "</stderr_out>", stderr_out);
             continue;
         }
 #endif
-        if (parse_int(buf, "<app_version_num>", app_version_num)) continue;
-        if (parse_int(buf, "<slot>", slot)) continue;
-        if (parse_int(buf, "<pid>", pid)) continue;
-        if (parse_double(buf, "<checkpoint_cpu_time>", checkpoint_cpu_time)) continue;
-        if (parse_double(buf, "<current_cpu_time>", current_cpu_time)) continue;
-        if (parse_double(buf, "<elapsed_time>", elapsed_time)) continue;
-        if (parse_double(buf, "<swap_size>", swap_size)) continue;
-        if (parse_double(buf, "<working_set_size_smoothed>", working_set_size_smoothed)) continue;
-        if (parse_double(buf, "<fraction_done>", fraction_done)) continue;
-        if (parse_double(buf, "<estimated_cpu_time_remaining>", estimated_cpu_time_remaining)) continue;
-        if (parse_bool(buf, "too_large", too_large)) continue;
-        if (parse_bool(buf, "needs_shmem", needs_shmem)) continue;
-        if (parse_bool(buf, "edf_scheduled", edf_scheduled)) continue;
-        if (parse_str(buf, "<graphics_exec_path>", graphics_exec_path, sizeof(graphics_exec_path))) continue;
-        if (parse_str(buf, "<web_graphics_url>", web_graphics_url, sizeof(web_graphics_url))) continue;
-        if (parse_str(buf, "<slot_path>", slot_path, sizeof(slot_path))) continue;
-        if (parse_str(buf, "<resources>", resources, sizeof(resources))) continue;
+        if (xp.parse_int("app_version_num", app_version_num)) continue;
+        if (xp.parse_int("slot", slot)) continue;
+        if (xp.parse_int("pid", pid)) continue;
+        if (xp.parse_double("checkpoint_cpu_time", checkpoint_cpu_time)) continue;
+        if (xp.parse_double("current_cpu_time", current_cpu_time)) continue;
+        if (xp.parse_double("elapsed_time", elapsed_time)) continue;
+        if (xp.parse_double("swap_size", swap_size)) continue;
+        if (xp.parse_double("working_set_size_smoothed", working_set_size_smoothed)) continue;
+        if (xp.parse_double("fraction_done", fraction_done)) continue;
+        if (xp.parse_double("estimated_cpu_time_remaining", estimated_cpu_time_remaining)) continue;
+        if (xp.parse_bool("too_large", too_large)) continue;
+        if (xp.parse_bool("needs_shmem", needs_shmem)) continue;
+        if (xp.parse_bool("edf_scheduled", edf_scheduled)) continue;
+        if (xp.parse_str("graphics_exec_path", graphics_exec_path, sizeof(graphics_exec_path))) continue;
+        if (xp.parse_str("web_graphics_url", web_graphics_url, sizeof(web_graphics_url))) continue;
+        if (xp.parse_str("slot_path", slot_path, sizeof(slot_path))) continue;
+        if (xp.parse_str("resources", resources, sizeof(resources))) continue;
     }
     return ERR_XML_PARSE;
 }
@@ -599,40 +597,38 @@ FILE_TRANSFER::~FILE_TRANSFER() {
 }
 
 int FILE_TRANSFER::parse(XML_PARSER& xp) {
-    char buf[256];
-    MIOFILE& in = *(xp.f);
-    while (in.fgets(buf, 256)) {
-        if (match_tag(buf, "</file_transfer>")) return 0;
-        if (parse_str(buf, "<name>", name)) continue;
-        if (parse_str(buf, "<project_url>", project_url)) continue;
-        if (parse_str(buf, "<project_name>", project_name)) continue;
-        if (parse_double(buf, "<nbytes>", nbytes)) continue;
-        if (parse_bool(buf, "sticky", sticky)) continue;
-        if (match_tag(buf, "<persistent_file_xfer>")) {
+    while (!xp.get_tag()) {
+        if (xp.match_tag("/file_transfer")) return 0;
+        if (xp.parse_string("name", name)) continue;
+        if (xp.parse_string("project_url", project_url)) continue;
+        if (xp.parse_string("project_name", project_name)) continue;
+        if (xp.parse_double("nbytes", nbytes)) continue;
+        if (xp.parse_bool("sticky", sticky)) continue;
+        if (xp.match_tag("persistent_file_xfer")) {
             pers_xfer_active = true;
             continue;
         }
-        if (match_tag(buf, "<file_xfer>")) {
+        if (xp.match_tag("file_xfer")) {
             xfer_active = true;
             continue;
         }
-        if (parse_bool(buf, "is_upload", is_upload)) {
+        if (xp.parse_bool("is_upload", is_upload)) {
             generated_locally = is_upload;
             continue;
         }
-        if (parse_bool(buf, "generated_locally", generated_locally)) {
+        if (xp.parse_bool("generated_locally", generated_locally)) {
             is_upload = generated_locally;
         }
-        if (parse_int(buf, "<num_retries>", num_retries)) continue;
-        if (parse_int(buf, "<first_request_time>", first_request_time)) continue;
-        if (parse_int(buf, "<next_request_time>", next_request_time)) continue;
-        if (parse_int(buf, "<status>", status)) continue;
-        if (parse_double(buf, "<time_so_far>", time_so_far)) continue;
-        if (parse_double(buf, "<last_bytes_xferred>", bytes_xferred)) continue;
-        if (parse_double(buf, "<file_offset>", file_offset)) continue;
-        if (parse_double(buf, "<xfer_speed>", xfer_speed)) continue;
-        if (parse_str(buf, "<hostname>", hostname)) continue;
-        if (parse_double(buf, "<project_backoff>", project_backoff)) continue;
+        if (xp.parse_int("num_retries", num_retries)) continue;
+        if (xp.parse_int("first_request_time", first_request_time)) continue;
+        if (xp.parse_int("next_request_time", next_request_time)) continue;
+        if (xp.parse_int("status", status)) continue;
+        if (xp.parse_double("time_so_far", time_so_far)) continue;
+        if (xp.parse_double("last_bytes_xferred", bytes_xferred)) continue;
+        if (xp.parse_double("file_offset", file_offset)) continue;
+        if (xp.parse_double("xfer_speed", xfer_speed)) continue;
+        if (xp.parse_string("hostname", hostname)) continue;
+        if (xp.parse_double("project_backoff", project_backoff)) continue;
     }
     return ERR_XML_PARSE;
 }
@@ -667,18 +663,16 @@ MESSAGE::~MESSAGE() {
 }
 
 int MESSAGE::parse(XML_PARSER& xp) {
-    char buf[256];
-    MIOFILE& in = *(xp.f);
-    while (in.fgets(buf, 256)) {
-        if (match_tag(buf, "</msg>")) return 0;
-        if (parse_str(buf, "<project>", project)) continue;
-        if (match_tag(buf, "<body>" )) {
-            copy_element_contents(in, "</body>", body);
+    while (!xp.get_tag()) {
+        if (xp.match_tag("/msg")) return 0;
+        if (xp.parse_string("project", project)) continue;
+        if (xp.match_tag("body" )) {
+            copy_element_contents(xp.f->f, "</body>", body);
             continue;
         }
-        if (parse_int(buf, "<pri>", priority)) continue;
-        if (parse_int(buf, "<time>", timestamp)) continue;
-        if (parse_int(buf, "<seqno>", seqno)) continue;
+        if (xp.parse_int("pri", priority)) continue;
+        if (xp.parse_int("time", timestamp)) continue;
+        if (xp.parse_int("seqno", seqno)) continue;
     }
     return ERR_XML_PARSE;
 }
@@ -699,27 +693,25 @@ GR_PROXY_INFO::~GR_PROXY_INFO() {
 }
 
 int GR_PROXY_INFO::parse(XML_PARSER& xp) {
-    char buf[4096];
 	std::string noproxy;
     use_http_proxy = false;
     use_socks_proxy = false;
     use_http_authentication = false;
-    MIOFILE& in = *(xp.f);
-    while (in.fgets(buf, 256)) {
-        if (match_tag(buf, "</proxy_info>")) return 0;
-        if (parse_int(buf, "<socks_version>", socks_version)) continue;
-        if (parse_str(buf, "<socks_server_name>", socks_server_name)) continue;
-        if (parse_int(buf, "<socks_server_port>", socks_server_port)) continue;
-        if (parse_str(buf, "<socks5_user_name>", socks5_user_name)) continue;
-        if (parse_str(buf, "<socks5_user_passwd>", socks5_user_passwd)) continue;
-        if (parse_str(buf, "<http_server_name>", http_server_name)) continue;
-        if (parse_int(buf, "<http_server_port>", http_server_port)) continue;
-        if (parse_str(buf, "<http_user_name>", http_user_name)) continue;
-        if (parse_str(buf, "<http_user_passwd>", http_user_passwd)) continue;
-        if (parse_bool(buf, "use_http_proxy", use_http_proxy)) continue;
-        if (parse_bool(buf, "use_socks_proxy", use_socks_proxy)) continue;
-        if (parse_bool(buf, "use_http_auth", use_http_authentication)) continue;
-		if (parse_str(buf, "<no_proxy>", noproxy_hosts)) continue;
+    while (!xp.get_tag()) {
+        if (xp.match_tag("/proxy_info")) return 0;
+        if (xp.parse_int("socks_version", socks_version)) continue;
+        if (xp.parse_string("socks_server_name", socks_server_name)) continue;
+        if (xp.parse_int("socks_server_port", socks_server_port)) continue;
+        if (xp.parse_string("socks5_user_name", socks5_user_name)) continue;
+        if (xp.parse_string("socks5_user_passwd", socks5_user_passwd)) continue;
+        if (xp.parse_string("http_server_name", http_server_name)) continue;
+        if (xp.parse_int("http_server_port", http_server_port)) continue;
+        if (xp.parse_string("http_user_name", http_user_name)) continue;
+        if (xp.parse_string("http_user_passwd", http_user_passwd)) continue;
+        if (xp.parse_bool("use_http_proxy", use_http_proxy)) continue;
+        if (xp.parse_bool("use_socks_proxy", use_socks_proxy)) continue;
+        if (xp.parse_bool("use_http_auth", use_http_authentication)) continue;
+		if (xp.parse_string("no_proxy", noproxy_hosts)) continue;
     }
     return ERR_XML_PARSE;
 }
@@ -749,20 +741,18 @@ CC_STATE::~CC_STATE() {
 }
 
 int CC_STATE::parse(XML_PARSER& xp) {
-    char buf[256];
     string platform;
     PROJECT* project = NULL;
     int retval;
 
-    MIOFILE& in = *(xp.f);
-    while (in.fgets(buf, 256)) {
-        if (match_tag(buf, "<unauthorized")) {
+    while (!xp.get_tag()) {
+        if (xp.match_tag("unauthorized")) {
             return ERR_AUTHENTICATOR;
         }
-        if (match_tag(buf, "</client_state>")) break;
+        if (xp.match_tag("/client_state")) break;
 
-        if (parse_bool(buf, "executing_as_daemon", executing_as_daemon)) continue;
-        if (match_tag(buf, "<project>")) {
+        if (xp.parse_bool("executing_as_daemon", executing_as_daemon)) continue;
+        if (xp.match_tag("project")) {
             project = new PROJECT();
             retval = project->parse(xp);
             if (retval) {
@@ -774,7 +764,7 @@ int CC_STATE::parse(XML_PARSER& xp) {
             projects.push_back(project);
             continue;
         }
-        if (match_tag(buf, "<app>")) {
+        if (xp.match_tag("app")) {
             APP* app = new APP();
             retval = app->parse(xp);
             if (retval || !project) {
@@ -785,7 +775,7 @@ int CC_STATE::parse(XML_PARSER& xp) {
             apps.push_back(app);
             continue;
         }
-        if (match_tag(buf, "<app_version>")) {
+        if (xp.match_tag("app_version")) {
             APP_VERSION* app_version = new APP_VERSION();
             retval = app_version->parse(xp);
             if (retval || !project) {
@@ -801,7 +791,7 @@ int CC_STATE::parse(XML_PARSER& xp) {
             app_versions.push_back(app_version);
             continue;
         }
-        if (match_tag(buf, "<workunit>")) {
+        if (xp.match_tag("workunit")) {
             WORKUNIT* wu = new WORKUNIT();
             retval = wu->parse(xp);
             if (retval || !project) {
@@ -817,7 +807,7 @@ int CC_STATE::parse(XML_PARSER& xp) {
             wus.push_back(wu);
             continue;
         }
-        if (match_tag(buf, "<result>")) {
+        if (xp.match_tag("result")) {
             RESULT* result = new RESULT();
             retval = result->parse(xp);
             if (retval || !project) {
@@ -850,22 +840,22 @@ int CC_STATE::parse(XML_PARSER& xp) {
             results.push_back(result);
             continue;
         }
-        if (match_tag(buf, "<global_preferences>")) {
+        if (xp.match_tag("global_preferences")) {
             bool flag = false;
             GLOBAL_PREFS_MASK mask;
             global_prefs.parse(xp, "", flag, mask);
             continue;
         }
-        if (parse_str(buf, "<platform>", platform)) {
+        if (xp.parse_string("platform", platform)) {
             platforms.push_back(platform);
             continue;
         }
-        if (match_tag(buf, "host_info")) {
+        if (xp.match_tag("host_info")) {
             host_info.parse(xp);
             continue;
         }
-        if (parse_bool(buf, "have_cuda", have_nvidia)) continue;
-        if (parse_bool(buf, "have_ati", have_ati)) continue;
+        if (xp.parse_bool("have_cuda", have_nvidia)) continue;
+        if (xp.parse_bool("have_ati", have_ati)) continue;
     }
     return 0;
 }
@@ -1064,15 +1054,13 @@ ACCT_MGR_INFO::ACCT_MGR_INFO() {
 }
 
 int ACCT_MGR_INFO::parse(XML_PARSER& xp) {
-    char buf[256];
-    MIOFILE& in = *(xp.f);
-    while (in.fgets(buf, 256)) {
-        if (match_tag(buf, "</acct_mgr_info>")) return 0;
-        if (parse_str(buf, "<acct_mgr_name>", acct_mgr_name)) continue;
-        if (parse_str(buf, "<acct_mgr_url>", acct_mgr_url)) continue;
-        if (parse_bool(buf, "have_credentials", have_credentials)) continue;
-        if (parse_bool(buf, "cookie_required", cookie_required)) continue;
-        if (parse_str(buf, "<cookie_failure_url>", cookie_failure_url)) continue;
+    while (!xp.get_tag()) {
+        if (xp.match_tag("/acct_mgr_info")) return 0;
+        if (xp.parse_string("acct_mgr_name", acct_mgr_name)) continue;
+        if (xp.parse_string("acct_mgr_url", acct_mgr_url)) continue;
+        if (xp.parse_bool("have_credentials", have_credentials)) continue;
+        if (xp.parse_bool("cookie_required", cookie_required)) continue;
+        if (xp.parse_string("cookie_failure_url", cookie_failure_url)) continue;
     }
     return ERR_XML_PARSE;
 }
@@ -1090,14 +1078,12 @@ ACCT_MGR_RPC_REPLY::ACCT_MGR_RPC_REPLY() {
 }
 
 int ACCT_MGR_RPC_REPLY::parse(XML_PARSER& xp) {
-    char buf[256];
-    std::string msg;
     clear();
-    MIOFILE& in = *(xp.f);
-    while (in.fgets(buf, 256)) {
-        if (match_tag(buf, "</acct_mgr_rpc_reply>")) return 0;
-        if (parse_int(buf, "<error_num>", error_num)) continue;
-        if (parse_str(buf, "<message>", msg)) {
+    string msg;
+    while (!xp.get_tag()) {
+        if (xp.match_tag("/acct_mgr_rpc_reply")) return 0;
+        if (xp.parse_int("error_num", error_num)) continue;
+        if (xp.parse_string("message", msg)) {
             messages.push_back(msg);
             continue;
         }
@@ -1115,14 +1101,12 @@ PROJECT_ATTACH_REPLY::PROJECT_ATTACH_REPLY() {
 }
 
 int PROJECT_ATTACH_REPLY::parse(XML_PARSER& xp) {
-    char buf[256];
     std::string msg;
     clear();
-    MIOFILE& in = *(xp.f);
-    while (in.fgets(buf, 256)) {
-        if (match_tag(buf, "</project_attach_reply>")) return 0;
-        if (parse_int(buf, "<error_num>", error_num)) continue;
-        if (parse_str(buf, "<message>", msg)) {
+    while (!xp.get_tag()) {
+        if (xp.match_tag("/project_attach_reply")) return 0;
+        if (xp.parse_int("error_num", error_num)) continue;
+        if (xp.parse_string("message", msg)) {
             messages.push_back(msg);
             continue;
         }
@@ -1140,14 +1124,12 @@ PROJECT_INIT_STATUS::PROJECT_INIT_STATUS() {
 }
 
 int PROJECT_INIT_STATUS::parse(XML_PARSER& xp) {
-    char buf[256];
-    MIOFILE& in = *(xp.f);
-    while (in.fgets(buf, 256)) {
-        if (match_tag(buf, "</get_project_init_status>")) return 0;
-        if (parse_str(buf, "<url>", url)) continue;
-        if (parse_str(buf, "<name>", name)) continue;
-        if (parse_str(buf, "<team_name>", team_name)) continue;
-        if (parse_bool(buf, "has_account_key", has_account_key)) continue;
+    while (!xp.get_tag()) {
+        if (xp.match_tag("/get_project_init_status")) return 0;
+        if (xp.parse_string("url", url)) continue;
+        if (xp.parse_string("name", name)) continue;
+        if (xp.parse_string("team_name", team_name)) continue;
+        if (xp.parse_bool("has_account_key", has_account_key)) continue;
     }
     return ERR_XML_PARSE;
 }
@@ -1167,33 +1149,28 @@ PROJECT_CONFIG::~PROJECT_CONFIG() {
 }
 
 int PROJECT_CONFIG::parse(XML_PARSER& xp) {
-    char buf[256];
     std::string msg;
     clear();
-    MIOFILE& in = *(xp.f);
-    while (in.fgets(buf, 256)) {
-        if (match_tag(buf, "</project_config>")) return 0;
-        if (parse_int(buf, "<error_num>", error_num)) continue;
-        if (parse_str(buf, "<name>", name)) continue;
-        if (parse_str(buf, "<master_url>", master_url)) continue;
-        if (parse_int(buf, "<local_revision>", local_revision)) continue;
-        if (parse_int(buf, "<min_passwd_length>", min_passwd_length)) continue;
-        if (parse_bool(buf, "account_manager", account_manager)) continue;
-        if (parse_bool(buf, "uses_username", uses_username)) continue;
-        if (parse_bool(buf, "account_creation_disabled", account_creation_disabled)) continue;
-        if (parse_bool(buf, "client_account_creation_disabled", client_account_creation_disabled)) continue;
-        if (parse_str(buf, "<error_msg>", error_msg)) continue;
-        if (match_tag(buf, "<terms_of_use>")) {
-            while (in.fgets(buf, 256)) {
-                if (match_tag(buf, "</terms_of_use>")) break;
-                terms_of_use += buf;
-            }
+    while (!xp.get_tag()) {
+        if (xp.match_tag("/project_config")) return 0;
+        if (xp.parse_int("error_num", error_num)) continue;
+        if (xp.parse_string("name", name)) continue;
+        if (xp.parse_string("master_url", master_url)) continue;
+        if (xp.parse_int("local_revision", local_revision)) continue;
+        if (xp.parse_int("min_passwd_length", min_passwd_length)) continue;
+        if (xp.parse_bool("account_manager", account_manager)) continue;
+        if (xp.parse_bool("uses_username", uses_username)) continue;
+        if (xp.parse_bool("account_creation_disabled", account_creation_disabled)) continue;
+        if (xp.parse_bool("client_account_creation_disabled", client_account_creation_disabled)) continue;
+        if (xp.parse_string("error_msg", error_msg)) continue;
+        if (xp.match_tag("terms_of_use")) {
+            copy_element_contents(xp.f->f, "</terms_of_use>", terms_of_use);
             continue;
         }
-        if (parse_int(buf, "<min_client_version>", min_client_version)) continue;
-        if (parse_bool(buf, "web_stopped", web_stopped)) continue;
-        if (parse_bool(buf, "sched_stopped", sched_stopped)) continue;
-        if (parse_str(buf, "platform_name", msg)) {
+        if (xp.parse_int("min_client_version", min_client_version)) continue;
+        if (xp.parse_bool("web_stopped", web_stopped)) continue;
+        if (xp.parse_bool("sched_stopped", sched_stopped)) continue;
+        if (xp.parse_string("platform_name", msg)) {
             platforms.push_back(msg);
             continue;
         }
@@ -1243,13 +1220,11 @@ ACCOUNT_OUT::~ACCOUNT_OUT() {
 }
 
 int ACCOUNT_OUT::parse(XML_PARSER& xp) {
-    char buf[256];
     clear();
-    MIOFILE& in = *(xp.f);
-    while (in.fgets(buf, 256)) {
-        if (parse_int(buf, "<error_num>", error_num)) continue;
-        if (parse_str(buf, "<error_msg>", error_msg)) continue;
-        if (parse_str(buf, "<authenticator>", authenticator)) continue;
+    while (!xp.get_tag()) {
+        if (xp.parse_int("error_num", error_num)) continue;
+        if (xp.parse_string("error_msg", error_msg)) continue;
+        if (xp.parse_string("authenticator", authenticator)) continue;
     }
     return 0;
 }
@@ -1269,27 +1244,25 @@ CC_STATUS::~CC_STATUS() {
 }
 
 int CC_STATUS::parse(XML_PARSER& xp) {
-    char buf[256];
-    MIOFILE& in = *(xp.f);
-    while (in.fgets(buf, 256)) {
-        if (match_tag(buf, "</cc_status>")) return 0; 
-        if (parse_int(buf, "<network_status>", network_status)) continue;
-        if (parse_bool(buf, "ams_password_error", ams_password_error)) continue;
-        if (parse_bool(buf, "manager_must_quit", manager_must_quit)) continue;
-        if (parse_int(buf, "<task_suspend_reason>", task_suspend_reason)) continue;
-        if (parse_int(buf, "<task_mode>", task_mode)) continue;
-        if (parse_int(buf, "<task_mode_perm>", task_mode_perm)) continue;
-		if (parse_double(buf, "<task_mode_delay>", task_mode_delay)) continue;
-        if (parse_int(buf, "<gpu_suspend_reason>", gpu_suspend_reason)) continue;
-        if (parse_int(buf, "<gpu_mode>", gpu_mode)) continue;
-        if (parse_int(buf, "<gpu_mode_perm>", gpu_mode_perm)) continue;
-		if (parse_double(buf, "<gpu_mode_delay>", gpu_mode_delay)) continue;
-        if (parse_int(buf, "<network_suspend_reason>", network_suspend_reason)) continue;
-        if (parse_int(buf, "<network_mode>", network_mode)) continue;
-        if (parse_int(buf, "<network_mode_perm>", network_mode_perm)) continue;
-		if (parse_double(buf, "<network_mode_delay>", network_mode_delay)) continue;
-        if (parse_bool(buf, "disallow_attach", disallow_attach)) continue;
-        if (parse_bool(buf, "simple_gui_only", simple_gui_only)) continue;
+    while (!xp.get_tag()) {
+        if (xp.match_tag("/cc_status")) return 0; 
+        if (xp.parse_int("network_status", network_status)) continue;
+        if (xp.parse_bool("ams_password_error", ams_password_error)) continue;
+        if (xp.parse_bool("manager_must_quit", manager_must_quit)) continue;
+        if (xp.parse_int("task_suspend_reason", task_suspend_reason)) continue;
+        if (xp.parse_int("task_mode", task_mode)) continue;
+        if (xp.parse_int("task_mode_perm", task_mode_perm)) continue;
+		if (xp.parse_double("task_mode_delay", task_mode_delay)) continue;
+        if (xp.parse_int("gpu_suspend_reason", gpu_suspend_reason)) continue;
+        if (xp.parse_int("gpu_mode", gpu_mode)) continue;
+        if (xp.parse_int("gpu_mode_perm", gpu_mode_perm)) continue;
+		if (xp.parse_double("gpu_mode_delay", gpu_mode_delay)) continue;
+        if (xp.parse_int("network_suspend_reason", network_suspend_reason)) continue;
+        if (xp.parse_int("network_mode", network_mode)) continue;
+        if (xp.parse_int("network_mode_perm", network_mode_perm)) continue;
+		if (xp.parse_double("network_mode_delay", network_mode_delay)) continue;
+        if (xp.parse_bool("disallow_attach", disallow_attach)) continue;
+        if (xp.parse_bool("simple_gui_only", simple_gui_only)) continue;
     }
     return ERR_XML_PARSE;
 }
