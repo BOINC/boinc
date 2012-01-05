@@ -189,3 +189,10 @@ Rom    4 Jan 2012
 
     samples/vboxwrapper/
         vbox.cpp
+
+Rom    5 Jan 2012
+    - VBOX: Extract the various logs before attempting to cleanup if the
+        registration process fails.
+        
+    samples/vboxwrapper/
+        vboxwrapper.cpp

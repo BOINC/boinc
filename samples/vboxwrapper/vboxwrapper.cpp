@@ -371,11 +371,14 @@ int main(int argc, char** argv) {
 
     retval = vm.run();
     if (retval) {
+        // Get logs before cleanup
+        vm.get_system_log(system_log);
+        vm.get_vm_log(vm_log);
+
+        // Cleanup
         vm.cleanup();
         write_checkpoint(elapsed_time);
 
-        vm.get_system_log(system_log);
-        vm.get_vm_log(vm_log);
         fprintf(
             stderr,
             "%s Hypervisor System Log:\n\n"
