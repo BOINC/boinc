@@ -234,3 +234,13 @@ Rom    6 Jan 2012
         ViewStatistics.cpp
     lib/
         gui_rpc_client_ops.cpp
+
+Rom    6 Jan 2012
+    - VBOX: Use sscanf instead of strtol to convert a hex string.
+    - VBOX: Use new FloppyIO implementation that reports image
+        creation errors.
+
+
+    samples/vboxwrapper/
+        floppyio.cpp, .h
+        vbox.cpp

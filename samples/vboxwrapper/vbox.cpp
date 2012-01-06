@@ -320,11 +320,13 @@ CLEANUP:
 
         // Determine the real error code by parsing the output
         errcode_start = output.find("(0x");
-        errcode_start += 1;
-        errcode_end = output.find(")", errcode_start);
-        errcode = output.substr(errcode_start, errcode_end - errcode_start);
+        if (errcode_start) {
+            errcode_start += 1;
+            errcode_end = output.find(")", errcode_start);
+            errcode = output.substr(errcode_start, errcode_end - errcode_start);
 
-        retval = strtol(errcode.c_str(), NULL, NULL);
+            sscanf(errcode.c_str(), "%x", &retval);
+        }
 
         // If something couldn't be found, just return ERR_FOPEN
         if (!retval) retval = ERR_FOPEN;
@@ -801,6 +803,18 @@ int VBOX_VM::register_vm() {
         // NOTE: This creates the floppy.img file at runtime for use by the VM.
         //
         pFloppy = new FloppyIO(floppy_image_filename.c_str());
+        if (!pFloppy->ready()) {
+            fprintf(
+                stderr,
+                "%s Creating virtual floppy image failed.\n"
+                "%s Error Code '%d' Error Message '%s'\n",
+                boinc_msg_prefix(buf, sizeof(buf)),
+                boinc_msg_prefix(buf, sizeof(buf)),
+                pFloppy->error,
+                pFloppy->errorStr.c_str()
+            );
+            return ERR_FWRITE;
+        }
 
         fprintf(
             stderr,
