@@ -238,7 +238,7 @@ if (is_news_forum($forum) && $logged_in_user && ($logged_in_user->id == $thread-
     if ($thread->status) {
         show_button(
             "forum_thread_status.php?action=clear&amp;id=$thread->id",
-            tra("Export"),
+            tra("Export as Notice"),
             tra("Export this news item as a Notice")
         );
     } else {

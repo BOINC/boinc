@@ -249,3 +249,14 @@ David  6 Jan 2012
 
 	lib/
 		gui_rpc_client_ops.cpp
+
+David  6 Jan 2012
+    - validator: for credit_from_runtime,
+        use result.flops_estimate rather than host.p_fpops;
+        otherwise it doesn't work for multicore apps.
+        TODO: cheat-proofing
+
+    sched/
+        validator.cpp
+    html/user/
+        forum_thread.php
