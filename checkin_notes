@@ -203,9 +203,20 @@ David  5 Jan 2012
     lib/
         gui_rpc_client_ops.cpp
 
-Rom    3 Jan 2012
+Charlie 5 Jan 2012
     - client: Restore scaling factor for AMD OpenCL devices on Macs with 
         OpenCL version < 1.2.
     
     client/
         coproc_detect.cpp
+
+Charlie 6 Jan 2012
+    - Mac Installer: Changes for integrated BOINC+VirtualBox Mac installer.
+    
+    clientgui/
+        mac/
+            SetVersion.cpp
+    mac_installer/
+        Description.plist
+        Installer.cpp
+        release_boinc.sh

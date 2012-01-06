@@ -28,6 +28,7 @@
 #include <sys/wait.h>	// waitpid
 #include <dirent.h>
 #include <sys/param.h>  // for MAXPATHLEN
+#include <sys/stat.h>
 
 
 #define boinc_master_user_name "boinc_master"
@@ -52,7 +53,7 @@ CFStringRef     valueNoRestart = CFSTR("NoRestart");
 
 int main(int argc, char *argv[])
 {
-    char                    pkgPath[MAXPATHLEN], infoPlistPath[MAXPATHLEN];
+    char                    pkgPath[MAXPATHLEN], infoPlistPath[MAXPATHLEN], MetaPkgPath[MAXPATHLEN];
     char                    brand[64], s[256];
     char                    *p;
     ProcessSerialNumber     ourPSN, installerPSN;
@@ -70,6 +71,7 @@ int main(int argc, char *argv[])
     CFStringRef             currentValue = NULL, desiredValue = NULL;
     CFStringRef             errorString = NULL;
     OSStatus                err = noErr;
+    struct stat             stat_buf;
 
     Initialize();
 
@@ -99,6 +101,9 @@ int main(int argc, char *argv[])
     if (p)
         *p = '\0'; 
 
+    strlcpy(MetaPkgPath, pkgPath, sizeof(MetaPkgPath));
+    strlcat(MetaPkgPath, "+VirtualBox.mpkg", sizeof(MetaPkgPath));
+    strlcat(pkgPath, ".pkg", sizeof(pkgPath));
     err = Gestalt(gestaltSystemVersion, &response);
     if (err != noErr)
         return err;
@@ -125,8 +130,6 @@ int main(int argc, char *argv[])
     sprintf(s, "rm -rf \"/Library/Receipts/%s.pkg\"", brand);
     system (s);
 
-    strlcat(pkgPath, ".pkg", sizeof(pkgPath));
-    
     err = Gestalt(gestaltSystemVersion, &response);
     if (err != noErr)
         return err;
@@ -191,7 +194,11 @@ int main(int argc, char *argv[])
         CFRelease(propertyListRef);
 
     if (err == noErr) {
-        sprintf(infoPlistPath, "open \"%s\" &", pkgPath);
+        if ((response < 0x1050) || stat(MetaPkgPath, &stat_buf)) {  // stat() returns zero on success
+            sprintf(infoPlistPath, "open \"%s\" &", pkgPath);
+        } else {
+            sprintf(infoPlistPath, "open \"%s\" &", MetaPkgPath);
+        }
         system(infoPlistPath);
     }
 

@@ -35,7 +35,8 @@
 int IsFileCurrent(char* filePath);
 int FixInfoPlistFile(char* myPath);
 int FixInfoPlist_Strings(char* myPath, char* brand);
-int MakeInstallerInfoPlistFile(char* myPath, char* brand);
+int MakeBOINCPackageInfoPlistFile(char* myPath, char* brand);
+int MakeMetaPackageInfoPlistFile(char* myPath, char* brand);
 
 int main(int argc, char** argv) {
     int retval = 0, err;
@@ -65,7 +66,9 @@ int main(int argc, char** argv) {
     if (err) retval = err;
     err = FixInfoPlistFile("./WaitPermissions-Info.plist");
     if (err) retval = err;
-    err = MakeInstallerInfoPlistFile("./Pkg-Info.plist", "BOINC Manager");
+    err = MakeBOINCPackageInfoPlistFile("./Pkg-Info.plist", "BOINC Manager");
+    if (err) retval = err;
+    err = MakeMetaPackageInfoPlistFile("./Mpkg-Info.plist", "BOINC Manager");
     return retval;
 }
 
@@ -200,7 +203,7 @@ bail:
 }
 
 
-int MakeInstallerInfoPlistFile(char* myPath, char* brand) {
+int MakeBOINCPackageInfoPlistFile(char* myPath, char* brand) {
     int retval = 0;
     FILE *f;
     
@@ -211,7 +214,7 @@ int MakeInstallerInfoPlistFile(char* myPath, char* brand) {
     if (f)
     {
         fprintf(f, "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
-        fprintf(f, "<!DOCTYPE plist PUBLIC \"-//Apple Computer//DTD PLIST 1.0//EN\" \"http://www.apple.com/DTDs/PropertyList-1.0.dtd\">\n");
+        fprintf(f, "<!DOCTYPE plist PUBLIC \"-//Apple//DTD PLIST 1.0//EN\" \"http://www.apple.com/DTDs/PropertyList-1.0.dtd\">\n");
         fprintf(f, "<plist version=\"1.0\">\n<dict>\n");
         fprintf(f, "\t<key>CFBundleGetInfoString</key>\n");
         fprintf(f, "\t<string>%s %s</string>\n", brand, BOINC_VERSION_STRING);
@@ -238,6 +241,59 @@ int MakeInstallerInfoPlistFile(char* myPath, char* brand) {
     }
     else {
         puts("Error creating file Pkg-Info.plist\n");
+        retval = -1;
+    }
+        
+    return retval;
+}
+
+
+int MakeMetaPackageInfoPlistFile(char* myPath, char* brand) {
+    int retval = 0;
+    FILE *f;
+    
+    if (IsFileCurrent(myPath))
+        return 0;
+
+    f = fopen(myPath, "w");
+    if (f)
+    {
+        fprintf(f, "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
+        fprintf(f, "<!DOCTYPE plist PUBLIC \"-//Apple//DTD PLIST 1.0//EN\" \"http://www.apple.com/DTDs/PropertyList-1.0.dtd\">\n");
+        fprintf(f, "<plist version=\"1.0\">\n<dict>\n");
+        fprintf(f, "\t<key>CFBundleGetInfoString</key>\n");
+        fprintf(f, "\t<string>%s %s + VirtualBox</string>\n", brand, BOINC_VERSION_STRING);
+        fprintf(f, "\t<key>CFBundleIdentifier</key>\n\t<string>edu.berkeley.boinc+vbox</string>\n");
+        fprintf(f, "\t<key>CFBundleShortVersionString</key>\n");
+        fprintf(f, "\t<string>%s</string>\n", BOINC_VERSION_STRING);
+        fprintf(f, "\t<key>IFMajorVersion</key>\n\t<integer>%d</integer>\n", BOINC_MAJOR_VERSION);
+        fprintf(f, "\t<key>IFMinorVersion</key>\n\t<integer>%d</integer>\n", BOINC_MINOR_VERSION);
+        fprintf(f, "\t<key>IFPkgFlagAllowBackRev</key>\n\t<integer>1</integer>\n");
+        fprintf(f, "\t<key>IFPkgFlagAuthorizationAction</key>\n\t<string>RootAuthorization</string>\n");
+        fprintf(f, "\t<key>IFPkgFlagComponentDirectory</key>\n\t<string>../</string>\n");
+
+        fprintf(f, "\t<key>IFPkgFlagPackageList</key>\n");
+        
+        fprintf(f, "\t<array>\n");
+        fprintf(f, "\t\t<dict>\n");
+        fprintf(f, "\t\t\t<key>IFPkgFlagPackageLocation</key>\n\t\t\t<string>BOINC.pkg</string>\n");
+        fprintf(f, "\t\t\t<key>IFPkgFlagPackageSelection</key>\n\t\t\t<string>required</string>\n");
+        fprintf(f, "\t\t</dict>\n");
+
+        fprintf(f, "\t\t<dict>\n");
+        fprintf(f, "\t\t\t<key>IFPkgFlagPackageLocation</key>\n\t\t\t<string>VirtualBox.pkg</string>\n");
+        fprintf(f, "\t\t\t<key>IFPkgFlagPackageSelection</key>\n\t\t\t<string>selected</string>\n");
+        fprintf(f, "\t\t</dict>\n");
+        fprintf(f, "\t</array>\n");
+
+        fprintf(f, "\t<key>IFPkgFormatVersion</key>\n\t<real>0.10000000149011612</real>\n");
+        fprintf(f, "</dict>\n</plist>\n");
+
+        fflush(f);
+        retval = fclose(f);
+    }
+    else {
+        puts("Error creating file Mpkg-Info.plist\n");
         retval = -1;
     }
         

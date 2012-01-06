@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>IFPkgDescriptionDescription</key>
-	<string></string>
+	<string>Installs BOINC Manager, screensaver and data</string>
 	<key>IFPkgDescriptionTitle</key>
 	<string>BOINC Manager</string>
 </dict>
