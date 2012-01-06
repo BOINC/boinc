@@ -737,8 +737,11 @@ void CBOINCBaseView::PostUpdateSelection(){
     wxSize sz = m_pTaskPane->GetVirtualSize();
     if (sz.GetHeight() > m_pTaskPane->GetSize().GetHeight()) {
         // Account for vertical scrollbar
-        if (m_pTaskPane->GetSize().GetWidth() != (sz.GetWidth() + 17)) {
-            m_pTaskPane->SetSize(sz.GetWidth() + 17, m_pTaskPane->GetSize().GetHeight());
+        if (m_pTaskPane->GetSize().GetWidth() != (sz.GetWidth() + wxSystemSettings::GetMetric(wxSYS_VSCROLL_X, NULL))) {
+            m_pTaskPane->SetSize(
+                sz.GetWidth() + wxSystemSettings::GetMetric(wxSYS_VSCROLL_X, NULL),
+                m_pTaskPane->GetSize().GetHeight()
+            );
         }
     } else {
         m_pTaskPane->SetSize(sz.GetWidth(), m_pTaskPane->GetSize().GetHeight());
