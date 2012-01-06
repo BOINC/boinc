@@ -32,13 +32,13 @@
 #include "res/sortdescending.xpm"
 
 
-IMPLEMENT_DYNAMIC_CLASS(CBOINCBaseView, wxWindow)
+IMPLEMENT_DYNAMIC_CLASS(CBOINCBaseView, wxPanel)
 
 
 CBOINCBaseView::CBOINCBaseView() {}
 
 CBOINCBaseView::CBOINCBaseView(wxNotebook* pNotebook) :
-    wxWindow(pNotebook, -1, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL)
+    wxPanel(pNotebook, -1, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL)
 {
     m_bProcessingTaskRenderEvent = false;
     m_bProcessingListRenderEvent = false;
@@ -57,6 +57,7 @@ CBOINCBaseView::CBOINCBaseView(wxNotebook* pNotebook) :
     m_SortArrows = NULL;
     
     SetName(GetViewName());
+    SetAutoLayout(TRUE);
 
 #if BASEVIEW_STRIPES    
     m_pWhiteBackgroundAttr = NULL;
@@ -66,7 +67,7 @@ CBOINCBaseView::CBOINCBaseView(wxNotebook* pNotebook) :
 
 
 CBOINCBaseView::CBOINCBaseView(wxNotebook* pNotebook, wxWindowID iTaskWindowID, int iTaskWindowFlags, wxWindowID iListWindowID, int iListWindowFlags) :
-    wxWindow(pNotebook, -1, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL)
+    wxPanel(pNotebook, -1, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL)
 {
     m_bProcessingTaskRenderEvent = false;
     m_bProcessingListRenderEvent = false;
@@ -81,6 +82,7 @@ CBOINCBaseView::CBOINCBaseView(wxNotebook* pNotebook, wxWindowID iTaskWindowID, 
     m_pListPane = NULL;
 
     SetName(GetViewName());
+    SetAutoLayout(TRUE);
 
     wxFlexGridSizer* itemFlexGridSizer = new wxFlexGridSizer(2, 0, 0);
     wxASSERT(itemFlexGridSizer);

@@ -96,7 +96,6 @@ CViewResources::CViewResources(wxNotebook* pNotebook) :
     itemGridSizer->Add(m_pieCtrlBOINC, 1, wxGROW|wxALL,1);
 
     SetSizer(itemGridSizer);
-    Layout();
 
     UpdateSelection();
 }

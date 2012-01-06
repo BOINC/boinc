@@ -97,7 +97,7 @@ private:
 typedef bool     (*ListSortCompareFunc)(int, int);
 
 
-class CBOINCBaseView : public wxWindow {
+class CBOINCBaseView : public wxPanel {
     DECLARE_DYNAMIC_CLASS( CBOINCBaseView )
 
 public:

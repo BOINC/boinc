@@ -260,3 +260,13 @@ David  6 Jan 2012
         validator.cpp
     html/user/
         forum_thread.php
+
+Rom    6 Jan 2012
+    - MGR: Derive from the correct base class to make the sizers work
+        properly.
+        
+    clientgui/
+        BOINCBaseView.cpp, .h
+        ViewNotices.cpp
+        ViewResources.cpp
+        
