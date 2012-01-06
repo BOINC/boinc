@@ -514,7 +514,9 @@ int RESULT::parse(XML_PARSER& xp) {
         if (xp.parse_int("active_task_state", active_task_state)) continue;
 #if 0
         if (xp.match_tag("stderr_out")) {
-            copy_element_contents((xp.f->f, "</stderr_out>", stderr_out);
+            char buf[65536];
+            xp.element_contents(("</stderr_out>", buf);
+            stderr_out = buf;
             continue;
         }
 #endif
@@ -663,10 +665,15 @@ MESSAGE::~MESSAGE() {
 }
 
 int MESSAGE::parse(XML_PARSER& xp) {
+    char buf[1024];
     while (!xp.get_tag()) {
         if (xp.match_tag("/msg")) return 0;
         if (xp.parse_string("project", project)) continue;
-        if (xp.parse_string("body", body))  continue;
+        if (xp.match_tag("body")) {
+            xp.element_contents("</body>", buf, sizeof(buf));
+            body = buf;
+            continue;
+        }
         if (xp.parse_int("pri", priority)) continue;
         if (xp.parse_int("time", timestamp)) continue;
         if (xp.parse_int("seqno", seqno)) continue;
@@ -1161,7 +1168,9 @@ int PROJECT_CONFIG::parse(XML_PARSER& xp) {
         if (xp.parse_bool("client_account_creation_disabled", client_account_creation_disabled)) continue;
         if (xp.parse_string("error_msg", error_msg)) continue;
         if (xp.match_tag("terms_of_use")) {
-            copy_element_contents(xp.f->f, "</terms_of_use>", terms_of_use);
+            char buf[65536];
+            xp.element_contents("</terms_of_use>", buf, sizeof(buf));
+            terms_of_use = buf;
             continue;
         }
         if (xp.parse_int("min_client_version", min_client_version)) continue;

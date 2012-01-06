@@ -243,3 +243,9 @@ Rom    6 Jan 2012
     samples/vboxwrapper/
         floppyio.cpp, .h
         vbox.cpp
+
+David  6 Jan 2012
+	- manager: parse message contents with XML_PARSER::element_content().
+
+	lib/
+		gui_rpc_client_ops.cpp
