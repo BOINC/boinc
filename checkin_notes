@@ -240,7 +240,6 @@ Rom    6 Jan 2012
     - VBOX: Use new FloppyIO implementation that reports image
         creation errors.
 
-
     samples/vboxwrapper/
         floppyio.cpp, .h
         vbox.cpp
