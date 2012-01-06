@@ -220,3 +220,17 @@ Charlie 6 Jan 2012
         Description.plist
         Installer.cpp
         release_boinc.sh
+
+Rom    6 Jan 2012
+    - MGR: Remove sash window divider between the task panel and list panel
+        in the advanced view. Retain the ability to dynamically adjust the
+        width of the task panel based on widest button.
+    - LIB: Use parse string instead of copy contents for messages RPC.
+    
+    clientgui/
+        BOINCBaseView.cpp, .h
+        ViewNotices.cpp
+        ViewResources.cpp
+        ViewStatistics.cpp
+    lib/
+        gui_rpc_client_ops.cpp

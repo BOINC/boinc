@@ -47,14 +47,11 @@ CViewResources::CViewResources(wxNotebook* pNotebook) :
 {
 	m_BOINCwasEmpty=false;
 
-    wxPanel* pPanel = new wxPanel(this, wxID_ANY, wxDefaultPosition, wxDefaultSize, 0);
-	wxASSERT(pPanel);
-
 	wxGridSizer* itemGridSizer = new wxGridSizer(2, 0, 3);
     wxASSERT(itemGridSizer);
 
 	// create pie chart ctrl for total disk usage
-	m_pieCtrlTotal = new wxPieCtrl(pPanel, ID_PIECTRL_RESOURCEUTILIZATIONVIEWTOTAL, wxDefaultPosition, wxDefaultSize);
+	m_pieCtrlTotal = new wxPieCtrl(this, ID_PIECTRL_RESOURCEUTILIZATIONVIEWTOTAL, wxDefaultPosition, wxDefaultSize);
 	wxASSERT(m_pieCtrlTotal);
 
     // setup the legend
@@ -75,7 +72,7 @@ CViewResources::CViewResources(wxNotebook* pNotebook) :
 
     
     // create pie chart ctrl for BOINC disk usage
-	m_pieCtrlBOINC = new wxPieCtrl(pPanel, ID_PIECTRL_RESOURCEUTILIZATIONVIEW, wxDefaultPosition, wxDefaultSize);
+	m_pieCtrlBOINC = new wxPieCtrl(this, ID_PIECTRL_RESOURCEUTILIZATIONVIEW, wxDefaultPosition, wxDefaultSize);
 	wxASSERT(m_pieCtrlBOINC);
 
     //setup the legend
@@ -98,10 +95,8 @@ CViewResources::CViewResources(wxNotebook* pNotebook) :
     itemGridSizer->Add(m_pieCtrlTotal, 1, wxGROW|wxALL,1);
     itemGridSizer->Add(m_pieCtrlBOINC, 1, wxGROW|wxALL,1);
 
-    pPanel->SetSizer(itemGridSizer);
-    pPanel->Layout();
-
-    Initialize(pPanel);
+    SetSizer(itemGridSizer);
+    Layout();
 
     UpdateSelection();
 }

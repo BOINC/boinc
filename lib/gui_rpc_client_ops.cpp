@@ -666,10 +666,7 @@ int MESSAGE::parse(XML_PARSER& xp) {
     while (!xp.get_tag()) {
         if (xp.match_tag("/msg")) return 0;
         if (xp.parse_string("project", project)) continue;
-        if (xp.match_tag("body" )) {
-            copy_element_contents(xp.f->f, "</body>", body);
-            continue;
-        }
+        if (xp.parse_string("body", body))  continue;
         if (xp.parse_int("pri", priority)) continue;
         if (xp.parse_int("time", timestamp)) continue;
         if (xp.parse_int("seqno", seqno)) continue;
