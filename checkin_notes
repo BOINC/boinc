@@ -269,4 +269,11 @@ Rom    6 Jan 2012
         BOINCBaseView.cpp, .h
         ViewNotices.cpp
         ViewResources.cpp
-        
+
+Rom    7 Jan 2012
+    - VBOX: Sleep for the remainder of the polling period and not the
+        whole poll period.
+
+    samples/vboxwrapper/
+        vbox.cpp, .h
+        vboxwrapper.cpp, .h

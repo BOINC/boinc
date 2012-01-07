@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2010 University of California
+// Copyright (C) 2010-2012 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -246,10 +246,12 @@ int main(int argc, char** argv) {
     double trickle_period = 0.0;
     double trickle_cpu_time = 0.0;
     double fraction_done = 0.0;
-    double bytes_sent = 0.0;
-    double bytes_received = 0.0;
     double checkpoint_cpu_time = 0.0;
     double last_status_report_time = 0.0;
+    double stopwatch_time = 0.0;
+    double sleep_time = 0.0;
+    double bytes_sent = 0.0;
+    double bytes_received = 0.0;
     bool report_vm_pid = false;
     bool report_net_usage = false;
     int vm_pid=0;
@@ -399,6 +401,9 @@ int main(int argc, char** argv) {
     set_throttles(aid, vm);
 
     while (1) {
+        // Begin stopwatch timer
+        stopwatch_time = dtime();
+
         // Discover the VM's current state
         vm.poll();
 
@@ -635,7 +640,12 @@ int main(int argc, char** argv) {
                 }
             }
         }
-        boinc_sleep(POLL_PERIOD);
+
+        // Sleep for the remainder of the polling period
+        sleep_time = POLL_PERIOD - (dtime() - stopwatch_time);
+        if (sleep_time > 0) {
+            boinc_sleep(sleep_time);
+        }
     }
 
 #if defined(_WIN32) && defined(USE_WINSOCK)
