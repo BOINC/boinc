@@ -42,6 +42,8 @@
 #include <typeinfo>
 #include <iostream>
 #include <fstream>
+#include <sstream>
+#include <stdexcept>
 #include <string.h>
 #endif
 
