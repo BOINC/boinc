@@ -290,3 +290,11 @@ David  7 Jan 2012
         sched_types.h
         sched_customize.cpp
         validator.cpp
+
+Rom    8 Jan 2012
+    - VBOX: Fix regression where the ERR_CPU_VM_EXTENSIONS_DISABLED error
+        message wasn't being written to stderr when the VM extensions
+        were disabled via the BIOS.
+        
+    samples/vboxwrapper/
+        vboxwrapper.cpp
