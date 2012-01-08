@@ -84,15 +84,15 @@ struct HOST_USAGE {
         peak_flops = 0;
         strcpy(cmdline, "");
     }
-    void sequential_app(double x) {
+    void sequential_app(double flops) {
         ncudas = 0;
         natis = 0;
         gpu_ram = 0;
         avg_ncpus = 1;
         max_ncpus = 1;
-        if (x <= 0) x = 1e9;
-        projected_flops = x;
-        peak_flops = x;
+        if (flops <= 0) flops = 1e9;
+        projected_flops = flops;
+        peak_flops = flops;
         strcpy(cmdline, "");
     }
     inline bool is_sequential_app() {

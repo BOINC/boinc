@@ -277,3 +277,16 @@ Rom    7 Jan 2012
     samples/vboxwrapper/
         vbox.cpp, .h
         vboxwrapper.cpp, .h
+
+David  7 Jan 2012
+    - scheduler: change vbox_mt app plan function to use 1, 2 or 3 CPUs
+        depending on how many the host has,
+        and whether CPU VM extensions are present
+        (this reflects the requirements of CernVM).
+
+    db/
+        boinc_db.h
+    sched/
+        sched_types.h
+        sched_customize.cpp
+        validator.cpp

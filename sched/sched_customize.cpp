@@ -514,9 +514,15 @@ static inline bool app_plan_opencl(
     }
 }
 
+// handles vbox_[32|64][_mt]
+// "mt" is tailored to the needs of CERN:
+// use 1, 2 or 3 CPUs
+
 static inline bool app_plan_vbox(
     SCHEDULER_REQUEST& sreq, char* plan_class, HOST_USAGE& hu
 ) {
+    bool can_use_multicore = true;
+
     // host must have VirtualBox 3.2 or later
     //
     if (strlen(sreq.host.virtualbox_version) == 0) return false;
@@ -528,14 +534,12 @@ static inline bool app_plan_vbox(
 
     // host must have VM acceleration in order to run multi-core jobs
     //
-    if (strstr(plan_class, "mt") 
-        && (!strstr(sreq.host.p_features, "vmx")
-        && !strstr(sreq.host.p_features, "svm"))
-    ) {
-        return false;
-    }
-    if (strstr(plan_class, "mt") && sreq.host.p_vm_extensions_disabled) {
-        return false;
+    if (strstr(plan_class, "mt")) {
+        if ((!strstr(sreq.host.p_features, "vmx") && !strstr(sreq.host.p_features, "svm"))
+            || sreq.host.p_vm_extensions_disabled
+        ) {
+            can_use_multicore = false;
+        }
     }
 
     // only send the version for host's primary platform.
@@ -549,12 +553,11 @@ static inline bool app_plan_vbox(
         if (strstr(plan_class, "64")) return false;
     }
 
-    if (strstr(plan_class, "mt")) {
+    if (strstr(plan_class, "mt") && can_use_multicore) {
         double ncpus = g_wreq->effective_ncpus;
             // number of usable CPUs, taking user prefs into account
-        if (ncpus < 2) return false;
         int nthreads = (int)ncpus;
-        if (nthreads > 2) nthreads = 2;
+        if (nthreads > 3) nthreads = 3;
         hu.avg_ncpus = nthreads;
         sprintf(hu.cmdline, "--nthreads %d", nthreads);
     } else {

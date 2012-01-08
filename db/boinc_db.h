@@ -548,9 +548,7 @@ struct RESULT {
     double elapsed_time;
         // AKA runtime; returned by 6.10+ clients
     double flops_estimate;
-        // misnomer: actually the peak device FLOPS,
-        // returned by app_plan()
-        // An adjusted version of this is sent to clients.
+        // misnomer: actually the peak device FLOPS, returned by app_plan().
     int app_version_id;
         // ID of app version used to compute this
         // 0 if unknown (relic of old scheduler)

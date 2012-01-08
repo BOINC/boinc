@@ -413,6 +413,11 @@ int handle_wu(
                                 runtime = max_runtime;
                             }
                             credit = result.flops_estimate * runtime * COBBLESTONE_SCALE;
+                            log_messages.printf(MSG_NORMAL,
+                                "[WU#%d][RESULT#%d] credit_from_runtime %.2f = %.0fs * %.2fGFLOPS\n",
+                                wu.id, result.id,
+                                credit, runtime, result.flops_estimate/1e9
+                            );
                             break;
                         }
                     }
@@ -688,6 +693,7 @@ int main(int argc, char** argv) {
       "  --max_granted_credit X  Grant no more than this amount of credit to a result\n"
       "  --update_credited_job   Add record to credited_job table after granting credit\n"
       "  --credit_from_wu        Credit is specified in WU XML\n"
+      "  --credit_from_runtime X  Grant credit based on runtime (max X seconds)and estimated FLOPS\n"
       "  --no_credit             Don't grant credit\n"
       "  --sleep_interval n      Set sleep-interval to n\n"
       "  -d n, --debug_level n   Set log verbosity level, 1-4\n"
