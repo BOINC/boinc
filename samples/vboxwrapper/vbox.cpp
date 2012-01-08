@@ -29,6 +29,9 @@
 #include <stdlib.h>
 #include <vector>
 #include <string>
+#include <fstream>
+#include <sstream>
+#include <stdexcept>
 #include <unistd.h>
 #endif
 
