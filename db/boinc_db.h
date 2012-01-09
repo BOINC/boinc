@@ -796,6 +796,8 @@ public:
     int update_diff_validator(HOST&);
     int fpops_percentile(double percentile, double& fpops);
         // return the given percentile of p_fpops
+    int fpops_mean(double& mean);
+    int fpops_stddev(double& stddev);
     void db_print(char*);
     void db_parse(MYSQL_ROW &row);
     void operator=(HOST& r) {HOST::operator=(r);}

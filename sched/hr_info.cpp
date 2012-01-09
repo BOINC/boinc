@@ -120,15 +120,6 @@ void HR_INFO::scan_db() {
         fprintf(stderr, "host enum: %d", retval);
         exit(1);
     }
-    // if no hosts, use reasonable defaults
-    //
-    if (n) {
-        perf_info.host_fpops_mean = sum/n;
-        perf_info.host_fpops_stdev = sqrt((sum_sqr - sum*perf_info.host_fpops_mean)/n);
-    } else {
-        perf_info.host_fpops_mean = 3e9;
-        perf_info.host_fpops_stdev = 1e9;
-    }
 }
 
 void HR_INFO::allocate(int total_slots) {
@@ -210,19 +201,4 @@ void HR_INFO::show(FILE* f) {
             );
         }
     }
-}
-
-int PERF_INFO::write_file() {
-#ifndef _USING_FCGI_
-    FILE* f = fopen(PERF_INFO_FILENAME, "w");
-#else
-    FCGI_FILE* f = FCGI::fopen(PERF_INFO_FILENAME, "w");
-#endif
-    if (!f) return ERR_FOPEN;
-    fprintf(f, "%f %f\n",
-        host_fpops_mean,
-        host_fpops_stdev
-    );
-    fclose(f);
-    return 0;
 }

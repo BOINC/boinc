@@ -15,10 +15,7 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-// Census - create a file saying (for each HR type)
-// how much RAC each HR class is getting.
-// This info is used the feeder to decide how many shared-memory slots
-// to devote to each HR class.
+// Census - scan the DB and create summary file: see usage() below
 
 #include <cstdio>
 
@@ -32,18 +29,16 @@
 
 void usage(char *name) {
     fprintf(stderr,
-        "This program scans the 'host' DB table and creates two files:\n\n"
+        "This program scans the 'host' DB table and creates a file:\n\n"
         "%s: how much RAC each HR class is getting\n"
         "    (needed if you use homogeneous redundancy).\n"
-        "%s: statistics of host performance\n"
-        "    (needed if you use the 'job_size_matching' scheduling option).\n\n"
         "This should be run as a periodic task (about once a day) from config.xml.\n"
         "For more info, see http://boinc.berkeley.edu/trac/wiki/HomogeneousRedundancy\n\n"
         "Usage: %s [OPTION]...\n\n"
         "Options:\n"
         "  -h --help     shows this help text.\n"
         "  -v --version  shows version information.\n",
-        HR_INFO_FILENAME, PERF_INFO_FILENAME, name
+        HR_INFO_FILENAME, name
     );
 }
 
@@ -86,6 +81,5 @@ int main(int argc, char** argv) {
     hri.init();
     hri.scan_db();
     hri.write_file();
-    hri.perf_info.write_file();
     log_messages.printf(MSG_NORMAL, "Finished\n");
 }

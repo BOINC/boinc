@@ -530,6 +530,7 @@ struct SCHEDULER_REPLY {
 extern SCHEDULER_REQUEST* g_request;
 extern SCHEDULER_REPLY* g_reply;
 extern WORK_REQ* g_wreq;
+extern double capped_host_fpops();
 
 static inline void add_no_work_message(const char* m) {
     g_wreq->add_no_work_message(m);

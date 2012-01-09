@@ -477,7 +477,7 @@ static BEST_APP_VERSION* check_homogeneous_app_version(
             return NULL;
         }
     } else {
-        bav.host_usage.sequential_app(g_reply->host.p_fpops);
+        bav.host_usage.sequential_app(capped_host_fpops());
     }
 
     // and see if the client is asking for this resource

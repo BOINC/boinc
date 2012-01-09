@@ -782,6 +782,22 @@ int DB_HOST::fpops_percentile(double percentile, double& fpops) {
     return get_double(query, fpops);
 }
 
+int DB_HOST::fpops_mean(double& mean) {
+    char query[256];
+    sprintf(query,
+        "select avg(p_fpops) from host where expavg_credit>10"
+    );
+    return get_double(query, mean);
+}
+
+int DB_HOST::fpops_stddev(double& stddev) {
+    char query[256];
+    sprintf(query,
+        "select stddev(p_fpops) from host where expavg_credit>10"
+    );
+    return get_double(query, stddev);
+}
+
 void DB_WORKUNIT::db_print(char* buf){
     sprintf(buf,
         "create_time=%d, appid=%d, "

@@ -20,19 +20,6 @@
 
 #include "hr.h"
 
-// statistics about the host population,
-// and about the set of jobs in shared mem.
-//
-struct PERF_INFO {
-    double host_fpops_mean;
-    double host_fpops_stdev;
-    double wu_fpops_mean;
-    double wu_fpops_stdev;
-
-    int write_file();
-    int read_file();
-};
-
 struct HR_INFO {
     double *rac_per_class[HR_NTYPES];
         // how much RAC per class
@@ -46,7 +33,6 @@ struct HR_INFO {
         // # of slots per type (fixed at start)
     bool type_being_used[HR_NTYPES];
         // whether any app is actually using this HR type
-    PERF_INFO perf_info;
 
     int write_file();
     int read_file();
@@ -59,6 +45,5 @@ struct HR_INFO {
 };
 
 #define HR_INFO_FILENAME "../hr_info.txt"
-#define PERF_INFO_FILENAME "../perf_info.txt"
 
 #endif

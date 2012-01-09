@@ -161,18 +161,6 @@ void signal_handler(int) {
     return;
 }
 
-// put this here (instead of hr_info.C) so that FCGI compile
-// won't choke on fscanf()
-//
-int PERF_INFO::read_file() {
-    FILE* f = fopen(PERF_INFO_FILENAME, "r");
-    if (!f) return ERR_FOPEN;
-    int n = fscanf(f, "%lf %lf", &host_fpops_mean, &host_fpops_stdev);
-    fclose(f);
-    if (n != 2) return -1;
-    return 0;
-}
-
 void cleanup_shmem() {
     ssp->ready = false;
     detach_shmem((void*)ssp);
@@ -870,14 +858,11 @@ int main(int argc, char** argv) {
         );
     }
 
-    if (config.job_size_matching) {
-        retval = ssp->perf_info.read_file();
-        if (retval) {
-            log_messages.printf(MSG_CRITICAL,
-                "can't read perf_info file; run census\n"
-            );
-            exit(1);
-        }
+    retval = ssp->perf_info.get_from_db();
+    if (retval) {
+        log_messages.printf(MSG_CRITICAL,
+            "PERF_INFO::get_from_db(): %d\n", retval
+        );
     }
 
     signal(SIGUSR1, show_state);

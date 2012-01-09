@@ -214,6 +214,25 @@ void compute_avg_turnaround(HOST& host, double turnaround) {
     host.avg_turnaround = new_avg;
 }
 
+int PERF_INFO::get_from_db() {
+    int retval, n;
+    DB_HOST host;
+
+    host_fpops_mean = 2.2e9;
+    host_fpops_stddev = .7e9;
+    host_fpops_50_percentile = 3.3e9;
+    host_fpops_95_percentile = 3.3e9;
+
+    retval = host.count(n);
+    if (retval) return retval;
+    if (n < 10) return 0;
+    retval = host.fpops_mean(host_fpops_mean);
+    retval = host.fpops_stddev(host_fpops_stddev);
+    retval = host.fpops_percentile(50, host_fpops_50_percentile);
+    retval = host.fpops_percentile(95, host_fpops_95_percentile);
+    return 0;
+}
+
 // Request lock on the given file with given fd.  Returns:
 // 0 if we get lock
 // PID (>0) if another process has lock

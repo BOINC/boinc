@@ -120,9 +120,7 @@ static inline void coproc_perf(
 
 // the following is for an app that can use anywhere from 1 to 64 threads
 //
-static inline bool app_plan_mt(
-    SCHEDULER_REQUEST& sreq, HOST_USAGE& hu
-) {
+static inline bool app_plan_mt(SCHEDULER_REQUEST&, HOST_USAGE& hu) {
     double ncpus = g_wreq->effective_ncpus;
         // number of usable CPUs, taking user prefs into account
     if (ncpus < 2) return false;
@@ -131,10 +129,10 @@ static inline bool app_plan_mt(
     hu.avg_ncpus = nthreads;
     hu.max_ncpus = nthreads;
     sprintf(hu.cmdline, "--nthreads %d", nthreads);
-    hu.projected_flops = sreq.host.p_fpops*hu.avg_ncpus*.99;
+    hu.projected_flops = capped_host_fpops()*hu.avg_ncpus*.99;
         // the .99 ensures that on uniprocessors a sequential app
         // will be used in preferences to this
-    hu.peak_flops = sreq.host.p_fpops*hu.avg_ncpus;
+    hu.peak_flops = capped_host_fpops()*hu.avg_ncpus;
     if (config.debug_version_select) {
         log_messages.printf(MSG_NORMAL,
             "[version] Multi-thread app projected %.2fGS\n",
@@ -176,13 +174,13 @@ static bool ati_check(COPROC_ATI& c, HOST_USAGE& hu,
     hu.natis = ndevs;
 
     coproc_perf(
-        g_request->host.p_fpops,
+        capped_host_fpops(),
         flops_scale * hu.natis*c.peak_flops,
         cpu_frac,
         hu.projected_flops,
         hu.avg_ncpus
     );
-    hu.peak_flops = hu.natis*c.peak_flops + hu.avg_ncpus*g_request->host.p_fpops;
+    hu.peak_flops = hu.natis*c.peak_flops + hu.avg_ncpus*capped_host_fpops();
     hu.max_ncpus = hu.avg_ncpus;
     return true;
 }
@@ -305,13 +303,13 @@ static bool cuda_check(COPROC_NVIDIA& c, HOST_USAGE& hu,
     hu.ncudas = ndevs;
 
     coproc_perf(
-        g_request->host.p_fpops,
+        capped_host_fpops(),
         flops_scale * hu.ncudas*c.peak_flops,
         cpu_frac,
         hu.projected_flops,
         hu.avg_ncpus
     );
-    hu.peak_flops = hu.ncudas*c.peak_flops + hu.avg_ncpus*g_request->host.p_fpops;
+    hu.peak_flops = hu.ncudas*c.peak_flops + hu.avg_ncpus*capped_host_fpops();
     hu.max_ncpus = hu.avg_ncpus;
     return true;
 }
@@ -394,15 +392,13 @@ static inline bool app_plan_cuda(
 // Say that we'll use 1% of a CPU.
 // This will cause the client (6.7+) to run it at non-idle priority
 //
-static inline bool app_plan_nci(
-    SCHEDULER_REQUEST& sreq, HOST_USAGE& hu
-) {
+static inline bool app_plan_nci(SCHEDULER_REQUEST&, HOST_USAGE& hu) {
     hu.avg_ncpus = .01;
     hu.max_ncpus = .01;
-    hu.projected_flops = sreq.host.p_fpops*1.01;
+    hu.projected_flops = capped_host_fpops()*1.01;
         // The *1.01 is needed to ensure that we'll send this app
         // version rather than a non-plan-class one
-    hu.peak_flops = sreq.host.p_fpops*.01;
+    hu.peak_flops = capped_host_fpops()*.01;
     return true;
 }
 
@@ -423,8 +419,8 @@ static inline bool app_plan_sse3(
     }
     hu.avg_ncpus = 1;
     hu.max_ncpus = 1;
-    hu.projected_flops = 1.1*sreq.host.p_fpops;
-    hu.peak_flops = sreq.host.p_fpops;
+    hu.projected_flops = 1.1*capped_host_fpops();
+    hu.peak_flops = capped_host_fpops();
     return true;
 }
 
@@ -451,13 +447,13 @@ static inline bool opencl_check(
     }
 
     coproc_perf(
-        g_request->host.p_fpops,
+        capped_host_fpops(),
         flops_scale * ndevs * cp.peak_flops,
         cpu_frac,
         hu.projected_flops,
         hu.avg_ncpus
     );
-    hu.peak_flops = ndevs*cp.peak_flops + hu.avg_ncpus*g_request->host.p_fpops;
+    hu.peak_flops = ndevs*cp.peak_flops + hu.avg_ncpus*capped_host_fpops();
     hu.max_ncpus = hu.avg_ncpus;
     return true;
 }
@@ -564,8 +560,8 @@ static inline bool app_plan_vbox(
         hu.avg_ncpus = 1;
     }
     hu.max_ncpus = hu.avg_ncpus;
-    hu.projected_flops = sreq.host.p_fpops*hu.avg_ncpus;
-    hu.peak_flops = sreq.host.p_fpops*hu.avg_ncpus;
+    hu.projected_flops = capped_host_fpops()*hu.avg_ncpus;
+    hu.peak_flops = capped_host_fpops()*hu.avg_ncpus;
     if (config.debug_version_select) {
         log_messages.printf(MSG_NORMAL,
             "[version] %s app projected %.2fG\n",
@@ -689,7 +685,7 @@ bool JOB::get_score() {
     // match large jobs to fast hosts
     //
     if (config.job_size_matching) {
-        double host_stdev = (g_reply->host.p_fpops - ssp->perf_info.host_fpops_mean)/ ssp->perf_info.host_fpops_stdev;
+        double host_stdev = (capped_host_fpops() - ssp->perf_info.host_fpops_mean)/ ssp->perf_info.host_fpops_stddev;
         double diff = host_stdev - wu_result.fpops_size;
         score -= diff*diff;
     }

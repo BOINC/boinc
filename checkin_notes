@@ -327,3 +327,22 @@ Rom    9 Jan 2012
         
     samples/vboxwrapper/
         vbox.cpp
+
+David  9 Jan 2012
+    - scheduler: the p_fpops value reported by clients can't be trusted.
+        Some credit cheats (e.g. with credit_by_runtime) can be done
+        by reporting a huge value.
+        Fix this by capping the value at 1.1 times the 95th percentile
+        of host.p_fpops, taken over active hosts.
+
+    db/
+        boinc_db.cpp,h
+    sched/
+        census.cpp
+        sched_types.cpp,h
+        sched_shmem.cpp,h
+        sched_util.cpp,h
+        sched_customize.cpp
+        feeder.cpp
+        sched_version.cpp
+        hr_info.cpp,h

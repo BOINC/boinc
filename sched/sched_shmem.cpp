@@ -299,6 +299,14 @@ void SCHED_SHMEM::show(FILE* f) {
         "hr: HR class\n"
         "nr: need reliable\n"
     );
+    fprintf(f,
+        "host fpops mean %f stddev %f\n",
+        perf_info.host_fpops_mean, perf_info.host_fpops_stddev
+    );
+    fprintf(f,
+        "host fpops 50th pctile %f 95th pctile %f\n",
+        perf_info.host_fpops_50_percentile, perf_info.host_fpops_95_percentile
+    );
     fprintf(f, "ready: %d\n", ready);
     fprintf(f, "max_wu_results: %d\n", max_wu_results);
     for (int i=0; i<max_wu_results; i++) {

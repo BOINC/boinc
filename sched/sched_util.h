@@ -55,6 +55,15 @@ extern int dir_hier_url(
 
 extern void compute_avg_turnaround(HOST& host, double turnaround);
 
+struct PERF_INFO {
+    double host_fpops_mean;
+    double host_fpops_stddev;
+    double host_fpops_50_percentile;
+    double host_fpops_95_percentile;
+
+    int get_from_db();
+};
+
 // returns zero if we get lock on file with file descriptor fd.
 // returns < 0 if error
 // returns PID > 0 if another process has lock

@@ -25,6 +25,7 @@
 #define _SCHED_SHMEM_H_
 
 #include "boinc_db.h"
+#include "sched_util.h"
 #include "hr_info.h"
 
 // the following must be at least as large as DB tables
