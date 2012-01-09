@@ -501,6 +501,9 @@ int ACTIVE_TASK::start(bool first_time) {
     graphics_request_queue.init(result->name);        // reset message queues
     process_control_queue.init(result->name);
 
+    bytes_sent = 0;
+    bytes_received = 0;
+
     if (!app_client_shm.shm) {
         retval = get_shmem_seg_name();
         if (retval) {

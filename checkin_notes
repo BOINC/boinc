@@ -305,3 +305,10 @@ David  8 Jan 2012
 
     sched/
         sched_customize.cpp
+
+David  8 Jan 2012
+    - client: reset ACTIVE_TASK::bytes_sent and bytes_received
+        when the task is started or restarted
+
+    client/
+        app_start.cpp
