@@ -701,8 +701,8 @@ int VBOX_VM::register_vm() {
     retval = vbm_popen(command, output, "modify");
     if (retval) return retval;
 
-    if ((vm_cpu_count == "1") &&
-        !strstr(aid.host_info.p_features, "vmx") && !strstr(aid.host_info.p_features, "svm")) {
+    if ((vm_cpu_count == "1") ||
+        (!strstr(aid.host_info.p_features, "vmx") && !strstr(aid.host_info.p_features, "svm"))) {
         // Check to see if the processor supports hardware acceleration for virtualization
         // If it doesn't, disable the use of it in VirtualBox. Multi-core jobs require hardware
         // acceleration and actually override this setting.

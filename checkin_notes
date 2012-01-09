@@ -320,3 +320,10 @@ Charlie 9 Jan 2012
     
     client/
         coproc_detect.cpp
+
+Rom    9 Jan 2012
+    - VBOX: Fix one last regression related to failed start detection.  If
+        only one CPU is allocated, manually disable VM hardware acceleration.
+        
+    samples/vboxwrapper/
+        vbox.cpp
