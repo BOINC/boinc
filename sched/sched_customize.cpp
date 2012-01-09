@@ -516,7 +516,7 @@ static inline bool app_plan_opencl(
 
 // handles vbox_[32|64][_mt]
 // "mt" is tailored to the needs of CERN:
-// use 1, 2 or 3 CPUs
+// use 1 or 2 CPUs
 
 static inline bool app_plan_vbox(
     SCHEDULER_REQUEST& sreq, char* plan_class, HOST_USAGE& hu
@@ -557,7 +557,7 @@ static inline bool app_plan_vbox(
         double ncpus = g_wreq->effective_ncpus;
             // number of usable CPUs, taking user prefs into account
         int nthreads = (int)ncpus;
-        if (nthreads > 3) nthreads = 3;
+        if (nthreads > 2) nthreads = 2;
         hu.avg_ncpus = nthreads;
         sprintf(hu.cmdline, "--nthreads %d", nthreads);
     } else {

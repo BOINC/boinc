@@ -298,3 +298,10 @@ Rom    8 Jan 2012
         
     samples/vboxwrapper/
         vboxwrapper.cpp
+
+David  8 Jan 2012
+    - scheduler: change vbox_mt plan function to use at most 2 cores, not 3
+        (CERN doesn't actually need 3)
+
+    sched/
+        sched_customize.cpp
