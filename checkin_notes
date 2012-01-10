@@ -9059,3 +9059,10 @@ Charlie 5 Jan 2012
     client/
         coproc_detect.cpp
 
+Charlie 9 Jan 2012
+    - client: OpenCL 1.1 has no API for determining available GPU RAM, so if 
+        CAL is not present for ATI / AMD GPU or if CUDA is not present for 
+        NVIDIA GPU, set available GPU RAM equal to total GPU RAM.
+    
+    client/
+        coproc_detect.cpp

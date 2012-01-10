@@ -329,6 +329,7 @@ void COPROCS::get_opencl(
     } else {
         nvidia.find_best_opencls(use_all, nvidia_opencls, ignore_nvidia_dev);
         nvidia.prop.totalGlobalMem = nvidia.opencl_prop.global_mem_size;
+        nvidia.available_ram = nvidia.opencl_prop.global_mem_size;
         nvidia.prop.clockRate = nvidia.opencl_prop.max_clock_frequency * 1000;
     }
 
@@ -344,11 +345,13 @@ void COPROCS::get_opencl(
         // Work around a bug in OpenCL which returns only 
         // 1/2 of total global RAM size: use the value from CAL. 
         // This bug applies only to ATI GPUs, not to NVIDIA
+        // See also further workaround code for Macs.
         //
         ati.opencl_prop.global_mem_size = ati.attribs.localRAM * MEGA;
     } else {
         ati.find_best_opencls(use_all, ati_opencls, ignore_ati_dev);
         ati.attribs.localRAM = ati.opencl_prop.global_mem_size/MEGA;
+        ati.available_ram = ati.opencl_prop.global_mem_size/MEGA;
         ati.attribs.engineClock = ati.opencl_prop.max_clock_frequency;
     }           // End if (! ati.have_cal)
 
