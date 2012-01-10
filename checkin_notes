@@ -9066,3 +9066,11 @@ Charlie 9 Jan 2012
     
     client/
         coproc_detect.cpp
+
+Charlie 10 Jan 2012
+    - client: Fix idle detection for Apple Remote Desktop and screen sharing 
+        (VNC) under Mac OS 10.7.  See comments in HOST_INFO::users_idle() for 
+        details.
+    
+    client/
+        hostinfo_unix.cpp
