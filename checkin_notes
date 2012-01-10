@@ -346,3 +346,11 @@ David  9 Jan 2012
         feeder.cpp
         sched_version.cpp
         hr_info.cpp,h
+
+Charlie 10 Jan 2012
+    - client: Fix idle detection for Apple Remote Desktop and screen sharing 
+        (VNC) under Mac OS 10.7.  See comments in HOST_INFO::users_idle() for 
+        details.
+    
+    client/
+        hostinfo_unix.cpp
