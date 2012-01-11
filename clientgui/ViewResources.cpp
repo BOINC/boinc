@@ -230,10 +230,10 @@ void CViewResources::OnListRender( wxTimerEvent& WXUNUSED(event) ) {
 				part.SetValue(usage);
                 double h = (double)i/(double)pDoc->disk_usage.projects.size();
                 double r, g, b;
-                hsv2rgb(h*6, .5, .5, r, g, b);
-                unsigned char cr = (unsigned char) r*256;
-                unsigned char cg = (unsigned char) g*256;
-                unsigned char cb = (unsigned char) b*256;
+                hsv2rgb(h*6, .5, .9, r, g, b);
+                unsigned char cr = (unsigned char) (r*256);
+                unsigned char cg = (unsigned char) (g*256);
+                unsigned char cb = (unsigned char) (b*256);
                 part.SetColour(wxColour(cr, cg, cb));
 				m_pieCtrlBOINC->m_Series.Add(part);
 			}
