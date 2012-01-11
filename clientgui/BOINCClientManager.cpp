@@ -296,7 +296,13 @@ bool CBOINCClientManager::StartupBOINCCore() {
     if (IsBOINCConfiguredAsDaemon() == NewStyleDaemon) {
         system ("launchctl load /Library/LaunchDaemons/edu.berkeley.boinc.plist");
         system ("launchctl start edu.berkeley.boinc");
-        bReturnValue = IsBOINCCoreRunning();
+        for (int i=0; i<100; i++) {     // Wait up to 1 seccond in 10 ms increments
+            boinc_sleep(0.01);
+            if (IsBOINCCoreRunning()) {
+                bReturnValue = true;
+                break;
+            }
+        }
     } else {
         
         // Get the full path to core client inside this application's bundle
