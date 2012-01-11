@@ -354,3 +354,9 @@ Charlie 10 Jan 2012
     
     client/
         hostinfo_unix.cpp
+
+David  10 Jan 2012
+    - first stab at improving Disk View colors
+
+    clientgui/
+        ViewResources.cpp
