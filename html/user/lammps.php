@@ -224,7 +224,7 @@ function submit_job($app, $batch_id, $info, $cmdline, $i) {
     $cmd .= " ".basename($info->structure_file_path);
     $cmd .= " ".basename($info->command_file_path);
     $cmd .= " ".basename($info->pot_files_path);
-    echo "<br> $cmd\n";
+    echo "<br> $cmd\n"; 
 
     $ret = system($cmd);
     if ($ret === FALSE) {
