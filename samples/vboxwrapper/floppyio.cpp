@@ -77,8 +77,7 @@ FloppyIO::FloppyIO(const char * filename, int flags) {
   // Prepare open flags and create file stream
   ios_base::openmode fOpenFlags = fstream::in | fstream::out;
   if ((flags & F_NOCREATE) == 0) fOpenFlags |= fstream::trunc;
-  fstream *fIO = new fstream( );
-  this->fIO = fIO;
+  this->fIO = new fstream( );
   
   // Enable exceptions on fIO if told so
   if ((flags & F_EXCEPTIONS) != 0) {
@@ -201,7 +200,6 @@ int FloppyIO::send(string strData) {
 
     // Initialize variables
     int szData = (int)strData.length();
-    int szPad = 0;
     int bytesSent = szData;
     
     // Copy the first szInput bytes
@@ -260,7 +258,6 @@ string FloppyIO::receive() {
 //
 int FloppyIO::receive(string * ansBuffer) {
     char * dataToReceive = new char[this->szInput];
-    int dataLength = this->szInput;
 
     // Check for ready state
     if (!this->ready()) return this->setError(-4, "Stream is not ready!");

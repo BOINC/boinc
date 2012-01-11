@@ -366,3 +366,13 @@ Charlie 11 Jan 2012
 
     clientgui/
         BOINCClientManager.cpp
+
+David  11 Jan 2012
+    - vboxwrapper: add <pf_host_port> element to config file.
+        Specifies host port # for port forwarding.
+        If absent or zero, assign a port.
+
+    samples/vboxwrapper
+        vbox.cpp,h
+        floppyio.cpp,h
+        vboxwrapper.cpp

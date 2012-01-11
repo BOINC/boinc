@@ -173,9 +173,9 @@ public:
 
     // Change the message and return my instance
     // (Used for singleton format)
-    FloppyIOException * set(int code, std::string message) {
-        this->code = code;
-        this->message = message;
+    FloppyIOException * set(int _code, std::string _message) {
+        this->code = _code;
+        this->message = _message;
         return this;
     }
     

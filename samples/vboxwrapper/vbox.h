@@ -68,7 +68,7 @@ struct VBOX_VM {
     bool enable_network;
     // the following for optional port forwarding
     int pf_host_port;
-        // dynamically assigned
+        // specified in config file
     int pf_guest_port;
         // specified in config file
 

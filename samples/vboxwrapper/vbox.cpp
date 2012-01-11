@@ -841,12 +841,14 @@ int VBOX_VM::register_vm() {
         set_network_access(true);
     }
 
-    // If a project wants to open up a firewall port through the VirtualBox virtual
+    // If the app wants to open up a port through the VirtualBox virtual
     // network firewall/nat do that here.
     //
     if (pf_guest_port) {
-        retval = get_port_forwarding_port();
-        if (retval) return retval;
+        if (!pf_host_port) {
+            retval = get_port_forwarding_port();
+            if (retval) return retval;
+        }
         retval = register_vm_firewall_rules();
         if (retval) return retval;
     }
