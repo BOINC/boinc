@@ -9074,3 +9074,9 @@ Charlie 10 Jan 2012
     
     client/
         hostinfo_unix.cpp
+
+Charlie 11 Jan 2012
+    - Mgr: When launching Mac client as a daemon, allow time for it to start. 
+
+    clientgui/
+        BOINCClientManager.cpp
