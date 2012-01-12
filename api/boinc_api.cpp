@@ -819,7 +819,7 @@ int suspend_activities() {
         }
     }
 #else
-    if (options.multi_process) {
+    if (options.multi_process && options.direct_process_action) {
         suspend_or_resume_descendants(0, false);
     }
 #endif

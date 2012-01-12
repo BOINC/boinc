@@ -376,3 +376,9 @@ David  11 Jan 2012
         vbox.cpp,h
         floppyio.cpp,h
         vboxwrapper.cpp
+
+David  11 Jan 2012
+    - API: respect direct_process_action even if multi_process is set
+
+    api/
+        boinc_api.cpp
