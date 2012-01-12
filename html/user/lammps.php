@@ -146,6 +146,34 @@ function project_flops() {
     return $y;
 }
 
+// Estimate how long a batch will take.
+// Let N = # jobs, M = # hosts
+// If N < M we can start all the jobs more or less now,
+// so let T = F/H, where H is the median FLOPS of the hosts.
+// If N > M we'll have to do the jobs in stages,
+// so let T = ceil(N/M)*F/H.
+//
+// Note: these are both extremely optimistic estimates
+//
+function estimated_makespan($njobs, $flops_per_job) {
+    $nhosts = BoincHost::count("expavg_credit > 1");
+    if ($nhosts < 10) {
+        $median_flops = 2e9;
+    } else {
+        $n = $nhosts/2;
+        $hs = BoincHost::enum("expavg_credit>1 order by p_fpops limit 1");
+        $h = $hs[0];
+        $median_flops = $h->p_fpops;
+    }
+
+    if ($njobs < $nhosts) {
+        return $flops_per_job/$median_flops;
+    } else {
+        $k = (int)(($njobs+$nhosts-1)/$nhosts);
+        return $k*$flops_per_job/$median_flops;
+    }
+}
+
 function prepare_batch($user) {
     $structure_file_path = get_file_path($user, 'structure_file');
     $command_file_path = get_file_path($user, 'command_file');
@@ -194,8 +222,7 @@ function prepare_batch($user) {
     // get the # of jobs
     //
     $njobs = count(file($cmdline_file_path));
-    $total_flops = $njobs * $info->rsc_fpops_est;
-    $secs_est = $total_flops/project_flops();
+    $secs_est = estimated_makespan($njobs, $info->rsc_fpops_est);
     $hrs_est = number_format($secs_est/3600, 1);
     $client_mb = $info->rsc_disk_bound/1e6;
     $server_mb = $njobs*$client_mb;

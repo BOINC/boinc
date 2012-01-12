@@ -215,6 +215,10 @@ class BoincHost {
         $db = BoincDb::get();
         return $db->enum('host', 'BoincHost', $clause, $clause2);
     }
+    static function count($clause) {
+        $db = BoincDb::get();
+        return $db->count('host', $clause);
+    }
 }
 
 class BoincResult {

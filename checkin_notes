@@ -382,3 +382,12 @@ David  11 Jan 2012
 
     api/
         boinc_api.cpp
+
+David  12 Jan 2012
+    - LAMMPS job submission: improve completion estimate
+
+    html/
+        inc/
+            boinc_db.inc
+        user/
+            lammps.php
