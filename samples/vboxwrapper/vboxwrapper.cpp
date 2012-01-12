@@ -109,6 +109,7 @@ int parse_job_file(VBOX_VM& vm) {
         else if (xp.parse_bool("enable_network", vm.enable_network)) continue;
         else if (xp.parse_bool("enable_shared_directory", vm.enable_shared_directory)) continue;
         else if (xp.parse_bool("enable_floppyio", vm.enable_floppyio)) continue;
+        else if (xp.parse_bool("enable_remotedesktop", vm.enable_remotedesktop)) continue;
         else if (xp.parse_int("pf_guest_port", vm.pf_guest_port)) continue;
         else if (xp.parse_int("pf_host_port", vm.pf_host_port)) continue;
         fprintf(stderr, "%s parse_job_file(): unexpected tag %s\n",
@@ -235,6 +236,37 @@ void set_port_forwarding_info(APP_INIT_DATA& /* aid */, VBOX_VM& vm) {
         fclose(f);
         sprintf(buf, "http://localhost:%d", vm.pf_host_port);
         boinc_web_graphics_url(buf);
+    }
+}
+
+// set remote desktop information if needed
+//
+void set_remote_desktop_info(APP_INIT_DATA& /* aid */, VBOX_VM& vm) {
+    char buf[256];
+
+    if (vm.rd_host_port) {
+        fprintf(
+            stderr,
+            "%s remote desktop enabled on port '%d'.\n",
+            boinc_msg_prefix(buf, sizeof(buf)), vm.rd_host_port
+        );
+
+        // Write info to disk
+        //
+        MIOFILE mf;
+        FILE* f = boinc_fopen(REMOTEDESKTOP_FILENAME, "w");
+        mf.init_file(f);
+
+        mf.printf(
+            "<remote_desktop>\n"
+            "  <rule>\n"
+            "    <host_port>%d</host_port>\n"
+            "  </rule>\n"
+            "</remote_desktop>\n",
+            vm.rd_host_port
+        );
+
+        fclose(f);
     }
 }
 
@@ -446,6 +478,7 @@ int main(int argc, char** argv) {
 
     set_floppy_image(aid, vm);
     set_port_forwarding_info(aid, vm);
+    set_remote_desktop_info(aid, vm);
     set_throttles(aid, vm);
 
     while (1) {

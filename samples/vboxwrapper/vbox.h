@@ -61,6 +61,8 @@ struct VBOX_VM {
     bool enable_shared_directory;
     // whether to use floppy io infrastructure at all
     bool enable_floppyio;
+    // whether to enable remote desktop functionality
+    bool enable_remotedesktop;
     // whether we were instructed to only register the VM.
     // useful for debugging VMs.
     bool register_only;
@@ -71,6 +73,9 @@ struct VBOX_VM {
         // specified in config file
     int pf_guest_port;
         // specified in config file
+    // the following for optional remote desktop
+    int rd_host_port;
+        // dynamically assigned
 
     int run();
     int stop();
@@ -82,7 +87,6 @@ struct VBOX_VM {
     bool is_paused();
 
     int register_vm();
-    int register_vm_firewall_rules();
     bool is_hdd_registered();
     bool is_registered();
     int deregister_stale_vm();
@@ -99,6 +103,7 @@ struct VBOX_VM {
     int read_floppy(std::string& data);
     int write_floppy(std::string& data);
     int get_port_forwarding_port();
+    int get_remote_desktop_port();
 
     int initialize();
     int get_install_directory(std::string& dir);

@@ -648,6 +648,35 @@ int VBOX_VM::get_port_forwarding_port() {
     return 0;
 }
 
+int VBOX_VM::get_remote_desktop_port() {
+    struct sockaddr_in addr;
+    BOINC_SOCKLEN_T addrsize;
+    int sock;
+    int retval;
+
+    memset(&addr, 0, sizeof(addr));
+    addr.sin_family = AF_INET;
+    addr.sin_port = htons(0);
+    addr.sin_addr.s_addr = htonl(INADDR_LOOPBACK);
+
+    addrsize = sizeof(addr);
+
+    retval = boinc_socket(sock);
+    if (retval) return retval;
+ 
+    retval = bind(sock, (struct sockaddr *)&addr, addrsize);
+    if (retval < 0) {
+        boinc_close_socket(sock);
+        return ERR_BIND;
+    }
+
+    getsockname(sock, (struct sockaddr *)&addr, &addrsize);
+    rd_host_port = addr.sin_port;
+
+    boinc_close_socket(sock);
+    return 0;
+}
+
 int VBOX_VM::register_vm() {
     string command;
     string output;
@@ -839,18 +868,55 @@ int VBOX_VM::register_vm() {
     //
     if (enable_network) {
         set_network_access(true);
+
+        // If the VM wants to open up a port through the VirtualBox virtual
+        // network firewall/nat do that here.
+        //
+        if (pf_guest_port) {
+            if (!pf_host_port) {
+                retval = get_port_forwarding_port();
+                if (retval) return retval;
+            }
+
+            fprintf(
+                stderr,
+                "%s Enabling virtual machine firewall rules.\n",
+                boinc_msg_prefix(buf, sizeof(buf))
+            );
+
+            // Add new firewall rule
+            //
+            sprintf(buf, "vboxwrapper,tcp,127.0.0.1,%d,,%d", pf_host_port, pf_guest_port);
+            command  = "modifyvm \"" + vm_name + "\" ";
+            command += "--natpf1 \"" + string(buf) + "\" ";
+
+            retval = vbm_popen(command, output, "add updated port forwarding rule");
+            if(retval) return retval;
+        }
     }
 
-    // If the app wants to open up a port through the VirtualBox virtual
-    // network firewall/nat do that here.
+    // If the VM wants to enable remote desktop for the VM do it here
     //
-    if (pf_guest_port) {
-        if (!pf_host_port) {
-            retval = get_port_forwarding_port();
-            if (retval) return retval;
-        }
-        retval = register_vm_firewall_rules();
+    if (enable_remotedesktop) {
+        retval = get_remote_desktop_port();
         if (retval) return retval;
+
+        fprintf(
+            stderr,
+            "%s Enabling remote desktop for virtual machine.\n",
+            boinc_msg_prefix(buf, sizeof(buf))
+        );
+
+        sprintf(buf, "%d", rd_host_port);
+        command  = "modifyvm \"" + vm_name + "\" ";
+        command += "--vrde on ";
+        command += "--vrdeextpack default ";
+        command += "--vrdeauthlibrary default ";
+        command += "--vrdeauthtype null ";
+        command += "--vrdeport " + string(buf) + " ";
+
+        retval = vbm_popen(command, output, "remote desktop");
+        if(retval) return retval;
     }
 
     // Enable the shared folder if a shared folder is specified.
@@ -868,33 +934,6 @@ int VBOX_VM::register_vm() {
         retval = vbm_popen(command, output, "enable shared dir");
         if (retval) return retval;
     }
-
-    return 0;
-}
-
-int VBOX_VM::register_vm_firewall_rules() {
-    string command;
-    string output;
-    string virtual_machine_slot_directory;
-    char buf[256];
-    int retval;
-
-    get_slot_directory(virtual_machine_slot_directory);
-
-    fprintf(
-        stderr,
-        "%s Registering virtual machine firewall rules.\n",
-        boinc_msg_prefix(buf, sizeof(buf))
-    );
-
-    // Add new firewall rule
-    //
-    sprintf(buf, "vboxwrapper,tcp,127.0.0.1,%d,,%d", pf_host_port, pf_guest_port);
-    command  = "modifyvm \"" + vm_name + "\" ";
-    command += "--natpf1 \"" + string(buf) + "\" ";
-
-    retval = vbm_popen(command, output, "add updated port forwarding rule");
-    if(retval) return retval;
 
     return 0;
 }

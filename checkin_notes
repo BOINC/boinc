@@ -391,3 +391,14 @@ David  12 Jan 2012
             boinc_db.inc
         user/
             lammps.php
+
+Rom    12 Jan 2012
+    - VBOX: Enable remote desktop functionality for a VM that has
+        <enable_remotedesktop/> specified in its vbox_job.xml file.
+        
+      NOTE: It does require the VirtualBox extension pack, but that
+        is freely available on the VirtualBox download page.
+        
+    samples/vboxwrapper
+        vbox.cpp, .h
+        vboxwrapper.cpp, .h
