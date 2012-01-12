@@ -307,6 +307,7 @@ int VBOX_VM::vbm_popen_raw(string& arguments, string& output) {
             );
 
             TerminateProcess(pi.hProcess, EXIT_FAILURE);
+            Sleep(1000);
         }
 
         Sleep(250);
@@ -410,6 +411,20 @@ bool VBOX_VM::is_hdd_registered() {
     if (vbm_popen(command, output, "hdd registration", false, false) == 0) {
         if ((output.find("VBOX_E_FILE_ERROR") == string::npos) && (output.find("VBOX_E_OBJECT_NOT_FOUND") == string::npos)) {
             // Error message not found in text
+            return true;
+        }
+    }
+    return false;
+}
+
+bool VBOX_VM::is_extpack_installed() {
+    string command;
+    string output;
+
+    command = "list extpacks";
+
+    if (vbm_popen(command, output, "extpack detection", false, false) == 0) {
+        if ((output.find("Oracle VM VirtualBox Extension Pack") != string::npos) && (output.find("VBoxVRDP") != string::npos)) {
             return true;
         }
     }
@@ -898,25 +913,32 @@ int VBOX_VM::register_vm() {
     // If the VM wants to enable remote desktop for the VM do it here
     //
     if (enable_remotedesktop) {
-        retval = get_remote_desktop_port();
-        if (retval) return retval;
-
         fprintf(
             stderr,
             "%s Enabling remote desktop for virtual machine.\n",
             boinc_msg_prefix(buf, sizeof(buf))
         );
+        if (!is_extpack_installed()) {
+            fprintf(
+                stderr,
+                "%s Required extension pack not installed, remote desktop not enabled.\n",
+                boinc_msg_prefix(buf, sizeof(buf))
+            );
+        } else {
+            retval = get_remote_desktop_port();
+            if (retval) return retval;
 
-        sprintf(buf, "%d", rd_host_port);
-        command  = "modifyvm \"" + vm_name + "\" ";
-        command += "--vrde on ";
-        command += "--vrdeextpack default ";
-        command += "--vrdeauthlibrary default ";
-        command += "--vrdeauthtype null ";
-        command += "--vrdeport " + string(buf) + " ";
+            sprintf(buf, "%d", rd_host_port);
+            command  = "modifyvm \"" + vm_name + "\" ";
+            command += "--vrde on ";
+            command += "--vrdeextpack default ";
+            command += "--vrdeauthlibrary default ";
+            command += "--vrdeauthtype null ";
+            command += "--vrdeport " + string(buf) + " ";
 
-        retval = vbm_popen(command, output, "remote desktop");
-        if(retval) return retval;
+            retval = vbm_popen(command, output, "remote desktop");
+            if(retval) return retval;
+        }
     }
 
     // Enable the shared folder if a shared folder is specified.

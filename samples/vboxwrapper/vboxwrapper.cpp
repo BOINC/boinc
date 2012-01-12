@@ -259,14 +259,14 @@ void set_remote_desktop_info(APP_INIT_DATA& /* aid */, VBOX_VM& vm) {
 
         mf.printf(
             "<remote_desktop>\n"
-            "  <rule>\n"
-            "    <host_port>%d</host_port>\n"
-            "  </rule>\n"
+            "  <host_port>%d</host_port>\n"
             "</remote_desktop>\n",
             vm.rd_host_port
         );
 
         fclose(f);
+        sprintf(buf, "localhost:%d", vm.rd_host_port);
+        boinc_remote_desktop_connection(buf);
     }
 }
 

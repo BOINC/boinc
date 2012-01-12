@@ -89,6 +89,7 @@ struct VBOX_VM {
     int register_vm();
     bool is_hdd_registered();
     bool is_registered();
+    bool is_extpack_installed();
     int deregister_stale_vm();
     int deregister_vm();
     int start();

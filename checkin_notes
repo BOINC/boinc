@@ -402,3 +402,15 @@ Rom    12 Jan 2012
     samples/vboxwrapper
         vbox.cpp, .h
         vboxwrapper.cpp, .h
+
+Rom    12 Jan 2012
+    - VBOX: Report the remote desktop connection information to the
+        core client.  Next commit will create an extra "VM Console"
+        button in the manager when detected.  Volunteers will just have
+        to click the button to see what is going on with the VM.
+
+    api/
+        boinc_api.cpp, .h
+    samples/vboxwrapper
+        vbox.cpp, .h
+        vboxwrapper.cpp, .h

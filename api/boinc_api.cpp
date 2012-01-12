@@ -1456,3 +1456,10 @@ void boinc_web_graphics_url(char* url) {
     sprintf(buf, "<web_graphics_url>%s</web_graphics_url>", url);
     app_client_shm->shm->graphics_reply.send_msg(buf);
 }
+
+void boinc_remote_desktop_connection(char* connection) {
+    char buf[256];
+    if (standalone) return;
+    sprintf(buf, "<remote_desktop_connection>%s</remote_desktop_connection>", connection);
+    app_client_shm->shm->graphics_reply.send_msg(buf);
+}
