@@ -125,6 +125,7 @@
 #define ID_TASK_WORK_SHOWGRAPHICS               9202
 #define ID_TASK_WORK_ABORT                      9203
 #define ID_TASK_SHOW_PROPERTIES                 9204
+#define ID_TASK_WORK_VMCONSOLE                  9205
 #define ID_TASK_TRANSFERS_RETRYNOW              9300
 #define ID_TASK_TRANSFERS_ABORT                 9301
 #define ID_TASK_MESSAGES_COPYALL                9400

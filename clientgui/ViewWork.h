@@ -69,6 +69,7 @@ public:
 
     void                    OnWorkSuspend( wxCommandEvent& event );
     void                    OnWorkShowGraphics( wxCommandEvent& event );
+    void                    OnWorkShowVMConsole( wxCommandEvent& event );
     void                    OnWorkAbort( wxCommandEvent& event );
     void                    OnShowItemProperties( wxCommandEvent& event );
     void                    OnActiveTasksOnly( wxCommandEvent& event );

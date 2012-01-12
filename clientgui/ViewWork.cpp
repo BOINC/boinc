@@ -52,9 +52,10 @@
 // buttons in the "tasks" area
 #define BTN_ACTIVE_ONLY             0
 #define BTN_GRAPHICS                1
-#define BTN_SUSPEND                 2
-#define BTN_ABORT                   3
-#define BTN_PROPERTIES              4
+#define BTN_VMCONSOLE               2
+#define BTN_SUSPEND                 3
+#define BTN_ABORT                   4
+#define BTN_PROPERTIES              5
 
 
 CWork::CWork() {
@@ -83,6 +84,7 @@ IMPLEMENT_DYNAMIC_CLASS(CViewWork, CBOINCBaseView)
 BEGIN_EVENT_TABLE (CViewWork, CBOINCBaseView)
     EVT_BUTTON(ID_TASK_WORK_SUSPEND, CViewWork::OnWorkSuspend)
     EVT_BUTTON(ID_TASK_WORK_SHOWGRAPHICS, CViewWork::OnWorkShowGraphics)
+    EVT_BUTTON(ID_TASK_WORK_VMCONSOLE, CViewWork::OnWorkShowVMConsole)
     EVT_BUTTON(ID_TASK_WORK_ABORT, CViewWork::OnWorkAbort)
     EVT_BUTTON(ID_TASK_SHOW_PROPERTIES, CViewWork::OnShowItemProperties)
     EVT_BUTTON(ID_TASK_ACTIVE_ONLY, CViewWork::OnActiveTasksOnly)
@@ -191,6 +193,13 @@ CViewWork::CViewWork(wxNotebook* pNotebook) :
         _("Show graphics"),
         _("Show application graphics in a window."),
         ID_TASK_WORK_SHOWGRAPHICS 
+    );
+    pGroup->m_Tasks.push_back( pItem );
+
+    pItem = new CTaskItem(
+        _("Show VM Console"),
+        _("Show VM Console in a window."),
+        ID_TASK_WORK_VMCONSOLE 
     );
     pGroup->m_Tasks.push_back( pItem );
 
@@ -361,6 +370,7 @@ void CViewWork::OnWorkSuspend( wxCommandEvent& WXUNUSED(event) ) {
     wxLogTrace(wxT("Function Start/End"), wxT("CViewWork::OnWorkSuspend - Function End"));
 }
 
+
 void CViewWork::OnWorkShowGraphics( wxCommandEvent& WXUNUSED(event) ) {
     wxLogTrace(wxT("Function Start/End"), wxT("CViewWork::OnWorkShowGraphics - Function Begin"));
 
@@ -395,6 +405,43 @@ void CViewWork::OnWorkShowGraphics( wxCommandEvent& WXUNUSED(event) ) {
     pFrame->FireRefreshView();
 
     wxLogTrace(wxT("Function Start/End"), wxT("CViewWork::OnWorkShowGraphics - Function End"));
+}
+
+
+void CViewWork::OnWorkShowVMConsole( wxCommandEvent& WXUNUSED(event) ) {
+    wxLogTrace(wxT("Function Start/End"), wxT("CViewWork::OnWorkShowVMConsole - Function Begin"));
+
+    CMainDocument* pDoc     = wxGetApp().GetDocument();
+    CAdvancedFrame* pFrame  = wxDynamicCast(GetParent()->GetParent()->GetParent(), CAdvancedFrame);
+    RESULT* result;
+    int row;
+
+    wxASSERT(pDoc);
+    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
+    wxASSERT(pFrame);
+    wxASSERT(wxDynamicCast(pFrame, CAdvancedFrame));
+    wxASSERT(m_pListPane);
+
+    pFrame->UpdateStatusText(_("Showing VM console for task..."));
+
+    row = -1;
+    while (1) {
+        // Step through all selected items
+        row = m_pListPane->GetNextItem(row, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED);
+        if (row < 0) break;
+        
+        result = pDoc->result(m_iSortedIndexes[row]);
+        if (result) {
+            pDoc->WorkShowVMConsole(result);
+        }
+    }
+
+    pFrame->UpdateStatusText(wxT(""));
+
+    UpdateSelection();
+    pFrame->FireRefreshView();
+
+    wxLogTrace(wxT("Function Start/End"), wxT("CViewWork::OnWorkShowVMConsole - Function End"));
 }
 
 
@@ -671,8 +718,10 @@ void CViewWork::UpdateSelection() {
     CMainDocument*      pDoc = wxGetApp().GetDocument();
     std::string         first_project_url;
     wxString            strMachineName;
-    bool                wasSuspended=false, all_same_project=false;
+    bool                wasSuspended=false;
+    bool                all_same_project=false;
     bool                enableShowGraphics = false;
+    bool                enableShowVMConsole = false;
     bool                enableSuspendResume = false;
     bool                enableAbort = false;
     bool                enableProperties = false;
@@ -688,17 +737,20 @@ void CViewWork::UpdateSelection() {
     n = m_pListPane->GetSelectedItemCount();
     if (n > 0) {
         enableShowGraphics = true;
+        enableShowVMConsole = true;
         enableSuspendResume = true;
         enableAbort = true;
         
         pDoc->GetCoreClientStatus(status);
         if (status.task_suspend_reason & ~(SUSPEND_REASON_CPU_THROTTLE)) {
             enableShowGraphics = false;
+            enableShowVMConsole = false;
         }
 
         pDoc->GetConnectedComputerName(strMachineName);
         if (!pDoc->IsComputerNameLocal(strMachineName)) {
             enableShowGraphics = false;
+            enableShowVMConsole = false;
         }
     }
 
@@ -747,6 +799,13 @@ void CViewWork::UpdateSelection() {
             }
         }
         
+        // Disable Show VM console if the selected task hasn't registered a remote
+        // desktop connection
+        //
+        if (!strlen(result->remote_desktop_connection)) {
+                enableShowVMConsole = false;
+        }
+
         // Disable Show Graphics button if the selected task can't display graphics
         //
         if (!strlen(result->web_graphics_url) && !strlen(result->graphics_exec_path)) {
@@ -785,6 +844,13 @@ void CViewWork::UpdateSelection() {
 
     // To minimize flicker, set each button only once to the final desired state
     pGroup->m_Tasks[BTN_GRAPHICS]->m_pButton->Enable(enableShowGraphics);
+    if (enableShowVMConsole) {
+        pGroup->m_Tasks[BTN_VMCONSOLE]->m_pButton->Enable();
+        pGroup->m_Tasks[BTN_VMCONSOLE]->m_pButton->Show();
+    } else {
+        pGroup->m_Tasks[BTN_VMCONSOLE]->m_pButton->Disable();
+        pGroup->m_Tasks[BTN_VMCONSOLE]->m_pButton->Hide();
+    }
     pGroup->m_Tasks[BTN_SUSPEND]->m_pButton->Enable(enableSuspendResume);
     pGroup->m_Tasks[BTN_ABORT]->m_pButton->Enable(enableAbort);
     pGroup->m_Tasks[BTN_PROPERTIES]->m_pButton->Enable(enableProperties);

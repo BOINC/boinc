@@ -270,6 +270,7 @@ public:
     int                         WorkSuspend(char* url, char* name);
     int                         WorkResume(char* url, char* name);
     int                         WorkShowGraphics(RESULT* result);
+    int                         WorkShowVMConsole(RESULT* result);
     int                         WorkAbort(char* url, char* name);
     CC_STATE*                   GetState() { return &state; };
 

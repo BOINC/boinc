@@ -414,3 +414,20 @@ Rom    12 Jan 2012
     samples/vboxwrapper
         vbox.cpp, .h
         vboxwrapper.cpp, .h
+
+Rom    12 Jan 2012
+    - client: Add plumbing to support passing the remote desktop
+        connection information to the manager
+    - MGR: Add a "Show VM Console" button for those tasks which
+        report a remote desktop port number.
+
+    client/
+        app.cpp, .h
+        app_control.cpp
+    clientgui/
+        Events.h
+        MainDocument.cpp, .h
+        ViewWork.cpp, .h
+    lib/
+        gui_rpc_client.h
+        gui_rpc_client_ops.cpp

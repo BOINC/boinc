@@ -1738,7 +1738,7 @@ int CMainDocument::WorkShowGraphics(RESULT* result) {
         // If graphics app is already running, don't launch a second instance
         //
         if (previous_gfx_app) return 0;
-        argv[0] =0;
+        argv[0] = 0;
         
         iRetVal = run_program(
             result->slot_path,
@@ -1757,6 +1757,23 @@ int CMainDocument::WorkShowGraphics(RESULT* result) {
             m_running_gfx_apps.push_back(gfx_app);
         }
     }
+    return iRetVal;
+}
+
+
+int CMainDocument::WorkShowVMConsole(RESULT* result) {
+    int iRetVal = 0;
+    
+    if (strlen(result->remote_desktop_connection)) {
+        wxString strConnection(result->remote_desktop_connection, wxConvUTF8);
+
+#ifdef __WXMSW__
+        wxString strCommand;
+        strCommand = wxT("mstsc.exe /v:") + strConnection + wxT(" /admin /w:640 /h:480");
+        wxExecute(strCommand);
+#endif
+    }
+
     return iRetVal;
 }
 

@@ -121,6 +121,7 @@ ACTIVE_TASK::ACTIVE_TASK() {
     overdue_checkpoint = false;
     last_deadline_miss_time = 0;
     strcpy(web_graphics_url, "");
+    strcpy(remote_desktop_connection, "");
 }
 
 // preempt this task;
@@ -591,6 +592,12 @@ int ACTIVE_TASK::write_gui(MIOFILE& fout) {
         fout.printf(
             "   <web_graphics_url>%s</web_graphics_url>\n",
             web_graphics_url
+        );
+    }
+    if (strlen(remote_desktop_connection)) {
+        fout.printf(
+            "   <remote_desktop_connection>%s</remote_desktop_connection>\n",
+            remote_desktop_connection
         );
     }
     fout.printf("</active_task>\n");
