@@ -213,6 +213,8 @@ void set_floppy_image(APP_INIT_DATA& aid, VBOX_VM& vm) {
 // set port forwarding information if needed
 //
 void set_port_forwarding_info(APP_INIT_DATA& /* aid */, VBOX_VM& vm) {
+    char buf[256];
+
     if (vm.pf_guest_port && vm.pf_host_port) {
         // Write info to disk
         //
@@ -232,12 +234,17 @@ void set_port_forwarding_info(APP_INIT_DATA& /* aid */, VBOX_VM& vm) {
         );
 
         fclose(f);
+
+        sprintf(buf, "http://localhost:%d", vm.pf_host_port);
+        boinc_web_graphics_url(buf);
     }
 }
 
 // set remote desktop information if needed
 //
 void set_remote_desktop_info(APP_INIT_DATA& /* aid */, VBOX_VM& vm) {
+    char buf[256];
+
     if (vm.rd_host_port) {
         // Write info to disk
         //
@@ -253,20 +260,7 @@ void set_remote_desktop_info(APP_INIT_DATA& /* aid */, VBOX_VM& vm) {
         );
 
         fclose(f);
-    }
-}
 
-// send graphics info to the client
-//
-void send_graphics_info(VBOX_VM& vm) {
-    char buf[256];
-
-    if (vm.pf_guest_port && vm.pf_host_port) {
-        sprintf(buf, "http://localhost:%d", vm.pf_host_port);
-        boinc_web_graphics_url(buf);
-    }
-
-    if (vm.rd_host_port) {
         sprintf(buf, "localhost:%d", vm.rd_host_port);
         boinc_remote_desktop_addr(buf);
     }
@@ -472,7 +466,6 @@ int main(int argc, char** argv) {
     set_port_forwarding_info(aid, vm);
     set_remote_desktop_info(aid, vm);
     set_throttles(aid, vm);
-    send_graphics_info(vm);
     write_checkpoint(elapsed_time, vm);
 
     while (1) {
