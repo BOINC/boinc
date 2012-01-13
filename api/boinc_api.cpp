@@ -1463,3 +1463,8 @@ void boinc_remote_desktop_connection(char* connection) {
     sprintf(buf, "<remote_desktop_connection>%s</remote_desktop_connection>", connection);
     app_client_shm->shm->graphics_reply.send_msg(buf);
 }
+
+void boinc_send_settings_raw(char* settings) {
+    if (standalone) return;
+    app_client_shm->shm->graphics_reply.send_msg(settings);
+}

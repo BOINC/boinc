@@ -216,12 +216,6 @@ void set_port_forwarding_info(APP_INIT_DATA& /* aid */, VBOX_VM& vm) {
     char buf[256];
 
     if (vm.pf_guest_port && vm.pf_host_port) {
-        fprintf(
-            stderr,
-            "%s port forwarding enabled on port '%d'.\n",
-            boinc_msg_prefix(buf, sizeof(buf)), vm.pf_host_port
-        );
-
         // Write info to disk
         //
         MIOFILE mf;
@@ -251,12 +245,6 @@ void set_remote_desktop_info(APP_INIT_DATA& /* aid */, VBOX_VM& vm) {
     char buf[256];
 
     if (vm.rd_host_port) {
-        fprintf(
-            stderr,
-            "%s remote desktop enabled on port '%d'.\n",
-            boinc_msg_prefix(buf, sizeof(buf)), vm.rd_host_port
-        );
-
         // Write info to disk
         //
         MIOFILE mf;
@@ -273,6 +261,27 @@ void set_remote_desktop_info(APP_INIT_DATA& /* aid */, VBOX_VM& vm) {
         fclose(f);
         sprintf(buf, "localhost:%d", vm.rd_host_port);
         boinc_remote_desktop_connection(buf);
+    }
+}
+
+// send dynamic settings to the core client
+//
+void send_application_settings(APP_INIT_DATA& /* aid */, VBOX_VM& vm) {
+    char buf[256];
+    std::string msg;
+
+    if (vm.pf_guest_port && vm.pf_host_port) {
+        sprintf(buf, "<web_graphics_url>http://localhost:%d</web_graphics_url>\n", vm.pf_host_port);
+        msg += buf;
+    }
+
+    if (vm.rd_host_port) {
+        sprintf(buf, "<remote_desktop_connection>localhost:%d</remote_desktop_connection>\n", vm.rd_host_port);
+        msg += buf;
+    }
+
+    if (!msg.empty()) {
+        boinc_send_settings_raw((char*)msg.c_str());
     }
 }
 
@@ -488,6 +497,7 @@ int main(int argc, char** argv) {
     set_port_forwarding_info(aid, vm);
     set_remote_desktop_info(aid, vm);
     set_throttles(aid, vm);
+    send_application_settings(aid, vm);
     write_checkpoint(elapsed_time, vm);
 
     while (1) {

@@ -450,3 +450,11 @@ Charlie 13 Jan 2012
     client/
         hostinfo_unix.cpp
 
+Rom    13 Jan 2012
+    - VBOX: Cleanup a few messages stating port numbers in the stderr spew.
+    - VBOX: Send configuration settings in one message instead of piece meal.
+    
+    api/
+        boinc_api.cpp, .h
+    samples/vboxwrapper
+        vboxwrapper.cpp

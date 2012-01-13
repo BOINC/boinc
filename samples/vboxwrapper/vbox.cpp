@@ -1321,11 +1321,6 @@ int VBOX_VM::get_process_id(int& process_id) {
         return ERR_NOT_FOUND;
     }
     process_id = atol(pid.c_str());
-    if (process_id) {
-        fprintf(stderr, "%s Virtual Machine PID %d Detected\n",
-            boinc_msg_prefix(buf, sizeof(buf)), process_id
-        );
-    }
     return 0;
 }
 

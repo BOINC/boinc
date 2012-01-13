@@ -119,6 +119,7 @@ extern double boinc_worker_thread_cpu_time();
 extern int boinc_init_parallel();
 extern void boinc_web_graphics_url(char*);
 extern void boinc_remote_desktop_connection(char*);
+extern void boinc_send_settings_raw(char*);
 
 #ifdef __APPLE__
 extern int setMacPList(void);
