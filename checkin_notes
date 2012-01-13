@@ -458,3 +458,9 @@ Rom    13 Jan 2012
         boinc_api.cpp, .h
     samples/vboxwrapper
         vboxwrapper.cpp
+
+Rom    13 Jan 2012
+    - VBOX: It helps to remove the older send msg routines. Oooops.
+    
+    samples/vboxwrapper
+        vboxwrapper.cpp

@@ -234,8 +234,6 @@ void set_port_forwarding_info(APP_INIT_DATA& /* aid */, VBOX_VM& vm) {
         );
 
         fclose(f);
-        sprintf(buf, "http://localhost:%d", vm.pf_host_port);
-        boinc_web_graphics_url(buf);
     }
 }
 
@@ -259,8 +257,6 @@ void set_remote_desktop_info(APP_INIT_DATA& /* aid */, VBOX_VM& vm) {
         );
 
         fclose(f);
-        sprintf(buf, "localhost:%d", vm.rd_host_port);
-        boinc_remote_desktop_connection(buf);
     }
 }
 
