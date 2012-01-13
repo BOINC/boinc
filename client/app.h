@@ -151,7 +151,7 @@ struct ACTIVE_TASK {
         // (e.g. VMs created by vboxwrapper)
         // These are communicated via the app_status message channel
     char web_graphics_url[256];
-    char remote_desktop_connection[256];
+    char remote_desktop_addr[256];
 
     void set_task_state(int, const char*);
     inline int task_state() {

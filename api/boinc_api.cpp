@@ -150,6 +150,10 @@ static int have_network = 1;
 bool g_sleep = false;
     // simulate unresponsive app by setting to true (debugging)
 static FUNC_PTR timer_callback = 0;
+char web_graphics_url[256];
+bool send_web_graphics_url = false;
+char remote_desktop_addr[256];
+bool send_remote_desktop_addr = false;
 
 #define TIMER_PERIOD 0.1
     // period of worker-thread timer interrupts.
@@ -1126,7 +1130,7 @@ static void timer_handler() {
     fprintf(stderr, "%s 1 sec elapsed\n", boinc_msg_prefix(buf, sizeof(buf)));
 #endif
 
-    // here it we're at a one-second boundary; do slow stuff
+    // here if we're at a one-second boundary; do slow stuff
     //
 
     if (!ready_to_checkpoint) {
@@ -1177,6 +1181,25 @@ static void timer_handler() {
     }
     if (timer_callback) {
         timer_callback();
+    }
+
+    // send graphics-related messages
+    //
+    if (send_web_graphics_url && !app_client_shm->shm->graphics_reply.has_msg()) {
+        sprintf(buf,
+            "<web_graphics_url>%s</web_graphics_url>",
+            web_graphics_url
+        );
+        app_client_shm->shm->graphics_reply.send_msg(buf);
+        send_web_graphics_url = false;
+    }
+    if (send_remote_desktop_addr && !app_client_shm->shm->graphics_reply.has_msg()) {
+        sprintf(buf,
+            "<remote_desktop_addr>%s</remote_desktop_addr>",
+            remote_desktop_addr
+        );
+        app_client_shm->shm->graphics_reply.send_msg(buf);
+        send_remote_desktop_addr = false;
     }
 }
 
@@ -1451,20 +1474,13 @@ double boinc_elapsed_time() {
 }
 
 void boinc_web_graphics_url(char* url) {
-    char buf[256];
     if (standalone) return;
-    sprintf(buf, "<web_graphics_url>%s</web_graphics_url>", url);
-    app_client_shm->shm->graphics_reply.send_msg(buf);
+    strcpy(web_graphics_url, url);
+    send_web_graphics_url = true;
 }
 
-void boinc_remote_desktop_connection(char* connection) {
-    char buf[256];
+void boinc_remote_desktop_addr(char* addr) {
     if (standalone) return;
-    sprintf(buf, "<remote_desktop_connection>%s</remote_desktop_connection>", connection);
-    app_client_shm->shm->graphics_reply.send_msg(buf);
-}
-
-void boinc_send_settings_raw(char* settings) {
-    if (standalone) return;
-    app_client_shm->shm->graphics_reply.send_msg(settings);
+    strcpy(remote_desktop_addr, addr);
+    send_remote_desktop_addr = true;
 }

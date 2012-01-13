@@ -535,7 +535,7 @@ int RESULT::parse(XML_PARSER& xp) {
         if (xp.parse_bool("edf_scheduled", edf_scheduled)) continue;
         if (xp.parse_str("graphics_exec_path", graphics_exec_path, sizeof(graphics_exec_path))) continue;
         if (xp.parse_str("web_graphics_url", web_graphics_url, sizeof(web_graphics_url))) continue;
-        if (xp.parse_str("remote_desktop_connection", remote_desktop_connection, sizeof(remote_desktop_connection))) continue;
+        if (xp.parse_str("remote_desktop_addr", remote_desktop_addr, sizeof(remote_desktop_addr))) continue;
         if (xp.parse_str("slot_path", slot_path, sizeof(slot_path))) continue;
         if (xp.parse_str("resources", resources, sizeof(resources))) continue;
     }
@@ -550,7 +550,7 @@ void RESULT::clear() {
     strcpy(project_url, "");
     strcpy(graphics_exec_path, "");
     strcpy(web_graphics_url, "");
-    strcpy(remote_desktop_connection, "");
+    strcpy(remote_desktop_addr, "");
     strcpy(slot_path, "");
     strcpy(resources, "");
     report_deadline = 0;

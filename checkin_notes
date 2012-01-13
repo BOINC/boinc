@@ -464,3 +464,23 @@ Rom    13 Jan 2012
     
     samples/vboxwrapper
         vboxwrapper.cpp
+
+David  13 Jan 2012
+    - API: fix queueing problem for graphics-related messages
+        (web graphics URL and remote desktop addr)
+    - GUI RPC and API:
+        change "remote_desktop_connection" to "remote_desktop_addr" everywhere.
+        It's an address, not a connection.
+    - vboxwrapper: log message cleanup
+
+    api/
+        boinc_api.cpp,h
+    client/
+        app.cpp,h
+        app_control.cpp
+    lib/
+        gui_rpc_client_ops.cpp
+        gui_rpc_client.h
+        app_ipc.cpp,h
+    samples/
+        vboxwrapper.cpp

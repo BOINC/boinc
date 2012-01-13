@@ -277,7 +277,7 @@ public:
     bool edf_scheduled;
     char graphics_exec_path[512];
     char web_graphics_url[256];
-    char remote_desktop_connection[256];
+    char remote_desktop_addr[256];
     char slot_path[512];
         // only present if graphics_exec_path is
     char resources[256];

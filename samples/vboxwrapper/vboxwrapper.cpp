@@ -256,24 +256,19 @@ void set_remote_desktop_info(APP_INIT_DATA& /* aid */, VBOX_VM& vm) {
     }
 }
 
-// send dynamic settings to the core client
+// send graphics info to the client
 //
-void send_application_settings(APP_INIT_DATA& /* aid */, VBOX_VM& vm) {
+void send_graphics_info(VBOX_VM& vm) {
     char buf[256];
-    std::string msg;
 
     if (vm.pf_guest_port && vm.pf_host_port) {
-        sprintf(buf, "<web_graphics_url>http://localhost:%d</web_graphics_url>\n", vm.pf_host_port);
-        msg += buf;
+        sprintf(buf, "http://localhost:%d", vm.pf_host_port);
+        boinc_web_graphics_url(buf);
     }
 
     if (vm.rd_host_port) {
-        sprintf(buf, "<remote_desktop_connection>localhost:%d</remote_desktop_connection>\n", vm.rd_host_port);
-        msg += buf;
-    }
-
-    if (!msg.empty()) {
-        boinc_send_settings_raw((char*)msg.c_str());
+        sprintf(buf, "localhost:%d", vm.rd_host_port);
+        boinc_remote_desktop_addr(buf);
     }
 }
 
@@ -423,49 +418,37 @@ int main(int argc, char** argv) {
 
         fprintf(
             stderr,
-            "%s VM failed to startup!!!\n",
+            "%s VM failed to start.\n",
             boinc_msg_prefix(buf, sizeof(buf))
         );
         if ((vm_log.find("VERR_VMX_MSR_LOCKED_OR_DISABLED") != std::string::npos) || (vm_log.find("VERR_SVM_DISABLED") != std::string::npos)) {
             fprintf(
                 stderr,
                 "%s NOTE: BOINC has detected that your processor supports hardware acceleration for virtual machines\n"
-                "%s   but the hypervisor failed to successfully launch with this feature enabled. This means that the\n"
-                "%s   hardware acceleration feature has been disabled in the computers BIOS. Please enable this\n"
-                "%s   feature in your BIOS.\n"
-                "%s   Intel Processors call it 'VT-x'\n"
-                "%s   AMD Processors call it 'AMD-V'\n"
-                "%s   More information can be found here: http://en.wikipedia.org/wiki/X86_virtualization\n"
-                "%s   Error Code: ERR_CPU_VM_EXTENSIONS_DISABLED\n",
-                boinc_msg_prefix(buf, sizeof(buf)),
-                boinc_msg_prefix(buf, sizeof(buf)),
-                boinc_msg_prefix(buf, sizeof(buf)),
-                boinc_msg_prefix(buf, sizeof(buf)),
-                boinc_msg_prefix(buf, sizeof(buf)),
-                boinc_msg_prefix(buf, sizeof(buf)),
-                boinc_msg_prefix(buf, sizeof(buf)),
+                "    but the hypervisor failed to successfully launch with this feature enabled. This means that the\n"
+                "    hardware acceleration feature has been disabled in the computers BIOS. Please enable this\n"
+                "    feature in your BIOS.\n"
+                "    Intel Processors call it 'VT-x'\n"
+                "    AMD Processors call it 'AMD-V'\n"
+                "    More information can be found here: http://en.wikipedia.org/wiki/X86_virtualization\n"
+                "    Error Code: ERR_CPU_VM_EXTENSIONS_DISABLED\n",
                 boinc_msg_prefix(buf, sizeof(buf))
             );
         } else if ((vm_log.find("VERR_VMX_IN_VMX_ROOT_MODE") != std::string::npos) || (vm_log.find("VERR_SVM_IN_USE") != std::string::npos)) {
             fprintf(
                 stderr,
                 "%s NOTE: VirtualBox hypervisor reports that another hypervisor has locked the hardware acceleration\n"
-                "%s   for virtual machines feature in exclusive mode. You'll either need to reconfigure the other hypervisor\n"
-                "%s   to not use the feature exclusively or just let BOINC run this project in software emulation mode.\n"
-                "%s   Error Code: ERR_CPU_VM_EXTENSIONS_DISABLED\n",
-                boinc_msg_prefix(buf, sizeof(buf)),
-                boinc_msg_prefix(buf, sizeof(buf)),
-                boinc_msg_prefix(buf, sizeof(buf)),
+                "    for virtual machines feature in exclusive mode. You'll either need to reconfigure the other hypervisor\n"
+                "    to not use the feature exclusively or just let BOINC run this project in software emulation mode.\n"
+                "    Error Code: ERR_CPU_VM_EXTENSIONS_DISABLED\n",
                 boinc_msg_prefix(buf, sizeof(buf))
             );
         } else if ((vm_log.find("VERR_VMX_NO_VMX") != std::string::npos) || (vm_log.find("VERR_SVM_NO_SVM") != std::string::npos)) {
             fprintf(
                 stderr,
                 "%s NOTE: VirtualBox has reported an improperly configured virtual machine. It was configured to require\n"
-                "%s   hardware acceleration for virtual machines, but your processor does not support the required feature.\n"
-                "%s   Please report this issue to the project so that it can be addresssed.\n",
-                boinc_msg_prefix(buf, sizeof(buf)),
-                boinc_msg_prefix(buf, sizeof(buf)),
+                "    hardware acceleration for virtual machines, but your processor does not support the required feature.\n"
+                "    Please report this issue to the project so that it can be addresssed.\n",
                 boinc_msg_prefix(buf, sizeof(buf))
             );
         } else {
@@ -489,7 +472,7 @@ int main(int argc, char** argv) {
     set_port_forwarding_info(aid, vm);
     set_remote_desktop_info(aid, vm);
     set_throttles(aid, vm);
-    send_application_settings(aid, vm);
+    send_graphics_info(vm);
     write_checkpoint(elapsed_time, vm);
 
     while (1) {
@@ -520,34 +503,22 @@ int main(int argc, char** argv) {
             if (vm.crashed || (elapsed_time < vm.job_duration)) {
                 fprintf(
                     stderr,
-                    "%s VM Premature Shutdown Detected!!!\n",
-                    "%s NOTE: This could be like a blue-screen event in Windows, the rest of the information in this file\n"
-                    "%s   is diagnostic information generated by the hypervisor.\n"
-                    "%s Hypervisor System Log:\n\n"
+                    "%s VM Premature Shutdown Detected.\n"
+                    "    Hypervisor System Log:\n\n"
                     "%s\n"
-                    "%s VM Execution Log:\n\n"
+                    "    VM Execution Log:\n\n"
                     "%s\n",
                     boinc_msg_prefix(buf, sizeof(buf)),
-                    boinc_msg_prefix(buf, sizeof(buf)),
-                    boinc_msg_prefix(buf, sizeof(buf)),
-                    boinc_msg_prefix(buf, sizeof(buf)),
                     system_log.c_str(),
-                    boinc_msg_prefix(buf, sizeof(buf)),
                     vm_log.c_str()
                 );
+                boinc_finish(EXIT_ABORTED_BY_CLIENT);
             } else {
                 fprintf(
                     stderr,
-                    "%s Virtual machine is no longer running, it must have completed its work.\n"
-                    "%s NOTE: If this is in error, check the vboxwrapper source code for additional steps to debug this issue.\n",
-                    boinc_msg_prefix(buf, sizeof(buf)),
+                    "%s Virtual machine exited.\n",
                     boinc_msg_prefix(buf, sizeof(buf))
                 );
-            }
-
-            if (vm.crashed || (elapsed_time < vm.job_duration)) {
-                boinc_finish(EXIT_ABORTED_BY_CLIENT);
-            } else {
                 boinc_finish(0);
             }
         }

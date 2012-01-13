@@ -397,13 +397,8 @@ bool MSG_CHANNEL::get_msg(char *msg) {
     return true;
 }
 
-bool MSG_CHANNEL::has_msg() {
-    if (buf[0]) return true;
-    return false;
-}
-
 bool MSG_CHANNEL::send_msg(const char *msg) {
-    if (buf[0]) return false;
+    if (has_msg()) return false;
     strlcpy(buf+1, msg, MSG_CHANNEL_SIZE-1);
     buf[0] = 1;
     return true;
