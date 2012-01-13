@@ -486,7 +486,7 @@ David  13 Jan 2012
         vboxwrapper.cpp
 
 Rom    13 Jan 2012
-    - MGR: Add RDP support for Linux.
+    - MGR: Add RDP client support for Linux.
     
     clientgui/
         MainDocument.cpp
