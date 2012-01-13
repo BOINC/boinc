@@ -490,3 +490,9 @@ Rom    13 Jan 2012
     
     clientgui/
         MainDocument.cpp
+
+David  13 Jan 2012
+    - file deleter: improved logging; from Oliver
+
+    sched/
+        file_deleter.cpp

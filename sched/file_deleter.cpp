@@ -68,7 +68,7 @@
 #define PIDFILE  "file_deleter.pid"
 
 #define DEFAULT_SLEEP_INTERVAL 5
-#define RESULTS_PER_WU 4        // an estimate of redundancy 
+#define RESULTS_PER_WU 4        // an estimate of redundancy
 
 int id_modulus=0, id_remainder=0, appid=0;
 bool dont_retry_errors = false;
@@ -143,12 +143,12 @@ int wu_delete_files(WORKUNIT& wu) {
     char* p;
     char filename[256], pathname[256], buf[BLOB_SIZE];
     bool no_delete=false;
-    int count_deleted = 0, retval, mthd_retval = 0;
+    int count_deleted = 0, count_deleted_md5 = 0, retval, mthd_retval = 0;
 
     if (strstr(wu.name, "nodelete")) return 0;
 
     safe_strcpy(buf, wu.xml_doc);
-    
+
     p = strtok(buf, "\n");
     strcpy(filename, "");
     while (p) {
@@ -167,7 +167,7 @@ int wu_delete_files(WORKUNIT& wu) {
                 if (retval == ERR_OPENDIR) {
                     log_messages.printf(MSG_CRITICAL,
                         "[WU#%d] missing dir for %s\n",
-                        wu.id, filename
+                        wu.id, pathname
                     );
                     mthd_retval = ERR_UNLINK;
                 } else if (retval) {
@@ -176,14 +176,14 @@ int wu_delete_files(WORKUNIT& wu) {
                         wu.id, filename, boincerror(retval)
                     );
                 } else {
-                    log_messages.printf(MSG_NORMAL,
-                        "[WU#%d] deleting %s\n", wu.id, filename
+                    log_messages.printf(MSG_DEBUG,
+                        "[WU#%d] deleting %s\n", wu.id, pathname
                     );
                     retval = unlink(pathname);
                     if (retval) {
                         log_messages.printf(MSG_CRITICAL,
                             "[WU#%d] unlink %s failed: %s\n",
-                            wu.id, filename, boincerror(retval)
+                            wu.id, pathname, boincerror(retval)
                         );
                         mthd_retval = ERR_UNLINK;
                     } else {
@@ -193,15 +193,17 @@ int wu_delete_files(WORKUNIT& wu) {
                     //
                     if (config.cache_md5_info) {
                         strcat(pathname,".md5");
-                        log_messages.printf(MSG_NORMAL,
-                            "[WU#%d] deleting %s\n", wu.id, filename
+                        log_messages.printf(MSG_DEBUG,
+                            "[WU#%d] deleting %s\n", wu.id, pathname
                         );
                         retval = unlink(pathname);
                         if (retval) {
                             log_messages.printf(MSG_CRITICAL,
                                 "[WU#%d] unlink %s failed: %s\n",
-                                wu.id, filename, boincerror(retval)
+                                wu.id, pathname, boincerror(retval)
                             );
+                        } else {
+                            count_deleted_md5++;
                         }
                     }
                 }
@@ -209,8 +211,9 @@ int wu_delete_files(WORKUNIT& wu) {
         }
         p = strtok(0, "\n");
     }
-    log_messages.printf(MSG_DEBUG,
-        "[WU#%d] deleted %d file(s)\n", wu.id, count_deleted
+    log_messages.printf(MSG_NORMAL,
+        "[WU#%d] deleted %d input files and %d cached md5 files\n",
+        wu.id, count_deleted, count_deleted_md5
     );
     return mthd_retval;
 }
@@ -269,7 +272,7 @@ int result_delete_files(RESULT& result) {
                         );
                     } else {
                         count_deleted++;
-                        log_messages.printf(MSG_NORMAL,
+                        log_messages.printf(MSG_DEBUG,
                             "[RESULT#%d] unlinked %s\n", result.id, pathname
                         );
                     }
@@ -279,8 +282,8 @@ int result_delete_files(RESULT& result) {
         p = strtok(0, "\n");
     }
 
-    log_messages.printf(MSG_DEBUG,
-        "[RESULT#%d] deleted %d file(s)\n", result.id, count_deleted
+    log_messages.printf(MSG_NORMAL,
+        "[RESULT#%d] deleted %d output file(s)\n", result.id, count_deleted
     );
     return mthd_retval;
 }
@@ -354,7 +357,7 @@ bool do_pass(bool retry_error) {
                 );
                 did_something = true;
             }
-        } 
+        }
     }
 
     sprintf(buf,
@@ -387,7 +390,7 @@ bool do_pass(bool retry_error) {
             new_state = FILE_DELETE_DONE;
         }
         if (new_state != result.file_delete_state) {
-            sprintf(buf, "file_delete_state=%d", new_state); 
+            sprintf(buf, "file_delete_state=%d", new_state);
             retval = result.update_field(buf);
             if (retval) {
                 log_messages.printf(MSG_CRITICAL,
@@ -399,8 +402,8 @@ bool do_pass(bool retry_error) {
                 );
                 did_something = true;
             }
-        } 
-    } 
+        }
+    }
 
     return did_something;
 }
@@ -461,7 +464,7 @@ int delete_antique_files() {
         strcpy(timestamp, time_to_string(fr.date_modified));
         log_messages.printf(MSG_DEBUG,
             "deleting [antique %s] %s\n",
-            timestamp, pathname 
+            timestamp, pathname
         );
         if (unlink(pathname)) {
             int save_error=errno;
@@ -506,7 +509,7 @@ int add_antiques_to_list(int days) {
     );
 
     sprintf(command, "find %s -type f -mtime +%d -follow | head -%d", config.upload_dir, days, antique_limit);
-    
+
     // Now execute the command, read output on a stream.  We could use
     // find to also exec a 'delete' command.  But we want to log all
     // file names into the log, and do lots of sanity checking, so
@@ -576,12 +579,12 @@ int add_antiques_to_list(int days) {
         fr.name = fname_at_end;
         files_to_delete.push_back(fr);
         nfiles++;
-       
-    } // while (fgets(single_line, 1024, fp)) {  
+
+    } // while (fgets(single_line, 1024, fp)) {
     pclose(fp);
     log_messages.printf(MSG_DEBUG,
         "Found %d antique files to delete\n",
-        nfiles 
+        nfiles
     );
     files_to_delete.sort();
     files_to_delete.unique();
@@ -645,7 +648,7 @@ int main(int argc, char** argv) {
     bool one_pass = false;
     int i;
     DB_APP app;
-    
+
     check_stop_daemons();
 
     *app.name='\0';
@@ -750,7 +753,7 @@ int main(int argc, char** argv) {
     }
 
     if (*app.name && !appid) {
-      char buf[256];      
+      char buf[256];
       sprintf(buf, "where name='%s'", app.name);
       retval = app.lookup(buf);
       if (retval) {
