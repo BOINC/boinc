@@ -120,22 +120,28 @@ int parse_job_file(VBOX_VM& vm) {
     return ERR_XML_PARSE;
 }
 
-void write_checkpoint(double cpu) {
+void write_checkpoint(double cpu, VBOX_VM& vm) {
     FILE* f = fopen(CHECKPOINT_FILENAME, "w");
     if (!f) return;
-    fprintf(f, "%f\n", cpu);
+    fprintf(f, "%f %d %d\n", cpu, vm.pf_host_port, vm.rd_host_port);
     fclose(f);
 }
 
-void read_checkpoint(double& cpu) {
+void read_checkpoint(double& cpu, VBOX_VM& vm) {
     double c;
+    int pf_host;
+    int rd_host;
     cpu = 0.0;
+    vm.pf_host_port = 0;
+    vm.rd_host_port = 0;
     FILE* f = fopen(CHECKPOINT_FILENAME, "r");
     if (!f) return;
-    int n = fscanf(f, "%lf", &c);
+    int n = fscanf(f, "%lf %d %d", &c, &pf_host, &rd_host);
     fclose(f);
-    if (n != 1) return;
+    if (n != 3) return;
     cpu = c;
+    vm.pf_host_port = pf_host;
+    vm.rd_host_port = rd_host;
 }
 
 // set CPU and network throttling if needed
@@ -396,7 +402,7 @@ int main(int argc, char** argv) {
     }
 
     // Restore from checkpoint
-    read_checkpoint(checkpoint_cpu_time);
+    read_checkpoint(checkpoint_cpu_time, vm);
     elapsed_time = checkpoint_cpu_time;
 
     // Should we even try to start things up?
@@ -412,7 +418,7 @@ int main(int argc, char** argv) {
 
         // Cleanup
         vm.cleanup();
-        write_checkpoint(elapsed_time);
+        write_checkpoint(elapsed_time, vm);
 
         fprintf(
             stderr,
@@ -444,7 +450,9 @@ int main(int argc, char** argv) {
                 stderr,
                 "%s NOTE: VirtualBox hypervisor reports that another hypervisor has locked the hardware acceleration\n"
                 "%s   for virtual machines feature in exclusive mode. You'll either need to reconfigure the other hypervisor\n"
-                "%s   to not use the feature exclusively or just shut it down while running BOINC with this project.\n",
+                "%s   to not use the feature exclusively or just let BOINC run this project in software emulation mode.\n"
+                "%s   Error Code: ERR_CPU_VM_EXTENSIONS_DISABLED\n",
+                boinc_msg_prefix(buf, sizeof(buf)),
                 boinc_msg_prefix(buf, sizeof(buf)),
                 boinc_msg_prefix(buf, sizeof(buf)),
                 boinc_msg_prefix(buf, sizeof(buf))
@@ -480,6 +488,7 @@ int main(int argc, char** argv) {
     set_port_forwarding_info(aid, vm);
     set_remote_desktop_info(aid, vm);
     set_throttles(aid, vm);
+    write_checkpoint(elapsed_time, vm);
 
     while (1) {
         // Begin stopwatch timer
@@ -490,12 +499,12 @@ int main(int argc, char** argv) {
 
         if (boinc_status.no_heartbeat || boinc_status.quit_request) {
             vm.stop();
-            write_checkpoint(checkpoint_cpu_time);
+            write_checkpoint(checkpoint_cpu_time, vm);
             boinc_temporary_exit(0);
         }
         if (boinc_status.abort_request) {
             vm.cleanup();
-            write_checkpoint(elapsed_time);
+            write_checkpoint(elapsed_time, vm);
             boinc_finish(EXIT_ABORTED_BY_CLIENT);
         }
         if (!vm.online) {
@@ -504,7 +513,7 @@ int main(int argc, char** argv) {
                 vm.get_vm_log(vm_log);
             }
             vm.cleanup();
-            write_checkpoint(elapsed_time);
+            write_checkpoint(elapsed_time, vm);
 
             if (vm.crashed || (elapsed_time < vm.job_duration)) {
                 fprintf(
@@ -558,7 +567,7 @@ int main(int argc, char** argv) {
 
             if (boinc_time_to_checkpoint()) {
                 checkpoint_cpu_time = elapsed_time;
-                write_checkpoint(checkpoint_cpu_time);
+                write_checkpoint(checkpoint_cpu_time, vm);
                 if (vm.job_duration) {
                     fraction_done = elapsed_time / vm.job_duration;
                     if (fraction_done > 1.0) {
@@ -624,7 +633,7 @@ int main(int argc, char** argv) {
             //
             if (vm.job_duration && (elapsed_time > vm.job_duration)) {
                 vm.cleanup();
-                write_checkpoint(elapsed_time);
+                write_checkpoint(elapsed_time, vm);
                 boinc_finish(0);
             }
         }

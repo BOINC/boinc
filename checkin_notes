@@ -431,3 +431,11 @@ Rom    12 Jan 2012
     lib/
         gui_rpc_client.h
         gui_rpc_client_ops.cpp
+
+Rom    12 Jan 2012
+    - VBOX: Make sure the configured port numbers persist across
+        restarts of the client software.  Remote desktop stopped
+        working if the client software was restarted.
+
+    samples/vboxwrapper
+        vboxwrapper.cpp
