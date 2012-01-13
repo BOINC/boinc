@@ -439,3 +439,14 @@ Rom    12 Jan 2012
 
     samples/vboxwrapper
         vboxwrapper.cpp
+
+Charlie 13 Jan 2012
+    - client: Due to my changes of 10 Jan 2012, idle detection did not work 
+        when BOINC was run as a pre-login daemon.  So use the old method 
+        when running as a daemon.  This means that idle detection for Apple 
+        Remote Desktop and screen sharing (VNC) under Mac OS 10.7 works only 
+        when not running BOINC as a daemon.    
+
+    client/
+        hostinfo_unix.cpp
+

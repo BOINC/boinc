@@ -1587,9 +1587,12 @@ inline bool user_idle(time_t t, struct utmp* u) {
 // In OS 10.7, IOHIDGetParameter() fails to recognize activity from remote 
 // logins via Apple Remote Desktop or Screen Sharing (VNC), but the 
 // CGEventSourceSecondsSinceLastEventType() API does work with ARD and VNC, 
-// and CGEventSourceSecondsSinceLastEventType() does work even when BOINC 
-// is a pre-login launchd daemon running as user boinc_master, provided that 
-// it is not called too soon after system restart.
+// except when BOINC is a pre-login launchd daemon running as user boinc_master.
+//
+// So as a workaround in OS 10.7, we use CGEventSourceSecondsSinceLastEventType 
+// unless running as a daemon.  Therefore BOINC still won't detect activity from
+// remote via Apple Remote Desktop or Screen Sharing (VNC) when run as a daemon 
+// under OS 10.7.
 //
 // So we use weak-linking of NxIdleTime() to prevent a run-time crash from the 
 // dynamic linker and use it if it exists. 
@@ -1644,11 +1647,10 @@ bool HOST_INFO::users_idle(
             }
         }
     } else {        // NXIdleTime API does not exist in OS 10.6 and later
-    if (OSVersionInfo >= 0x1070) {
-        if (TickCount() > (120*60)) {   // If system has been up for more than 2 minutes 
+    if ((OSVersionInfo >= 0x1070) && (! gstate.executing_as_daemon)) {
+                
             idleTime =  CGEventSourceSecondsSinceLastEventType  
                         (kCGEventSourceStateCombinedSessionState, kCGAnyInputEventType);
-        }
     } else {        // OS Version < 10.7
        if (gEventHandle) {
                 kernResult = IOHIDGetParameter( gEventHandle, CFSTR(EVSIOIDLE), sizeof(UInt64), &params, &rcnt );
