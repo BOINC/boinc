@@ -213,8 +213,6 @@ void set_floppy_image(APP_INIT_DATA& aid, VBOX_VM& vm) {
 // set port forwarding information if needed
 //
 void set_port_forwarding_info(APP_INIT_DATA& /* aid */, VBOX_VM& vm) {
-    char buf[256];
-
     if (vm.pf_guest_port && vm.pf_host_port) {
         // Write info to disk
         //
@@ -240,8 +238,6 @@ void set_port_forwarding_info(APP_INIT_DATA& /* aid */, VBOX_VM& vm) {
 // set remote desktop information if needed
 //
 void set_remote_desktop_info(APP_INIT_DATA& /* aid */, VBOX_VM& vm) {
-    char buf[256];
-
     if (vm.rd_host_port) {
         // Write info to disk
         //
