@@ -484,3 +484,9 @@ David  13 Jan 2012
         app_ipc.cpp,h
     samples/
         vboxwrapper.cpp
+
+Rom    13 Jan 2012
+    - MGR: Add RDP support for Linux.
+    
+    clientgui/
+        MainDocument.cpp

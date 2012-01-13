@@ -1766,12 +1766,14 @@ int CMainDocument::WorkShowVMConsole(RESULT* result) {
     
     if (strlen(result->remote_desktop_addr)) {
         wxString strConnection(result->remote_desktop_addr, wxConvUTF8);
-
-#ifdef __WXMSW__
         wxString strCommand;
-        strCommand = wxT("mstsc.exe /v:") + strConnection + wxT(" /w:640 /h:480");
-        wxExecute(strCommand);
+
+#if   defined(__WXMSW__)
+        strCommand = wxT("mstsc.exe /v:") + strConnection;
+#elif defined(__WXGTK__)
+        strCommand = wxT("rdesktop ") + strConnection;
 #endif
+        wxExecute(strCommand);
     }
 
     return iRetVal;
