@@ -1764,12 +1764,12 @@ int CMainDocument::WorkShowGraphics(RESULT* result) {
 int CMainDocument::WorkShowVMConsole(RESULT* result) {
     int iRetVal = 0;
     
-    if (strlen(result->remote_desktop_connection)) {
-        wxString strConnection(result->remote_desktop_connection, wxConvUTF8);
+    if (strlen(result->remote_desktop_addr)) {
+        wxString strConnection(result->remote_desktop_addr, wxConvUTF8);
 
 #ifdef __WXMSW__
         wxString strCommand;
-        strCommand = wxT("mstsc.exe /v:") + strConnection + wxT(" /admin /w:640 /h:480");
+        strCommand = wxT("mstsc.exe /v:") + strConnection + wxT(" /w:640 /h:480");
         wxExecute(strCommand);
 #endif
     }

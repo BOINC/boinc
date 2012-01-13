@@ -802,7 +802,7 @@ void CViewWork::UpdateSelection() {
         // Disable Show VM console if the selected task hasn't registered a remote
         // desktop connection
         //
-        if (!strlen(result->remote_desktop_connection)) {
+        if (!strlen(result->remote_desktop_addr)) {
                 enableShowVMConsole = false;
         }
 
