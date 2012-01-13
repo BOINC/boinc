@@ -803,20 +803,20 @@ void CViewWork::UpdateSelection() {
         // desktop connection
         //
         if (!strlen(result->remote_desktop_addr)) {
-                enableShowVMConsole = false;
+            enableShowVMConsole = false;
         }
 
         // Disable Show Graphics button if the selected task can't display graphics
         //
         if (!strlen(result->web_graphics_url) && !strlen(result->graphics_exec_path)) {
-                enableShowGraphics = false;
+            enableShowGraphics = false;
         }
 
         if (result->suspended_via_gui ||
             result->project_suspended_via_gui || 
             (result->scheduler_state != CPU_SCHED_SCHEDULED)
         ) {
-                enableShowGraphics = false;
+            enableShowGraphics = false;
         }
        
         // Disable Abort button if any selected task already aborted
