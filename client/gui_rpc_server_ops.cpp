@@ -1369,7 +1369,8 @@ int GUI_RPC_CONN::handle_rpc() {
             "Server: BOINC client\n"
             "Connection: close\n"
             "Content-Type: text/xml; charset=utf-8\n"
-            "Content-Length: %d\n\n",
+            "Content-Length: %d\n\n"
+            "<?xml version=\"1.0\" encoding=\"ISO-8859-1\" ?>\n",
             n
         );
         send(sock, buf, strlen(buf), 0);

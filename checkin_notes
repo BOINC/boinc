@@ -536,3 +536,8 @@ David  13 Jan 2012
     Makefile.am
     zip/*
 
+David  13 Jan 2012
+	- GUI RPC: add <xml> tag to the start of HTTP replies.
+	
+	client/
+		gui_rpc_server_ops.cpp
