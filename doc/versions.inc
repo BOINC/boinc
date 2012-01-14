@@ -32,10 +32,10 @@ function type_text($type) {
 }
 
 $w70 = array(
-	"num"=>"7.0.3",
+	"num"=>"7.0.8",
 	"status"=>"Development version",
-	"file"=>"boinc_7.0.3_windows_intelx86.exe",
-	"date"=>"16 Dec 2011",
+	"file"=>"boinc_7.0.8_windows_intelx86.exe",
+	"date"=>"13 Jan 2012",
 	"type"=>"win_new",
 );
 
@@ -72,10 +72,10 @@ $w5816 = array(
 );
 
 $w70x64 = array(
-	"num"=>"7.0.3",
+	"num"=>"7.0.8",
 	"status"=>"Development version",
-	"file"=>"boinc_7.0.3_windows_x86_64.exe",
-	"date"=>"16 Dec 2011",
+	"file"=>"boinc_7.0.8_windows_x86_64.exe",
+	"date"=>"13 Jan 2012",
 	"type"=>"win_new",
 );
 
@@ -96,10 +96,10 @@ $w610x64 = array(
 );
 
 $m70 = array(
-	"num"=>"7.0.3",
+	"num"=>"7.0.8",
 	"status"=>"Development version (standard GUI)",
-	"file"=>"boinc_7.0.3_macOSX_i686.zip",
-	"date"=>"7 Dec 2011",
+	"file"=>"boinc_7.0.8_macOSX_i686.zip",
+	"date"=>"13 Jan 2012",
 	"type"=>"mac_advanced",
 );
 
@@ -176,10 +176,10 @@ $l66 = array(
 	);
 
 $l70ubuntu = array(
-	"num"=>"7.0.2",
+	"num"=>"7.0.8",
 	"status"=>"Development version",
-	"file"=>"boinc_7.0.2_i686-pc-linux-gnu.sh",
-	"date"=>"5 Dec 2011",
+	"file"=>"boinc_7.0.8_i686-pc-linux-gnu.sh",
+	"date"=>"13 Jan 2012",
 	"type"=>"sea",
 );
 
@@ -200,10 +200,10 @@ $l610ubuntu = array(
 );
 
 $l70ubuntux64 = array(
-	"num"=>"7.0.2",
+	"num"=>"7.0.8",
 	"status"=>"Development version",
-	"file"=>"boinc_7.0.2_x86_64-pc-linux-gnu.sh",
-	"date"=>"5 Dec 2011",
+	"file"=>"boinc_7.0.8_x86_64-pc-linux-gnu.sh",
+	"date"=>"13 Jan 2012",
 	"type"=>"sea",
 );
 
