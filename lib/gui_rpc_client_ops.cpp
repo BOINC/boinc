@@ -1871,19 +1871,19 @@ int RPC_CLIENT::get_messages(int seqno, MESSAGES& msgs, bool translatable) {
 
     retval = rpc.do_rpc(buf);
     if (!retval) {
-        while (rpc.fin.fgets(buf, 256)) {
-            if (match_tag(buf, "</msgs>")) {
+        while (!rpc.xp.get_tag()) {
+            if (rpc.xp.match_tag("/msgs")) {
                 return 0;
             }
-            if (match_tag(buf, "<msg>")) {
+            if (rpc.xp.match_tag("msg")) {
                 MESSAGE* message = new MESSAGE();
                 message->parse(rpc.xp);
                 msgs.messages.push_back(message);
                 continue;
             }
-            if (match_tag(buf, "<boinc_gui_rpc_reply>")) continue;
-            if (match_tag(buf, "<msgs>")) continue;
-            fprintf(stderr, "bad tag %s\n", buf);
+            if (rpc.xp.match_tag("boinc_gui_rpc_reply")) continue;
+            if (rpc.xp.match_tag("msgs")) continue;
+            //fprintf(stderr, "bad tag %s\n", buf);
         }
     }
     return retval;
