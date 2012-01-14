@@ -541,3 +541,9 @@ David  13 Jan 2012
 	
 	client/
 		gui_rpc_server_ops.cpp
+
+David  14 Jan 2012
+    - client: identify ATI 97x0 GPUs (from Jord)
+
+    client/
+        coproc_detect.cpp
