@@ -128,10 +128,10 @@ $m66 = array(
 );
 
 $m70c = array(
-	"num"=>"7.0.3",
+	"num"=>"7.0.8",
 	"status"=>"Development version (Unix command-line version)",
-	"file"=>"boinc_7.0.3_i686-apple-darwin.zip",
-	"date"=>"16 Dec 2011",
+	"file"=>"boinc_7.0.8_i686-apple-darwin.zip",
+	"date"=>"13 Jan 2012",
 	"type"=>"bare_core",
 );
 
