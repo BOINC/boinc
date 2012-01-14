@@ -1769,10 +1769,20 @@ int CMainDocument::WorkShowVMConsole(RESULT* result) {
         wxString strCommand;
 
 #if   defined(__WXMSW__)
-        strCommand = wxT("mstsc.exe /v:") + strConnection;
+        // There appears to be a bug when you launch the mstsc client against a
+        // VirtualBox RDP server in windowed mode it fails to refresh the console
+        // display and doesn't respond to keyboard/mouse events.  Launching it in
+        // fullscreen mode resolves the issue.
+        // 
+        // I'll follow-up with a bug for VirtualBox.
+        //
+        // In the mean time, pass a command line parameter to go full screen.
+        //
+        strCommand = wxT("mstsc.exe /v:") + strConnection + wxT(" /f");
 #elif defined(__WXGTK__)
         strCommand = wxT("rdesktop ") + strConnection;
 #endif
+
         wxExecute(strCommand);
     }
 

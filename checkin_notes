@@ -496,3 +496,11 @@ David  13 Jan 2012
 
     sched/
         file_deleter.cpp
+
+Rom    13 Jan 2012
+    - MGR: Launch the RDP client on Windows in full-screen mode to avoid
+        a bug where the screen doesn't refresh and keyboard/mouse events
+        don't manifest until you close down the client and restart it.
+        
+    clientgui/
+        MainDocument.cpp
