@@ -1779,11 +1779,38 @@ int CMainDocument::WorkShowVMConsole(RESULT* result) {
         // In the mean time, pass a command line parameter to go full screen.
         //
         strCommand = wxT("mstsc.exe /v:") + strConnection + wxT(" /f");
+        wxExecute(strCommand);
 #elif defined(__WXGTK__)
         strCommand = wxT("rdesktop ") + strConnection;
-#endif
-
         wxExecute(strCommand);
+#elif defined(__WXMAC__)
+    FSRef theFSRef;
+    OSStatus status = noErr;
+
+    // I have found no reliable way to pass the IP address and port to Microsoft's 
+    // Remote Desktop Connection application for the Mac, so I'm using CoRD.  
+    // Unfortunately, CoRD does not seem as reliable as I would like either.
+    //
+    // First try to find the CoRD application by Bundle ID and Creator Code
+    status = LSFindApplicationForInfo('RDC#', CFSTR("net.sf.cord"),   
+                                        NULL, &theFSRef, NULL);
+    if (status != noErr) {
+        CBOINCBaseFrame* pFrame = wxGetApp().GetFrame();
+        if (pFrame) {
+            pFrame->ShowAlert(
+                _("Missing application"), 
+                _("Please download and install the CoRD application from http://cord.sourceforge.net"),
+                wxOK | wxICON_INFORMATION,
+                    false
+                );
+        } 
+        return ERR_FILE_MISSING;
+    }
+
+    strCommand = wxT("osascript -e 'tell application \"CoRD\"' -e 'activate' -e 'open location \"rdp://") + strConnection + wxT("\"' -e 'end tell'");
+    strCommand.Replace(wxT("localhost"), wxT("127.0.0.1"));
+    system(strCommand.char_str());
+#endif
     }
 
     return iRetVal;

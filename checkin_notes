@@ -504,3 +504,12 @@ Rom    13 Jan 2012
         
     clientgui/
         MainDocument.cpp
+
+Charlie 13 Jan 2012
+    - MGR: Add RDP client support for the Mac.  I have found no reliable way 
+        to pass the IP address and port to Microsoft's Remote Desktop 
+        Connection application for the Mac, so I'm using CoRD.  Unfortunately, 
+        CoRD does not seem to be as reliable as I would like either.
+        
+    clientgui/
+        MainDocument.cpp
