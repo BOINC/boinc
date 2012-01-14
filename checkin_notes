@@ -513,3 +513,16 @@ Charlie 13 Jan 2012
         
     clientgui/
         MainDocument.cpp
+
+Rom    13 Dec 2012
+    NOTE: Some previously experimental features in the client software are
+      now important to have for the 7.0 release.  The existing 7.0 branch
+      will no longer be maintained, we'll create a new branch for the 7.0
+      client line at a later date.
+    
+    - Tag for 7.0.8 release, all platforms
+      boinc_core_release_7_0_8
+
+    /
+        configure.ac
+        version.h
