@@ -937,6 +937,9 @@ AC_CONFIG_FILES([
                  test/version.inc
                  tools/boinc_path_config.py:py/boinc_path_config.py.in
                  tools/Makefile
+                 zip/Makefile
+                 zip/zip/Makefile
+                 zip/unzip/Makefile
                  m4/Makefile
 		])
 

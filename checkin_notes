@@ -526,3 +526,13 @@ Rom    13 Dec 2012
     /
         configure.ac
         version.h
+
+David  13 Jan 2012
+    - The zip library was moved to a directory (project_depends)
+        outside of BOINC, but the build files weren't made to work.
+        Move the library back where it was before.
+
+    configure.ac
+    Makefile.am
+    zip/*
+

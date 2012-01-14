@@ -1,0 +1,771 @@
+------------------------- August 7th 1996 version 2.2a ------------------
+ 1. QDOS port (Jonathan Hudson)
+ 2. win32 volumelabel handling (Paul)
+ 3. VM/CMS clean up (Greg Hartwig)
+ 4. leading "../" in internal filenames are allowed (Paul)
+ 5. System V packages support (John Bush)
+ 6. Fix handling of atx in zipup() (Onno, Greg)
+ 7. Fixed typo that caused zip -R to dump core (Onno)
+ 8. msdos/makefile.dj2: fix for command line too long when linking zip.exe
+ 9. win95 long filename support with djgpp v2 (Onno, Kimio Itoh)
+------------------------- August 9th 1996 version 2.2b ------------------
+ 1. windll: use wiz instead of wizip (Mike)
+ 2. use z->name NOT z->zname to open files (Onno, Mike)
+------------------------ September 1st 1996 version 2.2c ------------------
+ 1. windll: use fprintf instead of putc to send data to std{out,err} (Mike)
+ 2. os2: make borlandc version detection equal to unzip 5.30d (Kai Uwe)
+ 3. use #elif constructions for msdos,os2 and win32 compiler detection (Onno)
+ 4. fix for incorrect free in zip.c (Onno, Mike, Steve)
+ 5. BeBox port from Chris
+ 6. unix/{configure,Makefile} fixes for SCO Xenix 286 (Tom Schmidt)
+ 7. remove zilog entry from unix/Makefile (Onno)
+ 8. man page fixes (Tom Schmidt)
+ 9. SCO ODT {3,5} fixes (Bill Davidsen)
+------------------------ October 8th 1996 version 2.2d ------------------
+ 1. Fix bug in QDOS patch that broke zipsplit.c (Onno, Paul)
+ 2. Fix a couple of warnings from BorlandC (Mike)
+ 3. msdos/makefile.wat: Delete some more files when cleaning up (Paul)
+ 4. store msdos volumelabels without a dot in them (Paul)
+ 5. clean up of unix/{Makefile,configure,packaging} (Tom Schmidt)
+ 6. make QDOS port case independent (Jonathan Hudson)
+ 7. new amiga SASC makefile (Walter Haidinger)
+ 8. don't truncate filenames in win32's in2ex() (Paul)
+ 9. os2/makefile.os2 update for emx 0.9c (Kai Uwe)
+10. password() function for QDOS (Jonathan)
+11. fix the last(?) free() related bug (Mike)
+12. win32: security descriptors operations (Scott Field)
+13. win32: FILE_SHARE_DELETE is not defined in some win32 compilers (Onno)
+14. win32: fix makefile.wat to include nt.c (Onno)
+------------------------ January 17th 1997 version 2.2e ------------------
+ 1. define USE_CASE_MAP in osdep.h for those ports that need it (Onno)
+ 2. define PROCNAME in osdep.h for those ports that need it (Onno)
+ 3. wild() prototype decl only if PROCNAME defined => delete MSVMS define (Onno)
+ 4. add DOS EMX makefile (E-Yen Tan)
+ 5. include <qdos.h> a little earlier in qdos/qdos.c (Jonathan)
+ 6. add ttyio.o to OBJZ in qdos/Makefile.qdos (Jonathan)
+ 7. remove unused fprintebc define from zip.c (Onno)
+ 8. use the right password routine in ttyio.c for unzip (Mike)
+ 9. BeOS update from Chris
+10. Fix for 'zip -r foo x:' (Paul)
+11. Fix library bug on beos (Chris)
+12. Fix calculating version number (kitoh_@mix.or.jp, Walter Haidinger)
+13. IsWinNT always returned TRUE (Mike)
+14. Windll update from Mike
+15. Improved crc routines for x86 from Scott Field
+16. Detect in unix/configure if we can use crc_i386.S (Onno)
+17. Fix spurious internal logic error (Paul)
+18. Fix to include directory names on the Acorn when needed (Sergio)
+19. include zip.h in mvs.h (Onno, George Carr)
+20. add workaround for AZTEC C compiler bug to revision.h (Paul, Walter)
+21. MVS doesn't have rmdir (George Carr)
+22. define and use USE_ZIPMAIN for WINDLL en VM_CMS (Onno)
+23. Fixes from Greg Hartwig to make CMS standalone versions possible.
+24. Move OS specific encryption stuff to the os specific directories (Christian)
+25. Change password fetching interface in ttyio and crypt (Christian)
+26. Update emx support for 0.9c (Christian)
+27. Define WINDLL instead of MSWIN (Christian)
+28. Extended time stamp extra field format support (Christian)
+29. Support for rsxnt-emx 0.9c win32 compiler (Christian)
+30. Use izshr017b (Christian)
+------------------------ March 11th 1997 version 2.2f ------------------
+ 1. Move makefile.emx, rsxwinnt.h and zip.def to win32 subdir (Kai Uwe)
+ 2. Add win32 target to makefile.os2 to allow cross compilation (Kai Uwe)
+ 3. Fix NTSD_EAS link time failures with win32 (Paul)
+ 4. Fix buffer freed too early in password verification code (Mike)
+ 5. Remove unix/zipgrep and man/zipgrep.1 (sanvila@ctv.es)
+ 6. Only use crc_i386.o when we're using an x86 (Onno, Mark)
+ 7. Remove carriage returns from amiga/crc_68.a (Paul)
+ 8. New windll from Mike
+ 9. Fix typo in os2/os2zip.c (Kai Uwe)
+10. Don't use ctime (last file status change) for unix and qdos cross compile
+    (Greg)
+11. added gccwin32 crosscompilation target (RSXNT) to os2/makefile.os2 (Kai Uwe)
+12. fixed the OS/2 file attribute and time stamp generation for zipping
+    stdin ("-") (Kai Uwe)
+13. fixed the atime and ctime stat fields for the OS/2 Watcom C library
+    (Kai Uwe)
+14. added atime and ctime support for the UT extra field when generated under
+    OS/2, the atime and ctime values are only stored when zipping (Kai Uwe)
+15. qdos patches from Jonathan Hudson mainly for extended time flag handling
+16. amiga aztec compiler bug workaround (Paul)
+17. fix -v output of zipcloak, zipnote and zipsplit (Paul)
+18. new amiga/makefile.azt with targets for debug versions (Paul)
+------------------------ March 31st 1997 version 2.2g ------------------
+ 1. remove -I/usr/local/include from unix/Makefile (Chris)
+ 2. Update versinfolines in revision.h (Greg)
+ 3. change 1U to 0x1 to accomodate non ANSI compilers (Onno, Rodney Brown)
+ 4. win32zip.c: cast buffer parameter in memcompress() to char * (Mike)
+ 5. remove beos/zipgrep (Chris)
+ 6. correct the -e password verification check in zip.c (Christian)
+ 7. use ZCONST instead of const in the generic code. (Christian)
+ 8. fix mktime timezone correction when time is near to daylight/nodaylight
+    switch points. (Christian)
+ 9. correct dependencies in makefile.os2 (Christian)
+10. use a more sensible default for iztime.ctime than "0" when system does not
+    not support creation time stamps. (Christian)
+11. fix VMS_PK_EXTRA function interface declarations. (Christian)
+12. implement atime/ctime support in win32. (Christian)
+13. win32/win32.c: replacement getch() for Watcom. (Paul)
+14. win32/makefile.wat: debug object files kept separate. (Paul)
+15. msdos/makefile.wat: debug object files kept separate. (Paul)
+16. Fix extended time defines for the acorn. (Sergio)
+17. Define PROCNAME() in acorn/osdep.h (Sergio)
+18. Ignore exit status of ${INSTALL_D} in unix/Makefile (Chris)
+19. Add Metroworks and BEOS info to version() in several files (Chris)
+20. Move defines for the password fetch to zip.h (Christian)
+21. Support the obsolete version rsxnt 1.1 / emx 0.9b (Christian)
+22. Remove obsolete "#define PROCNAME ..." from cmsmvs/cmsmvs.h (Christian)
+23. Fix extended time defines for qdos (Jonathan Hudson)
+24. Use watcom getch() from unz530q in win32/win32.c (Onno)
+25. Don't install zipgrep via the unix package tools (John Bush)
+26. use izshr021 (Onno)
+27. Fix zipnote: use iname not zname in zipnote.c (Onno)
+28. Create proginfo directory (Christian)
+------------------------ May 5th 1997 version 2.2h --------------------
+ 1. Fix vms/zipup.h: iztime --> iztimes  (Onno, Mike Freeman)
+ 2. Remove windll/wizdll.def (Mike)
+ 3. Add a couple of external variable declaration to windll.h (Mike)
+ 4. Remove zipgrep from install in unix/Makefile (Onno)
+ 5. Make updating .zip files with extended time fields possible (Kai Uwe)
+ 6. Delete beos/Makefile.gcc, beos/Makefiles handles both compilers (Chris)
+ 7. Fixes for unused variables (Chris)
+ 8. Added very simplistic example how to load and call the windll (Mike)
+ 9. Updated windll documentation to note this example (Mike)
+10. Removed an unused memeber of a structure in windll (Mike)
+11. Add BUGS instead of infozip.who and algorith.doc with the packaging
+    tools (John Bush)
+12. tailor.h: increment NUM_HOSTS to keep in sync with UnZip (Christian)
+13. win32/osdep.h: remove NO_SECURE_TESTS define (Christian)
+14. zip.h: add declaration for free_crc_table() (Christian)
+15. windll: move everything that's not windows specific into api.* (Mike)
+16. use iname when checking for directory names in zipfile.c (Sergio)
+17. improved mktime.c with better error checking (Christian)
+18. improved crc routines (Christian, Rodney Brown)
+19. get the -z option working again (Onno, Brad Clarke)
+20. define BROKEN_FSEEK and seekable() for those systems where fseek()
+    always returns 0 (== OK) (Onno, Jeffrey Altman)
+------------------------ May 10th 1997 version 2.2i --------------------
+ 1. win32's seekable should only check for FILE_TYPE_DISK (Onno, Jeffrey Altman)
+ 2. add (ulg) cast to zipbeg = ~0 in zipfile.c (Steve)
+ 3. seekable() *really* belongs in flush_block, keep it there (Onno)
+ 4. seekable() calls fseekable(FILE *) (Onno)
+ 5. define HAVE_FSEEKABLE if a port has their own fseekable (Onno)
+ 6. WatCom doesn't have _get_osfhandle, use _os_handle instead (Paul)
+ 7. upgrade to Mike's latest windll sources (Mike)
+ 8. add -P option so you can specify a password on the commandline (Onno)
+ 9. Get -@ working again (Onno)
+10. emx+RSXNT doesn't know about _get_osfhandle() (Kai Uwe)
+11. fix a couple of typos in the OS/2 makefiles (Kai Uwe)
+12. fix initialization bug in windll code (Mike)
+13. tweak deletedir for RISC OS (Sergio)
+14. RISCOS doesn't know about fstat() (Sergio)
+15. Remove acorn/acorn (Sergio)
+16. Delete debugging statements from version_local() in msdos.c (Greg)
+17. Fix huge bug in readzipfile() (Onno)
+------------------------ May 18th 1997 version 2.2j --------------------
+ 1. Add missing ';' after return ZE_PARMS in zip.c (Mike)
+ 2. Remove obsolete 'struct stat st' in zipfile.c (Onno)
+ 3. Get Amiga SFX handling working again (Paul)
+ 4. Get zip -A working again (Onno)
+ 5. Change an && to & in zipfile.c (Johnny)
+ 6. Fix handling of empty sfx archives (Onno, Mike)
+ 7. Remove experimental entries from the makefiles (Jean-loup)
+ 8. Add exit codes to the manual page (Onno)
+ 9. Remove lines from the help screen that contain lesser used options (Onno)
+------------------------ June 8th 1997 version 2.2k --------------------
+ 1. use zip -t ddmmyyyy for year 2000 stuff (Greg)
+ 2. zip -@ only handles ONE filename per line (Jean-loup)
+ 3. beos support for DR9 filesystem and symlinks (Chris)
+ 4. VB support for windll (Mike)
+------------------------ June 10th 1997 version 2.2l -------------------
+ 1. beos filetype support (Chris)
+ 2. fill the buffer in getnam() to get it working again (Onno)
+ 3. implement -x@filename and -i@filename (Onno)
+------------------------ June 22nd 1997 version 2.2m -------------------
+ 1. Add a ; after de nextarg label in main() (Onno, Erik Baatz)
+ 2. Initialize p to NULL in get_filters() (Onno, Frank Donahoe)
+ 3. Fix typo in first if statement in filetypes() (Johnny Lee)
+ 4. zip -A works again (Onno, Greg)
+ 5. don't free zipbuf for VMS and CMS_MVS in main() (Onno, Mike Freeman)
+ 6. fix make_zip.com, link_zip.com and vmsdefs.h for gcc 2.6.3 on VMS (Onno)
+ 7. clarify -g option in the man page (Jean-loup)
+------------------------ July 6th 1997 version 2.2n -------------------
+ 1. use local in readzipfile2() declaration (Onno, Mike Freeman)
+ 2. return values with windll in get_filters() (Mike)
+ 3. a couple of minor patches for BEOS (Chris)
+ 4. zip -g works again (Onno, Chris)
+ 5. Some more Visual Basic dll support (Mike)
+ 6. Fix stack overflow in readzipfile() for DOS (Onno, Michael Mauch)
+------------------------ August 19th 1997 version 2.2o -------------------
+ 1. beos README and Makefile tweaks from Chris.
+ 2. Syntax corrections for README and man/zip.1  (Frank Donahoe)
+ 3. Use name not iname when deleting directories in trash() (Christian)
+ 4. change several wkuvx1 to lists in e-mail addresses (Christian)
+ 5. default to PK style extra fields for VMS (Christian)
+ 6. use izshr023 (Christian)
+ 7. replace buggy time library functions (Walter Haidinger, Paul, Christian)
+ 8. in2ex() and stat() are needed also when UTIL isn't defined (Greg Hartwig)
+ 9. don't use type=record in fopen() for MVS and CMS (Greg Hartwig)
+10. Change P and K literals to hex for EBCDIC systems (Greg Hartwig)
+11. Add output path support for CMS and MVS (Greg Hartwig)
+12. Add memtoasc and memtoebc for EBCDIC systems (Greg Hartwig)
+13. Handle comments correctly to fix zipnote for CMS and MVS (Greg Hartwig)
+14. Add -tt option (do not operate on files after date mmddyy) (Christian)
+15. move alloc routines for DOS into the !UTIL block (Christian)
+16. move UTIL blocks and version_local() functions to a more logical place
+    (Christian)
+17. Handle -P, -R, -x@, -i@ and -tt for the VMS CLI (Christian)
+18. Update VMS help file with the new options (Christian)
+19. Use iname in MATCH, not zname (Jonathan Hudson)
+20. windll: more Visual Basic support (Mike)
+21. windll: more project makefiles (Mike)
+22. windll: insert Zip in front of global variable names (Mike)
+------------------------ August 25th 1997 version 2.2p -------------------
+ 1. Remove unused flags from LFLAGS2 in unix/Makefile (Onno)
+ 2. SunOS make bug: change unix_.o rule in unix/Makefile (Onno, Mike Freeman)
+ 3. ZipIsWinNT() instead of IsWinNT() in zip.h (Mike)
+ 4. Fix -t and -tt behaviour for windll (Mike)
+ 5. Remove windll makefiles that are now elsewhere (Mike)
+ 6. BEOS: preserve file attributes associated with symbolic links (Chris)
+ 7. No need to use in2ex() for ziputils (Christian)
+ 8. Fix comment handling for EBCDIC systems (Christian)
+ 9. EBCDIC conversion for entry names read from zipfile in UTIL mode (Christian)
+10. Fix "fatal" error messages on EBCDIC systems (Christian)
+11. zipnote.c: Fix handling of entry name changes for EBCDIC systems (Christian)
+12. removed a large part of "dead" code from ziputils version (Christian)
+13. use z->iname in comparison functions for sorting (Christian)
+14. new installation utils for the acorn (Sergio)
+15. use LSSTAT in set_extra_field for unix and beos (Onno)
+16. perror(z->zname) instead of perror("zip warning") (Onno, Geoff Pennington)
+17. Amiga SFX should work again (Paul)
+18. refer to zip22 in install.doc (Frank Donahoe)
+------------------------ September 10th 1997 version 2.2q -------------------
+ 1. Change .doc to .txt, these aren't MS-Word documents (John D. Mitchell)
+ 2. Change msdos$_(OBJ) to msdos_$(OBJ) (Kai Uwe)
+ 3. Fix a couple of amiga related glitches (Paul)
+ 4. Support for DOS packed .exe files in makefile.dj2 (Frank Donahoe)
+ 5. Change warning message for zip -A (Greg)
+------------------------ September 29th 1997 version 2.2r -------------------
+ 1. Fix make svr4package (Eric Baatz)
+ 2. Fix VMS warning (Mike Freeman, Christian)
+ 3. Clean up beos gcc port and beos README (Chris)
+-------------------------- October 6th 1997 version 2.2s --------------------
+ 1. Change lpPrint to lpZipPrint for windll (Mike)
+ 2. Change lpPassword to lpZipPassword for windll (Mike)
+ 3. Amiga timezone fixes (Paul)
+ 4. WatCom C 11.0 makefile fixes (Paul)
+ 5. Tandem port from Dave Smith
+ 6. Corrections and updates for install.txt (Christian)
+ 7. Minor VMS README update (Christian)
+-------------------------- October 12th 1997 version 2.2t --------------------
+ 1. qdos compiler bug workaround (Jonathan)
+ 2. prevent storing qdos specific filenames that exceed filesystem limits
+    (Jonathan)
+ 3. fix undelimited comment in fileio.c (Frank Donahoe)
+ 4. disable storing of symlinks in BEOS until OS support is available (Chris)
+ 5. Init hash_head to 0 in amiga/deflate.a (Paul)
+ 6. Upgrade to izshr025 (Christian)
+ 7. don't add ".zip" to ZIP name for TANDEM (Dave Smith)
+ 8. use zipup.h not tandem.h in zipup.c (Dave Smith)
+ 9. rename history to CHANGES (Onno)
+10. rename install.txt to INSTALL (Onno)
+11. rename zip.txt to ZIPMAN (Onno)
+12. create WHATSNEW (Onno)
+-------------------------- October 15th 1997 version 2.2u --------------------
+ 1. Use Info-ZIP instead of Info-Zip (Christian)
+ 2. Note recent filename changes in several files (Christian)
+ 3. Remove a couple of items from the TODO list (Christian, Onno)
+ 4. Add windll port, zip -t yyyymmdd and zip -R to WHATSNEW (Christian)
+ 5. VMS documentation cleanups and clarifications (Christian)
+ 6. dist entry in unix/Makefile (Onno)
+ 7. remove duplicate amiga/timezone.txt (Christian)
+ 8. rename ZIPMAN to MANUAL and update a couple of files regarding this (Onno)
+-------------------------- October 24th 1997 version 2.2v --------------------
+ 1. izshr026: in WHERE wiz40 instead of wiz30 (Christian)
+ 2. izshr026: another couple of Info-ZIP spelling fixes (Christian)
+ 3. Remove zipgrep from the makefiles that still had it (Christian)
+ 4. Update makefiles to handle the MANUAL renaming change (Christian)
+ 5. Fix the last daylight savings bug on the Amiga (Paul)
+ 6. Fix the SCO Unix specialty detection in unix/configure (Onno,
+    bug reported by Bo Kullmar for Solaris 2.6 and with uname -X output
+    for SCO Unix from ken@apisys.com and dgsmith@vnet.ibm.com)
+ 7. Update WHERE and amiga/time_lib.c from unzip 5.32g (Greg)
+-------------------------- October 26th 1997 version 2.2w --------------------
+ 1. Additional +Onolimit check in unix/configure (Onno, Peter Jones)
+ 2. Use ZIPERR macro instead of ziperr (Christian)
+ 3. initialize z->lflg for zip entries without extra field (Christian)
+ 4. "local (+ locextend)" vs. "central" header consistency check (Christian)
+ 5. Override local header values with central header values with -A
+    and differences between these headers (Christain)
+ 6. made "deltaoff" signed long; offset adjustment may be negative (Christian)
+ 7. fix a number of "wild" deallocation bugs (Christian)
+ 8. When zipping from a FAT drive (only 8.3 DOS names) under OS/2 or
+    WIN32, set z->vem to "OS_DOS | <real zip version number>".
+    Mark as "made by DOS PKZIP 2.0" only when dosify was requested. (Christian)
+ 9. DOS port should not store fake unix style external attributes. (Christian)
+10. amiga/time_lib.c from izshr028 (Christian)
+-------------------------- October 31st 1997 version 2.2y --------------------
+ 1. amiga/time_lib.c from izshr029 (Christian)
+ 2. Turbo C++ version code clarification (E-Yen Tan)
+ 3. Fix spelling in cmsvms/zipname.conven (Rodney Brown)
+ 4. Fix memset check in unix/configure for Unixware 2.1.1 (Rodney Brown)
+ 5. Forward declaration fixes for HP-UX bundled compiler (Rodney Brown)
+-------------------------- November 3rd 1997 version 2.2 --------------------
+ 1. Update WHERE (Greg).
+-------------------------- January 4th 1998 version 2.21a -------------------
+ 1. BSD friendly version of version_local() in unix/unix.c (Onno)
+ 2. No NT versions in DOS version_local() (Steve Salisbury)
+ 3. -t mmddyyyy instead of -t ddmmyyyy in WHATSNEW (Walter Haidinger)
+ 4. use generic fseekable() for rsxnt (Christian)
+ 5. Fix MSC 8.x warnings (Christian, Steve Salisbury)
+ 6. win32 Borland C++ makefile (E-Yen Tan)
+ 7. Tandem doesn't know about extensions like .zip,.arj, ... (Dave Smith)
+ 8. Use dosmatch for EMX and DJGPP too (Christian)
+ 9. dummy djgpp startup functions to remove command line globbing and
+    recognition of environment variables from djgpp.env (Christian)
+10. include DJGPP_MINOR in DOS version_local() (Christian)
+11. TC 2.0 doesn't have mktime() (Christian, mmp@earthling.net)
+12. VMS: rename opendir() to zopendir() so avoiding name clash with
+    VMS 7.x POSIX libraries (Christian, Martin Zinser)
+13. Add support for VMS DEC C V 5.6 features (Christian)
+14. Use iname for comparison in check_dup (Christian Spieler, Christian Michel)
+15. Fix access to uninitialized ioctx records in vms_get_attributes()
+    Christian, Robert Nielsen)
+16. Parenthesis around MAX_MATCH>>1 in match.S (Greg)
+17. Use strchr() not strrchr() for -i and -x to get -i@ and -x@ really
+    working (Onno, Kai Uwe)
+18. add chmod statements to unix/Makefile (Quentin Barnes)
+19. Windll: handle both -r and -R (Mike)
+20. Windll: general error handler in main() via setjmp/longjmp (Mike)
+21. Don't allow zip -i@x.lst foo.zip (Onno)
+22. vms/link_zip.com: use .eqs. not .nes. when checking with f$search
+    for the zip AXP object library (David Dachtera)
+23. rsxnt 1.3.1 fixes (E-Yen Tan)
+-------------------------- January 20th 1998 version 2.21b -------------------
+ 1. Bigger PATH_MAX for win32's windll (Mike)
+ 2. Update windll.txt w.r.t. PATH_MAX (Mike)
+ 3. Amiga SAS/C fixes (Walter, Paul)
+ 4. zip -i@ and -x@ should *really* work now ...... (Onno)
+-------------------------- February 20th 1998 version 2.21c -------------------
+ 1. make -f unix/Makefile qnx needs LN=ln in its options (Chris)
+ 2. Support Metroworks Codewarrior/x86 on BEOS (Chris)
+ 3. Add Norbert Pueschel to proginfo/infozip.who (Walter)
+ 4. Use big endian for Be types (Chris)
+ 5. zip -i and -x were broken by the -i@ fix last time around (Christian)
+ 6. win32 stat bandaid (Paul)
+ 7. acorn filetype and timestamp fixes (Sergio, D. Krumbholz)
+ 8. update to izshr30 (Christian)
+ 9. Support for NTSD in the RSXNT environment (Christian)
+10. restructure readzipfile() (Christian)
+11. Where needed define MATCH in osdep.h (Christian)
+12. version_local() fixes for RSXNT (Christian)
+13. New vmsmunch.c (Christian)
+-------------------------- March 15th 1998 version 2.3a -------------------
+ 1. Fixes for the windll API (Mike)
+ 2. Use CPUTYPE in BorlandC Makefile for DOS (E-Yen Tan)
+ 3. BEOS: -rostr not available for the x86 compiler (Chris)
+ 4. preserve file attributes of a symlink on BEOS (Chris)
+ 5. New VM/CMS README.CMS and version_local() (Ian Gorman)
+ 6. INSTALL fixes from Takahiro Watanabe
+ 7. OS/390 port from Paul von Behren
+ 8. new api.h from Mike
+-------------------------- April 19th 1998 version 2.3b -------------------
+ 1. Improve Tandem file I/O performance (Dave Smith)
+ 2. New VM/CMS README.CMS and version_local() (Ian Gorman)
+ 3. cygwin32 port from Cosmin Truta
+ 4. Workaround for tasm32 5.0 bug in win32/crc_i386.asm (Cosmin Truta)
+ 5. win32/match32.asm fixes for tasm 5.0 (Cosmin Truta)
+ 6. simplify OS/390 port (Christian)
+ 7. win32 timezone handling fixes (Christian)
+ 8. fix 40-bit time conversion on the acorn (Sergio and Christian)
+ 9. strip network part from UNC type filenames (Christian)
+10. Makefile for OpenMVS (Ian Gorman)
+11. Use the Watcom getch() for cygwin32 (Christian)
+12. Borland C++ 5.x added to win32's version_local() (Cosmin Truta)
+13. Borland C++ needs tzset() in win32 (Christian, Cosmin Truta)
+-------------------------- May 21st 1998 version 2.3c -------------------
+ 1. Better error messages for -i and -x (Christian)
+ 2. Win32 stat() wrapper needs dos2unixtime (Christian,Paul,Mike)
+ 3. DJGPP: use _chmod to handle LFN attributes correctly (Michael Mauch)
+ 4. Fix Borlandc warnings (Mike)
+ 5. win32/makefile.bor fixes from Michael Mauch
+ 6. win32/makefile.{dj,emx} fixes from E-Yen Tan
+ 7. Use izshr031 (Christian)
+ 8. CMS: use RECFM=V LRECL=32760 by adding "byteseek" (Greg Hartwig)
+ 9. Check external name for trailing "/" (Greg Hartwig)
+10. More specific info in CMS version_local() (Greg Hartwig)
+11. Changed usage info to refer to "fm" rather than "path" on CMS (Greg Hartwig)
+12. No more "extra data" messages when using the same OS (Greg Hartwig)
+13. Rewritten README.CMS, one version for ZIP and UNZIP (Greg Hartwig)
+14. DOS/OS2/WIN32/UNIX: ex2in() strips off "//host/share/" from UNC names (SPC)
+-------------------------- June 23rd 1998 version 2.3d -------------------
+ 1. Fixed Win32's stat() bandaid handling of time stamps (SPC)
+ 2. General fix of file selections for DELETE and FRESHEN action (SPC)
+ 3. CMS_MVS: Use ASCII coding for TIME extra field ID (SPC)
+ 4. EBCDIC: Repaired bogus CMS_MVS fix in zipup.c; check the internal
+    name for trailing (ASCII) '/' to detect directory entries (SPC)
+ 5. Use explicit ASCII coding when comparing or setting chars in iname (SPC)
+ 6. Fixed win32/makefile.bor, win32/makefile.dj (support NTSD),
+    win32/makefile.emx (SPC)
+ 7. Replaced win32/makefile.cyg by win32/makefile.gcc, containing new
+    support for mingw32 GCC environment (SPC)
+ 8. Use izshr032 (SPC)
+ 9. Modified zipup.c to hold (un)compressed lengths in "ulg" variables, in
+    an attempt to support handling of huge (>2GByte) files. (SPC)
+10. Removed some duplicate #defines from api.h, they are now in crypt.h (SPC)
+11. Reenabled "extra data size" info messages in noisy mode for all systems
+    except RISCOS and CMS_MVS (SPC)
+12. For EMX 0.9c, the runtime lib contains a working mktime(), use it (SPC)
+13. Miscellanous cosmetic changes (SPC)
+14. Move win32/makefile.emx to msdos (E-Yen Tan)
+15. make api.h work with zcrypt2.8 (Mike)
+16. define ydays differently in api.h to avoid linking problems (Mike)
+17. New windll.txt (Mike)
+18. win32 lcc patches  (E-Yen Tan)
+19. win32 lcc makefile (E-Yen Tan)
+20. Multiple inclusion bug: no malloc.h when using lcc-win32 (E-Yen Tan)
+21. New VB support files for windll (Mike Le Voi, Raymond King)
+22. MacOS port by Dirk Haase
+-------------------------- August 1st 1998 version 2.3e -------------------
+ 1. Generalized check for validy of TZ timezone setup info, similar to
+    UnZip; use it on AMIGA and MSDOS, as before. (SPC)
+ 2. Apply TZ validy check on OS/2 and enable creation of UT e.f. (SPC)
+ 3. BEOS: New Makefile, updates for README and Contents (Chris Herborth)
+ 4. beos/beos.c: declare some private functions as "local" (SPC)
+ 5. Include memcompress() code only for ports that make use of it, controlled
+    by preprocessor symbol ZP_NEED_MEMCOMPR (SPC)
+ 6. cmsmvs/README.CMS fix: Zip archive entries to be extracted into var-length
+    records CMS files should >>NOT<< contain binary data ... (SPC)
+ 7. crc32.c, crctab.c: the crc polynom table is ZCONST (SPC)
+ 8. trees.c: fixed a bug in the deflate algorithm that limited the compressed
+    size of an archive member to 512 MByte (SPC)
+ 9. deflate.c: Integrated the changes found in zlib that are neccessary to make
+    the deflate algorithm deterministic; modified msdos/match.asm to take
+    care of the "nice_match" global no longer being constant.  (SPC)
+10. deflate.c, trees.c, zipup.c: Reorganized and simplified deflate's
+    compressed output buffer handling. I/O and compression code are now
+    separated more cleanly. (SPC)
+11. Killed bits.c by moving its contents into trees.c resp. zipup.c;
+    synchronized all Makefiles and Make procedures with this change. (SPC)
+12. Integrated support for optionally replacement of deflate and crc32 by
+    public domain zlib code. (SPC)
+13. Synchronize the different variants (UNIX/GNU C, OS/2, WIN32) of i386
+    assembler replacement for deflate's longest_match() (SPC)
+14. Moved the EMX+rsxnt Makefile.emx from msdos/ back into win32/ (SPC)
+15. Restored a separate Makefile.emx for DOS; on DOS, some make programs may
+    have difficulties with recursive invokation (SPC)
+16. Fixed the "include header mess" of the new MACOS port and removed the
+    "work-around hacks" caused by these bad MACOS .h-file includes (SPC)
+17. Integrated Dirk Haase's beta4 (27-Jun-98) release of MacZIP (Dirk Haase)
+18. Added support for MS Quick C in the MSDOS version_local() report (SPC)
+19. Added WIN32 rsxnt targets linking against the emx crtl DLL to Makefile.emx
+    in os2/ and win32/ (SPC)
+20. Fixed typo in os2/os2.c wild() function. (Kai Uwe Rommel)
+21. Removed ChangeNameForFAT() from os2/os2.c in2ex() to fix problem with
+    long filename support. (Kai Uwe Rommel)
+22. os2/os2zip.[ch]: correct type of DOS-style timestamp data is "ulg" (SPC)
+23. vms/cmdline.c: Removed wrong ';' behind if condition (Johnny Lee)
+24. VMS: Preliminary preparations in C code for supporting GNU C on OpenVMS
+    Alpha (Onno van der Linden, Christian Spieler)
+25. VMS: Fixed check against adding zipfile to itself in fileio.c (SPC)
+26. WIN32: Added lcc-Win32 variants of i386 assembler code for crc32() and
+    longest_match(). (SPC)
+27. WIN32: Removed bogus type-cast in assignment to statb st_mode member (SPC)
+28. zip.c: Fixed MACOS-related typo that broke "-@" command option (SPC)
+29. zipup.c: Fixed messed-up expression for assignment to z->ver (SPC)
+30. MACOS extra fields: check realloc return values (Onno, Johnny Lee)
+31. Fix the PUTBYTE macro in trees.c: >= instead of < (Onno)
+-------------------------- September 6th 1998 version 2.3f -------------------
+ 1. Add zp_tz_is_valid to globals.c (Onno, Frank Donahoe)
+ 2. Updated tandem files from Dave Smith
+ 3. Windll: allow comments to zip archive with VB (Mike)
+ 4. Windll: add support for -b and update the documentation (Mike)
+ 5. win32: use wbS for FOPW to handle large zip files better (Steve Miller)
+ 6. MVS fix: use fseek();clearerr() instead of rewind() (Onno, Lee Burton)
+ 7. Updated VB examples for windll (Mike)
+ 8. Tandem: use UTC timestamps and GID/UID in extra field (Dave Smith)
+ 9. Tandem: handle -o option (Dave Smith)
+10. default for ZCONST is const in tailor.h, override in osdep.h (Onno)
+11. additional Macintosh options in zip.c (Dirk Haase)
+12. additional Macintosh options in zip.1 and MANUAL (Onno, Dirk Haase)
+13. Integrate Beta 5 of the Macintosh Port (Dirk Haase)
+-------------------------- October 27th 1998 version 2.3g -------------------
+ 1. zip_tz_is_valid should be zp_tz_is_valid (Kai Uwe)
+ 2. MVS native (not OE) beta fixes (Keith Owens)
+ 3. LynxOS support from Giuseppe Guerrini
+ 4. MVS already has stat() and fstat() so use 'em (Keith Owens)
+ 5. MVS fix in readzipfile() for new, unopened dataset without EOF marker
+    (Keith Owens)
+ 6. Remove 16-bit stuff from windll/windll.rc (Mike)
+ 7. Windll: Use hCurrentInst not hInst (Mike)
+ 8. In util.c compare strchr() return value with NULL (Onno, Frank Donahoe)
+ 9. unix/unix.c: initialize variable t in ex2in() (Onno, Frank Danahoe)
+10. Remove windll/borland subdirectory (Mike)
+11. Really fix extra field realloc() for BeOS and MacOS (Christian)
+12. Fix the dj2 LFN related access violation bug (Christian, Joe Forster)
+13. proginfo/3rdparty.bug: Added more info about other Zip clone's bugs.
+14. The global copyright definitions in revision.h now depend on DEFCPYRT
+    (Christian).
+15. tandem/macros: removed obsolete object file references (Christian)
+16. fix memory leak with the "filter" patterns (Christian, Leah Kramer)
+17. zip.c: completed the support for MacOS specific -N (Christian)
+18. reorganized the Mac specific help screen code (Christian)
+19. zipup.c: corrected the USE_ZLIB code to emit "stored" entries under
+    the same conditions as the "native deflate" code (Christian)
+20. A couple of vars that will never be negative should be unsigned (Christian)
+-------------------------- November 18th 1998 version 2.3h -------------------
+ 1. DJGPP: When compressing from stdin don't set binary mode if stdin is
+    a terminal (E-Yen Tan)
+ 2. Fix signed/unsigned comparisons in fileio.c, util.c and zipcloak.c
+    (Frank Donahoe)
+ 3. Move macgetch() prototype from macos/source/macos.c to macos/osdep.h
+    (Christian)
+ 4. _doserrno should have type int, not unsigned int (Christian)
+ 5. In zipfile.c init a file pointer with NULL to fix gcc warning (Christian)
+ 6. Upgrade to MacOS beta 7 (Dirk Haase)
+ 7. Move the #pragma statements from generic sources to cmsmvs.h (Christian)
+ 8. Support for QNX/Neutrino 2.0 (Chris)
+ 9. Default to -r in help screen add -R at the bottom (Chris)
+10. Clean up Makefile for BeOS R4 on x86 (Chris)
+11. Beos: If not storing symlinks store attributes of symlink target (Chris)
+12. Use izshr037 (Christian)
+13. Remove ZIPERR() macro from in {msdos,win32}/osdep.h (Christian)
+14. win32/win32.c: Fix 1-day offset in non-64bit FileTime2utime() (Christian)
+15. win32: enable 64-bit FileTime2utime() for MS VC++ >= 5.0 (Christian)
+16. cygwin32 only has _P_WAIT (Thomas Klausner)
+17. msname() should *really* ignore illegal characters (Thomas Klausner)
+18. Fix a missing ')' in Opendir() from win32zip.c (Thomas Klausner)
+-------------------------- December 5th 1998 version 2.3i -------------------
+ 1. Remove the #pragma statements that were forgotten the first time (Ian)
+ 2. Remove obsolete macos/source/CharMap.h (Steve Salisbury)
+ 3. isatty(fileno(zstdin)) in zipup.c should be isatty(zstdin)
+    (Onno, E-Yen Tan)
+ 4. several "shut up warnings from compiler" fixes (Christian)
+ 5. several cosmetic source changes (Christian)
+ 6. win32: make NTSD handling to be robust against alignment and structure
+    padding problems (Christian)
+ 7. Apply don't set binary mode when stdin is a terminal in zipup.c for
+    MSDOS and human68k (Christian)
+ 8. Upgrade to MacOS beta 8 (Dirk Haase)
+ 9. Add callback for WINDLL to handle user termination (Mike)
+10. Fix typo in acornzip.c (Darren Salt)
+11. acorn/sendbits.s: pass correct parameters to flush_outbuf() (Darren Salt)
+12. Fixes for IBM C/C++ 3.6 where time_t is a double (Kai Uwe)
+13. Fixes for IBM Visual Age C++ for win32 (Douglas Hendrix)
+14. man/zip.1: some version numbers in the text were still "2.2" (Christian)
+15. win32/makefile.emx: added a compilation variant that generates
+    standalone executables (Christian)
+16. change __CYGWIN32__ into __CYGWIN__ and add compatiblity definition for
+    B19 and older (Cosmin Truta)
+17. create uniform win32 getch() replacement (Christian)
+18. put back in define of USE_EF_UT_TIME in tandem.h (Dave Smith)
+19. put back in define of USE_CASE_MAP in tandem.h (Dave Smith)
+20. updates to make/macros to allow the object to be licensed (Dave Smith)
+21. updates to macros/doit to remove mktime.c (Dave Smith)
+22. updates to tandem.c for in2ex/mapname/chmod amendments to match Unzip
+    (Dave Smith)
+23. Use izshr039.zip (Christian)
+24. Init filenotes to 0 for the amiga too (Onno)
+25. get_filters(): remove one flag=0 statement to make -R work again (Onno)
+-------------------------- December 17th 1998 version 2.3j ------------------
+ 1. FOPWT defines opening a temp file for writing (Ian)
+ 2. Remove handling of bits.c from a couple of tandem files (Christian)
+ 3. A couple of "shut up warnings from compiler" fixes (Christian)
+ 4. win32/osdep.h: removed duplicate "IZ_PACKED" definition (Christian)
+ 5. win32/zipup.h: remove invalid "elseif" preprocessor token (Christian)
+ 6. sync MacOS help screen with other ports (Christian)
+ 7. get_filters(): set flag to 0 when -R isn't used (Christian)
+ 8. "local extra != central extra" now has "info" status (Christian)
+ 9. use windll directory as "home" directory for builds (Mike)
+10. CMS/MVS: define FOPWT (Ian)
+11. Upgrade to MacOS beta 9 (Dirk Haase)
+-------------------------- January 17th 1999 version 2.3k ------------------
+ 1. Change FOPW into FOPW_TMP (Christian)
+ 2. win32: #include uses paths relative to the parent directory (Christian)
+ 3. Use forward slashes as path separator in #include statements (Christian)
+ 4. windll: fix descriptions of f{In,Ex}cludeDate (Christian)
+ 5. win32/makefile.lcc: add some -I<path> options to find files in the
+    right places (Christian)
+ 6. Supply default empty IZ_PACKED define (Christian)
+ 7. windll: Fix some typos, descriptions (Christian)
+ 8. windll project files: use relative paths, no specific root directory
+    (Christian)
+ 9. windll project files: remove link references to import libraries that
+    are not used by the zip library (Christian)
+10. windll: fix potential infinite loop in a VB sample (Mike)
+11. windll/windll.txt: remove "may not work with VB" statement (Mike)
+12. Multibyte character set support from Yoshioka Tsuneo
+13. Theos port from Jean-Michel Dubois
+14. Tandem: added simple handling of Enscribe files by converting them into
+    text type files (Dave Smith)
+15. Tandem Extra Field ("TA") containing Tandem File Attributes (Dave Smith)
+16. Tandem history file showing background info to (UN)ZIP ports (Dave Smith)
+17. create ZIP file on tandem with special file code (1001) (Dave Smith)
+18. made tandem.c & tandem.h code completely the same as UNZIP (Dave Smith)
+19. unix/configure: move +Onolimit and -Olimit into the machine specific
+    section (Onno, John Wiersba)
+-------------------------- February 21st 1999 version 2.3l ------------------
+ 1. Fix qdos Makefile (Jonathan Hudson)
+ 2. fgets instead of gets in zipnote to fix linker warnings (Jonathan Hudson)
+ 3. Theos: remove _setargv.c and a reference in zip.c (Jean-Michel Dubois)
+ 4. Theos README (Jean-Michel Dubois)
+ 5. interchanged the fRecurse flag values for "-R" and "-r" (Christian)
+ 6. add "z" pr prefix to MBCS functions to avoid name clashes (Christian)
+ 7. Whenever the position of the increment operator does not matter, the
+    INCSTR variant is used, which has been mapped to the {PRE|POS}INCSTR
+    variant that is more efficient. (Christian)
+ 8. fixed the "-R" handling in fileio.c, filter() function (Christian)
+ 9. simplified some THEOS specific code additions (Christian)
+10. changed the line break of the compiler version message in version_local()
+    for MSDOS and Win32 to take into account some verbose compilers (Christian)
+11. removed the THEOS changes from ttyio.c. Instead, a THEOS specific
+    setup was added to ttyio.h (Christian)
+12. sync vms/link_zip.com with the corresponding make_zip.com (Christian)
+13. added compatibility settings for support of MBCS on Win32 with all tested
+    compilers to win32/osdep.h
+14. added type-casts to isalpha() macro calls (Christian)
+15. fixed win32's wild_match which was clobbered by the MBCS addition
+    (Christian)
+16. finished up the "potential infinite loop" problems in the VB sample
+    that Mike started to repair (Christian)
+17. in ziperr.h, AZTEK C might require the false comma that was removed
+    to satisfy THEOS C (Christian)
+18. removed the bogus THEOS specific isdir check in zipup.c (Christian)
+19. modified the code for line ending translation to be independent
+    of the local system's convention for '\n' and '\r'; this allowed
+    the removal of the THEOS specialities (Christian)
+20. Tandem: -B option to zip Enscribe files with no record delimiters
+    (Dave Smith)
+21. Tandem: attempt to catch Large Transfer mode failure (Dave Smith)
+22. Theos: Fixed keyboard entry functions. (Jean-Michel Dubois)
+23. Theos: workaround for the argument wild card expansion that is bugged
+    in the standard library. Managed by MAINWA_BUG flag. (Jean-Michel Dubois)
+24. Theos: support for filenames and notes with accented characters.
+    (Jean-Michel Dubois)
+25. Upgrade to MacOS final (Dirk Haase)
+-------------------------- March 31st 1999 version 2.3m -------------------
+ 1. Theos: for relative paths to root directory cause open, fopen and stat
+    failure, workaround this. (Jean-Michel Dubois)
+ 2. Theos: when no path is indicated in a file or directory name and the
+    file or directory doesn't exist in the current directory it looks for
+    the file or directory in the root directory, workaround this.
+    (Jean-Michel Dubois)
+ 3. Corrected some typos and spelling error in macos/HISTORY.TXT; skipped
+    off invisible trailing whitespace (Christian)
+ 4. proginfo/extra.fld: added documentation for Tandem and Theos extra
+    field layout (Christian with Dave D Smith resp. Jean-Michel Dubois)
+ 5. qdos/Makefile.qdos: The build of ZipCloak requires inclusion of
+    the crctab object module; qfileio_.o compilation requires the -DUTIL
+    flag (Christian)
+ 6. win32: fix incorrect MB_CUR_MAX macro for mingw32 and lcc (Christian)
+ 7. theos/_fprintf.c, theos/_rename.c, theos/osdep.h: Some function
+    parameters require the "const" attribute to achieve compatibility
+    with ANSI C requirements (Christian)
+ 8. theos/theos.c: map Theos' (No)Hidden file attribute to MSDOS Hidden
+    bit in the MSDOS part of zipentry header's external attribute field;
+ 9. theos/stat.h: prevent multiple inclusions
+10. Theos: Fixed wild card management for options other than adding
+    (Jean-Michel Dubois)
+11. Theos: Removed modifications of const strings (Jean-Michel Dubois)
+12. Split tandem.c up into separate zip/unzip parts (Dave Smith, Christian)
+13. Move inclusion of OS specific zipup.h files to tailor.h (Onno)
+-------------------------- August 14th 1999 version 2.3n -------------------
+ 1. Move inclusion of OS specific zipup.h files back to zipup.c (Onno)
+ 2. Remove getline() from zipnote.c and use gets() again (Onno)
+ 3. BeOS PowerPC R4.1 support (Chris)
+ 4. New DOIT and MACROS files for the tandem port (Dave Smith)
+ 5. Don't switch the console to binary mode (Michel de Ruiter)
+ 6. In some circumstances undosm could be freed twice (Mike)
+ 7. Also define const in tailor.h for ultrix (Onno, Foppa Uberti Massimo)
+ 8. Tandem: Change zopen in TANZIPC to allow opening of files with missing
+    alt keys (err 4) (Dave Smith)
+ 9. Tandem: Assume not DST if can't resolve time (no DST table available)
+    (Dave Smith)
+10. WIN32: skip trailing dots and spaces in getnam (Onno, Dan Kegel)
+11. Use ZE_NONE when nothing to freshen or update (Onno, Yuri Sidorenko)
+12. Remove tabs from files that don't need them (Onno)
+13. Remove tabs and spaces from the end of a text line (Onno)
+14. Upgrade macos to 1.04b2 (Dirk)
+15. Add -Q documentation to manual page (Jonathan Hudson)
+16. Copy hiperspace files instead of renaming them (Keith Owens)
+17. Disallow some more characters to appear in DOS filenames when using -k
+    (Onno, Thomas Klausner)
+18. Document missing options and environment variables in the manual (Onno)
+19. New acorn/GMakefile to compile with gcc on RISCOS (Darren Salt)
+20. ISO 8601 date format support for -t and -tt (Rodney Brown)
+-------------------------- September 21st 1999 version 2.3o -------------------
+ 1. Sync zip.h license with LICENSE (Onno)
+ 2. Add copyright notice to README, os2zip.c and os2.zip.h (Onno, Greg)
+ 3. Fix the ASM variable in acorn/GMakefile (Darren Salt)
+ 4. Add another requirement to acorn/ReadMe.GMakefile (Darren Salt)
+ 5. Fix unbalanced parenthesis in vms_get_attributes declaration in zip.h
+    and move it to vms/zipup.h (Onno, Mike Freeman)
+ 6. Make a couple of os2 files public domain (Kai Uwe)
+ 7. Change and rename disclaimer array in revision.h (Onno)
+ 8. Change copyright array in revision.h (Onno)
+ 9. macstuff.c copyright is the same as macstuff.h (Christian)
+10. WHATSNEW: add ISO 8601 dates supported (Christian)
+11. fileio.c - msname(): strip off leading dots, these are illegal for
+    MSDOS compatible names (Christian)
+13. fileio.c - replace(): deactivate "dead" code for CMS_MVS (Christian)
+14. man/zip.1: "-$" option is also used for WIN32 ports
+15. msdos/msdos.c - version_local(): break the version line for
+    GNU compilers too (Christian)
+16. tailor.h: added typecasts to MBCS macros, to suppress "type mismatch"
+    warnings (Christian)
+17. util.c, zip.h, zipfile.c: ZCONSTify several pointers (Christian)
+18. util.c - recmatch(), zip.c - version_info(): add compile time option
+    WILD_STOP_AT_DIR (Christian, Darren Salt)
+19. util.c - envargs(): MBCS related fixes (Christian)
+20. win32/lm32_lcc.asm: add TAB characters that are required by the lcc
+    assembler source parser (Christian)
+21. zip.c: fix the "is a console" check (Christian)
+22. zipnote.c: use getline() (Christian)
+23. zipup.c: use zclose() in case of I/O errors (Christian)
+24. zipup.c: use ZE_WRITE when a write error occurs (Christian)
+25. win32/win32.c: HAVE_INT64 is used by mingw32 (Cosmin Truta)
+26. update shared sources to match izshr041 (Christian)
+-------------------------- November 29th 1999 version 2.3 ------------------
+ 1. Missing parenthesis in win32/win32.c (Steve Salisbury)
+ 2. Add Cosmin Truta to proginfo/infozip.who (Onno)
+ 3. Remove one parenthesis pair too many from vms_get_attributes() declaration
+    in vms/zipup.h (Mike Freeman)
+ 4. qdos .s are expected to start with a #, work around it (Jonathan Hudson)
+ 5. tandem: -B0 should be deflating not storing (Dave Smith)
+ 6. human68k updates from Shimazaki Ryo
+ 7. beos Makefile cleanup (Chris)
+ 8. workaround for fseek to negativate offset behaviour of the RISC OS
+    SharedCLibrary (Darren Salt)
+ 9. set file type for RISC OS in zipcloak.c (Darren Salt)
+10. change tandem zgetch() to allow crypt version to work (Dave Smith)
+11. fix a comment typo in acorn/riscos.c (Christian)
+12. fileio.c: two type-cast to shut up noisy compilers (Christian)
+13. human68k: fix missing case_flag argmument (Christian)
+14. win32/win32.c: remove HAVE_INT64 completely (Christian)
+15. zip.c: raise "cannot zip to console" error when stdout IS a tty (Christian)
+16. zip.h: don't use dummy argument names in declarations (Christian)
+17. Add missing semicolon in fileio.c (Shimazaki Ryo)
+18. win32.c: IBMC compiler >= 3.50 have int64 (Kai Uwe)
+19. Handle initialization error return value from MVS stat() in procname()
+    (Keith Owens)
+20. Use RISC OS instead of RiscOS in the manual (Darren Salt)
+21. Use # instead of ? as single character wildcard on RISC OS (Darren Salt)
+22. New windll example.c (Mike)
+23. Correct storage of 8-bit char filenames with RSXNT (Burkhard Hirzinger)
+24. fix install in unix/Makefile (Santiago Vila, Onno)
+25. Fix zip -L output (Santiago Vila, Onno)
+26. Ignore unix special files (Jonathan O'Brien)
+27. Upgrade to izshr042 (Onno)
+28. Make copyright notice the same as in izshr042 (Onno)
+29. Make copyright notice in zip.h the same as LICENSE (Christian)
+30. Set tempzf to NULL _after_ it has been closed (Chris Kacher)
+31. Change email address for Jonathan Hudson (Jonathan Hudson)
+32. Remove win32/winzip.c.orig (Steve Salisbury)
+33. Use 'Steve Salisbury' throughout the documentation (Steve Salisbury)
+34. Change email address for Steve Salisbury (Steve Salisbury)
+35. Change email address for Chris Herborth (Chris Herborth)
+36. Use zip23 in INSTALL (Roger Cornelius)
+37. Use zcrypt28 in INSTALL (Onno)
+38. New acorn/srcrename (Darren Salt)
+39. amiga/makefile.azt: make clean should remove some more items (Paul)
+40. Change email address for Cosmin Truta (Cosmin Truta)

@@ -9,7 +9,7 @@ include Makefile.incl
 ACLOCAL_AMFLAGS = -I m4
 
 if ENABLE_LIBRARIES
-   API_SUBDIRS = api lib
+   API_SUBDIRS = api lib zip
 endif
 
 if ENABLE_SERVER
