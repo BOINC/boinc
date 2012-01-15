@@ -362,16 +362,16 @@ int main(int argc, char** argv) {
     }
 
     boinc_get_init_data_p(&aid);
-    vm.vm_name = "boinc_";
+    vm.vm_master_name = "boinc_";
     if (boinc_is_standalone()) {
-        vm.vm_name += "standalone";
+        vm.vm_master_name += "standalone";
         vm.image_filename = IMAGE_FILENAME_COMPLETE;
         if (vm.enable_floppyio) {
             sprintf(buf, "%s.%s", FLOPPY_IMAGE_FILENAME, FLOPPY_IMAGE_FILENAME_EXTENSION);
             vm.floppy_image_filename = buf;
         }
     } else {
-        vm.vm_name += aid.result_name;
+        vm.vm_master_name += aid.result_name;
         sprintf(buf, "%s_%d.%s", IMAGE_FILENAME, aid.slot, IMAGE_FILENAME_EXTENSION);
         vm.image_filename = buf;
         boinc_rename(IMAGE_FILENAME_COMPLETE, buf);

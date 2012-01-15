@@ -553,3 +553,11 @@ David  14 Jan 2012
 
 	lib/
 		gui_rpc_client_ops.cpp
+
+Rom    14 Jan 2012
+    - VBOX: Fix regression where the vm_name wasn't reset back to the
+        current wu name after deregistering a stale VM.
+
+    samples/vboxwrapper
+        vbox.cpp, .h
+        vboxwrapper.cpp,

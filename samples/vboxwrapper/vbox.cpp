@@ -57,12 +57,13 @@ using std::string;
 
 VBOX_VM::VBOX_VM() {
     pFloppy = NULL;
+    vm_master_name.clear();
+    vm_name.clear();
+    vm_cpu_count.clear();
     os_name.clear();
     memory_size_mb.clear();
     image_filename.clear();
     floppy_image_filename.clear();
-    vm_name.clear();
-    vm_cpu_count.clear();
     job_duration = 0.0;
     suspended = false;
     network_suspended = false;
@@ -71,6 +72,7 @@ VBOX_VM::VBOX_VM() {
     enable_cern_dataformat = false;
     enable_shared_directory = false;
     enable_floppyio = false;
+    enable_remotedesktop = false;
     register_only = false;
     enable_network = false;
     pf_guest_port = 0;
@@ -702,6 +704,12 @@ int VBOX_VM::register_vm() {
 
     boinc_get_init_data_p(&aid);
     get_slot_directory(virtual_machine_slot_directory);
+
+
+    // Reset VM name in case it was changed while deregistering a stale VM
+    //
+    vm_name = vm_master_name;
+
 
     fprintf(
         stderr,
@@ -1454,7 +1462,7 @@ int VBOX_VM::get_system_log(string& log) {
     } else {
         fprintf(
             stderr,
-            "%s Could not find the system log at '%s'.\n",
+            "%s Could not find the Hypervisor System Log at '%s'.\n",
             boinc_msg_prefix(buf, sizeof(buf)),
             virtualbox_system_log_src.c_str()
         );

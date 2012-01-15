@@ -32,6 +32,12 @@ struct VBOX_VM {
     // Floppy IO abstraction
     FloppyIO* pFloppy;
 
+    // unique master name for the VM
+    std::string vm_master_name;
+    // unique name for the VM or UUID of a stale VM if deregistering a stale VM
+    std::string vm_name;
+    // required CPU core count
+    std::string vm_cpu_count;
     // name of the OS the VM runs
     std::string os_name;
     // size of the memory allocation for the VM, in megabytes
@@ -40,10 +46,6 @@ struct VBOX_VM {
     std::string image_filename;
     // name of the virtual machine floppy disk image file
     std::string floppy_image_filename;
-    // unique name for the VM
-    std::string vm_name;
-    // required CPU core count
-    std::string vm_cpu_count;
     // maximum amount of wall-clock time this VM is allowed to run before
     // considering itself done.
     double job_duration;
