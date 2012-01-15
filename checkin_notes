@@ -560,4 +560,10 @@ Rom    14 Jan 2012
 
     samples/vboxwrapper
         vbox.cpp, .h
-        vboxwrapper.cpp,
+        vboxwrapper.cpp
+
+Rom    15 Jan 2012
+    - VBOX: Add User ID and Host ID to the CERN data format.
+
+    samples/vboxwrapper
+        vboxwrapper.cpp

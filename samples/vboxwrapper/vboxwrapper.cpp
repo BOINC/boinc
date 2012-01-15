@@ -197,14 +197,19 @@ void set_floppy_image(APP_INIT_DATA& aid, VBOX_VM& vm) {
             // Use %.17g to represent doubles
             //
             scratch  = "BOINC_USERNAME=" + std::string(aid.user_name) + "\n";
+            scratch += "BOINC_AUTHENTICATOR=" + std::string(aid.authenticator) + "\n";
+
+            sprintf(buf, "%d", aid.userid);
+            scratch += "BOINC_USERID=" + std::string(buf) + "\n";
+
+            sprintf(buf, "%d", aid.hostid);
+            scratch += "BOINC_HOSTID=" + std::string(buf) + "\n";
 
             sprintf(buf, "%.17g", aid.user_total_credit);
             scratch += "BOINC_USER_TOTAL_CREDIT=" + std::string(buf) + "\n";
 
             sprintf(buf, "%.17g", aid.host_total_credit);
             scratch += "BOINC_HOST_TOTAL_CREDIT=" + std::string(buf) + "\n";
-
-            scratch += "BOINC_AUTHENTICATOR=" + std::string(aid.authenticator) + "\n";
         }
         vm.write_floppy(scratch);
     }
