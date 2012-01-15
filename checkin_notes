@@ -567,3 +567,13 @@ Rom    15 Jan 2012
 
     samples/vboxwrapper
         vboxwrapper.cpp
+
+Rom    15 Jan 2012
+    - MGR: Use rdesktop-vrdp on Linux, it is included with VirtualBox
+        and meant for what we are trying to do.
+    - MGR: Remove the fullscreen flag on Windows.  It might only be
+        my machine which has refresh problems when launching in
+        windowed mode.
+        
+    clientgui/
+        MainDocument.cpp
