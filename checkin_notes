@@ -577,3 +577,13 @@ Rom    15 Jan 2012
         
     clientgui/
         MainDocument.cpp
+
+David  15 Jan 2012
+    - optimize strip_whitespace(); from Steffen Moller
+    - storage simulator: generalize so you can use different
+        coding parameters at different levels
+
+    lib/
+        str_util.cpp
+    ssim/
+        ssim.cpp

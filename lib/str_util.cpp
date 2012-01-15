@@ -312,37 +312,38 @@ int parse_command_line(char* p, char** argv) {
 // remove whitespace from start and end of a string
 //
 void strip_whitespace(char *str) {
-    int n;
-    while (1) {
-        if (!str[0]) break;
-        if (!isascii(str[0])) break;
-        if (!isspace(str[0])) break;
-        strcpy_overlap(str, str+1);
+    char *s=str;
+    while (*s) {
+        if (!isascii(*s)) break;
+        if (!isspace(*s)) break;
+        s++;
     }
-    while (1) {
-        n = (int)strlen(str);
-        if (n == 0) break;
-        if (!isascii(str[n-1])) break;
-        if (!isspace(str[n-1])) break;
-        str[n-1] = 0;
+    if (s != str) strcpy_overlap(str, s);
+
+    int n=strlen(str);
+    while(n>0) {
+        n--;
+        if (!isascii(str[n])) break;
+        if (!isspace(str[n])) break;
+        str[n] = 0;
     }
 }
 
 void strip_whitespace(string& str) {
-    int n;
     while (1) {
         if (str.length() == 0) break;
         if (!isascii(str[0])) break;
         if (!isspace(str[0])) break;
         str.erase(0, 1);
     }
-    while (1) {
-        n = (int)str.length();
-        if (n == 0) break;
-        if (!isascii(str[n-1])) break;
-        if (!isspace(str[n-1])) break;
-        str.erase(n-1, 1);
+
+    int n = (int) str.length();
+    while (n>0) {
+        n--;
+        if (!isascii(str[n])) break;
+        if (!isspace(str[n])) break;
     }
+    str.erase(n, str.length()-n);
 }
 
 char* time_to_string(double t) {

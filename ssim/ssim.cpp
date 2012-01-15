@@ -18,19 +18,6 @@
 // ssim - simulator for distributed storage
 //
 // Simulates the storage of files on a dynamic set of hosts.
-//
-// The model of the host population is:
-// - hosts arrival is a Poisson process
-// - host lifetime is exponentially distributed
-// - the time needed to download n bytes of data to/from a host is
-//   U()*n/DOWNLOAD_BYTES_SEC
-//   where U() is a uniform random var
-// TODO: add a factor corresponding to host availability
-
-#define HOSTS_PER_DAY   10.
-#define HOST_LIFE_MEAN  100.*86400
-#define UPLOAD_BYTES_SEC  (5./3600)
-#define DOWNLOAD_BYTES_SEC  (5./3600)
 
 // We simulate policies based on coding and replication.
 //
@@ -39,21 +26,51 @@
 // When we need to reconstruct an encoded unit on the server,
 // we try to upload N_UPLOAD subunits,
 // where N <= N_UPLOAD <= M
-
-#define ENCODING_N          4
-#define ENCODING_K          2
-#define ENCODING_M          6
-#define N_UPLOAD            5
-
 // The units in an encoding can themselves be encoded.
-// There are LEVELS levels of encoding.
-
-#define ENCODING_LEVELS     1
-
+//
 // The bottom-level data units ("chunks") are stored on hosts,
 // possibly with replication
 
-#define REPLICATION_LEVEL   2
+// parameters of 1 level of coding
+//
+struct CODING {
+    int n;
+    int k;
+    int m;  // n + k
+    int n_upload;
+};
+
+struct PARAMS {
+    // The model of the host population is:
+    // - the population is unbounded
+    // - host lifetime is exponentially distributed
+    // - the time needed to transfer n bytes of data to/from a host is
+    //   U1*connect_interval + (U2+.5)*n/mean_transfer_rate;
+    //   where U1 and U2 are uniform random vars
+    //   (U1 is per-transfer, U2 is per-host)
+    //
+    double host_life_mean;
+    double connect_interval;
+    double mean_transfer_rate;
+
+    int coding_levels;
+    CODING codings[10];
+    int replication;
+
+    PARAMS() {
+        // default parameters
+        //
+        host_life_mean = 100.*86400;
+        connect_interval = 86400.;
+        mean_transfer_rate = .2e6;
+        coding_levels = 1;
+        codings[0].n = 4;
+        codings[0].k = 2;
+        codings[0].m = 6;
+        codings[0].n_upload = 5;
+        replication = 2;
+    }
+} p;
 
 // Terminology:
 //
@@ -78,6 +95,7 @@
 #include <math.h>
 #include <limits.h>
 #include <stdio.h>
+#include <string.h>
 #include <set>
 
 #include "des.h"
@@ -130,15 +148,18 @@ set<HOST*> hosts;
 //
 struct HOST : public EVENT {
     int id;
+    double transfer_rate;
     set<CHUNK_ON_HOST*> chunks;     // chunks present or downloading
     virtual void handle();
     HOST() {
-        t = sim.now + ran_exp(HOST_LIFE_MEAN);
+        t = sim.now + ran_exp(p.host_life_mean);
         id = next_host_id++;
+        transfer_rate = p.mean_transfer_rate*(drand() + .5);
         hosts.insert(this);
     }
 };
 
+#if 0
 // The host arrival process.
 // The associated EVENT is the arrival of a host
 //
@@ -149,6 +170,7 @@ struct HOST_ARRIVAL : public EVENT {
         sim.insert(this);
     }
 };
+#endif
 
 void die(const char* msg) {
     printf("%s: %s\n", now_str(), msg);
@@ -163,8 +185,11 @@ struct CHUNK_ON_HOST : public EVENT {
     CHUNK* chunk;
     char name[256];
     bool present_on_host;
+    bool transfer_wait;         // waiting to start transfer
     bool transfer_in_progress;  // upload if present_on_host, else download
     virtual void handle();
+    void start_upload();
+    void start_download();
     inline bool download_in_progress() {
         return (transfer_in_progress && !present_on_host);
     }
@@ -214,9 +239,10 @@ struct META_CHUNK : DATA_UNIT {
     bool have_unrecoverable_children;
     DFILE* dfile;
     bool uploading;
+    CODING coding;
 
     META_CHUNK(
-        DFILE* d, META_CHUNK* par, double size, int encoding_level, int index
+        DFILE* d, META_CHUNK* par, double size, int coding_level, int index
     );
 
     virtual void recovery_plan();
@@ -234,6 +260,7 @@ struct STATS_ITEM {
     double prev_t;
     double start_time;
     bool first;
+    char name[256];
 
     STATS_ITEM() {
         value = 0;
@@ -244,6 +271,9 @@ struct STATS_ITEM {
     }
 
     void sample(double v, bool collecting_stats) {
+#ifdef SAMPLE_DEBUG
+        printf("%s: %s: %f -> %f\n", now_str(), name, value, v);
+#endif
         double old_val = value;
         value = v;
         if (!collecting_stats) return;
@@ -263,9 +293,6 @@ struct STATS_ITEM {
 
     void sample_inc(double inc, bool collecting_stats) {
         sample(value+inc, collecting_stats);
-#ifdef SAMPLE_DEBUG
-        printf("%s: sample_inc: %f %f\n", now_str(), inc, value);
-#endif
     }
 
     void print() {
@@ -284,8 +311,10 @@ struct DFILE : EVENT {
     META_CHUNK* meta_chunk;
     double size;
     int id;
+#if 0
     set<HOST*> unused_hosts;
         // hosts that don't have any chunks of this file
+#endif
     int pending_init_downloads;
         // # of initial downloads pending.
         // When this is zero, we start collecting stats for the file
@@ -297,14 +326,20 @@ struct DFILE : EVENT {
 
     DFILE(double s) {
         id = next_file_id++;
+#if 0
         unused_hosts = hosts;
+#endif
         size = s;
+        strcpy(disk_usage.name, "Disk usage");
+        strcpy(upload_rate.name, "Upload rate");
+        strcpy(download_rate.name, "Download rate");
+        strcpy(fault_tolerance.name, "Fault tolerance");
     }
 
     // the creation of a file
     //
     virtual void handle() {
-        meta_chunk = new META_CHUNK(this, NULL, size, ENCODING_LEVELS, id);
+        meta_chunk = new META_CHUNK(this, NULL, size, 0, id);
 #ifdef EVENT_DEBUG
         printf("created file %d: size %f encoded size %f\n",
             id, size, disk_usage.value
@@ -339,21 +374,73 @@ struct DFILE : EVENT {
 
 //////////////////// method defs ////////////////////
 
-// transfer has finished
+void CHUNK_ON_HOST::start_upload() {
+    transfer_in_progress = true;
+    transfer_wait = true;
+    t = sim.now + drand()*p.connect_interval;
+#ifdef EVENT_DEBUG
+    printf("%s: waiting to start upload of %s\n", now_str(), name);
+#endif
+    sim.insert(this);
+}
+
+void CHUNK_ON_HOST::start_download() {
+    transfer_in_progress = true;
+    transfer_wait = true;
+    t = sim.now + drand()*p.connect_interval;
+#ifdef EVENT_DEBUG
+    printf("%s: waiting to start download of %s\n", now_str(), name);
+#endif
+    sim.insert(this);
+}
+
+
+// transfer or transfer wait has finished
 //
 void CHUNK_ON_HOST::handle() {
+    if (transfer_wait) {
+        transfer_wait = false;
+        if (present_on_host) {
+#ifdef EVENT_DEBUG
+            printf("%s: starting upload of %s\n", now_str(), name);
+#endif
+            chunk->parent->dfile->upload_rate.sample_inc(
+                host->transfer_rate,
+                chunk->parent->dfile->collecting_stats()
+            );
+        } else {
+#ifdef EVENT_DEBUG
+            printf("%s: starting download of %s\n", now_str(), name);
+#endif
+            chunk->parent->dfile->download_rate.sample_inc(
+                host->transfer_rate,
+                chunk->parent->dfile->collecting_stats()
+            );
+        }
+        t = sim.now + chunk->size/host->transfer_rate;
+        sim.insert(this);
+        return;
+    }
     transfer_in_progress = false;
     if (present_on_host) {
         // it was an upload
 #ifdef EVENT_DEBUG
         printf("%s: upload of %s completed\n", now_str(), name);
 #endif
-        chunk->upload_complete();    // create new replicas if needed
+        chunk->parent->dfile->upload_rate.sample_inc(
+            -host->transfer_rate,
+            chunk->parent->dfile->collecting_stats()
+        );
+        chunk->upload_complete();
     } else {
         present_on_host = true;
 #ifdef EVENT_DEBUG
         printf("%s: download of %s completed\n", now_str(), name);
 #endif
+        chunk->parent->dfile->download_rate.sample_inc(
+            -host->transfer_rate,
+            chunk->parent->dfile->collecting_stats()
+        );
         chunk->download_complete();
     }
 }
@@ -383,7 +470,7 @@ CHUNK::CHUNK(META_CHUNK* mc, double s, int index) {
     present_on_server = true;
     size = s;
     sprintf(name, "%s.%d", parent->name, index);
-    parent->dfile->pending_init_downloads += REPLICATION_LEVEL;
+    parent->dfile->pending_init_downloads += p.replication;
     parent->dfile->disk_usage.sample_inc(size, false);
 }
 
@@ -392,13 +479,18 @@ CHUNK::CHUNK(META_CHUNK* mc, double s, int index) {
 //
 void CHUNK::assign() {
     if (!present_on_server) return;
-    while (hosts.size() < REPLICATION_LEVEL) {
+    while ((int)(hosts.size()) < p.replication) {
+#if 0
         if (parent->dfile->unused_hosts.size() == 0) {
             die("no more hosts!\n");
         }
         set<HOST*>::iterator i = parent->dfile->unused_hosts.begin();
         HOST* h = *i;
         parent->dfile->unused_hosts.erase(i);
+#else
+        HOST* h = new HOST;
+        sim.insert(h);
+#endif
         CHUNK_ON_HOST *c = new CHUNK_ON_HOST();
         sprintf(c->name, "chunk %s on host %d", name, h->id);
 #ifdef EVENT_DEBUG
@@ -406,15 +498,9 @@ void CHUNK::assign() {
 #endif
         c->host = h;
         c->chunk = this;
-        c->t = sim.now + (drand()+.5)*size/DOWNLOAD_BYTES_SEC;
-        hosts.insert(c);
-        parent->dfile->download_rate.sample_inc(
-            DOWNLOAD_BYTES_SEC,
-            parent->dfile->collecting_stats()
-        );
         h->chunks.insert(c);
-        c->transfer_in_progress = true;
-        sim.insert(c);
+        hosts.insert(c);
+        c->start_download();
     }
 }
 
@@ -439,16 +525,7 @@ void CHUNK::start_upload() {
         if (c->transfer_in_progress) return;
     }
     c = *(hosts.begin());
-    c->transfer_in_progress = true;
-    c->t = sim.now + (drand()+.5)*size/UPLOAD_BYTES_SEC;
-    parent->dfile->upload_rate.sample_inc(
-        UPLOAD_BYTES_SEC,
-        parent->dfile->collecting_stats()
-    );
-#ifdef EVENT_DEBUG
-    printf("%s: starting upload of %s\n", now_str(), c->name);
-#endif
-    sim.insert(c);
+    c->start_upload();
 }
 
 void CHUNK::host_failed(CHUNK_ON_HOST* p) {
@@ -469,10 +546,6 @@ void CHUNK::upload_complete() {
         );
     }
     parent->dfile->recover();
-    parent->dfile->upload_rate.sample_inc(
-        -UPLOAD_BYTES_SEC,
-        parent->dfile->collecting_stats()
-    );
 }
 
 void CHUNK::download_complete() {
@@ -480,35 +553,34 @@ void CHUNK::download_complete() {
         parent->dfile->pending_init_downloads--;
     }
     parent->dfile->recover();
-    parent->dfile->download_rate.sample_inc(
-        -DOWNLOAD_BYTES_SEC,
-        parent->dfile->collecting_stats()
-    );
 }
 
 META_CHUNK::META_CHUNK(
-    DFILE* d, META_CHUNK* par, double size, int encoding_level, int index
+    DFILE* d, META_CHUNK* par, double size, int coding_level, int index
 ) {
     dfile = d;
     parent = par;
+    coding = p.codings[coding_level];
     if (parent) {
         sprintf(name, "%s.%d", parent->name, index);
     } else {
         sprintf(name, "%d", index);
     }
-    if (encoding_level) {
-        for (int j=0; j<ENCODING_M; j++) {
+    if (coding_level<p.coding_levels-1) {
+        for (int j=0; j<coding.m; j++) {
             children.push_back(new META_CHUNK(
                 d,
                 this,
-                size/ENCODING_N,
-                encoding_level-1,
+                size/coding.n,
+                coding_level+1,
                 j
             ));
         }
     } else {
-        for (int j=0; j<ENCODING_M; j++) {
-            children.push_back(new CHUNK(this, size/ENCODING_N, j));
+        for (int j=0; j<coding.m; j++) {
+            children.push_back(
+                new CHUNK(this, size/coding.n, j)
+            );
         }
     }
 }
@@ -578,10 +650,10 @@ void META_CHUNK::recovery_plan() {
 
     // based on states of children, decide what state we're in
     //
-    if (present.size() >= ENCODING_N) {
+    if ((int)(present.size()) >= coding.n) {
         status = PRESENT;
         sort(present.begin(), present.end(), compare_cost);
-        present.resize(ENCODING_N);
+        present.resize(coding.n);
         cost = 0;
         fault_tolerance = INT_MAX;
         for (i=0; i<present.size(); i++) {
@@ -589,9 +661,9 @@ void META_CHUNK::recovery_plan() {
             cost += c->cost;
             c->in_recovery_set = true;
         }
-    } else if (present.size() + recoverable.size() >= ENCODING_N) {
+    } else if ((int)(present.size() + recoverable.size()) >= coding.n) {
         status = RECOVERABLE;
-        unsigned int j = ENCODING_N - present.size();
+        unsigned int j = coding.n - present.size();
         sort(recoverable.begin(), recoverable.end(), compare_cost);
         cost = 0;
         for (i=0; i<present.size(); i++) {
@@ -634,7 +706,7 @@ void CHUNK::recovery_plan() {
     } else if (hosts.size() > 0) {
         status = RECOVERABLE;
         cost = size;
-        if (hosts.size() < REPLICATION_LEVEL) {
+        if ((int)(hosts.size()) < p.replication) {
             data_needed = true;
         }
         fault_tolerance = hosts.size();
@@ -690,7 +762,7 @@ void CHUNK::recovery_action() {
         );
         status = PRESENT;
     }
-    if (status == PRESENT && hosts.size() < REPLICATION_LEVEL) {
+    if (status == PRESENT && (int)(hosts.size()) < p.replication) {
         assign();
     }
     if (download_in_progress()) {
@@ -719,7 +791,6 @@ void CHUNK::recovery_action() {
     }
 }
 
-
 set<DFILE*> dfiles;
 
 int main() {
@@ -729,9 +800,11 @@ int main() {
     sim.insert(h);
 #endif
 
+#if 0
     for (int i=0; i<500; i++) {
         sim.insert(new HOST);
     }
+#endif
     DFILE* dfile = new DFILE(1e2);
     sim.insert(dfile);
 
