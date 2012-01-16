@@ -587,3 +587,9 @@ David  15 Jan 2012
         str_util.cpp
     ssim/
         ssim.cpp
+
+David  15 Jan 2012
+    - storage simulator: compute fault tolerance correctly
+
+    ssim/
+        ssim.cpp

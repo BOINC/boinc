@@ -209,7 +209,7 @@ struct DATA_UNIT {
     bool data_now_present;
     bool data_needed;
     double cost;
-    int fault_tolerance;
+    int min_failures;
         // min # of host failures that would make this unrecoverable
     char name[64];
 };
@@ -257,6 +257,8 @@ struct STATS_ITEM {
     double integral;
     double max_val;
     double max_val_time;
+    double min_val;
+    double min_val_time;
     double prev_t;
     double start_time;
     bool first;
@@ -267,6 +269,8 @@ struct STATS_ITEM {
         integral = 0;
         max_val = 0;
         max_val_time = 0;
+        min_val = INT_MAX;
+        min_val_time = 0;
         first = true;
     }
 
@@ -289,17 +293,25 @@ struct STATS_ITEM {
             max_val = v;
             max_val_time = sim.now;
         }
+        if (v < min_val) {
+            min_val = v;
+            min_val_time = sim.now;
+        }
     }
 
     void sample_inc(double inc, bool collecting_stats) {
         sample(value+inc, collecting_stats);
     }
 
-    void print() {
+    void print(bool show_min) {
         sample_inc(0, true);
         double dt = sim.now - start_time;
         printf("    mean: %f\n", integral/dt);
-        printf("    max: %f\n", max_val);
+        if (show_min) {
+            printf("    min: %f\n", min_val);
+        } else {
+            printf("    max: %f\n", max_val);
+        }
         printf("    time of max: %s\n", time_str(max_val_time));
     }
 };
@@ -356,19 +368,19 @@ struct DFILE : EVENT {
     void recover() {
         meta_chunk->recovery_plan();
         meta_chunk->recovery_action();
-        fault_tolerance.sample(meta_chunk->fault_tolerance, collecting_stats());
+        fault_tolerance.sample(meta_chunk->min_failures-1, collecting_stats());
     }
 
     void print_stats() {
         printf("Statistics for file %d\n", id);
         printf("  Server disk usage:\n");
-        disk_usage.print();
+        disk_usage.print(false);
         printf("  Upload rate:\n");
-        upload_rate.print();
+        upload_rate.print(false);
         printf("  Download rate:\n");
-        download_rate.print();
+        download_rate.print(false);
         printf("  Fault tolerance level:\n");
-        fault_tolerance.print();
+        fault_tolerance.print(true);
     }
 };
 
@@ -591,10 +603,10 @@ bool compare_cost(const DATA_UNIT* d1, const DATA_UNIT* d2) {
     return d1->cost < d2->cost;
 }
 
-// sort by decreasing fault tolerance
+// sort by increase min_failures
 //
-bool compare_fault_tolerance(const DATA_UNIT* d1, const DATA_UNIT* d2) {
-    return d1->fault_tolerance > d2->fault_tolerance;
+bool compare_min_failures(const DATA_UNIT* d1, const DATA_UNIT* d2) {
+    return d1->min_failures < d2->min_failures;
 }
 
 // Recovery logic: decide what to do in response to
@@ -655,7 +667,6 @@ void META_CHUNK::recovery_plan() {
         sort(present.begin(), present.end(), compare_cost);
         present.resize(coding.n);
         cost = 0;
-        fault_tolerance = INT_MAX;
         for (i=0; i<present.size(); i++) {
             DATA_UNIT* c= present[i];
             cost += c->cost;
@@ -676,14 +687,6 @@ void META_CHUNK::recovery_plan() {
             cost += c->cost;
         }
 
-        // compute our fault tolerance
-        //
-        sort(recoverable.begin(), recoverable.end(), compare_fault_tolerance);
-        fault_tolerance = 0;
-        for (i=0; i<j; i++) {
-            DATA_UNIT* c= recoverable[i];
-            fault_tolerance += c->fault_tolerance;
-        }
     } else {
         status = UNRECOVERABLE;
     }
@@ -702,17 +705,17 @@ void CHUNK::recovery_plan() {
     if (present_on_server) {
         status = PRESENT;
         cost = 0;
-        fault_tolerance = INT_MAX;
+        min_failures = INT_MAX;
     } else if (hosts.size() > 0) {
         status = RECOVERABLE;
         cost = size;
         if ((int)(hosts.size()) < p.replication) {
             data_needed = true;
         }
-        fault_tolerance = hosts.size();
+        min_failures = hosts.size();
     } else {
         status = UNRECOVERABLE;
-        fault_tolerance = 0;
+        min_failures = 0;
     }
 #ifdef DEBUG_RECOVERY
     printf("chunk plan %s: status %s\n", name, status_str(status));
@@ -720,6 +723,7 @@ void CHUNK::recovery_plan() {
 }
 
 void META_CHUNK::recovery_action() {
+    unsigned int i;
     if (data_now_present) {
         status = PRESENT;
     }
@@ -728,7 +732,7 @@ void META_CHUNK::recovery_action() {
         name, status_str(status), have_unrecoverable_children
     );
 #endif
-    for (unsigned i=0; i<children.size(); i++) {
+    for (i=0; i<children.size(); i++) {
         DATA_UNIT* c = children[i];
 #ifdef DEBUG_RECOVERY
         printf("  child %s status %s in rec set %d\n",
@@ -750,6 +754,50 @@ void META_CHUNK::recovery_action() {
             break;
         }
         c->recovery_action();
+    }
+
+    // because of recovery action, some of our children may have changed
+    // status and fault tolerance, source may have changed too.
+    // Recompute them.
+    //
+    vector<DATA_UNIT*> recoverable;
+    vector<DATA_UNIT*> present;
+    for (i=0; i<children.size(); i++) {
+        DATA_UNIT* c = children[i];
+        switch (c->status) {
+        case PRESENT:
+            present.push_back(c);
+            break;
+        case RECOVERABLE:
+            recoverable.push_back(c);
+            break;
+        }
+    }
+    if ((int)(present.size()) >= coding.n) {
+        status = PRESENT;
+        min_failures = INT_MAX;
+    } else if ((int)(present.size() + recoverable.size()) >= coding.n) {
+        status = RECOVERABLE;
+
+        // our min_failures is the least X such that some X host failures
+        // would make this node unrecoverable
+        //
+        sort(recoverable.begin(), recoverable.end(), compare_min_failures);
+        min_failures = 0;
+        unsigned int k = coding.n - present.size();
+            // we'd need to recover K recoverable children
+        unsigned int j = recoverable.size() - k + 1;
+            // a loss of J recoverable children would make this impossible
+
+        // the loss of J recoverable children would make us unrecoverable
+        // Sum the min_failures of the J children with smallest min_failures
+        //
+        for (i=0; i<j; i++) {
+            DATA_UNIT* c = recoverable[i];
+            printf("  Min failures of %s: %d\n", c->name, c->min_failures);
+            min_failures += c->min_failures;
+        }
+        printf("  our min failures: %d\n", min_failures);
     }
 }
 
@@ -780,6 +828,8 @@ void CHUNK::recovery_action() {
     } else {
         if (present_on_server) {
             present_on_server = false;
+            status = RECOVERABLE;
+            min_failures = p.replication;
 #ifdef EVENT_DEBUG
             printf("%s: %s replicated, removing from server\n", now_str(), name);
 #endif
