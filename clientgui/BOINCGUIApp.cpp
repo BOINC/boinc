@@ -340,13 +340,18 @@ bool CBOINCGUIApp::OnInit() {
                 m_pSkinManager->GetAdvanced()->GetApplicationShortName().c_str()
             );
         } else {
-            wxString strErrorPath = wxString::FromUTF8(path_to_error);
             strDialogMessage.Printf(
-                _("%s ownership or permissions are not set properly; please reinstall %s.\n(Error code %d at %s)"),
+                _("%s ownership or permissions are not set properly; please reinstall %s.\n(Error code %d"),
                 m_pSkinManager->GetAdvanced()->GetApplicationShortName().c_str(),
                 m_pSkinManager->GetAdvanced()->GetApplicationShortName().c_str(),
-                iErrorCode , strErrorPath.c_str()
+                iErrorCode
             );
+            if (path_to_error[0]) {
+                strDialogMessage += _(" at ");
+                strDialogMessage += wxString::FromUTF8(path_to_error);
+            }
+            strDialogMessage += _(")");
+            
             fprintf(stderr, "%ls ownership or permissions are not set properly; please reinstall %ls.\n(Error code %d at %s)", 
                     m_pSkinManager->GetAdvanced()->GetApplicationShortName().c_str(),
                     m_pSkinManager->GetAdvanced()->GetApplicationShortName().c_str(),
