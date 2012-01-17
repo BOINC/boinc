@@ -602,3 +602,10 @@ Charlie 16 Jan 2012
         coproc_detect.cpp
     lib/
         coproc.cpp,.h
+
+Charlie 16 Jan 2012
+    - client: Add logging message for insufficient GPU RAM details to 
+        coproc_debug flag.
+
+    client/
+        cpu_sched.cpp
