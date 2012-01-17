@@ -131,6 +131,7 @@ struct OPENCL_DEVICE_PROP {
     int device_num;                     // temp used in scan process
     double peak_flops;                  // temp used in scan process
     COPROC_USAGE is_used;               // temp used in scan process
+    double opencl_available_ram;        // temp used in scan process
 
 #ifndef _USING_FCGI_
     void write_xml(MIOFILE&);

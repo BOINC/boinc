@@ -259,13 +259,12 @@ int OPENCL_DEVICE_PROP::get_device_version_int() {
 void OPENCL_DEVICE_PROP::description(char* buf, const char* type) {
     char s1[256], s2[256];
     int n;
-    
     // openCL_device_version may have a trailing space
     strlcpy(s1, opencl_device_version, sizeof(s1));
     n = (int)strlen(s1) - 1;
     if ((n > 0) && (s1[n] == ' ')) s1[n] = '\0';
-    sprintf(s2, "%s (driver version %s, device version %s, %.0fMB)",
-        name, opencl_driver_version, s1, global_mem_size/MEGA
+    sprintf(s2, "%s (driver version %s, device version %s, %.0fMB, %.0fMB available)",
+        name, opencl_driver_version, s1, global_mem_size/MEGA, opencl_available_ram/MEGA
     );
 
     switch(is_used) {

@@ -278,8 +278,11 @@ void COPROCS::get_opencl(
             
             prop.is_used = COPROC_UNUSED;
             prop.get_device_version_int();
+
             if (strstr(prop.vendor, GPU_TYPE_NVIDIA)) {
                 prop.device_num = (int)(nvidia_opencls.size());
+                prop.opencl_available_ram = prop.global_mem_size;   // CUDA info may overwrite this
+
                 if (!nvidia.have_cuda) {
                     COPROC_NVIDIA c;
                     c.opencl_prop = prop;
@@ -308,6 +311,8 @@ void COPROCS::get_opencl(
                     prop.global_mem_size *= 2;
                 }
 #endif
+                prop.opencl_available_ram = prop.global_mem_size;   // CAL info may overwrite this
+
                 if (!ati.have_cal) {
                     COPROC_ATI c;
                     c.opencl_prop = prop;
@@ -526,7 +531,9 @@ cl_int COPROCS::get_opencl_info(
     return CL_SUCCESS;
 }
 
-//This assumes OpenCL and CAL return the same device with the same index
+// This is called for ATI GPUs with CAL or NVIDIA GPUs with CUDA, to merge 
+// the OpenCL info into the CAL or CUDA data for the "best" CAL or CUDA GPU.
+// This assumes OpenCL and CAL return the same device with the same index
 void COPROC::merge_opencl(
     vector<OPENCL_DEVICE_PROP> &opencls, 
     vector<int>& ignore_dev
@@ -541,18 +548,23 @@ void COPROC::merge_opencl(
         if (device_num == opencls[i].device_num) {
             opencl_prop = opencls[i];
             opencl_device_ids[0] = opencls[i].device_id;
+            opencls[i].opencl_available_ram = available_ram;
             have_opencl = true;
             break;
         }
     }
-      for (i=0; i<(unsigned int)count; ++i) {
+    
+    // Fill in info for other GPUs which CAL or CUDA found equivalent to best
+    for (i=0; i<(unsigned int)count; ++i) {
         opencl_device_ids[i] = opencls[device_nums[i]].device_id;
+        opencls[i].opencl_available_ram = available_ram;
         opencls[device_nums[i]].is_used = COPROC_USED;
     }
     opencl_device_count = count;
 }
 
-//This assumes OpenCL and CAL return the same device with the same index
+// This is called for ATI GPUs without CAL or NVIDIA GPUs without CUDA
+// This assumes OpenCL and CAL return the same device with the same index
 void COPROC::find_best_opencls(
     bool use_all,
     vector<OPENCL_DEVICE_PROP> &opencls, 

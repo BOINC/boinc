@@ -593,3 +593,12 @@ David  15 Jan 2012
 
     ssim/
         ssim.cpp
+
+Charlie 16 Jan 2012
+    - client, lib: Improve available GPU RAM detection, include it in 
+        display of GPU description.
+        
+    client/
+        coproc_detect.cpp
+    lib/
+        coproc.cpp,.h
