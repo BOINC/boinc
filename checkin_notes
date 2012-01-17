@@ -617,3 +617,15 @@ Rom    16 Jan 2012
     /
         configure.ac
         version.h
+
+Charlie 17 Jan 2012
+    - Mac: In permissions error alert: show branded name, if permissions 
+        error is in a subdirectory, show path to bad file or subdirectory.
+
+    client/
+        check_security.cpp
+        sandbox.h
+    clientgui/
+        BOINCGUIApp.cpp
+    mac_installer/
+        PosInstall.cpp

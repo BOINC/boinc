@@ -39,7 +39,10 @@
 bool IsUserInGroupBM();
 #endif
 
-static int CheckNestedDirectories(char * basepath, int depth, int use_sandbox, int isManager);
+static int CheckNestedDirectories(char * basepath, int depth, 
+                                    int use_sandbox, int isManager, 
+                                    char * path_to_error
+                                );
 
 #if (! defined(__WXMAC__) && ! defined(_MAC_INSTALLER))
 static char * PersistentFGets(char *buf, size_t buflen, FILE *f);
@@ -66,7 +69,7 @@ int check_security(
 #ifdef _MAC_INSTALLER
 char *bundlePath, char *dataPath,
 #endif
-int use_sandbox, int isManager
+int use_sandbox, int isManager, char* path_to_error
 ) {
     passwd              *pw;
     group               *grp;
@@ -358,7 +361,7 @@ saverName[2] = "Progress Thru Processors";
             return -1026;
 
         // Step through project directories
-        retval = CheckNestedDirectories(full_path, 1, use_sandbox, isManager);
+        retval = CheckNestedDirectories(full_path, 1, use_sandbox, isManager, path_to_error);
         if (retval)
             return retval;
     }
@@ -380,7 +383,7 @@ saverName[2] = "Progress Thru Processors";
             return -1029;
 
         // Step through slot directories
-        retval = CheckNestedDirectories(full_path, 1, use_sandbox, isManager);
+        retval = CheckNestedDirectories(full_path, 1, use_sandbox, isManager, path_to_error);
         if (retval)
             return retval;
     }
@@ -497,7 +500,10 @@ saverName[2] = "Progress Thru Processors";
 }
 
 
-static int CheckNestedDirectories(char * basepath, int depth, int use_sandbox, int isManager) {
+static int CheckNestedDirectories(char * basepath, int depth, 
+                                    int use_sandbox, int isManager, 
+                                    char * path_to_error
+                                ) {
     int             isDirectory;
     char            full_path[MAXPATHLEN];
     struct stat     sbuf;
@@ -583,7 +589,7 @@ static int CheckNestedDirectories(char * basepath, int depth, int use_sandbox, i
                 if ((! isManager) && (sbuf.st_uid != boinc_master_uid))
                     continue;       // Client can't check subdirectories owned by boinc_project
             }
-            retval = CheckNestedDirectories(full_path, depth + 1, use_sandbox, isManager);
+            retval = CheckNestedDirectories(full_path, depth + 1, use_sandbox, isManager, path_to_error);
             if (retval)
                 break;
         }
@@ -594,6 +600,7 @@ static int CheckNestedDirectories(char * basepath, int depth, int use_sandbox, i
     
     if (retval && !errShown) {
         fprintf(stderr, "Permissions error %d at %s\n", retval, full_path);
+        if (path_to_error) strcpy(path_to_error, full_path);
         errShown = 1;
     }
     return retval;
