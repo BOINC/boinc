@@ -1227,7 +1227,7 @@ static inline bool get_integer_assignment(
                 if (log_flags.coproc_debug) {
                     msg_printf(rp->project, MSG_INFO,
                         "[coproc]  task %s needs %.0fMB RAM, %s GPU %d has %.0fMB available",
-                        rp->name, rp->avp->gpu_ram, cp->type, i, cp->available_ram_temp[i]
+                        rp->name, rp->avp->gpu_ram/MEGA, cp->type, i, cp->available_ram_temp[i]/MEGA
                     );
                 }
                 continue;
