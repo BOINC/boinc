@@ -644,3 +644,14 @@ Charlie 17 Jan 2012
     /
         configure.ac
         version.h
+
+Rom    17 Jan 2012
+    - VBOX: Fix a regression I introduced on Saturday, is_vm_registered shouldn't
+        be called when vm_name is empty.  Change it so that is references
+        vm_master_name instead to get the correct name of the VM.
+    - VBOX: Fix the logic that scan for the CR character and removes it.  Also fix
+        the partial line inclusion when the various log files are greater than 16k.
+        string.erase returns what the iterator value should be.
+ 
+     samples/vboxwrapper
+        vbox.cpp
