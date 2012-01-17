@@ -636,3 +636,11 @@ Charlie 17 Jan 2012
         
     client/
         coproc_detect.cpp
+
+Charlie 17 Jan 2012
+    - Tag for 7.0.10 release, all platforms
+      boinc_core_release_7_0_10
+
+    /
+        configure.ac
+        version.h
