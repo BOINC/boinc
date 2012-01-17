@@ -609,3 +609,11 @@ Charlie 16 Jan 2012
 
     client/
         cpu_sched.cpp
+
+Rom    16 Jan 2012
+    - Tag for 7.0.9 release, all platforms
+      boinc_core_release_7_0_9
+
+    /
+        configure.ac
+        version.h
