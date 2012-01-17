@@ -629,3 +629,10 @@ Charlie 17 Jan 2012
         BOINCGUIApp.cpp
     mac_installer/
         PosInstall.cpp
+
+Charlie 17 Jan 2012
+    - client: Save all CUDA and CAL GPU info until done with OpenCL detection 
+        so we have available GPU RAM for all OpenCL GPU descriptions.
+        
+    client/
+        coproc_detect.cpp
