@@ -30,35 +30,29 @@ function show_credit_wap($user) {
 function show_user_wap($userid) {
     wap_begin();
     
-    $cache = unserialize(get_cached_data(USER_PAGE_TTL, "userid=".$userid));
-    if (!$cache) {
-        $cache = new stdClass;
-        $cache->user = BoincUser::lookup_id($userid);
-        if ($cache->user->teamid) {
-            $cache->team = BoincTeam::lookup_id($cache->user->teamid);
-        }
-        $cache->wap_timestamp = wap_timestamp();
-        set_cached_data(USER_PAGE_TTL, serialize($cache), "userid=".$userid);
-    }
-    
-    if (!$cache->user) {
+    $user = BoincUser::lookup_id($userid);
+    if (!$user) {
         echo "<br/>".tra("User not found!")."<br/>";
         wap_end();
         return;
     }
+
+    if ($user->teamid) {
+        $team = BoincTeam::lookup_id($user->teamid);
+    }
     
-    // keep a 'running tab' in wapstr in case exceeds 1K WAP limit
-    $wapstr = PROJECT."<br/>".tra("Account Data<br/>for %1<br/>Time:", $cache->user->name)." ".$cache->wap_timestamp;
-    $wapstr .= show_credit_wap($cache->user);
-    if ($cache->user->teamid) {
-        $wapstr .= "<br/>".tra("Team:")." ".$cache->team->name."<br/>";
-        $wapstr .= tra("Team TotCred:")." " . format_credit($cache->team->total_credit) . "<br/>";
-        $wapstr .= tra("Team AvgCred:")." " . format_credit($cache->team->expavg_credit) . "<br/>";
+    $wapstr = PROJECT."<br/>".tra("Account Data<br/>for %1<br/>Time:", $user->name)." ".wap_timestamp();
+    $wapstr .= show_credit_wap($user);
+    if ($user->teamid && $team) {
+        $wapstr .= "<br/>".tra("Team:")." ".$team->name."<br/>";
+        $wapstr .= tra("Team TotCred:")." " . format_credit($team->total_credit) . "<br/>";
+        $wapstr .= tra("Team AvgCred:")." " . format_credit($team->expavg_credit) . "<br/>";
     } else {
         $wapstr .= "<br/>".tra("Team: None")."<br/>";
     }
     
-    // don't want to send more than 1KB probably?
+    // don't want to send more than 1KB (WAP limit)
+    //
     if (strlen($wapstr) > 1024) {
         $wapstr = substr($wapstr, 0, 1024);
     }

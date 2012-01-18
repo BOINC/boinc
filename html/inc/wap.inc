@@ -33,6 +33,6 @@ function wap_end() {
 }
 
 function wap_timestamp() {
-  return strftime("%d %b %Y %H:%M:%S UTC", mktime());
+  return gmdate('j M Y G:i:s', time()) . " UTC";
 }
 ?>

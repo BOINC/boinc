@@ -703,3 +703,13 @@ Rom    18 Jan 2012
  
      samples/vboxwrapper
         vbox.cpp
+
+David  18 Jan 2012
+    - WAP interface to credit info: return correct timestamp,
+        and don't bother with caching.
+
+    html/
+        inc/
+            wap.inc
+        user/
+            userw.php
