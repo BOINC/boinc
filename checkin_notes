@@ -695,3 +695,11 @@ Charlie 18 Jan 2012
         
     client/
         coproc_detect.cpp
+
+Rom    18 Jan 2012
+    - VBOX: Fix another issue that was a result of Saturdays commit.  Make
+        sure that the vm_name variable is populated with something useful if
+        resuming from a different execution.
+ 
+     samples/vboxwrapper
+        vbox.cpp

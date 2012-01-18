@@ -108,6 +108,11 @@ int VBOX_VM::run() {
     // error to stop further processing.
     if (register_only) return ERR_FOPEN;
 
+    // If we are restarting an already registered VM, then the vm_name variable
+    // will be empty right now, so populate it with the master name so all of the
+    // various other functions will work.
+    vm_name = vm_master_name;
+
     retval = start();
     if (retval) return retval;
 
