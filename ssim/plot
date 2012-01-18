@@ -1,0 +1,6 @@
+#!/bin/sh
+
+gnuplot < disk.gp > disk.png
+gnuplot < upload.gp > upload.png
+gnuplot < download.gp > download.png
+gnuplot < fault_tol.gp > fault_tol.png

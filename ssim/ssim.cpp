@@ -19,6 +19,30 @@
 //
 // Simulates the storage of files on a dynamic set of hosts.
 
+// usage: ssim
+//  [--policy filename]
+//  [--host_life_mean x]
+//  [--connect_interval x]
+//  [--mean_xfer_rate x]
+//
+// outputs:
+//   stdout: log info
+//   summary.txt: format
+//      fault tolerance min
+//      disk_usage mean
+//      upload_mean
+//      download_mean
+
+#include <math.h>
+#include <limits.h>
+#include <stdio.h>
+#include <string.h>
+#include <set>
+
+#include "des.h"
+
+using std::set;
+
 // We simulate policies based on coding and replication.
 //
 // Coding means that data is divided into M = N+K units,
@@ -45,30 +69,58 @@ struct PARAMS {
     // - the population is unbounded
     // - host lifetime is exponentially distributed
     // - the time needed to transfer n bytes of data to/from a host is
-    //   U1*connect_interval + (U2+.5)*n/mean_transfer_rate;
+    //   U1*connect_interval + (U2+.5)*n/mean_xfer_rate;
     //   where U1 and U2 are uniform random vars
     //   (U1 is per-transfer, U2 is per-host)
     //
     double host_life_mean;
     double connect_interval;
-    double mean_transfer_rate;
+    double mean_xfer_rate;
 
+    int replication;
     int coding_levels;
     CODING codings[10];
-    int replication;
 
     PARAMS() {
         // default parameters
         //
         host_life_mean = 100.*86400;
         connect_interval = 86400.;
-        mean_transfer_rate = .2e6;
+        mean_xfer_rate = .2e6;
         coding_levels = 1;
-        codings[0].n = 4;
-        codings[0].k = 2;
-        codings[0].m = 6;
-        codings[0].n_upload = 5;
+        codings[0].n = 10;
+        codings[0].k = 6;
+        codings[0].m = 16;
+        codings[0].n_upload = 12;
         replication = 2;
+    }
+    int parse_policy(const char* filename) {
+        int n;
+        FILE* f = fopen(filename, "r");
+        if (!f) {
+            fprintf(stderr, "No policy file %s\n", filename);
+            exit(1);
+        }
+        n = fscanf(f, "%d", &replication);
+        if (n != 1) {
+            fprintf(stderr, "parse error in %s\n", filename);
+            exit(1);
+        }
+        n = fscanf(f, "%d", &coding_levels);
+        if (n != 1) {
+            fprintf(stderr, "parse error in %s\n", filename);
+            exit(1);
+        }
+        for (int i=0; i<coding_levels; i++) {
+            CODING& c = codings[i];
+            n = fscanf(f, "%d %d %d", &c.n, &c.k, &c.n_upload);
+            if (n != 3) {
+                fprintf(stderr, "parse error in %s\n", filename);
+                exit(1);
+            }
+            c.m = c.n + c.k;
+        }
+        return 0;
     }
 } p;
 
@@ -91,16 +143,6 @@ struct PARAMS {
 //
 // These are measured starting from the time when the file's
 // initial downloads have all succeeded or failed
-
-#include <math.h>
-#include <limits.h>
-#include <stdio.h>
-#include <string.h>
-#include <set>
-
-#include "des.h"
-
-using std::set;
 
 #define EVENT_DEBUG
 #define SAMPLE_DEBUG
@@ -154,7 +196,7 @@ struct HOST : public EVENT {
     HOST() {
         t = sim.now + ran_exp(p.host_life_mean);
         id = next_host_id++;
-        transfer_rate = p.mean_transfer_rate*(drand() + .5);
+        transfer_rate = p.mean_xfer_rate*(drand() + .5);
         hosts.insert(this);
     }
 };
@@ -193,6 +235,7 @@ struct CHUNK_ON_HOST : public EVENT {
     inline bool download_in_progress() {
         return (transfer_in_progress && !present_on_host);
     }
+    void remove();
 };
 
 #define PRESENT 0
@@ -252,31 +295,53 @@ struct META_CHUNK : DATA_UNIT {
 // keeps track of a time-varying property of a file
 // (server disk usage, up/download rate, fault tolerance level)
 //
+
+typedef enum {DISK, NETWORK, FAULT_TOLERANCE} STATS_KIND;
+
 struct STATS_ITEM {
+    STATS_KIND kind;
     double value;
     double integral;
-    double max_val;
-    double max_val_time;
-    double min_val;
-    double min_val_time;
+    double extreme_val;
+    double extreme_val_time;
     double prev_t;
     double start_time;
     bool first;
     char name[256];
+    FILE* f;
 
-    STATS_ITEM() {
+    void init(const char* n, const char* filename, STATS_KIND k) {
+        f = fopen(filename, "w");
+        strcpy(name, n);
+        kind = k;
         value = 0;
         integral = 0;
-        max_val = 0;
-        max_val_time = 0;
-        min_val = INT_MAX;
-        min_val_time = 0;
+        switch (kind) {
+        case DISK:
+        case NETWORK:
+            extreme_val = 0;
+            break;
+        case FAULT_TOLERANCE:
+            extreme_val = INT_MAX;
+            break;
+        }
+        extreme_val_time = 0;
         first = true;
     }
 
     void sample(double v, bool collecting_stats) {
 #ifdef SAMPLE_DEBUG
-        printf("%s: %s: %f -> %f\n", now_str(), name, value, v);
+        switch (kind) {
+        case DISK:
+            printf("%s: %s: %fGB -> %fGB\n", now_str(), name, value/1e9, v/1e9);
+            break;
+        case NETWORK:
+            printf("%s: %s: %fMbps -> %fMbps\n", now_str(), name, value/1e6, v/1e6);
+            break;
+        case FAULT_TOLERANCE:
+            printf("%s: %s: %.0f -> %.0f\n", now_str(), name, value, v);
+            break;
+        }
 #endif
         double old_val = value;
         value = v;
@@ -289,30 +354,50 @@ struct STATS_ITEM {
         double dt = sim.now - prev_t;
         prev_t = sim.now;
         integral += dt*old_val;
-        if (v > max_val) {
-            max_val = v;
-            max_val_time = sim.now;
+        switch (kind) {
+        case DISK:
+        case NETWORK:
+            if (v > extreme_val) {
+                extreme_val = v;
+                extreme_val_time = sim.now;
+            }
+            break;
+        case FAULT_TOLERANCE:
+            if (v < extreme_val) {
+                extreme_val = v;
+                extreme_val_time = sim.now;
+            }
+            break;
         }
-        if (v < min_val) {
-            min_val = v;
-            min_val_time = sim.now;
-        }
+
+        fprintf(f, "%f %f\n", sim.now, old_val);
+        fprintf(f, "%f %f\n", sim.now, v);
     }
 
     void sample_inc(double inc, bool collecting_stats) {
         sample(value+inc, collecting_stats);
     }
 
-    void print(bool show_min) {
+    void print() {
         sample_inc(0, true);
         double dt = sim.now - start_time;
-        printf("    mean: %f\n", integral/dt);
-        if (show_min) {
-            printf("    min: %f\n", min_val);
-        } else {
-            printf("    max: %f\n", max_val);
+        switch (kind) {
+        case DISK:
+            printf("    mean: %fGB.  Max: %fGB at %s\n",
+                (integral/dt)/1e9, extreme_val/1e9, time_str(extreme_val_time)
+            );
+            break;
+        case NETWORK:
+            printf("    mean: %fMbps.  Max: %fMbps at %s\n",
+                (integral/dt)/1e6, extreme_val/1e6, time_str(extreme_val_time)
+            );
+            break;
+        case FAULT_TOLERANCE:
+            printf("    mean: %.2f.  Min: %.0f at %s\n",
+                integral/dt, extreme_val, time_str(extreme_val_time)
+            );
+            break;
         }
-        printf("    time of max: %s\n", time_str(max_val_time));
     }
 };
 
@@ -342,10 +427,10 @@ struct DFILE : EVENT {
         unused_hosts = hosts;
 #endif
         size = s;
-        strcpy(disk_usage.name, "Disk usage");
-        strcpy(upload_rate.name, "Upload rate");
-        strcpy(download_rate.name, "Download rate");
-        strcpy(fault_tolerance.name, "Fault tolerance");
+        disk_usage.init("Disk usage", "disk.dat", DISK);
+        upload_rate.init("Upload rate", "upload.dat", NETWORK);
+        download_rate.init("Download rate", "download.dat", NETWORK);
+        fault_tolerance.init("Fault tolerance", "fault_tol.dat", FAULT_TOLERANCE);
     }
 
     // the creation of a file
@@ -374,13 +459,13 @@ struct DFILE : EVENT {
     void print_stats() {
         printf("Statistics for file %d\n", id);
         printf("  Server disk usage:\n");
-        disk_usage.print(false);
+        disk_usage.print();
         printf("  Upload rate:\n");
-        upload_rate.print(false);
+        upload_rate.print();
         printf("  Download rate:\n");
-        download_rate.print(false);
+        download_rate.print();
         printf("  Fault tolerance level:\n");
-        fault_tolerance.print(true);
+        fault_tolerance.print();
     }
 };
 
@@ -457,6 +542,25 @@ void CHUNK_ON_HOST::handle() {
     }
 }
 
+void CHUNK_ON_HOST::remove() {
+    if (transfer_in_progress) {
+        sim.remove(this);
+        if (!transfer_wait) {
+            if (present_on_host) {
+                chunk->parent->dfile->upload_rate.sample_inc(
+                    -host->transfer_rate,
+                    chunk->parent->dfile->collecting_stats()
+                );
+            } else {
+                chunk->parent->dfile->download_rate.sample_inc(
+                    -host->transfer_rate,
+                    chunk->parent->dfile->collecting_stats()
+                );
+            }
+        }
+    }
+}
+
 // the host has failed
 //
 void HOST::handle() {
@@ -470,9 +574,7 @@ void HOST::handle() {
     for (p = chunks.begin(); p != chunks.end(); p++) {
         CHUNK_ON_HOST* c = *p;
         c->chunk->host_failed(c);
-        if (c->transfer_in_progress) {
-            sim.remove(c);
-        }
+        c->remove();
         delete c;
     }
 }
@@ -843,7 +945,21 @@ void CHUNK::recovery_action() {
 
 set<DFILE*> dfiles;
 
-int main() {
+int main(int argc, char** argv) {
+    for (int i=1; i<argc; i++) {
+        if (!strcmp(argv[i], "--policy")) {
+            p.parse_policy(argv[++i]);
+        } else if (!strcmp(argv[i], "--host_life_mean")) {
+            p.host_life_mean = atof(argv[++i]);
+        } else if (!strcmp(argv[i], "--connect_interval")) {
+            p.connect_interval = atof(argv[++i]);
+        } else if (!strcmp(argv[i], "--mean_xfer_rate")) {
+            p.mean_xfer_rate = atof(argv[++i]);
+        } else {
+            fprintf(stderr, "bad arg %s\n", argv[i]);
+            exit(1);
+        }
+    }
 #if 0
     HOST_ARRIVAL *h = new HOST_ARRIVAL;
     h->t = 0;
@@ -855,10 +971,10 @@ int main() {
         sim.insert(new HOST);
     }
 #endif
-    DFILE* dfile = new DFILE(1e2);
+    DFILE* dfile = new DFILE(1e12);
     sim.insert(dfile);
 
-    sim.simulate(200*86400);
+    sim.simulate(1000*86400);
 
     printf("%s: simulation finished\n", now_str());
     dfile->print_stats();

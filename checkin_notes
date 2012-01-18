@@ -655,3 +655,14 @@ Rom    17 Jan 2012
  
      samples/vboxwrapper
         vbox.cpp
+
+David  17 Jan 2012
+    - storage simulator work
+    - lib: recent checkin broke strip_whitespace(string&).
+
+    ssim/
+        ssim.cpp
+        plot
+        ssim.php
+    lib/
+        str_util.cpp

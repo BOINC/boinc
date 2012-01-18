@@ -312,7 +312,7 @@ int parse_command_line(char* p, char** argv) {
 // remove whitespace from start and end of a string
 //
 void strip_whitespace(char *str) {
-    char *s=str;
+    char *s = str;
     while (*s) {
         if (!isascii(*s)) break;
         if (!isspace(*s)) break;
@@ -320,8 +320,8 @@ void strip_whitespace(char *str) {
     }
     if (s != str) strcpy_overlap(str, s);
 
-    int n=strlen(str);
-    while(n>0) {
+    int n = strlen(str);
+    while (n>0) {
         n--;
         if (!isascii(str[n])) break;
         if (!isspace(str[n])) break;
@@ -339,9 +339,9 @@ void strip_whitespace(string& str) {
 
     int n = (int) str.length();
     while (n>0) {
+        if (!isascii(str[n-1])) break;
+        if (!isspace(str[n-1])) break;
         n--;
-        if (!isascii(str[n])) break;
-        if (!isspace(str[n])) break;
     }
     str.erase(n, str.length()-n);
 }
