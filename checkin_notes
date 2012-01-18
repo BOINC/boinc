@@ -699,7 +699,7 @@ Charlie 18 Jan 2012
 Rom    18 Jan 2012
     - VBOX: Fix another issue that was a result of Saturdays commit.  Make
         sure that the vm_name variable is populated with something useful if
-        resuming from a different execution.
+        resuming from a previous execution of the wrapper.
  
      samples/vboxwrapper
         vbox.cpp
