@@ -47,8 +47,8 @@ function list_files($user) {
         <form action=sandbox.php method=post ENCTYPE=\"multipart/form-data\">
         <input type=hidden name=action value=upload_file>
         Upload a file to your sandbox:
-        <br><input size=80 type=file name=new_file>
-        <br> <input type=submit value=Upload>
+        <p><input size=80 type=file name=new_file>
+        <p> <input type=submit value=Upload>
         </form>
         <hr>
     ";
@@ -85,6 +85,9 @@ function list_files($user) {
         }
         end_table();
     }
+    echo "
+        <p><a href=lammps.php>Submit LAMMPS jobs</a>
+    ";
     page_tail();
 }
 

@@ -121,7 +121,11 @@ function show_submit_form($user) {
     row2("Area", area_select());
     row2("", "<input type=submit value=Prepare>");
     end_table();
-    echo "</form>";
+    echo "</form>
+        <p>
+        <a href=sandbox.php>File sandbox</a>
+    ";
+    
     page_tail();
 }
 

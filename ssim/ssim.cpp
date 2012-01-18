@@ -399,6 +399,20 @@ struct STATS_ITEM {
             break;
         }
     }
+    void print_summary(FILE* f) {
+        double dt = sim.now - start_time;
+        switch (kind) {
+        case DISK:
+            fprintf(f, "%f\n", integral/dt);
+            break;
+        case NETWORK:
+            fprintf(f, "%f\n", integral/dt);
+            break;
+        case FAULT_TOLERANCE:
+            fprintf(f, "%f\n", extreme_val);
+            break;
+        }
+    }
 };
 
 // represents a file to be stored.
@@ -466,6 +480,13 @@ struct DFILE : EVENT {
         download_rate.print();
         printf("  Fault tolerance level:\n");
         fault_tolerance.print();
+
+        FILE* f = fopen("summary.txt", "w");
+        fault_tolerance.print_summary(f);
+        disk_usage.print_summary(f);
+        upload_rate.print_summary(f);
+        download_rate.print_summary(f);
+        fclose(f);
     }
 };
 

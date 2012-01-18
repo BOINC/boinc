@@ -42,7 +42,7 @@ function parse_input_file($filename) {
     return $x;
 }
 
-function make_graph($input, $title, $index) {
+function make_graph($input, $prefix, $title, $index) {
     $gp_filename = $input->name."_$prefix.gp";
     $f = fopen($gp_filename, "w");
     fprintf($f, "set terminal png small size 1024, 768
@@ -62,7 +62,20 @@ plot ");
     fclose($f);
     $png_filename = $input->name."_$prefix.png";
     $cmd = "gnuplot < $gp_filename > $png_filename";
+    echo "$cmd\n";
     system($cmd);
+}
+
+function parse_output_file($fname) {
+    $f = fopen($fname, "r");
+    if (!$f) {
+        die("no output file $fname\n");
+    }
+    $ft = (int)fgets($f);
+    $du = (double)fgets($f);
+    $ul = (double)fgets($f);
+    $dl = (double)fgets($f);
+    return array($ft, $du, $ul, $dl);
 }
 
 if ($argc != 2) {
@@ -75,15 +88,14 @@ foreach ($input->policy as $p) {
         die("no policy file '$p'\n");
     }
     foreach ($input->host_life_mean as $hlm) {
-        $cmd = "ssim --policy_file $p --host_life_mean $hlm --connect_interval $input->connect_interval --mean_xfer_rate $input->mean_xfer_rate";
-        //system($cmd);
+        $cmd = "ssim --policy $p --host_life_mean $hlm --connect_interval $input->connect_interval --mean_xfer_rate $input->mean_xfer_rate > /dev/null";
         echo "$cmd\n";
+        system($cmd);
         list($du, $ul, $dl, $ft) = parse_output_file("summary.txt");
-        printf($datafile, "$hlm $du $ul $dl $ft\n");
+        fprintf($datafile, "$hlm $du $ul $dl $ft\n");
     }
+    fclose($datafile);
 }
-
-exit();
 
 make_graph($input, "du", "Disk usage", 2);
 make_graph($input, "ub", "Upload bandwidth", 3);
