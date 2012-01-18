@@ -18,6 +18,9 @@
 
 // client-specific GPU code.  Mostly GPU detection
 
+#define FAKE2NVIDIAS 0
+#define DEBUGFOROLIVER 1
+
 #include "cpp.h"
 
 #ifdef _WIN32
@@ -271,6 +274,18 @@ void COPROCS::get_opencl(
             return;
         }
 
+#if FAKE2NVIDIAS
+num_devices = 3;
+devices[2] = devices[1];
+#endif
+
+#if DEBUGFOROLIVER
+    if (log_flags.coproc_debug) {
+        msg_printf(0, MSG_INFO,
+        "[coproc] %d OpenCL devices detected", num_devices
+        );
+    }
+#endif
         for (device_index=0; device_index<num_devices; ++device_index) {
             memset(&prop, 0, sizeof(prop));
             prop.device_id = devices[device_index];
@@ -278,7 +293,26 @@ void COPROCS::get_opencl(
             
 //TODO: Should we store the platform(s) for each GPU found?
 //TODO: Must we check if multiple platforms found the same GPU and merge the records?
-
+#if FAKE2NVIDIAS
+if (device_index == 2) {
+strcpy(prop.name, "GEForce 120 GT");
+strcpy(prop.vendor, "NVIDIA");
+prop.vendor_id = 16918016;
+prop.available = 1;
+prop.half_fp_config = 0;
+prop.single_fp_config = 30;
+prop.double_fp_config = 63;
+prop.endian_little = 1;
+prop.execution_capabilities = 1;
+strcpy(prop.extensions, "cl_APPLE_SetMemObjectDestructor cl_APPLE_ContextLoggingFunctions cl_APPLE_clut cl_APPLE_query_kernel_names cl_APPLE_gl_sharing cl_khr_gl_event cl_khr_byte_addressable_store cl_khr_global_int32_base_atomics cl_khr_global_int32_extended_atomics ");
+prop.global_mem_size = 268435456;
+prop.local_mem_size = 16384;
+prop.max_clock_frequency = 1000;
+prop.max_compute_units = 10;
+strcpy(prop.opencl_device_version, "OpenCL 1.0 ");
+strcpy(prop.opencl_driver_version, "CLH 1.0");
+} else
+#endif
             ciErrNum = get_opencl_info(prop, device_index, warnings);
             if (ciErrNum != CL_SUCCESS) break;
             
@@ -300,6 +334,14 @@ void COPROCS::get_opencl(
                 } else {
                     prop.opencl_available_ram = prop.global_mem_size;
                 }
+#if DEBUGFOROLIVER
+    if (log_flags.coproc_debug) {
+        msg_printf(0, MSG_INFO,
+        "[coproc] OpenCL device %d: clGetDeviceInfo got available memory size %.0fMB", 
+        device_index, prop.opencl_available_ram/MEGA
+        );
+    }
+#endif
                 nvidia_opencls.push_back(prop);
             }
             if ((strstr(prop.vendor, GPU_TYPE_ATI)) || 
@@ -354,10 +396,26 @@ void COPROCS::get_opencl(
         nvidia.prop.clockRate = nvidia.opencl_prop.max_clock_frequency * 1000;
     }
 
+#if DEBUGFOROLIVER
+    if (log_flags.coproc_debug) {
+        msg_printf(0, MSG_INFO,
+        "[coproc] Creating descriptions for %d NVIDIA OpenCL devices", 
+        (int)nvidia_opencls.size()
+        );
+    }
+#endif
     // Create descriptions for OpenCL NVIDIA GPUs
     //
     for (i=0; i<nvidia_opencls.size(); i++) {
         nvidia_opencls[i].description(buf, GPU_TYPE_NVIDIA);
+#if DEBUGFOROLIVER
+    if (log_flags.coproc_debug) {
+        msg_printf(0, MSG_INFO,
+        "[coproc] Created NVIDIA GPU %d OpenCL description = \"%s\"", 
+        i, buf
+        );
+    }
+#endif
         descs.push_back(string(buf));
     }
 
@@ -401,12 +459,28 @@ cl_int COPROCS::get_opencl_info(
         return ciErrNum;
     }
 
+#if DEBUGFOROLIVER
+    if (log_flags.coproc_debug) {
+        msg_printf(0, MSG_INFO,
+        "[coproc] OpenCL device %d: clGetDeviceInfo got name %s", device_index, prop.name
+        );
+    }
+#endif
+
     ciErrNum = (*__clGetDeviceInfo)(prop.device_id, CL_DEVICE_VENDOR, sizeof(prop.vendor), prop.vendor, NULL);
     if ((ciErrNum != CL_SUCCESS) || (prop.vendor[0] == 0)) {
         sprintf(buf, "clGetDeviceInfo failed to get vendor for GPU %d", (int)device_index);
         warnings.push_back(buf);
         return ciErrNum;
     }
+
+#if DEBUGFOROLIVER
+    if (log_flags.coproc_debug) {
+        msg_printf(0, MSG_INFO,
+        "[coproc] OpenCL device %d: clGetDeviceInfo got vendor %s", device_index, prop.vendor
+        );
+    }
+#endif
 
     ciErrNum = (*__clGetDeviceInfo)(prop.device_id, CL_DEVICE_VENDOR_ID, sizeof(prop.vendor_id), &prop.vendor_id, NULL);
     if (ciErrNum != CL_SUCCESS) {
@@ -499,6 +573,15 @@ cl_int COPROCS::get_opencl_info(
         warnings.push_back(buf);
         return ciErrNum;
     }
+
+#if DEBUGFOROLIVER
+    if (log_flags.coproc_debug) {
+        msg_printf(0, MSG_INFO,
+        "[coproc] OpenCL device %d: clGetDeviceInfo got global memory size %.0fMB", 
+        device_index, prop.global_mem_size/MEGA
+        );
+    }
+#endif
 
     ciErrNum = (*__clGetDeviceInfo)(
         prop.device_id, CL_DEVICE_LOCAL_MEM_SIZE,
@@ -922,7 +1005,12 @@ void COPROC_NVIDIA::get(
         cc.get_available_ram();
         nvidia_gpus.push_back(cc);
     }
-
+#if FAKE2NVIDIAS
+memset(&cc.prop, 0, sizeof(cc.prop));
+cc.fake(0x40032, 256*MEGA, 64*MEGA, 1);
+cc.device_num = 1;
+nvidia_gpus.push_back(cc);
+#endif
     if (!nvidia_gpus.size()) {
         warnings.push_back("No CUDA-capable NVIDIA GPUs found");
         return;
@@ -990,6 +1078,9 @@ void COPROC_NVIDIA::fake(
    prop.totalConstMem = 10;
    prop.major = 1;
    prop.minor = 2;
+#if FAKE2NVIDIAS
+   prop.minor = 0;
+#endif
    prop.clockRate = 1250000;
    prop.textureAlignment = 1000;
    prop.multiProcessorCount = 14;

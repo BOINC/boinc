@@ -673,3 +673,9 @@ David  18 Jan 2012
     html/user/
         lammps.php
         sandbox.php
+
+Charlie 18 Jan 2012
+    - client: add debugging aids to coproc_detect logic.
+        
+    client/
+        coproc_detect.cpp
