@@ -430,7 +430,7 @@ strcpy(prop.opencl_driver_version, "CLH 1.0");
     } else {
         ati.find_best_opencls(use_all, ati_opencls, ignore_ati_dev);
         ati.attribs.localRAM = ati.opencl_prop.global_mem_size/MEGA;
-        ati.available_ram = ati.opencl_prop.global_mem_size/MEGA;
+        ati.available_ram = ati.opencl_prop.global_mem_size;
         ati.attribs.engineClock = ati.opencl_prop.max_clock_frequency;
     }           // End if (! ati.have_cal)
 

@@ -674,7 +674,6 @@ David  18 Jan 2012
         lammps.php
         sandbox.php
 
-
 Charlie 18 Jan 2012
     - client: add debugging aids to coproc_detect logic.
         
@@ -688,3 +687,11 @@ Charlie 18 Jan 2012
     /
         configure.ac
         version.h
+
+Charlie 18 Jan 2012
+    - client: ATI available RAM is in bytes, not MB; if no CAL, don't divide 
+        OpenCL global_mem_size by MEGA to fill in ATI available RAM.
+        (Checked in to 7.0.11 tag.)
+        
+    client/
+        coproc_detect.cpp
