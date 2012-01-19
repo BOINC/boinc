@@ -1512,15 +1512,13 @@ int RPC_CLIENT::get_disk_usage(DISK_USAGE& du) {
 }
 
 int DAILY_STATS::parse(XML_PARSER& xp) {
-    char buf[256];
-    MIOFILE& in = *(xp.f);
-    while (in.fgets(buf, 256)) {
-        if (match_tag(buf, "</daily_statistics>")) return 0;
-        if (parse_double(buf, "<day>", day)) continue;
-        if (parse_double(buf, "<user_total_credit>", user_total_credit)) continue;
-        if (parse_double(buf, "<user_expavg_credit>", user_expavg_credit)) continue;
-        if (parse_double(buf, "<host_total_credit>", host_total_credit)) continue;
-        if (parse_double(buf, "<host_expavg_credit>", host_expavg_credit)) continue;
+    while (!xp.get_tag()) {
+        if (xp.match_tag("/daily_statistics")) return 0;
+        if (xp.parse_double("day", day)) continue;
+        if (xp.parse_double("user_total_credit", user_total_credit)) continue;
+        if (xp.parse_double("user_expavg_credit", user_expavg_credit)) continue;
+        if (xp.parse_double("host_total_credit", host_total_credit)) continue;
+        if (xp.parse_double("host_expavg_credit", host_expavg_credit)) continue;
     }
     return ERR_XML_PARSE;
 }

@@ -48,15 +48,16 @@ function make_graph($input, $prefix, $title, $index) {
     fprintf($f, "set terminal png small size 1024, 768
 set title \"$title\"
 set yrange[0:]
-plot ");
+");
     $n = sizeof($input->policy);
     $i = 0;
     foreach ($input->policy as $p) {
         $fname = $input->name."_$p.dat";
-        fprintf($f, "plot $fname using 1:$index title \"$p\" with lines");
+        fprintf($f, "plot \"$fname\" using 1:$index title \"$p\" with lines");
         if ($i < $n-1) {
             fprintf($f, ", \\");
         }
+        fprintf($f, "\n");
         $i++;
     }
     fclose($f);

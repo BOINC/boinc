@@ -727,3 +727,15 @@ David  18 Jan 2012
 
 	clientgui/
 		BOINCBaseView.cpp
+
+David  19 Jan 2012
+    - client: parse HOST_INFO::p_vm_extensions_disabled correctly
+
+    lib/
+        hostinfo.cpp
+        proxy_info.cpp
+        gui_rpc_client_ops.cpp
+        coproc.cpp
+    version.h
+    ssim/
+        ssim.php
