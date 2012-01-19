@@ -739,3 +739,13 @@ David  19 Jan 2012
     version.h
     ssim/
         ssim.php
+
+Charlie 19 Jan 2012
+    - Mac installer: If installing under OS 10.4, create users and groups 
+        boinc_master and boinc_project at first available UserIDs and 
+        GroupIDs starting at 25 instead of 501 to prevent problems with 
+        Accounts pane of System Preferences.
+
+    clientgui/
+        mac/
+            SetupSecurity.cpp
