@@ -817,45 +817,11 @@ int VBOX_VM::register_vm() {
     command += "--port 0 ";
     command += "--device 0 ";
     command += "--type hdd ";
+    command += "--setuuid \"\" ";
     command += "--medium \"" + virtual_machine_slot_directory + "/" + image_filename + "\" ";
 
-    retval = vbm_popen(command, output, "storage attach (fixed disk)", false);
-    if (retval) {
-        // Is this an error condition we know how to handle?
-
-        // Check to see if the Virtual HD UUID needs to be reset
-        if ((output.find("E_INVALIDARG") != string::npos) && (output.find("already exists") != string::npos)) {
-
-            command  = "internalcommands ";
-            command += "sethduuid \"" + virtual_machine_slot_directory + "/" + image_filename + "\" ";
-
-            retval = vbm_popen(command, output, "sethduuid");
-            if (retval) return retval;
-    
-            // Now lets try to attach the Virtual HD
-            command  = "storageattach \"" + vm_name + "\" ";
-            command += "--storagectl \"IDE Controller\" ";
-            command += "--port 0 ";
-            command += "--device 0 ";
-            command += "--type hdd ";
-            command += "--medium \"" + virtual_machine_slot_directory + "/" + image_filename + "\" ";
-
-            retval = vbm_popen(command, output, "storage attach (fixed disk)");
-            if (retval) return retval;
-
-        } else {
-            fprintf(
-                stderr,
-                "%s Error in %s for VM: %d\nCommand:\n%s\nOutput:\n%s\n",
-                boinc_msg_prefix(buf, sizeof(buf)),
-                "storage attach (fixed disk)",
-                retval,
-                command.c_str(),
-                output.c_str()
-            );
-            return retval;
-        }
-    }
+    retval = vbm_popen(command, output, "storage attach (fixed disk)");
+    if (retval) return retval;
 
     // Adding virtual floppy disk drive to VM
     //

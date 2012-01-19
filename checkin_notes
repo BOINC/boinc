@@ -713,3 +713,10 @@ David  18 Jan 2012
             wap.inc
         user/
             userw.php
+
+Rom    18 Jan 2011
+    - VBOX: Use the documented way to reset the UUID of a virtual hard
+        disk.  Thanks Daniel.
+        
+     samples/vboxwrapper
+        vbox.cpp
