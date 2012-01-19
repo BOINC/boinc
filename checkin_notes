@@ -714,9 +714,16 @@ David  18 Jan 2012
         user/
             userw.php
 
-Rom    18 Jan 2011
+Rom    18 Jan 2012
     - VBOX: Use the documented way to reset the UUID of a virtual hard
         disk.  Thanks Daniel.
         
      samples/vboxwrapper
         vbox.cpp
+
+David  18 Jan 2012
+	- Manager: in project web links, use "Home Page" instead of the
+		project name (which could be very long)
+
+	clientgui/
+		BOINCBaseView.cpp

@@ -787,12 +787,12 @@ void CBOINCBaseView::UpdateWebsiteSelection(long lControlGroup, PROJECT* project
         if (m_pListPane->GetSelectedItemCount()) {
             if (project) {
                 // Create the web sites task group
-                pGroup = new CTaskItemGroup( _("Web sites") );
+                pGroup = new CTaskItemGroup( _("Project web pages") );
                 m_TaskGroups.push_back( pGroup );
 
                 // Default project url
                 pItem = new CTaskItem(
-                    wxString(project->project_name.c_str(), wxConvUTF8), 
+                    wxString("Home page", wxConvUTF8), 
                     wxT(""), 
                     wxString(project->master_url, wxConvUTF8),
                     ID_TASK_PROJECT_WEB_PROJDEF_MIN
