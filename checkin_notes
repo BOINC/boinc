@@ -749,3 +749,10 @@ Charlie 19 Jan 2012
     clientgui/
         mac/
             SetupSecurity.cpp
+
+David  19 Jan 2012
+    - storage simulator work
+
+    ssim/
+        ssim.cpp
+        ssim.php

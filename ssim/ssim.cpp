@@ -24,6 +24,7 @@
 //  [--host_life_mean x]
 //  [--connect_interval x]
 //  [--mean_xfer_rate x]
+//  [--file_size x]
 //
 // outputs:
 //   stdout: log info
@@ -76,6 +77,8 @@ struct PARAMS {
     double host_life_mean;
     double connect_interval;
     double mean_xfer_rate;
+    double file_size;
+    double sim_duration;
 
     int replication;
     int coding_levels;
@@ -87,6 +90,8 @@ struct PARAMS {
         host_life_mean = 100.*86400;
         connect_interval = 86400.;
         mean_xfer_rate = .2e6;
+        file_size = 1e12;
+        sim_duration = 1000.*86400;
         coding_levels = 1;
         codings[0].n = 10;
         codings[0].k = 6;
@@ -96,11 +101,13 @@ struct PARAMS {
     }
     int parse_policy(const char* filename) {
         int n;
+        char buf[256];
         FILE* f = fopen(filename, "r");
         if (!f) {
             fprintf(stderr, "No policy file %s\n", filename);
             exit(1);
         }
+        fgets(buf, sizeof(buf), f);     // title
         n = fscanf(f, "%d", &replication);
         if (n != 1) {
             fprintf(stderr, "parse error in %s\n", filename);
@@ -976,6 +983,8 @@ int main(int argc, char** argv) {
             p.connect_interval = atof(argv[++i]);
         } else if (!strcmp(argv[i], "--mean_xfer_rate")) {
             p.mean_xfer_rate = atof(argv[++i]);
+        } else if (!strcmp(argv[i], "--file_size")) {
+            p.file_size = atof(argv[++i]);
         } else {
             fprintf(stderr, "bad arg %s\n", argv[i]);
             exit(1);
@@ -992,10 +1001,10 @@ int main(int argc, char** argv) {
         sim.insert(new HOST);
     }
 #endif
-    DFILE* dfile = new DFILE(1e12);
+    DFILE* dfile = new DFILE(p.file_size);
     sim.insert(dfile);
 
-    sim.simulate(1000*86400);
+    sim.simulate(p.sim_duration);
 
     printf("%s: simulation finished\n", now_str());
     dfile->print_stats();
