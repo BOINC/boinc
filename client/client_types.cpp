@@ -845,6 +845,7 @@ FILE_INFO::FILE_INFO() {
     uploaded = false;
     sticky = false;
     gzip_when_done = false;
+    download_gzipped = false;
     signature_required = false;
     is_user_file = false;
     is_project_file = false;
@@ -922,12 +923,18 @@ int FILE_INFO::parse(XML_PARSER& xp) {
     PERS_FILE_XFER *pfxp;
     int retval;
     bool btemp;
+    vector<string>gzipped_urls;
 
     while (!xp.get_tag()) {
         if (xp.match_tag("/file_info") || xp.match_tag("/file")) {
             if (!strlen(name)) return ERR_BAD_FILENAME;
             if (strstr(name, "..")) return ERR_BAD_FILENAME;
             if (strstr(name, "%")) return ERR_BAD_FILENAME;
+            if (gzipped_urls.size() > 0) {
+                download_urls.clear();
+                download_urls.urls = gzipped_urls;
+                download_gzipped = true;
+            }
             return 0;
         }
         if (xp.match_tag("xml_signature")) {
@@ -979,6 +986,10 @@ int FILE_INFO::parse(XML_PARSER& xp) {
             upload_urls.urls.push_back(url);
             continue;
         }
+        if (xp.parse_string("gzipped_url", url)) {
+            gzipped_urls.push_back(url);
+            continue;
+        }
         if (xp.parse_str("md5_cksum", md5_cksum, sizeof(md5_cksum))) continue;
         if (xp.parse_double("nbytes", nbytes)) continue;
         if (xp.parse_double("max_nbytes", max_nbytes)) continue;
@@ -987,6 +998,7 @@ int FILE_INFO::parse(XML_PARSER& xp) {
         if (xp.parse_bool("uploaded", uploaded)) continue;
         if (xp.parse_bool("sticky", sticky)) continue;
         if (xp.parse_bool("gzip_when_done", gzip_when_done)) continue;
+        if (xp.parse_bool("download_gzipped", download_gzipped)) continue;
         if (xp.parse_bool("signature_required", signature_required)) continue;
         if (xp.parse_bool("is_project_file", is_project_file)) continue;
         if (xp.parse_bool("no_delete", btemp)) continue;
@@ -1061,6 +1073,7 @@ int FILE_INFO::write(MIOFILE& out, bool to_server) {
         if (uploaded) out.printf("    <uploaded/>\n");
         if (sticky) out.printf("    <sticky/>\n");
         if (gzip_when_done) out.printf("    <gzip_when_done/>\n");
+        if (download_gzipped) out.printf("    <download_gzipped>\n");
         if (signature_required) out.printf("    <signature_required/>\n");
         if (is_user_file) out.printf("    <is_user_file/>\n");
         if (strlen(file_signature)) out.printf("    <file_signature>\n%s\n</file_signature>\n", file_signature);
@@ -1198,6 +1211,7 @@ int FILE_INFO::merge_info(FILE_INFO& new_info) {
 
     download_urls.replace(new_info.download_urls);
     upload_urls.replace(new_info.upload_urls);
+    download_gzipped = new_info.download_gzipped;
 
     // replace signatures
     //
@@ -1265,6 +1279,33 @@ int FILE_INFO::gzip() {
     }
     fclose(in);
     gzclose(out);
+    delete_project_owned_file(inpath, true);
+    boinc_rename(outpath, inpath);
+    return 0;
+}
+
+int FILE_INFO::gunzip() {
+    char buf[BUFSIZE];
+    char inpath[256], outpath[256];
+
+    get_pathname(this, outpath, sizeof(outpath));
+    strcpy(inpath, outpath);
+    strcat(inpath, ".gz");
+    FILE* out = boinc_fopen(outpath, "rb");
+    if (!out) return ERR_FOPEN;
+    gzFile in = gzopen(inpath, "rb");
+    while (1) {
+        int n = gzread(in, buf, BUFSIZE);
+        if (n <= 0) break;
+        int m = (int)fwrite(buf, 1, BUFSIZE, out);
+        if (m != n) {
+            gzclose(in);
+            fclose(out);
+            return ERR_WRITE;
+        }
+    }
+    gzclose(in);
+    fclose(out);
     delete_project_owned_file(inpath, true);
     boinc_rename(outpath, inpath);
     return 0;

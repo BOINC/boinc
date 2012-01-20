@@ -801,3 +801,30 @@ David  20 Jan 2012
         vda.cpp,h (new)
         ssim.cpp
         makefile
+
+David  20 Jan 2012
+    - client: add a mechanism for restartable download of compressed files.
+        (It turns out that the compression schemes supported by
+        Apache and libcurl, suprisingly, aren't restartable.)
+
+        if a <file_info> from the server contains <gzipped_url> tags,
+        use those instead of the <url> tags,
+        and flag the file as "download_gzipped".
+        If this is the case, download NAME.gz and save it as NAME.gzt.
+        When the download is complete, rename NAME.gzt to NAME.gz,
+        and uncompress it to NAME.
+        (this ensures that if NAME.gz is present, it's complete).
+        Also do the uncompression, if needed, in verify_file().
+        This ensures that the uncompression will eventually get done
+        even if the client quits are crashes in the middle.
+
+    - update_versions: if <gzip> is present in a <file_info>,
+        add a gzipped copy in the download directory
+        and add a <gzipped_url> elements to the app version's xml_doc.
+
+    client/
+        client_types.cpp,h
+        file_xfer.cpp
+        cs_files.cpp
+    tools/
+        update_versions

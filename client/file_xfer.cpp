@@ -53,6 +53,9 @@ int FILE_XFER::init_download(FILE_INFO& file_info) {
     is_upload = false;
     fip = &file_info;
     get_pathname(fip, pathname, sizeof(pathname));
+    if (fip->download_gzipped) {
+        strcat(pathname, ".gzt");
+    }
 
     // if file is already as large or larger than it's supposed to be,
     // something's screwy; start reading it from the beginning.

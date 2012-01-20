@@ -131,6 +131,16 @@ int FILE_INFO::verify_file(bool strict, bool show_errors) {
 
     get_pathname(this, pathname, sizeof(pathname));
 
+    if (download_gzipped) {
+        char gzpath[256];
+        sprintf(gzpath, "%s.gz", pathname);
+        if (boinc_file_exists(gzpath) && !boinc_file_exists(pathname)) {
+            retval = gunzip();
+            if (retval) return retval;
+        }
+    }
+
+
     // If the file isn't there at all, set status to FILE_NOT_PRESENT;
     // this will trigger a new download rather than erroring out
     //
@@ -294,6 +304,16 @@ bool CLIENT_STATE::create_and_delete_pers_file_xfers() {
                 active_tasks.upload_notify_app(fip);
             } else if (fip->status >= 0) {
                 // file transfer did not fail (non-negative status)
+
+                // If this was a compressed download, rename .gzt to .gz
+                //
+                if (fip->download_gzipped) {
+                    char path[256], from_path[256], to_path[256];
+                    get_pathname(fip, path, sizeof(path));
+                    sprintf(from_path, "%s.gzt", path);
+                    sprintf(to_path, "%s.gz", path);
+                    boinc_rename(from_path, to_path);
+                }
 
                 // verify the file with RSA or MD5, and change permissions
                 //

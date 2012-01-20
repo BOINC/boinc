@@ -62,6 +62,9 @@ function file_info_xml($fd) {
         }
     } else {
         $xml .= "    <url>$fd->url</url>\n";
+        if ($fd->gzip) {
+            $xml .= "    <gzipped_url>$url.gz</gzipped_url>\n";
+        }
     }
     if ($fd->executable || $fd->main_program) {
         $xml .= "    <executable/>\n";
@@ -136,7 +139,10 @@ function stage_file($a, $v, $p, $fd) {
     
     $fd->url = "$download_url/$name";
     if ($fd->gzip && !file_exists("$dl_path.gz")) {
+        $tmp = "$dl_path.tmp";
+        system("cp $dl_path $tmp);
         system("gzip $dl_path");
+        system("mv $tmp $dl_path);
     }
     return $fd;
 }

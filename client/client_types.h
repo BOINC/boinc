@@ -124,6 +124,8 @@ struct FILE_INFO {
     int ref_cnt;
     URL_LIST download_urls;
     URL_LIST upload_urls;
+    bool download_gzipped;
+        // if set, download NAME.gz and gunzip it to NAME
     char xml_signature[MAX_SIGNATURE_LEN];
         // the upload signature
     char file_signature[MAX_SIGNATURE_LEN];
@@ -149,6 +151,8 @@ struct FILE_INFO {
     bool verify_file_certs();
     int gzip();
         // gzip file and add .gz to name
+    int gunzip();
+        // unzip file and remove .gz from filename
     inline bool uploadable() {
         return !upload_urls.empty();
     }
