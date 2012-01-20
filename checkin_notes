@@ -762,3 +762,34 @@ Charlie 20 Jan 2012
     
     client/
         client_state.cpp
+
+Charlie 20 Jan 2012
+    - OpenCL: 
+        Problem: Mac OpenCL does not recognize all NVIDIA GPUs returned 
+        by CUDA.  Since there is no CAL for Mac, this is not an issue 
+        for ATI / AMD GPUs.  On other platforms, the CUDA and CAL drivers 
+        also provide OpenCL suport, so we don't expect the problem there.
+        
+        Solution: I believe that CUDA and OpenCL return identical GPU 
+        model names for the same GPU, and that both return the GPUs in the 
+        same order (but with some possibly omitted from the OpenCL sequence.)
+        We use that information to correlate the OpenCL data with CUDA data. 
+        We use our internal CUDA device_num for the corresponding OpenCL 
+        device, but add a new field opencl_device_index; the two fields are 
+        equal unless we have CUDA devices not recognized by OpenCL.  We 
+        add a new array opencl_device_indexes[] to the COPROC struct, 
+        corresponding to the entries in device_nums[].
+        
+        The init_data.xml file now has a new field gpu_opencl_device_index.  
+        If this field exists, the boinc_get_opencl_ids() API uses this to 
+        find the cl_device_id and cl_platform_id, otherwise it continues 
+        to use the value in gpu_device_num.
+        
+    api/
+        boinc_opencl.cpp
+    client/
+        app_start.cpp
+        coproc_detect.cpp
+    lib/
+        app_ipc.cpp,.h
+        coproc.h

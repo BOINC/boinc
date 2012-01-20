@@ -251,9 +251,12 @@ void ACTIVE_TASK::init_app_init_data(APP_INIT_DATA& aid) {
             k = 0;
         }
         aid.gpu_device_num = cp.device_nums[k];
+        aid.gpu_opencl_dev_index = cp.opencl_device_indexes[k];
     } else {
         strcpy(aid.gpu_type, "");
         aid.gpu_device_num = -1;
+        aid.gpu_opencl_dev_index = -1;
+
     }
     aid.ncpus = app_version->avg_ncpus;
     aid.checkpoint_period = gstate.global_prefs.disk_interval;

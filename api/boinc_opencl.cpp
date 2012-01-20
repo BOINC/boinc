@@ -94,6 +94,7 @@ int boinc_get_opencl_ids_aux(
 int boinc_get_opencl_ids(cl_device_id* device, cl_platform_id* platform) {
     int retval;
     APP_INIT_DATA aid;
+    int opencl_device_index;
 
     retval = boinc_parse_init_data_file();
     if (retval) return retval;
@@ -104,13 +105,19 @@ int boinc_get_opencl_ids(cl_device_id* device, cl_platform_id* platform) {
         return ERR_NOT_FOUND;
     }
     
-    if (aid.gpu_device_num < 0) {
+    opencl_device_index = aid.gpu_opencl_dev_index;
+    if (opencl_device_index < 0) {
+        // Older versions of init_data.xml don't have gpu_opencl_dev_index field
+        opencl_device_index = aid.gpu_device_num;
+    }
+
+    if (opencl_device_index < 0) {
         fprintf(stderr, "GPU device # not found in %s\n", INIT_DATA_FILE);
         return ERR_NOT_FOUND;
     }
 
     retval = boinc_get_opencl_ids_aux(
-        aid.gpu_type, aid.gpu_device_num, device, platform
+        aid.gpu_type, opencl_device_index, device, platform
     );
 
     return retval;
