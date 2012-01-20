@@ -756,3 +756,9 @@ David  19 Jan 2012
     ssim/
         ssim.cpp
         ssim.php
+
+Charlie 20 Jan 2012
+    - client: Show GPU number in "GPU is OpenCL-capable" message.
+    
+    client/
+        client_state.cpp

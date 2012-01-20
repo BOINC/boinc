@@ -408,7 +408,7 @@ int CLIENT_STATE::init() {
 	for (int j=1; j<coprocs.n_rsc; j++) {
 		COPROC& cp = coprocs.coprocs[j];
 		if (cp.have_opencl) {
-			msg_printf(NULL, MSG_INFO, "%s GPU is OpenCL-capable", cp.type);
+			msg_printf(NULL, MSG_INFO, "%s GPU %d is OpenCL-capable", cp.type, cp.device_num);
 		}
 	}
 
