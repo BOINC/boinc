@@ -18,7 +18,7 @@
 
 // client-specific GPU code.  Mostly GPU detection
 
-#define FAKENVIDIACUDA0 1
+#define FAKENVIDIACUDA0 0
 #define FAKE2NVIDIAOPENCLS 0
 #define DEBUGFOROLIVER 1
 
@@ -1042,11 +1042,11 @@ if (j == 0) {
         cc.have_cuda = true;
         cc.cuda_version = cuda_version;
         cc.device_num = j;
+        cc.set_peak_flops();
+        cc.get_available_ram();
 #if FAKENVIDIACUDA0
 cc.device_num = j+1;
 #endif
-        cc.set_peak_flops();
-        cc.get_available_ram();
         nvidia_gpus.push_back(cc);
     }
     if (!nvidia_gpus.size()) {

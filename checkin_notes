@@ -768,7 +768,7 @@ Charlie 20 Jan 2012
         Problem: Mac OpenCL does not recognize all NVIDIA GPUs returned 
         by CUDA.  Since there is no CAL for Mac, this is not an issue 
         for ATI / AMD GPUs.  On other platforms, the CUDA and CAL drivers 
-        also provide OpenCL suport, so we don't expect the problem there.
+        also provide OpenCL support, so we don't expect the problem there.
         
         Solution: I believe that CUDA and OpenCL return identical GPU 
         model names for the same GPU, and that both return the GPUs in the 
