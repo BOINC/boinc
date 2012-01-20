@@ -793,3 +793,11 @@ Charlie 20 Jan 2012
     lib/
         app_ipc.cpp,.h
         coproc.h
+
+David  20 Jan 2012
+    - volunteer data archival stuff
+
+    ssim/
+        vda.cpp,h (new)
+        ssim.cpp
+        makefile
