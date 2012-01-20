@@ -178,6 +178,7 @@ int check_reread_trigger() {
         );
         ssp->init(num_work_items);
         ssp->scan_tables();
+        ssp->perf_info.get_from_db();
         int retval = unlink(config.project_path(REREAD_DB_FILENAME));
         if (retval) {
             // if we can't remove trigger file, exit to avoid infinite loop

@@ -828,3 +828,11 @@ David  20 Jan 2012
         cs_files.cpp
     tools/
         update_versions
+
+David  20 Jan 2012
+    - feeder: if we're rereading the DB because of trigger file,
+        do PERF_INFO::get_from_db() also.
+        From Teemu Mannermaa.
+
+    sched/
+        feeder.cpp
