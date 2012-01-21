@@ -63,7 +63,7 @@ function file_info_xml($fd) {
     } else {
         $xml .= "    <url>$fd->url</url>\n";
         if ($fd->gzip) {
-            $xml .= "    <gzipped_url>$url.gz</gzipped_url>\n";
+            $xml .= "    <gzipped_url>$fd->$url.gz</gzipped_url>\n";
         }
     }
     if ($fd->executable || $fd->main_program) {
