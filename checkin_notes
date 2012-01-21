@@ -836,3 +836,11 @@ David  20 Jan 2012
 
     sched/
         feeder.cpp
+
+David  20 Jan 2012
+    - admin web: if change app or app version params,
+        advise user to stop/restart the project
+
+    html/ops/
+        manage_apps.php
+        manage_app_versions.php

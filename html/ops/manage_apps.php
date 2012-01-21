@@ -48,7 +48,6 @@ for($i=0;$i<$Nplatform;$i++){
  }
 mysql_free_result($result);
 
-
 /***************************************************\
  *  Action: process form input for changes
  \***************************************************/
@@ -85,7 +84,6 @@ if( !empty($_POST) ) {
         }
 
 
-        /* Minimum version limit */
         $field="weight_".$id;
         $new_v= $_POST[$field] + 0;
         $old_v=$item->weight;
@@ -133,7 +131,13 @@ if( !empty($_POST) ) {
 
 admin_page_head("Manage Applications");
 
-if(isset($commands)) echo $commands;
+if (strlen($commands)) {
+    echo "The following updates were done: $commands
+        <p>
+        <b>You must stop and restart the project
+        for these changes to take effect</b>.
+";
+}
 
 
 $self=$_SERVER['PHP_SELF'];

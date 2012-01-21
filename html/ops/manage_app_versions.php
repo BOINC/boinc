@@ -112,7 +112,13 @@ if( !empty($_POST) ) {
 
 admin_page_head("Manage Application Versions");
 
-if($commands) echo $commands;   // show the last DB commands given
+if (strlen($commands)) {
+    echo "The following updates were done: $commands
+        <p>
+        <b>You must stop and restart the project
+        for these changes to take effect.</b>
+";
+}
 
 $self=$_SERVER['PHP_SELF'];
 echo "<form action='$self' method='POST'>\n";
