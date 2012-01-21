@@ -140,9 +140,9 @@ function stage_file($a, $v, $p, $fd) {
     $fd->url = "$download_url/$name";
     if ($fd->gzip && !file_exists("$dl_path.gz")) {
         $tmp = "$dl_path.tmp";
-        system("cp $dl_path $tmp);
+        system("cp $dl_path $tmp");
         system("gzip $dl_path");
-        system("mv $tmp $dl_path);
+        system("mv $tmp $dl_path");
     }
     return $fd;
 }
