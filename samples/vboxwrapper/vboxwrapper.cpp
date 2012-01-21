@@ -56,6 +56,7 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <stdio.h>
+#include <math.h>
 #include <string>
 #include <unistd.h>
 #endif
@@ -286,10 +287,10 @@ int main(int argc, char** argv) {
     double sleep_time = 0.0;
     double bytes_sent = 0.0;
     double bytes_received = 0.0;
+    double ncpus = 0.0;
     bool report_vm_pid = false;
     bool report_net_usage = false;
-    int vm_pid=0;
-    int vm_max_cpus=0;
+    int vm_pid = 0;
     std::string vm_log;
     std::string system_log;
     char buf[256];
@@ -305,7 +306,7 @@ int main(int argc, char** argv) {
             trickle_period = atof(argv[++i]);
         }
         if (!strcmp(argv[i], "--nthreads")) {
-            vm_max_cpus = atoi(argv[++i]);
+            ncpus = atof(argv[++i]);
         }
         if (!strcmp(argv[i], "--register_only")) {
             vm.register_only = true;
@@ -385,11 +386,11 @@ int main(int argc, char** argv) {
             vm.floppy_image_filename = buf;
         }
     }
-    if (aid.ncpus > 1.0 || vm_max_cpus > 1) {
-        if (vm_max_cpus) {
-            sprintf(buf, "%d", vm_max_cpus);
+    if (aid.ncpus > 1.0 || ncpus > 1.0) {
+        if (ncpus) {
+            sprintf(buf, "%d", (int)ceil(ncpus));
         } else {
-            sprintf(buf, "%d", (int)aid.ncpus);
+            sprintf(buf, "%d", (int)ceil(aid.ncpus));
         }
         vm.vm_cpu_count = buf;
     } else {

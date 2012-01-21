@@ -844,3 +844,11 @@ David  20 Jan 2012
     html/ops/
         manage_apps.php
         manage_app_versions.php
+
+Rom    21 Jan 2012
+    - VBOX: Enable the wrapper to handle fractional CPU usage.  If
+        the server specifies 1.1 CPUs used, allocate 2 CPUs to be used
+        in VirtualBox.
+        
+    samples/vboxwrapper
+        vboxwrapper.cpp
