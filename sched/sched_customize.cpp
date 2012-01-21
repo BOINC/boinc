@@ -550,18 +550,20 @@ static inline bool app_plan_vbox(
     }
 
     if (strstr(plan_class, "mt") && can_use_multicore) {
+        // Use number of usable CPUs, taking user prefs into account
         double ncpus = g_wreq->effective_ncpus;
-            // number of usable CPUs, taking user prefs into account
-        int nthreads = (int)ncpus;
-        if (nthreads > 2) nthreads = 2;
-        hu.avg_ncpus = nthreads;
-        sprintf(hu.cmdline, "--nthreads %d", nthreads);
+        // CernVM on average uses between 25%-50% of a second core
+        // Total on a dual-core machine is between 65%-75%
+        if (ncpus > 1.5) ncpus = 1.5;
+        hu.avg_ncpus = ncpus;
+        hu.max_ncpus = 2.0;
+        sprintf(hu.cmdline, "--nthreads %f", ncpus);
     } else {
         hu.avg_ncpus = 1;
+        hu.max_ncpus = 1;
     }
-    hu.max_ncpus = hu.avg_ncpus;
     hu.projected_flops = capped_host_fpops()*hu.avg_ncpus;
-    hu.peak_flops = capped_host_fpops()*hu.avg_ncpus;
+    hu.peak_flops = capped_host_fpops()*hu.max_ncpus;
     if (config.debug_version_select) {
         log_messages.printf(MSG_NORMAL,
             "[version] %s app projected %.2fG\n",

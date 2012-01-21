@@ -852,3 +852,14 @@ Rom    21 Jan 2012
         
     samples/vboxwrapper
         vboxwrapper.cpp
+
+Rom    21 Jan 2012
+    - sched: adjust the vbox??_mt plan classes to use 1.5 CPUs instead
+        of the full 2 CPUs. Vboxwrapper uses ceil() to allocate enough
+        whole CPUs for Virtualbox.  Ideally this will cause the BOINC
+        client-side scheduler to use the remaining fraction of the CPU
+        for GPU data transfer which will then free up one whole CPU for
+        another job.  All without over-commiting anything.
+        
+    sched/
+        sched_customize.cpp
