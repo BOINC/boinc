@@ -903,3 +903,9 @@ Rom    23 Jan 2012
         
     clientgui/
         BOINCGUIApp.cpp, .h
+
+Rom    23 Jan 2012
+    - client - Remove Mac OSX 10.3.9 hack, it is no longer needed.
+    
+    client/
+        http_curl.cpp

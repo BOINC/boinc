@@ -912,11 +912,8 @@ void HTTP_OP::handle_messages(CURLMsg *pcurlMsg) {
         CURLINFO_RESPONSE_CODE, &response
     );
 
-    // CURLINFO_LONG+25 is a workaround for a bug in the gcc version
-    // included with Mac OS X 10.3.9
-    //
     curl_easy_getinfo(curlEasy,
-        (CURLINFO)(CURLINFO_LONG+25) /*CURLINFO_OS_ERRNO*/, &connect_error
+        CURLINFO_OS_ERRNO, &connect_error
     );
 
     // update byte counts and transfer speed
