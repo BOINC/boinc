@@ -1125,6 +1125,7 @@ struct VDA_FILE {
     double chunk_size;
     double created;
     bool need_update;
+    bool inited;
     void clear();
 };
 

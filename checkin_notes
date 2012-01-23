@@ -909,3 +909,16 @@ Rom    23 Jan 2012
     
     client/
         http_curl.cpp
+
+David  23 Jan 2012
+    - scheduler: initialize COPROC_ATI::version to zero;
+        avoid sending spurious "update driver" messages
+
+    lib/
+        coproc.cpp
+    db/
+        boinc_db.cpp,h
+        schema_vda.sql
+    vda/
+        vdad.cpp
+        makefile

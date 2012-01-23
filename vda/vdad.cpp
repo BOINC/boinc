@@ -19,7 +19,23 @@
 
 #include "util.h"
 
+// encode a meta-chunk.
+// precondition: "dir" contains a file "fname".
+// postcondition: dir contains
+//   a subdir Coding with encoded chunks
+//   subdirs fname_k0 ... fname_mn,
+//     each containing a same-named symbolic link to the corresponding chunk
+//
+int encode(ENCODING& e) {
+}
+
+int init_file(VDA_FILE& vf) {
+}
+
 void handle_file(VDA_FILE& vf) {
+    if (!vf.inited) {
+        init_file(vf);
+    }
 }
 
 bool scan_files() {

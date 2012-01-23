@@ -6,6 +6,7 @@ create table vda_file (
     chunk_size              double not null default 0,
     created                 double not null default 0,
     need_update             tinyint not null default 0,
+    inited                  tinyint not null default 0,
     primary key(id)
 ) engine = InnoDB;
 

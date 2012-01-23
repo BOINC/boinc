@@ -666,6 +666,7 @@ void COPROC_ATI::clear() {
     amdrt_detected = false;
     memset(&attribs, 0, sizeof(attribs));
     memset(&info, 0, sizeof(info));
+    version_num = 0;
 }
 
 int COPROC_ATI::parse(XML_PARSER& xp) {
@@ -675,9 +676,13 @@ int COPROC_ATI::parse(XML_PARSER& xp) {
 
     while (!xp.get_tag()) {
         if (xp.match_tag("/coproc_ati")) {
-            int major, minor, release;
-            sscanf(version, "%d.%d.%d", &major, &minor, &release);
-            version_num = ati_version_int(major, minor, release);
+            if (strlen(version)) {
+                int major, minor, release;
+                n = sscanf(version, "%d.%d.%d", &major, &minor, &release);
+                if (n ==3) {
+                    version_num = ati_version_int(major, minor, release);
+                }
+            }
 
             if (!peak_flops) {
 				set_peak_flops();

@@ -2334,13 +2334,15 @@ void DB_VDA_FILE::db_print(char* buf){
         "size=%f, "
         "chunk_size=%f, "
         "created=%f, "
-        "need_update=%d",
+        "need_update=%d, "
+        "inited=%d",
         dir,
         name,
         size,
         chunk_size,
         created,
-        need_update?1:0
+        need_update?1:0,
+        inited?1:0
     );
 }
 
@@ -2354,6 +2356,7 @@ void DB_VDA_FILE::db_parse(MYSQL_ROW &r) {
     chunk_size = atof(r[i++]);
     created = atof(r[i++]);
     need_update = (atoi(r[i++]) != 0);
+    inited = (atoi(r[i++]) != 0);
 }
 
 void DB_VDA_CHUNK_HOST::db_print(char* buf) {
