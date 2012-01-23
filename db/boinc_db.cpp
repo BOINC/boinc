@@ -86,6 +86,8 @@ void SCHED_TRIGGER_ITEM::clear() {
     working_set_removal = false;
 }
 void FILESET_SCHED_TRIGGER_ITEM::clear() {memset(this, 0, sizeof(*this));}
+void VDA_FILE::clear() {memset(this, 0, sizeof(*this));}
+void VDA_CHUNK_HOST::clear() {memset(this, 0, sizeof(*this));}
 
 DB_PLATFORM::DB_PLATFORM(DB_CONN* dc) :
     DB_BASE("platform", dc?dc:&boinc_db){}
@@ -147,6 +149,10 @@ DB_FILESET_SCHED_TRIGGER_ITEM::DB_FILESET_SCHED_TRIGGER_ITEM(DB_CONN* dc) :
     DB_BASE_SPECIAL(dc?dc:&boinc_db){}
 DB_FILESET_SCHED_TRIGGER_ITEM_SET::DB_FILESET_SCHED_TRIGGER_ITEM_SET(DB_CONN* dc) :
     DB_BASE_SPECIAL(dc?dc:&boinc_db){}
+DB_VDA_FILE::DB_VDA_FILE(DB_CONN* dc) :
+    DB_BASE("vda_file", dc?dc:&boinc_db){}
+DB_VDA_CHUNK_HOST::DB_VDA_CHUNK_HOST(DB_CONN* dc) :
+    DB_BASE("vda_chunk_host", dc?dc:&boinc_db){}
 
 int DB_PLATFORM::get_id() {return id;}
 int DB_APP::get_id() {return id;}
@@ -163,6 +169,7 @@ int DB_STATE_COUNTS::get_id() {return appid;}
 int DB_FILE::get_id() {return id;}
 int DB_FILESET::get_id() {return id;}
 int DB_SCHED_TRIGGER::get_id() {return id;}
+int DB_VDA_FILE::get_id() {return id;}
 
 void DB_PLATFORM::db_print(char* buf){
     sprintf(buf,
@@ -2318,6 +2325,66 @@ int DB_FILESET_SCHED_TRIGGER_ITEM_SET::contains_trigger(const char* fileset_name
         }
     }
     return 0;
+}
+
+void DB_VDA_FILE::db_print(char* buf){
+    sprintf(buf,
+        "dir='%s', "
+        "name='%s', "
+        "size=%f, "
+        "chunk_size=%f, "
+        "created=%f, "
+        "need_update=%d",
+        dir,
+        name,
+        size,
+        chunk_size,
+        created,
+        need_update?1:0
+    );
+}
+
+void DB_VDA_FILE::db_parse(MYSQL_ROW &r) {
+    int i=0;
+    clear();
+    id = atoi(r[i++]);
+    strcpy(dir, r[i++]);
+    strcpy(name, r[i++]);
+    size = atof(r[i++]);
+    chunk_size = atof(r[i++]);
+    created = atof(r[i++]);
+    need_update = (atoi(r[i++]) != 0);
+}
+
+void DB_VDA_CHUNK_HOST::db_print(char* buf) {
+    sprintf(buf,
+        "vda_file_id=%d, "
+        "host_id=%d, "
+        "name='%s', "
+        "present_on_host=%d, "
+        "transfer_in_progress=%d, "
+        "transfer_wait=%d, "
+        "transition_time=%f ",
+        vda_file_id,
+        host_id,
+        name,
+        present_on_host,
+        transfer_in_progress,
+        transfer_wait,
+        transition_time
+    );
+}
+
+void DB_VDA_CHUNK_HOST::db_parse(MYSQL_ROW &r) {
+    int i=0;
+    clear();
+    vda_file_id = atoi(r[i++]);
+    host_id = atoi(r[i++]);
+    strcpy(name, r[i++]);
+    present_on_host = (atoi(r[i++]) != 0);
+    transfer_in_progress = (atoi(r[i++]) != 0);
+    transfer_wait = (atoi(r[i++]) != 0);
+    transition_time = atof(r[i++]);
 }
 
 const char *BOINC_RCSID_ac374386c8 = "$Id$";

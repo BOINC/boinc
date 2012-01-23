@@ -1117,4 +1117,39 @@ public:
     std::vector<DB_FILESET_SCHED_TRIGGER_ITEM> items;
 };
 
+struct VDA_FILE {
+    int id;
+    char dir[256];
+    char name[256];
+    double size;
+    double chunk_size;
+    double created;
+    bool need_update;
+    void clear();
+};
+
+struct VDA_CHUNK_HOST {
+    int vda_file_id;
+    int host_id;        // zero if we're waiting for a host
+    char name[256];
+    bool present_on_host;
+    bool transfer_in_progress;
+    bool transfer_wait;
+    double transition_time;
+    void clear();
+};
+
+struct DB_VDA_FILE : public DB_BASE, public VDA_FILE {
+    DB_VDA_FILE(DB_CONN* p=0);
+    int get_id();
+    void db_print(char*);
+    void db_parse(MYSQL_ROW &row);
+};
+
+struct DB_VDA_CHUNK_HOST : public DB_BASE, public VDA_CHUNK_HOST {
+    DB_VDA_CHUNK_HOST(DB_CONN* p=0);
+    void db_print(char*);
+    void db_parse(MYSQL_ROW &row);
+};
+
 #endif

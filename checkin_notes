@@ -863,3 +863,23 @@ Rom    21 Jan 2012
         
     sched/
         sched_customize.cpp
+
+David  22 Jan 2012
+    - GUI RPC: switching to the new XML parser
+        (which won't parse a double as an int)
+        revealed a type mismatch in FILE_TRANSFER::next_request_time
+        between client and server.
+
+    db/
+        boinc_db.cpp,h
+        schema_vda.sql (new)
+    lib/
+        gui_rpc_client_ops.cpp
+        gui_rpc_client.h
+    ssim/
+        vda.cpp
+        vda_lib.cpp,h
+        vda_transitioner.cpp
+        makefile
+    client/
+        net_stats.cpp

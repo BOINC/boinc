@@ -308,8 +308,8 @@ public:
     bool pers_xfer_active;
     bool xfer_active;
     int num_retries;
-    int first_request_time;
-    int next_request_time;
+    double first_request_time;
+    double next_request_time;
     int status;
     double time_so_far;
     double bytes_xferred;

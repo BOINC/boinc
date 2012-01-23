@@ -624,8 +624,8 @@ int FILE_TRANSFER::parse(XML_PARSER& xp) {
             is_upload = generated_locally;
         }
         if (xp.parse_int("num_retries", num_retries)) continue;
-        if (xp.parse_int("first_request_time", first_request_time)) continue;
-        if (xp.parse_int("next_request_time", next_request_time)) continue;
+        if (xp.parse_double("first_request_time", first_request_time)) continue;
+        if (xp.parse_double("next_request_time", next_request_time)) continue;
         if (xp.parse_int("status", status)) continue;
         if (xp.parse_double("time_so_far", time_so_far)) continue;
         if (xp.parse_double("last_bytes_xferred", bytes_xferred)) continue;

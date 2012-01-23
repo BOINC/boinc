@@ -420,6 +420,9 @@ void DAILY_XFER_HISTORY::totals(int ndays, double& up, double& down) {
     }
 }
 
+// tell the scheduler how much we've used in the quota period
+// (currently not used by scheduler)
+//
 void DAILY_XFER_HISTORY::write_scheduler_request(MIOFILE& mf, int ndays) {
     double up, down;
     totals(ndays, up, down);
