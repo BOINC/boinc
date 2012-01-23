@@ -18,7 +18,7 @@
 #include <stdio.h>
 #include <string.h>
 
-#include "vda.h"
+#include "vda_lib.h"
 
 int POLICY::parse(const char* filename) {
     int n;

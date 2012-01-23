@@ -17,6 +17,8 @@
 
 #include "boinc_db.h"
 
+#include "util.h"
+
 void handle_file(VDA_FILE& vf) {
 }
 
@@ -24,28 +26,33 @@ bool scan_files() {
     DB_VDA_FILE vf;
     bool found = false;
 
-    while (vda_file.enum("need_update<>0")) {
+    while (vf.enumerate("need_update<>0")) {
         found = true;
         handle_file(vf);
     }
     return found;
 }
 
-void handle_chunk(VDA_CHUNK_HOST* ch) {
+void handle_chunk(VDA_CHUNK_HOST& ch) {
 }
 
-void scan_chunks() {
+bool scan_chunks() {
     DB_VDA_CHUNK_HOST ch;
+    char buf[256];
+    bool found = false;
 
-    double now = dtime();
-    while (ch.enum("transition_time < %f")) {
+    sprintf(buf, "transition_time < %f", dtime());
+    while (ch.enumerate(buf)) {
+        found = true;
+        handle_chunk(ch);
     }
+    return found;
 }
 
 int main(int argc, char** argv) {
     while(1) {
         bool action = scan_files();
-        action != scan_chunks();
+        action |= scan_chunks();
         if (!action) boinc_sleep(5.);
     }
 }

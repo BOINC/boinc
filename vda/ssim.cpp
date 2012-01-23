@@ -41,7 +41,7 @@
 #include <set>
 
 #include "des.h"
-#include "vda.h"
+#include "vda_lib.h"
 
 using std::set;
 
