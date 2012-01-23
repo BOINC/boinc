@@ -653,9 +653,10 @@ void PROJECT::compute_sched_priority() {
     // than those with positive resource share
     //
     if (resource_share == 0) {
-        sched_priority = -1e6 - rec_frac;
+        sched_priority = -1e3 - rec_frac;
+    } else {
+        sched_priority = - rec_frac/resource_share_frac;
     }
-    sched_priority = - rec_frac/resource_share_frac;
 }
 
 // called from the scheduler's job-selection loop;

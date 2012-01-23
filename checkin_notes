@@ -113,10 +113,10 @@ David  3 Jan 2012
         lammps.php
 
 David  3 Jan 2012
-	- client: calculate disk share for zero-priority projects correctly
+    - client: calculate disk share for zero-priority projects correctly
 
-	client/
-		cs_prefs.cpp
+    client/
+        cs_prefs.cpp
 
 Rom    3 Jan 2012
     - client: Remove scaling factor for AMD OpenCL devices.  Latest
@@ -245,10 +245,10 @@ Rom    6 Jan 2012
         vbox.cpp
 
 David  6 Jan 2012
-	- manager: parse message contents with XML_PARSER::element_content().
+    - manager: parse message contents with XML_PARSER::element_content().
 
-	lib/
-		gui_rpc_client_ops.cpp
+    lib/
+        gui_rpc_client_ops.cpp
 
 David  6 Jan 2012
     - validator: for credit_from_runtime,
@@ -537,10 +537,10 @@ David  13 Jan 2012
     zip/*
 
 David  13 Jan 2012
-	- GUI RPC: add <xml> tag to the start of HTTP replies.
-	
-	client/
-		gui_rpc_server_ops.cpp
+    - GUI RPC: add <xml> tag to the start of HTTP replies.
+    
+    client/
+        gui_rpc_server_ops.cpp
 
 David  14 Jan 2012
     - client: identify ATI 97x0 GPUs (from Jord)
@@ -549,10 +549,10 @@ David  14 Jan 2012
         coproc_detect.cpp
 
 David  14 Jan 2012
-	- GUI RPC client: don't write spurious messages to stderr
+    - GUI RPC client: don't write spurious messages to stderr
 
-	lib/
-		gui_rpc_client_ops.cpp
+    lib/
+        gui_rpc_client_ops.cpp
 
 Rom    14 Jan 2012
     - VBOX: Fix regression where the vm_name wasn't reset back to the
@@ -722,11 +722,11 @@ Rom    18 Jan 2012
         vbox.cpp
 
 David  18 Jan 2012
-	- Manager: in project web links, use "Home Page" instead of the
-		project name (which could be very long)
+    - Manager: in project web links, use "Home Page" instead of the
+        project name (which could be very long)
 
-	clientgui/
-		BOINCBaseView.cpp
+    clientgui/
+        BOINCBaseView.cpp
 
 David  19 Jan 2012
     - client: parse HOST_INFO::p_vm_extensions_disabled correctly
@@ -883,3 +883,10 @@ David  22 Jan 2012
         makefile
     client/
         net_stats.cpp
+
+David  22 Jan 2012
+    - client: fix divide-by-zero bug in calculation of priority
+        of projects with zero resource share
+
+    client/
+        cpu_sched.cpp
