@@ -168,6 +168,7 @@ public:
 
     bool                SetActiveGUI(int iGUISelection, bool bShowWindow = true);
     
+    void                OnActivateApp( wxActivateEvent& event );
     void                OnRPCFinished( CRPCFinishedEvent& event );
     
     int                 ConfirmExit();

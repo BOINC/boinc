@@ -890,3 +890,16 @@ David  22 Jan 2012
 
     client/
         cpu_sched.cpp
+
+Rom    23 Jan 2012
+    - MGR: Tweak the z-order of BOINC Manager owned windows a little bit.
+        Image a case where BOINC Manager and the BOINC Manager event log
+        live side-by-side or only slightly overlapped, and the user wants
+        to use a full screen/maximized window.  If the bring the BOINC
+        manager window back into focus while that app is still running
+        make sure the event log comes forward as well.  The event log
+        should appear behind the main window in the case they are
+        overlapped.
+        
+    clientgui/
+        BOINCGUIApp.cpp, .h

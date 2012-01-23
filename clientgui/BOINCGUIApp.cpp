@@ -60,6 +60,7 @@ IMPLEMENT_APP(CBOINCGUIApp)
 IMPLEMENT_DYNAMIC_CLASS(CBOINCGUIApp, wxApp)
 
 BEGIN_EVENT_TABLE (CBOINCGUIApp, wxApp)
+    EVT_ACTIVATE_APP(CBOINCGUIApp::OnActivateApp)
     EVT_RPC_FINISHED(CBOINCGUIApp::OnRPCFinished)
 END_EVENT_TABLE ()
 
@@ -787,6 +788,17 @@ int CBOINCGUIApp::IdleTrackerDetach() {
 }
 
 
+void CBOINCGUIApp::OnActivateApp(wxActivateEvent& event) {
+    if (event.GetActive()) {
+        if (m_pEventLog && !m_pEventLog->IsIconized()) {
+            m_pEventLog->Raise();
+        }
+        m_pFrame->Raise();
+    }
+    event.Skip();
+}
+
+
 void CBOINCGUIApp::OnRPCFinished( CRPCFinishedEvent& event ) {
     CMainDocument*      pDoc = wxGetApp().GetDocument();
    
@@ -839,7 +851,7 @@ int CBOINCGUIApp::StartBOINCDefaultScreensaverTest() {
 // Display the Event Log, it is a modeless dialog not owned by any
 // other UI element.
 void CBOINCGUIApp::DisplayEventLog(bool bShowWindow) {
-    if (m_pEventLog ) {
+    if (m_pEventLog) {
         if (bShowWindow) {
             if (m_pEventLog->IsIconized()) {
                 m_pEventLog->Iconize(false);
@@ -991,17 +1003,20 @@ bool CBOINCGUIApp::SetActiveGUI(int iGUISelection, bool bShowWindow) {
     }
 
     // Show the new frame if needed 
-    if (m_pFrame && !m_pFrame->IsShown() && bShowWindow) {
-        m_pFrame->Show();
-        m_pFrame->Raise();
+    if (m_pFrame && bShowWindow) {
+        if (m_pEventLog) {
+            m_pEventLog->Show();
+            m_pEventLog->Raise();
 #ifdef __WXMSW__
-        ::SetForegroundWindow((HWND)m_pFrame->GetHWND());
+            ::SetForegroundWindow((HWND)m_pEventLog->GetHWND());
 #endif
-    }
+        }
 
-    // Raise the frame to the top of the Z order if needed
-    if (m_pFrame && m_pFrame->IsShown() && bShowWindow) {
+        if (!m_pFrame->IsShown()) {
+            m_pFrame->Show();
+        }
         m_pFrame->Raise();
+
 #ifdef __WXMSW__
         ::SetForegroundWindow((HWND)m_pFrame->GetHWND());
 #endif
