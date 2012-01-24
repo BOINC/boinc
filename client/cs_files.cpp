@@ -131,12 +131,20 @@ int FILE_INFO::verify_file(bool strict, bool show_errors) {
 
     get_pathname(this, pathname, sizeof(pathname));
 
-    if (download_gzipped) {
+    // see if we need to unzip it
+    //
+    if (download_gzipped && !boinc_file_exists(pathname)) {
         char gzpath[256];
         sprintf(gzpath, "%s.gz", pathname);
-        if (boinc_file_exists(gzpath) && !boinc_file_exists(pathname)) {
+        if (boinc_file_exists(gzpath) ) {
             retval = gunzip();
             if (retval) return retval;
+        } else {
+            strcat(gzpath, "t");
+            if (!boinc_file_exists(gzpath)) {
+                status = FILE_NOT_PRESENT;
+            }
+            return ERR_FILE_MISSING;
         }
     }
 

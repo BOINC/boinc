@@ -963,3 +963,10 @@ David  24 Jan 2012
 
     client/
         client_types.cpp
+
+David  24 Jan 2012
+	- client: bug fixes in gzipped download code
+
+	client/
+		client_types.cpp
+		cs_files.cpp

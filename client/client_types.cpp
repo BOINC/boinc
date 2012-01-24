@@ -1073,7 +1073,7 @@ int FILE_INFO::write(MIOFILE& out, bool to_server) {
         if (uploaded) out.printf("    <uploaded/>\n");
         if (sticky) out.printf("    <sticky/>\n");
         if (gzip_when_done) out.printf("    <gzip_when_done/>\n");
-        if (download_gzipped) out.printf("    <download_gzipped>\n");
+        if (download_gzipped) out.printf("    <download_gzipped/>\n");
         if (signature_required) out.printf("    <signature_required/>\n");
         if (is_user_file) out.printf("    <is_user_file/>\n");
         if (strlen(file_signature)) out.printf("    <file_signature>\n%s\n</file_signature>\n", file_signature);
@@ -1152,14 +1152,11 @@ int FILE_INFO::delete_file() {
     // files with download_gzipped set may exist
     // in temporary or compressed form
     //
-    if (retval) {
-        strcat(path, ".gz");
-        retval = delete_project_owned_file(path, true);
-    }
-    if (retval) {
-        strcat(path, "t");
-        retval = delete_project_owned_file(path, true);
-    }
+    strcat(path, ".gz");
+    delete_project_owned_file(path, true);
+    strcat(path, "t");
+    delete_project_owned_file(path, true);
+
     if (retval && status != FILE_NOT_PRESENT) {
         msg_printf(project, MSG_INTERNAL_ERROR, "Couldn't delete file %s", path);
     }
@@ -1303,13 +1300,13 @@ int FILE_INFO::gunzip() {
     get_pathname(this, outpath, sizeof(outpath));
     strcpy(inpath, outpath);
     strcat(inpath, ".gz");
-    FILE* out = boinc_fopen(outpath, "rb");
+    FILE* out = boinc_fopen(outpath, "wb");
     if (!out) return ERR_FOPEN;
     gzFile in = gzopen(inpath, "rb");
     while (1) {
         int n = gzread(in, buf, BUFSIZE);
         if (n <= 0) break;
-        int m = (int)fwrite(buf, 1, BUFSIZE, out);
+        int m = (int)fwrite(buf, 1, n, out);
         if (m != n) {
             gzclose(in);
             fclose(out);
@@ -1319,7 +1316,6 @@ int FILE_INFO::gunzip() {
     gzclose(in);
     fclose(out);
     delete_project_owned_file(inpath, true);
-    boinc_rename(outpath, inpath);
     return 0;
 }
 
