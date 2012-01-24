@@ -19,6 +19,33 @@
 
 #include "util.h"
 
+#include "vda_lib.h"
+
+// return the name of a file created by Jerasure's encoder
+//
+// encoder creates files with names of the form
+// Coding/fname_k01.ext
+// Coding/fname_m01.ext
+//
+void encoder_filename(
+    const char* base, const char* ext, CODING& c, int i, char* buf
+) {
+    int ndigits = 1;
+    if (c.m > 9) ndigits = 2;
+    else if (c.m > 99) ndigits = 3;
+    else if (c.m > 999) ndigits = 4;
+    int j;
+    char ch;
+    if (i >= c.n) {
+        j = i-c.n + 1;
+        ch = 'k';
+    } else {
+        j = i+1;
+        ch = 'm';
+    }
+    sprintf(buf, "%s_%c%*d%s", base, ch, ndigits, j, ext");
+}
+
 // encode a meta-chunk.
 // precondition: "dir" contains a file "fname".
 // postcondition: dir contains
@@ -26,16 +53,49 @@
 //   subdirs fname_k0 ... fname_mn,
 //     each containing a same-named symbolic link to the corresponding chunk
 //
-int encode(ENCODING& e) {
+int encode(const char* dir, const char* fname, CODING& c) {
+    char cmd[1024];
+    sprintf(cmd,
+        "cd %s; encoder %s %d %d cauchy_good 32 1024 500000",
+        dir, fname, e.n, e.k
+    );
+    int s = system(cmd);
+    int status = WEXITSTATUS(s);
+    if (status) return status;
+
+    for (int i=0; i<e.m; i++) {
+        encoder_filename(base, ext, c, i, buf);
+        sprintf(path, "%s/Coding/%s", dir, buf);
+
+
+
+    }
+    return 0;
+}
+
+int init_meta_chunk(const char* dir, const char* fname, POLICY& p, int level) {
+    return 0;
 }
 
 int init_file(VDA_FILE& vf) {
+    POLICY p;
+    char buf[1024];
+    int retval;
+
+    // read the policy file
+    //
+    sprintf(buf, "%s/boinc_meta.txt", vf.dir);
+    retval = p.parse(buf);
+    if (retval) return retval;
+    return init_meta_chunk(vf.dir, vf.name, p, 0);
+    return 0;
 }
 
-void handle_file(VDA_FILE& vf) {
+int handle_file(VDA_FILE& vf) {
     if (!vf.inited) {
         init_file(vf);
     }
+    return 0;
 }
 
 bool scan_files() {

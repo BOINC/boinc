@@ -1148,6 +1148,18 @@ int FILE_INFO::delete_file() {
 
     get_pathname(this, path, sizeof(path));
     int retval = delete_project_owned_file(path, true);
+
+    // files with download_gzipped set may exist
+    // in temporary or compressed form
+    //
+    if (retval) {
+        strcat(path, ".gz");
+        retval = delete_project_owned_file(path, true);
+    }
+    if (retval) {
+        strcat(path, "t");
+        retval = delete_project_owned_file(path, true);
+    }
     if (retval && status != FILE_NOT_PRESENT) {
         msg_printf(project, MSG_INTERNAL_ERROR, "Couldn't delete file %s", path);
     }
