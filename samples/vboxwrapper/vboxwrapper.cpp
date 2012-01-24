@@ -291,6 +291,7 @@ int main(int argc, char** argv) {
     bool report_vm_pid = false;
     bool report_net_usage = false;
     int vm_pid = 0;
+    unsigned long vm_exit_code = 0;
     std::string vm_log;
     std::string system_log;
     char buf[256];
@@ -495,6 +496,7 @@ int main(int argc, char** argv) {
             if (vm.crashed || (elapsed_time < vm.job_duration)) {
                 vm.get_system_log(system_log);
                 vm.get_vm_log(vm_log);
+                vm.get_vm_exit_code(vm_exit_code);
             }
             vm.cleanup();
             write_checkpoint(elapsed_time, vm);
@@ -506,12 +508,19 @@ int main(int argc, char** argv) {
                     "    Hypervisor System Log:\n\n"
                     "%s\n"
                     "    VM Execution Log:\n\n"
-                    "%s\n",
+                    "%s\n"
+                    "    VM Exit Code: %d (0x%x)\n\n",
                     boinc_msg_prefix(buf, sizeof(buf)),
                     system_log.c_str(),
-                    vm_log.c_str()
+                    vm_log.c_str(),
+                    vm_exit_code,
+                    vm_exit_code
                 );
-                boinc_finish(EXIT_ABORTED_BY_CLIENT);
+                if (vm_exit_code) {
+                    boinc_finish(vm_exit_code);
+                } else {
+                    boinc_finish(EXIT_ABORTED_BY_CLIENT);
+                }
             } else {
                 fprintf(
                     stderr,
@@ -533,8 +542,11 @@ int main(int argc, char** argv) {
             elapsed_time += POLL_PERIOD;
 
             if (!vm_pid) {
-                vm.get_process_id(vm_pid);
-                report_vm_pid = true;
+                vm.get_vm_process_id(vm_pid);
+                if (vm_pid) {
+                    vm.reset_vm_process_priority();
+                    report_vm_pid = true;
+                }
             }
 
             if (boinc_time_to_checkpoint()) {

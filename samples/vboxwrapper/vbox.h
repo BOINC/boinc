@@ -65,11 +65,11 @@ struct VBOX_VM {
     bool enable_floppyio;
     // whether to enable remote desktop functionality
     bool enable_remotedesktop;
+    // whether to allow network access at all
+    bool enable_network;
     // whether we were instructed to only register the VM.
     // useful for debugging VMs.
     bool register_only;
-    // whether to allow network access at all
-    bool enable_network;
     // the following for optional port forwarding
     int pf_host_port;
         // specified in config file
@@ -78,39 +78,56 @@ struct VBOX_VM {
     // the following for optional remote desktop
     int rd_host_port;
         // dynamically assigned
+#ifdef _WIN32
+    // the handle to the process for the VM
+    // NOTE: we get a handle to the pid right after we parse it from the
+    //   log files so we can adjust the process priority and retrieve the process
+    //   exit code in case it crashed or was terminated.  Without an outstanding
+    //   handle to the process, the OS is free to reuse the pid for some other
+    //   executable.
+    HANDLE vm_pid_handle;
+#else
+    // the pid to the VM process
+    int vm_pid;
+#endif
 
+    int initialize();
     int run();
+    int start();
     int stop();
     int pause();
     int resume();
     void cleanup();
     void poll(bool log_state = true);
-    bool is_running();
-    bool is_paused();
 
-    int register_vm();
     bool is_hdd_registered();
     bool is_registered();
     bool is_extpack_installed();
-    int deregister_stale_vm();
+
+    int register_vm();
     int deregister_vm();
-    int start();
-    int set_network_access(bool enabled);
-    int set_cpu_usage_fraction(double);
-    int set_network_max_bytes_sec(double);
-    int get_process_id(int& process_id);
+    int deregister_stale_vm();
+
+    int get_install_directory(std::string& dir);
+    int get_slot_directory(std::string& dir);
     int get_network_bytes_sent(double& sent);
     int get_network_bytes_received(double& received);
     int get_system_log(std::string& log);
     int get_vm_log(std::string& log);
-    int read_floppy(std::string& data);
-    int write_floppy(std::string& data);
+    int get_vm_exit_code(unsigned long& exit_code);
+    int get_vm_process_id(int& process_id);
     int get_port_forwarding_port();
     int get_remote_desktop_port();
 
-    int initialize();
-    int get_install_directory(std::string& dir);
-    int get_slot_directory(std::string& dir);
+    int set_network_access(bool enabled);
+    int set_cpu_usage_fraction(double);
+    int set_network_max_bytes_sec(double);
+
+    int read_floppy(std::string& data);
+    int write_floppy(std::string& data);
+
+    void reset_vm_process_priority();
+
     int vbm_popen(
         std::string& command, std::string& output, const char* item, bool log_error = true, bool retry_failures = true
     );

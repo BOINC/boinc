@@ -929,3 +929,15 @@ Charlie 23 Jan 2012
 
     client/
         check_security.cpp
+
+Rom    23 Jan 2012
+    - VBOX: Demote the priority level of the VM process to try and prevent
+        latency issues for volunteers.
+    - VBOX: If the port forwarding preferred port isn't usable, try asking
+        the OS for one.
+    - VBOX: On a failure, get the VM process exit code and report it with
+        the rest of the stderr spew.
+
+    samples/vboxwrapper/
+        vbox.cpp, .h
+        vboxwrapper.cpp
