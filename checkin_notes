@@ -922,3 +922,10 @@ David  23 Jan 2012
     vda/
         vdad.cpp
         makefile
+
+Charlie 23 Jan 2012
+    - Mac: If permissions error because unable to opendir() a subdirectory, 
+        show path to that subdirectory.
+
+    client/
+        check_security.cpp

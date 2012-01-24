@@ -514,9 +514,9 @@ static int CheckNestedDirectories(char * basepath, int depth,
 
     dirp = opendir(basepath);
     if (dirp == NULL)           // Should never happen
-        return -1200;
+        retval = -1200;
     
-    while (true) {
+    while (dirp) {              // Skip this if dirp == NULL, else loop until break
         dp = readdir(dirp);
         if (dp == NULL)
             break;                  // End of list
