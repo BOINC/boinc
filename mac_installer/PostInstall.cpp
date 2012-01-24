@@ -112,7 +112,10 @@ static OSErr QuitAppleEventHandler(const AppleEvent *appleEvt, AppleEvent* reply
 void print_to_log_file(const char *format, ...);
 void strip_cr(char *buf);
 
-extern int check_security(char *bundlePath, char *dataPath, int use_sandbox, int isManager);
+extern int check_security(char *bundlePath, char *dataPath, 
+                            int use_sandbox, int isManager, 
+                            char* path_to_error = NULL
+                        );
 
 #define NUMBRANDS 4
 
