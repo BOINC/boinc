@@ -949,3 +949,11 @@ David  23 Jan 2012
 
     html/user/
         host_app_versions.php
+
+Rom    24 Jan 2012
+    - client: treat the gzt file extension like we do for the gz file extension.
+        Disable libcurls ability to decompress on-the-fly and let the CC decompress
+        it after it has been fully downloaded.
+        
+    client/
+        http_curl.cpp
