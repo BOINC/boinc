@@ -53,7 +53,7 @@ function av_desc($gavid) {
 
 function show_hav($hav) {
     row1(av_desc($hav->app_version_id));
-    row2(tra("Number of tasks completed"), $hav->pfc_n);
+    row2(tra("Number of tasks completed"), $hav->et_n);
     row2(tra("Max tasks per day"), $hav->max_jobs_per_day);
     row2(tra("Number of tasks today"), $hav->n_jobs_today);
     row2(tra("Consecutive valid tasks"), $hav->consecutive_valid);

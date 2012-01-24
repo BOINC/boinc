@@ -941,3 +941,11 @@ Rom    23 Jan 2012
     samples/vboxwrapper/
         vbox.cpp, .h
         vboxwrapper.cpp
+
+David  23 Jan 2012
+    - web: use et_n instead of pfc_n for #jobs completed
+        in host app details page
+        (pfc_n is not populated for hosts running old clients)
+
+    html/user/
+        host_app_versions.php
