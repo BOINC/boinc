@@ -977,3 +977,9 @@ Rom    24 Jan 2012
  
     client/
         http_curl.cpp
+
+Rom    24 Jan 2012
+    - VBOX: Fix build breaks for Linux and Mac.
+    
+    samples/vboxwrapper/
+        vbox.cpp

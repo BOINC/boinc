@@ -1062,7 +1062,9 @@ int VBOX_VM::get_vm_log(string& log) {
 
 int VBOX_VM::get_vm_exit_code(unsigned long& exit_code) {
 #ifndef _WIN32
-    waitpid(vm_pid, &exit_code, WNOHANG);
+    int ec = 0;
+    waitpid(vm_pid, &ec, WNOHANG);
+    exit_code = ec;
 #else
     GetExitCodeProcess(vm_pid_handle, &exit_code);
 #endif
@@ -1307,7 +1309,7 @@ int VBOX_VM::write_floppy(std::string& data) {
 void VBOX_VM::reset_vm_process_priority() {
 #ifndef _WIN32
     if (vm_pid) {
-        setpriority(PRIO_PROCESS, vm_pid, PROCESS_LOW_PRIORITY);
+        setpriority(PRIO_PROCESS, vm_pid, PROCESS_IDLE_PRIORITY);
     }
 #else
     if (vm_pid_handle) {
