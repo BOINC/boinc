@@ -970,3 +970,10 @@ David  24 Jan 2012
 	client/
 		client_types.cpp
 		cs_files.cpp
+
+Rom    24 Jan 2012
+    - client: undo my previous commit.  We request .gz from the server and write
+        the contents to a .gzt file.
+ 
+    client/
+        http_curl.cpp

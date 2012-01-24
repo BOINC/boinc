@@ -547,10 +547,7 @@ int HTTP_OP::libcurl_exec(
     // use gzip at the application level.
     // So, detect this and don't accept any encoding in that case
     //
-    if (!out ||
-        !ends_with(std::string(out), std::string(".gz")) ||
-        !ends_with(std::string(out), std::string(".gzt")))
-    {
+    if (!out || !ends_with(std::string(out), std::string(".gz"))) {
         curl_easy_setopt(curlEasy, CURLOPT_ENCODING, "");
     }
 
