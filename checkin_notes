@@ -7188,7 +7188,7 @@ Charlie 20 Dec 2011
         configure.ac
         version.h
 
-Charlie 17 Jan 2012
+Charlie 22 Jan 2012
     - Mac: In permissions error alert: show branded name; if permissions 
         error is in a subdirectory, show path to bad file or subdirectory.
 
@@ -7199,3 +7199,11 @@ Charlie 17 Jan 2012
         BOINCGUIApp.cpp
     mac_installer/
         PosInstall.cpp
+
+Charlie 22 Jan 2012
+    - Tag for 6.8.37 release, all platforms
+      boinc_core_release_6_8_37
+
+    /
+        configure.ac
+        version.h
