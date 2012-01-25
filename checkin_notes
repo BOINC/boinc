@@ -1003,3 +1003,13 @@ Charlie 25 Jan 2012
     
     samples/vboxwrapper/
         vboxwrapper.cpp
+
+Charlie 25 Jan 2012
+    - MGR: Make the task pane in the advanced view and its buttons fixed sizes; 
+        ellipse the button contents if needed; show full button text plus 
+        description in button tooltips; don't set button labels if unchanged.
+
+    clientgui/
+        BOINCBaseView.cpp, .h
+        BOINCTaskCtrl.cpp, .h
+        stdwx.h

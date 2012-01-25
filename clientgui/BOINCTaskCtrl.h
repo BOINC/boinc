@@ -50,6 +50,8 @@ public:
     virtual bool OnSaveState( wxConfigBase* pConfig );
     virtual bool OnRestoreState( wxConfigBase* pConfig );
 
+    void EllipseStringIfNeeded( wxString& s, wxWindow *win );
+
 private:
 
     CBOINCBaseView*  m_pParent;

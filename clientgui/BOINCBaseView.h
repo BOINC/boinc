@@ -53,6 +53,7 @@ public:
     ~CTaskItem() {};
 
     wxString                m_strName;
+    wxString                m_strNameEllipsed;
     wxString                m_strDescription;
     wxInt32                 m_iEventID;
 

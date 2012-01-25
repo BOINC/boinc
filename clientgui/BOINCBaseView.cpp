@@ -733,22 +733,6 @@ void CBOINCBaseView::UpdateSelection(){
 void CBOINCBaseView::PostUpdateSelection(){
     wxASSERT(m_pTaskPane);
     m_pTaskPane->UpdateControls();
- 
-    // Adjust the width of the task pane so that it can be fully displayed.
-    //
-    wxSize sz = m_pTaskPane->GetVirtualSize();
-    if (sz.GetHeight() > m_pTaskPane->GetSize().GetHeight()) {
-        // Account for vertical scrollbar
-        if (m_pTaskPane->GetSize().GetWidth() != (sz.GetWidth() + wxSystemSettings::GetMetric(wxSYS_VSCROLL_X, NULL))) {
-            m_pTaskPane->SetSize(
-                sz.GetWidth() + wxSystemSettings::GetMetric(wxSYS_VSCROLL_X, NULL),
-                m_pTaskPane->GetSize().GetHeight()
-            );
-        }
-    } else {
-        m_pTaskPane->SetSize(sz.GetWidth(), m_pTaskPane->GetSize().GetHeight());
-    }
-
     Layout();
 }
 
