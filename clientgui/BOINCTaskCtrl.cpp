@@ -33,12 +33,12 @@ CBOINCTaskCtrl::CBOINCTaskCtrl() {}
 
 
 CBOINCTaskCtrl::CBOINCTaskCtrl(CBOINCBaseView* pView, wxWindowID iTaskWindowID, wxInt32 iTaskWindowFlags) :
-    wxScrolledWindow(pView, iTaskWindowID, wxDefaultPosition, wxSize(200, -1), iTaskWindowFlags)
+    wxScrolledWindow(pView, iTaskWindowID, wxDefaultPosition, wxSize(TASKPANEWIDTH, -1), iTaskWindowFlags)
 {
     m_pParent = pView;
     m_pSizer = NULL;
 
-    SetVirtualSize( 200, 1000 );
+    SetVirtualSize( TASKPANEWIDTH, 1000 );
     EnableScrolling(false, true);
     SetScrollRate( 0, 10 );
 
