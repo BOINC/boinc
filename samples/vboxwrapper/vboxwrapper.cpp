@@ -513,8 +513,8 @@ int main(int argc, char** argv) {
                     boinc_msg_prefix(buf, sizeof(buf)),
                     system_log.c_str(),
                     vm_log.c_str(),
-                    vm_exit_code,
-                    vm_exit_code
+                    (unsigned int)vm_exit_code,
+                    (unsigned int)vm_exit_code
                 );
                 if (vm_exit_code) {
                     boinc_finish(vm_exit_code);

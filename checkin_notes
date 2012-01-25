@@ -997,3 +997,9 @@ David  24 Jan 2012
         client_types.h
     vda/
         vdad.cpp
+
+Charlie 25 Jan 2012
+    - VBOX: Fix compiler warnings on Mac.
+    
+    samples/vboxwrapper/
+        vboxwrapper.cpp
