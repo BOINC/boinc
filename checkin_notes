@@ -990,3 +990,10 @@ Rom    24 Jan 2012
 
     client/
         http_curl.cpp
+
+David  24 Jan 2012
+    - volunteer storage
+    client/
+        client_types.h
+    vda/
+        vdad.cpp

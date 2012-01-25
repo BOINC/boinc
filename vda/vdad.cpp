@@ -15,6 +15,9 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
+#include <sys/stat.h>
+#include <sys/types.h>
+
 #include "boinc_db.h"
 
 #include "util.h"
@@ -38,12 +41,12 @@ void encoder_filename(
     char ch;
     if (i >= c.n) {
         j = i-c.n + 1;
-        ch = 'k';
+        ch = 'm';
     } else {
         j = i+1;
-        ch = 'm';
+        ch = 'k';
     }
-    sprintf(buf, "%s_%c%*d%s", base, ch, ndigits, j, ext");
+    sprintf(buf, "%s_%c%0*d%s", base, ch, ndigits, j, ext);
 }
 
 // encode a meta-chunk.
@@ -57,23 +60,57 @@ int encode(const char* dir, const char* fname, CODING& c) {
     char cmd[1024];
     sprintf(cmd,
         "cd %s; encoder %s %d %d cauchy_good 32 1024 500000",
-        dir, fname, e.n, e.k
+        dir, fname, c.n, c.k
     );
     int s = system(cmd);
-    int status = WEXITSTATUS(s);
-    if (status) return status;
+    if (WIFEXITED(s)) {
+        int status = WEXITSTATUS(s);
+        if (status != 32) return -1;    // encoder returns 32 for some reason
+    }
 
-    for (int i=0; i<e.m; i++) {
-        encoder_filename(base, ext, c, i, buf);
-        sprintf(path, "%s/Coding/%s", dir, buf);
-
-
-
+    char base[256], ext[256];
+    strcpy(base, fname);
+    char* p = strchr(base, '.');
+    if (p) {
+        strcpy(ext, p);
+        *p = 0;
+    } else {
+        strcpy(ext, "");
+    }
+    for (int i=0; i<c.m; i++) {
+        char enc_filename[1024], target_path[1024], chunk_name[1024];
+        char dir_name[1024], link_name[1024];
+        encoder_filename(base, ext, c, i, enc_filename);
+        sprintf(target_path, "%s/Coding/%s", dir, enc_filename);
+        sprintf(chunk_name, "%s_%d", fname, i);
+        sprintf(dir_name, "%s/%s", dir, chunk_name);
+        int retval = mkdir(dir_name, 0777);
+        if (retval) {
+            perror("mkdir");
+            return retval;
+        }
+        sprintf(link_name, "%s/%s", dir_name, chunk_name);
+        retval = symlink(target_path, link_name);
+        if (retval) {
+            perror("symlink");
+            return retval;
+        }
     }
     return 0;
 }
 
 int init_meta_chunk(const char* dir, const char* fname, POLICY& p, int level) {
+    CODING& c = p.codings[level];
+    int retval = encode(dir, fname, c);
+    if (retval) return retval;
+    if (level+1 < p.coding_levels) {
+        for (int i=0; i<c.m; i++) {
+            char child_dir[1024];
+            sprintf(child_dir, "%s/%s_%d", dir, fname, i);
+            retval = init_meta_chunk(child_dir, child_dir, p, level+1);
+            if (retval) return retval;
+        }
+    }
     return 0;
 }
 
@@ -86,7 +123,10 @@ int init_file(VDA_FILE& vf) {
     //
     sprintf(buf, "%s/boinc_meta.txt", vf.dir);
     retval = p.parse(buf);
-    if (retval) return retval;
+    if (retval) {
+        fprintf(stderr, "Can't parse policy file\n");
+        return retval;
+    }
     return init_meta_chunk(vf.dir, vf.name, p, 0);
     return 0;
 }
@@ -101,10 +141,17 @@ int handle_file(VDA_FILE& vf) {
 bool scan_files() {
     DB_VDA_FILE vf;
     bool found = false;
+    int retval;
 
     while (vf.enumerate("need_update<>0")) {
         found = true;
-        handle_file(vf);
+        retval = handle_file(vf);
+        if (retval) {
+            fprintf(stderr, "handle_file() failed: %d\n", retval);
+        } else {
+            vf.need_update = 0;
+            vf.update();
+        }
     }
     return found;
 }
@@ -126,6 +173,11 @@ bool scan_chunks() {
 }
 
 int main(int argc, char** argv) {
+    VDA_FILE vf;
+    strcpy(vf.dir, "/mydisks/b/users/boincadm/vda_test");
+    strcpy(vf.name, "file.ext");
+    init_file(vf);
+    exit(0);
     while(1) {
         bool action = scan_files();
         action |= scan_chunks();

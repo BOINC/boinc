@@ -339,7 +339,7 @@ struct PROJECT : PROJ_AM {
     int sched_rpc_pending;
         // we need to do a scheduler RPC, for various possible reasons:
         // user request, propagate host CPID, time-based, etc.
-		// Reasons are enumerated in scheduler_op.h
+		// Reasons are enumerated in lib/common_defs.h
 	bool possibly_backed_off;
         // we need to call request_work_fetch() when a project
         // transitions from being backed off to not.
