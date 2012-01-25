@@ -139,7 +139,7 @@ wxInt32 CBOINCTaskCtrl::UpdateTask( CTaskItem* pItem, wxString strName, wxString
         }
         pItem->m_strName = strName;
         pItem->m_strNameEllipsed = pItem->m_strName;
-        EllipseStringIfNeeded(pItem->m_strNameEllipsed, pItem->m_pButton);
+        EllipseStringIfNeeded(pItem->m_strNameEllipsed);
         pItem->m_strDescription = strDescription;
         pItem->m_pButton->SetLabel( pItem->m_strNameEllipsed );
         pItem->m_pButton->SetHelpText( strDescription );
@@ -188,8 +188,9 @@ wxInt32 CBOINCTaskCtrl::UpdateControls() {
             if (!pItem->m_pButton) {
                 pItem->m_pButton = new wxButton;
                 pItem->m_strNameEllipsed = pItem->m_strName;
-                EllipseStringIfNeeded(pItem->m_strNameEllipsed, pItem->m_pButton);
+                EllipseStringIfNeeded(pItem->m_strNameEllipsed);
                 pItem->m_pButton->Create(this, pItem->m_iEventID, pItem->m_strNameEllipsed, wxDefaultPosition, wxSize(TASKBUTTONWIDTH, -1), 0);
+        pItem->m_pButton->SetLabel( pItem->m_strNameEllipsed );
                 pItem->m_pButton->SetHelpText(pItem->m_strDescription);
 #if wxUSE_TOOLTIPS
                 pItem->m_pButton->SetToolTip(pItem->m_strName + wxT(": ") + pItem->m_strDescription);
@@ -251,23 +252,23 @@ bool CBOINCTaskCtrl::OnRestoreState(wxConfigBase* pConfig) {
 }
 
 
-void CBOINCTaskCtrl::EllipseStringIfNeeded(wxString& s, wxWindow *win) {
+void CBOINCTaskCtrl::EllipseStringIfNeeded(wxString& s) {
     int w, h;
     int maxWidth = TASKBUTTONWIDTH - 10;
     
-    win->GetTextExtent(s, &w, &h);
+    GetTextExtent(s, &w, &h);
     
     // Adapted from ellipis code in wxRendererGeneric::DrawHeaderButtonContents()
     if (w > maxWidth) {
         int ellipsisWidth;
-        win->GetTextExtent( wxT("..."), &ellipsisWidth, NULL);
+        GetTextExtent( wxT("..."), &ellipsisWidth, NULL);
         if (ellipsisWidth > maxWidth) {
             s.Clear();
             w = 0;
         } else {
             do {
                 s.Truncate( s.length() - 1 );
-                win->GetTextExtent( s, &w, &h);
+                GetTextExtent( s, &w, &h);
             } while (((w + ellipsisWidth) > maxWidth) && s.length() );
             s.append( wxT("...") );
         }
