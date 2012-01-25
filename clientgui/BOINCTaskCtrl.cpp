@@ -190,7 +190,6 @@ wxInt32 CBOINCTaskCtrl::UpdateControls() {
                 pItem->m_strNameEllipsed = pItem->m_strName;
                 EllipseStringIfNeeded(pItem->m_strNameEllipsed);
                 pItem->m_pButton->Create(this, pItem->m_iEventID, pItem->m_strNameEllipsed, wxDefaultPosition, wxSize(TASKBUTTONWIDTH, -1), 0);
-        pItem->m_pButton->SetLabel( pItem->m_strNameEllipsed );
                 pItem->m_pButton->SetHelpText(pItem->m_strDescription);
 #if wxUSE_TOOLTIPS
                 pItem->m_pButton->SetToolTip(pItem->m_strName + wxT(": ") + pItem->m_strDescription);
