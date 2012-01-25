@@ -548,7 +548,9 @@ int HTTP_OP::libcurl_exec(
     // So, detect this and don't accept any encoding in that case
     //
     if (!out || !ends_with(std::string(out), std::string(".gz"))) {
-        curl_easy_setopt(curlEasy, CURLOPT_ENCODING, "");
+        // Per: http://curl.haxx.se/dev/readme-encoding.html
+        // NULL disables, empty string accepts all.
+        curl_easy_setopt(curlEasy, CURLOPT_ENCODING, NULL);
     }
 
     // setup any proxy they may need

@@ -983,3 +983,10 @@ Rom    24 Jan 2012
     
     samples/vboxwrapper/
         vbox.cpp
+
+Rom    24 Jan 2012
+    - client: Fix long standing issue with the .gz extension automatically being
+        decompressed on-the-fly when it wasn't supposed to be.
+
+    client/
+        http_curl.cpp
