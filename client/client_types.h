@@ -152,8 +152,9 @@ struct FILE_INFO {
     bool verify_file_certs();
     int gzip();
         // gzip file and add .gz to name
-    int gunzip();
-        // unzip file and remove .gz from filename
+    int gunzip(char*);
+        // unzip file and remove .gz from filename.
+        // optionally compute MD5 also
     inline bool uploadable() {
         return !upload_urls.empty();
     }

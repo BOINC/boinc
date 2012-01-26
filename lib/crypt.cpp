@@ -331,17 +331,21 @@ int generate_signature(
 }
 
 int verify_file(
-    const char* path, R_RSA_PUBLIC_KEY& key, DATA_BLOCK& signature, bool& answer
+    const char* path, const char* md5, R_RSA_PUBLIC_KEY& key, DATA_BLOCK& signature, bool& answer
 ) {
     char md5_buf[MD5_LEN], clear_buf[MD5_LEN];
     double file_length;
     int n, retval;
     DATA_BLOCK clear_signature;
 
-    retval = md5_file(path, md5_buf, file_length);
-    if (retval) {
-        fprintf(stderr, "error: verify_file: md5_file error %d\n", retval);
-        return retval;
+    if (md5) {
+        strcpy(md5_buf, md5);
+    } else {
+        retval = md5_file(path, md5_buf, file_length);
+        if (retval) {
+            fprintf(stderr, "error: verify_file: md5_file error %d\n", retval);
+            return retval;
+        }
     }
     n = (int)strlen(md5_buf);
     clear_signature.data = (unsigned char*)clear_buf;
@@ -356,7 +360,7 @@ int verify_file(
 }
 
 int verify_file2(
-    const char* path, const char* signature_text, const char* key_text, bool& answer
+    const char* path, const char* md5, const char* signature_text, const char* key_text, bool& answer
 ) {
     R_RSA_PUBLIC_KEY key;
     unsigned char signature_buf[SIGNATURE_SIZE_BINARY];
@@ -372,7 +376,7 @@ int verify_file2(
     signature.len = sizeof(signature_buf);
     retval = sscan_hex_data(signature_text, signature);
     if (retval) return retval;
-    return verify_file(path, key, signature, answer);
+    return verify_file(path, md5, key, signature, answer);
 }
 
 // verify, where both text and signature are char strings

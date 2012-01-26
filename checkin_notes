@@ -1051,3 +1051,18 @@ Rom    26 Jan 2012
     /
         configure.ac
         version.h
+
+Rom    26 Jan 2012
+    - client: after a gzipped file is downloaded,
+        we uncompress it and then verify it.
+        The latter involves computing its MD5, which reads the entire file.
+        Combine these 2 steps so that the MD5 is computed
+        as the file is uncompressed,
+        eliminating the need to read the file again.
+
+    lib/
+        crypt.cpp,h
+        crypt_prog.cpp
+    client/
+        client_types.cpp,h
+        cs_files.cpp

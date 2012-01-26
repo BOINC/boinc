@@ -131,13 +131,15 @@ int FILE_INFO::verify_file(bool strict, bool show_errors) {
 
     get_pathname(this, pathname, sizeof(pathname));
 
+    strcpy(cksum, "");
+
     // see if we need to unzip it
     //
     if (download_gzipped && !boinc_file_exists(pathname)) {
         char gzpath[256];
         sprintf(gzpath, "%s.gz", pathname);
         if (boinc_file_exists(gzpath) ) {
-            retval = gunzip();
+            retval = gunzip(cksum);
             if (retval) return retval;
         } else {
             strcat(gzpath, "t");
@@ -202,7 +204,8 @@ int FILE_INFO::verify_file(bool strict, bool show_errors) {
             return ERR_NO_SIGNATURE;
         }
         retval = verify_file2(
-            pathname, file_signature, project->code_sign_key, verified
+            pathname, strlen(cksum)?cksum:NULL,
+            file_signature, project->code_sign_key, verified
         );
         if (retval) {
             msg_printf(project, MSG_INTERNAL_ERROR,
@@ -223,15 +226,17 @@ int FILE_INFO::verify_file(bool strict, bool show_errors) {
             return ERR_RSA_FAILED;
         }
     } else if (strlen(md5_cksum)) {
-        retval = md5_file(pathname, cksum, local_nbytes);
-        if (retval) {
-            msg_printf(project, MSG_INTERNAL_ERROR,
-                "MD5 computation error for %s: %s\n",
-                name, boincerror(retval)
-            );
-            error_msg = "MD5 computation error";
-            status = retval;
-            return retval;
+        if (!strlen(cksum)) {
+            retval = md5_file(pathname, cksum, local_nbytes);
+            if (retval) {
+                msg_printf(project, MSG_INTERNAL_ERROR,
+                    "MD5 computation error for %s: %s\n",
+                    name, boincerror(retval)
+                );
+                error_msg = "MD5 computation error";
+                status = retval;
+                return retval;
+            }
         }
         if (strcmp(cksum, md5_cksum)) {
             if (show_errors) {
