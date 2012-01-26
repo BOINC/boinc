@@ -1077,7 +1077,7 @@ int FILE_INFO::write(MIOFILE& out, bool to_server) {
         if (gzip_when_done) out.printf("    <gzip_when_done/>\n");
         if (download_gzipped) {
             out.printf("    <download_gzipped/>\n");
-            out.printf("    <gzipped_nbytes>%.0f</gzipped_nbytes>\n");
+            out.printf("    <gzipped_nbytes>%.0f</gzipped_nbytes>\n", gzipped_nbytes);
         }
         if (signature_required) out.printf("    <signature_required/>\n");
         if (is_user_file) out.printf("    <is_user_file/>\n");

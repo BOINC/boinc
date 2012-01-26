@@ -1037,3 +1037,9 @@ Charlie 26 Jan 2012
         
     client/
         coproc_detect.cpp
+
+David  26 Jan 2012
+    - client: fix write of gzipped_nbytes
+
+    client/
+        client_types.cpp
