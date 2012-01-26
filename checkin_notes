@@ -1066,3 +1066,9 @@ Rom    26 Jan 2012
     client/
         client_types.cpp,h
         cs_files.cpp
+
+Charlie 26 Jan 2012
+    - Mac: Update the build instructions with the current URL for c-ares-1.7.4.
+    
+    mac_build/
+        HowToBuildBOINC_XCode.rtf
