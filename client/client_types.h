@@ -104,6 +104,7 @@ struct FILE_INFO {
     char md5_cksum[33];
     double max_nbytes;
     double nbytes;
+    double gzipped_nbytes;  // defined if download_gzipped is true
     double upload_offset;
     int status;             // see above
     bool executable;        // change file protections to make executable

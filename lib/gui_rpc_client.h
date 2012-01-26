@@ -300,7 +300,7 @@ public:
     std::string name;
     std::string project_url;
     std::string project_name;
-    double nbytes;
+    double nbytes;              // total # of bytes to be transferred
     bool uploaded;
     bool is_upload;
     bool generated_locally;     // deprecated; for compatibility w/ old clients

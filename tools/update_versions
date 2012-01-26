@@ -73,9 +73,12 @@ function file_info_xml($fd) {
     $xml .= $fd->signature;
     $xml .=
         "    </file_signature>\n".
-        "    <nbytes>".$fd->nbytes."</nbytes>\n".
-        "</file_info>\n"
+        "    <nbytes>".$fd->nbytes."</nbytes>\n"
     ;
+    if ($fd->gzip) {
+        $xml .= "    <gzipped_nbytes>".$fd->gzipped_nbytes."</gzipped_nbytes>\n";
+    }
+    $xml .= "</file_info>\n";
     return $xml;
 }
 
@@ -138,11 +141,15 @@ function stage_file($a, $v, $p, $fd) {
     }
     
     $fd->url = "$download_url/$name";
-    if ($fd->gzip && !file_exists("$dl_path.gz")) {
-        $tmp = "$dl_path.tmp";
-        system("cp $dl_path $tmp");
-        system("gzip $dl_path");
-        system("mv $tmp $dl_path");
+    if ($fd->gzip) {
+        if (!file_exists("$dl_path.gz")) {
+            $tmp = "$dl_path.tmp";
+            system("cp $dl_path $tmp");
+            system("gzip $dl_path");
+            system("mv $tmp $dl_path");
+        }
+        $stat = stat("$dl_path.gz");
+        $fd->gzipped_nbytes = $stat['size'];
     }
     return $fd;
 }

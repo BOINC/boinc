@@ -1013,3 +1013,21 @@ Charlie 25 Jan 2012
         BOINCBaseView.cpp, .h
         BOINCTaskCtrl.cpp, .h
         stdwx.h
+
+David  26 Jan 2012
+    - update_versions: for gzipped files,
+        send the size of the compressed file as well.
+    - client: parse and write the compressed size (FILE_INFO::gzipped_nbytes).
+        For get_transfer GUI RPCs, if it's a compressed download send
+        the compressed size.
+        That way the manager will show the fraction done correctly.
+
+    tools/
+        update_versions
+    lib/
+        gui_rpc_client.h
+    vda/
+        vdad.cpp
+    client/
+        client_types.cpp,h
+        acct_setup.cpp

@@ -839,6 +839,7 @@ FILE_INFO::FILE_INFO() {
     strcpy(md5_cksum, "");
     max_nbytes = 0;
     nbytes = 0;
+    gzipped_nbytes = 0;
     upload_offset = -1;
     status = FILE_NOT_PRESENT;
     executable = false;
@@ -992,6 +993,7 @@ int FILE_INFO::parse(XML_PARSER& xp) {
         }
         if (xp.parse_str("md5_cksum", md5_cksum, sizeof(md5_cksum))) continue;
         if (xp.parse_double("nbytes", nbytes)) continue;
+        if (xp.parse_double("gzipped_nbytes", gzipped_nbytes)) continue;
         if (xp.parse_double("max_nbytes", max_nbytes)) continue;
         if (xp.parse_int("status", status)) continue;
         if (xp.parse_bool("executable", executable)) continue;
@@ -1073,7 +1075,10 @@ int FILE_INFO::write(MIOFILE& out, bool to_server) {
         if (uploaded) out.printf("    <uploaded/>\n");
         if (sticky) out.printf("    <sticky/>\n");
         if (gzip_when_done) out.printf("    <gzip_when_done/>\n");
-        if (download_gzipped) out.printf("    <download_gzipped/>\n");
+        if (download_gzipped) {
+            out.printf("    <download_gzipped/>\n");
+            out.printf("    <gzipped_nbytes>%.0f</gzipped_nbytes>\n");
+        }
         if (signature_required) out.printf("    <signature_required/>\n");
         if (is_user_file) out.printf("    <is_user_file/>\n");
         if (strlen(file_signature)) out.printf("    <file_signature>\n%s\n</file_signature>\n", file_signature);
@@ -1124,7 +1129,7 @@ int FILE_INFO::write_gui(MIOFILE& out) {
         project->master_url,
         project->project_name,
         name,
-        nbytes,
+        download_gzipped?gzipped_nbytes:nbytes,
         max_nbytes,
         status
     );

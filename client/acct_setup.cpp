@@ -48,28 +48,26 @@ PROJECT_INIT::PROJECT_INIT() {
 }
 
 int PROJECT_INIT::init() {
-    char    buf[256];
-    MIOFILE mf;
-    FILE*   p;
-
     clear();
-    p = fopen(PROJECT_INIT_FILENAME, "r");
-    if (p) {
-        mf.init_file(p);
-        while(mf.fgets(buf, sizeof(buf))) {
-            if (match_tag(buf, "</project_init>")) break;
-            else if (parse_str(buf, "<name>", name, 256)) continue;
-            else if (parse_str(buf, "<team_name>", team_name, 256)) continue;
-            else if (parse_str(buf, "<url>", url, 256)) {
-                canonicalize_master_url(url);
-                continue;
-            } else if (parse_str(buf, "<account_key>", account_key, 256)) {
-                continue;
-            }
+    FILE* f = fopen(PROJECT_INIT_FILENAME, "r");
+    if (!f) return 0;
+
+    MIOFILE mf;
+    mf.init_file(f);
+    XML_PARSER xp(&mf);
+    while (!xp.get_tag()) {
+        if (xp.match_tag("/project_init")) break;
+        else if (xp.parse_str("name", name, 256)) continue;
+        else if (xp.parse_str("team_name", team_name, 256)) continue;
+        else if (xp.parse_str("url", url, 256)) {
+            canonicalize_master_url(url);
+            continue;
+        } else if (xp.parse_str("account_key", account_key, 256)) {
+            continue;
         }
-        fclose(p);
-        msg_printf(0, MSG_INFO, "Found project_init.xml for %s", url);
     }
+    fclose(f);
+    msg_printf(0, MSG_INFO, "Found project_init.xml for %s", url);
     return 0;
 }
 

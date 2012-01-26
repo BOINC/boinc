@@ -59,9 +59,10 @@ void encoder_filename(
 int encode(const char* dir, const char* fname, CODING& c) {
     char cmd[1024];
     sprintf(cmd,
-        "cd %s; encoder %s %d %d cauchy_good 32 1024 500000",
+        "cd %s; /mydisks/b/users/boincadm/vda_test/encoder %s %d %d cauchy_good 32 1024 500000",
         dir, fname, c.n, c.k
     );
+    printf("%s\n", cmd);
     int s = system(cmd);
     if (WIFEXITED(s)) {
         int status = WEXITSTATUS(s);
@@ -105,9 +106,10 @@ int init_meta_chunk(const char* dir, const char* fname, POLICY& p, int level) {
     if (retval) return retval;
     if (level+1 < p.coding_levels) {
         for (int i=0; i<c.m; i++) {
-            char child_dir[1024];
-            sprintf(child_dir, "%s/%s_%d", dir, fname, i);
-            retval = init_meta_chunk(child_dir, child_dir, p, level+1);
+            char child_dir[1024], child_fname[1024];
+            sprintf(child_fname, "%s_%d", fname, i);
+            sprintf(child_dir, "%s/%s", dir, child_fname);
+            retval = init_meta_chunk(child_dir, child_fname, p, level+1);
             if (retval) return retval;
         }
     }
