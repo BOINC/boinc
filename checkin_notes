@@ -1043,3 +1043,11 @@ David  26 Jan 2012
 
     client/
         client_types.cpp
+
+Rom    26 Jan 2012
+    - Tag for 7.0.12 release, all platforms
+      boinc_core_release_7_0_12
+
+    /
+        configure.ac
+        version.h
