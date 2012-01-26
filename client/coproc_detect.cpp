@@ -20,7 +20,7 @@
 
 #define FAKENVIDIACUDA0 0
 #define FAKE2NVIDIAOPENCLS 0
-#define DEBUGFOROLIVER 1
+#define DEBUGFOROLIVER 0
 
 #include "cpp.h"
 

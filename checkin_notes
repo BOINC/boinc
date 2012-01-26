@@ -1031,3 +1031,9 @@ David  26 Jan 2012
     client/
         client_types.cpp,h
         acct_setup.cpp
+
+Charlie 26 Jan 2012
+    - client: disable temporary debugging aids in coproc_detect logic.
+        
+    client/
+        coproc_detect.cpp
