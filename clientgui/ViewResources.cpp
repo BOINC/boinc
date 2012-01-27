@@ -230,7 +230,9 @@ void CViewResources::OnListRender( wxTimerEvent& WXUNUSED(event) ) {
 				part.SetValue(usage);
                 double h = (double)i/(double)pDoc->disk_usage.projects.size();
                 double r, g, b;
-                hsv2rgb(h*6, .5, .9, r, g, b);
+                double v = .5 + (i % 3)*.2;
+                    // cycle through 3 different brightnesses
+                hsv2rgb(h*6, .5, v, r, g, b);
                 unsigned char cr = (unsigned char) (r*256);
                 unsigned char cg = (unsigned char) (g*256);
                 unsigned char cb = (unsigned char) (b*256);

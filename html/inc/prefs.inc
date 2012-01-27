@@ -214,16 +214,15 @@ $disk_prefs = array(
 $net_prefs = array(
     new PREF_NUM(
         tra(
-            "Computer is connected to the Internet about every %1 Leave blank or 0 if always connected. %2 BOINC will try to maintain at least this much work (max 10 days). %3",
+            "Maintain enough tasks to keep busy for%1(max 10 days).%2",
             "<br><span class=note>",
-            "<br>",
             "</span>"
         ),
         "work_buf_min_days",
         new NUM_SPEC(tra("days"), 0, 10, 0)
     ),
     new PREF_NUM(
-        tra("Maintain enough work for an additional"),
+        tra("Maintain additional tasks to keep busy for up to"),
         "work_buf_additional_days",
         new NUM_SPEC(tra("days"), 0, 10, .25)
     ),

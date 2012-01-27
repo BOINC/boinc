@@ -1085,3 +1085,14 @@ Charlie 27 Jan 2012
         BOINCTaskBar.cpp,.h
         mac/
             macSysMenu.cpp
+
+David  27 Jan 2012
+    - manager: in Disk View, try to make colors more distinct.
+        In addition to varying the hue,
+        cycle through 3 different luminance values (.5, .7, .9)
+    - web: update the wording of buffer-size preferences
+
+    clientgui/
+        ViewResources.cpp
+    html/inc/
+        prefs.inc
