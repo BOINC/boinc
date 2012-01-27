@@ -592,7 +592,9 @@ void CTaskBarIcon::AdjustMenuItems(wxMenu* pMenu) {
         case RUN_MODE_NEVER:
             m_SnoozeMenuItem->SetItemLabel(_("Resume"));
             m_SnoozeMenuItem->Check(false);
-            m_SnoozeMenuItem->Enable(true);
+            if (!is_dialog_detected) {
+                m_SnoozeMenuItem->Enable(true);
+            }
             break;
         default:
             m_SnoozeMenuItem->SetItemLabel(_("Snooze"));
@@ -617,7 +619,9 @@ void CTaskBarIcon::AdjustMenuItems(wxMenu* pMenu) {
             case RUN_MODE_NEVER:
                 m_SnoozeGPUMenuItem->SetItemLabel(_("Resume GPU"));
                 m_SnoozeGPUMenuItem->Check(false);
-                m_SnoozeGPUMenuItem->Enable(true);
+                if (!is_dialog_detected) {
+                    m_SnoozeGPUMenuItem->Enable(true);
+                }
                 break;
             default:
                 m_SnoozeGPUMenuItem->SetItemLabel(_("Snooze GPU"));
