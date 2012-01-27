@@ -1096,3 +1096,12 @@ David  27 Jan 2012
         ViewResources.cpp
     html/inc/
         prefs.inc
+
+David  27 Jan 2012
+	- manager: in tooltips for Project/Task buttons,
+		don't prepend "button name: ";
+		add a tooltip for Home Page button.
+
+	clientgui/
+		BOINCBaseView.cpp
+		BOINCTaskCtrl.cpp

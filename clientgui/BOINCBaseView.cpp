@@ -777,7 +777,7 @@ void CBOINCBaseView::UpdateWebsiteSelection(long lControlGroup, PROJECT* project
                 // Default project url
                 pItem = new CTaskItem(
                     wxString("Home page", wxConvUTF8), 
-                    wxT(""), 
+                    wxString(project->project_name.c_str(), wxConvUTF8) + wxT(" web site"), 
                     wxString(project->master_url, wxConvUTF8),
                     ID_TASK_PROJECT_WEB_PROJDEF_MIN
                 );
