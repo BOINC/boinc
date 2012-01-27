@@ -396,6 +396,8 @@ pascal OSStatus SysMenuEventHandler( EventHandlerCallRef inHandlerCallRef,
             {
                 GetMenuItemCommandID(baseMenuRef, i, &commandID);
                 SetMenuItemCommandID(sysMenuRef, i, commandID);
+                GetMenuItemText(baseMenuRef, i, theMenuTitle);
+                SetMenuItemText(sysMenuRef, i, theMenuTitle);
                 GetItemMark(baseMenuRef, i, &markChar);
                 SetItemMark(sysMenuRef, i, markChar);
                 if( IsMenuItemEnabled(baseMenuRef, i) )

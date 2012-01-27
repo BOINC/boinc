@@ -1072,3 +1072,16 @@ Charlie 26 Jan 2012
     
     mac_build/
         HowToBuildBOINC_XCode.rtf
+
+Charlie 27 Jan 2012
+    - MGR: If CPU or GPU is suspended from Activity Menu, change "Snooze" item 
+        to "Resume" in system tray menu.
+    - client: Always remember previous CPU and GPU activity settings.
+    
+    client/
+        client_types.cpp,h
+        cs_statefile.cpp
+    clientgui/
+        BOINCTaskBar.cpp,.h
+        mac/
+            macSysMenu.cpp

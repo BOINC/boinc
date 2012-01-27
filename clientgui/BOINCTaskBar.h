@@ -100,25 +100,27 @@ public:
     }
 #endif
 
-    wxIcon     m_iconTaskBarNormal;
-    wxIcon     m_iconTaskBarDisconnected;
-    wxIcon     m_iconTaskBarSnooze;
+    wxIcon          m_iconTaskBarNormal;
+    wxIcon          m_iconTaskBarDisconnected;
+    wxIcon          m_iconTaskBarSnooze;
     
-    wxIcon     m_iconCurrentIcon;
+    wxIcon          m_iconCurrentIcon;
 
-    bool       m_bTaskbarInitiatedShutdown;
+    bool            m_bTaskbarInitiatedShutdown;
 
 private:
-    bool       m_bMouseButtonPressed;
+    bool            m_bMouseButtonPressed;
+    wxMenuItem*     m_SnoozeMenuItem;
+    wxMenuItem*     m_SnoozeGPUMenuItem;
 
-    wxDateTime m_dtLastNotificationAlertExecuted;
-    int        m_iLastNotificationUnreadMessageCount;
+    wxDateTime      m_dtLastNotificationAlertExecuted;
+    int             m_iLastNotificationUnreadMessageCount;
 
-    void       ResetTaskBar();
-    void       DisplayContextMenu();
+    void            ResetTaskBar();
+    void            DisplayContextMenu();
 
-    void       UpdateTaskbarStatus();
-    void       UpdateNoticeStatus();
+    void            UpdateTaskbarStatus();
+    void            UpdateNoticeStatus();
 
     DECLARE_EVENT_TABLE()
 };

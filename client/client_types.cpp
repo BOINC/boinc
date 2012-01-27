@@ -2192,15 +2192,21 @@ void RESULT::abort_inactive(int status) {
 RUN_MODE::RUN_MODE() {
     perm_mode = 0;
     temp_mode = 0;
+    prev_mode = 0;
     temp_timeout = 0;
 }
 
 void RUN_MODE::set(int mode, double duration) {
+    if (mode == 0) mode = RUN_MODE_AUTO;
     if (mode == RUN_MODE_RESTORE) {
         temp_timeout = 0;
+        if (temp_mode == perm_mode) {
+            perm_mode = prev_mode;
+        }
         temp_mode = perm_mode;
         return;
     }
+    prev_mode = temp_mode;
     if (duration) {
         temp_mode = mode;
         temp_timeout = gstate.now + duration;
@@ -2210,10 +2216,21 @@ void RUN_MODE::set(int mode, double duration) {
         perm_mode = mode;
         gstate.set_client_state_dirty("Set mode");
     }
+
+    // In case we read older state file with no prev_mode
+    if (prev_mode == 0) prev_mode = temp_mode;
+}
+
+void RUN_MODE::set_prev(int mode) {
+    prev_mode = mode;
 }
 
 int RUN_MODE::get_perm() {
     return perm_mode;
+}
+
+int RUN_MODE::get_prev() {
+    return prev_mode;
 }
 
 int RUN_MODE::get_current() {

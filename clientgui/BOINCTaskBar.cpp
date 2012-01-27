@@ -92,6 +92,7 @@ CTaskBarIcon::CTaskBarIcon(wxString title, wxIcon* icon, wxIcon* iconDisconnecte
     m_iconTaskBarNormal = *icon;
     m_iconTaskBarDisconnected = *iconDisconnected;
     m_iconTaskBarSnooze = *iconSnooze;
+    m_SnoozeGPUMenuItem = NULL;
 
     m_bTaskbarInitiatedShutdown = false;
 
@@ -217,7 +218,9 @@ void CTaskBarIcon::OnSuspendResume(wxCommandEvent& WXUNUSED(event)) {
 
     ResetTaskBar();
     pDoc->GetCoreClientStatus(status);
-    if (status.task_mode_perm != status.task_mode) {
+    if (status.task_mode_perm == RUN_MODE_NEVER) {
+        pDoc->SetActivityRunMode(RUN_MODE_RESTORE, 0);
+    } else if (status.task_mode_perm != status.task_mode) {
         pDoc->SetActivityRunMode(RUN_MODE_RESTORE, 0);
     } else {
         pDoc->SetActivityRunMode(RUN_MODE_NEVER, 3600);
@@ -234,7 +237,9 @@ void CTaskBarIcon::OnSuspendResumeGPU(wxCommandEvent& WXUNUSED(event)) {
 
     ResetTaskBar();
     pDoc->GetCoreClientStatus(status);
-    if (status.gpu_mode_perm != status.gpu_mode) {
+    if (status.gpu_mode_perm == RUN_MODE_NEVER) {
+        pDoc->SetGPURunMode(RUN_MODE_RESTORE, 0);
+    } else if (status.gpu_mode_perm != status.gpu_mode) {
         pDoc->SetGPURunMode(RUN_MODE_RESTORE, 0);
     } else {
         pDoc->SetGPURunMode(RUN_MODE_NEVER, 3600);
@@ -496,9 +501,9 @@ wxMenu *CTaskBarIcon::BuildContextMenu() {
 
     pMenu->AppendSeparator();
 
-    pMenu->AppendCheckItem(ID_TB_SUSPEND, _("Snooze"), wxEmptyString);
+    m_SnoozeMenuItem = pMenu->AppendCheckItem(ID_TB_SUSPEND, _("Snooze"), wxEmptyString);
     if (pDoc->state.have_nvidia || pDoc->state.have_ati) {
-        pMenu->AppendCheckItem(ID_TB_SUSPEND_GPU, _("Snooze GPU"), wxEmptyString);
+        m_SnoozeGPUMenuItem = pMenu->AppendCheckItem(ID_TB_SUSPEND_GPU, _("Snooze GPU"), wxEmptyString);
     }
 
     pMenu->AppendSeparator();
@@ -585,46 +590,55 @@ void CTaskBarIcon::AdjustMenuItems(wxMenu* pMenu) {
     case RUN_MODE_NEVER:
         switch (status.task_mode_perm) {
         case RUN_MODE_NEVER:
-            pMenu->Check(ID_TB_SUSPEND, false);
-            pMenu->Enable(ID_TB_SUSPEND, false);
+            m_SnoozeMenuItem->SetItemLabel(_("Resume"));
+            m_SnoozeMenuItem->Check(false);
+            m_SnoozeMenuItem->Enable(true);
             break;
         default:
-            pMenu->Check(ID_TB_SUSPEND, true);
+            m_SnoozeMenuItem->SetItemLabel(_("Snooze"));
+            m_SnoozeMenuItem->Check(true);
             if (!is_dialog_detected) {
-                pMenu->Enable(ID_TB_SUSPEND, true);
+                m_SnoozeMenuItem->Enable(true);
             }
-        }
-        if (pDoc->state.have_nvidia || pDoc->state.have_ati) {
-            pMenu->Check(ID_TB_SUSPEND_GPU, false);
-            pMenu->Enable(ID_TB_SUSPEND_GPU, false);
         }
         break;
     default:
-        pMenu->Check(ID_TB_SUSPEND, false);
+        m_SnoozeMenuItem->SetItemLabel(_("Snooze"));
+        m_SnoozeMenuItem->Check(false);
         if (!is_dialog_detected) {
-            pMenu->Enable(ID_TB_SUSPEND, true);
+            m_SnoozeMenuItem->Enable(true);
         }
-        if (pDoc->state.have_nvidia || pDoc->state.have_ati) {
-            switch (status.gpu_mode) {
+    }
+    
+    if (pDoc->state.have_nvidia || pDoc->state.have_ati) {
+        switch (status.gpu_mode) {
+        case RUN_MODE_NEVER:
+            switch (status.gpu_mode_perm) {
             case RUN_MODE_NEVER:
-                switch (status.gpu_mode_perm) {
-                case RUN_MODE_NEVER:
-                    pMenu->Check(ID_TB_SUSPEND_GPU, false);
-                    pMenu->Enable(ID_TB_SUSPEND_GPU, false);
-                    break;
-                default:
-                    pMenu->Check(ID_TB_SUSPEND_GPU, true);
-                    if (!is_dialog_detected) {
-                        pMenu->Enable(ID_TB_SUSPEND_GPU, true);
-                    }
-                }
+                m_SnoozeGPUMenuItem->SetItemLabel(_("Resume GPU"));
+                m_SnoozeGPUMenuItem->Check(false);
+                m_SnoozeGPUMenuItem->Enable(true);
                 break;
             default:
-                pMenu->Check(ID_TB_SUSPEND_GPU, false);
+                m_SnoozeGPUMenuItem->SetItemLabel(_("Snooze GPU"));
+                m_SnoozeGPUMenuItem->Check(true);
                 if (!is_dialog_detected) {
-                    pMenu->Enable(ID_TB_SUSPEND_GPU, true);
+                    m_SnoozeGPUMenuItem->Enable(true);
                 }
-                break;
+            }
+            break;
+        default:
+            m_SnoozeGPUMenuItem->SetItemLabel(_("Snooze GPU"));
+            m_SnoozeGPUMenuItem->Check(false);
+            if (!is_dialog_detected) {
+                m_SnoozeGPUMenuItem->Enable(true);
+            }
+            break;
+        }
+        if (pDoc->state.have_nvidia || pDoc->state.have_ati) {
+            if (status.task_mode == RUN_MODE_NEVER) {
+                m_SnoozeGPUMenuItem->Check(false);
+                m_SnoozeGPUMenuItem->Enable(false);
             }
         }
     }

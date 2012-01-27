@@ -816,10 +816,13 @@ struct RESULT {
 struct RUN_MODE {
     int perm_mode;
     int temp_mode;
+    int prev_mode;
     double temp_timeout;
     RUN_MODE();
     void set(int mode, double duration);
+    void set_prev(int mode);
     int get_perm();
+    int get_prev();
     int get_current();
 	double delay();
 };

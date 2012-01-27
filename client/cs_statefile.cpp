@@ -446,8 +446,16 @@ int CLIENT_STATE::parse_state_file_aux(const char* fname) {
             cpu_run_mode.set(retval, 0);
             continue;
         }
+        if (xp.parse_int("user_run_prev_request", retval)) {
+            cpu_run_mode.set_prev(retval);
+            continue;
+        }
         if (xp.parse_int("user_gpu_request", retval)) {
             gpu_run_mode.set(retval, 0);
+            continue;
+        }
+        if (xp.parse_int("user_gpu_prev_request", retval)) {
+            gpu_run_mode.set_prev(retval);
             continue;
         }
         if (xp.parse_int("user_network_request", retval)) {
@@ -721,7 +729,9 @@ int CLIENT_STATE::write_state(MIOFILE& f) {
         "<core_client_minor_version>%d</core_client_minor_version>\n"
         "<core_client_release>%d</core_client_release>\n"
         "<user_run_request>%d</user_run_request>\n"
+        "<user_run_prev_request>%d</user_run_prev_request>\n"
         "<user_gpu_request>%d</user_gpu_request>\n"
+        "<user_gpu_prev_request>%d</user_gpu_prev_request>\n"
         "<user_network_request>%d</user_network_request>\n"
         "%s"
         "<new_version_check_time>%f</new_version_check_time>\n"
@@ -731,7 +741,9 @@ int CLIENT_STATE::write_state(MIOFILE& f) {
         core_client_version.minor,
         core_client_version.release,
         cpu_run_mode.get_perm(),
+        cpu_run_mode.get_prev(),
         gpu_run_mode.get_perm(),
+        gpu_run_mode.get_prev(),
         network_run_mode.get_perm(),
         cpu_benchmarks_pending?"<cpu_benchmarks_pending/>\n":"",
         new_version_check_time,
