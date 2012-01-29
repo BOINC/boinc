@@ -84,6 +84,7 @@ int CScreensaver::count_active_graphic_apps(RESULTS& results, RESULT* exclude) {
 
     // Count the number of active graphics-capable apps excluding the specified result.
     // If exclude is NULL, don't exclude any results.
+    //
     for (i = 0; i < results.results.size(); i++) {
         BOINCTRACE(_T("get_random_graphics_app -- active task detected\n"));
         BOINCTRACE(
@@ -105,7 +106,9 @@ int CScreensaver::count_active_graphic_apps(RESULTS& results, RESULT* exclude) {
 // Exclude the specified result unless it is the only candidate.
 // If exclude is NULL or an empty string, don't exclude any results.
 //
-RESULT* CScreensaver::get_random_graphics_app(RESULTS& results, RESULT* exclude) {
+RESULT* CScreensaver::get_random_graphics_app(
+    RESULTS& results, RESULT* exclude
+) {
     RESULT*      rp = NULL;
     unsigned int i = 0;
     unsigned int graphics_app_count = 0;
@@ -130,10 +133,12 @@ RESULT* CScreensaver::get_random_graphics_app(RESULTS& results, RESULT* exclude)
     }
 
     // Choose which application to display.
+    //
     random_selection = (rand() % graphics_app_count) + 1;
     BOINCTRACE(_T("get_random_graphics_app -- random_selection = '%d'\n"), random_selection);
 
-    // Lets find the chosen graphics application.
+    // find the chosen graphics application.
+    //
     for (i = 0; i < results.results.size(); i++) {
         if (!strlen(results.results[i]->graphics_exec_path)) continue;
         if (is_same_task(results.results[i], avoid)) continue;
@@ -155,11 +160,10 @@ CLEANUP:
 // Launch a project (science) graphics application
 //
 #ifdef _WIN32
-int CScreensaver::launch_screensaver(RESULT* rp, HANDLE& graphics_application)
+int CScreensaver::launch_screensaver(RESULT* rp, HANDLE& graphics_application) {
 #else
-int CScreensaver::launch_screensaver(RESULT* rp, int& graphics_application)
+int CScreensaver::launch_screensaver(RESULT* rp, int& graphics_application) {
 #endif
-{
     int retval = 0;
     if (strlen(rp->graphics_exec_path)) {
         // V6 Graphics
@@ -209,11 +213,10 @@ int CScreensaver::launch_screensaver(RESULT* rp, int& graphics_application)
 // Terminate any screensaver graphics application
 //
 #ifdef _WIN32
-int CScreensaver::terminate_v6_screensaver(HANDLE& graphics_application)
+int CScreensaver::terminate_v6_screensaver(HANDLE& graphics_application) {
 #else
-int CScreensaver::terminate_v6_screensaver(int& graphics_application)
+int CScreensaver::terminate_v6_screensaver(int& graphics_application) {
 #endif
-{
     int retval = 0;
 
 #ifdef __APPLE__
@@ -237,7 +240,7 @@ int CScreensaver::terminate_v6_screensaver(int& graphics_application)
     argv[2] = gfx_pid;
     argv[3] = 0;
 
-   retval = run_program(
+    retval = run_program(
         current_dir,
         m_gfx_Switcher_Path,
         3,
@@ -276,11 +279,10 @@ int CScreensaver::terminate_v6_screensaver(int& graphics_application)
 // Terminate the project (science) graphics application
 //
 #ifdef _WIN32
-int CScreensaver::terminate_screensaver(HANDLE& graphics_application, RESULT *worker_app)
+int CScreensaver::terminate_screensaver(HANDLE& graphics_application, RESULT *worker_app) {
 #else
-int CScreensaver::terminate_screensaver(int& graphics_application, RESULT *worker_app)
+int CScreensaver::terminate_screensaver(int& graphics_application, RESULT *worker_app) {
 #endif
-{
     int retval = 0;
 
     if (graphics_application) {
@@ -296,11 +298,10 @@ int CScreensaver::terminate_screensaver(int& graphics_application, RESULT *worke
 // Launch the default graphics application
 //
 #ifdef _WIN32
-int CScreensaver::launch_default_screensaver(char *dir_path, HANDLE& graphics_application)
+int CScreensaver::launch_default_screensaver(char *dir_path, HANDLE& graphics_application) {
 #else
-int CScreensaver::launch_default_screensaver(char *dir_path, int& graphics_application)
+int CScreensaver::launch_default_screensaver(char *dir_path, int& graphics_application) {
 #endif
-{
     int retval = 0;
     int num_args;
     
@@ -323,7 +324,7 @@ int CScreensaver::launch_default_screensaver(char *dir_path, int& graphics_appli
         num_args = 4;
     }
 
-   retval = run_program(
+    retval = run_program(
         dir_path,
         m_gfx_Switcher_Path,
         num_args,
@@ -377,11 +378,10 @@ int CScreensaver::launch_default_screensaver(char *dir_path, int& graphics_appli
 // Terminate the default graphics application
 //
 #ifdef _WIN32
-int CScreensaver::terminate_default_screensaver(HANDLE& graphics_application)
+int CScreensaver::terminate_default_screensaver(HANDLE& graphics_application) {
 #else
-int CScreensaver::terminate_default_screensaver(int& graphics_application)
+int CScreensaver::terminate_default_screensaver(int& graphics_application) {
 #endif
-{
     int retval = 0;
 
     if (! graphics_application) return 0;
@@ -401,11 +401,10 @@ int CScreensaver::terminate_default_screensaver(int& graphics_application)
 // and so we run only project (science) graphics.
 
 #ifdef _WIN32
-DWORD WINAPI CScreensaver::DataManagementProc()
+DWORD WINAPI CScreensaver::DataManagementProc() {
 #else
-void *CScreensaver::DataManagementProc()
+void *CScreensaver::DataManagementProc() {
 #endif
-{
     int             retval                      = 0;
     int             suspend_reason              = 0;
     RESULT*         theResult                   = NULL;
@@ -474,7 +473,6 @@ void *CScreensaver::DataManagementProc()
     }
 
     while (true) {
-
         for (int i = 0; i < 4; i++) {
             // ***
             // *** Things that should be run frequently.
@@ -698,7 +696,9 @@ void *CScreensaver::DataManagementProc()
                 }
             }       // End if (m_bScience_gfx_running)
         
-            // If no current graphics app, pick an active task at random and launch its graphics app
+            // If no current graphics app, pick an active task at random
+            // and launch its graphics app
+            //
             if ((m_bDefault_gfx_running || (m_hGraphicsApplication == 0)) && (graphics_app_result_ptr == NULL)) {
                 graphics_app_result_ptr = get_random_graphics_app(results, previous_result_ptr);
                 previous_result_ptr = NULL;
@@ -714,7 +714,8 @@ void *CScreensaver::DataManagementProc()
                             //    dtime(), default_saver_start_time_in_science_phase, default_saver_duration_in_science_phase);
                         }
                         default_saver_start_time_in_science_phase = 0;
-                        // HasProcessExited() test will clear m_hGraphicsApplication and graphics_app_result_ptr
+                        // HasProcessExited() test will clear
+                        // m_hGraphicsApplication and graphics_app_result_ptr
                      } else {
                         retval = launch_screensaver(graphics_app_result_ptr, m_hGraphicsApplication);
                         if (retval) {
@@ -723,7 +724,9 @@ void *CScreensaver::DataManagementProc()
                             graphics_app_result_ptr = NULL;
                             m_bScience_gfx_running = false;
                         } else {
-                            SetError(FALSE, SCRAPPERR_BOINCSCREENSAVERLOADING);  // A GFX App is running: hide moving BOINC logo
+                            // A GFX App is running: hide moving BOINC logo
+                            //
+                            SetError(FALSE, SCRAPPERR_BOINCSCREENSAVERLOADING);
                             last_change_time = dtime();
                             m_bScience_gfx_running = true;
                             // Make a local copy of current result, since original pointer 
@@ -760,11 +763,13 @@ void *CScreensaver::DataManagementProc()
                         previous_result_ptr = NULL;
                         graphics_app_result_ptr = NULL;
                         m_bDefault_gfx_running = false;
-                        SetError(TRUE, SCRAPPERR_CANTLAUNCHDEFAULTGFXAPP);  // No GFX App is running: show BOINC logo
+                        SetError(TRUE, SCRAPPERR_CANTLAUNCHDEFAULTGFXAPP);
+                        // No GFX App is running: show BOINC logo
                     } else {
                         m_bDefault_gfx_running = true;
                         default_saver_start_time_in_science_phase = dtime();
-                        SetError(FALSE, SCRAPPERR_BOINCSCREENSAVERLOADING);    // Default GFX App is running: hide moving BOINC logo
+                        SetError(FALSE, SCRAPPERR_BOINCSCREENSAVERLOADING);
+                        // Default GFX App is running: hide moving BOINC logo
                     }
                 }
             }
@@ -779,20 +784,25 @@ void *CScreensaver::DataManagementProc()
                 //   application. Start a different one.
                 BOINCTRACE(_T("CScreensaver::DataManagementProc - Graphics application isn't running, start a new one.\n"));
                 if (m_bDefault_gfx_running) {
-                    // If we were able to connect to core client but gfx app can't, don't use it. 
+                    // If we were able to connect to core client
+                    // but gfx app can't, don't use it. 
+                    //
                     BOINCTRACE(_T("CScreensaver::DataManagementProc - Default graphics application exited with code %d.\n"), exit_status);
                     if (!killing_default_gfx) {     // If this is an unexpected exit
                         if (exit_status == DEFAULT_GFX_CANT_CONNECT) {
-                            SetError(TRUE, SCRAPPERR_DEFAULTGFXAPPCANTCONNECT); // No GFX App is running: show moving BOINC logo
+                            SetError(TRUE, SCRAPPERR_DEFAULTGFXAPPCANTCONNECT);
+                            // No GFX App is running: show moving BOINC logo
                         } else {
-                            SetError(TRUE, SCRAPPERR_DEFAULTGFXAPPCRASHED);     // No GFX App is running: show moving BOINC logo
+                            SetError(TRUE, SCRAPPERR_DEFAULTGFXAPPCRASHED);
+                            // No GFX App is running: show moving BOINC logo
                         }
                         m_bDefault_ss_exists = false;
                         ss_phase = SCIENCE_SS_PHASE;
                     }
                     killing_default_gfx = false;
                 }
-                SetError(TRUE, SCRAPPERR_BOINCNOGRAPHICSAPPSEXECUTING); // No GFX App is running: show moving BOINC logo
+                SetError(TRUE, SCRAPPERR_BOINCNOGRAPHICSAPPSEXECUTING);
+                // No GFX App is running: show moving BOINC logo
                 m_hGraphicsApplication = 0;
                 graphics_app_result_ptr = NULL;
                 m_bDefault_gfx_running = false;
@@ -831,8 +841,7 @@ bool CScreensaver::HasProcessExited(pid_t pid, int &exitCode) {
 #endif
 
 
-void CScreensaver::GetDefaultDisplayPeriods(struct ss_periods &periods)
-{
+void CScreensaver::GetDefaultDisplayPeriods(struct ss_periods &periods) {
     char*           default_data_dir_path = NULL;
     char            buf[1024];
     FILE*           f;
@@ -859,15 +868,19 @@ void CScreensaver::GetDefaultDisplayPeriods(struct ss_periods &periods)
     mf.init_file(f);
     XML_PARSER xp(&mf);
 
-    while (mf.fgets(buf, sizeof(buf))) {
-        if (parse_bool(buf, "default_ss_first", periods.Show_default_ss_first)) continue;
-        if (parse_double(buf, "<default_gfx_duration>", periods.GFXDefaultPeriod)) continue;
-        if (parse_double(buf, "<science_gfx_duration>", periods.GFXSciencePeriod)) continue;
-        if (parse_double(buf, "<science_gfx_change_interval>", periods.GFXChangePeriod)) continue;
-        
+    while (!xp.get_tag()) {
+        if (xp.parse_bool("default_ss_first", periods.Show_default_ss_first)) continue;
+        if (xp.parse_double("default_gfx_duration", periods.GFXDefaultPeriod)) continue;
+        if (xp.parse_double("science_gfx_duration", periods.GFXSciencePeriod)) continue;
+        if (xp.parse_double("science_gfx_change_interval", periods.GFXChangePeriod)) continue;
     }
     fclose(f);
     
-    BOINCTRACE(_T("CScreensaver::GetDefaultDisplayPeriods: m_bShow_default_ss_first=%d, m_fGFXDefaultPeriod=%f, m_fGFXSciencePeriod=%f, m_fGFXChangePeriod=%f\n"),
-                    (int)periods.Show_default_ss_first, periods.GFXDefaultPeriod, periods.GFXSciencePeriod, periods.GFXChangePeriod);
+    BOINCTRACE(
+        _T("CScreensaver::GetDefaultDisplayPeriods: m_bShow_default_ss_first=%d, m_fGFXDefaultPeriod=%f, m_fGFXSciencePeriod=%f, m_fGFXChangePeriod=%f\n"),
+        (int)periods.Show_default_ss_first,
+        periods.GFXDefaultPeriod,
+        periods.GFXSciencePeriod,
+        periods.GFXChangePeriod
+    );
 }

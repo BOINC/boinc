@@ -1111,3 +1111,12 @@ Charlie 27 Jan 2012
 
     clientgui/
         BOINCTaskBar.cpp
+
+David  28 Jan 2012
+    - web: msg tweak
+    - screensaver coordinator: use new XML parser
+
+    clientscr/
+        screensaver.cpp
+    html/user/
+        forum_report_post.php

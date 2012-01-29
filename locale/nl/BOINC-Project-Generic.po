@@ -6193,7 +6193,7 @@ msgstr "Gebruiker niet gevonden!"
 
 #: ../user/userw.php:51
 msgid "Account Data<br/>for %1<br/>Time:"
-msgstr "Account Data <br/> voor% 1 <br/> Tijd:"
+msgstr "Account Data <br/> voor %1 <br/> Tijd:"
 
 #: ../user/userw.php:54
 msgid "Team:"

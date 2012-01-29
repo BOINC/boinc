@@ -62,10 +62,10 @@ $no_forum_rating = parse_bool($config, "no_forum_rating");
 //__--------------- Display part
 if ($success_page==1) {
     page_head(tra("Report Registered"));
-    echo tra("Your report has been recorded. Thanks you for your input.")."<p>"
+    echo tra("Your report has been recorded. Thanks for your input.")."<p>"
         .tra("A moderator will now look at your report and decide what will happen - this may take a little while, so please be patient");
 
-    echo "<a href=\"forum_thread.php?id=", $thread->id, "#", $post->id, "\">".tra("Return to thread")."</a>";
+    echo "<p><a href=\"forum_thread.php?id=", $thread->id, "#", $post->id, "\">".tra("Return to thread")."</a>";
 } elseif ($success_page==0){
     page_head(tra("Report a forum post"));
     if (!$no_forum_rating) {
