@@ -309,6 +309,7 @@ class SqlQueryString {
         $this->addeq('hostid');
         $this->addeq('userid');
         $this->addeq('teamid');
+        $this->addeq('app_version_id');
         $this->addeq('exit_status');
         if (isset($_GET['nsecs'])) {
             $_GET['mod_time'] = date("YmdHis",time() - $_GET['nsecs']);

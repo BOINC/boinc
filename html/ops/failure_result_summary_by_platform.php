@@ -29,7 +29,7 @@ $q->process_form_items();
 
 $main_query = "
 SELECT
-    app_version_num AS App_Version,
+    app_version_id AS App_Version,
     app_version.plan_class AS Plan_Class,
     case
         when INSTR(host.os_name, 'Darwin') then 'Darwin'
@@ -59,40 +59,24 @@ GROUP BY
 $urlquery = $q->urlquery;
 $result = mysql_query($main_query);
 
-echo "<table>\n";
-echo "<tr><th>App Version</th><th>Plan Class</th><th>OS</th><th>Exit Status</th><th>Error Count</th></tr>\n";
+start_table();
+table_header(
+    "App version ID", "Plan Class", "OS", "Exit Status", "Error Count"
+);
 
 while ($res = mysql_fetch_object($result)) {
-
-    echo "<tr>";
-
-	echo "<td align=\"left\" valign=\"top\">";
-	echo $res->App_Version;
-	echo "</td>";
-
-	echo "<td align=\"left\" valign=\"top\">";
-	echo $res->Plan_Class;
-	echo "</td>";
-
-	echo "<td align=\"left\" valign=\"top\">";
-    echo $res->OS_Name;
-    echo "</td>";
-
-    echo "<td align=\"left\" valign=\"top\">";
     $exit_status_condition = "exit_status=$res->exit_status";
-    echo link_results(exit_status_string($res), $urlquery, "$exit_status_condition", "");
-    echo "</td>";
-
-    echo "<td align=\"left\" valign=\"top\">";
-    echo $res->error_count;
-    echo "</td>";
-
-    echo "</tr>\n";
-
+    table_row(
+        $res->App_Version, $res->Plan_Class, $res->OS_Name,
+        link_results(
+            exit_status_string($res), $urlquery, "$exit_status_condition", ""
+        ),
+        $res->error_count
+    );
 }
 mysql_free_result($result);
 
-echo "</table>\n";
+end_table();
 
 admin_page_tail();
 

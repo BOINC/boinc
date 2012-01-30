@@ -21,19 +21,16 @@ require_once("../inc/util_ops.inc");
 db_init();
 admin_page_head("Pass percentage by platform");
 
-/*
-   modified by Bernd Machenschalk 2007
-
-   1. distinguish between Darwin x86 and Darwin PPC
-   2. lists the "fail rates" for individual client states to allow for
-      distinguishing between download errors, computing errors and aborts
-   3. optionally list individual "unknown" OS by name
-   4. optionally list "unofficial" application versions
-
-   3. and 4. are probably rather confusing on open-source projects like SETI,
-   but I found them helpful e.g. on Einstein
-
-*/
+//   modified by Bernd Machenschalk 2007
+//
+//   1. distinguish between Darwin x86 and Darwin PPC
+//   2. lists the "fail rates" for individual client states to allow for
+//      distinguishing between download errors, computing errors and aborts
+//   3. optionally list individual "unknown" OS by name
+//   4. optionally list "unofficial" application versions
+//
+//   3. and 4. are probably rather confusing on open-source projects like SETI,
+//   but I found them helpful e.g. on Einstein
 
 $query_appid = get_int('appid');
 $query_nsecs = get_int('nsecs');
@@ -45,43 +42,43 @@ $allplatforms = "";
 $allversions = "";
 
 if ($query_all_platforms == "1") {
-  $unknown_platform = "host.os_name";
-  $allplatforms = "checked";
+    $unknown_platform = "host.os_name";
+    $allplatforms = "checked";
 } else {
-  $unknown_platform = "'unknown'";
+    $unknown_platform = "'unknown'";
 }
 if ($query_all_versions == "1") {
-  $limit_app_versions = "";
-  $query_order = "platform";
-  $allversions = "checked";
+    $limit_app_versions = "";
+    $query_order = "platform";
+    $allversions = "checked";
 } else {
-  // First lets get the most recent version numbers per platform
-  $valid_app_versions = "";
+    // First lets get the most recent version numbers per platform
+    $valid_app_versions = "";
 
-  $app_version_query = "
-    SELECT DISTINCT
-    platformid,
-    MAX(version_num) AS app_version_num
-    FROM   app_version
-    left join platform on app_version.platformid = platform.id
-    WHERE
-    app_version.deprecated <> 1 and
-    appid = '$query_appid'
-    GROUP BY
-    platformid
+    $app_version_query = "
+        SELECT DISTINCT
+        platformid,
+        MAX(version_num) AS app_version_num
+        FROM   app_version
+        left join platform on app_version.platformid = platform.id
+        WHERE
+        app_version.deprecated <> 1 and
+        appid = '$query_appid'
+        GROUP BY
+        platformid
     ";
 
-  $result = mysql_query($app_version_query);
-  while ($res = mysql_fetch_object($result)) {
-    if (strlen($valid_app_versions) == 0) {
-      $valid_app_versions = "$res->app_version_num";
-    } else {
-      $valid_app_versions = "$valid_app_versions, $res->app_version_num";
+    $result = mysql_query($app_version_query);
+    while ($res = mysql_fetch_object($result)) {
+        if (strlen($valid_app_versions) == 0) {
+            $valid_app_versions = "$res->app_version_num";
+        } else {
+            $valid_app_versions = "$valid_app_versions, $res->app_version_num";
+        }
     }
-  }
-  mysql_free_result($result);
-  $limit_app_versions = "app_version_num IN ( $valid_app_versions ) AND";    
-  $query_order = "version DESC";
+    mysql_free_result($result);
+    $limit_app_versions = "app_version_num IN ( $valid_app_versions ) AND";    
+    $query_order = "version DESC";
 }
 
 // Now that we have a valid list of app_version_nums'
@@ -89,7 +86,7 @@ if ($query_all_versions == "1") {
 
 $main_query = "
 SELECT
-       app_version_num AS version,
+       app_version_id AS version,
        CASE
            when INSTR(host.os_name, 'Darwin')  then
                 (CASE WHEN INSTR(host.p_vendor, 'Power') THEN 'Darwin PPC' ELSE 'Darwin x86' END)
@@ -128,7 +125,7 @@ $result = mysql_query($main_query);
 //echo "<table border=\"0\">\n";
 echo "<table cellspacing=\"10\">\n";
 echo "<tr>";
-echo "<th>Application</th><th>OS</th><th>Total<br>Results</th><th>Pass Rate</th><th>Fail Rate</th>";
+echo "<th>App version ID</th><th>OS</th><th>Total<br>Results</th><th>Pass Rate</th><th>Fail Rate</th>";
 echo "<th>Failed<br>Downloading</th><th>Failed<br>Downloaded</th><th>Failed<br>Computing</th><th>Failed<br>Uploading</th><th>Failed<br>Uploaded</th><th>Aborted</th>";
 echo "</tr>\n";
 

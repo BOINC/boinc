@@ -19,14 +19,14 @@
 require_once("../inc/util_ops.inc");
 
 db_init();
-admin_page_head("Result Failure Summary by Host");
+admin_page_head("Failures grouped by app version and host");
 
 $query_appid = $_GET['appid'];
 $query_received_time = time() - $_GET['nsecs'];
 
 $main_query = "
 SELECT
-       app_version_num AS App_Version,
+       app_version_id AS App_Version,
        hostid AS Host_ID,
        case
            when INSTR(host.os_name, 'Darwin') then 'Darwin'
@@ -64,43 +64,22 @@ GROUP BY
 
 $result = mysql_query($main_query);
 
-echo "<table>\n";
-echo "<tr><th>App Version</th><th>Host ID</th><th>OS Name</th><th>OS Version</th><th>Results Today</th><th>Error Count</th></tr>\n";
+start_table();
+table_header(
+    "App version ID", "Host ID", "OS Name", "OS Version", "Results today",
+    "Error count"
+);
 
 while ($res = mysql_fetch_object($result)) {
-
-    echo "<tr>";
-    
-    echo "<td align=\"left\" valign=\"top\">";
-    echo $res->App_Version;
-    echo "</td>";
-
-    echo "<td align=\"left\" valign=\"top\">";
-    echo $res->Host_ID;
-    echo "</td>";
-
-    echo "<td align=\"left\" valign=\"top\">";
-    echo $res->OS_Name;
-    echo "</td>";
-
-    echo "<td align=\"left\" valign=\"top\">";
-    echo $res->OS_Version;
-    echo "</td>";
-
-    echo "<td align=\"left\" valign=\"top\">";
-    echo $res->Results_Today;
-    echo "</td>";
-
-    echo "<td align=\"left\" valign=\"top\">";
-    echo $res->error_count;
-    echo "</td>";
-
-    echo "</tr>\n";
-
+    table_row(
+        $res->App_Version, $res->Host_ID, $res->OS_Name,
+        $res->OS_Version, $res->Results_Today,
+        "<a href=db_action.php?table=result&detail=low&hostid=$res->Host_ID&app_version_id=$res->App_Version&server_state=5&outcome=3>$res->error_count</a>"
+    );
 }
 mysql_free_result($result);
 
-echo "</table>\n";
+end_table();
 
 admin_page_tail();
 

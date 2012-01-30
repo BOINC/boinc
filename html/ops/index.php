@@ -175,26 +175,39 @@ while ($app = mysql_fetch_object($result)) {
     if (in_array($app->id, $show_only) 
        || ( in_array("all", $show_only)
           && (!$app->deprecated || $show_deprecated)
-          )
-       ) {
+    )) {
     
-    echo "
-    <b>Result summary for <tt>$app->name</tt>:</b>
-    <ul>
-    <li> Past 24 hours:
-        <a href=\"result_summary.php?appid=$app->id&amp;nsecs=86400\">summary</a> |
-        <a href=\"pass_percentage_by_platform.php?appid=$app->id&amp;nsecs=86400\">pass percentage by platform</a> | 
-        <a href=\"failure_result_summary_by_host.php?appid=$app->id&amp;nsecs=86400\">failure by host</a> |
-        <a href=\"failure_result_summary_by_platform.php?appid=$app->id&amp;nsecs=86400\"> failure by platform</a>
-    <li>Past &nbsp;&nbsp;&nbsp;7 days:
-        <a href=\"result_summary.php?appid=$app->id&amp;nsecs=604800\">summary</a> |
-        <a href=\"pass_percentage_by_platform.php?appid=$app->id&amp;nsecs=604800\">pass percentage by platform</a> |
-        <a href=\"failure_result_summary_by_host.php?appid=$app->id&amp;nsecs=604800\">failure by host</a> |
-        <a href=\"failure_result_summary_by_platform.php?appid=$app->id&amp;nsecs=604800\">failure by platform</a>
-    </ul>
-    ";
+        echo "
+            <b>Results for <tt>$app->name</tt>:</b>
+            <ul>
+";
+        for ($i=0; $i<2; $i++) {
+            if ($i) {
+                $secs = 86400;
+                $period = "24 hours";
+            } else {
+                $secs = 7*86400;
+                $period = "&nbsp;&nbsp;&nbsp;7 days";
+            }
+            echo "
+                <li> Past $period:
+                <a href=\"result_summary.php?appid=$app->id&amp;nsecs=$secs\">
+                    summary
+                </a> |
+                <a href=\"pass_percentage_by_platform.php?appid=$app->id&amp;nsecs=$secs\">
+                    summary per app version
+                </a> | 
+                <a href=\"failure_result_summary_by_host.php?appid=$app->id&amp;nsecs=$secs\">
+                    failures broken down by (app version, host)
+                </a> |
+                <a href=\"failure_result_summary_by_platform.php?appid=$app->id&amp;nsecs=$secs\">
+                    failures broken down by (app version, error)
+                </a>
+";
+        }
+        echo " </ul> ";
     }
- }
+}
 mysql_free_result($result);
 
 if ($show_deprecated) {
