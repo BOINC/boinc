@@ -1120,3 +1120,18 @@ David  28 Jan 2012
         screensaver.cpp
     html/user/
         forum_report_post.php
+
+Charlie 30 Jan 2012
+    - client: because available GPU RAM value is unreliable, don't defer 
+        scheduling a task based on insufficient GPU RAM.  For now, the 
+        relevant code is guarded by a "#define DEFER_ON_GPU_AVAIL_RAM 0" 
+        so we can easily restore it if we find a reliable way to get the 
+        value of available GPU RAM periodically. 
+        
+        NOTE: we are still sending this unreliable value to project 
+        servers in the sched_request file.  Does it make sense to do so?
+        
+    client/
+        cpu_sched.cpp
+    lib/
+        coproc.h
