@@ -1135,3 +1135,9 @@ Charlie 30 Jan 2012
         cpu_sched.cpp
     lib/
         coproc.h
+
+David  30 Jan 2012
+	- manager: change text for buffer-size fields in advanced prefs dialog
+
+	clientgui/
+		DlgAdvPreferencesBase.cpp

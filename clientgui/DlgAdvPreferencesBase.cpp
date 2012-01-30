@@ -423,24 +423,43 @@ wxPanel* CDlgAdvPreferencesBase::createNetworkTab(wxNotebook* notebook)
 
     // buffer sizes
 
-    m_staticText30 = new wxStaticText( networkTab, ID_DEFAULT, _("Connect about every"), wxDefaultPosition, wxDefaultSize, 0 );
+    m_staticText30 = new wxStaticText(
+        networkTab, ID_DEFAULT,
+        _("Minimum work buffer"), wxDefaultPosition, wxDefaultSize, 0
+    );
     networkGeneralGridSizer->Add( m_staticText30, 0, wxALL, 5 );
 
-    m_txtNetConnectInterval = new wxTextCtrl( networkTab, ID_TXTNETCONNECTINTERVAL, wxT(""), wxDefaultPosition, wxSize( 50,-1 ), wxTE_RIGHT );
-    m_txtNetConnectInterval->SetToolTip( _("this computer is connected to the Internet about every X days\n(0 if it's always connected)") );
+    m_txtNetConnectInterval = new wxTextCtrl(
+        networkTab, ID_TXTNETCONNECTINTERVAL, wxT(""),
+        wxDefaultPosition, wxSize( 50,-1 ), wxTE_RIGHT
+    );
+    m_txtNetConnectInterval->SetToolTip(
+        _("Try to maintain enough tasks to keep busy for this many days")
+    );
 
     networkGeneralGridSizer->Add( m_txtNetConnectInterval, 0, wxALL, 1 );
 
-    m_staticText31 = new wxStaticText( networkTab, ID_DEFAULT, _("days"), wxDefaultPosition, wxDefaultSize, 0 );
+    m_staticText31 = new wxStaticText(
+        networkTab, ID_DEFAULT, _("days"), wxDefaultPosition, wxDefaultSize, 0
+    );
     networkGeneralGridSizer->Add( m_staticText31, 0, wxALL, 5 );
 
-    m_staticText331 = new wxStaticText( networkTab, ID_DEFAULT, _("Additional work buffer"), wxDefaultPosition, wxDefaultSize, 0 );
+    m_staticText331 = new wxStaticText(
+        networkTab, ID_DEFAULT,
+        _("Max additional work buffer"), wxDefaultPosition, wxDefaultSize, 0
+    );
     networkGeneralGridSizer->Add( m_staticText331, 0, wxALIGN_RIGHT|wxALL, 5 );
 
-    m_txtNetAdditionalDays = new wxTextCtrl( networkTab, ID_TXTNETADDITIONALDAYS, wxT(""), wxDefaultPosition, wxSize( 50,-1 ), wxTE_RIGHT );
+    m_txtNetAdditionalDays = new wxTextCtrl(
+        networkTab, ID_TXTNETADDITIONALDAYS, wxT(""),
+        wxDefaultPosition, wxSize( 50,-1 ), wxTE_RIGHT
+    );
+    m_txtNetAdditionalDays->SetToolTip(
+        _("In addition, maintain enough tasks for up to this many days")
+    );
     networkGeneralGridSizer->Add( m_txtNetAdditionalDays, 0, wxALL, 1 );
 
-    m_staticText341 = new wxStaticText( networkTab, ID_DEFAULT, _("days (max. 10)"), wxDefaultPosition, wxDefaultSize, 0 );
+    m_staticText341 = new wxStaticText( networkTab, ID_DEFAULT, _("days"), wxDefaultPosition, wxDefaultSize, 0 );
     networkGeneralGridSizer->Add( m_staticText341, 0, wxALL, 5 );
 
     m_chkNetSkipImageVerification = new wxCheckBox( networkTab, ID_CHKNETSKIPIMAGEVERIFICATION, _("Skip image file verification"), wxDefaultPosition, wxDefaultSize, 0 );
