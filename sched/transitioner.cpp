@@ -157,27 +157,6 @@ int handle_wu(
     TRANSITIONER_ITEM& wu_item = items[0];
     TRANSITIONER_ITEM wu_item_original = wu_item;
 
-    // "assigned" WUs aren't supposed to be handled by the transitioner.
-    // If we get one, it's an error
-    //
-    if (config.enable_assignment && strstr(wu_item.name, ASSIGNED_WU_STR)) {
-        DB_WORKUNIT wu;
-        char buf[256];
-
-        wu.id = wu_item.id;
-        log_messages.printf(MSG_CRITICAL,
-            "Assigned WU %d unexpectedly found by transitioner\n", wu.id
-        );
-        sprintf(buf, "transition_time=%d", INT_MAX);
-        retval = wu.update_field(buf);
-        if (retval) {
-            log_messages.printf(MSG_CRITICAL,
-                "update_field failed: %s\n", boincerror(retval)
-            );
-        }
-        return 0;
-    }
-
     // count up the number of results in various states,
     // and check for timed-out results
     //
@@ -450,7 +429,9 @@ int handle_wu(
         //
         std::string values;
         char value_buf[MAX_QUERY_LEN];
-        if (n_new_results_needed > 0) {
+        if (wu_item.transitioner_flags != TRANSITION_NO_NEW_RESULTS
+            && n_new_results_needed > 0
+        ) {
             log_messages.printf(
                 MSG_NORMAL,
                 "[WU#%d %s] Generating %d more results (%d target - %d unsent - %d in progress - %d success)\n",

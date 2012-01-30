@@ -91,6 +91,8 @@ extern bool is_arg(const char*, const char*);
 
 extern bool app_plan_uses_gpu(const char* plan_class);
 
+extern int restrict_wu_to_user(DB_WORKUNIT& wu, int userid);
+
 #ifdef GCL_SIMULATOR
 extern void simulator_signal_handler(int signum);
 extern void continue_simulation(const char *daemonname);

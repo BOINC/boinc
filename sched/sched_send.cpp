@@ -1846,6 +1846,17 @@ void send_work() {
         }
     }
 
+    if (config.enable_assignment_multi) {
+        if (send_assigned_jobs_multi()) {
+            if (config.debug_assignment) {
+                log_messages.printf(MSG_NORMAL,
+                    "[assign] [HOST#%d] sent assigned jobs\n", g_reply->host.id
+                );
+            }
+            goto done;
+        }
+    }
+
     if (config.workload_sim && g_request->have_other_results_list) {
         init_ip_results(
             g_request->global_prefs.work_buf_min(),

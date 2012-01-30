@@ -302,6 +302,48 @@ bool app_plan_uses_gpu(const char* plan_class) {
     return false;
 }
 
+// Arrange that further results for this workunit
+// will be sent only to hosts with the given user ID.
+// This could be used, for example, so that late workunits
+// are sent only to cloud or cluster resources
+//
+int restrict_wu_to_user(DB_WORKUNIT& wu, int userid) {
+    DB_RESULT result;
+    DB_ASSIGNMENT asg;
+    char buf[256];
+    int retval;
+
+    // mark unsent results as DIDNT_NEED
+    //
+    sprintf(buf, "workunitid=%d and server_state=%d",
+        wu.id, RESULT_SERVER_STATE_UNSENT
+    );
+    while (result.enumerate(buf)) {
+        char buf2[256];
+        sprintf(buf2, "server_state=%d, outcome=%d",
+            RESULT_SERVER_STATE_OVER,
+            RESULT_OUTCOME_DIDNT_NEED
+        );
+        result.update_field(buf2);
+    }
+
+    // mark the WU as TRANSITION_NO_NEW_RESULTS
+    //
+    sprintf(buf, "transitioner_flags=%d", TRANSITION_NO_NEW_RESULTS);
+    retval = wu.update_field(buf);
+    if (retval) return retval;
+
+    // create an assignment record
+    //
+    asg.clear();
+    asg.create_time = time(0);
+    asg.target_id = userid;
+    asg.target_type = ASSIGN_USER;
+    asg.multi = 0;
+    asg.workunitid = wu.id;
+    retval = asg.insert();
+    return retval;
+}
 
 #ifdef GCL_SIMULATOR
 

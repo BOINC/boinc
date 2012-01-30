@@ -796,6 +796,17 @@ function update_9_20_2011() {
         add manage tinyint not null
     ");
 }
+
+function_update_1_30_2012() {
+    do_query("
+        alter table workunit
+        add transitioner_flags tinyint not null
+    ");
+    do_query(
+        "add index asgn_target(target_type, target_id)"
+    );
+}
+
 // Updates are done automatically if you use "upgrade".
 //
 // If you need to do updates manually,
@@ -819,6 +830,7 @@ $db_updates = array (
     array(24137, "update_9_6_2011"),
     array(24225, "update_9_15_2011"),
     array(24248, "update_9_20_2011"),
+    array(25169, "update_1_30_2012"),
 );
 
 

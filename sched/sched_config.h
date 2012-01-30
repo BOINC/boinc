@@ -95,6 +95,7 @@ struct SCHED_CONFIG {
     char httpd_user[256];
         // user name under which web server runs (default: apache)
     bool enable_assignment;
+    bool enable_assignment_multi;
     bool job_size_matching;
     bool dont_send_jobs;
 

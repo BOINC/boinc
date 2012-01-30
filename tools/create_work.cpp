@@ -225,14 +225,6 @@ int main(int argc, const char** argv) {
         sprintf(result_template_file, "templates/%s_out", app.name);
     }
 
-    if (assign_flag) {
-        if (!strstr(wu.name, ASSIGNED_WU_STR)) {
-            fprintf(stderr,
-                "Assigned WU names must contain '%s'\n", ASSIGNED_WU_STR
-            );
-            exit(1);
-        }
-    }
     retval = config.parse_file(config_dir);
     if (retval) {
         fprintf(stderr, "Can't parse config file: %d\n", retval);

@@ -822,7 +822,8 @@ void DB_WORKUNIT::db_print(char* buf){
         "priority=%d, "
         "rsc_bandwidth_bound=%.15e, "
         "fileset_id=%d, "
-        "app_version_id=%d ",
+        "app_version_id=%d, "
+        "transitioner_flags=%d ",
         create_time, appid,
         name, xml_doc, batch,
         rsc_fpops_est, rsc_fpops_bound, rsc_memory_bound, rsc_disk_bound,
@@ -840,7 +841,8 @@ void DB_WORKUNIT::db_print(char* buf){
         priority,
         rsc_bandwidth_bound,
         fileset_id,
-        app_version_id
+        app_version_id,
+        transitioner_flags
     );
 }
 
@@ -878,6 +880,7 @@ void DB_WORKUNIT::db_parse(MYSQL_ROW &r) {
     rsc_bandwidth_bound = atof(r[i++]);
     fileset_id = atoi(r[i++]);
     app_version_id = atoi(r[i++]);
+    transitioner_flags = atoi(r[i++]);
 }
 
 void DB_CREDITED_JOB::db_print(char* buf){
@@ -1084,7 +1087,7 @@ void DB_ASSIGNMENT::db_print(char* buf) {
         target_type,
         multi,
         workunitid,
-        resultid
+        _resultid
     );
 }
 
@@ -1097,7 +1100,7 @@ void DB_ASSIGNMENT::db_parse(MYSQL_ROW& r) {
     target_type = atoi(r[i++]);
     multi = atoi(r[i++]);
     workunitid = atoi(r[i++]);
-    resultid = atoi(r[i++]);
+    _resultid = atoi(r[i++]);
 }
 
 int DB_HOST_APP_VERSION::update_scheduler(DB_HOST_APP_VERSION& orig) {
@@ -1290,6 +1293,7 @@ void TRANSITIONER_ITEM::parse(MYSQL_ROW& r) {
     hr_class = atoi(r[i++]);
     batch = atoi(r[i++]);
     app_version_id = atoi(r[i++]);
+    transitioner_flags = atoi(r[i++]);
 
     // use safe_atoi() from here on cuz they might not be there
     //
@@ -1349,6 +1353,7 @@ int DB_TRANSITIONER_ITEM_SET::enumerate(
             "   wu.hr_class, "
             "   wu.batch, "
             "   wu.app_version_id, "
+            "   wu.transitioner_flags, "
             "   res.id, "
             "   res.name, "
             "   res.report_deadline, "
@@ -1364,10 +1369,10 @@ int DB_TRANSITIONER_ITEM_SET::enumerate(
             "   workunit AS wu "
             "       LEFT JOIN result AS res ON wu.id = res.workunitid "
             "WHERE "
-            "   wu.transition_time < %d %s "
+            "   wu.transition_time < %d %s and transitioner_flags<>%d"
             "LIMIT "
             "   %d ",
-            transition_time, mod_clause, nresult_limit
+            transition_time, mod_clause, TRANSITION_NONE, nresult_limit
         );
 
         retval = db->do_query(query);
@@ -2029,8 +2034,6 @@ int DB_SCHED_RESULT_ITEM_SET::update_workunits() {
     for (i=0; i<results.size(); i++) {
         if (results[i].id == 0) continue;
             // skip non-updated results
-        if (strstr(results[i].name, ASSIGNED_WU_STR)) continue;
-            // skip assigned jobs
         if (!first) strcat(query, ",");
         first = false;
         sprintf(buf, "%d", results[i].workunitid);

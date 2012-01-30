@@ -41,10 +41,12 @@
 
 #include "sched_assign.h"
 
+// send a job for the given assignment
+//
 static int send_assigned_job(ASSIGNMENT& asg) {
     int retval;
     DB_WORKUNIT wu;
-    char suffix[256], path[256], buf[256];
+    char suffix[256], path[256];
     const char *rtfpath;
     static bool first=true;
     static int seqno=0;
@@ -93,22 +95,6 @@ static int send_assigned_job(ASSIGNMENT& asg) {
     retval = result.lookup_id(result_id);
     add_result_to_reply(result, wu, bavp, false);
 
-    // if this is a one-job assignment, fill in assignment.resultid
-    // so that it doesn't get sent again
-    //
-    if (!asg.multi && asg.target_type!=ASSIGN_NONE) {
-        DB_ASSIGNMENT db_asg;
-        db_asg.id = asg.id;
-        sprintf(buf, "resultid=%u", result_id);
-        retval = db_asg.update_field(buf);
-        if (retval) {
-            log_messages.printf(MSG_CRITICAL,
-                "assign update failed: %s\n", boincerror(retval)
-            );
-            return retval;
-        }
-        asg.resultid = result_id;
-    }
     if (config.debug_assignment) {
         log_messages.printf(MSG_NORMAL,
             "[assign] [WU#%d] [RESULT#%d] [HOST#%d] send assignment %d\n",
@@ -118,27 +104,26 @@ static int send_assigned_job(ASSIGNMENT& asg) {
     return 0;
 }
 
-// Send this host any jobs assigned to it, or to its user/team
+// Send this host any "multi" assigned jobs.
 // Return true iff we sent anything
 //
-bool send_assigned_jobs() {
+bool send_assigned_jobs_multi() {
     DB_RESULT result;
     int retval;
     char buf[256];
     bool sent_something = false;
 
     for (int i=0; i<ssp->nassignments; i++) {
-        if (!work_needed(false)) break; 
         ASSIGNMENT& asg = ssp->assignments[i];
 
         if (config.debug_assignment) {
             log_messages.printf(MSG_NORMAL,
-                "[assign] processing assignment type %d\n", asg.target_type
+                "[assign] processing multi assignment type %d\n",
+                asg.target_type
             );
         }
         // see if this assignment applies to this host
         //
-        if (asg.resultid) continue;
         switch (asg.target_type) {
         case ASSIGN_NONE:
             sprintf(buf, "where hostid=%d and workunitid=%d",
@@ -150,22 +135,11 @@ bool send_assigned_jobs() {
                 if (!retval) sent_something = true;
             }
             break;
-        case ASSIGN_HOST:
-            if (g_reply->host.id != asg.target_id) continue;
-            sprintf(buf, "where workunitid=%d", asg.workunitid);
-            retval = result.lookup(buf);
-            if (retval == ERR_DB_NOT_FOUND) {
-                retval = send_assigned_job(asg);
-                if (!retval) sent_something = true;
-            }
-            break;
         case ASSIGN_USER:
             if (g_reply->user.id != asg.target_id) continue;
-            if (asg.multi) {
-                sprintf(buf, "where workunitid=%d and hostid=%d", asg.workunitid, g_reply->host.id);
-            } else {
-                sprintf(buf, "where workunitid=%d", asg.workunitid);
-            }
+            sprintf(buf, "where workunitid=%d and hostid=%d",
+                asg.workunitid, g_reply->host.id
+            );
             retval = result.lookup(buf);
             if (retval == ERR_DB_NOT_FOUND) {
                 retval = send_assigned_job(asg);
@@ -174,17 +148,86 @@ bool send_assigned_jobs() {
             break;
         case ASSIGN_TEAM:
             if (g_reply->team.id != asg.target_id) continue;
-            if (asg.multi) {
-                sprintf(buf, "where workunitid=%d and hostid=%d", asg.workunitid, g_reply->host.id);
-            } else {
-                sprintf(buf, "where workunitid=%d", asg.workunitid);
-            }
+            sprintf(buf, "where workunitid=%d and hostid=%d", asg.workunitid, g_reply->host.id);
             retval = result.lookup(buf);
             if (retval == ERR_DB_NOT_FOUND) {
                 retval = send_assigned_job(asg);
                 if (!retval) sent_something = true;
             }
             break;
+        }
+    }
+    return sent_something;
+}
+
+// send non-multi assigned jobs
+//
+bool send_assigned_jobs() {
+    DB_ASSIGNMENT asg;
+    DB_RESULT result;
+    DB_WORKUNIT wu;
+    bool sent_something = false;
+    int retval;
+
+    // for now, only look for user assignments
+    //
+    char buf[256];
+    sprintf(buf, "target_type=%d and target_id=%d and multi=0",
+        ASSIGN_USER, g_reply->user.id
+    );
+    while (asg.enumerate(buf)) {
+        if (!work_needed(false)) continue; 
+
+        // if the WU doesn't exist, delete the assignment record.
+        //
+        retval = wu.lookup_id(asg.workunitid);
+        if (retval) {
+            asg.delete_from_db();
+            continue;
+        }
+        // don't send if WU is validation pending or completed,
+        // or has transition pending
+        //
+        if (wu.need_validate) continue;
+        if (wu.canonical_resultid) continue;
+        if (wu.transition_time < time(0)) continue;
+
+        // don't send if we already sent one to this host
+        //
+        sprintf(buf, "where workunitid=%d and hostid=%d",
+            asg.workunitid,
+            g_request->host.id
+        );
+        retval = result.lookup(buf);
+        if (retval != ERR_DB_NOT_FOUND) continue;
+
+        // don't send if there's already one in progress to this user
+        //
+        sprintf(buf,
+            "where workunitid=%d and userid=%d and server_state=%d",
+            asg.workunitid,
+            g_reply->user.id,
+            RESULT_SERVER_STATE_IN_PROGRESS
+        );
+        retval = result.lookup(buf);
+        if (retval != ERR_DB_NOT_FOUND) continue;
+
+        // OK, send the job
+        //
+        retval = send_assigned_job(asg);
+        if (retval) continue;
+
+        sent_something = true;
+
+        // update the WU's transition time to time out this job
+        //
+        retval = wu.lookup_id(asg.workunitid);
+        if (retval) continue;
+        int new_tt = time(0) + wu.delay_bound;
+        if (new_tt < wu.transition_time) {
+            char buf2[256];
+            sprintf(buf2, "transition_time=%d", new_tt);
+            wu.update_field(buf2);
         }
     }
     return sent_something;

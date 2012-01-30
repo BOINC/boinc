@@ -237,12 +237,13 @@ create table workunit (
     max_error_results       integer         not null,
     max_total_results       integer         not null,
     max_success_results     integer         not null,
-    result_template_file    varchar(63)    not null,
+    result_template_file    varchar(63)     not null,
     priority                integer         not null,
     mod_time                timestamp,
     rsc_bandwidth_bound     double          not null,
     fileset_id              integer         not null,
     app_version_id          integer         not null,
+    transitioner_flags      tinyint         not null,
     primary key (id)
 ) engine=InnoDB;
 
@@ -366,6 +367,7 @@ create table assignment (
     workunitid              integer         not null,
     resultid                integer         not null,
         -- if not multi, the result
+        -- deprecated
     primary key (id)
 ) engine = InnoDB;
 

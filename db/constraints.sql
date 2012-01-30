@@ -126,3 +126,6 @@ alter table notify
 
 alter table host_app_version
     add unique hap(host_id, app_version_id);
+
+alter table assignment
+    add index asgn_target(target_type, target_id);

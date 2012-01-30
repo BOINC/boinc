@@ -16,3 +16,4 @@
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
 extern bool send_assigned_jobs();
+extern bool send_assigned_jobs_multi();

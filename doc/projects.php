@@ -33,7 +33,10 @@ See also
 <a href=wiki/Project_list>a complete list of projects</a>.
 
 <p>
-Note: if your computer is equipped with a Graphics Processing Unit
+Projects have different requirements such as memory size;
+a partial summary is <a href=http://boincfaq.mundayweb.com/index.php?view=67>here</a>.
+<p>
+If your computer is equipped with a Graphics Processing Unit
 (GPU), you may be able to
 <a href=http://boinc.berkeley.edu/wiki/GPU_computing>use it to compute faster</a>.
 ";

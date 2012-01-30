@@ -1141,3 +1141,50 @@ David  30 Jan 2012
 
 	clientgui/
 		DlgAdvPreferencesBase.cpp
+
+David  30 Jan 2012
+    - server: revamp the "assigned job" mechanism.
+        This now supports two main use cases:
+        1) there's a job that you want to run once on all hosts,
+            present and future
+            (or all hosts belonging to a user, or to a team).
+            The job is never transitioned, validated, or assimilated.
+        2) There's a normal job for which you want to use only
+            hosts belonging to a specific user (e.g. cluster or cloud hosts).
+            This restriction can be made either when the job is created,
+            or on the fly,
+            e.g. as part of a scheme for accelerating batch completion.
+            For the latter purposes we now provide a function
+                restrict_wu_to_user(DB_WORKUNIT&, int userid);
+
+            The job goes through the standard
+            transitioner/validator/assimilator path.
+
+        These cases are enabled by config flags
+            <enable_assignment_multi/>
+            <enable_assignment/>
+        respectively.
+
+        Assignment of type 2) are no longer stored in shared mem,
+        so there is no limit on their number.
+
+        There is no longer a rule that assigned job names must contain "asgn".
+
+        NOTE: this requires a database update.
+
+    db/
+        boinc_db.cpp,h
+        constraints.sql
+        schema.sql
+    sched/
+        sched_util.cpp,h
+        sched_shmem.cpp
+        transitioner.cpp
+        sched_assign.cpp
+    tools/
+        backend_lib.cpp
+        create_work.cpp
+    html/ops/
+        db_update.php
+    lib/
+        common_defs.h
