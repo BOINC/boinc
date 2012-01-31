@@ -962,8 +962,12 @@ bool detect_cookie_ie_supported_uac(std::string& project_url, std::string& name,
         return false;
     }
 
+    FILE* debug_file = fopen("CookieDetection.txt", "a");
+    fprintf(debug_file, "Cookie Detection Begin\n");
+
     // Convert name into wide character string
     name_w = A2W(name);
+    fprintf(debug_file, "Looking for cookie: '%s'\n", name.c_str());
 
     // if we don't find the cookie at the exact project dns name, check one higher
     //   (i.e. www.worldcommunitygrid.org becomes worldcommunitygrid.org
@@ -973,19 +977,35 @@ bool detect_cookie_ie_supported_uac(std::string& project_url, std::string& name,
     hostname_w = std::wstring(_T("http://")) + A2W(hostname) + std::wstring(_T("/"));
     domainname_w = std::wstring(_T("http://")) + A2W(domainname) + std::wstring(_T("/"));
 
+    fprintf(debug_file, "Hostname: '%s'\n", W2A(hostname_w).c_str());
+    fprintf(debug_file, "Domainname: '%s'\n", W2A(domainname_w).c_str());
+
     // First check to see if the desired cookie is assigned to the hostname.
     bReturnValue = pIEGPMC(hostname_w.c_str(), NULL, szCookieBuffer, &dwSize, NULL) == TRUE;
     if (!bReturnValue || (!wcsstr(szCookieBuffer, name_w.c_str()))) {
+        fprintf(debug_file, "Find cookie by host name failed\n");
+        fprintf(debug_file, "IEGetProtectedModeCookie returned %d\n", GetLastError());
         bCheckDomainName = true;
+    } else {
+        fprintf(debug_file, "Returned Cookie Data: '%s'\n", szCookieBuffer);
     }
 
     // Next check if it was assigned to the domainname.
     if (bCheckDomainName) {
         bReturnValue = pIEGPMC(domainname_w.c_str(), NULL, szCookieBuffer, &dwSize, NULL) == TRUE;
         if (!bReturnValue || (!wcsstr(szCookieBuffer, name_w.c_str()))) {
+            fprintf(debug_file, "Find cookie by domain name failed\n");
+            fprintf(debug_file, "IEGetProtectedModeCookie returned %d\n", GetLastError());
+            fprintf(debug_file, "Cookie Detection End\n\n");
+            fclose(debug_file);
             return false;
+        } else {
+            fprintf(debug_file, "Returned Cookie Data: '%s'\n", szCookieBuffer);
         }
     }
+
+    fprintf(debug_file, "Cookie Detection End\n\n");
+    fclose(debug_file);
 
     // Format of cookie buffer:
     // 'cookie1=value1; cookie2=value2; cookie3=value3;
