@@ -19,7 +19,7 @@
 require_once("../inc/util_ops.inc");
 
 db_init();
-admin_page_head("Pass percentage by platform");
+admin_page_head("Result summary per app version");
 
 //   modified by Bernd Machenschalk 2007
 //
@@ -52,33 +52,20 @@ if ($query_all_versions == "1") {
     $query_order = "platform";
     $allversions = "checked";
 } else {
-    // First lets get the most recent version numbers per platform
+    // get the most recent version per (platform, plan class)
+    //
+    $app_versions = latest_avs_app($query_appid);
     $valid_app_versions = "";
 
-    $app_version_query = "
-        SELECT DISTINCT
-        platformid,
-        MAX(version_num) AS app_version_num
-        FROM   app_version
-        left join platform on app_version.platformid = platform.id
-        WHERE
-        app_version.deprecated <> 1 and
-        appid = '$query_appid'
-        GROUP BY
-        platformid
-    ";
-
-    $result = mysql_query($app_version_query);
-    while ($res = mysql_fetch_object($result)) {
+    foreach ($app_versions as $av) {
         if (strlen($valid_app_versions) == 0) {
-            $valid_app_versions = "$res->app_version_num";
+            $valid_app_versions = "$av->id";
         } else {
-            $valid_app_versions = "$valid_app_versions, $res->app_version_num";
+            $valid_app_versions .= ", $av->id";
         }
     }
-    mysql_free_result($result);
-    $limit_app_versions = "app_version_num IN ( $valid_app_versions ) AND";    
-    $query_order = "version DESC";
+    $limit_app_versions = "app_version_id IN ( $valid_app_versions ) AND";    
+    $query_order = "app_version_id DESC";
 }
 
 // Now that we have a valid list of app_version_nums'
@@ -86,7 +73,7 @@ if ($query_all_versions == "1") {
 
 $main_query = "
 SELECT
-       app_version_id AS version,
+       app_version_id,
        CASE
            when INSTR(host.os_name, 'Darwin')  then
                 (CASE WHEN INSTR(host.p_vendor, 'Power') THEN 'Darwin PPC' ELSE 'Darwin x86' END)
@@ -114,7 +101,7 @@ WHERE
        $limit_app_versions
        received_time > '$query_received_time'
 GROUP BY
-       version DESC,
+       app_version_id DESC,
        platform
 ORDER BY
        $query_order
@@ -122,24 +109,17 @@ ORDER BY
 
 $result = mysql_query($main_query);
 
-//echo "<table border=\"0\">\n";
-echo "<table cellspacing=\"10\">\n";
-echo "<tr>";
-echo "<th>App version ID</th><th>OS</th><th>Total<br>Results</th><th>Pass Rate</th><th>Fail Rate</th>";
-echo "<th>Failed<br>Downloading</th><th>Failed<br>Downloaded</th><th>Failed<br>Computing</th><th>Failed<br>Uploading</th><th>Failed<br>Uploaded</th><th>Aborted</th>";
-echo "</tr>\n";
+start_table();
+table_header(
+    "App version", "Total<br>Results", "Pass Rate", "Fail Rate",
+    "Failed<br>Downloading", "Failed<br>Downloaded", "Failed<br>Computing",
+    "Failed<br>Uploading", "Failed<br>Uploaded", "Aborted"
+);
 
 while ($res = mysql_fetch_object($result)) {
-
-    echo "<tr>";
-
-
+    $av = BoincAppVersion::lookup_id($res->app_version_id);
     echo "<td align=\"left\" valign=\"top\">";
-    echo $res->version;
-    echo "</td>";
-
-    echo "<td align=\"left\" valign=\"top\">";
-    echo $res->platform;
+    echo sprintf("%.2f", $av->version_num/100)." $res->platform [$av->plan_class]";
     echo "</td>";
 
     echo "<td align=\"right\" valign=\"top\">";

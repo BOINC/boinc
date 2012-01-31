@@ -277,6 +277,7 @@ class SqlQueryString {
 
     function count() {
         $count_query = "select count(*) as cnt from $this->table $this->query";
+
         $result = mysql_query($count_query);
         if (!$result) return 0;
         $res = mysql_fetch_object($result);
@@ -1079,7 +1080,8 @@ function show_result_short($result) {
             $received = "<font color=\"#ff3333\">". time_str($result->report_deadline) . "</font>";
         }
     }
-    $version = "$result->app_version_num/$result->app_version_id";
+    $av = BoincAppVersion::lookup_id($result->app_version_id);
+    $version = sprintf("%.2f", $result->app_version_num/100)." [$av->plan_class]";
     $outcome_color = outcome_color($result->outcome);
     $validate_color = validate_color($result->validate_state);
     $host_user = host_user_link($result->hostid);

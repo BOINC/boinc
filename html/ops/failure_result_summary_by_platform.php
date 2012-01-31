@@ -19,7 +19,7 @@
 require_once("../inc/util_ops.inc");
 
 db_init();
-admin_page_head("Result Failure Summary by Platform");
+admin_page_head("Failure summary by (app version, error)");
 
 $query_appid = $_GET['appid'];
 $query_received_time = time() - $_GET['nsecs'];
@@ -29,8 +29,8 @@ $q->process_form_items();
 
 $main_query = "
 SELECT
-    app_version_id AS App_Version,
-    app_version.plan_class AS Plan_Class,
+    app_version_id,
+    app_version.plan_class,
     case
         when INSTR(host.os_name, 'Darwin') then 'Darwin'
         when INSTR(host.os_name, 'Linux') then 'Linux'
@@ -51,9 +51,9 @@ WHERE
     outcome = '3' and
     received_time > '$query_received_time'
 GROUP BY
-    app_version_num DESC,
-    OS_Name,
+    app_version_id,
     exit_status
+order by error_count desc
 ";
 
 $urlquery = $q->urlquery;
@@ -61,13 +61,15 @@ $result = mysql_query($main_query);
 
 start_table();
 table_header(
-    "App version ID", "Plan Class", "OS", "Exit Status", "Error Count"
+    "App version", "Exit Status", "Error Count"
 );
 
 while ($res = mysql_fetch_object($result)) {
     $exit_status_condition = "exit_status=$res->exit_status";
+    $av = BoincAppVersion::lookup_id($res->app_version_id);
+    $p = BoincPlatform::lookup_id($av->platformid);
     table_row(
-        $res->App_Version, $res->Plan_Class, $res->OS_Name,
+        sprintf("%.2f", $av->version_num/100)." $p->name [$av->plan_class]",
         link_results(
             exit_status_string($res), $urlquery, "$exit_status_condition", ""
         ),

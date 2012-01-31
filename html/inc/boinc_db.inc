@@ -435,4 +435,41 @@ class BoincHostAppVersion {
     }
 }
 
+// DB utility functions
+
+// return the "latest" app versions for a given app and platform
+//
+function latest_avs_app_platform($appid, $platformid) {
+    $avs = BoincAppVersion::enum(
+        "appid=$appid and platformid = $platformid and deprecated=0"
+    );
+    foreach ($avs as $av) {
+        foreach ($avs as $av2) {
+            if ($av->id == $av2->id) continue;
+            if ($av->plan_class == $av2->plan_class && $av->version_num > $av2->version_num) {
+                $av2->deprecated = 1;
+            }
+        }
+    }
+    $r = array();
+    foreach ($avs as $av) {
+        if (!$av->deprecated) {
+            $r[] = $av;
+        }
+    }
+    return $r;
+}
+
+// return the "latest" app versions for a given app
+//
+function latest_avs_app($appid) {
+    $platforms = BoincPlatform::enum("");
+    $r = array();
+    foreach ($platforms as $p) {
+        $avs = latest_avs_app_platform($appid, $p->id);
+        $r = array_merge($r, $avs);
+    }
+    return $r;
+}
+
 ?>

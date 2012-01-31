@@ -183,11 +183,11 @@ while ($app = mysql_fetch_object($result)) {
 ";
         for ($i=0; $i<2; $i++) {
             if ($i) {
-                $secs = 86400;
-                $period = "24 hours";
-            } else {
                 $secs = 7*86400;
                 $period = "&nbsp;&nbsp;&nbsp;7 days";
+            } else {
+                $secs = 86400;
+                $period = "24 hours";
             }
             echo "
                 <li> Past $period:

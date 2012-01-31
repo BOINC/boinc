@@ -1201,3 +1201,18 @@ David  30 Jan 2012
             pass_percentage_by_platform.php
         inc/
             db_ops.inc
+
+David  30 Jan 2012
+    - admin web: fixes and clarifications to failure summaries
+
+    html/
+        ops/
+            failure_result_summary_by_platform.php
+            failure_result_summary_by_host.php
+            index.php
+            pass_percentage_by_platform.php
+        inc/
+            boinc_db.inc
+            db_ops.inc
+        user/
+            apps.php

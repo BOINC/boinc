@@ -53,19 +53,8 @@ foreach ($apps as $app) {
         ";
     }
     foreach ($platforms as $platform) {
-        $avs = BoincAppVersion::enum(
-            "appid=$app->id and platformid = $platform->id and deprecated=0"
-        );
+        $avs = latest_avs_app_platform($app->id, $platform->id);
         foreach($avs as $av) {
-            foreach ($avs as $av2) {
-                if ($av->id == $av2->id) continue;
-                if ($av->plan_class == $av2->plan_class && $av->version_num > $av2->version_num) {
-                    $av2->deprecated = 1;
-                }
-            }
-        }
-        foreach($avs as $av) {
-            if ($av->deprecated) continue;
             $create_time_f = pretty_time_str($av->create_time);
             if ($xml) {
                 echo "    <version>\n";

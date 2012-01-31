@@ -26,7 +26,8 @@ $query_received_time = time() - $_GET['nsecs'];
 
 $main_query = "
 SELECT
-       app_version_id AS App_Version,
+       app_version_id,
+       app_version_num,
        hostid AS Host_ID,
        case
            when INSTR(host.os_name, 'Darwin') then 'Darwin'
@@ -55,26 +56,27 @@ WHERE
        outcome = '3' and 
        received_time > '$query_received_time'
 GROUP BY
-       app_version_num DESC,
-       hostid,
-       OS_Name,
-       OS_Version,
-       host.nresults_today
+       app_version_id,
+       hostid
+order by error_count desc
 ";
 
 $result = mysql_query($main_query);
 
 start_table();
 table_header(
-    "App version ID", "Host ID", "OS Name", "OS Version", "Results today",
+    "App version", "Host ID", "OS Version", "Results today",
     "Error count"
 );
 
 while ($res = mysql_fetch_object($result)) {
+    $av = BoincAppVersion::lookup_id($res->app_version_id);
+    $p = BoincPlatform::lookup_id($av->platformid);
     table_row(
-        $res->App_Version, $res->Host_ID, $res->OS_Name,
+        sprintf("%.2f", $res->app_version_num/100)." $p->name [$av->plan_class]",
+        $res->Host_ID,
         $res->OS_Version, $res->Results_Today,
-        "<a href=db_action.php?table=result&detail=low&hostid=$res->Host_ID&app_version_id=$res->App_Version&server_state=5&outcome=3>$res->error_count</a>"
+        "<a href=db_action.php?table=result&detail=low&hostid=$res->Host_ID&app_version_id=$res->app_version_id&server_state=5&outcome=3>$res->error_count</a>"
     );
 }
 mysql_free_result($result);
