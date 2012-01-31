@@ -57,12 +57,12 @@ void usage() {
         "   [ --max_total_results x ]\n"
         "   [ --max_success_results x ]\n"
         "   [ --additional_xml x ]\n"
-        "   [ --assign_all ]\n"
-        "   [ --assign_host ID ]\n"
-        "   [ --assign_user_one ID ]\n"
-        "   [ --assign_user_all ID ]\n"
-        "   [ --assign_team_one ID ]\n"
-        "   [ --assign_team_all ID ]\n"
+        "   [ --broadcast ]\n"
+        "   [ --broadcast_user ID ]\n"
+        "   [ --broadcast_team ID ]\n"
+        "   [ --target_host ID ]\n"
+        "   [ --target_user ID ]\n"
+        "   [ --target_team ID ]\n"
         "   [ --wu_id N ]   ID of existing workunit record (used by boinc_submit)\n"
     );
     exit(1);
@@ -171,31 +171,31 @@ int main(int argc, const char** argv) {
             strcpy(additional_xml, argv[++i]);
         } else if (arg(argv, i, "wu_id")) {
             wu.id = atoi(argv[++i]);
-        } else if (arg(argv, i, "assign_all")) {
+        } else if (arg(argv, i, "broadcast")) {
             assign_multi = true;
             assign_flag = true;
             assign_type = ASSIGN_NONE;
-        } else if (arg(argv, i, "assign_host")) {
+        } else if (arg(argv, i, "broadcast_user")) {
+            assign_flag = true;
+            assign_type = ASSIGN_USER;
+            assign_multi = true;
+            assign_id = atoi(argv[++i]);
+        } else if (arg(argv, i, "broadcast_team")) {
+            assign_flag = true;
+            assign_type = ASSIGN_TEAM;
+            assign_multi = true;
+            assign_id = atoi(argv[++i]);
+        } else if (arg(argv, i, "target_host")) {
             assign_flag = true;
             assign_type = ASSIGN_HOST;
             assign_id = atoi(argv[++i]);
-        } else if (arg(argv, i, "assign_user_one")) {
+        } else if (arg(argv, i, "target_user")) {
             assign_flag = true;
             assign_type = ASSIGN_USER;
             assign_id = atoi(argv[++i]);
-        } else if (arg(argv, i, "assign_user_all")) {
-            assign_flag = true;
-            assign_type = ASSIGN_USER;
-            assign_multi = true;
-            assign_id = atoi(argv[++i]);
-        } else if (arg(argv, i, "assign_team_one")) {
+        } else if (arg(argv, i, "target_team")) {
             assign_flag = true;
             assign_type = ASSIGN_TEAM;
-            assign_id = atoi(argv[++i]);
-        } else if (arg(argv, i, "assign_team_all")) {
-            assign_flag = true;
-            assign_type = ASSIGN_TEAM;
-            assign_multi = true;
             assign_id = atoi(argv[++i]);
         } else if (arg(argv, i, "help")) {
             usage();

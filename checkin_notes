@@ -965,11 +965,11 @@ David  24 Jan 2012
         client_types.cpp
 
 David  24 Jan 2012
-	- client: bug fixes in gzipped download code
+    - client: bug fixes in gzipped download code
 
-	client/
-		client_types.cpp
-		cs_files.cpp
+    client/
+        client_types.cpp
+        cs_files.cpp
 
 Rom    24 Jan 2012
     - client: undo my previous commit.  We request .gz from the server and write
@@ -1098,13 +1098,13 @@ David  27 Jan 2012
         prefs.inc
 
 David  27 Jan 2012
-	- manager: in tooltips for Project/Task buttons,
-		don't prepend "button name: ";
-		add a tooltip for Home Page button.
+    - manager: in tooltips for Project/Task buttons,
+        don't prepend "button name: ";
+        add a tooltip for Home Page button.
 
-	clientgui/
-		BOINCBaseView.cpp
-		BOINCTaskCtrl.cpp
+    clientgui/
+        BOINCBaseView.cpp
+        BOINCTaskCtrl.cpp
 
 Charlie 27 Jan 2012
     - MGR: Disable new "Resume" items in system tray menu if modal dialog is open.
@@ -1137,10 +1137,10 @@ Charlie 30 Jan 2012
         coproc.h
 
 David  30 Jan 2012
-	- manager: change text for buffer-size fields in advanced prefs dialog
+    - manager: change text for buffer-size fields in advanced prefs dialog
 
-	clientgui/
-		DlgAdvPreferencesBase.cpp
+    clientgui/
+        DlgAdvPreferencesBase.cpp
 
 David  30 Jan 2012
     - server: revamp the "assigned job" mechanism.
@@ -1216,3 +1216,12 @@ David  30 Jan 2012
             db_ops.inc
         user/
             apps.php
+
+David  30 Jan 2012
+    - create_work tool: change option names for assigned jobs
+    - admin web: show actual platform name in result summary page
+
+    tools/
+        create_work.cpp
+    html/ops/
+        pass_percentage_by_platform.php

@@ -118,8 +118,9 @@ table_header(
 
 while ($res = mysql_fetch_object($result)) {
     $av = BoincAppVersion::lookup_id($res->app_version_id);
+    $p = BoincPlatform::lookup_id($av->platformid);
     echo "<td align=\"left\" valign=\"top\">";
-    echo sprintf("%.2f", $av->version_num/100)." $res->platform [$av->plan_class]";
+    echo sprintf("%.2f", $av->version_num/100)." $p->name [$av->plan_class]";
     echo "</td>";
 
     echo "<td align=\"right\" valign=\"top\">";
