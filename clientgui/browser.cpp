@@ -937,6 +937,7 @@ bool detect_cookie_ie_supported_uac(std::string& project_url, std::string& name,
     static       tIEGPMC pIEGPMC = NULL;
     bool         bReturnValue = false;
     bool         bCheckDomainName = false;
+    HRESULT      rc;
     WCHAR        szCookieBuffer[2048];
     WCHAR*       pszCookieFragment = NULL;
     DWORD        dwSize = sizeof(szCookieBuffer)/sizeof(WCHAR);
@@ -981,8 +982,8 @@ bool detect_cookie_ie_supported_uac(std::string& project_url, std::string& name,
     fprintf(debug_file, "Domainname: '%s'\n", W2A(domainname_w).c_str());
 
     // First check to see if the desired cookie is assigned to the hostname.
-    bReturnValue = pIEGPMC(hostname_w.c_str(), NULL, szCookieBuffer, &dwSize, NULL) == TRUE;
-    if (!bReturnValue || (!wcsstr(szCookieBuffer, name_w.c_str()))) {
+    rc = pIEGPMC(hostname_w.c_str(), NULL, szCookieBuffer, &dwSize, NULL) == TRUE;
+    if (!SUCCEEDED(rc) || (!wcsstr(szCookieBuffer, name_w.c_str()))) {
         fprintf(debug_file, "Find cookie by host name failed\n");
         fprintf(debug_file, "IEGetProtectedModeCookie returned %d\n", GetLastError());
         bCheckDomainName = true;
@@ -992,8 +993,8 @@ bool detect_cookie_ie_supported_uac(std::string& project_url, std::string& name,
 
     // Next check if it was assigned to the domainname.
     if (bCheckDomainName) {
-        bReturnValue = pIEGPMC(domainname_w.c_str(), NULL, szCookieBuffer, &dwSize, NULL) == TRUE;
-        if (!bReturnValue || (!wcsstr(szCookieBuffer, name_w.c_str()))) {
+        rc = pIEGPMC(domainname_w.c_str(), NULL, szCookieBuffer, &dwSize, NULL) == TRUE;
+        if (!SUCCEEDED(rc) || (!wcsstr(szCookieBuffer, name_w.c_str()))) {
             fprintf(debug_file, "Find cookie by domain name failed\n");
             fprintf(debug_file, "IEGetProtectedModeCookie returned %d\n", GetLastError());
             fprintf(debug_file, "Cookie Detection End\n\n");
