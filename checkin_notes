@@ -7223,4 +7223,12 @@ Rom    1 Feb 2012
     /
         configure.ac
         version.h
+
+Rom    1 Feb 2012
+    - Tag for 6.8.40 release, all platforms
+      boinc_core_release_6_8_40
+
+    /
+        configure.ac
+        version.h
     
