@@ -338,6 +338,7 @@ struct HOST {
     char p_features[1024];
     char virtualbox_version[256];
     bool p_vm_extensions_disabled;
+    double d_project_share; // this project's share of available disk space
 
     int parse(XML_PARSER&);
     int parse_time_stats(XML_PARSER&);

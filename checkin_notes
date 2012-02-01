@@ -1202,7 +1202,7 @@ David  30 Jan 2012
         inc/
             db_ops.inc
 
-David  30 Jan 2012
+David  31 Jan 2012
     - admin web: fixes and clarifications to failure summaries
 
     html/
@@ -1217,7 +1217,7 @@ David  30 Jan 2012
         user/
             apps.php
 
-David  30 Jan 2012
+David  31 Jan 2012
     - create_work tool: change option names for assigned jobs
     - admin web: show actual platform name in result summary page
 
@@ -1225,3 +1225,17 @@ David  30 Jan 2012
         create_work.cpp
     html/ops/
         pass_percentage_by_platform.php
+
+David  31 Jan 2012
+    - web: fix the user search feature
+    - scheduler: parse d_project_share
+    - scheduler: if vbox and vbox_mt are both available,
+        use vbox for a 1-CPU machine
+
+    db/
+        boinc_db.h
+    sched/
+        sched_customize.cpp
+        sched_types.cpp
+    html/user/
+        user_search.php

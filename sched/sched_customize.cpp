@@ -549,20 +549,25 @@ static inline bool app_plan_vbox(
         if (strstr(plan_class, "64")) return false;
     }
 
-    if (strstr(plan_class, "mt") && can_use_multicore) {
-        // Use number of usable CPUs, taking user prefs into account
-        double ncpus = g_wreq->effective_ncpus;
-        // CernVM on average uses between 25%-50% of a second core
-        // Total on a dual-core machine is between 65%-75%
-        if (ncpus > 1.5) ncpus = 1.5;
-        hu.avg_ncpus = ncpus;
-        hu.max_ncpus = 2.0;
-        sprintf(hu.cmdline, "--nthreads %f", ncpus);
-    } else {
-        hu.avg_ncpus = 1;
-        hu.max_ncpus = 1;
+    double flops_scale = 1;
+    hu.avg_ncpus = 1;
+    hu.max_ncpus = 1;
+    if (strstr(plan_class, "mt")) {
+        if (can_use_multicore) {
+            // Use number of usable CPUs, taking user prefs into account
+            double ncpus = g_wreq->effective_ncpus;
+            // CernVM on average uses between 25%-50% of a second core
+            // Total on a dual-core machine is between 65%-75%
+            if (ncpus > 1.5) ncpus = 1.5;
+            hu.avg_ncpus = ncpus;
+            hu.max_ncpus = 2.0;
+            sprintf(hu.cmdline, "--nthreads %f", ncpus);
+        }
+        // use the non-mt version rather than the mt version with 1 CPU
+        //
+        flops_scale = .99;
     }
-    hu.projected_flops = capped_host_fpops()*hu.avg_ncpus;
+    hu.projected_flops = flops_scale * capped_host_fpops()*hu.avg_ncpus;
     hu.peak_flops = capped_host_fpops()*hu.max_ncpus;
     if (config.debug_version_select) {
         log_messages.printf(MSG_NORMAL,
