@@ -985,7 +985,7 @@ bool detect_cookie_ie_supported_uac(std::string& project_url, std::string& name,
     rc = pIEGPMC(hostname_w.c_str(), NULL, szCookieBuffer, &dwSize, NULL) == TRUE;
     if (!SUCCEEDED(rc) || (!wcsstr(szCookieBuffer, name_w.c_str()))) {
         fprintf(debug_file, "Find cookie by host name failed\n");
-        fprintf(debug_file, "IEGetProtectedModeCookie returned %d\n", GetLastError());
+        fprintf(debug_file, "IEGetProtectedModeCookie returned %d\n", rc);
         bCheckDomainName = true;
     } else {
         fprintf(debug_file, "Returned Cookie Data: '%s'\n", szCookieBuffer);
@@ -996,7 +996,7 @@ bool detect_cookie_ie_supported_uac(std::string& project_url, std::string& name,
         rc = pIEGPMC(domainname_w.c_str(), NULL, szCookieBuffer, &dwSize, NULL) == TRUE;
         if (!SUCCEEDED(rc) || (!wcsstr(szCookieBuffer, name_w.c_str()))) {
             fprintf(debug_file, "Find cookie by domain name failed\n");
-            fprintf(debug_file, "IEGetProtectedModeCookie returned %d\n", GetLastError());
+            fprintf(debug_file, "IEGetProtectedModeCookie returned %d\n", rc);
             fprintf(debug_file, "Cookie Detection End\n\n");
             fclose(debug_file);
             return false;
