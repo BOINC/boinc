@@ -1737,7 +1737,7 @@ void send_work_setup() {
         );
         if (g_wreq->anonymous_platform) {
             log_messages.printf(MSG_NORMAL,
-                "Anonymous platform app versions:\n"
+                "[send] Anonymous platform app versions:\n"
             );
             for (i=0; i<g_request->client_app_versions.size(); i++) {
                 CLIENT_APP_VERSION& cav = g_request->client_app_versions[i];
@@ -1752,6 +1752,13 @@ void send_work_setup() {
                 );
             }
         }
+        log_messages.printf(MSG_NORMAL,
+            "[send] p_vm_extensions_disabled: %s\n",
+            g_request->host.p_vm_extensions_disabled?"yes":"no"
+        );
+        log_messages.printf(MSG_NORMAL,
+            "[send] CPU features: %s\n", g_request->host.p_features
+        );
     }
 }
 

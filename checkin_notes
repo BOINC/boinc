@@ -1239,3 +1239,12 @@ David  31 Jan 2012
         sched_types.cpp
     html/user/
         user_search.php
+
+David  1 Feb 2012
+    - scheduler: add log messages to show VM-related request items
+    - fix typos in db_update script
+
+    sched/
+        sched_send.cpp
+    html/ops/
+        db_update.php

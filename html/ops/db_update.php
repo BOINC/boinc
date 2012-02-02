@@ -797,13 +797,13 @@ function update_9_20_2011() {
     ");
 }
 
-function_update_1_30_2012() {
+function update_1_30_2012() {
     do_query("
         alter table workunit
         add transitioner_flags tinyint not null
     ");
     do_query(
-        "add index asgn_target(target_type, target_id)"
+        "alter table assignment add index asgn_target(target_type, target_id)"
     );
 }
 
