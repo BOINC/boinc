@@ -937,6 +937,7 @@ bool detect_cookie_ie_supported_uac(std::string& project_url, std::string& name,
     static       tIEGPMC pIEGPMC = NULL;
     bool         bReturnValue = false;
     bool         bCheckDomainName = false;
+    HRESULT      rc;
     WCHAR        szCookieBuffer[2048];
     WCHAR*       pszCookieFragment = NULL;
     DWORD        dwSize = sizeof(szCookieBuffer)/sizeof(WCHAR);
@@ -974,15 +975,15 @@ bool detect_cookie_ie_supported_uac(std::string& project_url, std::string& name,
     domainname_w = std::wstring(_T("http://")) + A2W(domainname) + std::wstring(_T("/"));
 
     // First check to see if the desired cookie is assigned to the hostname.
-    bReturnValue = pIEGPMC(hostname_w.c_str(), NULL, szCookieBuffer, &dwSize, NULL) == TRUE;
-    if (!bReturnValue || (!wcsstr(szCookieBuffer, name_w.c_str()))) {
+    rc = pIEGPMC(hostname_w.c_str(), NULL, szCookieBuffer, &dwSize, NULL) == TRUE;
+    if (!SUCCEEDED(rc) || (!wcsstr(szCookieBuffer, name_w.c_str()))) {
         bCheckDomainName = true;
     }
 
     // Next check if it was assigned to the domainname.
     if (bCheckDomainName) {
-        bReturnValue = pIEGPMC(domainname_w.c_str(), NULL, szCookieBuffer, &dwSize, NULL) == TRUE;
-        if (!bReturnValue || (!wcsstr(szCookieBuffer, name_w.c_str()))) {
+        rc = pIEGPMC(domainname_w.c_str(), NULL, szCookieBuffer, &dwSize, NULL) == TRUE;
+        if (!SUCCEEDED(rc) || (!wcsstr(szCookieBuffer, name_w.c_str()))) {
             return false;
         }
     }

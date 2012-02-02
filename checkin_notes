@@ -1275,3 +1275,11 @@ David  2 Feb 2012
 
     client/
         cpu_sched.cpp
+
+Rom    2 Feb 2012
+    - MGR: Fix cookie detection problem when using the
+        IEGetProtectedModeCookie API.  Function prototype changed from the
+        InternetGetCookieEx function.  HRESULT != BOOL.
+        
+    clientgui/
+        browser.cpp
