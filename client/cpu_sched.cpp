@@ -471,22 +471,14 @@ static RESULT* earliest_deadline_result(int rsc_type) {
         if (rp->non_cpu_intensive()) continue;
         PROJECT* p = rp->project;
 
-        bool only_deadline_misses = true;
-
         // treat projects with DCF>90 as if they had deadline misses
         //
         if (p->duration_correction_factor < 90.0) {
-            int d = p->rsc_pwf[rsc_type].deadlines_missed_copy;
-            if (!d) {
+            if (p->rsc_pwf[rsc_type].deadlines_missed_copy <= 0) {
                 continue;
             }
-        } else {
-            only_deadline_misses = false;
         }
 
-        if (only_deadline_misses && !rp->rr_sim_misses_deadline) {
-            continue;
-        }
         bool new_best = false;
         if (best_result) {
             if (rp->report_deadline < best_result->report_deadline) {

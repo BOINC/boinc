@@ -1256,3 +1256,22 @@ Charlie 2 Feb 2012
     /
         configure.ac
         version.h
+
+David  2 Feb 2012
+    - client: fix job scheduler problem:
+        old: RR simulation marks some jobs as missing their deadline,
+            and the job scheduler runs those jobs as "high priority".
+        problem: those generally aren't the ones we should run.
+            E.g. if the client has a lot of jobs from a project,
+            typically the ones with later deadlines are the ones
+            whose deadlines are missed in the simulation.
+            But in this case the EDF policy says we should run
+            the ones with earliest deadlines.
+        new: if a project has N deadline misses,
+            run its N earliest-deadline jobs,
+            regardless of whether they missed their deadline in the sim.
+        Note: this is how it used to be (as designed by John McLeod).
+            I attempted to improve it, and got it wrong.
+
+    client/
+        cpu_sched.cpp
