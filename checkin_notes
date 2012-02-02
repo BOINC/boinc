@@ -1248,3 +1248,11 @@ David  1 Feb 2012
         sched_send.cpp
     html/ops/
         db_update.php
+
+Charlie 2 Feb 2012
+    - Tag for 7.0.13 release, all platforms
+      boinc_core_release_7_0_13
+
+    /
+        configure.ac
+        version.h
