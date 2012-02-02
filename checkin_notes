@@ -1283,3 +1283,11 @@ Rom    2 Feb 2012
         
     clientgui/
         browser.cpp
+
+Rom    2 Feb 2012
+    - Tag for 7.0.14 release, all platforms
+      boinc_core_release_7_0_14
+
+    /
+        configure.ac
+        version.h
