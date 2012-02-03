@@ -60,6 +60,7 @@
 		DD1AFEAF0A512D8700EE5B82 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 20286C33FDCF999611CA2CEA /* Carbon.framework */; };
 		DD1AFEB00A512D8700EE5B82 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD1929D80918A2F100C31BCF /* Security.framework */; };
 		DD1AFEE80A51301C00EE5B82 /* Installer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD1AFEE70A51301C00EE5B82 /* Installer.cpp */; };
+		DD1E4B7B14DCA83F0093C711 /* async_file.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD1E4B7914DCA83F0093C711 /* async_file.cpp */; };
 		DD205A1A0BAF596E0008D473 /* ProjectListCtrl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD205A180BAF596E0008D473 /* ProjectListCtrl.cpp */; };
 		DD21B49D0D750FC600AFFEE5 /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DDFE854A0B60CFD0009B43D9 /* AppKit.framework */; };
 		DD2370E113F49DF3003149F9 /* LoginItemAPI.c in Sources */ = {isa = PBXBuildFile; fileRef = DD2370DF13F49DF3003149F9 /* LoginItemAPI.c */; };
@@ -768,6 +769,8 @@
 		DD1AFEE70A51301C00EE5B82 /* Installer.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = Installer.cpp; path = ../mac_installer/Installer.cpp; sourceTree = SOURCE_ROOT; };
 		DD1C822F0AF372D900F709AC /* sg_CustomControls.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = sg_CustomControls.cpp; path = ../clientgui/sg_CustomControls.cpp; sourceTree = SOURCE_ROOT; };
 		DD1C82300AF372D900F709AC /* sg_CustomControls.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = sg_CustomControls.h; path = ../clientgui/sg_CustomControls.h; sourceTree = SOURCE_ROOT; };
+		DD1E4B7914DCA83F0093C711 /* async_file.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = async_file.cpp; sourceTree = "<group>"; };
+		DD1E4B7A14DCA83F0093C711 /* async_file.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = async_file.h; sourceTree = "<group>"; };
 		DD1F0ACD0822069E00AFC5FA /* MacGUI.pch */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = MacGUI.pch; path = ../clientgui/mac/MacGUI.pch; sourceTree = SOURCE_ROOT; };
 		DD2049DC0D862516009EEE7A /* coproc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = coproc.h; path = ../lib/coproc.h; sourceTree = SOURCE_ROOT; };
 		DD205A180BAF596E0008D473 /* ProjectListCtrl.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = ProjectListCtrl.cpp; path = ../clientgui/ProjectListCtrl.cpp; sourceTree = SOURCE_ROOT; };
@@ -1887,6 +1890,8 @@
 				F54B8FC202AC0A0C01FB7237 /* app.h */,
 				DD344B4807C5AC4C0043025C /* app_control.cpp */,
 				DD344B5A07C5AC9F0043025C /* app_start.cpp */,
+				DD1E4B7914DCA83F0093C711 /* async_file.cpp */,
+				DD1E4B7A14DCA83F0093C711 /* async_file.h */,
 				DD6617870A3FFD8C00FFEBEB /* check_security.cpp */,
 				F54B8FC302AC0A0C01FB7237 /* check_state.cpp */,
 				DD344B6C07C5AD270043025C /* client_msgs.cpp */,
@@ -3371,6 +3376,7 @@
 				DD2B6C8113149177005D6F3E /* procinfo.cpp in Sources */,
 				DD4AE04D13652BD700285859 /* cc_config.cpp in Sources */,
 				DDB4A91E1411840800032E5D /* proc_control.cpp in Sources */,
+				DD1E4B7B14DCA83F0093C711 /* async_file.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

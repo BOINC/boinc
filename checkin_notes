@@ -1325,3 +1325,10 @@ David  3 Feb 2012
 		async_file.cpp
 	lib/
 		common_defs.h
+
+Charlie 3 Feb 2012
+    - client: add async file copy stuff to Xcode project.
+    
+     mac_build/
+        boinc.xcodeproj/
+            project.pbxproj
