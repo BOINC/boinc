@@ -829,8 +829,7 @@ struct RUN_MODE {
 
 // a platform supported by the client.
 
-class PLATFORM {
-public:
+struct PLATFORM {
     std::string name;
 };
 

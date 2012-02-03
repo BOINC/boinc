@@ -58,14 +58,16 @@
 #include "file_names.h"
 #include "parse.h"
 #include "shmem.h"
-#include "str_util.h"
 #include "str_replace.h"
+#include "str_util.h"
 #include "util.h"
 
-#include "client_state.h"
+#include "async_file.h"
 #include "client_msgs.h"
+#include "client_state.h"
 #include "procinfo.h"
 #include "sandbox.h"
+
 #include "app.h"
 
 using std::max;
@@ -77,6 +79,9 @@ int gpu_suspend_reason;
 double non_boinc_cpu_usage;
 
 ACTIVE_TASK::~ACTIVE_TASK() {
+    if (async_copy) {
+        remove_async_copy(async_copy);
+    }
 }
 
 ACTIVE_TASK::ACTIVE_TASK() {
@@ -122,6 +127,7 @@ ACTIVE_TASK::ACTIVE_TASK() {
     last_deadline_miss_time = 0;
     strcpy(web_graphics_url, "");
     strcpy(remote_desktop_addr, "");
+    async_copy = NULL;
 }
 
 // preempt this task;

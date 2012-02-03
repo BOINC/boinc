@@ -69,16 +69,18 @@
 using std::vector;
 using std::string;
 
-#include "filesys.h"
+#include "base64.h"
 #include "error_numbers.h"
-#include "util.h"
-#include "str_util.h"
-#include "str_replace.h"
+#include "filesys.h"
 #include "shmem.h"
+#include "str_replace.h"
+#include "str_util.h"
+#include "util.h"
+
+#include "async_file.h"
 #include "client_msgs.h"
 #include "client_state.h"
 #include "file_names.h"
-#include "base64.h"
 #include "sandbox.h"
 #include "unix_util.h"
 
@@ -378,13 +380,27 @@ int ACTIVE_TASK::setup_file(
 
     if (must_copy_file(fref, is_io_file)) {
         if (input) {
-            retval = boinc_copy(file_path, link_path);
-            if (retval) {
-                msg_printf(project, MSG_INTERNAL_ERROR,
-                    "Can't copy %s to %s: %s", file_path, link_path,
-                    boincerror(retval)
-                );
-                return retval;
+            // the file may be there already (async copy case)
+            //
+            if (boinc_file_exists(link_path)) {
+                return 0;
+            }
+            if (fip->nbytes > 0) {
+                ASYNC_COPY* ac = new ASYNC_COPY;
+                retval = ac->init(this, file_path, link_path);
+                if (retval) return retval;
+                async_copies.push_back(ac);
+                async_copy = ac;
+                return ERR_IN_PROGRESS;
+            } else {
+                retval = boinc_copy(file_path, link_path);
+                if (retval) {
+                    msg_printf(project, MSG_INTERNAL_ERROR,
+                        "Can't copy %s to %s: %s", file_path, link_path,
+                        boincerror(retval)
+                    );
+                    return retval;
+                }
             }
 #ifdef SANDBOX
             return set_to_project_group(link_path);
@@ -574,7 +590,9 @@ int ACTIVE_TASK::start(bool first_time) {
             fip = fref.file_info;
             get_pathname(fref.file_info, file_path, sizeof(file_path));
             retval = setup_file(fip, fref, file_path, true, true);
-            if (retval) {
+            if (retval == ERR_IN_PROGRESS) {
+                return 0;
+            } else if (retval) {
                 strcpy(buf, "Can't link input file");
                 goto error;
             }
@@ -1178,4 +1196,3 @@ int ACTIVE_TASK::is_native_i386_app(char* exec_path) {
     return result;
 }
 #endif
-

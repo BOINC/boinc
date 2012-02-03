@@ -43,6 +43,7 @@
 #define REMOVE_ALWAYS       3
 
 struct CLIENT_STATE;
+struct ASYNC_COPY;
 typedef int PROCESS_ID;
 
 #define MAX_STDERR_LEN  65536
@@ -152,6 +153,7 @@ struct ACTIVE_TASK {
         // These are communicated via the app_status message channel
     char web_graphics_url[256];
     char remote_desktop_addr[256];
+    ASYNC_COPY* async_copy;
 
     void set_task_state(int, const char*);
     inline int task_state() {

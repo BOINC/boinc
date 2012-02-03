@@ -1291,3 +1291,19 @@ Rom    2 Feb 2012
     /
         configure.ac
         version.h
+
+David  3 Feb 2012
+    - client: first pass at async file copy feature.
+        When a large file is copied from a project dir to a slot dir,
+        it's copied in chunks,
+        interleaved with other polling activities such as GUI RPCs.
+        That way the manager doesn't freeze while large copies
+        (e.g. VM images) are happening
+
+    client/
+        async_file.cpp,h (new)
+        client_types.h
+        client_state.cpp
+        app.cpp,h
+        app_start.cpp
+        Makefile.am
