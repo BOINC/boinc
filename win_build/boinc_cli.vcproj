@@ -488,6 +488,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\client\async_file.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\lib\boinc_win.cpp"
 				>
 				<FileConfiguration
@@ -774,6 +778,10 @@
 			</File>
 			<File
 				RelativePath="..\client\app.h"
+				>
+			</File>
+			<File
+				RelativePath="..\client\async_file.h"
 				>
 			</File>
 			<File
