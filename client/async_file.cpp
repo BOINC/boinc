@@ -35,7 +35,8 @@ vector<ASYNC_VERIFY*> async_verifies;
 vector<ASYNC_COPY*> async_copies;
 
 int ASYNC_COPY::init(
-    ACTIVE_TASK* _atp, const char* from_path, const char* _to_path) {
+    ACTIVE_TASK* _atp, const char* from_path, const char* _to_path
+) {
     atp = _atp;
     strcpy(to_path, _to_path);
     in = fopen(from_path, "rb");
@@ -75,6 +76,9 @@ int ASYNC_COPY::copy_chunk() {
     if (n <= 0) {
         // copy done.  rename temp file
         //
+        fclose(in);
+        fclose(out);
+        in = out = NULL;
         retval = boinc_rename(temp_path, to_path);
         if (retval) {
             error(retval);
@@ -88,10 +92,10 @@ int ASYNC_COPY::copy_chunk() {
                 error(retval);
             }
         }
-        remove_async_copy(this);
         return 1;       // tell caller we're done
     } else {
         int m = fwrite(buf, 1, n, out);
+        m = 0;
         if (m != n) {
             error(ERR_FWRITE);
             return 1;
@@ -103,11 +107,11 @@ int ASYNC_COPY::copy_chunk() {
 // handle the failure of a copy; error out the result
 //
 void ASYNC_COPY::error(int retval) {
+    atp->set_task_state(PROCESS_COULDNT_START, "ASYNC_COPY::error");
     gstate.report_result_error(
         *(atp->result), "Couldn't copy file: %s", boincerror(retval)
     );
     gstate.request_schedule_cpus("start failed");
-    remove_async_copy(this);
 }
 
 void remove_async_copy(ASYNC_COPY* acp) {
@@ -117,6 +121,7 @@ void remove_async_copy(ASYNC_COPY* acp) {
             async_copies.erase(i);
             break;
         }
+        i++;
     }
     delete acp;
 }

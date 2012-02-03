@@ -1315,3 +1315,13 @@ Rom    3 Feb 2012
         async_file.cpp
     win_build/
         boinc_cli.vcproj
+
+David  3 Feb 2012
+	- client: debug async file copy.  Seems to be working.
+
+	client/
+		app.cpp
+		app_start.cpp
+		async_file.cpp
+	lib/
+		common_defs.h

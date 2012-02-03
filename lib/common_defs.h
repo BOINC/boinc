@@ -139,6 +139,8 @@ enum SUSPEND_REASON {
     // process exceeded limits; send "abort" message, waiting to exit
 #define PROCESS_QUIT_PENDING    8
     // we've sent it a "quit" message, waiting to exit
+#define PROCESS_COPY_PENDING    10
+    // waiting for async file copies to finish
 
 // states in which the process has exited
 #define PROCESS_EXITED          2

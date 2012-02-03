@@ -985,6 +985,7 @@ static const char* task_state_name(int val) {
     case PROCESS_ABORTED: return "ABORTED";
     case PROCESS_COULDNT_START: return "COULDNT_START";
     case PROCESS_QUIT_PENDING: return "QUIT_PENDING";
+    case PROCESS_COPY_PENDING: return "COPY_PENDING";
     }
     return "Unknown";
 }

@@ -570,7 +570,10 @@ int ACTIVE_TASK::start(bool first_time) {
         //
         if (first_time || wup->project->anonymous_platform) {
             retval = setup_file(fip, fref, file_path, true, false);
-            if (retval) {
+            if (retval == ERR_IN_PROGRESS) {
+                set_task_state(PROCESS_COPY_PENDING, "start");
+                return 0;
+            } else if (retval) {
                 strcpy(buf, "Can't link app version file");
                 goto error;
             }
@@ -591,6 +594,7 @@ int ACTIVE_TASK::start(bool first_time) {
             get_pathname(fref.file_info, file_path, sizeof(file_path));
             retval = setup_file(fip, fref, file_path, true, true);
             if (retval == ERR_IN_PROGRESS) {
+                set_task_state(PROCESS_COPY_PENDING, "start");
                 return 0;
             } else if (retval) {
                 strcpy(buf, "Can't link input file");
@@ -1110,12 +1114,13 @@ int ACTIVE_TASK::resume_or_start(bool first_time) {
             sprintf(buf, " (%s)", app_version->plan_class);
         }
         msg_printf(result->project, MSG_INFO,
-            "%s task %s using %s version %d%s",
+            "%s task %s using %s version %d%s in slot %d",
             str,
             result->name,
             app_version->app->name,
             app_version->version_num,
-            buf
+            buf,
+            slot
         );
     }
     return 0;
