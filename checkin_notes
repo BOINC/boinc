@@ -1052,7 +1052,7 @@ Rom    26 Jan 2012
         configure.ac
         version.h
 
-Rom    26 Jan 2012
+David  26 Jan 2012
     - client: after a gzipped file is downloaded,
         we uncompress it and then verify it.
         The latter involves computing its MD5, which reads the entire file.
