@@ -47,8 +47,12 @@
 //
 #if   defined(_WIN32)
 #include "screensaver_win.h"
+typedef HANDLE GFXAPP_ID;
+#define DataMgmtProcType DWORD WINAPI
 #elif defined(__APPLE__)
 #include "Mac_Saver_Module.h"
+typedef int GFXAPP_ID;
+#define DataMgmtProcType void*
 #endif
 
 
@@ -159,11 +163,7 @@ CLEANUP:
 
 // Launch a project (science) graphics application
 //
-#ifdef _WIN32
-int CScreensaver::launch_screensaver(RESULT* rp, HANDLE& graphics_application) {
-#else
-int CScreensaver::launch_screensaver(RESULT* rp, int& graphics_application) {
-#endif
+int CScreensaver::launch_screensaver(RESULT* rp, GFXAPP_ID& graphics_application) {
     int retval = 0;
     if (strlen(rp->graphics_exec_path)) {
         // V6 Graphics
@@ -212,11 +212,7 @@ int CScreensaver::launch_screensaver(RESULT* rp, int& graphics_application) {
 
 // Terminate any screensaver graphics application
 //
-#ifdef _WIN32
-int CScreensaver::terminate_v6_screensaver(HANDLE& graphics_application) {
-#else
-int CScreensaver::terminate_v6_screensaver(int& graphics_application) {
-#endif
+int CScreensaver::terminate_v6_screensaver(GFXAPP_ID& graphics_application) {
     int retval = 0;
 
 #ifdef __APPLE__
@@ -278,11 +274,7 @@ int CScreensaver::terminate_v6_screensaver(int& graphics_application) {
 
 // Terminate the project (science) graphics application
 //
-#ifdef _WIN32
-int CScreensaver::terminate_screensaver(HANDLE& graphics_application, RESULT *worker_app) {
-#else
-int CScreensaver::terminate_screensaver(int& graphics_application, RESULT *worker_app) {
-#endif
+int CScreensaver::terminate_screensaver(GFXAPP_ID& graphics_application, RESULT *worker_app) {
     int retval = 0;
 
     if (graphics_application) {
@@ -297,11 +289,7 @@ int CScreensaver::terminate_screensaver(int& graphics_application, RESULT *worke
 
 // Launch the default graphics application
 //
-#ifdef _WIN32
-int CScreensaver::launch_default_screensaver(char *dir_path, HANDLE& graphics_application) {
-#else
-int CScreensaver::launch_default_screensaver(char *dir_path, int& graphics_application) {
-#endif
+int CScreensaver::launch_default_screensaver(char *dir_path, GFXAPP_ID& graphics_application) {
     int retval = 0;
     int num_args;
     
@@ -377,11 +365,7 @@ int CScreensaver::launch_default_screensaver(char *dir_path, int& graphics_appli
 
 // Terminate the default graphics application
 //
-#ifdef _WIN32
-int CScreensaver::terminate_default_screensaver(HANDLE& graphics_application) {
-#else
-int CScreensaver::terminate_default_screensaver(int& graphics_application) {
-#endif
+int CScreensaver::terminate_default_screensaver(GFXAPP_ID& graphics_application) {
     int retval = 0;
 
     if (! graphics_application) return 0;
@@ -400,11 +384,7 @@ int CScreensaver::terminate_default_screensaver(int& graphics_application) {
 // with the exit code ERR_CONNECT.  In that case, we assume it was blocked by a firewall 
 // and so we run only project (science) graphics.
 
-#ifdef _WIN32
-DWORD WINAPI CScreensaver::DataManagementProc() {
-#else
-void *CScreensaver::DataManagementProc() {
-#endif
+DataMgmtProcType CScreensaver::DataManagementProc() {
     int             retval                      = 0;
     int             suspend_reason              = 0;
     RESULT*         theResult                   = NULL;

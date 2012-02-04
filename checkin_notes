@@ -1338,3 +1338,9 @@ David  3 Feb 2012
 
     db/
         boinc_db.cpp
+
+Charlie 3 Feb 2012
+    - SCR: Fix Xcode editor problems from recent screensaver.cpp changes.
+
+    clientscr/
+        screensaver.cpp
