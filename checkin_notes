@@ -1332,3 +1332,9 @@ Charlie 3 Feb 2012
      mac_build/
         boinc.xcodeproj/
             project.pbxproj
+
+David  3 Feb 2012
+    - transitioner: fix bug that cause invalid SQL query
+
+    db/
+        boinc_db.cpp

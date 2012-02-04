@@ -1369,7 +1369,7 @@ int DB_TRANSITIONER_ITEM_SET::enumerate(
             "   workunit AS wu "
             "       LEFT JOIN result AS res ON wu.id = res.workunitid "
             "WHERE "
-            "   wu.transition_time < %d %s and transitioner_flags<>%d"
+            "   wu.transition_time < %d %s and transitioner_flags<>%d "
             "LIMIT "
             "   %d ",
             transition_time, mod_clause, TRANSITION_NONE, nresult_limit

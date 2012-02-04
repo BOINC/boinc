@@ -14,7 +14,8 @@
 //
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
-// asynchronous disk operations
+
+// asynchronous file operations
 //
 
 #ifndef _ASYNC_FILE_
@@ -25,12 +26,9 @@
 struct FILE_INFO;
 struct ACTIVE_TASK;
 
-struct ASYNC_VERIFY {
-    FILE_INFO* fip;
-
-    int verify_chunk();
-};
-
+// Used to copy a file from project dir to slot dir;
+// when done, start the task again.
+//
 struct ASYNC_COPY {
     ACTIVE_TASK* atp;
     FILE* in, *out;
@@ -44,10 +42,23 @@ struct ASYNC_COPY {
     void error(int);
 };
 
+// Used to verify and possibly decompress a file
+// after it has been downloaded.
+// When done, mark it as present.
+//
+struct ASYNC_VERIFY {
+    FILE_INFO* fip;
+
+    int init(FILE_INFO*);
+    int verify_chunk();
+    void error();
+};
+
 extern std::vector<ASYNC_VERIFY*> async_verifies;
 extern std::vector<ASYNC_COPY*> async_copies;
 
 extern void remove_async_copy(ASYNC_COPY*);
+extern void remove_async_verify(ASYNC_VERIFY*);
 extern bool do_async_file_ops();
 
 #endif

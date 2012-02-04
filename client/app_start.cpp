@@ -494,6 +494,15 @@ int ACTIVE_TASK::start(bool first_time) {
     int retval, rt;
     APP_INIT_DATA aid;
 
+    if (async_copy) {
+        if (log_flags.task_debug) {
+            msg_printf(wup->project, MSG_INFO,
+                "ACTIVE_TASK::start(): async file copy already in progress"
+            );
+        }
+        return 0;
+    }
+
     // if this job less than one CPU, run it at above idle priority
     //
     bool high_priority = (app_version->avg_ncpus < 1);

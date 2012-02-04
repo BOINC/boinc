@@ -126,8 +126,25 @@ void remove_async_copy(ASYNC_COPY* acp) {
     delete acp;
 }
 
+int ASYNC_VERIFY::init(FILE_INFO* _fip) {
+    fip = _fip;
+    return 0;
+}
+
 int ASYNC_VERIFY::verify_chunk() {
     return 0;
+}
+
+void remove_async_verify(ASYNC_VERIFY* avp) {
+    vector<ASYNC_VERIFY*>::iterator i = async_verifies.begin();
+    while (i != async_verifies.end()) {
+        if (*i == avp) {
+            async_verifies.erase(i);
+            break;
+        }
+        i++;
+    }
+    delete avp;
 }
 
 // If there are any async file operations,
