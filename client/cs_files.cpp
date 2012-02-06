@@ -108,7 +108,7 @@ bool FILE_INFO::verify_file_certs() {
 // Check the existence and/or validity of a file
 // If "strict" is true, check either the digital signature of the file
 // (if signature_required is set) or its MD5 checksum.
-// Otherwise check its size.
+// Otherwise just check its size.
 //
 // This is called
 // 1) right after download is finished (CLIENT_STATE::handle_pers_file_xfers())
@@ -203,7 +203,7 @@ int FILE_INFO::verify_file(bool strict, bool show_errors) {
             );
             return ERR_NO_SIGNATURE;
         }
-        retval = verify_file2(
+        retval = check_file_signature2(
             pathname, strlen(cksum)?cksum:NULL,
             file_signature, project->code_sign_key, verified
         );

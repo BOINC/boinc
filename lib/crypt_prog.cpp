@@ -190,7 +190,9 @@ int main(int argc, char** argv) {
         signature.len = 256;
         retval = scan_hex_data(f, signature);
         if (retval) die("scan_hex_data");
-        retval = verify_file(argv[2], NULL, public_key, signature, is_valid);
+        retval = check_file_signature(
+            argv[2], NULL, public_key, signature, is_valid
+        );
         if (retval) die("verify_file");
         if (is_valid) {
             printf("file is valid\n");

@@ -330,8 +330,11 @@ int generate_signature(
     return 0;
 }
 
-int verify_file(
-    const char* path, const char* md5, R_RSA_PUBLIC_KEY& key, DATA_BLOCK& signature, bool& answer
+// check a file signature
+//
+int check_file_signature(
+    const char* path, const char* md5, R_RSA_PUBLIC_KEY& key,
+    DATA_BLOCK& signature, bool& answer
 ) {
     char md5_buf[MD5_LEN], clear_buf[MD5_LEN];
     double file_length;
@@ -343,7 +346,7 @@ int verify_file(
     } else {
         retval = md5_file(path, md5_buf, file_length);
         if (retval) {
-            fprintf(stderr, "error: verify_file: md5_file error %d\n", retval);
+            fprintf(stderr, "check_file_signature: md5_file error %d\n", retval);
             return retval;
         }
     }
@@ -352,15 +355,18 @@ int verify_file(
     clear_signature.len = MD5_LEN;
     retval = decrypt_public(key, signature, clear_signature);
     if (retval) {
-        fprintf(stderr, "error: verify_file: decrypt_public error %d\n", retval);
+        fprintf(stderr, "check_file_signature: decrypt_public error %d\n", retval);
         return retval;
     }
     answer = !strncmp(md5_buf, clear_buf, n);
     return 0;
 }
 
-int verify_file2(
-    const char* path, const char* md5, const char* signature_text, const char* key_text, bool& answer
+// same, signature given as string
+//
+int check_file_signature2(
+    const char* path, const char* md5, const char* signature_text,
+    const char* key_text, bool& answer
 ) {
     R_RSA_PUBLIC_KEY key;
     unsigned char signature_buf[SIGNATURE_SIZE_BINARY];
@@ -369,20 +375,21 @@ int verify_file2(
 
     retval = sscan_key_hex(key_text, (KEY*)&key, sizeof(key));
     if (retval) {
-        fprintf(stderr, "error: verify_file2: sscan_key_hex did not work\n");
+        fprintf(stderr, "check_file_signature2: sscan_key_hex failed\n");
         return retval;
     }
     signature.data = signature_buf;
     signature.len = sizeof(signature_buf);
     retval = sscan_hex_data(signature_text, signature);
     if (retval) return retval;
-    return verify_file(path, md5, key, signature, answer);
+    return check_file_signature(path, md5, key, signature, answer);
 }
 
-// verify, where both text and signature are char strings
+// same, both text and signature are char strings
 //
-int verify_string(
-    const char* text, const char* signature_text, R_RSA_PUBLIC_KEY& key, bool& answer
+int check_string_signature(
+    const char* text, const char* signature_text, R_RSA_PUBLIC_KEY& key,
+    bool& answer
 ) {
     char md5_buf[MD5_LEN];
     unsigned char signature_buf[SIGNATURE_SIZE_BINARY];
@@ -407,7 +414,7 @@ int verify_string(
 
 // Same, where public key is also encoded as text
 //
-int verify_string2(
+int check_string_signature2(
     const char* text, const char* signature_text, const char* key_text, bool& answer
 ) {
     R_RSA_PUBLIC_KEY key;
@@ -415,7 +422,7 @@ int verify_string2(
 
     retval = sscan_key_hex(key_text, (KEY*)&key, sizeof(key));
     if (retval) return retval;
-    return verify_string(text, signature_text, key, answer);
+    return check_string_signature(text, signature_text, key, answer);
 }
 
 int read_key_file(const char* keyfile, R_RSA_PRIVATE_KEY& key) {

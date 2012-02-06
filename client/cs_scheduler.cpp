@@ -682,7 +682,7 @@ int CLIENT_STATE::handle_scheduler_reply(PROJECT* project, char* scheduler_url) 
             safe_strcpy(project->code_sign_key, sr.code_sign_key);
         } else {
             if (sr.code_sign_key_signature) {
-                retval = verify_string2(
+                retval = check_string_signature2(
                     sr.code_sign_key, sr.code_sign_key_signature,
                     project->code_sign_key, signature_valid
                 );

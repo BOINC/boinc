@@ -117,7 +117,7 @@ int PERS_FILE_XFER::create_xfer() {
             return 0;
         } else {
             // Mark file as not present but don't delete it.
-            // It might partly downloaded.
+            // It might be partly downloaded.
             //
             fip->status = FILE_NOT_PRESENT;
         }
@@ -170,6 +170,7 @@ int PERS_FILE_XFER::create_xfer() {
 // If it has finished or failed:
 //      handle the success or failure
 //      remove the FILE_XFER from gstate.file_xfers and delete it
+// Return true if it finished
 //
 bool PERS_FILE_XFER::poll() {
     int retval;
@@ -199,8 +200,8 @@ bool PERS_FILE_XFER::poll() {
             return false;
         }
         last_time = gstate.now;
-        retval = create_xfer();
-        return (retval == 0);
+        create_xfer();
+        return false;
     }
 
     // copy bytes_xferred for use in GUI

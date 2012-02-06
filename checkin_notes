@@ -1344,3 +1344,19 @@ Charlie 3 Feb 2012
 
     clientscr/
         screensaver.cpp
+
+David  5 Feb 2012
+    - client: intermediate checkin for async file verification
+
+    lib/
+        crypt.cpp,h
+        crypt_prog.cpp
+    client/
+        client_types.cpp,h
+        async_file.cpp,h
+        pers_file_xfer.cpp
+        cs_apps.cpp
+        cs_scheduler.cpp
+        acct_mgr.cpp
+        cs_files.cpp
+

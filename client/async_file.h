@@ -23,6 +23,14 @@
 
 #include <vector>
 
+#ifdef _WIN32
+#include "zlib.h"
+#else
+#include <zlib.h>
+#endif
+
+#include "md5.h"
+
 struct FILE_INFO;
 struct ACTIVE_TASK;
 
@@ -48,6 +56,9 @@ struct ASYNC_COPY {
 //
 struct ASYNC_VERIFY {
     FILE_INFO* fip;
+    md5_state_t md5_state;
+    FILE* in, *out;
+    gzFile gzin;
 
     int init(FILE_INFO*);
     int verify_chunk();

@@ -34,6 +34,8 @@ using std::vector;
 vector<ASYNC_VERIFY*> async_verifies;
 vector<ASYNC_COPY*> async_copies;
 
+#define BUFSIZE 64*1024
+
 int ASYNC_COPY::init(
     ACTIVE_TASK* _atp, const char* from_path, const char* _to_path
 ) {
@@ -69,10 +71,10 @@ ASYNC_COPY::~ASYNC_COPY() {
 // return nonzero if we're done (success or fail)
 //
 int ASYNC_COPY::copy_chunk() {
-    unsigned char buf[64*1024];
+    unsigned char buf[BUFSIZE];
     int retval;
 
-    int n = fread(buf, 1, sizeof(buf), in);
+    int n = fread(buf, 1, BUFSIZE, in);
     if (n <= 0) {
         // copy done.  rename temp file
         //
@@ -127,11 +129,49 @@ void remove_async_copy(ASYNC_COPY* acp) {
 }
 
 int ASYNC_VERIFY::init(FILE_INFO* _fip) {
+    char outpath[256], inpath[256];
     fip = _fip;
+    md5_init(&md5_state);
+    get_pathname(fip, inpath, sizeof(inpath));
+
+    if (fip->download_gzipped) {
+        strcpy(outpath, inpath);
+        out = boinc_fopen(outpath, "wb");
+        if (!out) return ERR_FOPEN;
+        strcat(inpath, ".gz");
+        gzin = gzopen(inpath, "rb");
+        if (gzin == Z_NULL) {
+            fclose(out);
+            return ERR_FOPEN;
+        }
+    } else {
+        in = fopen(inpath, "rb");
+        if (!in) return ERR_FOPEN;
+    }
     return 0;
 }
 
 int ASYNC_VERIFY::verify_chunk() {
+    int n;
+    unsigned char buf[BUFSIZE];
+    if (fip->download_gzipped) {
+        n = gzread(gzin, buf, BUFSIZE);
+        if (n <=0) {
+            // done
+        } else {
+            int m = (int)fwrite(buf, 1, n, out);
+            if (m != n) {
+                // write failed
+            }
+            md5_append(&md5_state, buf, n);
+        }
+    } else {
+        n = fread(buf, 1, BUFSIZE, in);
+        if (n <= 0) {
+        } else {
+            md5_append(&md5_state, buf, n);
+        }
+    }
     return 0;
 }
 

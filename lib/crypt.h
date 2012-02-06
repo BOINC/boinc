@@ -100,16 +100,18 @@ extern int sign_file(
 extern int sign_block(
     DATA_BLOCK& data, R_RSA_PRIVATE_KEY&, DATA_BLOCK& signature
 );
-extern int verify_file(
-    const char* path, const char* md5, R_RSA_PUBLIC_KEY&, DATA_BLOCK& signature, bool&
+extern int check_file_signature(
+    const char* path, const char* md5, R_RSA_PUBLIC_KEY&,
+    DATA_BLOCK& signature, bool&
 );
-extern int verify_file2(
-    const char* path, const char* md5, const char* signature, const char* key, bool&
+extern int check_file_signature2(
+    const char* path, const char* md5, const char* signature,
+    const char* key, bool&
 );
-extern int verify_string(
+extern int check_string_signature(
     const char* text, const char* signature, R_RSA_PUBLIC_KEY&, bool&
 );
-extern int verify_string2(
+extern int check_string_signature2(
     const char* text, const char* signature, const char* key, bool&
 );
 extern int print_raw_data(FILE* f, DATA_BLOCK& x);

@@ -59,6 +59,7 @@ extern const char* rsc_name(int);
 extern COPROCS coprocs;
 
 struct FILE_INFO;
+struct ASYNC_VERIFY;
 
 // represents a list of URLs (e.g. to download a file)
 // and a current position in that list
@@ -135,6 +136,7 @@ struct FILE_INFO {
     std::string error_msg;
         // if permanent error occurs during file xfer, it's recorded here
     CERT_SIGS* cert_sigs;
+    ASYNC_VERIFY* async_verify;
 
     FILE_INFO();
     ~FILE_INFO(){}

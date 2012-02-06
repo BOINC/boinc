@@ -206,7 +206,7 @@ int CLIENT_STATE::app_finished(ACTIVE_TASK& at) {
     return 0;
 }
 
-// Returns true iff all the input files for a result are present
+// Returns zero iff all the input files for a result are present
 // (both WU and app version)
 // Called from CLIENT_STATE::update_results (with verify=false)
 // to transition result from DOWNLOADING to DOWNLOADED.

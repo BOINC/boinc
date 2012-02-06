@@ -494,7 +494,9 @@ void ACCT_MGR_OP::handle_reply(int http_op_retval) {
         //
         for (i=0; i<accounts.size(); i++) {
             AM_ACCOUNT& acct = accounts[i];
-            retval = verify_string2(acct.url.c_str(), acct.url_signature, ami.signing_key, verified);
+            retval = check_string_signature2(
+                acct.url.c_str(), acct.url_signature, ami.signing_key, verified
+            );
             if (retval || !verified) {
                 msg_printf(NULL, MSG_INTERNAL_ERROR,
                     "Bad signature for URL %s", acct.url.c_str()

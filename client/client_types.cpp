@@ -1299,17 +1299,14 @@ int FILE_INFO::gzip() {
     return 0;
 }
 
-// unzip a file.
-// If md5_buf is not NULL, compute the uncompressed MD5 at the same time
+// unzip a file, and compute the uncompressed MD5 at the same time
 //
 int FILE_INFO::gunzip(char* md5_buf) {
     unsigned char buf[BUFSIZE];
     char inpath[256], outpath[256];
     md5_state_t md5_state;
 
-    if (md5_buf) {
-        md5_init(&md5_state);
-    }
+    md5_init(&md5_state);
     get_pathname(this, outpath, sizeof(outpath));
     strcpy(inpath, outpath);
     strcat(inpath, ".gz");
@@ -1325,18 +1322,14 @@ int FILE_INFO::gunzip(char* md5_buf) {
             fclose(out);
             return ERR_WRITE;
         }
-        if (md5_buf) {
-            md5_append(&md5_state, buf, n);
-        }
+        md5_append(&md5_state, buf, n);
     }
-    if (md5_buf) {
-        unsigned char binout[16];
-        md5_finish(&md5_state, binout);
-        for (int i=0; i<16; i++) {
-            sprintf(md5_buf+2*i, "%02x", binout[i]);
-        }
-        md5_buf[32] = 0;
+    unsigned char binout[16];
+    md5_finish(&md5_state, binout);
+    for (int i=0; i<16; i++) {
+        sprintf(md5_buf+2*i, "%02x", binout[i]);
     }
+    md5_buf[32] = 0;
 
     gzclose(in);
     fclose(out);
