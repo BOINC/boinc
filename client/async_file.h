@@ -62,13 +62,15 @@ struct ASYNC_VERIFY {
     md5_state_t md5_state;
     FILE* in, *out;
     gzFile gzin;
+    char inpath[256];
 
 	ASYNC_VERIFY(){};
 	~ASYNC_VERIFY(){};
 
     int init(FILE_INFO*);
     int verify_chunk();
-    void error();
+    void finish();
+    void error(int);
 };
 
 extern std::vector<ASYNC_VERIFY*> async_verifies;

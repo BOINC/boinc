@@ -101,12 +101,10 @@ extern int sign_block(
     DATA_BLOCK& data, R_RSA_PRIVATE_KEY&, DATA_BLOCK& signature
 );
 extern int check_file_signature(
-    const char* path, const char* md5, R_RSA_PUBLIC_KEY&,
-    DATA_BLOCK& signature, bool&
+    const char* md5, R_RSA_PUBLIC_KEY&, DATA_BLOCK& signature, bool&
 );
 extern int check_file_signature2(
-    const char* path, const char* md5, const char* signature,
-    const char* key, bool&
+    const char* md5, const char* signature, const char* key, bool&
 );
 extern int check_string_signature(
     const char* text, const char* signature, R_RSA_PUBLIC_KEY&, bool&

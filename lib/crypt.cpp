@@ -333,23 +333,13 @@ int generate_signature(
 // check a file signature
 //
 int check_file_signature(
-    const char* path, const char* md5, R_RSA_PUBLIC_KEY& key,
+    const char* md5_buf, R_RSA_PUBLIC_KEY& key,
     DATA_BLOCK& signature, bool& answer
 ) {
-    char md5_buf[MD5_LEN], clear_buf[MD5_LEN];
-    double file_length;
+    char clear_buf[MD5_LEN];
     int n, retval;
     DATA_BLOCK clear_signature;
 
-    if (md5) {
-        strcpy(md5_buf, md5);
-    } else {
-        retval = md5_file(path, md5_buf, file_length);
-        if (retval) {
-            fprintf(stderr, "check_file_signature: md5_file error %d\n", retval);
-            return retval;
-        }
-    }
     n = (int)strlen(md5_buf);
     clear_signature.data = (unsigned char*)clear_buf;
     clear_signature.len = MD5_LEN;
@@ -365,7 +355,7 @@ int check_file_signature(
 // same, signature given as string
 //
 int check_file_signature2(
-    const char* path, const char* md5, const char* signature_text,
+    const char* md5, const char* signature_text,
     const char* key_text, bool& answer
 ) {
     R_RSA_PUBLIC_KEY key;
@@ -382,7 +372,7 @@ int check_file_signature2(
     signature.len = sizeof(signature_buf);
     retval = sscan_hex_data(signature_text, signature);
     if (retval) return retval;
-    return check_file_signature(path, md5, key, signature, answer);
+    return check_file_signature(md5, key, signature, answer);
 }
 
 // same, both text and signature are char strings

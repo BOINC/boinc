@@ -236,9 +236,20 @@ int FILE_INFO::verify_file(bool verify_contents, bool show_errors) {
 			status = FILE_VERIFY_PENDING;
 			return ERR_IN_PROGRESS;
 		}
+        if (!strlen(cksum)) {
+            double file_length;
+            retval = md5_file(pathname, cksum, file_length);
+            if (retval) {
+                status = retval;
+                msg_printf(project, MSG_INFO,
+                    "md5_file failed for %s: %s",
+                    pathname, boincerror(retval)
+                );
+                return retval;
+            }
+        }
         retval = check_file_signature2(
-            pathname, strlen(cksum)?cksum:NULL,
-            file_signature, project->code_sign_key, verified
+            cksum, file_signature, project->code_sign_key, verified
         );
         if (retval) {
             msg_printf(project, MSG_INTERNAL_ERROR,

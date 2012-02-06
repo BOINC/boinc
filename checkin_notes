@@ -1383,3 +1383,13 @@ David  6 Feb 2012
 		async_file.cpp
 		coproc_detect.cpp
 		cs_files.cpp
+
+David  6 Feb 2012
+    - client: async file stuff
+
+    client/
+        async_file.cpp,h
+        cs_files.cpp
+    lib/
+        crypt.cpp,h
+        crypt_prog.cpp

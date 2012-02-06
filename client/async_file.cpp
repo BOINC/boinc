@@ -21,12 +21,15 @@
 #include <string.h>
 #endif
 
+#include "crypt.h"
 #include "error_numbers.h"
 #include "filesys.h"
+#include "md5_file.h"
 
 #include "app.h"
 #include "client_msgs.h"
 #include "client_state.h"
+#include "sandbox.h"
 
 #include "async_file.h"
 
@@ -136,7 +139,7 @@ void remove_async_copy(ASYNC_COPY* acp) {
 }
 
 int ASYNC_VERIFY::init(FILE_INFO* _fip) {
-    char outpath[256], inpath[256];
+    char outpath[256];
     fip = _fip;
     md5_init(&md5_state);
     get_pathname(fip, inpath, sizeof(inpath));
@@ -158,6 +161,44 @@ int ASYNC_VERIFY::init(FILE_INFO* _fip) {
     return 0;
 }
 
+// the MD5 has been computed.  Finish up.
+//
+void ASYNC_VERIFY::finish() {
+    unsigned char binout[16];
+    char md5_buf[64];
+    int retval;
+
+    md5_finish(&md5_state, binout);
+    for (int i=0; i<16; i++) {
+        sprintf(md5_buf+2*i, "%02x", binout[i]);
+    }
+    md5_buf[32] = 0;
+    if (fip->signature_required) {
+        bool verified;
+        retval = check_file_signature2(md5_buf, fip->file_signature,
+            fip->project->code_sign_key, verified
+        );
+        if (retval) {
+            error(retval);
+            return;
+        }
+        if (!verified) {
+            error(ERR_RSA_FAILED);
+            return;
+        }
+    } else {
+        if (strcmp(md5_buf, fip->md5_cksum)) {
+            error(ERR_MD5_FAILED);
+            return;
+        }
+    }
+    fip->status = FILE_PRESENT;
+}
+
+void ASYNC_VERIFY::error(int retval) {
+    fip->status = retval;
+}
+
 int ASYNC_VERIFY::verify_chunk() {
     int n;
     unsigned char buf[BUFSIZE];
@@ -165,16 +206,29 @@ int ASYNC_VERIFY::verify_chunk() {
         n = gzread(gzin, buf, BUFSIZE);
         if (n <=0) {
             // done
+            //
+            gzclose(in);
+            fclose(out);
+            delete_project_owned_file(inpath, true);
+            finish();
+            return 1;
         } else {
             int m = (int)fwrite(buf, 1, n, out);
             if (m != n) {
                 // write failed
+                //
+                error(ERR_FWRITE);
+                return 1;
             }
             md5_append(&md5_state, buf, n);
         }
     } else {
         n = fread(buf, 1, BUFSIZE, in);
         if (n <= 0) {
+            fclose(in);
+            fclose(out);
+            finish();
+            return 1;
         } else {
             md5_append(&md5_state, buf, n);
         }
