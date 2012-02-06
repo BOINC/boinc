@@ -550,7 +550,7 @@ int HTTP_OP::libcurl_exec(
     if (!out || !ends_with(std::string(out), std::string(".gz"))) {
         // Per: http://curl.haxx.se/dev/readme-encoding.html
         // NULL disables, empty string accepts all.
-        curl_easy_setopt(curlEasy, CURLOPT_ENCODING, NULL);
+        curl_easy_setopt(curlEasy, CURLOPT_ENCODING, "");
     }
 
     // setup any proxy they may need

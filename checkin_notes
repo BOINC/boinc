@@ -1365,3 +1365,12 @@ Charlie 6 Feb 2012
 
     client/
         pers_file_xfer.cpp
+
+Rom    6 Feb 2012
+    - client: Undo my change of 24 Jan 2012 which broke WCG's use of the
+        .gzb file extension.  I was wrong in how I read the conditional and
+        it turns out that libcurl does not honor the content-encoding even
+        if it is capable of supporting it.  My bad.
+
+    client/
+        http_curl.cpp
