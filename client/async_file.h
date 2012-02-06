@@ -34,6 +34,9 @@
 struct FILE_INFO;
 struct ACTIVE_TASK;
 
+#define ASYNC_FILE_THRESHOLD	1e7
+	// use async ops for files exceeding this size
+
 // Used to copy a file from project dir to slot dir;
 // when done, start the task again.
 //
@@ -59,6 +62,9 @@ struct ASYNC_VERIFY {
     md5_state_t md5_state;
     FILE* in, *out;
     gzFile gzin;
+
+	ASYNC_VERIFY(){};
+	~ASYNC_VERIFY(){};
 
     int init(FILE_INFO*);
     int verify_chunk();

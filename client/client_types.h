@@ -99,6 +99,7 @@ struct URL_LIST {
 //
 #define FILE_NOT_PRESENT    0
 #define FILE_PRESENT        1
+#define FILE_VERIFY_PENDING	2
 
 struct FILE_INFO {
     char name[256];

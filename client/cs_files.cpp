@@ -37,6 +37,7 @@
 #include "cert_sig.h"
 #include "error_numbers.h"
 
+#include "async_file.h"
 #include "file_names.h"
 #include "client_types.h"
 #include "client_state.h"
@@ -105,29 +106,45 @@ bool FILE_INFO::verify_file_certs() {
     return retval;
 }
 
-// Check the existence and/or validity of a file
-// If "strict" is true, check either the digital signature of the file
-// (if signature_required is set) or its MD5 checksum.
-// Otherwise just check its size.
+// Check the existence and/or validity of a file.
+// Return 0 if it exists and is valid.
+// If "verify_contents" is true, validate the contents of the file
+// based either the digital signature of the file or its MD5 checksum.
+// Otherwise just check its existence and size.
+//
+// If this check is time-consuming
+// (i.e. it involves decompressing and/or computing the MD5 of a large file)
+// we do it asynchronously,
+// set the file status to FILE_VERIFY_PENDING,
+// and return ERR_IN_PROGRESS.
+// When the asynchronous op is complete,
+// we'll set the status to FILE_PRESENT.
 //
 // This is called
-// 1) right after download is finished (CLIENT_STATE::handle_pers_file_xfers())
-// 2) if a needed file is already on disk (PERS_FILE_XFER::start_xfer())
-// 3) in checking whether a result's input files are available
-//    (CLIENT_STATE::input_files_available()).
-//    In this case "strict" is false,
-//    and we just check existence and size (no checksum)
+// 1) right after download is finished
+//		(CLIENT_STATE::create_and_delete_pers_file_xfers() in cs_files.cpp)
+//		verify_contents is true
+//		status is FILE_NOT_PRESENT
+// 2) to see if a file marked as NOT_PRESENT is actually on disk
+//		(PERS_FILE_XFER::create_xfer() in pers_file_xfer.cpp)
+//		verify_contents is true
+//		status is FILE_NOT_PRESENT
+// 3) when checking whether a result's input files are available
+//		(CLIENT_STATE::input_files_available( in cs_apps.cpp)).
+//		verify_contents maybe be either true or false
+//		status is FILE_PRESENT
 //
 // If a failure occurs, set the file's "status" field.
-// This will cause the app_version or workunit that used the file
-// to error out (via APP_VERSION::had_download_failure()
-// WORKUNIT::had_download_failure())
+// This will cause the app_version or workunit that used the file to error out
+// (via APP_VERSION::had_download_failure() or WORKUNIT::had_download_failure())
 //
-int FILE_INFO::verify_file(bool strict, bool show_errors) {
+int FILE_INFO::verify_file(bool verify_contents, bool show_errors) {
     char cksum[64], pathname[256];
     bool verified;
     int retval;
     double size, local_nbytes;
+
+	if (status == FILE_VERIFY_PENDING) return ERR_IN_PROGRESS;
 
     get_pathname(this, pathname, sizeof(pathname));
 
@@ -139,6 +156,12 @@ int FILE_INFO::verify_file(bool strict, bool show_errors) {
         char gzpath[256];
         sprintf(gzpath, "%s.gz", pathname);
         if (boinc_file_exists(gzpath) ) {
+			if (nbytes > ASYNC_FILE_THRESHOLD) {
+				ASYNC_VERIFY* avp = new ASYNC_VERIFY;
+				avp->init(this);
+				status = FILE_VERIFY_PENDING;
+				return ERR_IN_PROGRESS;
+			}
             retval = gunzip(cksum);
             if (retval) return retval;
         } else {
@@ -177,7 +200,7 @@ int FILE_INFO::verify_file(bool strict, bool show_errors) {
         return ERR_WRONG_SIZE;
     }
 
-    if (!strict) return 0;
+    if (!verify_contents) return 0;
 
     if (signature_required) {
         if (!strlen(file_signature) && !cert_sigs) {
@@ -203,6 +226,12 @@ int FILE_INFO::verify_file(bool strict, bool show_errors) {
             );
             return ERR_NO_SIGNATURE;
         }
+		if (nbytes > ASYNC_FILE_THRESHOLD) {
+			ASYNC_VERIFY* avp = new ASYNC_VERIFY();
+			avp->init(this);
+			status = FILE_VERIFY_PENDING;
+			return ERR_IN_PROGRESS;
+		}
         retval = check_file_signature2(
             pathname, strlen(cksum)?cksum:NULL,
             file_signature, project->code_sign_key, verified
@@ -227,6 +256,12 @@ int FILE_INFO::verify_file(bool strict, bool show_errors) {
         }
     } else if (strlen(md5_cksum)) {
         if (!strlen(cksum)) {
+			if (nbytes > ASYNC_FILE_THRESHOLD) {
+				ASYNC_VERIFY* avp = new ASYNC_VERIFY();
+				avp->init(this);
+				status = FILE_VERIFY_PENDING;
+				return ERR_IN_PROGRESS;
+			}
             retval = md5_file(pathname, cksum, local_nbytes);
             if (retval) {
                 msg_printf(project, MSG_INTERNAL_ERROR,
@@ -331,7 +366,9 @@ bool CLIENT_STATE::create_and_delete_pers_file_xfers() {
                 // verify the file with RSA or MD5, and change permissions
                 //
                 retval = fip->verify_file(true, true);
-                if (retval) {
+				if (retval == ERR_IN_PROGRESS) {
+					// do nothing
+				} else if (retval) {
                     msg_printf(fip->project, MSG_INTERNAL_ERROR,
                         "Checksum or signature error for %s", fip->name
                     );
