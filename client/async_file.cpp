@@ -97,7 +97,6 @@ int ASYNC_COPY::copy_chunk() {
         return 1;       // tell caller we're done
     } else {
         int m = fwrite(buf, 1, n, out);
-        m = 0;
         if (m != n) {
             error(ERR_FWRITE);
             return 1;
