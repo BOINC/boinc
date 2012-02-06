@@ -173,8 +173,6 @@ int PERS_FILE_XFER::create_xfer() {
 // Return true if it finished
 //
 bool PERS_FILE_XFER::poll() {
-    int retval;
-
     if (pers_xfer_done) {
         return false;
     }
