@@ -57,6 +57,8 @@ int ASYNC_COPY::init(
         fclose(in);
         return ERR_FOPEN;
     }
+    atp->async_copy = this;
+    async_copies.push_back(this);
     return 0;
 }
 
@@ -158,6 +160,8 @@ int ASYNC_VERIFY::init(FILE_INFO* _fip) {
         in = fopen(inpath, "rb");
         if (!in) return ERR_FOPEN;
     }
+    async_verifies.push_back(this);
+    fip->async_verify = this;
     return 0;
 }
 
@@ -192,10 +196,12 @@ void ASYNC_VERIFY::finish() {
             return;
         }
     }
+    fip->async_verify = NULL;
     fip->status = FILE_PRESENT;
 }
 
 void ASYNC_VERIFY::error(int retval) {
+    fip->async_verify = NULL;
     fip->status = retval;
 }
 

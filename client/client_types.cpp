@@ -38,16 +38,18 @@
 #endif
 
 #include "error_numbers.h"
-#include "file_names.h"
 #include "filesys.h"
-#include "client_msgs.h"
 #include "log_flags.h"
 #include "md5.h"
 #include "parse.h"
-#include "util.h"
 #include "str_util.h"
 #include "str_replace.h"
+#include "util.h"
+
+#include "async_file.h"
+#include "client_msgs.h"
 #include "client_state.h"
+#include "file_names.h"
 #include "pers_file_xfer.h"
 #include "sandbox.h"
 
@@ -861,6 +863,13 @@ FILE_INFO::FILE_INFO() {
     strcpy(xml_signature, "");
     strcpy(file_signature, "");
     cert_sigs = 0;
+    async_verify = NULL;
+}
+
+FILE_INFO::~FILE_INFO() {
+    if (async_verify) {
+        remove_async_verify(async_verify);
+    }
 }
 
 void FILE_INFO::reset() {

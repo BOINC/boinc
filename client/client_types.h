@@ -140,7 +140,7 @@ struct FILE_INFO {
     ASYNC_VERIFY* async_verify;
 
     FILE_INFO();
-    ~FILE_INFO(){}
+    ~FILE_INFO();
     void reset();
     int set_permissions();
     int parse(XML_PARSER&);

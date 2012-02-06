@@ -389,8 +389,6 @@ int ACTIVE_TASK::setup_file(
                 ASYNC_COPY* ac = new ASYNC_COPY;
                 retval = ac->init(this, file_path, link_path);
                 if (retval) return retval;
-                async_copies.push_back(ac);
-                async_copy = ac;
                 return ERR_IN_PROGRESS;
             } else {
                 retval = boinc_copy(file_path, link_path);

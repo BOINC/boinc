@@ -1317,14 +1317,14 @@ Rom    3 Feb 2012
         boinc_cli.vcproj
 
 David  3 Feb 2012
-	- client: debug async file copy.  Seems to be working.
+    - client: debug async file copy.  Seems to be working.
 
-	client/
-		app.cpp
-		app_start.cpp
-		async_file.cpp
-	lib/
-		common_defs.h
+    client/
+        app.cpp
+        app_start.cpp
+        async_file.cpp
+    lib/
+        common_defs.h
 
 Charlie 3 Feb 2012
     - client: add async file copy stuff to Xcode project.
@@ -1376,13 +1376,13 @@ Rom    6 Feb 2012
         http_curl.cpp
 
 David  6 Feb 2012
-	- client: tweaks to AMD GPU detection msgs
-	- client: async file stuff
+    - client: tweaks to AMD GPU detection msgs
+    - client: async file stuff
 
-	client/
-		async_file.cpp
-		coproc_detect.cpp
-		cs_files.cpp
+    client/
+        async_file.cpp
+        coproc_detect.cpp
+        cs_files.cpp
 
 David  6 Feb 2012
     - client: async file stuff
@@ -1393,3 +1393,12 @@ David  6 Feb 2012
     lib/
         crypt.cpp,h
         crypt_prog.cpp
+
+David  6 Feb 2012
+    - client: async file stuff
+
+    client/
+        client_types.cpp,h
+        app_start.cpp
+        async_file.cpp
+        cs_files.cpp

@@ -162,7 +162,11 @@ int FILE_INFO::verify_file(bool verify_contents, bool show_errors) {
         if (boinc_file_exists(gzpath) ) {
 			if (nbytes > ASYNC_FILE_THRESHOLD) {
 				ASYNC_VERIFY* avp = new ASYNC_VERIFY;
-				avp->init(this);
+				retval = avp->init(this);
+                if (retval) {
+                    status = retval;
+                    return retval;
+                }
 				status = FILE_VERIFY_PENDING;
 				return ERR_IN_PROGRESS;
 			}
@@ -232,7 +236,11 @@ int FILE_INFO::verify_file(bool verify_contents, bool show_errors) {
         }
 		if (nbytes > ASYNC_FILE_THRESHOLD) {
 			ASYNC_VERIFY* avp = new ASYNC_VERIFY();
-			avp->init(this);
+			retval = avp->init(this);
+            if (retval) {
+                status = retval;
+                return retval;
+            }
 			status = FILE_VERIFY_PENDING;
 			return ERR_IN_PROGRESS;
 		}
@@ -273,7 +281,11 @@ int FILE_INFO::verify_file(bool verify_contents, bool show_errors) {
         if (!strlen(cksum)) {
 			if (nbytes > ASYNC_FILE_THRESHOLD) {
 				ASYNC_VERIFY* avp = new ASYNC_VERIFY();
-				avp->init(this);
+				retval = avp->init(this);
+                if (retval) {
+                    status = retval;
+                    return retval;
+                }
 				status = FILE_VERIFY_PENDING;
 				return ERR_IN_PROGRESS;
 			}
