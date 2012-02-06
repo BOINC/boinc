@@ -25,6 +25,7 @@
 #include "filesys.h"
 
 #include "app.h"
+#include "client_msgs.h"
 #include "client_state.h"
 
 #include "async_file.h"
@@ -41,6 +42,8 @@ int ASYNC_COPY::init(
 ) {
     atp = _atp;
     strcpy(to_path, _to_path);
+
+    msg_printf(atp->wup->project, MSG_INFO, "started async copy of %s", from_path);
     in = fopen(from_path, "rb");
     if (!in) return ERR_FOPEN;
     strcpy(temp_path, to_path);
@@ -86,6 +89,11 @@ int ASYNC_COPY::copy_chunk() {
             error(retval);
             return 1;
         }
+
+        msg_printf(atp->wup->project, MSG_INFO, "async copy of %s finished", to_path);
+    
+        atp->async_copy = NULL;
+
         // If task is still scheduled, start it.
         //
         if (atp->scheduler_state == CPU_SCHED_SCHEDULED) {

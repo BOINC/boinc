@@ -1440,26 +1440,27 @@ void COPROC_ATI::get(
             gpu_name="ATI Radeon HD 5x00 series (Cedar)";
             break;
 //
-// based on AMD's Stream SDK 2.3 shipped with AMD Catalyst 10.12 APP
-//
-// and by comments of Dr. Andreas Przystawik aka Gipsel at http://www.planet3dnow.de/vbulletin/showthread.php?p=4335830#post4335830
-//
-//
-// added new/current/coming AMD RADEON GPUs/IGPs/APUs
+// looks like we mixed the CAL TargetID because all other tools identify CAL_TARGETID 13 as Sumo (not SuperSumo) so
+// we have to fix this and some other strings here too
+// CAL_TARGETID 12 is still unknown .. maybe this is SuperSumo inside AMDs upcoming Trinity
+// 
+// 
         case 12:
-            gpu_name="AMD SUMO";
+            gpu_name="AMD Radeon HD (unknown)";
             break;
         case 13:
-            gpu_name="AMD SUPERSUMO";
+            gpu_name="AMD Radeon HD 6x00 series (Sumo)";
             break;
+// AMD released some more Wrestler so we have at the moment : 6250/6290/6310/6320/7310/7340 (based on Catalyst 12.2 preview)
         case 14:
-            gpu_name="AMD Radeon HD 6250/6310 (Wrestler)";
+            gpu_name="AMD Radeon HD 6200/6300/7300 series (Wrestler)";
             break;
         case 15:
             gpu_name="AMD Radeon HD 6900 series (Cayman)";
             break;
+// the last unknown ... AMD Radeon HD (unknown) looks better !
         case 16:
-            gpu_name="AMD RESERVED2";
+            gpu_name="AMD Radeon HD (unknown)";
             break;
         case 17:
             gpu_name="AMD Radeon HD 6800 series (Barts)";
@@ -1473,9 +1474,10 @@ void COPROC_ATI::get(
         case 20:
             gpu_name = "AMD Radeon HD 79x0 series (Tahiti)";
             break;
-        // there arent any other target ids inside the Shadercompiler (YET !!! )
+// there arent any other target ids inside the Shadercompiler (YET !!! )
+// but because of ATI was bought by AMD and is not existing anymore the default should be changed too
         default:
-            gpu_name="ATI unknown";
+            gpu_name="AMD Radeon HD (unknown)";
             break;
         }
         cc.have_cal = true;

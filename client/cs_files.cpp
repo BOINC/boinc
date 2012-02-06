@@ -144,6 +144,10 @@ int FILE_INFO::verify_file(bool verify_contents, bool show_errors) {
     int retval;
     double size, local_nbytes;
 
+    msg_printf(project, MSG_INFO, "verify file (%s): %s",
+        verify_contents?"strict":"not strict", name
+    );
+
 	if (status == FILE_VERIFY_PENDING) return ERR_IN_PROGRESS;
 
     get_pathname(this, pathname, sizeof(pathname));

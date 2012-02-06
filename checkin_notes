@@ -1374,3 +1374,12 @@ Rom    6 Feb 2012
         
     client/
         http_curl.cpp
+
+David  6 Feb 2012
+	- client: tweaks to AMD GPU detection msgs
+	- client: async file stuff
+
+	client/
+		async_file.cpp
+		coproc_detect.cpp
+		cs_files.cpp
