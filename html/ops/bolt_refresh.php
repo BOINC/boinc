@@ -29,7 +29,6 @@ function notify_user($user) {
 You are due for refresh on the following units from 
 ";
     foreach($user->refresh as $r) {
-        echo "
     }
 }
 

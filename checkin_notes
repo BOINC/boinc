@@ -1418,3 +1418,17 @@ Charlie 6 Feb 2012
         
     client/
         client_state.cpp
+
+David  7 Feb 2012
+    - client: HTTP range request errors are permanent.
+
+    client/
+        http_curl.cpp,h
+        pers_file_xfer.cpp
+        file_xfer.cpp
+    lib/
+        gui_rpc_client_ops.cpp
+        error_numbers.h
+        str_util.cpp
+    html/ops/
+        bolt_refresh.php

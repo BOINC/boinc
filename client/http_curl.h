@@ -139,8 +139,8 @@ public:
         // 0
         // ERR_GETHOSTBYNAME (if no such host)
         // ERR_CONNECT (if server down)
-        // ERR_FILE_NOT_FOUND (if 404)
-        // ERR_HTTP_ERROR (other failures)
+        // ERR_HTTP_PERMANENT (if 404 or 416)
+        // ERR_HTTP_TRANSIENT (other failures)
     bool is_background;
         // this operation shouldn't trigger a reference-site check
         // and a user alert if it fails.

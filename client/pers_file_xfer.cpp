@@ -141,7 +141,7 @@ int PERS_FILE_XFER::create_xfer() {
         }
 
         fxp->file_xfer_retval = retval;
-        if (retval == ERR_FILE_NOT_FOUND) {
+        if (retval == ERR_HTTP_PERMANENT) {
             permanent_failure(retval);
         } else {
             transient_failure(retval);
@@ -249,8 +249,7 @@ bool PERS_FILE_XFER::poll() {
             permanent_failure(fxp->file_xfer_retval);
             break;
         case ERR_NOT_FOUND:
-        case ERR_FILE_NOT_FOUND:
-        case HTTP_STATUS_NOT_FOUND:     // won't happen - converted in http_curl.C
+        case ERR_HTTP_PERMANENT:
             if (is_upload) {
                 // if we get a "not found" on an upload,
                 // the project must not have a file_upload_handler.

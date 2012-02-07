@@ -419,7 +419,7 @@ int HTTP_OP::libcurl_exec(
         if (log_flags.http_debug) {
             msg_printf(project, MSG_INFO, "Couldn't create curlEasy handle");
         }
-        return ERR_HTTP_ERROR; // returns 0 (CURLM_OK) on successful handle creation
+        return ERR_HTTP_TRANSIENT; // returns 0 (CURLM_OK) on successful handle creation
     }
 
     // the following seems to be a no-op
@@ -708,7 +708,7 @@ int HTTP_OP::libcurl_exec(
         msg_printf(0, MSG_INTERNAL_ERROR,
             "Couldn't add curlEasy handle to curlMulti"
         );
-        return ERR_HTTP_ERROR;
+        return ERR_HTTP_TRANSIENT;
         // returns 0 (CURLM_OK) on successful handle creation
     }
 
@@ -974,10 +974,11 @@ void HTTP_OP::handle_messages(CURLMsg *pcurlMsg) {
             }
             switch (response) {
             case HTTP_STATUS_NOT_FOUND:
-                http_op_retval = ERR_FILE_NOT_FOUND;
+            case HTTP_STATUS_RANGE_REQUEST_ERROR:
+                http_op_retval = ERR_HTTP_PERMANENT;
                 break;
             default:
-                http_op_retval = ERR_HTTP_ERROR;
+                http_op_retval = ERR_HTTP_TRANSIENT;
             }
         }
         net_status.http_op_succeeded();
@@ -992,7 +993,7 @@ void HTTP_OP::handle_messages(CURLMsg *pcurlMsg) {
             http_op_retval = ERR_CONNECT;
             break;
         default:
-            http_op_retval = ERR_HTTP_ERROR;
+            http_op_retval = ERR_HTTP_TRANSIENT;
         }
 
         // trigger a check for whether we're connected,

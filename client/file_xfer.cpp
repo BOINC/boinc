@@ -83,7 +83,7 @@ int FILE_XFER::init_upload(FILE_INFO& file_info) {
     fip = &file_info;
     get_pathname(fip, pathname, sizeof(pathname));
     if (!boinc_file_exists(pathname)) {
-        return ERR_FILE_NOT_FOUND;
+        return ERR_NOT_FOUND;
     }
 
     is_upload = true;

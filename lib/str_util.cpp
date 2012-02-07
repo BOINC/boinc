@@ -504,7 +504,6 @@ const char* boincerror(int which_error) {
         case ERR_LISTEN: return "listen() failed";
         case ERR_TIMEOUT: return "timeout";
         case ERR_PROJECT_DOWN: return "project down";
-        case ERR_HTTP_ERROR: return "HTTP error";
         case ERR_RESULT_START: return "result start failed";
         case ERR_RESULT_DOWNLOAD: return "result download failed";
         case ERR_RESULT_UPLOAD: return "result upload failed";
@@ -538,7 +537,8 @@ const char* boincerror(int which_error) {
         case ERR_ABORTED_BY_PROJECT: return "Aborted by project";
         case ERR_GETGRNAM: return "getgrnam() failed";
         case ERR_CHOWN: return "chown() failed";
-        case ERR_FILE_NOT_FOUND: return "file not found";
+        case ERR_HTTP_PERMANENT: return "permanent HTTP error";
+        case ERR_HTTP_TRANSIENT: return "transient HTTP error";
         case ERR_BAD_FILENAME: return "file name is empty or has '..'";
         case ERR_TOO_MANY_EXITS: return "application exited too many times";
         case ERR_RMDIR: return "rmdir() failed";
