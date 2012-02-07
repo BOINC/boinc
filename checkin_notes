@@ -1410,3 +1410,11 @@ David  6 Feb 2012
 	client/
 		async_file.cpp,h
 		gui_http.cpp
+
+Charlie 6 Feb 2012
+    - client: remove "GPU n is OpenCL-capable" messages.  They were 
+        redundant with new OPENCL_DEVICE_PROP::description() and were 
+        confusing because they only listed the "best" CUDA / CAL GPUs.
+        
+    client/
+        client_state.cpp
