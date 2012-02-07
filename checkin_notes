@@ -1432,3 +1432,15 @@ David  7 Feb 2012
         str_util.cpp
     html/ops/
         bolt_refresh.php
+
+David  7 Feb 2012
+	- async file stuff.  mostly working.  still a few bugs
+
+	client/
+		cs_apps.cpp
+		http_curl.cpp
+	clientgui/
+		AccountManagerPropertiesPage.cpp
+		ProjectPropertiesPage.cpp
+	lib/
+		str_util.h

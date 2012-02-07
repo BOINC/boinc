@@ -44,6 +44,12 @@ inline bool ends_with(std::string const& s, std::string const& suffix) {
         s.substr(s.size()-suffix.size()) == suffix;
 }
 
+inline bool ends_with(const char* s, const char* suffix) {
+    int m = (int)strlen(s), n = (int)strlen(suffix);
+    if (n > m) return false;
+    return (strcmp(suffix, s+m-n) == 0);
+}
+
 inline bool starts_with(std::string const& s, std::string const& prefix) {
     return s.substr(0, prefix.size()) == prefix;
 }

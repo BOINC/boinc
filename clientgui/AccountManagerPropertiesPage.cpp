@@ -310,7 +310,7 @@ void CAccountManagerPropertiesPage::OnStateChange( CAccountManagerPropertiesPage
             } else {
 
                 SetProjectPropertiesSucceeded(false);
-                SetProjectPropertiesURLFailure(pc->error_num == ERR_FILE_NOT_FOUND);
+                SetProjectPropertiesURLFailure(pc->error_num == ERR_HTTP_PERMANENT);
 
                 bool comm_failure = !iReturnValue && (
                     (ERR_GETHOSTBYNAME == pc->error_num)
@@ -321,7 +321,7 @@ void CAccountManagerPropertiesPage::OnStateChange( CAccountManagerPropertiesPage
                 SetProjectPropertiesCommunicationFailure(comm_failure);
 
                 bool server_reported_error = !iReturnValue && (
-                    (ERR_FILE_NOT_FOUND != pc->error_num)
+                    (ERR_HTTP_PERMANENT != pc->error_num)
                     && (ERR_GETHOSTBYNAME != pc->error_num)
                     && (ERR_CONNECT != pc->error_num)
                     && (ERR_XML_PARSE != pc->error_num)

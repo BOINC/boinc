@@ -436,7 +436,7 @@ void CProjectPropertiesPage::OnStateChange( CProjectPropertiesPageEvent& WXUNUSE
             } else {
 
                 SetProjectPropertiesSucceeded(false);
-                SetProjectPropertiesURLFailure(pc->error_num == ERR_FILE_NOT_FOUND);
+                SetProjectPropertiesURLFailure(pc->error_num == ERR_HTTP_PERMANENT);
 
                 bool comm_failure = !iReturnValue && (
                     (ERR_GETHOSTBYNAME == pc->error_num)
@@ -447,7 +447,7 @@ void CProjectPropertiesPage::OnStateChange( CProjectPropertiesPageEvent& WXUNUSE
                 SetProjectPropertiesCommunicationFailure(comm_failure);
 
                 bool server_reported_error = !iReturnValue && (
-                    (ERR_FILE_NOT_FOUND != pc->error_num)
+                    (ERR_HTTP_PERMANENT != pc->error_num)
                     && (ERR_GETHOSTBYNAME != pc->error_num)
                     && (ERR_CONNECT != pc->error_num)
                     && (ERR_XML_PARSE != pc->error_num)
