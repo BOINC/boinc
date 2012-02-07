@@ -96,6 +96,7 @@ bool GUI_HTTP::poll() {
         gui_http_op->handle_reply(http_op.http_op_retval);
         gui_http_op = NULL;
         gui_http_state = GUI_HTTP_STATE_IDLE;
+        return true;
     }
-    return true;
+    return false;
 }

@@ -34,7 +34,7 @@
 struct FILE_INFO;
 struct ACTIVE_TASK;
 
-#define ASYNC_FILE_THRESHOLD	1e7
+#define ASYNC_FILE_THRESHOLD	0
 	// use async ops for files exceeding this size
 
 // Used to copy a file from project dir to slot dir;

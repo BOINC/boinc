@@ -1402,3 +1402,11 @@ David  6 Feb 2012
         app_start.cpp
         async_file.cpp
         cs_files.cpp
+
+David  6 Feb 2012
+	- client: async file stuff.
+		async decompress/verify seems to be working
+
+	client/
+		async_file.cpp,h
+		gui_http.cpp

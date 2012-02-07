@@ -146,6 +146,10 @@ int ASYNC_VERIFY::init(FILE_INFO* _fip) {
     md5_init(&md5_state);
     get_pathname(fip, inpath, sizeof(inpath));
 
+    msg_printf(fip->project, MSG_INFO,
+        "started async MD5%s of %s",
+        fip->download_gzipped?" and uncompress":"", fip->name
+    );
     if (fip->download_gzipped) {
         strcpy(outpath, inpath);
         out = boinc_fopen(outpath, "wb");
@@ -196,11 +200,15 @@ void ASYNC_VERIFY::finish() {
             return;
         }
     }
+    msg_printf(fip->project, MSG_INFO, "async verify of %s finished", fip->name);
     fip->async_verify = NULL;
     fip->status = FILE_PRESENT;
 }
 
 void ASYNC_VERIFY::error(int retval) {
+    msg_printf(fip->project, MSG_INFO, "async verify of %s failed: %s",
+        fip->name, boincerror(retval)
+    );
     fip->async_verify = NULL;
     fip->status = retval;
 }
@@ -213,7 +221,7 @@ int ASYNC_VERIFY::verify_chunk() {
         if (n <=0) {
             // done
             //
-            gzclose(in);
+            gzclose(gzin);
             fclose(out);
             delete_project_owned_file(inpath, true);
             finish();
@@ -232,7 +240,6 @@ int ASYNC_VERIFY::verify_chunk() {
         n = fread(buf, 1, BUFSIZE, in);
         if (n <= 0) {
             fclose(in);
-            fclose(out);
             finish();
             return 1;
         } else {
