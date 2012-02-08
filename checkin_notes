@@ -1455,3 +1455,9 @@ David  7 Feb 2012
 		client_state.cpp
 		client_types.cpp,h
 		cs_apps.cpp
+
+Charlie 7 Feb 2012
+    - client: Fix bug in setting opencl_device_index.
+
+    client/
+        coproc_detect.cpp

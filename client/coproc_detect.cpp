@@ -374,7 +374,7 @@ strcpy(prop.opencl_driver_version, "CLH 1.0");
                 (strstr(prop.vendor, "Advanced Micro Devices, Inc."))
             ) {
                 prop.device_num = (int)(ati_opencls.size());
-                prop.opencl_device_index = prop.device_num;
+                prop.opencl_device_index = device_index;
 
 #ifdef __APPLE__
                 // Work around a bug in OpenCL which returns only 
