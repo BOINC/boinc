@@ -183,7 +183,7 @@ struct ACTIVE_TASK {
     int current_disk_usage(double&);
         // disk used by output files and temp files of this task
     void get_free_slot(RESULT*);
-    int start(bool first_time);         // start a process
+    int start();         // start a process
 
     // Termination stuff.
     // Terminology:

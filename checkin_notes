@@ -1492,7 +1492,7 @@ David  7 Feb 2012
             gui_rpc_client_ops.cpp
             gui_rpc_client.h
 
-David  7 Feb 2012
+David  8 Feb 2012
     - client: fix bug in async file verify.
         File verify is done in 4 places:
         - after a download finishes
@@ -1515,3 +1515,14 @@ Rom    8 Feb 2012
         
     samples/vboxwrapper/
         vboxwrapper.cpp
+
+David  8 Feb 2012
+	- client: bug fix for async file ops:
+		set up files in slot dir when starting an app,
+		whether or not it's the first time
+
+	client/
+		app.h
+		app_control.cpp
+		app_start.cpp
+		async_file.cpp,h

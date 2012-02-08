@@ -371,10 +371,7 @@ int ACTIVE_TASK::setup_file(
 
     sprintf(rel_file_path, "../../%s", file_path );
 
-    // if anonymous platform, this is called even if not first time,
-    // so link may already be there
-    //
-    if (input && project->anonymous_platform && boinc_file_exists(link_path)) {
+    if (boinc_file_exists(link_path)) {
         return 0;
     }
 
@@ -483,7 +480,7 @@ int ACTIVE_TASK::copy_output_files() {
 // else
 //   ACTIVE_TASK::task_state is PROCESS_EXECUTING
 //
-int ACTIVE_TASK::start(bool first_time) {
+int ACTIVE_TASK::start() {
     char exec_name[256], file_path[256], buf[256], exec_path[256];
     char cmdline[80000];    // 64KB plus some extra
     unsigned int i;
@@ -572,18 +569,13 @@ int ACTIVE_TASK::start(bool first_time) {
             safe_strcpy(exec_name, fip->name);
             safe_strcpy(exec_path, file_path);
         }
-        // anonymous platform may use different files than
-        // when the result was started, so link files even if not first time
-        //
-        if (first_time || wup->project->anonymous_platform) {
-            retval = setup_file(fip, fref, file_path, true, false);
-            if (retval == ERR_IN_PROGRESS) {
-                set_task_state(PROCESS_COPY_PENDING, "start");
-                return 0;
-            } else if (retval) {
-                strcpy(buf, "Can't link app version file");
-                goto error;
-            }
+        retval = setup_file(fip, fref, file_path, true, false);
+        if (retval == ERR_IN_PROGRESS) {
+            set_task_state(PROCESS_COPY_PENDING, "start");
+            return 0;
+        } else if (retval) {
+            strcpy(buf, "Can't link app version file");
+            goto error;
         }
     }
     if (!strlen(exec_name)) {
@@ -594,30 +586,28 @@ int ACTIVE_TASK::start(bool first_time) {
 
     // set up input, output files
     //
-    if (first_time) {
-        for (i=0; i<wup->input_files.size(); i++) {
-            fref = wup->input_files[i];
-            fip = fref.file_info;
-            get_pathname(fref.file_info, file_path, sizeof(file_path));
-            retval = setup_file(fip, fref, file_path, true, true);
-            if (retval == ERR_IN_PROGRESS) {
-                set_task_state(PROCESS_COPY_PENDING, "start");
-                return 0;
-            } else if (retval) {
-                strcpy(buf, "Can't link input file");
-                goto error;
-            }
+    for (i=0; i<wup->input_files.size(); i++) {
+        fref = wup->input_files[i];
+        fip = fref.file_info;
+        get_pathname(fref.file_info, file_path, sizeof(file_path));
+        retval = setup_file(fip, fref, file_path, true, true);
+        if (retval == ERR_IN_PROGRESS) {
+            set_task_state(PROCESS_COPY_PENDING, "start");
+            return 0;
+        } else if (retval) {
+            strcpy(buf, "Can't link input file");
+            goto error;
         }
-        for (i=0; i<result->output_files.size(); i++) {
-            fref = result->output_files[i];
-            if (must_copy_file(fref, true)) continue;
-            fip = fref.file_info;
-            get_pathname(fref.file_info, file_path, sizeof(file_path));
-            retval = setup_file(fip, fref, file_path, false, true);
-            if (retval) {
-                strcpy(buf, "Can't link output file");
-                goto error;
-            }
+    }
+    for (i=0; i<result->output_files.size(); i++) {
+        fref = result->output_files[i];
+        if (must_copy_file(fref, true)) continue;
+        fip = fref.file_info;
+        get_pathname(fref.file_info, file_path, sizeof(file_path));
+        retval = setup_file(fip, fref, file_path, false, true);
+        if (retval) {
+            strcpy(buf, "Can't link output file");
+            goto error;
         }
     }
 
@@ -1082,13 +1072,8 @@ int ACTIVE_TASK::resume_or_start(bool first_time) {
 
     switch (task_state()) {
     case PROCESS_UNINITIALIZED:
-        if (first_time) {
-            retval = start(true);
-            str = "Starting";
-        } else {
-            retval = start(false);
-            str = "Restarting";
-        }
+        str = (first_time)?"Starting":"Restarting";
+        retval = start();
         if ((retval == ERR_SHMGET) || (retval == ERR_SHMAT)) {
             return retval;
         }

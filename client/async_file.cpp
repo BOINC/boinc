@@ -102,7 +102,7 @@ int ASYNC_COPY::copy_chunk() {
         // If task is still scheduled, start it.
         //
         if (atp->scheduler_state == CPU_SCHED_SCHEDULED) {
-            retval = atp->start(true);
+            retval = atp->start();
             if (retval) {
                 error(retval);
             }
