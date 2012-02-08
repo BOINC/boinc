@@ -62,8 +62,7 @@ struct DAILY_STATS {
 };
 
 
-class PROJECT_LIST_ENTRY {
-public:
+struct PROJECT_LIST_ENTRY {
     std::string name;
     std::string url;
     std::string general_area;
@@ -81,8 +80,7 @@ public:
     void clear();
 };
 
-class AM_LIST_ENTRY {
-public:
+struct AM_LIST_ENTRY {
     std::string name;
     std::string url;
     std::string description;
@@ -95,8 +93,7 @@ public:
     void clear();
 };
 
-class ALL_PROJECTS_LIST {
-public:
+struct ALL_PROJECTS_LIST {
     std::vector<PROJECT_LIST_ENTRY*> projects;
     std::vector<AM_LIST_ENTRY*> account_managers;
 
@@ -107,8 +104,17 @@ public:
     void shuffle();
 };
 
-class PROJECT {
-public:
+struct RSC_DESC {
+    double backoff_time;
+    double backoff_interval;
+    bool no_rsc_ams;
+    bool no_rsc_apps;
+    bool no_rsc_pref;
+
+    void clear();
+};
+
+struct PROJECT {
     char master_url[256];
     double resource_share;
     std::string project_name;
@@ -128,14 +134,12 @@ public:
     double download_backoff;
     double upload_backoff;
 
+    RSC_DESC rsc_desc_cpu;
+    RSC_DESC rsc_desc_nvidia;
+    RSC_DESC rsc_desc_ati;
+
     double sched_priority;
 
-    double cpu_backoff_time;
-    double cpu_backoff_interval;
-    double cuda_backoff_time;
-    double cuda_backoff_interval;
-    double ati_backoff_time;
-    double ati_backoff_interval;
     double duration_correction_factor;
 
     bool anonymous_platform;
@@ -156,9 +160,6 @@ public:
     double last_rpc_time;
         // when the last successful scheduler RPC finished
     std::vector<DAILY_STATS> statistics; // credit data over the last x days
-    bool no_cpu_pref;
-    bool no_cuda_pref;
-    bool no_ati_pref;
     char venue[256];
 
     // NOTE: if you add any data items above,
@@ -177,8 +178,7 @@ public:
     bool flag_for_delete;
 };
 
-class APP {
-public:
+struct APP {
     char name[256];
     char user_friendly_name[256];
     PROJECT* project;
@@ -191,8 +191,7 @@ public:
     void clear();
 };
 
-class APP_VERSION {
-public:
+struct APP_VERSION {
     char app_name[256];
     int version_num;
     char platform[64];
@@ -214,8 +213,7 @@ public:
     void clear();
 };
 
-class WORKUNIT {
-public:
+struct WORKUNIT {
     char name[256];
     char app_name[256];
     int version_num;    // backwards compat
@@ -234,8 +232,7 @@ public:
     void clear();
 };
 
-class RESULT {
-public:
+struct RESULT {
     char name[256];
     char wu_name[256];
     char project_url[256];
@@ -295,8 +292,7 @@ public:
     void clear();
 };
 
-class FILE_TRANSFER {
-public:
+struct FILE_TRANSFER {
     std::string name;
     std::string project_url;
     std::string project_name;
@@ -327,8 +323,7 @@ public:
     void clear();
 };
 
-class MESSAGE {
-public:
+struct MESSAGE {
     std::string project;
     int priority;
     int seqno;
@@ -343,8 +338,7 @@ public:
     void clear();
 };
 
-class GR_PROXY_INFO {
-public:
+struct GR_PROXY_INFO {
     bool use_http_proxy;
     bool use_socks_proxy;
     bool use_http_authentication;
@@ -367,8 +361,7 @@ public:
     void clear();
 };
 
-class CC_STATE {
-public:
+struct CC_STATE {
     std::vector<PROJECT*> projects;
     std::vector<APP*> apps;
     std::vector<APP_VERSION*> app_versions;
@@ -399,8 +392,7 @@ public:
     int parse(XML_PARSER&);
 };
 
-class PROJECTS {
-public:
+struct PROJECTS {
     std::vector<PROJECT*> projects;
 
     PROJECTS(){}
@@ -424,8 +416,7 @@ struct DISK_USAGE {
     void clear();
 };
 
-class RESULTS {
-public:
+struct RESULTS {
     std::vector<RESULT*> results;
 
     RESULTS(){}
@@ -435,8 +426,7 @@ public:
     void clear();
 };
 
-class FILE_TRANSFERS {
-public:
+struct FILE_TRANSFERS {
     std::vector<FILE_TRANSFER*> file_transfers;
 
     FILE_TRANSFERS();
@@ -446,8 +436,7 @@ public:
     void clear();
 };
 
-class MESSAGES {
-public:
+struct MESSAGES {
     std::vector<MESSAGE*> messages;
 
     MESSAGES();
@@ -457,8 +446,7 @@ public:
     void clear();
 };
 
-class NOTICES {
-public:
+struct NOTICES {
     bool complete;
         // whether vector contains all notices, or just new ones
     std::vector<NOTICE*> notices;

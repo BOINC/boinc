@@ -285,6 +285,14 @@ $math = array(
     tra("Mathematics, computing, and games"),
     array(
         array(
+            "SAT@home",
+            "http://sat.isa.ru/pdsat",
+            "Institute for Systems Analysis, Russian Academy of Sciences",
+            "Computer Science",
+            "Solve hard and practically important problems (discrete functions inversion problems, discrete optimization, bioinformatics, etc.) that can be effectively reduced to Boolean satisfiability problem.",
+            "sat_logo.png"
+        ),
+        array(
             "Mersenne@home",
             "http://mersenneathome.net/",
             tra("Private"),

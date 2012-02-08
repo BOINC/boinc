@@ -1461,3 +1461,33 @@ Charlie 7 Feb 2012
 
     client/
         coproc_detect.cpp
+
+David  7 Feb 2012
+    - client/Manager/GUI RPC: clean up RPC stuff involving
+        resource-specific backoff and exclusion
+
+        Old: client writes
+                <rsc_backoff_time>
+                <rsc_backoff_interval>
+                <no_rsc_ams>
+                <no_rsc_apps>
+                <no_rsc_pref>
+            in GUI RPC entries for projects.
+            Manager (GUI RPC client): PROJECT struct has
+                cpu_backoff_time
+                cpu_backoff_interval
+                ... cuda, ati
+                no_cpu_pref
+                ... cuda, ati
+            and it parses tags of these names.
+            In other words, no information is being conveyed
+            from client to Manager.
+
+        New:
+            manager parses both forms
+
+    clientgui/
+        DlgItemProperties.cpp
+        lib/
+            gui_rpc_client_ops.cpp
+            gui_rpc_client.h

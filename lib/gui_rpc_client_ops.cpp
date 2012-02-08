@@ -246,6 +246,7 @@ void PROJECT::get_name(std::string& s) {
 
 int PROJECT::parse(XML_PARSER& xp) {
     int retval;
+    char buf[256];
 
     while (!xp.get_tag()) {
         if (xp.match_tag("/project")) return 0;
@@ -272,12 +273,74 @@ int PROJECT::parse(XML_PARSER& xp) {
         if (xp.parse_double("download_backoff", download_backoff)) continue;
         if (xp.parse_double("upload_backoff", upload_backoff)) continue;
         if (xp.parse_double("sched_priority", sched_priority)) continue;
-        if (xp.parse_double("cpu_backoff_time", cpu_backoff_time)) continue;
-        if (xp.parse_double("cpu_backoff_interval", cpu_backoff_interval)) continue;
-        if (xp.parse_double("cuda_backoff_time", cuda_backoff_time)) continue;
-        if (xp.parse_double("cuda_backoff_interval", cuda_backoff_interval)) continue;
-        if (xp.parse_double("ati_backoff_time", ati_backoff_time)) continue;
-        if (xp.parse_double("ati_backoff_interval", ati_backoff_interval)) continue;
+
+        // resource-specific stuff, old format
+        //
+        if (xp.parse_double("cpu_backoff_time", rsc_desc_cpu.backoff_time)) continue;
+        if (xp.parse_double("cpu_backoff_interval", rsc_desc_cpu.backoff_interval)) continue;
+        if (xp.parse_double("cuda_backoff_time", rsc_desc_nvidia.backoff_time)) continue;
+        if (xp.parse_double("cuda_backoff_interval", rsc_desc_nvidia.backoff_interval)) continue;
+        if (xp.parse_double("ati_backoff_time", rsc_desc_ati.backoff_time)) continue;
+        if (xp.parse_double("ati_backoff_interval", rsc_desc_ati.backoff_interval)) continue;
+        if (xp.parse_double("last_rpc_time", last_rpc_time)) continue;
+        if (xp.parse_bool("no_cpu_pref", rsc_desc_cpu.no_rsc_pref)) continue;
+        if (xp.parse_bool("no_cuda_pref", rsc_desc_cpu.no_rsc_pref)) continue;
+
+        // resource-specific stuff, new format
+        //
+        if (xp.match_tag("rsc_backoff_time")) {
+            double value = 0;
+            while (!xp.get_tag()) {
+                if (xp.match_tag("/rsc_backoff_time")) {
+                    if (!strcmp(buf, "CPU")) {
+                        rsc_desc_cpu.backoff_time = value;
+                    } else if (!strcmp(buf, "NVIDIA")) {
+                        rsc_desc_nvidia.backoff_time = value;
+                    } else if (!strcmp(buf, "ATI")) {
+                        rsc_desc_ati.backoff_time = value;
+                    }
+                }
+                if (xp.parse_str("name", buf, sizeof(buf))) continue;
+                if (xp.parse_double("value", value)) continue;
+            }
+            continue;
+        }
+        if (xp.match_tag("rsc_backoff_interval")) {
+            double value = 0;
+            while (!xp.get_tag()) {
+                if (xp.match_tag("/rsc_backoff_interval")) {
+                    if (!strcmp(buf, "CPU")) {
+                        rsc_desc_cpu.backoff_interval = value;
+                    } else if (!strcmp(buf, "NVIDIA")) {
+                        rsc_desc_nvidia.backoff_interval = value;
+                    } else if (!strcmp(buf, "ATI")) {
+                        rsc_desc_ati.backoff_interval = value;
+                    }
+                }
+                if (xp.parse_str("name", buf, sizeof(buf))) continue;
+                if (xp.parse_double("value", value)) continue;
+            }
+            continue;
+        }
+        if (xp.parse_str("no_rsc_ams", buf, sizeof(buf))) {
+            if (!strcmp(buf, "CPU")) rsc_desc_cpu.no_rsc_ams = true;
+            else if (!strcmp(buf, "NVIDIA")) rsc_desc_nvidia.no_rsc_ams = true;
+            else if (!strcmp(buf, "ATI")) rsc_desc_ati.no_rsc_ams = true;
+            continue;
+        }
+        if (xp.parse_str("no_rsc_apps", buf, sizeof(buf))) {
+            if (!strcmp(buf, "CPU")) rsc_desc_cpu.no_rsc_apps = true;
+            else if (!strcmp(buf, "NVIDIA")) rsc_desc_nvidia.no_rsc_apps = true;
+            else if (!strcmp(buf, "ATI")) rsc_desc_ati.no_rsc_apps = true;
+            continue;
+        }
+        if (xp.parse_str("no_rsc_pref", buf, sizeof(buf))) {
+            if (!strcmp(buf, "cpu")) rsc_desc_cpu.no_rsc_pref = true;
+            else if (!strcmp(buf, "nvidia")) rsc_desc_nvidia.no_rsc_pref = true;
+            else if (!strcmp(buf, "ati")) rsc_desc_ati.no_rsc_pref = true;
+            continue;
+        }
+
         if (xp.parse_double("duration_correction_factor", duration_correction_factor)) continue;
         if (xp.parse_bool("anonymous_platform", anonymous_platform)) continue;
         if (xp.parse_bool("master_url_fetch_pending", master_url_fetch_pending)) continue;
@@ -304,13 +367,18 @@ int PROJECT::parse(XML_PARSER& xp) {
             continue;
         }
         if (xp.parse_double("project_files_downloaded_time", project_files_downloaded_time)) continue;
-        if (xp.parse_double("last_rpc_time", last_rpc_time)) continue;
-        if (xp.parse_bool("no_cpu_pref", no_cpu_pref)) continue;
-        if (xp.parse_bool("no_cuda_pref", no_cuda_pref)) continue;
-        if (xp.parse_bool("no_ati_pref", no_ati_pref)) continue;
+        if (xp.parse_bool("no_ati_pref", rsc_desc_cpu.no_rsc_pref)) continue;
         if (xp.parse_str("venue", venue, sizeof(venue))) continue;
     }
     return ERR_XML_PARSE;
+}
+
+void RSC_DESC::clear() {
+    backoff_time = 0;
+    backoff_interval = 0;
+    no_rsc_ams = false;
+    no_rsc_apps = false;
+    no_rsc_pref = false;
 }
 
 void PROJECT::clear() {
@@ -329,12 +397,9 @@ void PROJECT::clear() {
     min_rpc_time = 0;
     download_backoff = 0;
     upload_backoff = 0;
-    cpu_backoff_time = 0;
-    cpu_backoff_interval = 0;
-    cuda_backoff_time = 0;
-    cuda_backoff_interval = 0;
-    ati_backoff_time = 0;
-    ati_backoff_interval = 0;
+    rsc_desc_cpu.clear();
+    rsc_desc_nvidia.clear();
+    rsc_desc_ati.clear();
     duration_correction_factor = 0;
     anonymous_platform = false;
     master_url_fetch_pending = false;
@@ -351,9 +416,6 @@ void PROJECT::clear() {
     last_rpc_time = 0;
     gui_urls.clear();
     statistics.clear();
-    no_cpu_pref = false;
-    no_cuda_pref = false;
-    no_ati_pref = false;
     strcpy(venue, "");
 }
 
