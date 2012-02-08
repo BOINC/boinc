@@ -38,7 +38,7 @@
 
 class CBOINCTaskCtrl;
 class CBOINCListCtrl;
-class PROJECT;
+struct PROJECT;
 
 
 class CTaskItem : wxObject {

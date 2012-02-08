@@ -299,6 +299,7 @@ int PROJECT::parse(XML_PARSER& xp) {
                     } else if (!strcmp(buf, "ATI")) {
                         rsc_desc_ati.backoff_time = value;
                     }
+                    break;
                 }
                 if (xp.parse_str("name", buf, sizeof(buf))) continue;
                 if (xp.parse_double("value", value)) continue;
@@ -316,6 +317,7 @@ int PROJECT::parse(XML_PARSER& xp) {
                     } else if (!strcmp(buf, "ATI")) {
                         rsc_desc_ati.backoff_interval = value;
                     }
+                    break;
                 }
                 if (xp.parse_str("name", buf, sizeof(buf))) continue;
                 if (xp.parse_double("value", value)) continue;

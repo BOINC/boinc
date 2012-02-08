@@ -431,8 +431,8 @@ int PROJECT::write_state(MIOFILE& out, bool gui_rpc) {
             "        <name>%s</name>\n"
             "        <value>%f</value>\n"
             "    </rsc_backoff_interval>\n",
-            rsc_name(j), rsc_pwf[j].backoff_interval,
-            rsc_name(j), rsc_pwf[j].backoff_time
+            rsc_name(j), rsc_pwf[j].backoff_time,
+            rsc_name(j), rsc_pwf[j].backoff_interval
         );
         if (no_rsc_ams[j]) {
             out.printf("    <no_rsc_ams>%s</no_rsc_ams>\n", rsc_name(j));
