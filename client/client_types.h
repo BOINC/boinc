@@ -692,6 +692,9 @@ struct RESULT {
     int _state;
         // state of this result: see lib/result_state.h
     inline int state() { return _state; }
+    inline void set_ready_to_report() {
+        ready_to_report = true;
+    }
     void set_state(int, const char*);
     int exit_status;
         // return value from the application

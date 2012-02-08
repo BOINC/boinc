@@ -1545,7 +1545,7 @@ bool CLIENT_STATE::update_results() {
             break;
         case RESULT_FILES_UPLOADING:
             if (rp->is_upload_done()) {
-                rp->ready_to_report = true;
+                rp->set_ready_to_report();
                 rp->completed_time = gstate.now;
                 rp->project->last_upload_start = 0;
                 rp->set_state(RESULT_FILES_UPLOADED, "CS::update_results");
@@ -1563,7 +1563,7 @@ bool CLIENT_STATE::update_results() {
             break;
         case RESULT_ABORTED:
             if (!rp->ready_to_report) {
-                rp->ready_to_report = true;
+                rp->set_ready_to_report();
                 rp->completed_time = now;
                 action = true;
             }
@@ -1633,7 +1633,7 @@ int CLIENT_STATE::report_result_error(RESULT& res, const char* format, ...) {
         return 0;
     }
 
-    res.ready_to_report = true;
+    res.set_ready_to_report();
     res.completed_time = now;
 
     va_list va;

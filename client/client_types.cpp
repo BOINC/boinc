@@ -1253,11 +1253,14 @@ int FILE_INFO::merge_info(FILE_INFO& new_info) {
 // (couldn't download, RSA/MD5 check failed, etc)
 //
 bool FILE_INFO::had_failure(int& failnum) {
-    if (status != FILE_NOT_PRESENT && status != FILE_PRESENT) {
-        failnum = status;
-        return true;
+    switch (status) {
+    case FILE_NOT_PRESENT:
+    case FILE_PRESENT:
+    case FILE_VERIFY_PENDING:
+        return false;
     }
-    return false;
+    failnum = status;
+    return true;
 }
 
 void FILE_INFO::failure_message(string& s) {

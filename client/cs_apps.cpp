@@ -190,7 +190,7 @@ int CLIENT_STATE::app_finished(ACTIVE_TASK& at) {
     } else {
 #ifdef SIM
         rp->set_state(RESULT_FILES_UPLOADED, "CS::app_finished");
-        rp->ready_to_report = true;
+        rp->set_ready_to_report();
         rp->completed_time = now;
 #else
         rp->set_state(RESULT_FILES_UPLOADING, "CS::app_finished");

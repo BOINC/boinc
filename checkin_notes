@@ -1444,3 +1444,14 @@ David  7 Feb 2012
 		ProjectPropertiesPage.cpp
 	lib/
 		str_util.h
+
+David  7 Feb 2012
+	- client: async file stuff
+		- set threshold at 10 MB for doing things asynchronously
+		- don't count VERIFY_PENDING as failure
+
+	client/
+		async_file.h
+		client_state.cpp
+		client_types.cpp,h
+		cs_apps.cpp
