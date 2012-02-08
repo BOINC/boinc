@@ -501,7 +501,7 @@ int ACTIVE_TASK::start(bool first_time) {
         return 0;
     }
 
-    // if this job less than one CPU, run it at above idle priority
+    // if this job uses less than one CPU, run it at above idle priority
     //
     bool high_priority = (app_version->avg_ncpus < 1);
 

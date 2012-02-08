@@ -201,7 +201,9 @@ function get_platforms_string($url) {
 //$x = get_platforms($u);
 //print_r($x);
 //echo get_platforms_string("http://setiathome.berkeley.edu/");
-//echo get_platforms_string("http://dist.ist.tugraz.at/cape5/");
+//$x = "http://sat.isa.ru/pdsat/";
+//print_r( get_platforms($x));
+
 //print_r(get_platforms2("http://www.primegrid.com/"));
 
 function wfPlatforms() {

@@ -1491,3 +1491,20 @@ David  7 Feb 2012
         lib/
             gui_rpc_client_ops.cpp
             gui_rpc_client.h
+
+David  7 Feb 2012
+    - client: fix bug in async file verify.
+        File verify is done in 4 places:
+        - after a download finishes
+        - transition result to DOWNLOADED
+        - if project->verify_files_on_app_start, on app start
+        Use asynchrony only in the first 2 cases,
+        since the async logic is set up to mark the file as PRESENT
+        when done, not to restart a task
+
+    client/
+        client_types.h
+        app_start.cpp
+        pers_file_xfer.cpp
+        cs_apps.cpp
+        cs_files.cpp

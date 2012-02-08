@@ -108,37 +108,51 @@ bool FILE_INFO::verify_file_certs() {
 
 // Check the existence and/or validity of a file.
 // Return 0 if it exists and is valid.
-// If "verify_contents" is true, validate the contents of the file
-// based either the digital signature of the file or its MD5 checksum.
-// Otherwise just check its existence and size.
 //
-// If this check is time-consuming
-// (i.e. it involves decompressing and/or computing the MD5 of a large file)
-// we do it asynchronously,
-// set the file status to FILE_VERIFY_PENDING,
-// and return ERR_IN_PROGRESS.
-// When the asynchronous op is complete,
-// we'll set the status to FILE_PRESENT.
+//  verify_contents
+//      if true, validate the contents of the file based either on =
+//      the digital signature of the file or its MD5 checksum.
+//      Otherwise just check its existence and size.
+//  show_errors
+//      write log msg on failure
+//  allow_async
+//      whether the operation can be done asynchronously.
+//      If this is true, and verify_contents is set
+//      (i.e. we have to read the file)
+//      and the file size is above a threshold,
+//      then we do the operation asynchronously.
+//      In this case the file status is set to FILE_VERIFY_PENDING
+//      and we return ERR_IN_PROGRESS.
+//      When the asynchronous op is complete,
+//      the status is set to FILE_PRESENT.
 //
 // This is called
-// 1) right after download is finished
+// 1) right after a download is finished
 //		(CLIENT_STATE::create_and_delete_pers_file_xfers() in cs_files.cpp)
-//		verify_contents is true
-//		status is FILE_NOT_PRESENT
+//		precondition: status is FILE_NOT_PRESENT
+//		verify_contents: true
+//      show_errors: true
+//      allow_async: true
 // 2) to see if a file marked as NOT_PRESENT is actually on disk
 //		(PERS_FILE_XFER::create_xfer() in pers_file_xfer.cpp)
-//		verify_contents is true
-//		status is FILE_NOT_PRESENT
+//		precondition: status is FILE_NOT_PRESENT
+//		verify_contents: true
+//      show_errors: false
+//      allow_async: true
 // 3) when checking whether a result's input files are available
 //		(CLIENT_STATE::input_files_available( in cs_apps.cpp)).
-//		verify_contents maybe be either true or false
-//		status is FILE_PRESENT
+//		precondition: status is FILE_PRESENT
+//		verify_contents: either true or false
+//      show_errors: true
+//      allow_async: false
 //
-// If a failure occurs, set the file's "status" field.
+// If a failure occurs, set the file's "status" field to an error number.
 // This will cause the app_version or workunit that used the file to error out
 // (via APP_VERSION::had_download_failure() or WORKUNIT::had_download_failure())
 //
-int FILE_INFO::verify_file(bool verify_contents, bool show_errors) {
+int FILE_INFO::verify_file(
+    bool verify_contents, bool show_errors, bool allow_async
+) {
     char cksum[64], pathname[256];
     bool verified;
     int retval;
@@ -160,7 +174,7 @@ int FILE_INFO::verify_file(bool verify_contents, bool show_errors) {
         char gzpath[256];
         sprintf(gzpath, "%s.gz", pathname);
         if (boinc_file_exists(gzpath) ) {
-			if (nbytes > ASYNC_FILE_THRESHOLD) {
+			if (allow_async && nbytes > ASYNC_FILE_THRESHOLD) {
 				ASYNC_VERIFY* avp = new ASYNC_VERIFY;
 				retval = avp->init(this);
                 if (retval) {
@@ -234,7 +248,7 @@ int FILE_INFO::verify_file(bool verify_contents, bool show_errors) {
             );
             return ERR_NO_SIGNATURE;
         }
-		if (nbytes > ASYNC_FILE_THRESHOLD) {
+		if (allow_async && nbytes > ASYNC_FILE_THRESHOLD) {
 			ASYNC_VERIFY* avp = new ASYNC_VERIFY();
 			retval = avp->init(this);
             if (retval) {
@@ -279,7 +293,7 @@ int FILE_INFO::verify_file(bool verify_contents, bool show_errors) {
         }
     } else if (strlen(md5_cksum)) {
         if (!strlen(cksum)) {
-			if (nbytes > ASYNC_FILE_THRESHOLD) {
+			if (allow_async && nbytes > ASYNC_FILE_THRESHOLD) {
 				ASYNC_VERIFY* avp = new ASYNC_VERIFY();
 				retval = avp->init(this);
                 if (retval) {
@@ -392,7 +406,7 @@ bool CLIENT_STATE::create_and_delete_pers_file_xfers() {
 
                 // verify the file with RSA or MD5, and change permissions
                 //
-                retval = fip->verify_file(true, true);
+                retval = fip->verify_file(true, true, true);
 				if (retval == ERR_IN_PROGRESS) {
 					// do nothing
 				} else if (retval) {

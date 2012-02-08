@@ -102,7 +102,7 @@ int PERS_FILE_XFER::create_xfer() {
         char pathname[256];
         get_pathname(fip, pathname, sizeof(pathname));
 
-        if (!fip->verify_file(true, false)) {
+        if (!fip->verify_file(true, false, true)) {
             retval = fip->set_permissions();
             fip->status = FILE_PRESENT;
             pers_xfer_done = true;

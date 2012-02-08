@@ -238,7 +238,7 @@ int CLIENT_STATE::input_files_available(
         // don't verify app files if using anonymous platform
         //
         if (verify_contents && !project->anonymous_platform) {
-            retval = fip->verify_file(true, true);
+            retval = fip->verify_file(true, true, false);
             if (retval) {
                 if (fipp) *fipp = fip;
                 return retval;
@@ -254,7 +254,7 @@ int CLIENT_STATE::input_files_available(
             return ERR_FILE_MISSING;
         }
         if (verify_contents) {
-            retval = fip->verify_file(true, true);
+            retval = fip->verify_file(true, true, false);
             if (retval) {
                 if (fipp) *fipp = fip;
                 return retval;
