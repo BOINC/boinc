@@ -1508,3 +1508,10 @@ David  7 Feb 2012
         pers_file_xfer.cpp
         cs_apps.cpp
         cs_files.cpp
+
+Rom    8 Feb 2012
+    - VBOX: Remove the renaming of the vm disk image code. It isn't needed
+        and it complicates things in the CC.
+        
+    samples/vboxwrapper/
+        vboxwrapper.cpp
