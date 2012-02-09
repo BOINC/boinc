@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-02-09 09:39-0800\n"
-"PO-Revision-Date: 2010-10-13 22:53+0200\n"
+"PO-Revision-Date: 2010-11-26 20:50+0200\n"
 "Last-Translator: chris g <chr1407@hotmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: el\n"
@@ -15,7 +15,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Pootle 2.1.1\n"
+"X-Generator: Pootle 2.1.6\n"
 
 #: acct_mgr.cpp:435 acct_mgr.cpp:444
 #, fuzzy

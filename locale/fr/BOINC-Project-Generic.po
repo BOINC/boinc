@@ -1338,8 +1338,8 @@ msgid ""
 "             On computers participating in multiple projects, the most "
 "recently modified preferences will be used."
 msgstr ""
-"Celles-ci s'appliquent à tous les projets BOINC auxquels vous participez."
-"<br>\n"
+"Celles-ci s'appliquent à tous les projets BOINC auxquels vous "
+"participez.<br>\n"
 "           Sur les ordinateurs rattachés à plusieurs projets, les "
 "préférences les plus récemment modifiées seront utilisées."
 
@@ -1393,8 +1393,8 @@ msgid ""
 "are displayed only to logged-in users. We apologize for this inconvenience."
 msgstr ""
 "Pour se prémunir du spam, les profils des utilisateurs ayant un crédit moyen "
-"inférieur à %1 sont affichés uniquement aux utilisateurs connectés. Veuillez "
-"nous excuser de cet inconvénient."
+"inférieur à %1 sont affichés uniquement aux utilisateurs connectés. "
+"Veuillez nous excuser de cet inconvénient."
 
 #: ../inc/profile.inc:196
 msgid "User is banished"
@@ -1865,7 +1865,8 @@ msgid ""
 "gives its founder access to your email address."
 msgstr ""
 "Note : si 'OK to email' est choisi dans vos préférences de projets, le fait "
-"de rejoindre une équipe, donnera accès à votre adresse email à son fondateur."
+"de rejoindre une équipe, donnera accès à votre adresse email à son "
+"fondateur."
 
 #: ../inc/team.inc:132
 msgid "Not accepting new members"
@@ -1950,8 +1951,8 @@ msgid ""
 "be overwritten. Edit the %1BOINC-wide team%2 instead."
 msgstr ""
 "ATTENTION : ceci est une équipe regroupant tout BOINC. Si vous faites des "
-"modifications ici, elles seront écrasées rapidement. A la place, éditez "
-"%1l'équipe globale BOINC%2."
+"modifications ici, elles seront écrasées rapidement. A la place, éditez %"
+"1l'équipe globale BOINC%2."
 
 #: ../inc/team.inc:422
 msgid ""
@@ -2652,8 +2653,8 @@ msgid ""
 "If you would like include a picture with your profile, click the \"Browse\" "
 "button and select a JPEG or PNG file. Please select images of %1 or less."
 msgstr ""
-"Pour inclure une image, cliquez sur le bouton \"Parcourir\" et sélectionnez "
-"un fichier JPEG ou PNG. Veuillez choisir une image de %1 ou moins."
+"Pour inclure une image, cliquez sur le bouton \"Parcourir\" et sélectionnez un "
+"fichier JPEG ou PNG. Veuillez choisir une image de %1 ou moins."
 
 #: ../user/create_profile.php:89
 msgid "Language"
@@ -2983,8 +2984,7 @@ msgstr ""
 
 #: ../user/download_network.php:36
 msgid "Instructions for installing and running BOINC are %1here%2."
-msgstr ""
-"Instructions pour l'installation et le fonctionnement de BOINC %1ici%2."
+msgstr "Instructions pour l'installation et le fonctionnement de BOINC %1ici%2."
 
 #: ../user/download_network.php:38
 msgid "This list is managed centrally at %1the BOINC website%2."
@@ -3066,7 +3066,8 @@ msgstr "Réinitialiser les préférences"
 #: ../user/edit_forum_preferences_action.php:90
 msgid "Error: Not the right kind of file, only PNG and JPEG are supported."
 msgstr ""
-"Erreur : mauvais format de fichier, seuls les PNG et les JPEG sont supportés."
+"Erreur : mauvais format de fichier, seuls les PNG et les JPEG sont "
+"supportés."
 
 #: ../user/edit_forum_preferences_action.php:116
 msgid "Your signature was too long, please keep it less than 250 characters."
@@ -3251,7 +3252,8 @@ msgstr "Réinitialiser"
 #: ../user/edit_forum_preferences_form.php:177
 msgid "Or click here to reset preferences to the defaults"
 msgstr ""
-"Ou cliquer ici pour réinitialiser les préférences avec les valeurs par défaut"
+"Ou cliquer ici pour réinitialiser les préférences avec les valeurs par "
+"défaut"
 
 #: ../user/edit_passwd_action.php:50
 msgid "Invalid account key"
@@ -3848,8 +3850,8 @@ msgid ""
 "If you have a question or problem, please use the %1Questions & Answers%2 "
 "section of the message boards."
 msgstr ""
-"Si vous avez une question ou un problème, veuillez utiliser la section "
-"%1Questions & Réponses%2 des forums."
+"Si vous avez une question ou un problème, veuillez utiliser la section %"
+"1Questions & Réponses%2 des forums."
 
 #: ../user/forum_index.php:123
 msgid "Subscribed threads"
@@ -4634,8 +4636,8 @@ msgid ""
 "<b>C:\\Program Files\\BOINC</b>."
 msgstr ""
 "Aller dans le répertoire BOINC data sur votre ordinateur (sous Windows cela "
-"se trouve généralement   <b>C:\\Documents and Settings\\All Users"
-"\\Application Data\\BOINC</b> ou <b>C:\\Program Files\\BOINC</b>)."
+"se trouve généralement   <b>C:\\Documents and Settings\\All Users\\Application "
+"Data\\BOINC</b> ou <b>C:\\Program Files\\BOINC</b>)."
 
 #: ../user/get_passwd.php:51
 msgid "Find your account file for this project; it will be named <b>%1</b>."
@@ -5066,8 +5068,8 @@ msgid ""
 "happens, stop running %1 or use a %2utility program%3 that limits CPU usage."
 msgstr ""
 "Les applications lancées par %1 peuvent engendrer une surchauffe sur "
-"certains ordinateurs. Si cela se produit, arrêter %1 ou utiliser un "
-"%2programme utilitaire%3 pour limiter l'utilisation du CPU."
+"certains ordinateurs. Si cela se produit, arrêter %1 ou utiliser un %"
+"2programme utilitaire%3 pour limiter l'utilisation du CPU."
 
 #: ../user/info.php:51
 msgid ""
@@ -5399,7 +5401,8 @@ msgstr ""
 #: ../user/pm.php:244
 msgid "Please note that you can only block a limited amount of users."
 msgstr ""
-"Veuillez noter que vous ne pouvez bloquer qu'un nombre limité d'utilisateurs."
+"Veuillez noter que vous ne pouvez bloquer qu'un nombre limité "
+"d'utilisateurs."
 
 #: ../user/pm.php:245
 msgid ""
@@ -5460,8 +5463,7 @@ msgstr "Confirmer la suppression des préférences"
 
 #: ../user/prefs_remove.php:51
 msgid "Are you sure you want to delete your separate %1 preferences for %2?"
-msgstr ""
-"Voulez-vous vraiment supprimer vos préférences séparées de %1 pour %2 ?"
+msgstr "Voulez-vous vraiment supprimer vos préférences séparées de %1 pour %2 ?"
 
 #: ../user/prefs_remove.php:55
 msgid "Remove preferences"
@@ -5520,8 +5522,8 @@ msgid ""
 "Browse profiles %1at random%2, %3at random with pictures%2, or %4at random "
 "without pictures%2."
 msgstr ""
-"Parcourir les profils %1aléatoirement%2, %3aléatoirement avec photos%2, ou "
-"%4aléatoirement sans photos%2."
+"Parcourir les profils %1aléatoirement%2, %3aléatoirement avec photos%2, ou %"
+"4aléatoirement sans photos%2."
 
 #: ../user/profile_menu.php:67
 msgid "Alphabetical profile listings:"
@@ -5855,8 +5857,8 @@ msgstr "supprimer l'équipe si elle n'a aucun membre"
 #: ../user/team.php:40
 msgid "To join a team, visit its team page and click %1Join this team%2."
 msgstr ""
-"Pour rejoindre une équipe, visitez la page de cette équipe et cliquez sur "
-"%Rejoindre cette équipe%2."
+"Pour rejoindre une équipe, visitez la page de cette équipe et cliquez sur %"
+"Rejoindre cette équipe%2."
 
 #: ../user/team.php:41 ../user/team_search.php:179
 msgid "Find a team"
@@ -5910,8 +5912,8 @@ msgid ""
 "events and red X reports)"
 msgstr ""
 "Modérer le forum de l'équipe, s'il existe (les administrateurs reçoivent des "
-"notification par e-mail des événements de modération et des rapports 'rouges "
-"X')"
+"notification par e-mail des événements de modération et des rapports "
+"'rouges X')"
 
 #: ../user/team_admins.php:47
 msgid "Team Admins cannot:"
@@ -6221,8 +6223,8 @@ msgstr "Le forum a été supprimé"
 msgid ""
 "Your team's message board has been removed. You may now %1create a new one%2."
 msgstr ""
-"Le forum de votre équipe a été supprimé. Vous pouvez éventuellement en "
-"%1créer un nouveau%2."
+"Le forum de votre équipe a été supprimé. Vous pouvez éventuellement en %"
+"1créer un nouveau%2."
 
 #: ../user/team_forum.php:143
 msgid "Team Message Board Updated"
@@ -6349,8 +6351,8 @@ msgstr ""
 "rôle, cliquer sur le bouton ci-dessous. Un e-mail sera envoyé au fondateur "
 "actuel pour détailler votre requête. Il pourra alors vous transférer le "
 "titre de fondateur ou refuser votre requête. Si le fondateur ne répond pas "
-"dans les 60 jours, vous serez alors autorisé à devenir fondateur.<br /><br /"
-">\n"
+"dans les 60 jours, vous serez alors autorisé à devenir fondateur.<br /><br "
+"/>\n"
 "                       Voulez-vous vraiment demander le titre de fondateur ?"
 
 #: ../user/team_founder_transfer_form.php:65
@@ -6886,8 +6888,8 @@ msgid ""
 msgstr ""
 "Pour utiliser votre clef de compte simplifiée sur un hôte donné, rechercher "
 "ou créer le 'fichier de compte' pour ce projet. Ce fichier a un nom de la "
-"forme <b>compte_PROJET_URL.xml</b>. Le fichier de compte pour %1 est <b>%2</"
-"b>."
+"forme <b>compte_PROJET_URL.xml</b>. Le fichier de compte pour %1 est <b>%"
+"2</b>."
 
 #: ../user/weak_auth.php:59
 msgid "Create this file if needed. Set its contents to:"
@@ -6979,8 +6981,8 @@ msgid ""
 "    <li>Any suggestions?\n"
 "    </ol>"
 msgstr ""
-"Dites nous vos pensées à propos de %1<ol>    <li>Pourquoi utilisez vous "
-"%1?    <li>Quel est votre point de vue à propos du projet ?    <li>Des "
+"Dites nous vos pensées à propos de %1<ol>    <li>Pourquoi utilisez vous %1? "
+"   <li>Quel est votre point de vue à propos du projet ?    <li>Des "
 "suggestions ?    </ol>"
 
 #: ../project.sample/project_specific_prefs.inc:47

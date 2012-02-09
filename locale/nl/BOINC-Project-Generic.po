@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2012-01-16 11:31 PST\n"
-"PO-Revision-Date: 2011-11-17 23:01+0200\n"
+"PO-Revision-Date: 2011-12-03 13:09+0200\n"
 "Last-Translator: Rene <oskamjr@wanadoo.nl>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: nl\n"
@@ -16,8 +16,8 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Pootle 2.1.6\n"
-"X-Poedit-SearchPath-0: html\\user\n"
 "X-Poedit-SourceCharset: utf-8\n"
+"X-Poedit-SearchPath-0: html\\user\n"
 "X-Poedit-Basepath: C:\\Src\\BOINCSVN\\trunk\\boinc\n"
 "X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
 
@@ -456,8 +456,8 @@ msgid ""
 "trying again. This delay has been enforced to protect against abuse of the "
 "system."
 msgstr ""
-"Op dit moment kan je geen nieuwe onderwerpen plaatsen. Probeer dit later a.u."
-"b overnieuw. Deze vertraging is ingebouwd om misbruik te voorkomen."
+"Op dit moment kan je geen nieuwe onderwerpen plaatsen. Probeer dit later "
+"a.u.b overnieuw. Deze vertraging is ingebouwd om misbruik te voorkomen."
 
 #: ../inc/forum.inc:1093
 msgid ""
@@ -1048,7 +1048,8 @@ msgstr "processoren"
 #: ../inc/prefs.inc:152
 msgid "On multiprocessors, use at most %1 Enforced by version 6.1+ %2"
 msgstr ""
-"Bij meerdere processoren, gebruik maximaal %1 Instelbaar vanaf versie 6.1+ %2"
+"Bij meerdere processoren, gebruik maximaal %1 Instelbaar vanaf versie 6.1+ %"
+"2"
 
 #: ../inc/prefs.inc:157
 #, php-format
@@ -1780,8 +1781,7 @@ msgstr "Zoek"
 
 #: ../inc/team.inc:54
 msgid "Requested by you, and founder response deadline has passed."
-msgstr ""
-"Op eigen verzoek, deadline voor de oprichter om te reageren is verlopen"
+msgstr "Op eigen verzoek, deadline voor de oprichter om te reageren is verlopen"
 
 #: ../inc/team.inc:56
 msgid "Complete foundership transfer"
@@ -1845,8 +1845,8 @@ msgid ""
 "Note: if 'OK to email' is set in your project preferences, joining a team "
 "gives its founder access to your email address."
 msgstr ""
-"NB: als je \"email toestaan\" hebt ingevuld bij je project voorkeuren, zal "
-"je email adres bekend worden bij de team oprichter, indien je jezelf bij een "
+"NB: als je \"email toestaan\" hebt ingevuld bij je project voorkeuren, zal je "
+"email adres bekend worden bij de team oprichter, indien je jezelf bij een "
 "team opgeeft."
 
 #: ../inc/team.inc:132
@@ -2378,9 +2378,9 @@ msgid ""
 msgstr ""
 "BBCode tags laten je toe om opmaak mee te geven aan je tekst in je profiel "
 "of op je message-board berichten. \n"
-"Het is vergelijkbaar met HTML maar eenvoudiger.  De tags starten met een "
-"[ (waar je een %1 zou gebruiken in HTML) en eindigen met een ] (waar je %2 "
-"zou gebruiken in HTML)."
+"Het is vergelijkbaar met HTML maar eenvoudiger.  De tags starten met een [ "
+"(waar je een %1 zou gebruiken in HTML) en eindigen met een ] (waar je %2 zou "
+"gebruiken in HTML)."
 
 #: ../user/bbcode.php:31
 msgid "Examples"
@@ -2465,8 +2465,7 @@ msgstr "gebruik om een link te maken naar de Trac Wiki op de BOINC website"
 
 #: ../user/bbcode.php:49
 msgid "use to link to SVN changeset on BOINC website"
-msgstr ""
-"gebruikt om een link te maken naar de SVN changeset op de BOINC website"
+msgstr "gebruikt om een link te maken naar de SVN changeset op de BOINC website"
 
 #: ../user/bbcode.php:53
 msgid ""
@@ -2625,9 +2624,9 @@ msgid ""
 "If you would like include a picture with your profile, click the \"Browse\" "
 "button and select a JPEG or PNG file. Please select images of %1 or less."
 msgstr ""
-"Als je een afbeelding wilt toevoegen aan je profiel, klik dan op \"Bladeren"
-"\" en selecteer een JPEG of PNG afbeelding. Kies a.u.b. afbeeldingen van %1 "
-"of minder."
+"Als je een afbeelding wilt toevoegen aan je profiel, klik dan op \"Bladeren\" "
+"en selecteer een JPEG of PNG afbeelding. Kies a.u.b. afbeeldingen van %1 of "
+"minder."
 
 #: ../user/create_profile.php:89
 msgid "Language"
@@ -2670,16 +2669,16 @@ msgid ""
 "Your first response was flagged as spam by the Akismet anti-spam system.  "
 "Please modify your text and try again."
 msgstr ""
-"Je eerste reactie wordt gezien als spam door het Akismet anti-spam systeem.  "
-"Pas a.u.b. je tekst aan en probeer het opnieuw."
+"Je eerste reactie wordt gezien als spam door het Akismet anti-spam systeem. "
+" Pas a.u.b. je tekst aan en probeer het opnieuw."
 
 #: ../user/create_profile.php:230
 msgid ""
 "Your second response was flagged as spam by the Akismet anti-spam system.  "
 "Please modify your text and try again."
 msgstr ""
-"Je tweede reactie wordt gezien als spam door het Akismet anti-spam systeem.  "
-"Pas a.u.b. je tekst aan en probeer het opnieuw."
+"Je tweede reactie wordt gezien als spam door het Akismet anti-spam systeem. "
+" Pas a.u.b. je tekst aan en probeer het opnieuw."
 
 #: ../user/create_profile.php:246
 msgid "Your profile submission was empty."
@@ -3045,8 +3044,7 @@ msgstr "Fout: niet de goede indeling, alleen JPEG en PNG worden ondersteund."
 
 #: ../user/edit_forum_preferences_action.php:116
 msgid "Your signature was too long, please keep it less than 250 characters."
-msgstr ""
-"Je onderschrift is te lang, gebruik a.u.b. niet meer dan 250 karakters."
+msgstr "Je onderschrift is te lang, gebruik a.u.b. niet meer dan 250 karakters."
 
 #: ../user/edit_forum_preferences_action.php:139
 #: ../user/edit_forum_preferences_action.php:153
@@ -3430,7 +3428,8 @@ msgid ""
 "output files were lost on the server."
 msgstr ""
 "De taak werd gerapporteerd maar kon niet gevalideerd worden. Dit gebeurt "
-"meestal doordat de output uitvoerbestanden verloren zijn gegaan op de server."
+"meestal doordat de output uitvoerbestanden verloren zijn gegaan op de "
+"server."
 
 #: ../user/explain_state.php:80
 msgid "Client states"
@@ -3570,8 +3569,8 @@ msgid ""
 "can add your own message if you like."
 msgstr ""
 "Op dit formulier vult u de namen en e-mailadressen in van de mensen die "
-"wellicht geïnteresseerd zijn in %1. Wij  sturen hen dan namens u een e-"
-"mailbericht en - indien u dat wenst- kunt u een persoonlijk bericht "
+"wellicht geïnteresseerd zijn in %1. Wij  sturen hen dan namens u een "
+"e-mailbericht en - indien u dat wenst- kunt u een persoonlijk bericht "
 "bijvoegen."
 
 #: ../user/ffmail_form.php:43
@@ -3972,8 +3971,8 @@ msgid ""
 "Your message was flagged as spam by the Akismet anti-spam system. Please "
 "modify your text and try again."
 msgstr ""
-"Je reactie wordt gezien als spam door het Akismet anti-spam systeem. Pas a.u."
-"b. je tekst aan en probeer opnieuw."
+"Je reactie wordt gezien als spam door het Akismet anti-spam systeem. Pas "
+"a.u.b. je tekst aan en probeer opnieuw."
 
 #: ../user/forum_post.php:70
 msgid "Create new thread"
@@ -4047,8 +4046,8 @@ msgid ""
 "Your post has been flagged as spam by the Akismet anti-spam system. Please "
 "modify your text and try again."
 msgstr ""
-"Je reactie wordt gezien als spam door het Akismet anti-spam systeem. Pas a.u."
-"b. je tekst aan en probeer opnieuw."
+"Je reactie wordt gezien als spam door het Akismet anti-spam systeem. Pas "
+"a.u.b. je tekst aan en probeer opnieuw."
 
 #: ../user/forum_reply.php:87 ../user/forum_thread.php:154
 #: ../user/forum_thread.php:274
@@ -4169,7 +4168,8 @@ msgstr ""
 #: ../user/forum_rss.php:53
 msgid "Threads only: %1 (Include only the first post of every thread)"
 msgstr ""
-"Alleen discussies: 1% (Inclusief alleen het eerste bericht van elk onderwerp)"
+"Alleen discussies: 1% (Inclusief alleen het eerste bericht van elk "
+"onderwerp)"
 
 #: ../user/forum_search.php:27
 msgid "Forum search"
@@ -4593,8 +4593,8 @@ msgid ""
 "2) If you forgot your account's email address, or you can't receive email "
 "there:"
 msgstr ""
-"2) Als u het e-mailadres van uw account bent vergeten, of als u daar geen e-"
-"mail kunt ontvangen:"
+"2) Als u het e-mailadres van uw account bent vergeten, of als u daar geen "
+"e-mail kunt ontvangen:"
 
 #: ../user/get_passwd.php:47
 msgid ""
@@ -4611,14 +4611,14 @@ msgid ""
 "<b>C:\\Program Files\\BOINC</b>."
 msgstr ""
 "Ga naar de BOINC-gegevensmap (in Windows is dat doorgaans <b>C:\\Documents "
-"and Settings\\All Users\\Application Data\\BOINC</b> of <b>C:\\Program Files"
-"\\BOINC</b>."
+"and Settings\\All Users\\Application Data\\BOINC</b> of <b>C:\\Program "
+"Files\\BOINC</b>."
 
 #: ../user/get_passwd.php:51
 msgid "Find your account file for this project; it will be named <b>%1</b>."
 msgstr ""
-"Zoek het betreffende projectbestand met uw accountgegevens, genaamd <b>%1</"
-"b>."
+"Zoek het betreffende projectbestand met uw accountgegevens, genaamd <b>%"
+"1</b>."
 
 #: ../user/get_passwd.php:52
 msgid "Open the file in a text editor like Notepad. You'll see something like"
@@ -4963,8 +4963,8 @@ msgstr ""
 "Wanneer je deelneemt aan %1, wordt er informatie over je computer (type "
 "processor, hoeveelheid geheugen, etc.) opgeslagen door %1 en gebruikt om te "
 "kunnen bepalen welk soort werk er aan je computer wordt verzonden. Deze "
-"informatie wordt ook getoond op de website van %1. Je werkelijke locatie (b."
-"v. je IP-adres) blijft verborgen."
+"informatie wordt ook getoond op de website van %1. Je werkelijke locatie "
+"(b.v. je IP-adres) blijft verborgen."
 
 #: ../user/info.php:45
 msgid ""
@@ -4988,8 +4988,8 @@ msgstr ""
 "Privé berichten die verzonden zijn op de website van %1 zijn alleen "
 "zichtbaar voor de afzender en ontvanger.  %1 bekijkt en veranderd de inhoud "
 "niet.  Als je een ongewenst bericht ontvangt van een andere %1 gebruiker, is "
-"het mogelijk deze toe te voegen aan een %2berichten filter%3.  Dit blokkeert "
-"zowel privé als forum berichten van deze gebruiker."
+"het mogelijk deze toe te voegen aan een %2berichten filter%3.  Dit "
+"blokkeert zowel privé als forum berichten van deze gebruiker."
 
 #: ../user/info.php:47
 msgid ""
@@ -5018,8 +5018,8 @@ msgid ""
 "to the Internet."
 msgstr ""
 "Elke keer als je een programma via het internet download neem je een risico; "
-"het programma kan fatale fouten hebben, of de download server is niet veilig "
-"genoeg. %1 heeft zijn best gedaan om deze risico's tot een minimum te "
+"het programma kan fatale fouten hebben, of de download server is niet "
+"veilig genoeg. %1 heeft zijn best gedaan om deze risico's tot een minimum te "
 "beperken. Ons programma is uitvoerig getest. Onze servers zijn zo veel als "
 "mogelijk is beveiligd tegen misbruik. Om de integriteit van de programma's "
 "te garanderen zijn ze digitaal ondertekend op een computer die niet met het "
@@ -5031,8 +5031,8 @@ msgid ""
 "happens, stop running %1 or use a %2utility program%3 that limits CPU usage."
 msgstr ""
 "De door %1 gebruikte applicaties kunnen een verhoging opleveren van de "
-"temperatuur van de processor. Als dit aan de orde is gebruik dan een "
-"%2programma%3 om het gebruik van de processor te regelen."
+"temperatuur van de processor. Als dit aan de orde is gebruik dan een %"
+"2programma%3 om het gebruik van de processor te regelen."
 
 #: ../user/info.php:51
 msgid ""
@@ -5321,8 +5321,8 @@ msgid ""
 "                by the Akismet anti-spam system.\n"
 "                Please modify your text and try again."
 msgstr ""
-"Je reactie wordt gezien als spam door het Akismet anti-spam systeem. Pas a.u."
-"b. je tekst aan en probeer opnieuw."
+"Je reactie wordt gezien als spam door het Akismet anti-spam systeem. Pas "
+"a.u.b. je tekst aan en probeer opnieuw."
 
 #: ../user/pm.php:205
 msgid "Could not find user with id %1"
@@ -5478,8 +5478,8 @@ msgid ""
 "Browse profiles %1at random%2, %3at random with pictures%2, or %4at random "
 "without pictures%2."
 msgstr ""
-"Doorzoek profielen; %1willekeurig%2, %3willekeurig met foto%2 of "
-"%4willekeurig zonder foto%2."
+"Doorzoek profielen; %1willekeurig%2, %3willekeurig met foto%2 of %"
+"4willekeurig zonder foto%2."
 
 #: ../user/profile_menu.php:67
 msgid "Alphabetical profile listings:"
@@ -5834,8 +5834,8 @@ msgstr "Start nieuw team"
 msgid ""
 "If you cannot find a team that is right for you, you can %1create a team%2."
 msgstr ""
-"Als je geen team vinden kan die voldoet aan jou eisen, kan je ook je eigen "
-"%1team maken%2."
+"Als je geen team vinden kan die voldoet aan jou eisen, kan je ook je eigen %"
+"1team maken%2."
 
 #: ../user/team_admins.php:34
 msgid "Remove Team Admin status from this member"
@@ -6280,8 +6280,8 @@ msgid ""
 "The founder was notified of your request. If he/she does not respond by %1 "
 "you will be given an option to become founder."
 msgstr ""
-"De oprichter is op de hoogte gesteld van uw verzoek. Als hij/zij niet voor "
-"%1 reageert, kunt u de status van oprichter toegewezen krijgen."
+"De oprichter is op de hoogte gesteld van uw verzoek. Als hij/zij niet voor %"
+"1 reageert, kunt u de status van oprichter toegewezen krijgen."
 
 #: ../user/team_founder_transfer_form.php:60
 msgid ""
@@ -6331,8 +6331,7 @@ msgstr "Je bent al lid van %1"
 
 #: ../user/team_join.php:42 ../user/team_join_action.php:43
 msgid "Couldn't join team - please try again later."
-msgstr ""
-"Aansluiten als teamlid mislukt. Probeer het later nog eens alstublieft."
+msgstr "Aansluiten als teamlid mislukt. Probeer het later nog eens alstublieft."
 
 #: ../user/team_join_action.php:40
 msgid "Joined %1"
@@ -6378,7 +6377,8 @@ msgstr ""
 #: ../user/team_lookup.php:98
 msgid "More than 100 teams match your search. The first 100 are shown."
 msgstr ""
-"Meer dan 100 teams voldoen aan uw zoekopdracht. De eerste 100 worden getoond."
+"Meer dan 100 teams voldoen aan uw zoekopdracht. De eerste 100 worden "
+"getoond."
 
 #: ../user/team_lookup.php:104
 msgid ""
@@ -6487,8 +6487,8 @@ msgid ""
 "Other resources for BOINC team admins are available from a third-party site, "
 "%1www.boincteams.com%2."
 msgstr ""
-"Andere opties voor BOINC team admins zijn beschikbaar op de volgende site, "
-"%1www.boincteams.com%2."
+"Andere opties voor BOINC team admins zijn beschikbaar op de volgende site, %"
+"1www.boincteams.com%2."
 
 #: ../user/team_manage.php:91
 msgid "Can't delete non-empty team"
@@ -6719,7 +6719,7 @@ msgstr "Gebruiker niet gevonden!"
 
 #: ../user/userw.php:51
 msgid "Account Data<br/>for %1<br/>Time:"
-msgstr "Account Data <br/> voor %1 <br/> Tijd:"
+msgstr "Account Data <br/> voor% 1 <br/> Tijd:"
 
 #: ../user/userw.php:54
 msgid "Team:"
@@ -6822,8 +6822,8 @@ msgid ""
 msgstr ""
 "Om je 'beperkte account key' te kunnen gebruiken, zoek je naar (of maak je) "
 "een 'account bestand' op de bedoelde computer. Dit bestand heeft de "
-"bestandsopbouw; <b>account_PROJECT_URL.xml</b>. Het bestand voor %1 is <b>"
-"%2</b>."
+"bestandsopbouw; <b>account_PROJECT_URL.xml</b>. Het bestand voor %1 is <b>%"
+"2</b>."
 
 #: ../user/weak_auth.php:59
 msgid "Create this file if needed. Set its contents to:"

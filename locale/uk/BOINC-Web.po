@@ -926,16 +926,15 @@ msgstr ""
 msgid ""
 " Use the idle time on your computer (Windows, Mac, or Linux) to cure "
 "diseases, study global warming, discover pulsars, and do many other types of "
-"scientific research.  It's safe, secure, and easy:  %sChoose%s projects  "
-"%sDownload%s and run BOINC software  %sEnter%s an email address and "
-"password. "
+"scientific research.  It's safe, secure, and easy:  %sChoose%s projects  %"
+"sDownload%s and run BOINC software  %sEnter%s an email address and password. "
 msgstr ""
 
 #: index.php:100
 #, php-format
 msgid ""
-"Or, if you run several projects, try an %saccount manager%s such as "
-"%sGridRepublic%s or %sBAM!%s. "
+"Or, if you run several projects, try an %saccount manager%s such as %"
+"sGridRepublic%s or %sBAM!%s. "
 msgstr ""
 
 #: index.php:116

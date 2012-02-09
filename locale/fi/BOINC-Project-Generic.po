@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2012-01-16 11:31 PST\n"
-"PO-Revision-Date: 2011-12-28 17:35+0200\n"
+"PO-Revision-Date: 2012-01-24 18:26+0200\n"
 "Last-Translator: Sami Nordlund <sami.nordlund@kolumbus.fi>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: fi\n"
@@ -1918,7 +1918,8 @@ msgid ""
 "be overwritten. Edit the %1BOINC-wide team%2 instead."
 msgstr ""
 "VAROITUS: tämä on BOINC-laajuinen tiimi. Jos teet muutoksia tässä, ne "
-"tulevat pian ylikirjoitetuksi. Muokkaa sen sijaan %1BOINC-laajuista tiimiä%2."
+"tulevat pian ylikirjoitetuksi. Muokkaa sen sijaan %1BOINC-laajuista tiimiä%"
+"2."
 
 #: ../inc/team.inc:422
 msgid ""
@@ -2298,7 +2299,8 @@ msgstr "Tilin asennus valmis"
 #: ../user/account_finish.php:41 ../user/create_account_form.php:89
 msgid "Identifies you on our web site. Use your real name or a nickname."
 msgstr ""
-"Sinut tunnistetaan tällä nettisivullamme. Voit käyttää oikeaa tai lempinimeä."
+"Sinut tunnistetaan tällä nettisivullamme. Voit käyttää oikeaa tai "
+"lempinimeä."
 
 #: ../user/account_finish.php:45 ../user/create_account_form.php:108
 msgid "Select the country you want to represent, if any."
@@ -2365,8 +2367,8 @@ msgid ""
 msgstr ""
 "BBCode tageilla voit muokata profiilisi ja keskustelupalstan viestiesi "
 "tekstiä.\n"
-"Se on samantapaista kuin HTML, mutta yksinkertaisempi. Tagi alkaa [ -"
-"merkillä\n"
+"Se on samantapaista kuin HTML, mutta yksinkertaisempi. Tagi alkaa [ "
+"-merkillä\n"
 "(HTML käyttää %1) ja päättyy merkkiin ] (HTML käyttää %2)."
 
 #: ../user/bbcode.php:31
@@ -2592,8 +2594,8 @@ msgid ""
 "To replace it, click the \"Browse\" button and select a JPEG or PNG file (%1 "
 "or less)."
 msgstr ""
-"Vaihda se napsauttamalla \"Selaa\" ja valitse joko JPEG- tai PNG-tiedosto "
-"(%1 tai vähemmän)."
+"Vaihda se napsauttamalla \"Selaa\" ja valitse joko JPEG- tai PNG-tiedosto (%1 "
+"tai vähemmän)."
 
 #: ../user/create_profile.php:69
 msgid "To remove it from your profile, check this box:"
@@ -3342,8 +3344,8 @@ msgid ""
 "A tasks's <b>outcome</b> is defined if its server state is <b>over</b>. "
 "Possible values are:"
 msgstr ""
-"Tehtävän <b>tulos</b> on määritelty, jos sen tila palvelimella on <b>valmis</"
-"b>. Mahdolliset arvot ovat:"
+"Tehtävän <b>tulos</b> on määritelty, jos sen tila palvelimella on "
+"<b>valmis</b>. Mahdolliset arvot ovat:"
 
 #: ../user/explain_state.php:57
 msgid ""
@@ -3355,8 +3357,7 @@ msgstr ""
 
 #: ../user/explain_state.php:60
 msgid "A computer completed and reported the task successfully."
-msgstr ""
-"Tietokone on saanut tehtävän valmiksi ja raportoinut sen onnistuneesti."
+msgstr "Tietokone on saanut tehtävän valmiksi ja raportoinut sen onnistuneesti."
 
 #: ../user/explain_state.php:63
 msgid ""
@@ -3507,8 +3508,8 @@ msgid ""
 "You forgot to enter your friends' names and/or email addresses; Please "
 "%1return to the form%2 and enter them."
 msgstr ""
-"Unohdit täyttää ystävän nimen ja/tai sähköpostiosoitteen; palaa "
-"%1lomakkeeseen%2 ja täytä kohdat."
+"Unohdit täyttää ystävän nimen ja/tai sähköpostiosoitteen; palaa %"
+"1lomakkeeseen%2 ja täytä kohdat."
 
 #: ../user/ffmail_form.php:31
 msgid ""
@@ -4120,7 +4121,8 @@ msgstr ""
 #: ../user/forum_rss.php:53
 msgid "Threads only: %1 (Include only the first post of every thread)"
 msgstr ""
-"Vain viestiketjut: %1 (Sisällytä jokaisesta ketjusta vain ensimmäinen viesti)"
+"Vain viestiketjut: %1 (Sisällytä jokaisesta ketjusta vain ensimmäinen "
+"viesti)"
 
 #: ../user/forum_search.php:27
 msgid "Forum search"
@@ -4553,8 +4555,8 @@ msgid ""
 "<b>C:\\Program Files\\BOINC</b>."
 msgstr ""
 "Siirry BOINCin datahakemistoon (Windowsissa se on yleensä <b>C:\\Documents "
-"and Settings\\All Users\\Application Data\\BOINC</b> tai <b>C:\\Program Files"
-"\\BOINC</b>."
+"and Settings\\All Users\\Application Data\\BOINC</b> tai <b>C:\\Program "
+"Files\\BOINC</b>."
 
 #: ../user/get_passwd.php:51
 msgid "Find your account file for this project; it will be named <b>%1</b>."
@@ -4717,8 +4719,8 @@ msgstr "Näytä tiedot"
 msgid ""
 "Check the computers that are the same as %1 (created %2, computer ID %3):"
 msgstr ""
-"Tarkista tietokoneet, jotka ovat samoja kuin %1 (luotu %2, koneen tunniste "
-"%3):"
+"Tarkista tietokoneet, jotka ovat samoja kuin %1 (luotu %2, koneen tunniste %"
+"3):"
 
 #: ../user/host_edit_form.php:70 ../user/workunit.php:39
 msgid "name"
@@ -4761,7 +4763,8 @@ msgid ""
 "This change will take effect the next time the host communicates with this "
 "project."
 msgstr ""
-"Tämä muutos tulee voimaan kun kone on seuraavan kerran yhteydessä projektiin."
+"Tämä muutos tulee voimaan kun kone on seuraavan kerran yhteydessä "
+"projektiin."
 
 #: ../user/host_venue_action.php:50
 msgid "Return to host page"
@@ -4857,8 +4860,8 @@ msgid ""
 "resources are used by %1, and when it uses them."
 msgstr ""
 "Ajaessasi %1 -projektia koneellasi se käyttää tietokoneen keskusyksikön "
-"tehoa, levytilaa ja tietoliikenneyhteyttä. Voit vaikuttaa siihen, paljonko "
-"%1 käyttää näitä resursseja ja milloin."
+"tehoa, levytilaa ja tietoliikenneyhteyttä. Voit vaikuttaa siihen, paljonko %"
+"1 käyttää näitä resursseja ja milloin."
 
 #: ../user/info.php:40
 msgid ""
@@ -4879,9 +4882,9 @@ msgid ""
 "done for %1. If you want to be anonymous, choose a name that doesn't reveal "
 "your identity."
 msgstr ""
-"%1 -tilisi tunnistetaan valitsemallasi nimellä. Nimi saattaa näkyä %1 -"
-"projektin nettisivulla samoin kuin tietokoneesi suorittamat työt %1 -"
-"projektille. Jos haluat pysyä anonyyminä, valitse nimi joka ei paljasta "
+"%1 -tilisi tunnistetaan valitsemallasi nimellä. Nimi saattaa näkyä %1 "
+"-projektin nettisivulla samoin kuin tietokoneesi suorittamat työt %1 "
+"-projektille. Jos haluat pysyä anonyyminä, valitse nimi joka ei paljasta "
 "identiteettiäsi."
 
 #: ../user/info.php:44
@@ -4894,8 +4897,8 @@ msgid ""
 msgstr ""
 "Osallistuessasi %1 -projektiin, tietoja tietokoneestasi (suorittimen tyyppi, "
 "muistin määrä jne.) tallennetaan %1 -projektin toimesta ja sen perusteella "
-"päätetään, minkäläisiä töitä tietokoneellesi annetaan. Tiedot näkyvät myös "
-"%1 -projektin nettisivuilla. Sellaisia tietoja, joista voitaisiin nähdä "
+"päätetään, minkäläisiä töitä tietokoneellesi annetaan. Tiedot näkyvät myös %"
+"1 -projektin nettisivuilla. Sellaisia tietoja, joista voitaisiin nähdä "
 "tietokoneesi sijainti, ei näytetä (esim. domain-nimi tai verkko-osoite)."
 
 #: ../user/info.php:45
@@ -4918,8 +4921,8 @@ msgid ""
 msgstr ""
 "%1 -sivuston kautta lähetetyt yksityisviestit näkyvät vain lähettäjälle ja "
 "vastaanottajalle.  %1 ei tutki yksityisviestien sisältöä.  Jos saat ei-"
-"toivottuja yksityisviestejä %1 -käyttäjältä, voit lisätä heidät "
-"%2viestisuodattimeen%3.  Sen jälkeen et näe kyseisen käyttäjän yleisiä tai "
+"toivottuja yksityisviestejä %1 -käyttäjältä, voit lisätä heidät %"
+"2viestisuodattimeen%3.  Sen jälkeen et näe kyseisen käyttäjän yleisiä tai "
 "yksityisiä viestejä."
 
 #: ../user/info.php:47
@@ -4929,8 +4932,8 @@ msgid ""
 "members.  By posting to the forums, you are granting irrevocable license for "
 "anyone to view and copy your posts."
 msgstr ""
-"Käyttäessäsi nettifoorumiamme, noudata viestien lähettämistä koskevaa "
-"%2ohjeistusta%3.  %1 -foorumiin lähetetyt viestit näkyvät kaikille, myös "
+"Käyttäessäsi nettifoorumiamme, noudata viestien lähettämistä koskevaa %"
+"2ohjeistusta%3.  %1 -foorumiin lähetetyt viestit näkyvät kaikille, myös "
 "niille, jotka eivät ole jäseniä.  Lähettämällä viestin foorumiin myönnät "
 "kaikille oikeuden katsoa ja kopioida viestejäsi."
 
@@ -4968,8 +4971,7 @@ msgstr ""
 #: ../user/info.php:51
 msgid ""
 "%1 was developed by %2. BOINC was developed at the University of California."
-msgstr ""
-"%1 kehitettiin %2 toimesta. BOINC kehitettiin Kalifornian yliopistolla."
+msgstr "%1 kehitettiin %2 toimesta. BOINC kehitettiin Kalifornian yliopistolla."
 
 #: ../user/info.php:53
 msgid "Liability"
@@ -5018,8 +5020,7 @@ msgstr "Kielivalinta"
 msgid ""
 "This web site is available in several languages. The currently selected "
 "language is %1."
-msgstr ""
-"Tämä nettisivu löytyy useammalla kielellä. Nykyinen kielivalinta on %1."
+msgstr "Tämä nettisivu löytyy useammalla kielellä. Nykyinen kielivalinta on %1."
 
 #: ../user/language_select.php:75
 msgid ""
@@ -5032,8 +5033,8 @@ msgstr ""
 #: ../user/language_select.php:80
 msgid "Firefox: Tools/Options/General"
 msgstr ""
-"Firefox: Työkalut/Asetukset/Sisältö-välilehti, josta Kielet-kohta ja Valitse-"
-"nappi"
+"Firefox: Työkalut/Asetukset/Sisältö-välilehti, josta Kielet-kohta ja "
+"Valitse-nappi"
 
 #: ../user/language_select.php:82
 msgid "Microsoft IE: Tools/Internet Options/Languages"
@@ -5062,8 +5063,8 @@ msgid ""
 "Translations are done by volunteers.  If your native language is not here, "
 "%1you can provide a translation%2."
 msgstr ""
-"Käännökset tehdään vapaaehtoisvoimin.  Jos oma kielesi ei ole listalla, "
-"%1voit tarjota käännöstä%2."
+"Käännökset tehdään vapaaehtoisvoimin.  Jos oma kielesi ei ole listalla, %"
+"1voit tarjota käännöstä%2."
 
 #: ../user/login_form.php:52
 msgid "Email address:"
@@ -5366,8 +5367,8 @@ msgid ""
 "%1Profiles%2 let individuals share backgrounds and opinions with the %3 "
 "community."
 msgstr ""
-"%1Profiilien%2 avulla voi jakaa taustatietojaan ja mielipiteitään %3 -"
-"yhteisön kanssa."
+"%1Profiilien%2 avulla voi jakaa taustatietojaan ja mielipiteitään %3 "
+"-yhteisön kanssa."
 
 #: ../user/profile_menu.php:39
 msgid ""
@@ -6214,8 +6215,8 @@ msgstr ""
 "Jos tiimin perustaja ei ole aktiivinen ja haluat omaksua perustajan roolin, "
 "napsauta allaolevaa nappia. Nykyiselle perustajalle lähetetään sähköposti "
 "koskien pyyntöäsi ja mahdollisuus siirtää tai evätä perustajuus. Jos "
-"perustaja ei vastaa 60 päivän kuluessa, voit saada perustajuuden.<br /><br /"
-">\n"
+"perustaja ei vastaa 60 päivän kuluessa, voit saada perustajuuden.<br /><br "
+"/>\n"
 "                       Haluatko pyytää perustajuutta?"
 
 #: ../user/team_founder_transfer_form.php:65
@@ -6300,7 +6301,8 @@ msgid ""
 "End of results. %1 If you cannot find the team you are looking for, you may "
 "%2create a team%3 yourself."
 msgstr ""
-"Tulosten loppu. %1 Jos et löydä hakemaasi tiimiä, voit itse %2luoda tiimin%3."
+"Tulosten loppu. %1 Jos et löydä hakemaasi tiimiä, voit itse %2luoda tiimin%"
+"3."
 
 #: ../user/team_manage.php:26
 msgid "Team administration for %1"
@@ -6340,8 +6342,7 @@ msgstr "XML"
 
 #: ../user/team_manage.php:39
 msgid "See when members joined or quit this team"
-msgstr ""
-"Tarkastele, milloin jäsenet ovat liittyneet tai eronneet tästä tiimistä"
+msgstr "Tarkastele, milloin jäsenet ovat liittyneet tai eronneet tästä tiimistä"
 
 #: ../user/team_manage.php:50
 msgid "Respond to foundership request."
@@ -6400,8 +6401,8 @@ msgid ""
 "Other resources for BOINC team admins are available from a third-party site, "
 "%1www.boincteams.com%2."
 msgstr ""
-"Lisää tietoa BOINC-tiimien ylläpitäjille löytyy osoitteesta %1www.boincteams."
-"com%2."
+"Lisää tietoa BOINC-tiimien ylläpitäjille löytyy osoitteesta %"
+"1www.boincteams.com%2."
 
 #: ../user/team_manage.php:91
 msgid "Can't delete non-empty team"
@@ -6725,8 +6726,8 @@ msgid ""
 "file' for this project. This file has a name of the form "
 "<b>account_PROJECT_URL.xml</b>. The account file for %1 is <b>%2</b>."
 msgstr ""
-"Käyttääksesi heikkoa tiliavainta tietokoneella, etsi tai luo \"tilitiedosto"
-"\" projektille. Tiedoston nimi on muotoa <b>account_PROJECT_URL.xml</b>. "
+"Käyttääksesi heikkoa tiliavainta tietokoneella, etsi tai luo \"tilitiedosto\" "
+"projektille. Tiedoston nimi on muotoa <b>account_PROJECT_URL.xml</b>. "
 "Tilitiedosto projektille %1 on <b>%2</b>."
 
 #: ../user/weak_auth.php:59

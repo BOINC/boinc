@@ -97,7 +97,8 @@ msgstr ""
 #: ../sched/handle_request.cpp:831
 msgid "Invalid code signing key.  To fix, remove and add this project."
 msgstr ""
-"Virheellinen varmenneavain.  Kokeile poistaa projekti ja lisätä se uudelleen."
+"Virheellinen varmenneavain.  Kokeile poistaa projekti ja lisätä se "
+"uudelleen."
 
 #: ../sched/handle_request.cpp:841
 msgid ""
@@ -138,8 +139,7 @@ msgstr ""
 msgid ""
 "A newer version of BOINC is needed to use your NVIDIA GPU; please upgrade to "
 "the current version"
-msgstr ""
-"NVIDIA GPUn käyttöön tarvitaan uudempi versio BOINCista, päivitä versio"
+msgstr "NVIDIA GPUn käyttöön tarvitaan uudempi versio BOINCista, päivitä versio"
 
 #: ../sched/sched_send.cpp:1404
 msgid "An NVIDIA or ATI GPU is required to run tasks for this project"

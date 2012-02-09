@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: BOINC Project (Generic) 6.x\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2012-01-16 11:31 PST\n"
-"PO-Revision-Date: 2011-12-06 16:20+0200\n"
+"PO-Revision-Date: 2012-01-17 13:14+0200\n"
 "Last-Translator: Christian <djangofett@gmx.net>\n"
 "Language-Team: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
 "Language: de\n"
@@ -16,8 +16,8 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Pootle 2.1.6\n"
-"X-Poedit-SearchPath-0: html\\user\n"
 "X-Poedit-SourceCharset: utf-8\n"
+"X-Poedit-SearchPath-0: html\\user\n"
 "X-Poedit-Basepath: C:\\Src\\BOINCSVN\\trunk\\boinc\n"
 "X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
 
@@ -524,7 +524,8 @@ msgstr "Abonnierte Themen"
 #, fuzzy
 msgid "There are new posts in the thread '%1'"
 msgstr ""
-"Anklicken um benachrichtigt zu werden, wenn neue Beiträge geschrieben wurden."
+"Anklicken um benachrichtigt zu werden, wenn neue Beiträge geschrieben "
+"wurden."
 
 #: ../inc/forum.inc:1204
 msgid "Mark all threads as read"
@@ -991,8 +992,7 @@ msgstr "ungelesen"
 
 #: ../inc/pm.inc:186
 msgid "For email notification, %1edit community prefs%2"
-msgstr ""
-"E-Mail Benachrichtigungen in den %1Communityeinstellungen%2 einrichten."
+msgstr "E-Mail Benachrichtigungen in den %1Communityeinstellungen%2 einrichten."
 
 # ########################################
 # Private messages
@@ -1005,7 +1005,8 @@ msgid ""
 "Suspend work while computer is on battery power? %1 Matters only for "
 "portable computers %2"
 msgstr ""
-"Ausführung anhalten bei Batteriebetrieb? %1(gilt nur für tragbare Computer)%2"
+"Ausführung anhalten bei Batteriebetrieb? %1(gilt nur für tragbare Computer)%"
+"2"
 
 #: ../inc/prefs.inc:84
 msgid "Suspend work while computer is in use?"
@@ -1015,8 +1016,8 @@ msgstr "Ausführung anhalten wenn der Computer benutzt wird?"
 msgid ""
 "Suspend GPU work while computer is in use? %1 Enforced by version 6.6.21+ %2"
 msgstr ""
-"Ausführung auf Grafikkarte anhalten wenn der Computer benutzt wird? "
-"%1Unterstützt ab Version 6.7 aufwärts%2"
+"Ausführung auf Grafikkarte anhalten wenn der Computer benutzt wird? %"
+"1Unterstützt ab Version 6.7 aufwärts%2"
 
 #: ../inc/prefs.inc:98
 msgid "'In use' means mouse/keyboard activity in last"
@@ -1352,8 +1353,8 @@ msgid ""
 "             On computers participating in multiple projects, the most "
 "recently modified preferences will be used."
 msgstr ""
-"Diese Einstellungen gelten für alle BOINC-Projekte an denen du teilnimmst."
-"<br>\n"
+"Diese Einstellungen gelten für alle BOINC-Projekte an denen du "
+"teilnimmst.<br>\n"
 "Auf Computern mit mehreren Projekten werden die aktuellsten Einstellungen "
 "verwendet."
 
@@ -2424,8 +2425,8 @@ msgid ""
 msgstr ""
 "Mit BBCode tags können Sie Text in Ihrem Profil und im Nachrichtenforum "
 "formatieren. \n"
-"Das ist vergleichbar mit HTML, aber einfacher. Die tags starten mit einem "
-"[ (wo sie mit HTML %1 verwendet hätten)\n"
+"Das ist vergleichbar mit HTML, aber einfacher. Die tags starten mit einem [ "
+"(wo sie mit HTML %1 verwendet hätten)\n"
 "und enden mit ] (wo sie mit HTML %2 verwendet hätten)."
 
 #: ../user/bbcode.php:31
@@ -2488,7 +2489,8 @@ msgstr "vorformatierter Text"
 #: ../user/bbcode.php:42
 msgid "use to display pre-formatted (usually monospaced) text"
 msgstr ""
-"Benutzen um vorformatierten Text (gewöhnlich in monospace Schrift) anzuzeigen"
+"Benutzen um vorformatierten Text (gewöhnlich in monospace Schrift) "
+"anzuzeigen"
 
 #: ../user/bbcode.php:43
 msgid "Item 1"
@@ -2548,7 +2550,6 @@ msgstr ""
 "Bitte versuchen Sie es später wieder."
 
 #: ../user/create_account_action.php:53
-#, fuzzy
 msgid "Your reCAPTCHA response was not correct. Please try again."
 msgstr ""
 "Ihre Antwort im reCAPTCHA war nicht korrekt. Bitte versuchen Sie es noch "
@@ -2833,8 +2834,7 @@ msgstr "Dieses Konto NICHT löschen"
 
 #: ../user/delete_profile.php:30
 msgid "couldn't delete profile - please try again later"
-msgstr ""
-"Konnte Profil nicht löschen - Bitte versuchen Sie es später noch einmal"
+msgstr "Konnte Profil nicht löschen - Bitte versuchen Sie es später noch einmal"
 
 #: ../user/delete_profile.php:33
 msgid "Delete Confirmation"
@@ -3019,7 +3019,6 @@ msgid "This list is managed centrally at %1the BOINC website%2."
 msgstr "Diese Liste ist zentral verwaltet von der %1BOINC Webseite%2."
 
 #: ../user/edit_email_action.php:31
-#, fuzzy
 msgid "Change email address of account"
 msgstr "Die E-Mail-Adresse des Kontos ändern."
 
@@ -3130,7 +3129,6 @@ msgid "In a single daily email"
 msgstr "In einer täglichen E-Mail-Zusammenfassung"
 
 #: ../user/edit_forum_preferences_form.php:75
-#, fuzzy
 msgid "Message-board identity"
 msgstr "Identität in Diskussionsforen"
 
@@ -3406,11 +3404,9 @@ msgstr ""
 
 #: ../user/explain_state.php:38
 msgid "The task is ready to send, but hasn't been sent yet."
-msgstr ""
-"Die Aufgabe ist fertig zum versenden, aber wurde noch nicht verschickt."
+msgstr "Die Aufgabe ist fertig zum versenden, aber wurde noch nicht verschickt."
 
 #: ../user/explain_state.php:40
-#, fuzzy
 msgid "In Progress"
 msgstr "In Bearbeitung"
 
@@ -3465,7 +3461,8 @@ msgstr "Clientfehler"
 #: ../user/explain_state.php:66
 msgid "The task was sent to a computer and an error occurred."
 msgstr ""
-"Die Aufgabe wurde zu einem Computer geschickt und ein Fehler ist aufgetreten."
+"Die Aufgabe wurde zu einem Computer geschickt und ein Fehler ist "
+"aufgetreten."
 
 #: ../user/explain_state.php:69
 msgid ""
@@ -3526,7 +3523,6 @@ msgid "The computer couldn't upload the output files."
 msgstr "Der Computer konnte die Ausgabedateien nicht hochladen."
 
 #: ../user/explain_state.php:103
-#, fuzzy
 msgid "Time reported and deadline"
 msgstr "Zeitpunkt der Einreichung und Abgabefrist"
 
@@ -3684,8 +3680,8 @@ msgid ""
 "for chosen time period.<br/>It should be done only if %1 has consistently "
 "exhibited trollish behavior."
 msgstr ""
-"Sind Sie sicher dass Sie %1 verbannen wollen?<br/>Das wird verhindern dass "
-"%1 für eine ausgewählte Zeit etwas schreiben kann.<br/>Das sollte nur "
+"Sind Sie sicher dass Sie %1 verbannen wollen?<br/>Das wird verhindern dass %"
+"1 für eine ausgewählte Zeit etwas schreiben kann.<br/>Das sollte nur "
 "geschehen wenn %1 dauerhaft schlechtes Verhalten gezeigt hat."
 
 #: ../user/forum_banishment_vote.php:61
@@ -4013,7 +4009,8 @@ msgid ""
 "hiding or locking the thread; then press OK."
 msgstr ""
 "Den Grund in der Kategorie auswählen, oder eine längere Beschreibung "
-"eingeben warum Sie das Thema sperren oder verstecken wollen; dann OK drücken."
+"eingeben warum Sie das Thema sperren oder verstecken wollen; dann OK "
+"drücken."
 
 #: ../user/forum_moderate_thread.php:72
 msgid "Current forum"
@@ -4041,7 +4038,8 @@ msgid ""
 "modify your text and try again."
 msgstr ""
 "Ihr verwendeter Text wurde beim ersten Versuch vom Akismet Anti-Spam-System "
-"als Spam erkannt. Bitte verändern Sie Ihren Text und versuchen Sie es erneut."
+"als Spam erkannt. Bitte verändern Sie Ihren Text und versuchen Sie es "
+"erneut."
 
 #: ../user/forum_post.php:70
 msgid "Create new thread"
@@ -4234,7 +4232,8 @@ msgstr "Beinhaltet nur Beiträge der letzten %1 Tage (Standard: 30)."
 #: ../user/forum_rss.php:51
 msgid "Truncate posts: %1 (Include only first 265 characters of each post)"
 msgstr ""
-"Beiträge kürzen: %1 (Beinhaltet nur die ersten 265 Zeichen von jedem Beitrag)"
+"Beiträge kürzen: %1 (Beinhaltet nur die ersten 265 Zeichen von jedem "
+"Beitrag)"
 
 #: ../user/forum_rss.php:53
 msgid "Threads only: %1 (Include only the first post of every thread)"
@@ -4426,7 +4425,8 @@ msgstr "Abonnieren"
 #: ../user/forum_thread.php:175
 msgid "Click to get email when there are new posts in this thread"
 msgstr ""
-"Anklicken um benachrichtigt zu werden, wenn neue Beiträge geschrieben wurden."
+"Anklicken um benachrichtigt zu werden, wenn neue Beiträge geschrieben "
+"wurden."
 
 #: ../user/forum_thread.php:186
 msgid "Unhide this thread"
@@ -4685,8 +4685,8 @@ msgid ""
 "<b>C:\\Program Files\\BOINC</b>."
 msgstr ""
 "Wechseln Sie in das BOINC Datenverzeichnis auf Ihrem Computer (unter Windows "
-"normalerweise: <b>C:\\Dokumente und einstellungen\\All Users\\Anwendungsdaten"
-"\\BOINC</b> oder <b>C:\\Programme\\BOINC</b>)."
+"normalerweise: <b>C:\\Dokumente und einstellungen\\All "
+"Users\\Anwendungsdaten\\BOINC</b> oder <b>C:\\Programme\\BOINC</b>)."
 
 #: ../user/get_passwd.php:51
 msgid "Find your account file for this project; it will be named <b>%1</b>."
@@ -4694,7 +4694,6 @@ msgstr ""
 "Finden Sie Ihre Kontodatei des Projektes, der Dateiname lautet: <b>%1</b>."
 
 #: ../user/get_passwd.php:52
-#, fuzzy
 msgid "Open the file in a text editor like Notepad. You'll see something like"
 msgstr ""
 "Öffnen Sie die Datei mit einem Texteditor (z.B. Editor oder WordPad). Sie "
@@ -4965,7 +4964,6 @@ msgid "preformatted"
 msgstr "vorformatiert"
 
 #: ../user/html.php:33
-#, fuzzy
 msgid ""
 "image; height cannot exceed 450 pixels. Please do not link to images without "
 "permission of the web site where the image is hosted."
@@ -4977,7 +4975,8 @@ msgstr ""
 #, fuzzy
 msgid "You can also use ampersand notation for special characters."
 msgstr ""
-"Sie können auch die Kaufmännisch-Und Notation für spezielle Zeichen benutzen."
+"Sie können auch die Kaufmännisch-Und Notation für spezielle Zeichen "
+"benutzen."
 
 # ########################################
 # Rules and Policies page (info.php)
@@ -5050,8 +5049,8 @@ msgid ""
 "location (e.g. its domain name or network address) will be shown."
 msgstr ""
 "Wenn Sie an %1 teilnehmen, werden Informationen über Ihren Computer  "
-"(darunter der Prozessortyp, die Speichergröße, usw.) aufgezeichnet und von "
-"%1 verwendet, um zu entscheiden, welche Art von Arbeit Ihrem Computer "
+"(darunter der Prozessortyp, die Speichergröße, usw.) aufgezeichnet und von %"
+"1 verwendet, um zu entscheiden, welche Art von Arbeit Ihrem Computer "
 "zugewiesen werden soll. Diese Informationen werden ebenfalls auf der "
 "Webseite von %1 gezeigt. Nichts, das Rückschlüsse auf den Standort Ihres "
 "Computers zulässt, (wie z. B. sein Domainnname oder seine Netzwerkadresse) "
@@ -5422,7 +5421,8 @@ msgid ""
 "                Please modify your text and try again."
 msgstr ""
 "Ihr verwendeter Text wurde beim ersten Versuch vom Akismet Anti-Spam-System "
-"als Spam erkannt. Bitte verändern Sie Ihren Text und versuchen Sie es erneut."
+"als Spam erkannt. Bitte verändern Sie Ihren Text und versuchen Sie es "
+"erneut."
 
 #: ../user/pm.php:205
 msgid "Could not find user with id %1"
@@ -5492,8 +5492,8 @@ msgstr "Benutzer %1 kann Ihnen keine weiteren privaten Nachrichten senden."
 #: ../user/pm.php:266
 msgid "To unblock, visit %1message board preferences%2"
 msgstr ""
-"Die Blockierung können Sie in den %1Einstellungen für das Diskussionsforum "
-"%2 aufheben."
+"Die Blockierung können Sie in den %1Einstellungen für das Diskussionsforum %"
+"2 aufheben."
 
 #: ../user/pm.php:302
 #, fuzzy
@@ -5559,8 +5559,8 @@ msgid ""
 "If you haven't already, you can %1create your own user profile%2 for others "
 "to see!"
 msgstr ""
-"Falls nicht schon vorhanden, sollten Sie Ihr %1eigenes Benutzerprofil anlegen"
-"%2 und den anderen Benutzern zeigen!"
+"Falls nicht schon vorhanden, sollten Sie Ihr %1eigenes Benutzerprofil "
+"anlegen%2 und den anderen Benutzern zeigen!"
 
 #: ../user/profile_menu.php:45
 msgid "User of the Day"
@@ -5583,8 +5583,8 @@ msgid ""
 "Browse profiles %1at random%2, %3at random with pictures%2, or %4at random "
 "without pictures%2."
 msgstr ""
-"Durchsuchen der Profile %1per Zufall%2, %3per Zufall mit Bildern%2 oder "
-"%4per Zufall ohne Bilder%2."
+"Durchsuchen der Profile %1per Zufall%2, %3per Zufall mit Bildern%2 oder %"
+"4per Zufall ohne Bilder%2."
 
 #: ../user/profile_menu.php:67
 msgid "Alphabetical profile listings:"
@@ -5922,8 +5922,8 @@ msgstr "ein Team auflösen kann, wenn es keine Mitglieder mehr hat."
 #: ../user/team.php:40
 msgid "To join a team, visit its team page and click %1Join this team%2."
 msgstr ""
-"Um einem Team beizutreten besuchen Sie die Teamseite und benutzen Sie den "
-"%1Diesem Team beitreten%2 Link."
+"Um einem Team beizutreten besuchen Sie die Teamseite und benutzen Sie den %"
+"1Diesem Team beitreten%2 Link."
 
 #: ../user/team.php:41 ../user/team_search.php:179
 msgid "Find a team"
@@ -6317,8 +6317,8 @@ msgid ""
 "                       If the founder does not respond within 60 days you "
 "will be allowed to become the founder."
 msgstr ""
-"Der aktuelle Gründer wurde von der Anfrage per E-Mail und PN benachrichtigt."
-"<br /><br />\n"
+"Der aktuelle Gründer wurde von der Anfrage per E-Mail und PN "
+"benachrichtigt.<br /><br />\n"
 "Wenn der Gründer nicht innerhalb von 60 Tagen reagiert wird der Wechsel "
 "möglich sein."
 
@@ -6336,8 +6336,8 @@ msgid ""
 "Congratulations, you are now the founder of team %1. Go to %2Your Account "
 "page%3 to find the Team Admin options."
 msgstr ""
-"Glückwunsch, Du bist nun der Gründer von Team %1. Auf der %2Ihr Konto Seite"
-"%3 findet sich der Link zur Verwaltung des Teams."
+"Glückwunsch, Du bist nun der Gründer von Team %1. Auf der %2Ihr Konto Seite%"
+"3 findet sich der Link zur Verwaltung des Teams."
 
 #: ../user/team_founder_transfer_action.php:120
 msgid "Decline founder change request"
@@ -6406,8 +6406,8 @@ msgid ""
 "                       Are you sure you want to request foundership?"
 msgstr ""
 "Wenn der Gründer des Teams nicht mehr Aktiv ist, kann der Gründerstatus von "
-"jedem Teammitglied übernommen werden. Der aktuelle Gründer bekommt eine E-"
-"Mail mit den Informationen und kann der Übertragung zustimmen oder diese "
+"jedem Teammitglied übernommen werden. Der aktuelle Gründer bekommt eine "
+"E-Mail mit den Informationen und kann der Übertragung zustimmen oder diese "
 "ablehnen. Sollte der Gründer nicht innerhalb von 60 Tagen antworten, besteht "
 "dann die Möglichkeit den Gründerstatus zu übernehmen.<br /><br />\n"
 "Sicher das die Übernahme des Gründerstatus eingeleitet werden soll?"
@@ -6444,7 +6444,8 @@ msgstr "Du bist bereits Mitglied im Team %1."
 #: ../user/team_join.php:42 ../user/team_join_action.php:43
 msgid "Couldn't join team - please try again later."
 msgstr ""
-"Dem Team konnte nicht beigetreten werden, bitte später noch einmal probieren."
+"Dem Team konnte nicht beigetreten werden, bitte später noch einmal "
+"probieren."
 
 #: ../user/team_join_action.php:40
 msgid "Joined %1"
@@ -6484,8 +6485,7 @@ msgstr "Suchergebnisse für '%1'"
 
 #: ../user/team_lookup.php:88
 msgid "You may view these teams' members, statistics, and information."
-msgstr ""
-"Die Mitglieder, Statistiken und Informationen zu diesem Team anschauen."
+msgstr "Die Mitglieder, Statistiken und Informationen zu diesem Team anschauen."
 
 #: ../user/team_lookup.php:98
 msgid "More than 100 teams match your search. The first 100 are shown."
@@ -6512,7 +6512,8 @@ msgstr "Teaminformationen bearbeiten"
 #: ../user/team_manage.php:30
 msgid "Change team name, URL, description, type, or country"
 msgstr ""
-"Den Namen des Teams, die URL, die Beschreibung, den Typ oder das Land ändern."
+"Den Namen des Teams, die URL, die Beschreibung, den Typ oder das Land "
+"ändern."
 
 #: ../user/team_manage.php:32
 msgid "Member list:"
@@ -6649,8 +6650,8 @@ msgstr ""
 "<ul>\n"
 "<li>Nach dem verlassen, kann man einem anderen Team oder diesem Team wieder "
 "beitreten.</li>\n"
-"<li>Das Verlassen eines Teams beeinflußt nicht die Anzahl der eigenen Punkte."
-"</li>\n"
+"<li>Das Verlassen eines Teams beeinflußt nicht die Anzahl der eigenen "
+"Punkte.</li>\n"
 "</ul>"
 
 #: ../user/team_quit_form.php:42
@@ -6935,9 +6936,9 @@ msgid ""
 "<b>account_PROJECT_URL.xml</b>. The account file for %1 is <b>%2</b>."
 msgstr ""
 "Um den schwachen Kontoschlüssel auf einem Computer zu verwenden, finden oder "
-"erstellen Sie die 'Kontodatei' für dieses Projekt. Der Dateiname ist in etwa "
-"<strong>account_PROJEKT_URL.xml</strong>. Die Kontodatei für %1 ist <strong>"
-"%2</strong>"
+"erstellen Sie die 'Kontodatei' für dieses Projekt. Der Dateiname ist in "
+"etwa <strong>account_PROJEKT_URL.xml</strong>. Die Kontodatei für %1 ist "
+"<strong>%2</strong>"
 
 #: ../user/weak_auth.php:59
 msgid "Create this file if needed. Set its contents to:"

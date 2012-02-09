@@ -7,15 +7,15 @@ msgstr ""
 "Project-Id-Version: BOINC-Client\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-02-09 09:39-0800\n"
-"PO-Revision-Date: 2010-12-28 11:38+0200\n"
-"Last-Translator: Dima <dima666@012.net.il>\n"
+"PO-Revision-Date: 2011-02-02 19:37+0200\n"
+"Last-Translator: Ido <dj_legolas1@hotmail.com>\n"
 "Language-Team: IOPanel.net\n"
 "Language: he\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Pootle 2.1.1\n"
+"X-Generator: Pootle 2.1.6\n"
 
 #: acct_mgr.cpp:435 acct_mgr.cpp:444
 #, fuzzy

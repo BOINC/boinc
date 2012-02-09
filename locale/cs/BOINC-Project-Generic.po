@@ -7,17 +7,17 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2012-01-16 11:31 PST\n"
-"PO-Revision-Date: 2011-09-16 18:24+0100\n"
-"Last-Translator: Martin Suchan <martin.suchan@email.cz>\n"
+"PO-Revision-Date: 2011-09-16 20:05+0200\n"
+"Last-Translator: Martin <martin.suchan@email.cz>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: cs\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
-"X-Generator: Pootle 2.1.1\n"
-"X-Poedit-SearchPath-0: html\\user\n"
+"X-Generator: Pootle 2.1.6\n"
 "X-Poedit-SourceCharset: utf-8\n"
+"X-Poedit-SearchPath-0: html\\user\n"
 "X-Poedit-Basepath: C:\\Src\\BOINCSVN\\trunk\\boinc\n"
 "X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
 
@@ -506,8 +506,7 @@ msgstr "Sledovaná vlákna"
 #: ../inc/forum.inc:1194
 #, fuzzy
 msgid "There are new posts in the thread '%1'"
-msgstr ""
-"Klikněte pro zasílání emailu při každém novém příspěvku v tomto vlákně."
+msgstr "Klikněte pro zasílání emailu při každém novém příspěvku v tomto vlákně."
 
 #: ../inc/forum.inc:1204
 msgid "Mark all threads as read"
@@ -1047,7 +1046,8 @@ msgstr "procesorů"
 #: ../inc/prefs.inc:152
 msgid "On multiprocessors, use at most %1 Enforced by version 6.1+ %2"
 msgstr ""
-"Na víceprocesorových systémech použít nejvýše %1 Podporováno od verze 6.1+ %2"
+"Na víceprocesorových systémech použít nejvýše %1 Podporováno od verze 6.1+ %"
+"2"
 
 #: ../inc/prefs.inc:157
 #, php-format
@@ -1073,8 +1073,7 @@ msgstr "GB"
 
 #: ../inc/prefs.inc:179
 msgid "Disk: leave free at least %1 Values smaller than %2 are ignored %3"
-msgstr ""
-"Disk: ponechat volných aspoň %1 Hodnoty menší než %2 jsou ignorované %3"
+msgstr "Disk: ponechat volných aspoň %1 Hodnoty menší než %2 jsou ignorované %3"
 
 #: ../inc/prefs.inc:190 ../inc/prefs.inc:200 ../inc/prefs.inc:205
 #: ../inc/prefs.inc:210
@@ -2376,8 +2375,7 @@ msgid ""
 "HTML)."
 msgstr ""
 "BBCode značky vám umožňují formátovat text ve vašem profilu a v příspěvcích\n"
-"ve fóru. Jsou podobné značkám HTML, začínají [ (kde byste použili %1 v "
-"HTML)\n"
+"ve fóru. Jsou podobné značkám HTML, začínají [ (kde byste použili %1 v HTML)\n"
 "a končí ] (kde byste použili %2 v HTML)."
 
 #: ../user/bbcode.php:31
@@ -2510,7 +2508,8 @@ msgstr "Vámi vložený pozvánkový kód je neplatný."
 msgid ""
 "Invalid email address: you must enter a valid address of the form name@domain"
 msgstr ""
-"Neplatná emailová adresa: Musíte zadat platnou adresu ve formátu jméno@doména"
+"Neplatná emailová adresa: Musíte zadat platnou adresu ve formátu "
+"jméno@doména"
 
 #: ../user/create_account_action.php:98
 msgid "There's already an account with that email address."
@@ -2534,8 +2533,7 @@ msgstr "Nelze vytvořit účet"
 
 #: ../user/create_account_form.php:44
 msgid "Account creation is currently disabled. Please try again later."
-msgstr ""
-"Momentálně je zakázáno vytváření nových účtů. Zkuste to prosím později."
+msgstr "Momentálně je zakázáno vytváření nových účtů. Zkuste to prosím později."
 
 #: ../user/create_account_form.php:53
 #, fuzzy
@@ -2604,8 +2602,8 @@ msgid ""
 "To replace it, click the \"Browse\" button and select a JPEG or PNG file (%1 "
 "or less)."
 msgstr ""
-"Pro změnu klikněte na tlačítko \"Hledat\" a vyberte soubor typu JPEG nebo "
-"PNG (do %1)."
+"Pro změnu klikněte na tlačítko \"Hledat\" a vyberte soubor typu JPEG nebo PNG "
+"(do %1)."
 
 #: ../user/create_profile.php:69
 msgid "To remove it from your profile, check this box:"
@@ -2616,8 +2614,8 @@ msgid ""
 "If you would like include a picture with your profile, click the \"Browse\" "
 "button and select a JPEG or PNG file. Please select images of %1 or less."
 msgstr ""
-"Pokud si přejete mít u svého profilu obrázek, klikněte na \"Hledat\" a "
-"zvolte soubor typu JPEG nebo PNG. Obrázek může být velký maximálně %1."
+"Pokud si přejete mít u svého profilu obrázek, klikněte na \"Hledat\" a zvolte "
+"soubor typu JPEG nebo PNG. Obrázek může být velký maximálně %1."
 
 #: ../user/create_profile.php:89
 msgid "Language"
@@ -3350,8 +3348,8 @@ msgid ""
 "A tasks's <b>outcome</b> is defined if its server state is <b>over</b>. "
 "Possible values are:"
 msgstr ""
-"<b>Výsledek</b> u úkolu popisuje stav úkolu na serveru po jeho <b>dokončení</"
-"b>. Možné hodnoty jsou:"
+"<b>Výsledek</b> u úkolu popisuje stav úkolu na serveru po jeho "
+"<b>dokončení</b>. Možné hodnoty jsou:"
 
 #: ../user/explain_state.php:57
 msgid ""
@@ -4090,8 +4088,7 @@ msgstr "Nahlásit nepřihlášený"
 
 #: ../user/forum_report_post.php:90
 msgid "Your report could not be recorded. Please wait a while and try again."
-msgstr ""
-"Váš záznam nemohl být uložen. Počkejte prosím chvíli a zkuste to znova."
+msgstr "Váš záznam nemohl být uložen. Počkejte prosím chvíli a zkuste to znova."
 
 #: ../user/forum_report_post.php:91
 msgid ""
@@ -4309,8 +4306,7 @@ msgstr "Odebírat příspěvky"
 
 #: ../user/forum_thread.php:175
 msgid "Click to get email when there are new posts in this thread"
-msgstr ""
-"Klikněte pro zasílání emailu při každém novém příspěvku v tomto vlákně."
+msgstr "Klikněte pro zasílání emailu při každém novém příspěvku v tomto vlákně."
 
 #: ../user/forum_thread.php:186
 msgid "Unhide this thread"
@@ -4567,8 +4563,8 @@ msgid ""
 "<b>C:\\Program Files\\BOINC</b>."
 msgstr ""
 "Jděte do složky ve vašem počítači, kam BOINC ukládá svá data (u Windows to "
-"je obvykle <b>C:\\Documents and Settings\\All Users\\Application Data"
-"\\BOINC</b> nebo <b>C:\\Program Files\\BOINC</b>."
+"je obvykle <b>C:\\Documents and Settings\\All Users\\Application Data\\BOINC</b> "
+"nebo <b>C:\\Program Files\\BOINC</b>."
 
 #: ../user/get_passwd.php:51
 msgid "Find your account file for this project; it will be named <b>%1</b>."
@@ -4623,7 +4619,8 @@ msgstr "Vítejte v %1"
 #: ../user/home.php:43
 msgid "View and edit your account preferences using the links below."
 msgstr ""
-"Pro zobrazení a nastavení vlastností vašeho účtu použijte následující odkazy."
+"Pro zobrazení a nastavení vlastností vašeho účtu použijte následující "
+"odkazy."
 
 #: ../user/home.php:46
 msgid "If you have not already done so, %1download BOINC client software%2."
@@ -4735,8 +4732,8 @@ msgstr "Zobrazit detaily"
 msgid ""
 "Check the computers that are the same as %1 (created %2, computer ID %3):"
 msgstr ""
-"Zkontrolovat počítače, které jsou stejné jako %1 (vytvořen %2, ID počítače "
-"%3):"
+"Zkontrolovat počítače, které jsou stejné jako %1 (vytvořen %2, ID počítače %"
+"3):"
 
 #: ../user/host_edit_form.php:70 ../user/workunit.php:39
 msgid "name"
@@ -4948,8 +4945,8 @@ msgid ""
 "members.  By posting to the forums, you are granting irrevocable license for "
 "anyone to view and copy your posts."
 msgstr ""
-"Pokud navštěvujete diskuzní fórum na našem webu, je třeba dodržovat "
-"%2pravidla psaní příspěvků%3. Příspěvky vložené do fóra jsou viditelné všem "
+"Pokud navštěvujete diskuzní fórum na našem webu, je třeba dodržovat %"
+"2pravidla psaní příspěvků%3. Příspěvky vložené do fóra jsou viditelné všem "
 "uživatelům, včetně ne-členům. Přispíváním do fóra také dáváte všem "
 "nezrušitelné právo na čtení a kopírování vašich příspěvků."
 
@@ -5078,8 +5075,8 @@ msgid ""
 "Translations are done by volunteers.  If your native language is not here, "
 "%1you can provide a translation%2."
 msgstr ""
-"Překlady jsou tvořeny dobrovolníky. Pokud tu váš rodný jazyk dosud není, "
-"%1můžete pomoci s překladem%2."
+"Překlady jsou tvořeny dobrovolníky. Pokud tu váš rodný jazyk dosud není, %"
+"1můžete pomoci s překladem%2."
 
 #: ../user/login_form.php:52
 msgid "Email address:"
@@ -5970,7 +5967,8 @@ msgstr "Vytvořit tým"
 msgid ""
 "You belong to %1. You must %2quit this team%3 before creating a new one."
 msgstr ""
-"Nyní jste v %1. Musíte nejdříve %2opustit tento tým%3 před vytvářením nového."
+"Nyní jste v %1. Musíte nejdříve %2opustit tento tým%3 před vytvářením "
+"nového."
 
 #: ../user/team_delta.php:65
 msgid "Not founder or admin"
@@ -6142,8 +6140,8 @@ msgid ""
 "                       If the founder does not respond within 60 days you "
 "will be allowed to become the founder."
 msgstr ""
-"Aktuální vlastník byl upozorněn na váš požadavek emailem a soukromou zprávou."
-"<br/><br/>\n"
+"Aktuální vlastník byl upozorněn na váš požadavek emailem a soukromou "
+"zprávou.<br/><br/>\n"
 "Pokud vlastník neodpoví do 60 dnů, bude vám umožněno stát se vlastníkem."
 
 #: ../user/team_founder_transfer_action.php:102
@@ -6286,8 +6284,7 @@ msgstr "Upozornění:"
 
 #: ../user/team_join_form.php:37
 msgid "Joining a team gives its founder access to your email address."
-msgstr ""
-"Připojením k týmu dáte jeho vlastníkovi přístup k vaší emailové adrese."
+msgstr "Připojením k týmu dáte jeho vlastníkovi přístup k vaší emailové adrese."
 
 #: ../user/team_join_form.php:38
 msgid "Joining a team does not affect your account's credit."
@@ -6419,8 +6416,8 @@ msgid ""
 "Other resources for BOINC team admins are available from a third-party site, "
 "%1www.boincteams.com%2."
 msgstr ""
-"Na této stránce jsou dostupné další nástroje pro správce BOINC týmů: %1www."
-"boincteams.com%2."
+"Na této stránce jsou dostupné další nástroje pro správce BOINC týmů: %"
+"1www.boincteams.com%2."
 
 #: ../user/team_manage.php:91
 msgid "Can't delete non-empty team"
@@ -6464,8 +6461,8 @@ msgstr ""
 "         <ul>\n"
 "         <li>Pokud opustíte tým, můžete se do něj později vrátit, nebo se "
 "připojit do kteréhokoliv jiného týmu.</li>\n"
-"         <li>Opuštění týmu nemá žádný vliv na vaše statistiky či kredit.</"
-"li>\n"
+"         <li>Opuštění týmu nemá žádný vliv na vaše statistiky či "
+"kredit.</li>\n"
 "         </ul>"
 
 #: ../user/team_quit_form.php:42

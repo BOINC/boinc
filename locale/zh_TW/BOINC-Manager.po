@@ -7,23 +7,22 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 4.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-02-09 12:37-0500\n"
-"PO-Revision-Date: 2008-01-01 00:33+0800\n"
-"Last-Translator: Jose Sun <josesun@gmail.com>\n"
+"PO-Revision-Date: 2012-01-21 18:37+0200\n"
+"Last-Translator: Anonymous Pootle User\n"
 "Language-Team: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
-"Language: \n"
+"Language: zh_TW\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Translate Toolkit 1.2.1\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Pootle 2.1.6\n"
+"X-Poedit-SourceCharset: utf-8\n"
+"X-Poedit-Basepath: C:\\Src\\BOINCSVN\\trunk\\boinc\n"
+"X-Poedit-SearchPath-0: clientgui\n"
 "X-Poedit-SearchPath-1: clientgui/msw\n"
 "X-Poedit-SearchPath-2: clientgui/gtk\n"
 "X-Poedit-SearchPath-3: clientgui/mac\n"
-"X-Poedit-SearchPath-0: clientgui\n"
-"X-Poedit-SourceCharset: utf-8\n"
-"X-Poedit-Basepath: C:\\Src\\BOINCSVN\\trunk\\boinc\n"
 "X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
-"X-Poedit-Country: UNITED STATES\n"
-"X-Poedit-Language: English\n"
 
 #: clientgui/AccountInfoPage.cpp:386
 msgid "Identify your account "
@@ -72,11 +71,13 @@ msgstr ""
 msgid "Find login information"
 msgstr ""
 
-#: clientgui/AccountInfoPage.cpp:435 clientgui/AccountInfoPage.cpp:635
+#: clientgui/AccountInfoPage.cpp:435
+#: clientgui/AccountInfoPage.cpp:635
 msgid "&Password:"
 msgstr "密碼(&P):"
 
-#: clientgui/AccountInfoPage.cpp:442 clientgui/AccountInfoPage.cpp:659
+#: clientgui/AccountInfoPage.cpp:442
+#: clientgui/AccountInfoPage.cpp:659
 msgid "Choose a &password:"
 msgstr "選擇密碼(&O):"
 
@@ -133,21 +134,16 @@ msgstr "帳號管理員(&A)"
 
 #: clientgui/AccountInfoPage.cpp:583
 #, c-format
-msgid ""
-"The minimum password length for this project is %d. Please enter a different "
-"password."
+msgid "The minimum password length for this project is %d. Please enter a different password."
 msgstr "此計畫所需的最小密碼長度為 %d，請輸入其他的密碼。"
 
 #: clientgui/AccountInfoPage.cpp:589
 #, c-format
-msgid ""
-"The minimum password length for this account manager is %d. Please enter a "
-"different password."
+msgid "The minimum password length for this account manager is %d. Please enter a different password."
 msgstr "此帳號管理員所需的最小密碼長度為 %d，請輸入其他的密碼。"
 
 #: clientgui/AccountInfoPage.cpp:601
-msgid ""
-"The password and confirmation password do not match. Please type them again."
+msgid "The password and confirmation password do not match. Please type them again."
 msgstr "「密碼」與「確認密碼」不相符。請再輸入一次。"
 
 #: clientgui/AccountManagerInfoPage.cpp:248
@@ -201,7 +197,8 @@ msgstr ""
 msgid "&Close Window"
 msgstr ""
 
-#: clientgui/AdvancedFrame.cpp:329 clientgui/AdvancedFrame.cpp:336
+#: clientgui/AdvancedFrame.cpp:329
+#: clientgui/AdvancedFrame.cpp:336
 #: clientgui/AdvancedFrame.cpp:343
 #, c-format
 msgid "Exit %s"
@@ -294,6 +291,7 @@ msgid "Add a project"
 msgstr "所有計畫"
 
 #: clientgui/AdvancedFrame.cpp:434
+#, c-format
 #, fuzzy, c-format
 msgid "S&top using %s..."
 msgstr "停止使用 %s(&S)..."
@@ -544,6 +542,7 @@ msgid "%s - Stop using %s"
 msgstr ""
 
 #: clientgui/AdvancedFrame.cpp:1179
+#, c-format
 #, fuzzy, c-format
 msgid ""
 "If you stop using %s,\n"
@@ -558,6 +557,7 @@ msgstr ""
 "您確定要停止使用 %s 嗎？"
 
 #: clientgui/AdvancedFrame.cpp:1377
+#, c-format
 #, fuzzy, c-format
 msgid "%s - Shut down the current client..."
 msgstr "%s - 關閉目前用戶端..."
@@ -575,6 +575,7 @@ msgid "%s"
 msgstr "%s"
 
 #: clientgui/AdvancedFrame.cpp:1714
+#, c-format
 #, fuzzy, c-format
 msgid "%s has successfully added %s"
 msgstr "%s 已成功加入 %s 計畫。"
@@ -657,8 +658,7 @@ msgstr "%s - 連線錯誤"
 #: clientgui/BOINCBaseFrame.cpp:508
 msgid ""
 "You currently are not authorized to manage the client.\n"
-"Please contact your administrator to add you to the 'boinc_users' local user "
-"group."
+"Please contact your administrator to add you to the 'boinc_users' local user group."
 msgstr ""
 
 #: clientgui/BOINCBaseFrame.cpp:517
@@ -700,8 +700,7 @@ msgstr ""
 #, c-format
 msgid ""
 "%s is not able to start a %s client.\n"
-"Please launch the Control Panel->Administative Tools->Services applet and "
-"start the BOINC service."
+"Please launch the Control Panel->Administative Tools->Services applet and start the BOINC service."
 msgstr ""
 
 #: clientgui/BOINCBaseFrame.cpp:632
@@ -720,8 +719,7 @@ msgstr "%s - 連線狀態"
 #, c-format
 msgid ""
 "%s is not currently connected to a %s client.\n"
-"Please use the 'Advanced\\Select Computer...' menu option to connect up to a "
-"%s client.\n"
+"Please use the 'Advanced\\Select Computer...' menu option to connect up to a %s client.\n"
 "To connect up to your local computer please use 'localhost' as the host name."
 msgstr ""
 "%s 目前未連線到 %s 用戶端。\n"
@@ -739,6 +737,7 @@ msgid "%s - Unexpected Exit"
 msgstr ""
 
 #: clientgui/BOINCClientManager.cpp:580
+#, c-format
 #, fuzzy, c-format
 msgid ""
 "The %s client has exited unexpectedly 3 times within the last %d minutes.\n"
@@ -807,6 +806,7 @@ msgid ""
 msgstr ""
 
 #: clientgui/BOINCGUIApp.cpp:345
+#, c-format
 #, fuzzy, c-format
 msgid ""
 "%s ownership or permissions are not set properly; please reinstall %s.\n"
@@ -904,12 +904,14 @@ msgstr "開啟 %s 網站..."
 msgid "Open %s..."
 msgstr "開啟 %s..."
 
-#: clientgui/BOINCTaskBar.cpp:504 clientgui/BOINCTaskBar.cpp:600
+#: clientgui/BOINCTaskBar.cpp:504
+#: clientgui/BOINCTaskBar.cpp:600
 #: clientgui/BOINCTaskBar.cpp:608
 msgid "Snooze"
 msgstr "稍後通知"
 
-#: clientgui/BOINCTaskBar.cpp:506 clientgui/BOINCTaskBar.cpp:627
+#: clientgui/BOINCTaskBar.cpp:506
+#: clientgui/BOINCTaskBar.cpp:627
 #: clientgui/BOINCTaskBar.cpp:635
 msgid "Snooze GPU"
 msgstr ""
@@ -1004,8 +1006,10 @@ msgstr ""
 "發生錯誤，請檢查訊息分頁取得詳細資訊。\n"
 "按「完成」關閉視窗。"
 
-#: clientgui/CompletionErrorPage.cpp:225 clientgui/CompletionPage.cpp:222
-#: clientgui/CompletionPage.cpp:242 clientgui/CompletionPage.cpp:273
+#: clientgui/CompletionErrorPage.cpp:225
+#: clientgui/CompletionPage.cpp:222
+#: clientgui/CompletionPage.cpp:242
+#: clientgui/CompletionPage.cpp:273
 msgid "Click Finish to close."
 msgstr "按「完成」關閉此視窗。"
 
@@ -1083,11 +1087,13 @@ msgstr ""
 "(C) 2003-2007 University of California, Berkeley.\n"
 "All Rights Reserved."
 
-#: clientgui/DlgAbout.cpp:185 clientgui/DlgAbout.cpp:189
+#: clientgui/DlgAbout.cpp:185
+#: clientgui/DlgAbout.cpp:189
 msgid "Berkeley Open Infrastructure for Network Computing"
 msgstr "柏克萊開放式網路運算平台"
 
-#: clientgui/DlgAbout.cpp:201 clientgui/DlgExitMessage.cpp:173
+#: clientgui/DlgAbout.cpp:201
+#: clientgui/DlgExitMessage.cpp:173
 #: clientgui/DlgGenericMessage.cpp:120
 msgid "&OK"
 msgstr "確定(&O)"
@@ -1112,7 +1118,8 @@ msgstr "偵測到輸入值無效"
 msgid "Validation Error"
 msgstr "驗證錯誤"
 
-#: clientgui/DlgAdvPreferences.cpp:788 clientgui/DlgAdvPreferences.cpp:793
+#: clientgui/DlgAdvPreferences.cpp:788
+#: clientgui/DlgAdvPreferences.cpp:793
 #: clientgui/DlgAdvPreferences.cpp:798
 msgid "Applications to add"
 msgstr ""
@@ -1122,7 +1129,8 @@ msgstr ""
 msgid "'%s' is not an executable application."
 msgstr ""
 
-#: clientgui/DlgAdvPreferences.cpp:815 clientgui/DlgAdvPreferences.cpp:848
+#: clientgui/DlgAdvPreferences.cpp:815
+#: clientgui/DlgAdvPreferences.cpp:848
 #: clientgui/DlgAdvPreferences.cpp:872
 msgid "Add Exclusive App"
 msgstr ""
@@ -1225,8 +1233,7 @@ msgid "While computer is on batteries"
 msgstr " 電腦以電池供電時"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:142
-msgid ""
-"check this if you want this computer to do work while it runs on batteries"
+msgid "check this if you want this computer to do work while it runs on batteries"
 msgstr "若你想讓電腦以電池供電時也要運行工作就打勾"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:148
@@ -1235,8 +1242,7 @@ msgid "While computer is in use"
 msgstr " 電腦正使用中時"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:151
-msgid ""
-"check this if you want this computer to do work even when you're using it"
+msgid "check this if you want this computer to do work even when you're using it"
 msgstr "若你想在使用電腦的同時一起運行工作就打勾"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:157
@@ -1245,9 +1251,7 @@ msgid "Use GPU while computer is in use"
 msgstr " 電腦正使用中時"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:160
-msgid ""
-"check this if you want your GPU to do work even when you're using the "
-"computer"
+msgid "check this if you want your GPU to do work even when you're using the computer"
 msgstr ""
 
 #: clientgui/DlgAdvPreferencesBase.cpp:172
@@ -1255,8 +1259,7 @@ msgid "Only after computer has been idle for"
 msgstr "電腦閒置幾分鐘後才運行工作: "
 
 #: clientgui/DlgAdvPreferencesBase.cpp:182
-msgid ""
-"do work only after you haven't used the computer for this number of minutes"
+msgid "do work only after you haven't used the computer for this number of minutes"
 msgstr "設定你不使用電腦幾分鐘後才運行工作"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:187
@@ -1359,6 +1362,7 @@ msgid "On multiprocessor systems, use at most"
 msgstr "多處理器系統中最多只使用"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:346
+#, no-c-format
 #, fuzzy, no-c-format
 msgid "% of the processors"
 msgstr "／CPU 使用率"
@@ -1450,9 +1454,7 @@ msgid "Confirm before connecting to internet"
 msgstr "連線到網路前確認"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:479
-msgid ""
-"if checked, a confirmation dialog will be displayed before trying to connect "
-"to the Internet"
+msgid "if checked, a confirmation dialog will be displayed before trying to connect to the Internet"
 msgstr "若勾選此方塊，當連線到網路前會先顯示確認視窗"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:483
@@ -1479,7 +1481,8 @@ msgstr "網路使用開始時間"
 msgid "network usage stop hour"
 msgstr "網路使用結束時間"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:597 clientgui/DlgItemProperties.cpp:214
+#: clientgui/DlgAdvPreferencesBase.cpp:597
+#: clientgui/DlgItemProperties.cpp:214
 msgid "Disk usage"
 msgstr "磁碟用量"
 
@@ -1550,8 +1553,7 @@ msgid "if checked, suspended work units are left in memory"
 msgstr "若勾選此方塊，暫止的工作會留在記憶體中"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:712
-msgid ""
-"Suspend processor and network usage when these applications are running:"
+msgid "Suspend processor and network usage when these applications are running:"
 msgstr ""
 
 #: clientgui/DlgAdvPreferencesBase.cpp:721
@@ -1592,7 +1594,8 @@ msgstr "時間"
 msgid "Message"
 msgstr "訊息"
 
-#: clientgui/DlgEventLog.cpp:263 clientgui/DlgEventLog.cpp:327
+#: clientgui/DlgEventLog.cpp:263
+#: clientgui/DlgEventLog.cpp:327
 msgid "&Show only this project"
 msgstr ""
 
@@ -1600,7 +1603,8 @@ msgstr ""
 msgid "Copy &All"
 msgstr ""
 
-#: clientgui/DlgEventLog.cpp:269 clientgui/DlgEventLog.cpp:273
+#: clientgui/DlgEventLog.cpp:269
+#: clientgui/DlgEventLog.cpp:273
 msgid "Copy all the messages to the clipboard."
 msgstr "複製全部訊息到剪貼簿。"
 
@@ -1608,23 +1612,18 @@ msgstr "複製全部訊息到剪貼簿。"
 msgid "Copy &Selected"
 msgstr ""
 
-#: clientgui/DlgEventLog.cpp:281 clientgui/DlgEventLog.cpp:289
-msgid ""
-"Copy the selected messages to the clipboard. You can select multiple "
-"messages by holding down the shift or command key while clicking on messages."
-msgstr ""
-"只複製已選取的訊息到剪貼簿，您可以在選取訊息時按住 Shift 或 Command 鍵以同時"
-"選取多個訊息。"
+#: clientgui/DlgEventLog.cpp:281
+#: clientgui/DlgEventLog.cpp:289
+msgid "Copy the selected messages to the clipboard. You can select multiple messages by holding down the shift or command key while clicking on messages."
+msgstr "只複製已選取的訊息到剪貼簿，您可以在選取訊息時按住 Shift 或 Command 鍵以同時選取多個訊息。"
 
-#: clientgui/DlgEventLog.cpp:283 clientgui/DlgEventLog.cpp:291
-msgid ""
-"Copy the selected messages to the clipboard. You can select multiple "
-"messages by holding down the shift or control key while clicking on messages."
-msgstr ""
-"只複製已選取的訊息到剪貼簿， 您可以在選取訊息時按住 Shift 或 Ctrl 鍵以同時選"
-"取多個訊息。"
+#: clientgui/DlgEventLog.cpp:283
+#: clientgui/DlgEventLog.cpp:291
+msgid "Copy the selected messages to the clipboard. You can select multiple messages by holding down the shift or control key while clicking on messages."
+msgstr "只複製已選取的訊息到剪貼簿， 您可以在選取訊息時按住 Shift 或 Ctrl 鍵以同時選取多個訊息。"
 
-#: clientgui/DlgEventLog.cpp:298 clientgui/DlgItemProperties.cpp:66
+#: clientgui/DlgEventLog.cpp:298
+#: clientgui/DlgItemProperties.cpp:66
 msgid "&Close"
 msgstr ""
 
@@ -1638,12 +1637,14 @@ msgstr ""
 msgid "Show all &messages"
 msgstr "複製所有訊息"
 
-#: clientgui/DlgEventLog.cpp:322 clientgui/DlgEventLog.cpp:324
+#: clientgui/DlgEventLog.cpp:322
+#: clientgui/DlgEventLog.cpp:324
 #, fuzzy
 msgid "Show messages for all projects"
 msgstr "顯示所有計畫於同一統計圖"
 
-#: clientgui/DlgEventLog.cpp:328 clientgui/DlgEventLog.cpp:330
+#: clientgui/DlgEventLog.cpp:328
+#: clientgui/DlgEventLog.cpp:330
 #, fuzzy
 msgid "Show only the messages for the selected project"
 msgstr "顯示所選計畫於同一統計圖"
@@ -1665,6 +1666,7 @@ msgid ""
 msgstr ""
 
 #: clientgui/DlgExitMessage.cpp:135
+#, c-format
 #, fuzzy, c-format
 msgid ""
 "This will shut down %s and its tasks until either the\n"
@@ -1689,7 +1691,8 @@ msgstr ""
 msgid "Remember this decision and do not show this dialog."
 msgstr ""
 
-#: clientgui/DlgExitMessage.cpp:178 clientgui/DlgGenericMessage.cpp:125
+#: clientgui/DlgExitMessage.cpp:178
+#: clientgui/DlgGenericMessage.cpp:125
 msgid "&Cancel"
 msgstr "取消(&C)"
 
@@ -1742,10 +1745,14 @@ msgstr ""
 msgid "Non CPU intensive"
 msgstr ""
 
-#: clientgui/DlgItemProperties.cpp:217 clientgui/DlgItemProperties.cpp:219
-#: clientgui/DlgItemProperties.cpp:220 clientgui/DlgItemProperties.cpp:222
-#: clientgui/DlgItemProperties.cpp:225 clientgui/DlgItemProperties.cpp:234
-#: clientgui/DlgItemProperties.cpp:237 clientgui/DlgItemProperties.cpp:240
+#: clientgui/DlgItemProperties.cpp:217
+#: clientgui/DlgItemProperties.cpp:219
+#: clientgui/DlgItemProperties.cpp:220
+#: clientgui/DlgItemProperties.cpp:222
+#: clientgui/DlgItemProperties.cpp:225
+#: clientgui/DlgItemProperties.cpp:234
+#: clientgui/DlgItemProperties.cpp:237
+#: clientgui/DlgItemProperties.cpp:240
 msgid "yes"
 msgstr ""
 
@@ -1753,7 +1760,8 @@ msgstr ""
 msgid "Suspended via GUI"
 msgstr ""
 
-#: clientgui/DlgItemProperties.cpp:219 clientgui/DlgItemProperties.cpp:220
+#: clientgui/DlgItemProperties.cpp:219
+#: clientgui/DlgItemProperties.cpp:220
 msgid "no"
 msgstr ""
 
@@ -1770,7 +1778,8 @@ msgstr "排程器請求進行中"
 msgid "Trickle-up pending"
 msgstr ""
 
-#: clientgui/DlgItemProperties.cpp:228 clientgui/DlgItemProperties.cpp:230
+#: clientgui/DlgItemProperties.cpp:228
+#: clientgui/DlgItemProperties.cpp:230
 #, fuzzy
 msgid "Host location"
 msgstr "此主機總計"
@@ -1810,20 +1819,24 @@ msgstr ""
 msgid "Scheduling"
 msgstr ""
 
-#: clientgui/DlgItemProperties.cpp:261 clientgui/DlgItemProperties.cpp:264
+#: clientgui/DlgItemProperties.cpp:261
+#: clientgui/DlgItemProperties.cpp:264
 #: clientgui/DlgItemProperties.cpp:267
 #, fuzzy
 msgid "Don't fetch CPU tasks"
 msgstr "無法取得新工作"
 
-#: clientgui/DlgItemProperties.cpp:261 clientgui/DlgItemProperties.cpp:277
-#: clientgui/DlgItemProperties.cpp:287 clientgui/DlgItemProperties.cpp:298
+#: clientgui/DlgItemProperties.cpp:261
+#: clientgui/DlgItemProperties.cpp:277
+#: clientgui/DlgItemProperties.cpp:287
+#: clientgui/DlgItemProperties.cpp:298
 #: clientgui/DlgItemProperties.cpp:308
 #, fuzzy
 msgid "Project preference"
 msgstr "您的偏好設定"
 
-#: clientgui/DlgItemProperties.cpp:264 clientgui/DlgItemProperties.cpp:282
+#: clientgui/DlgItemProperties.cpp:264
+#: clientgui/DlgItemProperties.cpp:282
 #: clientgui/DlgItemProperties.cpp:303
 #, fuzzy
 msgid "Account manager preference"
@@ -1845,7 +1858,8 @@ msgstr ""
 msgid "CPU work fetch deferral interval"
 msgstr ""
 
-#: clientgui/DlgItemProperties.cpp:277 clientgui/DlgItemProperties.cpp:282
+#: clientgui/DlgItemProperties.cpp:277
+#: clientgui/DlgItemProperties.cpp:282
 #: clientgui/DlgItemProperties.cpp:287
 #, fuzzy
 msgid "Don't fetch NVIDIA GPU tasks"
@@ -1859,7 +1873,8 @@ msgstr ""
 msgid "NVIDIA GPU work fetch deferral interval"
 msgstr ""
 
-#: clientgui/DlgItemProperties.cpp:298 clientgui/DlgItemProperties.cpp:303
+#: clientgui/DlgItemProperties.cpp:298
+#: clientgui/DlgItemProperties.cpp:303
 #: clientgui/DlgItemProperties.cpp:308
 #, fuzzy
 msgid "Don't fetch ATI GPU tasks"
@@ -1913,11 +1928,13 @@ msgstr ""
 msgid "CPU time at last checkpoint"
 msgstr ""
 
-#: clientgui/DlgItemProperties.cpp:356 clientgui/DlgItemProperties.cpp:371
+#: clientgui/DlgItemProperties.cpp:356
+#: clientgui/DlgItemProperties.cpp:371
 msgid "CPU time"
 msgstr "CPU 時間"
 
-#: clientgui/DlgItemProperties.cpp:358 clientgui/DlgItemProperties.cpp:372
+#: clientgui/DlgItemProperties.cpp:358
+#: clientgui/DlgItemProperties.cpp:372
 #, fuzzy
 msgid "Elapsed time"
 msgstr "剩餘時間"
@@ -1950,7 +1967,8 @@ msgstr ""
 msgid "Local: "
 msgstr ""
 
-#: clientgui/DlgOptions.cpp:115 clientgui/DlgOptions.cpp:121
+#: clientgui/DlgOptions.cpp:115
+#: clientgui/DlgOptions.cpp:121
 msgid "Options"
 msgstr ""
 
@@ -2014,30 +2032,39 @@ msgstr "經由 HTTP Proxy 伺服器連線"
 msgid "HTTP Proxy Server Configuration"
 msgstr "HTTP Proxy 伺服器組態設定"
 
-#: clientgui/DlgOptions.cpp:266 clientgui/DlgOptions.cpp:330
+#: clientgui/DlgOptions.cpp:266
+#: clientgui/DlgOptions.cpp:330
 msgid "Address:"
 msgstr "位址:"
 
-#: clientgui/DlgOptions.cpp:274 clientgui/DlgOptions.cpp:338
-#: clientgui/ProxyPage.cpp:340 clientgui/ProxyPage.cpp:360
+#: clientgui/DlgOptions.cpp:274
+#: clientgui/DlgOptions.cpp:338
+#: clientgui/ProxyPage.cpp:340
+#: clientgui/ProxyPage.cpp:360
 msgid "Port:"
 msgstr "埠:"
 
-#: clientgui/DlgOptions.cpp:282 clientgui/DlgOptions.cpp:346
+#: clientgui/DlgOptions.cpp:282
+#: clientgui/DlgOptions.cpp:346
 msgid "Don't use proxy for:"
 msgstr ""
 
-#: clientgui/DlgOptions.cpp:289 clientgui/DlgOptions.cpp:353
+#: clientgui/DlgOptions.cpp:289
+#: clientgui/DlgOptions.cpp:353
 msgid "Leave these blank if not needed"
 msgstr "如不需要請留空"
 
-#: clientgui/DlgOptions.cpp:295 clientgui/DlgOptions.cpp:359
-#: clientgui/ProxyPage.cpp:343 clientgui/ProxyPage.cpp:363
+#: clientgui/DlgOptions.cpp:295
+#: clientgui/DlgOptions.cpp:359
+#: clientgui/ProxyPage.cpp:343
+#: clientgui/ProxyPage.cpp:363
 msgid "User Name:"
 msgstr "使用者名稱:"
 
-#: clientgui/DlgOptions.cpp:303 clientgui/DlgOptions.cpp:367
-#: clientgui/DlgSelectComputer.cpp:151 clientgui/ProxyPage.cpp:346
+#: clientgui/DlgOptions.cpp:303
+#: clientgui/DlgOptions.cpp:367
+#: clientgui/DlgSelectComputer.cpp:151
+#: clientgui/ProxyPage.cpp:346
 #: clientgui/ProxyPage.cpp:366
 msgid "Password:"
 msgstr "密碼:"
@@ -2092,9 +2119,7 @@ msgstr "%s - 語言選擇"
 
 #: clientgui/DlgOptions.cpp:681
 #, c-format
-msgid ""
-"The %s's default language has been changed, in order for this change to take "
-"affect you must restart the %s."
+msgid "The %s's default language has been changed, in order for this change to take affect you must restart the %s."
 msgstr "%s 預設的語言已改變。為了使變更生效， 您必須重新啟動 %s。"
 
 #: clientgui/DlgSelectComputer.cpp:90
@@ -2113,7 +2138,8 @@ msgstr ""
 msgid "Host name:"
 msgstr "主機名稱:"
 
-#: clientgui/Localization.cpp:31 clientgui/Localization.cpp:69
+#: clientgui/Localization.cpp:31
+#: clientgui/Localization.cpp:69
 msgid "Message boards"
 msgstr "留言板"
 
@@ -2125,12 +2151,15 @@ msgstr "於 SETI@Home 留言板與其他使用者交流"
 msgid "Ask questions and report problems"
 msgstr "詢問問題與回報錯誤"
 
-#: clientgui/Localization.cpp:39 clientgui/Localization.cpp:81
-#: clientgui/Localization.cpp:111 clientgui/Localization.cpp:129
+#: clientgui/Localization.cpp:39
+#: clientgui/Localization.cpp:81
+#: clientgui/Localization.cpp:111
+#: clientgui/Localization.cpp:129
 msgid "Your account"
 msgstr "您的帳號"
 
-#: clientgui/Localization.cpp:41 clientgui/Localization.cpp:87
+#: clientgui/Localization.cpp:41
+#: clientgui/Localization.cpp:87
 #: clientgui/Localization.cpp:113
 msgid "View your account information and credit totals"
 msgstr "檢視您的帳號資訊與總積分"
@@ -2143,15 +2172,18 @@ msgstr "您的偏好設定"
 msgid "View and modify your SETI@home account profile and preferences"
 msgstr "檢視並修改您的 SETI@Home 個人資訊與偏好設定"
 
-#: clientgui/Localization.cpp:47 clientgui/Localization.cpp:89
+#: clientgui/Localization.cpp:47
+#: clientgui/Localization.cpp:89
 msgid "Your results"
 msgstr "您的結果"
 
-#: clientgui/Localization.cpp:49 clientgui/Localization.cpp:91
+#: clientgui/Localization.cpp:49
+#: clientgui/Localization.cpp:91
 msgid "View your last week (or more) of computational results and work"
 msgstr "檢視您上週或更久之前所完成的運算結果與工作"
 
-#: clientgui/Localization.cpp:51 clientgui/Localization.cpp:93
+#: clientgui/Localization.cpp:51
+#: clientgui/Localization.cpp:93
 msgid "Your computers"
 msgstr "您的電腦"
 
@@ -2159,11 +2191,13 @@ msgstr "您的電腦"
 msgid "View a listing of all the computers on which you are running SETI@Home"
 msgstr "檢視所有運行 SETI@Home 的電腦清單"
 
-#: clientgui/Localization.cpp:55 clientgui/Localization.cpp:97
+#: clientgui/Localization.cpp:55
+#: clientgui/Localization.cpp:97
 msgid "Your team"
 msgstr "您的團隊"
 
-#: clientgui/Localization.cpp:57 clientgui/Localization.cpp:99
+#: clientgui/Localization.cpp:57
+#: clientgui/Localization.cpp:99
 msgid "View information about your team"
 msgstr "檢視您的團隊資訊"
 
@@ -2184,8 +2218,7 @@ msgid "Read a detailed description of the Einstein@Home screensaver"
 msgstr "閱讀 Einstein@Home 螢幕保護程式的詳細說明"
 
 #: clientgui/Localization.cpp:71
-msgid ""
-"Correspond with admins and other users on the Einstein@Home message boards"
+msgid "Correspond with admins and other users on the Einstein@Home message boards"
 msgstr "於 Einstein@Home 留言板與其他使用者交流"
 
 #: clientgui/Localization.cpp:73
@@ -2213,8 +2246,7 @@ msgid "Account summary"
 msgstr "帳號摘要"
 
 #: clientgui/Localization.cpp:95
-msgid ""
-"View a listing of all the computers on which you are running Einstein@Home"
+msgid "View a listing of all the computers on which you are running Einstein@Home"
 msgstr "檢視您所有正在運行 Einstein@Home 的電腦清單"
 
 #: clientgui/Localization.cpp:101
@@ -2222,9 +2254,7 @@ msgid "LIGO project"
 msgstr "LIGO 計畫"
 
 #: clientgui/Localization.cpp:103
-msgid ""
-"The home page of the Laser Interferometer Gravitational-wave Observatory "
-"(LIGO) project"
+msgid "The home page of the Laser Interferometer Gravitational-wave Observatory (LIGO) project"
 msgstr "雷射干涉重力波天文台 (LIGO) 計畫首頁"
 
 #: clientgui/Localization.cpp:105
@@ -2235,7 +2265,8 @@ msgstr "GEO-600 計畫"
 msgid "The home page of the GEO-600 project"
 msgstr "GEO-600 計畫首頁"
 
-#: clientgui/Localization.cpp:115 clientgui/Localization.cpp:133
+#: clientgui/Localization.cpp:115
+#: clientgui/Localization.cpp:133
 msgid "Team"
 msgstr "團隊"
 
@@ -2318,9 +2349,7 @@ msgid "Missing application"
 msgstr "應用程式"
 
 #: clientgui/MainDocument.cpp:1793
-msgid ""
-"Please download and install the CoRD application from http://cord."
-"sourceforge.net"
+msgid "Please download and install the CoRD application from http://cord.sourceforge.net"
 msgstr ""
 
 #: clientgui/MainDocument.cpp:2394
@@ -2398,7 +2427,8 @@ msgstr "下載失敗"
 msgid "Downloading"
 msgstr "下載中"
 
-#: clientgui/MainDocument.cpp:2439 clientgui/MainDocument.cpp:2497
+#: clientgui/MainDocument.cpp:2439
+#: clientgui/MainDocument.cpp:2497
 #, fuzzy
 msgid " (suspended - "
 msgstr "已暫止"
@@ -2440,7 +2470,8 @@ msgstr " (非 CPU 密集型)"
 msgid "Waiting to run"
 msgstr "等待執行"
 
-#: clientgui/MainDocument.cpp:2473 clientgui/MainDocument.cpp:2479
+#: clientgui/MainDocument.cpp:2473
+#: clientgui/MainDocument.cpp:2479
 msgid "Ready to start"
 msgstr "準備開始"
 
@@ -2555,7 +2586,8 @@ msgstr ""
 msgid "%s; received from %s; on %s"
 msgstr ""
 
-#: clientgui/NoticeListCtrl.cpp:271 clientgui/ProjectListCtrl.cpp:283
+#: clientgui/NoticeListCtrl.cpp:271
+#: clientgui/ProjectListCtrl.cpp:283
 msgid "Click"
 msgstr ""
 
@@ -2567,7 +2599,8 @@ msgstr ""
 msgid "more..."
 msgstr ""
 
-#: clientgui/ProjectInfoPage.cpp:451 clientgui/ProjectInfoPage.cpp:734
+#: clientgui/ProjectInfoPage.cpp:451
+#: clientgui/ProjectInfoPage.cpp:734
 #: clientgui/ProjectInfoPage.cpp:738
 msgid "All"
 msgstr ""
@@ -2616,9 +2649,7 @@ msgid "Project URL:"
 msgstr "計畫網址:(&U)"
 
 #: clientgui/ProjectInfoPage.cpp:782
-msgid ""
-"This project may not have work for your type of computer.  Do you want to "
-"add it anyway?"
+msgid "This project may not have work for your type of computer.  Do you want to add it anyway?"
 msgstr ""
 
 #: clientgui/ProjectInfoPage.cpp:806
@@ -2737,7 +2768,8 @@ msgstr "Proxy 組態設定"
 msgid "HTTP proxy"
 msgstr "HTTP Proxy"
 
-#: clientgui/ProxyPage.cpp:337 clientgui/ProxyPage.cpp:357
+#: clientgui/ProxyPage.cpp:337
+#: clientgui/ProxyPage.cpp:357
 msgid "Server:"
 msgstr "伺服器:"
 
@@ -2801,57 +2833,70 @@ msgstr ""
 msgid "Display the advanced (accessible) graphical interface."
 msgstr "顯示精簡 BOINC 圖形介面。"
 
-#: clientgui/sg_ClientStateIndicator.cpp:288 clientgui/sg_TaskPanel.cpp:1191
+#: clientgui/sg_ClientStateIndicator.cpp:288
+#: clientgui/sg_TaskPanel.cpp:1191
 msgid "Retrieving current status."
 msgstr "取回目前狀態中。"
 
-#: clientgui/sg_ClientStateIndicator.cpp:291 clientgui/sg_TaskPanel.cpp:443
+#: clientgui/sg_ClientStateIndicator.cpp:291
+#: clientgui/sg_TaskPanel.cpp:443
 msgid "You don't have any projects.  Please Add a Project."
 msgstr "你沒有任何計畫，請加入計畫。"
 
-#: clientgui/sg_ClientStateIndicator.cpp:294 clientgui/sg_TaskPanel.cpp:1197
+#: clientgui/sg_ClientStateIndicator.cpp:294
+#: clientgui/sg_TaskPanel.cpp:1197
 msgid "Downloading work from the server."
 msgstr "正從伺服器下載工作。"
 
-#: clientgui/sg_ClientStateIndicator.cpp:299 clientgui/sg_TaskPanel.cpp:1202
+#: clientgui/sg_ClientStateIndicator.cpp:299
+#: clientgui/sg_TaskPanel.cpp:1202
 msgid "Processing Suspended:  Running On Batteries."
 msgstr "處理已暫止: 正以電池供電"
 
-#: clientgui/sg_ClientStateIndicator.cpp:301 clientgui/sg_TaskPanel.cpp:1204
+#: clientgui/sg_ClientStateIndicator.cpp:301
+#: clientgui/sg_TaskPanel.cpp:1204
 msgid "Processing Suspended:  User Active."
 msgstr "處理已暫止: 使用者正在操作"
 
-#: clientgui/sg_ClientStateIndicator.cpp:303 clientgui/sg_TaskPanel.cpp:1206
+#: clientgui/sg_ClientStateIndicator.cpp:303
+#: clientgui/sg_TaskPanel.cpp:1206
 msgid "Processing Suspended:  User paused processing."
 msgstr "處理已暫止: 被使用者暫停"
 
-#: clientgui/sg_ClientStateIndicator.cpp:305 clientgui/sg_TaskPanel.cpp:1208
+#: clientgui/sg_ClientStateIndicator.cpp:305
+#: clientgui/sg_TaskPanel.cpp:1208
 msgid "Processing Suspended:  Time of Day."
 msgstr "處理已暫止: 不在設定時間內"
 
-#: clientgui/sg_ClientStateIndicator.cpp:307 clientgui/sg_TaskPanel.cpp:1210
+#: clientgui/sg_ClientStateIndicator.cpp:307
+#: clientgui/sg_TaskPanel.cpp:1210
 msgid "Processing Suspended:  Benchmarks Running."
 msgstr "處理已暫止: 正在執行效能測試"
 
-#: clientgui/sg_ClientStateIndicator.cpp:309 clientgui/sg_TaskPanel.cpp:1212
+#: clientgui/sg_ClientStateIndicator.cpp:309
+#: clientgui/sg_TaskPanel.cpp:1212
 msgid "Processing Suspended."
 msgstr "處理已暫止。"
 
-#: clientgui/sg_ClientStateIndicator.cpp:313 clientgui/sg_TaskPanel.cpp:1216
+#: clientgui/sg_ClientStateIndicator.cpp:313
+#: clientgui/sg_TaskPanel.cpp:1216
 msgid "Waiting to contact project servers."
 msgstr "正在等待連到計畫伺服器。"
 
 #: clientgui/sg_ClientStateIndicator.cpp:317
-#: clientgui/sg_ClientStateIndicator.cpp:325 clientgui/sg_TaskPanel.cpp:1220
+#: clientgui/sg_ClientStateIndicator.cpp:325
+#: clientgui/sg_TaskPanel.cpp:1220
 #: clientgui/sg_TaskPanel.cpp:1229
 msgid "Retrieving current status"
 msgstr "取回目前狀態中"
 
-#: clientgui/sg_ClientStateIndicator.cpp:320 clientgui/sg_TaskPanel.cpp:1224
+#: clientgui/sg_ClientStateIndicator.cpp:320
+#: clientgui/sg_TaskPanel.cpp:1224
 msgid "No work available to process"
 msgstr "無工作可用"
 
-#: clientgui/sg_ClientStateIndicator.cpp:322 clientgui/sg_TaskPanel.cpp:1226
+#: clientgui/sg_ClientStateIndicator.cpp:322
+#: clientgui/sg_TaskPanel.cpp:1226
 msgid "Unable to connect to the core client"
 msgstr "無法連到核心用戶端"
 
@@ -3000,7 +3045,8 @@ msgstr "只在此時段執行工作:"
 msgid "Connect to internet only between:"
 msgstr "只在此時段連上網路:"
 
-#: clientgui/sg_DlgPreferences.cpp:376 clientgui/sg_DlgPreferences.cpp:393
+#: clientgui/sg_DlgPreferences.cpp:376
+#: clientgui/sg_DlgPreferences.cpp:393
 msgid "Use no more than:"
 msgstr "資源耗用不超過:"
 
@@ -3020,10 +3066,14 @@ msgstr "以電池供電時要執行工作嗎？"
 msgid "Do work after idle for:"
 msgstr "閒置多久後執行工作:"
 
-#: clientgui/sg_DlgPreferences.cpp:621 clientgui/sg_DlgPreferences.cpp:624
-#: clientgui/sg_DlgPreferences.cpp:683 clientgui/sg_DlgPreferences.cpp:687
-#: clientgui/sg_DlgPreferences.cpp:699 clientgui/sg_DlgPreferences.cpp:703
-#: clientgui/sg_DlgPreferences.cpp:846 clientgui/sg_DlgPreferences.cpp:857
+#: clientgui/sg_DlgPreferences.cpp:621
+#: clientgui/sg_DlgPreferences.cpp:624
+#: clientgui/sg_DlgPreferences.cpp:683
+#: clientgui/sg_DlgPreferences.cpp:687
+#: clientgui/sg_DlgPreferences.cpp:699
+#: clientgui/sg_DlgPreferences.cpp:703
+#: clientgui/sg_DlgPreferences.cpp:846
+#: clientgui/sg_DlgPreferences.cpp:857
 msgid "Anytime"
 msgstr "隨時"
 
@@ -3098,9 +3148,7 @@ msgid "Update"
 msgstr "更新"
 
 #: clientgui/sg_ProjectCommandPopup.cpp:62
-msgid ""
-"Report all completed tasks, get latest credit, get latest preferences, and "
-"possibly get more tasks."
+msgid "Report all completed tasks, get latest credit, get latest preferences, and possibly get more tasks."
 msgstr "回報所有已完成的工作；取得最新的積分與偏好設定資訊且儘可能的取得工作。"
 
 #: clientgui/sg_ProjectCommandPopup.cpp:68
@@ -3122,21 +3170,13 @@ msgid "Reset project"
 msgstr "重新開始計畫"
 
 #: clientgui/sg_ProjectCommandPopup.cpp:80
-msgid ""
-"Delete all files and tasks associated with this project, and get new tasks.  "
-"You can update the project first to report any completed tasks."
-msgstr ""
-"刪除所有和此計畫相關的檔案和工作後取得新的工作。 在重新開始之前您可以先更新計"
-"畫來回報已完成的工作。"
+msgid "Delete all files and tasks associated with this project, and get new tasks.  You can update the project first to report any completed tasks."
+msgstr "刪除所有和此計畫相關的檔案和工作後取得新的工作。 在重新開始之前您可以先更新計畫來回報已完成的工作。"
 
 #: clientgui/sg_ProjectCommandPopup.cpp:86
 #, fuzzy
-msgid ""
-"Remove this project.  Tasks in progress will be lost (use 'Update' first to "
-"report any completed tasks)."
-msgstr ""
-"從計畫中退出這台電腦。進行中的工作將會遺失。(在退出之前您可以先按一下「更新」"
-"來回報已完成的工作。)"
+msgid "Remove this project.  Tasks in progress will be lost (use 'Update' first to report any completed tasks)."
+msgstr "從計畫中退出這台電腦。進行中的工作將會遺失。(在退出之前您可以先按一下「更新」來回報已完成的工作。)"
 
 #: clientgui/sg_ProjectCommandPopup.cpp:91
 #: clientgui/sg_TaskCommandPopup.cpp:78
@@ -3174,12 +3214,14 @@ msgstr "重新開始計畫"
 
 #: clientgui/sg_ProjectCommandPopup.cpp:251
 #: clientgui/sg_StatImageLoader.cpp:192
+#, c-format
 #, fuzzy, c-format
 msgid "Are you sure you want to remove project '%s'?"
 msgstr "您確定要重新開始計畫「%s」嗎？"
 
 #: clientgui/sg_ProjectCommandPopup.cpp:257
-#: clientgui/sg_StatImageLoader.cpp:138 clientgui/sg_StatImageLoader.cpp:198
+#: clientgui/sg_StatImageLoader.cpp:138
+#: clientgui/sg_StatImageLoader.cpp:198
 msgid "Remove Project"
 msgstr "移除計畫"
 
@@ -3196,7 +3238,8 @@ msgstr ""
 msgid "Work done for this project"
 msgstr ""
 
-#: clientgui/sg_ProjectPanel.cpp:77 clientgui/sg_ProjectsComponent.cpp:123
+#: clientgui/sg_ProjectPanel.cpp:77
+#: clientgui/sg_ProjectsComponent.cpp:123
 msgid "Synchronize projects with account manager system"
 msgstr "與帳號管理系統同步計畫"
 
@@ -3204,7 +3247,8 @@ msgstr "與帳號管理系統同步計畫"
 msgid "Select a project to access with the controls below"
 msgstr ""
 
-#: clientgui/sg_ProjectPanel.cpp:134 clientgui/sg_ProjectPanel.cpp:262
+#: clientgui/sg_ProjectPanel.cpp:134
+#: clientgui/sg_ProjectPanel.cpp:262
 #, c-format
 msgid "%s: %.0f"
 msgstr ""
@@ -3290,6 +3334,7 @@ msgid "Suspend work for this task."
 msgstr "暫止這個工作的動作。"
 
 #: clientgui/sg_TaskCommandPopup.cpp:251
+#, c-format
 #, fuzzy, c-format
 msgid ""
 "Are you sure you want to abort this task '%s'?\n"
@@ -3332,6 +3377,7 @@ msgid "Pop up a menu of commands to apply to this task"
 msgstr ""
 
 #: clientgui/sg_TaskPanel.cpp:680
+#, c-format
 #, fuzzy, c-format
 msgid "Application: %s"
 msgstr "應用程式:"
@@ -3364,7 +3410,8 @@ msgstr ""
 msgid "Status: %s"
 msgstr ""
 
-#: clientgui/sg_ViewTabPage.cpp:140 clientgui/sg_ViewTabPage.cpp:280
+#: clientgui/sg_ViewTabPage.cpp:140
+#: clientgui/sg_ViewTabPage.cpp:280
 #, c-format
 msgid "%.1lf"
 msgstr "%.1lf"
@@ -3382,7 +3429,8 @@ msgstr "您確定要顯示遠端電腦的圖形嗎？"
 msgid "Application: "
 msgstr "應用程式:"
 
-#: clientgui/sg_ViewTabPage.cpp:449 clientgui/sg_ViewTabPage.cpp:453
+#: clientgui/sg_ViewTabPage.cpp:449
+#: clientgui/sg_ViewTabPage.cpp:453
 msgid "Time Remaining: "
 msgstr "時間剩下: "
 
@@ -3442,7 +3490,8 @@ msgstr "請輸入帳號金鑰以繼續。"
 msgid "Invalid Account Key; please enter a valid Account Key"
 msgstr "無效的帳號金鑰；請輸入有效的帳號金鑰"
 
-#: clientgui/ValidateAccountKey.cpp:82 clientgui/ValidateEmailAddress.cpp:86
+#: clientgui/ValidateAccountKey.cpp:82
+#: clientgui/ValidateEmailAddress.cpp:86
 msgid "Validation conflict"
 msgstr "驗證衝突"
 
@@ -3468,13 +3517,17 @@ msgstr ""
 "例如:\n"
 "http://www.example.com/"
 
-#: clientgui/ValidateURL.cpp:83 clientgui/ValidateURL.cpp:87
-#: clientgui/ValidateURL.cpp:91 clientgui/ValidateURL.cpp:103
-#: clientgui/ValidateURL.cpp:107 clientgui/ValidateURL.cpp:110
+#: clientgui/ValidateURL.cpp:83
+#: clientgui/ValidateURL.cpp:87
+#: clientgui/ValidateURL.cpp:91
+#: clientgui/ValidateURL.cpp:103
+#: clientgui/ValidateURL.cpp:107
+#: clientgui/ValidateURL.cpp:110
 msgid "Invalid URL"
 msgstr "無效網址"
 
-#: clientgui/ValidateURL.cpp:84 clientgui/ValidateURL.cpp:88
+#: clientgui/ValidateURL.cpp:84
+#: clientgui/ValidateURL.cpp:88
 #: clientgui/ValidateURL.cpp:92
 msgid ""
 "Please specify a valid URL.\n"
@@ -3485,7 +3538,8 @@ msgstr ""
 "例如:\n"
 "http://boincproject.example.com"
 
-#: clientgui/ValidateURL.cpp:104 clientgui/ValidateURL.cpp:108
+#: clientgui/ValidateURL.cpp:104
+#: clientgui/ValidateURL.cpp:108
 #, c-format
 msgid "'%s' does not contain a valid host name."
 msgstr "「%s」不是有效的主機名稱。"
@@ -3495,8 +3549,10 @@ msgstr "「%s」不是有效的主機名稱。"
 msgid "'%s' does not contain a valid path."
 msgstr "「%s」不是有效的路徑。"
 
-#: clientgui/ViewMessages.cpp:84 clientgui/ViewProjects.cpp:169
-#: clientgui/ViewStatistics.cpp:1962 clientgui/ViewTransfers.cpp:159
+#: clientgui/ViewMessages.cpp:84
+#: clientgui/ViewProjects.cpp:169
+#: clientgui/ViewStatistics.cpp:1962
+#: clientgui/ViewTransfers.cpp:159
 #: clientgui/ViewWork.cpp:182
 msgid "Commands"
 msgstr "命令"
@@ -3509,11 +3565,13 @@ msgstr "複製所有訊息"
 msgid "Copy selected messages"
 msgstr "複製選取的訊息"
 
-#: clientgui/ViewMessages.cpp:106 clientgui/ViewMessages.cpp:502
+#: clientgui/ViewMessages.cpp:106
+#: clientgui/ViewMessages.cpp:502
 msgid "Show only this project"
 msgstr ""
 
-#: clientgui/ViewMessages.cpp:107 clientgui/ViewMessages.cpp:503
+#: clientgui/ViewMessages.cpp:107
+#: clientgui/ViewMessages.cpp:503
 #, fuzzy
 msgid "Show only the messages for the selected project."
 msgstr "顯示所選計畫於同一統計圖"
@@ -3545,7 +3603,8 @@ msgstr "複製所有訊息"
 msgid "Show messages for all projects."
 msgstr "顯示所有計畫於同一統計圖"
 
-#: clientgui/ViewProjects.cpp:219 clientgui/ViewStatistics.cpp:442
+#: clientgui/ViewProjects.cpp:219
+#: clientgui/ViewStatistics.cpp:442
 msgid "Account"
 msgstr "帳號"
 
@@ -3557,7 +3616,8 @@ msgstr "運算完成"
 msgid "Avg. work done"
 msgstr "平均完成"
 
-#: clientgui/ViewProjects.cpp:224 clientgui/ViewTransfers.cpp:187
+#: clientgui/ViewProjects.cpp:224
+#: clientgui/ViewTransfers.cpp:187
 #: clientgui/ViewWork.cpp:233
 msgid "Status"
 msgstr "狀態"
@@ -3595,7 +3655,8 @@ msgstr "正在重新設定計畫..."
 msgid "Removing project..."
 msgstr "正在繼續計畫..."
 
-#: clientgui/ViewProjects.cpp:542 clientgui/ViewWork.cpp:598
+#: clientgui/ViewProjects.cpp:542
+#: clientgui/ViewWork.cpp:598
 msgid "Launching browser..."
 msgstr "啟動瀏覽器..."
 
@@ -3779,11 +3840,13 @@ msgstr "下一個計畫(&N) >"
 msgid "Show chart for next project"
 msgstr "顯示下個計畫的統計圖"
 
-#: clientgui/ViewStatistics.cpp:2010 clientgui/ViewStatistics.cpp:2407
+#: clientgui/ViewStatistics.cpp:2010
+#: clientgui/ViewStatistics.cpp:2407
 msgid "Hide project list"
 msgstr ""
 
-#: clientgui/ViewStatistics.cpp:2011 clientgui/ViewStatistics.cpp:2407
+#: clientgui/ViewStatistics.cpp:2011
+#: clientgui/ViewStatistics.cpp:2407
 msgid "Use entire area for graphs"
 msgstr ""
 
@@ -3829,11 +3892,16 @@ msgstr "顯示所有計畫於同一統計圖"
 msgid "Statistics"
 msgstr "統計"
 
-#: clientgui/ViewStatistics.cpp:2094 clientgui/ViewStatistics.cpp:2115
-#: clientgui/ViewStatistics.cpp:2136 clientgui/ViewStatistics.cpp:2158
-#: clientgui/ViewStatistics.cpp:2179 clientgui/ViewStatistics.cpp:2200
-#: clientgui/ViewStatistics.cpp:2221 clientgui/ViewStatistics.cpp:2242
-#: clientgui/ViewStatistics.cpp:2263 clientgui/ViewStatistics.cpp:2287
+#: clientgui/ViewStatistics.cpp:2094
+#: clientgui/ViewStatistics.cpp:2115
+#: clientgui/ViewStatistics.cpp:2136
+#: clientgui/ViewStatistics.cpp:2158
+#: clientgui/ViewStatistics.cpp:2179
+#: clientgui/ViewStatistics.cpp:2200
+#: clientgui/ViewStatistics.cpp:2221
+#: clientgui/ViewStatistics.cpp:2242
+#: clientgui/ViewStatistics.cpp:2263
+#: clientgui/ViewStatistics.cpp:2287
 msgid "Updating charts..."
 msgstr "更新圖表中..."
 
@@ -3858,18 +3926,15 @@ msgid "Abort Transfer"
 msgstr "中止檔案傳送"
 
 #: clientgui/ViewTransfers.cpp:171
-msgid ""
-"Click 'Abort transfer' to delete the file from the transfer queue. This will "
-"prevent you from being granted credit for this result."
-msgstr ""
-"按一下「中止傳送」可以從上傳佇列中刪除這個檔案。 這個動作會使您無法從這個運算"
-"結果中獲取積分。"
+msgid "Click 'Abort transfer' to delete the file from the transfer queue. This will prevent you from being granted credit for this result."
+msgstr "按一下「中止傳送」可以從上傳佇列中刪除這個檔案。 這個動作會使您無法從這個運算結果中獲取積分。"
 
 #: clientgui/ViewTransfers.cpp:182
 msgid "File"
 msgstr "檔案"
 
-#: clientgui/ViewTransfers.cpp:183 clientgui/ViewWork.cpp:232
+#: clientgui/ViewTransfers.cpp:183
+#: clientgui/ViewWork.cpp:232
 msgid "Progress"
 msgstr "進度"
 
@@ -3959,11 +4024,13 @@ msgstr ""
 msgid " (project backoff: "
 msgstr ""
 
-#: clientgui/ViewWork.cpp:186 clientgui/ViewWork.cpp:766
+#: clientgui/ViewWork.cpp:186
+#: clientgui/ViewWork.cpp:766
 msgid "Show active tasks"
 msgstr ""
 
-#: clientgui/ViewWork.cpp:187 clientgui/ViewWork.cpp:767
+#: clientgui/ViewWork.cpp:187
+#: clientgui/ViewWork.cpp:767
 msgid "Show only active tasks."
 msgstr ""
 
@@ -4072,8 +4139,7 @@ msgstr ""
 #: clientgui/WelcomePage.cpp:283
 msgid ""
 "You have chosen to add a new BOINC project.  Adding a new\n"
-"project means that you will be connecting your computer to a new "
-"organization.\n"
+"project means that you will be connecting your computer to a new organization.\n"
 "If this is what you wanted to do, please click on\n"
 "the 'Next' button below.\n"
 "\n"
@@ -4102,7 +4168,8 @@ msgstr "您真的要取消嗎？"
 msgid "Question"
 msgstr "問題"
 
-#: clientgui/wizardex.cpp:377 clientgui/wizardex.cpp:553
+#: clientgui/wizardex.cpp:377
+#: clientgui/wizardex.cpp:553
 msgid "&Next >"
 msgstr "下一步(&N) >"
 
@@ -4139,9 +4206,7 @@ msgid "Pie Ctrl"
 msgstr "Pie Ctrl"
 
 #: clientgui/mac/MacAccessiblity.cpp:257
-msgid ""
-"for accessibility support, please select advanced from the view menu or type "
-"command shift a"
+msgid "for accessibility support, please select advanced from the view menu or type command shift a"
 msgstr ""
 
 #: clientgui/mac/MacAccessiblity.cpp:302
@@ -4189,7 +4254,8 @@ msgstr ""
 msgid "list is empty"
 msgstr ""
 
-#: clientgui/mac/MacAccessiblity.cpp:858 clientgui/mac/MacAccessiblity.cpp:870
+#: clientgui/mac/MacAccessiblity.cpp:858
+#: clientgui/mac/MacAccessiblity.cpp:870
 #, c-format
 msgid "; row %d; "
 msgstr ""

@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-02-09 09:39-0800\n"
-"PO-Revision-Date: 2011-11-24 22:32+0200\n"
+"PO-Revision-Date: 2011-11-24 22:33+0200\n"
 "Last-Translator: aceman <acelists@atlas.sk>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: sk\n"
@@ -119,8 +119,7 @@ msgstr "Tento projekt nepodporuje CPU typ"
 #: ../sched/handle_request.cpp:975
 msgid ""
 "Your BOINC client software is too old.  Please install the current version."
-msgstr ""
-"Váš klient BOINC je príliš starý.  Prosím nainštalujte aktuálnu verziu."
+msgstr "Váš klient BOINC je príliš starý.  Prosím nainštalujte aktuálnu verziu."
 
 #: ../sched/handle_request.cpp:1235
 msgid "This project doesn't support computers of type"
@@ -196,7 +195,8 @@ msgstr ""
 msgid ""
 "Tasks for CPU are available, but your preferences are set to not accept them"
 msgstr ""
-"Sú dostupné úlohy pre CPU, ale vaše preferencie sú nastavené ich neakceptovať"
+"Sú dostupné úlohy pre CPU, ale vaše preferencie sú nastavené ich "
+"neakceptovať"
 
 #: ../sched/sched_types.cpp:247
 msgid "Unknown app name in app_info.xml"

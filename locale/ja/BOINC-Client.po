@@ -7,15 +7,15 @@ msgstr ""
 "Project-Id-Version: BOINC Client 0.0.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-02-09 09:39-0800\n"
-"PO-Revision-Date: 2011-09-22 17:35+0200\n"
-"Last-Translator: komo <je2bwm@jarl.com>\n"
+"PO-Revision-Date: 2011-12-04 22:23+0200\n"
+"Last-Translator: shirayuki <shirayuking@gmail.com>\n"
 "Language-Team: \n"
 "Language: ja\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Pootle 2.1.1\n"
+"X-Generator: Pootle 2.1.6\n"
 
 #: acct_mgr.cpp:435 acct_mgr.cpp:444
 #, fuzzy
@@ -30,15 +30,11 @@ msgstr "プロジェクト・サーバからのメッセージ："
 msgid ""
 "Some tasks need more memory than allowed by your preferences.  Please check "
 "the preferences."
-msgstr ""
-"あなたの設定したプレファレンス(好みの設定)を越えるメモリ量を必要とするタスク"
-"があります。プレファレンスの内容を確認してください。"
+msgstr "あなたの設定したプレファレンス(好みの設定)を越えるメモリ量を必要とするタスクがあります。プレファレンスの内容を確認してください。"
 
 #: client_state.cpp:482
 msgid "Couldn't write state file; check directory permissions"
-msgstr ""
-"状態ファイルを書くことができませんでした。ディレクトリの許可属性を確かめてく"
-"ださい。"
+msgstr "状態ファイルを書くことができませんでした。ディレクトリの許可属性を確かめてください。"
 
 #: cs_cmdline.cpp:291
 msgid "The HTTP_PROXY environment variable must specify an HTTP proxy"
@@ -49,9 +45,7 @@ msgstr "環境変数 HTTP_PROXY で HTTP プロキシを指定する必要があ
 msgid ""
 "You used the wrong URL for this project.  When convenient, remove this "
 "project, then add %s"
-msgstr ""
-"このプロジェクトに対して誤った URL を使っています。都合の良いときに、このプロ"
-"ジェクトを削除し、その後 %s を追加してください。"
+msgstr "このプロジェクトに対して誤った URL を使っています。都合の良いときに、このプロジェクトを削除し、その後 %s を追加してください。"
 
 #: cs_statefile.cpp:810 ../sched/sched_types.cpp:252
 msgid "Syntax error in app_info.xml"
@@ -92,23 +86,17 @@ msgstr "cc_config.xml の中で終了タグが不足しています。"
 
 #: ../sched/handle_request.cpp:299
 msgid "Invalid or missing account key.  To fix, remove and add this project."
-msgstr ""
-"アカウント・キーが無効であるか存在していません。修復するには、このプロジェク"
-"トを一旦削除し、再び追加してください。"
+msgstr "アカウント・キーが無効であるか存在していません。修復するには、このプロジェクトを一旦削除し、再び追加してください。"
 
 #: ../sched/handle_request.cpp:831
 msgid "Invalid code signing key.  To fix, remove and add this project."
-msgstr ""
-"コード署名用のキーが有効ではありません。修復するには、このプロジェクトを一旦"
-"削除し、再び追加してください。"
+msgstr "コード署名用のキーが有効ではありません。修復するには、このプロジェクトを一旦削除し、再び追加してください。"
 
 #: ../sched/handle_request.cpp:841
 msgid ""
 "The project has changed its security key.  Please remove and add this "
 "project."
-msgstr ""
-"このプロジェクトはセキュリティ・キーを変更しました。このプロジェクトから一旦"
-"削除し、再び追加してください。"
+msgstr "このプロジェクトはセキュリティ・キーを変更しました。このプロジェクトから一旦削除し、再び追加してください。"
 
 #  Poor translation because the implementation and the original text are English-dependent.
 #: ../sched/handle_request.cpp:925
@@ -123,9 +111,7 @@ msgstr "このプロジェクトは次に示す CPU をサポートしていま�
 #: ../sched/handle_request.cpp:975
 msgid ""
 "Your BOINC client software is too old.  Please install the current version."
-msgstr ""
-"あなたのマシンに入っている BOINC クライアントソフトウェアは古過ぎます。現在の"
-"版にインストールしなおしてください。"
+msgstr "あなたのマシンに入っている BOINC クライアントソフトウェアは古過ぎます。現在の版にインストールしなおしてください。"
 
 #  Poor translation because the implementation and the original text are English-dependent.
 #: ../sched/handle_request.cpp:1235
@@ -134,29 +120,23 @@ msgstr "このプロジェクトは次に示す プラットフォームをサ�
 
 #: ../sched/sched_send.cpp:1365
 msgid "Upgrade to the latest driver to process tasks using your computer's GPU"
-msgstr ""
-"あなたのコンピュータが持つ GPU を使ってタスクを処理したければ、ドライバーを最"
-"新のものにアップグレイドしてください。"
+msgstr "あなたのコンピュータが持つ GPU を使ってタスクを処理したければ、ドライバーを最新のものにアップグレイドしてください。"
 
 #: ../sched/sched_send.cpp:1372
 msgid ""
 "Upgrade to the latest driver to use all of this project's GPU applications"
-msgstr ""
-"このプロジェクトの GPU アプリケーションの全てを使いたければ、ドライバーを最新"
-"のものにアップグレードしてください。"
+msgstr "このプロジェクトの GPU アプリケーションの全てを使いたければ、ドライバーを最新のものにアップグレードしてください。"
 
 #: ../sched/sched_send.cpp:1391
 msgid ""
 "A newer version of BOINC is needed to use your NVIDIA GPU; please upgrade to "
 "the current version"
 msgstr ""
-"あなたのマシンの NVIDIA GPU を使いたければ、より新しい版の BOINC が必要です。"
-"現在の版の BOINC へアップグレイドしてください。"
+"あなたのマシンの NVIDIA GPU を使いたければ、より新しい版の BOINC が必要です。現在の版の BOINC へアップグレイドしてください。"
 
 #: ../sched/sched_send.cpp:1404
 msgid "An NVIDIA or ATI GPU is required to run tasks for this project"
-msgstr ""
-"このプロジェクトの タスクを走らせるには NVIDIA または ATI の GPU が必要です"
+msgstr "このプロジェクトの タスクを走らせるには NVIDIA または ATI の GPU が必要です"
 
 #: ../sched/sched_send.cpp:1409
 msgid "An NVIDIA GPU is required to run tasks for this project"
@@ -169,9 +149,7 @@ msgstr "このプロジェクトの タスクを走らせるには ATI の GPU �
 #: ../sched/sched_send.cpp:1523
 #, fuzzy
 msgid "No tasks are available for the applications you have selected."
-msgstr ""
-"あなたが選んだアプリケーションで処理できる仕事が手に入りません。該当のウェブ"
-"サイトであなたのプロジェクト・プレファレンスを確かめてください。"
+msgstr "あなたが選んだアプリケーションで処理できる仕事が手に入りません。該当のウェブサイトであなたのプロジェクト・プレファレンスを確かめてください。"
 
 #: ../sched/sched_send.cpp:1549
 msgid "Your computer type is not supported by this project"
@@ -185,24 +163,18 @@ msgstr "より新しい版の BOINC が必要です。最新版をインスト�
 msgid ""
 "Tasks for NVIDIA GPU are available, but your preferences are set to not "
 "accept them"
-msgstr ""
-"NVIDIA GPU 用のタスクが手に入りますが、あなたが設定したプレファレンスではそれ"
-"らを処理しないことになっています。"
+msgstr "NVIDIA GPU 用のタスクが手に入りますが、あなたが設定したプレファレンスではそれらを処理しないことになっています。"
 
 #: ../sched/sched_send.cpp:1571
 msgid ""
 "Tasks for ATI GPU are available, but your preferences are set to not accept "
 "them"
-msgstr ""
-"ATI GPU 用のタスクが手に入りますが、あなたが設定したプレファレンスではそれら"
-"を処理しないことになっています。"
+msgstr "ATI GPU 用のタスクが手に入りますが、あなたが設定したプレファレンスではそれらを処理しないことになっています。"
 
 #: ../sched/sched_send.cpp:1577
 msgid ""
 "Tasks for CPU are available, but your preferences are set to not accept them"
-msgstr ""
-"CPU 用のタスクが手に入りますが、あなたが設定したプレファレンスではそれらを処"
-"理しないことになっています。"
+msgstr "CPU 用のタスクが手に入りますが、あなたが設定したプレファレンスではそれらを処理しないことになっています。"
 
 #: ../sched/sched_types.cpp:247
 msgid "Unknown app name in app_info.xml"
@@ -211,9 +183,7 @@ msgstr "app_info.xml の中に不明なアプリケーション名がありま�
 #  Poor translation because the implementation and the original text are English-dependent.
 #: ../sched/sched_version.cpp:230
 msgid "Your app_info.xml file doesn't have a usable version of"
-msgstr ""
-"あなたの app_info.xml ファイルには次のアプリケーションの使える版が記述されて"
-"いません："
+msgstr "あなたの app_info.xml ファイルには次のアプリケーションの使える版が記述されていません："
 
 #~ msgid "error"
 #~ msgstr "エラー"

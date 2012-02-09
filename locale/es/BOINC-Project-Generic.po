@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2012-01-16 11:31 PST\n"
-"PO-Revision-Date: 2010-09-23 23:50+0200\n"
+"PO-Revision-Date: 2011-12-04 19:02+0200\n"
 "Last-Translator: David M <davidcomp2 at telefonica dot net>\n"
 "Language-Team: \n"
 "Language: es\n"
@@ -15,9 +15,9 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Pootle 2.1.1\n"
-"X-Poedit-SearchPath-0: html\\user\n"
+"X-Generator: Pootle 2.1.6\n"
 "X-Poedit-SourceCharset: utf-8\n"
+"X-Poedit-SearchPath-0: html\\user\n"
 "X-Poedit-Basepath: C:\\Src\\BOINCSVN\\trunk\\boinc\n"
 "X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
 
@@ -989,8 +989,7 @@ msgstr "no leído"
 
 #: ../inc/pm.inc:186
 msgid "For email notification, %1edit community prefs%2"
-msgstr ""
-"Para notificaciones por email, %1editar las preferencias comunitarias%2"
+msgstr "Para notificaciones por email, %1editar las preferencias comunitarias%2"
 
 # ########################################
 # Private messages
@@ -1004,8 +1003,8 @@ msgid ""
 "Suspend work while computer is on battery power? %1 Matters only for "
 "portable computers %2"
 msgstr ""
-"¿Suspender el trabajo mientras el ordenador está funcionando con baterías? "
-"%1 Sólo importa para ordenadores portátiles %2"
+"¿Suspender el trabajo mientras el ordenador está funcionando con baterías? %"
+"1 Sólo importa para ordenadores portátiles %2"
 
 #: ../inc/prefs.inc:84
 msgid "Suspend work while computer is in use?"
@@ -1194,8 +1193,8 @@ msgid ""
 "reduces the security of BOINC. %3"
 msgstr ""
 "¿No verific¡ficar los archivos de imagen? %1 Márquelo SÓLO si su proveedor "
-"de Internet modifica los archivos de imagenes (UMTS lo hace, por ejemplo). "
-"%2 No verificarlos reduce la seguridad de BOINC. %3"
+"de Internet modifica los archivos de imagenes (UMTS lo hace, por ejemplo). %"
+"2 No verificarlos reduce la seguridad de BOINC. %3"
 
 #: ../inc/prefs.inc:287
 msgid ""
@@ -1347,8 +1346,7 @@ msgid ""
 "             On computers participating in multiple projects, the most "
 "recently modified preferences will be used."
 msgstr ""
-"Estas se aplican a todos los proyectos BOINC en los que usted participa."
-"<br>\n"
+"Estas se aplican a todos los proyectos BOINC en los que usted participa.<br>\n"
 "                         En ordenadores unidos a múltiples proyectos, se "
 "usarán las preferencias modificadas más recientemente."
 
@@ -1812,7 +1810,8 @@ msgstr "Buscar"
 #: ../inc/team.inc:54
 msgid "Requested by you, and founder response deadline has passed."
 msgstr ""
-"Solicitado por usted, y el tiempo límite de repuesta del fundador ha acabado."
+"Solicitado por usted, y el tiempo límite de repuesta del fundador ha "
+"acabado."
 
 #: ../inc/team.inc:56
 msgid "Complete foundership transfer"
@@ -2350,8 +2349,7 @@ msgstr ""
 
 #: ../user/account_finish.php:41 ../user/create_account_form.php:89
 msgid "Identifies you on our web site. Use your real name or a nickname."
-msgstr ""
-"Le identifica en nuestra página web. Utilice su nombre real o un apodo."
+msgstr "Le identifica en nuestra página web. Utilice su nombre real o un apodo."
 
 #: ../user/account_finish.php:45 ../user/create_account_form.php:108
 msgid "Select the country you want to represent, if any."
@@ -2666,8 +2664,8 @@ msgid ""
 "If you would like include a picture with your profile, click the \"Browse\" "
 "button and select a JPEG or PNG file. Please select images of %1 or less."
 msgstr ""
-"Si desea incluir una imagen en su perfil, haga clic en el botón \"Explorar\" "
-"y seleccione un archivo JPEG o PNG. Por favor seleccione imágenes de %1 o "
+"Si desea incluir una imagen en su perfil, haga clic en el botón \"Explorar\" y "
+"seleccione un archivo JPEG o PNG. Por favor seleccione imágenes de %1 o "
 "menos."
 
 #: ../user/create_profile.php:89
@@ -2712,16 +2710,16 @@ msgid ""
 "Your first response was flagged as spam by the Akismet anti-spam system.  "
 "Please modify your text and try again."
 msgstr ""
-"Su primera respuesta fue marcada como spam por el sistema anti-spam "
-"Akismet.  Por favor, modifique su texto e inténtelo de nuevo."
+"Su primera respuesta fue marcada como spam por el sistema anti-spam Akismet. "
+" Por favor, modifique su texto e inténtelo de nuevo."
 
 #: ../user/create_profile.php:230
 msgid ""
 "Your second response was flagged as spam by the Akismet anti-spam system.  "
 "Please modify your text and try again."
 msgstr ""
-"Su segunda respuesta fue marcada como spam por el sistema anti-spam "
-"Akismet.  Por favor, modifique su texto e inténtelo de nuevo."
+"Su segunda respuesta fue marcada como spam por el sistema anti-spam Akismet. "
+" Por favor, modifique su texto e inténtelo de nuevo."
 
 #: ../user/create_profile.php:246
 msgid "Your profile submission was empty."
@@ -4026,8 +4024,8 @@ msgid ""
 "Your message was flagged as spam by the Akismet anti-spam system. Please "
 "modify your text and try again."
 msgstr ""
-"Su primera respuesta fue marcada como spam por el sistema anti-spam "
-"Akismet.  Por favor, modifique su texto e inténtelo de nuevo."
+"Su primera respuesta fue marcada como spam por el sistema anti-spam Akismet. "
+" Por favor, modifique su texto e inténtelo de nuevo."
 
 #: ../user/forum_post.php:70
 #, fuzzy
@@ -4103,8 +4101,8 @@ msgid ""
 "Your post has been flagged as spam by the Akismet anti-spam system. Please "
 "modify your text and try again."
 msgstr ""
-"Su primera respuesta fue marcada como spam por el sistema anti-spam "
-"Akismet.  Por favor, modifique su texto e inténtelo de nuevo."
+"Su primera respuesta fue marcada como spam por el sistema anti-spam Akismet. "
+" Por favor, modifique su texto e inténtelo de nuevo."
 
 #: ../user/forum_reply.php:87 ../user/forum_thread.php:154
 #: ../user/forum_thread.php:274
@@ -4990,8 +4988,8 @@ msgid ""
 "resources are used by %1, and when it uses them."
 msgstr ""
 "Cuando ejecute %1 en su ordenador, utilizará parte de la potencia de su CPU, "
-"espacio en disco, y ancho de banda de red. Usted puede controlar la cantidad "
-"de recursos que usa %1, y cuándo son utilizados."
+"espacio en disco, y ancho de banda de red. Usted puede controlar la "
+"cantidad de recursos que usa %1, y cuándo son utilizados."
 
 #: ../user/info.php:40
 msgid ""
@@ -5378,8 +5376,8 @@ msgid ""
 "                by the Akismet anti-spam system.\n"
 "                Please modify your text and try again."
 msgstr ""
-"Su primera respuesta fue marcada como spam por el sistema anti-spam "
-"Akismet.  Por favor, modifique su texto e inténtelo de nuevo."
+"Su primera respuesta fue marcada como spam por el sistema anti-spam Akismet. "
+" Por favor, modifique su texto e inténtelo de nuevo."
 
 #: ../user/pm.php:205
 msgid "Could not find user with id %1"
@@ -5512,8 +5510,8 @@ msgid ""
 "If you haven't already, you can %1create your own user profile%2 for others "
 "to see!"
 msgstr ""
-"¡Si no lo ha hecho todavía, usted puede %1crear su propio perfil de usuario"
-"%2 para que otros lo vean!"
+"¡Si no lo ha hecho todavía, usted puede %1crear su propio perfil de usuario%"
+"2 para que otros lo vean!"
 
 #: ../user/profile_menu.php:45
 msgid "User of the Day"
@@ -6846,8 +6844,8 @@ msgid ""
 msgstr ""
 "Para usar su clave débil en cierta computadora, busque o cree el 'archivo de "
 "cuenta' para este proyecto. El nombre de este archivo está en la forma "
-"<b>cuenta_URL_DEL_PROYECTO.xml</b>. El archivo de cuenta para %1 es <b>%2</"
-"b>."
+"<b>cuenta_URL_DEL_PROYECTO.xml</b>. El archivo de cuenta para %1 es <b>%"
+"2</b>."
 
 #: ../user/weak_auth.php:59
 msgid "Create this file if needed. Set its contents to:"

@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-02-09 09:39-0800\n"
-"PO-Revision-Date: 2010-08-28 04:26-0700\n"
+"PO-Revision-Date: 2011-12-26 20:58+0200\n"
 "Last-Translator: David M <davidcomp2 at telefonica dot net>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: es\n"
@@ -15,7 +15,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Pootle 1.2.1\n"
+"X-Generator: Pootle 2.1.6\n"
 
 #: acct_mgr.cpp:435 acct_mgr.cpp:444
 #, fuzzy
@@ -36,7 +36,8 @@ msgstr ""
 #: client_state.cpp:482
 msgid "Couldn't write state file; check directory permissions"
 msgstr ""
-"No se pudo escribir en el archivo state; compruebe los permisos de la carpeta"
+"No se pudo escribir en el archivo state; compruebe los permisos de la "
+"carpeta"
 
 #: cs_cmdline.cpp:291
 msgid "The HTTP_PROXY environment variable must specify an HTTP proxy"
@@ -148,8 +149,7 @@ msgstr ""
 
 #: ../sched/sched_send.cpp:1404
 msgid "An NVIDIA or ATI GPU is required to run tasks for this project"
-msgstr ""
-"Es necesario una GPU NVIDIA o ATI para ejecutar tareas de este proyecto"
+msgstr "Es necesario una GPU NVIDIA o ATI para ejecutar tareas de este proyecto"
 
 #: ../sched/sched_send.cpp:1409
 msgid "An NVIDIA GPU is required to run tasks for this project"

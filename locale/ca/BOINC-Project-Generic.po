@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2012-01-16 11:31 PST\n"
-"PO-Revision-Date: 2012-01-30 22:04+0200\n"
+"PO-Revision-Date: 2012-01-30 22:14+0200\n"
 "Last-Translator: Xavier <xavi.mormur@gmail.com>\n"
 "Language-Team: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
 "Language: ca\n"
@@ -16,8 +16,8 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Pootle 2.1.6\n"
-"X-Poedit-SearchPath-0: html\\user\n"
 "X-Poedit-SourceCharset: utf-8\n"
+"X-Poedit-SearchPath-0: html\\user\n"
 "X-Poedit-Basepath: C:\\Src\\BOINCSVN\\trunk\\boinc\n"
 "X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
 
@@ -1022,8 +1022,7 @@ msgstr ""
 
 #: ../inc/prefs.inc:121
 msgid "Do work only between the hours of %1 No restriction if equal %2"
-msgstr ""
-"Només treballar entre les hores de %1 Sense restricció si es igual a %2"
+msgstr "Només treballar entre les hores de %1 Sense restricció si es igual a %2"
 
 #: ../inc/prefs.inc:129
 msgid ""
@@ -1048,7 +1047,8 @@ msgstr "processadors"
 #: ../inc/prefs.inc:152
 msgid "On multiprocessors, use at most %1 Enforced by version 6.1+ %2"
 msgstr ""
-"Amb multiprocessadors, utilitzar com a màxim %1 Imposat per la versió 6.1+ %2"
+"Amb multiprocessadors, utilitzar com a màxim %1 Imposat per la versió 6.1+ %"
+"2"
 
 #: ../inc/prefs.inc:157
 #, php-format
@@ -2313,8 +2313,7 @@ msgstr "Finalitzar la configuració del compte"
 
 #: ../user/account_finish.php:41 ../user/create_account_form.php:89
 msgid "Identifies you on our web site. Use your real name or a nickname."
-msgstr ""
-"Us identifica a la pàgina web. Utilitzeu el vostre nom real o un àlies."
+msgstr "Us identifica a la pàgina web. Utilitzeu el vostre nom real o un àlies."
 
 #: ../user/account_finish.php:45 ../user/create_account_form.php:108
 msgid "Select the country you want to represent, if any."
@@ -2501,8 +2500,7 @@ msgstr ""
 
 #: ../user/create_account_action.php:53
 msgid "Your reCAPTCHA response was not correct. Please try again."
-msgstr ""
-"La seva resposta reCAPTCHA no es correcte. Si us plau, provi-ho de nou."
+msgstr "La seva resposta reCAPTCHA no es correcte. Si us plau, provi-ho de nou."
 
 #: ../user/create_account_action.php:77
 msgid "You must supply an invitation code to create an account."
@@ -2612,8 +2610,8 @@ msgid ""
 "To replace it, click the \"Browse\" button and select a JPEG or PNG file (%1 "
 "or less)."
 msgstr ""
-"Per canviar-ho, premi el botó \"Navegar\" i seleccioni un arxiu JPEG o PNG "
-"(%1 o menys)."
+"Per canviar-ho, premi el botó \"Navegar\" i seleccioni un arxiu JPEG o PNG (%1 "
+"o menys)."
 
 #: ../user/create_profile.php:69
 msgid "To remove it from your profile, check this box:"
@@ -2625,7 +2623,8 @@ msgid ""
 "button and select a JPEG or PNG file. Please select images of %1 or less."
 msgstr ""
 "Si desitja incloure una imatge en el seu perfil, premi el botó \"Navegar\" i "
-"seleccioni un fitxer JPEG o PNG. Si us plau seleccioni imatges de %1 o menys."
+"seleccioni un fitxer JPEG o PNG. Si us plau seleccioni imatges de %1 o "
+"menys."
 
 #: ../user/create_profile.php:89
 msgid "Language"
@@ -2963,7 +2962,8 @@ msgstr "Les instruccions per instal·lar i executar BOINC es troben %1aquí%2."
 #: ../user/download_network.php:38
 msgid "This list is managed centrally at %1the BOINC website%2."
 msgstr ""
-"Aquesta llista està gestionada per el servidor de la %1pagína web de BOINC%2."
+"Aquesta llista està gestionada per el servidor de la %1pagína web de BOINC%"
+"2."
 
 #: ../user/edit_email_action.php:31
 msgid "Change email address of account"
@@ -2975,8 +2975,7 @@ msgstr "La nova adreça de correu electrònic '%1' es incorrecte."
 
 #: ../user/edit_email_action.php:38
 msgid "New email address is same as existing address. Nothing is changed."
-msgstr ""
-"La nova adreça de correu és la mateixa que l'actual. No ha canviat res."
+msgstr "La nova adreça de correu és la mateixa que l'actual. No ha canviat res."
 
 #: ../user/edit_email_action.php:42
 msgid "There's already an account with that email address"
@@ -3823,8 +3822,8 @@ msgid ""
 "If you have a question or problem, please use the %1Questions & Answers%2 "
 "section of the message boards."
 msgstr ""
-"Si té alguna pregunta o problema, si us plau utilitzi la secció de "
-"%1Preguntes i Respostes%2 dels plafons de missatges."
+"Si té alguna pregunta o problema, si us plau utilitzi la secció de %"
+"1Preguntes i Respostes%2 dels plafons de missatges."
 
 #: ../user/forum_index.php:123
 msgid "Subscribed threads"
@@ -3889,7 +3888,8 @@ msgstr "Per sempre"
 #: ../user/forum_moderate_post.php:96
 msgid "Optional explanation %1 This is included in email to user.%2"
 msgstr ""
-"Explicació opcional %1 Aquesta s'inclou en el correu electrònic a l'usuari.%2"
+"Explicació opcional %1 Aquesta s'inclou en el correu electrònic a l'usuari.%"
+"2"
 
 #: ../user/forum_moderate_post.php:101 ../user/forum_moderate_thread.php:91
 #: ../user/forum_post.php:130 ../user/forum_report_post.php:84
@@ -4040,8 +4040,8 @@ msgid ""
 "Your post has been flagged as spam by the Akismet anti-spam system. Please "
 "modify your text and try again."
 msgstr ""
-"El seu missatge ha estat marcat com a correu brossa pel Akismet sistema anti-"
-"spam. Si us plau, modifiqui el text i torni a intentar-ho."
+"El seu missatge ha estat marcat com a correu brossa pel Akismet sistema "
+"anti-spam. Si us plau, modifiqui el text i torni a intentar-ho."
 
 #: ../user/forum_reply.php:87 ../user/forum_thread.php:154
 #: ../user/forum_thread.php:274
@@ -4599,18 +4599,20 @@ msgid ""
 "<b>C:\\Program Files\\BOINC</b>."
 msgstr ""
 "Aneu al directori de dades de BOINC en el vostre sistema (a Windows en "
-"general és <b>C:\\Documents and Settings\\All Users\\Application Data"
-"\\BOINC</b> o <b>C:\\Program Files\\BOINC</b>."
+"general és <b>C:\\Documents and Settings\\All Users\\Application Data\\BOINC</b> "
+"o <b>C:\\Program Files\\BOINC</b>."
 
 #: ../user/get_passwd.php:51
 msgid "Find your account file for this project; it will be named <b>%1</b>."
 msgstr ""
-"Cerqui l'arxiu del seu compte per a aquest projecte, que s'anomena <b>%1</b>."
+"Cerqui l'arxiu del seu compte per a aquest projecte, que s'anomena <b>%"
+"1</b>."
 
 #: ../user/get_passwd.php:52
 msgid "Open the file in a text editor like Notepad. You'll see something like"
 msgstr ""
-"Obri l'arxiu en un editor de text com el Bloc de notes. Veurà alguna cosa com"
+"Obri l'arxiu en un editor de text com el Bloc de notes. Veurà alguna cosa "
+"com"
 
 #: ../user/get_passwd.php:62
 msgid "Select and Copy the string between %1 and %2 (%3 in the above example)."
@@ -4659,8 +4661,7 @@ msgstr ""
 
 #: ../user/home.php:46
 msgid "If you have not already done so, %1download BOINC client software%2."
-msgstr ""
-"Si encara no ho ha fet, %1descarregui el programari client de BOINC %2."
+msgstr "Si encara no ho ha fet, %1descarregui el programari client de BOINC %2."
 
 #: ../user/home.php:49 ../project.sample/project.inc:46
 msgid "Your account"
@@ -4831,7 +4832,8 @@ msgstr "Ordinadors ocults"
 msgid ""
 "This user has chosen not to show information about his or her computers."
 msgstr ""
-"Aquest usuari ha optat per no mostrar informació sobre ell o els seus equips."
+"Aquest usuari ha optat per no mostrar informació sobre ell o els seus "
+"equips."
 
 #: ../user/hosts_user.php:64
 msgid "Your computers"
@@ -4843,8 +4845,7 @@ msgstr "Etiquetes HTML permeses"
 
 #: ../user/html.php:25
 msgid "The following HTML tags are allowed in team descriptions:"
-msgstr ""
-"Les següents etiquetes HTML estan permeses en les descripcions d'equip:"
+msgstr "Les següents etiquetes HTML estan permeses en les descripcions d'equip:"
 
 #: ../user/html.php:27
 msgid "bold"
@@ -4920,8 +4921,8 @@ msgid ""
 "on its web site. The application programs may change from time to time."
 msgstr ""
 "El treball realitzat per el vostre ordinador contribueix a assolir les fites "
-"de %1, tal i com és descrit a la seva pàgina web. L’aplicació pot canviar en "
-"el temps."
+"de %1, tal i com és descrit a la seva pàgina web. L’aplicació pot canviar "
+"en el temps."
 
 #: ../user/info.php:42
 msgid "Privacy policy"
@@ -4948,11 +4949,11 @@ msgid ""
 "location (e.g. its domain name or network address) will be shown."
 msgstr ""
 "Si participeu a %1, informació respecte el vostre ordinador (com el tipus de "
-"processador, quantitat de memòria, etc.) serà registrada per %1 i utilitzada "
-"per decidir el tipus de feina a assignar al vostre ordinador. Aquesta "
-"informació també es mostrarà a les pàgines web de %1. No es mostrarà res que "
-"pugui revelar la localització del vostre ordinador (per exemple el seu nom "
-"de domini o adreça de xarxa)."
+"processador, quantitat de memòria, etc.) serà registrada per %1 i "
+"utilitzada per decidir el tipus de feina a assignar al vostre ordinador. "
+"Aquesta informació també es mostrarà a les pàgines web de %1. No es mostrarà "
+"res que pugui revelar la localització del vostre ordinador (per exemple el "
+"seu nom de domini o adreça de xarxa)."
 
 #: ../user/info.php:45
 msgid ""
@@ -5951,8 +5952,8 @@ msgid ""
 "Team member %1 requested this team's foundership on %2, but left the team, "
 "thus canceling the request."
 msgstr ""
-"El membre de l'equip %1, va fer una petició al fundador d'aquest equip el "
-"%2, però ha deixat l'equip. per tant es cancel.la la petició."
+"El membre de l'equip %1, va fer una petició al fundador d'aquest equip el %"
+"2, però ha deixat l'equip. per tant es cancel.la la petició."
 
 #: ../user/team_change_founder_form.php:49
 msgid ""
@@ -6020,8 +6021,8 @@ msgstr "Crear un equip"
 msgid ""
 "You belong to %1. You must %2quit this team%3 before creating a new one."
 msgstr ""
-"Vostè pertany a %1. Vostè ha de %2separar-se d'aquest equip%3 abans de crear-"
-"ne un de nou."
+"Vostè pertany a %1. Vostè ha de %2separar-se d'aquest equip%3 abans de "
+"crear-ne un de nou."
 
 #: ../user/team_delta.php:65
 msgid "Not founder or admin"
@@ -6101,8 +6102,7 @@ msgstr "En la seva opció, només els membres ho podran llegir."
 
 #: ../user/team_forum.php:33
 msgid "You and your Team Admins will have moderator privileges."
-msgstr ""
-"Vostè i el seus Administradors d'Equip tindran privilegis de moderador."
+msgstr "Vostè i el seus Administradors d'Equip tindran privilegis de moderador."
 
 #: ../user/team_forum.php:40
 msgid "Create a message board for %1"
@@ -6272,8 +6272,8 @@ msgid ""
 "The founder was notified of your request. If he/she does not respond by %1 "
 "you will be given an option to become founder."
 msgstr ""
-"El fundador va ser notificat de la seva petició. Si ell/ella no respon per "
-"%1 se li donarà l'opció de convertir-se en el fundador."
+"El fundador va ser notificat de la seva petició. Si ell/ella no respon per %"
+"1 se li donarà l'opció de convertir-se en el fundador."
 
 #: ../user/team_founder_transfer_form.php:60
 msgid ""
@@ -6573,7 +6573,8 @@ msgstr "Resultats de la recerca de l'equip"
 #: ../user/team_search.php:94
 msgid "No teams were found matching your criteria. Try another search."
 msgstr ""
-"No s'han trobat equips amb la seu criteri de selecció. Provi una altra cerca."
+"No s'han trobat equips amb la seu criteri de selecció. Provi una altra "
+"cerca."
 
 #: ../user/team_search.php:96
 msgid "Or you can %1create a new team%2."

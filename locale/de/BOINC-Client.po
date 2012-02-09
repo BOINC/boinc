@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-02-09 09:39-0800\n"
-"PO-Revision-Date: 2011-06-20 20:25+0200\n"
+"PO-Revision-Date: 2011-12-06 14:07+0200\n"
 "Last-Translator: Christian <djangofett@gmx.net>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: de\n"
@@ -15,7 +15,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Pootle 2.1.1\n"
+"X-Generator: Pootle 2.1.6\n"
 
 #: acct_mgr.cpp:435 acct_mgr.cpp:444
 #, fuzzy
@@ -174,8 +174,7 @@ msgstr "Der Computertyp wird von diesem Projekt nicht unterstützt."
 
 #: ../sched/sched_send.cpp:1555
 msgid "Newer BOINC version required; please install current version"
-msgstr ""
-"Neuere BOINC Version benötigt. Bitte die neueste Software installieren."
+msgstr "Neuere BOINC Version benötigt. Bitte die neueste Software installieren."
 
 #: ../sched/sched_send.cpp:1565
 msgid ""
@@ -197,7 +196,8 @@ msgstr ""
 msgid ""
 "Tasks for CPU are available, but your preferences are set to not accept them"
 msgstr ""
-"Aufgaben für die CPU sind verfügbar, aber Ihre Einstellungen verbieten diese."
+"Aufgaben für die CPU sind verfügbar, aber Ihre Einstellungen verbieten "
+"diese."
 
 #: ../sched/sched_types.cpp:247
 msgid "Unknown app name in app_info.xml"

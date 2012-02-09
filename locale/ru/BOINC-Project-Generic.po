@@ -7,16 +7,16 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2012-01-16 11:31 PST\n"
-"PO-Revision-Date: 2011-10-10 22:08+0200\n"
+"PO-Revision-Date: 2011-10-10 22:09+0200\n"
 "Last-Translator: Nikolay Saharov <saharovna@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: ru\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
-"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
-"X-Generator: Pootle 2.1.1\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%"
+"10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"X-Generator: Pootle 2.1.6\n"
 "X-Poedit-SourceCharset: utf-8\n"
 
 # The name of this language in this language
@@ -1015,8 +1015,8 @@ msgid ""
 "power mode on some computers %2"
 msgstr ""
 "Приостанавливать обработку, если нет активности мыши/клавиатуры за последние "
-"%1 Необходимо для входа в режим пониженного потребления энергии на некоторых "
-"компьютерах %2"
+"%1 Необходимо для входа в режим пониженного потребления энергии на "
+"некоторых компьютерах %2"
 
 #: ../inc/prefs.inc:113
 msgid ""
@@ -1198,7 +1198,8 @@ msgstr ""
 #: ../inc/prefs.inc:298
 msgid "Accelerate GPU tasks by dedicating a CPU to each one?"
 msgstr ""
-"Ускорить обработку заданий на ГП, используя отдельный ЦП для каждого задания?"
+"Ускорить обработку заданий на ГП, используя отдельный ЦП для каждого "
+"задания?"
 
 #: ../inc/prefs.inc:308
 msgid "Use CPU %1 Enforced by version 6.10+ %2"
@@ -2300,7 +2301,8 @@ msgstr "Проект остановлен для обслуживания"
 #: ../inc/util.inc:753
 msgid "%1 is temporarily shut down for maintenance.  Please try again later."
 msgstr ""
-"%1 временно остановлен для обслуживания. Пожалуйста попробуйте ещё раз позже."
+"%1 временно остановлен для обслуживания. Пожалуйста попробуйте ещё раз "
+"позже."
 
 #: ../inc/util.inc:771
 msgid "Unable to connect to database - please try again later"
@@ -2498,8 +2500,7 @@ msgstr "Не удалось создать учетную запись"
 
 #: ../user/create_account_action.php:29
 msgid "Click your browser's <b>Back</b> button to try again."
-msgstr ""
-"Нажмите кнопку  <b>Назад</b> вашего браузера, чтобы попытаться ещё раз."
+msgstr "Нажмите кнопку  <b>Назад</b> вашего браузера, чтобы попытаться ещё раз."
 
 #: ../user/create_account_action.php:38 ../user/create_account_action.php:40
 #: ../user/create_account_form.php:43
@@ -2639,8 +2640,8 @@ msgid ""
 "If you would like include a picture with your profile, click the \"Browse\" "
 "button and select a JPEG or PNG file. Please select images of %1 or less."
 msgstr ""
-"Если Вы хотите добавить фотографию в ваш профиль, нажмите кнопку \"Обзор..."
-"\" и выберите файл формата JPEG или PNG. Пожалуйста выберите изображения "
+"Если Вы хотите добавить фотографию в ваш профиль, нажмите кнопку \"Обзор...\" "
+"и выберите файл формата JPEG или PNG. Пожалуйста выберите изображения "
 "размером %1 или меньше."
 
 #: ../user/create_profile.php:89
@@ -2930,8 +2931,7 @@ msgstr ""
 
 #: ../user/donations.php:324
 msgid "To assign the donation with your user ID, please log in."
-msgstr ""
-"Чтобы пожертвовать под вашей учётной записью, пожалуйста авторизуйтесь."
+msgstr "Чтобы пожертвовать под вашей учётной записью, пожалуйста авторизуйтесь."
 
 #: ../user/donations.php:328
 msgid "Proceed"
@@ -3438,8 +3438,8 @@ msgid ""
 "The task was reported but could not be validated, typically because the "
 "output files were lost on the server."
 msgstr ""
-"Было сообщено о завершении задания, но его не удалось проверить, обычно из-"
-"за того что выходные файлы были потеряны на сервере."
+"Было сообщено о завершении задания, но его не удалось проверить, обычно "
+"из-за того что выходные файлы были потеряны на сервере."
 
 #: ../user/explain_state.php:80
 msgid "Client states"
@@ -3629,8 +3629,8 @@ msgid ""
 "exhibited trollish behavior."
 msgstr ""
 "Вы действительно хотите заблокировать %1?<br/>%1 не сможет публиковать "
-"сообщения в течение выбранного периода.<br/>Заблокируйте %1 только если он"
-"(а) регулярно ведёт себя как тролль."
+"сообщения в течение выбранного периода.<br/>Заблокируйте %1 только если "
+"он(а) регулярно ведёт себя как тролль."
 
 #: ../user/forum_banishment_vote.php:61
 msgid ""
@@ -3833,8 +3833,8 @@ msgid ""
 "If you have a question or problem, please use the %1Questions & Answers%2 "
 "section of the message boards."
 msgstr ""
-"Если у Вас есть вопрос или проблема, пожалуйста воспользуйтесь разделом "
-"%1Вопросы и ответы%2 этой доски сообщений."
+"Если у Вас есть вопрос или проблема, пожалуйста воспользуйтесь разделом %"
+"1Вопросы и ответы%2 этой доски сообщений."
 
 #: ../user/forum_index.php:123
 msgid "Subscribed threads"
@@ -4622,8 +4622,8 @@ msgstr ""
 #: ../user/get_passwd.php:51
 msgid "Find your account file for this project; it will be named <b>%1</b>."
 msgstr ""
-"Найдите там файл учётной записи для этого проекта; он будет называться <b>"
-"%1</b>."
+"Найдите там файл учётной записи для этого проекта; он будет называться <b>%"
+"1</b>."
 
 #: ../user/get_passwd.php:52
 msgid "Open the file in a text editor like Notepad. You'll see something like"
@@ -4966,10 +4966,10 @@ msgid ""
 msgstr ""
 "Если Вы принимаете участие в %1, информация о Вашем компьютере (такая как "
 "тип процессора, объем оперативной памяти, и т.д.) будет записана проектом %1 "
-"и использована для принятия решения о том, какой тип работы назначить Вашему "
-"компьютеру. Эта информация также будет показана на web-сайте %1. Ничего, что "
-"указывало бы на местонахождение Вашего компьютера (например, его доменное "
-"или сетевое имя), не будет показываться."
+"и использована для принятия решения о том, какой тип работы назначить "
+"Вашему компьютеру. Эта информация также будет показана на web-сайте %1. "
+"Ничего, что указывало бы на местонахождение Вашего компьютера (например, его "
+"доменное или сетевое имя), не будет показываться."
 
 #: ../user/info.php:45
 msgid ""
@@ -5113,8 +5113,8 @@ msgstr "Firefox: Сервис/Настройки/Общие (Tools/Options/Gener
 #: ../user/language_select.php:82
 msgid "Microsoft IE: Tools/Internet Options/Languages"
 msgstr ""
-"Microsoft IE: Сервис/Свойства обозревателя/Языки (Tools/Internet Options/"
-"Languages)"
+"Microsoft IE: Сервис/Свойства обозревателя/Языки (Tools/Internet "
+"Options/Languages)"
 
 #: ../user/language_select.php:86
 msgid ""
@@ -5827,8 +5827,8 @@ msgstr "расформировать команду, в которой нет у
 #: ../user/team.php:40
 msgid "To join a team, visit its team page and click %1Join this team%2."
 msgstr ""
-"Чтобы присоединиться к команде, посетите ее страницу и нажмите "
-"%1Присоединиться к этой команде%2."
+"Чтобы присоединиться к команде, посетите ее страницу и нажмите %"
+"1Присоединиться к этой команде%2."
 
 #: ../user/team.php:41 ../user/team_search.php:179
 msgid "Find a team"
@@ -6243,7 +6243,8 @@ msgid ""
 "page%3 to find the Team Admin options."
 msgstr ""
 "Поздравляем, Вы теперь основатель команды %1. Перейдите на %2страницу вашей "
-"учетной записи%3, чтобы воспользоваться возможностями Администратора команды."
+"учетной записи%3, чтобы воспользоваться возможностями Администратора "
+"команды."
 
 #: ../user/team_founder_transfer_action.php:120
 msgid "Decline founder change request"
@@ -6300,8 +6301,8 @@ msgid ""
 "The founder was notified of your request. If he/she does not respond by %1 "
 "you will be given an option to become founder."
 msgstr ""
-"Основатель был проинформирован о вашем запросе. Если он/она не ответит до "
-"%1, у Вас будет возможность стать основателем."
+"Основатель был проинформирован о вашем запросе. Если он/она не ответит до %"
+"1, у Вас будет возможность стать основателем."
 
 #: ../user/team_founder_transfer_form.php:60
 msgid ""
@@ -6316,8 +6317,8 @@ msgstr ""
 "нажмите на кнопку ниже. Текущему основателю будет отправлено электронное "
 "письмо с подробной информацией о вашем запросе, и у него будет возможность "
 "передать Вам полномочия основателя или отклонить ваш запрос. Если основатель "
-"не ответит в течение 60 дней, у Вас будет возможность стать основателем.<br /"
-"><br />\n"
+"не ответит в течение 60 дней, у Вас будет возможность стать основателем.<br "
+"/><br />\n"
 "                        Вы уверены, что хотите запросить полномочия "
 "основателя?"
 
@@ -6510,8 +6511,8 @@ msgid ""
 "Other resources for BOINC team admins are available from a third-party site, "
 "%1www.boincteams.com%2."
 msgstr ""
-"Администраторам команд BOINC доступны другие ресурсы на стороннем сайте, "
-"%1www.boincteams.com%2."
+"Администраторам команд BOINC доступны другие ресурсы на стороннем сайте, %"
+"1www.boincteams.com%2."
 
 #: ../user/team_manage.php:91
 msgid "Can't delete non-empty team"
