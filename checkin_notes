@@ -1545,3 +1545,11 @@ David  8 Feb 2012
         app_start.cpp
         client_types.cpp
         cs_files.cpp
+
+David  8 Feb 2012
+	- client: fixed a bug in procinfo_app() that would cause processes
+		to be treated as non-BOINC when they actually are,
+		thus falsely triggering CPU-busy suspensions
+
+	lib/
+		procinfo.cpp
