@@ -1553,3 +1553,9 @@ David  8 Feb 2012
 
 	lib/
 		procinfo.cpp
+
+David  9 Feb 2012
+	- client: only check file size if the FILE_INFO specifies it.
+
+	client/
+		cs_files.cpp

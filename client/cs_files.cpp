@@ -466,7 +466,7 @@ void CLIENT_STATE::check_file_existence() {
             get_pathname(fip, path, sizeof(path));
             double size;
             int retval = file_size(path, size);
-            if (retval || size != fip->nbytes)  {
+            if (retval || (fip->nbytes && (size != fip->nbytes))) {
                 delete_project_owned_file(path, true);
                 fip->status = FILE_NOT_PRESENT;
                 msg_printf(NULL, MSG_INFO, "file %s not found", path);
