@@ -270,7 +270,7 @@ This can be done by moving BOINC Manager out of the
 installer traverses the BOINC Data directory and sets the users, groups and 
 permissions of all files as shown in the above table.  This allows it to 
 repair corrupted permissions.  <b>Note</b> that the BOINC installer will 
-<b>change all files</b> in the projects directory, the slots directory, and 
+<b>change all files and subdirectories</b> in the projects directory, the slots directory, and 
 all their subdirectories to <b>user boinc_master</b> and 
 <b>group boinc_project</b>.  This means that:
 <ul>
