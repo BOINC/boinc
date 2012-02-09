@@ -1526,6 +1526,7 @@ bool CLIENT_STATE::update_results() {
             rp->set_state(RESULT_FILES_DOWNLOADING, "CS::update_results");
             action = true;
             break;
+#ifndef SIM
         case RESULT_FILES_DOWNLOADING:
             retval = input_files_available(rp, false);
             if (!retval) {
@@ -1543,6 +1544,7 @@ bool CLIENT_STATE::update_results() {
                 action = true;
             }
             break;
+#endif
         case RESULT_FILES_UPLOADING:
             if (rp->is_upload_done()) {
                 rp->set_ready_to_report();

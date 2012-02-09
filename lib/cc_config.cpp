@@ -63,6 +63,7 @@ int LOG_FLAGS::parse(XML_PARSER& xp) {
 
         if (xp.parse_bool("app_msg_receive", app_msg_receive)) continue;
         if (xp.parse_bool("app_msg_send", app_msg_send)) continue;
+        if (xp.parse_bool("async_file_debug", async_file_debug)) continue;
         if (xp.parse_bool("benchmark_debug", benchmark_debug)) continue;
         if (xp.parse_bool("checkpoint_debug", checkpoint_debug)) continue;
         if (xp.parse_bool("coproc_debug", coproc_debug)) continue;
@@ -108,6 +109,7 @@ int LOG_FLAGS::write(MIOFILE& out) {
         "        <task>%d</task>\n"
         "        <app_msg_receive>%d</app_msg_receive>\n"
         "        <app_msg_send>%d</app_msg_send>\n"
+        "        <async_file_debug>%d</async_file_debug>\n"
         "        <benchmark_debug>%d</benchmark_debug>\n"
         "        <checkpoint_debug>%d</checkpoint_debug>\n"
         "        <coproc_debug>%d</coproc_debug>\n"
@@ -146,6 +148,7 @@ int LOG_FLAGS::write(MIOFILE& out) {
         task ? 1 : 0,
         app_msg_receive ? 1 : 0,
         app_msg_send ? 1 : 0,
+        async_file_debug ? 1 : 0,
         benchmark_debug ? 1 : 0,
         checkpoint_debug  ? 1 : 0,
         coproc_debug ? 1 : 0,

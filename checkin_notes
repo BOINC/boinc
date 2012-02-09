@@ -1526,3 +1526,22 @@ David  8 Feb 2012
 		app_control.cpp
 		app_start.cpp
 		async_file.cpp,h
+
+David  8 Feb 2012
+    - client: on startup, check file size as well as existence
+    - client: add <async_file_debug> log flag
+    - client: do decompress (both sync and async) to a temp file,
+        then rename
+    - client: if a file's status is VERIFY_PENDING on startup,
+        set it to NOT_PRESENT; that will trigger a verify
+    - client: do async copy only if size is above threshold
+
+    lib/
+        cc_config.cpp,h
+    client/
+        client_state.cpp
+        async_file.cpp,h
+        sim.cpp
+        app_start.cpp
+        client_types.cpp
+        cs_files.cpp

@@ -1005,7 +1005,13 @@ int FILE_INFO::parse(XML_PARSER& xp) {
         if (xp.parse_double("nbytes", nbytes)) continue;
         if (xp.parse_double("gzipped_nbytes", gzipped_nbytes)) continue;
         if (xp.parse_double("max_nbytes", max_nbytes)) continue;
-        if (xp.parse_int("status", status)) continue;
+        if (xp.parse_int("status", status)) {
+            // on startup, VERIFY_PENDING is meaningless
+            if (status == FILE_VERIFY_PENDING) {
+                status = FILE_NOT_PRESENT;
+            }
+            continue;
+        }
         if (xp.parse_bool("executable", executable)) continue;
         if (xp.parse_bool("uploaded", uploaded)) continue;
         if (xp.parse_bool("sticky", sticky)) continue;
@@ -1315,14 +1321,17 @@ int FILE_INFO::gzip() {
 //
 int FILE_INFO::gunzip(char* md5_buf) {
     unsigned char buf[BUFSIZE];
-    char inpath[256], outpath[256];
+    char inpath[256], outpath[256], tmppath[256];
     md5_state_t md5_state;
 
     md5_init(&md5_state);
     get_pathname(this, outpath, sizeof(outpath));
     strcpy(inpath, outpath);
     strcat(inpath, ".gz");
-    FILE* out = boinc_fopen(outpath, "wb");
+    strcpy(tmppath, outpath);
+    char* p = strrchr(tmppath, '/');
+    strcpy(p+1, "decompress_temp");
+    FILE* out = boinc_fopen(tmppath, "wb");
     if (!out) return ERR_FOPEN;
     gzFile in = gzopen(inpath, "rb");
     while (1) {
@@ -1345,6 +1354,7 @@ int FILE_INFO::gunzip(char* md5_buf) {
 
     gzclose(in);
     fclose(out);
+    boinc_rename(tmppath, outpath);
     delete_project_owned_file(inpath, true);
     return 0;
 }

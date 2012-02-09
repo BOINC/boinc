@@ -139,6 +139,21 @@ double app_peak_flops(APP_VERSION* avp, double cpu_scale) {
     return x;
 }
 
+double gpu_peak_flops() {
+    double x = 0;
+    for (int i=1; i<coprocs.n_rsc; i++) {
+        x += coprocs.coprocs[i].count * rsc_work_fetch[i].relative_speed * gstate.host_info.p_fpops;
+    }
+    return x;
+}
+
+double cpu_peak_flops() {
+    return gstate.ncpus * gstate.host_info.p_fpops;
+}
+
+double total_peak_flops() {
+    return gpu_peak_flops() + cpu_peak_flops();
+}
 void print_project_results(FILE* f) {
     for (unsigned int i=0; i<gstate.projects.size(); i++) {
         PROJECT* p = gstate.projects[i];

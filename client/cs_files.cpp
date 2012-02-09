@@ -106,6 +106,7 @@ bool FILE_INFO::verify_file_certs() {
     return retval;
 }
 
+#ifndef SIM
 // Check the existence and/or validity of a file.
 // Return 0 if it exists and is valid.
 //
@@ -158,9 +159,11 @@ int FILE_INFO::verify_file(
     int retval;
     double size, local_nbytes;
 
-    msg_printf(project, MSG_INFO, "verify file (%s): %s",
-        verify_contents?"strict":"not strict", name
-    );
+    if (log_flags.async_file_debug) {
+        msg_printf(project, MSG_INFO, "[async] verify file (%s): %s",
+            verify_contents?"strict":"not strict", name
+        );
+    }
 
 	if (status == FILE_VERIFY_PENDING) return ERR_IN_PROGRESS;
 
@@ -331,7 +334,6 @@ int FILE_INFO::verify_file(
     return 0;
 }
 
-#ifndef SIM
 // scan FILE_INFOs and create PERS_FILE_XFERs as needed.
 // NOTE: this doesn't start the file transfers
 // scan PERS_FILE_XFERs and delete finished ones.
@@ -451,7 +453,7 @@ bool CLIENT_STATE::create_and_delete_pers_file_xfers() {
 #endif
 
 // called at startup to ensure that if the core client
-// thinks a file is there, it's actually there
+// thinks a file is there, it actually is, and is the right size
 //
 void CLIENT_STATE::check_file_existence() {
     unsigned int i;
@@ -461,11 +463,11 @@ void CLIENT_STATE::check_file_existence() {
         FILE_INFO* fip = file_infos[i];
         if (fip->status == FILE_PRESENT) {
             get_pathname(fip, path, sizeof(path));
-            if (!boinc_file_exists(path)) {
+            double size;
+            int retval = file_size(path, size);
+            if (retval || size != fip->nbytes)  {
                 fip->status = FILE_NOT_PRESENT;
-                msg_printf(NULL, MSG_INFO,
-                    "file %s not found", path
-                );
+                msg_printf(NULL, MSG_INFO, "file %s not found", path);
             }
         }
     }

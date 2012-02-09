@@ -382,7 +382,7 @@ int ACTIVE_TASK::setup_file(
             if (boinc_file_exists(link_path)) {
                 return 0;
             }
-            if (fip->nbytes > 0) {
+            if (fip->nbytes > ASYNC_FILE_THRESHOLD) {
                 ASYNC_COPY* ac = new ASYNC_COPY;
                 retval = ac->init(this, file_path, link_path);
                 if (retval) return retval;
@@ -492,7 +492,7 @@ int ACTIVE_TASK::start() {
     if (async_copy) {
         if (log_flags.task_debug) {
             msg_printf(wup->project, MSG_INFO,
-                "ACTIVE_TASK::start(): async file copy already in progress"
+                "[task_debug] ACTIVE_TASK::start(): async file copy already in progress"
             );
         }
         return 0;

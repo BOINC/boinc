@@ -62,7 +62,7 @@ struct ASYNC_VERIFY {
     md5_state_t md5_state;
     FILE* in, *out;
     gzFile gzin;
-    char inpath[256];
+    char inpath[1024], temp_path[1024], outpath[1024];
 
 	ASYNC_VERIFY(){};
 	~ASYNC_VERIFY(){};

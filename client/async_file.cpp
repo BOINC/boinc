@@ -46,7 +46,11 @@ int ASYNC_COPY::init(
     atp = _atp;
     strcpy(to_path, _to_path);
 
-    msg_printf(atp->wup->project, MSG_INFO, "started async copy of %s", from_path);
+    if (log_flags.async_file_debug) {
+        msg_printf(atp->wup->project, MSG_INFO,
+            "[async] started async copy of %s", from_path
+        );
+    }
     in = fopen(from_path, "rb");
     if (!in) return ERR_FOPEN;
     strcpy(temp_path, to_path);
@@ -95,7 +99,11 @@ int ASYNC_COPY::copy_chunk() {
             return 1;
         }
 
-        msg_printf(atp->wup->project, MSG_INFO, "async copy of %s finished", to_path);
+        if (log_flags.async_file_debug) {
+            msg_printf(atp->wup->project, MSG_INFO,
+                "[async] async copy of %s finished", to_path
+            );
+        }
     
         atp->async_copy = NULL;
 
@@ -141,18 +149,22 @@ void remove_async_copy(ASYNC_COPY* acp) {
 }
 
 int ASYNC_VERIFY::init(FILE_INFO* _fip) {
-    char outpath[256];
     fip = _fip;
     md5_init(&md5_state);
     get_pathname(fip, inpath, sizeof(inpath));
 
-    msg_printf(fip->project, MSG_INFO,
-        "started async MD5%s of %s",
-        fip->download_gzipped?" and uncompress":"", fip->name
-    );
+    if (log_flags.async_file_debug) {
+        msg_printf(fip->project, MSG_INFO,
+            "[async] started async MD5%s of %s",
+            fip->download_gzipped?" and uncompress":"", fip->name
+        );
+    }
     if (fip->download_gzipped) {
         strcpy(outpath, inpath);
-        out = boinc_fopen(outpath, "wb");
+        strcpy(temp_path, outpath);
+        char* p = strrchr(temp_path, '/');
+        strcpy(p+1, "verify_temp");
+        out = boinc_fopen(temp_path, "wb");
         if (!out) return ERR_FOPEN;
         strcat(inpath, ".gz");
         gzin = gzopen(inpath, "rb");
@@ -200,15 +212,22 @@ void ASYNC_VERIFY::finish() {
             return;
         }
     }
-    msg_printf(fip->project, MSG_INFO, "async verify of %s finished", fip->name);
+    if (log_flags.async_file_debug) {
+        msg_printf(fip->project, MSG_INFO,
+            "[async] async verify of %s finished", fip->name
+        );
+    }
     fip->async_verify = NULL;
     fip->status = FILE_PRESENT;
 }
 
 void ASYNC_VERIFY::error(int retval) {
-    msg_printf(fip->project, MSG_INFO, "async verify of %s failed: %s",
-        fip->name, boincerror(retval)
-    );
+    if (log_flags.async_file_debug) {
+        msg_printf(fip->project, MSG_INFO,
+            "[async] async verify of %s failed: %s",
+            fip->name, boincerror(retval)
+        );
+    }
     fip->async_verify = NULL;
     fip->status = retval;
 }
@@ -224,6 +243,7 @@ int ASYNC_VERIFY::verify_chunk() {
             gzclose(gzin);
             fclose(out);
             delete_project_owned_file(inpath, true);
+            boinc_rename(temp_path, outpath);
             finish();
             return 1;
         } else {

@@ -54,6 +54,8 @@ struct LOG_FLAGS {
         // show shared-mem message from apps
     bool app_msg_send;
         // show shared-mem message to apps
+    bool async_file_debug;
+        // show asynchronous file operations (copy, MD5, decompress)
     bool benchmark_debug;
         // debug CPU benchmarks
     bool checkpoint_debug;
