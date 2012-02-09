@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-01-26 13:27-0800\n"
+"POT-Creation-Date: 2012-02-09 09:39-0800\n"
 "PO-Revision-Date: 2011-04-21 07:56+0200\n"
 "Last-Translator: Gabor Cseh <csega@mailbox.hu>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,15 +17,16 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n !=1);\n"
 "X-Generator: Pootle 2.1.1\n"
 
-#: acct_mgr.cpp:411 acct_mgr.cpp:421
-msgid "error"
-msgstr "hiba"
+#: acct_mgr.cpp:435 acct_mgr.cpp:444
+#, fuzzy
+msgid "Message from account manager"
+msgstr "Üzenet a szervertől"
 
 #: client_msgs.cpp:79
 msgid "Message from server"
 msgstr "Üzenet a szervertől"
 
-#: client_state.cpp:232
+#: client_state.cpp:246
 msgid ""
 "Some tasks need more memory than allowed by your preferences.  Please check "
 "the preferences."
@@ -33,16 +34,16 @@ msgstr ""
 "Néhány feladatnak a beállításokban engedélyezettnél több memóriára van "
 "szüksége. Kérjük, ellenőrizze a beállításokat."
 
-#: client_state.cpp:414
+#: client_state.cpp:482
 msgid "Couldn't write state file; check directory permissions"
 msgstr ""
 "Az állapotadatok nem írhatók; kérjük, ellenőrizze a könyvtár jogosultságait"
 
-#: cs_cmdline.cpp:284
+#: cs_cmdline.cpp:291
 msgid "The HTTP_PROXY environment variable must specify an HTTP proxy"
 msgstr "A HTTP_PROXY környezeti változónak egy HTTP proxy-t kell megadnia"
 
-#: cs_scheduler.cpp:529
+#: cs_scheduler.cpp:546
 #, c-format
 msgid ""
 "You used the wrong URL for this project.  When convenient, remove this "
@@ -51,40 +52,40 @@ msgstr ""
 "Nem megfelelő URL-t adott meg a projekthez. Távolítsa el ezt a projektet, "
 "majd adja hozzá %s-t"
 
-#: cs_statefile.cpp:794 ../sched/sched_types.cpp:273
+#: cs_statefile.cpp:810 ../sched/sched_types.cpp:252
 msgid "Syntax error in app_info.xml"
 msgstr "Szintaktikai hiba az app_info.xml-ben"
 
-#: cs_statefile.cpp:833
+#: cs_statefile.cpp:850
 msgid "File referenced in app_info.xml does not exist: "
 msgstr "A hivatkozott fájl nem létezik az app_info.xml-ben:"
 
-#: current_version.cpp:84
+#: current_version.cpp:89
 msgid "A new version of BOINC is available."
 msgstr "Új BOINC verzió érhető el."
 
-#: current_version.cpp:86
+#: current_version.cpp:91
 msgid "Download it."
 msgstr "Kérjük, töltse le."
 
-#: gui_rpc_server.cpp:191
-msgid "Can't resolve hostname in remote_hosts.cfg"
-msgstr ""
-"Nem sikerült feloldani a gazdaszámítógép nevét a remote_host.cfg fájlban"
-
-#: log_flags.cpp:73 log_flags.cpp:328 log_flags.cpp:461
+#: log_flags.cpp:256 log_flags.cpp:427
 msgid "Unexpected text in cc_config.xml"
 msgstr "Váratlan szöveg a cc_config.xml fájlban"
 
-#: log_flags.cpp:117 log_flags.cpp:433 log_flags.cpp:480
+#: log_flags.cpp:401 log_flags.cpp:453
 msgid "Unrecognized tag in cc_config.xml"
 msgstr "Felismerhetetlen címke a cc_config.xml-ben"
 
-#: log_flags.cpp:452
+#: log_flags.cpp:418
 msgid "Missing start tag in cc_config.xml"
 msgstr "Hiányzó indító ta"
 
-#: log_flags.cpp:488
+#: log_flags.cpp:443
+#, fuzzy
+msgid "Error in cc_config.xml options"
+msgstr "Felismerhetetlen címke a cc_config.xml-ben"
+
+#: log_flags.cpp:461
 msgid "Missing end tag in cc_config.xml"
 msgstr "Hiányzó lezáró címke a cc_config.xml-ben"
 
@@ -94,13 +95,13 @@ msgstr ""
 "Érvénytelen vagy hiányzó fiókkulcs. A hiba kijavításához csatlakoztassa le, "
 "majd adja hozzá újra ezt a projektet."
 
-#: ../sched/handle_request.cpp:822
+#: ../sched/handle_request.cpp:831
 msgid "Invalid code signing key.  To fix, remove and add this project."
 msgstr ""
 "Érvénytelen aláíró kulcs. A hiba kijavításához csatlakozzon le, majd adja "
 "hozzá újra ezt a projektet."
 
-#: ../sched/handle_request.cpp:832
+#: ../sched/handle_request.cpp:841
 msgid ""
 "The project has changed its security key.  Please remove and add this "
 "project."
@@ -108,39 +109,38 @@ msgstr ""
 "A projekt megváltoztatta a biztonsági kulcsát. Kérjük, csatlakoztassa le, "
 "majd adja hozzá újra ezt a projektet."
 
-#: ../sched/handle_request.cpp:916
+#: ../sched/handle_request.cpp:925
 msgid "This project doesn't support operating system"
 msgstr "Ez a projekt nem támogatja az alábbi operációs rendszert"
 
-#: ../sched/handle_request.cpp:942
+#: ../sched/handle_request.cpp:951
 msgid "This project doesn't support CPU type"
 msgstr "Ez a projekt nem támogatja az alábbi CPU típust"
 
-#: ../sched/handle_request.cpp:966
+#: ../sched/handle_request.cpp:975
 msgid ""
 "Your BOINC client software is too old.  Please install the current version."
 msgstr ""
-"Az Ön BOINC kliens szoftvere túl régi. Kérjük, telepítse a jelenlegi "
-"verziót."
+"Az Ön BOINC kliens szoftvere túl régi. Kérjük, telepítse a jelenlegi verziót."
 
-#: ../sched/handle_request.cpp:1217
+#: ../sched/handle_request.cpp:1235
 msgid "This project doesn't support computers of type"
 msgstr "Ez a projekt nem támogatja az alábbí típusú számítógépet"
 
-#: ../sched/sched_send.cpp:1267
+#: ../sched/sched_send.cpp:1365
 msgid "Upgrade to the latest driver to process tasks using your computer's GPU"
 msgstr ""
 "A számítógép GPU-ját használó feladatok futtatásához telepítse a legfrissebb "
 "videókártya illesztőprogramot"
 
-#: ../sched/sched_send.cpp:1274
+#: ../sched/sched_send.cpp:1372
 msgid ""
 "Upgrade to the latest driver to use all of this project's GPU applications"
 msgstr ""
 "Ezen projekt GPU-alkalmazásainak használatához telepítse a legfrissebb "
 "videókártya illesztőprogramot"
 
-#: ../sched/sched_send.cpp:1298
+#: ../sched/sched_send.cpp:1391
 msgid ""
 "A newer version of BOINC is needed to use your NVIDIA GPU; please upgrade to "
 "the current version"
@@ -148,35 +148,34 @@ msgstr ""
 "NVIDIA GPU-jának használatához a BOINC újabb verziója szükséges; kérjük, "
 "telepítse a jelenlegi verziót"
 
-#: ../sched/sched_send.cpp:1311
+#: ../sched/sched_send.cpp:1404
 msgid "An NVIDIA or ATI GPU is required to run tasks for this project"
 msgstr "Ezen projekt feladatainak futtatásához NVIDIA vagy ATI GPU szükséges"
 
-#: ../sched/sched_send.cpp:1316
+#: ../sched/sched_send.cpp:1409
 msgid "An NVIDIA GPU is required to run tasks for this project"
 msgstr "Ezen projekt feladatinak futtatásához NVIDIA GPU szükséges"
 
-#: ../sched/sched_send.cpp:1322
+#: ../sched/sched_send.cpp:1415
 msgid "An ATI GPU is required to run tasks for this project"
 msgstr "Ezen projekt feladatainak futtatásához ATI GPU szükséges"
 
-#: ../sched/sched_send.cpp:1417
-msgid ""
-"No work available for the applications you have selected.  Please check your "
-"project preferences on the web site."
+#: ../sched/sched_send.cpp:1523
+#, fuzzy
+msgid "No tasks are available for the applications you have selected."
 msgstr ""
 "Az Ön által kiválasztott alkalmazásokhoz nincs elérhető munka. Kérjük, "
 "ellenőrizze a beállításokat a projekt weboldalán."
 
-#: ../sched/sched_send.cpp:1443
+#: ../sched/sched_send.cpp:1549
 msgid "Your computer type is not supported by this project"
 msgstr "Ez a projekt nem támogatja az ön számítógéptípusát"
 
-#: ../sched/sched_send.cpp:1449
+#: ../sched/sched_send.cpp:1555
 msgid "Newer BOINC version required; please install current version"
 msgstr "Újabb BOINC verzió szükséges, töltse le a legfrissebbet"
 
-#: ../sched/sched_send.cpp:1459
+#: ../sched/sched_send.cpp:1565
 msgid ""
 "Tasks for NVIDIA GPU are available, but your preferences are set to not "
 "accept them"
@@ -184,7 +183,7 @@ msgstr ""
 "Feladatok elérhetőek NVIDIA GPU-ra, de az Ön beállításai nem teszik lehetővé "
 "az elfogadásukat."
 
-#: ../sched/sched_send.cpp:1465
+#: ../sched/sched_send.cpp:1571
 msgid ""
 "Tasks for ATI GPU are available, but your preferences are set to not accept "
 "them"
@@ -192,14 +191,14 @@ msgstr ""
 "Feladatok elérhetőek ATI GPU-ra, de az Ön beállításai nem teszik lehetővé az "
 "elfogadásukat."
 
-#: ../sched/sched_send.cpp:1471
+#: ../sched/sched_send.cpp:1577
 msgid ""
 "Tasks for CPU are available, but your preferences are set to not accept them"
 msgstr ""
 "Feladatok elérhetőek CPU-ra, de az Ön beállításai nem teszik lehetővé az "
 "elfogadásukat."
 
-#: ../sched/sched_types.cpp:268
+#: ../sched/sched_types.cpp:247
 msgid "Unknown app name in app_info.xml"
 msgstr "Ismeretlen alkalmazásnév az app_info.xml fájlban"
 
@@ -208,9 +207,15 @@ msgid "Your app_info.xml file doesn't have a usable version of"
 msgstr ""
 "Az app_info.xml fájljának nincsen használható verziója erről a projektről:"
 
-#: ../sched/sched_version.cpp:709
-msgid "is not available for"
-msgstr "nem érhető el"
+#~ msgid "error"
+#~ msgstr "hiba"
+
+#~ msgid "Can't resolve hostname in remote_hosts.cfg"
+#~ msgstr ""
+#~ "Nem sikerült feloldani a gazdaszámítógép nevét a remote_host.cfg fájlban"
+
+#~ msgid "is not available for"
+#~ msgstr "nem érhető el"
 
 #~ msgid "Notice from BOINC"
 #~ msgstr "Üzenetek a BOINCtól"

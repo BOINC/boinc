@@ -7,8 +7,8 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2011-04-04 22:09 PDT\n"
-"PO-Revision-Date: 2011-11-12 14:30+0200\n"
-"Last-Translator: z-tech <zamber@email.it>\n"
+"PO-Revision-Date: 2011-11-17 10:02+0200\n"
+"Last-Translator: Gianfranco <costamagnagianfranco@yahoo.it>\n"
 "Language-Team: \n"
 "Language: it\n"
 "MIME-Version: 1.0\n"
@@ -55,7 +55,6 @@ msgid "Biology and Medicine"
 msgstr "Biologia e Medicina"
 
 #: projects.inc:30
-#, fuzzy
 msgid "POEM@HOME"
 msgstr "POEM@HOME"
 
@@ -470,7 +469,6 @@ msgstr ""
 "organizzazioni internazionali."
 
 #: projects.inc:206
-#, fuzzy
 msgid "LHC@home"
 msgstr "LHC@home"
 
@@ -771,7 +769,6 @@ msgstr ""
 "utilizzando tecniche di tipo Monte Carlo Quantistico."
 
 #: projects.inc:334
-#, fuzzy
 msgid "ABC@home"
 msgstr "ABC@home"
 
