@@ -1567,3 +1567,11 @@ David  9 Feb 2012
     sched/
         sched_customize.cpp
         file_upload_handler.cpp
+
+Rom    9 Feb 2012
+    - Tag for 7.0.15 release, all platforms
+      boinc_core_release_7_0_15
+
+    /
+        configure.ac
+        version.h
