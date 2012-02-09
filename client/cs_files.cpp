@@ -43,6 +43,7 @@
 #include "client_state.h"
 #include "client_msgs.h"
 #include "file_xfer.h"
+#include "sandbox.h"
 
 using std::vector;
 
@@ -466,6 +467,7 @@ void CLIENT_STATE::check_file_existence() {
             double size;
             int retval = file_size(path, size);
             if (retval || size != fip->nbytes)  {
+                delete_project_owned_file(path, true);
                 fip->status = FILE_NOT_PRESENT;
                 msg_printf(NULL, MSG_INFO, "file %s not found", path);
             }
