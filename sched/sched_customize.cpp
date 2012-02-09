@@ -152,7 +152,9 @@ static bool ati_check(COPROC_ATI& c, HOST_USAGE& hu,
     double cpu_frac,    // fraction of FLOPS performed by CPU
     double flops_scale
 ) {
-    ati_requirements.update(min_driver_version, min_ram);
+    if (c.version_num) {
+        ati_requirements.update(min_driver_version, min_ram);
+    }
 
     if (need_amd_libs) {
         if (!c.amdrt_detected) {
@@ -276,7 +278,9 @@ static bool cuda_check(COPROC_NVIDIA& c, HOST_USAGE& hu,
     if (cc < min_cc) return false;
     if (max_cc && cc >= max_cc) return false;
 
-    cuda_requirements.update(min_driver_version, min_ram);
+    if (c.display_driver_version) {
+        cuda_requirements.update(min_driver_version, min_ram);
+    }
 
     // Old BOINC clients report display driver version;
     // newer ones report CUDA RT version.

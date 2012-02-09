@@ -1559,3 +1559,11 @@ David  9 Feb 2012
 
 	client/
 		cs_files.cpp
+
+David  9 Feb 2012
+    - scheduler: don't send "update GPU driver" messages if
+        the client didn't report a driver version #
+
+    sched/
+        sched_customize.cpp
+        file_upload_handler.cpp

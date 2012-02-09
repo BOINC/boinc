@@ -304,12 +304,12 @@ int handle_file_upload(FILE* in, R_RSA_PUBLIC_KEY& key) {
             "<name>%s</name><max_nbytes>%.0f</max_nbytes>",
             name, max_nbytes
         );
-        retval = verify_string(
+        retval = check_string_signature(
             signed_xml, xml_signature, key, is_valid
         );
         if (retval || !is_valid) {
             log_messages.printf(MSG_CRITICAL,
-                "verify_string() [%s] [%s] retval %d, is_valid = %d\n",
+                "check_string_signature() [%s] [%s] retval %d, is_valid = %d\n",
                 signed_xml, xml_signature,
                 retval, is_valid
             );
