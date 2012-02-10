@@ -1575,3 +1575,11 @@ Rom    9 Feb 2012
     /
         configure.ac
         version.h
+
+David  9 Feb 2012
+    - client (Unix): don't print misleading "task exited with no finish file"
+        message if task actually called boinc_temporary_exit().
+
+    client/
+        app_start.cpp
+        app_control.cpp

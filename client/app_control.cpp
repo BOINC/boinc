@@ -408,21 +408,6 @@ void ACTIVE_TASK::handle_exited_app(int stat) {
         if (WIFEXITED(stat)) {
             result->exit_status = WEXITSTATUS(stat);
 
-            if (result->exit_status) {
-                set_task_state(PROCESS_EXITED, "handle_exited_app");
-                gstate.report_result_error(
-                    *result,
-                    "process exited with code %d (0x%x, %d)",
-                    result->exit_status, result->exit_status,
-                    (-1<<8)|result->exit_status
-                );
-            } else {
-                if (finish_file_present()) {
-                    set_task_state(PROCESS_EXITED, "handle_exited_app");
-                } else {
-                    handle_premature_exit(will_restart);
-                }
-            }
             double x;
             if (temporary_exit_file_present(x)) {
                 if (log_flags.task_debug) {
@@ -439,6 +424,21 @@ void ACTIVE_TASK::handle_exited_app(int stat) {
                         "[task] process exited with status %d\n",
                         result->exit_status
                     );
+                }
+                if (result->exit_status) {
+                    set_task_state(PROCESS_EXITED, "handle_exited_app");
+                    gstate.report_result_error(
+                        *result,
+                        "process exited with code %d (0x%x, %d)",
+                        result->exit_status, result->exit_status,
+                        (-1<<8)|result->exit_status
+                    );
+                } else {
+                    if (finish_file_present()) {
+                        set_task_state(PROCESS_EXITED, "handle_exited_app");
+                    } else {
+                        handle_premature_exit(will_restart);
+                    }
                 }
             }
         } else if (WIFSIGNALED(stat)) {

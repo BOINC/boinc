@@ -614,7 +614,7 @@ int ACTIVE_TASK::start() {
     link_user_files();
         // don't check retval here
 
-    // make sure temporary exit file isn't there
+    // remove temporary exit file from last run
     //
     sprintf(file_path, "%s/%s", slot_dir, TEMPORARY_EXIT_FILE);
     delete_project_owned_file(file_path, true);
