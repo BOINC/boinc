@@ -15,7 +15,15 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-// APIs for volunteer data archival (VDA)
+// classes for volunteer data archival (VDA)
+//
+// Note: these classes are used by both the simulator (ssim.cpp)
+// and the VDA daemon (vdad.cpp)
+
+#include <set>
+#include <vector>
+
+#include "boinc_db.h"
 
 // parameters of 1 level of coding
 //
@@ -38,3 +46,104 @@ struct POLICY {
 
     int parse(const char*);
 };
+
+// keeps track of a time-varying property of a file
+// (server disk usage, up/download rate, fault tolerance level)
+//
+
+typedef enum {DISK, NETWORK, FAULT_TOLERANCE} STATS_KIND;
+
+struct STATS_ITEM {
+    STATS_KIND kind;
+    double value;
+    double integral;
+    double extreme_val;
+    double extreme_val_time;
+    double prev_t;
+    double start_time;
+    bool first;
+    char name[256];
+    FILE* f;
+
+    void init(const char* n, const char* filename, STATS_KIND k);
+    void sample(double v, bool collecting_stats, double now);
+    void sample_inc(double inc, bool collecting_stats, double now);
+    void print(double now);
+    void print_summary(FILE* f, double now);
+};
+
+struct VDA_FILE_AUX : VDA_FILE {
+    POLICY policy;
+
+    // the following stuff is for the simulator
+    double accounting_start_time;
+    STATS_ITEM disk_usage;
+    STATS_ITEM upload_rate;
+    STATS_ITEM download_rate;
+    STATS_ITEM fault_tolerance;
+
+    int pending_init_downloads;
+        // # of initial downloads pending.
+        // When this is zero, we start collecting stats for the file
+
+    inline bool collecting_stats() {
+        return (pending_init_downloads == 0);
+    }
+};
+
+#define PRESENT 0
+#define RECOVERABLE 1
+#define UNRECOVERABLE 2
+
+// base class for chunks and meta-chunks
+//
+struct DATA_UNIT {
+    virtual void recovery_plan(){};
+    virtual void recovery_action(double){};
+    int status;
+    bool in_recovery_set;
+    bool data_now_present;
+    bool data_needed;
+    double cost;
+    int min_failures;
+        // min # of host failures that would make this unrecoverable
+    char name[64];
+};
+
+struct META_CHUNK : DATA_UNIT {
+    std::vector<DATA_UNIT*> children;
+    META_CHUNK* parent;
+    int n_children_present;
+    bool have_unrecoverable_children;
+    VDA_FILE_AUX* dfile;
+    bool uploading;
+    CODING coding;
+
+    META_CHUNK(
+        VDA_FILE_AUX* d, META_CHUNK* par, double size,
+        int coding_level, int index
+    );
+
+    virtual void recovery_plan();
+    virtual void recovery_action(double);
+};
+
+struct CHUNK : DATA_UNIT {
+    std::set<VDA_CHUNK_HOST*> hosts;
+    META_CHUNK* parent;
+    double size;
+    bool present_on_server;
+
+    CHUNK(META_CHUNK* mc, double s, int index);
+
+    void start_upload();
+    void host_failed(VDA_CHUNK_HOST* p);
+    bool download_in_progress();
+    void upload_complete();
+    void download_complete();
+    void assign();
+    virtual void recovery_plan();
+    virtual void recovery_action(double);
+};
+
+extern char* time_str(double);

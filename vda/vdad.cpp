@@ -174,6 +174,16 @@ bool scan_chunks() {
     return found;
 }
 
+void CHUNK::assign() {
+}
+
+bool CHUNK::download_in_progress() {
+    return false;
+}
+
+void CHUNK::start_upload() {
+}
+
 int main(int argc, char** argv) {
     VDA_FILE vf;
     strcpy(vf.dir, "/mydisks/b/users/boincadm/vda_test");

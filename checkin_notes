@@ -1583,3 +1583,12 @@ David  9 Feb 2012
     client/
         app_start.cpp
         app_control.cpp
+
+David  9 Feb 2012
+    - storage stuff
+
+    vda/
+        vdad.cpp
+        vdad_lib.cpp,h
+        ssim.cpp
+        makefile
