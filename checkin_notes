@@ -1600,3 +1600,11 @@ Charlie 10 Feb 2012
 
     client/
         coproc_detect.cpp
+
+Charlie 11 Feb 2012
+    - MGR: Fix a bug which pushed modal dialogs (Attach Wizard) to rear when 
+        Manager process was brought to front from behind (Mac only.)  This 
+        bug was probably introduced in Z-order tweak of 23 Jan 2012.
+
+    clientgui/
+        BOINCGUIApp.cpp
