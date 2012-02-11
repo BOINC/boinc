@@ -1592,3 +1592,11 @@ David  9 Feb 2012
         vdad_lib.cpp,h
         ssim.cpp
         makefile
+
+Charlie 10 Feb 2012
+    - client: If OpenCL but no CAL or no CUDA, copy GPU model name from OpenCL so 
+        it will apppear in the host table's serialnum attributes (requested by 
+        Oliver Bock.)
+
+    client/
+        coproc_detect.cpp

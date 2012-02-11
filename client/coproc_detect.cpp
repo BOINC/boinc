@@ -421,6 +421,7 @@ strcpy(prop.opencl_driver_version, "CLH 1.0");
         nvidia.prop.totalGlobalMem = nvidia.opencl_prop.global_mem_size;
         nvidia.available_ram = nvidia.opencl_prop.global_mem_size;
         nvidia.prop.clockRate = nvidia.opencl_prop.max_clock_frequency * 1000;
+        strcpy(nvidia.prop.name, prop.name);
     }
 
 #if DEBUGFOROLIVER
@@ -459,6 +460,8 @@ strcpy(prop.opencl_driver_version, "CLH 1.0");
         ati.attribs.localRAM = ati.opencl_prop.global_mem_size/MEGA;
         ati.available_ram = ati.opencl_prop.global_mem_size;
         ati.attribs.engineClock = ati.opencl_prop.max_clock_frequency;
+        strcpy(ati.name, prop.name);
+
     }           // End if (! ati.have_cal)
 
     // Create descriptions for OpenCL ATI GPUs
