@@ -1643,3 +1643,9 @@ Charlie 13 Feb 2012
     
     clientgui/skins/Progress Thru Processors/
         skin.xml
+
+Charlie 13 Feb 2012
+    - client: Try to fix incorrect NVIDIA device number in OpenCL descriptions. 
+
+    client/
+        coproc_detect.cpp
