@@ -179,7 +179,6 @@ struct CHUNK_ON_HOST : VDA_CHUNK_HOST, EVENT {
 // The associated EVENT is the arrival of the file
 //
 struct SIM_FILE : VDA_FILE_AUX, EVENT {
-    META_CHUNK* meta_chunk;
     double size;
     int id;
 #if 0

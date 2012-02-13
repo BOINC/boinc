@@ -1621,3 +1621,18 @@ David  12 Feb 2012
 		client_state.cpp
 		log_flags.cpp
 		pers_file_xfer.cpp
+
+David  12 Feb 2012
+    - storage stuff
+    - client: message tweak
+
+    lib/
+        crypt_prog.cpp
+        susp.cpp (deleted)
+    vda/
+        vda_lib2.cpp (new)
+        vda_lib.h
+        ssim.cpp
+        makefile
+    client/
+        cpu_sched.cpp

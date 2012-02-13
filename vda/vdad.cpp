@@ -140,6 +140,8 @@ int handle_file(VDA_FILE& vf) {
     return 0;
 }
 
+// handle files
+//
 bool scan_files() {
     DB_VDA_FILE vf;
     bool found = false;
@@ -159,8 +161,11 @@ bool scan_files() {
 }
 
 void handle_chunk(VDA_CHUNK_HOST& ch) {
+    DB_VDA_FILE
 }
 
+// handle timed-out transfers
+//
 bool scan_chunks() {
     DB_VDA_CHUNK_HOST ch;
     char buf[256];
@@ -172,16 +177,6 @@ bool scan_chunks() {
         handle_chunk(ch);
     }
     return found;
-}
-
-void CHUNK::assign() {
-}
-
-bool CHUNK::download_in_progress() {
-    return false;
-}
-
-void CHUNK::start_upload() {
 }
 
 int main(int argc, char** argv) {

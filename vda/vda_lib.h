@@ -72,8 +72,11 @@ struct STATS_ITEM {
     void print_summary(FILE* f, double now);
 };
 
+struct META_CHUNK;
+
 struct VDA_FILE_AUX : VDA_FILE {
     POLICY policy;
+    META_CHUNK* meta_chunk;
 
     // the following stuff is for the simulator
     double accounting_start_time;

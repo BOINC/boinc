@@ -567,7 +567,7 @@ static void update_rec() {
         if (log_flags.priority_debug) {
             double dt = gstate.now - gstate.debt_interval_start;
             msg_printf(p, MSG_INFO,
-                "[debt] recent est credit: %.2fG in %.2f sec, %f + %f ->%f",
+                "[prio] recent est credit: %.2fG in %.2f sec, %f + %f ->%f",
                 x, dt, old, p->pwf.rec-old, p->pwf.rec
             );
         }
