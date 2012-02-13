@@ -1750,6 +1750,7 @@ int CLIENT_STATE::reset_project(PROJECT* project, bool detaching) {
             i--;
         }
     }
+    project->last_upload_start = 0;
 
     // if we're in the middle of a scheduler op to the project, abort it
     //

@@ -90,19 +90,14 @@ int PERS_FILE_XFER::create_xfer() {
     FILE_XFER *file_xfer;
     int retval;
 
-    // Decide whether to start a new file transfer
-    //
-    if (!gstate.start_new_file_xfer(*this)) {
-        return ERR_IDLE_PERIOD;
-    }
-
     // if download, see if file already exists and is valid
     //
     if (!is_upload) {
         char pathname[256];
         get_pathname(fip, pathname, sizeof(pathname));
 
-        if (!fip->verify_file(true, false, true)) {
+        retval = fip->verify_file(true, false, true);
+        if (!retval) {
             retval = fip->set_permissions();
             fip->status = FILE_PRESENT;
             pers_xfer_done = true;
@@ -115,12 +110,21 @@ int PERS_FILE_XFER::create_xfer() {
             }
 
             return 0;
+        } else if (retval == ERR_IN_PROGRESS) {
+            pers_xfer_done = true;
+            return ERR_IN_PROGRESS;
         } else {
             // Mark file as not present but don't delete it.
             // It might be partly downloaded.
             //
             fip->status = FILE_NOT_PRESENT;
         }
+    }
+
+    // Decide whether to start a new file transfer
+    //
+    if (!gstate.start_new_file_xfer(*this)) {
+        return ERR_IDLE_PERIOD;
     }
 
     URL_LIST& ul = fip->get_url_list(is_upload);

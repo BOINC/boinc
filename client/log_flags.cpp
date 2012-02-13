@@ -70,6 +70,7 @@ void LOG_FLAGS::show() {
 
     show_flag(buf, app_msg_receive, "app_msg_receive");
     show_flag(buf, app_msg_send, "app_msg_send");
+    show_flag(buf, async_file_debug, "async_file_debug");
     show_flag(buf, benchmark_debug, "benchmark_debug");
     show_flag(buf, checkpoint_debug, "checkpoint_debug");
     show_flag(buf, coproc_debug, "coproc_debug");

@@ -1608,3 +1608,16 @@ Charlie 11 Feb 2012
 
     clientgui/
         BOINCGUIApp.cpp
+
+David  12 Feb 2012
+	- client: zero PROJECT::last_upload_start on reset,
+		so that we can fetch work immediately
+	- client: in PERS_FILE_XFER::create_xfer(),
+		check for already-existing file before seeing we're allowed to start a new xfer
+	- client: in PERS_FILE_XFER::create_xfer(),
+		if an async verify is in progress, mark PERS_FILE_XFER as done.
+
+	client/
+		client_state.cpp
+		log_flags.cpp
+		pers_file_xfer.cpp
