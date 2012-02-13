@@ -1636,3 +1636,10 @@ David  12 Feb 2012
         makefile
     client/
         cpu_sched.cpp
+
+Charlie 13 Feb 2012
+    - MGR: Fix bad <organization_help_url> in Progress Through Processor's 
+        skin files provided by Matt Blumberg on 9 December 2011.
+    
+    clientgui/skins/Progress Thru Processors/
+        skin.xml
