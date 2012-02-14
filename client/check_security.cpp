@@ -521,6 +521,7 @@ static int CheckNestedDirectories(char * basepath, int depth,
             retval = -1200;
         }
     }
+
     while (dirp) {              // Skip this if dirp == NULL, else loop until break
         dp = readdir(dirp);
         if (dp == NULL)
@@ -604,7 +605,9 @@ static int CheckNestedDirectories(char * basepath, int depth,
 
     }       // End while (true)
 
-    closedir(dirp);
+    if (dirp) {
+        closedir(dirp);
+    }
     
     if (retval && !errShown) {
         fprintf(stderr, "Permissions error %d at %s\n", retval, full_path);
