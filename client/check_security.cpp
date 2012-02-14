@@ -513,8 +513,14 @@ static int CheckNestedDirectories(char * basepath, int depth,
     static int      errShown = 0;
 
     dirp = opendir(basepath);
-    if (dirp == NULL)           // Should never happen
-        retval = -1200;
+    if (dirp == NULL) {           // Should never happen
+        strlcpy(full_path, basepath, sizeof(full_path));
+        if ((depth > 1) && (errno == EACCES)) {
+            return 0;
+        } else {
+            retval = -1200;
+        }
+    }
     
     while (dirp) {              // Skip this if dirp == NULL, else loop until break
         dp = readdir(dirp);
@@ -586,7 +592,10 @@ static int CheckNestedDirectories(char * basepath, int depth,
         
         if (isDirectory && !S_ISLNK(sbuf.st_mode)) {
             if (use_sandbox && (depth > 1)) {
+#if 0   // No longer check project-created subdirectories under project or slot directories 
+        // because we have not told projects these must be readable and executable by group
                 if ((! isManager) && (sbuf.st_uid != boinc_master_uid))
+#endif
                     continue;       // Client can't check subdirectories owned by boinc_project
             }
             retval = CheckNestedDirectories(full_path, depth + 1, use_sandbox, isManager, path_to_error);
@@ -596,7 +605,9 @@ static int CheckNestedDirectories(char * basepath, int depth,
 
     }       // End while (true)
 
-    closedir(dirp);
+    if (dirp) {
+        closedir(dirp);
+    }
     
     if (retval && !errShown) {
         fprintf(stderr, "Permissions error %d at %s\n", retval, full_path);
