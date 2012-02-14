@@ -247,7 +247,7 @@
 		<wizards>  
 			<attach_to_project>
 				<!-- title displayed on the attach to project wizard -->
-				<title></title> 
+				<title>Charity Engine Desktop - Attach to Project</title> 
 				<!-- logo displayed on the attach to project wizard -->
 				<logo>graphic/ce_wizard_bar.png</logo>  
 			</attach_to_project>
