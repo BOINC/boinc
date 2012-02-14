@@ -184,7 +184,7 @@ int SCHED_SHMEM::scan_tables() {
     }
 
     n = 0;
-    while (!assignment.enumerate("multi <> 0")) {
+    while (!assignment.enumerate("where multi <> 0")) {
         assignments[n++] = assignment;
         if (n == MAX_ASSIGNMENTS) {
             overflow("assignments", "MAX_ASSIGNMENTS");

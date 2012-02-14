@@ -1404,12 +1404,12 @@ David  6 Feb 2012
         cs_files.cpp
 
 David  6 Feb 2012
-	- client: async file stuff.
-		async decompress/verify seems to be working
+    - client: async file stuff.
+        async decompress/verify seems to be working
 
-	client/
-		async_file.cpp,h
-		gui_http.cpp
+    client/
+        async_file.cpp,h
+        gui_http.cpp
 
 Charlie 6 Feb 2012
     - client: remove "GPU n is OpenCL-capable" messages.  They were 
@@ -1434,27 +1434,27 @@ David  7 Feb 2012
         bolt_refresh.php
 
 David  7 Feb 2012
-	- async file stuff.  mostly working.  still a few bugs
+    - async file stuff.  mostly working.  still a few bugs
 
-	client/
-		cs_apps.cpp
-		http_curl.cpp
-	clientgui/
-		AccountManagerPropertiesPage.cpp
-		ProjectPropertiesPage.cpp
-	lib/
-		str_util.h
+    client/
+        cs_apps.cpp
+        http_curl.cpp
+    clientgui/
+        AccountManagerPropertiesPage.cpp
+        ProjectPropertiesPage.cpp
+    lib/
+        str_util.h
 
 David  7 Feb 2012
-	- client: async file stuff
-		- set threshold at 10 MB for doing things asynchronously
-		- don't count VERIFY_PENDING as failure
+    - client: async file stuff
+        - set threshold at 10 MB for doing things asynchronously
+        - don't count VERIFY_PENDING as failure
 
-	client/
-		async_file.h
-		client_state.cpp
-		client_types.cpp,h
-		cs_apps.cpp
+    client/
+        async_file.h
+        client_state.cpp
+        client_types.cpp,h
+        cs_apps.cpp
 
 Charlie 7 Feb 2012
     - client: Fix bug in setting opencl_device_index.
@@ -1517,15 +1517,15 @@ Rom    8 Feb 2012
         vboxwrapper.cpp
 
 David  8 Feb 2012
-	- client: bug fix for async file ops:
-		set up files in slot dir when starting an app,
-		whether or not it's the first time
+    - client: bug fix for async file ops:
+        set up files in slot dir when starting an app,
+        whether or not it's the first time
 
-	client/
-		app.h
-		app_control.cpp
-		app_start.cpp
-		async_file.cpp,h
+    client/
+        app.h
+        app_control.cpp
+        app_start.cpp
+        async_file.cpp,h
 
 David  8 Feb 2012
     - client: on startup, check file size as well as existence
@@ -1547,18 +1547,18 @@ David  8 Feb 2012
         cs_files.cpp
 
 David  8 Feb 2012
-	- client: fixed a bug in procinfo_app() that would cause processes
-		to be treated as non-BOINC when they actually are,
-		thus falsely triggering CPU-busy suspensions
+    - client: fixed a bug in procinfo_app() that would cause processes
+        to be treated as non-BOINC when they actually are,
+        thus falsely triggering CPU-busy suspensions
 
-	lib/
-		procinfo.cpp
+    lib/
+        procinfo.cpp
 
 David  9 Feb 2012
-	- client: only check file size if the FILE_INFO specifies it.
+    - client: only check file size if the FILE_INFO specifies it.
 
-	client/
-		cs_files.cpp
+    client/
+        cs_files.cpp
 
 David  9 Feb 2012
     - scheduler: don't send "update GPU driver" messages if
@@ -1610,17 +1610,17 @@ Charlie 11 Feb 2012
         BOINCGUIApp.cpp
 
 David  12 Feb 2012
-	- client: zero PROJECT::last_upload_start on reset,
-		so that we can fetch work immediately
-	- client: in PERS_FILE_XFER::create_xfer(),
-		check for already-existing file before seeing we're allowed to start a new xfer
-	- client: in PERS_FILE_XFER::create_xfer(),
-		if an async verify is in progress, mark PERS_FILE_XFER as done.
+    - client: zero PROJECT::last_upload_start on reset,
+        so that we can fetch work immediately
+    - client: in PERS_FILE_XFER::create_xfer(),
+        check for already-existing file before seeing we're allowed to start a new xfer
+    - client: in PERS_FILE_XFER::create_xfer(),
+        if an async verify is in progress, mark PERS_FILE_XFER as done.
 
-	client/
-		client_state.cpp
-		log_flags.cpp
-		pers_file_xfer.cpp
+    client/
+        client_state.cpp
+        log_flags.cpp
+        pers_file_xfer.cpp
 
 David  12 Feb 2012
     - storage stuff
@@ -1670,3 +1670,9 @@ Charlie 13 Feb 2012
         
     client/
         check_security.cpp
+
+David  14 Feb 2012
+    - scheduler: fix bug that broke broadcast jobs (from Kevin)
+
+    sched/
+        sched_shmem.cpp
