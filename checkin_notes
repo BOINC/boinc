@@ -7250,3 +7250,12 @@ Charlie 13 Feb 2012
             skin.xml
         Charity Engine/
             skin.xml
+
+Charlie 13 Feb 2012
+    - Mac sandbox: In initial permissions check when launching Manager or Client, 
+        don't check project-created subdirectories under project or slot 
+        directories because we have not told projects these must be readable and 
+        executable by group.
+        
+    client/
+        check_security.cpp
