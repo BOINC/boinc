@@ -61,10 +61,9 @@ public:
     char os_name[256];
     char os_version[256];
 
-    // the following are non-empty if that VM system is installed
+    // the following is non-empty if VBox is installed
     //
     char virtualbox_version[256];
-    // ... add entries for VMWare, others
 
     COPROCS _coprocs;
 

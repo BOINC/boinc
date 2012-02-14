@@ -1676,3 +1676,13 @@ David  14 Feb 2012
 
     sched/
         sched_shmem.cpp
+
+David  14 Feb 2012
+    - assimilator: when enumerating results for a WU, check retval.
+        Otherwise we might get a partial list,
+        which screws up assimilation logic.
+
+    sched/
+        assimilator.cpp
+    lib/
+        hostinfo.h
