@@ -7240,11 +7240,13 @@ Charlie 13 Feb 2012
         skin.xml
 
 Charlie 13 Feb 2012
-    - MGR: Update <organization_*> tags in 2 branded skins (GR, PtP) to 
+    - MGR: Update <organization_*> tags in 3 branded skins (GR, PtP, CE) to 
         new values from Matt Blumberg.
     
     clientgui/skins/
         GridRepublic/
             skin.xml
         Progress Thru Processors/
+            skin.xml
+        Charity Engine/
             skin.xml
