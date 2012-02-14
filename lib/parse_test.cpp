@@ -8,7 +8,8 @@ void parse(FILE* f) {
     bool flag;
     MIOFILE mf;
     XML_PARSER xp(&mf);
-    char name[256];
+    char name[64];
+    char foo[64];
     int val;
     double x;
 
@@ -17,6 +18,7 @@ void parse(FILE* f) {
         printf("missing start tag\n");
         return;
     }
+    strcpy(foo, "xxx");
     while (!xp.get_tag()) {
         if (!xp.is_tag) {
             printf("unexpected text: %s\n", xp.parsed_tag);

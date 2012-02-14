@@ -1686,3 +1686,9 @@ David  14 Feb 2012
         assimilator.cpp
     lib/
         hostinfo.h
+
+David  14 Feb 2012
+    - admin web: fix error when showing unsent results
+
+    html/inc/
+        db_ops.inc
