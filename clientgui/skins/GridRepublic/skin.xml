@@ -225,10 +225,10 @@
 			<!-- logo displayed in about box -->
 			<application_logo>graphic/gr_about.ico</application_logo> 
 			<!-- name displayed in about box -->
-			<company_name>GridRepublic</organization_name> 
+			<organization_name>GridRepublic</organization_name> 
 			<!-- web site displayed in about box -->
-			<company_website>http://www.gridrepublic.org</organization_website>
-			<organization_help_url>http://www.gridrepublic.org/index.php?param=contact</organization_help_url>
+			<organization_website>http://www.gridrepublic.org</organization_website>
+			<organization_help_url>http://www.gridrepublic.org/help</organization_help_url>
 			<!-- this setting makes the BOINC manager automatically open to a particular tab on the -->
 			<!-- advanced view, overriding a users last displayed view.  0 means use users last open tab -->
 			<open_tab>0</open_tab>  
