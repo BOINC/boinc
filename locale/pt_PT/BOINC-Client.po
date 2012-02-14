@@ -7,8 +7,8 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-02-09 09:39-0800\n"
-"PO-Revision-Date: 2011-08-18 00:47+0200\n"
-"Last-Translator: Miguel Filipe Paulino de Sousa <Miguel.veig@gmail.com>\n"
+"PO-Revision-Date: 2012-02-13 10:07-0000\n"
+"Last-Translator: Miguel Veiga <Miguel.veig@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: pt_PT\n"
 "MIME-Version: 1.0\n"
@@ -17,28 +17,22 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Pootle 2.1.6\n"
 
-#: acct_mgr.cpp:435 acct_mgr.cpp:444
-#, fuzzy
+#: acct_mgr.cpp:435
+#: acct_mgr.cpp:444
 msgid "Message from account manager"
-msgstr "Mensagem do servidor "
+msgstr "Mensagem do gestor de conta"
 
 #: client_msgs.cpp:79
 msgid "Message from server"
 msgstr "Mensagem do servidor "
 
 #: client_state.cpp:246
-msgid ""
-"Some tasks need more memory than allowed by your preferences.  Please check "
-"the preferences."
-msgstr ""
-"Algumas tarefas precisam de mais memória que o permitido pelas suas "
-"preferências. Por favor, verifique as suas preferências."
+msgid "Some tasks need more memory than allowed by your preferences.  Please check the preferences."
+msgstr "Algumas tarefas precisam de mais memória que o permitido pelas suas preferências. Por favor, verifique as suas preferências."
 
 #: client_state.cpp:482
 msgid "Couldn't write state file; check directory permissions"
-msgstr ""
-"Não foi possivel escrever o ficheiro de estado; verifique as permissões da "
-"directoria"
+msgstr "Não foi possivel escrever o ficheiro de estado; verifique as permissões da directoria"
 
 #: cs_cmdline.cpp:291
 msgid "The HTTP_PROXY environment variable must specify an HTTP proxy"
@@ -46,14 +40,11 @@ msgstr "A variável de ambiente HTTP_PROXY tem que especificar uma proxy de HTTP
 
 #: cs_scheduler.cpp:546
 #, c-format
-msgid ""
-"You used the wrong URL for this project.  When convenient, remove this "
-"project, then add %s"
-msgstr ""
-"Usou o URL errado para este projecto. Quando for conveniente, remova este "
-"projecto e depois adicione %s"
+msgid "You used the wrong URL for this project.  When convenient, remove this project, then add %s"
+msgstr "Usou o URL errado para este projecto. Quando for conveniente, remova este projecto e depois adicione %s"
 
-#: cs_statefile.cpp:810 ../sched/sched_types.cpp:252
+#: cs_statefile.cpp:810
+#: ../sched/sched_types.cpp:252
 msgid "Syntax error in app_info.xml"
 msgstr "Erro de sintaxe em app_info.xml"
 
@@ -69,11 +60,13 @@ msgstr "Uma versão mais recente do BOINC está disponível."
 msgid "Download it."
 msgstr "Faça o Download."
 
-#: log_flags.cpp:256 log_flags.cpp:427
+#: log_flags.cpp:256
+#: log_flags.cpp:427
 msgid "Unexpected text in cc_config.xml"
 msgstr "Texto inesperado em cc_config.xml"
 
-#: log_flags.cpp:401 log_flags.cpp:453
+#: log_flags.cpp:401
+#: log_flags.cpp:453
 msgid "Unrecognized tag in cc_config.xml"
 msgstr "Tag não reconhecida em cc_config.xml"
 
@@ -82,9 +75,8 @@ msgid "Missing start tag in cc_config.xml"
 msgstr "Tag inicial em falta em cc_config.xml"
 
 #: log_flags.cpp:443
-#, fuzzy
 msgid "Error in cc_config.xml options"
-msgstr "Tag não reconhecida em cc_config.xml"
+msgstr "Erro nas opções do cc_config.xml"
 
 #: log_flags.cpp:461
 msgid "Missing end tag in cc_config.xml"
@@ -92,23 +84,15 @@ msgstr "Tag final em falta em cc_config.xml"
 
 #: ../sched/handle_request.cpp:299
 msgid "Invalid or missing account key.  To fix, remove and add this project."
-msgstr ""
-"Chave de conta inválida ou em falta. Para corrigir, remova e volte a "
-"adicionar este projecto."
+msgstr "Chave de conta inválida ou em falta. Para corrigir, remova e volte a adicionar este projecto."
 
 #: ../sched/handle_request.cpp:831
 msgid "Invalid code signing key.  To fix, remove and add this project."
-msgstr ""
-"Chave de conta inválida. Para corrigir, remova e volte a adicionar este "
-"projecto."
+msgstr "Chave de conta inválida. Para corrigir, remova e volte a adicionar este projecto."
 
 #: ../sched/handle_request.cpp:841
-msgid ""
-"The project has changed its security key.  Please remove and add this "
-"project."
-msgstr ""
-"O projecto mudou a sua chave de segurança. Por favor remova-o e adicione "
-"este projecto."
+msgid "The project has changed its security key.  Please remove and add this project."
+msgstr "O projecto mudou a sua chave de segurança. Por favor remova-o e adicione este projecto."
 
 #: ../sched/handle_request.cpp:925
 msgid "This project doesn't support operating system"
@@ -119,11 +103,8 @@ msgid "This project doesn't support CPU type"
 msgstr "Este projecto não suporta o tipo de CPU"
 
 #: ../sched/handle_request.cpp:975
-msgid ""
-"Your BOINC client software is too old.  Please install the current version."
-msgstr ""
-"A sua versão do BOINC está desactualizada. Por favor instale a versão "
-"actual."
+msgid "Your BOINC client software is too old.  Please install the current version."
+msgstr "A sua versão do BOINC está desactualizada. Por favor instale a versão actual."
 
 #: ../sched/handle_request.cpp:1235
 msgid "This project doesn't support computers of type"
@@ -131,28 +112,19 @@ msgstr "Este projecto não suporta computadores do tipo"
 
 #: ../sched/sched_send.cpp:1365
 msgid "Upgrade to the latest driver to process tasks using your computer's GPU"
-msgstr ""
-"Actualize os seus drivers para processar tarefas usando a GPU do seu "
-"computador"
+msgstr "Actualize os seus drivers para processar tarefas usando a GPU do seu computador"
 
 #: ../sched/sched_send.cpp:1372
-msgid ""
-"Upgrade to the latest driver to use all of this project's GPU applications"
-msgstr ""
-"Actualize os seus drivers para usar as aplicações com GPU deste projecto"
+msgid "Upgrade to the latest driver to use all of this project's GPU applications"
+msgstr "Actualize os seus drivers para usar as aplicações com GPU deste projecto"
 
 #: ../sched/sched_send.cpp:1391
-msgid ""
-"A newer version of BOINC is needed to use your NVIDIA GPU; please upgrade to "
-"the current version"
-msgstr ""
-"Uma versão mais recente do BOINC é necessária para usar a GPU da NVIDIA; por "
-"favor, actualize para a versão actual"
+msgid "A newer version of BOINC is needed to use your NVIDIA GPU; please upgrade to the current version"
+msgstr "Uma versão mais recente do BOINC é necessária para usar a GPU da NVIDIA; por favor, actualize para a versão actual"
 
 #: ../sched/sched_send.cpp:1404
 msgid "An NVIDIA or ATI GPU is required to run tasks for this project"
-msgstr ""
-"Uma GPU NVIDIA ou ATI é necessária para executar tarefas para este projecto"
+msgstr "Uma GPU NVIDIA ou ATI é necessária para executar tarefas para este projecto"
 
 #: ../sched/sched_send.cpp:1409
 msgid "An NVIDIA GPU is required to run tasks for this project"
@@ -163,11 +135,8 @@ msgid "An ATI GPU is required to run tasks for this project"
 msgstr "Uma GPU ATI é necessária para executar tarefas para este projecto"
 
 #: ../sched/sched_send.cpp:1523
-#, fuzzy
 msgid "No tasks are available for the applications you have selected."
-msgstr ""
-"Não estão disponíveis trabalhos para as aplicações que seleccionou. Por "
-"favor, verifique as suas preferências no website."
+msgstr "Não estão disponíveis tarefas  para as aplicações que seleccionou. "
 
 #: ../sched/sched_send.cpp:1549
 msgid "Your computer type is not supported by this project"
@@ -175,32 +144,19 @@ msgstr "O seu tipo de computador não é suportado por este projecto"
 
 #: ../sched/sched_send.cpp:1555
 msgid "Newer BOINC version required; please install current version"
-msgstr ""
-"Uma versão mais recente do BOINC é necessária; por favor instale a versão "
-"actual"
+msgstr "Uma versão mais recente do BOINC é necessária; por favor instale a versão actual"
 
 #: ../sched/sched_send.cpp:1565
-msgid ""
-"Tasks for NVIDIA GPU are available, but your preferences are set to not "
-"accept them"
-msgstr ""
-"Tarefas para a GPU NVIDIA estão disponíveis, mas as suas preferências estão "
-"definidas para não as aceitar"
+msgid "Tasks for NVIDIA GPU are available, but your preferences are set to not accept them"
+msgstr "Tarefas para a GPU NVIDIA estão disponíveis, mas as suas preferências estão definidas para não as aceitar"
 
 #: ../sched/sched_send.cpp:1571
-msgid ""
-"Tasks for ATI GPU are available, but your preferences are set to not accept "
-"them"
-msgstr ""
-"Tarefas para a GPU ATI estão disponíveis, mas as suas preferências estão "
-"definidas para não as aceitar"
+msgid "Tasks for ATI GPU are available, but your preferences are set to not accept them"
+msgstr "Tarefas para a GPU ATI estão disponíveis, mas as suas preferências estão definidas para não as aceitar"
 
 #: ../sched/sched_send.cpp:1577
-msgid ""
-"Tasks for CPU are available, but your preferences are set to not accept them"
-msgstr ""
-"Tarefas para o CPU estão disponíveis, mas as suas preferências estão "
-"definidas para não as aceitar"
+msgid "Tasks for CPU are available, but your preferences are set to not accept them"
+msgstr "Tarefas para o CPU estão disponíveis, mas as suas preferências estão definidas para não as aceitar"
 
 #: ../sched/sched_types.cpp:247
 msgid "Unknown app name in app_info.xml"

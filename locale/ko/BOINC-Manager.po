@@ -1,29 +1,23 @@
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-#
 msgid ""
 msgstr ""
-"Project-Id-Version: BOINC Manager 6.13+\n"
+"Project-Id-Version: BOINC Manager 7.n\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-02-09 12:37-0500\n"
-"PO-Revision-Date: 2011-10-25 13:59+0200\n"
-"Last-Translator: Kangsan Lee <treppolse@gmail.com>\n"
+"PO-Revision-Date: 2012-02-10 23:59+0900\n"
+"Last-Translator: Lee Kangsan <treppolse@gmail.com>\n"
 "Language-Team: SETIKAH@KOREA\n"
-"Language: ko\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: ko\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Pootle 2.1.6\n"
+"X-Generator: Pootle 1.2.1\n"
+"X-Poedit-Language: Korean\n"
 "X-Poedit-SourceCharset: utf-8\n"
 "X-Poedit-Basepath: C:\\Src\\BOINCSVN\\trunk\\boinc\n"
-"X-Poedit-SearchPath-0: clientgui\n"
-"X-Poedit-SearchPath-1: clientgui/msw\n"
-"X-Poedit-SearchPath-2: clientgui/gtk\n"
-"X-Poedit-SearchPath-3: clientgui/mac\n"
 "X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
+"X-Poedit-Country: KOREA, REPUBLIC OF\n"
+"X-Poedit-SearchPath-0: clientgui\n"
 
 #: clientgui/AccountInfoPage.cpp:386
 msgid "Identify your account "
@@ -719,7 +713,6 @@ msgstr ""
 "로컬 컴퓨터로 연결되면 호스트 이름을 'localhost'로 바꿔주십시오."
 
 #: clientgui/BOINCBaseView.cpp:774
-#, fuzzy
 msgid "Project web pages"
 msgstr "프로젝트 웹 페이지"
 
@@ -787,7 +780,6 @@ msgstr "%s가 인터넷 연결 종료에 실패했습니다."
 
 #: clientgui/BOINCGUIApp.cpp:339
 #, c-format
-#, fuzzy, c-format
 msgid ""
 "You currently are not authorized to manage the client.\n"
 "\n"
@@ -798,28 +790,27 @@ msgid ""
 "  - contact your administrator to add you to the 'boinc_master'\n"
 "     user group."
 msgstr ""
-"현재 클라이언트 관리를 승인받지 못했습니다.\n"
+"현재 클라이언트 관리 권한이 부여되지 않았습니다.\n"
 "\n"
-"이 사용자로 BOINC를 실행하려면\n"
-" - 비 관리자 사용자에게 권한 부여 옵션에 \"네\"라고 대답한 후\n"
+"해당 사용자로 %s를 실행하려면\n"
+"  - 비 관리자 사용자에게 권한 부여 옵션에 \"네\"라고 대답한 후\n"
 "    BOINC를 다시 설치하십시요\n"
 " 또는\n"
-" - 관리자에게 문의해서 여러분을 'boinc_master' 사용자 그룹에\n"
+"  - 관리자에게 문의해서 여러분을 'boinc_master' 사용자 그룹에\n"
 "    추가하십시오."
 
 #: clientgui/BOINCGUIApp.cpp:345
 #, c-format
-#, fuzzy, c-format
 msgid ""
 "%s ownership or permissions are not set properly; please reinstall %s.\n"
 "(Error code %d"
 msgstr ""
-"BOINC 소유권이나 권한이 적절히 설정되지 않았습니다. BOINC를 다시 설치해주세요.\n"
-"(Error code %d)"
+"%s 소유권이나 권한이 적절히 설정되지 않았습니다. %s를 재설치해주세요.\n"
+"(오류 code %d)"
 
 #: clientgui/BOINCGUIApp.cpp:351
 msgid " at "
-msgstr ""
+msgstr " 의"
 
 #: clientgui/BOINCGUIApp.cpp:354
 msgid ")"
@@ -883,7 +874,7 @@ msgstr "BOINC 관리자 다중 실행이 허용됨"
 
 #: clientgui/BOINCGUIApp.cpp:544
 msgid "Not used: workaround for bug in XCode 4.2"
-msgstr ""
+msgstr "사용되지 않음: XCode 4.2 버그 회피책"
 
 #: clientgui/BOINCGUIApp.cpp:762
 msgid "(Automatic Detection)"
@@ -928,9 +919,8 @@ msgid "Resume"
 msgstr "다시 시작"
 
 #: clientgui/BOINCTaskBar.cpp:620
-#, fuzzy
 msgid "Resume GPU"
-msgstr "다시 시작"
+msgstr "GPU 다시 사용"
 
 #: clientgui/BOINCTaskBar.cpp:696
 msgid "Computing is enabled"
@@ -1405,22 +1395,20 @@ msgid "days"
 msgstr "일"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:428
-#, fuzzy
 msgid "Minimum work buffer"
-msgstr "추가 작업 버퍼"
+msgstr "최소 작업 저장량"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:437
 msgid "Try to maintain enough tasks to keep busy for this many days"
-msgstr ""
+msgstr "지정한 날짜동안 충분한 작업을 수행하고 유지하도록 합니다"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:449
-#, fuzzy
 msgid "Max additional work buffer"
-msgstr "추가 작업 버퍼"
+msgstr "최고 추가 작업 저장량"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:458
 msgid "In addition, maintain enough tasks for up to this many days"
-msgstr ""
+msgstr "추가로 지정한 날짜동안 충분한 태스크 이상을 유지합니다"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:465
 msgid "Skip image file verification"
@@ -1597,15 +1585,12 @@ msgstr "선택한 항목 복사(&S)"
 #: clientgui/DlgEventLog.cpp:281
 #: clientgui/DlgEventLog.cpp:289
 msgid "Copy the selected messages to the clipboard. You can select multiple messages by holding down the shift or command key while clicking on messages."
-msgstr ""
-"선택한 메세지를 클립보드로 복사합니다. 메세지를 클릭하는 동안 shift 키나 control 키를 눌러 여러 메세지를 선택할 수 있습니다"
+msgstr "선택한 메세지를 클립보드로 복사합니다. 메세지를 클릭하는 동안 shift 키나 control 키를 눌러 여러 메세지를 선택할 수 있습니다"
 
 #: clientgui/DlgEventLog.cpp:283
 #: clientgui/DlgEventLog.cpp:291
 msgid "Copy the selected messages to the clipboard. You can select multiple messages by holding down the shift or control key while clicking on messages."
-msgstr ""
-"클립보드에 선택한 메시지를 복사합니다. 메시지를 클릭하는 동안 Shift나 Control 키를 누른 상태에서 여러 메시지를 선택할 수 "
-"있습니다."
+msgstr "클립보드에 선택한 메시지를 복사합니다. 메시지를 클릭하는 동안 Shift나 Control 키를 누른 상태에서 여러 메시지를 선택할 수 있습니다."
 
 #: clientgui/DlgEventLog.cpp:298
 #: clientgui/DlgItemProperties.cpp:66
@@ -1818,14 +1803,12 @@ msgstr "프로젝트 환경 설정"
 #: clientgui/DlgItemProperties.cpp:264
 #: clientgui/DlgItemProperties.cpp:282
 #: clientgui/DlgItemProperties.cpp:303
-#, fuzzy
 msgid "Account manager preference"
-msgstr "계정 관리자 웹사이트"
+msgstr "계정 관리자 환경설정"
 
 #: clientgui/DlgItemProperties.cpp:267
-#, fuzzy
 msgid "Project has no CPU apps"
-msgstr "프로젝트 웹 페이지"
+msgstr "프로젝트에 CPU 어플이 없습니다"
 
 #: clientgui/DlgItemProperties.cpp:269
 msgid "Scheduling priority"
@@ -2320,13 +2303,12 @@ msgid "Retrieving system state; please wait..."
 msgstr "시스템 상태를 검색 중 입니다; 잠시만 기다려 주세요..."
 
 #: clientgui/MainDocument.cpp:1792
-#, fuzzy
 msgid "Missing application"
-msgstr "독점 프로그램"
+msgstr "프로그램 누락됨"
 
 #: clientgui/MainDocument.cpp:1793
 msgid "Please download and install the CoRD application from http://cord.sourceforge.net"
-msgstr ""
+msgstr "http://cord.sourceforge.net에서 CoRD 어플리케이션을 다운로드하고 설치하세요"
 
 #: clientgui/MainDocument.cpp:2394
 msgid "on batteries"
@@ -2447,9 +2429,8 @@ msgid " (Scheduler wait)"
 msgstr " (스케줄러 대기)"
 
 #: clientgui/MainDocument.cpp:2485
-#, fuzzy
 msgid " (Waiting for network access)"
-msgstr " - 디스크 공간이 부족합니다"
+msgstr " (네트워크 액세스 대기중)"
 
 #: clientgui/MainDocument.cpp:2489
 msgid "Computation error"
@@ -3131,9 +3112,7 @@ msgstr "프로젝트 다시 설정"
 
 #: clientgui/sg_ProjectCommandPopup.cpp:80
 msgid "Delete all files and tasks associated with this project, and get new tasks.  You can update the project first to report any completed tasks."
-msgstr ""
-"이 프로젝트와 관련된 모든 태스크와 파일들을 삭제하고 새 태스크를 받아옵니다. 그 전에 먼저 완료된 태스크를 보고하도록 업데이트할 수 "
-"있습니다."
+msgstr "이 프로젝트와 관련된 모든 태스크와 파일들을 삭제하고 새 태스크를 받아옵니다. 그 전에 먼저 완료된 태스크를 보고하도록 업데이트할 수 있습니다."
 
 #: clientgui/sg_ProjectCommandPopup.cpp:86
 msgid "Remove this project.  Tasks in progress will be lost (use 'Update' first to report any completed tasks)."
@@ -3341,7 +3320,7 @@ msgstr "응용 프로그램: %s"
 #: clientgui/sg_TaskPanel.cpp:701
 #, c-format
 msgid "%.3f%%"
-msgstr ""
+msgstr "%.3f%%"
 
 #: clientgui/sg_TaskPanel.cpp:709
 msgid "Application: Not available"
@@ -3974,14 +3953,12 @@ msgid "Show only active tasks."
 msgstr "처리 중인 태스크만 보여줍니다."
 
 #: clientgui/ViewWork.cpp:200
-#, fuzzy
 msgid "Show VM Console"
-msgstr "호스트 전체 보여주기"
+msgstr "VM 콘솔 보여주기"
 
 #: clientgui/ViewWork.cpp:201
-#, fuzzy
 msgid "Show VM Console in a window."
-msgstr "창에서 애플리케이션 그래픽 보여주기"
+msgstr "VM 콘솔 창을 보여줍니다."
 
 #: clientgui/ViewWork.cpp:234
 msgid "Elapsed"
@@ -4016,9 +3993,8 @@ msgid "Showing graphics for task..."
 msgstr "태스크 그래픽 보여주는 중..."
 
 #: clientgui/ViewWork.cpp:425
-#, fuzzy
 msgid "Showing VM console for task..."
-msgstr "태스크 그래픽 보여주는 중..."
+msgstr "VM 콘솔용 태스크 보여주는 중..."
 
 #: clientgui/ViewWork.cpp:478
 #, c-format
@@ -4282,99 +4258,3 @@ msgstr "작업 시작 시각과 종료 시각을 HH:MM-HH:MM 형식으로 적어
 msgid "specify network usage start and stop hours in format HH:MM-HH:MM"
 msgstr "네트워크 사용 시작 시각과 종료 시각을 HH:MM-HH:MM 형식으로 적어주세요"
 
-#~ msgid "Web sites"
-#~ msgstr "웹 사이트"
-
-#~ msgid "Connect about every"
-#~ msgstr "접속 주기"
-
-#~ msgid ""
-#~ "this computer is connected to the Internet about every X days\n"
-#~ "(0 if it's always connected)"
-#~ msgstr ""
-#~ "이 컴퓨터는 대략 X일마다 인터넷에 접속할 수 있습니다\n"
-#~ "(0은 항상 접속됨)"
-
-#~ msgid "days (max. 10)"
-#~ msgstr "일 (최대 10)"
-
-#~ msgid "%d.%d%%"
-#~ msgstr "%d.%d%%"
-
-#~ msgid "Display and network &options..."
-#~ msgstr "화면과 네트워크 옵션(&O)..."
-
-#~ msgid "CPU work fetch priority"
-#~ msgstr "CPU 작업 할당 순위"
-
-#~ msgid "NVIDIA GPU scheduling priority"
-#~ msgstr "NVIDIA GPU 예약 순위"
-
-#~ msgid "NVIDIA GPU work fetch priority"
-#~ msgstr "NVIDIA GPU 작업 할당 순위"
-
-#~ msgid "ATI GPU scheduling priority"
-#~ msgstr "ATI GPU 예약 순위"
-
-#~ msgid "ATI GPU work fetch priority"
-#~ msgstr "ATI GPU 작업 할당 순위"
-
-#~ msgid "Estimated app speed"
-#~ msgstr "추정된 실행 속도"
-
-#~ msgid "Max RAM usage"
-#~ msgstr "최대 램 사용량"
-
-#~ msgid "Retrieving host information; please wait..."
-#~ msgstr "호스트 정보를 검색 중 입니다; 잠시만 기다려 주세요..."
-
-#~ msgid " (waiting for GPU memory)"
-#~ msgstr " (GPU 메모리가 비길 기다리는 중)"
-
-#~ msgid "Manager Settings..."
-#~ msgstr "관리자 설정..."
-
-#~ msgid "Pause"
-#~ msgstr "중지"
-
-#~ msgid "%s - Messages"
-#~ msgstr "%s - 메시지"
-
-#~ msgid "Skin:"
-#~ msgstr "스킨:"
-
-#~ msgid "Preferences"
-#~ msgstr "환경 설정"
-
-#~ msgid "Customized Preferences"
-#~ msgstr "사용자 정의된 환경 설정"
-
-#~ msgid "My total work done this Project"
-#~ msgstr "이 프로젝트에서 끝낸 모든 작업"
-
-#~ msgid "My Tasks:"
-#~ msgstr "내 태스크:"
-
-#~ msgid "From Project:"
-#~ msgstr "프로젝트 서버:"
-
-#~ msgid "Upload suspended - "
-#~ msgstr "업로드가 일시 정지됨 - "
-
-#~ msgid "Download suspended - "
-#~ msgstr "다운로드가 일시 정지됨 - "
-
-#~ msgid "Download pending"
-#~ msgstr "다운로드 대기 중"
-
-#~ msgid "New Simple View..."
-#~ msgstr "신식 간단 보기..."
-
-#~ msgid "Display the new simple graphical interface."
-#~ msgstr "신식 간단 그래픽 인터페이스로 표시합니다."
-
-#~ msgid "Old Simple View..."
-#~ msgstr "구형 간단 보기..."
-
-#~ msgid "Display the old simple graphical interface."
-#~ msgstr "구형 간단 그래픽 인터페이스로 표시합니다."

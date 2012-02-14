@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2012-01-16 11:31 PST\n"
-"PO-Revision-Date: 2011-10-10 22:09+0200\n"
+"PO-Revision-Date: 2012-02-12 18:31+0200\n"
 "Last-Translator: Nikolay Saharov <saharovna@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: ru\n"
@@ -31,49 +31,53 @@ msgstr "Russian"
 
 #: ../inc/bbcode_html.inc:11
 msgid "Bold text: [b]text[/b]  (alt+b)"
-msgstr ""
+msgstr "Жирный текст: [b]текст[/b] (alt+b)"
 
 #: ../inc/bbcode_html.inc:14
 msgid "Italic text: [i]text[/i]  (alt+i)"
-msgstr ""
+msgstr "Наклонный текст: [i]текст[/i] (alt+i)"
 
 #: ../inc/bbcode_html.inc:17
 msgid "Underline text: [u]text[/u]  (alt+u)"
-msgstr ""
+msgstr "Подчёркнутый текст: [u]текст[/u] (alt+u)"
 
 #: ../inc/bbcode_html.inc:20
 msgid "Quote text: [quote]text[/quote]  (alt+q)"
-msgstr ""
+msgstr "Текст цитаты: [quote]текст[/quote] (alt+q)"
 
 #: ../inc/bbcode_html.inc:23
 msgid "Code display: [code]code[/code]  (alt+c)"
-msgstr ""
+msgstr "Отображение кода: [code]код[/code] (alt+c)"
 
 #: ../inc/bbcode_html.inc:26
 msgid "List: [list]text[/list] (alt+l)"
-msgstr ""
+msgstr "Список: [list]текст[/list] (alt+l)"
 
 #: ../inc/bbcode_html.inc:29
 msgid "Ordered list: [list=]text[/list]  (alt+o)"
-msgstr ""
+msgstr "Упорядоченный список: [list=]текст[/list] (alt+o)"
 
 #: ../inc/bbcode_html.inc:32
 msgid "Insert image: [img]http://image_url[/img]  (alt+p)"
-msgstr ""
+msgstr "Вставка изображения: [img]http://ссылка_на_картинку[/img] (alt+p)"
 
 #: ../inc/bbcode_html.inc:35
 msgid ""
 "Insert URL: [url]http://url[/url] or [url=http://url]URL text[/url]  (alt+w)"
 msgstr ""
+"Вставка адреса URL: [url]http://url[/url] или [url=http://url]текст "
+"URL[/url] (alt+w)"
 
 #: ../inc/bbcode_html.inc:42
 msgid "Font color"
-msgstr ""
+msgstr "Цвет шрифта"
 
 #: ../inc/bbcode_html.inc:43
 msgid ""
 "Font color: [color=red]text[/color]  Tip: you can also use color=#FF0000"
 msgstr ""
+"Цвет шрифта: [color=red]текст[/color] Подсказка: Вы можете также "
+"использовать color=#FF0000"
 
 #: ../inc/bbcode_html.inc:44 ../inc/bbcode_html.inc:59 ../inc/prefs.inc:625
 msgid "Default"
@@ -81,80 +85,79 @@ msgstr "По умолчанию"
 
 #: ../inc/bbcode_html.inc:45
 msgid "Dark Red"
-msgstr ""
+msgstr "Тёмно-красный"
 
 #: ../inc/bbcode_html.inc:46
 msgid "Red"
-msgstr ""
+msgstr "Красный"
 
 #: ../inc/bbcode_html.inc:47
-#, fuzzy
 msgid "Orange"
-msgstr "Изменить"
+msgstr "Оранжевый"
 
 #: ../inc/bbcode_html.inc:48
 msgid "Brown"
-msgstr ""
+msgstr "Коричневый"
 
 #: ../inc/bbcode_html.inc:49
 msgid "Yellow"
-msgstr ""
+msgstr "Жёлтый"
 
 #: ../inc/bbcode_html.inc:50
 msgid "Green"
-msgstr ""
+msgstr "Зелёный"
 
 #: ../inc/bbcode_html.inc:51
 msgid "Olive"
-msgstr ""
+msgstr "Оливковый"
 
 #: ../inc/bbcode_html.inc:52
 msgid "Cyan"
-msgstr ""
+msgstr "Голубой"
 
 #: ../inc/bbcode_html.inc:53
 msgid "Blue"
-msgstr ""
+msgstr "Синий"
 
 #: ../inc/bbcode_html.inc:54
 msgid "Dark Blue"
-msgstr ""
+msgstr "Тёмно-синий"
 
 #: ../inc/bbcode_html.inc:55
 msgid "Indigo"
-msgstr ""
+msgstr "Индиго"
 
 #: ../inc/bbcode_html.inc:56
 msgid "Violet"
-msgstr ""
+msgstr "Фиолетовый"
 
 #: ../inc/bbcode_html.inc:57
 msgid "Font size"
-msgstr ""
+msgstr "Размер шрифта"
 
 #: ../inc/bbcode_html.inc:58
 msgid "Font size: [size=x-small]small text[/size]"
-msgstr ""
+msgstr "Размер шрифта: [size=x-small]маленький текст[/size]"
 
 #: ../inc/bbcode_html.inc:60
 msgid "Small"
-msgstr ""
+msgstr "Маленький"
 
 #: ../inc/bbcode_html.inc:61
 msgid "Normal"
-msgstr ""
+msgstr "Нормальный"
 
 #: ../inc/bbcode_html.inc:62
 msgid "Large"
-msgstr ""
+msgstr "Большой"
 
 #: ../inc/bbcode_html.inc:65
 msgid "Close all open bbCode tags"
-msgstr ""
+msgstr "Закрыть все открытые тэги bbCode"
 
 #: ../inc/bbcode_html.inc:65
 msgid "Close Tags"
-msgstr ""
+msgstr "Закрыть тэги"
 
 #: ../inc/forum.inc:37
 msgid "Oldest first"
@@ -221,117 +224,105 @@ msgid "Next"
 msgstr "Следующие"
 
 #: ../inc/forum.inc:535
-#, fuzzy
 msgid "Send&nbsp;message"
-msgstr "Отправить сообщение"
+msgstr "Отправить&nbsp;сообщение"
 
 #: ../inc/forum.inc:535
-#, fuzzy
 msgid "Send %1 a private message"
-msgstr "Отправить личное сообщение"
+msgstr "Отправить личное сообщение для %1"
 
 #: ../inc/forum.inc:536
-#, fuzzy
 msgid "Joined: %1"
-msgstr "Присоединение к команде %1."
+msgstr "Присоединился: %1"
 
 #: ../inc/forum.inc:545
-#, fuzzy
 msgid "Posts: %1"
-msgstr "Сообщения:"
+msgstr "Сообщений: %1"
 
 #: ../inc/forum.inc:551
-#, fuzzy
 msgid "Credit: %1"
-msgstr "Очки"
+msgstr "Очков: %1"
 
 #: ../inc/forum.inc:552
 msgid "RAC: %1"
-msgstr ""
+msgstr "В среднем: %1"
 
 #: ../inc/forum.inc:574
-#, fuzzy
 msgid "You haven't read this message yet"
-msgstr "Вы ещё не прочитали это обсуждение"
+msgstr "Вы ещё не прочитали это сообщение"
 
 #: ../inc/forum.inc:574
-#, fuzzy
 msgid "Unread"
-msgstr "непрочтенных"
+msgstr "Непрочитанный"
 
 #: ../inc/forum.inc:577 ../inc/forum.inc:582 ../inc/forum.inc:681
-#, fuzzy
 msgid "Message %1"
-msgstr "Сообщение"
+msgstr "Сообщение %1"
 
 #: ../inc/forum.inc:578 ../inc/user.inc:324 ../user/forum_forum.php:172
 msgid "hidden"
 msgstr "скрыто"
 
 #: ../inc/forum.inc:579
-#, fuzzy
 msgid "Posted: %1"
-msgstr "Сообщения пользователя %1"
+msgstr "Отправлено: %1"
 
 #: ../inc/forum.inc:582
-#, fuzzy
 msgid " - in response to "
-msgstr "Время истекло - нет ответа"
+msgstr "- в ответ на"
 
 #: ../inc/forum.inc:585 ../inc/prefs.inc:691 ../inc/prefs.inc:693
 msgid "Edit"
 msgstr "Редактировать"
 
 #: ../inc/forum.inc:585
-#, fuzzy
 msgid "Edit this message"
-msgstr "Редактирование сообщения"
+msgstr "Редактировать это сообщение"
 
 #: ../inc/forum.inc:591
-#, fuzzy
 msgid "Last modified: %1"
-msgstr "Последнее изменение настроек:"
+msgstr "Последнее изменение: %1"
 
 #: ../inc/forum.inc:594
 msgid ""
 "This post is not shown because the sender is on your 'ignore' list.  Click "
 "%1here%2 to view this post"
 msgstr ""
+"Это сообщение не показывается потому, что отправитель в вашем списке "
+"игнорирования. Нажмите %1здесь%2, чтобы увидеть это сообщение"
 
 #: ../inc/forum.inc:622 ../inc/forum.inc:633
-#, fuzzy
 msgid "Report this post as offensive"
-msgstr "Экспортировать эту новость как уведомление"
+msgstr "Отметить это сообщение как оскорбительное"
 
 #: ../inc/forum.inc:622 ../inc/forum.inc:633
-#, fuzzy
 msgid "Report as offensive"
-msgstr "Предупредить о сообщении"
+msgstr "Отметить как оскорбительное"
 
 #: ../inc/forum.inc:626
 msgid "Rating: %1"
-msgstr ""
+msgstr "Рейтинг: %1"
 
 #: ../inc/forum.inc:626
 msgid "rate: "
-msgstr ""
+msgstr "оценить:"
 
+# 83%
 #: ../inc/forum.inc:629
 msgid "Click if you like this message"
-msgstr ""
+msgstr "Нажмите если Вам нравится это сообщение"
 
 #: ../inc/forum.inc:629
 msgid "Rate +"
-msgstr ""
+msgstr "Оценка +"
 
 #: ../inc/forum.inc:631
-#, fuzzy
 msgid "Click if you don't like this message"
-msgstr "Невозможно создать сообщение"
+msgstr "Нажмите если Вам не нравится это сообщение"
 
 #: ../inc/forum.inc:631
 msgid "Rate -"
-msgstr ""
+msgstr "Оценка -"
 
 #: ../inc/forum.inc:639 ../user/pm.php:106 ../user/pm.php:146
 msgid "Reply"
@@ -339,30 +330,27 @@ msgstr "Ответить"
 
 #: ../inc/forum.inc:639
 msgid "Post a reply to this message"
-msgstr ""
+msgstr "Ответить на это сообщение"
 
 #: ../inc/forum.inc:641
-#, fuzzy
 msgid "Quote"
-msgstr "Цитируемый текст"
+msgstr "Цитата"
 
 #: ../inc/forum.inc:641
 msgid "Post a reply by quoting this message"
-msgstr ""
+msgstr "Ответить цитируя это сообщение"
 
 #: ../inc/forum.inc:662
 msgid "Hidden by a moderator"
-msgstr ""
+msgstr "Скрыто модератором"
 
 #: ../inc/forum.inc:683
-#, fuzzy
 msgid "Posted %1 by %2"
-msgstr "Сообщения пользователя %1"
+msgstr "Написано %1 пользователем %2"
 
 #: ../inc/forum.inc:701
-#, fuzzy
 msgid "You may not post or rate messages until %1"
-msgstr "У Вас нет личных сообщений."
+msgstr "Вы не можете писать или оценивать сообщения до %1"
 
 #: ../inc/forum.inc:712
 msgid ""
@@ -381,67 +369,77 @@ msgid ""
 "            nationality, gender, class or sexuality.\n"
 "        "
 msgstr ""
+"\n"
+"<ul>\n"
+"<li> Сообщения должны быть 'дружелюбны к детям': они не должны содержать\n"
+"контент, который является непристойным, связанным с ненавистью,\n"
+"явно сексуальным или наводящим.\n"
+"<li> Не должно быть коммерческой рекламы.\n"
+"<li> Не должно быть ссылок на веб-сайты, связанные с сексуальным "
+"содержанием,\n"
+"азартными играми, или нетерпимостью других.\n"
+"<li> Не должно быть сообщений, раздражающих или противопоставляющих других "
+"людей,\n"
+"или захватывающих обсуждение.\n"
+"<li> Не должно быть сообщений, которые сознательно враждебны или "
+"оскорбительны.\n"
+"<li> Не должно быть оскорбительных комментариев, затрагивающих расу, "
+"религию,\n"
+" национальность, пол, класс или сексуальность.\n"
 
 #: ../inc/forum.inc:734
 msgid "Rules:"
-msgstr ""
+msgstr "Правила:"
 
 #: ../inc/forum.inc:735
-#, fuzzy
 msgid "More info"
-msgstr "Информация о команде"
+msgstr "Подробнее"
 
 #: ../inc/forum.inc:1008 ../user/forum_thread.php:185
 msgid "Unhide"
 msgstr "Показать"
 
 #: ../inc/forum.inc:1008
-#, fuzzy
 msgid "Unhide this post"
-msgstr "Показать это обсуждение"
+msgstr "Показать это сообщение"
 
 #: ../inc/forum.inc:1010 ../user/forum_thread.php:191
 msgid "Hide"
 msgstr "Скрыть"
 
 #: ../inc/forum.inc:1010
-#, fuzzy
 msgid "Hide this post"
-msgstr "Скрыть сообщение"
+msgstr "Скрыть это сообщение"
 
 #: ../inc/forum.inc:1015 ../user/forum_thread.php:224
 msgid "Move"
 msgstr "Переместить"
 
 #: ../inc/forum.inc:1015
-#, fuzzy
 msgid "Move post to a different thread"
-msgstr "Переместить это обсуждение в другой форум"
+msgstr "Переместить это сообщение в другое обсуждение"
 
 #: ../inc/forum.inc:1020
-#, fuzzy
 msgid "Banish author"
-msgstr "Заблокировать пользователя"
+msgstr "Заблокировать автора"
 
 #: ../inc/forum.inc:1027
-#, fuzzy
 msgid "Vote to banish author"
-msgstr "Нет прав на блокировку пользователей"
+msgstr "Голосовать за блокировку автора"
 
 #: ../inc/forum.inc:1031
-#, fuzzy
 msgid "Vote not to banish author"
-msgstr "Нет прав на блокировку пользователей"
+msgstr "Голосовать против блокировки автора"
 
 #: ../inc/forum.inc:1036
-#, fuzzy
 msgid "Start vote to banish author"
-msgstr "Нет прав на блокировку пользователей"
+msgstr "Начать голосование за блокировку автора"
 
 #: ../inc/forum.inc:1069
-#, fuzzy
 msgid "Only team members can post to the team message board"
-msgstr "Создание или управление доской сообщений команды"
+msgstr ""
+"Только участники команды могут оставлять сообщения на доске сообщений "
+"команды"
 
 #: ../inc/forum.inc:1079
 msgid ""
@@ -467,10 +465,12 @@ msgid ""
 "This thread is locked. Only forum moderators and administrators are allowed "
 "to post there."
 msgstr ""
+"Это обсуждение заблокировано. Только модераторы форума и администраторы "
+"могут оставлять сообщения здесь."
 
 #: ../inc/forum.inc:1098
 msgid "Can't post to a hidden thread."
-msgstr ""
+msgstr "Нельзя написать сообщение в скрытом обсуждении."
 
 #: ../inc/forum.inc:1126
 msgid "Thread"
@@ -497,29 +497,24 @@ msgid "Last post"
 msgstr "Последнее сообщение"
 
 #: ../inc/forum.inc:1188
-#, fuzzy
 msgid "New posts in the thread %1"
-msgstr "Ответить на обсуждение"
+msgstr "Новые сообщения в обсуждении %1"
 
 #: ../inc/forum.inc:1193
-#, fuzzy
 msgid "New posts in subscribed thread"
-msgstr "Подписанные обсуждения"
+msgstr "Новые сообщения в подписанном обсуждении"
 
 #: ../inc/forum.inc:1194
-#, fuzzy
 msgid "There are new posts in the thread '%1'"
-msgstr ""
-"Нажмите, чтобы получать уведомления о новых сообщениях в этом обсуждении"
+msgstr "Имеются новые сообщения в обсуждении '%1'"
 
 #: ../inc/forum.inc:1204
 msgid "Mark all threads as read"
 msgstr "Отметить все обсуждения прочитанными"
 
 #: ../inc/forum.inc:1205
-#, fuzzy
 msgid "Mark all threads in all message boards as read."
-msgstr "Отметить все обсуждения во всех досках сообщений как 'прочитанные'."
+msgstr "Отметить все обсуждения во всех досках сообщений прочитанными."
 
 #: ../inc/host.inc:24
 msgid "No host"
@@ -726,7 +721,6 @@ msgid "Tasks"
 msgstr "Задания"
 
 #: ../inc/host.inc:179 ../inc/host.inc:200
-#, fuzzy
 msgid "Number of times client has contacted server"
 msgstr "Количество контактов клиента с сервером"
 
@@ -920,9 +914,8 @@ msgid "Preview"
 msgstr "Предварительный просмотр"
 
 #: ../inc/pm.inc:48 ../user/pm.php:131
-#, fuzzy
 msgid "no such message"
-msgstr "нет такого пользователя"
+msgstr "нет такого сообщения"
 
 #: ../inc/pm.inc:82
 msgid "To"
@@ -1531,9 +1524,8 @@ msgid "Aborted by user"
 msgstr "Прервано пользователем"
 
 #: ../inc/result.inc:186 ../inc/result.inc:239
-#, fuzzy
 msgid "Upload failed"
-msgstr "Обновление не удалось"
+msgstr "Загрузка не удалась"
 
 #: ../inc/result.inc:189
 msgid "Timed out - no response"
@@ -2416,9 +2408,8 @@ msgid "Underline"
 msgstr "Подчёркнутый"
 
 #: ../user/bbcode.php:35
-#, fuzzy
 msgid "Superscript"
-msgstr "Описание"
+msgstr "Суперскрипт"
 
 #: ../user/bbcode.php:36
 msgid "Big text"
@@ -2561,14 +2552,12 @@ msgstr ""
 "ещё раз немного позднее."
 
 #: ../user/create_account_form.php:53
-#, fuzzy
 msgid ""
 "Don't use this form. Just run BOINC, select Add Project, and enter an email "
 "address and password."
 msgstr ""
-"Внимание: Если Вы используете Менеджер BOINC, не используйте эту форму. "
-"Просто запустите BOINC, выберите 'Добавить проект', и введите адрес "
-"электронной почты и пароль."
+"Не используйте эту форму. Просто запустите BOINC, выберите 'Добавить "
+"проект', и введите адрес электронной почты и пароль."
 
 #: ../user/create_account_form.php:71
 msgid ""
@@ -2828,12 +2817,11 @@ msgstr ""
 "Вы должны будете ввести его с самого начала."
 
 #: ../user/delete_profile.php:48
-#, fuzzy
 msgid ""
 "If you're sure, click 'Yes'\n"
 "to remove your profile from our database."
 msgstr ""
-"Если Вы уверены, нажмите 'Удалить'\n"
+"Если Вы уверены, нажмите 'Да'\n"
 "для удаления вашего профиля из нашей базы данных."
 
 #: ../user/delete_profile.php:52
@@ -4098,9 +4086,8 @@ msgstr ""
 "может занять некоторое время, поэтому запаситесь терпением"
 
 #: ../user/forum_report_post.php:70
-#, fuzzy
 msgid "Report a forum post"
-msgstr "Предупредить о сообщении"
+msgstr "Предупредить о сообщении на форуме"
 
 #: ../user/forum_report_post.php:72
 msgid ""
@@ -4414,9 +4401,8 @@ msgid "Edit thread title"
 msgstr "Редактировать тему обсуждения"
 
 #: ../user/forum_thread.php:241
-#, fuzzy
 msgid "Export as Notice"
-msgstr "Экспортировать эту новость как уведомление"
+msgstr "Экспортировать как уведомление"
 
 #: ../user/forum_thread.php:242
 msgid "Export this news item as a Notice"
@@ -4654,17 +4640,19 @@ msgstr "Авторизоваться с аутентификатором"
 
 #: ../user/gpu_list.php:126 ../user/gpu_list.php:152
 msgid "No GPU tasks reported"
-msgstr ""
+msgstr "Нет сообщённых ГП-задач"
 
 #: ../user/gpu_list.php:182 ../user/stats.php:33
 msgid "Top GPU models"
-msgstr ""
+msgstr "Лучшие модели графических ускорителей"
 
 #: ../user/gpu_list.php:183
 msgid ""
 "The following lists show the most productive GPU models on different "
 "platforms.  Relative speeds are shown in parentheses."
 msgstr ""
+"Следующие списки показывают наиболее продуктивные модели графических "
+"ускорителей на разных платформах. Относительные скорости указаны в скобках."
 
 #: ../user/home.php:42
 msgid "Welcome to %1"
@@ -5167,17 +5155,14 @@ msgid "or %1create an account%2."
 msgstr "или %1создать учетную запись%2."
 
 #: ../user/merge_by_name.php:33
-#, fuzzy
 msgid "Processing %1"
-msgstr "Обработка"
+msgstr "Обработка %1"
 
 #: ../user/merge_by_name.php:45
-#, fuzzy
 msgid "Merged %1 into %2"
-msgstr "Объединение компьютеров %1 и %2"
+msgstr "%1 объединён с %2"
 
 #: ../user/merge_by_name.php:74
-#, fuzzy
 msgid "Return to the list of your computers"
 msgstr "Вернуться к списку ваших компьютеров"
 
@@ -5190,15 +5175,20 @@ msgid ""
 "        Incompatible computers will not be merged.\n"
 "        <p>"
 msgstr ""
+"Данная операция объединяет компьютеры на основе их доменных имен.\n"
+"<p>\n"
+"Эта операция для каждого доменного имени объединит все старые компьютеры\n"
+"с таким именем с самым новым компьютером с таким же именем.\n"
+"Несовместимые компьютеры не будут объединены.\n"
+"<p>"
 
 #: ../user/merge_by_name.php:84
 msgid "Go ahead and do this"
-msgstr ""
+msgstr "Вперёд, сделать это"
 
 #: ../user/merge_by_name.php:85
-#, fuzzy
 msgid "Return to the list of computers"
-msgstr "Вернуться к списку ваших компьютеров"
+msgstr "Вернуться к списку компьютеров"
 
 #: ../user/moderation.php:26
 msgid ""
@@ -5207,6 +5197,10 @@ msgid ""
 "our message boards are moderated.\n"
 "Message board postings are subject to the following posting rules:\n"
 msgstr ""
+"\n"
+"Для максимизации обсуждения и обмена информацией,\n"
+"наши доски сообщений модерируются.\n"
+"Сообщения доски сообщений подлежат следующим правилам размещения:\n"
 
 #: ../user/moderation.php:30
 msgid ""
@@ -5246,39 +5240,71 @@ msgid ""
 "If you have comments about the policy, email %2.\n"
 "\n"
 msgstr ""
+"\n"
+"<p>\n"
+"Модераторы могут удалять сообщения, которые нарушают любые из этих правил.\n"
+"Авторы удалённых сообщений будут уведомлены по электронной почте.\n"
+"У серьёзных нарушителей может быть временно отменена возможность размещать "
+"сообщения\n"
+"(хотя для предотвращения злоупотреблений только администраторы проекта имеют "
+"возможность сделать это).\n"
+"Дополнительные виды плохого поведения ('взлом' сообщений для перехвата\n"
+"IP-адресов других участников, чрезмерное создание спам-обсуждений\n"
+"на форумах, и т.д.), хоть и не перечислены в формальных правилах,\n"
+"тем не менее могут привести к аналогичным мерам наказания.\n"
+"<p>\n"
+"Если Вы думаете, что сообщение нарушает какие-либо правила,\n"
+"нажмите красный крестик под сообщением и заполните форму;\n"
+"модераторы будут уведомлены о вашей жалобе.\n"
+"Пожалуйста, используйте эту кнопку только для явных\n"
+"нарушений - не для личных споров.\n"
+"<p>\n"
+"При модерации мы стараемся быть справедливыми, насколько это возможно,\n"
+"но в большом сообществе пользователей, с множеством различных точек зрения,\n"
+"всегда будут некоторые люди, которые будут недовольны нашими методами "
+"модерирования.\n"
+"Хоть мы и сожалеем, что это происходит,\n"
+"нужно понимать, что мы не можем удовлетворить всех людей во все времена\n"
+"и вынуждены принимать решения, основываясь на наших ресурсах и\n"
+"что лучше для форума в целом.\n"
+"Пожалуйста, не надо обсуждать нашу политику модерации на форумах.\n"
+"Мы - не социально-инженерный проект, и мы не создаем совершенно\n"
+"справедливую систему. Поэтому такие дискуссии, скорее всего, будут\n"
+"контрпродуктивными и потенциально опасными. Если у вас есть законное "
+"требование,\n"
+"отправьте электронное письмо по адресу, указанному ниже.\n"
+"<p>\n"
+"Эта политика модерирования установлена в рамках проекта %1.\n"
+"Если у Вас есть комментарии к этой политике, отправьте письмо на адрес %2.\n"
+"\n"
 
 #: ../user/pending.php:66
 msgid "Result ID"
-msgstr ""
+msgstr "ID задания"
 
 #: ../user/pending.php:66
-#, fuzzy
 msgid "Workunit ID"
-msgstr "Задача"
+msgstr "ID задачи"
 
 #: ../user/pending.php:66
-#, fuzzy
 msgid "Host ID"
-msgstr "Имя сервера"
+msgstr "ID компьютера"
 
 #: ../user/pending.php:66
-#, fuzzy
 msgid "Claimed credit"
-msgstr "предоставлено очков"
+msgstr "Запрошено очков"
 
 #: ../user/pending.php:79
-#, fuzzy
 msgid "Pending credit: %1"
-msgstr "Очки, ожидающие подтверждения"
+msgstr "Очки, ожидающие подтверждения: %1"
 
 #: ../user/pm.php:32
 msgid "Block messages from this user"
-msgstr ""
+msgstr "Заблокировать сообщения от этого пользователя"
 
 #: ../user/pm.php:32
-#, fuzzy
 msgid "Block user"
-msgstr "Нет такого пользователя"
+msgstr "Заблокировать пользователя"
 
 #: ../user/pm.php:73
 msgid "Your message has been sent."
@@ -5293,22 +5319,20 @@ msgid "Sender and date"
 msgstr "Отправитель и дата"
 
 #: ../user/pm.php:106
-#, fuzzy
 msgid "Reply to this message"
-msgstr "ответ на %1сообщение ID%2:"
+msgstr "Ответить на это сообщение"
 
 #: ../user/pm.php:107
-#, fuzzy
 msgid "Delete this message"
-msgstr "Удалить выбранные сообщения"
+msgstr "Удалить это сообщение"
 
 #: ../user/pm.php:112
 msgid "Select all"
-msgstr ""
+msgstr "Выбрать все"
 
 #: ../user/pm.php:114
 msgid "Unselect all"
-msgstr ""
+msgstr "Отменить выбор всех"
 
 #: ../user/pm.php:117
 msgid "Delete selected messages"
@@ -5327,14 +5351,14 @@ msgid "You need to fill all fields to send a private message"
 msgstr "Вы должны заполнить все поля, чтобы отправить личное сообщение"
 
 #: ../user/pm.php:188
-#, fuzzy
 msgid ""
 "Your message was flagged as spam\n"
 "                by the Akismet anti-spam system.\n"
 "                Please modify your text and try again."
 msgstr ""
-"Ваше сообщение было помечено как спам антиспам-системой Akismet. Пожалуйста "
-"измените ваш текст и попробуйте ещё раз."
+"Ваше сообщение было помечено как спам\n"
+"антиспам-системой Akismet.\n"
+"Пожалуйста измените ваш текст и попробуйте ещё раз."
 
 #: ../user/pm.php:205
 msgid "Could not find user with id %1"
@@ -5405,9 +5429,8 @@ msgid "To unblock, visit %1message board preferences%2"
 msgstr "Чтобы разблокировать, посетите %1настройки доски сообщений%2"
 
 #: ../user/pm.php:302
-#, fuzzy
 msgid "Unknown action"
-msgstr "Неизвестное действие подписки"
+msgstr "Неизвестное действие"
 
 #: ../user/prefs.php:36
 msgid ""

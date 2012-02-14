@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2012-01-16 11:31 PST\n"
-"PO-Revision-Date: 2012-01-30 22:14+0200\n"
+"PO-Revision-Date: 2012-02-13 00:25+0200\n"
 "Last-Translator: Xavier <xavi.mormur@gmail.com>\n"
 "Language-Team: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
 "Language: ca\n"
@@ -234,9 +234,8 @@ msgid "Joined: %1"
 msgstr "Antiguitat %1"
 
 #: ../inc/forum.inc:545
-#, fuzzy
 msgid "Posts: %1"
-msgstr "Missatges:"
+msgstr "Missatges: %1"
 
 #: ../inc/forum.inc:551
 #, fuzzy
@@ -272,9 +271,8 @@ msgid "Posted: %1"
 msgstr "Missatges de %1"
 
 #: ../inc/forum.inc:582
-#, fuzzy
 msgid " - in response to "
-msgstr "Temps d'espera esgotat - sense resposta"
+msgstr " -en resposta a "
 
 #: ../inc/forum.inc:585 ../inc/prefs.inc:691 ../inc/prefs.inc:693
 msgid "Edit"
@@ -286,9 +284,8 @@ msgid "Edit this message"
 msgstr "Edita el teu missatge"
 
 #: ../inc/forum.inc:591
-#, fuzzy
 msgid "Last modified: %1"
-msgstr "Preferències modificades per última vegada:"
+msgstr "Últim modificat: %1"
 
 #: ../inc/forum.inc:594
 msgid ""
@@ -358,9 +355,8 @@ msgid "Posted %1 by %2"
 msgstr "Missatges de %1"
 
 #: ../inc/forum.inc:701
-#, fuzzy
 msgid "You may not post or rate messages until %1"
-msgstr "No teniu missatges privats."
+msgstr "No podeu enviar o valorar missatges fins 1%"
 
 #: ../inc/forum.inc:712
 msgid ""
@@ -5233,14 +5229,12 @@ msgid "Result ID"
 msgstr ""
 
 #: ../user/pending.php:66
-#, fuzzy
 msgid "Workunit ID"
-msgstr "Identificador de la unitat de treball"
+msgstr "ID de la unitat de treball"
 
 #: ../user/pending.php:66
-#, fuzzy
 msgid "Host ID"
-msgstr "Ordinador central"
+msgstr "ID de l'ordinador central"
 
 #: ../user/pending.php:66
 msgid "Claimed credit"
@@ -5273,9 +5267,8 @@ msgid "Sender and date"
 msgstr "Envio i data"
 
 #: ../user/pm.php:106
-#, fuzzy
 msgid "Reply to this message"
-msgstr "respongui a %1ID Missatge%2:"
+msgstr "Respondre a aquest missatge"
 
 #: ../user/pm.php:107
 #, fuzzy
@@ -5307,14 +5300,14 @@ msgid "You need to fill all fields to send a private message"
 msgstr "Necessita omplir tots els camps per enviar un missatge privat"
 
 #: ../user/pm.php:188
-#, fuzzy
 msgid ""
 "Your message was flagged as spam\n"
 "                by the Akismet anti-spam system.\n"
 "                Please modify your text and try again."
 msgstr ""
-"El teu missatge ha estat marcat com correu brossa per Akismet el sistema "
-"anti-correu brossa. Si us plau, modifica el text i torna a intentar-ho."
+"El teu missatge ha estat marcat com correu brossa\n"
+"                per Akismet el sistema anti-correu brossa.\n"
+"                Si us plau, modifica el text i torna a intentar-ho."
 
 #: ../user/pm.php:205
 msgid "Could not find user with id %1"
@@ -6518,7 +6511,7 @@ msgid ""
 "in any way.\n"
 "         </ul>"
 msgstr ""
-"<strong>Tingueu en compte abans de sortir d'un equip:<strong>\n"
+"<strong>Tingueu en compte abans de sortir d'un equip:</strong>\n"
 "         <ul>\n"
 "         <li>Si surt d'un equip, pot tornar-hi més tard, o unir-se a "
 "qualsevol altre equip que desitji\n"

@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 5.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-02-09 12:37-0500\n"
-"PO-Revision-Date: 2012-01-12 09:23+0200\n"
+"PO-Revision-Date: 2012-02-09 20:11+0200\n"
 "Last-Translator: Anonymous Pootle User\n"
 "Language-Team: BOINC@Latvia <boinc_at_latvia at mac.com>\n"
 "Language: lv\n"
@@ -27,7 +27,7 @@ msgstr ""
 
 #: clientgui/AccountInfoPage.cpp:386
 msgid "Identify your account "
-msgstr ""
+msgstr "Norādiet savu rēķinu"
 
 #: clientgui/AccountInfoPage.cpp:392
 msgid ""

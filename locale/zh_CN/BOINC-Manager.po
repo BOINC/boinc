@@ -4,10 +4,10 @@
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 msgid ""
 msgstr ""
-"Project-Id-Version: BOINC Manager 6.13.x\n"
+"Project-Id-Version: BOINC Manager 7.0.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-02-09 12:37-0500\n"
-"PO-Revision-Date: 2011-10-27 08:41+0200\n"
+"PO-Revision-Date: 2012-02-12 14:59+0200\n"
 "Last-Translator: Gang <zenith.yin@gmail.com>\n"
 "Language-Team: Team China <zenith.yin@gmail.com>\n"
 "Language: zh_CN\n"
@@ -17,12 +17,12 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Generator: Pootle 2.1.6\n"
 "X-Poedit-SourceCharset: utf-8\n"
-"X-Poedit-Basepath: C:\\Src\\BOINCSVN\\trunk\\boinc\n"
+"X-Poedit-Basepath: D:\\Work\\boinc_src\\boinc_trunk\n"
+"X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
 "X-Poedit-SearchPath-0: clientgui\n"
 "X-Poedit-SearchPath-1: clientgui/msw\n"
 "X-Poedit-SearchPath-2: clientgui/gtk\n"
 "X-Poedit-SearchPath-3: clientgui/mac\n"
-"X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
 
 #: clientgui/AccountInfoPage.cpp:386
 msgid "Identify your account "
@@ -712,9 +712,8 @@ msgstr ""
 "如果要连接至您的本地计算机，请在主机名称中填入'localhost'。"
 
 #: clientgui/BOINCBaseView.cpp:774
-#, fuzzy
 msgid "Project web pages"
-msgstr "项目网站"
+msgstr "项目网页"
 
 #: clientgui/BOINCClientManager.cpp:570
 #, c-format
@@ -780,7 +779,6 @@ msgstr "%s 断开至互联网的连接失败。"
 
 #: clientgui/BOINCGUIApp.cpp:339
 #, c-format
-#, fuzzy, c-format
 msgid ""
 "You currently are not authorized to manage the client.\n"
 "\n"
@@ -793,23 +791,22 @@ msgid ""
 msgstr ""
 "您当前未被授权管理本客户端。\n"
 "\n"
-"要在当前用户下运行 BOINC，请：\n"
-" - 重新安装 BOINC，在被问到关于非系统管理员用户的问题时，回答\"是\"\n"
+"要在当前用户下运行 %s，请：\n"
+" - 重新安装 %s，在被问到关于非系统管理员用户的问题时，回答\"是\"\n"
 " - 联系系统管理员将您加入到“boinc_master”用户组。"
 
 #: clientgui/BOINCGUIApp.cpp:345
 #, c-format
-#, fuzzy, c-format
 msgid ""
 "%s ownership or permissions are not set properly; please reinstall %s.\n"
 "(Error code %d"
 msgstr ""
-"BOINC 相关的本地用户权限设置有误，请重新安装 BOINC。\n"
+"%s 相关的本地用户权限设置有误，请重新安装 %s。\n"
 "( 错误代码 %d )"
 
 #: clientgui/BOINCGUIApp.cpp:351
 msgid " at "
-msgstr ""
+msgstr " 位置 "
 
 #: clientgui/BOINCGUIApp.cpp:354
 msgid ")"
@@ -873,7 +870,7 @@ msgstr "允许运行多个 BOINC Manager 的实例"
 
 #: clientgui/BOINCGUIApp.cpp:544
 msgid "Not used: workaround for bug in XCode 4.2"
-msgstr ""
+msgstr "未使用：用于临时修复 XCode 4.2 的错误"
 
 #: clientgui/BOINCGUIApp.cpp:762
 msgid "(Automatic Detection)"
@@ -918,9 +915,8 @@ msgid "Resume"
 msgstr "继续"
 
 #: clientgui/BOINCTaskBar.cpp:620
-#, fuzzy
 msgid "Resume GPU"
-msgstr "继续"
+msgstr "继续 GPU 计算"
 
 #: clientgui/BOINCTaskBar.cpp:696
 msgid "Computing is enabled"
@@ -1065,7 +1061,7 @@ msgid ""
 "(C) 2003-2011 University of California, Berkeley.\n"
 "All Rights Reserved."
 msgstr ""
-"(C) 2003-2011 加州大学伯克利分校。\n"
+"(C) 2003-2012 加州大学伯克利分校。\n"
 "保留所有权利。\n"
 "\n"
 "( 中文翻译: 2005-2011 Yin Gang @ Team China )\n"
@@ -1397,22 +1393,20 @@ msgid "days"
 msgstr "天"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:428
-#, fuzzy
 msgid "Minimum work buffer"
-msgstr "额外的任务缓存"
+msgstr "最小任务缓存"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:437
 msgid "Try to maintain enough tasks to keep busy for this many days"
-msgstr ""
+msgstr "至少应保存多少天的计算任务量"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:449
-#, fuzzy
 msgid "Max additional work buffer"
-msgstr "额外的任务缓存"
+msgstr "最大任务缓存"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:458
 msgid "In addition, maintain enough tasks for up to this many days"
-msgstr ""
+msgstr "最多应保存多少天的计算任务量"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:465
 msgid "Skip image file verification"
@@ -1803,14 +1797,12 @@ msgstr "项目参数设置"
 #: clientgui/DlgItemProperties.cpp:264
 #: clientgui/DlgItemProperties.cpp:282
 #: clientgui/DlgItemProperties.cpp:303
-#, fuzzy
 msgid "Account manager preference"
-msgstr "帐户管理器网站"
+msgstr "帐户管理器参数设置"
 
 #: clientgui/DlgItemProperties.cpp:267
-#, fuzzy
 msgid "Project has no CPU apps"
-msgstr "项目网站"
+msgstr "项目没有 CPU 计算程序"
 
 #: clientgui/DlgItemProperties.cpp:269
 msgid "Scheduling priority"
@@ -2303,13 +2295,12 @@ msgid "Retrieving system state; please wait..."
 msgstr "正在读取系统状态，请稍候..."
 
 #: clientgui/MainDocument.cpp:1792
-#, fuzzy
 msgid "Missing application"
-msgstr "互斥应用程序"
+msgstr "应用程序不存在"
 
 #: clientgui/MainDocument.cpp:1793
 msgid "Please download and install the CoRD application from http://cord.sourceforge.net"
-msgstr ""
+msgstr "请从 http://cord.sourceforge.net 下载并安装 CoRD 程序。"
 
 #: clientgui/MainDocument.cpp:2394
 msgid "on batteries"
@@ -2430,9 +2421,8 @@ msgid " (Scheduler wait)"
 msgstr "（调度等待）"
 
 #: clientgui/MainDocument.cpp:2485
-#, fuzzy
 msgid " (Waiting for network access)"
-msgstr "等待足够的内存"
+msgstr " (正等待访问网络)"
 
 #: clientgui/MainDocument.cpp:2489
 msgid "Computation error"
@@ -3316,7 +3306,7 @@ msgstr "计算程序：%s"
 #: clientgui/sg_TaskPanel.cpp:701
 #, c-format
 msgid "%.3f%%"
-msgstr ""
+msgstr "%.3f%%"
 
 #: clientgui/sg_TaskPanel.cpp:709
 msgid "Application: Not available"
@@ -3948,14 +3938,12 @@ msgid "Show only active tasks."
 msgstr "只显示正在计算过程中的任务。"
 
 #: clientgui/ViewWork.cpp:200
-#, fuzzy
 msgid "Show VM Console"
-msgstr "显示主机的总积分"
+msgstr "显示虚拟机控制台"
 
 #: clientgui/ViewWork.cpp:201
-#, fuzzy
 msgid "Show VM Console in a window."
-msgstr "在新窗口中显示项目图形。"
+msgstr "在窗口里显示虚拟机控制台。"
 
 #: clientgui/ViewWork.cpp:234
 msgid "Elapsed"
@@ -3990,9 +3978,8 @@ msgid "Showing graphics for task..."
 msgstr "正在显示该任务的图形..."
 
 #: clientgui/ViewWork.cpp:425
-#, fuzzy
 msgid "Showing VM console for task..."
-msgstr "正在显示该任务的图形..."
+msgstr "显示指定任务的虚拟机控制台..."
 
 #: clientgui/ViewWork.cpp:478
 #, c-format

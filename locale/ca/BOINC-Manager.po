@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 6.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-02-09 12:37-0500\n"
-"PO-Revision-Date: 2012-01-30 22:07+0200\n"
+"PO-Revision-Date: 2012-02-13 00:12+0200\n"
 "Last-Translator: Xavier <xavi.mormur@gmail.com>\n"
 "Language-Team: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
 "Language: ca\n"
@@ -731,9 +731,8 @@ msgstr ""
 "nom d'ordinador."
 
 #: clientgui/BOINCBaseView.cpp:774
-#, fuzzy
 msgid "Project web pages"
-msgstr "Pàgines Web del Projecte"
+msgstr "Pàgines web del projecte"
 
 #: clientgui/BOINCClientManager.cpp:570
 #, c-format
@@ -799,8 +798,7 @@ msgid "%s failed to disconnected from the Internet."
 msgstr "%s no ha pogut desconnectar-se d'Internet."
 
 #: clientgui/BOINCGUIApp.cpp:339
-#, c-format
-#, fuzzy, c-format
+#, c-format, c-format
 msgid ""
 "You currently are not authorized to manage the client.\n"
 "\n"
@@ -813,27 +811,26 @@ msgid ""
 msgstr ""
 "En aquests moment no te autorització per gestionar el client.\n"
 "\n"
-"Per executar BOINC amb aquest usuari, si us plau:\n"
-"  - reinstal·li BOINC i respongui \"Si\" a la pregunta sobre\n"
+"Per executar %s amb aquest usuari, si us plau:\n"
+"  - reinstal·li %s i respongui \"Si\" a la pregunta sobre\n"
 "     usuaris no-administradors\n"
 " o\n"
 "  - contacti amb el seu administrador per afegir-lo al grup\n"
 "     d'usuaris 'boinc_master'."
 
 #: clientgui/BOINCGUIApp.cpp:345
-#, c-format
-#, fuzzy, c-format
+#, c-format, c-format
 msgid ""
 "%s ownership or permissions are not set properly; please reinstall %s.\n"
 "(Error code %d"
 msgstr ""
-"Les propietats o permisos de BOINC no estan definides correctament; si us "
-"plau reinstal·li BOINC.\n"
-"(Codi d'error %d)"
+"Les propietats o permisos de %s no estan definides correctament; si us plau "
+"reinstal·li %s.\n"
+"(Codi d'error %d"
 
 #: clientgui/BOINCGUIApp.cpp:351
 msgid " at "
-msgstr ""
+msgstr " a "
 
 #: clientgui/BOINCGUIApp.cpp:354
 msgid ")"
@@ -902,7 +899,7 @@ msgstr "estan permeses diverses instàncies de BOINC Manager"
 
 #: clientgui/BOINCGUIApp.cpp:544
 msgid "Not used: workaround for bug in XCode 4.2"
-msgstr ""
+msgstr "No s'utilitza: solució per l'informe d'error al XCode 4.2"
 
 #: clientgui/BOINCGUIApp.cpp:762
 msgid "(Automatic Detection)"
@@ -947,9 +944,8 @@ msgid "Resume"
 msgstr "Continuar"
 
 #: clientgui/BOINCTaskBar.cpp:620
-#, fuzzy
 msgid "Resume GPU"
-msgstr "Continuar"
+msgstr "Continuar GPU"
 
 #: clientgui/BOINCTaskBar.cpp:696
 msgid "Computing is enabled"
@@ -1436,22 +1432,21 @@ msgid "days"
 msgstr "dies"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:428
-#, fuzzy
 msgid "Minimum work buffer"
-msgstr "Buffer addicional de treball"
+msgstr "Buffer mínim de treball"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:437
 msgid "Try to maintain enough tasks to keep busy for this many days"
 msgstr ""
+"Intenti mantenir suficients tasques per mantenir-lo ocupat durant molts dies"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:449
-#, fuzzy
 msgid "Max additional work buffer"
-msgstr "Buffer addicional de treball"
+msgstr "Màxim buffer addicional de treball"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:458
 msgid "In addition, maintain enough tasks for up to this many days"
-msgstr ""
+msgstr "A més, mantenir les tasques suficients per tenir-lo actiu molts dies"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:465
 msgid "Skip image file verification"
@@ -1854,14 +1849,12 @@ msgstr "Projecte preferent"
 #: clientgui/DlgItemProperties.cpp:264
 #: clientgui/DlgItemProperties.cpp:282
 #: clientgui/DlgItemProperties.cpp:303
-#, fuzzy
 msgid "Account manager preference"
-msgstr "Pàgina web de l'administrador de comptes"
+msgstr "Preferències de l'administrador de comptes"
 
 #: clientgui/DlgItemProperties.cpp:267
-#, fuzzy
 msgid "Project has no CPU apps"
-msgstr "Pàgines Web del Projecte"
+msgstr "El projecte no té aplicacions CPU"
 
 #: clientgui/DlgItemProperties.cpp:269
 msgid "Scheduling priority"
@@ -2369,13 +2362,14 @@ msgid "Retrieving system state; please wait..."
 msgstr "Recuperant l'estat del sistema; esperi si us plau..."
 
 #: clientgui/MainDocument.cpp:1792
-#, fuzzy
 msgid "Missing application"
-msgstr "aplicacions exclusives"
+msgstr "Manca l'aplicació"
 
 #: clientgui/MainDocument.cpp:1793
 msgid "Please download and install the CoRD application from http://cord.sourceforge.net"
 msgstr ""
+"Si us plau, descarregueu i instal l'aplicació CoRD des de "
+"http://cord.sourceforge.net"
 
 #: clientgui/MainDocument.cpp:2394
 msgid "on batteries"
@@ -2496,9 +2490,8 @@ msgid " (Scheduler wait)"
 msgstr " (Espera del programador)"
 
 #: clientgui/MainDocument.cpp:2485
-#, fuzzy
 msgid " (Waiting for network access)"
-msgstr "Esperant memòria"
+msgstr " (Esperant accés a la xarxa)"
 
 #: clientgui/MainDocument.cpp:2489
 msgid "Computation error"
@@ -3404,7 +3397,7 @@ msgstr "Aplicació: %s"
 #: clientgui/sg_TaskPanel.cpp:701
 #, c-format
 msgid "%.3f%%"
-msgstr ""
+msgstr "%.3f%%"
 
 #: clientgui/sg_TaskPanel.cpp:709
 msgid "Application: Not available"
@@ -4041,14 +4034,12 @@ msgid "Show only active tasks."
 msgstr "Mostrar només les tasques actives."
 
 #: clientgui/ViewWork.cpp:200
-#, fuzzy
 msgid "Show VM Console"
-msgstr "Mostrar el total de l'ordinador"
+msgstr "Mostrar la consola de la VM"
 
 #: clientgui/ViewWork.cpp:201
-#, fuzzy
 msgid "Show VM Console in a window."
-msgstr "Mostrar els gràfics de l'aplicació en una finestra."
+msgstr "Mostra la consola de la VM en una finestra."
 
 #: clientgui/ViewWork.cpp:234
 msgid "Elapsed"
@@ -4083,9 +4074,8 @@ msgid "Showing graphics for task..."
 msgstr "Mostrant els gràfics de la tasca..."
 
 #: clientgui/ViewWork.cpp:425
-#, fuzzy
 msgid "Showing VM console for task..."
-msgstr "Mostrant els gràfics de la tasca..."
+msgstr "Mostrant consola de la VM per a la tasca..."
 
 #: clientgui/ViewWork.cpp:478
 #, c-format

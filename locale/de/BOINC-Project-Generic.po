@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: BOINC Project (Generic) 6.x\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2012-01-16 11:31 PST\n"
-"PO-Revision-Date: 2012-01-17 13:14+0200\n"
+"PO-Revision-Date: 2012-02-12 21:18+0200\n"
 "Last-Translator: Christian <djangofett@gmx.net>\n"
 "Language-Team: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
 "Language: de\n"
@@ -31,131 +31,135 @@ msgstr "German"
 
 #: ../inc/bbcode_html.inc:11
 msgid "Bold text: [b]text[/b]  (alt+b)"
-msgstr ""
+msgstr "Fetter Text: [b]text[/b] (alt+b)"
 
 #: ../inc/bbcode_html.inc:14
 msgid "Italic text: [i]text[/i]  (alt+i)"
-msgstr ""
+msgstr "Kursiver Text: [i]text[/i]  (alt+i)"
 
 #: ../inc/bbcode_html.inc:17
 msgid "Underline text: [u]text[/u]  (alt+u)"
-msgstr ""
+msgstr "Unterstrichener Text: [u]text[/u]  (alt+u)"
 
 #: ../inc/bbcode_html.inc:20
+#, fuzzy
 msgid "Quote text: [quote]text[/quote]  (alt+q)"
-msgstr ""
+msgstr "Zitierter Text: [quote]text[/quote]  (alt+q)"
 
 #: ../inc/bbcode_html.inc:23
+#, fuzzy
 msgid "Code display: [code]code[/code]  (alt+c)"
-msgstr ""
+msgstr "Quelltext anzeigen: [code]Quelltext[/code]  (alt+c)"
 
 #: ../inc/bbcode_html.inc:26
 msgid "List: [list]text[/list] (alt+l)"
-msgstr ""
+msgstr "Listen: [list]text[/list] (alt+l)"
 
 #: ../inc/bbcode_html.inc:29
 msgid "Ordered list: [list=]text[/list]  (alt+o)"
-msgstr ""
+msgstr "nummerierte Listen: [list=]text[/list]  (alt+o)"
 
 #: ../inc/bbcode_html.inc:32
 msgid "Insert image: [img]http://image_url[/img]  (alt+p)"
-msgstr ""
+msgstr "ein Bild einfügen: [img]http://bild_url[/img]  (alt+p)"
 
 #: ../inc/bbcode_html.inc:35
 msgid ""
 "Insert URL: [url]http://url[/url] or [url=http://url]URL text[/url]  (alt+w)"
 msgstr ""
+"einen Link einfügen: [url]http://linkadresse[/url] or "
+"[url=http://linkadresse]linktext[/url]  (alt+w)"
 
 #: ../inc/bbcode_html.inc:42
 msgid "Font color"
-msgstr ""
+msgstr "Schriftfarbe"
 
 #: ../inc/bbcode_html.inc:43
 msgid ""
 "Font color: [color=red]text[/color]  Tip: you can also use color=#FF0000"
 msgstr ""
+"Schriftfarbe: [color=red]text[/color]  Tip: es funktioniert auch so: "
+"color=#FF0000"
 
 #: ../inc/bbcode_html.inc:44 ../inc/bbcode_html.inc:59 ../inc/prefs.inc:625
 msgid "Default"
 msgstr "Standard"
 
 #: ../inc/bbcode_html.inc:45
-#, fuzzy
 msgid "Dark Red"
-msgstr "Als gelesen markieren"
+msgstr "Dunkelrot"
 
 #: ../inc/bbcode_html.inc:46
 msgid "Red"
-msgstr ""
+msgstr "Rot"
 
 #: ../inc/bbcode_html.inc:47
-#, fuzzy
 msgid "Orange"
-msgstr "Ändern"
+msgstr "Orange"
 
 #: ../inc/bbcode_html.inc:48
 msgid "Brown"
-msgstr ""
+msgstr "Braun"
 
 #: ../inc/bbcode_html.inc:49
 msgid "Yellow"
-msgstr ""
+msgstr "Gelb"
 
 #: ../inc/bbcode_html.inc:50
 msgid "Green"
-msgstr ""
+msgstr "Grün"
 
 #: ../inc/bbcode_html.inc:51
 msgid "Olive"
-msgstr ""
+msgstr "Olivgrün"
 
 #: ../inc/bbcode_html.inc:52
 msgid "Cyan"
-msgstr ""
+msgstr "Blaugrün"
 
 #: ../inc/bbcode_html.inc:53
 msgid "Blue"
-msgstr ""
+msgstr "Blau"
 
 #: ../inc/bbcode_html.inc:54
 msgid "Dark Blue"
-msgstr ""
+msgstr "Dunkelblau"
 
 #: ../inc/bbcode_html.inc:55
 msgid "Indigo"
-msgstr ""
+msgstr "Indigofarben"
 
 #: ../inc/bbcode_html.inc:56
 msgid "Violet"
-msgstr ""
+msgstr "Violett"
 
 #: ../inc/bbcode_html.inc:57
 msgid "Font size"
-msgstr ""
+msgstr "Schriftgröße"
 
 #: ../inc/bbcode_html.inc:58
 msgid "Font size: [size=x-small]small text[/size]"
-msgstr ""
+msgstr "Schriftgröße: [size=x-small]kleiner text[/size]"
 
 #: ../inc/bbcode_html.inc:60
 msgid "Small"
-msgstr ""
+msgstr "Klein"
 
 #: ../inc/bbcode_html.inc:61
 msgid "Normal"
-msgstr ""
+msgstr "Normal"
 
 #: ../inc/bbcode_html.inc:62
 msgid "Large"
-msgstr ""
+msgstr "Groß"
 
 #: ../inc/bbcode_html.inc:65
 msgid "Close all open bbCode tags"
-msgstr ""
+msgstr "Alle offenen bbCodes schließen"
 
 #: ../inc/bbcode_html.inc:65
 msgid "Close Tags"
-msgstr ""
+msgstr "Tags schließen"
 
 #: ../inc/forum.inc:37
 msgid "Oldest first"
@@ -228,40 +232,35 @@ msgid "Next"
 msgstr "Nächste"
 
 #: ../inc/forum.inc:535
-#, fuzzy
 msgid "Send&nbsp;message"
-msgstr "Nachricht senden"
+msgstr "Nachricht&nbsp;senden"
 
 #: ../inc/forum.inc:535
-#, fuzzy
 msgid "Send %1 a private message"
-msgstr "Privatnachricht versenden"
+msgstr "Eine Privatnachricht an %1 senden"
 
 #: ../inc/forum.inc:536
-#, fuzzy
 msgid "Joined: %1"
-msgstr "%1 beigetreten"
+msgstr "Beigetreten: %1"
 
 # ########################################
 # Forum
 #: ../inc/forum.inc:545
-#, fuzzy
 msgid "Posts: %1"
-msgstr "Beiträge:"
+msgstr "Beiträge: %1"
 
 #: ../inc/forum.inc:551
-#, fuzzy
 msgid "Credit: %1"
-msgstr "Punkte"
+msgstr "Punkte: %1"
 
 #: ../inc/forum.inc:552
+#, fuzzy
 msgid "RAC: %1"
-msgstr ""
+msgstr "RAC: %1"
 
 #: ../inc/forum.inc:574
-#, fuzzy
 msgid "You haven't read this message yet"
-msgstr "Sie haben dieses Thema noch nicht gelesen"
+msgstr "Sie haben diese Nachricht noch nicht gelesen"
 
 #: ../inc/forum.inc:574
 #, fuzzy
@@ -269,9 +268,8 @@ msgid "Unread"
 msgstr "ungelesen"
 
 #: ../inc/forum.inc:577 ../inc/forum.inc:582 ../inc/forum.inc:681
-#, fuzzy
 msgid "Message %1"
-msgstr "Nachricht"
+msgstr "Nachricht %1"
 
 #: ../inc/forum.inc:578 ../inc/user.inc:324 ../user/forum_forum.php:172
 msgid "hidden"
@@ -280,69 +278,65 @@ msgstr "versteckt"
 # ########################################
 # Forum
 #: ../inc/forum.inc:579
-#, fuzzy
 msgid "Posted: %1"
-msgstr "Beiträge von %1"
+msgstr "Geschrieben: %1"
 
 #: ../inc/forum.inc:582
 #, fuzzy
 msgid " - in response to "
-msgstr "Zeitüberschreitung - keine Antwort"
+msgstr " - als Antwort zu "
 
 #: ../inc/forum.inc:585 ../inc/prefs.inc:691 ../inc/prefs.inc:693
 msgid "Edit"
 msgstr "Bearbeiten"
 
 #: ../inc/forum.inc:585
-#, fuzzy
 msgid "Edit this message"
-msgstr "Ihre Nachricht bearbeiten"
+msgstr "Diese Nachricht bearbeiten"
 
 #: ../inc/forum.inc:591
-#, fuzzy
 msgid "Last modified: %1"
-msgstr "Letzte Änderung:"
+msgstr "Letzte Änderung: %1"
 
 #: ../inc/forum.inc:594
 msgid ""
 "This post is not shown because the sender is on your 'ignore' list.  Click "
 "%1here%2 to view this post"
 msgstr ""
+"Dieser Beitrag wird nicht angezeigt weil der Absender von Ihnen geblockt "
+"wurde. %1Trotzdem anzeigen%2."
 
 #: ../inc/forum.inc:622 ../inc/forum.inc:633
-#, fuzzy
 msgid "Report this post as offensive"
-msgstr "Diesen Beitrag als Client-Nachricht exportieren"
+msgstr "Diesen Beitrag als anstößig melden"
 
 #: ../inc/forum.inc:622 ../inc/forum.inc:633
-#, fuzzy
 msgid "Report as offensive"
-msgstr "Beitrag melden"
+msgstr "Anstößigen Beitrag melden"
 
 #: ../inc/forum.inc:626
 msgid "Rating: %1"
-msgstr ""
+msgstr "Bewertung: %1"
 
 #: ../inc/forum.inc:626
 msgid "rate: "
-msgstr ""
+msgstr "Bewerten: "
 
 #: ../inc/forum.inc:629
 msgid "Click if you like this message"
-msgstr ""
+msgstr "Hier klicken wenn Sie diesen Beitrag hilfreich finden."
 
 #: ../inc/forum.inc:629
 msgid "Rate +"
-msgstr ""
+msgstr "positiv bewerten"
 
 #: ../inc/forum.inc:631
-#, fuzzy
 msgid "Click if you don't like this message"
-msgstr "Nachricht konnte nicht erstellt werden."
+msgstr "Hier klicken wenn Ihnen der Beitrag nicht gefällt."
 
 #: ../inc/forum.inc:631
 msgid "Rate -"
-msgstr ""
+msgstr "negativ bewerten"
 
 #: ../inc/forum.inc:639 ../user/pm.php:106 ../user/pm.php:146
 msgid "Reply"
@@ -350,32 +344,29 @@ msgstr "Antworten"
 
 #: ../inc/forum.inc:639
 msgid "Post a reply to this message"
-msgstr ""
+msgstr "Auf diesen Beitrag antworten"
 
 #: ../inc/forum.inc:641
-#, fuzzy
 msgid "Quote"
-msgstr "Zitierter Text"
+msgstr "Zitieren"
 
 #: ../inc/forum.inc:641
 msgid "Post a reply by quoting this message"
-msgstr ""
+msgstr "Beim antworten diesen Beitrag zitieren"
 
 #: ../inc/forum.inc:662
 msgid "Hidden by a moderator"
-msgstr ""
+msgstr "Von einem Moderator versteckt"
 
 # ########################################
 # Forum
 #: ../inc/forum.inc:683
-#, fuzzy
 msgid "Posted %1 by %2"
-msgstr "Beiträge von %1"
+msgstr "Geschrieben am %1 von %2"
 
 #: ../inc/forum.inc:701
-#, fuzzy
 msgid "You may not post or rate messages until %1"
-msgstr "Sie haben keine privaten Nachrichten."
+msgstr "Sie können keine Beiträge schreiben oder bewerten bis %1."
 
 #: ../inc/forum.inc:712
 msgid ""
@@ -394,24 +385,37 @@ msgid ""
 "            nationality, gender, class or sexuality.\n"
 "        "
 msgstr ""
+"\n"
+"        <ul>\n"
+"        <li> Beiträge müssen 'kinderfreundlich' sein: Sie dürfen keine\n"
+"            obszönen, hasserfüllten, sexuell freizügige\n"
+"            oder andeutende Inhalte haben.\n"
+"        <li> Keine kommerzielle Werbung.\n"
+"        <li> Keine Verlinkung auf Webseiten mit sexuellen Inhalten,\n"
+"            Glücksspiel, oder Intoleranz gegenüber anderen.\n"
+"        <li> Keine Beiträge die andere verärgern oder reizen sollen,\n"
+"            oder das Thema an sich reißen sollen.\n"
+"        <li> Keine Beiträge die mit Absicht feindselig oder beleidigend "
+"sind.\n"
+"        <li> Keine beleidigenden Kommentare zu Ethnie, Religion,\n"
+"            Nationalität, Geschlecht, Schicht oder Sexualität.\n"
+"        "
 
 #: ../inc/forum.inc:734
 msgid "Rules:"
-msgstr ""
+msgstr "Regeln:"
 
 #: ../inc/forum.inc:735
-#, fuzzy
 msgid "More info"
-msgstr "Team Informationen"
+msgstr "mehr Informationen"
 
 #: ../inc/forum.inc:1008 ../user/forum_thread.php:185
 msgid "Unhide"
 msgstr "Sichtbar machen"
 
 #: ../inc/forum.inc:1008
-#, fuzzy
 msgid "Unhide this post"
-msgstr "Dieses Thema sichtbar machen"
+msgstr "Beitrag sichtbar machen"
 
 #: ../inc/forum.inc:1010 ../user/forum_thread.php:191
 msgid "Hide"
@@ -427,34 +431,28 @@ msgid "Move"
 msgstr "Verschieben"
 
 #: ../inc/forum.inc:1015
-#, fuzzy
 msgid "Move post to a different thread"
-msgstr "Dieses Thema in ein anderes Forum verschieben"
+msgstr "Diesen Beitrag in ein anderes Thema verschieben"
 
 #: ../inc/forum.inc:1020
-#, fuzzy
 msgid "Banish author"
-msgstr "Benutzer verbannen"
+msgstr "Autor verbannen"
 
 #: ../inc/forum.inc:1027
-#, fuzzy
 msgid "Vote to banish author"
-msgstr "Nicht befugt um Benutzer zu verbannen"
+msgstr "Für die Verbannung des Autors abstimmen"
 
 #: ../inc/forum.inc:1031
-#, fuzzy
 msgid "Vote not to banish author"
-msgstr "Nicht befugt um Benutzer zu verbannen"
+msgstr "Gegen die Verbannung des Autors abstimmen"
 
 #: ../inc/forum.inc:1036
-#, fuzzy
 msgid "Start vote to banish author"
-msgstr "Nicht befugt um Benutzer zu verbannen"
+msgstr "Eine Abstimmung zur Verbannung des Autors starten"
 
 #: ../inc/forum.inc:1069
-#, fuzzy
 msgid "Only team members can post to the team message board"
-msgstr "Ein Diskussionsforum für das Team erstellen oder verwalten."
+msgstr "Nur Teammitglieder können Beiträge im Teamforum erstellen."
 
 #: ../inc/forum.inc:1079
 msgid ""
@@ -479,10 +477,12 @@ msgid ""
 "This thread is locked. Only forum moderators and administrators are allowed "
 "to post there."
 msgstr ""
+"Dieses Thema ist geschlossen. Nur Moderatoren oder Administratoren dürfen "
+"hier Beiträge erstellen."
 
 #: ../inc/forum.inc:1098
 msgid "Can't post to a hidden thread."
-msgstr ""
+msgstr "In einem versteckten Thema kann kein Beitrag erstellt werden."
 
 #: ../inc/forum.inc:1126
 msgid "Thread"
@@ -511,30 +511,24 @@ msgid "Last post"
 msgstr "Letzter Beitrag"
 
 #: ../inc/forum.inc:1188
-#, fuzzy
 msgid "New posts in the thread %1"
-msgstr "Zum Thema antworten"
+msgstr "Neue Beiträge im Thema %1"
 
 #: ../inc/forum.inc:1193
-#, fuzzy
 msgid "New posts in subscribed thread"
-msgstr "Abonnierte Themen"
+msgstr "Neue Beiträge in abonniertem Thema"
 
 #: ../inc/forum.inc:1194
-#, fuzzy
 msgid "There are new posts in the thread '%1'"
-msgstr ""
-"Anklicken um benachrichtigt zu werden, wenn neue Beiträge geschrieben "
-"wurden."
+msgstr "Es gibt neue Beiträge im Thema '%1'"
 
 #: ../inc/forum.inc:1204
 msgid "Mark all threads as read"
 msgstr "Alle Themen als gelesen markieren"
 
 #: ../inc/forum.inc:1205
-#, fuzzy
 msgid "Mark all threads in all message boards as read."
-msgstr "Alle Themen in allen Bereichen als gelesen markieren"
+msgstr "Alle Themen in allen Bereichen als gelesen markieren."
 
 #: ../inc/host.inc:24
 msgid "No host"
@@ -1548,9 +1542,8 @@ msgid "Aborted by user"
 msgstr "Abbruch durch Benutzer"
 
 #: ../inc/result.inc:186 ../inc/result.inc:239
-#, fuzzy
 msgid "Upload failed"
-msgstr "Aktualisierung fehlgeschlagen"
+msgstr "Hochladen fehlgeschlagen"
 
 #: ../inc/result.inc:189
 msgid "Timed out - no response"
@@ -1804,7 +1797,7 @@ msgstr "Typ des Teams"
 
 #: ../inc/team.inc:44
 msgid "Show only active teams"
-msgstr "Nur aktive Mitglieder anzeigen"
+msgstr "Nur aktive Teams anzeigen"
 
 #: ../inc/team.inc:45 ../user/profile_menu.php:77 ../user/user_search.php:136
 msgid "Search"
@@ -2356,9 +2349,8 @@ msgstr ""
 "oder einen Nicknamen."
 
 #: ../user/account_finish.php:45 ../user/create_account_form.php:108
-#, fuzzy
 msgid "Select the country you want to represent, if any."
-msgstr "Wählen Sie das Land welches Sie vertreten möchten, wenn überhaupt."
+msgstr "Wählen Sie, falls gewünscht, das Land, das Sie vertreten möchten."
 
 #: ../user/account_finish.php:51 ../user/create_account_form.php:114
 msgid "Postal or ZIP Code"
@@ -2446,9 +2438,8 @@ msgid "Underline"
 msgstr "unterstrichen"
 
 #: ../user/bbcode.php:35
-#, fuzzy
 msgid "Superscript"
-msgstr "Beschreibung"
+msgstr "Hochgestellt"
 
 #: ../user/bbcode.php:36
 msgid "Big text"
@@ -2507,7 +2498,7 @@ msgstr "Element 2"
 #: ../user/bbcode.php:45
 #, fuzzy
 msgid "use to link to Trac ticket on BOINC website"
-msgstr "Benutzen um auf ein Trac-Ticket der BOINC Webseite zu verweisen"
+msgstr "benutzen um auf ein Trac-Ticket der BOINC Webseite zu verweisen"
 
 #: ../user/bbcode.php:47
 msgid "use to link to Trac Wiki on BOINC website"
@@ -2597,14 +2588,13 @@ msgstr ""
 "noch einmal."
 
 #: ../user/create_account_form.php:53
-#, fuzzy
 msgid ""
 "Don't use this form. Just run BOINC, select Add Project, and enter an email "
 "address and password."
 msgstr ""
-"WICHTIG: Wenn Sie den BOINC-Manager verwenden, dann bitte NICHT dieses "
-"Formular verwenden. Einfach BOINC starten, im BOINC-Manager Projekt "
-"hinzufügen auswählen und Ihre E-Mail-Adresse und Passwort eingeben."
+"Dieses Formular nicht verwenden. Einfach BOINC starten, im BOINC-Manager "
+"\"Projekt hinzufügen\" auswählen und Ihre E-Mail-Adresse und Passwort "
+"eingeben."
 
 #: ../user/create_account_form.php:71
 msgid ""
@@ -2864,13 +2854,12 @@ msgstr ""
 "wenn Sie ein neues Profil möchten."
 
 #: ../user/delete_profile.php:48
-#, fuzzy
 msgid ""
 "If you're sure, click 'Yes'\n"
 "to remove your profile from our database."
 msgstr ""
-"Wenn Sie sicher sind, dann 'Löschen' klicken\n"
-"um Ihr Profil aus der Datenbank zu entfernen."
+"Wenn Sie absolut sicher sind Ihr Profil aus\n"
+"der Datenbank zu entfernen, dann klicken Sie 'Ja'."
 
 #: ../user/delete_profile.php:52
 msgid "Delete my profile"
@@ -4161,9 +4150,8 @@ msgstr ""
 "passieren wird - dies kann eine Zeit lang dauern, gedulden Sie sich bitte"
 
 #: ../user/forum_report_post.php:70
-#, fuzzy
 msgid "Report a forum post"
-msgstr "Beitrag melden"
+msgstr "Forenbeitrag melden"
 
 #: ../user/forum_report_post.php:72
 msgid ""
@@ -4481,9 +4469,8 @@ msgid "Edit thread title"
 msgstr "Den Titel des Themas bearbeiten"
 
 #: ../user/forum_thread.php:241
-#, fuzzy
 msgid "Export as Notice"
-msgstr "Diesen Beitrag als Client-Nachricht exportieren"
+msgstr "Als Client-Nachricht exportieren"
 
 #: ../user/forum_thread.php:242
 msgid "Export this news item as a Notice"
@@ -4723,17 +4710,19 @@ msgstr "Einloggen mit Authentikator"
 
 #: ../user/gpu_list.php:126 ../user/gpu_list.php:152
 msgid "No GPU tasks reported"
-msgstr ""
+msgstr "Es sind noch keine GPU Aufgaben zurückgemeldet."
 
 #: ../user/gpu_list.php:182 ../user/stats.php:33
 msgid "Top GPU models"
-msgstr ""
+msgstr "Beste Grafikkarten"
 
 #: ../user/gpu_list.php:183
 msgid ""
 "The following lists show the most productive GPU models on different "
 "platforms.  Relative speeds are shown in parentheses."
 msgstr ""
+"Die produktivsten Grafikkarten für die verschiedenen Plattformen zeigt diese "
+"Liste. Die relative Geschwindigkeit ist in Klammern angegeben."
 
 #: ../user/home.php:42
 msgid "Welcome to %1"
@@ -4794,9 +4783,8 @@ msgid "Number of tasks today"
 msgstr "Anzahl der Aufgaben heute"
 
 #: ../user/host_app_versions.php:59
-#, fuzzy
 msgid "Consecutive valid tasks"
-msgstr "fortlaufende gültige Aufgaben"
+msgstr "Aufeinander-folgende, gültige Aufgaben"
 
 #: ../user/host_app_versions.php:63
 msgid "Average processing rate"
@@ -5255,14 +5243,12 @@ msgid "or %1create an account%2."
 msgstr "oder %1Konto erstellen%2."
 
 #: ../user/merge_by_name.php:33
-#, fuzzy
 msgid "Processing %1"
-msgstr "in Bearbeitung"
+msgstr "Bearbeite %1"
 
 #: ../user/merge_by_name.php:45
-#, fuzzy
 msgid "Merged %1 into %2"
-msgstr "Führe PC %1 mit %2 zusammen."
+msgstr "PC %1 in PC %2 integriert"
 
 #: ../user/merge_by_name.php:74
 #, fuzzy
@@ -5278,10 +5264,16 @@ msgid ""
 "        Incompatible computers will not be merged.\n"
 "        <p>"
 msgstr ""
+"Diese Aktion führt Computer anhand des Rechnernamens zusammen.\n"
+"        <p>\n"
+"        Alle Computer mit dem gleichen Rechnernamen,\n"
+"        werden in dem neuesten Computer zusammengeführt.\n"
+"        Inkompatible Computer werden nicht zusammengeführt.\n"
+"        <p>"
 
 #: ../user/merge_by_name.php:84
 msgid "Go ahead and do this"
-msgstr ""
+msgstr "Mit der Aktion fortfahren"
 
 #: ../user/merge_by_name.php:85
 #, fuzzy
@@ -5295,6 +5287,9 @@ msgid ""
 "our message boards are moderated.\n"
 "Message board postings are subject to the following posting rules:\n"
 msgstr ""
+"Um eine angenehme Diskussion und den bestmöglichen Informationsfluss zu "
+"gewährleisten wird dieses Forum moderiert. Forenbeiträge müssen den "
+"folgenden Regeln entsprechen:"
 
 #: ../user/moderation.php:30
 msgid ""
@@ -5337,30 +5332,27 @@ msgstr ""
 
 #: ../user/pending.php:66
 msgid "Result ID"
-msgstr ""
+msgstr "Aufgaben ID"
 
 #: ../user/pending.php:66
-#, fuzzy
 msgid "Workunit ID"
-msgstr "Paket ID"
+msgstr "Job ID"
 
 #: ../user/pending.php:66
-#, fuzzy
 msgid "Host ID"
-msgstr "Rechner"
+msgstr "Rechner ID"
 
 #: ../user/pending.php:66
 msgid "Claimed credit"
 msgstr "geforderte Punkte"
 
 #: ../user/pending.php:79
-#, fuzzy
 msgid "Pending credit: %1"
-msgstr "Ausstehendes Guthaben"
+msgstr "Ausstehendes Guthaben: %1"
 
 #: ../user/pm.php:32
 msgid "Block messages from this user"
-msgstr ""
+msgstr "Nachrichten von diesem Nutzer blockieren"
 
 #: ../user/pm.php:32
 msgid "Block user"
@@ -5379,22 +5371,20 @@ msgid "Sender and date"
 msgstr "Absender und Zeit"
 
 #: ../user/pm.php:106
-#, fuzzy
 msgid "Reply to this message"
-msgstr "Antworte zur %1Nachricht ID%2:"
+msgstr "Auf diese Nachricht antworten"
 
 #: ../user/pm.php:107
-#, fuzzy
 msgid "Delete this message"
-msgstr "Ausgewählte Nachrichten löschen"
+msgstr "Diese Nachricht löschen"
 
 #: ../user/pm.php:112
 msgid "Select all"
-msgstr ""
+msgstr "Alle auswählen"
 
 #: ../user/pm.php:114
 msgid "Unselect all"
-msgstr ""
+msgstr "Alle abwählen"
 
 #: ../user/pm.php:117
 msgid "Delete selected messages"
@@ -5414,15 +5404,13 @@ msgstr ""
 "Sie müssen alle Eingabefelder ausfüllen, um eine private Nachricht zu senden"
 
 #: ../user/pm.php:188
-#, fuzzy
 msgid ""
 "Your message was flagged as spam\n"
 "                by the Akismet anti-spam system.\n"
 "                Please modify your text and try again."
 msgstr ""
-"Ihr verwendeter Text wurde beim ersten Versuch vom Akismet Anti-Spam-System "
-"als Spam erkannt. Bitte verändern Sie Ihren Text und versuchen Sie es "
-"erneut."
+"Ihr verwendeter Text wurde vom Akismet Anti-Spam-System als Spam erkannt. "
+"Bitte verändern Sie Ihren Text und versuchen Sie es erneut."
 
 #: ../user/pm.php:205
 msgid "Could not find user with id %1"
@@ -5496,9 +5484,8 @@ msgstr ""
 "2 aufheben."
 
 #: ../user/pm.php:302
-#, fuzzy
 msgid "Unknown action"
-msgstr "Unbekannte Abonnement Aktion"
+msgstr "Unbekannte Aktion"
 
 #: ../user/prefs.php:36
 msgid ""
@@ -5641,7 +5628,7 @@ msgstr "beigetreten am"
 #: ../user/profile_search_action.php:44
 #, fuzzy
 msgid "Recent credit"
-msgstr "mit neuesten Punkten"
+msgstr "Zuletzt verdiente Punkte"
 
 #: ../user/profile_search_action.php:54
 msgid "No profiles found containing '%1'"
@@ -5790,7 +5777,7 @@ msgstr "Benutzer"
 #: ../user/server_status.php:382 ../user/server_status.php:398
 #, fuzzy
 msgid "with recent credit"
-msgstr "mit neuesten Punkten"
+msgstr "mit zuletzt verdienten Punkten"
 
 #: ../user/server_status.php:387 ../user/server_status.php:403
 msgid "with credit"
@@ -6982,7 +6969,7 @@ msgstr "Mindestanzahl"
 #: ../user/workunit.php:59
 #, fuzzy
 msgid "initial replication"
-msgstr "Initialreplikation"
+msgstr "Anfängliche Kopien"
 
 #: ../user/workunit.php:60
 msgid "max # of error/total/success tasks"
@@ -7011,7 +6998,7 @@ msgstr "Erstellt"
 #: ../project.sample/project.inc:82
 #, fuzzy
 msgid "Your personal background."
-msgstr "Ihr persönlicher Werdegang."
+msgstr "Informationen zu ihrer Person."
 
 #: ../project.sample/project.inc:86
 msgid ""

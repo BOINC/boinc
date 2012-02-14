@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2012-01-16 11:31 PST\n"
-"PO-Revision-Date: 2011-12-06 22:10+0200\n"
+"PO-Revision-Date: 2012-02-12 10:29+0200\n"
 "Last-Translator: Gabor Cseh <csega@mailbox.hu>\n"
 "Language-Team: \n"
 "Language: hu\n"
@@ -273,7 +273,7 @@ msgstr "Üzenet"
 
 #: ../inc/forum.inc:578 ../inc/user.inc:324 ../user/forum_forum.php:172
 msgid "hidden"
-msgstr ""
+msgstr "rejtett"
 
 # #######################################
 # Forum
@@ -1024,17 +1024,16 @@ msgid ""
 "power mode on some computers %2"
 msgstr ""
 "Munka felfüggesztése, ha nem észlelhető egér/billentyűzet aktivitás az "
-"utóbbi %1 Néhány számítógépnél szükséges az alacsony energiafogyasztású "
-"módba lépéshez %2"
+"utóbbi %1 alatt. Néhány számítógépnél szükséges az alacsony "
+"energiafogyasztású módba lépéshez %2"
 
 #: ../inc/prefs.inc:113
-#, fuzzy
 msgid ""
 "Suspend work when non-BOINC CPU usage is above %1 0 means no "
 "restriction<br>Enforced by version 6.10.30+ %2"
 msgstr ""
-"Munka felfüggesztése, ha a CPU használat %1 fölött van, 0 esetén nincs "
-"korlátozás<br>Kényszerítve a 6.10.30+ verzióknál%2"
+"Munka felfüggesztése, ha a BOINC-on kívüli CPU használat %1 fölött van, 0 "
+"esetén nincs korlátozás<br>Kényszerítve a 6.10.30 fölötti verzióknál%2"
 
 #: ../inc/prefs.inc:121
 #, fuzzy
@@ -1048,8 +1047,8 @@ msgid ""
 "space if 'yes' %2"
 msgstr ""
 "A feladatokat a memóriában hagyjam a felfüggesztés alatt? %1 A "
-"felfüggesztett feladatok swap területet foglalnak, ha az 'igen'-t választja "
-"%2"
+"felfüggesztett feladatok lapozó területet foglalnak, ha az 'igen'-t "
+"választja %2"
 
 #: ../inc/prefs.inc:138
 #, fuzzy
@@ -1108,7 +1107,7 @@ msgstr "%-a a teljesnek"
 #: ../inc/prefs.inc:193
 #, fuzzy
 msgid "Tasks checkpoint to disk at most every"
-msgstr "Feladat lemezre mentése legalább ilyen gyakran:"
+msgstr "Feladat lemezre mentése legfeljebb ennyi időnként:"
 
 #: ../inc/prefs.inc:195
 msgid "seconds"
@@ -1139,7 +1138,7 @@ msgid ""
 msgstr ""
 "A számítógép körülbelül ennyi időnként csatlakozik az Internetre: %1 Hagyja "
 "üresen, vagy írjon 0-t, ha mindig csatlakozik. %2 A BOINC megpróbál legalább "
-"ennyi munkával dolgozni. %3"
+"ennyi munkát tartani a gépen (max. 10 nap). %3"
 
 #: ../inc/prefs.inc:223 ../inc/prefs.inc:228 ../inc/prefs.inc:270
 #: ../inc/util.inc:244
@@ -1148,7 +1147,7 @@ msgstr "nap"
 
 #: ../inc/prefs.inc:226
 msgid "Maintain enough work for an additional"
-msgstr ""
+msgstr "Tartson elég munkát a gépen még legalább ennyi időre:"
 
 #: ../inc/prefs.inc:232
 #, fuzzy
@@ -1156,8 +1155,8 @@ msgid ""
 "Confirm before connecting to Internet? %1 Matters only if you have a modem, "
 "ISDN or VPN connection %2"
 msgstr ""
-"Lecsatlakozik, ha kész? %1 Csak modemes, ISDN vagy VPN kapcsolat esetén "
-"számít. %2"
+"Megerősítést kér, mielőtt csatlakozik az Internethez? %1 Csak modemes, ISDN "
+"vagy VPN kapcsolat esetén számít. %2"
 
 #: ../inc/prefs.inc:241
 msgid ""
@@ -1181,15 +1180,15 @@ msgstr "Maximális feltöltés:"
 
 #: ../inc/prefs.inc:259
 msgid "Use network only between the hours of"
-msgstr ""
+msgstr "Csak ebben az időszakban használja a hálózatot"
 
 #: ../inc/prefs.inc:263
 msgid "Transfer at most %1 Enforced by version 6.10.46+ %2"
-msgstr ""
+msgstr "Legfeljebb %1 adatot vigyen át. Kényszerítve 6.10.46 verzió felett. %2"
 
 #: ../inc/prefs.inc:269
 msgid "Mbytes every"
-msgstr ""
+msgstr "Megabájtonként"
 
 #: ../inc/prefs.inc:274
 msgid ""
@@ -1197,6 +1196,9 @@ msgid ""
 "modifies image files (UMTS does this, for example). %2 Skipping verification "
 "reduces the security of BOINC. %3"
 msgstr ""
+"Kihagyja a képfájl ellenőrzését? %1 CSAK akkor válassza ezt, ha az "
+"internetszolgáltatója (pld. az UMTS) módosítja a képfájlokat. %2 Az "
+"ellenőrzés kihagyása csökkenti a BOINC biztonságát. %3"
 
 #: ../inc/prefs.inc:287
 msgid ""

@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 6.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-02-09 12:37-0500\n"
-"PO-Revision-Date: 2012-02-09 21:12+0200\n"
+"PO-Revision-Date: 2012-02-09 21:21+0200\n"
 "Last-Translator: Rene <oskamjr@wanadoo.nl>\n"
 "Language-Team: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
 "Language: nl\n"
@@ -1415,22 +1415,22 @@ msgid "days"
 msgstr "dagen"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:428
-#, fuzzy
 msgid "Minimum work buffer"
-msgstr "Extra werk buffer"
+msgstr "Minimale werk buffer"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:437
 msgid "Try to maintain enough tasks to keep busy for this many days"
 msgstr ""
+"Probeer genoeg taken binnen te halen om deze hoeveelheid dagen te "
+"overbruggen"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:449
-#, fuzzy
 msgid "Max additional work buffer"
-msgstr "Extra werk buffer"
+msgstr "Maximale aanvullende werk buffer"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:458
 msgid "In addition, maintain enough tasks for up to this many days"
-msgstr ""
+msgstr "In aanvulling, maximaal taken voor deze hoeveelheid dagen."
 
 #: clientgui/DlgAdvPreferencesBase.cpp:465
 msgid "Skip image file verification"
@@ -1835,14 +1835,12 @@ msgstr "Project voorkeuren"
 #: clientgui/DlgItemProperties.cpp:264
 #: clientgui/DlgItemProperties.cpp:282
 #: clientgui/DlgItemProperties.cpp:303
-#, fuzzy
 msgid "Account manager preference"
-msgstr "Accountmanager website"
+msgstr "Accountmanager voorkeuren"
 
 #: clientgui/DlgItemProperties.cpp:267
-#, fuzzy
 msgid "Project has no CPU apps"
-msgstr "Project Websites"
+msgstr "Project heeft geen CPU taken"
 
 #: clientgui/DlgItemProperties.cpp:269
 msgid "Scheduling priority"
@@ -2343,13 +2341,14 @@ msgid "Retrieving system state; please wait..."
 msgstr "Systeem gegevens aan het opvragen; even geduld a.u.b..."
 
 #: clientgui/MainDocument.cpp:1792
-#, fuzzy
 msgid "Missing application"
-msgstr "exclusieve programma's"
+msgstr "Missende applicatie"
 
 #: clientgui/MainDocument.cpp:1793
 msgid "Please download and install the CoRD application from http://cord.sourceforge.net"
 msgstr ""
+"Download en installeer a.u.b. de CoRD applicatie van "
+"http://cord.sourceforge.net"
 
 #: clientgui/MainDocument.cpp:2394
 msgid "on batteries"
@@ -2470,9 +2469,8 @@ msgid " (Scheduler wait)"
 msgstr " (Taakverdeling wacht)"
 
 #: clientgui/MainDocument.cpp:2485
-#, fuzzy
 msgid " (Waiting for network access)"
-msgstr "Wacht op het geheugen"
+msgstr " (Wacht op netwerk toegang)"
 
 #: clientgui/MainDocument.cpp:2489
 msgid "Computation error"
@@ -3375,7 +3373,7 @@ msgstr "Programma: %s"
 #: clientgui/sg_TaskPanel.cpp:701
 #, c-format
 msgid "%.3f%%"
-msgstr ""
+msgstr "%.3f%%"
 
 #: clientgui/sg_TaskPanel.cpp:709
 msgid "Application: Not available"
@@ -4012,14 +4010,12 @@ msgid "Show only active tasks."
 msgstr "Alleen actieve taken weergeven."
 
 #: clientgui/ViewWork.cpp:200
-#, fuzzy
 msgid "Show VM Console"
-msgstr "Computer totaal"
+msgstr "Laat VM Console zien"
 
 #: clientgui/ViewWork.cpp:201
-#, fuzzy
 msgid "Show VM Console in a window."
-msgstr "Bekijk de grafische weergave van dit project."
+msgstr "Laat de VM Console zien in een venster."
 
 #: clientgui/ViewWork.cpp:234
 msgid "Elapsed"
@@ -4054,9 +4050,8 @@ msgid "Showing graphics for task..."
 msgstr "Grafische weergave wordt getoond..."
 
 #: clientgui/ViewWork.cpp:425
-#, fuzzy
 msgid "Showing VM console for task..."
-msgstr "Grafische weergave wordt getoond..."
+msgstr "VM console wordt getoond voor taak..."
 
 #: clientgui/ViewWork.cpp:478
 #, c-format

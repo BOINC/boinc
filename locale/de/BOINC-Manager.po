@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 6.4x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-02-09 12:37-0500\n"
-"PO-Revision-Date: 2012-01-17 13:14+0200\n"
+"PO-Revision-Date: 2012-02-12 17:51+0200\n"
 "Last-Translator: Christian <djangofett@gmx.net>\n"
 "Language-Team: BOINC.DE Team <webmaster@boinc.de>\n"
 "Language: de\n"
@@ -739,9 +739,10 @@ msgstr ""
 "wollen, dann lassen Sie die Felder 'Computername und Passwort leer, oder "
 "benutzen Sie 'localhost' als Computername."
 
+# 88%
 #: clientgui/BOINCBaseView.cpp:774
 msgid "Project web pages"
-msgstr ""
+msgstr "Projekt-Webseite"
 
 #: clientgui/BOINCClientManager.cpp:570
 #, c-format
@@ -807,7 +808,7 @@ msgid "%s failed to disconnected from the Internet."
 msgstr "%s konnte die Internetverbindung nicht beenden."
 
 #: clientgui/BOINCGUIApp.cpp:339
-#, c-format
+#, c-format, fuzzy
 msgid ""
 "You currently are not authorized to manage the client.\n"
 "\n"
@@ -818,6 +819,14 @@ msgid ""
 "  - contact your administrator to add you to the 'boinc_master'\n"
 "     user group."
 msgstr ""
+"Sie sind im Moment nicht befugt diesen Client zu verwalten.\n"
+"\n"
+"Um %s als aktueller Nutzer zu bedienen müssen Sie:\n"
+"  - %s neu installieren und die Frage bezüglich\n"
+"     \"non-administrative users\" mit \"Yes\" beantworten\n"
+" oder\n"
+"  - Ihren Administrator kontaktieren damit Sie in die\n"
+"     'boinc_master' Benutzergruppe aufgenommen werden."
 
 #: clientgui/BOINCGUIApp.cpp:345
 #, c-format
@@ -825,10 +834,13 @@ msgid ""
 "%s ownership or permissions are not set properly; please reinstall %s.\n"
 "(Error code %d"
 msgstr ""
+"Der Besitzstatus oder die Berechtigungen von %s sind nicht korrekt. Bitte "
+"installieren Sie %s neu.\n"
+"(Fehlercode %d"
 
 #: clientgui/BOINCGUIApp.cpp:351
 msgid " at "
-msgstr ""
+msgstr " bei "
 
 #: clientgui/BOINCGUIApp.cpp:354
 msgid ")"
@@ -941,7 +953,7 @@ msgstr "Fortsetzen"
 
 #: clientgui/BOINCTaskBar.cpp:620
 msgid "Resume GPU"
-msgstr ""
+msgstr "GPU fortsetzen"
 
 #: clientgui/BOINCTaskBar.cpp:696
 msgid "Computing is enabled"
@@ -1425,21 +1437,27 @@ msgstr "pro"
 msgid "days"
 msgstr "Tage"
 
+# Vielleicht könnte man hier auch irgendwie Zwischenspeicher einbauen? Das ist aber auch nicht der eigentliche Sinn.
 #: clientgui/DlgAdvPreferencesBase.cpp:428
+#, fuzzy
 msgid "Minimum work buffer"
-msgstr ""
+msgstr "Minimaler Arbeitspuffer"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:437
 msgid "Try to maintain enough tasks to keep busy for this many days"
 msgstr ""
+"Versuche genug Arbeitspakete zu erhalten um für diese Anzahl Tage "
+"beschäftigt zu sein."
 
+# 80%
 #: clientgui/DlgAdvPreferencesBase.cpp:449
 msgid "Max additional work buffer"
-msgstr ""
+msgstr "Max. zusätzlicher Arbeitspuffer"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:458
 msgid "In addition, maintain enough tasks for up to this many days"
 msgstr ""
+"Versuche zusätzlich genug Arbeitspakete für diese Anzahl Tage zu erhalten."
 
 #: clientgui/DlgAdvPreferencesBase.cpp:465
 msgid "Skip image file verification"
@@ -1849,16 +1867,16 @@ msgstr "Projekteinstellungen"
 #: clientgui/DlgItemProperties.cpp:282
 #: clientgui/DlgItemProperties.cpp:303
 msgid "Account manager preference"
-msgstr ""
+msgstr "Kontomanager-Einstellungen"
 
 #: clientgui/DlgItemProperties.cpp:267
 msgid "Project has no CPU apps"
-msgstr ""
+msgstr "Projekt hat keine CPU Anwendungen"
 
 #: clientgui/DlgItemProperties.cpp:269
 #, fuzzy
 msgid "Scheduling priority"
-msgstr "CPU Zeitplanungspriorität"
+msgstr "Planungspriorität"
 
 #: clientgui/DlgItemProperties.cpp:272
 msgid "CPU work fetch deferred for"
@@ -1929,9 +1947,8 @@ msgid "Resources"
 msgstr "Ressourcen"
 
 #: clientgui/DlgItemProperties.cpp:352
-#, fuzzy
 msgid "Estimated computation size"
-msgstr "geschätzte Größe bei der Ausführung"
+msgstr "Geschätzter Berechnungsaufwand"
 
 #: clientgui/DlgItemProperties.cpp:355
 msgid "CPU time at last checkpoint"
@@ -2369,11 +2386,12 @@ msgstr "Ermittlung des BOINC-Systemstatus. Bitte etwas Geduld..."
 
 #: clientgui/MainDocument.cpp:1792
 msgid "Missing application"
-msgstr ""
+msgstr "fehlende Anwendung"
 
 #: clientgui/MainDocument.cpp:1793
 msgid "Please download and install the CoRD application from http://cord.sourceforge.net"
 msgstr ""
+"Bitte installieren Sie die CoRD Anwendung von http://cord.sourceforge.net"
 
 #: clientgui/MainDocument.cpp:2394
 msgid "on batteries"
@@ -2491,13 +2509,12 @@ msgid "Ready to start"
 msgstr "Zur Ausführung bereit"
 
 #: clientgui/MainDocument.cpp:2482
-#, fuzzy
 msgid " (Scheduler wait)"
-msgstr " (Scheduler wartet)"
+msgstr " (Planungspause)"
 
 #: clientgui/MainDocument.cpp:2485
 msgid " (Waiting for network access)"
-msgstr ""
+msgstr " (Warte auf Netzwerkzugriff)"
 
 #: clientgui/MainDocument.cpp:2489
 msgid "Computation error"
@@ -4070,11 +4087,11 @@ msgstr "Zeigt nur aktive Aufgaben an."
 
 #: clientgui/ViewWork.cpp:200
 msgid "Show VM Console"
-msgstr ""
+msgstr "Zeige die VM Konsole"
 
 #: clientgui/ViewWork.cpp:201
 msgid "Show VM Console in a window."
-msgstr ""
+msgstr "Zeigt die VM Konsole in einem eigenen Fenster"
 
 #: clientgui/ViewWork.cpp:234
 msgid "Elapsed"
@@ -4110,7 +4127,7 @@ msgstr "Zeigt die Grafik für Aufgabe..."
 
 #: clientgui/ViewWork.cpp:425
 msgid "Showing VM console for task..."
-msgstr ""
+msgstr "Zeige die VM Konsole einer Aufgabe..."
 
 #: clientgui/ViewWork.cpp:478
 #, c-format

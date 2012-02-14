@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-02-09 12:37-0500\n"
-"PO-Revision-Date: 2011-10-30 15:25+0200\n"
+"PO-Revision-Date: 2012-02-11 12:34+0200\n"
 "Last-Translator: Nikolay Saharov <saharovna@gmail.com>\n"
 "Language-Team: Russia\n"
 "Language: ru\n"
@@ -749,7 +749,6 @@ msgstr ""
 "компьютера."
 
 #: clientgui/BOINCBaseView.cpp:774
-#, fuzzy
 msgid "Project web pages"
 msgstr "Веб-страницы проекта"
 
@@ -816,8 +815,7 @@ msgid "%s failed to disconnected from the Internet."
 msgstr "%s не удалось разорвать подключение к интернету."
 
 #: clientgui/BOINCGUIApp.cpp:339
-#, c-format
-#, fuzzy, c-format
+#, c-format, c-format
 msgid ""
 "You currently are not authorized to manage the client.\n"
 "\n"
@@ -828,29 +826,28 @@ msgid ""
 "  - contact your administrator to add you to the 'boinc_master'\n"
 "     user group."
 msgstr ""
-"В настоящий момент у Вас нет права на управление клиентом.\n"
+"В настоящий момент у Вас нет прав на управление клиентом.\n"
 "\n"
-"Чтобы запустить BOINC под текущим пользователем, необходимо:\n"
-" - переустановить ПО BOINC, ответив \"Да\" на вопрос\n"
+"Чтобы запустить %s под текущим пользователем, необходимо:\n"
+" - переустановить ПО %s, ответив \"Да\" на вопрос\n"
 "   о пользователях без административных прав\n"
 "или\n"
 " - обратиться к Вашему администратору, чтобы он добавил Вас\n"
 "   в группу пользователей 'boinc_master'."
 
 #: clientgui/BOINCGUIApp.cpp:345
-#, c-format
-#, fuzzy, c-format
+#, c-format, c-format
 msgid ""
 "%s ownership or permissions are not set properly; please reinstall %s.\n"
 "(Error code %d"
 msgstr ""
-"Владелец BOINC или права доступа установлены некорректно; пожалуйста "
-"переустановите ПО BOINC.\n"
-"(Код ошибки %d)"
+"Владелец %s или права доступа установлены некорректно; пожалуйста "
+"переустановите ПО %s.\n"
+"(Код ошибки %d"
 
 #: clientgui/BOINCGUIApp.cpp:351
 msgid " at "
-msgstr ""
+msgstr "на"
 
 #: clientgui/BOINCGUIApp.cpp:354
 msgid ")"
@@ -916,7 +913,7 @@ msgstr "разрешено несколько экземпляров менед�
 
 #: clientgui/BOINCGUIApp.cpp:544
 msgid "Not used: workaround for bug in XCode 4.2"
-msgstr ""
+msgstr "Не используется: обход ошибки в XCode 4.2"
 
 #: clientgui/BOINCGUIApp.cpp:762
 msgid "(Automatic Detection)"
@@ -963,9 +960,8 @@ msgid "Resume"
 msgstr "Запустить"
 
 #: clientgui/BOINCTaskBar.cpp:620
-#, fuzzy
 msgid "Resume GPU"
-msgstr "Запустить"
+msgstr "Запустить ГП"
 
 # переделать
 #: clientgui/BOINCTaskBar.cpp:696
@@ -1476,22 +1472,24 @@ msgid "days"
 msgstr "дней"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:428
-#, fuzzy
 msgid "Minimum work buffer"
-msgstr "Дополнительный буфер"
+msgstr "Минимальный буфер"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:437
 msgid "Try to maintain enough tasks to keep busy for this many days"
 msgstr ""
+"Пытаться поддерживать достаточный объём заданий, чтобы оставаться занятым "
+"работой в течение данного числа дней"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:449
-#, fuzzy
 msgid "Max additional work buffer"
-msgstr "Дополнительный буфер"
+msgstr "Макс. дополнительный буфер"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:458
 msgid "In addition, maintain enough tasks for up to this many days"
 msgstr ""
+"Кроме того, поддерживать достаточный объём заданий вплоть до этого числа "
+"дней"
 
 # не проверять изображение файла
 #: clientgui/DlgAdvPreferencesBase.cpp:465
@@ -1913,14 +1911,12 @@ msgstr "Настройка проекта"
 #: clientgui/DlgItemProperties.cpp:264
 #: clientgui/DlgItemProperties.cpp:282
 #: clientgui/DlgItemProperties.cpp:303
-#, fuzzy
 msgid "Account manager preference"
-msgstr "Вебсайт менеджера проектов"
+msgstr "Настройка менеджера проектов"
 
 #: clientgui/DlgItemProperties.cpp:267
-#, fuzzy
 msgid "Project has no CPU apps"
-msgstr "Веб-страницы проекта"
+msgstr "У проекта нет приложений для ЦП"
 
 #: clientgui/DlgItemProperties.cpp:269
 msgid "Scheduling priority"
@@ -2466,13 +2462,14 @@ msgid "Retrieving system state; please wait..."
 msgstr "Обновляется информация о состоянии системы; пожалуйста подождите..."
 
 #: clientgui/MainDocument.cpp:1792
-#, fuzzy
 msgid "Missing application"
-msgstr "привилегированные приложения"
+msgstr "Отсутствует приложение"
 
 #: clientgui/MainDocument.cpp:1793
 msgid "Please download and install the CoRD application from http://cord.sourceforge.net"
 msgstr ""
+"Пожалуйста загрузите и установите приложение CoRD с сайта "
+"http://cord.sourceforge.net"
 
 #: clientgui/MainDocument.cpp:2394
 msgid "on batteries"
@@ -2597,9 +2594,8 @@ msgid " (Scheduler wait)"
 msgstr " (Планировщик ожидает)"
 
 #: clientgui/MainDocument.cpp:2485
-#, fuzzy
 msgid " (Waiting for network access)"
-msgstr "Ожидание освобождения оперативной памяти"
+msgstr "(Ожидание доступа к сети)"
 
 #: clientgui/MainDocument.cpp:2489
 msgid "Computation error"
@@ -3538,7 +3534,7 @@ msgstr "Приложение: %s"
 #: clientgui/sg_TaskPanel.cpp:701
 #, c-format
 msgid "%.3f%%"
-msgstr ""
+msgstr "%.3f%%"
 
 #: clientgui/sg_TaskPanel.cpp:709
 msgid "Application: Not available"
@@ -4196,14 +4192,12 @@ msgid "Show only active tasks."
 msgstr "Показать только активные задания."
 
 #: clientgui/ViewWork.cpp:200
-#, fuzzy
 msgid "Show VM Console"
-msgstr "Всего очков для хоста"
+msgstr "Показать консоль ВМ"
 
 #: clientgui/ViewWork.cpp:201
-#, fuzzy
 msgid "Show VM Console in a window."
-msgstr "Показать окно приложения с графической информацией."
+msgstr "Показать консоль Виртуальной машины в отдельном окне."
 
 #: clientgui/ViewWork.cpp:234
 msgid "Elapsed"
@@ -4239,9 +4233,8 @@ msgid "Showing graphics for task..."
 msgstr "Открывается окно приложения с графической информацией..."
 
 #: clientgui/ViewWork.cpp:425
-#, fuzzy
 msgid "Showing VM console for task..."
-msgstr "Открывается окно приложения с графической информацией..."
+msgstr "Открывается консоль Виртуальной машины..."
 
 #: clientgui/ViewWork.cpp:478
 #, c-format

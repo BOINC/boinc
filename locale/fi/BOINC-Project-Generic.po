@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2012-01-16 11:31 PST\n"
-"PO-Revision-Date: 2012-01-24 18:26+0200\n"
+"PO-Revision-Date: 2012-02-11 14:00+0200\n"
 "Last-Translator: Sami Nordlund <sami.nordlund@kolumbus.fi>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: fi\n"
@@ -26,49 +26,53 @@ msgstr "English"
 
 #: ../inc/bbcode_html.inc:11
 msgid "Bold text: [b]text[/b]  (alt+b)"
-msgstr ""
+msgstr "Lihavoitu teksti: [b]teksti[/b]  (alt+b)"
 
 #: ../inc/bbcode_html.inc:14
 msgid "Italic text: [i]text[/i]  (alt+i)"
-msgstr ""
+msgstr "Kursivoitu teksti: [i]teksti[/i]  (alt+i)"
 
 #: ../inc/bbcode_html.inc:17
 msgid "Underline text: [u]text[/u]  (alt+u)"
-msgstr ""
+msgstr "Alleviivattu teksti: [u]teksti[/u]  (alt+u)"
 
 #: ../inc/bbcode_html.inc:20
 msgid "Quote text: [quote]text[/quote]  (alt+q)"
-msgstr ""
+msgstr "Lainattu teksti: [quote]teksti[/quote]  (alt+q)"
 
 #: ../inc/bbcode_html.inc:23
 msgid "Code display: [code]code[/code]  (alt+c)"
-msgstr ""
+msgstr "Koodin näyttö: [code]koodi[/code]  (alt+c)"
 
 #: ../inc/bbcode_html.inc:26
 msgid "List: [list]text[/list] (alt+l)"
-msgstr ""
+msgstr "Listaus: [list]teksti[/list] (alt+l)"
 
 #: ../inc/bbcode_html.inc:29
 msgid "Ordered list: [list=]text[/list]  (alt+o)"
-msgstr ""
+msgstr "Numeroitu listaus: [list=]teksti[/list]  (alt+o)"
 
 #: ../inc/bbcode_html.inc:32
 msgid "Insert image: [img]http://image_url[/img]  (alt+p)"
-msgstr ""
+msgstr "Liitä kuva: [img]http://image_url[/img]  (alt+p)"
 
 #: ../inc/bbcode_html.inc:35
 msgid ""
 "Insert URL: [url]http://url[/url] or [url=http://url]URL text[/url]  (alt+w)"
 msgstr ""
+"Liitä URL: [url]http://url[/url] tai [url=http://url]URL teksti[/url]  "
+"(alt+w)"
 
 #: ../inc/bbcode_html.inc:42
 msgid "Font color"
-msgstr ""
+msgstr "Fontin väri"
 
 #: ../inc/bbcode_html.inc:43
 msgid ""
 "Font color: [color=red]text[/color]  Tip: you can also use color=#FF0000"
 msgstr ""
+"Fontin väri: [color=red]teksti[/color]  Vinkki: voit myös käyttää "
+"color=#FF0000"
 
 #: ../inc/bbcode_html.inc:44 ../inc/bbcode_html.inc:59 ../inc/prefs.inc:625
 msgid "Default"
@@ -76,80 +80,79 @@ msgstr "Oletus"
 
 #: ../inc/bbcode_html.inc:45
 msgid "Dark Red"
-msgstr ""
+msgstr "Tummanpunainen"
 
 #: ../inc/bbcode_html.inc:46
 msgid "Red"
-msgstr ""
+msgstr "Punainen"
 
 #: ../inc/bbcode_html.inc:47
-#, fuzzy
 msgid "Orange"
-msgstr "Vaihda"
+msgstr "Oranssi"
 
 #: ../inc/bbcode_html.inc:48
 msgid "Brown"
-msgstr ""
+msgstr "Ruskea"
 
 #: ../inc/bbcode_html.inc:49
 msgid "Yellow"
-msgstr ""
+msgstr "Keltainen"
 
 #: ../inc/bbcode_html.inc:50
 msgid "Green"
-msgstr ""
+msgstr "Vihreä"
 
 #: ../inc/bbcode_html.inc:51
 msgid "Olive"
-msgstr ""
+msgstr "Oliivinvihreä"
 
 #: ../inc/bbcode_html.inc:52
 msgid "Cyan"
-msgstr ""
+msgstr "Syaani"
 
 #: ../inc/bbcode_html.inc:53
 msgid "Blue"
-msgstr ""
+msgstr "Sininen"
 
 #: ../inc/bbcode_html.inc:54
 msgid "Dark Blue"
-msgstr ""
+msgstr "Tummansininen"
 
 #: ../inc/bbcode_html.inc:55
 msgid "Indigo"
-msgstr ""
+msgstr "Indigon sininen"
 
 #: ../inc/bbcode_html.inc:56
 msgid "Violet"
-msgstr ""
+msgstr "Violetti"
 
 #: ../inc/bbcode_html.inc:57
 msgid "Font size"
-msgstr ""
+msgstr "Fontin koko"
 
 #: ../inc/bbcode_html.inc:58
 msgid "Font size: [size=x-small]small text[/size]"
-msgstr ""
+msgstr "Fontin koko: [size=x-small]pieni teksti[/size]"
 
 #: ../inc/bbcode_html.inc:60
 msgid "Small"
-msgstr ""
+msgstr "Pieni"
 
 #: ../inc/bbcode_html.inc:61
 msgid "Normal"
-msgstr ""
+msgstr "Normaali"
 
 #: ../inc/bbcode_html.inc:62
 msgid "Large"
-msgstr ""
+msgstr "Suuri"
 
 #: ../inc/bbcode_html.inc:65
 msgid "Close all open bbCode tags"
-msgstr ""
+msgstr "Sulje kaikki avoimet bbCode -tagit"
 
 #: ../inc/bbcode_html.inc:65
 msgid "Close Tags"
-msgstr ""
+msgstr "Sulje tagit"
 
 #: ../inc/forum.inc:37
 msgid "Oldest first"
@@ -216,92 +219,80 @@ msgid "Next"
 msgstr "Seuraava"
 
 #: ../inc/forum.inc:535
-#, fuzzy
 msgid "Send&nbsp;message"
-msgstr "Lähetä viesti"
+msgstr "Lähetä&nbsp;viesti"
 
 #: ../inc/forum.inc:535
-#, fuzzy
 msgid "Send %1 a private message"
-msgstr "Lähetä yksityisviesti"
+msgstr "Lähetä yksityisviesti käyttäjälle %1"
 
 #: ../inc/forum.inc:536
-#, fuzzy
 msgid "Joined: %1"
-msgstr "Liityttiin %1"
+msgstr "Liitytty: %1"
 
 #: ../inc/forum.inc:545
-#, fuzzy
 msgid "Posts: %1"
-msgstr "Viestit:"
+msgstr "Viestit: %1"
 
 #: ../inc/forum.inc:551
-#, fuzzy
 msgid "Credit: %1"
-msgstr "Pisteet"
+msgstr "Pisteet: %1"
 
 #: ../inc/forum.inc:552
 msgid "RAC: %1"
-msgstr ""
+msgstr "RAC: %1"
 
 #: ../inc/forum.inc:574
-#, fuzzy
 msgid "You haven't read this message yet"
-msgstr "Et ole vielä lukenut tätä ketjua"
+msgstr "Et ole vielä lukenut tätä viestiä"
 
 #: ../inc/forum.inc:574
-#, fuzzy
 msgid "Unread"
-msgstr "lukemattomat"
+msgstr "Lukematon"
 
 #: ../inc/forum.inc:577 ../inc/forum.inc:582 ../inc/forum.inc:681
-#, fuzzy
 msgid "Message %1"
-msgstr "Viesti"
+msgstr "Viesti %1"
 
 #: ../inc/forum.inc:578 ../inc/user.inc:324 ../user/forum_forum.php:172
 msgid "hidden"
 msgstr "piilotettu"
 
 #: ../inc/forum.inc:579
-#, fuzzy
 msgid "Posted: %1"
-msgstr "%1 -käyttäjän viestit"
+msgstr "Lähetetty: %1"
 
 #: ../inc/forum.inc:582
-#, fuzzy
 msgid " - in response to "
-msgstr "Aika loppui - ei vastausta"
+msgstr " - vastauksena viestiin "
 
 #: ../inc/forum.inc:585 ../inc/prefs.inc:691 ../inc/prefs.inc:693
 msgid "Edit"
 msgstr "Muokkaa"
 
 #: ../inc/forum.inc:585
-#, fuzzy
 msgid "Edit this message"
-msgstr "Muokkaa viestiäsi"
+msgstr "Muokkaa tätä viestiä"
 
 #: ../inc/forum.inc:591
-#, fuzzy
 msgid "Last modified: %1"
-msgstr "Asetuksia muokattu viimeksi:"
+msgstr "Muokattu viimeksi: %1"
 
 #: ../inc/forum.inc:594
 msgid ""
 "This post is not shown because the sender is on your 'ignore' list.  Click "
 "%1here%2 to view this post"
 msgstr ""
+"Viesti ei näy, koska lähettäjä on \"älä huomioi\" listallasi.  Napsauta %"
+"1tästä%2 katsoaksesi viestiä"
 
 #: ../inc/forum.inc:622 ../inc/forum.inc:633
-#, fuzzy
 msgid "Report this post as offensive"
-msgstr "Vie tämä uutinen ilmoituksena"
+msgstr "Raportoi tämä viesti loukkaavana"
 
 #: ../inc/forum.inc:622 ../inc/forum.inc:633
-#, fuzzy
 msgid "Report as offensive"
-msgstr "Raportoi viestistä"
+msgstr "Raportoi loukkaavana"
 
 #: ../inc/forum.inc:626
 msgid "Rating: %1"
@@ -313,20 +304,19 @@ msgstr ""
 
 #: ../inc/forum.inc:629
 msgid "Click if you like this message"
-msgstr ""
+msgstr "Napsauta jos pidät tästä viestistä"
 
 #: ../inc/forum.inc:629
 msgid "Rate +"
-msgstr ""
+msgstr "Arvioi +"
 
 #: ../inc/forum.inc:631
-#, fuzzy
 msgid "Click if you don't like this message"
-msgstr "Viestin luonti ei onnistunut"
+msgstr "Napsauta jos et pidä tästä viestistä"
 
 #: ../inc/forum.inc:631
 msgid "Rate -"
-msgstr ""
+msgstr "Arvioi -"
 
 #: ../inc/forum.inc:639 ../user/pm.php:106 ../user/pm.php:146
 msgid "Reply"
@@ -334,25 +324,23 @@ msgstr "Vastaa"
 
 #: ../inc/forum.inc:639
 msgid "Post a reply to this message"
-msgstr ""
+msgstr "Kirjoita vastaus tähän viestiin"
 
 #: ../inc/forum.inc:641
-#, fuzzy
 msgid "Quote"
-msgstr "Lainattu teksti"
+msgstr "Lainaa"
 
 #: ../inc/forum.inc:641
 msgid "Post a reply by quoting this message"
-msgstr ""
+msgstr "Kirjoita vastaus lainaamalla viestiä"
 
 #: ../inc/forum.inc:662
 msgid "Hidden by a moderator"
-msgstr ""
+msgstr "Moderaattorin piilottama"
 
 #: ../inc/forum.inc:683
-#, fuzzy
 msgid "Posted %1 by %2"
-msgstr "%1 -käyttäjän viestit"
+msgstr "Kirjoitettu %1 jäsen %2"
 
 #: ../inc/forum.inc:701
 #, fuzzy
@@ -376,47 +364,58 @@ msgid ""
 "            nationality, gender, class or sexuality.\n"
 "        "
 msgstr ""
+"\n"
+"        <ul>\n"
+"        <li> Viestien tulee olla lapsille sopivia: ne eivät saa sisältää\n"
+"            aineistoa, joka on ruokotonta, vihaavaa,\n"
+"            seksuaalista tai vihjailevaa.\n"
+"        <li> Ei kaupallista mainontaa.\n"
+"        <li> Ei linkkejä sivuille, joilla on eroottista,\n"
+"            uhkapeli- tai suvaitsematonta aineistoa.\n"
+"        <li> Ei viestejä, joiden on tarkoitus ärsyttää tai vastustaa muita "
+"ihmisiä\n"
+"            tai kaapata viestiketju.\n"
+"        <li> Ei viestejä, jotka ovat tarkoituksella vihaavia tai loukkaavia.\n"
+"        <li> Ei loukkaavia kommentteja koskien rotua, uskontoa,\n"
+"            kansallisuutta, sukupuolta, yhteiskuntaluokkaa tai "
+"seksuaalisuutta.\n"
+"        "
 
 #: ../inc/forum.inc:734
 msgid "Rules:"
-msgstr ""
+msgstr "Säännöt:"
 
 #: ../inc/forum.inc:735
-#, fuzzy
 msgid "More info"
-msgstr "Tiimin tiedot"
+msgstr "Lisätiedot"
 
 #: ../inc/forum.inc:1008 ../user/forum_thread.php:185
 msgid "Unhide"
 msgstr "Poista piilotus"
 
 #: ../inc/forum.inc:1008
-#, fuzzy
 msgid "Unhide this post"
-msgstr "Poista tämän viestiketjun piilotus"
+msgstr "Poista tämän viestin piilotus"
 
 #: ../inc/forum.inc:1010 ../user/forum_thread.php:191
 msgid "Hide"
 msgstr "Piilota"
 
 #: ../inc/forum.inc:1010
-#, fuzzy
 msgid "Hide this post"
-msgstr "Piilota viesti"
+msgstr "Piilota tämä viesti"
 
 #: ../inc/forum.inc:1015 ../user/forum_thread.php:224
 msgid "Move"
 msgstr "Siirrä"
 
 #: ../inc/forum.inc:1015
-#, fuzzy
 msgid "Move post to a different thread"
-msgstr "Siirrä tämä viestiketju"
+msgstr "Siirrä tämä viesti toiseen viestiketjuun"
 
 #: ../inc/forum.inc:1020
-#, fuzzy
 msgid "Banish author"
-msgstr "Torju käyttäjä"
+msgstr "Torju kirjoittaja"
 
 #: ../inc/forum.inc:1027
 #, fuzzy
@@ -429,14 +428,12 @@ msgid "Vote not to banish author"
 msgstr "Ei oikeutta torjua käyttäjiä"
 
 #: ../inc/forum.inc:1036
-#, fuzzy
 msgid "Start vote to banish author"
-msgstr "Ei oikeutta torjua käyttäjiä"
+msgstr "Aloita äänestys kirjoittajan torjumiseksi"
 
 #: ../inc/forum.inc:1069
-#, fuzzy
 msgid "Only team members can post to the team message board"
-msgstr "Luo tai hoida tiimin keskustelupalstaa"
+msgstr "Vain tiimin jäsenet voivat kirjoittaa tiimin keskustelupalstalle"
 
 #: ../inc/forum.inc:1079
 msgid ""
@@ -460,10 +457,12 @@ msgid ""
 "This thread is locked. Only forum moderators and administrators are allowed "
 "to post there."
 msgstr ""
+"Tämä viestiketju on lukittu. Ainoastaan foorumin moderaattorit ja "
+"ylläpitäjät voivat kirjoittaa viestejä ketjuun."
 
 #: ../inc/forum.inc:1098
 msgid "Can't post to a hidden thread."
-msgstr ""
+msgstr "Piilotettuun ketjuun ei voi kirjoittaa."
 
 #: ../inc/forum.inc:1126
 msgid "Thread"
@@ -490,29 +489,24 @@ msgid "Last post"
 msgstr "Viimeisin viesti"
 
 #: ../inc/forum.inc:1188
-#, fuzzy
 msgid "New posts in the thread %1"
-msgstr "Kirjoita viestiketjuun"
+msgstr "Uudet viestit viestiketjussa %1"
 
 #: ../inc/forum.inc:1193
-#, fuzzy
 msgid "New posts in subscribed thread"
-msgstr "Tilatut viestiketjut"
+msgstr "Uudet viestit tilatussa viestiketjussa"
 
 #: ../inc/forum.inc:1194
-#, fuzzy
 msgid "There are new posts in the thread '%1'"
-msgstr ""
-"Napsauta saadaksesi sähköpostia kun tähän viestiketjuun tulee uusia viestejä"
+msgstr "Viestiketjussa \"%1\" on uusia viestejä"
 
 #: ../inc/forum.inc:1204
 msgid "Mark all threads as read"
 msgstr "Merkitse kaikki ketjut luetuiksi"
 
 #: ../inc/forum.inc:1205
-#, fuzzy
 msgid "Mark all threads in all message boards as read."
-msgstr "Merkitse kaikkien palstojen kaikki viestit luetuiksi."
+msgstr "Merkitse kaikkien palstojen kaikki viestiketjut luetuiksi."
 
 #: ../inc/host.inc:24
 msgid "No host"
@@ -719,9 +713,8 @@ msgid "Tasks"
 msgstr "Tehtäviä"
 
 #: ../inc/host.inc:179 ../inc/host.inc:200
-#, fuzzy
 msgid "Number of times client has contacted server"
-msgstr "BOINCin yhteydenottojen määrä palvelimeen"
+msgstr "Ohjelman yhteydenottokertojen määrä palvelimeen"
 
 #: ../inc/host.inc:180
 msgid "Last time contacted server"
@@ -914,9 +907,8 @@ msgid "Preview"
 msgstr "Esikatselu"
 
 #: ../inc/pm.inc:48 ../user/pm.php:131
-#, fuzzy
 msgid "no such message"
-msgstr "käyttäjää ei ole"
+msgstr "viestiä ei ole"
 
 #: ../inc/pm.inc:82
 msgid "To"
@@ -1507,9 +1499,8 @@ msgid "Aborted by user"
 msgstr "Käyttäjän keskeyttämä"
 
 #: ../inc/result.inc:186 ../inc/result.inc:239
-#, fuzzy
 msgid "Upload failed"
-msgstr "Päivitys epäonnistui"
+msgstr "Lähetys epäonnistui"
 
 #: ../inc/result.inc:189
 msgid "Timed out - no response"
@@ -2388,9 +2379,8 @@ msgid "Underline"
 msgstr "Alleviivattu"
 
 #: ../user/bbcode.php:35
-#, fuzzy
 msgid "Superscript"
-msgstr "Kuvaus"
+msgstr "Yläindeksi"
 
 #: ../user/bbcode.php:36
 msgid "Big text"
@@ -2530,13 +2520,12 @@ msgstr ""
 "Tilin luonti on tällä hetkellä pois käytöstä. Yritä myöhemmin uudelleen."
 
 #: ../user/create_account_form.php:53
-#, fuzzy
 msgid ""
 "Don't use this form. Just run BOINC, select Add Project, and enter an email "
 "address and password."
 msgstr ""
-"HUOM: Jos käytät BOINC Manageria, älä käytä tätä lomaketta. Käynnistä BOINC, "
-"valitse Liity projektiin ja syötä sähköpostiosoite ja salana."
+"Älä käytä tätä lomaketta. Käynnistä BOINC, valitse Lisää projekti ja syötä "
+"sähköpostiosoite ja salasana."
 
 #: ../user/create_account_form.php:71
 msgid ""
@@ -2790,12 +2779,11 @@ msgstr ""
 "jos haluat myöhemmin luoda toisen profiilin."
 
 #: ../user/delete_profile.php:48
-#, fuzzy
 msgid ""
 "If you're sure, click 'Yes'\n"
 "to remove your profile from our database."
 msgstr ""
-"Jos olet varma, napsauta \"Poista\"\n"
+"Jos olet varma, napsauta \"Kyllä\"\n"
 "poistaaksesi profiilisi tietokannastamme."
 
 #: ../user/delete_profile.php:52
@@ -4049,9 +4037,8 @@ msgstr ""
 "jonkin aikaa, joten ole kärsivällinen"
 
 #: ../user/forum_report_post.php:70
-#, fuzzy
 msgid "Report a forum post"
-msgstr "Raportoi viestistä"
+msgstr "Raportoi foorumin viestistä"
 
 #: ../user/forum_report_post.php:72
 msgid ""
@@ -4353,9 +4340,8 @@ msgid "Edit thread title"
 msgstr "Muokkaa viestiketjun otsikkoa"
 
 #: ../user/forum_thread.php:241
-#, fuzzy
 msgid "Export as Notice"
-msgstr "Vie tämä uutinen ilmoituksena"
+msgstr "Vie ilmoituksena"
 
 #: ../user/forum_thread.php:242
 msgid "Export this news item as a Notice"
@@ -4589,17 +4575,19 @@ msgstr "Kirjaudu varmenteella"
 
 #: ../user/gpu_list.php:126 ../user/gpu_list.php:152
 msgid "No GPU tasks reported"
-msgstr ""
+msgstr "GPU tehtäviä ei ole raportoitu"
 
 #: ../user/gpu_list.php:182 ../user/stats.php:33
 msgid "Top GPU models"
-msgstr ""
+msgstr "GPU-mallien kärki"
 
 #: ../user/gpu_list.php:183
 msgid ""
 "The following lists show the most productive GPU models on different "
 "platforms.  Relative speeds are shown in parentheses."
 msgstr ""
+"Seuraava listaus näyttää tehokkaimmat GPU mallit eri alustoilla.  "
+"Suhteellinen nopeus on suluissa."
 
 #: ../user/home.php:42
 msgid "Welcome to %1"
@@ -5091,14 +5079,12 @@ msgid "or %1create an account%2."
 msgstr "tai %1luo tili%2."
 
 #: ../user/merge_by_name.php:33
-#, fuzzy
 msgid "Processing %1"
-msgstr "Käsitellään"
+msgstr "Käsitellään %1"
 
 #: ../user/merge_by_name.php:45
-#, fuzzy
 msgid "Merged %1 into %2"
-msgstr "Sulautetaan konetta %1 koneen %2 kanssa"
+msgstr "Sulautettiin kone %1 koneeseen %2"
 
 #: ../user/merge_by_name.php:74
 #, fuzzy
@@ -5114,15 +5100,20 @@ msgid ""
 "        Incompatible computers will not be merged.\n"
 "        <p>"
 msgstr ""
+"Tämä toiminto sulauttaa tietokoneet niiden domainnimen perusteella.\n"
+"        <p>\n"
+"        Jokainen vanha tietokone sulautetaan uusimman koneen\n"
+"        kanssa, jolla on sama domainnimi.\n"
+"        Epäyhteensopivia koneita ei sulauteta.\n"
+"        <p>"
 
 #: ../user/merge_by_name.php:84
 msgid "Go ahead and do this"
-msgstr ""
+msgstr "Suorita tämä toiminto"
 
 #: ../user/merge_by_name.php:85
-#, fuzzy
 msgid "Return to the list of computers"
-msgstr "Takaisin tietokonelistaasi"
+msgstr "Takaisin tietokonelistaan"
 
 #: ../user/moderation.php:26
 msgid ""
@@ -5131,6 +5122,10 @@ msgid ""
 "our message boards are moderated.\n"
 "Message board postings are subject to the following posting rules:\n"
 msgstr ""
+"\n"
+"Keskustelun ja tiedonkulun varmistamiseksi,\n"
+"keskustelupalstamme ovat moderoituja.\n"
+"Palstojen viestien on täytettävä seuraavat säännöt:\n"
 
 #: ../user/moderation.php:30
 msgid ""
@@ -5170,10 +5165,46 @@ msgid ""
 "If you have comments about the policy, email %2.\n"
 "\n"
 msgstr ""
+"\n"
+"<p>\n"
+"Moderaattorit voivat poistaa viestit, jotka ovat sääntöjen vastaisia.\n"
+"Poistettujen viestien kirjoittajat saavat tiedon sähköpostitse.\n"
+"Sääntöjen rikkojat voivat menettää oikeudet viestien kirjoittamiseen "
+"joksikin aikaa\n"
+"(väärinkäytösten estämiseksi vain projektien ylläpitäjät voivat rajoittaa "
+"oikeuksia).\n"
+"Muutkin huonot tavat (kuten viestiketjujen luominen\n"
+"foorumin spämmäämiseksi)\n"
+"voivat johtaa vastaaviin\n"
+"rangaistuksiin.\n"
+"<p>\n"
+"Jos viesti mielestäsi rikkoo sääntöjä,\n"
+"napsauta punaista X-merkkiä ja täytä lomake;\n"
+"moderaattorit saavat tiedon valituksestasi.\n"
+"Käytä nappia vain selvissä tapauksissa - ei\n"
+"henkilökohtaisissa kiistoissa.\n"
+"<p>\n"
+"Yritämme olla mahdollisimman reiluja moderoinnissa,\n"
+"mutta suuren käyttäjämäärän ja eri näkemysten vuoksi,\n"
+"aina joku on tyytymätön\n"
+"moderointipäätökseen.\n"
+"Tämä on valitettavaa,\n"
+"emmekä voi olla mieliksi kaikille kaiken aikaa ja\n"
+"päätökset pitää tehdä voimavarojen mukaan sekä\n"
+"foorumin parhaaksi.\n"
+"Älä keskustele moderoinnista foorumilla. Emme ole sosiaalinen\n"
+"projekti emmekä ole tekemässä täydellistä järjestelmää.\n"
+"Moderointikeskustelut eivät siten ole tuottavia vaan mahdollisesti\n"
+"yllyttäviä. Jos sinulla on asiallinen vaatimus,\n"
+"lähetä sähköpostia alla olevaa osoitteeseen.\n"
+"<p>\n"
+"Moderointikäytäntö on %1 projektin tekemä.\n"
+"Kommentteja käytännöstä voi lähettää osoitteeseen %2.\n"
+"\n"
 
 #: ../user/pending.php:66
 msgid "Result ID"
-msgstr ""
+msgstr "Tehtävän tunniste"
 
 #: ../user/pending.php:66
 #, fuzzy
@@ -5181,27 +5212,24 @@ msgid "Workunit ID"
 msgstr "Työpaketin tunniste"
 
 #: ../user/pending.php:66
-#, fuzzy
 msgid "Host ID"
-msgstr "Kone"
+msgstr "Koneen tunniste"
 
 #: ../user/pending.php:66
 msgid "Claimed credit"
 msgstr "Pyydetyt pisteet"
 
 #: ../user/pending.php:79
-#, fuzzy
 msgid "Pending credit: %1"
-msgstr "Pisteitä odottavat"
+msgstr "Odottavat pisteet: %1"
 
 #: ../user/pm.php:32
 msgid "Block messages from this user"
-msgstr ""
+msgstr "Torju viestit tältä käyttäjältä"
 
 #: ../user/pm.php:32
-#, fuzzy
 msgid "Block user"
-msgstr "Käyttäjää ei ole olemassa"
+msgstr "Torju käyttäjä"
 
 #: ../user/pm.php:73
 msgid "Your message has been sent."
@@ -5216,22 +5244,20 @@ msgid "Sender and date"
 msgstr "Lähettäjä ja päiväys"
 
 #: ../user/pm.php:106
-#, fuzzy
 msgid "Reply to this message"
-msgstr "vastaus viestiin %1Message ID%2:"
+msgstr "Vastaa tähän viestiin"
 
 #: ../user/pm.php:107
-#, fuzzy
 msgid "Delete this message"
-msgstr "Poista valitut viestit"
+msgstr "Poista tämä viesti"
 
 #: ../user/pm.php:112
 msgid "Select all"
-msgstr ""
+msgstr "Valitse kaikki"
 
 #: ../user/pm.php:114
 msgid "Unselect all"
-msgstr ""
+msgstr "Poista valinta kaikista"
 
 #: ../user/pm.php:117
 msgid "Delete selected messages"
@@ -5250,14 +5276,14 @@ msgid "You need to fill all fields to send a private message"
 msgstr "Kaikki kentät pitää täyttää yksityisviestin lähettämiseksi"
 
 #: ../user/pm.php:188
-#, fuzzy
 msgid ""
 "Your message was flagged as spam\n"
 "                by the Akismet anti-spam system.\n"
 "                Please modify your text and try again."
 msgstr ""
-"Viestisi merkittiin spämmiksi Akismet-spämminestojärjestelmän toimesta. "
-"Muokkaa tekstiäsi ja yritä uudelleen."
+"Viestisi merkittiin spämmiksi\n"
+"                Akismet-spämminestojärjestelmän toimesta.\n"
+"                Muokkaa tekstiäsi ja yritä uudelleen.."
 
 #: ../user/pm.php:205
 msgid "Could not find user with id %1"
@@ -5320,9 +5346,8 @@ msgid "To unblock, visit %1message board preferences%2"
 msgstr "Esto poistetaan %1keskustelupalstan asetuksista%2"
 
 #: ../user/pm.php:302
-#, fuzzy
 msgid "Unknown action"
-msgstr "Tuntematon tilaustoiminto"
+msgstr "Tuntematon toiminto"
 
 #: ../user/prefs.php:36
 msgid ""

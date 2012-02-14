@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 5.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-02-09 12:37-0500\n"
-"PO-Revision-Date: 2011-11-24 23:00+0200\n"
+"PO-Revision-Date: 2012-02-11 04:37+0200\n"
 "Last-Translator: aceman <acelists@atlas.sk>\n"
 "Language-Team: BOINC SK\n"
 "Language: sk\n"
@@ -725,7 +725,6 @@ msgstr ""
 "názov počítača."
 
 #: clientgui/BOINCBaseView.cpp:774
-#, fuzzy
 msgid "Project web pages"
 msgstr "Webstránky projektu"
 
@@ -792,8 +791,7 @@ msgid "%s failed to disconnected from the Internet."
 msgstr "%s bol neúspešný pri odpájaní od Internetu."
 
 #: clientgui/BOINCGUIApp.cpp:339
-#, c-format
-#, fuzzy, c-format
+#, c-format, c-format
 msgid ""
 "You currently are not authorized to manage the client.\n"
 "\n"
@@ -804,29 +802,28 @@ msgid ""
 "  - contact your administrator to add you to the 'boinc_master'\n"
 "     user group."
 msgstr ""
-"Momentálne nemáte práva na správu klienta.\n"
+"Momentálne nemáte oprávnenia na správu klienta.\n"
 "\n"
-"Aby ste mohli používať BOINC ako aktuálny užívateľ:\n"
-"  - preinštalujte BOINC s voľbou \"Áno\" pri otázke o\n"
+"Aby ste mohli používať %s ako aktuálny užívateľ:\n"
+"  - preinštalujte %s s voľbou \"Áno\" pri otázke o\n"
 "     ne-administrátorských kontách\n"
 " alebo\n"
 "  - kontaktujte Vášho administrátora, aby Vás pridal\n"
 "     do skupiny používateľov 'boinc_master'."
 
 #: clientgui/BOINCGUIApp.cpp:345
-#, c-format
-#, fuzzy, c-format
+#, c-format, c-format
 msgid ""
 "%s ownership or permissions are not set properly; please reinstall %s.\n"
 "(Error code %d"
 msgstr ""
-"Vlastnícke práva alebo povolenia pre BOINC nie sú nastavené správne; prosím "
-"nainštalujte BOINC znova.\n"
-"(Kód chyby %d)"
+"Vlastnícke práva alebo povolenia pre %s nie sú nastavené správne; prosím "
+"nainštalujte %s znova.\n"
+"(Kód chyby %d"
 
 #: clientgui/BOINCGUIApp.cpp:351
 msgid " at "
-msgstr ""
+msgstr " na "
 
 #: clientgui/BOINCGUIApp.cpp:354
 msgid ")"
@@ -892,7 +889,7 @@ msgstr "viacnásobné spustenie Správcu BOINC je povolené"
 
 #: clientgui/BOINCGUIApp.cpp:544
 msgid "Not used: workaround for bug in XCode 4.2"
-msgstr ""
+msgstr "Nepoužívané: obchádzka chyby v XCode 4.2"
 
 #: clientgui/BOINCGUIApp.cpp:762
 msgid "(Automatic Detection)"
@@ -937,9 +934,8 @@ msgid "Resume"
 msgstr "Pokračovať"
 
 #: clientgui/BOINCTaskBar.cpp:620
-#, fuzzy
 msgid "Resume GPU"
-msgstr "Pokračovať"
+msgstr "Pokračovať na GPU"
 
 #: clientgui/BOINCTaskBar.cpp:696
 msgid "Computing is enabled"
@@ -1423,22 +1419,20 @@ msgid "days"
 msgstr "dňa (dní)"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:428
-#, fuzzy
 msgid "Minimum work buffer"
-msgstr "Dodatočná zásoba práce na"
+msgstr "Minimálna zásoba práce"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:437
 msgid "Try to maintain enough tasks to keep busy for this many days"
-msgstr ""
+msgstr "Pokúsiť sa udržiavať dosť úloh na spracovanie počas toľkých dní"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:449
-#, fuzzy
 msgid "Max additional work buffer"
-msgstr "Dodatočná zásoba práce na"
+msgstr "Dodatočná zásoba práce"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:458
 msgid "In addition, maintain enough tasks for up to this many days"
-msgstr ""
+msgstr "Navyše udržiavať úlohy aspoň na toľko dní"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:465
 msgid "Skip image file verification"
@@ -1843,14 +1837,12 @@ msgstr "Projektové preferencie"
 #: clientgui/DlgItemProperties.cpp:264
 #: clientgui/DlgItemProperties.cpp:282
 #: clientgui/DlgItemProperties.cpp:303
-#, fuzzy
 msgid "Account manager preference"
-msgstr "Webová stránka správcu konta"
+msgstr "Preferencie Správcu konta"
 
 #: clientgui/DlgItemProperties.cpp:267
-#, fuzzy
 msgid "Project has no CPU apps"
-msgstr "Webstránky projektu"
+msgstr "Projekt nemá úlohy pre CPU"
 
 #: clientgui/DlgItemProperties.cpp:269
 msgid "Scheduling priority"
@@ -2352,13 +2344,13 @@ msgid "Retrieving system state; please wait..."
 msgstr "Zisťuje sa stav systému; prosím čakajte..."
 
 #: clientgui/MainDocument.cpp:1792
-#, fuzzy
 msgid "Missing application"
-msgstr "výhradná aplikácia"
+msgstr "Chýbajúca aplikácia"
 
 #: clientgui/MainDocument.cpp:1793
 msgid "Please download and install the CoRD application from http://cord.sourceforge.net"
 msgstr ""
+"Prosím stiahnite a nainštalujte aplikáciu CoRD z http://cord.sourceforge.net"
 
 #: clientgui/MainDocument.cpp:2394
 msgid "on batteries"
@@ -2479,9 +2471,8 @@ msgid " (Scheduler wait)"
 msgstr " (čakanie plánovača)"
 
 #: clientgui/MainDocument.cpp:2485
-#, fuzzy
 msgid " (Waiting for network access)"
-msgstr "Čakanie na pamäť"
+msgstr " (Čakanie na prístup k sieti)"
 
 #: clientgui/MainDocument.cpp:2489
 msgid "Computation error"
@@ -3385,7 +3376,7 @@ msgstr "Aplikácia: %s"
 #: clientgui/sg_TaskPanel.cpp:701
 #, c-format
 msgid "%.3f%%"
-msgstr ""
+msgstr "%.3f%%"
 
 #: clientgui/sg_TaskPanel.cpp:709
 msgid "Application: Not available"
@@ -4020,14 +4011,12 @@ msgid "Show only active tasks."
 msgstr "Zobraziť len aktívne úlohy."
 
 #: clientgui/ViewWork.cpp:200
-#, fuzzy
 msgid "Show VM Console"
-msgstr "Ukázať úhrn počítača"
+msgstr "Ukázať konzolu VM"
 
 #: clientgui/ViewWork.cpp:201
-#, fuzzy
 msgid "Show VM Console in a window."
-msgstr "Zobraziť okno s grafikou aplikácie."
+msgstr "Zobraziť okno s konzolou VM."
 
 #: clientgui/ViewWork.cpp:234
 msgid "Elapsed"
@@ -4062,9 +4051,8 @@ msgid "Showing graphics for task..."
 msgstr "Zobrazenie grafiky pre úlohu..."
 
 #: clientgui/ViewWork.cpp:425
-#, fuzzy
 msgid "Showing VM console for task..."
-msgstr "Zobrazenie grafiky pre úlohu..."
+msgstr "Zobrazenie konzoly VM pre úlohu..."
 
 #: clientgui/ViewWork.cpp:478
 #, c-format

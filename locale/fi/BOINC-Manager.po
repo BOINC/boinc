@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-02-09 12:37-0500\n"
-"PO-Revision-Date: 2012-01-24 18:29+0200\n"
+"PO-Revision-Date: 2012-02-11 13:57+0200\n"
 "Last-Translator: Sami Nordlund <sami.nordlund@kolumbus.fi>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: fi\n"
@@ -793,8 +793,7 @@ msgid "%s failed to disconnected from the Internet."
 msgstr "%s yhteyden katkaisu internetiin epäonnistui."
 
 #: clientgui/BOINCGUIApp.cpp:339
-#, c-format
-#, fuzzy, c-format
+#, c-format, c-format
 msgid ""
 "You currently are not authorized to manage the client.\n"
 "\n"
@@ -807,22 +806,21 @@ msgid ""
 msgstr ""
 "Sinulla ei ole oikeuksia hallinnoida ohjelmaa.\n"
 "\n"
-"Käyttääksesi BOINCia tällä käyttäjällä:\n"
-"  - asenna BOINC uudelleen ja vastaa \"Kyllä\" kysymykseen\n"
+"Käyttääksesi %s tällä käyttäjällä:\n"
+"  - asenna %s uudelleen ja vastaa \"Kyllä\" kysymykseen\n"
 "     ei-ylläpitäjäkäyttäjistä\n"
 " tai\n"
 "  - ota yhteyttä ylläpitoon joka lisää sinut 'boinc_master-'\n"
 "     käyttäjäryhmään."
 
 #: clientgui/BOINCGUIApp.cpp:345
-#, c-format
-#, fuzzy, c-format
+#, c-format, c-format
 msgid ""
 "%s ownership or permissions are not set properly; please reinstall %s.\n"
 "(Error code %d"
 msgstr ""
-"BOINCin käyttöoikeuksia ei ole asetettu oikein; asenna BOINC uudelleen.\n"
-"(Virhekoodi %d)"
+"%s -käyttöoikeuksia ei ole asetettu oikein; asenna %s uudelleen.\n"
+"(Virhekoodi %d"
 
 #: clientgui/BOINCGUIApp.cpp:351
 msgid " at "
@@ -890,7 +888,7 @@ msgstr "useita BOINC Manager -instansseja sallittu"
 
 #: clientgui/BOINCGUIApp.cpp:544
 msgid "Not used: workaround for bug in XCode 4.2"
-msgstr ""
+msgstr "Ei käytetä: tilapäinen korjaus bugiin XCode 4.2:ssa"
 
 #: clientgui/BOINCGUIApp.cpp:762
 msgid "(Automatic Detection)"
@@ -935,9 +933,8 @@ msgid "Resume"
 msgstr "Jatka"
 
 #: clientgui/BOINCTaskBar.cpp:620
-#, fuzzy
 msgid "Resume GPU"
-msgstr "Jatka"
+msgstr "Jatka GPU"
 
 #: clientgui/BOINCTaskBar.cpp:696
 msgid "Computing is enabled"
@@ -1421,22 +1418,20 @@ msgid "days"
 msgstr ""
 
 #: clientgui/DlgAdvPreferencesBase.cpp:428
-#, fuzzy
 msgid "Minimum work buffer"
-msgstr "Pidä lisäksi työtä"
+msgstr "Minimityömäärä"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:437
 msgid "Try to maintain enough tasks to keep busy for this many days"
-msgstr ""
+msgstr "Yritä pitää työpaketteja näin monen päivän edestä"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:449
-#, fuzzy
 msgid "Max additional work buffer"
-msgstr "Pidä lisäksi työtä"
+msgstr "Suurin lisämäärä työtä"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:458
 msgid "In addition, maintain enough tasks for up to this many days"
-msgstr ""
+msgstr "Pidä lisäksi työpaketteja näin monen päivän edestä"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:465
 msgid "Skip image file verification"
@@ -1840,14 +1835,12 @@ msgstr "Projektiasetukset"
 #: clientgui/DlgItemProperties.cpp:264
 #: clientgui/DlgItemProperties.cpp:282
 #: clientgui/DlgItemProperties.cpp:303
-#, fuzzy
 msgid "Account manager preference"
-msgstr "Tilihallitsijan nettisivu"
+msgstr "Tilihallitsijan asetukset"
 
 #: clientgui/DlgItemProperties.cpp:267
-#, fuzzy
 msgid "Project has no CPU apps"
-msgstr "Projektin nettisivut"
+msgstr "Projektilla ei ole CPU-sovelluksia"
 
 #: clientgui/DlgItemProperties.cpp:269
 msgid "Scheduling priority"
@@ -2350,13 +2343,12 @@ msgid "Retrieving system state; please wait..."
 msgstr "Noudetaan järjestelmätila, odota..."
 
 #: clientgui/MainDocument.cpp:1792
-#, fuzzy
 msgid "Missing application"
-msgstr "erityissovellukset"
+msgstr "Puuttuva sovellus"
 
 #: clientgui/MainDocument.cpp:1793
 msgid "Please download and install the CoRD application from http://cord.sourceforge.net"
-msgstr ""
+msgstr "Lataa ja asenna CoRD-sovellus osoitteesta http://cord.sourceforge.net"
 
 #: clientgui/MainDocument.cpp:2394
 msgid "on batteries"
@@ -2477,9 +2469,8 @@ msgid " (Scheduler wait)"
 msgstr " (Odottaa ajoittamista)"
 
 #: clientgui/MainDocument.cpp:2485
-#, fuzzy
 msgid " (Waiting for network access)"
-msgstr "Odottaa muistia"
+msgstr " (Odottaa pääsyä verkkoon)"
 
 #: clientgui/MainDocument.cpp:2489
 msgid "Computation error"
@@ -3235,7 +3226,7 @@ msgstr "Synkronisoi"
 
 #: clientgui/sg_ProjectPanel.cpp:74
 msgid "Work done for this project"
-msgstr ""
+msgstr "Tälle projektille tehty työ"
 
 #: clientgui/sg_ProjectPanel.cpp:77
 #: clientgui/sg_ProjectsComponent.cpp:123
@@ -3381,7 +3372,7 @@ msgstr "Sovellus: %s"
 #: clientgui/sg_TaskPanel.cpp:701
 #, c-format
 msgid "%.3f%%"
-msgstr ""
+msgstr "%.3f%%"
 
 #: clientgui/sg_TaskPanel.cpp:709
 msgid "Application: Not available"
@@ -4016,14 +4007,12 @@ msgid "Show only active tasks."
 msgstr "Näytä vain suorituksessa olevat paketit."
 
 #: clientgui/ViewWork.cpp:200
-#, fuzzy
 msgid "Show VM Console"
-msgstr "Näytä koneen kokonaispisteet"
+msgstr "Näytä VM Console"
 
 #: clientgui/ViewWork.cpp:201
-#, fuzzy
 msgid "Show VM Console in a window."
-msgstr "Näytä sovelluksen grafiikat ikkunassa."
+msgstr "Näytä VM Console ikkunassa."
 
 #: clientgui/ViewWork.cpp:234
 msgid "Elapsed"
@@ -4058,9 +4047,8 @@ msgid "Showing graphics for task..."
 msgstr "Näytetään paketin grafiikat..."
 
 #: clientgui/ViewWork.cpp:425
-#, fuzzy
 msgid "Showing VM console for task..."
-msgstr "Näytetään paketin grafiikat..."
+msgstr "Näytetään VM konsoli tehtävälle..."
 
 #: clientgui/ViewWork.cpp:478
 #, c-format

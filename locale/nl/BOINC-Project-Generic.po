@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2012-01-16 11:31 PST\n"
-"PO-Revision-Date: 2011-12-03 13:09+0200\n"
+"PO-Revision-Date: 2012-02-11 15:23+0200\n"
 "Last-Translator: Rene <oskamjr@wanadoo.nl>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: nl\n"
@@ -29,131 +29,133 @@ msgstr "Dutch"
 
 #: ../inc/bbcode_html.inc:11
 msgid "Bold text: [b]text[/b]  (alt+b)"
-msgstr ""
+msgstr "Vetgedrukte tekst: [b]tekst[/b]  (alt+b)"
 
 #: ../inc/bbcode_html.inc:14
 msgid "Italic text: [i]text[/i]  (alt+i)"
-msgstr ""
+msgstr "Cursieve tekst: [i]tekst[/i]  (alt+i)"
 
 #: ../inc/bbcode_html.inc:17
 msgid "Underline text: [u]text[/u]  (alt+u)"
-msgstr ""
+msgstr "Onderlijnde tekst: [u]tekst[/u]  (alt+u)"
 
 #: ../inc/bbcode_html.inc:20
 msgid "Quote text: [quote]text[/quote]  (alt+q)"
-msgstr ""
+msgstr "Citaat: [quote]tekst[/quote]  (alt+q)"
 
 #: ../inc/bbcode_html.inc:23
 msgid "Code display: [code]code[/code]  (alt+c)"
-msgstr ""
+msgstr "Code weergeven: [code]code[/code]  (alt+c)"
 
 #: ../inc/bbcode_html.inc:26
 msgid "List: [list]text[/list] (alt+l)"
-msgstr ""
+msgstr "Lijst: [list]tekst[/list] (alt+l)"
 
 #: ../inc/bbcode_html.inc:29
 msgid "Ordered list: [list=]text[/list]  (alt+o)"
-msgstr ""
+msgstr "Geordende lijst: [list=]tekst[/list]  (alt+o)"
 
 #: ../inc/bbcode_html.inc:32
 msgid "Insert image: [img]http://image_url[/img]  (alt+p)"
-msgstr ""
+msgstr "Afbeelding invoegen: [img]http://url_van_afbeelding[/img]  (alt+p)"
 
 #: ../inc/bbcode_html.inc:35
 msgid ""
 "Insert URL: [url]http://url[/url] or [url=http://url]URL text[/url]  (alt+w)"
 msgstr ""
+"URL invoegen: [url]http://url[/url] or [url=http://url]URL tekst[/url]  "
+"(alt+w)"
 
 #: ../inc/bbcode_html.inc:42
 msgid "Font color"
-msgstr ""
+msgstr "Teken kleur"
 
 #: ../inc/bbcode_html.inc:43
 msgid ""
 "Font color: [color=red]text[/color]  Tip: you can also use color=#FF0000"
 msgstr ""
+"Teken kleur: [color=red]tekst[/color]  Tip: color=#FF0000 mag ook worden "
+"gebruikt"
 
 #: ../inc/bbcode_html.inc:44 ../inc/bbcode_html.inc:59 ../inc/prefs.inc:625
 msgid "Default"
 msgstr "Standaard"
 
 #: ../inc/bbcode_html.inc:45
-#, fuzzy
 msgid "Dark Red"
-msgstr "Markeer als 'gelezen'"
+msgstr "Donker Rood"
 
 #: ../inc/bbcode_html.inc:46
 msgid "Red"
-msgstr ""
+msgstr "Rood"
 
 #: ../inc/bbcode_html.inc:47
-#, fuzzy
 msgid "Orange"
-msgstr "Verander"
+msgstr "Oranje"
 
 #: ../inc/bbcode_html.inc:48
 msgid "Brown"
-msgstr ""
+msgstr "Bruin"
 
 #: ../inc/bbcode_html.inc:49
 msgid "Yellow"
-msgstr ""
+msgstr "Geel"
 
 #: ../inc/bbcode_html.inc:50
 msgid "Green"
-msgstr ""
+msgstr "Groen"
 
 #: ../inc/bbcode_html.inc:51
 msgid "Olive"
-msgstr ""
+msgstr "Olijf"
 
 #: ../inc/bbcode_html.inc:52
 msgid "Cyan"
-msgstr ""
+msgstr "Cyaan"
 
 #: ../inc/bbcode_html.inc:53
 msgid "Blue"
-msgstr ""
+msgstr "Blauw"
 
 #: ../inc/bbcode_html.inc:54
 msgid "Dark Blue"
-msgstr ""
+msgstr "Donker Blauw"
 
 #: ../inc/bbcode_html.inc:55
 msgid "Indigo"
-msgstr ""
+msgstr "Indigo"
 
 #: ../inc/bbcode_html.inc:56
 msgid "Violet"
-msgstr ""
+msgstr "Violet"
 
 #: ../inc/bbcode_html.inc:57
 msgid "Font size"
-msgstr ""
+msgstr "Teken grootte"
 
 #: ../inc/bbcode_html.inc:58
 msgid "Font size: [size=x-small]small text[/size]"
-msgstr ""
+msgstr "Teken grootte: [size=x-klein]kleine tekst[/size]"
 
 #: ../inc/bbcode_html.inc:60
 msgid "Small"
-msgstr ""
+msgstr "Klein"
 
 #: ../inc/bbcode_html.inc:61
 msgid "Normal"
-msgstr ""
+msgstr "Normaal"
 
 #: ../inc/bbcode_html.inc:62
 msgid "Large"
-msgstr ""
+msgstr "Groot"
 
 #: ../inc/bbcode_html.inc:65
 msgid "Close all open bbCode tags"
-msgstr ""
+msgstr "Sluit alle geopende bbCode tags"
 
 #: ../inc/bbcode_html.inc:65
 msgid "Close Tags"
-msgstr ""
+msgstr "Sluit Tags"
 
 #: ../inc/forum.inc:37
 msgid "Oldest first"
@@ -220,117 +222,104 @@ msgid "Next"
 msgstr "Volgende"
 
 #: ../inc/forum.inc:535
-#, fuzzy
 msgid "Send&nbsp;message"
-msgstr "Verstuur bericht"
+msgstr "Verstuur&nbsp;bericht"
 
 #: ../inc/forum.inc:535
-#, fuzzy
 msgid "Send %1 a private message"
-msgstr "Verstuur privé bericht"
+msgstr "Verstuur %1 een privé bericht"
 
 #: ../inc/forum.inc:536
-#, fuzzy
 msgid "Joined: %1"
-msgstr "Lid geworden van %1"
+msgstr "Lid geworden: %1"
 
 #: ../inc/forum.inc:545
-#, fuzzy
 msgid "Posts: %1"
-msgstr "Reacties:"
+msgstr "Reacties: %1"
 
 #: ../inc/forum.inc:551
-#, fuzzy
 msgid "Credit: %1"
-msgstr "Punten"
+msgstr "Punten: %1"
 
 #: ../inc/forum.inc:552
 msgid "RAC: %1"
-msgstr ""
+msgstr "Punten gemiddelde: %1"
 
 #: ../inc/forum.inc:574
-#, fuzzy
 msgid "You haven't read this message yet"
-msgstr "U hebt dit onderwerp nog niet gelezen"
+msgstr "U heeft dit bericht nog niet gelezen"
 
 #: ../inc/forum.inc:574
-#, fuzzy
 msgid "Unread"
-msgstr "ongelezen"
+msgstr "Ongelezen"
 
 #: ../inc/forum.inc:577 ../inc/forum.inc:582 ../inc/forum.inc:681
-#, fuzzy
 msgid "Message %1"
-msgstr "Bericht"
+msgstr "Bericht %1"
 
 #: ../inc/forum.inc:578 ../inc/user.inc:324 ../user/forum_forum.php:172
 msgid "hidden"
 msgstr "verborgen"
 
 #: ../inc/forum.inc:579
-#, fuzzy
 msgid "Posted: %1"
-msgstr "Berichten door %1"
+msgstr "Berichten geplaatst: %1"
 
 #: ../inc/forum.inc:582
-#, fuzzy
 msgid " - in response to "
-msgstr "Geen reactie - tijd verstreken"
+msgstr " - in antwoord op "
 
 #: ../inc/forum.inc:585 ../inc/prefs.inc:691 ../inc/prefs.inc:693
 msgid "Edit"
 msgstr "Aanpassen"
 
 #: ../inc/forum.inc:585
-#, fuzzy
 msgid "Edit this message"
-msgstr "Bericht aanpassen"
+msgstr "Dit bericht aanpassen"
 
 #: ../inc/forum.inc:591
-#, fuzzy
 msgid "Last modified: %1"
-msgstr "Voorkeuren aangepast per:"
+msgstr "Aangepast op: %1"
 
 #: ../inc/forum.inc:594
 msgid ""
 "This post is not shown because the sender is on your 'ignore' list.  Click "
 "%1here%2 to view this post"
 msgstr ""
+"Dit bericht wordt niet getoond, omdat de gebruiker op de 'negeer' lijst "
+"staat.  Klik %1hier%2 om weer te geven"
 
 #: ../inc/forum.inc:622 ../inc/forum.inc:633
-#, fuzzy
 msgid "Report this post as offensive"
-msgstr "Dit nieuws artikel exporteren als mededeling"
+msgstr "Rapporteer dit bericht als aanstootgevend"
 
 #: ../inc/forum.inc:622 ../inc/forum.inc:633
-#, fuzzy
 msgid "Report as offensive"
-msgstr "Bericht rapporteren"
+msgstr "Rapporteren als aanstootgevend"
 
 #: ../inc/forum.inc:626
 msgid "Rating: %1"
-msgstr ""
+msgstr "Waardering: %1"
 
 #: ../inc/forum.inc:626
 msgid "rate: "
-msgstr ""
+msgstr "Waarde: "
 
 #: ../inc/forum.inc:629
 msgid "Click if you like this message"
-msgstr ""
+msgstr "Klik als je dit bericht leuk vindt"
 
 #: ../inc/forum.inc:629
 msgid "Rate +"
-msgstr ""
+msgstr "Waarde +"
 
 #: ../inc/forum.inc:631
-#, fuzzy
 msgid "Click if you don't like this message"
-msgstr "kon geen bericht aanmaken"
+msgstr "Klik als je dit bericht niet leuk vindt"
 
 #: ../inc/forum.inc:631
 msgid "Rate -"
-msgstr ""
+msgstr "Waarde -"
 
 #: ../inc/forum.inc:639 ../user/pm.php:106 ../user/pm.php:146
 msgid "Reply"
@@ -338,30 +327,27 @@ msgstr "Beantwoord"
 
 #: ../inc/forum.inc:639
 msgid "Post a reply to this message"
-msgstr ""
+msgstr "Een antwoord geven op dit bericht"
 
 #: ../inc/forum.inc:641
-#, fuzzy
 msgid "Quote"
 msgstr "Citaat"
 
 #: ../inc/forum.inc:641
 msgid "Post a reply by quoting this message"
-msgstr ""
+msgstr "Antwoord geven met een citaat uit dit bericht"
 
 #: ../inc/forum.inc:662
 msgid "Hidden by a moderator"
-msgstr ""
+msgstr "Verborgen door moderator"
 
 #: ../inc/forum.inc:683
-#, fuzzy
 msgid "Posted %1 by %2"
-msgstr "Berichten door %1"
+msgstr "Geplaatst op %1 door %2"
 
 #: ../inc/forum.inc:701
-#, fuzzy
 msgid "You may not post or rate messages until %1"
-msgstr "Geen privé berichten aanwezig."
+msgstr "Je mag geen berichten plaatsen of waarderen tot %1"
 
 #: ../inc/forum.inc:712
 msgid ""
@@ -380,31 +366,44 @@ msgid ""
 "            nationality, gender, class or sexuality.\n"
 "        "
 msgstr ""
+"\n"
+"        <ul>\n"
+"        <li> Hou berichten 'kind vriendelijk': vermijd woorden die\n"
+"            obsceen zijn, haat-gerelateerd,\n"
+"            seksueel getint of suggestief.\n"
+"        <li> Plaats geen commerciële advertenties.\n"
+"        <li> Plaats geen links naar websites met seksuele inhoud,\n"
+"            gokken of intolerantie naar anderen.\n"
+"        <li> Plaats geen berichten met de intentie om andere mensen te "
+"kwetsen,\n"
+"            te beledigen of om het onderwerp over te nemen.\n"
+"        <li> Plaats geen berichten die kunnen worden evaren als een "
+"persoonlijke aanval.\n"
+"        <li> Gebruik geen tekst gericht tegen ras, religie,\n"
+"            nationaliteit, geslacht, klasse of seksuele geaardheid.\n"
+"        "
 
 #: ../inc/forum.inc:734
 msgid "Rules:"
-msgstr ""
+msgstr "Regels:"
 
 #: ../inc/forum.inc:735
-#, fuzzy
 msgid "More info"
-msgstr "Team info"
+msgstr "Meer info"
 
 #: ../inc/forum.inc:1008 ../user/forum_thread.php:185
 msgid "Unhide"
 msgstr "Zichtbaar maken"
 
 #: ../inc/forum.inc:1008
-#, fuzzy
 msgid "Unhide this post"
-msgstr "Dit onderwerp zichtbaar maken"
+msgstr "Bericht zichtbaar maken"
 
 #: ../inc/forum.inc:1010 ../user/forum_thread.php:191
 msgid "Hide"
 msgstr "Verbergen"
 
 #: ../inc/forum.inc:1010
-#, fuzzy
 msgid "Hide this post"
 msgstr "Bericht verbergen"
 
@@ -413,34 +412,28 @@ msgid "Move"
 msgstr "Verplaatsen"
 
 #: ../inc/forum.inc:1015
-#, fuzzy
 msgid "Move post to a different thread"
-msgstr "Verplaats dit onderwerp naar een ander forum"
+msgstr "Verplaats dit bericht naar een ander onderwerp"
 
 #: ../inc/forum.inc:1020
-#, fuzzy
 msgid "Banish author"
-msgstr "Deelnemer uitsluiten"
+msgstr "Auteur uitsluiten"
 
 #: ../inc/forum.inc:1027
-#, fuzzy
 msgid "Vote to banish author"
-msgstr "Niet geautoriseerd om gebruikers uit te sluiten"
+msgstr "Stem om auteur te royeren"
 
 #: ../inc/forum.inc:1031
-#, fuzzy
 msgid "Vote not to banish author"
-msgstr "Niet geautoriseerd om gebruikers uit te sluiten"
+msgstr "Stem om auteur niet te royeren"
 
 #: ../inc/forum.inc:1036
-#, fuzzy
 msgid "Start vote to banish author"
-msgstr "Niet geautoriseerd om gebruikers uit te sluiten"
+msgstr "Begin stemming om auteur te royeren"
 
 #: ../inc/forum.inc:1069
-#, fuzzy
 msgid "Only team members can post to the team message board"
-msgstr "Een team forum aanmaken of beheren"
+msgstr "Alleen team leden mogen berichten plaatsen op dit forum"
 
 #: ../inc/forum.inc:1079
 msgid ""
@@ -464,10 +457,12 @@ msgid ""
 "This thread is locked. Only forum moderators and administrators are allowed "
 "to post there."
 msgstr ""
+"Dit onderwerp is gesloten. Alleen forum moderators en admins mogen hier "
+"berichten plaatsen."
 
 #: ../inc/forum.inc:1098
 msgid "Can't post to a hidden thread."
-msgstr ""
+msgstr "Berichten plaatsen in verborgen onderwerp niet mogelijk."
 
 #: ../inc/forum.inc:1126
 msgid "Thread"
@@ -494,29 +489,24 @@ msgid "Last post"
 msgstr "Laatste reactie"
 
 #: ../inc/forum.inc:1188
-#, fuzzy
 msgid "New posts in the thread %1"
-msgstr "Plaats bericht"
+msgstr "Nieuwe berichten in onderwerp %1"
 
 #: ../inc/forum.inc:1193
-#, fuzzy
 msgid "New posts in subscribed thread"
-msgstr "Geabonneerde onderwerpen"
+msgstr "Nieuwe berichten in geabonneerd onderwerp"
 
 #: ../inc/forum.inc:1194
-#, fuzzy
 msgid "There are new posts in the thread '%1'"
-msgstr ""
-"Klik hier om een email te ontvangen als er een nieuw bericht is geplaatst"
+msgstr "Er zijn nieuwe berichten in onderwerp '%1'"
 
 #: ../inc/forum.inc:1204
 msgid "Mark all threads as read"
 msgstr "Markeer alle onderwerpen als gelezen"
 
 #: ../inc/forum.inc:1205
-#, fuzzy
 msgid "Mark all threads in all message boards as read."
-msgstr "Markeer alle forums als 'gelezen'."
+msgstr "Markeer alle onderwerpen in alle forums als gelezen."
 
 #: ../inc/host.inc:24
 msgid "No host"
@@ -723,9 +713,8 @@ msgid "Tasks"
 msgstr "Taken"
 
 #: ../inc/host.inc:179 ../inc/host.inc:200
-#, fuzzy
 msgid "Number of times client has contacted server"
-msgstr "Aantal keren dat BOINC contact heeft gehad met de server"
+msgstr "Aantal keren dat de cliënt contact heeft gehad met de server"
 
 #: ../inc/host.inc:180
 msgid "Last time contacted server"
@@ -919,9 +908,8 @@ msgid "Preview"
 msgstr "Voorbeeld"
 
 #: ../inc/pm.inc:48 ../user/pm.php:131
-#, fuzzy
 msgid "no such message"
-msgstr "Geen bericht gevonden"
+msgstr "geen bericht gevonden"
 
 #: ../inc/pm.inc:82
 msgid "To"
@@ -1519,9 +1507,8 @@ msgid "Aborted by user"
 msgstr "Afgebroken door gebruiker"
 
 #: ../inc/result.inc:186 ../inc/result.inc:239
-#, fuzzy
 msgid "Upload failed"
-msgstr "Bijwerken mislukt"
+msgstr "Uploaden mislukt"
 
 #: ../inc/result.inc:189
 msgid "Timed out - no response"
@@ -1830,7 +1817,7 @@ msgstr "Soort"
 
 #: ../inc/team.inc:119 ../user/team_manage.php:63
 msgid "Message board"
-msgstr "Message board"
+msgstr "Forum"
 
 #: ../inc/team.inc:120 ../user/forum_forum.php:134 ../user/forum_index.php:93
 msgid "Threads"
@@ -2399,9 +2386,8 @@ msgid "Underline"
 msgstr "Onderlijnen"
 
 #: ../user/bbcode.php:35
-#, fuzzy
 msgid "Superscript"
-msgstr "Beschrijving"
+msgstr "Superscript"
 
 #: ../user/bbcode.php:36
 msgid "Big text"
@@ -2545,14 +2531,12 @@ msgstr ""
 "nog eens."
 
 #: ../user/create_account_form.php:53
-#, fuzzy
 msgid ""
 "Don't use this form. Just run BOINC, select Add Project, and enter an email "
 "address and password."
 msgstr ""
-"NB: Als je de BOINC Manager gebruikt hoef je hier geen gegevens in te "
-"vullen. Start BOINC, selecteer 'Project toevoegen' en vul daar een email "
-"adres en wachtwoord in."
+"Hier geen gegevens invullen. Start BOINC, selecteer 'Project toevoegen' en "
+"vul daar een email adres en wachtwoord in."
 
 #: ../user/create_account_form.php:71
 msgid ""
@@ -2813,12 +2797,11 @@ msgstr ""
 "als je in de toekomst een profiel wenst te gebruiken."
 
 #: ../user/delete_profile.php:48
-#, fuzzy
 msgid ""
 "If you're sure, click 'Yes'\n"
 "to remove your profile from our database."
 msgstr ""
-"Als je zeker bent, klik dan op 'Verwijder'\n"
+"Als je zeker bent, klik dan op 'Ja'\n"
 "om je profiel te verwijderen uit onze database."
 
 #: ../user/delete_profile.php:52
@@ -4093,7 +4076,6 @@ msgstr ""
 "afwachting daarvan vragen wij u enig geduld te hebben."
 
 #: ../user/forum_report_post.php:70
-#, fuzzy
 msgid "Report a forum post"
 msgstr "Bericht rapporteren"
 
@@ -4407,9 +4389,8 @@ msgid "Edit thread title"
 msgstr "Titel van onderwerp aanpassen"
 
 #: ../user/forum_thread.php:241
-#, fuzzy
 msgid "Export as Notice"
-msgstr "Dit nieuws artikel exporteren als mededeling"
+msgstr "Exporteren als mededeling"
 
 #: ../user/forum_thread.php:242
 msgid "Export this news item as a Notice"
@@ -4650,17 +4631,19 @@ msgstr "Aanmelden met authentificatie"
 
 #: ../user/gpu_list.php:126 ../user/gpu_list.php:152
 msgid "No GPU tasks reported"
-msgstr ""
+msgstr "Geen GPU taken gerapporteerd"
 
 #: ../user/gpu_list.php:182 ../user/stats.php:33
 msgid "Top GPU models"
-msgstr ""
+msgstr "Top GPU modellen"
 
 #: ../user/gpu_list.php:183
 msgid ""
 "The following lists show the most productive GPU models on different "
 "platforms.  Relative speeds are shown in parentheses."
 msgstr ""
+"De volgende lijst toont de meest productieve GPU modellen op verschillende "
+"platforms.  Relatieve snelheid wordt getoond tussen ronde haakjes ."
 
 #: ../user/home.php:42
 msgid "Welcome to %1"
@@ -5157,17 +5140,14 @@ msgid "or %1create an account%2."
 msgstr "of %1maak een account%2"
 
 #: ../user/merge_by_name.php:33
-#, fuzzy
 msgid "Processing %1"
-msgstr "Bezig met verwerken"
+msgstr "Verwerken van %1"
 
 #: ../user/merge_by_name.php:45
-#, fuzzy
 msgid "Merged %1 into %2"
-msgstr "Computer %1 en %2 worden samengevoegd"
+msgstr "Computer %1 en %2 zijn samengevoegd"
 
 #: ../user/merge_by_name.php:74
-#, fuzzy
 msgid "Return to the list of your computers"
 msgstr "Terug naar lijst met uw computers"
 
@@ -5180,15 +5160,20 @@ msgid ""
 "        Incompatible computers will not be merged.\n"
 "        <p>"
 msgstr ""
+"Deze actie voegt computers samen op basis van de domeinnaam.\n"
+"        <p>\n"
+"        Voor elke domeinnaam, worden alle oude computers met dezelfde\n"
+"        naam als de nieuwste computer met deze naam samengevoegd.\n"
+"        Indien een computer hier niet aan voldoet, gebeurd dit niet.\n"
+"        <p>"
 
 #: ../user/merge_by_name.php:84
 msgid "Go ahead and do this"
-msgstr ""
+msgstr "Ga verder en doe dit"
 
 #: ../user/merge_by_name.php:85
-#, fuzzy
 msgid "Return to the list of computers"
-msgstr "Terug naar lijst met uw computers"
+msgstr "Terug naar lijst met computers"
 
 #: ../user/moderation.php:26
 msgid ""
@@ -5197,6 +5182,10 @@ msgid ""
 "our message boards are moderated.\n"
 "Message board postings are subject to the following posting rules:\n"
 msgstr ""
+"\n"
+"Om de discussie en berichtenstroom te maximaliseren,\n"
+"wordt ons forum gemodereerd.\n"
+"Berichten zijn onderworpen aan de volgende regels en richtlijnen:\n"
 
 #: ../user/moderation.php:30
 msgid ""
@@ -5236,33 +5225,64 @@ msgid ""
 "If you have comments about the policy, email %2.\n"
 "\n"
 msgstr ""
+"\n"
+"<p>\n"
+"Moderators mogen berichten verwijderen die deze regels overtreden.\n"
+"De auteurs van verwijderde berichten worden per e-mail ingelicht.\n"
+"Regelmatige overtreders kunnen tijdelijk het recht om berichten te plaatsen\n"
+"verliezen (deze straf wordt alleen opgelegd door project administrators).\n"
+"Aanvullende vormen van ongepast gedrag (berichten \"coderen\" om\n"
+"IP adressen af te vangen, overmatige aanmaak van onderwerpen om\n"
+"de forums te vervuilen, etc.), kan ook, ondanks niet vermeld in de regels,\n"
+"leiden tot vergelijkbare maatregelen.\n"
+"<p>\n"
+"Indien je van mening bent dat een bericht een bepaalde regel overtreedt,\n"
+"kan je op de rode X bij het bericht klikken en de reden hiervoor invullen;\n"
+"de moderators worden dan van je klacht op de hoogte gesteld.\n"
+"Gebruik deze knop ALLEEN voor overtredingen - NIET voor\n"
+"persoonlijke meningsverschillen.\n"
+"<p>\n"
+"We doen, zoals altijd, ons best om fair te modereren, maar in\n"
+"in een grote gemeenschap van gebruikers, met veel standpunten,\n"
+"is het natuurlijk altijd mogelijk dat gebruikers het niet eens zijn\n"
+"met onze beslissingen.\n"
+"Ondanks dat we het betreuren als dit gebeurd,\n"
+"moet men zich ook realiseren dat het niet mogelijk is om het\n"
+"iedereen naar de zin te maken. We nemen onze beslissingen\n"
+"alleen in het belang van het forum.\n"
+"Plaats a.u.b. geen discussies om deze regels te bespreken. Dit is\n"
+"alles behalve een project voor bestudering van sociale vaardigheden,\n"
+"noch zijn we in staat het perfect eerlijke systeem te maken.\n"
+"Mocht je, dit in acht nemende, denken een terechte klacht te\n"
+"hebben, stuur dan een e-mail naar onderstaand adres.\n"
+"<p>\n"
+"Bovenstaande moderatie regels zijn opgesteld door %1.\n"
+"In het geval van opmerkingen hierover, e-mail naar %2.\n"
+"\n"
 
 #: ../user/pending.php:66
 msgid "Result ID"
-msgstr ""
+msgstr "Resultaat ID"
 
 #: ../user/pending.php:66
-#, fuzzy
 msgid "Workunit ID"
 msgstr "Werkeenheid ID"
 
 #: ../user/pending.php:66
-#, fuzzy
 msgid "Host ID"
-msgstr "Host computer"
+msgstr "Host ID"
 
 #: ../user/pending.php:66
 msgid "Claimed credit"
 msgstr "Geclaimde punten"
 
 #: ../user/pending.php:79
-#, fuzzy
 msgid "Pending credit: %1"
-msgstr "Openstaande punten"
+msgstr "Openstaande punten: %1"
 
 #: ../user/pm.php:32
 msgid "Block messages from this user"
-msgstr ""
+msgstr "Blokkeer berichten van deze gebruiker"
 
 #: ../user/pm.php:32
 msgid "Block user"
@@ -5281,26 +5301,24 @@ msgid "Sender and date"
 msgstr "Afzender en datum"
 
 #: ../user/pm.php:106
-#, fuzzy
 msgid "Reply to this message"
-msgstr "antwoord op %1Bericht ID%2:"
+msgstr "Geef antwoord op dit bericht"
 
 #: ../user/pm.php:107
-#, fuzzy
 msgid "Delete this message"
-msgstr "Verwijder het geselecteerde bericht"
+msgstr "Verwijder dit bericht"
 
 #: ../user/pm.php:112
 msgid "Select all"
-msgstr ""
+msgstr "Alles selecteren"
 
 #: ../user/pm.php:114
 msgid "Unselect all"
-msgstr ""
+msgstr "Selecties weghalen"
 
 #: ../user/pm.php:117
 msgid "Delete selected messages"
-msgstr "Verwijder het geselecteerde bericht"
+msgstr "Verwijder geselecteerde berichten"
 
 #: ../user/pm.php:140
 msgid "Sender"
@@ -5315,14 +5333,14 @@ msgid "You need to fill all fields to send a private message"
 msgstr "Je moet overal iets invullen om het bericht te kunnen versturen"
 
 #: ../user/pm.php:188
-#, fuzzy
 msgid ""
 "Your message was flagged as spam\n"
 "                by the Akismet anti-spam system.\n"
 "                Please modify your text and try again."
 msgstr ""
-"Je reactie wordt gezien als spam door het Akismet anti-spam systeem. Pas "
-"a.u.b. je tekst aan en probeer opnieuw."
+"Je reactie wordt gezien als spam\n"
+"                door het Akismet anti-spam systeem.\n"
+"                Pas tekst aan en probeer opnieuw."
 
 #: ../user/pm.php:205
 msgid "Could not find user with id %1"
@@ -5391,9 +5409,8 @@ msgid "To unblock, visit %1message board preferences%2"
 msgstr "Om te deblokkeren, bezoek% 1message Forumvoorkeuren%"
 
 #: ../user/pm.php:302
-#, fuzzy
 msgid "Unknown action"
-msgstr "Onbekende aanmeldingshandeling"
+msgstr "Onbekende handeling"
 
 #: ../user/prefs.php:36
 msgid ""
