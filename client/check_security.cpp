@@ -513,7 +513,12 @@ static int CheckNestedDirectories(char * basepath, int depth,
     static int      errShown = 0;
 
     dirp = opendir(basepath);
-    if (dirp == NULL) {           // Should never happen
+    if (dirp == NULL) {
+        // Ideally, all project-created subdirectories under project or slot 
+        // directoriesshould have read-by-group and execute-by-group permission 
+        // bits set, but some don't.  If these permission bits are missing, the 
+        // project applications will run OK but we can't access the contents of 
+        // the subdirectory to check them.
         strlcpy(full_path, basepath, sizeof(full_path));
         if ((depth > 1) && (errno == EACCES)) {
             return 0;
@@ -521,7 +526,7 @@ static int CheckNestedDirectories(char * basepath, int depth,
             retval = -1200;
         }
     }
-    
+
     while (dirp) {              // Skip this if dirp == NULL, else loop until break
         dp = readdir(dirp);
         if (dp == NULL)
