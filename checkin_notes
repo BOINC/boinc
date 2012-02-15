@@ -1708,3 +1708,10 @@ David  14 Feb 2012
     vda/
         vdad.cpp
         vda_lib.h
+
+David  14 Feb 2012
+    - client: instead of saying "comm deferred",
+        say "project backoff XXX.XX".
+
+    client/
+        work_fetch.cpp
