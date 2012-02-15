@@ -408,7 +408,6 @@ void RSC_WORK_FETCH::print_state(const char* name) {
         busy_time_estimator.get_busy_time()
     );
     for (unsigned int i=0; i<gstate.projects.size(); i++) {
-        char buf[256];
         PROJECT* p = gstate.projects[i];
         if (p->non_cpu_intensive) continue;
         RSC_PROJECT_WORK_FETCH& pwf = project_state(p);
@@ -417,16 +416,10 @@ void RSC_WORK_FETCH::print_state(const char* name) {
         bool no_rsc_apps = p->no_rsc_apps[rsc_type];
         bool no_rsc_ams = p->no_rsc_ams[rsc_type];
         double bt = pwf.backoff_time>gstate.now?pwf.backoff_time-gstate.now:0;
-        sprintf(buf, " (project backoff %.2f)", p->min_rpc_time - gstate.now);
         msg_printf(p, MSG_INFO,
-            "[work_fetch] %s: fetch share %.2f rec %.5f prio %.5f rsc backoff (dt %.2f, inc %.2f)%s%s%s%s%s%s%s%s%s",
+            "[work_fetch] %s: fetch share %.2f rsc backoff (dt %.2f, inc %.2f)%s%s%s%s",
             name,
-            pwf.fetchable_share, p->pwf.rec, p->sched_priority, bt, pwf.backoff_interval,
-            p->suspended_via_gui?" (susp via GUI)":"",
-            p->master_url_fetch_pending?" (master fetch pending)":"",
-            p->min_rpc_time > gstate.now?buf:"",
-            p->dont_request_more_work?" (no new tasks)":"",
-            p->too_many_uploading_results?" (too many uploads)":"",
+            pwf.fetchable_share, bt, pwf.backoff_interval,
             no_rsc_pref?" (blocked by prefs)":"",
             no_rsc_apps?" (no apps)":"",
             no_rsc_ams?" (blocked by account manager)":"",
@@ -526,13 +519,28 @@ void WORK_FETCH::print_state() {
     msg_printf(0, MSG_INFO, "[work_fetch] target work buffer: %.2f + %.2f sec",
         gstate.work_buf_min(), gstate.work_buf_additional()
     );
-    for (int i=0; i<coprocs.n_rsc; i++) {
-        rsc_work_fetch[i].print_state(rsc_name(i));
-    }
     for (unsigned int i=0; i<gstate.projects.size(); i++) {
+        char buf[256];
         PROJECT* p = gstate.projects[i];
         if (p->non_cpu_intensive) continue;
-        msg_printf(p, MSG_INFO, "[work_fetch] REC %f", p->pwf.rec);
+        if (p->min_rpc_time > gstate.now) {
+            sprintf(buf, " (project backoff %.2f)", p->min_rpc_time - gstate.now);
+        } else {
+            strcpy(buf, "");
+        }
+        msg_printf(p, MSG_INFO, "[work_fetch] REC %f priority %f%s%s%s%s%s%s",
+            p->pwf.rec,
+            p->sched_priority,
+            buf,
+            p->suspended_via_gui?" (susp via GUI)":"",
+            p->master_url_fetch_pending?" (master fetch pending)":"",
+            p->min_rpc_time > gstate.now?buf:"",
+            p->dont_request_more_work?" (no new tasks)":"",
+            p->too_many_uploading_results?" (too many uploads)":""
+        );
+    }
+    for (int i=0; i<coprocs.n_rsc; i++) {
+        rsc_work_fetch[i].print_state(rsc_name(i));
     }
     msg_printf(0, MSG_INFO, "[work_fetch] ------- end work fetch state -------");
 }
