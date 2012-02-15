@@ -41,6 +41,7 @@ struct POLICY {
     int replication;
     int coding_levels;
     CODING codings[10];
+    double chunk_sizes[10];
 
     char description[256];  // derived from the above
 
@@ -85,6 +86,8 @@ struct VDA_FILE_AUX : VDA_FILE {
     STATS_ITEM download_rate;
     STATS_ITEM fault_tolerance;
 
+    VDA_FILE_AUX(){}
+    VDA_FILE_AUX(DB_VDA_FILE f) :VDA_FILE(f){}
     int pending_init_downloads;
         // # of initial downloads pending.
         // When this is zero, we start collecting stats for the file
@@ -92,6 +95,11 @@ struct VDA_FILE_AUX : VDA_FILE {
     inline bool collecting_stats() {
         return (pending_init_downloads == 0);
     }
+
+    // the following for vdad
+    //
+    int init();
+    int get_state();
 };
 
 #define PRESENT 0
@@ -122,10 +130,16 @@ struct META_CHUNK : DATA_UNIT {
     bool uploading;
     CODING coding;
 
+    // used by ssim
     META_CHUNK(
         VDA_FILE_AUX* d, META_CHUNK* par, double size,
         int coding_level, int index
     );
+
+    // used by vdad
+    META_CHUNK(){}
+    int init(const char* dir, const char* fname, POLICY&, int level);
+    int get_state(const char* dir, const char* fname, POLICY&, int level);
 
     virtual void recovery_plan();
     virtual void recovery_action(double);

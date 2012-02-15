@@ -1701,3 +1701,10 @@ Charlie 14 Feb 2012
         boinc_api.h
     clientscr/
         gfx_switcher.cpp
+
+David  14 Feb 2012
+    - storage stuff
+
+    vda/
+        vdad.cpp
+        vda_lib.h
