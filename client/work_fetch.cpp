@@ -528,7 +528,7 @@ void WORK_FETCH::print_state() {
         } else {
             strcpy(buf, "");
         }
-        msg_printf(p, MSG_INFO, "[work_fetch] REC %f priority %f%s%s%s%s%s%s",
+        msg_printf(p, MSG_INFO, "[work_fetch] REC %.3f priority %.3f%s%s%s%s%s%s",
             p->pwf.rec,
             p->sched_priority,
             buf,
