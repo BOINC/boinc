@@ -31,6 +31,7 @@
 #endif
 #include <pwd.h>	// getpwuid
 #include <grp.h>
+#include <signal.h> // For kill()
 
 #include "boinc_api.h"
 #include "common_defs.h"

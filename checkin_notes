@@ -1692,3 +1692,12 @@ David  14 Feb 2012
 
     html/inc/
         db_ops.inc
+
+Charlie 14 Feb 2012
+    - API: Remove apparently unnecessary include of carbon.h (requested 
+        by Bernd Machenschalk.)
+
+    api/
+        boinc_api.h
+    clientscr/
+        gfx_switcher.cpp
