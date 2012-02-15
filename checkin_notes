@@ -1721,3 +1721,14 @@ David  14 Feb 2012
 
     client/
         work_fetch.cpp
+
+David  15 Feb 2012
+    - web: in user search, show most recent rather than oldest users
+    - web: don't show URL in account page if expavg_credit < 1.
+        This discourages a type of spam.
+
+    html/
+        inc/
+            user.inc
+        user/
+            user_search.php

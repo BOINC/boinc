@@ -121,7 +121,7 @@ function search_action() {
         $where .= " and has_profile=0";
     }
     $fields = "id, create_time, name, country, total_credit, expavg_credit, teamid, url, has_profile, donated";
-    $users = BoincUser::enum_fields($fields, $where, "limit 100");
+    $users = BoincUser::enum_fields($fields, $where, "order by id desc limit 100");
     $search_type = get_str('search_type', true);
     if ($search_type == 'date') {
         usort($users, 'compare_create_time');
