@@ -1732,3 +1732,9 @@ David  15 Feb 2012
             user.inc
         user/
             user_search.php
+
+David  15 Feb 2012
+    - client: msg tweak
+
+    client/
+        work_fetch.cpp
