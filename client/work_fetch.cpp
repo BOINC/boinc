@@ -225,6 +225,13 @@ PROJECT* RSC_WORK_FETCH::choose_project_hyst() {
         if (!p->pwf.can_fetch_work) continue;
         if (!project_state(p).may_have_work) continue;
 
+        // if project has zero resource share,
+        // only fetch work if a device is idle
+        //
+        if (p->resource_share == 0 && nidle_now == 0) {
+            continue;
+        }
+
         // if project has excluded GPUs of this type,
         // and it has runnable jobs for this type,
         // don't fetch work for it.

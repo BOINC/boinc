@@ -1756,3 +1756,10 @@ David  15 Feb 2012
         vda_lib.h
     client/
         hostinfo_network.cpp
+
+David  15 Feb 2012
+    - client: fetch work from backup (zero resource share) projects
+        only if a device instance is idle
+
+    client/
+        work_fetch.cpp
