@@ -1773,3 +1773,9 @@ David  15 Feb 2012
         sched_types.h
     vda/
         sched_vda.cpp
+
+Charlie 15 Feb 2012
+    - client: Remove some temporary debugging code.
+
+    client/
+        coproc_detect.cpp

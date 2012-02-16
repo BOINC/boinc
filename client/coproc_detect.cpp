@@ -20,7 +20,6 @@
 
 #define FAKENVIDIACUDA0 0
 #define FAKE2NVIDIAOPENCLS 0
-#define DEBUGFOROLIVER 0
 
 #include "cpp.h"
 
@@ -281,13 +280,6 @@ num_devices = 3;
 devices[2] = devices[1];
 #endif
 
-#if DEBUGFOROLIVER
-    if (log_flags.coproc_debug) {
-        msg_printf(0, MSG_INFO,
-        "[coproc] %d OpenCL devices detected", num_devices
-        );
-    }
-#endif
         // Mac OpenCL does not recognize all NVIDIA GPUs returned by CUDA
         current_CUDA_index = 0;
 
@@ -359,14 +351,6 @@ strcpy(prop.opencl_driver_version, "CLH 1.0");
                 } else {
                     prop.opencl_available_ram = prop.global_mem_size;
                 }
-#if DEBUGFOROLIVER
-    if (log_flags.coproc_debug) {
-        msg_printf(0, MSG_INFO,
-        "[coproc] OpenCL device %d: clGetDeviceInfo got available memory size %.0fMB", 
-        device_index, prop.opencl_available_ram/MEGA
-        );
-    }
-#endif
                 nvidia_opencls.push_back(prop);
                 ++current_CUDA_index;
             }
@@ -425,26 +409,10 @@ strcpy(prop.opencl_driver_version, "CLH 1.0");
         strcpy(nvidia.prop.name, prop.name);
     }
 
-#if DEBUGFOROLIVER
-    if (log_flags.coproc_debug) {
-        msg_printf(0, MSG_INFO,
-        "[coproc] Creating descriptions for %d NVIDIA OpenCL devices", 
-        (int)nvidia_opencls.size()
-        );
-    }
-#endif
     // Create descriptions for OpenCL NVIDIA GPUs
     //
     for (i=0; i<nvidia_opencls.size(); i++) {
         nvidia_opencls[i].description(buf, GPU_TYPE_NVIDIA);
-#if DEBUGFOROLIVER
-    if (log_flags.coproc_debug) {
-        msg_printf(0, MSG_INFO,
-        "[coproc] Created NVIDIA GPU %d OpenCL description = \"%s\"", 
-        i, buf
-        );
-    }
-#endif
         descs.push_back(string(buf));
     }
 
@@ -490,13 +458,6 @@ cl_int COPROCS::get_opencl_info(
         return ciErrNum;
     }
 
-#if DEBUGFOROLIVER
-    if (log_flags.coproc_debug) {
-        msg_printf(0, MSG_INFO,
-        "[coproc] OpenCL device %d: clGetDeviceInfo got name %s", device_index, prop.name
-        );
-    }
-#endif
 
     ciErrNum = (*__clGetDeviceInfo)(prop.device_id, CL_DEVICE_VENDOR, sizeof(prop.vendor), prop.vendor, NULL);
     if ((ciErrNum != CL_SUCCESS) || (prop.vendor[0] == 0)) {
@@ -505,13 +466,6 @@ cl_int COPROCS::get_opencl_info(
         return ciErrNum;
     }
 
-#if DEBUGFOROLIVER
-    if (log_flags.coproc_debug) {
-        msg_printf(0, MSG_INFO,
-        "[coproc] OpenCL device %d: clGetDeviceInfo got vendor %s", device_index, prop.vendor
-        );
-    }
-#endif
 
     ciErrNum = (*__clGetDeviceInfo)(prop.device_id, CL_DEVICE_VENDOR_ID, sizeof(prop.vendor_id), &prop.vendor_id, NULL);
     if (ciErrNum != CL_SUCCESS) {
@@ -605,14 +559,6 @@ cl_int COPROCS::get_opencl_info(
         return ciErrNum;
     }
 
-#if DEBUGFOROLIVER
-    if (log_flags.coproc_debug) {
-        msg_printf(0, MSG_INFO,
-        "[coproc] OpenCL device %d: clGetDeviceInfo got global memory size %.0fMB", 
-        device_index, prop.global_mem_size/MEGA
-        );
-    }
-#endif
 
     ciErrNum = (*__clGetDeviceInfo)(
         prop.device_id, CL_DEVICE_LOCAL_MEM_SIZE,
