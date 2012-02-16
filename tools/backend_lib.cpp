@@ -464,6 +464,23 @@ int put_file(
     return 0;
 }
 
+int delete_host_file(int host_id, const char* file_name) {
+    DB_MSG_TO_HOST mth;
+    int retval;
+    mth.clear();
+    mth.create_time = time(0);
+    mth.hostid = host_id;
+    mth.handled = false;
+    sprintf(mth.xml, "<delete_file_info>%s</delete_file_info>\n", file_name);
+    sprintf(mth.variety, "delete_file");
+    retval = mth.insert();
+    if (retval) {
+        fprintf(stderr, "msg_to_host.insert(): %s\n", boincerror(retval));
+        return retval;
+    }
+    return 0;
+}
+
 int cancel_jobs(int min_id, int max_id) {
     DB_WORKUNIT wu;
     DB_RESULT result;

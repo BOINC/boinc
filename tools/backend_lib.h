@@ -73,6 +73,10 @@ extern int create_work(
 
 extern int stage_file(const char*, bool);
 
+// the following 3 functions are for programs other than the schedule
+// to do file operations.
+// They work by creating MSG_TO_HOST records in the DB
+//
 extern int put_file(
     int host_id, const char* file_name, vector<const char*> urls,
     const char* md5, double nbytes, double report_deadline
@@ -85,6 +89,8 @@ extern int get_file(
     bool generate_upload_certificate,
     R_RSA_PRIVATE_KEY& key
 );
+
+extern int delete_host_file(int host_id, const char* file_name);
 
 // cancel jobs from min_id to max_id inclusive
 //

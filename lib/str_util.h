@@ -54,6 +54,10 @@ inline bool starts_with(std::string const& s, std::string const& prefix) {
     return s.substr(0, prefix.size()) == prefix;
 }
 
+inline bool starts_with(const char* s, const char* prefix) {
+    return (strncmp(s, prefix, strlen(prefix)) == 0);
+}
+
 inline void downcase_string(std::string& w) {
     for (std::string::iterator p = w.begin(); p != w.end(); ++p) {
         *p = (char)tolower((int)*p);

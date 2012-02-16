@@ -33,6 +33,7 @@
 #include <string>
 #include <iostream>
 
+#include "backend_lib.h"
 #include "boinc_db.h"
 #include "str_util.h"
 #include "svn_version.h"
@@ -49,23 +50,6 @@ void usage(char* name) {
         "  [-h | --help]                 Show this help text.\n"
         "  [-v | --version]              Show version information.\n"
     );
-}
-
-int delete_host_file(int host_id, const char* file_name) {
-    DB_MSG_TO_HOST mth;
-    int retval;
-    mth.clear();
-    mth.create_time = time(0);
-    mth.hostid = host_id;
-    mth.handled = false;
-    sprintf(mth.xml, "<delete_file_info>%s</delete_file_info>\n", file_name);
-    sprintf(mth.variety, "delete_file");
-    retval = mth.insert();
-    if (retval) {
-        fprintf(stderr, "msg_to_host.insert(): %s\n", boincerror(retval));
-        return retval;
-    }
-    return 0;
 }
 
 int main(int argc, char** argv) {

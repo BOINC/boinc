@@ -1757,14 +1757,14 @@ David  15 Feb 2012
     client/
         hostinfo_network.cpp
 
-David  15 Feb 2012
+David  16 Feb 2012
     - client: fetch work from backup (zero resource share) projects
         only if a device instance is idle
 
     client/
         work_fetch.cpp
 
-David  15 Feb 2012
+David  16 Feb 2012
     - web: change wording of buffer-size prefs
 
     html/inc/
@@ -1774,8 +1774,24 @@ David  15 Feb 2012
     vda/
         sched_vda.cpp
 
-Charlie 15 Feb 2012
+Charlie 16 Feb 2012
     - client: Remove some temporary debugging code.
 
     client/
         coproc_detect.cpp
+
+David  16 Feb 2012
+    - storage stuff (work in progress)
+    - small code shuffle
+
+    db/
+        boinc_db.h
+    sched/
+        delete_file.cpp
+    tools/
+        backend_lib.cpp,h
+    lib/
+        str_util.h
+    vda/
+        sched_vda.cpp
+        makefile

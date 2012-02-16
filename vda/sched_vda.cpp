@@ -22,14 +22,30 @@
 #include <string>
 
 #include "sched_types.h"
+#include "sched_msgs.h"
 
 using std::map;
 using std::string;
+using std::pair;
 
+static int mark_for_update(int vda_file_id) {
+    DB_VDA_FILE f;
+    f.id = vda_file_id;
+    return f.update_field("need_update=1");
+}
+
+// relevant fields of SCHEDULER_REQUEST
+// file_infos: list of sticky files
+// file_xfer_results: list of completed file xfers
+//
 void handle_vda() {
+    int retval;
+    unsigned int i;
     map<string, DB_VDA_CHUNK_HOST> chunks;
         // chunks that are supposed to be on this host
 
+    // get a list of the vda_chunk_host records for this host
+    //
     DB_VDA_CHUNK_HOST ch;
     char buf[256];
     sprintf(buf, "host_id=%d", g_reply->host.id);
@@ -44,7 +60,61 @@ void handle_vda() {
             );
             return;
         }
-        chunks.insert(ch.name, ch);
+        chunks.insert(pair<string, DB_VDA_CHUNK_HOST>(string(ch.name), ch));
     }
 
+    // process completed uploads:
+    // - verify md5 of upload
+    // - move it from upload dir to vda_file dir
+    // - mark vda_file for update
+    // - clear transfer_in_progress flag in vda_chunk_host
+    //
+    for (i=0; i<g_request->file_xfer_results.size(); i++) {
+        RESULT& r = g_request->file_xfer_results[i];
+        if (!starts_with(r.name, "upload_")) continue;
+        char* file_name = r.name + strlen("upload_");
+        if (!strstr(file_name, "vdafile")) continue;
+    }
+
+    // process list of present files;
+    // - create a vda_chunk_host record if needed
+    // - set present_on_host flag in vda_chunk_host
+    // - mark our in-memory vda_chunk_host record as "found"
+    // - mark vda_file for update
+    //
+    for (i=0; i<g_request->file_infos.size(); i++) {
+        FILE_INFO& fi = g_request->file_infos[i];
+    }
+
+    // for each vda_chunk_host not in file list:
+    // - delete from DB
+    // - mark vda_file for update
+    //
+    map<string, DB_VDA_CHUNK_HOST>::iterator it;
+    it = chunks.begin();
+    while (it != chunks.end()) {
+        DB_VDA_CHUNK_HOST& ch = (*it).second;
+        if (!ch.found) {
+            ch.delete_from_db();
+            chunks.erase(it);
+            mark_for_update(ch.vda_file_id);
+        } else {
+            it++;
+        }
+    }
+
+    // if process is using more than its share of disk space,
+    // remove some chunks and mark vda_files for update
+    //
+    if (g_request->host.d_project_share) {
+        double x = g_request->host.d_boinc_used_project;
+        it = chunks.begin();
+        while (x > g_request->host.d_project_share && it != chunks.end()) {
+            DB_VDA_CHUNK_HOST& ch = (*it).second;
+            FILE_INFO fi;
+            strcpy(fi.name, ch.name);
+            g_reply->file_deletes.push_back(fi);
+            it++;
+        }
+    }
 }

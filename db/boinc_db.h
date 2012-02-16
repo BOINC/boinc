@@ -1150,6 +1150,11 @@ struct VDA_CHUNK_HOST {
     bool transfer_in_progress;
     bool transfer_wait;
     double transition_time;
+
+    // the following not in DB
+    //
+    bool found;
+
     void clear();
 };
 

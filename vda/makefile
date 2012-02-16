@@ -1,6 +1,6 @@
-all: ssim vda vdad
+all: ssim vda vdad sched_vda.o
 
-CCFLAGS = -I /usr/include/mysql -I ../db -I ../lib -I ../db
+CCFLAGS = -I /usr/include/mysql -I ../db -I ../lib -I ../db -I ../sched
 
 LIBS = ../sched/libsched.a ../lib/libboinc.a
 
@@ -16,3 +16,5 @@ vdad: vdad.cpp vda_lib.o vda_lib2.o
 	g++ -g $(CCFLAGS) -Wall -o vdad vdad.cpp vda_lib.o vda_lib2.o $(LIBS) $(MYSQL_LIBS)
 vda: vda.cpp vda_lib.o vda_lib2.o
 	g++ -g $(CCFLAGS) -Wall -o vda vda.cpp vda_lib.o vda_lib2.o $(LIBS) $(MYSQL_LIBS)
+sched_vda.o: sched_vda.cpp vda_lib.h
+	g++ -c $(CCFLAGS) sched_vda.cpp
