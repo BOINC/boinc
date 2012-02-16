@@ -1763,3 +1763,13 @@ David  15 Feb 2012
 
     client/
         work_fetch.cpp
+
+David  15 Feb 2012
+    - web: change wording of buffer-size prefs
+
+    html/inc/
+        prefs.inc
+    sched/
+        sched_types.h
+    vda/
+        sched_vda.cpp
