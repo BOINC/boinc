@@ -389,10 +389,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\lib\mac_address.h"
-				>
-			</File>
-			<File
 				RelativePath="..\lib\md5.h"
 				>
 			</File>
@@ -782,10 +778,6 @@
 			</File>
 			<File
 				RelativePath="..\lib\idlemon_win.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\lib\mac_address.cpp"
 				>
 			</File>
 			<File
