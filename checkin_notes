@@ -1738,3 +1738,21 @@ David  15 Feb 2012
 
     client/
         work_fetch.cpp
+
+David  15 Feb 2012
+    - lib: change get_mac_address() to avoid sprintf(buf, "%s...", buf);
+        use strcat instead
+    - client: don't use get_mac_address() to create host CPIDs
+        (we have plenty of other info to make them unique)
+    - storage stuff
+
+    db/
+        schema_vda.sql
+    lib/
+        mac_address.cpp
+        Makefile.am
+    vda/
+        vda_lib2.cpp
+        vda_lib.h
+    client/
+        hostinfo_network.cpp

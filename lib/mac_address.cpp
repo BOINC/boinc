@@ -73,15 +73,21 @@ FindEthernetInterfaces(io_iterator_t *matchingServices)
     CFMutableDictionaryRef  classesToMatch;
 
     kernResult = IOMasterPort(MACH_PORT_NULL, &masterPort);
-    if (KERN_SUCCESS != kernResult) fprintf(stderr, "IOMasterPort returned %d\n", kernResult);
+    if (KERN_SUCCESS != kernResult) {
+        fprintf(stderr, "IOMasterPort returned %d\n", kernResult);
+    }
     // Ethernet interfaces are instances of class kIOEthernetInterfaceClass
     classesToMatch = IOServiceMatching(kIOEthernetInterfaceClass);
     // Note that another option here would be: classesToMatch = IOBSDMatching("enX");
     // where X is a number from 0 to the number of Ethernet interfaces on the system - 1.
-    if (classesToMatch == NULL) fprintf(stderr, "IOServiceMatching returned a NULL dictionary.\n");
+    if (classesToMatch == NULL) {
+        fprintf(stderr, "IOServiceMatching returned a NULL dictionary.\n");
+    }
 
     kernResult = IOServiceGetMatchingServices(masterPort, classesToMatch, matchingServices);
-    if (KERN_SUCCESS != kernResult) fprintf(stderr, "IOServiceGetMatchingServices returned %d\n", kernResult);
+    if (KERN_SUCCESS != kernResult) {
+        fprintf(stderr, "IOServiceGetMatchingServices returned %d\n", kernResult);
+    }
 
     return kernResult;
 }
@@ -96,27 +102,31 @@ GetMACAddress(io_iterator_t intfIterator, char* buffer)
     kern_return_t   kernResult = KERN_FAILURE;
     char            delimiter[2] = "\0";
 
-    while (intfService = IOIteratorNext(intfIterator))
-    {
+    while (intfService = IOIteratorNext(intfIterator)) {
         CFTypeRef   MACAddressAsCFData;
         // IONetworkControllers can't be found directly by the IOServiceGetMatchingServices call,
         // matching mechanism. So we've found the IONetworkInterface and will get its parent controller
         // by asking for it specifically.
         kernResult = IORegistryEntryGetParentEntry( intfService, kIOServicePlane, &controllerService );
 
-        if (KERN_SUCCESS != kernResult) fprintf(stderr, "IORegistryEntryGetParentEntry returned 0x%08x\n", kernResult);
-        else {
+        if (KERN_SUCCESS != kernResult) {
+            fprintf(stderr, "IORegistryEntryGetParentEntry returned 0x%08x\n", kernResult);
+        } else {
             MACAddressAsCFData = IORegistryEntryCreateCFProperty( controllerService, CFSTR(kIOMACAddress), kCFAllocatorDefault, 0);
 
-            if (MACAddressAsCFData)
-            {
+            if (MACAddressAsCFData) {
                 const __CFData* refData = (const __CFData*)MACAddressAsCFData;
                 UInt8 MACAddress[ kIOEthernetAddressSize ];
 
                 CFDataGetBytes(refData, CFRangeMake(0,CFDataGetLength(refData)), MACAddress);
-                sprintf(buffer, "%s%s%02x:%02x:%02x:%02x:%02x:%02x",
-                        buffer, delimiter,
-                        MACAddress[0], MACAddress[1], MACAddress[2], MACAddress[3], MACAddress[4], MACAddress[5]);
+                char buf[256];
+                sprintf(buf,
+                    "%s%02x:%02x:%02x:%02x:%02x:%02x",
+                    delimiter,
+                    MACAddress[0], MACAddress[1], MACAddress[2],
+                    MACAddress[3], MACAddress[4], MACAddress[5]
+                );
+                strcat(buffer, buf);
                 CFRelease(MACAddressAsCFData);
                 delimiter[0] = ':';
                 delimiter[1] = '\0';
@@ -140,27 +150,27 @@ get_mac_addresses(char* addresses) {
 	// Call GetAdapterInfo
 	DWORD dwStatus = GetAdaptersInfo(AdapterInfo, &dwBufLen);
 
-	if(dwStatus == ERROR_SUCCESS)
-	{
+	if(dwStatus == ERROR_SUCCESS) {
 		strcpy(addresses, "");
-		char delimiter[2] = "\0";
+		char delimiter[2];
+        strcpy(delimiter, "");
 		// valid, no buffer overflow
 		PIP_ADAPTER_INFO pAdapterInfo = AdapterInfo; // Contains pointer to current adapter info
 		do {
-			sprintf(addresses, "%s%s%02x:%02x:%02x:%02x:%02x:%02x", addresses, delimiter,
-					pAdapterInfo->Address[0], pAdapterInfo->Address[1], pAdapterInfo->Address[2], 
-					pAdapterInfo->Address[3], pAdapterInfo->Address[4], pAdapterInfo->Address[5]);
-			delimiter[0] = ':';
-			delimiter[1] = '\0';
-
+            char buf[256];
+			sprintf(buf,
+                "%s%02x:%02x:%02x:%02x:%02x:%02x",
+                delimiter,
+                pAdapterInfo->Address[0], pAdapterInfo->Address[1],
+                pAdapterInfo->Address[2], pAdapterInfo->Address[3],
+                pAdapterInfo->Address[4], pAdapterInfo->Address[5]
+            );
+            strcat(addresses, buf);
+            strcpy(delimiter, ":");
 			pAdapterInfo = pAdapterInfo->Next;
-		}
-		while(pAdapterInfo);
-	}
-	else
-	{
+		} while(pAdapterInfo);
+	} else {
 		fprintf(stderr, "Adapters information not found\n");
-
 		return false;
 	}
 	return true;
@@ -200,26 +210,22 @@ get_mac_addresses(char* addresses) {
     int           i;
     /* Get a socket handle. */
     sck = socket(AF_INET, SOCK_DGRAM, 0);
-    if(sck < 0)
-    {
+    if(sck < 0) {
         perror("socket");
-
         return false;
     }
     /* Query available interfaces. */
 #if HAVE_STRUCT_LIFCONF
     ifc.lifc_len = sizeof(buf);
     ifc.lifc_buf = buf;
-    if(ioctl(sck, SIOCGLIFCONF, &ifc) < 0)
-    {
+    if(ioctl(sck, SIOCGLIFCONF, &ifc) < 0) {
         perror("ioctl(SIOCGLIFCONF)");
         return false;
     }
 #else
     ifc.ifc_len = sizeof(buf);
     ifc.ifc_buf = buf;
-    if(ioctl(sck, SIOCGIFCONF, &ifc) < 0)
-    {
+    if(ioctl(sck, SIOCGIFCONF, &ifc) < 0) {
         perror("ioctl(SIOCGIFCONF)");
         return false;
     }
@@ -236,8 +242,7 @@ get_mac_addresses(char* addresses) {
     strcpy(addresses, "");
     char delimiter[2] = "\0";
 
-    for(i = 0; i < nInterfaces; i++)
-    {
+    for(i = 0; i < nInterfaces; i++) {
 
 #if HAVE_STRUCT_LIFCONF
         struct lifreq *item = &ifr[i];
@@ -247,15 +252,13 @@ get_mac_addresses(char* addresses) {
         struct ether_addr *hw_addr; 
         /* Get the MAC address */
 #ifdef SIOCGIFHWADDR
-        if(ioctl(sck, SIOCGIFHWADDR, item) < 0)
-        {
+        if(ioctl(sck, SIOCGIFHWADDR, item) < 0) {
             perror("ioctl(SIOCGIFHWADDR)");
             return false;
         }
         hw_addr=(struct ether_addr *)(item->ifr_hwaddr.sa_data);
 #elif  defined(SIOCGIFARP)
-        if(ioctl(sck, SIOCGIFARP, item) < 0)
-        {
+        if(ioctl(sck, SIOCGIFARP, item) < 0) {
             perror("ioctl(SIOCGIFARP)");
             return false;
         }

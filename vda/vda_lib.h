@@ -25,6 +25,11 @@
 
 #include "boinc_db.h"
 
+// a host with rpc_time < now-HOST_TIMEOUT is considered dead.
+// Make sure you set next_rpc_delay accordingly (e.g., to 86400)
+//
+#define VDA_HOST_TIMEOUT (86400*4)
+
 // parameters of 1 level of coding
 //
 struct CODING {
@@ -79,15 +84,17 @@ struct VDA_FILE_AUX : VDA_FILE {
     POLICY policy;
     META_CHUNK* meta_chunk;
 
+    VDA_FILE_AUX(){}
+    VDA_FILE_AUX(DB_VDA_FILE f) :VDA_FILE(f){}
+
     // the following stuff is for the simulator
+    //
     double accounting_start_time;
     STATS_ITEM disk_usage;
     STATS_ITEM upload_rate;
     STATS_ITEM download_rate;
     STATS_ITEM fault_tolerance;
 
-    VDA_FILE_AUX(){}
-    VDA_FILE_AUX(DB_VDA_FILE f) :VDA_FILE(f){}
     int pending_init_downloads;
         // # of initial downloads pending.
         // When this is zero, we start collecting stats for the file
@@ -98,8 +105,11 @@ struct VDA_FILE_AUX : VDA_FILE {
 
     // the following for vdad
     //
+    std::vector<int> available_hosts;
+        // list of IDs of hosts with no chunks of this file
     int init();
     int get_state();
+    int choose_host();
 };
 
 #define PRESENT 0
