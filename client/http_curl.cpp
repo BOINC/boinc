@@ -552,9 +552,11 @@ int HTTP_OP::libcurl_exec(
     if (out) {
         if (ends_with(out, ".gzt")) {
             curl_easy_setopt(curlEasy, CURLOPT_ENCODING, NULL);
-        } else {
+        } else if (!ends_with(out, ".gz")) {
             curl_easy_setopt(curlEasy, CURLOPT_ENCODING, "");
         }
+    } else {
+        curl_easy_setopt(curlEasy, CURLOPT_ENCODING, "");
     }
 
     // setup any proxy they may need

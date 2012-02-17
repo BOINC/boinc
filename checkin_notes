@@ -1802,3 +1802,9 @@ Charlie 16 Feb 2012
 
     client/
         coproc_detect.cpp
+
+David  17 Feb 2012
+	- client: fix bug where WCG downloads were getting wrong size errors.
+		To be honest, I don't know that the problem was or why my change fixed it.
+	client/
+		http_curl.cpp
