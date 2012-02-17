@@ -287,6 +287,7 @@ struct COPROC_NVIDIA : public COPROC {
     int cuda_version;  // CUDA runtime version
     int display_driver_version;
     CUDA_DEVICE_PROP prop;
+    COPROC_USAGE is_used;               // temp used in scan process
 
 #ifndef _USING_FCGI_
     void write_xml(MIOFILE&, bool include_request);
@@ -323,6 +324,8 @@ struct COPROC_ATI : public COPROC {
     bool amdrt_detected;
     CALdeviceattribs attribs; 
     CALdeviceinfo info;
+    COPROC_USAGE is_used;               // temp used in scan process
+
 #ifndef _USING_FCGI_
     void write_xml(MIOFILE&, bool include_request);
 #endif

@@ -67,6 +67,8 @@ void segv_handler(int) {
 
 vector<COPROC_ATI> ati_gpus;
 vector<COPROC_NVIDIA> nvidia_gpus;
+vector<OPENCL_DEVICE_PROP> nvidia_opencls;
+vector<OPENCL_DEVICE_PROP> ati_opencls;
 
 
 void COPROCS::get(
@@ -74,6 +76,8 @@ void COPROCS::get(
     vector<int>& ignore_nvidia_dev,
     vector<int>& ignore_ati_dev
 ) {
+    unsigned int i;
+    char buf[256], buf2[256];
 
 #ifdef _WIN32
     try {
@@ -116,8 +120,58 @@ void COPROCS::get(
     signal(SIGSEGV, old_sig);
 #endif
 
+    for (i=0; i<nvidia_gpus.size(); i++) {
+        nvidia_gpus[i].description(buf);
+        switch(nvidia_gpus[i].is_used) {
+        case COPROC_IGNORED:
+            sprintf(buf2, "NVIDIA GPU %d (ignored by config): %s", nvidia_gpus[i].device_num, buf);
+            break;
+        case COPROC_USED:
+            sprintf(buf2, "NVIDIA GPU %d: %s", nvidia_gpus[i].device_num, buf);
+            break;
+        case COPROC_UNUSED:
+        default:
+            sprintf(buf2, "NVIDIA GPU %d (not used): %s", nvidia_gpus[i].device_num, buf);
+            break;
+        }
+        descs.push_back(string(buf2));
+    }
+
+    for (i=0; i<ati_gpus.size(); i++) {
+        ati_gpus[i].description(buf);
+        switch(ati_gpus[i].is_used) {
+        case COPROC_IGNORED:
+            sprintf(buf2, "ATI GPU %d (ignored by config): %s", ati_gpus[i].device_num, buf);
+            break;
+        case COPROC_USED:
+            sprintf(buf2, "ATI GPU %d: %s", ati_gpus[i].device_num, buf);
+            break;
+        case COPROC_UNUSED:
+        default:
+            sprintf(buf2, "ATI GPU %d: (not used) %s", ati_gpus[i].device_num, buf);
+            break;
+        }
+        descs.push_back(string(buf2));
+    }
+
+    // Create descriptions for OpenCL NVIDIA GPUs
+    //
+    for (i=0; i<nvidia_opencls.size(); i++) {
+        nvidia_opencls[i].description(buf, GPU_TYPE_NVIDIA);
+        descs.push_back(string(buf));
+    }
+
+    // Create descriptions for OpenCL ATI GPUs
+    //
+    for (i=0; i<ati_opencls.size(); i++) {
+        ati_opencls[i].description(buf, GPU_TYPE_ATI);
+        descs.push_back(string(buf));
+    }
+
     ati_gpus.clear();
     nvidia_gpus.clear();
+    nvidia_opencls.clear();
+    ati_opencls.clear();
 }
 
 
@@ -197,11 +251,8 @@ void COPROCS::get_opencl(
     cl_device_id devices[MAX_COPROC_INSTANCES];
     char platform_version[256];
     OPENCL_DEVICE_PROP prop;
-    vector<OPENCL_DEVICE_PROP> nvidia_opencls;
-    vector<OPENCL_DEVICE_PROP> ati_opencls;
     COPROC_NVIDIA nvidia_temp;
     COPROC_ATI ati_temp;
-    unsigned int i;
     int current_CUDA_index;
     char buf[256];
 
@@ -360,7 +411,7 @@ strcpy(prop.opencl_driver_version, "CLH 1.0");
             ) {
                 prop.device_num = (int)(ati_opencls.size());
                 prop.opencl_device_index = device_index;
-
+                
 #ifdef __APPLE__
                 // Work around a bug in OpenCL which returns only 
                 // 1/2 of total global RAM size. 
@@ -377,7 +428,12 @@ strcpy(prop.opencl_driver_version, "CLH 1.0");
                 }
 #endif
 
-                if (!ati.have_cal) {
+                if (ati.have_cal) {
+                    // Always use GPU model name from OpenCL if available for ATI / AMD 
+                    // GPUs because (we believe) it is more reliable and user-friendly.
+                    // Assumes OpenCL and CAL return the devices in the same order
+                    strcpy(ati_gpus[prop.device_num].name, prop.name);
+                } else {
                     COPROC_ATI c;
                     c.opencl_prop = prop;
                     c.set_peak_flops();
@@ -409,13 +465,6 @@ strcpy(prop.opencl_driver_version, "CLH 1.0");
         strcpy(nvidia.prop.name, prop.name);
     }
 
-    // Create descriptions for OpenCL NVIDIA GPUs
-    //
-    for (i=0; i<nvidia_opencls.size(); i++) {
-        nvidia_opencls[i].description(buf, GPU_TYPE_NVIDIA);
-        descs.push_back(string(buf));
-    }
-
     if (ati.have_cal) { // If CAL already found the "best" CAL GPU
         ati.merge_opencl(ati_opencls, ignore_ati_dev);
         // Work around a bug in OpenCL which returns only 
@@ -430,16 +479,8 @@ strcpy(prop.opencl_driver_version, "CLH 1.0");
         ati.available_ram = ati.opencl_prop.global_mem_size;
         ati.attribs.engineClock = ati.opencl_prop.max_clock_frequency;
         strcpy(ati.name, prop.name);
-
     }           // End if (! ati.have_cal)
 
-    // Create descriptions for OpenCL ATI GPUs
-    //
-    for (i=0; i<ati_opencls.size(); i++) {
-        ati_opencls[i].description(buf, GPU_TYPE_ATI);
-        descs.push_back(string(buf));
-    }
-    
 //TODO: Add code to allow adding other GPU vendors
 }
 
@@ -1022,18 +1063,15 @@ cc.device_num = j+1;
     //
     count = 0;
     for (i=0; i<nvidia_gpus.size(); i++) {
-        char buf2[256];
-        nvidia_gpus[i].description(buf);
         if (in_vector(nvidia_gpus[i].device_num, ignore_devs)) {
-            sprintf(buf2, "NVIDIA GPU %d (ignored by config): %s", nvidia_gpus[i].device_num, buf);
+            nvidia_gpus[i].is_used = COPROC_IGNORED;
         } else if (use_all || !nvidia_compare(nvidia_gpus[i], *this, true)) {
             device_nums[count] = nvidia_gpus[i].device_num;
             count++;
-            sprintf(buf2, "NVIDIA GPU %d: %s", nvidia_gpus[i].device_num, buf);
+            nvidia_gpus[i].is_used = COPROC_USED;
         } else {
-            sprintf(buf2, "NVIDIA GPU %d (not used): %s", nvidia_gpus[i].device_num, buf);
+            nvidia_gpus[i].is_used = COPROC_UNUSED;
         }
-        descs.push_back(string(buf2));
     }
 }
 
@@ -1471,18 +1509,16 @@ void COPROC_ATI::get(
     //
     count = 0;
     for (i=0; i<ati_gpus.size(); i++) {
-        char buf2[256];
         ati_gpus[i].description(buf);
         if (in_vector(ati_gpus[i].device_num, ignore_devs)) {
-            sprintf(buf2, "ATI GPU %d (ignored by config): %s", ati_gpus[i].device_num, buf);
+            ati_gpus[i].is_used = COPROC_IGNORED;
         } else if (use_all || !ati_compare(ati_gpus[i], *this, true)) {
             device_nums[count] = ati_gpus[i].device_num;
             count++;
-            sprintf(buf2, "ATI GPU %d: %s", ati_gpus[i].device_num, buf);
+            ati_gpus[i].is_used = COPROC_USED;
         } else {
-            sprintf(buf2, "ATI GPU %d: (not used) %s", ati_gpus[i].device_num, buf);
+            ati_gpus[i].is_used = COPROC_UNUSED;
         }
-        descs.push_back(string(buf2));
     }
 }
 

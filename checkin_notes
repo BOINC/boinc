@@ -1795,3 +1795,10 @@ David  16 Feb 2012
     vda/
         sched_vda.cpp
         makefile
+
+Charlie 16 Feb 2012
+    - client: Always use GPU model name from OpenCL if available for ATI / AMD 
+        GPUs because (we believe) it is more reliable and user-friendly.
+
+    client/
+        coproc_detect.cpp
