@@ -429,10 +429,19 @@ strcpy(prop.opencl_driver_version, "CLH 1.0");
 #endif
 
                 if (ati.have_cal) {
-                    // Always use GPU model name from OpenCL if available for ATI / AMD 
-                    // GPUs because (we believe) it is more reliable and user-friendly.
-                    // Assumes OpenCL and CAL return the devices in the same order
-                    strcpy(ati_gpus[prop.device_num].name, prop.name);
+                        if (prop.device_num < (int)(ati_gpus.size())) {
+                        // Always use GPU model name from OpenCL if available for ATI / AMD 
+                        // GPUs because (we believe) it is more reliable and user-friendly.
+                        // Assumes OpenCL and CAL return the devices in the same order
+                        strcpy(ati_gpus[prop.device_num].name, prop.name);
+                    } else {
+                        if (log_flags.coproc_debug) {
+                            msg_printf(0, MSG_INFO,
+                            "[coproc] OpenCL ATI device #%d does not match any CAL device", 
+                            device_index
+                            );
+                        }
+                    }
                 } else {
                     COPROC_ATI c;
                     c.opencl_prop = prop;
