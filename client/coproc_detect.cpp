@@ -442,12 +442,13 @@ strcpy(prop.opencl_driver_version, "CLH 1.0");
                             );
                         }
                     }
-                } else {
+                } else {            // ! ati.have_cal
                     COPROC_ATI c;
                     c.opencl_prop = prop;
                     c.set_peak_flops();
                     prop.peak_flops = c.peak_flops;
                 }
+                
                 if (ati_gpus.size()) {
                     // Assumes OpenCL and CAL return the same device with the same index
                     prop.opencl_available_ram = ati_gpus[prop.device_num].available_ram;
