@@ -372,11 +372,6 @@ strcpy(prop.opencl_driver_version, "CLH 1.0");
                 // CUDA but we assume that OpenCL and CUDA return devices in 
                 // the same order and with identical model name strings
                 while(1) {
-                    if (!strcmp(prop.name, nvidia_gpus[current_CUDA_index].prop.name)) {
-                        break;  // We have a match
-                    }
-                    // This CUDA GPU is not recognized by OpenCL, so try the next
-                    ++current_CUDA_index;
                     if (current_CUDA_index >= (int)(nvidia_gpus.size())) {
                         if (log_flags.coproc_debug) {
                             msg_printf(0, MSG_INFO,
@@ -386,6 +381,11 @@ strcpy(prop.opencl_driver_version, "CLH 1.0");
                         }
                         return; // Should never happen
                     }
+                    if (!strcmp(prop.name, nvidia_gpus[current_CUDA_index].prop.name)) {
+                        break;  // We have a match
+                    }
+                    // This CUDA GPU is not recognized by OpenCL, so try the next
+                    ++current_CUDA_index;
                 }
                 prop.device_num = current_CUDA_index;
                 prop.opencl_device_index = device_index;

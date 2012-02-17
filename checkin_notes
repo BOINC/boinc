@@ -1808,3 +1808,9 @@ David  17 Feb 2012
 		To be honest, I don't know that the problem was or why my change fixed it.
 	client/
 		http_curl.cpp
+
+Charlie 17 Feb 2012
+    - client: Prevent an unlikely but possible crash.
+
+    client/
+        coproc_detect.cpp
