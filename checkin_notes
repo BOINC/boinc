@@ -1815,10 +1815,18 @@ Charlie 17 Feb 2012
     client/
         coproc_detect.cpp
 
-Charlie 18 Feb 2012
+Charlie 17 Feb 2012
     - MGR: Fix a Mac-only bug which showed Event Log if About BOINC is selected 
         from task bar menu when BOINC is hidden.
 
     clientgui/
         BOINCGUIApp.cpp
         BOINCTaskBar.cpp
+
+Rom    17 Feb 2012
+    - Tag for 7.0.16 release, all platforms
+      boinc_core_release_7_0_16
+
+    /
+        configure.ac
+        version.h
