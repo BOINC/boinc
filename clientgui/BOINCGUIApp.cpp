@@ -789,18 +789,19 @@ int CBOINCGUIApp::IdleTrackerDetach() {
 
 
 void CBOINCGUIApp::OnActivateApp(wxActivateEvent& event) {
+#ifdef __WXMAC__
+    // Make sure any modal dialog (such as Attach Wizard) ends up in front.
+    if (IsModalDialogDisplayed()) {
+        event.Skip();
+        return;
+    }
+#endif
+
     if (event.GetActive()) {
         if (m_pEventLog && !m_pEventLog->IsIconized()) {
             m_pEventLog->Raise();
         }
         m_pFrame->Raise();
-        
-#ifdef __WXMAC__
-        // Make sure any modal dialog (such as Attach Wizard) ends up in front.
-        if (IsModalDialogDisplayed()) {
-            wxDynamicCast(wxWindow::FindWindowById(ID_ANYDIALOG), wxDialog)->Raise();
-        }
-#endif
     }
     event.Skip();
 }

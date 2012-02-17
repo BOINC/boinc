@@ -248,9 +248,17 @@ void CTaskBarIcon::OnSuspendResumeGPU(wxCommandEvent& WXUNUSED(event)) {
 }
 
 void CTaskBarIcon::OnAbout(wxCommandEvent& WXUNUSED(event)) {
-    bool bWasVisible;
+    bool bWasVisible = wxGetApp().IsApplicationVisible();
+#ifdef __WXMAC__
+    bool bEventLogWasShown = false;
 
-    bWasVisible = wxGetApp().IsApplicationVisible();
+    CDlgEventLog* eventLog = wxGetApp().GetEventLog();
+    if (eventLog) {
+        bEventLogWasShown = eventLog->IsShown();
+        if (bEventLogWasShown && !bWasVisible) eventLog->Show(false);
+    }
+#endif
+    
     wxGetApp().ShowApplication(true);
 
     ResetTaskBar();
@@ -261,6 +269,10 @@ void CTaskBarIcon::OnAbout(wxCommandEvent& WXUNUSED(event)) {
     if (!bWasVisible) {
         wxGetApp().ShowApplication(false);
     }
+    
+#ifdef __WXMAC__
+    if (bEventLogWasShown) eventLog->Show(true);
+#endif
 }
 
 
