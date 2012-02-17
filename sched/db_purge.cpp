@@ -549,6 +549,13 @@ bool do_pass() {
             "Purged workunit [%d] from database\n", wu.id
         );
 
+        if (config.enable_assignment) {
+            DB_ASSIGNMENT asg;
+            char buf[256];
+            sprintf(buf, "workunitid=%d", wu.id);
+            asg.delete_from_db_multi(buf);
+        }
+
         purged_workunits++;
         do_pass_purged_workunits++;
         wu_stored_in_file++;

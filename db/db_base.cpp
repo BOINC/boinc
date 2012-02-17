@@ -250,9 +250,14 @@ int DB_BASE::update_field(const char* clause, const char* where_clause) {
 // delete record
 //
 int DB_BASE::delete_from_db() {
-    char vals[MAX_QUERY_LEN], query[MAX_QUERY_LEN];
-    db_print(vals);
+    char query[MAX_QUERY_LEN];
     sprintf(query, "delete from %s where id=%u", table_name, get_id());
+    return db->do_query(query);
+}
+
+int DB_BASE::delete_from_db_multi(const char* where_clause) {
+    char query[MAX_QUERY_LEN];
+    sprintf(query, "delete from %s where %s", table_name, where_clause);
     return db->do_query(query);
 }
 

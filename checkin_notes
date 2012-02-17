@@ -1830,3 +1830,12 @@ Rom    17 Feb 2012
     /
         configure.ac
         version.h
+
+David  17 Feb 2012
+    - db_purge: when deleting a workunit record,
+        delete any assignments that refer to it
+
+    db/
+        db_base.cpp,h
+    sched/
+        db_purge.cpp
