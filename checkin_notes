@@ -1839,3 +1839,15 @@ David  17 Feb 2012
         db_base.cpp,h
     sched/
         db_purge.cpp
+
+David  17 Feb 2012
+    - server: add volunteer data archival to the build system
+
+    sched/
+        sched_config.cpp,h
+        Makefile.am
+    configure.ac
+    Makefile.am
+    vda/
+        Makefile.am new
+        makefile (renamed to makefile_orig)

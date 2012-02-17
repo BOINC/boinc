@@ -13,7 +13,7 @@ if ENABLE_LIBRARIES
 endif
 
 if ENABLE_SERVER
-   SERVER_SUBDIRS = db test py sched apps tools samples/example_app
+   SERVER_SUBDIRS = db test py sched apps tools samples/example_app vda
 endif
 
 if ENABLE_CLIENT

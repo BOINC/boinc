@@ -19,7 +19,8 @@ libsched_sources = \
     ../db/db_base.cpp \
     ../tools/process_result_template.cpp \
     ../tools/process_input_template.cpp \
-    ../tools/backend_lib.cpp
+    ../tools/backend_lib.cpp \
+	../vda/sched_vda.cpp
 
 lib_LTLIBRARIES = libsched.la
 libsched_la_SOURCES = $(libsched_sources)
