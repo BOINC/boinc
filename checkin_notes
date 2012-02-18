@@ -1851,3 +1851,11 @@ David  17 Feb 2012
     vda/
         Makefile.am new
         makefile (renamed to makefile_orig)
+
+Charlie 17 Feb 2012
+    - Mac: Fix back trace to work under OS > 10.5.
+    (Checked in to boinc_core_release_7_0_16 tag)
+    
+    lib/
+        mac/
+            mac_backtrace.cpp

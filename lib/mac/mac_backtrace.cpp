@@ -156,7 +156,7 @@ void PrintBacktrace(void) {
     
     err = QCRCreateFromSelf(&crRef);
 
-    if (OSMinorVersion == '5') {
+    if (OSMinorVersion >= '5') {
 #ifdef __ppc__
         fputs("BOINC backtrace under OS 10.5.x only shows exported (global) symbols\n", stderr);
         fputs("and may work poorly on a PowerPC Mac after a crash.  For a better\n", stderr);
