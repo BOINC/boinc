@@ -390,7 +390,7 @@ strcpy(prop.opencl_driver_version, "CLH 1.0");
                     }
                     prop.device_num = current_CUDA_index;
                 } else {
-                    prop.device_num = device_index;
+                    prop.device_num = (int)(nvidia_opencls.size());
                 }
                 prop.opencl_device_index = device_index;
 
