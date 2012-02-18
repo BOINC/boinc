@@ -156,7 +156,7 @@ void PrintBacktrace(void) {
     
     err = QCRCreateFromSelf(&crRef);
 
-    if (OSMinorVersion >= '5') {
+    if (OSMinorVersion == '5') {
 #ifdef __ppc__
         fputs("BOINC backtrace under OS 10.5.x only shows exported (global) symbols\n", stderr);
         fputs("and may work poorly on a PowerPC Mac after a crash.  For a better\n", stderr);
@@ -166,6 +166,9 @@ void PrintBacktrace(void) {
         fputs("and may not show the final location which caused a crash.  For a better\n", stderr);
         fputs("backtrace, either run under OS 10.4.x or run under OS 10.6.x or later.\n\n", stderr);
 #endif
+    }
+    
+    if (OSMinorVersion >= '5') {
         // Use new backtrace functions if available (only in OS 10.5 and later)
         systemlib = dlopen ("/usr/lib/libSystem.dylib", RTLD_NOW );
         if (systemlib) {
