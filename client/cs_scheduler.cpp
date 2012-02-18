@@ -460,11 +460,13 @@ bool CLIENT_STATE::scheduler_rpc_poll() {
     must_check_work_fetch = false;
     last_work_fetch_time = now;
 
-    p = work_fetch.choose_project();
+    p = work_fetch.choose_project(true);
     if (p) {
         if (actively_uploading(p)) {
             if (log_flags.work_fetch_debug) {
-                msg_printf(p, MSG_INFO, "[work_fetch] deferring work fetch; upload active");
+                msg_printf(p, MSG_INFO,
+                    "[work_fetch] deferring work fetch; upload active"
+                );
             }
             return false;
         }
@@ -483,7 +485,9 @@ static inline bool requested_work() {
 
 // Handle the reply from a scheduler
 //
-int CLIENT_STATE::handle_scheduler_reply(PROJECT* project, char* scheduler_url) {
+int CLIENT_STATE::handle_scheduler_reply(
+    PROJECT* project, char* scheduler_url
+) {
     SCHEDULER_REPLY sr;
     FILE* f;
     int retval;

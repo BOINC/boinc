@@ -1865,3 +1865,19 @@ Charlie 18 Feb 2012
 
     client/
         coproc_detect.cpp
+
+David  18 Feb 2012
+    - client: tweak to work-fetch policy:
+        if we're making a scheduler RPC to a project for reasons
+        other than work fetch,
+        and we're deciding whether to ask for work, ignore hysteresis;
+        i.e. ask for work even if we're above the min buffer
+        (idea from John McLeod).
+
+    client/
+        work_fetch.cpp,h
+        cs_scheduler.cpp
+    sched/
+        feeder.cpp
+    vda/
+        vdad.cpp

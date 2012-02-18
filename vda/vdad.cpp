@@ -323,8 +323,9 @@ bool scan_chunks() {
 }
 
 int main(int argc, char** argv) {
-#if 0
-    VDA_FILE vf;
+#if 1
+    VDA_FILE_AUX vf;
+    memset(&vf, 0, sizeof(vf));
     strcpy(vf.dir, "/mydisks/b/users/boincadm/vda_test");
     strcpy(vf.name, "file.ext");
     handle_file(vf);

@@ -39,7 +39,7 @@
 // It maintains a DB enumerator (DB_WORK_ITEM).
 // scan_work_array() scans the work array.
 // looking for empty slots and trying to fill them in.
-// The  enumeration may return results already in the array.
+// The enumeration may return results already in the array.
 // So, for each result, we scan the entire array to make sure
 // it's not there already (can this be streamlined?)
 //

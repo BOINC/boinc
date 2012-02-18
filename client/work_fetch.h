@@ -195,7 +195,7 @@ struct RSC_WORK_FETCH {
     void accumulate_shortfall(double d_time);
     void update_saturated_time(double dt);
     void update_busy_time(double dur, double nused);
-    PROJECT* choose_project_hyst();
+    PROJECT* choose_project_hyst(bool enforce_hyst);
     PROJECT* choose_project(int);
     void supplement(PROJECT*);
     RSC_PROJECT_WORK_FETCH& project_state(PROJECT*);
@@ -240,8 +240,10 @@ struct PROJECT_WORK_FETCH {
 // global work fetch state
 //
 struct WORK_FETCH {
-    PROJECT* choose_project();
+    PROJECT* choose_project(bool enforce_hyst);
         // find a project to ask for work
+        // if enforce_hystis false,
+        // consider requesting work even if buffer is above min level
     PROJECT* non_cpu_intensive_project_needing_work();
     void compute_work_request(PROJECT*);
         // we're going to contact this project anyway;

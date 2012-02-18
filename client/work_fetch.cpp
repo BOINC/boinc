@@ -217,9 +217,11 @@ static bool wacky_dcf(PROJECT* p) {
 // If this resource is below min buffer level,
 // return the highest-priority project that may have jobs for it.
 //
-PROJECT* RSC_WORK_FETCH::choose_project_hyst() {
+PROJECT* RSC_WORK_FETCH::choose_project_hyst(bool enforce_hyst) {
     PROJECT* pbest = NULL;
-    if (saturated_time > gstate.work_buf_min()) return NULL;
+    if (enforce_hyst) {
+        if (saturated_time > gstate.work_buf_min()) return NULL;
+    }
     for (unsigned i=0; i<gstate.projects.size(); i++) {
         PROJECT* p = gstate.projects[i];
         if (!p->pwf.can_fetch_work) continue;
@@ -572,7 +574,7 @@ void WORK_FETCH::compute_work_request(PROJECT* p) {
         return;
     }
 
-    PROJECT* bestp = choose_project();
+    PROJECT* bestp = choose_project(false);
     if (p != bestp) {
         clear_request();
     }
@@ -597,7 +599,7 @@ PROJECT* WORK_FETCH::non_cpu_intensive_project_needing_work() {
 // choose a project to fetch work from,
 // and set the request fields of resource objects
 //
-PROJECT* WORK_FETCH::choose_project() {
+PROJECT* WORK_FETCH::choose_project(bool enforce_hyst) {
     PROJECT* p;
 
     if (log_flags.work_fetch_debug) {
@@ -630,12 +632,12 @@ PROJECT* WORK_FETCH::choose_project() {
 if (use_hyst_fetch) {
     if (gpus_usable) {
         for (int i=1; i<coprocs.n_rsc; i++) {
-            p = rsc_work_fetch[i].choose_project_hyst();
+            p = rsc_work_fetch[i].choose_project_hyst(enforce_hyst);
             if (p) break;
         }
     }
     if (!p) {
-        p = rsc_work_fetch[0].choose_project_hyst();
+        p = rsc_work_fetch[0].choose_project_hyst(enforce_hyst);
     }
 } else {
     if (gpus_usable) {
