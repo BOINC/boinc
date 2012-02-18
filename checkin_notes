@@ -1859,3 +1859,9 @@ Charlie 17 Feb 2012
     lib/
         mac/
             mac_backtrace.cpp
+
+Charlie 18 Feb 2012
+    - client: Fix OpenCL NVIDIA GPU detection when CUDA is not present.
+
+    client/
+        coproc_detect.cpp

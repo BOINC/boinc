@@ -368,26 +368,30 @@ strcpy(prop.opencl_driver_version, "CLH 1.0");
             prop.get_device_version_int();
 
             if (strstr(prop.vendor, GPU_TYPE_NVIDIA)) {
-                // Mac OpenCL does not recognize all NVIDIA GPUs returned by 
-                // CUDA but we assume that OpenCL and CUDA return devices in 
-                // the same order and with identical model name strings
-                while(1) {
-                    if (current_CUDA_index >= (int)(nvidia_gpus.size())) {
-                        if (log_flags.coproc_debug) {
-                            msg_printf(0, MSG_INFO,
-                            "[coproc] OpenCL NVIDIA index #%d does not match any CUDA device", 
-                            device_index
-                            );
+                if (nvidia.have_cuda) {
+                    // Mac OpenCL does not recognize all NVIDIA GPUs returned by 
+                    // CUDA but we assume that OpenCL and CUDA return devices in 
+                    // the same order and with identical model name strings
+                    while(1) {
+                        if (current_CUDA_index >= (int)(nvidia_gpus.size())) {
+                            if (log_flags.coproc_debug) {
+                                msg_printf(0, MSG_INFO,
+                                "[coproc] OpenCL NVIDIA index #%d does not match any CUDA device", 
+                                device_index
+                                );
+                            }
+                            return; // Should never happen
                         }
-                        return; // Should never happen
+                        if (!strcmp(prop.name, nvidia_gpus[current_CUDA_index].prop.name)) {
+                            break;  // We have a match
+                        }
+                        // This CUDA GPU is not recognized by OpenCL, so try the next
+                        ++current_CUDA_index;
                     }
-                    if (!strcmp(prop.name, nvidia_gpus[current_CUDA_index].prop.name)) {
-                        break;  // We have a match
-                    }
-                    // This CUDA GPU is not recognized by OpenCL, so try the next
-                    ++current_CUDA_index;
+                    prop.device_num = current_CUDA_index;
+                } else {
+                    prop.device_num = device_index;
                 }
-                prop.device_num = current_CUDA_index;
                 prop.opencl_device_index = device_index;
 
                 if (!nvidia.have_cuda) {
@@ -401,9 +405,9 @@ strcpy(prop.opencl_driver_version, "CLH 1.0");
                     prop.opencl_available_ram = nvidia_gpus[prop.device_num].available_ram;
                 } else {
                     prop.opencl_available_ram = prop.global_mem_size;
+                    ++current_CUDA_index;
                 }
                 nvidia_opencls.push_back(prop);
-                ++current_CUDA_index;
             }
             if ((strstr(prop.vendor, GPU_TYPE_ATI)) || 
                 (strstr(prop.vendor, "AMD")) ||  
