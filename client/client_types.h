@@ -720,6 +720,9 @@ struct RESULT {
     bool report_immediately;
     bool not_started;   // temp for CPU sched
 
+    std::string name_md5;   // see sort_results();
+    int index;              // index in results vector
+
     APP* app;
     WORKUNIT* wup;
     PROJECT* project;

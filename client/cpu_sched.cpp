@@ -439,16 +439,12 @@ RESULT* first_coproc_result(int rsc_type) {
         if (!rs && bs) {
             continue;
         }
-        if (rp->received_time < best->received_time) {
+
+        // else used "arrived first" order
+        //
+        if (rp->index < best->index) {
             best = rp;
             best_prio = prio;
-        } else if (rp->received_time == best->received_time) {
-            // make it deterministic by looking at name
-            //
-            if (strcmp(rp->name, best->name) > 0) {
-                best = rp;
-                best_prio = prio;
-            }
         }
     }
     return best;

@@ -1931,3 +1931,19 @@ David  20 Feb 2012
     sched/
         sched_util.cpp
         sched_assign.cpp
+
+David  20 Feb 2012
+    - client: define a "arrived-first" order on results
+        in which the tiebreaker is MD5 of name.
+        That way the order is stable
+        (it doesn't change from one run of the client to the next)
+        and it doesn't grep results with similar names
+        (and hence for the same app).
+        This ordering is used for
+        1) the order of display in the manager
+        2) the job scheduler's notion of FIFO
+
+    client/
+        client_types.h
+        cs_statefile.cpp
+        cpu_sched.cpp

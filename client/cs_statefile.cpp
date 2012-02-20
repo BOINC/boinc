@@ -23,11 +23,12 @@
 #include <errno.h>
 #endif
 
+#include "error_numbers.h"
+#include "filesys.h"
+#include "md5_file.h"
 #include "parse.h"
 #include "str_util.h"
 #include "util.h"
-#include "error_numbers.h"
-#include "filesys.h"
 
 #include "cs_proxy.h"
 #include "file_names.h"
@@ -75,7 +76,7 @@ static inline bool arrived_first(RESULT* r0, RESULT* r1) {
     if (r0->received_time > r1->received_time) {
         return false;
     }
-    return (r0 < r1);    // arbitrary but deterministic
+    return (r0->name_md5 < r1->name_md5);
 }
 
 // Parse the client_state.xml file
@@ -542,12 +543,24 @@ int CLIENT_STATE::parse_state_file_aux(const char* fname) {
     return 0;
 }
 
+// this is called whenever new results are added, namely at startup
+// and after a scheduler RPC
+//
 void CLIENT_STATE::sort_results() {
+    unsigned int i;
+    for (i=0; i<results.size(); i++) {
+        RESULT* rp = results[i];
+        rp->name_md5 = md5_string(string(rp->name));
+    }
     std::sort(
         results.begin(),
         results.end(),
         arrived_first
     );
+    for (i=0; i<results.size(); i++) {
+        RESULT* rp = results[i];
+        rp->index = i;
+    }
 }
 
 #ifndef SIM
