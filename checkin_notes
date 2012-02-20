@@ -1881,3 +1881,10 @@ David  18 Feb 2012
         feeder.cpp
     vda/
         vdad.cpp
+
+David  19 Feb 2012
+	- client: fix bug in notices where, after a notice is deleted,
+		the notices tab refreshes once/second forever after
+
+	client/
+		cs_notice.cpp

@@ -519,6 +519,7 @@ void NOTICES::write(int seqno, GUI_RPC_CONN& grc, bool public_only) {
     }
     grc.mfout.printf("<notices>\n");
     if (grc.get_notice_refresh()) {
+        grc.clear_notice_refresh();
         NOTICE n;
         n.seqno = -1;
         seqno = -1;

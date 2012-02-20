@@ -76,7 +76,6 @@ public:
         notice_refresh = true;
     }
     void clear_notice_refresh() {
-        if (!notice_refresh) return;
         notice_refresh = false;
     }
     bool get_notice_refresh() {
