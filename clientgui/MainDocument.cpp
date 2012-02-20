@@ -2318,10 +2318,6 @@ int CMainDocument::SetProxyConfiguration() {
     if (!proxy_info.http_user_name.empty() || !proxy_info.http_user_passwd.empty())
         proxy_info.use_http_authentication = true;
 
-    proxy_info.socks_version = 4;
-    if (!proxy_info.socks5_user_name.empty() || !proxy_info.socks5_user_passwd.empty())
-        proxy_info.socks_version = 5;
-
     iRetVal = rpc.set_proxy_settings(proxy_info);
     if (iRetVal) {
         wxLogTrace(wxT("Function Status"), wxT("CMainDocument::SetProxyInfo - Set Proxy Info Failed '%d'"), iRetVal);

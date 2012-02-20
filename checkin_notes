@@ -1917,3 +1917,9 @@ David  20 Feb 2012
         gui_rpc_client.h
     client/
         boinc_cmd.cpp
+
+David  20 Feb 2012
+	- Manager: compile fix
+
+	clientgui/
+		MainDocument.cpp
