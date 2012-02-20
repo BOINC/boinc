@@ -1923,3 +1923,11 @@ David  20 Feb 2012
 
 	clientgui/
 		MainDocument.cpp
+
+David  20 Feb 2012
+    - scheduler: fix a couple of assigned-job bugs
+        (need "where" at start of enumerate() clause!)
+
+    sched/
+        sched_util.cpp
+        sched_assign.cpp

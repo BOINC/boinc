@@ -315,7 +315,7 @@ int restrict_wu_to_user(DB_WORKUNIT& wu, int userid) {
 
     // mark unsent results as DIDNT_NEED
     //
-    sprintf(buf, "workunitid=%d and server_state=%d",
+    sprintf(buf, "where workunitid=%d and server_state=%d",
         wu.id, RESULT_SERVER_STATE_UNSENT
     );
     while (result.enumerate(buf)) {

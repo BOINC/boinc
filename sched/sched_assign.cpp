@@ -172,7 +172,7 @@ bool send_assigned_jobs() {
     // for now, only look for user assignments
     //
     char buf[256];
-    sprintf(buf, "target_type=%d and target_id=%d and multi=0",
+    sprintf(buf, "where target_type=%d and target_id=%d and multi=0",
         ASSIGN_USER, g_reply->user.id
     );
     while (!asg.enumerate(buf)) {
