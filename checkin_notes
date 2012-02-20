@@ -1906,3 +1906,14 @@ David  20 Feb 2012
         sched_assign.cpp
     client/
         work_fetch.cpp
+
+David  20 Feb 2012
+    - Manager/Client: fix bugs in GUI RPC that prevented
+        updates to proxy info from being saved by client
+
+    lib/
+        gui_rpc_client_print.cpp
+        gui_rpc_client_ops.cpp
+        gui_rpc_client.h
+    client/
+        boinc_cmd.cpp

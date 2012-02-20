@@ -172,7 +172,6 @@ void GR_PROXY_INFO::print() {
     //printf("HTTP user password: %s\n",this->http_user_passwd.c_str()); 
     printf("SOCKS server name: %s\n",this->socks_server_name.c_str()); 
     printf("SOCKS server port: %d\n",this->socks_server_port); 
-    printf("SOCKS version: %d\n",this->socks_version); 
     printf("SOCKS5 user name: %s\n",this->socks5_user_name.c_str()); 
     //printf("SOCKS5 user password: %s\n",this->socks5_user_passwd.c_str()); 
     printf("no proxy hosts: %s\n",this->noproxy_hosts.c_str()); 

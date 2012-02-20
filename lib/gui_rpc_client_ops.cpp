@@ -769,7 +769,6 @@ int GR_PROXY_INFO::parse(XML_PARSER& xp) {
     use_http_authentication = false;
     while (!xp.get_tag()) {
         if (xp.match_tag("/proxy_info")) return 0;
-        if (xp.parse_int("socks_version", socks_version)) continue;
         if (xp.parse_string("socks_server_name", socks_server_name)) continue;
         if (xp.parse_int("socks_server_port", socks_server_port)) continue;
         if (xp.parse_string("socks5_user_name", socks5_user_name)) continue;
@@ -790,7 +789,6 @@ void GR_PROXY_INFO::clear() {
     use_http_proxy = false;
     use_socks_proxy = false;
     use_http_authentication = false;
-    socks_version = 0;
     socks_server_name.clear();
     http_server_name.clear();
     socks_server_port = 0;
@@ -1853,30 +1851,29 @@ int RPC_CLIENT::set_proxy_settings(GR_PROXY_INFO& pi) {
     RPC rpc(this);
 
     sprintf(buf,
-        "<set_proxy_settings>\n%s%s%s"
+        "<set_proxy_settings>\n"
         "    <proxy_info>\n"
+        "%s%s%s"
         "        <http_server_name>%s</http_server_name>\n"
         "        <http_server_port>%d</http_server_port>\n"
         "        <http_user_name>%s</http_user_name>\n"
         "        <http_user_passwd>%s</http_user_passwd>\n"
         "        <socks_server_name>%s</socks_server_name>\n"
         "        <socks_server_port>%d</socks_server_port>\n"
-        "        <socks_version>%d</socks_version>\n"
         "        <socks5_user_name>%s</socks5_user_name>\n"
         "        <socks5_user_passwd>%s</socks5_user_passwd>\n"		
-		"        <no_proxy>%s</no_proxy\n"
+		"        <no_proxy>%s</no_proxy>\n"
         "    </proxy_info>\n"
         "</set_proxy_settings>\n",
-        pi.use_http_proxy?"   <use_http_proxy/>\n":"",
-        pi.use_socks_proxy?"   <use_socks_proxy/>\n":"",
-        pi.use_http_authentication?"   <use_http_auth/>\n":"",
+        pi.use_http_proxy?"        <use_http_proxy/>\n":"",
+        pi.use_socks_proxy?"        <use_socks_proxy/>\n":"",
+        pi.use_http_authentication?"        <use_http_auth/>\n":"",
         pi.http_server_name.c_str(),
         pi.http_server_port,
         pi.http_user_name.c_str(),
         pi.http_user_passwd.c_str(),
         pi.socks_server_name.c_str(),
         pi.socks_server_port,
-        pi.socks_version,
         pi.socks5_user_name.c_str(),
         pi.socks5_user_passwd.c_str(),
 		pi.noproxy_hosts.c_str()

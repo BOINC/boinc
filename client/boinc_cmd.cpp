@@ -356,7 +356,6 @@ int main(int argc, char** argv) {
         pi.http_user_passwd = next_arg(argc, argv, i);
         pi.socks_server_name = next_arg(argc, argv, i);
         pi.socks_server_port = atoi(next_arg(argc, argv, i));
-        pi.socks_version = atoi(next_arg(argc, argv, i));
         pi.socks5_user_name = next_arg(argc, argv, i);
         pi.socks5_user_passwd = next_arg(argc, argv, i);
         pi.noproxy_hosts = next_arg(argc, argv, i);

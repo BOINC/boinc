@@ -338,19 +338,22 @@ struct MESSAGE {
     void clear();
 };
 
+// should match up with PROXY_INFO in proxy_info.h
+//
 struct GR_PROXY_INFO {
     bool use_http_proxy;
-    bool use_socks_proxy;
     bool use_http_authentication;
-    int socks_version;
-    std::string socks_server_name;
     std::string http_server_name;
-    int socks_server_port;
     int http_server_port;
     std::string http_user_name;
     std::string http_user_passwd;
+
+    bool use_socks_proxy;
+    std::string socks_server_name;
+    int socks_server_port;
     std::string socks5_user_name;
     std::string socks5_user_passwd;
+
 	std::string noproxy_hosts;
 
     GR_PROXY_INFO();
