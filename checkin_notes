@@ -1888,3 +1888,11 @@ David  19 Feb 2012
 
 	client/
 		cs_notice.cpp
+
+Rom    20 Feb 2012
+    - Tag for 7.0.17 release, all platforms
+      boinc_core_release_7_0_17
+
+    /
+        configure.ac
+        version.h
