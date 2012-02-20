@@ -175,7 +175,7 @@ bool send_assigned_jobs() {
     sprintf(buf, "target_type=%d and target_id=%d and multi=0",
         ASSIGN_USER, g_reply->user.id
     );
-    while (asg.enumerate(buf)) {
+    while (!asg.enumerate(buf)) {
         if (!work_needed(false)) continue; 
 
         // if the WU doesn't exist, delete the assignment record.

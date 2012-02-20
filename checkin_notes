@@ -1896,3 +1896,13 @@ Rom    20 Feb 2012
     /
         configure.ac
         version.h
+
+David  20 Feb 2012
+    - client: message tweaks
+    - scheduler: fix crash when use <enable_assignment>
+
+    sched/
+        db_purge.cpp
+        sched_assign.cpp
+    client/
+        work_fetch.cpp

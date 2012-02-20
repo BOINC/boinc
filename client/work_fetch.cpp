@@ -426,7 +426,7 @@ void RSC_WORK_FETCH::print_state(const char* name) {
         bool no_rsc_ams = p->no_rsc_ams[rsc_type];
         double bt = pwf.backoff_time>gstate.now?pwf.backoff_time-gstate.now:0;
         msg_printf(p, MSG_INFO,
-            "[work_fetch] %s: fetch share %.2f rsc backoff (dt %.2f, inc %.2f)%s%s%s%s",
+            "[work_fetch] %s: fetch share %.3f rsc backoff (dt %.2f, inc %.2f)%s%s%s%s",
             name,
             pwf.fetchable_share, bt, pwf.backoff_interval,
             no_rsc_pref?" (blocked by prefs)":"",
@@ -537,13 +537,12 @@ void WORK_FETCH::print_state() {
         } else {
             strcpy(buf, "");
         }
-        msg_printf(p, MSG_INFO, "[work_fetch] REC %.3f priority %.6f%s%s%s%s%s%s",
+        msg_printf(p, MSG_INFO, "[work_fetch] REC %.3f priority %.6f%s%s%s%s%s",
             p->pwf.rec,
             p->sched_priority,
             buf,
             p->suspended_via_gui?" (susp via GUI)":"",
             p->master_url_fetch_pending?" (master fetch pending)":"",
-            p->min_rpc_time > gstate.now?buf:"",
             p->dont_request_more_work?" (no new tasks)":"",
             p->too_many_uploading_results?" (too many uploads)":""
         );

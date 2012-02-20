@@ -551,9 +551,9 @@ bool do_pass() {
 
         if (config.enable_assignment) {
             DB_ASSIGNMENT asg;
-            char buf[256];
+            char buf2[256];
             sprintf(buf, "workunitid=%d", wu.id);
-            asg.delete_from_db_multi(buf);
+            asg.delete_from_db_multi(buf2);
         }
 
         purged_workunits++;
