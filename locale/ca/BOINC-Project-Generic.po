@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2012-01-16 11:31 PST\n"
-"PO-Revision-Date: 2012-02-13 00:25+0200\n"
+"PO-Revision-Date: 2012-02-17 00:55+0200\n"
 "Last-Translator: Xavier <xavi.mormur@gmail.com>\n"
 "Language-Team: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
 "Language: ca\n"
@@ -224,9 +224,8 @@ msgid "Send&nbsp;message"
 msgstr "Enviar missatge"
 
 #: ../inc/forum.inc:535
-#, fuzzy
 msgid "Send %1 a private message"
-msgstr "Enviar un missatge privat"
+msgstr "Enviar %1 un missatge privat"
 
 #: ../inc/forum.inc:536
 #, fuzzy
@@ -238,9 +237,8 @@ msgid "Posts: %1"
 msgstr "Missatges: %1"
 
 #: ../inc/forum.inc:551
-#, fuzzy
 msgid "Credit: %1"
-msgstr "Crèdit"
+msgstr "Crèdit: %1"
 
 #: ../inc/forum.inc:552
 msgid "RAC: %1"
@@ -257,9 +255,8 @@ msgid "Unread"
 msgstr "no llegit"
 
 #: ../inc/forum.inc:577 ../inc/forum.inc:582 ../inc/forum.inc:681
-#, fuzzy
 msgid "Message %1"
-msgstr "Missatge"
+msgstr "Missatge %1"
 
 #: ../inc/forum.inc:578 ../inc/user.inc:324 ../user/forum_forum.php:172
 msgid "hidden"
@@ -350,13 +347,12 @@ msgid "Hidden by a moderator"
 msgstr ""
 
 #: ../inc/forum.inc:683
-#, fuzzy
 msgid "Posted %1 by %2"
-msgstr "Missatges de %1"
+msgstr "Missatges %1 de %2"
 
 #: ../inc/forum.inc:701
 msgid "You may not post or rate messages until %1"
-msgstr "No podeu enviar o valorar missatges fins 1%"
+msgstr "No podeu enviar o valorar missatges fins %1"
 
 #: ../inc/forum.inc:712
 msgid ""
@@ -490,9 +486,8 @@ msgid "Last post"
 msgstr "Últim correu"
 
 #: ../inc/forum.inc:1188
-#, fuzzy
 msgid "New posts in the thread %1"
-msgstr "Publiqui-ho al fil"
+msgstr "Nous missatges en el fil %1"
 
 #: ../inc/forum.inc:1193
 #, fuzzy
@@ -500,9 +495,8 @@ msgid "New posts in subscribed thread"
 msgstr "Fils subscrits"
 
 #: ../inc/forum.inc:1194
-#, fuzzy
 msgid "There are new posts in the thread '%1'"
-msgstr "Premi per obtenir un correu quan hi hagin nous missatges en aquest fil"
+msgstr "Hi ha nous missatges en el fil '%1'"
 
 #: ../inc/forum.inc:1204
 msgid "Mark all threads as read"
@@ -1409,7 +1403,7 @@ msgstr "Avisar els administradors d'un perfil ofensiu:"
 
 #: ../inc/profile.inc:268
 msgid "I %1do not like%2 this profile"
-msgstr "No %1m'agrada%2 aquest perfil"
+msgstr "No %1m\\'agrada%2 aquest perfil"
 
 #: ../inc/result.inc:34
 msgid "Anonymous platform"
@@ -2105,7 +2099,7 @@ msgstr "Clau de compte feble"
 
 #: ../inc/user.inc:216
 msgid "Provides %1limited access%2 to your account"
-msgstr "Proporciona %1accés limitat%2 al vostre compte"
+msgstr "Proporciona un %1accés limitat%2 al vostre compte"
 
 #: ../inc/user.inc:219
 msgid "Preferences"
@@ -2957,9 +2951,7 @@ msgstr "Les instruccions per instal·lar i executar BOINC es troben %1aquí%2."
 
 #: ../user/download_network.php:38
 msgid "This list is managed centrally at %1the BOINC website%2."
-msgstr ""
-"Aquesta llista està gestionada per el servidor de la %1pagína web de BOINC%"
-"2."
+msgstr "Aquesta llista està gestionada en el servidor %1pagína web de BOINC%2."
 
 #: ../user/edit_email_action.php:31
 msgid "Change email address of account"
@@ -5144,9 +5136,8 @@ msgid "or %1create an account%2."
 msgstr "o %1crei un compte%2."
 
 #: ../user/merge_by_name.php:33
-#, fuzzy
 msgid "Processing %1"
-msgstr "Processant"
+msgstr "Processant %1"
 
 #: ../user/merge_by_name.php:45
 #, fuzzy
@@ -5241,9 +5232,8 @@ msgid "Claimed credit"
 msgstr "Crèdit reclamat"
 
 #: ../user/pending.php:79
-#, fuzzy
 msgid "Pending credit: %1"
-msgstr "Crèdits pendents"
+msgstr "Crèdit pendent: %1"
 
 #: ../user/pm.php:32
 msgid "Block messages from this user"

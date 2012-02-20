@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: 1.03\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2012-01-16 11:31 PST\n"
-"PO-Revision-Date: 2012-02-13 17:28-0000\n"
+"PO-Revision-Date: 2012-02-15 12:35-0000\n"
 "Last-Translator: Miguel Veiga <Miguel.veig@gmail.com>\n"
 "Language-Team: Portuguese <LL@li.org>\n"
 "Language: pt_PT\n"
@@ -41,7 +41,7 @@ msgstr "Citar texto: [quote]text[/quote]  (alt+q)"
 
 #: ../inc/bbcode_html.inc:23
 msgid "Code display: [code]code[/code]  (alt+c)"
-msgstr ""
+msgstr "Exibição do código: [code]código[/code]  (alt+c)"
 
 #: ../inc/bbcode_html.inc:26
 msgid "List: [list]text[/list] (alt+l)"
@@ -49,15 +49,15 @@ msgstr "Lista: [list]text[/list] (alt+l)"
 
 #: ../inc/bbcode_html.inc:29
 msgid "Ordered list: [list=]text[/list]  (alt+o)"
-msgstr ""
+msgstr "Lista ordenada: [list=]texto[/list]  (alt+o)"
 
 #: ../inc/bbcode_html.inc:32
 msgid "Insert image: [img]http://image_url[/img]  (alt+p)"
-msgstr ""
+msgstr "Inserir imagem: [img]http://image_url[/img]  (alt+p)"
 
 #: ../inc/bbcode_html.inc:35
 msgid "Insert URL: [url]http://url[/url] or [url=http://url]URL text[/url]  (alt+w)"
-msgstr ""
+msgstr "Inserir URL: [url]http://url[/url] ou [url=http://url]URL texto[/url]  (alt+w)"
 
 #: ../inc/bbcode_html.inc:42
 msgid "Font color"
@@ -65,7 +65,7 @@ msgstr "Cor da fonte"
 
 #: ../inc/bbcode_html.inc:43
 msgid "Font color: [color=red]text[/color]  Tip: you can also use color=#FF0000"
-msgstr ""
+msgstr "Cor da fonte: [color=red]texto[/color]  Dica: Pode tambem usar cor=#FF0000"
 
 #: ../inc/bbcode_html.inc:44
 #: ../inc/bbcode_html.inc:59
@@ -99,11 +99,11 @@ msgstr "Verde"
 
 #: ../inc/bbcode_html.inc:51
 msgid "Olive"
-msgstr ""
+msgstr "Cor de azeitona"
 
 #: ../inc/bbcode_html.inc:52
 msgid "Cyan"
-msgstr ""
+msgstr "Ciano"
 
 #: ../inc/bbcode_html.inc:53
 msgid "Blue"
@@ -115,7 +115,7 @@ msgstr "Azul Escuro"
 
 #: ../inc/bbcode_html.inc:55
 msgid "Indigo"
-msgstr ""
+msgstr "Indigo"
 
 #: ../inc/bbcode_html.inc:56
 msgid "Violet"
@@ -127,7 +127,7 @@ msgstr "Tamanho da fonte"
 
 #: ../inc/bbcode_html.inc:58
 msgid "Font size: [size=x-small]small text[/size]"
-msgstr ""
+msgstr "Tamanho da fonte: [size=x-small]texto pequeno[/size]"
 
 #: ../inc/bbcode_html.inc:60
 msgid "Small"
@@ -292,7 +292,7 @@ msgstr "Modificadas em último: %1"
 
 #: ../inc/forum.inc:594
 msgid "This post is not shown because the sender is on your 'ignore' list.  Click %1here%2 to view this post"
-msgstr ""
+msgstr "Este post não é mostrado porque o remetente está na sua lista de pessoas' ignoradas'. Carregue %1aqui%2 para ver este post"
 
 #: ../inc/forum.inc:622
 #: ../inc/forum.inc:633
@@ -375,6 +375,19 @@ msgid ""
 "            nationality, gender, class or sexuality.\n"
 "        "
 msgstr ""
+"\n"
+"        <ul>\n"
+"        <li> Os posts têm de ser 'amigáveis': não poderão conter\n"
+"              conteudo que seja obsceno, que tenham conteudo\n"
+"              sexual explicito ou sugestivo.\n"
+"        <li> Avisos comerciais.\n"
+"        <li> Links para websites envolvendo conteudo sexual,\n"
+"             jogos de azar, ou intolerância de outros tipos.\n"
+"         <li> Mensagens destinadas a importunar ou antoganizar outras pessoas,\n"
+"              ou para sequestrar um tópico.\n"
+"         <li> Mensagens que sejam deliberadamente hostis ou resultem em insultos.\n"
+"         <li> Comentários abusivos envolvendo raça, religião,\n"
+"              nacionalidade, sexo, classe ou sexualidade.\n"
 
 #: ../inc/forum.inc:734
 msgid "Rules:"
@@ -441,7 +454,7 @@ msgstr "Não pode criar mais tópicos de momento. Por favor aguarde um momento a
 
 #: ../inc/forum.inc:1093
 msgid "This thread is locked. Only forum moderators and administrators are allowed to post there."
-msgstr ""
+msgstr "Este tópico está bloqueado. Apenas moderadores do fórum e administradores podem postar aqui."
 
 #: ../inc/forum.inc:1098
 msgid "Can't post to a hidden thread."
@@ -4931,6 +4944,10 @@ msgid ""
 "our message boards are moderated.\n"
 "Message board postings are subject to the following posting rules:\n"
 msgstr ""
+"\n"
+"Para maximizar a discussão e o fluxo de informação,\n"
+"os nosso fóruns são sujeitos a moderação.\n"
+"Posts nos fóruns são sujeitos às seguintes regras:\n"
 
 #: ../user/moderation.php:30
 msgid ""
@@ -4969,6 +4986,40 @@ msgid ""
 "If you have comments about the policy, email %2.\n"
 "\n"
 msgstr ""
+"\n"
+"<p>\n"
+"Os Moderadores podem apagar posts que violem alguma destas regras.\n"
+"Os autores dos posts eliminados serão notificados por email.\n"
+"Infratores grosseiros poderão ter a capacidade de postar mensagens temporariamente revogadas.\n"
+"(apesar de ser para prevenir abusos, apenas administradores têm o privilégio de o fazer).\n"
+"Tipos de mau comportamenteo adicionais (\"bugging\" posts para apanhar os\n"
+"endereços de IP de outros participantes, criação excessiva de posts para fazer spam\n"
+"nos fóruns, ect), enquanto não listados de acordo com as regras, podem ainda\n"
+"levar a sanções similares.\n"
+"<p>\n"
+"Se acredita que um post viola alguma destas regras,\n"
+"carregue no X vermelho no post e preencha o formulário;\n"
+"Os moderadores serão notificados da sua queixa.\n"
+"Por favor use este botão apenas para violações claras - não\n"
+"para disputas pessoais.\n"
+"<p>\n"
+"Nós tentamos ser o mais justo possivel na moderação,\n"
+"mas numa larga comunidade de utilizadores, com muitos pontos de vista,\n"
+"existirão sempre algumas pessoas que não ficarão contentes\n"
+"com as nossas decisões de moderação.\n"
+"Apesar de lamentarmos que isto aconteça,\n"
+"percebam que não podemos satisfazer sempre todas as pessoas\n"
+"e temos que tomar decisões baseadas nos nossos recursos e\n"
+"naquilo que é melhor para o fórum em geral.\n"
+"Por favor não discutam as nossas politicas de moderação nos fóruns. Não somos\n"
+"um projecto de engenharia social nem estamos num negócio de criação\n"
+"de um sistema perfeito. Esse tipo de discussões tendem a ser contrapoducentes\n"
+"e potencialmente incendiários. Se tiver alguma queixa legitima,\n"
+"envie um email para o endereço em baixo.\n"
+"<p>\n"
+"Esta politica de moderação é definida pelo %1 projecto.\n"
+"Se tem algum comentário acerca das politicas, envie um email %2.\n"
+"\n"
 
 #: ../user/pending.php:66
 msgid "Result ID"
