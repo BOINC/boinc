@@ -1983,3 +1983,11 @@ David  21 Feb 2012
         vda_lib2.cpp
         vdad.cpp
         ssim.cpp
+
+Rom    21 Feb 2012
+    - Vbox: Include date component in log messages to ease debugging long
+        running VM tasks.
+        
+    samples/vboxwrapper/
+        vbox.cpp
+        vboxwrapper.cpp, .h

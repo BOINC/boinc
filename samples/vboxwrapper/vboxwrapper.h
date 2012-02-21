@@ -32,4 +32,6 @@
 #define REMOTEDESKTOP_FILENAME "vbox_remote_desktop.xml"
 #define POLL_PERIOD 1.0
 
+extern char* vboxwrapper_msg_prefix(char*, int);
+
 #endif
