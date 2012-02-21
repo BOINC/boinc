@@ -405,9 +405,9 @@ strcpy(prop.opencl_driver_version, "CLH 1.0");
                     prop.opencl_available_ram = nvidia_gpus[prop.device_num].available_ram;
                 } else {
                     prop.opencl_available_ram = prop.global_mem_size;
-                    ++current_CUDA_index;
                 }
                 nvidia_opencls.push_back(prop);
+                ++current_CUDA_index;
             }
             if ((strstr(prop.vendor, GPU_TYPE_ATI)) || 
                 (strstr(prop.vendor, "AMD")) ||  

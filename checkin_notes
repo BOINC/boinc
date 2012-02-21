@@ -1947,3 +1947,10 @@ David  20 Feb 2012
         client_types.h
         cs_statefile.cpp
         cpu_sched.cpp
+
+Charlie 20 Feb 2012
+    - client: Fix OpenCL NVIDIA GPU enumeration bug I introduced 
+        with last checkin.
+
+    client/
+        coproc_detect.cpp
