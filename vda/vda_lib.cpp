@@ -29,7 +29,7 @@ using std::vector;
 
 int POLICY::parse(const char* filename) {
     int n;
-    char buf[256], buf2[256];
+    char buf[256];
 
     strcpy(description, "");
 
@@ -57,17 +57,16 @@ int POLICY::parse(const char* filename) {
         }
         c.m = c.n + c.k;
 
-        sprintf(buf2, "(%d %d %d) ", c.n, c.k, c.n_upload);
-        strcat(description, buf2);
+        sprintf(buf, "(%d %d %d) ", c.n, c.k, c.n_upload);
+        strcat(description, buf);
     }
-    sprintf(buf2, "X%d", replication);
-    strcat(description, buf2);
+    sprintf(buf, "X%d", replication);
+    strcat(description, buf);
     return 0;
 }
 
 char* time_str(double t) {
     static char buf[256];
-    struct tm;
     int n = (int)t;
     int nsec = n % 60;
     n /= 60;
@@ -169,17 +168,17 @@ void STATS_ITEM::print(double now) {
     }
 }
 
-void STATS_ITEM::print_summary(FILE* f, double now) {
+void STATS_ITEM::print_summary(FILE* fout, double now) {
     double dt = now - start_time;
     switch (kind) {
     case DISK:
-        fprintf(f, "%f\n", integral/dt);
+        fprintf(fout, "%f\n", integral/dt);
         break;
     case NETWORK:
-        fprintf(f, "%f\n", integral/dt);
+        fprintf(fout, "%f\n", integral/dt);
         break;
     case FAULT_TOLERANCE:
-        fprintf(f, "%f\n", extreme_val);
+        fprintf(fout, "%f\n", extreme_val);
         break;
     }
 }
@@ -250,7 +249,7 @@ bool compare_min_failures(const DATA_UNIT* d1, const DATA_UNIT* d2) {
 //      decide whether to start upload/download of chunks,
 //      and whether to delete data currently on server
 //
-void META_CHUNK::recovery_plan() {
+int META_CHUNK::recovery_plan() {
     vector<DATA_UNIT*> recoverable;
     vector<DATA_UNIT*> present;
 
@@ -308,9 +307,10 @@ void META_CHUNK::recovery_plan() {
     } else {
         status = UNRECOVERABLE;
     }
+    return 0;
 }
 
-void CHUNK::recovery_plan() {
+int CHUNK::recovery_plan() {
     if (present_on_server) {
         status = PRESENT;
         cost = 0;
@@ -329,9 +329,10 @@ void CHUNK::recovery_plan() {
 #ifdef DEBUG_RECOVERY
     printf("chunk plan %s: status %s\n", name, status_str(status));
 #endif
+    return 0;
 }
 
-void META_CHUNK::recovery_action(double now) {
+int META_CHUNK::recovery_action(double now) {
     unsigned int i;
     if (data_now_present) {
         status = PRESENT;
@@ -408,9 +409,11 @@ void META_CHUNK::recovery_action(double now) {
         }
         printf("  our min failures: %d\n", min_failures);
     }
+    return 0;
 }
 
-void CHUNK::recovery_action(double now) {
+int CHUNK::recovery_action(double now) {
+    int retval;
     VDA_FILE_AUX* fp = parent->dfile;
     if (data_now_present) {
         present_on_server = true;
@@ -422,7 +425,8 @@ void CHUNK::recovery_action(double now) {
         status = PRESENT;
     }
     if (status == PRESENT && (int)(hosts.size()) < fp->policy.replication) {
-        assign();
+        retval = assign();
+        if (retval) return retval;
     }
     if (download_in_progress()) {
         data_needed = true;
@@ -451,5 +455,5 @@ void CHUNK::recovery_action(double now) {
             );
         }
     }
+    return 0;
 }
-

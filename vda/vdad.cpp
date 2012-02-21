@@ -30,6 +30,7 @@
 using std::vector;
 
 #include "boinc_db.h"
+#include "sched_config.h"
 
 #include "error_numbers.h"
 #include "util.h"
@@ -132,7 +133,7 @@ int META_CHUNK::init(const char* dir, const char* fname, POLICY& p, int level) {
             char child_dir[1024], child_fname[1024];
             sprintf(child_fname, "%s_%d", fname, i);
             sprintf(child_dir, "%s/%s", dir, child_fname);
-            META_CHUNK* mc = new META_CHUNK();
+            META_CHUNK* mc = new META_CHUNK(dfile, parent);
             retval = mc->init(child_dir, child_fname, p, level+1);
             if (retval) return retval;
             children.push_back(mc);
@@ -152,7 +153,7 @@ int META_CHUNK::init(const char* dir, const char* fname, POLICY& p, int level) {
 //
 int VDA_FILE_AUX::init() {
     char buf[1024];
-    meta_chunk = new META_CHUNK();
+    meta_chunk = new META_CHUNK(this, NULL);
     int retval = meta_chunk->init(dir, name, policy, 0);
     if (retval) return retval;
     sprintf(buf, "%s/chunk_sizes.txt", dir);
@@ -175,7 +176,7 @@ int META_CHUNK::get_state(
             char child_dir[1024], child_fname[1024];
             sprintf(child_fname, "%s_%d", fname, i);
             sprintf(child_dir, "%s/%s", dir, child_fname);
-            META_CHUNK* mc = new META_CHUNK();
+            META_CHUNK* mc = new META_CHUNK(dfile, parent);
             retval = mc->get_state(child_dir, child_fname, p, level+1);
             if (retval) return retval;
             children.push_back(mc);
@@ -278,8 +279,10 @@ int handle_file(VDA_FILE_AUX& vf) {
         retval = vf.init();
         if (retval) return retval;
     }
-    vf.meta_chunk->recovery_plan();
-    vf.meta_chunk->recovery_action(dtime());
+    retval = vf.meta_chunk->recovery_plan();
+    if (retval) return retval;
+    retval = vf.meta_chunk->recovery_action(dtime());
+    if (retval) return retval;
     return 0;
 }
 
@@ -290,12 +293,13 @@ bool scan_files() {
     bool found = false;
     int retval;
 
-    while (vf.enumerate("need_update<>0")) {
+    while (!vf.enumerate("where need_update<>0")) {
         VDA_FILE_AUX vfa(vf);
         found = true;
         retval = handle_file(vfa);
         if (retval) {
             fprintf(stderr, "handle_file() failed: %d\n", retval);
+            exit(1);
         } else {
             vf.need_update = 0;
             vf.update();
@@ -314,8 +318,8 @@ bool scan_chunks() {
     char buf[256];
     bool found = false;
 
-    sprintf(buf, "transition_time < %f", dtime());
-    while (ch.enumerate(buf)) {
+    sprintf(buf, "where transition_time < %f", dtime());
+    while (!ch.enumerate(buf)) {
         found = true;
         handle_chunk(ch);
     }
@@ -323,7 +327,20 @@ bool scan_chunks() {
 }
 
 int main(int argc, char** argv) {
-#if 1
+    int retval = config.parse_file();
+    if (retval) {
+        fprintf(stderr, "can't parse config file\n");
+        exit(1);
+    }
+    retval = boinc_db.open(
+        config.db_name, config.db_host, config.db_user, config.db_passwd
+    );
+    if (retval) {
+        fprintf(stderr, "can't open DB\n");
+        exit(1);
+    }
+
+#if 0
     VDA_FILE_AUX vf;
     memset(&vf, 0, sizeof(vf));
     strcpy(vf.dir, "/mydisks/b/users/boincadm/vda_test");

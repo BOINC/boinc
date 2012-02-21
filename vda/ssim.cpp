@@ -368,8 +368,8 @@ CHUNK::CHUNK(META_CHUNK* mc, double s, int index) {
 // if there aren't enough replicas of this chunk,
 // pick new hosts and start downloads
 //
-void CHUNK::assign() {
-    if (!present_on_server) return;
+int CHUNK::assign() {
+    if (!present_on_server) return 0;
     VDA_FILE_AUX* fp = parent->dfile;
     while ((int)(hosts.size()) < fp->policy.replication) {
 #if 0
@@ -394,6 +394,7 @@ void CHUNK::assign() {
         hosts.insert(c);
         c->start_download();
     }
+    return 0;
 }
 
 bool CHUNK::download_in_progress() {

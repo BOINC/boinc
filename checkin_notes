@@ -1969,3 +1969,17 @@ Charlie 20 Feb 2012
     clientgui/
         mac/
         SetVersion.cpp
+
+David  21 Feb 2012
+    - storage stuff
+
+    db/
+        schema_vda.sql
+    py/Boinc/
+        setup_project.py
+    vda/
+        vda.cpp
+        vda_lib.cpp,h
+        vda_lib2.cpp
+        vdad.cpp
+        ssim.cpp

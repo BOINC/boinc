@@ -31,16 +31,20 @@ CHUNK::CHUNK(META_CHUNK* mc, double s, int index) {
 
 // assign this chunk to a host
 //
-void CHUNK::assign() {
+int CHUNK::assign() {
     int host_id = parent->dfile->choose_host();
-    if (!host_id) return;
+    if (!host_id) {
+        return ERR_NOT_FOUND;
+    }
     DB_VDA_CHUNK_HOST ch;
     ch.host_id = host_id;
     strcpy(ch.name, name);
     int retval = ch.insert();
     if (retval) {
         fprintf(stderr, "ch.insert() failed\n");
+        return retval;
     }
+    return 0;
 }
 
 bool CHUNK::download_in_progress() {
@@ -100,17 +104,17 @@ int VDA_FILE_AUX::choose_host() {
             }
             rand_id = (int)(((double)id)*drand());
             sprintf(buf,
-                "where %s and id>=%d limit 100 order by id",
+                "where %s and id>=%d order by id limit 100",
                 host_alive_clause(), rand_id
             );
         } else {
             sprintf(buf,
-                "where %s and id<%d limit %d order by id",
-                host_alive_clause, rand_id, 100-nhosts_scanned
+                "where %s and id<%d order by id limit %d",
+                host_alive_clause(), rand_id, 100-nhosts_scanned
             );
         }
         while (1) {
-            int retval = host.enumerate(buf);
+            retval = host.enumerate(buf);
             if (retval == ERR_DB_NOT_FOUND) break;
             if (retval) {
                 fprintf(stderr, "host enum failed\n");

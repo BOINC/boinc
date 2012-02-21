@@ -119,8 +119,8 @@ struct VDA_FILE_AUX : VDA_FILE {
 // base class for chunks and meta-chunks
 //
 struct DATA_UNIT {
-    virtual void recovery_plan(){};
-    virtual void recovery_action(double){};
+    virtual int recovery_plan(){return 0;};
+    virtual int recovery_action(double){return 0;};
     int status;
     bool in_recovery_set;
     bool data_now_present;
@@ -147,12 +147,15 @@ struct META_CHUNK : DATA_UNIT {
     );
 
     // used by vdad
-    META_CHUNK(){}
+    META_CHUNK(VDA_FILE_AUX* d, META_CHUNK* p) {
+        dfile = d;
+        parent = p;
+    }
     int init(const char* dir, const char* fname, POLICY&, int level);
     int get_state(const char* dir, const char* fname, POLICY&, int level);
 
-    virtual void recovery_plan();
-    virtual void recovery_action(double);
+    virtual int recovery_plan();
+    virtual int recovery_action(double);
 };
 
 struct CHUNK : DATA_UNIT {
@@ -168,9 +171,9 @@ struct CHUNK : DATA_UNIT {
     bool download_in_progress();
     void upload_complete();
     void download_complete();
-    void assign();
-    virtual void recovery_plan();
-    virtual void recovery_action(double);
+    int assign();
+    virtual int recovery_plan();
+    virtual int recovery_action(double);
 };
 
 extern char* time_str(double);
