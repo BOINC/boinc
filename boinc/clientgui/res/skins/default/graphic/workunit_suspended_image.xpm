@@ -1,0 +1,87 @@
+//* XPM */
+// This file is part of BOINC.
+// http://boinc.berkeley.edu
+// Copyright (C) 2011 University of California
+//
+// BOINC is free software; you can redistribute it and/or modify it
+// under the terms of the GNU Lesser General Public License
+// as published by the Free Software Foundation,
+// either version 3 of the License, or (at your option) any later version.
+//
+// BOINC is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+// See the GNU Lesser General Public License for more details.
+//
+// You should have received a copy of the GNU Lesser General Public License
+// along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
+static const char *workunit_suspended_image_xpm[] = {
+/* columns rows colors chars-per-pixel */
+"16 16 49 2",
+/* colors */
+"AA c #FFFFFFFFFFFF",
+"BA c #F8F8E8E8F0F0",
+"CA c #F8F8E8E8E0E0",
+"DA c #F8F8D0D0D0D0",
+"EA c #F8F8C8C8C8C8",
+"FA c #F8F8B8B8B8B8",
+"GA c #F8F8A8A8A8A8",
+"HA c #F8F898989898",
+"IA c #F8F888888888",
+"JA c #F8F878787878",
+"KA c #F8F868686868",
+"LA c #F8F840404040",
+"MA c #F8F838383838",
+"NA c #F8F828282828",
+"OA c #F8F818181818",
+"PA c #F8F808080808",
+"AB c #F0F0D0D0C0C0",
+"BB c #E8E810101010",
+"CB c #E8E808080808",
+"DB c #E0E028282828",
+"EB c #D8D878787878",
+"FB c #D8D828282828",
+"GB c #D0D018181818",
+"HB c #C8C818181818",
+"IB c #C0C090907878",
+"JB c #C0C058585858",
+"KB c #C0C048484848",
+"LB c #B8B808080808",
+"MB c #B0B060603838",
+"NB c #B0B058585858",
+"OB c #B0B038383838",
+"PB c #989858585050",
+"AC c #909030301010",
+"BC c #888838381010",
+"CC c #808040400808",
+"DC c #808038380000",
+"EC c #787870704848",
+"FC c #787840401010",
+"GC c #707068685050",
+"HC c #707068684040",
+"IC c #707060603838",
+"JC c #707028280808",
+"KC c #686848481010",
+"LC c #606058582828",
+"MC c #606048482020",
+"NC c #606040400808",
+"OC c #606038380808",
+"PC c #606018180000",
+"AD s bg c None",
+/* pixels */
+"ADADADADADPBBCKCKCKCGCADADADADAD",
+"ADADADJBHBEBABBACADAIBFCGCADADAD",
+"ADADOBDBFAAAAAAAAAAAAAFAMBMCADAD",
+"ADNBGBHAFAEADAAABACAEAEAHAFBHCAD",
+"ADLBCBJAHAFADADADADAFAHAIABBPCAD",
+"NBLBCBLAIAHAGAFAFAGAHAIALAPALBHC",
+"BCCBPAPAMAKAIAIAIAIAKAMAPAPAPAOC",
+"LBPAPAPAPAPANAMAMANAPAPAPAPAPAJC",
+"LBPAPAPAPAPAPAPAPAPAPAPAPAPAPAJC",
+"HBPAPAPAPAPAPAPAPAPAPAPAPAPAPANC",
+"KBPAPAPAPAPAPAOAPAPAPAPAPAPACBIC",
+"ADLBPAPAPAPAOAOAOANAPAPAPAPADCAD",
+"ADPBHBPAPAOANANAMAOAOAPAPAGBHCAD",
+"ADADLCFBPAOAOAMANANAOAOADBLCADAD",
+"ADADADECBCMAMANAMAMAMAACECADADAD",
+"ADADADADADECNCBCCCOCICADADADADAD"};

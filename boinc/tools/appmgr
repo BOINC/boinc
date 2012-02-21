@@ -1,0 +1,571 @@
+#! /usr/bin/env python
+#
+# Written by Gabor Gombas <gombasg@sztaki.hu>
+# Licensed under the same terms as the rest of BOINC.
+
+"""
+Manage applications and platforms from the command line.
+
+Run "appmgr --help" to list the available commands.
+Run "appmgr <command> --help" to get the description of a command.
+"""
+
+
+import time, os, re, string
+from optparse import OptionParser
+from xml.dom.minidom import parseString
+
+import boinc_path_config
+from Boinc import database, db_mid, configxml
+
+# The list of standard platforms
+standard_platforms = {
+    'windows_intelx86': 'Microsoft Windows (98 or later) running on an Intel x86-compatible CPU',
+    'windows_x86_64': 'Microsoft Windows running on an AMD x86_64 or Intel EM64T CPU',
+    'i686-pc-linux-gnu': 'Linux running on an Intel x86-compatible CPU',
+    'x86_64-pc-linux-gnu': 'Linux running on an AMD x86_64 or Intel EM64T CPU',
+    'powerpc-apple-darwin': 'Mac OS X 10.3 or later running on Motorola PowerPC',
+    'i686-apple-darwin': 'Mac OS 10.4 or later running on Intel',
+    'x86_64-apple-darwin': 'Intel 64-bit Mac OS 10.5 or later',
+    'sparc-sun-solaris2.7': 'Solaris 2.7 running on a SPARC-compatible CPU',
+    'sparc-sun-solaris': 'Solaris 2.8 or later running on a SPARC-compatible CPU',
+    'sparc64-sun-solaris': 'Solaris 2.8 or later running on a SPARC 64-bit CPU',
+    'powerpc64-ps3-linux-gnu': 'Sony Playstation 3 running Linux',
+    'anonymous': 'anonymous'}
+
+def remove_directory(dir):
+    """Remove a directory and all files inside it."""
+
+    for file in os.listdir(dir):
+        os.unlink(os.path.join(dir, file))
+    os.rmdir(dir)
+
+def remove_app_directory(appver, config):
+    """Remove files for an app version under <projectroot>/apps"""
+
+    appdir = os.path.join(config.app_dir, appver.app.name)
+    for path in map(lambda file: os.path.join(appdir, file), os.listdir(appdir)):
+        match = re.match('^[^.]+_([0-9]+)[.]([0-9]+)_([^.]+?(?:[0-9][0-9.]*[0-9])?)(?:__([^.])+)?(?:[.][a-zA-Z0-9\_\-]*)?$', os.path.basename(path))
+        if not match:
+            continue
+
+        major, minor, platform_name, plan_class = match.groups()
+        version_num = int(major) * 100 + int(minor)
+        if plan_class is None:
+            plan_class = ''
+
+        if platform_name != appver.platform.name:
+            continue
+        if appver.version_num != version_num:
+            continue
+        if appver.plan_class != plan_class:
+            continue
+
+        if os.path.isdir(path):
+            remove_directory(path)
+        else:
+            os.unlink(path)
+
+    # If all versions are gone, remove the parent directory as well
+    try:
+        os.rmdir(appdir)
+    except:
+        pass
+
+def do_delete_app_version(appver):
+    """Delete both the files and the database entry for an app version."""
+
+    config = configxml.default_config().config
+
+    # Remove files/directories under app_dir
+    appdir = os.path.join(config.app_dir, appver.app.name)
+    if os.path.isdir(appdir):
+        remove_app_directory(appver, config)
+
+    # Remove files under download_dir
+    # appver.xml_doc does not have a parent node, so we have to add one
+    xml = parseString('<xml>' + appver.xml_doc + '</xml>')
+    for file in xml.getElementsByTagName('file_info'):
+        name = ''
+        for node in file.getElementsByTagName('name')[0].childNodes:
+            if node.nodeType == node.TEXT_NODE:
+                name += node.data
+        if not name:
+            continue
+        os.unlink(os.path.join(config.download_dir, name))
+
+    tmp = str(appver)
+    appver.remove()
+    print "Removed " + tmp
+
+def add_platform(args):
+    usage = """%prog add_platform <name> <user-friendly name>
+
+Add a new platform definition to the database."""
+
+    parser = OptionParser(usage = usage)
+    options, extra_args = parser.parse_args(args)
+    if len(extra_args) != 2:
+        parser.error("Wrong number of arguments")
+
+    platform = database.Platform(create_time = time.time(),
+                                 name = extra_args[0],
+                                 user_friendly_name = extra_args[1],
+                                 deprecated = 0)
+    platform.commit()
+    print "Added " + str(platform)
+
+def del_platform(args):
+    usage = """%prog delete_platform <name>
+
+Deletes a platform from the database. If the --force flag is specified, it also
+deletes all application versions for this platform. Otherwise, if there is an
+application version available for this platform, the command will fail."""
+
+    parser = OptionParser(usage = usage)
+    parser.add_option("-f", "--force",
+                      dest = "force",
+                      action = "store_true",
+                      default = False,
+                      help = "remove any app versions that still exist for this platform")
+    options, extra_args = parser.parse_args(args)
+    if len(extra_args) != 1:
+        parser.error("Wrong number of arguments")
+
+    platforms = database.Platforms.find(name = extra_args[0])
+    if len(platforms) < 1:
+        raise SystemExit("Unknown platform name")
+    platform = platforms[0]
+
+    # If there are still application versions defined for this platform, then
+    # either bail out, or if --force was given, blow those application versions
+    # first
+    for appver in database.AppVersions.find(platform = platform):
+        if not options.force:
+            raise SystemExit("There are still application versions for this "
+                             "platform, bailing out")
+        do_delete_app_version(appver)
+
+    # The id is gone after .remove(), so we have to save the stringified form
+    tmp = str(platform)
+    platform.remove()
+    print "Deleted " + tmp
+
+def update_platform(args):
+    usage = """%prog update_platform <name> [options]
+
+Update platform data."""
+
+    parser = OptionParser(usage = usage)
+    parser.add_option("--deprecated",
+                      action = "store_const",
+                      const = 1,
+                      help = "mark the platform as deprecated")
+    parser.add_option("--no-deprecated",
+                      dest = "deprecated",
+                      action = "store_const",
+                      const = 0,
+                      help = "remove the deprecation mark")
+    parser.add_option("--user_friendly_name",
+                      metavar = "DESC",
+                      help = "set the user-friendly name of the platform")
+    options, extra_args = parser.parse_args(args)
+    if len(extra_args) != 1:
+        parser.error("Wrong number of arguments")
+
+    platforms = database.Platforms.find(name = extra_args[0])
+    if not platforms:
+        raise SystemExit("Unknown platform name")
+    platform = platforms[0]
+
+    if options.deprecated is not None:
+        platform.deprecated = options.deprecated
+    if options.user_friendly_name:
+        platform.user_friendly_name = options.user_friendly_name
+    platform.commit()
+    print "Updated " + str(platform)
+
+def list_platform(args):
+    usage = """%prog list_platform
+
+List all defined platforms."""
+
+    parser = OptionParser(usage = usage)
+    parser.add_option("--short",
+                      action = "store_true",
+                      help = "show the short names only")
+    options, extra_args = parser.parse_args(args)
+    if extra_args:
+        parser.error("Extra arguments on the command line")
+
+    # Ensure consistent ordering
+    database.Platforms.select_args = 'ORDER BY name'
+    for platform in database.Platforms.find():
+        if options.short:
+            print platform.name
+        else:
+            desc = platform.name + ": " + platform.user_friendly_name
+            if platform.deprecated:
+                desc += " (Deprecated)"
+            print desc
+
+def add_standard_platforms(args):
+    usage = """%prog add_standard_platforms
+
+Add all standard platform definitions to the database. If some of them
+already exist they will not be modified."""
+
+    parser = OptionParser(usage = usage)
+    options, extra_args = parser.parse_args(args)
+    if extra_args:
+        parser.error("Extra arguments on the command line")
+
+    for name in standard_platforms.keys():
+        if database.Platforms.find(name = name):
+            continue
+        platform = database.Platform(create_time = time.time(),
+                                     name = name,
+                                     user_friendly_name = standard_platforms[name],
+                                     deprecated = 0)
+        platform.commit()
+        print "Added " + str(platform)
+
+def add_app(args):
+    usage = """%prog add <name> <user-friendly name> [options]
+
+Register a new application in the database."""
+
+    hr_types = { 'no': 0, 'fine': 1, 'coarse': 2}
+
+    parser = OptionParser(usage = usage)
+    parser.add_option("--hr",
+                      choices = hr_types.keys(),
+                      default = "no",
+                      metavar = "(no|fine|coarse)",
+                      help = "set the homogeneous redundancy type")
+    parser.add_option("--beta",
+                      action = "store_const",
+                      default = 0,
+                      const = 1,
+                      help = "the application is still in beta testing, and only "
+                             "users participating in the test program will run it")
+    parser.add_option("--weight",
+                      type = "float",
+                      default = 1,
+                      metavar = "NUM",
+                      help = "set the weight of the application when application "
+                             "interleaving is enabled in the feeder")
+    parser.add_option("--target_nresults",
+                      type = "int",
+                      default = 0,
+                      metavar = "NUM",
+                      help = "default number of replicas for adaptive replication")
+    options, extra_args = parser.parse_args(args)
+    if len(extra_args) != 2:
+        parser.error("Wrong number of arguments")
+
+    app = database.App(create_time = time.time(),
+                       name = extra_args[0],
+                       min_version = 0,
+                       deprecated = 0,
+                       user_friendly_name = extra_args[1],
+                       homogeneous_redundancy = hr_types[options.hr],
+                       weight = options.weight,
+                       beta = options.beta,
+                       target_nresults = options.target_nresults)
+    try:
+        app.commit()
+    except Exception, e:
+        print "Failed to add application"
+        return
+
+    print "Added " + str(app)
+
+def del_app(args):
+    usage = """%prog delete <name> [options]
+
+Delete application versions. This command deletes the matching database
+entries and all corresponding files under <projectroot>/apps and
+<projectroot>/download. If more than one of the --version, --platform and
+--plan_class options are specified, they are AND'ed together. If no
+version/platform/plan class options are given, all versions of the application
+are deleted and the application is removed from the 'app' table as well."""
+
+    parser = OptionParser(usage = usage)
+    parser.add_option("--version",
+                      type = "float",
+                      metavar = "VER",
+                      help = "delete versions with the given version number")
+    parser.add_option("--platform",
+                      metavar = "NAME",
+                      help = "delete versions for the given platform")
+    parser.add_option("--plan_class",
+                      metavar = "NAME",
+                      help = "delete versions for the given plan class")
+    options, extra_args = parser.parse_args(args)
+    if len(extra_args) != 1:
+        parser.error("Wrong number of arguments")
+
+    apps = database.Apps.find(name = extra_args[0])
+    if not apps:
+        raise SystemExit("No such application")
+    app = apps[0]
+
+    kwargs = { 'app': app }
+    if options.version:
+        kwargs['version_num'] = int(options.version * 100)
+    if options.platform:
+        platforms = database.Platforms.find(name = options.platform)
+        if not platforms:
+            raise SystemExit("Unknown platform name")
+        kwargs['platform'] = platforms[0]
+    if options.plan_class:
+        kwargs['plan_class'] = options.plan_class
+
+    for appver in database.AppVersions.find(**kwargs):
+        do_delete_app_version(appver)
+
+    # If the user requested to remove all versions, then remove the entry
+    # from the 'app' table as well
+    if not options.version and not options.platform and not options.plan_class:
+        tmp = str(app)
+        app.remove()
+        print "Removed " + tmp
+
+def update_app(args):
+    usage = """%prog update <name> [options]
+
+Update the properties of the given application."""
+
+    hr_types = { 'no': 0, 'fine': 1, 'coarse': 2}
+
+    parser = OptionParser(usage = usage)
+    parser.add_option("--hr",
+                      choices = hr_types.keys(),
+                      default = "no",
+                      metavar = "(no|fine|coarse)",
+                      help = "set the homogeneous redundancy type")
+    parser.add_option("--beta",
+                      action = "store_const",
+                      const = 1,
+                      help = "the application is still in beta testing, and only "
+                             "users participating in the test program will run it")
+    parser.add_option("--no-beta",
+                      action = "store_const",
+                      dest = "beta",
+                      const = 0,
+                      help = "the application is no more in beta testing")
+    parser.add_option("--weight",
+                      type = "float",
+                      metavar = "NUM",
+                      help = "set the weight of the application when application "
+                             "interleaving is enabled in the feeder")
+    parser.add_option("--target_nresults",
+                      type = "int",
+                      metavar = "NUM",
+                      help = "default number of replicas for adaptive replication")
+    parser.add_option("--user_friendly_name",
+                      metavar = "DESC",
+                      help = "set the user-friendly description of the application")
+    parser.add_option("--min_version",
+                      type = "float",
+                      metavar = "VER",
+                      help = "set the minimum app version clients allowed to use")
+    parser.add_option("--deprecated",
+                      action = "store_const",
+                      const = 1,
+                      help = "mark the application as deprecated")
+    parser.add_option("--no-deprecated",
+                      dest = "deprecated",
+                      action = "store_const",
+                      const = 0,
+                      help = "remove the deprecation mark")
+    options, extra_args = parser.parse_args(args)
+    if len(extra_args) != 1:
+        parser.error("Wrong number of arguments")
+
+    apps = database.Apps.find(name = extra_args[0])
+    if not apps:
+        raise SystemExit("No such application")
+    app = apps[0]
+
+    if options.hr is not None:
+        app.homogeneous_redundancy = hr_types[options.hr]
+    if options.beta is not None:
+        app.beta = options.beta
+    if options.weight is not None:
+        app.weight = options.weight
+    if options.target_nresults is not None:
+        app.target_nresults = options.target_nresults
+    if options.user_friendly_name:
+        app.user_friendly_name = options.user_friendly_name
+    if options.min_version is not None:
+        app.min_version = int(options.min_version * 100)
+    if options.deprecated is not None:
+        app.deprecated = options.deprecated
+
+    app.commit()
+    print "Updated " + str(app)
+
+def list_app(args):
+    usage = """%prog list
+
+List all applications and application versions."""
+
+    parser = OptionParser(usage = usage)
+    parser.add_option("--no-versions",
+                      action = "store_true",
+                      default = False,
+                      help = "do not list application versions")
+    options, extra_args = parser.parse_args(args)
+    if extra_args:
+        parser.error("Extra arguments on the command line")
+
+    # Ensure consistent ordering for the output
+    database.Apps.select_args = 'ORDER BY name'
+    # It would be nice to order by platform name...
+    database.AppVersions.select_args = 'ORDER BY version_num, platformid, plan_class'
+
+    hr_classes = {0: 'No', 1: 'Fine-grained', 2: 'Coarse'}
+
+    for app in database.Apps.find():
+        title = app.name + ": " + app.user_friendly_name
+        print title
+        print "-" * len(title)
+
+        props = []
+        if app.deprecated:
+            props.append("Deprecated.")
+        if app.beta:
+            props.append("Beta.")
+        if app.min_version:
+            props.append("Min. version: %.2f." % (float(app.min_version) / 100))
+        props.append(hr_classes[app.homogeneous_redundancy] +
+            ' homogeneous redundancy.')
+        props.append("Weight %g." % app.weight)
+        if app.target_nresults:
+            props.append(str(app.target_nresults) + " adaptive replicas.")
+        print string.join(props, ' ')
+
+        if options.no_versions:
+            print
+            continue
+
+        print "Versions:\n"
+        for appver in database.AppVersions.find(app = app):
+            desc = "\t%5.2f" % (float(appver.version_num) / 100)
+            desc += " " + appver.platform.name
+            props = []
+            if appver.plan_class:
+                props.append("Plan: " + appver.plan_class + ".")
+            if appver.deprecated:
+                props.append("Deprecated.")
+            if appver.min_core_version:
+                props.append("Min. core version: %g." % \
+                             (float(appver.min_core_version) / 100))
+            if appver.max_core_version:
+                props.append("Max. core version: %g." % \
+                             (float(appver.max_core_version) / 100))
+            if props:
+                desc += " (" + string.join(props, ' ') + ')'
+            print desc
+        print
+
+def update_appver(args):
+    usage = """%prog update_appver <name> [options]
+
+Update the properties of the given application version(s). If none
+of the --version, --platform, --plan_class options are specified,
+then all versions for the given application are updated."""
+
+    parser = OptionParser(usage = usage)
+    parser.add_option("--version",
+                      type = "float",
+                      metavar = "VER",
+                      help = "update just the given version number")
+    parser.add_option("--platform",
+                      metavar = "NAME",
+                      help = "update just the given platform")
+    parser.add_option("--plan_class",
+                      metavar = "NAME",
+                      help = "update just the given plan class")
+    parser.add_option("--min_core_version",
+                      type = "float",
+                      metavar = "VER",
+                      help = "set the minimum usable core client version")
+    parser.add_option("--max_core_version",
+                      type = "float",
+                      metavar = "VER",
+                      help = "set the maximum usable core client version")
+    parser.add_option("--deprecated",
+                      action = "store_const",
+                      const = 1,
+                      help = "mark this version as deprecated")
+    parser.add_option("--no-deprecated",
+                      dest = "deprecated",
+                      action = "store_const",
+                      const = 0,
+                      help = "remove the deprecation mark")
+    options, extra_args = parser.parse_args(args)
+    if len(extra_args) != 1:
+        parser.error("Wrong number of arguments")
+
+    apps = database.Apps.find(name = extra_args[0])
+    if not apps:
+        raise SystemExit("No such application")
+    app = apps[0]
+
+    kwargs = { 'app': app }
+    if options.version:
+        kwargs['version_num'] = int(options.version * 100)
+    if options.platform:
+        platforms = database.Platforms.find(name = options.platform)
+        if not platforms:
+            raise SystemExit("Unknown platform name")
+        kwargs['platform'] = platforms[0]
+    if options.plan_class:
+        kwargs['plan_class'] = options.plan_class
+
+    for appver in database.AppVersions.find(**kwargs):
+        if options.deprecated is not None:
+            appver.deprecated = options.deprecated
+        if options.min_core_version is not None:
+            appver.min_core_version = int(options.min_core_version * 100)
+        if options.max_core_version is not None:
+            appver.max_core_version = int(options.max_core_version * 100)
+        appver.commit()
+        print "Updated " + str(appver)
+
+command_table = {
+    'add': add_app,
+    'delete': del_app,
+    'update': update_app,
+    'list': list_app,
+    'update_appver': update_appver,
+    'add_platform': add_platform,
+    'delete_platform': del_platform,
+    'update_platform': update_platform,
+    'list_platform': list_platform,
+    'add_standard_platforms': add_standard_platforms}
+
+usage = """%%prog [global options] <command> [command arguments]
+
+Available commands:
+
+%s
+
+Use "%%prog <command> --help" to get a description of the command.""" % \
+    string.join(map(lambda x: "\t" + x, sorted(command_table.keys())), "\n")
+
+parser = OptionParser(usage=usage)
+parser.disable_interspersed_args()
+
+global_options, args = parser.parse_args()
+if not args:
+    parser.error("Command is not provided")
+if not args[0] in command_table:
+    parser.error("Unknown command " + args[0])
+
+database.connect()
+
+command_table[args[0]](args[1:])

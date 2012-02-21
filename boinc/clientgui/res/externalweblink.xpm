@@ -1,0 +1,47 @@
+// This file is part of BOINC.
+// http://boinc.berkeley.edu
+// Copyright (C) 2008 University of California
+//
+// BOINC is free software; you can redistribute it and/or modify it
+// under the terms of the GNU Lesser General Public License
+// as published by the Free Software Foundation,
+// either version 3 of the License, or (at your option) any later version.
+//
+// BOINC is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+// See the GNU Lesser General Public License for more details.
+//
+// You should have received a copy of the GNU Lesser General Public License
+// along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
+
+/* XPM */
+static const char *externalweblink_xpm[] = {
+/* columns rows colors chars-per-pixel */
+"16 16 8 1",
+"  c None",
+"@ c #99D5FF",
+"+ c #0055CC",
+"o c #33AACC",
+". c #0055FF",
+"O c #66AACC",
+"# c #0080CC",
+"X c #0080FF",
+/* pixels */
+"                ",
+"                ",
+"                ",
+"       ..X...   ",
+"      oO    .   ",
+"       .o   .   ",
+"   ++++.@   .   ",
+"   +  .@ @o .   ",
+"   + .@ @..O.   ",
+"   + @O@.+ o    ",
+"   +  @. +      ",
+"   +     +      ",
+"   #++++#+      ",
+"                ",
+"                ",
+"                "
+};

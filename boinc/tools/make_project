@@ -1,0 +1,439 @@
+#!/usr/bin/env python
+
+# $Id$
+# Creates a new BOINC project.
+
+import boinc_path_config
+from Boinc.setup_project import *
+from Boinc import database, db_mid, configxml, tools
+import sys, os, getopt, re, socket
+
+def getfqdn():
+    try:
+        return socket.getfqdn()
+    except:
+        return 'localhost'
+
+def isurl(s):
+    return s.startswith('http://') or s.startswith('https://')
+
+argv0 = sys.argv[0]
+HOME = os.path.expanduser('~')
+USER = os.environ['USER']
+NODENAME = getfqdn()
+
+HELP = """
+syntax: %(argv0)s [options] project ['Project Long Name']
+
+Creates a new project with given name with everything running on a single
+server.
+
+Misc options:
+   --no_query           accept all directories without querying
+   --user_name          default: $USER (%(USER)s)
+   --delete_prev_inst   delete project-root first (from prev installation)
+   --drop_db_first      drop database first (from prev installation)
+   --test_app           install example application
+   --web_only           install web files, no executables (for Bossa, Bolt)
+   --srcdir             where to find the source files (default: current directory)
+
+Dir-options:
+   --project_root       default: HOME/projects/PROJECT
+   --key_dir            default: PROJECT_ROOT/keys
+   --url_base           default: http://$NODENAME/ (http://%(NODENAME)s/)
+
+   --html_user_url      default: URL_BASE/PROJECT/
+   --html_ops_url       default: URL_BASE/PROJECT_ops/
+   --cgi_url            default: URL_BASE/PROJECT_cgi/
+
+Other:
+   --db_name            default: PROJECT
+   --db_user            default: USER_NAME
+   --db_passwd          default: None
+   --db_host            default: None
+
+Example command line:
+  ./make_project --project_root $HOME/boinc/projects --url_base http://tah.org/ tah 'Test@home'
+
+Then upload_dir = $HOME/boinc/projects/tah/upload
+and  cgi_url    = http://tah.org/tah_cgi/
+
+By default, directory options will be queried if they do not exist yet.
+
+""" %locals()
+
+def syntax_error(str):
+    raise SystemExit('%s; See "%s --help" for help\n' % (str,sys.argv[0]))
+
+def usage():
+    print HELP
+    raise SystemExit
+
+try:
+    opts, args = getopt.getopt(sys.argv[1:],
+        'hv', [
+            'help',
+            'verbose=',
+            'no_query',
+            'test_app',
+            'web_only',
+            'srcdir=',
+            'user_name=',
+            'drop_db_first',
+            'delete_prev_inst',
+            'base=',
+            'key_dir=',
+            'project_root=',
+            'url_base=',
+            'html_user_url=',
+            'html_ops_url=',
+            'cgi_url=',
+            'db_name=',
+            'db_user=',
+            'db_passwd=',
+            'db_host=',
+            ]
+        )
+except getopt.GetoptError, e:
+    syntax_error(e)
+
+options.url_base = None
+options.no_query = False
+options.test_app = False
+options.web_only = False
+options.delete_prev_inst = False
+options.srcdir = None
+
+for o,a in opts:
+    if o == '-h' or o == '--help':        usage()
+    elif o == '-v':              options.echo_verbose   = 2
+    elif o == '--verbose':       options.echo_verbose   = int(a)
+    elif o == '--no_query':      options.no_query       = True
+    elif o == '--test_app':      options.test_app       = True
+    elif o == '--web_only':      options.web_only       = True
+    elif o == '--srcdir':        options.srcdir         = a
+    elif o == '--user_name':     options.user_name      = a
+    elif o == '--drop_db_first': options.drop_db_first  = True
+    elif o == '--delete_prev_inst': options.delete_prev_inst  = True
+    elif o == '--key_dir':       options.key_dir        = a
+    elif o == '--project_root':  options.project_root   = a
+    elif o == '--url_base':      options.url_base       = a
+    elif o == '--html_user_url': options.html_user_url  = a
+    elif o == '--html_ops_url':  options.html_ops_url   = a
+    elif o == '--cgi_url':       options.cgi_url        = a
+    elif o == '--db_name':       options.db_name        = a
+    elif o == '--db_user':       options.db_user        = a
+    elif o == '--db_passwd':     options.db_passwd      = a
+    elif o == '--db_host':       options.db_host        = a
+    else:
+        raise SystemExit('internal error o=%s'%o)
+
+if len(args) == 2:
+    (project_shortname, project_longname) = args
+elif len(args) == 1:
+    (project_shortname, project_longname) = args[0], args[0]
+else:
+    syntax_error('Need one or two arguments')
+
+if not options.srcdir:
+    for dir in ('.', '..'):
+        if os.path.exists(os.path.join(dir, 'html', 'project.sample', 'project.inc')):
+            options.srcdir = dir
+    if not options.srcdir:
+        syntax_error('Not running in the source directory and --srcdir was not specified')
+
+opt_repls = {'PROJECT':project_shortname,
+             'PROJECT_ops':project_shortname+'_ops',
+             'PROJECT_cgi':project_shortname+'_cgi'}
+def delete_slash(str):
+    return os.path.join(str,'')[:-1]
+def add_slash(str, action=True):
+    if action:
+        return os.path.join(str,'')
+    else:
+        return str
+def replopt(str):
+    for key in opt_repls:
+        str = str.replace(key, delete_slash(opt_repls[key]))
+    return str
+
+def defopt(name, v, isdir=True):
+    options.__dict__[name] = opt_repls[name.upper()] = add_slash(replopt(options.__dict__.get(name) or v), isdir)
+
+defopt('url_base'      , 'http://%s/'%NODENAME)
+
+if not isurl(options.url_base):
+    syntax_error('url_base needs to be an URL')
+
+defopt('html_user_url' , 'URL_BASE/PROJECT')
+defopt('html_ops_url'  , 'URL_BASE/PROJECT_ops')
+defopt('cgi_url'       , 'URL_BASE/PROJECT_cgi')
+
+defopt('user_name'     , USER, isdir=False)
+defopt('project_root'  , HOME+'/projects/PROJECT')
+defopt('key_dir'       , options.project_root+'keys')
+
+defopt('db_name'       , 'PROJECT', isdir=False)
+defopt('db_user'       , 'USER_NAME', isdir=False)
+defopt('db_passwd'     , '', isdir=False)
+defopt('db_host'       , '', isdir=False)
+
+print "Creating project '%s' (short name '%s'):" %(project_longname, project_shortname)
+for k in [
+    'project_root',
+    'url_base',
+    'html_user_url',
+    'html_ops_url',
+    'cgi_url',
+    'key_dir',
+    'db_name',
+    'db_host',
+    ]:
+    print k.upper().rjust(15), "=", options.__dict__[k]
+
+project_root_parent = os.path.realpath(os.path.join(options.project_root,'..'))
+if not os.path.exists(project_root_parent):
+    os.makedirs(project_root_parent)
+
+if os.path.exists(options.project_root):
+    if options.delete_prev_inst:
+        if not options.no_query:
+            if not query_noyes('Delete %s?'%options.project_root):
+                raise SystemExit('Aborted')
+        print "Deleting", options.project_root
+        rmtree(options.project_root)
+    else:
+        raise SystemExit('Project root already exists! Specify --delete_prev_inst --drop_db_first to clobber')
+
+if not options.no_query:
+    if not query_yesno("Continue?"):
+        raise SystemExit('Aborted')
+
+options.install_method = 'copy'
+init()
+project = Project(
+    project_shortname,
+    project_longname,
+    project_dir = options.project_root,
+    master_url = options.html_user_url,
+    cgi_url = options.cgi_url,
+    key_dir = options.key_dir,
+    db_name = options.db_name,
+    web_only = options.web_only,
+    production = True
+    )
+
+project.install_project()
+proot = delete_slash(options.project_root)
+
+# set up default daemons
+project.sched_install('feeder')
+project.sched_install('transitioner')
+project.sched_install('file_deleter')
+if options.test_app:
+    project.config.daemons.make_node_and_append("daemon").cmd = 'sample_work_generator -d 3'
+    project.config.daemons.make_node_and_append("daemon").cmd = 'sample_bitwise_validator -d 3 --app example_app'
+    project.config.daemons.make_node_and_append("daemon").cmd = 'sample_assimilator -d 3 --app example_app'
+
+# set up default tasks
+
+t = project.config.tasks.make_node_and_append("task")
+t.period = '24 hours'
+t.output = 'db_dump.out'
+t.cmd = 'db_dump -d 2 --dump_spec ../db_dump_spec.xml'
+t.disabled = 1
+
+t = project.config.tasks.make_node_and_append("task")
+t.period = '1 days'
+t.output = 'update_uotd.out'
+t.cmd = 'run_in_ops ./update_uotd.php'
+t.disabled = 1
+
+t = project.config.tasks.make_node_and_append("task")
+t.period = '1 hour'
+t.output = 'update_forum_activities.out'
+t.cmd = 'run_in_ops ./update_forum_activities.php'
+t.disabled = 1
+
+t = project.config.tasks.make_node_and_append("task")
+t.period = '1 days'
+t.output = 'update_stats.out'
+t.cmd = 'update_stats'
+t.disabled = 0
+
+t = project.config.tasks.make_node_and_append("task")
+t.period = '24 hours'
+t.output = 'update_profile_pages.out'
+t.cmd = 'run_in_ops ./update_profile_pages.php'
+t.disabled = 1
+
+t = project.config.tasks.make_node_and_append("task")
+t.period = '24 hours'
+t.output = 'team_import.out'
+t.cmd = 'run_in_ops ./team_import.php'
+t.disabled = 1
+
+t = project.config.tasks.make_node_and_append("task")
+t.period = '24 hours'
+t.output = 'notify.out'
+t.cmd = 'run_in_ops ./notify.php'
+t.disabled = 1
+
+project.config.write()
+
+svn_version_file = proot+'/local.revision'
+try:
+    cmd = '/bin/sh -c \'/usr/bin/svnversion ' + options.srcdir + '\' > '+svn_version_file
+    os.system(cmd)
+except:
+    print '''Couldn't find svnversion'''
+
+try:
+    cmd = '/bin/sh -c \'/usr/bin/svnversion ' + options.srcdir + '\' > '+proot+'/db_revision'
+    os.system(cmd)
+except:
+    print '''Couldn't find svnversion'''
+
+try:
+    os.system('cd '+proot+'/html/ops; ./update_translations.php -d 1')
+except:
+    print '''Couldn't install translation files'''
+
+print '''Done installing default daemons.'''
+
+# copy the test app if needed
+if options.test_app:
+    app_dir = proot+'/apps/example_app/'
+    os.mkdir(app_dir)
+    os.system('cp -r ../samples/example_app/bin/* ' + app_dir);
+    shutil.copy('example_app_in', proot+'/templates/')
+    shutil.copy('example_app_out', proot+'/templates/')
+    shutil.copy('../tools/create_work_example', proot+'/bin/')
+
+httpd_conf_template_filename = os.path.join(
+    options.project_root,
+    project_shortname+'.httpd.conf'
+    )
+
+print >>open(httpd_conf_template_filename,'w'), '''
+
+    ## Settings for BOINC project %(project_longname)s
+
+    Alias /%(project_shortname)s %(proot)s/html/user
+    Alias /%(project_shortname)s_ops %(proot)s/html/ops
+    ScriptAlias /%(project_shortname)s_cgi %(proot)s/cgi-bin
+
+    # Note: projects/*/keys/ should NOT be readable!
+
+    <Directory "%(proot)s/html">
+        Options Indexes FollowSymlinks MultiViews
+        AllowOverride AuthConfig
+        Order allow,deny
+        Allow from all
+    </Directory>
+
+    <Directory "%(proot)s/cgi-bin">
+        Options ExecCGI
+        AllowOverride AuthConfig
+        Order allow,deny
+        Allow from all
+    </Directory>
+''' %locals()
+
+htaccess_filename = options.project_root+'/html/ops/.htaccess'
+htpasswd_filename = options.project_root+'/html/ops/.htpasswd'
+
+print >>open(htaccess_filename, 'w'), '''
+AuthName "%(project_shortname)s"
+AuthType Basic
+AuthUserFile %(htpasswd_filename)s
+require valid-user
+'''%locals()
+
+cronjob_filename = os.path.join(
+    options.project_root,
+    project_shortname+'.cronjob'
+    )
+print >>open(cronjob_filename,'w'), '''0,5,10,15,20,25,30,35,40,45,50,55 * * * * cd %(proot)s ; %(proot)s/bin/start --cron
+'''%locals()
+
+readme_filename = os.path.join(
+    options.project_root,
+    project_shortname+'.readme'
+    )
+
+test_app_msg = ''
+if options.test_app:
+    test_app_msg = '''
+-  The project is configured with a test application.
+   To install this application (recommended) run:
+        cd %(proot)s
+        bin/update_versions
+'''%locals()
+
+xadd_msg = ''
+if not options.web_only:
+    xadd_msg = '''
+-  In the project home directory (%(proot)s) run
+
+    bin/xadd
+'''%locals()
+    
+compute_msg = ''
+if not options.web_only:
+    compute_msg = '''
+----------------------------
+
+To use this project for your own computations, you'll need to
+- Port your application(s) and add them
+- Develop programs to submit and handle jobs
+See the online documentation at http://boinc.berkeley.edu/
+'''
+
+html_user_url = options.html_user_url
+html_ops_url = options.html_ops_url
+
+print >>open(readme_filename,'w'), '''Steps to complete installation:
+
+-  Change Apache configuration (as root):
+
+   cat %(httpd_conf_template_filename)s >> /etc/apache/httpd.conf
+
+   (path to httpd.conf varies; try /etc/httpd/ or /etc/apache2)
+   Then restart the web server:
+
+   /usr/sbin/apache2ctl restart
+   (or /usr/sbin/apachectl restart)
+
+-  Add to crontab (as %(USER)s)
+
+    crontab -e
+
+    and add the line:
+
+    0,5,10,15,20,25,30,35,40,45,50,55 * * * * cd %(proot)s ; %(proot)s/bin/start --cron
+
+%(xadd_msg)s%(test_app_msg)s
+-  Add a .htpasswd file in the project's html/ops directory:
+    (You'll need this to access the project's Administrative page)
+
+    htpasswd -c .htpasswd username
+
+----------------------------
+
+To start, show status, and stop the project, run:
+    bin/start
+    bin/status
+    bin/stop
+
+The project's URLs are:
+Home page (and master URL): %(html_user_url)s
+Administrative page:        %(html_ops_url)s
+%(compute_msg)s
+'''%locals()
+
+print '''
+Done creating project.  Please view
+%(readme_filename)s
+for important additional instructions.
+'''%locals()

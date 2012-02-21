@@ -1,0 +1,84 @@
+## -*- mode: make; tab-width: 4 -*-
+## $Id$
+
+include $(top_srcdir)/Makefile.incl
+
+# (for a while we used "-static -static-libgcc" on linux, but this is obsolete
+# now)
+#STATIC_FLAGS=@STATIC_FLAGS@
+
+client-bin: @CLIENT_BIN_FILENAME@
+
+LIBS += @CLIENTLIBS@
+
+bin_PROGRAMS = boinc_client
+
+EXTRA_PROGRAMS = cpu_benchmark
+
+boinc_client_SOURCES = \
+    acct_mgr.cpp \
+    acct_setup.cpp \
+    app.cpp \
+    app_control.cpp \
+    app_graphics.cpp \
+    app_start.cpp \
+    check_state.cpp \
+    client_msgs.cpp \
+    client_state.cpp \
+    client_types.cpp \
+    cs_account.cpp \
+    cs_apps.cpp \
+    cs_benchmark.cpp \
+    cs_cmdline.cpp \
+    cs_data.cpp \
+    cs_files.cpp \
+    cs_prefs.cpp \
+    cs_scheduler.cpp \
+    cs_statefile.cpp \
+    cs_trickle.cpp \
+    dhrystone.cpp \
+    dhrystone2.cpp \
+    file_names.cpp \
+    file_xfer.cpp \
+    gui_http.cpp \
+    gui_rpc_server.cpp \
+    gui_rpc_server_ops.cpp \
+    hostinfo_network.cpp \
+    hostinfo_unix.cpp \
+    http_curl.cpp \
+    log_flags.cpp \
+    main.cpp \
+    net_stats.cpp \
+    net_xfer_curl.cpp \
+    pers_file_xfer.cpp \
+    scheduler_op.cpp \
+    time_stats.cpp \
+    whetstone.cpp
+
+boinc_client_DEPENDENCIES = $(LIBRSA)
+boinc_client_CPPFLAGS = -D_USE_CURL -I../../curl-7.14.0/include -I $(srcdir)/win $(AM_CPPFLAGS) -O3
+boinc_client_LDFLAGS = -static-libgcc
+boinc_client_LDADD = -L/usr/local/ssl/lib -lssl -L../../curl-7.14.0/lib -lcurl -L../lib -lboinc $(RSA_LIBS) $(PTHREAD_LIBS)
+#boinc_client_LDFLAGS = $(STATIC_FLAGS)
+
+# the following don't do anything
+cpu_benchmark_SOURCES = whetstone.cpp dhrystone.cpp
+cpu_benchmark_CFLAGS = -O3 $(AM_CFLAGS)
+
+all-local: client-bin
+
+# make a hard link to the client name.
+@CLIENT_BIN_FILENAME@: boinc_client
+	rm -f $@
+	@LN@ $? $@
+	@STRIP@ $@
+
+## these source files need to be specified because no rule uses them.
+
+EXTRA_DIST = *.h \
+    mac \
+    translation \
+    win
+
+clean-local:
+	rm -f @CLIENT_BIN_FILENAME@

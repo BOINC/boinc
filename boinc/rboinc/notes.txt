@@ -1,0 +1,2 @@
+Remote job submission system for BOINC.  See:
+http://boinc.berkeley.edu/trac/wiki/RemoteJob

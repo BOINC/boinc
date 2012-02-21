@@ -1,0 +1,6053 @@
+David   Jan 2 2003
+    - Back off on a project if we make a scheduler RPC asking for work
+        and don't get any
+    - fixed "http_proxy_name" XML parsing problem in client
+    - added drand() function.
+        NOTE: always make repeated code blocks into functions
+    - make_work was using uninitialized seqno, caused negative
+        numbers in filenames
+
+    client/
+        client_state.C,h
+        cs_scheduler.C
+        scheduler_op.C
+    doc/
+        credit.html
+    lib/
+        util.C,h
+    sched/
+        make_work.C
+        validate.C
+
+David  Jan 3 2003
+    - added some indices to DB.
+
+    NOTE: there must be an index for each field or combination of fields
+        that we do a "select" on!!
+
+David  Jan 6 2003
+    - change all server programs to do logging the same way:
+        - all log entries written to stderr
+        - write date/time at start of log entries
+        - don't include program or user name in log entries
+    - client: when get no work from project,
+        don't back off if we're in exit_when_idle mode
+    - added ob_end_flush() call in test.inc so that PHP test scripts
+        have unbuffered output
+    - added other backend phases (validate, file_delete) to test_loop.php
+    - PROGRAMMER NOTES:
+        - don't use tab chars in files
+        - split long comments into separate lines
+        - "extern" should never appear in a .C file
+        - Don't use member function names that conflict with global functions
+            (e.g. CLIENT_STATE::exit(); use cleanup_and_exit() instead)
+
+    client/
+        client_state.C,h
+        client_types.h
+        cs_apps.C
+        http.h
+        main.C
+        scheduler_op.C
+    html_ops/
+        db.inc
+        db.php
+    sched/
+        assimilator.C
+        feeder.C
+        file_deleter.C
+        file_upload_handler.C
+        handle_request.C
+        main.C,h
+        make_work.C
+        result_retry.C
+        server_types.C
+        validate.C
+    stripchart/
+        stripchart.cnf
+    test/
+        test.inc
+        test_loop.php
+
+David  Jan 7 2003
+    - extend client "print state summary" function to give more
+        detailed information about state, e.g. names and states
+        of everything, and active file xfers and tasks
+    - fixed bug where feeder inserted same result twice in shmem
+
+    client/
+        client_state.C,h
+        cs_apps.C
+        cs_scheduler.C
+    sched/
+        assimilator.C
+        feeder.C
+    test/
+        log_flags.xml
+
+David  Jan 8 2003
+    - changed the DB code so that you can use the mySQL utility functions
+        to access different databases from a single program.
+        There's now a MYSQL_DB class that you can subclass.
+        See db_mysql.C for an example.
+
+    db/
+        db.h
+        db_mysql.C
+        mysql_util.C,h
+    sched/
+        assimilator.C
+        feeder.C
+        file_deleter.C
+        handle_request.C
+        main.C
+        make_work.C
+        result_retry.C
+        validate.C
+    tools/
+        add.C
+        backend_lib.C
+        create_work.C
+
+Seth   Jan 8 2003
+        - Set up Windows client to read captions from a file
+
+    client/win/
+        Resource.h
+        resource.rc
+        wingui_dialog.cpp,h
+        wingui_mainwindow.cpp,h
+
+David  Jan 13 2003
+    - With -no_time_test flag, client now uses default values for
+        various speeds, rather than zero
+    - Restored commented-out timezone code.
+        May need to get working on Solaris
+    - Added stripchart scripts for getting DB info
+        (need to macro-substitute DB name)
+
+    Net result: test_loop.php now works correctly and generates
+    stripcharts that show an ever-growing set of results
+
+    client/
+        client_state.C,h
+        hostinfo_unix.C
+    html_ops/
+        db.inc
+    stripchart/samples
+        count_users
+        count_results (new)
+        datafiles
+        get_load
+        looper
+    test/
+        test.inc
+        test_loop.php
+
+David  Jan 14 2003
+    - Removed INSTALL_CLIENT and gutted INSTALL
+
+    NOTE: all docs should be in HTML
+    NOTE: spell-check all new documents
+
+    INSTALL
+    INSTALL_CLIENT (removed)
+    doc/
+        boinc_dev.html
+        road_map.html
+        single_host_server.html
+        test.html
+
+David  Jan 14 2003
+    - Added log writes to sched server in some error cases
+    - Removed -use_files flag to sched server.  Use compile-time flag instead.
+
+    sched/
+        handle_request.C
+        main.C
+
+David  Jan 15 2003
+    - create_work() makes a copy of result, WU templates since
+        they get modified (fixed bug when create >1 WU)
+    - scheduler reports errors in WU/result XML docs
+
+    sched/
+        handle_request.C
+    test/
+        test.inc
+    tools/
+        backend_lib.C
+
+David  Jan 22 2003
+    - Changed some of the state fields of workunit and result,
+        to accommodate new policies about when to delete files
+        See doc/backend_* for details
+    - Split off dummy assimilation function from the main program.
+    - Added new stripchart scripts for logging DB counts
+        and directory sizes
+
+    NOTE: it looks like shared memory segment is at same address
+    in feeder and cgi.  So it's OK to use pointers in it.
+
+    db/
+        db.h
+        db_mysql.C
+        schema.sql
+    doc/
+        backend.html (removed)
+        backend_functions.html (new)
+        backend_programs.html (new)
+        backend_state.html (new)
+        backend_work_sequence.html (new)
+        create_project.html
+        garbage.html (removed)
+        retry.html (removed)
+        work.html
+        work_states.html (removed)
+    html_ops/
+        db.inc
+        db.php
+    sched/
+        Makefile.in
+        assimilate_handler.C,h (new)
+        assimilator.C
+        handle_request.C
+        result_retry.C
+        validate.C
+    strichart/samples/
+        datafiles
+        db_count (new)
+        db_looper (new)
+        dir_size (new)
+    test/
+        test.inc
+        test_loop.php
+    tools/
+        backend_lib.C
+        create_work.C
+
+David   Jan 29 2003
+    - updated country-name list according to CIA site
+    - added program to generate XML stats files
+    - added classes to assist double-buffered graphics info for applications
+
+    api/
+        graphics_data.C,h (new)
+        Makefile.in
+    lib/
+        countries.C
+    sched/
+        db_dump.C (new)
+        Makefile.in
+
+David  Jan 30 2003
+    - continued work on db_dump
+    - added doc for db_dump
+    - added create_time field to team table
+
+    db/
+        db.h
+        db_mysql.C
+        mysql_util.C,h
+    doc/
+        db_dump.html (new)
+        stripchart.html (new)
+        stripchart_data.html (new)
+    html_user/
+        team_create_action.php
+    lib/
+        util.C,h
+    sched/
+        Makefile.in
+        db_dump.C
+
+David  Jan 30 2003
+    - got db_dump working
+    - scheduler: change max WUs from 2 to 10
+
+    NOTE: for any DB field that could conceivable contain a ',
+    you must escape and unescape it in struct_to_str()
+
+    db/
+        constraints.sql
+        db_mysql.C
+        mysql_util.C
+    sched/
+        db_dump.C
+        handle_request.C
+
+Eric   Feb 04, 2003
+    - Cleaned up formatting of client_state.xml
+    - Added retry message to transfers tab of Windows client
+    - Added error catching for network transfer failures
+
+    client/
+        client_state.C
+        client_types.C
+        cs_files.C
+        http.C
+        pers_file_xfer.C,h
+        win/
+            wingui.h
+            wingui_mainwindow.cpp,h
+
+David   Feb 4 2003
+    - removed graphics logic from boinc_ready_to_checkpoint().
+        Rendering logic is now entirely in the GUI thread.
+        It's up to the application to synchronize computation and rendering.
+    - added REDUCED_ARRAY::draw_part()
+    - bug fixes in db_dump
+
+    api/
+        boinc_api.C
+        graphics_data.C,h
+        reduce.cpp,h
+        windows_opengl.cpp
+    db/
+        db_mysql.C
+    doc/
+        db_dump.html (new)
+        index.html
+        participate.html
+    sched/
+        db_dump.C
+
+David  Feb 7 2003
+    - Changed account creation features quite a bit.
+        It now bifurcates according to whether this is first project.
+        Asks for preferences and offers download accordingly.
+
+    html_user/
+        account_setup* (new)
+
+David   Feb 8 2003
+    - Work on account creation a bit more.
+        Removed project graphics prefs.
+        Added email prefs.
+
+    html_user/
+        various
+
+David  Feb 10 2003
+    - fix memory leaks
+
+    client/
+        client_types.C
+        net_xfer.C
+
+David  Feb 10 2003
+    - attempt to fix bugs by eliminating dynamic allocation
+
+    client/
+        client_state.C
+        client_types.C,h
+        cs_scheduler.C
+        scheduler_op.C
+        test_file_xfer.C
+    lib/
+        parse.C,h
+
+David  Feb 12 2003
+    - Added mechanism for starting or restarting all back-end processes
+        for a project.  A list of the programs are now in config.xml.
+        All programs now use lock files to prevent duplicate execution.
+        A new program "start_servers" reads config.xml and starts servers.
+    - Added "user-friendly name" field to platform, so that users
+        see e.g. "Windows 95/98/XP" instead of "windows_intelx86"
+        NOTE: this requires patching existing databases
+
+    db/
+        db.h
+        db_mysql.C
+        schema.sql
+    html_ops/
+        db.inc
+    html_user/
+        download.inc
+        download.php
+        index.php
+    sched/
+        Makefile.in
+        config.C,h
+        start_servers.C
+    test/
+        make_project.php
+        test.inc
+    tools/
+        add.C
+
+David  Feb 12 2003
+    - changed "exit_after" to "exit_after_app_started_secs"
+        and changed its null value from -1 to 0.
+    - don't ask a scheduler for work if in exit_when_idle mode
+        and we've already contacted scheduler
+    - remove exit_when_idle clause from backoff after no work available
+
+    client/
+        client_state.C,h
+        cs_apps.C
+        cs_scheduler.C
+        scheduler_op.C
+    test/
+        test_time.php
+
+David  Feb 12 2003
+    - changed server startup mechanism so that config.xml contains
+        actual commands (so you can include cmdline args etc.)
+
+    sched/
+        config.C,h
+        start_servers.C
+    test/
+        test.inc
+
+David  Feb 12 2003
+    - changed user HTML so that all project-specific stuff
+        (intro, banner, etc.) is in a separate file.
+        Can specify this file in test scripts.
+    - added test scripts to make dummy SETI@home and Astropulse projects,
+        and made project-specific HTML files for them
+
+    html_user/
+        index.php
+        project.inc  (new)
+        project_ap.inc   (new)
+        project_sah.inc  (new)
+    sched/
+        start_servers.C
+    test/
+        make_project.php
+        make_project_ap.php (new)
+        make_project_sah.php (new)
+        test.inc
+
+David  Feb 14 2003
+    - Added "long_name" field to project table (display this in GUI)
+        Can have spaces, special chars etc.
+    - fixed bugs in prefs updating
+
+    db/
+        db.h
+        db_mysql.C
+        schema.sql
+    html_user/
+        prefs.inc
+    sched/
+        server_types.C
+    test/
+        make_project_ap.php
+        make_project_sah.php
+        test.inc
+
+David  Feb 17 2003
+    - restored some of the changes for faster network throughput
+
+    client/
+        client_state.C,h
+        main.C
+        next_xfer.C,h
+
+David  Feb 18 2003
+    - fixed formatting; changed vector remove to use iterator
+
+    client/
+        app.C
+        cs_files.C
+        app.C
+
+David  Feb 18 2003
+    - added "opaque" fields to result and workunit tables.
+        (allows projects to cross-reference to their science DB)
+    - added "venue" field to host (home/school/work)
+        This has two goals:
+        1) provides a basis for multiple preference sets
+            (one each for home/school/work)
+        2) provides another account breakdown for stats
+    - added "venue" field to user
+        This is the default venue, for newly created hosts
+    - simplified preferences:
+        For account setup, all preferences are now on one form
+        (different forms for new/return users)
+        For preference editing, preferences are now in two groups
+            - project preferences, including resource share,
+                venue, and per-project prefs
+            - global prefs (called "BOINC prefs" in user interface)
+    - fixed bug where user/host credits in client state file were giant numbers
+
+    todo
+    client/
+        scheduler_op.C
+    db/
+        db.h
+        db_mysql.C
+        schema.sql
+    html_ops/
+        db.inc
+    html_user/
+        account_setup_first.php
+        account_setup_first_email.php (removed)
+        account_setup_first_project.php (removed)
+        account_setup_first_action.php (new)
+        account_setup_nonfirst.php
+        account_setup_nonfirst_email.php (removed)
+        account_setup_nonfirst_project.php (removed)
+        account_setup_nonfirst_action.php (new)
+        create_account_action.php
+        prefs.inc
+        prefs_edit_global_*
+        prefs_edit_email_* (removed)
+        prefs_edit_project_*
+        prefs_edit_resource_* (removed)
+        project_specific_prefs.php
+    sched/
+        handle_request.C
+        server_types.C
+    test/
+        test.inc
+
+David  Feb 19 2003
+    - Added scheme for verified user update of email address
+        When user updates email address, their email address in the DB
+        is set to a "munged" form that includes a random string,
+        and an email is sent to the new address that includes a
+        URL that they must visit to verify the change.
+    - The same mechanism is used on account creation;
+        the email DB field is initially set to a munged form.
+        This prevents hackers from adding entries to the DB
+        with other peoples' email addresses.
+    - Separate logic for update email address from update other user info;
+        remove combinatorial logic (?) for update other user info
+
+    configure (removed; generated from configure.in by autoconf)
+    db/
+        db.h
+    html_user/
+        create_account_action.php
+        create_account_form.php
+        edit_action.php (removed)
+        edit_email_action.php (new)
+        edit_email_form.php (new)
+        edit_user_info.php (removed)
+        edit_user_info_form.php (new)
+        login_action.php
+        user.inc
+        util.inc
+
+David  Feb 20 2003
+    - project preferences are now handled correctly,
+        written/read to account file
+    - fix bugs in web pages for editing prefs
+    - change dont_run_on_batteries to run_on_batteries etc.
+    - fix bug in test scripts where account file had wrong name
+
+    apps/
+        upper_case.C
+    client/
+        account.C,h
+        client_state.C
+        client_types.C
+        cs_scheduler.C
+        prefs.C,h
+    doc/
+        client_files.html
+    html_user/
+        confirm_email_change.php
+        edit_user_info_action.php
+        prefs.inc
+        prefs_edit_project_action.php
+        prefs_edit_project_form.php
+    test/
+        test.inc
+        test_uc.php
+
+David  Feb 22
+    - API now passes both host and user credit to apps
+    - API now passes team name to apps (scheduler RPC now returns it)
+    - don't use malloc in get_free_slot
+    - added fancier project-specific prefs for astropulse
+    - fixed bugs in account creation
+    - imported code to remove dangerous HTML tags from user-supplied text
+
+    api/
+        boinc_api.C,h
+    client/
+        app.C
+        client_state.C
+        client_types.C,h
+        cs_scheduler.C
+        hostinfo.C,h
+        hostinfo_unix.C
+        time_stats.C
+    html_user/
+        account_setup.php
+        account_setup_first_action.php
+        download.inc
+        htmlfilter.inc
+        logout.php (new)
+        prefs.inc
+        project.inc
+        project_specific_prefs_ap.inc (new)
+        sanitize_html.inc
+        team.inc
+        team_edit_action.php
+        util.inc
+    sched/
+        handle_request.C
+        server_types.C,h
+    test/
+        make_project_ap.php
+        test.inc
+
+Seth  Feb 24
+    - changed windows graphics handling.
+        client now has a child window in which all graphics are displayed.
+        when an app is running, this window sends a message to the app telling
+        it to draw on the window.
+
+    api/
+        windows_opengl.cpp
+    client/win/
+        wingui.C,h
+        wingui_mainwindow.C,h
+        wingui_sswindow.C,h (new)
+
+David  Feb 25 2003
+    - Implemented network throughput limits, part of global prefs.
+        There are separate limits for upload and download.
+        Implementation: the NET_XFER_SET objects now has fields for
+        1) the max # bytes/sec up and down (from global prefs)
+        2) the limit on bytes that can be xferred this second
+            Can go negative.  If it's negative, don't include
+            sockets in select().
+            Replenish every second.
+        This replaces an implementation that didn't work
+    - Reimplemented the way network throughput is measured.
+        The old way measured throughput for each file xfer, and kept an average.
+        This doesn't work with multiple simultaneous xfers.
+        The new way uses a NET_STATS::poll() function.
+        If there has been an active file xfer during the last poll period
+        (new logic in NET_XFER_SET lets you find this out)
+        then you add the duration of the polling period,
+        and the number of bytes transferred.
+        The reported throughput is averaged with throughput
+        from previous sessions of the core client.
+    - Increased file xfer blocksize from 4KB to 16KB
+    - Got rid of dynamic buffer allocation in NET_XFER
+    - Renamed "water days" to "work buf days" everywhere
+    NOTE:
+        clock() measure calling process CPU time, not time of day.
+        Use time(0) if you want time of day.
+
+    client/
+        client_state.C,h
+        cs_scheduler.C
+        file_xfer.C
+        http.C
+        main.C
+        net_stats.C,h
+        net_xfer.C,h
+        pers_file_xfer.C
+        prefs.C,h
+        scheduler_op.C
+        test_file_xfer.C
+        test_http.C
+        test_net_xfer.C
+    test/
+        test.inc
+        test_uc.php
+
+Eric  Feb 25, 2003
+    - Added net transfer progress.  Tracks number of bytes transferred
+       for file uploads and downloads.
+    - Fixed Windows battery status bug.
+    - Net transfer speed measurement in bytes/sec. The measurement decays by
+       1/2 every 3 seconds.
+    - Added PHP function to password protect project admin pages via .htaccess.
+    - Altered show_message function to specify the project a message is
+       associated with.
+
+    client/
+        client_state.C
+        cs_scheduler.C
+        file_xfer.C
+        net_xfer.C,h
+        pers_file_xfer.C
+        mac/
+            mac_main.cpp
+        main.C
+        message.h
+        scheduler_op.C
+        win/
+            wingui_mainwindow.cpp
+            wingui.cpp
+            hostinfo_win.cpp
+    test/
+        test.inc
+
+Eric  Feb 26, 2003
+    - Added ability to automatically zip/gzip stats files.
+
+    sched/
+        db_dump.C
+
+David  Feb 27 2003
+    - fix bug in prefs display
+    - use $_GET["foo"] to access form variables in PHP scripts
+        (this makes it clear what the form variables are)
+    - use trim() to get rid of white space and start/end of authenticator.
+        Should do this for most user-supplied data
+    - use row2() to generate all two-item rows.
+        Right-align the first part and embolden the second.
+        Get rid of row() and row2a()
+    - change "water days" terminology to "work buf"
+
+    html_user/
+        account_created.php
+        bug_report_action.php
+        confirm_email_change.php
+        login_action.php
+        login_form.php
+        prefs.inc
+        prefs_edit_global_action.php
+        prefs_edit_project_action.php
+        prefs_edit_project_form.php
+        project_specific_prefs.inc
+        project_specific_prefs_ap.inc
+        show_host_detail.php
+        team.inc
+        user.inc
+        util.inc
+
+Eric   Feb 28, 2003
+    - Fixed screensaver to open client/go to full screen mode correctly.
+    - Implemented "Go to blank screen after x minutes" functionality.
+
+    api/
+        graphics_api.h
+    client/
+        client_state.C,h
+        win/
+            wingui_mainwindow.cpp,h
+            win_util.h
+            win_screensaver.cpp
+            wingui_sswindow.cpp,h
+
+David  Feb 28 2003
+    - after master URL fetch done, write client state file
+        (so that we don't fetch it again)
+    - scheduler: don't check for WU feasibility if the client reports
+        zero disk or zero memory;
+        improved reporting of infeasibility
+    - added a "watchdog" script (wd.php) that checks log files for error msgs
+        and sends an email if any.  Also added a sample watchdog that
+        makes sure #results changes
+
+    client/
+        client_types.C
+        cs_scheduler.C
+        scheduler_op.C
+    sched/
+        handle_request.C
+        wd.php
+        wd_nresults_changing.php
+
+David  Feb 28 2003
+    - add some fields to copy_state_fields().
+        (fixed bug where client always fetches master URL)
+
+    client/
+        client_types.C,h
+
+David  Mar 2 2003
+    - added code to garbage-collect APP_VERSIONs:
+        delete any APP_VERSION that's not referenced and for which
+        there's a later version of the same app.
+        Also garbage-collect executable files
+        (previously, they were never deleted).
+    - fixed minor bug (file offset on redirected POST2 HTTP op)
+    - added network bandwidth limits to global prefs web interface
+
+    todo
+    client/
+        client_state.C,h
+        cs_files.C
+        hostinfo_unix.C
+        http.C,h
+    html_user/
+        prefs.inc
+    sched/
+        handle_request.C
+
+David  Mar 2 2003
+    - escape single quotes on result.stderr_out and result.xml_doc_out
+        (since client could return something with single quotes)
+    - when get a DB error, write mysql's error string to log
+
+    db/
+        db.h
+        db_mysql.C
+        mysql_util.C,h
+    sched/
+        handle_request.C
+
+David  Mar 3 2003
+    - run_on_batteries defaults to true
+        (else can't run test_uc.php on batteries)
+    - show correct time diffs in client out
+    - In user_html, use row2() uniformly, and added shading
+    - laid some groundwork for multiple prefs sets
+
+    client/
+        client_state.C
+        main.C
+        prefs.C
+    html_user/
+        prefs.inc
+        prefs_edit_global_form.php
+        project_specific_prefs.inc
+        show_hosts.php
+        user.inc
+        util.inc
+    test/
+        test_uc.php
+
+David  Mar 4 2003
+    - added PHP code for creating/editing/deleting multiple pref sets
+        See "prefs.inc" for a description of the XML format.
+        Prefs are divided into two subsets (global and project).
+        For each subset there is a mandatory "primary" version
+        and optional versions for home, school, and work.
+        The prefs display/editing code has been consolidated
+        and parameterized (subset = global or project,
+        venue = none, home, school, work).
+        This actually simplifies things a little.
+
+    html_user/
+        account_setup_first_action.php
+        account_setup_nonfirst_action.php
+        add_venue_action.php (new)
+        add_venue_form.php (new)
+        prefs.inc
+        prefs.php
+        prefs_edit_action.php (new)
+        prefs_edit_form.php (new)
+        prefs_edit_global* (removed)
+        prefs_edit_project* (removed)
+        user.inc
+        util.inc
+
+David  Mar 4 2003
+    - debugged prefs editing code
+
+    html_user/
+        account_setup_first_action.php
+        add_venue_action.php
+        add_venue_form.php
+        prefs.inc
+        prefs_edit_action.php
+        project_specific_prefs.inc
+
+David  Mar 5 2003
+    - use venue-specific prefs on client side:
+        - schedule server passes <host_venue> element in scheduler reply
+            (but only when it passes back new global prefs)
+        - when parsing global prefs, if find a matching
+            <venue> element, parse its contents and ignore all else
+        - when passing project-specific prefs to app,
+            look for matching <venue> element
+    - changed XML syntax of venue-specific prefs: instead of
+        <home>...</home>, e.g., use
+        <venue name="home">...</venue>
+    - added safe_strncpy(): always adds zero byte at end.
+        Use this instead of strncpy().
+
+    client/
+        app.C
+        client_state.C,h
+        cs_scheduler.C
+        hostinfo.C
+        prefs.C,h
+        scheduler_op.C,h
+    html_users/
+        add_venue_action.php
+        prefs.inc
+        show_host_detail.php
+        user.inc
+    lib/
+        parse.C,h
+        util.C,h
+    sched/
+        Makefile.in
+        server_types.C
+
+David  Mar 6 2003
+    - new show_message() conventions (not fully implemented):
+        - all error conditions should call show_message() with MSG_ERROR
+        - all log writes should use show_message() with MSG_INFO
+        TODO: change Win implementation of show_message() to
+        write to window AND to file (stderr.txt or stdout.txt)
+    - messages are now timestamped and show project name
+    - use start_table() and row2() more uniformly in user HTML
+    - user HTML: show message if can't connect to DB
+    - standardize terminology in user HTML: "general prefs",
+        "default computer location", etc.
+
+    client/
+        client_state.C
+        cs_scheduler.C
+        main.C
+        message.h
+        scheduler_op.C
+    doc/
+        prefs.html
+    html_user/
+        add_venue_form.php
+        bug_report_form.php
+        create_account*.php
+        db.inc
+        edit_email_form.php
+        edit_user_info_form.php
+        index.php
+        login*.php
+        prefs.inc
+        prefs_edit_form.php
+        show_user.php
+        team_create_form.php
+        top_hosts.php
+        user.inc
+        util.inc
+    lib/
+        util.C,h
+    sched/
+        *.C
+
+Eric  March 7, 2003
+    - Moved common functions (write_log, check_trigger, update_average)
+      into sched_util.C
+    - Added stop_server checking to more server programs
+    - Added update_stats program to periodically update exponential average
+      credit for users and hosts, and to update team credit by summing member credit
+    - Added db_sum, db_query_double to retrieve sums of columns (used by update_stats)
+    - Added db_user_sum_team_expavg_credit, db_user_sum_team_total_credit,
+      db_user_count_team for updating team statistics
+    - Confirmed that current exponential average algorithm is correct
+
+    db/
+        mysql_util.C,h
+        db_mysql.C
+        db.h
+    html_user/
+        top_teams.php
+    sched/
+        Makefile.in
+        *.C
+        sched_util.C,h (added)
+        update_stats.C (added)
+
+Seth  March 10, 2003
+        - changed windows graphics handling again.  client/app messaging
+                now mainly consists of the client polling the app windows,
+                with apps messaging the client when they change modes.
+                moved most of this into the client's child screensaver window.
+
+        api/
+                windows_opengl.cpp
+        client/win/
+                wingui_sswindow.cpp,h
+                wingui_mainwindow.cpp,h
+
+Eric  March 11, 2003
+    - changed client exit to send a quit request to the apps, wait 1
+      second for them to quit, then kill them if they're still open.
+      This allows applications to do a final checkpoint before
+      quitting, rather than lose their recent work
+    - changed boinc_sleep to accept fractional sleep values
+
+    apps/
+        concat.C
+        upper_case.C
+    client/
+        app.C,h
+        client_state.C
+        cs_apps.C
+        test_*.C
+    lib/
+        util.C,h
+
+Eric  March 12, 2003
+    - Quit requests are now sent via the SIGQUIT signal (on UNIX)
+      or a named Event (on Windows), rather than via an XML file
+
+    api/
+        boinc_api.C,h
+    client/
+        app.C,h
+
+Eric  March 13, 2003
+    - Added System V message queue functions to library
+
+    lib/
+        msg_queue.C,h
+        msg_test.C
+
+David  Mar 15 2003
+    - added some state diagrams to docs
+    - changed var name from "giveup_after" to "file_xfer_giveup_period"
+        PLEASE USE MEANINGFUL NAMES, especially for global vars
+
+    todo
+    api/
+        boinc_api.h
+    client/
+        app.C
+        client_state.C,h
+        pers_file_xfer.C,h
+    doc/
+        various
+    sched/
+        feeder.C
+
+Eric  March 17, 2003
+    - Changed app->client communication to use shared memory rather
+      than files.  The client sets up a shared memory segment when
+      starting the app. The app attaches to it and writes XML tags
+      into a 4K text buffer every second.
+    - The shared memory communication has been tested by hand under
+      Windows and UNIX (Mac OS X).  We should write test scripts for
+      it to make sure.
+
+    configure.in
+    api/
+        boinc_api.C,h
+    apps/
+        Makefile.in
+    client/
+        app.C,h
+        cs_apps.C
+    lib/
+        shmem.C,h
+
+David  Mar 18 2003
+    - Don't write signed_xml and xml_signature tags in the state file
+        if they're empty strings
+        (this eliminates malformed XML in state file)
+    - Replace safe_strncpy(foo, "", sizeof(foo)) with strcpy(foo, "").
+        Reduce noise.
+
+    client/
+        app.C
+        client_state.C
+        client_types.C
+        file_xfer.C
+        hostinfo.C
+        http.C
+        scheduler_op.C
+
+Eric  March 19, 2003
+    - Moved OpenGL context creation/destruction outside of drawing
+      loop.  This seems to improve speed on Windows 98.
+    - Added memory deallocation routine for client_state vectors.
+      This clears up several dozen unnecessary memory leak reports.
+
+    api/
+        windows_opengl.cpp
+    client/
+        app.C,h
+        client_state.C,h
+        cs_apps.C
+        win/
+            wingui_mainwindow.cpp
+
+David  Mar 19 2003
+    - general cleanup of user web
+
+    html_user/
+        *
+        show_hosts.php (removed)
+
+David  Mar 19 2003
+    - added global pref for max CPUs
+    - added global pref for min interval between disk writes
+        (applies to checkpoint writes only)
+    - added URL field to user table
+    - moved "send_email" field from XML to DB
+    - added "show_hosts" field to user table
+
+    show_host_public.php (removed)
+    client/
+        app.C
+        client_state.C,h
+        cs_apps.C
+        prefs.C,h
+    db/
+        db.h
+        db_mysql.C
+        schema.sql
+    doc/
+        index.html
+    html_user/
+        edit_user_info*
+        host.inc
+        prefs.inc
+        prefs_edit_*
+        show_host_detail.php
+        user.inc
+        util.inc
+    sched/
+        db_dump.C
+    test/
+        test.inc
+    tools/
+        add.C
+
+Eric  March 20, 2003
+    - Changed speed tests to use a realtime timer rather than
+      estimating the number of iterations.
+    - Changed floating point test to use more accurate code.
+    - Fixed memory bandwidth test reporting.
+
+    client/
+        app.C
+        client_state.C,h
+        speed_stats.C,h
+
+David  Mar 20 2003
+    - added web interface for "merging" hosts
+    - cleaned up team-related PHP code
+
+    html_user/
+        edit_host_action.php
+        edit_host_form.php
+
+David  Mar 21 2003
+    - fixed bugs in host merge
+    - (Eric) fix secs-per-day problem in credit
+
+David  Mar 24 2003
+    - added preference for time-of-day restrictions
+        (run only between hours X and Y)
+
+    client/
+        client_state.C
+        prefs.C,h
+    html_user/
+        create_account_action.php
+        create_account_form.php
+        prefs.inc
+
+David  Mar 25 2003
+    - account creation is now turned off by putting
+        "<disable_account_creation/>" in html_user/config.xml
+    - change name of config file to .htconfig.xml
+        (so can't read via HTTP)
+
+    html_user/
+        create_account*
+        util.inc
+
+David  Mar 31 2003
+    - add "-exit_before_upload" cmdline option
+
+    client/
+        client_state.C,h
+        pers_file_xfer.C
+    html_user/
+        team_create_action.php
+    test/
+        test_uc.php
+
+David  Mar 31 2003
+    - added random field to result.
+        Results are sent in random order, making it hard for hackers
+        to get multiple results for the same WU
+    - user-visible messages about files give names, not URLs
+    - Changed all occurrences of "time test" and "speed test"
+        to "CPU benchmark".
+        Please use accurate, consistent terminology in the code.
+    - changed command-line options:
+        -skip_cpu_benchmarks instead of -no_time_tests
+        -run_cpu_benchmarks instead of -run_speed_test
+
+    client/
+        client_state.C,h
+        file_names.h
+        hostinfo.C,h
+        net_xfer.C
+        pers_file_xfer.C
+        speed_stats.h
+    db/
+        constraints.sql
+        db.h
+        db_mysql.C
+        schema.sql
+    html_user/
+        prefs.inc
+        user.inc
+    sched/
+        make_work.C
+    test/
+        test_1sec.php
+        test_backend.php
+        test_uc.php
+    tools/
+        backend_lib.C
+
+David  Apr 3 2003
+    - added macro "safe_strcpy(x, y)"
+        ** USE THIS INSTEAD OF safe_strncpy(x, y, sizeof(x))
+    - added macro "safe_strcat(x, y)"
+        ** USE THIS INSTEAD OF strcat()
+    - changed dynamically-allocated fields of SCHEDULER_REQUEST,
+        SCHEDULER_REPLY to static
+
+    That combination of the above fixes a bug where a long
+    stderr_out could overwrite other fields of RESULT
+
+    client/
+        app.C
+        client_state.C
+        client_types.C
+        cs_scheduler.C
+        hostinfo_unix.C
+        http.C
+        net_xfer.C
+        pers_file_xfer.C
+        scheduler_op.C
+    doc/
+        index.html
+    lib/
+        filesys.C
+        util.C,h
+    sched/
+        file_deleter.C
+        file_upload_handler.C
+        handle_request.C
+        server_types.C,h
+
+David  Apr 7 2003
+    - changed names of DB interface routines to get rid of conflict
+        with SETI@home DB interface
+    - changed name of "db.h" to "boinc_db.h" to remove conflict w/ SETI@home
+
+    db/
+        db.h (removed)
+        boinc_db.h (new)
+        db_mysql.C
+    sched/
+        *.C
+    tools/
+        *.C
+
+Erik  May 6 2003
+    - Added a notion of "transient" and "permanent" errors on file uploads.
+        A permanent error is returned by the file upload handler if
+            - the request is malformed
+            - filename includes ".."
+            - the signature is bad
+            - the file size is larger than allowed
+        PERS_FILE_XFER checks for this return from FILE_XFER
+        and gives up immediately.
+    - FILE_XFER now always parses the server response (not just for file size)
+    - Added some missing error checks to FILE_XFER
+    - Punted on the timezone-related ifdefs:
+        added hardwired ifdefs for linux and unix.
+        Need to revisit this
+    - in PHP test library, add a provision for multiple files per application
+
+    client/
+        file_xfer.C
+        hostinfo_unix.C
+        pers_file_xfer.C,h
+    doc/
+        client.html
+        index.html
+        old_news.html (new)
+        result.fig
+        setiathome.jpg
+        upload.html
+    lib/
+        error_numbers.h
+    sched/
+        file_upload_handler.C
+    test/
+        test.inc
+
+Erik  May 8 2003
+    - Added a new class SS_LOGIC that encapsulates the core client's
+        screensaver-related logic.
+        It tries to get graphics-capable apps to provide graphics,
+        and if necessary it draws logo-based graphics or blanks the screen.
+    - Changed ACTIVE_TASK.app_client_shm from a pointer to an object.
+        NOTE: AVOID DYNAMIC ALLOCATION WHENEVER POSSIBLE
+    - got rid of free_mem() stuff
+
+    client/
+        Makefile.in
+        app.C,h
+        cs_apps.C
+        ss_logic.C,h (new)
+    lib/
+        Makefile.in
+        app_ipc.C,h
+
+Erik  May 13 2003
+    - Added a notion of "tentative" project.
+        This means that the (URL, account ID) pair hasn't been verified,
+        i.e. we haven't fetched the master page, found a scheduler,
+        and done a scheduler op that verified the account ID.
+        If anything fails for a tentative project, call project_add_failed().
+        in the cmdline version this prints an error message,
+        deletes all evidence of the project, and exits.
+        TODO: implement for GUI
+    - Make write_account_file() into a member function of PROJECT.
+    - Got rid of CLIENT_STATE::change_project().
+        The user must detach and attach.
+    - CLIENT_STATE::quit_project() now takes a PROJECT*, not an int.
+        Need to change the GUI code.
+    - got rid of separate WIN_32 implementations of
+        make_project_dir(), remove_project_dir(), make_slot_dir().
+        THIS IS THE WRONG LEVEL FOR PLATFORM-DEPENDENT CODE!
+        Instead, added boinc_mkdir() and boinc_rmdir()
+    - added implementation docs for screensaver logic
+    - test_uc.php: wait for a second before running client.
+        On fast computers the client runs before feeder has seeded shmem.
+
+    client/
+        account.C,h
+        client_state.C,h
+        client_types.C,h
+        cs_scheduler.C
+        file_names.C
+        main.C
+        scheduler_op.C,h
+        ss_logic.C
+        win/
+            wingui.cpp
+            wingui_mainwindow.cpp
+    doc/
+        client_app.html
+        client_app_graphic.html
+    lib/
+        filesys.C,y
+    test/
+        test_uc.php
+
+Erik  May 14 2003
+    - added function to "reset" project (stop all current activities
+        and delete everything except sticky files)
+    - added function to "detach" from project (the above, plus
+        deleting all files, the account file, and the project)
+
+    client/
+        account.C
+        client_state.C,h
+        main.C
+        pers_file_xfer.C
+    lib/
+        util.C
+    test/
+        test_uc.php
+
+Erik  May 15 2003
+    - added cmdline options for show/detach/reset project
+    - -update_prefs command now takes a URL
+    - added license text to some files
+
+    client/
+        account.C
+        client_state.C,h
+    lib/
+        util.C
+    doc/
+        client.html
+
+Erik  May 15 2003
+    - change NET_XFER::net_sleep() so that it does up to about .5 sec of I/O,
+        rather than just one block per socket
+
+    client/
+        net_xfer.C
+
+Erik  May 16 2003
+    - set FILE_INFO::upload_offset to -1 before restarting file upload.
+        This forces file size check, so that upload can resume
+        with nonzero offset.
+        NOTE: THE USE OF "SPECIAL VALUES" (LIKE -1) IS DISCOURAGED
+    - don't set RESULT::state to NEW after parse.
+        This caused completed results to start over.
+    - PERS_FILE_XFER::start_xfer() is int, not bool
+    - better messages on file transfer failure and project backoff
+    - better message from scheduler if wrong major version
+    - file upload handler logging is on by default
+
+    client/
+        scheduler_op.C
+        pers_file_xfer.C,h
+        client_state.C
+        file_xfer.C
+    lib/
+        error_numbers.h
+    sched/
+        file_upload_handler.C
+        handle_request.C
+
+Eric  May 16, 2003
+    - changed do_select to keep calling do_xfer for uploads until either
+        a) the send buffers are full or b) 1 second has passed
+    - changed variable name in Windows GUI code for clarity
+
+    client/
+        net_xfer.C
+        win/
+            wingui_mainwindow.cpp
+
+Erik  May 19 2003
+    - added support for user-selected files to be included
+        as part of an app_version.
+        If there is an element of the form
+            <app_file>
+                <url>X</url>
+                <open_name>Y</open_name>
+            </app_file>
+        in a user's project preferences,
+        then for every APP_VERSION that is sent to the user,
+        elements of the form
+            <file_info>
+                <name>X'</name>
+                <url>X</url>
+            </file_info>
+            ... and in the <app_version> element
+            <file_ref>
+                <file_name>X'</file_name>
+                <open_name>Y</open_name>
+            </file_ref>
+        are added to the app version's XML description,
+        where X' is an escaped version of X.
+        This can be used (for example) to allow applications to
+        have user-specified images in their graphics
+    - Handle it correctly if the "insert" part of a file transfer fails
+    - The "main program" of an app version is the one labeled <main_program/>
+        (not necessarily the first one)
+    - Only files labeled <executable/> are required to be signed
+    - added copyright notice to some files
+    - added sgets() for parsing a string that is made up of multiple lines
+    - write MD5 checksum elements only if checksum is present
+    - created escape_url_readable
+
+    TODO: app_versions are currently treated as immutable by client.
+        Need to change this.
+
+    todo
+    api/
+        graphics_data.C,h
+        util.cpp,h
+    client/
+        app.C
+        client_state.C
+        client_types.C
+        cs_files.C
+        file_names.C
+        pers_file_xfer.C,h
+    doc/
+        api.html
+        boinc_dev.html
+        client_app.html
+        client_app_graphics.html
+        graphics.html
+    lib/
+        parse.C,h
+        util.C,h
+    sched/
+        handle_request.C
+        server_types.C,h
+
+Eric  May 20, 2003
+    - When you create a team you automatically join it
+
+    html_user/
+        team.inc
+        team_create_action.php
+        team_join_action.php
+
+Erik  May 21 2003
+    - in application w/ graphics, make sure worker thread is lower
+        priority than GUI thread
+    - show error msg if attach to existing project
+    - trim CR from end of message strings
+    - consider it a failure if tentative project master page
+        downloads OK but has no scheduler URLs
+    - clean up formatting of download page
+
+    api/
+        graphics_api.C
+    client/
+        account.C
+        main.C
+        scheduler_op.C
+        win/
+            wingui.cpp
+    html_user/
+        download.inc
+    lib/
+        error_numbers.h
+
+Erik  May 21 2003
+    - various changes to support abort of apps if use too much disk or CPU
+        - send workunit rsc_* fields in scheduler reply; store on client
+        - scheduler doesn't send estimated CPU time; instead,
+            client calculates it
+        - CPU time bound is estimated time * 2
+        - disk bound is rsc_disk
+        TODO: finish implementing this
+    - When an app finishes, see if any of the output files is larger
+        than its max_nbytes.
+        If so set its status to ERR_FILE_TOO_BIG.
+        This will prevent the client from trying to upload it.
+        TODO: make sure result is flagged as erroneous
+    - Change API_IGNORE_CLIENT to API_STANDALONE
+    - Apps start in MODE_WINDOW if standalone
+
+    api/
+        boinc_api.C,h
+        windows_opengl.cpp
+    client/
+        app.C,h
+        client_state.C,h
+        client_types.C,h
+        cs_apps.C
+        cs_scheduler.C
+    db/
+        boinc_db.h
+    lib/
+        error_numbers.h
+    sched/
+        handle_request.C
+
+Erik  May 22 2003
+    - abort applications that exceed max disk usage
+        Do this check at most global_prefs.disk_interval seconds
+    - moved code that detaches core/app shared memory from
+        CLIENT_STATE::handle_finished_apps() to
+        ACTIVE_TASK::check_app_exited()
+        NOTE: ACTIVE_TASK IS SUPPOSED TO ENCAPSULATE TASK IMPLEMENTATION
+    - CLIENT_STATE::handle_finished_apps(): don't view an app as finished
+        if it's in PROCESS_ABORT_PENDING state
+    - got rid of ACTIVE_TASK_SET::poll_time();
+        moved its functionality to ACTIVE_TASK_SET::poll()
+    - broke up ACTIVE_TASK_SET::poll() into subfunctions:
+        get_cpu_times(), check_app_exited(),
+        check_max_cpu_exceeded(), check_max_disk_exceeded()
+    - change function names:
+        get_cpu_time() -> get_cpu_time_via_os()
+        check_app_state() -> get_cpu_time_via_shmem()
+        handle_running_aps() -> handle_finished_apps()
+    - exit_tasks() is a member function of ACTIVE_TASK_SET, not CLIENT_STATE
+
+    client/
+        app.C,h
+        client_state.C,h
+        cs_apps.C
+
+Eric   May 29, 2003
+    - added foreign language support functions
+    - fixed allowed space calculation (standardized on 1 GB=2^30 bytes, not 10^9)
+
+    client/
+        client_state.C
+    lib/
+        language.C,h
+
+Eric   May 30, 2003
+    - nslots will now be updated correctly
+        if user changes preferences on web site
+
+    client/
+        client_state.C,h
+        cs_scheduler.C
+
+David  June 2 2003
+    In client API, standalone mode uses init files if they're there
+
+    api/
+        boinc_api.C
+
+Karl    2003/06/02
+    - fixed some spelling and grammar
+
+    doc/
+        api.html
+        boinc_version.html
+        road_map.html
+        sequence.html
+        single_host_server.html
+
+Eric   June 3, 2002
+    - Added msg_printf function.
+        Use this function rather than show_message, since it
+        doesn't require a locally allocated buffer for formatted strings.
+
+    client/
+        account.C
+        app.C
+        client_state.C,h
+        cs_apps.C
+        cs_scheduler.C
+        file_xfer.C
+        net_xfer.C
+        pers_file_xfer.C
+        scheduler_op.C
+
+Tim    June 3, 2003
+    - Windows GUI enhancement
+        graphics window opens on top
+        simplified disk chart labels
+        message window scrolls to the bottom with new messages
+        reduce flicker in projects, results, and transfers
+
+    api/
+        windows_opengl.cpp
+    client/
+        gui_titles.c
+        wingui_mainwindow.cpp
+
+David  June 4 2003
+    - Checked in Eric Korpela's rewrite of the DB interface code.
+        No more db_xxx functions; instead, use derived classes
+        with insert(), update() etc. functions
+
+    db/
+        Makefile.in
+        boinc_db.C,h (.C new)
+        mysql_util.C,h (removed)
+        db_mysql.C (removed)
+    sched/
+        Makefile.in
+        assimilator.C
+        db_dump.C
+        feeder.C
+        file_deleter.C
+        handle_request.C
+        main.C,h
+        make_work.C
+        sched_shmem.C
+        timeout_check.C
+        update_stats.C
+        validate.C
+    tools/
+        Makefile.in
+        add.C
+        backend_lib.C,h
+        create_work.C
+
+Eric   June 4, 2003
+    - Added signal handlers for keyboard suspend/resume on UNIX
+
+    client/
+        main.C
+
+Tim    June 4, 2003
+    - Windows GUI enhancement
+        added "show" and "hide" to system tray icon context menu
+        added line between menu and tabs (not perfect; currently reside in updateGUI)
+        results now reads "downloading" and "uploading" during file transfer
+        removed history (i.e. completed results, old messages from last session)
+
+    client/
+        client_state.c
+        client_types.h
+        wingui_mainwindow.cpp
+        resource.rc
+
+David  June 5 2003
+    - use a separate DB table for core versions
+
+    db/
+        boinc_db.C,h
+        schema.sql
+    html_user/
+        download.inc
+    test/
+        test.inc
+        test_uc.php
+    tools/
+        add.C
+
+Tim    June 5, 2003
+    - bug fix
+        fixed "uploading" "downloading" problem
+        fixed minor problem with updateGUI
+        fixed "time of day" suspension check (was parsing XML incorrectly)
+        fixed "website" problem (missing "http://")
+        fixed "write to disk frequency" (was not implemented)
+
+    client/
+        client_state.c
+        client_state.h
+        prefs.c
+        wingui_mainwindow.cpp
+
+Karl    2003/06/06
+    Rewrote build system using automake and modern autoconf.
+
+    Added:
+
+     RSAEuro/Makefile.am
+     RSAEuro/source/Makefile.am
+     api/Makefile.am
+     apps/Makefile.am
+     client/Makefile.am
+     db/Makefile.am
+     lib/Makefile.am
+     sched/Makefile.am
+     sched_fcgi/Makefile.am
+     tools/Makefile.am
+     configure.ac
+
+    (helper files:)
+     Makefile.incl
+     _autosetup
+     aclocal.m4
+     compile
+     depcomp
+     install-sh
+     missing
+     mkinstalldirs
+     config.h.in
+     test/version.inc.in
+
+    Modified:
+     test/test.inc
+
+    Removed:
+     RSAEuro/source/targets.mak
+     configure.in
+
+    These files are now built automatically:
+
+     RSAEuro/Makefile.in
+     RSAEuro/source/Makefile.in
+     api/Makefile.in
+     apps/Makefile.in
+     client/Makefile.in
+     db/Makefile.in
+     lib/Makefile.in
+     sched/Makefile.in
+     sched_fcgi/Makefile.in
+     tools/Makefile.in
+
+Eric   June 6, 2003
+    - Removed old extraneous functions from wingui
+      (EnumWindowsProc, GetWndFromProcId)
+    - Moved GetByteString to util.C, made platform independent,
+      added "x/y KB" option
+    - Changed est_time_to_completion to use a recent exponential
+      average of change in percent done.  This is more accurate
+      than the old method.
+    - Bug fixes involving result state changes
+
+    client/
+        app.C,h
+        client_types.h
+        client_state.C
+        win/
+            wingui.cpp, h
+            wingui_mainwindow.cpp
+            wingui_piectrl.cpp
+    lib/
+        util.C,h
+
+Karl    2003/06/06
+
+    - updated version number, email address, copyright date
+    - documented automake system and updated build notes (there's only 1 step
+      now instead of 5)
+
+    configure.ac
+    LICENSE
+    doc/
+        boinc_dev.html
+        build.txt
+        build_system.html (added)
+
+Karl    2003/06/07
+
+    - removed "client" distribution
+    - started "make check" targets
+    - "make distcheck" now works
+    - documentation
+
+    Makefile.am
+    Makefile.incl
+    configure.ac
+    doc/
+        build.txt
+        build_system.html
+        road_map.html
+   test/
+        Makefile.am (added)
+
+Tim    June 9, 2003
+    - Windows GUI Enhancement
+        disk usage now displayed in two separate pie charts
+        improved the separation line between menu and tabs
+    - Preference
+        prompt user when downloading executable (commented out)
+
+    client/
+        file_xfer.c
+        gui_titles.c
+        pers_file_xfer.c
+        wingui_mainwindow.h
+        wingui_mainwindow.cpp
+
+Karl    2003/06/09
+    - refactored exponential backoff to util.h
+
+    client/
+        pers_file_xfer.C
+        scheduler_op.C
+    lib/
+        util.h
+        util.C
+
+Karl    2003/06/09
+    - enabled automake maintainer mode - less rebuilding of Makefiles
+    - updated doc
+
+    configure.ac
+    doc/
+        build_system.html
+
+Karl    2003/06/11
+    - fixed skip_cpu_benchmarks bug
+
+    client/
+        client_state.C
+
+Tim    June 11, 2003
+    - Windows GUI Enhancement
+        modified flicker-reducing checks
+    - Preference
+        fixed prompt user when downloading executable (commented out)
+
+    client/
+        file_xfer.c
+        pers_file_xfer.c
+        wingui_mainwindow.cpp
+
+Tim    June 11, 2003
+    - Preference
+        improved executable confirmation message (commented out)
+        added max_memory_mbytes, process_priority, cpu_affinity
+
+    client/
+        pers_file_xfer.c
+        prefs.c
+        prefs.h
+
+Karl    2003/06/11
+    - test suite overhaul
+
+    _autosetup
+    configure.ac
+    test/
+        Makefile.am
+        db_def_to_php
+        boinc_db.inc
+        version.inc.in
+        test.inc
+        test_1sec.php
+        test_backend.php
+        test_concat.php
+        test_download_backoff.php
+        test_limit.php
+        test_masterurl_failure.php
+        test_mdownload_backoff.php
+        test_pers.php
+        test_rsc.php
+        test_sched_failure.php
+        test_sticky.php
+        test_time.php
+        test_uc.php
+        test_upload_backoff.php
+
+Eric K. 2003/06/16
+        Attempted to make the XML parser more robust by adding
+        extract_xml_record() to parse.C
+        Added const modifier to constant parameters to increase class
+        compatibility.
+
+        parse.C
+        parse.h
+
+Karl    2003/06/16
+        Removed bzip2 rule; add 'foreign' option to automake through
+        configure.ac so you don't need to specify when invoking automake
+        manually
+
+        _autosetup
+        configure.ac
+
+Karl    2003/06/16
+        Testing upload and connection failures (work in progress)
+
+        test.inc
+        test_uc.inc
+        test_uc.php
+        test_masterurl_failure.php
+        test_upload_resume.php
+        test_upload_backoff.php
+        testproxy
+
+Tim    June 16, 2003
+    - Preference
+        removed executable confirmation
+        implemented max_memory_mbyte
+
+    client/
+        pers_file_xfer.c
+        app.c
+
+Tim     June 17, 2003
+    - application graphics file
+        added timestamp to astropulse appfile
+        modified APP_FILE struct to include timestamp handling
+        scheduler sends "openname_timestamp" as name
+        open_name (if available) is used when creating a slot directory
+    - Windows GUI
+        finished items in results and transfers are now immediately removed
+
+    client/
+        app.c
+        wingui_mainwindow.cpp
+    html_user/
+        project_specific_prefs_ap.inc
+    sched/
+        handle_request.c
+        server_types.c
+        server_types.h
+
+David  June 17 2003
+    - If connect() fails, mark the HTTP_OP as done and in error.
+        Previously it just hung forever.
+    - Added DB fields for BOINC disk usage: total, project, and max
+        TODO: compute these on client and send in sched RPC
+    - Scheduler RPC request now includes a list of projects
+        and resource shares for the host.
+        Stored in the DB.
+        This lets the web site show other projects
+        that people participate in.
+        Also might be used in scheduling estimates.
+    - added a "Rules and policies" page to the web interface.
+        Users read this before creating account
+    - commented out check_max_mem_exceeded() (not ready)
+
+    todo
+    client/
+        app.C
+        cs_scheduler.C
+        http.C
+    db/
+        boinc_db.C,h
+        schema.sql
+    doc/
+        index.html
+    html_user/
+        create_account_form.php
+        index.php
+        info.php
+
+Karl    2003/06/17
+    Fixed miscellaneous bugs, some very dangerous, from compiler warnings
+
+    lib/
+        parse.C
+        crypt.C
+    tools/
+        backend_lib.C
+        create_work.C
+
+Karl    2003/06/17
+    Converting test scripts to Python
+
+    configure.ac
+    test/
+        Makefile.am
+        boinc.py
+        boinc_db.py
+        db_def_to_py
+        testproxy
+        test.inc
+        test_upload_backoff.php
+        test_uc.py
+        test_concat.py
+        test_1sec.py
+        test_backend.py
+        version.py.in
+
+Tim     June 18, 2003
+    - Windows GUI
+        updated icons
+    - project preference
+        implemented account mirroring
+
+    client/win/res/
+        icon.ico
+        iconhigh.ico
+        iconsmall.ico
+    html_user/
+        create_account_action.php
+        create_account_form.php
+
+David  June 18 2003
+    - export user country and create_time in db_dump
+    - move functions involving BOINC "soft links" to app_ipc.C
+        (they don't belong in filesys.C)
+    - move functions to get filesystem total/free to filesys.C
+    - add doc page for watchdogs
+
+    api/
+        boinc_api.C
+    client/
+        hostinfo.h
+        hostinfo_unix.C
+    db/
+        boinc_db.h
+    doc/
+        create_project.html
+        db_dump.html
+        watchdog.html (new)
+    lib/
+        app_ipc.C,h
+        filesys.C,h
+    sched/
+        Makefile.am
+        db_dump.C
+        file_upload_handler.C
+        handle_request.C
+        server_types.C,h
+
+David  June 18 2003
+    - upload: if exceed size limit, read and discard rest of request
+
+    sched/
+        file_upload_handler.C
+
+David  June 18 2003
+    - added user web interface for seeing results for a host
+
+    client/
+        cs_scheduler.C
+    lib/
+        result_state.h
+    html_user/
+        host.inc
+        result.inc (new)
+        results_host.php (new)
+
+David  June 19 2003
+    - added admin web interface for looking at status of recent results
+    - set result.received_time whenever the server_state becomes DONE
+        (this makes it possible to enumerate all results that have
+        become done recently, including timeouts and other errors)
+
+    html_ops/
+        index.html (removed)
+        index.php
+        result_summary.php (new)
+    sched/
+        handle_request.C
+        validate.C
+        timeout_check.C
+
+Karl    2003/06/19
+    - make_work: make hard links instead of copies of workunit files
+
+    sched/
+        make_work.C
+
+Tim     June 19, 2003
+    - Astropulse Website
+        added description to project preferences
+    - Windows GUI
+        implemented message pane entry limit
+        new icons
+
+    client/win/res/
+        icon.ico
+        iconhigh.ico
+        iconsmall.ico
+    html_user/
+        db.inc
+        host.inc
+        project_specific_prefs_ap.inc
+
+Karl    2003/06/19
+    - scheduler daemons: write pid to a pidfile.  trap SIGINTs and exit on
+      the next check_stop_trigger() (the 'stop_server' file still works)
+    - wrote a kill_server program that kills specified daemons by sending
+      SIGINT to processes
+    - use kill_server in test scripts
+
+    sched/
+        kill_server (added)
+        Makefile.am
+        assimilator.C
+        feeder.C
+        file_deleter.C
+        make_work.C
+        sched_util.C
+        sched_util.h
+        timeout_check.C
+        update_stats.C
+        validate.C
+    test/
+        .cvsignore
+        Makefile.am
+        boinc.py
+        version.py.in
+
+David  June 20 2003
+    - use mysql_connect() instead of mysql_pconnect() in PHP.
+        The latter caused failures in mysql_select_db(),
+        with "commands out of sync" error.
+
+    html_user/
+        db.inc
+    html_ops/
+        db.inc
+
+Karl    2003/06/20
+    - make client build by default use static libraries
+
+    client/
+        Makefile.am
+    doc/
+        build.txt
+
+Karl    2003/06/20
+    - improve readability of shmem error message
+
+    sched/
+        main.C
+    lib/
+        shmem.C
+    test/
+        boinc.py
+
+Karl    2003/06/20
+    - remove OpenGL(U) dependency on unix test apps
+
+    apps/
+        Makefile.am
+        upper_case.C
+
+Tim     June 23, 2003
+    - Project Preference
+        Added venue parsing (fixes stderr.txt PROJECT::parse_account() error), but commented out
+    - Windows GUI
+        UpdateGUI only refreshes active tab (reduces Windows CPU time by 85%)
+        Fixed m_MessageListCtrl scrolling issue
+        Changed pie chart labels
+        Temporarily fixed the afx assertion failure at line 157
+
+    client/
+        client_types.c
+        gui_title.c
+    client/win/
+        wingui_mainwindow.cpp
+
+John Brian        2003/06/23
+    - Changed label text in "Disk" tab:
+        "BOINC" -> "BOINC core client"
+        "PROJECT:" prepending removed
+
+    - Removed CProgressListCtrl::OnLButtonDown to allow
+        left mouse clicks to highlight list items.
+
+    /client/win/
+        gui_titles.C
+        wingui_listctrl.h
+        wingui_listctrl.cpp
+
+Karl    2003/06/23
+    - changed uses of HOST to HOSTTYPE to simplify command line and fix
+      conflict with boinc_db.h's HOST
+
+    configure.ac
+    Makefile.incl
+    client/
+        client_state.C
+    db/
+        boinc_db.h
+
+Karl    2003/06/23
+    - Make sure the user can't add one project twice (by one having a trailing
+      slash).
+        Canonicalize master urls to have a trailing '/' and remove double
+        slashes.  Ensure account filenames and directories do not have the
+        trailing '_'.  For many users their account files already have
+        trailing '_'s so if such files are found, rename them and their
+        corresponding project directories on startup.  Created C++ string
+        versions of some functions for easier/safer/more efficient string
+        manipulation.
+
+    client/
+        account.C
+        client_types.C
+        file_names.C
+    lib/
+        filesys.C
+        filesys.h
+        util.C
+        util.h
+
+Karl    2003/06/23
+    - removed stderr messages on detach_project() after user adds a URL that
+      doesn't work
+
+    client/
+        http.C
+        net_xfer.C
+
+John Brian        2003/06/24
+    - Added context-menu support for copying items in the Messages tab to the
+      clipboard.
+
+    client/
+        wingui_mainwindow.cpp
+        wingui_mainwindow.h
+        resource.rc
+        resource.h
+
+Karl    2003/06/24
+    - Got test_1sec working
+
+    test/
+        boinc.py
+        test.inc
+        test_backend.py
+        test_uc.py
+    sched/
+        start_servers.C
+
+Karl    2003/06/25
+    - if application exceeds disk space limit, output message "Exceeded size
+      limit" instead of "Couldn't upload files"
+    - test that an aborted result due to file limit causes client_state =
+      RESULT_OUTCOME_CLIENT_ERROR (currently this test FAILS!)
+    - test resource limits in python
+
+    db/
+        boinc_db.h
+    client/
+        client_state.C
+    sched/
+        handle_request.C
+    test/
+        boinc.py
+        test_abort.py (new)
+        test_rsc.py (new)
+        test_backend.py
+        test_concat.py
+        test_uc.py
+
+Karl    2003/06/25
+    - created a script to automatically run make all, check, distcheck from a
+      cronjob - complains if anything fails.
+
+    ./testbase (new)
+
+Karl    2003/06/26
+    - fixed bug that caused client state to transition to
+      RESULT_FILES_UPLOADING even when file info(s) had errors; now it stays
+      in RESULT_COMPUTE_DONE. [passes test_abort now]
+
+    client/
+        client_state.C
+        cs_apps.C
+
+Karl    2003/06/26
+    - makefile should rebuild version.py and boinc_db.py if necessary
+    - test_sanity should make sure proxy setup works
+    - test_masterurl_failure
+
+    test/
+        Makefile.am
+        test_sanity.py
+        boinc.py
+        test_masterurl_failure.py (new)
+
+Karl    2003/06/26
+    - working on master url fetch failure retry policy
+    - test_signal.py. currently FAILS!
+    - test_exit.py. currently FAILS!
+        There is another bug similar to the one found by test_abort where the
+        client goes into FILES_UPLOADED even the application exited with an error.
+
+    client/
+        client_state.C
+        scheduler_op.C
+
+    lib/
+        util.C
+        util.h
+
+    test/
+        boinc.py
+        test_masterurl_failure.py
+        test_uc.py
+        testproxy
+        test_exit.py (added)
+        test_signal.py (added)
+
+Karl    2003/06/30
+    - added checks for OUTCOME for successful and (expected) unsuccessful
+      results, and CLIENT_STATE for successful results.  Parse
+      lib/result_state.h.
+
+    test/
+        Makefile.am
+        boinc_db.py
+        BOINC_db.inc
+        test_uc.py
+
+John Brian        2003/06/30
+    - Removed stray printf used in debugging background graphics code.
+
+    astropulse/client/
+        ap_graphics.C
+
+
+Karl 2003/06/30
+    - schedulers: improved logging facilities.
+    - Use a library for common object files.
+    - changed timestamp() to be numeric, similar to ISO 8601
+
+    lib/
+        util.C
+    sched/
+        Makefile.am
+        assimilate_handler.C
+        assimilator.C
+        db_dump.C
+        feeder.C
+        file_deleter.C
+        file_upload_handler.C
+        handle_request.C
+        main.C
+        make_work.C
+        sched_util.C
+        sched_util.h
+        server_types.C
+        start_servers.C
+        timeout_check.C
+        update_stats.C
+        validate.C
+        validate_test.C
+
+David  June 30 2003
+    - change the admin interface to the DB
+
+    html_ops/
+        db.inc
+        db_action.php (new)
+        db_form.php (new)
+        index.php
+        result_summary.php
+        util.inc
+
+David  July 1 2003
+    - further tweaks to web DB interface
+
+    html_ops/
+        db.inc
+        db_action.php
+        db_form.php
+        index.php
+
+Karl    2003/07/01-02
+    - redesigned logging facilities for both scheduler servers and client
+        It is now easy to see the flow of events from looking at client.out
+
+    client/
+        Makefile.am
+        app.C
+        client_messages.C (added)
+        client_state.C
+        cs_apps.C
+        cs_files.C
+        cs_scheduler.C
+        file_xfer.C
+        http.C
+        main.C
+        message.h
+        net_xfer.C
+        pers_file_xfer.C
+        scheduler_op.C
+
+    lib/
+        messages.C (added)
+        util.h
+
+    sched/
+        Makefile.am
+        assimilate_handler.C
+        assimilator.C
+        db_dump.C
+        feeder.C
+        file_deleter.C
+        file_upload_handler.C
+        handle_request.C
+        main.C
+        make_work.C
+        sched_messages.C (added)
+        sched_util.C
+        sched_util.h
+        server_types.C
+        start_servers.C
+        timeout_check.C
+        update_stats.C
+        validate.C
+        validate_test.C
+
+Karl 2003/07/02
+    - added grepping for WU/results in log files. Can also just view log
+      file(s). Spiffy colorization and hyperlinks.
+
+    html_ops/
+        db.inc
+        db_action.php
+        show_log.php (new)
+    sched/
+        grep_logs (new)
+    test/
+        boinc.py
+        test_backend.py
+
+Karl 2003/07/02
+    - turn on static libraries only on Linux
+
+    configure.ac
+    client/
+        Makefile.am
+
+Karl 2003/07/02
+    - changed when "deferring communication" messages are printed so that user
+      sees them on client startup and every hour.  Also format the message as
+      "X hours, X minutes, X seconds", etc.
+
+    lib/
+        util.h
+        util.c
+
+    client/
+        client_types.C
+        client_types.h
+        cs_scheduler.C
+        scheduler_op.C
+        scheduler_op.h
+
+David  July 2 2003
+    - changed all "fprintf(stderr," in the client to msg_printf()
+        This will give better messages (timestamps, project names)
+        in the cmdline version, and more complete error messages
+        in the GUI version
+    - moved msg_printf() from client_state.C to message.C
+
+    client/
+        *.C
+        message.C (new)
+
+David  July 3 2003
+    - added "custom signup page" feature
+
+    html_user/
+        clone.php (new)
+        create_account_action.php
+        create_account_form.php
+        index.php
+        project_ap.inc
+        team.php
+        user.inc
+        util.inc
+
+Karl 2003/07/03-08
+    - created python start/stop program to handle daemonish and cronish tasks.
+        See sched/start builtin help for info
+
+    sched/
+        boinc_config.py (new)
+        start (new)
+        Makefile.am
+        assimilator.C
+        config.C
+        feeder.C
+        file_deleter.C
+        make_work.C
+        timeout_check.C
+        update_stats.C
+        validate.C
+    test/
+        boinc.py
+
+John Brian        2003/07/11
+    - added profile functionality to BOINC.  Users can now add, modify, and delete
+      personal profiles.  Scripts to build picture galleries, and country summaries
+      are also available.  Most of the functionality of the SETI@Home profiling system
+      is now available in BOINC.
+
+    html_user/
+        create_profile.php (new)
+        delete_profile.php (new)
+        gallery.inc (new)
+        generate_country_pages.php (new)
+        generate_picture_pages.php (new)
+        index.php
+        languages.txt (new)
+        profile.inc (new)
+        profile_menu.php (new)
+        project.inc
+        user.inc
+        util.inc
+        view_profile.php (new)
+
+David  July 15 2003
+    - use double for VM working set size
+    - finished replacing license text
+
+    api/
+        boinc_api.C,h
+
+David  July 15 2003
+    - project-specific files are now kept in separate repositories
+
+    html_user/
+        project_ap.inc (removed)
+        project_specific_prefs_ap.inc (removed)
+
+Karl 2003/07/18
+    - created make_project script
+    - split test/boinc.py into test-specific and project-creation
+    - made everything work if build dir != src dir
+
+    configure.ac
+
+    py/   (added)
+        Makefile.am
+        boinc.py
+        version.py.in
+
+    test/
+        boinc.py (removed)
+        test_*.py
+
+    tools/
+        make_project (added)
+
+Karl 2003/07/22
+    fixed 'debug assertion failure'. Release 1.05.
+
+    Client/*
+
+    updated database schema
+    db/*, test/*, py/*
+
+Karl 2003/07/24
+    fixed dll problem. Added language.ini files from
+    http://www.boinc.dk/index.php?page=download_languages.
+
+    Release 1.06.
+
+David  July 24 2003
+    - added code to check integrity of client data structures
+
+    client/
+        client_state.C,h
+
+Karl 2003/07/24
+    fixed bugs with file_info->pers_file_info->file_info and stderr.txt
+    reading
+
+    release 1.07.
+
+    client/*
+
+Karl 2003/07/25
+    added client_version_num (e.g. 105) field to RESULT table
+
+    New tools/update_core_client_versions script that scans apps/ for client
+    versions and updates the database
+
+    improved start/stop program
+
+    added "run benchmarks now" File menu command, and display results.
+
+    Fixed global preferences not being updated to/from client because of
+    <mod_time> parse bug.
+
+    db/*
+    sched/*
+    py/*
+    tools/*
+    client/*
+
+Karl 2003/07/27
+    fixed bug in timeout_check if WU has no results
+    sched/timeout_check.C
+
+Karl 2003/07/28
+    - fixed "work between X:00 and Y:00" prefs/xml bug
+    - added idle_time_to_run and run_if_user_active checking
+    - changed country "none" to "none or international"
+    - show "Suspended" in GUI if suspended. Preliminary work to cleanup
+      files,transfers
+    - fixed "platform '%s' not found" not found \n bug
+    - show "preferences updated" for global and project prefs
+
+    html_user/*
+    client/*
+    sched/*
+
+Karl 2003/07/29
+    - GUI: right clicking sets list item focus
+    - added right click -> retry transfer now
+
+    client/*
+    client/win/*
+
+David  July 29 2003
+    - allow scheduler RPCs while client is suspended
+    - when suspend client, stop all PERS_FILE_XFERs,
+        close the associated sockets and FILE*s
+        and delete the FILE_XFER objects
+    - cleaned up suspend/resume logic a bit;
+        check_suspend_activities() now just checks,
+        a separate function suspend_activities() does the suspending
+    - don't start new FILE_XFERS while suspended
+    - show message when restarting a result
+
+    client/
+        app.C
+        client_state.C,h
+        cs_apps.C
+        cs_files.C
+        file_xfer.h
+        http.C
+        net_xfer.C
+        pers_file_xfer.C,h
+        win/
+            wingui_mainwindow.cpp
+    doc/
+        index.html
+        old_news.html
+
+Karl 2003/07/30-31
+    - translations: refactored translation functions; added dynamic project
+      menu item; added missing translations for dialogs and menu
+      items. Updated translation template and fixed '\r's.
+    - file & status bar menus: 'force run' / 'run based on preferences' /
+      'pause' (as radio checks)
+    - file menu: 'Hide'
+    - show reason for Unrecoverable error in user output
+
+    Client/*
+    client/win/*
+    client/translations/*
+
+Karl 2003/07/31
+    - fixed screensaver "freezing" (on blanking) bug
+
+    client/ss_logic.C, win/*
+
+Karl 2003/07/31
+    - fixed astropulse memory leak
+
+    astropulse/client/*
+
+Karl 2003/08/01
+    - if a file to download exists already and signature and checksum match,
+      skip downloading it.
+    - when running benchmarks say pausing computation, and "run always / run
+      never" works correctly with benchmarks
+
+    Client/*
+
+David  August 1 2003
+    - add "-suspend" cmdline option (start up in suspended mode)
+    - parse <optional/> tag within <file_ref> element
+    - implement behavior for "optional" file references
+        (if file hasn't been downloaded by deadline, start app anyway)
+
+    client/
+        client_state.C
+        client_types.C,h
+        cs_apps.C
+        cs_scheduler.C
+
+David  Aug 1 2003
+    - global_prefs.disk_interval doesn't apply to writing the state file
+        (only to application checkpointing)
+
+    client/
+        client_state.C,h
+
+David  Aug 1 2003
+    - use _exit() instead of exit() on execv failure
+    - garbage_collect() and update_results() even if suspended
+
+    client/
+        app.C
+        client_state.C
+
+Karl 2003/08/01
+    - increased MAX_APP_VERSIONS from 100 to 500
+    sched/*
+
+Karl 2003/08/01
+    - fixed \n s in client messages
+    client/*
+
+Karl 2003/08/01
+    Release BOINC 1.09, Astropulse 1.09
+
+Karl 2003/08/04
+    Astropulse: Fixed windows \r\n translation bug
+
+    release Astropulse 1.10.
+
+Karl 2003/08/04
+    Show release date and "new" on download page.
+    Fixed date_str and changed format of timestamps to be sortable.
+    Remodelling html_ops view.
+
+    Html_user/*
+    html_ops/*
+
+Karl 2003/08/05
+    Fixed Astropulse checkpoint-resume crash bugs: save relevant state
+    variables.  In the process got rid of single-letter variables and
+    refactored some code.
+
+    Astropulse/client/*
+
+    Release Astropulse 1.11.
+
+Karl 2003/08/06
+    Fixed time stats calculation - changed integer division to FP division.
+
+    Client/time_stats.C
+
+David  Aug 7 2003
+    - use "%e" instead of "%f" in database printfs; avoid roundoff errors
+    - let users browse info about their results,
+        e.g. to see other results for the same WU
+
+    db/
+        boinc_db.C
+    html_user/
+        explain_state.php (new)
+        login_action.php
+        results_host.php
+        workunit.php (new)
+
+Karl 2003/08/07
+    - client: Start tasks in order of earliest report_deadline.
+        - added next_result_to_start()
+    - client: don't report a result until 6 hours before report_deadline
+        (or other reason to contact scheduler)
+    - scheduler: Send report deadline
+    - client GUI: added 'report deadline' column. Rewrote column-order
+      profile code.
+
+    client/
+        client_state.h
+        cs_apps.C
+        cs_scheduler.C
+        win/*
+
+    sched/
+        handle_request.C
+
+Karl 2003/08/08
+    - fixed bug with timeout_check not noticing old wu error_mask, generating
+      new result and then marking WU as FILE_DELETE_READY.
+
+    Sched/timeout_check.C
+
+Karl 2003/08/08
+    - changed team disbanding to happen automatically when user quits it (or
+      joins a different team).
+    - fixed various bugs and quirks in team
+      joining/quitting/switching/removing inactive users
+
+    Html_user/*
+
+Karl 2003/08/08
+    - client: take into account active_frac and n_cpus when requesting work.
+        - removed vestigial host_info variables {active,on,connected}_frac.
+    - server: take into account delay_bound, active_frac and n_cpus when
+      checking WU feasibility
+
+    client/*
+    sched/*
+
+Karl 2003/08/10
+    - client (unix): handle fork() failure
+    - client (unix): set application process priority to 19
+
+    configure.ac
+    config.h.in
+    client/
+        app.C
+
+Karl 2003/08/10
+    - client: show platform name on startup
+    client/
+        client_state.C
+
+Karl 2003/08/10
+    - timeout_check: change 'random' for new results (!)
+        - moved lrand48() and init code from create_result() to
+          result.insert()
+
+    tools/
+        backend_lib.C
+
+    db/
+        boinc_db.C
+        boinc_db.h
+
+Karl 2003/08/11
+    - astropulse: change delay_bound from 2 days to 14 days
+    - astropulse: validator fixes
+        - allow broken results (file not found) instead of crashing
+        - misc fixes
+
+    astropulse/result/*
+
+Karl 2003/08/12
+    - client: take into account active_task's fraction_done when calculating
+      seconds of work needed
+    - client: completion time estimate fixes
+
+    client/
+        app.[Ch]
+        client_state.[Ch]
+        cs_scheduler.C
+    client/win/
+        wingui_mainwindow.cpp
+
+Karl 2003/08/12
+    - Astropulse: changed timeout_check_time to time(0)+delay_bound instead
+      of time(0)+1day
+    - Astropulse: rsc_fpops calculation: reduced fudge factor by 3
+
+    Astropulse/split/pulse_split.C
+
+Karl 2003/08/12
+    - scheduler: if a result is received while already in
+      RESULT_SERVER_STATE_OVER, don't immediately mark it FILE_DELETE_READY.
+      we shouldn't delete the file yet because we could potentially still
+      check it against the canonical result (if its result hasn't been deleted
+      yet).
+
+    sched/
+        handle_request.C
+
+Chrisz  2003/8/13
+    - if get either new global prefs OR new venue,
+        parse and install prefs
+
+    client/
+         cs_scheduler.C
+
+Karl 2003/08/13
+    - validator: use SQL queries instead of 'if' statements
+    - validator: fixed bug where UNSENT results don't get marked DIDNT_NEED
+
+    sched/
+        validate.C
+
+Karl 2003/08/13
+    - applied FreeBSD patch & misc fixes
+
+    configure.ac
+    m4/
+        acx_pthread.m4
+    client/
+        hostinfo_unix.C
+    lib/
+        filesys.C
+        shmem.C
+
+    _autosetup
+    aclocal.m4
+
+
+
+Karl 2003/08/13
+    - test script fixes: increase delay_bound to reasonable value since it's
+      now checked by handle_request
+
+    test/
+        testbase.py
+        test_uc.py
+
+Karl 2003/08/13
+    - create validation routines which generalize what used to be
+      validate_test, but more efficiently and safer (from buffer overruns and
+      allows NULL character in files).  Rewrote validate_test using this, and
+      created validate_trivial which grants credit to all results.
+    - more greppability
+
+    Sched/
+        Makefile.am
+        validate.C
+        validate_test.C
+        validate_trivial.C  (new)
+        validate_trivial.h  (new)
+        validate_util.C     (new)
+        validate_util.h     (new)
+
+Karl 2003/08/13
+    - added '-return_results_immediately' flag to client to allow it to
+      ignore the report deadline when deciding when to report a result
+      (mainly for testing)
+
+    client/
+        cs_scheduler.C
+        client_state.C
+        client_state.h
+
+Karl 2003/08/14
+    - Astropulse: created autoconf and automake files
+    - Astropulse: if output file doesn't exist yet when opening, write a
+      version number.
+    - scheduler: renamed config.h to sched_config.h to avoid conflict with
+      default autoconf config.h
+    - api: added MFILE::ftell() function
+    - cleaned up boinc configure/makefiles
+
+    Astropulse/
+        configure.ac, configure (added)
+        _autosetup, aclocal.m4, config.h.in (added)
+        depcomp, install-sh, missing, mkinstalldirs (added)
+        */Makefile.am, */Makefile.in (added)
+        */Makefile (removed)
+        client/
+            ap_file_io.C
+
+    sched/
+        config.h ->renamed-> sched_config.h
+        *.C
+    api/
+        boinc_api.h
+        mfile.C
+
+
+Karl,Dave 2003/08/14
+
+    - rewriting scheduler
+    - tagged old code as SCHEDULER_V1
+
+    sched/
+
+Karl 2003/08/15
+    - sched: added explanatory messages to file_upload_handler errors
+
+    sched/
+        file_upload_handler.C
+
+Karl 2003/08/15
+    - db_dump: added core_versions.xml; simplified
+
+    sched/
+        db_dump.C
+
+David  Aug 15 2003
+    - revised backend logic
+        This fixes some bugs and inefficiencies (I hope)
+        Redundancy parameters are now part of workunit DB records
+    - TODO: update test scripts to reflect these changes; debug
+
+    db/
+        boinc_db.C,h
+        constraints.sql
+        schema.sql
+    sched/
+        assimilate_handler.C
+        assimilator.C
+        handle_request.C
+        main.h
+        timeout_check.C
+        validate.C
+    tools/
+        backend_lib.C,h
+        create_work.C
+
+David  Aug 15 2003
+    - changed "timeout_check" to "transitioner"
+
+David  Aug 15 2003
+    - changed logic so that create_work doesn't create any results;
+        this is left to the transitioner, since it does this anyway.
+        This required adding a result_template field to the workunit table,
+        which is the original result template macro-substituted
+        with the upload URL
+
+        db/
+            boinc_db.C,h
+            schema.sql
+        sched/
+            make_work.C
+            transitioner.C
+        tools/
+            backend_lib.C,h
+            process_result_template.C
+
+
+Chrisz  2003/8/15
+    - first init preference then parse command line
+
+    client/win/
+         wingui_mainwindow.cpp
+
+Eric K  8/15/2003
+    -  Prefaced transform() with std:: to get util.C to compile under windows.
+        api/util.C
+
+
+Karl 2003/08/18
+    - scheduler bug fixes
+    - test system update
+    - astropulse:
+        - updated scheduler code
+        - rewrote validator
+        - created autoconf system to check host so that we can have separate
+          settings on kodos test project
+
+    sched/
+        transitioner.C
+        make_work.C
+    lib/
+        backend_lib.C
+
+    py/boinc.py
+    test/*.py
+
+    astropulse/*/*.C
+
+Karl 2003/08/19
+    - misc test case updates
+
+Karl 2003/08/20
+    - changed 'active_frac' initial assumption to "on" instead of the current
+      state
+
+    client/
+        time_stats.C
+
+Chrisz 2003/08/20
+    - make progress and size on GUI keep old values when suspend during downloading
+
+    client/
+        http.C
+    client/win
+        wingui_mainwindow.cpp
+
+Karl 2003/08/20
+    - rewrote header parsing to be more robust:
+        - allow for header to not have to be a single TCP message
+        - parse line-by-line instead of full-header strstr for efficiency
+        - compare header names case insensitively
+    - test scripts: no longer need apache or any environment variables.
+
+    client/
+        http.C
+        http.h
+        account.C
+    lib/
+        util.C
+        util.h
+
+    test/
+        cgiserver.py     (added)
+        fake_php.py      (added)
+        miniserv.pl      (removed)
+        testbase.py
+
+Karl 2003/08/21
+    - changed 'standalone' mode from a compile-time option to a run-time
+      option
+        - boinc_init() takes optional bool parameter which is true if
+          standalone (app has to parse this from argv or however it wants)
+
+    api/
+        boinc_api.C
+        boinc_api.h
+        windows_opengl.C
+
+David  Aug 21 2003
+    - added administrative function for adding accounts
+      (even if account creation is disabled in config)
+    - html_ops can now refer to project-specific stuff (e.g. PROJECT)
+    - removed include of db.inc in html_user/util.inc.
+      This lets you use util.inc from html_ops
+
+    html_ops/
+        create_account_form.php (new)
+        create_acction_action.php (new)
+
+Karl 2003/08/21
+    - various website and documentation fixes and updates
+    -
+
+    doc/*
+    tools/
+        update_versions
+
+Karl,ChrisZ 2003/08/21
+    - changed url_encode_readable from '%zz' to '_'
+
+    lib/
+        util.C
+
+Chrisz 2003/08/25
+    - changed _url_to_filename from nonalnum to '_'
+
+    py/
+        boinc.py
+
+Karl 2003/08/28
+    - rewrote all documentation related to software prerequisites and
+      build system, and compiling server and clients
+
+    doc/
+        boinc_dev.php
+        build_client.php           (new)
+        build_client_mac.php       (new)
+        build_client_unix.php      (new)
+        build_client_win.php       (new)
+        build_server.php
+        build_system.php
+        build.txt                  (removed)
+        create_project.php
+        single_host_server.php
+        software.php               (new)
+
+David  Aug 30 2003
+    - split db_base.C off from boinc_db.C
+      (it's the class DB_BASE that supports MySQL access,
+      independent of the BOINC database)
+
+    db/
+       db_base.C,h (new)
+
+David  Sept 1 2003
+    - Client: keep error messages about failed file transfers
+        in the FILE_INFO object (and save them in client_state.xml),
+        so that they can be reported to server.
+
+    client/
+        client_state.C,h
+        client_types.C,h
+        file_xfer.C,h
+        net_xfer.C
+        pers_file_xfer.C
+
+David  Sept 1 2003
+    - Client: project reset wasn't working in cmdline version
+        if there was an active task
+        (because kill_task() blindly sends a KILL signal,
+        even though no process has been started yet so the PID is zero,
+        which just kills the core client)
+    - Correctly print command-line options
+
+    client/
+        app.C
+        client_state.C
+    doc/
+        client.php
+
+David Sept 2 2003
+    - changed tools (create_work, add) to use config.xml if it's present
+        (reduces number of command-line args)
+    - renamed config.h to sched_config.h
+    - renamed tools/add to add.py (to avoid confusion with binary)
+
+    sched/
+        Makefile.am
+        sched_config.h (renamed from config.h)
+        *.C
+    tools/
+        Makefile.am
+        add.py (renamed from add)
+        add.C
+        create_work.C
+
+David  Sept 2 2003
+    - fix omissions in parsing of general prefs
+    - show which set of general prefs was actually used
+
+    client/
+        prefs.C,h
+
+Karl 2003/08/25 - 2003/09/02
+    - created python database modules
+    - created sign_executable C program which factors out key signing from
+      add.C for python use
+
+    tools/
+        Makefile.am
+        add.py (added)
+        sign_executable.C (added)
+        backend_lib.C
+        backend_lib.h
+    lib/
+        crypt.C
+        crypt.h
+    py/
+        boinc_db.py (added)
+        db_mid.py (added)
+        database.py (added)
+        Makefile.am
+
+
+Karl 2003/09/02
+    - temporarily remove satellite test cases from 'make check'
+    - check MySQL setup in test_sanity
+
+    test/
+        Makefile.am
+        test_sanity.py
+
+Korpela 2003/09/02
+    Added lib/std_fixes.h which is used to add missing functions/templates
+    to the standard namespace.  Used in SETI@home, but probably has wider
+    application, so I moved it to BOINC.
+
+Korpela 2003/09/03
+   - Added OpenGL header check to configure.ac
+   - Changed gutil.C to use OpenGL header paths found by configure.
+
+    api/gutil.C
+    configure.ac
+
+David  Sept 3 2003
+    - Changed the way a WU's resources usage is described.
+       There are now separate estimates and bounds for FP ops.
+       Nothing about integer ops.
+       Disk and memory numbers are bounds.
+
+       This changes the client/server RPC format and the DB format,
+       so it will require a major version number increment
+
+    client/
+        app.C
+        client_state.C
+        client_types.C,h
+        http.C
+        net_xfer.C
+    db/
+        boinc_db.C,h
+        schema.sql
+    lib/
+        crypt.C,h
+    sched/
+        handle_request.C
+    test/
+        test_rsc.py
+        testbase.py
+    tools/
+        create_work.C
+
+quarl 2003/09/03
+    - overhauled python scripts
+        - reorganized directory structure. Now 'modules' are under
+          boinc/py/Boinc (so you can do "from Boinc import *").
+
+    - all python scripts can run from anywhere
+
+    - start and add.py know where config.xml and run_state.xml are
+      (customizable too)
+
+    - finished database.py and add.py
+
+    - configure runs test/test_sanity.py
+
+    - wrote extensive documentation for python framework and tools; revised
+      other documentation
+
+    py/Boinc/    (added entire tree)
+        Makefile.am
+        __init__.py
+        boinc_db.py
+        boinc_path_config.py.in
+        configxml.py
+        database.py
+        db_def_to_py
+        db_mid.py
+        setup_project.py   (this used to be py/boinc.py)
+        util.py
+        version.py.in
+    test/
+        testbase.py
+    tools/
+        add.py
+    sched/
+        start
+    */Makefile.am
+    configure.ac
+
+    doc/
+        python.php (added)
+        software.php
+        test.php
+        tools.php (added)
+        tool_add.php (added)
+        tool_start.php (added)
+        tool_update_versions.php (added)
+        tools_other.php
+        single_host_server.php
+        create_project.php
+
+David  Sept 4 2003
+    - fix bug in scheduler: the buffer in insert_wu_tags() wasn't large enough.
+        This is a powerful argument in favor of using "string" everywhere!
+    NOTE: in spite of fix, test_uc.py isn't working.  Problem w/ proxy?
+    - HTTP_OP_SET::poll(): if header read_reply() returns nonzero,
+        set htp->io_ready to false (to avoid lots and lots of spurious recv()s)
+    - in test scripts: if TEST_STOP_BEFORE_RUN is set,
+        go into sleep loop rather than exiting
+        (to avoid deleting the test setup)
+    - factor out get_socket_error()
+
+    client/
+        client_state.C
+        cs_scheduler.C
+        http.C
+        main.C
+        net_xfer.C,h
+        scheduler_op.C
+    sched/
+        handle_request.C
+        main.C
+    test/
+        testbase.py
+
+David  Sept 5 2003
+    - changed DB interface to make it possible for an application
+        to use different MySQL databases at the same time.
+        A new class DB_CONN represents a connection to a database.
+        Old functions like boinc_db_open() etc. are members of this class.
+        The connection to the BOINC database is represented by
+        by a global object "boinc_db" of this class.
+        You're free to have others
+        (e.g. "app_db" in the work gen or assimilator for an app)
+
+    db/
+        boinc_db.C,h
+        db_base.C,h
+    html_ops/
+        db_ops.php
+    sched/
+        *.C
+
+Karl 2003/09/05
+    - restructured application add system; rewrote update_versions:
+        - applications now go in <config.xml:apps_dir>/APPLICATION/
+        - update_versions checks for all versions of core client and all
+          applications, regardless of package version
+
+    py/Boinc/
+        configxml.py
+        database.py
+        db_mid.py
+        tools.py (new)
+
+    tools/
+        add.py
+        update_versions
+
+    - renamed add.C output to old_add and renamed add.py to add
+
+    tools/
+        Makefile.am
+        add.py -> add  (renamed)
+
+
+    - astropulse: use a protocol version number separate of the astropulse
+      client version
+
+    astropulse/client/
+        *.C
+
+    - misc. Win32 fixes
+    api/
+        boinc_api.C
+        guitl.C
+
+Karl 2003/09/05
+    - created COBBLESTONE_FACTOR variable and changed it from 1/3 to 100.
+    - fixed superfluous authenticator in cgi.log
+
+    Sched/
+        handle_request.C
+
+David  Sept 6 2003
+    - fixed bug where do_select wasn't sleeping
+        when there are no fds (doh!!)
+
+    client/
+        net_xfer.C,h
+    lib/
+        util.C
+
+Karl 2003/09/07
+    - working on python code:
+        - database back end:
+            - database objects are now weakly hashed, with a cached list of
+              size 1024.
+            - new count() methods with arbitrary arguments like find()
+        - misc. bug fixes
+
+        - make_project and setup_project modify database directly instead of
+          calling old_add
+
+        - make_project doesn't add platform, app, or app_version
+
+Karl 2003/09/07
+    - changed all user-visible cobblestone numbers to use a new
+      format_credit() function which does sprintf %.3f
+
+    - allow sorting top_{team,user,host}s.php by either expavg_credit or
+      total_credit (default expavg_credit)
+
+    html_user/*.php, *.inc
+
+    - changed "Results uploaded" to "Outputs uploaded"
+
+    client/
+        gui_titles.C
+
+    - use rsc_fpops_bound instead of rsc_fpops_est*2
+
+    client/
+        app.C
+        client_types.C
+
+Karl 2003/09/10
+    - fixed transitioner bug where canonical result output files got deleted.
+    - changed all forms of "DB_RESULT result = results[I]" to "DB_RESULTS&
+      result = results[I]"
+
+    Sched/
+        transitioner.C
+
+David  Sept 11 2003
+    - transitioner: set file delete state to READY only if it's currently INIT
+        This should make file_deleter more efficient,
+        because each WU/result is file-deleted only once.
+        Also means that unlink()s should always succeed
+    - file deleter: print retval of unlink() (should always be zero)
+
+    sched/
+        file_deleter.C
+        transitioner.C
+
+Karl 2003/09/15
+    - fixed transitioner bug where usage of `unsigned int' instead of signed
+      int caused 400k results to be generated.
+
+    Sched/
+        transitioner.C
+
+Eric K. 16-Sep-2003
+    - added "const" qualifiers to prototype for create_work and some others
+      where appropriate.  I didn't fix all the API routines where parameters
+      should be const.  Using C++ makes it important to get these right.
+
+      tools/backend_lib.[Ch]
+      tools/create_work.C
+      tools/process_result_template.C
+
+Jeff 2003/09/17
+    No code changes.  This is the branch point for the seti beta.  The tag is:
+
+        setiathome-4.xx_all_platforms_beta
+
+    for both seti_boinc and boinc.  They both make on solaris without serious
+    error and the resulting seti client links without error with the resulting
+    boinc libs.
+
+Karl,Eric Heien 2003/09/18
+    - fixed some pre-ANSI C
+    sched/
+        transitioner.C
+    tools/
+        create_work.C
+
+David  Sept 21 2003
+    - Added mechanism for marking results as COULDNT_SEND:
+        When the scheduler finds that a result is infeasible
+        for a host, it increments the "infeasible_count" in the work array.
+        When the feeder finds that too many results in the array
+        have nonzero infeasible_count, it marks some of them
+        as COULDNT_SEND and removes them from the array
+
+    db/
+        boinc_db.h
+    sched/
+        feeder.C
+        handle_request.C
+        sched_shmem.h
+
+David  Sept 21 2003
+    - Partly debugged the above changes:
+    - The feeder's result enumeration should have no limit;
+        otherwise it may enumerate the same results over and over
+    - If the infeasible_count of a result a threshold (MAX_INFEASIBLE_COUNT)
+        the feeder marks it as couldnt_send.
+        This prevents a situation where results sit in the work array
+        forever, their infeasible_count approaching infinity
+    - Added show_shmem to sched/ Makefile, and fleshed it out a bit
+    - Show hostID correctly when get RPC from wrong major version
+
+    NOTE: still haven't exercised the case where a result is marked COULDNT_SEND
+
+    sched/
+        Makefile.am
+        feeder.C
+        handle_request.C
+        show_shmem.C
+
+Eric K  9/22/03
+
+    Modified DB_CONN::open() to support "db_name@host" syntax for remote
+    database connections.
+
+    db/db_base.C
+
+David  Sept 23 2003
+    - Don't reference-count WUs for results that are ready to report
+        (since don't need their input files anymore)
+        NOTE: this means that RESULT.wup may be zero.
+        Much check before dereferencing.
+    - Changed "ready_to_ack" to "ready_to_report"
+        (Ack is server->client, not client->server)
+    - Changed "server_ack" to "got_server_ack"
+    - Moved CLIENT_STATE integrity-check code to a new file (check_state.C)
+        In general it would be nice to move stuff out of client_state.C;
+        It's a hodge-podge currently
+
+    client/
+        Makefile.am
+        client_state.h
+        client_types.C,h
+        cs_scheduler.C
+        check_state.C (new)
+
+Eric K        9/24/03
+    - Create an XML entity encoder/decoder for single byte entities.  In new
+      files lib/xml_util.[Ch].  Encoder will make the following translations.
+        '>' => "&gt;"
+        '<' => "&lt;"
+        '&' => "&amp;"
+        "'" => "&apos;"
+        '"' => "&quot;"
+        other unprintable -> "&#nnnd;"
+      The decoder recognizes a larger number of translations for single byte
+      entities found in XML/HTML.
+    - Added check for <map> header to configure scripts.
+      (Used by xml_util.[Ch] if found).
+
+      lib/xml_util.[Ch]
+      lib/Makefile.am
+      configure.ac
+
+David  Sept 27 2003
+    - add app_name to APP_INIT_DATA structure
+        (so that an app can know its own name,
+        and in particular so that we can use it to title its window)
+
+    api/
+        boinc_api.h
+        windows_opengl.C
+    client/
+        app.C
+    lib/
+        app_ipc.C,h
+
+David Sept 27 2003
+    - added a program "wu_check" that sees whether input files
+        of unsent or in-progress results are actually on disk
+
+    sched/
+        Makefile.am
+        wu_check.C (new)
+
+Eric K Sept 29 2003
+    - Fixed bug that cause a encoded null to be appended to strings in
+      xml_encode()
+
+    lib/xml_util.C
+
+Karl 2003/09/28
+    - python work
+
+    py/Boinc/
+        database.py
+        setup_project.py
+    tools/
+        dbcheck_files_exist
+
+David  Sept 30 2003
+    - Core client: if get 404 error (not found) when downloading file,
+        treat it as permanent error.
+        (not tested)
+
+    api/
+        boinc_api.C,h
+    client/
+        file_xfer.C,h
+        http.C,h
+        pers_file_xfer.C
+    lib/
+        error_numbers.h
+
+
+David  Sept 30 2003
+    - Move graphics-related code from boinc_api.C to graphics_api.C
+    - Don't use the preprocessor symbol BOINC_APP_GRAPHICS in api/
+
+    api/
+        boinc_api.C
+        graphics_api.C,h
+        windows_opengl.C
+        x_opengl.h
+    apps/
+        upper_case.C
+
+David  Sept 30 2003
+    - Undid checkin of 9/23.  Reference count all WUs,
+        and can assume that result->wup is always valid.
+        I can't remember why we did this, but it creates too many problems.
+    - in Windows GUI, if a result had an error in download or upload,
+        display status as "Download failed" instead of "Download" etc.
+
+    client/
+        client_state.C
+        cs_scheduler.C
+        win/wingui_mainwindow.cpp
+
+
+Eric   Oct 1 2003  11:15 am
+     - Fixed compile problems on solaris.
+     - redid graphics_api.h entirely.  C'mon people we use automake for a
+       reason. Use the macros in config.h!
+     - Moved OpenGL and header and library finding to a macro file
+       sah_grx.m4 (an identical macro file exists in seti_boinc)
+     - Will verify it works on windows in the next hour or so
+
+       Makefile.in
+       aclocal.m4
+       config.h.in
+       configure
+       configure.ac
+       graphics_api.C
+       graphics_api.h
+       m4/sah_grx.m4
+
+David  Oct 2 2003
+    - Added code to limit frame rate in either or both of two ways:
+        1) max frames per second
+        2) upper bound on rendering CPU time as a fraction or real time
+        NOTE: currently these limits are hardware in the code.
+        Need to put them in preferences.
+
+    api/
+        graphics_api.C,h
+        windows_opengl.C
+
+Eric   Oct 2 2003
+
+      -moved xml_indent() from seti_boinc/db/sqlrow.[cpp,h] to i
+       boinc/lib/xml_util.[C,h]
+      -fixed problems with graphics_api.h
+
+      api/graphics_api.h
+      lib/xml_util.[Ch]
+
+Karl 2003/10/02
+    - rewrote make_project and related; a lot of restructuring:
+
+        - make_project only creates the project and database but doesn't add
+          platform, app, app_version, or core_version.  Use `add' for these.
+        - database actions are through MySQLdb, removing need for mysql client
+          binary.
+
+    tools/
+        make_project
+        add
+        update_versions
+        upgrade (new)
+    py/Boinc/
+        configxml.py
+        database.py
+        setup_project.py
+        tools.py
+    test/
+        testbase.py
+        test_uc.py
+    sched/
+        boinc_config.py (removed)
+    db/
+        constraints.sql
+    doc/
+        single_host_server.php
+
+Karl 2003/10/02
+    - made C parsing of config.xml more flexible (allow multiple tags per
+      line or tags on multiple lines)
+    - made config.xml and run_state.xml pretty
+
+    sched/
+        sched_config.C
+        sched_config.h
+    lib/
+        parse.C
+        parse.h
+
+    py/
+        configxml.py
+
+David  Oct 4 2003
+    - throttled_app_render() returns true iff it rendered anything.
+        This lets the caller do swapbuffers only if needed
+    - app_render() now returns void
+    - added functions that read graphics files (JPEG, PPM, BMP, TGA)
+        and create textures (moved from SETI@home)
+
+    api/
+        graphics_api.C,h
+        gutil.C,h
+        windows_opengl.C
+    lib/
+        xml_util.C
+
+David  Oct 6 2003
+    - Created class MOVING_TEXT_PANEL (in boinc/api/gutil.h)
+        to do Astropulse-type text display
+    - Created class TEXTURE_DESC (same place)
+        to represent an OpenGL texture (including its ID and size).
+    - Modify draw_texture() to not change the aspect ratio of the picture;
+        it shrinks the image in one dimension or the other, and centers
+        it in the allotted space
+    - Add a GRAPH_DRAW_STYLE field to REDUCED_ARRAY
+    - Eliminate methods of REDUCED_ARRAY that take a style argument
+
+    api/
+        graphics_api.C
+        gutil.C,h
+        reduce.C,h
+
+Karl 2003/10/06
+    - client release 2.04
+
+Karl 2003/10/06
+    - transitioner: log every state transition, and check return value for
+      every update()
+
+    sched/
+        transitioner.C
+
+David  Oct 6 2003
+    - Don't send two results from the same WU in a single RPC
+        Note: this is a weak but possibly sufficient step towards not sending
+        multiple results from the same WU to one user.
+    - Scheduler: before updating a result, reread it from the database.
+        What's in shared memory may be way out of date.
+        E.g. it may no longer be in server state UNSENT.
+        Hopefully this fixes the missing-input-file bug!!
+
+    sched/
+        handle_request.C
+
+David  Oct 6 2003
+    - added "repair" option to wu_check
+
+    sched/
+        wu_check.C
+
+David  Oct 8 2003
+    - added "present" flag to TEXTURE_DESC
+    - fixed function names:
+        double_to_ydhms() -> ndays_to_string()
+        get_byte_string -> nbytes_to_string()
+
+    api/
+        boinc_api.C
+        gutil.C,h
+    client/
+        win/
+            wingui_mainwindow.cpp
+            wingui_piecectrl.cpp
+    lib/
+        util.C,h
+
+David  Oct 8 2003
+    - add low-detail option to WU display
+
+    html_ops/
+        db_action.php
+        db_form.php
+        db_ops.php
+
+Oliver  Oct 8 2003
+    - fixed reduced graph display
+    - fixed opengl resize bug
+    /api/
+       recuce.c
+       gutil.c
+       windows_opengl.c
+
+David  Oct 8 2003
+    - made draw, CreateTextureJPG etc. into member functions of TEXTURE_DESC
+    - added xalign, yalign args to TEXTURE_DESC::draw()
+    - attempted to turn off rendering when window is hidden (don't think I succeeded)
+
+    api/
+        gutil.C,h
+        windows_opengl.C
+
+Oliver Oct 9 2003
+        - fixed error handling when jpeglib fails
+        api/
+                gutil.C
+
+Karl 2003/10/08
+    - tests: fixed bug re user global prefs
+    - tests: fixed checking of result outputs
+    - tests: fixed min_quorum=2 bug
+
+    py/
+        setup_project.py
+    test/
+        testbase.py
+        test_uc.py
+
+    - transitioner: fixed bug in sscan_hex_data() with \r or other whitespace
+    - transitioner: log more
+    - file_upload_handler: log more
+
+    lib/
+        crypt.C
+    sched/
+        file_upload_handler.C
+        transitioner.C
+
+David  Oct 10 2003
+    - made STARFIELD CLASS
+    - implement tickmarks for RIBBON_GRAPH
+
+    api/
+        gutil.C,h
+
+David  Oct 10 2003
+    - various web stuff
+    - "-repair" option for wu_check
+
+    html_ops/
+        db_action.php
+        db_form.ph
+        db_ops.inc
+    html_user/
+        white.css, black.css (new)
+
+Oliver Oct 10 2003
+    - fixed surface drawing bug
+    - fixed jpeg loading bug
+    - updated primitives (progress bar. etc.) to have public pos field
+
+    api/
+                gutil.c,h
+                graphics_api.c
+                reduce.c
+                windows_opengl.c
+
+Karl 2003/10/11
+    - Astropulse: output in index by samples, rather than bytes + fft bin;
+    - indicate that output is finished; also make it valid XML
+    - fixed BOINC graphics api header problems with autoconf
+
+    Astropulse/client/
+        ap_client_main.C
+        ap_fileio.C
+        ap_params.h
+    Astropulse/m4/
+        sah_grx.m4
+
+    - BOINC: fixed make distcheck problem
+
+    sched/
+        Makefile.am
+
+David  Oct 12 2003
+    - add "Confirm before accept executable" flag to global prefs
+    - Implement said flag in cmdline client:
+        - add "approval_pending" flag to FILE_INFO
+        - don't count a file as present if it has approval pending
+        - set approval pending flag on new exec files if
+            "confirm_executable" is set in global prefs
+
+        TODO: implement in Win GUI; IMPORTANT!!
+
+    client/
+        client_state.C,h
+        client_types.C,h
+        cs_apps.C
+        cs_files.C
+        main.C
+        prefs_file_xfer.C
+    html_user/
+        prefs.inc
+        white.css
+
+Karl 2003-10-13
+    - removed some graphics stuff from non-graphics files. Split graphics
+      source files into separate library libboinc_graphics_api.a
+
+    api/
+        boinc_api.C
+    lib/
+        Makefile.am
+    api/
+        Makefile.am
+
+Oliver Oct 13 2003
+    - stars now draw in visible pyramid
+
+    api/
+        gutil.C,h
+
+
+David  Oct 14 2003
+    - don't call boinc_finish_opengl() in boinc_finish()!!
+    - max frame rate and max graphics CPU are accessible to app
+        (via global variables boinc_max_fps and boinc_max_gfx_cpu_frac)
+    - in windows_opengl.C, moved InitGL() and app_init_gl() calls
+        from SetMode() to start of win_graphics_event_loop()
+        (just want to call these once, right?)
+    - in windows_opengl.C: if in standalone mode and get WM_CLOSE event,
+        actually exit (makes debugging easier).
+
+    api/
+        boinc_api.C
+        graphics_api.C,h
+        gutil.C
+        windows_opengl.C
+
+Oliver Oct 14 2003
+    - stars now draw in visible pyramid with original coordinate system
+    - axis draws vertices in correct CCW order
+    - added font width function
+
+    api/
+        gutil.C,h
+         reduce.c
+        windows_opengl.C
+
+David  Oct 14 2003
+    - extended MOVING_TEXT_PANEL interface to let you draw text on
+       particular line numbers,
+       and get the coords the start of a line number
+
+    api/
+        gutil.C,h
+
+Karl 2003-10-14
+    - makefiles:
+        - fixed some issues when building outside of source tree
+        - fixed some missing 'make dist' files
+        - fixed "ln -s start stop" bug
+
+    */Makefile.am
+
+Karl 2003-10-14
+    - replaced C country_select program with a php function
+    - replaced "None or International" with "None" and "International"
+
+    lib/
+        countries.C (removed)
+        Makefile.am
+
+    tools/
+        country_select.C (removed)
+        Makefile.am
+
+    html_user/
+        countries.inc (added)
+        util.inc
+
+Karl 2003-10-14
+    - added Rank column to top users; made presentation consistent for top
+      teams/users/hosts
+
+    - show number of results valid, successful, total (instead of just total)
+
+    html_user/
+        top_teams.php
+        top_users.php
+        top_hosts.php
+        team.inc
+        user.inc
+        host.inc
+
+David  15 Oct 2003
+    - if user rejects executable, mark result as failed (not tested)
+
+    client/
+        cs_apps.C
+        main.C
+    doc/
+        graphics.php
+    lib/
+        error_numbers.h
+
+David  16 Oct 2003
+    - add "userid" to result table
+    - send at most one result per WU per user
+        NOTE: since this change breaks test_uc.py and other tests,
+        it's enabled by a <one_result_per_user_per_wu/> tag in the config file;
+        make sure this is present in production projects
+
+    db/
+        boinc_db.C,h
+        schema.sql
+        constraints.sql
+    sched/
+        handle_request.C
+
+David  16 Oct 2003
+    - moved client/win/windows_cpp.h to client/cpp.h,
+        since it's included (and needed) in UNIX as well as Windows
+
+Oliver 16 Oct 2003
+    - Implemented scaling factor to center objects
+    - Fixed starfields
+    - Right justified text
+
+    api/
+        graphics_api.C
+        gutil.C,h
+        windows_opengl.C
+
+Karl 2003-10-16
+    - updated python database API with new workunit.userid field
+
+    - refactored database.py into db_base.py and merged in changes from
+      CourseSurvey system
+    - improved object caching and implemented lazy lookup of relational
+      objects; database-heavy python programs should now be much faster
+
+    - added <one_result_per_user_per_wu/> to
+      config.XML in make_project (but not testbase)
+
+    py/Boinc/
+        db_base.py (new)
+        database.py
+        setup_project.py
+    test/
+        testbase.py
+
+David  17 Oct 2003
+    - db_base::lookup() returns an error if >1 rows satisfy the query
+    - return #defined error numbers in db_base.C
+    - add more info to CGI log entries
+
+    db/
+        db_base.C
+    lib/
+        error_numbers.h
+    sched/
+        handle_request.C
+
+Oliver 17 Oct 2003
+    - small label coord tweak
+    api/
+        reduce.c
+
+David  18 Oct 2003
+    - factored some code out of client_state.C into new files
+
+    client/
+        client_state.C,h
+        cs_account.C,h (renamed from account.C,h)
+        cs_benchmark.C (new)
+        cs_prefs.C (new)
+        cs_statefile.C (new)
+        main.C
+        maybe_gui.h (removed)
+
+David  18 Oct 2003
+    - When reset (or detach from) a process, wait for running applications to exit
+        before doing other things (e.g., deleting files,
+        which will fail if processes have them open)
+        Implementation: exit_tasks() etc. now take a PROJECT* arg
+    - When a master file fetch fails on a tentative project (e.g. bad URL)
+        avoid a situation where we remove the HTTP_OP,
+        then detach_project() tries to remove it a second time
+    - print messages when reset/detach
+
+    client/
+        app.C,h
+        client_state.C,h
+        prefs.C
+        scheduler_op.C
+        win/
+            wingui.h
+
+David  19 Oct 2003
+    - fixed file names
+
+    client/
+        speed_stats.C,h (old)
+        cpu_benchmark.C,h (new)
+
+Karl 2003-10-19
+    - maybe fixed "screensaver blanks immediately" bug due to uninitialized
+      variable
+        - if blank time is <=0 or unset: don't blank (instead of blanking
+          immediately).
+
+    client/win/
+        wingui_mainwindow.cpp
+
+David  20 Oct 2003
+    - fixed bug that prevented screensaver from launching core client
+
+    win_screensaver.cpp
+
+Karl 2003-10-20
+    - BOINC client release 2.05
+        - added glut32.dll to BOINC distribution
+
+David  20 Oct 2003
+    - replace return -1's with error codes
+
+    client/
+        app.C
+        cs_benchmark.C
+        hostinfo.C
+        net_xfer.C
+    lib/
+        app_ipc.C
+        crypt.C
+        error_numbers.h
+        filesys.C
+        md5_file.C
+        parse.C
+        shmem.C
+        util.C
+    sched/
+        handle_request.C
+        sched_shmem.C
+        validate_util.C
+        wu_check.C
+
+
+David  20 Oct 2003
+    - changed CPU benchmark code to store all times as doubles.
+        This might fix the "negative fpops/sec" bug
+
+    client/
+        cpu_benchmark.C
+        cs_benchmark.C
+
+David  20 Oct 2003
+    - changed overflowing integer calculation in CPU checkpoint code.
+        This definitely will fix the negative fpops problem
+
+    client/
+        cpu_benchmark.C,h
+
+Karl 2003-10-21
+    - BOINC client release 2.06
+
+    - Astropulse client release 2.06
+
+
+David  22 Oct 2003
+    - trunc_stderr_stdout() had a typo: it never truncated stdout.txt
+
+    client/
+        cs_files.C
+
+David  22 Oct 2003
+    - fixed bug that caused project disk usage to be reported as zero
+    - Added debugging printfs (enabled by #define DEBUG)
+        to wingui_mainwindow.cpp.  These write to C:/temp/core.txt.
+    - In CMyApp::InitInstance(), changed 2nd arg of CreateMutex
+        from false to true.  This matches "1 instance" code samples from web.
+        Thought it might fix startup bug - no.
+    - Added debugging printfs (enabled by #define DEBUG) into screensaver;
+        causes it to write info to C:/temp/boinc_scr.txt
+    - Removed CREATE_NO_WINDOW and IDLE_PRIORITY flags from
+        CreateProcess() call in screensaver.
+        These aren't listed in the MSDN man page; are they needed?
+    - slight change to startup logic in screensaver:
+        - send it a BOINC_SS_START message only if it's already running
+            (not needed if start it ourselves, since we give it -saver arg)
+        - don't wait for 3 seconds after starting it
+    - In the cmdline passed to the core client from screensaver,
+        make argv[0] the real path of the executable.
+        Thought this might fix startup bug - no.
+    - Change "start_saver" to "started_by_screensaver".  Truth in advertising.
+
+    client/
+        client_state.C,h
+        cs_cmdline.C
+        win/
+            win_screensaver.cpp
+            wingui_mainwindow.cpp
+        lib/
+            filesys.C
+
+David  24 Oct 2003
+    - complete Bob's addition of SETI@home "grandfather" fields to DB
+
+    db/
+        boinc_db.C,h
+        constraints.sql
+        schema.sql
+    sched/
+        handle_request.C
+
+Oliver 24 Oct 2003
+    - updated reduced array class to contain the name of the labels.  they are set when the reduced array
+      is created
+
+    api/
+    reduce.h,C
+
+David  24 Oct 2003
+    - db_dump generates valid XML
+    - fixed bugs in boinc_db.C (team parse)
+
+    db/
+        boinc_db.C
+    sched/
+        db_dump.C
+
+
+Karl 2003-10-24
+    - fixed missing comma typos
+    db/
+        constraints.sql
+
+Karl 2003-10-25
+    - client GUI: fixed context menu bug
+
+    client/win/
+        wingui_mainwindow.cpp
+
+
+David  25 Oct 2003
+    - removed code that caps backoff count at one
+        TODO: we still need to reexamine the backoff policy,
+        so that multiple file failures don't lead to huge backoffs
+    - moved OpenGL init calls from the start of the event loop
+        back to SetMode, undoing an earlier change.
+        Turns out the need to be in SetMode because it creates a new
+        window every time.
+        This should fix the bug that cause Astropulse to show no graphics.
+        TODO: make sure that when an application window is hidden,
+        no rendering work gets done.
+
+    api/
+        windows_opengl.C
+    client/
+        scheduler_op.C
+
+Karl 2003-10-25
+    - updated_versions: don't be so verbose unless "-v" verbose command-line
+      option is given
+    - if a directory contains an executable, add the first executable found,
+      and bundle all other files as non-executables.
+    - process_executable_file(): added mechanisms for adding non-executable files
+
+    tools/
+        update_versions
+
+    py/Boinc/
+        tools.py
+
+David  27 Oct 2003
+    - Parse project-specific prefs correctly (i.e. based on venue)
+        These prefs are read from account files.
+        Account files are read before the client state file is parsed.
+        This presented a problem because the host venue,
+        which is needed to decide which project prefs to use,
+        is kept in the client state file.
+        So I added a new function, parse_venue(), that gets the
+        host venue from the state file; this is done before parsing account files.
+    - Also added <project_name> element to account file so that we can
+        display that correctly in message about project prefs
+
+    api/
+        windows_opengl.C
+    client/
+        client_state.C,h
+        client_types.C
+        cs_statefile.C
+        pers_file_xfer.h
+        prefs.C
+
+Oliver 27 Oct 2003
+    - Fixed efficiency bugs in starfield
+    api/
+        gutil.C,h
+
+Eric K 27 Oct 2003
+    - xml_indent() is now limited to a max of 40 spaces.
+
+        lib/
+        xml_util.h
+
+David  27 Oct 2003
+    - let users see list of all their results
+    - added db_dump to list of programs updated by update_project
+
+    html_user/
+        host.inc
+        results.php (new)
+        results_host.php (deleted)
+        user.inc
+    py/Boinc/
+        setup_project.py
+
+Karl 2003-10-27
+    - installshield: add "BOINC_gui -min" to startup folder
+
+    win_build/
+        boinc_installshield.zip
+
+    - process_app_version: write <open_name> tags; open_name is parsed from
+      disk filename 'open_name=url_filename' (url_filename is the basename of
+      file as copied to download/)
+    - print objects as they are committed (for database ID)
+
+    tools/
+        update_versions
+    py/Boinc/
+        tools.py
+
+    - upgrade: restart BOINC scheduler daemons automatically
+
+    tools/
+        upgrade
+
+    - BOINC 2.07 release
+    - Astropulse 2.07 release (...)
+    - SETI@Home 2.01 release
+
+Karl 2003-10-27
+    - fixed bug in assuming client_state.XML always exists (it doesn't, on a
+      clean install)
+
+    - BOINC 2.08 release
+
+David  28 Oct 2003
+    - login form: keyboard focus is on auth input field
+    html_user/
+        util.inc
+
+Eric K 28 Oct 2003
+    - for machines with sysinfo, host.p_vendor and host.p_model are now
+      meaningful.
+
+    client/hostinfo_unix.C
+
+Karl 2003-10-28
+    - added "const" to API function calls
+    - created "string" (as opposed to char[]) version of API function calls
+
+    M api/boinc_api.h
+    M api/mfile.C
+    M lib/app_ipc.C
+    M lib/app_ipc.h
+
+Oliver 29 Oct 2003
+
+    - fixed improperly scaled logos
+
+    api/
+    gutil.C,h
+
+
+David  28 Oct 2003
+    - app library: don't access shared memory if it's not there
+        (should keep non-standalone version from crashing
+        when run in isolation)
+
+    api/
+        windows_opengl.C
+
+Karl 2003-10-29
+    - removed test_sanity check from configure
+    - updated distribution file lists
+    - updated installation program to get rid of country_select
+    configure.ac
+    */Makefile.am
+    tools/
+        make_project
+
+David  30 Oct 2003
+    - On call to CreateEvent() to make "event" object for
+        core client to ask app to quit (Windows)
+        changed ManualReset argument to false.
+        This fixes a bug where, after resetting a project,
+        all apps get quit signal immediately
+    - Change CLIENT_STATE::report_result_error() so that it
+        takes a format string and varargs
+
+    client/
+        app.C
+        client_state.C,h
+        pers_file_xfer.C
+
+David  30 Oct 2003
+    - API writes to stderr if get quit request
+    - Include signal numbers, error codes in messages about process exit
+
+    api/
+        boinc_api.C
+    client/
+        app.C
+        client_state.C
+        cs_apps.C
+        cs_scheduler.C
+
+David  30 Oct 2003
+    - When get new project preferences, notify (via shared-memory msg)
+        all running apps of that project.
+        New graphics prefs will take effect immediately.
+
+    lib/
+        app_ipc.C,h
+    client/
+        app.C
+
+David  31 Oct 2003
+    - clarified types of seti_* fields
+        (cpu time is double, last result time is int)
+    - fixed bug in project prefs that caused unbounded extraneous CRs
+
+    db/
+        boinc_db.C,h
+        schema.sql
+    html_user/
+        index.php
+        prefs.inc
+        prefs.php
+        prefs_edit_action.php
+        stats.php (new)
+
+David  31 Oct 2003
+    - Added a mechanism allowing applications to change their graphics
+        "on the fly" in response to new project preferences:
+        - Added a new message type <reread_prefs/> to the
+            core->app graphics segment
+        - When the graphics framework (windows_opengl.C) gets this message,
+            it calls an application function app_graphics_reread_prefs().
+            This function can call boinc_parse_init_data_file() (see below)
+            to get the new prefs
+    - Core client: when get new project preferences,
+        write new init_data.xml files for all running apps,
+        and send them <reread_prefs/> messages.
+        New functions:
+            ACTIVE_TASK::write_app_init_file()
+            ACTIVE_TASK::request_reread_prefs()
+            ACTIVE_TASK_SET::request_reread_prefs(PROJECT*)
+    - name changes:
+        old                        new
+        boinc_init_opengl        boinc_init_graphics
+        boinc_finish_opengl        boinc_finish_graphics
+        app_init_gl                app_graphics_init
+        app_render                app_graphics_render
+        app_resize                app_graphics_resize
+        REDUCED_ARRAY::init        init_data
+        REDUCED_ARRAY::init_draw    init_display:$
+    - changed graphics objects (PROGRESS, PROGRESS2D, RIBBON_GRAPH)
+        to use init() functions instead of constructor for setup;
+        changed STARFIELD::build_stars() so that it can be called repeatedly
+    - factored code to read init_data.xml into a new function
+        boinc_parse_init_data_file()
+    - moved tImageJPG out of the .h file - it's not interface
+
+    api/
+        boinc_api.C,h
+        graphics_api.C,h
+        gutil.C,h
+        reduce.C,h
+        windows_opengl.C
+    client/
+        app.C,h
+        cs_scheduler.C
+    doc/
+        graphics.sxd (new)
+        graphics.png (new)
+    lib/
+        app_ipc.C
+        parse.C,h
+
+David  31 Oct 2003
+    - boinc_resolve_filename() (string version)
+        physical name defaults to virtual name
+
+    lib/
+        app_ipc.C
+
+David  1 Nov 2003
+    - core client: when get new project prefs,
+        use PROJECT::parse_account_file() to extract the correct
+        venue-specific variant
+
+    client/
+        client_types.C,h
+        cs_scheduler.C
+
+David  2 Nov 2003
+    - Changed the way that user-supplied files (e.g. logos and images) work.
+        OLD WAY: (see checkin by "Erik", May 19 2003)
+            the scheduling server scans the user's project prefs
+            and inserts <file_info> and <file_ref> elements
+            into the <app_version> element,
+            making it look like the user-supplied files are associated
+            with the app.
+            This necessitated the slightly kludgy "optional"
+            attribute of FILE_INFO, so that slow-downloading
+            user-supplied files wouldn't defer work indefinitely.
+        NEW WAY:
+            The scheduling server is not involved.
+            PROJECT now has list "user_files" of FILE_REFS
+            FILE_INFO now has an attribute "is_user"file"
+            - When parse project prefs from account file,
+                or when get new project preferences from server,
+                convert <app_file> elements to entries in project.user_files
+            - new function ACTIVE_TASK::link_user_files() makes links
+                from slot dir to all user files that are present
+            - when the download of a user file completes,
+                tell running apps to reread prefs
+                (they'll find the user file now)
+            - garbage collection reference-counts user files
+            - got rid of "optional" mechanism
+        With this change, user-supplied images in graphics are updated
+        dynamically when the user edits prefs on web,
+        then does "Get Preferences" in core client
+    - Handling of completed file transfers moved from
+        PERS_FILE_XFER::poll() to CLIENT_STATE::handle_pers_file_xfers().
+        (this job of PERS_FILE_XFER is to transfer the file,
+        not deal with its contents)
+    - changed benchmarks defaults from 1GFLOPs to 10MFLOPs;
+        prevents slow computers from being inundated with work
+
+    api/
+        gutil.C (fixed code formatting)
+    client/
+        app.C,h
+        client_state.C,h
+        client_types.C,h
+        cs_account.C
+        cs_apps.C
+        cs_benchmark.C
+        cs_files.C
+        cs_scheduler.C
+        cs_statefile.C
+        pers_file_xfer.C
+
+David  2 Nov 2003
+    - removed code in scheduling server for parsing project prefs
+        and inserting <file_info> elements into <app_version> elements
+
+    lib/
+        parse.C
+    sched/
+        handle_request.C
+        server_types.C,h
+
+Karl 2003-11-02
+     - changed GUI titles:
+        - "computation done" is now "computation error"
+        - "results uploaded" is now "ready to report"
+
+    client/
+        gui_titles.C
+
+    - BOINC core client release 2.09
+
+Karl 2003-11-03
+
+    - installer: ask whether BOINC should run at system startup (default yes)
+
+    - Moved installation files from win_build/boinc_installer.zip to
+      win_build/installer/
+
+    - automate changing version numbers
+
+    win_build/
+        boinc_installer.zip (removed)
+
+    win_build/installer/*
+        added (115 files)
+
+Karl 2003-11-04
+    - trivial validator: check for a minimum CPU time
+
+    sched/
+        validate_trivial.C
+
+David  4 Nov 2003
+    - scheduler now respects disk usage limits.
+        Scheduler request message now includes BOINC disk usage,
+        both total and for this project.
+        The scheduler parses user's global preferences
+        to get disk-related prefs,
+        and computes the max storage that can be used.
+        It will send only as many results as fit within this limit.
+        NOTE: this is still deficient in several ways:
+            - it assumes that all results will use all their storage
+                simultaneously.  It doesn't take into account that
+                some results may use large storage while running,
+                but not before or after.
+            - it doesn't take into account storage that has been
+                committed (to this or other projects) but not yet in use.
+            - there's no mechanism for enforcing resource shares for storage,
+                or for dynamic adjustment
+    - print exit codes in both dec and hex
+
+    client/
+        app.C
+        client_state.h
+        cs_prefs.C
+        cs_scheduler.C
+        pers_file_xfer.C
+        win/
+            wingui_mainwindow.cpp
+    sched/
+        handle_request.C
+        server_types.C,h
+
+David  4 Nov 2003
+    - change project file to get cmdline version to compile
+        (didn't test it)
+
+    client/
+        client_state.C
+        win/
+            win_net.cpp
+    win_build/
+        boinc_cli.dsp
+        boinc_gui.dsp
+
+David  5 Nov 2003
+    - The following changes fix core client crashes that occur when
+        reset a project, then quickly detach from the project
+        while downloads are occurring.
+        In once instance, this produced a state file that caused
+        the client to crash each time it started up.
+    - when parse an ACTIVE_TASK in state file,
+        verify that the corresponding result is in the right state
+        (RESULT_FILES_DOWNLOADED, with got_server_ack and ready_to_report false)
+    - when parse a RESULT in state file,
+        make sure it's consistent: in particular,
+        if got_server_ack or ready_to_report is true,
+        the state must be RESULT_FILES_UPLOADED
+    - CLIENT_STATE::detach_project(): delete all the project's FILE_INFOs
+        (reset_project() doesn't do this)
+
+    client/
+        app.C
+        client_state.C
+        client_types.C
+    lib/
+        error_numbers.h
+
+David  5 Nov 2003
+    - improve clarity of messages about prefs
+        (e.g. say "your defaults" instead of just "defaults")
+
+    client/
+        client_state.C
+        client_types.C
+        prefs.C
+
+David  6 Nov 2003
+    - cleaned up CPU time chaos
+        OLD:
+            An app measures and reports its CPU time when it calls
+            boinc_time_to_checkpoint(), which may be infrequent.
+            The reported CPU time is for the whole process
+            (including graphics thread: wrong)
+            If the core client doesn't get a message within 5 seconds,
+            it measures app CPU time externally,
+            with ACTIVE_TASK::get_cpu_time_via_os()
+            (this can cause reported CPU time to jump up and down).
+            Ambiguous function boinc_cpu_time(): does it return time for
+            calling thread only?  time since WU start?
+        NEW:
+            An app measures and reports its CPU time every 1 sec,
+            from the timer interrupt.
+            The reported CPU time is only for the worker thread.
+            Replace boinc_cpu_time() with:
+                boinc_thread_cpu_time(): CPU time of calling thread
+                    (also used by graphics_cpi.C to measure rendering time)
+                boinc_wu_cpu_time(): CPU time of WU so far (for graphics thread)
+            Notes:
+            - The app no longer needs to call boinc_time_to_checkpoint()
+                with any regularity
+            - the timer interrupt handler runs on a different thread,
+                so we record the worker thread handle.
+    - use double rather than time_t in calculation of estimated completion
+    - Code cleanup:
+        removed some declarations from boinc_api.h
+            (Don't declare internal functions in a .h file!)
+        removed using_opengl, write_frac_done
+        made things static that should be static
+        removed "externs" from .C files (SHOULD NEVER EXIST)
+
+    api/
+        boinc_api.C,h
+        graphics.C,h
+        windows_opengl.C
+    client/
+        app.C,h
+
+David  6 Nov 2003
+    - default value for disk_min_free_gb is now 0.1 (100 MB)
+    - scheduler writes detailed msg when get insufficient disk condition;
+        also writes explanatory msg to user
+    - Admin interfaces: order WUs/results by descending ID in general
+
+    html_ops/
+        db_action.php
+        db_form.php
+        db_ops.inc
+        index.php
+    html_user/
+        prefs.inc
+    sched/
+        handle_request.C
+
+Eric  7 Nov 2003
+    - Fixed UNIX (Mac) compile problems
+
+    api/boinc_api.C
+    apps/upper_case.C
+
+David  6 Nov 2003 (note: Eric's on the other side of the Int. Date Line)
+    - Fixed bug that cause CPU time to jump whenever Get Preferences.
+        It's because the app is getting a new aid.wu_cpu_time
+        as part of reread_prefs;
+        this is incorrectly added to the thread's CPU time.
+        Solution: make a copy of aid.wu_cpu_time at startup and use the copy.
+
+    api/
+        boinc_api.C
+
+David  7 Nov 2003
+    - Added "remember authenticator" checkbox to user login
+        (sends cookie with 1 year expiration)
+    - General preferences use defined symbols so field descriptions
+        are same in both display and edit versions
+    - In admin web interface, make SQL clauses feature work
+
+    html_ops/
+        db_ops.inc
+    html_user/
+        index.php
+        login_action.php
+        prefs.inc
+        util.inc
+        logout.php
+
+David  7 Nov 2003
+    - Were using the wrong block size in disk size calculation
+        (off by a factor of 16 on Solaris)
+
+    api/
+        boinc_api.C
+    client/
+        app.C
+    lib/
+        filesys.C
+
+David  7 Nov 2003
+    - In make_work, need to initialize many fields of the WU being created.
+        For example, if assimilate_state is not INIT,
+        the transitioner will not create any results for the new WU!
+
+    html_ops/
+        db_form.php
+    sched/
+        make_work.C
+
+David  7 Nov 2003
+    - Added const to some char* args (so can use strings)
+    - Removed cruft from upper_case.C
+
+    apps/
+        upper_case.C
+    lib/
+        filesys.C,h
+
+Karl 2003-11-07
+    - changed { 'Get preferences' , 'Retry now' } to { 'Update', 'Update
+      (retry now)' }
+
+    client/win
+        wingui_mainwindow.cpp
+
+David  9 Nov 2003
+    - change upper_case app so that -cpu_time actually uses
+        significant CPU time (36 secs on my laptop)
+    - core state file writes sometimes fail if another app (e.g. text editor)
+        has the file open.  Show error code.
+    - don't start a scheduler RPC if we're suspended
+    - don't show parse error messages for empty lines in scheduler reply
+    - if reset a project during a scheduler RPC, set the scheduler_op state
+        to IDLE (else will never do another RPC)
+
+    api/
+        graphics_api.C
+    apps/
+        upper_case.C
+    client/
+        client_state.C
+        cs_scheduler.C
+        scheduler_op.C
+    lib/
+        filesys.C
+
+Eric  10 Nov 2003
+    - readded statfs support for systems that don't have statvfs (i.e. Mac)
+
+    lib/filesys.C
+
+David  9 Nov 2003
+    - boinc_init(): initialize last_checkpoint_cpu_time.
+        This is why reported CPU time would sometimes go to zero
+    - Upper case app: report fraction done like you're supposed to
+    - Write checkpoint CPU time in %.15e format.
+        SHOULD ALWAYS USE THIS FOR FLOATING PT NUMBERS
+    - released version 2.06 of upper_case in the client test project.
+        Also changed est FP ops in that DB so that clients get few results
+
+    api/
+        boinc_api.C
+    apps/
+        upper_case.C
+    win_builc/
+        upper_case.dsp
+
+David  10 Nov 2003
+    - released versions of Astropulse (2.10) and SETI@home (2.08) for Windows.
+
+Karl 2003-11-11
+    - compile fixes
+    lib/
+        xml_util.C
+
+David  11 Nov 2003
+    - added "appid" field to result (redundant copy of WU's appid)
+    - added index on result (appid, received_time desc)
+    - changed admin web interface to show recent results
+        broken down by application
+    - sched_shmem: omit app versions with wrong major version
+
+    db/
+        boinc_db.C,h
+        constraints.sql
+        schema.sql
+    html_ops/
+        db_action.php
+        db_form.php
+        db_ops.php
+        index.php
+    html_user/
+        util.inc
+    sched/
+        sched_shmem.C
+    tools/
+        backend_lib.C
+
+David  11 Nov 2003
+    - modify the scheduler so that if a client requests work,
+        and there are unsent results, but none can be sent,
+        then the client gets an explanatory message: either
+            - no app version available
+            - insufficient disk
+            - insufficient memory
+            - host is too slow
+        This involved creating a WORK_REQ structure that gets passed
+        around, to avoid huge numbers of arguments
+    - modify the scheduler so that if either
+        1) the shared-mem segment is absent or
+        2) the DB can't be opened
+        then it writes a "project temporarily down for maintenance"
+        message instead of just exiting
+
+    sched/
+        handle_request.C
+        main.C
+
+David  11 Nov 2003
+    - if get MD5 error, print expected and computed checksum
+
+    client/
+        cs_files.C
+
+David  12 Nov 2003
+    - commented, cleanup up and fixed SqlQueryString (db_ops.inc)
+        It now correctly passes clauses in URLs, etc.
+
+    client/
+        cs_files.C
+    html_ops/
+        db_action.php
+        db_ops.inc
+
+Karl 2003-11-17
+    - BOINC release 2.10 for windows, Linux, solaris2.7, solaris2.8
+
+
+Karl 2003-11-20
+    - updated translation files
+
+    client/translation/
+        language.ini.fr
+    langauge.ini.nl
+
+Karl 2003-11-21
+    client/translation/
+        langauge.ini.de
+
+Karl 2003-11-21
+    - fixed recursive boinc_thread_cpu_time typo bug that resulted in loss of
+      client app functionality (bug noticed by Nuno Ferreira
+      <nuno.ferreira@graycell.biz>)
+
+    api/
+        boinc_api.C
+
+
+Karl 2003-11-22
+    - made change to get_filesystem_info() that reportedly is all that's
+      needed to get BOINC working on NT4. (fix by <bewolf.geo@yahoo.com>)
+
+    lib/
+        filesys.C
+
+    - accept command-line options with two dashes or one dash (instead of
+      only with one dash)
+    - if arguments are incorrect, exit after showing help
+
+    client/
+        cs_cmdline.C
+
+    - chmod 600 the account file.
+
+    client/
+        client_types.C
+
+Karl 2003-11-24
+    - fixed bug in boinc_db.C which causes SQL lookups to seg fault if any of
+      the 'seti_*' grandfather fields are NULL (how does the current beta test
+      run at all?!)
+
+    db/
+        boinc_db.C
+
+    - testbase tweaks
+
+    test/
+        testbase.py
+        cgiserver.py
+
+David  25 Nov 2003
+    - added host.rpc_time to DB dump
+    - made seti_* fields "not null" in schema
+
+    client/
+        hostinfo_unix.C
+    db/
+        schema.sql
+    doc/
+        db_dump.php
+        index.html
+        software.php
+    sched/
+        db_dump.C
+
+David  25 Nov 2003
+    - Changes to a running app's checkpoint_cpu_time
+        (as conveyed in shared-memory msgs)
+        were not triggering state file writes.
+        As a result the CPU time of a result was, in general,
+        returning to zero after a reboot.
+    - ACTIVE_TASK_SET::poll(): if any task's checkpoint_cpu_time has changed,
+        trigger a client state file write
+    - renamed ACTIVE_TASK_SET::get_cpu_times() -> get_status_msgs()
+        Also, this function now returns boolean:
+        whether any checkpoint_cpu_time has changed
+    - renamed ACTIVE_TASK::get_cpu_time_via_shmem() -> get_status_msg()
+        (since the message includes more than just CPU time)
+    - removed ACTIVE_TASK.last_status_msg_time (not used)
+    - factored out logic to compute frac_rate_of_change
+        and put it in a separate function
+        (ACTIVE_TASK::estimate_frac_rate_of_change())
+    - print app version for results in GUI
+
+    client/
+        app.C,h
+        client_types.C,h
+        win/
+            wingui_mainwindow.cpp
+
+Karl 2003-11-25
+    - wrote release notes
+    doc/
+        ssl_client_release_instructions.txt
+
+David  25 Nov 2003
+    - Fixed bug that could cause a workunit to be sent to a client
+        without any corresponding result.
+        I'm not sure what happens then but it can't be good.
+
+        Here's the deal:
+        OLD:
+            retval = add_wu_to_reply()     // returns error if no app version
+            if (retval) continue
+            reread result from DB
+            if result.state != UNSENT continue
+                // if this happens, we'll send the WU but not the result
+        NEW:
+            found = find_app_version()
+            if (!found) continue;
+            reread result from DB
+            if result.state != UNSENT continue
+            add_wu_to_reply()
+
+    sched/
+        handle_request.C
+
+David  25 Nov 2003
+    - Changed db_dump to generate valid XML.
+        Escape text fields as follows
+        & -> &amp;
+        ' -> &apos;
+        " -> &quot;
+        < -> &lt;
+        > -> &gt;
+
+    sched/
+        db_dump.C
+
+Gary    25 Nov 2003
+    - BOINC release 2.11 for windows, Linux, solaris2.7, solaris2.8
+
+Gary    26 Nov 2003
+    - BOINC release 2.12 for windows, Linux, solaris2.7, solaris2.8
+      fixes problem with windows release 2.11 installer
+      no change to Solaris/Linux clients
+
+Gary    26 Nov 2003
+    - Changed Network Bandwith limits display & entry units to be
+      expressed in terms of Kbytes instead of bytes. Values are
+      still stored in db as bytes.
+
+    html_user/
+        prefs.inc
+
+David  27 Nov 2003
+    - put missing <project_specific> tags around
+        project-specific prefs when write account files
+    - removed uniqueness constraint on user.seti_id
+        (this will generally be zero)
+
+    client/
+        client_types.C,h
+    db/
+        constraints.sql
+
+David  28 Nov 2003
+    - Fixed various problems with project preferences.
+        (overrides yesterday's non-fix)
+        PROJECT now has separate fields for
+            project_prefs (entire prefs, include venue variants)
+            project_specific_prefs (only project specific,
+                and only for current venue).
+        These had been confused before.
+        The account_*.xml file has the project_prefs,
+        enclosed in a <project_preferences> element
+    - updated document about account files
+    - Changed project prefs from char[MAX_BLOB_LEN] to string,
+        and added variant of copy_element_contents() for string.
+
+    client/
+        app.C
+        client_types.C,h
+        cs_scheduler.C
+        scheduler_ops.C
+    doc/
+        client_files.php
+    lib/
+        parse.C,h
+
+Karl 2003-11-28
+    - fixed unix help for -update_prefs
+
+    client/
+        cs_cmdline.C
+
+David  2003-11-28
+    - changed date/time display in Windows to yyyy-mm-dd hh:mm:ss
+
+    client/win/
+        wingui_mainwindow.cpp
+
+David  28 Nov 2003
+    - added "signature" field to user table;
+        when making forum postings,
+        users have the option of appending signature
+
+    db/
+        boinc_db.C,h
+        schema.sql
+    html_user/
+        edit_user_info_action.php
+        edit_user_info_form.php
+        index.php
+        util.inc
+
+Karl 2003-11-28
+    - fixed problems in testbase.py:
+        - changed workunit fpops due to change in client default benchmark
+        - changed app_version major version to come from version.MAJOR_VERSION
+    - added new columns to python database interface
+    - test_uc.py (and thus 'make check') pass now.
+
+    test/
+        testbase.py
+    py/Boinc/
+        database.py
+
+    - client: close write socket when done writing (but still reading) by
+      using shutdown(2).  This allows the 'use_file' mechanism in
+      sched/main.C to work.
+
+    client/
+        http.C
+
+David  28 Nov 2003
+    - print "expected X, got Y" msg only if md5 computation succeeded
+
+    client/
+        cs_files.C
+
+Karl 2003-11-28
+    - new base64_encode() and base64_decode() functions.
+    - small fixes to Makefiles
+
+    lib/
+        parse.h
+        base64.C (new)
+        Makefile.am
+    api/
+        Makefile.am
+
+David  29 Nov 2003
+    - top hosts shows 10 hosts, lets you page forward/back
+    - Various stuff related to message boards (formerly known as Forum)
+        - don't show blue links on blue background
+        - terminology in message-board interface
+            "message boards" describes the message system
+            "questions/problems" describes the FAQ system
+        - got rid of hard-wired field widths
+        - removed "activity" stuff (wasn't being used)
+        - cleaned up names in the beta-test database
+        - Yahoo-type hierarchical page titles
+        - made "sort by" work when step through pages
+        - added category, forum tables to schema.sql
+        - added comments on PHP-only tables to schema.sql
+
+    db/
+        schema.sql
+    html_user/
+        edit_user_info_action.php
+        index.php
+        top_hosts.php
+        user.inc
+        util.inc
+        white.css
+        forum/
+            forum.inc
+            forum.php
+            help_desk.php
+            index.php
+            post.php
+            reply.php
+            thread.php
+
+Karl 2003-12-02
+    - created export-tarball program for nightly-tarball
+
+    nightly-tarball
+
+David  2 Dec 2003
+    - changed indices on result table
+        changed res_hostid to include id desc
+        removed res_wuid
+        added app_received_time
+    - removed "last result for host" info from web pages;
+        this required an index with no other function
+    - added comments to constraints.sql explaining why each index is needed
+    - add "subscriptions" table to schema.sql
+
+    db/
+        constraints.sql
+        schema.sql
+    html_user/
+        host.inc
+        totals.php
+        util.inc
+        forum/
+            post.php
+            subscribe.inc
+
+David  2 Dec 2003
+    - Don't start more than 2 simultaneous file transfers per project
+
+    client/
+        client_state.h
+        cs_cmdline.C
+        cs_files.C
+        cs_scheduler.C
+        hostinfo.C
+        pers_file_xfer.C
+
+Karl 2003-12-02
+    - committed Robi Buecheler's translation updates.
+
+    client/translation/
+        language.ini.bg
+        language.ini.ca
+        language.ini.cs
+        language.ini.da
+        language.ini.de
+        language.ini.es
+        language.ini.et
+        language.ini.fi
+        language.ini.fr
+        language.ini.gl
+        language.ini.hr
+        language.ini.it
+        language.ini.ja-euc (added)
+        language.ini.ja-sjis (added)
+        language.ini.ko
+        language.ini.nl
+        language.ini.pl
+        language.ini.pt
+        language.ini.ru
+        language.ini.sk
+        language.ini.sv
+        language.ini.template
+        language.ini.zh-big5 (added)
+        language.ini.zh-gb2312 (added)
+
+David  3 Dec 2003
+    - Added "Pending credit" row to user page
+    - Added new elements to XML stats dump (tables.xml) to show
+        - applications
+        - # results unsent/in progress/over for each app
+
+    html_user/
+        user.inc
+    sched/
+        db_dump.C
+
+David  3 Dec 2003
+    - express message board times as "X days Y hours Z minutes ago"
+        instead of absolute time
+    - on FAQ entries, display #times asked and time of last answer
+
+    html_user
+        /forum/
+            forum.inc
+            forum.php
+            help_desk.php
+        time.inc (new)
+    sched/
+        db_dump.C
+
+Gary    04 Dec 2003
+    - fixed a bug in app.C which caused the checkpoint_cpu_time to
+      nearly double in certain cases. This was most obvious in the
+      windows core client.
+        [in ACTIVE_TASK::write_app_init_file()]
+          old:
+             aid.wu_cpu_time = checkpoint_cpu_time;
+          new:
+             aid.wu_cpu_time = starting_cpu_time;
+
+    client/
+        app.C
+
+Gary    04 Dec 2003
+    - BOINC release 2.13 for windows, Linux, solaris2.7, solaris2.8
+
+David  4 Dec 2003
+    - Use a different PHP HTML filter; the old one was buggy.
+    - Add HTML filtering of user-supplied text
+        (user profiles, message boards, etc.)
+        NOTE: should be explicit about what things
+            cannot contain ANY html tags
+            (user names, team names)
+        what about team descriptions? user URLs etc.
+    NOTE: someone should figure out exactly where we should
+    be using stripslashes() and addslashes().
+
+    html_user/
+        htmlfilter.inc (removed)
+        profile.inc
+        sanitize_html.inc
+        team.inc
+        time.inc
+        kses.php (new)
+        forum/
+            edit.php
+            forum.inc
+            forum.php
+            index.php
+            reply.php
+
+Gary    05 Dec 2003
+    - in check_app_exited() look for most recent checkpoint_cpu_time
+      and use it to calculate final_cpu_time for result.
+
+    client/
+        app.C
+
+David  5 Dec 2003
+    - On Windows, removed the shutdown() in http.C;
+        this caused a problem with Norton Firewall
+    - Removed counts of done/validated results for host from user web;
+        no efficient way to get this
+    - in cgi.log, show when send an app_version
+    - make_work: maintain cushion based on unsent results for this app
+        (not total)
+    - transitioner: check trigger file every WU, not every pass
+
+    client/
+        app.C
+        http.C
+    html_user/
+        host.inc
+        profile.inc
+    sched/
+        handle_reqest.C
+        make_work.C
+        transitioner.C
+
+David  6 Dec 2003
+    - Extend the "start" script to handle remote tasks.  Summary:
+        - config.xml has a mandatory config.host element
+            (for the project's main server)
+            and optional task.host elements (default is main host)
+        - Host X has its own run state file, run_state_X.xml
+        - Host X has its own pid directory, pid_dir_X/
+        - Host X has its own log directory, log_X/
+        - Host X has its own lock file for "start", start.lock.X
+        - run_daemons() etc. run tasks only for the current host
+        - When run on the main host, start builds a list of other hosts
+            and runs itself (with same cmdline, using ssh)
+            on each of the other hosts.
+
+        Notes:
+        1) I didn't add <host>*</host> capability;
+            it's not clear that we need this
+        2) Output formatting could be improved
+
+    - Changed the scheduler to log to ../log_X/cgi.log (X=hostname)
+
+    sched/
+        main.C
+        start
+
+David  7 Dec 2003
+    - Fixed bugs involving buffer overflow of BLOB fields.
+        These can be up to 65536 bytes in MySQL.
+        MAX_BLOB_SIZE was defined as 4K.
+        strcpy2() didn't do any buffer size checking.
+        A team description was over 8K long.
+        This caused db_dump to crash.
+        Solution:
+        - strcpy2() now defined as a macro that uses the sizeof()
+            its destination, and doesn't overwrite it.
+        - MAX_BLOB_SIZE replaced with 2 symbols:
+            MEDIUM_BLOB_SIZE for fields used by BOINC
+                defined as 4K so as to not increase shmem usage
+            LARGE_BLOB_SIZE for fields with user-supplied text
+                defined as 64K
+
+    db/
+        boinc_db.h
+        db_base.C,h
+    html_user/
+        result.inc
+        white.css
+    sched/
+        assimilator.C
+        db_dump.C
+        file_deleter.C
+        handle_request.C
+        make_work.C
+        server_types.C
+        transitioner.C
+    tools/
+        add.C
+        backend_lib.C
+        create_work.C
+        process_result_template.C
+
+David  7 Dec 2003
+    - Changed db_dump so that it doesn't chdir() into the output directory
+        (it it does, and it crashes, that makes its core file
+        visible to the world, and that may contain private info)
+
+    sched/
+        db_dump.C
+
+David  7 Dec 2003
+    - add sort options for FAQ questions, answers
+    - added create_time field to "thread" table
+        (so can sort questions by time asked)
+    - increase href limit in HMTL sanitizer to 150 chars
+    - simply time difference display
+
+    db/
+        schema.sql
+    html_user/
+        sanitize_html.inc
+        time.inc
+        forum/
+            forum.inc
+            forum.php
+            help_desk.php
+            thread.php
+
+Jeff  8 Dec 2003
+    - Fixed the ifdef's surrounding the typedef of socklen_t.  Removed the
+      "#ifdef socklen_t" because it does nothing and added the
+      "#elif defined (__APPLE__)".
+
+      client/
+           net_xfer.C
+
+David  8 Dec 2003
+    - added full-text keyword search of message bodies and thread titles
+
+    html_user/forum/
+        forum.inc
+        forum.php
+        help_desk.php
+        index.php
+        text_search_action.php (new)
+        text_search_form.php (new)
+
+Jeff 09 Dec 2003
+    - We have the same gcc version problem with solaris that we do with
+      linux whereby if the  version number of libstdc++.so on the run
+      machine is different than that on the build machine, the loader
+      fails.  However, on solaris you cannot just say gcc -static as there
+      are dynamic only versions of some needed libs, namely libdl and
+      libaio.  I tried to use the -Xlinker gcc option which theoretically
+      should allow us to specify the link (collect2) line in precise
+      detail.  But -lstdc++ kept showing up twice with one occurrence
+      being outside my -Xlinker -B -Xlinker static directive.  So I
+      hand crafted a collect2 line and placed it in a file - collect2_line.
+      Sourcing this file produces an executable that will load and run
+      across gcc versions (and solaris versions for that matter).  I
+      don't like it but it works.
+
+      IMPORTANT NOTE.  After sourcing collect2_line you have to
+      re-"hard link" the executable boinc_client to a proper
+      name with the correct version.
+
+      client/
+        collect2_line   (new file)
+
+Gary    09 Dec 2003
+    - BOINC release 2.14 for windows, Linux, solaris2.7, solaris2.8
+
+Gary    09 Dec 2003
+    - fixed typo in Network Bandwidth limits display (was missing /s)
+
+    html_user/
+        prefs.inc
+
+
+Karl 2003-12-09
+    - don't run the scheduler cgi if stop_server trigger exists.
+
+    sched/
+        main.C
+
+David  9 Dec 2003
+    - scheduler returns message if "../stop_servers" exists
+        NOTE SPELLING; "stop_server" was error
+    - web site main page checks for "stop_servers" file,
+        shows "project down" message if so
+        TODO: have all DB-driven pages do this
+    - don't show link to main page on main page
+    - turned off "rate message" control (wasn't being used)
+
+    html_user/
+        index.php
+        time.inc
+        util.inc
+        forum/
+            forum.inc
+            post.php
+            text_search_action.php
+            thread.php
+    sched/
+        main.C
+        sched_util.C,h
+
+Eric K.  12/11/2003
+
+    Added check for strlcpy() to configure.ac and definition of
+    strlcpy() to std_fixes.h.
+    Added C++ header and namespace checks to m4 and config.h
+    Added include of "std_fixes.h" to boinc_db.C
+
+   aclocal.m4
+   configure.ac
+   configure
+   config.h.in
+   lib/std_fixes.h
+   m4/sah_namespace.m4
+   m4/sah_header_stdcxx.m4
+
+David  11 Dec 2003
+    - Add <db_host> element to config file and SCHED_CONFIG.
+        Add db_host argument to DB_CONN::open()
+        All server programs can now be run on different machine from MySQL
+    - Add "deprecated" field to app table
+        Deprecated apps are treated as non-existent
+    - Add "deprecated", "user_friendly_name" to platform table
+        Deprecated platforms are treated as non-existent
+    - Add new value for validate_state: VALIDATE_STATE_NO_CHECK
+        This indicates the the result's WU had an error,
+        and the result will never be validated.
+        Such results are not counted towards pending credit.
+        Transitioner: when set a WU error flag,
+            change its results VALIDATE_STATE_INIT -> NO_CHECK
+    - Add "Applications" page to web site:
+        shows platforms, latest version for each app
+
+    db/
+        boinc_db.C,h
+        db_base.C,h
+        schema.sql
+    html_ops/
+        db_ops.inc
+    html_user/
+        download.inc
+        host.inc
+        index.php
+        stats.php
+        util.inc
+        apps.php (new)
+        intro.php (new)
+    py/Boinc
+        database.py
+    sched/
+        assimilator.C
+        db_dump.C
+        feeder.C
+        file_deleter.C
+        main.C
+        make_work.C
+        sched_config.C,h
+        sched_shmem.C
+        transitioner.C
+        update_stats.C
+        validate.C
+        wu_check.C
+
+Gary    11 Dec 2003
+    - changed the way tab windows are hidden/shown in windows gui,
+      to fix intermittent window repainting bug.
+        old:
+           <hide all windows by setting turning off WS_VISIBLE style>
+           <show selected window by turning on WS_VISIBLE style>
+           <redraw window>
+           The trouble with this technique is that it does not
+           activate the window, so it will only work if the
+           window becomes active *before* the redraw takes place.
+        new:
+           <hide all visible windows via ShowWindow(SW_HIDE)>
+           <redraw selected window >
+           <show selected window via ShowWindow(SW_SHOW)>
+
+    client/win/
+        wingui_mainwindow.cpp
+
+David  12 Dec 2003
+    - changed "opaque" fields from int to double
+    - Unix core client: if execv() fails, exit with errno rather than -1
+    - show link to user on non-private host page
+    - fix bug in update_stats: don't crash if team has zero members
+    - add "update_stats" to install_boinc_files()
+
+    client/
+        app.C
+    doc/
+        client_files.php
+        db_dump.php
+        index.html
+        old_news.php
+        prefs.php
+    db/
+        boinc_db.C,h
+        schema.sql
+    html_user/
+        db.inc
+        host.inc
+        index.php
+        workunit.php
+    py/Boinc/
+        setup_project.py
+    sched/
+        update_stats.C
+
+David  12 Dec 2003
+    - Core client: print host ID (per project) in startup messages
+    - calculate file transfer speeds correctly
+        (e.g. use doubles for time, not int)
+        Show latest transfer speed in message when transfer finishes
+
+    client/
+        client_state.C
+        net_xfer.C,h
+        pers_file_xfer.C
+
+Gary    12 Dec 2003
+    - fixed bug that caused 'Progress' and 'To completion' columns to reset to
+      0.00% and init completion time at end of WU.
+
+    client/win/
+        wingui_mainwindow.cpp
+
+David  12 Dec 2003
+    - fixed bug that caused est. time to completion to not update
+
+    client/
+        app.C
+
+David  14 Dec 2003
+    - added "has_profile" flag to user table;
+        whenever a user has a profile,
+        display a "profile icon" linking to it.
+        Also write it to XML files
+    - Change file_upload_handler to put its log file
+        in the right directory
+
+    db/
+        boinc_db.C,h
+        scheme.sql
+    html_user/
+        host.inc
+        host_user.php
+        index.php
+        profile.inc
+        team.inc
+        top_hosts.php
+        user.inc
+        util.inc
+    py/Boinc/
+        database.py
+    sched/
+        db_dump.C
+        file_upload_handler.C
+
+David  15 Dec 2003
+    - fixed bug in database API: "return p && atoi(p)"
+        In C (unlike Python) this does not generally return atoi(p);
+        it returns 1.  Fortunately the only effect of this was that user.posts
+        kept getting set to 1 for all users
+    - increased max query length in DB API,
+        in case prefs become really really long
+
+    db/
+        boinc_db.C
+        db_base.C
+    html_user/
+        download.php
+        util.inc
+        forum/
+            forum.inc
+            forum.php
+            reply.php
+
+Gary    15 Dec 2003
+    - fixed bug in installer script which would not clean up previous
+      Boinc client autostart settings, when a new version was installed
+      without uninstalling the previous version first.
+
+    win_build/installer/Script Files/
+        setup.rul
+
+Gary    16 Dec 2003
+    - fixed bug in windows Boinc_gui core client, which caused the
+      horizontal scroll bar on the Messages tab to be moved to the
+      extreme right whenever new messages were written.
+
+    client/win/
+        wingui_mainwindow.cpp
+
+Eric K. 17 Dec 2003
+    - Added include of unistd.h to get definition of gethostname() on
+      Solaris 7
+
+    sched/
+            file_upload_handler.C
+
+Gary    17 Dec 2003
+    - BOINC release 2.15 for windows, Linux, solaris, mac os x
+
+David  17 Dec 2003
+    - fixed bug where remote invocation of "start" is not verbose when it should be
+
+    lib/
+        error_numbers.h
+    sched/
+        feeder.C
+        start
+
+Karl 2003-12-18
+    - fixed CRLF bug in *.dsw, *.dsp
+
+    Makefile.am
+    win_build/
+        *.dsp
+        *.dsw
+
+Jeff 18 Dec 2003
+    - Surrounded the base64 prototypes in parse.h with an #ifndef _WIN32.  Windows
+      compiles were failing on it.
+
+    lib/
+        parse.h
+
+David  19 Dec 2003
+    - new system tray icons, for "new message" and "new error message" situations,
+        contributed by Rom Walton.
+        NOTE: these are not actually used;
+        we need to add flags for when they should be displayed
+
+    client/win/
+        resource.h
+        resource.rc
+        wingui_mainwindow.cpp,h
+        res/
+            iconerror.ico (new)
+            iconinfo.ico (new)
+
+Karl 2003-12-19
+    - undid #ifndef for base64.  Renamed to r_base64.
+
+    lib/
+        parse.h
+        base64.C
+
+David  20 Dec 2003
+    - Changes by Rom Walton to flash system tray icon when new message
+
+    client/win/
+        wingui_mainwindow.cpp,h
+
+David  20 Dec 2003
+    - compute recent average credit correctly
+    - compute "activity" for questions in a reasonable way:
+        the number of times per day this question has been asked
+    - default sort order for questions is by descending activity
+    - added fulltext indices on profile.response1 and profile.response2
+    - added text search of profiles to web interface
+    - link to list of a user's posts from their user page
+    - generate UOD page even if already there
+    - clean up some PHP code:
+        use $foo->bar, not $foo['bar']
+        indent by 4 spaces
+
+    db/
+        constraints.sql
+        schema.sql
+    html_ops/
+        gallery.inc
+        update_forum_activities.php
+    html_user/
+        profile_menu.php
+        user.inc
+        util.inc
+        profile_search_action.php (new)
+        forum/
+            forum.inc
+            forum.php
+            text_search_action.php
+            user_posts.php (new)
+    sched/
+        sched_util.C
+
+David  21 Dec 2003
+    - moved "search for user name" feature out of profile code
+    - add link to profile from user page
+    - fix bug in get_passwd
+
+    html_user/
+        get_passwd.php
+        profile.inc
+        profile_menu.php
+        profile_search_action.php
+        user.inc
+        user_search_action.php (new)
+
+David  23 Dec 2003
+    - add mechanism to prevent server spamming
+        (i.e. frequence requests for work from a single host).
+        The mechanism: if the last RPC was within 15 minutes,
+        don't send any work.
+    - add result.exit_status field to DB
+        Currently this is populated by the server,
+        if there's a <exit_status> element in the reply's stderr_out.
+        There may be a better way to do this.
+        TODO: display this field in the web GUI
+    - use SIGHUP instead of SIGINT to stop daemon processes
+
+    db/
+        boinc_db.C,h
+        schema.sql
+    sched/
+        handle_request.C
+        start
+
+David  23 Dec 2003
+    - improved error messages in stderr_out
+
+    client/
+        app.C
+        client_state.C
+
+David  23 Dec 2003
+    - added boinc_fopen() function.
+       This should be used in lieu of fopen(), in both core client and apps,
+       whenever opening a file for writing.
+       This is because on Windows a utility program like FileFind
+       might have the file open at that exact moment,
+       and your fopen() will fail.
+       boinc_fopen() deals with this by sleeping for 3 seconds and trying again.
+       NOTE: in SETI@home there's a much fancier function
+       that does exponential backoff up to one hour.
+       Can't do that here, in part because the GUI requires
+       the core client to be nonblocking.
+    api/
+        boinc_api.C
+        graphics_api.C
+        gutil.C
+        mfile.C
+    client/
+        app.C
+        client_types.C
+        cs_benchmark.C
+        cs_scheduler.C
+        cs_statefile.C
+        http.C
+    doc/
+        (various)
+    lib/
+        filesys.C,h
+
+David  24 Dec 2003
+    - Fixed errors in deciding whether more work was needed,
+        and if so how much.
+        This caused a situation where hosts would repeatedly
+        ask the server for more work
+        (which, because of recent anti-spam mechanism, would return no work)
+        The error involved the confusion of two quantities:
+        1) work buffer
+            This is an estimate of the time (measured in days)
+            until this host will finish all current work.
+            It reflects the host's "active_frac" and the # of CPUs.
+        2) CPU time
+            This is an estimate of the CPU time a WU will take on this host.
+            It does not reflect active_frac or # of CPUs
+        Example error: current_work_buf_days() didn't reflect active_frac and ncpus.
+        So we underestimated the work buffer, and requested work inappropriately.
+
+        NOTE: the <work_req_seconds> field in a request message
+        is in units of CPU time, NOT work buffer
+
+    - Fixed errors in estimating the wallclock duration of a WU
+        (used in feasibility test in scheduler):
+        Should divide, not multiply, by active_frac;
+        should not multiply by # cpus
+    - add a "deprecated" flag to app_version.
+        If you decide that a particulate app_version has problems,
+        you can deprecate it.
+        The scheduler advertises the latest non-deprecated version.
+        NOTE: this only is effective if core clients have the following:
+    - Changed the policy assigning an app_version to a WU
+        Use the version included in the scheduler reply,
+        and if there is none, use the latest version.
+        This means that if a project deprecates an app_version,
+        clients won't use it.
+    client/
+        client_state.h
+        cs_apps.C
+        cs_scheduler.C
+        scheduler_op.C
+    db/
+        schema.sql
+        boinc_db.C,h
+    lib/
+        filesys.h
+        result_state.h
+    py/Boinc/
+        database.py
+    sched/
+        handle_request.C
+        sched_shmem.C
+
+David  23 Dec 2003 (supplied by Rom Walton)
+    - new message class: warnings and network (with corresponding icons)
+
+    client/
+        message.h
+        win/
+            resource.h
+            resource.rc
+            wingui_mainwindow.cpp,h
+            res/
+                iconnetwork.ico (new)
+                iconwarning.ico (new)
+    win_build/
+        boinc_gui.dsp
+
+David  23 Dec 2003
+    - change string-escape function in DB code to handle \ as well as '
+        (otherwise updates/inserts can fail)
+
+    db/
+        boinc_db.C
+        db_base.C,h
+    sched/
+        update_stats.C
+
+Gary    25 Dec 2003
+    - BOINC release 2.16 for windows, Linux, solaris, mac os x 10.3
+       (os x 10.2 compatability will come soon)
+
+Jeff  30 Dec 2003
+    - Check for buffer reallocation errors in MFILE functions and return values
+      that mimic the normal system versions of these functions.
+
+      Functions that were changed:  * indicates a change.
+    function        successful return    failure return
+    --------------        ------------------    --------------
+    MFILE::printf()        num bytes output    -1 *
+    MFILE::write()        num bytes output    -1 *
+    MFILE::putchar(c)    c                 EOF *
+    MFILE::puts(s)        strlen(s) *        EOF *
+
+      MFILE::puts() used to return 0 on success.  I greped both astropulse
+      and seti_boinc code and found no current use of this function.
+
+    api/
+    mfile.C
+
+David  30 Dec 2003
+    - added optional <disabled>1</disabled> flag to daemons and tasks
+        in config.xml.  (would prefer "<disabled/>", but couldn't
+        figure out how to get the minidom parser to recognize)
+
+    sched/
+        start
+
+David  30 Dec 2003
+    - added <app_version> element to <stderr_out> in RPC request message
+
+    client/
+        client_types.C,h
+
+David  31 Dec 2003
+    - Made the basic test script (test_uc.py) work again:
+        - fixed syntax errors in SQL files
+        - initial config.xml file includes <host> element
+        - back-end processes handle SIGHUP, not SIGINT
+            (we changed in "start"; need to change here too)
+        - "MIN_SENDWORK_INTERVAL" is read from config.xml (default 0)
+        - added 12-second sleep in run_check_all()
+            (based on 10-sec sleep in assimilator; should reduce)
+    - The user and admin web interfaces now work in the basic test case
+        (i.e. you can use html_ops to look at DB contents)
+
+    db/
+        constraints.sql
+        schema.sql
+    html_ops/
+        db_ops.inc
+    html_user/
+        project.inc.sample
+        util.inc
+    py/Boinc/
+        setup_project.py
+    sched/
+        assimilator.C
+        feeder.C
+        file_deleter.C
+        handle_request.C
+        make_work.C
+        sched_config.C,h
+        sched_util.C,h
+        transitioner.C
+        validate.C
+    test/
+        testbase.py
+
+David  31 Dec 2003
+    - Added Python assimilator, courtesy of Stephen Pellicer
+        All the back-end programs could be implemented in Python;
+        CPU usage is a non-factor.
+        Some people might prefer this to C++.
+        No reason not to have both, as long as the logic stays in synch.
+
+    py/Boinc/
+        sched_messages.py
+    sched/
+        assimilator.py
+
+Gary    31 Dec 2003
+    - Fixed error in windows client initial startup after a clean
+      install. Default wait time before initial server request was
+      too long (3 minutes).
+    - Fixed initial screensaver blank time setting. Test for existence
+      of registry entries before writing values to dialog box.
+
+    client/
+        Prefs.C
+    client/win
+        win_screensaver.cpp
+

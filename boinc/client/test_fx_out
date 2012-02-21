@@ -1,0 +1,1326 @@
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <META http-equiv="Content-Type" CONTENT="text/html" CHARSET="UTF-8">
+    <META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+    <STYLE TYPE="text/css" MEDIA="screen">
+            BODY, H2, H3, H4, P, UL, OL, DL
+            {
+            font-family: "Verdana", "Helvetica", "Arial", "sans-serif"
+            }
+
+            H1 {color: #0058a0; font-size: 20pt}
+	    H2 {color: #0058a0; font-size: 16pt}
+	    H3 {color: #0058a0; font-size: 14pt}
+	    H4 {color: #0058a0; font-size: 12pt}
+            
+            A:link, A:active, A:visited
+            {
+            color: #0058a0;
+            text-decoration: none
+            }
+
+            P, UL, OL, DL {margin-left: 10%; margin-right: 10%; font-size: 10pt}
+            DT {margin-bottom: 0.5em}
+            .offset {margin-left: 10%}
+            .afterskip {margin-bottom: 1em}
+            .afterhalf {margin-bottom: 0.5em}
+	    .example {margin-left: 10%; margin-right: 10%;
+	      border-color: #0058a0; border-style:solid; border-width: 1pt; padding: 1pt}
+            CODE {font-family: "Courier"}
+	    .comment {color: #0000ff}
+
+            P.offset {margin-left: 15%}
+            P.inner  {margin-left:  2%; width: 96%}
+            P.note   {margin-left: 10%; border-color: #0058a0;
+	      border-style:solid; border-width: 1pt;
+	      padding: 5pt; background-color:#e0e0e0 }
+	    
+	    PRE {font-size: 10pt; padding: 5pt}
+
+	  </STYLE>
+    <title>GAdoc - Sablotron 0.60</title>
+  </head>
+  <body bgcolor="#ffffff">
+    <h1 CLASS="afterskip">Sablotron 0.60</h1>
+    <DIV CLASS="afterskip">
+      <p>
+        <b>
+          <i>Tom Kaiser (Ginger Alliance)</i>
+        </b>
+      </p>
+      <p>
+        <i>June 17, 2001</i>
+      </p>
+    </DIV>
+    <h3>Abstract</h3>
+    <DIV CLASS="offset">This is a description of the current version of the
+  XSLT processor called Sablotron, including an overview of its
+  limitations as compared to the XSLT specification.
+  </DIV>
+    <h3>Contents</h3>
+<DIV STYLE="margin-left: 10%; margin-bottom: 2em; font-size: smaller">
+      <SPAN CLASS="afterhalf">
+        <a name="toc_i__25"></a>&nbsp;<a href="#i__25">
+          <b>1&nbsp;&nbsp;This text</b>
+        </a>
+        <DIV class="offset"></DIV>
+      </SPAN>
+      <SPAN CLASS="afterhalf">
+        <a name="toc_i__60"></a>&nbsp;<a href="#i__60">
+          <b>2&nbsp;&nbsp;Changes from the last release</b>
+        </a>
+        <DIV class="offset"></DIV>
+      </SPAN>
+      <SPAN CLASS="afterhalf">
+        <a name="toc_i__74"></a>&nbsp;<a href="#i__74">
+          <b>3&nbsp;&nbsp;Introduction</b>
+        </a>
+        <DIV class="offset">&nbsp;&nbsp;<a href="#i__81">3.1&nbsp;&nbsp;XSLT</a>
+          <BR>&nbsp;&nbsp;<a href="#i__154">3.2&nbsp;&nbsp;On Sablotron</a>
+          <BR>
+        </DIV>
+      </SPAN>
+      <SPAN CLASS="afterhalf">
+        <a name="toc_i__227"></a>&nbsp;<a href="#i__227">
+          <b>4&nbsp;&nbsp;The sources</b>
+        </a>
+        <DIV class="offset">&nbsp;&nbsp;<a href="#i__238">4.1&nbsp;&nbsp;Getting the sources</a>
+          <BR>&nbsp;&nbsp;<a href="#i__280">4.2&nbsp;&nbsp;Joining the development</a>
+          <BR>
+        </DIV>
+      </SPAN>
+      <SPAN CLASS="afterhalf">
+        <a name="toc_i__305"></a>&nbsp;<a href="#i__305">
+          <b>5&nbsp;&nbsp;Implementation. Supported instructions and functions</b>
+        </a>
+        <DIV class="offset">&nbsp;&nbsp;<a href="#i__343">5.1&nbsp;&nbsp;Templates</a>
+          <BR>&nbsp;&nbsp;<a href="#i__364">5.2&nbsp;&nbsp;Conditional processing</a>
+          <BR>&nbsp;&nbsp;<a href="#i__381">5.3&nbsp;&nbsp;Loops</a>
+          <BR>&nbsp;&nbsp;<a href="#i__398">5.4&nbsp;&nbsp;Variables and parameters</a>
+          <BR>&nbsp;&nbsp;<a href="#i__415">5.5&nbsp;&nbsp;Element creation</a>
+          <BR>&nbsp;&nbsp;<a href="#i__439">5.6&nbsp;&nbsp;Global definitions</a>
+          <BR>&nbsp;&nbsp;<a href="#i__476">5.7&nbsp;&nbsp;Values and copying</a>
+          <BR>&nbsp;&nbsp;<a href="#i__508">5.8&nbsp;&nbsp;Namespace processing</a>
+          <BR>&nbsp;&nbsp;<a href="#i__529">5.9&nbsp;&nbsp;Sorting</a>
+          <BR>&nbsp;<a href="#i__577">5.10&nbsp;&nbsp;Whitespace stripping</a>
+          <BR>&nbsp;<a href="#i__598">5.11&nbsp;&nbsp;Includes</a>
+          <BR>&nbsp;<a href="#i__623">5.12&nbsp;&nbsp;Other unimplemented instructions</a>
+          <BR>&nbsp;<a href="#i__654">5.13&nbsp;&nbsp;Output conformance</a>
+          <BR>&nbsp;<a href="#i__686">5.14&nbsp;&nbsp;XPath expressions</a>
+          <BR>&nbsp;<a href="#i__714">5.15&nbsp;&nbsp;Built-in functions</a>
+          <BR>
+        </DIV>
+      </SPAN>
+      <SPAN CLASS="afterhalf">
+        <a name="toc_i__804"></a>&nbsp;<a href="#i__804">
+          <b>6&nbsp;&nbsp;Other implementation-related notes</b>
+        </a>
+        <DIV class="offset">&nbsp;&nbsp;<a href="#i__811">6.1&nbsp;&nbsp;Handlers</a>
+          <BR>&nbsp;&nbsp;<a href="#i__859">6.2&nbsp;&nbsp;Encodings</a>
+          <BR>&nbsp;&nbsp;<a href="#i__887">6.3&nbsp;&nbsp;Output methods</a>
+          <BR>&nbsp;&nbsp;<a href="#i__915">6.4&nbsp;&nbsp;URIs</a>
+          <BR>&nbsp;&nbsp;<a href="#i__983">6.5&nbsp;&nbsp;Named buffers</a>
+          <BR>&nbsp;&nbsp;<a href="#i__1015">6.6&nbsp;&nbsp;Error and log messages</a>
+          <BR>
+        </DIV>
+      </SPAN>
+      <SPAN CLASS="afterhalf">
+        <a name="toc_i__1048"></a>&nbsp;<a href="#i__1048">
+          <b>7&nbsp;&nbsp;The C interface</b>
+        </a>
+        <DIV class="offset">&nbsp;&nbsp;<a href="#i__1065">7.1&nbsp;&nbsp;Shortcuts</a>
+          <BR>&nbsp;&nbsp;<a href="#i__1205">7.2&nbsp;&nbsp;Basic functions</a>
+          <BR>&nbsp;&nbsp;<a href="#i__1416">7.3&nbsp;&nbsp;Generalized interface functions</a>
+          <BR>&nbsp;&nbsp;<a href="#i__1578">7.4&nbsp;&nbsp;The situation object</a>
+          <BR>&nbsp;&nbsp;<a href="#i__1631">7.5&nbsp;&nbsp;Document Object Model (DOM) functions</a>
+          <BR>
+        </DIV>
+      </SPAN>
+      <SPAN CLASS="afterhalf">
+        <a name="toc_i__1870"></a>&nbsp;<a href="#i__1870">
+          <b>8&nbsp;&nbsp;The command line interface</b>
+        </a>
+        <DIV class="offset"></DIV>
+      </SPAN>
+      <SPAN CLASS="afterhalf">
+        <a name="toc_i__2013"></a>&nbsp;<a href="#i__2013">
+          <b>9&nbsp;&nbsp;References</b>
+        </a>
+        <DIV class="offset"></DIV>
+      </SPAN>
+    </DIV>
+    <DIV class="afterskip">
+      <a name="i__25"></a>
+      <h2>
+        <a href="#toc_i__25">1&nbsp;&nbsp;This text</a>
+      </h2>
+      <DIV>
+        <p CLASS="">The HTML form of this description
+        was compiled by Sablotron from the XML source
+        Sablot-0-60.xml. 
+        </p>
+        <p CLASS="">
+        The material in the following sections includes:
+        </p>
+        <ul>
+          <li>some background information on XSLT and Sablotron,</li>
+          <li>a detailed comparison of the current version of
+          Sablotron to the XSLT spec,</li>
+          <li>Sablotron usage from the command line or as a
+          library.</li>
+        </ul>
+      </DIV>
+    </DIV>
+    <DIV class="afterskip">
+      <a name="i__60"></a>
+      <h2>
+        <a href="#toc_i__60">2&nbsp;&nbsp;Changes from the last release</a>
+      </h2>
+      <DIV>
+        <p CLASS="">Please see the RELEASE file.</p>
+      </DIV>
+    </DIV>
+    <DIV class="afterskip">
+      <a name="i__74"></a>
+      <h2>
+        <a href="#toc_i__74">3&nbsp;&nbsp;Introduction</a>
+      </h2>
+      <DIV>
+        <DIV class="afterskip">
+          <a name="i__81"></a>
+          <h3>
+            <a href="#toc_i__74">3.1&nbsp;&nbsp;XSLT</a>
+          </h3>
+          <p CLASS="">XSLT is a language allowing to transform given XML data (the
+    <i>input</i>) according to a <i>stylesheet</i>. XSLT stylesheets
+    are themselves XML documents; that is, all instructions of the
+    language are expressed in the form of XML elements. The
+    <i>output</i>, i.e. the result of the processing, is typically a
+    XML document as well, although the syntactic requirements can be
+    relaxed to allow the creation of a HTML document (one that
+    contains unclosed tags and the like), or even plain text.
+    </p>
+          <p CLASS="">XSLT was designed by the World Wide Web Consortium (W3C) as
+      a part of the XSL stylesheet language, where it is complemented
+      by a powerful set of formatting instructions. The most precise
+      information about XSLT can be found in the W3C Recommendation <a href="#ref-xslt">[XSLT]</a>. In particular, Appendix B of the
+      Recommendation contains a handy syntax table. A good tutorial is
+      <a href="#ref-bible">[XMLBible14]</a>.
+    </p>
+          <p CLASS="">Other W3C Recommendations one often needs to consult are <a href="#ref-xml">[XML]</a> (for the definition of the XML
+      language) and <a href="#ref-xpath">[XPath]</a> (for details on
+      XPath, the language used to form expressions in XSLT and
+      elsewhere).
+    </p>
+          <p CLASS="">An excellent source of information about XSLT (indeed, about
+    anything related to XML and SGML) is <a href="#ref-rcover">[Cover]</a>; see also <a href="#ref-xslinfo">[XSLINFO]</a> and <a href="#ref-xmlorg">[XMLorg]</a>.
+    </p>
+        </DIV>
+        <DIV class="afterskip">
+          <a name="i__154"></a>
+          <h3>
+            <a href="#toc_i__74">3.2&nbsp;&nbsp;On Sablotron</a>
+          </h3>
+          <p CLASS="">Sablotron is a XSLT processor (though not quite conforming
+      yet..., see below) written in C++. Since the machines where it
+      is meant to run include various small mobile
+      clients, the main objectives of its design are the following:
+    </p>
+          <ul>
+      <li>portability,</li>
+      <li>compact code,</li>
+      <li>as much independence on other resources (Java etc.) as
+      possible.</li>
+    </ul>
+          <p CLASS="">Sablotron is a single shared library
+    (<code>sablot.dll</code> or <code>libsablot.so.0.60</code>). It can
+    also be used from the command line via the simple interface
+    called <code>sabcmd</code>. See <a href="#invocation">here</a> for
+    more information.
+    </p>
+          <p CLASS="">The only software Sablotron relies on is <b>expat</b>, the
+      XML parser by James Clark. See <a href="#expat">below</a> for
+      information on how to get expat.
+      </p>
+          <p CLASS="">For information on the available interfaces, e.g. for
+      Python, Perl and PHP, see <a href="http://www.gingerall.com">www.gingerall.com</a>. 
+      </p>
+        </DIV>
+      </DIV>
+    </DIV>
+    <DIV class="afterskip">
+      <a name="i__227"></a>
+      <h2>
+        <a href="#toc_i__227">4&nbsp;&nbsp;The sources</a>
+      </h2>
+      <DIV>
+        <p CLASS="">
+      Sablotron is written in C++. The source files compile under
+      Win32 (using MS Visual C++ 6.0) and on Solaris and Linux (using
+      g++ 2.95.2) without change.</p>
+        <DIV class="afterskip">
+          <a name="i__238"></a>
+          <h3>
+            <a href="#toc_i__227">4.1&nbsp;&nbsp;Getting the sources</a>
+          </h3>
+          <p CLASS="">The source or binary distributions of Sablotron can be downloaded
+      from <a href="http://www.gingerall.com">www.gingerall.com</a>. For
+      instructions on how to build the sources (if any), refer to the accompanying INSTALL file.
+      </p>
+          <p CLASS="">If you have access to the Ginger Alliance CVS server, you
+      can get the working version of Sablotron in the CVS module
+      <code>ga</code>. The access rights can be obtained on
+      request from <a href="mailto:cvsadmin@gingerall.com">the CVS admin</a>.
+      </p>
+          <p CLASS="">
+            <a name="expat"></a>
+      Since version 0.50, Sablotron uses expat 1.95.1, available from <a href="http://expat.sourceforge.org">SourceForge</a>.
+      </p>
+        </DIV>
+        <DIV class="afterskip">
+          <a name="i__280"></a>
+          <h3>
+            <a href="#toc_i__227">4.2&nbsp;&nbsp;Joining the development</a>
+          </h3>
+          <p CLASS="">
+      Sablotron is an open source project and all volunteers are most
+      welcome! The documentation of the sources is still somewhat
+      sparse but we will try to improve it. If you find the invitation
+      to work on Sablotron with us interesting, please <a href="mailto:sablotron@gingerall.com">contact us</a>. There is also
+      a mailing list available, see <a href="http://www.gingerall.com">www.gingerall.com</a>.
+      </p>
+        </DIV>
+      </DIV>
+    </DIV>
+    <DIV class="afterskip">
+      <a name="i__305"></a>
+      <h2>
+        <a href="#toc_i__305">5&nbsp;&nbsp;Implementation. Supported instructions and functions</a>
+      </h2>
+      <DIV>
+        <p CLASS="">The instruction set supported by this version of Sablotron is
+    already sufficient for many transformation tasks (e.g. the task of
+    formatting this document). On the other
+    hand, a comparison of it to the XSLT specification <a href="#ref-xslt">[XSLT]</a> shows that much is still to be
+    done. The purpose of the
+    following sections is to describe the varying degree of support
+    for the elements of the XSLT language. </p>
+        <p CLASS="">It may be helpful to refer to the syntax table in Appendix B
+    of <a href="#ref-xslt">[XSLT]</a>. The instructions/attributes that
+    are not listed as unsupported should be implemented. The <a href="mailto:sablotron@gingerall.com">authors</a> will appreciate being
+    told about any omissions found in the following
+    description.</p>
+        <p CLASS="">For readability, I sometimes omit the <code>xsl:</code> prefix
+    from the instruction names.</p>
+        <DIV class="afterskip">
+          <a name="i__343"></a>
+          <h3>
+            <a href="#toc_i__305">5.1&nbsp;&nbsp;Templates</a>
+          </h3>
+          <p CLASS="" STYLE="background-color: #ffffee">
+            <code>
+        template, apply-templates, call-template
+      </code>
+          </p>
+          <p CLASS="">
+        Fully implemented. <code>xsl:sort</code> is supported since release 0.50.
+      </p>
+        </DIV>
+        <DIV class="afterskip">
+          <a name="i__364"></a>
+          <h3>
+            <a href="#toc_i__305">5.2&nbsp;&nbsp;Conditional processing</a>
+          </h3>
+          <p CLASS="" STYLE="background-color: #ffffee">
+            <code>
+        if, choose, when, otherwise
+      </code>
+          </p>
+          <p CLASS="">Fully implemented.
+      </p>
+        </DIV>
+        <DIV class="afterskip">
+          <a name="i__381"></a>
+          <h3>
+            <a href="#toc_i__305">5.3&nbsp;&nbsp;Loops</a>
+          </h3>
+          <p CLASS="" STYLE="background-color: #ffffee">
+            <code>for-each</code>
+          </p>
+          <p CLASS="">Fully implemented.
+      </p>
+        </DIV>
+        <DIV class="afterskip">
+          <a name="i__398"></a>
+          <h3>
+            <a href="#toc_i__305">5.4&nbsp;&nbsp;Variables and parameters</a>
+          </h3>
+          <p CLASS="" STYLE="background-color: #ffffee">
+            <code>variable, param, with-param</code>
+          </p>
+          <p CLASS="">Fully implemented. Top-level variables and parameters are
+      read in the document order, so no forward references are
+      resolved. This is a minor deviation from the spec. </p>
+        </DIV>
+        <DIV class="afterskip">
+          <a name="i__415"></a>
+          <h3>
+            <a href="#toc_i__305">5.5&nbsp;&nbsp;Element creation</a>
+          </h3>
+          <p CLASS="" STYLE="background-color: #ffffee">
+            <code>element, attribute, text, 
+      comment, processing-instruction, attribute-set</code>
+          </p>
+          <p CLASS="">
+            <code>xsl:attribute-set</code> is not implemented. For the
+      rest, <code>name</code> is the only recognized attribute (where
+      applicable). Literal result elements work.</p>
+        </DIV>
+        <DIV class="afterskip">
+          <a name="i__439"></a>
+          <h3>
+            <a href="#toc_i__305">5.6&nbsp;&nbsp;Global definitions</a>
+          </h3>
+          <p CLASS="" STYLE="background-color: #ffffee">
+            <code>stylesheet, transform, output</code>
+          </p>
+          <p CLASS="">For <code>stylesheet</code> and <code>transform</code>,
+        the only recognized attribute is
+        <code>version</code>. <code>xsl:output</code> should work
+        (see below for notes on the <code>encoding</code>
+        attribute). HTML indentation has been added in 0.60.
+      </p>
+        </DIV>
+        <DIV class="afterskip">
+          <a name="i__476"></a>
+          <h3>
+            <a href="#toc_i__305">5.7&nbsp;&nbsp;Values and copying</a>
+          </h3>
+          <p CLASS="" STYLE="background-color: #ffffee">
+            <code>value-of, copy, copy-of</code>
+          </p>
+          <p CLASS="">
+            <code>copy-of</code> and <code>value-of</code> are fully
+      implemented. <code>copy</code> is implemented except for the
+      <code>use-attribute-sets</code> attribute.</p>
+        </DIV>
+        <DIV class="afterskip">
+          <a name="i__508"></a>
+          <h3>
+            <a href="#toc_i__305">5.8&nbsp;&nbsp;Namespace processing</a>
+          </h3>
+          <p CLASS="" STYLE="background-color: #ffffee">
+            <code>namespace-alias</code>
+          </p>
+          <p CLASS="">Namespaces should be processed correctly. The
+      <code>namespace-alias</code> instruction is now supported
+      (patch by Major).</p>
+        </DIV>
+        <DIV class="afterskip">
+          <a name="i__529"></a>
+          <h3>
+            <a href="#toc_i__305">5.9&nbsp;&nbsp;Sorting</a>
+          </h3>
+          <p CLASS="" STYLE="background-color: #ffffee">
+            <code>sort</code>
+          </p>
+          <p CLASS="">
+            <code>xsl:sort</code> is implemented since 0.50. There are
+      minor limitations:
+      </p>
+          <ul>
+        <li>currently, the <code>lang</code> attribute may only
+        contain the values <code>"en"</code> or <code>"cz"</code>.</li>
+        <li>
+              <code>case-order</code> cannot be specified.</li>
+      </ul>
+        </DIV>
+        <DIV class="afterskip">
+          <a name="i__577"></a>
+          <h3>
+            <a href="#toc_i__305">5.10&nbsp;&nbsp;Whitespace stripping</a>
+          </h3>
+          <p CLASS="" STYLE="background-color: #ffffee">
+            <code>strip-space, preserve-space</code>
+          </p>
+          <p CLASS="">Only the default whitespace stripping is done. That is,
+      all whitespace-only text nodes in any stylesheet, not appearing
+      inside a <code>xsl:text</code>, are removed. The two
+      instructions for whitespace stripping and preservation are
+      unsupported.</p>
+        </DIV>
+        <DIV class="afterskip">
+          <a name="i__598"></a>
+          <h3>
+            <a href="#toc_i__305">5.11&nbsp;&nbsp;Includes</a>
+          </h3>
+          <p CLASS="" STYLE="background-color: #ffffee">
+            <code>include, import, apply-imports</code>
+          </p>
+          <p CLASS="">Only <code>xsl:include</code> is implemented. Processing
+      involving multiple documents works, but has to get more testing,
+      eg. with respect to <code>generate-id()</code>.</p>
+        </DIV>
+        <DIV class="afterskip">
+          <a name="i__623"></a>
+          <h3>
+            <a href="#toc_i__305">5.12&nbsp;&nbsp;Other unimplemented instructions</a>
+          </h3>
+          <ul>
+        <li>
+              <code>xsl:key,</code>
+            </li>
+        <li>
+              <code>xsl:number,</code>
+            </li>
+        <li>
+              <code>xsl:fallback.</code>
+            </li>
+      </ul>
+        </DIV>
+        <DIV class="afterskip">
+          <a name="i__654"></a>
+          <h3>
+            <a href="#toc_i__305">5.13&nbsp;&nbsp;Output conformance</a>
+          </h3>
+          <p CLASS="">The output mechanism is much closer to the spec than in
+      the versions prior to 0.4. The following issues remain for the
+      html method:</p>
+          <ul>
+        <li>Output the boolean attributes correctly.</li>
+        <li>Disable the escaping inside
+        <code>&lt;SCRIPT></code> and
+        <code>&lt;STYLE></code>
+            </li>.
+      </ul>
+        </DIV>
+        <DIV class="afterskip">
+          <a name="i__686"></a>
+          <h3>
+            <a href="#toc_i__305">5.14&nbsp;&nbsp;XPath expressions</a>
+          </h3>
+          <p CLASS="">Almost all features of XPath are fully implemented. This means
+      there should be no problems with expressions of any kind.</p>
+          <p CLASS="">One exception relates to axes. The <code>following</code> and
+      <code>preceding</code> axes haven't been implemented yet.</p>
+          <p CLASS="">Another possible exception may be numbers; we did not yet do a
+      thorough test of rounding, NaNs, infinity, etc.</p>
+        </DIV>
+        <DIV class="afterskip">
+          <a name="i__714"></a>
+          <h3>
+            <a href="#toc_i__305">5.15&nbsp;&nbsp;Built-in functions</a>
+          </h3>
+          <p CLASS="">
+            <a name="corelib"></a>Only a few functions from the standard
+      function library remain
+      unimplemented:
+      </p>
+          <ul>
+      <li>
+              <code>id()</code>,</li>
+      <li>
+              <code>lang()</code> (accepted but always returns true),</li>
+      <li>
+              <code>key()</code>,</li>
+      <li>
+              <code>format-number()</code>,</li>
+      <li>
+              <code>unparsed-entity-uri()</code>.</li>
+      </ul>
+          <p CLASS="">As for the fuctions that <i>are</i> implemented, the
+      following is a list of differences from the spec:
+      </p>
+          <ul>
+        <li>
+              <code>document()</code> only accepts one argument, always
+        getting the base URI from the stylesheet URI.
+        </li>
+        <li>
+              <code>string-length()</code> returns the byte length of
+        the UTF-8 representation of the string. This will typically
+        differ from the actual length.
+        </li>
+        <li>
+              <code>generate-id()</code> might fail to generate unique identifiers
+        when several input documents are present (giving the same id to
+        nodes from different documents).
+        </li>
+      </ul>
+        </DIV>
+      </DIV>
+    </DIV>
+    <DIV class="afterskip">
+      <a name="i__804"></a>
+      <h2>
+        <a href="#toc_i__804">6&nbsp;&nbsp;Other implementation-related notes</a>
+      </h2>
+      <DIV>
+        <DIV class="afterskip">
+          <a name="i__811"></a>
+          <h3>
+            <a href="#toc_i__804">6.1&nbsp;&nbsp;Handlers</a>
+          </h3>
+          <p CLASS="">It is possible for the user to supply the following
+      handlers to Sablotron:
+        <ul>
+          <li>message handler (to bypass the default way of displaying
+          error and warning messages and logging),</li>
+          <li>scheme handler (to retrieve documents whose URI use an
+          unsupported scheme),</li>
+          <li>streaming handler (an expat-like interface to the XML
+          document which is the result of the processing),</li>
+          <li>'miscellaneous' handler (which will probably server as a
+          collections of odd callbacks).</li>
+        </ul>
+      </p>
+          <p CLASS="">
+        The handlers are set using <code>SablotRegHandler()</code>
+        For details concerning the interface of these handlers,
+        consult the header files <code>sablot.h</code> and
+        <code>shandler.h</code>. 
+      </p>
+        </DIV>
+        <DIV class="afterskip">
+          <a name="i__859"></a>
+          <h3>
+            <a href="#toc_i__804">6.2&nbsp;&nbsp;Encodings</a>
+          </h3>
+          <p CLASS="">
+        In version 0.52, the encoding conversion capabilities of
+        Sablotron have been much extended. The most important fact is the
+        following: if you have the iconv library installed on your system, you
+        can use any encoding it supports (that is, almost any encoding
+        whatsoever) for both the input and the output documents. Iconv
+        is available on most systems (it is a standard part of glibc2,
+        for instance). There are implementations for Win32 as well.
+      </p>
+          <p CLASS="">If iconv is not available, the encoding may still be supported internally by
+      Sablotron. At present, the list is of such encodings is rather
+      short: besides UTF-8, these are UTF-16, ASCII, iso-8859-1,
+      iso-8859-2 and windows-1250 on input, none on output. However,
+      we plan to implement a half independent light-weight
+      conversion library for use on systems without iconv,
+      extending the set of internally supported encodings
+      considerably. 
+      </p>
+          <p CLASS="">Lastly, the user has the option to implement a custom
+      encoding conversion handler, which will be asked to perform any unsupported
+      conversion. See the <code>shandler.h</code> header file for
+      details.
+      </p>
+          <p CLASS="">The default input and output encoding is in all cases UTF-8.</p>
+        </DIV>
+        <DIV class="afterskip">
+          <a name="i__887"></a>
+          <h3>
+            <a href="#toc_i__804">6.3&nbsp;&nbsp;Output methods</a>
+          </h3>
+          <p CLASS="">In addition to the standard output methods (xml, html and
+      text), it is possible to output xhtml. Documents output using
+      this method obey the XHTML 1.0 rules (in particular, all empty
+      elements are closed). To choose the method, use
+      <code>&lt;xsl:output method='xhtml'></code>. <b>Please note</b>
+      that the name of this method will possibly be changed since the XSLT
+      spec requires any processor-specific methods to have qualified
+      names, say <code>sab:xhtml</code>. On the other hand, the name
+      <code>xhtml</code> is considered in the XSLT 2.0 working draft.</p>
+        </DIV>
+        <DIV class="afterskip">
+          <a name="i__915"></a>
+          <h3>
+            <a href="#toc_i__804">6.4&nbsp;&nbsp;URIs</a>
+          </h3>
+          <p CLASS="">Sablotron can handle
+      two URI schemes natively: 'file' and 'arg' (see
+      below). Moreover, it is possible to use the function
+      <code>SablotRegSchemeHandler</code> to register an external scheme
+      handler which will receive requests in all other schemes. See
+      the documentation in <code>sablot.h</code> and
+      <code>shandler.h</code>.
+      </p>
+          <p CLASS="">Relative URI references are resolved in conformance to RFC
+      2396. The base URI is well defined when the relative reference appears
+      inside a XML document; when invoking sabcmd, the base URI is
+      taken to correspond to the current working directory.
+      </p>
+          <p CLASS="">
+            <a name="fname-rules"></a>When specifying filenames, the
+      following rules are in effect:
+      </p>
+          <ul>
+        <li>specify the "file:" scheme for any standard files,
+      i.e. refer to <code>stdin</code> as <code>file://stdin</code>
+      etc.</li>
+        <li>slashes and backslashes work equally fine, in Windows as
+      well as Linux.</li>
+        <li>to include a drive letter under Windows
+      (e.g. <code>C:\doc.xml</code>), it is necessary to say
+      <code>file://c:/doc.xml</code>. 
+        </li>
+      </ul>
+        </DIV>
+        <DIV class="afterskip">
+          <a name="i__983"></a>
+          <h3>
+            <a href="#toc_i__804">6.5&nbsp;&nbsp;Named buffers</a>
+          </h3>
+          <p CLASS="">
+            <a name="argscheme"></a>Sablotron introduces an URI scheme
+      'arg:' which enables one to use strings in named memory
+      buffers. The buffer names can have a tree-like structure so that
+      a relative reference from a document in a buffer can be resolved
+      as pointing to another buffer.
+      </p>
+          <p CLASS="">For instance, if we invoke Sablotron specifying that a
+      buffer named <code>/mybuf/1</code> contains the string
+      "&amp;lt;a>contents&amp;lt;/a>", then the expression
+      </p>
+          <p CLASS="" STYLE="background-color: #ffffee">
+            <code>
+      document('arg:/mybuf/1')/a
+      </code>
+          </p>
+          <p CLASS="">has string-value "contents". If the document in arg:/mybuf/1
+      contained a relative URI reference "../theirbuf/2" then this
+      would be resolved as pointing to "arg:/theirbuf/2".</p>
+        </DIV>
+        <DIV class="afterskip">
+          <a name="i__1015"></a>
+          <h3>
+            <a href="#toc_i__804">6.6&nbsp;&nbsp;Error and log messages</a>
+          </h3>
+          <p CLASS="">By default, Sablotron writes error and warning messages to
+      stderr, and does no logging. By a call to
+      <code>SablotSetLog()</code>, you can specify the name of the log
+      file to be used.</p>
+          <p CLASS="">Besides, you can use <code>SablotRegHandler()</code>
+      to override the default message handling. The handler you
+      register will receive all messages in a structured form that's
+      easy to process and filter. For details, see
+      the documentation in <code>sablot.h</code> and
+      <code>shandler.h</code>.</p>
+        </DIV>
+      </DIV>
+    </DIV>
+    <DIV class="afterskip">
+      <a name="i__1048"></a>
+      <h2>
+        <a href="#toc_i__1048">7&nbsp;&nbsp;The C interface</a>
+      </h2>
+      <DIV>
+        <p CLASS="">
+          <a name="invocation"></a>
+        </p>
+        <p CLASS="">
+        This section describes the functions exported from the
+        Sablotron library.  All of them have a return type of 'int'
+        and return an error flag (nonzero signals an error). Errors
+        are reported to the user by Sablotron itself. 
+      </p>
+        <DIV class="afterskip">
+          <a name="i__1065"></a>
+          <h3>
+            <a href="#toc_i__1048">7.1&nbsp;&nbsp;Shortcuts</a>
+          </h3>
+          <p CLASS="">
+        We'll first describe the 'shortcuts' that do the whole
+        processing in one call.
+      </p>
+          <p CLASS="" STYLE="background-color: #ffffee">
+            <code>
+        int SablotProcess(char *sheetURI, char *inputURI, char *resultURI,
+        char **params, char **arguments, char **resultArg);
+      </code>
+          </p>
+          <p CLASS="">
+        This is the basic function. The first three of its arguments
+        are the URIs of the XSLT stylesheet, the XML source and the
+        resulting document, respectively. For some notes on specifying
+        file names, see <a href="#fname-rules">above</a>.
+      </p>
+          <p CLASS="">
+            <code>params</code> is an array of pointers to the names
+      and contents of the top-level stylesheet parameters. Thus,
+      <code>params[0]</code> is a pointer to the null-terminated name
+      of the first parameter, <code>params[1]</code> points to the
+      (null-terminated) contents of the first parameter. The following
+      two array items do the same for the second parameter, etc. The
+      whole array is terminated by a NULL pointer in place of the
+      name. If no parameters are to be passed, you can specify NULL
+      for <code>params</code> itself.
+      </p>
+          <p CLASS="">
+            <code>arguments</code> is a similar array of named buffers
+      to be passed to the stylesheet. (They can be referred to via the
+      'arg:' scheme, see <a href="#argscheme">above</a>.) Again, the
+      array is a sequence of (name, value) pairs terminated by NULL in
+      place of a name. If no named buffers are to be passed, you can
+      specify NULL for <code>arguments</code> itself.
+      </p>
+          <p CLASS="">
+            <code>resultArg</code> enables one to access the
+      resulting document in case the output went to a named buffer. In
+      that situation, <code>*resultArg</code> points to the resulting
+      null-terminated string, allocated by Sablotron. You can pass NULL
+      for <code>resultArg</code> if the output is sure to go to a
+      file. 
+      </p>
+          <p CLASS="">
+            <b>Note:</b>When you are done processing the string
+      pointed to by <code>*resultArg</code>, free it using <a href="#sablotfree">
+              <code>SablotFree()</code>
+            </a> - never use
+      <code>free()</code>. The latter is guaranteed to produce a
+      segmentation fault under Linux.
+      </p>
+          <p CLASS="" STYLE="background-color: #ffffee">
+            <code>
+        int SablotProcessFiles(char *styleSheetName,
+        char *inputName,
+        char *resultName);
+      </code>
+          </p>
+          <p CLASS="">A wrapper for <code>SablotProcess()</code> working on
+      files. The parameters are the null-terminated file names of the
+      XSLT stylesheet, the XML input and the result,
+      respectively. Sablotron opens these files itself and closes them
+      after the processing is complete. Values like "file://stdin" are
+      allowed.</p>
+          <p CLASS="" STYLE="background-color: #ffffee">
+            <code>
+        int SablotProcessStrings(char *styleSheetStr, char *inputStr, char
+        **resultStr);
+      </code>
+          </p>
+          <p CLASS="">Another wrapper for <code>SablotProcess()</code>, this
+        time for accessing named buffers (i.e. user-allocated memory
+        blocks)only. Thus, the first parameter is a null-terminated
+        string containing the whole stylesheet; the second parameter
+        is a null-terminated string containing the XML
+        input. Sablotron allocates the buffer for the resulting string
+        and returns a pointer to it in resultStr. Hence, invoking
+        <code>puts(*resultStr)</code> after having called
+        <code>SablotProcessStrings</code> sends the result to
+        stdout. The buffer allocated <b>must</b> be freed by calling the
+        function <code>SablotFree</code> described next. 
+      </p>
+        </DIV>
+        <DIV class="afterskip">
+          <a name="i__1205"></a>
+          <h3>
+            <a href="#toc_i__1048">7.2&nbsp;&nbsp;Basic functions</a>
+          </h3>
+          <p CLASS="">The above shortcuts just call the basic, lower-level
+      functions described below. Note that if you need to set options
+      for logging etc., you may need to use the low-level
+      functions. </p>
+          <p CLASS="">A typical processing session may look like this:</p>
+          <p CLASS="">
+            <pre>
+          SablotHandle p;
+          char *my_buf;
+          SablotCreateProcessor(&amp;p);
+          SablotSetLog(p, ...);
+          /* ...set other instance-specific options here... */
+          SablotRunProcessor(p, ...);
+          SablotGetResultArg(p, "arg:/somename", &amp;my_buf)
+          /* ...do something with my_buf... */
+          /* can run the processor again if necessary */
+          SablotRunProcessor(p, ...);
+          SablotDestroyProcessor(p);
+      </pre>
+          </p>
+          <p CLASS="" STYLE="background-color: #ffffee">
+            <code>
+        int SablotCreateProcessor(SablotHandle *processorPtr);
+      </code>
+          </p>
+          <p CLASS="">Creates an instance of Sablotron and returns a pointer to
+      it in *processorPtr. This pointer is passed on all subsequent
+      calls to this instance. </p>
+          <p CLASS="" STYLE="background-color: #ffffee">
+            <code>
+        int SablotDestroyProcessor(SablotHandle processor_);
+      </code>
+          </p>
+          <p CLASS="">Destroys an instance of the processor, deallocating all
+      the memory used up by it.</p>
+          <p CLASS="" STYLE="background-color: #ffffee">
+            <code>
+        int SablotRunProcessor(SablotHandle processor_,
+        char *sheetURI, 
+        char *inputURI, 
+        char *resultURI,
+        char **params, 
+        char **arguments);
+      </code>
+          </p>
+          <p CLASS="">Processes documents using the given processor instance and
+      given params and args definitions. See
+      <code>SablotProcess()</code>.</p>
+          <p CLASS="" STYLE="background-color: #ffffee">
+            <code>
+        int SablotGetResultArg(SablotHandle processor_,
+        char *argURI,
+        char **argValue);
+      </code>
+          </p>
+          <p CLASS="">Copies the result 'arg' buffer with the given URI,
+      returning a pointer to the newly-allocated block in
+      *argValue. If no such buffer exists, returns NULL in *argValue. 
+      </p>
+          <p CLASS="">This function is necessary, because if the result document
+      is output to memory, it would be lost when
+      <code>SablotDestroyProcessor()</code> is called. When
+      deallocating the copy obtained from
+      <code>SablotGetResultArg()</code>, use <code>SablotFree</code>
+      (never <code>free()</code>). </p>
+          <p CLASS="" STYLE="background-color: #ffffee">
+            <code>
+        int SablotFreeResultArgs(SablotHandle processor_);
+      </code>
+          </p>
+          <p CLASS="">Removes the Sablotron-internal copies of the 'arg' buffers
+      from the last Sablotron run. Normally, there should be no reason
+      to call this function as it is called automatically on both
+      <code>SablotRunProcessor()</code> and
+      <code>SablotDestroyProcessor()</code>. </p>
+          <p CLASS="" STYLE="background-color: #ffffee">
+            <code>
+              <a name="sablotfree"></a>
+        int SablotFree(char *resultBuf);
+      </code>
+          </p>
+          <p CLASS="">This function frees the buffer allocated on previous call
+        to <code>SablotProcessStrings</code>. Calling it with an
+        invalid pointer will cause a crash. 
+      </p>
+          <p CLASS="" STYLE="background-color: #ffffee">
+            <code>
+        int SablotRegHandler(
+        SablotHandle processor_, 
+        HandlerType type,   
+        void *handler, 
+        void *userData);
+      </code>
+          </p>
+          <p CLASS="">Registers an external handler. <code>type</code> can be
+        <code>HLR_MESSAGE</code>, <code>HLR_SCHEME</code>,
+        <code>HLR_SAX</code>, <code>HLR_MISC</code> or
+        <code>HLR_ENC</code>. 
+        <code>handler</code> points to the
+        callback vector of the appropriate type. <code>userData</code>
+        is a data item to passed to all callbacks of this particular
+        handler. For details, check the <code>sablot.h</code> and
+        <code>shandler.h</code> header files.
+      </p>
+          <p CLASS="" STYLE="background-color: #ffffee">
+            <code>
+        int SablotUnregHandler(
+        SablotHandle processor_, 
+        HandlerType type,   
+        void *handler, 
+        void *userData);
+      </code>
+          </p>
+          <p CLASS="">Unregisters the given external handler. For details, check the
+      <code>sablot.h</code> and <code>shandler.h</code> header
+      files.</p>
+          <p CLASS="" STYLE="background-color: #ffffee">
+            <code>
+        int SablotSetLog(
+        SablotHandle processor_,
+        const char *logFilename, 
+        int logLevel);
+      </code>
+          </p>
+          <p CLASS="">Sets the log filename. The <code>logLevel</code> parameter
+      is currently not used. Pass NULL for <code>logFilename</code> to
+      turn logging off (default). </p>
+          <p CLASS="">The other functions published by sablot.h have been
+      included for experimental reasons or for compatibility, and it
+      is better not to use them.
+      </p>
+          <p CLASS="" STYLE="background-color: #ffffee">
+            <code>
+        int SablotClearError(SablotHandle processor_);
+      </code>
+          </p>
+          <p CLASS="">Clears the 'pending error' flag for this instance of
+      Sablotron.</p>
+        </DIV>
+        <DIV class="afterskip">
+          <a name="i__1416"></a>
+          <h3>
+            <a href="#toc_i__1048">7.3&nbsp;&nbsp;Generalized interface functions</a>
+          </h3>
+          <p CLASS="">The implementation of the <a href="#dom">DOM interface</a>
+      brought the need to extend some of the functions described in
+      the previous section. This extension enables the user to:
+      </p>
+          <ul>
+        <li>process documents created by the DOM functions, and</li>
+        <li>process frequently used documents in pre-parsed form.</li>
+      </ul>
+          <p CLASS="">An object called <i>situation</i> is used to provide a
+persistent context for all calls to the DOM-related
+functions. Functions used to manipulate the situation are described in
+<a href="#situation">the following section</a>.</p>
+          <p CLASS="">
+            <b>Note:</b> If not specified otherwise, all these
+      functions return an error code. A positive value indicates an error.</p>
+          <p CLASS="" STYLE="background-color: #ffffee">
+            <code>int SablotCreateDocument(SablotSituation S, 
+	    SDOM_Document *D);
+      </code>
+          </p>
+          <p CLASS="">Creates an empty document. Typically followed by calls to
+      DOM functions to populate the document.</p>
+          <p CLASS="" STYLE="background-color: #ffffee">
+            <code>int SablotDestroyDocument(SablotSituation S, 
+	    SDOM_Document D);
+      </code>
+          </p>
+          <p CLASS="">Destroys a document, freeing all the nodes it has created.</p>
+          <p CLASS="" STYLE="background-color: #ffffee">
+            <code>int SablotParse(SablotSituation S, 
+        const char *uri, SDOM_Document *D);
+      </code>
+          </p>
+          <p CLASS="">Reads in a document from the given URI.</p>
+          <p CLASS="" STYLE="background-color: #ffffee">
+            <code>int SablotParseBuffer(SablotSituation S, 
+        const char *buffer, SDOM_Document *D);
+      </code>
+          </p>
+          <p CLASS="">Reads in a document from the given in-memory buffer.</p>
+          <p CLASS="">These functions have variants to be used if the document
+      is to be interpreted as an XSLT stylesheet, namely
+      <code>SablotParseStylesheet</code> and
+      <code>SablotParseStylesheetBuffer</code>.</p>
+          <p CLASS="">The following functions generalize
+      <code>SablotRunProcessor</code> in that they make it possible to
+      utilize an extra kind of a source document: a DOM tree.</p>
+          <p CLASS="" STYLE="background-color: #ffffee">
+            <code>int SablotRunProcessorGen(SablotSituation S,
+        void *processor_,
+        char *sheetURI, 
+        char *inputURI, 
+        char *resultURI);    
+      </code>
+          </p>
+          <p CLASS="">A key ingredient of the extended interface. Only the URIs
+      of the sources and of the result document are given to it. The
+      rest of the information passed to
+      <code>SablotRunProcessor</code> is conveyed through
+      <code>SablotAddArgBuffer,</code> <code>SablotAddArgTree</code>
+      and <code>SablotAddParam.</code> The scheme part of the
+      stylesheet URI or the input URI may be "arg:", in which
+      case they refer to a buffer or tree passed by these
+      functions. </p>
+          <p CLASS="" STYLE="background-color: #ffffee">
+            <code>int SablotAddArgBuffer(SablotSituation S,
+        void *processor_,
+        const char *argName,
+        const char *bufferValue);
+</code>
+          </p>
+          <p CLASS="">Creates a named buffer for the next processor run. The
+      buffer's name and contents are passed as arguments. The name
+      is interpreted relative to the 'arg:/' scheme.</p>
+          <p CLASS="" STYLE="background-color: #ffffee">
+            <code>int SablotAddArgTree(SablotSituation S,
+        void *processor_,
+        const char *argName,
+        SDOM_Document tree);
+</code>
+          </p>
+          <p CLASS="">Associates the given document with a name for the next
+      processor run. The document is <i>not</i> destroyed after the
+      run is finished. The name is interpreted relative to the 'arg:/'
+      scheme.</p>
+          <p CLASS="" STYLE="background-color: #ffffee">
+            <code>int SablotAddParam(SablotSituation S,
+        void *processor_,
+        const char *paramName,
+        const char *paramValue);
+      </code>
+          </p>
+          <p CLASS="">Adds a global stylesheet parameter for the next processor
+      run.</p>
+        </DIV>
+        <DIV class="afterskip">
+          <a name="i__1578"></a>
+          <h3>
+            <a href="#toc_i__1048">7.4&nbsp;&nbsp;The situation object</a>
+          </h3>
+          <p CLASS="">
+            <a name="situation"></a>At present, the situation object primarily holds information on any pending errors. A
+situation is created using</p>
+          <p CLASS="" STYLE="background-color: #ffffee">
+            <code>int SablotCreateSituation(SablotSituation
+      *SP);</code>
+          </p>
+          <p CLASS="">and destroyed by</p>
+          <p CLASS="" STYLE="background-color: #ffffee">
+            <code>int SablotDestroySituation(SablotSituation
+      S);</code>
+          </p>
+          <p CLASS="">To clear the pending error flag in a situation, use</p>
+          <p CLASS="" STYLE="background-color: #ffffee">
+            <code>int SablotClearSituation(SablotSituation
+      S);</code>
+          </p>
+          <p CLASS="">The following self-explanatory functions extract parts of the error information
+      from the situation:</p>
+          <p CLASS="" STYLE="background-color: #ffffee">
+            <code>
+        const char *SablotGetErrorURI(SablotSituation S);<br>
+        int SablotGetErrorLine(SablotSituation S);<br>
+        const char *SablotGetErrorMsg(SablotSituation S);
+     </code>
+          </p>
+        </DIV>
+        <DIV class="afterskip">
+          <a name="i__1631"></a>
+          <h3>
+            <a href="#toc_i__1048">7.5&nbsp;&nbsp;Document Object Model (DOM) functions</a>
+          </h3>
+          <p CLASS="">
+            <a name="dom"></a>Starting with version 0.60, Sablotron implements
+      a major subset of the DOM Level 1 Core Specification <a href="#ref-dom">[DOM]</a>. A brief
+      description of the implemented interface follows; for more
+      details, please refer to the header file named
+      <code>sdom.h.</code>
+          </p>
+          <p CLASS="">All of the names related to the DOM interface start with
+      SDOM_ (for Sablot DOM).</p>
+          <p CLASS="">Major new types are <code>SDOM_Document</code> (a DOM tree) and
+      <code>SDOM_Node</code> (a node of the tree). A document can also be used in
+      place of a node. This reflects the fact in the DOM spec, 
+      Document is a subclass of Node. When used in this way, the
+      document represents its own root node (which is not the same as
+      the `root element').</p>
+          <p CLASS="">Other types include:</p>
+          <ul>
+        <li>
+              <code>SDOM_char:</code> a DOM character type. Currently, this is just
+        char. Note that the DOM spec requires that the DOM
+        implementations work with UTF-16. Sablotron deviates from this
+        by using UTF-8 instead. A separate set of functions taking
+        UTF-16 strings will be provided.</li>
+        <li>
+              <code>SDOM_NodeType:</code> a node type enum. Some of the values are
+        <code>SDOM_ELEMENT_NODE,</code> <code>SDOM_ATTRIBUTE_NODE</code> and <code>SDOM_TEXT_NODE.</code> See
+        <code>sdom.h</code> for the rest.</li>
+        <li>
+              <code>SDOM_NodeList:</code> a node list returned by some of the
+        functions.</li>
+        <li>
+              <code>SDOM_Exception:</code> DOM exception codes enum, with values such
+        as <code>SDOM_NOT_FOUND_ERR</code> or <code>SDOM_INVALID_NODE_TYPE</code>. See <code>sdom.h</code>
+        for details.</li>
+</ul>
+          <p CLASS="">The functions listed below are implemented more or less as defined in
+      the DOM Level 1 Specification, with two exceptions:
+      their names are prefixed with <code>SDOM_</code> and the first argument is
+      always a <code>SablotSituation.</code> All the functions return
+      a <code>SDOM_Exception.</code> </p>
+          <ul>
+<li>
+              <code>createElement, createAttribute, createTextNode,
+createCDATASection, createComment, createProcessingInstruction</code>
+            </li>
+<li>
+              <code>getNodeType, getNodeName, setNodeName, getNodeValue, setNodeValue</code>
+            </li>
+<li>
+              <code>getParentNode, getFirstChild, getLastChild, getPreviousSibling,
+getNextSibling, getOwnerDocument</code>
+            </li>
+<li>
+              <code>insertBefore, appendChild, removeChild, replaceChild</code>
+            </li>
+<li>
+              <code>cloneNode</code>
+            </li>
+<li>
+              <code>getAttribute, setAttribute, removeAttribute, getAttributeList</code>
+            </li>
+</ul>
+          <p CLASS="">Several functions have been added:</p>
+          <ul>
+<li>
+              <code>disposeNode</code> frees all memory used by the given node</li>
+<li>
+              <code>cloneForeignNode</code> clones a node from a different
+document</li>
+<li>
+              <code>docToString</code> serializes the document, returning the
+resulting string</li>
+<li>
+              <code>xql</code> performs an XPath query on the DOM tree,
+returning a list of the nodes satisfying it.</li>
+</ul>
+          <p CLASS="">In addition, there are some functions used to manipulate
+      the node lists returned by <code>xql</code> and
+      <code>getAttributeList</code>. These include
+      <code>getNodeListLength</code>, <code>getNodeListItem</code> and
+      <code>disposeNodeList</code>.</p>
+          <p CLASS="">Finally, there are functions to extract DOM
+      exception-related information from the situation object, namely
+      <code>getExceptionCode</code>, <code>getExceptionMessage</code>
+      and <code>getExceptionDetails</code>.</p>
+        </DIV>
+      </DIV>
+    </DIV>
+    <DIV class="afterskip">
+      <a name="i__1870"></a>
+      <h2>
+        <a href="#toc_i__1870">8&nbsp;&nbsp;The command line interface</a>
+      </h2>
+      <DIV>
+        <p CLASS="">Sablotron comes with a command-line interface to the
+        shared library, which is a program named
+        <code>sabcmd</code>. At present, <code>sabcmd</code> is invoked
+        as follows:</p>
+        <p CLASS="" STYLE="background-color: #ffffee">
+          <code>
+      sabcmd [<i>options</i>] <i>stylesheet</i> [<i>input</i> [<i>result</i>]] [<i>assignments</i>]
+      </code>
+        </p>
+        <p CLASS="">The arguments are the URIs of the XSLT stylesheet, the
+      XML input document, and the resulting document, respectively. The
+      default for <code>
+            <i>input</i>
+          </code> is
+      <code>file://stdin</code> (meaning plain old stdin);
+      <code>
+            <i>result</i>
+          </code> defaults to
+      <code>file://stdout</code>. Filenames have to include the extension (if
+      any).</p>
+        <p CLASS="">You can display the list of available options by typing
+      <code>sabcmd --help</code>. Among the more useful ones are
+      <code>--log-file</code> (for setting the log file) and
+      <code>--measure</code> (measures and outputs the total
+      processing time).
+      </p>
+        <p CLASS="">
+          <a href="#fname-rules">The rules for filenames</a> are the same as
+      with <code>SablotProcess()</code>. 
+      </p>
+        <p CLASS="">
+          <code>assignments</code> is a series of definitions of the
+      form:</p>
+        <p CLASS="" STYLE="background-color: #ffffee">
+          <code>
+      name1=value1 name2=value2 ...
+      </code>
+        </p>
+        <p CLASS="">
+      assigning values to top-level stylesheet parameters and to named
+      buffers. These two cases are distinguished by a leading '$' in
+      the name of a stylesheet parameter. The names of the buffers do
+      <i>not</i> start with "arg:". They may start with a slash; if
+      they don't, the slash is prepended. 
+      </p>
+        <p CLASS="">
+          <b>Note:</b> In most cases, it will be necessary to quote
+      the individual assignments. Whether to use single or double
+      quotes may depend on the shell used (or may it?) Single quotes
+      work for bash, double quotes work in Windows.
+      </p>
+        <p CLASS="">If the result URI refers to a named buffer, the output
+      would normally remain buried in memory. Sabcmd dumps the buffer to standard
+      output instead.
+      </p>
+        <p CLASS="">To sum up and give an example, the following would be a
+      valid invocation of sabcmd:</p>
+        <p CLASS="" STYLE="background-color: #ffffee">
+          <code>
+      sabcmd sheet.xsl arg:/the_input "the_input=&amp;lt;a/>"
+      "$use_defaults=1"
+      </code>
+        </p>
+        <p CLASS="">This processes the document passed in the buffer named
+      the_input, using a stylesheet found in file "sheet.xsl" in the
+      working directory. We assign 1 to the top-level parameter called
+      "use_defaults". The output goes to stdout by default.
+      </p>
+      </DIV>
+    </DIV>
+    <DIV class="afterskip">
+      <a name="i__2013"></a>
+      <h2>
+        <a href="#toc_i__2013">9&nbsp;&nbsp;References</a>
+      </h2>
+      <DIV>
+        <dl>
+      <dt>
+            <a name="ref-xslt"></a>[XSLT]</dt>
+      <dd>
+        <a href="http://www.w3.org/TR/1999/REC-xslt-19991116">
+          XSL Transformations (XSLT) Version 1.0
+        </a>
+      </dd>
+
+      <dt>
+            <a name="ref-xpath"></a>[XPath]</dt>
+      <dd> 
+        <a href="http://www.w3.org/TR/1999/REC-xpath-19991116">
+          XML Path Language (XPath) Version 1.0
+        </a>
+      </dd>
+
+      <dt>
+            <a name="ref-xml"></a>[XML]</dt>
+      <dd>
+        <a href="http://www.w3.org/TR/1998/REC-xml-19980210">
+          Extensible Markup Language (XML) 1.0
+        </a>
+      </dd>
+
+      <dt>
+            <a name="ref-dom"></a>[DOM]</dt>
+      <dd>
+        <a href="http://www.w3.org/TR/REC-DOM-Level-1">
+          Document Object Model Level 1 Specification, Version 1.0
+        </a>
+      </dd>
+
+      <dt>
+            <a name="ref-rcover"></a>[Cover]</dt>
+      <dd>
+        <a href="http://www.oasis-open.org/cover/sgml-xml.html">
+          The XML Cover Pages</a>
+      </dd>
+      
+      <dt>
+            <a name="ref-xmlorg"></a>[XMLorg]</dt>
+      <dd>
+        <a href="http://xml.org">XML.org</a>
+      </dd>
+
+      <dt>
+            <a name="ref-xslinfo"></a>[XSLINFO]</dt>
+      <dd>
+        <a href="http://www.xslinfo.com">XSLINFO.com</a>
+      </dd>
+
+      <dt>
+            <a name="ref-bible"></a>[XMLBible14]</dt>
+      <dd>
+        <a href="http://metalab.unc.edu/xml/books/bible/updates/14.html">
+          Harold, E. R.: XML Bible, Chapter 14 (online presentation)
+        </a>
+      </dd>
+    </dl>
+      </DIV>
+    </DIV>
+    <hr>
+    <p STYLE="font-style: italic; margin-left: 0">(c) 2000 Ginger Alliance s.r.o.</p>
+  </body>
+</html>

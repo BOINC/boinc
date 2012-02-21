@@ -1,0 +1,43 @@
+/* Platform independent version definitions... */
+
+#ifndef BOINC_VERSION_H
+#define BOINC_VERSION_H
+
+/* Major part of BOINC version number */
+#define BOINC_MAJOR_VERSION @BOINC_MAJOR_VERSION@
+
+/* Minor part of BOINC version number */
+#define BOINC_MINOR_VERSION @BOINC_MINOR_VERSION@
+
+/* Release part of BOINC version number */
+#define BOINC_RELEASE @BOINC_RELEASE@
+
+/* String representation of BOINC version number */
+#define BOINC_VERSION_STRING "@BOINC_VERSION_STRING@"
+
+/* Package is a pre-release (Alpha/Beta) package */
+/* #define BOINC_PRERELEASE 1 */
+
+#if (defined(_WIN32) || defined(__APPLE__))
+/* Name of package */
+#define PACKAGE "@PACKAGE@"
+
+/* Define to the address where bug reports for this package should be sent. */
+#define PACKAGE_BUGREPORT "@PACKAGE_BUGREPORT@"
+
+/* Define to the full name of this package. */
+#define PACKAGE_NAME "@PACKAGE_NAME@"
+
+/* Define to the full name and version of this package. */
+#define PACKAGE_STRING "@PACKAGE_STRING@"
+
+/* Define to the one symbol short name of this package. */
+#define PACKAGE_TARNAME "@PACKAGE_TARNAME@"
+
+/* Define to the version of this package. */
+#define PACKAGE_VERSION "@PACKAGE_VERSION@"
+
+#endif /* #if (defined(_WIN32) || defined(__APPLE__)) */
+
+#endif /* #ifndef BOINC_VERSION_H */
+

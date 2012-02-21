@@ -1,0 +1,11 @@
+This directory tree is used for files required to create a distribution
+package for various operating systems.  The tree structure is as follows...
+
+packages/{OS name}/{Package Manager or OS Distribution or Web Site}
+
+Since these directories are maintained by the package maintainers, any
+instructions for creating the packages or Makefiles are created the package
+maintainers, and may, therefore vary in quality, and may require manual
+configuration change.  Because these files are not maintained by the BOINC 
+developers, we don't guarantee they will work.  Any bug reports
+related to files in this tree will probably be given low priority.

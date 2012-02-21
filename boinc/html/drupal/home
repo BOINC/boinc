@@ -1,0 +1,23 @@
+<?php
+
+$original_cwd = getcwd();
+chdir('includes/boinc');
+require_once('user.inc');
+
+function display_account($userid) {
+    $user = BoincUser::lookup_id($userid);
+    if (!$user) {
+        echo "<h3>No such user</h3>\n";
+        return;
+    }
+    show_account_private($user);
+}
+
+$userid = arg(2);
+if (!$userid) $userid = 1;
+$userid = 1;
+
+display_account($userid);
+
+chdir($original_cwd);
+?>

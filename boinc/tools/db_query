@@ -1,0 +1,8 @@
+#! /bin/csh
+
+set CIVDATE = `date "+%Y:%m:%d:%H:%M"`
+set UNIXDATE = `perl -e 'print time()'`
+set DBNAME = `../bin/parse_config db_name`
+set COUNT = `echo "use $DBNAME;$1" | mysql | tail -1`
+
+echo $CIVDATE $UNIXDATE $COUNT

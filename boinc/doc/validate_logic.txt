@@ -1,0 +1,135 @@
+int check_set(
+  vector<RESULT> results,
+  DB_WORKUNIT&   wu,
+  int&           canonicalid,
+  double&        credit,
+  bool&          retry
+);
+
+Define N := length of result vector, and let M := N.
+
+check_set() will ALWAYS be called with N>=wu.min_quorum.
+
+check_set() will ALWAYS be called with ALL results satisfying
+    result.outcome == RESULT_OUTCOME_SUCCESS
+    result.validate_state == VALIDATE_STATE_INIT
+
+check_set() should NEVER modify wu [although it is not declared
+    const]
+
+[1] Syntax pass (optional)
+
+ for (all N results) {
+
+   if (one or more of the result's output files can be read
+       and one or more of those files contains erroneous or
+       invalid or incorrect output, i.e. bad file syntax)
+   {
+     set result.outcome=RESULT_OUTCOME_VALIDATE_ERROR; 
+     set result.validate_state=VALIDATE_STATE_INVALID;
+     decrement counter: M = M-1;
+   } // erroneous or incorrect or invalid output files
+
+   else if (result has a potentially recoverable error,
+	    i.e. NFS directory not mounted, server
+	    is unreachable, upload server unreachable)
+   {
+     dont not modify result.validate_state;
+     dont not modify result.outcome;
+     decrement counter M = M-1;
+     set retry=true;
+   } // recoverable error
+   
+   else if (every output file of the result is unreadable or
+	    fails to exist)
+   {
+     set result.outcome=RESULT_OUTCOME_VALIDATE_ERROR;
+     set result.validate_state=VALIDATE_STATE_INIT;
+     decrement counter: M = M-1;
+   } // all result output files unreadable or nonexistent
+   
+ } // end of syntax pass loop over all N results
+
+ Define REMAINING RESULTS to be those that do NOT fall into one of
+ the three categories above. There are M of these. If the syntax pass
+ has been skipped, then M == N.
+
+ if (M < wu.min_quorum)
+ {
+   don't modify canonicalid;
+   don't modify credit;
+   leave retry as set above;
+   leave result.outcome unchanged for M remaining results;
+   leave result.validate_state unchanged for M remaining results;
+   return 0;
+ } // fewer than min_quorum results remain
+
+ At any point in this process, if a major error occurs, check_set()
+ should return nonzero.  This will cause the validator to exit.  If
+ this happens, it does not matter how you have set or modified
+ result.outcome, result.validate_state, retry, credit, or canonicalid.
+
+// END OF OPTIONAL SYNTAX PASS
+
+
+[2] Comparison pass (required).  We have
+    M>=wu.min_quorum REMAINING RESULTS results with
+      result.outcome == RESULT_OUTCOME_SUCCESS
+      result.validate_state == VALIDATE_STATE_INIT
+
+   All the output files of all of these results are
+   readable.  All of the output files for a given result
+   are, when taken "in isolation" apparently valid.  [If
+   these conditions are not met then you must do the
+   "syntax pass" above.]
+
+   if (one of these results is determined to be THE correct
+       [canonical] result)
+   {
+
+     for (correct result) {
+       set result.validate_state=VALIDATE_STATE_VALID;
+       set canonicalid=result.id;
+     } // canonical result
+
+     for (the REMAINING M - 1 results)
+     {
+       // NOTE: what is below can be done by calling
+       // check_pair(result, canonical_result)
+       if (result is correct, matches canonical)
+       {
+	 result.validate_state=VALIDATE_STATE_VALID;
+       }
+       else
+       {
+         result.validate_state=VALIDATE_STATE_INVALID;
+       }
+     } // loop over remaining M-1 results
+
+     set credit;
+
+     leave retry as set from the syntax pass above;
+
+     return 0;
+   } // found canonical result
+   else
+   {
+     // You are UNABLE to determine if one of the M REMAINING RESULTS
+     // is correct, so:
+    
+     do not modify result.outcome for ANY of M remaining results;
+     do not modify result.validate_state for ANY of M remaining results;
+     do not set credit;
+     do not set canonicalid;
+     leave retry as set from the syntax pass;
+     return 0;
+    
+   } // did not find canonical result
+    
+ At any point in this process, if a major error occurs, check_set()
+ should return nonzero.  This will cause the validator to exit.  If
+ this happens, it does not matter how you have set result.outcome,
+ result.validate_state, retry, credit, or canonicalid for ANY of the
+ results.
+    
+// end of Comparison pass

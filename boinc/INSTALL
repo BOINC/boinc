@@ -1,0 +1,7 @@
+To build the BOINC client software:
+    ./_autosetup
+    ./configure --disable_server
+
+For more information, visit:
+http://boinc.berkeley.edu/trac/wiki/CompileClient
+http://boinc.berkeley.edu/trac/wiki/BuildSystem

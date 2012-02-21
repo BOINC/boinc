@@ -1,0 +1,32 @@
+#!/bin/sh
+
+##
+# post-Upgrade Script for Macintosh BOINC Manager for OS X revised 12/6/10
+##
+
+echo "initial directory = $PWD"
+echo "argument 1 = $1"
+
+cd "$1"
+
+echo "new directory = $PWD"
+
+# Copy acct_mgr_url.xml into BOINC Data directory here so it won't be 
+# deleted if user later runs standard BOINC installer
+if [ -f "Contents/Resources/acct_mgr_url.xml" ]; then
+    cp -fp Contents/Resources/acct_mgr_url.xml "/Library/Application Support/BOINC Data/acct_mgr_url.xml"
+fi
+
+# Run the Postinstall Application
+if [ "${COMMAND_LINE_INSTALL}" = "1" ]; then
+rm -f /tmp/BOINCInstallLog.txt
+Contents/Resources/PostInstall.app/Contents/MacOS/PostInstall -part1 >> /tmp/BOINCInstallLog.txt
+sleep 2
+Contents/Resources/PostInstall.app/Contents/MacOS/PostInstall -part2 & >> /tmp/BOINCInstallLog.txt
+else
+Contents/Resources/PostInstall.app/Contents/MacOS/PostInstall -part1
+sleep 2
+Contents/Resources/PostInstall.app/Contents/MacOS/PostInstall -part2 &
+fi
+
+exit 0

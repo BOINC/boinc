@@ -1,0 +1,214 @@
+/* color scheme:
+ * light background (for <pre>)
+ * d5f0ff (213, 240, 255)
+ * medium background (for table headings)
+ * (157, 221, 255)
+ */
+
+
+pre, code {
+    font-size: medium;
+}
+
+.emphasize {
+	font-weight: bold;
+}
+.emphasize2 {
+	color: red;
+}
+
+a.heading {
+    font-size: 14px;
+}
+
+a:link, a:visited, a:active{
+	color: rgb(0, 105, 161);
+    text-decoration: none;
+}
+
+a:hover {
+    color: rgb(232, 174, 0);
+}
+
+body , table , input , select {
+	font-family: "Trebuchet MS", Verdana, Arial, Sans Serif;
+    font-size: 15px;
+}
+
+table.box {
+    border: solid lightblue;
+    padding: 8px;
+}
+
+table.bordered {
+    border: 2px solid #e8e8e8;
+    -moz-border-radius: 6px;
+    -webkit-border-radius: 6px;
+}
+
+body {
+	background-color: white;
+    color: black;
+}
+
+.nobr{
+    white-space: nowrap;
+}
+
+span.title{
+    font-variant: small-caps;
+    font-size: 2em;
+}
+span.subtitle{
+    font-size: 1.3em;
+}
+span.section_title{
+    font-size: 1.2em;
+	font-weight: bold;
+    text-align: center;
+}
+
+span.news_title,
+span.inboxunread {
+    font-weight: bold;
+}
+
+span.note{
+	font-weight: normal;
+    font-size: 0.9em;
+}
+span.news_date {
+    color: rgb(100,100,100);
+    font-size: 0.9em;
+    float: right;
+}
+
+hr.news_line {
+    border: 0;
+    border-bottom: 1px solid rgb(200, 200, 200);
+}
+
+pre {
+	background-color: rgb( 213, 240, 255);
+}
+
+th {
+	background-color: rgb(200, 221, 250);
+	color: black;
+	font-weight: bold;
+    border: 1px solid lightgray;
+    padding: 12px;
+}
+
+td.indent {
+    border-left: 4px solid white;
+}
+
+td.heading{
+    background-color: rgb(223, 240, 255);
+    border: 1px solid lightblue;
+    -moz-border-radius: 6px;
+    -webkit-border-radius: 6px;
+}
+
+td.heading_left {
+    background-color: rgb(223, 240, 255);
+    border: 1px solid lightgray;
+    -moz-border-radius: 6px;
+    -webkit-border-radius: 6px;
+}
+
+td.heading_right {
+    background-color: rgb(255, 255, 214);
+    border: 1px solid goldenrod;
+    -moz-border-radius: 6px;
+    -webkit-border-radius: 6px;
+}
+
+td.fieldname {
+        background-color: rgb(235, 248, 255);
+}
+
+td.category {
+        border: 1px solid black;
+}
+
+tr.row0 {
+        background-color: rgb(247,247,247);
+}
+
+tr.row1 {
+        background-color: rgb(237,237,237);
+}
+
+tr.subtitle {
+	background-color: white;
+	color: black;
+	font-weight: bold;
+}
+
+input , select {
+	vertical-align: middle;
+}
+
+img {
+    border: 0px;
+}
+
+.title {
+	font-size: small;
+	font-weight: bold;
+}
+
+.description {
+	font-size: 80%;
+	font-weight: normal;
+}
+
+select.selectbox {
+	font-size: 12px;
+    height:20px;
+}
+
+input.small {
+	font-size: 12px;
+    height:22px;
+}
+
+/* testing for button style */
+input.btn {
+    padding:0px 2px;
+	font-size: 80%;
+	font-weight: normal;
+}
+
+/* Download All */
+
+#dlall, #dlall td, #dlall tr{  
+    padding: 3px;
+    border-spacing: 0px 4px;
+}
+
+.rowline {
+    border-bottom: 1px solid lightblue;
+    border-top: 1px solid lightblue;
+    white-space: nowrap;
+}
+
+.rowlineleft {
+    border: 1px solid lightblue;
+    border-right: none;
+    padding: 3px 6px;
+    white-space: nowrap;
+    -moz-border-radius: 6px 0px 0px 6px;
+    -webkit-border-radius: 6px 0px 0px 6px;
+}
+
+.rowlineright {
+    border: 1px solid lightblue;
+    border-left: none;
+    -moz-border-radius: 0px 6px 6px 0px;
+    -webkit-border-radius: 0px 6px 6px 0px;
+}
+
+.dev { color: red; font-weight: bold }

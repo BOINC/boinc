@@ -1,0 +1,114 @@
+.\"  Unix Manual Pages for boincmgr
+.\"======================================================================
+.\" This file is a part of BOINC.  Distribution and/or modifications
+.\" are allowed under the terms of the Lesser GNU Public License
+.\" See the file COPYING for details.
+.\"======================================================================
+.\"  To view this file without the man command type: 
+.\"         'nroff -man boinc.1 | more'
+.\"  or, on some versions of man, just man -l boinc.1
+.\"
+.\" @(#) $Id: boincmgr.1,v 1.1 2007/12/29 17:08:23 myers Exp $
+.TH boincmgr 1  "29 December 2007"  "BOINC 5.10"  "User Manuals"
+
+.SH SYNOPSIS
+.br
+.sp
+.in +2
+.B boincmgr  
+.in -2
+.br
+.sp
+
+
+
+.SH DESCRIPTION
+.B boincmgr
+is a graphical tool which allows one to manage and control the
+running BOINC core client.
+See
+.BR boinc_client (1)
+for more information about the core client.
+
+.SH MENUS
+Pull-down menus at the top of the BOINC Manager window allow you to
+control the running core client, the projects it is attached to,
+and tasks being run or waiting to run.
+
+.TP
+.I File
+
+.TP 
+.I View
+
+.TP
+.I Tools
+
+.TP
+.I Activity
+
+
+.PP
+    
+Selecting an option that requires contacting a project will
+temporarily enable network activity regardless of the network
+setting. This includes updating a project, retrying file transfers,
+retrying communications and attaching to projects. Network activity
+will remain enabled for five minutes.
+
+.PP
+
+Selecting Snooze from the icon menu overrides the 'run....' setting
+and suspends activity for one hour.
+Unselecting Snooze, or selecting the Activity menu items Run always or
+Run based on preferences cancels Snooze.
+
+
+.SH TABS
+A selection of tabs near the top of the window allow you to easily
+select between different views.
+
+.TP 
+.I Projects
+Shows the projects your computer is attached to.
+
+.TP 
+.I Tasks
+Shows tasks running on your computer, waiting to be run, or 
+waiting to be return after being run.
+
+.TP 
+.I Transfers
+Shows files being transfered to or from project servers.
+
+.TP
+.I Messages
+Show messages from the core client
+
+.TP 
+.I Statistics
+Show run statistics for various projects.
+
+.TP
+.I Disk
+Shows disk usage
+
+
+
+
+.SH SEE ALSO
+.BR boinc (1),
+.BR boinc_client (1),
+.BR boinc_cmd (1).
+
+
+.SH VERSION
+.de VL
+
+B\\$2
+..
+Revision Number: 5.10.21-18 
+.br
+Release Date: 29 Dec 2007 
+
+.end

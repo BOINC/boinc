@@ -1,0 +1,158 @@
+Implementation notes
+
+------------------------------------------
+project-specific installers
+
+These produce a file "start_project.xml" containing the URL
+(and possibly the name) of the starting project in the BOINC directory.
+This file tells the BOINC manager to attach to this project.
+
+The file could be produced either of two ways:
+
+1) The file is part of the install bundle.
+This would require projects to edit the installers
+released by BOINC, using ORCA or whatever tools are needed
+
+2) The project URL is encoded in the installer filename,
+and the installer runs a script that finds this name
+and creates the file.
+(Not sure how easy this is to do)
+
+------------------------------------------
+Database
+
+Allow nulls in the email_addr table.
+Make it non-unique.
+
+------------------------------------------
+Web interfaces
+
+- "get account key" page can now return
+	multiple accounts with same email address
+	(show creation time, credit in email message)
+- can possibly provide interface for merging accounts
+	(but this is tricky and can wait)
+
+welcome.php?auth=xxx
+	shows welcome page (see doc)
+	and returns cookie with account key
+
+create_account.php
+in:
+	name
+out:
+	status
+	account key
+
+verify_account.php
+in:
+	acct key
+out:
+	yes/no
+	if yes:
+		name
+
+------------------------------------------
+Scheduler
+------------------------------------------
+GUI RPCs
+
+create_account();
+	in: URL
+	Implementation:
+		fetches URL/create_account.php
+poll_create_account();
+	returns status:
+		in_progress,
+		success,
+			returns account key in this case
+		project_down,
+		no_reply
+
+verify_account()
+	in: URL, key
+
+poll_verify_account()
+	returns status:
+		in_progress,
+		success,
+			returns yes/no, name in this case
+		project_down,
+		no_reply
+------------------------------------------
+Manager
+
+On startup:
+If start_project.xml exists
+	attach_to_project(url, false)
+
+attach_to_project(url/name, user_supplied_url) {
+restart:
+	switch(show_dialog(query_key)) {
+	yes:
+		if (invalid_key) {
+			show_dialog(invalid_key)
+			goto restart
+		}
+		verify_account(URL, key)
+		while (1)
+			ret = poll_verify_account()
+			if (!in_progress) break
+			sleep(1);
+		}
+		switch(ret) {
+		success/yes:
+			show_dialog(valid_key);
+			return;
+		success/no:
+			show_dialog(unrecognized_key);
+			goto restart;
+		error:
+			show_dialog(project_unavailable)
+		no_reply:
+			retry = network_failure()
+			if (retry) goto restart;
+		}
+	no:
+		name = get local account name on host
+retry:
+		gui_rpc.create_account()
+		while (1)
+			ret = poll_create_account()
+			if !in_progress break;
+			sleep(1);
+		}
+		switch(ret) {
+		success:
+			show_web_page(welcome.php?auth=acct_key)
+			show_dialog(welcome)
+			set tab to projects
+		project_down:
+			show_dialog(project_unavailable")
+			set tab to projects
+		no_reply:
+			retry = network_failure();
+			if (goto retry)
+			set tab to projects
+		}
+	cancel:
+	}
+}
+
+bool network_failure(bool user_supplied_url) {
+	show_web_page(url/proxy_problems.php)
+	ret = show_dialog(unable_to_contact)	
+	switch (ret) {
+	change:
+		show_dialog(proxy_settings)
+	retry:
+		return true;
+	cancel:
+		return false;
+	}
+}
+
+Miscellaneous:
+- Add a "account key" button in the Projects tab.
+	When clicked, it shows the account key
+	in a way that can be cut/pasted.

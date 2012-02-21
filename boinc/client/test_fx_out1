@@ -1,0 +1,42 @@
+<title>my directory page</title>
+My pages:
+<ul>
+<li> <a href=http://setiathome.ssl.berkeley.edu>SETI@home</a>
+<li> <a href=http://milkyway.ssl.berkeley.edu/davea/>My home page</a>
+<li> <a href=http://alicemclerran.com>AliceMcLerran.com</a>
+<li> <a href=http://setiathome.berkeley.edu/davea/alice/>AliceMcLerran.com staging</a>
+<li> <a href=file:/home/david/tp/html/index.html>Teachpoint local</a>
+<li> <a href=file:/home/david/tp/html/index_dev_local.html>Teachpoint dev local</a>
+<li> <a href=http://www.teachpoint.com>Teachpoint</a>
+<li> <a href=http://www.teachpoint.com/index_dev.html>Teachpoint dev</a>
+<li> <a href=http://setiathome.ssl.berkeley.edu/davea/mx/>ISME</a>
+<li> <a href=https://mail.ud.com>email</a>
+<li> <a href=file:/home/david/papers/sciam/text.html>SciAm paper</a>
+</ul>
+Docs:
+<ul>
+<li><a href=file:/home/david/html/Sablot-0-60.html>Sablot</a>
+<li><a href=file:/home/david/software/expat-1.95.2/doc/reference.html>Expat</a>
+<li><a href=file:/home/david/software/xerces-c1_5_1-linux/doc/html/index.html>Xerces</a>
+<li><a href=file:/home/david/xslt.html>XSLT</a>
+<li><a href=file:/home/david/mysql/manual_toc.html>MySQL</a>
+<li><a href=http://www.garshol.priv.no/download/text/http-tut.html>HTTP explained</a>
+</ul>
+Other pages:
+<ul>
+<li><a href=http://lynnerutter.com>Lynne</a>
+</ul>
+Search:
+<ul>
+<li>
+<form action=http://google.com/search>Google: <input name=q><input type=submit></form>
+<li> <a href=
+http://www.home.zonnet.nl/robschluter/htmltaglist/index_old.html
+>HTML tag list</a>
+<li> <a href=http://www.m-w.com/netdict.htm>Dictionary</a>
+<li> <a href=http://world.altavista.com/>translations</a>
+<li> <a href=http://www.whowhere.lycos.com/Phone>People find</a>
+<li> <a href=http://ameritrade.com>Ameritrade</a>
+<li> <a href=http://weather.yahoo.com/>weather</a>
+</ul>
+<p>

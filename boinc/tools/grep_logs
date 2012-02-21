@@ -1,0 +1,87 @@
+#!/usr/bin/env perl
+
+# $Id$
+# greplogs - grep logs for a string.
+
+use strict;
+use warnings;
+use bytes;
+
+my $html = 0;
+my $lines = 0;
+die unless @ARGV;
+if ($ARGV[0] eq '-html') {
+    shift;
+    $html = 1;
+}
+if ($ARGV[0] eq '-l') {
+    shift;
+    $lines = shift;
+}
+
+my $s = shift; die unless defined $s;
+
+# if the string to grep for ends with a digit, add a zero-width negative
+# look-ahead assertion against another digit.  e.g., if we are searching for
+# "wu_12" do not match "wu_125".
+if ($s =~ /\d$/) {
+    $s .= "(?!\\d)";
+}
+
+my $prev_file = '';
+
+my $nlines = 0;
+my @slines = ();
+
+sub printline($)
+{
+  ++$nlines;
+  if ($lines < 0) {
+     # tail - need to store all lines first
+     push(@slines, $_[0]);
+  } else {
+     return     if ($lines > 0 && $nlines > $lines) ;
+     print $_[0];
+  }
+};
+sub finish_printlines()
+{
+  if ($lines < 0) {
+       if (scalar(@slines) > -$lines) {
+          @slines = @slines[$#slines+$lines+1..$#slines]; 
+       }
+       print @slines;
+  }
+  $nlines = 0;
+  @slines = ();
+}
+
+if ($html) { print "<pre>"; }
+while (<ARGV>) {
+    chomp;
+    if (/$s/) {
+        if ($ARGV ne $prev_file) {
+            finish_printlines();
+            $prev_file = $ARGV;
+            if ($html) {
+                print "</pre><h2>$ARGV</h2><pre>";
+            } else {
+                print "\n\n$ARGV:\n";
+            }
+            $nlines = 0;
+            $. = 0;
+        }
+        my $n = sprintf("%05d", $.);
+                
+        if ($html) {
+            s%.*debug.*%<font color=grey>$&</font>%i;
+            s%.*(critical|error).*%<font color=red>$&</font>%i;
+            s%$s%<b>$&</b>%g if $s;
+            printline "<font size=-1><a name=$. href=show_log.php?f=$ARGV#$.>$n</a></font>  $_\n";
+        } else {
+            printline "  $n: $_\n";
+        }
+    }
+}
+finish_printlines();
+if ($html) { print "</pre>"; }

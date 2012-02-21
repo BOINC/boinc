@@ -1,0 +1,100 @@
+// This directory contains a system that allows
+// users to submit jobs to a BOINC project.
+//
+// Major revisions may be required to make this work
+// (and to make it secure) on your project.
+// Please read and understand all the code before using it.
+//
+// Contributed by Dr. M.F. Somers, Leiden University
+//
+// BASIC INSTALL:
+//
+// 1) add tables to database using create_queue.sql:
+//
+//     mysql yourprojectdb < create_queue.sql
+//
+// 2) copy files into html directory of your project so
+//    apache will server them:
+//
+//    cp inc/* ~/Classical/html/inc  (beware the user.inc might be overwritten, use diff!)
+//    cp user/* ~/Classical/html/user
+//    cp ops/* ~/Classical/html/ops
+//
+// 3) Make sure you have defined the following tags in your config.xml:
+//
+//    <uldl_dir_fanout> 
+//    <long_name> 
+//    <bin_dir>
+//    <download_dir>
+//    <upload_dir>
+//    <project_dir>
+//    <create_work_program>
+//    
+// 4) Make sure you have a WU and a result template in the template directory
+//    for each application with the names similar to 'queue_uppercase_work_unit_template'
+//    and 'queue_uppercase_result_unit_template'. These will be used to invoke 'make_work'.
+//
+// That shoult be it; now the queue has been setup and by default allows users to have 5
+// jobslots per application. If your do not want users to be able to submit to an application
+// make sure you list that app (it's ID) into the new q_restricted_apps table. The new
+// q_users table can be used to allow users access to restricted apps or set different
+// limits that the default 5 jobslots. The new q_list table is the list of allw WU's that
+// have been submitted through the queue code...
+//
+// questions? send me a mail at m.somers@chem.leidenuniv.nl
+//
+// Example work unit template:
+//
+// <file_info>
+//   <number> 0 </number>
+// </file_info>
+//
+// <workunit>
+//   <file_ref>
+//     <file_number> 0 </file_number>
+//     <open_name> classical.in </open_name>
+//   </file_ref>
+//
+//   <command_line> classical.in classical.out classical.stdout </command_line>
+//   <min_quorum> 2 </min_quorum>
+//   <target_nresults> 2 </target_nresults>
+//   <max_error_results> 16 </max_error_results>
+//   <max_total_results> 16 </max_total_results>
+//   <max_success_results> 8 </max_success_results>
+//   <delay_bound> 43200 </delay_bound>
+// </workunit>
+//
+//
+// Example result template:
+//
+// <file_info>
+//  <name> <OUTFILE_0/> </name>
+//  <max_nbytes> 536870912 </max_nbytes>
+//  <url> <UPLOAD_URL/> </url>
+//  <generated_locally/>
+//  <queue_tag/>
+//  <upload_when_present/>
+// </file_info>
+//
+// <file_info>
+//  <name> <OUTFILE_1/> </name>
+//  <max_nbytes> 536870912 </max_nbytes>
+//  <url> <UPLOAD_URL/> </url>
+//  <generated_locally/>
+//  <queue_tag/>
+//  <upload_when_present/>
+// </file_info>
+//
+// <result>
+//  <file_ref>
+//    <file_name> <OUTFILE_0/> </file_name>
+//    <open_name> classical.out </open_name>
+//  </file_ref>
+//  <file_ref>
+//    <file_name> <OUTFILE_1/> </file_name>
+//    <open_name> classical.stdout </open_name>
+//  </file_ref>
+// </result>
+//
+//
+

@@ -1,0 +1,62 @@
+## -*-Makefile -*-
+## $Id$
+
+# Note: MYSQL_CFLAGS and MYSQL_LIBS set by configure from mysql_config
+
+# ignore any LIBS set by configure
+LIBS=
+
+LIBBOINC_VERSION = @LIBBOINC_VERSION@
+
+MYSQL_LIBS = @MYSQL_LIBS@
+MYSQL_CFLAGS = @MYSQL_CFLAGS@
+PTHREAD_CFLAGS = @PTHREAD_CFLAGS@
+PTHREAD_LIBS = @PTHREAD_LIBS@
+
+RSA_LIBS = -lcrypto
+
+AM_LIBTOOLFLAGS =
+
+AM_CPPFLAGS =					\
+        -I$(top_srcdir)/lib			\
+        -I$(top_srcdir)/api			\
+        -I$(top_srcdir)/db			\
+        -I$(top_srcdir)/client			\
+        -I$(top_srcdir)/tools			\
+        -I$(top_srcdir)/sched			\
+        -I$(top_srcdir)/lib/mac			\
+	$(PTHREAD_CFLAGS)
+
+AM_CFLAGS = -Wall -Wextra -Wshadow -Wredundant-decls -Wdisabled-optimization -Wpointer-arith -Wstrict-aliasing
+
+AM_CXXFLAGS = $(AM_CFLAGS)
+
+AM_LDFLAGS =
+
+
+# dependencies to make sure libs gets compiled before
+# programs linking to them:
+
+LIBSCHED = $(top_builddir)/sched/libsched.la
+$(LIBSCHED):
+	cd $(top_builddir)/sched; ${MAKE} libsched.la
+LIBSCHED_FCGI = $(top_builddir)/sched/libsched_fcgi.la
+$(LIBSCHED_FCGI):
+	cd $(top_builddir)/sched; ${MAKE} libsched_fcgi.la
+LIBBOINC = $(top_builddir)/lib/libboinc.la
+$(LIBBOINC):
+	cd $(top_builddir)/lib; ${MAKE} libboinc.la
+LIBBOINC_CRYPT = $(top_builddir)/lib/libboinc_crypt.la
+$(LIBBOINC_CRYPT):
+	cd $(top_builddir)/lib; ${MAKE} libboinc.la
+LIBBOINC_FCGI = $(top_builddir)/lib/libboinc_fcgi.la
+$(LIBBOINC_FCGI):
+	cd $(top_builddir)/lib; ${MAKE} libboinc_fcgi.la
+LIBAPI = $(top_builddir)/api/libboinc_api.la
+$(LIBAPI):
+	cd $(top_builddir)/api; ${MAKE} libboinc_api.la
+
+SERVERLIBS = $(LIBSCHED) $(LIBBOINC_CRYPT) $(LIBBOINC) $(MYSQL_LIBS) $(PTHREAD_LIBS) $(RSA_LIBS) $(SSL_LIBS)
+SERVERLIBS_FCGI = $(LIBSCHED_FCGI) $(LIBBOINC_CRYPT) $(LIBBOINC_FCGI) -lfcgi $(MYSQL_LIBS) $(PTHREAD_LIBS) $(RSA_LIBS) $(SSL_LIBS)
+APPLIBS = $(LIBAPI) $(LIBBOINC)
+

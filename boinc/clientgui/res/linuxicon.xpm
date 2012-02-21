@@ -1,0 +1,37 @@
+/* XPM */
+static const char *Linux_xpm[] = {
+/* columns rows colors chars-per-pixel */
+"14 14 17 1",
+". c #8F8979",
+"o c #2E281A",
+"+ c #514D44",
+"> c #A47610",
+"  c None",
+"@ c #3E3E3C",
+": c #F9F9F9",
+"% c #C39B1C",
+"& c #B1A995",
+"# c #BEBBB7",
+"= c #CBC7BF",
+"- c #E8DAB2",
+"* c #736C58",
+"; c #EBEAE6",
+"O c #999894",
+"$ c #EAB81B",
+"X c #0E0E0D",
+/* pixels */
+"     .XoO     ",
+"     XXXX     ",
+"     +@.X#    ",
+"     +$%o&    ",
+"     *%&+*    ",
+"    .=-;OX#   ",
+"   =+:::-Xo   ",
+"   *#;:::.XO  ",
+"   o::;::&X@  ",
+"  #*;:::;&X+  ",
+" -$$*;::;%o$  ",
+" $$$%.::=%$$- ",
+" $$$$.O*X$$$- ",
+"  =$>.&&O>%   "
+};

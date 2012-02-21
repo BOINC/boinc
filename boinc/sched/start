@@ -1,0 +1,751 @@
+#!/usr/bin/env python
+# -*- mode: python; python-indent: 4; -*-
+
+## $Id$
+
+'''
+A program to start/stop BOINC server daemons and run periodic tasks.
+Parses config.xml and runs <daemon> and <task> entries.
+The format of config.xml is described in boinc/doc/configuration.php.
+
+The main script is "start"; sym-link or hard-link "start" to "stop", "cron".
+Invocation methods:
+
+   --enable   (default if invoked as "start")
+              Set the project to ENABLED mode and start daemons
+
+   --cron     If project is in ENABLED mode start daemons and run tasks;
+              else do nothing.
+              This command is intended to be run as a real cron job
+              every five minutes.
+   --cron-tasks     Run tasks but do not start daemons;
+              This command is intended to be run as a real cron job
+              every five minutes.
+
+   --disable  (default if invoked as "stop")
+              Set project to DISABLED mode and stop daemons.
+
+   --status   (default if invoked as "status")
+              Show status.
+
+See "start --help" for options.
+
+Daemons:
+These are continuously-running programs.
+The process ID is recorded in the <pid_dir> directory
+and the process is sent a SIGHUP in a DISABLE operation.
+
+Both tasks and daemons can run on a different host (specified by <host>).
+The default is the project's main host, which is specified in config.host
+A daemon or task can be turned off by adding the <disabled/> element.
+
+IMPLEMENTATION:
+
+"Start" uses a file "run_state_HOST.xml" that records the enabled mode
+and the last run time of periodic tasks on that host.
+Looks like this:
+<?xml version="1.0">
+<boinc>
+  <tasks>
+    <task>
+      <cmd>
+        get_load
+      </cmd>
+      <last_run>
+        1070392808.86
+      </last_run>
+    </task>
+    ...
+  </tasks>
+  <enabled>
+    1
+  </enabled>
+</boinc>
+
+
+Daemons:
+  Writes a PID to pid_HOST/command.pid.
+
+Tasks:
+  Writes a timestamp to run_state_HOST.xml
+  to remember when the task was last run.
+
+Both:
+  A lock file (pid_HOST/command.lock)
+  prevents tasks and daemons from being run
+  again when they are currently running.
+
+'''
+
+import boinc_path_config
+from Boinc import boinc_project_path, configxml
+import sys, os, getopt, time, glob, fcntl, signal, socket
+
+right_now = int(time.time())
+verbose = os.isatty(sys.stdout.fileno())
+verbose_daemon_run = 0
+# how long (in seconds) parent should wait before continuing after a fork.
+# this is just a safety measure in case anything doesn't play nice if
+# starting simultaneously.  also it keeps output in sequence.
+fork_delay = 0.1
+ignore_timestamps = False
+prune_run_state = True #
+is_main_host = False
+local_hostname = ''
+delegate_other_hosts_in_parallel = False
+
+def get_host_list():
+    '''
+    Get a list of hosts mentioned in <host> elements of tasks and daemons
+    '''
+    hosts = []
+    for task in config.tasks:
+        host = task.__dict__.get('host')
+        if (host and (host not in hosts)):
+            hosts.append(host)
+    for task in config.daemons:
+        host = task.__dict__.get('host')
+        if (host and (host not in hosts)):
+            hosts.append(host)
+    return hosts
+
+def assign_task_defaults():
+    '''
+    Set the "host" and "disabled" attribute of tasks and daemons
+
+    '''
+    for task in config.tasks:
+        host = task.__dict__.get('host')
+        if not host:
+            task.host = config.config.host
+        disabled = task.__dict__.get('disabled')
+        if disabled and disabled != "0":
+            task.disabled = 1
+        else:
+            task.disabled = 0
+        always_run = task.__dict__.get('always_run')
+        if always_run and always_run != "0":
+            task.always_run = 1
+        else:
+            task.always_run = 0
+    for task in config.daemons:
+        host = task.__dict__.get('host')
+        if not host:
+            task.host = config.config.host
+        disabled = task.__dict__.get('disabled')
+        if disabled and disabled != "0":
+            task.disabled = 1
+        else:
+            task.disabled = 0
+
+def get_dir(name):
+    return config.config.__dict__.get(name+'_dir') or boinc_project_path.project_path(name)
+
+def ensure_get_dir(name):
+    f = get_dir(name)
+    ensure_dir(f)
+    return f
+
+def is_daemon(task):
+    '''returns true if task is a daemon'''
+    return task._name == 'daemon'
+
+def get_task_command_basename(task):
+    return os.path.basename(task.cmd.split()[0])
+
+def get_task_output_name(task):
+    return os.path.join(log_dir,
+        task.__dict__.get('output') or get_task_command_basename(task) + '.out')
+
+def get_daemon_output_name(task):
+    return os.path.join(log_dir,
+        task.__dict__.get('output') or get_task_command_basename(task) + '.log')
+
+def get_daemon_pid_name(task):
+    return os.path.join(pid_dir,
+        task.__dict__.get('pid_file') or get_task_command_basename(task) + '.pid')
+
+def output_is_file(filename):
+    return filename and not filename.startswith('/dev/')
+
+def get_task_lock_name(task):
+    return os.path.join(pid_dir,
+        task.__dict__.get('lock_file')
+        or (output_is_file(task.__dict__.get('output')) and task.__dict__.get('output')+'.lock')
+        or get_task_command_basename(task) + '.lock')
+
+def ensure_dir(filename):
+    try:
+        os.mkdir(filename)
+    except OSError:
+        return
+
+def timestamp(t = None):
+    return time.strftime('%Y/%m/%d %H:%M:%S', time.localtime(t or right_now))
+
+def safe_read_int(filename):
+    try:
+        return int(open(filename).readline().strip())
+    except:
+        return 0
+
+def get_stop_daemons_filename():
+    return boinc_project_path.project_path('stop_daemons')
+
+def get_stop_sched_filename():
+    return boinc_project_path.project_path('stop_sched')
+
+def write_stop_daemons():
+    print >>open(get_stop_daemons_filename(),'w'), '<stop/>'
+
+def remove_stop_daemons():
+    if os.path.exists(get_stop_daemons_filename()):
+        os.unlink(get_stop_daemons_filename())
+
+def write_stop_sched():
+    print >>open(get_stop_sched_filename(),'w'), '<stop/>'
+
+def remove_stop_sched():
+    if os.path.exists(get_stop_sched_filename()):
+        os.unlink(get_stop_sched_filename())
+
+def safe_unlink(filename):
+    try:
+        os.unlink(filename)
+    except OSError, e:
+        print "Couldn't unlink %s:"%filename,e
+
+def remove_cached_home_page():
+    path = boinc_project_path.project_path('html/cache/65/index.php')
+    if os.path.exists(path):
+        print 'removing ' + path
+        safe_unlink(path)
+
+def redirect(stdout='/dev/null', stderr=None, stdin='/dev/null'):
+    '''
+    Redirects stdio.  The stdin, stdout, and stderr arguments are file names
+    that will be opened and be used to replace the standard file descriptors
+    in sys.stdin, sys.stdout, and sys.stderr.  These arguments are optional
+    and default to /dev/null.
+    '''
+
+    si = open(stdin, 'r')
+    if not stderr: stderr = stdout
+    se = open(stderr, 'a+', 0)
+    if stdout == stderr:
+        so = se
+    else:
+        so = open(stdout, 'a+')
+
+    # Redirect standard file descriptors.
+    os.dup2(si.fileno(), sys.stdin.fileno())
+    os.dup2(so.fileno(), sys.stdout.fileno())
+    os.dup2(se.fileno(), sys.stderr.fileno())
+
+def fork():
+    ''' fork with fork_delay '''
+    pid = os.fork()
+    if pid:
+        time.sleep(fork_delay)
+    return pid
+
+def double_fork():
+    '''
+    This forks the current process into a daemon using a double-fork.
+    Returns 1 for parent, 0 for child.
+
+    See:      http://www.erlenstar.demon.co.uk/unix/faq_2.html#SEC16
+              http://aspn.activestate.com/ASPN/Cookbook/Python/Recipe/66012
+    '''
+    # this is necessary because otherwise any buffered output would get
+    # printed twice after the fork!
+    sys.stdout.flush()
+
+    # Do first fork.
+    try:
+        pid = fork()
+        if pid > 0: return 1
+    except OSError, e:
+        sys.stderr.write("fork #1 failed: (%d) %s\n" % (e.errno, e.strerror))
+        sys.exit(1)
+
+    # Decouple from parent environment.
+    os.chdir("/")
+    os.umask(0)
+    os.setsid()
+
+    # Do second fork.
+    try:
+        pid = os.fork()
+        if pid > 0: os._exit(0) # Exit second parent.
+    except OSError, e:
+        sys.stderr.write("fork #2 failed: (%d) %s\n" % (e.errno, e.strerror))
+        os._exit(1)
+    return 0
+
+def write_pid_file(pidfile):
+    print >>open(pidfile,'w'), os.getpid()
+
+def is_pid_running(pid):
+    try:
+        os.kill(pid,0)
+        return True
+    except OSError:
+        return False
+
+# if we ever want to use this on windows see:
+#    http://aspn.activestate.com/ASPN/Cookbook/Python/Recipe/65203
+# returns 0 on success, -1 on error
+locks = []
+def lock_file(filename):
+    global locks
+    file = open(filename,'w')
+    locks.append(file)
+    try:
+        return fcntl.lockf(file.fileno(), fcntl.LOCK_EX|fcntl.LOCK_NB)
+    except IOError:
+        return -1
+
+def is_lock_file_locked(filename):
+    if lock_file(filename):
+        return True
+    else:
+        os.unlink(filename)
+
+def contains_shell_characters(command):
+    return ('"' in command or "'" in command or
+            '\\' in command or '|' in command or
+            '>' in command)
+
+def exec_command_string(command):
+    args = command.strip().split()
+    os.chdir(tmp_dir)
+    try:
+        if contains_shell_characters(command):
+            os.execl('/bin/sh', 'sh', '-c', ' '.join(args))
+        else:
+            os.execvp( args[0], args )
+        # on success we don't reach here
+        print >>sys.stderr, "Couldn't exec '%s'"%command
+    except OSError, e:
+        print >>sys.stderr, "Couldn't execute '%s':" %command, e
+    os._exit(1)
+
+def lookup_task_run_state(task):
+    for run_state_task in run_state.tasks:
+        if run_state_task.cmd == task.cmd:
+            run_state_task.prunable = False
+            return run_state_task
+    run_state_task = run_state.tasks.make_node_and_append('task')
+    run_state_task.cmd = task.cmd
+    run_state_task.last_run = 0
+    run_state_task.prunable = False
+    return run_state_task
+
+def interpret_period(str):
+    ''' "5 min" -> 5*60 ; "1 hour" -> 1*60*60;  "2" -> 2*60 '''
+    s = str.strip().split()
+    try:
+        num = int(s[0])
+        if len(s) == 1:
+            return num*60
+        if len(s) == 2:
+            u = s[1].lower()
+            if u.startswith('s'):
+                return num
+            if u.startswith('m'):
+                return num*60
+            if u.startswith('h'):
+                return num*60*60
+            if u.startswith('d'):
+                return num*60*60*24
+            if u.startswith('w'):
+                return num*60*60*24*7
+            if u.startswith('mo'):
+                return num*60*60*24*30
+    except ValueError:
+        pass
+    raise SystemExit('Invalid task period "%s"'%str)
+
+
+def when_will_task_next_run(task, task_run_state):
+    return float(task_run_state.last_run) + interpret_period(task.period)
+
+def time_to_run_task(task, task_run_state):
+    return (ignore_timestamps
+        or (right_now >= when_will_task_next_run(task,task_run_state)))
+
+def update_task_timestamp(task_run_state):
+    task_run_state.last_run = right_now
+
+def run_task(task):
+    '''Fork and exec command without stdout/err redirection'''
+    task_run_state = lookup_task_run_state(task)
+    if not time_to_run_task(task, task_run_state):
+        if verbose:
+            print "  Not running task because not time yet:",task.cmd
+        return
+    if verbose:
+        print "  Running task:", task.cmd
+    update_task_timestamp(task_run_state)
+    # we don't need the full double-fork because this should finish quickly
+    if fork() > 0: return
+    if lock_file(get_task_lock_name(task)):
+        if verbose:
+            print >>sys.stderr, "    Task currently running! (%s)"%task.cmd
+        sys.exit(0)
+    redirect(get_task_output_name(task))
+    exec_command_string(task.cmd)
+
+def run_daemon(task):
+    '''Double-fork and exec command with stdout/err redirection and pid writing'''
+    if double_fork() > 0: return
+    if lock_file(get_task_lock_name(task)):
+        if verbose:
+            print >>sys.stderr, "  Daemon already running:",task.cmd
+        sys.exit(0)
+    if verbose or verbose_daemon_run:
+        print "  Starting daemon:", task.cmd
+        sys.stdout.flush()
+    redirect(get_daemon_output_name(task))
+    write_pid_file(get_daemon_pid_name(task))
+    print "[%s] Executing command:"%timestamp(), task.cmd
+    sys.stdout.flush()
+    exec_command_string(task.cmd)
+
+def run_daemons():
+    found_any = False
+    if verbose: print "Starting daemons"
+    if is_main_host:
+        remove_stop_daemons()
+    for task in config.daemons:
+        if task.host != local_hostname:
+            continue
+        found_any = True
+        if task.disabled:
+            continue
+        run_daemon(task)
+    return found_any
+
+def run_tasks():
+    if verbose: print "Running tasks"
+    prepare_run_state_pruning()
+    for task in config.tasks:
+        if task.host != local_hostname:
+            continue
+        if task.disabled:
+            continue
+        if task.always_run: 
+            run_task(task)
+            continue
+        if run_state.enabled:
+            run_task(task)
+    do_prune_run_states()
+
+def prepare_run_state_pruning():
+    for run_state_task in run_state.tasks:
+        run_state_task.prunable = True
+
+def do_prune_run_states():
+    '''\
+
+    Delete tasks that have prunable==True (since we didn't touch them this run)
+
+    '''
+
+    if not prune_run_state:
+        return
+    for run_state_task in run_state.tasks:
+        if run_state_task.prunable:
+            # print 'Deleting obsolete run_state task', run_state_task.cmd, '(last run %s)' %timestamp(float(run_state_task.last_run))
+            run_state.tasks.remove_node(run_state_task)
+
+def stop_daemon(pid):
+    '''returns 1 if something stopped, else 0'''
+    try:
+        os.kill(pid, signal.SIGHUP)
+    except OSError, e:
+        if e.errno != 3:
+            print >>sys.stderr, "Warning: couldn't kill pid %d:"%pid, e
+        return 0
+    if verbose:
+        print "  Killed process", pid
+    return 1
+
+def wait_for_process_to_end(pid):
+    '''if process is still running, wait for it to end.'''
+    if is_pid_running(pid):
+        if verbose:
+            print "  Waiting for process",pid,"to end: ",
+            sys.stdout.flush()
+        while is_pid_running(pid):
+            if verbose:
+                sys.stdout.write('.')
+                sys.stdout.flush()
+            time.sleep(.5)
+        if verbose:
+            print ' ok'
+
+def stop_daemons():
+    if verbose: print "Stopping all daemons"
+    write_stop_daemons()
+    pid_files = glob.glob(os.path.join(pid_dir, '*.pid'))
+    count = 0
+    pids = map(safe_read_int, pid_files)
+    map(safe_unlink, pid_files)
+    for pid in pids:
+        count += stop_daemon(pid)
+    for pid in pids:
+        wait_for_process_to_end(pid)
+    if verbose:
+        if not count:
+            print "  (No processes stopped)"
+
+
+######################################################################
+## command (action) functions:
+def command_enable_start():
+    if verbose:
+        if run_state.enabled:
+            print "Staying in ENABLED mode"
+        else:
+            print "Entering ENABLED mode"
+    # NOTE: must use '1', not '0' here
+    run_state.enabled = 1
+    found_any = run_daemons()
+    if not found_any:
+        print "No daemons for this host found - check host name in config.xml"
+    time.sleep(10)      # give feeder time to start up and create shmem
+    remove_stop_sched()
+    remove_cached_home_page()
+
+def command_cron_start():
+    if verbose: print "Verbose cron-start: status ==", (run_state.enabled and 'ENABLED' or 'DISABLED')
+    global verbose_daemon_run
+    if run_state.enabled:
+        verbose_daemon_run = 1
+        run_daemons()
+        run_tasks()
+    else:
+        verbose_daemon_run = 1
+        run_tasks()
+
+def command_tasks_start():
+    if verbose: print "Verbose cron-start: status ==", (run_state.enabled and 'ENABLED' or 'DISABLED')
+    run_tasks()
+
+def command_disable_stop():
+    if verbose:
+        if run_state.enabled:
+            print "Entering DISABLED mode"
+        else:
+            print "Staying in DISABLED mode"
+    run_state.enabled = 0
+    write_stop_sched()  # do this before stop_daemons(),
+                        # else scheduler will complained about no shared mem
+    stop_daemons()
+    remove_cached_home_page()
+
+def command_status():
+    if run_state.enabled:
+        print "BOINC is ENABLED"
+    else:
+        print "BOINC is DISABLED"
+    if verbose:
+        print
+        print "DAEMON  pid  status      lockfile disabled  commandline"
+        n = 0
+        for task in config.daemons:
+            if task.host != local_hostname:
+                continue
+            n += 1
+            pid = safe_read_int(get_daemon_pid_name(task)) or 0
+            if not pid:
+                rs = "           "
+            elif is_pid_running(pid):
+                rs = " running   "
+            else:
+                rs = "NOT RUNNING"
+            if is_lock_file_locked(get_task_lock_name(task)):
+                lu = " locked "
+            else:
+                lu = "UNLOCKED"
+
+            if task.disabled:
+                d = " yes    "
+            else:
+                d = " no     "
+
+            print "  %2d"%n, " %5d"%pid, rs, lu, d, " ", task.cmd
+        print
+        print "TASK       last run       period          next run        lock file disabled  commandline"
+        n = 0
+        for task in config.tasks:
+            if task.host != local_hostname:
+                continue
+            n += 1
+            task_run_state = lookup_task_run_state(task)
+            when_last_run = float(task_run_state.last_run)
+            last_run = when_last_run and timestamp(when_last_run) or '?'
+            when_next_run = when_will_task_next_run(task, lookup_task_run_state(task))
+            next_run = (when_next_run <= right_now) and 'NOW' or timestamp(when_next_run)
+            if is_lock_file_locked(get_task_lock_name(task)):
+                lu = " LOCKED "
+            else:
+                lu = "unlocked"
+
+            if task.disabled:
+                d = " yes    "
+            else:
+                d = " no     "
+            print "  %2d"%n, last_run.center(20), task.period.ljust(10), \
+                  next_run.center(20), lu, d, " ", task.cmd
+        pass
+
+def command_show_config():
+    # TODO: - all config items (e.g. where's logdir?)
+    raise SystemExit('TODO')
+
+# ------------- main program begins here ---------------------
+
+local_hostname = socket.gethostname()
+local_hostname = local_hostname.split('.')[0]
+# print 'local hostname: ', local_hostname
+cwd = os.getcwd()
+program_name = os.path.basename(sys.argv[0])
+if program_name == 'start':
+    command = command_enable_start
+elif program_name == 'stop':
+    command = command_disable_stop
+elif program_name == 'status':
+    command = command_status
+else:
+    command = None
+
+def help():
+    print >>sys.stderr, "Syntax: %s [options] [command]" % sys.argv[0]
+    print >>sys.stderr, """   Starts or stops BOINC daemons and tasks.
+
+Commands:
+   --enable  (-e)     Set BOINC to ENABLED mode and start daemons
+   --cron    (-c)     If ENABLED, start daemons and run tasks
+                      Intended to be run from real cron every 5 min.
+   --cron-tasks       If ENABLED run tasks only and do not start daemons
+                      Intended to be run from real cron every 5 min.
+
+   --disable (-d)     Set BOINC to DISABLED mode and stop daemons
+   --status  (-s)     Show status.
+   --show-config      Show configuration
+
+Options:
+   --quiet   (-q)     Operate quietly, even if STDOUT is a tty.
+   --verbose (-v)     Operate verbosely, even if STDOUT is not a tty.
+
+   --config-file=     Use specified file instead of program-path/../config.xml
+   --run-state-file=  Use specified file instead of program-path/../run_state.xml
+   --fork-delay=      Seconds to sleep between daemon forks instead of 0.1
+   --ignore-timestamps    Ignore timestamps; for cron mode, runs all tasks now
+   --prune-run-state  Delete unused timestamps in run_state.xml
+"""
+    if program_name == 'start':
+        print >>sys.stderr, "Based on the invocation name as `start', the default action is --enable."
+    elif program_name == 'stop':
+        print >>sys.stderr, "Based on the invocation name as `stop', the default action is --disable."
+    elif program_name == 'status':
+        print >>sys.stderr, "Based on the invocation name as `status', the default action is --status."
+    sys.exit(1)
+
+config_filename = boinc_project_path.config_xml_filename
+run_state_filename = boinc_project_path.run_state_xml_filename
+
+try:
+    opts, args = getopt.getopt(sys.argv[1:], 'cedskqvh?',
+                               ('enable', 'cron', 'cron-tasks', 'disable',
+                                'start', 'stop', 'kill', 'status',
+                                'show-config',
+                                'ignore-timestamps',
+                                'fork-delay=',
+                                'config-file=', 'run-state-file=',
+                                'prune-run-state',
+                                'quiet', 'verbose', 'help'))
+except Exception, e:
+    print >>sys.stderr, e
+    print >>sys.stderr, "Use '%s --help' for help" % sys.argv[0]
+    sys.exit(1)
+for opt,v in opts:
+    if opt == '-q' or opt == '--quiet':
+        verbose = 0
+    elif opt == '-v' or opt == '--verbose':
+        verbose = 1
+    elif opt == '-h' or opt == '--help' or opt == '-?':
+        help()
+    elif opt == '-e' or opt == '--enable' or opt == '--start':
+        command = command_enable_start
+    elif opt == '-c' or opt == '--cron':
+        command = command_cron_start
+    elif opt == '--cron-task':
+        command = command_tasks_start
+    elif opt == '-d' or opt == '--disable' or opt == '--stop' or opt == '-k' or opt == '--kill':
+        command = command_disable_stop
+    elif opt == '-s' or opt == '--status':
+        command = command_status
+    elif opt == '--show-config':
+        command = command_show_config
+    elif opt == '--ignore-timestamps':
+        ignore_timestamps = True
+    elif opt == '--prune-run-state':
+        prune_run_state = True
+    elif opt == '--config-file':
+        config_filename = v
+    elif opt == '--run-state-file':
+        run_state_filename = v
+    elif opt == '--fork-delay':
+        fork_delay = v
+    else: assert(False)
+
+if not command:
+    raise SystemExit('No command specified and script name is not "start", "stop", or "status"')
+
+config = configxml.ConfigFile(config_filename).read()
+run_state = configxml.RunStateFile(run_state_filename).read(failopen_ok = True)
+
+os.chdir(boinc_project_path.project_path())
+bin_dir = get_dir('bin')
+cgi_bin_dir = get_dir('cgi_bin')
+tmp_dir = ensure_get_dir('tmp_'+local_hostname)
+log_dir = ensure_get_dir('log_'+local_hostname)
+pid_dir = ensure_get_dir('pid_'+local_hostname)
+
+is_main_host = config.config.host == local_hostname
+
+if 'PATH' in os.environ:
+    os.environ['PATH'] = bin_dir + ':' + os.environ['PATH']
+else:
+    os.environ['PATH'] = bin_dir
+
+start_lockfile = os.path.join(pid_dir, 'start.lock.'+local_hostname)
+if lock_file(start_lockfile):
+    print >>sys.stderr, "start is currently running!"
+    sys.exit(1)
+
+assign_task_defaults()
+apply(command)
+run_state.write()
+
+if is_main_host:
+    if delegate_other_hosts_in_parallel:
+        wait_mode = os.P_NOWAIT
+    else:
+        wait_mode = os.P_WAIT
+
+    other_hosts = get_host_list()
+    for host in other_hosts:
+        if host == local_hostname:
+            continue
+        remote_cmd = [ 'ssh', host, 'cd', cwd, ' && ' ] + sys.argv
+        if verbose:
+            remote_cmd += [ '-v' ]
+        print 'running ', ' '.join(remote_cmd)
+        os.spawnvp(wait_mode, remote_cmd[0], remote_cmd)
+
+os.unlink(start_lockfile)

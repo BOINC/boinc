@@ -1,0 +1,47 @@
+<job_desc>
+    <unzip_task>
+        <application>tar</application>
+        <command_line>-xf ./cctools-2_5_2-i686-linux-2.6.tar</command_line>
+        <stdout_filename>stdout_tar</stdout_filename>
+        <stderr_filename>stderr_tar</stderr_filename>
+    </unzip_task>
+    <unzip_task>
+        <application>tar</application>
+        <command_line>-xf ./apache-activemq-5.2.0.tar</command_line>
+        <stdout_filename>stdout_tar</stdout_filename>
+        <stderr_filename>stderr_tar</stderr_filename>
+    </unzip_task>
+    <unzip_task>
+        <application>tar</application>
+        <command_line>-xf ./boincvm.tar</command_line>
+    </unzip_task>
+    <VMmanage_task>
+        <application>./apache-activemq-5.2.0/bin/activemq</application>
+        <stdin_filename></stdin_filename>
+        <stdout_filename>stdout_broker</stdout_filename>
+        <stderr_filename>stderr_broker</stderr_filename>
+        <command_line></command_line>
+    </VMmanage_task>
+    <VMmanage_task>
+        <application>python</application>
+        <stdin_filename></stdin_filename>
+        <stdout_filename>stdout_HostMain</stdout_filename>
+        <stderr_filename>stderr_HostMain</stderr_filename>
+        <command_line>./boincvm/HostMain.py ./boincvm/HostConfig.cfg</command_line>
+    </VMmanage_task>
+    <task>
+        <virtualmachine>CernVM</virtualmachine>
+        <image></image>
+        <app_pathVM></app_pathVM>  
+        <application>./worker.py</application>
+        <copy_app_to_VM>1</copy_app_to_VM>
+        <copy_file_to_VM>in</copy_file_to_VM>
+        <copy_file_to_VM>stdin_worker</copy_file_to_VM>
+        <stdin_filename>stdin_worker</stdin_filename>
+        <stdout_filename>stdout_worker</stdout_filename>
+        <stderr_filename>stderr_worker</stderr_filename>
+        <copy_file_from_VM>out</copy_file_from_VM>
+        <command_line>5</command_line>
+        <weight>2</weight>
+    </task>
+</job_desc>

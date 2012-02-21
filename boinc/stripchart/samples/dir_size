@@ -1,0 +1,8 @@
+#! /bin/csh 
+
+set SIZE = `du -sk $1 | awk '{print $1*1024}'`
+
+set CIVDATE = `/bin/date "+%Y:%m:%d:%H:%M"`
+set UNIXDATE = `/usr/local/bin/perl -e 'print time()'`
+
+echo $CIVDATE $UNIXDATE $SIZE

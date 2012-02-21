@@ -1,0 +1,42 @@
+<html>
+<body bgcolor=ffffff>
+<img align=right src=http://sample.project/logo.png>
+Dear <name/>:
+<p>
+Greetings from Test Project.
+Our records show that you have earned <total_credit/> units of credit,
+but that we haven't yet credited you with any completed work
+in the last <lapsed_interval/> days.
+Thanks very much for your participation, and we encourage
+you to start running Test Project again.
+
+
+<h2>Project news</h2>
+<p>
+In the last six months, Test Project has done X, Y and Z.
+
+<h2>What's next?</h2>
+<p>
+We are working on a new application that will do X, Y and Z.
+
+<h2>Support Test Project</h2>
+<p>
+We appreciate your generous donation of computer time.
+You can also support Test Project by
+<a href=http://a.b.c/donate.php>making a donation</a>,
+or by shopping in our <a href=http://a.b.c/books.php>online book store</a>.
+
+
+<p>
+Thanks again for your help --
+<p>
+The Test Project staff
+<hr>
+<p>
+<font size=-2>
+To not receive future emails from Test Project, 
+<a href=<opt_out_url/>>click here</a>.
+</font>
+
+</body>
+</html>

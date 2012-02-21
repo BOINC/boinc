@@ -1,0 +1,216 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2012-02-09 09:39-0800\n"
+"PO-Revision-Date: 2011-12-11 21:27+0200\n"
+"Last-Translator: Dead J. Dona <deadjdona@gmail.com>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: uk\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%"
+"10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"X-Generator: Pootle 2.1.6\n"
+
+#: acct_mgr.cpp:435 acct_mgr.cpp:444
+#, fuzzy
+msgid "Message from account manager"
+msgstr "Повідомлення від сервера"
+
+#: client_msgs.cpp:79
+msgid "Message from server"
+msgstr "Повідомлення від сервера"
+
+#: client_state.cpp:246
+msgid ""
+"Some tasks need more memory than allowed by your preferences.  Please check "
+"the preferences."
+msgstr ""
+"Деякі завдання вимагають більше пам'яті, аніж дозволено Вашими "
+"налаштуваннями. Будь ласка, перевірте налаштування."
+
+#: client_state.cpp:482
+msgid "Couldn't write state file; check directory permissions"
+msgstr "Не вдалося записати файл стану; перевірте права доступу до директорії"
+
+#: cs_cmdline.cpp:291
+msgid "The HTTP_PROXY environment variable must specify an HTTP proxy"
+msgstr "HTTP-проксі має бути визначений змінною середовища HTTP_PROXY"
+
+#: cs_scheduler.cpp:546
+#, c-format
+msgid ""
+"You used the wrong URL for this project.  When convenient, remove this "
+"project, then add %s"
+msgstr ""
+"Ви використовуєте невірний URL для цього проекту. Бажано видалити цей проект "
+"і додати %s"
+
+#: cs_statefile.cpp:810 ../sched/sched_types.cpp:252
+msgid "Syntax error in app_info.xml"
+msgstr "Синтаксична помилка в app_info.xml"
+
+#: cs_statefile.cpp:850
+msgid "File referenced in app_info.xml does not exist: "
+msgstr "Файл, на який посилається app_info.xml, не існує: "
+
+#: current_version.cpp:89
+msgid "A new version of BOINC is available."
+msgstr "Доступна нова версія BOINC."
+
+#: current_version.cpp:91
+msgid "Download it."
+msgstr "Завантажте її."
+
+#: log_flags.cpp:256 log_flags.cpp:427
+msgid "Unexpected text in cc_config.xml"
+msgstr "Неочікуваний текст в cc_config.xml"
+
+#: log_flags.cpp:401 log_flags.cpp:453
+msgid "Unrecognized tag in cc_config.xml"
+msgstr "Нерозпізнаний тег в cc_config.xml"
+
+#: log_flags.cpp:418
+msgid "Missing start tag in cc_config.xml"
+msgstr "Відсутній стартовий тег в cc_config.xml"
+
+#: log_flags.cpp:443
+#, fuzzy
+msgid "Error in cc_config.xml options"
+msgstr "Нерозпізнаний тег в cc_config.xml"
+
+#: log_flags.cpp:461
+msgid "Missing end tag in cc_config.xml"
+msgstr "Відсутній завершальний тег в cc_config.xml"
+
+#: ../sched/handle_request.cpp:299
+msgid "Invalid or missing account key.  To fix, remove and add this project."
+msgstr ""
+"Невірний або відсутній ключ облікового запису. Щоб виправити, видаліть і "
+"додайте цей проект."
+
+#: ../sched/handle_request.cpp:831
+msgid "Invalid code signing key.  To fix, remove and add this project."
+msgstr ""
+"Неправильний ключ підписання коду. Для виправлення видаліть і знову додайте "
+"цей проект."
+
+#: ../sched/handle_request.cpp:841
+msgid ""
+"The project has changed its security key.  Please remove and add this "
+"project."
+msgstr ""
+"Проект змінив свій ключ безпеки. Будь ласка, видалите і знову додайте цей "
+"проект."
+
+#: ../sched/handle_request.cpp:925
+msgid "This project doesn't support operating system"
+msgstr "Цей проект не підтримує операційну систему"
+
+#: ../sched/handle_request.cpp:951
+msgid "This project doesn't support CPU type"
+msgstr "Цей проект не підтримує тип CPU"
+
+#: ../sched/handle_request.cpp:975
+msgid ""
+"Your BOINC client software is too old.  Please install the current version."
+msgstr ""
+"У Вас занадто стара версія BOINC-клієнта. Будь ласка, встановіть поточну "
+"версію."
+
+#: ../sched/handle_request.cpp:1235
+msgid "This project doesn't support computers of type"
+msgstr "Цей проект не підтримує комп'ютери типу"
+
+#: ../sched/sched_send.cpp:1365
+msgid "Upgrade to the latest driver to process tasks using your computer's GPU"
+msgstr ""
+"Для обробки завдань, які використовують графічний процесор вашого "
+"комп'ютера, оновіть драйвер до самої останньої версії"
+
+#: ../sched/sched_send.cpp:1372
+msgid ""
+"Upgrade to the latest driver to use all of this project's GPU applications"
+msgstr ""
+"Для використання усіх додатків цього проекту, працюючих на ГП, оновіть "
+"драйвер до самої останньої версії"
+
+#: ../sched/sched_send.cpp:1391
+msgid ""
+"A newer version of BOINC is needed to use your NVIDIA GPU; please upgrade to "
+"the current version"
+msgstr ""
+"Потрібна новіша версія BOINC для використання вашого ГП NVIDIA; будь ласка, "
+"оновіться до поточної версії"
+
+#: ../sched/sched_send.cpp:1404
+msgid "An NVIDIA or ATI GPU is required to run tasks for this project"
+msgstr "Для обробки завдань цього проекту потрібна відеокарта NVIDIA або ATI"
+
+#: ../sched/sched_send.cpp:1409
+msgid "An NVIDIA GPU is required to run tasks for this project"
+msgstr "Для обробки завдань цього проекту потрібна відеокарта NVIDIA"
+
+#: ../sched/sched_send.cpp:1415
+msgid "An ATI GPU is required to run tasks for this project"
+msgstr "Для обробки завдань цього проекту потрібна відеокарта ATI"
+
+#: ../sched/sched_send.cpp:1523
+#, fuzzy
+msgid "No tasks are available for the applications you have selected."
+msgstr ""
+"Нема доступних завдань для додатків, які Ви вибрали. Будь ласка, перевірте "
+"ваші налаштування проекту на вебсайті."
+
+#: ../sched/sched_send.cpp:1549
+msgid "Your computer type is not supported by this project"
+msgstr "Тип вашого комп'ютера не підтримується цим проектом"
+
+#: ../sched/sched_send.cpp:1555
+msgid "Newer BOINC version required; please install current version"
+msgstr "Потрібна новіша версія BOINC; будь ласка, встановіть поточну версію"
+
+#: ../sched/sched_send.cpp:1565
+msgid ""
+"Tasks for NVIDIA GPU are available, but your preferences are set to not "
+"accept them"
+msgstr ""
+"Доступні завдання для ГП NVIDIA, але ваші налаштування не дозволяють "
+"приймати їх"
+
+#: ../sched/sched_send.cpp:1571
+msgid ""
+"Tasks for ATI GPU are available, but your preferences are set to not accept "
+"them"
+msgstr ""
+"Доступні завдання для ГП ATI, але ваші налаштування не дозволяють приймати "
+"їх"
+
+#: ../sched/sched_send.cpp:1577
+msgid ""
+"Tasks for CPU are available, but your preferences are set to not accept them"
+msgstr ""
+"Доступні завдання для ЦП, але ваші налаштування не дозволяють приймати їх"
+
+#: ../sched/sched_types.cpp:247
+msgid "Unknown app name in app_info.xml"
+msgstr "Невідоме ім'я додатка у файлі app_info.xml"
+
+#: ../sched/sched_version.cpp:230
+msgid "Your app_info.xml file doesn't have a usable version of"
+msgstr "Ваш файл app_info.xml не має придатної версії"
+
+#~ msgid "error"
+#~ msgstr "помилка"
+
+#~ msgid "Can't resolve hostname in remote_hosts.cfg"
+#~ msgstr "Неможливо визначити назву комп'ютера в remote_hosts.cfg"
+
+#~ msgid "is not available for"
+#~ msgstr "недоступні для"

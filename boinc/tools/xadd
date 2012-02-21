@@ -1,0 +1,27 @@
+#!/usr/bin/env python
+
+# $Id$
+
+'''
+Add platform and application records to the BOINC database.
+Reads info from "project.xml", e.g.:
+
+<boinc>
+    <platform>
+        <name>i686-pc-linux-gnu</name>
+        <user_friendly_name>Linux/x86</user_friendly_name>
+    </platform>
+    <app>
+        <name>astropulse</name>
+        <user_friendly_name>AstroPulse</user_friendly_name>
+    </app>
+</boinc>
+
+See http://boinc.berkeley.edu/tool_xadd.php
+'''
+
+import boinc_path_config
+from Boinc import database, db_mid, projectxml
+
+database.connect()
+projectxml.default_project().commit_all()

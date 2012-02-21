@@ -1,0 +1,55 @@
+					Introduction of MySQL in the cluster mode
+					
+This file is mainly depend on the article that is published on the website 
+http://dev.mysql.com/tech-resources/articles/mysql-cluster-for-two-servers.html
+I strongly recommended you to read this article three times,
+and my article will give some additional to setup
+on the server when you follow the instruction in the article.
+
+Problems:
+	1, can not start the mysql server when you run the command
+    "service mysql.server start"
+      first to check the config file of /etc/my.cnf
+      if not has this file ,please copy the file
+      $FULL_PATH_OF_MYSQL_RELEASE/support-files/my-medium.cnf to /etc/my.cnf
+              
+      If you do so ,can not start the mysql then
+      please check the file of `hostname`.err this file is usually
+      in the directory of /usr/local/mysql/data/ directory 
+              
+      at the last line ,you probably see these information 
+      1)  can not create $hostname.pid file, if so,
+        please check the whole directory access ability of the mysql .
+          The method is to use the command
+          shell > su mysql
+          shell > cd /usr/local/mysql/data 
+          shell > touch `hostname`.pid
+          Mostly you can not access the directory or make the file
+          then chmod or chown of the directory
+                  
+      2)  Can not open and lock privilege tables : Table 'mysql.host'
+          This is because you do not call the scripts/mysql_install_db
+          rightly please run the command
+          $FULL_PATH_OF_MYSQL_RELEASE/scripts/mysql_install_db  --user=mysql again
+                  
+                  
+Use of cluster
+       If you follow the instruction of the file you will call the
+       instruction very well but you will be sure of 
+       use the engine like this 
+       ENGINE=NDBCLUSTER
+       
+       This will call the database engine of remote backup.
+       so you can see the database change on the other node.
+       But there is some disconformity on the alter table,
+       it is said in the MySQL tutorial in this website
+       http://dev.mysql.com/doc/refman/5.0/en/mysql-cluster-limitations.html 
+       Maybe this is the shortage of MySQL database compensating
+       for speed of clusters.
+       
+       
+       
+                      
+
+
+	

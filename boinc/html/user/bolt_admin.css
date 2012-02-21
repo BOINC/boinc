@@ -1,0 +1,63 @@
+table.bolt_bar {
+    margin: 0px;
+    padding: 0px;
+    border: 0px;
+#border-collapse: collapse;
+    border-spacing: 0px;
+}
+
+td.bolt_bar {
+    border: 1px solid #aaaaaa;
+    padding: 0px;
+    margin: 0px;
+}
+
+span.green {
+    padding: 2px;
+    background-color: #88ff88;
+    font-size: 0.9em;
+    font-style: italic;
+}
+span.yellow {
+    padding: 2px;
+    background-color: #ffff88;
+    font-size: 0.9em;
+    font-style: italic;
+}
+span.red {
+    padding: 2px;
+    background-color: #ff8888;
+    font-size: 0.9em;
+    font-style: italic;
+}
+
+td.bolt_bar1 {
+    padding: 0;
+    margin: 0px 0px;
+    font-size: 0.9em;
+    background-color: #dddddd;
+}
+
+td.bolt_bar2 {
+    padding: 0;
+    margin: 0px 0px;
+    font-size: 0.9em;
+    background-color: #44bb44;
+}
+
+tr.bolt_head1 {
+    background-color: #ccccff;
+    font-weight: bold;
+    -moz-border-radius: 6px;
+    -webkit-border-radius: 6px;
+
+}
+
+tr.bolt_head2 {
+    background-color: #cccccc;
+    -moz-border-radius: 6px;
+    -webkit-border-radius: 6px;
+}
+
+span.bolt_small {
+}

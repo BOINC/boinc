@@ -1,0 +1,45 @@
+Packages required for running the server:
+
+  mysql-server mysql-client libmysqlclient
+
+  apache, apache2, apache-ssl
+  php4-cgi (or php4 if running apache 1)
+
+  python-mysqldb, python-xml
+
+Packages required for compilation:
+
+  g++
+
+  libgl-dev libglu-dev
+    (these are virtual packages; one example of packages that provide these are:
+       mesag-dev xlibmesa-glu-dev
+    )
+
+  libmysqlclient-dev
+
+  libglutg3 libglut3-dev
+ 
+  libgtk2.0 libgtk2.0-dev
+
+  libwxgtk2.2 libwxgtk2.2-dev
+    (Note: after installing these packages, you will still need to
+     download/compile/install a newer version. Make sure you end up
+     with a libwx_gtk-2.4.a as well as libwx_gtk-2.4.so. You'll need
+     to configure with the --disable-shared option to get the .a).
+    (Another Note: Depending on what gtk packages you have installed,
+     you may be missing the script "gtk-config" which wxwidgets needs
+     to configure (it uses the script to determine gtk version. At worst,
+     just make a script called gtk-config that spits out the version
+     number of GTK when called with the "--version" command line option,
+     i.e.:
+             # gtk-config --version
+             1.2.10
+    ).
+
+Packages required if you change makefiles:
+
+  autoconf (>= 2.59)
+  automake (>= 1.9.3)
+    (both are very easy to download from gnu and compile/install)
+

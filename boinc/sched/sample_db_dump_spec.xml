@@ -1,0 +1,28 @@
+<boinc_db_dump_spec>
+    <output_dir>../html/stats_tmp</output_dir>
+    <final_output_dir>../html/stats</final_output_dir>
+    <enumeration>
+        <table>user</table>
+        <filename>user_id</filename>
+        <sort>id</sort>
+        <output>
+            <compression>gzip</compression>
+        </output>
+    </enumeration>
+    <enumeration>
+        <table>host</table>
+        <filename>host_id</filename>
+        <sort>id</sort>
+        <output>
+            <compression>gzip</compression>
+        </output>
+    </enumeration>
+    <enumeration>
+        <table>team</table>
+        <filename>team_id</filename>
+        <sort>id</sort>
+        <output>
+            <compression>gzip</compression>
+        </output>
+    </enumeration>
+</boinc_db_dump_spec>

@@ -1,0 +1,32 @@
+# This should work on Mac OS 10.6 with XCode 3.2.  Modify as needed for other platforms.
+
+# Change the following to match your installation
+BOINC_DIR = ../..
+BOINC_API_DIR = $(BOINC_DIR)/api
+BOINC_LIB_DIR = $(BOINC_DIR)/lib
+BOINC_BUILD_DIR = $(BOINC_DIR)/mac_build/build/Deployment
+BOINC_CONFIG_DIR =  $(BOINC_DIR)/clientgui/mac
+
+CXXFLAGS = $(VARIANTFLAGS) \
+	-g \
+    -I$(BOINC_CONFIG_DIR) \
+    -I$(BOINC_DIR) \
+    -I$(BOINC_LIB_DIR) \
+    -I$(BOINC_API_DIR) \
+    -L$(BOINC_API_DIR) \
+    -L$(BOINC_LIB_DIR) \
+    -L$(BOINC_BUILD_DIR) \
+    -L.
+
+PROGS = wrapper
+
+all: $(PROGS)
+
+clean:
+	rm $(PROGS) *.o
+
+distclean:
+	/bin/rm -f $(PROGS) *.o
+	
+wrapper: wrapper.o
+	g++ $(CXXFLAGS) -o wrapper wrapper.o -pthread -lboinc_api -lboinc

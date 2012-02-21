@@ -1,0 +1,70 @@
+#! /usr/bin/env perl
+
+use Time::Local;
+
+# What version is this?
+$majorversion = 2; $minorversion = 1;
+
+# Directory where gnuplot is
+# $gnuplot = "/usr/local/gnuplot-3.7";
+#$gnuplot = "/disks/asimov/a/users/hiramc/local/src/gnuplot-3.7";
+$gnuplot = "/usr/local/bin"
+ 
+# Temporary files
+$suffix = rand(10000);
+$gnudata = "/tmp/XYZzyx..indata" . $suffix;       # contains input data
+$ticdata = "/tmp/XYZzyx..ticdata" . $suffix;      # contains xtic information
+$gnuscript = "/tmp/XYZzyx..gnuscript" .$suffix;   # contains script for gnuplot
+$outfile = "/tmp/XYZzyx..outfile" . $suffix;      # contains output plot
+
+# Default colors for plotting (in standard RRGGBB hex format)
+# in order: 1. background color, 2. axis/font color, 3. grid color,
+#           4. point color 1, 5. point color 2, 6. point color 3
+$colorvals  = "xffffff x000000 xc0c0c0 x00a000 x0000a0 x2020c0";
+
+# Default size of plot in pixels
+$plotwidth = 600;
+$plotheight = 180;
+
+# Abbreviations for months
+@monthabbs = ("Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec");
+
+# Where are these unix commands located?
+$tailexe = "tail";
+$catexe = "cat";
+$grepexe = "grep";
+
+# How many seconds in a day?
+$daysecs = 86400;
+
+# Local time difference? (Yes this is a wonky way to get current time zone difference)
+($sec,$min,$hour,$mday,$mon,$year) = gmtime($rightnow);
+$tzdiff = timegm($sec,$min,$hour,$mday,$mon,$year) - timelocal($sec,$min,$hour,$mday,$mon,$year);
+
+# Where is the stripchart executable located?
+$stripchartexe = "./stripchart"
+ 
+# What is the default number of stripcharts?
+$defaultnumcharts = 1;
+ 
+# Any default flags to send to stripchart?
+$defaultflags = "-s";
+
+# Where is the list of datafiles for stripchart.cgi?
+# Note: there is a sample copy in the samples directory: 
+$datafilelist = "datafiles";
+ 
+# Where is the list of user-definied cgi queries?
+# Note: this file gets created by the cgi - must put it somewhere that the cgi user can write to 
+$queryfilelist = "querylist";
+
+# What time is it right now?
+$rightnow = time;
+($sec,$min,$hour,$day,$month,$year) = localtime($rightnow);
+$sec = "";
+$month++;
+$year += 1900;
+ 
+# CGI plot width and plot height: set only if it will always be the same
+# $cgiplotwidth = 0; $cgiplotheight = 0; # if you don't know
+$cgiplotwidth = 600; $cgiplotheight = 192; # if you do know

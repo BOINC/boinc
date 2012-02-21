@@ -1,0 +1,250 @@
+// Microsoft Visual C++ generated resource script.
+//
+#include "boinc_cmd.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include "winresrc.h"
+#include "version.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// Neutral resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_NEU)
+#ifdef _WIN32
+LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
+#pragma code_page(1252)
+#endif //_WIN32
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+#if   defined(_GRIDREPUBLIC)
+
+#elif defined(_PROGRESSTHRUPROCESSORS)
+
+#elif defined(_WCG)
+IDI_MAIN_ICON           ICON                    "res\\wcg.ico"
+#else
+IDI_MAIN_ICON           ICON                    "res\\icon.ico"
+#endif
+
+/////////////////////////////////////////////////////////////////////////////
+
+#endif    // Neutral resources
+
+
+/////////////////////////////////////////////////////////////////////////////
+// English (U.S.) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+#ifdef _WIN32
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+#pragma code_page(1252)
+#endif //_WIN32
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE 
+BEGIN
+    "boinc_log.h\0"
+END
+
+2 TEXTINCLUDE 
+BEGIN
+    "#include ""winresrc.h""\r\n"
+    "#include ""version.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE 
+BEGIN
+    "\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Visual Studio 2005 Compatibility
+//
+#ifndef IDC_STATIC
+#define IDC_STATIC              (-1)     // all static controls
+#endif
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Version
+//
+
+#if defined(_GRIDREPUBLIC)
+
+VS_VERSION_INFO VERSIONINFO
+ FILEVERSION BOINC_MAJOR_VERSION,BOINC_MINOR_VERSION,BOINC_RELEASE,0
+ PRODUCTVERSION BOINC_MAJOR_VERSION,BOINC_MINOR_VERSION,BOINC_RELEASE,0
+ FILEFLAGSMASK 0x3fL
+#ifdef _DEBUG
+ FILEFLAGS 0x1L
+#else
+ FILEFLAGS 0x0L
+#endif
+ FILEOS 0x40004L
+ FILETYPE 0x1L
+ FILESUBTYPE 0x0L
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "040904b0"
+        BEGIN
+            VALUE "CompanyName", "GridRepublic"
+            VALUE "FileDescription", "BOINC Log Conversion Client"
+            VALUE "FileVersion", BOINC_VERSION_STRING "\0"
+            VALUE "InternalName", "boinclog"
+            VALUE "LegalCopyright", "© 2003-2010 University of California"
+            VALUE "OriginalFilename", "boinclog.exe"
+            VALUE "ProductName", "BOINC client"
+            VALUE "ProductVersion", BOINC_VERSION_STRING "\0"
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x409, 1200
+    END
+END
+
+#elif defined(_PROGRESSTHRUPROCESSORS)
+
+VS_VERSION_INFO VERSIONINFO
+ FILEVERSION BOINC_MAJOR_VERSION,BOINC_MINOR_VERSION,BOINC_RELEASE,0
+ PRODUCTVERSION BOINC_MAJOR_VERSION,BOINC_MINOR_VERSION,BOINC_RELEASE,0
+ FILEFLAGSMASK 0x3fL
+#ifdef _DEBUG
+ FILEFLAGS 0x1L
+#else
+ FILEFLAGS 0x0L
+#endif
+ FILEOS 0x40004L
+ FILETYPE 0x1L
+ FILESUBTYPE 0x0L
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "040904b0"
+        BEGIN
+            VALUE "CompanyName", "Progress Thru Processors"
+            VALUE "FileDescription", "BOINC Log Conversion Client"
+            VALUE "FileVersion", BOINC_VERSION_STRING "\0"
+            VALUE "InternalName", "boinclog"
+            VALUE "LegalCopyright", "© 2003-2010 University of California"
+            VALUE "OriginalFilename", "boinclog.exe"
+            VALUE "ProductName", "BOINC client"
+            VALUE "ProductVersion", BOINC_VERSION_STRING "\0"
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x409, 1200
+    END
+END
+
+#elif defined(_WCG)
+
+VS_VERSION_INFO VERSIONINFO
+ FILEVERSION BOINC_MAJOR_VERSION,BOINC_MINOR_VERSION,BOINC_RELEASE,0
+ PRODUCTVERSION BOINC_MAJOR_VERSION,BOINC_MINOR_VERSION,BOINC_RELEASE,0
+ FILEFLAGSMASK 0x3fL
+#ifdef _DEBUG
+ FILEFLAGS 0x1L
+#else
+ FILEFLAGS 0x0L
+#endif
+ FILEOS 0x40004L
+ FILETYPE 0x1L
+ FILESUBTYPE 0x0L
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "040904b0"
+        BEGIN
+            VALUE "CompanyName", "World Community Grid"
+            VALUE "FileDescription", "BOINC Log Conversion Client"
+            VALUE "FileVersion", BOINC_VERSION_STRING "\0"
+            VALUE "InternalName", "boinclog"
+            VALUE "LegalCopyright", "© 2003-2010 University of California"
+            VALUE "OriginalFilename", "boinclog.exe"
+            VALUE "ProductName", "BOINC client"
+            VALUE "ProductVersion", BOINC_VERSION_STRING "\0"
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x409, 1200
+    END
+END
+
+#else
+
+VS_VERSION_INFO VERSIONINFO
+ FILEVERSION BOINC_MAJOR_VERSION,BOINC_MINOR_VERSION,BOINC_RELEASE,0
+ PRODUCTVERSION BOINC_MAJOR_VERSION,BOINC_MINOR_VERSION,BOINC_RELEASE,0
+ FILEFLAGSMASK 0x3fL
+#ifdef _DEBUG
+ FILEFLAGS 0x1L
+#else
+ FILEFLAGS 0x0L
+#endif
+ FILEOS 0x40004L
+ FILETYPE 0x1L
+ FILESUBTYPE 0x0L
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "040904b0"
+        BEGIN
+            VALUE "CompanyName", "Space Sciences Laboratory"
+            VALUE "FileDescription", "BOINC Log Conversion Client"
+            VALUE "FileVersion", BOINC_VERSION_STRING "\0"
+            VALUE "InternalName", "boinclog"
+            VALUE "LegalCopyright", "© 2003-2010 University of California"
+            VALUE "OriginalFilename", "boinclog.exe"
+            VALUE "ProductName", "BOINC client"
+            VALUE "ProductVersion", BOINC_VERSION_STRING "\0"
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x409, 1200
+    END
+END
+
+#endif
+
+#endif    // English (U.S.) resources
+/////////////////////////////////////////////////////////////////////////////
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+

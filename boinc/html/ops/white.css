@@ -1,0 +1,108 @@
+a:link {
+	color: blue;
+}
+
+a:visited {
+	color: blue;
+}
+
+a:active {
+	color: blue;
+}
+
+body , table , input , select {
+	font-family: Verdana, Arial, Sans Serif;
+	font-size: small;
+}
+
+body {
+	background-color: white;
+    color: black;
+}
+
+table {
+    border: 0px;
+}
+
+table.bordered {
+      border: 1px solid black;
+}
+
+th {
+	background-color: #ffffcc;
+	font-weight: bold;
+}
+
+td {
+    border: 1px solid white;
+}
+
+td.bordered {
+        border: 1px solid grey;
+}
+
+td.indent {
+         border-left: 4px solid white;
+}
+
+td.heading {
+        background-color: rgb(217,217,217);
+	    font-weight: bold;
+}
+
+td.fieldname {
+        background-color: rgb(237,237,237);
+}
+
+td.category {
+        border: 1px solid black;
+}
+
+tr.row0 {
+        background-color: rgb(217,217,217);
+}
+
+tr.row1 {
+        background-color: rgb(237,237,237);
+}
+
+tr.subtitle {
+	background-color: white;
+	color: black;
+	font-weight: bold;
+}
+
+tr.message {
+    background-color:#E0E0EF;
+}
+
+input , select {
+	vertical-align: middle;
+}
+
+h1 , h2 {
+	color: black;
+	font-size: x-large;
+	font-weight: normal;
+	margin-top: 10px;
+}
+
+h3 , h4 {
+	color: black;
+	font-size: small;
+	font-weight: bold;
+}
+
+img {
+    border: 0px;
+}
+
+.title {
+	font-size: small;
+	font-weight: bold;
+}
+
+.description {
+	font-size: 80%;
+	font-weight: normal;
+}

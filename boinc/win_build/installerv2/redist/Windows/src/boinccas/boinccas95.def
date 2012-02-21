@@ -1,0 +1,24 @@
+;
+; Module definition file for the boinccas95.dll
+;
+
+LIBRARY    boinccas95
+
+EXPORTS
+	DllMain
+	ValidateSetupType
+	MigrateBOINCData
+	MigrateBOINCDataVersion
+	MigrateBOINCDataCleanup
+	MigrateX86X64
+	RestoreSetupState
+	SaveSetupState
+	ShutdownBOINCManager
+	CleanupOldBinaries
+	VerifyInstallDirectories
+    ValidateInstall
+    ValidateRebootRequest
+    SaveExecutionState
+    RestoreExecutionState
+    CCConfigMd5sum
+    CreateProjectInitFile

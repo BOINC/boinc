@@ -1,0 +1,11 @@
+# BOINC web translation
+# Copyright (C) 2008 University of California
+#
+# This file is distributed under the same license as BOINC.
+#
+
+msgid "LANG_NAME_INTERNATIONAL"
+msgstr "English"
+
+msgid "LANG_NAME_NATIVE"
+msgstr "English"

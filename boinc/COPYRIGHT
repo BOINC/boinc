@@ -1,0 +1,52 @@
+// Berkeley Open Infrastructure for Network Computing
+// http://boinc.berkeley.edu
+// Source: http://boinc.berkeley.edu/source_code.php
+// Copyright(C) 2002-2007 University of California
+//
+// This is free software; you can redistribute it and/or
+// modify it under the terms of the GNU Lesser General Public
+// License as published by the Free Software Foundation;
+// either version 2.1 of the License, or (at your option) any later version.
+//
+// This software is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+// See the GNU Lesser General Public License for more details.
+//
+// To view the GNU Lesser General Public License visit
+// http://www.gnu.org/copyleft/lesser.html
+// or write to the Free Software Foundation, Inc.,
+// 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
+//
+//
+// wxWidgets Library Licence, Version 3.1
+// http://www.wxwidgets.org/
+// Source: http://www.wxwidgets.org/
+// Copyright (c) 1998-2005 Julian Smart, Robert Roebling et al
+//
+//
+// cURL & libCURL
+// http://curl.haxx.se/
+// Source: http://curl.haxx.se/
+// Copyright (c) 1996 - 2006, Daniel Stenberg, <daniel@haxx.se>.
+//
+//
+// OpenSSL & SSLeay
+// http://www.openssl.org/
+// Source: http://www.openssl.org/
+// Copyright (c) 1998-2005 The OpenSSL Project.  All rights reserved.
+// Copyright (C) 1995-1998 Eric Young (eay@cryptsoft.com)
+//
+//
+// zLib Commpression Library
+// http://www.zlib.org
+// Source: http://www.zlib.org
+// Copyright (C) 1995-2004 Jean-loup Gailly and Mark Adler
+//
+//
+// International Components for Unicode
+// http://www.icu-project.org/
+// Source: http://www.icu-project.org/
+// Copyright &copy; 1997-2009 International Business Machines Corporation and others. All Rights Reserved.
+//
+//

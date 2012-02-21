@@ -1,0 +1,280 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+ This is the manual page for the BOINC core client (boinc).
+
+ Copyright © 2007-2008 University of California
+
+ Permission is granted to copy, distribute and/or modify this document
+ under the terms of the GNU Free Documentation License, Version 1.2 or
+ any later version published by the Free Software Foundation; with no
+ Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts.
+-->
+
+<!DOCTYPE refentry PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
+"file:///usr/share/xml/docbook/schema/dtd/4.4/docbookx.dtd" [
+
+  <!ENTITY % COMMON SYSTEM "common.ent">
+  %COMMON;
+
+  <!ENTITY date "<date>April 06, 2008</date>">
+]>
+
+<refentry>
+  <refentryinfo>
+    <authorgroup>
+      <author>
+        <firstname>Steffen</firstname>
+        <lastname>Moeller</lastname>
+        <email>steffen_moeller@gmx.de</email>
+      </author>
+      <author>
+        <firstname>Frank</firstname>
+        <lastname>Thomas</lastname>
+        <email>frank@thomas-alfeld.de</email>
+      </author>
+      <author>
+        <firstname>Eric</firstname>
+        <lastname>Myers</lastname>
+        <email>myers@spy-hill.net</email>
+      </author>
+   </authorgroup>
+    <copyright>
+      <year>2007</year>
+      <year>2008</year>
+      <holder>University of California</holder>
+    </copyright>
+    &date;
+  </refentryinfo>
+
+  <refmeta>
+    <refentrytitle>&boinc;</refentrytitle>
+    <manvolnum>1</manvolnum>
+  </refmeta>
+
+  <refnamediv>
+    <refname>&boinc;</refname>
+    <refpurpose>The BOINC core client program.</refpurpose>
+  </refnamediv>
+
+  <refsynopsisdiv>
+    <cmdsynopsis>
+      &cmd_boinc;
+      <arg><replaceable>options</replaceable></arg>
+    </cmdsynopsis>
+  </refsynopsisdiv>
+
+  <refsect1>
+    <title>DESCRIPTION</title>
+    <para>The BOINC "core client", &cmd_boinc;, is the heart of BOINC.
+      It controls which project applications are run on your computer,
+      downloading "Workunits" and uploading the "Result" files from completed
+      tasks. &cmd_boinc; is usually run in the background, ideally as a
+      daemon. It can then be controlled either by a graphical tool called the
+      BOINC Manager, &man_boincmgr;, or a command-line tool called
+      &man_boinccmd;, by means of Remote Proceedure Calls (RPCs) over port
+      &rpc_port;.</para>
+
+    <para>The BOINC core client can be controlled by command-line options,
+      configuration files, and environment variables. Standard usage is simply
+      to start the client running in the background.</para>
+  </refsect1>
+
+  <refsect1>
+    <title>OPTIONS</title>
+    <para>These command-line options for &cmd_boinc; can be used to control
+      how BOINC is started. Once the client has started, you should use a
+      separate program, (&man_boincmgr; or &man_boinccmd;) which communicates
+      with it by means of Remote Proceedure Calls (RPCs).</para>
+
+    <variablelist>
+      <varlistentry>
+        <term><option>--help</option></term>
+        <listitem>
+          <para>show options</para>
+        </listitem>
+      </varlistentry>
+
+
+      <varlistentry>
+        <term><option>--version</option></term>
+        <listitem>
+          <para>show version info</para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term><option>--exit_when_idle</option></term>
+        <listitem>
+          <para>exit when there are no results</para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term><option>--show_projects</option></term>
+        <listitem>
+          <para>show attached projects</para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>
+          <option>--detach_project <replaceable>URL</replaceable></option>
+        </term>
+        <listitem>
+          <para>detach from a project</para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>
+          <option>--reset_project <replaceable>URL</replaceable></option>
+        </term>
+        <listitem>
+          <para>reset (clear) a project</para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>
+          <option>--attach_project <replaceable>URL</replaceable> 
+            <replaceable>key</replaceable></option>
+        </term>
+        <listitem>
+          <para>attach to a project</para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>
+          <option>--update_prefs <replaceable>URL</replaceable></option>
+        </term>
+        <listitem>
+          <para>contact a project to update preferences</para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term><option>--run_cpu_benchmarks</option></term>
+        <listitem>
+          <para>run the CPU benchmarks</para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term><option>--check_all_logins</option></term>
+        <listitem>
+          <para>for idle detection, check remote logins too</para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term><option>--allow_remote_gui_rpc</option></term>
+        <listitem>
+          <para>allow remote GUI RPC connections</para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>
+          <option>--gui_rpc_port <replaceable>port</replaceable></option>
+        </term>
+        <listitem>
+          <para>port for GUI RPCs</para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term><option>--redirectio</option></term>
+        <listitem>
+          <para>redirect stdout and stderr to log files</para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term><option>--dir <replaceable>path</replaceable></option></term>
+        <listitem>
+          <para>use given dir as BOINC home</para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term><option>--no_gui_rpc</option></term>
+        <listitem>
+          <para>Omits creation of a socket as required for the remote control
+            of the client. Consequently the client cannot be controlled by
+            external tools like GUIs (&cmd_boincmgr; etc.) or the console
+            command tool (&cmd_boinccmd;).</para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term><option>--daemon</option></term>
+        <listitem>
+          <para>run as daemon</para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term><option>--exit_before_start</option></term>
+        <listitem>
+          <para>exit right before starting a job</para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term><option>--exit_after_finish</option></term>
+        <listitem>
+          <para>exit right after finishing a job</para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term><option>--insecure</option></term>
+        <listitem>
+          <para>disable app sandboxing</para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term><option>--launched_by_manager</option></term>
+        <listitem>
+          <para>core client was launched by Manager</para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term><option>--run_by_updater</option></term>
+        <listitem>
+          <para>set by updater</para>
+        </listitem>
+      </varlistentry>
+    </variablelist>
+  </refsect1>
+
+  <refsect1>
+    <title>Access control for GUI RPC</title>
+    <para>By default the core client accepts GUI RPC connections only from
+      programs on the same host, which means that any user on this host can
+      control the core client.</para>
+  </refsect1>
+
+  <refsect1>
+    <title>SEE ALSO</title>
+    <para>&man_boinccmd;, &man_boincmgr;</para>
+    <para>
+      <ulink
+        url="http://boinc.berkeley.edu/wiki/Client_configuration_(advanced)"/>
+    </para>
+  </refsect1>
+
+  <refsect1>
+    <title>COPYRIGHT</title>
+    <para>Copyright © 2007-2008 University of California.</para>
+    <para>Permission is granted to copy, distribute and/or modify this
+      document under the terms of the &gnu; Free Documentation License,
+      Version 1.2 or any later version published by the Free Software
+      Foundation; with no Invariant Sections, no Front-Cover Texts, and no
+      Back-Cover Texts.</para>
+  </refsect1>
+</refentry>

@@ -1,0 +1,11 @@
+User-agent: *
+Disallow: /account
+Disallow: /add_venue
+Disallow: /am_
+Disallow: /bug_report
+Disallow: /edit_
+Disallow: /host_
+Disallow: /prefs_
+Disallow: /result
+Disallow: /team
+Disallow: /workunit

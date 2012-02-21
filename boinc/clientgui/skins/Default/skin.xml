@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<skin>
+   <en>
+      <simple>
+
+         <panel_opacity>180</panel_opacity>
+
+         <background_image>
+            <!-- Background Image for Simple GUI -->
+            <!-- Recommended total size: 600x750 (to accomodate OS size differences and localizations of text) -->
+            <!-- Top banner height: about 68 -->
+            <!-- EN-Win total size: about 422x582 as of 6.13.12 -->
+            <image>
+               <imagesrc>background_image.png</imagesrc>
+               <background_color>0:0:0</background_color>
+            </image>
+         </background_image>
+
+         <workunit_running_image>
+            <image>
+               <imagesrc>workunit_running_image.png</imagesrc>
+            </image>
+         </workunit_running_image>
+
+         <workunit_waiting_image>
+            <image>
+               <imagesrc>workunit_waiting_image.png</imagesrc>
+            </image>
+         </workunit_waiting_image>
+
+         <workunit_suspended_image>
+            <image>
+               <imagesrc>workunit_suspended_image.png</imagesrc>
+            </image>
+         </workunit_suspended_image>
+
+      </simple>
+   </en>
+</skin>

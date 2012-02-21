@@ -1,0 +1,4746 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2012-02-09 12:37-0500\n"
+"PO-Revision-Date: 2011-10-21 21:47+0200\n"
+"Last-Translator: Anonymous Pootle User\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: sl\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || "
+"n%100==4 ? 2 : 3);\n"
+"X-Generator: Pootle 2.1.6\n"
+"X-Poedit-SourceCharset: utf-8\n"
+"X-Poedit-Basepath: C:\\Src\\BOINCSVN\\trunk\\boinc\n"
+"X-Poedit-SearchPath-0: clientgui\n"
+"X-Poedit-SearchPath-1: clientgui/msw\n"
+"X-Poedit-SearchPath-2: clientgui/gtk\n"
+"X-Poedit-SearchPath-3: clientgui/mac\n"
+"X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
+
+#: clientgui/AccountInfoPage.cpp:386
+msgid "Identify your account "
+msgstr "Identificirajte vaš uporabniški račun"
+
+#: clientgui/AccountInfoPage.cpp:392
+msgid ""
+"Please enter your account information\n"
+"(to create an account, visit the project's web site)"
+msgstr ""
+"Prosim vnesite informacije o vašem uporabniškem računu\n"
+"(da ustvarite račun, obiščite domačo stran projekta)"
+
+#: clientgui/AccountInfoPage.cpp:396
+#, fuzzy
+msgid ""
+"This project is not currently accepting new accounts.\n"
+"You can add it only if you already have an account."
+msgstr ""
+"Ta projekt trenutne ne sprejema novih uporabniških računov.\n"
+"Lahko se pripnete le, če račun že imate."
+
+#: clientgui/AccountInfoPage.cpp:400
+msgid "Are you already running this project?"
+msgstr "Ali že poganjate ta projekt?"
+
+#: clientgui/AccountInfoPage.cpp:404
+msgid "&No, new user"
+msgstr "&Ne, nov uporabnik"
+
+#: clientgui/AccountInfoPage.cpp:407
+msgid "&Yes, existing user"
+msgstr "&Da, obstoječi uporabnik"
+
+#: clientgui/AccountInfoPage.cpp:412
+#, fuzzy
+msgid ""
+"We were not able to set up your account information\n"
+"automatically.\n"
+"\n"
+"Please click on the 'Find login information' link\n"
+"below to find out what to put in the email address and\n"
+"password fields."
+msgstr ""
+"Nismo vam mogli samodejno nastaviti informacij\n"
+"vašega uporabniškega računa.\n"
+"\n"
+"Prosim kliknite na povezavo \"Najdi prijavne informacije\"\n"
+"spodaj, da izveste kaj napisati v vnosni polji\n"
+"elektronska pošta in geslo."
+
+#: clientgui/AccountInfoPage.cpp:415
+#, fuzzy
+msgid "Find login information"
+msgstr "Najdi prijavne informacije"
+
+#: clientgui/AccountInfoPage.cpp:435
+#: clientgui/AccountInfoPage.cpp:635
+msgid "&Password:"
+msgstr "&Geslo:"
+
+#: clientgui/AccountInfoPage.cpp:442
+#: clientgui/AccountInfoPage.cpp:659
+msgid "Choose a &password:"
+msgstr "Izberite &geslo:"
+
+#: clientgui/AccountInfoPage.cpp:445
+msgid "C&onfirm password:"
+msgstr "P&otrdi geslo:"
+
+#: clientgui/AccountInfoPage.cpp:452
+#, c-format
+msgid "Are you already running %s?"
+msgstr "Ali že poganjate %s?"
+
+#: clientgui/AccountInfoPage.cpp:481
+msgid "&Username:"
+msgstr "&Uporabniško ime:"
+
+#: clientgui/AccountInfoPage.cpp:507
+msgid "&Email address:"
+msgstr "&Elektronska pošta:"
+
+#: clientgui/AccountInfoPage.cpp:514
+#, c-format
+msgid "minimum length %d"
+msgstr "minimalna dolžina %d"
+
+#: clientgui/AccountInfoPage.cpp:521
+msgid "Forgot your password?"
+msgstr "Ste pozabili geslo?"
+
+#: clientgui/AccountInfoPage.cpp:528
+msgid ""
+"If you have not yet registered with this account manager,\n"
+"please do so before proceeding.  Click on the link below\n"
+"to register or to retrieve a forgotten password."
+msgstr ""
+"Če še niste registrirani s tem upraviteljem računov,\n"
+"prosim to storite pred nadaljevanjem. Kliknite na povezavo spodaj\n"
+"za registriracijo ali da spet pridobite pozabljeno geslo."
+
+#: clientgui/AccountInfoPage.cpp:531
+msgid "Account manager website"
+msgstr "Spletna stran upravitelja računov"
+
+#: clientgui/AccountInfoPage.cpp:571
+msgid "Add project"
+msgstr "Dodaj projekt"
+
+#: clientgui/AccountInfoPage.cpp:573
+msgid "Update account manager"
+msgstr "Posodobite upravitelja računov"
+
+#: clientgui/AccountInfoPage.cpp:575
+#, fuzzy
+msgid "Use account manager"
+msgstr "Dodaj upravitelja računov"
+
+#: clientgui/AccountInfoPage.cpp:583
+#, c-format
+msgid "The minimum password length for this project is %d. Please enter a different password."
+msgstr ""
+"Najmanjša dolžina gesla za ta projekt je %d. Prosim vnesite drugo geslo."
+
+#: clientgui/AccountInfoPage.cpp:589
+#, c-format
+msgid "The minimum password length for this account manager is %d. Please enter a different password."
+msgstr ""
+"Najmanjša dolžina gesla za ta upravitelj računov je %d. Prosim vnesite drugo "
+"geslo."
+
+#: clientgui/AccountInfoPage.cpp:601
+msgid "The password and confirmation password do not match. Please type them again."
+msgstr "Geslo in potrditev gesla se ne ujemata. Prosim, vtipkajte jih znova."
+
+#: clientgui/AccountManagerInfoPage.cpp:248
+msgid "Choose an account manager"
+msgstr "Izberite upravitelja računov"
+
+#: clientgui/AccountManagerInfoPage.cpp:251
+msgid ""
+"To choose an account manager, click its name or \n"
+"type its URL below."
+msgstr ""
+"Da izberete upravitelja računov, kliknite njegovo ime ali\n"
+"spodaj napišite njegov URL."
+
+#: clientgui/AccountManagerInfoPage.cpp:254
+msgid "Account Manager &URL:"
+msgstr "Upravitelj računov &URL:"
+
+#: clientgui/AccountManagerProcessingPage.cpp:188
+#: clientgui/AccountManagerPropertiesPage.cpp:194
+#, c-format
+msgid "Communicating with %s."
+msgstr "Komuniciram z %s."
+
+#: clientgui/AccountManagerProcessingPage.cpp:195
+#: clientgui/AccountManagerPropertiesPage.cpp:201
+msgid "Communicating with server."
+msgstr "Komuniciram s strežnikom."
+
+#: clientgui/AccountManagerProcessingPage.cpp:200
+#: clientgui/AccountManagerPropertiesPage.cpp:206
+msgid "Please wait..."
+msgstr "Prosim, počakajte..."
+
+#: clientgui/AccountManagerProcessingPage.cpp:327
+msgid "An internal server error has occurred.\n"
+msgstr "Pojavila se je notranja napaka strežnika\n"
+
+#: clientgui/AdvancedFrame.cpp:95
+msgid "Connected"
+msgstr "Povezan"
+
+#: clientgui/AdvancedFrame.cpp:103
+msgid "Disconnected"
+msgstr "Odklopljen"
+
+#: clientgui/AdvancedFrame.cpp:315
+#, c-format
+msgid "Close the %s window"
+msgstr "Zapri okno %s"
+
+#: clientgui/AdvancedFrame.cpp:318
+msgid "&Close Window"
+msgstr "&Zapri okno"
+
+#: clientgui/AdvancedFrame.cpp:329
+#: clientgui/AdvancedFrame.cpp:336
+#: clientgui/AdvancedFrame.cpp:343
+#, c-format
+msgid "Exit %s"
+msgstr "Zapusti %s"
+
+#: clientgui/AdvancedFrame.cpp:358
+msgid "&Notices\tCtrl+Shift+N"
+msgstr "&Obvestila\tCtrl+Shift+N"
+
+#: clientgui/AdvancedFrame.cpp:359
+msgid "Display notices"
+msgstr "Prikaži obvestila"
+
+#: clientgui/AdvancedFrame.cpp:364
+msgid "&Projects\tCtrl+Shift+P"
+msgstr "&Projekti\tCtrl-Shitf+P"
+
+#: clientgui/AdvancedFrame.cpp:365
+msgid "Display projects"
+msgstr "Prikaži projekte"
+
+#: clientgui/AdvancedFrame.cpp:370
+msgid "&Tasks\tCtrl+Shift+T"
+msgstr "&Opravila\tCtrl+Shift+T"
+
+#: clientgui/AdvancedFrame.cpp:371
+msgid "Display tasks"
+msgstr "Prikaži opravila"
+
+#: clientgui/AdvancedFrame.cpp:376
+msgid "Trans&fers\tCtrl+Shift+X"
+msgstr "P&renosi\tCtrl-Shift+X"
+
+#: clientgui/AdvancedFrame.cpp:377
+msgid "Display transfers"
+msgstr "Prikaži prenose"
+
+#: clientgui/AdvancedFrame.cpp:382
+msgid "&Statistics\tCtrl+Shift+S"
+msgstr "&Statistika\tCtrl+Shift+S"
+
+#: clientgui/AdvancedFrame.cpp:383
+msgid "Display statistics"
+msgstr "Prikaži statistiko"
+
+#: clientgui/AdvancedFrame.cpp:388
+msgid "&Disk usage\tCtrl+Shift+D"
+msgstr "Poraba &diska\tCtrl+Shift+D"
+
+#: clientgui/AdvancedFrame.cpp:389
+msgid "Display disk usage"
+msgstr "Prikaži porabo diska"
+
+#: clientgui/AdvancedFrame.cpp:396
+msgid "Simple &View...\tCtrl+Shift+V"
+msgstr "Preprosti &pogled...\tCtrl+Shift+V"
+
+#: clientgui/AdvancedFrame.cpp:397
+msgid "Display the simple graphical interface."
+msgstr "Prikaži preprost uporabniški vmesnik."
+
+#: clientgui/AdvancedFrame.cpp:411
+msgid "&Add project or account manager..."
+msgstr "Dodaj &projekt ali upravitelja računov..."
+
+#: clientgui/AdvancedFrame.cpp:412
+msgid "Volunteer for any or all of 30+ projects in many areas of science"
+msgstr ""
+"Bodite prostovoljec za kateregakoli ali vse izmed več kot 30 projektov na "
+"več znanstvenih področjih"
+
+#: clientgui/AdvancedFrame.cpp:416
+#, c-format
+msgid "&Synchronize with %s"
+msgstr "&Sinhroniziraj s %s"
+
+#: clientgui/AdvancedFrame.cpp:420
+#, c-format
+msgid "Get current settings from %s"
+msgstr "Dobi trenutne nastavitve od %s"
+
+#: clientgui/AdvancedFrame.cpp:430
+msgid "&Add project..."
+msgstr "Dodaj &projekt..."
+
+#: clientgui/AdvancedFrame.cpp:431
+msgid "Add a project"
+msgstr "Dodaj projekt"
+
+#: clientgui/AdvancedFrame.cpp:434
+#, c-format
+msgid "S&top using %s..."
+msgstr "Nehaj&te uporabljati %s..."
+
+#: clientgui/AdvancedFrame.cpp:440
+msgid "Remove this computer from account manager control."
+msgstr "Odstrani ta računalnik iz nadzora upravitelja računov."
+
+#: clientgui/AdvancedFrame.cpp:445
+msgid "&Options..."
+msgstr "M&ožnosti"
+
+#: clientgui/AdvancedFrame.cpp:446
+#, fuzzy
+msgid "Configure display options and proxy settings"
+msgstr ""
+"Nastavi možnosti grafičnega uporabniškega vmesnika in nastavitve "
+"posredniškega strežnika (proxy)"
+
+#: clientgui/AdvancedFrame.cpp:450
+msgid "Computing &preferences..."
+msgstr "&Nastavitve računanja..."
+
+#: clientgui/AdvancedFrame.cpp:451
+msgid "Configure computing preferences"
+msgstr "Nastavi nastavitve računanja"
+
+#: clientgui/AdvancedFrame.cpp:459
+msgid "&Run always"
+msgstr "&Poganjaj vedno"
+
+#: clientgui/AdvancedFrame.cpp:460
+msgid "Allow work regardless of preferences"
+msgstr "Dovoli delo, ne glede na nastavitve"
+
+#: clientgui/AdvancedFrame.cpp:464
+msgid "Run based on &preferences"
+msgstr "Poganjaj glede na &nastavitve"
+
+#: clientgui/AdvancedFrame.cpp:465
+msgid "Allow work according to preferences"
+msgstr "Dovoli delo glede na vaše nastavitve"
+
+#: clientgui/AdvancedFrame.cpp:469
+msgid "&Suspend"
+msgstr "Na ča&kanje"
+
+#: clientgui/AdvancedFrame.cpp:470
+msgid "Stop work regardless of preferences"
+msgstr "Ustavi delo ne glede na nastavitve"
+
+#: clientgui/AdvancedFrame.cpp:495
+msgid "Use GPU always"
+msgstr "Vedno uporabi grafični procesor"
+
+#: clientgui/AdvancedFrame.cpp:496
+msgid "Allow GPU work regardless of preferences"
+msgstr "Dovoli delo grafičnega procesorja, ne glede na nastavitve"
+
+#: clientgui/AdvancedFrame.cpp:500
+msgid "Use GPU based on preferences"
+msgstr "Uporabi grafični procesor, glede na nastavitve"
+
+#: clientgui/AdvancedFrame.cpp:501
+msgid "Allow GPU work according to preferences"
+msgstr "Dovoli delo grafičnega procesorja glede na nastavitve"
+
+#: clientgui/AdvancedFrame.cpp:505
+msgid "Suspend GPU"
+msgstr "Daj grafični procesor na čakanje"
+
+#: clientgui/AdvancedFrame.cpp:506
+msgid "Stop GPU work regardless of preferences"
+msgstr "Ustavi delo grafičnega procesorja, ne glede na nastavitve"
+
+#: clientgui/AdvancedFrame.cpp:530
+msgid "Network activity always available"
+msgstr "Mrežna aktivnost je vedno na voljo"
+
+#: clientgui/AdvancedFrame.cpp:531
+msgid "Allow network activity regardless of preferences"
+msgstr "Dovoli mrežno aktivnost ne glede na nastavitve"
+
+#: clientgui/AdvancedFrame.cpp:535
+msgid "Network activity based on preferences"
+msgstr "Mrežna aktivnost temelječa na nastavitvah"
+
+#: clientgui/AdvancedFrame.cpp:536
+msgid "Allow network activity according to preferences"
+msgstr "Dovoli mrežno aktivnost glede na nastavitve"
+
+#: clientgui/AdvancedFrame.cpp:540
+msgid "Network activity suspended"
+msgstr "Mrežna aktivnost na čakanju"
+
+#: clientgui/AdvancedFrame.cpp:541
+msgid "Stop BOINC network activity"
+msgstr "Ustavi mrežno aktivnost BOINC"
+
+#: clientgui/AdvancedFrame.cpp:551
+#, c-format
+msgid "Connect to another computer running %s"
+msgstr "Poveži se na drug računalnik, ki poganja %s"
+
+#: clientgui/AdvancedFrame.cpp:556
+msgid "Select computer..."
+msgstr "Izberi računalnik..."
+
+#: clientgui/AdvancedFrame.cpp:561
+msgid "Shut down connected client..."
+msgstr "Izklopi povezanega odjemalca..."
+
+#: clientgui/AdvancedFrame.cpp:562
+msgid "Shut down the currently connected client"
+msgstr "Izklopi trentuno povezanega odjemalca"
+
+#: clientgui/AdvancedFrame.cpp:566
+msgid "Run CPU &benchmarks"
+msgstr "Poženi meritev &hitrost procesorja"
+
+#: clientgui/AdvancedFrame.cpp:567
+msgid "Runs BOINC CPU benchmarks"
+msgstr "Požene BOINC meritve hitrosti procesorja"
+
+#: clientgui/AdvancedFrame.cpp:571
+msgid "Do network communication"
+msgstr "Izvedi komunikacijo po mreži"
+
+#: clientgui/AdvancedFrame.cpp:572
+msgid "Do all pending network communication"
+msgstr "Izvedi vso čakajočo komunikacijo po mreži"
+
+#: clientgui/AdvancedFrame.cpp:576
+msgid "Read config file"
+msgstr "Preberi konfiguracijsko datoteko"
+
+#: clientgui/AdvancedFrame.cpp:577
+msgid "Read configuration info from cc_config.xml"
+msgstr "Preberi konfiguracijske informacije iz cc_config.xml"
+
+#: clientgui/AdvancedFrame.cpp:581
+msgid "Read local prefs file"
+msgstr "Preberi lokalno datoteko z nastavitvami"
+
+#: clientgui/AdvancedFrame.cpp:582
+msgid "Read preferences from global_prefs_override.xml."
+msgstr "Preberi nastavitve iz global_prefs_override.xml."
+
+#: clientgui/AdvancedFrame.cpp:587
+#, c-format
+msgid "Launch another instance of %s..."
+msgstr ""
+
+#: clientgui/AdvancedFrame.cpp:591
+#, c-format
+msgid "Launch another %s"
+msgstr ""
+
+#: clientgui/AdvancedFrame.cpp:601
+msgid "Event Log...\tCtrl+Shift+E"
+msgstr ""
+
+#: clientgui/AdvancedFrame.cpp:602
+msgid "Display diagnostic messages."
+msgstr "Prikaži diagnostična sporočila."
+
+#: clientgui/AdvancedFrame.cpp:612
+#, c-format
+msgid "%s &help"
+msgstr "%s &pomoč"
+
+#: clientgui/AdvancedFrame.cpp:618
+#, c-format
+msgid "Show information about %s"
+msgstr "Prikaži informacije o %s"
+
+#: clientgui/AdvancedFrame.cpp:630
+#, c-format
+msgid "&%s help"
+msgstr "&%s pomoč"
+
+#: clientgui/AdvancedFrame.cpp:636
+#, c-format
+msgid "Show information about the %s"
+msgstr "Prikaži informacije o %s"
+
+#: clientgui/AdvancedFrame.cpp:648
+#, c-format
+msgid "%s &website"
+msgstr "%s &spletna stran"
+
+#: clientgui/AdvancedFrame.cpp:654
+#, c-format
+msgid "Show information about BOINC and %s"
+msgstr "Prikaži informacije o BOINC in %s"
+
+#: clientgui/AdvancedFrame.cpp:666
+#, c-format
+msgid "&About %s..."
+msgstr "&O %s..."
+
+#: clientgui/AdvancedFrame.cpp:672
+msgid "Licensing and copyright information."
+msgstr "Informacije o licencah in avtorskih pravicah."
+
+#: clientgui/AdvancedFrame.cpp:679
+msgid "&File"
+msgstr "&Datoteka"
+
+#: clientgui/AdvancedFrame.cpp:683
+msgid "&View"
+msgstr "&Pogled"
+
+#: clientgui/AdvancedFrame.cpp:687
+msgid "&Tools"
+msgstr "&Orodja"
+
+#: clientgui/AdvancedFrame.cpp:691
+msgid "&Activity"
+msgstr "&Aktivnost"
+
+#: clientgui/AdvancedFrame.cpp:695
+msgid "A&dvanced"
+msgstr "Nap&redno"
+
+#: clientgui/AdvancedFrame.cpp:699
+msgid "&Help"
+msgstr "Po&moč"
+
+#: clientgui/AdvancedFrame.cpp:1174
+#, c-format
+msgid "%s - Stop using %s"
+msgstr ""
+
+#: clientgui/AdvancedFrame.cpp:1179
+#, c-format
+#, fuzzy, c-format
+msgid ""
+"If you stop using %s,\n"
+"you'll keep all your current projects,\n"
+"but you'll have to manage projects manually.\n"
+"\n"
+"Do you want to stop using %s?"
+msgstr ""
+"Če se odklopite od %s,\n"
+"boste obdržali vse trenutne projekte,\n"
+"vendar jih boste morali upravljati ročno.\n"
+"\n"
+"Ali se želite odklopiti od %s?"
+
+#: clientgui/AdvancedFrame.cpp:1377
+#, c-format
+msgid "%s - Shut down the current client..."
+msgstr "%s - Zaustavi trenutnega odjemalca..."
+
+#: clientgui/AdvancedFrame.cpp:1386
+#, c-format
+msgid ""
+"%s will shut down the current client\n"
+"and prompt you for another host to connect to."
+msgstr ""
+"%s bo zaustavil trenutnega odjemalca\n"
+"in vas povprašal po drugem gostitelju, na katerega naj se poveže."
+
+#: clientgui/AdvancedFrame.cpp:1705
+#, c-format
+msgid "%s"
+msgstr "%s"
+
+#: clientgui/AdvancedFrame.cpp:1714
+#, c-format
+#, fuzzy, c-format
+msgid "%s has successfully added %s"
+msgstr "%s se je uspešno pripel(-a) na %s"
+
+#: clientgui/AdvancedFrame.cpp:1854
+#, c-format
+msgid "%s - (%s)"
+msgstr "%s - (%s)"
+
+#: clientgui/AdvancedFrame.cpp:1858
+#, c-format
+msgid "Connecting to %s"
+msgstr "Povezujem se na %s"
+
+#: clientgui/AdvancedFrame.cpp:1861
+#, c-format
+msgid "Connected to %s (%s)"
+msgstr "Povezan na %s (%s)"
+
+#: clientgui/AlreadyExistsPage.cpp:184
+msgid "Username already in use"
+msgstr "Uporabniško ime je že v uporabi"
+
+#: clientgui/AlreadyExistsPage.cpp:187
+msgid ""
+"An account with that username already exists and has a\n"
+"different password than the one you entered.\n"
+"\n"
+"Please visit the project's web site and follow the instructions there."
+msgstr ""
+"Račun s tem uporabniškim imenom že obstaja in ima\n"
+"drugačno geslo od tistega, ki ste ga vnesli.\n"
+"\n"
+"Prosim, obiščite spletno stran projekta in sledite tamkajšnjim navodilom."
+
+#: clientgui/AlreadyExistsPage.cpp:191
+msgid "Email address already in use"
+msgstr "Naslov elektronske pošte je že v uporabi"
+
+#: clientgui/AlreadyExistsPage.cpp:194
+msgid ""
+"An account with that email address already exists and has a\n"
+"different password than the one you entered.\n"
+"\n"
+"Please visit the project's web site and follow the instructions there."
+msgstr ""
+"Račun s tem naslovom elektronske pošte že obstaja in ima\n"
+"drugačno geslo od tistega, ki ste ga vnesli.\n"
+"\n"
+"Prosim, obiščite spletno stran projekta in sledite tamkajšnjim navodilom."
+
+#: clientgui/AsyncRPC.cpp:1235
+msgid "Communicating with BOINC client.  Please wait ..."
+msgstr "Komuniciram z BOINC odjemalcem.  Prosim, počakajte ..."
+
+#: clientgui/AsyncRPC.cpp:1238
+#, c-format
+msgid "&Quit %s"
+msgstr "Za&pusti %s"
+
+#: clientgui/AsyncRPC.cpp:1240
+#, c-format
+msgid "E&xit %s"
+msgstr "Za&pusti %s"
+
+#: clientgui/AsyncRPC.cpp:1244
+#, c-format
+msgid "%s - Communication"
+msgstr "%s - Komunikacija"
+
+#: clientgui/AsyncRPC.cpp:1260
+msgid "Cancel"
+msgstr "Prekliči"
+
+#: clientgui/BOINCBaseFrame.cpp:499
+#, c-format
+msgid "%s - Connection Error"
+msgstr "%s - Napaka pri povezavi"
+
+#: clientgui/BOINCBaseFrame.cpp:508
+msgid ""
+"You currently are not authorized to manage the client.\n"
+"Please contact your administrator to add you to the 'boinc_users' local user group."
+msgstr ""
+"Trenutno nimate dovoljenja upravljati odjemalca.\n"
+"Prosim, kontaktirajte skrbnika sistema, da vas doda v uporabniško skupino "
+"'boinc_users'."
+
+#: clientgui/BOINCBaseFrame.cpp:517
+msgid ""
+"Authorization failed connecting to running client.\n"
+"Make sure you start this program in the same directory as the client."
+msgstr ""
+"Avtorizacija je bila neuspešna med povezovanje na delujoči odjemalec.\n"
+"Preverite, da poganjate ta program iz istega imenika kot odjemalca."
+
+#: clientgui/BOINCBaseFrame.cpp:519
+msgid "Authorization failed connecting to running client."
+msgstr "Avtorizacija je bila neuspešna med povezovanjem na delujoči odjemalec."
+
+#: clientgui/BOINCBaseFrame.cpp:527
+msgid "The password you have provided is incorrect, please try again."
+msgstr "Geslo, ki ste ga vnesli, ni pravilno. Prosim, poskusite znova."
+
+#: clientgui/BOINCBaseFrame.cpp:571
+#, c-format
+msgid "%s - Connection Failed"
+msgstr "%s - Povezava ni uspela"
+
+#: clientgui/BOINCBaseFrame.cpp:580
+#, c-format
+msgid ""
+"%s is not able to connect to a %s client.\n"
+"Would you like to try to connect again?"
+msgstr ""
+"%s se ni mogel povezati na odjemalca %s.\n"
+"Se želite poskusiti povezati znova?"
+
+#: clientgui/BOINCBaseFrame.cpp:616
+#, c-format
+msgid "%s - Daemon Start Failed"
+msgstr "%s - Zagon strežniškega procesa (daemon) ni uspel"
+
+#: clientgui/BOINCBaseFrame.cpp:626
+#, c-format
+msgid ""
+"%s is not able to start a %s client.\n"
+"Please launch the Control Panel->Administative Tools->Services applet and start the BOINC service."
+msgstr ""
+"%s ni mogel zagnati odjemalca %s.\n"
+"Prosim, poženite Nadzorna plošča->Skrbniška orodja->Storitve in poženite "
+"BOINC storitev."
+
+#: clientgui/BOINCBaseFrame.cpp:632
+#, c-format
+msgid ""
+"%s is not able to start a %s client.\n"
+"Please start the daemon and try again."
+msgstr ""
+"%s ne more zagnati odjemalca %s.\n"
+"Prosim, poženite strežniki proces (daemon) in poskusite znova."
+
+#: clientgui/BOINCBaseFrame.cpp:683
+#, c-format
+msgid "%s - Connection Status"
+msgstr "%s - Status povezave"
+
+#: clientgui/BOINCBaseFrame.cpp:694
+#, c-format
+msgid ""
+"%s is not currently connected to a %s client.\n"
+"Please use the 'Advanced\\Select Computer...' menu option to connect up to a %s client.\n"
+"To connect up to your local computer please use 'localhost' as the host name."
+msgstr ""
+"%s trenutno ni povezan na odjemalca %s.\n"
+"Prosim, uporabite 'Napredno/Izberi računalnik'  izbiro menuja, da se "
+"povežete na odjemalca %s.\n"
+"Za povezavo na lokalni računalnik, prosim, uporabite 'localhost' kot ime "
+"gostitelja."
+
+#: clientgui/BOINCBaseView.cpp:774
+#, fuzzy
+msgid "Project web pages"
+msgstr "Spletna stran projekta"
+
+#: clientgui/BOINCClientManager.cpp:570
+#, c-format
+msgid "%s - Unexpected Exit"
+msgstr "%s - Nepričakovan izhod"
+
+#: clientgui/BOINCClientManager.cpp:580
+#, c-format
+msgid ""
+"The %s client has exited unexpectedly 3 times within the last %d minutes.\n"
+"Would you like to restart it again?"
+msgstr ""
+"Odjemalec %s je izstopil 3 krat v zadnjih %d minutah.\n"
+"Ga želite znova zagnati?"
+
+#: clientgui/BOINCDialupManager.cpp:61
+#, c-format
+msgid "%s - Network Status"
+msgstr "%s - status omrežja"
+
+#: clientgui/BOINCDialupManager.cpp:241
+#, c-format
+msgid ""
+"%s needs to connect to the Internet.\n"
+"May it do so now?"
+msgstr ""
+"%s se mora povezati na internet.\n"
+"Ali lahko to stori zdaj?"
+
+#: clientgui/BOINCDialupManager.cpp:254
+#, c-format
+msgid "%s is connecting to the Internet."
+msgstr "%s se povezuje na internet."
+
+#: clientgui/BOINCDialupManager.cpp:303
+#, c-format
+msgid "%s has successfully connected to the Internet."
+msgstr "%s se je uspešno povezal na internet."
+
+#: clientgui/BOINCDialupManager.cpp:331
+#, c-format
+msgid "%s failed to connect to the Internet."
+msgstr "%s se ni uspel povezati na internet."
+
+#: clientgui/BOINCDialupManager.cpp:372
+#, c-format
+msgid ""
+"%s has detected it is now connected to the Internet.\n"
+"Updating all projects and retrying all transfers."
+msgstr ""
+"%s je ugotovil, da je zdaj povezan na internet.\n"
+"Posodobljajo se vsi projekti in ponovno se poskušajo izvesti vsi prenosi."
+
+#: clientgui/BOINCDialupManager.cpp:417
+#, c-format
+msgid "%s has successfully disconnected from the Internet."
+msgstr "%s se je uspešno odklopil z interneta."
+
+#: clientgui/BOINCDialupManager.cpp:433
+#, c-format
+msgid "%s failed to disconnected from the Internet."
+msgstr "%s se ni uspel odklopiti z interneta."
+
+#: clientgui/BOINCGUIApp.cpp:339
+#, c-format
+#, fuzzy, c-format
+msgid ""
+"You currently are not authorized to manage the client.\n"
+"\n"
+"To run %s as this user, please:\n"
+"  - reinstall %s answering \"Yes\" to the question about\n"
+"     non-administrative users\n"
+" or\n"
+"  - contact your administrator to add you to the 'boinc_master'\n"
+"     user group."
+msgstr ""
+"Trenutno nimate dovoljenja za upravljanje odjemalca.\n"
+"\n"
+"Da poganjate BOINC kot ta uporabnik, prosim:\n"
+"  - ponovno namestite BOINC in odgovorite z \"Da\" na vprašanje o\n"
+"     ne-administrativnih uporabnikih\n"
+" ali\n"
+"  - kontaktirajte vašega sistemskega skrbnika, da vas doda v\n"
+"      uporabniško skupino \"boinc_master\"."
+
+#: clientgui/BOINCGUIApp.cpp:345
+#, c-format
+#, fuzzy, c-format
+msgid ""
+"%s ownership or permissions are not set properly; please reinstall %s.\n"
+"(Error code %d"
+msgstr ""
+"Lastništvo BOINC ali pravice niso prav nastavljene; prosim, ponovno "
+"namestite BOINC.\n"
+"(Koda napake %d)"
+
+#: clientgui/BOINCGUIApp.cpp:351
+msgid " at "
+msgstr ""
+
+#: clientgui/BOINCGUIApp.cpp:354
+msgid ")"
+msgstr ")"
+
+#: clientgui/BOINCGUIApp.cpp:387
+msgid ""
+"A reboot is required in order for BOINC to run properly.\n"
+"Please reboot your computer and try again."
+msgstr ""
+"Ponovni zagon je potreben, da bo lahko BOINC pravilno tekel.\n"
+"Prosim, ponovno zaženite vaš računalnik in poskusite znova."
+
+#: clientgui/BOINCGUIApp.cpp:388
+msgid "BOINC Manager"
+msgstr "BOINC Upravitelj"
+
+#: clientgui/BOINCGUIApp.cpp:529
+msgid "BOINC Manager was started by the operating system automatically"
+msgstr "BOINC Upravitelj je bil samodejno pognan s strani operacijskega sistema"
+
+#: clientgui/BOINCGUIApp.cpp:531
+msgid "Startup BOINC so only the system tray icon is visible"
+msgstr ""
+"Poženi BOINC ob zagonu, tako da je vidna samo ikona v sistemskem pladnju."
+
+#: clientgui/BOINCGUIApp.cpp:533
+msgid "Directory containing the BOINC Client executable"
+msgstr "Imenik, ki vsebuje program BOINC Odjemalec."
+
+#: clientgui/BOINCGUIApp.cpp:534
+msgid "BOINC data directory"
+msgstr "BOINC podatkovni imenik"
+
+#: clientgui/BOINCGUIApp.cpp:536
+msgid "Host name or IP address"
+msgstr ""
+
+#: clientgui/BOINCGUIApp.cpp:537
+msgid "GUI RPC port number"
+msgstr ""
+
+#: clientgui/BOINCGUIApp.cpp:538
+#, fuzzy
+msgid "Password"
+msgstr "Geslo:"
+
+#: clientgui/BOINCGUIApp.cpp:539
+msgid "Startup BOINC with these optional arguments"
+msgstr "Ob zagonu poženi BOINC s temi opcijskimi argumenti."
+
+#: clientgui/BOINCGUIApp.cpp:540
+msgid "disable BOINC security users and permissions"
+msgstr "onemogoči BOINC varnostne uporabnike in dovoljenja"
+
+#: clientgui/BOINCGUIApp.cpp:541
+msgid "set skin debugging mode to enable skin manager error messages"
+msgstr ""
+"nastavi razhroščevalni način preobleke, da omogočite sporočila o napakah "
+"upravitelja preoblek"
+
+#: clientgui/BOINCGUIApp.cpp:542
+msgid "multiple instances of BOINC Manager allowed"
+msgstr ""
+
+#: clientgui/BOINCGUIApp.cpp:544
+msgid "Not used: workaround for bug in XCode 4.2"
+msgstr ""
+
+#: clientgui/BOINCGUIApp.cpp:762
+msgid "(Automatic Detection)"
+msgstr "(samodejna prepoznava)"
+
+#: clientgui/BOINCGUIApp.cpp:763
+msgid "(Unknown)"
+msgstr "(neznano)"
+
+#: clientgui/BOINCGUIApp.cpp:764
+msgid "(User Defined)"
+msgstr "(določeno s strani uporabnika)"
+
+#: clientgui/BOINCTaskBar.cpp:490
+#, c-format
+msgid "Open %s Web..."
+msgstr "Odpri spletno stran %s..."
+
+#: clientgui/BOINCTaskBar.cpp:497
+#, c-format
+msgid "Open %s..."
+msgstr "Odpri %s..."
+
+#: clientgui/BOINCTaskBar.cpp:504
+#: clientgui/BOINCTaskBar.cpp:600
+#: clientgui/BOINCTaskBar.cpp:608
+msgid "Snooze"
+msgstr "Dremež"
+
+#: clientgui/BOINCTaskBar.cpp:506
+#: clientgui/BOINCTaskBar.cpp:627
+#: clientgui/BOINCTaskBar.cpp:635
+msgid "Snooze GPU"
+msgstr "Dremež grafičnega procesorja"
+
+#: clientgui/BOINCTaskBar.cpp:522
+msgid "E&xit"
+msgstr "Iz&hod"
+
+#: clientgui/BOINCTaskBar.cpp:593
+msgid "Resume"
+msgstr "Nadaljuj"
+
+#: clientgui/BOINCTaskBar.cpp:620
+#, fuzzy
+msgid "Resume GPU"
+msgstr "Nadaljuj"
+
+#: clientgui/BOINCTaskBar.cpp:696
+msgid "Computing is enabled"
+msgstr "Računanje je omogočeno"
+
+#: clientgui/BOINCTaskBar.cpp:699
+msgid "Computing is suspended - "
+msgstr "Računanje je na čakanju - "
+
+#: clientgui/BOINCTaskBar.cpp:709
+msgid "GPU computing is enabled"
+msgstr "Računanje grafičnega procesorja je omogočeno"
+
+#: clientgui/BOINCTaskBar.cpp:712
+msgid "GPU computing is suspended - "
+msgstr "Računanje grafičnega procesorja je na čakanju - "
+
+#: clientgui/BOINCTaskBar.cpp:721
+msgid "Network is enabled"
+msgstr "Mreža je omogočena"
+
+#: clientgui/BOINCTaskBar.cpp:724
+msgid "Network is suspended - "
+msgstr "Mrežna aktivnost na čakanju - "
+
+#: clientgui/BOINCTaskBar.cpp:732
+msgid "Reconnecting to client."
+msgstr "Ponovno se povezujem na odjemalca."
+
+#: clientgui/BOINCTaskBar.cpp:734
+msgid "Not connected to a client."
+msgstr "Nisem povezan na odjemalca."
+
+#: clientgui/BOINCTaskBar.cpp:787
+#, c-format
+msgid "%s Notices"
+msgstr "%s Obvestila"
+
+#: clientgui/BOINCTaskBar.cpp:793
+msgid "There are new notices - click to view."
+msgstr "Nova sporočila - kliknite za ogled."
+
+#: clientgui/CompletionErrorPage.cpp:199
+msgid "Failed to add project"
+msgstr ""
+
+#: clientgui/CompletionErrorPage.cpp:204
+msgid "Failed to update account manager"
+msgstr "Nisem uspel posodobiti upravitelja računov"
+
+#: clientgui/CompletionErrorPage.cpp:208
+msgid "Failed to remove account manager"
+msgstr "Nisem uspel odstraniti upravitelja računov"
+
+#: clientgui/CompletionErrorPage.cpp:212
+#, fuzzy
+msgid "Failed to add account manager"
+msgstr "Nisem uspel posodobiti upravitelja računov"
+
+#: clientgui/CompletionErrorPage.cpp:221
+#, fuzzy
+msgid ""
+"An error has occurred;\n"
+"check the Event Log for details.\n"
+"\n"
+"Click Finish to close."
+msgstr ""
+"Pripetila se je napaka;\n"
+"za podrobnosti preveri Sporočila.\n"
+"\n"
+"Kliknite Končaj, da zaprete."
+
+#: clientgui/CompletionErrorPage.cpp:225
+#: clientgui/CompletionPage.cpp:222
+#: clientgui/CompletionPage.cpp:242
+#: clientgui/CompletionPage.cpp:273
+msgid "Click Finish to close."
+msgstr "Kliknite Končaj, da zaprete."
+
+#: clientgui/CompletionErrorPage.cpp:234
+msgid "Messages from server:"
+msgstr "Sporočila strežnika:"
+
+#: clientgui/CompletionPage.cpp:207
+msgid "Project added"
+msgstr "Projekt dodan"
+
+#: clientgui/CompletionPage.cpp:213
+msgid "This project has been successfully added."
+msgstr "Ta projekt je bil uspešno dodan."
+
+#: clientgui/CompletionPage.cpp:218
+msgid ""
+"When you click Finish, your web browser will go to a page where\n"
+"you can set your account name and preferences."
+msgstr ""
+"Ko kliknete Končaj, bo vaš spletni brskalnik šel na stran, kjer\n"
+"lahko nastavite vaše uporabniško ime in nastavitve."
+
+#: clientgui/CompletionPage.cpp:232
+#, c-format
+msgid "Update from %s completed."
+msgstr "Posodobitev iz %s je dokončana."
+
+#: clientgui/CompletionPage.cpp:236
+msgid "Update completed."
+msgstr "Posodobitev je dokončana."
+
+#: clientgui/CompletionPage.cpp:247
+msgid "Now using account manager"
+msgstr ""
+
+#: clientgui/CompletionPage.cpp:252
+#, c-format
+msgid "Welcome to %s!"
+msgstr "Dobrodošli pri %s!"
+
+#: clientgui/CompletionPage.cpp:263
+#, c-format
+msgid "You are now using %s to manage accounts."
+msgstr ""
+
+#: clientgui/CompletionPage.cpp:267
+msgid "You are now using this account manager."
+msgstr ""
+
+#: clientgui/DlgAbout.cpp:104
+#, c-format
+msgid "About %s"
+msgstr "O %s"
+
+#: clientgui/DlgAbout.cpp:161
+msgid "Version:"
+msgstr "Različica:"
+
+#: clientgui/DlgAbout.cpp:169
+msgid "wxWidgets Version:"
+msgstr "wxWidgets različica:"
+
+#: clientgui/DlgAbout.cpp:177
+msgid "Copyright:"
+msgstr "Avtorske pravice:"
+
+#: clientgui/DlgAbout.cpp:181
+#, fuzzy
+msgid ""
+"(C) 2003-2011 University of California, Berkeley.\n"
+"All Rights Reserved."
+msgstr ""
+"(C) 2003-2010 University of California, Berkeley.\n"
+"Vse pravice pridržane."
+
+#: clientgui/DlgAbout.cpp:185
+#: clientgui/DlgAbout.cpp:189
+msgid "Berkeley Open Infrastructure for Network Computing"
+msgstr "Berkeleyeva odprta infrastruktura za mrežno računanje"
+
+#: clientgui/DlgAbout.cpp:201
+#: clientgui/DlgExitMessage.cpp:173
+#: clientgui/DlgGenericMessage.cpp:120
+msgid "&OK"
+msgstr "&V redu"
+
+#: clientgui/DlgAdvPreferences.cpp:539
+msgid "invalid float"
+msgstr "napačno število s plavajočo vejico"
+
+#: clientgui/DlgAdvPreferences.cpp:540
+msgid "invalid time, format is HH:MM"
+msgstr "napačen čas, format je HH:MM"
+
+#: clientgui/DlgAdvPreferences.cpp:541
+msgid "invalid time interval, format is HH:MM-HH:MM"
+msgstr "napačen časovni interval, format je HH:MM-HH:MM"
+
+#: clientgui/DlgAdvPreferences.cpp:655
+msgid "invalid input value detected"
+msgstr "zaznana je bila napačna vhodna vrednost"
+
+#: clientgui/DlgAdvPreferences.cpp:657
+msgid "Validation Error"
+msgstr "Napaka pri validaciji"
+
+#: clientgui/DlgAdvPreferences.cpp:788
+#: clientgui/DlgAdvPreferences.cpp:793
+#: clientgui/DlgAdvPreferences.cpp:798
+msgid "Applications to add"
+msgstr ""
+
+#: clientgui/DlgAdvPreferences.cpp:814
+#, c-format
+msgid "'%s' is not an executable application."
+msgstr ""
+
+#: clientgui/DlgAdvPreferences.cpp:815
+#: clientgui/DlgAdvPreferences.cpp:848
+#: clientgui/DlgAdvPreferences.cpp:872
+msgid "Add Exclusive App"
+msgstr ""
+
+#: clientgui/DlgAdvPreferences.cpp:826
+msgid "Name of application to add?"
+msgstr ""
+
+#: clientgui/DlgAdvPreferences.cpp:826
+msgid "Add exclusive app"
+msgstr ""
+
+#: clientgui/DlgAdvPreferences.cpp:847
+#, c-format
+msgid "Application names must end with '%s'"
+msgstr ""
+
+#: clientgui/DlgAdvPreferences.cpp:871
+#, c-format
+msgid "'%s' is already in the list."
+msgstr ""
+
+#: clientgui/DlgAdvPreferences.cpp:962
+msgid ""
+"Do you really want to clear all local preferences?\n"
+"(This will not affect exclusive applications.)"
+msgstr ""
+
+#: clientgui/DlgAdvPreferences.cpp:963
+msgid "Confirmation"
+msgstr "Potrditev"
+
+#: clientgui/DlgAdvPreferencesBase.cpp:46
+#, c-format
+msgid "%s - Preferences"
+msgstr "%s - Nastavitve"
+
+#: clientgui/DlgAdvPreferencesBase.cpp:62
+#, fuzzy
+msgid ""
+"This dialog controls preferences for this computer only.\n"
+"Click OK to set preferences.\n"
+"Click Clear to restore web-based settings (except exclusive apps)."
+msgstr ""
+"Ta dialog nadzoruje nastavitve samo za ta računalnik.\n"
+"Kliknite V redu, da nastavite nastavitve.\n"
+"Kliknite Počisti, da obnovite nastavitve temelječe na spletu."
+
+#: clientgui/DlgAdvPreferencesBase.cpp:65
+msgid "Clear"
+msgstr "Počisti"
+
+#: clientgui/DlgAdvPreferencesBase.cpp:66
+msgid "clear all local preferences and close the dialog"
+msgstr "počisti vse lokalne nastavitve in zapri ta dialog"
+
+#: clientgui/DlgAdvPreferencesBase.cpp:81
+msgid "processor usage"
+msgstr "uporaba procesorja"
+
+#: clientgui/DlgAdvPreferencesBase.cpp:84
+msgid "network usage"
+msgstr "uporaba mreže"
+
+#: clientgui/DlgAdvPreferencesBase.cpp:87
+msgid "disk and memory usage"
+msgstr "poraba diska in pomnilnika"
+
+#: clientgui/DlgAdvPreferencesBase.cpp:90
+msgid "exclusive applications"
+msgstr ""
+
+#: clientgui/DlgAdvPreferencesBase.cpp:102
+msgid "OK"
+msgstr "V redu"
+
+#: clientgui/DlgAdvPreferencesBase.cpp:103
+msgid "save all values and close the dialog"
+msgstr "shrani vse vrednosti in zapri dialog"
+
+#: clientgui/DlgAdvPreferencesBase.cpp:108
+msgid "close the dialog without saving"
+msgstr "zapri ta dialog brez shranjevanja"
+
+#: clientgui/DlgAdvPreferencesBase.cpp:112
+msgid "Help"
+msgstr "Pomoč"
+
+#: clientgui/DlgAdvPreferencesBase.cpp:113
+msgid "shows the preferences web page"
+msgstr "prikaže spletno stran z nastavitvami"
+
+#: clientgui/DlgAdvPreferencesBase.cpp:135
+msgid "Computing allowed"
+msgstr "Računanje dovoljeno"
+
+#: clientgui/DlgAdvPreferencesBase.cpp:139
+msgid "While computer is on batteries"
+msgstr "Medtem, ko računalnik deluje na baterije"
+
+#: clientgui/DlgAdvPreferencesBase.cpp:142
+msgid "check this if you want this computer to do work while it runs on batteries"
+msgstr ""
+"obkljukajte to, če želite, da računalnik opravlja delo med tem ko deluje na "
+"baterije"
+
+#: clientgui/DlgAdvPreferencesBase.cpp:148
+msgid "While computer is in use"
+msgstr "Medtem, ko je računalnik v uporabi"
+
+#: clientgui/DlgAdvPreferencesBase.cpp:151
+msgid "check this if you want this computer to do work even when you're using it"
+msgstr ""
+"obkljukajte to, če želite, da računalnik opravlja delo tudi, ko ga "
+"uporabljate vi"
+
+#: clientgui/DlgAdvPreferencesBase.cpp:157
+msgid "Use GPU while computer is in use"
+msgstr "Uporabi grafični procesor medtem, ko je računalnik v uporabi"
+
+#: clientgui/DlgAdvPreferencesBase.cpp:160
+msgid "check this if you want your GPU to do work even when you're using the computer"
+msgstr ""
+"obkljukajte to, če želite uporabiti vaš grafični procesor za delo tudi, ko "
+"računalnik uporabljate vi"
+
+#: clientgui/DlgAdvPreferencesBase.cpp:172
+msgid "Only after computer has been idle for"
+msgstr "Samo, ko je računalnik bil nedejeven že"
+
+#: clientgui/DlgAdvPreferencesBase.cpp:182
+msgid "do work only after you haven't used the computer for this number of minutes"
+msgstr "opravljaj delo samo, kadar niste uporabljali računalnik že toliko minut"
+
+#: clientgui/DlgAdvPreferencesBase.cpp:187
+#: clientgui/DlgAdvPreferencesBase.cpp:336
+msgid "minutes"
+msgstr "minut"
+
+#: clientgui/DlgAdvPreferencesBase.cpp:206
+msgid "While processor usage is less than"
+msgstr "Medtem, ko je uporaba procesorja manjša kot"
+
+#: clientgui/DlgAdvPreferencesBase.cpp:216
+msgid "suspend work if processor usage exceeds this level"
+msgstr "prekine delo, če uporaba procesorja preseže ta nivo"
+
+#: clientgui/DlgAdvPreferencesBase.cpp:221
+msgid "percent (0 means no restriction)"
+msgstr "odstotkov (0 pomeni brez omejitev)"
+
+#: clientgui/DlgAdvPreferencesBase.cpp:235
+#: clientgui/DlgAdvPreferencesBase.cpp:495
+msgid "Every day between hours of"
+msgstr "Vsak dan med urami"
+
+#: clientgui/DlgAdvPreferencesBase.cpp:239
+msgid "start work at this time"
+msgstr "prični z delom ob tem času"
+
+#: clientgui/DlgAdvPreferencesBase.cpp:243
+#: clientgui/DlgAdvPreferencesBase.cpp:503
+msgid "and"
+msgstr "in"
+
+#: clientgui/DlgAdvPreferencesBase.cpp:247
+msgid "stop work at this time"
+msgstr "zaključi z delom ob tem času"
+
+#: clientgui/DlgAdvPreferencesBase.cpp:251
+#: clientgui/DlgAdvPreferencesBase.cpp:511
+msgid "(no restriction if equal)"
+msgstr "(če sta enaka, ni omejitve)"
+
+#: clientgui/DlgAdvPreferencesBase.cpp:256
+#: clientgui/DlgAdvPreferencesBase.cpp:516
+msgid "Day-of-week override:"
+msgstr "Dan-v-tednu povozi nastavitve:"
+
+#: clientgui/DlgAdvPreferencesBase.cpp:261
+#: clientgui/DlgAdvPreferencesBase.cpp:521
+msgid "check box to specify hours for this day of week"
+msgstr "kliknite tu, da podate ure za ta dan v tednu"
+
+#: clientgui/DlgAdvPreferencesBase.cpp:267
+#: clientgui/DlgAdvPreferencesBase.cpp:527
+msgid "Monday"
+msgstr "ponedeljek"
+
+#: clientgui/DlgAdvPreferencesBase.cpp:274
+#: clientgui/DlgAdvPreferencesBase.cpp:534
+msgid "Tuesday"
+msgstr "torek"
+
+#: clientgui/DlgAdvPreferencesBase.cpp:281
+#: clientgui/DlgAdvPreferencesBase.cpp:541
+msgid "Wednesday"
+msgstr "sreda"
+
+#: clientgui/DlgAdvPreferencesBase.cpp:288
+#: clientgui/DlgAdvPreferencesBase.cpp:548
+msgid "Thursday"
+msgstr "četrtek"
+
+#: clientgui/DlgAdvPreferencesBase.cpp:295
+#: clientgui/DlgAdvPreferencesBase.cpp:555
+msgid "Friday"
+msgstr "petek"
+
+#: clientgui/DlgAdvPreferencesBase.cpp:302
+#: clientgui/DlgAdvPreferencesBase.cpp:562
+msgid "Saturday"
+msgstr "sobota"
+
+#: clientgui/DlgAdvPreferencesBase.cpp:309
+#: clientgui/DlgAdvPreferencesBase.cpp:569
+msgid "Sunday"
+msgstr "nedelja"
+
+#: clientgui/DlgAdvPreferencesBase.cpp:323
+msgid "Other options"
+msgstr "Druge možnosti"
+
+#: clientgui/DlgAdvPreferencesBase.cpp:330
+msgid "Switch between applications every"
+msgstr "Preklopi med aplikacijami vsakih"
+
+#: clientgui/DlgAdvPreferencesBase.cpp:339
+msgid "On multiprocessor systems, use at most"
+msgstr "Na večprocesorskih sistemih uporabi največ"
+
+#: clientgui/DlgAdvPreferencesBase.cpp:346
+#, no-c-format
+msgid "% of the processors"
+msgstr "% procesorjev"
+
+#: clientgui/DlgAdvPreferencesBase.cpp:349
+#: clientgui/DlgAdvPreferencesBase.cpp:604
+#: clientgui/DlgAdvPreferencesBase.cpp:626
+#: clientgui/DlgAdvPreferencesBase.cpp:647
+#: clientgui/DlgAdvPreferencesBase.cpp:668
+#: clientgui/DlgAdvPreferencesBase.cpp:678
+msgid "Use at most"
+msgstr "Uporabi največ"
+
+#: clientgui/DlgAdvPreferencesBase.cpp:356
+#, no-c-format
+msgid "% CPU time"
+msgstr "% procesorskega časa"
+
+#: clientgui/DlgAdvPreferencesBase.cpp:377
+msgid "General options"
+msgstr "Splošne možnosti"
+
+#: clientgui/DlgAdvPreferencesBase.cpp:385
+msgid "Maximum download rate"
+msgstr "Največja hitrost prejemanja"
+
+#: clientgui/DlgAdvPreferencesBase.cpp:391
+#: clientgui/DlgAdvPreferencesBase.cpp:400
+msgid "KBytes/sec."
+msgstr "KBajtov/sekundo"
+
+#: clientgui/DlgAdvPreferencesBase.cpp:394
+msgid "Maximum upload rate"
+msgstr "Največja hitrost pošiljanja"
+
+#: clientgui/DlgAdvPreferencesBase.cpp:405
+msgid "Transfer at most"
+msgstr "Prenesi največ"
+
+#: clientgui/DlgAdvPreferencesBase.cpp:411
+msgid "Mbytes"
+msgstr "Mbajtov"
+
+#: clientgui/DlgAdvPreferencesBase.cpp:414
+msgid "every"
+msgstr "vsakih"
+
+#: clientgui/DlgAdvPreferencesBase.cpp:420
+#: clientgui/DlgAdvPreferencesBase.cpp:443
+#: clientgui/DlgAdvPreferencesBase.cpp:462
+msgid "days"
+msgstr "dni"
+
+#: clientgui/DlgAdvPreferencesBase.cpp:428
+#, fuzzy
+msgid "Minimum work buffer"
+msgstr "Dodatni delovni medpomnilnik"
+
+#: clientgui/DlgAdvPreferencesBase.cpp:437
+msgid "Try to maintain enough tasks to keep busy for this many days"
+msgstr ""
+
+#: clientgui/DlgAdvPreferencesBase.cpp:449
+#, fuzzy
+msgid "Max additional work buffer"
+msgstr "Dodatni delovni medpomnilnik"
+
+#: clientgui/DlgAdvPreferencesBase.cpp:458
+msgid "In addition, maintain enough tasks for up to this many days"
+msgstr ""
+
+#: clientgui/DlgAdvPreferencesBase.cpp:465
+msgid "Skip image file verification"
+msgstr "Preskoči preverjanje slikovne datoteke"
+
+#: clientgui/DlgAdvPreferencesBase.cpp:467
+msgid "check this if your Internet provider modifies image files"
+msgstr "obkljukajte to, če vaš ponudnik interneta spreminja slikovne datoteke"
+
+#: clientgui/DlgAdvPreferencesBase.cpp:475
+msgid "Connect options"
+msgstr "Možnosti povezave"
+
+#: clientgui/DlgAdvPreferencesBase.cpp:477
+msgid "Confirm before connecting to internet"
+msgstr "Zahtevaj potrditev pred povezavo na internet"
+
+#: clientgui/DlgAdvPreferencesBase.cpp:479
+msgid "if checked, a confirmation dialog will be displayed before trying to connect to the Internet"
+msgstr ""
+"če je obkljukano, bo prikazan potrditveni dialog pred poskusom povezave na "
+"internet"
+
+#: clientgui/DlgAdvPreferencesBase.cpp:483
+msgid "Disconnect when done"
+msgstr "Odklopi, ko je končano"
+
+#: clientgui/DlgAdvPreferencesBase.cpp:485
+msgid ""
+"if checked, BOINC hangs up when network usage is done\n"
+"(only relevant for dialup-connection)"
+msgstr ""
+"če je obkljukano, bo BOINC prekinil mrežno povezavo, ko bo pošiljanje "
+"končano\n"
+"(smiselno le za klicne povezave)"
+
+#: clientgui/DlgAdvPreferencesBase.cpp:491
+msgid "Network usage allowed"
+msgstr "Dovoljena uporaba mreže"
+
+#: clientgui/DlgAdvPreferencesBase.cpp:499
+msgid "network usage start hour"
+msgstr "začetna ura uporabe mreže"
+
+#: clientgui/DlgAdvPreferencesBase.cpp:507
+msgid "network usage stop hour"
+msgstr "končna ura uporabe mreže"
+
+#: clientgui/DlgAdvPreferencesBase.cpp:597
+#: clientgui/DlgItemProperties.cpp:214
+msgid "Disk usage"
+msgstr "Poraba diska"
+
+#: clientgui/DlgAdvPreferencesBase.cpp:608
+msgid "the maximum disk space used by BOINC (in Gigabytes)"
+msgstr "največji dovoljeni prostor za uporabo s strani BOINC (v gigabajtih)"
+
+#: clientgui/DlgAdvPreferencesBase.cpp:612
+msgid "Gigabytes disk space"
+msgstr "Prostor na disku v gigabajtih"
+
+#: clientgui/DlgAdvPreferencesBase.cpp:615
+msgid "Leave at least"
+msgstr "Pusti vsaj"
+
+#: clientgui/DlgAdvPreferencesBase.cpp:619
+msgid "BOINC leaves at least this amount of disk space free (in Gigabytes)"
+msgstr "BOINC naj pusti prosto vsaj to količino diska (v gigabajtih)"
+
+#: clientgui/DlgAdvPreferencesBase.cpp:623
+msgid "Gigabytes disk space free"
+msgstr "Gigabajtov prostega prostora na disku"
+
+#: clientgui/DlgAdvPreferencesBase.cpp:630
+msgid "BOINC uses at most this percentage of total disk space"
+msgstr "BOINC naj uporablja največ ta odstotek prostora na disku"
+
+#: clientgui/DlgAdvPreferencesBase.cpp:635
+#, no-c-format
+msgid "% of total disk space"
+msgstr "% skupnega prostora na disku"
+
+#: clientgui/DlgAdvPreferencesBase.cpp:638
+msgid "Tasks checkpoint to disk at most every"
+msgstr "Opravila nastavijo kontrolno točko na disk največ na vsakih"
+
+#: clientgui/DlgAdvPreferencesBase.cpp:644
+msgid "seconds"
+msgstr "sekund"
+
+#: clientgui/DlgAdvPreferencesBase.cpp:654
+#, no-c-format
+msgid "% of page file (swap space)"
+msgstr "% izmenjevalne datoteke (navidezni pomnilnik)"
+
+#: clientgui/DlgAdvPreferencesBase.cpp:661
+msgid "Memory usage"
+msgstr "Poraba pomnilnika"
+
+#: clientgui/DlgAdvPreferencesBase.cpp:675
+#, no-c-format
+msgid "% when computer is in use"
+msgstr "%, ko je računalnik v uporabi"
+
+#: clientgui/DlgAdvPreferencesBase.cpp:685
+#, no-c-format
+msgid "% when computer is idle"
+msgstr "%, ko je računalnik nedejaven"
+
+#: clientgui/DlgAdvPreferencesBase.cpp:690
+msgid "Leave applications in memory while suspended"
+msgstr "Pusti aplikacije v pomnilniku med tem, ko so na čakanju"
+
+#: clientgui/DlgAdvPreferencesBase.cpp:692
+msgid "if checked, suspended work units are left in memory"
+msgstr "če je obkljukano, bodo delovne enote na čakanju ostale v pomnilniku"
+
+#: clientgui/DlgAdvPreferencesBase.cpp:712
+msgid "Suspend processor and network usage when these applications are running:"
+msgstr ""
+
+#: clientgui/DlgAdvPreferencesBase.cpp:721
+msgid "Add..."
+msgstr ""
+
+#: clientgui/DlgAdvPreferencesBase.cpp:722
+msgid "Add an application to this list"
+msgstr ""
+
+#: clientgui/DlgAdvPreferencesBase.cpp:727
+msgid "Remove"
+msgstr "Odstrani"
+
+#: clientgui/DlgAdvPreferencesBase.cpp:728
+msgid "Remove an application from this list"
+msgstr ""
+
+#: clientgui/DlgAdvPreferencesBase.cpp:737
+msgid "For advanced options, refer to "
+msgstr ""
+
+#: clientgui/DlgEventLog.cpp:194
+#, c-format
+msgid "%s - Event Log"
+msgstr "%s - Dnevnik dogodkov"
+
+#: clientgui/DlgEventLog.cpp:207
+msgid "Project"
+msgstr "Projekt"
+
+#: clientgui/DlgEventLog.cpp:208
+msgid "Time"
+msgstr "Čas"
+
+#: clientgui/DlgEventLog.cpp:209
+msgid "Message"
+msgstr "Sporočilo"
+
+#: clientgui/DlgEventLog.cpp:263
+#: clientgui/DlgEventLog.cpp:327
+#, fuzzy
+msgid "&Show only this project"
+msgstr "Prikaži samo ta projekt"
+
+#: clientgui/DlgEventLog.cpp:267
+#, fuzzy
+msgid "Copy &All"
+msgstr "Kopiraj vse"
+
+#: clientgui/DlgEventLog.cpp:269
+#: clientgui/DlgEventLog.cpp:273
+msgid "Copy all the messages to the clipboard."
+msgstr "Kopiraj vsa sporočila na odložišče."
+
+#: clientgui/DlgEventLog.cpp:278
+#, fuzzy
+msgid "Copy &Selected"
+msgstr "Kopiraj izbrano"
+
+#: clientgui/DlgEventLog.cpp:281
+#: clientgui/DlgEventLog.cpp:289
+msgid "Copy the selected messages to the clipboard. You can select multiple messages by holding down the shift or command key while clicking on messages."
+msgstr ""
+"Kopiraj označena sporočila na odložišče. Označite lahko več sporočil s tem, "
+"da držite pritisnjeno shift ali ctrl tipko med klikanjem na sporočila."
+
+#: clientgui/DlgEventLog.cpp:283
+#: clientgui/DlgEventLog.cpp:291
+msgid "Copy the selected messages to the clipboard. You can select multiple messages by holding down the shift or control key while clicking on messages."
+msgstr ""
+"Kopiraj označena sporočila na odložišče. Označite lahko več sporočil s tem, "
+"da držite pritisnjeno shift ali ctrl tipko med klikanjem na sporočila."
+
+#: clientgui/DlgEventLog.cpp:298
+#: clientgui/DlgItemProperties.cpp:66
+msgid "&Close"
+msgstr "&Zapri"
+
+#: clientgui/DlgEventLog.cpp:307
+#, c-format
+msgid "Get help with %s"
+msgstr ""
+
+#: clientgui/DlgEventLog.cpp:321
+#, fuzzy
+msgid "Show all &messages"
+msgstr "Prikaži vsa sporočila"
+
+#: clientgui/DlgEventLog.cpp:322
+#: clientgui/DlgEventLog.cpp:324
+msgid "Show messages for all projects"
+msgstr "Prikaži sporočila za vse projekte"
+
+#: clientgui/DlgEventLog.cpp:328
+#: clientgui/DlgEventLog.cpp:330
+msgid "Show only the messages for the selected project"
+msgstr "Prikaži samo sporočila za izbrani projekt"
+
+#: clientgui/DlgExitMessage.cpp:82
+#, c-format
+msgid "%s - Exit Confirmation"
+msgstr "%s - Potrditev pred izhodom"
+
+#: clientgui/DlgExitMessage.cpp:130
+#, c-format
+msgid ""
+"You have requested to exit the %s,\n"
+"which allows you to view and manage\n"
+"the tasks running on your computer.\n"
+"\n"
+"If you also want to stop running the tasks,\n"
+"choose from the following options:"
+msgstr ""
+
+#: clientgui/DlgExitMessage.cpp:135
+#, c-format
+#, fuzzy, c-format
+msgid ""
+"This will shut down %s and its tasks until either the\n"
+"%s or the %s screen saver is run again.\n"
+"\n"
+"In most cases, it is better just to close the %s window\n"
+"rather than to exit the application; that will allow %s to run its\n"
+"tasks at the times you selected in your preferences."
+msgstr ""
+"To bo v celoti zaustavilo %s in njegova opravila, dokler ali\n"
+"%s aplikacija ali %s ohranjevalnik zaslona spet ne tečeta.\n"
+"\n"
+"V večini primerov je bolje samo zapreti okno %s,\n"
+"namesto izhoda iz aplikacije; to bo omogočalo %s, da poganja\n"
+"svoja opravila ob časih, ki ste jih izbrali v nastavitvah."
+
+#: clientgui/DlgExitMessage.cpp:153
+#, c-format
+msgid "Stop running tasks when exiting the %s"
+msgstr ""
+
+#: clientgui/DlgExitMessage.cpp:165
+msgid "Remember this decision and do not show this dialog."
+msgstr "Zapomni si to odločitev in ne prikaži tega dialoga."
+
+#: clientgui/DlgExitMessage.cpp:178
+#: clientgui/DlgGenericMessage.cpp:125
+msgid "&Cancel"
+msgstr "&Prekliči"
+
+#: clientgui/DlgGenericMessage.cpp:112
+msgid "Don't show this dialog again."
+msgstr "Ne prikaži znova tega dialoga."
+
+#: clientgui/DlgItemProperties.cpp:196
+msgid "Properties of project "
+msgstr "Lastnosti projekta"
+
+#: clientgui/DlgItemProperties.cpp:200
+msgid "General"
+msgstr "Splošno"
+
+#: clientgui/DlgItemProperties.cpp:201
+msgid "Master URL"
+msgstr "Glavni URL"
+
+#: clientgui/DlgItemProperties.cpp:202
+msgid "User name"
+msgstr "Uporabniško ime"
+
+#: clientgui/DlgItemProperties.cpp:203
+msgid "Team name"
+msgstr "Ime ekipe"
+
+#: clientgui/DlgItemProperties.cpp:204
+msgid "Resource share"
+msgstr "Delitev sredstev"
+
+#: clientgui/DlgItemProperties.cpp:206
+msgid "Scheduler RPC deferred for"
+msgstr "RPC razvrščevalnika odložena za"
+
+#: clientgui/DlgItemProperties.cpp:209
+msgid "File downloads deferred for"
+msgstr "Prejemanje datotek odloženo za"
+
+#: clientgui/DlgItemProperties.cpp:212
+msgid "File uploads deferred for"
+msgstr "Nalaganje datotek odloženo za"
+
+#: clientgui/DlgItemProperties.cpp:215
+msgid "Computer ID"
+msgstr "ID računalnika"
+
+#: clientgui/DlgItemProperties.cpp:217
+msgid "Non CPU intensive"
+msgstr "Ne procesorsko intenzivno"
+
+#: clientgui/DlgItemProperties.cpp:217
+#: clientgui/DlgItemProperties.cpp:219
+#: clientgui/DlgItemProperties.cpp:220
+#: clientgui/DlgItemProperties.cpp:222
+#: clientgui/DlgItemProperties.cpp:225
+#: clientgui/DlgItemProperties.cpp:234
+#: clientgui/DlgItemProperties.cpp:237
+#: clientgui/DlgItemProperties.cpp:240
+msgid "yes"
+msgstr "da"
+
+#: clientgui/DlgItemProperties.cpp:219
+msgid "Suspended via GUI"
+msgstr "Na čakanju prek uporabniškega vmesnika"
+
+#: clientgui/DlgItemProperties.cpp:219
+#: clientgui/DlgItemProperties.cpp:220
+msgid "no"
+msgstr "ne"
+
+#: clientgui/DlgItemProperties.cpp:220
+msgid "Don't request more work"
+msgstr "Ne zahtevaj več dela"
+
+#: clientgui/DlgItemProperties.cpp:222
+msgid "Scheduler call in progress"
+msgstr "Poteka klic razvrščevalnika"
+
+#: clientgui/DlgItemProperties.cpp:225
+msgid "Trickle-up pending"
+msgstr ""
+
+#: clientgui/DlgItemProperties.cpp:228
+#: clientgui/DlgItemProperties.cpp:230
+#, fuzzy
+msgid "Host location"
+msgstr "Testno obvestilo"
+
+#: clientgui/DlgItemProperties.cpp:230
+#, fuzzy
+msgid "default"
+msgstr "&Nastavi privzeto"
+
+#: clientgui/DlgItemProperties.cpp:234
+msgid "Added via account manager"
+msgstr "Dodano prek upravitelja računov"
+
+#: clientgui/DlgItemProperties.cpp:237
+msgid "Remove when tasks done"
+msgstr "Odstrani, ko bodo opravila opravljena"
+
+#: clientgui/DlgItemProperties.cpp:240
+msgid "Ended"
+msgstr "Končano"
+
+#: clientgui/DlgItemProperties.cpp:242
+msgid "Credit"
+msgstr "Točke"
+
+#: clientgui/DlgItemProperties.cpp:243
+msgid "User"
+msgstr "Uporabnik"
+
+#: clientgui/DlgItemProperties.cpp:250
+msgid "Host"
+msgstr "Gostitelj"
+
+#: clientgui/DlgItemProperties.cpp:259
+msgid "Scheduling"
+msgstr "Razvrščanje"
+
+#: clientgui/DlgItemProperties.cpp:261
+#: clientgui/DlgItemProperties.cpp:264
+#: clientgui/DlgItemProperties.cpp:267
+msgid "Don't fetch CPU tasks"
+msgstr "Ne potegni novih opravil za procesor"
+
+#: clientgui/DlgItemProperties.cpp:261
+#: clientgui/DlgItemProperties.cpp:277
+#: clientgui/DlgItemProperties.cpp:287
+#: clientgui/DlgItemProperties.cpp:298
+#: clientgui/DlgItemProperties.cpp:308
+msgid "Project preference"
+msgstr "Nastavitve projekta"
+
+#: clientgui/DlgItemProperties.cpp:264
+#: clientgui/DlgItemProperties.cpp:282
+#: clientgui/DlgItemProperties.cpp:303
+#, fuzzy
+msgid "Account manager preference"
+msgstr "Spletna stran upravitelja računov"
+
+#: clientgui/DlgItemProperties.cpp:267
+#, fuzzy
+msgid "Project has no CPU apps"
+msgstr "Spletna stran projekta"
+
+#: clientgui/DlgItemProperties.cpp:269
+#, fuzzy
+msgid "Scheduling priority"
+msgstr "Prioriteta razvrščanja procesorja"
+
+#: clientgui/DlgItemProperties.cpp:272
+msgid "CPU work fetch deferred for"
+msgstr "Prevzemanje dela za procesor odloženo za"
+
+#: clientgui/DlgItemProperties.cpp:273
+msgid "CPU work fetch deferral interval"
+msgstr "Odložitveni interval prevzemanja dela za procesor"
+
+#: clientgui/DlgItemProperties.cpp:277
+#: clientgui/DlgItemProperties.cpp:282
+#: clientgui/DlgItemProperties.cpp:287
+msgid "Don't fetch NVIDIA GPU tasks"
+msgstr "Ne potegni novih opravil za NVIDIA grafični procesor"
+
+#: clientgui/DlgItemProperties.cpp:292
+msgid "NVIDIA GPU work fetch deferred for"
+msgstr "Prevzemanje dela za NVIDIA grafični procesor odloženo za"
+
+#: clientgui/DlgItemProperties.cpp:293
+msgid "NVIDIA GPU work fetch deferral interval"
+msgstr "Odložitveni interval prevzemanja dela za NVIDIA grafični procesor"
+
+#: clientgui/DlgItemProperties.cpp:298
+#: clientgui/DlgItemProperties.cpp:303
+#: clientgui/DlgItemProperties.cpp:308
+msgid "Don't fetch ATI GPU tasks"
+msgstr "Ne potegni novih opravil za ATI grafični procesor"
+
+#: clientgui/DlgItemProperties.cpp:313
+msgid "ATI GPU work fetch deferred for"
+msgstr "Prevzemanje dela za ATI grafični procesor odloženo za"
+
+#: clientgui/DlgItemProperties.cpp:314
+msgid "ATI GPU work fetch deferral interval"
+msgstr "Odložitveni interval prevzemanja dela za ATI grafični procesor"
+
+#: clientgui/DlgItemProperties.cpp:316
+msgid "Duration correction factor"
+msgstr "Korekcijski faktor trajanja"
+
+#: clientgui/DlgItemProperties.cpp:327
+msgid "Properties of task "
+msgstr "Lastnosti opravila"
+
+#: clientgui/DlgItemProperties.cpp:339
+msgid "Application"
+msgstr "Aplikacija"
+
+#: clientgui/DlgItemProperties.cpp:340
+msgid "Workunit name"
+msgstr "Ime delovne enote"
+
+#: clientgui/DlgItemProperties.cpp:341
+msgid "State"
+msgstr "Stanje"
+
+#: clientgui/DlgItemProperties.cpp:344
+msgid "Received"
+msgstr "Prejeto"
+
+#: clientgui/DlgItemProperties.cpp:347
+msgid "Report deadline"
+msgstr "Rok za poročilo"
+
+#: clientgui/DlgItemProperties.cpp:349
+msgid "Resources"
+msgstr "Viri"
+
+#: clientgui/DlgItemProperties.cpp:352
+msgid "Estimated computation size"
+msgstr ""
+
+#: clientgui/DlgItemProperties.cpp:355
+msgid "CPU time at last checkpoint"
+msgstr "Procesorski čas ob zadnji kontrolni točki"
+
+#: clientgui/DlgItemProperties.cpp:356
+#: clientgui/DlgItemProperties.cpp:371
+msgid "CPU time"
+msgstr "Procesorski čas"
+
+#: clientgui/DlgItemProperties.cpp:358
+#: clientgui/DlgItemProperties.cpp:372
+msgid "Elapsed time"
+msgstr "Pretečeni čas"
+
+#: clientgui/DlgItemProperties.cpp:360
+msgid "Estimated time remaining"
+msgstr "Ocena preostalega časa"
+
+#: clientgui/DlgItemProperties.cpp:361
+msgid "Fraction done"
+msgstr "Opravljeni del"
+
+#: clientgui/DlgItemProperties.cpp:362
+msgid "Virtual memory size"
+msgstr "Velikost navideznega pomnilnika"
+
+#: clientgui/DlgItemProperties.cpp:363
+msgid "Working set size"
+msgstr "Velikost delovne množice"
+
+#: clientgui/DlgItemProperties.cpp:365
+msgid "Directory"
+msgstr "Imenik"
+
+#: clientgui/DlgItemProperties.cpp:368
+msgid "Process ID"
+msgstr "ID procesa"
+
+#: clientgui/DlgItemProperties.cpp:442
+msgid "Local: "
+msgstr "Lokalno: "
+
+#: clientgui/DlgOptions.cpp:115
+#: clientgui/DlgOptions.cpp:121
+msgid "Options"
+msgstr ""
+
+#: clientgui/DlgOptions.cpp:161
+msgid "Language:"
+msgstr "Jezik:"
+
+#: clientgui/DlgOptions.cpp:168
+msgid "What language should BOINC use?"
+msgstr "Kateri jezik naj uporablja BOINC?"
+
+#: clientgui/DlgOptions.cpp:172
+#, fuzzy
+msgid "Notice reminder interval:"
+msgstr ""
+"Interval opomnika obvestil:\n"
+"(minute; 0 pomeni nič opomnikov)"
+
+#: clientgui/DlgOptions.cpp:179
+msgid "How often should BOINC remind you of new notices?"
+msgstr "Kako pogosto naj vas BOINC opominja na nova obvestila?"
+
+#: clientgui/DlgOptions.cpp:184
+msgid "Run Manager at login?"
+msgstr "Poženi Upravitelja ob prijavi?"
+
+#: clientgui/DlgOptions.cpp:190
+msgid "Run the BOINC Manager when you log on."
+msgstr "Požene BOINC Upravitelja, ko se prijavite."
+
+#: clientgui/DlgOptions.cpp:195
+msgid "Enable Manager exit dialog?"
+msgstr "Omogoči izhodni dialog Upravitelja?"
+
+#: clientgui/DlgOptions.cpp:201
+msgid "Display the exit dialog when shutting down the Manager."
+msgstr "Prikaži izhodni dialog ob zaustavljanju Upravitelja."
+
+#: clientgui/DlgOptions.cpp:212
+msgid "Dial-up and Virtual Private Network settings"
+msgstr "Nastavitve klicnega dostopa in navideznega privatnega omrežja (VPN)"
+
+#: clientgui/DlgOptions.cpp:226
+msgid "&Set Default"
+msgstr "&Nastavi privzeto"
+
+#: clientgui/DlgOptions.cpp:231
+msgid "&Clear Default"
+msgstr "&Počisti privzeto"
+
+#: clientgui/DlgOptions.cpp:238
+msgid "Default Connection:"
+msgstr "Privzeta povezava:"
+
+#: clientgui/DlgOptions.cpp:245
+msgid "Connections"
+msgstr "Povezave"
+
+#: clientgui/DlgOptions.cpp:254
+msgid "Connect via HTTP proxy server"
+msgstr "Poveži se preko HTTP posredniškega strežnika (proxy)"
+
+#: clientgui/DlgOptions.cpp:258
+msgid "HTTP Proxy Server Configuration"
+msgstr "Nastavitve HTTP posredniškega strežnika"
+
+#: clientgui/DlgOptions.cpp:266
+#: clientgui/DlgOptions.cpp:330
+msgid "Address:"
+msgstr "Naslov:"
+
+#: clientgui/DlgOptions.cpp:274
+#: clientgui/DlgOptions.cpp:338
+#: clientgui/ProxyPage.cpp:340
+#: clientgui/ProxyPage.cpp:360
+msgid "Port:"
+msgstr "Vrata:"
+
+#: clientgui/DlgOptions.cpp:282
+#: clientgui/DlgOptions.cpp:346
+msgid "Don't use proxy for:"
+msgstr "Ne uporabljaj posrednika za:"
+
+#: clientgui/DlgOptions.cpp:289
+#: clientgui/DlgOptions.cpp:353
+msgid "Leave these blank if not needed"
+msgstr "Pusti prazno, če ni potrebno"
+
+#: clientgui/DlgOptions.cpp:295
+#: clientgui/DlgOptions.cpp:359
+#: clientgui/ProxyPage.cpp:343
+#: clientgui/ProxyPage.cpp:363
+msgid "User Name:"
+msgstr "Uporabniško ime:"
+
+#: clientgui/DlgOptions.cpp:303
+#: clientgui/DlgOptions.cpp:367
+#: clientgui/DlgSelectComputer.cpp:151
+#: clientgui/ProxyPage.cpp:346
+#: clientgui/ProxyPage.cpp:366
+msgid "Password:"
+msgstr "Geslo:"
+
+#: clientgui/DlgOptions.cpp:310
+msgid "HTTP Proxy"
+msgstr "HTTP posrednik:"
+
+#: clientgui/DlgOptions.cpp:318
+msgid "Connect via SOCKS proxy server"
+msgstr "Poveži se preko SOCKS posredniškega strežnika (proxy)"
+
+#: clientgui/DlgOptions.cpp:322
+msgid "SOCKS Proxy Server Configuration"
+msgstr "Nastavitve SOCKS posredniškega strežnika"
+
+#: clientgui/DlgOptions.cpp:374
+msgid "SOCKS Proxy"
+msgstr "SOCKS posrednik"
+
+#: clientgui/DlgOptions.cpp:572
+#, fuzzy
+msgid "always"
+msgstr "&Poganjaj vedno"
+
+#: clientgui/DlgOptions.cpp:573
+msgid "1 hour"
+msgstr ""
+
+#: clientgui/DlgOptions.cpp:574
+msgid "6 hours"
+msgstr ""
+
+#: clientgui/DlgOptions.cpp:575
+#, fuzzy
+msgid "1 day"
+msgstr "dni"
+
+#: clientgui/DlgOptions.cpp:576
+msgid "1 week"
+msgstr ""
+
+#: clientgui/DlgOptions.cpp:577
+#, fuzzy
+msgid "never"
+msgstr "vsakih"
+
+#: clientgui/DlgOptions.cpp:674
+#, c-format
+msgid "%s - Language Selection"
+msgstr "%s - Izbira jezika"
+
+#: clientgui/DlgOptions.cpp:681
+#, c-format
+msgid "The %s's default language has been changed, in order for this change to take affect you must restart the %s."
+msgstr ""
+"Privzeti jezik za %s je bil spremenjen, da to začne veljati morate ponovno "
+"zagnati %s."
+
+#: clientgui/DlgSelectComputer.cpp:90
+#, c-format
+msgid "%s - Select Computer"
+msgstr "%s - Izberi računalnik"
+
+#: clientgui/DlgSelectComputer.cpp:124
+#, c-format
+msgid ""
+"Another instance of %s is already running \n"
+"on this computer.  Please select a client to monitor."
+msgstr ""
+
+#: clientgui/DlgSelectComputer.cpp:142
+msgid "Host name:"
+msgstr "Ime gostitelja:"
+
+#: clientgui/Localization.cpp:31
+#: clientgui/Localization.cpp:69
+msgid "Message boards"
+msgstr "Razpravljalnice"
+
+#: clientgui/Localization.cpp:33
+msgid "Correspond with other users on the SETI@home message boards"
+msgstr "Dopisuj si z drugimi uporabniki na SETI@home razpravljalnicah."
+
+#: clientgui/Localization.cpp:37
+msgid "Ask questions and report problems"
+msgstr "Postavi vprašanja in prijavi probleme"
+
+#: clientgui/Localization.cpp:39
+#: clientgui/Localization.cpp:81
+#: clientgui/Localization.cpp:111
+#: clientgui/Localization.cpp:129
+msgid "Your account"
+msgstr "Vaš račun"
+
+#: clientgui/Localization.cpp:41
+#: clientgui/Localization.cpp:87
+#: clientgui/Localization.cpp:113
+msgid "View your account information and credit totals"
+msgstr "Poglej informacije vašega računa in skupno točk"
+
+#: clientgui/Localization.cpp:43
+msgid "Your preferences"
+msgstr "Vaše nastavitve"
+
+#: clientgui/Localization.cpp:45
+msgid "View and modify your SETI@home account profile and preferences"
+msgstr "Poglej in spremeni vaš SETI@home uporabniški profil in nastavitve"
+
+#: clientgui/Localization.cpp:47
+#: clientgui/Localization.cpp:89
+msgid "Your results"
+msgstr "Vaši rezultati"
+
+#: clientgui/Localization.cpp:49
+#: clientgui/Localization.cpp:91
+msgid "View your last week (or more) of computational results and work"
+msgstr "Poglej zadnji teden (ali dlje) rezultatov računanja in dela"
+
+#: clientgui/Localization.cpp:51
+#: clientgui/Localization.cpp:93
+msgid "Your computers"
+msgstr "Vaši računalniki"
+
+#: clientgui/Localization.cpp:53
+msgid "View a listing of all the computers on which you are running SETI@Home"
+msgstr "Poglej seznam vseh računalnikov, na katerih poganjate SETI@home"
+
+#: clientgui/Localization.cpp:55
+#: clientgui/Localization.cpp:97
+msgid "Your team"
+msgstr "Vaša ekipa"
+
+#: clientgui/Localization.cpp:57
+#: clientgui/Localization.cpp:99
+msgid "View information about your team"
+msgstr "Poglej informacije o vaši ekipi"
+
+#: clientgui/Localization.cpp:61
+msgid "Common questions"
+msgstr "Pogosta vprašanja"
+
+#: clientgui/Localization.cpp:63
+msgid "Read the Einstein@Home Frequently Asked Question list"
+msgstr "Preberi Einstein@Home seznam pogosto zastavljenih vprašanj"
+
+#: clientgui/Localization.cpp:65
+msgid "Screensaver info"
+msgstr "Ohranjevalnik zaslona"
+
+#: clientgui/Localization.cpp:67
+msgid "Read a detailed description of the Einstein@Home screensaver"
+msgstr "Preberi podrobno razlago Einstein@Home ohranjevalnika zaslona"
+
+#: clientgui/Localization.cpp:71
+msgid "Correspond with admins and other users on the Einstein@Home message boards"
+msgstr ""
+"Dopisuj si z administratorji in drugimi uporabniki na Einstein@Home forumu"
+
+#: clientgui/Localization.cpp:73
+msgid "Einstein status"
+msgstr "Einsteinov status"
+
+#: clientgui/Localization.cpp:75
+msgid "Current status of the Einstein@Home server"
+msgstr "Trenutni status Einstein@Home strežnika"
+
+#: clientgui/Localization.cpp:77
+msgid "Report problems"
+msgstr "Sporoči probleme"
+
+#: clientgui/Localization.cpp:79
+msgid "A link to the Einstein@Home problems and bug reports message board"
+msgstr "Povezava na Einstein@Home razpravljalnico problemi in sporočanje napak"
+
+#: clientgui/Localization.cpp:83
+msgid "View and modify your Einstein@Home account profile and preferences"
+msgstr "Poglej in spremeni vaš Einstein@Home uporabniški profil in nastavitve"
+
+#: clientgui/Localization.cpp:85
+msgid "Account summary"
+msgstr "Povzetek o računu"
+
+#: clientgui/Localization.cpp:95
+msgid "View a listing of all the computers on which you are running Einstein@Home"
+msgstr "Poglej seznam vseh računalnikov, na katerih poganjate Einstein@Home"
+
+#: clientgui/Localization.cpp:101
+msgid "LIGO project"
+msgstr "Projekt LIGO"
+
+#: clientgui/Localization.cpp:103
+msgid "The home page of the Laser Interferometer Gravitational-wave Observatory (LIGO) project"
+msgstr "Domača stran Laser Interferometer Gravitational-wave Observatory (LIGO)"
+
+#: clientgui/Localization.cpp:105
+msgid "GEO-600 project"
+msgstr "Projekt GEO-600"
+
+#: clientgui/Localization.cpp:107
+msgid "The home page of the GEO-600 project"
+msgstr "Domača stran projekta GEO-600"
+
+#: clientgui/Localization.cpp:115
+#: clientgui/Localization.cpp:133
+msgid "Team"
+msgstr "Ekipa"
+
+#: clientgui/Localization.cpp:117
+msgid "Info about your Team"
+msgstr "Informacije o vaši ekipi"
+
+#: clientgui/Localization.cpp:123
+msgid "Get help for climateprediction.net"
+msgstr "Dobi pomoč za climateprediction.net"
+
+#: clientgui/Localization.cpp:125
+msgid "News"
+msgstr "Novice"
+
+#: clientgui/Localization.cpp:127
+msgid "climateprediction.net News"
+msgstr "Novice climateprediction.net"
+
+#: clientgui/Localization.cpp:131
+msgid "View your account information, credits, and trickles"
+msgstr "Poglej informacije o vašem računu, zaslugah in korakih"
+
+#: clientgui/Localization.cpp:135
+msgid "Info about your team"
+msgstr "Informacije o vaši ekipi"
+
+#: clientgui/Localization.cpp:141
+msgid "Search for help in our help system"
+msgstr "Poišči pomoč v našem sistemu pomoči"
+
+#: clientgui/Localization.cpp:143
+msgid "Global Statistics"
+msgstr "Globalna statistika"
+
+#: clientgui/Localization.cpp:145
+msgid "Summary statistics for World Community Grid"
+msgstr "Povzetek statistike za World Community Grid"
+
+#: clientgui/Localization.cpp:147
+msgid "My Grid"
+msgstr "Moja mreža"
+
+#: clientgui/Localization.cpp:149
+msgid "Your statistics and settings"
+msgstr "Vaša statistika in nastavitve"
+
+#: clientgui/Localization.cpp:151
+msgid "Device Profiles"
+msgstr "Profili naprav"
+
+#: clientgui/Localization.cpp:153
+msgid "Update your device settings"
+msgstr "Posodobite vaše nastavitve naprav"
+
+#: clientgui/Localization.cpp:155
+msgid "Research"
+msgstr "Raziskave"
+
+#: clientgui/Localization.cpp:157
+msgid "Learn about the projects hosted at World Community Grid"
+msgstr "Izvejte o projektih, ki gostujejo na World Community Grid"
+
+#: clientgui/MainDocument.cpp:582
+msgid "Starting client"
+msgstr "Zaganjam odjemalca"
+
+#: clientgui/MainDocument.cpp:590
+#, fuzzy
+msgid "Connecting to client"
+msgstr "Ponovno se povezujem na odjemalca."
+
+#: clientgui/MainDocument.cpp:1174
+msgid "Retrieving system state; please wait..."
+msgstr "Pridobivam stanje sistema; prosim, počakajte..."
+
+#: clientgui/MainDocument.cpp:1792
+#, fuzzy
+msgid "Missing application"
+msgstr "Aplikacija"
+
+#: clientgui/MainDocument.cpp:1793
+msgid "Please download and install the CoRD application from http://cord.sourceforge.net"
+msgstr ""
+
+#: clientgui/MainDocument.cpp:2394
+msgid "on batteries"
+msgstr "na baterijah"
+
+#: clientgui/MainDocument.cpp:2395
+msgid "computer is in use"
+msgstr "medtem, ko je računalnik v uporabi"
+
+#: clientgui/MainDocument.cpp:2396
+msgid "user request"
+msgstr "uporabniška zahteva"
+
+#: clientgui/MainDocument.cpp:2397
+msgid "time of day"
+msgstr "čas dneva"
+
+#: clientgui/MainDocument.cpp:2398
+msgid "CPU benchmarks in progress"
+msgstr "Potekajo meritve hitrosti procesorja"
+
+#: clientgui/MainDocument.cpp:2399
+msgid "need disk space - check preferences"
+msgstr "potrebujem prostor na disku - preverite nastavitve"
+
+#: clientgui/MainDocument.cpp:2400
+msgid "computer is not in use"
+msgstr "računalnik ni v uporabi"
+
+#: clientgui/MainDocument.cpp:2401
+msgid "starting up"
+msgstr "zaganjam"
+
+#: clientgui/MainDocument.cpp:2402
+msgid "an exclusive app is running"
+msgstr "teče eksluzivna aplikacija"
+
+#: clientgui/MainDocument.cpp:2403
+msgid "CPU is busy"
+msgstr "procesor je zaseden"
+
+#: clientgui/MainDocument.cpp:2404
+msgid "network bandwidth limit exceeded"
+msgstr "presežena omejitev pasovne širine mreze"
+
+#: clientgui/MainDocument.cpp:2405
+msgid "requested by operating system"
+msgstr ""
+
+#: clientgui/MainDocument.cpp:2407
+msgid "unknown reason"
+msgstr "neznan razlog"
+
+#: clientgui/MainDocument.cpp:2424
+msgid "GPU missing, "
+msgstr "Manjka grafični procesor, "
+
+#: clientgui/MainDocument.cpp:2431
+msgid "New"
+msgstr "Novo"
+
+#: clientgui/MainDocument.cpp:2435
+msgid "Download failed"
+msgstr "Prejemanje ni uspelo"
+
+#: clientgui/MainDocument.cpp:2437
+msgid "Downloading"
+msgstr "Prejemam"
+
+#: clientgui/MainDocument.cpp:2439
+#: clientgui/MainDocument.cpp:2497
+msgid " (suspended - "
+msgstr "(na čakanju - "
+
+#: clientgui/MainDocument.cpp:2447
+msgid "Project suspended by user"
+msgstr "Na čakanju"
+
+#: clientgui/MainDocument.cpp:2449
+msgid "Task suspended by user"
+msgstr "Na čakanje"
+
+#: clientgui/MainDocument.cpp:2451
+msgid "Suspended - "
+msgstr "Na čakanju - "
+
+#: clientgui/MainDocument.cpp:2458
+msgid "Waiting for memory"
+msgstr "Čaka na pomnilnik"
+
+#: clientgui/MainDocument.cpp:2460
+msgid "Waiting for shared memory"
+msgstr "Čaka na deljeni pomnilnik"
+
+#: clientgui/MainDocument.cpp:2463
+msgid "Running, high priority"
+msgstr "Se izvaja, visoka prioriteta"
+
+#: clientgui/MainDocument.cpp:2465
+msgid "Running"
+msgstr "Se izvaja"
+
+#: clientgui/MainDocument.cpp:2468
+msgid " (non-CPU-intensive)"
+msgstr " (ne-procesorsko-intenzitvno)"
+
+#: clientgui/MainDocument.cpp:2471
+msgid "Waiting to run"
+msgstr "Čaka na izvajanje"
+
+#: clientgui/MainDocument.cpp:2473
+#: clientgui/MainDocument.cpp:2479
+msgid "Ready to start"
+msgstr "Pripravljen začeti"
+
+#: clientgui/MainDocument.cpp:2482
+msgid " (Scheduler wait)"
+msgstr ""
+
+#: clientgui/MainDocument.cpp:2485
+#, fuzzy
+msgid " (Waiting for network access)"
+msgstr "Čaka na pomnilnik"
+
+#: clientgui/MainDocument.cpp:2489
+msgid "Computation error"
+msgstr "Napaka pri računanju"
+
+#: clientgui/MainDocument.cpp:2493
+msgid "Upload failed"
+msgstr "Pošiljanje ni uspelo"
+
+#: clientgui/MainDocument.cpp:2495
+msgid "Uploading"
+msgstr "Pošilja se"
+
+#: clientgui/MainDocument.cpp:2506
+msgid "Aborted by user"
+msgstr "Opuščeno s strani uporabnika"
+
+#: clientgui/MainDocument.cpp:2509
+msgid "Aborted by project"
+msgstr "Opuščeno s strani projekta"
+
+#: clientgui/MainDocument.cpp:2512
+msgid "Aborted: not started by deadline"
+msgstr "Opuščeno: ni se pričelo do roka"
+
+#: clientgui/MainDocument.cpp:2515
+msgid "Aborted"
+msgstr "Opuščeno"
+
+#: clientgui/MainDocument.cpp:2520
+msgid "Acknowledged"
+msgstr "Potrjeno"
+
+#: clientgui/MainDocument.cpp:2522
+msgid "Ready to report"
+msgstr "Pripravljen poročati"
+
+#: clientgui/MainDocument.cpp:2524
+#, c-format
+msgid "Error: invalid state '%d'"
+msgstr "Napaka: neveljavno stanje '%d'"
+
+#: clientgui/NoInternetConnectionPage.cpp:179
+msgid "No Internet connection"
+msgstr "Ni povezave na internet"
+
+#: clientgui/NoInternetConnectionPage.cpp:182
+msgid "Please connect to the Internet and try again."
+msgstr "Prosim, povežite se na internet in poskusite znova."
+
+#: clientgui/NotDetectedPage.cpp:181
+msgid "Project not found"
+msgstr "Projekt ni bil najden"
+
+#: clientgui/NotDetectedPage.cpp:184
+msgid ""
+"The URL you supplied is not that of a BOINC-based project.\n"
+"\n"
+"Please check the URL and try again."
+msgstr ""
+"URL, ki ste ga podali, ni od projekta, temelječega na BOINC.\n"
+"\n"
+"Prosim, preverite URL in poskusite znova."
+
+#: clientgui/NotDetectedPage.cpp:188
+msgid "Account manager not found"
+msgstr "Upravitelj računov ni bil najden"
+
+#: clientgui/NotDetectedPage.cpp:191
+msgid ""
+"The URL you supplied is not that of a BOINC-based account\n"
+"manager.\n"
+"\n"
+"Please check the URL and try again."
+msgstr ""
+"URL, ki ste ga podali, ni od na BOINC temelječega upravitelja\n"
+"računov.\n"
+"\n"
+"Prosim, preverite URL in poskusite znova."
+
+#: clientgui/NotFoundPage.cpp:181
+msgid "Login Failed."
+msgstr "Prijava ni uspela."
+
+#: clientgui/NotFoundPage.cpp:185
+msgid "Check the username and password, and try again."
+msgstr "Preverite uporabniško ime in geslo ter poskusite znova."
+
+#: clientgui/NotFoundPage.cpp:189
+msgid "Check the email address and password, and try again."
+msgstr "Preverite naslov elektronske pošte in geslo ter poskusite znova."
+
+#: clientgui/NoticeListCtrl.cpp:52
+msgid "Notice List"
+msgstr "Seznam obvestil"
+
+#: clientgui/NoticeListCtrl.cpp:172
+#, c-format
+msgid "%s; received on %s"
+msgstr "%s; prejeto %s"
+
+#: clientgui/NoticeListCtrl.cpp:174
+#, c-format
+msgid "%s; received from %s; on %s"
+msgstr "%s; prejeto od %s; %s"
+
+#: clientgui/NoticeListCtrl.cpp:271
+#: clientgui/ProjectListCtrl.cpp:283
+msgid "Click"
+msgstr "Kliknite"
+
+#: clientgui/NoticeListCtrl.cpp:481
+#, fuzzy
+msgid "There are no notices at this time."
+msgstr "Nova sporočila - kliknite za ogled."
+
+#: clientgui/NoticeListCtrl.cpp:532
+msgid "more..."
+msgstr "več..."
+
+#: clientgui/ProjectInfoPage.cpp:451
+#: clientgui/ProjectInfoPage.cpp:734
+#: clientgui/ProjectInfoPage.cpp:738
+msgid "All"
+msgstr ""
+
+#: clientgui/ProjectInfoPage.cpp:576
+msgid "Choose a project"
+msgstr "Izberite projekt"
+
+#: clientgui/ProjectInfoPage.cpp:580
+msgid "To choose a project, click its name or type its URL below."
+msgstr ""
+"Da izberete projekt, kliknite na njegovo ime ali spodaj napišite njegov URL."
+
+#: clientgui/ProjectInfoPage.cpp:584
+msgid "Categories:"
+msgstr ""
+
+#: clientgui/ProjectInfoPage.cpp:588
+#, fuzzy
+msgid "Projects:"
+msgstr "Projekti"
+
+#: clientgui/ProjectInfoPage.cpp:592
+msgid "Project details"
+msgstr ""
+
+#: clientgui/ProjectInfoPage.cpp:596
+msgid "Research area:"
+msgstr ""
+
+#: clientgui/ProjectInfoPage.cpp:600
+msgid "Organization:"
+msgstr ""
+
+#: clientgui/ProjectInfoPage.cpp:604
+#, fuzzy
+msgid "Web site:"
+msgstr "Spletne strani"
+
+#: clientgui/ProjectInfoPage.cpp:608
+msgid "Supported systems:"
+msgstr ""
+
+#: clientgui/ProjectInfoPage.cpp:612
+#, fuzzy
+msgid "Project URL:"
+msgstr "&URL projekta:"
+
+#: clientgui/ProjectInfoPage.cpp:782
+#, fuzzy
+msgid "This project may not have work for your type of computer.  Do you want to add it anyway?"
+msgstr ""
+"Ta projekt morda nima dela za vaš tip računalnika. Ali ste prepričani, da "
+"želite nadaljevati?"
+
+#: clientgui/ProjectInfoPage.cpp:806
+#, fuzzy
+msgid "You already added this project. Please choose a different project."
+msgstr "Na ta projekt ste že pripeti. Prosim, izberite drug projekt."
+
+#: clientgui/ProjectListCtrl.cpp:67
+msgid "Project List"
+msgstr "Seznam projektov"
+
+#: clientgui/ProjectListCtrl.cpp:510
+msgid "Multicore CPU Supported"
+msgstr "Podprti večjedrni procesorji"
+
+#: clientgui/ProjectListCtrl.cpp:512
+msgid "Nvidia GPU Supported"
+msgstr "Podprti Nvidia grafični procesorji"
+
+#: clientgui/ProjectListCtrl.cpp:514
+msgid "ATI GPU Supported"
+msgstr "Podprti ATI grafični procesorji"
+
+#: clientgui/ProjectListCtrl.cpp:516
+msgid "Project Website"
+msgstr "Spletna stran projekta"
+
+#: clientgui/ProjectProcessingPage.cpp:321
+msgid "Communicating with project."
+msgstr "Komuniciram s projektom."
+
+#: clientgui/ProjectProcessingPage.cpp:507
+msgid "Required files not found on the server."
+msgstr "Zahtevane datoteke na strežniku niso bile najdene."
+
+#: clientgui/ProjectProcessingPage.cpp:510
+#: clientgui/ProjectProcessingPage.cpp:572
+msgid "An internal server error has occurred."
+msgstr "Pripetila se je notranja napaka strežnika."
+
+#: clientgui/ProjectPropertiesPage.cpp:334
+msgid ""
+"Communicating with project\n"
+"Please wait..."
+msgstr ""
+"Komuniciram s projektom\n"
+"Prosim, počakajte..."
+
+#: clientgui/ProxyInfoPage.cpp:195
+msgid "Network communication failure"
+msgstr "Napaka pri komunikaciji po mreži"
+
+#: clientgui/ProxyInfoPage.cpp:199
+msgid ""
+"The World Community Grid - BOINC software failed to communicate\n"
+"over the Internet. The most likely reasons are:\n"
+"\n"
+"1) Connectivity problem.  Check your network or modem connection\n"
+"and then click Back to try again.\n"
+"\n"
+"2) Personal firewall software is blocking the World Community\n"
+"Grid - BOINC software.  Configure your personal firewall to let\n"
+"BOINC and BOINC Manager communicate on port 80 and port 443,\n"
+"then click Back to try again.\n"
+"\n"
+"3) You are using a proxy server.\n"
+"Click Next to configure BOINC's proxy settings."
+msgstr ""
+"World Community Grid - BOINC programska oprema ni uspela komunicirati\n"
+"po internetu. Najbolj verjetni razlogi so:\n"
+"\n"
+"1) Problem pri povezavi.  Preverite vašo mrežno ali modemsko povezavo\n"
+"in nato kliknite Nazaj, da poskusite znova.\n"
+"\n"
+"2) Programska oprema osebnega požarnega zidu blokira World Community\n"
+"Grid - BOINC programsko opremo.  Nastavite požarni zid, da dovoli\n"
+"BOINC in BOINC Upravitelju komunicirati na vratih 80 in 443,\n"
+"nato kliknite Nazaj, da poskusite znova.\n"
+"\n"
+"3) Uporabljate posredniški strežnik\n"
+"Kliknite Naprej, da nastavite BOINC nastavitve posredniškega strežnika."
+
+#: clientgui/ProxyInfoPage.cpp:203
+msgid ""
+"BOINC failed to communicate on the Internet.\n"
+"The most likely reasons are:\n"
+"\n"
+"1) Connectivity problem.  Check your network\n"
+"or modem connection and then click Back to try again.\n"
+"\n"
+"2) Personal firewall software is blocking BOINC.\n"
+"Configure your personal firewall to let BOINC and\n"
+"BOINC Manager communicate on port 80,\n"
+"then click Back to try again.\n"
+"\n"
+"3) You are using a proxy server.\n"
+"Click Next to configure BOINC's proxy settings."
+msgstr ""
+"BOINC ni uspel komunicirati po internetu.\n"
+"Najbolj verjetni razlogi so:\n"
+"\n"
+"1) Problem pri povezavi. Preverite vašo mrežno ali modemsko povezavo\n"
+"in nato kliknite Nazaj, da poskusite znova.\n"
+"\n"
+"2) Programska oprema požarnega zidu blokira BOINC.\n"
+"Nastavite požarni zid, da dovoli BOINC\n"
+"in BOINC Upravitelju komunicirati na vratih 80,\n"
+"nato kliknite Nazaj, da poskusite znova.\n"
+"\n"
+"3) Uporabljate posredniški strežnik\n"
+"Kliknite Naprej, da nastavite BOINC nastavitve posredniškega strežnika."
+
+#: clientgui/ProxyPage.cpp:331
+msgid "Proxy configuration"
+msgstr "Nastavitve posredniškega strežnika"
+
+#: clientgui/ProxyPage.cpp:334
+msgid "HTTP proxy"
+msgstr "HTTP posrednik"
+
+#: clientgui/ProxyPage.cpp:337
+#: clientgui/ProxyPage.cpp:357
+msgid "Server:"
+msgstr "Strežnik:"
+
+#: clientgui/ProxyPage.cpp:350
+msgid "Autodetect"
+msgstr "Samodejno prepoznaj"
+
+#: clientgui/ProxyPage.cpp:354
+msgid "SOCKS proxy"
+msgstr "SOCKS posrednik"
+
+#: clientgui/sg_BoincSimpleFrame.cpp:134
+msgid "Advanced View...\tCtrl+Shift+A"
+msgstr "Napredni pogled...\\Ctrl+Shift+A"
+
+#: clientgui/sg_BoincSimpleFrame.cpp:135
+#, fuzzy
+msgid "Display the advanced graphical interface."
+msgstr "Prikaži preprost uporabniški vmesnik."
+
+#: clientgui/sg_BoincSimpleFrame.cpp:142
+msgid "Skin"
+msgstr "Preobleka"
+
+#: clientgui/sg_BoincSimpleFrame.cpp:144
+msgid "Select the appearance of the user interface."
+msgstr ""
+
+#: clientgui/sg_BoincSimpleFrame.cpp:191
+#, c-format
+msgid "&%s"
+msgstr "&%s"
+
+#: clientgui/sg_BoincSimpleFrame.cpp:358
+#, fuzzy
+msgid "Default"
+msgstr "&Nastavi privzeto"
+
+#: clientgui/sg_BoincSimpleFrame.cpp:709
+msgid "Suspend"
+msgstr "Daj na čakanje"
+
+#: clientgui/sg_BoincSimpleFrame.cpp:711
+msgid "Suspend Computing"
+msgstr ""
+
+#: clientgui/sg_BoincSimpleFrame.cpp:712
+msgid "Resume Computing"
+msgstr ""
+
+#: clientgui/sg_BoincSimpleFrame.cpp:728
+msgid "Notices"
+msgstr "Obvestila"
+
+#: clientgui/sg_BoincSimpleFrame.cpp:729
+msgid "Open a window to view notices from projects or BOINC"
+msgstr ""
+
+#: clientgui/sg_BoincSimpleGUI.cpp:120
+msgid "Display the advanced (accessible) graphical interface."
+msgstr "Prikaži napredni (dostopen) grafični vmesnik."
+
+#: clientgui/sg_ClientStateIndicator.cpp:288
+#: clientgui/sg_TaskPanel.cpp:1191
+msgid "Retrieving current status."
+msgstr "Pridobivam trenutni status."
+
+#: clientgui/sg_ClientStateIndicator.cpp:291
+#: clientgui/sg_TaskPanel.cpp:443
+msgid "You don't have any projects.  Please Add a Project."
+msgstr "Nimate projektov.  Prosimo dodajte projekt."
+
+#: clientgui/sg_ClientStateIndicator.cpp:294
+#: clientgui/sg_TaskPanel.cpp:1197
+msgid "Downloading work from the server."
+msgstr "Prejemam delo s strežnika."
+
+#: clientgui/sg_ClientStateIndicator.cpp:299
+#: clientgui/sg_TaskPanel.cpp:1202
+msgid "Processing Suspended:  Running On Batteries."
+msgstr "Obdelava na čakanju:  Teče na baterijah."
+
+#: clientgui/sg_ClientStateIndicator.cpp:301
+#: clientgui/sg_TaskPanel.cpp:1204
+msgid "Processing Suspended:  User Active."
+msgstr "Obdelava na čakanju:  Uporabnik aktiven."
+
+#: clientgui/sg_ClientStateIndicator.cpp:303
+#: clientgui/sg_TaskPanel.cpp:1206
+msgid "Processing Suspended:  User paused processing."
+msgstr "Obdelava na čakanju:  Na željo uporabnika."
+
+#: clientgui/sg_ClientStateIndicator.cpp:305
+#: clientgui/sg_TaskPanel.cpp:1208
+msgid "Processing Suspended:  Time of Day."
+msgstr "Obdelava na čakanju:  Čas dneva."
+
+#: clientgui/sg_ClientStateIndicator.cpp:307
+#: clientgui/sg_TaskPanel.cpp:1210
+msgid "Processing Suspended:  Benchmarks Running."
+msgstr "Obdelava na čakanju:  Potekajo meritve hitrosti."
+
+#: clientgui/sg_ClientStateIndicator.cpp:309
+#: clientgui/sg_TaskPanel.cpp:1212
+msgid "Processing Suspended."
+msgstr "Obdelava na čakanju."
+
+#: clientgui/sg_ClientStateIndicator.cpp:313
+#: clientgui/sg_TaskPanel.cpp:1216
+msgid "Waiting to contact project servers."
+msgstr "Čakam, da kontaktiram strežnike projektov."
+
+#: clientgui/sg_ClientStateIndicator.cpp:317
+#: clientgui/sg_ClientStateIndicator.cpp:325
+#: clientgui/sg_TaskPanel.cpp:1220
+#: clientgui/sg_TaskPanel.cpp:1229
+msgid "Retrieving current status"
+msgstr "Pridobivam trenutni status"
+
+#: clientgui/sg_ClientStateIndicator.cpp:320
+#: clientgui/sg_TaskPanel.cpp:1224
+msgid "No work available to process"
+msgstr "Na voljo ni dela za obdelati."
+
+#: clientgui/sg_ClientStateIndicator.cpp:322
+#: clientgui/sg_TaskPanel.cpp:1226
+msgid "Unable to connect to the core client"
+msgstr "Ne morem se povezati na odjemalca jedra"
+
+#: clientgui/sg_DlgMessages.cpp:135
+msgid "Close"
+msgstr "Zapri"
+
+#: clientgui/sg_DlgMessages.cpp:332
+#, c-format
+#, fuzzy, c-format
+msgid "%s - Notices"
+msgstr "%s Obvestila"
+
+#: clientgui/sg_DlgPreferences.cpp:94
+msgid "100 MB"
+msgstr "100 MB"
+
+#: clientgui/sg_DlgPreferences.cpp:95
+msgid "200 MB"
+msgstr "200 MB"
+
+#: clientgui/sg_DlgPreferences.cpp:96
+msgid "500 MB"
+msgstr "500 MB"
+
+#: clientgui/sg_DlgPreferences.cpp:97
+msgid "1 GB"
+msgstr "1 GB"
+
+#: clientgui/sg_DlgPreferences.cpp:98
+msgid "2 GB"
+msgstr "2 GB"
+
+#: clientgui/sg_DlgPreferences.cpp:99
+msgid "5 GB"
+msgstr "5 GB"
+
+#: clientgui/sg_DlgPreferences.cpp:100
+msgid "10 GB"
+msgstr "10 GB"
+
+#: clientgui/sg_DlgPreferences.cpp:101
+msgid "20 GB"
+msgstr "20 GB"
+
+#: clientgui/sg_DlgPreferences.cpp:102
+msgid "50 GB"
+msgstr "50 GB"
+
+#: clientgui/sg_DlgPreferences.cpp:103
+msgid "100 GB"
+msgstr "100 GB"
+
+#: clientgui/sg_DlgPreferences.cpp:134
+msgid "10%"
+msgstr "10%"
+
+#: clientgui/sg_DlgPreferences.cpp:135
+msgid "20%"
+msgstr "20%"
+
+#: clientgui/sg_DlgPreferences.cpp:136
+msgid "30%"
+msgstr "30%"
+
+#: clientgui/sg_DlgPreferences.cpp:137
+msgid "40%"
+msgstr "40%"
+
+#: clientgui/sg_DlgPreferences.cpp:138
+msgid "50%"
+msgstr "50%"
+
+#: clientgui/sg_DlgPreferences.cpp:139
+msgid "60%"
+msgstr "60%"
+
+#: clientgui/sg_DlgPreferences.cpp:140
+msgid "70%"
+msgstr "70%"
+
+#: clientgui/sg_DlgPreferences.cpp:141
+msgid "80%"
+msgstr "80%"
+
+#: clientgui/sg_DlgPreferences.cpp:142
+msgid "90%"
+msgstr "90%"
+
+#: clientgui/sg_DlgPreferences.cpp:143
+msgid "100%"
+msgstr "100%"
+
+#: clientgui/sg_DlgPreferences.cpp:168
+msgid "1"
+msgstr "1"
+
+#: clientgui/sg_DlgPreferences.cpp:169
+msgid "3"
+msgstr "3"
+
+#: clientgui/sg_DlgPreferences.cpp:170
+msgid "5"
+msgstr "5"
+
+#: clientgui/sg_DlgPreferences.cpp:171
+msgid "10"
+msgstr "10"
+
+#: clientgui/sg_DlgPreferences.cpp:172
+msgid "15"
+msgstr "15"
+
+#: clientgui/sg_DlgPreferences.cpp:173
+msgid "30"
+msgstr "30"
+
+#: clientgui/sg_DlgPreferences.cpp:174
+msgid "60"
+msgstr "60"
+
+#: clientgui/sg_DlgPreferences.cpp:282
+msgid "This dialog controls preferences for this computer only."
+msgstr ""
+
+#: clientgui/sg_DlgPreferences.cpp:287
+msgid "Click OK to set preferences."
+msgstr ""
+
+#: clientgui/sg_DlgPreferences.cpp:292
+msgid "Click Clear to restore web-based settings."
+msgstr ""
+
+#: clientgui/sg_DlgPreferences.cpp:299
+msgid "For additional settings, select Computing Preferences in "
+msgstr ""
+
+#: clientgui/sg_DlgPreferences.cpp:304
+msgid "the Advanced View."
+msgstr ""
+
+#: clientgui/sg_DlgPreferences.cpp:332
+msgid "Do work only between:"
+msgstr "Opravljaj delo le med:"
+
+#: clientgui/sg_DlgPreferences.cpp:354
+msgid "Connect to internet only between:"
+msgstr "Poveži se na internet samo med:"
+
+#: clientgui/sg_DlgPreferences.cpp:376
+#: clientgui/sg_DlgPreferences.cpp:393
+msgid "Use no more than:"
+msgstr "Ne uporabi več kot:"
+
+#: clientgui/sg_DlgPreferences.cpp:389
+msgid "of disk space"
+msgstr "prostora na disku"
+
+#: clientgui/sg_DlgPreferences.cpp:406
+msgid "of the processor"
+msgstr "procesorskega časa"
+
+#: clientgui/sg_DlgPreferences.cpp:410
+msgid "Do work while on battery?"
+msgstr "Opravljati delo med delovanjem na baterije?"
+
+#: clientgui/sg_DlgPreferences.cpp:423
+msgid "Do work after idle for:"
+msgstr "Opravljati delo, ko je neaktiven že:"
+
+#: clientgui/sg_DlgPreferences.cpp:621
+#: clientgui/sg_DlgPreferences.cpp:624
+#: clientgui/sg_DlgPreferences.cpp:683
+#: clientgui/sg_DlgPreferences.cpp:687
+#: clientgui/sg_DlgPreferences.cpp:699
+#: clientgui/sg_DlgPreferences.cpp:703
+#: clientgui/sg_DlgPreferences.cpp:846
+#: clientgui/sg_DlgPreferences.cpp:857
+msgid "Anytime"
+msgstr "Kdajkoli"
+
+#: clientgui/sg_DlgPreferences.cpp:719
+#, c-format
+msgid "%d MB"
+msgstr "%d MB"
+
+#: clientgui/sg_DlgPreferences.cpp:721
+#, c-format
+msgid "%4.2f GB"
+msgstr "%4.2f GB"
+
+#: clientgui/sg_DlgPreferences.cpp:762
+#, c-format
+msgid "%d%%"
+msgstr "%d%%"
+
+#: clientgui/sg_DlgPreferences.cpp:798
+msgid "0 (Run Always)"
+msgstr "0 (Vedno naj teče)"
+
+#: clientgui/sg_DlgPreferences.cpp:801
+#, c-format
+msgid "%d"
+msgstr "%d"
+
+#: clientgui/sg_DlgPreferences.cpp:1031
+#, fuzzy
+msgid "Do you really want to clear all local preferences?\n"
+msgstr "Res želite počistiti vse lokalne nastavitve?"
+
+#: clientgui/sg_ImageButton.cpp:90
+msgid "Paused: Other work running"
+msgstr "Na čakanju: teče drugo delo"
+
+#: clientgui/sg_ImageButton.cpp:92
+msgid "Paused: User initiated.  Click 'Resume' to continue"
+msgstr "Na čakanju: na željo uporabnika.  Kliknite 'Nadaljuj' za nadaljevanje."
+
+#: clientgui/sg_ImageButton.cpp:94
+msgid "Paused: User active"
+msgstr "Na čakanju: uporabnik aktiven"
+
+#: clientgui/sg_ImageButton.cpp:96
+msgid "Paused: Computer on battery"
+msgstr "Na čakanju: računalnik deluje na baterije"
+
+#: clientgui/sg_ImageButton.cpp:98
+msgid "Paused: Time of Day"
+msgstr "Na čakanju: čas dneva"
+
+#: clientgui/sg_ImageButton.cpp:100
+msgid "Paused: Benchmarks running"
+msgstr "Na pavzi: potekajo meritve hitrosti"
+
+#: clientgui/sg_ImageButton.cpp:102
+msgid "Paused"
+msgstr "Na pavzi"
+
+#: clientgui/sg_ImageButton.cpp:104
+msgid "Paused: Application start delayed"
+msgstr "Na pavzi: odložen pričetek aplikacije"
+
+#: clientgui/sg_ImageButton.cpp:132
+msgid "Click to show project graphics"
+msgstr "Kliknite za prikaz grafike projekta"
+
+#: clientgui/sg_ProjectCommandPopup.cpp:61
+msgid "Update"
+msgstr "Posodobi"
+
+#: clientgui/sg_ProjectCommandPopup.cpp:62
+msgid "Report all completed tasks, get latest credit, get latest preferences, and possibly get more tasks."
+msgstr ""
+"Poročaj o vseh opravljenih opravilih, dobi najnovejše zasluge, dobi "
+"najnovejše nastavitve in morda dobi več opravil."
+
+#: clientgui/sg_ProjectCommandPopup.cpp:68
+#: clientgui/sg_ProjectCommandPopup.cpp:114
+msgid "Suspend tasks for this project."
+msgstr "Daj opravila tega projekta na čakanje."
+
+#: clientgui/sg_ProjectCommandPopup.cpp:73
+#: clientgui/sg_ProjectCommandPopup.cpp:121
+msgid "No new tasks"
+msgstr "Brez novih opravil"
+
+#: clientgui/sg_ProjectCommandPopup.cpp:74
+msgid "Don't get new tasks for this project."
+msgstr "Ne dobi novih opravil za ta projekt."
+
+#: clientgui/sg_ProjectCommandPopup.cpp:79
+msgid "Reset project"
+msgstr "Resetiraj projekt"
+
+#: clientgui/sg_ProjectCommandPopup.cpp:80
+msgid "Delete all files and tasks associated with this project, and get new tasks.  You can update the project first to report any completed tasks."
+msgstr ""
+"Briše vse datoteke in opravila povezana s tem projektom in dobi nova "
+"opravila.  Lahko najprej posodobite projekt, da poročate o morebitnih "
+"opravljenih opravilih."
+
+#: clientgui/sg_ProjectCommandPopup.cpp:86
+msgid "Remove this project.  Tasks in progress will be lost (use 'Update' first to report any completed tasks)."
+msgstr ""
+"Odstrani ta projekt.  Opravila, ki potekajo, bodo izgubljena (najprej "
+"uporabite 'Posodobi', da sporočite morebitna opravljena opravila)."
+
+#: clientgui/sg_ProjectCommandPopup.cpp:91
+#: clientgui/sg_TaskCommandPopup.cpp:78
+msgid "Properties"
+msgstr "Lastnosti"
+
+#: clientgui/sg_ProjectCommandPopup.cpp:92
+msgid "Show project details."
+msgstr "Prikaži podrobnosti projekta."
+
+#: clientgui/sg_ProjectCommandPopup.cpp:111
+msgid "Resume tasks for this project."
+msgstr "Nadaljuj opravila tega projekta."
+
+#: clientgui/sg_ProjectCommandPopup.cpp:118
+msgid "Allow new tasks"
+msgstr "Dovoli nova opravila"
+
+#: clientgui/sg_ProjectCommandPopup.cpp:119
+msgid "Allow fetching new tasks for this project."
+msgstr "Dovoli pobiranje novih opravil za ta projekt."
+
+#: clientgui/sg_ProjectCommandPopup.cpp:122
+msgid "Don't fetch new tasks for this project."
+msgstr "Ne poberi novih opravil za ta projekt."
+
+#: clientgui/sg_ProjectCommandPopup.cpp:214
+#, c-format
+msgid "Are you sure you want to reset project '%s'?"
+msgstr "Ali ste prepričani, da želite resetirati projekt '%s'?"
+
+#: clientgui/sg_ProjectCommandPopup.cpp:220
+msgid "Reset Project"
+msgstr "Resetiraj projekt"
+
+#: clientgui/sg_ProjectCommandPopup.cpp:251
+#: clientgui/sg_StatImageLoader.cpp:192
+#, c-format
+msgid "Are you sure you want to remove project '%s'?"
+msgstr "Ali ste prepričani, da želite odstraniti projekt '%s'?"
+
+#: clientgui/sg_ProjectCommandPopup.cpp:257
+#: clientgui/sg_StatImageLoader.cpp:138
+#: clientgui/sg_StatImageLoader.cpp:198
+msgid "Remove Project"
+msgstr "Odstrani projekt"
+
+#: clientgui/sg_ProjectPanel.cpp:72
+#, fuzzy
+msgid "Add Project"
+msgstr "Dodaj projekt"
+
+#: clientgui/sg_ProjectPanel.cpp:73
+msgid "Synchronize"
+msgstr ""
+
+#: clientgui/sg_ProjectPanel.cpp:74
+msgid "Work done for this project"
+msgstr ""
+
+#: clientgui/sg_ProjectPanel.cpp:77
+#: clientgui/sg_ProjectsComponent.cpp:123
+msgid "Synchronize projects with account manager system"
+msgstr "Sinhronizirajte projekte s sistemom upravljanja računov"
+
+#: clientgui/sg_ProjectPanel.cpp:124
+msgid "Select a project to access with the controls below"
+msgstr ""
+
+#: clientgui/sg_ProjectPanel.cpp:134
+#: clientgui/sg_ProjectPanel.cpp:262
+#, c-format
+msgid "%s: %.0f"
+msgstr ""
+
+#: clientgui/sg_ProjectPanel.cpp:145
+#, fuzzy
+msgid "Project Web Pages"
+msgstr "Spletna stran projekta"
+
+#: clientgui/sg_ProjectPanel.cpp:149
+msgid "Project Commands"
+msgstr ""
+
+#: clientgui/sg_ProjectPanel.cpp:267
+#, c-format
+msgid "Pop up a menu of websites for project %s"
+msgstr ""
+
+#: clientgui/sg_ProjectPanel.cpp:269
+#, c-format
+msgid "Pop up a menu of commands to apply to project %s"
+msgstr ""
+
+#: clientgui/sg_ProjectsComponent.cpp:196
+#: clientgui/sg_ProjectsComponent.cpp:207
+msgid "Open a window to view messages"
+msgstr "Odprite okno za pregled sporočil"
+
+#: clientgui/sg_ProjectsComponent.cpp:225
+msgid "Stop all activity"
+msgstr "Ustavi vse aktivnosti"
+
+#: clientgui/sg_ProjectsComponent.cpp:237
+msgid "Resume activity"
+msgstr "Nadaljuj aktivnosti"
+
+#: clientgui/sg_ProjectsComponent.cpp:254
+msgid "Open a window to set your preferences"
+msgstr "Odprite okno, da nastavite svoje nastavitve"
+
+#: clientgui/sg_ProjectsComponent.cpp:271
+msgid "Switch to the BOINC advanced view"
+msgstr "Preklopite na BOINC napredni pogled"
+
+#: clientgui/sg_ProjectsComponent.cpp:298
+msgid "My Projects:"
+msgstr "Moji projekti:"
+
+#: clientgui/sg_StatImageLoader.cpp:101
+#, c-format
+msgid "%s. Work done by %s: %0.2f"
+msgstr "%s. Delo opravljeno s strani %s: %0.2f"
+
+#: clientgui/sg_TaskCommandPopup.cpp:60
+msgid "Show graphics"
+msgstr "Prikaži grafiko"
+
+#: clientgui/sg_TaskCommandPopup.cpp:61
+msgid "Show application graphics in a window."
+msgstr "V oknu prikaži grafiko aplikacije."
+
+#: clientgui/sg_TaskCommandPopup.cpp:67
+msgid "Suspend work for this result."
+msgstr "Delo za ta rezultat daj na čakanje."
+
+#: clientgui/sg_TaskCommandPopup.cpp:72
+msgid "Abort"
+msgstr "Opusti"
+
+#: clientgui/sg_TaskCommandPopup.cpp:73
+msgid "Abandon work on the result. You will get no credit for it."
+msgstr "Opusti delo na tem rezultatu. Zanj ne boste dobili točk."
+
+#: clientgui/sg_TaskCommandPopup.cpp:79
+msgid "Show task details."
+msgstr "Prikaži podrobnosti opravila."
+
+#: clientgui/sg_TaskCommandPopup.cpp:103
+msgid "Resume work for this task."
+msgstr "Nadaljuj z delom za to opravila."
+
+#: clientgui/sg_TaskCommandPopup.cpp:107
+msgid "Suspend work for this task."
+msgstr "Daj delo za to opravilo na čakanje."
+
+#: clientgui/sg_TaskCommandPopup.cpp:251
+#, c-format
+#, fuzzy, c-format
+msgid ""
+"Are you sure you want to abort this task '%s'?\n"
+"(Progress: %.1lf%%, Status: %s)"
+msgstr ""
+"Ali ste prepričani, da želite opustiti to opravilo '%s'?\n"
+"(Napredek: %s %%, Status: %s)"
+
+#: clientgui/sg_TaskCommandPopup.cpp:256
+msgid "Abort task"
+msgstr "Opusti opravilo"
+
+#: clientgui/sg_TaskPanel.cpp:444
+msgid "Not available"
+msgstr ""
+
+#: clientgui/sg_TaskPanel.cpp:455
+#, fuzzy
+msgid "Tasks:"
+msgstr "Opravila"
+
+#: clientgui/sg_TaskPanel.cpp:461
+msgid "Select a task to access"
+msgstr ""
+
+#: clientgui/sg_TaskPanel.cpp:472
+#, fuzzy
+msgid "From:"
+msgstr "Od"
+
+#: clientgui/sg_TaskPanel.cpp:526
+msgid "This task's progress"
+msgstr ""
+
+#: clientgui/sg_TaskPanel.cpp:544
+msgid "Task Commands"
+msgstr ""
+
+#: clientgui/sg_TaskPanel.cpp:545
+msgid "Pop up a menu of commands to apply to this task"
+msgstr ""
+
+#: clientgui/sg_TaskPanel.cpp:680
+#, c-format
+#, fuzzy, c-format
+msgid "Application: %s"
+msgstr "Aplikacija: "
+
+#: clientgui/sg_TaskPanel.cpp:701
+#, c-format
+msgid "%.3f%%"
+msgstr ""
+
+#: clientgui/sg_TaskPanel.cpp:709
+msgid "Application: Not available"
+msgstr ""
+
+#: clientgui/sg_TaskPanel.cpp:810
+msgid "Not Available"
+msgstr ""
+
+#: clientgui/sg_TaskPanel.cpp:825
+#, c-format
+msgid "Elapsed: %s"
+msgstr ""
+
+#: clientgui/sg_TaskPanel.cpp:839
+#, c-format
+msgid "Remaining: %s"
+msgstr ""
+
+#: clientgui/sg_TaskPanel.cpp:854
+#, c-format
+msgid "Status: %s"
+msgstr ""
+
+#: clientgui/sg_ViewTabPage.cpp:140
+#: clientgui/sg_ViewTabPage.cpp:280
+#, c-format
+msgid "%.1lf"
+msgstr "%.1lf"
+
+#: clientgui/sg_ViewTabPage.cpp:409
+#, c-format
+msgid "%d hr %d min %d sec"
+msgstr "%d ur %d minut %d sekund"
+
+#: clientgui/sg_ViewTabPage.cpp:423
+msgid "Are you sure you want to display graphics on a remote machine?"
+msgstr ""
+"Ali ste prepričani, da želite prikazati grafiko na oddaljenem računalniku?"
+
+#: clientgui/sg_ViewTabPage.cpp:446
+msgid "Application: "
+msgstr "Aplikacija: "
+
+#: clientgui/sg_ViewTabPage.cpp:449
+#: clientgui/sg_ViewTabPage.cpp:453
+msgid "Time Remaining: "
+msgstr "Preostali čas: "
+
+#: clientgui/sg_ViewTabPage.cpp:452
+msgid "Elapsed Time: "
+msgstr "Pretečeni čas: "
+
+#: clientgui/TermsOfUsePage.cpp:218
+msgid "Terms of Use"
+msgstr "Pogoji uporabe"
+
+#: clientgui/TermsOfUsePage.cpp:222
+msgid "Please read the following terms of use:"
+msgstr "Prosim, preberite sledeče pogoje uporabe:"
+
+#: clientgui/TermsOfUsePage.cpp:231
+msgid "I agree to the terms of use."
+msgstr "Strinjam se s pogoji uporabe."
+
+#: clientgui/TermsOfUsePage.cpp:237
+msgid "I do not agree with the terms of use."
+msgstr "Ne strinjam se s pogoji uporabe."
+
+#: clientgui/UnavailablePage.cpp:183
+msgid "Project temporarily unavailable"
+msgstr "Projekt začasno ni na voljo"
+
+#: clientgui/UnavailablePage.cpp:186
+msgid ""
+"The project is temporarily unavailable.\n"
+"\n"
+"Please try again later."
+msgstr ""
+"Projekt začasno ni na voljo.\n"
+"\n"
+"Prosim, poskusite kasneje."
+
+#: clientgui/UnavailablePage.cpp:190
+msgid "Account manager temporarily unavailable"
+msgstr "Upravitelj računov začasno ni na voljo"
+
+#: clientgui/UnavailablePage.cpp:193
+msgid ""
+"The account manager is temporarily unavailable.\n"
+"\n"
+"Please try again later."
+msgstr ""
+"Upravitelj računov začasno ni na voljo.\n"
+"\n"
+"Prosim, poskusite kasneje."
+
+#: clientgui/ValidateAccountKey.cpp:68
+msgid "Please specify an account key to continue."
+msgstr "Za nadaljevanje, prosim, podajte ključ računa. "
+
+#: clientgui/ValidateAccountKey.cpp:71
+msgid "Invalid Account Key; please enter a valid Account Key"
+msgstr "Napačen ključ računa; prosim vnesite veljaven ključ računa."
+
+#: clientgui/ValidateAccountKey.cpp:82
+#: clientgui/ValidateEmailAddress.cpp:86
+msgid "Validation conflict"
+msgstr "Konflikt pri validaciji"
+
+#: clientgui/ValidateEmailAddress.cpp:72
+msgid "Please specify an email address"
+msgstr "Prosim, vnesite naslov elektronske pošte"
+
+#: clientgui/ValidateEmailAddress.cpp:75
+msgid "Invalid email address; please enter a valid email address"
+msgstr ""
+"Napačen naslov elektronske pošte; prosim vnesite pravilen naslov elektronske "
+"pošte"
+
+#: clientgui/ValidateURL.cpp:69
+msgid "Missing URL"
+msgstr "Manjkajoč URL"
+
+#: clientgui/ValidateURL.cpp:70
+msgid ""
+"Please specify a URL.\n"
+"For example:\n"
+"http://www.example.com/"
+msgstr ""
+"Prosim podajte URL.\n"
+"Na primer:\n"
+"http://www.primer.si/"
+
+#: clientgui/ValidateURL.cpp:83
+#: clientgui/ValidateURL.cpp:87
+#: clientgui/ValidateURL.cpp:91
+#: clientgui/ValidateURL.cpp:103
+#: clientgui/ValidateURL.cpp:107
+#: clientgui/ValidateURL.cpp:110
+msgid "Invalid URL"
+msgstr "Napačen URL"
+
+#: clientgui/ValidateURL.cpp:84
+#: clientgui/ValidateURL.cpp:88
+#: clientgui/ValidateURL.cpp:92
+msgid ""
+"Please specify a valid URL.\n"
+"For example:\n"
+"http://boincproject.example.com"
+msgstr ""
+"Prosim podajte veljaven URL.\n"
+"Na primer:\n"
+"http://www.primer.si/"
+
+#: clientgui/ValidateURL.cpp:104
+#: clientgui/ValidateURL.cpp:108
+#, c-format
+msgid "'%s' does not contain a valid host name."
+msgstr "'%s' ne vsebuje veljavnega imena gostitelja."
+
+#: clientgui/ValidateURL.cpp:111
+#, c-format
+msgid "'%s' does not contain a valid path."
+msgstr "'%s' ne vsebuje veljavne poti."
+
+#: clientgui/ViewMessages.cpp:84
+#: clientgui/ViewProjects.cpp:169
+#: clientgui/ViewStatistics.cpp:1962
+#: clientgui/ViewTransfers.cpp:159
+#: clientgui/ViewWork.cpp:182
+msgid "Commands"
+msgstr "Možnosti"
+
+#: clientgui/ViewMessages.cpp:88
+msgid "Copy all messages"
+msgstr "Kopiraj vsa sporočila"
+
+#: clientgui/ViewMessages.cpp:95
+msgid "Copy selected messages"
+msgstr "Kopiraj izbrana sporočila"
+
+#: clientgui/ViewMessages.cpp:106
+#: clientgui/ViewMessages.cpp:502
+msgid "Show only this project"
+msgstr "Prikaži samo ta projekt"
+
+#: clientgui/ViewMessages.cpp:107
+#: clientgui/ViewMessages.cpp:503
+msgid "Show only the messages for the selected project."
+msgstr "Prikaži samo sporočila za izbrani projekt."
+
+#: clientgui/ViewMessages.cpp:164
+msgid "Messages"
+msgstr "Sporočila"
+
+#: clientgui/ViewMessages.cpp:187
+msgid "Copying all messages to the clipboard..."
+msgstr "Kopiram vsa sporočila na odložišče..."
+
+#: clientgui/ViewMessages.cpp:223
+msgid "Copying selected messages to the clipboard..."
+msgstr "Kopiraj izbrana sporočila na odložišče..."
+
+#: clientgui/ViewMessages.cpp:286
+msgid "Filtering messages..."
+msgstr "Filtriram sporočila..."
+
+#: clientgui/ViewMessages.cpp:494
+msgid "Show all messages"
+msgstr "Prikaži vsa sporočila"
+
+#: clientgui/ViewMessages.cpp:495
+msgid "Show messages for all projects."
+msgstr "Prikaži sporočila za vse projekte."
+
+#: clientgui/ViewProjects.cpp:219
+#: clientgui/ViewStatistics.cpp:442
+msgid "Account"
+msgstr "Račun"
+
+#: clientgui/ViewProjects.cpp:221
+msgid "Work done"
+msgstr "Opravljeno delo"
+
+#: clientgui/ViewProjects.cpp:222
+msgid "Avg. work done"
+msgstr "Povpr. opravljeno delo"
+
+#: clientgui/ViewProjects.cpp:224
+#: clientgui/ViewTransfers.cpp:187
+#: clientgui/ViewWork.cpp:233
+msgid "Status"
+msgstr "Status"
+
+#: clientgui/ViewProjects.cpp:249
+msgid "Projects"
+msgstr "Projekti"
+
+#: clientgui/ViewProjects.cpp:301
+msgid "Updating project..."
+msgstr "Posodobljam projekt..."
+
+#: clientgui/ViewProjects.cpp:343
+msgid "Resuming project..."
+msgstr "Nadaljujem projekt..."
+
+#: clientgui/ViewProjects.cpp:347
+msgid "Suspending project..."
+msgstr "Dajem projekt na čakanje..."
+
+#: clientgui/ViewProjects.cpp:384
+msgid "Telling project to allow additional task downloads..."
+msgstr "Sporočam projektu, da je dovoljeno prejemanje dodatnih opravil..."
+
+#: clientgui/ViewProjects.cpp:388
+msgid "Telling project to not fetch any additional tasks..."
+msgstr "Sporočam projektu, naj ne pobira dodatnih opravil..."
+
+#: clientgui/ViewProjects.cpp:424
+msgid "Resetting project..."
+msgstr "Resetiram projekt..."
+
+#: clientgui/ViewProjects.cpp:482
+msgid "Removing project..."
+msgstr "Odstranjujem projekt..."
+
+#: clientgui/ViewProjects.cpp:542
+#: clientgui/ViewWork.cpp:598
+msgid "Launching browser..."
+msgstr "Zaganjam brskalnik..."
+
+#: clientgui/ViewProjects.cpp:1048
+#, fuzzy
+msgid "Requested by user"
+msgstr "Na čakanju"
+
+#: clientgui/ViewProjects.cpp:1049
+msgid "To fetch work"
+msgstr ""
+
+#: clientgui/ViewProjects.cpp:1050
+msgid "To report completed tasks"
+msgstr ""
+
+# well it would help if i knew what this should mean in context of BOINC :)
+#: clientgui/ViewProjects.cpp:1051
+#, fuzzy
+msgid "To send trickle-up message"
+msgstr "Pretoči čakajoča sporočila gor"
+
+#: clientgui/ViewProjects.cpp:1052
+#, fuzzy
+msgid "Requested by account manager"
+msgstr "Dodaj upravitelja računov"
+
+#: clientgui/ViewProjects.cpp:1053
+#, fuzzy
+msgid "Project initialization"
+msgstr "Projekt ni bil najden"
+
+#: clientgui/ViewProjects.cpp:1054
+#, fuzzy
+msgid "Requested by project"
+msgstr "Opuščeno s strani projekta"
+
+#: clientgui/ViewProjects.cpp:1055
+#, fuzzy
+msgid "Unknown reason"
+msgstr "neznan razlog"
+
+#: clientgui/ViewProjects.cpp:1069
+msgid "Suspended by user"
+msgstr "Na čakanju"
+
+#: clientgui/ViewProjects.cpp:1072
+msgid "Won't get new tasks"
+msgstr "Ne bom pridobil novih opravil"
+
+#: clientgui/ViewProjects.cpp:1075
+msgid "Project ended - OK to remove"
+msgstr "Projekt končan - lahko odstranite"
+
+#: clientgui/ViewProjects.cpp:1078
+msgid "Will remove when tasks done"
+msgstr "Odstranjeno bo, ko bodo opravila opravljena"
+
+#: clientgui/ViewProjects.cpp:1081
+msgid "Scheduler request pending"
+msgstr "Čakajoča zahteva razvrščevalnika"
+
+#: clientgui/ViewProjects.cpp:1087
+msgid "Scheduler request in progress"
+msgstr "Poteka zahteva razvrščevalnika"
+
+# well it would help if i knew what this should mean in context of BOINC :)
+#: clientgui/ViewProjects.cpp:1090
+msgid "Trickle up message pending"
+msgstr "Pretoči čakajoča sporočila gor"
+
+#: clientgui/ViewProjects.cpp:1096
+msgid "Communication deferred "
+msgstr "Komunikacija odložena "
+
+#: clientgui/ViewResources.cpp:62
+msgid "Total disk usage"
+msgstr "Skupna poraba diska"
+
+#: clientgui/ViewResources.cpp:83
+msgid "Disk usage by BOINC projects"
+msgstr "Poraba diska s strani BOINC projektov"
+
+#: clientgui/ViewResources.cpp:116
+msgid "Disk"
+msgstr "Disk"
+
+#: clientgui/ViewResources.cpp:249
+msgid "no projects: 0 bytes used"
+msgstr ""
+
+#: clientgui/ViewResources.cpp:286
+msgid "used by BOINC: "
+msgstr "BOINC uporablja: "
+
+#: clientgui/ViewResources.cpp:296
+msgid "free, available to BOINC: "
+msgstr "prosto, na voljo za BOINC: "
+
+#: clientgui/ViewResources.cpp:306
+msgid "free, not available to BOINC: "
+msgstr "prosto, ni na voljo za BOINC: "
+
+#: clientgui/ViewResources.cpp:316
+msgid "free: "
+msgstr "prosto: "
+
+#: clientgui/ViewResources.cpp:326
+msgid "used by other programs: "
+msgstr "uporabljajo drugi programi: "
+
+#: clientgui/ViewStatistics.cpp:1195
+msgid "User Total"
+msgstr "Skupaj od uporabnika"
+
+#: clientgui/ViewStatistics.cpp:1196
+msgid "User Average"
+msgstr "Uporabnikovo povprečje"
+
+#: clientgui/ViewStatistics.cpp:1197
+msgid "Host Total"
+msgstr "Skupaj gostiteljev"
+
+#: clientgui/ViewStatistics.cpp:1198
+msgid "Host Average"
+msgstr "Gostiteljev v povprečju"
+
+#: clientgui/ViewStatistics.cpp:1345
+#, c-format
+msgid "Last update: %.0f days ago"
+msgstr "Zadnja posodobitev: pred %.0f dnevi"
+
+#: clientgui/ViewStatistics.cpp:1966
+msgid "Show user total"
+msgstr "Uporabnik skupno"
+
+#: clientgui/ViewStatistics.cpp:1967
+msgid "Show total credit for user"
+msgstr "Prikaži vse uporabnikove točke"
+
+#: clientgui/ViewStatistics.cpp:1973
+msgid "Show user average"
+msgstr "Uporabnik povprečno"
+
+#: clientgui/ViewStatistics.cpp:1974
+msgid "Show average credit for user"
+msgstr "Prikaži povprečje točk za uporabnika"
+
+#: clientgui/ViewStatistics.cpp:1980
+msgid "Show host total"
+msgstr "Gostitelj skupno"
+
+#: clientgui/ViewStatistics.cpp:1981
+msgid "Show total credit for host"
+msgstr "Prikaži skupno točk za gostitelja"
+
+#: clientgui/ViewStatistics.cpp:1987
+msgid "Show host average"
+msgstr "Gostitelj povprečno"
+
+#: clientgui/ViewStatistics.cpp:1988
+msgid "Show average credit for host"
+msgstr "Prikaži povprečje točk za gostitelja"
+
+#: clientgui/ViewStatistics.cpp:1997
+msgid "< &Previous project"
+msgstr "< &Predhodni projekt"
+
+#: clientgui/ViewStatistics.cpp:1998
+msgid "Show chart for previous project"
+msgstr "Prikaži graf za predhodni projekt"
+
+#: clientgui/ViewStatistics.cpp:2003
+msgid "&Next project >"
+msgstr "&Naslednji projekt >"
+
+#: clientgui/ViewStatistics.cpp:2004
+msgid "Show chart for next project"
+msgstr "Prikaži graf za naslednji projekt"
+
+#: clientgui/ViewStatistics.cpp:2010
+#: clientgui/ViewStatistics.cpp:2407
+msgid "Hide project list"
+msgstr ""
+
+#: clientgui/ViewStatistics.cpp:2011
+#: clientgui/ViewStatistics.cpp:2407
+msgid "Use entire area for graphs"
+msgstr ""
+
+#: clientgui/ViewStatistics.cpp:2016
+msgid "Mode view"
+msgstr "Način pogleda"
+
+#: clientgui/ViewStatistics.cpp:2020
+msgid "One project"
+msgstr "En projekt"
+
+#: clientgui/ViewStatistics.cpp:2021
+msgid "Show one chart with selected project"
+msgstr "Prikaži en graf z izbranim projektom"
+
+#: clientgui/ViewStatistics.cpp:2027
+msgid "All projects (separate)"
+msgstr ""
+
+#: clientgui/ViewStatistics.cpp:2028
+msgid "Show all projects, one chart per project"
+msgstr "Prikaži vse projekte, en graf na projekt"
+
+#: clientgui/ViewStatistics.cpp:2034
+msgid "All projects (together)"
+msgstr ""
+
+#: clientgui/ViewStatistics.cpp:2035
+msgid "Show one chart with all projects"
+msgstr "Prikaži en graf z vsemi projekti"
+
+#: clientgui/ViewStatistics.cpp:2041
+#, fuzzy
+msgid "All projects (sum)"
+msgstr "Vsi projekti (vsota)"
+
+#: clientgui/ViewStatistics.cpp:2042
+#, fuzzy
+msgid "Show one chart with sum of projects"
+msgstr "Prikaži en graf z vsemi projekti"
+
+#: clientgui/ViewStatistics.cpp:2070
+msgid "Statistics"
+msgstr "Statistika"
+
+#: clientgui/ViewStatistics.cpp:2094
+#: clientgui/ViewStatistics.cpp:2115
+#: clientgui/ViewStatistics.cpp:2136
+#: clientgui/ViewStatistics.cpp:2158
+#: clientgui/ViewStatistics.cpp:2179
+#: clientgui/ViewStatistics.cpp:2200
+#: clientgui/ViewStatistics.cpp:2221
+#: clientgui/ViewStatistics.cpp:2242
+#: clientgui/ViewStatistics.cpp:2263
+#: clientgui/ViewStatistics.cpp:2287
+msgid "Updating charts..."
+msgstr "Posodobljam grafe..."
+
+#: clientgui/ViewStatistics.cpp:2411
+msgid "Show project list"
+msgstr ""
+
+#: clientgui/ViewStatistics.cpp:2411
+msgid "Uses smaller area for graphs"
+msgstr ""
+
+#: clientgui/ViewTransfers.cpp:163
+msgid "Retry Now"
+msgstr "Ponovno poskusi zdaj"
+
+#: clientgui/ViewTransfers.cpp:164
+msgid "Click 'Retry now' to transfer the file now"
+msgstr "Kliknite 'Ponovno poskusi zdaj', da zdaj prenesete datoteko"
+
+#: clientgui/ViewTransfers.cpp:170
+msgid "Abort Transfer"
+msgstr "Opusti prenos"
+
+#: clientgui/ViewTransfers.cpp:171
+msgid "Click 'Abort transfer' to delete the file from the transfer queue. This will prevent you from being granted credit for this result."
+msgstr ""
+"Kliknite 'Opusti prenos', da izbrišete datoteko iz čakalne vrste prenosov. "
+"To vam bo prepričilo, da bi bili nagrajeni z zaslugami za ta rezultat."
+
+#: clientgui/ViewTransfers.cpp:182
+msgid "File"
+msgstr "Datoteka"
+
+#: clientgui/ViewTransfers.cpp:183
+#: clientgui/ViewWork.cpp:232
+msgid "Progress"
+msgstr "Napredek"
+
+#: clientgui/ViewTransfers.cpp:184
+msgid "Size"
+msgstr "Velikost"
+
+#: clientgui/ViewTransfers.cpp:185
+msgid "Elapsed Time"
+msgstr "Pretečeni čas"
+
+#: clientgui/ViewTransfers.cpp:186
+msgid "Speed"
+msgstr "Hitrost"
+
+#: clientgui/ViewTransfers.cpp:212
+msgid "Transfers"
+msgstr "Prenosi"
+
+#: clientgui/ViewTransfers.cpp:279
+msgid "Network activity is suspended - "
+msgstr "Mrežna aktivnost je na čakanju - "
+
+#: clientgui/ViewTransfers.cpp:281
+msgid ""
+".\n"
+"You can enable it using the Activity menu."
+msgstr ""
+".\n"
+"Lahko omogočite v menuju Aktivnost."
+
+#: clientgui/ViewTransfers.cpp:284
+msgid "BOINC"
+msgstr "BOINC"
+
+#: clientgui/ViewTransfers.cpp:291
+msgid "Retrying transfer now..."
+msgstr "Zdaj ponovno poskušam prenesti..."
+
+#: clientgui/ViewTransfers.cpp:329
+msgid "Aborting transfer..."
+msgstr "Opuščam prenos..."
+
+#: clientgui/ViewTransfers.cpp:342
+#, c-format
+msgid ""
+"Are you sure you want to abort this file transfer '%s'?\n"
+"NOTE: Aborting a transfer will invalidate a task and you\n"
+"will not receive credit for it."
+msgstr ""
+"Ali ste prepričani, da želite opustiti prenos datoteke '%s'?\n"
+"OPOMBA: Opustitev prenosa bo razveljavila opravilo in\n"
+"zanj ne boste dobili točk."
+
+#: clientgui/ViewTransfers.cpp:348
+msgid "Abort File Transfer"
+msgstr "Opusti prenos datoteke"
+
+#: clientgui/ViewTransfers.cpp:769
+msgid "Upload"
+msgstr ""
+
+#: clientgui/ViewTransfers.cpp:769
+msgid "Download"
+msgstr ""
+
+#: clientgui/ViewTransfers.cpp:773
+#, fuzzy
+msgid "retry in "
+msgstr "Ponovno poskusi čez_"
+
+#: clientgui/ViewTransfers.cpp:775
+msgid "failed"
+msgstr ""
+
+#: clientgui/ViewTransfers.cpp:778
+msgid "suspended"
+msgstr ""
+
+#: clientgui/ViewTransfers.cpp:783
+msgid "active"
+msgstr ""
+
+#: clientgui/ViewTransfers.cpp:785
+msgid "pending"
+msgstr ""
+
+#: clientgui/ViewTransfers.cpp:792
+msgid " (project backoff: "
+msgstr " (projekt je odstopil: "
+
+#: clientgui/ViewWork.cpp:186
+#: clientgui/ViewWork.cpp:766
+msgid "Show active tasks"
+msgstr "Prikaži aktivna opravila"
+
+#: clientgui/ViewWork.cpp:187
+#: clientgui/ViewWork.cpp:767
+msgid "Show only active tasks."
+msgstr "Prikaži samo aktivna opravila"
+
+#: clientgui/ViewWork.cpp:200
+#, fuzzy
+msgid "Show VM Console"
+msgstr "Gostitelj skupno"
+
+#: clientgui/ViewWork.cpp:201
+#, fuzzy
+msgid "Show VM Console in a window."
+msgstr "V oknu prikaži grafiko aplikacije."
+
+#: clientgui/ViewWork.cpp:234
+msgid "Elapsed"
+msgstr "Preteklo"
+
+#: clientgui/ViewWork.cpp:235
+msgid "Remaining"
+msgstr "Preostaja"
+
+#: clientgui/ViewWork.cpp:236
+msgid "Deadline"
+msgstr "Rok"
+
+#: clientgui/ViewWork.cpp:238
+msgid "Name"
+msgstr "Ime"
+
+#: clientgui/ViewWork.cpp:263
+msgid "Tasks"
+msgstr "Opravila"
+
+#: clientgui/ViewWork.cpp:356
+msgid "Resuming task..."
+msgstr "Nadaljujem opravilo..."
+
+#: clientgui/ViewWork.cpp:359
+msgid "Suspending task..."
+msgstr "Opravilo dajem na čakanje..."
+
+#: clientgui/ViewWork.cpp:388
+msgid "Showing graphics for task..."
+msgstr "Prikazujem grafiko za to opravilo..."
+
+#: clientgui/ViewWork.cpp:425
+#, fuzzy
+msgid "Showing VM console for task..."
+msgstr "Prikazujem grafiko za to opravilo..."
+
+#: clientgui/ViewWork.cpp:478
+#, c-format
+msgid ""
+"Are you sure you want to abort this task '%s'?\n"
+"(Progress: %s, Status: %s)"
+msgstr ""
+"Ali ste prepričani, da želite opustiti to opravilo '%s'?\n"
+"(Napredek: %s, Status: %s)"
+
+#: clientgui/ViewWork.cpp:484
+#, c-format
+msgid "Are you sure you want to abort these %d tasks?"
+msgstr "Ali ste prepričani, da želite opustiti teh %d opravil?"
+
+#: clientgui/ViewWork.cpp:498
+msgid "Aborting result..."
+msgstr "Opuščam rezultat..."
+
+#: clientgui/ViewWork.cpp:760
+msgid "Show all tasks"
+msgstr "Prikaži vsa opravila"
+
+#: clientgui/ViewWork.cpp:761
+msgid "Show all tasks."
+msgstr "Prikaži vsa opravila."
+
+#: clientgui/WelcomePage.cpp:254
+msgid "Add project or account manager"
+msgstr "Dodaj projekt ali upravitelja računov"
+
+#: clientgui/WelcomePage.cpp:262
+#, c-format
+msgid ""
+"If possible, add projects at the\n"
+"%s web site.\n"
+"\n"
+"Projects added via this wizard will not be\n"
+"listed on or managed via %s."
+msgstr ""
+"Če je možno, dodajte projekte na\n"
+"%s spletni strani.\n"
+"Projekti dodani preko tega čarovnika ne bodo\n"
+"prikazani ali upravljani prek %s."
+
+#: clientgui/WelcomePage.cpp:275
+#, fuzzy
+msgid ""
+"There are over 30 BOINC-based projects\n"
+"doing research in many areas of science,\n"
+"and you can volunteer for as many of them as you like.\n"
+"You can add a project directly,\n"
+"or use an 'Account Manager' web site to select projects."
+msgstr ""
+"Obstaja več kot 30 projektov temelječih na BOINC,\n"
+"ki opravljajo raziskave na veliko znanstvenih področjih,\n"
+"in lahko ste prostovoljec za kolikor izmed njih želite.\n"
+"Lahko se neposredno priklopite na projekt\n"
+"ali uporabite spletno stran 'Upravitelja računov', da izberete projekte."
+
+#: clientgui/WelcomePage.cpp:283
+#, fuzzy
+msgid ""
+"You have chosen to add a new BOINC project.  Adding a new\n"
+"project means that you will be connecting your computer to a new organization.\n"
+"If this is what you wanted to do, please click on\n"
+"the 'Next' button below.\n"
+"\n"
+"Some projects like World Community Grid run multiple research applications.\n"
+"If you want to change which research applications are sent to your computer\n"
+"to run, visit the project's website and modify your\n"
+"preferences there.\n"
+"\n"
+"To change which research applications are sent to you from\n"
+"World Community Grid then please click on the following button:"
+msgstr ""
+"Izbrali ste pripenjanje na nov BOINC projekt.  Pripenjanje na nov projekt\n"
+"pomeni, da boste povezovali svoj računalnik na novo organizacijo.\n"
+"  Če je to, kar želite storiti, prosim kliknite na\n"
+"gumb 'Naslednje' spodaj.\n"
+"Nekateri projekti kot naprimer World Community Grid poganjanjo več "
+"raziskovalnih aplikacij.\n"
+"Če želite spremeniti katere raziskovalne aplikacije so\n"
+"poslane na vaš računalnik v izvajanje, morate obiskat spletno stran projekta\n"
+"in tam spremeniti vaše nastavitve.\n"
+"\n"
+"Da spremenite katere raziskovalne aplikacije so poslane vam iz\n"
+"World Community Grid, prosim kliknite sledeči gumb:"
+
+#: clientgui/WelcomePage.cpp:286
+msgid "Change Research Applications at World Community Grid"
+msgstr "Spremeni raziskovalne aplikacije na World Community Grid"
+
+#: clientgui/WelcomePage.cpp:303
+msgid "To continue, click Next."
+msgstr "Za nadaljevanje kliknite Naprej."
+
+#: clientgui/WizardAttach.cpp:614
+msgid "Do you really want to cancel?"
+msgstr "Res želite preklicati?"
+
+#: clientgui/WizardAttach.cpp:615
+msgid "Question"
+msgstr "Vprašanje"
+
+#: clientgui/wizardex.cpp:377
+#: clientgui/wizardex.cpp:553
+msgid "&Next >"
+msgstr "&Naprej >"
+
+#: clientgui/wizardex.cpp:383
+msgid "< &Back"
+msgstr "< Na&zaj"
+
+#: clientgui/wizardex.cpp:553
+msgid "&Finish"
+msgstr "&Končaj"
+
+#: clientgui/common/wxFlatNotebook.cpp:182
+#, c-format
+msgid "New page inserted. Index = %i"
+msgstr "Nova stran vstavljena. Indeks = %i"
+
+#: clientgui/common/wxFlatNotebook.cpp:187
+#, c-format
+msgid "New page appended. Index = %i"
+msgstr "Nova stran dopolnjena. Indeks = %i"
+
+#: clientgui/common/wxFlatNotebook.cpp:2047
+#, c-format
+msgid "Old Page Index = %i"
+msgstr "Stari indeks strani = %i"
+
+#: clientgui/common/wxFlatNotebook.cpp:2052
+#, c-format
+msgid "OnDropTarget: index by HitTest = %i"
+msgstr "OnDropTarget: indeks od HitTest = %i"
+
+#: clientgui/common/wxPieCtrl.cpp:63
+msgid "Pie Ctrl"
+msgstr "Pie Ctrl"
+
+#: clientgui/mac/MacAccessiblity.cpp:257
+msgid "for accessibility support, please select advanced from the view menu or type command shift a"
+msgstr ""
+"za podporo pomožnim tehnologijam, prosim, izberite napredno pod menujem "
+"pogled ali pritisnite command shift a"
+
+#: clientgui/mac/MacAccessiblity.cpp:302
+msgid "This panel contains graphs showing user totals for projects"
+msgstr ""
+"Ta pladenj vsebuje grafe, ki prikazujejo skupne točke uporabnika za projekte"
+
+#: clientgui/mac/MacAccessiblity.cpp:726
+msgid "list headers"
+msgstr "seznam zaglavij"
+
+#: clientgui/mac/MacAccessiblity.cpp:732
+msgid "list of events"
+msgstr "seznam dogodkov"
+
+#: clientgui/mac/MacAccessiblity.cpp:734
+msgid "list of events is empty"
+msgstr "seznam dogodkov je prazen"
+
+#: clientgui/mac/MacAccessiblity.cpp:739
+#, c-format
+msgid "list of %s"
+msgstr "seznam %s"
+
+#: clientgui/mac/MacAccessiblity.cpp:741
+#, c-format
+msgid "list of %s is empty"
+msgstr "seznam %s je prazen"
+
+#: clientgui/mac/MacAccessiblity.cpp:843
+#, c-format
+msgid "; current sort column %d of %d; descending order; "
+msgstr "; trenutni stolpec urejanja %d od %d; padajoči vrstni red; "
+
+#: clientgui/mac/MacAccessiblity.cpp:845
+#, c-format
+msgid "; current sort column %d of %d; ascending order; "
+msgstr "; trenutni stolpec urejanja %d od %d; naraščajoči vrstni red; "
+
+#: clientgui/mac/MacAccessiblity.cpp:848
+#, c-format
+msgid "; column %d of %d; "
+msgstr "; stolpec %d od %d; "
+
+#: clientgui/mac/MacAccessiblity.cpp:855
+msgid "list is empty"
+msgstr "seznam je prazen"
+
+#: clientgui/mac/MacAccessiblity.cpp:858
+#: clientgui/mac/MacAccessiblity.cpp:870
+#, c-format
+msgid "; row %d; "
+msgstr "; vrstica %d; "
+
+#: clientgui/mac/MacAccessiblity.cpp:862
+#, c-format
+msgid "; selected row %d of %d; "
+msgstr "; izbrana vrstica %d od %d; "
+
+#: clientgui/mac/MacAccessiblity.cpp:864
+#, c-format
+msgid "; selected row %d ; "
+msgstr "; izbrana vrstica %d ; "
+
+#: clientgui/mac/MacAccessiblity.cpp:868
+#, c-format
+msgid "; row %d of %d; "
+msgstr "; vrstica %d od %d; "
+
+#: clientgui/mac/MacAccessiblity.cpp:881
+msgid "blank"
+msgstr "prazno"
+
+#: clientgui/mac/MacAccessiblity.cpp:1523
+msgid "list of projects or account managers"
+msgstr "seznam projektov ali upraviteljev računov"
+
+#: clientgui/mac/MacAccessiblity.cpp:1575
+#, c-format
+msgid "selected row %d of %d; "
+msgstr "izbrana vrstica %d od %d; "
+
+#: clientgui/mac/MacAccessiblity.cpp:1577
+#, c-format
+msgid "row %d of %d; "
+msgstr "vrstica %d od %d; "
+
+#: clientgui/mac/Mac_GUI.cpp:105
+#, fuzzy
+msgid "Preferences…"
+msgstr "Nastavitve"
+
+#: clientgui/mac/Mac_GUI.cpp:117
+msgid "Services"
+msgstr ""
+
+#: clientgui/mac/Mac_GUI.cpp:139
+#, c-format
+msgid "Hide %s"
+msgstr ""
+
+#: clientgui/mac/Mac_GUI.cpp:153
+msgid "Hide Others"
+msgstr ""
+
+#: clientgui/mac/Mac_GUI.cpp:167
+msgid "Show All"
+msgstr ""
+
+#: clientgui/mac/Mac_GUI.cpp:181
+#, c-format
+#, fuzzy, c-format
+msgid "Quit %s"
+msgstr "Za&pusti %s"
+
+#: clientgui/DlgAdvPreferences.h:30
+msgid "specify work start and stop hours in format HH:MM-HH:MM"
+msgstr "podajte začetne in končne ure dela v formatu HH:MM-HH:MM"
+
+#: clientgui/DlgAdvPreferences.h:31
+msgid "specify network usage start and stop hours in format HH:MM-HH:MM"
+msgstr "podajte začetne in končne ure uporabe mreže v formatu HH:MM-HH:MM"
+
+#~ msgid "Web sites"
+#~ msgstr "Spletne strani"
+
+#~ msgid "Connect about every"
+#~ msgstr "Poveži se približno vsakih"
+
+#~ msgid ""
+#~ "this computer is connected to the Internet about every X days\n"
+#~ "(0 if it's always connected)"
+#~ msgstr ""
+#~ "ta računalnik je povezan na internet približno vsakih X dni\n"
+#~ "(0, če je zmeraj povezan)"
+
+#~ msgid "days (max. 10)"
+#~ msgstr "dni (največ 10)"
+
+#~ msgid "Display and network &options..."
+#~ msgstr "M&ožnosti prikaza in mreže..."
+
+#~ msgid ""
+#~ "You have requested to exit the %s,\n"
+#~ "which allows you to view and manage\n"
+#~ "the science applications running on your computer.\n"
+#~ "\n"
+#~ "If you also want to stop running the science applications when you\n"
+#~ "exit the Manager, then choose from the following options:"
+#~ msgstr ""
+#~ "Zahtevali ste izhod iz %s,\n"
+#~ "ki vam omogoča videti in upravljati\n"
+#~ "znanstvene aplikacije, ki tečejo na vašem računalniku.\n"
+#~ "\n"
+#~ "Če želite tudi ustaviti delujoče znanstvene aplikacije, ko\n"
+#~ "zapuščate Upravljalca, potem izberite sledeče možnosti:"
+
+#~ msgid "Stop running science applications when exiting the Manager"
+#~ msgstr "Zaustavi delujoče znanstvene aplikacije ob izhodu iz Upravitelja"
+
+#~ msgid "CPU work fetch priority"
+#~ msgstr "Prioriteta prevzemanja dela za procesor"
+
+#~ msgid "NVIDIA GPU scheduling priority"
+#~ msgstr "Prioriteta razvrščanja NIVIDIA grafičnega procesorja"
+
+#~ msgid "NVIDIA GPU work fetch priority"
+#~ msgstr "Prioriteta prevzemanja dela za NVIDIA grafični procesor"
+
+#~ msgid "ATI GPU scheduling priority"
+#~ msgstr "Prioriteta razvrščanja ATI grafičnega procesorja"
+
+#~ msgid "ATI GPU work fetch priority"
+#~ msgstr "Prioriteta prevzemanje dela za ATI grafični procesor"
+
+#~ msgid "%s - Options"
+#~ msgstr "%s - Možnosti"
+
+#~ msgid "Retrieving host information; please wait..."
+#~ msgstr "Pridobivam informacije o gostitelju; prosim počakajte..."
+
+#~ msgid " (waiting for GPU memory)"
+#~ msgstr " (čakajoč na grafični pomnilnik)"
+
+#~ msgid "%s - Messages"
+#~ msgstr "%s - Sporočila"
+
+#~ msgid "Skin:"
+#~ msgstr "Preobleka:"
+
+#~ msgid "Preferences"
+#~ msgstr "Nastavitve"
+
+#~ msgid "I want to customize my preferences for this computer only."
+#~ msgstr "Želim prikrojiti moje nastavitve samo za ta računalnik."
+
+#~ msgid "Customized Preferences"
+#~ msgstr "Prikrojene nastavitve"
+
+#~ msgid "Upload suspended - "
+#~ msgstr "Pošiljanje na čakanju - "
+
+#~ msgid "Download suspended - "
+#~ msgstr "Prejemanje na čakanju - "
+
+#~ msgid "Upload pending"
+#~ msgstr "Čakajoče pošiljanje"
+
+#~ msgid "Download pending"
+#~ msgstr "Čakajoče prejemanje"
+
+#~ msgid "Get help with BOINC"
+#~ msgstr "Dobi pomoč za BOINC"
+
+#~ msgid "Event Log..."
+#~ msgstr "Dnevnik dogodkov..."
+
+#~ msgid "Attaching to project or account manager..."
+#~ msgstr "Pripenjam se na projekt ali upravitelja računov..."
+
+#~ msgid "%s - Detach from %s"
+#~ msgstr "%s - Odpni se od %s"
+
+#~ msgid "Retrying communications."
+#~ msgstr "Ponovno poskušam komunicirati."
+
+#~ msgid "Failed to attach to project"
+#~ msgstr "Nisem se uspel pripeti na projekt"
+
+#~ msgid "Failed to attach to account manager"
+#~ msgstr "Nisem se uspel pripeti na upravitelja računov"
+
+#~ msgid "Attached to account manager"
+#~ msgstr "Pripet na upravitelja računov"
+
+#~ msgid "You are now successfully attached to the %s system."
+#~ msgstr "Zdaj ste uspešno pripeti na sistem %s."
+
+#~ msgid "You are now successfully attached to this account manager."
+#~ msgstr "Zdaj ste uspešno pripeti na ta upravitelj računov."
+
+#~ msgid "News Feeds"
+#~ msgstr "Viri novic"
+
+#~ msgid "Display the latest news about BOINC"
+#~ msgstr "Prikaži najnovejše novice o BOINC"
+
+#~ msgid "not attached to any BOINC project: 0 bytes"
+#~ msgstr "nisem priklopljen na noben BOINC projekt: 0 bajtov"
+
+#~ msgid "All projects"
+#~ msgstr "Vsi projekti"
+
+#~ msgid "Attach to project"
+#~ msgstr "Priklopite se k projektu"
+
+#~ msgid "Attach to account manager"
+#~ msgstr "Pripnite se na upravitelja računov"
+
+#~ msgid "%s needs to connect to the Internet.  Please click to open %s."
+#~ msgstr "%s se mora povezati na internet.  Prosim kliknite, da odprete %s."
+
+#~ msgid ""
+#~ "%s is unable to communicate with a project and needs an Internet "
+#~ "connection.\n"
+#~ "Please connect to the Internet, then select the 'Do network "
+#~ "communications' item from the Advanced menu."
+#~ msgstr ""
+#~ "%s ne more komunicirati s projektom in potrebuje internetno povezavo.\n"
+#~ "Prosim povežite se na internet in nato izberite 'Opravi komunikacijo po "
+#~ "mreži' v menuju Napredno."
+
+#~ msgid ""
+#~ "%s couldn't do Internet communication, and no default connection is "
+#~ "selected.\n"
+#~ "Please connect to the Internet, or select a default connection\n"
+#~ "using Advanced/Options/Connections."
+#~ msgstr ""
+#~ "%s ni mogel opraviti komunikacije po internetu, privzeta povezava pa ni "
+#~ "nastavljena.\n"
+#~ "Prosim, povežite se na internet ali izberite privzeto povezavo\n"
+#~ "z uporabo Napredno/Možnosti/Povezave."
+
+#~ msgid "Attached to project"
+#~ msgstr "Pripet na projekt"
+
+#~ msgid "You are now successfully attached to this project."
+#~ msgstr "Zdaj ste se uspešno pripeli na ta projekt."
+
+#~ msgid "Attached to %s"
+#~ msgstr "Pripet na %s"
+
+#~ msgid "Detach when done"
+#~ msgstr "Odpni se, ko je opravljeno"
+
+#~ msgid "Retrieving notices..."
+#~ msgstr "Prejemam obvestila..."
+
+#~ msgid "Detach"
+#~ msgstr "Odpni"
+
+#~ msgid "Detaching from project..."
+#~ msgstr "Odpenjam se od projekta..."
+
+#~ msgid "Are you sure you want to detach from project '%s'?"
+#~ msgstr "Ali ste prepričani, da se želite odpeti od projekta '%s'?"
+
+#~ msgid "Detach from Project"
+#~ msgstr "Odpni se od projekta"
+
+#~ msgid " - user active"
+#~ msgstr " - uporabnik aktiven"
+
+#~ msgid " - computation suspended"
+#~ msgstr " - računanje na čakanju"
+
+#~ msgid " - need disk space"
+#~ msgstr " - potrebuje prostor na disku"
+
+#~ msgid "Attach to an additional project"
+#~ msgstr "Priklopite se na dodaten projekt"
+
+#~ msgid "To completion"
+#~ msgstr "Do konca"
+
+#~ msgid ""
+#~ "We'll guide you through the process of attaching\n"
+#~ "to a project or account manager."
+#~ msgstr ""
+#~ "Vodili vas bomo skozi proces pripenjanja\n"
+#~ "na projekt ali upravitelja računov."
+
+#~ msgid "events"
+#~ msgstr "dogodki"
+
+#~ msgid " is empty"
+#~ msgstr " je prazno"
+
+#~ msgid "%d of %d; "
+#~ msgstr "%d od %d; "
+
+#~ msgid "current sort column "
+#~ msgstr "trenutno urejeno po stolpcu "
+
+#~ msgid " descending order "
+#~ msgstr "padajoče"
+
+#~ msgid " ascending order "
+#~ msgstr "naraščajoče"
+
+#~ msgid "column "
+#~ msgstr "stolpec "
+
+#~ msgid "of %d; "
+#~ msgstr "od %d; "
+
+#~ msgid "Attach to a project or account manager to begin processing work"
+#~ msgstr ""
+#~ "Priklopite se na projekt ali upravitelja računov za začetek obdelave dela"
+
+#~ msgid "Attach to a project to begin processing work"
+#~ msgstr "Priklopite se na projekt za začetek dela procesiranja"
+
+#~ msgid "Use GPU never"
+#~ msgstr "Nikoli ne uporabi grafičnega procesorja"
+
+#~ msgid "BOINC Notification"
+#~ msgstr "BOINC obvestilo"
+
+#~ msgid ""
+#~ "TEST: Fluffy@Home just found out that the Fluffy project has been "
+#~ "published in Nature"
+#~ msgstr ""
+#~ "TEST: Fluffy@Home so pravkar ugotovili, da je bil v Nature objavljen "
+#~ "članek o projektu Fluffy"
+
+#~ msgid "%s: %.2f%% completed."
+#~ msgstr "%s: %.2f%% dokončano."
+
+#~ msgid "%d tasks running."
+#~ msgstr "Poteka %d opravil."
+
+#~ msgid "&Close Window\tCtrl+W"
+#~ msgstr "&Zapri okno\tCtrl+W"
+
+#~ msgid "&Messages\tCtrl+Shift+M"
+#~ msgstr "S&poročila\tCtrl+Shift+M"
+
+#~ msgid "Display messages"
+#~ msgstr "Prikaži sporočila"
+
+#~ msgid "Display news"
+#~ msgstr "Prikaži novice"
+
+#~ msgid "%s - Can't find web browser"
+#~ msgstr "%s - Ne najdem spletnega brskalnika"
+
+#~ msgid ""
+#~ "%s tried to display the web page\n"
+#~ "\t%s\n"
+#~ "but couldn't find a web browser.\n"
+#~ "To fix this, set the environment variable\n"
+#~ "BROWSER to the path of your web browser,\n"
+#~ "then restart the %s."
+#~ msgstr ""
+#~ "%s je poskusil prikazati spletno stran\n"
+#~ "\t%s\n"
+#~ "a ni mogel najti spletnega brskalnika.\n"
+#~ "Da to popravite, nastavite spremenljivko okolja\n"
+#~ "BROWSER na pot do vašega spletnega brskalnika,\n"
+#~ "nato pa ponovno zaženite %s."
+
+#~ msgid "Starting client services; please wait..."
+#~ msgstr "Zaganjam storitve odjemalca; prosim, počakajte..."
+
+#~ msgid "BOINC Website"
+#~ msgstr "BOINC spletna stran"
+
+#~ msgid "Display the latest news about BOINC from the BOINC website"
+#~ msgstr "Prikaži zadnje novice o BOINC s spletne strani BOINC"
+
+#~ msgid "Network activity based on pre&ferences"
+#~ msgstr "Mrežna aktivnost glede na &nastavitve"
+
+#~ msgid "Network activity s&uspended"
+#~ msgstr "Mrežna aktivnost na ča&kanju"
+
+#~ msgid "%s - Shutdown the current client..."
+#~ msgstr "%s - Zaustavi trenutnega odjemalca"
+
+#~ msgid ""
+#~ "%s will shut down the currently connected client,\n"
+#~ "and prompt you for another host to connect to.\n"
+#~ msgstr ""
+#~ "%s bo zaustavil trenutno povezanega odjemalca,\n"
+#~ "in vas vprašal po drugem gostitelju, na katerega naj se poveže.\n"
+
+#~ msgid "Retrying communications for project(s)..."
+#~ msgstr "Ponoven poskus komunikacije za projekt(e)..."
+
+#~ msgid "Switch between applications between every"
+#~ msgstr "Preklopi med aplikacijami vsakih"
+
+#~ msgid ""
+#~ "Required wizard file(s) are missing from the target server.\n"
+#~ "(lookup_account.php/create_account.php)\n"
+#~ msgstr ""
+#~ "Zahtevane datoteke čarovnika manjkajo na ciljnem strežniku.\n"
+#~ "(lookup_account.php/create_account.php)\n"
+
+#~ msgid "ID"
+#~ msgstr "ID"
+
+#~ msgid "Priority"
+#~ msgstr "Prioriteta"
+
+#~ msgid "MessagesGrid"
+#~ msgstr "Mreža sporočil"
+
+#~ msgid "Copying selected messages to Clipboard..."
+#~ msgstr "Kopiram izbrana sporočila na odložišče..."
+
+#~ msgid "Info"
+#~ msgstr "Informacije"
+
+#~ msgid "Warning"
+#~ msgstr "Opozorilo"
+
+#~ msgid "ProjectsGrid"
+#~ msgstr "Mreža projektov"
+
+#~ msgid "TransfersGrid"
+#~ msgstr "Mreža prenosov"
+
+#~ msgid "Aborting transfer(s)..."
+#~ msgstr "Opuščam prenos(e)..."
+
+#~ msgid ""
+#~ "Are you sure you want to abort this file(s) transfer ?\n"
+#~ "NOTE: Aborting a transfer will invalidate a task and you\n"
+#~ "will not receive credit for it."
+#~ msgstr ""
+#~ "Ali ste prepričani, da želite opustiti prenos te datoteke/datotek?\n"
+#~ "OPOMBA: Opustitev prenosa bo razveljavila opravilo in zanj\n"
+#~ "ne boste prejeli točk."
+
+#~ msgid "Abort File Transfer(s)"
+#~ msgstr "Opusti prenos(e) datotek"
+
+#~ msgid "TasksGrid"
+#~ msgstr "Mreža opravil"

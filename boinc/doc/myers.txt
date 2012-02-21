@@ -1,0 +1,146 @@
+I'm working with my student, Kim Lefkowitz, on learning how to write
+BOINC applications.  We've been doing this both by reading the
+examples that come with the distribution and by trying to write our
+own simple programs.  As a result, we've come up with the simplest
+BOINC program, the "Hello, World!" program of BOINC.  It just opens a
+file and writes to it and the file is uploaded to the server.  
+
+We'd like to share this with anybody who might have to go through the
+whole process of learning to write BOINC apps.   And of course learn
+from any suggestions on making it even simpler or the comments clearer.
+
+A copy of the program is attached below (it's short, of course) but
+I've also packed it up with example workunit and result files, a
+Makefile for Unix and a .dsw for Windows.  These are all in the
+hello-boinc tarball at http://noether.vassar.edu/pub/myers/src/
+
+But you don't need the tarball, you can just put the code below in the
+file hello.C in the apps directory, and then edit the Makefile to
+change "1sec" to "hello" everywhere and it will build.
+
+[Suggestion: the 1sec app does not work.  We were initially distracted
+into trying to get it to run until we figured out that it does not use
+the API.  So how about replacing apps/1sec with this?  I see 1sec is
+mainly used for the test suite, so if it is to be kept then maybe move
+it to the test/ directory.]
+
+     -Eric Myers
+
+
+				 -*-*-
+
+/***********************************************************
+ *  Hello, BOINC World!
+ *  
+ * This is the Hello World program for BOINC.  It is the simplest application
+ * that one can write which uses the BOINC API and writes some output to a
+ * file (called "out").   See the sample workunit and result templates to 
+ * see how this file is mapped to a real file and how  it is uploaded.
+ *
+ * Eric Myers <myers@vassar.edu>  - 16 June 2004 (Unix) and 6 July 2004 (Win)
+ * Department of Physics and Astronomy, Vassar College, Poughkeepsie, New York
+ * @(#) Version: 3.12
+ */
+
+
+//  Stuff we only need on Windows: 
+#ifdef _WIN32
+  #include "boinc_win.h"
+#endif
+
+#include "boinc_api.h"		// 
+#include "filesys.h"		// boinc_fopen(), etc...
+#include "util.h"               // parse_command_line(), boinc_sleep()
+
+
+
+int main(int argc, char **argv) {
+    int rc;
+    char resolved_name[512];
+    FILE* f;
+
+
+    // All BOINC applications must initialize the BOINC interface:
+
+    rc = boinc_init();
+    if (rc){
+      fprintf(stderr, "APP: boinc_init() failed.\n");
+      exit(rc);
+    }
+        
+
+    // input and output files need to be "resolved" from their logical name
+    // for the app to the actual path on the client disk
+
+    rc = boinc_resolve_filename("out", resolved_name, sizeof(resolved_name));
+    if (rc){
+      fprintf(stderr, "APP: cannot resolve output file name.\n");
+      exit(boinc_finish(rc));
+    }
+
+
+    // Then open the file with boinc_fopen() not just fopen()
+
+    f = boinc_fopen(resolved_name, "w");
+        
+
+    // Write some output to the file 
+
+    fprintf(f, "Hello, BOINC World!\n");
+
+
+    // Now run up a little credit..
+
+    { int j, num;
+      fprintf(f, "Stress test begins...\n");
+	  for (j=0;j<123456789;j++){ num=rand(); }
+      fprintf(f, "Stress test ends...\n");
+    }
+
+    fclose(f);
+
+    // All BOINC applications must exit via boinc_finish(rc), not merely exit
+
+    boinc_finish(0);       /* should not return */
+    return 47;
+}
+
+
+
+
+/* Dummy graphics API entry points */
+
+void app_graphics_init() {}
+void app_graphics_resize(int width, int height){}
+void app_graphics_render(int xs, int ys, double time_of_day) {}
+void app_graphics_reread_prefs() {}
+void boinc_app_mouse_move(int x, int y, bool left, bool middle, bool right ){}
+void boinc_app_mouse_button(int x, int y, int which, bool is_down){}
+void boinc_app_key_press(int, int){}
+void boinc_app_key_release(int, int){}
+
+
+
+/* Windows entry point WinMain() */
+
+#ifdef _WIN32 
+
+/*******************************************************
+ * Windows:  Unix applications begin with main() while Windows applications
+ * begin with WinMain, so this just makes WinMain() process the command line
+ * and then invoke main()
+ */
+
+int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst,
+                   LPSTR Args, int WinMode)
+{
+    LPSTR command_line;
+    char* argv[100];
+    int argc;
+    
+    command_line = GetCommandLine();
+    argc = parse_command_line( command_line, argv );
+    return main(argc, argv);
+}
+
+#endif

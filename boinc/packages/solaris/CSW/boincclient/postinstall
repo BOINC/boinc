@@ -1,0 +1,17 @@
+#! /bin/sh
+
+if [ -x $PKG_INSTALL_ROOT/opt/csw/etc/csw.conf ] ; then 
+  . $PKG_INSTALL_ROOT/opt/csw/etc/csw.conf 
+fi 
+if [ -x $PKG_INSTALL_ROOT/etc/opt/csw/csw.conf ] ; then 
+  . $PKG_INSTALL_ROOT/etc/opt/csw/csw.conf 
+fi 
+
+if [ "x${autoenable_daemons}" != "xno" ] ; then
+  for link in $PKG_INSTALL_ROOT/etc/rc3.d/S99cswboinc-client $PKG_INSTALL_ROOT/etc/rc2.d/K00cswboinc-client $PKG_INSTALL_ROOT/etc/rc1.d/K00cswboinc-client ; do
+    if [ -h  $link ] ; then
+      /bin/rm $link
+    fi 
+    ln -s $PKG_INSTALL_ROOT/etc/init.d/cswboinc-client $link
+  done
+fi

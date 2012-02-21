@@ -1,0 +1,20 @@
+<!ENTITY boinc              "boinc">
+<!ENTITY boinccmd           "boinccmd">
+<!ENTITY boincmgr           "boincmgr">
+<!ENTITY cmd_boinc          "<command>&boinc;</command>">
+<!ENTITY cmd_boinccmd       "<command>&boinccmd;</command>">
+<!ENTITY cmd_boincmgr       "<command>&boincmgr;</command>">
+<!ENTITY gnu                "<acronym>GNU</acronym>">
+<!ENTITY man_boinc          "<citerefentry>
+                               <refentrytitle>&boinc;</refentrytitle>
+                               <manvolnum>1</manvolnum>
+                             </citerefentry>">
+<!ENTITY man_boinccmd       "<citerefentry>
+                               <refentrytitle>&boinccmd;</refentrytitle>
+                               <manvolnum>1</manvolnum>
+                             </citerefentry>">
+<!ENTITY man_boincmgr       "<citerefentry>
+                               <refentrytitle>&boincmgr;</refentrytitle>
+                               <manvolnum>1</manvolnum>
+                             </citerefentry>">
+<!ENTITY rpc_port           "31416">

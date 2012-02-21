@@ -1,0 +1,152 @@
+//                                                                            
+//  IIIIIII SSSSSS                                                            
+//    II    SS                          InstallShield (R)                     
+//    II    SSSSSS      (c) 1996-2002, InstallShield Software Corporation     
+//    II        SS                     All rights reserved.             
+//  IIIIIII SSSSSS                  
+//                                                                            
+//                                                                            
+//  This template script provides the code necessary to build an entry-point 
+//  function to be called in an InstallScript custom action.   
+//  Two major functions: 
+//  CheckUnitedDevices: Check whether there is a previous World Community Agent ( United Devices)
+//  DeleteUnitedDevices: Delete United Devices 
+//                                                                            
+//                                                                            
+//    File Name:  Setup.rul                                                   
+//                                                                            
+//  Description:  InstallShield script                                        
+//
+////////////////////////////////////////////////////////////////////////////////
+  
+
+// Include Ifx.h for built-in InstallScript function prototypes, for Windows 
+// Installer API function prototypes and constants, and to declare code for 
+// the OnBegin and OnEnd events.
+#include "ifx.h"
+ 
+//including constants
+#include "constants.rul"     
+
+// Include header file for built-in functions
+#include "isrt.h"
+// Include header file for MSI API functions and constants
+#include "iswi.h"               
+
+
+    // The keyword export identifies the function as an entry-point function.
+    // The argument it accepts must be a handle to the Installer database.
+    export prototype DeleteUnitedDevices(HWND);  
+    export prototype CheckUnitedDevices(HWND);
+    // To Do:  Declare global variables, define constants, and prototype user-
+    //         defined and DLL functions here.
+      
+      
+// To Do:  Create a custom action for this entry-point function:
+// 1.  Right-click on "Custom Actions" in the Sequences/Actions view.
+// 2.  Select "Custom Action Wizard" from the context menu.
+// 3.  Proceed through the wizard and give the custom action a unique name.
+// 4.  Select "Run InstallScript code" for the custom action type, and in
+//     the next panel select "DeleteUnitedDevices" (or the new name of the entry-
+//     point function) for the source. 
+// 5.  Click Next, accepting the default selections until the wizard 
+//     creates the custom action.
+//
+// Once you have made a custom action, you must execute it in your setup by 
+// inserting it into a sequence or making it the result of a dialog's 
+// control event.
+
+///////////////////////////////////////////////////////////////////////////////
+//                                                                           
+// Function:  DeleteUnitedDevices
+//                                                                           
+//  Purpose:  This function will be called by the script engine when 
+//            Windows(TM) Installer executes your custom action (see the "To 
+//            Do," above).
+//			  This Script is used to delete United Devices
+//                                                                           
+///////////////////////////////////////////////////////////////////////////////
+function DeleteUnitedDevices(hMSI)   
+    // To Do:  Declare local variables.    
+ 	   STRING svName;
+       NUMBER nvSize;   
+       
+begin
+  //   MsiSetProperty(hMSI, "UDProcess", "NotDoneUD");         
+     RegDBSetDefaultRoot ( HKEY_LOCAL_MACHINE );    
+    
+    // Script that will be executed when DeleteUnitedDevices is called.
+    ////////////////////////////////////////////////////////////////////////////////
+      nvSize = 256;
+              
+//    if (RegDBKeyExist (WCG_UD_KEY) < 0) then
+//        MessageBox (NO_UD_MSG+"ininstallscriptsetup", SEVERE);
+//    else
+  
+     //	  LaunchApp(KILL_UD_PROCESS, KILL_UD_PROCESS_PARAM);
+          if (LaunchAppAndWait ("MsiExec.exe ", UD_UNINSTALL_PARAM,LAAW_OPTION_WAIT) < 0) then
+          	  MessageBox (UD_UNABLE_UNINSTALL_MSG, SEVERE);  
+          else 
+              MsiSetProperty(hMSI, "UDAVAILABLE", "No");
+          endif;
+     	       
+//    endif; 
+
+ //  	  MsiSetProperty(hMSI, "UDProcess", "DoneUD"); 
+// 	  MsiGetProperty(hMSI, "UDProcess",svName, nvSize);
+//    MessageBox ("the value of the UDPRocess in checkud function is "+svName+" for testing", INFORMATION);  
+      
+      
+end;
+
+
+      
+// To Do:  Create a custom action for this entry-point function:
+// 1.  Right-click on "Custom Actions" in the Sequences/Actions view.
+// 2.  Select "Custom Action Wizard" from the context menu.
+// 3.  Proceed through the wizard and give the custom action a unique name.
+// 4.  Select "Run InstallScript code" for the custom action type, and in
+//     the next panel select "checkUnitedDevices" (or the new name of the entry-
+//     point function) for the source. 
+// 5.  Click Next, accepting the default selections until the wizard 
+//     creates the custom action.
+//
+// Once you have made a custom action, you must execute it in your setup by 
+// inserting it into a sequence or making it the result of a dialog's 
+// control event.
+
+///////////////////////////////////////////////////////////////////////////////
+//                                                                           
+// Function:  CheckUnitedDevices
+//                                                                           
+//  Purpose:  This function will be called by the script engine when 
+//            Windows(TM) Installer executes your custom action (see the "To 
+//            Do," above).
+//			  This Script is used to check whether United Devices is present
+//                                                                           
+//////////////////////////////////////////////////////////////////////////////
+function CheckUnitedDevices(hMSI)   
+    // To Do:  Declare local variables.    
+ 	   STRING svName1;       
+       NUMBER nvSize;
+
+begin  
+           
+     RegDBSetDefaultRoot ( HKEY_LOCAL_MACHINE );    
+     nvSize = 256;
+    // Script that will be executed when CheckUnitedDevices is called.
+    ////////////////////////////////////////////////////////////////////////////////
+       MsiSetProperty(hMSI, "UDAVAILABLE", "dontknow"); 
+     if (RegDBKeyExist (WCG_UD_KEY) < 0) then
+ //       MessageBox (NO_UD_MSG, SEVERE);
+        MsiSetProperty(hMSI, "UDAVAILABLE", "No"); 
+     else 
+        MsiSetProperty(hMSI, "UDAVAILABLE", "Yes"); 
+     endif;   
+     MsiGetProperty(hMSI, "UDAVAILABLE",svName1, nvSize);
+     //MessageBox ("the value of the CheckedUD is "+svName1+" for testing", INFORMATION);
+ //    MsiSetProperty(hMSI, "UDProcess", "DoneUD");     
+  //   MsiGetProperty(hMSI, "UDProcess",svName1, nvSize);
+     // MessageBox ("the value of the UDPRocess in checkud function is "+svName1+" for testing", INFORMATION);  
+end;  
+   

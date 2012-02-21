@@ -1,0 +1,799 @@
+DEPRECATED - the samples directory is now part of the BOINC tree
+
+David  7 April 2006
+    - extended upper_case so that it draws graphics
+        (text, image, bouncing ball)
+        NOTE: to get this to work, you have to put in your build dir:
+            - file called "logo.jpg" (the image)
+            - Helvetica.txf
+            - a file called "in" (any old text)
+    - added text functions to library
+
+    uppercase/
+        upper_case.C
+    win_build/
+        libboincapi.vcproj
+
+Charlie 11 April 2006
+    - Mac: updated XCode project for upper_case
+
+    mac_build/
+        UpperCase.xcodeproj/
+            project.pbxproj
+
+David  12 Apr 2006
+    - split out graphics code into separate file
+
+    uppercase/
+        uc_graphics.C (new)
+        upper_case.C
+    win_build/
+        upper_case.vcproj
+
+David  13 Apr 2006
+    - got graphics to work under Linux; added a Makefile
+
+    uppercase/
+        Makefile (new)
+        README (new)
+        upper_case.C
+
+David  13 Apr 2006
+    - handle mouse events
+
+    uppercase/
+        uc_graphics.C
+
+David  21 Apr 2006
+    - resolve logo filename
+
+    uppercase/
+        uc_graphics.C
+        upper_case.C
+
+
+Charlie 27 April 2006
+    - Mac: updated XCode project for upper_case, fixed 
+        jconfig.h to be cross-platform.  upper_case now 
+        works fully on Intel and PowerPC Macs.
+    
+    jpeglib/
+        jconfig.h
+    mac_build/
+        UpperCase.xcodeproj/
+            project.pbxproj
+
+David  29 Apr 2006
+    - use project preferences (<color_scheme>) for graphics color
+    - remove -exit, -signal options from upper_case
+
+    uppercase/
+        uc_graphics.C
+        upper_case.C
+
+David  1 May 2006
+    - implement boinc_reread_prefs()
+
+    uppercase/
+        uc_graphics.C
+
+David  26 May 2006
+    - Added sleeper application (to test non-CPU-intensive features)
+
+    sleeper/
+        sleeper.C
+        Makefile
+
+David  29 May 2006
+    - moved wrapper application here from boinc/apps
+
+    win_build
+        sleeper.vcproj
+        wrapper.vcproj
+    wrapper/
+        wrapper.C
+        Makefile
+
+Rom    31 May 2006
+    - Demonstrate delay load functionality on graphics libraries for Windows.
+    
+    uppercase/
+        uc_graphics.C
+
+David  13 June 2006
+    - Added "worker" (for testing wrapper)
+
+    worker/
+        Makefile
+        worker.C
+
+David  13 June 2006
+    - added Win project file for worker,
+        fixed names in project files, got stuff to compile
+
+    uppercase/
+        upper_case.C
+    win_build/
+        samples.sln
+        sleeper.vcproj
+        worker.vcproj (new)
+    worker/
+        worker.C
+    wrapper/
+        wrapper.C
+
+David  14 June 2006
+    - debugged and updated "wrapper" program.
+        It works now, more or less, on Windows.
+        - wrapper no longer copies input/output files.
+            You must use the <copy_file/> attribute
+            in the file reference instead.
+        - attempted to have wrapper pass stderr handle to worker
+            (Windows).  Doesn't work yet.
+
+    worker/
+        worker.C
+    wrapper/
+        wrapper.C
+
+David  16 June 2006
+    - generalized wrapper.C so task descriptions are kept in structs;
+        changed format of job file
+        (suggested by Janus)
+
+    wrapper/
+        Makefile
+        wrapper.C
+
+David  12 Aug 2006
+    - wrapper: add support for stdin/stdout files
+        (adapted from Eric Myers)
+    - changed project files to VS 2005
+
+    win_build/
+        *.vcproj
+    wrapper/
+        wrapper.C
+
+David  16 Aug 2006
+    - wrapper: get it to compile on Win, and fix XML parsing
+
+    wrapper/
+        wrapper.C
+
+David  9 Sept 2006
+    - change wrapper to use new XML parser
+
+    wrapper/
+        wrapper.C
+
+David  11 Sept 2006
+    - added library dependencies to makefiles
+
+    uppercase/Makefile
+    sleeper/Makefile
+    worker/
+        Makefile
+        worker.C
+    wrapper/Makefile
+
+David  11 Sept 2006
+    - include all apps in VS solution
+
+    win_build/samples.sln
+
+David  26 Sept 2006
+    - close state file in uppercase (from Ian/Tigher)
+
+    uppercase/
+        upper_case.C
+
+David  4 Nov 2006
+    - uppercase: call boinc_graphics_possible() instead of
+        using a bunch of mysterious inline code.
+        This is supposed to be a good example, not a bad one.
+
+    uppercase/
+        upper_case.C
+
+Rom    6 Nov 2006
+    - Checkin VS 2003 project files.
+
+David  8 Nov 2006
+    - The upper_case project file (but not the others)
+        needs GDI32.DLL;OPENGL32.DLL;GLU32.DLL in its list
+        of Delay Loaded DLLs (Linker properties),
+        and delayimp.lib in its Additional Dependencies
+
+    uppercase/
+        logo.jpg (new)
+
+David  23 Nov 2006
+    - don't include util.h in worker.C!
+    - fix win compile
+
+    worker/
+        worker.C
+
+David  24 Nov 2006
+    - change "worker" to use stdin/stdout
+    - change "worker" to take nsec CPU arg
+    - add example job file
+
+    worker/
+        worker.C
+    wrapper/
+        job.xml
+
+David  25 Nov 2006
+    - wrapper: redirection of stdin/stdout wasn't
+        working correctly on Windows.
+        Need to open files with CreateFile().
+
+    win_build/
+        samples.sln
+    wrapper/
+        wrapper.C
+
+David  5 Dec 2006
+    - changed upper_case options to -early_crash
+        -early_exit
+
+    uppercase/
+        upper_case.C
+
+David  8 Dec 2006
+    - added -early_sleep option to upper_case
+        (for debugging core client)
+
+    uppercase/
+        uc_graphics.C
+        upper_case.C
+
+David  18 Dec 2006
+    - compile fix
+
+    win_build/
+        libboinc_vcproj
+
+David  27 Dec 2006
+    - comment out boinc_graphics_possible() call
+    
+    uppercase/
+        upper_case.C
+
+David  11 Jan 2007
+    - upper_case: if checkpoint found,
+        truncate the output file to the indicated size.
+        Otherwise a checkpoint/restart generally produces a bad result.
+
+    uppercase/
+        upper_case.C
+
+David  21 Feb 2007
+    - compile fixes
+
+    sleeper/
+        sleeper.C
+    uppercase/
+        upper_case.C
+    win_build/
+        libboinc.vcproj
+    wrapper/
+        wrapper.C
+
+David  20 Mar 2007
+    - wrapper (Unix) get actual CPU time of child (not wall time)
+    - uppercase (Unix): change makefile to work on FC6
+
+    uppercase/
+        Makefile
+        uc_graphics.C
+    wrapper/
+        wrapper.C
+
+David  20 Mar 2007
+    - wrapper (Unix): use more efficient way of getting CPU time
+
+    wrapper/
+        wrapper.C
+
+David  26 Apr 2007
+    - wrapper: pass wrapper's command-line args to application,
+        after those in the job file (if any).
+        This lets you pass different command-line args to the app
+        for different workunits,
+        without creating a new app version per workunit.
+
+    NOTE: actually, I don't think this is necessary;
+    the job file can be part of the workunit, not part of the app version.
+
+    wrapper/
+        wrapper.C
+
+Rom    9 May 2007
+    - Update Windows build files so that the advanced features of
+        Visual Studio can be supported, like building multiple binaries
+        at a time.
+
+    win_build/
+        *.vcproj
+
+David  22 May 2007
+    - add version 6-style app
+
+    example_app/
+        Makefile
+        uc2.C
+        uc2_graphics.C
+
+David  22 May 2007
+    - first stab at getting it to work on Win
+
+    win_build/
+        libboincapi.vcproj
+        libgraphics2.vcproj (new)
+        samples.sln
+        uc2.vcproj (new)
+        uc2_graphics.vcproj (new)
+
+David  23 May 2007
+    - version 6 example app works on Win
+
+    example_app/
+        uc2.C
+        uc2.h (new)
+        uc2_graphics.C
+        win_build/
+            libgraphics2.vcproj
+            samples.sln
+            uc2.vcproj
+            uc2_graphics.vcproj
+
+David  23 May 2007
+    - version 6 example app works on Linux
+
+    example_app/
+        uc2.h
+    uppercase/
+        Makefile
+
+David  28 May 2007
+    - Wrapper can handle multiple tasks
+
+    wrapper/
+        job.xml
+        wrapper.C
+
+David  8 June 2007
+    - Wrapper: use default diag options
+
+    wrapper/
+        wrapper.C
+
+David  8 June 2007
+    example_app/
+        uc2.C,h
+        uc2_graphics.C
+
+David  13 June 2007
+    - wrapper: set thread priority of worker processes
+        to IDLE class (Win);
+        set prior of worker processes to PROCESS_IDLE_PRIORITY (Unix)
+
+    uppercase/
+        upper_case.C
+    wrapper/
+        wrapper.C
+
+David  19 June 2007
+    example_app/
+        uc2_graphics.C
+
+David  28 June 2007
+    - wrapper: report CPU time correctly when >1 job
+
+    wrapper/
+        wrapper.C
+
+David  17 July 2007
+    - fix fraction done for uppercase.
+        fixes #341
+
+    uppercase/
+        upper_case.C
+
+David  20 July 2007
+    - example_app: #ifdef graphics stuff so we can use this in boinc/apps
+
+    example_app/
+        Makefile
+        uc2.C
+
+Charlie 29 Aug 2007
+    - Mac: new XCode project for version 6 example_app.
+
+    mac_build/
+        UpperCase2.xcodeproj/
+            project.pbxproj
+
+David  17 Aug 2007
+    - project file fix
+
+    win_build/
+        libgraphics2.vcproj
+
+Charlie 29 Aug 2007
+    - Mac: new XCode project for version 6 example_app.
+    - Mac example_app: Redirect stderr to gfx_stderr.txt so we have a way 
+        to get error messages from system for graphics app; fix bugs.
+        
+    example_app/
+        uc2_graphics.C
+    mac_build/
+        UpperCase2.xcodeproj/
+            project.pbxproj
+
+Charlie 2 Sep 2007
+    - Mac: remove jpeg sources from worker app in example_app XCode project.
+    - example_app: put boinc_graphics_get_shmem in main graphics loop to 
+         retry if worker application has not yet created shared memory.
+        
+    example_app/
+        uc2_graphics.C
+    mac_build/
+        UpperCase2.xcodeproj/
+            project.pbxproj
+
+Charlie 4 Sep 2007
+    - Mac: redirect stderr only on Development builds so as not to violate 
+        sandbox security.
+
+    example_app/
+        uc2_graphics.C
+    mac_build/
+        UpperCase2.xcodeproj/
+            project.pbxproj
+
+David  12 Sept 2007
+    - uppercase: fix crash in standalone mode
+    - wrapper: fix append mode in win_fopen()
+
+    uppercase/
+        uc_graphics.C
+    wrapper/
+        wrapper.C
+
+David  20 Sept 2007
+    - wrapper: fix append mode in win_fopen() (2nd try)
+
+    wrapper/
+        wrapper.C
+
+Charlie 25 Sep 2007
+    - example_app: Set backwards_compatible_graphics" flag.
+    - example_app: Port David's crash fix of 12 Sept into uc2_graphics.C.
+    
+    example_app/
+        uc2.C
+        uc2_graphics.C
+
+David  26 Sept 2007
+    - example_app: don't set above flag (it's set by default now)
+
+    example_app/
+        uc2.C
+
+David  26 Sept 2007
+    - minor stuff
+
+    example_app
+        uc2.C
+        uc2_graphics.C
+
+Charlie 27 Sep 2007
+    Mac: remove "-DAPP_GRAPHICS" from XCode project C flags to fix a 
+        compiler warning now that it is defined in the source file.
+    
+    mac_build/
+        UpperCase2.xcodeproj/
+            project.pbxproj
+
+David  27 Nov 2007
+    - wrapper, Win: if GetProcessTimes() fails (which it does on Win 98/ME),
+        use wall CPU time as estimate of CPU time
+
+    wrapper/
+        wrapper.C
+
+Charlie 28 Nov 2007
+    Mac: Add x86_64_Deployment build configuration to XCode project for use 
+        with V6 Clients running under OS 10.5 on 64-bit capable Intel Macs.
+    
+    mac_build/
+        UpperCase2.xcodeproj/
+            project.pbxproj
+
+David  6 Jan 2008
+    - small bug fix
+
+    wrapper/
+        wrapper.C
+
+David  28 Jan 2008
+    - example app: parse <max_frames_sec> and <max_gfx_cpu_pct>
+        from project-specific prefs.  This gives the user a couple
+        of ways of limiting CPU usage for graphics.
+    - example app: define APP_GRAPHICS in project file, not source
+
+    example_app/
+        uc2.C
+        uc2_graphics.C
+
+Charlie 19 Feb 2008
+    Mac: Restore "-DAPP_GRAPHICS" to XCode project C flags.
+    
+    mac_build/
+        UpperCase2.xcodeproj/
+            project.pbxproj
+
+Charlie 21 Feb 2008
+    Mac: Add an application icon to example_app graphics application.
+    
+    example_app/
+        uc2_graphics.C
+        mac/
+            uc2_graphics.icns
+            app_icon.h    
+
+David  6 Mar 2008
+    - wrapper: if a child exits with nonzero status X,
+        call boinc_finish() with ERR_CHILD_FAILED rather than X.
+        If X is zero in the low-order byte
+        (e.g. if the program isn't executable)
+        the BOINC client will restart us, which isn't what we want.
+
+    wrapper/
+        wrapper.C
+
+David  6 Mar 2008
+    - wrapper (Win): suspend or resume all the threads in an app,
+        not just the initial one.
+    - wrapper: merge app_suspended and TASK::suspended variables
+
+    wrapper/
+        wrapper.C
+
+David  6 Mar 2008
+    - Wrapper (Mac): use elapse wall time as CPU time;
+        there's no easy way to get another process's CPU time in Mac OS X
+
+    wrapper/
+        wrapper.C
+
+David  9 Mar 2008
+    - wrapper: compile fixes for Mac
+
+    wrapper/
+        wrapper.C
+
+Charlie 11 Mar 2008
+    - UpperCase: delete XCode project for deprecated uppercase application.
+    
+    mac_build/
+        UpperCase.xcodeproj/ (removed)
+            project.pbxproj  (removed)
+
+Rom    13 Mar 2008
+    - Uppercase: Initialize the diagnostics framework for graphics
+        application.
+
+    example_app/
+        uc2_graphics.C
+
+David  14 Mar 2008
+    - added example multi-thread application
+
+    multi_thread/
+        Makefile
+        multi_thread.C
+
+David  14 Mar 2008
+    - get multi_thread to work on Windows, and fix it up
+
+    multi_thread/
+        multi_thread.C
+    win_build/
+        multi_thread.vcproj (new)
+        samples.sln
+
+David  17 Mar 2008
+    - multi_thread: default to 1 thread; print to stderr at end
+
+    multi_thread/
+        multi_thread.C
+
+David  20 Mar 2008
+	- multi-thread: the Windows version was running unexpectedly fast.
+		It turned out that the VS2005 C++ compiler was noticing
+		that giga_flop() didn't use any inputs or globals,
+		so it was caching its value after the first run.
+		Very impressive!
+
+    multi_thread/
+        multi_thread.C
+	win_build/
+		multi_thread.vcproj
+
+Charlie 25 Mar 2008
+    - example_app: Create Mac makefile and build script to demonstrate 
+        building project applications for the Mac using makefiles.
+    
+    example_app/
+        Makefile_mac (new)
+        MakeMacExample.sh (new)
+
+Charlie 26 Mar 2008
+    - example_app: Update Mac makefile and build script, create second, 
+        stand-alone makefile to demonstrate another way to build Mac 
+        applications.
+    
+    example_app/
+        Makefile_mac
+        Makefile_mac2 (new)
+        MakeMacExample.sh
+
+David  27 Mar 2008
+    - multi_thread: maintain fraction done;
+        get nthreads from command line, not init file
+
+    multi_thread/
+        multi_thread.C
+
+Charlie 28 Mar 2008
+    - example_app: Fixes to Mac build script.
+    
+    example_app/
+        MakeMacExample.sh
+
+David  28 Mar 2008
+    - multi_thread: suspend/resume didn't work in the Unix implementation.
+        REMINDER TO SELF: you can't suspend or resume pthreads - period.
+        So I changed things so that in the Unix implementation,
+        we fork a second process, in which the threads run.
+        The first process handles suspend/resume messages
+        by signaling the 2nd process.
+        The 2nd process generates system messages (frac done, CPU time)
+    
+    multi_thread/
+        multi_thread.C
+
+David  31 Mar 2008
+    - example graphics app: if no heartbeat, quit after 5 seconds
+
+    example_app/
+        uc2_graphics.C
+
+
+Charlie 1 Apr 2008
+    - example_app: Remove -fvisibility* compiler flags from all 3 Mac build 
+        methods.
+    
+    example_app/
+        Makefile_mac2
+        MakeMacExample.sh
+    mac_build/
+        UpperCase2.xcodeproj/
+            project.pbxproj
+
+Rom    8 May 2008
+    - Uc2 - Change the call to diagnostics_init to boinc_init_graphics_diagnostics
+        for the graphics application.
+        
+    example_app/
+        uc2_graphics.C
+
+Rom    8 May 2008
+    - Example_App - Rename Uc2 stuff to example_app stuff.
+    
+    win_build/
+        <various Files>
+
+David  8 May 2008
+    - uppercase: use binary output mode on Win,
+        otherwise results don't match.
+    - graphics app: call boinc_finish_diag() instead of diagnostics_finish()
+        (API calls should start with boinc_;
+        it would be nice it the init/finish names matched)
+
+    example_app/
+        uc2_graphics.C
+        uc2.C
+
+David  14 May 2008
+	- uppercase: borrow CPU-burning routine from multithread
+		(won't be optimized out)
+
+	example_app/
+		uc2.C
+
+David  16 May 2008
+    - wrapper: when run a job, write program name and cmdline to stderr
+
+    wrapper/
+        wrapper.C
+
+David  10 June 2008
+    - graphics: if no graphics app is running,
+        don't bother updating shmem
+        (not important in the example app,
+        but a useful technique if updating the shmem is expensive)
+
+    example_app/
+        uc2.C,h
+        uc2_graphics.C
+
+David  17 June 2008
+    - wrapper: add two new features.
+        1) each task can include a <weight> (double, default=1).
+            The task's contribution to total fraction done is
+            proportional to the weight.
+        2) each task can include a <checkpoint_filename> (string)
+            This names a checkpoint file used by the app.
+            If its mod time changes, we'll assume a checkpoint
+            has been done and notify the client.
+
+    wrapper/
+        wrapper.C
+
+David  18 June 2008
+    - change name of exit code
+
+    wrapper/
+        wrapper.C
+
+David  18 June 2008
+    - wrapper: replace $PROJECT_DIR with project dir in task command lines
+    - wrapper: if program name starts with $PROJECT_DIR,
+        substitute with project dir and treat as physical name
+
+    wrapper/
+        wrapper.C
+
+David  18 June 2008
+    - wrapper: Win: change slashes to backslashes in executable path
+
+    wrapper/
+        wrapper.C
+
+David  19 June 2008
+	- wrapper, Win: put quotes around program name in command-line arg
+		to CreateProcess() (in case it contains spaces)
+	- wrapper: close files
+
+	wrapper/
+		wrapper.C
+
+David  26 June 2008
+    - wrapper: added --graphics cmdline arg.
+        Use this if your app has a graphics app.
+
+    wrapper/
+        wrapper.C
+
+David  27 July 2009
+	- example app: fix a bug in June 10 checkin.
+		If we don't update the update_time field,
+		the graphics app will immediately exit.
+
+	example_app/
+		uc2.C
+		uc2_graphics.C
+
+Charlie 11 Feb 2009
+    - Mac Samples: adjust XCode project for current source file names 
+        (*.cpp instead of *.C).
+
+    samples/
+        mac_build/
+            UpperCase2.xcodeproj

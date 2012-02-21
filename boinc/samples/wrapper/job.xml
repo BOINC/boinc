@@ -1,0 +1,14 @@
+<job_desc>
+    <task>
+        <application>worker</application>
+        <stdin_filename>stdin</stdin_filename>
+        <stdout_filename>stdout</stdout_filename>
+        <command_line>10</command_line>
+    </task>
+    <task>
+        <application>worker2</application>
+        <stdin_filename>stdin2</stdin_filename>
+        <stdout_filename>stdout2</stdout_filename>
+        <command_line>10</command_line>
+    </task>
+</job_desc>

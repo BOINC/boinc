@@ -1,0 +1,210 @@
+HIGH-PRIORITY (must be done to support SETI@home)
+
+- proxy support
+    HTTP, Socks
+    Look at other open source code
+
+- team system
+    in PHP
+    In progress - Barry
+
+- credit display
+    in PHP
+    In progress - Barry
+
+- CPU accounting in the presence of checkpoint/restart (Michael)
+    core client periodically gets CPU time, accumulates in state file
+    In progress - Michael
+
+- test versioning mechanisms for core
+    Idea: need to notify user if core becomes out of date.
+    Send messages if either
+    1) some WU couldn't be sent because core is too old
+    2) no WUs could be sent because core is too old
+
+- Think about issues in update core client
+    What if state file is incompatible?
+    What if app versions are incompatible?
+
+- test reporting of app errors
+
+- complete client side and test hi/lo water mark scheme (Michael)
+    - initialize rsc_fpops and rsc_iops in client WORKUNIT 
+    - check server sends correct number of work units
+    - check client requests correct number of seconds of work
+    In progress - Michael
+
+- measure hardware parameters: CPU speed, #CPUs, memory, disk
+    - define CPU benchmarks
+    - do this for other platforms
+    - Get info periodically rather than always at startup
+
+- implement graphics system
+    Basic idea: core client passes prefs to app,
+        recommended size and frame rate, etc.
+    - X11 version
+    - Win32-based version
+    - Mac OS X version
+
+- GUI and screensaver around core client
+    design default (core client) display
+    screensaver options
+        move around screen?
+    system tray icon behavior
+
+- get idle-only behavior without screensaver
+    Windows
+    UNIX
+
+- sched server should return total credit info (user, team?)
+    could display in default core client display
+
+- edit user account
+
+- more robust XML parsing functions
+--------------------------
+MEDIUM-PRIORITY (must be done for CM)
+
+- review and complete documentation (see end of TODO list)
+
+- test sticky files
+
+- test multiple-file applications
+    change add.C to support multi-file applications
+
+- implement WU/result sequences
+
+- decide on action when speed_tests detect a calculation inconsistency
+
+- write functions to determine amount of disk space currently used by BOINC
+
+- implement user specified disk space limits, including actions to perform
+  when space limit is hit
+
+- Implement functionality to write client_state file (and other files?) no more than every X seconds
+
+--------------------------
+LOW-PRIORITY
+
+- implement and test the batch mechanism
+
+- test environment-var mechanism
+
+- test alpha/beta/prod for apps
+
+- test on a multiprocessor
+
+- define logging system on client
+
+- server-side estimates of WU time requirements
+    - DB entry for WU has int/FP/RAM/disk/net
+
+- server sends only feasible WUs
+    - limit by RAM, disk
+    - test
+
+- implement file upload/download requests
+    This can be done in the current WU/result paradigm;
+    WU has a special "null" application
+    use sticky input files to download;
+    use upload-when-done output files to upload
+
+- preferences
+    finish PHP web interface
+    specific preferences:
+        disk usage
+            % of free space?
+            all except X GB?
+            X GB?
+        minimum checkpoint interval
+        max bytes upload/download per day
+            implement in client
+        hours/days to communicate/compute
+            implement in client
+        control over priorities?
+    
+- define a notion of "app preferences": arbitrary XML edited on server,
+    passed to app client.
+    This could be used to e.g. select a color scheme for graphics
+    Could pass entire prefs?
+
+- NET_XFER_SET:: do_select: prevent one stream from starving others
+
+- add the ability to store input data directly in WU,
+    and output directly in result (blob).
+    For projects with small data.
+
+- add a handler for SIGTERM that calls exit_tasks and makes sure state files
+    are written. 
+
+--------------------------
+DONE (may need test)  Please document these!
+
+- implement checkpoint/restart for file transfers
+    use features of HTTP 1.1
+    Return an error to server if transfer fails
+    (store in DB in server)
+    - completed by Eric (needs to be tested)
+
+- File retry policies
+    can't download file: when to give up? how to retry?
+        exponential backoff
+    can't upload file: when to give up/retry?
+    To be tested - Eric
+
+- scheduler RPC retry
+    can't connect to sched server
+    error return from sched server
+    To be tested - David
+
+- Code-signing
+    To be tested - David
+
+- Upload authentication (David)
+    Each result contains a "certificate", signed with project key, giving
+        - list of: file name, max size
+        - min, max times to xfer
+    modify put program to decrypt certificate, enforce name/size/time limits
+    To be tested - David
+
+- make scheduling server use fast CGI
+    To be tested - Michael
+
+- Test HTTP redirect mechanism for all types of operations (POST, GET, HEAD, etc)
+
+- mechanism for returning app stderr output to server? store in blob?
+
+- add size to FILE_INFO
+    server, client sides
+
+- measure bandwidth on each network xfer
+    maintain exponential average, weighted by #bytes xferred
+
+- make scheduling server work with fast cgi
+
+- high and low water marks implemented
+
+- Think about making the set of scheduling servers dynamic
+    one approach: allow "redirect" reply from server
+        (requires old address to still work)
+    second approach: "master URL"
+        returns a file with list of scheduler address
+        and email address of "problems" contact
+
+- core client / app trigger file interface
+    core->app
+        init:
+            app preferences
+            recommended graphics size
+            recommended frame rate
+            recommended checkpoint period
+        dynamic:
+            whether to do graphics
+            exit
+    app->core
+        init:
+            actual graphics size
+        dynamic:
+            % done
+            I just checkpointed
+

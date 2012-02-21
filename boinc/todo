@@ -1,0 +1,280 @@
+XML export: don't subdivide into files
+anonymous platform mechanism
+    (would let people run BOINC on platforms not registered on server)
+    - allow <anonymous_platform> element in sched req
+        req includes list of app_versions
+    - add mechanism to core client for adding app_versions
+port graphics API to X
+    CLI core interface:
+        --show slotnum or --show all
+document update_versions
+reject spamming clients w/o DB lookup
+message window is slightly scrolled
+Don't render graphics if minimized
+add executable approval to win GUI
+add a mechanism for server to send messages to client, shown in graphics
+    use "external app" mechanism (Karl)?
+------------------------
+DON'T ADD ANYTHING TO HERE.  USE THE TASKBASE INSTEAD.
+
+encrypt IDs in URLs (e.g. host)
+
+Use GlobalMemoryStatusEx when possible on Windows
+Take p_ncpus into account when assigned work to a host
+File upload handler should check for disk full,
+    return transient error, alert admins
+If there are no active tasks, should start downloading
+    only the files for a particular result (avoid idle CPU)
+Scheduler: don't send results whose deadlines will be missed.
+    This must take into account:
+    - pending work on host
+    - speed of host
+    - active fraction of host
+    - network speed of host
+    - results already in reply
+Web site:
+    show mean, stddev of stats of active hosts
+    show max potential cobblestones (and percentage achieved)
+Web site:
+    show table of size, MD5 of all executable files
+    break down by platform
+Each RPC should contain a list of projects the host is attached to,
+    and their resource shares
+Add field to user for the above list
+Show above info on the web site
+Implement coprocessor stuff (see platform.html)
+    add platform_details field to client state file
+    pass it in to every app
+    app can modify it if it wants
+    send back platform_details field with RPC
+    store in host table (and in result? make new host if it changes?)
+add disk_avail field to host
+    send in RPC
+    use this in scheduling
+Make sure "update prefs" works even if suspended
+In GUI, show "suspended" on tasks and transfers if suspended
+Clarify once and for all messages and other logs on Windows;
+    policy for truncating log files?
+
+-----------------------
+BUGS (arranged from high to low priority)
+-----------------------
+
+- reset/quit
+    - Resetting project should delete old project files
+
+-----------------------
+HIGH-PRIORITY (should do for beta test)
+-----------------------
+
+
+HTTP stuff
+    test HTTP redirect mechanism for all types of ops
+    finish SOCKS implementation, test
+    use HTTP 1.1
+    test w/ Apache 2.x
+
+
+-----------------------
+THINGS TO TEST (preferably with test scripts)
+-----------------------
+server stuff
+    implement server watchdogs
+
+Add project w/ bad URL or account ID should report error
+    test this on Win, UNIX
+
+backend stuff
+    - result reissue
+        (timeout_check should eventually create new results)
+    - WU failure: too many errors
+    - WU failure: too many good results
+    - credit is granted even if result arrives very late
+
+- shared memory and CPU time measurement, with and without the BOINC API
+    - ensure cpu time doesn't reset if app is killed rather than quitting
+    - CPU accounting in the presence of checkpoint/restart
+
+Platform-specific stuff
+    - timezone on all platforms
+    - make get_local_ip_addr() work in all cases
+
+per-WU limits
+    abort result if any file exceeds max_nbytes
+    max disk
+    max CPU
+    max VM size
+        abort app if excess memory used
+
+Windows screensaver functionality
+    idle-only behavior without screensaver - test
+
+-----------------------
+MEDIUM-PRIORITY (should do before public release)
+-----------------------
+
+add an RPC to verify an account ID (returns DB ID for user)
+    needed for multi-project stats sites
+
+implement a "fetch prefs" command (regular RPC w/o work request)
+
+all RPCs should return a "user-specific project URL"
+    to be used in GUI (might refer to user page)
+
+in GUI, project name should hyperlink to a project-specified URL
+    (typically user page for that project)
+
+let user choose language files in installation process
+
+write general language file manipulation functions
+
+use https to secure login pages, do we care about authenticator
+    being transmitted without encryption from the client?
+
+write docs for project management
+    how to start/stop server complex
+    what needs to be backed up and how
+
+account creation: show privacy/usage policies
+
+decide what to do with invalid result files in upload directory
+
+think about sh_fopen related functionality in BOINC client
+
+Implement FIFO mechanism in scheduler for results that can't be sent
+
+user profiles on web (borrow logic from SETI@home)
+
+Devise system for porting applications
+    password-protected web-based interface for
+    uploading app versions and adding them to DB
+    XXX should do this manually since need to sign
+
+Add 2-D waterfall display to Astropulse
+
+Deadline mechanism for results
+    - use in result dispatching
+    - use in file uploading (decide what to upload next)
+    - use in deciding when to make scheduler RPC (done already?)
+
+Testing framework
+    better mechanisms to model server/client/communication failure
+    better mechanisms to simulate large load
+    do client/server on separate hosts?
+
+CPU benchmarking
+    review CPU benchmarks - do they do what we want?
+    what to do when tests show hardware problem?
+    How should we weight factors for credit?
+    run CPU tests unobtrusively, periodically
+    check that on/conn/active fracs are maintainted correctly
+    check that bandwidth is measured correctly
+    measure disk/mem size on all platforms
+    get timezone to work
+
+Redundancy checking and validation
+    test the validation mechanism
+    make sure credit is granted correctly
+    make sure average, total credit maintained correctly for user, host
+
+Scheduler
+    Should dispatch results based on deadline?
+    test that scheduler estimates WU completion time correctly
+    test that scheduler sends right amount of work
+    test that client estimates remaining work correctly,
+        requests correct # of seconds
+    test that hi/low water mark system works
+    test that scheduler sends only feasible WUs
+
+Scheduler RPC
+    formalize notion of "permanent failure" (e.g. can't download file)
+    report perm failures to scheduler, record in DB
+    make sure RPC backoff is done for any perm failure
+        (in general, should never make back-to-back RPCs to a project)
+    make sure that client eventually reloads master URL
+
+Application graphics
+    finish design, implementation, doc, testing
+        size, frame rate, whether to generate
+    
+Work generation
+    generation of upload signature is very slow
+
+Add batch features to ops web
+
+The Windows installer sometimes leave boinc.# files in the BOINC
+directory.  This is likely due to the installer not being able to
+delete the old boinc.dll file
+
+If a client connects to the scheduling server using default prefs,
+use the stored user prefs for determining how much work to send
+
+get preferences works, but is slightly confusing - you have to go to
+projects, right click on "get preferences", and then exit/restart boinc
+before I get to see my new pretty underwater colors.
+
+"suspend" seems to suspend, but after restart the CPU time jumped up
+by a significant amount.  This is because Windows 9x uses GetTickCount
+for CPU time.
+
+"Retry transfers now" feature, especially for dialup users
+
+-----------------------
+LONG-TERM IDEAS AND PROJECTS
+-----------------------
+
+CPU benchmarking
+    This should be done by a pseudo-application
+    rather than by the core client.
+    This would eliminate the GUI-starvation problem,
+    and would make it possible to have architecture-specific
+    benchmarking programs (e.g. for graphics coprocessor)
+    or project-specific programs.
+
+investigate binary diff mechanism for updating persistent files
+
+verify support for > 4 GB files everywhere
+
+Local scheduling
+    more intelligent decision about when/what to work on
+    - monitor VM situation, run small-footprint programs
+        even if user active
+    - monitor network usage, do net xfers if network idle
+        even if user active
+
+The following would require client to accept connections:
+    - clients can act as proxy scheduling server
+    - exiting client can pass work to another client
+    - client can transfer files to other clients
+
+User/host "reputation"
+    keep track of % results bad, %results claimed > 2x granted credit
+    both per-host and per-user.
+    Make these visible to project, to that user (only)
+
+Storage validation
+    periodic rehash of persistent files;
+    compare results between hosts
+
+WU/result sequence mechanism
+    design/implement/document
+
+Multiple application files
+    document, test
+
+Versioning
+    think through issues involved in:
+    compatibility of core client and scheduling server
+    compatibility of core client and data server
+    compatibility of core client and app version
+    compatibility of core client and client state file?
+    Need version numbers for protocols/interfaces?
+    What messages to show user?  Project?
+
+Persistent files
+    test
+    design/implement test reporting, retrieval mechanisms
+    (do this using WU/results with null application?)
+
+NET_XFER_SET
+    review logic; prevent one stream for starving others

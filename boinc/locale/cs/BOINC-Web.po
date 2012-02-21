@@ -1,0 +1,1432 @@
+# BOINC web translation
+# Copyright (C) 2008-2009 University of California
+# This file is distributed under the same license as BOINC.
+# FileID  : $Id$
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
+"POT-Creation-Date: 2011-04-04 22:09 PDT\n"
+"PO-Revision-Date: 2011-12-31 14:21+0200\n"
+"Last-Translator: Martin <martin.suchan@email.cz>\n"
+"Language-Team: \n"
+"Language: cs\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
+"X-Generator: Pootle 2.1.6\n"
+"X-Poedit-SourceCharset: utf-8\n"
+"X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
+
+#: projects.inc:14
+msgid "Cognitive science and artifical intelligence"
+msgstr "Kognitivní vědy a umělá inteligence"
+
+#: projects.inc:17
+msgid "FreeHAL"
+msgstr "FreeHAL"
+
+#: projects.inc:19 projects.inc:254 projects.inc:290 projects.inc:297
+msgid "private"
+msgstr "soukromý"
+
+#: projects.inc:20
+msgid "Artificial intelligence"
+msgstr "Umělá inteligence"
+
+#: projects.inc:21
+msgid ""
+"Parse and convert semantic nets for use in FreeHAL, an artificial "
+"intelligence that uses semantic networks, stemmers, part of speech "
+"databases, and part of speech taggers in order to imitate human behavior in "
+"conversations."
+msgstr ""
+"Parsování a konverze sémantických sítí pro využití ve FreeHAL, umělé "
+"inteligenci využívající sémantické sítě, čističe, části hlasových databází a "
+"hlasových označovačů s cílem napodobit lidské chování při konverzaci."
+
+#: projects.inc:27
+msgid "Biology and Medicine"
+msgstr "Biologie a medicína"
+
+#: projects.inc:30
+msgid "POEM@HOME"
+msgstr "POEM@HOME"
+
+#: projects.inc:32
+msgid "University of Karlsruhe (Germany)"
+msgstr "Univerzita v Karlsruhe (Německo)"
+
+#: projects.inc:33
+msgid "Protein structure prediction"
+msgstr "Predikce struktury proteinů"
+
+#: projects.inc:34
+msgid ""
+"POEM@HOME uses a computational approach to predict the biologically active "
+"structure of proteins, to understand the signal-processing mechanisms when "
+"the proteins interact with one another, to understand diseases related to "
+"protein malfunction or aggregation, and to develop new drugs on the basis of "
+"the three-dimensions structure of biologically important proteins."
+msgstr ""
+"POEM@HOME využívá výpočetní přístup k předvídání biologicky aktivních "
+"proteinových struktur, k porozumnění mechanizmů zpracovávajících signály při "
+"vzájemné inerakci mezi proteiny, k porozumnění chorob vztahujících se k "
+"poruchám proteinů, nebo jejich agregaci a k vývoji nových léků na bázi "
+"třírozměrných struktur biologicky významných proteinů."
+
+#: projects.inc:38
+msgid "Docking@Home"
+msgstr "Docking@Home"
+
+#: projects.inc:40
+msgid "University of Delaware"
+msgstr "Univerzita v Delaware"
+
+#: projects.inc:41
+msgid "Study of protein - ligand interactions"
+msgstr "Studie proteinů - interakce ligandů"
+
+#: projects.inc:42
+msgid ""
+"Docking@Home has both bioscience and computer science goals. The project "
+"aims to further knowledge of the atomic details of protein-ligand "
+"interactions and, by doing so, will search for insights into the discovery "
+"of novel pharmaceuticals."
+msgstr ""
+"Docking@Home si klade cíle v oblasti jak biotechnologie, tak i informatiky. "
+"Cílem projektu je lepší porozumnění, jak fungují vztahy atomů u proteinových "
+"ligandů, čímž může tento projekt pomoci k objevení nových druhů léků."
+
+#: projects.inc:46
+msgid "GPUGrid.net"
+msgstr "GPUGrid.net"
+
+#: projects.inc:48
+msgid "Barcelona Biomedical Research Park (PRBB)"
+msgstr "Biomedicínský výzkumný park v Barceloně (PRBB)"
+
+#: projects.inc:49
+msgid "Molecular simulations of proteins"
+msgstr "Molekulární simulace proteinů"
+
+#: projects.inc:50
+msgid ""
+"GPUGrid.net opens novel computational scenarios by the first full-atom "
+"molecular dynamics code (CellMD) specially optimized to run on NVIDIA GPUs. "
+"New biomedical applications suddenly become possible giving a new role to "
+"computational biology for biomedical research."
+msgstr ""
+
+#: projects.inc:54
+msgid "Superlink@Technion"
+msgstr "Superlink@Technion"
+
+#: projects.inc:56
+msgid "Technion, Israel"
+msgstr "Technion - Izraelský technologický institut"
+
+#: projects.inc:57
+msgid "Genetic linkage analysis"
+msgstr "Analýza genetických vazeb"
+
+#: projects.inc:58
+msgid ""
+"Superlink@Technion helps geneticists all over the world find disease-"
+"provoking genes causing some types of diabetes, hypertension (high blood "
+"pressure), cancer, schizophrenia and many others."
+msgstr ""
+"Superlink@Technion pomáhá genetikům na celém světě nalézt geny vyvolávající "
+"cukrovku, vysoký krevní tlak, rakovinu, schizofrenii a mnoho dalších."
+
+#: projects.inc:70
+msgid "The Lattice Project"
+msgstr "The Lattice Project"
+
+#: projects.inc:72
+msgid ""
+"University of Maryland Center for Bioinformatics and Computational Biology"
+msgstr "Univerzita v Marylandu, centrum bioinformatiky a výpočetní biologie"
+
+#: projects.inc:73
+msgid "Life science research"
+msgstr "Výzkum životních věd"
+
+#: projects.inc:74
+msgid ""
+"The Lattice Project supplies computing power to scientists at the University "
+"of Maryland studying evolutionary relationships based on DNA sequence data; "
+"bacterial, plasmid, and virus protein sequences; and biological diversity in "
+"nature reserves. "
+msgstr ""
+
+#: projects.inc:78
+msgid "Malariacontrol.net"
+msgstr "Malariacontrol.net"
+
+#: projects.inc:80
+msgid "The Swiss Tropical Institute"
+msgstr "Švýcarský institut tropů"
+
+#: projects.inc:81
+msgid "Epidemiology"
+msgstr "Epidemiologie"
+
+#: projects.inc:82
+msgid ""
+"Simulation models of the transmission dynamics and health effects of malaria "
+"are an important tool for malaria control. They can be used to determine "
+"optimal strategies for delivering mosquito nets, chemotherapy, or new "
+"vaccines which are currently under development and testing.  Such modeling "
+"is extremely computer intensive, requiring simulations of large human "
+"populations with a diverse set of parameters related to biological and "
+"social factors that influence the distribution of the disease. "
+msgstr ""
+
+#: projects.inc:102
+msgid "Rosetta@home"
+msgstr "Rosetta@home"
+
+#: projects.inc:104
+msgid "University of Washington"
+msgstr "Washingtonská univerzita"
+
+#: projects.inc:105 projects.inc:113
+msgid "Biology"
+msgstr "Biologie"
+
+#: projects.inc:106
+msgid ""
+"Determine the 3-dimensional shapes of proteins in research that may "
+"ultimately lead to finding cures for some major human diseases. By running "
+"Rosetta@home you will help us speed up and extend our research in ways we "
+"couldn't possibly attempt without your help. You will also be helping our "
+"efforts at designing new proteins to fight diseases such as HIV, Malaria, "
+"Cancer, and Alzheimer's"
+msgstr ""
+
+#: projects.inc:110
+msgid "SIMAP"
+msgstr "SIMAP"
+
+#: projects.inc:112
+msgid "University of Vienna"
+msgstr "Vídeňská univerzita"
+
+#: projects.inc:114
+msgid ""
+"Calculate similarities between proteins. SIMAP provides a public database of "
+"the resulting data, which plays a key role in many bioinformatics research "
+"projects."
+msgstr ""
+"Počítá podobností mezi protejny. SIMAP poskytuje veřejnou databázi "
+"výsledných dat, které hrají klíčovou roli v mnoha bioinformatikckých "
+"výzkumných projektech."
+
+#: projects.inc:120
+msgid "Earth Sciences"
+msgstr "Vědy o Zemi"
+
+#: projects.inc:130
+msgid "Virtual Prairie"
+msgstr "Virtuální prérie"
+
+#: projects.inc:132
+msgid "University of Houston"
+msgstr "Univerzita v Houstonu"
+
+#: projects.inc:133
+msgid "Study of botanical ecosystems"
+msgstr "Studie botanických ekosystémů"
+
+#: projects.inc:134
+msgid ""
+"Provide ecological guidelines on the design of prairies with the best "
+"potential for water purification."
+msgstr ""
+"Poskytování ekologicko-metodických rad při navrhování prérií s co možná "
+"nejlepším potenciálem pro čištění vody."
+
+#: projects.inc:137
+msgid "Climateprediction.net"
+msgstr "Climateprediction.net"
+
+#: projects.inc:139
+msgid "Oxford University"
+msgstr "Oxfordská univerzita"
+
+#: projects.inc:140
+msgid "Climate study"
+msgstr "Studie klimatu"
+
+#: projects.inc:141
+msgid ""
+"Investigate the approximations that have to be made in state-of-the-art "
+"climate models. By running the model thousands of times we hope to find out "
+"how the model responds to slight tweaks to these approximations - slight "
+"enough to not make the approximations any less realistic. This will allow us "
+"to improve our understanding of how sensitive our models are to small "
+"changes and also to things like changes in carbon dioxide and the sulphur "
+"cycle. This will allow us to explore how climate may change in the next "
+"century under a wide range of different scenarios."
+msgstr ""
+
+#: projects.inc:148
+msgid "Astronomy/Physics/Chemistry"
+msgstr "Astronomie/Fyzika/Chemie"
+
+#: projects.inc:151
+msgid "eOn"
+msgstr "eOn"
+
+#: projects.inc:153
+msgid "University of Texas at Austin"
+msgstr "Texaská univerzita v Austinu"
+
+#: projects.inc:154 projects.inc:185 projects.inc:225
+msgid "Chemistry"
+msgstr "Chemie"
+
+#: projects.inc:155
+msgid ""
+"A common problem in theoretical chemistry, condensed matter physics and "
+"materials science is the calculation of the time evolution of an atomic "
+"scale system where, for example, chemical reactions and/or diffusion occur. "
+"Generally the events of interest are quite rare (many orders of magnitude "
+"slower than the vibrational movements of the atoms), and therefore direct "
+"simulations, tracking every movement of the atoms, would take thousands of "
+"years of computer calculations on the fastest present day computer before a "
+"single event of interest can be expected to occur.  Our research group is "
+"interested in calculating the long time dynamics of systems."
+msgstr ""
+
+#: projects.inc:158
+msgid "Orbit@home"
+msgstr "Orbit@home"
+
+#: projects.inc:160
+msgid "Planetary Science Institute"
+msgstr "Institut planetárních věd"
+
+#: projects.inc:161 projects.inc:169 projects.inc:177
+msgid "Astronomy"
+msgstr "Astronomie"
+
+#: projects.inc:162
+msgid "Monitor and study the hazard posed by near-Earth asteroids"
+msgstr "Studium a sledování rizik, které pro Zemi představují blízké asteroidy"
+
+#: projects.inc:166
+msgid "Cosmology@Home"
+msgstr "Cosmology@Home"
+
+#: projects.inc:168
+msgid "University of Illinois at Urbana-Chamapign"
+msgstr "Illinoiská univerzita v Urbana-Chamapign"
+
+#: projects.inc:170
+msgid ""
+"The goal of Cosmology@Home is to search for the model that best describes "
+"our Universe and to find the range of models that agree with the available "
+"astronomical particle physics data."
+msgstr ""
+
+#: projects.inc:174
+msgid "Milkyway@home"
+msgstr "Milkyway@home"
+
+#: projects.inc:176
+msgid "Rensselaer Polytechnic Institute"
+msgstr "Polytechnický institut Rensselaer"
+
+#: projects.inc:178
+msgid ""
+"The goal of Milkyway@Home is to create a highly accurate three dimensional "
+"model of the Milky Way galaxy using data gathered by the Sloan Digital Sky "
+"Survey."
+msgstr ""
+
+#: projects.inc:182
+msgid "Leiden Classical"
+msgstr "Leiden Classical"
+
+#: projects.inc:184
+msgid "Leiden University, The Netherlands"
+msgstr "Univerzita Leiden, Nizozemí"
+
+#: projects.inc:186
+msgid ""
+"Surface science calculations using Classical Dynamics.  Leiden Classical "
+"allows volunteers, students and other scientist to submit their personal "
+"calculations to the grid. Each user has his own personal queue for Classical "
+"Dynamics jobs. In this way students have used the grid to simulate liquid "
+"argon, or to test the validity of the ideal gas law by actually doing the "
+"simulations through the grid."
+msgstr ""
+
+#: projects.inc:190
+msgid "uFluids@home"
+msgstr "uFluids@home"
+
+#: projects.inc:192
+msgid "Purdue University"
+msgstr "Univerzita Purdue"
+
+#: projects.inc:193
+msgid "Physics/Aeronautics"
+msgstr "Fyzika/Letectví"
+
+#: projects.inc:194
+msgid ""
+"The uFluids project simulates two-phase fluid behavior in microgravity and "
+"microfluidics problems. Our goal is to design better satellite propellant "
+"management devices and address two-phase flow in microchannel and MEMS "
+"devices."
+msgstr ""
+
+#: projects.inc:198
+msgid "Einstein@home"
+msgstr "Einstein@home"
+
+#: projects.inc:200
+msgid "Univ. of Wisconsin - Milwaukee, Max Planck Institute"
+msgstr "Univerzita ve Wisconsinu - Milwaukee, Institut Maxe Plancka"
+
+#: projects.inc:201
+msgid "Astrophysics"
+msgstr "Astrofyzika"
+
+#: projects.inc:202
+msgid ""
+"Search for spinning neutron stars (also called pulsars) using data from the "
+"LIGO and GEO gravitational wave detectors, and from the Arecibo radio "
+"observatory.  Einstein@Home is a World Year of Physics 2005 project "
+"supported by the American Physical Society (APS) and by a number of "
+"international organizations."
+msgstr ""
+
+#: projects.inc:206
+msgid "LHC@home"
+msgstr "LHC@home"
+
+#: projects.inc:208
+msgid "CERN (European Organization for Nuclear Research)"
+msgstr "CERN (Evropská organizace pro jaderný výzkum)"
+
+#: projects.inc:209
+msgid "Physics"
+msgstr "Fyzika"
+
+#: projects.inc:210
+msgid ""
+"The Large Hadron Collider (LHC) is a particle accelerator at CERN, the "
+"European Organization for Nuclear Research, the world's largest particle "
+"physics laboratory.  It is the most powerful instrument ever built to "
+"investigate on particles proprieties. LHC@home runs simulations to improve "
+"the design of LHC and its detectors."
+msgstr ""
+
+#: projects.inc:214
+msgid "SETI@home"
+msgstr "SETI@home"
+
+#: projects.inc:216
+msgid "University of California, Berkeley"
+msgstr "Kalifornská univerzita v Berkeley"
+
+#: projects.inc:217
+msgid "Astrophysics, astrobiology"
+msgstr "Astrofyzika, astrobiologie"
+
+#: projects.inc:218
+msgid ""
+"SETI (Search for Extraterrestrial Intelligence) is a scientific area whose "
+"goal is to detect intelligent life outside Earth. One approach, known as "
+"radio SETI, uses radio telescopes to listen for narrow-bandwidth radio "
+"signals from space. Such signals are not known to occur naturally, so a "
+"detection would provide evidence of extraterrestrial technology."
+msgstr ""
+"SETI (Search for Extraterrestrial Intelligence - Hledání Mimozemské "
+"Inteligence) je vědecká oblast, jejímž cílem je hledání inteligentního "
+"života mimo Zemi. Jeden ze způsobů, známý jako radio SETI, používá "
+"radioteleskopy k zachytávání radiových signálů s úzkou šířkou pásma z "
+"vesmíru. Je známo, že tyto signály nevznikají přírodní cestou, jejich "
+"zachycení by tedy dokazovalo existenci mimozemské technologie."
+
+#: projects.inc:222
+msgid "Quantum Monte Carlo at Home"
+msgstr "Quantum Monte Carlo at Home"
+
+#: projects.inc:224
+msgid "University of Muenster (Germany)"
+msgstr "Univerzita v Muensteru, Německo"
+
+#: projects.inc:226
+msgid ""
+"Study the structure and reactivity of molecules using Quantum Chemistry."
+msgstr "Studium struktury a reaktivity molekul pomocí kvantové chemie."
+
+#: projects.inc:230
+msgid "Spinhenge@home"
+msgstr "Spinhenge@home"
+
+#: projects.inc:232
+msgid "Bielefeld University of Applied Sciences"
+msgstr "Univerzita aplikovaných věd Bielefeld"
+
+#: projects.inc:233
+msgid "Chemical engineering and nanotechnology"
+msgstr "Chemické inženýrství a nanotechnologie"
+
+#: projects.inc:234
+msgid ""
+"The study of molecular magnets and controlled nanoscale magnetism.  These "
+"magnetic molecules may be used to develop tiny magnetic switches, with "
+"applications in medicine (such as local tumor chemotherapy) and "
+"biotechnology."
+msgstr ""
+
+#: projects.inc:241
+msgid "Multiple applications"
+msgstr "Více různých aplikací"
+
+#: projects.inc:244
+msgid "CAS@home"
+msgstr "CAS@home"
+
+#: projects.inc:246
+msgid "Chinese Academy of Sciences"
+msgstr "Čínská akademie věd"
+
+#: projects.inc:247
+msgid "Physics, biochemistry, and others"
+msgstr "Fyzika, biochemie a jiné"
+
+#: projects.inc:248
+msgid ""
+"The objective of CAS@home is to encourage and assist scientists in China to "
+"adopt the technologies of volunteer computing and volunteer thinking for "
+"their research."
+msgstr ""
+
+#: projects.inc:252
+msgid "Yoyo@home"
+msgstr "Yoyo@home"
+
+#: projects.inc:255
+msgid "Mathematics, physics, evolution"
+msgstr "Matematika, fyzika, evoluce"
+
+#: projects.inc:256
+msgid ""
+"Yoyo@home is an adapter between BOINC and several existing volunteer "
+"computing projects: ECM, Muon, Evolution@home, and distributed.net"
+msgstr ""
+
+#: projects.inc:259
+msgid "EDGeS@Home"
+msgstr "EDGeS@Home"
+
+#: projects.inc:261 projects.inc:360
+msgid "MTA-SZTAKI Laboratory of Parallel and Distributed Systems (Hungary)"
+msgstr "MTA-SZTAKI - laboratoř paralelních a distribuovaných výpočtů, Maďarsko"
+
+#: projects.inc:262
+msgid "European research projects"
+msgstr "Výzkumné projekty z Evropy"
+
+#: projects.inc:263
+msgid ""
+"The EDGeS@Home Beta project integrates volunteer computing into the service "
+"grid network of Europe by allowing service grids to send workunits to be "
+"processed by the volunteers of this project. The scientific projects covered "
+"by the project include math, physics, biology, etc."
+msgstr ""
+
+#: projects.inc:267
+msgid "Ibercivis"
+msgstr "Ibercivis"
+
+#: projects.inc:269
+msgid "Spanish universities and research centers"
+msgstr "Univerzity a výkumná centra ve Španělsku"
+
+#: projects.inc:270
+msgid "Various Spanish research projects"
+msgstr "Výzkumné projekty ze Španělska"
+
+#: projects.inc:271
+msgid "Research in physics, material science, and biomedicine"
+msgstr "Fyzikální výzkum, materiálové vědy a biomedicína"
+
+#: projects.inc:275
+msgid "World Community Grid"
+msgstr "World Community Grid"
+
+#: projects.inc:277
+msgid "IBM Corporate Community Relations"
+msgstr "IBM Corporate Community Relations"
+
+#: projects.inc:278
+msgid "Humanitarian research on disease, natural disasters and hunger."
+msgstr "Humanitární výzkum zkoumající nemoci, přírodní pohromy a hladomor."
+
+#: projects.inc:279
+msgid ""
+"To further critical non-profit research on some of humanity's most pressing "
+"problems by creating the world's largest volunteer computing grid.  Research "
+"includes HIV/AIDS, cancer, muscular dystrophy, dengue fever, and many more."
+msgstr ""
+
+#: projects.inc:285
+msgid "Mathematics, computing, and games"
+msgstr "Matematika, výpočty a hry"
+
+#: projects.inc:288
+msgid "Enigma@Home"
+msgstr "Enigma@Home"
+
+#: projects.inc:291 projects.inc:345
+msgid "Cryptography"
+msgstr "Kryptografie"
+
+#: projects.inc:292
+msgid ""
+"Attempt to decode 3 original Enigma messages. The signals were intercepted "
+"in the North Atlantic in 1942 and are believed to be unbroken."
+msgstr ""
+"Pokus o dešifrování tří originálních zpráv Enigma. Signály byly zachyceny v "
+"severním Atlantiku v roce 1942 a jsou považovány za nerozluštěné."
+
+#: projects.inc:295
+msgid "Collatz Conjecture"
+msgstr "Collatz Conjecture"
+
+#: projects.inc:298 projects.inc:337 projects.inc:353 projects.inc:361
+msgid "Mathematics"
+msgstr "Matematika"
+
+#: projects.inc:299
+msgid "Study the Collatz Conjecture, an unsolved conjecture in mathematics"
+msgstr "Studium Collatzovy domněnky, nevyřešeného problému v matematice"
+
+#: projects.inc:302
+msgid "NFS@home"
+msgstr "NFS@home"
+
+#: projects.inc:304
+msgid "California State University Fullerton"
+msgstr "Kalifornská státní univerzita Fullerton"
+
+#: projects.inc:305
+msgid "Factorization of large integers"
+msgstr "Faktorizace velkých čísel"
+
+#: projects.inc:306
+msgid ""
+"NFS@Home is a research project that uses Internet-connected computers to do "
+"the lattice sieving step in the Number Field Sieve factorization of large "
+"integers. As a young school student, you gained your first experience at "
+"breaking an integer into prime factors, such as 15 = 3 * 5 or 35 = 5 * 7. "
+"NFS@Home is a continuation of that experience, only with integers that are "
+"hundreds of digits long."
+msgstr ""
+
+#: projects.inc:310
+msgid "VTU@home"
+msgstr "VTU@home"
+
+#: projects.inc:312
+msgid ""
+"Vilnius Gediminas Technical University and Kaunas University of Technology "
+"(Lithuania)"
+msgstr ""
+
+#: projects.inc:313
+msgid "Software testing"
+msgstr "Testování softwaru"
+
+#: projects.inc:314
+msgid ""
+"The aim of this project is to provide a powerful distributed computing "
+"platform for scientists of Vilnius Gediminas Technical University (VGTU) as "
+"well as others Lithuanian academic institutions.  Current applications "
+"involve the study of Monte-Carlo based software testing."
+msgstr ""
+
+#: projects.inc:318
+msgid "AQUA@home"
+msgstr "AQUA@home"
+
+#: projects.inc:320
+msgid "D-Wave Systems, Inc."
+msgstr "D-Wave Systems, Inc."
+
+#: projects.inc:321
+msgid "Quantum computing"
+msgstr "Kvantové výpočty"
+
+#: projects.inc:322
+msgid ""
+"D-Wave's AQUA (Adiabatic QUantum Algorithms) is a research project whose "
+"goal is to predict the performance of superconducting adiabatic quantum "
+"computers on a variety of hard problems arising in fields ranging from "
+"materials science to machine learning. AQUA@home uses Internet-connected "
+"computers to help design and analyze quantum computing algorithms, using "
+"Quantum Monte Carlo techniques."
+msgstr ""
+
+#: projects.inc:334
+msgid "ABC@home"
+msgstr "ABC@home"
+
+#: projects.inc:336
+msgid "Mathematical Institute of Leiden University / Kennislink"
+msgstr "Matematický institut univerzity Leiden / Kennislink"
+
+#: projects.inc:338
+msgid ""
+"Search for 'abc-triples': positive integers a,b,c such that a+b=c, a &lt; b "
+"&lt; c, a,b,c have no common divisors and c > rad(abc), where rad(n) is the "
+"product of the distinct prime factors of n. The ABC conjecture says that "
+"there are only finitely many a,b,c such that log(c)/log(rad(abc)) > h for "
+"any real h > 1. The ABC conjecture is currently one of the greatest open "
+"problems in mathematics. If it is proven to be true, a lot of other open "
+"problems can be answered directly from it."
+msgstr ""
+
+#: projects.inc:342
+msgid "PrimeGrid"
+msgstr "PrimeGrid"
+
+#: projects.inc:344
+msgid "Private"
+msgstr "Soukromý"
+
+#: projects.inc:346
+msgid ""
+"Primegrid is generating a public sequential prime number database, and is "
+"searching for large twin primes of the form k*2<sup>n</sup>+1 and k*2<sup>n</"
+"sup>-1"
+msgstr ""
+
+#: projects.inc:350
+msgid "primaboinca"
+msgstr "primaboinca"
+
+#: projects.inc:352
+msgid "Hochschule RheinMain University of Applied Sciences"
+msgstr "Univerzita aplikovaných věd RheinMein"
+
+#: projects.inc:354
+msgid ""
+"Search for counterexamples to two conjectures related to the identification "
+"of prime numbers"
+msgstr ""
+"Hledání protipříkladů ke dvěma domněnkám souvisejícími s hledáním prvočísel"
+
+#: projects.inc:358
+msgid "SZTAKI Desktop Grid"
+msgstr "SZTAKI Desktop Grid"
+
+#: projects.inc:362
+msgid ""
+"Find all the generalized binary number systems (in which bases are matrices "
+"and digits are vectors) up to dimension 11."
+msgstr ""
+"Nalezení všdech zobecněných binárních číselných systémů (kde jsou kořeny "
+"maticemi a čísla vektory) až do dimenze 11."
+
+#: projects.inc:382
+msgid "Chess960@home"
+msgstr "Chess960@home"
+
+#: projects.inc:384
+msgid "Chess-960.org"
+msgstr "Chess-960.org"
+
+#: projects.inc:385
+msgid "Game-playing"
+msgstr "Hraní her"
+
+#: projects.inc:386
+msgid ""
+"This project studies Chess 960, a variant of orthodox chess. In classical "
+"chess the starting position of the game never changes.  In Chess 960, just "
+"before the start of every game, the initial configuration of the chess "
+"pieces is determined randomly."
+msgstr ""
+
+#: versions.inc:6
+msgid "The current release is known to work with these Linux versions:"
+msgstr "Aktuální verze by měla fungovat na těchto verzích Linuxu:"
+
+#: versions.inc:14
+msgid ""
+"For other Linux versions, check if a BOINC package is offered by your Linux "
+"distribution."
+msgstr ""
+"U jiných linuxových verzí si prosím zkontrolujte, zda je aplikace BOINC "
+"nabízena vaší linuxovou distribucí."
+
+#: versions.inc:25
+msgid ""
+"Alternatively, download the %1BOINC client for older Linux versions%2. This "
+"doesn't have a graphical interface, but it should work on all Linux systems, "
+"both x86 and x64."
+msgstr ""
+"Jinou možností je stažení %1BOINC klienta pro starší verze Linuxu%2. Tato "
+"verze nemá grafické rozhraní, ale měla by fungovat na všech linuxových "
+"systémech, x86 i x64."
+
+#: docutil.php:21
+msgid "Search"
+msgstr "Hledat"
+
+#: docutil.php:102
+msgid "Return to BOINC main page"
+msgstr "Vrátit se na hlavní stránku BOINC"
+
+#: docutil.php:113
+#, php-format
+msgid "This page is %stranslatable%s."
+msgstr "Tato stránka je %spřeložitelná%s."
+
+# #######################################
+# download.php 2006/08/03 by je2bwm
+# ######################################
+#: download.php:40
+msgid "Download BOINC"
+msgstr "Stáhnout BOINC"
+
+#: download.php:42
+#, php-format
+msgid "%s for %s (%s MB)"
+msgstr "%s pro %s (%s MB)"
+
+#: download.php:89
+msgid ""
+"BOINC is a program that lets you donate your idle computer time to science "
+"projects like SETI@home, Climateprediction.net, Rosetta@home, World "
+"Community Grid, and many others. <p> After installing BOINC on your "
+"computer, you can connect it to as many of these projects as you like."
+msgstr ""
+"<p>BOINC je program, který vám umožňuje darovat volný výpočetní výkon vašeho "
+"počítače pro účely vědeckých projektů jako SETI@home, "
+"Climateprediction.net, Rosetta@home, World Community Grid a mnohých "
+"dalších.</p><p>Po nainstalování programu BOINC je možné zapojit váš počítač "
+"do libovolného množství z nabízených projektů.</p>"
+
+#: download.php:91
+msgid ""
+"You may run this software on a computer only if you own the computer or have "
+"the permission of its owner."
+msgstr ""
+"Používejte prosím tento software pouze na počítačích, jejichž jste "
+"vlastníkem, nebo máte-li svolení jejich majitele."
+
+#: download.php:115
+#, php-format
+msgid ""
+"Note: if your computer is equipped with an Graphics Processing Unit (GPU), "
+"you may be able to %suse it to compute faster%s"
+msgstr ""
+"Poznámka: BOINC umí využít pro %srychlejší průběh výpočtů%s i novější "
+"grafické karty (GPU), pokud je takovou kartou váš počítač vybaven."
+
+#: download.php:121
+msgid "System requirements"
+msgstr "Systémové požadavky"
+
+#: download.php:122
+msgid "Release notes"
+msgstr "Poznámky k vydání"
+
+#: download.php:123 index.php:82
+msgid "Help"
+msgstr "Nápověda"
+
+#: download.php:124
+msgid "All versions"
+msgstr "Všechny verze"
+
+#: download.php:125
+msgid "Version history"
+msgstr "Historie verzí"
+
+#: download.php:142
+msgid "BOINC: compute for science"
+msgstr "BOINC: počítejte pro vědu"
+
+#: help.php:12
+#, php-format
+msgid ""
+"BOINC Online Help lets you talk one-on-one with experienced BOINC users, who "
+"can: %s answer questions about BOINC and volunteer computing; %s walk you "
+"through the process of installing and using BOINC; %s troubleshoot any "
+"problems you might have."
+msgstr ""
+"BOINC online pomoc vám umoňuje hovořit se zkušenými uživateli systému BOINC, "
+"kteří vám mohou: %s odpovědět otázky o BOINC dobrovolnickém počítání %s "
+"provést vás procesem instalace a nastavení programu BOINC %s vyřešit "
+"problémy, na které můžete narazit."
+
+#: help.php:21
+#, php-format
+msgid ""
+"BOINC Online Help is based on %sSkype%s, an Internet-based telephone system. "
+"Skype is free (both the software and the calls).  If you don't already have "
+"Skype, please %sdownload and install it now%s.  When you're finished, return "
+"to this page."
+msgstr ""
+"BOINC online pomoc je založena na programu %sSkype%s pro telefonování přes "
+"internet. Skype je zdarma (program i telefonování). Pokud Skype dosud "
+"nemáte, %sstáhněte si jej zde%s a potom se vraťte na tuto stránku."
+
+#: help.php:28
+msgid ""
+"The best way to get help is by voice, for which you need either built-in "
+"microphone and speakers or an external headset for your computer.  You can "
+"also use Skype's text-based chat system or regular email (if you don't have "
+"Skype) to communicate with Help Volunteers."
+msgstr ""
+"Nejlepší způsob, jak získat pomoc, je pomocí hlasové komunikace, pro kterou "
+"budete potřebovat buď vestavěný mikrofon a sluchátka, nebo přenosný headset "
+"pro váš počítač. Pro komunikaci s dobrovolnými pomocníky lze též použít "
+"textovového rozhovoru přes Skype, nebo klasický email (pokud nepoužíváte "
+"Skype)."
+
+#: help.php:31
+msgid ""
+"Volunteers speaking several languages are available. Please select a "
+"language:"
+msgstr ""
+"Jsou dostupní dobrovolní pomocníci mluvící mnoha jazyky. Vyberte si prosím "
+"váš jazyk:"
+
+#: help.php:47
+msgid "Be a Help Volunteer"
+msgstr "Staňte se dobrovolným pomocníkem"
+
+#: help.php:50
+#, php-format
+msgid ""
+"If you're an experienced BOINC user, we encourage you to %sbecome a Help "
+"Volunteer%s.  It's a great way to help the cause of scientific research and "
+"volunteer computing - and it's fun!"
+msgstr ""
+"Pokud jste zkušeným uživatelem programu BOINC, byly bychom rádi, pokud byste "
+"se %sstal dobrovolným pomocníkem%s. Je to skvělý způsob, jak pomoci "
+"vědeckému výzkumu a dobrovolnickému počítání - a je to také zábava!"
+
+#: help.php:56
+#, php-format
+msgid ""
+"If you're already a Help Volunteer: to edit your settings, %sclick here%s."
+msgstr ""
+"Pokud jste již dobrovolným pomocníkem: k úpravě svého nastavení %sklikněte "
+"zde%s."
+
+#: help_funcs.php:107
+msgid ""
+"BOINC helpers are unpaid volunteers.  Their advice is not endorsed by BOINC "
+"or the University of California."
+msgstr ""
+"BOINC pomocníci jsou neplacení dobrovolníci, jejichž činnost není "
+"zastřešována Kalifornskou univerzitou v Berkeley."
+
+#: help_funcs.php:110
+msgid "%1Never%2 give email address or password information to BOINC helpers."
+msgstr "BOINC pomocníkům %1nikdy%2 nedávejte svojí emailovou adresu či heslo."
+
+#: index.php:23
+msgid "Computing power"
+msgstr "Výpočetní síla"
+
+#: index.php:25
+msgid "Top 100 volunteers"
+msgstr "100 nejvýkonnějších dobrovolníků"
+
+#: index.php:26
+msgid "Statistics"
+msgstr "Statistiky"
+
+#: index.php:53
+msgid "Active:"
+msgstr "Aktivní:"
+
+#: index.php:53
+msgid "volunteers,"
+msgstr "dobrovolníků,"
+
+#: index.php:53
+msgid "computers.\n"
+msgstr "počítačů.\n"
+
+#: index.php:54
+msgid "24-hour average:"
+msgstr "24 hodinový průměr:"
+
+#: index.php:54
+msgid "TeraFLOPS."
+msgstr "TeraFLOPů."
+
+#: index.php:66
+msgid "News"
+msgstr "Novinky"
+
+#: index.php:79
+msgid "Volunteer"
+msgstr "Staňte se dobrovolníkem"
+
+#: index.php:81
+msgid "Download"
+msgstr "Ke stažení"
+
+#: index.php:83 index.php:118 index.php:169
+msgid "Documentation"
+msgstr "Dokumentace"
+
+#: index.php:89
+#, php-format
+msgid ""
+" Use the idle time on your computer (Windows, Mac, or Linux) to cure "
+"diseases, study global warming, discover pulsars, and do many other types of "
+"scientific research.  It's safe, secure, and easy:  %sChoose%s projects  %"
+"sDownload%s and run BOINC software  %sEnter%s an email address and password. "
+msgstr ""
+"Využívejte volný čas vašeho počítače (Windows, Mac, Linux) k hledání léků "
+"proti nemocem, studování globální oteplování, k objevení pulsarů nebo k "
+"mnohému dalšímu vědeckému výzkumu. Je to bezpečné a jednoduché: %sVyberte si"
+"%s projekty %sStáhněte si%s a nainstalujte program BOINC %sVložte%s vaší "
+"emailovou adresu a heslo k projektu."
+
+#: index.php:100
+#, php-format
+msgid ""
+"Or, if you run several projects, try an %saccount manager%s such as %"
+"sGridRepublic%s or %sBAM!%s. "
+msgstr ""
+"Případně, pokud jste zapojeni do více projektů současně, vyzkoušejte "
+"některého ze %ssprávce účtů%s, jako jsou %sGridRepublic%s nebo %sBAM!%s."
+
+#: index.php:116
+msgid "Compute with BOINC"
+msgstr "Počítejte s programem BOINC"
+
+#: index.php:119
+msgid "Software updates"
+msgstr "Aktualizace softwaru"
+
+#: index.php:126
+msgid ""
+"%1Scientists%2: use BOINC to create a %3volunteer computing project%4 giving "
+"you the computing power of thousands of CPUs."
+msgstr ""
+"%1Vědci%2: využijte BOINC k vytvoření %3dobrovolnického výpočetního projektu"
+"%4, který vám umožní využít výpočetní sílu tísíce procesorů."
+
+#: index.php:130
+msgid ""
+"%1Universities%2: use BOINC to create a %3Virtual Campus Supercomputing "
+"Center%4."
+msgstr ""
+"%1Univerzity%2: využijte BOINC k vytvoření %3virtuálního univerzitního "
+"superpočítače%4."
+
+#: index.php:135
+msgid "%1Companies%2: use BOINC for %3desktop Grid computing%4."
+msgstr "%1Společnosti%2: využijte BOINC pro %3desktopový Grid computing%4."
+
+#: index.php:147
+msgid "The BOINC project"
+msgstr "Projekt BOINC"
+
+#: index.php:153
+msgid "Message boards"
+msgstr "Diskuzní fóra"
+
+#: index.php:154
+msgid "Email lists"
+msgstr "Emailové konference"
+
+#: index.php:155
+msgid "Personnel and contributors"
+msgstr "Pracovníci a přispěvatelé"
+
+#: index.php:156
+msgid "Events"
+msgstr "Události"
+
+#: index.php:157
+msgid "Papers and talks"
+msgstr "Dokumenty a přednášky"
+
+#: index.php:158
+msgid "Research projects"
+msgstr "Výzkumné projekty"
+
+#: index.php:159
+msgid "Logos and graphics"
+msgstr "Loga a grafika"
+
+#: index.php:160
+msgid "and"
+msgstr "a"
+
+#: index.php:164
+msgid "Help wanted"
+msgstr "Uvítáme pomoc"
+
+#: index.php:166
+msgid "Programming"
+msgstr "Programování"
+
+#: index.php:167
+msgid "Translation"
+msgstr "Překlad"
+
+#: index.php:168
+msgid "Testing"
+msgstr "Testování"
+
+#: index.php:170
+msgid "Publicity"
+msgstr "Propagace"
+
+#: index.php:172
+msgid "Software development"
+msgstr "Vývoj softwaru"
+
+#: index.php:173
+msgid "APIs for add-on software"
+msgstr "API pro doplňkový software"
+
+#: index.php:207
+msgid "Browser default"
+msgstr "Dle výchozího nastavení prohlížeče"
+
+#: index.php:259
+#, php-format
+msgid ""
+"Open-source software for %svolunteer computing%s and %sgrid computing%s."
+msgstr ""
+"Open-source software pro %sdobrovolnické počítání%s a %sgrid computing%s."
+
+#: index.php:272
+msgid "BOINC is based at The University of California, Berkeley"
+msgstr "BOINC má sídlo v The University of California, Berkeley"
+
+#~ msgid "Conferences"
+#~ msgstr "Konference"
+
+#~ msgid "[check all that apply]"
+#~ msgstr "[zaškrtněte všechny pravdivé]"
+
+#~ msgid "Other:"
+#~ msgstr "Ostatní:"
+
+#~ msgid "Yes - I have been running BOINC on my computer for..."
+#~ msgstr "Ano - na mém počítači běží BOINC již..."
+
+#~ msgid "less than a week"
+#~ msgstr "méně než týden"
+
+#~ msgid "less than a month"
+#~ msgstr "méně než měsíc"
+
+#~ msgid "less than a year"
+#~ msgstr "méně než rok"
+
+#~ msgid "more than a year"
+#~ msgstr "déle než rok"
+
+#~ msgid "No - I used to run BOINC, but..."
+#~ msgstr "Ne - na mém počítači běžel BOINC, ale..."
+
+#~ msgid "I lost interest"
+#~ msgstr "ztratil jsem zájem"
+
+#~ msgid "it was too complicated"
+#~ msgstr "bylo to příliš složité"
+
+#~ msgid "I stopped it and forgot to start again"
+#~ msgstr "zastavil jsem ho a zapomněl jsem jej znovu spustit"
+
+#~ msgid "it caused problems on my computer"
+#~ msgstr "způsoboval problémy mému počítači"
+
+#~ msgid "it used too much electricity"
+#~ msgstr "spotřebovával příliš mnoho elektřiny"
+
+#~ msgid "I switched to a non-BOINC computing project"
+#~ msgstr "přihlásil jsem se k jinému (ne-BOINC) výpočtovému projektu"
+
+#~ msgid "No - I tried running BOINC, but..."
+#~ msgstr "Ne, zkoušel jsem používat BOINC, ale..."
+
+#~ msgid "the software didn't install correctly"
+#~ msgstr "program se nenainstaloval správně"
+
+#~ msgid "I couldn't figure out how to use the software"
+#~ msgstr "nepřišel jsem na to, jak jej používat"
+
+#~ msgid "I had network communication problems"
+#~ msgstr "narazil jsem na potíže při komunikaci po síti"
+
+#~ msgid "I couldn't attach to a project"
+#~ msgstr "nemohl jsem se připojit k projektu"
+
+#~ msgid "I attached to a project, but never got any work"
+#~ msgstr "připojil jsem se k projektu, ale nikdy jsem neobdržel práci"
+
+#~ msgid "No - I never tried running BOINC, because..."
+#~ msgstr "Ne, nikdy jsem nezkoušel používat BOINC, protože..."
+
+#~ msgid "I was concerned about security"
+#~ msgstr "měl jsem pochyby o jeho bezpečnosti"
+
+#~ msgid "I wasn't interested in any of the projects"
+#~ msgstr "žádný projekt mě nezaujal"
+
+#~ msgid "I don't have permission to run it on my computer"
+#~ msgstr "nemohl jsem ho používat na mém počítači"
+
+#~ msgid "No version was available for my computer"
+#~ msgstr "pro můj počítač nebyla žádná příslušná verze"
+
+#~ msgid "What kind of computers do you have running BOINC?"
+#~ msgstr "Na jakých typech počítačů používáte BOINC?"
+
+#~ msgid "Where are they?"
+#~ msgstr "Kde se nacházejí?"
+
+#~ msgid "Work"
+#~ msgstr "V práci"
+
+#~ msgid "School"
+#~ msgstr "Ve škole"
+
+#~ msgid "How many computers?"
+#~ msgstr "Kolik počítačů?"
+
+#~ msgid "On average, how many hours per day are they powered on?"
+#~ msgstr "Jak dlouho jsou průměrně denně zapnuté?"
+
+#~ msgid "Age"
+#~ msgstr "Věk"
+
+#~ msgid "Sex"
+#~ msgstr "Pohlaví"
+
+#~ msgid "Male"
+#~ msgstr "Muž"
+
+#~ msgid "Female"
+#~ msgstr "Žena"
+
+#~ msgid "Your level of computer expertise"
+#~ msgstr "Vaše úroveň počítačových znalostí"
+
+#~ msgid "Beginner"
+#~ msgstr "Začátečník"
+
+#~ msgid "Intermediate"
+#~ msgstr "Pokročilý"
+
+#~ msgid "Advanced"
+#~ msgstr "Expert"
+
+#~ msgid "Where did you learn about BOINC projects?"
+#~ msgstr "Kde jste se dozvěděl o BOINC projektech?"
+
+#~ msgid "TV/radio/newspaper"
+#~ msgstr "TV/radio/noviny"
+
+#~ msgid "From friends, relatives, or coworkers"
+#~ msgstr "Od přátel, příbuzných, spolupracovníků"
+
+#~ msgid "Team message boards or web sites"
+#~ msgstr "Ze stránek týmu, či jejich diskuzního fóra"
+
+#~ msgid "The BOINC web site"
+#~ msgstr "Ze stránek BOINC"
+
+#~ msgid "Other web sites"
+#~ msgstr "Z jiných webových stránek"
+
+#~ msgid ""
+#~ "Which are the most important factors when you decide whether to "
+#~ "participate in a BOINC project?"
+#~ msgstr ""
+#~ "Jaké jsou pro Vás nejdůležitější faktory, když se rozhodujete, do jakého "
+#~ "BOINC projektu se zapojíte?"
+
+#~ msgid "Nice-looking screensaver graphics"
+#~ msgstr "Hezky vypadající šetřič obrazovky"
+
+#~ msgid "Fair and quick granting of credit for work done"
+#~ msgstr "Poctivé a rychlé přidělování kreditu za odvedenou práci"
+
+#~ msgid "Getting more credit from this project than from others"
+#~ msgstr "Získávání více kreditu v tomto projektu, než u ostatních projektů"
+
+#~ msgid "Helpful and friendly message boards"
+#~ msgstr "Přátelské a užitečné diskuzní fórum"
+
+#~ msgid "Participation by project staff on the message boards"
+#~ msgstr "To, že se také autoři projektu zapojují v diskuzním fóru"
+
+#~ msgid "Informative project web site"
+#~ msgstr "Informativní stránky projektu"
+
+#~ msgid "The science is important and beneficial"
+#~ msgstr "Výzkum je důležitý a může pomoci"
+
+#~ msgid "Non-profit, and results are public"
+#~ msgstr "Nevýdělečnost, výsledky jsou veřejné"
+
+#~ msgid "Personal recognition if my computer finds something"
+#~ msgstr "Osobní uznání, pokud můj počítač něco najde"
+
+#~ msgid "Publication by the project in scientific journals"
+#~ msgstr "Publikace projektu ve vědeckých sbornících"
+
+#~ msgid "Periodic email newsletters from the project"
+#~ msgstr "Občasné mailové novinky zasílané projektem"
+
+#~ msgid "How many BOINC projects do you participate in?"
+#~ msgstr "V kolika BOINC projektech se účastníte?"
+
+#~ msgid "Do you run BOINC as a screensaver?"
+#~ msgstr "Používáte BOINC jako šetřič obrazovky?"
+
+#~ msgid "Yes"
+#~ msgstr "Ano"
+
+#~ msgid "No"
+#~ msgstr "Ne"
+
+#~ msgid "Your usage of project messages boards:"
+#~ msgstr "Vaše využití diskuzního fóra:"
+
+#~ msgid "to read information"
+#~ msgstr "jen čtu informace"
+
+#~ msgid "to read and post information"
+#~ msgstr "čtu a přispívám informacemi"
+
+#~ msgid "None"
+#~ msgstr "žádné"
+
+#~ msgid ""
+#~ "Where do you get information to help resolve problems with BOINC and/or "
+#~ "BOINC projects?"
+#~ msgstr ""
+#~ "Kde získáváte informace o tom, jak řešit problémy s BOINC či BOINC "
+#~ "projekty?"
+
+#~ msgid "The project message boards"
+#~ msgstr "Na diskuzním fóru projektu"
+
+#~ msgid "The BOINC message boards"
+#~ msgstr "Na diskuzním fóru BOINC"
+
+#~ msgid "BOINC mailing lists"
+#~ msgstr "Na BOINC mailové konferenci"
+
+#~ msgid "The Unofficial BOINC Wiki"
+#~ msgstr "Na neoficiální BOINC wiki"
+
+#~ msgid "Team web sites"
+#~ msgstr "Na týmových stránkách"
+
+#~ msgid "Google or other search engines"
+#~ msgstr "Na Google nebo jiných vyhledávačích"
+
+#~ msgid "... more"
+#~ msgstr "... více"
+
+#~ msgid "News is available as an %sRSS feed%s"
+#~ msgstr "Novinky jsou dostupné jako %szprávy RSS%s"
+
+#~ msgid "BOINC user survey"
+#~ msgstr "BOINC dotazník"
+
+#~ msgid ""
+#~ "Several volunteer computing projects, including Climateprediction.net, "
+#~ "Einstein@home, and SETI@home, use software called BOINC.  If you "
+#~ "participate in projects like this, we request that you answer the "
+#~ "following questions.  This will help BOINC-based projects increase "
+#~ "participation and achieve greater scientific results. <p> Please answer "
+#~ "as many questions as you want, then go to the bottom and click OK. If you "
+#~ "previously completed the survey but your answers have changed, please "
+#~ "complete it again - your new answers will replace the old ones. <p> The "
+#~ "current results of the survey are <a href=poll_results.php>here</a>. "
+#~ msgstr ""
+#~ "Mnoho dobrovolných výpočetních projektů, např. Climateprediction.net, "
+#~ "Einstein@home a SETI@home, používá program nazývaný BOINC. Pokud se "
+#~ "podílíte na některém z takovýchto projektů, rádi bychom Vás požádali o "
+#~ "vyplnění následujícího dotazníku. Zodpovězení následujících otázek nám "
+#~ "pomůže zlepšit jednotlivé projekty, získat více účastníku a také "
+#~ "dosáhnout lepších vědeckých výsledků.</p><p>Odpovězte prosím na tolik "
+#~ "otázek, kolik chcete, poté jděte na konec stránky a klikněte na OK. Pokud "
+#~ "jste již dotazník dříve vyplnili, ale vaše odpovědi se změnily, prosím, "
+#~ "vyplňte jej znova - vaše staré odpovědi budou nahrazeny novými.</"
+#~ "p><p>Současné výsledky BOINC dotazníku jsou k <a href=poll_results."
+#~ "php>vidění zde</a>.</p>"
+
+#~ msgid "Do you run BOINC?"
+#~ msgstr "Používáte BOINC?"
+
+#~ msgid "Your participation"
+#~ msgstr "Vaše účast"
+
+#~ msgid "Your computers"
+#~ msgstr "Vaše počítače"
+
+#~ msgid "You"
+#~ msgstr "O Vás"
+
+#~ msgid "Nationality"
+#~ msgstr "Národnost"
+
+#~ msgid "Comments"
+#~ msgstr "Komentáře"
+
+#~ msgid ""
+#~ "Please suggest ways that BOINC, and the projects that use it, could be "
+#~ "improved:"
+#~ msgstr ""
+#~ "Zkuste prosím navrhnout, jakými způsoby by se daly vylepšit jednotlivé "
+#~ "projekty, nebo samotný BOINC (v angličtině):"
+
+#~ msgid "When done click:"
+#~ msgstr "Na konci klikněte:"
+
+#~ msgid "Error - results not recorded"
+#~ msgstr "Chyba - výsledek se neuložil"
+
+#~ msgid ""
+#~ "An internal error has prevented us from recording your survey response.  "
+#~ "Please try again later."
+#~ msgstr ""
+#~ "Vnitřní chyba bohužel znemožnila uložení vašeho BOINC dotazníku, zkuste "
+#~ "to prosím později."
+
+#~ msgid "Survey response recorded"
+#~ msgstr "Váš BOINC dotazník byl uložen"
+
+#~ msgid "Thank you for completing the BOINC user survey."
+#~ msgstr "Děkujeme Vám za vyplnění Vašeho BOINC dotazníku."
+
+#~ msgid "Survey results"
+#~ msgstr "Výsledky BOINC dotazníku"
+
+#~ msgid ""
+#~ "These are the current results of the <a href=poll.php>BOINC user survey</"
+#~ "a>.  This page is updated every hour."
+#~ msgstr ""
+#~ "Zde jsou současné výsledky <a href=poll.php>BOINC dotazníku</a>, tato "
+#~ "stránka se aktualizuje každou hodinu."

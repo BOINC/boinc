@@ -1,0 +1,32 @@
+;
+; Module definition file for the boinccas.dll
+;
+
+LIBRARY    boinccas
+
+EXPORTS
+	DllMain
+	CreateBOINCAccounts
+	CreateBOINCGroups
+	CreateClientAuthFile
+	GetAdministratorsGroupName
+	GetUsersGroupName
+	GrantBOINCMasterRights
+	GrantBOINCProjectRights
+	ShutdownBOINC
+	ShutdownBOINCManager
+	ShutdownBOINCScreensaver
+	ShutdownUD
+	GrantBOINCAdminsRights
+	GrantBOINCAdminsVirtualBoxRights
+	GrantBOINCUsersRights
+	GrantBOINCProjectsRights
+	GrantBOINCProjectsVirtualBoxRights
+	HideBOINCMasterProfile
+	HideBOINCProjectProfile
+	SetPermissionBOINC
+	SetPermissionBOINCData
+	SetPermissionBOINCDataProjects
+	SetPermissionBOINCDataSlots
+	LaunchBOINCManager
+	LaunchBOINCTray

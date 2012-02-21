@@ -1,0 +1,273 @@
+UnZip, version 5.5, 17 February 2002
+
+Features added (or removed):
+
+5.5a (04 Feb 01):
+ - unzip.1: added documentation for the new Acorn NFS filetype features [SPC]
+ - generic (inflate.c, globals.h, fileio.c, unzpriv.h): integrated support of
+    Deflate64 for all ports with exception of MSDOS and OS/2 16-bit [SPC]
+
+5.5b (11 Feb 01):
+ - added Deflate64 support to fUnZip [SPC]
+ - added Deflate64 support for 16-bit environments [SPC]
+
+5.5c (18 Apr 01):
+ - SFX: made SFX_EXDIR default, added NO_SFXEXDIR option to allow switching
+    off the "-d exdir" support [SPC]
+ - OS2, WIN32: added presetting of file size for extracted files, to reduce
+    file fragmentation [Pavel Lastovicka, Kai Uwe Rommel, SPC]
+ - VMS, new functionality of -b option: when extracting to standard output
+    (-c or -p), -b switches to "binary piping mode" by disabling text data
+    conversion [SPC]
+
+5.5d (28 Apr 01):
+ - SFX: added simple "execute command after extraction" feature that uses a
+    command specification supplied with the Zip archive comment, controlled
+    by the CHEAP_SFX_AUTORUN compile time option [Paul Kienitz]
+ - SFX: slightly refined the CHEAP_SFX_AUTORUN code, switched off SFX_EXDIR
+    when CHEAP_SFX_AUTORUN is enabled, documented the new autorun feature [SPC]
+ - VMS: extended new "binary piping" functionality of -b switch to extraction
+    of archive entries with VMS attributes saved [SPC]
+
+5.5f (30 Sep 01):
+ - extract.c, TestExtraField(): added crc32 check for PKVMS e.f. type [SPC]
+ - added real VMS-e.f. analysis for fool-proof detection of VMS "variable
+    length record" text files, enabled VMS_TEXT_CONV as default (but not for
+    SFX stub) [SPC]
+ - added support for optional ACORN_FTYPE_NFS feature to more OS that allow
+    long filenames and commas within filenames (BeOS, Novell, OS/2, Theos,
+    Win32) [SPC]
+
+5.5g (05 Nov 01):
+ - extract.c, extract_or_test_entrylist(): added code for "stripping off
+    absolute path spec" when extracting [SPC]
+
+5.5h (12 Jan 02):
+ - unzip.h, unzip.c; mapname() in all ports except CMS/MVS, Tandem, TOPS20:
+    added code to strip "../" path components from extracted names and new
+    option "-:" to allow deactivating this security feature; changed mapname()
+    calling interface to allow reporting warning error levels to caller [SPC]
+ - man/unzip.1: documented the new "-:" option [SPC]
+ - vms/cmdline.c etc.: added support for "-:" option to VMS DCL interface;
+    updated VMS help files with description of "-:" option [SPC]
+ - windll/windll.{c|txt}: modified handling of DCL struct's "ndflag" member
+    to allow setting the "-:" option through the windll interface [SPC]
+ - unzpriv.h, zipinfo.c: rudimentary support for recognizing PKWARE's new
+    "64-bit size specs" extra field [SPC]
+
+5.5 (17 Feb 02):
+ - unix/Makefile: added separate makefile symbol INSTALL_PROGRAM for command
+    to install "binary" (compiled and linked) program files [Santiago Vila]
+
+
+Bugs fixed:
+
+5.5a (04 Feb 01):
+ - all OS with Unix-compatible file attributes (Acorn, AosVS, BeOS, QDOS, Unix,
+    and others), mapattr(): corrected wrong masking expression in check for
+    missing directory attribute; added this check for ports where it was
+    still missing [Eric Siegerman, SPC]
+ - inflate.c: reorganized inner loop function for slight performance gain [SPC]
+ - explode.c: reorganized code (2 instead of 4 inner-loop function versions),
+    fixed memory leaks when get_tree() fails (added huft_free() calls) [SPC]
+
+5.5b (11 Feb 01):
+ - inflate.c: some more optimizations (also resulting in easier readable code)
+    [SPC]
+ - unzip.c: revised work area size calculation in the WORK_MALLOC case, when
+    the decompression buffer is malloc'ed separately; removed suspicious
+    "one unit excess" allocation (8193 instead of 8192, not clear why this
+    was introduced in ancient times) [SPC]
+ - VMS - cvthelp.tpu, unzip_cli.help: reformatted CLI help file to show negated
+    form of negatable options on a separate line in the header of qualifier
+    descriptions [Hunter Goatley]
+ - generic: renamed version.h into unzvers.h (for better distinction from zip
+    sources) and updated all makefiles [SPC]
+ - windll: changed windll.rc to get version info directly from unzvers.h and
+    killed windll/unzver.h [SPC]
+ - api.c, global.h, extract.c, explode.c, inflate.c, unshrink.c: corrected
+    declarations of variables and function parameters holding redirected buffer
+    size (unsigned vs. ulg issues), added/modified appropiate type casts [SPC]
+
+5.5c (18 Apr 01):
+ - most make procedures: unzipsfx compilation requires completely separate
+    object files (exception: crc32), because global structure is now different
+    from unzip setup (sfx: no Deflate64!) [Thom Schmidt, SPC]
+ - inflate.c: moved macro definitions for invalid huft code marker out of
+    "no ZLIB only" code part; it is used in huft_build() [Thomas Klausner]
+ - AMIGA, HUMAN68K: replaced specific mkGoff.c helper program sources by a more
+    generic gbloffs.c source (located in the top level directory); adapted
+    makefiles to this change [SPC]
+ - win32/win32: modified version() to recognize Borland C++ 5.5.1 [SPC]
+ - AMIGA: adapted assembler core routine flate.a to Deflate64 and the 64k
+    extraction buffer; adapted inflate setup to allow for 16bit ints in
+    an otherwise 32-bit environment [Paul Kienitz]
+ - human68k/flate.s: incorporated Paul's updates of amiga/flate.a in the
+    HUMAN68K source variant [SPC]
+ - MacOS: updates from MacZip release 1.07b [Dirk Haase]
+ - unzpriv.h: updated exceptions of "made by FAT -> filename charset is OEM"
+    rule to now include the PKZIP 4.0 case [SPC]
+ - unzpriv.h, extract.c zipinfo.c: in preparation to multivolume support,
+    struct min_info has been extended to hold the entry's disk volume number
+    (to conserve space, hostnum & hostver members are shortened to uch) [SPC]
+ - extract.c, extract_or_test_files() function: isolated code of "second loop"
+    in a separate function, in preparation for multivolume support [SPC]
+ - os2/os2.c: use posix-style mkdir definition whenever __GNUC__ is defined,
+    for better compatibility with non-EMX gcc ports [Pavel Lastovicka, SPC]
+ - windll/windll.c: added missing SETLOCALE() initialization to Wiz_Init()
+    [Kevin Cheng]
+ - WINDLL port: in windll.c, changed FreeDllMem() scope into static; tried
+    to clarify in windll.txt that Wiz_SetOpts() and Wiz_Unzip() must be
+    used as a pair of functions [SPC]
+ - VMS: removed unused and undocumented /TYPE switch from CLI interface [SPC]
+
+5.5d (28 Apr 01):
+ - unix/Makefile: correction for LynxOS target [Mark Clayton]
+ - extract.c: synchronized extract_or_test_entrylist() prototype declaration
+    for the SET_DIR_ATTRIB case with actually used function interface [SPC]
+ - vms/descrip.mms: corrected typo in match_$O rule [Michael Lemke]
+ - vms/vms.c: limit buffer size for single block output to less than 64k
+    (RMS limit on VAX); corrected record overflow checks to use the right
+    RMS limit of (32k-1) [Mike Freeman, SPC]
+ - unzver.h: renamed COMPANY_NAME symbol to IZ_COMPANY_NAME, check for
+    symbol being already defined; restrict definition of OS/2-DLL specific
+    version symbols to OS/2 port [Mike White, SPC]
+ - windll/uzexampl.c: corrected inclusion path of unzver.h [Mike White]
+ - acorn/GMakefile: need NO_STRNICMP, fixed missing renaming of version.h
+    into unzvers.h [Andy Wingate]
+ - vms/vms.c: fixed long standing bug BUFS512 expression - clipping to a
+    multiple of 512 is achieved by ANDing with ~511 instead of ~512 [SPC]
+
+5.5e (29 Apr 01):
+ - vms/vms.c: added missing -c handling in WriteBuffer() to make the "-b"
+    binary piping mode functional [SPC]
+
+5.5f (30 Sep 01):
+ - OS2, WIN32: reenable -X "restore ACLs" option (has been broken since
+    version 5.42 due to incomplete change by SPC [Michael Ringe, SPC]
+ - moved IZVMS specific e.f. decompression from vms/vms.c into extract.c, this
+    functionality is now needed for generic VMS_TEXT_CONV feature [SPC]
+ - zipinfo.c: fixed 16-bit specific bug in verbose IZVMS e.f. report [SPC]
+ - unix/unxcfg.h: fixed setup for GNU/Hurd [Marcus Brinkmann]
+ - tandem/tandem.c: fixed copy&paste typo in stat() [<YuZH@spdb.com.cn>]
+ - vms/cmdline.c: verbatim '%' signs in format specification strings are
+    "escaped" by doubling them, to prevent compiler warnings for newest
+    DEC (COMPAQ) C versions [Dirk Munk, SPC]
+ - tandem/tanunz.c, tandem/tandem.[ch], fileio.c: created Tandem-specific
+    version of open_outfile(), moved UNZIP part of zipopen() code into this
+    function [SPC]
+ - generic: added ZCONST attributes to several function string pointer
+    parameters when the function does not modify the string contents [SPC]
+ - Contents, README, INSTALL, ToDo, WHERE: documentation updates [SPC]
+
+5.5g (05 Nov 01):
+ - win32/Makefile.bc: completed support for guisfx stub and static lib [SPC]
+ - vms/vms.c: in find_vms_attrs(), fixed IZVMS ef-block parser which has been
+    broken by changes for 5.5f beta [SPC]
+ - acorn/acorn.c: fixed missing semicolon in setRISCOSexfield() prototype
+    declaration [Andy Wingate]
+ - win32/Makefile.bc: removed -q flag for compatibility with older versions
+    of Borland C++ Builder [E-Yen Tan]
+
+5.5h (12 Jan 02):
+ - man/*.1: modified manpages to be more "friendly" to automatic conversion
+    tools into the OpenSource "DocBook" format [Eric S. Raymond];
+    tested new manpages and corrected some formatting quirks [SPC]
+ - extract.c: corrected size mismatches between format specifiers and actual
+    numeric arguments [SPC]
+ - msdos/msdos.c: cleanup of token concatenation preprocessor warnings emitted
+    by GCC 3.02 [SPC]
+ - process.c: moved definition of symbol SPARKID_2 from acorn/riscos.h into
+    this file (symbol used by getRISCOSexfield()) [Santiago Vila, SPC]
+ - unzip.c, unzip() main function, REENTRANT code: fixed signal handler "leak"
+    by saving previous state of all allocated signal handlers and restoring
+    them at function exit [Jim Mathies, SPC]
+ - unzip.h, unzpriv.h: moved "internal" function return codes (IZ_DIR etc.)
+    into the private main header unzpriv.h [SPC]
+ - extract.c, fileio.c: extended UNIXBACKUP optional functionality to create
+    "numbered" backup filenames, fixed behaviour when backup file already
+    exists (-o option switches off numbered backup files and overwrites the
+    first backup file when neccessary) [Mauricio Ponzo, SPC]
+ - unzpriv.h, fileio.c, process.c: changed ZLSEEK macro into a real function
+    seek_zipf() (located in fileio.c); added check of return code to its
+    calls; fixed filehandle leak in do_seekable() that occured in case of
+    ZLSEEK errors [Miki Shapiro, SPC]
+ - wince/intrface.cpp: added SetFileSize() function to preallocate extraction
+    file space, as implemented in the win32 port (dummy function for WinCE
+    native compiles because availability of system service is unknown) [SPC]
+ - funzip.c: changed skope of err() helper function to "static" [Mark Adler]
+
+5.5i (01 Feb 02):
+ - acorn/acorn.c: correct dir traversal security fix (Acorn uses '^'as parent
+    folder reference); update and enhance the special character translations;
+    static printRISCOSexfield() functions must only be declared when its
+    definition is active [Darren Salt]
+ - unzip.h, unzip.c, man/unzip.1: disabled -: option for Acorn [SPC]
+ - amiga/flate.a, amiga/makefile.azt: modified the way of including gbloffs'
+    output in the assembler inflate code [Paul Kienitz]
+ - gbloffs.c: corrected USE_DEFLATE64 symbol name, added missing type cast to
+    CRYPT symbol handling [Paul Kienitz]
+ - unix/Makefile: corrected and renamed target(s) for MacOS X [Mark Adler, SPC]
+ - acorn/makefile: make does not like recursive macro definitions [Darren Salt]
+ - unreduce.c: indented the #error message directive to hide it from pure
+    traditional K&R C style preprocessors [Peter Jones, SPC]
+ - amiga/filedate.c: exclude time handling code from Zip utility compiles
+    (a Zip change) [Paul Kienitz]
+ - acorn/GMakeFile: updated machine-specific options, used standard "gcc" as
+    command driver for linking [Andy Wingate]
+ - unix/unix.c, mapname(): removed extranous opening parentesis from optional
+    ACORN_FTYPE_NFS only code [Santiago Vila, SPC]
+ - acorn/acorn.c: corrected location of the MimeMap module [Darren Salt]
+ - acorn/riscos.c: fixed problem with readdir() sometimes not detecting end-
+    of-dir on "RISCOS V4 long directory format" FSs [Darren Salt]
+ - msdos/makefile.wat, os2/makefile.os2, win32/Makefile.wat: updated the
+    Watcom C support, checked MSDOS builds, added win32 DLL target [SPC]
+
+5.5j (11 Feb 02):
+ - acorn/GMakefile, acorn/Contents: made clean target working as expected,
+    updated and moved version info of gcc used (Andy Wingate)
+ - tandem/make: added support for switching on/off of CRYPT option [Dave Smith]
+ - tandem/HISTORY: updated "version of current binaries" info [Dave Smith]
+ - tandem/tanunz.c, open_outfile(): removed unneeded fopen redefines [SPC]
+ - tandem/tanunz.c, checkdir(): fixed missing closing ')' of FnFilter2 macro
+    calls [Dave Smith]
+ - LICENSE: clarification that unmodified UnZipSFX stub binaries can be
+    distributed as part of SFX Zip archives without any further documentation
+    requirements [Christian Spieler, Ian E. Gorman, Greg Roelofs]
+
+5.5 (17 Feb 02):
+ - inflate.c, explode.c, globals.h, unzpriv.h: changed type of "extra bits"
+    arrays used to build the decoding huffman trees from "ush" into "uch" for
+    optimization and adapted corresponding variable types [SPC]
+ - tandem/tandem.c: small cosmetic changes to catch up with Zip mods [SPC]
+ - unzpriv.h, tandem/tandem.h: removed Zip-specific settings, implemented the
+    USE_EF_UT_TIME default setting for both Zip and UnZip in tandem.h, removed
+    corresponding entry from unzpriv.h [SPC]
+ - LICENSE: refinement of the SFX stub related insertion [Greg Roelofs]
+ - windll/windll.rc: updated copyright year [SPC]
+ - msdos/makefile.dj1, msdos/makefile.dj2: added missing header dependencies,
+    corrected wrong object list for unzipsfx target (only .dj1) [SPC]
+ - tandem/tanunz.c, open_outfile(): repaired wrong variable names, added
+    "upshifting" of filename before executing system calls [Dave Smith]
+ - unzpriv.h, TANDEM setup: define INT_16BIT symbol when compiling in NON WIDE
+    mode to get DEFLATE64 option to work [Dave Smith]
+ - win32/Makefile.wat: finished "$(OBJS)" -> "$(OBJU) conversion [Paul Kienitz]
+ - win32/w32cfg.h: Watcom C requires IZTZ_DEFINESTDGLOBALS setting when using
+    the timehandling replacement code from timezone.c [Paul Kienitz]
+ - README, unzvers.h: removed BETA notes for public release [SPC]
+ - os2/os2.c, SetFileSize(): 16-bit OS/2 needs fake code here [Kai-Uwe Rommel]
+ - unzpriv.h: added ZCONST to varmessage() buf arg [Kai-Uwe Rommel, SPC]
+ - os2/os2.c: added #ifndef FUNZIP sections to allow inclusion of this module
+    in the object modules list for 16-bit fUnZip targets [SPC]
+ - os2/makefile.os2: fixed 16-bit targets to include os2f.obj resp. msdosf.obj
+    in the fUnZip object modules list [SPC]
+ - fileio.c, do_string(): added typecasts in CHEAP_SFX_AUTORUN option code to
+    remove signed/unsigned mismatch warnings [Hunter Goatley]
+
+==================
+
+These changes occurred in beta versions 5.5a to 5.5.  This list may have
+left out some bugfixes and even some features...void where prohibited, your
+mileage may vary, etc., etc.
+
+Christian Spieler

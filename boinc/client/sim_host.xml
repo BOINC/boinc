@@ -1,0 +1,9 @@
+<host>
+    <p_fpops>1</p_fpops>
+    <m_nbytes>1e9</m_nbytes>
+    <p_ncpus>2</p_ncpus>
+    <available>
+        <frac>.8</frac>
+        <lambda>1000</lambda>
+    </available>
+</host>

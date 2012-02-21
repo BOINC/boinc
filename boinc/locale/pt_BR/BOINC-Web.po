@@ -1,0 +1,1463 @@
+# BOINC web translation
+# Copyright (C) 2008-2009 University of California
+# This file is distributed under the same license as BOINC.
+# FileID  : $Id$
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
+"POT-Creation-Date: 2011-04-04 22:09 PDT\n"
+"PO-Revision-Date: 2006-09-18 17:43-0300\n"
+"Last-Translator: alcirsp <alcirsp@user.com.br>\n"
+"Language-Team: \n"
+"Language: pt_BR\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Translate Toolkit 1.2.1\n"
+"X-Poedit-SourceCharset: utf-8\n"
+"X-Poedit-SearchPath-0: doc\n"
+"X-Poedit-Basepath: C:\\Src\\BOINCSVN\\trunk\\boinc\n"
+"X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
+"X-Poedit-KeywordsList: tra\n"
+
+#: projects.inc:14
+msgid "Cognitive science and artifical intelligence"
+msgstr ""
+
+#: projects.inc:17
+msgid "FreeHAL"
+msgstr ""
+
+#: projects.inc:19 projects.inc:254 projects.inc:290 projects.inc:297
+msgid "private"
+msgstr ""
+
+#: projects.inc:20
+msgid "Artificial intelligence"
+msgstr ""
+
+#: projects.inc:21
+msgid ""
+"Parse and convert semantic nets for use in FreeHAL, an artificial "
+"intelligence that uses semantic networks, stemmers, part of speech "
+"databases, and part of speech taggers in order to imitate human behavior in "
+"conversations."
+msgstr ""
+
+#: projects.inc:27
+msgid "Biology and Medicine"
+msgstr ""
+
+#: projects.inc:30
+msgid "POEM@HOME"
+msgstr ""
+
+#: projects.inc:32
+msgid "University of Karlsruhe (Germany)"
+msgstr ""
+
+#: projects.inc:33
+msgid "Protein structure prediction"
+msgstr ""
+
+#: projects.inc:34
+msgid ""
+"POEM@HOME uses a computational approach to predict the biologically active "
+"structure of proteins, to understand the signal-processing mechanisms when "
+"the proteins interact with one another, to understand diseases related to "
+"protein malfunction or aggregation, and to develop new drugs on the basis of "
+"the three-dimensions structure of biologically important proteins."
+msgstr ""
+
+#: projects.inc:38
+msgid "Docking@Home"
+msgstr ""
+
+#: projects.inc:40
+msgid "University of Delaware"
+msgstr ""
+
+#: projects.inc:41
+msgid "Study of protein - ligand interactions"
+msgstr ""
+
+#: projects.inc:42
+msgid ""
+"Docking@Home has both bioscience and computer science goals. The project "
+"aims to further knowledge of the atomic details of protein-ligand "
+"interactions and, by doing so, will search for insights into the discovery "
+"of novel pharmaceuticals."
+msgstr ""
+
+#: projects.inc:46
+msgid "GPUGrid.net"
+msgstr ""
+
+#: projects.inc:48
+msgid "Barcelona Biomedical Research Park (PRBB)"
+msgstr ""
+
+#: projects.inc:49
+msgid "Molecular simulations of proteins"
+msgstr ""
+
+#: projects.inc:50
+msgid ""
+"GPUGrid.net opens novel computational scenarios by the first full-atom "
+"molecular dynamics code (CellMD) specially optimized to run on NVIDIA GPUs. "
+"New biomedical applications suddenly become possible giving a new role to "
+"computational biology for biomedical research."
+msgstr ""
+
+#: projects.inc:54
+msgid "Superlink@Technion"
+msgstr ""
+
+#: projects.inc:56
+msgid "Technion, Israel"
+msgstr ""
+
+#: projects.inc:57
+msgid "Genetic linkage analysis"
+msgstr ""
+
+#: projects.inc:58
+msgid ""
+"Superlink@Technion helps geneticists all over the world find disease-"
+"provoking genes causing some types of diabetes, hypertension (high blood "
+"pressure), cancer, schizophrenia and many others."
+msgstr ""
+
+#: projects.inc:70
+msgid "The Lattice Project"
+msgstr ""
+
+#: projects.inc:72
+msgid ""
+"University of Maryland Center for Bioinformatics and Computational Biology"
+msgstr ""
+
+#: projects.inc:73
+msgid "Life science research"
+msgstr ""
+
+#: projects.inc:74
+msgid ""
+"The Lattice Project supplies computing power to scientists at the University "
+"of Maryland studying evolutionary relationships based on DNA sequence data; "
+"bacterial, plasmid, and virus protein sequences; and biological diversity in "
+"nature reserves. "
+msgstr ""
+
+#: projects.inc:78
+msgid "Malariacontrol.net"
+msgstr ""
+
+#: projects.inc:80
+msgid "The Swiss Tropical Institute"
+msgstr ""
+
+#: projects.inc:81
+msgid "Epidemiology"
+msgstr ""
+
+#: projects.inc:82
+msgid ""
+"Simulation models of the transmission dynamics and health effects of malaria "
+"are an important tool for malaria control. They can be used to determine "
+"optimal strategies for delivering mosquito nets, chemotherapy, or new "
+"vaccines which are currently under development and testing.  Such modeling "
+"is extremely computer intensive, requiring simulations of large human "
+"populations with a diverse set of parameters related to biological and "
+"social factors that influence the distribution of the disease. "
+msgstr ""
+
+#: projects.inc:102
+msgid "Rosetta@home"
+msgstr ""
+
+#: projects.inc:104
+msgid "University of Washington"
+msgstr ""
+
+#: projects.inc:105 projects.inc:113
+msgid "Biology"
+msgstr ""
+
+#: projects.inc:106
+msgid ""
+"Determine the 3-dimensional shapes of proteins in research that may "
+"ultimately lead to finding cures for some major human diseases. By running "
+"Rosetta@home you will help us speed up and extend our research in ways we "
+"couldn't possibly attempt without your help. You will also be helping our "
+"efforts at designing new proteins to fight diseases such as HIV, Malaria, "
+"Cancer, and Alzheimer's"
+msgstr ""
+
+#: projects.inc:110
+msgid "SIMAP"
+msgstr ""
+
+#: projects.inc:112
+msgid "University of Vienna"
+msgstr ""
+
+#: projects.inc:114
+msgid ""
+"Calculate similarities between proteins. SIMAP provides a public database of "
+"the resulting data, which plays a key role in many bioinformatics research "
+"projects."
+msgstr ""
+
+#: projects.inc:120
+msgid "Earth Sciences"
+msgstr ""
+
+#: projects.inc:130
+msgid "Virtual Prairie"
+msgstr ""
+
+#: projects.inc:132
+msgid "University of Houston"
+msgstr ""
+
+#: projects.inc:133
+msgid "Study of botanical ecosystems"
+msgstr ""
+
+#: projects.inc:134
+msgid ""
+"Provide ecological guidelines on the design of prairies with the best "
+"potential for water purification."
+msgstr ""
+
+#: projects.inc:137
+msgid "Climateprediction.net"
+msgstr ""
+
+#: projects.inc:139
+msgid "Oxford University"
+msgstr ""
+
+#: projects.inc:140
+msgid "Climate study"
+msgstr ""
+
+#: projects.inc:141
+msgid ""
+"Investigate the approximations that have to be made in state-of-the-art "
+"climate models. By running the model thousands of times we hope to find out "
+"how the model responds to slight tweaks to these approximations - slight "
+"enough to not make the approximations any less realistic. This will allow us "
+"to improve our understanding of how sensitive our models are to small "
+"changes and also to things like changes in carbon dioxide and the sulphur "
+"cycle. This will allow us to explore how climate may change in the next "
+"century under a wide range of different scenarios."
+msgstr ""
+
+#: projects.inc:148
+msgid "Astronomy/Physics/Chemistry"
+msgstr ""
+
+#: projects.inc:151
+msgid "eOn"
+msgstr ""
+
+#: projects.inc:153
+msgid "University of Texas at Austin"
+msgstr ""
+
+#: projects.inc:154 projects.inc:185 projects.inc:225
+msgid "Chemistry"
+msgstr ""
+
+#: projects.inc:155
+msgid ""
+"A common problem in theoretical chemistry, condensed matter physics and "
+"materials science is the calculation of the time evolution of an atomic "
+"scale system where, for example, chemical reactions and/or diffusion occur. "
+"Generally the events of interest are quite rare (many orders of magnitude "
+"slower than the vibrational movements of the atoms), and therefore direct "
+"simulations, tracking every movement of the atoms, would take thousands of "
+"years of computer calculations on the fastest present day computer before a "
+"single event of interest can be expected to occur.  Our research group is "
+"interested in calculating the long time dynamics of systems."
+msgstr ""
+
+#: projects.inc:158
+msgid "Orbit@home"
+msgstr ""
+
+#: projects.inc:160
+msgid "Planetary Science Institute"
+msgstr ""
+
+#: projects.inc:161 projects.inc:169 projects.inc:177
+msgid "Astronomy"
+msgstr ""
+
+#: projects.inc:162
+msgid "Monitor and study the hazard posed by near-Earth asteroids"
+msgstr ""
+
+#: projects.inc:166
+msgid "Cosmology@Home"
+msgstr ""
+
+#: projects.inc:168
+msgid "University of Illinois at Urbana-Chamapign"
+msgstr ""
+
+#: projects.inc:170
+msgid ""
+"The goal of Cosmology@Home is to search for the model that best describes "
+"our Universe and to find the range of models that agree with the available "
+"astronomical particle physics data."
+msgstr ""
+
+#: projects.inc:174
+msgid "Milkyway@home"
+msgstr ""
+
+#: projects.inc:176
+msgid "Rensselaer Polytechnic Institute"
+msgstr ""
+
+#: projects.inc:178
+msgid ""
+"The goal of Milkyway@Home is to create a highly accurate three dimensional "
+"model of the Milky Way galaxy using data gathered by the Sloan Digital Sky "
+"Survey."
+msgstr ""
+
+#: projects.inc:182
+msgid "Leiden Classical"
+msgstr ""
+
+#: projects.inc:184
+msgid "Leiden University, The Netherlands"
+msgstr ""
+
+#: projects.inc:186
+msgid ""
+"Surface science calculations using Classical Dynamics.  Leiden Classical "
+"allows volunteers, students and other scientist to submit their personal "
+"calculations to the grid. Each user has his own personal queue for Classical "
+"Dynamics jobs. In this way students have used the grid to simulate liquid "
+"argon, or to test the validity of the ideal gas law by actually doing the "
+"simulations through the grid."
+msgstr ""
+
+#: projects.inc:190
+msgid "uFluids@home"
+msgstr ""
+
+#: projects.inc:192
+msgid "Purdue University"
+msgstr ""
+
+#: projects.inc:193
+msgid "Physics/Aeronautics"
+msgstr ""
+
+#: projects.inc:194
+msgid ""
+"The uFluids project simulates two-phase fluid behavior in microgravity and "
+"microfluidics problems. Our goal is to design better satellite propellant "
+"management devices and address two-phase flow in microchannel and MEMS "
+"devices."
+msgstr ""
+
+#: projects.inc:198
+msgid "Einstein@home"
+msgstr ""
+
+#: projects.inc:200
+msgid "Univ. of Wisconsin - Milwaukee, Max Planck Institute"
+msgstr ""
+
+#: projects.inc:201
+msgid "Astrophysics"
+msgstr ""
+
+#: projects.inc:202
+msgid ""
+"Search for spinning neutron stars (also called pulsars) using data from the "
+"LIGO and GEO gravitational wave detectors, and from the Arecibo radio "
+"observatory.  Einstein@Home is a World Year of Physics 2005 project "
+"supported by the American Physical Society (APS) and by a number of "
+"international organizations."
+msgstr ""
+
+#: projects.inc:206
+msgid "LHC@home"
+msgstr ""
+
+#: projects.inc:208
+msgid "CERN (European Organization for Nuclear Research)"
+msgstr ""
+
+#: projects.inc:209
+msgid "Physics"
+msgstr ""
+
+#: projects.inc:210
+msgid ""
+"The Large Hadron Collider (LHC) is a particle accelerator at CERN, the "
+"European Organization for Nuclear Research, the world's largest particle "
+"physics laboratory.  It is the most powerful instrument ever built to "
+"investigate on particles proprieties. LHC@home runs simulations to improve "
+"the design of LHC and its detectors."
+msgstr ""
+
+#: projects.inc:214
+msgid "SETI@home"
+msgstr ""
+
+#: projects.inc:216
+msgid "University of California, Berkeley"
+msgstr ""
+
+#: projects.inc:217
+msgid "Astrophysics, astrobiology"
+msgstr ""
+
+#: projects.inc:218
+msgid ""
+"SETI (Search for Extraterrestrial Intelligence) is a scientific area whose "
+"goal is to detect intelligent life outside Earth. One approach, known as "
+"radio SETI, uses radio telescopes to listen for narrow-bandwidth radio "
+"signals from space. Such signals are not known to occur naturally, so a "
+"detection would provide evidence of extraterrestrial technology."
+msgstr ""
+
+#: projects.inc:222
+msgid "Quantum Monte Carlo at Home"
+msgstr ""
+
+#: projects.inc:224
+msgid "University of Muenster (Germany)"
+msgstr ""
+
+#: projects.inc:226
+msgid ""
+"Study the structure and reactivity of molecules using Quantum Chemistry."
+msgstr ""
+
+#: projects.inc:230
+msgid "Spinhenge@home"
+msgstr ""
+
+#: projects.inc:232
+msgid "Bielefeld University of Applied Sciences"
+msgstr ""
+
+#: projects.inc:233
+msgid "Chemical engineering and nanotechnology"
+msgstr ""
+
+#: projects.inc:234
+msgid ""
+"The study of molecular magnets and controlled nanoscale magnetism.  These "
+"magnetic molecules may be used to develop tiny magnetic switches, with "
+"applications in medicine (such as local tumor chemotherapy) and "
+"biotechnology."
+msgstr ""
+
+#: projects.inc:241
+msgid "Multiple applications"
+msgstr ""
+
+#: projects.inc:244
+msgid "CAS@home"
+msgstr ""
+
+#: projects.inc:246
+msgid "Chinese Academy of Sciences"
+msgstr ""
+
+#: projects.inc:247
+msgid "Physics, biochemistry, and others"
+msgstr ""
+
+#: projects.inc:248
+msgid ""
+"The objective of CAS@home is to encourage and assist scientists in China to "
+"adopt the technologies of volunteer computing and volunteer thinking for "
+"their research."
+msgstr ""
+
+#: projects.inc:252
+msgid "Yoyo@home"
+msgstr ""
+
+#: projects.inc:255
+msgid "Mathematics, physics, evolution"
+msgstr ""
+
+#: projects.inc:256
+msgid ""
+"Yoyo@home is an adapter between BOINC and several existing volunteer "
+"computing projects: ECM, Muon, Evolution@home, and distributed.net"
+msgstr ""
+
+#: projects.inc:259
+msgid "EDGeS@Home"
+msgstr ""
+
+#: projects.inc:261 projects.inc:360
+msgid "MTA-SZTAKI Laboratory of Parallel and Distributed Systems (Hungary)"
+msgstr ""
+
+#: projects.inc:262
+msgid "European research projects"
+msgstr ""
+
+#: projects.inc:263
+msgid ""
+"The EDGeS@Home Beta project integrates volunteer computing into the service "
+"grid network of Europe by allowing service grids to send workunits to be "
+"processed by the volunteers of this project. The scientific projects covered "
+"by the project include math, physics, biology, etc."
+msgstr ""
+
+#: projects.inc:267
+msgid "Ibercivis"
+msgstr ""
+
+#: projects.inc:269
+msgid "Spanish universities and research centers"
+msgstr ""
+
+#: projects.inc:270
+msgid "Various Spanish research projects"
+msgstr ""
+
+#: projects.inc:271
+msgid "Research in physics, material science, and biomedicine"
+msgstr ""
+
+#: projects.inc:275
+msgid "World Community Grid"
+msgstr ""
+
+#: projects.inc:277
+msgid "IBM Corporate Community Relations"
+msgstr ""
+
+#: projects.inc:278
+msgid "Humanitarian research on disease, natural disasters and hunger."
+msgstr ""
+
+#: projects.inc:279
+msgid ""
+"To further critical non-profit research on some of humanity's most pressing "
+"problems by creating the world's largest volunteer computing grid.  Research "
+"includes HIV/AIDS, cancer, muscular dystrophy, dengue fever, and many more."
+msgstr ""
+
+#: projects.inc:285
+msgid "Mathematics, computing, and games"
+msgstr ""
+
+#: projects.inc:288
+msgid "Enigma@Home"
+msgstr ""
+
+#: projects.inc:291 projects.inc:345
+msgid "Cryptography"
+msgstr ""
+
+#: projects.inc:292
+msgid ""
+"Attempt to decode 3 original Enigma messages. The signals were intercepted "
+"in the North Atlantic in 1942 and are believed to be unbroken."
+msgstr ""
+
+#: projects.inc:295
+msgid "Collatz Conjecture"
+msgstr ""
+
+#: projects.inc:298 projects.inc:337 projects.inc:353 projects.inc:361
+msgid "Mathematics"
+msgstr ""
+
+#: projects.inc:299
+msgid "Study the Collatz Conjecture, an unsolved conjecture in mathematics"
+msgstr ""
+
+#: projects.inc:302
+msgid "NFS@home"
+msgstr ""
+
+#: projects.inc:304
+msgid "California State University Fullerton"
+msgstr ""
+
+#: projects.inc:305
+msgid "Factorization of large integers"
+msgstr ""
+
+#: projects.inc:306
+msgid ""
+"NFS@Home is a research project that uses Internet-connected computers to do "
+"the lattice sieving step in the Number Field Sieve factorization of large "
+"integers. As a young school student, you gained your first experience at "
+"breaking an integer into prime factors, such as 15 = 3 * 5 or 35 = 5 * 7. "
+"NFS@Home is a continuation of that experience, only with integers that are "
+"hundreds of digits long."
+msgstr ""
+
+#: projects.inc:310
+msgid "VTU@home"
+msgstr ""
+
+#: projects.inc:312
+msgid ""
+"Vilnius Gediminas Technical University and Kaunas University of Technology "
+"(Lithuania)"
+msgstr ""
+
+#: projects.inc:313
+msgid "Software testing"
+msgstr ""
+
+#: projects.inc:314
+msgid ""
+"The aim of this project is to provide a powerful distributed computing "
+"platform for scientists of Vilnius Gediminas Technical University (VGTU) as "
+"well as others Lithuanian academic institutions.  Current applications "
+"involve the study of Monte-Carlo based software testing."
+msgstr ""
+
+#: projects.inc:318
+msgid "AQUA@home"
+msgstr ""
+
+#: projects.inc:320
+msgid "D-Wave Systems, Inc."
+msgstr ""
+
+#: projects.inc:321
+msgid "Quantum computing"
+msgstr ""
+
+#: projects.inc:322
+msgid ""
+"D-Wave's AQUA (Adiabatic QUantum Algorithms) is a research project whose "
+"goal is to predict the performance of superconducting adiabatic quantum "
+"computers on a variety of hard problems arising in fields ranging from "
+"materials science to machine learning. AQUA@home uses Internet-connected "
+"computers to help design and analyze quantum computing algorithms, using "
+"Quantum Monte Carlo techniques."
+msgstr ""
+
+#: projects.inc:334
+msgid "ABC@home"
+msgstr ""
+
+#: projects.inc:336
+msgid "Mathematical Institute of Leiden University / Kennislink"
+msgstr ""
+
+#: projects.inc:338
+msgid ""
+"Search for 'abc-triples': positive integers a,b,c such that a+b=c, a &lt; b "
+"&lt; c, a,b,c have no common divisors and c > rad(abc), where rad(n) is the "
+"product of the distinct prime factors of n. The ABC conjecture says that "
+"there are only finitely many a,b,c such that log(c)/log(rad(abc)) > h for "
+"any real h > 1. The ABC conjecture is currently one of the greatest open "
+"problems in mathematics. If it is proven to be true, a lot of other open "
+"problems can be answered directly from it."
+msgstr ""
+
+#: projects.inc:342
+msgid "PrimeGrid"
+msgstr ""
+
+#: projects.inc:344
+msgid "Private"
+msgstr ""
+
+#: projects.inc:346
+msgid ""
+"Primegrid is generating a public sequential prime number database, and is "
+"searching for large twin primes of the form k*2<sup>n</sup>+1 and k*2<sup>n</"
+"sup>-1"
+msgstr ""
+
+#: projects.inc:350
+msgid "primaboinca"
+msgstr ""
+
+#: projects.inc:352
+msgid "Hochschule RheinMain University of Applied Sciences"
+msgstr ""
+
+#: projects.inc:354
+msgid ""
+"Search for counterexamples to two conjectures related to the identification "
+"of prime numbers"
+msgstr ""
+
+#: projects.inc:358
+msgid "SZTAKI Desktop Grid"
+msgstr ""
+
+#: projects.inc:362
+msgid ""
+"Find all the generalized binary number systems (in which bases are matrices "
+"and digits are vectors) up to dimension 11."
+msgstr ""
+
+#: projects.inc:382
+msgid "Chess960@home"
+msgstr ""
+
+#: projects.inc:384
+msgid "Chess-960.org"
+msgstr ""
+
+#: projects.inc:385
+msgid "Game-playing"
+msgstr ""
+
+#: projects.inc:386
+msgid ""
+"This project studies Chess 960, a variant of orthodox chess. In classical "
+"chess the starting position of the game never changes.  In Chess 960, just "
+"before the start of every game, the initial configuration of the chess "
+"pieces is determined randomly."
+msgstr ""
+
+#: versions.inc:6
+msgid "The current release is known to work with these Linux versions:"
+msgstr ""
+
+#: versions.inc:14
+msgid ""
+"For other Linux versions, check if a BOINC package is offered by your Linux "
+"distribution."
+msgstr ""
+
+#: versions.inc:25
+msgid ""
+"Alternatively, download the %1BOINC client for older Linux versions%2. This "
+"doesn't have a graphical interface, but it should work on all Linux systems, "
+"both x86 and x64."
+msgstr ""
+
+#: docutil.php:21
+msgid "Search"
+msgstr ""
+
+#: docutil.php:102
+msgid "Return to BOINC main page"
+msgstr ""
+
+#: docutil.php:113
+#, php-format
+msgid "This page is %stranslatable%s."
+msgstr ""
+
+#: download.php:40
+msgid "Download BOINC"
+msgstr ""
+
+#: download.php:42
+#, php-format
+msgid "%s for %s (%s MB)"
+msgstr ""
+
+#: download.php:89
+msgid ""
+"BOINC is a program that lets you donate your idle computer time to science "
+"projects like SETI@home, Climateprediction.net, Rosetta@home, World "
+"Community Grid, and many others. <p> After installing BOINC on your "
+"computer, you can connect it to as many of these projects as you like."
+msgstr ""
+
+#: download.php:91
+msgid ""
+"You may run this software on a computer only if you own the computer or have "
+"the permission of its owner."
+msgstr ""
+
+#: download.php:115
+#, php-format
+msgid ""
+"Note: if your computer is equipped with an Graphics Processing Unit (GPU), "
+"you may be able to %suse it to compute faster%s"
+msgstr ""
+
+#: download.php:121
+msgid "System requirements"
+msgstr ""
+
+#: download.php:122
+msgid "Release notes"
+msgstr ""
+
+#: download.php:123 index.php:82
+msgid "Help"
+msgstr ""
+
+#: download.php:124
+msgid "All versions"
+msgstr ""
+
+#: download.php:125
+msgid "Version history"
+msgstr ""
+
+#: download.php:142
+msgid "BOINC: compute for science"
+msgstr ""
+
+#: help.php:12
+#, php-format
+msgid ""
+"BOINC Online Help lets you talk one-on-one with experienced BOINC users, who "
+"can: %s answer questions about BOINC and volunteer computing; %s walk you "
+"through the process of installing and using BOINC; %s troubleshoot any "
+"problems you might have."
+msgstr ""
+
+#: help.php:21
+#, php-format
+msgid ""
+"BOINC Online Help is based on %sSkype%s, an Internet-based telephone system. "
+"Skype is free (both the software and the calls).  If you don't already have "
+"Skype, please %sdownload and install it now%s.  When you're finished, return "
+"to this page."
+msgstr ""
+
+#: help.php:28
+msgid ""
+"The best way to get help is by voice, for which you need either built-in "
+"microphone and speakers or an external headset for your computer.  You can "
+"also use Skype's text-based chat system or regular email (if you don't have "
+"Skype) to communicate with Help Volunteers."
+msgstr ""
+
+#: help.php:31
+msgid ""
+"Volunteers speaking several languages are available. Please select a "
+"language:"
+msgstr ""
+
+#: help.php:47
+msgid "Be a Help Volunteer"
+msgstr ""
+
+#: help.php:50
+#, php-format
+msgid ""
+"If you're an experienced BOINC user, we encourage you to %sbecome a Help "
+"Volunteer%s.  It's a great way to help the cause of scientific research and "
+"volunteer computing - and it's fun!"
+msgstr ""
+
+#: help.php:56
+#, php-format
+msgid ""
+"If you're already a Help Volunteer: to edit your settings, %sclick here%s."
+msgstr ""
+
+#: help_funcs.php:107
+msgid ""
+"BOINC helpers are unpaid volunteers.  Their advice is not endorsed by BOINC "
+"or the University of California."
+msgstr ""
+
+#: help_funcs.php:110
+msgid "%1Never%2 give email address or password information to BOINC helpers."
+msgstr ""
+
+#: index.php:23
+msgid "Computing power"
+msgstr ""
+
+#: index.php:25
+msgid "Top 100 volunteers"
+msgstr ""
+
+#: index.php:26
+msgid "Statistics"
+msgstr ""
+
+#: index.php:53
+msgid "Active:"
+msgstr ""
+
+#: index.php:53
+msgid "volunteers,"
+msgstr ""
+
+#: index.php:53
+msgid "computers.\n"
+msgstr ""
+
+#: index.php:54
+msgid "24-hour average:"
+msgstr ""
+
+#: index.php:54
+msgid "TeraFLOPS."
+msgstr ""
+
+#: index.php:66
+msgid "News"
+msgstr ""
+
+#: index.php:79
+msgid "Volunteer"
+msgstr ""
+
+#: index.php:81
+msgid "Download"
+msgstr ""
+
+#: index.php:83 index.php:118 index.php:169
+msgid "Documentation"
+msgstr ""
+
+#: index.php:89
+#, php-format
+msgid ""
+" Use the idle time on your computer (Windows, Mac, or Linux) to cure "
+"diseases, study global warming, discover pulsars, and do many other types of "
+"scientific research.  It's safe, secure, and easy:  %sChoose%s projects  %"
+"sDownload%s and run BOINC software  %sEnter%s an email address and password. "
+msgstr ""
+
+#: index.php:100
+#, php-format
+msgid ""
+"Or, if you run several projects, try an %saccount manager%s such as %"
+"sGridRepublic%s or %sBAM!%s. "
+msgstr ""
+
+#: index.php:116
+msgid "Compute with BOINC"
+msgstr ""
+
+#: index.php:119
+msgid "Software updates"
+msgstr ""
+
+#: index.php:126
+msgid ""
+"%1Scientists%2: use BOINC to create a %3volunteer computing project%4 giving "
+"you the computing power of thousands of CPUs."
+msgstr ""
+
+#: index.php:130
+msgid ""
+"%1Universities%2: use BOINC to create a %3Virtual Campus Supercomputing "
+"Center%4."
+msgstr ""
+
+#: index.php:135
+msgid "%1Companies%2: use BOINC for %3desktop Grid computing%4."
+msgstr ""
+
+#: index.php:147
+msgid "The BOINC project"
+msgstr ""
+
+#: index.php:153
+msgid "Message boards"
+msgstr ""
+
+#: index.php:154
+msgid "Email lists"
+msgstr ""
+
+#: index.php:155
+msgid "Personnel and contributors"
+msgstr ""
+
+#: index.php:156
+msgid "Events"
+msgstr ""
+
+#: index.php:157
+msgid "Papers and talks"
+msgstr ""
+
+#: index.php:158
+msgid "Research projects"
+msgstr ""
+
+#: index.php:159
+msgid "Logos and graphics"
+msgstr ""
+
+#: index.php:160
+msgid "and"
+msgstr ""
+
+#: index.php:164
+msgid "Help wanted"
+msgstr ""
+
+#: index.php:166
+msgid "Programming"
+msgstr ""
+
+#: index.php:167
+msgid "Translation"
+msgstr ""
+
+#: index.php:168
+msgid "Testing"
+msgstr ""
+
+#: index.php:170
+msgid "Publicity"
+msgstr ""
+
+#: index.php:172
+msgid "Software development"
+msgstr ""
+
+#: index.php:173
+msgid "APIs for add-on software"
+msgstr ""
+
+#: index.php:207
+msgid "Browser default"
+msgstr ""
+
+#: index.php:259
+#, php-format
+msgid ""
+"Open-source software for %svolunteer computing%s and %sgrid computing%s."
+msgstr ""
+
+#: index.php:272
+msgid "BOINC is based at The University of California, Berkeley"
+msgstr ""
+
+# The charset used for the text in this file (please try to use UTF-8 if possible)
+# The charset used for the text in this file (please try to use UTF-8 if possible)
+# #########################################
+# Language: English (International)
+# FileID  : $Id: pt_BR.po 13097 2007-07-04 15:28:28Z Rytis $
+# For more information please see:
+# http://boinc.berkeley.edu/web_translation.php
+#~ msgid "CHARSET"
+#~ msgstr "UTF-8"
+
+#~ msgid "DL_MIRRORS"
+#~ msgstr ""
+#~ "Note: files are downloaded from mirror servers at boinc.berkeley.edu, "
+#~ "morel.mit.edu, einstein.aei.mpg.de, einstein.astro.gla.ac.uk, einstein."
+#~ "ligo.caltech.edu, and einstein.aset.psu.edu (thanks to these "
+#~ "institutions). The server is chosen randomly - if a download fails, "
+#~ "reload this page and try again. "
+
+# #############################################
+# help.php
+# #############################################
+#~ msgid "HELP_TITLE"
+#~ msgstr "Getting help with BOINC"
+
+#~ msgid "HELP_HEADING1"
+#~ msgstr "Online Help"
+
+#~ msgid "HELP_P1_1"
+#~ msgstr ""
+#~ "BOINC Online Help lets you talk one-on-one with experienced BOINC users, "
+#~ "who can: %s answer questions about BOINC and volunteer computing; %s walk "
+#~ "you through the process of installing and using BOINC; %s troubleshoot "
+#~ "any problems you might have. "
+
+#~ msgid "HELP_P1_2"
+#~ msgstr ""
+#~ "BOINC Online Help is based on %sSkype%s, an Internet-based telephone "
+#~ "system. Skype is free (both the software and the calls). If you don't "
+#~ "already have Skype, please %sdownload and install it now%s. When you're "
+#~ "finished, return to this page. "
+
+#~ msgid "HELP_P1_3"
+#~ msgstr ""
+#~ "The best way to get help is by voice, for which you need either built-in "
+#~ "microphone and speakers or an external headset for your computer. You can "
+#~ "also use Skype's text-based chat system or regular email (if you don't "
+#~ "have Skype) to communicate with Help Volunteers."
+
+#~ msgid "HELP_P1_4"
+#~ msgstr ""
+#~ "Volunteers speaking several languages are available. Please select a "
+#~ "language: "
+
+#~ msgid "HELP_HEADING2"
+#~ msgstr "BOINC help on the web"
+
+#~ msgid "HELP_P2_ITEM1"
+#~ msgstr "BOINC user's manual"
+
+#~ msgid "HELP_P2_ITEM2"
+#~ msgstr "Troubleshooting BOINC "
+
+#~ msgid "HELP_P2_ITEM3"
+#~ msgstr "BOINC-related web sites "
+
+#~ msgid "HELP_P2_ITEM4"
+#~ msgstr "The BOINC message boards "
+
+#~ msgid "HELP_P2_ITEM5"
+#~ msgstr "The message boards on any BOINC-based project "
+
+#~ msgid "HELP_HEADING3"
+#~ msgstr "Be a Help Volunteer"
+
+#~ msgid "HELP_P3_1"
+#~ msgstr ""
+#~ "If you're an experienced BOINC user, we encourage you to %sbecome a Help "
+#~ "Volunteer%s. It's a great way to help the cause of scientific research "
+#~ "and volunteer computing - and it's fun!  "
+
+#~ msgid "HELP_P3_2"
+#~ msgstr ""
+#~ "If you're already a Help Volunteer: to edit your settings, %sclick here"
+#~ "%s. "
+
+# #############################################
+# index.php
+# #############################################
+#~ msgid "HOME_HEADING1"
+#~ msgstr "Volunteer"
+
+#~ msgid "HOME_P1"
+#~ msgstr ""
+#~ " Use the idle time on your computer  (Windows, Mac, or Linux)  to cure "
+#~ "diseases, study global warming,  discover pulsars, and do many other "
+#~ "types of scientific research.  It's safe, secure, and easy:  %sChoose%s "
+#~ "projects  %sDownload%s and run BOINC software  %sEnter%s an email address "
+#~ "and password. "
+
+#~ msgid "HOME_P2"
+#~ msgstr ""
+#~ "Or, if you run several projects, try an %saccount manager%s such as "
+#~ "%sGridRepublic%s or %sBAM!%s. "
+
+#~ msgid "HOME_P3"
+#~ msgstr ""
+#~ "If you have any questions, or need help getting started, you can %stalk "
+#~ "to a Volunteer Helper%s. "
+
+#~ msgid "HOME_DOWNLOAD"
+#~ msgstr "Download"
+
+#~ msgid "HOME_WEB_SITES"
+#~ msgstr "Web"
+
+#~ msgid "HOME_ADD_ONS"
+#~ msgstr "Add-ons"
+
+#~ msgid "HOME_SURVEY"
+#~ msgstr "Survey"
+
+#~ msgid "HOME_BOINC"
+#~ msgstr "Berkeley Open Infrastructure for Network Computing"
+
+#~ msgid "HOME_BOINC_DESC"
+#~ msgstr ""
+#~ "Open-source software for %svolunteer computing%s and %sgrid computing%s"
+
+# #######################################
+# download.php 2006/08/03 by je2bwm
+# #######################################
+#~ msgid "DL_DOWNLOAD"
+#~ msgstr "Baixe o BOINC"
+
+#~ msgid "DL_VERSION_LNAME_SIZE"
+#~ msgstr "%s de %s (%s MB)"
+
+#~ msgid "DL_WHATS_BOINC"
+#~ msgstr ""
+#~ " BOINC é um programa que permite a você doar o tempo ocioso de seu micro "
+#~ "para projetos científicos como o...        SETI@home, Climateprediction."
+#~ "net, Rosetta@home,        World Community Grid, e muitos outros.        "
+#~ "<p>       Depois de instalar o BOINC em seu micro,     você poderá "
+#~ "conectar a vários desses projetos, como você desejar.<p>"
+
+#~ msgid "DL_SYSTEMREQ"
+#~ msgstr "Requisitos do sistema"
+
+#~ msgid "DL_RELNOTES"
+#~ msgstr "Notas da versão"
+
+#~ msgid "DL_OTHERSYS"
+#~ msgstr "Outros sistemas"
+
+#~ msgid "DL_ALLVERSIONS"
+#~ msgstr "Todas as versões"
+
+#~ msgid "DL_IF_OTHERTYPES"
+#~ msgstr "Se seu micro não for de nenhum dos tipos acima, você poderá"
+
+#~ msgid "DL_MAKEYOUROWN"
+#~ msgstr "%s desenvolver seu próprio software %s ou"
+
+#~ msgid "DL_DL_FROM3RDP"
+#~ msgstr ""
+#~ "%s baixar programas de terceiros %s (disponível para Solaris/Opteron, "
+#~ "Linux/Opteron, Linux/PPC, HP-UX, e FreeBSD, e outros)."
+
+#~ msgid "DL_DOWNLOAD_TITLE"
+#~ msgstr "BOINC: computação para a ciência"
+
+# #############################################
+# system_requirements.php by je2bwm 2006/08/07
+# #############################################
+#~ msgid "SRQ_PAGE_TITLE"
+#~ msgstr "Requisitos do sistema"
+
+#~ msgid "SRQ_INTRO"
+#~ msgstr ""
+#~ "Seu micro precisa satisfazer os seguintes requisitos para rodar o BOINC. "
+#~ "Os projetos baseados no BOINC podem ter requisitos adicionais."
+
+#~ msgid "SRQ_MSWIN"
+#~ msgstr "Windows"
+
+#~ msgid "SRQ_OS"
+#~ msgstr "Sistemas operacionais"
+
+#~ msgid "SRQ_MSWIN_REQ_OS"
+#~ msgstr "Windows 98 ou posterior"
+
+#~ msgid "SRQ_MIN_HARDWARE"
+#~ msgstr "Hardware mínimo"
+
+#~ msgid "SRQ_MSWIN_REQ_CPU"
+#~ msgstr "Pentium 233 MHz (Recomendado: Pentium 500 MHz ou superior)"
+
+#~ msgid "SRQ_MSWIN_REQ_RAM"
+#~ msgstr "64 MB RAM (Recomendado: 128 MB RAM ou superior)"
+
+#~ msgid "SRQ_MSWIN_REQ_DISK"
+#~ msgstr "20 MB de espaço em disco"
+
+#~ msgid "SRQ_APPLMAC"
+#~ msgstr "Macintosh"
+
+#~ msgid "SRQ_APPLMAC_REQ_OS"
+#~ msgstr "Mac OS X 10.3 e posteriores"
+
+#~ msgid "SRQ_APPLMAC_REQ_CPU"
+#~ msgstr "Macintosh com processador Intel x86or PowerPC G3, G4, ou G5"
+
+#~ msgid "SRQ_APPLMAC_REQ_RAM"
+#~ msgstr "128 MB RAM (Recomendado: 256 MB RAM ou superior)"
+
+#~ msgid "SRQ_APPLMAC_REQ_DISK"
+#~ msgstr "200 MB de espaço em disco"
+
+#~ msgid "SRQ_LINUX"
+#~ msgstr "Linux"
+
+#~ msgid "SRQ_LINUX_REQ_KERNEL"
+#~ msgstr "Linux kernel 2.2.14 ou posterior"
+
+#~ msgid "SRQ_LINUX_REQ_GLIBC"
+#~ msgstr "glibc 2.3.2  ou posterior"
+
+#~ msgid "SRQ_LINUX_REQ_XFREE86"
+#~ msgstr "XFree86-3.3.6 ou posterior"
+
+#~ msgid "SRQ_LINUX_REQ_GTKPLUS"
+#~ msgstr "gtk+2.0 ou posterior"
+
+#~ msgid "SRQ_LINUX_REQ_CPU"
+#~ msgstr "Pentium 500 MHz  ou superior"
+
+#~ msgid "SRQ_LINUX_REQ_RAM"
+#~ msgstr "64 MB RAM"
+
+#~ msgid "SRQ_LINUX_REQ_DISK"
+#~ msgstr "50 MB de espaço em disco"
+
+# #############################################
+# release notes by je2bwm 2006/08/09
+# #############################################
+#~ msgid "RLN_PAGE_TITLE"
+#~ msgstr "Notas da versão"
+
+#~ msgid "RLN_WHATS_NEW"
+#~ msgstr "Novidades %s"
+
+#~ msgid "RLN_INSTALLING"
+#~ msgstr "Instalando"
+
+#~ msgid "RLN_UNINSTALLING"
+#~ msgstr "Desinstalando"
+
+#~ msgid "RLN_KNOWN_ISSUES"
+#~ msgstr "Emissão conhecida"
+
+#~ msgid "RLN_TROUBLESHOOT"
+#~ msgstr "Eliminando problemas"
+
+#~ msgid "RLN_NEWF_5_4_AM"
+#~ msgstr ""
+#~ "Suporte para  'Gerenciadores de contas' - sites que permitem a você "
+#~ "navegar nos projetos BOINC, conectar/desconectar, mudar configurações e "
+#~ "partilhar recursos, tudo de maneira simples, com um único clique. Os "
+#~ "Gerenciadores de contas também são úteis caso você tiver vários micros - "
+#~ "você faz alterações em um micro, e todos os outros micros serão "
+#~ "alterados. "
+
+#~ msgid "RLN_NEWF_5_4_PREF_OVERRIDE"
+#~ msgstr ""
+#~ "As preferências gerais podem ser sobre-escritas por um arquivo local; os "
+#~ "detalhes estão  %s aqui %s."
+
+#~ msgid "RLN_NEWF_5_4_ALERTS_CONNECT"
+#~ msgstr ""
+#~ "O BOINC alertará você sempre que necessário para criar uma conexão com a "
+#~ "internet."
+
+#~ msgid "RLN_RECOMMEND_LATEST_VERSION"
+#~ msgstr "Recomendamos que todos os usuários do BOINC atualizem para a %s."
+
+#~ msgid "RLN_LINK2_VERSION_HISTORY"
+#~ msgstr "Um histórico detalhado da revisão está %s aqui %s."
+
+#~ msgid "RLN_MSWIN"
+#~ msgstr "Windows"
+
+#~ msgid "RLN_APPLMAC"
+#~ msgstr "Macintosh"
+
+#~ msgid "RLN_LINUX"
+#~ msgstr "Linux"
+
+#~ msgid "RLN_MSWIN_INSTALL_MODES"
+#~ msgstr "O BOINC pode ser instalado de vários modos:"
+
+#~ msgid "RLN_SINGLE_USER_INSTALL"
+#~ msgstr "Instalação tipo Simples-usuário"
+
+#~ msgid "RLN_MSWIN_INSTALL_SINGLE_USER_DESC"
+#~ msgstr ""
+#~ "Este é o modo recomendado. O BOINC rodará somente quando você (o usuário "
+#~ "instalador) estiver \"logado\" no micro. O BOINC ficará na lista do menu "
+#~ "Iniciar para seu perfil, mas não estará disponível em outros perfis. A "
+#~ "opção \"Exibir gráficos\" do gerenciador de tarefas do BOINC funcionará "
+#~ "somente em seu perfil. O protetor de telas do BOINC será exibido somente "
+#~ "em seu perfil (os outros perfis poderão rodar o protetor de telas, mas "
+#~ "somente com textos)."
+
+#~ msgid "RLN_SHARED_INSTALL"
+#~ msgstr "Instalação compartilhada"
+
+#~ msgid "RLN_MSWIN_INSTALL_SHARED_DESC"
+#~ msgstr ""
+#~ "O BOINC rodará sempre, em qualquer perfil. Também será exibido no menu "
+#~ "Iniciar de todos os usuários. Quando o BOINC estiver rodando, ele rodará "
+#~ "como um usuário em particular (sempre será o primeiro usuário instalou o "
+#~ "BOINC pela primeira vez). O comando \"Exibir gráficos\" no gerenciador do "
+#~ "BOINC funcionará somente no perfil do instalador. O protetor de telas do "
+#~ "BOINC funcionará somente no perfil do instalador (outros perfis poderão "
+#~ "rodar o protetor de telas, mas verão somente textos)."
+
+#~ msgid "RLN_WIN_SERVICE_INSTALL"
+#~ msgstr "Instalação tipo serviço"
+
+#~ msgid "RLN_MSWIN_INSTALL_WINSERVICE_DESC"
+#~ msgstr ""
+#~ "O BOINC funcionará o tempo todo (mesmo que nenhum perfil estiver "
+#~ "selecionado). O BOINC aparecerá no menu Iniciar do perfil do instalador, "
+#~ "mas não nos outros perfis. O comando \"Exibir gráficos\" no gerenciador "
+#~ "BOINC não funcionará para nenhum usuário. O protetor de telas do BOINC "
+#~ "exibirá somente textos. "
+
+#~ msgid "RLN_LINUX_INSTALL_SEA_DESC"
+#~ msgstr ""
+#~ "O BOINC para Linux é distribuído como um arquivo auto-extrator. Esse tipo "
+#~ "de instalação requer que voc~e esteja familiarizado com o modo linha-de-"
+#~ "comando do UNIX "
+
+#~ msgid "RLN_LINUX_DL_FILENAME"
+#~ msgstr "Os arquivos recebidos tem nomes como <code>%s</code>."
+
+#~ msgid "RLN_LINUX_RUN_SEA"
+#~ msgstr "Após baixar o arquivo, escreva<pre>%s</pre>"
+
+#~ msgid "RLN_LINUX_RESULTOF_SEA"
+#~ msgstr "Isso criará uma pasta BOINC/ com os seguintes arquivos:"
+
+#~ msgid "RLN_BOINC_CORE_CL"
+#~ msgstr "O programa principal do BOINC"
+
+#~ msgid "RLN_BOINC_MANAGER"
+#~ msgstr "O gerenciador do BOINC"
+
+#~ msgid "RLN_SCRIPT_RUN_CLIENT_DESC"
+#~ msgstr ""
+#~ "Um \"script\" que entrará na pasta BOINC e rodará o programa principal."
+
+#~ msgid "RLN_SCRIPT_RUN_MANAGER_DESC"
+#~ msgstr "Um \"script\" que entrará na pasta BOINC e rodará o gerenciador."
+
+#~ msgid "RLN_LINUX_AUTOSTART"
+#~ msgstr ""
+#~ "Talves você terá que%s ativar automaticamente o programa principal %sao "
+#~ "iniciar o micro."
+
+#~ msgid "RLN_MSWIN_UNINSTALL_DESC"
+#~ msgstr ""
+#~ "No menu Iniciar, selecione Programas / BOINC / Desinstalar. Ou no menu "
+#~ "Iniciar, selecione Configurações / Adicionar ou remover programas."
+
+#~ msgid "RLN_ISSUE_PROXY_NTLMAUTH"
+#~ msgstr ""
+#~ "Caso você usar um servidor proxy, por favor desative as atualizações por "
+#~ "um momento. Nos temos dificuldades em funcionar com proxies que usam "
+#~ "autenticação NTLM. "
+
+#~ msgid "RLN_ISSUE_MSWIN_LATEST_DIRECTX"
+#~ msgstr ""
+#~ "Se as aplicações BOINC estiverem travando repetidamente seu micro, é "
+#~ "possível que você tenha que %atualizar para a última versão do DirectX %s."
+
+#~ msgid "RLN_ISSUE_MSWIN_SCREENSAVER_XP3D"
+#~ msgstr ""
+#~ "Caso o BOINC rodar ao mesmo tempo que um protetor de telas 3-D no Windows "
+#~ "XP, o sistema se tornará lento e  suscetível. "
+
+#~ msgid "RLN_ISSUE_MSWIN_NO_SCREENSAVER"
+#~ msgstr ""
+#~ "Versões feitas antes de Outubro de 2004 não exibem gráficos protetores de "
+#~ "tela com as opções de instalação tipo Serviço ou Compartilhada, nem "
+#~ "instalado como Simples usuáriom se a proteção de tela estiver protegida "
+#~ "com senha em micros com sistema baseado em NT."
+
+#~ msgid "RLN_TROUBLESHOOT_INTRO"
+#~ msgstr ""
+#~ "Case tiver problemas com o BOINC, aqui estão alguns passos que você "
+#~ "poderá tentar:"
+
+#~ msgid "RLN_TROUBLESHOOT_PRJ_SPECIFIC"
+#~ msgstr ""
+#~ "Caso o problema for em um projeto em particular, vá na área de 'Questions "
+#~ "and Answers' no site do projeto. Você encontrará soluções para seu "
+#~ "problema. Caso contrário, deixe uma mensagem aqui, e você receberá ajuda "
+#~ "de outros usuários."
+
+#~ msgid "RLN_TROUBLESHOOT_PROBLEM_PERSIST"
+#~ msgstr ""
+#~ "Caso o problema específico do projeto persistir, use o Gerenciador BOINC "
+#~ "para \"Resetar\" o projeto. Isso apagará todos os trabalhos em andamento "
+#~ "e reiniciará o projeto."
+
+#~ msgid "RLN_TROUBLESHOOT_BOINC_ITSELF"
+#~ msgstr ""
+#~ "Caso tiver problemas com o próprio BOINC, obtenha ajuda nos  %s Fóruns do "
+#~ "BOINC %s."

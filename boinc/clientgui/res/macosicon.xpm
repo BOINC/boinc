@@ -1,0 +1,34 @@
+/* XPM */
+static const char *MacOS_xpm[] = {
+/* columns rows colors chars-per-pixel */
+"14 14 14 1",
+"= c #295A9C",
+"O c #4A7394",
+"% c #213152",
+"# c #C6D6E7",
+"X c #424A52",
+"o c #6384BD",
+"* c #314A84",
+"$ c #6B8CBD",
+"+ c #181829",
+"  c None",
+". c #5A6B73",
+"& c #A5ADB5",
+"- c #9CB5CE",
+"@ c #B5CEEF",
+/* pixels */
+"       .X     ",
+"oOooooO+@#@@@@",
+"OooOo$%.#&$@@@",
+"ooo*oo+@@..#@@",
+"ooo=o*X@@&-@@@",
+"ooo$$%$@@@@@@@",
+"Ooooo%&#@@@@@@",
+"ooooo+%X.@@#@@",
+"ooo$$OO%X#@@@@",
+"oo*=Oo$X.-.%-@",
+"Ooo==*=%+%.-#@",
+"ooooooo%.#@@@@",
+"Ooooooo*X@@#@@",
+"       #%     "
+};

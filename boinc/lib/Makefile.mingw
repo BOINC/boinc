@@ -1,0 +1,168 @@
+# Makefile for building BOINC with MinGW (gcc and gnumake)
+
+# if you want to use install/uninstall targets, set this to the prefix
+BOINC_PREFIX ?= /usr/local
+
+# set this for the BOINC sourc directory. This default should work for calling from within lib/ or api/
+BOINC_SRC ?= ..
+
+
+# headers to install
+HEADERS = $(BOINC_SRC)/version.h \
+	$(BOINC_SRC)/api/boinc_api.h \
+	$(BOINC_SRC)/api/boinc_opencl.h \
+	$(BOINC_SRC)/api/graphics2.h \
+	$(BOINC_SRC)/lib/app_ipc.h \
+	$(BOINC_SRC)/lib/boinc_win.h \
+	$(BOINC_SRC)/lib/url.h \
+	$(BOINC_SRC)/lib/common_defs.h \
+	$(BOINC_SRC)/lib/diagnostics.h \
+	$(BOINC_SRC)/lib/diagnostics_win.h \
+	$(BOINC_SRC)/lib/error_numbers.h \
+	$(BOINC_SRC)/lib/filesys.h \
+	$(BOINC_SRC)/lib/hostinfo.h \
+	$(BOINC_SRC)/lib/proxy_info.h \
+	$(BOINC_SRC)/lib/prefs.h \
+	$(BOINC_SRC)/lib/miofile.h \
+	$(BOINC_SRC)/lib/mfile.h  \
+	$(BOINC_SRC)/lib/parse.h \
+	$(BOINC_SRC)/lib/util.h \
+	$(BOINC_SRC)/lib/coproc.h \
+	$(BOINC_SRC)/lib/cal_boinc.h \
+	$(BOINC_SRC)/lib/cl_boinc.h \
+	$(BOINC_SRC)/lib/svn_version.h \
+	$(BOINC_SRC)/win_build/config.h \
+	$(BOINC_SRC)/lib/str_util.h
+
+ZIP_HEADERS = zip/boinc_zip.h
+
+# objects to compile
+
+API_OBJ = boinc_api.o graphics2_util.o
+
+OCL_OBJ = boinc_opencl.o
+
+GPH_OBJ = graphics2.o graphics2_util.o
+
+LIB_OBJ = util.o win_util.o app_ipc.o diagnostics.o diagnostics_win.o filesys.o \
+	hostinfo.o md5.o md5_file.o mem_usage.o mfile.o miofile.o procinfo_win.o procinfo.o proc_control.o parse.o prefs.o \
+	proxy_info.o str_util.o shmem.o base64.o stackwalker_win.o url.o coproc.o
+
+ZIP_OBJ = boinc_zip.o z_win32.o win32zip.o zipup.o zipfile.o zip.o z_globals.o z_fileio.o \
+	z_util.o trees.o deflate.o zipinfo.o win32.o unzip.o unshrink.o unreduce.o ttyio.o \
+	process.o match.o list.o inflate.o globals.o fileio.o extract.o explode.o envargs.o \
+	crctab.o crc32.o apihelp.o api.o
+
+
+# libraries to build
+API_BIN = libboinc_api.a
+OCL_BIN = libboinc_opencl.a
+LIB_BIN = libboinc.a
+GPH_BIN = libboinc_graphics2.a
+ZIP_BIN = libboinc_zip.a
+
+# all objects (for clean target)
+OBJ = $(API_OBJ) $(OCL_OBJ) $(LIB_OBJ) $(GPH_OBJ) $(ZIP_OBJ)
+
+# all libraries (zip not listed anymore)
+BIN = $(API_BIN) $(OCL_BIN) $(LIB_BIN) $(GPH_BIN)
+
+# -gstabs is necessary for MinGWs backtrace to work
+#DEBUG = -D__DEBUG__ -gstabs -g3
+DEBUG = -DNDEBUG 
+
+# where to find headers
+INCS = -I"$(BOINC_SRC)" -I"$(BOINC_SRC)/db" -I"$(BOINC_SRC)/lib" -I"$(BOINC_SRC)/api" -I"$(BOINC_SRC)/zip" -I"$(BOINC_SRC)/win_build"
+
+
+OPTFLAGS = -O3
+# various cpp & gcc flags (for both C and C++ mode)
+# set NOCYGWIN=-mno-cygwin to build non-Cywin Windows libs under Cygwin
+# -D_WIN32_WINDOWS=0x0410 sets to use Win98 API
+WINVERFLAGS = -D_WINDOWS -D_WIN32 -DWIN32 -DWINVER=0x0500 -D_WIN32_WINNT=0x0500 -D_MT
+HAVEFLAGS = -DHAVE_STRCASECMP
+CCXXFLAGS = $(INCS) $(DEBUG) --include $(BOINC_SRC)/version.h -DEINSTEINATHOME_CROSS_BUILD -DMINGW_WIN32 \
+	$(HAVEFLAGS) $(WINVERFLAGS) -DBOINC \
+	-DNODB -D_CONSOLE -fexceptions $(OPTFLAGS) $(NOCYGWIN)
+
+# flags for compiling boinc_zip
+ZIP_FLAGS = -DWIN32 -D_LIB -D_MBCS -DNO_MKTEMP $(INCS) -O2 -DDLL $(NOCYGWIN)
+
+# LDFLAGS = -lwinmm 
+
+CFLAGS = $(CCXXFLAGS)
+CXXFLAGS = $(CCXXFLAGS)
+
+# default target
+all: $(BIN)
+
+# zip target
+boinc_zip: $(ZIP_BIN)
+
+# rules for the indivisual libraries
+$(API_BIN): $(API_OBJ)
+	$(AR) rc $@ $^
+$(OCL_BIN): $(OCL_OBJ)
+	$(AR) rc $@ $^
+$(LIB_BIN): $(LIB_OBJ)
+	$(AR) rc $@ $^
+$(GPH_BIN): $(GPH_OBJ)
+	$(AR) rc $@ $^
+$(ZIP_BIN): $(ZIP_OBJ)
+	$(AR) rc $@ $^
+
+# standard BOINC code - .C and .cpp versions
+%.o: $(BOINC_SRC)/api/%.C
+	$(CXX) -c $< -o $@ $(CPPFLAGS) $(CXXFLAGS)
+%.o: $(BOINC_SRC)/lib/%.C
+	$(CXX) -c $< -o $@ $(CPPFLAGS) $(CXXFLAGS)
+%.o: $(BOINC_SRC)/api/%.cpp
+	$(CXX) -c $< -o $@ $(CPPFLAGS) $(CXXFLAGS)
+%.o: $(BOINC_SRC)/lib/%.cpp
+	$(CXX) -c $< -o $@ $(CPPFLAGS) $(CXXFLAGS)
+
+# C-mode file
+md5.o: $(BOINC_SRC)/lib/md5.c
+	$(CXX) -c $(BOINC_SRC)/lib/md5.c -o md5.o $(CPPFLAGS) $(CXXFLAGS)
+
+# for boinc_zip. Don't change the order!
+%.o: $(BOINC_SRC)/zip/%.cpp
+	$(CXX) -c $< -o $@ $(ZIP_FLAGS)
+%.o: $(BOINC_SRC)/zip/unzip/win32/%.c
+	$(CC) -c $< -o $@ $(ZIP_FLAGS)
+%.o: $(BOINC_SRC)/zip/unzip/%.c
+	$(CC) -c $< -o $@ $(ZIP_FLAGS)
+%.o: $(BOINC_SRC)/zip/zip/win32/%.c
+	$(CC) -c $< -o $@ $(ZIP_FLAGS)
+%.o: $(BOINC_SRC)/zip/zip/%.c
+	$(CC) -c $< -o $@ $(ZIP_FLAGS)
+z_util.o: $(BOINC_SRC)/zip/zip/util.c
+	$(CC) -c $< -o $@ $(ZIP_FLAGS)
+
+$(BOINC_SRC)/lib/svn_version.h:
+	cd $(BOINC_SRC)/lib && sh ../generate_svn_version.sh
+
+# set to the target ranlib when cross-compiling
+RANLIB ?= ranlib
+
+# additional targets
+
+install: $(BIN) $(HEADERS)
+	mkdir -p $(BOINC_PREFIX)/include/boinc $(BOINC_PREFIX)/lib
+	cp $(HEADERS) $(BOINC_PREFIX)/include/boinc
+	$(RANLIB) $(BIN)
+	cp $(BIN) $(BOINC_PREFIX)/lib
+
+install-zip: $(ZIP_BIN) $(ZIP_HEADERS)
+	mkdir -p $(BOINC_PREFIX)/include/ $(BOINC_PREFIX)/lib
+	cp $(ZIP_HEADERS) $(BOINC_PREFIX)/include/
+	$(RANLIB) $(ZIP_BIN)
+	cp $(ZIP_BIN) $(BOINC_PREFIX)/lib
+
+uninstall: 
+	${RM} -rf $(BOINC_PREFIX)/include/boinc
+	${RM} $(BOINC_PREFIX)/lib/libboinc.a $(BOINC_PREFIX)/lib/libboinc_api.a $(BOINC_PREFIX)/lib/libboinc_opencl.a $(BOINC_PREFIX)/lib/libboinc_graphics2.a
+	( cd $(BOINC_PREFIX)/lib && rm -f $(BIN) || exit 0 )
+
+clean:
+	${RM} $(OBJ) $(BIN) $(ZIP_BIN)

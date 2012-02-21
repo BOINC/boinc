@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+ This is the manual page for the BOINC manager (boincmgr), a monitor
+ and control utility for the core client.
+
+ Copyright © 2007-2008 University of California
+
+ Permission is granted to copy, distribute and/or modify this document
+ under the terms of the GNU Free Documentation License, Version 1.2 or
+ any later version published by the Free Software Foundation; with no
+ Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts.
+-->
+
+<!DOCTYPE refentry PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
+"file:///usr/share/xml/docbook/schema/dtd/4.4/docbookx.dtd" [
+
+  <!ENTITY % COMMON SYSTEM "common.ent">
+  %COMMON;
+
+  <!ENTITY date "<date>13 January 2008</date>">
+]>
+
+<refentry>
+  <refentryinfo>
+    <author>
+      <firstname>Frank</firstname>
+      <lastname>Thomas</lastname>
+      <email>frank@thomas-alfeld.de</email>
+    </author>
+    <copyright>
+      <year>2007</year>
+      <year>2008</year>
+      <holder>University of California</holder>
+    </copyright>
+    &date;
+  </refentryinfo>
+
+  <refmeta>
+    <refentrytitle>&boincmgr;</refentrytitle>
+    <manvolnum>1</manvolnum>
+  </refmeta>
+
+  <refnamediv>
+    <refname>&boincmgr;</refname> 
+    <refpurpose>The graphical BOINC manager for the core client.</refpurpose>
+  </refnamediv>
+
+  <refsynopsisdiv>
+    <cmdsynopsis>
+      &cmd_boincmgr;
+      <arg><option>--verbose</option></arg>
+      <arg><option>-s</option></arg>
+      <arg><option>-b</option> <replaceable>BOINC_ARGS</replaceable></arg>
+      <arg><option>-i</option></arg>
+    </cmdsynopsis>
+    <cmdsynopsis>
+      &cmd_boincmgr;
+      <group>
+        <arg><option>-h</option></arg>
+        <arg><option>--help</option></arg>
+      </group>
+    </cmdsynopsis>
+  </refsynopsisdiv>
+
+  <refsect1>
+    <title>DESCRIPTION</title>
+    <para>The BOINC manager (&cmd_boincmgr;) is a controling and monitoring
+      utility for the BOINC core client (&man_boinc;).</para>
+  </refsect1>
+
+  <refsect1>
+    <title>OPTIONS</title>
+    <para>A full summary of options is included below.</para>
+
+    <variablelist>
+      <varlistentry>
+        <term><option>-h</option>, <option>--help</option></term>
+        <listitem>
+          <para>Show all options.</para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term><option>--verbose</option></term>
+        <listitem>
+          <para>Generate verbose log messages.</para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term><option>-s</option>, <option>--systray</option></term>
+        <listitem>
+          <para>Startup BOINC Manager so only the system tray icon is
+            visible.</para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>
+          <option>-b</option> <replaceable>BOINC_ARGS</replaceable>,
+          <option>--boincargs=</option><replaceable>BOINC_ARGS</replaceable>
+        </term>
+        <listitem>
+          <para>Startup BOINC with these optional arguments.</para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term><option>-i</option>, <option>--insecure</option></term>
+        <listitem>
+          <para>Disable BOINC security users and permissions.</para>
+        </listitem>
+      </varlistentry>
+    </variablelist>
+  </refsect1>
+
+  <refsect1>
+    <title>SEE ALSO</title>
+    <para>&man_boinc;, &man_boinccmd;</para>
+    <para>
+      <ulink url="http://boinc.berkeley.edu/wiki/The_BOINC_Manager"/>
+    </para>
+  </refsect1>
+
+  <refsect1>
+    <title>COPYRIGHT</title>
+    <para>Copyright © 2007-2008 University of California.</para>
+    <para>Permission is granted to copy, distribute and/or modify this
+      document under the terms of the &gnu; Free Documentation License,
+      Version 1.2 or any later version published by the Free Software
+      Foundation; with no Invariant Sections, no Front-Cover Texts, and no
+      Back-Cover Texts.</para>
+  </refsect1>
+</refentry>

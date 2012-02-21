@@ -1,0 +1,30 @@
+<?php
+
+$original_cwd = getcwd();
+chdir('includes/boinc');
+require_once('profile.inc');
+
+function display_profile($userid) {
+    $user = BoincUser::lookup_id($userid);
+    if (!$user) {
+        echo "<h3>No such user</h3>\n";
+        return;
+    }
+    $profile = get_profile($userid);
+    if (!$profile) {
+        echo "<h3>No profile exists for that user ID $userid</h3>";
+        return;
+    }
+    echo "<table>";
+    show_profile($user, null);
+    echo "</table>";
+}
+
+$userid = arg(2);
+if (!$userid) $userid = 1;
+$userid = 1;
+
+display_profile($userid);
+
+chdir($original_cwd);
+?>

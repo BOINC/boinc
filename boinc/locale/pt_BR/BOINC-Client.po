@@ -1,0 +1,228 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2012-02-09 09:39-0800\n"
+"PO-Revision-Date: 2011-12-08 17:51+0200\n"
+"Last-Translator: sandro <sandro.vianna@gmail.com>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: pt_BR\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"X-Generator: Pootle 2.1.6\n"
+
+#: acct_mgr.cpp:435 acct_mgr.cpp:444
+#, fuzzy
+msgid "Message from account manager"
+msgstr "Mensagem do servidor de projetos:"
+
+#: client_msgs.cpp:79
+#, fuzzy
+msgid "Message from server"
+msgstr "Mensagem do servidor de projetos:"
+
+#: client_state.cpp:246
+msgid ""
+"Some tasks need more memory than allowed by your preferences.  Please check "
+"the preferences."
+msgstr ""
+
+#: client_state.cpp:482
+msgid "Couldn't write state file; check directory permissions"
+msgstr "Impossível gravar arquivo de estado; verifique permissões de diretório."
+
+# "proxy" is a known and very used word among computer users on Brazil. I believe translating it will be unbecoming and can confuse users. Microsoft, for example, doesn't translate it on Windows.
+#: cs_cmdline.cpp:291
+msgid "The HTTP_PROXY environment variable must specify an HTTP proxy"
+msgstr "A variável de ambiente HTTP_PROXY deve especificar um proxy HTTP"
+
+#: cs_scheduler.cpp:546
+#, c-format
+msgid ""
+"You used the wrong URL for this project.  When convenient, remove this "
+"project, then add %s"
+msgstr ""
+
+#: cs_statefile.cpp:810 ../sched/sched_types.cpp:252
+msgid "Syntax error in app_info.xml"
+msgstr "Erro de sintaxe em app_info.xml"
+
+#: cs_statefile.cpp:850
+msgid "File referenced in app_info.xml does not exist: "
+msgstr ""
+
+#: current_version.cpp:89
+msgid "A new version of BOINC is available."
+msgstr "Uma nova versão do BOINC está disponível."
+
+#: current_version.cpp:91
+msgid "Download it."
+msgstr "Baixe-o."
+
+#: log_flags.cpp:256 log_flags.cpp:427
+msgid "Unexpected text in cc_config.xml"
+msgstr "Texto inesperado em cc_config.xml"
+
+#: log_flags.cpp:401 log_flags.cpp:453
+msgid "Unrecognized tag in cc_config.xml"
+msgstr "Rótulo não reconhecido em cc_config.xml"
+
+#: log_flags.cpp:418
+msgid "Missing start tag in cc_config.xml"
+msgstr "Rótulo inicial inexistente em cc_config.xml"
+
+#: log_flags.cpp:443
+#, fuzzy
+msgid "Error in cc_config.xml options"
+msgstr "Rótulo não reconhecido em cc_config.xml"
+
+#: log_flags.cpp:461
+msgid "Missing end tag in cc_config.xml"
+msgstr "Rótulo final inexistente em cc_config.xml"
+
+#: ../sched/handle_request.cpp:299
+#, fuzzy
+msgid "Invalid or missing account key.  To fix, remove and add this project."
+msgstr ""
+"Chave de conta inválida ou inexistente. Para corrigir, desligue-se do "
+"projeto e vincule-se novamente."
+
+#: ../sched/handle_request.cpp:831
+#, fuzzy
+msgid "Invalid code signing key.  To fix, remove and add this project."
+msgstr ""
+"Código de chave de acesso inválido. Para corrigir, desligue-se do projeto e "
+"vincule-se novamente."
+
+#: ../sched/handle_request.cpp:841
+msgid ""
+"The project has changed its security key.  Please remove and add this "
+"project."
+msgstr ""
+
+# Wouldn't be "This project doesn't support this operating system" or "This project doesn't support current operating system" ?. I wrote the translation for the phrase just given, but I guess it doesn't make much sense.
+#: ../sched/handle_request.cpp:925
+msgid "This project doesn't support operating system"
+msgstr "Este projeto não suporta sistema operacional"
+
+# Wouldn't be "This project doesn't support this CPU type" or "This project doesn't support current CPU type" ?. I wrote the translation for the phrase just given, but I guess it doesn't make much sense, at least in portuguese.
+#: ../sched/handle_request.cpp:951
+msgid "This project doesn't support CPU type"
+msgstr "Este projeto não suporta o tipo de CPU"
+
+#: ../sched/handle_request.cpp:975
+msgid ""
+"Your BOINC client software is too old.  Please install the current version."
+msgstr ""
+"Seu software cliente BOINC é muito antigo. Por favor, instale a versão "
+"atual."
+
+#: ../sched/handle_request.cpp:1235
+msgid "This project doesn't support computers of type"
+msgstr "Este projeto não suporta computadores do tipo"
+
+# "driver" is a known and very used word among computer users on Brazil. There is no translation for it.
+#: ../sched/sched_send.cpp:1365
+msgid "Upgrade to the latest driver to process tasks using your computer's GPU"
+msgstr ""
+"Atualize para o driver mais recente para processar tarefas utilizando o GPU "
+"de seu computador"
+
+#: ../sched/sched_send.cpp:1372
+msgid ""
+"Upgrade to the latest driver to use all of this project's GPU applications"
+msgstr ""
+"Atualize para o driver mais recente para utilizar todos os aplicativos deste "
+"projeto para GPU"
+
+#: ../sched/sched_send.cpp:1391
+msgid ""
+"A newer version of BOINC is needed to use your NVIDIA GPU; please upgrade to "
+"the current version"
+msgstr ""
+"É necessário uma versão mais recente do BOINC para utilizar seu GPU NVIDIA; "
+"por favor, atualize para a versão atual."
+
+#: ../sched/sched_send.cpp:1404
+msgid "An NVIDIA or ATI GPU is required to run tasks for this project"
+msgstr "É necessário GPU NVIDIA ou ATI para executar tarefas deste projeto"
+
+#: ../sched/sched_send.cpp:1409
+msgid "An NVIDIA GPU is required to run tasks for this project"
+msgstr "É necessário GPU NVIDIA para executar tarefas deste projeto"
+
+#: ../sched/sched_send.cpp:1415
+msgid "An ATI GPU is required to run tasks for this project"
+msgstr "É necessário GPU ATI para executar tarefas deste projeto"
+
+#: ../sched/sched_send.cpp:1523
+#, fuzzy
+msgid "No tasks are available for the applications you have selected."
+msgstr ""
+"Não há trabalho disponível para as aplicações selecionadas. Por favor, "
+"verifique suas preferências na página do projeto na internet."
+
+#: ../sched/sched_send.cpp:1549
+msgid "Your computer type is not supported by this project"
+msgstr "Seu computador não é suportado por este projeto"
+
+#: ../sched/sched_send.cpp:1555
+msgid "Newer BOINC version required; please install current version"
+msgstr ""
+"É necessário uma versão mais recente do BOINC; por favor, instale a versão "
+"atual"
+
+#: ../sched/sched_send.cpp:1565
+msgid ""
+"Tasks for NVIDIA GPU are available, but your preferences are set to not "
+"accept them"
+msgstr ""
+"Estão disponíveis tarefas para GPU NVIDIA, mas suas preferências estão "
+"configuradas para não aceitá-las"
+
+#: ../sched/sched_send.cpp:1571
+msgid ""
+"Tasks for ATI GPU are available, but your preferences are set to not accept "
+"them"
+msgstr ""
+"Estão disponíveis tarefas para GPU ATI, mas suas preferências estão "
+"configuradas para não aceitá-las"
+
+#: ../sched/sched_send.cpp:1577
+msgid ""
+"Tasks for CPU are available, but your preferences are set to not accept them"
+msgstr ""
+"Estão disponíveis tarefas para CPU, mas suas preferências estão configuradas "
+"para não aceitá-las"
+
+# I did not abbreviate "application" word in portuguese.
+#: ../sched/sched_types.cpp:247
+msgid "Unknown app name in app_info.xml"
+msgstr "Nome de aplicativo desconhecido em app_info.xml"
+
+#: ../sched/sched_version.cpp:230
+msgid "Your app_info.xml file doesn't have a usable version of"
+msgstr "Seu arquivo app_info.xml não tem uma versão utilizável de"
+
+#~ msgid "error"
+#~ msgstr "Erro"
+
+#~ msgid "Can't resolve hostname in remote_hosts.cfg"
+#~ msgstr "Impossível determinar nome de máquina em remote_hosts.cfg"
+
+#, fuzzy
+#~ msgid "is not available for"
+#~ msgstr "não está disponível para seu computador"
+
+#~ msgid ""
+#~ "You may have an outdated code signing key.  Try attaching and reattaching "
+#~ "this project."
+#~ msgstr ""
+#~ "Você pode estar com um código de chave de acesso desatualizado. "
+#~ "Experimente ligar-se e religar-se novamente a este projeto."

@@ -1,0 +1,17 @@
+#!/usr/bin/env python
+
+# -*- mode: python; python-indent: 4; -*-
+
+## $Id$
+
+'''
+A program to pass config file settings to calling programs via stdout
+
+'''
+
+import boinc_path_config
+from Boinc import configxml
+import sys, os
+
+config = configxml.default_config().config
+print config.__dict__.get(sys.argv[1])

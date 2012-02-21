@@ -1,0 +1,9 @@
+<cc_config>
+    <log_flags>
+    </log_flags>
+    <options>
+        <version_check_server>www.worldcommunitygrid.org</version_check_server>
+        <proxy_test_server>www.ibm.com</proxy_test_server>
+        <start_delay>120</start_delay>
+    </options>
+</cc_config>

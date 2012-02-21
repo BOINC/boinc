@@ -1,0 +1,76 @@
+[ Notes from Eric McIntosh at CERN on how to
+  eliminate numerical discrepancies between platforms. ]
+
+First I found a problem with data input on Windows using
+an "old" Compaq Visual Fortran compiler. Approximately
+1000 out of 16 million magnet errors were one bit too big
+on the Windows system. This problem is apparently fixed with
+"more modern" compilers, and my colleague Flrent Denichin
+from Lyon says we could also have specified a larger number of
+decimal digits to avoid this........
+
+However I found that the Lahey Fortran compilers
+produce identical results on Linux and Windows.
+The company claims it strives for this but does
+not guarantee it. I use compatible releases
+of their compiler e.g. 5.7 on Windows and 6.1 on Linux
+but am now in production with 7.1.1 on Windows and 6.2 on Linux.
+The data input problem was thus resolved.
+
+It is very important to note that the compiler disables
+extended precision on Intel boxes and has an option to
+generate compatible code for any Pentium. Lahey do NOT use
+extended 80-bit precision, SSE, or Multiply/ADD in one
+instruction, with the appropriate compiler switch settings,
+and I make a statically linked executable. I also compile at 
+the same optimisation level of course to avoid
+differences due to different optimisation.
+
+Given all this I was delighted, until I started finding
+small numerical difference in a small percentage of runs.
+This was relatively easy to spot, as even a difference of
+1 in the least significant bit of the mantissa of an IEEE
+floating-point number, will be magnified as the SixTrack
+particles pass through ~10,000 computational steps of
+each of up to one million turns.
+
+To cut a long story short; I finally found that the culprits
+were the exp and log functions. Certain parameters to these
+functions produce a result which is 1 least significant bit different
+between an IA-32 and an ATHLON AMD64. A WEB search uncovered the
+crlibm, a library of Elementary functions developed at the
+Ecole Normale Sperieur in Lyon (just a couple of hours
+drive from Geneva!). I downloaded and tested this library,
+and developed a Fortran interface and converted it for
+Windows as well. (It had been developed using C on Linux.)
+The library provides, sin, cos, sinh, cosh, tan, atan, log, log10 and
+exp that I use. It offers rounding to nearest, or rounding up
+or down. It is also optimised in the sense that it computes a
+sufficient but minimum number of binary digits to produce
+a correctly rounded result.
+
+I also implemented some missing elementary functions in terms of
+the others they provide; namely acos_rn, asin_rn, atan2_rn in
+terms of atan_rn, where _rn implies round to nearest.
+
+This library GUARANTEES to deliver the correctly rounded double
+precision result on virtually any computer, and certainly on the
+IEEE IA-32, AMD64 machines I am using. The results are also proven 
+theoretically to be correct. This is a tremendous piece of work and to
+me represents an enormous step forward in the history of computing.
+The greatest advance since the invention of IEEE arithmetic itself.
+(I have not yet verified on the Intel IA-64 due to the pressure of
+work, but I will do, as soon as possible, and Lyon have certainly
+tested it.)
+
+My colleague Florent de Dinechen of ENS Lyon, whom we invited to CERN 
+afterwards to lecture on floating-point arithmetic, points you to
+http://lipforge.ens-lyon.fr/projects/crlibm/
+where their work is described.
+
+We shall make a joint presentation (I hope) at the
+19th International Symposium on Distributed Computing
+DISC 2005
+Krakow, Poland, September 25-29, 2005.
+
+and also at CHEP 06 in Mumbai.

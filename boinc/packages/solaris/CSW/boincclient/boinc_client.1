@@ -1,0 +1,288 @@
+.\"  Unix Manual page for boinc_client
+.\"======================================================================
+.\" This file is a part of BOINC.  Distribution and/or modifications
+.\" are allowed under the terms of the Lesser GNU Public License.
+.\" See the file COPYING for details.
+.\"======================================================================
+.\"  To view this file without the man command type: 
+.\"         'nroff -man boinc.1 | more'
+.\"  or, on some versions of man, just man -l boinc.1
+.\"
+.\" @(#) $Id: boinc_client.1,v 1.1 2007/12/29 16:50:09 myers Exp $
+.TH boinc_cmd 1  "29 December 2007"  "BOINC 5.10"  "User Manuals"
+
+.SH SYNOPSIS
+.br
+.sp
+.in +2
+.B boinc_client  
+[options]
+.in -2
+.br
+.sp
+
+.SH DESCRIPTION
+
+The BOINC "core client", 
+.BR boinc_client ,
+is the heart of BOINC.
+It controls which project applications are run on your computer, 
+downloading "Workunits" and uploading the "Result" files from
+completed tasks.
+.B boinc_client
+is usually run in the background, ideally as a daemon.
+It can then be controlled either by a graphical tool
+called the BOINC Manager,
+.BR boincmgr (1),
+or a command line tool called
+.BR boinc_cmd (1),
+by means of Remote Proceedure Calls (RPCs) over port 31416.
+
+.PP
+
+The BOINC core client can be controlled by command-line options,
+configuration files, and environment variables.
+Standard usage is simply to start the client running in the
+background.
+
+
+.SH CONFIGURATION FILES
+
+BOINC uses the following configuration files.
+You can edit these files before launching
+.B boinc_client
+to control BOINC in various ways.
+
+.TP 
+.I account_<PROJECT-URL>.xml 
+Accounting information for a given project.
+There will be one for each attached project. 
+
+.TP
+.I global_prefs_override.xml
+Override global preferences 
+
+.TP
+.I cc_config.xml
+Turn log messages on/off by category, and other core client
+configuration options. 
+These settings can be very useful for troubleshooting problems or debugging.
+
+.TP
+.I remote_hosts.cfg
+Hosts from which remote GUI RPCs are allowed.   
+If this file does not exist then...?
+
+.TP
+.I gui_rpc_auth.cfg
+GUI RPC password. 
+
+.TP
+.I project_init.xml
+Startup project ...?
+
+.TP
+.I acct_mgr_url.xml
+Account manager URL 
+
+.TP
+.I acct_mgr_login.xml
+Account manager login
+
+
+
+.SH COMMAND OPTIONS
+
+These command-line options for 
+.B boinc_client
+can be used to control how BOINC is started.
+Once the client has started, 
+you should use a separate program, 
+.RB ( boincmgr (1)
+or
+.BR boinc_cmd (1))
+which communicates with it by means of Remote Proceedure Calls (RPCs).
+
+
+.TP
+.B    --help
+Show these command line options.
+
+.TP
+.B    --version  
+Show client software version.   
+
+.TP
+.B    --show_projects  
+Show all attached projects.
+
+.TP
+.B    --detach_project <URL>    
+Detach from the project associated with the given URL.
+
+.TP
+.B    --reset_project <URL>    
+Reset (clear) the project associated with the given URL
+
+.TP
+.B    --attach_project <URL> <key>    
+Attach to the project associated with the given URL.
+The 
+.B key 
+is the authenthentication token (account key)
+of an existing account on the project.
+
+.TP
+.B    --update_prefs <URL>   
+Contact the project associated with the given URL
+to update preferences.
+
+.TP
+.B    --run_cpu_benchmarks
+Run the CPU benchmarks.
+
+.TP
+.B    --check_all_logins      
+For idle detection, check remote logins too.
+When BOINC is set to run when the computer is idle, it usually only
+checks for user activity from locally logged-in user.
+This causes it to also check for activity from remote logins.f
+
+.TP
+.B    --allow_remote_gui_rpc          
+Allow remote GUI RPC connections.
+
+.TP
+.B    --gui_rpc_port <port>    
+Set the port for GUI RPCs.
+The default, if not otherwise set, is port 31416.
+
+.TP
+.B    --redirectio                
+Redirect stdout and stderr to log files.
+
+.TP
+.B    --detach          
+Detach from console (Windows only)
+
+.TP
+.B    --dir <path>         
+Use the given directory as the BOINC home (working directory).
+
+.TP
+.B    --no_gui_rpc   
+Do not allow GUI RPCs, don't make socket.
+
+.TP
+.B    --daemon                        
+Run as daemon, in the background (Unix only).
+
+.TP
+.B    --insecure                      
+Disable application sandboxing (Unix only).
+
+.TP
+.B    --launched_by_manager           
+Indicates that the Core Client was launched by the BOINC Manager.
+
+.TP
+.B    --run_by_updater          
+Indicates that the Core Client was launched by the updater.
+
+.TP
+.B --start_delay N
+Specify a number of seconds to delay running apps after client startup 
+[New in version 6.1.]
+
+
+
+.SH ENVIRONMENT
+The 
+.B boinc_client
+uses the following Unix environment variables to control
+how it deals with web proxies.
+
+.TP
+.B HTTP_PROXY
+URL of HTTP proxy 
+
+.TP
+.B HTTP_USER_NAME
+User name for proxy authentication 
+
+.TP
+.B HTTP_USER_PASSWD
+Password for proxy authentication 
+.TP
+.B SOCKS4_SERVER
+URL of SOCKS 4 server 
+
+.TP
+.B SOCKS5_SERVER
+URL of SOCKS 5 server 
+
+.TP
+.B SOCKS5_USER
+User name for SOCKS authentication 
+
+.TP
+.B SOCKS5_PASSWD
+Password for SOCKS authentication
+
+
+.SH DEBUGGING OPTIONS
+These command line options are usually only of use for
+troubleshooting or debugging.
+
+.TP
+.B    --exit_when_idle    
+Exit when there are no more results to process.
+
+.TP
+.B    --exit_before_start             
+Exit right before starting a job (useful for debugging).
+
+.TP
+.B    --exit_after_finish       
+Exit right after finishing a task (useful for debugging).
+
+.TP
+.B --no_time_test
+Don't run performance benchmarks; use fixed numbers instead. 
+
+.TP
+.B --exit_after_app_start N
+Exit about N seconds after first application starts 
+
+.TP
+.B --min
+Put client in the background after starting up 
+
+.TP
+.B --skip_cpu_benchmarks
+Don't run CPU benchmarks 
+
+.TP
+.B --file_xfer_giveup_period N
+Specify giveup period for file transfers 
+
+.TP
+.B --started_by_screensaver
+Passed by screensaver when it launches client
+
+
+
+.SH SEE ALSO
+.BR boinc (1),
+.BR boincmgr (1),
+.BR boinc_cmd (1).
+
+.SH VERSION
+.de VL
+\\$2
+..
+Revision Number: 5.10.21-18 
+.br
+Release Date: 29 Dec 2007 
+
+.end

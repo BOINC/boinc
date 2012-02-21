@@ -1,0 +1,10 @@
+# Pootle preferences for project boinctrunk, language ja
+
+rights:
+  default = u'view, suggest, archive, pocompile'
+  nobody = u'view, pocompile'
+  romw = u'view, suggest, translate, overwrite, review, archive, pocompile, assign, admin, commit'
+  davea = u'view, suggest, translate, overwrite, review, archive, pocompile, assign, admin, commit'
+  je2bwm = u'view, suggest, translate, overwrite, review, archive, pocompile, assign, admin, commit'
+  josesun = u'view, suggest, translate, overwrite, review, archive, pocompile, assign, admin, commit'
+  momdo = u'view, suggest, translate, overwrite, review, archive, pocompile, assign, admin, commit'

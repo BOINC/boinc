@@ -1,0 +1,43 @@
+# makefile for uc2 BOINC example application on Macintosh.
+# This is invoked from MakeMacExample.sh shell script.
+# It should not be used by itself without the script.
+# Updated 2/16/10 for OS 10.6 and XCode 3.2
+
+BOINC_DIR = ../..
+BOINC_API_DIR = $(BOINC_DIR)/api
+BOINC_LIB_DIR = $(BOINC_DIR)/lib
+BOINC_BUILD_DIR = $(BOINC_DIR)/mac_build/build/Deployment
+BOINC_CONFIG_DIR =  $(BOINC_DIR)/clientgui/mac
+FRAMEWORKS_DIR = /System/Library/Frameworks
+
+CXXFLAGS = $(VARIANTFLAGS) \
+    -g \
+    -DAPP_GRAPHICS \
+    -I$(BOINC_CONFIG_DIR) \
+    -I$(BOINC_DIR) \
+    -I$(BOINC_LIB_DIR) \
+    -I$(BOINC_API_DIR) \
+    -L$(BOINC_BUILD_DIR) \
+    -L.
+
+LIBJPEG = ../../../jpeg-6b/libjpeg.a
+
+OBJ = \
+    uc2.o \
+    uc2_graphics.o
+
+PROGS = uc2 uc2_graphics
+
+all: $(PROGS)
+
+clean:
+	/bin/rm -f $(PROGS) $(OBJ)
+
+uc2: uc2.o $(BOINC_BUILD_DIR)/libboinc_api.a $(BOINC_BUILD_DIR)/libboinc.a
+	$(CXX) $(LDFLAGS) $(CXXFLAGS) -o uc2 uc2.o -lboinc_api -lboinc
+
+uc2_graphics: uc2_graphics.o $(BOINC_BUILD_DIR)/libboinc.a $(BOINC_BUILD_DIR)/libboinc_graphics2.a
+	$(CXX) $(CXXFLAGS) $(LDFLAGS) -o uc2_graphics uc2_graphics.o\
+    -lboinc_graphics2 -lboinc_api -lboinc \
+    -framework AppKit -framework GLUT -framework OpenGL  $(LIBJPEG)
+    

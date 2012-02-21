@@ -1,0 +1,27 @@
+#!/usr/bin/env python
+
+import os, re, boinc_path_config
+from Boinc import database, db_mid, boinc_db, configxml
+
+database.connect()
+config = configxml.default_config().config
+
+def get_file_path(wu):
+    return os.path.join(config.download_dir,
+                        re.search('<name>(.*)</name>',wu.xml_doc).group(1))
+
+print "Checking for missing input files ...\n"
+
+for (ss_name,server_state) in [
+    ("UNSENT",boinc_db.RESULT_SERVER_STATE_UNSENT),
+    ("IN_PROGRESS",boinc_db.RESULT_SERVER_STATE_IN_PROGRESS)]:
+    print "=== %s ===" %ss_name
+    count_total = 0
+    count_errors = 0
+    for result in database.Results.iterate(server_state=server_state):
+        file = get_file_path(result.workunit)
+        if not os.path.exists(file):
+            print result, " file %s doesn't exist"%file
+            count_errors += 1
+        count_total += 1
+    print "Total: %d/%d errors/results\n" %(count_errors,count_total)

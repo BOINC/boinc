@@ -1,0 +1,54 @@
+<boinc>
+    <platform>
+        <name>windows_intelx86</name>
+        <user_friendly_name>Microsoft Windows (98 or later) running on an Intel x86-compatible CPU</user_friendly_name>
+    </platform>
+    <platform>
+        <name>windows_x86_64</name>
+        <user_friendly_name>Microsoft Windows running on an AMD x86_64 or Intel EM64T CPU</user_friendly_name>
+    </platform>
+    <platform>
+        <name>i686-pc-linux-gnu</name>
+        <user_friendly_name>Linux running on an Intel x86-compatible CPU</user_friendly_name>
+    </platform>
+    <platform>
+        <name>x86_64-pc-linux-gnu</name>
+        <user_friendly_name>Linux running on an AMD x86_64 or Intel EM64T CPU</user_friendly_name>
+    </platform>
+    <platform>
+        <name>powerpc-apple-darwin</name>
+        <user_friendly_name>Mac OS X 10.3 or later running on Motorola PowerPC</user_friendly_name>
+    </platform>
+    <platform>
+        <name>i686-apple-darwin</name>
+        <user_friendly_name>Mac OS 10.4 or later running on Intel</user_friendly_name>
+    </platform>
+    <platform>
+        <name>x86_64-apple-darwin</name>
+        <user_friendly_name>Intel 64-bit Mac OS 10.5 or later</user_friendly_name>
+    </platform>
+    <platform>
+        <name>sparc-sun-solaris2.7</name>
+        <user_friendly_name>Solaris 2.7 running on a SPARC-compatible CPU</user_friendly_name>
+    </platform>
+    <platform>
+        <name>sparc-sun-solaris</name>
+        <user_friendly_name>Solaris 2.8 or later running on a SPARC-compatible CPU</user_friendly_name>
+    </platform>
+    <platform>
+        <name>sparc64-sun-solaris</name>
+        <user_friendly_name>Solaris 2.8 or later running on a SPARC 64-bit CPU</user_friendly_name>
+    </platform>
+    <platform>
+        <name>powerpc64-ps3-linux-gnu</name>
+        <user_friendly_name>Sony Playstation 3 running Linux</user_friendly_name>
+    </platform>
+    <platform>
+        <name>anonymous</name>
+        <user_friendly_name>anonymous</user_friendly_name>
+    </platform>
+    <app>
+        <name>example_app</name>
+        <user_friendly_name>Example Application</user_friendly_name>
+    </app>
+</boinc>

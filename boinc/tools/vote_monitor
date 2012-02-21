@@ -1,0 +1,99 @@
+#! /bin/sh 
+cd `dirname $0`
+
+MOD_EMAIL_ADDRESS=`grep POST_REPORT_EMAILS ../html/project/project.inc  | awk -F\" '{print $(NF-1);}'`
+
+
+while true ; do 
+
+now=`date +%s`
+msgfile=`mktemp -p /tmp setimods.XXXXXX` || exit 1
+sec_from_hour=`expr $now % 3600`
+
+dbhost=`grep db_host ../config.xml | tr '[\<\>]' '[  ]' | head -1 | awk '{print $2}'`
+dbuser=`grep db_user ../config.xml | tr '[\<\>]' '[  ]' | head -1 | awk '{print $2}'`
+dbname=`grep db_name ../config.xml | tr '[\<\>]' '[  ]' | head -1 | awk '{print $2}'`
+MYSQL="mysql -D $dbname -h $dbhost -u $dbuser -N -B"
+
+nmods=`$MYSQL --execute="select count(userid) from forum_preferences where special_user like '1%'"`
+major=`expr $nmods / 2`
+
+# send a report on ongoing elections.
+if test $sec_from_hour -lt 300 ; then
+   voteids=`$MYSQL --execute="select id from banishment_vote where end_time>"$now`
+   if test -n "$voteids" ; then
+     echo Ongoing votes >> $msgfile
+     echo >> $msgfile
+     for voteid in $voteids; do
+       msgfile2=`mktemp -p /tmp setimods.XXXXXX` || exit 1
+       echo >> $msgfile
+       echo Vote: $voteid >> $msgfile
+       ayes=`$MYSQL --execute="select sum(yes) from banishment_votes where voteid=$voteid"`
+       nays=`$MYSQL --execute="select count(id)-sum(yes) from banishment_votes where voteid=$voteid"`
+       userid=`$MYSQL --execute="select userid from banishment_vote where id=$voteid"`
+       EMAIL=`$MYSQL --execute="select email_addr from user where id=$userid"`
+       $MYSQL --execute="select name,' - ',userid from user,banishment_vote where banishment_vote.id=$voteid and user.id=userid" >> $msgfile2
+       $MYSQL --execute="select 'Ayes: ',sum(yes),' Nays: ',count(id)-sum(yes) from banishment_votes where voteid=$voteid" >> $msgfile2
+       $MYSQL --execute="select name,' - ',userid from user,banishment_vote where banishment_vote.id=$voteid and user.id=userid" >> $msgfile
+       $MYSQL --execute="select 'Ayes: ',sum(yes),' Nays: ',count(id)-sum(yes) from banishment_votes where voteid=$voteid" >> $msgfile
+       if test $nays -ge $major ; then
+         echo Vote failed. >> $msgfile
+         mail -s "Vote failed. You have not been banished"  $EMAIL < $msgfile2
+         $MYSQL --execute="update forum_preferences set banished_until=0 where userid=$userid"
+         $MYSQL --execute="update banishment_vote set end_time=start_time where id=$voteid"
+       elif `test $ayes -gt $major` ; then
+         echo Vote succeeded. >> $msgfile
+         mail -s "Vote succeeded.  You have been banished"  $EMAIL < $msgfile2
+         start_time=`$MYSQL --execute="select start_time from banishment_vote where id=$voteid"`
+         $MYSQL --execute="update forum_preferences set banished_until=$start_time +1209600 where userid= $userid"
+         $MYSQL --execute="update banishment_vote set end_time=start_time where id=$voteid"
+       else 
+         $MYSQL --execute="select 'Ends in ',(end_time-$now)/3600,' hours' from banishment_vote where id=$voteid" >> $msgfile
+       fi
+       /bin/rm $msgfile2
+     done
+     mail -s "Ongoing Votes" $MOD_EMAIL_ADDRESS < $msgfile
+   fi
+fi
+/bin/rm $msgfile
+
+# handle recently ended elections
+msgfile=`mktemp -p /tmp setimods.XXXXXX` || exit 1
+voteids=`$MYSQL --execute="select id from banishment_vote where end_time<"$now" and end_time+300>"$now`
+if test -n "$voteids" ; then
+   echo Finished votes >> $msgfile
+   echo >> $msgfile
+   for voteid in $voteids; do
+       msgfile2=`mktemp -p /tmp setimods.XXXXXX` || exit 1
+       echo >> $msgfile
+       echo Vote: $voteid >> $msgfile
+       ayes=`$MYSQL --execute="select sum(yes) from banishment_votes where voteid=$voteid"`
+       nays=`$MYSQL --execute="select count(id)-sum(yes) from banishment_votes where voteid=$voteid"`
+       userid=`$MYSQL --execute="select userid from banishment_vote where id=$voteid"`
+       EMAIL=`$MYSQL --execute="select email_addr from user where id=$userid"`
+       $MYSQL --execute="select name,' - ',userid from user,banishment_vote where banishment_vote.id=$voteid and user.id=userid" >> $msgfile2
+       $MYSQL --execute="select 'Ayes: ',sum(yes),' Nays: ',count(id)-sum(yes) from banishment_votes where voteid=$voteid" >> $msgfile2
+       $MYSQL --execute="select name,' - ',userid from user,banishment_vote where banishment_vote.id=$voteid and user.id=userid" >> $msgfile
+       $MYSQL --execute="select 'Ayes: ',sum(yes),' Nays: ',count(id)-sum(yes) from banishment_votes where voteid=$voteid" >> $msgfile
+       nays=`expr $nays + 1`
+       if test $ayes -gt $nays ; then
+         echo Vote succeeded. >> $msgfile
+         mail -s "Vote succeeded.  You have been banished"  $EMAIL < $msgfile2
+         start_time=`$MYSQL --execute="select start_time from banishment_vote where id=$voteid"`
+         $MYSQL --execute="update forum_preferences set banished_until=$start_time +1209600 where userid= $userid"
+         $MYSQL --execute="update banishment_vote set end_time=start_time where id=$voteid"
+       else 
+         echo Vote failed. >> $msgfile
+         mail -s "Vote failed. You have not been banished"  $EMAIL < $msgfile2
+         $MYSQL --execute="update forum_preferences set banished_until=0 where userid=$userid"
+         $MYSQL --execute="update banishment_vote set end_time=start_time where id=$voteid"
+       fi
+       /bin/rm $msgfile2
+   done
+   mail -s "Completed Votes" $MOD_EMAIL_ADDRESS < $msgfile
+fi
+/bin/rm $msgfile
+
+sleep 300
+done
+exit 0

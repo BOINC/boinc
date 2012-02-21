@@ -1,0 +1,8 @@
+#define WARPIN_VERSION "1.0.8"
+#define boinc.Major 5
+#define boinc.Minor 2
+#define boinc.Rev 1
+#define boinc.BLD 1
+#define boinc\VER 5\2\1\1
+#define boinc.VER 5.2.1
+#define boinc-VER 5-2-1

@@ -1,0 +1,89 @@
+// This file is part of BOINC.
+// http://boinc.berkeley.edu
+// Copyright (C) 2011 University of California
+//
+// BOINC is free software; you can redistribute it and/or modify it
+// under the terms of the GNU Lesser General Public License
+// as published by the Free Software Foundation,
+// either version 3 of the License, or (at your option) any later version.
+//
+// BOINC is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+// See the GNU Lesser General Public License for more details.
+//
+// You should have received a copy of the GNU Lesser General Public License
+// along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
+
+#ifndef _MACGUI_H_
+#define _MACGUI_H_
+/*
+ *  MacGUI.pch
+ *  BOINCManager precompiled headers file for Mac
+ */
+
+// To use the Development (Debug) build of wxMac (allows stepping into wxMac 
+//   source code, enables debug, trace, Asserts, etc.):
+// (1) Set USE_DEBUG_WXMAC to 1 in this source file
+// (2) In the Project menu, set the Active Build Configuration to "Development"
+// (3) In the Project menu, set the Active Target to "mgr_boinc"
+// (4) In Xcode's main project window, control-click on the title "Groups & Files" at the 
+//      top of the left-hand pane and select "Target Membership" from the contextual menu.
+// (5) In the XCode project's Groups and Files column:
+//      uncheck "External Frameworks and Libraries/libwx_mac_static.a"
+// (6) In the XCode project's Groups and Files column:
+//      check "External Frameworks and Libraries/wxMac-BOINC.xcodeproj/libwx_mac_static.a"
+//
+// This will have no effect on the BOINC Manager Deployment build, which will still 
+//  use the wxMac Deployment build.
+//
+// To use the wxMac Deployment build even in BOINC Manager Development builds, reverse 
+// the above steps (setting USE_DEBUG_WXMAC to 0, etc.)
+
+#define USE_DEBUG_WXMAC 0
+ 
+#define WX_PRECOMP
+
+#define HAVE_SSIZE_T
+
+#include <wx/version.h> // For wxCHECK_VERSION
+
+#define TARGET_CARBON 1
+#define wxUSE_UNICODE 1
+#define HAVE_WCSLEN 1
+
+#include <wchar.h>
+
+#if ((defined(__i386__) || defined(__x86_64__)) && wxCHECK_VERSION(2,8,2))
+// platform.h erroneously #defines __POWERPC__, so we include platform.h first 
+// and then #undef __POWERPC__ before including the other wxMac header files.
+// It's unclear if this affects non-CodeWarrior builds, but do it to be safe.
+#include <wx/platform.h>
+#ifdef __POWERPC__
+#undef __POWERPC__
+#endif
+#endif
+
+#if (defined(_DEBUG) && (! USE_DEBUG_WXMAC))
+
+#undef _DEBUG       // so we can link with Deployment Wx libs
+#undef __WXDEBUG__
+
+#include "stdwx.h"
+
+#define  _DEBUG     // Redefine _DEBUG for the rest of the code
+#define __WXDEBUG__
+
+#else   // ! (defined(_DEBUG) && (! USE_DEBUG_WXMAC))
+
+#include "stdwx.h"
+
+#endif  // ! (defined(_DEBUG) && (! USE_DEBUG_WXMAC))
+
+#include "config.h"
+
+// Prototypes for Mac_GUI.cpp
+Boolean Mac_Authorize(void);
+void MacLocalizeBOINCMenu();
+
+#endif

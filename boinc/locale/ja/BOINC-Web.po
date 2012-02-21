@@ -1,0 +1,1158 @@
+# BOINC web translation
+# Copyright (C) 2008-2009 University of California
+# This file is distributed under the same license as BOINC.
+# FileID  : $Id$
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
+"POT-Creation-Date: 2011-04-04 22:09 PDT\n"
+"PO-Revision-Date: 2011-09-21 01:46+0200\n"
+"Last-Translator: komo <je2bwm@jarl.com>\n"
+"Language-Team: Japanese <nobody@example.com>\n"
+"Language: ja\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Pootle 2.1.1\n"
+"X-Poedit-SourceCharset: utf-8\n"
+"X-Poedit-SearchPath-0: doc\n"
+"X-BOINC-UTF8-Marker: 日本語\n"
+"X-Poedit-KeywordsList: tra\n"
+
+#: projects.inc:14
+msgid "Cognitive science and artifical intelligence"
+msgstr "認知科学と人工知能"
+
+#: projects.inc:17
+msgid "FreeHAL"
+msgstr "FreeHAL"
+
+#: projects.inc:19 projects.inc:254 projects.inc:290 projects.inc:297
+msgid "private"
+msgstr "非公開"
+
+#: projects.inc:20
+msgid "Artificial intelligence"
+msgstr "人工知能"
+
+#: projects.inc:21
+msgid ""
+"Parse and convert semantic nets for use in FreeHAL, an artificial "
+"intelligence that uses semantic networks, stemmers, part of speech "
+"databases, and part of speech taggers in order to imitate human behavior in "
+"conversations."
+msgstr ""
+"FreeHALで使うセマンティックネットを構文解析し変換すること。FreeHALは人工知能のひとつであり、セマンティックネットや語幹処理機能、音声データ"
+"ベースの一部、品詞タグ付け機能を使って人間の会話を模擬しようとするものです。"
+
+#: projects.inc:27
+msgid "Biology and Medicine"
+msgstr "生物学と医療"
+
+#: projects.inc:30
+msgid "POEM@HOME"
+msgstr "POEM@HOME"
+
+#: projects.inc:32
+msgid "University of Karlsruhe (Germany)"
+msgstr "カールスルーエ大学(ドイツ)"
+
+#: projects.inc:33
+msgid "Protein structure prediction"
+msgstr "蛋白質構造の予測"
+
+#: projects.inc:34
+msgid ""
+"POEM@HOME uses a computational approach to predict the biologically active "
+"structure of proteins, to understand the signal-processing mechanisms when "
+"the proteins interact with one another, to understand diseases related to "
+"protein malfunction or aggregation, and to develop new drugs on the basis of "
+"the three-dimensions structure of biologically important proteins."
+msgstr ""
+"POEM@HOME は、生物学的に活性をもつ種々の蛋白質の構造を予測するために、 計算指向のアプローチを使います。POEM@HOME はこれによって、 "
+"蛋白質どうしの間で信号処理が起こる場合の機構を理解したり、 蛋白質の誤動作や凝集に関係する疾病を理解する、あるいは、 "
+"生物学的に重要な蛋白質の三次元構造を基礎に新薬を開発します。"
+
+#: projects.inc:38
+msgid "Docking@Home"
+msgstr "Docking@Home"
+
+#: projects.inc:40
+msgid "University of Delaware"
+msgstr "デラウェア大学"
+
+#: projects.inc:41
+msgid "Study of protein - ligand interactions"
+msgstr "蛋白質-リガンド間の相互作用の研究"
+
+#: projects.inc:42
+msgid ""
+"Docking@Home has both bioscience and computer science goals. The project "
+"aims to further knowledge of the atomic details of protein-ligand "
+"interactions and, by doing so, will search for insights into the discovery "
+"of novel pharmaceuticals."
+msgstr ""
+"Docking@Home は、生物化学と計算機科学の両方の目標を持つプロジェクトです。 "
+"蛋白質とリガンド間の相互作用の原子的な詳細知識を深めることを目標とすると同時に、 その中で、革新的な薬品発見のための知見を探していきます。"
+
+#: projects.inc:46
+msgid "GPUGrid.net"
+msgstr "GPUGrid.net"
+
+#: projects.inc:48
+msgid "Barcelona Biomedical Research Park (PRBB)"
+msgstr "バルセロナ生体医学研究パーク(PRBB)"
+
+#: projects.inc:49
+msgid "Molecular simulations of proteins"
+msgstr "蛋白質の分子シミュレーション"
+
+#: projects.inc:50
+msgid ""
+"GPUGrid.net opens novel computational scenarios by the first full-atom "
+"molecular dynamics code (CellMD) specially optimized to run on NVIDIA GPUs. "
+"New biomedical applications suddenly become possible giving a new role to "
+"computational biology for biomedical research."
+msgstr ""
+"NVIDAI GPU の上で走らせるように特に最適化した、 全原子を対象粒子として扱う初めての分子動力学のプログラムコード(CellMD "
+")を使うことにより、GPUGrid.netは、革新的な計算シナリオを開拓します。 新しい生体医学的応用が突然可能になり、 "
+"生体医学を研究するにあたり計算生物学に新しい役割を与えます。"
+
+#: projects.inc:54
+msgid "Superlink@Technion"
+msgstr "Superlink@Technion"
+
+#: projects.inc:56
+msgid "Technion, Israel"
+msgstr "Technion, Israel"
+
+#: projects.inc:57
+msgid "Genetic linkage analysis"
+msgstr "遺伝的連鎖解析"
+
+#: projects.inc:58
+msgid ""
+"Superlink@Technion helps geneticists all over the world find disease-"
+"provoking genes causing some types of diabetes, hypertension (high blood "
+"pressure), cancer, schizophrenia and many others."
+msgstr ""
+"Superlink@Technion は世界中の遺伝学者に、ある種の代謝異常や高血圧、ガン、 "
+"統合失調症など起こして疾病を誘発する遺伝子を探しやすくします。"
+
+#: projects.inc:70
+msgid "The Lattice Project"
+msgstr "The Lattice Project"
+
+#: projects.inc:72
+msgid ""
+"University of Maryland Center for Bioinformatics and Computational Biology"
+msgstr "メリーランド大学 バイオインフォマティックスと計算生物学のためのセンター"
+
+#: projects.inc:73
+msgid "Life science research"
+msgstr "生命科学の研究"
+
+#: projects.inc:74
+msgid ""
+"The Lattice Project supplies computing power to scientists at the University "
+"of Maryland studying evolutionary relationships based on DNA sequence data; "
+"bacterial, plasmid, and virus protein sequences; and biological diversity in "
+"nature reserves. "
+msgstr ""
+"Lattice プロジェクトは メリーランド大学の科学者の種々の研究に計算能力を、 提供しています。 たとえば、DNA配列データを基礎にした進化論的関係"
+"の研究、バクテリア、プラスミド、およびウィルスの蛋白質の配列の研究、そして、自然保護区における生物の多様性の研究などです。 "
+
+#: projects.inc:78
+msgid "Malariacontrol.net"
+msgstr "Malariacontrol.net"
+
+#: projects.inc:80
+msgid "The Swiss Tropical Institute"
+msgstr "The Swiss Tropical Institute"
+
+#: projects.inc:81
+msgid "Epidemiology"
+msgstr "疫学"
+
+#: projects.inc:82
+msgid ""
+"Simulation models of the transmission dynamics and health effects of malaria "
+"are an important tool for malaria control. They can be used to determine "
+"optimal strategies for delivering mosquito nets, chemotherapy, or new "
+"vaccines which are currently under development and testing.  Such modeling "
+"is extremely computer intensive, requiring simulations of large human "
+"populations with a diverse set of parameters related to biological and "
+"social factors that influence the distribution of the disease. "
+msgstr ""
+"マラリア対策にとって、マラリアの動的な伝播と健康への影響をシミュレーションするためのモデルは重要な道具です。これらのモデルによっていろいろな対抗手段を提"
+"供していく最も良いやり方を決めることに使うことができます。たとえば、蚊帳や化学療法、現在開発・検証中の新ワクチンの使い方を最適化するのに使います。 "
+"これらのモデリングの手法は非常に大きな計算能力を必要とします。 多くの人口を対象にシミュレーションが必要ですし、 "
+"この病気の拡散に影響を与える生物学的因子と社会学的因子が、 数多くのパラメタに関係しているからです。"
+
+#: projects.inc:102
+msgid "Rosetta@home"
+msgstr "Rosetta@home"
+
+#: projects.inc:104
+msgid "University of Washington"
+msgstr "ワシントン大学"
+
+#: projects.inc:105 projects.inc:113
+msgid "Biology"
+msgstr "生物学"
+
+#: projects.inc:106
+msgid ""
+"Determine the 3-dimensional shapes of proteins in research that may "
+"ultimately lead to finding cures for some major human diseases. By running "
+"Rosetta@home you will help us speed up and extend our research in ways we "
+"couldn't possibly attempt without your help. You will also be helping our "
+"efforts at designing new proteins to fight diseases such as HIV, Malaria, "
+"Cancer, and Alzheimer's"
+msgstr ""
+"研究対象の蛋白質が3次元的にどのような形状であるかを決定します。 "
+"この仕事は究極的には人間のいくつかの主要な疾病の治療方法を見つけることになるかもしれません。 あなたが Rosetta@home "
+"を走らせると、私たちの研究を加速し拡大してくれます。 それはあなたの助力なしにはきっと達成できないものです。 "
+"さらに、HIVや、マラリア、癌、そしてアルツハイマー病のような疾病に対抗する、 新しい蛋白質を設計することにも力を貸していただけることになります。 "
+
+#: projects.inc:110
+msgid "SIMAP"
+msgstr "SIMAP"
+
+#: projects.inc:112
+msgid "University of Vienna"
+msgstr "ウィーン大学"
+
+#: projects.inc:114
+msgid ""
+"Calculate similarities between proteins. SIMAP provides a public database of "
+"the resulting data, which plays a key role in many bioinformatics research "
+"projects."
+msgstr ""
+"蛋白質の相互類似性を計算するプロジェクトです。 SIMAP は計算結果を公開データベースとして提供します。 "
+"このデータベースは多くの生命科学研究のプロジェクトで重要な役割を果たします。"
+
+#: projects.inc:120
+msgid "Earth Sciences"
+msgstr "地球科学"
+
+#: projects.inc:130
+msgid "Virtual Prairie"
+msgstr "Virtual Prairie"
+
+#: projects.inc:132
+msgid "University of Houston"
+msgstr "ヒューストン大学"
+
+#: projects.inc:133
+msgid "Study of botanical ecosystems"
+msgstr "植物圏エコシステムの研究"
+
+#: projects.inc:134
+msgid ""
+"Provide ecological guidelines on the design of prairies with the best "
+"potential for water purification."
+msgstr "水浄化のために最も有望となるようにプレーリー地帯を設計することについて、 生態学的ガイドラインを提供します。"
+
+#: projects.inc:137
+msgid "Climateprediction.net"
+msgstr "Climateprediction.net"
+
+#: projects.inc:139
+msgid "Oxford University"
+msgstr "オックスフォード大学"
+
+#: projects.inc:140
+msgid "Climate study"
+msgstr "気候の研究"
+
+#: projects.inc:141
+msgid ""
+"Investigate the approximations that have to be made in state-of-the-art "
+"climate models. By running the model thousands of times we hope to find out "
+"how the model responds to slight tweaks to these approximations - slight "
+"enough to not make the approximations any less realistic. This will allow us "
+"to improve our understanding of how sensitive our models are to small "
+"changes and also to things like changes in carbon dioxide and the sulphur "
+"cycle. This will allow us to explore how climate may change in the next "
+"century under a wide range of different scenarios."
+msgstr ""
+"最先端の気候モデルにおいて必須の近似技術を研究します。 モデルを何千回も実行することによって、近似方法を微調整したときに、 "
+"モデルがどのように反応するかを探り出そうとしています。  ここで微調整といっているのは、 近似が現実から離れてしまわないような小さなものです。 "
+"このような手法によって、 我々が使っているモデルが小さな変化にどのように敏感であるかという "
+"知識を豊かにします。また、二酸化炭素や硫黄循環での変化についても同様です。 このようにして、次の世紀がどのような気候変化をするか、 "
+"いくつものシナリオを広く探求できるようになります。 "
+
+#: projects.inc:148
+msgid "Astronomy/Physics/Chemistry"
+msgstr "天文学、物理学、化学"
+
+#: projects.inc:151
+msgid "eOn"
+msgstr "eOn"
+
+#: projects.inc:153
+msgid "University of Texas at Austin"
+msgstr "University of Texas at Austin"
+
+#: projects.inc:154 projects.inc:185 projects.inc:225
+msgid "Chemistry"
+msgstr "化学"
+
+#: projects.inc:155
+msgid ""
+"A common problem in theoretical chemistry, condensed matter physics and "
+"materials science is the calculation of the time evolution of an atomic "
+"scale system where, for example, chemical reactions and/or diffusion occur. "
+"Generally the events of interest are quite rare (many orders of magnitude "
+"slower than the vibrational movements of the atoms), and therefore direct "
+"simulations, tracking every movement of the atoms, would take thousands of "
+"years of computer calculations on the fastest present day computer before a "
+"single event of interest can be expected to occur.  Our research group is "
+"interested in calculating the long time dynamics of systems."
+msgstr ""
+"理論化学、圧縮物質の物理学および材料科学の分野での共通問題は、原子スケールの系での時間経過を計算することです。そこでは、たとえば化学反応と拡散が起きてい"
+"ます。一般に興味の対象となる事象はとてもまれにしか起きません(原子の振動という動きに比べ大幅に遅いオーダーでしか発生しません）。このため、原子の動きをそ"
+"のまま追跡するような直接のシミュレーションをすると、興味ある動きがシミュレーションの中で起きるまでに、現状で最速のコンピュータによる計算でも何千年もの時"
+"間が掛かってしまうでしょう。われわれの研究グループは系の長期にわたる振る舞いを計算することに興味があります。"
+
+#: projects.inc:158
+msgid "Orbit@home"
+msgstr "Orbit@home"
+
+#: projects.inc:160
+msgid "Planetary Science Institute"
+msgstr "Planetary Science Institute"
+
+#: projects.inc:161 projects.inc:169 projects.inc:177
+msgid "Astronomy"
+msgstr "天文学"
+
+#: projects.inc:162
+msgid "Monitor and study the hazard posed by near-Earth asteroids"
+msgstr "地球に近い小惑星が引き起こす危険を監視および研究する"
+
+#: projects.inc:166
+msgid "Cosmology@Home"
+msgstr "Cosmology@Home"
+
+#: projects.inc:168
+msgid "University of Illinois at Urbana-Chamapign"
+msgstr "University of Illinois at Urbana-Chamapign"
+
+#: projects.inc:170
+msgid ""
+"The goal of Cosmology@Home is to search for the model that best describes "
+"our Universe and to find the range of models that agree with the available "
+"astronomical particle physics data."
+msgstr ""
+"Cosmology@Home の目標は、われわれの宇宙を記述する最も良いモデルを探すこと、および、天文学的な粒子物理の入手可能なデータと整合性のあるモデ"
+"ルがどの範囲であるのかを調べることです。"
+
+#: projects.inc:174
+msgid "Milkyway@home"
+msgstr "Milkyway@home"
+
+#: projects.inc:176
+msgid "Rensselaer Polytechnic Institute"
+msgstr "Rensselaer Polytechnic Institute"
+
+#: projects.inc:178
+msgid ""
+"The goal of Milkyway@Home is to create a highly accurate three dimensional "
+"model of the Milky Way galaxy using data gathered by the Sloan Digital Sky "
+"Survey."
+msgstr ""
+"Milkyway@Home の目標は、天の川銀河の高精度な三次元モデルを Sloan Digital Survey "
+"で収集したデータを使って作成することです。"
+
+#: projects.inc:182
+msgid "Leiden Classical"
+msgstr "Leiden Classical"
+
+#: projects.inc:184
+msgid "Leiden University, The Netherlands"
+msgstr "ライデン大学、オランダ"
+
+#: projects.inc:186
+msgid ""
+"Surface science calculations using Classical Dynamics.  Leiden Classical "
+"allows volunteers, students and other scientist to submit their personal "
+"calculations to the grid. Each user has his own personal queue for Classical "
+"Dynamics jobs. In this way students have used the grid to simulate liquid "
+"argon, or to test the validity of the ideal gas law by actually doing the "
+"simulations through the grid."
+msgstr ""
+"Classical Dynamics を使い表面科学の計算をすること。 Leiden Classical "
+"はボランティアの方、学生の方、そして他の科学者が彼ら個人の計算をこのグリッドで実行することを許します。各利用者は、Classical Dynamics の"
+"ジョブキューをおのおの持っています。このようにして、学生たちはこのグリッドを使い、実際にシミュレーションをすることにより、液体アルゴンを模擬してみたり、"
+"理想気体の法則の有効性をテストしたりしてきました。"
+
+#: projects.inc:190
+msgid "uFluids@home"
+msgstr "uFluids@home"
+
+#: projects.inc:192
+msgid "Purdue University"
+msgstr "パーデュー大学"
+
+#: projects.inc:193
+msgid "Physics/Aeronautics"
+msgstr "物理学/宇宙航法学"
+
+#: projects.inc:194
+msgid ""
+"The uFluids project simulates two-phase fluid behavior in microgravity and "
+"microfluidics problems. Our goal is to design better satellite propellant "
+"management devices and address two-phase flow in microchannel and MEMS "
+"devices."
+msgstr ""
+"この uFluids プロジェクトは 微小重力およびマイクロフルイディクス(微小流体を扱う先端技術）における 2相液体の振る舞いをシミュレートします。わ"
+"れわれの目標は、人工衛星のより良い推進剤管理装置を設計すること、そして、マイクロチャネル(微小流体通路)とMEMSデバイスの中での "
+"2相流の問題を解決することです。"
+
+#: projects.inc:198
+msgid "Einstein@home"
+msgstr "Einstein@home"
+
+#: projects.inc:200
+msgid "Univ. of Wisconsin - Milwaukee, Max Planck Institute"
+msgstr "ウィスコンシン大学 - ミルウォーキー、マックスプランク研究所"
+
+#: projects.inc:201
+msgid "Astrophysics"
+msgstr "宇宙物理学"
+
+#: projects.inc:202
+msgid ""
+"Search for spinning neutron stars (also called pulsars) using data from the "
+"LIGO and GEO gravitational wave detectors, and from the Arecibo radio "
+"observatory.  Einstein@Home is a World Year of Physics 2005 project "
+"supported by the American Physical Society (APS) and by a number of "
+"international organizations."
+msgstr ""
+"自転する中性子星(パルサーとも呼ばれます）を探索するプログラムです。 この計算には、LIGO と GEO "
+"という重力波検出器が出力するデータと、Arecibo 電波観測所からのデータを使います。 Einstein@Home は、世界物理年 2005 "
+"プロジェクトの一つで、 米国物理学会(APS)を始めとする多くの国際組織によって支援されています。"
+
+#: projects.inc:206
+msgid "LHC@home"
+msgstr "LHC@home"
+
+#: projects.inc:208
+msgid "CERN (European Organization for Nuclear Research)"
+msgstr "CERN(欧州原子核研究機構)"
+
+#: projects.inc:209
+msgid "Physics"
+msgstr "物理学"
+
+#: projects.inc:210
+msgid ""
+"The Large Hadron Collider (LHC) is a particle accelerator at CERN, the "
+"European Organization for Nuclear Research, the world's largest particle "
+"physics laboratory.  It is the most powerful instrument ever built to "
+"investigate on particles proprieties. LHC@home runs simulations to improve "
+"the design of LHC and its detectors."
+msgstr ""
+"LHC(Large Hadron Collider) は、CERN で建設中の素粒子加速器です。 CERN "
+"は原子核物理研究のためのヨーロッパの組織で、世界最大の素粒子科学の研究所です。 LHC は素粒子の性質を研究する装置として今までで最強のものです。 "
+"LHC@home は LHC とその検出器の設計を改良するためのシミュレーションを実行します。 "
+
+#: projects.inc:214
+msgid "SETI@home"
+msgstr "SETI@home"
+
+#: projects.inc:216
+msgid "University of California, Berkeley"
+msgstr "カリフォルニア大学バークレー校"
+
+#: projects.inc:217
+msgid "Astrophysics, astrobiology"
+msgstr "宇宙物理、宇宙生物学"
+
+#: projects.inc:218
+msgid ""
+"SETI (Search for Extraterrestrial Intelligence) is a scientific area whose "
+"goal is to detect intelligent life outside Earth. One approach, known as "
+"radio SETI, uses radio telescopes to listen for narrow-bandwidth radio "
+"signals from space. Such signals are not known to occur naturally, so a "
+"detection would provide evidence of extraterrestrial technology."
+msgstr ""
+"SETI (Search for Extraterrestrial Intelligence) "
+"とは、地球外の知的生命を検出することを目的とする科学研究領域です。 Radio SETI として知られているその1つのアプローチでは、 "
+"電波望遠鏡を使って宇宙からの狭帯域の電波信号に耳を傾けます。 探している信号は自然に発生すると知られている種類のものではありません。 "
+"したがって、そのような信号を検出すれば、地球外生命が持つ技術の証拠となります。"
+
+#: projects.inc:222
+msgid "Quantum Monte Carlo at Home"
+msgstr "Quantum Monte Carlo at Home"
+
+#: projects.inc:224
+msgid "University of Muenster (Germany)"
+msgstr "ミュンスター大学(ドイツ)"
+
+#: projects.inc:226
+msgid ""
+"Study the structure and reactivity of molecules using Quantum Chemistry."
+msgstr "量子化学を用いて分子の構造と反応性を研究します。"
+
+#: projects.inc:230
+msgid "Spinhenge@home"
+msgstr "Spinhenge@home"
+
+#: projects.inc:232
+msgid "Bielefeld University of Applied Sciences"
+msgstr "Bielefeld University of Applied Sciences"
+
+#: projects.inc:233
+msgid "Chemical engineering and nanotechnology"
+msgstr "化学工業とナノテクノロジー"
+
+#: projects.inc:234
+msgid ""
+"The study of molecular magnets and controlled nanoscale magnetism.  These "
+"magnetic molecules may be used to develop tiny magnetic switches, with "
+"applications in medicine (such as local tumor chemotherapy) and "
+"biotechnology."
+msgstr ""
+"分子磁石とナノスケール磁化の制御の研究。これらの磁化した分子は、小さい磁気スイッチを開発したり、医学応用(たとえば局所腫瘍化学療法）とバイオテクノロジー"
+"への応用に使えるかもしれません。"
+
+#: projects.inc:241
+msgid "Multiple applications"
+msgstr "複数の応用"
+
+#: projects.inc:244
+msgid "CAS@home"
+msgstr "CAS@home"
+
+#: projects.inc:246
+msgid "Chinese Academy of Sciences"
+msgstr "中国科学院(Chinese Academy of Sciences)"
+
+#: projects.inc:247
+msgid "Physics, biochemistry, and others"
+msgstr "物理学、生命化学、ほか"
+
+#: projects.inc:248
+msgid ""
+"The objective of CAS@home is to encourage and assist scientists in China to "
+"adopt the technologies of volunteer computing and volunteer thinking for "
+"their research."
+msgstr ""
+"CAS@home "
+"の目的は、中国の科学者たちが自分らの研究に関するボランティアコンピューティングとボランティア考察活動へ向けて、鼓舞・支援されることです。"
+
+#: projects.inc:252
+msgid "Yoyo@home"
+msgstr "Yoyo@home"
+
+#: projects.inc:255
+msgid "Mathematics, physics, evolution"
+msgstr "数学、物理学、進化学"
+
+#: projects.inc:256
+msgid ""
+"Yoyo@home is an adapter between BOINC and several existing volunteer "
+"computing projects: ECM, Muon, Evolution@home, and distributed.net"
+msgstr ""
+"Yoyo@home は BOINC "
+"と数種の既存ボランティアプロジェクトの間に入るアダプタです。その既存プロジェクトとは、ECM、Muon、Evolution@home、および "
+"distributed.net です。"
+
+#: projects.inc:259
+msgid "EDGeS@Home"
+msgstr "EDGeS@Home"
+
+#: projects.inc:261 projects.inc:360
+msgid "MTA-SZTAKI Laboratory of Parallel and Distributed Systems (Hungary)"
+msgstr "MTA-SZTAKI Laboratory of Parallel and Distributed Systems (ハンガリー)"
+
+#: projects.inc:262
+msgid "European research projects"
+msgstr "European research projects"
+
+#: projects.inc:263
+msgid ""
+"The EDGeS@Home Beta project integrates volunteer computing into the service "
+"grid network of Europe by allowing service grids to send workunits to be "
+"processed by the volunteers of this project. The scientific projects covered "
+"by the project include math, physics, biology, etc."
+msgstr ""
+"ヨーロッパ・サービス・グリッドがそのワークユニットをこの EDGeS@Home ベータ・プロジェクトへ送ることができるようにしました。このプロジェクトは"
+"、ボランティアの方々へそれらのワークユニットを中継して計算してもらうことにより、ボランティア・コンピューティングをサービスグリッドのネットワークに統合し"
+"ています。当プロジェクトが対応している科学プロジェクトは、数学、物理学、生物学などの分野のものがあります。"
+
+#: projects.inc:267
+msgid "Ibercivis"
+msgstr "Ibercivis"
+
+#: projects.inc:269
+msgid "Spanish universities and research centers"
+msgstr "スペインの大学と研究所群"
+
+#: projects.inc:270
+msgid "Various Spanish research projects"
+msgstr "スペインにおける種々の研究プロジェクト"
+
+#: projects.inc:271
+msgid "Research in physics, material science, and biomedicine"
+msgstr "物理学、材料科学および生物医学における研究"
+
+#: projects.inc:275
+msgid "World Community Grid"
+msgstr "World Community Grid"
+
+#: projects.inc:277
+msgid "IBM Corporate Community Relations"
+msgstr "IBM Corporate Community Relations"
+
+#: projects.inc:278
+msgid "Humanitarian research on disease, natural disasters and hunger."
+msgstr "病気、自然災害および飢餓に対する人道的研究"
+
+#: projects.inc:279
+msgid ""
+"To further critical non-profit research on some of humanity's most pressing "
+"problems by creating the world's largest volunteer computing grid.  Research "
+"includes HIV/AIDS, cancer, muscular dystrophy, dengue fever, and many more."
+msgstr ""
+"世界最大のボランティア・コンピューティング・グリッドを作りだすことにより、人類にとって最も差し迫った諸問題のいくつかに対して、非営利の重要な研究をこのプ"
+"ロジェクトは推し進めます。研究には、HIV/AIDSや癌、筋ジストロフィー、デング熱など多くのものを含みます。"
+
+#: projects.inc:285
+msgid "Mathematics, computing, and games"
+msgstr "Mathematics, computing, and games"
+
+#: projects.inc:288
+msgid "Enigma@Home"
+msgstr "Enigma@Home"
+
+#: projects.inc:291 projects.inc:345
+msgid "Cryptography"
+msgstr "暗号学"
+
+#: projects.inc:292
+msgid ""
+"Attempt to decode 3 original Enigma messages. The signals were intercepted "
+"in the North Atlantic in 1942 and are believed to be unbroken."
+msgstr ""
+"本物のEnigmaメッセージ3つの解読を試みます。これらの信号文は1942年に北大西洋で傍受されましたが、まだ解読されていないと信じられています。"
+
+#: projects.inc:295
+msgid "Collatz Conjecture"
+msgstr "Collatz Conjecture(コラッツの予想)"
+
+#: projects.inc:298 projects.inc:337 projects.inc:353 projects.inc:361
+msgid "Mathematics"
+msgstr "数学"
+
+#: projects.inc:299
+msgid "Study the Collatz Conjecture, an unsolved conjecture in mathematics"
+msgstr "数学で未解決の予想として有名は、コラッツの予想の研究"
+
+#: projects.inc:302
+msgid "NFS@home"
+msgstr "NFS@home"
+
+#: projects.inc:304
+msgid "California State University Fullerton"
+msgstr "カリフォルニア州立大学フラトン校"
+
+#: projects.inc:305
+msgid "Factorization of large integers"
+msgstr "大きな整数の因数分解"
+
+#: projects.inc:306
+msgid ""
+"NFS@Home is a research project that uses Internet-connected computers to do "
+"the lattice sieving step in the Number Field Sieve factorization of large "
+"integers. As a young school student, you gained your first experience at "
+"breaking an integer into prime factors, such as 15 = 3 * 5 or 35 = 5 * 7. "
+"NFS@Home is a continuation of that experience, only with integers that are "
+"hundreds of digits long."
+msgstr ""
+"NFS＠Homeは、巨大整数を数体篩法(Number Field Sieve)で因数分解する処理のうち、格子篩（lattice sieving）の部分を"
+"計算するところにインターネットで相互接続されたコンピューターを使うという研究プロジェクトです。若い学生のころには、あなたもある整数値を素因数に分解したこ"
+"とがあるでしょう。たとえば、15 = 3 * 5 あるいは、35 = 5 * 7 のように。NFS@Home "
+"はその経験の延長上にあるものです。ただし、問題となる整数値は何百桁もの長さの整数ですが。"
+
+#: projects.inc:310
+msgid "VTU@home"
+msgstr "VTU@home"
+
+#: projects.inc:312
+msgid ""
+"Vilnius Gediminas Technical University and Kaunas University of Technology "
+"(Lithuania)"
+msgstr ""
+"Vilnius Gediminas Technical University and Kaunas University of Technology "
+"(リトアニア; Lithuania)"
+
+#: projects.inc:313
+msgid "Software testing"
+msgstr "ソフトウェアのテスト"
+
+#: projects.inc:314
+msgid ""
+"The aim of this project is to provide a powerful distributed computing "
+"platform for scientists of Vilnius Gediminas Technical University (VGTU) as "
+"well as others Lithuanian academic institutions.  Current applications "
+"involve the study of Monte-Carlo based software testing."
+msgstr ""
+"このプロジェクトの目的は、 Vilnius Gediminas Technical University (VGTU)及びその他リトアニアの学術組織へ、"
+"パワフルな分散コンピューティング・プラットフォームを提供することです。現在の応用分野には、モンテカルロ法によるソフトウェア試験の研究があります。"
+
+#: projects.inc:318
+msgid "AQUA@home"
+msgstr "AQUA@home"
+
+#: projects.inc:320
+msgid "D-Wave Systems, Inc."
+msgstr "D-Wave Systems, Inc."
+
+#: projects.inc:321
+msgid "Quantum computing"
+msgstr "量子計算"
+
+#: projects.inc:322
+msgid ""
+"D-Wave's AQUA (Adiabatic QUantum Algorithms) is a research project whose "
+"goal is to predict the performance of superconducting adiabatic quantum "
+"computers on a variety of hard problems arising in fields ranging from "
+"materials science to machine learning. AQUA@home uses Internet-connected "
+"computers to help design and analyze quantum computing algorithms, using "
+"Quantum Monte Carlo techniques."
+msgstr ""
+"D-Wave's AQUA (Adiabatic QUantum Algorithms)は、材料科学から機械学習にいたる研究領域の種々の難問題に対して、"
+"超伝導-断熱-量子コンピュータが発揮する性能を予測することを目標とする研究プロジェクトです。AQUA@home "
+"は、量子モンテカルロ法を使って、量子計算アルゴリズムを設計・分析することを支援するために、インターネットで接続されたコンピューターを使います。"
+
+#: projects.inc:334
+msgid "ABC@home"
+msgstr "ABC@home"
+
+#: projects.inc:336
+msgid "Mathematical Institute of Leiden University / Kennislink"
+msgstr "ライデン大学数学研究所とKennislink"
+
+#: projects.inc:338
+msgid ""
+"Search for 'abc-triples': positive integers a,b,c such that a+b=c, a &lt; b "
+"&lt; c, a,b,c have no common divisors and c > rad(abc), where rad(n) is the "
+"product of the distinct prime factors of n. The ABC conjecture says that "
+"there are only finitely many a,b,c such that log(c)/log(rad(abc)) > h for "
+"any real h > 1. The ABC conjecture is currently one of the greatest open "
+"problems in mathematics. If it is proven to be true, a lot of other open "
+"problems can be answered directly from it."
+msgstr ""
+"’abc-triples’ を探します。’abc-triples’ とは 3つの正整数 a b c で、a + b = c  かつ、a &lt; b "
+"かつ、b &lt; c  かつ、a b c が互いに素であり、c >  rad(abc) であるようなものです。ただしここで rad( n ) とは、n "
+"の互いに異なる個々の素因数の積です。ABC 予想とは、h > 1 のどのような実数 h についても、log( c ) / log( rad( abc "
+") ) > h  となるような a, b, c の組はたかだか有限個しかないという予想です。 "
+"これが正しいと証明されると、まだ解決をみていない多くの数学の問題に答えをここから直接に与えることができます。"
+
+#: projects.inc:342
+msgid "PrimeGrid"
+msgstr "PrimeGrid"
+
+#: projects.inc:344
+msgid "Private"
+msgstr "非公開"
+
+#: projects.inc:346
+msgid ""
+"Primegrid is generating a public sequential prime number database, and is "
+"searching for large twin primes of the form k*2<sup>n</sup>+1 and k*2<sup>n</"
+"sup>-1"
+msgstr ""
+"Primegrid は, 昇順に並んだ素数の公開データベースを生成しています。そして、k*2<sup>n</sup>+1 と "
+"k*2<sup>n</sup>　の形をした大きな双子素数を探しています。"
+
+#: projects.inc:350
+msgid "primaboinca"
+msgstr "primaboinca"
+
+#: projects.inc:352
+msgid "Hochschule RheinMain University of Applied Sciences"
+msgstr "Hochschule RheinMain University of Applied Sciences"
+
+#: projects.inc:354
+msgid ""
+"Search for counterexamples to two conjectures related to the identification "
+"of prime numbers"
+msgstr "素数判定法に関する2つの予想について反例を探します。"
+
+#: projects.inc:358
+msgid "SZTAKI Desktop Grid"
+msgstr "SZTAKI デスクトップ・グリッド"
+
+#: projects.inc:362
+msgid ""
+"Find all the generalized binary number systems (in which bases are matrices "
+"and digits are vectors) up to dimension 11."
+msgstr "このプロジェクトは、一般化された 2進数系を11次元まですべて探すことを目的にしています。 "
+
+#: projects.inc:382
+msgid "Chess960@home"
+msgstr "Chess960@home"
+
+#: projects.inc:384
+msgid "Chess-960.org"
+msgstr "Chess-960.org"
+
+#: projects.inc:385
+msgid "Game-playing"
+msgstr "ゲーム"
+
+#: projects.inc:386
+msgid ""
+"This project studies Chess 960, a variant of orthodox chess. In classical "
+"chess the starting position of the game never changes.  In Chess 960, just "
+"before the start of every game, the initial configuration of the chess "
+"pieces is determined randomly."
+msgstr ""
+"このプロジェクトは Chess 960 というものを研究します。 "
+"これは伝統的なチェスの変種です。従来のチェスは開始時のコマの配置はいつも同じで変わりません。 Chess 960 "
+"ではゲーム開始直前にコマの配置が無作為に選ばれます。"
+
+#: versions.inc:6
+msgid "The current release is known to work with these Linux versions:"
+msgstr "現在の版は右の版の Linux で動作することがわかっています："
+
+#: versions.inc:14
+msgid ""
+"For other Linux versions, check if a BOINC package is offered by your Linux "
+"distribution."
+msgstr "その他の版の Linux については、対象の Linux ディストリビューションに BOINC パッケージが入っていないか調べてみてください。"
+
+#: versions.inc:25
+msgid ""
+"Alternatively, download the %1BOINC client for older Linux versions%2. This "
+"doesn't have a graphical interface, but it should work on all Linux systems, "
+"both x86 and x64."
+msgstr ""
+"その他の方法としては、%1古い Linux用の BOINC クライアント%2 をダウンロードするという手があります。 "
+"この場合、グラフィカルインタフェースは使えないものの、おそらく x86 及び x64 の全ての Linux システムで動作するはずです。"
+
+#: docutil.php:21
+msgid "Search"
+msgstr "検索"
+
+#: docutil.php:102
+msgid "Return to BOINC main page"
+msgstr "BOINCホームページに戻る"
+
+#: docutil.php:113
+#, php-format
+msgid "This page is %stranslatable%s."
+msgstr "このページは%s翻訳可能です%s"
+
+#: download.php:40
+msgid "Download BOINC"
+msgstr "BOINC をダウンロードする"
+
+#: download.php:42
+#, php-format
+msgid "%s for %s (%s MB)"
+msgstr "%s 版 %s 用 (%s MB)"
+
+#: download.php:89
+msgid ""
+"BOINC is a program that lets you donate your idle computer time to science "
+"projects like SETI@home, Climateprediction.net, Rosetta@home, World "
+"Community Grid, and many others. <p> After installing BOINC on your "
+"computer, you can connect it to as many of these projects as you like."
+msgstr ""
+" BOINC はあなたのコンピュータの空き時間を、色々な科学プロジェクトに寄付するために使えるプログラムです。 "
+"それらの科学プロジェクトとしては、SETI@home、Climateprediction.net、Rosetta@home、World "
+"Community Grid など、すでにたくさんのものがあります。 <p>あなたのコンピュータに BOINC  "
+"のインストールが済めば、上記のプロジェクトのいくつにでも好きなだけつなげることができます。 "
+
+#: download.php:91
+msgid ""
+"You may run this software on a computer only if you own the computer or have "
+"the permission of its owner."
+msgstr "ご自身で所有しているコンピュータあるいは所有者に許可を得た場合のみそのコンピュータでこのソフトウェアを実行することを許します。"
+
+#: download.php:115
+#, php-format
+msgid ""
+"Note: if your computer is equipped with an Graphics Processing Unit (GPU), "
+"you may be able to %suse it to compute faster%s"
+msgstr ""
+"注: あなたのコンピュータに NVIDIA 社の GPU(Graphics Processing Unit) がついているなら、%"
+"sそれを使ってより速く計算する%s ことができるかもしれません。"
+
+#: download.php:121
+msgid "System requirements"
+msgstr "コンピュータの条件"
+
+#: download.php:122
+msgid "Release notes"
+msgstr "公開時の注意書き"
+
+#: download.php:123 index.php:82
+msgid "Help"
+msgstr "ヘルプ"
+
+#: download.php:124
+msgid "All versions"
+msgstr "ダウンロード一覧"
+
+#: download.php:125
+msgid "Version history"
+msgstr "版数の履歴"
+
+#: download.php:142
+msgid "BOINC: compute for science"
+msgstr "BOINC: 科学のための計算をしよう"
+
+#: help.php:12
+#, php-format
+msgid ""
+"BOINC Online Help lets you talk one-on-one with experienced BOINC users, who "
+"can: %s answer questions about BOINC and volunteer computing; %s walk you "
+"through the process of installing and using BOINC; %s troubleshoot any "
+"problems you might have."
+msgstr ""
+"BOINC のオンライン・ヘルプでは、経験ある BOINC 参加者と1対1で話ができます。話の相手となってくれる方は、%s BOINC "
+"とボランティア・コンピューティングについて質問に答えることができますし、%s BOINC "
+"をインストールして使うところまで、あなたをガイドできます。さらに%s あなたが遭遇するかもしれない問題も解決できるでしょう。"
+
+#: help.php:21
+#, php-format
+msgid ""
+"BOINC Online Help is based on %sSkype%s, an Internet-based telephone system. "
+"Skype is free (both the software and the calls).  If you don't already have "
+"Skype, please %sdownload and install it now%s.  When you're finished, return "
+"to this page."
+msgstr ""
+"BOINC オンライン・ヘルプは インターネット・ベースの電話システムの1つである %sSkype%s を使います。Skype は無料 "
+"(ソフトウェアも通話料も）です。まだ Skype をもっていなければ、どうぞ %s 今すぐダウンロードしてインストールしてください%"
+"s。それが済んだら、このページに戻ってください。"
+
+#: help.php:28
+msgid ""
+"The best way to get help is by voice, for which you need either built-in "
+"microphone and speakers or an external headset for your computer.  You can "
+"also use Skype's text-based chat system or regular email (if you don't have "
+"Skype) to communicate with Help Volunteers."
+msgstr ""
+"助けを得る一番良いやり方は、口頭で相談することです。そのためには、あなたのコンピュータに組み込まれたマイクとスピーカ、あるいは、外部接続のヘッドセットが"
+"要ります。別の方法としては、Skype のテキストベースのチャットシステムを使って、ヘルプを担当してくれるボランティアとやりとりをすることもできます。 "
+
+#: help.php:31
+msgid ""
+"Volunteers speaking several languages are available. Please select a "
+"language:"
+msgstr "数ヶ国語についてボランティアはヘルプを提供できます。使いたい言語を以下から選択してください:"
+
+#: help.php:47
+msgid "Be a Help Volunteer"
+msgstr "ヘルプ担当のボランティアになるには"
+
+#: help.php:50
+#, php-format
+msgid ""
+"If you're an experienced BOINC user, we encourage you to %sbecome a Help "
+"Volunteer%s.  It's a great way to help the cause of scientific research and "
+"volunteer computing - and it's fun!"
+msgstr ""
+"あなたが BOINC 参加者として経験がおありなら、是非、%s ヘルプ担当のボランティアをやって%s "
+"いただけませんか。科学研究とボランティア・コンピューティングの主旨を支援する、重要な活動の1つです。さらに、楽しい活動でもあります！"
+
+#: help.php:56
+#, php-format
+msgid ""
+"If you're already a Help Volunteer: to edit your settings, %sclick here%s."
+msgstr "既にヘルプ担当のボランティアをされている方へ：あなたの%s 設定を編集する%s には左のリンクをクリックしてください。"
+
+#: help_funcs.php:107
+msgid ""
+"BOINC helpers are unpaid volunteers.  Their advice is not endorsed by BOINC "
+"or the University of California."
+msgstr ""
+"BOINC ヘルパーは無給のボランティアです。彼らのアドバイスは、BOINC あるいはthe University of California "
+"のいずれからも保証されるものではありません。"
+
+#: help_funcs.php:110
+msgid "%1Never%2 give email address or password information to BOINC helpers."
+msgstr "%1決して%2 BOINC ヘルパーの方々に Eメイルアドレスやパスワードを知らせないでください。"
+
+#: index.php:23
+msgid "Computing power"
+msgstr "計算能力"
+
+#: index.php:25
+msgid "Top 100 volunteers"
+msgstr "上位100人の参加者"
+
+#: index.php:26
+msgid "Statistics"
+msgstr "統計"
+
+#: index.php:53
+msgid "Active:"
+msgstr "活動中："
+
+#: index.php:53
+msgid "volunteers,"
+msgstr "参加者、"
+
+#: index.php:53
+msgid "computers.\n"
+msgstr "コンピュータ。\n"
+
+#: index.php:54
+msgid "24-hour average:"
+msgstr "24時間平均："
+
+#: index.php:54
+msgid "TeraFLOPS."
+msgstr "テラFLOPS。"
+
+#: index.php:66
+msgid "News"
+msgstr "ニュース"
+
+#: index.php:79
+msgid "Volunteer"
+msgstr "ボランティアとして参加してくださる方へ"
+
+#: index.php:81
+msgid "Download"
+msgstr "ダウンロード"
+
+#: index.php:83 index.php:118 index.php:169
+msgid "Documentation"
+msgstr "説明資料"
+
+#: index.php:89
+#, php-format
+msgid ""
+" Use the idle time on your computer (Windows, Mac, or Linux) to cure "
+"diseases, study global warming, discover pulsars, and do many other types of "
+"scientific research.  It's safe, secure, and easy:  %sChoose%s projects  %"
+"sDownload%s and run BOINC software  %sEnter%s an email address and password. "
+msgstr ""
+"あなたのコンピュータの空き時間を、病気を治すためや、地球温暖化を研究するため、 "
+"パルサーを発見するため、そしてその他たくさんの種類の科学研究のために使ってください。 (コンピュータは、Windows、Mac、Linux "
+"のどれでも大丈夫です)。  やり方は以下のように簡単で、安全かつ安心です。 %s プロジェクトを選択し%s、 %s BOINC ソフトウェアを "
+"ダウンロード%s して走らせます。  %s その後、入力 %s する必要があるのは、あなたのメイルアドレスとパスワードです。"
+
+#: index.php:100
+#, php-format
+msgid ""
+"Or, if you run several projects, try an %saccount manager%s such as %"
+"sGridRepublic%s or %sBAM!%s. "
+msgstr ""
+"あるいは、もし複数のプロジェクトに参加したいなら、%3$s GridRepublic %4$s や %5$s BAM! %6$s のような %1$s "
+"アカウント・マネージャ%2$s を試してください。"
+
+#: index.php:116
+msgid "Compute with BOINC"
+msgstr " BOINC を使って計算をしよう"
+
+#: index.php:119
+msgid "Software updates"
+msgstr "ソフトウェアの更新"
+
+#: index.php:126
+msgid ""
+"%1Scientists%2: use BOINC to create a %3volunteer computing project%4 giving "
+"you the computing power of thousands of CPUs."
+msgstr ""
+"%1科学者%2: は BOINC を使って%3ボランティア・コンピューティング・プロジェクト%4 "
+"を作成することで、何千ものCPUの計算能力を手に入れることができます。"
+
+#: index.php:130
+msgid ""
+"%1Universities%2: use BOINC to create a %3Virtual Campus Supercomputing "
+"Center%4."
+msgstr "%1大学%2: BOINC を使って%3仮想キャンパス・スーパーコンピューティング・センタ%4を作ることができます。"
+
+#: index.php:135
+msgid "%1Companies%2: use BOINC for %3desktop Grid computing%4."
+msgstr "%1企業%2: BOINC を %3デスクトップ・グリッド・コンピューティング%4に使えます。"
+
+#: index.php:147
+msgid "The BOINC project"
+msgstr " BOINC プロジェクト"
+
+#: index.php:153
+msgid "Message boards"
+msgstr "掲示板"
+
+#: index.php:154
+msgid "Email lists"
+msgstr "Eメイルリスト"
+
+#: index.php:155
+msgid "Personnel and contributors"
+msgstr "中心メンバーと貢献者たち"
+
+#: index.php:156
+msgid "Events"
+msgstr "イベント"
+
+#: index.php:157
+msgid "Papers and talks"
+msgstr "論文と講演"
+
+#: index.php:158
+msgid "Research projects"
+msgstr "研究プロジェクト"
+
+#: index.php:159
+msgid "Logos and graphics"
+msgstr "ロゴとグラフィクス"
+
+#: index.php:160
+msgid "and"
+msgstr "と"
+
+#: index.php:164
+msgid "Help wanted"
+msgstr "手助けを求む"
+
+#: index.php:166
+msgid "Programming"
+msgstr "プログラミング"
+
+#: index.php:167
+msgid "Translation"
+msgstr "翻訳"
+
+#: index.php:168
+msgid "Testing"
+msgstr "テスト"
+
+#: index.php:170
+msgid "Publicity"
+msgstr "広報"
+
+#: index.php:172
+msgid "Software development"
+msgstr "ソフトウェア開発"
+
+#: index.php:173
+msgid "APIs for add-on software"
+msgstr "アドオン・ソフトウェアのための API"
+
+#: index.php:207
+msgid "Browser default"
+msgstr "ブラウザのデフォルト"
+
+#: index.php:259
+#, php-format
+msgid ""
+"Open-source software for %svolunteer computing%s and %sgrid computing%s."
+msgstr "BOINC は %sボランティア・コンピューティング%s と %sグリッド・コンピューティング%sのためのオープンソース・ソフトウェアです。"
+
+#: index.php:272
+msgid "BOINC is based at The University of California, Berkeley"
+msgstr "BOINC の本拠地は、カリフォルニア大学バークレー校にあります"

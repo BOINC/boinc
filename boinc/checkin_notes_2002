@@ -1,0 +1,2812 @@
+David A.        April 10 2002
+    Initial checkin of all files.
+    The system is fairly feature-complete and
+    runs a number of test cases correctly.
+    Currently runs only on Linux.
+
+David A.        April 11 2002
+    - Got things to compile on Solaris.
+    - Pass in platform name, version number from Makefile
+        (platform name comes from configure)
+
+David A.        May 15 2002
+    - Allow applications to have multiple files
+        (e.g. scripts, libraries, pre- and post-processing programs).
+        The app_version table now has an xml_doc field,
+        which contains a list of <file_info> and <file_ref> elements.
+        Note: the utility for adding applications (tools/add.C)
+        still handles only single-file applications.
+    - Changed IO_FILE_DESC to FILE_REF since it now represents
+        an association of a file to workunit, result or application
+
+    client
+        app.C
+        client_state.C,h
+        cs_apps.C
+        cs_scheduler.C
+        main.C
+        message.h (new)
+        parse.C,h
+        scheduler_reply.C,h
+        types.C,h
+        Makefile.in
+    db
+        db.h
+        db_mysql.C
+        schema.sql
+    doc
+        app.html (new)
+        files.html
+        index.html
+        intro.html
+        project.gif
+        project.html
+        project.png
+        protocol.html
+        result.html (new)
+        work.html
+    html_user
+        db.inc
+    sched
+        handle_request.C
+        server_types.C,h
+    test
+        test_uc.php
+        init.inc
+    tools
+        add.C
+
+David A.        May 23 2002
+    - Change the scheduling server to reduce database accesses.
+        There's now a shared-memory segment that contains
+        1) the platform, app, and app_version tables in their entirety;
+        2) a fixed-size set of results ready to be sent,
+            and their corresponding workunit.
+        This segment is initialized and maintained by a new program
+        called the "feeder" (sched/feeder.C) that should run
+        whenever the scheduling server is up.
+        Note: the scheduler still needs to be converted to fast CGI
+    - Added handy interfaces for dealing with shared memory and semaphores.
+    - Changed to utilities and scripts used for testing so that all
+        server-specific names (paths and URLs) come from environment
+        variables instead of being hardwired in the code.
+        You'll want to add these to your .tcshrc or whatever.
+        See the doc/install.html for details.
+
+    Files:
+    TODO
+    apps/
+        Makefile.in
+    client/
+        app.C
+    db/
+        db.h
+    doc/
+        index.html
+        install.html
+        intro.html
+        tools.html (removed)
+        tools_other.html
+        tools_work.html
+        work.html
+    lib/
+        Makefile.in
+        md5_file.C
+        shmem.C,h (new)
+        shmem_test.C (new)
+        synch.C,h (new)
+        synch_test.C (new)
+    sched/
+        feeder.C (new)
+        Makefile.in
+        handle_request.C,h
+        main.C
+        sched_shmem.C,h (new)
+        server_types.C,h
+    test/
+        account.xml (deleted)
+        account1.xml
+        init.inc
+        test_uc.php
+    tools/
+        add.C
+        create_work.C
+
+Hiram C.        Fri May 24 23:34:59 PDT 2002
+        files db/dependencies and client/config.status and client/config.log
+                removed.  These are build time files and should not belong
+                in the source tree.  They confuse subsequent builds.
+        files updated: configure configure.in api/Makefile.in
+                apps/Makefile.in client/Makefile.in db/Makefile.in
+                db/mysql.h lib/Makefile.in sched/Makefile.in
+                tools/Makefile.in
+
+        These Makefile.in changes will allow the build to be performed
+        outside the source tree.  This is convenient for several
+        reasons.  The number one reason is that this allows the source
+        tree to remain untouched by the build and therefore clean.
+        This will prevent garbage build files from being checked in
+        during a 'cvs commit'
+
+        To run a build outside the source tree, simply make an object
+        directory anywhere else that you would like to work, then just
+        execute the configure script in the top-level boinc directory.
+                $ mkdir boincobj
+                $ cd boincobj
+                $ <... path to source tree ...>/boinc/configure
+                $ make > make.out 2>&1 &
+
+        Note the examples in apps/Makefile.in and sched/Makefile.in
+        of how to use the top_srcdir variable to locate include files
+        in the source tree outside of the current directory.  Local
+        references to other object files and libraries produced by
+        the build remain as local .. references.
+
+        The change to configure.in, (and thus configure) and db/mysql.h
+        allow a proper identification of where the mysql .h files live.
+        The SSL location of /usr/local/mysql/include is a bit non-standard.
+        Most systems will have these in /usr/local/include/mysql
+
+Hiram C.                Sat May 25 09:20:25 PDT 2002
+        Continue updating:
+        Makefile.in config.guess configure configure.in api/Makefile.in
+        apps/Makefile.in client/Makefile.in client/config.guess
+        client/configure client/configure.in sched/Makefile.in
+        tools/Makefile.in
+
+        I have almost clean builds now on Solaris, Mac OS X,
+        and UnixWare.  There appears to be a missing sched_shmem.h
+        file from the source tree.
+
+        There is still cruft in this configure system.  I will continue
+        to work on it to clean it up.
+
+David A.        May 29, 2002
+    - Mostly implemented support for editing preferences,
+        including project-specific preferences.
+        Simplified the preferences scheme.
+        Abandoned the idea of multiple preference sets per user;
+        each user now has a single set of preferences.
+        Got rid of the "prefs" database table;
+        prefs are now just an XML and mod_time field in the user table.
+        Haven't tested much yet.
+
+    NOTE: these new features use the XML parsing features of PHP.
+    This means that, on the BOINC web server,
+    you must configure PHP with the --with-xml option,
+    and you must make and install Apache.
+    Also, you probably need to use a recent version of PHP;
+    XML parsing was broken in PHP 4.0.4, but it works in 4.2.1.
+
+    client/
+        Makefile.in
+        speed_stats.C  (fixed code formatting a bit; doesn't compile on linux)
+    db/
+        Makefile.in
+        db.h
+        db_mysql.C
+        schema.sql
+    doc/
+        prefs.html
+    html_user/
+        db.inc
+        prefs.inc
+        prefs.php
+        prefs_action.php (removed)
+        prefs_add_project_action.php (new)
+        prefs_add_project_form.php (new)
+        prefs_delete_project.php (new)
+        prefs_delete_project_confirm.php (new)
+        prefs_edit.php (removed)
+        prefs_edit_disk_action.php (new)
+        prefs_edit_disk_form.php (new)
+        prefs_edit_project_action.php (new)
+        prefs_edit_project_form.php (new)
+        prefs_edit_projects.php (new)
+        prefs_edit_work_action.php (new)
+        prefs_edit_work_form.php (new)
+        test.php (removed)
+    sched/
+        handle_request.C
+        server_types.C,h
+    test/
+        init.inc
+        test_1sec.php
+        test_concat.php
+        test_dynamic.php
+        test_prefs.php
+        test_projects.php
+        test_stderr.php
+        test_uc.php
+        test_uc_slow.php
+    tools/
+        add.C
+
+David A.        May 29, 2002
+    - forgot to add a couple of files
+    sched/
+        feeder.C
+        sched_shmem.C,h
+
+Hiram C.  Thu May 30 01:28:47 PDT 2002
+        updating: client/configure client/configure.in
+        client/net_xfer.C sched/Makefile.in sched/feeder.C
+
+        This now builds just fine on Solaris, Linux and OpenUnix8.
+        And only two tiny errors remain for a Mac OS X build.
+        That being the specification of g++ in the sched/Makefile
+        and statvfs() is not available on the Mac for
+        the client/hostinfo_unix.C compile.  Need a substitute for
+        that function on the Mac.
+
+Eric H.  May 30, 2002
+     Added safeguard to avoid removing root directory when
+     BOINC_DOWNLOAD_DIR and BOINC_UPLOAD_ DIR environment
+     variables aren't declared.
+     test/
+        init.inc
+
+David A.    June 1, 2002
+    - Ensure that preferences propagate from the server
+        where they are updated to all hosts,
+        Eliminated concept of "home project".
+        Not tested yet.
+        Also to do: replace the "accounts.xml" file with
+        a file containing preferences.
+    - Changed the way the client handles preferences.
+        It now saves saves the exact XML it gets from the server,
+        regardless of whether it can parse it all.
+    - Fixed client parsing code to reflect new names for preferences
+    - Changed the way the scheduling server handles prefs in
+        a client/server interaction.
+        If it gets newer prefs, it updates its own DB.
+        If its DB has newer prefs, it sends them to client.
+    - Fixed the test scripts so that they start/stop the feeder also.
+        This required adding a "ready" flag to the shared-mem structure
+        so that the scheduling server can find out if the feeder hasn't
+        finished initializing the structure.
+        Also required adding a "-synch" cmdline option to feeder.
+    - added utility program (sched/show_shmem.C) for looking at
+        scheduler shared memory
+    - renamed "types.*" to "client_types.*" to avoid name conflict
+        with system include files
+
+    /Makefile (removed - this is derived from Makefile.in)
+    client/
+        Makefile.in
+        accounts.C,h
+        app.C
+        client_state.C,h
+        client_types.C,h (new)
+        cs_files.C
+        cs_scheduler.C
+        file_names.h
+        file_xfer.h
+        hostinfo_unix.C
+        net_xfer.C
+        prefs.C,h
+        scheduler_reply.C,h
+        speed_stats.C
+        types.C,h (removed)
+    db/
+        constraints.sql
+    doc/
+        protocol.html
+    html_user
+        prefs.inc
+    sched/
+        feeder.C
+        handle_request.C
+        main.C
+        sched_shmem.h
+        server_types.C,h
+        show_shmem.C (new)
+        ss_reply_file (removed)
+        ss_req_file (removed)
+    test/
+        account1.xml
+        init.inc
+        sched_reply.xml (removed)
+        sched_request.xml (removed)
+        test_uc.php
+    tools/
+        add.C
+
+Eric Heien    June 03, 2002
+    - Consolidated XML parsing functions into lib
+    - Fixed compile bug on Solaris in shmem.C
+
+    client/
+        parse.C (moved to lib)
+        parse.h (moved to lib)
+        Makefile.in
+    lib/
+        parse.C (moved from client)
+        parse.h (moved from client)
+        shmem.C
+    sched/
+        parse.C (removed, uses lib version now)
+        parse.h (removed, uses lib version now)
+        Makefile.in
+
+Michael Gary        June 04, 2002
+    - Added server side water level functionality, now sends as many work units
+        as necessary to fill the time requested.
+
+    sched/
+        handle_request.C
+
+Eric Heien   June 06, 2002
+    - Changes and additions made to begin porting to Windows.
+    - This code will compile on Windows, but is not quite fully functional.
+
+    client/
+        hostinfo_unix.C
+        hostinfo_win.C (added)
+        http.C
+        main.C
+        net_xfer.C
+        prefs.C
+        speed_stats.C
+        test_file_xfer.C
+        test_http.C
+        test_net_xfer.C
+        util.C
+        util.h
+        windows_cpp.h (added)
+        win_main.C (added)
+    lib/
+        md5.c
+        parse.C
+
+Michael Gary        June 06, 2002
+    - Added client side water level functionality.
+    - Added rsc_fpops and rsc_iops to the client WORKUNIT struct, bun not yet
+        functional since not initialized.
+    - Test scripts to check water level functionality, including minima and
+        maxima. Test scripts are based on test_prefs.php.
+
+    client/
+        client_state.h
+        cs_scheduler.C
+        client_types.h
+    test/
+        max_water_prefs.xml (new)
+        min_water_prefs.xml (new)
+        normal_water_prefs.xml (new)
+        test_max_water_prefs.php (new)
+        test_min_water_prefs.php (new)
+        test_normal_water_prefs.php (new)
+
+Michael Gary        June 07, 2002
+    - Converted scheduling server to allow for Fast CGI. Fast CGI will only be
+        used if Makefile.in is replaced by Makefile.fcgi.in. Makefile.nofcgi.in
+        is a copy of the current Makefile.in.
+
+    sched/
+        feeder.C
+        handle_request.C
+        main.C
+        sched_shmem.C
+        main.C
+        sched_shmem.C
+        server_types.C
+        show_shmem.C
+        Makefile.nofcgi.in (new)
+        Makefile.fcgi.in (new)
+    lib/
+        parse.C
+
+Eric Heien    June 07, 2002
+    - Added initial functionality for passing graphics preferences between core and app
+
+    client/
+        Makefile.in
+        app.C
+    lib/
+        gfx_interface.C
+        gfx_interface.h
+
+Michael Gary                June 08, 2002
+    - Moved fast cgi Makefile.in to boinc/sched_fcgi
+    - make now makes fcgi in boinc/sched_fcgi
+    - Added links to existing code where necessary for making fast cgi
+        scheduling server.
+
+    configure
+    Makefile.in
+    sched/
+        Makefile.nofcgi.in (removed)
+        Makefile.fcgi.in (removed)
+        Makefile.in
+        parse.C (added)
+        parse.h (added)
+    sched_fcgi/ (added)
+        Makefile.in (added)
+        feeder.C (added)
+        handle_request.C (added)
+        handle_request.h (added)
+        main.C (added)
+        parse.C (added)
+        parse.h (added)
+        sched_shmem.C (added)
+        sched_shmem.h (added)
+        server_types.C (added)
+        server_types.h (added)
+        show_shmem.C (added)
+
+David A     June 9 2002
+    - added support for multiple URLs in a FILE_INFO
+        (e.g. multiple servers from which the file can be downloaded)
+    - started work on "persistent file transfer": a layer on top of
+        FILE_XFER that manages restarting from failed connections,
+        and that implements a give-up policy
+    - added offset arguments to GET and PUT HTTP operations.
+        NOTE: this will work fine for downloading files (GET)
+        but we'll have to use something else for upload,
+        since the standard PUT handler doesn't do offsets,
+        and we need security functionality in any case.
+    - added preliminary version of application API for
+        communicating with core client.
+    - use <file_ref> tags instead of <input_file> and <output_file>
+        (makes things simpler)
+
+    TODO
+    notes
+    api/
+        api.C,h
+    client/
+        configure.in
+        client_state.C
+        client_types.C,h
+        cs_files.C
+        error_numbers.h
+        file_xfer.h
+        http.C,h
+        pers_file_xfer.C,h
+        test_http.C
+    html_ops/
+        db.php
+    html_user/
+        db.inc
+    test/
+        1sec_result
+        account2.xml
+        *_result
+        *_wu
+        init.inc
+        laptop_prefs.xml
+        test_*.php
+    tools/
+        add.C
+
+David A     June 13 2002
+    - added the RSAEuro library to the project,
+        and some interface routines for it.
+
+    RSAEuro/ (new)
+        source/*
+        demo/*
+    lib/
+        crypt.C,h (new)
+        crypt_prog.C
+        Makefile.in
+    sched/
+        file_upload_handler.C
+
+Eric H       June 19, 2002
+    - Removed redundant files
+
+    sched/
+        parse.C (removed)
+        parse.h (removed)
+
+Eric H       June 20, 2002
+    - added soft link support via XML tags
+    - fixed Windows ASCII/binary bug
+    - Added Windows networking support
+    - Fixed some bad indenting
+
+    api/
+        api.C
+        api.h
+    lib/
+        md5_file.C
+    client/
+        client_state.C
+        cs_scheduler.C
+        net_xfer.C
+        win_net.cpp (added)
+        win_net.h (added)
+        win_main.C (changed to win_main.cpp)
+        win_main.cpp (changed from win_main.C)
+        windows_cpp.h
+
+David A     June 20 2002
+    - Replaced the "accounts.xml" file with the user preferences ("prefs.xml").
+        All non-host-specific project info is stored in this file;
+        all host-specific project info is in client_state.xml.
+        The PROJECT class is a union of the two.
+        The logic for dealing with inconsistencies between
+        prefs.xml and client_state.xml, and with updating in-memory
+        and on-disk project lists in response to an update from a server,
+        are a little tricky and are described in the code.
+    - The prefs file can be overwritten by <preferences> in a scheduling
+        server reply.  To prevent buggy servers from zeroing out
+        users' project lists, the client makes sure there's at least
+        one project, and backs up the old prefs.xml into a timestamped file.
+    - The command-line client, if prefs.xml is absent,
+        prompts the user for a project URL and authenticator,
+        and creates an initial prefs.xml.
+    - Each project now has a "master URL", with is its home page
+        and also contains <scheduler> elements giving the URLs of
+        its scheduling servers.
+    - Added a class SCHEDULER_OP which encapsulates fetching and
+        parsing a project's master page (if necessary),
+        then making an RPC to one of its scheduling servers.
+        TODO: add retry and failure logic.
+    - A project can have more than one scheduling server.
+        TODO: use all of them.
+    - Project directories are stored in URL-encoded form.
+        This allows project master URLs to have slashes, which is a necessity.
+
+    client/
+        Makefile.in
+        accounts.C,h (deleted)
+        app.C,h
+        client_state.C,h
+        client_types.C,h
+        cs_apps.C
+        cs_scheduler.C
+        file_names.C,h
+        main.C
+        prefs.C,h
+        scheduler_op.C,h (new)
+        scheduler_reply.C,h (deleted)
+    doc/
+        project.html
+    lib/
+        parse.C,h
+    sched/
+        server_types.C
+    test/
+        account1.xml, account2.xml (deleted)
+        init.inc
+        prefs1.xml, prefs2.xml (new)
+        test_*.php
+
+David A     June 21 2002
+    - top-level Makefile now compiles RSAEuro/,
+        and doesn't refer to sched_fcgi
+    - Added <scheduler> element to html_user/index.html,
+        making it the "master file" for test project.
+        This file must be placed in the directory referred to by
+        http://localhost/
+
+    Makefile.in
+    html_user/
+        index.html
+
+Michael Gary        June 21 2002
+    - added install to the make system to put executables
+        in /usr/local/boinc
+    - simplified make system for fast cgi scheduling server
+    - completed implementation of high/low water system and
+        testing of host.
+    - checkpoints and timekeeping now implemented in api
+    - timekeeping through api done in client state
+
+    Makefile.in
+    configure
+    api/
+        Makefile.in
+        api.C
+        api.h
+        api_test.C
+    apps/
+        Makefile.in
+    client/
+        Makefile.in
+        client_state.C
+        client_state.h
+        client_types.C
+        client_types.h
+        cs_scheduler.C
+        hostinfo.C
+        hostinfo.h
+        app.h
+        app.C
+    db/
+        db.h
+    lib/
+        Makefile.in
+    sched/
+        Makefile.in
+        feeder.C
+        handle_request.C
+        main.C
+        parse.C (removed)
+        parse.h (removed)
+        sched_shmem.C
+        server_types.C
+        show_shmem.C
+    test/
+        log_flags.php
+    sched_fcgi/ (removed)
+
+Micahel Gary        6/23/2002
+    - Checkpoint timer initialized in boinc_init.
+    - Test script added for api.
+
+    api/
+        api.C
+        test_api.C
+    test/
+        init.inc
+        test_api.php (new)
+        ta_correct_atc (new)
+        ta_correct_f (new)
+        core_to_app.xml.in (new)
+
+Michael Gary        6/25/2002
+    - Maggie is now the master url for boinc.
+
+    test/
+        prefs1.html
+    doc/
+        test.html
+
+Michael Gary        6/27/2002
+    - Fixed a bug in add_work and added water level testing to test_uc.php
+
+    test/
+        test_uc.php
+    tools/
+        add_work.C
+
+Michael Gary        6/28/2002
+    - Added an explicit test for water level
+    - Added a -no_time_test argument to the boinc client to stop the time tests
+        from running.
+
+    client/
+        main.C
+        client_state.h
+        client_state.C
+    test/
+        test_water.php (new)
+
+Eric Heien 7/01/2002
+    - Added S@H test scripts, added other testing functionality.
+    - Added random WU generation.
+    - Added concat_slow application.
+    - Altered functionality of API checkpoint_completed.
+
+    api/
+        api.C
+        api.h
+        api_test.C
+    apps/
+        concat_slow.C (added)
+        Makefile.in
+        uc_slow.C
+        upper_case.C
+    test/
+        sah_result (added)
+        sah_wu (added)
+        sah_test.php (added)
+        init.inc
+        test_uc_slow.php
+    tools/
+        create_work.C
+
+Michael Gary        7/01/2002
+    - Fixed fast cgi scheduling server
+    - If low water mark is higher than high water mark, water marks are
+        switched
+    - Updated documentation
+
+    doc/
+        flow.html
+        protocol.html
+    client/
+        client_state.C
+        cs_scheduler.C
+    sched/
+        main.C
+    test/
+        prefs1.xml
+
+Michael Gary         7/03/2002
+    - api test is now more thorough, tests time accounting and restarting
+    - added app_completed function to api
+    - api_test.C was moved to api_app.C
+    - removed #ifdef solaris and #ifdef unix from all files
+
+    api/
+        Makefile.in
+        api.C
+        api.h
+        api_test.C
+        api_app.C (new)
+    test/
+        init.inc
+        ta_correct_f
+        test_api.php
+    client/
+        app.C
+        hostinfo_unix.C
+        configure
+        configure.in
+        filesys.C
+    doc/
+        api.html
+    configure
+    configure.in
+
+David Anderson      July 4, 2002
+    - Added support for upload authentication.
+        This prevents bad guys from filling up data servers with trash.
+        In this scheme, each <file_info> element sent from
+        server to client includes a <max_nbytes> field limiting
+        the size of the file, and includes a digital signature
+        based on the project's "upload authentication" key pair.
+        File uploads, instead of being done by PUT, are now done by POST
+        to a CGI program, "file_upload_handler".
+        The request header includes the signed <file_info>,
+        and the CGI program verifies the signature and enforces the size limit.
+
+        The affected pieces of code:
+        - Added a function create_keys() in PHP test scripts
+            to create encryption keys.  Call it from all script.
+        - Added environment var BOINC_KEY_DIR saying where keys are kept.
+        - The client must maintain an exact copy of each <file_info> XML,
+            and of the signature, so that it can send to upload server.
+        - Added a new variant of HTTP operation, HTTP_OP_POST2.
+            The existing variants all use single files for request and reply.
+            The new variant (used for file upload) has a request
+            consisting of a memory block followed by (part of) a file;
+            the reply is in memory.
+            This avoid copying possibly huge upload files.
+        - FILE_XFER objects now take a FILE_INFO as initialization argument;
+            needed to convey authentication info.
+            The upload variant creates and sends the authentication header.
+        - Result templates now include a <max_nbytes> in each
+            <file_info> element, and the URLs refer to the
+            file_upload_handler (with no filename)
+        - process_result_template() works differently, since it must
+            generate a digital signature at the end of each <file_info>
+        - create_work expects the name of a private key file.
+        - Added crypt/md5 functions to sign/verify in memory,
+            encode/decode ASCII data in memory, checksum in memory
+    - Change "gmake" to "make" in top-level makefile.
+        (alias make to gmake if this is a problem)
+
+    boinc/
+        Makefile.in
+        TODO
+    RSAEuro/source/
+        rsaeuro.h
+    client/
+        Makefile.in
+        client_state.C
+        client_types.C,h
+        cs_files.C
+        file_names.C
+        file_xfer.C,h
+        http.C,h
+        main.C
+        scheduler_op.C
+        test_file_xfer.C
+    db/
+        mysql_util.C
+    doc/
+        index.html
+        intro.html
+        master_url.html (new)
+        project_startup.html (new)
+        tools_security.html (new)
+    html_user/
+        index.html
+    lib/
+        Makefile.in
+        crypt.C,h
+        crypt_prog.C
+        md5_file.C,h
+        parse.C,h
+    sched/
+        Makefile.in
+        file_upload_handler.C
+        server_types.C
+    test/
+        1sec_result
+        concat_result
+        init.inc
+        master.html (new)
+        sah_result
+        test_1sec.php
+        test_concat.php
+        test_dynamic.php
+        test_max_water_prefs.php
+        test_min_water_prefs.php
+        test_normal_water_prefs.php
+        test_prefs.php
+        test_projects.php
+        test_stderr.php
+        test_uc.php
+        test_uc_slow.php
+        uc_result
+        ucs_result
+    tools/
+        Makefile.in
+        add.C
+        backend_lib.C,h
+        create_work.C
+        process_result_template.C
+
+David   July 4, 2002
+    - fixed compile problems on linux.
+        use kill() instead of sigsend()
+
+    client/app.C
+    sched/file_upload_handler.C
+
+Michael Gary        July 5, 2002
+    - fixed fast cgi crypto
+        use fgets and sscanf instead of fscanf, which
+        is not implemented in fcgi_stdio.h
+
+    sched/Makefile.in
+    lib/crypt.C
+
+David A.    July 7, 2002
+    - Added code signing.  All files associated with an app version
+        (i.e. all executable files) must now be signed
+        with the project's "code sign key".  The components include:
+        - PROJECT has new field "code_sign_key", keep track of project's
+            public code-signing key.
+            Send this on each scheduler RPC.
+        - The scheduling server stores the public code-signing key in memory.
+            Send it to any client who doesn't have it.
+            If the client has an old key,
+            send them the new key signed with the old key.
+            NOTE: this uses a scheme in which signatures are kept
+            in files on the server, to avoid keeping private keys
+            in online machines.  This should be documented.
+        - The utility to add new app versions (add.C) adds a signature
+            to the FILE_INFO element.
+            NOTE: eventually the signing should be done offline.
+        - FILE_INFO has a new boolean field "signature_required";
+            set for all files associated with an app version
+        - FILE_INFO has a new char* field "file_signature",
+            which is the digital signature.
+            Renamed upload authenticator from "signature" to "xml_signature"
+            to avoid confusion.
+        - Add function verify_downloaded_file(), called after every download;
+            does MD5 or signature checking as needed.
+        - Added some new functions for signature checking etc.
+        - the client is now linked with the crypt library
+    - Server-side errors should always include the name of the
+        CGI program generating the error (scheduler or file upload handler)
+
+    client/
+        Makefile.in
+        client_state.C
+        client_types.C,h
+        cs_files.C
+        cs_scheduler.C
+        file_xfer.C
+        scheduler_op.C,h
+        test_file_xfer.C
+    doc/
+        index.html
+        project_startup.html (new)
+        security.html
+    lib/
+        crypt.C,h
+        parse.C,h
+    sched/
+        file_upload_handler.C
+        handle_request.C,h
+        main.C
+        server_types.C,h
+    test/
+        init.inc
+        prefs1.xml
+        test_uc.php
+    tools/
+        add.C
+        process_result_template.C
+
+David A.    July 8, 2002
+    - fix compile errors
+    - fix bugs in FCGI version of scan_hex_data stuff
+
+    client/
+        client_types.C
+    lib/
+        crypt.C
+        crypt_prog.C
+    sched/
+        file_upload_handler.C
+    tools/
+        Makefile.in
+        add.C
+        process_result_template.C
+
+Michael Gary        July 10, 2002
+    - Added asserts to the server side
+    - Added error checks on function parameters
+    - Made the api update result with time information at
+        checkpoints and when an application exits
+    - Removed unused tests
+    - Fixed bug in crypto sscan
+    - Moved client/error_numbers.h to lib/error_numbers.h
+
+    api/
+        Makefile.in
+        api.C
+        app.C
+    client/
+        app.h
+        client_state.C
+        client_types.C
+        cs_apps.C
+        cs_files.C
+        cs_scheduler.C
+        file_names.C
+        file_xfer.C
+        filesys.C
+        hostinfo.C
+        hostinfo_unix.C
+        http.C
+        log_flags.C
+        main.C
+        net_stats.C
+        scheduler_op.C
+        speed_stats.C
+        time_stats.C
+        util.C
+        error_numbers.h (removed)
+    db/
+        db_mysql.C
+        mysql_util.C
+    lib/
+        crypt.C
+        md5_file.C
+        parse.C
+        shmem.C
+        error_numbers.h (added)
+    sched/
+        Makefile.in
+        feeder.C
+        file_upload_handler.C
+        handle_request.C
+        main.C
+        sched_shmem.C
+        sched_shmem.h
+        server_types.C
+    test/
+        max_water_prefs.xml (removed)
+        min_water_prefs.xml (removed)
+        normal_water_prefs.xml (removed)
+        test_max_water_prefs.php (removed)
+        test_min_water_prefs.php (removed)
+        test_normal_water_prefs.php (removed)
+    tools/
+        add.C
+        backend_lib.C
+        process_result_template.C
+
+Barry Luong    July 11, 2002
+    - added changes to allow for multiple servers on one machine
+        - database names are from environment variables
+        - download and upload directories are from environment variables
+        - download and upload url's are from environment variables
+        - boinc_key (for shared memory) is from environment variables
+        - new directory tree:
+
+                  ~barry/
+                   /  \
+                  /    \
+                 /      \
+          boinc_cvs/   boinc_server/
+            /         /   /    \   \
+           /         /   /      \   \
+          /         /   /        \   \
+       boinc/   cgi/  keys/  upload/  download/
+       /  \    \
+      /    \    \
+     /      \    \
+  client/ sched/  ...
+
+        - sched cgi, fcgi, file_upload_handler are copied into
+          ~barry/boinc_server/cgi/
+        - in httpd.conf set up cgi permissions for appropriate files and
+          directories
+        - must define new environment variables:
+          BOINC_DOWNLOAD_DIR ~/barry/boinc_server/download
+          BOINC_UPLOAD_DIR ~/barry/boinc_server/upload
+          BOINC_DB_NAME boinc_barry
+          BOINC_UPLOAD_URL http://localhost/barry/boinc_server/cgi/fileupload_handler
+          BOINC_DOWNLOAD_URL http://localhost/barry/boinc_server/cgi/download
+          BOINC_KEY 0xdabacafe
+          BOINC_USER barry
+          BOINC_PUBLIC_KEY_PATH ~/barry/boinc_server/keys/upload_public
+          BOINC_KEY_DIR ~barry/boinc_server/keys
+
+    db/
+        init_db
+        drop.sql
+        schema.sql
+        constraints.sql
+
+    sched/
+        main.C
+        feeder.C
+        Makefile.in
+        file_upload_handler.C
+        sched_shmem.h
+
+    tools/
+        backend_lib.C
+        process_result_template.C
+        add.C
+        create_work.C
+
+    html_user/
+        db.inc
+
+Barry Luong    July 12, 2002
+    - Changed error messages in main.C so user names are printed out also
+    - took out a debugging variable I accidentally left in feeder.C
+    - removed an assert in file_upload_handler.C
+    - changed so BOINC_UPLOAD_DIR and BOINC_KEY_DIR are defined at compile time
+
+    sched/
+        main.C
+        Makefile.in
+        feeder.C
+        file_upload_handler.C
+
+Michael Gary        July 12, 2002
+    - Added a test to make sure the scheduling server does not send unfeasible
+        work units
+    - Removed some debug output
+
+    lib/
+        shmem.C
+    sched/
+        file_upload_handler.C
+        handle_request.C
+    test/
+        prefs3.xml
+        test_rsc.php
+
+David A     July 14 2002
+    - Added reasonable policies for making scheduler RPCs.  Summary:
+        - results now have a "report deadline".
+            This may be useful for various purposes; for now,
+            we use it to trigger scheduler RPCs to report results
+        - The client now tries all a project's scheduler URLs in turn.
+        - Projects have a "min_rpc_time", the earliest time to
+            attempt another RPC (replaces next_request_time)
+        - We maintain an RPC failure count for each project.
+            If RPCs to all its URLs fail, we increment the count
+            and set its min_rpc_time according to an exponential backoff
+        - If a project is getting repeated RPC failures,
+            reread and parse its master URL file every so often,
+            in case the set of scheduler URLs has changed
+        - When the client has a completed result past its deadline,
+            it attempts to report it to that project.
+        - When the client's estimated work falls below low water,
+            it ranks projects according to their "resource deficit",
+            then attempts RPCs to project in that order
+            until the estimated work is above high water.
+        NOTE: only the simplest case has been tested.
+        We need to write test scripts for many other cases.
+        NOTE: currently a result's report deadline is now+1000.
+        We need to add a mechanism for setting it.
+    - The CLIENT_STATE is now kept in a global variable instead of
+        a local var of main().
+        This is because SCHEDULER_OP needs to get at it.
+
+    client/
+        client_state.C,h
+        client_types.C,h
+        cs_scheduler.C
+        main.C
+        scheduler_op.C,h
+    db/
+        db.h
+        db_mysql.h
+        schema.sql
+    doc/
+        file_xfer_policy.html (new)
+        index.html
+        result.html
+        rpc_policy.html (new)
+    html_user/
+        db.inc
+    tools/
+        backend_lib.C
+        create_work.C
+
+David A     July 15, 2002
+    - added env var BOINC_MASTER_URL.
+        Each / in the master URL must be preceded by four \s
+        e.g. setenv BOINC_MASTER_URL  http:\\\\/\\\\/localhost\\\\/index.html
+    - team name must be non-null to be unique
+    - TODO (Barry): make the master page per-project;
+        make database access from PHP/Web per-project
+    db/
+        schema.sql
+    html_user/
+        db.inc
+    test/
+        init.inc
+        master.html
+        prefs1.xml
+    tools/
+        Makefile.in
+
+Michael Gary        July 15, 2002
+    - Fixed compile bug
+    - Updated documentation
+    - Fixed test script bug
+    - Added comments to some .h files
+    - Fixed timing bug
+    doc/
+        api.html
+        client_debug.html
+        flow.html
+        index.html
+        protocol.html
+        sched_debug.html
+        sched_policy.html
+        test.html
+    tools/
+        Makefile.in
+    test/
+        test_uc.php
+        test_rsc.php
+        init.inc
+    client/
+        client_types.h
+        hostinfo.h
+    api/
+        api.C
+        api.h
+
+Michael Gary        July 16, 2002
+    -Fixed test script bug
+    test/
+        concat_result
+        test_concat.php
+
+Eric Heien      July 17, 2002
+    - Removed assembly optimized routines from RSAEuro, since we
+      want to be platform independent and RSAEuro isn't a highly speed
+      critical piece of code.  This had the side benefit of making the
+      RSAEuro Makefile operate cleanly with make.
+    - Fixed compiler warnings in RSAEuro demo programs.  Do we really
+      need to keep these demo programs around?
+    - Turned off the "secure" versions of memcpy, memset and memcmp.
+      If needed, we can turn them back on.
+    RSAEuro/
+        source/
+            makefile (moved to Makefile)
+            Makefile (renamed from makefile)
+            des386.s (removed)
+            rsa386.s (removed)
+            rsa68k.s (removed)
+            rsasparc.s (removed)
+        demo/
+            mdemo.c
+            randemo.c
+            redemo.c
+
+Michael Gary        7/17/2002
+    - Fixed more test scripts
+    - Added a comprehensive test
+    - Added make tar_client to toplevel makefile
+    - Added installation notes for the server and the client
+    Makefile.in
+    INSTALL (added)
+    INSTALL_CLIENT (added)
+    test/
+        test_1sec.php
+        test_dynamic.php
+        test_prefs.php
+        test_projects.php
+        test_stderr.php
+        test_uc_slow.php
+        test_suite.php (added)
+
+
+Michael Gary        7/18/2002
+    - Configure now checks to make sure that apache, mysql, and php are
+        installed. If they are not installed, it prints out a warning and
+        continues configuration
+    - Added uninstall target, made Makefiles more compliant with GNU standards
+    INSTALL
+    INSTALL_CLIENT
+    aclocal.m4 (added)
+    configure
+    configure.in
+    Makefile.in
+    sched/
+        Makefile.in
+    lib/
+        Makefile.in
+    api/
+        Makefile.in
+    client/
+        Makefile.in
+
+Eric Heien   7/18/2002
+    -  Fixed RSAEuro makefile so that it doesn't require gcc.  This was
+       causing problems when porting.
+
+    RSAEuro/source/
+        Makefile (removed)
+        Makefile.in (added)
+    configure
+    configure.in
+
+Michael Gary        7/23/2002
+    - Added a test for sticky files. Required updating escape_url to support
+         RRC1738 (-_. no longer escaped out).
+    client/
+        file_names.C
+    test/
+        test_sticky.php (added)
+        uc_wu_sticky (added)
+        uc_result_sticky (added)
+
+Michael Gary        7/24/2002
+    - Added a test for the time reporting system.
+    test/
+        test_time.php (added)
+        init.inc
+    apps/
+        uc_slow.C
+        uc_cpu.C (added)
+        Makefile.in
+
+David   July 28 2002
+    - Changed the "add" utility so that, when adding an app version,
+        you can give it the signature files (computed offline, presumably)
+    - Changed the "add" utility so that an app version can consist
+        of multiple files
+    - Removed the notion of alpha/beta/production versions of an app.
+        The same effect can be achieved by making separate projects
+        for alpha and beta testing.
+    - Apps now have a "minimum version number" on the server side -
+        Don't send a WU unless there's an app version of that number or greater.
+        Send the latest available version for the platform.
+    - Clarified app version semantics:
+        - Workunits don't have a version# on the server
+        - When a client gets a workunit, it associates it with
+            the most recent version of the application that it knows about
+            (possibly one it received in the same reply message).
+            It continues to use this version for this WU,
+            even if it receives a later version while the WU is in progress.
+        - On the client, no version #s are associated with apps
+
+    PROGRAMMERS NOTE:
+    - Removed checking of args in client_state.C
+        This gunks up the code too much.  Let's do checking at higher level.
+    - Comments should be in the imperative mood.
+        "Write the state file", not "Writes the state file"
+    - Comments should not be vague, e.g.
+        // See if the application (name) associated with project p is
+        // around here
+        ... what does "around here" mean?
+    - Leave a space between "if" and "("
+    - When asserting that a pointer is non-NULL, just say "assert(p)".
+        Saying "assert(p!=NULL)" is like saying if (flag==true)
+    - Linux doesn't have -lsocket and -lnsl.
+        Don't put them in Makefile.in.
+
+    TODO
+    client/
+        client_state.C,h
+        client_types.C,h
+        cs_scheduler.C
+        main.C
+    db/
+        db.h
+        db_mysql.C
+        schema.sql
+    doc/
+        app.html
+        index.html
+        intro.html
+        project.html
+        tools_other.html
+    html_user/
+        db.inc
+    sched/
+        handle_request.C
+        sched_shmem.C
+        server_types.C
+    test/
+        init.inc
+        master.html
+    tools/
+        Makefile.in
+        add.C
+        backend_lib.C
+
+
+Eric Heien  July 29 2002
+    - Added code to determine the amount of disk space being
+        used by BOINC, by recursively descending through the
+        root directory.  Still needs to be ported to Windows.
+
+    client/
+        filesys.C
+        filesys.h
+
+David A.    July 30 2002
+    - Revised API doc
+    - made some API implementation functions static
+        (this breaks the test program, need to discuss)
+    - removed CPU spin from uc_slow (why?)
+
+    api/
+        api.C,h
+    apps/
+        uc_slow.C
+    doc/
+        api.html
+        graphics.html
+        index.html
+
+David A.    July 30, 2002
+    - Revised API and graphics docs
+    - removed error checks from parse.C
+
+    doc/
+        api.html
+        graphics.html
+        index.html
+    lib/
+        parse.C
+
+Eric Heien  August 2, 2002
+    - Implemented HTTP 301 and 302 redirect commands.
+    - These still need to be fully tested.
+
+    TODO
+    client/
+        http.C
+        http.h
+        net_xfer.C
+        net_xfer.h
+
+David A.    August 4 2002
+    Various changes to API:
+        - Added user, team names, credit info to APP_INIT_DATA
+        - separate call for getting init data
+        - separate call for returning fraction done
+        - separated out fraction_done_update_period
+        - moved graphics API to separate file
+        - moved MFILE implementation to separate file
+        - API timer is now 0.1 sec; use counters for various uses
+            (checkpoint, fraction done, graphics)
+        - changed name of API files to boinc_api.C,h
+
+    - clarify distinction between
+        "current CPU time"
+        "CPU time at last checkpoint"
+        "CPU time at start of current run"
+        These are all kept in ACTIVE_TASK.
+        RESULT now only has "final CPU time".
+
+    - fixed bug in dir scanning (ahem...)
+
+    - Coding style notes:
+        - every fopen() MUST have a matching fclose() in same function
+        - every malloc() MUST have a matching free() in same function
+        - don't do a rewind() right after fopen()
+        - write function calls as
+            func(arg1, arg2);
+            NOTE: there's a space after every comma, everywhere
+        - write "if" statements as
+            if (condition) {
+                ...
+            }
+        - no explicit argument checking.  do this at higher level
+        - functions in foo.C should be declared (as extern) in foo.h,
+            AND NOWHERE ELSE.
+
+    api/
+        Makefile.in
+        api.C,h (removed)
+        boinc_api.C,h (new)
+        graphics_api.C,h (new)
+        mfile.C (new)
+    apps/
+        Makefile.in
+        *.C
+    client/
+        Makefile.in
+        app.C,h
+        client_state.C,h
+        client_types.C,h
+        cs_apps.C
+        cs_scheduler.C
+        file_names.C
+        filesys.C,h
+    doc/
+        api.html
+
+
+Barry Luong  August 6, 2002
+
+    - Added team pages in html_user/
+        - pages to display team page, join team, quit team, edit team, disband
+          team, and remove inactive members
+    - Added database access per project via the web
+        - a new file in html_user/ called db_name containing only the name of
+          that project's database
+
+    html_user/
+        db.inc
+        team.inc
+        team.php
+        team_create_action.php
+        team_create_form.php
+        team_disband_action.php
+        team_disband_form.php
+        team_display.php
+        team_edit_action.php
+        team_edit_form.php
+        team_join_action.php
+        team_join_form.php
+        team_lookup.php
+        team_quit_action.php
+        team_quit_form.php
+        team_remove_inactive_action.php
+        team_remove_inactive_form.php
+
+
+Eric Heien      August 7, 2002
+        - Added PERS_FILE_XFER (persistent file transfer)
+          functionality.  This includes the notions of retrying
+          when unable to connect, exponential backoff, and giving
+          up after a period of time.  Giving up is currently
+          not fully implemented.  Includes initial work for
+          supporting upload/download resumption.  All features
+          still need to be thoroughly tested.
+        - Added initial functionality to calculate allowable disk
+          usage.
+
+    client/
+        Makefile.in
+        client_state.C
+        client_state.h
+        client_types.C
+        client_types.h
+        cs_files.C
+        cs_scheduler.C
+        file_xfer.C
+        hostinfo_unix.C
+        http.C
+        http.h
+        pers_file_xfer.C
+        pers_file_xfer.h
+        scheduler_op.C
+        test_file_xfer.C
+        test_http.C
+        util.C
+        util.h
+    sched/
+        file_upload_handler.C
+
+Eric Heien    August 9, 2002
+        - Moved windows files to client/win directory, added win_build.zip
+          for building Windows GUI and CLI clients.
+        - Fixed compile bugs in graphics_api.C and graphics_api.h
+        - Updated TODO and INSTALL docs
+        - Added Mac init, event loop, and cleanup functionality in main.C
+        - Added user requestable quit to main loop for use in GUI interfaces.
+        - Fixed Windows specific compile bugs in filesys and pers_file_xfer.
+
+    TODO
+    INSTALL
+    INSTALL_CLIENT
+    win_build.zip
+    api/
+        boinc_api.C
+        graphics_api.C
+        graphics_api.h
+    client/
+        app.C
+        filesys.C
+        filesys.h
+        hostinfo_win.C (removed)
+        main.C
+        pers_file_xfer.C
+        util.C
+        util.h
+        win_main.cpp (removed)
+        win_net.cpp (removed)
+        win_net.h (removed)
+        windows_cpp.h (removed)
+        win/
+            hostinfo_win.cpp (added)
+            win_main.cpp (added)
+            win_net.cpp (added)
+            win_net.h (added)
+            windows_cpp.h (added)
+
+David A.    August 10 2002
+    - Changed Winmain() to get argc/argv correctly
+    - fixed bugs in CLIENT_STATE::allowed_disk_usage
+        NOTE: keep track of whether units are bytes or GB.
+            Not interchangeable!
+        NOTE: above bugs caused compiler warnings.
+    - Got rid of all compiler warnings in Windows
+
+    api/
+       boinc_api.h
+    client/
+       app.C
+       client_state.C
+       hostinfo_unix.C (??? should remove this from Windows project)
+       pers_file_xfer.C,h
+    client/win/
+       Resource.h (new)
+       win_main.cpp
+       wingui.cpp,h (new)
+
+Barry        August 12, 2002
+    - Changed front page to a php page so we can check for cookies
+         Added explanatory text to front page and to team pages
+
+    html_user/
+        index.php
+
+Eric Heien   August 12, 2002
+    - Added concept of result state.  This replaces the old boolean
+      flags and represents what phase of the computation pipeline
+      each result is currently at (downloading, computing, uploading,
+      etc).
+    - Added file upload/download resumption.  For downloads, this
+      involves checking how big the local file is, then asking
+      the server for the remainder of it.  For uploads, this
+      involves asking the file_upload_handler how much of a certain
+      file it already has, then sending the remainder of it.
+      Both ul and dl resumption need to be thoroughly tested.
+
+    client/
+        client_state.C
+        client_state.h
+        client_types.C
+        client_types.h
+        cs_apps.C
+        cs_files.C
+        cs_scheduler.C
+        file_xfer.C
+        http.C
+        net_xfer.C
+        pers_file_xfer.C
+        scheduler_op.C
+    sched/
+        file_upload_handler.C
+
+David    August 12 2002
+    - Cleaned up initialization code:
+        main.C is now used ONLY for CLI versions
+        (remove this file from GUI projects)
+        Factored out initialization code that is common to
+        both GUI and CLI versions.
+
+    client/
+        client_state.C,h
+        log_flags.C,h
+        main.C
+        prefs.h
+
+Eric Heien  August 13, 2002
+    - Implemented correct handling of RSA or MD5 failures.  The
+      result associated with the file will be flagged and the
+      failure will be passed back to the scheduling server.
+
+    client/
+        client_state.C
+        client_types.C
+        client_types.h
+        cs_files.C
+        pers_file_xfer.C
+    lib/
+        error_numbers.h
+
+Eric Heien  August 21, 2002
+    - Finished persistent file transfer implementation, including
+      file upload/download resumption, exponential backoff
+
+    client/
+        client_state.C
+        client_state.h
+        client_types.C
+        client_types.h
+        cs_files.C
+        file_xfer.C
+        file_xfer.h
+        http.h
+        main.C
+        pers_file_xfer.C
+        pers_file_xfer.h
+        mac/
+            mac_main.cpp
+            mac_main.h
+    lib/
+        error_numbers.h
+
+David   August 24, 2002
+    - fixed bugs in the Windows variant of app.C
+        Notes on Windows:
+        - Some places (e.g. current dir arg of CreateProcess())
+          require a full path
+        - Some places require \ instead of / in paths.
+          Added the constant PATH_SEPARATOR for this purpose.
+        - To redirect stdin/stdout, you need to use freopen();
+          it's not enough to dup2 the underlying descriptor
+
+    api/
+        boinc_api.C
+    apps/
+        upper_case.C
+    client/
+        app.C,h
+        file_names.C
+        filesys.C,h
+    lib/
+        error_numbers.h
+
+David        August 25, 2002
+    - Implemented project name (as shown in GUI).
+        It's stored in the DB (in a single-row "project" table)
+        and sent in scheduler RPC
+    - Changed env var BOINC_KEY to BOINC_SHMEM_KEY
+        (avoid confusion w/ encryption keys)
+
+    Makefile.in
+    client/
+        cs_scheduler.C
+        filesys.C
+        scheduler_op.C,h
+        win/
+            windows_cpp.h
+            wingui.cpp
+    db/
+        db.h
+        db_mysql.C
+        schema.sql
+    sched/
+        Makefile.in
+        feeder.C
+        main.C
+        server_types.C
+        show_shmem.C
+    test/
+        init.inc
+        test_uc.php
+        test_uc_win.php
+    tools/
+        add.C
+
+Eric  August 26, 2002
+    - Finished multi-slot functionality.  The client now requests an
+      open slot from the ACTIVE_TASK_SET which will be the slot
+      for the new process.
+
+    client/
+        app.C
+        app.h
+        cs_apps.C
+
+David  August 26, 2002
+    - adding missing clause to SCHEDULER_OP::poll(); was failing to
+        return state to IDLE, caused reply to get processed twice
+    - return user name, total credit, avg credit in scheduler RPC reply
+        - save/restore these in client state file
+    - client was trying to delete "checkpoint CPU file" in wrong directory
+    - change CLIENT_STATE field from "version" to "core_client_version"
+    - got rid of CLIENT_STATE::update_net_stats(), insert_file_xfer()
+        (made some stuff public)
+    - disable host performance measurement (temp! turn back on later)
+    - removed comments of the form
+        read_config_file();    // read config file
+    - in HTTP op of type POST2, it's not an error if htp->file is zero
+    - replaced hardwired HTTP_STATUS constants
+    - made separate db.inc, util.inc in html_ops
+    - key creation prints message before delay, not after
+    - file upload handler prints user name in error log lines
+    - scheduling server: make USER, HOST part of SCHEDULER_REPLY
+        so don't have to pass around as separate args
+    - in test/init.inc, don't use the init_db() from html_user/.
+        define it separately here.
+    - in test/init.inc, split up clear_data_dirs() into
+        client, server parts
+    - change test_uc.php to not create keys by default
+
+    client/
+        app.C
+        client_state.C,h
+        cs_scheduler.C
+        file_xfer.C
+        http.C,h
+        pers_file_xfer.C
+        scheduler_op.C,h
+    db/
+        db.h
+    html_ops/
+        db.inc (new)
+        util.inc (new)
+    lib/
+        crypt_prog.C
+    sched/
+        file_upload_handler.C
+        handle_request.C
+        server_types.C,h
+    test/
+        init.inc
+        master.html
+        test_uc.php
+
+David   August 28, 2002
+    - added DB fields to keep track of credit for hosts and result
+    - added utility program "grant_credit" to grant credit for a result
+    - removed some extraneous printfs
+    - file upload handler error messages have user name
+    - added a "poll_debug" flag; turn this on in case of infinite
+        poll loop, to see what's causing the problem
+    - added a "libboinc.a" target to lib/ Makefile.
+        We might want to consider using a random library
+        instead of referring to explicit .o files everywhere
+
+    api/
+        boinc_api.h
+    client/
+        Makefile.in
+        app.C
+        client_state.C
+        cs_apps.C
+        cs_files.C
+        cs_scheduler.C
+        file_xfer.C
+        log_flags.C,h
+        net_xfer.C
+        pers_file_xfer.C
+    db/
+        db.h
+        db_mysql.C
+        schema.sql
+    html_ops/
+        db.inc
+        db.php
+    html_user/
+        index.html
+    lib/
+        Makefile.in
+    sched/
+        feeder.C
+        file_upload_handler.C
+        handle_request.C
+    test/
+        master.html
+        test_uc.php
+    tools/
+        Makefile.in
+        backend_lib.C,h
+        grant_credit.C (new)
+
+David   August 30 2002
+    - improved Win GUI
+    - print error if file validate failure
+    - fix lib Makefile.in
+
+    client/
+        client_state.C
+        cs_files.C
+        pers_file_xfer.C
+    client/win/
+        wingui.cpp,h
+    lib/
+        Makefile.in
+        countries.C
+        crypt.C
+        error_numbers.h
+        filesys.C
+        md5_file.C
+
+Eric    September 4, 2002
+    - condensed uc_slow, uc_cpu into upper_case, concat_slow into concat, using command line arguments
+    - changed test_uc to use files rather than stdin/stdout
+
+    apps/
+        uc_slow.C (removed)
+        concat_slow.C (removed)
+        uc_cpu.C (removed)
+        upper_case.C
+        concat.C
+        Makefile.in
+    lib/
+        error_numbers.h
+    test/
+        test_uc_slow.php
+        test_concat.php
+        uc_result
+        uc_wu
+        ucs_wu
+
+Eric   September 18, 2002
+    - Windows OpenGL based graphics added, graphics API updated
+    - Beginning of Mac Carbon based graphics added
+    - Uppercase application updated to use GL, GLUT graphics
+
+    apps/
+        upper_case.C
+    api/
+        boinc_api.C
+        boinc_api.h
+        graphics_api.C
+        graphics_api.h
+        windows_opengl.cpp
+
+David    Sept 22, 2002
+    - Various changes to prevent buffer overrun in servers;
+        parse_str and parse_attr now take a buffer length arg
+
+    api/
+        boinc_api.C,h
+    apps/
+        concat.C
+        upper_case.C
+    client/
+        app.C
+        client_types.C
+        file_xfer.C
+        hostinfo.C
+        scheduler_op.C
+    doc/
+        account.html
+    lib/
+        parse.C,h
+    sched/
+        file_upload_handler.C
+        handle_request.C
+        server_types.C,h
+
+David   Sept 25 2002
+    - Progress on validation and credit-granting
+    - added DB fields to support the above
+
+    client/
+        cs_scheduler.C
+    db/
+        db.h
+        db_mysql.C
+        schema.sql
+    sched/
+        Makefile.in
+        validate.C
+        validate_test.C (new)
+
+David   Sept 25 2002
+    - Move account into (master URL, authenticator, per-project prefs)
+        from the prefs.xml file into separate files, one per project
+        (with names of the form account_XXX.xml, XXX = master URL).
+        Adding new projects is now done using the core client
+        (via GUI or command line) or by copying an existing account file,
+        but NOT via web site; this was a major security weakness
+        since bad guys could guess your web password,
+        then register you for a bogus project.
+
+        This change also involved the html_user files (not finished).
+
+    - Further work on credit-granting.
+        On each RPC, the scheduler computes a "credit per CPU second"
+        for the host (linear combo of FP/int/mem speeds).
+        For each result received, the scheduler computes a "claimed credit",
+        the claimed CPU time times the credit per CPU second.
+        It also sets the "need validate" flag of the WU.
+
+    api/
+        boinc_api.C
+    apps/
+        upper_case.C
+    client/
+        Makefile.in
+        account.C,h (new)
+        client_state.C,h
+        client_types.C,h
+        cs_scheduler.C
+        file_names.C,h
+        file_xfer.C
+        main.C
+        prefs.C,h
+    db/
+        db.h
+    doc/
+        account.html
+        boinc_dev.html
+        client_files.html
+        client_logic.html
+        prefs.html
+        startup.html
+        validation.html
+    html_user/
+        prefs.inc
+        prefs.php
+        prefs_edit_project_form.php
+    sched/
+        handle_request.C
+        validate.C
+    test/
+        account1.xml (new)
+        init.inc
+        master.html
+        prefs1.xml
+        test_uc.php
+    tools/
+        backend_lib.C
+
+David   Sept 26 2002
+    - added todo list
+    - added license comment to various files
+
+    tools/
+        grant_credit.C (removed)
+
+David   Sept 26 2002
+    - continue with separation of global vs. project preferences.
+        Added separate DB field for project prefs.
+        Revised PHP files for editing separately
+
+    client/
+        prefs.C
+    db/
+        db.h
+        db_mysql.C
+        schema.sql
+    doc/
+        prefs.html
+    html_user/
+        removed prefs_add*, prefs_delete*, prefs_edit_disk*, prefs_edit_work*
+        removed prefs_edit_projects.php
+        added prefs_edit_global*
+        prefs_edit_project_action.php
+        prefs.inc
+        prefs.php
+        util.inc
+    sched/
+        server_types.C
+    test/
+        init.inc
+        test_uc.php
+    tools/
+        add.C
+
+David   Sept 28 2002
+    - Clarified the way that preferences (global and project)
+        are stored in the database and in the core client,
+        and the protocol (part of scheduler RPC) for maintaining them.
+        See doc/prefs_impl.html
+    - Implemented the above: lots of small changes to client, server
+    - Changed names from "prefs" to "global_prefs" where relevant
+
+    client/
+        client_state.C,h
+        client_types.C,h
+        cs_scheduler.C
+        file_names.C,h
+        prefs.C,h
+        scheduler_op.C,h
+    db/
+        db.h
+        db_mysql.C
+        schema.sql
+    doc/
+        boinc_dev.html
+        prefs_impl.html (new)
+        prefs_mod.html (removed)
+    html_user/
+        prefs.inc
+    sched/
+        handle_request.C
+        server_types.C,h
+    tools/
+        add.C
+
+David   Oct 3 2002
+    - Changed the PHP framework for testing to facilitate
+        multi-project, multi-host tests (all on one machine).
+        See doc/test.html for details.
+    - NOTE: the BOINC-related environment variables have changed.
+        There are no longer any project-specific variables
+        (e.g. database name, shmem key)
+    - NOTE: the server programs now expect a configuration file
+        in their directory.
+    - TODO: enhance the testing framework to allow projects with
+        multiple scheduling servers or data servers
+    - TODO: enhance the testing framework to allow specification
+        of failure and recovery of servers
+
+    - changed things so a NULL in the DB won't crash db_mysql.C
+    - parse_int() can now handle hex
+    - "add" now takes args for DB name/passwd
+    - "create_work" now takes args for DB name/passwd,
+        upload/download URL, download dir
+
+    db/
+        db_mysql.C
+        mysql_util.C
+    doc/
+        data_server_setup.html
+        sched_server_setup.html
+        test.html
+        web_site.html
+    html_user/
+        index.html
+    lib/
+        md5_file.C
+        parse.C
+    sched/
+        Makefile.in
+        config.C,h (new)
+        feeder.C
+        file_upload_handler.C
+        main.C
+        validate.C
+        validate_test.C
+    test/
+        test.inc (new)
+        test_uc.php
+    tools/
+        add.C
+        backend_lib.C,h
+        create_work.C
+        process_result_template.C
+
+David   Oct 3 2002
+    - updated test scripts to use new framework
+    - got rid of some obsolete scripts
+
+David   Oct 8 2002
+    - progress getting "make_work" (dummy work generator) to work.
+        Removed the <name> element from workunit XML,
+        and the <name> and <wu_name> elements from result XML;
+        instead, the scheduler server inserts these as it sends them.
+
+        This simplifies things a little in work generation,
+        and removes some redundancy.
+
+        Everything seems to work now except that the file upload signature
+        ends up being wrong, which is expected,
+        and it shows that the security mechanism works.
+    - added test_loop.php, which simulates a system that is complete
+        except for the validation process.
+
+    client/
+        http.C
+    db/
+        db.h
+        db_mysql.C
+    html_ops/
+        index.html
+    sched/
+        Makefile.in
+        feeder.C
+        file_upload_handler.C
+        handle_request.C
+        main.C
+        make_work.C (new)
+    test/
+        *_result
+        *_wu
+        *.php
+        test_loop.php (new)
+    tools/
+        backend_lib.C,h
+        process_result_template.C
+
+Eric  October 13, 2002
+    - Now uses alternate means (statfs, sysctl) to get host information
+      on non-Linux platforms
+    - Fixed compile warnings
+
+    client/
+        client_state.C
+        hostinfo.h
+        hostinfo_unix.C
+        file_names.C
+        scheduler_op.C
+
+Eric  October 14, 2002
+    - Added initial support for Mac OpenGL graphics, still needs to
+      be polished and tested (particularly multithreaded aspect)
+
+    api/
+        mac_app_opengl.c,h
+        mac_carbon_dsp.c,h
+        mac_carbon_gl.c,h
+    mac_build/
+        boinc.pbproj/
+            project.pbxproj
+
+David  Oct 14 2002
+    - Change make_work so that it generates results with
+        valid file upload signatures.
+        Instead of directly creating new DB.result records,
+        it now calls create_result() to do the work.
+    - Changed create_result() to take a name suffix
+    - Factored key parsing into a function
+    - Removed random-WU-name feature from create_work;
+        names should be generated at a higher level
+    - added a key-generation function to test.inc
+
+    lib/
+        parse.C
+    sched/
+        Makefile.in
+        config.C,h
+        make_work.C
+    test/
+        test.inc
+        test_loop.php
+    tools/
+        add.C
+        backend_lib.C,h
+        create_work.C
+        process_result_template.C
+
+David  Oct 15 2002
+    - remove the idea of "dynamic result" generation
+        (remove some DB fields and code relating to it)
+    - remove the nresults_* fields from the workunit table.
+        These are redundant, and they weren't being used.
+        Furthermore, they were being updated in a way that
+        overwrote other updates.
+    - change html_ops table displays to 2 columns
+
+    db/
+        db.h
+        db_mysql.C
+        mysql_util.C,h
+        schema.sql
+    doc/
+        test.html
+    html_ops/
+        db.inc
+    sched/
+        handle_request.C
+    tools/
+        backend_lib.C
+        create_work.C
+
+David  Oct 18, 2002
+    - make_work now adds new WUs as well as results
+
+    sched/
+        feeder.C
+        make_work.C
+
+David  Oct 20, 2002
+    - Pin down exactly what credit is, both in the docs and the code
+    - Show credit in admin PHP pages.
+    - NOTE: multi-word titles (e.g. in admin pages) should
+        have only the first letter capitalized
+
+    todo
+    client/
+        client_state.C
+        speed_stats.C
+    doc/
+        credit.html (new)
+        participation.html
+        validation.html
+    html_ops/
+        db.inc
+        db.php
+        index.html
+        util.inc
+    sched/
+        handle_request.C
+        validate.C
+
+David  Oct 21, 2002
+    - floating-point values are passed to/from MySQL using sprintf and atof.
+        The "%f" format, by default, uses 6 decimal places of precision.
+        This is inadequate for small values, e.g. 1e-7.
+        So db_mysql.C should use %.12e instead of %f.
+    - changed all floats to doubles in DB schema
+    - Credit half-life is one week
+
+    db/
+        db_mysql.C
+        schema.sql
+    doc/
+        credit.html
+    html_ops/
+        util.inc
+    sched/
+        validate.C
+    test/
+        test_loop.php
+
+Eric  October 28, 2002
+    - added signal handling to API
+    - removed win_build.zip
+
+    api/
+        boinc_api.C,h
+    apps/
+        upper_case.C
+        concat.C
+    lib/
+        error_numbers.h
+    win_build.zip (removed)
+
+Eric  October 29, 2002
+    - Mac graphics completed (except for screensaver mode)
+
+    api/
+        boinc_api.C
+        graphics_api.C
+        mac_app_opengl.c,h
+        mac_carbon_dsp.c,h
+        mac_carbon_gl.c,h
+
+David  Nov 5 2002
+    - Continued work on result retry mechanism:
+        - new fields "retry_check_time" and "state" in workunit table
+        - logic for creating new output filenames
+        - needs a bit more work
+    db/
+        db.h
+        db_mysql.C
+        schema.sql
+    sched/
+        Makefile.in
+        make_work.C
+        result_retry.C
+
+David  Nov 7 2002
+    - Finished and did basic testing of result retry mechanism.
+        It now correctly generates new results with unique names,
+        unique filenames, and upload signatures.
+        TODO: make a test script
+    - added DB field workunit.delay_bound:
+        determines deadlines of result, determines retry check period
+        Mandatory argument to create_work.
+    - Added DB indices for all enumeration functions
+
+    client/
+        client_types.C
+    db/
+        constraints.sql
+        db.h
+        db_mysql.C
+        schema.sql
+    doc/
+        result.html
+        tools_work.html
+        work.html
+    html_ops/
+        db.inc
+    sched/
+        Makefile.in
+        feeder.C
+        handle_request.C
+        result_retry.C
+    test/
+        1sec_wu
+        concat_wu
+        sah_result
+        sah_wu
+        test.inc
+        test_uc.php
+        uc_wu
+        ucs_wu
+    tools/
+        backend_lib.Ch
+        create_work.C
+        process_result_template.C
+
+David  Nov 9 2002
+    - fixed bug that caused file upload authentication failure
+    - The user web site now correctly provides download of the core client,
+        as long as you add a core client app version in your test script
+        (see test_uc.php for an example)
+    - version numbers now come from env vars BOINC_MAJOR_VERSION
+        and BOINC_MINOR_VERSION.  You must set these in your .cshrc
+    - Web server config file must have
+        DefaultType application/octet-stream
+        so that core client is saved as file, not displayed
+    - replaced "db_name" file in html_user, html_ops directories with
+        "config.xml", which contains download URL as well as DB name/passwd
+    - got rid of "install" target in main Makefile
+
+    Makefile.in
+    client/
+        Makefile.in
+    doc/
+        data_server_setup.html
+        single_host_server.html
+    html_ops/
+        util.inc
+    html_user/
+        db.inc
+        download.php
+        index.php
+        login.inc
+        login_action.php
+        util.inc
+    sched/
+        file_upload_handler.C
+        handle_request.C
+    test/
+        test.inc
+        test_uc.php
+    tools/
+        process_result_template.C
+
+David  Nov 9 2002
+    - Simplified account creation.
+        Only screen name, email address required; country, zip optional.
+        Only account ID required to log in
+        Removed web password from form;
+        projects can add this if they want.
+    - Change "authenticator" to "account ID" everywhere
+    - made country list appear on account creation form
+
+    todo
+    db/
+        constraints.sql
+        db.h
+    doc/
+        account.html
+        app.html
+        create_project.html
+        participate.html
+        startup.html
+    html_user/
+        renamed create_account.php to create_account_form.php
+        renamed login.php to login_form.php
+        download.php
+        index.php
+        login_action.php
+        util.inc
+    test/
+        test_uc.php
+
+Eric  Nov 12, 2002
+    - X11 graphics support added
+    - upper_case_x11 target added
+    - configure now checks for pthread, gl libraries
+
+    configure
+    configure.in
+    api/
+        boinc_api.C
+        graphics_api.C
+        x_opengl.C,h (added)
+    apps/
+        upper_case.C
+        Makefile.in
+
+Eric  Nov 14, 2002
+    - windows screensaver module
+
+    api/
+        boinc_api.C
+        graphics_api.C
+        windows_opengl.cpp
+    client/
+        win/
+            win_screensaver.cpp (added)
+    win_build/
+        boinc.dsw
+        boinc_ss/ (added)
+            boinc_ss.dsp (added)
+
+Seth/Eric  Nov 18, 2002
+    - windows idle detection
+    - Communication to app for suspend/resume/quit
+
+    api/
+        boinc_api.C,h
+        windows_opengl.cpp
+    client/
+        app.C
+        client_state.C,h
+        prefs.C,h
+        win/
+            win_screensaver.cpp
+            wingui.cpp,h
+            win_idle_tracker.cpp,h,def (added)
+    win_build/
+        boinc.dsw
+        boinc_dll/ (added)
+            boinc_dll.dsp (added)
+        boinc_gui/
+            boinc_gui.dsp
+
+David   Nov 30 2002
+    - use the major/minor version from env vars to identify the core client
+        (rather than the single version in Makefile)
+
+    client/
+        Makefile.in
+        client_state.C,h
+        cs_scheduler.C
+
+David   Nov 30 200
+    - first part of work sequence implementation
+
+    db/
+        schema.sql
+        db.h
+        db_mysql.C
+David   Dec 1 2002
+    - If request to scheduling server is from client with wrong version,
+        return an error
+    - Change the file upload handler protocol a little:
+        1) add core client version to request
+        2) add enclosing <data_server_request> element
+    - The file upload handler returns an error if client has wrong version
+    - Split up long function in file_upload_handler.C
+    - Changed name of feeder trigger file so that it works
+        (when did this get broken??)
+
+    client/
+        file_xfer.C,h
+    doc/
+        protocol.html
+        upload.html
+    sched/
+        Makefile.in
+        feeder.C
+        file_upload_handler.C
+        handle_request.C
+        server_types.C,h
+    test/
+        test.inc
+
+David   Dec 3 2002
+    - change scheduling server so that by default it doesn't
+        store request and reply messages in files;
+        add "-use_files" option to do this
+    - added validation step to test_uc.php;
+        this computes and grants credit
+    - added "-one_pass" option to validate
+    - split scheduler trigger files into two:
+        stop_server: used for all server components;
+            NOT deleted after reading
+        reread_db: used to tell feeder to reread DB
+            deleted after reading
+    - added license text to some files
+
+    sched/
+        config.C,h
+        feeder.C
+        handle_request.C
+        main.C,h
+        make_work.C
+        result_retry.C
+        sched_shmem.h
+        show_shmem.C
+        validate.C
+    test/
+        test.inc
+        test_uc.php
+
+David   Dec 5 2002
+    - added initial support for aborting runaway applications:
+        check for exceeding maximum CPU time or disk usage
+    - create_work now takes max_cobblestones and max_disk_usage
+    - split ACTIVE_TASK::suspend into separate suspend, resume functions
+
+    A bunch of coding style notes:
+    - changed ACTIVE_TASK::request_exit() so that it doesn't sleep.
+        ==> The core client should never sleep <==
+        This would cause a period of non-response in the GUI client
+    - changed file_delete() so that it doesn't sleep or retry.
+        Should eventually add garbage-collection mechanism
+    - Most functions NEED to be implemented in the client.
+        So e.g. instead of
+        #if HAVE_SIGNAL_H
+            unix code
+        #endif
+        #ifdef _WIN32
+            win code
+        #endif
+        we should have
+        #ifdef _WIN32
+            win code
+        #else
+            unix code
+        #endif
+        Any compilation that doesn't match anything should cause a
+        compile-time error
+    - change file_size(), dir_size(), CLIENT_STATE::total_disk_usage() etc.
+        so that:
+        1) they report file size in double, not int
+        2) they return an error code, not a size overloaded with error code;
+            size is return in reference param
+    - All fopen()s should check for zero pointer and return ERR_FOPEN
+    - Omit "this->" wherever it appears
+
+    client/
+        app.C,h
+        client_state.C,h
+        client_types.C,h
+        file_xfer.C
+        http.C
+        pers_file_xfer.C
+    lib/
+        filesys.C,h
+    test/
+        test.inc
+    tools/
+        backend_lib.C,h
+        create_work.C
+
+David  Dec 6 2002
+    - fix bugs in get_local_ip_addr()
+        (need to figure out why they were happening)
+
+Eric   Dec 8, 2002
+    - added and tested HTTP proxy support (no SOCKS support yet)
+    - proxy server is specified through environment variable HTTP_PROXY
+
+    client/
+        client_state.C,h
+        http.C,h
+        net_xfer.C
+        pers_file_xfer.C
+        scheduler_op.C
+
+Hamid  Dec 9,2002
+    - added field client_state to result
+
+    - added some more functionality to repor_project_error()
+      It now adds the following info to stderr_out of the result:
+
+      <message>message if any passed</mesage>
+      <active_task_state>%d</active_task_state>
+      <exit_status>%d</exit_status>
+      <signal>%d</signal>
+      if download had failures
+         "<download_error>\
+          "    <file_name>%s</file_name>
+          "    <error_code>%d</error_code>\n"
+          "    </download_error>\n"
+
+
+      if upload  had failures
+        same as above
+
+      if coudln't start active task for result (in which err_num should be set)
+        "<couldnt_start>%d</couldnt_start>\n"
+
+
+    - The error mechanism right now is such that any failures
+    regarding file_infos (download, upload or whatever)
+    are recorded in the status of the file_infos and then garbage collect
+    called report_project_error.
+    However errors regarding starting and ending active tasks
+    are reported from app.C and cs_apps.C.
+
+Seth  Dec 9, 2002
+        - time tests run in their own thread when needed, if they are global state
+          won't do anything until they are done; threads communicate by a file
+        - windows host info complete except for cache
+
+        client/
+            client_stat.C,h
+            file_names.h
+            hostinfo.C,h
+        client/win/
+            hostinfo_win.cpp
+
+David  Dec 11 2002
+    - Have process_wu_template() fill in the file size as well as the MD5.
+        This necessitated changing the format of WU templates,
+        and the way they are processed.
+
+    NOTE: this breaks the multiple-data-server test.
+    Need to figure out another way to do that.
+
+    tools/
+        backend_lib.C
+    doc/
+        tools_work.html
+    test/
+        *wu
+
+David  Dec 13 2002
+    - use lock file mechanism to prevent multiple instances of
+       core client from running in same directory
+
+    configure
+    configure.in
+    client/
+        file_names.h
+        main.C
+    lib/
+        util.C,y
+
+David  Dec. 17 2002
+    - Added new state fields to workunit and result to support
+        file deletion and assimilation backend phases
+    - Added sample assimilator program
+    - Added file_deleter program (AKA garbage collector)
+
+    client/
+        main.C
+    db/
+        db.h
+        db_mysql.C
+        schema.sql
+    sched/
+        Makefile.in
+        assimilator.C (new)
+        config.C,h
+        result_retry.C
+        validate.C
+    test/
+        test.inc
+    tools/
+        backend_lib.C
+
+David   Dec 17 2002
+    - The assimilator takes a -app argument
+    - Added execution of file_delete and assimilator to test_uc.php
+        this should delete all input and output files
+        TODO: check that it actually does
+    - fixed bugs in file_deleter
+
+    todo
+    db/
+        db.h
+        db_mysql.C
+    doc/
+        backend.gif (new)
+        backend.html
+        backend.png (new)
+        work_states.html
+    html_ops/
+        db.inc
+    html_user/
+        user.inc
+    sched/
+        assimilator.C
+        file_deleter.C
+        handle_request.C
+    test/
+        test.inc
+        test_uc.php
+
+Seth Dec 18 2002
+        - net_xfers in windows will get permission before connecting if needed
+        - added global pref for whether or not to hang up the modem if BOINC dialed
+        - client state saves global prefs confirm_before_connecting
+        and hangup_if_dialed locally for now
+        - wingui split into different files, bug fixes
+
+        client/
+                net_xfer.C,h
+                prefs.C,h
+                client_state.C
+        client/win
+                win_net.cpp,h
+                wingui.cpp,h
+                wingui_mainwindow.cpp,h (new)
+                wingui_dialog.cpp,h (new)
+                wingui_listctrl.cpp,h (new)
+                wingui_pictrl.cpp,h (new)
+
+David  Dec 18 2002
+    - Have account create action redirect to a different page
+        so you don't get "Repost form data" if you go back to it
+    - Added full support for project-specific preferences.
+        Logic is encapsulated in project_specific_prefs.inc.
+        The example lets you choose color scheme
+        (Tahiti Sunset, Desert Sands)
+
+    html_user/
+        account_created.php (new)
+        project_specific_prefs.inc (new)
+        create_account_action.php
+        prefs.inc
+        prefs.php
+        prefs_edit_global_form.php
+        prefs_edit_project_action.php
+        prefs_edit_project_form.php
+        util.inc
+    lib/
+        countries.C,h
+
+David   Dec 19 2002
+    - The Edit Account form now shows current values
+        directly in input fields.
+    - Country select popup shows current value
+    - Improve new account email
+
+    html_user/
+        account_created.php
+        change_pass_action.php
+        create_account_action.php
+        edit.inc
+        edit_action.php
+        edit_user_info.php
+        util.inc
+    tools/
+        country_select.C
+
+Hamid   Dec 19 2002
+
+    -Edited make_work.C, now when a new work_unit is created,
+        it's input files are copied along with it,
+        with some random numbers added to the end,
+        so for each new work_unit there are a set of associated new input files
+
+    -fixed a little bug in file_deleter
+
+    -note: strtok() changes the original string passed to it, kind of dangerous to use
+
+    -from parse.h : replace_element() is now in use ( I used it for make_work.C)
+
+David  Dec 19 2002
+    - added -add_new_project option to command line version
+        changed func name from get_initial_project() to add_new_project()
+
+    client/
+        account.C,h
+        client_state.C,h
+        main.C
+        scheduler_op.h
+    win/
+        wingui.cpp,h
+
+David   Dec 23 2002
+    - Made stripcharts work with BOINC test framework
+        The script "test_loop.php" now generates a data file of
+        CPU load that can be graphed using stripchart.
+        TODO: add other data sources
+    - added "country" field to team
+    - expanded team description from 256 chars to blob
+    - turned off debug output from file upload handler, scheduler
+    - removed "time" args from various Project member functions
+        in test.inc.  Use sleep().
+
+    db/
+        db.h
+        db_mysql.C
+        schema.sql
+    html_user/
+        db.inc
+        team_create_form.php
+    sched/
+        file_upload_handler.C
+        handle_request.C
+        result_retry.C
+    stripchart/
+        stripchart.cgi
+        stripchart.cnf
+        samples/
+            datafiles
+    test/
+        test.inc
+        test_download_backoff.php
+        test_loop.php
+        test_masterurl_failure.php
+        test_sched_failure.php
+

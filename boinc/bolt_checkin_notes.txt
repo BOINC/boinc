@@ -1,0 +1,312 @@
+David  Dec 19 2007
+    - May as well start keeping checkin notes for Bolt.
+        At this point the fundamental structure of Bolt is
+        more or less complete, I hope; many features are missing.
+
+    Items for this particular checkin:
+
+    - Make things work right when you resume a course at an
+        exercise answer page.
+        This creates a new View, whose prev_view_id link points
+        to the exercise view, not the answer page view
+    - When leave a page using "Up", terminate the view accordingly.
+    - Rather than using $_GET, Form vars are now passed to exercise primitives
+        in a global variable $bolt_ex_query_string, which they must parse.
+
+    db/
+        bolt_schema.sql
+    html/
+        inc/
+            bolt_db.inc
+            bolt_ex.inc
+        user/
+            bolt_course.php
+            bolt_sched.php
+
+David  Dec 27 2007
+    - preliminary implementation of exercise_set
+
+    inc/bolt.inc
+
+David  Jan 1 2008
+    - split control structure into separate files
+    - allow passing query strings to items
+
+    db/
+        bolt_schema.sql
+    html/
+        inc/
+            bolt.inc
+            bolt_rnd.inc
+            bolt_seq.inc
+            bolt_xset.inc
+        user/
+            bolt_course_sample.php
+            bolt_sched.php
+
+David  Jan 17 2008
+    -  Add table for selects
+
+    db/
+        bolt_schema.sql
+    html/inc/
+        bolt_db.inc
+
+David  Jan 30 2008
+    - implement the review mechanism
+
+    db/
+        bolt_schema.sql
+    html/
+        inc/
+            bolt_db.inc
+            bolt_xset.inc
+        user/
+            bolt_sched.php
+        
+David  Jan 31 2008
+    - finished and mostly debugged the refresh mechanism
+
+    db/
+        bolt_constraints.sql
+        bolt_schema.sql
+    html/
+        inc/
+            bolt_select.inc
+            bolt.inc
+            bolt_db.inc
+            bolt_xset.inc
+        user/
+            bolt_map.php
+            bolt_sched.php
+            bolt.phph
+            bolt_compare.php
+
+David  Feb 1 2008
+    - Add Bolt admin page
+    - added "hidden" flag to courses
+
+    db/
+        bolt_schema.sql
+    html/
+        inc/
+            bolt_db.inc
+            bolt_ex.inc
+            util.inc
+            util_ops.inc
+        ops/
+            bolt_ops.php
+        user/
+            bolt.php
+            bolt_sched.php
+
+David  Feb 6 2008
+    - implemented question mechanism
+
+    html/
+        inc/
+            bolt.inc
+        user/
+            bolt_course.php
+            bolt_sched.php
+
+David  Feb 7 2008
+    - fixed bugs in review and repeat
+
+    html/
+        inc/
+            bolt.inc
+            bolt_rnd.inc
+            bolt_select.inc
+            bolt_seq.inc
+            bolt_xset.inc
+        user/
+            bolt_sched.php
+
+David  Feb 8 2008
+    - removed "bolt_" from API functions.
+        I don't think this prefix is useful;
+        Bolt isn't going to be used within large existing PHP code
+
+    html/inc
+        bolt_ex.inc
+
+David  Feb 22 2008
+    - added sketchy implementation of Maps
+
+    html/
+        inc/
+            bolt.inc
+        ops/
+            bolt_map.php
+
+David  June 26 2008
+    - (a bunch of checkins recently)
+        Added basic Unit Comparison feature, including
+        - snapshots (makes it fast)
+        - filtering and breakdown
+        Also revisited Maps, and started redoing them along the same lines
+
+David  August 14 2008
+    - remove "doc_file" field; use short_name.inc
+    - fix tabl_exists()
+    - fix bugs when return to answer page
+    - create bolt_result records correctly
+
+    db/
+        bolt_schema.sql
+    html/
+        inc/
+            db_conn.inc
+            bolt_db.inc
+        ops/
+            bolt_map.php
+            bolt_admin.php
+        user/
+            bolt_sched.php
+            bolt_compare.php
+
+David  August 14 2008
+    - Finished implemenation of refresh intervals;
+        added "count" field to DB table to keep track of how many times
+        we've refreshed.
+    - show refresh schedule on main courses page
+    - default for random structure is all units, not 1
+
+    db/
+        bolt_schema.sql
+    html/
+        inc/
+            bolt_rnd.inc
+            bolt_xset.inc
+            bolt_util.inc
+        ops/
+            bolt_map.php
+        user/
+            bolt.php
+            bolt_course.php
+            bolt_sched.php
+            white.css
+
+David  August 15 2008
+    - The logical name of an item is now its filename.
+        Items can also have titles, but they're used only
+        when showing outline to students
+    - Fixed bugs and improved appearance of course maps and lesson compare
+
+    html/
+        inc/
+            bolt.inc
+            bolt_util.inc
+            bolt_select.inc
+            util.inc
+        ops/
+            bolt_map.php
+            bolt_datagen.php
+            bolt_compare.php (moved here from user/)
+        user/
+            bolt_sched.php
+
+David  August 15 2008
+    - Add admin "clear data" function
+
+    html/
+        inc/
+            bolt_util.inc
+            bolt_db.inc
+        ops/
+            bolt_admin.php
+        user/
+            bolt.php
+            bolt_sched.php
+
+David  Oct 20 2008
+    - Detect when a refresh has finished
+
+    html/
+        inc/
+            bolt_util.inc
+            bolt.inc
+            bolt_xset.inc
+        user/
+            bolt_sched.php
+
+David  Oct 23 2008
+    - Add callback mechanism for exercises and exercise sets
+    - Default count for exercise sets is N, not 1
+    - Switch from JSON to PHP serialization
+        (NOTE: this requires cleaning out your DB)
+
+David  Oct 24 2008
+    - Change the info passed to/from exercise functions from
+         bunch of globals to a single global struct
+    - Change the arguments to exercise functions
+        to allow for a weight() arg
+
+    html/
+        inc/
+            bolt_ex.inc
+
+David  Oct 24 2008
+    - added "image" exercise type
+
+    html/
+        inc/
+            bolt_ex.inc
+        ops/
+            bolt_compare.php
+        user/
+            bolt.css
+            bolt_admin.css
+            bolt_sched.php
+
+David  Oct 30 2008
+    - added "fill in the blank" (FITB) exercise type
+    - added "has_answer_page()" option for exercises
+
+    html/
+        inc/
+            bolt_ex.inc
+            bolt.inc
+        user/
+            bolt.css
+            bolt_sched.php
+
+David  Oct 30 2008
+    - moved snapshot code to its own file
+    - added link to questions in Map
+    - added "mode" to question table
+
+    db/
+        bolt_schema.sql
+    html/
+        inc/
+            bolt_snap.inc
+            bolt_util.inc
+        ops/
+            bolt_map.php
+            bolt_compare.php
+        user/
+            bolt_sched.php
+
+David  Oct 30 2008
+    - code reorg
+
+    html/
+        inc/
+            bolt_cat.inc
+            bolt_util.inc
+            bolt_util_ops.inc (new)
+        ops/
+            bolt_compare.php
+            bolt_map.php
+            bossa_admin.php
+
+David  Nov 2 2008
+    - Filter questions
+
+    html/
+        inc/
+            bolt_cat.inc
+        ops/
+            bolt_map.php

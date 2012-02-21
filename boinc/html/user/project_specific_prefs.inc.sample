@@ -1,0 +1,88 @@
+<?php
+$cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit
+// Place your version in project_specific/project_specific_prefs.inc
+
+// Functions to display and edit project-specific prefs go here
+
+// The code here is a sample.  Projects must supply their own.
+
+$project_has_beta = false;
+    // set this to true if your project has beta applications,
+    // and you can users to be see a "Run test apps?" preferences
+
+function option($name, $val) {
+    if ($name == $val) {
+        $x = "selected";
+    } else {
+        $x = "";
+    }
+    return "<option name='$name' $x>$name\n";
+}
+
+function project_specific_prefs_default() {
+    return "
+        <color_scheme>Tahiti Sunset</color_scheme>
+        <max_frames_sec>100</max_frames_sec>
+    ";
+}
+
+// given struct, show form for editing
+// $error is a struct indicating which values were erroneous
+// (value X is erroneous if $error->X is set)
+//
+function project_specific_prefs_edit($prefs, $error=false) {
+    $x = $prefs->color_scheme;
+    $y = "<select name=color_scheme>
+            ".option("Tahiti Sunset", $x)
+            .option("Desert Sands", $x)."
+        </select>
+    ";
+    row2("Color scheme", $y);
+
+    $y = "<input size=5 name=max_frames_sec value='$prefs->max_frames_sec'>";
+    row2("Max frames/sec", $y, isset($error->max_frames_sec));
+}
+
+// Parse form vars, return XML version of project-specific prefs
+// Also set $error, store the error values (see above)
+//
+function project_specific_prefs_parse_form(&$error) {
+    $color_scheme = $_GET["color_scheme"];
+    $max_frames_sec = $_GET["max_frames_sec"];
+
+    // add and modify this line for other user
+    // editable values that should be validated
+    //
+    if (!verify_numeric($max_frames_sec, 0)) $error->max_frames_sec = true;
+
+    // Please look at util.inc for further information regarding:
+    // function verify_numeric(&$value, $low, $high = false)
+
+    return "<color_scheme>$color_scheme</color_scheme>
+        <max_frames_sec>$max_frames_sec</max_frames_sec>
+    ";
+}
+
+// show non-editable version of prefs
+//
+function project_specific_prefs_show($prefs, $columns=false) {
+    // Please add your prefs-values for both views!!
+    //
+    if ($columns) {
+        // This is used if columns-view is enabled
+        row_defs("Color scheme","color_scheme", "", "", $prefs);
+        row_defs("Max frames/sec", "max_frames_sec", "", "", $prefs);
+    } else {
+        // This is used if normal-view is enabled
+        row2("Color scheme", $prefs->color_scheme);
+        row2("Max frames/sec", $prefs->max_frames_sec);
+    }
+}
+
+// parse XML, fill in struct
+//
+function project_specific_prefs_parse($prefs_xml) {
+    $prefs->color_scheme = parse_element($prefs_xml, "<color_scheme>");
+    $prefs->max_frames_sec = parse_element($prefs_xml, "<max_frames_sec>");
+    return $prefs;
+}

@@ -1,0 +1,43 @@
+-----------------------------------
+Bittorrent file distribution system
+-----------------------------------
+When several workunits require the same file (for instance any particularly big 
+application file) it is really a waste to use a central server to distribute this
+file. First of all a central server requires lots of bandwidth - which may be
+quite expensive. Secondly getting 10'000 requests for the same multi-megabyte
+file may be too much for even the largest of servers.
+
+The solution is to harness the power of peer-to-peer computing in the domain of
+volunteer and desktop grid computing by allowing the clients to share pieces of the
+files they are downloading.
+
+How it works
+------------
+Since noone can be trusted, "Bob" (a client) will need some way of knowing if "Eve" 
+(another client) sent him a valid piece of the original file. To enable him to do
+so Bob has downloaded a .torrent from the project servers. The .torrent describes
+the file he is downloading; it contains hash values for each piece so that he can
+check whether "Eve" is trying to cheat him.
+
+If "Alice" also wants to download the same file as "Bob" they can each fetch a
+different piece from the project servers and then share the pieces. Seen from
+"Bob" and "Alice"'s perspective this potentially doubles the download rate (if you
+see it from the project perspective it cuts the required network bandwidth in half).
+As more people join the synergetic effect increases dramatically.
+
+Isn't Bittorrent illegal?
+-------------------------
+Bittorrent is a protocol for sharing files across the internet. As such it cannot
+be illegal in itself - it is what you do with it that matters.
+If you take a look at all the filesharing protocols out there Bittorrent seems to
+be the one that has been taken into widespread use in the whitehat part of the 
+internet. Several major companies, including the movie industry, have adopted the 
+technology because of its unique ability to distribute load. To name a few uses:
+- Bittorrent.com (Works with the movie industry, sells movies and shows)
+- Blizzard Entertainment (Uses BT to distribute data patches for their World of
+  Warcraft game)
+- EletricSheep screensaver (Uses BT to distribute computed "dreams")
+
+How do I enable this?
+---------------------
+Have a look at the INSTALL file located in the same directory as this file.

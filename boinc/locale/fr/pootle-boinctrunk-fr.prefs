@@ -1,0 +1,12 @@
+# Pootle preferences for project boinctrunk, language fr
+
+rights:
+  default = u'view, suggest, archive, pocompile'
+  nobody = u'view, pocompile'
+  philmo = u'view, suggest, translate, overwrite, review, archive, pocompile, assign, admin, commit'
+  Mugurel = u'view, suggest, translate, overwrite, review, archive, pocompile, assign, admin, commit'
+  romw = u'view, suggest, translate, overwrite, review, archive, pocompile, assign, admin, commit'
+  JeromeC = u'view, suggest, translate, overwrite, review, archive, pocompile, assign, admin, commit'
+  davea = u'view, suggest, translate, overwrite, review, archive, pocompile, assign, admin, commit'
+  Millenium82 = u'view, suggest, translate, overwrite, review, archive, pocompile, assign, admin, commit'
+  skimpax = u'view, suggest, translate, overwrite, review, archive, pocompile, assign, admin, commit'

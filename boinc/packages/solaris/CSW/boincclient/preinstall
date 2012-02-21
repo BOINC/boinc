@@ -1,0 +1,91 @@
+#! /bin/sh
+
+PATH=/bin:/usr/bin:/usr/ucb/bin:/opt/csw/bin
+export PATH
+
+if [ -x $PKG_INSTALL_ROOT/opt/csw/etc/csw.conf ] ; then 
+  . $PKG_INSTALL_ROOT/opt/csw/etc/csw.conf 
+fi 
+if [ -x $PKG_INSTALL_ROOT/etc/opt/csw/csw.conf ] ; then 
+  . $PKG_INSTALL_ROOT/etc/opt/csw/csw.conf 
+fi 
+
+BOINCUSER=boinc
+BOINCGROUP="`( groups ${BOINCUSER} 2>/dev/null || echo boinc ) | gawk '{print $1}'`"
+
+MAJOR=`uname -r | gawk -F. '{print $1}'`
+MINOR=`uname -r | gawk -F. '{print $2}'`
+# find our run directory
+if [ $MAJOR -gt 5 -o \( $MAJOR -eq 5 -a $MINOR -gt 9 \) ] ; then
+  BOINCDIR=$PKG_INSTALL_ROOT/var/lib/boinc
+  if [ -d $PKG_INSTALL_ROOT/var/opt/csw/boinc -a ! -d $PKG_INSTALL_ROOT/var/lib/boinc ] ; then
+    mv -f $PKG_INSTALL_ROOT/var/opt/csw/boinc $PKG_INSTALL_ROOT/var/lib/boinc
+  fi
+else
+  BOINCDIR=$PKG_INSTALL_ROOT/var/opt/csw/boinc
+fi
+
+# find out if the group $BOINCGROUP exists
+GROUPENT=`getent group $BOINCGROUP`
+
+# if we need to create the boinc group, find the first unused group number
+# 2316 or highter
+if [ -z "${GROUPENT}" ] ; then 
+  getent group | gawk -F: '{print $3}' > /tmp/$$.grp
+  try=2316
+  while [ ! -z "`grep \^$try /tmp/$$.grp`" ] ; do
+    try=`expr $try + 1`
+  done
+  GROUPNUM=${try}
+  GROUPENT="${BOINCGROUP}::${try}:"
+  cp $PKG_INSTALL_ROOT/etc/group $PKG_INSTALL_ROOT/etc/group.boinc_install.bak
+  echo ${GROUPENT} >> $PKG_INSTALL_ROOT/etc/group
+  /bin/rm /tmp/$$.grp
+else 
+  GROUPNUM=`echo $GROUPENT | gawk -F: '{print $3}'`
+fi
+
+# Now find out if the user ${BOINCUSER} exists.
+USERENT=`getent passwd $BOINCUSER`
+
+# if we need to create the boinc group, find the first unused user number
+# ${BOINCGROUP} or highter
+if [ -z "${USERENT}" ] ; then 
+  getent passwd | gawk -F: '{print $3}' >/tmp/$$.user
+  try="${GROUPNUM}"
+  while [ ! -z "`grep \^$try /tmp/$$.user`" ] ; do
+    try=`expr $try + 1`
+  done
+  USERENT="${BOINCUSER}:x:${try}:${GROUPNUM}:BOINC client user:${BOINCDIR}:/bin/ksh" 
+  cp $PKG_INSTALL_ROOT/etc/passwd $PKG_INSTALL_ROOT/etc/passwd.boinc_install.bak
+  echo $USERENT >> $PKG_INSTALL_ROOT/etc/passwd
+  /bin/rm /tmp/$$.user
+fi
+
+# Does our user entry point to the correct directory?
+if [ -z "`echo $USERENT | grep $BOINCDIR`" ] ; then
+  # No.  We need to correct it.
+  USERENT=`echo $USERENT | gawk -F: '{print $1":"$2":"$3":"$4":"$5":'$BOINCDIR':"$7}'`
+  grep -v \^${BOINCUSER}: $PKG_INSTALL_ROOT/etc/passwd > /tmp/passwd.$$
+  echo "$USERENT" >> /tmp/passwd.$$
+  if [ ! -f $PKG_INSTALL_ROOT/etc/passwd.boinc_install.bak ] ; then 
+    cp $PKG_INSTALL_ROOT/etc/passwd $PKG_INSTALL_ROOT/etc/passwd.boinc_install.bak
+  fi
+  mv -f /tmp/passwd.$$ $PKG_INSTALL_ROOT/etc/passwd
+fi
+
+# check for our shadow entry
+shadent="`grep \^$BOINCUSER: $PKG_INSTALL_ROOT/etc/shadow`"
+if [ -z "$shadent" ] ; then
+  shadent="${BOINCUSER}:NP:16384::::::"
+  cp $PKG_INSTALL_ROOT/etc/shadow $PKG_INSTALL_ROOT/etc/shadow.boinc_install.bak
+  chmod 0400 $PKG_INSTALL_ROOT/etc/shadow.boinc_install.bak
+  echo $shadent >> $PKG_INSTALL_ROOT/etc/shadow
+fi
+
+# Create the run directory and set permissions properly.
+if [ ! -d $BOINCDIR ] ; then
+  mkdir -p $BOINCDIR
+fi
+chown -R $BOINCUSER:$BOINCGROUP $BOINCDIR
+

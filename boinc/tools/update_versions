@@ -1,0 +1,467 @@
+#! /usr/bin/env php
+
+<?php
+
+require_once("html/inc/boinc_db.inc");
+require_once("html/inc/util_basic.inc");
+
+$apps = BoincApp::enum("");
+$platforms = BoincPlatform::enum("");
+
+$config = file_get_contents("config.xml");
+$download_url = parse_element($config, "<download_url>");
+$download_dir = parse_element($config, "<download_dir>");
+$fanout = parse_element($config, "<uldl_dir_fanout>");
+
+function lookup_app($name) {
+    global $apps;
+    foreach ($apps as $app) {
+        if ($app->name == $name) return $app;
+    }
+    die("app not found: $name\n");
+}
+
+function lookup_platform($p) {
+    global $platforms;
+    foreach ($platforms as $platform) {
+        if ($platform->name == $p) return $platform;
+    }
+    die("platform not found: $p\n");
+}
+
+function readdir_aux($d) {
+    while ($f = readdir($d)) {
+        if (substr($f, 0, 1) == ".") continue;
+        return $f;
+    }
+    return false;
+}
+
+// Data structures:
+// Files are described by objects with fields
+//  physical_name
+//  logical_name
+//  main_program
+//  url
+// etc.
+// This are parsed from version.xml, or created by us
+//
+// Variables named $fd refer to such objects
+//
+
+// return a <file_info> element for the file
+//
+function file_info_xml($fd) {
+    $xml =
+        "<file_info>\n".
+        "    <name>".$fd->physical_name."</name>\n"
+    ;
+    if (is_array($fd->url)) {
+        foreach ($fd->url as $url) {
+            $xml .= "    <url>$url</url>\n";
+        }
+    } else {
+        $xml .= "    <url>$fd->url</url>\n";
+        if ($fd->gzip) {
+            $xml .= "    <gzipped_url>$fd->url.gz</gzipped_url>\n";
+        }
+    }
+    if ($fd->executable || $fd->main_program) {
+        $xml .= "    <executable/>\n";
+    }
+    $xml .= "    <file_signature>\n";
+    $xml .= $fd->signature;
+    $xml .=
+        "    </file_signature>\n".
+        "    <nbytes>".$fd->nbytes."</nbytes>\n"
+    ;
+    if ($fd->gzip) {
+        $xml .= "    <gzipped_nbytes>".$fd->gzipped_nbytes."</gzipped_nbytes>\n";
+    }
+    $xml .= "</file_info>\n";
+    return $xml;
+}
+
+// return a <file_ref> element for the file
+//
+function file_ref_xml($fd) {
+    $xml =
+        "<file_ref>\n".
+        "    <file_name>".$fd->physical_name."</file_name>\n"
+    ;
+    if (isset($fd->logical_name) && strlen($fd->logical_name)) {
+        $xml .= "    <open_name>$fd->logical_name</open_name>\n";
+    }
+    if ($fd->copy_file) {
+        $xml .= "    <copy_file/>\n";
+    }
+    if ($fd->main_program) {
+        $xml .= "    <main_program/>\n";
+    }
+    $xml .= "</file_ref>\n";
+    return $xml;
+
+}
+
+function lookup_file($fds, $name) {
+    foreach ($fds as $fd) {
+        if ($fd->physical_name == $name) return $fd;
+    }
+    return null;
+}
+
+// update file in list, or add to list
+//
+function update_file($fds, $fd) {
+    for ($i=0; $i<sizeof($fds); $i++) {
+        if ($fds[$i]->physical_name == $fd->physical_name) {
+            $fds[$i] = $fd;
+            return $fds;
+        }
+    }
+    $fds[] = $fd;
+    return $fds;
+}
+
+// move file to download dir, check immutability, fill in $fd->url
+//
+function stage_file($a, $v, $p, $fd) {
+    global $download_url, $download_dir;
+
+    $name = $fd->physical_name;
+    $path = "apps/$a/$v/$p/$name";
+    $dl_path = "$download_dir/$name";
+    if (is_file($dl_path)) {
+        if (md5_file($path) != md5_file($dl_path)) {
+            die ("Error: files $path and $dl_path differ.\nBOINC files are immutable.\nIf you change a file, you must give it a new name.\n");
+        }
+    } else {
+        echo("cp $path $dl_path\n");
+        system("cp $path $dl_path");
+    }
+    
+    $fd->url = "$download_url/$name";
+    if ($fd->gzip) {
+        if (!file_exists("$dl_path.gz")) {
+            $tmp = "$dl_path.tmp";
+            system("cp $dl_path $tmp");
+            system("gzip $dl_path");
+            system("mv $tmp $dl_path");
+        }
+        $stat = stat("$dl_path.gz");
+        $fd->gzipped_nbytes = $stat['size'];
+    }
+    return $fd;
+}
+
+function get_api_version($a, $v, $p, $fds) {
+    foreach ($fds as $fd) {
+        if ($fd->main_program) {
+            $path = "apps/$a/$v/$p/$fd->physical_name";
+            $handle = popen("strings $path | grep API_VERSION", "r");
+            $x = fread($handle, 8192);
+            pclose($handle);
+            $x = strstr($x, "API_VERSION_");
+            return trim(substr($x, strlen("API_VERSION_")));
+        }
+    }
+    return "";
+}
+
+$sig_gen_confirmed = false;
+
+function confirm_sig_gen($name) {
+    global $sig_gen_confirmed;
+
+    if ($sig_gen_confirmed) return true;
+
+    echo "
+    NOTICE: You have not provided a signature file for $name,
+    and your project's code-signing private key is on your server.
+
+    IF YOUR PROJECT IS PUBLICLY ACCESSABLE, THIS IS A SECURITY VULNERABILITY.
+    PLEASE STOP YOUR PROJECT IMMEDIATELY AND READ:
+    http://boinc.berkeley.edu/trac/wiki/CodeSigning
+
+    Continue (y/n)? ";
+
+    $x = trim(fgets(STDIN));
+    if ($x != "y") {
+        exit;
+    }
+    $sig_gen_confirmed = true;
+}
+
+// process a file
+//
+function process_file($a, $v, $p, $name, $fds) {
+    $fd = lookup_file($fds, $name);
+    if (!$fd) {
+        $fd = null;
+        $fd->physical_name = $name;
+        $fd->logical_name = null;
+        $fd->url = array();
+        $fd->main_program = false;
+        $fd->copy_file = false;
+        $fd->gzip = false;
+    }
+    $path = "apps/$a/$v/$p/$name";
+
+    $stat = stat($path);
+    $fd->nbytes = $stat['size'];
+
+    $sigpath = "apps/$a/$v/$p/$name.sig";
+    if (is_file($sigpath)) {
+        $fd->signature = file_get_contents($sigpath);
+    } else {
+        $keypath = "keys/code_sign_private";
+        if (is_file($keypath)) {
+            confirm_sig_gen($name);
+            $handle = popen("bin/sign_executable $path $keypath", "r");
+            $fd->signature = fread($handle, 8192);
+            pclose($handle);
+        } else {
+            die("   Error: no .sig file for $name, and no code signing private key\n");
+        }
+    }
+
+    if (!sizeof($fd->url)) {
+        $fd = stage_file($a, $v, $p, $fd);
+    }
+
+    if (!isset($fd->executable)) {
+        $perms = fileperms($path);
+        $fd->executable = ($perms & 0x0040)?true:false;
+    }
+
+    $fd->present = true;
+    $fds = update_file($fds, $fd);
+    return $fds;
+}
+
+// scan the directory, and process files.
+// "fds" is the list of files described in version.xml;
+// return this list, augmented with any files not in version.xml
+// 
+//
+function process_files($a, $v, $p, $fds) {
+    $d = opendir("apps/$a/$v/$p");
+    while ($f = readdir_aux($d)) {
+        if ($f == "version.xml") continue;
+        if (strstr($f, ".sig") == ".sig") continue;
+        $fds = process_file($a, $v, $p, $f, $fds);
+    }
+    return $fds;
+}
+
+function parse_platform_name($p, &$platform, &$plan_class) {
+    $x = explode("__", $p);
+    $platform = $x[0];
+    if (sizeof($x) > 1) {
+        $plan_class = $x[1];
+    } else {
+        $plan_class = "";
+    }
+}
+
+function parse_version($v) {
+    $x = explode(".", $v);
+    if (!is_numeric($x[0])) return -1;
+    if (sizeof($x) > 1) {
+        if (!is_numeric($x[1])) return -1;
+        return $x[1] + 100*$x[0];
+    }
+    return (int)$x[0];
+}
+
+function already_exists($a, $v, $platform, $plan_class) {
+    $app = lookup_app($a);
+    $plat = lookup_platform($platform);
+    $vnum = parse_version($v);
+    $av = BoincAppVersion::lookup("appid=$app->id and version_num=$vnum and platformid=$plat->id and plan_class='$plan_class'");
+    if ($av) return true;
+    return false;
+}
+
+function missing_files($fds) {
+    $missing = false;
+    foreach ($fds as $fd) {
+        if (!$fd->present) {
+            echo "   File $fd->physical_name is listed in version.xml but not present\n";
+            $missing = true;
+        }
+    }
+    return $missing;
+}
+
+// Check whether there's a main program
+//
+function check_main_program($fds) {
+    $n = 0;
+    foreach ($fds as $fd) {
+        if ($fd->main_program) $n++;
+    }
+    if ($n == 0) {
+        die("    No file was marked as the main program.\n");
+    }
+    if ($n > 1) {
+        die("    More than one file was marked as the main program.\n");
+    }
+}
+
+function confirm($fds) {
+    echo "    Files:\n";
+    foreach ($fds as $fd) {
+        echo "        $fd->physical_name";
+        if ($fd->main_program) {
+            echo " (main program)";
+        }
+        echo "\n";
+    }
+    echo "    Do you want to add this application version (y/n)? ";
+    $x = trim(fgets(STDIN));
+    return ($x == "y");
+}
+
+function get_bool($xml_element, $name) {
+    foreach($xml_element->xpath($name) as $x) {
+        $s = trim((string) $x);
+        if ($s == "" || int($s)>0) return true;
+    }
+    return false;
+}
+
+// convert SimpleXMLElement object to a standard object
+//
+function convert_simplexml($x) {
+    $fds = array();
+    $fxs = $x->xpath('file');
+    foreach ($fxs as $fx) {
+        //echo "fx: "; print_r($fx);
+        $fd = null;
+
+        $fd->present = false;
+        $fd->physical_name = trim((string) $fx->physical_name);
+        $fd->logical_name = trim((string) $fx->logical_name);
+        $fd->url = array();
+        foreach($fx->xpath('url') as $url) {
+            $fd->url[] = trim((string) $url);
+        }
+        $fd->main_program = get_bool($fx, "main_program");
+        $fd->copy_file = get_bool($fx, "copy_file");
+        $fd->gzip = get_bool($fx, "gzip");
+
+        $fds[] = $fd;
+    }
+    $v = null;
+    $v->files = $fds;
+    $v->dont_throttle = get_bool($x, "dont_throttle");
+    $v->needs_network = get_bool($x, "needs_network");
+    $v->file_prefix = (string)$x->file_prefix;
+    return $v;
+}
+
+function process_version($a, $v, $p) {
+    echo "Found application version: $a $v $p\n";
+    $app = lookup_app($a);
+    parse_platform_name($p, $platform, $plan_class);
+    if (already_exists($a, $v, $platform, $plan_class)) {
+        echo "  This app version already exists\n";
+        return;
+    }
+    $vfile = "apps/$a/$v/$p/version.xml";
+    if (is_file($vfile)) {
+        $x = simplexml_load_file($vfile);
+        if (!$x) {
+            die("Can't load XML file apps/$a/$v/$p.  Check that it exists and is valid.");
+        }
+        $vers = convert_simplexml($x);
+    } else {
+        $vers = null;
+        $vers->files = array();
+    }
+
+    $fds = process_files($a, $v, $p, $vers->files);
+
+    if (missing_files($fds)) return;
+    if (sizeof($fds) == 1) {
+        $fds[0]->main_program = true;
+    }
+    check_main_program($fds);
+    $api_version = get_api_version($a, $v, $p, $fds);
+
+    if (!confirm($fds)) {
+        return;
+    }
+
+    $xml = "";
+    foreach ($fds as $fd) {
+        $xml .= file_info_xml($fd);
+    }
+    $xml .=
+        "<app_version>\n".
+        "    <app_name>".$app->name."</app_name>\n".
+        "    <version_num>".parse_version($v)."</version_num>\n".
+        "    <api_version>$api_version</api_version>\n"
+    ;
+    foreach ($fds as $fd) {
+        $xml .= file_ref_xml($fd);
+    }
+    if ($vers->dont_throttle) {
+        $xml .= "    <dont_throttle/>\n";
+    }
+    if ($vers->needs_network) {
+        $xml .= "    <needs_network/>\n";
+    }
+    if ($vers->file_prefix != "") {
+        $xml .= "    <file_prefix>$vers->file_prefix</file_prefix>\n";
+    }
+    $xml .= "</app_version>\n";
+
+    $now = time();
+    $vnum = parse_version($v);
+    $plat = lookup_platform($platform);
+    $query = "set create_time=$now, appid=$app->id, version_num=$vnum, platformid=$plat->id , xml_doc='$xml', plan_class='$plan_class'";
+
+    $id = BoincAppVersion::insert($query);
+    if ($id) {
+        echo "    Application version added successfully; ID=$id\n";
+    } else {
+        echo "    Error; application version not added\n";
+    }
+}
+
+function scan_version_dir($a, $v) {
+    $d = opendir("apps/$a/$v");
+    while ($p = readdir_aux($d)) {
+        process_version($a, $v, $p);
+    }
+}
+
+function scan_app_dir($a) {
+    $d = opendir("apps/$a");
+    while ($v = readdir_aux($d)) {
+        if (parse_version($v) < 0) {
+            echo "$v is not a version number; skipping\n";
+            continue;
+        }
+        scan_version_dir($a, $v);
+    }
+    closedir($d);
+}
+
+function scan_apps() {
+    $d = opendir("apps");
+    while ($a = readdir_aux($d)) {
+        if (!lookup_app($a)) {
+            echo "$a is not an app\n";
+            continue;
+        }
+        scan_app_dir($a);
+    }
+}
+
+scan_apps();
+touch("reread_db");     // if feeder is running, tell it to reread DB
+
+?>

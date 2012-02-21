@@ -1,0 +1,316 @@
+User setup experience
+---------------------
+
+This document describes the user experience in
+the new BOINC setup procedure
+(i.e., setting up BOINC for the first time on a computer,
+or attaching to a project from a running client).
+
+The design has the following advantages
+relative to the old setup procedure:
+
+1) Simplicity.
+The user interaction is simpler in all cases.
+The user doesn't have to
+deal with the authenticator in the average case,
+there's no reliance on email,
+and no need to pre-create an account on a web site.
+
+2) Resolution of common problems up front.
+In particular, is a host uses a proxy,
+the setup process figures this out and
+tells the user what to do,
+rather than erroring out and requiring the
+user to figure out what's going on.
+
+This document does NOT describe the implementation.
+(that's in ui_impl.txt).
+I've used function notation here only because there is some overlap
+between the various cases.
+
+
+A) Project-specific installer case
+--------------------------------
+
+- Get installer for project (PROJ_URL)
+	either by downloading from site or on project-specific CD-ROM
+
+- Run installer
+
+- Manager starts up, opens window
+
+- If there is not already an account for PROJ_URL
+	call attach_to_project(PROJECT_URL, false)
+
+--------------------
+
+B) Generic installer case
+
+1) user gets generic installer from boinc.berkeley.edu
+	or on CD-ROM
+
+2) run installer
+
+3) manager starts up, opens window
+
+4) if there are no accounts
+	call get_url_and_attach()
+
+----------------------
+
+C) "Attach to new project" case
+
+1) call get_url_and_attach()
+
+=======================================================
+
+function get_url_and_attach()
+
+1) Dialog:
+
+Enter the URL of a BOINC-based project: _____________ (text field)
+
+For more information, and to see a list
+of some BOINC-based projects, go to
+http://boinc.berkeley.edu [link]
+
+OK [button]
+Cancel [button]
+
+2) if OK:
+call attach_to_project(PROJ_URL, true)
+
+-------------------------
+
+function attach_to_project(PROJ_URL, bool user_supplied_url)
+
+1) Dialog ("query_key"):
+
+	Attaching to PROJ_URL.
+	Do you already have an account key for PROJ_URL?
+    (example:  0123abc...)
+
+	No - create new account key [button]
+	Yes [button]  paste account key here: ______________________ [text field]
+				  How to find an existing account key [button]
+    Cancel
+
+Dialog (how to find an existing account key):
+
+	Each account on PROJ_URL has an "account key".
+	An account key is a string of 32 random characters.  For example:
+		xxxx
+	There are two ways to find an account key:
+	1) On the computer where you created the account,
+		- run the BOINC Manager,
+		- select this project in the Projects tab,
+		- click on the Account Key button.
+	2) If you entered an email address for the account,
+		the account key was sent to you in an email message
+		(you can request another email by going
+        here [link to PROJ_URL/get_passwd.php]
+
+	Copying an account key by hand is prone to errors.
+	We recommend that you transfer the account key in a file or email message
+	to the computer where it is needed,
+	and then copy and paste it into the BOINC Manager.
+
+	Close [button] (closes dialog, returns to query_key)
+
+If answer to 1) is "no":
+
+OPTIONAL: dialog
+    "We will now create a new account for you.
+    This account will not inherit the credit from any
+    previous account you may have created.
+    If you're not sure if you already have an account,
+    click here for instructions on how to get its account key:
+    Instructions [button]
+
+    Otherwise click OK to continue.
+    OK [button]
+
+
+2) BOINC client tries to communicates with project, create account
+
+3) if succeed in creating account
+Dialog ("welcome"):
+
+	Welcome to PROJ_NAME
+	Your web browser should now show a
+	form for entering your name and email.
+	If you don't see this form, check your browser settings,
+	visit PROJ_URL [link] and click on My Account.
+
+	Close [button]
+
+Web page (foo.edu/welcome.php?auth=xxxxx)
+
+	Welcome to PROJ_NAME.
+
+	Your new account has a name and optional email address.
+	You can changes these if you like:
+	Name: xxx (the user's account name on host)
+	(this will be shown on our web site)
+	Email address:
+	(this will not be displayed or distributed)
+	OK to send periodic email newsletters [checkbox]
+	Update [button]
+
+	Foo@home will use processing time and disk space on your computer,
+	and will periodically make Internet connections.
+	You can control a number of 'settings' that limit these activities.
+	The default settings are OK for most people.
+	To view or modify your settings, click here [link]
+
+	You can also keep track of your computers and work totals,
+	find answers to common problems,
+	exchange messages with other users,
+	and create a "profile" of yourself
+	(including a picture, if you like)
+	that other participants can see.
+	To access these features,
+	go to the Foo@home home page [link]
+
+
+	Notes:
+		- update button goes to a "account info updated" page
+		- if email address already exists, show
+			"An account with that email address already exists.
+
+
+
+(User is done)
+
+
+4) if project replies with an error message:
+
+Dialog ("project_unavailable"):
+
+	PROJ_NAME is temporarily unavailable.
+	Please check PROJ_URL [link] for information.
+	To try again later, select the "Projects" tab,
+	and click on "Attach to new project".
+
+	OK [button]
+
+Go to Projects tab.
+user is done.
+
+5) If no connection failure or no reply
+	retry = network_failure()
+	if (retry) go to 2
+
+
+If answer to 4) is "yes":
+
+10) if account key is syntactically invalid
+
+Dialog ("invalid_key"):
+
+	The account key xxx is invalid.
+	Account keys are 32 characters, each of which is a-f or 0-9.
+	Please reenter the key.
+
+	OK [button]
+
+11) If project is up, and account key is verified
+
+Dialog ("valid_key"):
+	Account key is valid.
+	This computer is now participating in Foo@home.
+
+	OK [button]
+
+User is done.
+
+12) If project is up, and account key is not verified
+Dialog ("unrecognized_key"):
+	xxx is not the key of any existing account on Foo@home.
+	Account keys from other BOINC projects will not work on Foo@home.
+	Please check your account key.
+
+	OK [button]
+
+Go to 4
+
+13) if project replies with an error message:
+
+Dialog ("project_unavailable"):
+
+	Foo@home is temporarily unavailable.
+	Please check http://foo.edu [link] for information.
+	To try again later, select the "Projects" tab,
+	and click on "Attach to new project".
+
+	OK [button]
+
+Go to Projects tab.
+user is done.
+
+14) else (if no reply): call network_failure(user_supplied_url)
+
+----------------
+
+function network_failure(bool user_supplied_url):
+
+(called when an operation to a project failed to connect
+or got no reply.
+Returns true if we should retry the operation.)
+
+Dialog ("unable_to_contact"):
+
+	BOINC is unable to contact PROJ_URL
+	Possible reasons are:
+
+	1) You may need to tell BOINC your proxy settings.
+	We are opening a web page with instructions for how to do this.
+
+	Change proxy settings now [button]
+
+	2) You may be running network security software that is
+	blocking BOINC's network access.
+	Unblock BOINC and click Retry.
+
+	3) There may be a network problem
+	or the PROJ_URL servers may be down.
+	(In either case your web browser will show
+	an error for the proxy instruction page).
+	To try again later, select the "Projects" tab,
+	and click on "Attach to new project".
+
+if User_supplied_url is true, add
+
+	3) You may have entered the project URL incorrectly.
+
+	Retry [button]
+	Cancel [button]
+
+If chose "change proxy settings"
+	put up Options dialog
+
+If chose Retry
+	return true
+
+If chose Cancel
+	return false
+
+Web page (PROJ_URL/proxy_problems.php)
+
+	Some computers access the Internet via "proxies".
+	In this case BOINC must be told the names and types
+	of these proxies in order to work correctly.
+
+	Since you are able to see this page,
+	your web browser already has the right proxy settings.
+	You can find these settings as follows:
+	Mozilla/FireFox:
+		Select "Preferences" in the Edit menu.
+		Then select Advanced/Proxies
+	Internet Explorer:
+		Select "Internet Options" in the Tools menu.
+		Select the "Connections" tab.
+		Click "LAN Settings".
+
+	You can change BOINC's proxy setting by selecting
+	the Options item in the Tools menu.

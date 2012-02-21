@@ -1,0 +1,10 @@
+# Pootle preferences for project boinctrunk, language ru
+
+rights:
+  SaharovNA = u'view, suggest, translate, overwrite, review, archive, pocompile, assign, admin, commit'
+  default = u'view, suggest, archive'
+  nobody = u'view, pocompile'
+  romw = u'view, suggest, translate, overwrite, review, archive, pocompile, assign, admin, commit'
+  mifistorX = u'view, suggest, translate, overwrite, review, archive, pocompile, assign, admin, commit'
+  DeadJDona = u'view, suggest, archive'
+  davea = u'view, suggest, translate, overwrite, review, archive, pocompile, assign, admin, commit'

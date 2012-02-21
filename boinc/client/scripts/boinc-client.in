@@ -1,0 +1,500 @@
+#!/bin/sh 
+#
+# BOINC - start and stop the BOINC client daemon on Unix
+#
+#  Unix start/stop script to run the BOINC client as a daemon at
+#  system startup, as the 'boinc' user (not root!).
+#
+#  This version should work on unixes that have bash, zsh, or ksh.  If 
+#  started with another Bourne compatible shell, it will attempt to restart 
+#  in bash, zsh, or ksh.
+#
+#  Metadata for chkconfig and the SUSE equivalent INIT info are included below.
+#
+#  Usage:  boinc { start | stop | status | reload | restart }
+#  
+###
+# chkconfig: 345 98 02
+# description: This script starts the local BOINC client as a daemon
+#         For more information about BOINC (the Berkeley Open Infrastructure
+#         for Network Computing) see http://boinc.berkeley.edu
+# processname: boinc
+# config: /etc/sysconfig/boinc
+#
+### BEGIN INIT INFO
+# Provides: boinc
+# Required-Start: $network
+# Required-Stop:  $network
+# Default-Start: 3 4 5 
+# Default-Stop: 0 1 2 6
+# Short-Description: This script monitors the BOINC client.
+# Description: This script starts the local BOINC client as a daemon
+#         For more information about BOINC (the Berkeley Open Infrastructure
+#         for Network Computing) see http://boinc.berkeley.edu
+### END INIT INFO
+#
+# Eric Myers <myers@vassar.edu>  - 27 July 2004
+# Department of Physics and Astronomy, Vassar College, Poughkeepsie NY
+# Eric Myers <myers@spy-hill.net> 
+# Spy Hill Research, Poughkeepsie, New York
+# @(#) $Id: boinc,v 1.10 2007/12/27 20:09:09 myers Exp $
+#
+# Modified by Eric Korpela <korpela@ssl.berkeley.edu> - 11 Apr 2008
+########################################################################
+
+# Defaults, which can be overridden by putting new NAME=value lines 
+#  in /etc/sysconfig/boinc-client, /etc/default/boinc-client, 
+#  /etc/boinc-client.conf, or the same files under ${sysconfdir}
+
+## These 4 installation dirs set by autoconf. ##########################
+prefix=`dirname @prefix@/.`
+exec_prefix=`dirname @exec_prefix@/.`
+bindir=`dirname @bindir@/.`
+sysconfdir=`dirname @sysconfdir@/.`
+########################################################################
+
+# set the basic PATH
+PATH=/sbin:/bin:/usr/sbin:/usr/bin:/usr/ucb/bin
+export PATH
+
+# Find the correct ps to use.  On solaris /usr/ucb/ps is the one to use
+# on everything else, we hope the first one in the path is the right one.
+if [ -x /usr/ucb/ps ] ; then
+  PS=/usr/ucb/ps
+else
+  PS=ps
+fi
+
+########################################################################
+#
+# Figure out if we are running under an acceptable shell 
+# (bash, ksh, zsh) which supports functions.
+#
+########################################################################
+SHELLS="bash ksh zsh"
+# count how many times we've tried to restart
+TRIES=$2
+if [ -z "$TRIES" ] ; then
+  TRIES=0
+fi
+# bash and zsh are easy to test.
+if [ -z "$BASH_VERSION" -a -z "$ZSH_VERSION" ] ; then
+  # we aren't running under bash or zsh, check for ksh
+  if [ -z "`echo ${ENV} | grep ksh`" ] ; then
+    # still might be ksh.  One last shot.
+    if [ -z "`${PS} $$ | tail -1 | grep ksh`" ] ; then
+      # as far as I can tell we aren't in an approved shell
+      TRIES=`expr $TRIES + 1`
+      # have we tried too many times?
+      if [ $TRIES -gt 4 ] ; then 
+        echo "ERROR: endless loop discovered in $0 [ERROR]"
+        exit 1
+      fi
+      for try in $SHELLS ; do
+        ex=`which $try`
+        if [ ! -z "${ex}" -a -x "${ex}" ] ; then
+          if ${ex} $0 $1 $TRIES ; then
+            # it worked, we can exit
+            exit 0
+          else
+            # it failed for some reason that should have been printed
+            # by the script
+            exit 1
+          fi
+        fi
+      done
+      # if we got here, we tried everything.
+      echo "ERROR: $0 requires bash, zsh, or ksh to run.	[FALIED]"
+      exit 1
+    fi
+    #if we got here or below, were in an approved shell.
+  fi
+fi
+########################################################################
+
+
+# Name of user to run as:
+#
+BOINCUSER=boinc
+
+# Working directory.  Could be /home/boinc, /var/lib/boinc, etc..
+# The reason I prefer /var/lib/boinc is that this works best for a 
+# cluster of computers where /home/anything might be shared between machines
+#
+BOINCDIR=/var/lib/boinc
+
+# Name of the client executable.  This is the file "boinc" if you 
+# unpacked the download file  boinc_M.mm.rr_i686-pc-linux-gnu.sh,
+# but I like to rename it and put it in a public place.
+# (Hint: move boincmgr to /usr/local/bin too so anyone can easily use it).
+#
+BOINCEXE_NAME=boinc_client
+BOINCEXE=${bindir}/${BOINCEXE_NAME}
+BOINCCMD_NAME=boinccmd
+BOINCCMD=${bindir}/${BOINCCMD_NAME}
+
+# Log files (you should rotate these occasionally)
+#
+LOGFILE=/var/log/${BOINCEXE_NAME}.log
+ERRORLOG=/var/log/${BOINCEXE_NAME}_err.log
+
+# PID file
+PIDFILE=/var/run/${BOINCEXE_NAME}.pid
+
+# BOINC options: for the command line when running the client.  
+# Be aware that --allow_remote_gui_rpc opens up your machine to the world!
+#
+# Add this option if you want to allow boinc manager connections from remote
+# machines
+#BOINCOPTS="--allow_remote_gui_rpc"   
+# Add this option if you want to turn off all logging
+#BOINCOPTS="--daemon"
+# Add this option if you want to redirect logging to the files stderrdae.txt
+# and stdoutdae.txt in BOINCDIR rather than LOGFILE and ERRORLOG
+#BOINCOPTS="--redirectio"
+# Add this option if you want to run only when no logins from anywhere are 
+# active
+#BOINCOPTS="--check_all_logins"
+# The default is no options.
+BOINCOPTS=
+
+# Subsys lock file ...
+
+# If there is the subsys directory, then use it ...
+if [ -d /var/lock/subsys/ ]; then
+        LOCKFILE=/var/lock/subsys/${BOINCEXE_NAME}
+elif [ -d /var/lock ]; then
+        LOCKFILE=/var/lock/${BOINCEXE_NAME}
+elif [ -d /var/run ]; then
+        LOCKFILE=/var/run/${BOINCEXE_NAME}.lock
+fi
+
+# su on Linux seems to need this to be set to work properly in a script
+export TERM=dumb
+
+
+##
+# Init script function library.   This stuff is Red Hat specific,
+# but if the functions are not found we create our own simple replacements.
+# (The idea for replacing the functions comes from OpenAFS.  Thanks guys!)
+
+if [ -f /etc/rc.d/init.d/functions ] ; then
+      . /etc/rc.d/init.d/functions
+else
+      if printf "Hello" >/dev/null 2>/dev/null ; then
+           # printf works
+           printcol='printf \033[60G%s'
+      elif echo -en "Hello" >/dev/null 2>/dev/null ; then
+           # echo -en works
+           printcol='echo -en \033[60G'
+      else
+           # no printf make do with echo -n
+           printcol="echo -n .........."
+      fi
+      function echo_success () { $printcol "[OK]" ; }
+      function echo_failure () { $printcol "[FAILED]" ; }
+      function echo_warning () { $printcol "[WARNING]" ; }
+      function killproc() {
+             PID=`local_pidof $1`
+             [ $PID ] && kill $PID 
+      }
+fi
+
+# check if we have pidof.  If not use ps and grep for the same job.
+if [ -x /sbin/pidof ] ; then 
+  function local_pidof() { 
+    pidof -s -x -o $$ -o $PPID -o %PPID $1 
+  } 
+else
+  function local_pidof() {
+    ${PS} xaugww | sed 's/$/ /' | grep "[ /]$1 " | grep -v $$ | grep -v $PPID | grep -v %PPID | grep -v grep | awk '{print $2}'
+  }
+fi
+
+#
+# Check if we have runuser, since it will never hang waiting for a password.  
+# If we don't have it, use su for the same job.
+# 
+if [ ! -x /sbin/runuser ] ; then
+  RUNUSER=su
+else 
+  RUNUSER=runuser
+fi
+
+# Some additional places to look for executables
+# (Should do this after init.d/functions and sysconfig/boinc, which sets PATH)
+export PATH=${PATH}:${exec_prefix}/sbin:${bindir}
+
+
+## Look for any local configuration settings which override all above
+## Note: ./boinc-client.conf and ./boinc.conf are for testing purposes
+config_files="
+./boinc-client.conf
+./boinc.conf
+/etc/sysconfig/boinc-client
+/etc/default/boinc-client
+/etc/boinc-client.conf
+${sysconfdir}/sysconfig/boinc-client
+${sysconfdir}/default/boinc-client
+${sysconfdir}/boinc-client.conf
+/etc/sysconfig/boinc
+/etc/default/boinc
+/etc/boinc.conf
+${sysconfdir}/sysconfig/boinc
+${sysconfdir}/default/boinc
+${sysconfdir}/boinc.conf
+none
+"
+
+## find the correct config file
+for config_file in $config_files ; do
+  if [ -f ${config_file} ] ; then 
+    break; 
+  fi
+done
+
+if [ "${config_file}" != "none" ]; then
+  # check whether we are using a deprecated name
+  if [ "x$NOWARNING" != "xyes" -a -z "`echo ${config_file} | grep boinc-client`" ]; then
+    fn=`basename $config_file`
+    dn=`dirname $config_file`
+    newname=`echo $fn | sed 's/boinc/boinc-client/'`
+    echo -n "The filename '${config_file}' is deprecated..."
+    echo_warning
+    echo
+    echo -n "Please rename your config file to '${dn}/${newname}'"
+    echo_warning
+    echo
+  fi
+  # execute the config file.
+  . ${config_file}
+fi
+
+
+## Add ${BOINCDIR} to the path, just in case the executables are stored there.
+export PATH=${PATH}:${BOINCDIR}
+
+## Create the working directory if it doesn't exist:
+if [ ! -d $BOINCDIR ]; then
+  echo -n "Creating $BOINCDIR "
+  if mkdir -p $BOINCDIR 2>/dev/null ; then
+    if [ -n "$BOINCUSER" ] ; then
+      if chown $BOINCUSER $BOINCDIR ; then
+        echo_success
+      else
+        echo_failure
+        echo
+        exit 7
+      fi
+    fi
+  else
+    echo_failure
+    echo
+    exit 7
+  fi
+fi
+
+## Check what user we are running as:
+# we can't rely on the existence of "whoami" or "logname", so we'll use ps.
+USERNOW=`${PS} u $$ | tail -1 | awk '{print $1}'`
+if [ -z "$BOINCUSER" ] ; then
+  BOINCUSER="${USERNOW}"
+fi
+
+## Check that BOINCUSER actually exists
+if [ -z "`grep ^${BOINCUSER}: /etc/passwd`" ] ; then
+  if [ -z "`ypcat passwd 2>/dev/null | grep ^${BOINCUSER}:`" ] ; then 
+    if [ -z "`nidump passwd / 2>/dev/null | grep ^${BOINCUSER}:`" ] ; then 
+       echo -n ERROR: user ${BOINCUSER} does not exist.
+       echo_failure
+       echo
+       exit 9
+    fi
+  fi
+fi
+
+# if we are running as root, print a warning.
+if [ "x$NOWARNING" != "xyes" -a  "$BOINCUSER" = "root" ] ; then
+  echo -n WARNING: boinc-client will be running as root
+  echo_warning
+  echo
+fi
+
+# check whether we will be able to write to the BOINC directory
+if [ "${USERNOW}" = "${BOINCUSER}" ] ; then
+  if [ ! -O ${BOINCDIR} ] ; then
+    echo -n ERROR: $BOINCDIR is not owned by $BOINCUSER.
+    echo_failure
+    echo
+    exit 8
+  fi
+elif [ "${USERNOW}" = "root" ] ; then
+  cmd="if test -O ${BOINCDIR} ; then echo success ; fi"
+  if [ -z `su $BOINCUSER -c "$cmd"` ]; then
+    echo -n ERROR: $BOINCDIR is not owned by $BOINCUSER.
+    echo_failure
+    echo
+    exit 8
+  fi
+fi
+
+
+## Locate the executable, either boinc_client, boinc, 
+## or boinc_M.mm_.... with highest version number
+## We only do this if BOINCEXE set above isn't found or is not executable.
+if [ ! -x $BOINCEXE ]; then
+  BOINCEXE=`$WHICH $BOINCEXE_NAME 2>/dev/null`
+  if [ ! -x "$BOINCEXE" ]; then
+    BOINCEXE=`$WHICH boinc 2>/dev/null`
+  fi
+fi
+
+if [ ! -x "$BOINCEXE" ]; then
+  echo -n "Cannot find an executable for the BOINC client."
+  echo_failure
+  echo 
+  exit 2
+fi
+
+## boinccmd will probably be in the same place as the boinc_client
+if [ ! -x $BOINCCMD ]; then
+  BOINCCMD=`$WHICH $BOINCCMD_NAME 2>/dev/null`
+  if [ ! -x "$BOINCCMD" ]; then
+    BOINCCMD=`dirname $BOINCEXE 2>/dev/null`/${BOINCCMD_NAME}
+  fi
+fi
+
+
+if [ "x$NOWARNING" != "xyes" -a ! -x $BOINCCMD ]; then
+  echo -n "Cannot find the boinccmd executable.  Reload will fail."
+  echo_warning
+  echo
+fi
+
+## Functions: $1 is one of  start|stop|status|reload|restart
+
+export NOWARNING=yes
+
+case "$1" in
+  start)
+        cd $BOINCDIR
+        PID=`local_pidof $BOINCEXE_NAME`
+
+        if [ -f lockfile -o -f $LOCKFILE ] ; then
+          if [ -z "$PID" ] ; then
+            # a lockfile exists, but boinc_client isn't running
+            /bin/rm -f lockfile $LOCKFILE $PIDFILE 2>&1 > /dev/null
+          else 
+            echo -n "Another instance of BOINC is running (PID=${PID})."
+            echo_failure
+            echo 
+            exit 1
+          fi
+        fi
+
+        if [ ! -d projects ] ; then
+          echo -n "The BOINC client requires initialization."
+          echo_warning
+          echo 
+        fi
+
+        touch ${LOGFILE} ${ERRORLOG}
+        NOCORE="ulimit -c 0 2>&1 >/dev/null"
+        echo -n "Starting BOINC client as a daemon:  "
+        if [ "${BOINCUSER}" = "${USERNOW}" ] ; then 
+           # I am BOINCUSER.  Just start client as me.
+           $NOCORE
+           $BOINCEXE $BOINCOPTS >>$LOGFILE 2>>$ERRORLOG &
+        else
+           chown ${BOINCUSER} ${LOGFILE} ${ERRORLOG}
+           if [ -f gui_rpc_auth.cfg ] ; then
+              chmod g+r gui_rpc_auth.cfg 
+           fi
+           ${RUNUSER} - $BOINCUSER -c "$NOCORE ; $BOINCEXE $BOINCOPTS >>$LOGFILE 2>>$ERRORLOG" 2>/dev/null > /dev/null &
+        fi
+        sleep 3  
+        PID=`local_pidof $BOINCEXE_NAME`
+        if [ $PID ]; then
+          echo $PID > $PIDFILE
+          touch $LOCKFILE && echo_success || ( echo_failure ; echo )
+        fi
+        echo
+        ;;
+  stop)
+        cd $BOINCDIR
+        if [ ! -f $PIDFILE -a ! -f lockfile -a ! -f $LOCKFILE ] ; then
+          echo -n "BOINC is not running (no lockfiles found)."
+          echo_success
+        else
+          echo -n "Stopping BOINC client daemon:  "    
+          if [ -f $PIDFILE ] ; then
+            PID=`cat $PIDFILE`
+            if [ -n "`${PS} $PID | grep $PID`" ] ; then
+              kill `cat $PIDFILE`
+              sleep 5
+            fi
+            if [ -z "`${PS} $PID | grep $PID`" ] ; then
+              echo_success
+            else
+              echo_failure
+              echo
+            fi
+          else
+            killproc $BOINCEXE_NAME  && echo_success  || echo_failure 
+          fi
+          # clean up in any case
+          rm -f lockfile 2>/dev/null >/dev/null
+          rm -f $LOCKFILE 2>/dev/null
+          rm -f $PIDFILE 2>/dev/null
+        fi
+        echo
+        ;;
+  reload)
+        if [ ! -f lockfile -a ! -f $LOCKFILE ] ; then
+          echo  "BOINC is not running (no lockfiles found) -- starting service."
+          $0 start
+        else
+          $BOINCCMD --read_cc_config >>$LOGFILE 2>>$ERRORLOG && echo_success || $0 restart
+        fi
+        ;;
+  restart)
+        $0 stop
+        $0 start
+        ;;
+
+  status)
+        PID=`cat $PIDFILE 2>/dev/null`
+        if [ "$PID" != "" ]; then
+          # is it still running?
+          if [ -z "`${PS} $PID | grep $PID`" ]; then
+            # not running.  Try the other tests.
+            PID=""
+          fi
+        fi
+        if [ "$PID" == "" ]; then
+          PID=`local_pidof $BOINCEXE_NAME`
+        fi
+        if [ "$PID" == "" ]; then
+          PID=`local_pidof $BOINCEXE`
+        fi
+        if [ "$PID" != "" ]; then
+          echo "BOINC client is running (pid $PID)."
+        else
+          if [ -f $BOINCDIR/lockfile -o -f $LOCKFILE ]; then 
+             echo "BOINC is stopped but lockfile(s) exist."
+             exit 2
+          else 
+             echo "BOINC client is stopped."
+             exit 3
+          fi
+        fi
+        ;;
+
+  *)
+        echo "Usage: boinc {start|stop|restart|reload|status}"
+        exit 1
+esac
+
+exit
+
+#EOF#

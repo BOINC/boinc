@@ -1,0 +1,16 @@
+<version>
+   <file>
+      <physical_name>example_app_22489_windows_intelx86.exe</physical_name>
+      <main_program/>
+    </file>
+    <file>
+       <physical_name>example_app_graphics_22489_windows_intelx86.exe</physical_name>
+      <logical_name>graphics_app</logical_name>
+    </file>
+    <file>
+        <physical_name>Helvetica.txf</physical_name>
+    </file>
+    <file>
+        <physical_name>logo.jpg</physical_name>
+    </file>
+</version>

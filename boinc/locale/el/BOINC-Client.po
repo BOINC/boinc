@@ -1,0 +1,241 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2012-02-09 09:39-0800\n"
+"PO-Revision-Date: 2010-11-26 20:50+0200\n"
+"Last-Translator: chris g <chr1407@hotmail.com>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: el\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Pootle 2.1.6\n"
+
+#: acct_mgr.cpp:435 acct_mgr.cpp:444
+#, fuzzy
+msgid "Message from account manager"
+msgstr "Μήνυμα απο το διακομιστή του έργου:"
+
+#: client_msgs.cpp:79
+#, fuzzy
+msgid "Message from server"
+msgstr "Μήνυμα απο το διακομιστή του έργου:"
+
+#: client_state.cpp:246
+msgid ""
+"Some tasks need more memory than allowed by your preferences.  Please check "
+"the preferences."
+msgstr ""
+
+#: client_state.cpp:482
+msgid "Couldn't write state file; check directory permissions"
+msgstr ""
+"Δεν μπρόρεσε να γίνει εγγραφή του αρχείου κατάστασης, παρακαλώ ελέγξτε τα "
+"δικαιώματα καταλόγου"
+
+#: cs_cmdline.cpp:291
+msgid "The HTTP_PROXY environment variable must specify an HTTP proxy"
+msgstr "Η HTTP_PROXY μεταβλητή πρέπει να προσδιορίσει μια HTTP proxy"
+
+#: cs_scheduler.cpp:546
+#, c-format
+msgid ""
+"You used the wrong URL for this project.  When convenient, remove this "
+"project, then add %s"
+msgstr ""
+"Χρησιμοποιήσατε λανθασμένη ηλεκτρονική διεύθυνση. Όταν θα ευκαιρίσετε, "
+"αφαιρέστε αυτό το έργο και μετά προσθέστε %s"
+
+#: cs_statefile.cpp:810 ../sched/sched_types.cpp:252
+msgid "Syntax error in app_info.xml"
+msgstr "Συντακτικό σφάλμα στο app_info.xml"
+
+#: cs_statefile.cpp:850
+msgid "File referenced in app_info.xml does not exist: "
+msgstr "Το αρχείο που αναφέρεται στο app_info.xml δεν υπάρχει:"
+
+#: current_version.cpp:89
+msgid "A new version of BOINC is available."
+msgstr "Μια νέα έκδοση του BOINC είναι διαθέσιμη."
+
+#: current_version.cpp:91
+msgid "Download it."
+msgstr "Κατεβάστε τη."
+
+#: log_flags.cpp:256 log_flags.cpp:427
+msgid "Unexpected text in cc_config.xml"
+msgstr "Απρόσμενο κείμενο στο cc_config.xml"
+
+#: log_flags.cpp:401 log_flags.cpp:453
+msgid "Unrecognized tag in cc_config.xml"
+msgstr "Άγνωστη ετικέτα στο cc_config.xml"
+
+#: log_flags.cpp:418
+msgid "Missing start tag in cc_config.xml"
+msgstr "Η ετικέτα εκκίνησης απουσιάζει στο cc_config.xml"
+
+#: log_flags.cpp:443
+#, fuzzy
+msgid "Error in cc_config.xml options"
+msgstr "Άγνωστη ετικέτα στο cc_config.xml"
+
+#: log_flags.cpp:461
+msgid "Missing end tag in cc_config.xml"
+msgstr "Η ετικέτα τέλους απουσιάζει στο cc_config.xml"
+
+#: ../sched/handle_request.cpp:299
+msgid "Invalid or missing account key.  To fix, remove and add this project."
+msgstr ""
+"Ο κωδικός λογαριασμού είναι λασθασμένος ή απουσιάζει. Για διόρθωση, "
+"αποσυνδεθείτε και επανασυνδεθείτε σε αυτό το έργο."
+
+#: ../sched/handle_request.cpp:831
+msgid "Invalid code signing key.  To fix, remove and add this project."
+msgstr ""
+"Λανθασμένος κωδικός σύνδεσης. Για διόρθωση, αποσυνδεθείτε και "
+"επανασυνδεθείτε σε αυτό το έργο"
+
+#: ../sched/handle_request.cpp:841
+msgid ""
+"The project has changed its security key.  Please remove and add this "
+"project."
+msgstr ""
+"Το έργο άλλαξε το κλειδί ασφαλείας. Παρακαλώ αφαιρέστε και προσθέστε ξανά "
+"αυτό το έργο."
+
+#: ../sched/handle_request.cpp:925
+msgid "This project doesn't support operating system"
+msgstr "Αυτό το έργο δεν υποστηρίζει το λειτουργικό σύστημα"
+
+#: ../sched/handle_request.cpp:951
+msgid "This project doesn't support CPU type"
+msgstr ""
+"Αυτό το έργο δεν υποστηρίζει τον τύπο της κεντρικής μονάδας επεξεργασίας"
+
+#: ../sched/handle_request.cpp:975
+msgid ""
+"Your BOINC client software is too old.  Please install the current version."
+msgstr ""
+"Η έκδοση του BOINC σας είναι πολύ παλιά. Παρακαλώ εγκαταστείστε την "
+"τελευταία έκδοση."
+
+#: ../sched/handle_request.cpp:1235
+msgid "This project doesn't support computers of type"
+msgstr "Αυτό το έργο δεν υποστηρίζει υπολογιστές του τύπου"
+
+#: ../sched/sched_send.cpp:1365
+msgid "Upgrade to the latest driver to process tasks using your computer's GPU"
+msgstr ""
+"Αναβαθμίστε με τους τελευταίους οδηγούς προγράμματος για να εκτελείτε "
+"εργασίες χρησιμοποιώντας τη μονάδα επεξεργασίας γραφικών του υπολογιστή σας"
+
+#: ../sched/sched_send.cpp:1372
+msgid ""
+"Upgrade to the latest driver to use all of this project's GPU applications"
+msgstr ""
+"Αναβαθμίστε με τους τελευταίους οδηγούς προγράμματος για να χρησιμοποιείτε "
+"όλες τις εφαρμογές αυτού του έργου"
+
+#: ../sched/sched_send.cpp:1391
+msgid ""
+"A newer version of BOINC is needed to use your NVIDIA GPU; please upgrade to "
+"the current version"
+msgstr ""
+"Μια νέα έκδοση του BOINC χρειάζεται για να χρησιμοποιείσετε την μονάδα "
+"επεξεργασίας γραφικών της NVIDIA, παρακαλώ αναβαθμίστε στην τελευταία έκδοση"
+
+#: ../sched/sched_send.cpp:1404
+msgid "An NVIDIA or ATI GPU is required to run tasks for this project"
+msgstr ""
+"Μια μονάδα επεξεργασίας γραφικών NVIDIA ή ATI χρειάζεται για να εκτελέσετε "
+"εργασίες για αυτό το έργο"
+
+#: ../sched/sched_send.cpp:1409
+msgid "An NVIDIA GPU is required to run tasks for this project"
+msgstr ""
+"Μια μονάδα επεξεργασίας γραφικών NVIDIA χρειάζεται για να εκτελέσετε "
+"εργασίες για αυτό το έργο"
+
+#: ../sched/sched_send.cpp:1415
+msgid "An ATI GPU is required to run tasks for this project"
+msgstr ""
+"Μια μονάδα επεξεργασίας γραφικών ATI χρειάζεται για να εκτελέσετε εργασίες "
+"για αυτό το έργο"
+
+#: ../sched/sched_send.cpp:1523
+#, fuzzy
+msgid "No tasks are available for the applications you have selected."
+msgstr ""
+"Καμία εργασία δεν είναι διαθέσιμη για τις εφαρμογές που έχετε επιλέξει. "
+"Παρακαλώ ελέγξτε τις προτιμήσεις του έργου στην ιστοσελίδα του."
+
+#: ../sched/sched_send.cpp:1549
+msgid "Your computer type is not supported by this project"
+msgstr "Ο τύπος του υπολογιστή σας δεν υποστηρίζεται απο αυτό το έργο"
+
+#: ../sched/sched_send.cpp:1555
+msgid "Newer BOINC version required; please install current version"
+msgstr ""
+"Απαιτείται νεότερη έκδοση του BOINC, παρακαλώ εγκαταστείστε την τελευταία "
+"έκδοση"
+
+#: ../sched/sched_send.cpp:1565
+msgid ""
+"Tasks for NVIDIA GPU are available, but your preferences are set to not "
+"accept them"
+msgstr ""
+"Εργασίες για την μονάδα επεξεργασίας γραφικών NVIDIA είναι διαθέσιμες, αλλά "
+"ρυθμίσεις σας δεν επιτρέπουν την αποδοχή τους"
+
+#: ../sched/sched_send.cpp:1571
+msgid ""
+"Tasks for ATI GPU are available, but your preferences are set to not accept "
+"them"
+msgstr ""
+"Εργασίες για την μονάδα επεξεργασίας γραφικών ATI είναι διαθέσιμες, αλλά "
+"ρυθμίσεις σας δεν επιτρέπουν την αποδοχή τους"
+
+#: ../sched/sched_send.cpp:1577
+msgid ""
+"Tasks for CPU are available, but your preferences are set to not accept them"
+msgstr ""
+"Εργασίες για την κεντρικη μονάδα επεξεργασίας είναι διαθέσιμες, αλλά "
+"ρυθμίσεις σας δεν επιτρέπουν την αποδοχή τους"
+
+#: ../sched/sched_types.cpp:247
+msgid "Unknown app name in app_info.xml"
+msgstr "Άγνωστο όνομα εφαρμογής στο app_info.xml"
+
+#: ../sched/sched_version.cpp:230
+msgid "Your app_info.xml file doesn't have a usable version of"
+msgstr "Το app_info.xml σας δεν έχει μια χρησιμοποιήσιμη έκδοση του"
+
+#~ msgid "error"
+#~ msgstr "σφάλμα"
+
+#~ msgid "Can't resolve hostname in remote_hosts.cfg"
+#~ msgstr ""
+#~ "Δε μπορεί να γίνει επίλυση του κεντρικού ονόματος στο remote_hosts.cfg"
+
+#, fuzzy
+#~ msgid "is not available for"
+#~ msgstr "δεν είναι διαθέσιμο για τον τύπο του υπολιγιστή σας"
+
+#~ msgid "Notice from BOINC"
+#~ msgstr "Σημείωση απο το BOINC"
+
+#~ msgid "Message from"
+#~ msgstr "Μήνυμα απο"
+
+#~ msgid ""
+#~ "You may have an outdated code signing key.  Try attaching and reattaching "
+#~ "this project."
+#~ msgstr ""
+#~ "Έχετε έναν απαρχαιωμένο κωδικό πρόσβασης. Παρακαλώ αποσυνδεθείτε και "
+#~ "επανασυνδεθείτε στο έργο."

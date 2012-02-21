@@ -1,0 +1,13 @@
+#! /bin/sh
+#
+# YD run this script from root dir, e.g. sh -c os2/configure.os2
+#
+CFLAGS="-g -Zomf -O3 -march=pentium -mcpu=pentium3" \
+CXXFLAGS="-g -Zomf -O3 -march=pentium -mcpu=pentium3" \
+LDFLAGS="-g -Zstack 0x100 -Zbin-files -Zmap -Zhigh-mem -Zomf -Zexe" \
+LN_CP_F="cp.exe" \
+RANLIB="echo" \
+AR="emxomfar" \
+STRIP="echo" \
+LIBS="-lssl -lcrypto -lsocket -lz" \
+./configure --disable-shared --disable-server --enable-client --prefix=/usr/local/seti --with-ssl=e:/dev/gcc06/local

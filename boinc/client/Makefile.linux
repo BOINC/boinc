@@ -1,0 +1,65 @@
+CC = g++ -g -I ../ -I ../lib/
+
+PROGS = boinc_client
+
+all: $(PROGS)
+
+OBJ = \
+    acct_mgr.o \
+    acct_setup.o \
+    app.o \
+    app_control.o \
+    app_graphics.o \
+    app_start.o \
+    check_state.o \
+    client_msgs.o \
+    client_state.o \
+    client_types.o \
+    cpu_sched.o \
+    cs_account.o \
+    cs_apps.o \
+    cs_benchmark.o \
+    cs_cmdline.o \
+    cs_data.o \
+    cs_files.o \
+    cs_prefs.o \
+    cs_scheduler.o \
+    cs_statefile.o \
+    cs_trickle.o \
+    dhrystone.o \
+    dhrystone2.o \
+    file_names.o \
+    file_xfer.o \
+    gui_http.o \
+    gui_rpc_server.o \
+    gui_rpc_server_ops.o \
+    hostinfo_network.o \
+    hostinfo_unix.o \
+    http_curl.o \
+    log_flags.o \
+    main.o \
+    net_stats.o \
+    pers_file_xfer.o \
+    scheduler_op.o \
+    time_stats.o  \
+    whetstone.o
+
+clean:
+	rm $(PROGS) $(OBJ)
+
+LIBS = -L ../lib \
+    -lboinc \
+    -lpthread \
+    -lssl \
+    -L /usr/local/lib/ -lcurl
+
+.cpp.o:
+	$(CC) -c -o $*.o $<
+
+boinc_client: $(OBJ)
+	$(CC) $(OBJ) $(LIBS) -o boinc_client
+
+dependencies: *.cpp
+	$(CC) -M *.cpp > dependencies
+
+include dependencies

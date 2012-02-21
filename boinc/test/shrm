@@ -1,0 +1,5 @@
+#! /usr/bin/env csh
+
+set NAME=`whoami`
+set NUM=`ipcs | grep $NAME | awk '{print $2}'`
+ipcrm -m $NUM

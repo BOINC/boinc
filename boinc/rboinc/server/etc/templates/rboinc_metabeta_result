@@ -1,0 +1,110 @@
+<file_info>
+    <name><OUTFILE_0/></name>
+    <generated_locally/>
+    <upload_when_present/>
+    <max_nbytes>100000000</max_nbytes>
+    <url><UPLOAD_URL/></url>
+    <gzip_when_done/>
+    <rboinc aliases=".log.gz .log .log.gz.bad"/>
+</file_info>
+<file_info>
+    <name><OUTFILE_1/></name>
+    <generated_locally/>
+    <upload_when_present/>
+    <max_nbytes>50000000</max_nbytes>
+    <url><UPLOAD_URL/></url>
+    <rboinc aliases=".coor" chain="2"/>
+</file_info>
+<file_info>
+    <name><OUTFILE_2/></name>
+    <generated_locally/>
+    <upload_when_present/>
+    <max_nbytes>50000000</max_nbytes>
+    <url><UPLOAD_URL/></url>
+    <rboinc aliases=".vel" chain="3"/>
+</file_info>
+<file_info>
+    <name><OUTFILE_3/></name>
+    <generated_locally/>
+    <upload_when_present/>
+    <max_nbytes>50000000</max_nbytes>
+    <url><UPLOAD_URL/></url>
+    <rboinc aliases=".idx" chain="4"/>
+</file_info>
+<file_info>
+    <name><OUTFILE_4/></name>
+    <generated_locally/>
+    <upload_when_present/>
+    <max_nbytes>128000000</max_nbytes>
+    <url><UPLOAD_URL/></url>
+    <gzip_when_done/>
+    <rboinc aliases=".dcd.gz .dcd .dcd.gz.bad"/>
+</file_info>
+<file_info>
+    <name><OUTFILE_5/></name>
+    <generated_locally/>
+    <upload_when_present/>
+    <max_nbytes>10000000</max_nbytes>
+    <url><UPLOAD_URL/></url>
+    <gzip_when_done/>
+    <rboinc aliases=".colvar.gz .colvar"/>
+</file_info>
+<file_info>
+    <name><OUTFILE_6/></name>
+    <generated_locally/>
+    <upload_when_present/>
+    <max_nbytes>10000000</max_nbytes>
+    <url><UPLOAD_URL/></url>
+    <gzip_when_done/>
+    <rboinc aliases=".plumedlog.gz .plumedlog"/>
+</file_info>
+<file_info>
+    <name><OUTFILE_7/></name>
+    <generated_locally/>
+    <upload_when_present/>
+    <max_nbytes>10000000</max_nbytes>
+    <url><UPLOAD_URL/></url>
+    <rboinc chain="10" aliases=".hills"/>
+</file_info>
+<result>
+    <file_ref>
+        <file_name><OUTFILE_0/></file_name>
+        <open_name>progress.log</open_name>
+    </file_ref>
+    <file_ref>
+        <file_name><OUTFILE_1/></file_name>
+        <open_name>output.coor</open_name>
+    </file_ref>
+    <file_ref>
+        <file_name><OUTFILE_2/></file_name>
+        <open_name>output.vel</open_name>
+    </file_ref>
+    <file_ref>
+        <file_name><OUTFILE_3/></file_name>
+        <open_name>output.idx</open_name>
+    </file_ref>
+    <file_ref>
+        <file_name><OUTFILE_4/></file_name>
+        <open_name>output.dcd</open_name>
+        <optional/>
+    </file_ref>
+    <file_ref>
+        <file_name><OUTFILE_5/></file_name>
+        <open_name>COLVAR</open_name>
+        <copy_file/>
+        <optional/>
+    </file_ref>
+    <file_ref>
+        <file_name><OUTFILE_6/></file_name>
+        <open_name>log.file</open_name>
+        <copy_file/>
+        <optional/>
+    </file_ref>
+    <file_ref>
+        <file_name><OUTFILE_7/></file_name>
+        <open_name>HILLS</open_name>
+        <copy_file/>
+        <optional/>
+    </file_ref>
+</result>
+

@@ -1,0 +1,77 @@
+a:link {
+	color: rgb(245, 185, 0);
+}
+
+a:visited {
+	color: rgb(225, 140, 0);
+}
+
+a:active {
+	color: yellow;
+}
+
+body {
+	background-color: black;
+    color: white;
+}
+
+table.bordered {
+      border: 1px solid grey;
+}
+
+table.question {
+    border: 1px solid black;
+}
+
+th {
+	background-color: rgb(150, 150, 150);
+	color: black;
+}
+
+td {
+    border: 1px solid black;
+}
+
+td.bordered {
+    border: 1px solid grey;
+}
+
+td.indent {
+         border-left: 4px solid black;
+}
+
+td.heading {
+           background-color: rgb(90,90,90);
+	       color: white;
+}
+
+td.fieldname {
+             background-color: rgb(50,50,50);
+             color: white;
+}
+
+tr.row0 {
+        background-color: rgb(70,70,70);
+}
+
+tr.row1 {
+        background-color: rgb(50,50,50);
+        
+}
+
+tr.subtitle {
+	background-color: rgb(90,90,90);
+	color: white;
+}
+
+tr.message {
+           background-color: rgb(100,100,100);
+}
+
+h1 , h2 {
+	color: white;
+}
+
+h3 , h4 {
+	color: white;
+}

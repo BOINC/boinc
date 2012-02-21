@@ -1,0 +1,3 @@
+#! /bin/sh
+
+xgettext --keyword=_ -C -o ../locale/templates/BOINC-Client.pot *.cpp ../sched/*.cpp

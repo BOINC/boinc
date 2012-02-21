@@ -1,0 +1,11 @@
+## $Id$
+
+# define version numbers using autoconf
+BOINC_MAJOR_VERSION = @BOINC_MAJOR_VERSION@
+BOINC_MINOR_VERSION = @BOINC_MINOR_VERSION@
+CLIENT_BIN_FILENAME = "@CLIENT_BIN_FILENAME@"
+PLATFORM = "@host@"
+SRC_DIR = "@SOURCE_TOP_DIR@"
+
+# todo: use TOP_SRC_DIR, SRC_DIR, BUILD_DIR from autoconf; can remove AC_SUBST
+# for SOURCE_TOP_DIR

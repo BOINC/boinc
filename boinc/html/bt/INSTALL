@@ -1,0 +1,25 @@
+-----------------
+Setting it all up
+-----------------
+The .torrent cache will need to know where to look for the files that are going
+to be sent to the clients. Usually this will be the project download directory.
+
+<insert more settings here>
+
+Also, you need to run the database scripts in the /database/-directory in order
+to set up your database for bittorrent tracking.
+
+------------------
+How to enable this
+------------------
+By default Bittorrent support is turned off on both server and client. You must
+enable bittorrent in your server configuration files by doing this:
+
+<insert useful guide here>
+
+You must also convince your users that enabling Bittorrent support on their clients
+is a useful way to help the project. It is a good idea to let them know that
+setting the "Maximum upload rate" under general preferences enables them to
+control just how much of their outgoing bandwidth is ever used. A setting of 70%
+or less of their actual bandwidth is recommended to avoid creating latency issues
+on their connection.

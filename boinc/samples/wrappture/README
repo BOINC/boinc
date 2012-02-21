@@ -1,0 +1,52 @@
+Example of running a Rappture app under BOINC
+
+--------------------------
+Creating app versions
+
+A Rappture app version has at minimum two files:
+
+- The core application
+- A wrapper that parses the XML parameter file,
+    runs the core application with appropriate cmdline,
+    parses its stdout for progress messages,
+    and interfaces with the BOINC client.
+
+In this directory, fermi.cpp is the core app.
+The wrapper consists of two files:
+    - wrappture_example.cpp (app-specific)
+    - wrappture.cpp (app-independent)
+
+Suppose you want to deploy this app for 64-bit Linux.
+Suppose the app name is "fermi".
+
+- compile the programs on a 64-bit Linux machine.
+    producing executables "fermi" and "wrappture_example"
+- in your project's apps/fermi directory, create a directory
+    fermi_1.0_x86_64-pc-linux-gnu
+    (the "1.0" is a version number)
+- Into this directory, copy
+    wrappture_example as fermi_1.0_x86_64-pc-linux-gnu
+    fermi as fermi=fermi-core_1.0_x86_64-pc-linux-gnu
+- run update_versions.
+
+--------------------------
+Submitting jobs
+
+- create input and output templates in your project/templates
+    fermi_in: 1 file, logical name "driver.xml"
+    fermi_out: 1 file, logical name "fermi_out.dat"
+    (you can copy the ones here)
+- copy driver.xml to project/driver_1.xml
+    (the "1" is a version number)
+- copy cw_fermi to project/
+    (this is a job-submission script)
+- in project/, run cw_fermi
+
+--------------------------
+Notes
+
+- wrappture_example links libexpat and libz (among others) dynamically,
+    so it won't run on systems that don't have them.
+    It would be better to link everything statically,
+    i.e. linking libexpat.a rather libexpat.so.
+    You may need to download or build the .a versions.

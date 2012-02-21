@@ -1,0 +1,23 @@
+<global_preferences>
+    <source_project>http://isaac.ssl.berkeley.edu/alpha/</source_project>
+    <source_scheduler>isaac.ssl.berkeley.edu/alpha_cgi/cgi</source_scheduler>
+<mod_time>1170192285</mod_time>
+<run_if_user_active/>
+<idle_time_to_run>3</idle_time_to_run>
+<leave_apps_in_memory/>
+<cpu_scheduling_period_minutes>1</cpu_scheduling_period_minutes>
+<hangup_if_dialed/>
+<work_buf_min_days>0.0001</work_buf_min_days>
+<max_cpus>4</max_cpus>
+<cpu_usage_limit>100</cpu_usage_limit>
+<disk_interval>180</disk_interval>
+<disk_max_used_gb>100</disk_max_used_gb>
+<disk_max_used_pct>50</disk_max_used_pct>
+<disk_min_free_gb>2</disk_min_free_gb>
+<vm_max_used_pct>75</vm_max_used_pct>
+<ram_max_used_busy_pct>50</ram_max_used_busy_pct>
+<ram_max_used_idle_pct>90</ram_max_used_idle_pct>
+<max_bytes_sec_down>200000</max_bytes_sec_down>
+<max_bytes_sec_up>200000</max_bytes_sec_up>
+</global_preferences>
+
