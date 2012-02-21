@@ -108,7 +108,7 @@ int FixInfoPlist_Strings(char* myPath, char* brand) {
         fprintf(f, "/* Localized versions of Info.plist keys */\n\n");
         fprintf(f, "CFBundleName = \"%s\";\n", brand);
         fprintf(f, "CFBundleShortVersionString = \"%s version %s\";\n", brand, BOINC_VERSION_STRING);
-        fprintf(f, "CFBundleGetInfoString = \"%s version %s, Copyright 2009 University of California.\";\n", brand, BOINC_VERSION_STRING);
+        fprintf(f, "CFBundleGetInfoString = \"%s version %s, Copyright 2012 University of California.\";\n", brand, BOINC_VERSION_STRING);
         fflush(f);
         retval = fclose(f);
     }

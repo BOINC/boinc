@@ -1963,3 +1963,9 @@ Charlie 20 Feb 2012
         configure.ac
         version.h
 
+Charlie 20 Feb 2012
+    - Mac installer: Update copyright notice from 2009 to 2012.
+
+    clientgui/
+        mac/
+        SetVersion.cpp
