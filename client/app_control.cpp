@@ -368,7 +368,7 @@ void ACTIVE_TASK::handle_exited_app(int stat) {
                 set_task_state(PROCESS_UNINITIALIZED, "temporary exit");
                 will_restart = true;
                 result->schedule_backoff = gstate.now + x;
-                strcpy(result->schedule_back_reason, buf);
+                strcpy(result->schedule_backoff_reason, buf);
                 break;
             }
             handle_premature_exit(will_restart);
