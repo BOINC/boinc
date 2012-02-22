@@ -2006,3 +2006,24 @@ David  22 Feb 2012
         sched_version.cpp
     vda/
         vdad.cpp
+
+David  22 Feb 2012
+    - client: change the job scheduling policy for MT jobs.
+        The old policy avoided running an N-CPU job unless N CPUs were free.
+        This could result in idle CPUs for long periods; for example:
+        on a 4-CPU machine, suppose you have a long 1-CPU job in EDF mode,
+        and some 4-CPU jobs.
+        3 CPUs will be idle until the 1-CPU job finishes.
+        Furthermore, the work fetch mechanism won't try to get
+        jobs (possibly non-MT) from other projects,
+        because the RR simulation doesn't reflect the scheduling
+        policy's exclusion principle.
+
+        The change: schedule jobs until ncpus_used >= ncpus.
+        E.g. in the above situation run the 1- and 4-CPU jobs together.
+        In extreme cases we might run 3 1-CPU jobs and the 4-CPU job.
+        This will degrade the performance of the 4-CPU job,
+        but that's probably better than having idle CPUs.
+
+    client/
+        cpu_sched.cpp
