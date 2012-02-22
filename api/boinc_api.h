@@ -84,7 +84,7 @@ struct APP_INIT_DATA;
 
 extern int boinc_init(void);
 extern int boinc_finish(int status);
-extern int boinc_temporary_exit(int delay);
+extern int boinc_temporary_exit(int delay, const char* reason=NULL);
 extern int boinc_get_init_data_p(struct APP_INIT_DATA*);
 extern int boinc_parse_init_data_file(void);
 extern int boinc_send_trickle_up(char* variety, char* text);

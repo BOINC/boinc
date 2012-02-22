@@ -1796,6 +1796,7 @@ void RESULT::clear() {
     coproc_missing = false;
     report_immediately = false;
     schedule_backoff = 0;
+    strcpy(schedule_backoff_reason, "");
 }
 
 // parse a <result> element from scheduling server.
@@ -2029,7 +2030,15 @@ int RESULT::write_gui(MIOFILE& out) {
     if (report_immediately) out.printf("    <report_immediately/>\n");
     if (edf_scheduled) out.printf("    <edf_scheduled/>\n");
     if (coproc_missing) out.printf("    <coproc_missing/>\n");
-    if (schedule_backoff > gstate.now) out.printf("    <scheduler_wait/>\n");
+    if (schedule_backoff > gstate.now) {
+        out.printf("    <scheduler_wait/>\n");
+        if (strlen(schedule_backoff_reason)) {
+            out.printf(
+                "    <scheduler_wait_reason>%s</scheduler_wait_reason>\n",
+                schedule_backoff_reason
+            );
+        }
+    }
     if (avp->needs_network && gstate.network_suspended) out.printf("    <network_wait/>\n");
     ACTIVE_TASK* atp = gstate.active_tasks.lookup_result(this);
     if (atp) {

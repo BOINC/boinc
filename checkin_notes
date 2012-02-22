@@ -2054,3 +2054,22 @@ David  22 Feb 2012
         sched_array.cpp
     tools/
         create_work.cpp
+
+David  22 Feb 2012
+    - API, client, and Manager: add an optional "reason" argument to
+        boinc_temporary_exit(),
+        explaining why the app is exiting.
+        Convey this to the client, and then to the Manager,
+        and display it there and in the log.
+
+    clientgui/
+        MainDocument.cpp
+    lib/
+        gui_rpc_client_ops.cpp
+        gui_rpc_client.h
+    api/
+        boinc_api.cpp,h
+    client/
+        client_types.cpp,h
+        app.h
+        app_control.cpp

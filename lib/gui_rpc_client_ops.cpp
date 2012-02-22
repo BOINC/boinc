@@ -564,6 +564,7 @@ int RESULT::parse(XML_PARSER& xp) {
         if (xp.parse_bool("project_suspended_via_gui", project_suspended_via_gui)) continue;
         if (xp.parse_bool("coproc_missing", coproc_missing)) continue;
         if (xp.parse_bool("scheduler_wait", scheduler_wait)) continue;
+        if (xp.parse_str("scheduler_wait_reason", scheduler_wait_reason, sizeof(scheduler_wait_reason))) continue;
         if (xp.parse_bool("network_wait", network_wait)) continue;
         if (xp.match_tag("active_task")) {
             active_task = true;
@@ -632,6 +633,7 @@ void RESULT::clear() {
     project_suspended_via_gui = false;
     coproc_missing = false;
     scheduler_wait = false;
+    strcpy(scheduler_wait_reason, "");
     network_wait = false;
 
     active_task = false;

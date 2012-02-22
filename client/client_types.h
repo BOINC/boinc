@@ -818,6 +818,7 @@ struct RESULT {
     double schedule_backoff;
         // don't try to schedule until this time
         // (wait for free GPU RAM)
+    char schedule_backoff_reason[256];
 };
 
 // represents an always/auto/never value, possibly temporarily overridden

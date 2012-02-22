@@ -2475,7 +2475,13 @@ wxString result_description(RESULT* result, bool show_resources) {
             strBuffer += _("Ready to start");
         }
         if (result->scheduler_wait) {
-            strBuffer += _(" (Scheduler wait)");
+            if (strlen(result->scheduler_wait_reason)) {
+                strBuffer += _(" (Scheduler wait: ");
+                strBuffer += wxString(result->scheduler_wait_reason, wxConvUTF8);
+                strBuffer += _(")");
+            } else {
+                strBuffer += _(" (Scheduler wait)");
+            }
         }
         if (result->network_wait) {
             strBuffer += _(" (Waiting for network access)");

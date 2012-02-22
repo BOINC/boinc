@@ -247,7 +247,7 @@ struct ACTIVE_TASK {
     double est_dur();
     int read_stderr_file();
     bool finish_file_present();
-    bool temporary_exit_file_present(double&);
+    bool temporary_exit_file_present(double&, char*);
     void init_app_init_data(APP_INIT_DATA&);
     int write_app_init_file(APP_INIT_DATA&);
     int move_trickle_file();

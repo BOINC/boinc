@@ -253,6 +253,7 @@ struct RESULT {
     bool project_suspended_via_gui;
     bool coproc_missing;
     bool scheduler_wait;
+    char scheduler_wait_reason[256];
     bool network_wait;
 
     // the following defined if active

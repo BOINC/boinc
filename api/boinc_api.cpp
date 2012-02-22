@@ -512,7 +512,7 @@ int boinc_init_options_general(BOINC_OPTIONS& opt) {
             // If we exit(0), the client will keep restarting us.
             // Instead, tell the client not to restart us for 10 min.
             //
-            boinc_temporary_exit(600);
+            boinc_temporary_exit(600, "Waiting to acquire lock");
         }
     }
 
@@ -607,12 +607,15 @@ int boinc_finish(int status) {
     return 0;   // never reached
 }
 
-int boinc_temporary_exit(int delay) {
+int boinc_temporary_exit(int delay, const char* reason) {
     FILE* f = fopen(TEMPORARY_EXIT_FILE, "w");
     if (!f) {
         return ERR_FOPEN;
     }
     fprintf(f, "%d\n", delay);
+    if (reason) {
+        fprintf(f, "%s\n", reason);
+    }
     fclose(f);
     boinc_exit(0);
     return 0;
