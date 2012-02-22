@@ -1745,6 +1745,7 @@ int DB_WORK_ITEM::enumerate(
             "select high_priority r1.id, r1.priority, r1.server_state, r1.report_deadline, workunit.* from result r1 force index(ind_res_st), workunit, app "
             " where r1.server_state=%d and r1.workunitid=workunit.id "
             " and workunit.appid=app.id and app.deprecated=0 "
+            " and workunit.transitioner_flags=0 "
             " %s "
             " %s "
             "limit %d",
@@ -1786,6 +1787,7 @@ int DB_WORK_ITEM::enumerate_all(
             "select high_priority r1.id, r1.priority, r1.server_state, r1.report_deadline, workunit.* from result r1 force index(ind_res_st), workunit force index(primary), app"
             " where r1.server_state=%d and r1.workunitid=workunit.id and r1.id>%d "
             " and workunit.appid=app.id and app.deprecated=0 "
+            " and workunit.transitioner_flags=0 "
             " %s "
             "limit %d",
             RESULT_SERVER_STATE_UNSENT,

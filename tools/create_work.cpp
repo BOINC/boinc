@@ -293,6 +293,14 @@ int main(int argc, const char** argv) {
             fprintf(stderr, "assignment.insert() failed: %d\n", retval);
             exit(1);
         }
+        sprintf(buf, "transitioner_flags=%d",
+            assign_multi?TRANSITION_NONE:TRANSITION_NO_NEW_RESULTS
+        );
+        retval = wu.update_field(buf);
+        if (retval) {
+            fprintf(stderr, "wu.update() failed: %d\n", retval);
+            exit(1);
+        }
     }
     boinc_db.close();
 }

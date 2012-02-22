@@ -363,7 +363,7 @@ create table assignment (
     target_type             integer         not null,
         -- 0=none, 1=host, 2=user, 3=team
     multi                   tinyint         not null,
-        -- 0=single host, 1=all hosts in set
+        -- 0=normal replication, 1=all hosts in set
     workunitid              integer         not null,
     resultid                integer         not null,
         -- if not multi, the result

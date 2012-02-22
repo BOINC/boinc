@@ -377,12 +377,12 @@ struct HOST {
 #define WU_ERROR_CANCELLED                      16
 #define WU_ERROR_NO_CANONICAL_RESULT            32
 
-// bit fields of transition_flags
+// bit fields of transition_flags; used for assigned jobs
 //
 #define TRANSITION_NONE             1
-    // don't transition
+    // don't transition; used for broadcast jobs
 #define TRANSITION_NO_NEW_RESULTS   2
-    // transition, but don't create results
+    // transition, but don't create results; used for targeted jobs
 
 struct WORKUNIT {
     int id;

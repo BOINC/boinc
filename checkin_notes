@@ -2034,3 +2034,23 @@ David  22 Feb 2012
 
     sched/
         sched_customize.cpp
+
+David  22 Feb 2012
+    - scheduler and create_work: fix bugs that caused targeted jobs
+        to be sent to non-targeted hosts.
+        The feeder was erroneously putting targeted jobs
+        in the shared mem cache.
+        Changes:
+        - The feeder only enumerates jobs for which
+            workunit.transitioner_flags is zero.
+            NOTE: this field is nonzero iff the job is assigned.
+        - create_work: when creating an assigned jobs,
+            set workunit.transitioner_flags appropriately
+
+    db/
+        boinc_db.cpp,h
+        schema.sql
+    sched/
+        sched_array.cpp
+    tools/
+        create_work.cpp
