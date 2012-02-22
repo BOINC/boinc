@@ -266,6 +266,7 @@ struct HOST {
     double connected_frac;
     double active_frac;
     double cpu_efficiency;  // deprecated as of 6.4 client
+        // reused for volunteer data archival as a timeout
     double duration_correction_factor;
 
     int p_ncpus;            // Number of CPUs on host

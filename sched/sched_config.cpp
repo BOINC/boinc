@@ -90,6 +90,7 @@ int SCHED_CONFIG::parse(FILE* f) {
     fuh_debug_level = MSG_NORMAL;
     strcpy(httpd_user, "apache");
     max_ncpus = MAX_NCPUS;
+    version_select_random_factor = .1;
 
     if (!xp.parse_start("boinc")) return ERR_XML_PARSE;
     if (!xp.parse_start("config")) return ERR_XML_PARSE;
@@ -292,6 +293,7 @@ int SCHED_CONFIG::parse(FILE* f) {
         if (xp.parse_bool("user_filter", user_filter)) continue;
         if (xp.parse_bool("workload_sim", workload_sim)) continue;
         if (xp.parse_bool("prefer_primary_platform", prefer_primary_platform)) continue;
+        if (xp.parse_double("version_select_random_factor", version_select_random_factor)) continue;
 
         //////////// SCHEDULER LOG FLAGS /////////
 

@@ -28,4 +28,4 @@ alter table vda_chunk_host
      add index vch_tt (transition_time);
 
 alter table host
-    add index host_rpc_time (rpc_time);
+    add index host_cpu_eff (cpu_efficiency);

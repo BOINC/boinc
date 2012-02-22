@@ -153,6 +153,9 @@ struct SCHED_CONFIG {
         // rather than trying the 32-bit version to see if it's faster.
         // Do this only if you're sure that your 64-bit versions are
         // always faster than the corresponding 32-bit versions
+    double version_select_random_factor;
+        // in deciding what version is fastest,
+        // multiply projected FLOPS by a random var with mean 1 and this stddev.
     int report_max;
     bool request_time_stats_log;
     bool resend_lost_results;
@@ -162,6 +165,7 @@ struct SCHED_CONFIG {
     char symstore[256];
     bool user_filter;
         // send a job to a user only if wu.batch == user.id
+        // DEPRECATED: use assignment instead
     bool workload_sim;
         // Do workload simulation in deciding whether to send a result
 

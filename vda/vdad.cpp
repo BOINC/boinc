@@ -293,7 +293,13 @@ bool scan_files() {
     bool found = false;
     int retval;
 
-    while (!vf.enumerate("where need_update<>0")) {
+    while (1) {
+        retval = vf.enumerate("where need_update<>0");
+        if (retval == ERR_DB_NOT_FOUND) break;
+        if (retval) {
+            fprintf(stderr, "VDA_FILE enumerate failed\n");
+            exit(1);
+        }
         VDA_FILE_AUX vfa(vf);
         found = true;
         retval = handle_file(vfa);
@@ -308,20 +314,49 @@ bool scan_files() {
     return found;
 }
 
-void handle_chunk(VDA_CHUNK_HOST& ch) {
-}
-
-// handle timed-out transfers
+// this host is declared dead; deal with the loss of data
 //
-bool scan_chunks() {
+int handle_host(DB_HOST& h) {
     DB_VDA_CHUNK_HOST ch;
     char buf[256];
+    int retval;
+
+    sprintf(buf, "where host_id=%d", h.id);
+    while (1) {
+        retval = ch.enumerate(buf);
+        if (retval == ERR_DB_NOT_FOUND) break;
+        if (retval) return retval;
+        DB_VDA_FILE vf;
+        retval = vf.lookup_id(ch.vda_file_id);
+        if (retval) return retval;
+        retval = vf.update_field("need_update=1");
+        if (retval) return retval;
+    }
+    return 0;
+}
+
+// handle timed-out hosts
+//
+bool scan_hosts() {
+    DB_HOST h;
+    char buf[256];
+    int retval;
     bool found = false;
 
-    sprintf(buf, "where transition_time < %f", dtime());
-    while (!ch.enumerate(buf)) {
+    sprintf(buf, "where cpu_efficiency < %f", dtime());
+    while (1) {
+        retval = h.enumerate(buf);
+        if (retval == ERR_DB_NOT_FOUND) break;
+        if (retval) {
+            fprintf(stderr, "host.enumerate() failed\n");
+            exit(1);
+        }
         found = true;
-        handle_chunk(ch);
+        retval = handle_host(h);
+        if (retval) {
+            fprintf(stderr, "handle_host() failed: %d\n", retval);
+            exit(1);
+        }
     }
     return found;
 }
@@ -350,7 +385,7 @@ int main(int argc, char** argv) {
 #endif
     while(1) {
         bool action = scan_files();
-        action |= scan_chunks();
+        action |= scan_hosts();
         if (!action) boinc_sleep(5.);
     }
 }

@@ -798,7 +798,10 @@ BEST_APP_VERSION* get_app_version(
             // pick the fastest version.
             // Throw in a random factor in case the estimates are off.
             //
-            double r = 1 + .1*rand_normal();
+            double r = 1;
+            if (config.version_select_random_factor) {
+                r += config.version_select_random_factor*rand_normal();
+            }
             if (r*host_usage.projected_flops > bavp->host_usage.projected_flops) {
                 bavp->host_usage = host_usage;
                 bavp->avp = &av;

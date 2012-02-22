@@ -1991,3 +1991,18 @@ Rom    21 Feb 2012
     samples/vboxwrapper/
         vbox.cpp
         vboxwrapper.cpp, .h
+
+David  22 Feb 2012
+    - scheduler: in version selection, when deciding which version is fastest,
+        we multiple projected FLOPS by a normal random var
+        with mean 1 and stddev 0.1.
+        Make the stddev configurable; in particular it can be zero.
+
+    db/
+        boinc_db.h
+        schema_vda.sql
+    sched/
+        sched_config.cpp,h
+        sched_version.cpp
+    vda/
+        vdad.cpp
