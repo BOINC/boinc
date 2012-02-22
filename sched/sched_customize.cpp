@@ -525,12 +525,16 @@ static inline bool app_plan_vbox(
 
     // host must have VirtualBox 3.2 or later
     //
-    if (strlen(sreq.host.virtualbox_version) == 0) return false;
+    if (strlen(sreq.host.virtualbox_version) == 0) {
+        add_no_work_message("VirtualBox is not installed");
+        return false;
+    }
     int n, maj, min, rel;
     n = sscanf(sreq.host.virtualbox_version, "%d.%d.%d", &maj, &min, &rel);
-    if (n != 3) return false;
-    if (maj < 3) return false;
-    if (maj == 3 and min < 2) return false;
+    if ((n != 3) || (maj < 3) || (maj == 3 and min < 2)) {
+        add_no_work_message("VirtualBox version 3.2 or later is required");
+        return false;
+    }
 
     // host must have VM acceleration in order to run multi-core jobs
     //

@@ -2027,3 +2027,10 @@ David  22 Feb 2012
 
     client/
         cpu_sched.cpp
+
+David  22 Feb 2012
+    - scheduler: tell the user if we're not sending work because
+        VirtualBox is not installed
+
+    sched/
+        sched_customize.cpp
