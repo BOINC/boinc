@@ -2087,3 +2087,11 @@ Charlie 22 Feb 2012
     
     api/
         macglutfix.m
+
+Charlie 22 Feb 2012
+    - client: When available, use total RAM value from CAL for all ATI 
+        OpenCL GPUs, not only for the "best" GPU, so the descriptions 
+        show this value.
+        
+    client/
+        coproc_detect.cpp

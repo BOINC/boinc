@@ -433,11 +433,18 @@ strcpy(prop.opencl_driver_version, "CLH 1.0");
 #endif
 
                 if (ati.have_cal) {
-                        if (prop.device_num < (int)(ati_gpus.size())) {
+                    if (prop.device_num < (int)(ati_gpus.size())) {
                         // Always use GPU model name from OpenCL if available for ATI / AMD 
                         // GPUs because (we believe) it is more reliable and user-friendly.
                         // Assumes OpenCL and CAL return the devices in the same order
                         strcpy(ati_gpus[prop.device_num].name, prop.name);
+
+                        // Work around a bug in OpenCL which returns only 
+                        // 1/2 of total global RAM size: use the value from CAL. 
+                        // This bug applies only to ATI GPUs, not to NVIDIA
+                        // See also further workaround code for Macs.
+                        //
+                        prop.global_mem_size = ati_gpus[prop.device_num].attribs.localRAM * MEGA;
                     } else {
                         if (log_flags.coproc_debug) {
                             msg_printf(0, MSG_INFO,
@@ -481,12 +488,6 @@ strcpy(prop.opencl_driver_version, "CLH 1.0");
 
     if (ati.have_cal) { // If CAL already found the "best" CAL GPU
         ati.merge_opencl(ati_opencls, ignore_ati_dev);
-        // Work around a bug in OpenCL which returns only 
-        // 1/2 of total global RAM size: use the value from CAL. 
-        // This bug applies only to ATI GPUs, not to NVIDIA
-        // See also further workaround code for Macs.
-        //
-        ati.opencl_prop.global_mem_size = ati.attribs.localRAM * MEGA;
     } else {
         ati.find_best_opencls(use_all, ati_opencls, ignore_ati_dev);
         ati.attribs.localRAM = ati.opencl_prop.global_mem_size/MEGA;
