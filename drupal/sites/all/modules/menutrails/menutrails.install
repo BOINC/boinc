@@ -1,0 +1,21 @@
+<?php
+// $Id: menutrails.install,v 1.1.2.2 2009/07/24 14:46:47 sun Exp $
+
+/**
+ * @file
+ * Installation functions for Menu Trails module.
+ */
+
+/**
+ * Implementation of hook_uninstall().
+ */
+function menutrails_uninstall() {
+  variable_del('menutrails_breadcrumbs');
+  variable_del('menutrails_menu');
+  variable_del('menutrails_node_types');
+  variable_del('menutrails_terms');
+  variable_del('menutrails_og_group_menu');
+  variable_del('menutrails_og_node');
+  variable_del('menutrails_og_post_default');
+  variable_del('menutrails_og_sub_pages');
+}

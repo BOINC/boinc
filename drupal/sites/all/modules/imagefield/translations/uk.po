@@ -1,0 +1,196 @@
+# Ukrainian translation of ImageField (all releases)
+# Copyright (c) 2009 by the Ukrainian translation team
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: ImageField (all releases)\n"
+"POT-Creation-Date: 2009-11-12 01:42+0000\n"
+"PO-Revision-Date: 2009-11-12 01:41+0000\n"
+"Language-Team: Ukrainian\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=((((n%10)==1)&&((n%100)!=11))?(0):(((((n%10)"
+">=2)&&((n%10)<=4))&&(((n%100)<10)||((n%100)>=20)))?(1):2));\n"
+
+msgid "<br />Allowed extensions: %ext"
+msgstr "<br />Припустимі розширення: %ext"
+
+msgid "ALT text settings"
+msgstr "Настроювання альтернативного тексту"
+
+msgid "Alternate Text"
+msgstr "Альтернативний текст"
+
+msgid "Alternate text"
+msgstr "Альтернативний текст"
+
+msgid "Alternate text to be displayed if the image cannot be displayed."
+msgstr ""
+"Альтернативний текст відображається тоді, коли зображення не може бути "
+"відображене"
+
+msgid "An image thumbnail was not able to be created."
+msgstr "Мініатюра зображення не може бути створена."
+
+msgid "CCK"
+msgstr "CCK"
+
+msgid "Choose type of field to be displayed to the user."
+msgstr "Вибрати тип поля, яке буде відображатися для користувача."
+
+msgid "Default image"
+msgstr "Зображення базове"
+
+msgid "Defines an image field type."
+msgstr "Визначає тип поля для зображень."
+
+msgid "Delete"
+msgstr "Вилучити"
+
+msgid "Displays image files in their original size."
+msgstr "Показати файли зображень у їхньому оригінальному розмірі."
+
+msgid "Enable custom alternate text"
+msgstr "Включити користувацький альтернативний текст"
+
+msgid ""
+"Enable custom alternate text for images. Filename will be used if not "
+"checked."
+msgstr ""
+"Включити користувацький альтернативний текст для зображень. Буде використане "
+"ім'я файлу якщо поле порожнє."
+
+msgid "Enable custom title text"
+msgstr "Включити користувацький заголовок"
+
+msgid ""
+"Enable custom title text for images. Filename will be used if not checked."
+msgstr ""
+"Включити користувацький заголовок для зображень. Буде використане ім'я файлу "
+"якщо поле порожнє."
+
+msgid "Enable user input alternate text for images."
+msgstr "Включити користувацький альтернативний текст для зображень."
+
+msgid "Enable user input title text for images."
+msgstr "Включити користувацький текст заголовока для зображень."
+
+msgid ""
+"Extensions a user can upload to this field. Seperate extensions with a space "
+"and do not include the leading dot."
+msgstr ""
+"Розширення файлів, які користувач може завантажувати. Розділяйте розширення "
+"пробілом і не включайте крапку перед іменем розширення."
+
+msgid "Filename: "
+msgstr "Ім'я файлу: "
+
+msgid "Has Image"
+msgstr "Є зображення"
+
+msgid "Image"
+msgstr "Зображення"
+
+msgid "Image linked to file"
+msgstr "Зображення посилається на файл"
+
+msgid "Image linked to node"
+msgstr "Зображення, пов'язане з матеріалом"
+
+msgid "Image path"
+msgstr "Шлях до зображення"
+
+msgid "Image upload was unsuccessful."
+msgstr "Завантаження зображення не вдалося."
+
+msgid "Imagefield failed to create directory(%d) at (%p)."
+msgstr "Imagefield не зміг створити директорію (%d) в (%p)."
+
+msgid "Images are not saved until the form is submitted."
+msgstr "Зображення не зберігаються до відправлення форми."
+
+msgid "Input type"
+msgstr "Вхідний тип"
+
+msgid "Permitted upload file extensions."
+msgstr "Дозволені розширення файлів для завантаження."
+
+msgid "Text to be displayed on mouse overs."
+msgstr "Відображуваний текст при наведенні мишкою."
+
+msgid ""
+"The image %filename was resized to fit within the maximum allowed resolution "
+"of %resolution pixels"
+msgstr ""
+"Розміри даного зображення %filename були змінені на максимально припустимі %"
+"resolution."
+
+msgid ""
+"The image was resized to fit within the maximum allowed resolution of %"
+"resolution pixels"
+msgstr ""
+"Розмір зображення змінений для відповідності максимально дозволеному дозволу "
+"%resolution пікселів."
+
+msgid ""
+"The maximum allowed image file size expressed in kilobytes. Set to 0 for no "
+"restriction."
+msgstr ""
+"Максимально припустимий розмір файлу із зображенням, виражений у кілобайтах. "
+"Установите значення 0 для скасування обмежень."
+
+msgid ""
+"The maximum allowed image size expressed as WIDTHxHEIGHT (e.g. 640x480). Set "
+"to 0 for no restriction."
+msgstr ""
+"Максимальний розмір зображення у вигляді ШИРИНАxВИСОТА (наприклад, 640x480). "
+"Значення 0 означає відсутність обмежень."
+
+msgid ""
+"The maximum number of images allowed. Set to 0 for no restriction. This only "
+"applies if multiple values are enabled."
+msgstr ""
+"Максимально припустима кількість зображень. Установите значення 0 для "
+"скасування обмежень. Ця опція застосовна тільки при включених множинних "
+"значеннях."
+
+msgid ""
+"The title is used as a tool tip when the user hovers the mouse over the "
+"image."
+msgstr ""
+"Заголовок (title) використовується в якості підказки, коли користувач "
+"проводить мишею над зображенням."
+
+msgid "Title"
+msgstr "Назва"
+
+msgid "Title text settings"
+msgstr "Настроювання тексту заголовка"
+
+msgid "Upload"
+msgstr "Вивантажити"
+
+msgid "Upload a new image"
+msgstr "Завантажити нове зображення"
+
+msgid "Upload image"
+msgstr "Завантажити зображення"
+
+msgid "You can use the following tokens in the image path."
+msgstr "Ви може використовувати наступні лексеми в шляху зображення."
+
+msgid "imagefield"
+msgstr "imagefield"
+
+msgid "link to image"
+msgstr "посилання на зображення"
+
+msgid "link to node"
+msgstr "посилання на матеріал"
+
+msgid "path to image"
+msgstr "шлях до зображення"
+
+msgid "url to image"
+msgstr "посилання на зображення"

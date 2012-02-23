@@ -1,0 +1,55 @@
+/* $Id: two-sidebars-first-admin.css,v 1.1.2.2 2009/12/12 15:54:47 johnalbin Exp $ */
+
+/**
+ * @file
+ * Page manager layout
+ *
+ * Because we're using fixed widths and not percentages, we need to adjust the
+ * panel page editing layout to fit reasonably on screen.  We're assuming a
+ * 960px page width, leaving the main panel manager content well at 769px.
+ */
+#panels-dnd-main div.panels-display h2.label {
+	padding-left: 24px;
+	text-align: left;
+}
+
+#page-manager-edit .zen-two-sidebars-first .panel-content .inside {
+  margin-right: 0px;
+}
+
+#page-manager-edit .zen-two-sidebars-first .panel-content {
+  float: left; /* LTR */
+  width: 50%;
+  margin-left: 50%; /* LTR */
+  margin-right: -100%; /* LTR */ /* Negative value of #content's width + left margin. */
+  padding: 0; /* DO NOT CHANGE. Add padding or margin to #content-inner. */
+}
+
+#page-manager-edit .zen-two-sidebars-first .panel-header {
+  height: auto;
+  margin-bottom: 10px;
+}
+
+#page-manager-edit .zen-two-sidebars-first .panel-sidebar-first {
+  float: left; /* LTR */
+  width: 25%;
+  margin-left: 0px; /* LTR */ /* Width of #content. */
+  margin-right: -25%; /* LTR */ /* Negative value of #sidebar-first's width + left margin. */
+  padding: 0; /* DO NOT CHANGE. Add padding or margin to #sidebar-first-inner. */
+}
+
+#page-manager-edit .zen-two-sidebars-first .panel-sidebar-first-inner {
+	margin-right: 10px;
+}
+
+#page-manager-edit .zen-two-sidebars-first .panel-sidebar-second {
+  float: left; /* LTR */
+  width: 25%;
+  margin-left: 25%; /* LTR */ /* Width of #content. */
+  margin-right: -50%; /* LTR */ /* Negative value of #sidebar-first's width + left margin. */
+  padding: 0; /* DO NOT CHANGE. Add padding or margin to #sidebar-first-inner. */
+}
+
+#page-manager-edit .zen-two-sidebars-first .panel-sidebar-second-inner {
+	margin-right: 10px;
+}

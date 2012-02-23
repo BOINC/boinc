@@ -1,0 +1,142 @@
+$Id: API.txt,v 1.6.4.7 2009/06/21 01:29:33 eaton Exp $
+
+What's this, now?
+=================
+VotingAPI provides a flexible, easy-to-use framework for rating, voting, moderation, and consensus-gathering modules in Drupal. It allows module developers to focus on their ideas (say, providing a 'rate this thread' widget at the bottom of each forum post) without worrying about the grunt work of storing votes, preventing ballot-stuffing, calculating the results, and so on.
+
+VotingAPI handles three key things for module developers:
+
+1) CRUD
+Create/Retrieve/Update/Delete operations for voting data. The simplest modules only need to call two functions -- votingapi_set_vote() and votingapi_select_results() -- to use the API. Others can use finer-grain functions for complete control.
+
+2) Calculation
+Every time a user casts a vote, VotingAPI calculates the results and caches them for you. You can use the default calculations (like average, total, etc) or implement your own custom tallying functions.
+
+3) Display
+VotingAPI integrates with Views.module, allowing you to slice and dice your site's content based on user consensus. While some custom modules may need to implement thier own Views integration to provide customized displays, the vast majority can use the built-in system without any additional work.
+
+How Data Is Stored
+==================
+VotingAPI manages a raw 'pool' of vote data -- it doesn't keep track of any content directly. Instead, it lets modules store each vote with a 'content type' and 'content id', so that the same APIs can be used to rate nodes, comments, users, aggregator items, or even other votes (in a Slashdot-esque meta-moderation system). It can also be used by modules that need to store and calculate custom data like polling results -- using a custom content_type ensures that other modules won't trample on your module's voting data.
+
+For each discrete vote, the API stores the following information:
+
+content_type -- This *usually* corresponds to a type of Drupal content, like 'node' or 'comment' or 'user'.
+content_id   -- The key ID of the content being rated.
+value        -- This is the actual value of the vote that was cast by the user.
+value_type   -- This determines how vote results are totaled. VotingAPI supports three value types by default: 'percent' votes are averaged, 'points' votes are summed up, and 'option' votes get a count of votes cast for each specific option.  Modules can use other value_types, but must implement their own calculation functions to generate vote results -- more on that later.
+tag          -- Modules can use different tags to store votes on specific aspects of a piece of content, like 'accuracy' and 'timeliness' of a news story. If you don't need to vote on multiple criteria, you should use the default value of 'vote'. If you use multiple tags, it is STRONGLY recommended that you provide an average or 'overall' value filed under the default 'vote' tag. This gives other modules that display voting data a single value to key on for sorting, etc.
+uid          -- The user ID of the person who voted.
+timestamp    -- The time the vote was cast.
+vote_source  -- A unique identifier used to distinguish votes cast by anonymous users. By default, this is the IP address of the remote machine.
+
+Whenever a vote is cast, VotingAPI gathers up all the votes for the content_type/content_id combination, and creates a collection of cached 'result' records. Each voting result recorded stores the following information:
+
+content_type -- Just what you'd expect from the individual vote objects.
+content_id   -- Ditto.
+value_type   -- Ditto.
+tag          -- Ditto.
+function     -- The aggregate function that's been calculated -- for example, 'average', 'sum', and so on.
+value        -- The value of the aggregate function.
+timestamp    -- The time the results were calculated.
+
+
+Upgrading from VotingAPI 1.x
+============================
+Version 2.0 of VotingAPI offers several notable changes. Modules MUST be updated to work with VotingAPI 2.0, but changes for most modules should be minimal. Among other things, version 2.0 offers automatic support for anonymous votes -- something that required custom vote handling in version 1.x.
+
+1) Functions accept objects and arrays of objects instead of long parameter lists
+VotingAPI 1.x used relatively complex parameter lists in its most commonly used functions. In version 2.x, VotingAPI vote-casting functions accept a single vote object or array of vote objects, while vote and result retrieval functions accept a keyed array describing the filter criteria to be used.
+
+2) hook_votingapi_update() Removed
+This function allowed modules to intervene whenever a user changed their vote. The processing overhead that it imposed on most operations, however, was severe. No modules in contrib implemented the hook, and it has been eliminated. hook_votingapi_insert() and hook_votingapi_delete() are still available.
+
+3) Retrieval functions consolidated
+In VotingAPI 1.x, votes for a content object were retrieved using a dizzying array of functions, including the ugly buy often-used internal function, _votingapi_get_raw_votes(). In version 2.x, the following functions are provided:
+
+* votingapi_select_votes();
+* votingapi_select_results();
+* votingapi_select_single_vote_value()
+* votingapi_select_single_result_value();
+
+4) Custom result calculations must do their own SQL
+In version 1.x, VotingAPI loaded all votes for a given content object in order to calculate the average vote using PHP. Modules calculating their own results (median, etc.) were handed the stack of vote objects and given an opportunity to do more using hook_votingapi_calculate(). This was fine for simple cases, but consumed monstrous amounts of RAM whenever a single piece of content accumulated large numbers of votes.
+
+In version 2.x, VotingAPI modules may implement hook_votingapi_results_alter() instead. They receive the same information about the content object, and the stack of results to modify, but are responsible for using their own SQL to generate their results. Fortunately, most modules implementing custom results required complex calculations more efficiently done in SQL anyways.
+
+5) Views integration hooks have changed
+VotingAPI now supports any valid base table when exposing its data to Views. Modules that cast votes on non-node content can implement hook_votingapi_views_content_types() to let VotingAPI know what base tables should get the relationships.
+
+Because Views' internal data structures have changed, and the VotingAPI integration now supports additional base tables, the data handed off to hook_votingapi_views_formatters() has changed. See the reference at the bottom of this document for an example implementation.
+
+In the future, modules that need to offer highly customized ways of presenting VotingAPI data in a view are advised to use hook_views_data_alter() to simply add a new custom field to the VotingAPI table definition. That will give full control over display and filtering, but will take advantage of the flexible, base-table-agnostic join handlers VotingAPI provides.
+
+
+An example custom calculation
+=============================
+The following function adds a standard_deviation result to the calculated result data.
+Note that in previous versions of VotingAPI, this function received in-memory copies of
+each and every cast vote to avoid the need for custom SQL. This turned out to be very,
+very, very inefficient -- the slowdown of possibly running multiple aggregate queries is
+far outweighed by the memory savings of each module handling its own queries. After all,
+MySQL calculates standard deviation far faster than you can in PHP.
+
+function mymodule_votingapi_results_alter(&$results, $content_type, $content_id) {
+  // We're using a MySQLism (STDDEV isn't ANSI SQL), but it's OK because this is
+  // an example. And no one would ever base real code on sample code. Ever. Never.
+  $sql  = "SELECT v.tag, STDDEV(v.value) as standard_deviation ";
+  $sql .= "FROM {votingapi_vote} v ";
+  $sql .= "WHERE v.content_type = '%s' AND v.content_id = %d AND v.value_type = 'percent' ";
+  $sql .= "GROUP BY v.tag";
+
+  $results = db_query($sql, $content_type, $content_id);
+
+  // VotingAPI wants the data in the following format:
+  // $cache[$tag][$value_type][$math_function] = $value;
+  while ($result = db_fetch_array($results)) {
+    $cache[$result['tag']]['percent']['standard_deviation'] = $result['standard_deviation'];
+  }
+}
+
+An example of advanced Views integration
+========================================
+VotingAPI provides Views Relationship connections for votes cast on nodes and comments. If your module casts other types of votes that should be made available via Views, it needs to implement hook_votingapi_relationships().
+
+
+function mymodule_votingapi_relationships() {
+  $relationships[] = array(
+    // 'description' is used to construct the field description in the Views UI.
+    'description' => t('nodes'),
+    // 'content_type' contain the value that your module stores in the voting
+    // api 'content_type' column. 'node', 'comment', etc.
+    'content_type' => 'node',
+    // 'base_table' contain the name of the Views base table that stores the
+    // data your votes apply to.
+    'base_table' => 'node',
+    // 'content_id_column' contains the name of the views field that represents
+    // your base_table's primary key. This column will be joined against the
+    // voting api 'content_id' column.
+    'content_id_column' => 'nid',
+    // VotingAPI constructs pseudo-tables so that multiple relationships can
+    // point to the same base table (normal and translation-based votes nodes
+    // for example. These two columns allow you to override the names of the
+    // pseudo-tables. You probably don't need to change this part unless you're
+    // nedjo.
+    'pseudo_vote' => 'votingapi_vote',
+    'pseudo_cache' => 'votingapi_cache',
+  );
+  return $relationships;
+}
+
+An example of a custom Views value formatter
+============================================
+VotingAPI's Views integration can present vote results as simple numbers, but most users will want to see something a bit snazzier. By implementing hook_votingapi_views_formatters(), you can expose a custom formatter for any given VotingAPI view field. For the View field that's passed in, your hook should return an array of key => value pairs, where the key is a the name of a callback function that will format the values from the database.
+
+function mymodule_votingapi_views_formatters($field) {
+  if ($field->field == 'value') {
+    return array('mymodule_funky_formatter' => t('MyModule value formatter'));
+  }
+  if ($field->field == 'tag') {
+    return array('mymodule_funky_tags' => t('MyModule tag formatter'));
+  }
+}

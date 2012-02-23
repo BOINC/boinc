@@ -1,0 +1,12 @@
+; $Id: tokenSTARTER.info,v 1.1.2.1 2009/04/19 21:31:24 greggles Exp $
+name = TokenSTARTER
+description = Provides additional tokens and a base on which to build your own tokens.
+dependencies[] = token
+core = 6.x
+
+; Information added by drupal.org packaging script on 2010-08-11
+version = "6.x-1.14"
+core = "6.x"
+project = "token"
+datestamp = "1281549693"
+

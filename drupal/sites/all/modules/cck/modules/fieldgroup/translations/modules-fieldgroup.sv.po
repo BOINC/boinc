@@ -1,0 +1,204 @@
+# $Id: modules-fieldgroup.sv.po,v 1.1.2.1 2009/05/27 13:32:56 seals Exp $
+#
+# Swedish translation of Drupal (fieldgroup)
+# Generated from files:
+#  fieldgroup.panels.inc,v 1.1.2.5 2009/01/10 22:47:06 yched
+#  content_fieldgroup.inc,v 1.1.2.1 2009/04/29 18:34:46 karens
+#  fieldgroup.info,v 1.6.2.1 2008/09/22 18:25:21 karens
+#  fieldgroup.module,v 1.79.2.48 2009/04/29 20:51:52 karens
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: CCK - Fieldgroup 6.x\n"
+"POT-Creation-Date: 2009-05-27 13:16+0200\n"
+"PO-Revision-Date: 2009-05-27 13:39+0100\n"
+"Last-Translator: Magnus Gunnarsson <seals@passagen.se>\n"
+"Language-Team: drupalsverige.se\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n!=1);\n"
+"X-Poedit-Language: Swedish\n"
+"X-Poedit-Country: SWEDEN\n"
+"X-Poedit-SourceCharset: utf-8\n"
+
+#: fieldgroup.panels.inc:10;27
+#: panels/content_types/content_fieldgroup.inc:14
+msgid "Content fieldgroup"
+msgstr "Fältgrupp för innehåll"
+
+#: fieldgroup.panels.inc:30
+msgid "All fields from a fieldgroup on the referenced node."
+msgstr "Alla fält från en fältgrupp på den hänvisade noden."
+
+#: fieldgroup.panels.inc:31
+#: panels/content_types/content_fieldgroup.inc:43
+msgid "Node"
+msgstr "Nod"
+
+#: fieldgroup.panels.inc:32
+msgid "Node context"
+msgstr "Sammanhang för nod"
+
+#: fieldgroup.panels.inc:91
+msgid "@group_label (@group_type_name)"
+msgstr "@group_label (@group_type_name)"
+
+#: fieldgroup.panels.inc:102
+#: fieldgroup.info:0
+msgid "Fieldgroup"
+msgstr "Fältgrupp"
+
+#: fieldgroup.panels.inc:112
+#: panels/content_types/content_fieldgroup.inc:102
+msgid "Text to display if group has no data. Note that title will not display unless overridden."
+msgstr "Text att visa om gruppen inte har något innehåll. Observera att titel inte kommer att visas om det inte åsidosätts."
+
+#: fieldgroup.panels.inc:128
+msgid "\"@s\" fieldgroup @name"
+msgstr "\"@s\" fältgrupp @name"
+
+#: fieldgroup.module:117
+msgid "Label"
+msgstr "Etikett"
+
+#: fieldgroup.module:130
+msgid "Form settings"
+msgstr "Inställningar för formulär"
+
+#: fieldgroup.module:131
+msgid "These settings apply to the group in the node editing form."
+msgstr "Dessa inställningar gäller för gruppen i redigeringsformuläret för noden."
+
+#: fieldgroup.module:135
+msgid "Style"
+msgstr "Stil"
+
+#: fieldgroup.module:138
+msgid "always open"
+msgstr "alltid utfälld"
+
+#: fieldgroup.module:139
+msgid "collapsible"
+msgstr "hopfällbar"
+
+#: fieldgroup.module:140
+msgid "collapsed"
+msgstr "hopfälld"
+
+#: fieldgroup.module:145
+msgid "Help text"
+msgstr "Hjälptext"
+
+#: fieldgroup.module:148
+msgid "Instructions to present to the user on the editing form."
+msgstr "Instruktioner som visas för användaren på redigeringsformuläret."
+
+#: fieldgroup.module:153
+msgid "Display settings"
+msgstr "Inställningar för visning"
+
+#: fieldgroup.module:154
+msgid "These settings apply to the group on node display."
+msgstr "Dessa inställningar gäller för gruppen på visningen av noden."
+
+#: fieldgroup.module:158
+msgid "Description"
+msgstr "Beskrivning"
+
+#: fieldgroup.module:161
+msgid "A description of the group."
+msgstr "En beskrivning av gruppen."
+
+#: fieldgroup.module:177;341
+msgid "Save"
+msgstr "Spara"
+
+#: fieldgroup.module:206
+msgid "Are you sure you want to remove the group %label?"
+msgstr "Är du säker på att du vill ta bort gruppen %label?"
+
+#: fieldgroup.module:208
+msgid "This action cannot be undone."
+msgstr "Denna åtgärd kan inte ångras."
+
+#: fieldgroup.module:209
+msgid "Remove"
+msgstr "Ta bort"
+
+#: fieldgroup.module:209
+msgid "Cancel"
+msgstr "Avbryt"
+
+#: fieldgroup.module:217
+msgid "The group %group_name has been removed."
+msgstr "Gruppen %group_name har tagits bort."
+
+#: fieldgroup.module:266
+msgid "none"
+msgstr "ingen"
+
+#: fieldgroup.module:359
+msgid "You need to provide a label."
+msgstr "Du måste ange en etikett."
+
+#: fieldgroup.module:364
+msgid "You need to provide a group name."
+msgstr "Du måste ange ett gruppnamn."
+
+#: fieldgroup.module:378
+msgid "The group name %group_name is invalid. The name must include only lowercase unaccentuated letters, numbers, and underscores."
+msgstr "Gruppnamnet %group_name är inte giltigt. Namnet får enbart bestå av små bokstäver som inte är accentuerade, siffor och understreck."
+
+#: fieldgroup.module:381
+msgid "The group name %group_name is too long. The name is limited to 32 characters, including the 'group_' prefix."
+msgstr "Gruppnamnet %group_name är för långt. Namnet får bestå av max 32 tecken, inklusive prefixet 'group_'."
+
+#: fieldgroup.module:387
+msgid "The group name %group_name already exists."
+msgstr "Gruppnamnet %group_name existerar redan."
+
+#: fieldgroup.module:406;409
+msgid "Add new group:"
+msgstr "Lägg till ny grupp:"
+
+#: fieldgroup.module:424
+msgid "Add new group: you need to provide a label."
+msgstr "Lägg till ny grupp: du måste ange en etikett."
+
+#: fieldgroup.module:425
+msgid "Add new group: you need to provide a group name."
+msgstr "Lägg till ny grupp: du måste ange ett gruppnamn."
+
+#: fieldgroup.module:654
+msgid "Standard group"
+msgstr "Standardgrupp"
+
+#: fieldgroup.module:45;52
+msgid "Edit group"
+msgstr "Redigera grupp"
+
+#: fieldgroup.module:0
+msgid "fieldgroup"
+msgstr "fältgrupp"
+
+#: fieldgroup.info:0
+msgid "Create display groups for CCK fields."
+msgstr "Skapa visningsgrupper för fält av typen CCK."
+
+#: fieldgroup.info:0
+msgid "CCK"
+msgstr "CCK"
+
+#: panels/content_types/content_fieldgroup.inc:39
+msgid "@type: (fieldgroup) @fieldgroup"
+msgstr "@type: (fältgrupp) @fieldgroup"
+
+#: panels/content_types/content_fieldgroup.inc:42
+msgid "All fields from this fieldgroup on the referenced node."
+msgstr "Alla fält från denna fältgrup på den hänvisade noden."
+
+#: panels/content_types/content_fieldgroup.inc:119
+msgid "\"@s\" fieldgroup (@name)"
+msgstr "\"@s\" fältgrupp (@name)"
+

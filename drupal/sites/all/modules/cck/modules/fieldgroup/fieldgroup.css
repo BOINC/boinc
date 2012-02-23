@@ -1,0 +1,8 @@
+/* $Id: fieldgroup.css,v 1.2.2.2 2009/03/14 18:55:20 yched Exp $ */
+
+div.fieldgroup {
+  margin:.5em 0 1em 0;
+}
+div.fieldgroup .content {
+  padding-left:1em;/*LTR*/
+}

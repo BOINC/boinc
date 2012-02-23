@@ -1,0 +1,71 @@
+// $Id: CHANGELOG.txt,v 1.4.4.9 2009/08/15 17:59:54 eaton Exp $
+
+02/11/06
+--------
+First stab at Views integration with VotingAPI. Configuring it is a little ugly -- mainly useful for custom modules that want to expose a vote-based default_view without coding all the table/field/filter stuff for Views.
+
+04/21/06
+--------
+Expose public votingapi_add_vote and votingapi_delete_vote functions to allow modules to override normal behavior. This makes it possible to implement anonymous voting, though future explicit support is coming.
+
+04/22/06
+--------
+There is now a working infrastructure for modules to expose their own 'voting actions' without requiring user customization.
+
+04/23/06
+--------
+Major enhancements to the actions subsystem, the addition of an experimental widgets library, and the (beginnings) of major enhancements to views integration.
+Using the latest CVS version of Views.module, it's now possible to display a particular vote result (say, the number of people who've voted) without using esoteric combinations of filters.
+
+04/29/06
+--------
+A new setting has been introduced -- vote result calculation can be deferred until cron-time. This can be useful on heavy-load sites where MANY votes are being cast and complex, db-intensive calculations are used to weight the results.
+
+05/01/06
+--------
+The action loading and caching infrastructure has been made much more robust, and CRUD functions are in place for reading and writing actions. voting_actions.module has now been added to facilitate direct user manipulation of action criteria, etc. It's the part that's still heavily under development. In many installations, it'll be unecessary.
+The votingapi_delete_vote() function no longer automatically recalculates. Modules using it should call recalculate manually after explicitly removing a vote.
+Those needing a consistent, stable VotingAPI should probably still stick with the 4.7 branch. This version will be branched as soon as the issues are ironed out.
+
+06/07/06
+--------
+Foundation laid for a move to discrete hooks rather than a single _votingapi function. Because each of the $ops for the function needed a wildly different set of parameters, implementing a single function was an exercise in frustration for module developers. Right now, each location that called *_votingapi() ALSO calls hook_votingapi_*(). the raw *_votingapi() function will be depricated, and likely removed from a future version.
+
+07/05/07
+--------
+First run at a Drupal 6 compatible version (after an ill-fated accidental checkin on the D5 branch). Once this works, work will start on v2.0. The plan is to add anonymous voting support and cleaner function signatures by passing in full vote objects rather than long param lists. It's uncertain whether 1.x will be released for Drupal 6 directly, or whether I'll just get the 2.0 version out for it, since modules will already need to be updated.
+
+04/09/08
+--------
+Several important bug fixes for the D6 version of VotingAPI. #223517, #232233, #232236, and #235174 fixed thanks to patches posted by quicksketch and sammys. Also checked in an initial stub file for views2 integration, removing the old hook_init() code since Views2 handles pulling the .inc files in itself.
+
+06/05/08
+--------
+Views integration rewritten from scratch - many old limitations and snafus are now gone, thankfully. Several default views will be included in the final release.
+
+Calculation of vote results no longer loads all votes into memory: modules that implement custom result algorithms must do their own SQL. This saves tremendous amounts of RAM on sites with large numbers of votes on a single content object.
+
+06/24/08
+--------
+Views integration code seriously reworked (again) to use Views 2 'relationships' rather than custom field handlers. Downside: for the VotingAPI fields, sorts, and filters to appear, a relationship must first be added to it. Upside: using hook_votingapi_views_content_types(), modules that cast votes on non-node content can tell VotingAPI to add its relationship to other tables too (like users, comments, etc). This should make it much, much easier to build displays of vote-aware content that lives in non-node base tables.
+
+09/19/08
+--------
+Updated for compatibility with Views RC2, added the ability to filter Views relationships to votes cast by the current user, and added three default views to demonstrate the Views integration. Also added basic Simpletests, fixed a bug that manifested when modules cast votes with minimal information (nothing but a content id and a value, for example). Finally, added the ability to auto-generate dummy votes for testing purposes. This feature is only visible if Devel Generate module is installed and activated.
+
+06/20/09
+--------
+Changed hook_votingapi_content_types() to hook_votingapi_relationships(), since it only deals with Views relationships. Added extra documentation to API.txt and fixed assorted ugly bugs. Moved a bunch of API docs to votingapi.api.php so API.module can generate pretty docs for the hooks. Nodes and comments now have pre-configured relationships available, any other entity types need a hook_votingapi_relationships() implementation.
+
+Added votingapi_metadata() to gather metadata about defined value_types, tags, and aggregate functions. Modified the views relationship handler to use that function rather than querying the tables directly.
+
+07/20/09
+--------
+#480036 by j_ten_man - allow votingapi relationships to be chained off of other relationships (like node references)
+#496454 - PHPDoc incorrectly listed 'uid' and 'vote_source' as valid filtering criteria on cached aggregate results.
+Added an 'Other' option for Relationships filters, to allow nonstandard tags, filters, and so on to be used in VotingAPI relationships with minimal hassle.
+
+08/15/09
+--------
+#527970 - Fixing issues with the 'Other' option when creating relationship filters. Thanks to te-brian for spotting it and whipping up a patch.
+#541236 - Add support for user ratings to the default set of relationships. Patch by Likeless.

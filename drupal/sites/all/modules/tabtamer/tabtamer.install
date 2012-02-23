@@ -1,0 +1,23 @@
+<?php
+// $Id: tabtamer.install,v 1.1 2009/08/15 08:32:33 coreyp1 Exp $
+
+/**
+ * @file
+ * The install and update code for the tabtamer module.
+ *
+ * @ingroup tabtamer
+ */
+
+/**
+ * Implementation of hook_install().
+ */
+function tabtamer_install() {
+  db_query("UPDATE {system} SET weight = 90 WHERE name = 'tabtamer'");
+}
+
+/**
+ * Implementation of hook_uninstall().
+ */
+function tabtamer_uninstall() {
+  variable_del('tabtamer_tab_settings');
+}

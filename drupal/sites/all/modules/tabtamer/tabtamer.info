@@ -1,0 +1,12 @@
+; $Id: tabtamer.info,v 1.1 2009/08/15 08:32:33 coreyp1 Exp $
+name = Tab Tamer
+description = Gives additional control over what tabs are seen by a user.
+package = Other
+core = 6.x
+
+; Information added by drupal.org packaging script on 2011-01-05
+version = "6.x-1.1"
+core = "6.x"
+project = "tabtamer"
+datestamp = "1294218301"
+

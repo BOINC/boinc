@@ -1,0 +1,2682 @@
+<?php
+// $Id: content.module,v 1.301.2.120 2010/08/11 23:27:10 pwolanin Exp $
+/**
+ * @file
+ * Allows administrators to associate custom fields to content types.
+ */
+
+define('CONTENT_DB_STORAGE_PER_FIELD', 0);
+define('CONTENT_DB_STORAGE_PER_CONTENT_TYPE', 1);
+
+define('CONTENT_CALLBACK_NONE', 0x0001);
+define('CONTENT_CALLBACK_DEFAULT', 0x0002);
+define('CONTENT_CALLBACK_CUSTOM', 0x0004);
+
+define('CONTENT_HANDLE_CORE', 0x0001);
+define('CONTENT_HANDLE_MODULE', 0x0002);
+
+function content_help($path, $arg) {
+  switch ($path) {
+    case 'admin/help#content':
+      $output = '<p>'. t('The content module, a required component of the Content Construction Kit (CCK), allows administrators to associate custom fields with content types. In Drupal, content types are used to define the characteristics of a post, including the title and description of the fields displayed on its add and edit pages. Using the content module (and the other helper modules included in CCK), custom fields beyond the default "Title" and "Body" may be added. CCK features are accessible through tabs on the <a href="@content-types">content types administration page</a>. (See the <a href="@node-help">node module help page</a> for more information about content types.)', array('@content-types' => url('admin/content/types'), '@node-help' => url('admin/help/node'))) .'</p>';
+      $output .= '<p>'. t('When adding a custom field to a content type, you determine its type (whether it will contain text, numbers, or references to other objects) and how it will be displayed (either as a text field or area, a select box, checkbox, radio button, or autocompleting field). A field may have multiple values (i.e., a "person" may have multiple e-mail addresses) or a single value (i.e., an "employee" has a single employee identification number). As you add and edit fields, CCK automatically adjusts the structure of the database as necessary. CCK also provides a number of other features, including intelligent caching for your custom data, an import and export facility for content type definitions, and integration with other contributed modules.') .'</p>';
+      $output .= '<p>'. t('Custom field types are provided by a set of optional modules included with CCK (each module provides a different type). The <a href="@modules">modules page</a> allows you to enable or disable CCK components. A default installation of CCK includes:', array('@modules' => url('admin/build/modules'))) .'</p>';
+      $output .= '<ul>';
+      $output .= '<li>'. t('<em>number</em>, which adds numeric field types, in integer, decimal or floating point form. You may define a set of allowed inputs, or specify an allowable range of values. A variety of common formats for displaying numeric data are available.') .'</li>';
+      $output .= '<li>'. t("<em>text</em>, which adds text field types. A text field may contain plain text only, or optionally, may use Drupal's input format filters to securely manage rich text input. Text input fields may be either a single line (text field), multiple lines (text area), or for greater input control, a select box, checkbox, or radio buttons. If desired, CCK can validate the input to a set of allowed values.") .'</li>';
+      $output .= '<li>'. t('<em>nodereference</em>, which creates custom references between Drupal nodes. By adding a <em>nodereference</em> field and two different content types, for instance, you can easily create complex parent/child relationships between data (multiple "employee" nodes may contain a <em>nodereference</em> field linking to an "employer" node).') .'</li>';
+      $output .= '<li>'. t('<em>userreference</em>, which creates custom references to your sites\' user accounts. By adding a <em>userreference</em> field, you can create complex relationships between your site\'s users and posts. To track user involvement in a post beyond Drupal\'s standard <em>Authored by</em> field, for instance, add a <em>userreference</em> field named "Edited by" to a content type to store a link to an editor\'s user account page.') .'</li>';
+      $output .= '<li>'. t('<em>fieldgroup</em>, which creates collapsible fieldsets to hold a group of related fields. A fieldset may either be open or closed by default. The order of your fieldsets, and the order of fields within a fieldset, is managed via a drag-and-drop interface provided by content module.') .'</li>';
+      $output .= '</ul>';
+      $output .= '<p>'. t('For more information, see the online handbook entry for <a href="@handbook-cck">CCK</a> or the <a href="@project-cck">CCK project page</a>.', array('@handbook-cck' => 'http://drupal.org/handbook/modules/cck', '@project-cck' => 'http://drupal.org/project/cck')) .'</p>';
+      return $output;
+  }
+}
+
+/**
+ * Implementation of hook_flush_caches.
+ */
+function content_flush_caches() {
+  return array(content_cache_tablename());
+}
+
+/**
+ * Implementation of hook_init().
+ */
+function content_init() {
+  drupal_add_css(drupal_get_path('module', 'content') .'/theme/content-module.css');
+  if (module_exists('token') && !function_exists('content_token_values')) {
+    module_load_include('inc', 'content', 'includes/content.token');
+  }
+  if (module_exists('diff') && !function_exists('content_diff')) {
+    module_load_include('inc', 'content', 'includes/content.diff');
+  }
+}
+
+/**
+ * Implementation of hook_perm().
+ */
+function content_perm() {
+  return array('Use PHP input for field settings (dangerous - grant with care)');
+}
+
+/**
+ * Implementation of hook_menu_alter().
+ */
+function content_menu_alter(&$items) {
+  // Customize the content types page with our own callback
+  $items['admin/content/types']['page callback'] = 'content_types_overview';
+  $items['admin/content/types']['file'] = 'content.admin.inc';
+  $items['admin/content/types']['file path'] = drupal_get_path('module', 'content') .'/includes';
+}
+
+/**
+ * Implementation of hook_menu().
+ */
+function content_menu() {
+  $items = array();
+  $items['admin/content/types/fields'] = array(
+    'title' => 'Fields',
+    'page callback' => 'content_fields_list',
+    'access arguments' => array('administer content types'),
+    'file' => 'includes/content.admin.inc',
+    'type' => MENU_LOCAL_TASK,
+  );
+  // Callback for AHAH add more buttons.
+  $items['content/js_add_more'] = array(
+    'page callback' => 'content_add_more_js',
+    'access arguments' => array('access content'),
+    'file' => 'includes/content.node_form.inc',
+    'type' => MENU_CALLBACK,
+  );
+
+  // Make sure this doesn't fire until content_types is working,
+  // and tables are updated, needed to avoid errors on initial installation.
+  if (!defined('MAINTENANCE_MODE') && variable_get('content_schema_version', -1) >= 6007) {
+    foreach (node_get_types() as $type) {
+      $type_name = $type->type;
+      $content_type = content_types($type_name);
+      $type_url_str = $content_type['url_str'];
+      $items['admin/content/node-type/'. $type_url_str .'/fields'] = array(
+        'title' => 'Manage fields',
+        'page callback' => 'drupal_get_form',
+        'page arguments' => array('content_field_overview_form', $type_name),
+        'access arguments' => array('administer content types'),
+        'file' => 'includes/content.admin.inc',
+        'type' => MENU_LOCAL_TASK,
+        'weight' => 1,
+      );
+      $items['admin/content/node-type/'. $type_url_str .'/display'] = array(
+        'title' => 'Display fields',
+        'page callback' => 'drupal_get_form',
+        'page arguments' => array('content_display_overview_form', $type_name),
+        'access arguments' => array('administer content types'),
+        'file' => 'includes/content.admin.inc',
+        'type' => MENU_LOCAL_TASK,
+        'weight' => 2,
+      );
+      $contexts = content_build_modes('_tabs');
+      foreach ($contexts as $key => $tab) {
+        $items['admin/content/node-type/'. $type_url_str .'/display/'. $key] = array(
+          'title' => $tab['title'],
+          'page arguments' => array('content_display_overview_form', $type_name, $key),
+          'access arguments' => array('administer content types'),
+          'type' => $key == 'basic' ? MENU_DEFAULT_LOCAL_TASK : MENU_LOCAL_TASK,
+          'weight' => $key == 'basic' ? 0 : 1,
+        );
+      }
+      // Cast as an array in case this is called before any fields have
+      // been added, like when a new content type is created.
+      foreach ((array) $content_type['fields'] as $field) {
+        $field_name = $field['field_name'];
+        $items['admin/content/node-type/'. $type_url_str .'/fields/'. $field_name] = array(
+          'title' => $field['widget']['label'],
+          'page callback' => 'drupal_get_form',
+          'page arguments' => array('content_field_edit_form', $type_name, $field_name),
+          'access arguments' => array('administer content types'),
+          'file' => 'includes/content.admin.inc',
+          'type' => MENU_LOCAL_TASK,
+        );
+        $items['admin/content/node-type/'. $type_url_str .'/fields/'. $field_name .'/remove'] = array(
+          'title' => 'Remove field',
+          'page callback' => 'drupal_get_form',
+          'page arguments' => array('content_field_remove_form', $type_name, $field_name),
+          'access arguments' => array('administer content types'),
+          'file' => 'includes/content.admin.inc',
+          'type' => MENU_CALLBACK,
+        );
+      }
+    }
+  }
+  return $items;
+}
+
+/**
+ * Hook elements().
+ *
+ * Used to add multiple value processing, validation, and themes.
+ *
+ * FAPI callbacks can be declared here, and the element will be
+ * passed to those callbacks.
+ *
+ * Drupal will automatically theme the element using a theme with
+ * the same name as the hook_elements key.
+ */
+function content_elements() {
+  return array(
+    'content_multiple_values' => array(),
+    'content_field' => array(),
+  );
+}
+
+/**
+ * Implementation of hook_theme().
+ */
+function content_theme() {
+  $path = drupal_get_path('module', 'content') .'/theme';
+  require_once "./$path/theme.inc";
+
+  return array(
+    'content_field' => array(
+      'template' => 'content-field',
+      'arguments' => array('element' => NULL),
+      'path' => $path,
+    ),
+    'content_overview_links' => array(
+      'arguments' => array(),
+    ),
+    'content_field_overview_form' => array(
+      'template' => 'content-admin-field-overview-form',
+      'file' => 'theme.inc',
+      'path' => $path,
+      'arguments' => array('form' => NULL),
+    ),
+    'content_display_overview_form' => array(
+      'template' => 'content-admin-display-overview-form',
+      'file' => 'theme.inc',
+      'path' => $path,
+      'arguments' => array('form' => NULL),
+    ),
+    'content_exclude' => array(
+      'arguments' => array('content' => NULL, 'object' => array(), 'context' => NULL),
+    ),
+    'content_view_multiple_field' => array(
+      'arguments' => array('items' => NULL, 'field' => NULL, 'data' => NULL),
+    ),
+    'content_multiple_values' => array(
+      'arguments' => array('element' => NULL),
+    ),
+  );
+}
+
+/**
+ * Implementation of hook_views_api().
+ */
+function content_views_api() {
+  return array(
+    'api' => 2,
+    'path' => drupal_get_path('module', 'content') . '/includes/views',
+  );
+}
+
+/**
+ * Implementation of hook_ctools_plugin_directory().
+ */
+function content_ctools_plugin_directory($module, $plugin) {
+  if ($module == 'ctools' && $plugin == 'content_types') {
+    return 'includes/panels/' . $plugin;
+  }
+}
+
+/**
+ * Load data for a node type's fields.
+ * Implementation of hook_nodeapi 'load' op.
+ *
+ * When loading one of the content.module nodes, we need to let each field handle
+ * its own loading. This can make for a number of queries in some cases, so we
+ * cache the loaded object structure and invalidate it during the update process.
+ */
+function content_load(&$node) {
+  $cid = 'content:'. $node->nid .':'. $node->vid;
+  if ($cached = cache_get($cid, content_cache_tablename())) {
+    foreach ($cached->data as $key => $value) {
+      $node->$key = $value;
+    }
+  }
+  else {
+    $default_additions = _content_field_invoke_default('load', $node);
+    if ($default_additions) {
+      foreach ($default_additions as $key => $value) {
+        $node->$key = $value;
+      }
+    }
+    $additions = _content_field_invoke('load', $node);
+    if ($additions) {
+      foreach ($additions as $key => $value) {
+        $node->$key = $value;
+        $default_additions[$key] = $value;
+      }
+    }
+    cache_set($cid, $default_additions, content_cache_tablename());
+  }
+}
+
+/**
+ * Implementation of hook_nodeapi 'validate' op.
+ *
+ */
+function content_validate(&$node, $form = NULL) {
+  _content_field_invoke('validate', $node, $form);
+  _content_field_invoke_default('validate', $node, $form);
+}
+
+/**
+ * Implementation of hook_nodeapi 'presave' op.
+ *
+ */
+function content_presave(&$node) {
+  _content_field_invoke('presave', $node);
+  _content_field_invoke_default('presave', $node);
+}
+
+/**
+ * Implementation of hook_nodeapi 'insert' op.
+ *
+ * Insert node type fields.
+ */
+function content_insert(&$node) {
+  _content_field_invoke('insert', $node);
+  _content_field_invoke_default('insert', $node);
+}
+
+/**
+ * Implementation of hook_nodeapi 'update' op.
+ *
+ * Update node type fields.
+ */
+function content_update(&$node) {
+  _content_field_invoke('update', $node);
+  _content_field_invoke_default('update', $node);
+  cache_clear_all('content:'. $node->nid .':'. $node->vid, content_cache_tablename());
+}
+
+/**
+ * Implementation of hook_nodeapi 'delete' op.
+ *
+ * Delete node type fields.
+ */
+function content_delete(&$node) {
+  _content_field_invoke('delete', $node);
+  _content_field_invoke_default('delete', $node);
+  cache_clear_all('content:'. $node->nid .':', content_cache_tablename(), TRUE);
+}
+
+/**
+ * Implementation of hook_nodeapi 'delete_revision' op.
+ *
+ * Delete node type fields for a revision.
+ */
+function content_delete_revision(&$node) {
+  _content_field_invoke('delete revision', $node);
+  _content_field_invoke_default('delete revision', $node);
+  cache_clear_all('content:'. $node->nid .':'. $node->vid, content_cache_tablename());
+}
+
+/**
+ * Implementation of hook_nodeapi 'view' op.
+ *
+ * Generate field render arrays.
+ */
+function content_view(&$node, $teaser = FALSE, $page = FALSE) {
+  // Let field modules sanitize their data for output.
+  _content_field_invoke('sanitize', $node, $teaser, $page);
+
+  // Merge fields.
+  $additions = _content_field_invoke_default('view', $node, $teaser, $page);
+  $node->content = array_merge((array) $node->content, $additions);
+}
+
+/**
+ * Render a single field, fully themed with label and multiple values.
+ *
+ * To be used by third-party code (Views, Panels...) that needs to output
+ * an isolated field. Do *not* use inside node templates, use the
+ * $FIELD_NAME_rendered variables instead.
+ *
+ * By default, the field is displayed using the settings defined for the
+ * 'full node' or 'teaser' contexts (depending on the value of the $teaser param).
+ * Set $node->build_mode to a different value to use a different context.
+ *
+ * Different settings can be specified by adjusting $field['display_settings'].
+ *
+ * @param $field
+ *   The field definition.
+ * @param $node
+ *   The node containing the field to display. Can be a 'pseudo-node', containing
+ *   at least 'type', 'nid', 'vid', and the field data.
+ * @param $teaser
+ * @param $page
+ *   Similar to hook_nodeapi('view')
+ * @return
+ *   The themed output for the field.
+ */
+function content_view_field($field, $node, $teaser = FALSE, $page = FALSE) {
+  $output = '';
+  if (isset($node->$field['field_name'])) {
+    $items = $node->$field['field_name'];
+
+    // Use 'full'/'teaser' if not specified otherwise.
+    $node->build_mode = isset($node->build_mode) ? $node->build_mode : NODE_BUILD_NORMAL;
+
+    // One-field equivalent to _content_field_invoke('sanitize').
+    $field_types = _content_field_types();
+    $module = $field_types[$field['type']]['module'];
+    $function = $module .'_field';
+    if (function_exists($function)) {
+      $function('sanitize', $node, $field, $items, $teaser, $page);
+      $node->$field['field_name'] = $items;
+    }
+
+    $view = content_field('view', $node, $field, $items, $teaser, $page);
+    // content_field('view') adds a wrapper to handle variables and 'excluded'
+    // fields for node templates. We bypass it and render the actual field.
+    $output = drupal_render($view[$field['field_name']]['field']);
+  }
+  return $output;
+}
+
+/**
+ * Implementation of hook_nodeapi 'alter' op.
+ *
+ * Add back the formatted values in the 'view' element for all fields,
+ * so that node templates can use it.
+ */
+function content_alter(&$node, $teaser = FALSE, $page = FALSE) {
+  _content_field_invoke_default('alter', $node, $teaser, $page);
+}
+
+/**
+ * Implementation of hook_nodeapi 'prepare translation' op.
+ *
+ * Generate field render arrays.
+ */
+function content_prepare_translation(&$node) {
+  $default_additions = _content_field_invoke_default('prepare translation', $node);
+  $additions = _content_field_invoke('prepare translation', $node);
+  // Merge module additions after the default ones to enable overriding
+  // of field values.
+  $node = (object) array_merge((array) $node, $default_additions, $additions);
+}
+
+/**
+ * Implementation of hook_nodeapi().
+ */
+function content_nodeapi(&$node, $op, $a3 = NULL, $a4 = NULL) {
+  // Prevent against invalid 'nodes' built by broken 3rd party code.
+  if (isset($node->type)) {
+    $type = content_types($node->type);
+    // Save cycles if the type has no CCK fields.
+    if (!empty($type['fields'])) {
+      $callback = 'content_'. str_replace(' ', '_', $op);
+      if (function_exists($callback)) {
+        $callback($node, $a3, $a4);
+      }
+    }
+
+    // Special case for 'view' op, we want to adjust weights of non-cck fields
+    // even if there are no actual fields for this type.
+    if ($op == 'view') {
+      $node->content['#pre_render'][] = 'content_alter_extra_weights';
+      $node->content['#content_extra_fields'] = $type['extra'];
+    }
+  }
+}
+
+/**
+ *  Implementation of hook_form_alter().
+ */
+function content_form_alter(&$form, $form_state, $form_id) {
+  if (isset($form['type']) && isset($form['#node']) && $form['type']['#value'] .'_node_form' == $form_id) {
+    $type = content_types($form['#node']->type);
+    if (!empty($type['fields'])) {
+      module_load_include('inc', 'content', 'includes/content.node_form');
+      // Merge field widgets.
+      $form = array_merge($form, content_form($form, $form_state));
+    }
+    $form['#pre_render'][] = 'content_alter_extra_weights';
+    $form['#content_extra_fields'] = $type['extra'];
+  }
+}
+
+/**
+ * Pre-render callback to adjust weights of non-CCK fields.
+ */
+function content_alter_extra_weights($elements) {
+  if (isset($elements['#content_extra_fields'])) {
+    foreach ($elements['#content_extra_fields'] as $key => $value) {
+      // Some core 'fields' use a different key in node forms and in 'view'
+      // render arrays. Check we're not on a form first.
+      if (!isset($elements['#build_id']) && isset($value['view']) && isset($elements[$value['view']])) {
+        $elements[$value['view']]['#weight'] = $value['weight'];
+      }
+      elseif (isset($elements[$key])) {
+        $elements[$key]['#weight'] = $value['weight'];
+      }
+    }
+  }
+  return $elements;
+}
+
+/**
+ * Proxy function to call content_add_more_submit(), because it might not be
+ * included yet when the form is processed and invokes the callback.
+ */
+function content_add_more_submit_proxy($form, &$form_state) {
+  module_load_include('inc', 'content', 'includes/content.node_form');
+  content_add_more_submit($form, $form_state);
+}
+
+/**
+ * Theme an individual form element.
+ *
+ * Combine multiple values into a table with drag-n-drop reordering.
+ */
+function theme_content_multiple_values($element) {
+  $field_name = $element['#field_name'];
+  $field = content_fields($field_name);
+  $output = '';
+
+  if ($field['multiple'] >= 1) {
+    $table_id = $element['#field_name'] .'_values';
+    $order_class = $element['#field_name'] .'-delta-order';
+    $required = !empty($element['#required']) ? '<span class="form-required" title="'. t('This field is required.') .'">*</span>' : '';
+
+    $header = array(
+      array(
+        'data' => t('!title: !required', array('!title' => $element['#title'], '!required' => $required)),
+        'colspan' => 2
+      ),
+      t('Order'),
+    );
+    $rows = array();
+
+    // Sort items according to '_weight' (needed when the form comes back after
+    // preview or failed validation)
+    $items = array();
+    foreach (element_children($element) as $key) {
+      if ($key !== $element['#field_name'] .'_add_more') {
+        $items[] = &$element[$key];
+      }
+    }
+    usort($items, '_content_sort_items_value_helper');
+
+    // Add the items as table rows.
+    foreach ($items as $key => $item) {
+      $item['_weight']['#attributes']['class'] = $order_class;
+      $delta_element = drupal_render($item['_weight']);
+      $cells = array(
+        array('data' => '', 'class' => 'content-multiple-drag'),
+        drupal_render($item),
+        array('data' => $delta_element, 'class' => 'delta-order'),
+      );
+      $rows[] = array(
+        'data' => $cells,
+        'class' => 'draggable',
+      );
+    }
+
+    $output .= theme('table', $header, $rows, array('id' => $table_id, 'class' => 'content-multiple-table'));
+    $output .= $element['#description'] ? '<div class="description">'. $element['#description'] .'</div>' : '';
+    $output .= drupal_render($element[$element['#field_name'] .'_add_more']);
+
+    drupal_add_tabledrag($table_id, 'order', 'sibling', $order_class);
+  }
+  else {
+    foreach (element_children($element) as $key) {
+      $output .= drupal_render($element[$key]);
+    }
+  }
+
+  return $output;
+}
+
+/**
+ * Modules notify Content module when uninstalled, disabled, etc.
+ *
+ * @param string $op
+ *   the module operation: uninstall, install, enable, disable
+ * @param string $module
+ *   the name of the affected module.
+ * @TODO
+ *   figure out exactly what needs to be done by content module when
+ *   field modules are installed, uninstalled, enabled or disabled.
+ */
+function content_notify($op, $module) {
+  switch ($op) {
+    case 'install':
+      content_clear_type_cache();
+      break;
+    case 'uninstall':
+      module_load_include('inc', 'content', 'includes/content.crud');
+      content_module_delete($module);
+      break;
+    case 'enable':
+      content_associate_fields($module);
+      content_clear_type_cache();
+      break;
+    case 'disable':
+      // When CCK modules are disabled before content module's update is run
+      // to add the active column, we can't do this.
+      if (variable_get('content_schema_version', -1) < 6007) {
+        return FALSE;
+      }
+      db_query("UPDATE {". content_field_tablename() ."} SET active=0 WHERE module='%s'", $module);
+      db_query("UPDATE {". content_instance_tablename() ."} SET widget_active=0 WHERE widget_module='%s'", $module);
+      content_clear_type_cache(TRUE);
+      break;
+  }
+}
+
+/**
+ * Allows a module to update the database for fields and columns it controls.
+ *
+ * @param string $module
+ *   The name of the module to update on.
+ */
+function content_associate_fields($module) {
+  // When CCK modules are enabled before content module's update is run,
+  // to add module and active columns, we can't do this.
+  if (variable_get('content_schema_version', -1) < 6007) {
+    return FALSE;
+  }
+  $module_fields = module_invoke($module, 'field_info');
+  if ($module_fields) {
+    foreach ($module_fields as $name => $field_info) {
+      watchdog('content', 'Updating field type %type with module %module.', array('%type' => $name, '%module' => $module));
+      db_query("UPDATE {". content_field_tablename() ."} SET module = '%s', active = %d WHERE type = '%s'", $module, 1, $name);
+    }
+  }
+  $module_widgets = module_invoke($module, 'widget_info');
+  if ($module_widgets) {
+    foreach ($module_widgets as $name => $widget_info) {
+      watchdog('content', 'Updating widget type %type with module %module.', array('%type' => $name, '%module' => $module));
+      db_query("UPDATE {". content_instance_tablename() ."} SET widget_module = '%s', widget_active = %d WHERE widget_type = '%s'", $module, 1, $name);
+    }
+  }
+  // This is called from updates and installs, so get the install-safe
+  // version of a fields array.
+  $fields_set = array();
+  module_load_include('install', 'content');
+  $types = content_types_install();
+  foreach ($types as $type_name => $fields) {
+    foreach ($fields as $field) {
+      if ($field['module'] == $module && !in_array($field['field_name'], $fields_set)) {
+        $columns = (array) module_invoke($field['module'], 'field_settings', 'database columns', $field);
+        db_query("UPDATE {". content_field_tablename() ."} SET db_columns = '%s' WHERE field_name = '%s'", serialize($columns), $field['field_name']);
+        $fields_set[] = $field['field_name'];
+      }
+    }
+  }
+}
+
+/**
+ * Implementation of hook_field(). Handles common field housekeeping.
+ *
+ * This implementation is special, as content.module does not define any field
+ * types. Instead, this function gets called after the type-specific hook, and
+ * takes care of default stuff common to all field types.
+ *
+ * Db-storage ops ('load', 'insert', 'update', 'delete', 'delete revisions')
+ * are not executed field by field, and are thus handled separately in
+ * content_storage.
+ *
+ * The 'view' operation constructs the $node in a way that you can use
+ * drupal_render() to display the formatted output for an individual field.
+ * i.e. print drupal_render($node->countent['field_foo']);
+ *
+ * The code now supports both single value formatters, which theme an
+ * individual item value as has been done in previous version of CCK,
+ * and multiple value formatters, which theme all values for the field
+ * in a single theme. The multiple value formatters could be used, for
+ * instance, to plot field values on a single map or display them
+ * in a graph. Single value formatters are the default, multiple value
+ * formatters can be designated as such in formatter_info().
+ *
+ * The node array will look like:
+ *   $node->content['field_foo']['wrapper'] = array(
+ *     '#type' => 'content_field',
+ *     '#title' => 'label'
+ *     '#field_name' => 'field_name',
+ *     '#node' => $node,
+ *     // Value of the $teaser param of hook_nodeapi('view').
+ *     '#teaser' => $teaser,
+ *     // Value of the $page param of hook_nodeapi('view').
+ *     '#page' => $page,
+ *     // The curent rendering context ('teaser', 'full', NODE_BUILD_SEARCH_INDEX...).
+ *     '#context' => $context,
+ *     'items' =>
+ *       0 => array(
+ *         '#item' => $items[0],
+ *         // Only for 'single-value' formatters
+ *         '#theme' => $theme,
+ *         '#field_name' => 'field_name',
+ *         '#type_name' => $node->type,
+ *         '#formatter' => $formatter_name,
+ *         '#node' => $node,
+ *         '#delta' => 0,
+ *       ),
+ *       1 => array(
+ *         '#item' => $items[1],
+ *         // Only for 'single-value' formatters
+ *         '#theme' => $theme,
+ *         '#field_name' => 'field_name',
+ *         '#type_name' => $node->type,
+ *         '#formatter' => $formatter_name,
+ *         '#node' => $node,
+ *         '#delta' => 1,
+ *       ),
+ *       // Only for 'multiple-value' formatters
+ *       '#theme' => $theme,
+ *       '#field_name' => 'field_name',
+ *       '#type_name' => $node->type,
+ *       '#formatter' => $formatter_name,
+ *     ),
+ *   );
+ */
+function content_field($op, &$node, $field, &$items, $teaser, $page) {
+  switch ($op) {
+    case 'validate':
+      // TODO: here we could validate that the number of multiple data is correct ?
+      // We're controlling the number of fields to fill out and saving empty
+      // ones if a specified number is requested, so no reason to do any validation
+      // here right now, but if later create a method to indicate whether
+      // 'required' means all values must be filled out, we can come back
+      // here and check that they're not empty.
+      break;
+
+    case 'presave':
+      if (!empty($node->devel_generate)) {
+        include_once('./'. drupal_get_path('module', 'content') .'/includes/content.devel.inc');
+        content_generate_fields($node, $field);
+        $items = $node->{$field['field_name']};
+      }
+
+      // Manual node_save calls might not have all fields filled in.
+      // On node insert, we need to make sure all tables get at least an empty
+      // record, or subsequent edits, using drupal_write_record() in update mode,
+      // won't insert any data.
+      // Missing fields on node update are handled in content_storage().
+      if (empty($items) && !isset($node->nid)) {
+        foreach (array_keys($field['columns']) as $column) {
+          $items[0][$column] = NULL;
+        }
+        $node->$field['field_name'] = $items;
+      }
+
+      // If there was an AHAH add more button in this field, don't save it.
+      // TODO: is it still needed ?
+      unset($items[$field['field_name'] .'_add_more']);
+
+      if (content_handle('widget', 'multiple values', $field) == CONTENT_HANDLE_CORE) {
+        // Reorder items to account for drag-n-drop reordering.
+        $items = _content_sort_items($field, $items);
+      }
+
+      // Filter out empty values.
+      $items = content_set_empty($field, $items);
+
+      break;
+
+    case 'view':
+      $addition = array();
+
+      // Previewed nodes bypass the 'presave' op, so we need to some massaging.
+      if ($node->build_mode == NODE_BUILD_PREVIEW && content_handle('widget', 'multiple values', $field) == CONTENT_HANDLE_CORE) {
+        if (content_handle('widget', 'multiple values', $field) == CONTENT_HANDLE_CORE) {
+          // Reorder items to account for drag-n-drop reordering.
+          $items = _content_sort_items($field, $items);
+        }
+
+        // Filter out empty values.
+        $items = content_set_empty($field, $items);
+      }
+
+      // NODE_BUILD_NORMAL is 0, and ('whatever' == 0) is TRUE, so we need a ===.
+      if ($node->build_mode === NODE_BUILD_NORMAL || $node->build_mode == NODE_BUILD_PREVIEW) {
+        $context = $teaser ? 'teaser' : 'full';
+      }
+      else {
+        $context = $node->build_mode;
+      }
+      // The field may be missing info for $contexts added by modules
+      // enabled after the field was last edited.
+      $formatter_name = isset($field['display_settings'][$context]) && isset($field['display_settings'][$context]['format']) ? $field['display_settings'][$context]['format'] : 'default';
+      if ($formatter = _content_get_formatter($formatter_name, $field['type'])) {
+        $theme = $formatter['module'] .'_formatter_'. $formatter_name;
+        $single = (content_handle('formatter', 'multiple values', $formatter) == CONTENT_HANDLE_CORE);
+
+        $label_display = isset($field['display_settings']['label']['format']) ? $field['display_settings']['label']['format'] : 'above';
+        // Do not include field labels when indexing content.
+        if ($context == NODE_BUILD_SEARCH_INDEX) {
+          $label_display = 'hidden';
+        }
+
+        $element = array(
+          '#type' => 'content_field',
+          '#title' => check_plain(t($field['widget']['label'])),
+          '#field_name' => $field['field_name'],
+          '#access' => $formatter_name != 'hidden' && content_access('view', $field, NULL, $node),
+          '#label_display' => $label_display,
+          '#node' => $node,
+          '#teaser' => $teaser,
+          '#page' => $page,
+          '#context' => $context,
+          '#single' => $single,
+          'items' => array(),
+        );
+
+        // Fill-in items.
+        foreach ($items as $delta => $item) {
+          $element['items'][$delta] = array(
+            '#item' => $item,
+            '#weight' => $delta,
+          );
+        }
+
+        // Append formatter information either on each item ('single-value' formatter)
+        // or at the upper 'items' level ('multiple-value' formatter)
+        $format_info = array(
+          '#theme' => $theme,
+          '#field_name' => $field['field_name'],
+          '#type_name' => $node->type,
+          '#formatter' => $formatter_name,
+          '#node' => $node,
+        );
+        if ($single) {
+          foreach ($items as $delta => $item) {
+            $element['items'][$delta] += $format_info;
+            $element['items'][$delta]['#item']['#delta'] = $delta;
+          }
+        }
+        else {
+          $element['items'] += $format_info;
+        }
+
+        // The wrapper lets us get the themed output for the whole field
+        // to populate the $FIELD_NAME_rendered variable for node templates,
+        // and hide it from the $content variable if needed.
+        // See 'preprocess_node' op and theme_content_field_wrapper()?
+        $wrapper = array(
+          'field' => $element,
+          '#weight' => $field['widget']['weight'],
+          '#post_render' => array('content_field_wrapper_post_render'),
+          '#field_name' => $field['field_name'],
+          '#type_name' => $node->type,
+          '#context' => $context,
+        );
+
+        $addition = array($field['field_name'] => $wrapper);
+      }
+      return $addition;
+
+    case 'alter':
+      // Add back the formatted values in the 'view' element,
+      // so that tokens and node templates can use it.
+      // Note: Doing this in 'preprocess_node' breaks token integration.
+
+      // The location of the field's rendered output depends on whether the
+      // field is in a fieldgroup or not.
+      $wrapper = NULL;
+      if (isset($node->content[$field['field_name']])) {
+        $wrapper = $node->content[$field['field_name']];
+      }
+      elseif (module_exists('fieldgroup') && ($group_name = fieldgroup_get_group($node->type, $field['field_name'])) && isset($node->content[$group_name]['group'][$field['field_name']])) {
+        $wrapper = $node->content[$group_name]['group'][$field['field_name']];
+      }
+
+      if ($wrapper) {
+        $element = $wrapper['field'];
+        // '#single' is not set if the field is hidden or inaccessible.
+        if (isset($element['#single'])) {
+          if (!empty($element['#single'])) {
+            // Single value formatter.
+            foreach (element_children($element['items']) as $delta) {
+              // '#chilren' is not set if the field is empty.
+              $items[$delta]['view'] = isset($element['items'][$delta]['#children']) ? $element['items'][$delta]['#children'] : '';
+            }
+          }
+          elseif (isset($element['items']['#children']))  {
+            // Multiple values formatter.
+            $items[0]['view'] = $element['items']['#children'];
+          }
+        }
+        else {
+          // Hidden or inaccessible field.
+          $items[0]['view'] = '';
+        }
+      }
+      break;
+
+    case 'preprocess_node':
+      // Add $FIELD_NAME_rendered variables.
+      $addition = array();
+
+      // The location of the field's rendered output depends on whether the
+      // field is in a fieldgroup or not.
+      $wrapper = NULL;
+      if (isset($node->content[$field['field_name']])) {
+        $wrapper = $node->content[$field['field_name']];
+      }
+      elseif (module_exists('fieldgroup') && ($group_name = fieldgroup_get_group($node->type, $field['field_name'])) && isset($node->content[$group_name]['group'][$field['field_name']])) {
+        $wrapper = $node->content[$group_name]['group'][$field['field_name']];
+      }
+
+      if ($wrapper) {
+        // '#chilren' is not set if the field is empty.
+        $addition[$field['field_name'] .'_rendered'] = isset($wrapper['#children']) ? $wrapper['#children'] : '';
+      }
+
+      return $addition;
+
+    case 'prepare translation':
+      $addition = array();
+      if (isset($node->translation_source->$field['field_name'])) {
+        $addition[$field['field_name']] = $node->translation_source->$field['field_name'];
+      }
+      return $addition;
+  }
+}
+
+/**
+ * Helper function to filter out empty values.
+ *
+ * On order to keep marker rows in the database, the function ensures
+ * that the right number of 'all columns NULL' values is kept.
+ *
+ * @param array $field
+ * @param array $items
+ * @return array
+ *   returns filtered and adjusted item array
+ */
+function content_set_empty($field, $items) {
+  // Filter out empty values.
+  $filtered = array();
+  $function = $field['module'] .'_content_is_empty';
+  foreach ((array) $items as $delta => $item) {
+    if (!$function($item, $field)) {
+      $filtered[] = $item;
+    }
+  }
+
+  // Make sure we store the right number of 'empty' values.
+  $empty = array();
+  foreach (array_keys($field['columns']) as $column) {
+    $empty[$column] = NULL;
+  }
+  $pad = $field['multiple'] > 1 ? $field['multiple'] : 1;
+  $filtered = array_pad($filtered, $pad, $empty);
+
+  return $filtered;
+}
+
+/**
+ * Helper function to sort items in a field according to
+ * user drag-n-drop reordering.
+ */
+function _content_sort_items($field, $items) {
+  if ($field['multiple'] >= 1 && isset($items[0]['_weight'])) {
+    usort($items, '_content_sort_items_helper');
+    foreach ($items as $delta => $item) {
+      if (is_array($items[$delta])) {
+        unset($items[$delta]['_weight']);
+      }
+    }
+  }
+  return $items;
+}
+
+/**
+ * Sort function for items order.
+ * (copied form element_sort(), which acts on #weight keys)
+ */
+function _content_sort_items_helper($a, $b) {
+  $a_weight = (is_array($a) && isset($a['_weight'])) ? $a['_weight'] : 0;
+  $b_weight = (is_array($b) && isset($b['_weight'])) ? $b['_weight'] : 0;
+  if ($a_weight == $b_weight) {
+    return 0;
+  }
+  return ($a_weight < $b_weight) ? -1 : 1;
+}
+
+/**
+ * Same as above, using ['_weight']['#value']
+ */
+function _content_sort_items_value_helper($a, $b) {
+  $a_weight = (is_array($a) && isset($a['_weight']['#value'])) ? $a['_weight']['#value'] : 0;
+  $b_weight = (is_array($b) && isset($b['_weight']['#value'])) ? $b['_weight']['#value'] : 0;
+  if ($a_weight == $b_weight) {
+    return 0;
+  }
+  return ($a_weight < $b_weight) ? -1 : 1;
+}
+
+/**
+ * Handle storage ops for _content_field_invoke_default().
+ */
+function content_storage($op, $node) {
+  // Don't try this before content module's update is run to add
+  // the active and module columns.
+  if (variable_get('content_schema_version', -1) < 6007) {
+    return FALSE;
+  }
+
+  $type_name = $node->type;
+  $type = content_types($type_name);
+
+  switch ($op) {
+    case 'load':
+      // OPTIMIZE: load all non multiple fields in a single JOIN query ?
+      // warning: 61-join limit in MySQL ?
+      $additions = array();
+      // For each table used by this content type,
+      foreach ($type['tables'] as $table) {
+        $schema = drupal_get_schema($table);
+        // The per-type table might not have any fields actually stored in it.
+        if (!$schema['content fields']) {
+          continue;
+        }
+        $query = 'SELECT * FROM {'. $table .'} WHERE vid = %d';
+
+        // If we're loading a table for a multiple field,
+        // we fetch all rows (values) ordered by delta,
+        // else we only fetch one row.
+        $result = isset($schema['fields']['delta']) ? db_query($query .' ORDER BY delta', $node->vid) : db_query_range($query, $node->vid, 0, 1);
+
+        // For each table row, populate the fields.
+        while ($row = db_fetch_array($result)) {
+          // For each field stored in the table, add the field item.
+          foreach ($schema['content fields'] as $field_name) {
+            $item = array();
+            $field = content_fields($field_name, $type_name);
+            $db_info = content_database_info($field);
+            // For each column declared by the field, populate the item.
+            foreach ($db_info['columns'] as $column => $attributes) {
+              $item[$column] = $row[$attributes['column']];
+            }
+
+            // Add the item to the field values for the node.
+            if (!isset($additions[$field_name])) {
+              $additions[$field_name] = array();
+            }
+            $additions[$field_name][] = $item;
+          }
+        }
+      }
+      return $additions;
+
+    case 'insert':
+    case 'update':
+      foreach ($type['tables'] as $table) {
+        $schema = drupal_get_schema($table);
+        $record = array();
+        foreach ($schema['content fields'] as $field_name) {
+          if (isset($node->$field_name)) {
+            $field = content_fields($field_name, $type_name);
+            // Multiple fields need specific handling, we'll deal with them later on.
+            if ($field['multiple']) {
+              continue;
+            }
+            $db_info = content_database_info($field);
+            foreach ($db_info['columns'] as $column => $attributes) {
+              $record[$attributes['column']] = $node->{$field_name}[0][$column];
+            }
+          }
+        }
+        // $record might be empty because
+        // - the table stores a multiple field :
+        //   we do nothing, this is handled later on
+        // - this is the per-type table and no field is actually stored in it :
+        //   we still store the nid and vid
+        if (count($record) || empty($schema['content fields'])) {
+          $record['nid'] = $node->nid;
+          $record['vid'] = $node->vid;
+          // Can't rely on the insert/update op of the node to decide if this
+          // is an insert or an update, a node or revision may have existed
+          // before any fields were created, so there may not be an entry here.
+
+          // TODO - should we auto create an entry for all existing nodes when
+          // fields are added to content types -- either a NULL value
+          // or the default value? May need to offer the user an option of
+          // how to handle that.
+          if (db_result(db_query("SELECT COUNT(*) FROM {". $table ."} WHERE vid = %d", $node->vid))) {
+            content_write_record($table, $record, array('vid'));
+          }
+          else {
+            content_write_record($table, $record);
+          }
+        }
+      }
+
+      // Handle multiple fields.
+      foreach ($type['fields'] as $field) {
+        if ($field['multiple'] && isset($node->$field['field_name'])) {
+          $db_info = content_database_info($field);
+          // Delete and insert, rather than update, in case a value was added.
+          if ($op == 'update') {
+            db_query('DELETE FROM {'. $db_info['table'] .'} WHERE vid = %d', $node->vid);
+          }
+          foreach ($node->$field['field_name'] as $delta => $item) {
+            $record = array();
+            foreach ($db_info['columns'] as $column => $attributes) {
+              $record[$attributes['column']] = $item[$column];
+            }
+            $record['nid'] = $node->nid;
+            $record['vid'] = $node->vid;
+            $record['delta'] = $delta;
+            content_write_record($db_info['table'], $record);
+          }
+        }
+      }
+      break;
+
+    case 'delete':
+      foreach ($type['tables'] as $table) {
+        db_query('DELETE FROM {'. $table .'} WHERE nid = %d', $node->nid);
+      }
+      break;
+
+    case 'delete revision':
+      foreach ($type['tables'] as $table) {
+        db_query('DELETE FROM {'. $table .'} WHERE vid = %d', $node->vid);
+      }
+      break;
+  }
+}
+
+/**
+ * Save a record to the database based upon the schema.
+ *
+ * Directly copied from core's drupal_write_record, which can't update a
+ * column to NULL. See http://drupal.org/node/227677 and
+ * http://drupal.org/node/226264 for more details about that problem.
+ *
+ * TODO - get rid of this function and change references back to
+ * drupal_write_record() if the patch gets into core. Will need a method
+ * of protecting people on older versions, though.
+ *
+ * Default values are filled in for missing items, and 'serial' (auto increment)
+ * types are filled in with IDs.
+ *
+ * @param $table
+ *   The name of the table; this must exist in schema API.
+ * @param $object
+ *   The object to write. This is a reference, as defaults according to
+ *   the schema may be filled in on the object, as well as ID on the serial
+ *   type(s). Both array an object types may be passed.
+ * @param $update
+ *   If this is an update, specify the primary keys' field names. It is the
+ *   caller's responsibility to know if a record for this object already
+ *   exists in the database. If there is only 1 key, you may pass a simple string.
+ * @return
+ *   Failure to write a record will return FALSE. Otherwise SAVED_NEW or
+ *   SAVED_UPDATED is returned depending on the operation performed. The
+ *   $object parameter contains values for any serial fields defined by
+ *   the $table. For example, $object->nid will be populated after inserting
+ *   a new node.
+ */
+function content_write_record($table, &$object, $update = array()) {
+  // Standardize $update to an array.
+  if (is_string($update)) {
+    $update = array($update);
+  }
+
+  // Convert to an object if needed.
+  if (is_array($object)) {
+    $object = (object) $object;
+    $array = TRUE;
+  }
+  else {
+    $array = FALSE;
+  }
+
+  $schema = drupal_get_schema($table);
+  if (empty($schema)) {
+    return FALSE;
+  }
+
+  $fields = $defs = $values = $serials = $placeholders = array();
+
+  // Go through our schema, build SQL, and when inserting, fill in defaults for
+  // fields that are not set.
+  foreach ($schema['fields'] as $field => $info) {
+    // Special case -- skip serial types if we are updating.
+    if ($info['type'] == 'serial' && count($update)) {
+      continue;
+    }
+
+    // For inserts, populate defaults from Schema if not already provided
+    if (!isset($object->$field) && !count($update) && isset($info['default'])) {
+      $object->$field = $info['default'];
+    }
+
+    // Track serial fields so we can helpfully populate them after the query.
+    if ($info['type'] == 'serial') {
+      $serials[] = $field;
+      // Ignore values for serials when inserting data. Unsupported.
+      unset($object->$field);
+    }
+
+    // Build arrays for the fields, placeholders, and values in our query.
+    if (isset($object->$field) || array_key_exists($field, $object)) {
+      $fields[] = $field;
+      if (isset($object->$field)) {
+        $placeholders[] = db_type_placeholder($info['type']);
+
+        if (empty($info['serialize'])) {
+          $values[] = $object->$field;
+        }
+        else {
+          $values[] = serialize($object->$field);
+        }
+      }
+      else {
+        $placeholders[] = 'NULL';
+      }
+    }
+  }
+
+  // Build the SQL.
+  $query = '';
+  if (!count($update)) {
+    $query = "INSERT INTO {". $table ."} (". implode(', ', $fields) .') VALUES ('. implode(', ', $placeholders) .')';
+    $return = SAVED_NEW;
+  }
+  else {
+    $query = '';
+    foreach ($fields as $id => $field) {
+      if ($query) {
+        $query .= ', ';
+      }
+      $query .= $field .' = '. $placeholders[$id];
+    }
+
+    foreach ($update as $key) {
+      $conditions[] = "$key = ". db_type_placeholder($schema['fields'][$key]['type']);
+      $values[] = $object->$key;
+    }
+
+    $query = "UPDATE {". $table ."} SET $query WHERE ". implode(' AND ', $conditions);
+    $return = SAVED_UPDATED;
+  }
+
+  // Execute the SQL.
+  if (db_query($query, $values)) {
+    if ($serials) {
+      // Get last insert ids and fill them in.
+      foreach ($serials as $field) {
+        $object->$field = db_last_insert_id($table, $field);
+      }
+    }
+
+    // If we began with an array, convert back so we don't surprise the caller.
+    if ($array) {
+      $object = (array) $object;
+    }
+
+    return $return;
+  }
+
+  return FALSE;
+}
+
+/**
+ * Invoke a field hook.
+ *
+ * For each operation, both this function and _content_field_invoke_default() are
+ * called so that the default database handling can occur.
+ */
+function _content_field_invoke($op, &$node, $teaser = NULL, $page = NULL) {
+  $type_name = is_string($node) ? $node : (is_array($node) ? $node['type'] : $node->type);
+  $type = content_types($type_name);
+  $field_types = _content_field_types();
+
+  $return = array();
+  foreach ($type['fields'] as $field) {
+    $items = isset($node->$field['field_name']) ? $node->$field['field_name'] : array();
+
+    // Make sure AHAH 'add more' button isn't sent to the fields for processing.
+    unset($items[$field['field_name'] .'_add_more']);
+
+    $module = $field_types[$field['type']]['module'];
+    $function = $module .'_field';
+    if (function_exists($function)) {
+      $result = $function($op, $node, $field, $items, $teaser, $page);
+      if (is_array($result)) {
+        $return = array_merge($return, $result);
+      }
+      else if (isset($result)) {
+        $return[] = $result;
+      }
+    }
+    // test for values in $items in case modules added items on insert
+    if (isset($node->$field['field_name']) || count($items)) {
+      $node->$field['field_name'] = $items;
+    }
+  }
+  return $return;
+}
+
+/**
+ * Invoke content.module's version of a field hook.
+ */
+function _content_field_invoke_default($op, &$node, $teaser = NULL, $page = NULL) {
+  $type_name = is_string($node) ? $node : (is_array($node) ? $node['type'] : $node->type);
+  $type = content_types($type_name);
+  $field_types = _content_field_types();
+
+  $return = array();
+  // The operations involving database queries are better off handled by table
+  // rather than by field.
+  if (in_array($op, array('load', 'insert', 'update', 'delete', 'delete revision'))) {
+    return content_storage($op, $node);
+  }
+  else {
+    foreach ($type['fields'] as $field) {
+      $items = isset($node->$field['field_name']) ? $node->$field['field_name'] : array();
+      $result = content_field($op, $node, $field, $items, $teaser, $page);
+      if (is_array($result)) {
+        $return = array_merge($return, $result);
+      }
+      else if (isset($result)) {
+        $return[] = $result;
+      }
+      if (isset($node->$field['field_name'])) {
+        $node->$field['field_name'] = $items;
+      }
+    }
+  }
+  return $return;
+}
+
+/**
+ * Return a list of all content types.
+ *
+ * @param $content_type_name
+ *   If set, return information on just this type.
+ *
+ * Do some type checking and set up empty arrays for missing
+ * info to avoid foreach errors elsewhere in the code.
+ */
+function content_types($type_name = NULL) {
+  // handle type name with either an underscore or a dash
+  $type_name = !empty($type_name) ? str_replace('-', '_', $type_name) : NULL;
+
+  $info = _content_type_info();
+  if (isset($info['content types'])) {
+    if (!isset($type_name)) {
+      return $info['content types'];
+    }
+    if (isset($info['content types'][$type_name])) {
+      return $info['content types'][$type_name];
+    }
+  }
+  return array('tables' => array(), 'fields' => array(), 'extra' => array());
+}
+
+/**
+ * Return a list of all fields.
+ *
+ * @param $field_name
+ *   If not empty, return information on just this field.
+ * @param $content_type_name
+ *   If not empty, return information of the field within the context of this content
+ *   type.
+ *
+ * Be sure to check empty() instead of isset() on field_name and
+ * content_type_name to avoid bad results when the value is set
+ * but empty, as sometimes happens in the formatter.
+ */
+function content_fields($field_name = NULL, $content_type_name = NULL) {
+  $info = _content_type_info();
+  if (isset($info['fields'])) {
+    if (empty($field_name)) {
+      return $info['fields'];
+    }
+    if (isset($info['fields'][$field_name])) {
+      if (empty($content_type_name)) {
+        return $info['fields'][$field_name];
+      }
+      if (isset($info['content types'][$content_type_name]['fields'][$field_name])) {
+        return $info['content types'][$content_type_name]['fields'][$field_name];
+      }
+    }
+  }
+}
+
+/**
+ * Return a list of field types.
+ */
+function _content_field_types() {
+  $info = _content_type_info();
+  return isset($info['field types']) ? $info['field types'] : array();
+}
+
+/**
+ * Return a list of widget types.
+ */
+function _content_widget_types() {
+  $info = _content_type_info();
+  return isset($info['widget types']) ? $info['widget types'] : array();
+}
+
+/**
+ * Return the formatter description corresponding to a formatter name,
+ * defaulting to 'default' if none is found.
+ */
+function _content_get_formatter($formatter_name, $field_type) {
+  $field_types = _content_field_types();
+  $formatters = $field_types[$field_type]['formatters'];
+
+  if (!isset($formatters[$formatter_name]) && $formatter_name != 'hidden') {
+    // This might happen when the selected formatter has been renamed in the
+    // module, or if the module has been disabled since then.
+    $formatter_name = 'default';
+  }
+
+  return isset($formatters[$formatter_name]) ? $formatters[$formatter_name] : FALSE;
+}
+
+/**
+ * Collate all information on content types, fields, and related structures.
+ *
+ * @param $reset
+ *   If TRUE, clear the cache and fetch the information from the database again.
+ */
+function _content_type_info($reset = FALSE) {
+  global $language;
+  static $info;
+
+  if ($reset || !isset($info)) {
+    // Make sure this function doesn't run until the tables have been created,
+    // For instance: when first enabled and called from content_menu(),
+    // or when uninstalled and some subsequent field module uninstall
+    // attempts to refresh the data.
+
+    // Don't try this before content module's update is run
+    // to add module and active columns to the table.
+    if (variable_get('content_schema_version', -1) < 6007) {
+      return array();
+    }
+
+    if (!$reset && $cached = cache_get('content_type_info:'. $language->language, content_cache_tablename())) {
+      $info = $cached->data;
+    }
+    else {
+      $info = array(
+        'field types' => array(),
+        'widget types' => array(),
+        'fields' => array(),
+        'content types' => array(),
+      );
+
+      // Populate field types.
+      foreach (module_list() as $module) {
+        $module_field_types = module_invoke($module, 'field_info');
+        if ($module_field_types) {
+          foreach ($module_field_types as $name => $field_info) {
+            // Truncate names to match the value that is stored in the database.
+            $db_name = substr($name, 0, 32);
+            $info['field types'][$db_name] = $field_info;
+            $info['field types'][$db_name]['module'] = $module;
+            $info['field types'][$db_name]['formatters'] = array();
+          }
+        }
+      }
+
+      // Populate widget types and formatters for known field types.
+      foreach (module_list() as $module) {
+        if ($module_widgets = module_invoke($module, 'widget_info')) {
+          foreach ($module_widgets as $name => $widget_info) {
+            // Truncate names to match the value that is stored in the database.
+            $db_name = substr($name, 0, 32);
+            $info['widget types'][$db_name] = $widget_info;
+            $info['widget types'][$db_name]['module'] = $module;
+            // Replace field types with db_compatible version of known field types.
+            $info['widget types'][$db_name]['field types'] = array();
+            foreach ($widget_info['field types'] as $field_type) {
+              $field_type_db_name = substr($field_type, 0, 32);
+              if (isset($info['field types'][$field_type_db_name])) {
+                $info['widget types'][$db_name]['field types'][] = $field_type_db_name;
+              }
+            }
+          }
+        }
+
+        if ($module_formatters = module_invoke($module, 'field_formatter_info')) {
+          foreach ($module_formatters as $name => $formatter_info) {
+            foreach ($formatter_info['field types'] as $field_type) {
+              // Truncate names to match the value that is stored in the database.
+              $db_name = substr($field_type, 0, 32);
+              if (isset($info['field types'][$db_name])) {
+                $info['field types'][$db_name]['formatters'][$name] = $formatter_info;
+                $info['field types'][$db_name]['formatters'][$name]['module'] = $module;
+              }
+            }
+          }
+        }
+      }
+
+      // Populate actual field instances.
+      module_load_include('inc', 'content', 'includes/content.crud');
+      foreach (node_get_types('types', NULL, TRUE) as $type_name => $data) {
+        $type = (array) $data;
+        $type['url_str'] = str_replace('_', '-', $type['type']);
+        $type['fields'] = array();
+        $type['tables'] = array();
+        if ($fields = content_field_instance_read(array('type_name' => $type_name))) {
+          foreach ($fields as $field) {
+            $db_info = content_database_info($field);
+            $type['tables'][$db_info['table']] = $db_info['table'];
+
+            // Allow external modules to translate field strings.
+            $field_strings = array(
+              'widget_label' => $field['widget']['label'],
+              'widget_description' => $field['widget']['description'],
+            );
+            drupal_alter('content_field_strings', $field_strings, $field['type_name'], $field['field_name']);
+            $field['widget']['label'] = $field_strings['widget_label'];
+            $field['widget']['description'] = $field_strings['widget_description'];
+
+            $type['fields'][$field['field_name']] = $field;
+            // This means that content_fields($field_name) (no type name)
+            // returns the last instance loaded.
+            $info['fields'][$field['field_name']] = $field;
+          }
+          // Make sure the per-type table is added, even if no field is actually
+          // stored in it.
+          $table = _content_tablename($type['type'], CONTENT_DB_STORAGE_PER_CONTENT_TYPE);
+          $type['tables'][$table] = $table;
+        }
+
+        // Gather information about non-CCK 'fields'.
+        $extra = module_invoke_all('content_extra_fields', $type_name);
+        drupal_alter('content_extra_fields', $extra, $type_name);
+        // Add saved weights.
+        foreach (variable_get('content_extra_weights_'. $type_name, array()) as $key => $value) {
+          // Some stored entries might not exist anymore, for instance if uploads
+          // have been disabled, or vocabularies removed...
+          if (isset($extra[$key])) {
+            $extra[$key]['weight'] = $value;
+          }
+        }
+        $type['extra'] = $extra;
+
+        $info['content types'][$type_name] = $type;
+      }
+
+      cache_set('content_type_info:'. $language->language, $info, content_cache_tablename());
+    }
+  }
+  return $info;
+}
+
+/**
+ *  Implementation of hook_node_type()
+ *  React to change in node types
+ */
+function content_node_type($op, $info) {
+  switch ($op) {
+    case 'insert':
+      module_load_include('inc', 'content', 'includes/content.crud');
+      content_type_create($info);
+      break;
+    case 'update':
+      module_load_include('inc', 'content', 'includes/content.crud');
+      content_type_update($info);
+      break;
+    case 'delete':
+      module_load_include('inc', 'content', 'includes/content.crud');
+      content_type_delete($info);
+      break;
+  }
+}
+
+/**
+ * Clear the cache of content_types; called in several places when content
+ * information is changed.
+ */
+function content_clear_type_cache($rebuild_schema = FALSE) {
+  cache_clear_all('*', content_cache_tablename(), TRUE);
+  _content_type_info(TRUE);
+
+  // Refresh the schema to pick up new information.
+  if ($rebuild_schema) {
+    $schema = drupal_get_schema(NULL, TRUE);
+  }
+
+  if (module_exists('views')) {
+    // Needed because this can be called from .install files
+    module_load_include('module', 'views');
+    views_invalidate_cache();
+  }
+}
+
+/**
+ * Retrieve the database storage location(s) for a field.
+ *
+ * TODO: add a word about why it's not included in the global _content_type_info array.
+ *
+ * @param $field
+ *   The field whose database information is requested.
+ * @return
+ *   An array with the keys:
+ *     "table": The name of the database table where the field data is stored.
+ *     "columns": An array of columns stored for this field. Each is a collection
+ *       of information returned from hook_field_settings('database columns'),
+ *       with the addition of a "column" attribute which holds the name of the
+ *       database column that stores the data.
+ */
+function content_database_info($field) {
+  $db_info = array();
+  if ($field['db_storage'] == CONTENT_DB_STORAGE_PER_FIELD) {
+    $db_info['table'] = _content_tablename($field['field_name'], CONTENT_DB_STORAGE_PER_FIELD);
+  }
+  else {
+    $db_info['table'] = _content_tablename($field['type_name'], CONTENT_DB_STORAGE_PER_CONTENT_TYPE);
+  }
+
+  $db_info['columns'] = (array) $field['columns'];
+  // Generate column names for this field from generic column names.
+  foreach ($db_info['columns'] as $column_name => $attributes) {
+    $db_info['columns'][$column_name]['column'] = $field['field_name'] .'_'. $column_name;
+  }
+
+  return $db_info;
+}
+
+/**
+ * Helper function for identifying the storage type for a field.
+ */
+function content_storage_type($field) {
+  if ($field['multiple'] > 0) {
+    return CONTENT_DB_STORAGE_PER_FIELD;
+  }
+  else {
+    module_load_include('inc', 'content', 'includes/content.crud');
+    $instances = content_field_instance_read(array('field_name' => $field['field_name']));
+    if (count($instances) > 1) {
+      return CONTENT_DB_STORAGE_PER_FIELD;
+    }
+  }
+  return CONTENT_DB_STORAGE_PER_CONTENT_TYPE;
+}
+
+/**
+ * Manipulate a 2D array to reverse rows and columns.
+ *
+ * The default data storage for fields is delta first, column names second.
+ * This is sometimes inconvenient for field modules, so this function can be
+ * used to present the data in an alternate format.
+ *
+ * @param $array
+ *   The array to be transposed. It must be at least two-dimensional, and
+ *   the subarrays must all have the same keys or behavior is undefined.
+ * @return
+ *   The transposed array.
+ */
+function content_transpose_array_rows_cols($array) {
+  $result = array();
+  if (is_array($array)) {
+    foreach ($array as $key1 => $value1) {
+      if (is_array($value1)) {
+        foreach ($value1 as $key2 => $value2) {
+          if (!isset($result[$key2])) {
+            $result[$key2] = array();
+          }
+          $result[$key2][$key1] = $value2;
+        }
+      }
+    }
+  }
+  return $result;
+}
+
+/**
+ * Helper function to flatten an array of allowed values.
+ *
+ * @param $array
+ *   A single or multidimensional array.
+ * @return
+ *   A flattened array.
+ */
+function content_array_flatten($array) {
+  $result = array();
+  if (is_array($array)) {
+    foreach ($array as $key => $value) {
+      if (is_array($value)) {
+        $result += content_array_flatten($value);
+      }
+      else {
+        $result[$key] = $value;
+      }
+    }
+  }
+  return $result;
+}
+
+/**
+ *  Create an array of the allowed values for this field.
+ *
+ *  Used by number and text fields, expects to find either
+ *  PHP code that will return the correct value, or a string
+ *  with keys and labels separated with '|' and with each
+ *  new value on its own line.
+ *
+ * @param $field
+ *   The field whose allowed values are requested.
+ * @param $flatten
+ *   Optional. Use TRUE to return a flattened array (default).
+ *   FALSE can be used to support optgroups for select widgets
+ *   when allowed values list is generated using PHP code.
+ */
+function content_allowed_values($field, $flatten = TRUE) {
+  static $allowed_values;
+
+  $cid = $field['field_name'] .':'. ($flatten ? '1' : '0');
+  if (isset($allowed_values[$cid])) {
+    return $allowed_values[$cid];
+  }
+
+  $allowed_values[$cid] = array();
+
+  if (isset($field['allowed_values_php'])) {
+    ob_start();
+    $result = eval($field['allowed_values_php']);
+    if (is_array($result)) {
+      if ($flatten) {
+        $result = content_array_flatten($result);
+      }
+      $allowed_values[$cid] = $result;
+    }
+    ob_end_clean();
+  }
+
+  if (empty($allowed_values[$cid]) && isset($field['allowed_values'])) {
+    $list = explode("\n", $field['allowed_values']);
+    $list = array_map('trim', $list);
+    $list = array_filter($list, 'strlen');
+    foreach ($list as $opt) {
+      // Sanitize the user input with a permissive filter.
+      $opt = content_filter_xss($opt);
+      if (strpos($opt, '|') !== FALSE) {
+        list($key, $value) = explode('|', $opt);
+        $allowed_values[$cid][$key] = (isset($value) && $value !=='') ? $value : $key;
+      }
+      else {
+        $allowed_values[$cid][$opt] = $opt;
+      }
+    }
+    // Allow external modules to translate allowed values list.
+    drupal_alter('content_allowed_values', $allowed_values[$cid], $field);
+  }
+  return $allowed_values[$cid];
+}
+
+/**
+ * Filter out HTML from allowed values array while leaving entities unencoded.
+ *
+ * @see content_allowed_values()
+ * @see optionwidgets_select_process()
+ * @see content_handler_filter_many_to_one::allowed_values()
+ */
+function content_allowed_values_filter_html(&$options) {
+  foreach ($options as $key => $opt) {
+    if (is_array($opt)) {
+      content_allowed_values_filter_html($options[$key]);
+    }
+    else {
+      $options[$key] = html_entity_decode(strip_tags($opt), ENT_QUOTES);
+    }
+  }
+}
+
+/**
+ * Like filter_xss_admin(), but with a shorter list of allowed tags.
+ *
+ * Used for items entered by administrators, like field descriptions,
+ * allowed values, where some (mainly inline) mark-up may be desired
+ * (so check_plain() is not acceptable).
+ */
+function content_filter_xss($string) {
+  return filter_xss($string, _content_filter_xss_allowed_tags());
+}
+
+/**
+ * List of tags allowed by content_filter_xss().
+ */
+function _content_filter_xss_allowed_tags() {
+  return array('a', 'b', 'big',  'code', 'del', 'em', 'i', 'ins',  'pre', 'q', 'small', 'span', 'strong', 'sub', 'sup', 'tt', 'ol', 'ul', 'li', 'p', 'br', 'img');
+}
+
+/**
+ * Human-readable list of allowed tags, for display in help texts.
+ */
+function _content_filter_xss_display_allowed_tags() {
+  return '<'. implode('> <', _content_filter_xss_allowed_tags()) .'>';
+}
+
+/**
+ * Format a field item for display.
+ *
+ * Used to display a field's values outside the context of the $node, as
+ * when fields are displayed in Views, or to display a field in a template
+ * using a different formatter than the one set up on the Display Fields tab
+ * for the node's context.
+ *
+ * @param $field
+ *   Either a field array or the name of the field.
+ * @param $item
+ *   The field item(s) to be formatted (such as $node->field_foo[0],
+ *   or $node->field_foo if the formatter handles multiple values itself)
+ * @param $formatter_name
+ *   The name of the formatter to use.
+ * @param $node
+ *   Optionally, the containing node object for context purposes and
+ *   field-instance options.
+ *
+ * @return
+ *   A string containing the contents of the field item(s) sanitized for display.
+ *   It will have been passed through the necessary check_plain() or check_markup()
+ *   functions as necessary.
+ */
+function content_format($field, $item, $formatter_name = 'default', $node = NULL) {
+  if (!is_array($field)) {
+    $field = content_fields($field);
+  }
+
+  if (content_access('view', $field, NULL, $node) && $formatter = _content_get_formatter($formatter_name, $field['type'])) {
+    $theme = $formatter['module'] .'_formatter_'. $formatter_name;
+
+    $element = array(
+      '#theme' => $theme,
+      '#field_name' => $field['field_name'],
+      '#type_name' => isset($node->type) ? $node->type :'',
+      '#formatter' => $formatter_name,
+      '#node' => $node,
+      '#delta' => isset($item['#delta']) ? $item['#delta'] : NULL,
+    );
+
+    if (content_handle('formatter', 'multiple values', $formatter) == CONTENT_HANDLE_CORE) {
+      // Single value formatter.
+
+      // hook_field('sanitize') expects an array of items, so we build one.
+      $items = array($item);
+      $function = $field['module'] .'_field';
+      if (function_exists($function)) {
+        $function('sanitize', $node, $field, $items, FALSE, FALSE);
+      }
+
+      $element['#item'] = $items[0];
+    }
+    else {
+      // Multiple values formatter.
+      $items = $item;
+      $function = $field['module'] .'_field';
+      if (function_exists($function)) {
+        $function('sanitize', $node, $field, $items, FALSE, FALSE);
+      }
+
+      foreach ($items as $delta => $item) {
+        $element[$delta] = array(
+          '#item' => $item,
+          '#weight' => $delta,
+        );
+      }
+    }
+
+    return theme($theme, $element);
+  }
+}
+
+/**
+ * Registry of available node build modes.
+ *
+ * @param $selector
+ *   Determines what information should be returned.
+ * @return
+ *   Depending on the value of the $selector parameter:
+ *   - NULL: a flat list of all available build modes.
+ *   The other two options are mainly used internally by CCK's UI:
+ *   - '_tabs': the list of tabs to be shown on the 'Display fields' screens.
+ *   - a string tab id: the build modes in this tab.
+ */
+function content_build_modes($selector = NULL) {
+  static $info;
+
+  if (!isset($info)) {
+    $data = array();
+    foreach (module_implements('content_build_modes') as $module) {
+      $function = $module .'_content_build_modes';
+      $data = array_merge($data, (array) $function());
+    }
+    $flat = array();
+    foreach ($data as $tab) {
+      // Use the + operator to preserve numeric indexes (core build modes).
+      $flat += (array) $tab['build modes'];
+    }
+    $info = array('tabs' => $data, 'build modes' => $flat);
+  }
+
+  if ($selector === '_tabs') {
+    return $info['tabs'];
+  }
+  elseif (isset($selector) && isset($info['tabs'][$selector])) {
+    return isset($info['tabs'][$selector]) ? $info['tabs'][$selector]['build modes'] : array();
+  }
+  else {
+    return $info['build modes'];
+  }
+}
+
+/**
+ * Implementations of hook_content_build_modes
+ * on behalf of core modules.
+ *
+ * @return
+ * An array describing the build modes used by the module.
+ * They are grouped by secondary tabs on CCK's 'Display fields' screens.
+ *
+ * Expected format:
+ * array(
+ *   // The first level keys (tab1_url, tab2_url) will be used to generate
+ *   // the url of the tab: admin/content/node-type/[type_name]/display/[tab1_url]
+ *   // A module can add its render modes to a tab defined by another module.
+ *   // In this case, there's no need to provide a 'title' for this tab.
+ *   'tab1_url' => array(
+ *     'title' => t('The human-readable title of the tab'),
+ *     'build modes' => array(
+ *       // The keys of the 'context' array are the values used in $node->build_mode.
+ *       'mymodule_mode1' => array(
+ *         'title' => t('The human-readable name of the build mode'),
+ *        // The 'views style' property determines if the render mode should be
+ *        // available as an option in Views' 'node' row style (not implemented yet).
+ *        'views style' => TRUE,
+ *       ),
+ *       'mymodule_mode2' => array(
+ *         'title' => t('Mode 2'),
+ *         'views style' => TRUE,
+ *       ),
+ *     ),
+ *   ),
+ *   'tab2_url' => array(
+ *     // ...
+ *   ),
+ * );
+ */
+function node_content_build_modes() {
+  return array(
+    'basic' => array(
+      'title' => t('Basic'),
+      'build modes' => array(
+        'teaser' => array(
+          'title' => t('Teaser'),
+          'views style' => TRUE,
+        ),
+        'full' => array(
+          'title' => t('Full node'),
+          'views style' => TRUE,
+        ),
+      ),
+    ),
+    'rss' => array(
+      'title' => t('RSS'),
+      'build modes' => array(
+        NODE_BUILD_RSS => array(
+          'title' => t('RSS'),
+          'views style' => FALSE,
+        ),
+      ),
+    ),
+  );
+}
+function search_content_build_modes() {
+  return array(
+    'search' => array(
+      'title' => t('Search'),
+      'build modes' => array(
+        NODE_BUILD_SEARCH_INDEX => array(
+          'title' => t('Search Index'),
+          'views style' => FALSE,
+        ),
+        NODE_BUILD_SEARCH_RESULT => array(
+          'title' => t('Search Result'),
+          'views style' => FALSE,
+        ),
+      ),
+    ),
+  );
+}
+function book_content_build_modes() {
+  return array(
+    'print' => array(
+      'title' => t('Print'),
+      'build modes' => array(
+        NODE_BUILD_PRINT => array(
+          'title' => t('Print'),
+          'views style' => TRUE,
+        ),
+      ),
+    ),
+  );
+}
+
+/**
+ * Generate a table name for a field or a content type.
+ *
+ * @param $name
+ *   The name of the content type or content field
+ * @param $storage
+ *   CONTENT_DB_STORAGE_PER_FIELD or CONTENT_DB_STORAGE_PER_CONTENT_TYPE
+ * @return
+ *   A string containing the generated name for the database table
+ */
+function _content_tablename($name, $storage, $version = NULL) {
+  if (is_null($version)) {
+    $version = variable_get('content_schema_version', 0);
+  }
+
+  if ($version < 1003) {
+    $version = 0;
+  }
+  else {
+    $version = 1003;
+  }
+
+  $name = str_replace('-', '_', $name);
+  switch ("$version-$storage") {
+    case '0-'. CONTENT_DB_STORAGE_PER_CONTENT_TYPE :
+      return "node_$name";
+    case '0-'. CONTENT_DB_STORAGE_PER_FIELD :
+      return "node_data_$name";
+    case '1003-'. CONTENT_DB_STORAGE_PER_CONTENT_TYPE :
+      return "content_type_$name";
+    case '1003-'. CONTENT_DB_STORAGE_PER_FIELD :
+      return "content_$name";
+  }
+}
+
+/**
+ * Generate table name for the content field table.
+ *
+ * Needed because the table name changes depending on version.
+ * Using 'content_node_field' instead of 'content_field'
+ * to avoid conflicts with field tables that will be prefixed
+ * with 'content_field'.
+ */
+function content_field_tablename($version = NULL) {
+  if (is_null($version)) {
+    $version = variable_get('content_schema_version', 0);
+  }
+  return $version < 6001 ? 'node_field' : 'content_node_field';
+}
+
+/**
+ * Generate table name for the content field instance table.
+ *
+ * Needed because the table name changes depending on version.
+ */
+function content_instance_tablename($version = NULL) {
+  if (is_null($version)) {
+    $version = variable_get('content_schema_version', 0);
+  }
+  return $version < 6001 ? 'node_field_instance' : 'content_node_field_instance';
+}
+
+/**
+ * Generate table name for the content cache table.
+ *
+ * Needed because the table name changes depending on version. Because of
+ * a new database column, the content_cache table will be unusable until
+ * update 6000 runs, so the cache table will be used instead.
+ */
+function content_cache_tablename() {
+  if (variable_get('content_schema_version', -1) < 6000) {
+    return 'cache';
+  }
+  else {
+    return 'cache_content';
+  }
+}
+
+/**
+ * A basic schema used by all field and type tables.
+ *
+ * This will only add the columns relevant for the specified field.
+ * Leave $field['columns'] empty to get only the base schema,
+ * otherwise the function will return the whole thing.
+ */
+function content_table_schema($field = NULL) {
+  $schema = array(
+    'fields' => array(
+      'vid' => array('type' => 'int', 'unsigned' => TRUE, 'not null' => TRUE, 'default' => 0),
+      'nid' => array('type' => 'int', 'unsigned' => TRUE, 'not null' => TRUE, 'default' => 0)
+    ),
+    'primary key' => array('vid'),
+    'indexes' => array(
+      'nid'    => array('nid'),
+    ),
+  );
+
+  // Add delta column if needed.
+  if (!empty($field['multiple'])) {
+    $schema['fields']['delta'] = array('type' => 'int', 'unsigned' => TRUE, 'not null' => TRUE, 'default' => 0);
+    $schema['primary key'][] = 'delta';
+  }
+  $schema['content fields'] = array();
+
+  // Add field columns column if needed.
+  // This function is called from install files where it is not safe
+  // to use content_fields() or content_database_info(), so we
+  // just used the column values stored in the $field.
+  // We also need the schema to include fields from disabled modules
+  // or there will be no way to delete those fields.
+
+  if (!empty($field['columns'])) {
+    foreach ($field['columns'] as $column => $attributes) {
+      $column_name =  $field['field_name'] .'_'. $column;
+      if (isset($attributes['index']) && $attributes['index']) {
+        $schema['indexes'][$column_name] = array($column_name);
+        unset($attributes['index']);
+      }
+      unset($attributes['column']);
+      unset($attributes['sortable']);
+      $schema['fields'][$column_name] = $attributes;
+    }
+    $schema['content fields'][] = $field['field_name'];
+  }
+  return $schema;
+}
+
+/**
+ * Checks if an index exists.
+ *
+ * @todo: May we remove this funcion when implemented by Drupal core itself?
+ * @link http://drupal.org/node/360854
+ * @link http://dev.mysql.com/doc/refman/5.0/en/extended-show.html
+ *
+ * @param $table
+ *   Name of the table.
+ * @param $name
+ *   Name of the index.
+ * @return
+ *   TRUE if the table exists. Otherwise FALSE.
+ */
+function content_db_index_exists($table, $name) {
+  global $db_type;
+  if ($db_type == 'mysql' || $db_type == 'mysqli') {
+    if (version_compare(db_version(), '5.0.3') < 0) {
+      // Earlier versions of MySQL don't support a WHERE clause for SHOW.
+      $result = db_query('SHOW INDEX FROM {'. $table .'}');
+      while ($row = db_fetch_array($result)) {
+        if ($row['Key_name'] == $name) {
+          return TRUE;
+        }
+      }
+      return FALSE;
+    }
+    return (bool)db_result(db_query("SHOW INDEX FROM {". $table ."} WHERE key_name = '$name'"));
+  }
+  elseif ($db_type == 'pgsql') {
+    // Note that the index names in Schema API for PostgreSQL are prefixed by
+    // the table name and suffixed by '_idx'.
+    return (bool)db_result(db_query("SELECT COUNT(indexname) FROM pg_indexes WHERE indexname = '{". $table ."}_{$name}_idx'"));
+  }
+  return FALSE;
+}
+
+/**
+ *  Helper function for determining the behavior of a field or a widget
+ *  with respect to a given operation. (currently used for field 'view',
+ *  and widget 'default values' and 'multiple values')
+ *
+ *  @param $entity
+ *    'field' or 'widget'
+ *  @param $op
+ *    the name of the operation ('view', 'default value'...)
+ *  @param $field
+ *    The field array, including widget info.
+ *  @return
+ *    CONTENT_CALLBACK_NONE    - do nothing for this operation
+ *    CONTENT_CALLBACK_CUSTOM  - use the module's callback function.
+ *    CONTENT_CALLBACK_DEFAULT - use content module default behavior
+ *
+ */
+function content_callback($entity, $op, $field) {
+  switch ($entity) {
+    case 'field':
+      $info = module_invoke($field['module'], "field_info");
+      return isset($info[$field['type']]['callbacks'][$op]) ? $info[$field['type']]['callbacks'][$op] : CONTENT_CALLBACK_DEFAULT;
+
+    case 'widget':
+      $info = module_invoke($field['widget']['module'], "widget_info");
+      return isset($info[$field['widget']['type']]['callbacks'][$op]) ? $info[$field['widget']['type']]['callbacks'][$op] : CONTENT_CALLBACK_DEFAULT;
+  }
+}
+
+/**
+ *  Helper function for determining the handling of a field, widget or
+ *  formatter with respect to a given operation.
+ *
+ *  Currently used for widgets and formatters 'multiple values'.
+ *
+ *  @param $entity
+ *    'field', 'widget' or 'formatter'
+ *  @param $op
+ *    the name of the operation ('default values'...)
+ *  @param $object
+ *    - if $entity is 'field' or 'widget': the field array,
+ *      including widget info.
+ *    - if $entity is 'formater': the formatter array.
+ *  @return
+ *    CONTENT_HANDLE_CORE    - the content module handles this operation.
+ *    CONTENT_HANDLE_MODULE  - the implementing module handles this operation.
+ */
+function content_handle($entity, $op, $object) {
+  switch ($entity) {
+    case 'field':
+      $info = module_invoke($object['module'], "field_info");
+      return isset($info[$object['type']][$op]) ? $info[$object['type']][$op] : CONTENT_HANDLE_CORE;
+
+    case 'widget':
+      $info = module_invoke($object['widget']['module'], "widget_info");
+      return isset($info[$object['widget']['type']][$op]) ? $info[$object['widget']['type']][$op] : CONTENT_HANDLE_CORE;
+
+    case 'formatter':
+      // Much simpler, formatters arrays *are* the 'formatter_info' itself.
+      // We let content_handle deal with them only for code consistency.
+      return isset($object[$op]) ? $object[$op] : CONTENT_HANDLE_CORE;
+  }
+}
+
+/**
+ *  Helper function to return the correct default value for a field.
+ *
+ *  @param $node
+ *    The node.
+ *  @param $field
+ *    The field array.
+ *  @param $items
+ *    The value of the field in the node.
+ *  @return
+ *    The default value for that field.
+ */
+function content_default_value(&$form, &$form_state, $field, $delta) {
+  $widget_types = _content_widget_types();
+  $module = $widget_types[$field['widget']['type']]['module'];
+
+  $default_value = array();
+  if (!empty($field['widget']['default_value_php'])) {
+    ob_start();
+    $result = eval($field['widget']['default_value_php']);
+    ob_end_clean();
+    if (is_array($result)) {
+      $default_value = $result;
+    }
+  }
+  elseif (!empty($field['widget']['default_value'])) {
+    $default_value = $field['widget']['default_value'];
+  }
+  return (array) $default_value;
+}
+
+/**
+ * Determine whether the user has access to a given field.
+ *
+ * @param $op
+ *   The operation to be performed. Possible values:
+ *   - "edit"
+ *   - "view"
+ * @param $field
+ *   The field on which the operation is to be performed.
+ * @param $account
+ *   (optional) The account to check, if not given use currently logged in user.
+ * @param $node
+ *   (optional) The node on which the operation is to be performed.
+ * @return
+ *   TRUE if the operation is allowed;
+ *   FALSE if the operation is denied.
+ */
+function content_access($op, $field, $account = NULL, $node = NULL) {
+  global $user;
+
+  if (is_null($account)) {
+    $account = $user;
+  }
+  // Check for valid field data.
+  if (!isset($field['field_name'])) {
+    return FALSE;
+  }
+  $access = module_invoke_all('field_access', $op, $field, $account, $node);
+  foreach ($access as $value) {
+    if ($value === FALSE) {
+      return FALSE;
+    }
+  }
+  return TRUE;
+}
+
+ /**
+ * Hide specified fields from the $content variable in node templates.
+ */
+function content_field_wrapper_post_render($content, $element) {
+  $field = content_fields($element['#field_name'], $element['#type_name']);
+  if (theme('content_exclude', $content, $field, $element['#context'])) {
+    return '';
+  }
+  return $content;
+}
+
+
+/**
+ * 'Theme' function for a field's addition to $content.
+ *
+ * Adapts the all-inclusive $content variable in node templates to allow
+ * some field content to be excluded. This is a theme function, so it can be
+ * overridden in different themes to produce different results.
+ *
+ * The html for individual fields and groups are available in the
+ * $FIELD_NAME_rendered and $GROUP_NAME_rendered variables.
+ *
+ * This allows more flexibility in node templates : you can use custom markup
+ * around a few specific fields, and print the rest of the node with $content.
+ *
+ * @param $content
+ *    The themed content for this field or group.
+ *
+ * @param $object
+ *    The field or group array for this item.
+ *    $object['#type_name'] holds the content type.
+ *    $object['#field_name'] holds the field name (if a field).
+ *    $object['#group_name'] holds the group name (if a group).
+ *    $object['display_settings'] holds the display settings
+ *    for all contexts, in an array like:
+ *      $object['display_settings'] => array(
+ *        'full' => array(
+ *          'format' => 'default',
+ *          'exclude' => 0,
+ *         ),
+ *        'teaser' => array(
+ *          'format' => 'default',
+ *          'exclude' => 1,
+ *         ),
+ *      );
+ *
+ * @param $context
+ *    The context for which the node is being rendered.
+ *    Can be one of the following values :
+ *    - 'teaser'
+ *    - 'full'
+ *    - NODE_BUILD_SEARCH_INDEX
+ *    - NODE_BUILD_SEARCH_RESULT
+ *    - NODE_BUILD_RSS
+ *    - NODE_BUILD_PRINT
+ *    - ... any other custom build mode exposed by 3rd party modules using
+ *      hook_content_build_modes().
+ *
+ * @return
+ *   Whether or not content is to be added to $content in this context.
+ *   Uses the value of the 'Exclude' checkbox for this field
+ *   as set on the Manage fields screen.
+ */
+function theme_content_exclude($content, $object, $context) {
+  // The field may be missing info for $contexts added by modules
+  // enabled after the field was last edited.
+  if (empty($object['display_settings'])
+    || empty($object['display_settings'][$context])
+    || !is_array($object['display_settings'][$context])
+    || empty($object['display_settings'][$context]['exclude'])) {
+    return FALSE;
+  }
+  else {
+    return TRUE;
+  }
+}
+
+/**
+ * Theme preprocess function for field.tpl.php.
+ *
+ * The $variables array contains the following arguments:
+ * - $node
+ * - $field
+ * - $items
+ * - $teaser
+ * - $page
+ *
+ * @see field.tpl.php
+ *
+ * TODO : this should live in theme/theme.inc, but then the preprocessor
+ * doesn't get called when the theme overrides the template. Bug in theme layer ?
+ */
+function content_preprocess_content_field(&$variables) {
+  $element = $variables['element'];
+  $field = content_fields($element['#field_name'], $element['#node']->type);
+
+  $variables['node'] = $element['#node'];
+  $variables['field'] = $field;
+  $variables['items'] = array();
+
+  if ($element['#single']) {
+    // Single value formatter.
+    foreach (element_children($element['items']) as $delta) {
+      $variables['items'][$delta] = $element['items'][$delta]['#item'];
+      // Use isset() to avoid undefined index message on #children when field values are empty.
+      $variables['items'][$delta]['view'] = isset($element['items'][$delta]['#children']) ? $element['items'][$delta]['#children'] : '';
+    }
+  }
+  else  {
+    // Multiple values formatter.
+    // We display the 'all items' output as $items[0], as if it was the
+    // output of a single valued field.
+    // Raw values are still exposed for all items.
+    foreach (element_children($element['items']) as $delta) {
+      $variables['items'][$delta] = $element['items'][$delta]['#item'];
+    }
+    $variables['items'][0]['view'] = $element['items']['#children'];
+  }
+
+  $variables['teaser'] = $element['#teaser'];
+  $variables['page'] = $element['#page'];
+
+  $field_empty = TRUE;
+
+  foreach ($variables['items'] as $delta => $item) {
+    if (!isset($item['view']) || (empty($item['view']) && (string)$item['view'] !== '0')) {
+      $variables['items'][$delta]['empty'] = TRUE;
+    }
+    else {
+      $field_empty = FALSE;
+      $variables['items'][$delta]['empty'] = FALSE;
+    }
+  }
+
+  $additions = array(
+    'field_type' => $field['type'],
+    'field_name' => $field['field_name'],
+    'field_type_css' => strtr($field['type'], '_', '-'),
+    'field_name_css' => strtr($field['field_name'], '_', '-'),
+    'label' => check_plain(t($field['widget']['label'])),
+    'label_display' => $element['#label_display'],
+    'field_empty' => $field_empty,
+    'template_files' => array(
+      'content-field',
+      'content-field-'. $element['#field_name'],
+      'content-field-'. $element['#node']->type,
+      'content-field-'. $element['#field_name'] .'-'. $element['#node']->type,
+    ),
+  );
+  $variables = array_merge($variables, $additions);
+}
+
+/**
+ * Theme preprocess function for node.
+ *
+ * - Adds $FIELD_NAME_rendered variables
+ *   containing the themed output for the whole field.
+ * - Adds the formatted values in the 'view' key of the items.
+ */
+function content_preprocess_node(&$vars) {
+  $additions = _content_field_invoke_default('preprocess_node', $vars['node']);
+  $vars = array_merge($vars, $additions);
+}
+
+/**
+ * Debugging using hook_content_fieldapi.
+ *
+ * @TODO remove later
+ *
+ * @param $op
+ * @param $field
+ */
+function content_content_fieldapi($op, $field) {
+  if (module_exists('devel')) {
+    //dsm($op);
+    //dsm($field);
+  }
+}
+
+/**
+ * Implementation of hook_content_extra_fields.
+ *
+ * Informations for non-CCK 'node fields' defined in core.
+ */
+function content_content_extra_fields($type_name) {
+  $type = node_get_types('type', $type_name);
+  $extra = array();
+
+  if ($type->has_title) {
+    $extra['title'] = array(
+      'label' => $type->title_label,
+      'description' => t('Node module form.'),
+      'weight' => -5
+    );
+  }
+  if ($type->has_body) {
+    $extra['body_field'] = array(
+      'label' => $type->body_label,
+      'description' => t('Node module form.'),
+      'weight' => 0,
+      'view' => 'body'
+    );
+  }
+  $extra['revision_information'] = array(
+    'label' => t('Revision information'),
+    'description' => t('Node module form.'),
+    'weight' => 20
+  );
+  $extra['author'] = array(
+    'label' => t('Authoring information'),
+    'description' => t('Node module form.'),
+    'weight' => 20,
+  );
+  $extra['options'] = array(
+    'label' => t('Publishing options'),
+    'description' => t('Node module form.'),
+    'weight' => 25,
+   );
+  if (module_exists('comment')) {
+    $extra['comment_settings'] = array(
+      'label' => t('Comment settings'),
+      'description' => t('Comment module form.'),
+      'weight' => 30
+    );
+  }  
+  if (module_exists('locale') && variable_get("language_content_type_$type_name", 0)) {
+    $extra['language'] = array(
+      'label' => t('Language'),
+      'description' => t('Locale module form.'),
+      'weight' => 0
+    );
+  }
+  if (module_exists('translation') && translation_supported_type($type_name)) {
+    $extra['translation'] = array(
+      'label' => t('Translation settings'),
+      'description' => t('Translation module form.'),
+      'weight' => 30
+    );
+  }
+  if (module_exists('menu')) {
+    $extra['menu'] = array(
+      'label' => t('Menu settings'),
+      'description' => t('Menu module form.'),
+      'weight' => -2
+    );
+  }
+  if (module_exists('taxonomy') && taxonomy_get_vocabularies($type_name)) {
+    $extra['taxonomy'] = array(
+      'label' => t('Taxonomy'),
+      'description' => t('Taxonomy module form.'),
+      'weight' => -3
+    );
+  }
+  if (module_exists('book')) {
+    $extra['book'] = array(
+      'label' => t('Book'),
+      'description' => t('Book module form.'),
+      'weight' => 10
+    );
+  }
+  if (module_exists('path')) {
+    $extra['path'] = array(
+      'label' => t('Path settings'),
+      'description' => t('Path module form.'),
+      'weight' => 30
+    );
+  }
+  if ($type_name == 'poll' && module_exists('poll')) {
+    $extra['title'] = array(
+      'label' => t('Poll title'),
+      'description' => t('Poll module title.'),
+      'weight' => -5
+    );
+    $extra['choice_wrapper'] = array(
+      'label' => t('Poll choices'),
+      'description' => t('Poll module choices.'),
+      'weight' => -4
+    );
+    $extra['settings'] = array(
+      'label' => t('Poll settings'),
+      'description' => t('Poll module settings.'),
+      'weight' => -3
+    );
+  }
+  if (module_exists('upload') && variable_get("upload_$type_name", TRUE)) {
+    $extra['attachments'] = array(
+      'label' => t('File attachments'),
+      'description' => t('Upload module form.'),
+      'weight' => 30,
+      'view' => 'files'
+    );
+  }
+
+  return $extra;
+}
+
+/**
+ * Retrieve the user-defined weight for non-CCK node 'fields'.
+ *
+ * CCK's 'Manage fields' page lets users reorder node fields, including non-CCK
+ * items (body, taxonomy, other hook_nodeapi-added elements by contrib modules...).
+ * Contrib modules that want to have their 'fields' supported need to expose
+ * them with hook_content_extra_fields, and use this function to retrieve the
+ * user-defined weight.
+ *
+ * @param $type_name
+ *   The content type name.
+ * @param $pseudo_field_name
+ *   The name of the 'field'.
+ * @return
+ *   The weight for the 'field', respecting the user settings stored
+ *   by content.module.
+ */
+function content_extra_field_weight($type_name, $pseudo_field_name) {
+  $type = content_types($type_name);
+
+  // If we don't have the requested item, this may be because the cached
+  // information for 'extra' fields hasn't been refreshed yet.
+  if (!isset($type['extra'][$pseudo_field_name])) {
+    content_clear_type_cache();
+    $type = content_types($type_name);
+  }
+
+  if (isset($type['extra'][$pseudo_field_name])) {
+    return $type['extra'][$pseudo_field_name]['weight'];
+  }
+}
+
+/**
+ * Find max delta value actually in use for a field.
+ *
+ * Helper function to do things like tell when we should prevent a
+ * change in multiple value settings that would result in data loss,
+ * or know if content actually exists for a field.
+ *
+ * @param $field_name
+ *   The field name to examine.
+ * @param $type_name
+ *   If provided, search only for existing data in that type,
+ *   otherwise search for all instances of field data in all types.
+ * @return
+ *   NULL if field is not in use, or the maximum delta value in use.
+ *
+ * TODO
+ * Go back to the field settings validation and use this function
+ * to prevent (or confirm) changes in multiple values that
+ * would destroy data.
+ *
+ * Fields with only NULL data will show up as being in use.
+ * Do we want to eliminate them from the results?
+ */
+function content_max_delta($field_name, $type_name = NULL) {
+  $fields = content_fields();
+  $field = $fields[$field_name];
+
+  // Non-multiple value fields don't use the delta column,
+  // but could exist in multiple databases. If any value
+  // exists in any examined table, the max delta will be zero.
+  if (empty($field['multiple'])) {
+    $content_types = content_types();
+    foreach ($content_types as $content_type) {
+      if (empty($type_name) || $content_type['type'] == $type_name) {
+        foreach ($content_type['fields'] as $field) {
+          $db_info = content_database_info($field);
+          if (db_result(db_query("SELECT COUNT(*) FROM {". $db_info['table'] ."}")) >= 1) {
+            return 0;
+          }
+        }
+      }
+    }
+  }
+  // Multiple value fields always share the same table and use the delta.
+  // If we want to find delta values for a particular type, we join
+  // in the node table to limit the type.
+  else {
+    $db_info = content_database_info($field);
+    if (!empty($type_name)) {
+      $delta = db_result(db_query("SELECT MAX(delta) FROM {". $db_info['table'] ."} f LEFT JOIN {node} n ON f.vid = n.vid WHERE n.type = '%s'", $type_name));
+    }
+    else {
+      $delta = db_result(db_query("SELECT MAX(delta) FROM {". $db_info['table'] ."}"));
+    }
+    if ($delta >= 0) {
+      return $delta;
+    }
+  }
+  // If we got this far, there is no data for this field.
+  return NULL;
+}
+
+/**
+ * Helper function to identify inactive fields.
+ */
+function content_inactive_fields($type_name = NULL) {
+  module_load_include('inc', 'content', 'includes/content.crud');
+  if (!empty($type_name)) {
+    $param = array('type_name' => $type_name);
+    $inactive = array($type_name => array());
+  }
+  else {
+    $param = array();
+    $inactive = array();
+  }
+  $all = content_field_instance_read($param, TRUE);
+  $active = array_keys(content_fields());
+  foreach ($all as $field) {
+    if (!in_array($field['field_name'], $active)) {
+      $inactive[$field['type_name']][$field['field_name']] = content_field_instance_expand($field);
+    }
+  }
+  if (!empty($type_name)) {
+    return $inactive[$type_name];
+  }
+  return $inactive;
+}

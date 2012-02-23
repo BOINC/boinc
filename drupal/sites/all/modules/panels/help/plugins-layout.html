@@ -1,0 +1,78 @@
+<h2>Getting Started:</h2>
+<p>Layout plugins are one of the simplest and most powerful sections of the panels api. There are two different ways that a layout can be implemented via panels.  Panels supports both module and theme implementations of panels.  The module implementation requires that hook_ctools_plugin_directory define the directory in which your layout plugins exist. (This same hook defines the directory for all panels plugins) Alternately, if you intend on implementing a layout in a theme this can be done primary through the theme's info file. The CTools help does a great job of actually explaining this portion of the API <a href="topic:ctools/plugins-implementing">ctools: plugins</a>.</p>
+
+<p>CTools explains even the layout hooks a little in its example, but we'll recap quickly and expand on this information. As ctools explains, the actual plugin file must be named with care as it will directly affect your naming scheme for the hook within it. This is really no different from any other hook within drupal except that we'll be using multiple replacements in this case. The function we're looking to implement is an instance of:
+<code>function YOURMODULE_PLUGINNAME_OWNERMODULE_PLUGINTYPE()</code>
+In our case we already know that the function will be:
+<code>function YOURMODULE_PLUGINNAME_panels_layouts()</code>
+This is because the plugin type we're working with is a layout, and the module that implements these layouts is the panels module. For the rest of the naming scheme "YOURMODULE" will be replaced with either the name of your module that implements this layout, or the name of the theme, and "PLUGINNAME" will be replaced with whatever the name of the plugin file is. For purposes of this example our module name us going to be "layout_sample" and our plugin will be "first_layout".</p>
+
+<h2>Directory Structure:</h2>
+<p>We're going to assume that you've laid your directory structure out very similarly to how panels does it. Something like this is rather likely:
+<pre>layout_sample
+  layout_sample.info
+  layout_sample.module
+  plugins
+    layouts
+      first_layout
+        first_layout.css
+        first_layout.inc
+        first_layout.png
+        layout-sample-first-layout.tpl.php</pre>
+The name of our .inc file is going to be the key to the entire layout plugin.</p>
+
+<h2>The .inc File:</h2>
+<p>We will start with the first_layout.inc file as it's the most important file we're dealing with here. First_layout.inc will look similar to the following:
+<pre>
+  $plugin  = array(
+    'title' => t('First Layout'),
+    'icon' => 'first_layout.png',
+    'theme' => 'layout_sample_first_layout',
+    'css' => 'first_layout.css',
+    'panels' => array(
+      'main' => t('Main region'),
+      'right' => t('Right region'),
+    ),
+  );
+</pre>
+The include file defines all the other files that our layout will utilize in order to be truly useful.  The array is fairly self explanitory but for the sake of specificity:
+<ol>
+<li><strong>Title:</strong><br />The title of our layout. (Utilized within the panels administration screens)</li>
+<li><strong>Icon:</strong><br />The graphical representation of our layout. (Utilized within the panels administration screens)</li>
+<li><strong>Theme:</strong><br />The template file of our layout. (Sharp eyed readers will note that the theme definition utilizes underscores instead of dashes, and does not have ".tpl.php" after it.  This is refering to the layout-sample-first-layout.tpl.php file all the same, it is simply how the naming convention works.  Utilize dashes in the tpl file name and underscores when refering to it in your include file.)</li>
+<li><strong>CSS:</strong><br />The css file to be utilized for our layout. (Utilized within the panels administration screens, AND when viewing the actual panel itself.)</li>
+<li><strong>Panels:</strong><br />Defines all the various regions within your panel.  This will be further utilized within our tpl.php file.</li>
+</ol>
+There are many additional properties that can be added to the include file. For purposes of this document we'll also make mention of the 'admin css' property. 'Admin css' is especially useful when utilizing a fixed width layout with fixed with panel regions.  This can break under most administrative circumstances, and panels provides you with the ability to give an additional css layout for the administrative section. It's a simple nicety and looks like this:
+<pre>
+  $plugin = array(
+    'title' => t('First Layout'),
+    'icon' => 'first_layout.png',
+    'theme' => 'layout_sample_first_layout',
+    'css' => 'first_layout.css',
+    'admin css' => 'first_layout_admin.css',
+    'panels' => array(
+      'main' => t('Main region'),
+      'right' => t('Right region'),
+    ),
+  );
+</pre>
+</p>
+
+<h2>The tpl.php File:</h2>
+<p>The tpl.php file is very similar to any other template file within drupal. The difference here is that we're being passed an array of regions through $content, and we also have a css id available to us for the entire panel in the form of $css_id.  The template is very straight forward and will look similar to the following:
+<pre>&lt;div class="panel-display panel-stacked-twothirds-onethird clear-block" &lt;?php if (!empty($css_id)) { print "id=\"$css_id\""; } ?&gt;&gt;  
+  &lt;div class="panel-panel panel-col-first panel-region-main"&gt;
+    &lt;div class="inside"&gt;&lt;?php print $content['main']; ?&gt;&lt;/div&gt;
+  &lt;/div&gt;
+
+  &lt;div class="panel-panel panel-col-last panel-region-right"&gt;
+    &lt;div class="inside"&gt;&lt;?php print $content['right']; ?&gt;&lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+</pre>
+This is simply an example of what the html could look like. You can alter an update this html to fit your own needs.
+</p>
+
+<h2>The Other Files:</h2>
+<p>The css and png files are as simple as any other css or png file you've ever utilized. Panels provides some images for its graphical representations of its layouts. I would heavily encourage you to modify these to suit your needs.  The CSS files (admin and non) will be included at the appropriate times. Simply set them up to fit your purposes. If you're utilizing fixed width panel regions it's probably smart to provide an admin css file as well with your panel layout.</p>

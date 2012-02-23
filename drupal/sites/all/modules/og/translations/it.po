@@ -1,0 +1,812 @@
+# LANGUAGE translation of Drupal (c:\Contributions\modules\og\og.module)
+# Copyright YEAR NAME <EMAIL@ADDRESS>
+# Generated from file: og.module,v 1.81 2005/06/30 04:30:49 weitzman
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"POT-Creation-Date: 2005-07-05 09:56-0400\n"
+"PO-Revision-Date: 2006-04-25 17:40+0100\n"
+"Last-Translator: Luca Lenardi \n"
+"Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+
+#: c:\Contributions\modules\og\og.module:19
+msgid "Organic groups"
+msgstr "Organic grups"
+
+#: c:\Contributions\modules\og\og.module:21
+msgid "A group provides home page for like minded users. There they post articles about their shared interest."
+msgstr "Un gruppo fornisce una pagina iniziale per gli utenti, dove sono raccolte tutte le informazioni condivise"
+
+#: c:\Contributions\modules\og\og.module:23
+msgid "Group specific blocks are only visible on group pages and not on systemwide pages like the home page or admin pages."
+msgstr "I blocchi specifici per il gruppo sono visibili nelle pagine del gruppo e non in tutte le pagine del sistema come la pagina principale o le pagine di amministrazione."
+
+#: c:\Contributions\modules\og\og.module:25
+msgid "In order to let group admins determine their own group theme, you must enable mutliple themes using %page. To enable admins to upload a group image, you must activate and configure image.module (see Contributions repository)."
+msgstr "Per permettere agli amministratore del gruppo di determinare i loro propri temi, devi abilitare diversi temi usando %page. Per permettere gli amministatori di caricare l'immagine del gruppo, devi attivare e configurare image.module."
+
+#: c:\Contributions\modules\og\og.module:25
+msgid "theme configuration page"
+msgstr "pagina di configuarazione del tema"
+
+#: c:\Contributions\modules\og\og.module:35
+msgid "subscribe to group"
+msgstr "iscrizione al gruppo"
+
+#: c:\Contributions\modules\og\og.module:36
+msgid "group image (large)"
+msgstr "immagine del gruppo (grande)"
+
+#: c:\Contributions\modules\og\og.module:37;812
+msgid "group"
+msgstr "gruppo"
+
+#: c:\Contributions\modules\og\og.module:38;141;224;587;641;1235;1270
+msgid "groups"
+msgstr "gruppi"
+
+#: c:\Contributions\modules\og\og.module:40
+msgid "unsubscribe from group"
+msgstr "elimina iscrizione da un gruppo"
+
+#: c:\Contributions\modules\og\og.module:41
+msgid "approve subscription request"
+msgstr "approva la richiesta di iscrizione"
+
+#: c:\Contributions\modules\og\og.module:42
+msgid "deny subscription request"
+msgstr "nega la richiesta di iscrizione"
+
+#: c:\Contributions\modules\og\og.module:43
+msgid "create group administrator"
+msgstr "crea l'amministratore del gruppo"
+
+#: c:\Contributions\modules\og\og.module:44
+msgid "delete group administrator"
+msgstr "rimuovi l'amministratore del gruppo"
+
+#: c:\Contributions\modules\og\og.module:45
+msgid "remove post from group"
+msgstr "rimuovi il contenuto dal gruppo"
+
+#: c:\Contributions\modules\og\og.module:46
+msgid "group feed"
+msgstr "feed del gruppo"
+
+#: c:\Contributions\modules\og\og.module:47
+msgid "albums"
+msgstr "albums"
+
+#: c:\Contributions\modules\og\og.module:48;49
+msgid "album"
+msgstr "album"
+
+#: c:\Contributions\modules\og\og.module:57
+msgid "subscriber management"
+msgstr "gestiÃ³ de subscriptors"
+
+#: c:\Contributions\modules\og\og.module:58
+msgid "list"
+msgstr "lista"
+
+#: c:\Contributions\modules\og\og.module:59
+msgid "add subscribers"
+msgstr "aggiungi iscritti"
+
+#: c:\Contributions\modules\og\og.module:60
+msgid "manage subscription"
+msgstr "gestione dell'iscrione"
+
+#: c:\Contributions\modules\og\og.module:61
+msgid "send invitation"
+msgstr "spedisci invito"
+
+#: c:\Contributions\modules\og\og.module:67
+msgid "email"
+msgstr "email"
+
+#: c:\Contributions\modules\og\og.module:140;224
+msgid "home"
+msgstr "pagina iniziale"
+
+#: c:\Contributions\modules\og\og.module:160
+msgid "Send email to %group"
+msgstr "Spedisci email al gruppo %group"
+
+#: c:\Contributions\modules\og\og.module:163
+msgid "Your email body may not be blank"
+msgstr "Il corpo della mail non deve essere vuoto"
+
+#: c:\Contributions\modules\og\og.module:167
+msgid "Your email subject may not be blank"
+msgstr "L'oggetto della mail non deve essere vuoto"
+
+#: c:\Contributions\modules\og\og.module:171
+msgid ""
+"\n"
+"\n"
+"--------------------------------\n"
+"This message was sent by an administrator in the '%group' group at %site. To visit this group, browse to %url1. To unsubscribe from this group, visit %url2"
+msgstr ""
+"\n"
+"\n"
+"--------------------------------\n"
+"Questo messaggio Ã¨ stato spedito da un amministratore nel gruppo %group su %site. Per visitare questo gruppo, vai quÃ¬ %url1. Per eliminare l'iscrizione da questo gruppo, vai %url2"
+
+#: c:\Contributions\modules\og\og.module:183
+msgid "%count emails sent."
+msgstr "%count email spedite."
+
+#: c:\Contributions\modules\og\og.module:198
+msgid "Your email will be sent to %count in this group. Please use this feature sparingly."
+msgstr "La tua email sarÃ  spedita a %count iscritti a questo gruppo. Si prega di utilizzare questa funzionalitÃ  con parsimonia."
+
+#: c:\Contributions\modules\og\og.module:199
+msgid "Subject"
+msgstr "Oggetto"
+
+#: c:\Contributions\modules\og\og.module:199
+msgid "Enter a subject for your email."
+msgstr "Inserisci l'oggetto dell'email."
+
+#: c:\Contributions\modules\og\og.module:200
+msgid "Body"
+msgstr "Corpo"
+
+#: c:\Contributions\modules\og\og.module:200
+msgid "Enter a body for your email."
+msgstr "Inserisci il corpo dell'email"
+
+#: c:\Contributions\modules\og\og.module:201
+msgid "Send email"
+msgstr "Spedisci eamil"
+
+#: c:\Contributions\modules\og\og.module:213
+msgid "Subscription saved."
+msgstr "Iscrizione salvata."
+
+#: c:\Contributions\modules\og\og.module:219
+msgid "Goodbye"
+msgstr "Arrivederci"
+
+#: c:\Contributions\modules\og\og.module:219
+msgid "Unsubscribe from this group"
+msgstr "Destituisciti da questo gruppo"
+
+#: c:\Contributions\modules\og\og.module:221;1569
+msgid "disabled"
+msgstr "disabilitato"
+
+#: c:\Contributions\modules\og\og.module:221;1572
+msgid "enabled"
+msgstr "abilitato"
+
+#: c:\Contributions\modules\og\og.module:221
+msgid "Do you want to receive an email each time a message is posted to this group?"
+msgstr "Vuoi ricevere una mail ogni volta che un contenuto viene pubblicato in questo gruppo"
+
+#: c:\Contributions\modules\og\og.module:222;535;1267
+msgid "Submit"
+msgstr "Invia"
+
+#: c:\Contributions\modules\og\og.module:233
+msgid "Subscription request approved."
+msgstr "Richiesta di iscrizione apporvata."
+
+#: c:\Contributions\modules\og\og.module:235
+msgid "Subscription request approved for '%title'"
+msgstr "Richiesta di iscrizione apporvata per '%title'"
+
+#: c:\Contributions\modules\og\og.module:236
+msgid "You may now post messages in this group located at %url"
+msgstr "Ora puoi creare contenuti in questo gruppo su %url"
+
+#: c:\Contributions\modules\og\og.module:252
+msgid "Subscription request denied."
+msgstr "Richiesta di iscrizione negata."
+
+#: c:\Contributions\modules\og\og.module:253
+msgid "Subscription request denied for %title"
+msgstr "Richiesta di iscrizione negata per %title"
+
+#: c:\Contributions\modules\og\og.module:254
+msgid "Sorry, your subscription request was denied."
+msgstr "Siamo spiacentai, ma la richiesta di iscrizione Ã¨ stata negata."
+
+#: c:\Contributions\modules\og\og.module:270
+msgid "User was promoted to <em> group administrator</em>"
+msgstr "L'utente Ã¨ stato promosso ad <em>amministratore</em> del gruppo."
+
+#: c:\Contributions\modules\og\og.module:282
+msgid "User is no longer a group administrator"
+msgstr "L'utente non Ã¨ piÃ¹ <em>amministratore</em> del gruppo"
+
+#: c:\Contributions\modules\og\og.module:297
+msgid "Post removed from group."
+msgstr "Il contenuto Ã¨ stato rimosso dal gruppo."
+
+#: c:\Contributions\modules\og\og.module:301
+msgid "Confirmation"
+msgstr "Conferma"
+
+#: c:\Contributions\modules\og\og.module:301
+msgid "Remove %title from this group."
+msgstr "Rimuovi %title da questo gruppo."
+
+#: c:\Contributions\modules\og\og.module:303
+msgid "Remove"
+msgstr "Rimuovi"
+
+#: c:\Contributions\modules\og\og.module:328
+msgid "You may not specify more than %max email addresses."
+msgstr "Non puoi specificare piÃ¹ di %max indirizzi email."
+
+#: c:\Contributions\modules\og\og.module:338
+msgid "invalid email address: "
+msgstr "indirizzo email non valido: "
+
+#: c:\Contributions\modules\og\og.module:344
+msgid "Invitation to join the group \"%group\" at %site"
+msgstr "Invito a unirti al gruppo \"%group\" su %site"
+
+#: c:\Contributions\modules\og\og.module:345
+msgid ""
+"Hi. I'm a member of '%group' and I welcome you to join this group as well. Please see the link and message below.\n"
+"\n"
+msgstr ""
+"Salve. Sono un membro del gruppo '%group' e ti invito ad unirti al gruppo. Sei pregato di leggere il messaggio e il link sottostanti.\n"
+"\n"
+
+#: c:\Contributions\modules\og\og.module:348
+msgid "Subscribe: %url"
+msgstr "Iscrizione: %url"
+
+#: c:\Contributions\modules\og\og.module:357
+msgid "%count invitations sent."
+msgstr "%count inviti spediti."
+
+#: c:\Contributions\modules\og\og.module:376
+msgid "Email addresses"
+msgstr "Indirizzi email"
+
+#: c:\Contributions\modules\og\og.module:376
+msgid "Enter up to %max email addresses. Separate multiple addresses by commas. Each will receive an invitation message from you."
+msgstr "Inserire un massimo di %max indirizzi email. Separare gli indirizzi son la virgola, ogniuno riceverÃ  un messaggio di invito da te."
+
+#: c:\Contributions\modules\og\og.module:377
+msgid "Personal message"
+msgstr "Messaggio personale"
+
+#: c:\Contributions\modules\og\og.module:377
+msgid "Optional. Enter a message which will become part of the invitation email"
+msgstr "Opzionale. Inserisci un messaggio che sarÃ  parte integrante dell'email di invito"
+
+#: c:\Contributions\modules\og\og.module:378
+msgid "Send invitation"
+msgstr "Spedisci invito"
+
+#: c:\Contributions\modules\og\og.module:389
+msgid "In order to subscribe to this group, you must login or register a new account. After you have successfully done so, you will need to follow the <em>subscribe</em> link again."
+msgstr "Per poterti iscrivere ad questo gruppo, devi aver effettuato il login o registrare un nuovo utente. Successivamente dovrai seguire nuovamente la procedura di <em>iscrizione</em>."
+
+#: c:\Contributions\modules\og\og.module:402
+msgid "Subscription request awaits approval by an administrator."
+msgstr "La richiesta di iscrizione Ã¨ in attesa di apporvazione da parte dell'amministratore del gruppo."
+
+#: c:\Contributions\modules\og\og.module:405
+msgid "User subscribed to group,"
+msgstr "L'utente Ã¨ iscritto al gruppo,"
+
+#: c:\Contributions\modules\og\og.module:432
+msgid "Subscription request for '%group' from '%name'"
+msgstr "Richiesta di iscrizione per '%group' da '%name'"
+
+#: c:\Contributions\modules\og\og.module:433
+msgid "You may approve or deny this request at %url"
+msgstr "Puoi apporvare o negare la richiesta su %url"
+
+#: c:\Contributions\modules\og\og.module:464
+msgid "User unsubscribed from group."
+msgstr "L'utente ha eliminato la sua iscrizione al gruppo."
+
+#: c:\Contributions\modules\og\og.module:527
+msgid "%count added to the group"
+msgstr "%count aggiunti al gruppo"
+
+#: c:\Contributions\modules\og\og.module:530
+msgid "Unrecognized %names: "
+msgstr "%names non riconosciuti: "
+
+#: c:\Contributions\modules\og\og.module:534
+msgid "List of users"
+msgstr "Lista degli utenti"
+
+#: c:\Contributions\modules\og\og.module:534
+msgid "Add one or more usernames in order to associate users with this group. Multiple usernames should be separated by a comma."
+msgstr "Aggiungi uno o piÃ¹ nomi utente per associare gli utenti a questo gruppo. I nomi devono essere separati dalla virgola."
+
+#: c:\Contributions\modules\og\og.module:548;760
+msgid "Name"
+msgstr "Nome"
+
+#: c:\Contributions\modules\og\og.module:551
+msgid "Operations"
+msgstr "Operazioni"
+
+#: c:\Contributions\modules\og\og.module:556
+msgid "manager"
+msgstr "manager"
+
+#: c:\Contributions\modules\og\og.module:558
+msgid "edit group"
+msgstr "modifica gruppo"
+
+#: c:\Contributions\modules\og\og.module:567
+msgid "unsubscribe"
+msgstr "elimina iscrizione"
+
+#: c:\Contributions\modules\og\og.module:569
+msgid "admin: remove"
+msgstr "amministratore: rimuovi"
+
+#: c:\Contributions\modules\og\og.module:572
+msgid "admin: create"
+msgstr "amministratore: crea"
+
+#: c:\Contributions\modules\og\og.module:576
+msgid "approve"
+msgstr "approva"
+
+#: c:\Contributions\modules\og\og.module:577
+msgid "deny"
+msgstr "nega"
+
+#: c:\Contributions\modules\og\og.module:587;641;1235;1270
+msgid "Home"
+msgstr "Pagina iniziale"
+
+#: c:\Contributions\modules\og\og.module:589;597
+msgid "Subscribers"
+msgstr "Iscritti"
+
+#: c:\Contributions\modules\og\og.module:597;1623
+msgid "Title"
+msgstr "Titolo"
+
+#: c:\Contributions\modules\og\og.module:597
+msgid "Owner"
+msgstr "Proprietari"
+
+#: c:\Contributions\modules\og\og.module:597;676
+msgid "Description"
+msgstr "Descrizione"
+
+#: c:\Contributions\modules\og\og.module:609
+msgid "No groups"
+msgstr "Nessun gruppo"
+
+#: c:\Contributions\modules\og\og.module:661
+msgid "No posts in this group."
+msgstr "No ci sono contenuti disponibili in questo gruppo"
+
+#: c:\Contributions\modules\og\og.module:708
+msgid "Subscription requests"
+msgstr "Richieste di iscrizione"
+
+#: c:\Contributions\modules\og\og.module:708
+msgid "open - subscription requests are accepted immediately"
+msgstr "aperto - le richieste di iscrizione sono approvate immediatamente"
+
+#: c:\Contributions\modules\og\og.module:708
+msgid "moderated - subscription requests must be approved."
+msgstr "moderato - le richieste di iscrizione devono essere approvate."
+
+#: c:\Contributions\modules\og\og.module:708
+msgid "invite only - subscriptions must be created by an administrator."
+msgstr "solo su invito - le iscrizione devono essere create da un amministratore."
+
+#: c:\Contributions\modules\og\og.module:708
+msgid "How should subscription requests be handled in this group?"
+msgstr "Come devono essere gestite le richieste di iscrizione a questo gruppo?"
+
+#: c:\Contributions\modules\og\og.module:709
+msgid "registration form"
+msgstr "modulo di registrazione"
+
+#: c:\Contributions\modules\og\og.module:709
+msgid "Should this group be available for subscription during registration?. If checked, a corresponding checkbox will be added to the registration form."
+msgstr "Gli utenti, possono isciriversi a questo gruppo durante la registrazione?. Se abilitato, la checkbox corrispondente verrÃ  aggiunta al modulo di registrazione."
+
+#: c:\Contributions\modules\og\og.module:710
+msgid "list in groups directory"
+msgstr "elenca nella lista dei gruppi"
+
+#: c:\Contributions\modules\og\og.module:710
+msgid "Should this group appear on the %page"
+msgstr "Questo gruppo deve poter apparire nella %page"
+
+#: c:\Contributions\modules\og\og.module:720
+msgid "Thumbnail"
+msgstr "Thumbnail"
+
+#: c:\Contributions\modules\og\og.module:722
+msgid "Image"
+msgstr "Immagine"
+
+#: c:\Contributions\modules\og\og.module:722
+msgid "Click \"Browse...\" to select an image to upload."
+msgstr "Clicca su \"Browse...\" per selezionare l'immagine da caricare."
+
+#: c:\Contributions\modules\og\og.module:741
+msgid "Screenshot for %theme theme"
+msgstr "Screenshot per il tema %theme"
+
+#: c:\Contributions\modules\og\og.module:741
+msgid "no screenshot"
+msgstr "nessuno screenshot"
+
+#: c:\Contributions\modules\og\og.module:760
+msgid "Screenshot"
+msgstr "Screenshot"
+
+#: c:\Contributions\modules\og\og.module:760
+msgid "Selected"
+msgstr "Selezionato"
+
+#: c:\Contributions\modules\og\og.module:761
+msgid "Group theme"
+msgstr "Tema grafico del gruppo"
+
+#: c:\Contributions\modules\og\og.module:761
+msgid "Select a theme for your group."
+msgstr "Seleziona un tema per il tuo gruppo."
+
+#: c:\Contributions\modules\og\og.module:871
+msgid "You must select an audience in order to post."
+msgstr "Devi selezionare un  \"audiance\" per poter pubblicare il contenuto."
+
+#: c:\Contributions\modules\og\og.module:877
+msgid "%name must be a subscriber in order to post into %group"
+msgstr "%name deve essere iscritto per poter pubblicare contenuti in %group"
+
+#: c:\Contributions\modules\og\og.module:930
+msgid "You must subscribe to a group before posting."
+msgstr "Devi essere iscritto ad un gruppo prima di poter pubblicare contenuti."
+
+#: c:\Contributions\modules\og\og.module:935
+msgid "Admins: If you want to assign this post to a group whose checkbox does not appear below, you must first change the %author. The author's subscriptions are always shown."
+msgstr "Amministratori: se vuoi assegnare questo contenuto ad un gruppo del quale la checkbox non appare subito sotto, prima devi cambiare %author."
+
+#: c:\Contributions\modules\og\og.module:935;1623
+msgid "Author"
+msgstr "Autore"
+
+#: c:\Contributions\modules\og\og.module:951;1594
+msgid "Public"
+msgstr "Pubblico"
+
+#: c:\Contributions\modules\og\og.module:951
+msgid "Show this post to everyone or only to members of the groups checked below."
+msgstr "Mostra questo contenuto a tutti o solo ai membri dei gruppi selezionati qui sotto."
+
+#: c:\Contributions\modules\og\og.module:965
+msgid "Audience"
+msgstr "Audience"
+
+#: c:\Contributions\modules\og\og.module:965
+msgid "Show this post in these groups."
+msgstr "Mostra qesto contenuto in questi gruppi."
+
+#: c:\Contributions\modules\og\og.module:990
+msgid "%author added '%title' at %site"
+msgstr "%author ha aggiunto '%title' su %site"
+
+#: c:\Contributions\modules\og\og.module:992
+msgid "EXCERPT"
+msgstr "ESTRATTO"
+
+#: c:\Contributions\modules\og\og.module:992
+msgid "FULL POST"
+msgstr "CONTENUTO COMPLETO"
+
+#: c:\Contributions\modules\og\og.module:995
+msgid "You are subscribed to the group '%group_name' at '%site'. To manage your subscription, visit %group_url"
+msgstr "Sei iscritto al gruppo '%group_name' su '%site'. Per gestire la tua iscrizione, visita %group_url"
+
+#: c:\Contributions\modules\og\og.module:1052
+msgid "Subscribe to %name"
+msgstr "Iscriviti a %name"
+
+#: c:\Contributions\modules\og\og.module:1055
+msgid "(approval needed)"
+msgstr "(approvazione obbligatoria)"
+
+#: c:\Contributions\modules\og\og.module:1059;1082
+msgid "Groups"
+msgstr "Gruppi"
+
+#: c:\Contributions\modules\og\og.module:1082
+msgid "your group subscriptions are here for your convenience. they do not appear on the public profile page."
+msgstr "i gruppi a cui sei iscritto sono qui per comoditÃ . Non saranno visibili pubblicamente nella pagina del tuo profilo."
+
+#: c:\Contributions\modules\og\og.module:1181
+msgid "Organic groups access control has been disabled. You may now disable the module on the <em>%modules</em> page"
+msgstr "I controlli d'accesso di Organic groups sono stati disabilitai. Ora puoi disabilitare il modulo nella pagina dei <em>%modules</em>"
+
+#: c:\Contributions\modules\og\og.module:1181
+msgid "admin/modules"
+msgstr "admin/modules"
+
+#: c:\Contributions\modules\og\og.module:1195
+msgid "Organic groups access control enabled."
+msgstr "I controlli d'accesso di Organic groups sono abilitati."
+
+#: c:\Contributions\modules\og\og.module:1241
+msgid "add to this album"
+msgstr "aggiungi a questo album"
+
+#: c:\Contributions\modules\og\og.module:1257
+msgid "Album Title"
+msgstr "Titolo dell'album"
+
+#: c:\Contributions\modules\og\og.module:1262
+msgid "Photo"
+msgstr "Foto"
+
+#: c:\Contributions\modules\og\og.module:1280
+msgid "You must specify an album title."
+msgstr "Devi specificare un titolo per l'album"
+
+#: c:\Contributions\modules\og\og.module:1329
+msgid "album saved."
+msgstr "album salvato."
+
+#: c:\Contributions\modules\og\og.module:1351
+msgid "Group details"
+msgstr "Dettagli del gruppo"
+
+#: c:\Contributions\modules\og\og.module:1352
+msgid "Group albums"
+msgstr "Album del gruppo"
+
+#: c:\Contributions\modules\og\og.module:1353
+msgid "Group subscribers"
+msgstr "Iscritti al gruppo"
+
+#: c:\Contributions\modules\og\og.module:1354;1414
+msgid "New groups"
+msgstr "Nuovo gruppo"
+
+#: c:\Contributions\modules\og\og.module:1355;1397
+msgid "My groups"
+msgstr "I miei gruppi"
+
+#: c:\Contributions\modules\og\og.module:1376
+msgid "Maximum number of items to show"
+msgstr "Massimo numero di elementi da visualizzare"
+
+#: c:\Contributions\modules\og\og.module:1412;1461
+msgid "more"
+msgstr "mostra tutti"
+
+#: c:\Contributions\modules\og\og.module:1412
+msgid "Browse the newest groups."
+msgstr "Visualizza i gruppi piÃ¹ recenti."
+
+#: c:\Contributions\modules\og\og.module:1425
+msgid "submitted by %name. "
+msgstr "inserito da %name."
+
+#: c:\Contributions\modules\og\og.module:1431
+msgid "Albums"
+msgstr "Album"
+
+#: c:\Contributions\modules\og\og.module:1461
+msgid "View all subscribers."
+msgstr "Visualizza tutti  gli iscritti."
+
+#: c:\Contributions\modules\og\og.module:1464
+msgid "Recent subscribers"
+msgstr "Iscritti di recente"
+
+#: c:\Contributions\modules\og\og.module:1496
+msgid "invite friend"
+msgstr "invita un amico"
+
+#: c:\Contributions\modules\og\og.module:1502
+msgid "age: %age"
+msgstr "etÃ : %age"
+
+#: c:\Contributions\modules\og\og.module:1504;1507
+msgid "group manager: "
+msgstr "manager del gruppo: "
+
+#: c:\Contributions\modules\og\og.module:1509
+msgid "my subscription"
+msgstr "le mie iscrizioni"
+
+#: c:\Contributions\modules\og\og.module:1512
+msgid "Your subscription request awaits approval."
+msgstr "La tua richiesta di iscrizione Ã¨ in coda di approvazione."
+
+#: c:\Contributions\modules\og\og.module:1513
+msgid "delete request"
+msgstr "elimina la richiesta"
+
+#: c:\Contributions\modules\og\og.module:1517
+msgid "request subscription"
+msgstr "richiedi iscrizione"
+
+#: c:\Contributions\modules\og\og.module:1520
+msgid "subscribe"
+msgstr "iscriviti"
+
+#: c:\Contributions\modules\og\og.module:1541
+msgid "create %type"
+msgstr "crea %type"
+
+#: c:\Contributions\modules\og\og.module:1541
+msgid "Add a new %s in this group."
+msgstr "Aggiungi un nuovo %s in questo gruppo."
+
+#: c:\Contributions\modules\og\og.module:1549
+msgid "create album"
+msgstr "crea un album"
+
+#: c:\Contributions\modules\og\og.module:1560
+msgid "remove from group"
+msgstr "rimuovi dal gruppo"
+
+#: c:\Contributions\modules\og\og.module:1568
+msgid "Organic groups configuration"
+msgstr "Configurazione di Organic groups"
+
+#: c:\Contributions\modules\og\og.module:1570;1580
+msgid "Enable"
+msgstr "Abilita"
+
+#: c:\Contributions\modules\og\og.module:1573;1584
+msgid "Disable"
+msgstr "Disabilita"
+
+#: c:\Contributions\modules\og\og.module:1575
+msgid "Organic groups access control is currently"
+msgstr "Il controllo di accesso di Organic groups Ã¨ attualmente"
+
+#: c:\Contributions\modules\og\og.module:1577
+msgid "Module status"
+msgstr "Stato del modulo"
+
+#: c:\Contributions\modules\og\og.module:1577
+msgid "After enabling this module via the module settings page or before disabling this module, use the above button to restore default permissions."
+msgstr "Dopo aver abilitato il modulo tramite la pagina dei moduli o prima di disabilitarlo, usa questo tasto per ripristinare i permessi predefiniti."
+
+#: c:\Contributions\modules\og\og.module:1591
+msgid "Explanation or submission guidelines"
+msgstr "Spiegazione o guida di invio"
+
+#: c:\Contributions\modules\og\og.module:1591
+msgid "This text will be displayed at the top of the group submission form.  It is useful for helping or instructing your users."
+msgstr "Questo testo sarÃ  visualizzato in cima al modulo di invio dei gruppi. Ã utile per aiutare o istruitre i tuoi utenti."
+
+#: c:\Contributions\modules\og\og.module:1592
+msgid "Unlimited albums"
+msgstr "Album illimitati"
+
+#: c:\Contributions\modules\og\og.module:1592
+msgid "If you want to limit your groups to a single album, uncheck this box."
+msgstr "Se vuoi limitare i tuoi gruppi ad un singolo album, deseleziona questa casella"
+
+#: c:\Contributions\modules\og\og.module:1593
+msgid "Visible only within the targeted groups"
+msgstr "Visibile solo ai gruppi selezionati"
+
+#: c:\Contributions\modules\og\og.module:1593
+msgid "Visible within the targeted groups and on other pages"
+msgstr "Visibile ai gruppi selezionati e sulle altre pagine"
+
+#: c:\Contributions\modules\og\og.module:1593
+msgid "Visibility to be determined by the author/editor using a checkbox on the posting form"
+msgstr "VisibilitÃ  determinata dall'autore usando l'apposita casella nel modulo durante la creazione dei contenuti"
+
+#: c:\Contributions\modules\og\og.module:1594
+msgid "Visibility of posts"
+msgstr "VisibilitÃ  dei contenuti"
+
+#: c:\Contributions\modules\og\og.module:1594
+msgid "Determine how broadly available a given post should be when it is affiliated with a group. OG admins always see the checkbox for making a post %pub. Note that changing this setting has no effect on existing posts. Re-save those posts to acquire this new setting."
+msgstr "Determina quanto ampiamente disponibile dovrÃ  essere un dato contenuto quando associato ad un gruppo. Gli amministratori del gruppo vedranno sempre la checkbox per far diventare un contenuto %pub. Nota che cambiare questa impostanzione non ha effetto sui contenuti esistenti. Per acquisire questa nuova impostazione, ri-salvare quei contenuti."
+
+#: c:\Contributions\modules\og\og.module:1595
+msgid "Maximum posts on group home page"
+msgstr "Massimo numero di contenuti nella pagina iniziale del gruppo"
+
+#: c:\Contributions\modules\og\og.module:1595
+msgid "How many posts of a given type should display on the group home page."
+msgstr "Quanti contenuti di un determinato tipo devono essere visualizzati nella pagina iniziale del gruppo."
+
+#: c:\Contributions\modules\og\og.module:1597
+msgid "Show member pictures"
+msgstr "Mostra le immagini dei membri"
+
+#: c:\Contributions\modules\og\og.module:1597
+msgid "Should member pictures be shown in the group subscribers and group details blocks? You must also enable pictures in %user."
+msgstr "Visualizzare le immagini dei membri nella sezione iscritti e nel blocco dettagli del gruppo? Richiede che siano abilitate le immagini in %user."
+
+#: c:\Contributions\modules\og\og.module:1597
+msgid "User configuration"
+msgstr "Configurazione utente"
+
+#: c:\Contributions\modules\og\og.module:1598
+msgid "optional"
+msgstr "opzionale"
+
+#: c:\Contributions\modules\og\og.module:1598
+msgid "required"
+msgstr "obbligatorio"
+
+#: c:\Contributions\modules\og\og.module:1599
+msgid "Audience required"
+msgstr "Audience obbligatorio"
+
+#: c:\Contributions\modules\og\og.module:1599
+msgid "Do you require that all posts be affiliated with a group? If so, new users will be unable to complete a post until they join a group. Note that changing this setting has affect existing posts when they are edited."
+msgstr "Vuoi che tutti i contenuti siano associati ad un gruppo? Se cosÃ¬, i nuovi utenti non potranno pubblicare contenuti finchÃ¨ non entreranno a far parte di un gruppo. Tenere presente che cambiare questa impostazione, influenza i contenuti esistenti al momento della modifica."
+
+#: c:\Contributions\modules\og\og.module:1605
+msgid "Omitted content types"
+msgstr "Tipi di contenuto omessi"
+
+#: c:\Contributions\modules\og\og.module:1605
+msgid "Select any node types which should <em>not</em> participate in the Audience targetting system."
+msgstr "Selezionare qualunque tipo che <em>non</em> deve essere considerato nel sistema basato sull'Audiance."
+
+#: c:\Contributions\modules\og\og.module:1623
+msgid "Replies"
+msgstr "Risposte"
+
+#: c:\Contributions\modules\og\og.module:1623
+msgid "Last reply"
+msgstr "Ultima risposta"
+
+#: c:\Contributions\modules\og\og.module:527
+msgid "1 user"
+msgid_plural "%count users"
+msgstr[0] "1 utente"
+msgstr[1] "%count utenti"
+
+#: c:\Contributions\modules\og\og.module:530
+msgid "name"
+msgid_plural "names"
+msgstr[0] "nome"
+msgstr[1] "nomi"
+
+#: c:\Contributions\modules\og\og.module:1426
+msgid "1 image"
+msgid_plural "%count images"
+msgstr[0] "1 immagine"
+msgstr[1] "%count immagini"
+
+#: c:\Contributions\modules\og\og.module:1498
+msgid "1 subscriber"
+msgid_plural "%count subscribers"
+msgstr[0] "1 iscritto"
+msgstr[1] "%count iscritti"
+
+#: c:\Contributions\modules\og\og.module:77
+msgid "create groups"
+msgstr "crea gruppi"
+
+#: c:\Contributions\modules\og\og.module:77
+msgid "administer organic groups"
+msgstr "amministra Organic groups"
+
+#: c:\Contributions\modules\og\og.module:0
+msgid "og"
+msgstr "og"
+

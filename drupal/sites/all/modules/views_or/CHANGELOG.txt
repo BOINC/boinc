@@ -1,0 +1,44 @@
+$Id: CHANGELOG.txt,v 1.11 2009/08/12 19:15:27 darrenoh Exp $
+
+Views Or x.x-x.x, xxxx-xx-xx
+----------------------------
+by Anselm Heaton: Initial commit of the views_or module.
+  This module helps build filters with OR conditions in views.
+by Anselm Heaton: Rewrote to use three filters.
+
+  An alternatives block now uses three filters:
+  * begin alternatives: starts an alternatives block.
+  * next alternative: separates alternatives in block.
+  * end alternatives: ends an alternatives block.
+  
+  This means that it can now handle multiple alternatives blocks, nested
+  alternatives blocks, and filters that use more than one where group. Also
+  started factoring the calls that modify the query object; hopefully will ask
+  the Views maintainer if these can be included (rather than modifying the
+  object directly).
+by Anselm Heaton: Added support for inner joins.
+by Anselm Heaton: Fixed handling of the case where there is no body in an
+  alternative.
+  Returns fewer error messages when building filters.
+by Anselm Heaton: Updated to work with Views 2 RC2.
+#385086 by Darren Oh: Fixed error when all filters are in alternatives group.
+by Darren Oh: Fixed Drupal coding standards compliance.
+by Darren Oh: Reorganized code and added CHANGELOG.txt to track changes.
+by Darren Oh: Just realized that code reorganization could be done more
+  efficiently by putting similar handlers in the same file.
+by Darren Oh: Forgot to change filter handler names in
+  views_or_views_data_alter().
+by Darren Oh: Added the ability to use COALESCE to combine fields.
+  This feature use the "begin alternatives" and "end alternatives" fields to
+  indicate that the fields in between should be coalesced.
+by Darren Oh: Fixed documentation to comply with Drupal coding standards.
+by Darren Oh: Added translation template.
+#392994 by Darren Oh: Fixed handlers not being refreshed after updating module.
+by Darren Oh: Fixed alias for combined fields.
+by Darren Oh: Removed settings form from Views Or filters.
+by Darren Oh: Added support for OR conditions in arguments.
+#470648 by Darren Oh: Added ability for alternatives to receive different
+  arguments from the URL.
+#495726 by PadreHomer and Darren Oh: Fixed handling of multiple argument
+  alternatives.
+#512074 by Darren Oh: Fixed default argument handling.

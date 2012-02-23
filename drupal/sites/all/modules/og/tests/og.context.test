@@ -1,0 +1,178 @@
+<?php
+// $Id: og.context.test,v 1.1.4.2 2009/06/29 20:10:40 weitzman Exp $
+
+/**
+ * @file
+ * Context tests for the organic groups module.
+ */
+
+require_once drupal_get_path('module', 'og') . '/tests/og_testcase.php';
+
+class OgContext extends OgTestCase {
+  public static function getInfo() {
+    return array(
+      'name'  => t('Organic groups context tests'),
+      'description' => t('Tests the context system that determines how a group should be presented to the user.'),
+      'group' => t('Organic groups'),
+    );
+  }
+
+  function setUp() {
+    parent::setUp('og');
+    // Create a user with admin permissions.
+    $web_admin = $this->drupalCreateUser(array('administer nodes', 'administer content types', 'access administration pages', 'administer site configuration', 'administer organic groups', 'administer blocks'));
+    $this->drupalLogin($web_admin);
+
+    // Create a group node content type.
+    $og_group_type = $this->drupalCreateContentType();
+    variable_set('og_content_type_usage_'. $og_group_type->name, 'group');
+    $this->group_type = $og_group_type->name;
+
+    // Create a second group node content type, so user is a member of
+    // two groups.
+    $og_group_type_second = $this->drupalCreateContentType();
+    variable_set('og_content_type_usage_'. $og_group_type_second->name, 'group');
+
+    // Create a group post content type.
+    $og_post_type = $this->drupalCreateContentType();
+    variable_set('og_content_type_usage_'. $og_post_type->name, 'group_post_standard');
+    $this->post_type = $og_post_type->name;
+
+    // Rebuild the menu so the new content types will appear in the menu.
+    menu_rebuild();
+
+    // Create a group node.
+    $this->group_nid = $this->addOgGroup($og_group_type->name);
+    // Create the second group node.
+    $this->group_nid_second = $this->addOgGroup($og_group_type_second->name);
+
+    // Create a post node.
+    $this->post_nid = $this->addOgPost($og_post_type->name, array($this->group_nid));
+
+    // Add the 'Group details' block (it's delta is 0).
+    $edit = array();
+    $edit['og_0[region]'] = 'left';
+    $this->drupalPost('admin/build/block', $edit, t('Save blocks'));
+    $this->assertText(t('The block settings have been updated.'), t('Block successfully added.'));
+  }
+
+  /**
+   * Test the context in different situations.
+   */
+  function testOgContex() {
+    // Prepare all the tests, with the URLs and if the block should appear or
+    // be hidden.
+    $tests = array(
+      'group node view' => array(
+        'path' => 'node/'. $this->group_nid,
+        'display' => TRUE,
+      ),
+      'group node add' => array(
+        'path' => 'node/add/'. $this->group_type,
+        'display' => FALSE,
+      ),
+      'group post view' => array(
+        'path' => 'node/'. $this->post_nid,
+        'display' => TRUE,
+      ),
+      'group post edit' => array(
+        'path' => 'node/'. $this->post_nid .'/edit',
+        'display' => TRUE,
+      ),
+      'group post delete' => array(
+        'path' => 'node/'. $this->post_nid .'/delete',
+        'display' => TRUE,
+      ),
+      'group post add' => array(
+        'path' => 'node/add/'. $this->post_type,
+        'display' => FALSE,
+      ),
+      'group post add with ?gids[] in the URL' => array(
+        'path' => 'node/add/'. $this->post_type,
+        'query' => 'gids[]='. $this->group_nid,
+        'display' => TRUE,
+      ),
+      "OG's menu callback (group manage)" => array(
+        'path' => 'og/manage/'. $this->group_nid,
+        'display' => TRUE,
+      ),
+    );
+
+    foreach ($tests as $test_name => $test) {
+      $this->drupalGet($test['path'], !empty($test['query']) ? array('query' => $test['query']) : array());
+      if ($test['display']) {
+        $assert_func = 'assertText';
+        $display = t('displayed');
+      }
+      else {
+        $assert_func = 'assertNoText';
+        $display = t('hidden');
+      }
+      // Confirm that the block is being displayed/ hidden.
+      $this->$assert_func(t('My membership'), t('Block successfully being @display on the %test_name page.', array('@display' => $display, '%test_name' => $test_name)));
+    }
+  }
+
+  /**
+   * Test the group Id (gids) passed in the URL.
+   */
+  function testOgGidContex() {
+    $group_node = node_load($this->group_nid);
+    $group_node_second = node_load($this->group_nid_second);
+
+    $title = $this->randomName(8);
+    $body  = $this->randomName(32);
+
+    $path = 'node/add/'. str_replace('_', '-',$this->post_type);
+    $gids = 'gids[]='. $this->group_nid;
+
+    // Pass 1st group in URL and submit.
+    unset($edit);
+    $edit = array(
+      'title' => $title,
+      'body' => $body,
+    );
+
+    $this->drupalPost($path, $edit, t('Save'), array('query' => $gids));
+    $this->assertText($group_node->title, t('Pass 1st group in URL and submit.'));
+
+    // Pass 1st group in URL but edit form to select 2nd group.
+    unset($edit);
+    $edit = array(
+      'title' => $title,
+      'body' => $body,
+      'og_groups['. $this->group_nid .']' => FALSE,
+      'og_groups['. $this->group_nid_second .']' => TRUE,
+    );
+
+    $this->drupalGet($path, array('query' => $gids));
+    $this->drupalPost(NULL, $edit, t('Save'));
+    $this->assertText($group_node_second->title, t('Pass 1st group in URL but edit form to select 2nd group.'));
+
+    // Pass both groups in URL and submit.
+    unset($edit);
+    $edit = array(
+      'title' => $title,
+      'body' => $body,
+    );
+
+    $gids = 'gids[]='. $this->group_nid .','. $this->group_nid_second;
+    $this->drupalPost($path, $edit, t('Save'), array('query' => $gids));
+    $this->assertText($group_node->title, t('Pass both groups in URL and submit - 1st group found'));
+    $this->assertText($group_node_second->title, t('Pass both groups in URL and submit - 2ndst group found'));
+
+    // Pass both groups in URL and select none.
+    unset($edit);
+    $edit = array(
+      'title' => $title,
+      'body' => $body,
+      'og_groups['. $this->group_nid .']' => FALSE,
+      'og_groups['. $this->group_nid_second .']' => FALSE,
+    );
+
+    $this->drupalGet($path, array('query' => $gids));
+    $this->drupalPost(NULL, $edit, t('Save'));
+    $this->assertNoText($group_node->title, t(' Pass both groups in URL and select none - 1st group not found, as expected.'));
+    $this->assertNoText($group_node_second->title, t(' Pass both groups in URL and select none - 2st group not found, as expected.'));
+  }
+}

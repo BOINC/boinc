@@ -1,0 +1,90 @@
+<?php
+// $Id: og_access.install,v 1.5.4.5 2009/11/17 03:28:17 weitzman Exp $
+
+/**
+ * Definition of hook_schema();
+ */
+function og_access_schema() {
+  $schema = array();
+  
+  $schema['og_access_post'] = array(
+    'description'     => 'Global properties for group posts.',
+    'fields'          => array(
+      'nid'             => array(
+        'description'     => "The post's {node}.nid.",
+        'type'            => 'int',
+        'size'            => 'normal',
+        'not null'        => TRUE,
+      ),
+      'og_public'       => array(
+        'description'     => 'Is this a public or private post?',
+        'type'            => 'int',
+        'size'            => 'tiny',
+        'default'         => 1,
+        'not null'        => TRUE,
+      ),
+    ),
+    'primary key'       => array('nid'),
+  );
+  
+  return $schema;
+}
+
+/**
+ * An implementation of hook_install().
+ */
+function og_access_install() {
+  drupal_install_schema('og_access');
+  
+  // Put this module after OG so it can form_alter as needed.
+  db_query("UPDATE {system} SET weight = 1 WHERE name = 'og_access'");
+}
+
+function og_access_uninstall() {
+  drupal_uninstall_schema('og_access');
+  
+  // Delete variables
+  $variables = array('og_private_groups', 'og_visibility');
+  foreach ($variables as $variable) {
+    variable_del($variable);
+  }
+}
+
+// Migrate the is_public column from og_ancestry to a new og_access_post table. Denormalizing.
+function og_access_update_6201() {
+  $ret = array();
+  // Create new table.
+  $schema['og_access_post'] = array(
+    'description'     => 'Global properties for group posts.',
+    'fields'          => array(
+      'nid'             => array(
+        'description'     => "The post's {node}.nid.",
+        'type'            => 'int',
+        'size'            => 'normal',
+        'not null'        => TRUE,
+      ),
+      'og_public'       => array(
+        'description'     => 'Is this a public or private post?',
+        'type'            => 'int',
+        'size'            => 'tiny',
+        'default'         => 1,
+        'not null'        => TRUE,
+      ),
+    ),
+    'primary key'       => array('nid'),
+  );
+  db_create_table($ret, 'og_access_post', $schema['og_access_post']);
+  
+  // Move data from og_ancestry.is_public into og_access_post.og_public.
+  // Exactly match what og_access_nodeapi(load) does when determining whether a given post is public.
+  $ret[] = update_sql("INSERT INTO {og_access_post} (nid, og_public) SELECT DISTINCT(nid), (SELECT oga_sub.is_public FROM {og_ancestry} oga_sub WHERE oga_sub.nid = oga.nid LIMIT 1) FROM {og_ancestry} oga");
+  
+  // Remove old column
+  db_drop_field($ret, 'og_ancestry', 'is_public');
+  
+  // Dedupe og_ancestry table because some sites had dupes of unkown origin.
+  // See og.install.
+  og_ancestry_dedupe($ret);
+  
+  return $ret;
+}

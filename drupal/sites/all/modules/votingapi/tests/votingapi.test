@@ -1,0 +1,185 @@
+<?php
+// $Id: votingapi.test,v 1.1.2.3 2009/06/24 19:16:05 eaton Exp $
+
+/**
+ * @file
+ * Test file for VotingAPI module.
+ */
+
+class VotingAPITestCase extends DrupalWebTestCase {
+  public static function getInfo() {
+    return array(
+      'name' => t('Voting API'),
+      'description' => t('Voting API'),
+      'group' => t('Voting API Tests'),
+    );
+  }
+
+  function setUp() {
+    parent::setUp('votingapi');
+    // Create a new page
+    $node = new stdClass();
+    $node->title = '';
+    $node->teaser = t('Teaser text');
+    $node->body = t('Here is the body of the page');
+    $node->uid = 1;
+    $node->type = 'page';
+    $node->status = 1;
+    $node->promote = 0;
+    node_save($node);
+    variable_set('votingapi_nid1', $node->nid);
+    $node->title = t('Node @id', array('@id' => $node->nid));
+    node_save($node);
+  }
+
+  function tearDown() {
+    $nid = variable_get('votingapi_nid1', NULL);
+    if ($nid) {
+      node_delete($nid);
+      variable_del('votingapi_nid1');
+    }
+    parent::tearDown();
+  }
+
+  /**
+   * Ensure that the optional fields are truly optional.
+   */
+  function testMinimalAdd() {
+    $nid = variable_get('votingapi_nid1', NULL);
+    $value = '85';
+    // The minimum required fields according to the documentation are
+    // content_id and value.
+    $vote = array(
+      'content_id' => $nid,
+      'value' => $value
+    );
+    try {
+      $result = votingapi_add_votes($vote);
+      // Test that the result has its fields set appropriately.
+      $this->validateVote('testMinimalAdd()', $result, $nid, array($value));
+      $this->assertTrue(time() - $result[0]['timestamp'] < 2, t('The timestamp should be less than 2 seconds ago.'));
+    }
+    catch (Exception $e) {
+      $this->fail(t('Could not add a vote with only content_id and value.'));
+      return;
+    }
+  }
+
+  /**
+   * Add a vote and ensure that the vote was stored properly.
+   */
+  function testAddVote() {
+    global $user;
+    $value = '7';
+    $nid = variable_get('votingapi_nid1', NULL);
+    $vote = array('content_id' => $nid,
+      'value' => $value,
+      'content_type' => 'node');
+    try {
+      $result = votingapi_add_votes($vote);
+      // Test that the result has its fields set appropriately.
+      $this->validateVote("testAddVote()", $result, $nid, $value, 'node', $user->uid);
+      $this->assertTrue(time() - $result[0]['timestamp'] < 2, t('The timestamp should be less than 2 seconds ago.'));
+    }
+    catch (Exception $e) {
+      $this->fail('The votingapi_add_votes threw an error during the "votingapi_add_votes" call.');
+      return;
+    }
+    // Load the vote back in and verify it matches.
+    $vote_results = votingapi_recalculate_results('node', $nid);
+    $this->validateVoteCounts('testAddVote()', $vote_results, $nid, array($value));
+  }
+
+  /**
+   * Add multiple votes and ensure that the vote calculations are working.
+   */
+  function testAddMultipleVotes() {
+    $users = array();
+    $users[] = $this->drupalCreateUser();
+    $users[] = $this->drupalCreateUser();
+    $users[] = $this->drupalCreateUser();
+    $nid = variable_get('votingapi_nid1', NULL);
+    $values = array(72, 13, 27);
+    $votes = array();
+    try {
+      for ($index = 0; $index < count($values); $index++) {
+        $votes[$index] = array();
+        $votes[$index]['content_type'] = 'node';
+        $votes[$index]['content_id'] = $nid;
+        $votes[$index]['uid'] = $users[$index]->uid;
+        $votes[$index]['value'] = $values[$index];
+      }
+      $result = votingapi_add_votes($votes);
+      // Test that the result has its fields set appropriately.
+      $this->validateVote("testAddMultipleVotes()", $result, $nid, $values);
+    }
+    catch (Exception $e) {
+      $this->fail('The votingapi_add_votes threw an error during the "votingapi_add_votes" call.');
+      return;
+    }
+    // Load the vote back in and verify it matches.
+    $vote_results = votingapi_recalculate_results('node', $nid);
+    $this->validateVoteCounts('testAddVote()', $vote_results, $nid, $values);
+  }
+
+  function validateVote($prefix, $vote, $content_id, $value, $content_type = 'node',
+    $uid = NULL, $value_type = 'percent', $tag = 'vote', $vote_source = NULL) {
+    global $user;
+    if ($vote_source == NULL) {
+      $vote_source = ip_address();
+    }
+    $prefix_array = array('@prefix' => $prefix);
+    for ($index = 0; $index < count($vote); $index++) {
+      $this->assertTrue($vote[$index]['content_id'] == $content_id, t('@prefix: content_id should match.', $prefix_array));
+      $this->assertTrue($vote[$index]['value'] == $value[$index], t('@prefix: value should match.', $prefix_array));
+      $this->assertTrue($vote[$index]['content_type'] == $content_type, t('@prefix: content_type should match, default = "node".', $prefix_array));
+      $this->assertTrue($vote[$index]['value_type'] == $value_type, t('@prefix: value_type should match, default= "percent".', $prefix_array));
+      $this->assertTrue($vote[$index]['tag'] == $tag, t('@prefix: tag should match, default =  "vote".', $prefix_array));
+      $this->assertTrue($vote[$index]['vote_source'] == $vote_source, t('@prefix: vote_source should match, default = ip address.', $prefix_array));
+      if ($uid != NULL) {
+        $this->assertTrue($vote[0]['uid'] == $uid, t('@prefix: uid should match.', $prefix_array));
+      }
+    }
+  }
+
+  function validateVoteCounts($prefix, $votes, $content_id, $values, $content_type = 'node',
+    $value_type = 'percent', $tag = 'vote') {
+      $count_summary = 0;
+      $average_summary = 1;
+      $count = 0.0;
+      $sum = 0.0;
+      foreach ($values as $value) {
+        $sum += $value;
+        $count++;
+      }
+      $average = $sum / $count;
+      $prefix_array = array('@prefix' => $prefix);
+      foreach ($votes as $summary) {
+        if ($summary['function'] == 'count') {
+          $summary_desc = 'count summary';
+          $prefix_array['@summary_desc'] = $summary_desc;
+          $this->assertTrue($summary['value'] == $count,
+            t('@prefix: (@summary_desc) value should match the number of values.', $prefix_array));
+        }
+        elseif ($summary['function'] == 'average') {
+          $summary_desc = 'average summary';
+          $prefix_array['@summary_desc'] = $summary_desc;
+          $this->assertTrue($summary['value'] == $average,
+            t('@prefix: (@summary_desc) value should match the average of values', $prefix_array));
+        }
+        else {
+          $prefix_array['@summary'] = $summary['function'];
+          $prefix_array['@summary_desc'] = $summary['function'] . ' summary';
+          $this->assertFalse(TRUE, t('@prefix: Unknown summary type @summary.', $prefix_array));
+        }
+        $this->assertTrue($summary['content_type'] == $content_type,
+          t('@prefix: (@summary_desc) content_type should match, default = "node"', $prefix_array));
+      $this->assertTrue($summary['content_id'] == $content_id,
+        t('@prefix: (@summary_desc) content_id should match', $prefix_array));
+      $this->assertTrue($summary['value_type'] == $value_type,
+        t('@prefix: (@summary_desc) value_type should match.', $prefix_array));
+      $this->assertTrue($summary['tag'] == $tag,
+        t('@prefix: (@summary_desc) tag should match', $prefix_array));
+    }
+  }
+}

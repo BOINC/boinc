@@ -1,0 +1,105 @@
+/* Show only to IE7 */
+*:first-child+html .rounded-shadow-background,
+/* Show only to IE6 */
+* html .rounded-shadow-background  {
+  margin: 0 -10px 0 0 !important;
+  padding: 10px 0 5px 0 !important;
+}
+
+.rounded-shadow-top-edge, .rounded-shadow-bottom-edge, .rounded-shadow-left-edge, .rounded-shadow-right-edge, .rounded-shadow-wrap-corner {
+  position: relative;
+  /* hasLayout -1 ? For IE only */
+  zoom: 1;
+}
+%style {
+  padding-top: 10px;
+  margin-bottom: 30px;
+  color: %text;
+}
+
+%style h2 {
+  color: %header-text;
+}
+
+%style .rounded-shadow-background {
+  margin: 10px;
+  background: %background url(rounded-shadow-background.png) repeat;
+}
+
+%style .rounded-shadow-wrap-corner {
+  margin: -10px;
+}
+
+%style .rounded-shadow-top-edge {
+  top: -10px;
+  background: url(rounded-shadow-top-edge.png) repeat-x 0 top;
+  font-size: 1px;
+}
+
+%style .rounded-shadow-bottom-edge {
+  bottom: -10px;
+  background: url(rounded-shadow-bottom-edge.png) repeat-x 0 bottom;
+  font-size: 1px;
+}
+
+%style .rounded-shadow-left-edge {
+  background: url(rounded-shadow-left-edge.png) repeat-y 0 0;
+}
+
+%style .rounded-shadow-right-edge {
+  background: url(rounded-shadow-right-edge.png) repeat-y right 0;
+}
+
+%style .rounded-shadow-wrap-corner .rounded-shadow-top-edge,
+%style .rounded-shadow-wrap-corner .rounded-shadow-bottom-edge {
+  height: 19px;
+  margin: -10px 19px;
+}
+
+%style .rounded-shadow-wrap-corner .rounded-shadow-left,
+%style .rounded-shadow-wrap-corner .rounded-shadow-right {
+  position: absolute;
+  top: 0;
+  height: 19px;
+  width: 19px;
+  margin: 0 -19px;
+}
+
+%style .rounded-shadow-wrap-corner .rounded-shadow-left {
+  background-image: url(rounded-shadow-top-left-corner.png);
+}
+
+%style .rounded-shadow-wrap-corner .rounded-shadow-right {
+  right: 0;
+  background-image: url(rounded-shadow-top-right-corner.png);
+}
+
+%style .rounded-shadow-wrap-corner .rounded-shadow-bottom-edge .rounded-shadow-left {
+  background-image: url(rounded-shadow-bottom-left-corner.png);
+}
+
+%style .rounded-shadow-wrap-corner .rounded-shadow-bottom-edge .rounded-shadow-right {
+  right: 0;
+  background-image: url(rounded-shadow-bottom-right-corner.png);
+}
+
+%style .rounded-shadow-wrap-corner .rounded-shadow-right-edge {
+  padding: 3px 19px;
+}
+
+%style .panel-pane {
+  position: relative; top: -6px;
+}
+
+/*
+%style div.admin-links {
+  margin-top: -19px;
+  margin-left: -12px;
+}
+
+%style .panel-separator {
+  background: url(rounded-shadow-bottom-edge.png) repeat-x 0 center;
+  font-size: 1px;
+  height: 30px;
+}
+*/

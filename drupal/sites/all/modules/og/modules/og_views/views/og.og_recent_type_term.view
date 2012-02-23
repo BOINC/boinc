@@ -1,0 +1,183 @@
+<?php
+// $Id: og.og_recent_type_term.view,v 1.3 2008/10/31 14:14:44 weitzman Exp $
+
+if (!module_exists('taxonomy')) {
+  return;
+}
+
+$view = new view;
+$view->name = 'og_recent_type_term';
+$view->description = 'Recent posts for current term filtered by node type and/or taxonomy term';
+$view->tag = 'og';
+$view->view_php = '';
+$view->base_table = 'node';
+$view->is_cacheable = '0';
+$view->api_version = 2;
+$view->disabled = FALSE; // Edit this to true to make a default view disabled initially
+$view->display = array();
+  $display = new views_display;
+  $display->id = 'default';
+  $display->display_title = 'Defaults';
+  $display->display_plugin = 'default';
+  $display->position = '1';
+  $display->display_options = array(
+  'style_plugin' => 'list',
+  'style_options' => array(
+    'type' => 'ul',
+  ),
+  'row_plugin' => 'fields',
+  'row_options' => array(
+    'inline' => array(
+      'title' => 'title',
+      'timestamp' => 'timestamp',
+    ),
+    'separator' => '&nbsp;',
+  ),
+  'relationships' => array(),
+  'fields' => array(
+    'title' => array(
+      'id' => 'title',
+      'table' => 'node',
+      'field' => 'title',
+      'label' => 'Title',
+      'relationship' => 'none',
+      'link_to_node' => 1,
+    ),
+    'timestamp' => array(
+      'id' => 'timestamp',
+      'table' => 'history_user',
+      'field' => 'timestamp',
+      'label' => '',
+      'comments' => 1,
+      'relationship' => 'none',
+      'link_to_node' => 0,
+    ),
+  ),
+  'sorts' => array(
+    'sticky' => array(
+      'id' => 'sticky',
+      'table' => 'node',
+      'field' => 'sticky',
+      'order' => 'DESC',
+      'relationship' => 'none',
+    ),
+    'created' => array(
+      'id' => 'created',
+      'table' => 'node',
+      'field' => 'created',
+      'order' => 'DESC',
+      'granularity' => 'second',
+      'relationship' => 'none',
+    ),
+  ),
+  'arguments' => array(
+    'type' => array(
+      'id' => 'type',
+      'table' => 'node',
+      'field' => 'type',
+      'default_action' => 'ignore',
+      'style_plugin' => 'default_summary',
+      'style_options' => array(
+        'count' => TRUE,
+        'override' => FALSE,
+        'items_per_page' => 25,
+      ),
+      'wildcard' => 'all',
+      'wildcard_substitution' => 'All',
+      'title' => '%1',
+      'default_argument_type' => 'fixed',
+      'default_argument' => '',
+      'validate_type' => 'none',
+      'validate_fail' => 'not found',
+      'relationship' => 'none',
+      'default_argument_fixed' => '',
+      'default_argument_php' => '',
+      'validate_argument_node_type' => array(
+        'blog' => 0,
+        'poll' => 0,
+        'book' => 0,
+        'group1' => 0,
+        'group2' => 0,
+        'page' => 0,
+        'story' => 0,
+      ),
+      'validate_argument_php' => '',
+    ),
+    'tid' => array(
+      'id' => 'tid',
+      'table' => 'term_node',
+      'field' => 'tid',
+      'default_action' => 'ignore',
+      'style_plugin' => 'default_summary',
+      'style_options' => array(
+        'count' => TRUE,
+        'override' => FALSE,
+        'items_per_page' => 25,
+      ),
+      'wildcard' => 'all',
+      'wildcard_substitution' => 'All',
+      'title' => '%1 - %2',
+      'default_argument_type' => 'fixed',
+      'default_argument' => '',
+      'validate_type' => 'none',
+      'validate_fail' => 'not found',
+      'break_phrase' => 0,
+      'add_table' => 0,
+      'relationship' => 'none',
+      'default_argument_fixed' => '',
+      'default_argument_php' => '',
+      'validate_argument_node_type' => array(
+        'blog' => 0,
+        'poll' => 0,
+        'book' => 0,
+        'group1' => 0,
+        'group2' => 0,
+        'page' => 0,
+        'story' => 0,
+      ),
+      'validate_argument_php' => '',
+      'require_value' => 0,
+      'reduce_duplicates' => 0,
+    ),
+  ),
+  'filters' => array(
+    'status' => array(
+      'id' => 'status',
+      'table' => 'node',
+      'field' => 'status',
+      'operator' => '=',
+      'value' => 1,
+      'group' => 0,
+      'exposed' => FALSE,
+      'expose' => array(
+        'operator' => FALSE,
+        'label' => '',
+      ),
+      'relationship' => 'none',
+      'expose_button' => array(
+        'button' => 'Expose',
+      ),
+    ),
+    'picg' => array(
+      'id' => 'picg',
+      'table' => 'og_ancestry',
+      'field' => 'picg',
+      'operator' => '=',
+      'value' => '',
+      'group' => 0,
+      'exposed' => FALSE,
+      'expose' => array(
+        'operator' => FALSE,
+        'label' => '',
+      ),
+      'relationship' => 'none',
+      'expose_button' => array(
+        'button' => 'Expose',
+      ),
+    ),
+  ),
+  'items_per_page' => 10,
+  'use_pager' => 'mini',
+  'pager_element' => 0,
+);
+$view->display['default'] = $display;

@@ -1,0 +1,561 @@
+# Ukrainian translation of Token (all releases)
+# Copyright (c) 2009 by the Ukrainian translation team
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Token (all releases)\n"
+"POT-Creation-Date: 2009-10-08 19:23+0000\n"
+"PO-Revision-Date: 2009-10-08 22:23+0200\n"
+"Language-Team: Ukrainian <podarok@ua.fm>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=((((n%10)==1)&&((n%100)!=11))?(0):(((((n%10)>=2)&&((n%10)<=4))&&(((n%100)<10)||((n%100)>=20)))?(1):2));\n"
+"Last-Translator: podarok <podarok@ua.fm>\n"
+"X-Poedit-Language: Ukrainian\n"
+"X-Poedit-Country: UKRAINE\n"
+"X-Poedit-SourceCharset: utf-8\n"
+
+msgid "Subject"
+msgstr "Тема"
+
+msgid "error"
+msgstr "помилка"
+
+msgid "Message"
+msgstr "Повідомлення"
+
+msgid "Node ID"
+msgstr "Ідентифікатор ноди"
+
+msgid "URL"
+msgstr "URL"
+
+msgid "Placeholder tokens"
+msgstr "Змінні токен"
+
+msgid "Node type"
+msgstr "Тип ноди"
+
+msgid "action"
+msgstr "дія"
+
+msgid "Sent email to %recipient"
+msgstr "Відправлено електронну пошту до %recipient"
+
+msgid "Unable to send email to %recipient"
+msgstr "Неможливо відправити електронну пошту до %recipient"
+
+msgid "The subject of the message."
+msgstr "Тема повідомлення"
+
+msgid "Drupal"
+msgstr "Друпал"
+
+msgid "Comment ID"
+msgstr "ID коментаря"
+
+msgid "Recipient"
+msgstr "Отримувач"
+
+msgid "The name of the menu the node belongs to."
+msgstr "Ім'я меню, пов'язаного з матеріалом."
+
+msgid "The vocabulary that the page's first category belongs to."
+msgstr "Словник, до якого відноситься перша категорія сторінки."
+
+msgid "The name of the category."
+msgstr "Ім'я категорії"
+
+msgid "The id number of the category."
+msgstr "ID категорії"
+
+msgid "Link URL"
+msgstr "Посилання"
+
+msgid "Anonymous"
+msgstr "Гість"
+
+msgid "Token"
+msgstr "Токен"
+
+msgid "Node title"
+msgstr "Тема матеріалу"
+
+msgid "Token actions"
+msgstr "Події Token"
+
+msgid "Replacement value"
+msgstr "Значення заміни"
+
+msgid "tokens"
+msgstr "token-и"
+
+msgid "User's name"
+msgstr "Ім'я користувача"
+
+msgid "User's unfiltered name. WARNING - raw user input."
+msgstr "Нефільтроване ім'я користувача. Увага - нефільтрований ввід користувача"
+
+msgid "User's ID"
+msgstr "ID користувача"
+
+msgid "User's email address"
+msgstr "Електронна адреса користувача"
+
+msgid "User's registration date"
+msgstr "Дата реєстрації користувача"
+
+msgid "Days since the user registered"
+msgstr "Днів з моменту першої реєстрації користувача"
+
+msgid "User's last login date"
+msgstr "Остання дата входу користувача"
+
+msgid "Days since the user's last login"
+msgstr "Днів з моменту останнього входу користувача"
+
+msgid "The current date in the user's timezone"
+msgstr "Теперішня дата в часовій зоні користувача"
+
+msgid "The URL of the user's profile page."
+msgstr "URL сторінки профіля користувача"
+
+msgid "The URL the user's account editing page."
+msgstr "URL сторінки редагування профіля користувача"
+
+msgid "Replacement patterns for @name"
+msgstr "Модель заміни @name"
+
+msgid "Comment title"
+msgstr "Тема коментаря"
+
+msgid "Image path"
+msgstr "Шлях до зображення"
+
+msgid "The raw date value."
+msgstr "Неочищена дата"
+
+msgid "The formatted date."
+msgstr "Форматована дата"
+
+msgid "The raw date timestamp."
+msgstr ""
+
+msgid "Date year (four digit)"
+msgstr "Рік (чотири цифри)"
+
+msgid "Date year (two digit)"
+msgstr "Рік (дві цифри)"
+
+msgid "Date month (full word)"
+msgstr "Місяць (ціле слово)"
+
+msgid "Date month (abbreviated)"
+msgstr "Місяць (скорочено)"
+
+msgid "Date month (two digit, zero padded)"
+msgstr "Місяць (дві цифри, нуль додається)"
+
+msgid "Date month (one or two digit)"
+msgstr "Місяць (одна або дві цифри)"
+
+msgid "Date week (two digit)"
+msgstr "Тиждень (дві цифри)"
+
+msgid "Date date (day of month)"
+msgstr "День місяця"
+
+msgid "Date day (full word)"
+msgstr "День місяця (словом)"
+
+msgid "Date day (abbreviation)"
+msgstr "День місяця (скорочено)"
+
+msgid "Date day (two digit, zero-padded)"
+msgstr "День місяця (дві цифри, нуль додається)"
+
+msgid "Date day (one or two digit)"
+msgstr "День місяця (одна або дві цифри)"
+
+msgid "If the field has a to-date defined, the same tokens exist in the form: [to-????], where ???? is the normal token."
+msgstr ""
+
+msgid "Referenced user ID"
+msgstr "ID пов'язаного користувача"
+
+msgid "Referenced user name"
+msgstr "Ім'я пов'язаного користувача"
+
+msgid "Image title"
+msgstr "Заголовок зображення"
+
+msgid "Node type (user-friendly version)"
+msgstr "Тіим матеріалу (дружня версія)"
+
+msgid "Unfiltered node title. WARNING - raw user input."
+msgstr "Нефільтрована тема матеріалу. Увага - прямий ввід користувача!"
+
+msgid "Node author's user id"
+msgstr "ID користувача-автора матеріалу"
+
+msgid "Node author's user name"
+msgstr "Ім'я користувача-автора матеріалу"
+
+msgid "Node author's user name. WARNING - raw user input."
+msgstr "користувача-автора матеріалу. Увага - прямий ввід користувача!"
+
+msgid "The URL to which the user should be redirected. This can be an internal URL like node/1234 or an external URL like http://drupal.org."
+msgstr "URL, до якого буде переадресовано користувача. Це може бути внутрішня адреса на кшталт <em>node/1234</em> або зовнішня типу http://my.ukrweb.info"
+
+msgid "Image alt text"
+msgstr "Альтернативний текст зображення"
+
+msgid "Raw, unfiltered text."
+msgstr "Неочищений текст"
+
+msgid "Formatted and filtered text."
+msgstr "Форматований і фільтрований текст"
+
+msgid "Link title"
+msgstr "Заголовок посилання"
+
+msgid "All tokens for node creation dates can also be used with with the \"mod-\" prefix; doing so will use the modification date rather than the creation date."
+msgstr "Всі token-и для дат створення матеріалу можуть також бути використані з префіксом \"mod-\" . Роблячи так буде використовуватись дата зміни, а не дата створення."
+
+msgid "The menu path (as reflected in the breadcrumb), not including Home or [menu]. Separated by /."
+msgstr "Шлях меню (відображений в breadcrumb), не включаючі \"Головна\" або [menu]. Розділено /."
+
+msgid "Name of top taxonomy term"
+msgstr "Ім'я головного терміну таксономії"
+
+msgid "Unfiltered name of top taxonomy term. WARNING - raw user input."
+msgstr "Нефільтроване ім'я головного терміну таксономії. Увага - прямий ввід користувача!"
+
+msgid "ID of top taxonomy term"
+msgstr "ID головного терміну таксономії"
+
+msgid "The id number of the category's parent vocabulary."
+msgstr "ID батьківського словника категорії"
+
+msgid "The unfiltered vocabulary that the page's first category belongs to. WARNING - raw user input."
+msgstr "Нефільтрований словник, до якого відноситься перша категорія сторінки. Увага - нефільтрований ввід користувача"
+
+msgid "The unfiltered name of the category. WARNING - raw user input."
+msgstr "Нефільтроване ім'я категорії. Увага - нефільтрований ввід користувача"
+
+msgid "Token replacement patterns"
+msgstr "Моделі заміни Ознак"
+
+msgid "Comment's node ID"
+msgstr "ID матеріалу з коментарем"
+
+msgid "Comment title. WARNING - raw user input"
+msgstr "Тема коментаря. Увага - нефільтрований ввід користувача"
+
+msgid "Comment body"
+msgstr "Тіло коментаря"
+
+msgid "Comment body. WARNING - raw user input"
+msgstr "Тіло коментаря. Увага - нефільтрований ввід користувача"
+
+msgid "Comment author's user id"
+msgstr "ID користувача-автора коментаря"
+
+msgid "Comment author's user name"
+msgstr "Ім'я користувача-автора коментаря"
+
+msgid "Comment author's user name. WARNING - raw user input"
+msgstr "Ім'я користувача-автора коментаря.Увага - нефільтрований ввід користувача"
+
+msgid "Comment author's home page."
+msgstr "Домашня сторінка автора коментаря"
+
+msgid "Comment author's e-mail."
+msgstr "Ел. скринька автора коментаря"
+
+msgid "Comment author's e-mail. WARNING - raw user input."
+msgstr "Ел. скринька автора коментаря. ОБЕРЕЖНО - неочищені дані користувача."
+
+msgid "Comment creation year (four digit)"
+msgstr "Рік створення коментаря (4 цифри)"
+
+msgid "Comment creation year (two digit)"
+msgstr "Рік створення коментаря (2 цифри)"
+
+msgid "Comment creation month (full word)"
+msgstr "Місяць створення коментаря (слово)"
+
+msgid "Comment creation month (abbreviated)"
+msgstr "Місяць створення коментаря (адревіатура)"
+
+msgid "Comment creation month (two digit, zero padded)"
+msgstr "Місяць створення коментаря (2 цифри, з нулем)"
+
+msgid "Comment creation month (one or two digit)"
+msgstr "Місяць створення коментаря (1 або 2 цифри)"
+
+msgid "Comment creation week (two digit)"
+msgstr "Тиждень створення коментаря (дві цифри)"
+
+msgid "Comment creation date (day of month)"
+msgstr "Дата створення коментаря (день місяця)"
+
+msgid "Comment creation day (full word)"
+msgstr "День створення коментаря (ціле слово)"
+
+msgid "Comment creation day (abbreviation)"
+msgstr "День створення коментаря (абревіатура)"
+
+msgid "Comment creation day (two digit, zero-padded)"
+msgstr "День створення коментаря (2 цифри, з нулем)"
+
+msgid "Comment creation day (one or two digit)"
+msgstr "День створення коментаря (одна бо дві цифри)"
+
+msgid "Node language"
+msgstr "Мова матеріалу"
+
+msgid "Node author's e-mail."
+msgstr "Електронна адреса автора матеріалу"
+
+msgid "Node author's e-mail. WARNING - raw user input."
+msgstr "Електронна адреса автора матеріалу. Увага - прямий ввід користувача!"
+
+msgid "Name of top term's vocabulary"
+msgstr "Ім'я словника головного терміну таксономії"
+
+msgid "Unfiltered name of top term's vocabulary. WARNING - raw user input."
+msgstr "Нефільтроване ім'я словника головного терміну таксономії. Увага - прямий ввід користувача!"
+
+msgid "ID of top term's vocabulary"
+msgstr "ID словника головного терміну таксономії"
+
+msgid "Node creation year (four digit)"
+msgstr "Рік створення матеріалу (4 цифри)"
+
+msgid "Node creation year (two digit)"
+msgstr "Рік створення матеріалу (2 цифри)"
+
+msgid "Node creation month (full word)"
+msgstr "Місяць створення матеріалу (слово)"
+
+msgid "Node creation month (abbreviated)"
+msgstr "Місяць створення матеріалу (абревіатура)"
+
+msgid "Node creation month (two digit, zero padded)"
+msgstr "Місяць створення матеріалу (2 цифри, з нулем)"
+
+msgid "Node creation month (one or two digit)"
+msgstr "Місяць створення матеріалу (1 або 2 цифри)"
+
+msgid "Node creation week (two digit)"
+msgstr "Тиждень створення матеріалу (2 цифри)"
+
+msgid "Node creation date (day of month)"
+msgstr "Дата створення матеріалу (день місяця)"
+
+msgid "Node creation day (full word)"
+msgstr "День створення матеріалу (слово)"
+
+msgid "Node creation day (abbreviation)"
+msgstr "День створення матеріалу (абревіатура)"
+
+msgid "Node creation day (two digit, zero-padded)"
+msgstr "День створення матеріалу (2 цифри, з нулем)"
+
+msgid "Node creation day (one or two digit)"
+msgstr "День створення матеріалу (1 або 2 цифри)"
+
+msgid "The name of the menu the node belongs to. WARNING - raw user input."
+msgstr "Ім'я меню, пов'язаного з матеріалом. Увага - прямий ввід користувача!"
+
+msgid "The unfiltered menu path (as reflected in the breadcrumb), not including Home or [menu]. Separated by /. WARNING - raw user input."
+msgstr "Нефільтрований шлях меню (відображений в breadcrumb), не включаючі \"Головна\" або [menu]. Розділено /. Увага - нефільтрований ввід користувача"
+
+msgid "The text used in the menu as link text for this item."
+msgstr "Текст, використаний в меню, як текст посилання для цього елемента."
+
+msgid "The unfiltered text used in the menu as link text for this item. WARNING - raw user input."
+msgstr "Нефільтрований текст, використаний в меню, як текст посилання для цього елемента. Увага - нефільтрований ввід користувача"
+
+msgid "The title of the node's book parent."
+msgstr "Тема батьківського елемента в ієрархії книги матеріалу"
+
+msgid "The id of the node's book parent."
+msgstr "ID батьківського елемента в ієрархії книги матеріалу"
+
+msgid "The titles of all parents in the node's book hierarchy."
+msgstr "Назви всіх батьківстких елементів в ієрархії книги матеріалу"
+
+msgid "The unfiltered title of the node's book parent. WARNING - raw user input."
+msgstr "Нефільтрована назва батьківського елемента книги.  Увага - нефільтрований ввід користувача"
+
+msgid "The unfiltered titles of all parents in the node's book hierarchy. WARNING - raw user input."
+msgstr "Нефільтровані теми всіх батьківських елементів в ієрархії книги.  Увага - нефільтрований ввід користувача"
+
+msgid "The name of the currently logged in user."
+msgstr "Ім'я активного залогованого користувача"
+
+msgid "The user ID of the currently logged in user."
+msgstr "ID активного залогованого користувача"
+
+msgid "The email address of the currently logged in user."
+msgstr "Електронна адреса активного залогованого користувача"
+
+msgid "The url of the current Drupal website."
+msgstr "Адреса теперішнього Друпал сайту"
+
+msgid "The name of the current Drupal website."
+msgstr "Ім'я теперішнього Друпал сайту"
+
+msgid "The slogan of the current Drupal website."
+msgstr "Слоган теперішнього Друпал сайту"
+
+msgid "The mission of the current Drupal website."
+msgstr "Місія теперішнього Друпал сайту"
+
+msgid "The contact email address for the current Drupal website."
+msgstr "Контактна електронна пошта теперішнього Друпал сайту"
+
+msgid "The current date on the site's server."
+msgstr "Теперішня дата сервера сайту"
+
+msgid "The current year (four digit)"
+msgstr "Поточний рік (чотири цифри)"
+
+msgid "The current year (two digit)"
+msgstr "Поточний рік (дві цифри)"
+
+msgid "The current month (full word)"
+msgstr "Поточний місяць (слово)"
+
+msgid "The current month (abbreviated)"
+msgstr "Поточний місяць (скорочено)"
+
+msgid "The current month (two digit, zero padded)"
+msgstr "Поточний місяць (дві цифри, нуль додається)"
+
+msgid "The current month (one or two digit)"
+msgstr "Поточний місяць (одна або дві цифри)"
+
+msgid "The current week (two digit)"
+msgstr "Поточний тиждень (дві цифри)"
+
+msgid "The current date (day of month)"
+msgstr "Поточна дата (день місяця)"
+
+msgid "The current day (full word)"
+msgstr "Поточна дата (ціле слово)"
+
+msgid "The current day of week (abbreviation)"
+msgstr "Поточний день тижня (скорочено)"
+
+msgid "The current day (two digit, zero-padded)"
+msgstr "Поточний день (дві цифри, нуль додається)"
+
+msgid "The current day (one or two digit)"
+msgstr "Поточний день (одна або дві цифри)"
+
+msgid "The current page number for paged lists"
+msgstr ""
+
+msgid "A randomly generated SHA1 hash."
+msgstr "Випадковий SHA1 хеш"
+
+msgid "The current timestamp in seconds past January 1, 1970."
+msgstr ""
+
+msgid "A randomly generated single-digit number."
+msgstr "Випадкове однорозрядне число"
+
+msgid "A randomly generated three-digit number."
+msgstr "Випадкове число з трьох цифр"
+
+msgid "A randomly generated ten-digit number."
+msgstr "Випадкове число з десяти цифр"
+
+msgid "Randomly generated single-digit letter."
+msgstr "Випадкова однорозрядна буква"
+
+msgid "Randomly generated three-digit letters."
+msgstr "Випадкові три букви"
+
+msgid "Randomly generated ten-digit letters."
+msgstr "Випадкові десять букв"
+
+msgid "Display a tokenized message to the user"
+msgstr "Відображення повідомлення token користувачу"
+
+msgid "Send tokenized e-mail"
+msgstr "Відправка token електронне повідомлення"
+
+msgid "Redirect to a tokenized URL"
+msgstr "Перенаправлення на URL token"
+
+msgid "The email address to which the message should be sent."
+msgstr "Електронна адреса, на яку повідомлення буде надіслано"
+
+msgid "The message that should be sent."
+msgstr "Повідомлення, що буде надіслано"
+
+msgid "The following placeholder tokens can be used in to generate the URL path. Some tokens may not be available, depending on the context in which the action is triggered."
+msgstr "Дані змінні Token можуть бути використані в шляху URL. Деякі token-и можуть бути недоступними, в залежності від матеріалу, в яких вони викликаються"
+
+msgid "The message to be displayed to the current user."
+msgstr "Повідомлення, що буде відображено активному користувачу"
+
+msgid "The following placeholder tokens can be used in the custom message text. Some tokens may not be available, depending on the context in which the action is triggered."
+msgstr "Дані змінні Token можуть бути використані в власному тексті повідомлення. Деякі token-и можуть бути недоступними, в залежності від матеріалу, в яких вони викликаються"
+
+msgid "The following placeholder tokens can be used in the URL path. Some tokens may not be available, depending on the context in which the action is triggered."
+msgstr "Дані змінні Token можуть бути використані в шляху URL. Деякі token-и можуть бути недоступними, в залежності від матеріалу, в яких вони викликаються"
+
+msgid "Provides a shared API for replacement of textual placeholders with actual data."
+msgstr "Надає API для заміщення текстових змінних популярними даними"
+
+msgid "TokenSTARTER"
+msgstr "TokenSTARTER"
+
+msgid "Provides additional tokens and a base on which to build your own tokens."
+msgstr ""
+
+msgid "Provides enhanced versions of core Drupal actions using the Token module."
+msgstr "Надає покращену версію подій ядра Друпал, використовуючи модуль Token"
+
+msgid "Referenced node ID."
+msgstr ""
+
+msgid "Referenced node title."
+msgstr ""
+
+msgid "Formatted html link to the node."
+msgstr "Форматоване посилання до матеріалу"
+
+msgid "Raw number value."
+msgstr "Неочищене число"
+
+msgid "Formatted number value."
+msgstr "Форматоване число"
+
+msgid "Formatted html link to referenced user"
+msgstr ""
+
+msgid "Formatted html link"
+msgstr "Форматоване html посилання"
+
+msgid "Image file ID"
+msgstr "Ідентифікатор зображення"
+
+msgid "Image file name"
+msgstr "Назва файлу зображення"
+
+msgid "Image MIME type"
+msgstr "MIME-тип зображення"
+
+msgid "Image file size"
+msgstr "Розмір файлу зображення"
+
+msgid "Fully formatted HTML image tag"
+msgstr "Повіністю сформований HTML теґ зображення"
+

@@ -1,0 +1,76 @@
+<?php
+//$Id: og_wiki.test,v 1.3.4.1 2009/06/10 13:48:29 weitzman Exp $
+
+/**
+ * @file
+ * Wiki test for the organic groups module.
+ */
+
+require_once drupal_get_path('module', 'og') .'/tests/og_testcase.php';
+
+class OgWiki extends OgTestCase {
+
+  /**
+   * Implementation of getInfo().
+   */
+  public static function getInfo() {
+    return array(
+      'name'  => t('Organic groups wiki test'),
+      'description' => t('Tests posting a wiki post and editing it.'),
+      'group' => t('Organic groups'),
+    );
+  }
+
+  /**
+   * Implementation of setUp().
+   */
+  function setUp() {
+    parent::setUp('og', 'og_access');
+    // Create a user with admin permissions.
+    $web_admin = $this->drupalCreateUser(array('administer nodes', 'administer content types', 'access administration pages', 'administer site configuration', 'administer organic groups'));
+    $this->web_admin = $web_admin;
+    $this->drupalLogin($web_admin);
+
+    // Create a web user.
+    $web_user = $this->drupalCreateUser(array('access content'));
+    $this->web_user = $web_user;
+  }
+
+  /**
+   * Test the simple case of creation of a group node and a group post
+   * by the same user.
+   */
+  function testOgWiki() {
+    // Create a group node content type.
+    $og_group_type = $this->drupalCreateContentType();
+    variable_set('og_content_type_usage_'. $og_group_type->name, 'group');
+
+    // Create a group post content type.
+    $og_post_type = $this->drupalCreateContentType();
+    variable_set('og_content_type_usage_'. $og_post_type->name, 'group_post_wiki');
+
+    // Rebuild the menu so the new content types will appear in the menu.
+    menu_rebuild();
+
+    // Create a group node.
+    $gid = $this->addOgGroup($og_group_type->name);
+
+    // Create a post node.
+    $nid = $this->addOgPost($og_post_type->name, array($gid));
+
+    // Login web user.
+    $this->drupalLogin($this->web_user);
+
+    // Web user isn't isn't a member so cannot edit the node.
+    $this->drupalGet("node/$nid/edit");
+    $this->assertResponse(403, t('Non-group member got a 403 page while trying to access edit wiki post.'));
+
+    // Subscribe web user to the group.
+    $this->drupalGet('og/subscribe/'. $gid);
+    $this->drupalPost(NULL, array(), t('Join'));
+
+    // Re-try to edit.
+    $this->drupalGet("node/$nid/edit");
+    $this->assertResponse(200, t('Group member is allowed to edit a wiki post.'));
+  }
+}

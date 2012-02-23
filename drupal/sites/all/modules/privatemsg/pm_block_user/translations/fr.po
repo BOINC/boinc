@@ -1,0 +1,173 @@
+# $Id: fr.po,v 1.1.2.1 2009/12/06 23:37:27 berdir Exp $
+#
+# French translation of Drupal (general)
+# Copyright YEAR NAME <EMAIL@ADDRESS>
+# Generated from files:
+#  pm_block_user.module,v 1.1.2.14 2009/11/23 19:52:40 berdir
+#  pm_block_user.info,v 1.2.2.1 2009/04/10 15:52:48 litwol
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"POT-Creation-Date: 2009-12-05 17:54+0100\n"
+"PO-Revision-Date: 2009-12-05 17:54+0100\n"
+"Last-Translator: NAME <EMAIL@ADDRESS>\n"
+"Language-Team: French <EMAIL@ADDRESS>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n!=1);\n"
+
+#: pm_block_user.module:25
+msgid "This area is used to define user blocking rules for the Privatemsg module. Rules allow control of who may block messages from whom. By default all users are allowed to block messages from anyone else. However, a site may have groups of users that need to contact or get information to others, for example: the site may have administrative staff or be a forum with moderators. Groups of users are defined by roles, which can be managed on the <a href=\"@roles\">roles configuration page</a>."
+msgstr ""
+"Cette zone est utilisée les règles de blocage des utilisateurs pour "
+"le module Messages Privés. Les règles permettent de contrôler qui "
+"peut bloquer les messages en provenance de qui. Par défaut, tous les "
+"utilisateurs peuvent bloquer les messages de n'importe quel autre "
+"membre. Cependant, un site peut avoir des groupes d'utilisateurs qui "
+"ont besoin de contacter ou recevoir des informations de la part des "
+"memebres. Par exemple, le site peut avoir une équipe "
+"d'administrateurs ou de modérateurs de forum. Les groupes "
+"d'utilisateurs sont définis par rôle, qui pevent être gérés sur "
+"<a href=\"@roles\">la page de configuration des rôles</a>."
+
+#: pm_block_user.module:97
+msgid "More"
+msgstr "Plus"
+
+#: pm_block_user.module:100
+msgid "Add new rule"
+msgstr "Ajouter une nouvelle règle"
+
+#: pm_block_user.module:113
+msgid "Save configuration"
+msgstr "Enregistrer la configuration"
+
+#: pm_block_user.module:160
+msgid "Disallow blocking author"
+msgstr "Desactiver le blocage des auteurs"
+
+#: pm_block_user.module:161
+msgid "Disallow sending message"
+msgstr "Ne pas autoriser l'envoi de messages"
+
+#: pm_block_user.module:182
+msgid "Remove"
+msgstr "Supprimer"
+
+#: pm_block_user.module:185
+msgid "Remove rule"
+msgstr "Règle de suppression"
+
+#: pm_block_user.module:247
+msgid "The configuration options have been saved."
+msgstr "Les options de configuration ont été enregistrées."
+
+#: pm_block_user.module:327
+msgid "If the author has the role"
+msgstr "Si l'auteur a le rôle"
+
+#: pm_block_user.module:328
+msgid "And the recipient has the role"
+msgstr "et le destinataire a le rôle"
+
+#: pm_block_user.module:329
+msgid "Action"
+msgstr "Action"
+
+#: pm_block_user.module:330
+msgid "Enabled"
+msgstr "Activé"
+
+#: pm_block_user.module:358
+msgid "No rules have been added. All users may block private messages from each other. To limit which users may be blocked, click 'Add new rule'."
+msgstr ""
+"Aucune règle n'a été ajoutée. Tous les utilisateurs peuvent "
+"bloquer les messages privés de n'importe quel utilisateur. Pour "
+"limiter quels utilisateurs peuvent être bloqués, cliquer sur le lien "
+"\"Ajouter une nouvelle règle\"."
+
+#: pm_block_user.module:461
+msgid "You have previously blocked \"@author\" from sending you any more messages. Are you sure you want to unblock this user?"
+msgstr ""
+"Vous avez auparavant bloqué  \"@author\" pour qu'il ne puisse plus "
+"vous envoyer de message. Etes-vous sûr de vouloir le débloquer ? "
+
+#: pm_block_user.module:463
+msgid "This action cannot be undone."
+msgstr "Cette action est irréversible."
+
+#: pm_block_user.module:464
+msgid "Unblock @author"
+msgstr "Débloquer @author"
+
+#: pm_block_user.module:465;478
+msgid "Cancel"
+msgstr "Annuler"
+
+#: pm_block_user.module:474
+msgid "Are you sure you want to block \"@author\" from sending you any more messages?"
+msgstr ""
+"Etes-vous sûr de vouloir empêcher \"@author\" de vous envoyer des "
+"messages ?"
+
+#: pm_block_user.module:477
+msgid "Block @author"
+msgstr "Bloquer @author"
+
+#: pm_block_user.module:491
+msgid "@author has been blocked from sending you any further messages."
+msgstr "@author a été empêché de vous envoyer des messages"
+
+#: pm_block_user.module:495
+msgid "@author is now allowed to send you new messages."
+msgstr "@author est désormais autorisé à vous envoyer des messages"
+
+#: pm_block_user.module:521
+msgid "Sorry, private messaging rules forbid sending messages to !name."
+msgstr ""
+"Désolé, une règle de messagerie privée vous empêche d'envoyer un "
+"message à  !name."
+
+#: pm_block_user.module:536
+msgid "%name has chosen to not recieve any more messages from you."
+msgstr "%name a choisi de ne plus recevoir de messages privés de votre part."
+
+#: pm_block_user.module:566
+msgid "Unblock author"
+msgstr "Débloquer l'auteur"
+
+#: pm_block_user.module:569
+msgid "Block author"
+msgstr "Bloquer l'auteur"
+
+#: pm_block_user.module:34 pm_block_user.info:0
+msgid "Block user messages"
+msgstr "Bloquer les messages de l'utilisateur"
+
+#: pm_block_user.module:44
+msgid "User blocking rules"
+msgstr "Règles de blocage des utilisateurs"
+
+#: pm_block_user.module:45
+msgid "Configure rules for which users may block each other."
+msgstr ""
+"Configurez les règles qui définissent quels utilisateurs peuvent "
+"bloquer quels utilisateurs."
+
+#: pm_block_user.module:53
+msgid "Javascript block actions form"
+msgstr "Formulaire d'actions javascript"
+
+#: pm_block_user.info:0
+msgid "Allows users to block other users from sending them messages."
+msgstr ""
+"Autoriser les utilisateurs à empêcher d'autres membres de leur "
+"envoyer des messages."
+
+#: pm_block_user.info:0
+msgid "Mail"
+msgstr "E-Mail"
+

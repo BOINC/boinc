@@ -1,0 +1,8 @@
+<?php
+// $Id: og_actions.install,v 1.2 2008/10/29 20:01:57 dww Exp $
+
+function og_actions_disable() {
+  // Make sure our actions get wiped form the DB.
+  // TOOD: does not work because this module is still enabled in module_implements()?
+  actions_synchronize(array(), TRUE);
+}

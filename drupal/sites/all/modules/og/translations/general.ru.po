@@ -1,0 +1,144 @@
+# Russian translation of Drupal (general)
+# Copyright 2008 Alexey Osodoev <alexey@osodoev.info>
+
+msgid ""
+msgstr ""
+"Project-Id-Version: og-6.x-1.0\n"
+"POT-Creation-Date: 2008-11-02 12:11+0100\n"
+"PO-Revision-Date: 2008-11-19 20:39+0800\n"
+"Last-Translator: Alexey Osodoev <alexey@osodoev.info>\n"
+"Language-Team: Russian <alexey@osodoev.info>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=((((n%10)==1)&&((n%100)!=11))?(0):(((((n%10)>=2)&&((n%10)<=4))&&(((n%100)<10)||((n%100)>=20)))?(1):2));\n"
+"X-Poedit-Language: Russian\n"
+"X-Poedit-Country: RUSSIAN FEDERATION\n"
+"X-Poedit-SourceCharset: utf-8\n"
+
+#: og.module:741;781;949;1037
+#: modules/og_panels/og_panels.module:146
+msgid "Cancel"
+msgstr "Отмена"
+
+#: og.module:1182
+#: modules/og_panels/og_panels.module:238
+msgid "Title"
+msgstr "Заголовок"
+
+#: og.module:1183
+#: modules/og_views/includes/og_views_handler_field_og_is_manager.inc:25
+msgid "Manager"
+msgstr "Руководитель"
+
+#: og.module:1221;1292;1715
+#: includes/og.panelscontent.inc:94;235
+msgid "Description"
+msgstr "Описание"
+
+#: og.module:1265
+#: modules/og_views/includes/og_views_handler_field_og_subscribe.inc:25
+msgid "Invite only"
+msgstr "Только по приглашению"
+
+#: og.module:1266
+#: modules/og_views/includes/og_views_handler_field_og_subscribe.inc:23
+msgid "Closed"
+msgstr "Закрытая"
+
+#: og.module:1515
+#: modules/og_panels/og_panels.module:264;457
+#: modules/og_views/og_views.views.inc:467
+msgid "Home"
+msgstr "Главная страница"
+
+#: og.module:1517;1708;2154;2187
+#: modules/og_access/og_access.module:188
+#: modules/og_notifications/og_notifications.module:236;29
+#: modules/og_views/og_views.views.inc:271
+#: theme/node-og-group-post.tpl.php:77
+msgid "Groups"
+msgstr "Группы"
+
+#: og.module:1811
+#: modules/og_views/og_views.views.inc:258
+msgid "Group posts"
+msgstr "Сообщения группы"
+
+#: og.module:2238
+#: modules/og_views/og_views.views.inc:356
+#: tests/og_testcase.php:35
+msgid "Group node"
+msgstr "Узел (node) группы"
+
+#: og.module:2299
+#: includes/og.admin.inc:36
+msgid "Group details"
+msgstr "Подробности группы"
+
+#: og.module:2311;2389
+#: modules/og_views/og_views.module:96
+msgid "Group notifications"
+msgstr "Уведомления группы"
+
+#: og.module:2350
+#: includes/og.panelscontent.inc:192
+msgid "Group roles"
+msgstr "Роли группы"
+
+#: og.module:2353
+#: includes/og.panelscontent.inc:194
+msgid "Standard members"
+msgstr "Рядовые участники"
+
+#: og.module:2354
+#: includes/og.panelscontent.inc:194
+msgid "Administrators"
+msgstr "Администраторы"
+
+#: (duplicate) og.install:448
+#: modules/og_views/includes/og_views_handler_filter_og_type_all.inc:11
+msgid "You have no node types which are acting as groups. See the notes section of the !readme_file and the content types fieldset at top of <a href=\"!settings\">OG settings</a>."
+msgstr "Не определены типы узлов (node), выступающие в качестве групп. См. примечания в !readme_file и раздел \"Типы материалов\" в начале <a href=\"!settings\">страницы настроек OG</a>."
+
+#: (duplicate) og.install:455
+#: modules/og_access/og_access.info:0
+msgid "Organic groups access control"
+msgstr "Управление доступом Organic Groups"
+
+#: includes/og.admin.inc:20
+#: modules/og_notifications/og_notifications.module:366
+msgid "Type"
+msgstr "Тип"
+
+#: includes/og.admin.inc:20
+#: modules/og_panels/og_panels.module:238
+msgid "Operations"
+msgstr "Операции"
+
+#: includes/og.panelscontent.inc:9;22;34;46;58
+#: includes/og.rules.inc:56;156;167
+#: modules/og_actions/og_actions.module:113;161
+#: modules/og_notifications/og_notifications.module:310
+#: modules/og_panels/og_panels.module:542;639
+#: modules/og_views/og_views.views.inc:345
+msgid "Group"
+msgstr "Группа"
+
+#: includes/og.panelscontent.inc:42;128
+#: modules/og_panels/og_panels.module:592
+#: modules/og_views/og_views.module:57
+msgid "Group search"
+msgstr "Поиск по группе"
+
+#: includes/og.panelscontent.inc:247
+#: modules/og_views/og_views.module:10
+msgid "Faces"
+msgstr "Лица"
+
+#: modules/og_notifications/og_notifications.module:390
+#: modules/og_panels/og_panels.module:494;509
+#: tests/og_testcase.php:85
+msgid "Save"
+msgstr "Сохранить"
+

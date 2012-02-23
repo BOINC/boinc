@@ -1,0 +1,866 @@
+<?php
+// $Id: flag_friend.module,v 1.3.4.44 2010/05/05 18:30:10 sirkitree Exp $
+
+/**
+ * @file flag.module
+ * Written by Jerad Bitner (sirkitree.net)
+ */
+
+// define our statuses
+define('FLAG_FRIEND_BOTH', 0);
+define('FLAG_FRIEND_FLAGGED', 1);
+define('FLAG_FRIEND_UNFLAGGED', 2);
+define('FLAG_FRIEND_APPROVAL', 3);
+define('FLAG_FRIEND_PENDING', 4);
+
+/**
+ * Implementation of hook_flag().
+ */
+function flag_friend_flag($event, $flag, $content_id, $account) {
+  if ($flag->name == 'friend') {
+    if ($event == 'flag') {
+
+      // See the status of the friendship.
+      $status = flag_friend_determine_friend_status($flag, $account->uid, $content_id, TRUE);
+      $friend_account = user_load(array('uid' => $content_id));
+
+      // If both are now flagged, we record the relationship and remove the flags.
+      if ($status === FLAG_FRIEND_BOTH) {
+        // Since these users have flagged eachother, we create the relationship in the flag_friend table.
+        db_query("INSERT INTO {flag_friend} VALUES(%d, %d, %d)", $account->uid, $content_id, $_SERVER['REQUEST_TIME']);
+
+        // Remove any message entries for either user.
+        flag_friend_message('unflag', $flag, $account->uid, $content_id);
+        flag_friend_message('unflag', $flag, $content_id, $account->uid);
+
+        // Then remove the flags.
+        $flag->flag('unflag', $content_id, $account);
+        $flag->flag('unflag', $account->uid, $friend_account);
+
+        // fire trigger
+        module_invoke_all('flag_friend', 'approve', $friend_account, $account);
+      }
+      else {
+        // fire trigger
+        module_invoke_all('flag_friend', 'request', $friend_account, $account);
+      }
+    }
+  }
+}
+
+/**
+ * Implementation of hook_init().
+ */
+function flag_friend_init() {
+  // add a little notice to our popups
+  if (module_exists('popups')) {
+    drupal_add_js(drupal_get_path('module', 'flag_friend') .'/flag_friend.popups.js');
+  }
+}
+
+/**
+ * Implementation of hook_preprocess_flag().
+ */
+function flag_friend_preprocess_flag(&$vars) {
+  // this hook preprocesses ALL flag links, so make sure we have ours
+  if ($vars['flag']->name == 'friend') {
+    global $user;
+    
+    // Determine what the status in the friend process is.
+    $status = flag_friend_determine_friend_status($vars['flag'], $user->uid, $vars['content_id']);
+    switch ($status) {
+      case FLAG_FRIEND_PENDING:
+        $vars['link_text'] = t('Friend Requested. Cancel?');
+        break;
+
+      case FLAG_FRIEND_FLAGGED:
+        // Make this link into a remove link with
+        $vars['action'] = 'unflag';
+        $vars['link_href'] = str_replace('flag/confirm/flag', 'flag/confirm/unfriend', $vars['link_href']);
+        $vars['link_text'] = t($vars['flag']->unflag_short);
+        $vars['flag_name_css'] = 'unfriend';
+        $vars['link_title'] = t($vars['flag']->unflag_long);
+        break;
+
+      case FLAG_FRIEND_APPROVAL:
+        $vars['link_text'] = t('Approve');
+        break;
+    }
+  }
+}
+
+/**
+ * Implementation of hook_perm().
+ */
+function flag_friend_perm() {
+  return array('receive friend email notification');
+}
+
+/**
+ * Implementation of hook_views_api().
+ */
+function flag_friend_views_api() {
+  return array(
+    'api' => 2.0,
+    'path' => drupal_get_path('module', 'flag_friend') .'/includes',
+  );
+}
+
+/**
+ * Retrieve pending friend flags.
+ *
+ * @param $flag
+ *   The flag object.
+ * @param $content_id
+ *   The content we're operating on.
+ * @param $reset
+ *   Boolean trigger to reset the static cache.
+ * @return
+ *   Array of pending friend flags.
+ */
+function flag_friend_get_flags($flag, $content_id, $reset = NULL) {
+  static $flagged_content;
+  $uid = $content_id;
+  $content_type = $flag->content_type;
+
+  if (!isset($flagged_content[$uid][$content_type][$content_id]) || $reset) {
+    $flags = flag_get_flags($flag->content_type);
+    $flagged_content[$uid][$content_type][$content_id] = array();
+    // get flags with messages
+    $result = db_query("SELECT fc.*, ffm.message FROM {flag_content} fc LEFT JOIN {flag_friend_message} ffm ON ffm.fcid = fc.fcid WHERE fc.fid = %d AND fc.content_type = '%s' AND fc.content_id = %d", $flag->fid, $content_type, $content_id);
+    while ($new_flag = db_fetch_object($result)) {
+      $fcid = flag_friend_get_fcid($flag, $content_id, $new_flag->uid);
+      $flagged_content[$uid][$content_type][$content_id][$fcid] = $new_flag;
+      $flagged_content[$uid][$content_type][$content_id][$fcid]->user = user_load(array('uid' => $new_flag->uid));
+    }
+  }
+
+  return $flagged_content[$uid][$content_type][$content_id];
+}
+
+/**
+ * Retrieve a list of friends for the given user.
+ *
+ * @param $uid
+ *   The user id.
+ * @param $reset
+ *   Boolean trigger to reset the static cache.
+ * @return
+ *   Array of user objects.
+ */
+function flag_friend_get_friends($uid, $reset = NULL) {
+  static $friends;
+
+  if (!isset($friends[$uid]) || $reset) {
+    $friends[$uid] = array();
+    $result = db_query("SELECT * FROM {flag_friend} WHERE uid = %d OR friend_uid = %d", $uid, $uid);
+    while ($friend = db_fetch_object($result)) {
+      // if the current user is in the uid column
+      if ($friend->uid == $uid) {
+        // load the friend_uid
+        $friends[$uid][$friend->friend_uid] = user_load(array('uid' => $friend->friend_uid));
+      }
+      else { // the current user is the friend_uid
+        // load the uid column as the friend
+        $friends[$uid][$friend->uid] = user_load(array('uid' => $friend->uid));
+      }
+    }
+  }
+
+  return $friends[$uid];
+}
+
+/**
+ * Retrieve the number of friends for the given user.
+ *
+ * @param $uid
+ *   The user id.
+ * @param $reset
+ *   Boolean trigger to reset the static cache.
+ * @return
+ *   Number of friends.
+ */
+function flag_friend_get_friend_count($uid, $reset = NULL) {
+  static $friend_count;
+
+  if (!isset($friend_count[$uid]) || $reset) {
+    $sql = "SELECT COUNT(1) FROM {flag_friend} WHERE uid = %d OR friend_uid = %d";
+    $friend_count[$uid] = db_result(db_query($sql, $uid, $uid));
+  }
+
+  return $friend_count[$uid];
+}
+
+/**
+ * Implementation of hook_user().
+ */
+function flag_friend_user($op, &$edit, &$account, $category = NULL) {
+  switch ($op) {
+    case 'form':
+      if ($category == 'account') {
+        // The user account edit form is about to be displayed. The module should present the form elements it wishes to inject into the form.
+        $form = array();
+        $form['friend_notification'] = array(
+          '#type' => 'select',
+          '#title' => t('Friend notification'),
+          '#description' => t('Would you like to be notified when someone wants to be friends with you?'),
+          '#multiple' => FALSE,
+          '#options' => array(0 => t('Yes'), -1 => t('No')),
+          '#default_value' => isset($account->friend_notification) ? $account->friend_notification : FLAG_FRIEND_NOTIFICATION,
+          '#weight' => -10,
+        );
+        return $form;
+      }
+      break;
+    case 'delete':
+      // remove any friend relationships if an account is removed
+      db_query("DELETE FROM {flag_friend} WHERE uid = %d OR friend_uid = %d", $account->uid, $account->uid);
+      break;
+  }
+}
+
+/**
+ * Implementation of hook_profile_alter().
+ */
+function flag_friend_profile_alter(&$account) {
+  if ($account->uid == $GLOBALS['user']->uid) {
+    $flag = flag_get_flag('friend');
+    if (!empty($flag) && isset($account->content['flags'][$flag->name])) {
+      $account->content['flags'][$flag->name]['#access'] = FALSE;
+    }
+  }
+}
+
+/**
+ * Create a denial link.
+ *
+ * @param $type
+ *   String to determine what type of link to create.
+ * @param $uid
+ *   The id of the user we're creating this to flag.
+ */
+function flag_friend_create_link($type, $uid) {
+  $flag = flag_get_flag('friend');
+  if ($type == 'unfriend') {
+    $link = str_replace(t('Approve'), t('Deny'), str_replace('unflag', 'unfriend', $flag->theme('unflag', $uid)));
+    return $link;
+  }
+  else {
+    $link = str_replace(t('Approve'), t('Deny'), $flag->theme('unflag', $uid));
+    return $link;
+  }
+}
+
+/**
+ * Determines the status of the friendship by testing various conditions.
+ *
+ * @param $flag
+ *   The flag object.
+ * @param $uid1
+ *   The account id of one of the users.
+ * @param $uid2
+ *   The account id of the other user.
+ * @return
+ *   A string describing the status of the relationship.
+ * @todo: this could possibly go into hook_flag_access once available.
+ */
+function flag_friend_determine_friend_status($flag, $uid1, $uid2, $reset = NULL) {
+  static $status_cache = array();
+  if ($reset) {
+    unset($status_cache);
+  }
+  // always keep these in the same order
+  if ($uid1 > $uid2) {
+    $key1 = $uid1;
+    $key2 = $uid2;
+  }
+  else {
+    $key1 = $uid2;
+    $key2 = $uid1;
+  }
+
+  if (isset($flag)) {
+    if (!isset($status_cache[$key1][$key2])) {
+      $you_are_flagged = $flag->is_flagged($uid1, $uid2);
+      $they_are_flagged = $flag->is_flagged($uid2, $uid1);
+      $friends = db_result(db_query("SELECT * FROM {flag_friend} WHERE (uid = %d AND friend_uid = %d) OR (uid = %d AND friend_uid = %d)", $uid1, $uid2, $uid2, $uid1));
+      // see if these users have flagged eachother
+      if ($you_are_flagged && $they_are_flagged) {
+        $status_cache[$key1][$key2] = FLAG_FRIEND_BOTH;
+      }
+      elseif ($friends) {
+        $status_cache[$key1][$key2] = FLAG_FRIEND_FLAGGED;
+      }
+      elseif (!$you_are_flagged && !$they_are_flagged) {
+        $status_cache[$key1][$key2] = FLAG_FRIEND_UNFLAGGED;
+      }
+      elseif ($you_are_flagged && !$they_are_flagged) {
+        $status_cache[$key1][$key2] = FLAG_FRIEND_APPROVAL;
+      }
+      elseif (!$you_are_flagged && $they_are_flagged) {
+        $status_cache[$key1][$key2] = FLAG_FRIEND_PENDING;
+      }
+    }
+  }
+  return $status_cache[$key1][$key2];
+}
+
+/**
+ * Implementation of hook_form_FORM_ID_alter().
+ */
+function flag_friend_form_flag_confirm_alter(&$form, &$form_state) {
+  if ($form['flag_name']['#value'] == 'friend') {
+    $action = $form['action']['#value'];
+    $flag = flag_get_flag('friend');
+    $content_id = $form['content_id']['#value'];
+    $token = isset($_REQUEST['token']) ? $_REQUEST['token'] : '';
+
+    switch ($action) {
+      case 'flag':
+        $flag_form = flag_friend_message_form($action, $flag, $content_id, $token);
+        $form = array_merge($form, $flag_form);
+        unset($form['actions']['submit']);
+        unset($form['actions']['cancel']);
+        $form['#submit'][] = 'flag_friend_form_submit';
+        break;
+      case 'unflag':
+      case 'unfriend':
+        $unflag_form = flag_friend_unfriend_form($action, $flag, $content_id, $token);
+        $form = array_merge($form, $unflag_form);
+        $form['#submit'][] = 'flag_friend_form_submit';
+        // switch the order in which we submit so the fcid can still be found
+        $form['#submit'] = array_reverse($form['#submit']);
+        break;
+    }
+  }
+}
+
+/**
+ * Form to send a message to a user before friend flagging.
+ */
+function flag_friend_message_form($action, $flag, $content_id, $token) {
+  $form['current'] = array('#type' => 'value', '#value' => func_get_args());
+  $name = db_result(db_query("SELECT name FROM {users} WHERE uid = %d", $content_id));
+  $form['flag_friend_message'] = array(
+    '#type' => 'textarea',
+    '#title' => t('Send @name a message (optional)', array('@name' => $name)),
+    '#description' => t('Enter a message to send to this user.'),
+    '#cols' => 60,
+    '#rows' => 5,
+  );
+  $form['flag_friend_submit'] = array(
+    '#type' => 'submit',
+    '#value' => t('Send'),
+    '#suffix' => l(t('Cancel'), $_GET['destination']),
+  );
+  $form['#theme'] = 'flag_friend_message_form';
+  return $form;
+}
+
+/**
+ * Form to confirm an unfriend flagging.
+ */
+function flag_friend_unfriend_form($action, $flag, $content_id, $token) {
+  global $user;
+  $form['current'] = array('#type' => 'value', '#value' => func_get_args());
+
+  $status = flag_friend_determine_friend_status($flag, $user->uid, $content_id);
+  switch ($status) {
+    case FLAG_FRIEND_PENDING:
+      // pending
+      $question = t('Are you sure you want to cancel your pending friend request?');
+    break;
+    case FLAG_FRIEND_APPROVAL:
+      // denial
+      $question = t('Are you sure you don\'t want to be friends with this user?');
+      break;
+    default:
+      // unfriend
+      $question = $flag->get_label('unflag_confirmation', $content_id);
+      break;
+  }
+  $path = $_REQUEST['destination'];
+  $form = confirm_form($form, $question, $path);
+  $form['#theme'] = 'flag_friend_unfriend_form';
+  return $form;
+}
+
+/**
+ * Submit handler.
+ *
+ * @see flag_friend_message_form().
+ * @see flag_friend_unfriend_form().
+ */
+function flag_friend_form_submit($form, &$form_state) {
+  global $user;
+  $action = $form_state['values']['current'][0];
+  $flag = $form_state['values']['current'][1];
+  $content_id = $form_state['values']['current'][2];
+  $token = $form_state['values']['current'][3];
+  $status = flag_friend_determine_friend_status($flag, $user->uid, $content_id, TRUE);
+  
+  if (isset($form_state['values']['flag_friend_message'])) {
+    $flag->friend_message = $form_state['values']['flag_friend_message'];
+    // Record message only if user pending request.
+    if ($status === FLAG_FRIEND_PENDING) {
+      flag_friend_message($action, $flag, $content_id, $user->uid);
+    }
+    flag_friend_message_email($status, $flag, $content_id, $user);
+  }
+  // the only time we want to unfriend, is if $status = FLAGGED or APPROVAL
+  elseif ($status === FLAG_FRIEND_FLAGGED || $status === FLAG_FRIEND_APPROVAL) {
+    flag_friend_unfriend($action, $flag, $content_id, $user, $status);
+  }
+  elseif ($status === FLAG_FRIEND_PENDING) {
+    // Clean message when user cancel own request.
+    flag_friend_message($action, $flag, $content_id, $user->uid);
+  }
+}
+
+/**
+ * Menu callback to either unflag yourself, or remove the relationship record.
+ *
+ * @param $event
+ *   String designator to see what we're doing. (flag, unflag, unfriend)
+ * @param $flag_name
+ *   The name of the flag, should only be 'friend'.
+ * @param $content_id
+ *   The id of the content we're operating on. (uid)
+ * @param $status
+ *   Status integer to see where we are in the friend process.
+ */
+function flag_friend_unfriend($event, $flag, $content_id, $account, $status) {
+  global $user;
+
+  // 'Denial' and 'Pending - Cancel?'
+  if ($event == 'unflag') {
+    if ($status == FLAG_FRIEND_APPROVAL) {
+      // Denial - the content_id is actually the account param in this case
+      $account = user_load(array('uid' => $content_id));
+      // and the $user->uid is actually the content(_id) we're unflagging
+      $content_id = $user->uid;
+
+      // Fire trigger
+      module_invoke_all('flag_friend', 'deny', $user, $account);
+    }
+    // remove any messages
+    flag_friend_message($event, $flag, $content_id, $account->uid);
+    // unflag
+    $flag->flag($event, $content_id, $account);
+  }
+  elseif ($event == 'unfriend') {
+    // remove the friend relationship    
+    db_query('DELETE FROM {flag_friend} WHERE (uid = %d AND friend_uid = %d) OR (uid = %d AND friend_uid = %d)', $user->uid, $content_id, $content_id, $user->uid);
+
+    // Denial - the content_id is actually the account param in this case
+    $account = user_load(array('uid' => $content_id));
+    
+    // Fire trigger
+    module_invoke_all('flag_friend', 'remove', $account, $user);
+  }
+}
+
+/**
+ * API callback function to update our new field.
+ */
+function flag_friend_message($action, $flag, $content_id, $account_uid) {
+  $fcid = flag_friend_get_fcid($flag, $content_id, $account_uid);
+  if ($action == 'flag' && $flag->friend_message) {
+    db_query("INSERT INTO {flag_friend_message} VALUES(%d, '%s')", $fcid, $flag->friend_message);
+  }
+  elseif ($action == 'unflag') {
+    db_query("DELETE FROM {flag_friend_message} WHERE fcid = %d", $fcid);
+  }
+}
+
+/**
+ * Retrieves the fcid of a flag.
+ *
+ * NOTE: hopefully fcid will be passed into the hook_flag() at some point
+ *       at which time will render this function unnecessary.
+ */
+function flag_friend_get_fcid($flag, $content_id, $account_uid) {
+  return db_result(db_query("SELECT fcid FROM {flag_content} WHERE fid = %d AND content_type = '%s' AND content_id = %d AND uid = %d", $flag->fid, $flag->content_type, $content_id, $account_uid));
+}
+
+function flag_friend_message_email($status, $flag, $recipient_uid, $sender) {
+  $recipient = user_load(array('uid' => $recipient_uid));
+  // if the user can receive notifications
+  if (user_access('receive friend email notification', $recipient)) {
+    // and they've expressed they want them
+    if ((isset($recipient->friend_notification) && $recipient->friend_notification !== -1) || !isset($recipient->friend_notification)) {
+      $email = theme('flag_friend_message_email', $status, $flag, $recipient, $sender);
+      if (isset($email['body'])) {
+        if (function_exists('messaging_message_send_user')) {
+          messaging_message_send_user($recipient, $email, NULL, 1);
+        }
+        else {
+          $language = user_preferred_language($recipient);
+          drupal_mail('flag_friend', $email['type'], $recipient->mail, $language, $email);
+        }
+      }
+    }
+  }
+}
+
+/**
+ * Implementation of hook_mail().
+ */
+function flag_friend_mail($key, &$message, $params) {
+  $message['subject'] = $params['subject'];
+  $message['body'][] = $params['body'];
+}
+
+/**
+ * Theme the outgoing email message.
+ *
+ * @param $status
+ *   Status of the friendship.
+ * @param $flag
+ *   The flag object.
+ * @param $recipient
+ *   The user object of the person receiving the email.
+ * @param $sender
+ *   The user object of the person sending the email.
+ * @return
+ *   An array containing the email [type] (mailkey), [subject] and [body].
+ */
+function theme_flag_friend_message_email($status, $flag, $recipient, $sender) {
+  $email = array();
+  $email['type'] = 'flag-friend';
+
+  switch ($status) {
+    case FLAG_FRIEND_FLAGGED:
+      // sender confirmed you as a friend
+      $email['subject'] = t('!username confirmed you as a friend on !site', array(
+        '!username' => $sender->name,
+        '!site' => variable_get('site_name', ''),
+        ));
+      $email['body'] = t('!firstname confirmed you as a friend on !site.
+
+      To view !firstname\'s profile, follow this link,
+      !link
+
+      !message
+
+      Thanks,
+
+      The !site Team', array(
+        '!firstname' => isset($sender->firstname) ? $sender->firstname : $sender->name,
+        '!site' => variable_get('site_name', ''),
+        '!message' => $flag->friend_message ? t('Message:'). $flag->friend_message : '',
+        '!link' => url('user/'. $sender->uid, array('absolute' => TRUE)),
+        ));
+      break;
+
+    case FLAG_FRIEND_PENDING:
+      // sender added you as a friend
+      $email['subject'] = t('!username added you as a friend on !site', array('!username' => $sender->name, '!site' => variable_get('site_name', '')));
+      $email['body'] = t('!firstname added you as a friend on !site. We need to confirm that you know !firstname in order for you to be friends on !site.
+
+      To confirm this friend request, follow the link below:
+      !link
+
+      !message
+
+      Thanks,
+      The !site Team', array(
+        '!firstname' => isset($sender->firstname) ? $sender->firstname : $sender->name,
+        '!site' => variable_get('site_name', ''),
+        '!message' => $flag->friend_message ? t('Message:'). $flag->friend_message : '',
+        '!link' => url('user/'. $recipient->uid .'/friends', array('absolute' => TRUE)),
+        ));
+      break;
+  }
+  return $email;
+}
+
+/**
+ * Retrieve our flag's message.
+ */
+function flag_friend_get_message($fcid) {
+  $flag_friend = FALSE;
+  $result = db_result(db_query("SELECT message FROM {flag_friend_message} WHERE fcid = %d", $fcid));
+  if ($result) {
+    $flag_friend = $result;
+  }
+  return $flag_friend;
+}
+
+/**
+ * Theme function for the message form.
+ */
+function theme_flag_friend_message_form($form) {
+  return drupal_render($form);
+}
+
+/**
+ * Theme function for the unfriending action.
+ */
+function theme_flag_friend_unfriend_form($form) {
+  return drupal_render($form);
+}
+
+/**
+ * Register theme functions.
+ */
+function flag_friend_theme() {
+  return array(
+    'flag_friend_message_email' => array(
+      'arguments' => array('status', 'flag', 'recipient', 'sender'),
+    ),
+     'flag_friend_message_form' => array(
+      'arguments' => array('form'),
+    ),
+     'flag_friend_unfriend_form' => array(
+      'arguments' => array('form'),
+    ),
+  );
+}
+
+/**
+ * Implementation of hook_flag_default_flags().
+ */
+function flag_friend_flag_default_flags() {
+  $flags = array();
+  $flags[] = array(
+    'content_type' => 'user',
+    'name' => 'friend',
+    'title' => 'Friend',
+    'roles' => array(
+      0 => '2',
+    ),
+    'global' => FALSE,
+    'flag_short' => 'Add friend',
+    'flag_long' => 'Add this user to your list of friends.',
+    'flag_confirmation' => 'Are you sure you want to add [user] to your list of friends?',
+    'unflag_short' => 'Remove friend',
+    'unflag_long' => 'Remove this user from your list of friends.',
+    'unflag_confirmation' => 'Are you sure you want to remove [user] from your list of friends?',
+    'status' => FALSE,
+    'link_type' => 'confirm',
+    'locked' => array('name', 'global', 'link_type'),
+  );
+  return $flags;
+}
+
+/**
+ * Implementation of hook_popups().
+ */
+function flag_friend_popups() {
+  return array(
+    'user/*' => array( // any user page
+      'span.flag-friend a' => array(
+        'afterSubmit' => 'Drupal.flagFriendPopupsAfterSubmit',
+      ),
+    ),
+    'user/*/friends/*' => array( // friend views
+      'span.friend a' => array(
+        'afterSubmit' => 'Drupal.flagFriendPopupsAfterSubmit',
+      ),
+    ),
+  );
+}
+
+/**
+ * Implementation of hook_hook_info().
+ *
+ * Provide some triggers so that actions can be performed at various stages.
+ */
+function flag_friend_hook_info() {
+  return array(
+    'flag_friend' => array(
+      'flag_friend' => array(
+        'approve' => array(
+          'runs when' => t("A user approves another's friendship request."),
+        ),
+        'request' => array(
+          'runs when' => t("A user requested another's friendship."),
+        ),
+        'deny' => array(
+          'runs when' => t("A user denies another's friendship request."),
+        ),
+        'remove' => array(
+          'runs when' => t("A user removes another user as a friend."),
+        ),
+      ),
+    ),
+  );
+}
+
+/**
+ * Implementation of hook_trigger_name().
+ */
+function flag_friend_flag_friend($op, $friend, $user) {
+  if (function_exists('_trigger_get_hook_aids')) {
+    $aids = _trigger_get_hook_aids('flag_friend', $op);
+  
+    switch ($op) {
+      // in these cases, the users performing the operations are flipped
+      case 'approve':
+      case 'deny':
+        $user->friend = $friend;
+        $context = array(
+          'hook' => 'flag_friend',
+          'op' => $op,
+          'user' => $friend,
+          'flag_friend' => $user,
+        );
+        break;
+      // these are normal
+      case 'request':
+      case 'remove':
+        $friend->friend = $user;
+        $context = array(
+          'hook' => 'flag_friend',
+          'op' => $op,
+          'user' => $user,
+          'flag_friend' => $friend,
+        );
+        break;
+    }
+    if ($aids) {
+      actions_do(array_keys($aids), $friend, $context);
+    }
+  }
+}
+
+/**
+ * Implementation of hook_activity_info().
+ */
+function flag_friend_activity_info() {
+  $flag = flag_get_flag('friend');
+  $info = new stdClass();
+  $info->api = 2;
+  $info->name = 'flag_friend';
+  $info->object_type = 'flag_friend';
+  $info->objects = array('requestor' => 'user', 'requestee' => 'flag_friend'); // array keys are the labels
+  $info->hooks = array('flag_friend' => array('approve', 'request', 'deny', 'remove'));
+  $info->realms = array('flag_friend' => $flag->title);
+  return $info;
+}
+
+/**
+ * Implementation of hook_activity_grants().
+ */
+function flag_friend_activity_grants($activity) {
+  return array(
+    'flag_friend' => array($activity->uid), // the id that will be used
+  );
+}
+
+/**
+ * Implementation of hook_activity_access_grants().
+ */
+function flag_friend_activity_access_grants($account) {
+  $friends = flag_friend_get_friends($account->uid);
+  $realm_ids = array();
+  if (!empty($friends)) {
+    $realm_ids['flag_friend'] = array_keys($friends);
+  }
+  return $realm_ids;
+}
+
+/**
+ * Token integration.
+ */
+
+/**
+ * Implementation of hook_token_list().
+ */
+function flag_friend_token_list($type = 'all') {
+  if ($type == 'flag_friend') {
+    $tokens = array();
+    $tokens['flag_friend'] = array(
+      'requestor' => t('The name of the user who originally made the request.'),
+      'requestee' => t('The name of the user who originally received the request.'),
+      'requestor-uid' => t("Requestor's ID."),
+      'requestee-uid' => t("Requestee's ID."),
+      'requestor-url' => t("The URL of the requestor's profile page."),
+      'requestee-url' => t("The URL of the requestee's profile page.")
+    );
+    return $tokens;
+  }
+}
+
+/**
+ * Implementation of hook_token_values().
+ */
+function flag_friend_token_values($type, $object = NULL, $options = array()) {
+  if (($type == 'flag_friend') && !empty($object)) {
+    $data = array();
+    $data['requestor'] = $object->friend->name;
+    $data['requestee'] = $object->name;
+    $data['requestor-uid'] = $object->friend->uid;
+    $data['requestee-uid'] = $object->uid;
+    $data['requestor-url'] = base_path().drupal_get_path_alias('user/'.$object->friend->uid);
+    $data['requestee-url'] = base_path().drupal_get_path_alias('user/'.$object->uid);
+    return $data;
+  }
+}
+
+/**
+ * Implementation of hook_preprocess_author_pane().
+ */
+function flag_friend_preprocess_author_pane(&$variables) {
+  global $user;
+  $account_id = $variables['account']->uid;
+  $image_path = $variables['image_path'];
+
+  // Accessing the user profile is the only way to be able to see the friend
+  // flag out-of-the-box so I feel it's pretty safe to use this permisssion.
+  if ($account_id != 0 && user_access('access user profiles') && $user->uid != $account_id) {
+    $flag = flag_get_flag('friend');
+    $flag_status = flag_friend_determine_friend_status($flag, $user->uid, $account_id);
+
+    switch ($flag_status) {
+      case (FLAG_FRIEND_FLAGGED):
+        // Remove friend
+        $variables['flag_friend_link'] = flag_friend_create_link('unfriend', $account_id);
+        $variables['flag_friend'] =
+          l(theme('image', "$image_path/buddy-remove.png", t('Remove friend'), t('Remove friend'), NULL, FALSE),
+            "flag/confirm/unfriend/friend/$account_id",
+            array('query' => drupal_get_destination(),
+              'html' => TRUE,
+              'attributes'  => array('title' => $flag->unflag_short),
+            ));
+        break;
+
+      case (FLAG_FRIEND_APPROVAL):
+      case (FLAG_FRIEND_UNFLAGGED):
+        // Add friend
+        $variables['flag_friend_link'] = $flag->theme($flag->is_flagged($account_id) ? 'unflag' : 'flag', $account_id);
+        $variables['flag_friend'] =
+          l(theme('image', "$image_path/buddy-add.png", t('Add friend'), t('Add friend'), NULL, FALSE),
+            "flag/confirm/flag/friend/$account_id",
+            array('query' => drupal_get_destination(),
+              'html' => TRUE,
+              'attributes'  => array('title' => $flag->flag_short),
+            ));
+        break;
+
+      case (FLAG_FRIEND_PENDING):
+        // Pending friend
+        $variables['flag_friend_link'] = $flag->theme($flag->is_flagged($account_id) ? 'unflag' : 'flag', $account_id);
+        $variables['flag_friend'] =
+        l(theme('image', "$image_path/buddy-remove.png", t(' Friend Requested. Cancel?'), t(' Friend Requested. Cancel?'), NULL, FALSE),
+          "flag/confirm/unflag/friend/$account_id",
+          array('query' => drupal_get_destination(),
+            'html' => TRUE,
+            'attributes'  => array('title' => t(' Friend Requested. Cancel?')),
+          ));
+
+        break;
+    }
+  }
+}
+
+
+/**
+ * Implementation of hook_ctools_plugin_directory().
+ */
+function flag_friend_ctools_plugin_directory($module, $plugin) {
+  if ($module == 'ctools') {
+    return 'plugins/'. $plugin;
+  }  
+}

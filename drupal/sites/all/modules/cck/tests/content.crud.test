@@ -1,0 +1,1236 @@
+<?php
+// $Id: content.crud.test,v 1.4.2.16 2008/12/08 12:41:08 yched Exp $
+
+// TODO:
+// - Test search indexing
+// - Test values reordering with preview and failed validation
+
+/**
+ * Base class for CCK CRUD tests.
+ * Defines many helper functions useful for writing CCK CRUD tests.
+ */
+class ContentCrudTestCase extends DrupalWebTestCase {
+  var $enabled_schema = FALSE;
+  var $content_types  = array();
+  var $nodes          = array();
+  var $last_field     = NULL;
+  var $next_field_n   = 1;
+
+  /**
+   * Enable CCK, Text, and Schema modules.
+   */
+  function setUp() {
+    $args = func_get_args();
+    $modules = array_merge(array('content', 'schema', 'text'), $args);
+    call_user_func_array(array('parent','setUp'), $modules);
+    module_load_include('inc', 'content', 'includes/content.crud');
+  }
+
+  // Database schema related helper functions
+
+  /**
+   * Checks that the database itself and the reported database schema match the
+   * expected columns for the given tables.
+   * @param $tables An array containing the key 'per_field' and/or the key 'per_type'.
+   *  These keys should have array values with table names as the keys (without the 'content_' / 'content_type_' prefix)
+   *  These keys should have either NULL value to indicate the table should be absent, or
+   *  array values containing column names. The column names can themselves be arrays, in
+   *  which case the contents of the array are treated as column names and prefixed with
+   *  the array key.
+   *
+   * For example, if called with the following as an argument:
+   * array(
+   *   'per_field' => array(
+   *     'st_f1' => array('delta', 'field_f1' => array('value, 'format')),
+   *     'st_f2' => NULL,    // no content_field_f2 table
+   *   ),
+   *   'per_type' => array(
+   *     'st_t1' => array('field_f2' => array('value'), 'field_f3' => array('value', 'format')),
+   *     'st_t2' => array(), // only 'nid' and 'vid' columns
+   *     'st_t3' => NULL,    // no content_type_t3 table
+   *   ),
+   * )
+   * Then the database and schema will be checked to ensure that:
+   *   content_st_f1 table contains fields nid, vid, delta, field_f1_value, field_f1_format
+   *   content_st_f2 table is absent
+   *   content_type_st_t1 table contains fields nid, vid, field_f2_value, field_f3_value, field_f3_format
+   *   content_type_st_t2 table contains fields nid, vid
+   *   content_type_st_t3 table is absent
+   */
+  function assertSchemaMatchesTables($tables) {
+    $groups = array('per_field' => 'content_', 'per_type' => 'content_type_');
+
+    foreach ($groups as $group => $table_prefix) {
+      if (isset($tables[$group])) {
+        foreach ($tables[$group] as $entity => $columns) {
+          if (isset($columns)) {
+            $db_columns = array('nid', 'vid');
+            foreach ($columns as $prefix => $items) {
+              if (is_array($items)) {
+                foreach ($items as $item) {
+                  $db_columns[] = $prefix .'_'. $item;
+                }
+              }
+              else {
+                $db_columns[] = $items;
+              }
+            }
+            $this->_assertSchemaMatches($table_prefix . $entity, $db_columns);
+          }
+          else {
+            $this->_assertTableNotExists($table_prefix . $entity);
+          }
+        }
+      }
+    }
+  }
+
+  /**
+   * Helper function for assertSchemaMatchesTables
+   * Checks that the given database table does NOT exist
+   * @param $table Name of the table to check
+   */
+  function _assertTableNotExists($table) {
+    $this->assertFalse(db_table_exists($table), t('Table !table is absent', array('!table' => $table)));
+  }
+
+  /**
+   * Helper function for assertSchemaMatchesTables
+   * Checks that the database and schema for the given table contain only the expected fields.
+   * @param $table Name of the table to check
+   * @param $columns Array of column names
+   */
+  function _assertSchemaMatches($table, $columns) {
+    // First test: check the expected structure matches the stored schema.
+    $schema = drupal_get_schema($table, TRUE);
+    $mismatches = array();
+    if ($schema === FALSE) {
+      $mismatches[] = t('table does not exist');
+    }
+    else {
+      $fields = $schema['fields'];
+      foreach ($columns as $field) {
+        if (!isset($fields[$field])) {
+          $mismatches[] = t('field !field is missing from table', array('!field' => $field));
+        }
+      }
+      $columns_reverse = array_flip($columns);
+      foreach ($fields as $name => $info) {
+        if(!isset($columns_reverse[$name])) {
+          $mismatches[] = t('table contains unexpected field !field', array('!field' => $name));
+        }
+      }
+    }
+    $this->assertEqual(count($mismatches), 0, t('Table !table matches schema: !details',
+      array('!table' => $table, '!details' => implode($mismatches, ', '))));
+
+    // Second test: check the schema matches the actual db structure.
+    // This is the part that relies on schema.module.
+    if (!$this->enabled_schema) {
+      $this->enabled_schema = module_exists('schema');
+    }
+    if ($this->enabled_schema) {
+      // Clunky workaround for http://drupal.org/node/215198
+      $prefixed_table = db_prefix_tables('{'. $table .'}');
+      $inspect = schema_invoke('inspect', $prefixed_table);
+      $inspect = isset($inspect[$table]) ? $inspect[$table] : NULL;
+      $compare = schema_compare_table($schema, $inspect);
+      if ($compare['status'] == 'missing') {
+        $compare['reasons'] = array(t('table does not exist'));
+      }
+    }
+    else {
+      $compare = array('status' => 'unknown', 'reasons' => array(t('cannot enable schema module')));
+    }
+    $this->assertEqual($compare['status'], 'same', t('Table schema for !table matches database: !details',
+      array('!table' => $table, '!details' => implode($compare['reasons'], ', '))));
+  }
+
+  // Node data helper functions
+
+  /**
+   * Helper function for assertNodeSaveValues. Recursively checks that
+   * all the keys of a table are present in a second and have the same value.
+   */
+  function _compareArrayForChanges($fields, $data, $message, $prefix = '') {
+    foreach ($fields as $key => $value) {
+      $newprefix = ($prefix == '') ? $key : $prefix .']['. $key;
+      if (is_array($value)) {
+        $compare_to = isset($data[$key]) ? $data[$key] : array();
+        $this->_compareArrayForChanges($value, $compare_to, $message, $newprefix);
+      }
+      else {
+        $this->assertEqual($value, $data[$key], t($message, array('!key' => $newprefix)));
+      }
+    }
+  }
+
+  /**
+   * Checks that after a node is saved using node_save, the values to be saved
+   * match up with the output from node_load.
+   * @param $node Either a node object, or the index of an acquired node
+   * @param $values Array of values to be merged with the node and passed to node_save
+   * @return The values array
+   */
+  function assertNodeSaveValues($node, $values) {
+    if (is_numeric($node) && isset($this->nodes[$node])) {
+      $node = $this->nodes[$node];
+    }
+    $node = $values + (array)$node;
+    $node = (object)$node;
+    node_save($node);
+    $this->assertNodeValues($node, $values);
+    return $values;
+  }
+
+  /**
+   * Checks that the output from node_load matches the expected values.
+   * @param $node Either a node object, or the index of an acquired node (only the nid field is used)
+   * @param $values Array of values to check against node_load. The node object must contain the keys in the array,
+   *  and the values must be equal, but the node object may also contain other keys.
+   */
+  function assertNodeValues($node, $values) {
+    if (is_numeric($node) && isset($this->nodes[$node])) {
+      $node = $this->nodes[$node];
+    }
+    $node = node_load($node->nid, NULL, TRUE);
+    $this->_compareArrayForChanges($values, (array)$node, 'Node data [!key] is correct');
+  }
+
+  /**
+   * Checks that the output from node_load is missing certain fields
+   * @param $node Either a node object, or the index of an acquired node (only the nid field is used)
+   * @param $fields Array containing a list of field names
+   */
+  function assertNodeMissingFields($node, $fields) {
+    if (is_numeric($node) && isset($this->nodes[$node])) {
+      $node = $this->nodes[$node];
+    }
+    $node = (array)node_load($node->nid, NULL, TRUE);
+    foreach ($fields as $field) {
+      $this->assertFalse(isset($node[$field]), t('Node should be lacking field !key', array('!key' => $field)));
+    }
+  }
+
+  /**
+   * Creates random values for a text field
+   * @return An array containing a value key and a format key
+   */
+  function createRandomTextFieldData() {
+    return array(
+      'value' => '!SimpleTest! test value' . $this->randomName(60),
+      'format' => 2,
+    );
+  }
+
+  // Login/user helper functions
+
+  /**
+   * Creates a user / role with certain permissions and then logs in as that user
+   * @param $permissions Array containing list of permissions. If not given, defaults to
+   *  access content, administer content types, administer nodes and administer filters.
+   */
+  function loginWithPermissions($permissions = NULL) {
+    if (!isset($permissions)) {
+      $permissions = array(
+        'access content',
+        'administer content types',
+        'administer nodes',
+        'administer filters',
+      );
+    }
+    $user = $this->drupalCreateUser($permissions);
+    $this->drupalLogin($user);
+  }
+
+  // Creation helper functions
+
+  /**
+   * Creates a number of content types with predictable names (simpletest_t1 ... simpletest_tN)
+   * These content types can later be accessed via $this->content_types[0 ... N-1]
+   * @param $count Number of content types to create
+   */
+  function acquireContentTypes($count) {
+    $this->content_types = array();
+    for ($i = 0; $i < $count; $i++) {
+      $name = 'simpletest_t'. ($i + 1);
+      $this->content_types[$i] = $this->drupalCreateContentType(array(
+        'name' => $name,
+        'type' => $name,
+      ));
+    }
+    content_clear_type_cache();
+  }
+
+  /**
+   * Creates a number of nodes of each acquired content type.
+   * Remember to call acquireContentTypes() before calling this, else the content types won't exist.
+   * @param $count Number of nodes to create per acquired content type (defaults to 1)
+   */
+  function acquireNodes($count = 1) {
+    $this->nodes = array();
+    foreach ($this->content_types as $content_type) {
+      for ($i = 0; $i < $count; $i++) {
+        $this->nodes[] = $this->drupalCreateNode(array('type' => $content_type->type));
+      }
+    }
+  }
+
+  /**
+   * Creates a field instance with a predictable name. Also makes all future calls to functions
+   * which take an optional field use this one as the default.
+   * @param $settings Array to be passed to content_field_instance_create. If the field_name
+   *  or type_name keys are missing, then they will be added. The default field name is
+   *  simpletest_fN, where N is 1 for the first created field, and increments. The default
+   *  type name is type name of the $content_type argument.
+   * @param $content_type Either a content type object, or the index of an acquired content type
+   * @return The newly created field instance.
+   */
+  function createField($settings, $content_type = 0) {
+    if (is_numeric($content_type) && isset($this->content_types[$content_type])) {
+      $content_type = $this->content_types[$content_type];
+    }
+    $defaults = array(
+      'field_name' => 'simpletest_f'. $this->next_field_n++,
+      'type_name' => $content_type->type,
+    );
+    $settings = $settings + $defaults;
+    $this->last_field = content_field_instance_create($settings);
+    return $this->last_field;
+  }
+
+  /**
+   * Creates a textfield instance. Identical to createField() except it ensures that the text module
+   * is enabled, and adds default settings of type (text) and widget_type (text_textfield) if they
+   * are not given in $settings.
+   * @sa createField()
+   */
+  function createFieldText($settings, $content_type = 0) {
+    $defaults = array(
+      'type' => 'text',
+      'widget_type' => 'text_textfield',
+    );
+    $settings = $settings + $defaults;
+    return $this->createField($settings, $content_type);
+  }
+
+  // Field manipulation helper functions
+
+  /**
+   * Updates a field instance. Also makes all future calls to functions which take an optional
+   * field use the updated one as the default.
+   * @param $settings New settings for the field instance. If the field_name or type_name keys
+   *  are missing, then they will be taken from $field.
+   * @param $field The field instance to update (defaults to the last worked upon field)
+   * @return The updated field instance.
+   */
+  function updateField($settings, $field = NULL) {
+    if (!isset($field)) {
+      $field = $this->last_field;
+    }
+    $defaults = array(
+      'field_name' => $field['field_name'],
+      'type_name'  => $field['type_name'] ,
+    );
+    $settings = $settings + $defaults;
+    $this->last_field = content_field_instance_update($settings);
+    return $this->last_field;
+  }
+
+  /**
+   * Makes a copy of a field instance on a different content type, effectively sharing the field with a new
+   * content type. Also makes all future calls to functions which take an optional field use the shared one
+   * as the default.
+   * @param $new_content_type Either a content type object, or the index of an acquired content type
+   * @param $field The field instance to share (defaults to the last worked upon field)
+   * @return The shared (newly created) field instance.
+   */
+  function shareField($new_content_type, $field = NULL) {
+    if (!isset($field)) {
+      $field = $this->last_field;
+    }
+    if (is_numeric($new_content_type) && isset($this->content_types[$new_content_type])) {
+      $new_content_type = $this->content_types[$new_content_type];
+    }
+    $field['type_name'] = $new_content_type->type;
+    $this->last_field = content_field_instance_create($field);
+    return $this->last_field;
+  }
+
+  /**
+   * Deletes an instance of a field.
+   * @param $content_type Either a content type object, or the index of an acquired content type (used only
+   *  to get field instance type name).
+   * @param $field The field instance to delete (defaults to the last worked upon field, used only to get
+   *  field instance field name).
+   */
+  function deleteField($content_type, $field = NULL) {
+    if (!isset($field)) {
+      $field = $this->last_field;
+    }
+    if (is_numeric($content_type) && isset($this->content_types[$content_type])) {
+      $content_type = $this->content_types[$content_type];
+    }
+    content_field_instance_delete($field['field_name'], $content_type->type);
+  }
+}
+
+class ContentCrudBasicTest extends ContentCrudTestCase {
+  function getInfo() {
+    return array(
+      'name' => t('CRUD - Basic API tests'),
+      'description' => t('Tests the field CRUD (create, read, update, delete) API. <strong>Requires <a href="@schema_link">Schema module</a>.</strong>', array('@schema_link' => 'http://www.drupal.org/project/schema')),
+      'group' => t('CCK'),
+    );
+  }
+
+  function setUp() {
+    parent::setUp();
+    $this->acquireContentTypes(1);
+  }
+
+  function testBasic() {
+    // Create a field with both field and instance settings.
+    $field = $this->createFieldText(array('widget_type' => 'text_textarea', 'text_processing' => 1, 'rows' => 5), 0);
+
+
+    // Check that collapse and expand are inverse.
+    $fields = content_field_instance_read(array('field_name' => $field['field_name'], 'type_name' => $this->content_types[0]->type));
+    $field1 = array_pop($fields);
+
+    $field2 = content_field_instance_collapse($field1);
+    $field3 = content_field_instance_expand($field2);
+    $field4 = content_field_instance_collapse($field3);
+
+    $this->assertIdentical($field1, $field3, 'collapse then expand is identity');
+    $this->assertIdentical($field2, $field4, 'expand then collapse is identity');
+
+
+    // Check that collapse and expand are both final
+    // (e.g. do not further alter the data when called multiple times).
+    $fields = content_field_instance_read(array('field_name' => $field['field_name'], 'type_name' => $this->content_types[0]->type));
+    $field1 = array_pop($fields);
+
+    $field2 = content_field_instance_collapse($field1);
+    $field3 = content_field_instance_collapse($field2);
+    $this->assertIdentical($field2, $field3, 'collapse is final');
+
+    $field2 = content_field_instance_expand($field1);
+    $field3 = content_field_instance_expand($field2);
+    $this->assertIdentical($field2, $field3, 'expand is final');
+
+
+    // Check that updating a field as is leaves it unchanged.
+    $fields = content_field_instance_read(array('field_name' => $field['field_name'], 'type_name' => $this->content_types[0]->type));
+    $field1 = array_pop($fields);
+    $field2 = content_field_instance_update($field1);
+    $fields = content_field_instance_read(array('field_name' => $field['field_name'], 'type_name' => $this->content_types[0]->type));
+    $field3 = array_pop($fields);
+
+    $this->assertIdentical($field1, $field3, 'read, update, read is identity');
+  }
+}
+
+class ContentCrudSingleToMultipleTest extends ContentCrudTestCase {
+  function getInfo() {
+    return array(
+      'name' => t('CRUD - Single to multiple'),
+      'description' => t('Tests the field CRUD (create, read, update, delete) API by creating a single value field and changing it to a multivalue field, sharing it between several content types. <strong>Requires <a href="@schema_link">Schema module</a>.</strong>', array('@schema_link' => 'http://www.drupal.org/project/schema')),
+      'group' => t('CCK'),
+    );
+  }
+
+  function setUp() {
+    parent::setUp();
+    $this->loginWithPermissions();
+    $this->acquireContentTypes(3);
+    $this->acquireNodes();
+  }
+
+  function testSingleToMultiple() {
+    // Create a simple text field
+    $this->createFieldText(array('text_processing' => 1));
+    $target_schema = array(
+      'per_type' => array(
+        'simpletest_t1' => array('simpletest_f1' => array('value', 'format'))
+      ),
+      'per_field' => array(),
+    );
+    $this->assertSchemaMatchesTables($target_schema);
+    $node0values = $this->assertNodeSaveValues(0, array(
+      'simpletest_f1' => array(
+        0 => $this->createRandomTextFieldData(),
+      )
+    ));
+
+    // Change the text field to allow multiple values
+    $this->updateField(array('multiple' => 1));
+    $target_schema = array(
+      'per_type' => array(
+        'simpletest_t1' => array(),
+      ),
+      'per_field' => array(
+        'simpletest_f1' => array('delta', 'simpletest_f1' => array('value', 'format')),
+      ),
+    );
+    $this->assertSchemaMatchesTables($target_schema);
+    $this->assertNodeValues(0, $node0values);
+
+    // Share the text field with 2 additional types t2 and t3.
+    for ($share_with_content_type = 1; $share_with_content_type <= 2; $share_with_content_type++) {
+      $this->shareField($share_with_content_type);
+      // There should be a new 'empty' per-type table for each content type that has fields.
+      $target_schema['per_type']['simpletest_t'. ($share_with_content_type + 1)] = array();
+      $this->assertSchemaMatchesTables($target_schema);
+      // The acquired node index will match the content type index as exactly one node is acquired per content type
+      $this->assertNodeSaveValues($share_with_content_type, array(
+        'simpletest_f1' => array(
+          0 => $this->createRandomTextFieldData(),
+        )
+      ));
+    }
+
+    // Delete the text field from all content types
+    for ($delete_from_content_type = 2; $delete_from_content_type >= 0; $delete_from_content_type--) {
+      $this->deleteField($delete_from_content_type);
+      // Content types that don't have fields any more shouldn't have any per-type table.
+      $target_schema['per_type']['simpletest_t'. ($delete_from_content_type + 1)] = NULL;
+      // After removing the last instance, there should be no table for the field either.
+      if ($delete_from_content_type == 0) {
+        $target_schema['per_field']['simpletest_f1'] = NULL;
+      }
+      $this->assertSchemaMatchesTables($target_schema);
+      // The acquired node index will match the content type index as exactly one node is acquired per content type
+      $this->assertNodeMissingFields($this->nodes[$delete_from_content_type], array('simpletest_f1'));
+    }
+  }
+}
+
+class ContentCrudMultipleToSingleTest extends ContentCrudTestCase {
+  function getInfo() {
+    return array(
+      'name' => t('CRUD - Multiple to single'),
+      'description' => t('Tests the field CRUD (create, read, update, delete) API by creating a multivalue field and changing it to a single value field, sharing it between several content types. <strong>Requires <a href="@schema_link">Schema module</a>.</strong>', array('@schema_link' => 'http://www.drupal.org/project/schema')),
+      'group' => t('CCK'),
+    );
+  }
+
+  function setUp() {
+    parent::setUp();
+    $this->loginWithPermissions();
+    $this->acquireContentTypes(3);
+    $this->acquireNodes();
+  }
+
+  function testMultipleToSingle() {
+    // Create a multivalue text field
+    $this->createFieldText(array('text_processing' => 1, 'multiple' => 1));
+    $this->assertSchemaMatchesTables(array(
+      'per_type' => array(
+        'simpletest_t1' => array(),
+      ),
+      'per_field' => array(
+        'simpletest_f1' => array('delta', 'simpletest_f1' => array('value', 'format')),
+      ),
+    ));
+    $this->assertNodeSaveValues(0, array(
+      'simpletest_f1' => array(
+        0 => $this->createRandomTextFieldData(),
+        1 => $this->createRandomTextFieldData(),
+        2 => $this->createRandomTextFieldData(),
+      )
+    ));
+
+    // Change to a simple text field
+    $this->updateField(array('multiple' => 0));
+    $this->assertSchemaMatchesTables(array(
+      'per_type' => array(
+        'simpletest_t1' => array('simpletest_f1' => array('value', 'format')),
+      ),
+      'per_field' => array(
+        'simpletest_f1' => NULL,
+      ),
+    ));
+    $node0values = $this->assertNodeSaveValues(0, array(
+      'simpletest_f1' => array(
+        0 => $this->createRandomTextFieldData(),
+      )
+    ));
+
+    // Share the text field with other content type
+    $this->shareField(1);
+    $this->assertSchemaMatchesTables(array(
+      'per_type' => array(
+        'simpletest_t1' => array(),
+        'simpletest_t2' => array(),
+      ),
+      'per_field' => array(
+        'simpletest_f1' => array('simpletest_f1' => array('value', 'format')),
+      ),
+    ));
+    $node1values = $this->assertNodeSaveValues(1, array(
+      'simpletest_f1' => array(
+        0 => $this->createRandomTextFieldData(),
+      )
+    ));
+    $this->assertNodeValues(0, $node0values);
+
+    // Share the text field with a 3rd type
+    $this->shareField(2);
+    $this->assertSchemaMatchesTables(array(
+      'per_type' => array(
+        'simpletest_t1' => array(),
+        'simpletest_t2' => array(),
+        'simpletest_t3' => array(),
+      ),
+      'per_field' => array(
+        'simpletest_f1' => array('simpletest_f1' => array('value', 'format')),
+      ),
+    ));
+    $this->assertNodeSaveValues(2, array(
+      'simpletest_f1' => array(
+        0 => $this->createRandomTextFieldData(),
+      )
+    ));
+    $this->assertNodeValues(1, $node1values);
+    $this->assertNodeValues(0, $node0values);
+
+    // Remove text field from 3rd type
+    $this->deleteField(2);
+    $this->assertSchemaMatchesTables(array(
+      'per_type' => array(
+        'simpletest_t1' => array(),
+        'simpletest_t2' => array(),
+        'simpletest_t3' => NULL,
+      ),
+      'per_field' => array(
+        'simpletest_f1' => array('simpletest_f1' => array('value', 'format')),
+      ),
+    ));
+    $this->assertNodeMissingFields($this->nodes[2], array('simpletest_f1'));
+
+    // Remove text field from 2nd type (field isn't shared anymore)
+    $this->deleteField(1);
+    $this->assertSchemaMatchesTables(array(
+      'per_type' => array(
+        'simpletest_t1' => array('simpletest_f1' => array('value', 'format')),
+        'simpletest_t2' => NULL,
+        'simpletest_t3' => NULL,
+      ),
+      'per_field' => array(
+        'simpletest_f1' => NULL,
+      ),
+    ));
+    $this->assertNodeMissingFields(1, array('simpletest_f1'));
+    $this->assertNodeValues(0, $node0values);
+
+    // Remove text field from original type
+    $this->deleteField(0);
+    $this->assertSchemaMatchesTables(array(
+      'per_type' => array(
+        'simpletest_t1' => NULL,
+        'simpletest_t2' => NULL,
+        'simpletest_t3' => NULL,
+      ),
+      'per_field' => array(
+        'simpletest_f1' => NULL,
+      ),
+    ));
+    $this->assertNodeMissingFields(0, array('simpletest_f1'));
+  }
+}
+
+class ContentUICrud extends ContentCrudTestCase {
+  function getInfo() {
+    return array(
+      'name' => t('Admin UI'),
+      'description' => t('Tests the CRUD (create, read, update, delete) operations for content fields via the UI. <strong>Requires <a href="@schema_link">Schema module</a>.</strong>', array('@schema_link' => 'http://www.drupal.org/project/schema')),
+      'group' => t('CCK'),
+    );
+  }
+
+  function setUp() {
+    parent::setUp('fieldgroup');
+    $this->loginWithPermissions();
+  }
+
+  function testAddFieldUI() {
+    // Add a content type with a random name (to avoid schema module problems).
+    $type1 = 'simpletest'. mt_rand();
+    $type1_name = $this->randomName(10);
+    $edit = array(
+      'type' => $type1,
+      'name' => $type1_name,
+    );
+    $this->drupalPost('admin/content/types/add', $edit, 'Save content type');
+    $admin_type1_url = 'admin/content/node-type/'. $type1;
+
+    // Create a text field via the UI.
+    $field_name = strtolower($this->randomName(10));
+    $field_label = $this->randomName(10);
+    $edit = array(
+      '_add_new_field[label]' => $field_label,
+      '_add_new_field[field_name]' => $field_name,
+      '_add_new_field[type]' => 'text',
+      '_add_new_field[widget_type]' => 'text_textfield',
+    );
+    $this->drupalPost($admin_type1_url .'/fields', $edit, 'Save');
+    $this->assertRaw('These settings apply only to the <em>'. $field_label .'</em> field', 'Field settings page displayed');
+    $this->assertRaw('Size of textfield', 'Field and widget types correct.');
+    $this->assertNoRaw('Change basic information', 'No basic information displayed');
+    $field_name = 'field_'. $field_name;
+
+    $edit = array();
+    // POST to the page without reloading.
+    $this->drupalPost(NULL, $edit, 'Save field settings');
+    $this->assertRaw('Added field <em>'. $field_label .'</em>.', 'Field settings saved');
+    $field_type1_url = $admin_type1_url .'/fields/'. $field_name;
+    $this->assertRaw($field_type1_url, 'Field displayed on overview.');
+
+    // Check the schema - the values should be in the per-type table.
+    $this->assertSchemaMatchesTables(array(
+      'per_type' => array(
+        $type1 => array($field_name => array('value')),
+      ),
+    ));
+
+
+    // Add a second content type.
+    $type2 = 'simpletest'. mt_rand();
+    $type2_name = $this->randomName(10);
+    $edit = array(
+      'type' => $type2,
+      'name' => $type2_name,
+    );
+    $this->drupalPost('admin/content/types/add', $edit, 'Save content type');
+    $admin_type2_url = 'admin/content/node-type/'. $type2;
+
+    // Add the same field to the second content type.
+    $edit = array(
+      '_add_existing_field[label]' => $field_label,
+      '_add_existing_field[field_name]' => $field_name,
+      '_add_existing_field[widget_type]' => 'text_textarea',
+    );
+    $this->drupalPost($admin_type2_url .'/fields', $edit, 'Save');
+    $this->assertRaw('These settings apply only to the <em>'. $field_label .'</em> field', 'Field settings page displayed');
+    $this->assertRaw('Rows', 'Field and widget types correct.');
+    $this->assertNoRaw('Change basic information', 'No basic information displayed');
+
+    $edit = array();
+    $this->drupalPost(NULL, $edit, 'Save field settings');
+    $this->assertRaw('Added field <em>'. $field_label .'</em>.', 'Field settings saved');
+    $field_type2_url = $admin_type2_url .'/fields/'. $field_name;
+    $this->assertRaw($field_type2_url, 'Field displayed on overview.');
+
+    // Check that a separate table is created for the shared field, and
+    // that it's values are no longer in the per-type tables.
+    $this->assertSchemaMatchesTables(array(
+      'per_field' => array(
+        $field_name => array($field_name => array('value')),
+      ),
+      'per_type' => array(
+        $type1 => array(),
+        $type2 => array(),
+      ),
+    ));
+
+
+    // Chancge the basic settings for this field.
+    $edit = array();
+    $this->drupalPost($field_type2_url, $edit, 'Change basic information');
+    $this->assertRaw('Edit basic information', 'Basic information form displayed');
+
+    $field_label2 = $this->randomName(10);
+    $edit = array(
+      'label' => $field_label2,
+      'widget_type' => 'text_textfield',
+    );
+    $this->drupalPost(NULL, $edit, 'Continue');
+    $this->assertRaw('These settings apply only to the <em>'. $field_label2 .'</em> field', 'Label changed');
+    $this->assertRaw('Size of textfield', 'Widget changed');
+
+    $edit = array();
+    // POST to the page without reloading.
+    $this->drupalPost(NULL, $edit, 'Save field settings');
+    $this->assertRaw('Saved field <em>'. $field_label2 .'</em>.', 'Field settings saved');
+
+
+    // Add a group to the second content type.
+    $group1_name = strtolower($this->randomName(10));
+    $group1_label = $this->randomName(10);
+    $edit = array(
+      '_add_new_group[label]' => $group1_label,
+      '_add_new_group[group_name]' => $group1_name,
+    );
+    $this->drupalPost($admin_type2_url .'/fields', $edit, 'Save');
+    $group1_name = 'group_'. $group1_name;
+    $this->assertRaw($admin_type2_url .'/groups/'. $group1_name, 'Group created');
+
+
+    // Remove the field from the second type.
+    $edit = array();
+    $this->drupalPost($field_type2_url .'/remove', $edit, 'Remove');
+    $this->assertRaw('Removed field <em>'. $field_label2 .'</em> from <em>'. $type2_name .'</em>', 'Field removed');
+    $this->assertNoRaw($field_type2_url, 'Field not displayed on overview.');
+
+    // Check the schema - the values should be in the per-type table.
+    $this->assertSchemaMatchesTables(array(
+      'per_type' => array(
+        $type1 => array($field_name => array('value')),
+      ),
+    ));
+
+    // Add a new field, an existing field, and a group in the same submit.
+    $field2_label = $this->randomName(10);
+    $field2_name = strtolower($this->randomName(10));
+    $group2_label = $this->randomName(10);
+    $group2_name = strtolower($this->randomName(10));
+    $edit = array(
+      '_add_new_field[label]' => $field2_label,
+      '_add_new_field[field_name]' => $field2_name,
+      '_add_new_field[type]' => 'text',
+      '_add_new_field[widget_type]' => 'text_textfield',
+      '_add_new_field[parent]' => $group1_name,
+      '_add_existing_field[label]' => $field_label,
+      '_add_existing_field[field_name]' => $field_name,
+      '_add_existing_field[widget_type]' => 'text_textarea',
+      '_add_existing_field[parent]' => '_add_new_group',
+      '_add_new_group[label]' => $group2_label,
+      '_add_new_group[group_name]' => $group2_name,
+    );
+    $this->drupalPost($admin_type2_url .'/fields', $edit, 'Save');
+    $this->assertRaw('These settings apply only to the <em>'. $field2_label .'</em> field', 'Field settings page for new field displayed');
+    // Submit new field settings
+    $edit = array();
+    $this->drupalPost(NULL, $edit, 'Save field settings');
+    $this->assertRaw('Added field <em>'. $field2_label .'</em>.', 'Field settings for new field saved');
+    $this->assertRaw('These settings apply only to the <em>'. $field_label .'</em> field', 'Field settings page for existing field displayed');
+    // Submit existing field settings
+    $edit = array();
+    $this->drupalPost(NULL, $edit, 'Save field settings');
+    $this->assertRaw('Added field <em>'. $field_label .'</em>.', 'Field settings for existing field saved');
+    $field2_name = 'field_'. $field2_name;
+    $field2_type2_url = $admin_type2_url .'/fields/'. $field2_name;
+    $this->assertRaw($field2_type2_url, 'New field displayed in overview');
+    $this->assertRaw($field_type2_url, 'Existing field displayed in overview');
+    $group2_name = 'group_'. $group2_name;
+    $this->assertRaw($admin_type2_url .'/groups/'. $group2_name, 'New group displayed in overview');
+
+    // Check Parenting
+    $groups = fieldgroup_groups($type2, FALSE, TRUE);
+    $this->assertTrue(isset($groups[$group1_name]['fields'][$field2_name]), 'New field in correct group');
+    $this->assertTrue(isset($groups[$group2_name]['fields'][$field_name]), 'Existing field in correct group');
+    $this->assertFieldByXPath('//select[@id="edit-'. strtr($field2_name, '_', '-') .'-parent"]//option[@selected]', $group1_name, 'Parenting for new field correct in overview');
+    $this->assertFieldByXPath('//select[@id="edit-'. strtr($field_name, '_', '-') .'-parent"]//option[@selected]', $group2_name, 'Parenting for existing field correct in overview');
+
+    // Check the schema : field1 is shared, field2 is in the per-type table.
+    $this->assertSchemaMatchesTables(array(
+      'per_field' => array(
+        $field_name => array($field_name => array('value')),
+      ),
+      'per_type' => array(
+        $type1 => array(),
+        $type2 => array($field2_name => array('value')),
+      ),
+    ));
+
+    // TODO : test validation failures...
+    // TODO : test ordering and extra fields...
+  }
+
+  function testFieldContentUI() {
+    // Create a content type with a field
+    $type1 = 'simpletest'. mt_rand();
+    $type1_obj = $this->drupalCreateContentType(array('type' => $type1));
+    $admin_type1_url = 'admin/content/node-type/'. $type1;
+    $field_name  = strtolower($this->randomName(10));
+    $field_url = 'field_'. $field_name;
+    $field = $this->createFieldText(array('text_processing' => 1, 'multiple' => 0, 'field_name' => $field_url), $type1_obj);
+
+    // Save a node with content in the text field
+    $edit = array();
+    $edit['title'] = $this->randomName(20);
+    $edit['body'] = $this->randomName(20);
+    $value = $this->randomName(20);
+    $edit[$field_url.'[0][value]'] = $value;
+    $this->drupalPost('node/add/'. $type1, $edit, 'Save');
+    $node = node_load(array('title' => $edit['title']));
+    $this->drupalGet('node/'. $node->nid);
+    $this->assertText($value, 'Textfield value saved and displayed');
+
+    // Alter the field to have unlimited values
+    $edit = array();
+    $edit['multiple']  = '1';
+    $this->drupalPost($admin_type1_url .'/fields/'. $field_url, $edit, 'Save field settings');
+
+    // Save a node with content in multiple text fields
+    $edit = array();
+    $edit['title'] = $this->randomName(20);
+    $edit['body'] = $this->randomName(20);
+    // Add more textfields (non-JS).
+    $this->drupalPost('node/add/'. $type1, $edit, "Add another item");
+    $this->drupalPost(NULL, $edit, "Add another item");
+    $value1 = $this->randomName(20);
+    $value2 = $this->randomName(20);
+    $value3 = $this->randomName(20);
+    $edit[$field_url.'[0][value]'] = $value1;
+    $edit[$field_url.'[1][value]'] = $value2;
+    $edit[$field_url.'[2][value]'] = $value3;
+
+    // This will fail if we don't have at least 3 textfields.
+    $this->drupalPost(NULL, $edit, 'Save');
+    $node = node_load(array('title' => $edit['title']));
+    $this->drupalGet('node/'. $node->nid);
+    $this->assertText($value3, '3rd textfield value saved and displayed');
+  }
+}
+
+class ContentOptionWidgetTest extends ContentCrudTestCase {
+  function getInfo() {
+    return array(
+      'name' => t('Option widgets'),
+      'description' => t('Tests the optionwidgets.'),
+      'group' => t('CCK'),
+    );
+  }
+
+  function setUp() {
+    parent::setUp('optionwidgets');
+    $this->loginWithPermissions();
+    $this->acquireContentTypes(1);
+  }
+
+  // TODO: test a number field with optionwidgets stores 0 correctly ?
+  // TODO: test the case where aliases and values overlap ? (http://drupal.org/node/281749)
+  // TODO: test noderef select widget...
+
+  /**
+   * On/Off Checkbox, not required:
+   * - Create a node with the value checked.
+   * - FAILS: Edit the node and uncheck the value.
+   *
+   * On/Off Checkbox, required:
+   * - TODO: what behavior do we want ?
+   */
+  function testOnOffCheckbox() {
+    $type = $this->content_types[0];
+    $type_url = str_replace('_', '-', $type->type);
+
+    // Create the field.
+    $on_text = $this->randomName(5);
+    $on_value = $this->randomName(5);
+    $off_text = $on_text. '_off';
+    $off_value = $on_value. '_off';
+
+    $settings = array(
+      'type' => 'text',
+      'widget_type' => 'optionwidgets_onoff',
+      'allowed_values' => "$off_value|$off_text\r\n$on_value|$on_text",
+    );
+    $field = $this->createField($settings, 0);
+    $field_name = $field['field_name'];
+
+    // Create a node with the checkbox on.
+    $edit = array(
+      'title' => $this->randomName(20),
+      'body' => $this->randomName(20),
+      $field_name.'[value]' => $on_value,
+    );
+    $this->drupalPost('node/add/'. $type_url, $edit, 'Save');
+    $node = node_load(array('title' => $edit['title']));
+    $this->assertEqual($node->{$field_name}[0]['value'], $on_value, 'Checkbox: checked (saved)');
+    $this->drupalGet('node/'. $node->nid);
+    $this->assertText($on_text, 'Checkbox: checked (displayed)');
+
+    // Edit the node and uncheck the box.
+    $edit = array(
+      $field_name.'[value]' => FALSE,
+    );
+    $this->drupalPost('node/'. $node->nid .'/edit', $edit, 'Save');
+    $node = node_load($node->nid, NULL, TRUE);
+    $this->assertEqual($node->{$field_name}[0]['value'], $off_value, 'Checkbox: unchecked (saved)');
+    $this->drupalGet('node/'. $node->nid);
+    $this->assertText($off_text, 'Checkbox: unchecked (displayed)');
+  }
+
+  /**
+   * Single select, not required:
+   * - TODO: check there's a 'none' choice in the form.
+   * - Create a node with one value selected.
+   * - Edit the node and unselect the value (selecting '- None -').
+   *
+   * Single select, required:
+   * - TODO: check there's no 'none' choice in the form.
+   *
+   * Multiple select, not required:
+   * - TODO: check there's a 'none' choice in the form.
+   * - Edit the node and select multiple values.
+   * - Edit the node and unselect one value.
+   * - Edit the node and unselect the values (selecting '- None -').
+   * - Edit the node and unselect the values (selecting nothing).
+   *
+   * Multiple select, required:
+   * - TODO: check there's no 'none' choice in the form.
+   * - Check the form doesn't submit when nothing is selected.
+   */
+  function testSelect() {
+    $type = $this->content_types[0];
+    $type_url = str_replace('_', '-', $type->type);
+
+    // Create the field - start with 'single'.
+    $value1 = $this->randomName(5);
+    $value1_alias = $value1 .'_alias';
+    $value2 = $this->randomName(5);
+    $value2_alias = $value2 .'_alias';
+
+    $settings = array(
+      'type' => 'text',
+      'widget_type' => 'optionwidgets_select',
+      'allowed_values' => "$value1|$value1_alias\r\n$value2|$value2_alias",
+    );
+    $field = $this->createField($settings, 0);
+    $field_name = $field['field_name'];
+
+    // Create a node with one value selected
+    $edit = array(
+      'title' => $this->randomName(20),
+      'body' => $this->randomName(20),
+    );
+    $edit[$field_name.'[value]'] = $value1;
+    $this->drupalPost('node/add/'. $type_url, $edit, 'Save');
+    $node = node_load(array('title' => $edit['title']));
+    $this->assertEqual($node->{$field_name}[0]['value'], $value1, 'Select: selected (saved)');
+    $this->drupalGet('node/'. $node->nid);
+    $this->assertText($value1_alias, 'Select: selected (displayed)');
+
+    // Edit the node and unselect the value (selecting '- None -').
+    $edit = array(
+      $field_name.'[value]' => '',
+    );
+    $this->drupalPost('node/'. $node->nid .'/edit', $edit, 'Save');
+    $node = node_load($node->nid, NULL, TRUE);
+    $this->assertIdentical($node->{$field_name}[0]['value'], NULL, 'Select: unselected (saved)');
+    $this->drupalGet('node/'. $node->nid);
+    $this->assertNoText($value1_alias, 'Select: unselected (displayed)');
+
+    // Change to a multiple field
+    $field = $this->updateField(array('multiple' => '1', 'required' => '0'));
+
+    // Edit the node and select multiple values.
+    $edit = array(
+      $field_name.'[value][]' => array($value1 => $value1, $value2 => $value2),
+    );
+    $this->drupalPost('node/'. $node->nid .'/edit', $edit, 'Save');
+    $node = node_load($node->nid, NULL, TRUE);
+    $this->assertEqual($node->{$field_name}[0]['value'], $value1, 'Multiple Select: selected 1 (saved)');
+    $this->assertEqual($node->{$field_name}[1]['value'], $value2, 'Multiple Select: selected 2 (saved)');
+    $this->drupalGet('node/'. $node->nid);
+    $this->assertText($value1_alias, 'Multiple Select: selected 1 (displayed)');
+    $this->assertText($value2_alias, 'Multiple Select: selected 2 (displayed)');
+
+    // Edit the node and unselect one value.
+    $edit = array(
+      $field_name.'[value][]' => array($value1 => $value1),
+    );
+    $this->drupalPost('node/'. $node->nid .'/edit', $edit, 'Save');
+    $node = node_load($node->nid, NULL, TRUE);
+    $this->assertEqual($node->{$field_name}[0]['value'], $value1, 'Multiple Select: selected 1 (saved)');
+    $this->assertTrue(!isset($node->{$field_name}[1]), 'Multiple Select: unselected 2 (saved)');
+    $this->drupalGet('node/'. $node->nid);
+    $this->assertText($value1_alias, 'Multiple Select: selected 1 (displayed)');
+    $this->assertNoText($value2_alias, 'Multiple Select: unselected 2 (displayed)');
+
+    // Edit the node and unselect the values (selecting '- None -').
+    $edit = array(
+      $field_name.'[value][]' => array('' => ''),
+    );
+    $this->drupalPost('node/'. $node->nid .'/edit', $edit, 'Save');
+    $node = node_load($node->nid, NULL, TRUE);
+    $this->assertIdentical($node->{$field_name}[0]['value'], NULL, 'Multiple Select: unselected 1 ("-none-" selected) (saved)');
+    $this->assertTrue(!isset($node->{$field_name}[1]), 'Multiple Select: unselected 2 ("-none-" selected) (saved)');
+    $this->drupalGet('node/'. $node->nid);
+    $this->assertNoText($value1_alias, 'Multiple Select: unselected 1 ("-none-" selected) (displayed)');
+    $this->assertNoText($value2_alias, 'Multiple Select: unselected 2 ("-none-" selected) (displayed)');
+
+    // Edit the node and unselect the values (selecting nothing).
+    // We first need to put values back in (no test needed).
+    $edit = array();
+    $edit[$field_name.'[value][]'] = array($value1 => FALSE, $value2 => FALSE);
+    $this->drupalPost('node/'. $node->nid .'/edit', $edit, 'Save');
+    $edit = array();
+    $this->drupalPost('node/'. $node->nid .'/edit', $edit, 'Save');
+    $node = node_load($node->nid, NULL, TRUE);
+    $this->assertIdentical($node->{$field_name}[0]['value'], NULL, 'Multiple Select: unselected 1 (no selection) (saved)');
+    $this->assertTrue(!isset($node->{$field_name}[1]), 'Multiple Select: unselected 2 (no selection) (saved)');
+    $this->drupalGet('node/'. $node->nid);
+    $this->assertNoText($value1_alias, 'Multiple Select: unselected 1 (no selection) (displayed)');
+    $this->assertNoText($value2_alias, 'Multiple Select: unselected 2 (no selection) (displayed)');
+
+    // Change the field to 'required'.
+    $field = $this->updateField(array('required' => '1'));
+
+    // Check the form doesn't submit when nothing is selected.
+    $edit = array();
+    $this->drupalPost('node/'. $node->nid .'/edit', $edit, 'Save');
+    $this->assertRaw(t('!name field is required.', array('!name' => t($field['widget']['label']))), 'Multiple Select: "required" property is respected');
+
+    $edit = array(
+      'title' => $this->randomName(20),
+      'body' => $this->randomName(20),
+    );
+    $this->drupalPost('node/add/'. $type_url, $edit, 'Save');
+    $this->assertRaw(t('!name field is required.', array('!name' => t($field['widget']['label']))), 'Multiple Select: "required" property is respected');
+
+  }
+
+  /**
+   * Single (radios), not required:
+   * - TODO: check there's a 'none' choice in the form.
+   * - Create a node with one value selected.
+   * - Edit the node and unselect the value (selecting '- None -').
+   *
+   * Single (radios), required:
+   * - TODO: check there's no 'none' choice in the form.
+   * - Check the form doesn't submit when nothing is selected.
+   */
+  function testRadios() {
+    $type = $this->content_types[0];
+    $type_url = str_replace('_', '-', $type->type);
+
+    // Create the field - 'single' (radios).
+    $value1 = $this->randomName(5);
+    $value1_alias = $value1 .'_alias';
+    $value2 = $this->randomName(5);
+    $value2_alias = $value2 .'_alias';
+    $settings = array(
+      'type' => 'text',
+      'widget_type' => 'optionwidgets_buttons',
+      'allowed_values' => "$value1|$value1_alias\r\n$value2|$value2_alias",
+    );
+    $field = $this->createField($settings, 0);
+    $field_name = $field['field_name'];
+
+    // Create a node with one value selected
+    $edit = array();
+    $edit['title'] = $this->randomName(20);
+    $edit['body'] = $this->randomName(20);
+    $edit[$field_name.'[value]'] = $value1;
+    $this->drupalPost('node/add/'. $type_url, $edit, 'Save');
+    $node = node_load(array('title' => $edit['title']));
+    $this->assertEqual($node->{$field_name}[0]['value'], $value1, 'Radios: checked (saved)');
+    $this->drupalGet('node/'. $node->nid);
+    $this->assertText($value1_alias, 'Radios: checked (displayed)');
+
+    // Edit the node and unselect the value (selecting '- None -').
+    $edit = array();
+    $edit[$field_name.'[value]'] = '';
+    $this->drupalPost('node/'. $node->nid .'/edit', $edit, 'Save');
+    $node = node_load($node->nid, NULL, TRUE);
+    $this->assertIdentical($node->{$field_name}[0]['value'], NULL, 'Radios: unchecked (saved)');
+    $this->drupalGet('node/'. $node->nid);
+    $this->assertNoText($value1_alias, 'Radios: unchecked (displayed)');
+
+    // Change field to required.
+    $field = $this->updateField(array('required' => '1'));
+
+    // Check the form doesn't submit when nothing is selected.
+    // Doing this on the pre-filled node doesn't take, so we test that on a new node.
+    $edit = array();
+    $edit['title'] = $this->randomName(20);
+    $edit['body'] = $this->randomName(20);
+    $this->drupalPost('node/add/'. $type_url, $edit, 'Save');
+    $this->assertRaw(t('!name field is required.', array('!name' => t($field['widget']['label']))), 'Radios: "required" property is respected');
+  }
+
+  /**
+   * Multiple (checkboxes), not required:
+   * - TODO: check there's no 'none' choice in the form.
+   * - Create a node with two values.
+   * - Edit the node and select only one value.
+   * - Edit the node and unselect the values (selecting nothing).
+   *
+   * Multiple (checkboxes), required:
+   * - TODO: check there's no 'none' choice in the form.
+   * - Check the form doesn't submit when nothing is selected.
+   */
+  function testChecboxes() {
+    $type = $this->content_types[0];
+    $type_url = str_replace('_', '-', $type->type);
+
+    // Create the field -  'multiple' (checkboxes).
+    $value1 = $this->randomName(5);
+    $value1_alias = $value1 .'_alias';
+    $value2 = $this->randomName(5);
+    $value2_alias = $value2 .'_alias';
+    $settings = array(
+      'type' => 'text',
+      'multiple' => '1',
+      'widget_type' => 'optionwidgets_buttons',
+      'allowed_values' => "$value1|$value1_alias\r\n$value2|$value2_alias",
+    );
+    $field = $this->createField($settings, 0);
+    $field_name = $field['field_name'];
+
+    // Create a node with two values selected
+    $edit = array(
+      'title' => $this->randomName(20),
+      'body' => $this->randomName(20),
+      $field_name.'[value]['. $value1 .']' => $value1,
+      $field_name.'[value]['. $value2 .']' => $value2,
+    );
+    $this->drupalPost('node/add/'. $type_url, $edit, 'Save');
+    $node = node_load(array('title' => $edit['title']));
+    $this->assertEqual($node->{$field_name}[0]['value'], $value1, 'Checkboxes: selected 1 (saved)');
+    $this->assertEqual($node->{$field_name}[1]['value'], $value2, 'Checkboxes: selected 2 (saved)');
+    $this->drupalGet('node/'. $node->nid);
+    $this->assertText($value1_alias, 'Checkboxes: selected 1 (displayed)');
+    $this->assertText($value2_alias, 'Checkboxes: selected 2 (displayed)');
+
+    // Edit the node and unselect the values (selecting nothing -
+    // there is no 'none' choice for checkboxes).
+    $edit = array(
+      $field_name.'[value]['. $value1 .']' => $value1,
+      $field_name.'[value]['. $value2 .']' => FALSE,
+    );
+    $this->drupalPost('node/'. $node->nid .'/edit', $edit, 'Save');
+    $node = node_load($node->nid, NULL, TRUE);
+    $this->assertEqual($node->{$field_name}[0]['value'], $value1, 'Checkboxes: selected 1 (saved)');
+    $this->assertTrue(!isset($node->{$field_name}[1]), 'Checkboxes: unselected 2 (saved)');
+    $this->drupalGet('node/'. $node->nid);
+    $this->assertText($value1_alias, 'Checkboxes: selected 1 (displayed)');
+    $this->assertNoText($value2_alias, 'Checkboxes: unselected 2 (displayed)');
+
+    // Edit the node and unselect the values (selecting nothing -
+    // there is no 'none' choice for checkboxes).
+    $edit = array(
+      $field_name.'[value]['. $value1 .']' => FALSE,
+      $field_name.'[value]['. $value2 .']' => FALSE,
+    );
+    $this->drupalPost('node/'. $node->nid .'/edit', $edit, 'Save');
+    $node = node_load($node->nid, NULL, TRUE);
+    $this->assertIdentical($node->{$field_name}[0]['value'], NULL, 'Checkboxes: unselected 1 (no selection) (saved)');
+    $this->assertTrue(!isset($node->{$field_name}[1]), 'Checkboxes: unselected 2 (no selection) (saved)');
+    $this->drupalGet('node/'. $node->nid);
+    $this->assertNoText($value1_alias, 'Checkboxes: unselected 1 (no selection) (displayed)');
+    $this->assertNoText($value2_alias, 'Checkboxes: unselected 2 (no selection) (displayed)');
+
+    // Change field to required.
+    $field = $this->updateField(array('required' => '1'));
+
+    // Check the form doesn't submit when nothing is selected.
+    $edit = array(
+      $field_name.'[value]['. $value1 .']' => FALSE,
+      $field_name.'[value]['. $value2 .']' => FALSE,
+    );
+    $this->drupalPost('node/'. $node->nid .'/edit', $edit, 'Save');
+    $this->assertRaw(t('!name field is required.', array('!name' => t($field['widget']['label']))), 'Checkboxes: "required" property is respected');
+
+    $edit = array();
+    $edit['title'] = $this->randomName(20);
+    $edit['body'] = $this->randomName(20);
+    $this->drupalPost('node/add/'. $type_url, $edit, 'Save');
+    $this->assertRaw(t('!name field is required.', array('!name' => t($field['widget']['label']))), 'Checkboxes: "required" property is respected');
+  }
+
+}
+

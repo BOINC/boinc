@@ -1,0 +1,711 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: ifadah.net\n"
+"POT-Creation-Date: 2008-06-24 18:52+0200\n"
+"PO-Revision-Date: \n"
+"Last-Translator: Abdo <ifadah@hotmail.com>\n"
+"Language-Team: Ifadah-Team <ifadah@hotmail.com>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=6; plural=((n==1)?(0):((n==0)?(1):((n==2)?(2):((((n%100)>=3)&&((n%100)<=10))?(3):((((n%100)>=11)&&((n%100)<=99))?(4):5)))));\n"
+"X-Poedit-Language: Arabic\n"
+"X-Poedit-Country: SYRIAN ARAB REPUBLIC\n"
+
+#: pathauto.admin.inc:22
+msgid "It appears that the <a href=\"@token_link\">Token module</a> is not installed. Please ensure that you have it installed so that Pathauto can work properly. You may need to disable Pathauto and re-enable it to get Token enabled."
+msgstr "يبدو أن <a href=\"@token_link\">وحدة Token </a> غير منصبة. رجاءاص تأكد من تنصيبها حتى يمكن تشغيل Pathauto بشكل مناسب. ربما عليك تعطيل وحدة Pathauto مؤقتاً ثم تفعلها حتى تقبل تفعيل وحدة Token"
+
+#: pathauto.admin.inc:38
+msgid "General settings"
+msgstr "إعدادات عامة"
+
+#: pathauto.admin.inc:46
+msgid "Verbose"
+msgstr "التفصيل"
+
+#: pathauto.admin.inc:48
+msgid "Display alias changes (except during bulk updates)."
+msgstr "تعرض تغييرات البدائل (إلا في خلال التحديثات التراكمية)"
+
+#: pathauto.admin.inc:53
+msgid "Separator"
+msgstr "الفاصل"
+
+#: pathauto.admin.inc:57
+msgid "Character used to separate words in titles. This will replace any spaces and punctuation characters. Using a space or + character can cause unexpected results."
+msgstr "رمز يستعمل لفصل الكلمات في العناوين. سيحل محل أي فراغ أو علامات ترقيمية. إستخدام الفراغ أو الرمز + يمكن أن يسبب نتائج غير متوقعة."
+
+#: pathauto.admin.inc:62
+msgid "Character case"
+msgstr "حالة الحرف"
+
+#: pathauto.admin.inc:64
+msgid "Leave case the same as source token values."
+msgstr "أترك الحالة كما هي في القيم المصدر."
+
+#: pathauto.admin.inc:64
+msgid "Change to lower case"
+msgstr "تغيير  إلى أحرف صغيرة"
+
+#: pathauto.admin.inc:69
+msgid "Maximum alias length"
+msgstr "الطول الأقصى للبديل"
+
+#: pathauto.admin.inc:73
+msgid "Maximum length of aliases to generate. 100 is recommended. See <a href=\"@pathauto-help\">Pathauto help</a> for details."
+msgstr "الطول الأقصى للبدائل التي ستولد. 100 مستحسن. للتفاصيل طالع <a href=\"@pathauto-help\">Pathauto مساعدة لـ</a>."
+
+#: pathauto.admin.inc:78
+msgid "Maximum component length"
+msgstr "الطول الأقصى للمكون"
+
+#: pathauto.admin.inc:82
+msgid "Maximum text length of any component in the alias (e.g., [title]). 100 is recommended. See <a href=\"@pathauto-help\">Pathauto help</a> for details."
+msgstr "طول النص الأقصى لأي مكون في البدائل(أي[title]) .100 مستحسن.  للتفاصيل طالع <a href=\"@pathauto-help\">Pathauto مساعدة لـ</a>."
+
+#: pathauto.admin.inc:87
+msgid "Maximum number of objects to alias in a bulk update"
+msgstr "العدد الأقصى للعناصر التي ستبدل في التحديث التراكمي"
+
+#: pathauto.admin.inc:91
+msgid "Maximum number of objects of a given type which should be aliased during a bulk update. The default is 50 and the recommended number depends on the speed of your server. If bulk updates \"time out\" or result in a \"white screen\" then reduce the number."
+msgstr "العدد الأقصى لعناصر  النوع المعطى والتي يجب أن تكون مستبدلة خلال التحديث التراكمي. الضبط الإفتراضي هو 50 والرقم المستحسن يعتمد على سرعة السيرفر عندك. إذا واجهت التحديثات التراكمية  \"time out\" أو نتيجة في  \"white screen\" عندها قم بتقليص العدد"
+
+#: pathauto.admin.inc:95
+msgid "Do nothing. Leave the old alias intact."
+msgstr "لاشيء. أترك البديل القديم على حاله."
+
+#: pathauto.admin.inc:96
+msgid "Create a new alias. Leave the existing alias functioning."
+msgstr "إنشاء بديل جديد. أترك تشغيل البديل الحالي."
+
+#: pathauto.admin.inc:97
+msgid "Create a new alias. Delete the old alias."
+msgstr "إنشاء بديل جديد. حذف البديل القديم."
+
+#: pathauto.admin.inc:100
+msgid "Create a new alias. Redirect from old alias."
+msgstr "إنشاء بديل جديد. إعادة توجيه من البديل القديم."
+
+#: pathauto.admin.inc:110
+msgid "Update action"
+msgstr "إجراء التحديث"
+
+#: pathauto.admin.inc:113
+msgid "What should pathauto do when updating an existing content item which already has an alias?"
+msgstr "ماذا يجب أن تفعل pathauto عند تحديث محتوى موجود والذي له بديل؟"
+
+#: pathauto.admin.inc:118
+msgid "When a pattern includes certain characters (such as those with accents) should Pathauto attempt to transliterate them into the ASCII-96 alphabet? Transliteration is determined by the i18n-ascii.txt file in the Pathauto directory. <strong>This option is disabled on your site because you do not have an i18n-ascii.txt file in the Pathauto directory.</strong>"
+msgstr "عندما يتضمن النموذج رموز معينة (كما في العلامات النطقية)  هل يجب على Pathauto   إستبدالهم كحروف ASCII-96 ؟ هذا الإستبدال محدد في الملف  i18n-ascii.txt في دليل  Pathauto .<strong>هذا الخيار معطل بسبب عدم وجود  الملف  i18n-ascii.txt في دليل  Pathauto.</strong>"
+
+#: pathauto.admin.inc:121
+msgid "When a pattern includes certain characters (such as those with accents) should Pathauto attempt to transliterate them into the ASCII-96 alphabet? Transliteration is determined by the i18n-ascii.txt file in the Pathauto directory."
+msgstr "عندما يتضمن النموذج رموز معينة (كما في العلامات النطقية)  هل يجب على Pathauto   إستبدالهم كحروف ASCII-96 ؟ هذا الإستبدال محدد في الملف  i18n-ascii.txt في دليل  Pathauto."
+
+#: pathauto.admin.inc:129
+msgid "Transliterate prior to creating alias"
+msgstr "إستبدال قبل إنشاء البديل"
+
+#: pathauto.admin.inc:136
+msgid "Reduce strings to letters and numbers from ASCII-96"
+msgstr "تقليص المقاطع إلى حروف وأرقام من ASCII-96"
+
+#: pathauto.admin.inc:138
+msgid "Filters the new alias to only letters and numbers found in the ASCII-96 set."
+msgstr "تفلتر البديل الجديد إلى فقط أرقام وحروف الموجودة في ضبط الـ ASCII-96  "
+
+#: pathauto.admin.inc:143
+msgid "Strings to Remove"
+msgstr "المقاطع المطلوب حذفها"
+
+#: pathauto.admin.inc:144
+msgid "Words to strip out of the URL alias, separated by commas. Do not place punctuation in here and do not use WYSIWYG editors on this field."
+msgstr "الكلمات التي ستنتزع من المسار البديل, مفصول بينها بفاصلة ثم فراغ. لا تضع علامات ترقيم هنا ولا تستخدم المحرر WYSIWYG في هذا الحقل."
+
+#: pathauto.admin.inc:150
+msgid "Punctuation settings"
+msgstr "إعدادات علامات الترقيم"
+
+#: pathauto.admin.inc:161
+msgid "Remove"
+msgstr "حذف"
+
+#: pathauto.admin.inc:161
+msgid "Replace by separator"
+msgstr "إستبدال بفاصل"
+
+#: pathauto.admin.inc:161
+msgid "No action (do not replace)"
+msgstr "لا إجراء (لا تبدل)"
+
+#: pathauto.admin.inc:239
+msgid "Replacement patterns"
+msgstr "نماذج المتغيرات"
+
+#: pathauto.admin.inc:243
+msgid "Use -raw replacements for text to avoid problems with HTML entities."
+msgstr "إستخدم -التبديل الصرف للنصوص لتفادي أي مشاكل مع ترميز HTML."
+
+#: pathauto.admin.inc:276
+msgid "Internal feed alias text (leave blank to disable)"
+msgstr "نص بديل للتلقيم الداخلي (أتركه فارغاً للتعطيل)"
+
+#: pathauto.admin.inc:280
+msgid "The text to use for aliases for RSS feeds. Examples are \"feed\" and \"0/feed\"."
+msgstr "النص الذي سيستخدم للبدائل لتلقيمات RSS  . مثال \"feed\" أو \"0/feed\""
+
+#: pathauto.admin.inc:335
+msgid "You are using the token [%token] which is not valid within the scope of tokens where you are using it."
+msgstr "أنت تستخدم العلامة  [%token] وهي غير صالحة  ضمن نطاق علامات المكان الذي تستخدمها فيه. "
+
+#: pathauto.admin.inc:343
+msgid "You are using the token [%token] which has a -raw companion available [%raw_token]. For Pathauto patterns you should use the -raw version of tokens unless you really know what you are doing. See the <a href=\"@pathauto-help\">Pathauto help</a> for more details."
+msgstr "أنت تستخدم العلامة  [%token] والتي يتوفر لها قرين -صرف  [%raw_token]. لنماذج Pathauto عليك إستخدام النسخة -الصرف من العلامات إلا في حال كنت فعلاً تعرف ماتفعل. لمزيد من التفصيل راجع <a href=\"@pathauto-help\">Pathauto مساعدة لـ</a>"
+
+#: pathauto.admin.inc:353
+msgid "NOTE: This field contains potentially incorrect patterns. "
+msgstr "ملاحظة: هذا الحقل ربما يحتوي نموذج غير صحيح."
+
+#: pathauto.admin.inc:355
+msgid "%problems"
+msgstr "%problems"
+
+#: pathauto.admin.inc:374
+msgid "You have configured the @name to be the separator and to be removed when encountered in strings. This can cause problems with your patterns and especially with the catpath and termpath patterns. You should probably set the action for @name to be \"replace by separator\""
+msgstr "لقد قمت بضبط  @name  ليكون فاصل وليُحذف في حال التعارض في المقاطع, قد يسبب هذا مشاكل في النماذج خصوصاً في نماذج مسار مفردة و catpath. يجب عليك ضبط الإجراء لـ @name ليكون  \"إستبدل بفاصل\""
+
+#: pathauto.admin.inc:399
+msgid "Choose Aliases to Delete"
+msgstr "إختر بدائل ليتم حذفها"
+
+#: pathauto.admin.inc:408
+msgid "all aliases"
+msgstr "كل البدائل"
+
+#: pathauto.admin.inc:410
+msgid "Delete all aliases. Number of aliases which will be deleted: %count."
+msgstr "حذف كل البدائل. العدد الذي سيحذف هو:  %count."
+
+#: pathauto.admin.inc:421
+msgid "Delete aliases for all @label. Number of aliases which will be deleted: %count."
+msgstr "حذف البدائل لجميع  @label.  العدد الذي سيحذف هو:  %count."
+
+#: pathauto.admin.inc:426
+msgid "<p><strong>Note:</strong> there is no confirmation. Be sure of your action before clicking the \"Delete aliases now!\" button.<br />You may want to make a backup of the database and/or the url_alias table prior to using this feature.</p>"
+msgstr "<p><strong>ملاحظة:</strong>لايوجد تأكيد الرجاء تأكد مما تقوم به قبل الضغط على زر  \"حذف البدائل الآن!\" ."
+
+#: pathauto.admin.inc:429
+msgid "Delete aliases now!"
+msgstr "حذف البدائل الآن!"
+
+#: pathauto.admin.inc:443
+msgid "All of your path aliases have been deleted."
+msgstr "تم حذف كل المسارات البديلة "
+
+#: pathauto.admin.inc:448
+msgid "All of your %type path aliases have been deleted."
+msgstr "تم حذف كل المسارات البديلة لـ %type"
+
+#: pathauto.admin.inc:287
+msgid "Bulk generation of index aliases completed, one alias generated."
+msgid_plural "Bulk generation of index aliases completed, @count aliases generated."
+msgstr[0] "التوليد التراكمي للبدائل الفهرس قد إكتمل,بديل واحد مولد."
+msgstr[1] "التوليد التراكمي للبدائل الفهرس قد إكتمل,  @count بديل مولد"
+msgstr[2] "التوليد التراكمي للبدائل الفهرس قد إكتمل,  @count بديل مولد"
+msgstr[3] "التوليد التراكمي للبدائل الفهرس قد إكتمل,  @count بدائل مولدة"
+msgstr[4] "التوليد التراكمي للبدائل الفهرس قد إكتمل,  @count بديل مولد"
+msgstr[5] "التوليد التراكمي لفهرس البدائل قد إكتمل,  @count بديل مولد"
+
+#: pathauto.admin.inc:354
+msgid "Problem token: "
+msgid_plural "Problem tokens: "
+msgstr[0] "العلامة المشكلة:"
+msgstr[1] "العلامة المشكلة:"
+msgstr[2] "العلامات المشكلة:"
+msgstr[3] "العلامات المشكلة:"
+msgstr[4] "العلامات المشكلة:"
+msgstr[5] "العلامات المشكلة:"
+
+#: pathauto.inc:315
+msgid "The automatically generated alias %original_alias conflicted with an existing alias. Alias changed to %alias."
+msgstr "البديل المولد آلياً  %original_alias  تعارض مع بديل موجدود. وتم تغيره إلى %alias."
+
+#: pathauto.inc:381
+msgid "Ignoring alias %dst due to existing path conflict."
+msgstr "تجاهل بديل %dst بسبب التعارض مع مسار موجود."
+
+#: pathauto.inc:388
+msgid "Ignoring alias %dst because it is the same as the internal path."
+msgstr "تجاهل بديل %dst بسبب أنه نفس المسار الداخلي"
+
+#: pathauto.inc:408
+msgid "Created new alias %dst for %src, replacing %old_alias. %old_alias now redirects to %dst"
+msgstr "أُنشئ بديل جديد %dst لـ %src, استبدال %old_alias. الـ %old_alias  يعيد التوجيه الآن إلى %dst"
+
+#: pathauto.inc:411
+msgid "Created new alias %dst for %src, replacing %old_alias"
+msgstr "أُنشئ بديل جديد %dst لـ %src, استبدال %old_alias"
+
+#: pathauto.inc:414
+msgid "Created new alias %dst for %src"
+msgstr "تم إنشاء بديل جديد %dst لـ %src"
+
+#: pathauto.inc:477
+msgid "Double quotes \""
+msgstr "علامة الإقتباس \""
+
+#: pathauto.inc:478
+msgid "Single quotes (apostrophe) '"
+msgstr "فاصلة عليا  '"
+
+#: pathauto.inc:479
+msgid "Back tick `"
+msgstr "علامة الملكية `"
+
+#: pathauto.inc:480
+msgid "Comma ,"
+msgstr "فاصلة  ,"
+
+#: pathauto.inc:481
+msgid "Period ."
+msgstr "نقطة ."
+
+#: pathauto.inc:482
+msgid "Hyphen -"
+msgstr "خط فاصل -"
+
+#: pathauto.inc:483
+msgid "Underscore _"
+msgstr "خط فاصل سفلي _"
+
+#: pathauto.inc:484
+msgid "Colon :"
+msgstr "النقطتان :"
+
+#: pathauto.inc:485
+msgid "Semicolon ;"
+msgstr "فاصلة منقوطة ;"
+
+#: pathauto.inc:486
+msgid "Pipe |"
+msgstr "العلامة  |"
+
+#: pathauto.inc:487
+msgid "Left curly bracket {"
+msgstr "الحاصرة اليسرى {"
+
+#: pathauto.inc:488
+msgid "Left square bracket ["
+msgstr "القوس المعقوف الأيسر  ["
+
+#: pathauto.inc:489
+msgid "Right curly bracket }"
+msgstr "الحاصرة اليمنى  }"
+
+#: pathauto.inc:490
+msgid "Right square bracket ]"
+msgstr "القوس المعقوف الأيمن  ]"
+
+#: pathauto.inc:491
+msgid "Plus +"
+msgstr "الزائد +"
+
+#: pathauto.inc:492
+msgid "Equal ="
+msgstr "علامة التساوي ="
+
+#: pathauto.inc:493
+msgid "Asterisk *"
+msgstr "النجمة *"
+
+#: pathauto.inc:494
+msgid "Ampersand &"
+msgstr "علامة الواو  &"
+
+#: pathauto.inc:495
+msgid "Percent %"
+msgstr "علامة النسبة المئوية %"
+
+#: pathauto.inc:496
+msgid "Caret ^"
+msgstr "علمة الإقحام ^"
+
+#: pathauto.inc:497
+msgid "Dollar $"
+msgstr "علامة الدولار $"
+
+#: pathauto.inc:498
+msgid "Hash #"
+msgstr "علامة #"
+
+#: pathauto.inc:499
+msgid "At @"
+msgstr "علامة @"
+
+#: pathauto.inc:500
+msgid "Exclamation !"
+msgstr "علامة التعجب !"
+
+#: pathauto.inc:501
+msgid "Tilde ~"
+msgstr "الخط المتموج ~"
+
+#: pathauto.inc:502
+msgid "Left parenthesis ("
+msgstr "القوس الأيسر   ("
+
+#: pathauto.inc:503
+msgid "right parenthesis )"
+msgstr "القوس الأيمن )"
+
+#: pathauto.inc:504
+msgid "Question mark ?"
+msgstr "علامة الإستفهام ?"
+
+#: pathauto.inc:505
+msgid "Less than <"
+msgstr "أصغر من <"
+
+#: pathauto.inc:506
+msgid "Greater than >"
+msgstr "أكبر من >"
+
+#: pathauto.inc:507
+msgid "Back slash \\"
+msgstr "الخطين المائلين \\"
+
+#: pathauto.inc:437
+#: pathauto.info:0
+msgid "Pathauto"
+msgstr "Pathauto"
+
+#: pathauto.inc:437
+msgid "It appears that you have installed Pathauto, which depends on token, but token is either not installed or not installed properly."
+msgstr "يبدو أنك قمت بتنصيب Pathauto والتي تعتمد على  token لكن هذه الأخيرة إما غير منصبة أو لاتعمل بشكل جيد.."
+
+#: pathauto_node.inc:20
+msgid "Node path settings"
+msgstr "إعدادات مسار العقدة"
+
+#: pathauto_node.inc:21
+msgid "Default path pattern (applies to all node types with blank patterns below)"
+msgstr "النموذج الإفتراضي للمسار (يقبل لكل أنواع العقد ذات نماذج فارغة في الأسفل)"
+
+#: pathauto_node.inc:22
+msgid "content/[title-raw]"
+msgstr "محتوى/[title-raw]"
+
+#: pathauto_node.inc:23
+msgid "Bulk generate aliases for nodes that are not aliased"
+msgstr "توليد تراكمي لبدائل للعقد الغير مبدلة"
+
+#: pathauto_node.inc:24
+msgid "Generate aliases for all existing nodes which do not already have aliases."
+msgstr "توليد بدائل لكل العقد الموجودة التي ليس لها بدائل."
+
+#: pathauto_node.inc:37;79
+msgid "Language neutral"
+msgstr "اللغة محايدة"
+
+#: pathauto_node.inc:44
+msgid "Default path pattern for @node_type (applies to all @node_type node types with blank patterns below)"
+msgstr "النموذج الإفتراضي للمسار لـ  @node_type  (يقبل لكل انواع عقد الـ  @node_type  التي لها حقل نموذج فارغ في الأسفل)"
+
+#: pathauto_node.inc:47
+msgid "Pattern for all @node_type paths in @language"
+msgstr "نموذج مسارات لكل @node_type باللغة @language"
+
+#: pathauto_node.inc:50
+msgid "Pattern for all language neutral @node_type paths"
+msgstr "نموذج مسارات  لكل  @node_type باللغة محايدة"
+
+#: pathauto_node.inc:55
+msgid "Pattern for all @node_type paths"
+msgstr "نموذج مسارات لكل  @node_type"
+
+#: pathauto_node.inc:121
+msgid "Bulk generation of nodes completed, one alias generated."
+msgid_plural "Bulk generation of nodes completed, @count aliases generated."
+msgstr[0] "إكتمل التوليد التراكمي للعقد, بديل واحد مولد."
+msgstr[1] "إكتمل التوليد التراكمي للعقد , لابدائل مولدة."
+msgstr[2] "إكتمل التوليد التراكمي للعقد, @count  بديل مولد."
+msgstr[3] "إكتمل التوليد التراكمي للعقد, @count  بدائل مولدة."
+msgstr[4] "إكتمل التوليد التراكمي للعقد, @count  بديل مولد."
+msgstr[5] "إكتمل التوليد التراكمي للعقد, @count  بديل مولد."
+
+#: pathauto_taxonomy.inc:20
+msgid "Taxonomy term path settings"
+msgstr "إعدادات مسار مفردة التصنيف"
+
+#: pathauto_taxonomy.inc:21
+msgid "Default path pattern (applies to all vocabularies with blank patterns below)"
+msgstr "النموذج الإفتراضي للمسار (يقبل لكل المعاجم ذات نماذج فارغة في الأسفل)"
+
+#: pathauto_taxonomy.inc:22
+msgid "category/[vocab-raw]/[catpath-raw]"
+msgstr "فئة/[vocab-raw]/[catpath-raw]"
+
+#: pathauto_taxonomy.inc:32
+msgid "Bulk generate aliases for terms that are not aliased"
+msgstr "توليد تراكمي لبدائل للمفردات الغير مبدلة"
+
+#: pathauto_taxonomy.inc:33
+msgid "Generate aliases for all existing terms which do not already have aliases."
+msgstr "توليد بدائل لكل المفردات الموجودة التي ليس لها بدائل."
+
+#: pathauto_taxonomy.inc:42
+msgid "Pattern for all %vocab-name paths"
+msgstr "نموذج مسارات لكل  %vocab-name "
+
+#: pathauto_taxonomy.inc:134
+msgid "Forum path settings"
+msgstr "إعدادات مسار المنتدى"
+
+#: pathauto_taxonomy.inc:135
+msgid "Pattern for forums and forum containers"
+msgstr "نموذج للمنتديات وحاويات المنتديات"
+
+#: pathauto_taxonomy.inc:136
+msgid "[vocab-raw]/[catpath-raw]"
+msgstr "[vocab-raw]/[catpath-raw]"
+
+#: pathauto_taxonomy.inc:146
+msgid "Bulk generate forum paths"
+msgstr "توليد تراكمي لمسارات المنتديات"
+
+#: pathauto_taxonomy.inc:147
+msgid "Generate aliases for all existing forums and forum containers which do not already have aliases."
+msgstr "توليد بدائل لكل المنتديات والحاويات الموجودة التي ليس لها بدائل."
+
+#: pathauto_taxonomy.inc:92
+msgid "Bulk generation of terms completed, one alias generated."
+msgid_plural "Bulk generation of terms completed, @count aliases generated."
+msgstr[0] "إكتمل التوليد التراكمي للمفردات, بديل واحد مولد."
+msgstr[1] "إكتمل التوليد التراكمي للمفردات , لابدائل مولدة."
+msgstr[2] "إكتمل التوليد التراكمي للمفردات ,  @count بديل مولد"
+msgstr[3] "إكتمل التوليد التراكمي للمفردات, @count  بدائل مولدة."
+msgstr[4] "إكتمل التوليد التراكمي للمفردات, @count  بديل مولد."
+msgstr[5] "إكتمل التوليد التراكمي للمفردات, @count  بديل مولد."
+
+#: pathauto_taxonomy.inc:168
+msgid "Bulk update of forums and forum containers completed, one alias generated."
+msgid_plural "Bulk update of forums and forum containers completed, @count aliases generated."
+msgstr[0] "إكتمل التحديث التراكمي للمنتديات والحاويات, بديل واحد مولد."
+msgstr[1] "إكتمل التحديث التراكمي للمنتديات والحاويات, لابدائل مولدة."
+msgstr[2] "إكتمل التحديث التراكمي للمنتديات والحاويات, @count  بديل مولد.."
+msgstr[3] "إكتمل التحديث التراكمي للمنتديات والحاويات, @count  بدائل مولدة.."
+msgstr[4] "إكتمل التحديث التراكمي للمنتديات والحاويات, @count  بديل مولد.."
+msgstr[5] "إكتمل التحديث التراكمي للمنتديات والحاويات, @count  بديل مولد.."
+
+#: pathauto_user.inc:20
+msgid "User path settings"
+msgstr "إعدادات مسار العضو"
+
+#: pathauto_user.inc:21
+msgid "Pattern for user account page paths"
+msgstr "نموذج لمسارات صفحة حساب العضو"
+
+#: pathauto_user.inc:22
+msgid "users/[user-raw]"
+msgstr "أعضاء/[user-raw]"
+
+#: pathauto_user.inc:32
+msgid "Bulk generate aliases for users that are not aliased"
+msgstr "توليد تراكمي لبدائل للأعضاء الغير مبدلة"
+
+#: pathauto_user.inc:33
+msgid "Generate aliases for all existing user account pages which do not already have aliases."
+msgstr "توليد بدائل لكل صفحات حسابات الأعضاء الموجودة التي ليس لها بدائل."
+
+#: pathauto_user.inc:49
+msgid "Blog path settings"
+msgstr "إعدادات مسار المدونة"
+
+#: pathauto_user.inc:50
+msgid "Pattern for blog page paths"
+msgstr "نموذج مسار لصفحات المدونات"
+
+#: pathauto_user.inc:51
+msgid "blogs/[user-raw]"
+msgstr "مدونات/[user-raw]"
+
+#: pathauto_user.inc:57
+msgid "Bulk generate aliases for blogs that are not aliased"
+msgstr "توليد تراكمي لبدائل للمدونات الغير مبدلة"
+
+#: pathauto_user.inc:58
+msgid "Generate aliases for all existing blog pages which do not already have aliases."
+msgstr "توليد بدائل لكل صفحات المدونات الموجودة التي ليس لها بدائل."
+
+#: pathauto_user.inc:74
+msgid "User-tracker path settings"
+msgstr "إعدادات مسار متتبع العضو"
+
+#: pathauto_user.inc:75
+msgid "Pattern for user-tracker page paths"
+msgstr "نموذج مسار لصفحات تتبع الأعضاء"
+
+#: pathauto_user.inc:76
+msgid "users/[user-raw]/track"
+msgstr "أعضاء/[user-raw]/تتبع"
+
+#: pathauto_user.inc:82
+msgid "Bulk generate aliases for user-tracker paths that are not aliased"
+msgstr "توليد تراكمي لمسارات بديلة لتتبع العضو الغير مبدلة"
+
+#: pathauto_user.inc:83
+msgid "Generate aliases for all existing user-tracker pages which do not already have aliases."
+msgstr "توليد بدائل لكل صفحات تتبع العضو الموجودة التي ليس لها بدائل."
+
+#: pathauto_user.inc:107
+msgid "Bulk generation of users completed, one alias generated."
+msgid_plural "Bulk generation of users completed, @count aliases generated."
+msgstr[0] "إكتمل التوليد التراكمي للأعضاء, بديل واحد مولد."
+msgstr[1] "إكتمل التوليد التراكمي للأعضاء,لا بدائل مولدة"
+msgstr[2] "إكتمل التوليد التراكمي للأعضاء, @count  بديل مولد."
+msgstr[3] "إكتمل التوليد التراكمي للأعضاء, @count  بدائل مولدة."
+msgstr[4] "إكتمل التوليد التراكمي للأعضاء, @count  بديل مولد."
+msgstr[5] "إكتمل التوليد التراكمي للأعضاء, @count  بديل مولد."
+
+#: pathauto_user.inc:129
+msgid "Bulk generation of user blogs completed, one alias generated."
+msgid_plural "Bulk generation of user blogs completed, @count aliases generated."
+msgstr[0] "إكتمل التوليد التراكمي للمدونات, بديل واحد مولد."
+msgstr[1] "إكتمل التوليد التراكمي للمدونات, لا بدائل مولدة"
+msgstr[2] "إكتمل التوليد التراكمي للمدونات, @count  بديل مولد."
+msgstr[3] "إكتمل التوليد التراكمي للمدونات, @count  بدائل مولدة ."
+msgstr[4] "إكتمل التوليد التراكمي للمدونات, @count  بديل مولد."
+msgstr[5] "إكتمل التوليد التراكمي للمدونات, @count  بديل مولد."
+
+#: pathauto_user.inc:153
+msgid "Bulk generation of user tracker pages completed, one alias generated."
+msgid_plural "Bulk generation of user tracker pages completed, @count aliases generated."
+msgstr[0] "إكتمل التوليد التراكمي لصفحات تتبع الأعضاء,بديل واحد مولد."
+msgstr[1] "إكتمل التوليد التراكمي لصفحات تتبع الأعضاء, لا بدائل مولدة"
+msgstr[2] "إكتمل التوليد التراكمي لصفحات تتبع الأعضاء, @count  بديل مولد."
+msgstr[3] "إكتمل التوليد التراكمي لصفحات تتبع الأعضاء, @count  بدائل مولدة."
+msgstr[4] "إكتمل التوليد التراكمي لصفحات تتبع الأعضاء, @count  بديل مولد."
+msgstr[5] "إكتمل التوليد التراكمي لصفحات تتبع الأعضاء, @count  بديل مولد."
+
+#: pathauto.module:27
+msgid ""
+"<p>Provides a mechanism for modules to automatically generate aliases for the content they manage.</p>\n"
+"                  <h2>Settings</h2>\n"
+"                  <p>The <strong>Maximum Alias Length</strong> and <strong>Maximum component length</strong> values\n"
+"                  default to 100 and have a limit of 128 from pathauto. This length is limited by the length of the dst\n"
+"                  column of the url_alias database table. The default database schema for this column is 128. If you\n"
+"                  set a length that is equal to that of the one set in the dst column it will cause problems in situations\n"
+"                  where the system needs to append additional words to the aliased URL. For example... URLs generated\n"
+"                  for feeds will have \"/feed\" added to the end. You should enter a value that is the length of the dst\n"
+"                  column minus the length of any strings that might get added to the end of the URL. The length of\n"
+"                  strings that might get added to the end of your URLs depends on which modules you have enabled and\n"
+"                  on your Pathauto settings. The recommended and default value is 100.</p>\n"
+"                  <p><strong>Raw Tokens</strong> In Pathauto it is appropriate to use the -raw form of tokens. Paths are\n"
+"                  sent through a filtering system which ensures that raw user content is filtered. Failure to use -raw\n"
+"                  tokens can cause problems with the Pathauto punctuation filtering system.</p>"
+msgstr ""
+"<p>تقدم تقنية للوحدات بحيث تولد أتوماتيكياً بدائل للمحتوى الذي يديرونه.</p>\n"
+"                  <h2>الإعدادات</h2>\n"
+"                  <p>  قيم <strong>الطول الأقصى للبديل</strong> و  <strong>الطول الأقصى للمركب</strong> \n"
+"                 الإفتراضية 100 ولها حد 128 لـ pathauto. هذا الطول محدود بواسطة طول الـ dst\n"
+"                  عمود في جدول قاعدة بيانات الـ url_alias , الضبط الإفتراضي لمخطط القاعدة لهذا العمود هو 128. إذا كنت\n"
+"                 ضبطت الطول بحيث يساوي ذلك المضبوط في عمود الـ dst فهذا سيسبب مشاكل في حالات\n"
+"                  حيث يحتاج النظام لإضافة كلمات إلى المسار المبدل. على سبيل المثال... المسارات المولدة\n"
+"                 للتلقيمات سوف يكون لها هذه الإضافة  \"/feed\" . يجب عليك إدخال القيمة التي يكون فيها طول الـ dst\n"
+"                  أقل من طول أي مقطع  قد يُضاف إلى نهاية المسار. طول الـ \n"
+"                  المقاطع التي قد تضاف يعتمد على الوحدات التي فعلتها و\n"
+"                  على إعدادات Pathauto. الإفتراضي والمستحسن هو 100.</p>\n"
+"                  <p><strong>العلامات الصرف</strong> في  Pathauto مخصصة لتستخدم الشكل -صرف من العلامات. المسارات سـ\n"
+"                  ترسل خلال نظام فلترة لتأكيد المحتوى الصرف للعضو قد فُلتر. الفشل في إستخدام\n"
+"                  العلامات -الصرف يمكن أن يسبب مشاكل في نظام فلترة الترقيم في Pathauto .</p>"
+
+#: pathauto.module:164
+msgid "As [cat], but including its supercategories separated by /."
+msgstr "كـ [cat] لكن ضمن الفئات الاساسية لها مفصولة بـ  /."
+
+#: pathauto.module:165
+msgid "As [cat-raw], but including its supercategories separated by /. WARNING - raw user input."
+msgstr "كـ [cat-raw] لكن ضمن الفئات الاساسية لها مفصولة بـ  /.تحذير: مدخل عضو -صرف"
+
+#: pathauto.module:166;171
+msgid "URL alias for the term."
+msgstr "بديل المسار للمفردة"
+
+#: pathauto.module:169
+msgid "As [term], but including its supercategories separated by /."
+msgstr "كـ [term], لكن ضمن فئتها الاساسية مفصولة بـ  /."
+
+#: pathauto.module:170
+msgid "As [term-raw], but including its supercategories separated by /. WARNING - raw user input."
+msgstr "كـ  [term-raw], لكن ضمن فئاتها الأساسية مفصولة بـ  /. تحذير: مدخل عضو -صرف"
+
+#: pathauto.module:176
+msgid "URL alias for the parent book."
+msgstr "بديل المسار للوثيقة الأصل"
+
+#: pathauto.module:188
+msgid "users"
+msgstr "الأعضاء"
+
+#: pathauto.module:188
+msgid "content"
+msgstr "محتوى"
+
+#: pathauto.module:190
+msgid "user blogs"
+msgstr "مدونات الأعضاء"
+
+#: pathauto.module:193
+msgid "vocabularies and terms"
+msgstr "المعاجم والمفردات"
+
+#: pathauto.module:196
+msgid "user trackers"
+msgstr "متتبع العضو"
+
+#: pathauto.module:199
+msgid "forums"
+msgstr "منتديات"
+
+#: pathauto.module:284
+msgid "An alias will be generated for you. If you wish to create your own alias below, untick this option."
+msgstr "بديل سوف يولد لك. إذا كنت ترغب بإنشاء بديل خاص لك في الاسفل فأزل التأشير عن هذا الخيار."
+
+#: pathauto.module:286
+msgid " To control the format of the generated aliases, see the <a href=\"@pathauto\">Pathauto settings</a>."
+msgstr "لإدارة نموذج البدائل المولدة, أنظر <a href=\"@pathauto\">إعدادات Pathauto</a>.  "
+
+#: pathauto.module:294
+msgid "Automatic alias"
+msgstr "بديل آلي"
+
+#: pathauto.module:319
+msgid "Update path alias"
+msgstr "حدِّث المسار البديل"
+
+#: pathauto.module:49
+msgid "administer pathauto"
+msgstr "يدير pathauto"
+
+#: pathauto.module:49
+msgid "notify of path changes"
+msgstr "إشعار بتغييرات المسار"
+
+#: pathauto.module:57
+msgid "Automated alias settings"
+msgstr "إعدادات البديل المولد آلياً"
+
+#: pathauto.module:68
+msgid "Delete aliases"
+msgstr "حذف البدائل"
+
+#: pathauto.module:0
+msgid "pathauto"
+msgstr "pathauto"
+
+#: pathauto.info:0
+msgid "Provides a mechanism for modules to automatically generate aliases for the content they manage."
+msgstr "تقدم تقنية للوحدات بحيث تولد أتوماتيكياً بدائل للمحتوى الذي يديرونه."
+

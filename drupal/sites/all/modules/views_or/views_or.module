@@ -1,0 +1,81 @@
+<?php
+// $Id: views_or.module,v 1.6 2009/05/24 06:06:00 darrenoh Exp $
+
+/**
+ * @file
+ * Main module file.
+ *
+ * This file provides the hook to tell Views that it should load files from this
+ * module.
+ */
+
+/**
+ * Implementation of hook_help().
+ */
+function views_or_help($path, $arg) {
+  switch ($path) {
+    case 'admin/help#views_or':
+      return '<p>'. t('Views Or allows Views to combine filters with OR and fields with COALESCE.') .'</p>'."\n".
+      '<h3>'. t('Combining filters or arguments with OR') .'</h3>'."\n".
+      '<p>'. t('By default, each record in a view must match all filters. Sometimes records need to be included if they match one or more filters in a list of alternatives. Views has the ability to combine filters only with AND. If one filter is false, the combined list will be false. Views Or adds the ability to combine blocks of filters with OR. If one of the filters in the block is true, the combined block will be true.') .'</p>'."\n".
+      '<p>'. t('Views Or provides three filters:') ."\n".
+      '  <dl>'."\n".
+      '    <dt>'. t('Begin alternatives') .'</dt>'."\n".
+      '      <dd>'. t('Begins a block of alternative filters.') .'</dd>'."\n".
+      '    <dt>'. t('Next alternative') .'</dt>'."\n".
+      '      <dd>'. t('Separates alternative filters in an alternatives block.') .'</dd>'."\n".
+      '    <dt>'. t('End alternatives') .'</dt>'."\n".
+      '      <dd>'. t('Ends a block of alternative filters.') .'</dd>'."\n".
+      '  </dl>'."\n".
+      t('Insert these filters between other filters to create alternatives. For example, the following sequence of filters') ."\n".
+      '  <ul>'."\n".
+      '    <li><em>'. t('Views Or') .': '. t('Begin alternatives') .' =</em></li>'."\n".
+      '    <li><strong>'. t('Taxonomy') .': '. t('Term ID') .' = '. t('Carrot') .'</strong></li>'."\n".
+      '    <li><em>'. t('Views Or') .': '. t('Next alternative') .' =</em></li>'."\n".
+      '    <li><strong>'. t('Taxonomy: Term ID') .' = '. t('Elephant') .'</strong></li>'."\n".
+      '    <li><em>'. t('Views Or') .': '. t('End alternatives') .' =</em></li>'."\n".
+      '  </ul>'."\n".
+      t('is equivalent to the following logical expression:') ."\n".
+      '<br /><pre><code>'."\n".
+      '('. t('Taxonomy') .': '. t('Term ID') .' = '. t('Carrot') .') OR ('. t('Taxonomy: Term ID') .' = '. t('Elephant') .')'."\n".
+      '</code></pre></p>'."\n".
+      '<p>'. t('Here is a more advanced example. The following sequence of filters') ."\n".
+      '  <ul>'."\n".
+      '    <li><strong>'. t('Node') .': '. t('Published') .' '. t('True') .'</strong></li>'."\n".
+      '    <li><em>'. t('Views Or') .': '. t('Begin alternatives') .' =</em></li>'."\n".
+      '    <li><strong>'. t('Taxonomy') .': '. t('Term ID') .' = '. t('Carrot') .'</strong></li>'."\n".
+      '    <li><strong>'. t('Node') .': '. t('Type') .' = '. t('Forum topic') .'</strong></li>'."\n".
+      '    <li><em>'. t('Views Or') .': '. t('Next alternative') .' =</em></li>'."\n".
+      '    <li><strong>'. t('Taxonomy') .': '. t('Term ID') .' = '. t('Elephant') .'</strong></li>'."\n".
+      '    <li><strong>'. t('Node') .': '. t('Type') .' = '. t('Story') .'</strong></li>'."\n".
+      '    <li><em>'. t('Views Or') .': '. t('End alternatives') .' =</em></li>'."\n".
+      '    <li><strong>'. t('Node') .': '. t('Post date') .' >= '. t('-3 weeks') .'</strong></li>'."\n".
+      '  </ul>'."\n".
+      t('is equivalent to the following logical expression:') ."\n".
+      '<br /><pre><code>'."\n".
+      '('. t('Node') .': '. t('Published') .' '. t('True') .') AND ('."\n".
+      '  ('. t('Taxonomy') .': '. t('Term ID') .' = '. t('Carrot') .' AND '. t('Node') .': '. t('Type') .' = '. t('Forum topic') .')'."\n".
+      '  OR'."\n".
+      '  ('. t('Taxonomy') .': '. t('Term ID') .' = '. t('Elephant') .' AND '. t('Node') .': '. t('Type') .' = '. t('Story') .')'."\n".
+      ') AND ('. t('Node') .': '. t('Post date') .' >= '. t('-3 weeks') .')'."\n".
+      '</code></pre></p>'."\n".
+      '<p>'. t('Arguments can be combined in the same way as filters. By default, when arguments are combined, the same arguments will be used for both sets of alternatives. So if there are two alternative arguments in a block, the view needs to receive only one argument. Uncheck "Share arguments" in the "Views Or: Next alternative" argument to allow each set of alternatives receive different arguments from the URL') .'</p>'."\n".
+      '<h3>'. t('Combining fields with COALESCE') .'</h3>'."\n".
+      '<p>'. t('When using relationships in a view, the same field may appear multiple times. Views Or adds the ability to combine multiple fields into one using the COALESCE function. The value of the combined field will be taken from the first field which contains a value.') .'</p>'."\n".
+      '<p>'. t('Views Or provides two fields:') ."\n".
+      '  <dl>'."\n".
+      '    <dt>'. t('Begin alternatives') .'</dt>'."\n".
+      '      <dd>'. t('Begins a group of alternative fields.') .'</dd>'."\n".
+      '    <dt>'. t('End alternatives') .'</dt>'."\n".
+      '      <dd>'. t('Ends a group of alternative fields.') .'</dd>'."\n".
+      '  </dl>'."\n".
+      t('Insert other fields between these fields to create a combined field. The title and settings of the first field in the group will be used for the combined field, even if another field contains the value.') .'</p>'."\n";
+  }
+}
+
+/**
+ * Implementation of hook_views_api().
+ */
+function views_or_views_api() {
+  return array('api' => 2.0);
+}

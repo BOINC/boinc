@@ -1,0 +1,486 @@
+<?php
+// $Id: text.module,v 1.95.2.30 2009/07/18 01:18:07 markuspetrux Exp $
+
+/**
+ * @file
+ * Defines simple text field types.
+ */
+
+/**
+ * Implementation of hook_theme().
+ */
+function text_theme() {
+  return array(
+    'text_textarea' => array(
+      'arguments' => array('element' => NULL),
+    ),
+    'text_textfield' => array(
+      'arguments' => array('element' => NULL),
+    ),
+    'text_formatter_default' => array(
+      'arguments' => array('element' => NULL),
+    ),
+    'text_formatter_plain' => array(
+      'arguments' => array('element' => NULL),
+    ),
+    'text_formatter_trimmed' => array(
+      'arguments' => array('element' => NULL),
+    ),
+    'text_formatter_foo' => array(
+      'arguments' => array('element' => NULL),
+    ),
+  );
+}
+
+/**
+ * Implementation of hook_field_info().
+ */
+function text_field_info() {
+  return array(
+    'text' => array(
+      'label' => t('Text'),
+      'description' => t('Store text in the database.'),
+//      'content_icon' => 'icon_content_text.png',
+    ),
+  );
+}
+
+/**
+ * Implementation of hook_field_settings().
+ */
+function text_field_settings($op, $field) {
+  switch ($op) {
+    case 'form':
+      $form = array();
+      $options = array(0 => t('Plain text'), 1 => t('Filtered text (user selects input format)'));
+      $form['text_processing'] = array(
+        '#type' => 'radios',
+        '#title' => t('Text processing'),
+        '#default_value' => is_numeric($field['text_processing']) ? $field['text_processing'] : 0,
+        '#options' => $options,
+      );
+      $form['max_length'] = array(
+        '#type' => 'textfield',
+        '#title' => t('Maximum length'),
+        '#default_value' => is_numeric($field['max_length']) ? $field['max_length'] : '',
+        '#required' => FALSE,
+        '#element_validate' => array('_element_validate_integer_positive'),
+        '#description' => t('The maximum length of the field in characters. Leave blank for an unlimited size.'),
+      );
+      $form['allowed_values_fieldset'] = array(
+        '#type' => 'fieldset',
+        '#title' => t('Allowed values'),
+        '#collapsible' => TRUE,
+        '#collapsed' => TRUE,
+      );
+      $form['allowed_values_fieldset']['allowed_values'] = array(
+        '#type' => 'textarea',
+        '#title' => t('Allowed values list'),
+        '#default_value' => !empty($field['allowed_values']) ? $field['allowed_values'] : '',
+        '#required' => FALSE,
+        '#rows' => 10,
+        '#description' => t('The possible values this field can contain. Enter one value per line, in the format key|label. The key is the value that will be stored in the database, and it must match the field storage type (%type). The label is optional, and the key will be used as the label if no label is specified.<br />Allowed HTML tags: @tags', array('%type' => $field['type'], '@tags' => _content_filter_xss_display_allowed_tags())),
+      );
+      $form['allowed_values_fieldset']['advanced_options'] = array(
+        '#type' => 'fieldset',
+        '#title' => t('PHP code'),
+        '#collapsible' => TRUE,
+        '#collapsed' => empty($field['allowed_values_php']),
+      );
+      if (user_access('Use PHP input for field settings (dangerous - grant with care)')) {
+        $form['allowed_values_fieldset']['advanced_options']['allowed_values_php'] = array(
+          '#type' => 'textarea',
+          '#title' => t('Code'),
+          '#default_value' => !empty($field['allowed_values_php']) ? $field['allowed_values_php'] : '',
+          '#rows' => 6,
+          '#description' => t('Advanced usage only: PHP code that returns a keyed array of allowed values. Should not include &lt;?php ?&gt; delimiters. If this field is filled out, the array returned by this code will override the allowed values list above.'),
+        );
+      }
+      else {
+        $form['allowed_values_fieldset']['advanced_options']['markup_allowed_values_php'] = array(
+          '#type' => 'item',
+          '#title' => t('Code'),
+          '#value' => !empty($field['allowed_values_php']) ? '<code>'. check_plain($field['allowed_values_php']) .'</code>' : t('&lt;none&gt;'),
+          '#description' => empty($field['allowed_values_php']) ? t("You're not allowed to input PHP code.") : t('This PHP code was set by an administrator and will override the allowed values list above.'),
+        );
+      }
+      return $form;
+
+    case 'save':
+      return array('text_processing', 'max_length', 'allowed_values', 'allowed_values_php');
+
+    case 'database columns':
+      if (empty($field['max_length']) || $field['max_length'] > 255) {
+        $columns['value'] = array('type' => 'text', 'size' => 'big', 'not null' => FALSE, 'sortable' => TRUE, 'views' => TRUE);
+      }
+      else {
+        $columns['value'] = array('type' => 'varchar', 'length' => $field['max_length'], 'not null' => FALSE, 'sortable' => TRUE, 'views' => TRUE);
+      }
+      if (!empty($field['text_processing'])) {
+        $columns['format'] = array('type' => 'int', 'unsigned' => TRUE, 'not null' => FALSE, 'views' => FALSE);
+      }
+      return $columns;
+
+    case 'views data':
+      $allowed_values = content_allowed_values($field);
+      if (count($allowed_values)) {
+        $data = content_views_field_views_data($field);
+        $db_info = content_database_info($field);
+        $table_alias = content_views_tablename($field);
+
+        // Filter: Add a 'many to one' filter.
+        $copy = $data[$table_alias][$field['field_name'] .'_value'];
+        $copy['title'] = t('@label (!name) - Allowed values', array('@label' => t($field['widget']['label']), '!name' => $field['field_name']));
+        $copy['filter']['handler'] = 'content_handler_filter_many_to_one';
+        unset($copy['field'], $copy['argument'], $copy['sort']);
+        $data[$table_alias][$field['field_name'] .'_value_many_to_one'] = $copy;
+        // Argument : swap the handler to the 'many to one' operator.
+        $data[$table_alias][$field['field_name'] .'_value']['argument']['handler'] = 'content_handler_argument_many_to_one';
+        return $data;
+      }
+  }
+}
+
+/**
+ * Implementation of hook_field().
+ */
+function text_field($op, &$node, $field, &$items, $teaser, $page) {
+  switch ($op) {
+    case 'validate':
+      $allowed_values = content_allowed_values($field);
+      if (is_array($items)) {
+        foreach ($items as $delta => $item) {
+          $error_element = isset($item['_error_element']) ? $item['_error_element'] : '';
+          if (is_array($item) && isset($item['_error_element'])) unset($item['_error_element']);
+          if (!empty($item['value'])) {
+            if (count($allowed_values) && !array_key_exists($item['value'], $allowed_values)) {
+              form_set_error($error_element, t('%name: illegal value.', array('%name' => t($field['widget']['label']))));
+            }
+            if (!empty($field['max_length']) && drupal_strlen($item['value']) > $field['max_length']) {
+              form_set_error($error_element, t('%name: the value may not be longer than %max characters.', array('%name' => $field['widget']['label'], '%max' => $field['max_length'])));
+            }
+          }
+        }
+      }
+      return $items;
+
+    case 'sanitize':
+      foreach ($items as $delta => $item) {
+        if (!empty($field['text_processing'])) {
+          $check = is_null($node) || (isset($node->build_mode) && $node->build_mode == NODE_BUILD_PREVIEW);
+          $text = isset($item['value']) ? check_markup($item['value'], $item['format'], $check) : '';
+        }
+        else {
+          $text = check_plain($item['value']);
+        }
+        $items[$delta]['safe'] = $text;
+      }
+  }
+}
+
+/**
+ * Implementation of hook_content_is_empty().
+ */
+function text_content_is_empty($item, $field) {
+  if (empty($item['value']) && (string)$item['value'] !== '0') {
+    return TRUE;
+  }
+  return FALSE;
+}
+
+/**
+ * Implementation of hook_field_formatter_info().
+ */
+function text_field_formatter_info() {
+  return array(
+    'default' => array(
+      'label' => t('Default'),
+      'field types' => array('text'),
+      'multiple values' => CONTENT_HANDLE_CORE,
+    ),
+    'plain' => array(
+      'label' => t('Plain text'),
+      'field types' => array('text'),
+      'multiple values' => CONTENT_HANDLE_CORE,
+    ),
+    'trimmed' => array(
+      'label' => t('Trimmed'),
+      'field types' => array('text'),
+      'multiple values' => CONTENT_HANDLE_CORE,
+    ),
+  );
+}
+
+/**
+ * Theme function for 'default' text field formatter.
+ */
+function theme_text_formatter_default($element) {
+  return ($allowed =_text_allowed_values($element)) ? $allowed : $element['#item']['safe'];
+}
+
+/**
+ * Theme function for 'plain' text field formatter.
+ */
+function theme_text_formatter_plain($element) {
+  return ($allowed =_text_allowed_values($element)) ? $allowed : strip_tags($element['#item']['safe']);
+}
+
+/**
+ * Theme function for 'trimmed' text field formatter.
+ */
+function theme_text_formatter_trimmed($element) {
+  $field = content_fields($element['#field_name'], $element['#type_name']);
+  return ($allowed =_text_allowed_values($element)) ? $allowed : node_teaser($element['#item']['safe'], $field['text_processing'] ? $element['#item']['format'] : NULL);
+}
+
+function _text_allowed_values($element) {
+  $field = content_fields($element['#field_name'], $element['#type_name']);
+  if (($allowed_values = content_allowed_values($field)) && isset($allowed_values[$element['#item']['value']])) {
+    return $allowed_values[$element['#item']['value']];
+  }
+}
+
+/**
+ * Implementation of hook_widget_info().
+ *
+ * Here we indicate that the content module will handle
+ * the default value and multiple values for these widgets.
+ *
+ * Callbacks can be omitted if default handing is used.
+ * They're included here just so this module can be used
+ * as an example for custom modules that might do things
+ * differently.
+ */
+function text_widget_info() {
+  return array(
+    'text_textfield' => array(
+      'label' => t('Text field'),
+      'field types' => array('text'),
+      'multiple values' => CONTENT_HANDLE_CORE,
+      'callbacks' => array(
+        'default value' => CONTENT_CALLBACK_DEFAULT,
+      ),
+    ),
+    'text_textarea' => array(
+      'label' => t('Text area (multiple rows)'),
+      'field types' => array('text'),
+      'multiple values' => CONTENT_HANDLE_CORE,
+      'callbacks' => array(
+        'default value' => CONTENT_CALLBACK_DEFAULT,
+      ),
+    ),
+  );
+}
+
+/**
+ * Implementation of FAPI hook_elements().
+ *
+ * Any FAPI callbacks needed for individual widgets can be declared here,
+ * and the element will be passed to those callbacks for processing.
+ *
+ * Drupal will automatically theme the element using a theme with
+ * the same name as the hook_elements key.
+ *
+ * Autocomplete_path is not used by text_widget but other widgets can use it
+ * (see nodereference and userreference).
+ */
+function text_elements() {
+  return array(
+    'text_textfield' => array(
+      '#input' => TRUE,
+      '#columns' => array('value'), '#delta' => 0,
+      '#process' => array('text_textfield_process'),
+      '#autocomplete_path' => FALSE,
+    ),
+    'text_textarea' => array(
+      '#input' => TRUE,
+      '#columns' => array('value', 'format'), '#delta' => 0,
+      '#process' => array('text_textarea_process'),
+      '#filter_value' => FILTER_FORMAT_DEFAULT,
+    ),
+  );
+}
+
+/**
+ * Implementation of hook_widget_settings().
+ */
+function text_widget_settings($op, $widget) {
+  switch ($op) {
+    case 'form':
+      $form = array();
+      $rows = (isset($widget['rows']) && is_numeric($widget['rows'])) ? $widget['rows'] : 5;
+      $size = (isset($widget['size']) && is_numeric($widget['size'])) ? $widget['size'] : 60;
+      if ($widget['type'] == 'text_textfield') {
+        $form['rows'] = array('#type' => 'hidden', '#value' => $rows);
+        $form['size'] = array(
+          '#type' => 'textfield',
+          '#title' => t('Size of textfield'),
+          '#default_value' => $size,
+          '#element_validate' => array('_element_validate_integer_positive'),
+          '#required' => TRUE,
+        );
+      }
+      else {
+        $form['rows'] = array(
+          '#type' => 'textfield',
+          '#title' => t('Rows'),
+          '#default_value' => $rows,
+          '#element_validate' => array('_element_validate_integer_positive'),
+          '#required' => TRUE,
+        );
+        $form['size'] = array('#type' => 'hidden', '#value' => $size);
+      }
+      return $form;
+
+    case 'save':
+      return array('rows', 'size');
+  }
+}
+
+/**
+ * Implementation of hook_widget().
+ *
+ * Attach a single form element to the form. It will be built out and
+ * validated in the callback(s) listed in hook_elements. We build it
+ * out in the callbacks rather than here in hook_widget so it can be
+ * plugged into any module that can provide it with valid
+ * $field information.
+ *
+ * Content module will set the weight, field name and delta values
+ * for each form element. This is a change from earlier CCK versions
+ * where the widget managed its own multiple values.
+ *
+ * If there are multiple values for this field, the content module will
+ * call this function as many times as needed.
+ *
+ * @param $form
+ *   the entire form array, $form['#node'] holds node information
+ * @param $form_state
+ *   the form_state, $form_state['values'][$field['field_name']]
+ *   holds the field's form values.
+ * @param $field
+ *   the field array
+ * @param $items
+ *   array of default values for this field
+ * @param $delta
+ *   the order of this item in the array of subelements (0, 1, 2, etc)
+ *
+ * @return
+ *   the form item for a single element for this field
+ */
+function text_widget(&$form, &$form_state, $field, $items, $delta = 0) {
+  $element = array(
+    '#type' => $field['widget']['type'],
+    '#default_value' => isset($items[$delta]) ? $items[$delta] : '',
+  );
+  return $element;
+}
+
+/**
+ * Process an individual element.
+ *
+ * Build the form element. When creating a form using FAPI #process,
+ * note that $element['#value'] is already set.
+ *
+ * The $fields array is in $form['#field_info'][$element['#field_name']].
+ */
+function text_textfield_process($element, $edit, $form_state, $form) {
+  $field = $form['#field_info'][$element['#field_name']];
+  $field_key = $element['#columns'][0];
+  $delta = $element['#delta'];
+  $element[$field_key] = array(
+    '#type' => 'textfield',
+    '#default_value' => isset($element['#value'][$field_key]) ? $element['#value'][$field_key] : NULL,
+    '#autocomplete_path' => $element['#autocomplete_path'],
+    '#size' => !empty($field['widget']['size']) ? $field['widget']['size'] : 60,
+    '#attributes' => array('class' => 'text'),
+    // The following values were set by the content module and need
+    // to be passed down to the nested element.
+    '#title' => $element['#title'],
+    '#description' => $element['#description'],
+    '#required' => $element['#required'],
+    '#field_name' => $element['#field_name'],
+    '#type_name' => $element['#type_name'],
+    '#delta' => $element['#delta'],
+    '#columns' => $element['#columns'],
+  );
+
+  $element[$field_key]['#maxlength'] = !empty($field['max_length']) ? $field['max_length'] : NULL;
+
+  if (!empty($field['text_processing'])) {
+    $filter_key = $element['#columns'][1];
+    $format = isset($element['#value'][$filter_key]) ? $element['#value'][$filter_key] : FILTER_FORMAT_DEFAULT;
+    $parents = array_merge($element['#parents'] , array($filter_key));
+    $element[$filter_key] = filter_form($format, 1, $parents);
+  }
+
+  // Used so that hook_field('validate') knows where to flag an error.
+  $element['_error_element'] = array(
+    '#type' => 'value',
+    '#value' => implode('][', array_merge($element['#parents'], array($field_key))),
+  );
+
+  return $element;
+}
+
+/**
+ * Process an individual element.
+ *
+ * Build the form element. When creating a form using FAPI #process,
+ * note that $element['#value'] is already set.
+ *
+ * The $fields array is in $form['#field_info'][$element['#field_name']].
+ */
+function text_textarea_process($element, $edit, $form_state, $form) {
+  $field = $form['#field_info'][$element['#field_name']];
+  $field_key   = $element['#columns'][0];
+  $element[$field_key] = array(
+    '#type' => 'textarea',
+    '#default_value' => isset($element['#value'][$field_key]) ? $element['#value'][$field_key] : NULL,
+    '#rows' => !empty($field['widget']['rows']) ? $field['widget']['rows'] : 10,
+    '#weight' => 0,
+    // The following values were set by the content module and need
+    // to be passed down to the nested element.
+    '#title' => $element['#title'],
+    '#description' => $element['#description'],
+    '#required' => $element['#required'],
+    '#field_name' => $element['#field_name'],
+    '#type_name' => $element['#type_name'],
+    '#delta' => $element['#delta'],
+    '#columns' => $element['#columns'],
+  );
+
+  if (!empty($field['text_processing'])) {
+    $filter_key  = (count($element['#columns']) == 2) ? $element['#columns'][1] : 'format';
+    $format = isset($element['#value'][$filter_key]) ? $element['#value'][$filter_key] : FILTER_FORMAT_DEFAULT;
+    $parents = array_merge($element['#parents'] , array($filter_key));
+    $element[$filter_key] = filter_form($format, 1, $parents);
+  }
+
+  // Used so that hook_field('validate') knows where to flag an error.
+  $element['_error_element'] = array(
+    '#type' => 'value',
+    '#value' => implode('][', array_merge($element['#parents'], array($field_key))),
+  );
+
+  return $element;
+}
+
+/**
+ * FAPI theme for an individual text elements.
+ *
+ * The textfield or textarea is already rendered by the
+ * textfield or textarea themes and the html output
+ * lives in $element['#children']. Override this theme to
+ * make custom changes to the output.
+ *
+ * $element['#field_name'] contains the field name
+ * $element['#delta]  is the position of this element in the group
+ */
+function theme_text_textfield($element) {
+  return $element['#children'];
+}
+
+function theme_text_textarea($element) {
+  return $element['#children'];
+}

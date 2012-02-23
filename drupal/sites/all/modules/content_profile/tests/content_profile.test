@@ -1,0 +1,55 @@
+<?php
+// $Id: content_profile.test,v 1.1.2.2 2008/07/24 09:57:57 fago Exp $
+
+/**
+ * @file
+ * Some basic tests for content profile.
+ */
+
+class ContentProfileTest extends DrupalTestCase {
+  function get_info() {
+    return array(
+      'name'  => 'One content profile per user',
+      'desc'  => t('Assure that only one content profile per user is allowed.'),
+      'group' => 'Content Profile',
+    );
+  }
+
+  function testOneProfilePerUser() {
+    // create a content_profile node
+    $user1 = $this->drupalCreateUserRolePerm(array('administer content types'));
+    $this->drupalLoginUser($user1);
+
+    $content_profile_name = $this->randomName();
+    $content_profile_type = strtolower($this->randomName());
+
+    $edit = array(
+      'name' => $content_profile_name,
+      'type' => $content_profile_type,
+      'content_profile' => 'Array',
+    );
+    $this->drupalPost('admin/content/types/add', $edit, t('Save content type'));
+    $this->assertText('The content type '. $content_profile_name .' has been added.');
+    $this->clickLink(t('Log out'));
+
+    // create new user who is allowed to create a content_profile node
+    $user2 = $this->drupalCreateUserRolePerm(array('create '. $content_profile_type .' content', 'edit own '. $content_profile_type .' content'));
+    $this->drupalLoginUser($user2);
+
+    // create a content_profile node
+    $edit = array(
+      'title' => $this->randomName(),
+      'body'  => $this->randomName(),
+    );
+    $this->drupalPost('node/add/'. str_replace('_', '-', $content_profile_type), $edit, t('Save'));
+
+    $this->assertText($content_profile_name .' '. $edit['title'] .' has been created.');
+
+    // test if the user can create another content_profile node
+    $url = url('node/add/'. str_replace('_', '-', $content_profile_type), array('absolute' => TRUE));
+    $this->get($url);
+    $this->assertResponse(200);
+    $this->assertText('Edit');
+    $this->assertText($edit['title']);
+  }
+}

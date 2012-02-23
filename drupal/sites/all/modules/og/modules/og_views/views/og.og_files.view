@@ -1,0 +1,116 @@
+<?php
+// $Id: og.og_files.view,v 1.3 2008/10/31 14:14:44 weitzman Exp $
+
+if (!module_exists('upload')) {
+  return;
+}
+
+$view = new view;
+$view->name = 'og_files';
+$view->description = 'List all uploads for a given group';
+$view->tag = 'og';
+$view->view_php = '';
+$view->base_table = 'node';
+$view->is_cacheable = '0';
+$view->api_version = 2;
+$view->disabled = FALSE; /* Edit this to true to make a default view disabled initially */
+$handler = $view->new_display('default', 'Defaults', 'default');
+$handler->override_option('fields', array(
+  'description' => array(
+    'label' => '',
+    'type' => 'separator',
+    'separator' => ', ',
+    'empty' => '',
+    'link_to_file' => 1,
+    'exclude' => 0,
+    'id' => 'description',
+    'table' => 'upload',
+    'field' => 'description',
+    'relationship' => 'none',
+  ),
+));
+$handler->override_option('sorts', array(
+  'changed' => array(
+    'order' => 'DESC',
+    'granularity' => 'second',
+    'id' => 'changed',
+    'table' => 'node',
+    'field' => 'changed',
+    'relationship' => 'none',
+  ),
+  'weight' => array(
+    'order' => 'ASC',
+    'id' => 'weight',
+    'table' => 'upload',
+    'field' => 'weight',
+    'relationship' => 'none',
+  ),
+));
+$handler->override_option('arguments', array(
+  'group_nid' => array(
+    'default_action' => 'default',
+    'style_plugin' => 'default_summary',
+    'style_options' => array(),
+    'wildcard' => 'all',
+    'wildcard_substitution' => 'All',
+    'title' => '',
+    'default_argument_type' => 'php',
+    'default_argument' => '',
+    'validate_type' => 'og_group_types',
+    'validate_fail' => 'not found',
+    'break_phrase' => 0,
+    'not' => 0,
+    'id' => 'group_nid',
+    'table' => 'og_ancestry',
+    'field' => 'group_nid',
+    'relationship' => 'none',
+    'default_options_div_prefix' => '',
+    'default_argument_user' => 0,
+    'default_argument_fixed' => '',
+    'default_argument_php' => 'if ($node = og_get_group_context()) {
+                return $node->nid;
+              }
+              else {
+                return NULL;
+              }',
+    'validate_argument_node_type' => array(
+      'club' => 0,
+      'club_post' => 0,
+      'page' => 0,
+      'story' => 0,
+    ),
+    'validate_argument_node_access' => 0,
+    'validate_argument_nid_type' => 'nid',
+    'validate_argument_vocabulary' => array(),
+    'validate_argument_type' => 'tid',
+    'validate_argument_is_member' => 0,
+    'validate_argument_php' => '',
+  ),
+));
+$handler->override_option('filters', array(
+  'status' => array(
+    'operator' => '=',
+    'value' => 1,
+    'group' => '0',
+    'exposed' => FALSE,
+    'expose' => array(
+      'operator' => FALSE,
+      'label' => '',
+    ),
+    'id' => 'status',
+    'table' => 'node',
+    'field' => 'status',
+    'relationship' => 'none',
+  ),
+));
+$handler->override_option('access', array(
+  'type' => 'none',
+  'role' => array(),
+  'perm' => '',
+));
+$handler->override_option('title', 'Group files');
+$handler->override_option('use_ajax', TRUE);
+$handler->override_option('use_pager', 'mini');
+$handler->override_option('style_plugin', 'list');
+$handler = $view->new_display('block', 'Block', 'block_1');
+$handler->override_option('block_description', 'Group files');

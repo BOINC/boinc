@@ -1,0 +1,75 @@
+/* $Id: upanddown.css,v 1.1.2.1 2010/07/24 23:23:54 marvil07 Exp $ */
+
+.vud-widget-upanddown {
+  margin: 5px 10px;
+  position: relative;
+  float: left;
+}
+
+.vud-widget-upanddown a {
+  text-decoration: none;
+  float: left;
+}
+
+.vud-widget-upanddown a.vud-link-up span,
+.vud-widget-upanddown a.vud-link-down span {
+  margin-right: 7px;
+}
+
+.vud-widget-upanddown .up-score .up-current-score,
+.vud-widget-upanddown .down-score .down-current-score {
+  display: block;
+  font-size: 16px;
+  margin-left: 25px;
+  text-align: right;
+  padding-top: 2px;
+}
+
+.vud-widget-upanddown .up-score {
+  color: #197566;
+}
+.vud-widget-upanddown .down-score {
+  color: #751929;
+}
+
+.vud-widget-upanddown .up-active,
+.vud-widget-upanddown .down-active {
+  cursor: default;
+}
+.vud-widget-upanddown .up-inactive,
+.vud-widget-upanddown .down-inactive,
+.vud-widget-upanddown .up-active,
+.vud-widget-upanddown .down-active {
+  display: block;
+  width: 20px;
+  height: 22px;
+  font-weight: bold;
+  text-align: center;
+  background: url(arrows.png) 0 0 no-repeat;
+}
+
+.vud-widget-upanddown .up-active {
+  background-position: 0 -22px;
+}
+.vud-widget-upanddown .down-active {
+  background-position: -20px -22px;
+}
+.vud-widget-upanddown .up-inactive {
+  background-position: 0 -44px;
+}
+.vud-widget-upanddown .down-inactive {
+  background-position: -20px -44px;
+}
+.vud-widget-upanddown .up-inactive:hover {
+  background-position: 0 -66px;
+}
+.vud-widget-upanddown .down-inactive:hover {
+  background-position: -20px -66px;
+}
+
+.vud-widget-upanddown a.ctools-ajaxing,
+.vud-widget-upanddown a.ctools-ajaxing:hover {
+  padding-right: 0 !important;
+  background-image: url(status-active.gif);
+  background-position: center;
+}

@@ -1,0 +1,298 @@
+<?php
+// $Id: views_ui.module,v 1.109.4.1 2010/04/07 23:40:35 merlinofchaos Exp $
+/**
+ * @file views_ui.module
+ * Provide structure for the administrative interface to Views.
+ */
+
+/*
+ * Implementation of hook_menu()
+ */
+function views_ui_menu() {
+  $items = array();
+
+  // Minor code reduction technique
+  $base = array(
+    'access callback' => 'user_access',
+    'access arguments' => array('administer views'),
+    'file' => 'includes/admin.inc',
+  );
+
+  $callback = $base + array('type' => MENU_CALLBACK);
+
+  $convert = array('file' => 'includes/convert.inc') + $base;
+
+  $items['admin/build/views'] = $base + array(
+    'title' => 'Views',
+    'page callback' => 'views_ui_list_views',
+    'description' => 'Views are customized lists of content on your system; they are highly configurable and give you control over how lists of content are presented.',
+    'type' => MENU_NORMAL_ITEM
+  );
+  $items['admin/build/views/list'] = $base + array(
+    'title' => 'List',
+    'page callback' => 'views_ui_list_views',
+    'type' => MENU_DEFAULT_LOCAL_TASK,
+    'weight' => '-1'
+  );
+  $items['admin/build/views/add'] = $base + array(
+    'title' => 'Add',
+    'page callback' => 'views_ui_add_page',
+    'type' => MENU_LOCAL_TASK
+  );
+  $items['admin/build/views/import'] = array(
+    'title' => 'Import',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('views_ui_import_page'),
+    'access callback' => 'views_import_access',
+    'type' => MENU_LOCAL_TASK
+  ) + $base;
+  $items['admin/build/views/tools'] = $base + array(
+    'title' => 'Tools',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('views_ui_admin_tools'),
+    'type' => MENU_LOCAL_TASK
+  );
+  $items['admin/build/views/tools/basic'] = $base + array(
+    'title' => 'Basic',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('views_ui_admin_tools'),
+    'type' => MENU_DEFAULT_LOCAL_TASK,
+    'weight' => -10,
+  );
+
+  $items['admin/build/views/tools/convert'] = $convert + array(
+    'title' => 'Convert',
+    'description' => 'Convert stored Views 1 views.',
+    'page callback' => 'views_ui_admin_convert',
+    'type' => MENU_LOCAL_TASK,
+    'weight' => 1,
+  );
+  $items['admin/build/views1/delete'] = $convert + array(
+    'title' => 'Delete view',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('views_ui_delete1_confirm', 4),
+    'type' => MENU_CALLBACK,
+  );
+  $items['admin/build/views1/convert'] = $convert + array(
+    'title' => 'Convert view',
+    'page callback' => 'views_ui_convert1',
+    'page arguments' => array(4),
+    'type' => MENU_CALLBACK,
+  );
+
+  $items['admin/build/views/delete/%views_ui_cache'] = $callback + array(
+    'title' => 'Delete view',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('views_ui_delete_confirm', 4),
+  );
+  $items['admin/build/views/break-lock/%views_ui_cache'] = $callback + array(
+    'title' => 'Delete view',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('views_ui_break_lock_confirm', 4),
+  );
+  $items['admin/build/views/export/%views_ui_cache'] = $callback + array(
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('views_ui_export_page', 4),
+    'type' => MENU_LOCAL_TASK
+  );
+  $items['admin/build/views/clone/%views_ui_cache'] = $callback + array(
+    'page callback' => 'views_ui_clone_page',
+    'page arguments' => array(4),
+    'type' => MENU_LOCAL_TASK
+  );
+  $items['admin/build/views/enable/%views_ui_default'] = $callback + array(
+    'page callback' => 'views_ui_enable_page',
+    'page arguments' => array(4),
+  );
+  $items['admin/build/views/disable/%views_ui_default'] = $callback + array(
+    'page callback' => 'views_ui_disable_page',
+    'page arguments' => array(4),
+  );
+
+  // Many line items for editing a view.
+  $items['admin/build/views/edit/%views_ui_cache'] = $base + array(
+    'title' => 'Edit',
+    'page callback' => 'views_ui_edit_page',
+    'page arguments' => array(4),
+    'type' => MENU_LOCAL_TASK
+  );
+  // lots of little edit form pieces.
+  $items['admin/build/views/%views_ui_js/analyze/%views_ui_cache'] = $callback + array(
+    'page callback' => 'views_ui_analyze_view',
+    'page arguments' => array(3, 5),
+  );
+  $items['admin/build/views/%views_ui_js/details/%views_ui_cache'] = $callback + array(
+    'page callback' => 'views_ui_edit_details',
+    'page arguments' => array(3, 5),
+  );
+  $items['admin/build/views/%views_ui_js/add-display/%views_ui_cache'] = $callback + array(
+    'page callback' => 'views_ui_add_display',
+    'page arguments' => array(3, 5),
+  );
+  // Live preview
+  $items['admin/build/views/%views_ui_js/preview/%views_ui_cache'] = $callback + array(
+    'page callback' => 'views_ui_preview',
+    'page arguments' => array(3, 5),
+  );
+
+  // autocompletes for handlers and such
+  $items['admin/views/ajax/autocomplete/tag'] = $callback + array(
+    'page callback' => 'views_ui_autocomplete_tag',
+  );
+
+
+  // Generic ajax callback
+  // display specific parameters
+  $items['admin/build/views/%views_ui_js/%/%views_ui_cache'] = $callback + array(
+    'page callback' => 'views_ui_ajax_form',
+    'page arguments' => array(3, 4, 5),
+  );
+
+  return $items;
+}
+
+/*
+ * Implementation of hook_help()
+ */
+function views_ui_help($path, $arg = '') {
+  switch ($path) {
+    case 'admin/build/views/tools/convert':
+      return '<p>' . t('The converter will make a best-effort attempt to convert a Views 1 view to Views 2. This conversion is not reliable; you will very likely have to make adjustments to your view to get it to match. You can import Views 1 views through the normal Import tab.') . '</p>';
+  }
+}
+
+/*
+ * Implementation of hook_theme()
+ */
+function views_ui_theme() {
+  $path = drupal_get_path('module', 'views');
+  require_once "./$path/includes/admin.inc";
+
+  return array(
+    // edit a view
+    'views_ui_edit_view' => array(
+      'arguments' => array('view' => NULL),
+      'template' => 'views-ui-edit-view',
+      'path' => "$path/theme",
+    ),
+    'views_ui_edit_tab' => array(
+      'arguments' => array('view' => NULL, 'display' => NULL),
+      'template' => 'views-ui-edit-tab',
+      'path' => "$path/theme",
+    ),
+    'views_ui_edit_item' => array(
+      'arguments' => array('type' => NULL, 'view' => NULL, 'display' => NULL, 'no_fields' => FALSE),
+      'template' => 'views-ui-edit-item',
+      'path' => "$path/theme",
+    ),
+    'views_ui_rearrange_form' => array(
+      'arguments' => array('form' => NULL),
+      'file' => 'includes/admin.inc',
+    ),
+
+    // list views
+    'views_ui_list_views' => array(
+      'template' => 'views-ui-list-views',
+      'path' => "$path/theme",
+    ),
+    'views_ui_list_views_form' => array(
+      'file' => 'includes/admin.inc',
+      'arguments' => array('form' => NULL),
+    ),
+
+    // tab themes
+    'views_tabset' => array(
+      'arguments' => array('tabs' => NULL),
+      'file' => 'includes/tabs.inc',
+    ),
+    'views_tab' => array(
+      'arguments' => array('body' => NULL),
+      'file' => 'includes/tabs.inc',
+    ),
+
+    // On behalf of a plugin
+    'views_ui_style_plugin_table' => array(
+      'arguments' => array('form' => NULL),
+      'file' => 'includes/admin.inc',
+    ),
+  );
+}
+
+/**
+ * Specialized menu callback to load a view either out of the cache or just
+ * load it.
+ */
+function views_ui_cache_load($name) {
+  views_include('cache');
+  views_include('view');
+  $view = views_object_cache_get('view', $name);
+
+  if (empty($view)) {
+    $view = views_get_view($name);
+
+    if (!empty($view)) {
+      // Check to see if someone else is already editing this view.
+      global $user;
+      $view->locked = db_fetch_object(db_query("SELECT s.uid, v.updated FROM {views_object_cache} v INNER JOIN {sessions}  s ON v.sid = s.sid WHERE s.sid != '%s' and v.name = '%s' and v.obj = 'view' ORDER BY v.updated ASC", session_id(), $view->name));
+    }
+  }
+
+  if (empty($view)) {
+    return FALSE;
+  }
+
+  else {
+    return $view;
+  }
+}
+
+function views_ui_check_lock($view) {
+
+}
+
+/**
+ * Specialized cache function to add a flag to our view, include an appropriate
+ * include, and cache more easily.
+ */
+function views_ui_cache_set(&$view) {
+  if (!empty($view->locked)) {
+    drupal_set_message(t('Changes cannot be made to a locked view.'), 'error');
+    return;
+  }
+  views_include('cache');
+  $view->changed = TRUE; // let any future object know that this view has changed.
+
+  // Unset handlers; we don't want to write these into the cache
+  unset($view->display_handler);
+  unset($view->current_display);
+  unset($view->default_display);
+  foreach (array_keys($view->display) as $id) {
+    unset($view->display[$id]->handler);
+    unset($view->display[$id]->default_display);
+  }
+  views_object_cache_set('view', $view->name, $view);
+}
+
+
+/**
+ * Specialized menu callback to load a view that is only a default
+ * view.
+ */
+function views_ui_default_load($name) {
+  $view = views_get_view($name);
+  if ($view->type == t('Default')) {
+    return $view;
+  }
+
+  return FALSE;
+}
+
+/**
+ * Check to see if the incoming menu item is js capable or not.
+ */
+function views_ui_js_load($js) {
+  if ($js == 'ajax') {
+    return TRUE;
+  }
+  return 0;
+}

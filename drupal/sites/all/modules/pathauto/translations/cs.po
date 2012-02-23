@@ -1,0 +1,942 @@
+# $Id$
+#
+# Czech translation of pathauto (6.x-1.x-dev)
+# Copyright (c) 2008 by the Czech translation team
+# Generated from files:
+#  pathauto.module,v 1.116 2008/06/10 21:41:53 freso
+#  pathauto.admin.inc,v 1.10 2008/06/10 21:41:53 freso
+#  pathauto_node.inc,v 1.47 2008/06/10 21:41:53 freso
+#  pathauto.inc,v 1.45 2008/06/18 20:02:40 greggles
+#  pathauto.info,v 1.4 2007/10/28 21:06:13 greggles
+#  pathauto_taxonomy.inc,v 1.39 2008/06/10 21:41:53 freso
+#  pathauto_user.inc,v 1.28 2008/05/28 16:04:35 freso
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Pathauto (6.x-1.x-dev)\n"
+"POT-Creation-Date: 2008-08-16 09:39+0200\n"
+"PO-Revision-Date: 2008-08-16 09:39+0200\n"
+"Language-Team: Czech\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=((n==1)?(0):(((n>=2)&&(n<=4))?(1):2));\n"
+
+#: pathauto.module:183
+msgid "content"
+msgstr "obsah"
+
+#: pathauto.admin.inc:161
+msgid "Remove"
+msgstr "Odstranit"
+
+#: pathauto_node.inc:37,79
+msgid "Language neutral"
+msgstr "Jazykově neutrální"
+
+#: pathauto.admin.inc:38
+msgid "General settings"
+msgstr "Obecné nastavení"
+
+#: pathauto.admin.inc:22
+msgid ""
+"It appears that the <a href=\"@token_link\">Token module</a> is not "
+"installed. Please ensure that you have it installed so that Pathauto "
+"can work properly. You may need to disable Pathauto and re-enable it "
+"to get Token enabled."
+msgstr ""
+"Modul <a href=\"@token_link\">Token</a> zřejmě není nainstalován. "
+"Ujistěte se, prosím, že jej máte nainstalovaný, aby mohl modul "
+"Pathauto správně pracovat. Možná budete muset Pathauto vypnout a "
+"znovu zapnout, abyste mohli zapnout Token."
+
+#: pathauto.admin.inc:46
+msgid "Verbose"
+msgstr "Detailní výpis"
+
+#: pathauto.admin.inc:48
+msgid "Display alias changes (except during bulk updates)."
+msgstr "Zobrazit změny aliasů (mimo mnohonásobných úprav)."
+
+#: pathauto.admin.inc:53
+msgid "Separator"
+msgstr "Oddělovač"
+
+#: pathauto.admin.inc:57
+msgid ""
+"Character used to separate words in titles. This will replace any "
+"spaces and punctuation characters. Using a space or + character can "
+"cause unexpected results."
+msgstr ""
+"Znak používaný pro oddělení slov v nadpisech (titles). Tímto "
+"znakem budou nahrazeny mezery mezi slovy a interpunkční znaménka "
+"(tečky, čárky, pomlčky atd.). Použití mezery nebo znaku plus (+) "
+"může způsobit neočekávaný výsledek."
+
+#: pathauto.admin.inc:62
+msgid "Character case"
+msgstr "Velikost znaků"
+
+#: pathauto.admin.inc:64
+msgid "Leave case the same as source token values."
+msgstr "Zanechat velikost písma jako ve zdrojových šablonách."
+
+#: pathauto.admin.inc:64
+msgid "Change to lower case"
+msgstr "Převést na malá písmena"
+
+#: pathauto.admin.inc:69
+msgid "Maximum alias length"
+msgstr "Maximální délka aliasu"
+
+#: pathauto.admin.inc:73
+msgid ""
+"Maximum length of aliases to generate. 100 is recommended. See <a "
+"href=\"@pathauto-help\">Pathauto help</a> for details."
+msgstr ""
+"Maximální délka aliasu pro generování. Doporučeno je 100. Pro "
+"více informací se podívejte do <a "
+"href=\"@pathauto-help\">nápovědy k modulu Pathauto</a>."
+
+#: pathauto.admin.inc:78
+msgid "Maximum component length"
+msgstr "Maximální délka komponentu"
+
+#: pathauto.admin.inc:82
+msgid ""
+"Maximum text length of any component in the alias (e.g., [title]). 100 "
+"is recommended. See <a href=\"@pathauto-help\">Pathauto help</a> for "
+"details."
+msgstr ""
+"Maximální délka komponenty v aliasu (např. [title]). Doporučeno "
+"je 100. Pro více informací se podívejte na <a "
+"href=\"@paathauto-help\">nápovědu k pathauto</a>."
+
+#: pathauto.admin.inc:87
+msgid "Maximum number of objects to alias in a bulk update"
+msgstr ""
+"Maximální počet objektů, pro které mají být vytvořeny aliasy "
+"během hromadné aktualizace."
+
+#: pathauto.admin.inc:91
+msgid ""
+"Maximum number of objects of a given type which should be aliased "
+"during a a bulk update. The default is 50 and the recommended number "
+"depends on the speed of your server. If bulk updates \"time out\" or "
+"result in a \"white screen\" then reduce the number."
+msgstr ""
+"Maximální počet objektů daného typu, pro které mají být "
+"vytvořeny aliasy při hromadné aktualizaci. Standardně je nastaveno "
+"50. Doporučená hodnota závisí na rychlosti vašeho serveru. "
+"Jestliže během aktualizace vyprší časový limit (timeout) nebo se "
+"objeví bílá obrazovka, snižte počet objektů k aktualizaci."
+
+#: pathauto.admin.inc:95
+msgid "Do nothing. Leave the old alias intact."
+msgstr "Nic nedělat, ponechat stávající alias."
+
+#: pathauto.admin.inc:96
+msgid "Create a new alias. Leave the existing alias functioning."
+msgstr "Vytvořit nový alias, stávající ponechat funkční."
+
+#: pathauto.admin.inc:97
+msgid "Create a new alias. Delete the old alias."
+msgstr "Vytvořit nový alias, starý smazat."
+
+#: pathauto.admin.inc:100
+msgid "Create a new alias. Redirect from old alias."
+msgstr "Vytvořit nový alias, přesměrovat ze starého."
+
+#: pathauto.admin.inc:110
+msgid "Update action"
+msgstr "Akce při aktualizaci"
+
+#: pathauto.admin.inc:113
+msgid ""
+"What should pathauto do when updating an existing content item which "
+"already has an alias?"
+msgstr ""
+"Co má Pathauto dělat, pokud narazí na obsah, který již má "
+"vytvořený alias?"
+
+#: pathauto.admin.inc:118
+msgid ""
+"When a pattern includes certain characters (such as those with "
+"accents) should Pathauto attempt to transliterate them into the "
+"ASCII-96 alphabet? Transliteration is determined by the i18n-ascii.txt "
+"file in the Pathauto directory. <strong>This option is disabled on "
+"your site because you do not have an i18n-ascii.txt file in the "
+"Pathauto directory.</strong>"
+msgstr ""
+"Jestliže předloha obsahuje určité znaky, např. s diakritikou, má "
+"se Pathauto pokusit převést tyto znaky do znakové sady ASCII-96 "
+"(bez diakritiky)? Způsob převodu jednotlivých znaků je určen "
+"souborem i18n-ascii.txt, který se nachází v adresáři modulu "
+"Pathauto. <strong>Tato možnost není na tomto webu není povolena, "
+"protože v adresáři modulu Pathauto se nenachází soubor "
+"i18n-ascii.txt</strong>."
+
+#: pathauto.admin.inc:121
+msgid ""
+"When a pattern includes certain characters (such as those with "
+"accents) should Pathauto attempt to transliterate them into the "
+"ASCII-96 alphabet? Transliteration is determined by the i18n-ascii.txt "
+"file in the Pathauto directory."
+msgstr ""
+"Jestliže předloha obsahuje určité znaky, např. s diakritikou, má "
+"se Pathauto pokusit převést tyto znaky do znakové sady ASCII-96 "
+"(bez diakritiky)? Způsob převodu jednotlivých znaků je určen "
+"souborem i18n-ascii.txt, který se nachází v adresáři modulu "
+"Pathauto."
+
+#: pathauto.admin.inc:129
+msgid "Transliterate prior to creating alias"
+msgstr "Před vytovřením aliasu přeložit na správný formát"
+
+#: pathauto.admin.inc:136
+msgid "Reduce strings to letters and numbers from ASCII-96"
+msgstr "Zredukovat řetězce na znaky a čísla z ASCII-96"
+
+#: pathauto.admin.inc:138
+msgid ""
+"Filters the new alias to only letters and numbers found in the "
+"ASCII-96 set."
+msgstr "Filtruje nový alias pouze do znaků a čísel z tabulky ASCII-96."
+
+#: pathauto.admin.inc:143
+msgid "Strings to Remove"
+msgstr "Řetězce k odstranění"
+
+#: pathauto.admin.inc:144
+msgid ""
+"Words to strip out of the URL alias, separated by commas. Do not place "
+"punctuation in here and do not use WYSIWYG editors on this field."
+msgstr ""
+"Slova, určená k vypuštění z url aliasu. Slova oddělujte "
+"čárkami. V tomto poli nepoužívejte interpunkci ani WYSIWYG "
+"editory."
+
+#: pathauto.admin.inc:150
+msgid "Punctuation settings"
+msgstr "Nastavení interpunkce"
+
+#: pathauto.admin.inc:161
+msgid "Replace by separator"
+msgstr "Nahradit oddělovačem"
+
+#: pathauto.admin.inc:161
+msgid "No action (do not replace)"
+msgstr "Žádná akce (nenahrazovat)"
+
+#: pathauto.admin.inc:239
+msgid "Replacement patterns"
+msgstr "Nahrazovací vzorky"
+
+#: pathauto.admin.inc:243
+msgid "Use -raw replacements for text to avoid problems with HTML entities."
+msgstr ""
+"Použití -raw nahrazení v textu zabraňuje problémům s HTML "
+"entitami."
+
+#: pathauto.admin.inc:276
+msgid "Internal feed alias text (leave blank to disable)"
+msgstr "Interní text aliasu pro RSS (nevyplňujte pro vypnutí)"
+
+#: pathauto.admin.inc:280
+msgid ""
+"The text to use for aliases for RSS feeds. Examples are \"feed\" and "
+"\"0/feed\"."
+msgstr ""
+"Text pro použití pro aliasy RSS feedů. Např. \"feed\" nebo "
+"\"0/feed\"."
+
+#: pathauto.admin.inc:335
+msgid ""
+"You are using the token [%token] which is not valid within the scope "
+"of tokens where you are using it."
+msgstr ""
+"Používáte token [%token] který není validní s ostatním rozsahem "
+"tokenů, které používáte."
+
+#: pathauto.admin.inc:343
+msgid ""
+"You are using the token [%token] which has a -raw companion available "
+"[%raw_token]. For Pathauto patterns you should use the -raw version of "
+"tokens unless you really know what you are doing. See the <a "
+"href=\"@pathauto-help\">Pathauto help</a> for more details."
+msgstr ""
+"Používáte token [%token] , který má dostupný -raw (řádkový) "
+"protějšek [%raw_token]. Pro Pathauto šablony byste měli používat "
+"-raw token verze vyjma případů, kdy opravdu víte, co děláte. Pro "
+"více informací zhlédněte <a href=\"@pathauto-help\">Pathauto "
+"help</a>."
+
+#: pathauto.admin.inc:353
+msgid "NOTE: This field contains potentially incorrect patterns. "
+msgstr "UPOZORNĚNÍ: Toto pole obsahuje potenciálně chybné šablony."
+
+#: pathauto.admin.inc:355
+msgid "%problems"
+msgstr "%problems"
+
+#: pathauto.admin.inc:374
+msgid ""
+"You have configured the @name to be the separator and to be removed "
+"when encountered in strings. This can cause problems with your "
+"patterns and especially with the catpath and termpath patterns. You "
+"should probably set the action for @name to be \"replace by "
+"separator\""
+msgstr ""
+"Máte nastaven @name tak, že bude nahrazen pomlčkou anebo smazán, "
+"pokud se nachází ve slově. Toto může způsobit problém s vaší "
+"šablonou a zvláště s catpath a termpath šablonou. Pravděpodobně "
+"byste měli nastavit @name tak, aby byl nahrazen pomlčkou (\"replace "
+"by separator\")."
+
+#: pathauto.admin.inc:399
+msgid "Choose Aliases to Delete"
+msgstr "Vyberte aliasy k vymazání"
+
+#: pathauto.admin.inc:408
+msgid "all aliases"
+msgstr "všechny aliasy"
+
+#: pathauto.admin.inc:410
+msgid "Delete all aliases. Number of aliases which will be deleted: %count."
+msgstr ""
+"Vymazat všechny aliasy. Počet aliasů, které budou smazány: "
+"%count."
+
+#: pathauto.admin.inc:421
+msgid ""
+"Delete aliases for all @label. Number of aliases which will be "
+"deleted: %count."
+msgstr ""
+"Vymaže všechny aliasy pro jméno @label. Počet aliasů, které "
+"budou vymazány: %count."
+
+#: pathauto.admin.inc:426
+msgid ""
+"<p><strong>Note:</strong> there is no confirmation. Be sure of your "
+"action before clicking the \"Delete aliases now!\" button.<br />You "
+"may want to make a backup of the database and/or the url_alias table "
+"prior to using this feature.</p>"
+msgstr ""
+"<p><strong>Poznámka:</strong> bez potvrzení. Ujistěte se, že "
+"chcete tuto akci provést, než kliknete na tlačítko \"Smazat aliasy "
+"nyní\" (\"Delete aliases now!\"). <br />Můžete také udělat "
+"zálohu databáze a/anebo url_alias tabulek před tím, než jí "
+"provedete."
+
+#: pathauto.admin.inc:429
+msgid "Delete aliases now!"
+msgstr "Vymazat aliasy!"
+
+#: pathauto.admin.inc:443
+msgid "All of your path aliases have been deleted."
+msgstr "Všechny vaše aliasy byly vymazány."
+
+#: pathauto.admin.inc:448
+msgid "All of your %type path aliases have been deleted."
+msgstr "Všechny aliasy typu %type byly vymazány."
+
+#: pathauto.admin.inc:287
+msgid "Bulk generation of index aliases completed, one alias generated."
+msgid_plural "Bulk generation of index aliases completed, @count aliases generated."
+msgstr[0] ""
+"Hromadná aktualizace indexových aliasů dokončena, 1 alias byl "
+"vygenerován."
+msgstr[1] ""
+"Hromadná aktualizace indexových aliasů dokončena, @count aliasy "
+"byly vygenerovány."
+msgstr[2] ""
+"Hromadná aktualizace indexových aliasů dokončena, @count aliasů "
+"bylo vygenerováno."
+
+#: pathauto.admin.inc:354
+msgid "Problem token: "
+msgid_plural "Problem tokens: "
+msgstr[0] "Problémový token:"
+msgstr[1] "Problémových tokenů:"
+msgstr[2] "Problémových tokenů: "
+
+#: pathauto.inc:315
+msgid ""
+"The automatically generated alias %original_alias conflicted with an "
+"existing alias. Alias changed to %alias."
+msgstr ""
+"Automaticky generovaný alias %original_alias kolidoval s již "
+"existujícím aliasem. Byl změněn na %alias."
+
+#: pathauto.inc:381
+msgid "Ignoring alias %dst due to existing path conflict."
+msgstr "Ignoruji alias %dst kvůli konfliktu s již existujícím aliasem."
+
+#: pathauto.inc:388
+msgid "Ignoring alias %dst because it is the same as the internal path."
+msgstr "Ignoruji alias %dst protože je stejný jako interní cesta."
+
+#: pathauto.inc:408
+msgid ""
+"Created new alias %dst for %src, replacing %old_alias. %old_alias now "
+"redirects to %dst"
+msgstr ""
+"Vytvořen nový alias %dst pro %src, nahrazením %old_alias,  který "
+"je nyní přesměrován na %dst"
+
+#: pathauto.inc:411
+msgid "Created new alias %dst for %src, replacing %old_alias"
+msgstr "Vytvořen nový alias %dst pro %src, nahrazující %old_alias"
+
+#: pathauto.inc:414
+msgid "Created new alias %dst for %src"
+msgstr "Vytvořen nový alias %dst pro %src"
+
+#: pathauto.inc:477
+msgid "Double quotes \""
+msgstr "Dvojité uvozovky \""
+
+#: pathauto.inc:478
+msgid "Single quotes (apostrophe) '"
+msgstr "Jednoduché úvozovky (apostrof) '"
+
+#: pathauto.inc:479
+msgid "Back tick `"
+msgstr "Zpětný apostrof `"
+
+#: pathauto.inc:480
+msgid "Comma ,"
+msgstr "Čárka ,"
+
+#: pathauto.inc:481
+msgid "Period ."
+msgstr "Tečka ."
+
+#: pathauto.inc:482
+msgid "Hyphen -"
+msgstr "Pomlčka -"
+
+#: pathauto.inc:483
+msgid "Underscore _"
+msgstr "Podtržítko _"
+
+#: pathauto.inc:484
+msgid "Colon :"
+msgstr "Dvojtečka :"
+
+#: pathauto.inc:485
+msgid "Semicolon ;"
+msgstr "Středník ;"
+
+#: pathauto.inc:486
+msgid "Pipe |"
+msgstr "Svislítko (roura) |"
+
+#: pathauto.inc:487
+msgid "Left curly bracket {"
+msgstr "Levá složená závorka {"
+
+#: pathauto.inc:488
+msgid "Left square bracket ["
+msgstr "Levá hranatá závorka ["
+
+#: pathauto.inc:489
+msgid "Right curly bracket }"
+msgstr "Pravá složená závorka }"
+
+#: pathauto.inc:490
+msgid "Right square bracket ]"
+msgstr "Pravá hranatá závorka ]"
+
+#: pathauto.inc:491
+msgid "Plus +"
+msgstr "Plus +"
+
+#: pathauto.inc:492
+msgid "Equal ="
+msgstr "Rovnítko ="
+
+#: pathauto.inc:493
+msgid "Asterisk *"
+msgstr "Hvězdička *"
+
+#: pathauto.inc:494
+msgid "Ampersand &"
+msgstr "Ampersand &"
+
+#: pathauto.inc:495
+msgid "Percent %"
+msgstr "Procenta %"
+
+#: pathauto.inc:496
+msgid "Caret ^"
+msgstr "Stříška ^"
+
+#: pathauto.inc:497
+msgid "Dollar $"
+msgstr "Dolar $"
+
+#: pathauto.inc:498
+msgid "Hash #"
+msgstr "Křížek #"
+
+#: pathauto.inc:499
+msgid "At @"
+msgstr "Zavináč @"
+
+#: pathauto.inc:500
+msgid "Exclamation !"
+msgstr "Vykřičník !"
+
+#: pathauto.inc:501
+msgid "Tilde ~"
+msgstr "Vlnovka (tilda) ~"
+
+#: pathauto.inc:502
+msgid "Left parenthesis ("
+msgstr "Levá závorka ("
+
+#: pathauto.inc:503
+msgid "right parenthesis )"
+msgstr "Pravá závorka )"
+
+#: pathauto.inc:504
+msgid "Question mark ?"
+msgstr "Otazník ?"
+
+#: pathauto.inc:505
+msgid "Less than <"
+msgstr "Menší než <"
+
+#: pathauto.inc:506
+msgid "Greater than >"
+msgstr "Větší než >"
+
+#: pathauto.inc:507
+msgid "Back slash \\"
+msgstr "Zpětné lomítko \\"
+
+#: pathauto.inc:437; pathauto.info:0
+msgid "Pathauto"
+msgstr "Pathauto"
+
+#: pathauto.inc:437
+msgid ""
+"It appears that you have installed Pathauto, which depends on token, "
+"but token is either not installed or not installed properly."
+msgstr ""
+"Vypadá to, že byl nainstalován modul Pahtauto, který je závislý "
+"na modulu Token, ale ten nainstalován nebyl nebo byl nainstalován "
+"chybně."
+
+#: pathauto_node.inc:20
+msgid "Node path settings"
+msgstr "Nastavení cesty uzlu"
+
+#: pathauto_node.inc:21
+msgid ""
+"Default path pattern (applies to all node types with blank patterns "
+"below)"
+msgstr ""
+"Výchozí vzorek cesty (aplikován na všechny uzly, které nemají "
+"níže nic vyplněno)"
+
+#: pathauto_node.inc:22
+msgid "content/[title-raw]"
+msgstr "obsah/[title-raw]"
+
+#: pathauto_node.inc:23
+msgid "Bulk generate aliases for nodes that are not aliased"
+msgstr ""
+"Generovat aliasy všem existujícím uzlům, které zatím aliasy "
+"nemají."
+
+#: pathauto_node.inc:24
+msgid ""
+"Generate aliases for all existing nodes which do not already have "
+"aliases."
+msgstr ""
+"Generovat aliasy pro všechny existující uzly, které zatím "
+"žádné aliasy nemají."
+
+#: pathauto_node.inc:44
+msgid ""
+"Default path pattern for @node_type (applies to all @node_type node "
+"types with blank patterns below)"
+msgstr ""
+"Výchozí šablona uzlu typu @node_type (platí pro všechny uzly typu "
+"@node_type s prázdnou předlohou níže)"
+
+#: pathauto_node.inc:47
+msgid "Pattern for all @node_type paths in @language"
+msgstr "Šablona pro všechny @node_type paths v @language"
+
+#: pathauto_node.inc:50
+msgid "Pattern for all language neutral @node_type paths"
+msgstr "Šablona pro všechny jazykově neutrální uzly typu @node_type"
+
+#: pathauto_node.inc:55
+msgid "Pattern for all @node_type paths"
+msgstr "Šablona pro všechny uzly typu @node_type"
+
+#: pathauto_node.inc:121
+msgid "Bulk generation of nodes completed, one alias generated."
+msgid_plural "Bulk generation of nodes completed, @count aliases generated."
+msgstr[0] "Hromadná aktualizace uzlů dokončena, 1 alias byl vygenerován."
+msgstr[1] ""
+"Hromadná aktualizace uzlů dokončena, @count aliasy byly "
+"vygenerovány."
+msgstr[2] ""
+"Hromadná aktualizace uzlů dokončena, @count aliasů bylo "
+"vygenerováno."
+
+#: pathauto_taxonomy.inc:20
+msgid "Taxonomy term path settings"
+msgstr "Nastavení šablon cest k termínům (modul Taxonomy)"
+
+#: pathauto_taxonomy.inc:21
+msgid ""
+"Default path pattern (applies to all vocabularies with blank patterns "
+"below)"
+msgstr ""
+"Výchozí šablona pro cestu (aplikována na všechny slovníky s "
+"nevyplněnou šablonou níže)"
+
+#: pathauto_taxonomy.inc:22
+msgid "category/[vocab-raw]/[catpath-raw]"
+msgstr "category/[vocab-raw]/[catpath-raw]"
+
+#: pathauto_taxonomy.inc:32
+msgid "Bulk generate aliases for terms that are not aliased"
+msgstr "Hromadně vygenerovat cesty pro termíny, které nejsou aliasovány."
+
+#: pathauto_taxonomy.inc:33
+msgid ""
+"Generate aliases for all existing terms which do not already have "
+"aliases."
+msgstr ""
+"Generovat aliasy pro všechny existující termíny, které dosud "
+"nemají aliasy."
+
+#: pathauto_taxonomy.inc:42
+msgid "Pattern for all %vocab-name paths"
+msgstr "Šablona pro všechny cesty %vocab-name"
+
+#: pathauto_taxonomy.inc:134
+msgid "Forum path settings"
+msgstr "Nastavení cest k diskusnímu fóru"
+
+#: pathauto_taxonomy.inc:135
+msgid "Pattern for forums and forum containers"
+msgstr "Šablona pro diskusní fóra a kontejnery diskusních fór"
+
+#: pathauto_taxonomy.inc:136
+msgid "[vocab-raw]/[catpath-raw]"
+msgstr "[vocab-raw]/[catpath-raw]"
+
+#: pathauto_taxonomy.inc:146
+msgid "Bulk generate forum paths"
+msgstr "Generovat všechny aliasy pro diskusní fórum"
+
+#: pathauto_taxonomy.inc:147
+msgid ""
+"Generate aliases for all existing forums and forum containers which do "
+"not already have aliases."
+msgstr ""
+"Generovat aliasy pro všechna existující diskusní fóra a "
+"kontejnery diskusních fór, které zatím žádné aliasy nemají."
+
+#: pathauto_taxonomy.inc:92
+msgid "Bulk generation of terms completed, one alias generated."
+msgid_plural "Bulk generation of terms completed, @count aliases generated."
+msgstr[0] "Hromadná úprava termínů byla dokončena, 1 alias byl vygenerován."
+msgstr[1] ""
+"Hromadná úprava termínů byla dokončena, @count aliasy byly "
+"vygenerovány."
+msgstr[2] ""
+"Hromadná úprava termínů byla dokončena, @count aliasů bylo "
+"vygenerováno."
+
+#: pathauto_taxonomy.inc:168
+msgid ""
+"Bulk update of forums and forum containers completed, one alias "
+"generated."
+msgid_plural ""
+"Bulk update of forums and forum containers completed, @count aliases "
+"generated."
+msgstr[0] ""
+"Hromadná úprava diskusních fór a kontejnerů diskusních fór, 1 "
+"alias byl vygenerován."
+msgstr[1] ""
+"Hromadná úprava diskusních fór a kontejnerů diskusních fór, "
+"@count aliasy byly vygenerovány."
+msgstr[2] ""
+"Hromadná úprava diskusních fór a kontejnerů diskusních fór, "
+"@count aliasů bylo vygenerováno."
+
+#: pathauto_user.inc:20
+msgid "User path settings"
+msgstr "Nastavení uživatelských cest"
+
+#: pathauto_user.inc:21
+msgid "Pattern for user account page paths"
+msgstr "Šablona pro cesty k uživatelských účtům"
+
+#: pathauto_user.inc:22
+msgid "users/[user-raw]"
+msgstr "users/[user-raw]"
+
+#: pathauto_user.inc:32
+msgid "Bulk generate aliases for users that are not aliased"
+msgstr ""
+"Generovat aliasy pro všechny uživatelské účty, které ještě "
+"aliasy nemají."
+
+#: pathauto_user.inc:33
+msgid ""
+"Generate aliases for all existing user account pages which do not "
+"already have aliases."
+msgstr ""
+"Generovat aliasy pro všechny existující uživatelské účty, "
+"které zatím žádné aliasy nemají."
+
+#: pathauto_user.inc:49
+msgid "Blog path settings"
+msgstr "Nastavení cest blogu"
+
+#: pathauto_user.inc:50
+msgid "Pattern for blog page paths"
+msgstr "Šablona pro cesty k blogům"
+
+#: pathauto_user.inc:51
+msgid "blogs/[user-raw]"
+msgstr "blogs/[user-raw]"
+
+#: pathauto_user.inc:57
+msgid "Bulk generate aliases for blogs that are not aliased"
+msgstr ""
+"Generovat aliasy pro všechny blogy, které zatím žádné aliasy "
+"nemají"
+
+#: pathauto_user.inc:58
+msgid ""
+"Generate aliases for all existing blog pages which do not already have "
+"aliases."
+msgstr ""
+"Generovat aliasy pro všechny existující stránky blogu, které "
+"zatím žádné aliasy nemají."
+
+#: pathauto_user.inc:74
+msgid "User-tracker path settings"
+msgstr "Nastavení cesty user-tracker"
+
+#: pathauto_user.inc:75
+msgid "Pattern for user-tracker page paths"
+msgstr "Šablona pro user-tracker cesty"
+
+#: pathauto_user.inc:76
+msgid "users/[user-raw]/track"
+msgstr "users/[user-raw]/track"
+
+#: pathauto_user.inc:82
+msgid "Bulk generate aliases for user-tracker paths that are not aliased"
+msgstr ""
+"Generovat aliasy pro všechny existující uživatelské trackery, "
+"které zatím žádné aliasy nemají."
+
+#: pathauto_user.inc:83
+msgid ""
+"Generate aliases for all existing user-tracker pages which do not "
+"already have aliases."
+msgstr ""
+"Generovat aliasy pro všechny existující uživatelské trackery, "
+"které zatím žádné aliasy nemají."
+
+#: pathauto_user.inc:107
+msgid "Bulk generation of users completed, one alias generated."
+msgid_plural "Bulk generation of users completed, @count aliases generated."
+msgstr[0] ""
+"Hromadná úprava uživatelů byla dokončena, 1 alias byl "
+"vygenerován."
+msgstr[1] ""
+"Hromadná úprava uživatelů byla dokončena, @count aliasy byly "
+"vygenerovány."
+msgstr[2] ""
+"Hromadná úprava uživatelů byla dokončena, @count aliasů bylo "
+"vygenerováno."
+
+#: pathauto_user.inc:129
+msgid "Bulk generation of user blogs completed, one alias generated."
+msgid_plural "Bulk generation of user blogs completed, @count aliases generated."
+msgstr[0] "Hromadná úprava blogů byla dokončena, 1 alias byl vygenerován."
+msgstr[1] ""
+"Hromadná úprava blogů byla dokončena, @count aliasy byly "
+"vygenerovány."
+msgstr[2] ""
+"Hromadná úprava blogů byla dokončena, @count aliasů bylo "
+"vygenerováno."
+
+#: pathauto_user.inc:153
+msgid "Bulk generation of user tracker pages completed, one alias generated."
+msgid_plural ""
+"Bulk generation of user tracker pages completed, @count aliases "
+"generated."
+msgstr[0] ""
+"Hromadná úprava user-tracker byla dokončena, 1 alias byl "
+"vygenerován."
+msgstr[1] ""
+"Hromadná úprava user-tracker byla dokončena, @count aliasy byly "
+"vygenerovány."
+msgstr[2] ""
+"Hromadná úprava user-tracker byla dokončena, @count aliasů bylo "
+"vygenerováno."
+
+#: pathauto.module:27
+msgid ""
+"<p>Provides a mechanism for modules to automatically generate aliases "
+"for the content they manage.</p>\n"
+"                  <h2>Settings</h2>\n"
+"                  <p>The <strong>Maximum Alias Length</strong> and "
+"<strong>Maximum component length</strong> values\n"
+"                  default to 100 and have a limit of 128 from "
+"pathauto. This length is limited by the length of the dst\n"
+"                  column of the url_alias database table. The default "
+"database schema for this column is 128. If you\n"
+"                  set a length that is equal to that of the one set in "
+"the dst column it will cause problems in situations\n"
+"                  where the system needs to append additional words to "
+"the aliased URL. For example... URLs generated\n"
+"                  for feeds will have \"/feed\" added to the end. You "
+"should enter a value that is the length of the dst\n"
+"                  column minus the length of any strings that might "
+"get added to the end of the URL. The length of\n"
+"                  strings that might get added to the end of your URLs "
+"depends on which modules you have enabled and\n"
+"                  on your Pathauto settings. The recommended and "
+"default value is 100.</p>\n"
+"                  <p><strong>Raw Tokens</strong> In Pathauto it is "
+"appropriate to use the -raw form of tokens. Paths are\n"
+"                  sent through a filtering system which ensures that "
+"raw user content is filtered. Failure to use -raw\n"
+"                  tokens can cause problems with the Pathauto "
+"punctuation filtering system.</p>"
+msgstr ""
+"<p>Nabízí mechanismus pro moduly k automatickému generování "
+"aliasů pro obsah, který spravují.</p><br /> <h2>Nastavení</h2><br "
+"/> <p>Hodnoty <strong>Maximum Alias Length</strong> (maximální "
+"délka aliasu) a <strong>Maximum component length</strong><br /> jsou "
+"standardně nastaveny na 100 a mají limit 128. Tato délka je dána "
+"délkou prvního<br /> sloupce v url_alias databázové tabulce. "
+"Standardní databázové schéma (nastavení) pro tento sloupec je "
+"128. Jestliže<br /> nastavíte délku, která je rovna délce, jež "
+"je nastavena v prvním sloupci, může to způsobit problém v "
+"situacích,<br /> kdy systém potřebuje přidat dodatečná slova do "
+"aliasovaného URL. Například: URL adresy generované<br /> pro "
+"nábytek budou mít na konci přidáno \"/nabytek\". Měli byste zadat "
+"hodnotu, která je rovna: nastavená délka v pvním<br /> sloupci "
+"mínus délka jakéhokoliv znakového řetězce, který může být "
+"přidán na konec URL. Délka<br /> znakového řetězce, který "
+"může být přidán na konec URL závisí na tom, jaký modul máte "
+"povolen a<br /> na vašem nastavení v Pathauto. Doporučená a "
+"standardně nastavená hodnota je 100.</p> <p><strong>Raw "
+"Tokens</strong> V Pathauto je vhodné používat -raw podobu tokenů. "
+"Cesty (paths)<br /> jsou poslány přes filtrovací systém, který "
+"zajistí, že raw user obsah bude filtrovaný. Nepoužití -raw "
+"tokenů<br /> může způsobit problémy ve filtrovacím systému "
+"diakritiky v modulu Pathauto.</p>"
+
+#: pathauto.module:159
+msgid "As [cat], but including its supercategories separated by /."
+msgstr "Jako [cat], ale včetně nadkategorií oddělených znakem /."
+
+#: pathauto.module:160
+msgid ""
+"As [cat-raw], but including its supercategories separated by /. "
+"WARNING - raw user input."
+msgstr ""
+"Jako [cat-raw], ale včetně nadkategorií oddělených znakem /. "
+"POZOR - raw vstup."
+
+#: pathauto.module:161,166
+msgid "URL alias for the term."
+msgstr "URL alias pro termín."
+
+#: pathauto.module:164
+msgid "As [term], but including its supercategories separated by /."
+msgstr "Jako [term], ale včetně nadkategorií oddělených znakem /."
+
+#: pathauto.module:165
+msgid ""
+"As [term-raw], but including its supercategories separated by /. "
+"WARNING - raw user input."
+msgstr ""
+"Jako [term-raw], ale včetně nadkategorií oddělených znakem /. "
+"POZOR - nefiltrovaný vstup."
+
+#: pathauto.module:171
+msgid "URL alias for the parent book."
+msgstr "URL alias pro rodičovskou knihu."
+
+#: pathauto.module:183
+msgid "users"
+msgstr "uživatelé"
+
+#: pathauto.module:185
+msgid "user blogs"
+msgstr "uživatelské blogy"
+
+#: pathauto.module:188
+msgid "vocabularies and terms"
+msgstr "slovníky a termíny"
+
+#: pathauto.module:191
+msgid "user trackers"
+msgstr "uživatelské trackery"
+
+#: pathauto.module:194
+msgid "forums"
+msgstr "diskusní fóra"
+
+#: pathauto.module:279
+msgid ""
+"An alias will be generated for you. If you wish to create your own "
+"alias below, untick this option."
+msgstr ""
+"Alias bude vygenerován. Pokud si to nepřejete, můžete zadat "
+"vlastní, zrušte zaškrtnutí této volby."
+
+#: pathauto.module:281
+msgid ""
+" To control the format of the generated aliases, see the <a "
+"href=\"@pathauto\">Pathauto settings</a>."
+msgstr ""
+" Pro kontrolu formátu generovaných aliasů se podívejte na <a "
+"href=\"@pathauto\">nastavení Pathauto</a>."
+
+#: pathauto.module:289
+msgid "Automatic alias"
+msgstr "Automatický alias"
+
+#: pathauto.module:312
+msgid "Update path alias"
+msgstr "Aktualizovat cestu aliasu"
+
+#: pathauto.module:49
+msgid "administer pathauto"
+msgstr "spravovat pathauto"
+
+#: pathauto.module:49
+msgid "notify of path changes"
+msgstr "informovat o změně aliasů"
+
+#: pathauto.module:57
+msgid "Automated alias settings"
+msgstr "Nastavení automatických cest"
+
+#: pathauto.module:68
+msgid "Delete aliases"
+msgstr "Vymazat cesty"
+
+#: pathauto.module:0
+msgid "pathauto"
+msgstr "pathauto"

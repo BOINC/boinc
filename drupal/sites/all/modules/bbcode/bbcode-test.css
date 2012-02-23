@@ -1,0 +1,25 @@
+/* Test CSS file to show what CSS attributes can be changed.
+ *
+ * This CSS file is not automatically included in your HTML, you
+ * need to copy the required properties to your site's CSS file.
+ */
+
+.bb-code {
+  width: 100%;
+  border: 1px solid #bfd0d9;
+  border-left: 4px solid #bfd0d9; 666699;
+}
+.bb-code-block {}
+.bb-list {}
+.bb-url {}
+.bb-email {}
+.bb-image {
+  max-width: 100%;
+  width: expression(this.width > 500 ? "500px" : this.width);
+}
+.bb-quote {}
+.bb-table {
+  border: 1px solid #660000;
+}
+.bb-hr {}
+.bb-br {}

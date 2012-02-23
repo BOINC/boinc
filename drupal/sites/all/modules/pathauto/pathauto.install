@@ -1,0 +1,110 @@
+<?php
+// $Id: pathauto.install,v 1.13.2.1 2009/10/17 17:37:27 greggles Exp $
+
+/**
+ * @file
+ * Install, update, and uninstall functions for Pathauto.
+ *
+ * @ingroup pathauto
+ */
+
+/**
+ * Implementation of hook_install().
+ */
+function pathauto_install() {
+  // Check to see if taxonomy module is enabled before we set those variables
+  if (module_exists('taxonomy')) {
+    variable_set('pathauto_modulelist', array('node', 'user', 'taxonomy'));
+    variable_set('pathauto_taxonomy_supportsfeeds', '0/feed');
+    variable_set('pathauto_taxonomy_pattern', 'category/[vocab-raw]/[catpath-raw]');
+    variable_set('pathauto_taxonomy_bulkupdate', FALSE);
+    variable_set('pathauto_taxonomy_applytofeeds', FALSE);
+    variable_set('pathauto_taxonomy_2_pattern', '');
+    variable_set('pathauto_taxonomy_1_pattern', '');
+  }
+  else {
+    // Node and user are required so we don't have to check
+    variable_set('pathauto_modulelist', array('node', 'user'));
+  }
+  // Set the rest of the pathauto default variables
+  variable_set('pathauto_ignore_words', 'a,an,as,at,before,but,by,for,from,is,in,into,like,of,off,on,onto,per,since,than,the,this,that,to,up,via,with');
+  variable_set('pathauto_indexaliases', FALSE);
+  variable_set('pathauto_indexaliases_bulkupdate', FALSE);
+  variable_set('pathauto_max_component_length', '100');
+  variable_set('pathauto_max_length', '100');
+  variable_set('pathauto_node_bulkupdate', FALSE);
+  variable_set('pathauto_node_forum_pattern', '');
+  variable_set('pathauto_node_image_pattern', '');
+  variable_set('pathauto_node_page_pattern', '');
+  variable_set('pathauto_node_pattern', 'content/[title-raw]');
+  variable_set('pathauto_node_story_pattern', '');
+  variable_set('pathauto_punctuation_quotes', 0);
+  variable_set('pathauto_separator', '-');
+  variable_set('pathauto_update_action', '2');
+  variable_set('pathauto_user_bulkupdate', FALSE);
+  variable_set('pathauto_user_pattern', 'users/[user-raw]');
+  variable_set('pathauto_user_supportsfeeds', NULL);
+  variable_set('pathauto_verbose', FALSE);
+  variable_set('pathauto_node_applytofeeds', '');
+
+  // Make sure we "replace hyphen with separator" by default
+  variable_set('pathauto_punctuation_hyphen', 1); // 1 is replace
+
+  // Set the weight to 1
+  db_query("UPDATE {system} SET weight = 1 WHERE name = 'pathauto'");
+
+  // Clear the cache to get these to take effect.
+  cache_clear_all();
+}
+
+/**
+ * Implementation of hook_uninstall().
+ */
+function pathauto_uninstall() {
+  // Delete all the pathauto variables and then clear the variable cache
+  db_query("DELETE FROM {variable} WHERE name LIKE 'pathauto_%'");
+  cache_clear_all('variables', 'cache');
+}
+
+/**
+ * Set the weight a little heavier to allow taxonomy to do its work.
+ */
+function pathauto_update_1() {
+  $ret = array();
+  $ret[] = update_sql("UPDATE {system} SET weight = 1 WHERE name = 'pathauto'");
+  return $ret;
+}
+
+/**
+ * pathauto_update_4 was a backport of a feature which is in core of Drupal 6
+ * hence it is removed from the 6.x branch even though the goal is to support
+ * Pathauto 5.x-1.x -> 6.x-2.x upgrades.
+ */
+
+/**
+ * Delete the pathauto_node_supportsfeeds.
+ */
+function pathauto_update_3() {
+  // Do nothing, this update was a mistake
+  return array();
+}
+
+/**
+ * New style naming for the punctuation chars.
+ */
+function pathauto_update_4() {
+  variable_set('pathauto_punctuation_quotes', variable_get('pathauto_quotes', 0));
+  variable_del('pathauto_quotes');
+  return array();
+}
+
+/**
+ * Remove the url_alias_extra table which wasn't used.
+ */
+function pathauto_update_7() {
+  $ret = array();
+  if (db_table_exists('url_alias_extra')) {
+    db_drop_table($ret, 'url_alias_extra');
+  }
+  return $ret;
+}

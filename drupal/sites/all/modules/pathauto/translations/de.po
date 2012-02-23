@@ -1,0 +1,937 @@
+# $Id: de.po,v 1.2.2.2 2008/06/26 10:33:55 freso Exp $
+#
+# LANGUAGE translation of Drupal (sites/all/modules/pathauto/pathauto.module)
+# Copyright YEAR NAME <EMAIL@ADDRESS>
+# Generated from files:
+#  pathauto.module,v 1.44.2.5 2007/01/20 23:26:24 greggles
+#  pathauto.info,v 1.3.2.2 2007/01/17 16:53:41 greggles
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Pathauto\n"
+"POT-Creation-Date: 2008-06-24 18:52+0200\n"
+"PO-Revision-Date: 2008-05-02 16:46+0100\n"
+"Last-Translator: Alexander Hass\n"
+"Language-Team: Alexander Hass\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n!=1);\n"
+"X-Poedit-Language: German\n"
+"X-Poedit-Country: GERMANY\n"
+"X-Poedit-SourceCharset: utf-8\n"
+
+# not literally
+#: pathauto.admin.inc:22
+#, fuzzy
+msgid ""
+"It appears that the <a href=\"@token_link\">Token module</a> is not "
+"installed. Please ensure that you have it installed so that Pathauto can "
+"work properly. You may need to disable Pathauto and re-enable it to get "
+"Token enabled."
+msgstr ""
+"Das <a href=\"@token_link\">Token-Modul</a> scheint nicht installiert zu "
+"sein. Dieses muss für die einwandfreie Funktion von Autopfad installiert "
+"sein. Das Autopfad-Modul muss möglicherweise deaktiviert und wieder "
+"aktiviert werden um Token zu aktivieren."
+
+#: pathauto.admin.inc:38
+msgid "General settings"
+msgstr "Allgemeine Einstellungen"
+
+#: pathauto.admin.inc:46
+msgid "Verbose"
+msgstr "Ausführlich"
+
+#: pathauto.admin.inc:48
+msgid "Display alias changes (except during bulk updates)."
+msgstr "Zeige Aliasänderungen (ausgenommen während Massenaktualisierungen)."
+
+#: pathauto.admin.inc:53
+msgid "Separator"
+msgstr "Separator"
+
+#: pathauto.admin.inc:57
+msgid ""
+"Character used to separate words in titles. This will replace any spaces and "
+"punctuation characters. Using a space or + character can cause unexpected "
+"results."
+msgstr ""
+"Zu verwendende Zeichen, um Wörter in Titeln abzutrennen. Dies wird alle "
+"Leerzeichen und Satzzeichen ersetzten. Die Verwendung eines Leer- oder "
+"Pluszeichens kann unerwartete Ergebnisse verursachen."
+
+#: pathauto.admin.inc:62
+msgid "Character case"
+msgstr "Buchstabenschreibweise"
+
+#: pathauto.admin.inc:64
+msgid "Leave case the same as source token values."
+msgstr "Die Schreibweise der Quell-Token-Werte soll beibehalten werden."
+
+#: pathauto.admin.inc:64
+msgid "Change to lower case"
+msgstr "In Kleinbuchstaben ändern"
+
+#: pathauto.admin.inc:69
+msgid "Maximum alias length"
+msgstr "Maximallänge eines Aliases"
+
+#: pathauto.admin.inc:73
+#, fuzzy
+msgid ""
+"Maximum length of aliases to generate. 100 is recommended. See <a href="
+"\"@pathauto-help\">Pathauto help</a> for details."
+msgstr ""
+"Maximallänge der zu erstellenden Aliase. 100 wird empfohlen. Weitere Details "
+"in der <a href=\"@pathauto-help\">Autopfad Hilfe</a>."
+
+#: pathauto.admin.inc:78
+msgid "Maximum component length"
+msgstr "Maximallänge einer Komponente"
+
+#: pathauto.admin.inc:82
+msgid ""
+"Maximum text length of any component in the alias (e.g., [title]). 100 is "
+"recommended. See <a href=\"@pathauto-help\">Pathauto help</a> for details."
+msgstr ""
+"Maximale Textlänge aller Komponenten in einem Alias (z.b.: [titel]). 100 "
+"wird empfohlen. Weitere Details in der <a href=\"@pathauto-help\">Autopfad "
+"Hilfe</a>."
+
+#: pathauto.admin.inc:87
+msgid "Maximum number of objects to alias in a bulk update"
+msgstr ""
+"Die maximale Anzahl an Objekten, die bei einer Massenaktualisierung einen "
+"Alias erhalten sollen"
+
+#: pathauto.admin.inc:91
+#, fuzzy
+msgid ""
+"Maximum number of objects of a given type which should be aliased during a "
+"bulk update. The default is 50 and the recommended number depends on the "
+"speed of your server. If bulk updates \"time out\" or result in a \"white "
+"screen\" then reduce the number."
+msgstr ""
+"Die maximale Anzahl an Objekten eines bestimmten Typ, die bei einer "
+"Massenaktualisierung einen Alias erhalten sollen. Der Standardwert lautet 50 "
+"und die empfohlene Anzahl hängt von der Geschwindigkeit des Servers ab. Wenn "
+"Massenaktualisierungen wegen „Zeitüberschreitung“ abbrechen oder in einem "
+"„weißen Bildschirm“ resultieren, muss die Anzahl reduziert werden."
+
+#: pathauto.admin.inc:95
+msgid "Do nothing. Leave the old alias intact."
+msgstr "Nichts machen und den alten Alias beibehalten."
+
+#: pathauto.admin.inc:96
+msgid "Create a new alias. Leave the existing alias functioning."
+msgstr "Erstelle einen neuen Alias. Erhalte den vorhanden Alias."
+
+#: pathauto.admin.inc:97
+msgid "Create a new alias. Delete the old alias."
+msgstr "Erstelle einen neuen Alias. Lösche den alten Alias."
+
+#: pathauto.admin.inc:100
+msgid "Create a new alias. Redirect from old alias."
+msgstr "Erstelle einen neuen Alias. Umleiten von dem alten Alias."
+
+#: pathauto.admin.inc:110
+msgid "Update action"
+msgstr "Aktualisieren Aktion"
+
+#: pathauto.admin.inc:113
+msgid ""
+"What should pathauto do when updating an existing content item which already "
+"has an alias?"
+msgstr ""
+"Was soll Autopfad beim Aktualisierungen von vorhandenen Inhalten machen, "
+"welche schon einen Alias haben?"
+
+#: pathauto.admin.inc:118
+msgid ""
+"When a pattern includes certain characters (such as those with accents) "
+"should Pathauto attempt to transliterate them into the ASCII-96 alphabet? "
+"Transliteration is determined by the i18n-ascii.txt file in the Pathauto "
+"directory. <strong>This option is disabled on your site because you do not "
+"have an i18n-ascii.txt file in the Pathauto directory.</strong>"
+msgstr ""
+
+#: pathauto.admin.inc:121
+msgid ""
+"When a pattern includes certain characters (such as those with accents) "
+"should Pathauto attempt to transliterate them into the ASCII-96 alphabet? "
+"Transliteration is determined by the i18n-ascii.txt file in the Pathauto "
+"directory."
+msgstr ""
+
+#: pathauto.admin.inc:129
+msgid "Transliterate prior to creating alias"
+msgstr "Umcodieren, bevor der Alias erstellt wird"
+
+#: pathauto.admin.inc:136
+msgid "Reduce strings to letters and numbers from ASCII-96"
+msgstr ""
+
+#: pathauto.admin.inc:138
+msgid ""
+"Filters the new alias to only letters and numbers found in the ASCII-96 set."
+msgstr ""
+
+#: pathauto.admin.inc:143
+msgid "Strings to Remove"
+msgstr "Zu entfernende Zeichenketten"
+
+#: pathauto.admin.inc:144
+#, fuzzy
+msgid ""
+"Words to strip out of the URL alias, separated by commas. Do not place "
+"punctuation in here and do not use WYSIWYG editors on this field."
+msgstr ""
+"Komma getrennte Liste von Wörtern, die aus dem URL-Alias entfernt werden. In "
+"diesem Feld darf kein WYSIWYG Editor oder Zeichensetzung eingefügt werden."
+
+#: pathauto.admin.inc:150
+msgid "Punctuation settings"
+msgstr "Einstellungen für Zeichensetzung"
+
+#: pathauto.admin.inc:161
+msgid "Remove"
+msgstr "Entfernen"
+
+#: pathauto.admin.inc:161
+msgid "Replace by separator"
+msgstr "Mit Seperator ersetzten"
+
+#: pathauto.admin.inc:161
+msgid "No action (do not replace)"
+msgstr "Keine Aktion (keine Ersetzungen)"
+
+#: pathauto.admin.inc:239
+msgid "Replacement patterns"
+msgstr "Ersetzungsmuster"
+
+#: pathauto.admin.inc:243
+msgid "Use -raw replacements for text to avoid problems with HTML entities."
+msgstr ""
+
+#: pathauto.admin.inc:276
+msgid "Internal feed alias text (leave blank to disable)"
+msgstr ""
+
+#: pathauto.admin.inc:280
+msgid ""
+"The text to use for aliases for RSS feeds. Examples are \"feed\" and \"0/feed"
+"\"."
+msgstr ""
+
+#: pathauto.admin.inc:335
+msgid ""
+"You are using the token [%token] which is not valid within the scope of "
+"tokens where you are using it."
+msgstr ""
+"Es wird der Token [%token] verwendet, welcher im genutzen Bereich der Tokens "
+"ungültig ist."
+
+#: pathauto.admin.inc:343
+#, fuzzy
+msgid ""
+"You are using the token [%token] which has a -raw companion available [%"
+"raw_token]. For Pathauto patterns you should use the -raw version of tokens "
+"unless you really know what you are doing. See the <a href=\"@pathauto-help"
+"\">Pathauto help</a> for more details."
+msgstr ""
+"Es wird der Token [%token] verwendet, für den es auch einen -raw Token [%"
+"raw_token] gibt. Für Autopfad-Muster sollte die -raw Version von Tokens nur "
+"verwendet werden, wenn man sich über die Konsequenzen im Klaren ist. Die <a "
+"href=\"@pathauto-help\">Autopfad-Hilfe</a> enthält hierzu weitere Details."
+
+#: pathauto.admin.inc:353
+msgid "NOTE: This field contains potentially incorrect patterns. "
+msgstr "HINWEIS: Dieses Feld enthält möglicherweise fehlerhafte Muster."
+
+#: pathauto.admin.inc:355
+msgid "%problems"
+msgstr "%problems"
+
+#: pathauto.admin.inc:374
+#, fuzzy
+msgid ""
+"You have configured the @name to be the separator and to be removed when "
+"encountered in strings. This can cause problems with your patterns and "
+"especially with the catpath and termpath patterns. You should probably set "
+"the action for @name to be \"replace by separator\""
+msgstr ""
+"Das Trennzeichen @name wurde konfiguriert und wird bei Vorhandensein aus "
+"Zeichenketten entfernt. Dies kann mit eigenen Mustern und besonders mit "
+"Kategorie- und Begriffspfad-Mustern zu Problemen führen. Die Aktion für "
+"@name sollte vermutlich auf „mit Seperator ersetzten“ eingestellt werden."
+
+#: pathauto.admin.inc:399
+msgid "Choose Aliases to Delete"
+msgstr "Zu löschenden Alias auswählen"
+
+# starting case?
+#: pathauto.admin.inc:408
+#, fuzzy
+msgid "all aliases"
+msgstr "alle Aliase"
+
+#: pathauto.admin.inc:410
+#, fuzzy
+msgid "Delete all aliases. Number of aliases which will be deleted: %count."
+msgstr ""
+"Alle Aliase löschen. Die Anzahl der zu löschenden Aliase beträgt: %count."
+
+#: pathauto.admin.inc:421
+msgid ""
+"Delete aliases for all @label. Number of aliases which will be deleted: %"
+"count."
+msgstr ""
+"Alle Aliase für @label löschen. Die Anzahl der zu löschenden Aliase beträgt: "
+"%count."
+
+#: pathauto.admin.inc:426
+#, fuzzy
+msgid ""
+"<p><strong>Note:</strong> there is no confirmation. Be sure of your action "
+"before clicking the \"Delete aliases now!\" button.<br />You may want to "
+"make a backup of the database and/or the url_alias table prior to using this "
+"feature.</p>"
+msgstr ""
+"<p><strong>Hinweis:</strong> es gibt keine Rückfrage. Sie sollten sich beim "
+"Drücken des Knopfes „Aliases jetzt löschen“ sicher sein.<br /> "
+"Möglicherweise möchten Sie vor der Nutzung dieser Funktion ein Backup der "
+"Datenbank und/oder der url_alias Tabelle machen.</p>"
+
+#: pathauto.admin.inc:429
+msgid "Delete aliases now!"
+msgstr "Aliase jetzt löschen!"
+
+#: pathauto.admin.inc:443
+msgid "All of your path aliases have been deleted."
+msgstr "Alle Pfad-Aliase wurden gelöscht."
+
+#: pathauto.admin.inc:448
+msgid "All of your %type path aliases have been deleted."
+msgstr "Alle %type Pfad-Aliase wurden gelöscht."
+
+#: pathauto.admin.inc:287
+msgid "Bulk generation of index aliases completed, one alias generated."
+msgid_plural ""
+"Bulk generation of index aliases completed, @count aliases generated."
+msgstr[0] ""
+"Massenerstellung von Index-Aliasen abgeschlossen, ein Alias wurde erstellt."
+msgstr[1] ""
+"Massenerstellung von Index-Aliasen abgeschlossen, @count Aliase wurden "
+"erstellt."
+
+#: pathauto.admin.inc:354
+msgid "Problem token: "
+msgid_plural "Problem tokens: "
+msgstr[0] ""
+msgstr[1] ""
+
+#: pathauto.inc:315
+msgid ""
+"The automatically generated alias %original_alias conflicted with an "
+"existing alias. Alias changed to %alias."
+msgstr ""
+
+#: pathauto.inc:381
+msgid "Ignoring alias %dst due to existing path conflict."
+msgstr "Alias %dst wurde aufgrund eines vorhandenen Pfadkonfliktes ignoriert."
+
+#: pathauto.inc:388
+#, fuzzy
+msgid "Ignoring alias %dst because it is the same as the internal path."
+msgstr "Alias %dst wurde ignoriert, da der interne Pfad gleich ist."
+
+#: pathauto.inc:408
+msgid ""
+"Created new alias %dst for %src, replacing %old_alias. %old_alias now "
+"redirects to %dst"
+msgstr ""
+"Neuer Alias %dst für %src erstellt, %old_alias wurde ersetzt. %old_alias "
+"leitet zu %dst um"
+
+#: pathauto.inc:411
+msgid "Created new alias %dst for %src, replacing %old_alias"
+msgstr "Neuer Alias %dst für %src erstellt, %old_alias wurde ersetzt"
+
+#: pathauto.inc:414
+msgid "Created new alias %dst for %src"
+msgstr "Neuer Alias %dst für %src erstellt"
+
+#: pathauto.inc:477
+msgid "Double quotes \""
+msgstr "Doppeltes Anführungszeichen \""
+
+#: pathauto.inc:478
+msgid "Single quotes (apostrophe) '"
+msgstr "Einfaches Anführungszeichen (Hochkomma) '"
+
+# ?
+#: pathauto.inc:479
+msgid "Back tick `"
+msgstr "Rückwärtshäkchen `"
+
+#: pathauto.inc:480
+msgid "Comma ,"
+msgstr "Komma ,"
+
+#: pathauto.inc:481
+msgid "Period ."
+msgstr "Punkt ."
+
+#: pathauto.inc:482
+msgid "Hyphen -"
+msgstr "Bindestrich -"
+
+#: pathauto.inc:483
+msgid "Underscore _"
+msgstr "Unterstrich _"
+
+#: pathauto.inc:484
+msgid "Colon :"
+msgstr "Doppelpunkt :"
+
+#: pathauto.inc:485
+msgid "Semicolon ;"
+msgstr "Semikolon ;"
+
+#: pathauto.inc:486
+msgid "Pipe |"
+msgstr "Pipe |"
+
+#: pathauto.inc:487
+msgid "Left curly bracket {"
+msgstr "Linke geschweifte Klammer {"
+
+#: pathauto.inc:488
+msgid "Left square bracket ["
+msgstr "Linke eckige Klammer ["
+
+#: pathauto.inc:489
+msgid "Right curly bracket }"
+msgstr "Rechte geschweifte Klammer }"
+
+#: pathauto.inc:490
+msgid "Right square bracket ]"
+msgstr "Rechte eckige Klammer ]"
+
+#: pathauto.inc:491
+msgid "Plus +"
+msgstr "Plus +"
+
+#: pathauto.inc:492
+msgid "Equal ="
+msgstr "Gleich ="
+
+#: pathauto.inc:493
+msgid "Asterisk *"
+msgstr "Stern *"
+
+#: pathauto.inc:494
+msgid "Ampersand &"
+msgstr "Kaufmännisches Und &"
+
+#: pathauto.inc:495
+msgid "Percent %"
+msgstr "Prozent %"
+
+#: pathauto.inc:496
+msgid "Caret ^"
+msgstr "Caret ^"
+
+#: pathauto.inc:497
+msgid "Dollar $"
+msgstr "Dollar $"
+
+#: pathauto.inc:498
+msgid "Hash #"
+msgstr "Rautenzeichen #"
+
+#: pathauto.inc:499
+msgid "At @"
+msgstr "At @"
+
+#: pathauto.inc:500
+msgid "Exclamation !"
+msgstr "Ausrufezeichen !"
+
+#: pathauto.inc:501
+msgid "Tilde ~"
+msgstr "Tilde ~"
+
+#: pathauto.inc:502
+msgid "Left parenthesis ("
+msgstr "Öffnende Klammer ("
+
+#: pathauto.inc:503
+msgid "right parenthesis )"
+msgstr "Schließende Klammer )"
+
+#: pathauto.inc:504
+msgid "Question mark ?"
+msgstr "Fragezeichen ?"
+
+#: pathauto.inc:505
+msgid "Less than <"
+msgstr "Weniger als <"
+
+#: pathauto.inc:506
+msgid "Greater than >"
+msgstr "Mehr als >"
+
+#: pathauto.inc:507
+msgid "Back slash \\"
+msgstr "Backslash \\"
+
+#: pathauto.inc:437 pathauto.info:0
+msgid "Pathauto"
+msgstr "Autopfad"
+
+#: pathauto.inc:437
+msgid ""
+"It appears that you have installed Pathauto, which depends on token, but "
+"token is either not installed or not installed properly."
+msgstr ""
+
+#: pathauto_node.inc:20
+msgid "Node path settings"
+msgstr "Pfadeinstellungen für Beiträge"
+
+#: pathauto_node.inc:21
+msgid ""
+"Default path pattern (applies to all node types with blank patterns below)"
+msgstr ""
+"Standard-Pfadmuster (wird auf alle nachfolgenden Inhaltstypen mit leeren "
+"Mustern angewendet)"
+
+#: pathauto_node.inc:22
+msgid "content/[title-raw]"
+msgstr "content/[title-raw]"
+
+#: pathauto_node.inc:23
+msgid "Bulk generate aliases for nodes that are not aliased"
+msgstr "Massenerstellung von Aliasen für alle vorhanden Beiträge ohne Alias"
+
+#: pathauto_node.inc:24
+msgid ""
+"Generate aliases for all existing nodes which do not already have aliases."
+msgstr ""
+"Erstelle Aliase für alle vorhanden Nodes, welche noch keinen Alias haben."
+
+#: pathauto_node.inc:37;79
+msgid "Language neutral"
+msgstr ""
+
+#: pathauto_node.inc:44
+#, fuzzy
+msgid ""
+"Default path pattern for @node_type (applies to all @node_type node types "
+"with blank patterns below)"
+msgstr ""
+"Standard-Pfadmuster (wird auf alle nachfolgenden Inhaltstypen mit leeren "
+"Mustern angewendet)"
+
+#: pathauto_node.inc:47
+msgid "Pattern for all @node_type paths in @language"
+msgstr "Muster für alle @node_type Pfade in @language"
+
+#: pathauto_node.inc:50
+#, fuzzy
+msgid "Pattern for all language neutral @node_type paths"
+msgstr "Muster für alle @node_type Pfade"
+
+#: pathauto_node.inc:55
+msgid "Pattern for all @node_type paths"
+msgstr "Muster für alle @node_type Pfade"
+
+#: pathauto_node.inc:121
+msgid "Bulk generation of nodes completed, one alias generated."
+msgid_plural "Bulk generation of nodes completed, @count aliases generated."
+msgstr[0] ""
+"Massenerstellung von Beiträgen abgeschlossen, ein Alias wurde erstellt."
+msgstr[1] ""
+"Massenerstellung von Beiträgen abgeschlossen, @count Aliase wurden erstellt."
+
+#: pathauto_taxonomy.inc:20
+msgid "Taxonomy term path settings"
+msgstr "Pfadeinstellungen für Kategoriebegriffe"
+
+#: pathauto_taxonomy.inc:21
+msgid ""
+"Default path pattern (applies to all vocabularies with blank patterns below)"
+msgstr ""
+"Standard-Pfadmuster (trifft auf alle nachfolgenden Vokabulare mit leeren "
+"Mustern zu)"
+
+#: pathauto_taxonomy.inc:22
+msgid "category/[vocab-raw]/[catpath-raw]"
+msgstr "category/[vocab-raw]/[catpath-raw]"
+
+#: pathauto_taxonomy.inc:32
+msgid "Bulk generate aliases for terms that are not aliased"
+msgstr "Massenerstellung von Aliasen für Begriffe ohne Alias"
+
+#: pathauto_taxonomy.inc:33
+msgid ""
+"Generate aliases for all existing terms which do not already have aliases."
+msgstr ""
+"Aliase für alle vorhandenen Begriffe erstellen, die derzeit keinen Alias "
+"haben."
+
+#: pathauto_taxonomy.inc:42
+msgid "Pattern for all %vocab-name paths"
+msgstr "Muster für alle %vocab-name Pfade"
+
+#: pathauto_taxonomy.inc:134
+msgid "Forum path settings"
+msgstr "Pfadeinstellungen für Foren"
+
+#: pathauto_taxonomy.inc:135
+msgid "Pattern for forums and forum containers"
+msgstr "Muster für Foren und Forumordner"
+
+#: pathauto_taxonomy.inc:136
+msgid "[vocab-raw]/[catpath-raw]"
+msgstr "[vocab-raw]/[catpath-raw]"
+
+#: pathauto_taxonomy.inc:146
+msgid "Bulk generate forum paths"
+msgstr "Massenerstellung von Forumpfaden"
+
+#: pathauto_taxonomy.inc:147
+msgid ""
+"Generate aliases for all existing forums and forum containers which do not "
+"already have aliases."
+msgstr ""
+"Erstelle Aliase für alle vorhandenen Foren und Forumordner, welche derzeit "
+"keine Aliase haben."
+
+#: pathauto_taxonomy.inc:92
+msgid "Bulk generation of terms completed, one alias generated."
+msgid_plural "Bulk generation of terms completed, @count aliases generated."
+msgstr[0] ""
+"Massenerstellung von Begriffen abgeschlossen, ein Alias wurde erstellt."
+msgstr[1] ""
+"Massenerstellung von Begriffen abgeschlossen, @count Aliase wurden erstellt."
+
+#: pathauto_taxonomy.inc:168
+msgid ""
+"Bulk update of forums and forum containers completed, one alias generated."
+msgid_plural ""
+"Bulk update of forums and forum containers completed, @count aliases "
+"generated."
+msgstr[0] ""
+"Massenaktualisierung von Foren und Forenordnern abgeschlossen, ein Aliase "
+"wurde erstellt."
+msgstr[1] ""
+"Massenaktualisierung von Foren und Forenordnern abgeschlossen, @count Aliase "
+"wurden erstellt."
+
+#: pathauto_user.inc:20
+msgid "User path settings"
+msgstr "Pfadeinstellungen für Benutzer"
+
+#: pathauto_user.inc:21
+msgid "Pattern for user account page paths"
+msgstr "Muster für Pfade von Benutzerkontenseiten"
+
+#: pathauto_user.inc:22
+msgid "users/[user-raw]"
+msgstr "users/[user-raw]"
+
+#: pathauto_user.inc:32
+msgid "Bulk generate aliases for users that are not aliased"
+msgstr "Massenerstellung von Aliasen für Benutzer ohne Alias"
+
+#: pathauto_user.inc:33
+msgid ""
+"Generate aliases for all existing user account pages which do not already "
+"have aliases."
+msgstr ""
+"Erstelle einen Alias für alle vorhandenen Benutzerkontenseiten, welche "
+"derzeit keinen Alias haben."
+
+#: pathauto_user.inc:49
+msgid "Blog path settings"
+msgstr "Pfadeinstellungen für Blog"
+
+#: pathauto_user.inc:50
+msgid "Pattern for blog page paths"
+msgstr "Muster für Blogseitenpfade"
+
+#: pathauto_user.inc:51
+msgid "blogs/[user-raw]"
+msgstr "blogs/[user-raw]"
+
+#: pathauto_user.inc:57
+msgid "Bulk generate aliases for blogs that are not aliased"
+msgstr "Massenerstellung von Aliasen für Blogs ohne Alias"
+
+#: pathauto_user.inc:58
+msgid ""
+"Generate aliases for all existing blog pages which do not already have "
+"aliases."
+msgstr ""
+"Erstelle einen Alias für ale vorhandenen Blogseiten, welche derzeit keinen "
+"Alias haben."
+
+#: pathauto_user.inc:74
+msgid "User-tracker path settings"
+msgstr "Pfadeinstellungen für Benutzer-Tracker"
+
+#: pathauto_user.inc:75
+msgid "Pattern for user-tracker page paths"
+msgstr "Muster für Benutzer-Tracker-Seitenpfade"
+
+#: pathauto_user.inc:76
+msgid "users/[user-raw]/track"
+msgstr "users/[user-raw]/track"
+
+#: pathauto_user.inc:82
+msgid "Bulk generate aliases for user-tracker paths that are not aliased"
+msgstr "Massenerstellung von Aliasen für Benutzer-Tracker-Pfaden ohne Alias"
+
+#: pathauto_user.inc:83
+msgid ""
+"Generate aliases for all existing user-tracker pages which do not already "
+"have aliases."
+msgstr ""
+"Erstelle einen Alias für alle vorhandenen Benutzer-Tracker Seiten, welche "
+"derzeit keinen Alias haben."
+
+#: pathauto_user.inc:107
+msgid "Bulk generation of users completed, one alias generated."
+msgid_plural "Bulk generation of users completed, @count aliases generated."
+msgstr[0] ""
+"Massenerstellung von Benutzern abgeschlossen, ein Alias wurde erstellt."
+msgstr[1] ""
+"Massenerstellung von Benutzern abgeschlossen, @count Aliase wurden erstellt."
+
+#: pathauto_user.inc:129
+msgid "Bulk generation of user blogs completed, one alias generated."
+msgid_plural ""
+"Bulk generation of user blogs completed, @count aliases generated."
+msgstr[0] ""
+"Massenerstellung von Benutzer-Blogs abgeschlossen, ein Alias wurde erstellt."
+msgstr[1] ""
+"Massenerstellung von Benutzer-Blogs abgeschlossen, @count Aliase wurden "
+"erstellt."
+
+#: pathauto_user.inc:153
+msgid "Bulk generation of user tracker pages completed, one alias generated."
+msgid_plural ""
+"Bulk generation of user tracker pages completed, @count aliases generated."
+msgstr[0] ""
+"Massenerstellung von Benutzer-Tracker-Seiten abgeschlossen, ein Alias wurde "
+"erstellt."
+msgstr[1] ""
+"Massenerstellung von Benutzer-Tracker-Seiten abgeschlossen, @count Aliase "
+"wurden erstellt."
+
+#: pathauto.module:27
+#, fuzzy
+msgid ""
+"<p>Provides a mechanism for modules to automatically generate aliases for "
+"the content they manage.</p>\n"
+"                  <h2>Settings</h2>\n"
+"                  <p>The <strong>Maximum Alias Length</strong> and "
+"<strong>Maximum component length</strong> values\n"
+"                  default to 100 and have a limit of 128 from pathauto. This "
+"length is limited by the length of the dst\n"
+"                  column of the url_alias database table. The default "
+"database schema for this column is 128. If you\n"
+"                  set a length that is equal to that of the one set in the "
+"dst column it will cause problems in situations\n"
+"                  where the system needs to append additional words to the "
+"aliased URL. For example... URLs generated\n"
+"                  for feeds will have \"/feed\" added to the end. You should "
+"enter a value that is the length of the dst\n"
+"                  column minus the length of any strings that might get "
+"added to the end of the URL. The length of\n"
+"                  strings that might get added to the end of your URLs "
+"depends on which modules you have enabled and\n"
+"                  on your Pathauto settings. The recommended and default "
+"value is 100.</p>\n"
+"                  <p><strong>Raw Tokens</strong> In Pathauto it is "
+"appropriate to use the -raw form of tokens. Paths are\n"
+"                  sent through a filtering system which ensures that raw "
+"user content is filtered. Failure to use -raw\n"
+"                  tokens can cause problems with the Pathauto punctuation "
+"filtering system.</p>"
+msgstr ""
+"<p>Stellt einen Mechanismus für Module zu Verfügung um automatisch Aliase "
+"für von diesen verwalte Inhalte zu erstellen.</p>\n"
+"<h2>Einstellungen</h2>\n"
+"<p>Der Wert der <strong>Maximallänge eines Aliases</strong> und "
+"<strong>Maximallänge einer Komponente</strong> beträgt Standardmäßig 100 und "
+"hat durch Autopfad eine Begrenzung von 128. Die Länge ist begrenzt durch die "
+"Länge der dst Spalte in der Datenbanktabelle url_alias. Das Standard "
+"Datenbankschema dieser Spalte ist 128. Wenn die Länge auf den gleichen Wert "
+"wie die dst Spalte gesetzt wird, verursacht dies Probleme in Situationen, wo "
+"das System an den URL Alias weitere Wörter anhängen muss. Zum Beispiel... "
+"URL's welche für Feeds erstellt werden, bekommen ein '/feed' am Ende "
+"angehängt. Der Wert sollte die Länge von dst abzüglich aller möglicherweise "
+"angehängten Zeichenketten betragen, welche am Ende der URL angehängt werden "
+"können. Die Länge der Zeichenketten, welche am Ende von URL's angehängt "
+"werden können hängt von den aktivierten Modulen und den Autopfad "
+"Einstellungen ab. Der Standard und empfohlene Wert ist 100.</"
+"p><p><strong>Orginal Tokens</strong> In Autopfad ist es möglich die -raw "
+"Form eines Tokens zu verwenden. Pfade werden durch ein Filtersystem "
+"geschickt, um eine Filterung der orginalen Benutzerinhalte sicherzustellen. "
+"Fehler bei der Verwendung von -raw Tokens können Probleme mit dem "
+"Filtersystem der Autopfad-Zeichensetzung verursachen.</p>"
+
+#: pathauto.module:164
+msgid "As [cat], but including its supercategories separated by /."
+msgstr "Wie [cat], aber inclusive der Überkategorien getrennt mit /."
+
+#: pathauto.module:165
+msgid ""
+"As [cat-raw], but including its supercategories separated by /. WARNING - "
+"raw user input."
+msgstr ""
+"Wie [cat-raw], aber inclusive der Überkategorien getrennt mit /. WARNUNG - "
+"orginal Benutzereingabe."
+
+#: pathauto.module:166;171
+msgid "URL alias for the term."
+msgstr "URL-Alias für den Begriff."
+
+#: pathauto.module:169
+msgid "As [term], but including its supercategories separated by /."
+msgstr "Wie [term], aber inclusive der Überkategorien getrennt mit /."
+
+#: pathauto.module:170
+msgid ""
+"As [term-raw], but including its supercategories separated by /. WARNING - "
+"raw user input."
+msgstr ""
+"Wie [term-raw], aber inclusive der Überkategorien getrennt mit /. WARNUNG - "
+"orginal Benutzereingabe."
+
+#: pathauto.module:176
+msgid "URL alias for the parent book."
+msgstr "URL-Alias für das übergeordnete Buch."
+
+#: pathauto.module:188
+msgid "users"
+msgstr "Benutzer"
+
+#: pathauto.module:188
+msgid "content"
+msgstr "Inhalt"
+
+#: pathauto.module:190
+msgid "user blogs"
+msgstr "Benutzerblogs"
+
+#: pathauto.module:193
+msgid "vocabularies and terms"
+msgstr "Vokabulare und Begriffe"
+
+#: pathauto.module:196
+msgid "user trackers"
+msgstr "Benutzertracker"
+
+#: pathauto.module:199
+msgid "forums"
+msgstr "Foren"
+
+#: pathauto.module:284
+msgid ""
+"An alias will be generated for you. If you wish to create your own alias "
+"below, untick this option."
+msgstr ""
+"Ein Alias wird automatisch generiert. Wenn nachfolgend ein anderer angegeben "
+"werden soll, muss das Häkchen entfernt werden."
+
+#: pathauto.module:286
+msgid ""
+" To control the format of the generated aliases, see the <a href=\"@pathauto"
+"\">Pathauto settings</a>."
+msgstr ""
+"Das Format der erstellten Aliase kann unter den <a href=\"@pathauto"
+"\">Autopfad Einstellungen</a> festgelegt werden."
+
+#: pathauto.module:294
+msgid "Automatic alias"
+msgstr "Automatischer Alias"
+
+#: pathauto.module:319
+msgid "Update path alias"
+msgstr "Pfad-Alias aktualisieren"
+
+#: pathauto.module:49
+msgid "administer pathauto"
+msgstr "Autopfad verwalten"
+
+#: pathauto.module:49
+msgid "notify of path changes"
+msgstr "Über Pfadänderungen benachrichtigen"
+
+#: pathauto.module:57
+msgid "Automated alias settings"
+msgstr "Einstellungen für automatischen Alias"
+
+#: pathauto.module:68
+msgid "Delete aliases"
+msgstr "Aliase löschen"
+
+#: pathauto.module:0
+msgid "pathauto"
+msgstr "Autopfad"
+
+#: pathauto.info:0
+msgid ""
+"Provides a mechanism for modules to automatically generate aliases for the "
+"content they manage."
+msgstr ""
+"Stellt einen Mechanismus für Module zu Verfügung, um automatisch Aliase für "
+"von diesen verwalteten Inhalte zu erstellen."
+
+#~ msgid "[eventyyyy]"
+#~ msgstr "[eventyyyy]"
+
+#~ msgid "The year the event starts."
+#~ msgstr "Das Jahr in dem der Event startet."
+
+#~ msgid "[eventmm]"
+#~ msgstr "[eventmm]"
+
+#~ msgid "The two-digit month (01-12) the event starts."
+#~ msgstr "Der zweistellige Monat (01-12) in dem der Event startet."
+
+#~ msgid "[eventmon]"
+#~ msgstr "[eventmon]"
+
+#~ msgid "The three-letter month (jan-dec) the event starts."
+#~ msgstr "Der dreibuchstabige Monat (Jan-Dez) in dem der Event startet."
+
+#~ msgid "[eventdd]"
+#~ msgstr "[eventdd]"
+
+#~ msgid "The two-digit day of the month (00-31) the event starts."
+#~ msgstr "Der zweistellige Tag des Monats (00-31) an dem der Event startet."
+
+#~ msgid "[eventday]"
+#~ msgstr "[eventday]"
+
+#~ msgid "The three-letter day of the week (sun-sat) the event starts."
+#~ msgstr ""
+#~ "Die dreibuchstabige Tag der Woche (Mon-Son) an dem der Event startet."
+
+#~ msgid "[eventweek]"
+#~ msgstr "[eventweek]"
+
+#~ msgid "The week number (1-52) of the year the event starts."
+#~ msgstr "Die Wochennummer (1-52) des Jahres in dem der Event startet."
+
+#~ msgid "[lang]"
+#~ msgstr "[lang]"
+
+#~ msgid "Language code of the document"
+#~ msgstr "Sprachcode des Dokumentes"

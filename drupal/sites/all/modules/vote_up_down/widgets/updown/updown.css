@@ -1,0 +1,105 @@
+/* $Id: updown.css,v 1.1.2.8 2010/10/23 03:11:10 marvil07 Exp $ */
+
+.vud-widget-updown {
+  width: 50px;
+  float: left;
+  padding: 0 0.7em 0 0;
+}
+
+.vud-widget-updown a:hover {
+  text-decoration: none;
+}
+
+.vud-widget-updown .updown-score {
+  border: 1px solid #ccc;
+  color: #000;
+  font-size: 10px;
+  font-weight: bold;
+  text-align: center;
+  padding-top: 5px;
+  margin-bottom: 6px;
+
+}
+
+.vud-widget-updown .updown-score .updown-current-score {
+  display: block;
+  font-size: 20px;
+}
+
+.vud-widget-updown .up-inactive,
+.vud-widget-updown .down-inactive {
+  display: block;
+  color: #999999;
+  border: 1px solid #ccc;
+  width: 20px;
+  font-size: 15px;
+  height: 22px;
+  font-weight: bold;
+  text-align: center;
+}
+
+.vud-widget-updown .up-inactive:hover,
+.vud-widget-updown .down-inactive:hover {
+  font-size: 20px;
+}
+
+.vud-widget-updown .vud-link-up div {
+  float: left;
+  margin-right: 3px;
+}
+
+.vud-widget-updown .vud-link-down div {
+  float: left;
+  margin-left: 3px;
+}
+
+.vud-widget-updown .up-active,
+.vud-widget-updown .down-active {
+  display: block;
+  color: #000000;
+  border: 1px solid #ccc;
+  width: 20px;
+  font-size: 20px;
+  height: 22px;
+  font-weight: bold;
+  text-align: center;
+  cursor: default;
+}
+
+.vud-widget-updown .ctools-ajaxing {
+  border: 1px solid #ccc;
+  padding-right: 0 !important;
+  display: block;
+  width: 20px;
+  height: 22px;
+  background-position: center;
+  float: left;
+}
+
+.vud-widget-updown .ctools-ajaxing.updown-click-up {
+  margin-right: 3px;
+}
+
+.vud-widget-updown .ctools-ajaxing.updown-click-down {
+  margin-left: 3px;
+}
+
+.vud-widget-updown .ctools-ajaxing div {
+  display: none;
+}
+
+/**
+ * Hide elements visually, but keep them available for screen-readers.
+ *
+ * Used for information required for screen-reader users to understand and use
+ * the site where visual display is undesirable. Information provided in this
+ * manner should be kept concise, to avoid unnecessary burden on the user. Must
+ * not be used for focusable elements (such as links and form elements) as this
+ * causes issues for keyboard only or voice recognition users. "!important" is
+ * used to prevent unintentional overrides.
+ */
+.element-invisible {
+  position: absolute !important;
+  clip: rect(1px 1px 1px 1px); /* IE6, IE7 */
+  clip: rect(1px, 1px, 1px, 1px);
+}

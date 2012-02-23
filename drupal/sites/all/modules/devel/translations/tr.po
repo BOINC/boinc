@@ -1,0 +1,450 @@
+# LANGUAGE translation of PROJECT
+# Copyright YEAR NAME <EMAIL@ADDRESS>
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Drupal Devel Module\n"
+"POT-Creation-Date: 2005-07-25 17:54+0200\n"
+"PO-Revision-Date: 2007-02-01 23:35+0200\n"
+"Last-Translator: Erdem Köse <erdemkose@erdemkose.com>\n"
+"Language-Team: Turkish <ceviri@drupaltr.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Poedit-Language: Turkish\n"
+"X-Poedit-Country: Turkey\n"
+"X-Poedit-SourceCharset: utf-8\n"
+
+#: devel.module:30
+msgid "Helper functions, pages, and blocks to assist Drupal developers. The devel blocks can be managed via the !block page."
+msgstr "Drupal geliştiricilerine kolaylık sağlamak için yardımcı işlevler, sayfalar ve bloklar. Geliştirici blokları !block sayfasından yönetilebilir."
+
+#: devel.module:30
+msgid "block administration"
+msgstr "blok yönetimi"
+
+#: devel.module:32
+msgid "This is a list of defined user functions that generated this current request lifecycle. Click on a function name to view its documention."
+msgstr "Geçerli istek yaşam döngüsünü oluştururken tanımlanan kullanıcı işlevlerinin listesidir. Dokümantasyonunu görmek için bir işlevin adına tıklayın."
+
+#: devel.module:34
+msgid "Clicking a module's reinstall button will simulate installing a module. <code>hook_install()</code> will be executed and the schema version number will be set to the most recent update number. Make sure to manually clear out any existing tables first."
+msgstr "Bir eklentinin yeniden yükleme düğmesine basmak eklenti kurulumunu canlandıracaktır. <code>hook_install()</code> çalıştırılacak ve şema numarası en son güncelleme numarasına ayarlanacaktır. Öncelikle var olan tabloları sildiğinizden emin olun."
+
+#: devel.module:36
+msgid "Here are the contents of your <code>$_SESSION</code> variable."
+msgstr "<code>$_SESSION</code> değişkeninizin içeriği."
+
+#: devel.module:38
+msgid "This is a list of the variables and their values currently stored in variables table and the <code>$conf</code> array of your settings.php file. These variables are usually accessed with <a href=\"@variable-get-doc\">variable_get()</a> and <a href=\"@variable-set-doc\">variable_set()</a>. Variables that re too long can slow down your pages."
+msgstr "Bunlar değişkenler tablonuzdaki ve settings.php dosyanızdaki <code>$conf</code> dizisindeki değişkenlerin ve değerlerinin listesidir. Bu değişkenler genelde <a href=\"@variable-get-doc\">variable_get()</a> ve <a href=\"@variable-set-doc\">variable_set()</a> işlevleriyle erişilirler. Çok uzun değişkenler sayfalarınızı yavaşlatabilir."
+
+#: devel.module:50
+msgid "Empty cache"
+msgstr "Önbelleği boşalt"
+
+#: devel.module:56
+msgid "Database queries"
+msgstr "Veritabanı sorguları"
+
+#: devel.module:60
+msgid "Empty database queries"
+msgstr "Boş veritabanı sorguları"
+
+#: devel.module:65
+msgid "function reference"
+msgstr "fonksiyon başvuruları"
+
+#: devel.module:71
+msgid "Reinstall modules"
+msgstr "Eklentileri tekrar kur"
+
+#: devel.module:78
+msgid "Reset menus"
+msgstr "Menüleri sıfırla"
+
+#: devel.module:86
+#: ;92;99
+msgid "Variable editor"
+msgstr "değişkenleri görüntüle"
+
+#: devel.module:106
+msgid "Session viewer"
+msgstr "Oturum görüntüleyicisi"
+
+#: devel.module:112
+#: ;243
+msgid "Switch user"
+msgstr "Kullanıcı değiştir"
+
+#: devel.module:119
+#: ;244 devel.info:0
+msgid "Devel"
+msgstr "geliştirici"
+
+#: devel.module:130
+msgid "Dev load"
+msgstr "Gelişticisi Yükle"
+
+#: devel.module:137
+msgid "Dev render"
+msgstr "Geliştirici Render"
+
+#: devel.module:146
+msgid "Devel load"
+msgstr "Geliştirici Yükle"
+
+#: devel.module:227
+msgid "%message in %file on line %line."
+msgstr "%file dosyasında %line satırında %message"
+
+#: devel.module:245
+msgid "Execute PHP"
+msgstr "PHP çalıştır"
+
+#: devel.module:251
+msgid "switch user"
+msgstr "kullanıcı değiştir"
+
+#: devel.module:265
+#: ;1058;0 devel.info:0
+#: devel_node_access.info:0
+#: macro.info:0
+msgid "devel"
+msgstr "geliştirici"
+
+#: devel.module:267
+msgid "Adjust module settings for devel module"
+msgstr "Devel eklentisi için eklenti ayarlarını belirle"
+
+#: devel.module:268
+msgid "Clear the database cache tables which store page, menu, node, and variable caches."
+msgstr "Sayfa, menü, düğüm ve değişken önbelleklerinin saklandığı önbellek tablolarını temizler."
+
+#: devel.module:270
+msgid "View a list of currently defined user functions with documentation links"
+msgstr "Şu anda tanımlı kullanıcı işlevlerinin ve dokümantasyon bağlantılarının bir listesini görüntüle"
+
+#: devel.module:271
+msgid "Re-run hook_install() for a given module"
+msgstr "Belirtilen eklenti için kurulum işlevini(hook_install) tekrar çalıştır"
+
+#: devel.module:272
+msgid "Resets all menu items to their default settings"
+msgstr "Tüm menü öğelerini öntanımlı ayarlarına getir"
+
+#: devel.module:273
+msgid "Edit and delete site variables"
+msgstr "Site değişkenlerini düzenle ve sil"
+
+#: devel.module:274
+msgid "List the contents of $_SESSION"
+msgstr "$_SESSION içeriğini listele"
+
+#: devel.module:286
+msgid "Execute php"
+msgstr "PHP çalıştır"
+
+#: devel.module:330
+msgid "<p>The user is being redirected to <a href=\"@destination\">@destination</a>.</p>"
+msgstr "<p>Kullanıcı <a href=\"@destination\">@destination</a> adresine yönlendiriliyor.</p>"
+
+#: devel.module:374
+msgid " Queries taking longer than %threshold ms and queries executed more than once, are <span class=\"marker\">highlighted</span>."
+msgstr "%threshold milisaniyeden uzun süren veya birden fazla çalıştırılan sorgular, <span class=\"marker\">belirgin</span> yazılır."
+
+#: devel.module:393
+msgid "Memory used at %type: %value MB"
+msgstr "%type kullanılan bellek: %value MB"
+
+#: devel.module:441
+msgid "Executed %queries queries in %time milliseconds."
+msgstr "%time milisaniyede %queries sorgu çalıştırıldı"
+
+#: devel.module:473
+msgid "Query log"
+msgstr "Sorgu kayıtları"
+
+#: devel.module:475
+msgid "Collect query info"
+msgstr "Sorgu bilgisi topla"
+
+#: devel.module:477
+msgid "Collect query info. If disabled, no query log functionality will work."
+msgstr "Dorgu bilgisi topla. Devre dışı iken sorgu kayıt işlevleri çalışmaz."
+
+#: devel.module:479
+msgid "Display query log"
+msgstr "Sorgu kayıtlarını görüntüle"
+
+#: devel.module:481
+msgid "Display a log of the database queries needed to generate the current page, and the execution time for each. Also, queries which are repeated during a single page view are summed in the # column, and printed in red since they are candidates for caching."
+msgstr "Bu sayfanın üretilmesinde kullanılan tüm veritabanı sorgularını ve her biri için harcanan süreyi görüntüle. Ayrıca tekrarlanan sorgular # sütununda kaç kere tekrarlandığı belirtilir ve bunlar önbellekleme adayı oldukları için kırmızı ile yazılırlar."
+
+#: devel.module:483
+msgid "Sort query log"
+msgstr "Sorgu kayıtlarını sırala"
+
+#: devel.module:485
+msgid "by source"
+msgstr "kaynağa göre"
+
+#: devel.module:485
+msgid "by duration"
+msgstr "süreye göre"
+
+#: devel.module:486
+msgid "The query table can be sorted in the order that the queries were executed or by descending duration."
+msgstr "Sorgu tablosu çalışma sırasına veya azalan süreye göre sıralanabilir."
+
+#: devel.module:489
+msgid "Slow query highlighting"
+msgstr "Yavaş sorgunun belirgin yazılması"
+
+#: devel.module:493
+msgid "Enter an integer in milliseconds. Any query which takes longer than this many milliseconds will be highlighted in the query log. This indicates a possibly inefficient query, or a candidate for caching."
+msgstr "Milisaniye cinsinden bir tamsayı giriniz. Burada yazan milisaniyeden daha uzun süren sorgular, sorgu kayıtlarında dikkat çekecek şekilde yazılacaktır. Bu verimsiz bir sorgunun veya önbellekleme gereğinin bir işareti olabilir."
+
+#: devel.module:496
+msgid "Store executed queries"
+msgstr "Çalıştırılan sorguları depola"
+
+#: devel.module:498
+msgid "Store statistics about executed queries. See the devel_x tables. This feature is currently only available for the MySQL database backend."
+msgstr "Çalıştırılan sorgular hakkında istatistik tut. devel_x tablolarına bakın. Bu özellik şimdilik sadece MySQL tablolarında desteklenmektedir."
+
+#: devel.module:500
+msgid "Sampling interval"
+msgstr "Örnekleme aralığı"
+
+#: devel.module:503
+msgid "If storing query statistics, only store every nth page view. 1 means every page view, 2 every second, and so on."
+msgstr "Eğer sorgu istatistiği tutuluyorsa, yalnızca n. sayfa gösterimini kaydet. 1 her sayfa gösterimi, 2 her ikinci, vb."
+
+#: devel.module:506
+msgid "Display page timer"
+msgstr "Sayfa zaman sayacını görüntüle"
+
+#: devel.module:508
+msgid "Display page execution time in the query log box."
+msgstr "Sorgu kayıt kutusunda sayfa üretim süresini görüntüle."
+
+#: devel.module:511
+msgid "Display memory usage"
+msgstr "Bellek kullanımını görüntüle"
+
+#: devel.module:513
+msgid "Display how much memory is used to generate the current page. This will show memory usage when devel_init() is called and when devel_exit() is called. PHP must have been compiled with the <em>--enable-memory-limit</em> configuration option for this feature to work."
+msgstr "Bu sayfanın üretiminde ne kadar bellek kullanıldığını görüntüle. devel_init() ve devel_exit() çalıştırıldığı andaki bellek kullanımını görüntüler. Bu özelliğin çalışması için PHP'nin <em>--enable-memory-limit</em> yapılandırma seçeneğiyle derlenmiş olması gerekmektedir."
+
+#: devel.module:516
+msgid "Display redirection page"
+msgstr "Yönlendirme sayfasını görüntüle"
+
+#: devel.module:518
+msgid "When a module executes drupal_goto(), the query log and other developer information is lost. Enabling this setting presents an intermediate page to developers so that the log can be examined before continuing to the destination page."
+msgstr "Bir eklenti drupal_goto() komutunu çalıştırırsa sorgu kayıtları ve diğer geliştirici bilgileri kaybolur. Bu ayarı etkinleştirmek geliştiricilere hedef sayfaya gidilmeden önce bilgileri inceleme fırsatı verecek ara bir sayfa sunar."
+
+#: devel.module:521
+msgid "Display form element keys and weights"
+msgstr "Form elemanlarını ve ağırlıklarını görüntüle"
+
+#: devel.module:523
+msgid "Form element names are needed for performing themeing or altering a form. Their weights determine the position of the element. Enabling this setting will show these keys and weights beside each form item."
+msgstr "Form elemanı isimleri tema ve form düzenleme çalışmasında gereklidir. Ağırlıkları elemanların konumunu belirler. Bu ayarı etkinleştirmek bu anahtarların ve ağırlıkların her form öğesinin yanında görünmesini sağlar."
+
+#: devel.module:526
+msgid "Error handler"
+msgstr "Hata işleyicisi"
+
+#: devel.module:528
+msgid "None"
+msgstr "Hiçbiri"
+
+#: devel.module:528
+msgid "Standard drupal"
+msgstr "Standart Drupal"
+
+#: devel.module:528
+msgid "Backtrace"
+msgstr "Geritakip"
+
+#: devel.module:529
+msgid "Choose an error handler for your site. <em>Backtrace</em> prints nice debug information when an error is noticed, and you !choose. <em>None</em> is a good option when stepping through the site in your debugger."
+msgstr "Siteniz için bir hata işleyicisi seçin. <em>Geritakip</em> bir hata farkedildiğinde güzel bir hata ayıklama bilgisi yazdırır, sizin hata gösterim ayarınız !choose. <em>Hiçbiri</em> hata ayıklayıcınızda çalışırken iyi bir seçenektir."
+
+#: devel.module:529
+msgid "to show errors on screen"
+msgstr "hataları ekranda göstermek için"
+
+#: devel.module:537
+msgid "Default"
+msgstr "Öntanımlı"
+
+#: devel.module:538
+msgid "Log only"
+msgstr "Sadece kaydını tut"
+
+#: devel.module:541
+msgid "Other (%library)"
+msgstr "Diğer (%library)"
+
+#: devel.module:545
+msgid "SMTP library"
+msgstr "SMTP kitaplığı"
+
+#: devel.module:576
+msgid "PHP code to execute"
+msgstr "Çalıştırılacak PHP kodu"
+
+#: devel.module:577
+msgid "Enter some code. Do not use <code>&lt;?php ?&gt;</code> tags."
+msgstr "Biraz kod girin. <code>&lt;?php ?&gt;</code> etiketlerini kullanmayın."
+
+#: devel.module:579
+msgid "Execute"
+msgstr "Çalıştır"
+
+#: devel.module:598
+msgid "Are you sure you want to reset all menu items to their default settings?"
+msgstr "Tüm menü öğelerini öntanımlı ayarlarına getirmek istediğinizden emin misiniz?"
+
+#: devel.module:600
+msgid "Any custom additions or changes to the menu will be lost."
+msgstr "Menüe yapılan tüm ekleme ve değişiklikler kaybolacaktır."
+
+#: devel.module:601
+msgid "Reset all"
+msgstr "Hepsini sıfırla"
+
+#: devel.module:602
+msgid "Cancel"
+msgstr "Vazgeç"
+
+#: devel.module:611
+msgid "Primary links"
+msgstr "Birincil bağlantılar"
+
+#: devel.module:615
+msgid "The menu items have been reset to their default settings."
+msgstr "Menü öğeleri öntanımlı ayarlarına getirildi."
+
+#: devel.module:640
+msgid "Reinstall @name module"
+msgstr "@name eklentisini yeniden yükle"
+
+#: devel.module:669
+msgid "Reinstalled the %name module."
+msgstr "@name eklentisi yeniden yüklendi."
+
+#: devel.module:684
+#: ;726
+msgid "Name"
+msgstr "İsim"
+
+#: devel.module:685
+#: ;727
+msgid "Value"
+msgstr "Değer"
+
+#: devel.module:686
+#: ;728
+msgid "Length"
+msgstr "Uzunluk"
+
+#: devel.module:687
+#: ;729
+msgid "Operations"
+msgstr "İşlemler"
+
+#: devel.module:703
+msgid "edit"
+msgstr "düzenle"
+
+#: devel.module:708
+msgid "Delete"
+msgstr "Sil"
+
+#: devel.module:751
+msgid "Old value"
+msgstr "Eski değer"
+
+#: devel.module:757
+#: ;768
+msgid "New value"
+msgstr "Yeni değer"
+
+#: devel.module:762
+msgid "Submit"
+msgstr "Gönder"
+
+#: devel.module:769
+msgid "Sorry, complex variable types may not be edited yet. Use the <em>Execute PHP</em> block and the <a href=\"@variable-set-doc\">variable_set()</a> function."
+msgstr "Üzgünüz, karmaşık değişken türleri şimdilik düzenlenemiyor. <em>PHP çalıştır</em> bloğunu ve <a href=\"@variable-set-doc\">variable_set()</a> işlevini kullanınız."
+
+#: devel.module:778
+msgid "Saved new value for %name"
+msgstr "%name için yeni değer kaydedildi."
+
+#: devel.module:932
+msgid " Page execution time was %time ms."
+msgstr "Sayfa üretim süresi %time ms."
+
+#: devel.module:1058
+msgid "Mail sent:<br />Key: %mailkey<br />To: %to<br />From: %from<br />Subject: %subject<br />Body: %body<br /><br />Additional headers: !header"
+msgstr "Posta gönderildi:<br />Anahtar: %mailkey<br />Kime: %to<br />Kimden: %from<br />Konu: %subject<br />Gövde: %body<br /><br />Ek başlıklar: !header"
+
+#: devel.module:1072
+msgid "Total (ms)"
+msgstr "Toplam (ms)"
+
+#: devel.module:1073
+msgid "Average (ms)"
+msgstr "Ortalama (ms)"
+
+#: devel.module:1074
+msgid "Std deviation (ms)"
+msgstr "Standart sapma (ms)"
+
+#: devel.module:1075
+msgid "Count"
+msgstr "Sayı"
+
+#: devel.module:1076
+msgid "Function"
+msgstr "İşlev"
+
+#: devel.module:1077
+msgid "Query"
+msgstr "Sorgu"
+
+#: devel.module:1095
+msgid "Delete collected query statistics"
+msgstr "Toplanan sorgu istatistiklerini sil"
+
+#: devel.module:1103
+msgid "Stored query statistics deleted."
+msgstr "Toplanan sorgu istatistikleri silindi."
+
+#: devel.module:227
+msgid "php"
+msgstr "php"
+
+#: devel.module:740
+msgid "one variable deleted"
+msgid_plural "@count variables deleted"
+msgstr[0] "@count değişken silindi"
+
+#: devel.module:235
+msgid "access devel information"
+msgstr "geliştirici bilgilerine erişim"
+
+#: devel.module:235
+msgid "execute php code"
+msgstr "php kodu çalıştır"
+
+#: devel.module:235
+msgid "switch users"
+msgstr "kullanıcı değiştir"
+

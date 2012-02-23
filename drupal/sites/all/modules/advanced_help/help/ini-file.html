@@ -1,0 +1,54 @@
+<!-- $Id: ini-file.html,v 1.8 2008/10/27 22:27:03 merlinofchaos Exp $ -->
+The advanced help configuration file is in simple .ini file format, divided into sections for each help file, plus an optional section for global settings that might be inherited for each help file.
+
+The first line of an advanced help ini file should be ;&#x24;Id &#x24; which will be a comment providing the CVS identifier for the file. The ; indicates a comment character. Anything after the ; will be ignored.
+
+Global settings may be put into a section named <strong>[advanced help settings]</strong> -- this means that this name is reserved and it cannot be a help file in any module. The following settings may be set in this section:
+<dl>
+<dt><strong>line break</strong></dt>
+<dd>If set to any value, the line break filter will be applied to all help files defined by this module, unless that help file specifically is set otherwise. By default, the line break filter is not applied; however, help files can be much easier to write with the line break filter on.</dd>
+<dt><strong>navigation</strong></dt>
+<dd>If set to true, the navigation will be displayed at the end of the help topic: previous topic, next topic, and child topics.</dd>
+<dt><strong>css</strong></dt>
+<dd>Specify a css file that will be used for all help files (unless overridden), including the .css extension. This .css file must reside in the help directory along with the .html files, and will not be affected by translation.</dd>
+<dt><strong>name</strong></dt>
+<dd>May be set to override the module name as displayed in both the module index as well as the navigation and breadcrumb trail. In general this does not need to be set, but a few modules may want to use a more friendly name than appears in the .info file.</dd>
+<dt><strong>index name</strong></dt>
+<dd>This may be set to change the name of the module in the module index. It overrides the 'name' setting above, as well as the module name in its .info file.</dd>
+<dt><strong>hide</strong></dt>
+<dd>This may be used to hide a module in the module index. This is particularly useful for modules who insert their help files into the hierarchy of another module, as might be done by modules that extend Views or CCK. By setting "hide = TRUE" the module will not appear as its own entry.</dd>
+</dl>
+
+Each section after that will correspond to a single help file, and each one may have the following settings:
+<dl>
+<dt><strong>title</strong></dt>
+<dd>The title of the topic, presented to the user and used in links. If you have special characters in your title, be sure to enclose it in quotes.</dd>
+<dt><strong>file</strong></dt>
+<dd>The filename, without the .html extension, used for the topic. This is optional; if not specified, the topic name wil be the file name.</dd>
+<dt><strong>weight</strong></dt>
+<dd>The weight, used for sorting topics on the administration page. Defaults to 0 of unspecified. Items with the same weight are sorted alphabetically.</dd>
+<dt><strong>parent</strong></dt>
+<dd>The topic ID to use in a hierarchy; children will be listed beneath parents in the topic list, and will have the parent in their breadcrumb trail. You may parent this topic to another module's topic by using module%topic as the identifier. For example, 'views%display' will make this a child of the 'display' topic in the 'views' module.</dd>
+<dt><strong>line break</strong></dt>
+<dd>If set to true, linebreaks will be converted into br and p tags automatically. If unspecified, will default to off. Set to 0 to disable the filter if this has been turned on in the global settings.</dd>
+<dt><strong>css</strong></dt>
+<dd>Specify a css file that will be used for this file. This .css file must reside in the help directory along with the .html files. This will override any .css file added by the global system.</dd>
+<dt><strong>popup width</strong></dt>
+<dd>The width in pixels of the popup window.  Defaults to 500 if unspecified.</dd>
+<dt><strong>popup height</strong></dt>
+<dd>The height in pixels of the popup window.  Defaults to 500 if unspecified.</dd>
+</dl>
+
+For example, here is a version of the <strong>advanced_help.help.ini</strong> file:
+<pre>
+[using-advanced-help]
+title = "Using advanced help"
+weight = -10
+
+[translation]
+title = Translating advanced help
+
+[ini-file]
+title = Help .ini file format
+line break = TRUE
+</pre>

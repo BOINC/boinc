@@ -1,0 +1,137 @@
+<?php
+// $Id: bbcode.module,v 1.50 2008/02/07 14:05:30 naudefj Exp $
+
+function bbcode_help($section) {
+  if ($section == 'admin/modules#description')
+    return t('Allow the use of BBCode in your posts.');
+}
+
+function bbcode_filter_tips($delta, $format, $long = false) {
+  if ($long) {
+    include_once(drupal_get_path('module', 'bbcode') .'/bbcode-help.inc');
+    return _bbcode_filter_tip();
+  }
+  else {
+    # D5: $output = t('You can use !BBCode tags in the text.', array('!BBCode' =>  l(t('BBCode'), "filter/tips/$format", NULL, NULL, 'filter-bbcode-' . $delta)));
+    $output = t('You can use !BBCode tags in the text.', array('!BBCode' =>  l(t('BBCode'), "filter/tips/$format", array('fragment' => 'filter-bbcode-' . $delta))));
+    if (variable_get("bbcode_make_links_$format", FALSE)) {
+      $output .= ' '. t('URLs will automatically be converted to links.');
+    }
+    return $output;
+  }
+}
+
+function bbcode_filter($op, $delta = 0, $format = -1, $text = '') {
+  switch ($op) {
+    case 'list':
+      return array(0 => t('BBCode'));
+
+    case 'description':
+      return t('Converts BBCode to HTML.');
+
+    case 'process':
+      include_once(drupal_get_path('module', 'bbcode') .'/bbcode-filter.inc');
+      if (variable_get("bbcode_debug_$format", 0)) {
+        $timing_start = explode(' ', microtime());
+        $ret = _bbcode_filter_process($text, $format);
+        $timing_stop = explode(' ', microtime());
+        $elapsed = $timing_stop[1] - $timing_start[1];
+        $elapsed += $timing_stop[0] - $timing_start[0];
+        $ret .= '<hr />'. l('BBCode', "filter/tips/$format") .' parsed on '.date('r').'<br />Execution time: '.$elapsed.' seconds.<hr />';
+        return $ret;
+      }
+      else 
+        return _bbcode_filter_process($text, $format);
+
+    case 'settings':
+      $form = array();
+      $form['bbcode_filter'] = array(
+        '#type' => 'fieldset', 
+        '#title' => t('BBCode filter'), 
+        '#collapsible' => TRUE, 
+        '#collapsed' => FALSE);
+      $form['bbcode_filter']["bbcode_make_links_$format"] = array(
+        '#type' => 'select', 
+        '#title' => t('Convert addresses to links'), 
+        '#default_value' => variable_get("bbcode_make_links_$format", 1), 
+        '#options' => array(t('Disabled'), t('Enabled')), 
+        '#description' => t('Turn web and e-mail addresses into clickable links. This is useful if content authors do not explicitly mark addresses as links with [url] and [email] tags.'));
+      $form['bbcode_filter']["bbcode_filter_nofollow_$format"] = array(
+        '#type' => 'select', 
+        '#title' => t('Spam link deterrent'),
+        '#default_value' => variable_get("bbcode_filter_nofollow_$format", 0),
+        '#options' => array(t('Disabled'), t('Enabled')), 
+        '#description' => t('If enabled, BBCode will add rel="nofollow" to all links, as a measure to reduce the effectiveness of spam links. Note: this will also prevent valid links from being followed by search engines, therefore it is likely most effective when enabled for anonymous users.'));
+      $form['bbcode_filter']["bbcode_encode_mailto_$format"] = array(
+        '#type' => 'select', 
+        '#title' => t('Email address encoding'), 
+        '#default_value' => variable_get("bbcode_encode_mailto_$format", 1), 
+        '#options' => array(t('Disabled'), t('Enabled')), 
+        '#description' => t('Whether to encode email addresses with javascript. With this method you will have clickable mailto links, but it will be a bit harder for spam robots to collect them.'));
+      $form['bbcode_filter']["bbcode_paragraph_breaks_$format"] = array(
+        '#type' => 'select',
+        '#title' => t('Smart paragraph and line breaks'),
+        '#default_value' => variable_get("bbcode_paragraph_breaks_$format", 2),
+        '#options' => array(t('Disabled'), t('Line breaks only'), t('Line and paragraph breaks')),
+        '#description' => t('Add line and paragraph breaks to text, excluding text in preformatted code blocks. If you disable this option, you need to enable Drupal\'s "Line break converter". Don\'t use both together!'));
+      $form['bbcode_filter']["bbcode_debug_$format"] = array(
+        '#type' => 'select', 
+        '#title' => t('Print debugging info'), 
+        '#default_value' => variable_get("bbcode_debug_$format", 0), 
+        '#options' => array(t('Disabled'), t('Enabled')), 
+        '#description' => t('Print BBCode parse date and execution time. This option should be disabled on production sites. You may need to clear the cache after changing this option.'));
+      return $form;
+
+    default:
+      return $text;
+  }
+}
+
+/* hook_quicktags_alter
+ * Alter icons if the quicktags module is enabled
+ */
+function bbcode_quicktags_alter($items) {
+  $path = base_path() . drupal_get_path('module','quicktags') .'/';
+  $items['ed_italic'] = array(
+      'name' => 'italic',
+      'prefix' => '[i]',
+      'suffix' => '[/i]',
+      'accesskey' => 'i',
+      'weight' => 10,
+      'icon' => $path .'ed_italic.png',
+    );
+  $items['ed_bold'] = array(
+      'name' => 'bold',
+      'prefix' => '[b]',
+      'suffix' => '[/b]',
+      'accesskey' => 'b',
+      'weight' => 20,
+      'icon' => $path .'ed_bold.png',
+    );
+  $items['ed_code'] = array(
+      'name' => 'code',
+      'prefix' =>'[code]',
+      'suffix' => '[/code]',
+      'accesskey' => 'c',
+      'weight' => 30,
+      'icon' => $path .'ed_code.png',
+    );
+  $items['ed_block'] = array(
+      'name' => 'quote',
+      'prefix' =>'[quote]',
+      'suffix' => '[/quote]',
+      'accesskey' => 'q',
+      'weight' => 40,
+      'icon' => $path .'ed_block.png',
+    );
+  $items['ed_link'] = array(
+      'name' => 'link',
+      'prefix' =>'[url=http://]',
+      'suffix' => '[/url]',
+      'accesskey' => 'l',
+      'weight' => 50,
+      'icon' => $path .'ed_link.png',
+    );
+  return $items;
+}
+

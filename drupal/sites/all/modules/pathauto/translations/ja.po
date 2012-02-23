@@ -1,0 +1,743 @@
+# $Id: ja.po,v 1.5.2.3 2008/06/24 17:08:30 imagine Exp $
+#
+# Japanese translation of Drupal (pathauto)
+# Copyright 2008 0829 <hixarg+0829@gmail.com>
+# Copyright (c) 2008  Drupal Japan  ( http://drupal.jp/ )  /
+#                     Takafumi      ( jp.drupal@imagine **reverse order**)
+# Generated from files:
+#  pathauto.inc,v 1.29 2008/04/28 18:20:23 greggles
+#  pathauto_node.inc,v 1.40 2008/04/28 18:20:23 greggles
+#  pathauto_taxonomy.inc,v 1.31 2008/04/30 14:23:00 greggles
+#  pathauto_user.inc,v 1.24 2008/04/08 12:30:46 greggles
+#  pathauto.module,v 1.100 2008/04/28 19:47:10 greggles
+#  pathauto.install,v 1.5 2008/02/13 13:05:45 greggles
+#  pathauto.info,v 1.4 2007/10/28 21:06:13 greggles
+#  pathauto_node_event.inc,v 1.3 2006/10/12 14:54:15 greggles
+#  pathauto_node_i18n.inc,v 1.3 2006/10/12 14:54:15 greggles
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Last-Translator: Takafumi <jp.drupal@imagine **reverse order**>\n"
+"Language-Team: DRUPAL*DRUPAL / Drupal Japan\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n!=1);\n"
+
+#: pathauto.admin.inc:22
+msgid "It appears that the <a href=\"@token_link\">Token module</a> is not installed. Please ensure that you have it installed so that Pathauto can work properly. You may need to disable Pathauto and re-enable it to get Token enabled."
+msgstr "<a href=\"@token_link\">トークンモジュール</a>がインストールされていません。 自動エイリアス設定モジュールの動作にはトークンモジュールがインストールされている環境が必要です。 一旦自動エイリアス設定モジュールを無効にし、トークンモジュールを有効にした後、再度自動エイリアス設定モジュールを有効にしてください。"
+
+#: pathauto.admin.inc:38
+msgid "General settings"
+msgstr "全般の設定"
+
+#: pathauto.admin.inc:46
+msgid "Verbose"
+msgstr "詳細なメッセージを出力"
+
+#: pathauto.admin.inc:48
+msgid "Display alias changes (except during bulk updates)."
+msgstr "エイリアスの変更内容を表示します。（一括アップデート時は除く）"
+
+#: pathauto.admin.inc:53
+msgid "Separator"
+msgstr "セパレータ"
+
+#: pathauto.admin.inc:57
+msgid "Character used to separate words in titles. This will replace any spaces and punctuation characters. Using a space or + character can cause unexpected results."
+msgstr "タイトル中の単語を区切るために使用される文字（記号）です。 セパレータはスペースや句読点（記号）の置換にも利用されます。 スペースやプラス（+）記号を使用した場合、予想外の結果を引き起こす可能性があります。"
+
+#: pathauto.admin.inc:62
+msgid "Character case"
+msgstr "大文字・小文字の区別"
+
+#: pathauto.admin.inc:64
+msgid "Leave case the same as source token values."
+msgstr "トークンからの値をそのまま使用する"
+
+#: pathauto.admin.inc:64
+msgid "Change to lower case"
+msgstr "小文字に変換する"
+
+#: pathauto.admin.inc:69
+msgid "Maximum alias length"
+msgstr "エイリアスの最大文字数"
+
+#: pathauto.admin.inc:73
+msgid "Maximum length of aliases to generate. 100 is recommended. See <a href=\"@pathauto-help\">Pathauto help</a> for details."
+msgstr "生成されるエイリアスの最大文字数を入力してください。 推奨値は 100 です。 詳細は<a href=\"@pathauto-help\">ヘルプ</a>を参照してください。"
+
+#: pathauto.admin.inc:78
+msgid "Maximum component length"
+msgstr "構成要素の最大文字数"
+
+#: pathauto.admin.inc:82
+msgid "Maximum text length of any component in the alias (e.g., [title]). 100 is recommended. See <a href=\"@pathauto-help\">Pathauto help</a> for details."
+msgstr "エイリアスの構成要素（例:[title]）の最大文字数を入力してください。 推奨値は 100 です。 詳細は<a href=\"@pathauto-help\">ヘルプ</a>を参照してください。"
+
+#: pathauto.admin.inc:87
+msgid "Maximum number of objects to alias in a bulk update"
+msgstr "URL エイリアスの一括アップデートに含めるオブジェクトの最大数"
+
+#: pathauto.admin.inc:91
+msgid "Maximum number of objects of a given type which should be aliased during a bulk update. The default is 50 and the recommended number depends on the speed of your server. If bulk updates \"time out\" or result in a \"white screen\" then reduce the number."
+msgstr "1度の一括アップデートで別名に置き換えることのできるオブジェクトの最大数です。 デフォルトは 50 ですが、最適値は設置されているサーバー環境に依存します。 もし、一括アップデート時に\"タイムアウト\"や\"ホワイトスクリーン\"が発生した場合は、この値を小さくしてください。"
+
+#: pathauto.admin.inc:95
+msgid "Do nothing. Leave the old alias intact."
+msgstr "なにもしません。 既存の URL エイリアスをそのまま使用します。"
+
+#: pathauto.admin.inc:96
+msgid "Create a new alias. Leave the existing alias functioning."
+msgstr "新しい URL エイリアスを作成します。 既存の URL エイリアスもそのまま機能させておきます。"
+
+#: pathauto.admin.inc:97
+msgid "Create a new alias. Delete the old alias."
+msgstr "新しい URL エイリアスを作成します。 既存の URL エイリアスは削除します。"
+
+#: pathauto.admin.inc:100
+msgid "Create a new alias. Redirect from old alias."
+msgstr "新しい URL エイリアスを作成します。 既存の URL エイリアスにはリダイレクトを設定します。"
+
+#: pathauto.admin.inc:110
+msgid "Update action"
+msgstr "アップデート動作"
+
+#: pathauto.admin.inc:113
+msgid "What should pathauto do when updating an existing content item which already has an alias?"
+msgstr "既にエイリアスが存在するコンテンツをアップデートした時の動作を選択します。"
+
+#: pathauto.admin.inc:118
+msgid "When a pattern includes certain characters (such as those with accents) should Pathauto attempt to transliterate them into the ASCII-96 alphabet? Transliteration is determined by the i18n-ascii.txt file in the Pathauto directory. <strong>This option is disabled on your site because you do not have an i18n-ascii.txt file in the Pathauto directory.</strong>"
+msgstr "パターンが特定の文字（文字にアクセント記号を含むものなど）を含む時、それらを ASCII-96 のアルファベットに翻訳しますか？ 翻訳は自動エイリアス設定モジュールのディレクトリ内に設置された i18n-ascii.txt に基づいて決定されます。 <strong>現在、Pathauto ディレクトリ内に i18n-ascii.txt がないため、このオプションは使用できません。</strong>"
+
+#: pathauto.admin.inc:121
+msgid "When a pattern includes certain characters (such as those with accents) should Pathauto attempt to transliterate them into the ASCII-96 alphabet? Transliteration is determined by the i18n-ascii.txt file in the Pathauto directory."
+msgstr "パターンが特定の文字（文字にアクセント記号を含むものなど）を含む時、それらを ASCII-96 のアルファベットに翻訳しますか？"
+
+#: pathauto.admin.inc:129
+msgid "Transliterate prior to creating alias"
+msgstr "URL エイリアスを生成する前に翻訳を行う"
+
+#: pathauto.admin.inc:136
+msgid "Reduce strings to letters and numbers from ASCII-96"
+msgstr "ASCII-96 の文字列や数字に置き換える"
+
+#: pathauto.admin.inc:138
+msgid "Filters the new alias to only letters and numbers found in the ASCII-96 set."
+msgstr "ASCII-96 セット内に存在する文字列や数字だけを抽出して新しい URL エイリアスを生成します。"
+
+#: pathauto.admin.inc:143
+msgid "Strings to Remove"
+msgstr "取り除く文字列"
+
+#: pathauto.admin.inc:144
+msgid "Words to strip out of the URL alias, separated by commas. Do not place punctuation in here and do not use WYSIWYG editors on this field."
+msgstr "URL エイリアスから取り除く文字列をコンマ（,）で区切って入力します。 このフィールドでは、句読点を入力したり WYSIWYG エディタを使用したりしないでください。"
+
+#: pathauto.admin.inc:150
+msgid "Punctuation settings"
+msgstr "句読点（記号）の設定"
+
+#: pathauto.admin.inc:161
+msgid "Remove"
+msgstr "取り外す"
+
+#: pathauto.admin.inc:161
+msgid "Replace by separator"
+msgstr "セパレータに置換"
+
+#: pathauto.admin.inc:161
+msgid "No action (do not replace)"
+msgstr "なにもしない（置換しない）"
+
+#: pathauto.admin.inc:239
+msgid "Replacement patterns"
+msgstr "置換パターン"
+
+#: pathauto.admin.inc:243
+msgid "Use -raw replacements for text to avoid problems with HTML entities."
+msgstr "HTML エンティティに関する問題を避けるために -raw の置換パターンを使用してください。"
+
+#: pathauto.admin.inc:276
+msgid "Internal feed alias text (leave blank to disable)"
+msgstr "内部フィードエイリアス（空欄の場合は無効）"
+
+#: pathauto.admin.inc:280
+msgid "The text to use for aliases for RSS feeds. Examples are \"feed\" and \"0/feed\"."
+msgstr "RSS フィードのエイリアスを示すテキストです。（例： \"feed\" や \"0/feed\" など）"
+
+#: pathauto.admin.inc:335
+msgid "You are using the token [%token] which is not valid within the scope of tokens where you are using it."
+msgstr "有効でない範囲のトークン [%token] が使用されています。"
+
+#: pathauto.admin.inc:343
+msgid "You are using the token [%token] which has a -raw companion available [%raw_token]. For Pathauto patterns you should use the -raw version of tokens unless you really know what you are doing. See the <a href=\"@pathauto-help\">Pathauto help</a> for more details."
+msgstr "有効なトークン [%raw_token] と類似するトークン [%token] が使用されています。 URL エイリアスで生成されるパターンに特別な書式を設定する必要がない限り -raw バージョンを利用してください。 詳細は <a href=\"@pathauto-help\">ヘルプ</a> を参照してください。"
+
+#: pathauto.admin.inc:353
+msgid "NOTE: This field contains potentially incorrect patterns. "
+msgstr "注： このフィールドは不適切なパターンを含んでいる可能性があります。"
+
+#: pathauto.admin.inc:355
+msgid "%problems"
+msgstr "%problems"
+
+#: pathauto.admin.inc:374
+msgid "You have configured the @name to be the separator and to be removed when encountered in strings. This can cause problems with your patterns and especially with the catpath and termpath patterns. You should probably set the action for @name to be \"replace by separator\""
+msgstr "文字列に @name が含まれる場合の設定として \"取り外す\" が選択されていますが、@name はセパレータとして指定された句読点（記号）ですので、独自に設定されたパターンや特にタクソノミーに関連するパターンで問題の原因となる可能性があります。 句読点（記号）の設定で、@name の取り扱いを \"セパレータに置換\" に設定し直してください。"
+
+#: pathauto.admin.inc:399
+msgid "Choose Aliases to Delete"
+msgstr "削除する URL エイリアスの選択"
+
+#: pathauto.admin.inc:408
+msgid "all aliases"
+msgstr "すべてのエイリアス"
+
+#: pathauto.admin.inc:410
+msgid "Delete all aliases. Number of aliases which will be deleted: %count."
+msgstr "すべての URL エイリアスを削除します。 削除される URL エイリアスの数： %count"
+
+#: pathauto.admin.inc:421
+msgid "Delete aliases for all @label. Number of aliases which will be deleted: %count."
+msgstr "@labelページのすべての URL エイリアスを削除します。 削除される URL エイリアスの数： %count"
+
+#: pathauto.admin.inc:426
+msgid "<p><strong>Note:</strong> there is no confirmation. Be sure of your action before clicking the \"Delete aliases now!\" button.<br />You may want to make a backup of the database and/or the url_alias table prior to using this feature.</p>"
+msgstr "<p><strong>注意：</strong> 確認のためのメッセージは表示されません。 \"エイリアスの削除\" を実行する前に内容を十分に確認してください。<br />この機能を利用する前にデータベースもしくは url_alias テーブルをバックアップしておくことをお勧めします。</p>"
+
+#: pathauto.admin.inc:429
+msgid "Delete aliases now!"
+msgstr "エイリアスの削除"
+
+#: pathauto.admin.inc:443
+msgid "All of your path aliases have been deleted."
+msgstr "すべての URL エイリアスが削除されました。"
+
+#: pathauto.admin.inc:448
+msgid "All of your %type path aliases have been deleted."
+msgstr "%type ページのすべての URL エイリアスが削除されました。"
+
+#: pathauto.admin.inc:287
+msgid "Bulk generation of index aliases completed, one alias generated."
+msgid_plural "Bulk generation of index aliases completed, @count aliases generated."
+msgstr[0] "インデックスの一括アップデートが完了しました。 1 個の URL エイリアスが生成されました。"
+msgstr[1] "インデックスの一括アップデートが完了しました。 @count 個の URL エイリアスが生成されました。"
+
+#: pathauto.admin.inc:354
+msgid "Problem token: "
+msgid_plural "Problem tokens: "
+msgstr[0] "問題のトークン： "
+msgstr[1] "問題のトークン： "
+
+#: pathauto.inc:315
+msgid "The automatically generated alias %original_alias conflicted with an existing alias. Alias changed to %alias."
+msgstr "自動生成されたエイリアス %original_alias は、既存のエイリアスとコンフリクトしたため %alias に変更されました。"
+
+#: pathauto.inc:381
+msgid "Ignoring alias %dst due to existing path conflict."
+msgstr "エイリアス %dst は、既存のパスとコンフリクトするため無視されました。"
+
+#: pathauto.inc:388
+msgid "Ignoring alias %dst because it is the same as the internal path."
+msgstr "エイリアス %dst は、内部パスと重複するため無視されました。"
+
+#: pathauto.inc:408
+msgid "Created new alias %dst for %src, replacing %old_alias. %old_alias now redirects to %dst"
+msgstr "%src の新しい URL エイリアス %dst を作成しました。 %old_alias は、今後 %dst へリダイレクトされます。"
+
+#: pathauto.inc:411
+msgid "Created new alias %dst for %src, replacing %old_alias"
+msgstr "%src の新しい URL エイリアス %dst を作成しました。 %old_alias は新しいエイリアスに置換されます。"
+
+#: pathauto.inc:414
+msgid "Created new alias %dst for %src"
+msgstr "%src の新しい URL エイリアス %dst を作成しました。"
+
+#: pathauto.inc:477
+msgid "Double quotes \""
+msgstr "ダブルクォート（引用符） \""
+
+#: pathauto.inc:478
+msgid "Single quotes (apostrophe) '"
+msgstr "シングルクォート（アポストロフィ） '"
+
+#: pathauto.inc:479
+msgid "Back tick `"
+msgstr "バッククォート `"
+
+#: pathauto.inc:480
+msgid "Comma ,"
+msgstr "コンマ ,"
+
+#: pathauto.inc:481
+msgid "Period ."
+msgstr "ピリオド ."
+
+#: pathauto.inc:482
+msgid "Hyphen -"
+msgstr "ハイフン -"
+
+#: pathauto.inc:483
+msgid "Underscore _"
+msgstr "アンダースコア（アンダーバー） _"
+
+#: pathauto.inc:484
+msgid "Colon :"
+msgstr "コロン :"
+
+#: pathauto.inc:485
+msgid "Semicolon ;"
+msgstr "セミコロン ;"
+
+#: pathauto.inc:486
+msgid "Pipe |"
+msgstr "パイプ |"
+
+#: pathauto.inc:487
+msgid "Left curly bracket {"
+msgstr "左中カッコ {"
+
+#: pathauto.inc:488
+msgid "Left square bracket ["
+msgstr "左大カッコ ["
+
+#: pathauto.inc:489
+msgid "Right curly bracket }"
+msgstr "右中カッコ }"
+
+#: pathauto.inc:490
+msgid "Right square bracket ]"
+msgstr "右大カッコ }"
+
+#: pathauto.inc:491
+msgid "Plus +"
+msgstr "プラス +"
+
+#: pathauto.inc:492
+msgid "Equal ="
+msgstr "イコール ="
+
+#: pathauto.inc:493
+msgid "Asterisk *"
+msgstr "アスタリスク *"
+
+#: pathauto.inc:494
+msgid "Ampersand &"
+msgstr "アンパサンド（アンド） &"
+
+#: pathauto.inc:495
+msgid "Percent %"
+msgstr "パーセント %"
+
+#: pathauto.inc:496
+msgid "Caret ^"
+msgstr "キャレット ^"
+
+#: pathauto.inc:497
+msgid "Dollar $"
+msgstr "ドルマーク（ダラー） $"
+
+#: pathauto.inc:498
+msgid "Hash #"
+msgstr "ハッシュマーク（シャープ） #"
+
+#: pathauto.inc:499
+msgid "At @"
+msgstr "アットマーク @"
+
+#: pathauto.inc:500
+msgid "Exclamation !"
+msgstr "エクスクラメーションマーク（感嘆符） !"
+
+#: pathauto.inc:501
+msgid "Tilde ~"
+msgstr "チルダ ~"
+
+#: pathauto.inc:502
+msgid "Left parenthesis ("
+msgstr "左小カッコ ("
+
+#: pathauto.inc:503
+msgid "right parenthesis )"
+msgstr "右小カッコ )"
+
+#: pathauto.inc:504
+msgid "Question mark ?"
+msgstr "クエスチョンマーク（疑問符） ?"
+
+#: pathauto.inc:505
+msgid "Less than <"
+msgstr "不等号（小なり） <"
+
+#: pathauto.inc:506
+msgid "Greater than >"
+msgstr "不等号（大なり） <"
+
+#: pathauto.inc:507
+msgid "Back slash \\"
+msgstr "バックスラッシュ（円マーク） \\"
+
+#: pathauto.inc:437 pathauto.info:0
+msgid "Pathauto"
+msgstr "自動エイリアス設定"
+
+#: pathauto.inc:437
+msgid "It appears that you have installed Pathauto, which depends on token, but token is either not installed or not installed properly."
+msgstr "Token に依存する Pathauto がインストールされたようですが、Token がインストールされていないか、正しく動作していません。"
+
+#: pathauto_node.inc:20
+msgid "Node path settings"
+msgstr "コンテンツの URL 設定"
+
+#: pathauto_node.inc:21
+msgid "Default path pattern (applies to all node types with blank patterns below)"
+msgstr "デフォルトの URL パターン（下記で設定が空白になっているすべてのコンテンツタイプに適用）"
+
+#: pathauto_node.inc:22
+msgid "content/[title-raw]"
+msgstr "content/[title-raw]"
+
+#: pathauto_node.inc:23
+msgid "Bulk generate aliases for nodes that are not aliased"
+msgstr "URL エイリアスを持たない他のコンテンツに対して、一括アップデートを実行する"
+
+#: pathauto_node.inc:24
+msgid "Generate aliases for all existing nodes which do not already have aliases."
+msgstr "URL エイリアスを持たないすべてのコンテンツに URL エイリアスを生成します。"
+
+#: pathauto_node.inc:37;79
+msgid "Language neutral"
+msgstr "ニュートラル言語"
+
+#: pathauto_node.inc:44
+msgid "Default path pattern for @node_type (applies to all @node_type node types with blank patterns below)"
+msgstr "@node_type のデフォルトの URL パターン（下記で設定が空白になっているすべての @node_type に適用）"
+
+#: pathauto_node.inc:47
+msgid "Pattern for all @node_type paths in @language"
+msgstr "@node_type タイプのすべてのコンテンツの URL パターン（@language）"
+
+#: pathauto_node.inc:50
+msgid "Pattern for all language neutral @node_type paths"
+msgstr "@node_type タイプのすべてのコンテンツの URL パターン（ニュートラル言語）"
+
+#: pathauto_node.inc:55
+msgid "Pattern for all @node_type paths"
+msgstr "@node_type タイプのすべてのコンテンツの URL パターン"
+
+#: pathauto_node.inc:121
+msgid "Bulk generation of nodes completed, one alias generated."
+msgid_plural "Bulk generation of nodes completed, @count aliases generated."
+msgstr[0] "コンテンツの一括アップデートが完了しました。 1 個の URL エイリアスが生成されました。"
+msgstr[1] "コンテンツの一括アップデートが完了しました。 @count 個の URL エイリアスが生成されました。"
+
+#: pathauto_taxonomy.inc:20
+msgid "Taxonomy term path settings"
+msgstr "タクソノミータームの URL 設定"
+
+#: pathauto_taxonomy.inc:21
+msgid "Default path pattern (applies to all vocabularies with blank patterns below)"
+msgstr "デフォルトの URL パターン（下記で設定が空白になっているすべてのボキャブラリに適用）"
+
+#: pathauto_taxonomy.inc:22
+msgid "category/[vocab-raw]/[catpath-raw]"
+msgstr "category/[vocab-raw]/[catpath-raw]"
+
+#: pathauto_taxonomy.inc:32
+msgid "Bulk generate aliases for terms that are not aliased"
+msgstr "URL エイリアスが生成されていないタームに対して、URL エイリアスの一括アップデートを行う"
+
+#: pathauto_taxonomy.inc:33
+msgid "Generate aliases for all existing terms which do not already have aliases."
+msgstr "URL エイリアスを持たないすべてのタームに URL エイリアスを生成します。"
+
+#: pathauto_taxonomy.inc:42
+msgid "Pattern for all %vocab-name paths"
+msgstr "%vocab-name ボキャブラリ内のすべてのタームの URL パターン"
+
+#: pathauto_taxonomy.inc:134
+msgid "Forum path settings"
+msgstr "フォーラムの URL 設定"
+
+#: pathauto_taxonomy.inc:135
+msgid "Pattern for forums and forum containers"
+msgstr "フォーラムとフォーラムコンテナの URL パターン"
+
+#: pathauto_taxonomy.inc:136
+msgid "[vocab-raw]/[catpath-raw]"
+msgstr "[vocab-raw]/[catpath-raw]"
+
+#: pathauto_taxonomy.inc:146
+msgid "Bulk generate forum paths"
+msgstr "フォーラムの URL エイリアスに対して、一括アップデートを実行する"
+
+#: pathauto_taxonomy.inc:147
+msgid "Generate aliases for all existing forums and forum containers which do not already have aliases."
+msgstr "URL エイリアスを持たないすべてのフォーラムとフォーラムコンテナに URL エイリアスを生成します。"
+
+#: pathauto_taxonomy.inc:92
+msgid "Bulk generation of terms completed, one alias generated."
+msgid_plural "Bulk generation of terms completed, @count aliases generated."
+msgstr[0] "タームの一括アップデートが完了しました。 1 個の URL エイリアスが生成されました。"
+msgstr[1] "タームの一括アップデートが完了しました。 @count 個の URL エイリアスが生成されました。"
+
+#: pathauto_taxonomy.inc:168
+msgid "Bulk update of forums and forum containers completed, one alias generated."
+msgid_plural "Bulk update of forums and forum containers completed, @count aliases generated."
+msgstr[0] "フォーラムとフォーラムコンテナの一括アップデートが完了しました。 1 個の URL エイリアスが生成されました。"
+msgstr[1] "フォーラムとフォーラムコンテナの一括アップデートが完了しました。 @count 個の URL エイリアスが生成されました。"
+
+#: pathauto_user.inc:20
+msgid "User path settings"
+msgstr "ユーザページの URL 設定"
+
+#: pathauto_user.inc:21
+msgid "Pattern for user account page paths"
+msgstr "ユーザアカウントページの URL パターン"
+
+#: pathauto_user.inc:22
+msgid "users/[user-raw]"
+msgstr "users/[user-raw]"
+
+#: pathauto_user.inc:32
+msgid "Bulk generate aliases for users that are not aliased"
+msgstr "URL エイリアスを持たない他のユーザページに対して、一括アップデートを実行する"
+
+#: pathauto_user.inc:33
+msgid "Generate aliases for all existing user account pages which do not already have aliases."
+msgstr "URL エイリアスを持たないすべてのユーザアカウントページに URL エイリアスを生成します。"
+
+#: pathauto_user.inc:49
+msgid "Blog path settings"
+msgstr "ユーザ別ブログの URL 設定"
+
+#: pathauto_user.inc:50
+msgid "Pattern for blog page paths"
+msgstr "ユーザ別ブログの URL パターン"
+
+#: pathauto_user.inc:51
+msgid "blogs/[user-raw]"
+msgstr "blogs/[user-raw]"
+
+#: pathauto_user.inc:57
+msgid "Bulk generate aliases for blogs that are not aliased"
+msgstr "URL エイリアスを持たない他のユーザ別ブログに対して、一括アップデートを実行する"
+
+#: pathauto_user.inc:58
+msgid "Generate aliases for all existing blog pages which do not already have aliases."
+msgstr "URL エイリアスを持たないすべてのブログページに URL エイリアスを生成します。"
+
+#: pathauto_user.inc:74
+msgid "User-tracker path settings"
+msgstr "ユーザー別投稿の軌跡ページの URL 設定"
+
+#: pathauto_user.inc:75
+msgid "Pattern for user-tracker page paths"
+msgstr "ユーザ別投稿の軌跡ページの URL パターン"
+
+#: pathauto_user.inc:76
+msgid "users/[user-raw]/track"
+msgstr "users/[user-raw]/track"
+
+#: pathauto_user.inc:82
+msgid "Bulk generate aliases for user-tracker paths that are not aliased"
+msgstr "URL エイリアスを持たない他のユーザ別投稿の軌跡ページに対して、一括アップデートを実行する"
+
+#: pathauto_user.inc:83
+msgid "Generate aliases for all existing user-tracker pages which do not already have aliases."
+msgstr "URL エイリアスを持たないすべてのユーザ別投稿の軌跡ページに URL エイリアスを生成します。"
+
+#: pathauto_user.inc:107
+msgid "Bulk generation of users completed, one alias generated."
+msgid_plural "Bulk generation of users completed, @count aliases generated."
+msgstr[0] "ユーザアカウントページの一括アップデートが完了しました。 1 個の URL エイリアスが生成されました。"
+msgstr[1] "ユーザアカウントページの一括アップデートが完了しました。 @count 個の URL エイリアスが生成されました。"
+
+#: pathauto_user.inc:129
+msgid "Bulk generation of user blogs completed, one alias generated."
+msgid_plural "Bulk generation of user blogs completed, @count aliases generated."
+msgstr[0] "ユーザ別ブログの一括アップデートが完了しました。 1 個の URL エイリアスが生成されました。"
+msgstr[1] "ユーザ別ブログの一括アップデートが完了しました。 @count 個の URL エイリアスが生成されました。"
+
+#: pathauto_user.inc:153
+msgid "Bulk generation of user tracker pages completed, one alias generated."
+msgid_plural "Bulk generation of user tracker pages completed, @count aliases generated."
+msgstr[0] "ユーザ別投稿の軌跡ページの一括アップデートが完了しました。 1 個の URL エイリアスが生成されました。"
+msgstr[1] "ユーザ別投稿の軌跡ページの一括アップデートが完了しました。 @count 個の URL エイリアスが生成されました。"
+
+#: pathauto.module:27
+msgid ""
+"<p>Provides a mechanism for modules to automatically generate aliases for the content they manage.</p>\n"
+"                  <h2>Settings</h2>\n"
+"                  <p>The <strong>Maximum Alias Length</strong> and <strong>Maximum component length</strong> values\n"
+"                  default to 100 and have a limit of 128 from pathauto. This length is limited by the length of the dst\n"
+"                  column of the url_alias database table. The default database schema for this column is 128. If you\n"
+"                  set a length that is equal to that of the one set in the dst column it will cause problems in situations\n"
+"                  where the system needs to append additional words to the aliased URL. For example... URLs generated\n"
+"                  for feeds will have \"/feed\" added to the end. You should enter a value that is the length of the dst\n"
+"                  column minus the length of any strings that might get added to the end of the URL. The length of\n"
+"                  strings that might get added to the end of your URLs depends on which modules you have enabled and\n"
+"                  on your Pathauto settings. The recommended and default value is 100.</p>\n"
+"                  <p><strong>Raw Tokens</strong> In Pathauto it is appropriate to use the -raw form of tokens. Paths are\n"
+"                  sent through a filtering system which ensures that raw user content is filtered. Failure to use -raw\n"
+"                  tokens can cause problems with the Pathauto punctuation filtering system.</p>"
+msgstr ""
+"<p>コンテンツ管理のために、自動的に URL エイリアス（別名）を生成するメカニズムを提供します。</p>\n"
+"<h2>設定について</h2>\n"
+"<p>URL エイリアスの<strong>最大文字数</strong>および<strong>コンポーネントの最大文字数</strong>の最大値はデフォルトで 100 となっており、このモジュールで設定できる限界の値は 128 までとなります。 \n"
+"この値は、url_alias データベーステーブルの dst カラムの限界値となります。 デフォルトのデータベーススキーマでは、このカラムの値が 128 に設定されています。 \n"
+"URL エイリアスの最大文字数に dst カラムの値と同じ文字数を設定している場合、システムが URL エイリアスの自動生成時に別の文字列を追加する必要が生じた際にトラブルを引き起こす可能性があります。 \n"
+"例えば... フィード配信のための URL を生成する場合には URL エイリアスの末尾に \"/feed\" が追加されます。 \n"
+"この問題を回避するために、URL エイリアスの最大文字数には、URL の末尾に追加されることが予測される文字列の最大となる文字数を dst カラムの値から差し引いた値を設定してください。 \n"
+"URL の末尾に追加されることが予測される文字列の文字数は、使用しているモジュールやこのモジュールの設定に依存します。 デフォルトの値である 100 が推奨されます。</p>\n"
+"<p>URL エイリアスを自動生成するための定義としてトークンの値を使用する場合は <strong>トークン の -raw 形式</strong>のプレースホルダーを参照します。 \n"
+"URL のエイリアスは、コンテンツのデータを RAW データとしてフィルタリングシステムに通過させて生成されます。 \n"
+"そのため、トークンの -raw 形式のデータを参照していない場合は、句読点などの処理を行うためのフィルタリングシステムで問題が発生する可能性があります。</p>"
+
+#: pathauto.module:164
+msgid "As [cat], but including its supercategories separated by /."
+msgstr "含まれる上位のカテゴリを /（スラッシュ）で区切った [cat]"
+
+#: pathauto.module:165
+msgid "As [cat-raw], but including its supercategories separated by /. WARNING - raw user input."
+msgstr "含まれる上位のカテゴリを /（スラッシュ）で区切った [cat-raw] （注： ユーザが入力した RAW データ）"
+
+#: pathauto.module:166;171
+msgid "URL alias for the term."
+msgstr "タームの URL エイリアス"
+
+#: pathauto.module:169
+msgid "As [term], but including its supercategories separated by /."
+msgstr "含まれる上位のカテゴリを /（スラッシュ）で区切った [term]"
+
+#: pathauto.module:170
+msgid "As [term-raw], but including its supercategories separated by /. WARNING - raw user input."
+msgstr "含まれる上位のカテゴリを /（スラッシュ）で区切った [term-raw] （注： ユーザが入力した RAW データ）"
+
+#: pathauto.module:176
+msgid "URL alias for the parent book."
+msgstr "上位ブックの URL エイリアス"
+
+#: pathauto.module:188
+msgid "users"
+msgstr "ユーザ"
+
+#: pathauto.module:188
+msgid "content"
+msgstr "コンテンツ"
+
+#: pathauto.module:190
+msgid "user blogs"
+msgstr "ユーザ別ブログ"
+
+#: pathauto.module:193
+msgid "vocabularies and terms"
+msgstr "ボキャブラリとターム"
+
+#: pathauto.module:196
+msgid "user trackers"
+msgstr "ユーザ別投稿の軌跡"
+
+#: pathauto.module:199
+msgid "forums"
+msgstr "フォーラム"
+
+#: pathauto.module:284
+msgid "An alias will be generated for you. If you wish to create your own alias below, untick this option."
+msgstr "URL エイリアスを自動生成します。 下記フィールドに入力した任意のパスで URL エイリアスを作成したい場合は、このオプションのチェックを外してください。"
+
+#: pathauto.module:286
+msgid " To control the format of the generated aliases, see the <a href=\"@pathauto\">Pathauto settings</a>."
+msgstr " 自動生成される URL エイリアスのフォーマットをコントロールしたい場合は <a href=\"@pathauto\">ヘルプ</a> を参照してください。"
+
+#: pathauto.module:294
+msgid "Automatic alias"
+msgstr "エイリアスの自動生成"
+
+#: pathauto.module:319
+msgid "Update path alias"
+msgstr "URL エイリアスの更新"
+
+#: pathauto.module:49
+msgid "administer pathauto"
+msgstr "自動エイリアス設定の管理"
+
+#: pathauto.module:49
+msgid "notify of path changes"
+msgstr "パス変更の通知"
+
+#: pathauto.module:57
+msgid "Automated alias settings"
+msgstr "自動エイリアス設定"
+
+#: pathauto.module:68
+msgid "Delete aliases"
+msgstr "エイリアスの削除"
+
+#: pathauto.module:0
+msgid "pathauto"
+msgstr "自動エイリアス設定"
+
+#: pathauto.info:0
+msgid "Provides a mechanism for modules to automatically generate aliases for the content they manage."
+msgstr "コンテンツ管理のために、自動的に URL エイリアス（別名）を生成するメカニズムを提供します。"
+
+#: contrib/pathauto_node_event.inc:12;22
+msgid "[eventyyyy]"
+msgstr "[eventyyyy]"
+
+#: contrib/pathauto_node_event.inc:12
+msgid "The year the event starts."
+msgstr "イベント開始年"
+
+#: contrib/pathauto_node_event.inc:13;23
+msgid "[eventmm]"
+msgstr "[eventmm]"
+
+#: contrib/pathauto_node_event.inc:13
+msgid "The two-digit month (01-12) the event starts."
+msgstr "イベント開始月（01-12）"
+
+#: contrib/pathauto_node_event.inc:14;24
+msgid "[eventmon]"
+msgstr "[eventmon]"
+
+#: contrib/pathauto_node_event.inc:14
+msgid "The three-letter month (jan-dec) the event starts."
+msgstr "イベント開始月（jan-dec）"
+
+#: contrib/pathauto_node_event.inc:15;25
+msgid "[eventdd]"
+msgstr "[eventdd]"
+
+#: contrib/pathauto_node_event.inc:15
+msgid "The two-digit day of the month (00-31) the event starts."
+msgstr "イベント開始日（00-31）"
+
+#: contrib/pathauto_node_event.inc:16;26
+msgid "[eventday]"
+msgstr "[eventday]"
+
+#: contrib/pathauto_node_event.inc:16
+msgid "The three-letter day of the week (sun-sat) the event starts."
+msgstr "イベント開始曜日（sun-sat）"
+
+#: contrib/pathauto_node_event.inc:17;27
+msgid "[eventweek]"
+msgstr "[eventweek]"
+
+#: contrib/pathauto_node_event.inc:17
+msgid "The week number (1-52) of the year the event starts."
+msgstr "イベント開始週（1-52）"
+
+#: contrib/pathauto_node_i18n.inc:12;16
+msgid "[lang]"
+msgstr "[lang]"
+
+#: contrib/pathauto_node_i18n.inc:12
+msgid "Language code of the document"
+msgstr "ドキュメントの言語コード"

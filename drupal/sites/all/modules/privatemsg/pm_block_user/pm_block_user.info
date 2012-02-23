@@ -1,0 +1,13 @@
+; $Id: pm_block_user.info,v 1.2.2.1 2009/04/10 15:52:48 litwol Exp $
+name = Block user messages
+description = Allows users to block other users from sending them messages.
+package = Mail
+core = 6.x
+dependencies[] = privatemsg
+
+; Information added by drupal.org packaging script on 2010-08-11
+version = "6.x-1.3"
+core = "6.x"
+project = "privatemsg"
+datestamp = "1281533792"
+

@@ -1,0 +1,517 @@
+# Danish translation of Drupal (token.module)
+# Copyright 2007 Morten Wulff <wulff@ratatosk.net>
+msgid ""
+msgstr ""
+"Project-Id-Version: Danish translation of Drupal (token.module) $Id: da.po,v 1.1.2.2 2008/02/08 22:00:51 hass Exp $\n"
+"POT-Creation-Date: 2007-09-15 14:42+0200\n"
+"PO-Revision-Date: 2007-12-16 19:53+0100\n"
+"Last-Translator: Morten Wulff <wulff@ratatosk.net>\n"
+"Language-Team: Danish <l10n@drupaldanmark.dk>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Poedit-Language: Danish\n"
+"X-Poedit-Country: DENMARK\n"
+
+#: token_cck.inc:60
+msgid "Referenced node ID."
+msgstr "ID for beslægtet indholdselement."
+
+#: token_cck.inc:61
+msgid "Referenced node title."
+msgstr "Titel på beslægtet indholdselement."
+
+#: token_cck.inc:62
+msgid "Formatted html link to the node."
+msgstr "Formatteret link til indholdselementet."
+
+#: token_cck.inc:88
+msgid "Raw number value."
+msgstr "Rent tal."
+
+#: token_cck.inc:89
+msgid "Formatted number value."
+msgstr "Formatteret tal."
+
+#: token_cck.inc:114
+msgid "Raw, unfiltered text."
+msgstr "Ren, ufiltreret tekst."
+
+#: token_cck.inc:115
+msgid "Formatted and filtered text."
+msgstr "Formatteret og filtreret tekst."
+
+#: token_cck.inc:137
+msgid "Referenced user ID"
+msgstr "ID for beslægtet bruger"
+
+#: token_cck.inc:138
+msgid "Referenced user name"
+msgstr "Beslægtet brugernavn"
+
+#: token_cck.inc:139
+msgid "Formatted html link to referenced user"
+msgstr "Formatteret link til beslægtet bruger."
+
+#: token_cck.inc:164
+msgid "Link URL"
+msgstr "Link URL"
+
+#: token_cck.inc:165
+msgid "Link title"
+msgstr "Linktitel"
+
+#: token_cck.inc:166
+msgid "Formatted html link"
+msgstr "Formatteret HTML link"
+
+#: token_cck.inc:192
+msgid "Image file ID"
+msgstr "Billede ID"
+
+#: token_cck.inc:193
+msgid "Image title"
+msgstr "Billedtitel"
+
+#: token_cck.inc:194
+msgid "Image alt text"
+msgstr "Alternativ tekst"
+
+#: token_cck.inc:195
+msgid "Image file name"
+msgstr "Filnavn"
+
+#: token_cck.inc:196
+msgid "Image path"
+msgstr "Billedesti"
+
+#: token_cck.inc:197
+msgid "Image MIME type"
+msgstr "MIME type"
+
+#: token_cck.inc:198
+msgid "Image file size"
+msgstr "Filstørrelse"
+
+#: token_cck.inc:199
+msgid "Fully formatted HTML image tag"
+msgstr "Formatteret HTML billed-tag."
+
+#: token_cck.inc:230
+msgid "The raw date value."
+msgstr "Ren datoværdi."
+
+#: token_cck.inc:231
+msgid "The formatted date."
+msgstr "Formatteret dato."
+
+#: token_cck.inc:232
+msgid "The raw date timestamp."
+msgstr "Rent timestamp."
+
+#: token_cck.inc:233
+msgid "Date year (four digit)"
+msgstr "År (fire cifre)"
+
+#: token_cck.inc:234
+msgid "Date year (two digit)"
+msgstr "År (to cifre)"
+
+#: token_cck.inc:235
+msgid "Date month (full word)"
+msgstr "Måned (navn)"
+
+#: token_cck.inc:236
+msgid "Date month (abbreviated)"
+msgstr "Måned (forkortet)"
+
+#: token_cck.inc:237
+msgid "Date month (two digit, zero padded)"
+msgstr "Måned (to cifre)"
+
+#: token_cck.inc:238
+msgid "Date month (one or two digit)"
+msgstr "Måned (et eller to cifre)"
+
+#: token_cck.inc:239
+msgid "Date week (two digit)"
+msgstr "Ugenummer (to cifre)"
+
+#: token_cck.inc:240
+msgid "Date date (day of month)"
+msgstr "Dato (dag i måneden)"
+
+#: token_cck.inc:241
+msgid "Date day (full word)"
+msgstr "Day (navn)"
+
+#: token_cck.inc:242
+msgid "Date day (abbreviation)"
+msgstr "Dag (forkortelse)"
+
+#: token_cck.inc:243
+msgid "Date day (two digit, zero-padded)"
+msgstr "Dag (to cifre)"
+
+#: token_cck.inc:244
+msgid "Date day (one or two digit)"
+msgstr "Dag (et eller to cifre)"
+
+#: token_cck.inc:246
+msgid "If the field has a to-date defined, the same tokens exist in the form: [to-????], where ???? is the normal token."
+msgstr "Hvis der er defineret en til-dato, findes de samme symboler på formen [to-????], hvor ???? er det normale symbol."
+
+#: token_comment.inc:52
+msgid "Comment ID"
+msgstr "Kommentar ID"
+
+#: token_comment.inc:53
+msgid "Comment title"
+msgstr "Kommentar titel"
+
+#: token_comment.inc:54
+msgid "Comment title. WARNING - raw user input"
+msgstr "Kommentartitel. Advarsel: Rent brugerinput"
+
+#: token_comment.inc:55
+msgid "Comment body"
+msgstr "Kommentar indhold"
+
+#: token_comment.inc:56
+msgid "Comment body. WARNING - raw user input"
+msgstr "Kommentartekst. Advarsel: Rent brugerinput"
+
+#: token_comment.inc:58
+msgid "Comment author's user id"
+msgstr "Kommentarforfattters bruger-ID"
+
+#: token_comment.inc:59
+msgid "Comment author's user name"
+msgstr "Kommentarforfatterens brugernavn"
+
+#: token_comment.inc:60
+msgid "Comment author's user name. WARNING - raw user input"
+msgstr "Kommentarforfatterens brugernavn. Advarsel: Rent brugerinput"
+
+#: token_comment.inc:62
+msgid "Comment creation year (four digit)"
+msgstr "Oprettelsesår (fire cifre)"
+
+#: token_comment.inc:63
+msgid "Comment creation year (two digit)"
+msgstr "Oprettelsesår (to cifre)"
+
+#: token_comment.inc:64
+msgid "Comment creation month (full word)"
+msgstr "Oprettelsesmåned (navn)"
+
+#: token_comment.inc:65
+msgid "Comment creation month (abbreviated)"
+msgstr "Oprettelsesmåned (forkoerwr)"
+
+#: token_comment.inc:66
+msgid "Comment creation month (two digit, zero padded)"
+msgstr "Oprettelsesmåned (to cifre)"
+
+#: token_comment.inc:67
+msgid "Comment creation month (one or two digit)"
+msgstr "Oprettelsesmåned (et eller to cifre)"
+
+#: token_comment.inc:68
+msgid "Comment creation week (two digit)"
+msgstr "Oprettelsesuge (to cifre)"
+
+#: token_comment.inc:69
+msgid "Comment creation date (day of month)"
+msgstr "Oprettelsesdag (dag i måneden)"
+
+#: token_comment.inc:70
+msgid "Comment creation day (full word)"
+msgstr "Oprettelsesdag (navn)"
+
+#: token_comment.inc:71
+msgid "Comment creation day (abbreviation)"
+msgstr "Oprettelsesdag (forkortelse)"
+
+#: token_comment.inc:72
+msgid "Comment creation day (two digit, zero-padded)"
+msgstr "Oprettelsesdag (to cifre)"
+
+#: token_comment.inc:73
+msgid "Comment creation day (one or two digit)"
+msgstr "Oprettelsesdag (et eller to cifre)"
+
+#: token_node.inc:154
+msgid "Node ID"
+msgstr "Indholdselement ID"
+
+#: token_node.inc:155
+msgid "Node type"
+msgstr "Indholdstype"
+
+#: token_node.inc:156
+msgid "Node type (user-friendly version)"
+msgstr "Indholdstype (brugervenlig udgave)"
+
+#: token_node.inc:157
+msgid "Node title"
+msgstr "Titel"
+
+#: token_node.inc:158
+msgid "Unfiltered node title. WARNING - raw user input."
+msgstr "Ufiltreret titel. Advarsel: Rent brugerinput"
+
+#: token_node.inc:160
+msgid "Node author's user id"
+msgstr "Forfatterens bruger-ID"
+
+#: token_node.inc:161
+msgid "Node author's user name"
+msgstr "Forfatterengs brugernavn"
+
+#: token_node.inc:162
+msgid "Node author's user name. WARNING - raw user input."
+msgstr "Forfatterens brugernavn. Advarsel: Rent brugerinput"
+
+#: token_node.inc:164
+msgid "Name of top taxonomy term"
+msgstr "Navn på øverste taksonomi-ord."
+
+#: token_node.inc:165
+msgid "Unfiltered name of top taxonomy term. WARNING - raw user input."
+msgstr "Ufiltreret navn på første taksonomi-term. Advarsel: Rent brugerinput"
+
+#: token_node.inc:166
+msgid "ID of top taxonomy term"
+msgstr "ID for øverste taksonomi-ord"
+
+#: token_node.inc:167
+msgid "Name of top term's vocabulary"
+msgstr "Navn på øverste ord's ordforråd."
+
+#: token_node.inc:168
+msgid "Unfiltered name of top term's vocabulary. WARNING - raw user input."
+msgstr "Ufiltreret navn på første ordforråd. Advarsel: Rent brugerinput"
+
+#: token_node.inc:169
+msgid "ID of top term's vocabulary"
+msgstr "ID for det første ord's ordforråd"
+
+#: token_node.inc:174
+msgid "Node creation year (four digit)"
+msgstr "Oprettelsesår (fire cifre)"
+
+#: token_node.inc:175
+msgid "Node creation year (two digit)"
+msgstr "Oprettelsesår (to cifre)"
+
+#: token_node.inc:176
+msgid "Node creation month (full word)"
+msgstr "Oprettelsesmåned (navn)"
+
+#: token_node.inc:177
+msgid "Node creation month (abbreviated)"
+msgstr "Oprettelsesmåned (forkortet)"
+
+#: token_node.inc:178
+msgid "Node creation month (two digit, zero padded)"
+msgstr "Oprettelsesmåned (to cifre)"
+
+#: token_node.inc:179
+msgid "Node creation month (one or two digit)"
+msgstr "Oprettelsesmåned (et eller to cifre)"
+
+#: token_node.inc:180
+msgid "Node creation week (two digit)"
+msgstr "Oprettelsesuge (to cifre)"
+
+#: token_node.inc:181
+msgid "Node creation date (day of month)"
+msgstr "Oprettelsesdag (dag i måneden)"
+
+#: token_node.inc:182
+msgid "Node creation day (full word)"
+msgstr "Oprettelsesdag (navn)"
+
+#: token_node.inc:183
+msgid "Node creation day (abbreviation)"
+msgstr "Oprettelsesdag (forkortelse)"
+
+#: token_node.inc:184
+msgid "Node creation day (two digit, zero-padded)"
+msgstr "Oprettelsesdag (to cifre)"
+
+#: token_node.inc:185
+msgid "Node creation day (one or two digit)"
+msgstr "Oprettelsesdag (et eller to cifre)"
+
+#: token_node.inc:186
+msgid "All tokens for node creation dates can also be used with with the \"mod-\" prefix; doing so will use the modification date rather than the creation date."
+msgstr "Alle symboler for oprettelsesdatoer kan også bruges med forstavelsen \"mod-\". Det vil resultere i ændringsdatoen i stedet for oprettelsesdatoen."
+
+#: token_node.inc:188
+msgid "The name of the menu the node belongs to."
+msgstr "Navnet på menuen som indholdselementet tilhører."
+
+#: token_node.inc:189
+msgid "The name of the menu the node belongs to. WARNING - raw user input."
+msgstr "Navnet på menuen som indholdselementet tilhører. Advarsel: Rent brugerinput."
+
+#: token_node.inc:190
+msgid "The menu path (as reflected in the breadcrumb), not including Home or [menu]. Separated by /."
+msgstr "Menustien (brødkrummestien) uden Forside eller [menu], adskilt af /."
+
+#: token_node.inc:191
+msgid "The unfiltered menu path (as reflected in the breadcrumb), not including Home or [menu]. Separated by /. WARNING - raw user input."
+msgstr "Menustien (brødkrummestien) uden Forside eller [menu], adskilt af /. Advarsel: Rent brugerinput."
+
+#: token_node.inc:236
+msgid "The title of the node's book parent."
+msgstr "Titlen på sidens overordnede side."
+
+#: token_node.inc:237
+msgid "The id of the node's book parent."
+msgstr "ID for sidens overordnede side."
+
+#: token_node.inc:238
+msgid "The titles of all parents in the node's book hierarchy."
+msgstr "Titler på alle overordnede sider i boghierarkiet."
+
+#: token_node.inc:240
+msgid "The unfiltered title of the node's book parent. WARNING - raw user input."
+msgstr "Den ufiltrerede titel på sidens overordnede side. Advarsel: Rent brugerinput."
+
+#: token_node.inc:241
+msgid "The unfiltered titles of all parents in the node's book hierarchy. WARNING - raw user input."
+msgstr "De ufiltrerede titler på alle overordnede sider i boghierarkiet. Advarsel: Rent brugerinput."
+
+#: token_taxonomy.inc:32
+msgid "The id number of the category's parent vocabulary."
+msgstr "IDen på kategoriens overordnede ordforråd."
+
+#: token_taxonomy.inc:33
+msgid "The vocabulary that the page's first category belongs to."
+msgstr "Ordforrådet som sidens første kategori tilhører."
+
+#: token_taxonomy.inc:34
+msgid "The name of the category."
+msgstr "Kategoriens navn."
+
+#: token_taxonomy.inc:35
+msgid "The id number of the category."
+msgstr "Kategoriens ID."
+
+#: token_taxonomy.inc:36
+msgid "The unfiltered vocabulary that the page's first category belongs to. WARNING - raw user input."
+msgstr "Det ufiltrerede navn på ordforrådet som sidens første kategori tilhører. Advarsel: Rent brugerinput."
+
+#: token_taxonomy.inc:37
+msgid "The unfiltered name of the category. WARNING - raw user input."
+msgstr "Kategoriens ufiltrerede navn. Advarsel: Rent brugerinput"
+
+#: token_user.inc:41
+msgid "User's name"
+msgstr "Brugernavn"
+
+#: token_user.inc:42
+msgid "User's unfiltered name. WARNING - raw user input."
+msgstr "Brugerens ufiltrerede navn. Advarsel: Rent brugerinput"
+
+#: token_user.inc:44
+msgid "User's ID"
+msgstr "Bruger ID"
+
+#: token_user.inc:45
+msgid "User's email address"
+msgstr "Brugerens e-mail-adresse."
+
+#: token_user.inc:47
+msgid "User's registration date"
+msgstr "Brugerens oprettelsesdato"
+
+#: token_user.inc:48
+msgid "Days since the user registered"
+msgstr "Dage siden brugeren blev oprettet"
+
+#: token_user.inc:49
+msgid "User's last login date"
+msgstr "Brugerens seneste logind"
+
+#: token_user.inc:50
+msgid "Days since the user's last login"
+msgstr "Dage siden brugerens seneste login"
+
+#: token_user.inc:51
+msgid "The current date in the user's timezone"
+msgstr "Den akutelle dato i brugerens tidszone"
+
+#: token_user.inc:52
+msgid "The URL of the user's profile page."
+msgstr "URLen til brugerens profilside."
+
+#: token_user.inc:53
+msgid "The URL the user's account editing page."
+msgstr "URLen til brugerens profilside."
+
+#: token.module:20
+#: token.info:0
+msgid "Token"
+msgstr "Symbol"
+
+#: token.module:20
+msgid "Replacement value"
+msgstr "Erstatningsværdi"
+
+#: token.module:23
+msgid "tokens"
+msgstr "symboler"
+
+#: token.module:60
+msgid "Anonymous"
+msgstr "Anonym"
+
+#: token.module:64
+msgid "Drupal"
+msgstr "Drupal"
+
+#: token.module:88
+msgid "The name of the currently logged in user."
+msgstr "Navnet på den aktuelle bruger."
+
+#: token.module:89
+msgid "The user ID of the currently logged in user."
+msgstr "Bruger ID for den aktuelle bruger."
+
+#: token.module:90
+msgid "The email address of the currently logged in user."
+msgstr "E-mail-adresse for den aktuelle bruger."
+
+#: token.module:91
+msgid "The url of the current Drupal website."
+msgstr "URLen til det aktuelle Drupal-site."
+
+#: token.module:92
+msgid "The name of the current Drupal website."
+msgstr "Navnet på det aktuelle Drupal-site."
+
+#: token.module:93
+msgid "The slogan of the current Drupal website."
+msgstr "Slogan for det aktuelle Drupal-site."
+
+#: token.module:94
+msgid "The contact email address for the current Drupal website."
+msgstr "Kontakt e-mail-adresse for det aktuelle Drupal-site."
+
+#: token.module:95
+msgid "The current date on the site's server."
+msgstr "Den aktuelle dato på sitets server."
+
+#: token.module:0
+msgid "token"
+msgstr "symbol"
+
+#: token.info:0
+msgid "Provides a shared API for replacement of textual placeholders with actual data."
+msgstr "Et delt API til udskiftning af pladsholdere med data."
+

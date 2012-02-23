@@ -1,0 +1,148 @@
+# $Id: modules-content_copy.sv.po,v 1.1.2.1 2009/05/27 13:32:55 seals Exp $
+#
+# Swedish translation of Drupal (content_copy)
+# Generated from files:
+#  content_copy_export_form.tpl.php,v 1.1.2.2 2008/10/28 02:11:49 yched
+#  content_copy.module,v 1.27.2.21 2009/02/26 23:15:54 yched
+#  content_copy.info,v 1.6 2008/04/23 18:01:48 dww
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: CCK - Content Copy 6.x\n"
+"POT-Creation-Date: 2009-05-27 12:42+0200\n"
+"PO-Revision-Date: 2009-05-27 13:04+0100\n"
+"Last-Translator: Magnus Gunnarsson <seals@passagen.se>\n"
+"Language-Team: drupalsverige.se\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n!=1);\n"
+"X-Poedit-Language: Swedish\n"
+"X-Poedit-Country: SWEDEN\n"
+"X-Poedit-SourceCharset: utf-8\n"
+
+#: content_copy_export_form.tpl.php:9
+#: content_copy.module:191;38
+msgid "Export"
+msgstr "Exportera"
+
+#: content_copy_export_form.tpl.php:10
+msgid "Label"
+msgstr "Etikett"
+
+#: content_copy_export_form.tpl.php:11
+msgid "Name"
+msgstr "Namn"
+
+#: content_copy_export_form.tpl.php:12
+msgid "Type"
+msgstr "Typ"
+
+#: content_copy.module:97
+msgid "This form will process a content type and one or more fields from that type and export the settings. The export created by this process can be copied and pasted as an import into the current or any other database. The import will add the fields to into an existing content type or create a new content type that includes the selected fields."
+msgstr "Detta formulär kommer att bearbeta en innehållstyp och ett eller flera fält från den typen och exportera inställningarna. Exporten skapad av denna bearbetning kan kopieras och klistras in som en import till den nuvarande, eller annan databas. Importen kommer att lägga till fält till den existerande innehållstypen eller skapa en ny innehållstyp som inkluderade valda fält."
+
+#: content_copy.module:103
+msgid "Types"
+msgstr "Typer"
+
+#: content_copy.module:107
+msgid "Select the content type to export."
+msgstr "Välj innehållstyp att exportera."
+
+#: content_copy.module:175
+msgid "Export data"
+msgstr "Exportera data"
+
+#: content_copy.module:180
+msgid "Copy the export text and paste it into another content type using the import function."
+msgstr "Kopiera den exporterade texten och klistra in den till en annan innehållstyp genom att använda funktionen för import."
+
+#: content_copy.module:184
+msgid "Content types"
+msgstr "Innehållstyper"
+
+#: content_copy.module:251
+msgid "Save field settings"
+msgstr "Spara inställningar för fält"
+
+#: content_copy.module:303
+msgid "This form will import field definitions exported from another content type or another database.<br/>Note that fields cannot be duplicated within the same content type, so imported fields will be added only if they do not already exist in the selected type."
+msgstr "Detta formulär kommer att importera definitioner på fält exporterade från annan innehållstyp eller annan databas.<br />Observera att detta fält inte kan vara en dublett inom samma innehållstp, så importerade fält kommer enbart att läggas till om de inte redan existerar i den valda typen."
+
+#: content_copy.module:306
+msgid "<Create>"
+msgstr "<Skapa>"
+
+#: content_copy.module:308
+msgid "Content type"
+msgstr "Innehållstyp"
+
+#: content_copy.module:309
+msgid "Select the content type to import these fields into.<br/>Select &lt;Create&gt; to create a new content type to contain the fields."
+msgstr "Välj innehållstyp att importera dessa fält till.<br />Välj &lt;Skapa&gt; för att skapa en ny innehållstyp som skall innehålla fälten."
+
+#: content_copy.module:314
+msgid "Import data"
+msgstr "Importera data"
+
+#: content_copy.module:316
+msgid "Paste the text created by a content export into this field."
+msgstr "Klistra in texten skapad av en export av innehåll till detta fält."
+
+#: content_copy.module:320;46
+msgid "Import"
+msgstr "Importera"
+
+#: content_copy.module:328
+msgid "A file has been pre-loaded for import."
+msgstr "En fil har förladdats för import."
+
+#: content_copy.module:354
+msgid "The import data is not valid import text."
+msgstr "Det importerade datat är inte giltig text för import."
+
+#: content_copy.module:403
+msgid "The following modules must be enabled for this import to work: %modules."
+msgstr "Följande moduler måste aktiveras för att denna import skall fungera: %modules."
+
+#: content_copy.module:411
+msgid "The content type %type already exists in this database."
+msgstr "Innehållstypen %type finns redan i databasen."
+
+#: content_copy.module:418
+msgid "Exiting. No import performed."
+msgstr "Avslutar. Ingen import genomförd."
+
+#: content_copy.module:442
+msgid "An error has occurred adding the content type %type.<br/>Please check the errors displayed for more details."
+msgstr "Ett fel inträffade när innehållstypen %type lades till.<br />Var vänlig se de visade felmeddelandena för mer detaljer."
+
+#: content_copy.module:467
+msgid "The imported field %field_label (%field_name) was not added to %type because that field already exists in %type."
+msgstr "Det importerade fältet %field_label (%field_name) lades inte till %type eftersom det fältet redan existerar i %type."
+
+#: content_copy.module:476
+msgid "The field %field_label (%field_name) was added to the content type %type."
+msgstr "Fältet %field_label (%field_name) lades till innehållstypen %type."
+
+#: content_copy.module:581
+msgid "An error occurred when exporting the 'display settings' data for the field %field_name.<br/>The db error is: '%db_err'."
+msgstr "Ett fel inträffade "
+
+#: content_copy.module:0
+msgid "content_copy"
+msgstr "content_copy"
+
+#: content_copy.info:0
+msgid "Content Copy"
+msgstr "Kopiera innehåll"
+
+#: content_copy.info:0
+msgid "Enables ability to import/export field definitions."
+msgstr "Aktiverar förmågan att importera/exportera definitioner av fält."
+
+#: content_copy.info:0
+msgid "CCK"
+msgstr "CCK"
+

@@ -1,0 +1,13 @@
+; $Id: ctools_access_ruleset.info,v 1.1.2.1 2010/07/14 01:33:03 merlinofchaos Exp $
+name = Custom rulesets
+description = Create custom, exportable, reusable access rulesets for applications like Panels.
+core = 6.x
+package = Chaos tool suite
+dependencies[] = ctools
+
+; Information added by drupal.org packaging script on 2010-10-29
+version = "6.x-1.8"
+core = "6.x"
+project = "ctools"
+datestamp = "1288393844"
+

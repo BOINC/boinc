@@ -1,0 +1,69 @@
+<?php
+
+// $Id: tokenSTARTER.module,v 1.1.2.3 2010/03/11 19:28:54 davereid Exp $
+
+/**
+ * @file
+ * The Token API module.
+ *
+ * The Token module provides an API for providing tokens to other modules.
+ * Tokens are small bits of text that can be placed into larger documents
+ * via simple placeholders, like %site-name or [user].
+ *
+ * @ingroup token
+ */
+
+/**
+ * Implementation of hook_token_list().
+ */
+function tokenSTARTER_token_list($type = 'all') {
+  $tokens = array();
+
+  if ($type == 'global' || $type == 'all') {
+    $tokens['global']['random-sha1']  = t("A randomly generated SHA1 hash.");
+    $tokens['global']['site-date-timestamp'] = t('The current timestamp in seconds past January 1, 1970.');
+    $tokens['global']['random-num-1'] = t('A randomly generated single-digit number.');
+    $tokens['global']['random-num-3'] = t('A randomly generated three-digit number.');
+    $tokens['global']['random-num-10'] = t('A randomly generated ten-digit number.');
+    $tokens['global']['random-alpha-1'] = t('Randomly generated single-digit letter.');
+    $tokens['global']['random-alpha-3'] = t('Randomly generated three-digit letters.');
+    $tokens['global']['random-alpha-10'] = t('Randomly generated ten-digit letters.');
+  }
+  if ($type == 'node' || $type == 'all') {
+    // Node tokens here.
+  }
+
+  return $tokens;
+}
+
+/**
+ * Implementation of hook_token_values().
+ */
+function tokenSTARTER_token_values($type, $object = NULL) {
+  $values = array();
+  switch ($type) {
+    case 'global':
+      $values['random-sha1']  = sha1(rand());
+      // Create random numbers.
+      $values['random-num-1'] = mt_rand(0, 9);
+      $values['random-num-3'] = mt_rand(100, 999);
+      $values['random-num-10'] = mt_rand(10000, 99999) . mt_rand(10000, 99999);
+      // Create random letters.
+      $letters = range('a', 'z');
+      $values['random-alpha-1'] = $letters[array_rand($letters, 1)];
+      shuffle($letters);
+      $values['random-alpha-3'] = implode('', array_slice($letters, 0, 3));
+      shuffle($letters);
+      $values['random-alpha-10'] = implode('', array_slice($letters, 0, 10));
+      // Create a UNIX timestamp token.
+      $time = time();
+      $tz = variable_get('date_default_timezone', 0);
+      $values['site-date-timestamp'] = format_date($time, 'custom', 'Y', $tz);
+
+      break;
+    case 'node':
+      // Node tokens here.
+      break;
+  }
+  return $values;
+}

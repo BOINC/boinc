@@ -1,0 +1,69 @@
+/* $Id: help.css,v 1.7 2008/10/17 19:13:03 merlinofchaos Exp $ */
+
+.advanced-help-topic code, .advanced-help-topic pre {
+  border: 1px solid #444;
+  background: #f1f1f1;
+  margin: 1em;
+  padding: .2em;
+  display: block;
+}
+
+.advanced-help-topic h3,
+.advanced-help-topic h4,
+.advanced-help-topic h5,
+.advanced-help-topic h6,
+.advanced-help-topic dt {
+  font-weight: bold;
+}
+
+.advanced-help-topic li h3,
+.advanced-help-topic li h4,
+.advanced-help-topic li h5,
+.advanced-help-topic li h6 {
+  font-weight: normal;
+}
+
+.help-left {
+  text-align: left;
+  width: 42%;
+  display: block;
+  float: left; /* LTR */
+}
+
+.help-up {
+  margin: 0 5%;
+  width: 4%;
+  display: block;
+  float: left; /* LTR */
+}
+
+.help-up-noleft {
+  margin: 0 5%;
+  width: 42%;
+  text-align: right;
+  display: block;
+  float: left; /* LTR */
+}
+
+.help-right {
+  text-align: right;
+  width: 42%;
+  display: block;
+  float: right;
+}
+
+.help-box {
+  margin: .5em;
+}
+
+.help-navigation {
+  border-top: 1px dotted #ccc;
+}
+
+.help-previous {
+  float: left;
+}
+
+.help-next {
+  float: right;
+}

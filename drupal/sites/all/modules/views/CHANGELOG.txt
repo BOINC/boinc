@@ -1,0 +1,475 @@
+CHANGELOG for Views 2 for Drupal 6
+Views 2.11 (Jun 16, 2010)
+  Bug fixes:
+    o #770006 by macdee: Taxonomy term default plugin mysteriously broken.
+    o #767146 by bangpound: Validation not passed down into row style plugin.
+    o #513396 by yhager and jcisio: Views trim was not multibyte safe.
+    o #550420 by blauerberg: Views RSS did not properly pass readmore flag from node to RSS item.
+    o #781296 by dereine: Node: Type "link to its node" option broken.
+    o #769010 by andrea.gariboldi: Overuse of query substitutions fails on some databases.
+    o #607418: Fix queries broken with "ambiguous nid" due to uncommon relationships.
+    o #768162: Revert inadvertant change to grid style behavior.
+    o #815392 by killes and dereine: Incorrect construction of $account caused accidental non-permanent change to $user->roles.
+    o #723454 by dereine: Upgrade from 5.0 could cause blocks for views with long names to lose configuration.
+    o SA-CONTRIB-2010-067: Fix CSRF and XSS vulnerabilities.
+
+Views 2.10 (Apr 08, 2010)
+  Bug fixes:
+    o #765760 by crea: New setting for raw node type had wrong default.
+    o #682888 by jcmarco: With zen and zen subthemes, the new $classes array could fail for row styles.
+    o #765340 by dereine: <front> token accidentally removed by html entity stripping from URLs.
+    o #765352: Fix for postgress versions prior to 8.3 which caused data loss in update.php. Note: This will not repair lost data. If you experienced this you must restore your views_display table from backup.
+    o #766046: Live preview broken right after adding new display.
+    o #740130: #561892 not applied correctly, caused the 'rewrite' checkbox to be ignored and rewrite always used.
+    o #765296: field IDs could get out of sync, causing render path to try to render a field that did not exist leading to whitescreens.
+
+Views 2.9 (Apr 07, 2010)
+  Bug fixes:
+    o #650152: Book: Top Level Book relationship broken by earlier patch and caused broken query.
+    o #651244 by dagmar: Other instances of <Any> are not translatable and should not be run trhough t().
+    o #653628: init declaration for views_handler_filter_many_to_one() did not match parent init.
+    o #657700: Fixed 'Override normal sorting if click sorting is used' setting on the table style plugin that was broken by #622602.
+    o #473698 by jrglasgow: Fix error in help text regarding custom theming.
+    o #387448 by joachim: Provide better help text to describe how to use sticky sort.
+    o #652716 by dagmar: "no single" flag on filter objects not completely respected, causing improper default filters.
+    o #621780 by PaulMagrath: Even/Odd classes wrong with grouping due to row numbering no longer being sequential.
+    o #642328 by dboulet: Always include views.css since a site using Views probably uses it in blocks anyway.
+    o #629840 by fuerst: Search filter caused bad query on PostgreSQL.
+    o #329390: views_break_phrase could break under PHP4 due to reference error.
+    o #652742: Replacement pattern tokens for multiple fields did not work.
+    o #659510 by Souvent22 and dereine: glossary AJAX broken.
+    o #335599 by miro_dietiker: Remove the 95% width constraint on the admin hover links to be nicer to themes.
+    o #670308 by Mike Wacker: Make views_get_view() properly set disabled flag when retrieving default views.
+    o #536910 by dereine: Theme and language should be taken into account during caching.
+    o #627402 by dereine: Aggregator description needed more controllable input filtering.
+    o #416264 by bec: Dependency processing could cause exposed forms to disappear if used multiple times on the same page.
+    o #657442 by nicholasThompson and dagmar: Include "mail" field in user picture so that modules that need this do not break when rendering picture in Views.
+    o #329044 by gordon: Check to see if access plugin exists before using to prevent whitescreens.
+    o #455364 by sdrycroft: Prevent modules trying to define the same default view name from breaking everything.
+    o #422434 by BWPanda: Correct (NULL) to (NOT NULL) in varios operator descriptions for empty/not empty.
+    o #692428 by Roi Danton: Documentation typo fix.
+    o #713210 by dereine: Node language settings could persist for subsequent rows if they should not have had a language.
+    o #674772 by joachim: Unable to distinguish profile.module fields with same name in different profile categories.
+    o #727798 by SteveReher: Fix typo in overrides.html documentation.
+    o #621980 by yhahn: Namespace tabs.js to guarantee no conflicts with jQuery UI.
+    o #684656 by yhahn: Prevent Views from performing an unneeded variable_set() during block list.
+    o #455364 by iva2k: Default views were getting loaded twice.
+    o #737120 by james.williams: Fix help text for date offsets which gave incorrect information.
+    o #737118 by DeFr: Allow API calls to delete to not clear the views cache to facilitate batch operations.
+    o #673852 by yhahn: Allow access plugins to choose whether or not "access all views" should be used.
+    o #546586 by jeffschuler: String 0 values were being treated as empty therefore not displayed as fields.
+    o #651274 by dagmar: Show relationship labels in field lists for style config forms.
+    o #531686 by jweowu: Update process failed to properly track its history, causing errors when updating from really old sites.
+    o #638004 by stBorchert and BillyMG: If a field "Output as link" ends up with an empty path, do not actually print an empty link.
+    o #657384 by smoothify: Under rare circumstances, date default argument could get wrong value.
+    o #658842 by tomgf: Provide a proper ellipsis instead of "...".
+    o #662654 by dereine: Do not use query to load/validate a user if the user happens to be the logged in user.
+    o #640862 by dereine: Properly clear feed icon when cloning a view to prevent duplicate feed icons in attachments.
+    o #672044 by moshebeeri: Right-To-Left for views.css.
+    o #677936 by mr.baileys: "views-row-last" class accidentally omitted on grids with just one row.
+    o #673184 by markus petrux: Default views not always properly loaded by language.
+    o #433948 by dereine: "numeric" => FALSE not properly supported in handler definitions.
+    o #708618 by thsutton: Friendlier message when a handler is missing.
+    o #701588 by dereine: Delete button should say Revert on Overridden views.
+    o #508124 by dereine: "accept_null" should have been "accept null" in boolean filter definitions.
+    o #513396 by yhager: Attempt multi-byte safety for "trim at word boundary" setting.
+    o #418230 by Scott Reynolds: Views adds wrong nid with "Node: Has new content".
+    o #558602 by dboulet and Crashtest_: Summary views should provide "active" class on links properly.
+    o #496634 by dereine: Fix long-standing issue of "0" not being a valid argument for multiple integer CCK types.
+    o #521954 by Agileware: Allow taxonomy breadcrumbs to link to actual taxonomy page instead of back to view.
+    o #528838 by zzolo: If exposed form is in a block, and the form does not validate, ensure the form does not render twice.
+    o #727304 by mariusz.slonina: User edit link was disallowing users from editing themselves.
+    o #733142 by dereine: Link path field restricts input to too few characters for long links.
+    o #675264 by peck66: Freeform profile list field did not output properly.
+    o #663372 by dan.nsk: Allow tokens to work in the "target" field during link rewriting.
+    o #747418 by dereine: Fix taxonomy term ID bug introduced in #496634.
+    o #466250 by alex_b and dereine: Enlarge views_display field to prevent heavy displays from losing data.
+    o #689780 by deviantintegral: AJAX scrolling could go to wrong place.
+
+  Other changes:
+    o #570558 by yhahn: Segment default views caching to conserve memory used by Views during normal operation.
+    o #661676 by dagmar: Improve error handling during AJAX failures.
+    o #685622 by dereine: Field to provide link to a node revision.
+    o #484600 by dereine: Ability to disable the automatic live preview.
+    o #716236 by jmiccolis: Allow default menu tabs to also have menu entries.
+    o #550132 by tha_sun: Allow plugins to better control the callbacks used for page type displays.
+    o #548292 by mikeker: Create a "Node: path" field that can be used to display the aliased path to a node.
+    o #666912 by dereine: Prevent imports of views created by newer, incompatible versions of Views.
+    o #672864 by dereine: Add a column count class to the table style for themers to more easily do generic targeting.
+    o #552498 by dereine: User email as an argument.
+    o #515324 by dereine: Make API documentation easier to find.
+    o #488314 by yhahn: Allow relationship to fetch nodes from terms.
+    o #685938 by dereine: Sync preview widget to current tab to reduce WTFs when previewing the wrong display.
+    o #739448 by brunodbo: Allow "Jump Menu" to set the "Choose" text in style options.
+    o #730454 by stella: Add "translate" link along with view/edit/delete links on nodes.
+    o #474174 by dereine: Analyze will now warn about "node/%" not being a valid path for Views.
+    o #619642 by dereine: Allow argument for user language.
+    o #675154 by dereine and Crashtest_: Improvements to rendering trim text and tag stripping.
+    o #730810 by alex_b: Add fields for authmap table.
+    o #666920 by dereine: Include actual API version in exports.
+    o #689446 by dereine: Allow use of l() in link rewriting to not check for aliases.
+    o #684608 by dereine: Default argument to acquire a taxonomy tid from the URL or a node in the URL.
+    o #496840 by dereine: Allow boolean filters to define additional output formats and provide an additional for Node: Sticky.
+    o #689260 by dereine: Allow "Node type" field to output the machine name as well as the human readable name.
+    o #740686 by jacine: Introduce $classes array in views-view.tpl.php.
+    o #582348 by dagmar: Allow UI setting a CSS class for views-view.tpl.php
+    o #682030 by killes: Add term relation table integration.
+    o #339758 by dereine: Better handling for display of set options in multiple choice filters.
+    o #330160 by aditya_kristanto: Improve text to make it easier to find where to edit the view description.
+    o #765022: SA-CONTRIB-2010-036: Fix XSS and PHP vulnerabilities.
+
+Views 2.8 (Dec 02, 2009)
+  Bug fixes:
+    o #622602: Missing ORDER BY in some views with tables due to incorrect test for default table sorting.
+    o #623498 by marcp: total_rows should be filled in if fetching all records.
+    o #535206: Attachment displays repeat exposed filters because exposed filters were left hanging around during cloning.
+    o #450346 by lefnire: Inherit Exposed Filters sometimes hides part of the parent exposed filters
+    o #550560 by donquixote: Fix unterminated string in views.help.ini that breaks under php 5.3
+    o #592476 by Garrett Albright: Remove redundant CSS from views-list.css
+    o #366250 by Markus Petrux: Fix glitches with tabledrag and jQuery 1.3.
+    o #581616 by cangeceiro: Defend text color from themes in Views UI.
+    o #589484 by Markus Petrux: External styles could not properly provide advanced help files.
+    o #494490 by Niels Hackius: User picture incorrectly set as an inline element when it should be block.
+    o #616956 by neochief: Exposed form labels should have "for" keyword.
+    o #620046 by cedric: Date validate handler does not fallback properly causing sporadic improper validation.
+    o #628330 by dereine: Do not print n/a for empty formatted fields.
+    o #515564: Views UI would fail to rearrange with > 25 fields.
+    o #452384: Fix PHP 5.3 compatibility.
+    o #619884: Fix incorrect grouping for styles other than table.
+    o #539498: "Comments: Node link" did not work at all. Replaced with "Node: Add comment link" which is what that was supposed to do.
+    o #638916 by dereine: views.help.ini strings need quoting to continue to work in PHP 5.3
+    o #636988 by Steve McKenzie: Wrong ajax data could be sent in rare circumstances when using AJAX paging.
+    o #576386 by jmorahan: Fix book sort help text to be more accurate by not telling you to do something that will not work.
+    o #348130 by dereine: "<Any>" should not be translatable since it looks like HTML.
+    o #630430 by cafuego: Fix typo in argument text.
+    o #370651: Make Views AJAX work with mod_security enabled.
+    o #648438 by dww: In rare circumstances, unnecessary term_node tables could be joined in when adding term_data relationships.
+    o #639430 by dagmar: theme.inc warning when comments are displayed without links.
+
+  Other changes:
+    o #580320 by chaps2: Allow "always use more link" setting.
+    o #363516 by dagmar: Validate the uniqueness of exposed filter identifiers.
+    o #584880 by drewish: Wrong base field declarations fixed.
+    o #480162 by dereine: Count whitespace fields as empty for hiding labels.
+    o #623580 by dagmar: Move can_expose() method to base handler to deal with validation change made in previous commit.
+    o #626422 by vgarvardt: Static caching of validated taxonomy terms to improve taxonomy_term performance.
+    o #622608: Allow attachments to inherit pager data.
+    o #495606 by Roi Danton and dereine: Introduce views_get_view_result() as a fast way to get just the results of a view.
+    o #614040 by dereine: Introduce hook_views_plugins_alter()
+    
+Views 2.7 (Nov 02, 2009)
+  Bug fixes:
+    o Table style when not overriding sorts put sorts in wrong order.
+    o #488908 by sl27257: "Node: Has new content" only worked when exposed.
+    o #451110 by wonder95: Fixed missing word in transform case help text.
+    o #385904 by JirkaRybka: Prevent duplication of id edit-submit on views exposed form.
+    o #489888 by TheRec: Remove erroneous "alt" attribute from <a> when using link rewriting.
+    o #499078 by Darren Oh: Make sure theme is initialized for pre_render hook.
+    o #490516 by v_20q: Some fields not properly being marked as translatable due to option unpacking bug.
+    o #484222 by dereine: Attachment displays were ignoring access settings.
+    o #503098 by Davide Goode: Feed displays should have link displays since they link to a page display.
+    o #381346 by ayalon: Allow Taxonomy: Tid as a field, which is now needed for rewrites which may need tids.
+    o #485296 by overall and deekayen: Remove unnecessary t() call.
+    o #460838 by Darren Oh: Make DISTINCT more distinct.
+    o #503774 by dereine: Cache time failed to return the proper cutoff time.
+    o #506098: Table sorting with no default was overriding sorts even tho it was not supposed to.
+    o #407538: Ensure views_break_phrase() will stop providing warnings on empty strings.
+    o #420850 by dereine: Commas should not be used to separate items in a profile list field.
+    o #482162 by agentrickard: link path needed further sanitization to properly encode special characters.
+    o Tables would not accept 0 as having data so columns with zeroes would lose data when merging with other columns.
+    o #529164: Fatal typo in profile list field.
+    o #537870 by dww: Fixed a bug in the [uplodate_fid-size] token where format_size() was called on it twice.
+    o #510910 by mfb: Fixed bug where multiple fields sharing a column in a table was broken so only the final field would display.
+    o #546586 by dww: Fixed bugs that prevented '0' being a valid rewrite text or empty text for a view field. Also fixes a logic bug regarding the handling of the 'Count the number 0 as empty' setting.
+    o #507884 by TheRec: Removed matching title (alt) attribute on node links.\
+    o #468370 by emackn: Proper timezone support on postgres.
+    o #508124 by voxpelli: Optionally allow boolean to treat NULL as FALSE.
+    o #487528 by dereine: Fix typo in 'Maximum length' field instructions.
+    o #303800 by Justin W Freeman: Improve dashes to spaces transformation.
+    o #538530 by elcuco: Views export textareas should be LTR.
+    o #538204 by dereine: User picture should be sortable.
+    o #540122 by stella: Attachment displays should attach even if arguments caused the primary display to abort.
+    o #544098 by joachim: Fix validation quirks with defaulted handlers.
+    o #485872 by dereine: Make sure views.css is always loaded for all users.
+    o #442982 by killes: Make destroy() method more robust so that views are more readily reused.
+    o #520558 by bdurbin: node access filter not properly checking 'view'.
+    o #535424 by Hugo Wetterberg: Download file link could provide empty a tag if no file is available.
+    o #554000 by killes: Preview checking wrong flag for preview state causes feeds to display incorrectly when embedded.
+    o #554016 by webchick: views_embed_view() should check view access.
+    o #523222 by gpk: Contact link should not be allowed for the anonymous user.
+    o #563540 by dereine: Fix description of cache plugin settings.
+    o #564536 by dereine: Node links should allow language setting from node data.
+    o #551752 by dereine: Clean up row counter code.
+    o #451208 by dereine and superbaloo: Fix grid style to not leave missing tds in bottom row.
+    o #561892 by dereine: Unchecking "rewrite this field" but leaving a value caused field to be rewritten anyway.
+    o #408894 by dereine: Views AJAX incorrectly used "access content" permission.
+    o #574150 by dereine: Remove user search because user.module does not store user keywords.
+    o #511908 by dww: Too many check plains in selects because of problems with checkboxes.
+    o #502348: Move advanced rendering up the chain a little bit to allow for non-standard uses of fields, such as grouping, to use advanced rendering features.
+    o #619884: Grouping fields ignored indexes (as a result of #502348) and appeared to group incorrectly.
+    o #411566: Fix warning when 0 given as a taxonomy tid to the validator.
+    o #607952 by markus_petrux: Need check plain on "additional" queries.
+    o #593910: Off by 1 error on Views row counter.
+
+  Other changes:
+    o Implement a post_render hook (for themes too) and cache method.
+	o #501552 by neclimdul: Work around a core bug with DISTINCT on nodes.
+	o #430068 by overall and aclight: Improvements to the global "counter" field.
+	o #492002 by iterato: Allow "target" specification in field linking.
+	o #466454 by neclimdul: PHP strict fixes.
+	o Can now directly add a taxonomy term relationship to nodes, allowing more control by vocabulary.
+	o #472194: !1 can now be used with field rewriting to get the raw argument.
+	o #480162: Fields row style now contains option to hide empty fields.
+	o #433318: Special handling for empty fields, allowing them to avoid rewriting and not be displayed.
+    o #354457 by ausvalue: Example integrating node_example.module with Views API.
+    o #479728 by enboig: Allow "Does not start with" and "Does not end with" as string operators.
+    o #511468 by dereine: State which view was saved after saving a view.
+    o #520632 by DamZ: Add comment hostname and mail to available comment fields.
+    o #523580 by JirkaRybka: More documentation on Reduce Duplicates option.
+    o #510920 by apanag: Add set_current_page() method to view class.
+    o #337741 by joachim: Allow profile fields to have "link to user" option.
+    o #534680 by dagmar: Visual indicator if checkbox will expand options.
+    o #512650 by sdboyer: Multiple many to one arguments on the same relationship were not relationship safe.
+    o #536994 by dboulet: Store result in variables for use in unformatted style.
+    o #458194 by voxpelli: Add first and last row classes to table style.
+    o #254895: Add form to clean up Views 1 tables.
+    o If you have CTools 1.3 enabled, you can use a "Jump Menu" style for both summaries and normal Views.
+
+Views 2.6 (Jun 10, 2009)
+  Bugs fixed:
+    o #419226 by kelvincool: Respect admin theme during views ajax operations.
+    o #419270 by voxpelli: set_where_group() could fail if no previous groups.
+    o #422054 by yhahn: Protect exports from impropertly indenting multiline strings.
+    o #437070 by mikeryan: Base table formerly limited to 32 characters.
+    o #317271 by quicksketch: ensure_my_table() limited to one relationship per table.
+    o #441520 by jonathan1055: Allow the "time ago" date format to work on future dates as well.
+    o #445398 by casey: reduce_value_options() using wrong value array.
+    o #451370 by skwashd: base.js had some DOS line endings.
+    o #454754 by dww: Fix PGSQL related errors with comment author filtering.
+    o #384286 by dww: Make it possible to expose the filter for "Node: Has new content"
+    o #463634 by alienbrain: "Empty field name" incorrectly specified.
+    o #463580 by ximo: AJAX summary links broken in some displays.
+    o #468336 by psynaptic: Fix broken hook_views_admin_links_alter
+    o #422868 by mattman: Breadcrumbs not properly substuting % replacements.
+    o #440676 by dereine and Razorraser: View import form crashed on empty view input.
+    o #461842 by dereine: Use gmtime() instead of format_date() to prevent localization of dates in RSS feeds.
+    o #316556 by darrenoh and JirkaRybka: More 1.x upgrade fixes.
+    o #382398 by elcuco: Force LTR in the views admin.
+    o #461144: Fix trimming to correctly remove tags when they are trimmed in half.
+    o #330956: Theme: Information only scanned information from the default theme.
+    o SA-CONTRIB-2009-037: Filter checkboxes could be displayed unfiltered allowing XSS attacks.
+
+  Other changes:
+    o #298616: Add argument for node updated time similar to node created time.
+    o #325607 by bangpound: Automatically sort exports from bulk export.
+    o #323049 by yched: Allow Empty/Not Empty on select many to one.
+    o #340701 by swentel: Restore allowing Views to set block caching mode.
+    o #347892 by dww: Allow <any> option in Boolean filters.
+    o #358314 by brmassa: Catch the exposed filter form so it doesn't process twice on a single view.
+    o #154865 by Zack Rosen, josh_k and KarenS: Allow user contact form as a field.
+    o #411880 by fgm: Add "options callback" to items using in_operator handler.
+    o #360657 by yhahn: new hook_views_default_views_alter().
+    o #430068 by dereine: New global counter field for displaying row number.
+    o #420340 by derine: Translate node type filter.
+    o #325796 by yang_yi_cn: Translate node type argument.
+    o #446726 by yhahn: Improved performance for js dependencies.
+    o #437760 by leeneman: Remove duplicate terms from taxonomy term argument title.
+    o #354270 by dereine: Allow "tag" to be added to the theme template suggestions.
+    o #408180 by joachim: Allow taxonomy term parent argument.
+    o #469456 by dereine: Automatically give .info file during views bulk export.
+    o #424460 by thePanz: Customizable breadcrumb title for arguments.
+    o #436398 by Pasqualle: Support for aggregator category table.
+    o #424648 by quicksketch and dereine: Allow format selection on filesize field.
+    o #478312 by yhahn: Provide specific node access filter.
+    o #479878 by dereine: User language field.
+    o #468824 by eaton: Pluggable caching mechanism which can cache both the query result and rendered result.
+    o #399534 by clemens.tolboom and drewish: Add fragment and query string as options when making fields into links.
+    o #315915 by dixon_: Add another base row class to rows.
+    o #353403 by agentrickard: Field to provide "more" text.
+    o #377896 by dereine: When ticked "link to node" show node title as a href title attribute.
+    o #386098 by dereine: Add "watchdog" as a debug logging options.
+    o #409428 by gpk: Missing field: node input format.
+    o #271833 by grugnog, agentrickard and others: Taxonomy depth in filter.
+
+Views 2.5 (Apr 11, 2009)
+  Bugs fixed:
+    o #363817 by thePanz: Empty fields in table could still trigger separators.
+    o #388952 by nikita@protsenko.com: Ensure taxonomy term validator sets the validated title when available.
+    o #392176: Trim on word boundary would stop at newlines.
+    o #415706 by dww: Fix broken relationship in search that caused SQL error.
+    o #428742 by fralenuvol: Fix broken relationship causing sql error with multiple taxonomy term arguments.
+    o #428102 with help from deviantintegral: Broken option_definition() causes warnings.
+
+  Other changes:
+    o #379382 by neochief: Add option to strip tags during advanced rendering.
+    o #400914 by joachim: Add a link field to get to comments for a node that works just like the normal links.
+    o #402650 by drewish: Bulk export views alphabetically by view name.
+    o #349157 by yched: Support CCK build modes in node style.
+
+Views 2.4 (Apr 7, 2009)
+  Bugs fixed:
+    o #371466 by dereine: Fix incorrect link to comments.
+    o #371923 by noahb: Summaries could be distinct even when they should not be.
+    o #368764: Fix User ID validator to actually have proper dependencies.
+    o #375342 by dww: node_comment_statistics should be INNER joined because there is always 1:1 reference.
+    o #372959: Archive view should not use AJAX by default.
+    o #373155: Not clearing "many to one" data breaks some attachment displays.
+    o #375000 by elcuco: View name should always be LTR.
+    o #378534 by dww: Validators do not fire if argument === 0 due to PHP loose type conversions.
+    o #378164 by yched: Unexposed taxonomy filter could accidentally stop working.
+    o #371923 by David_Rothstein: Another DISTINCT fix related to summaries.
+    o #365831 by tomiyana: Fix typos in help.
+    o #357368 by Pasquale: schema descriptions should not be translated.
+    o #379602 by dww: Add a second "time ago" variant to dates to allow NOT printing the word "ago".
+    o #379354 by neochief: Add an extra regex to remove mangled HTML entities in output rewriting.
+    o #362830: Search was mostly broken, especially score but also searching on multiple terms.
+    o #350376 by pfournier: Missing "return" statement caused certain argument date validation to fail.
+    o #364082 by hass: Unique key missing on views_view table.
+    o #366250 by sirkitree: Fix deprecated jquery selectors so we can work with jquery 1.2.6 as well as 1.3.2.
+    o #386986: 2 or more relationships could block a normal table from being added.
+    o #371219 by aclight: Incorrect logic in views_many_to_one_helper::ensure_my_table() 
+    o #376570 by yhahn: Better AJAX scrolling.
+    o #412576 by yhahn: Restore missing views_handler_filter_float class.
+    o #378710: Add strip_tags() to path when displaying a field as a link as a path can never have HTML in it.
+    o #380560: UI could suddenly cause errors with get_handlers() in certain situations with relationships.
+    o #342215: Occasional "holes" could appear in taxonomy term field causing query errors when relationship is used but not present.
+    o #414074 by dereine: Prevent fields becoming not editable by having just spaces in them in the Views UI.
+    o #378724: Displaying uploaded files as a link accidentally made the entire field a link rather than each one.
+    o #415672 by yhahn: Views inadvertently rounds negative numbers down instead of up when truncating.
+    o #408414 by rb7: Prevent empty links with the "has new comments" field.
+    o #406680 by Büke Beyond: Missing clear-block caused problems in IE for Views UI.
+    o #373771 by dropcube: Fix missing aggregator feed trying to use non-existing handlers.
+    o #341960 by sun: Clean up dependent.js javascript declarations which potentially caused .js errors.
+    o #372227: On Debian etch, tables would lose fields due to PHP bug.
+
+  Other changes:
+    o #375182 by vaish: Allow a reset parameter to views_get_all_views().
+    o #356276 by nedjo: Locale support.
+    o #316556 by Darren Oh: Better Views 1.x upgrades.
+    o #383242 by dww: Allow - Any - instead of <Any> as an option in the Views tools menu.
+    o #303800 by KarenS: Additional dashes to spaces option in taxonomy argument validator.
+    o #327366 by yched: Allow row styles to follow relationships too.
+    o #405130 by dereine: Make the output field rewrite a textfield rather than textarea.
+
+Views 2.3 (Feb 6, 2009)
+  Bugs fixed:
+    o #349739: Fix arguments not getting transmitted to attachment displays properly.
+    o #354707: Display attachment happened too early preventing default arguments from passing to the attachment.
+    o #277321 by nedjo: Use AJAX properly supports summaries in attachments.
+    o #291292 by sammys (reroll by jaydub): Proper use of DISTINCT on summary views on pgsql.
+    o #291079 by sammys (reroll by jaydub): Fix use of GROUP BY on pgsql.
+    o #295246 by webchick: Wrong table type on views object cache caused truncation of cached data and mysterious errors on large views.
+    o #315007 by Garrett Albright, Paul Kishimoto and catch: Take into account page count when using comment new link.
+    o #317562 by ingaro: Wrong date format for PGSQL.
+    o #327604 by mr.baileys: Fix improper use of multibyte library when mb library unavailable.
+    o #335926 by sapark and drewish: "January, 2009" should be "January 2009".
+    o #341263 by cdale: Prevent exposed filter forms from processing during batch operations.
+    o #342322 by drewish: Correct label for translation status.
+    o #343223 by alienbrain: Ensure path before join.
+    o #343284 by andypost: Fix odd/even reversed in table style compared to Drupal core.
+    o #345545 by mfb: Correct occasional Drupal.settings related javascript error.
+    o #345546: Fix Node: Created day argument off by 1 error.
+    o #345707 by aries: Do not display breadcrumb link if no link text.
+    o #355939 by yhager: Fix missing comment GUID in comment RSS style.
+    o #321332 with help from brahms: views_handler_field_markup only worked if format was named "format".
+    o #348322 by Darren Oh: Fix missing /code in api plugins help.
+    o #353090 by eaton: RSS feeds were not using all of the Drupal hooks to ensure full compatibility with core feeds.
+    o #293832 by drewish: Allow menu items to have administrative description.
+    o #345528: Mini-pager generated invalid HTML with empty li tags.
+    o #351745: Exposed taxonomy term autocomplete filter failed if term existed in multiple vocabularies.
+    o #353002: tracker view had wrong argument and was not picking up comments by the selected user.
+    o Case sensitivity on string filter checkmark was backward.
+    o #355919: views_theme() needed to include plugin theme files to detect functions.
+    o #353515: Many characters could get incorrectly translated in exposed filters combined with ajax tablesorting.
+    o #359818: Delete button should say Revert when reverting a view to default.
+    o #359132 by grugnog: CSS files should be marked conditional so they don't impact the CSS cache.
+    o #360637: Extra slash in theme includes could cause some systems to fail.
+    o #363081: Disabled views could still provide blocks.
+    o #366666 by Deadmonk also yched: File size field should not try to print a size on NULL values.
+    o #367203: Improper caching of default views caused incomplete handlers that could WSOD.
+    o #365283: views_handler_filter_ncs_last_updated improperly registered causing fatal errors trying to use it.
+    o #365712: select list exposed filters were trying to limit to list when selecting "All" even when "limit" was not selected.
+    o #357196 by Grugnog: hook_views_pre_view not getting $display_id sent properly.
+
+  Other changes:
+    o #288801 by drewish and eaton: Aggregator item support! Make views of feeds!
+    o #335647 by markus_petrux: Add memory and a reset button to the Views list page.
+    o #343047 by alienbrain: Allow all handlers to participate in view validation.
+    o #339223 by greggles: Allow taxonomy term tid to be sortable.
+    o #324378 by eigentor: CSS improvements to the view list page.
+    o #354736 by Shai: Clarification on exposed filter text.
+    o #364637 by moshe and dww: Allow preprocessors to add row classes to table style.
+    o #349178 by agentrickard: Add generic link handling plus a custom text field. Also automatic trimming.
+    o #368234 by dww and neclimdul: Allow the "Anonymous" user to have a different (or no) name in User: name field.
+    o #368754 by dww: User ID validator, with role testing.
+    o #369505 by dww: Add helper function to get the value of a view argument.
+    o #353002 by neclimdul: Provide a filter for user posted or commented on to complement the argument with the same functionality.
+
+  2.3 API Notes:
+    A minor change in the API now requires that styles that render fields MUST 
+    render them in order, first by row and then by field ID. Not doing so will
+    cause the token expansion to fail.
+
+Views 2.2 (Dec 16, 2008)
+  Bugs fixed:
+   o #305756: Number formatting caused illogical rounding.
+   o #324272 by neochief: hook_pre_render never called.
+   o #324058: Broken queries created by string values in multiple fields.
+   o #324726: "tag" fields should be autocomplete in View edit.
+   o #324058 by yched: Make aliases safer for many to one tables.
+   o #325765: Prevent key merge errors on query::add_where and query::add_having.
+   o #324378: Minor usability improvements to the list page.
+   o #326934: Need another check to make sure already added aliases do not get blown away.
+   o #324513: If a relationship table was added more than 1 hop away from the base, SQL errors resulted.
+   o #326129 by mindgame: Not between operator did not function.
+   o #326198: != mistakenly typod as = (display only)
+   o #326379: Provide a default title for the archive view.
+   o #327151: Add filter for node_counter.timestamp.
+   o #327113: Clean up error text when display will not validate.
+   o #307287: (Panels related) view::preview() would override previously set arguments if no arguments were sent.
+   o #321589: Comment template preprocessor misnamed so it would not fire.
+   o #329746: Comment rendering in the node row style was not working.
+   o #321109: view::destroy() needs to unset current_display or future init_displays won't work.
+   o #325115: If the block description is not set, show the display title as well as the view name in block administration.
+   o #327604 by henrrrik: should use multibyte string functions.
+   o #328933 by cmyers: views_handler_filter_date fails to use exposed operator.
+   o #332568 by Moonshine: Correct views performance timers.
+   o #332679 by yched: render_link() does not check for empty data.
+   o #333593: Incorrect reference to non-existent views_handler_join in help/api-tables.html.
+   o #334337 by miro_dietiker: Documentation clarification for arguments, blocks and PHP Code plugins.
+   o #336456 by dww: Date filter had trouble with NULL operators.
+   o #336125 by nedjo: Missing filter for node translation.
+   o #337360: Menu selection causes crash if menu module not active.
+   o #339295 by katbailey: AJAX paging could fail with the same view in multiple tabs.
+   o #339676 by nedjo: Source translation had wrong filter handler.
+   o #340002 by hass: Allow the "Add display" button to wrap for translations whose phrase is longer.
+   o #340033 by pancho: Clearer wording on some field help texts.
+   o #340515: views_perm() was incorrectly views_ui_perm().
+   o #330897: Invalid displays causing 'path' lookup to crash.
+   o #339674 by nedjo: Translation code cleanup.
+   o #341897: views_perm() mistakenly declared in views_ui.module.
+
+ Other changes:
+   o Reorganize the analysis code into analyze.inc to make it easier for people to find the code and use it externally.
+   o #298884 by neclimdul: Requested missing filter to filter for whether a user has a picture or not.
+   o #336531 by dww: Set boolean filter to not use a checkbox which is lesser UI.
+   o #338632 by drewish: Remove use of format_rss_channel and use proper templating instead.
+   o #326034 by yched: Allow short names in admin summaries via new "title short" definition.
+   o #335613 by swentel: Add hook_views_api() setting to bulk export.
+   o #339707 by nedjo: Add filter to show child translations.
+   o #284768 by drewish: Proper templates for RSS feeds rather than format_rss_item().
+
+
+Views 2.1 (Oct 20, 2008)
+ Bugs fixed:
+   o #322862: 1.0037 debug code left in.
+   o #322908: README.txt update.
+   o #323014 by yched: Typo in exposed filter text.
+   o #323033: Using empty/is not empty in string/numeric filters caused notices.
+   o #322874 by yched: Errors in summary for some filters.
+   o #323282: Taxonomy term default choice handled incorrectly.
+   o #323318: Exposed taxonomy term failed if not set force single.
+
+Views 2.0 (Oct 17, 2008)
+ o First 2.0 official release
+

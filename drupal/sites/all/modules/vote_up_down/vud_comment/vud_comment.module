@@ -1,0 +1,205 @@
+<?php
+// $Id: vud_comment.module,v 1.1.2.27 2010/08/02 05:14:51 marvil07 Exp $
+
+/**
+ * @file
+ * Adds a voting widget to comments.
+ */
+
+/**
+ * Implementation of hook_perm().
+ */
+function vud_comment_perm() {
+  return array('administer vote up/down on comments', 'use vote up/down on comments');
+}
+
+/**
+ * Implementation of hook_menu().
+ */
+function vud_comment_menu() {
+  $items = array();
+  $items['admin/settings/voteupdown/comment'] = array(
+    'title'            => 'Comments',
+    'description'      => 'Vote Up/Down Comment settings',
+    'page callback'    => 'drupal_get_form',
+    'page arguments'   => array('vud_comment_admin_settings'),
+    'access arguments' => array('administer vote up/down on comments'),
+    'type'             => MENU_LOCAL_TASK,
+  );
+
+  return $items;
+}
+
+/**
+ * Menu callback for administration settings.
+ */
+function vud_comment_admin_settings() {
+  $form['vud_comment_node_types'] = array(
+    '#type'          => 'checkboxes',
+    '#title'       => t('Node types'),
+    '#description' => t('Select the node types for which voting on comments will be activated.'),
+    '#default_value' => variable_get('vud_comment_node_types', array()),
+    '#options'       => node_get_types('names'),
+  );
+  $form['vud_comment_widget'] = array(
+    '#type'          => 'radios',
+    '#title'       => t('Widget selection'),
+    '#description' => t('Select the voting widget theme that will be displayed.'),
+    '#default_value' => variable_get('vud_comment_widget', 'plain'),
+    '#options'       => vud_widget_get_names(),
+  );
+  $form['vud_comment_votes'] = array(
+    '#type'          => 'radios',
+    '#title'       => t('Votes display'),
+    '#description' => t('Choose if the total number of votes will be displayed in the links part.'),
+    '#default_value' => variable_get('vud_comment_votes', 1),
+    '#options'       => array(0 => 'No', 1 => 'Yes'),
+  );
+  $form['vud_comment_reset'] = array(
+    '#type'          => 'radios',
+    '#title'       => t('Votes reset'),
+    '#description' => t('Choose if users are allowed to reset their vote on a comment.'),
+    '#default_value' => variable_get('vud_comment_reset', 0),
+    '#options'       => array(0 => 'No', 1 => 'Yes'),
+  );
+  ctools_include('dependent');
+  $form['vud_comment_dim_active'] = array(
+    '#type'          => 'radios',
+    '#title'       => t('Dim comments'),
+    '#description' => t('Choose if comments should be dimmed.'),
+    '#default_value' => variable_get('vud_comment_dim_active', 0),
+    '#options'       => array(0 => 'No', 1 => 'Yes'),
+  );
+  $form['vud_comment_dim_threshold'] = array(
+    '#type'          => 'textfield',
+    '#title'         => t('Dim threshold'),
+    '#default_value' => variable_get('vud_comment_dim_threshold', 0),
+    '#description'   => t('Comments with total votes less or equal to this values will be dimmed.'),
+    '#process' => array('ctools_dependent_process'),
+    '#dependency' => array('radio:vud_comment_dim_active' => array(1)),
+  );
+
+  return system_settings_form($form);
+}
+
+function vud_comment_admin_settings_validate($form, &$form_state) {
+  if ($form_state['values']['vud_comment_dim_active'] == 1 && !is_numeric($form_state['values']['vud_comment_dim_threshold'])) {
+    form_set_error('vud_comment_dim_threshold', t('You must use a numeric value for the dim threshold.'));
+  }
+}
+
+/**
+ * Implementation of hook_comment().
+ */
+function vud_comment_comment(&$comment, $op) {
+  switch ($op) {
+    case 'view':
+      $type = _vud_comment_get_node_type($comment->nid);
+      $comment_allow = in_array($type, variable_get('vud_comment_node_types', array()), TRUE);
+      if ($comment_allow && user_access('use vote up/down on comments')) {
+        $tag = variable_get('vud_tag', 'vote');
+        $widget = variable_get('vud_comment_widget', 'plain');
+        $comment->comment = theme('vud_widget', $comment->cid, 'comment', $tag, $widget) . $comment->comment;
+      }
+      break;
+  }
+}
+
+/**
+ * Override or insert variables into the comment templates.
+ *
+ * @param $variables
+ *   An array of variables to pass to the theme template.
+ */
+function vud_comment_preprocess_comment(&$variables) {
+  if (variable_get('vud_comment_dim_active', 0) != '1') {
+    return;
+  }
+  // Get total votes for this comment.
+  $content_id = $variables['comment']->cid;
+  $tag = variable_get('vud_tag', 'vote');
+  $criteria = array(
+    'content_type' => 'comment',
+    'content_id' => $content_id,
+    'value_type' => 'points',
+    'tag' => $tag,
+    'function' => 'sum'
+  );
+  $vud_sum = (int) votingapi_select_single_result_value($criteria);
+  $vud_dim_threshold = (int)variable_get('vud_comment_dim_threshold', 0);
+  if ($vud_sum <= $vud_dim_threshold) {
+    $variables['status'] .= ' vud-comment-dimmed';
+  }
+}
+
+/**
+ * Function to return the node type of a particular node ID.
+ */
+function _vud_comment_get_node_type($nid) {
+  return db_result(db_query("SELECT type from {node} where nid = %d", $nid));
+}
+
+/**
+ * Implementation of hook_link().
+ */
+function vud_comment_link($type, $object, $teaser = FALSE) {
+  $links = array();
+  switch ($type) {
+    case 'comment':
+      $comment = &$object;
+      $votes_display_mode = variable_get('vud_comment_votes', 1);
+      $widget_theme = variable_get('vud_comment_widget', 'plain');
+      $tag = variable_get('vud_tag', 'vote');
+      if ($votes_display_mode) {
+        $links['vud_comment_votes_count'] = array(
+          'title' => theme('vud_votes', $comment->cid, $type, $tag, $widget_theme),
+          'html' => TRUE,
+        );
+      }
+      if (variable_get('vud_comment_reset', 0) && user_access('reset vote up/down votes')) {
+        $tag = variable_get('vote_up_down_tag', 'vote');
+        $criteria = array(
+          'content_type' => $type,
+          'content_id' => $comment->cid,
+          'tag' => $tag,
+        );
+        $criteria += votingapi_current_user_identifier();
+        $user_vote = votingapi_select_single_vote_value($criteria);
+        if (!is_null($user_vote)) {
+          $reset_token = drupal_get_token("votereset/comment/$comment->cid/$tag");
+          $links['vud_comment_votes_reset_link'] = array(
+            'title' => t('Reset your vote'),
+            'href'  => "votereset/comment/$comment->cid/$tag/$reset_token",
+            'attributes' => array('rel' => 'nofollow'),
+            'html'  => TRUE,
+          );
+        }
+      }
+      break;
+  }
+  return $links;
+}
+
+/**
+ * Implementation of vud hook_template_suggestions().
+ */
+function vud_comment_template_suggestions($template_type, $plugin, $content_id) {
+  $comment = _comment_load($content_id);
+  $node = node_load($comment->nid);
+  return array(
+    $template_type,
+    $template_type . '_comment',
+    $template_type . '_comment_' . $plugin['name'],
+    $template_type . '_comment_' . $plugin['name'] . '__' . $node->type,
+  );
+}
+
+/**
+ * Implementation of hook_views_api().
+ */
+function vud_comment_views_api() {
+  return array(
+    'api' => 2,
+    'path' => drupal_get_path('module', 'vud_comment') . '/views',
+  );
+}

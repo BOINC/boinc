@@ -1,0 +1,76 @@
+<?php
+// ; $Id$
+
+// 
+
+/**
+ * Implementation of hook_menu()
+ */
+function boincteam_menu() {
+  $items = array();
+
+  return $items;
+}
+
+/**
+* Implementation of hook_views_api().
+*/
+function boincteam_views_api() {
+  return array(
+    'api' => 2.0,
+    'path' => drupal_get_path('module', 'boincteam')
+  );
+}
+
+/**
+ * Implementation of hook_perm()
+ */
+function boincteam_perm() {
+  return array('manage boincteam');
+}
+
+/**
+ * Callback ...
+ */
+function boincteam_top_teams() {
+  
+}
+
+
+/*  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *
+ * BOINC team functions
+ *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  */
+
+/**
+ * Get the team type for display
+ */
+function boincteam_get_type($team_id) {
+  //$vid = boincteam_get_vocabulary_by_name('Teams'); $team->vid = $vid;
+  $team = node_load($team_id);
+  $terms = taxonomy_node_get_terms($team);
+  if ($terms) {
+    $term = reset($terms);
+    return $term->name;
+  } else {
+    return null;
+  }
+}
+
+/**
+ * Access a vocabulary of terms by name
+ */ 
+function boincteam_get_vocabulary_by_name($name) {
+  $vocabs = taxonomy_get_vocabularies('team');
+  foreach ($vocabs as $vocab) {
+    if ($vocab->name == $name) return $vocab->vid;
+  }
+  return null;
+}
+
+/**
+ * Convert a BOINC team ID to a Drupal team ID
+ */
+function get_drupal_team_id($boinc_id) {
+  $drupal_id = db_result(db_query("SELECT nid FROM {boincteam} WHERE team_id='%d'", $boinc_id));
+  return $drupal_id;
+}

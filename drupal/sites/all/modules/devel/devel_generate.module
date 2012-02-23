@@ -1,0 +1,231 @@
+<?php
+// $Id: devel_generate.module,v 1.11.2.16 2010/12/06 15:27:22 weitzman Exp $
+
+require_once('devel_generate_batch.inc');
+
+/**
+ * Implementation of hook_menu().
+ */
+function devel_generate_menu() {
+  $items = array();
+
+  // Admin user pages
+  $items['admin/generate'] = array(
+    'title' => 'Generate items',
+    'description' => 'Populate your database with dummy items.',
+    'position' => 'left',
+    'page callback' => 'system_admin_menu_block_page',
+    'access arguments' => array('administer site configuration'),
+    'file' => 'system.admin.inc',
+    'file path' => drupal_get_path('module', 'system'),
+  );
+  $items['admin/generate/user'] = array(
+    'title' => 'Generate users',
+    'description' => 'Generate a given number of users. Optionally delete current users.',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('devel_generate_users_form'),
+    'access arguments' => array('administer users'),
+  );
+  $items['admin/generate/content'] = array(
+    'title' => 'Generate content',
+    'description' => 'Generate a given number of nodes and comments. Optionally delete current items.',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('devel_generate_content_form'),
+    'access arguments' => array('administer nodes'),
+  );
+  if (module_exists('taxonomy')) {
+    $items['admin/generate/taxonomy'] = array(
+      'title' => 'Generate categories',
+      'description' => 'Generate a given number of vocabularies and terms. Optionally delete current categories.',
+      'page callback' => 'drupal_get_form',
+      'page arguments' => array('devel_generate_taxonomy_form'),
+      'access arguments' => array('administer nodes'),
+    );
+  }
+
+  return $items;
+}
+
+function devel_generate_users_form() {
+  $form['num'] = array(
+    '#type' => 'textfield',
+    '#title' => t('How many users would you like to generate?'),
+    '#default_value' => 50,
+    '#size' => 10,
+  );
+  $form['kill_users'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Delete all users (except user id 1) before generating new users.'),
+    '#default_value' => FALSE,
+  );
+
+  $options = array(1 => t('Now'));
+  foreach (array(3600, 86400, 604800, 2592000, 31536000) as $interval) {
+    $options[$interval] = format_interval($interval, 1) . ' ' . t('ago');
+  }
+  $form['time_range'] = array(
+    '#type' => 'select',
+    '#title' => t('How old should user accounts be?'),
+    '#description' => t('User ages will be distributed randomly from the current time, back to the selected time.'),
+    '#options' => $options,
+    '#default_value' => 604800,
+  );
+
+  $form['submit'] = array(
+    '#type' => 'submit',
+    '#value' => t('Do it!'),
+  );
+  return $form;
+}
+
+function devel_generate_users_form_submit($form_id, &$form_state) {
+  module_load_include('inc', 'devel_generate');
+  devel_create_users($form_state['values']['num'], $form_state['values']['kill_users'], $form_state['values']['time_range']);
+}
+
+function devel_generate_content_form() {
+  require_once('devel_generate.inc');
+  $options = devel_generate_content_types();
+
+  if (empty($options)) {
+    drupal_set_message(t('You do not have any content types that can be generated. <a href="@create-type">Go create a new content type</a> already!</a>', array('@create-type' => url('admin/content/types/add'))), 'error', FALSE);
+    return;
+  }
+
+  $form['node_types'] = array(
+    '#type' => 'checkboxes',
+    '#title' => t('Which node types do you want to create?'),
+    '#options' => $options,
+    '#default_value' => array_keys($options),
+  );
+  if (module_exists('checkall')) $form['node_types']['#checkall'] = TRUE;
+  $form['kill_content'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('<strong>Delete all content</strong> in these node types before generating new content.'),
+    '#default_value' => FALSE,
+  );
+  $form['num_nodes'] = array(
+    '#type' => 'textfield',
+    '#title' => t('How many nodes would you like to generate?'),
+    '#default_value' => 50,
+    '#size' => 10,
+  );
+  
+  $options = array(1 => t('Now'));
+  foreach (array(3600, 86400, 604800, 2592000, 31536000) as $interval) {
+    $options[$interval] = format_interval($interval, 1) . ' ' . t('ago');
+  }
+  $form['time_range'] = array(
+    '#type' => 'select',
+    '#title' => t('How far back in time should the nodes be dated?'),
+    '#description' => t('Node creation dates will be distributed randomly from the current time, back to the selected time.'),
+    '#options' => $options,
+    '#default_value' => 604800,
+  );
+  
+  $form['max_comments'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Maximum number of generated comments per node'),
+    '#description' => t('You must also enable comments for the node types you are generating.'),
+    '#default_value' => 0,
+    '#size' => 3,
+    '#access' => module_exists('comment'),
+  );
+  $form['title_length'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Max word length of titles'),
+    '#default_value' => 8,
+    '#size' => 10,
+  );
+  $form['add_upload'] = array(
+    '#type' =>  'checkbox',
+    '#disabled' => !module_exists('upload'),
+    '#description' => t('Requires upload.module'),
+    '#title' => t('Add an upload to each node'),
+    '#default_value' => FALSE,
+  );
+  $form['add_terms'] = array(
+    '#disabled' => !module_exists('taxonomy'),
+    '#description' => t('Requires taxonomy.module'),
+    '#type' => 'checkbox',
+    '#title' => t('Add taxonomy terms to each node.'),
+    '#default_value' => FALSE,
+  );
+  $form['add_alias'] = array(
+    '#type' => 'checkbox',
+    '#disabled' => !module_exists('path'),
+    '#description' => t('Requires path.module'),
+    '#title' => t('Add an url alias for each node.'),
+    '#default_value' => FALSE,
+  );
+  $form['add_statistics'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Generate node view statistics (node_counter table).'),
+    '#default_value' => TRUE,
+    '#access' => module_exists('statistics'),
+  );
+  if (module_exists('locale')) {
+    $form['add_language'] = array(
+      '#type' => 'select',
+      '#title' => t('Set language on nodes'),
+      '#multiple' => TRUE,
+      '#description' => t('Requires locale.module'),
+      '#options' => array_merge(array('' => t('Language neutral')), locale_language_list()),
+      '#default_value' => '',
+    );
+  }
+  $form['submit'] = array(
+    '#type' => 'submit',
+    '#value' => t('Do it!'),
+  );
+  $form['#redirect'] = FALSE;
+
+  return $form;
+}
+
+function devel_generate_content_form_submit($form_id, &$form_state) {
+  $form_state['values']['node_types'] = array_filter($form_state['values']['node_types']);
+  if (!$form_state['values']['kill_content'] && $form_state['values']['num_nodes'] <= 50 && $form_state['values']['max_comments'] <= 10) {
+    require_once('devel_generate.inc');
+    devel_generate_content($form_state);
+  }
+  else {
+    devel_batch_generate_content($form_state);
+  }
+}
+
+function devel_generate_taxonomy_form() {
+  $form['num_vocab'] = array(
+    '#type' => 'textfield',
+    '#title' => t('How many vocabularies would you like to generate?'),
+    '#default_value' => 3,
+    '#size' => 10,
+  );
+  $form['num_terms'] = array(
+    '#type' => 'textfield',
+    '#title' => t('How many terms would you like to generate?'),
+    '#default_value' => 50,
+    '#size' => 10,
+  );
+  $form['title_length'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Max word length of term/vocab names'),
+    '#default_value' => 12,
+    '#size' => 10,
+  );
+  $form['kill_taxonomy'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Delete existing terms and vocabularies before generating new content.'),
+    '#default_value' => FALSE,
+  );
+  $form['submit'] = array(
+    '#type' => 'submit',
+    '#value' => t('Do it!'),
+  );
+  return $form;
+}
+
+function devel_generate_taxonomy_form_submit($form_id, &$form_state) {
+  require_once('devel_generate.inc');
+  devel_generate_taxonomy_data($form_state['values']['num_vocab'], $form_state['values']['num_terms'], $form_state['values']['title_length'], $form_state['values']['kill_taxonomy']);
+}

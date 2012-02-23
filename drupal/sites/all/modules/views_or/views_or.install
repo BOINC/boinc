@@ -1,0 +1,35 @@
+<?php
+// $Id: views_or.install,v 1.2 2009/05/14 21:13:16 darrenoh Exp $
+
+/**
+ * @file
+ *
+ */
+
+/**
+ * Implementation of hook_uninstall().
+ *
+ * This is just a placeholder to allow Drupal to uninstall the module.
+ */
+function views_or_uninstall() {
+}
+
+/**
+ * Implementation of hook_update_N().
+ *
+ * Let Views know about our updated handlers.
+ */
+function views_or_update_6200() {
+  views_invalidate_cache();
+  return array();
+}
+
+/**
+ * Implementation of hook_update_N().
+ *
+ * Let Views know about new argument handlers.
+ */
+function views_or_update_6201() {
+  views_invalidate_cache();
+  return array();
+}

@@ -1,0 +1,1145 @@
+# translation of og-module.po to Hebrew
+# Hebrew translation of תיכון בליך
+# Copyright (c) 2007 ami <ami@blich.co.il>
+#
+# Yuval Hager <yuval@avramzon.net>, 2007.
+msgid ""
+msgstr ""
+"Project-Id-Version: og-module\n"
+"POT-Creation-Date: 2006-10-22 11:29-0400\n"
+"PO-Revision-Date: 2007-06-11 19:38+0300\n"
+"Last-Translator: Yuval Hager <yuval@avramzon.net>\n"
+"Language-Team: Hebrew <he@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: KBabel 1.11.4\n"
+"Plural-Forms:  nplurals=2; plural=(n != 1);\n"
+
+#: og.module:36
+msgid ""
+"Group specific blocks are only visible on group pages and not on systemwide "
+"pages like the home page or admin pages."
+msgstr ""
+
+#: og.module:38
+msgid ""
+"In order to let group admins determine their own group theme, you must "
+"enable multiple themes using !page."
+msgstr ""
+
+#: og.module:38
+msgid "theme configuration page"
+msgstr "בחירת עיצוב"
+
+#: og.module:48
+msgid "subscribe to group"
+msgstr "הרשם לקבוצה"
+
+#: og.module:52
+msgid "my groups"
+msgstr "הקבוצות שלי"
+
+#: og.module:53
+msgid "unsubscribe from group"
+msgstr "בטל חברות בקבוצה"
+
+#: og.module:54
+msgid "approve subscription request"
+msgstr "אשר בקשת חברות"
+
+#: og.module:55
+msgid "deny subscription request"
+msgstr "דחה בקשת חברות"
+
+#: og.module:56
+msgid "create group administrator"
+msgstr ""
+
+#: og.module:57
+msgid "delete group administrator"
+msgstr ""
+
+#: og.module:58
+msgid "remove post from group"
+msgstr "מחק פרסום מקבוצה"
+
+#: og.module:59
+msgid "group feed"
+msgstr "הזנת קבוצה"
+
+#: og.module:61
+msgid "organic groups configuration"
+msgstr "הגדר קבוצות אורגניות"
+
+#: og.module:71
+msgid "subscriber management"
+msgstr "ניהול המנויים"
+
+#: og.module:72
+msgid "list"
+msgstr "רשימת חברים"
+
+#: og.module:73
+msgid "manage subscription"
+msgstr "המנויים שלי"
+
+#: og.module:74
+msgid "send invitation"
+msgstr "שלח הזמנה"
+
+#: og.module:76
+msgid "add subscribers"
+msgstr "הוסף חברים"
+
+#: og.module:86
+msgid "email"
+msgstr "דוא\"ל"
+
+#: og.module:264
+msgid "Send email to %group"
+msgstr "שלח דוא\"ל אל כל קבוצה: %group"
+
+#: og.module:269
+msgid ""
+"Your email will be sent to !count in this group. Please use this feature "
+"sparingly."
+msgstr "הדוא\"ל יישלח אל !count בקבוצה זו. אנא פעל בשיקול דעת. "
+
+#: og.module:272
+msgid "Subject"
+msgstr "נושא"
+
+#: og.module:272
+msgid "Enter a subject for your email."
+msgstr "נושא ההודעה."
+
+#: og.module:273
+msgid "Body"
+msgstr "תוכן"
+
+#: og.module:273
+msgid "Enter a body for your email."
+msgstr "תוכן ההודעה."
+
+#: og.module:274
+msgid "Send email"
+msgstr "שלח דואר אלקטרוני"
+
+#: og.module:314
+msgid "home"
+msgstr ""
+
+#: og.module:327
+msgid ""
+"You may not unsubscribe from this group because it is a %closed group. You "
+"should request unsubscription from a group administrator."
+msgstr ""
+
+#: og.module:327;2022
+msgid "closed"
+msgstr "סגור"
+
+#: og.module:330
+msgid ""
+"You may not unsubscribe from this group because you are its owner. A site "
+"administrator can assign ownership to another user and then you may "
+"unsubscribe."
+msgstr ""
+"אין באפשרותך להסיר את חברותך מקבוצה זו מכיוון שאתה מנהל הקבוצה, מנהל האתר "
+"יכול לצרף מנהל חדש לקבוצה זו תחילה, תוכל להסיר את חברותך לאחר מכן."
+
+#: og.module:333
+msgid "Unsubscribe from this group"
+msgstr "בטל חברות בקבוצה זו"
+
+#: og.module:334
+msgid "Goodbye"
+msgstr ""
+
+#: og.module:334
+msgid "Actions"
+msgstr "פעולות"
+
+#: og.module:342;346;349
+msgid "Email notification"
+msgstr "הודעת דוא\"ל"
+
+#: og.module:342;2058
+msgid "enabled"
+msgstr ""
+
+#: og.module:342;2063
+msgid "disabled"
+msgstr "חסום"
+
+#: og.module:342
+msgid "Do you want to receive an email each time a message is posted to this group?"
+msgstr ""
+
+#: og.module:346
+msgid "Your !prof is configured to: <em>Always receive email notifications</em>."
+msgstr "!prof שלך מוגדר <em> לקבל התראות דוא\"ל </em>"
+
+#: og.module:346;349
+msgid "personal profile"
+msgstr "הפרופיל האישי"
+
+#: og.module:349
+msgid "Your !prof is configured to: <em>Never receive email notifications</em>."
+msgstr "!prof שלך מוגדר <em> לא לקבל התראות דוא\"ל </em>"
+
+#: og.module:364
+msgid "Subscription saved."
+msgstr ""
+
+#: og.module:415
+msgid "!name already approved to group %group"
+msgstr ""
+
+#: og.module:420
+msgid "Subscription request approved."
+msgstr ""
+
+#: og.module:442
+msgid "Subscription request denied."
+msgstr ""
+
+#: og.module:464
+msgid "User was promoted to %ga"
+msgstr ""
+
+#: og.module:464;476
+msgid "group administrator"
+msgstr ""
+
+#: og.module:476
+msgid "User is no longer a %ga"
+msgstr ""
+
+#: og.module:487
+msgid "Confirmation"
+msgstr "אישור"
+
+#: og.module:487
+msgid "Remove %title from this group."
+msgstr "מחק את %title מקבוצה זו"
+
+#: og.module:489
+msgid "Remove"
+msgstr ""
+
+#: og.module:504
+msgid "%title removed from group."
+msgstr ""
+
+#: og.module:522
+msgid "Email addresses or usernames"
+msgstr "כתובת דוא\"ל או שם משתמש"
+
+#: og.module:522
+msgid ""
+"Enter up to %max email addresses or usernames. Separate multiple addresses "
+"by commas or new lines. Each person will receive an invitation message from "
+"you."
+msgstr ""
+"הזן עד %max כתובות דוא\"ל או שמות משתמשים. הפרד בין הכתובות בפסיקים או שורות "
+"חדשות. לכל כתובת שתוזןתשלח הזמנה ממך.  "
+
+#: og.module:523
+msgid "Personal message"
+msgstr "הודעה אישית"
+
+#: og.module:523
+msgid "Optional. Enter a message which will become part of the invitation email."
+msgstr "באפשרותך לשלוח הודעה אשר תצורף להזמנה בדוא\"ל."
+
+#: og.module:524
+msgid "Send invitation"
+msgstr "שלח הזמנה"
+
+#: og.module:539
+#, fuzzy
+msgid "You may not specify more than %max email addresses or usernames."
+msgstr ""
+"המערכת אינה מאפשרת לך לשלוח יותר מ-%number הודעות בשעה. אפשר לנסות שוב מאוחר "
+"יותר."
+
+#: og.module:542
+msgid "You may not invite yourself - @self"
+msgstr ""
+
+#: og.module:566
+msgid "invalid email address or username: "
+msgstr "כתובת דוא\"ל או שם משתמש לא תקפה"
+
+#: og.module:602
+msgid ""
+"In order to subscribe to this group, you must login or register a new "
+"account. After you have successfully done so, you will need to follow the %"
+"subscribe link again."
+msgstr ""
+
+#: og.module:654
+msgid "Subscription request to the %group group awaits approval by an administrator."
+msgstr ""
+
+#: og.module:660
+msgid "Subscribed to the @group"
+msgstr ""
+
+#: og.module:665
+msgid ""
+"Subscription request to the @group group was rejected, only group "
+"administrators can add users to this group."
+msgstr ""
+
+#: og.module:686
+msgid "User unsubscribed from group."
+msgstr ""
+
+#: og.module:716
+msgid "List of users"
+msgstr "רשימת חברים"
+
+#: og.module:719
+msgid ""
+"Add one or more usernames in order to associate users with this group. "
+"Multiple usernames should be separated by a comma."
+msgstr "צרף חברים לקבוצה זו, הפרד בפסיקים בכדי לצרף חברים מרובים.    "
+
+#: og.module:740
+msgid "Unrecognized %names: "
+msgstr ""
+
+#: og.module:760
+msgid "Name"
+msgstr "שם"
+
+#: og.module:764
+msgid "Operations"
+msgstr "פעולות אפשריות"
+
+#: og.module:768;782
+msgid "manager"
+msgstr "מנהל"
+
+#: og.module:770
+msgid "edit group"
+msgstr "עדכון קבוצה"
+
+#: og.module:781;1627
+msgid "(approval needed)"
+msgstr "(דורש אישור מנהל קבוצה)"
+
+#: og.module:786
+msgid "unsubscribe"
+msgstr "בטל הרשמה"
+
+#: og.module:788
+msgid "admin: remove"
+msgstr ""
+
+#: og.module:791
+msgid "admin: create"
+msgstr "הפוך חבר למנהל הקבוצה"
+
+#: og.module:795
+msgid "approve"
+msgstr ""
+
+#: og.module:796
+msgid "deny"
+msgstr "לא אפשרי"
+
+#: og.module:806
+msgid "Home"
+msgstr "בית"
+
+#: og.module:808;834
+msgid "Subscribers"
+msgstr "חברים"
+
+#: og.module:834
+msgid "Manager"
+msgstr "מנהל"
+
+#: og.module:834;935;1016
+msgid "Description"
+msgstr "תיאור"
+
+#: og.module:846
+msgid "No groups"
+msgstr "אין קבוצות"
+
+#: og.module:849
+#, fuzzy
+msgid "You may also view an !opml listing RSS feeds from your subscribed groups."
+msgstr "אין פרסומים חדשים בקבוצות אליהן הינך רשום."
+
+#: og.module:849;1908;1908
+msgid "OPML file"
+msgstr ""
+
+#: og.module:943
+msgid " RSS feed"
+msgstr "קורא חדשות - RSS"
+
+#: og.module:987
+msgid "No posts in this group."
+msgstr ""
+
+#: og.module:990
+msgid ""
+"No public posts in this group. Consider subscribing to this group in order "
+"to view its posts."
+msgstr "אין פרסומים פומביים בקבוצה זו. הרשם לקבוצה זו כדי לראות את הפרסומים שבה."
+
+#: og.module:1016
+msgid "A brief description for the group details block and the group directory."
+msgstr ""
+
+#: og.module:1017
+msgid "Group website"
+msgstr ""
+
+#: og.module:1017
+msgid "If your group has its own website, enter the address here."
+msgstr ""
+
+#: og.module:1025
+msgid "Subscription requests"
+msgstr ""
+
+#: og.module:1025
+msgid "open - subscription requests are accepted immediately."
+msgstr ""
+
+#: og.module:1025
+msgid "moderated - subscription requests must be approved."
+msgstr ""
+
+#: og.module:1025
+msgid "invite only - subscriptions must be created by an administrator."
+msgstr ""
+
+#: og.module:1025
+msgid "closed - subscriptions are fully administered by an administrator."
+msgstr ""
+
+#: og.module:1025
+msgid ""
+"How should subscription requests be handled in this group? When you select "
+"<em>closed</em>, users will not be able to subscribe <strong>or</strong> "
+"unsubscribe."
+msgstr ""
+
+#: og.module:1046;2086
+msgid "registration form"
+msgstr ""
+
+#: og.module:1046
+msgid ""
+"Should this group be available for subscription during registration?. If "
+"checked, a corresponding checkbox will be added to the registration form."
+msgstr ""
+
+#: og.module:1070
+msgid "list in groups directory"
+msgstr ""
+
+#: og.module:1070
+msgid "Should this group appear on the !page?"
+msgstr ""
+
+#: og.module:1070
+msgid "list of groups page"
+msgstr "רשימת הקבוצות"
+
+#: og.module:1079
+msgid "Language"
+msgstr "שפה"
+
+#: og.module:1082
+msgid ""
+"Selecting a different locale will change the interface language of the "
+"group. Users who have chosen a preferred language always see their chosen "
+"language."
+msgstr ""
+
+#: og.module:1087
+msgid "Selecting a different theme will change the look and feel of the group."
+msgstr ""
+
+#: og.module:1108
+msgid "Please enter a valid URL for group website, such as  http://www.example.com/"
+msgstr ""
+
+#: og.module:1189
+msgid "You must !join before posting on this web site."
+msgstr ""
+
+#: og.module:1189
+msgid "join a group"
+msgstr ""
+
+#: og.module:1323;1326;2097;2098
+msgid "Public"
+msgstr ""
+
+#: og.module:1323
+msgid ""
+"Show this post to everyone, or only to subscribers of the groups checked "
+"below. Only uncheck this box if truly needed."
+msgstr ""
+
+#: og.module:1326
+msgid ""
+"Show this post to everyone, or only to subscribers of the groups checked "
+"below. Only check this box if truly needed."
+msgstr ""
+
+#: og.module:1361;1367
+msgid "Audience"
+msgstr "קהל יעד"
+
+#: og.module:1372;1631;1698
+msgid "Groups"
+msgstr "קבוצות"
+
+#: og.module:1511
+msgid "Log"
+msgstr "יומן פעילות"
+
+#: og.module:1592
+msgid "@group: '@title' at @site"
+msgstr ""
+
+#: og.module:1594
+msgid ""
+"@type '@subject' by @username\n"
+"\n"
+"@body\n"
+"\n"
+"View original: !content_url\n"
+"Post reply: !reply_url\n"
+"\n"
+"--\n"
+"You are subscribed to the group '@group' at @site.\n"
+"To manage your subscription, visit !group_url"
+msgstr ""
+
+#: og.module:1596
+msgid ""
+"@body\n"
+"\n"
+"--\n"
+"This message was sent by an administrator in the '@group' group at @site. To "
+"visit this group, browse to !url_group. To unsubscribe from this group, "
+"visit !url_unsubscribe"
+msgstr ""
+
+#: og.module:1598
+msgid "Subscription request approved for '@title'"
+msgstr ""
+
+#: og.module:1600
+msgid "You many now post messages in this group located at !group_url"
+msgstr ""
+
+#: og.module:1602
+msgid "Subscription request denied for '@title'"
+msgstr ""
+
+#: og.module:1604
+msgid "Sorry, your subscription request was denied."
+msgstr ""
+
+#: og.module:1606
+msgid "Invitation to join the group '@group' at @site"
+msgstr ""
+
+#: og.module:1608
+msgid ""
+"Hi. I'm a member of '@group' and I welcome you to join this group as well. "
+"Please see the link and message below.\n"
+"\n"
+"@group\n"
+"@description\n"
+"Subscribe: !group_url\n"
+"@body"
+msgstr ""
+
+#: og.module:1610
+msgid "Subscription request for '@group' from '@username'"
+msgstr ""
+
+#: og.module:1612
+msgid ""
+"To instantly approve this request, visit !approve_url\n"
+"\n"
+"You may deny this request or manage subscribers at !group_url"
+msgstr ""
+
+#: og.module:1625
+msgid "Subscribe to @name."
+msgstr ""
+
+#: og.module:1640
+msgid "Organic groups settings"
+msgstr ""
+
+#: og.module:1643
+msgid ""
+"Never send email notifications. Useful when tracking activity via RSS feed "
+"instead."
+msgstr "לעולם אל תשלח התרעות בדוא\"ל; אופציה זו שימושית כאשר מעקב ב-RSS פעיל במקום."
+
+#: og.module:1644
+msgid "Always send email notifications"
+msgstr "שלח תמיד התרעות בדוא\"ל"
+
+#: og.module:1645
+msgid ""
+"Selectively send email notification based on the checkbox for each of my "
+"group's <em>My Subscription</em> page"
+msgstr ""
+
+#: og.module:1649
+msgid "Email notifications"
+msgstr "הודעות דוא\"ל"
+
+#: og.module:1652
+msgid ""
+"When posts are submitted into your subscribed groups, you may be notified "
+"via email."
+msgstr "כאשר  ישנם פרסומים  חדשים בקבוצות אליהן הינך רשום, תעודכן בדוא\"ל."
+
+#: og.module:1793;2071
+msgid "Group details"
+msgstr "פרטי הקבוצה"
+
+#: og.module:1798
+msgid "Group authors"
+msgstr "כותבי הקבוצה"
+
+#: og.module:1800;1925
+msgid "New groups"
+msgstr "קבוצות חדשות"
+
+#: og.module:1801;1898
+msgid "My groups"
+msgstr "הקבוצות שלי"
+
+#: og.module:1802;1875
+msgid "Group notifications"
+msgstr "עידכונים לקבוצה זו"
+
+#: og.module:1834
+msgid "Maximum number of items to show"
+msgstr ""
+
+#: og.module:1856
+msgid "This group offers a !groupfeed and an !email."
+msgstr "עדכונים הנוגעים לקבוצה זו ניתן לקבל ב !groupfeed ו !email"
+
+#: og.module:1856
+msgid "RSS feed"
+msgstr "קורא חדשות - RSS"
+
+#: og.module:1856
+msgid "email subscription"
+msgstr "התראות דוא\"ל"
+
+#: og.module:1859
+msgid " Or subscribe to these personalized, sitewide feeds:"
+msgstr ""
+
+#: og.module:1861;1865;1869
+msgid "feed"
+msgstr ""
+
+#: og.module:1862;1866;1870
+msgid "page"
+msgstr ""
+
+#: og.module:1863
+msgid "my unread: "
+msgstr ""
+
+#: og.module:1867
+msgid "my group: "
+msgstr ""
+
+#: og.module:1871
+msgid "all posts: "
+msgstr ""
+
+#: og.module:1891;1923;1958
+msgid "more"
+msgstr "עוד"
+
+#: og.module:1891
+msgid "Browse all of my groups."
+msgstr "עיין בכל הקבוצות שלי."
+
+#: og.module:1923
+msgid "Browse the newest groups."
+msgstr "עיין בקבוצות החדשות ביותר שלי."
+
+#: og.module:1958
+msgid "View all subscribers."
+msgstr ""
+
+#: og.module:1961
+msgid "Recent authors"
+msgstr "כותבים פרסומים אחרונים"
+
+#: og.module:1991
+msgid "invite friend"
+msgstr "הזמן חבר"
+
+#: og.module:1999
+msgid "manager: "
+msgstr "מנהל: "
+
+#: og.module:2002
+msgid "website"
+msgstr ""
+
+#: og.module:2006
+msgid "Your subscription request awaits approval."
+msgstr ""
+
+#: og.module:2007
+msgid "delete request"
+msgstr "מחיקת בקשה"
+
+#: og.module:2010
+msgid "You must login/register in order to contribute to this group."
+msgstr ""
+
+#: og.module:2014
+msgid "request subscription"
+msgstr "בקשה להרשם"
+
+#: og.module:2022
+msgid ""
+"This is a @closed group. The group administrators add/remove subscribers as "
+"needed."
+msgstr ""
+
+#: og.module:2036
+msgid "create !type"
+msgstr "צור !type"
+
+#: og.module:2036
+msgid "Add a new !s in this group."
+msgstr ""
+
+#: og.module:2043;2064
+msgid "Enable"
+msgstr ""
+
+#: og.module:2056
+msgid "Organic groups configuration"
+msgstr "הגדר קבוצות אורגניות"
+
+#: og.module:2060
+msgid ""
+"Before disabling this module, use the button below to restore default "
+"permissions."
+msgstr ""
+
+#: og.module:2065
+msgid ""
+"You usually want to enable access control with this module. The button below "
+"will delete one record in your node_access table and thus enable node "
+"permissions on your site. You may revert by clicking the same button again."
+msgstr ""
+
+#: og.module:2067
+msgid "Module status"
+msgstr "מצב רכיב"
+
+#: og.module:2068
+msgid "Organic groups access control is currently %status."
+msgstr ""
+
+#: og.module:2073
+msgid ""
+"New groups don't appear in the groups directory. Administrators control the "
+"directory exclusively."
+msgstr ""
+
+#: og.module:2074
+msgid "New groups always appear in the groups directory."
+msgstr "קבוצות חדשות תמיד מופיעות בספריית הקבוצות."
+
+#: og.module:2075
+msgid ""
+"Group creator chooses whether her group appears in the directory. Defaults "
+"to %in."
+msgstr ""
+
+#: og.module:2075
+msgid "in directory"
+msgstr ""
+
+#: og.module:2076
+msgid ""
+"Group creator chooses whether her group appears in the directory. Defaults "
+"to %out."
+msgstr ""
+
+#: og.module:2076
+msgid "not in directory"
+msgstr ""
+
+#: og.module:2078
+msgid "Groups directory control"
+msgstr "ניהול סיפריית הקבוצות"
+
+#: og.module:2078;2086
+msgid ""
+"OG admins always see the checkbox for adding a group to the %dir. Note that "
+"changing this setting has no effect on existing posts. Re-save those posts "
+"to acquire this new setting."
+msgstr ""
+
+#: og.module:2078
+msgid "groups directory"
+msgstr "סיפריית הקבוצות"
+
+#: og.module:2081
+msgid ""
+"New groups don't appear in on the registration form. Administrators control "
+"the form exclusively."
+msgstr ""
+
+#: og.module:2082
+msgid "New groups always appear on the registration form."
+msgstr "קבוצות חדשות תמיד מופיעות בטופס הרישום."
+
+#: og.module:2083
+msgid ""
+"Group creator chooses whether her group appears on the registration form. "
+"Defaults to %in."
+msgstr ""
+
+#: og.module:2083
+msgid "on form"
+msgstr ""
+
+#: og.module:2084
+msgid ""
+"Group creator chooses whether her group appears on the registration form. "
+"Defaults to %out."
+msgstr ""
+
+#: og.module:2084
+msgid "not on form"
+msgstr ""
+
+#: og.module:2086
+msgid "Registration form control"
+msgstr ""
+
+#: og.module:2089
+msgid ""
+"New registrants are not subscribed to group email notifications by default. "
+"A user may choose to enable this from her profile page or her my "
+"subscriptions page."
+msgstr ""
+
+#: og.module:2090
+msgid ""
+"New registrants are subscribed to group email notifications by default. A "
+"user may choose to disable this from her profile page."
+msgstr ""
+
+#: og.module:2092
+msgid "Group email notifications"
+msgstr ""
+
+#: og.module:2092
+msgid ""
+"Should new registrants automatically be notified via email when new content "
+"is posted to their subscribed group? Note that changing this setting has no "
+"effect on existing subscriptions."
+msgstr ""
+
+#: og.module:2094
+msgid "Node authoring form"
+msgstr ""
+
+#: og.module:2095
+msgid "Explanation or submission guidelines"
+msgstr ""
+
+#: og.module:2095
+msgid ""
+"This text will be displayed at the top of the group submission form.  It is "
+"useful for helping or instructing your users."
+msgstr ""
+
+#: og.module:2096
+msgid "Audience checkboxes"
+msgstr ""
+
+#: og.module:2096
+msgid ""
+"Show each subscribed group as a checkbox in the Audience section. This "
+"enables user to place her post into multiple groups. If unchecked, simplify "
+"the user interface by omitting the checkboxes and assuming user wants to "
+"post into the current group. Group administrators always see checkboxes."
+msgstr ""
+
+#: og.module:2097
+msgid "Visible only within the targeted groups"
+msgstr ""
+
+#: og.module:2097
+msgid "Visible within the targeted groups and on other pages"
+msgstr ""
+
+#: og.module:2097;2097
+msgid "Visibility chosen by author/editor using a checkbox on the posting form. "
+msgstr ""
+
+#: og.module:2097
+msgid "Checkbox defaults to @pub."
+msgstr ""
+
+#: og.module:2097
+msgid "Checkbox defaults to @pri."
+msgstr ""
+
+#: og.module:2097
+msgid "Private"
+msgstr ""
+
+#: og.module:2098
+msgid "Visibility of posts"
+msgstr ""
+
+#: og.module:2098
+msgid ""
+"Determine how broadly available a given post should be when it is affiliated "
+"with a group. OG admins always see the checkbox for making a post @pub. Note "
+"that changing this setting has no effect on existing posts. Re-save those "
+"posts to acquire this new setting."
+msgstr ""
+
+#: og.module:2100
+msgid "optional"
+msgstr ""
+
+#: og.module:2100
+msgid "required"
+msgstr ""
+
+#: og.module:2101
+msgid "Audience required"
+msgstr ""
+
+#: og.module:2101
+msgid ""
+"Do you require that all posts be affiliated with a group? If so, new users "
+"will be unable to complete a post until they join a group. Note that "
+"changing this setting will affect existing posts when they are edited."
+msgstr ""
+
+#: og.module:2112
+msgid "Omitted content types"
+msgstr ""
+
+#: og.module:2112
+msgid ""
+"Select any node types which should <em>not</em> participate in the Audience "
+"targetting system. Node types which are designated as group home page node "
+"types (see below) will be automatically excluded."
+msgstr ""
+
+#: og.module:2114
+msgid "Group home page"
+msgstr "עמוד הבית של הקבוצה"
+
+#: og.module:2115
+msgid "River of News"
+msgstr ""
+
+#: og.module:2115
+msgid "Group by content type"
+msgstr "קבץ לפי סוג תוכן"
+
+#: og.module:2116
+msgid "Presentation style"
+msgstr ""
+
+#: og.module:2116
+msgid ""
+"If neither of these presentations suits you, you may override in the theme "
+"layer."
+msgstr ""
+
+#: og.module:2117
+msgid "Maximum posts on group home page"
+msgstr "מספר פרסומים מקסימליים בעמוד הבית של הקבוצה"
+
+#: og.module:2117
+msgid ""
+"If using River of News display, indicate the number of posts on home page. "
+"If grouping posts by content type, indicate number of posts per type."
+msgstr ""
+
+#: og.module:2118
+msgid "Group home page node types"
+msgstr ""
+
+#: og.module:2118
+msgid ""
+"<b>Required</b>. Select the node types which act as group home pages. "
+"Usually, you will want to !create called <em>group</em> for this purpose."
+msgstr ""
+
+#: og.module:2118
+msgid "create a simple node type"
+msgstr ""
+
+#: og.module:2120
+msgid "Email settings"
+msgstr "הגדרות דוא\"ל"
+
+#: og.module:2121
+msgid "New content subject"
+msgstr ""
+
+#: og.module:2122
+msgid "New content body"
+msgstr ""
+
+#: og.module:2123
+msgid "Group admin email body"
+msgstr ""
+
+#: og.module:2124
+msgid "User approved email subject"
+msgstr ""
+
+#: og.module:2125
+msgid "User approved email body"
+msgstr ""
+
+#: og.module:2126
+msgid "User denied email subject"
+msgstr ""
+
+#: og.module:2127
+msgid "User denied email body"
+msgstr ""
+
+#: og.module:2128
+msgid "Invite user email subject"
+msgstr ""
+
+#: og.module:2129
+msgid "Invite user email body"
+msgstr ""
+
+#: og.module:2130
+msgid "Request user email subject"
+msgstr ""
+
+#: og.module:2131
+msgid "Request user email body"
+msgstr ""
+
+#: og.module:2134;2135
+msgid "Member pictures"
+msgstr "תמונות חבר"
+
+#: og.module:2135
+msgid ""
+"Should member pictures be shown in the group subscribers and group details "
+"blocks? You must also enable pictures in !user."
+msgstr ""
+
+#: og.module:2135
+msgid "User configuration"
+msgstr ""
+
+#: og.module:2153
+msgid "Last reply"
+msgstr "תשובה אחרונה"
+
+#: og.module:2171
+msgid "(pending approval)"
+msgstr "(ממתין לאישור)"
+
+#: og.module:2195
+msgid "Subscribe a user to a group"
+msgstr "רשום משתמש לקבוצה"
+
+#: og.module:2200
+msgid "All subscribers for a given group."
+msgstr "כל החברים בקבוצה מסויימת."
+
+#: og.module:2205
+msgid "Retrieve the group subscriptions for a given user."
+msgstr ""
+
+#: og.module:2216;2228
+msgid "[ogname]"
+msgstr ""
+
+#: og.module:2216
+msgid "The name of the organic group this post belongs to."
+msgstr "שם הקבוצה שפוסט זה שייך אליה."
+
+#: og.module:267
+msgid "the sole subscriber"
+msgid_plural "all @count subscribers"
+msgstr[0] ""
+msgstr[1] ""
+
+#: og.module:300
+msgid "1 email sent."
+msgid_plural "@count emails sent"
+msgstr[0] "נשלחה הודעת דוא\"ל."
+msgstr[1] "נשלחו @count הודעות דוא\"ל"
+
+#: og.module:592
+msgid "1 invitation sent."
+msgid_plural "@count invitations sent."
+msgstr[0] ""
+msgstr[1] ""
+
+#: og.module:740
+msgid "name"
+msgid_plural "names"
+msgstr[0] "שם"
+msgstr[1] "שמות"
+
+#: og.module:756
+msgid "1 user added to the group"
+msgid_plural "@count users added to the group"
+msgstr[0] ""
+msgstr[1] ""
+
+#: og.module:1367
+msgid "Show this post in this group."
+msgid_plural "Show this post in these groups."
+msgstr[0] ""
+msgstr[1] ""
+
+#: og.module:1993
+msgid "1 subscriber"
+msgid_plural "@count subscribers"
+msgstr[0] "משתמש רשום אחד"
+msgstr[1] "@count משתמשים רשומים"
+
+#: og.module:153
+msgid "administer organic groups"
+msgstr ""
+

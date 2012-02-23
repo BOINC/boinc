@@ -1,0 +1,275 @@
+<?php
+// $Id: page_manager.install,v 1.7.2.1 2010/06/16 15:42:28 merlinofchaos Exp $
+
+/**
+ * @file
+ * Installation routines for page manager module.
+ */
+
+/**
+ * Implementation of hook_schema().
+ */
+function page_manager_schema() {
+  // This should always point to our 'current' schema. This makes it relatively easy
+  // to keep a record of schema as we make changes to it.
+  return page_manager_schema_1();
+}
+
+/**
+ * Schema version 1 for Panels in D6.
+ */
+function page_manager_schema_1() {
+  $schema = array();
+
+  $schema['page_manager_handlers'] = array(
+    'export' => array(
+      'identifier' => 'handler',
+      'bulk export' => TRUE,
+      'export callback' => 'page_manager_export_task_handler',
+      'primary key' => 'did',
+      'api' => array(
+        'owner' => 'page_manager',
+        'api' => 'pages_default',
+        'minimum_version' => 1,
+        'current_version' => 1,
+      ),
+    ),
+    'fields' => array(
+      'did' => array(
+        'type' => 'serial',
+        'not null' => TRUE,
+        'description' => 'Primary ID field for the table. Not used for anything except internal lookups.',
+        'no export' => TRUE,
+      ),
+      'name' => array(
+        'type' => 'varchar',
+        'length' => '255',
+        'description' => 'Unique ID for this task handler. Used to identify it programmatically.',
+      ),
+      'task' => array(
+        'type' => 'varchar',
+        'length' => '64',
+        'description' => 'ID of the task this handler is for.',
+      ),
+      'subtask' => array(
+        'type' => 'varchar',
+        'length' => '64',
+        'description' => 'ID of the subtask this handler is for.',
+        'not null' => TRUE,
+        'default' => '',
+      ),
+      'handler' => array(
+        'type' => 'varchar',
+        'length' => '64',
+        'description' => 'ID of the task handler being used.',
+      ),
+      'weight' => array(
+        'type' => 'int',
+        'description' => 'The order in which this handler appears. Lower numbers go first.',
+      ),
+      'conf' => array(
+        'type' => 'text',
+        'size' => 'big',
+        'description' => 'Serialized configuration of the handler, if needed.',
+        'not null' => TRUE,
+        'serialize' => TRUE,
+        'object default' => array(),
+      ),
+    ),
+    'primary key' => array('did'),
+    'unique keys' => array(
+      'name' => array('name'),
+    ),
+    'indexes' => array('fulltask' => array('task', 'subtask', 'weight')),
+  );
+
+  $schema['page_manager_weights'] = array(
+    'description' => 'Contains override weights for page_manager handlers that are in code.',
+    'fields' => array(
+      'name' => array(
+        'type' => 'varchar',
+        'length' => '255',
+        'description' => 'Unique ID for this task handler. Used to identify it programmatically.',
+        'not null' => TRUE,
+        'default' => '',
+      ),
+      'weight' => array(
+        'type' => 'int',
+        'description' => 'The order in which this handler appears. Lower numbers go first.',
+      ),
+    ),
+    'primary key' => array('name'),
+    'indexes' => array(
+      'weights' => array('name', 'weight'),
+    ),
+  );
+
+  $schema['page_manager_pages'] = array(
+    'description' => 'Contains page subtasks for implementing pages with arbitrary tasks.',
+    'export' => array(
+      'identifier' => 'page',
+      'bulk export' => TRUE,
+      'export callback' => 'page_manager_page_export',
+      'api' => array(
+        'owner' => 'page_manager',
+        'api' => 'pages_default',
+        'minimum_version' => 1,
+        'current_version' => 1,
+      ),
+    ),
+    'fields' => array(
+      'pid' => array(
+        'type' => 'serial',
+        'not null' => TRUE,
+        'description' => 'Primary ID field for the table. Not used for anything except internal lookups.',
+        'no export' => TRUE,
+      ),
+      'name' => array(
+        'type' => 'varchar',
+        'length' => '255',
+        'description' => 'Unique ID for this subtask. Used to identify it programmatically.',
+      ),
+      'task' => array(
+        'type' => 'varchar',
+        'length' => '64',
+        'description' => 'What type of page this is, so that we can use the same mechanism for creating tighter UIs for targeted pages.',
+        'default' => 'page',
+      ),
+      'admin_title' => array(
+        'type' => 'varchar',
+        'length' => '255',
+        'description' => 'Human readable title for this page subtask.',
+      ),
+      'admin_description' => array(
+        'type' => 'text',
+        'size' => 'big',
+        'description' => 'Administrative description of this item.',
+        'object default' => '',
+      ),
+      'path' => array(
+        'type' => 'varchar',
+        'length' => '255',
+        'description' => 'The menu path that will invoke this task.',
+      ),
+      'access' => array(
+        'type' => 'text',
+        'size' => 'big',
+        'description' => 'Access configuration for this path.',
+        'not null' => TRUE,
+        'serialize' => TRUE,
+        'object default' => array(),
+      ),
+      'menu' => array(
+        'type' => 'text',
+        'size' => 'big',
+        'description' => 'Serialized configuration of Drupal menu visibility settings for this item.',
+        'not null' => TRUE,
+        'serialize' => TRUE,
+        'object default' => array(),
+      ),
+      'arguments' => array(
+        'type' => 'text',
+        'size' => 'big',
+        'description' => 'Configuration of arguments for this menu item.',
+        'not null' => TRUE,
+        'serialize' => TRUE,
+        'object default' => array(),
+      ),
+      'conf' => array(
+        'type' => 'text',
+        'size' => 'big',
+        'description' => 'Serialized configuration of the page, if needed.',
+        'not null' => TRUE,
+        'serialize' => TRUE,
+        'object default' => array(),
+      ),
+    ),
+    'primary key' => array('pid'),
+    'unique keys' => array(
+      'name' => array('name'),
+    ),
+    'indexes' => array('task' => array('task')),
+  );
+
+  return $schema;
+}
+
+/**
+ * Implementation of hook_install().
+ */
+function page_manager_install() {
+  drupal_install_schema('page_manager');
+
+  // If we're swapping over from delegator module, take away its tables.
+  // Take THAT, delegator!
+  if (db_table_exists('{delegator_pages}')) {
+    db_query("INSERT INTO {page_manager_pages} (pid, name, task, admin_title, path, access, menu, arguments, conf) (SELECT pid, name, task, admin_title, path, access, menu, arguments, conf FROM {delegator_pages})");
+    db_query("INSERT INTO {page_manager_handlers} (SELECT did, name, task, subtask, handler, weight, conf FROM {delegator_handlers})");
+    db_query("INSERT INTO {page_manager_weights} (SELECT name, weight FROM {delegator_weights})");
+
+    // Update all of the 'panel_page' type pages appropriately:
+    $result = db_query("SELECT * FROM {page_manager_pages} WHERE task = 'panel_page'");
+    while ($page = db_fetch_object($result)) {
+      $page->conf = unserialize($page->conf);
+      $handler = new stdClass();
+      $handler->name = 'page_' . $page->name . '_panel_context';
+      $handler->task = 'page';
+      $handler->subtask = $page->name;
+      $handler->handler = 'panel_context';
+      $handler->weight = 0;
+      $handler->conf = array();
+
+      $default_conf = array(
+        'title' => t('Panel'),
+        'no_blocks' => FALSE,
+        'css_id' => '',
+        'css' => '',
+        'contexts' => array(),
+        'relationships' => array(),
+        'did' => NULL,
+        'css_cache' => NULL,
+      );
+
+      foreach($default_conf as $key => $default) {
+        if (isset($page->conf[$key])) {
+          $handler->conf[$key] = $page->conf[$key];
+          unset($page->conf[$key]);
+        }
+        else {
+          $handler->conf[$key] = $default;
+        }
+      }
+
+      $handler->conf = serialize($handler->conf);
+      $page->conf = serialize($page->conf);
+      db_query("UPDATE {page_manager_pages} SET conf = '%s', task = 'page' WHERE pid = %d", $page->conf, $page->pid);
+      db_query("INSERT INTO {page_manager_handlers} (name, task, subtask, handler, weight, conf) VALUES ('%s', '%s', '%s', '%s', %d, '%s')", $handler->name, $handler->task, $handler->subtask, $handler->handler, $handler->weight, $handler->conf);
+    }
+
+    $ret = array();
+    db_drop_table($ret, 'delegator_pages');
+    db_drop_table($ret, 'delegator_handlers');
+    db_drop_table($ret, 'delegator_weights');
+
+    // And take delegator's variables:
+    variable_set('page_manager_term_view_type', variable_get('delegator_term_view_type', 'multiple'));
+    variable_del('delegator_term_view_type');
+
+    variable_set('page_manager_override_anyway', variable_get('delegator_override_anyway', FALSE));
+    variable_del('delegator_override_anyway');
+  }
+
+  db_query("UPDATE {system} SET weight = 99 WHERE name = 'page_manager'");
+}
+
+/**
+ * Implementation of hook_uninstall().
+ */
+function page_manager_uninstall() {
+  drupal_uninstall_schema('page_manager');
+}
+
+function page_manager_update_6101() {
+  $ret = array();
+  return $ret;
+}

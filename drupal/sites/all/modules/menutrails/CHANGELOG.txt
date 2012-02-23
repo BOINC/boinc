@@ -1,0 +1,46 @@
+// $Id: CHANGELOG.txt,v 1.1.2.23 2010/03/16 21:33:48 sun Exp $
+
+Menu Trails x.x-x.x, xxxx-xx-xx
+-------------------------------
+
+
+Menu Trails 6.x-1.x, xxxx-xx-xx
+-------------------------------
+
+
+Menu Trails 6.x-1.1, 2010-03-16
+-------------------------------
+#630290 by grendzy: Fixed views integration ignores global breadcrumb setting.
+#632070 by sun, nemchenk: Fixed first group removed from $node->og_groups.
+#547634 by eojthebrave, sun: Fixed wrong node parent assigned via taxonomy term.
+#430290 by eojthebrave, sun: Added parent item selection from any menu.
+#368074 by sun: Fixed token values not generated for nodes without menu item.
+#368071 by sun: Fixed all slashes stripped from Pathauto tokens.
+#364717 by sun: Fixed some more PHP notices and proper usage of t().
+#344853 by sun: Fixed breadcrumb contains "array" in certain cases; Updated
+  theme_links() override with current Drupal core code.
+#340725 by dynamind, chris.cohen: Added Views integration.
+#328517 by eojthebrave, sun: Fixed README.txt (about theme override function).
+#425712 by michaek: Fixed breadcrumb contains ancestors of the current page.
+#379952 by crischan: Fixed missing db_query() table prefix placeholder for OG.
+#331870 by Starnox, acstewart, noahb: Fixed breadcrumb contains all sub-links of
+  an expanded link.
+#377476 by pebosi: Added hook_uninstall().
+#364717 by drewish, sun: Fixed PHP notices.
+#363244 by Sutharsan: Fixed parsing error in .info file.
+#327687 by sun: Fixed PHP notices.
+#159705 by Sutharsan, sun: Fixed PHP notices if Taxonomy module is not enabled.
+#327648 by sun: Changed location of admin settings to admin/build/menu/trails.
+#324631 by sun: Fixed typos in settings form.
+#325613 by sun: Code clean-up.
+#313556 by joshk: Fixed PHP fatal error if Taxonomy module not exists.
+by joshk: Added Token support for Pathauto integration.
+by joshk: Added breadcrumb support.
+by joshk: Added OG support.
+by joshk: Ported to Drupal 6.x.
+
+
+Menu Trails 5.x-x.x, xxxx-xx-xx
+-------------------------------
+#154464 by joshk: Fixed Menu Trails By Category in $nodetype not saved.
+

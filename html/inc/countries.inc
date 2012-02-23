@@ -2,6 +2,7 @@
 // $Id$
 // list of countries taken from http://www.cia.gov
 
+global $countries;
 $countries = array(
     "None",
     "International",

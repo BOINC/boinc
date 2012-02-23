@@ -1,0 +1,9 @@
+// $Id: TODO.txt,v 1.4 2009/11/08 18:28:49 johnalbin Exp $
+
+Zen 6.x-2.0 @TODO
+-----------------
+- #: Add fix to auto-correct tabs broken by contrib modules
+- #: Display "edit menu" only when Menu block is displaying menu.module links
+- * confirm all the variables of every tpl are documented.
+- #341140: drupal_get_filename() is broken in Drupal 6. When that is fixed,
+  replace _zen_path() with drupal_get_path('theme', 'zen').

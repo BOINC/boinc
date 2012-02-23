@@ -1,0 +1,621 @@
+<?php
+// $Id: content.install,v 1.85.2.33 2009/07/14 22:17:05 yched Exp $
+
+function content_requirements($phase) {
+  $requirements = array();
+  // Ensure translations don't break at install time
+  $t = get_t();
+  if (module_exists('views') && (!function_exists('views_api_version') || views_api_version() < 2.0)) {
+    $requirements['cck_views'] = array(
+      'title' => $t('CCK - No Views integration'),
+      'description' => $t("CCK integration with Views module requires Views 6.x-2.0-rc2 or greater."),
+      'severity' => REQUIREMENT_ERROR,
+    );
+  }
+  return $requirements;
+}
+
+/**
+ * 'Safe' version of content_types() to use in updates and installs.
+ *
+ * Can't safely use content_fields() or content_types() in an update to get
+ * a fields array, especially without knowing what field modules are enabled,
+ * or the current state of the database and cache, so create a fields array
+ * from database info that is limited to fields from modules that are
+ * currently enabled.
+ */
+function content_types_install() {
+  drupal_load('module', 'content');
+  module_load_include('inc', 'content', '/includes/content.crud');
+  $module_field_types = $module_widgets = array();
+  foreach (module_list() as $module) {
+    if ($field_type = module_invoke($module, 'field_info')) {
+      $module_field_types[$module] = $field_type;
+    }
+    if ($widget_type = module_invoke($module, 'widget_info')) {
+      $module_widgets[$module] = $widget_type;
+    }
+  }
+  $fields = array();
+  $db_result = db_query("SELECT * FROM {". content_instance_tablename() ."} nfi ".
+    " LEFT JOIN {". content_field_tablename() ."} nf ON nf.field_name = nfi.field_name");
+  while ($row = db_fetch_array($db_result)) {
+    $field = array_merge($row, unserialize($row['global_settings']));
+    unset($field['global_settings']);
+
+    // There may be module data available for currently disabled modules,
+    // or missing module data for currently enabled modules, so start over
+    // to get only field info for enabled modules.
+    unset($field['module']);
+    unset($field['widget_module']);
+    // 'columns' is a reserved word in MySQL4, so our column is named 'db_columns'.
+    $field['columns'] = isset($field['db_columns']) ? $field['db_columns'] : array();
+    unset($field['db_columns']);
+
+    foreach ($module_field_types as $module => $types) {
+      foreach ($types as $type_name => $type) {
+        if ($field['type'] == $type_name) {
+          $field['module'] = $module;
+        }
+      }
+    }
+    foreach ($module_widgets as $module => $types) {
+      foreach ($types as $type_name => $type) {
+        if ($field['widget_type'] == $type_name) {
+          $field['widget_module'] = $module;
+        }
+      }
+    }
+    if (!empty($field['module']) && !empty($field['widget_module'])) {
+      $field['widget_settings'] = unserialize($field['widget_settings']);
+      $field['display_settings'] = unserialize($field['display_settings']);
+      $field['columns'] = (array) module_invoke($field['module'], 'field_settings', 'database columns', $field);
+      $field = content_field_instance_expand($field);
+      $fields[$field['type_name']][$field['field_name']] = $field;
+    }
+  }
+  return $fields;
+}
+
+/**
+ * Implementation of hook_install().
+ */
+function content_install() {
+  variable_set('content_schema_version', 6009);
+  drupal_install_schema('content');
+}
+
+
+/**
+ * Implementation of hook_uninstall().
+ */
+function content_uninstall() {
+  drupal_uninstall_schema('content');
+  // The variable is used during the uninstall process,
+  // so we removed it at the very end.
+  variable_del('content_schema_version');
+  // Remove extra weights.
+  foreach (node_get_types('names') as $type_name) {
+    variable_del("content_extra_weights_$type_name");
+  }
+}
+
+/**
+ * Implementation of hook_enable().
+ */
+function content_enable() {
+  // Make sure old data is emptied out of the caches, since it
+  // may no longer be valid since the module was last enabled,
+  // especially if not all the same field modules are enabled
+  // as before. Especially needed during updates.
+  cache_clear_all('*', 'cache_content', TRUE);
+  content_clear_type_cache(TRUE);
+}
+
+/**
+ * Implementation of hook_disable().
+ */
+function content_disable() {
+  // Make sure old data is emptied out of the caches, since it
+  // may no longer be valid when the module is re-enabled.
+  cache_clear_all('*', 'cache_content', TRUE);
+  content_clear_type_cache(TRUE);
+}
+
+/**
+ * Implementation of hook_schema.
+ */
+function content_schema() {
+
+  // Static (meta) tables.
+
+  $schema['content_node_field'] = array(
+    'fields' => array(
+      'field_name'      => array('type' => 'varchar', 'length' => 32, 'not null' => TRUE, 'default' => ''),
+      'type'            => array('type' => 'varchar', 'length' => 127, 'not null' => TRUE, 'default' => ''),
+      'global_settings' => array('type' => 'text', 'size' => 'medium', 'not null' => TRUE, 'serialize' => TRUE),
+      'required'        => array('type' => 'int', 'size' => 'tiny', 'not null' => TRUE, 'default' => 0),
+      'multiple'        => array('type' => 'int', 'size' => 'tiny', 'not null' => TRUE, 'default' => 0),
+      'db_storage'      => array('type' => 'int', 'size' => 'tiny', 'not null' => TRUE, 'default' => 1),
+      'module'          => array('type' => 'varchar', 'length' => 127, 'not null' => TRUE, 'default' => ''),
+      'db_columns'      => array('type' => 'text', 'size' => 'medium', 'not null' => TRUE, 'serialize' => TRUE),
+      'active'          => array('type' => 'int', 'size' => 'tiny', 'not null' => TRUE, 'default' => 0),
+      'locked'          => array('type' => 'int', 'size' => 'tiny', 'not null' => TRUE, 'default' => 0),
+    ),
+    'primary key' => array('field_name'),
+  );
+  $schema['content_node_field_instance'] = array(
+    'fields' => array(
+      'field_name'       => array('type' => 'varchar', 'length' => 32, 'not null' => TRUE, 'default' => ''),
+      'type_name'        => array('type' => 'varchar', 'length' => 32, 'not null' => TRUE, 'default' => ''),
+      'weight'           => array('type' => 'int', 'not null' => TRUE, 'default' => 0),
+      'label'            => array('type' => 'varchar', 'length' => 255, 'not null' => TRUE, 'default' => ''),
+      'widget_type'      => array('type' => 'varchar', 'length' => 32, 'not null' => TRUE, 'default' => ''),
+      'widget_settings'  => array('type' => 'text', 'size' => 'medium', 'not null' => TRUE, 'serialize' => TRUE),
+      'display_settings' => array('type' => 'text', 'size' => 'medium', 'not null' => TRUE, 'serialize' => TRUE),
+      'description'      => array('type' => 'text', 'size' => 'medium', 'not null' => TRUE),
+      'widget_module'    => array('type' => 'varchar', 'length' => 127, 'not null' => TRUE, 'default' => ''),
+      'widget_active'    => array('type' => 'int', 'size' => 'tiny', 'not null' => TRUE, 'default' => 0),
+    ),
+    'primary key' => array('field_name', 'type_name'),
+  );
+  $schema['cache_content'] = drupal_get_schema_unprocessed('system', 'cache');
+
+  // When the module is first installed, the remaining code in the schema
+  // will create errors, since these tables have not yet been created.
+  // We don't need to create data tables on initial installation anyway
+  // since no fields have been created yet, so just return with this much
+  // of the schema.
+
+  if (!db_table_exists('content_node_field') || !db_table_exists('content_node_field_instance')) {
+    return $schema;
+  }
+
+  // Dynamic (data) tables.
+
+  drupal_load('module', 'content');
+
+  // We can't use many helper functions here, like content_fields() or
+  // content_types() or we risk creating a fatal loop from circular
+  // logic when they call other functions that use this schema, so create
+  // the schema directly from a fresh query of the database.
+
+  // content_table_schema() and content_database_info() have no
+  // circular logic and are safe to use here.
+
+  $db_result = db_query("SELECT * FROM {". content_instance_tablename() ."} nfi ".
+    " LEFT JOIN {". content_field_tablename() ."} nf ON nf.field_name = nfi.field_name WHERE nf.active = 1 AND nfi.widget_active = 1");
+  while ($field = db_fetch_array($db_result)) {
+    // 'columns' is a reserved word in MySQL4, so our db column is named 'db_columns'.
+    $field['columns'] = unserialize($field['db_columns']);
+    unset($field['db_columns']);
+
+    $content_table = _content_tablename($field['type_name'], CONTENT_DB_STORAGE_PER_CONTENT_TYPE);
+    $field_table = _content_tablename($field['field_name'], CONTENT_DB_STORAGE_PER_FIELD);
+
+
+    // We always add a 'per content type' table for each content type that
+    // has fields.
+    if (!isset($schema[$content_table])) {
+      $schema[$content_table] = content_table_schema();
+    }
+
+    $base_schema = content_table_schema($field);
+    if ($field['db_storage'] == CONTENT_DB_STORAGE_PER_FIELD) {
+      // Per-field storage: add the 'per field' table if needed.
+      if (!isset($schema[$field_table])) {
+        $schema[$field_table] = $base_schema;
+      }
+    }
+    else {
+      // Per-type storage: merge the information for the field
+      // in the existing table.
+      $schema[$content_table]['fields'] = array_merge($schema[$content_table]['fields'], $base_schema['fields']);
+      $schema[$content_table]['content fields'] = array_merge($schema[$content_table]['content fields'], $base_schema['content fields']);
+    }
+  }
+  return $schema;
+}
+
+function content_update_last_removed() {
+  return 1008;
+}
+
+/**
+ * Helper function for module updates :
+ * - checks no updates are pending for content.module
+ * - checks content module and the module being updated are both enabled.
+ *
+ * @param $module
+ *   The name of the module being updated.
+ */
+function content_check_update($module = NULL) {
+  $ret = array();
+  // Check that modules are enabled before running their updates.
+  if (!module_exists('content') || ($module && !module_exists($module))) {
+    drupal_set_message(t("Updates for CCK-related modules are not run until the modules are enabled on the <a href=\"@admin-modules-path\">administer modules page</a>. When you enable them, you'll need to return to <a href=\"@update-php\">update.php</a> and run the remaining updates.", array('@admin-modules-path' => url('admin/build/modules'), '@update-php' => base_path() .'update.php?op=selection')), 'warning', FALSE);
+    // The content module is not enabled, nothing else can happen.
+    if ($module && !module_exists('content') && module_exists($module)) {
+      $query_message = t('!module.module has updates but cannot be updated because content.module is not enabled.<br />If and when content.module is enabled, you will need to re-run the update script. You will continue to see this message until the module is enabled and updates are run.', array('!module' => $module));
+    }
+    // The requested module is not enabled, which may be intentional.
+    // Just let the user know there are updates to be processed if enabled later.
+    else {
+      $query_message = t('!module.module has updates and is available in the modules folder but is not enabled.<br />If and when it is enabled, you will need to re-run the update script. You will continue to see this message until the module is enabled and updates are run.', array('!module' => $module ? $module : 'content'));
+    }
+    $ret['#abort'] = array('success' => FALSE, 'query' => $query_message);
+    return $ret;
+  }
+  // Check that content.module is up-to-date before running field module updates.
+  if ($module && (drupal_get_installed_schema_version('content', TRUE) < max(drupal_get_schema_versions('content')))) {
+    drupal_set_message(t('Some updates are still pending. Please return to <a href="@update-php">update.php</a> and run the remaining updates.', array('@update-php' => base_path() .'update.php?op=selection')), 'warning', FALSE);
+    $ret['#abort'] = array('success' => FALSE, 'query' => t('Some updates are still pending.<br/>Please re-run the update script.'));
+    return $ret;
+  }
+  // If everything is OK and updates are not aborted, make sure
+  // content_associate_fields() gets run. With all the complexity of
+  // the dependent updates, it can get missed when an update is aborted.
+  // It won't hurt anything to do this more than once in order to be sure
+  // it doesn't get skipped. Without this step, we can end up with
+  // field modules that are enabled and updated, but not marked as active
+  // in the content_node_field table.
+  if ($module and module_exists($module)) {
+    content_associate_fields($module);
+  }
+}
+
+/**
+ * Add module name to fields table to make it easier to identify the fields to delete when a module
+ * is uninstalled.
+ *
+ * Needed because the value drops out of content_info() when module is disabled, so there
+ * is no other way to find the associated fields.
+ */
+function content_update_6000() {
+  if ($abort = content_check_update()) {
+    return $abort;
+  }
+
+  $ret = array();
+
+  drupal_load('module', 'content');
+  if (db_column_exists(content_field_tablename(), 'active')) {
+    return $ret;
+  }
+  db_add_field($ret, content_field_tablename(), 'module', array('type' => 'varchar', 'length' => 127, 'not null' => TRUE, 'default' => ''));
+  db_add_field($ret, content_field_tablename(), 'db_columns', array('type' => 'text', 'size' => 'medium', 'not null' => TRUE, 'initial' => ''));
+  db_add_field($ret, content_field_tablename(), 'active', array('type' => 'int', 'size' => 'tiny', 'not null' => TRUE, 'default' => 0));
+  db_add_field($ret, content_instance_tablename(), 'widget_module', array('type' => 'varchar', 'length' => 127, 'not null' => TRUE, 'default' => ''));
+  db_add_field($ret, content_instance_tablename(), 'widget_active', array('type' => 'int', 'size' => 'tiny', 'not null' => TRUE, 'default' => 0));
+
+  // This will update the table for any modules enabled at this time.
+  foreach (module_list() as $module) {
+    content_associate_fields($module);
+  }
+
+  // Fix the cache_content schema
+  if (db_table_exists('cache_content')) {
+    db_drop_table($ret, 'cache_content');
+  }
+  db_create_table($ret, 'cache_content', drupal_get_schema_unprocessed('system', 'cache'));
+  variable_set('content_schema_version', 6000);
+
+  // The cache table had to be used to store data until this update ran,
+  // so clear cache out now that we're switching back to the cache_content table.
+  $ret[] = update_sql('DELETE FROM {cache}');
+
+  return $ret;
+}
+
+/**
+ * Rename node_field and node_field_instance tables.
+ *
+ * This is a carryover from when the data tables were renamed,
+ * postponed so we wouldn't create any more havoc than necessary
+ * until a major version change.
+ *
+ * Using 'content_node_field' instead of 'content_field'
+ * to avoid conflicts with field tables that will be prefixed
+ * with 'content_field'.
+ */
+function content_update_6001() {
+  if ($abort = content_check_update()) {
+    return $abort;
+  }
+
+  $ret = array();
+  drupal_load('module', 'content');
+  if (db_table_exists('content_node_field')) {
+    return $ret;
+  }
+  db_rename_table($ret, 'node_field', 'content_node_field');
+  db_rename_table($ret, 'node_field_instance', 'content_node_field_instance');
+  variable_set('content_schema_version', 6001);
+  content_clear_type_cache(TRUE);
+  return $ret;
+}
+
+/**
+ * Get rid of automatic per content tables for content types that have no fields.
+ * Switching to adding those tables only when needed.
+ */
+function content_update_6002() {
+  if ($abort = content_check_update()) {
+    return $abort;
+  }
+
+  $ret = array();
+
+  drupal_load('module', 'content');
+  $db_types = content_types_install();
+  $field_types = array();
+
+  $result = db_query("SELECT DISTINCT type_name FROM {". content_instance_tablename() ."}");
+  while ($type = db_fetch_array($result)) {
+    $field_types[] = $type['type_name'];
+  }
+
+  foreach ($db_types as $content_type => $content_info) {
+    if (!in_array($content_type, $field_types)) {
+      $table = _content_tablename($content_type, CONTENT_DB_STORAGE_PER_CONTENT_TYPE);
+      if (db_table_exists($table)) {
+        db_drop_table($ret, $table);
+      }
+    }
+  }
+  variable_set('content_schema_version', 6002);
+  content_clear_type_cache(TRUE);
+  return $ret;
+}
+
+/**
+ * 'db_columns' column 1st got introduced as 'columns', which is forbidden in MySQL 4.
+ * This update function will only be useful for early D6 testers...
+ */
+function content_update_6003() {
+  if ($abort = content_check_update()) {
+    return $abort;
+  }
+
+  $ret = array();
+  if (db_column_exists('content_node_field', 'columns')) {
+    db_change_field($ret, 'content_node_field', 'columns', 'db_columns', array('type' => 'text', 'size' => 'medium', 'not null' => TRUE));
+  }
+  variable_set('content_schema_version', 6003);
+  return $ret;
+}
+
+/**
+ * Index the 'nid' column on data tables to optimize node deletion.
+ * Large tables might deserve a multipass update.
+ */
+function content_update_6004(&$sandbox) {
+  if ($abort = content_check_update()) {
+    return $abort;
+  }
+
+  $ret = array();
+
+  // Do nothing if the indexes were already created by D5's content_update_1009.
+  if (variable_get('content_update_1009', FALSE)) {
+    return $ret;
+  }
+
+  // Gather list of tables.
+  if (!isset($sandbox['tables'])) {
+    drupal_load('module', 'content');
+    $sandbox['tables'] = array();
+    $result = db_query('SELECT * FROM {'. content_instance_tablename() .'} nfi '.
+      ' LEFT JOIN {'. content_field_tablename() .'} nf ON nf.field_name = nfi.field_name');
+    while ($field = db_fetch_array($result)) {
+      if ($field['db_storage'] == CONTENT_DB_STORAGE_PER_FIELD) {
+        $table = _content_tablename($field['field_name'], CONTENT_DB_STORAGE_PER_FIELD);
+      }
+      else {
+        $table = _content_tablename($field['type_name'], CONTENT_DB_STORAGE_PER_CONTENT_TYPE);
+      }
+      $sandbox['tables'][$table] = $table;
+    }
+    $sandbox['count'] = count($sandbox['tables']);
+  }
+
+  // One pass : add index on one table.
+  if ($table = array_shift($sandbox['tables'])) {
+    db_add_index($ret, $table, 'nid', array('nid'));
+  }
+
+  if ($sandbox['count']) {
+    $ret['#finished'] = 1 - count($sandbox['tables']) / $sandbox['count'];
+  }
+  variable_set('content_schema_version', 6004);
+  return $ret;
+}
+
+/**
+ * Add 'locked' property for fields.
+ */
+function content_update_6005() {
+  if ($abort = content_check_update()) {
+    return $abort;
+  }
+
+  $ret = array();
+  drupal_load('module', 'content');
+  db_add_field($ret, content_field_tablename(), 'locked', array('type' => 'int', 'size' => 'tiny', 'not null' => TRUE, 'default' => 0));
+  variable_set('content_schema_version', 6005);
+  return $ret;
+}
+
+/**
+ * Make sure the 'locked' column is NOT NULL (error in previous content_update_6005().
+ */
+function content_update_6006() {
+  if ($abort = content_check_update()) {
+    return $abort;
+  }
+
+  $ret = array();
+  drupal_load('module', 'content');
+  db_change_field($ret, content_field_tablename(), 'locked', 'locked', array('type' => 'int', 'size' => 'tiny', 'not null' => TRUE, 'default' => 0));
+  variable_set('content_schema_version', 6006);
+  return $ret;
+}
+
+/**
+ * Dummy update function to make sure the theme registry and css / JS aggregated files
+ * are updated.
+ */
+function content_update_6007() {
+  if ($abort = content_check_update()) {
+    return $abort;
+  }
+
+  variable_set('content_schema_version', 6007);
+  return array();
+}
+
+/**
+ * Dummy update function to make sure schema version gets updated.
+ */
+function content_update_6008() {
+  if ($abort = content_check_update()) {
+    return $abort;
+  }
+
+  variable_set('content_schema_version', 6008);
+  return array();
+}
+
+/**
+ * Add the 'exclude from $content' display setting to all existing field instances.
+ */
+function content_update_6009() {
+  if ($abort = content_check_update()) {
+    return $abort;
+  }
+
+  $ret = array();
+  $result = db_query("SELECT *  FROM {content_node_field_instance}");
+  while ($type = db_fetch_array($result)) {
+    $new_settings = array();
+    $display_settings = unserialize($type['display_settings']);
+    if (!empty($display_settings)) {
+      foreach ($display_settings as $key => $val) {
+        $new_settings[$key] = $val;
+        if ($key !== 'label' && is_array($val)) {
+          $new_settings[$key]['exclude'] = 0;
+        }
+      }
+    }
+    else {
+      $new_settings = array(
+        'label' => array('format' => 'above'),
+        'full' => array('format' => 'default', 'exclude' => 0),
+        'teaser' => array('format' => 'default', 'exclude' => 0),
+        );
+    }
+    db_query("UPDATE {content_node_field_instance} SET display_settings='%s' WHERE field_name='%s' AND type_name='%s'", serialize($new_settings), $type['field_name'], $type['type_name']);
+  }
+  variable_set('content_schema_version', 6009);
+  return $ret;
+}
+
+/**
+ * Fix multiple serialization caused by per-field to per-type migration.
+ * See http://drupal.org/node/407446.
+ */
+function content_update_6010(&$sandbox) {
+  if ($abort = content_check_update()) {
+    return $abort;
+  }
+  $ret = array();
+
+  drupal_load('module', 'content');
+
+  // Gather list of tables and columns that need to be updated.
+  if (!isset($sandbox['tables'])) {
+    $sandbox['tables'] = array();
+    $fields = content_fields();
+    foreach ($fields as $name => $field) {
+      $db_info = content_database_info($field);
+      foreach ($db_info['columns'] as $column => $attributes) {
+        if (isset($attributes['serialize']) && $attributes['serialize']) {
+          $sandbox['tables'][$db_info['table']]['table'] = $db_info['table'];
+          $sandbox['tables'][$db_info['table']]['columns'][] = $attributes['column'];
+          $sandbox['tables'][$db_info['table']]['multiple'] = $field['multiple'];
+        }
+      }
+    }
+    $sandbox['count'] = count($sandbox['tables']);
+    $sandbox['current_vid'] = 0;
+    $sandbox['current_delta'] = 0;
+  }
+
+  // Number of rows to fix in one pass.
+  $limit = 500;
+  // Start correcting data.
+  if ($table_info = array_shift($sandbox['tables'])) {
+    $table = $table_info['table'];
+    $columns = $table_info['columns'];
+
+    if ($table_info['multiple']) {
+      $query = "SELECT * FROM {" . $table . "} WHERE (vid = %d AND delta > %d) OR (vid > %d) ORDER BY vid ASC, delta ASC";
+      $args = array($sandbox['current_vid'], $sandbox['current_delta'], $sandbox['current_vid']);
+    }
+    else {
+      $query = "SELECT * FROM {" . $table . "} WHERE vid > %d ORDER BY vid ASC";
+      $args = array($sandbox['current_vid']);
+    }
+    $result = db_query_range($query, $args, 0, $limit);
+    $count = 0;
+    while ($row = db_fetch_array($result)) {
+      $update_query = $update_args = array();
+      foreach ($columns as $column) {
+        $data = $row[$column];
+        // No need to do anything if the data is NULL.
+        if (!empty($data)) {
+          // Unserialize until we get something that is not a string
+          while (is_string($data)) {
+            $unserialized = @unserialize($data);
+            if ($unserialized !== FALSE) {
+              $data = $unserialized;
+            }
+            else {
+              // TODO : test with a serialized string, just in case...
+              break;
+            }
+          }
+          // Re-serialize once.
+          $data = serialize($data);
+          // If we end up with something different than what we started with, update.
+          if ($data !== $row[$column]) {
+            $update_query[] = "$column = '%s'";
+            $update_args[] = $data;
+          }
+        }
+      }
+      if ($update_query) {
+        $update_args[] = $row['vid'];
+        db_query("UPDATE {" . $table . "} SET ". implode(', ', $update_query) ." WHERE vid = %d", $update_args);
+      }
+      $sandbox['current_vid'] = $row['vid'];
+      $sandbox['current_delta'] = isset($row['delta']) ? $row['delta'] : 0;
+      $count++;
+    }
+    if ($count == $limit) {
+      // Add the table back into the list of tables to be processed if rows remain.
+      array_unshift($sandbox['tables'], $table_info);
+    }
+    else {
+      // Done with this table: reset vid and delta markers.
+      $sandbox['current_vid'] = 0;
+      $sandbox['current_delta'] = 0;
+      $ret[] = array('success' => TRUE, 'query' => "Fixed serialized values in table $table");
+    }
+  }
+
+  if ($sandbox['count']) {
+    $ret['#finished'] = 1 - count($sandbox['tables']) / $sandbox['count'];
+  }
+  return $ret;
+}

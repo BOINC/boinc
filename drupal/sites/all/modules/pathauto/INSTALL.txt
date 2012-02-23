@@ -1,0 +1,52 @@
+
+**Installation:
+
+Pathauto is an extension to the path module, which must be enabled.
+
+Pathauto also relies on the Token module, which must be downloaded and
+enabled separately.
+
+1. Unpack the Pathauto folder and contents in the appropriate modules
+directory of your Drupal installation.  This is probably
+  sites/all/modules/
+2. Enable the Pathauto module in the administration tools.
+3. If you're not using Drupal's default administrative account, make
+sure "administer pathauto" is enabled through access control administration.
+4. Visit the Pathauto settings page and make appropriate configurations
+   For 5.x: Administer > Site configuration > Pathauto
+   For 6.x: Administer > Site building > URL alias > Automated alias settings
+
+**Transliteration support:
+If you desire transliteration support in the creation of URLs (e.g. the 
+replacement of Ã€ with A) then you will need to rename the file 
+i18n-ascii.example.txt to i18n-ascii.txt 
+
+You can then freely edit the i18n-ascii.txt without worrying that your changes 
+will be over-written by upgrades of Pathauto.
+
+For details on how to transliterate any UTF8 character, please see the full 
+i18n-ascii-fill.txt file information at http://drupal.org/node/185664
+
+**Upgrading from previous versions:
+If you are upgrading from Pathauto 5.x-1.x to 5.x-2.x (or 6.x-2.x) then you
+will probably need to change your patterns.
+
+For content patterns:
+    [user] is now [author-name]
+    [cat] is now [term]
+
+There may be other changes as well.  Please review the pattern examples on
+      Administration > Site Configuration > Pathauto
+
+If you upgraded from Pathauto 5.x-1.x directly without enabling Token
+first then you will need to
+  1) download/install the Token module
+  2) disable the Pathauto module
+  3) re-enable the Pathauto module
+
+Upgrade to 6.x:
+Note that the settings page has moved so that it is more logically grouped with
+other URL alias related items under
+  Administer > Site building > URL alias > Automated alias settings
+
+$Id: INSTALL.txt,v 1.3.2.1 2010/08/09 19:00:03 davereid Exp $

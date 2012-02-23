@@ -1,0 +1,65 @@
+# $Id: theme.pot,v 1.1.2.5 2009/06/16 17:05:11 hass Exp $
+#
+# LANGUAGE translation of Drupal (theme)
+# Copyright YEAR NAME <EMAIL@ADDRESS>
+# Generated from files:
+#  content-admin-field-overview-form.tpl.php,v 1.1.2.5 2008/10/16 14:40:54 yched
+#  theme.inc,v 1.1.2.13 2009/04/28 23:06:37 yched
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"POT-Creation-Date: 2009-06-16 19:00+0200\n"
+"PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
+"Last-Translator: NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+
+#: theme/content-admin-field-overview-form.tpl.php:11
+msgid "Weight"
+msgstr ""
+
+#: theme/content-admin-field-overview-form.tpl.php:53
+msgid "Add"
+msgstr ""
+
+#: theme/content-admin-field-overview-form.tpl.php:59
+msgid "New field"
+msgstr ""
+
+#: theme/content-admin-field-overview-form.tpl.php:72
+msgid "Existing field"
+msgstr ""
+
+#: theme/content-admin-field-overview-form.tpl.php:84
+msgid "New group"
+msgstr ""
+
+#: theme/theme.inc:11
+msgid "Add fields and groups to the content type, and arrange them on content display and input forms."
+msgstr ""
+
+#: theme/theme.inc:13
+msgid "You can add a field to a group by dragging it below and to the right of the group."
+msgstr ""
+
+#: theme/theme.inc:16
+msgid "Note: Installing the <a href=\"!adv_help\">Advanced help</a> module will let you access more and better help."
+msgstr ""
+
+#: theme/theme.inc:111
+msgid "Configure how this content type's fields and field labels should be displayed when it's viewed in teaser and full-page mode."
+msgstr ""
+
+#: theme/theme.inc:114
+msgid "Configure how this content type's fields should be displayed when it's rendered in the following contexts."
+msgstr ""
+
+#: theme/theme.inc:116
+msgid "Use the 'Exclude' checkbox to exclude an item from the !content value passed to the node template."
+msgstr ""
+

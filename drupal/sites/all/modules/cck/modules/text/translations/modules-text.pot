@@ -1,0 +1,65 @@
+# $Id: modules-text.pot,v 1.1.2.12 2009/06/16 17:05:12 hass Exp $
+#
+# LANGUAGE translation of Drupal (modules-text)
+# Copyright YEAR NAME <EMAIL@ADDRESS>
+# Generated from files:
+#  text.module,v 1.95.2.29 2009/04/29 20:51:53 karens
+#  text.info,v 1.9 2008/04/23 18:02:31 dww
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"POT-Creation-Date: 2009-06-16 19:00+0200\n"
+"PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
+"Last-Translator: NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+
+#: modules/text/text.module:42
+msgid "Store text in the database."
+msgstr ""
+
+#: modules/text/text.module:55
+msgid "Filtered text (user selects input format)"
+msgstr ""
+
+#: modules/text/text.module:58
+msgid "Text processing"
+msgstr ""
+
+#: modules/text/text.module:64
+msgid "Maximum length"
+msgstr ""
+
+#: modules/text/text.module:68
+msgid "The maximum length of the field in characters. Leave blank for an unlimited size."
+msgstr ""
+
+#: modules/text/text.module:160
+msgid "%name: the value may not be longer than %max characters."
+msgstr ""
+
+#: modules/text/text.module:207
+msgid "Trimmed"
+msgstr ""
+
+#: modules/text/text.module:265
+msgid "Text area (multiple rows)"
+msgstr ""
+
+#: modules/text/text.module:326
+msgid "Rows"
+msgstr ""
+
+#: modules/text/text.module:0
+msgid "text"
+msgstr ""
+
+#: modules/text/text.info:0
+msgid "Defines simple text field types."
+msgstr ""
+

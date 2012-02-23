@@ -1,0 +1,812 @@
+# LANGUAGE translation of Drupal (c:\Contributions\modules\og\og.module)
+# Copyright YEAR NAME <EMAIL@ADDRESS>
+# Generated from file: og.module,v 1.81 2005/06/30 04:30:49 weitzman
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"POT-Creation-Date: 2005-07-05 09:56-0400\n"
+"PO-Revision-Date: 2006-04-25 17:40+0100\n"
+"Last-Translator: Robert Garrigos <robert@garrigos.org>\n"
+"Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+
+#: c:\Contributions\modules\og\og.module:19
+msgid "Organic groups"
+msgstr "Organic grups"
+
+#: c:\Contributions\modules\og\og.module:21
+msgid "A group provides home page for like minded users. There they post articles about their shared interest."
+msgstr "Un grup ofereix una pàgina inicial per usuaris d'un mateix interès. Aquests usuaris poden enviar articles sobre els temes que comparteixen"
+
+#: c:\Contributions\modules\og\og.module:23
+msgid "Group specific blocks are only visible on group pages and not on systemwide pages like the home page or admin pages."
+msgstr "Els blocs específics de grup només són visibles en pàgines de grups i no en d'altres pàgines del sistema, com la pàgina inicial o les d'administració."
+
+#: c:\Contributions\modules\og\og.module:25
+msgid "In order to let group admins determine their own group theme, you must enable mutliple themes using %page. To enable admins to upload a group image, you must activate and configure image.module (see Contributions repository)."
+msgstr "Per tal de permetre que els adminstradors de grups puguin determinar el tema gràfic del seu grup, has d'habilitar múltiple temes a %page. Per permetre els administradors a pujar una imatge de grup, has d'activar i configurar image.module (veure el repositori Contributions)"
+
+#: c:\Contributions\modules\og\og.module:25
+msgid "theme configuration page"
+msgstr "pàgina de configuració de temes gràfics"
+
+#: c:\Contributions\modules\og\og.module:35
+msgid "subscribe to group"
+msgstr "subscriu-te al grup"
+
+#: c:\Contributions\modules\og\og.module:36
+msgid "group image (large)"
+msgstr "imatge de grup (gran)"
+
+#: c:\Contributions\modules\og\og.module:37;812
+msgid "group"
+msgstr "grup"
+
+#: c:\Contributions\modules\og\og.module:38;141;224;587;641;1235;1270
+msgid "groups"
+msgstr "grups"
+
+#: c:\Contributions\modules\og\og.module:40
+msgid "unsubscribe from group"
+msgstr "cancel·la la subscripció de grup"
+
+#: c:\Contributions\modules\og\og.module:41
+msgid "approve subscription request"
+msgstr "aprova petició de subcripció"
+
+#: c:\Contributions\modules\og\og.module:42
+msgid "deny subscription request"
+msgstr "denega petició de subcripció"
+
+#: c:\Contributions\modules\og\og.module:43
+msgid "create group administrator"
+msgstr "crear administrador de grup"
+
+#: c:\Contributions\modules\og\og.module:44
+msgid "delete group administrator"
+msgstr "esborrar administrador de grup"
+
+#: c:\Contributions\modules\og\og.module:45
+msgid "remove post from group"
+msgstr "esborrar article de grup"
+
+#: c:\Contributions\modules\og\og.module:46
+msgid "group feed"
+msgstr "feed de grup"
+
+#: c:\Contributions\modules\og\og.module:47
+msgid "albums"
+msgstr "àlbums"
+
+#: c:\Contributions\modules\og\og.module:48;49
+msgid "album"
+msgstr "àlbum"
+
+#: c:\Contributions\modules\og\og.module:57
+msgid "subscriber management"
+msgstr "gestió de subscriptors"
+
+#: c:\Contributions\modules\og\og.module:58
+msgid "list"
+msgstr "llista"
+
+#: c:\Contributions\modules\og\og.module:59
+msgid "add subscribers"
+msgstr "afegeix subscriptors"
+
+#: c:\Contributions\modules\og\og.module:60
+msgid "manage subscription"
+msgstr "gestiona subscripció"
+
+#: c:\Contributions\modules\og\og.module:61
+msgid "send invitation"
+msgstr "envia invitació"
+
+#: c:\Contributions\modules\og\og.module:67
+msgid "email"
+msgstr "correu"
+
+#: c:\Contributions\modules\og\og.module:140;224
+msgid "home"
+msgstr "inici"
+
+#: c:\Contributions\modules\og\og.module:160
+msgid "Send email to %group"
+msgstr "Envia correu a %group"
+
+#: c:\Contributions\modules\og\og.module:163
+msgid "Your email body may not be blank"
+msgstr "El cos del correu no pot quedar buit"
+
+#: c:\Contributions\modules\og\og.module:167
+msgid "Your email subject may not be blank"
+msgstr "El subjecte del correu no pot quedar buit"
+
+#: c:\Contributions\modules\og\og.module:171
+msgid ""
+"\n"
+"\n"
+"--------------------------------\n"
+"This message was sent by an administrator in the '%group' group at %site. To visit this group, browse to %url1. To unsubscribe from this group, visit %url2"
+msgstr ""
+"\n"
+"\n"
+"--------------------------------\n"
+"Aquest missatge ha estat enviat per un administrador del grup %group a %site. Per visitar aquest grup, vés a %url1. Per cancel·la la subscripció a aquest grup visita %url2"
+
+#: c:\Contributions\modules\og\og.module:183
+msgid "%count emails sent."
+msgstr "%count correus enviats."
+
+#: c:\Contributions\modules\og\og.module:198
+msgid "Your email will be sent to %count in this group. Please use this feature sparingly."
+msgstr "El teu correu s'enviarà a %count subscriptors d'aquest group. Sietplau, usa aquesta caraterística amb prudència."
+
+#: c:\Contributions\modules\og\og.module:199
+msgid "Subject"
+msgstr "Subjecte"
+
+#: c:\Contributions\modules\og\og.module:199
+msgid "Enter a subject for your email."
+msgstr "Entra un subjecte pel teu correu."
+
+#: c:\Contributions\modules\og\og.module:200
+msgid "Body"
+msgstr "Cos"
+
+#: c:\Contributions\modules\og\og.module:200
+msgid "Enter a body for your email."
+msgstr "Entra un cos per teu correu."
+
+#: c:\Contributions\modules\og\og.module:201
+msgid "Send email"
+msgstr "Enviar correu"
+
+#: c:\Contributions\modules\og\og.module:213
+msgid "Subscription saved."
+msgstr "Subscripció guardada."
+
+#: c:\Contributions\modules\og\og.module:219
+msgid "Goodbye"
+msgstr "A reveure."
+
+#: c:\Contributions\modules\og\og.module:219
+msgid "Unsubscribe from this group"
+msgstr "Cancel·la subscripció d'aquest grup"
+
+#: c:\Contributions\modules\og\og.module:221;1569
+msgid "disabled"
+msgstr "inhabilitat"
+
+#: c:\Contributions\modules\og\og.module:221;1572
+msgid "enabled"
+msgstr "habilitat"
+
+#: c:\Contributions\modules\og\og.module:221
+msgid "Do you want to receive an email each time a message is posted to this group?"
+msgstr "Vols rebre un correu cada vegada que s'envia un missatge a aquest grup?"
+
+#: c:\Contributions\modules\og\og.module:222;535;1267
+msgid "Submit"
+msgstr "Enviar"
+
+#: c:\Contributions\modules\og\og.module:233
+msgid "Subscription request approved."
+msgstr "Petició de subcripció aprovada."
+
+#: c:\Contributions\modules\og\og.module:235
+msgid "Subscription request approved for '%title'"
+msgstr "Petició de subscripció aprovada per '%title'"
+
+#: c:\Contributions\modules\og\og.module:236
+msgid "You may now post messages in this group located at %url"
+msgstr "Ja pots enviar missatges a aquest grup de %url"
+
+#: c:\Contributions\modules\og\og.module:252
+msgid "Subscription request denied."
+msgstr "Petició de subscripció denegada."
+
+#: c:\Contributions\modules\og\og.module:253
+msgid "Subscription request denied for %title"
+msgstr "Petició de subscripció denegada per %title"
+
+#: c:\Contributions\modules\og\og.module:254
+msgid "Sorry, your subscription request was denied."
+msgstr "Ho sentim, la teva petitició de subscripció ha estat denegada."
+
+#: c:\Contributions\modules\og\og.module:270
+msgid "User was promoted to <em> group administrator</em>"
+msgstr "L'usuari ha estat promogut a <em> administrador de grup</em>"
+
+#: c:\Contributions\modules\og\og.module:282
+msgid "User is no longer a group administrator"
+msgstr "L'usuari ja no és administrador de grup"
+
+#: c:\Contributions\modules\og\og.module:297
+msgid "Post removed from group."
+msgstr "Missatge esborrat del grup."
+
+#: c:\Contributions\modules\og\og.module:301
+msgid "Confirmation"
+msgstr "Confirmació"
+
+#: c:\Contributions\modules\og\og.module:301
+msgid "Remove %title from this group."
+msgstr "Esborra %title d'aquest grup."
+
+#: c:\Contributions\modules\og\og.module:303
+msgid "Remove"
+msgstr "Esborrar"
+
+#: c:\Contributions\modules\og\og.module:328
+msgid "You may not specify more than %max email addresses."
+msgstr "No pots especificar més de %max adreces de correu electrònic."
+
+#: c:\Contributions\modules\og\og.module:338
+msgid "invalid email address: "
+msgstr "adreça de correu electrònic no vàlida:"
+
+#: c:\Contributions\modules\og\og.module:344
+msgid "Invitation to join the group \"%group\" at %site"
+msgstr "Invitació per unir-se al grup \"%grup\" a %site"
+
+#: c:\Contributions\modules\og\og.module:345
+msgid ""
+"Hi. I'm a member of '%group' and I welcome you to join this group as well. Please see the link and message below.\n"
+"\n"
+msgstr ""
+"Hola. Sóc un membre de '%group' i et convido a unir-te a aquest grup. Sietpalu, llegeix el texte següent i seguix l'enllaç.\n"
+"\n"
+
+#: c:\Contributions\modules\og\og.module:348
+msgid "Subscribe: %url"
+msgstr "Subscriu-te: %url"
+
+#: c:\Contributions\modules\og\og.module:357
+msgid "%count invitations sent."
+msgstr "%count invitacions enviades."
+
+#: c:\Contributions\modules\og\og.module:376
+msgid "Email addresses"
+msgstr "Correus electrònics"
+
+#: c:\Contributions\modules\og\og.module:376
+msgid "Enter up to %max email addresses. Separate multiple addresses by commas. Each will receive an invitation message from you."
+msgstr "Entra un màxim de %max correus electrònics. Separa múltiple adreces amb comes. Cada un d'ells rebran un missatge d'invitació teu."
+
+#: c:\Contributions\modules\og\og.module:377
+msgid "Personal message"
+msgstr "Missatge personal"
+
+#: c:\Contributions\modules\og\og.module:377
+msgid "Optional. Enter a message which will become part of the invitation email"
+msgstr "Opcional. Entra un missatge que formarà part del correu d'invitació"
+
+#: c:\Contributions\modules\og\og.module:378
+msgid "Send invitation"
+msgstr "Envair invitació"
+
+#: c:\Contributions\modules\og\og.module:389
+msgid "In order to subscribe to this group, you must login or register a new account. After you have successfully done so, you will need to follow the <em>subscribe</em> link again."
+msgstr "Per poder subscriure't a aquest grup has d'entrar com a usuari registrat o crear un compte nou. Un cop fet això, hauràs de seguir l'enllaç <em>subscriu-te</em> una altra vegada."
+
+#: c:\Contributions\modules\og\og.module:402
+msgid "Subscription request awaits approval by an administrator."
+msgstr "Petició de subscripció pendent d'aprovació per part d'un administrador."
+
+#: c:\Contributions\modules\og\og.module:405
+msgid "User subscribed to group,"
+msgstr "Usuari subscrit a grup,"
+
+#: c:\Contributions\modules\og\og.module:432
+msgid "Subscription request for '%group' from '%name'"
+msgstr "Petició de subscripció per '%group' de '%name'"
+
+#: c:\Contributions\modules\og\og.module:433
+msgid "You may approve or deny this request at %url"
+msgstr "Pots aprovar o denegar aquesta petició a %url"
+
+#: c:\Contributions\modules\og\og.module:464
+msgid "User unsubscribed from group."
+msgstr "Cancel·lada la subscripció al grup de l'usuari."
+
+#: c:\Contributions\modules\og\og.module:527
+msgid "%count added to the group"
+msgstr "%count afegits al grup"
+
+#: c:\Contributions\modules\og\og.module:530
+msgid "Unrecognized %names: "
+msgstr "%names no reconeguts:"
+
+#: c:\Contributions\modules\og\og.module:534
+msgid "List of users"
+msgstr "Llista d'usuaris"
+
+#: c:\Contributions\modules\og\og.module:534
+msgid "Add one or more usernames in order to associate users with this group. Multiple usernames should be separated by a comma."
+msgstr "Afegeix un o més noms d'usuaris per tal d'associar usuaris a aquest grup. Múltiples noms d'usuaris han d'anar separats per comes."
+
+#: c:\Contributions\modules\og\og.module:548;760
+msgid "Name"
+msgstr "Nom"
+
+#: c:\Contributions\modules\og\og.module:551
+msgid "Operations"
+msgstr "Operacions"
+
+#: c:\Contributions\modules\og\og.module:556
+msgid "manager"
+msgstr "gestor"
+
+#: c:\Contributions\modules\og\og.module:558
+msgid "edit group"
+msgstr "editar grup"
+
+#: c:\Contributions\modules\og\og.module:567
+msgid "unsubscribe"
+msgstr "cancel·lar subscripció"
+
+#: c:\Contributions\modules\og\og.module:569
+msgid "admin: remove"
+msgstr "admin: esborrar"
+
+#: c:\Contributions\modules\og\og.module:572
+msgid "admin: create"
+msgstr "admin: crear"
+
+#: c:\Contributions\modules\og\og.module:576
+msgid "approve"
+msgstr "aprovar"
+
+#: c:\Contributions\modules\og\og.module:577
+msgid "deny"
+msgstr "denegar"
+
+#: c:\Contributions\modules\og\og.module:587;641;1235;1270
+msgid "Home"
+msgstr "Inici"
+
+#: c:\Contributions\modules\og\og.module:589;597
+msgid "Subscribers"
+msgstr "Subscriptors"
+
+#: c:\Contributions\modules\og\og.module:597;1623
+msgid "Title"
+msgstr "Títol"
+
+#: c:\Contributions\modules\og\og.module:597
+msgid "Owner"
+msgstr "Propietari"
+
+#: c:\Contributions\modules\og\og.module:597;676
+msgid "Description"
+msgstr "Descripció"
+
+#: c:\Contributions\modules\og\og.module:609
+msgid "No groups"
+msgstr "No grups"
+
+#: c:\Contributions\modules\og\og.module:661
+msgid "No posts in this group."
+msgstr "No hi ha missatges en aquest grup."
+
+#: c:\Contributions\modules\og\og.module:708
+msgid "Subscription requests"
+msgstr "Peticions de subscripció"
+
+#: c:\Contributions\modules\og\og.module:708
+msgid "open - subscription requests are accepted immediately"
+msgstr "obert - peticions de subscripció són acceptades immediatament"
+
+#: c:\Contributions\modules\og\og.module:708
+msgid "moderated - subscription requests must be approved."
+msgstr "moderat - peticions de subscripció han de ser aprovades"
+
+#: c:\Contributions\modules\og\og.module:708
+msgid "invite only - subscriptions must be created by an administrator."
+msgstr "invitació només - peticions de subscripció han de ser creades per un administrador"
+
+#: c:\Contributions\modules\og\og.module:708
+msgid "How should subscription requests be handled in this group?"
+msgstr "Com s'han de gestionar les peticions de subscripció en aquest grup?"
+
+#: c:\Contributions\modules\og\og.module:709
+msgid "registration form"
+msgstr "formulari de registre"
+
+#: c:\Contributions\modules\og\og.module:709
+msgid "Should this group be available for subscription during registration?. If checked, a corresponding checkbox will be added to the registration form."
+msgstr "Ha d'estar disponible per subscripció durant el registre?. Si el sel·lecciones, un quadre de verificació s'afegirà al formulari de registre."
+
+#: c:\Contributions\modules\og\og.module:710
+msgid "list in groups directory"
+msgstr "llistar al directori de grups"
+
+#: c:\Contributions\modules\og\og.module:710
+msgid "Should this group appear on the %page"
+msgstr "Ha d'apareixer aquest grup a la "
+
+#: c:\Contributions\modules\og\og.module:720
+msgid "Thumbnail"
+msgstr "Miniatura"
+
+#: c:\Contributions\modules\og\og.module:722
+msgid "Image"
+msgstr "Imatge"
+
+#: c:\Contributions\modules\og\og.module:722
+msgid "Click \"Browse...\" to select an image to upload."
+msgstr "Fés click a \"Navega...\" per sel·leccionar un imatge per pujar."
+
+#: c:\Contributions\modules\og\og.module:741
+msgid "Screenshot for %theme theme"
+msgstr "Imatge del tema %theme"
+
+#: c:\Contributions\modules\og\og.module:741
+msgid "no screenshot"
+msgstr "sense imatge"
+
+#: c:\Contributions\modules\og\og.module:760
+msgid "Screenshot"
+msgstr "Imatge"
+
+#: c:\Contributions\modules\og\og.module:760
+msgid "Selected"
+msgstr "Sel·leccionat"
+
+#: c:\Contributions\modules\og\og.module:761
+msgid "Group theme"
+msgstr "temea gràfic de grup"
+
+#: c:\Contributions\modules\og\og.module:761
+msgid "Select a theme for your group."
+msgstr "Sel·lecciona un tema pel teu grup."
+
+#: c:\Contributions\modules\og\og.module:871
+msgid "You must select an audience in order to post."
+msgstr "Has de sel·leccionar una audiència per poder enviar el missatge."
+
+#: c:\Contributions\modules\og\og.module:877
+msgid "%name must be a subscriber in order to post into %group"
+msgstr "%name ha de ser subscriptor per poder enviar un missatge a %group"
+
+#: c:\Contributions\modules\og\og.module:930
+msgid "You must subscribe to a group before posting."
+msgstr "Has de subscriure't a un grup abans d'enviar un missatge."
+
+#: c:\Contributions\modules\og\og.module:935
+msgid "Admins: If you want to assign this post to a group whose checkbox does not appear below, you must first change the %author. The author's subscriptions are always shown."
+msgstr "Admin: si vols assignar aquest missatge a un grup el quadre de verificació del qual no apareix a baix, primer has de canviar l'%author. Les subscripcions de l'autor sempre es mostren."
+
+#: c:\Contributions\modules\og\og.module:935;1623
+msgid "Author"
+msgstr "Autor"
+
+#: c:\Contributions\modules\og\og.module:951;1594
+msgid "Public"
+msgstr "Públic"
+
+#: c:\Contributions\modules\og\og.module:951
+msgid "Show this post to everyone or only to members of the groups checked below."
+msgstr "Mostra aquest missatge a tothom o només a membres dels grups sel·leccionats a sota."
+
+#: c:\Contributions\modules\og\og.module:965
+msgid "Audience"
+msgstr "Audiència"
+
+#: c:\Contributions\modules\og\og.module:965
+msgid "Show this post in these groups."
+msgstr "Mostra aquest missatge en aquest grups."
+
+#: c:\Contributions\modules\og\og.module:990
+msgid "%author added '%title' at %site"
+msgstr "%author ha afegit '%title' at %site"
+
+#: c:\Contributions\modules\og\og.module:992
+msgid "EXCERPT"
+msgstr "EXTRACTE"
+
+#: c:\Contributions\modules\og\og.module:992
+msgid "FULL POST"
+msgstr "MISSATGE COMPLERT"
+
+#: c:\Contributions\modules\og\og.module:995
+msgid "You are subscribed to the group '%group_name' at '%site'. To manage your subscription, visit %group_url"
+msgstr "T'has subscrit al grup '%group_name' a '%site'. Per gestionar la teva subscripció, visita %group_url"
+
+#: c:\Contributions\modules\og\og.module:1052
+msgid "Subscribe to %name"
+msgstr "Subscriu %name"
+
+#: c:\Contributions\modules\og\og.module:1055
+msgid "(approval needed)"
+msgstr "(requereix aprovació)"
+
+#: c:\Contributions\modules\og\og.module:1059;1082
+msgid "Groups"
+msgstr "Grups"
+
+#: c:\Contributions\modules\og\og.module:1082
+msgid "your group subscriptions are here for your convenience. they do not appear on the public profile page."
+msgstr "les teves subscripcions de grups es mostren aquí oer conveniència. No apareixen a la pàgina pública del teu perfil."
+
+#: c:\Contributions\modules\og\og.module:1181
+msgid "Organic groups access control has been disabled. You may now disable the module on the <em>%modules</em> page"
+msgstr "Control d'accés a Organic grups ha estat deshabilitat. Ara pots deshabilitar el mòdul a la pàgina <em>%modules</em>"
+
+#: c:\Contributions\modules\og\og.module:1181
+msgid "admin/modules"
+msgstr "admin/modules"
+
+#: c:\Contributions\modules\og\og.module:1195
+msgid "Organic groups access control enabled."
+msgstr "Control d'accés a Organic grups habilitat."
+
+#: c:\Contributions\modules\og\og.module:1241
+msgid "add to this album"
+msgstr "afegeix a aquest àlbum"
+
+#: c:\Contributions\modules\og\og.module:1257
+msgid "Album Title"
+msgstr "Títol d'Àlbum"
+
+#: c:\Contributions\modules\og\og.module:1262
+msgid "Photo"
+msgstr "Foto"
+
+#: c:\Contributions\modules\og\og.module:1280
+msgid "You must specify an album title."
+msgstr "Has d'especificar un títol d'àlbum"
+
+#: c:\Contributions\modules\og\og.module:1329
+msgid "album saved."
+msgstr "àlbum guardad."
+
+#: c:\Contributions\modules\og\og.module:1351
+msgid "Group details"
+msgstr "Detalls de grup"
+
+#: c:\Contributions\modules\og\og.module:1352
+msgid "Group albums"
+msgstr "Àlbums de grup"
+
+#: c:\Contributions\modules\og\og.module:1353
+msgid "Group subscribers"
+msgstr "Subscriptors de grup"
+
+#: c:\Contributions\modules\og\og.module:1354;1414
+msgid "New groups"
+msgstr "Grups nous"
+
+#: c:\Contributions\modules\og\og.module:1355;1397
+msgid "My groups"
+msgstr "Els meus grups"
+
+#: c:\Contributions\modules\og\og.module:1376
+msgid "Maximum number of items to show"
+msgstr "Nombre màxim d'ítems a mostrar"
+
+#: c:\Contributions\modules\og\og.module:1412;1461
+msgid "more"
+msgstr "més"
+
+#: c:\Contributions\modules\og\og.module:1412
+msgid "Browse the newest groups."
+msgstr "Navega pels grups més nous."
+
+#: c:\Contributions\modules\og\og.module:1425
+msgid "submitted by %name. "
+msgstr "enviat per %name."
+
+#: c:\Contributions\modules\og\og.module:1431
+msgid "Albums"
+msgstr "Àlbums"
+
+#: c:\Contributions\modules\og\og.module:1461
+msgid "View all subscribers."
+msgstr "Veure tots els subscritors."
+
+#: c:\Contributions\modules\og\og.module:1464
+msgid "Recent subscribers"
+msgstr "Subscriptors recents"
+
+#: c:\Contributions\modules\og\og.module:1496
+msgid "invite friend"
+msgstr "convida un amic"
+
+#: c:\Contributions\modules\og\og.module:1502
+msgid "age: %age"
+msgstr "edat: %age"
+
+#: c:\Contributions\modules\og\og.module:1504;1507
+msgid "group manager: "
+msgstr "gestor de grup:"
+
+#: c:\Contributions\modules\og\og.module:1509
+msgid "my subscription"
+msgstr "la meva subscripció"
+
+#: c:\Contributions\modules\og\og.module:1512
+msgid "Your subscription request awaits approval."
+msgstr "La teva subscripció està pendent d'aprovació."
+
+#: c:\Contributions\modules\og\og.module:1513
+msgid "delete request"
+msgstr "esborra la petició"
+
+#: c:\Contributions\modules\og\og.module:1517
+msgid "request subscription"
+msgstr "petició de subscripció"
+
+#: c:\Contributions\modules\og\og.module:1520
+msgid "subscribe"
+msgstr "subscriure"
+
+#: c:\Contributions\modules\og\og.module:1541
+msgid "create %type"
+msgstr "crear %type"
+
+#: c:\Contributions\modules\og\og.module:1541
+msgid "Add a new %s in this group."
+msgstr "Afegeix un nou %s en aquest grup."
+
+#: c:\Contributions\modules\og\og.module:1549
+msgid "create album"
+msgstr "crea un àlbum"
+
+#: c:\Contributions\modules\og\og.module:1560
+msgid "remove from group"
+msgstr "esborra del grup"
+
+#: c:\Contributions\modules\og\og.module:1568
+msgid "Organic groups configuration"
+msgstr "Configuració d'Organic grups"
+
+#: c:\Contributions\modules\og\og.module:1570;1580
+msgid "Enable"
+msgstr "Habilita"
+
+#: c:\Contributions\modules\og\og.module:1573;1584
+msgid "Disable"
+msgstr "Deshabilita"
+
+#: c:\Contributions\modules\og\og.module:1575
+msgid "Organic groups access control is currently"
+msgstr "El control d'accés a Orgànic grups està actualment"
+
+#: c:\Contributions\modules\og\og.module:1577
+msgid "Module status"
+msgstr "Estat del mòdul"
+
+#: c:\Contributions\modules\og\og.module:1577
+msgid "After enabling this module via the module settings page or before disabling this module, use the above button to restore default permissions."
+msgstr "Després d'habilitar aquest mòdul a la pàgina de configuració de mòduls o abans de deshabilitar aquest mòdul, restaura els permisos per defecte mitjançant el botó d'aquí sobre."
+
+#: c:\Contributions\modules\og\og.module:1591
+msgid "Explanation or submission guidelines"
+msgstr "Explicació o guia per a enviar missatges"
+
+#: c:\Contributions\modules\og\og.module:1591
+msgid "This text will be displayed at the top of the group submission form.  It is useful for helping or instructing your users."
+msgstr "Aquest text es mostrarà a sobre de tot del formulari de tramesa del grup. És útil per ajudar o donar instruccions als teus usuaris."
+
+#: c:\Contributions\modules\og\og.module:1592
+msgid "Unlimited albums"
+msgstr "Àlbums ilimitats"
+
+#: c:\Contributions\modules\og\og.module:1592
+msgid "If you want to limit your groups to a single album, uncheck this box."
+msgstr "Si vols limitar els teus grups a un sol àlbum, desmarca aquesta casella."
+
+#: c:\Contributions\modules\og\og.module:1593
+msgid "Visible only within the targeted groups"
+msgstr "Visible només pels grups sel·leccionats"
+
+#: c:\Contributions\modules\og\og.module:1593
+msgid "Visible within the targeted groups and on other pages"
+msgstr "Visible pels grups sel·leccionats i altres pàgines"
+
+#: c:\Contributions\modules\og\og.module:1593
+msgid "Visibility to be determined by the author/editor using a checkbox on the posting form"
+msgstr "Visibilitat determinada per l'autor/editor mitjançant un quadre de verificació en el formulari de tramesa"
+
+#: c:\Contributions\modules\og\og.module:1594
+msgid "Visibility of posts"
+msgstr "Visibilitat dels missatges"
+
+#: c:\Contributions\modules\og\og.module:1594
+msgid "Determine how broadly available a given post should be when it is affiliated with a group. OG admins always see the checkbox for making a post %pub. Note that changing this setting has no effect on existing posts. Re-save those posts to acquire this new setting."
+msgstr "Determina de quina manera estarà disponible un missatge quan està afiliat a un grup. Els administrador de grups veuen aquesta casella de verificació per fer un missatge %pub. Nota que canviar aquesta configuració no té efectes sobre missatges ja existents. Edita i guarda de nou aquests missatges perquè puguin disposar d'aquesta nova configuració."
+
+#: c:\Contributions\modules\og\og.module:1595
+msgid "Maximum posts on group home page"
+msgstr "nombre màxim de missatges a la pàgina d'inici del grup"
+
+#: c:\Contributions\modules\og\og.module:1595
+msgid "How many posts of a given type should display on the group home page."
+msgstr "Quants missatges d'un tipus determinat s'han de mostrar a la pàgina d'inici del grup."
+
+#: c:\Contributions\modules\og\og.module:1597
+msgid "Show member pictures"
+msgstr "Mostra les imatges dels membres"
+
+#: c:\Contributions\modules\og\og.module:1597
+msgid "Should member pictures be shown in the group subscribers and group details blocks? You must also enable pictures in %user."
+msgstr "S'han de mostrar les imatges dels membres en els blocs dels subscriptors del grup i dels detalls del grup? També has d'habilitar les imatges a %user."
+
+#: c:\Contributions\modules\og\og.module:1597
+msgid "User configuration"
+msgstr "Configuració d'usuari"
+
+#: c:\Contributions\modules\og\og.module:1598
+msgid "optional"
+msgstr "opcional"
+
+#: c:\Contributions\modules\og\og.module:1598
+msgid "required"
+msgstr "necessari"
+
+#: c:\Contributions\modules\og\og.module:1599
+msgid "Audience required"
+msgstr "Audiència necessària"
+
+#: c:\Contributions\modules\og\og.module:1599
+msgid "Do you require that all posts be affiliated with a group? If so, new users will be unable to complete a post until they join a group. Note that changing this setting has affect existing posts when they are edited."
+msgstr "És necessari que tots els missatges estiguis afiliats a un grup? En aquest cas, els usuaris nous no podran acabar d'enviar un missatge fins que no es subscriguin a un grup. Nota que el canvi d'aquesta configuració només afecta els missatges ja existents en el moment que es tornen a editar."
+
+#: c:\Contributions\modules\og\og.module:1605
+msgid "Omitted content types"
+msgstr "Tipus de contingu omesos"
+
+#: c:\Contributions\modules\og\og.module:1605
+msgid "Select any node types which should <em>not</em> participate in the Audience targetting system."
+msgstr "Sel·lecciona qualsevol tipus de node que <em>no</em> ha de partipar en el sistema d'objectius d'audiència"
+
+#: c:\Contributions\modules\og\og.module:1623
+msgid "Replies"
+msgstr "Respostes"
+
+#: c:\Contributions\modules\og\og.module:1623
+msgid "Last reply"
+msgstr "Darrera resposta"
+
+#: c:\Contributions\modules\og\og.module:527
+msgid "1 user"
+msgid_plural "%count users"
+msgstr[0] ""
+msgstr[1] ""
+
+#: c:\Contributions\modules\og\og.module:530
+msgid "name"
+msgid_plural "names"
+msgstr[0] ""
+msgstr[1] ""
+
+#: c:\Contributions\modules\og\og.module:1426
+msgid "1 image"
+msgid_plural "%count images"
+msgstr[0] ""
+msgstr[1] ""
+
+#: c:\Contributions\modules\og\og.module:1498
+msgid "1 subscriber"
+msgid_plural "%count subscribers"
+msgstr[0] ""
+msgstr[1] ""
+
+#: c:\Contributions\modules\og\og.module:77
+msgid "create groups"
+msgstr "crea grups"
+
+#: c:\Contributions\modules\og\og.module:77
+msgid "administer organic groups"
+msgstr "administra orgànic grup"
+
+#: c:\Contributions\modules\og\og.module:0
+msgid "og"
+msgstr "og"
+

@@ -1,0 +1,6 @@
+; $Id$
+name = BOINC stats
+description = Enable extra charting features and statistics
+core = 6.x
+dependencies[] = boincuser
+package = BOINC

@@ -1,0 +1,12 @@
+<?php
+// $Id: views_customfield.module,v 1.3.2.2 2008/11/19 13:53:47 casey Exp $
+
+
+/**
+ * Implementation hook_views_api
+ */
+function views_customfield_views_api() {
+  return array(
+    'api' => 2,
+  );
+}

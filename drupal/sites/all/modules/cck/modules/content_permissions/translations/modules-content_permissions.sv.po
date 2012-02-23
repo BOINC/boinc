@@ -1,0 +1,55 @@
+# $Id: modules-content_permissions.sv.po,v 1.1.2.1 2009/05/27 13:32:56 seals Exp $
+#
+# Swedish translation of Drupal (content_permissions)
+# Generated from files:
+#  content_permissions.module,v 1.5.2.5 2008/12/27 22:22:55 yched
+#  content_permissions.install,v 1.1.2.2 2008/10/04 13:14:22 karens
+#  content_permissions.info,v 1.2 2008/04/23 18:01:52 dww
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: CCK - Content Permissions 6.x\n"
+"POT-Creation-Date: 2009-05-27 13:07+0200\n"
+"PO-Revision-Date: 2009-05-27 13:15+0100\n"
+"Last-Translator: Magnus Gunnarsson <seals@passagen.se>\n"
+"Language-Team: drupalsverige.se\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n!=1);\n"
+"X-Poedit-Language: Swedish\n"
+"X-Poedit-Country: SWEDEN\n"
+"X-Poedit-SourceCharset: utf-8\n"
+
+#: content_permissions.module:10
+msgid "edit "
+msgstr "redigera"
+
+#: content_permissions.module:10;11
+msgid "field_name"
+msgstr "fält_namn"
+
+#: content_permissions.module:11
+msgid "view "
+msgstr "visa"
+
+#: content_permissions.module:0
+msgid "content_permissions"
+msgstr "content_permissions"
+
+#: content_permissions.install:9
+msgid "Please <a href=\"!url\">configure your field permissions</a> immediately. All fields are inaccessible by default."
+msgstr "Var vänlig <a href=\"!url\">konfigurera dina rättigheter för fält</a> omedelbart. Alla fält är som standard ej tillgängliga."
+
+#: content_permissions.info:0
+msgid "Content Permissions"
+msgstr "Rättigheter för innehåll"
+
+#: content_permissions.info:0
+msgid "Set field-level permissions for CCK fields."
+msgstr "Ange rättigheter per fältnivå för fält av typen CCK."
+
+#: content_permissions.info:0
+msgid "CCK"
+msgstr "CCK"
+

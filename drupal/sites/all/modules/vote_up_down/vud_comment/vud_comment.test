@@ -1,0 +1,57 @@
+<?php
+// $Id: vud_comment.test,v 1.1.2.1 2010/05/30 23:00:45 marvil07 Exp $
+
+/**
+ * @file
+ * Test file for Vote Up/Down Comment.
+ */
+
+class VudCommentWebTestCase extends DrupalWebTestCase {
+  /**
+   * Implementation of getInfo().
+   */
+  public static function getInfo() {
+    return array(
+      'name'        => t('Vote Up/Down Comment'),
+      'description' => t('Functional tests for Vote Up/Down Comment'),
+      'group'       => t('Vote Up/down')
+    );
+  }
+
+  /**
+   * Implementation of setUp().
+   */
+  function setUp() {
+    parent::setUp('votingapi', 'ctools', 'vud', 'vud_comment');
+
+    // Create a vud admin user
+    $this->admin_user = $this->drupalCreateUser(
+      array(
+        // vud
+        'access vote up/down statistics',
+        'administer vote up/down',
+        'reset vote up/down votes',
+        'use vote up/down',
+        // vud_comment
+        'administer vote up/down on comments',
+        'use vote up/down on comments',
+      )
+    );
+
+    // Create a vud simple user
+    $this->simple_user = $this->drupalCreateUser(
+      array(
+        // vud
+        'access vote up/down statistics',
+        'use vote up/down',
+        'reset vote up/down votes',
+        // vud_comment
+        'use vote up/down on comments',
+      )
+    );
+
+    // Create a vud restricted user (can not interact with vud)
+    $this->restricted_user = $this->drupalCreateUser();
+  }
+}
+

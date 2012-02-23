@@ -1,0 +1,27 @@
+/* $Id: flag.css,v 1.1.2.3 2008/10/10 06:52:31 quicksketch Exp $ */
+
+.flag-message {
+  position: absolute;
+  top: 1.7em;
+  line-height: normal;
+  left: 0;
+  width: 300px;
+  font-size: .8em;
+}
+
+.flag-wrapper {
+  position: relative;
+}
+
+/* The rest deals with indicating the waiting state. */
+
+.flag-waiting a {
+  /* Give an impression of a disabled link. */
+  opacity: 0.5;
+  filter: alpha(opacity=50); /* IE */
+}
+
+.flag-waiting .flag-throbber {
+  background: url(flag-throbber.gif) no-repeat right center;
+  padding-right: 13px;
+}

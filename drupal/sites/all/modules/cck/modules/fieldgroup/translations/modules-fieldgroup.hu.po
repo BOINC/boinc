@@ -1,0 +1,163 @@
+# Hungarian translation of cck (6.x-2.0-rc10)
+# Copyright (c) 2008 by the Hungarian translation team
+# Generated from files:
+#  fieldgroup.module,v 1.79.2.34 2008/10/06 15:11:39 karens
+#  fieldgroup.panels.inc,v 1.1.2.4 2008/10/06 17:21:51 karens
+#  fieldgroup.info,v 1.6.2.1 2008/09/22 18:25:21 karens
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: cck (6.x-2.0-rc10)\n"
+"POT-Creation-Date: 2008-10-31 12:16-0500\n"
+"PO-Revision-Date: 2008-10-26 16:40-0500\n"
+"Last-Translator: Balogh Zoltán\n"
+"Language-Team: Drupal.hu Fordítói Csapat <forditas [at] drupal.hu>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n!=1);\n"
+
+#: modules/fieldgroup/fieldgroup.module:196
+msgid "This action cannot be undone."
+msgstr "Ez a művelet nem visszavonható."
+
+#: modules/fieldgroup/fieldgroup.module:254
+msgid "none"
+msgstr "nincs"
+
+#: modules/fieldgroup/fieldgroup.module:126
+msgid "Style"
+msgstr "Stílus"
+
+#: modules/fieldgroup/fieldgroup.panels.inc:10,66
+msgid "Content fieldgroup"
+msgstr "Tartalom mezőcsoport"
+
+#: modules/fieldgroup/fieldgroup.panels.inc:47
+msgid "Content fieldgroup content goes here."
+msgstr "Tartalom mezőcsoport tartalma jön ide."
+
+#: modules/fieldgroup/fieldgroup.panels.inc:69
+msgid "All fields from a fieldgroup on the referenced node."
+msgstr "Minden mező a mezőcsoportból a hivatkozott tartalmon."
+
+#: modules/fieldgroup/fieldgroup.panels.inc:90
+msgid "@group_label (@group_type_name)"
+msgstr "@group_label (@group_type_name)"
+
+#: modules/fieldgroup/fieldgroup.panels.inc:108
+msgid ""
+"Text to display if group has no data. Note that title will not display "
+"unless overridden."
+msgstr ""
+"Megjelenítendő szöveg, ha a csoportnak nincs adata. A cím nem "
+"jelenik meg, ha nincs felülírva."
+
+#: modules/fieldgroup/fieldgroup.panels.inc:123
+msgid "\"@s\" fieldgroup @name"
+msgstr "„@s” mezőcsoport @name"
+
+#: modules/fieldgroup/fieldgroup.module:121
+msgid "Form settings"
+msgstr "Űrlap beállításai"
+
+#: modules/fieldgroup/fieldgroup.module:122
+msgid "These settings apply to the group in the node editing form."
+msgstr ""
+"Ezek a beállítások lesznek értelmezve a csoportra a "
+"tartalomszerkesztő űrlapon."
+
+#: modules/fieldgroup/fieldgroup.module:129
+msgid "always open"
+msgstr "mindig nyitott"
+
+#: modules/fieldgroup/fieldgroup.module:130
+msgid "collapsible"
+msgstr "összecsukható"
+
+#: modules/fieldgroup/fieldgroup.module:131
+msgid "collapsed"
+msgstr "összecsukott"
+
+#: modules/fieldgroup/fieldgroup.module:139
+msgid "Instructions to present to the user on the editing form."
+msgstr "Az űrlap szerkesztésekor megjelenő útmutató."
+
+#: modules/fieldgroup/fieldgroup.module:144
+msgid "Display settings"
+msgstr "Megjelenítési beállítások"
+
+#: modules/fieldgroup/fieldgroup.module:145
+msgid "These settings apply to the group on node display."
+msgstr ""
+"Ezek a beállítások lesznek értelmezve a csoportra a tartalom "
+"megjelenítésekor."
+
+#: modules/fieldgroup/fieldgroup.module:152
+msgid "A description of the group."
+msgstr "A csoport leírása."
+
+#: modules/fieldgroup/fieldgroup.module:194
+msgid "Are you sure you want to remove the group %label?"
+msgstr "%label csoport biztosan törölhető?"
+
+#: modules/fieldgroup/fieldgroup.module:205
+msgid "The group %group_name has been removed."
+msgstr "%group_name csoport törölve lett."
+
+#: modules/fieldgroup/fieldgroup.module:347
+msgid "You need to provide a label."
+msgstr "Meg kell adni egy címkét."
+
+#: modules/fieldgroup/fieldgroup.module:352
+msgid "You need to provide a group name."
+msgstr "Meg kell adni a csoport nevét."
+
+#: modules/fieldgroup/fieldgroup.module:366
+msgid ""
+"The group name %group_name is invalid. The name must include only "
+"lowercase unaccentuated letters, numbers, and underscores."
+msgstr ""
+"%group_name csoportnév érvénytelen. A név csak ékezet nélküli "
+"kisbetűket, számokat és aláhúzásjeleket tartalmazhat."
+
+#: modules/fieldgroup/fieldgroup.module:369
+msgid ""
+"The group name %group_name is too long. The name is limited to 32 "
+"characters, including the 'group_' prefix."
+msgstr ""
+"%group_name csoportnév túl hosszú. A név csak 32 karakter hosszú "
+"lehet, beleértve a „group_” előtagot is."
+
+#: modules/fieldgroup/fieldgroup.module:381
+msgid "The group name %group_name already exists."
+msgstr "%group_name nevű csoport már létezik."
+
+#: modules/fieldgroup/fieldgroup.module:400,403
+msgid "Add new group:"
+msgstr "Új csoport hozzáadása:"
+
+#: modules/fieldgroup/fieldgroup.module:418
+msgid "Add new group: you need to provide a label."
+msgstr "Új csoport hozzáadása: meg kell adni egy címkét."
+
+#: modules/fieldgroup/fieldgroup.module:419
+msgid "Add new group: you need to provide a group name."
+msgstr "Új csoport hozzáadása: meg kell adni a csoport nevét."
+
+#: modules/fieldgroup/fieldgroup.module:622
+msgid "Standard group"
+msgstr "Alapvető csoport"
+
+#: modules/fieldgroup/fieldgroup.module:39,46
+msgid "Edit group"
+msgstr "Csoport szerkesztése"
+
+#: modules/fieldgroup/fieldgroup.module:0
+msgid "fieldgroup"
+msgstr "mezőcsoport"
+
+#: modules/fieldgroup/fieldgroup.info:0
+msgid "Create display groups for CCK fields."
+msgstr "Csoportokat hoz létre a CCK mezők számára."
+

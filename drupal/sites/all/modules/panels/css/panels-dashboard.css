@@ -1,0 +1,62 @@
+
+.dashboard-entry .dashboard-link {
+  font-size: 120%;
+  font-weight: bold;
+}
+
+.dashboard-entry .dashboard-icon img {
+  vertical-align: middle;
+}
+.dashboard-title {
+  font-weight: bold;
+  font-size: 140%;
+  margin-bottom: .5em;
+}
+
+.dashboard-link form input {
+  margin: 0;
+}
+
+.dashboard-link form select {
+  margin: 0;
+}
+
+.dashboard-left {
+  width: 47%;
+  float: left;
+}
+
+.dashboard-right {
+  margin-left: 2em;
+  width: 47%;
+  float: left;
+}
+
+.dashboard-question {
+  margin-top: 14em;
+  padding: 1em;
+  text-align: center;
+}
+
+.dashboard-content table {
+  margin: 0;
+  width: 100%;
+}
+
+.dashboard-content {
+  padding: 0 1em;
+}
+
+.panels-dashboard .links {
+  text-align: right;
+}
+
+.dashboard-pages .page-manager-page-operations {
+  text-align: right;
+}
+
+.dashboard-block {
+  padding-bottom: 1em;
+  border-bottom: 1px dotted #ddd;
+  margin-bottom: 1em;
+}

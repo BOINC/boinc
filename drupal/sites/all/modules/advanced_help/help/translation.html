@@ -1,0 +1,10 @@
+<!-- $Id: translation.html,v 1.5 2008/10/27 22:43:28 merlinofchaos Exp $ -->
+<p>To translate advanced help, first create a <b>translations/help/$language</b> directory
+in the module directory. Then, copy the .ini file and all .html files from
+the help directory.</p>
+
+<p>The .ini file only needs to keep the titles, and if there is a 'name' or 'index name' setting in the 'advanced help settings' portion, that should be retained. Any retained settings should be translated. The rest of the data in the .ini file may be discarded or ignored.</p>
+
+<p>Each file should then be translated in place.</p>
+
+<p>When translating a .html file, you will find that the <b>path</b> keyword will lead to the original directory. If you must translate items that are linked, such as images, use <b>trans_path</b> instead, which will lead to the translated directory. This will allow you to pick and choose which linked items, if any, will be translated.</p>

@@ -1,0 +1,117 @@
+# Russian translation of Drupal (modules-og_access)
+# Copyright 2008 Alexey Osodoev <alexey@osodoev.info>
+msgid ""
+msgstr ""
+"Project-Id-Version: og-6.x-1.0\n"
+"POT-Creation-Date: 2008-11-02 23:57+0100\n"
+"PO-Revision-Date: 2008-11-19 22:15+0800\n"
+"Last-Translator: Alexey Osodoev <alexey@osodoev.info>\n"
+"Language-Team: Russian <alexey@osodoev.info>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=((((n%10)==1)&&((n%100)!=11))?(0):(((((n%10)>=2)&&((n%10)<=4))&&(((n%100)<10)||((n%100)>=20)))?(1):2));\n"
+"X-Poedit-Language: Russian\n"
+"X-Poedit-Country: RUSSIAN FEDERATION\n"
+"X-Poedit-SourceCharset: utf-8\n"
+
+#: modules/og_access/og_access.module:31
+msgid "Visible only within the targeted groups."
+msgstr "Видимо только в пределах установленных групп."
+
+#: modules/og_access/og_access.module:32
+msgid "Visible within the targeted groups and on other pages."
+msgstr "Видимо в пределах установленных групп и на других страницах."
+
+#: modules/og_access/og_access.module:33
+msgid "Visibility chosen by author/editor using a checkbox on the posting form. Checkbox defaults to <em>public</em>."
+msgstr "Видимость определяется автором/редактором с помощью флажка на форме редактирования. По умолчанию устанавливается <em>общедоступно</em>."
+
+#: modules/og_access/og_access.module:34
+msgid "Visibility chosen by author/editor using a checkbox on the posting form. Checkbox defaults to <em>private</em>."
+msgstr "Видимость определяется автором/редактором с помощью флажка на форме редактирования. По умолчанию устанавливается <em>ограниченный доступ</em>."
+
+#: modules/og_access/og_access.module:38
+msgid "Visibility of posts"
+msgstr "Видимость сообщений"
+
+#: modules/og_access/og_access.module:40
+msgid "Determine how broadly available a given post should be when it is affiliated with a group. OG admins always see the checkbox for making a post public. Note that changing this setting has no effect on existing posts. Re-save those posts to acquire this new setting. If the setting you want is disabled here, check the settings under <em>Private Groups</em> setting below. You cannot set node visibility to always be public if private groups are set to always on and vice versa."
+msgstr "Установить, насколько доступной должна быть данная запись, когда привязывается к группе. Администраторы OG всегда видят поле выбора, позволяющее сделать сообщение общедоступным. Обратите внимание, что изменения в этих настройках не отражаются на существующих сообщениях. Пере-сохраните эти сообщения, чтобы новые настройки вступили в силу. Если нужные настройки неактивны, проверьте настройки в разделе <em>Группы с ограниченным доступом</em> ниже."
+
+#: modules/og_access/og_access.module:46
+msgid "New group home pages and default audience are always public."
+msgstr "Новые главные страницы групп и аудитория по умолчанию всегда общедоступны."
+
+#: modules/og_access/og_access.module:47
+msgid "New group home pages and default audience are always private."
+msgstr "Новые главные страницы групп и аудитория по умолчанию всегда в ограниченном доступе."
+
+#: modules/og_access/og_access.module:48
+msgid "Group administrator chooses whether her group homepage and audience are private or not. Defaults to <em>private</em>."
+msgstr "Администратор группы выбирает, ограничить ли доступ к главной странице группы и аудитории. По умолчанию <em>доступ ограничен</em>."
+
+#: modules/og_access/og_access.module:49
+msgid "Group administrator chooses whether her group homepage and audience are private or not. Defaults to <em>public</em>."
+msgstr "Администратор группы выбирает, ограничить ли доступ к главной странице группы и аудитории. По умолчанию <em>общедоступно</em>."
+
+#: modules/og_access/og_access.module:53
+msgid "Private groups"
+msgstr "Группы с ограниченным доступом"
+
+#: modules/og_access/og_access.module:56
+msgid "A private group's group home page cannot be seen by non-members, and new posts created in the group will default to being private. This setting controls what private groups options can be used when creating a new group or editing an existing group. If you select one of the <em>group administrator chooses</em> options then it will be up to group admins whether their new groups are private or not, with the default you specify here."
+msgstr "Главная страница группы с ограниченным доступом не может быть просмотрена пользователями, не являющимися ее участниками, доступ к новым сообщениям в группе по-умолчанию также ограничен. Эта настройки управляет тем, какие опции групп с ограниченным доступом могут использоваться при создании новой группы или редактировании существующей. Если вы выберете один из вариантов <em>Администраторо группы выбирает...</em>, то ограничения доступа будут в ведении администраторов групп, со значением по умолчанию, которое указано здесь."
+
+#: modules/og_access/og_access.module:56
+msgid "Note that the privacy of all <em>content</em> in the group is determined as each node is created or edited, according to the <em>Visibility of Posts</em> setting on this page. Note also that changing this setting only affects the default for new groups being created, not the privacy of any existing groups! To change those you must edit the groups and their individual content nodes directly. If the setting you want is disabled here, check <em>Visibility of Posts</em> above. You cannot choose to only have private groups if node visibility is set to be always public, and vice versa."
+msgstr "Обратите внимание, что ограничения доступа всего <em>содержания</em> в группе определяется при создании и редактировании каждого узла (node), в соответствии с настройками <em>Видимость сообщений</em> на этой странице. Также обратите внимание, что изменения этих настроек влияет только на значения по умолчанию при создании новых групп, а не ограничения доступа существующих групп! Чтобы изменить их, необходимо отредактировать непосредственно группы и каждое сообщение в них. Если нужные настройки неактивны, проверьте <em>Видимость сообщений</em> выше. Вы не можете выбрать создание групп только с ограниченным доступом, если содержимое сделано всегда общедоступным и наоборот."
+
+#: modules/og_access/og_access.module:68;107
+msgid "Private group"
+msgstr "Группа с ограниченным доступом"
+
+#: modules/og_access/og_access.module:69
+msgid "Checkbox for visibility of group home page to non-members."
+msgstr "Флажок, устанавливающий видимость главной страницы группы для пользователей, не входящих в нее."
+
+#: modules/og_access/og_access.module:110
+msgid "Should this group be visible only to its members? Disabled if the group is set to <em>List in Directory</em> or <em>Membership requests: open</em>."
+msgstr "Должна ли эта группа быть видимой только ее участникам? Отключено, если установлены опции <em>Отображать в списке</em> или <em>Запросы на участие: открытая группа</em>."
+
+#: modules/og_access/og_access.module:169;178
+msgid "Public"
+msgstr "Общедоступно"
+
+#: modules/og_access/og_access.module:171;180
+msgid "Show this post to everyone, or only to members of the groups checked above. Posts without any groups are always <em>public</em>."
+msgstr "Показывать это сообщение всем, либо только участникам выбранной выше группы. Сообщения, не привязанные к группам, всегда <em>общедоступны</em>."
+
+#: modules/og_access/og_access.module:319
+msgid "All users may view this node."
+msgstr "Все пользователи могут просматривать этот узел (node)."
+
+#: modules/og_access/og_access.module:323
+msgid "Members of <a href=\"@group-node\">@group-name</a> may view this node."
+msgstr "Участники группы <a href=\"@group-node\">@group-name</a> могут просматривать этот узел (node)."
+
+#: modules/og_access/og_access.module:327
+msgid "Group admins of <a href=\"@group-node\">@group-name</a> may view/edit/delete this node."
+msgstr "Администраторы группы <a href=\"@group-node\">@group-name</a> могут просматривать/редактировать/удалить этот узел (node)."
+
+#: modules/og_access/og_access.module:18
+msgid "Organic groups access configuration"
+msgstr "Настройки Organic groups access"
+
+#: modules/og_access/og_access.module:19
+msgid "Choose whether new groups should be private or public."
+msgstr "Выберите, должны ли новые группы быть с ограниченным доступом, либо общедоступны."
+
+#: modules/og_access/og_access.module:0
+msgid "og_access"
+msgstr "og_access"
+
+#: modules/og_access/og_access.info:0
+msgid "Enable access control for private posts and private groups."
+msgstr "Включить контроль доступа для сообщений с ограниченным доступом и групп с ограниченным доступом."
+

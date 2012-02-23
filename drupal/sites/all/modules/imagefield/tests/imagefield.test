@@ -1,0 +1,249 @@
+<?php
+// $Id: filefield.test,v 1.4 2009/03/27 04:22:58 quicksketch Exp $
+
+class ImageFieldTestCase extends FileFieldTestCase {
+  /**
+   * Implementation of setUp().
+   */
+  function setUp() {
+    // Views is included here just so that it doesn't whine when CCK tries to
+    // clear the caches.
+    $modules = array_merge(func_get_args(), array('content', 'filefield', 'imagefield', 'token', 'views'));
+    call_user_func_array(array($this, 'parent::setUp'), $modules);
+  }
+
+  /**
+   * Create a new image field.
+   *
+   * @param $name
+   *   The name of the new field (all lowercase), exclude the "field_" prefix.
+   * @param $type
+   *   The node type that this field will be added to.
+   * @param $field_options
+   *   A list of field options that will be added to the defaults.
+   * @param $widget_options
+   *   A list of widget options that will be added to the widget defaults.
+   */
+  function createImageField($name, $type, $field_options = array(), $widget_options = array()) {
+    $display_options = array(
+      'label' => array('format' => 'above'),
+      'teaser' => array('format' => 'image_plain', 'exclude' => 0),
+      'full' => array('format' => 'image_plain', 'exclude' => 0),
+    );
+
+    $field_options = array_merge(array('widget_type' => 'imagefield_widget', 'display_settings' => $display_options), $field_options);
+    $widget_options = array_merge(array('type' => 'imagefield_widget', 'file_extensions' => 'jpg jpeg png gif', 'custom_alt' => '1', 'custom_title' => '1', 'max_resolution' => '', 'min_resolution' => ''), $widget_options);
+    return parent::createFileField($name, $type, $field_options, $widget_options);
+  }
+}
+
+/**
+ * Test class to check that formatters are working properly.
+ */
+class ImageFieldDisplayTestCase extends ImageFieldTestCase {
+  function getInfo() {
+    return array(
+      'name' => t('ImageField display tests'),
+      'description' => t('Test the display of image fields in nodes.'),
+      'group' => t('ImageField'),
+    );
+  }
+
+  /**
+   * Test normal formatter display on node display.
+   */
+  function testNodeDisplay() {
+    $field_name = 'field_' . strtolower($this->randomName());
+    $type = $this->drupalCreateContentType();
+    $field = $this->createImageField($field_name, $type->name, array(), array('custom_alt' => '1', 'custom_title' => '1'));
+    $test_file = $this->getTestFile('image');
+
+    // Create a new node with the uploaded file.
+    $nid = $this->uploadNodeFile($test_file, $field, $type->name);
+
+    // Add an alt and title value.
+    $edit = array(
+      $field['field_name'] . '[0][data][alt]' => 'foo',
+      $field['field_name'] . '[0][data][title]' => 'bar',
+    );
+    $this->drupalPost('node/' . $nid . '/edit', $edit, t('Save'));
+
+    // Check that the image formatter is displaying.
+    $node = node_load($nid, NULL, TRUE);
+    $node_file = $node->{$field['field_name']}[0];
+
+    $class = 'imagefield imagefield-'. $field['field_name'];
+    $default_output = theme('imagefield_image', $node_file, $node_file['data']['alt'], $node_file['data']['title'], array('class' => $class));
+    $this->assertRaw($default_output, t('Image formatter displaying correctly on full node view.'));
+  }
+
+  /**
+   * Test normal formatter display on node display.
+   */
+  function testDefaultImage() {
+    $field_name = 'field_' . strtolower($this->randomName());
+    $type = $this->drupalCreateContentType();
+    $type->url_name = str_replace('_', '-', $type->name);
+    $field = $this->createImageField($field_name, $type->name);
+
+    $test_file = $this->getTestFile('image');
+
+    // Set a default image.
+    $destination = file_directory_path();
+    $default_image = field_file_save_file($test_file->filepath, array(), $destination);
+    $widget_options = array(
+      'use_default_image' => '1',
+      'default_image' => $default_image,
+    );
+    $field = $this->updateFileField($field_name, $type->name, array(), $widget_options);
+
+    // TODO: Figure out why saving through the form in SimpleTest doesn't work.
+    /**
+    // Set a default image.
+    $edit = array(
+      'use_default_image' => '1',
+      'files[default_image_upload]' => realpath($test_file->filepath),
+    );
+    $this->drupalPost('admin/content/node-type/' . $type->url_name . '/fields/' . $field['field_name'], $edit, t('Save field settings'));
+
+    // Check that the field was saved.
+    $field = content_fields($field['field_name'], $type->name);
+    **/
+
+    // Create a new node without a file and check the default.
+    $edit = array('title' => $this->randomName());
+    $this->drupalPost('node/add/' . $type->url_name, $edit, t('Save'));
+
+    // Check that the image formatter is displaying.
+    $class = 'imagefield imagefield-'. $field['field_name'];
+    $default_output = theme('imagefield_image', $default_image, NULL, NULL, array('class' => $class));
+
+    $this->assertRaw($default_output, t('Default image displaying correctly on full node view.'));
+  }
+
+}
+
+/**
+ * Test class to check for various validations.
+ *
+ * This class subclasses FileField's validations, making it so that all
+ * validation tests in FileField are run again on the ImageField widget.
+ */
+class ImageFieldValidateTestCase extends FileFieldValidateTestCase {
+
+  function getInfo() {
+    return array(
+      'name' => t('ImageField validation tests'),
+      'description' => t('Tests validation functions such as miniumum and maximum resolution, plus running all normal FileField validation tests.'),
+      'group' => t('ImageField'),
+    );
+  }
+
+  /**
+   * Implementation of setUp().
+   */
+  function setUp() {
+    // Views is included here just so that it doesn't whine when CCK tries to
+    // clear the caches.
+    $modules = array_merge(func_get_args(), array('content', 'filefield', 'imagefield', 'token', 'views'));
+    call_user_func_array(array($this, 'parent::setUp'), $modules);
+
+    // Then we'll convert it to an ImageField.
+    $widget_options = array(
+      'type' => 'imagefield_widget',
+      'module' => 'imagefield',
+      'custom_alt' => '1',
+      'custom_title' => '1',
+      'max_resolution' => '',
+      'min_resolution' => '',
+    );
+    $this->field = $this->updateFileField($this->field['field_name'], $this->node_type->name, array(), $widget_options);
+  }
+
+  /**
+   * Test resolution settings are checked on upload.
+   */
+  function testResolution() {
+    $type = $this->node_type;
+    $field = $this->field;
+
+    // Get our test file (PNG, 360x240).
+    $test_file = $this->getTestFile('image', 64027);
+    $test_image_info = image_get_info($test_file->filepath);
+    $width = $test_image_info['width'];
+    $height = $test_image_info['height'];
+
+    // Set the resolution to a minimum to check on x axis.
+    $widget_options = array('min_resolution' => ($width + 1) . 'x1');
+    $this->updateFileField($this->field['field_name'], $type->name, array(), $widget_options);
+    $this->uploadNodeFile($test_file, $this->field, $type->name);
+    $this->assertRaw(t('The image is too small; the minimum dimensions are'), t('Image could not be saved when too small horizontally.'));
+
+    // Set the resolution to a minimum to check on y axis.
+    $widget_options = array('min_resolution' => '1x' . ($height + 1));
+    $this->updateFileField($this->field['field_name'], $type->name, array(), $widget_options);
+    $this->uploadNodeFile($test_file, $this->field, $type->name);
+    $this->assertRaw('The image is too small; the minimum dimensions are', t('Image could not be saved when too small vertically.'));
+
+    // Remove the minimum dimension add a max dimension on the x axis.
+    $widget_options = array('min_resolution' => '', 'max_resolution' => ($width/4) . 'x40000');
+    $this->updateFileField($this->field['field_name'], $type->name, array(), $widget_options);
+    $nid = $this->uploadNodeFile($test_file, $this->field, $type->name);
+    $this->assertRaw('The image was resized to fit within the maximum allowed dimensions', t('Image resized when too large horizontally.'));
+    // Validate the image size.
+    $node = node_load($nid, NULL, TRUE);
+    $node_file = $node->{$field['field_name']}[0];
+    $image_info = image_get_info($node_file['filepath']);
+    $this->assertTrue(($image_info['height'] == ($height/4) && $image_info['width'] == ($width/4)), t('Resized image has proper dimensions.'));
+
+    // Add a max dimension on the y axis.
+    $widget_options = array('max_resolution' => '40000x' . ($height/2));
+    $this->updateFileField($this->field['field_name'], $type->name, array(), $widget_options);
+    $nid = $this->uploadNodeFile($test_file, $this->field, $type->name);
+    $this->assertRaw('The image was resized to fit within the maximum allowed dimensions', t('Image resized when too large vertically.'));
+    // Validate the image size.
+    $node = node_load($nid, NULL, TRUE);
+    $node_file = $node->{$field['field_name']}[0];
+    $image_info = image_get_info($node_file['filepath']);
+    $this->assertTrue(($image_info['height'] == ($height/2) && $image_info['width'] == ($width/2)), t('Resized image has proper dimensions.'));
+
+    // Set exact dimensions on the field and make sure the image doesn't get
+    // resized and the upload is allowed.
+    $widget_options = array('min_resolution' => '360x240', 'max_resolution' => '360x240');
+    $this->updateFileField($this->field['field_name'], $type->name, array(), $widget_options);
+    $nid = $this->uploadNodeFile($test_file, $this->field, $type->name);
+    $this->assertNoRaw('The image was resized to fit within the maximum allowed dimensions', t('Image was not resized when uploaded with exact dimensions.'));
+    // Validate the image size.
+    $node = node_load($nid, NULL, TRUE);
+    $node_file = $node->{$field['field_name']}[0];
+    $image_info = image_get_info($node_file['filepath']);
+    $this->assertTrue(($image_info['height'] == $height && $image_info['width'] == $width), t('Resized image has proper dimensions.'));
+
+    // Check that a scaled image will fit between the resolutions.
+    $widget_options = array('min_resolution' => '300x200', 'max_resolution' => '340x220');
+    $this->updateFileField($this->field['field_name'], $type->name, array(), $widget_options);
+    $nid = $this->uploadNodeFile($test_file, $this->field, $type->name);
+    $this->assertRaw('The image was resized to fit within the maximum allowed dimensions', t('Image was resized when fitting between maximum and minimum dimensions.'));
+
+    // Check that an image not fitting between dimensions will not upload.
+    $widget_options = array('min_resolution' => '220x360', 'max_resolution' => '240x360');
+    $this->updateFileField($this->field['field_name'], $type->name, array(), $widget_options);
+    $nid = $this->uploadNodeFile($test_file, $this->field, $type->name);
+    $this->assertRaw('The image will not fit between the dimensions of', t('Image was not uploaded when not fitting between maximum and minimum dimensions.'));
+  }
+
+  /**
+   * Skip the max file size test, since it uses text files.
+   */
+  function testFileMaxSize() {
+    return;
+  }
+
+  /**
+   * Skip the max file size per node test, since it uses text files.
+   */
+  function testNodeMaxSize() {
+    return;
+  }
+
+}

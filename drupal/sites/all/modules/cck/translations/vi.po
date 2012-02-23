@@ -1,0 +1,417 @@
+# $Id: vi.po,v 1.1.2.1 2008/06/25 11:32:34 yched Exp $
+# LANGUAGE translation of Drupal (general)
+# Copyright YEAR NAME <EMAIL@ADDRESS>
+# Generated from files:
+#  field.php,v 1.3 2006/04/16 13:47:13 JonBob
+#  text.module,v 1.34 2006/06/12 19:59:53 JonBob
+#  number.module,v 1.29 2006/07/11 00:15:06 JonBob
+#  content_admin.inc,v 1.16 2006/06/12 19:36:54 JonBob
+#  content.module,v 1.65 2006/07/11 00:18:20 JonBob
+#  nodereference.module,v 1.28 2006/06/12 19:36:54 JonBob
+#  optionwidgets.module,v 1.8 2006/05/01 15:45:29 JonBob
+#  userreference.module,v 1.24 2006/05/05 14:10:44 JonBob
+#  weburl.module,v 1.8 2006/06/12 19:36:54 JonBob
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"POT-Creation-Date: 2006-07-27 08:09-0400\n"
+"PO-Revision-Date: 2007-01-03 00:19+0700\n"
+"Last-Translator: thehongtt <thehongtt@yahoo.com>\n"
+"Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n!=1);\n"
+
+#: content.module:18
+msgid "Allows administrators to define new content types."
+msgstr "Cho phép người điều h`nh định nghĩa các kiểu nội dung mới."
+
+#: content.module:73
+msgid "add content type"
+msgstr "thêm kiểu dữ liệu"
+
+#: content.module:80
+msgid "fields"
+msgstr "các trường"
+
+#: content.module:119
+#: content_admin.inc:25
+msgid "duplicate"
+msgstr "tạo bản sao"
+
+#: content.module:135
+msgid "manage fields"
+msgstr "quản lý các trường"
+
+#: content.module:164
+msgid "remove field"
+msgstr "xóa trường"
+
+#: content_admin.inc:42
+msgid "Content types"
+msgstr "Các kiểu nội dung"
+
+#: content_admin.inc:90
+msgid "The human-readable name of this content type."
+msgstr "Tên của kiểu nội dung có thể đọc được."
+
+#: content_admin.inc:98
+msgid "A brief description of the content type."
+msgstr "Mô tả ngắn cho kiểu nội dung."
+
+#: content_admin.inc:106
+msgid "Instructions to present to the user when adding new content of this type."
+msgstr "Lời hướng dẫn được hiển thị cho người dùng khi họ thêm một nội dung mới với kiểu nội dung n`y."
+
+#: content_admin.inc:110
+msgid "Title field label"
+msgstr "Title field label"
+
+#: content_admin.inc:113
+msgid "The label for the title field."
+msgstr "Nhãn cho tiêu đề của trường."
+
+#: content_admin.inc:118
+msgid "Save content type"
+msgstr "Lưu kiểu nội dung"
+
+#: content_admin.inc:182
+msgid "Saved content type %type."
+msgstr "Đã lưu kiểu nội dung %type"
+
+#: content_admin.inc:198
+msgid "Are you sure you want to delete the content type %type?"
+msgstr "Bạn thật sự muốn xóa kiểu nội dung %type?"
+
+#: content_admin.inc:198
+msgid "If you have any content left in this content type, it will be permanently deleted. This action cannot be undone."
+msgstr "Nếu bạn có nội dung n`o không xuất hiện trong kiểu nội dung n`y, nó sẽ bị xóa. Thao tác n`y không thể được ho`n lại."
+
+#: content_admin.inc:218
+msgid "Deleted content type %type."
+msgstr "Đã xóa kiểu nội dung %type"
+
+#: content_admin.inc:248
+msgid "remove"
+msgstr "xóa"
+
+#: content_admin.inc:277
+msgid "Add existing field"
+msgstr "Thêm trường đã tồn tại"
+
+#: content_admin.inc:286
+msgid "Add field"
+msgstr "Thêm trường"
+
+#: content_admin.inc:307
+msgid "Create new field"
+msgstr "Tạo trường mới"
+
+#: content_admin.inc:313
+msgid "The human-readable name of this field."
+msgstr "Tên có thể đọc cho trường n`y."
+
+#: content_admin.inc:318
+msgid "Field type"
+msgstr "Kiểu trường"
+
+#: content_admin.inc:326
+msgid "Create field"
+msgstr "Tạo trường"
+
+#: content_admin.inc:335
+msgid "No field modules are enabled. You need to <a href=\"%modules_url\">enable one</a>, such as text.module, before you can add new fields."
+msgstr "Không có module tạo ra trường n`o. Bạn cần <a href=\"%modules_url\">kích hoạt một</a>, như l` text.module, trước khi bạn có thể thêm v`o các trường."
+
+#: content_admin.inc:389
+msgid "Added field %label."
+msgstr "Đã thêm trường %label."
+
+#: content_admin.inc:432
+msgid "Created field %label."
+msgstr "Đã tạo trường %label."
+
+#: content_admin.inc:452
+msgid "Are you sure you want to remove the field %field?"
+msgstr "Bạn thật sự muốn xóa trường $field?"
+
+#: content_admin.inc:452
+msgid "If you have any content left in this field, it will be lost. This action cannot be undone."
+msgstr "Nếu bạn có nội dung n`o không có ở trong trường n`y, nó sẽ bị mất đi. Thao tác n`y không thể ho`n lại."
+
+#: content_admin.inc:452
+msgid "Remove"
+msgstr "Xóa"
+
+#: content_admin.inc:468
+msgid "Removed field %field from %type."
+msgstr "Đã xóa trường %field khỏi %type"
+
+#: content_admin.inc:487
+msgid "The field %field no longer exists in any content type, so it was deleted."
+msgstr "Trường %field không còn tồn tại trong kiểu nội dung n`o, vì thế nó đã bị xóa."
+
+#: content_admin.inc:511
+msgid "Widget settings"
+msgstr "Các thiết lập widget"
+
+#: content_admin.inc:512
+msgid "These settings apply only to the %field field as it appears in the %type content type."
+msgstr "Những thiết lập chỉ áp dụng cho trường %field khi nó hiển thị ở kiểu nội dung %type."
+
+#: content_admin.inc:526
+msgid "Widget"
+msgstr "Widget"
+
+#: content_admin.inc:541
+msgid "In the node editing form, the heavier fields will sink and the lighter fields will be positioned nearer the top."
+msgstr "Trong form soạn thảo node, những trường nặng hơn sẽ chìm xuống v` những trường nhẹ hơn sẽ nổi lên phía trên."
+
+#: content_admin.inc:552
+msgid "Instructions to present to the user below this field on the editing form."
+msgstr "Lời hướng dẫn cho người dùng sẽ được hiển thị ở phía dưới trường trong trang biên soạn."
+
+#: content_admin.inc:558
+msgid "Data settings"
+msgstr "Các thiết lập dữ liệu"
+
+#: content_admin.inc:559
+msgid "These settings apply to the %field field in every content type in which it appears."
+msgstr "Các thiết lập n`y áp dụng v`o trường %field trong mỗi kiểu nội dung m` nó xuất hiện."
+
+#: content_admin.inc:568
+msgid "Multiple values"
+msgstr "Nhiều giá trị"
+
+#: content_admin.inc:579
+msgid "Save field settings"
+msgstr "Lưu các thiết lập của trường"
+
+#: content_admin.inc:652
+msgid "Saved field %field."
+msgstr "Đã lưu trường %field"
+
+#: content_admin.inc:16;87;232;310;533
+msgid "Label"
+msgstr "Nhãn"
+
+#: content_admin.inc:882;971
+msgid "No PostgreSQL mapping found for %type data type."
+msgstr "Không tìm thấy PostgreSQL mapping cho kiểu dữ liệu %type."
+
+#: content_admin.inc:882;971
+msgid "database"
+msgstr "cơ sở dữ liệu"
+
+#: date.module:15
+msgid "Defines a date/time field type. <em>Note: Requires content.module.</em>"
+msgstr "Định nghĩa một kiểu trường ng`y/giờ. <em>Chú ý: Yêu cầu content.module.</em>"
+
+#: date.module:36
+msgid "Year"
+msgstr "Năm"
+
+#: date.module:37
+msgid "Year and month"
+msgstr "Năm v` tháng"
+
+#: date.module:39
+msgid "Date and time"
+msgstr "Ng`y v` giờ"
+
+#: date.module:43
+msgid "Granularity"
+msgstr "Granularity"
+
+#: date.module:101
+msgid "Times are entered and displayed with site's time zone"
+msgstr "Thời gian được gán v`o v` trình b`y ứng với muối giờ của người dùng."
+
+#: date.module:102
+msgid "Times are entered and displayed with user's time zone"
+msgstr "Thời gian được gán v`o v` trình b`y ứng với muối giờ của người dùng."
+
+#: date.module:106
+msgid "Time zone handling"
+msgstr "Thao tác với các muối giờ."
+
+#: date.module:154
+msgid "%name must be entered in ISO 8601 format (YYYY)."
+msgstr "%name phải được gán với định dạng ISO 8601 (YYYY-MM-DD)."
+
+#: date.module:159
+msgid "%name must be entered in ISO 8601 format (YYYY-MM)."
+msgstr "%name phải được gán với định dạng ISO 8601 (YYYY-MM-DD)."
+
+#: date.module:164
+msgid "%name must be entered in ISO 8601 format (YYYY-MM-DD)."
+msgstr "%name phải được gán với định dạng ISO 8601 (YYYY-MM-DD)."
+
+#: date.module:169
+msgid "%name must be entered in ISO 8601 format (YYYY-MM-DDThh:mm:ss)."
+msgstr "%name phải được gán với định dạng ISO 8601 (YYY-MM-DD)."
+
+#: field.php:77
+#: text.module:44
+msgid "Maximum length"
+msgstr "Độ d`i tối đa"
+
+#: field.php:80
+#: text.module:47
+msgid "The maximum length of the field in characters. Leave blank for an unlimited size."
+msgstr "Số ký tự tối đa cho trường. Để trống nếu muốn độ d`i l` vô hạn."
+
+#: field.php:102
+#: number.module:82
+#: text.module:80
+msgid "is equal to"
+msgstr "bằng với"
+
+#: field.php:103
+#: number.module:83
+#: text.module:81
+msgid "is not equal to"
+msgstr "không bằng với"
+
+#: field.php:104
+#: text.module:82
+msgid "matches the pattern"
+msgstr "khớp với mẫu"
+
+#: field.php:265
+#: text.module:159
+msgid "Rows"
+msgstr "Số dòng"
+
+#: field.php:273
+#: text.module:167
+msgid "\"Rows\" must be a positive integer."
+msgstr "\"Số dòng\" phải l` một số nguyên dương."
+
+#: field.php:180;190
+#: number.module:119
+#: text.module:107
+msgid "Illegal value for %name."
+msgstr "Giá trị cho %name không hợp lệ."
+
+#: nodereference.module:0
+msgid "nodereference"
+msgstr "nodereference"
+
+#: nodereference.module:15
+msgid "Defines a field type for referencing one node from another. <em>Note: Requires content.module.</em>"
+msgstr "Định nghĩa một kiểu trường để tham khảo đến một node từ một node khác. <em>Chú ý: yêu cầu content.module.</em>"
+
+#: nodereference.module:26
+msgid "node reference autocomplete"
+msgstr "tham khảo node tự động ho`n th`nh"
+
+#: nodereference.module:51
+msgid "Content types that can be referenced"
+msgstr "Những kiểu nội dung có thể được tham khảo đến"
+
+#: nodereference.module:204
+msgid "No post with that title exists."
+msgstr "Không tồn tại b`i viết n`o với tiêu đề đó."
+
+#: number.module:0
+msgid "number"
+msgstr "số"
+
+#: number.module:15
+msgid "Defines numeric field types. <em>Note: Requires content.module.</em>"
+msgstr "Định nghĩa các kiểu trường số. <em>Chú ý: Yêu cầu content.module.</em>"
+
+#: number.module:38
+msgid "Minimum"
+msgstr "Tối thiểu"
+
+#: number.module:43
+msgid "Maximum"
+msgstr "Tối đa"
+
+#: number.module:48
+#: text.module:51
+msgid "Allowed values"
+msgstr "Các giá trị cho phép"
+
+#: number.module:52
+#: text.module:55
+msgid "The possible values this field can contain. Any other values will result in an error. Enter one value per line."
+msgstr "Những giá trị m` trường n`y có thể mang. Những giá trị khác sẽ trả về lỗi. Điền mỗi giá trị v`o mỗi dòng."
+
+#: number.module:58
+msgid "\"Minimum\" must be a number."
+msgstr "\"Tối thiểu\" phải l` một con số."
+
+#: number.module:61
+msgid "\"Maximum\" must be a number."
+msgstr "\"Tối đa\" phải l` một con số."
+
+#: number.module:113
+msgid "The value of %name may be no smaller than %min."
+msgstr "Giá trị của %name không thể nhỏ hơn %min."
+
+#: number.module:116
+msgid "The value of %name may be no larger than %max."
+msgstr "Giá trị của %name không thể lớn hớn %max."
+
+#: optionwidgets.module:0
+msgid "optionwidgets"
+msgstr "optionwidgets"
+
+#: optionwidgets.module:15
+msgid "Defines selection, check box and radio button widgets for text and numeric fields. <em>Note: Requires content.module, text.module and number.module.</em>"
+msgstr "Định nghĩa hộp select, checkbox v` nút radio cho văn bản v` các trường số. <em>Chú ý: Yêu cầu content.module, text.module v` number.module.</em>"
+
+#: text.module:0
+msgid "text"
+msgstr "ký tự"
+
+#: text.module:15
+msgid "Defines simple text field types. <em>Note: Requires content.module.</em>"
+msgstr "Định nghĩa kiểu trường văn bản đơn giản. <em>Chú ý: Yêu cầu content.module.</em>"
+
+#: text.module:35
+msgid "Filtered text (user selects input format)"
+msgstr "Văn bản được lọc (người dùng chọn định dạng dữ liệu v`o)"
+
+#: text.module:35
+msgid "Plain text"
+msgstr "Ký tự đơn giản"
+
+#: text.module:38
+msgid "Text processing"
+msgstr "Xử lý văn bản"
+
+#: text.module:144
+msgid "Text Field"
+msgstr "Trường ký tự"
+
+#: userreference.module:0
+msgid "userreference"
+msgstr "userreference"
+
+#: userreference.module:15
+msgid "Defines a field type for referencing a user from a node. <em>Note: Requires content.module.</em>"
+msgstr "Định nghĩa kiểu trường để tham khảo một người dùng từ một node. <em>Chú ý: Yêu cầu content.module.</em>"
+
+#: userreference.module:176
+msgid "Invalid user name."
+msgstr "Tên người dùng không hợp lệ."
+
+#: weburl.module:0
+msgid "weburl"
+msgstr "weburl"
+
+#: weburl.module:15
+msgid "Defines simple weburl field types. <em>Note: Requires content.module.</em>"
+msgstr "Định nghĩa các kiểu đường dẫn web đơn giản. <em>Chú ý: Yêu cầu content.module</em>"
+
+#: weburl.module:164;172
+msgid "Not a valid Web URL."
+msgstr "Đường dẫn web không hợp lệ."
+
+

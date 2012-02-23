@@ -1,0 +1,158 @@
+$Id: API.txt,v 1.5.2.3 2010/08/09 19:00:03 davereid Exp $
+
+This document explains how to provide "Pathauto integration" in a
+module. You need this if you would like to provide additional tokens
+or if your module has paths and you wish to have them automatically
+aliased.  The simplest integration is just to provide tokens so we
+cover that first.  More advanced integration requires an
+implementation of hook_pathauto to provide a settings form.
+
+It may be helpful to review some examples of integration from the
+pathauto_node.inc, pathauto_taxonomy.inc, and pathauto_user.inc files.
+
+
+==================
+1 - Providing additional tokens
+==================
+
+If all you want is to enable tokens for your module you will simply
+need to implement two functions:
+
+  hook_token_values
+  hook_token_list
+
+See the token.module and it's API.txt for more information about this
+process.
+
+If the token is intended to generate a path expected to contain slashes,
+the token name must end in 'path', 'path-raw' or 'alias'. This indicates to
+Pathauto that the slashes should not be removed from the replacement value.
+
+When an object is created (whether it is a node or a user or a
+taxonomy term) the data that Pathauto hands to the token_values in the
+$object is in a specific format. This is the format that most people
+write code to handle. However, during edits and bulk updates the data
+may be in a totally different format. So, if you are writing a
+hook_token_values implementation to add special tokens, be sure to
+test creation, edit, and bulk update cases to make sure your code will
+handle it.
+
+==================
+2 - Settings hook - To create aliases for your module
+==================
+You must implement hook_pathauto($op), where $op is always (at this
+time) 'settings'. Return an object (NOT an array) containing the
+following members, which will be used by pathauto to build a group
+of settings for your module and define the variables for saving your
+settings:
+
+module - The name of your module (e.g., 'node')
+groupheader - The translated label for the settings group (e.g.,
+  t('Node path settings')
+patterndescr - The translated label for the default pattern (e.g.,
+  t('Default path pattern (applies to all node types with blank patterns below)')
+patterndefault - A translated default pattern (e.g., t('[cat]/[title].html'))
+placeholders - An array whose keys consist of the translated placeholders
+  which will appear in patterns (e.g., t('[title]')) and values are
+  the translated description of the placeholders (e.g.,
+  t('The title of the node, with spaces and punctuation.')
+patternitems - For modules which need to express multiple patterns
+  (for example, the node module supports a separate pattern for each
+  node type), an array whose keys consist of identifiers for each
+  pattern (e.g., the node type name) and values consist of the
+  translated label for the pattern
+supportsfeeds - Modules which support RSS feeds should set this to the
+  string that's appended to a path for its feed (usually 'feed') , so
+  when administrators enable "Create feed aliases" an alias for this
+  content type's feed will be generated in addition to the base alias.
+bulkname - For modules which support a bulk update operation, the
+  translated label for the action (e.g., t('Bulk update node paths'))
+bulkdescr - For modules which support a bulk update operation, a
+  translated, more thorough description of what the operation will do
+  (e.g., t('Generate aliases for all existing nodes which do not already have aliases.'))
+
+
+==================
+2 - $alias = pathauto_create_alias($module, $op, $placeholders, $src, $type=NULL)
+==================
+
+At the appropriate time (usually when a new item is being created for
+which a generated alias is desired), call pathauto_create_alias() to
+generate and create the alias.  See the user, taxonomy, and nodeapi hook
+implementations in pathauto.module for examples.
+
+$module - The name of your module (e.g., 'node')
+$op - Operation being performed on the item ('insert', 'update', or
+  'bulkupdate')
+$placeholders - An array whose keys consist of the translated placeholders
+  which appear in patterns and values are the "clean" values to be
+  substituted into the pattern. Call pathauto_cleanstring() on any
+  values which you do not know to be purely alphanumeric, to substitute
+  any non-alphanumerics with the user's designated separator. Note that
+  if the pattern has multiple slash-separated components (e.g., [catpath]),
+  pathauto_cleanstring() should be called for each component, not the
+  complete string.
+  Example: $placeholders[t('[title]')] = pathauto_cleanstring($node->title);
+$src - The "real" URI of the content to be aliased (e.g., "node/$node->nid")
+$type - For modules which provided patternitems in hook_autopath(),
+  the relevant identifier for the specific item to be aliased (e.g.,
+  $node->type)
+
+pathauto_create_alias() returns the alias that was created.
+
+
+==================
+3 - Bulk update function
+==================
+
+If a module supports bulk updating of aliases, it must provide a
+function of this form, to be called by pathauto when the corresponding
+checkbox is selected and the settings page submitted:
+
+function <module>_pathauto_bulkupdate()
+
+The function should iterate over the content items controlled by the
+module, calling pathauto_create_alias() for each one. It is
+recommended that the function report on its success (e.g., with a
+count of created aliases) via drupal_set_message().
+
+
+==================
+4 - Bulk delete hook_path_alias_types()
+==================
+
+For modules that create new types of pages that can be aliased with pathauto, a
+hook implementation is needed to allow the user to delete them all at once.
+
+function hook_path_alias_types()
+
+This hook returns an array whose keys match the beginning of the source paths
+(e.g.: "node/", "user/", etc.) and whose values describe the type of page (e.g.:
+"content", "users"). Like all displayed strings, these descriptionsshould be
+localized with t(). Use % to match interior pieces of a path; "user/%/track". This
+is a database wildcard, so be careful.
+
+
+==================
+Modules that extend node and/or taxonomy
+==================
+
+NOTE: this is basically not true any more.  If you feel you need this file an issue.
+
+Many contributed Drupal modules extend the core node and taxonomy
+modules. To extend pathauto patterns to support their extensions, they
+may implement the pathauto_node and pathauto_taxonomy hooks.
+
+To do so, implement the function <modulename>_pathauto_node (or _taxonomy),
+accepting the arguments $op and $node (or $term). Two operations are
+supported:
+
+$op = 'placeholders' - return an array keyed on placeholder strings
+(e.g., t('[eventyyyy]')) valued with descriptions (e.g. t('The year the
+event starts.')).
+$op = 'values' - return an array keyed on placeholder strings, valued
+with the "clean" actual value for the passed node or category (e.g.,
+pathauto_cleanstring(date('M', $eventstart)));
+
+See contrib/pathauto_node_event.inc for an example of extending node
+patterns.

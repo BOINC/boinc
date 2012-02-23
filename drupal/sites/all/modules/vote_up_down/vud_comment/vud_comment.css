@@ -1,0 +1,17 @@
+/* $Id: vud_comment.css,v 1.1.2.1 2010/05/25 04:51:30 marvil07 Exp $  */
+
+div.vud-comment-dimmed {
+  filter:alpha(opacity=50);
+  -ms-filter:"alpha(opacity=50)";
+  -moz-opacity:0.5;
+  -khtml-opacity: 0.5;
+  opacity: 0.5;
+}
+
+div.vud-comment-dimmed:hover {
+  filter:alpha(opacity=100);
+  -ms-filter:"alpha(opacity=100)";
+  -moz-opacity: 1;
+  -khtml-opacity: 1;
+  opacity: 1;
+}

@@ -1,0 +1,679 @@
+# translation of el.po to Greek
+# Vasileios Lourdas <lourdas_v@yahoo.gr>, 2007.
+# Vasileios Lourdas <vasilis@lourdas.name>, 2008.
+msgid ""
+msgstr ""
+"Project-Id-Version: el\n"
+"POT-Creation-Date: 2008-06-24 01:43+0200\n"
+"PO-Revision-Date: 2008-06-24 15:50+0300\n"
+"Last-Translator: Vasileios Lourdas <vasilis@lourdas.name>\n"
+"Language-Team: Greek <el@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms:  nplurals=2; plural=(n != 1);\n"
+"X-Generator: KBabel 1.11.4\n"
+
+#: pathauto.admin.inc:22
+msgid "It appears that the <a href=\"@token_link\">Token module</a> is not installed. Please ensure that you have it installed so that Pathauto can work properly. You may need to disable Pathauto and re-enable it to get Token enabled."
+msgstr "Φαίνεται ότι η <a href=\"@token_link\">μονάδα Token</a> δεν είναι εγκατεστημένη. Επιβεβαιώστε ότι την έχετε εγκαταστήσει ώστε το Pathauto να δουλεύει σωστά. Ίσως χρειαστεί να απενεργοποιήσετε το Pathauto και να το ενεργοποιήσετε ξανά για να ενεργοποιηθεί και η μονάδα Token."
+
+#: pathauto.admin.inc:38
+msgid "General settings"
+msgstr "Γενικές ρυθμίσεις"
+
+#: pathauto.admin.inc:46
+msgid "Verbose"
+msgstr "Εκτενής παρουσίαση"
+
+#: pathauto.admin.inc:48
+msgid "Display alias changes (except during bulk updates)."
+msgstr "Εμφάνιση των αλλαγών των ψευδώνυμων (εκτός από τις μαζικές ενημερώσεις)."
+
+#: pathauto.admin.inc:53
+msgid "Separator"
+msgstr "Διαχωριστής"
+
+#: pathauto.admin.inc:57
+msgid "Character used to separate words in titles. This will replace any spaces and punctuation characters. Using a space or + character can cause unexpected results."
+msgstr "Ο χαρακτήρας που θα χρησιμοποιείται για το διαχωρισμό των λέξεων στους τίτλους. Θα αντικαταστήσει οποιαδήποτε κενά και χαρακτήρες στίξης. Η χρησιμοποίηση του κενού ή του χαρακτήρα + μπορεί να προκαλέσει απροσδόκητα προβλήματα."
+
+#: pathauto.admin.inc:62
+msgid "Character case"
+msgstr "Κεφαλαία-πεζά χαρακτήρων"
+
+#: pathauto.admin.inc:64
+msgid "Leave case the same as source token values."
+msgstr "Αφήστε τα κεφαλαία-πεζά το ίδιο με τις τιμές των συμβόλων πηγής."
+
+#: pathauto.admin.inc:64
+msgid "Change to lower case"
+msgstr "Αλλαγή σε πεζά"
+
+#: pathauto.admin.inc:69
+msgid "Maximum alias length"
+msgstr "Μέγιστο μήκος ψευδώνυμου"
+
+#: pathauto.admin.inc:73
+msgid "Maximum length of aliases to generate. 100 is recommended. See <a href=\"@pathauto-help\">Pathauto help</a> for details."
+msgstr "Μέγιστο μήκος ψευδώνυμων που θα δημιουργηθούν. Προτείνεται η τιμή 100. Δείτε τη <a href=\"@pathauto-help\">βοήθεια του Pathauto</a> για λεπτομέρειες."
+
+#: pathauto.admin.inc:78
+msgid "Maximum component length"
+msgstr "Μέγιστο μέγεθος συστατικού"
+
+#: pathauto.admin.inc:82
+msgid "Maximum text length of any component in the alias (e.g., [title]). 100 is recommended. See <a href=\"@pathauto-help\">Pathauto help</a> for details."
+msgstr "Μέγιστο μέγεθος κειμένου οποιουδήποτε συστατικού του ψευδώνυμου (π.χ. [title]). Προτείνεται η τιμή 100. Δείτε τη <a href=\"@pathauto-help\">βοήθεια του Pathauto</a> για λεπτομέρειες."
+
+#: pathauto.admin.inc:87
+msgid "Maximum number of objects to alias in a bulk update"
+msgstr "Μέγιστος αριθμός αντικειμένων για τα οποία θα δημιουργηθούν ψευδώνυμα σε μια μαζική ενημέρωση"
+
+#: pathauto.admin.inc:91
+msgid "Maximum number of objects of a given type which should be aliased during a bulk update. The default is 50 and the recommended number depends on the speed of your server. If bulk updates \"time out\" or result in a \"white screen\" then reduce the number."
+msgstr "Μέγιστος αριθμός αντικειμένων ενός ορισμένου τύπου για τα οποία θα δημιουργηθούν ψευδώνυμα κατά τη διάρκεια μιας μαζικής ενημέρωσης. Ο εξ' ορισμού είναι 50 και ο συνιστώμενος αριθμός εξαρτάται από την ταχύτητα του διακομιστή σας. Αν οι μαζικές ενημερώσεις διακόπτονται ή οδηγούν σε \"λευκή οθόνη\", τότε ελαττώστε τον αριθμό."
+
+#: pathauto.admin.inc:95
+msgid "Do nothing. Leave the old alias intact."
+msgstr "Καμία ενέργεια. Το παλιό ψευδώνυμο θα παραμείνει ανέπαφο."
+
+#: pathauto.admin.inc:96
+msgid "Create a new alias. Leave the existing alias functioning."
+msgstr "Δημιουργία νέου ψευδώνυμου. Το υπάρχον ψευδώνυμο θα λειτουργεί."
+
+#: pathauto.admin.inc:97
+msgid "Create a new alias. Delete the old alias."
+msgstr "Δημιουργία νέου ψευδώνυμου. Το υπάρχον ψευδώνυμο θα διαγραφεί."
+
+#: pathauto.admin.inc:100
+msgid "Create a new alias. Redirect from old alias."
+msgstr "Δημιουργία νέου ψευδώνυμου. Ανακατεύθυνση από το παλιό ψευδώνυμο."
+
+#: pathauto.admin.inc:110
+msgid "Update action"
+msgstr "Ενέργεια ενημέρωσης"
+
+#: pathauto.admin.inc:113
+msgid "What should pathauto do when updating an existing content item which already has an alias?"
+msgstr "Πώς θα πρέπει να ενεργήσει το pathauto κατά την ενημέρωση υπάρχουσας ύλης που έχει ήδη ένα ψευδώνυμο;"
+
+#: pathauto.admin.inc:118
+msgid "When a pattern includes certain characters (such as those with accents) should Pathauto attempt to transliterate them into the ASCII-96 alphabet? Transliteration is determined by the i18n-ascii.txt file in the Pathauto directory. <strong>This option is disabled on your site because you do not have an i18n-ascii.txt file in the Pathauto directory.</strong>"
+msgstr "Όταν ένα πρότυπο περιέχει ορισμένους χαρακτήρες (όπως αυτούς με τις οξείες), θα πρέπει το Pathauto να επιχειρεί γραφή στην αλφάβητο ASCII-96; Η γραφή σε άλλη αλφάβητο καθορίζεται από το αρχείο i18n-ascii.txt στον κατάλογο του Pathauto. <strong>Η επιλογή αυτή δεν είναι διαθέσιμη στον ιστοτόπο, διότι δεν έχετε το αρχείο i18n-ascii.txt στον κατάλογο του Pathauto.</strong>"
+
+#: pathauto.admin.inc:121
+msgid "When a pattern includes certain characters (such as those with accents) should Pathauto attempt to transliterate them into the ASCII-96 alphabet? Transliteration is determined by the i18n-ascii.txt file in the Pathauto directory."
+msgstr "Όταν ένα πρότυπο περιέχει ορισμένους χαρακτήρες (όπως αυτούς με τις οξείες), θα πρέπει το Pathauto να επιχειρεί γραφή στην αλφάβητο ASCII-96; Η γραφή σε άλλη αλφάβητο καθορίζεται από το αρχείο i18n-ascii.txt στον κατάλογο του Pathauto."
+
+#: pathauto.admin.inc:129
+msgid "Transliterate prior to creating alias"
+msgstr "Γραφή σε άλλη αλφάβητο πριν τη δημιουργία του ψευδώνυμου"
+
+#: pathauto.admin.inc:136
+msgid "Reduce strings to letters and numbers from ASCII-96"
+msgstr "Μειώνει τις φράσεις σε γράμματα και αριθμούς από το σύνολο ASCII-96"
+
+#: pathauto.admin.inc:138
+msgid "Filters the new alias to only letters and numbers found in the ASCII-96 set."
+msgstr "Φιλτράρει το νέο ψευδώνυμο για να περιέχει μόνο γράμματα και αριθμούς όπως υπάρχουν στο σύνολο ASCII-96."
+
+#: pathauto.admin.inc:143
+msgid "Strings to Remove"
+msgstr "Φράσεις προς αφαίρεση"
+
+#: pathauto.admin.inc:144
+msgid "Words to strip out of the URL alias, separated by commas. Do not place punctuation in here and do not use WYSIWYG editors on this field."
+msgstr "Λέξεις που θα αφαιρούνται από τα ψευδώνυμα URL, χωρισμένες με το κόμμα. Μην εισάγετε εδώ σημεία στίξης και μην χρησιμοποιείτε επεξεργαστή κειμένου WYSIWYG για το πεδίο αυτό."
+
+#: pathauto.admin.inc:150
+msgid "Punctuation settings"
+msgstr "Ρυθμίσεις στίξης"
+
+#: pathauto.admin.inc:161
+msgid "Remove"
+msgstr "Αφαίρεση"
+
+#: pathauto.admin.inc:161
+msgid "Replace by separator"
+msgstr "Αντικατάσταση με το διαχωριστή"
+
+#: pathauto.admin.inc:161
+msgid "No action (do not replace)"
+msgstr "Καμία ενέργεια (όχι αντικατάσταση)"
+
+#: pathauto.admin.inc:239
+msgid "Replacement patterns"
+msgstr "Πρότυπα αντικατάστασης"
+
+#: pathauto.admin.inc:243
+msgid "Use -raw replacements for text to avoid problems with HTML entities."
+msgstr "Χρησιμοποιήστε τις αντικαταστάσεις -raw για το κείμενο προκειμένου να αποφύγετε προβλήματα με τις οντότητες HTML."
+
+#: pathauto.admin.inc:276
+msgid "Internal feed alias text (leave blank to disable)"
+msgstr "Κείμενο ψευδώνυμου ροής για εσωτερική χρήση (αφήστε το κενό για απενεργοποίηση)"
+
+#: pathauto.admin.inc:280
+msgid "The text to use for aliases for RSS feeds. Examples are \"feed\" and \"0/feed\"."
+msgstr "Το κείμενο που θα χρησιμοποιείται για τα ψευδώνυμα των ροών RSS. Παραδείγματα είναι τα \"feed\" και \"0/feed\"."
+
+#: pathauto.admin.inc:335
+msgid "You are using the token [%token] which is not valid within the scope of tokens where you are using it."
+msgstr "Χρησιμοποιείτε το σύμβολο [%token] που δεν είναι έγκυρο μέσα στην εμβέλεια των συμβόλων όπου το χρησιμοποιείτε."
+
+#: pathauto.admin.inc:343
+msgid "You are using the token [%token] which has a -raw companion available [%raw_token]. For Pathauto patterns you should use the -raw version of tokens unless you really know what you are doing. See the <a href=\"@pathauto-help\">Pathauto help</a> for more details."
+msgstr "Χρησιμοποιείτε το σύμβολο [%token] για το οποίο υπάρχει διαθέσιμη η μορφή του -raw [%raw_token]. Για τα πρότυπα Pathauto θα πρέπει να χρησιμοποιείτε τις μορφές -raw των συμβόλων εκτός αν γνωρίζετε πολύ καλά τι κάνετε. Δείτε τη <a href=\"@pathauto-help\">βοήθεια του Pathauto</a> για περισσότερες λεπτομέρειες."
+
+#: pathauto.admin.inc:353
+msgid "NOTE: This field contains potentially incorrect patterns. "
+msgstr "ΣΗΜΕΙΩΣΗ: Το πεδίο πιθανόν περιέχει λάθος πρότυπα. "
+
+#: pathauto.admin.inc:355
+msgid "%problems"
+msgstr "%problems"
+
+#: pathauto.admin.inc:374
+msgid "You have configured the @name to be the separator and to be removed when encountered in strings. This can cause problems with your patterns and especially with the catpath and termpath patterns. You should probably set the action for @name to be \"replace by separator\""
+msgstr "Έχετε ρυθμίσει ώστε το @name να είναι ο διαχωριστής και να αφαιρείται όταν βρίσκεται στις φράσεις. Αυτό μπορεί να προκαλέσει προβλήματα με τα πρότυπά σας και ειδικά με τα πρότυπα catpath και termpath. Θα πρέπει να ορίσετε την ενέργεια για το @name να είναι το \"αντικατάσταση από το διαχωριστή\"."
+
+#: pathauto.admin.inc:399
+msgid "Choose Aliases to Delete"
+msgstr "Επιλογή ψευδώνυμων για διαγραφή"
+
+#: pathauto.admin.inc:408
+msgid "all aliases"
+msgstr "όλα τα ψευδώνυμα"
+
+#: pathauto.admin.inc:410
+msgid "Delete all aliases. Number of aliases which will be deleted: %count."
+msgstr "Διαγραφή όλων των ψευδώνυμων. Ο αριθμός των ψευδώνυμων που θα διαγραφούν: %count."
+
+#: pathauto.admin.inc:421
+msgid "Delete aliases for all @label. Number of aliases which will be deleted: %count."
+msgstr "Διαγραφή των ψευδώνυμων για όλα τα @label. Ο αριθμός των ψευδώνυμων που θα διαγραφούν: %count."
+
+#: pathauto.admin.inc:426
+msgid "<p><strong>Note:</strong> there is no confirmation. Be sure of your action before clicking the \"Delete aliases now!\" button.<br />You may want to make a backup of the database and/or the url_alias table prior to using this feature.</p>"
+msgstr "<p><strong>Σημείωση:</strong> δεν υπάρχει επιβεβαίωση. Να είστε σίγουροι για την ενέργειά σας προτού πατήσετε στο πλήκτρο \"Διαγραφή των ψευδώνυμων!\".<br />Ίσως χρειαστεί να πάρετε αντίγραφο ασφαλείας της βάσης και/ή του πίνακα url_alias προτού χρησιμοποιήσετε το χαρακτηριστικό αυτό.</p>"
+
+#: pathauto.admin.inc:429
+msgid "Delete aliases now!"
+msgstr "Διαγραφή των ψευδώνυμων!"
+
+#: pathauto.admin.inc:443
+msgid "All of your path aliases have been deleted."
+msgstr "Όλα τα ψευδώνυμα διαδρομής διαγράφηκαν."
+
+#: pathauto.admin.inc:448
+msgid "All of your %type path aliases have been deleted."
+msgstr "Όλα τα ψευδώνυμα διαδρομής τύπου %type διαγράφηκαν."
+
+#: pathauto.admin.inc:287
+msgid "Bulk generation of index aliases completed, one alias generated."
+msgid_plural "Bulk generation of index aliases completed, @count aliases generated."
+msgstr[0] "Η μαζική δημιουργία του καταλόγου των ψευδώνυμων ολοκληρώθηκε, δημιουργήθηκε ένα νέο ψευδώνυμο."
+msgstr[1] "Η μαζική δημιουργία του καταλόγου των ψευδώνυμων ολοκληρώθηκε, δημιουργήθηκαν @count νέα ψευδώνυμα."
+
+#: pathauto.admin.inc:354
+msgid "Problem token: "
+msgid_plural "Problem tokens: "
+msgstr[0] "Προβληματικό σύμβολο: "
+msgstr[1] "Προβληματικά σύμβολα: "
+
+#: pathauto.inc:315
+msgid "The automatically generated alias %original_alias conflicted with an existing alias. Alias changed to %alias."
+msgstr "Το αυτόματα δημιουργημένο ψευδώνυμο %original_alias ήρθε σε σύγκρουση με ένα υπάρχον ψευδώνυμο. Το ψευδώνυμο άλλαξε στο %alias."
+
+#: pathauto.inc:381
+msgid "Ignoring alias %dst due to existing path conflict."
+msgstr "Το ψευδώνυμο %dst αγνοήθηκε εξαιτίας διένεξης με υπάρχουσα διαδρομή."
+
+#: pathauto.inc:388
+msgid "Ignoring alias %dst because it is the same as the internal path."
+msgstr "Το ψευδώνυμο %dst αγνοήθηκε επειδή είναι το ίδιο με την εσωτερική διαδρομή."
+
+#: pathauto.inc:408
+msgid "Created new alias %dst for %src, replacing %old_alias. %old_alias now redirects to %dst"
+msgstr "Δημιουργήθηκε νέο ψευδώνυμο %dst για το %src, αντικαθιστώντας το %old_alias. Το %old_alias τώρα δείχνει στο %dst."
+
+#: pathauto.inc:411
+msgid "Created new alias %dst for %src, replacing %old_alias"
+msgstr "Δημιουργήθηκε νέο ψευδώνυμο %dst για το %src, αντικαθιστώντας το %old_alias."
+
+#: pathauto.inc:414
+msgid "Created new alias %dst for %src"
+msgstr "Δημιουργήθηκε νέο ψευδώνυμο %dst για το %src."
+
+#: pathauto.inc:477
+msgid "Double quotes \""
+msgstr "Διπλά εισαγωγικά \""
+
+#: pathauto.inc:478
+msgid "Single quotes (apostrophe) '"
+msgstr "Μονά εισαγωγικά (απόστροφος) '"
+
+#: pathauto.inc:479
+msgid "Back tick `"
+msgstr "Ανάποδο τικ `"
+
+#: pathauto.inc:480
+msgid "Comma ,"
+msgstr "Κόμμα ,"
+
+#: pathauto.inc:481
+msgid "Period ."
+msgstr "Τελεία ."
+
+#: pathauto.inc:482
+msgid "Hyphen -"
+msgstr "Παύλα -"
+
+#: pathauto.inc:483
+msgid "Underscore _"
+msgstr "Κάτω παύλα _"
+
+#: pathauto.inc:484
+msgid "Colon :"
+msgstr "Άνω κάτω τελεία :"
+
+#: pathauto.inc:485
+msgid "Semicolon ;"
+msgstr "Ελληνικό ερωτηματικό ;"
+
+#: pathauto.inc:486
+msgid "Pipe |"
+msgstr "Διοχέτευση |"
+
+#: pathauto.inc:487
+msgid "Left curly bracket {"
+msgstr "Αριστερό άγκιστρο {"
+
+#: pathauto.inc:488
+msgid "Left square bracket ["
+msgstr "Αριστερή γωνιακή παρένθεση ["
+
+#: pathauto.inc:489
+msgid "Right curly bracket }"
+msgstr "Δεξί άγκιστρο }"
+
+#: pathauto.inc:490
+msgid "Right square bracket ]"
+msgstr "Δεξιά γωνιακή παρένθεση ]"
+
+#: pathauto.inc:491
+msgid "Plus +"
+msgstr "Συν +"
+
+#: pathauto.inc:492
+msgid "Equal ="
+msgstr "Ίσον ="
+
+#: pathauto.inc:493
+msgid "Asterisk *"
+msgstr "Αστερίσκος *"
+
+#: pathauto.inc:494
+msgid "Ampersand &"
+msgstr "Και &"
+
+#: pathauto.inc:495
+msgid "Percent %"
+msgstr "Ποσοστό %"
+
+#: pathauto.inc:496
+msgid "Caret ^"
+msgstr "Δύναμη ^"
+
+#: pathauto.inc:497
+msgid "Dollar $"
+msgstr "Δολάριο $"
+
+#: pathauto.inc:498
+msgid "Hash #"
+msgstr "Κάγκελο #"
+
+#: pathauto.inc:499
+msgid "At @"
+msgstr "At @"
+
+#: pathauto.inc:500
+msgid "Exclamation !"
+msgstr "Θαυμαστικό !"
+
+#: pathauto.inc:501
+msgid "Tilde ~"
+msgstr "Ισπανική περισπωμένη ~"
+
+#: pathauto.inc:502
+msgid "Left parenthesis ("
+msgstr "αριστερή παρένθεση ("
+
+#: pathauto.inc:503
+msgid "right parenthesis )"
+msgstr "δεξιά παρένθεση )"
+
+#: pathauto.inc:504
+msgid "Question mark ?"
+msgstr "Ερωτηματικό ?"
+
+#: pathauto.inc:505
+msgid "Less than <"
+msgstr "Μικρότερο από <"
+
+#: pathauto.inc:506
+msgid "Greater than >"
+msgstr "Μεγαλύτερο από >"
+
+#: pathauto.inc:507
+msgid "Back slash \\"
+msgstr "Ανάποδη κάθετος \\"
+
+#: pathauto.inc:437 pathauto.info:0
+msgid "Pathauto"
+msgstr "Pathauto"
+
+#: pathauto.inc:437
+msgid "It appears that you have installed Pathauto, which depends on token, but token is either not installed or not installed properly."
+msgstr "Φαίνεται να έχετε εγκαταστήσει το Pathauto, που εξαρτάται από το token, αλλά το τελευταίο είτε δεν έχει εγκατασταθεί ή δεν έχει εγκατασταθεί σωστά."
+
+#: pathauto_node.inc:20
+msgid "Node path settings"
+msgstr "Ρυθμίσεις διαδρομής κόμβου"
+
+#: pathauto_node.inc:21
+msgid "Default path pattern (applies to all node types with blank patterns below)"
+msgstr "Προεπιλεγμένο πρότυπο διαδρομής (εφαρμόζεται σε όλους τους τύπους κόμβου παρακάτω με κενά πρότυπα)"
+
+#: pathauto_node.inc:22
+msgid "content/[title-raw]"
+msgstr "content/[title-raw]"
+
+#: pathauto_node.inc:23
+msgid "Bulk generate aliases for nodes that are not aliased"
+msgstr "Δημιουργία ψευδώνυμων για όλους τους κόμβους για τους οποίους δεν έχουν δημιουργηθεί ψευδώνυμα."
+
+#: pathauto_node.inc:24
+msgid "Generate aliases for all existing nodes which do not already have aliases."
+msgstr "Δημιουργία ψευδώνυμων για όλους τους υπάρχοντες κόμβους για τους οποίους δεν έχουν δημιουργηθεί ψευδώνυμα."
+
+#: pathauto_node.inc:37;79
+msgid "Language neutral"
+msgstr "Ουδέτερα γλώσσας"
+
+#: pathauto_node.inc:44
+msgid "Default path pattern for @node_type (applies to all @node_type node types with blank patterns below)"
+msgstr "Προεπιλεγμένο πρότυπο διαδρομής για το @node_type (εφαρμόζεται σε όλους τους κόμβους τύπου @node_type με κενά πρότυπα παρακάτω)"
+
+#: pathauto_node.inc:47
+msgid "Pattern for all @node_type paths in @language"
+msgstr "Πρότυπο για όλες τις διαδρομές τύπου @node_type στη γλώσσα @language"
+
+#: pathauto_node.inc:50
+msgid "Pattern for all language neutral @node_type paths"
+msgstr "Πρότυπο για όλες τις ουδέτερης γλώσσας διαδρομές τύπου @node_type"
+
+#: pathauto_node.inc:55
+msgid "Pattern for all @node_type paths"
+msgstr "Πρότυπο για όλες τις διαδρομές τύπου @node_type"
+
+#: pathauto_node.inc:121
+msgid "Bulk generation of nodes completed, one alias generated."
+msgid_plural "Bulk generation of nodes completed, @count aliases generated."
+msgstr[0] "Η μαζική δημιουργία των κόμβων ολοκληρώθηκε, δημιουργήθηκε ένα νέο ψευδώνυμο."
+msgstr[1] "Η μαζική δημιουργία των κόμβων ολοκληρώθηκε, δημιουργήθηκαν @count νέα ψευδώνυμα."
+
+#: pathauto_taxonomy.inc:20
+msgid "Taxonomy term path settings"
+msgstr "Ρυθμίσεις διαδρομής όρων ταξινομίας"
+
+#: pathauto_taxonomy.inc:21
+msgid "Default path pattern (applies to all vocabularies with blank patterns below)"
+msgstr "Προεπιλεγμένη διαδρομή προτύπου (εφαρμόζεται σε όλα τα λεξιλόγια με κενά πρότυπα παρακάτω)"
+
+#: pathauto_taxonomy.inc:22
+msgid "category/[vocab-raw]/[catpath-raw]"
+msgstr "category/[vocab-raw]/[catpath-raw]"
+
+#: pathauto_taxonomy.inc:32
+msgid "Bulk generate aliases for terms that are not aliased"
+msgstr "Μαζική δημιουργία ψευδώνυμων για τους όρους για τους οποίους δεν έχουν δημιουργηθεί ψευδώνυμα"
+
+#: pathauto_taxonomy.inc:33
+msgid "Generate aliases for all existing terms which do not already have aliases."
+msgstr "Δημιουργία ψευδώνυμων για όλους τους υπάρχοντες όρους για τους οποίους δεν έχουν δημιουργηθεί ψευδώνυμα."
+
+#: pathauto_taxonomy.inc:42
+msgid "Pattern for all %vocab-name paths"
+msgstr "Πρότυπο για όλες τις διαδρομές %vocab-name"
+
+#: pathauto_taxonomy.inc:134
+msgid "Forum path settings"
+msgstr "Ρυθμίσεις διαδρομής φόρουμ"
+
+#: pathauto_taxonomy.inc:135
+msgid "Pattern for forums and forum containers"
+msgstr "Πρότυπο για τα φόρουμ και τους φακέλους των φόρουμ"
+
+#: pathauto_taxonomy.inc:136
+msgid "[vocab-raw]/[catpath-raw]"
+msgstr "[vocab-raw]/[catpath-raw]"
+
+#: pathauto_taxonomy.inc:146
+msgid "Bulk generate forum paths"
+msgstr "Μαζική δημιουργία των διαδρομών των φόρουμ"
+
+#: pathauto_taxonomy.inc:147
+msgid "Generate aliases for all existing forums and forum containers which do not already have aliases."
+msgstr "Δημιουργία ψευδώνυμων για όλα τα υπάρχοντα φόρουμ και φακέλους φόρουμ για τα οποία δεν έχουν δημιουργηθεί ψευδώνυμα."
+
+#: pathauto_taxonomy.inc:92
+msgid "Bulk generation of terms completed, one alias generated."
+msgid_plural "Bulk generation of terms completed, @count aliases generated."
+msgstr[0] "Η μαζική δημιουργία των όρων ολοκληρώθηκε, δημιουργήθηκε ένα νέο ψευδώνυμο."
+msgstr[1] "Η μαζική δημιουργία των όρων ολοκληρώθηκε, δημιουργήθηκαν @count νέα ψευδώνυμα."
+
+#: pathauto_taxonomy.inc:168
+msgid "Bulk update of forums and forum containers completed, one alias generated."
+msgid_plural "Bulk update of forums and forum containers completed, @count aliases generated."
+msgstr[0] "Η μαζική ενημέρωση των φόρουμ και των φακέλων φόρουμ ολοκληρώθηκε, δημιουργήθηκε ένα νέο ψευδώνυμο."
+msgstr[1] "Η μαζική ενημέρωση των φόρουμ και των φακέλων φόρουμ ολοκληρώθηκε, δημιουργήθηκαν @count νέα ψευδώνυμα."
+
+#: pathauto_user.inc:20
+msgid "User path settings"
+msgstr "Ρυθμίσεις διαδρομής χρηστών"
+
+#: pathauto_user.inc:21
+msgid "Pattern for user account page paths"
+msgstr "Πρότυπο για τις διαδρομές των σελίδων των λογαριασμών χρηστών"
+
+#: pathauto_user.inc:22
+msgid "users/[user-raw]"
+msgstr "users/[user-raw]"
+
+#: pathauto_user.inc:32
+msgid "Bulk generate aliases for users that are not aliased"
+msgstr "Μαζική δημιουργία ψευδώνυμων για τους χρήστες για τους οποίους δεν έχουν δημιουργηθεί ψευδώνυμα"
+
+#: pathauto_user.inc:33
+msgid "Generate aliases for all existing user account pages which do not already have aliases."
+msgstr "Δημιουργία ψευδώνυμων για όλες τις υπάρχουσες σελίδες λογαριασμών χρηστών για τις οποίες δεν υπάρχουν ψευδώνυμα."
+
+#: pathauto_user.inc:49
+msgid "Blog path settings"
+msgstr "Ρυθμίσεις διαδρομών ιστολογίων"
+
+#: pathauto_user.inc:50
+msgid "Pattern for blog page paths"
+msgstr "Πρότυπο για τις διαδρομές των ιστολογίων"
+
+#: pathauto_user.inc:51
+msgid "blogs/[user-raw]"
+msgstr "blogs/[user-raw]"
+
+#: pathauto_user.inc:57
+msgid "Bulk generate aliases for blogs that are not aliased"
+msgstr "Μαζική δημιουργία ψευδώνυμων για τα ιστολόγια για τα οποία δεν έχουν δημιουργηθεί ψευδώνυμα"
+
+#: pathauto_user.inc:58
+msgid "Generate aliases for all existing blog pages which do not already have aliases."
+msgstr "Δημιουργία ψευδώνυμων για όλες τις υπάρχουσες σελίδες ιστολογίων για τις οποίες δεν υπάρχουν ψευδώνυμα."
+
+#: pathauto_user.inc:74
+msgid "User-tracker path settings"
+msgstr "Ρυθμίσεις διαδρομών των ανιχνευτών των χρηστών"
+
+#: pathauto_user.inc:75
+msgid "Pattern for user-tracker page paths"
+msgstr "Πρότυπο για τις διαδρομές των ανιχνευτών των χρηστών"
+
+#: pathauto_user.inc:76
+msgid "users/[user-raw]/track"
+msgstr "users/[user-raw]/track"
+
+#: pathauto_user.inc:82
+msgid "Bulk generate aliases for user-tracker paths that are not aliased"
+msgstr "Μαζική δημιουργία ψευδώνυμων για τις διαδρομές ανιχνευτών των χρηστών για τους οποίους δεν έχουν δημιουργηθεί ψευδώνυμα."
+
+#: pathauto_user.inc:83
+msgid "Generate aliases for all existing user-tracker pages which do not already have aliases."
+msgstr "Δημιουργία ψευδώνυμων για όλες τις υπάρχουσες σελίδες ανιχνευτών των χρηστών για τις οποίες δεν υπάρχουν ψευδώνυμα."
+
+#: pathauto_user.inc:107
+msgid "Bulk generation of users completed, one alias generated."
+msgid_plural "Bulk generation of users completed, @count aliases generated."
+msgstr[0] "Η μαζική δημιουργία των χρηστών ολοκληρώθηκε, δημιουργήθηκε ένα νέο ψευδώνυμο."
+msgstr[1] "Η μαζική δημιουργία των χρηστών ολοκληρώθηκε, δημιουργήθηκαν @count νέα ψευδώνυμα."
+
+#: pathauto_user.inc:129
+msgid "Bulk generation of user blogs completed, one alias generated."
+msgid_plural "Bulk generation of user blogs completed, @count aliases generated."
+msgstr[0] "Η μαζική δημιουργία των ιστολογίων των χρηστών ολοκληρώθηκε, δημιουργήθηκε ένα νέο ψευδώνυμο."
+msgstr[1] "Η μαζική δημιουργία των ιστολογίων των χρηστών ολοκληρώθηκε, δημιουργήθηκαν @count νέα ψευδώνυμα."
+
+#: pathauto_user.inc:153
+msgid "Bulk generation of user tracker pages completed, one alias generated."
+msgid_plural "Bulk generation of user tracker pages completed, @count aliases generated."
+msgstr[0] "Η μαζική ενημέρωση των σελίδων των ανιχνευτών των χρηστών ολοκληρώθηκε, δημιουργήθηκε ένα νέο ψευδώνυμο."
+msgstr[1] "Η μαζική ενημέρωση των σελίδων των ανιχνευτών των χρηστών ολοκληρώθηκε, δημιουργήθηκαν @count νέα ψευδώνυμα."
+
+#: pathauto.module:27
+msgid ""
+"<p>Provides a mechanism for modules to automatically generate aliases for the content they manage.</p>\n"
+"                  <h2>Settings</h2>\n"
+"                  <p>The <strong>Maximum Alias Length</strong> and <strong>Maximum component length</strong> values\n"
+"                  default to 100 and have a limit of 128 from pathauto. This length is limited by the length of the dst\n"
+"                  column of the url_alias database table. The default database schema for this column is 128. If you\n"
+"                  set a length that is equal to that of the one set in the dst column it will cause problems in situations\n"
+"                  where the system needs to append additional words to the aliased URL. For example... URLs generated\n"
+"                  for feeds will have \"/feed\" added to the end. You should enter a value that is the length of the dst\n"
+"                  column minus the length of any strings that might get added to the end of the URL. The length of\n"
+"                  strings that might get added to the end of your URLs depends on which modules you have enabled and\n"
+"                  on your Pathauto settings. The recommended and default value is 100.</p>\n"
+"                  <p><strong>Raw Tokens</strong> In Pathauto it is appropriate to use the -raw form of tokens. Paths are\n"
+"                  sent through a filtering system which ensures that raw user content is filtered. Failure to use -raw\n"
+"                  tokens can cause problems with the Pathauto punctuation filtering system.</p>"
+msgstr ""
+"<p>Παρέχει ένα μηχανισμό για τις μονάδες ώστε να δημιουργούν αυτόματα ψευδώνυμα για την ύλη που διαχειρίζονται.</p>\n"
+"                  <h2>Ρυθμίσεις</h2>\n"
+"                  <p>Οι τιμές του <strong>Μέγιστου μήκους ψευδώνυμου</strong> και του <strong>Μέγιστου μήκους συστατικού</strong>\n"
+"                  έχουν εξ' ορισμού τιμή 100 και όριο 128 από το pathauto. Το μήκος αυτό περιορίζεται από το μήκος της στήλης dst \n"
+"                  του πίνακα url_alias στη βάση δεδομένων. Στο εξ' ορισμού σχήμα της βάσης δεδομένων το μήκος αυτής της στήλης είναι 128. Αν \n"
+"                  ορίσετε ένα μέγεθος που είναι ίσο με αυτό που έχει οριστεί στη στήλη dst θα υπάρξουν προβλήματα σε περιπτώσεις\n"
+"                  που το σύστημα θα χρειάζεται να προσθέσει πρόσθετες λέξεις στο ψευδώνυμο URL. Για παράδειχμα... Τα URL που δημιουργούνται\n"
+"                  από τις ροές θα έχουν το '/feed' στο τέλος. Θα πρέπει να εισάγετε μια τιμή που είναι το μήκος της στήλης dst\n"
+"                  πλην το μήκος οποιονδήποτε φράσεων που μπορεί να προστεθούν στο τέλος του URL. Το μήκος των\n"
+"                  φράσεων που μπορεί να προστεθούν στο τέλος του URL εξαρτάται από τις ενεργοποιημένες μονάδες και\n"
+"                  τις ρυθμίσεις του Pathauto. Η προτεινόμενη και εξ' ορισμού τιμή είναι το 100.</p>                   <p><strong>Ανεπεξέργαστα Σύμβολα</strong>Στο Pathauto συνιστάται να χρησιμοποιείται η -raw μορφή των συμβόλων. Οι \n"
+"                  διαδρομές περνούν μέσα από ένα σύστημα φιλτραρίσματος που διασφαλίζει ότι το ανεπεξέργαστο περιεχόμενο χρήστη θα φιλτράρεται. Η αποτυχία χρησιμοποίησης των συμβόλων -raw\n"
+"                  μπορεί να προκαλέσει προβλήματα με το μηχανισμό φιλτραρίσματος στίξης του Pathauto.</p>"
+
+#: pathauto.module:164
+msgid "As [cat], but including its supercategories separated by /."
+msgstr "Όπως το [cat], αλλά συμπεριλαμβάνει όμως και τις υπερ-κατηγορίες χωρισμένες με το /."
+
+#: pathauto.module:165
+msgid "As [cat-raw], but including its supercategories separated by /. WARNING - raw user input."
+msgstr "Όπως το [cat-raw], αλλά συμπεριλαμβάνει όμως και τις υπερ-κατηγορίες χωρισμένες με το /. ΠΡΟΣΟΧΗ - ανεπεξέργαστη είσοδος χρήστη."
+
+#: pathauto.module:166;171
+msgid "URL alias for the term."
+msgstr "Το ψευδώνυμο URL του όρου."
+
+#: pathauto.module:169
+msgid "As [term], but including its supercategories separated by /."
+msgstr "Όπως το [term], αλλά συμπεριλαμβάνει όμως και τις υπερ-κατηγορίες χωρισμένες με το /."
+
+#: pathauto.module:170
+msgid "As [term-raw], but including its supercategories separated by /. WARNING - raw user input."
+msgstr "Όπως το [term-raw], αλλά συμπεριλαμβάνει όμως και τις υπερ-κατηγορίες χωρισμένες με το /. ΠΡΟΣΟΧΗ - ανεπεξέργαστη είσοδος χρήστη."
+
+#: pathauto.module:176
+msgid "URL alias for the parent book."
+msgstr "Το ψευδώνυμο URL για το βιβλίο γονέα."
+
+#: pathauto.module:188
+msgid "users"
+msgstr "χρήστες"
+
+#: pathauto.module:188
+msgid "content"
+msgstr "περιεχόμενο"
+
+#: pathauto.module:190
+msgid "user blogs"
+msgstr "ιστολόγια χρηστών"
+
+#: pathauto.module:193
+msgid "vocabularies and terms"
+msgstr "λεξιλόγια και όροι"
+
+#: pathauto.module:196
+msgid "user trackers"
+msgstr "ανιχνευτές χρηστών"
+
+#: pathauto.module:199
+msgid "forums"
+msgstr "φόρουμ"
+
+#: pathauto.module:284
+msgid "An alias will be generated for you. If you wish to create your own alias below, untick this option."
+msgstr "Ένα ψευδώνυμο θα δημιουργηθεί για εσάς. Αν επιθυμείτε να δημιουργήσετε το δικό σας ψευδώνυμο παρακάτω, μην τσεκάρετε αυτή την επιλογή."
+
+#: pathauto.module:286
+msgid " To control the format of the generated aliases, see the <a href=\"@pathauto\">Pathauto settings</a>."
+msgstr "Για τον έλεγχο της μορφής των δημιουργούμενων ψευδώνυμων, δείτε τις <a href=\"@pathauto\">ρυθμίσεις του Pathauto</a>."
+
+#: pathauto.module:294
+msgid "Automatic alias"
+msgstr "Αυτόματο ψευδώνυμο"
+
+#: pathauto.module:319
+msgid "Update path alias"
+msgstr "Ενημέρωση διαδρομής ψευδώνυμου"
+
+#: pathauto.module:49
+msgid "administer pathauto"
+msgstr "διαχείριση του pathauto"
+
+#: pathauto.module:49
+msgid "notify of path changes"
+msgstr "ενημέρωση για τις αλλαγές στις διαδρομές"
+
+#: pathauto.module:57
+msgid "Automated alias settings"
+msgstr "Ρυθμίσεις αυτοματοποιημένων ψευδώνυμων"
+
+#: pathauto.module:68
+msgid "Delete aliases"
+msgstr "Διαγραφή των ψευδώνυμων"
+
+#: pathauto.module:0
+msgid "pathauto"
+msgstr "pathauto"
+
+#: pathauto.info:0
+msgid "Provides a mechanism for modules to automatically generate aliases for the content they manage."
+msgstr "Παρέχει ένα μηχανισμό για τις μονάδες ώστε να δημιουργούν αυτόματα ψευδώνυμα για την ύλη που διαχειρίζονται."
+

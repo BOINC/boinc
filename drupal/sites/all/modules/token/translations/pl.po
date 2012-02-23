@@ -1,0 +1,491 @@
+# $Id: pl.po,v 1.1.2.1 2008/12/02 08:20:31 kuling Exp $
+#
+# Polski / Polish translation of Drupal (token.module)
+# Copyright 2008 Tomasz Kulig <tomasz.kulig _a_ kuling.pl>
+# Generated from files:
+#  token_comment.inc,v 1.3.4.3 2008/07/14 16:07:04 greggles
+#  token_node.inc,v 1.5.4.11 2008/07/23 15:46:41 greggles
+#  token_taxonomy.inc,v 1.3.4.3 2008/06/28 15:10:22 greggles
+#  token_user.inc,v 1.3.4.2 2008/06/28 15:10:22 greggles
+#  token.module,v 1.7.4.8 2008/07/14 19:15:10 greggles
+#  token.info,v 1.2.2.1 2007/10/29 04:40:41 eaton
+#  token_actions.module,v 1.4.2.5 2008/08/02 17:20:36 greggles
+#  token_actions.info,v 1.1.2.1 2008/07/08 19:40:17 greggles
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Token 6.x-1.11\n"
+"POT-Creation-Date: 2008-11-28 12:37-0600\n"
+"PO-Revision-Date: 2008-11-30 12:01+0100\n"
+"Last-Translator: Tomasz Kulig <tomasz.kulig _a_ kuling.pl>\n"
+"Language-Team: Polski / Polish <tomasz.kulig _a_ kuling.pl>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=((n==1)?(0):(((((n%10)>=2)&&((n%10)<=4))&&(((n%100)<10)||((n%100)>=20)))?(1):2));\n"
+
+#: token_comment.inc:65
+msgid "Comment ID"
+msgstr "Numer ID komentarza"
+
+#: token_comment.inc:66
+msgid "Comment's node ID"
+msgstr "Numer ID segmentu komentarza"
+
+#: token_comment.inc:67
+msgid "Comment title"
+msgstr "Tytuł komentarza"
+
+#: token_comment.inc:68
+msgid "Comment title. WARNING - raw user input"
+msgstr "Tytuł komentarza. UWAGA dane bezpośrednio od użytkownika"
+
+#: token_comment.inc:69
+msgid "Comment body"
+msgstr "Treść komentarza"
+
+#: token_comment.inc:70
+msgid "Comment body. WARNING - raw user input"
+msgstr "Treść komentarza. UWAGA dane bezpośrednio od użytkownika"
+
+#: token_comment.inc:72
+msgid "Comment author's user id"
+msgstr "Numer ID użytkownika, autora komentarza"
+
+#: token_comment.inc:73
+msgid "Comment author's user name"
+msgstr "Numer ID użytkownika, autora komentarza. UWAGA dane bezpośrednio od użytkownika"
+
+#: token_comment.inc:74
+msgid "Comment author's user name. WARNING - raw user input"
+msgstr "Nazwa użytkownika, autora komentarza. UWAGA dane bezpośrednio od użytkownika"
+
+#: token_comment.inc:76
+msgid "Comment creation year (four digit)"
+msgstr "Rok utworzenia komentarza (cztery cyfry)"
+
+#: token_comment.inc:77
+msgid "Comment creation year (two digit)"
+msgstr "Rok utworzenia komentarza (dwie cyfry)"
+
+#: token_comment.inc:78
+msgid "Comment creation month (full word)"
+msgstr "Miesiąc utworzenia komentarza (całe słowo)"
+
+#: token_comment.inc:79
+msgid "Comment creation month (abbreviated)"
+msgstr "Miesiąc utworzenia komentarza (nazwa skrócona)"
+
+#: token_comment.inc:80
+msgid "Comment creation month (two digit, zero padded)"
+msgstr "Miesiąc utworzenia komentarza (dwie cyfry, dopełnione zerami)"
+
+#: token_comment.inc:81
+msgid "Comment creation month (one or two digit)"
+msgstr "Miesiąc utworzenia komentarza (jedna lub dwie cyfry)"
+
+#: token_comment.inc:82
+msgid "Comment creation week (two digit)"
+msgstr "Tydzień utworzenia komentarza (dwie cyfry)"
+
+#: token_comment.inc:83
+msgid "Comment creation date (day of month)"
+msgstr "Data utworzenia komentarza (dzień miesiąca)"
+
+#: token_comment.inc:84
+msgid "Comment creation day (full word)"
+msgstr "Dzień utworzenia komentarza (całe słowo)"
+
+#: token_comment.inc:85
+msgid "Comment creation day (abbreviation)"
+msgstr "Dzień utworzenia komentarza (nazwa skrócona)"
+
+#: token_comment.inc:86
+msgid "Comment creation day (two digit, zero-padded)"
+msgstr "Dzień utworzenia komentarza (dwie cyfry, dopełnione zerami)"
+
+#: token_comment.inc:87
+msgid "Comment creation day (one or two digit)"
+msgstr "Dzień utworzenia komentarza (jedna lub dwie cyfry)"
+
+#: token_node.inc:173
+msgid "Node ID"
+msgstr "Numer ID segmentu"
+
+#: token_node.inc:174
+msgid "Node type"
+msgstr "Typ segmentu"
+
+#: token_node.inc:175
+msgid "Node type (user-friendly version)"
+msgstr "Typ segmentu (nazwa przyjazna dla użytkownika)"
+
+#: token_node.inc:176
+msgid "Node language"
+msgstr "Język segmentu"
+
+#: token_node.inc:177
+msgid "Node title"
+msgstr "Tytuł segmentu"
+
+#: token_node.inc:178
+msgid "Unfiltered node title. WARNING - raw user input."
+msgstr "Niefiltrowany tytuł segmentu. UWAGA dane bezpośrednio od użytkownika"
+
+#: token_node.inc:180
+msgid "Node author's user id"
+msgstr "Numer ID użytkownika, autora segmentu"
+
+#: token_node.inc:181
+msgid "Node author's user name"
+msgstr "Nazwa użytkownika, autora segmentu"
+
+#: token_node.inc:182
+msgid "Node author's user name. WARNING - raw user input."
+msgstr "Nazwa użytkownika, autora segmentu. UWAGA dane bezpośrednio od użytkownika"
+
+#: token_node.inc:183
+msgid "Node author's e-mail."
+msgstr "e-mail użytkownika, autora segmentu"
+
+#: token_node.inc:184
+msgid "Node author's e-mail. WARNING - raw user input."
+msgstr "e-mail użytkownika, autora segmentu. UWAGA dane bezpośrednio od użytkownika"
+
+#: token_node.inc:187
+msgid "Name of top taxonomy term"
+msgstr "Nazwa głównego terminu taksonomii"
+
+#: token_node.inc:188
+msgid "Unfiltered name of top taxonomy term. WARNING - raw user input."
+msgstr "Niefiltrowana nazwa głównego terminu taksonomii. UWAGA dane bezpośrednio od użytkownika"
+
+#: token_node.inc:189
+msgid "ID of top taxonomy term"
+msgstr "Numer ID głównego terminu taksonomii"
+
+#: token_node.inc:190
+msgid "Name of top term's vocabulary"
+msgstr "Nazwa głównego słownika terminu taksonomii"
+
+#: token_node.inc:191
+msgid "Unfiltered name of top term's vocabulary. WARNING - raw user input."
+msgstr "Niefiltrowana nazwa głównego słownika terminu taksonomii. UWAGA dane bezpośrednio od użytkownika"
+
+#: token_node.inc:192
+msgid "ID of top term's vocabulary"
+msgstr "Numer ID głównego słownika terminu taksonomii"
+
+#: token_node.inc:197
+msgid "Node creation year (four digit)"
+msgstr "Rok utworzenia segmentu (cztery cyfry)"
+
+#: token_node.inc:198
+msgid "Node creation year (two digit)"
+msgstr "Rok utworzenia segmentu (dwie cyfry)"
+
+#: token_node.inc:199
+msgid "Node creation month (full word)"
+msgstr "Miesiąc utworzenia segmentu (całe słowo)"
+
+#: token_node.inc:200
+msgid "Node creation month (abbreviated)"
+msgstr "Miesiąc stworzenia segmentu (nazwa skrócona)"
+
+#: token_node.inc:201
+msgid "Node creation month (two digit, zero padded)"
+msgstr "Miesiąc utworzenia segmentu (dwie cyfry, dopełnione zerami)"
+
+#: token_node.inc:202
+msgid "Node creation month (one or two digit)"
+msgstr "Miesiąc utworzenia segmentu (jedna lub dwie cyfry)"
+
+#: token_node.inc:203
+msgid "Node creation week (two digit)"
+msgstr "Tydzień utworzenia segmentu (dwie cyfry)"
+
+#: token_node.inc:204
+msgid "Node creation date (day of month)"
+msgstr "Data utworzenia segmentu (dzień miesiąca)"
+
+#: token_node.inc:205
+msgid "Node creation day (full word)"
+msgstr "Dzień utworzenia segmentu (całe słowo)"
+
+#: token_node.inc:206
+msgid "Node creation day (abbreviation)"
+msgstr "Dzień utworzenia segmentu (nazwa skrócona)"
+
+#: token_node.inc:207
+msgid "Node creation day (two digit, zero-padded)"
+msgstr "Dzień utworzenia segmentu (dwie cyfry, dopełnione zerami)"
+
+#: token_node.inc:208
+msgid "Node creation day (one or two digit)"
+msgstr "Dzień utworzenia segmentu (jedna lub dwie cyfry)"
+
+#: token_node.inc:209
+msgid "All tokens for node creation dates can also be used with with the \"mod-\" prefix; doing so will use the modification date rather than the creation date."
+msgstr "Wszystkie daty utworzenia segmentów mogą być również użyte z przedrostkiem \"mod-\"; w takim przypadku zostanie użyta data modyfikacji zamiast daty utworzenia."
+
+#: token_node.inc:211
+msgid "The name of the menu the node belongs to."
+msgstr "Nazwa menu do którego przynależy segment."
+
+#: token_node.inc:212
+msgid "The name of the menu the node belongs to. WARNING - raw user input."
+msgstr "Nazwa menu do którego przynależy segment. UWAGA dane bezpośrednio od użytkownika"
+
+#: token_node.inc:213
+msgid "The menu path (as reflected in the breadcrumb), not including Home or [menu]. Separated by /."
+msgstr "Ścieżka w menu tak jak w \"okruszkach\" (the breadcrumb), nie zawiera Home ani [menu]. Podzielona znakami /."
+
+#: token_node.inc:214
+msgid "The unfiltered menu path (as reflected in the breadcrumb), not including Home or [menu]. Separated by /. WARNING - raw user input."
+msgstr "Niefiltrowana ścieżka w menu tak jak w \"okruszkach\" (the breadcrumb), nie zawiera Home ani [menu]. Podzielona znakami /."
+
+#: token_node.inc:215
+msgid "The text used in the menu as link text for this item."
+msgstr "Tekst użyty w menu jako odnośnik do tego elementu."
+
+#: token_node.inc:216
+msgid "The unfiltered text used in the menu as link text for this item. WARNING - raw user input."
+msgstr "Niefiltrowany tekst użyty w menu jako odnośnik dla tego elementu. UWAGA dane bezpośrednio od użytkownika"
+
+#: token_node.inc:302
+msgid "The title of the node's book parent."
+msgstr "Tytuł książki będącej elementem nadrzędnym."
+
+#: token_node.inc:303
+msgid "The id of the node's book parent."
+msgstr "Numer ID książki będącej elementem nadrzędnym."
+
+#: token_node.inc:304
+msgid "The titles of all parents in the node's book hierarchy."
+msgstr "Tytuły wszystkich elementów nadrzędnych w hierarchii książki."
+
+#: token_node.inc:306
+msgid "The unfiltered title of the node's book parent. WARNING - raw user input."
+msgstr "Niefiltrowany tytuł książki będącej elementem nadrzędnym. UWAGA dane bezpośrednio od użytkownika"
+
+#: token_node.inc:307
+msgid "The unfiltered titles of all parents in the node's book hierarchy. WARNING - raw user input."
+msgstr "Niefiltrowane tytuły wszystkich elementów nadrzędnych w hierarchii książki. UWAGA dane bezpośrednio od użytkownika"
+
+#: token_taxonomy.inc:45
+msgid "The id number of the category's parent vocabulary."
+msgstr "Numer ID kategorii nadrzędnego słownika."
+
+#: token_taxonomy.inc:46
+msgid "The vocabulary that the page's first category belongs to."
+msgstr "Nazwa słownika do którego należy pierwsza kategoria strony."
+
+#: token_taxonomy.inc:47
+msgid "The name of the category."
+msgstr "Nazwa kategorii."
+
+#: token_taxonomy.inc:48
+msgid "The id number of the category."
+msgstr "Numer ID kategorii."
+
+#: token_taxonomy.inc:49
+msgid "The unfiltered vocabulary that the page's first category belongs to. WARNING - raw user input."
+msgstr "Niefiltrowana nazwa słownika do którego należy pierwsza kategoria strony. UWAGA dane bezpośrednio od użytkownika"
+
+#: token_taxonomy.inc:50
+msgid "The unfiltered name of the category. WARNING - raw user input."
+msgstr "Niefiltrowana nazwa kategorii. UWAGA dane bezpośrednio od użytkownika"
+
+#: token_user.inc:54
+msgid "User's name"
+msgstr "Nazwa użytkownika"
+
+#: token_user.inc:55
+msgid "User's unfiltered name. WARNING - raw user input."
+msgstr "Niefiltrowana nazwa użytkownika. UWAGA dane bezpośrednio od użytkownika"
+
+#: token_user.inc:57
+msgid "User's ID"
+msgstr "Numer ID użytkownika"
+
+#: token_user.inc:58
+msgid "User's email address"
+msgstr "Adres e-mail użytkownika"
+
+#: token_user.inc:60
+msgid "User's registration date"
+msgstr "Data rejestracji użytkownika"
+
+#: token_user.inc:61
+msgid "Days since the user registered"
+msgstr "Liczba dni od rejestracji użytkownika"
+
+#: token_user.inc:62
+msgid "User's last login date"
+msgstr "Ostatnia data logowania użytkownika"
+
+#: token_user.inc:63
+msgid "Days since the user's last login"
+msgstr "Liczba dni od ostatniego logowania użytkownika"
+
+#: token_user.inc:64
+msgid "The current date in the user's timezone"
+msgstr "Aktualna data w strefie czasowej użytkownika"
+
+#: token_user.inc:65
+msgid "The URL of the user's profile page."
+msgstr "Adres URL strony profilu użytkownika."
+
+#: token_user.inc:66
+msgid "The URL the user's account editing page."
+msgstr "Adres URL strony strony edycji konta użytkownika."
+
+#: token.module:39
+#: token.info:0
+msgid "Token"
+msgstr "Symbol"
+
+#: token.module:39
+msgid "Replacement value"
+msgstr "Treść zastępująca "
+
+#: token.module:42
+msgid "tokens"
+msgstr "- symbole"
+
+#: token.module:79
+msgid "Anonymous"
+msgstr "Anonim"
+
+#: token.module:83
+msgid "Drupal"
+msgstr "Drupal"
+
+#: token.module:108
+msgid "The name of the currently logged in user."
+msgstr "Nazwa aktualnie zalogowanego użytkownika."
+
+#: token.module:109
+msgid "The user ID of the currently logged in user."
+msgstr "Numer ID aktualnie zalogowanego użytkownika."
+
+#: token.module:110
+msgid "The email address of the currently logged in user."
+msgstr "Adres e-mail aktualnie zalogowanego użytkownika."
+
+#: token.module:111
+msgid "The url of the current Drupal website."
+msgstr "Adres URL aktualnej witryny Drupala."
+
+#: token.module:112
+msgid "The name of the current Drupal website."
+msgstr "Aktualna nazwa witryny Drupala."
+
+#: token.module:113
+msgid "The slogan of the current Drupal website."
+msgstr "Hasło aktualnej witryny Drupala."
+
+#: token.module:114
+msgid "The mission of the current Drupal website."
+msgstr "Misja aktualnej witryny Drupala."
+
+#: token.module:115
+msgid "The contact email address for the current Drupal website."
+msgstr "Adres e-mail aktualnej witryny Drupala."
+
+#: token.module:116
+msgid "The current date on the site's server."
+msgstr "Aktualna data serwera udostępniającego witrynę."
+
+#: token_actions.module:22
+msgid "Display a tokenized message to the user"
+msgstr "Wyświetl użytkownikowi komunikat utworzony za pomocą symboli"
+
+#: token_actions.module:32
+msgid "Send tokenized e-mail"
+msgstr "Wyślij "
+
+#: token_actions.module:43
+msgid "Redirect to a tokenized URL"
+msgstr "Przekieruj na adres URL oparty o symbole"
+
+#: token_actions.module:77
+msgid "Recipient"
+msgstr "Adresat"
+
+#: token_actions.module:81
+msgid "The email address to which the message should be sent."
+msgstr "Adres e-mail na który powinna zostać wysłana wiadomość."
+
+#: token_actions.module:85
+msgid "Subject"
+msgstr "Tytuł"
+
+#: token_actions.module:89
+msgid "The subject of the message."
+msgstr "Temat wiadomości."
+
+#: token_actions.module:93;157
+msgid "Message"
+msgstr "Wiadomość"
+
+#: token_actions.module:97
+msgid "The message that should be sent."
+msgstr "Wiadomość, która powinna być wysłana."
+
+#: token_actions.module:104;168;212
+msgid "Placeholder tokens"
+msgstr "Miejsca na symbole"
+
+#: token_actions.module:105
+msgid "The following placeholder tokens can be used in to generate the URL path. Some tokens may not be available, depending on the context in which the action is triggered."
+msgstr "Następujące symbole zamienniki mogą być użyte do wygenerowania adresu URL. Pewne symbole mogą nie być dostępne, w zależności od kontekstu w jakim działanie zautomatyzowane jest wyzwalane."
+
+#: token_actions.module:161
+msgid "The message to be displayed to the current user."
+msgstr "Wiadomość, która ma być wyświetlona bieżącemu użytkownikowi."
+
+#: token_actions.module:169
+msgid "The following tokens can be used in the custom message text. Some tokens may not be available, depending on the context in which the action is triggered."
+msgstr "Następujące symbole zamienniki mogą być użyte w tekscie wiadomości. Pewne symbole mogą nie być dostępne, w zależności od kontekstu w jakim działanie zautomatyzowane jest wyzwalane."
+
+#: token_actions.module:203
+msgid "URL"
+msgstr "Adres URL"
+
+#: token_actions.module:204
+msgid "The URL to which the user should be redirected. This can be an internal URL like node/1234 or an external URL like http://drupal.org."
+msgstr "Adres URL, pod który przekierowuje się użytkownika. Może to być adres wewnętrzny, taki jak \"node/1234\", lub zewnętrzny, np. \"http://drupal.org\"."
+
+#: token_actions.module:213
+msgid "The following placeholder tokens can be used in the URL path. Some tokens may not be available, depending on the context in which the action is triggered."
+msgstr "Następujące symbole zamienniki mogą być użyte w adresie URL. Pewne symbole mogą nie być dostępne, w zależności od kontekstu w jakim działanie zautomatyzowane jest wyzwalane."
+
+#: token_actions.module:142
+msgid "action"
+msgstr "działanie zautomatyzowane"
+
+#: token_actions.module:142
+msgid "Sent email to %recipient"
+msgstr "Wysłano e-mail do %recipient"
+
+#: token_actions.module:145
+msgid "error"
+msgstr "błąd"
+
+#: token_actions.module:145
+msgid "Unable to send email to %recipient"
+msgstr "Wysłanie wiadomości e-mail do adresata %recipient jest niemożliwe."
+
+#: token.info:0
+msgid "Provides a shared API for replacement of textual placeholders with actual data."
+msgstr "Dostarcza API do zamiany symboli na rzeczywiste dane."
+
+#: token_actions.info:0
+msgid "Token actions"
+msgstr "Działania zautomatyzowane oparte o symbole"
+
+#: token_actions.info:0
+msgid "Provides enhanced versions of core Drupal actions using the Token module."
+msgstr "Dostarcza rozbudowane wersje działań zautomatyzowanych jądra Drupala przy pomocy modułu Token."
+

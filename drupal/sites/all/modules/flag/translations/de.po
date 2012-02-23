@@ -1,0 +1,1048 @@
+# $Id: de.po,v 1.1.2.2 2009/02/22 20:20:51 quicksketch Exp $
+#
+# German translation of Drupal (general)
+# Copyright YEAR NAME <EMAIL@ADDRESS>
+# Generated from files:
+#  flag.actions.inc,v 1.2.2.11 2008/09/30 03:08:49 quicksketch
+#  flag.inc,v 1.1.2.28 2009/02/15 21:14:21 quicksketch
+#  flag.token.inc,v 1.5.2.5 2008/09/10 20:34:28 mooffie
+#  flag.token.inc,v 1.1.2.4 2008/12/03 14:09:59 mooffie
+#  flag.views.inc,v 1.6.2.11 2008/09/03 15:20:08 mooffie
+#  flag.module,v 1.11.2.65 2009/02/22 03:15:52 quicksketch
+#  flag.info,v 1.2.2.2 2009/02/20 22:43:19 quicksketch
+#  flag_actions.info,v 1.1.2.2 2009/02/15 02:24:01 quicksketch
+#  flag.views.inc,v 1.1.2.9 2008/12/03 14:09:59 mooffie
+#  flag_handler_filter_flagged.inc,v 1.1.2.5 2008/12/03 14:10:00 mooffie
+#  flag_handler_relationships.inc,v 1.1.2.8 2008/12/03 14:10:00 mooffie
+#  flag_actions.module,v 1.1.2.11 2008/09/18 15:37:47 mooffie
+#  flag.install,v 1.2.2.28 2009/02/20 21:56:40 quicksketch
+#  flag_plugin_argument_validate_flaggability.inc,v 1.1.2.3 2008/12/03 14:10:00 mooffie
+#  flag.views_bookmark.inc,v 1.4.2.10 2008/07/14 03:22:50 mooffie
+#  flag.views_bookmark.inc,v 1.1.2.8 2009/02/10 04:27:35 quicksketch
+#  flag.views_convert.inc,v 1.3 2008/06/14 06:33:22 quicksketch
+#  flag.views_convert.inc,v 1.1.2.2 2008/11/09 08:40:01 mooffie
+#  flag_handler_field_ops.inc,v 1.1.2.5 2008/12/03 14:10:00 mooffie
+#  flag.views_default.inc,v 1.1.2.4 2009/02/20 21:56:41 quicksketch
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Drupal Flag V6.x-1.0-rc1\n"
+"POT-Creation-Date: 2009-02-22 17:11+0100\n"
+"PO-Revision-Date: 2009-02-22 17:49+0100\n"
+"Last-Translator: Frank Tartler <frank.tartler@googlemail.com>\n"
+"Language-Team: Frank Tartler <frank.tartler@googlemail.com>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n!=1);\n"
+"X-Poedit-Language: German\n"
+"X-Poedit-Country: GERMANY\n"
+"X-Poedit-SourceCharset: utf-8\n"
+
+#: flag.actions.inc:17
+msgid "Content has been flagged"
+msgstr "Inhalt wurde gekennzeichnet"
+
+#: flag.actions.inc:20
+msgid "Content has been unflagged"
+msgstr "Kennzeichnung des Inhalts wurde zurückgenommen."
+
+#: flag.inc:22
+msgid "Nodes"
+msgstr "Beiträge"
+
+#: flag.inc:23
+msgid "Nodes are a Drupal site's primary content."
+msgstr "Beiträge sind der primäre Inhalt einer Drupal-Website."
+
+#: flag.inc:27
+msgid "Comments"
+msgstr "Kommentare"
+
+#: flag.inc:28
+msgid "Comments are responses to node content."
+msgstr "Kommentare sind Antworten auf den Inhalt von Beiträgen."
+
+#: flag.inc:32
+msgid "Users"
+msgstr "Benutzer"
+
+#: flag.inc:33
+msgid "Users who have created accounts on your site."
+msgstr "Benutzer, die auf dieser Website Konten angelegt haben."
+
+#: flag.inc:245
+msgid "The flag name may only contain lowercase letters, underscores, and numbers."
+msgstr "Der Kennzeichnungs-Name darf nur Kleinbuchstaben, Unterstriche und Ziffern beinhalten."
+
+#: flag.inc:251
+msgid "Flag names must be unique. This flag name is already in use."
+msgstr "Die Namen von Kennzeichnungen müssen eindeutig sein. Dieser Kennzeichnungs-Name wird bereits verwendet."
+
+#: flag.inc:794
+msgid "Internationalization"
+msgstr "Internationalisierung"
+
+#: flag.inc:796
+msgid "Flag translations of content as a group"
+msgstr "Übersetzungen von Inhalt als Gruppe kennzeichnen"
+
+#: flag.inc:797
+msgid "Flag each translation of content separately"
+msgstr "Jede Übersetzung getrennt kennzeichnen"
+
+#: flag.inc:800
+msgid "Flagging translations as a group effectively allows users to flag the original piece of content regardless of the translation they are viewing. Changing this setting will <strong>not</strong> update content that has been flagged already."
+msgstr "Übersetzungen als Gruppe zu kennzeichnen ermögliicht Benutzern effizient, den ursprünglichen Inhalt unabhängig von der angezeigten Übersetzung zu kennzeichnen. Das Ändern dieser Einstellung aktualisiert <strong>nicht</strong> Inhalt der bereits gekennzeichnet wurde."
+
+#: flag.inc:806
+msgid "Display link on node teaser"
+msgstr "Link beim Anrisstext des Beitrags zeigen"
+
+#: flag.inc:812
+msgid "Display link on node page"
+msgstr "Link auf der Beitragsseite anzeigen"
+
+#: flag.inc:818
+msgid "Display checkbox on node edit form"
+msgstr "Ankreuzkästchen im Formular zum Bearbeiten von Beiträgen anzeigen"
+
+#: flag.inc:820
+msgid "If you elect to have a checkbox on the node edit form, you may specify its initial state in the settings form <a href=\"@content-types-url\">for each content type</a>."
+msgstr "Wenn festgelegt ist, dass ein Ankreuzkästchen im Formular zum Bearbeiten von Beiträgen erscheinen soll, kann die Anfangs-Einstellung <a href=\"@content-types-url\">für jeden Inhaltstyp</a> in dessen Einstellungen festgelegt werden."
+
+#: flag.inc:916
+msgid "Node flag"
+msgstr "Beitrags-Kennzeichnung"
+
+#: flag.inc:917
+msgid "Limit results to only those nodes flagged by a certain flag; Or display information about the flag set on a node."
+msgstr "Ergebnisse auf eine bestimmte Kennzeichnung begrenzen oder Informationen zur Kennzeichnung eines bestimmten Beitrags anzeigen."
+
+#: flag.inc:918
+msgid "Node flag counter"
+msgstr "Zähler für Beitrags-Kennzeichnung"
+
+#: flag.inc:919;1015;1112
+msgid "Include this to gain access to the flag counter field."
+msgstr "Dies einschließen um Zugriff auf das Kennzeichnungszähler-Feld zu bekommen."
+
+#: flag.inc:952
+msgid "Display link under comment"
+msgstr "Link unter Kommentar anzeigen"
+
+#: flag.inc:1012
+msgid "Comment flag"
+msgstr "Kommentar-Kennzeichnung"
+
+#: flag.inc:1013
+msgid "Limit results to only those comments flagged by a certain flag; Or display information about the flag set on a comment."
+msgstr "Ergebnisse auf Kommentare mit einer bestimmten Kennzeichnung begrenzen oder Informationen zur Kennzeichnung eines Kommentars anzeigen."
+
+#: flag.inc:1014
+msgid "Comment flag counter"
+msgstr "Zähler für Kommentar-Kennzeichnung"
+
+#: flag.inc:1052
+msgid "Display link on user profile page"
+msgstr "Link auf Benutzerprofil-Seite anzeigen"
+
+#: flag.inc:1109
+msgid "User flag"
+msgstr "Benutzer-Kennzeichnung"
+
+#: flag.inc:1110
+msgid "Limit results to only those users flagged by a certain flag; Or display information about the flag set on a user."
+msgstr "Ergebnisse auf Benutzer mit einer bestimmten Kennzeichnung begrenzen oder Informationen zur Kennzeichnung eines Benutzers anzeigen."
+
+#: flag.inc:1111
+msgid "User flag counter"
+msgstr "Zähler für Benutzer-Kennzeichnung"
+
+#: flag.inc:1137
+msgid "The module providing this flag wasn't found, or this flag type, %type, isn't valid."
+msgstr "Das Modulo, das diese Kennzeichnung zur Verfügung stellt, konnte nicht gefunden werden oder der Kennzeichnungstyp %type ist ungültig."
+
+#: flag.token.inc:11
+#: includes/flag.token.inc:15
+msgid "The flag name."
+msgstr "Der Name der Kennzeichnung."
+
+#: flag.token.inc:12
+#: includes/flag.token.inc:16
+msgid "The flag title."
+msgstr "Der Titel der Kennzeichnung."
+
+#: flag.token.inc:15
+#: includes/flag.token.inc:19
+msgid "The flagging action taking place."
+msgstr "Die stattfindende Kennzeichnungs-Aktion."
+
+#: flag.token.inc:16
+#: includes/flag.token.inc:20
+msgid "The URL of the content being flagged."
+msgstr "Die URL des gekennzeichneten Inhalts."
+
+#: flag.token.inc:17
+#: includes/flag.token.inc:21
+msgid "The title of the content being flagged."
+msgstr "Der Titel des gekennzeichneten Inhalts."
+
+#: flag.token.inc:18
+#: includes/flag.token.inc:22
+msgid "The type of content being flagged, such as <em>node</em> or <em>comment</em>."
+msgstr "Der Inhaltstyp der Kennzeichnung, wie z.B. <em>Beitrag</em> oder <em>Kommentar</em>."
+
+#: flag.token.inc:19
+#: includes/flag.token.inc:23
+msgid "The ID of content being flagged, may be a nid or cid."
+msgstr "Die ID des gekennzeichneten Inhalts, kann eine NID oder CID sein."
+
+#: flag.token.inc:20
+#: includes/flag.token.inc:24
+msgid "The current count total for this flag."
+msgstr "Der momentane Gesamtzähler für diese Kennzeichnung."
+
+#: flag.token.inc:25
+#: includes/flag.token.inc:30
+msgid "Total flag count for flag @flag"
+msgstr "Gesamtzahl der Kennzeichnungen für die Kennzeichnung @flag"
+
+#: flag.token.inc:71
+#: includes/flag.token.inc:76
+msgid "Token"
+msgstr "Token"
+
+#: flag.token.inc:71
+#: includes/flag.token.inc:76
+msgid "Replacement value"
+msgstr "Ersetzungswert"
+
+#: flag.token.inc:74
+#: includes/flag.token.inc:79
+msgid "tokens"
+msgstr "Token"
+
+#: flag.views.inc:15;16;98;113
+#: flag.module:267;18
+#: flag.info:0
+#: flag_actions.info:0
+#: includes/flag.views.inc:73;74;165;180;196
+msgid "Flags"
+msgstr "Kennzeichnungen"
+
+#: flag.views.inc:19
+#: includes/flag.views.inc:77
+msgid "User"
+msgstr "Benutzer"
+
+#: flag.views.inc:20
+#: includes/flag.views.inc:78
+msgid "The user that flagged an item."
+msgstr "Der Benutzer, der ein Element gekennzeichnet hat."
+
+#: flag.views.inc:24
+#: includes/flag.views.inc:82
+msgid "Flag user"
+msgstr "Benutzer kennzeichnen"
+
+#: flag.views.inc:29
+#: includes/flag.views.inc:87
+msgid "Flagged time"
+msgstr "Kennzeichnungs-Zeitpunkt"
+
+#: flag.views.inc:30
+#: includes/flag.views.inc:88
+msgid "Display the time the content was flagged by a user."
+msgstr "Den Zeitpunkt anzeigen, zu dem der Inhalt von einem Benutzer gekennzeichnet wurde."
+
+#: flag.views.inc:48;53;431
+#: includes/flag.views.inc:115;120
+#: includes/flag_handler_filter_flagged.inc:24
+#: includes/flag_handler_relationships.inc:170
+msgid "Flagged"
+msgstr "Gekennzeichnet"
+
+#: flag.views.inc:49
+#: includes/flag.views.inc:116
+msgid "Filter to ensure content has or has not been flagged."
+msgstr "Filter zum Sicherstellen, dass Inhalt gekennzeichnet wurde oder nicht."
+
+#: flag.views.inc:59
+#: includes/flag.views.inc:126
+msgid "Flag link"
+msgstr "Kennzeichnungs-Link"
+
+#: flag.views.inc:60
+#: includes/flag.views.inc:127
+msgid "Display flag/unflag link."
+msgstr "Kennzeichnungslinks anzeigen."
+
+#: flag.views.inc:67
+#: includes/flag.views.inc:134
+msgid "Flag counter"
+msgstr "Kennzeichnungszähler"
+
+#: flag.views.inc:68
+#: includes/flag.views.inc:135
+msgid "The number of times a piece of content is flagged by any user."
+msgstr "Die Anzahl, wie oft ein bestimmter Inhalt von irgendeinem Benutzer gekennzeichnet wurde."
+
+#: flag.views.inc:104
+#: flag.module:0
+#: includes/flag.views.inc:171
+msgid "flag"
+msgstr "Kennzeichnung"
+
+#: flag.views.inc:119
+#: includes/flag.views.inc:186
+msgid "counter"
+msgstr "Zähler"
+
+#: (duplicate) flag.views.inc:145
+#: flag.module:427;57
+#: flag_actions.module:254
+#: flag.install:83
+#: ;90 flag.info:0
+#: includes/flag.views.inc:225
+#: includes/flag_plugin_argument_validate_flaggability.inc:30
+msgid "Flag"
+msgstr "Kennzeichnung"
+
+#: flag.views.inc:187
+#: includes/flag_handler_relationships.inc:30
+msgid "The name of the selected flag makes a good label."
+msgstr "Der Name der ausgewählten Kennzeichnung ist eine gute Bezeichnung."
+
+#: flag.views.inc:192
+#: includes/flag_handler_relationships.inc:35
+msgid "By"
+msgstr "Von"
+
+#: flag.views.inc:193
+#: includes/flag_handler_relationships.inc:36
+msgid "Current user"
+msgstr "Aktueller Benutzer"
+
+#: flag.views.inc:193
+#: includes/flag_handler_relationships.inc:36
+msgid "Any user"
+msgstr "Beliebiger Benutzer"
+
+#: flag.views.inc:197;266
+#: includes/flag_handler_relationships.inc:40;111
+msgid "Include only flagged content"
+msgstr "Nur gekennzeichneten Inhalt einschließen"
+
+#: flag.views.inc:198
+msgid "If checked, only content that has this flag will be included. Leave unchecked if needing to display lists of specifically unflagged content."
+msgstr "Wenn aktiviert wird nur Inhalt eingeschlossen, der diese Kennzeichnung hat. Nicht ankreuzen, wenn der spezifisch nicht gekennzeichnete Inhalt aufgelistet werden soll."
+
+#: flag.views.inc:203
+#: includes/flag_handler_relationships.inc:46
+#: includes/flag_plugin_argument_validate_flaggability.inc:38
+msgid "No %type flags exist. You must first <a href=\"@create-url\">create a %type flag</a> before being able to use one."
+msgstr "Es existiert keine Kennzeichnung für %type. Es muss zu erst eine <a href=\"@create-url\">^Kennzeichnung für %type erstellen</a> bevor er verwendet werden kann."
+
+#: flag.views.inc:212
+#: includes/flag_handler_relationships.inc:55
+msgid "You must first create a flag"
+msgstr "Es muss zuerst eine Kennzeichnung erstellt werden"
+
+#: flag.views.inc:217
+#: includes/flag_handler_relationships.inc:60
+msgid "by current user"
+msgstr "vom aktuellen Benutzer"
+
+#: flag.views.inc:217
+#: includes/flag_handler_relationships.inc:60
+msgid "by any user"
+msgstr "von irgendeinem Benutzer"
+
+#: flag.views.inc:222
+#: includes/flag_handler_relationships.inc:65
+msgid "!group: !title"
+msgstr "!group: !title"
+
+#: flag.views.inc:267
+#: includes/flag_handler_relationships.inc:112
+msgid "If checked, only content that is flagged will be included."
+msgstr "Wenn aktiviert wird nur gekennzeichneter Inhalt eingeschlossen."
+
+#: flag.views.inc:276
+#: includes/flag_handler_relationships.inc:121
+msgid "!group: !title counter"
+msgstr "!group: !title Zähler"
+
+#: flag.views.inc:430
+#: includes/flag_handler_filter_flagged.inc:23
+msgid "Status"
+msgstr "Status"
+
+#: flag.views.inc:431
+#: includes/flag_handler_filter_flagged.inc:24
+msgid "Not flagged"
+msgstr "Nicht gekennzeichnet"
+
+#: flag.views.inc:433
+msgid "This filter only works if the relationship used has the \"Include only flagged content\" option unchecked. Otherwise, this filter is not necessary, because all records are already limited to flagged content."
+msgstr "Dieser Filter funktioniert nur, wenn bei der verwendeten Beziehung die Option „Nur gekennzeichneten Inhalt einschließen“ nicht ausgewählt ist. Ansonsten ist dieser Filter nicht nötig, da alle Datensätze schon auf gekennzeichneten Inhalt eingegrenzt sind. "
+
+#: flag.views.inc:456;617
+msgid "My !flag-title"
+msgstr "Meine !flag-title"
+
+#: flag.views.inc:460;621
+msgid "View for flag: !flag-title"
+msgstr "Ansicht für Kennzeichnung: !flag-title"
+
+#: flag.views_bookmark.inc:145
+#: includes/flag.views_bookmark.inc:148
+msgid "The views bookmark %bookmark has been migrated to Flag. It was given the machine-name %name, which you may change on the <a href=\"!url\">%bookmark configuration form</a>."
+msgstr "Das Views Bookmark %bookmark wurde zum Modul Flag migriert. Es hat den maschinenlesbaren Namen %name, der auf dem <a href=\"!url\">%bookmark-Konfigurationsformular</a> geändert werden kann."
+
+#: flag.views_convert.inc:111
+#: includes/flag.views_convert.inc:110
+msgid "Flag is not able to convert the <em>Flagged time</em> filter. It's value is currently empty, but needs to be populated to work properly."
+msgstr "'Flag' kann den Filter <em>Kennzeichnungszeitpunkt</em> nicht konvertieren. Sein Wert ist momentan leer, muss aber gefüllt werden um korrekt zu arbeiten."
+
+#: flag.module:208
+msgid "JavaScript toggle"
+msgstr "JavaScript-Umschalten"
+
+#: flag.module:209
+msgid "Normal link"
+msgstr "Normaler Link"
+
+#: flag.module:210
+msgid "Confirmation form"
+msgstr "Bestätigungsformular"
+
+#: flag.module:237
+msgid "Default flags"
+msgstr "Standard-Kennzeichnungen"
+
+#: flag.module:238
+msgid "Above are the <a href=\"@flag-url\">flags</a> you elected to show on the node editing form. You may specify their initial state here."
+msgstr "Oben stehen die <a href=\"@flag-url\">Kennzeichnungen</a>, die auf dem Beitragsbearbeitungsformular erscheinen. Deren Anfangsstatus kann hier festgelegt werden."
+
+#: flag.module:402
+msgid "This page lists all the <em>flags</em> that are currently defined on this system. You may <a href=\"@add-url\">add new flags</a>."
+msgstr "Diese Seite listet alle <em>Kennzeichnungen</em> auf, die momentan auf diesem System definiert sind. Es können auch neue Kennzeichnungen <a href=\"@add-url\">hinzugefügt</a> werden."
+
+#: flag.module:407
+#: flag_actions.module:244
+msgid "edit"
+msgstr "bearbeiten"
+
+#: flag.module:408
+#: flag_actions.module:245
+msgid "delete"
+msgstr "löschen"
+
+#: flag.module:415
+msgid "No roles"
+msgstr "Keine Rollen"
+
+#: flag.module:417
+msgid "Yes"
+msgstr "Ja"
+
+#: flag.module:417
+msgid "No"
+msgstr "Nein"
+
+#: flag.module:423
+msgid "No flags are currently defined."
+msgstr "Momentan sind keine Kennzeichnungen definiert."
+
+#: flag.module:427;449;511
+msgid "Flag type"
+msgstr "Kennzeichnungs-Typ"
+
+#: flag.module:427
+msgid "Roles"
+msgstr "Rollen"
+
+#: flag.module:427
+msgid "Node types"
+msgstr "Inhaltstypen"
+
+#: flag.module:427
+msgid "Global?"
+msgstr "Global?"
+
+#: flag.module:427;449
+#: flag_actions.module:257
+msgid "Operations"
+msgstr "Operationen"
+
+#: flag.module:435
+msgid "enable"
+msgstr "aktivieren"
+
+#: flag.module:449
+msgid "Disabled Flags"
+msgstr "Deaktivierte Kennzeichnungen"
+
+#: flag.module:449
+msgid "Module"
+msgstr "Modul"
+
+#: flag.module:454
+msgid "The <a href=\"@views-url\">Views</a> module is not installed, or not enabled. It is recommended that you install the Views module to be able to easily produce lists of flagged content."
+msgstr "Das Modul <a href=\"@views-url\">Views</a> ist nicht installiert oder nicht aktiviert. Es wird empfohlen, das Modul Views zu installieren, um einfach Listen gekennzeichneten Inhalts erstellen zu können."
+
+#: flag.module:458
+msgid "Lists of flagged content can be displayed using views. You can configure these in the <a href=\"@views-url\">Views administration section</a>."
+msgstr "Die Listen gekennzeichneten Inhalts können mittels Ansichten angezeigt werden. Diese können in der <a href=\"@views-url\">Ansichten-Verwaltung</a> konfiguriert werden."
+
+#: flag.module:460
+msgid "Flag module automatically provides a few <a href=\"@views-url\">default views for the <em>bookmarks</em> flag</a>. You can use these as templates by cloning these views and then customizing as desired."
+msgstr "Das Flag-Modul stellt automatisch einige <a href=\"@views-url\">Standard-Ansichten für die <em>bookmarks</em>-Kennzeichnung</a> bereit. Diese können als Vorlagen verwendet werden, indem diese Ansichten dupliziert und wie gewünscht angepasst werden."
+
+#: flag.module:462
+msgid "The <a href=\"@flag-handbook-url\">Flag module handbook</a> contains extensive <a href=\"@customize-url\">documentation on creating customized views</a> using flags."
+msgstr "Das <a href=\"@flag-handbook-url\">Flag-Modul-Handbuch</a> enthält eine ausführliche <a href=\"@customize-url\">Dokumentation zum Erstellen angepasster Ansichten</a> mittels Kennzeichnungen."
+
+#: flag.module:467
+msgid "Flagging an item may trigger <em>actions</em>. However, you don't have the <em>Flag actions</em> module <a href=\"@modules-url\">enabled</a>, so you won't be able to enjoy this feature."
+msgstr "Das Kennzeichnen eines Elements kann <em>Aktionen</em> auslösen. Allerdings ist das Modul <em>Flag actions</em> nicht <a href=\"@modules-url\">aktiviert</a>, daher kann diese Funktion nicht genutzt werden."
+
+#: flag.module:470
+msgid "Flagging an item may trigger <a href=\"@actions-url\">actions</a>."
+msgstr "Das Kennzeichnen eines Elements kann <a href=\"@actions-url\">Aktionen</a> auslösen."
+
+#: flag.module:473
+msgid "To learn about the various ways to use flags, please check out the <a href=\"@handbook-url\">Flag module handbook</a>."
+msgstr "Das <a href=\"@handbook-url\">Flag-Modul-Handbuch</a> enthält Informationen über die verschiedenen Möglichkeiten, Kennzeichnungen zu verwenden."
+
+#: flag.module:498
+msgid "Flag name"
+msgstr "Kennzeichnungs-Name"
+
+#: flag.module:499;568
+msgid "The machine-name for this flag. It may be up to 32 characters long and my only contain lowercase letters, underscores, and numbers. It will be used in URLs and in all API calls."
+msgstr "Der maschinenlesbare Name dieser Kennzeichnung. Er darf bis zu 32 Zeichen lang sein und darf nur Kleinbuchstaben, Unterstriche und Ziffern beinhalten. Er wird in URLs und API-Aufrufen verwendet."
+
+#: flag.module:513
+msgid "The type of content this flag will affect. An individual flag can only affect one type of content. This cannot be changed once the flag is created."
+msgstr "Der Inhaltstyp, den diese Kennzeichnung betrifft. Eine individuelle Kennzeichnung kann nur einen Inhaltstyp betreffen. Dies kann nicht mehr geändert werden, wenn die Kennzeichnung erstellt wurde."
+
+#: flag.module:520;729
+#: flag_actions.module:437
+msgid "Submit"
+msgstr "Speichern"
+
+#: flag.module:544
+msgid "Add new flag"
+msgstr "Neue Kennzeichnung hinzufügen"
+
+#: flag.module:559
+msgid "Edit @title flag"
+msgstr "Kennzeichnung @title bearbeiten"
+
+#: flag.module:566
+msgid "Name"
+msgstr "Name"
+
+#: flag.module:575
+msgid "Change this value only with great care."
+msgstr "Dieser Wert sollte nur mit großer Vorsicht geändert werden."
+
+#: flag.module:580
+msgid "Title"
+msgstr "Titel"
+
+#: flag.module:582
+msgid "A short, descriptive title for this flag. It will be used in administrative interfaces to refer to this flag, and in page titles and menu items of some <a href=\"@insite-views-url\">views</a> this module provides (theses are customizable, though). Some examples could be <em>Bookmarks</em>, <em>Favorites</em>, or <em>Offensive</em>."
+msgstr "Ein kurzer aussagekräftiger Titel für diese Kennzeichnung. Er wird in der Verwaltungsoberfläche verwendet um auf diese Kennzeichnung zu verweisen sowie in Seitentiteln und Menüelementen mancher <a href=\"@insite-views-url\">Ansichten</a>, die dieses Modul bereitstellt (die außerdem anpassbar sind). Beispiele könnten <em>Lesezeichen</em>, <em>Favoriten</em> oder <em>anstößig</em> sein."
+
+#: flag.module:590
+msgid "Flag link text"
+msgstr "Text des Kennzeichnungs-Links"
+
+#: flag.module:592
+msgid "The text for the \"flag this\" link for this flag."
+msgstr "Der Text für den Link „Dies kennzeichnen“ für diese Kennzeichnung."
+
+#: flag.module:599
+msgid "Flag link description"
+msgstr "Beschreibung des Kennzeichnungs-Links"
+
+#: flag.module:601
+msgid "The description of the \"flag this\" link. Usually displayed on mouseover."
+msgstr "Die Beschreibung für den Link „Dies kennzeichnen“ für diese Kennzeichnung. Normalerweise angezeigt, wenn die Maus darüber steht."
+
+#: flag.module:607
+msgid "Flag confirmation message"
+msgstr "Bestätigungsnachricht bei Kennzeichnung"
+
+#: flag.module:609
+msgid "Message displayed if the user has clicked the \"flag this\" link and confirmation is required. Usually presented in the form of a question such as, \"Are you sure you want to flag this content?\""
+msgstr "Nachricht die angezeigt wird, wenn der Benutzer den Link „Dies kennzeichnen“ angeklickt hat und eine Bestätigung erforderlich ist. Wird normalerweise als Frage „Soll dieser Inhalt wirklich gekennzeichnet werden?“ dargestellt."
+
+#: flag.module:615
+msgid "Flagged message"
+msgstr "Nachricht bei Kennzeichnung"
+
+#: flag.module:617
+msgid "Message displayed after flagging content. If JavaScript is enabled, it will be displayed below the link. If not, it will be displayed in the message area."
+msgstr "Die Nachricht, die nach dem Kennzeichnen von Inhalt angezeigt wird. Wenn Javascript aktiviert ist, wird sie unter dem Link angezeigt. Wenn nicht, wird sie im Nachrichtenbereich angezeigt."
+
+#: flag.module:623
+msgid "Unflag link text"
+msgstr "Text für Rücknahme der Kennzeichnung"
+
+#: flag.module:625
+msgid "The text for the \"unflag this\" link for this flag."
+msgstr "Der Text für den Link „Kennzeichnung zurücknehmen“ für diese Kennzeichnung."
+
+#: flag.module:632
+msgid "Unflag link description"
+msgstr "Beschreibung für den Link zur Zurücknahme einer Kennzeichnung"
+
+#: flag.module:634
+msgid "The description of the \"unflag this\" link. Usually displayed on mouseover."
+msgstr "Die Beschreibung für den Link „Kennzeichnung zurücknehmen“ für diese Kennzeichnung. Normalerweise angezeigt, wenn die Maus darüber steht."
+
+#: flag.module:640
+msgid "Unflag confirmation message"
+msgstr "Bestätigungsnachricht bei Rücknahme der Kennzeichnung"
+
+#: flag.module:642
+msgid "Message displayed if the user has clicked the \"unflag this\" link and confirmation is required. Usually presented in the form of a question such as, \"Are you sure you want to unflag this content?\""
+msgstr "Nachricht die angezeigt wird, wenn der Benutzer den Link „Kennzeichnung zurücknehmen“ angeklickt hat und eine Bestätigung erforderlich ist. Wird normalerweise als Frage „Soll die Kennzeichnung dieses Inhalts wirklich zurückgenommen werden?“ dargestellt."
+
+#: flag.module:648
+msgid "Unflagged message"
+msgstr "Nachricht bei Rücknahme der Kennzeichnung"
+
+#: flag.module:650
+msgid "Message displayed after content has been unflagged. If JavaScript is enabled, it will be displayed below the link. If not, it will be displayed in the message area."
+msgstr "Nachricht die angezeigt wird, wenn die Kennzeichnung von Inhalt zurückgenommen wird. Wenn Javascript aktiviert ist, wird sie unter dem Link angezeigt. Wenn nicht, wird sie im Nachrichtenbereich angezeigt."
+
+#: flag.module:656
+msgid "Token replacement"
+msgstr "Token-Ersetzung"
+
+#: flag.module:658
+msgid "The above six options may contain the following wildcard replacements. For example, \"Mark Link\" could be entered as \"Add [title] to your flags\" or \"Add this [type-name] to your flags\". These wildcards will be replaced with the appropriate field from the node."
+msgstr "Die obigen sechs Optionen dürfen die folgenden Platzhalter beinhalten. „Link kennzeichnen“ könnte z.B. eingegeben werden als „[title] zu den Kennzeichnungen hinzufügen“ oder „[type-name] zu den Kennzeichnungen hinzufügen“. Diese Platzhalter werden durch die passenden Felder des Beitrags ersetzt."
+
+#: flag.module:665
+msgid "Note: You don't have the <a href=\"@token-url\">Token</a> module installed. If you have it installed, and enabled, you'll be able to embed tokens in the six labels above."
+msgstr "Hinweis: Das Modul <a href=\"@token-url\">Token</a> ist nicht installiert. Wenn es installiert und aktiviert ist können Token in die sechs Bezeichnungen unten eingebettet werden."
+
+#: flag.module:671
+msgid "Global flag"
+msgstr "Globale Kennzeichnung"
+
+#: flag.module:673
+msgid "If checked, flag is considered \"global\" and each node is either flagged or not. If unchecked, each user has individual flags on content."
+msgstr "Wenn aktiviert wird die Kennzeichnung als ‚global‘ betrachtet und jeder Beitrag ist entweder gekennzeichnet oder nicht. Wenn nicht aktiviert, hat jeder Benutzer sein eigenen Kennzeichnungen auf Inhalt."
+
+#: flag.module:680
+msgid "Roles that may use this flag"
+msgstr "Rollen die diese Kennzeichnung verwenden dürfen"
+
+#: flag.module:684
+msgid "Checking <em>authenticated user</em> will allow all logged-in users to flag content with this flag. Anonymous users may not flag content."
+msgstr "Wenn <em>Authentifizierte Benutzer</em> angekreuzt werden, können alle angemeldeten Benutzer Inhalt mit dieser Kennzeichnung versehen. Anonyme Benutzer können keinen Inhalt kennzeichnen."
+
+#: flag.module:696
+msgid "What nodes this flag may be used on"
+msgstr "Für welche Beiträge diese Kennzeichnung verwendet werden darf"
+
+#: flag.module:699
+msgid "Check any node types that this flag may be used on. You must check at least one node type."
+msgstr "Es kann jeder Inhaltstyp angekreuzt werden, für den die Kennzeichnung verwendet werden kann. Es muss mindestens ein Inhaltstyp angekreuzt werden."
+
+#: flag.module:712
+msgid "Display options"
+msgstr "Anzeige-Optionen"
+
+#: flag.module:713
+msgid "Flags are usually controlled through links that allow users to toggle their behavior. You can choose how users interact with flags by changing options here. It is legitimate to have none of the following checkboxes ticked, if, for some reason, you wish <a href=\"@placement-url\">to place the the links on the page yourself</a>."
+msgstr "Kennzeichnungen werden normalerweise durch Links gesteuert, die den Benutzern erlauben, das Verhalten umzuschalten. Mit den nachfolgenden Optionen kann festgelegt werden, wie Benutzer mit den Kennzeichnungen umgehen können. Es ist möglich, keines der folgenden Ankreuzkästchen anzukreuzen, wenn aus irgendeinem Grund <a href=\"@placement-url\">die Links selbst auf einer Seite platziert</a> werden sollen."
+
+#: flag.module:720
+#: includes/flag_handler_field_ops.inc:52
+msgid "Link type"
+msgstr "Link-Typ"
+
+#: flag.module:748
+msgid "A flag confirmation message is required when using the confirmation link type."
+msgstr "Eine Bestätigung der Kennzeichnung ist erforderlich, wenn der Bestätigungs-Link-Typ verwendet wird."
+
+#: flag.module:751
+msgid "An unflag confirmation message is required when using the confirmation link type."
+msgstr "Eine Bestätigung der Rücknahme der Kennzeichnung ist erforderlich, wenn der Bestätigungs-Link-Typ verwendet wird."
+
+#: flag.module:769
+msgid "Flag @name has been saved."
+msgstr "Kennzeichnung @name wurde gespeichert."
+
+#: flag.module:786
+msgid "Are you sure you want to delete %title?"
+msgstr "Soll %title wirklich gelöscht werden?"
+
+#: flag.module:788
+msgid "This flag is provided by the @module module. It will loose any customizations and be disabled."
+msgstr "Diese Kennzeichnung wird vom Modul @module bereitgestellt. Sie verliert alle Anpassungen und wird deaktiviert."
+
+#: flag.module:788
+msgid "This action cannot be undone."
+msgstr "Diese Aktion kann nicht rückgängig gemacht werden."
+
+#: flag.module:789
+#: flag_actions.module:518
+msgid "Delete"
+msgstr "Löschen"
+
+#: flag.module:789
+msgid "Cancel"
+msgstr "Abbrechen"
+
+#: flag.module:800
+msgid "Flag @name has been deleted."
+msgstr "Kennzeichnung @name wurde gelöscht."
+
+#: flag.module:832
+msgid "Bad token. You seem to have followed an invalid link."
+msgstr "Ungültiges Token. Sie scheinen einem ungültigen Link gefolgt zu sein."
+
+#: flag.module:837;915
+msgid "You are not allowed to flag, or unflag, this content."
+msgstr "Sie dürfen diesen Inhalt nicht kennzeichnen oder die Kennzeichnung zurücknehmen."
+
+#: flag.module:996
+msgid "The update has been performed."
+msgstr "Die Aktualierung wurde vorgenommen."
+
+#: flag.module:102
+msgid "administer flags"
+msgstr "Kennzeichnungen verwalten"
+
+#: flag.module:22
+msgid "Configure flags for marking content with arbitary information (such as <em>offensive</em> or <em>bookmarked</em>)."
+msgstr "Kennzeichnungen konfigurieren, um Inhalt für beliebige Informationen zu markieren (wie z.B. <em>anstößig</em> oder <em>Lesezeichen</em>)."
+
+#: flag.module:26
+msgid "Edit flags"
+msgstr "Kennzeichnungen bearbeiten"
+
+#: flag.module:34
+msgid "Delete flags"
+msgstr "Kennzeichnungen löschen"
+
+#: flag.module:42
+msgid "List"
+msgstr "Liste"
+
+#: flag.module:50
+msgid "Add"
+msgstr "Hinzufügen"
+
+#: flag.module:64
+msgid "Flag confirm"
+msgstr "Kennzeichnung bestätigen"
+
+#: flag_actions.module:92
+msgid "Missing action \"@action-callback\". Module providing it was either uninstalled or disabled."
+msgstr "Fehlende Aktion „@action-callback“. Das bereitstellende Modul wurde entweder deinstalliert oder deaktiviert."
+
+#: flag_actions.module:250
+msgid "Currently no flag actions. Use the <em>Add new flag action</em> form to add an action."
+msgstr "Momentan gibt es keine Kennzeichnungs-Aktionen. Das Formular <em> Neue Kennzeichnungs-Aktion hinzufügen</em> kann verwendet werden, um eine Aktion hinzuzufügen."
+
+#: flag_actions.module:255
+msgid "Threshold"
+msgstr "Grenzwert"
+
+#: flag_actions.module:256
+msgid "Action"
+msgstr "Aktion"
+
+#: flag_actions.module:277;284
+msgid "No flag available"
+msgstr "Keine Kennzeichnung verfügbar"
+
+#: flag_actions.module:286
+msgid "Select a flag"
+msgstr "Kennzeichnung auswählen"
+
+#: flag_actions.module:291;30
+msgid "Add action"
+msgstr "Aktion hinzufügen"
+
+#: flag_actions.module:306
+msgid "Add a new flag action"
+msgstr "Neue Kennzeichnungs-Aktion hinzufügen"
+
+#: flag_actions.module:335
+msgid "Edit the \"@action\" action for the @title flag"
+msgstr "Aktion „@action“ für die Kennzeichnung @title bearbeiten"
+
+#: flag_actions.module:353
+msgid "Add an action to the @title flag"
+msgstr "Der Kennzeichnung @title eine Aktion hinzufügen"
+
+#: flag_actions.module:362
+msgid "Select an action"
+msgstr "Aktion auswählen"
+
+#: flag_actions.module:369
+msgid "Continue"
+msgstr "Weiter"
+
+#: flag_actions.module:380
+msgid "Add \"@action\" action to the @title flag"
+msgstr "Aktion „@action“ der Kennzeichnung @title hinzufügen"
+
+#: flag_actions.module:408
+msgid "reaches"
+msgstr "erreicht"
+
+#: flag_actions.module:409
+msgid "falls below"
+msgstr "unterschreitet"
+
+#: flag_actions.module:475
+msgid "The \"@action\" action for the @title flag has been saved."
+msgstr "DIe Aktion „@action“ für die Kennzeichnung @title wurde gespeichert."
+
+#: flag_actions.module:486
+msgid "Perform action when content !event !threshold flags"
+msgstr "Aktion ausführen, wenn Inhalt !threshold Kennzeichnungen !event "
+
+#: flag_actions.module:490
+msgid "Flagging threshold"
+msgstr "Kennzeichnungs-Grenzwert"
+
+#: flag_actions.module:491
+msgid "Set the event for which this action should be executed."
+msgstr "Ereignis auswählen, bei der diese Aktion ausgeführt werden soll."
+
+#: flag_actions.module:515
+msgid "Delete the \"@action\" action for the @title flag?"
+msgstr "Die Aktion „@action“ für die Kennzeichnung @title löschen?"
+
+#: flag_actions.module:523
+msgid "The \"@action\" action for the @title flag has been deleted."
+msgstr "Die Aktion „@action“ für die Kennzeichnung @title wurde gelöscht."
+
+#: flag_actions.module:530
+msgid "Tip"
+msgstr "Tipp"
+
+#: flag_actions.module:532
+msgid "The \"Send tokenized e-mail\" action is preferable to the \"Send e-mail\" action you are now using. It provides you with many more tokens to use. This is especially useful when flagging users and comments."
+msgstr "Die Aktion „Versendet eine mit Tokenwerten versehende E-Mail“ ist der Aktion „E-Mail senden“ vorzuziehen, die momentan verwendet wird. Sie stellt weswentlich mehr nutzbare Token bereit. Dies ist besonders nützlich, wenn Benutzer und Kommentare gekennzeichnet werden."
+
+#: flag_actions.module:533
+msgid "You may wish to enable the <em>Token actions</em> module, which is shipped with the <a href=\"@token-url\">Token</a> module. That module provides a \"Send tokenized e-mail\" action, which is similar to the \"Send e-mail\" action you are now using, except it provides you with many more tokens to use. This is especially useful when flagging users and comments."
+msgstr "Das Modul <em>Token actions</em> kann aktiviert werden, das mit dem Modul <a href=\"@token-url\">Token</a> ausgeliefert wird. Dieses Modul stellt eine Aktion „Versendet eine mit Tokenwerten versehende E-Mail“ bereit, die der momentan verwendeten Aktion „E-Mail senden“ ähnlich ist, außer dass sie wesentlich mehr verwendbare Token bereitstellt. Dies ist besonders nützlich, wenn Benutzer und Kommentare gekennzeichnet werden."
+
+#: flag_actions.module:545
+msgid "Content Flagged @flag_title"
+msgstr "Inhalt wurde gekennzeichnet als @flag_title"
+
+#: flag_actions.module:549
+msgid ""
+"The @flag_content_type [flag-content-title] has been flagged [flag-count] times with the @flag_title flag.\n"
+"\n"
+"View this @flag_content_type at [flag-content-url]."
+msgstr ""
+"@flag_content_type [flag-content-title] wurde [flag-count] mal gekennzeichnet mit der Kennzeichnung @flag_title.\n"
+"\n"
+"@flag_content_type anzeigen unter [flag-content-url]."
+
+#: flag_actions.module:554
+msgid "Tokens"
+msgstr "Token"
+
+#: flag_actions.module:555
+msgid "The following tokens can be used in the recipient, subject, or message."
+msgstr "Die folgenden Token können bei den Empfängern, bei Betreff oder Nachricht verwendet werden."
+
+#: flag_actions.module:565
+msgid "More tokens"
+msgstr "weitere Token"
+
+#: flag_actions.module:566
+msgid "Depending on the type of the content being flagged, the following tokens can be used in the recipients, subject, or message. For example, if the content being flagged is a node, you can use any of the node tokens --but you can't use the comment tokens: they won't be recognized. Similarly, if the content being flagged is a user, you can use only the user tokens."
+msgstr "Abhängig vom Inhaltstyp, der gekennzeichnet wird, können die folgenden Token bei Empfängern, Betreff oder der Nachricht verwendet werden. Wenn der gekennzeichnete Inhalt zum Beispiel ein Beitrag ist, kann jeder der Beitrags-Token verwendet werden - es können aber nicht Kommentar-Token verwendet werden, sie werden nicht erkannt. Wenn dementsprechend Benutzer gekennzeichnet werden, können nur Benutzer-Token verwendet werden."
+
+#: flag_actions.module:23
+msgid "Actions"
+msgstr "Aktionen"
+
+#: flag_actions.module:38
+msgid "Delete action"
+msgstr "Aktion löschen"
+
+#: flag_actions.module:46
+msgid "Edit action"
+msgstr "Aktion bearbeiten"
+
+#: flag_actions.module:0
+msgid "flag_actions"
+msgstr ""
+
+#: flag.install:70
+msgid "Flag has been uninstalled."
+msgstr "Das Flag-Modul wurde deinstalliert."
+
+#: flag.install:307
+msgid "No old actions to remove."
+msgstr "Keine alten Aktionen zum Entfernen."
+
+#: flag.install:313
+msgid "Deleting the following actions: @aids"
+msgstr "Die folgenden Aktionen werden gelöscht: @aids"
+
+#: flag.install:326
+msgid "actions_delete(\"@aid\") called."
+msgstr "actions_delete(„@aid“) aufgerufen."
+
+#: flag.install:354
+msgid "Cleanup of Actions tables is unneeded."
+msgstr "Aufräumen der Aktions-Tabellen ist nicht nötig."
+
+#: flag.install:422
+msgid "Default"
+msgstr "Standard"
+
+#: flag.install:424
+msgid "The view %name as been saved to the database. Flag no longer provides this view by default."
+msgstr "Die Ansicht %name wurde in der Datenbank gespeichert. Flag stellt diese Ansicht standardmäßig nicht mehr bereit."
+
+#: (duplicate) flag.install:92
+msgid "To have the flag module work with translations, you need to install and enable the <a href=\"http://drupal.org/project/translation_helpers\">Translation helpers</a> module."
+msgstr "Wenn das Flag-Modul mit Übersetzungen funktionieren soll, muss das Modul <a href=\"http://drupal.org/project/translation_helpers\">Translation helpers</a> installiert und aktiviert werden."
+
+#: (duplicate) flag.install:94
+msgid "Translation helpers module not found."
+msgstr "Modul ‚Translation helpers‘ nicht gefunden"
+
+#: (duplicate) flag.install:111
+msgid "You are trying to install the <em>Flag</em> module. However, you have the <em>\"Flag content\"</em> module installed, and these two modules aren't compatible (because they happen to use a database table by the same name). To install the <em>Flag</em> module, you'll first have to disable and then <a href='@uninstall-url'>uninstall</a> the <em>\"Flag content\"</em> module."
+msgstr "Es wurde versucht, das Modul <em>Flag</em> zu installieren. Es ist jedoch das Modul <em>Flag content</em> installiert und diese zwei Module sind nicht kompatible (weil sie eine Datenbanktabelle mit dem selben namen verwenden. Um das Modul <em>Flag</em> zu installieren muss das Modul <em>„Flag content“</em> deaktiviert und dann <a href='@uninstall-url'>deinstalliert</a> werden."
+
+#: flag.info:0
+msgid "Create customized flags that users can set on content."
+msgstr "Angepasste Kennzeichnungen erstellen, die Benutzer auf Inhalt anwenden können."
+
+#: flag_actions.info:0
+msgid "Flag actions"
+msgstr "Kennzeichnungs-Aktionen"
+
+#: flag_actions.info:0
+msgid "Execute actions on Flag events."
+msgstr "Aktionen bei Kennzeichnungs-Ereignissen ausführen."
+
+#: includes/flag.views.inc:50
+msgid "Flaggable node"
+msgstr "Kennzeichenbarer Beitrag"
+
+#: includes/flag.views.inc:56
+msgid "Flaggable user"
+msgstr "Kennzeichenbarer Benutzer"
+
+#: includes/flag.views.inc:106
+msgid "Content ID"
+msgstr "Inhalts-ID"
+
+#: includes/flag.views.inc:107
+msgid "The unique ID of the object that has been flagged."
+msgstr "Die eindeutige ID des Objekts, das gekennzeichnet wurde."
+
+#: includes/flag.views.inc:197
+msgid "User's flagged content"
+msgstr "Gekennzeichneter Inhalt des Benutzers"
+
+#: includes/flag.views.inc:198
+msgid "Limit results to users that have flagged certain content."
+msgstr "Grenzt Ergebnisse auf Benutzer ein, die einen bestimmten Inhalt gekennzeichnet haben."
+
+#: includes/flag.views.inc:204
+msgid "user flagged content"
+msgstr "Benutzer hat Inhalt gekennzeichnet"
+
+#: includes/flag.views_bookmark.inc:20
+msgid "Migrating Views Bookmark to Flag module. More information about the changes between Views Bookmark and Flag may be found on the <a href=\"http://drupal.org/node/268269\">upgrading handbook page</a>."
+msgstr "Views Bookmark wurde zum Modul Flag migriert. Weitere Informationen über die Unterschiede zwischen Views Bookmark und Flag stehen auf <a href=\"http://drupal.org/node/268269\">upgrading handbook page</a>."
+
+#: includes/flag.views_bookmark.inc:31
+msgid "The Flag module has been installed, replacing Views Bookmark. Views Bookmark has been disabled, please remove it from your installation."
+msgstr "Das Modul Flag wurde installiert und ersetzt Views Bookmark. Views Bookmark wurde deaktiviert und sollte von der Installation deinstalliert werden."
+
+#: includes/flag.views_default.inc:256;267
+msgid "My bookmarks"
+msgstr "Meine Lesezeichen"
+
+#: includes/flag_handler_field_ops.inc:53
+msgid "Use flag link settings"
+msgstr "Kennzeichnungs-Links-Einstellungen verwenden"
+
+#: includes/flag_handler_filter_flagged.inc:26
+msgid "This filter is only needed if the relationship used has the \"Include only flagged content\" option <strong>unchecked</strong>. Otherwise, this filter is useless, because all records are already limited to flagged content."
+msgstr "Dieser Filter funktioniert nur, wenn bei der verwendeten Beziehung die Option „Nur gekennzeichneten Inhalt einschließen“ nicht ausgewählt ist. Ansonsten ist dieser Filter nicht nötig, da alle Datensätze schon auf gekennzeichneten Inhalt eingegrenzt sind. "
+
+#: includes/flag_handler_filter_flagged.inc:26
+msgid "By choosing <em>Not flagged</em>, it is possible to create a list of content <a href=\"@unflagged-url\">that is specifically not flagged</a>."
+msgstr "Durch die Auswahl von <em>Nicht gekennzeichnet</em> ist es möglich eine Liste von Inhalt zu erstellen, der <a href=\"@unflagged-url\">ausdrücklich nicht gekennzeichnet</a> ist."
+
+#: includes/flag_handler_relationships.inc:41
+msgid "If checked, only content that has this flag will be included. Leave unchecked to include all content; or, in combination with the <em>Flagged</em> filter, <a href=\"@unflagged-url\">to limit the results to specifically unflagged content</a>."
+msgstr "Wenn aktiviert wird nur Inhalt eingeschlossen, der diese Kennzeichnung hat. Nicht ankreuzen, wenn der spezifisch nicht gekennzeichnete Inhalt aufgelistet werden soll."
+
+#: includes/flag_handler_relationships.inc:167
+msgid "Including name of the selected flag helps identify this relationship."
+msgstr "Das Einschließen des Namens der ausgewählten Kennzeichnung hilft beim Identifizieren dieser Beziehung."
+
+#: includes/flag_handler_relationships.inc:172
+msgid "Include only users who have flagged content."
+msgstr "Nur Benutzer einschließen, die Inhalt gekennzeichnet haben."
+
+#: includes/flag_handler_relationships.inc:173
+msgid "If checked, only users that have flagged any content with this flag will be included."
+msgstr "Wenn aktiviert werden nur Benutzer eingeschlossen, die Inhalt mit diesem Kennzeichen gekennzeichnet haben."
+
+#: includes/flag_plugin_argument_validate_flaggability.inc:33
+msgid "Select the flag to validate against."
+msgstr "Auswahl des Kennzeichens, gegen das geprüft werden soll"
+
+#: includes/flag_plugin_argument_validate_flaggability.inc:43
+msgid "Validate the @type only if"
+msgstr "@type nur überprüfen wenn"
+
+#: includes/flag_plugin_argument_validate_flaggability.inc:55
+msgid "Argument type"
+msgstr "Argument-Typ"
+
+#: includes/flag_plugin_argument_validate_flaggability.inc:57
+msgid "ID"
+msgstr "ID"
+
+#: includes/flag_plugin_argument_validate_flaggability.inc:58
+msgid "IDs separated by , or +"
+msgstr "IDs, getrennt durch , oder +"
+
+#: includes/flag_plugin_argument_validate_flaggability.inc:79
+msgid "<em>Pick the first flag mentioned in the relationships.</em>"
+msgstr "<em>Es muss die erste in den Beziehungen genannte Kennzeichnung ausgewählt werden.</em>"
+
+#: includes/flag_plugin_argument_validate_flaggability.inc:108
+msgid "It is flaggable"
+msgstr "es ist kennzeichenbar"
+
+#: includes/flag_plugin_argument_validate_flaggability.inc:112
+msgid "It is flagged at least once"
+msgstr "es ist zumindest einmal gekennzeichnet"
+
+#: includes/flag_plugin_argument_validate_flaggability.inc:116
+msgid "It is flagged by the current user"
+msgstr "es ist vom aktuellen Benutzer gekennzeichnet"
+

@@ -1,0 +1,137 @@
+# $Id: modules-number.pot,v 1.1.2.12 2009/06/16 17:05:12 hass Exp $
+#
+# LANGUAGE translation of Drupal (modules-number)
+# Copyright YEAR NAME <EMAIL@ADDRESS>
+# Generated from files:
+#  number.module,v 1.91.2.35 2009/04/29 20:51:53 karens
+#  number.info,v 1.7 2008/04/23 18:02:16 dww
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"POT-Creation-Date: 2009-06-16 19:00+0200\n"
+"PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
+"Last-Translator: NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+
+#: modules/number/number.module:34
+msgid "Integer"
+msgstr ""
+
+#: modules/number/number.module:35
+msgid "Store a number in the database as an integer."
+msgstr ""
+
+#: modules/number/number.module:39
+msgid "Decimal"
+msgstr ""
+
+#: modules/number/number.module:40
+msgid "Store a number in the database in a fixed decimal format."
+msgstr ""
+
+#: modules/number/number.module:44
+msgid "Float"
+msgstr ""
+
+#: modules/number/number.module:45
+msgid "Store a number in the database in a floating point format."
+msgstr ""
+
+#: modules/number/number.module:60
+msgid "Minimum"
+msgstr ""
+
+#: modules/number/number.module:66
+msgid "Maximum"
+msgstr ""
+
+#: modules/number/number.module:74
+msgid "Precision"
+msgstr ""
+
+#: modules/number/number.module:75
+msgid "The total number of digits to store in the database, including those to the right of the decimal."
+msgstr ""
+
+#: modules/number/number.module:81
+msgid "Scale"
+msgstr ""
+
+#: modules/number/number.module:82
+msgid "The number of digits to the right of the decimal."
+msgstr ""
+
+#: modules/number/number.module:88
+msgid "Decimal marker"
+msgstr ""
+
+#: modules/number/number.module:89
+msgid "The character users will input to mark the decimal point in forms."
+msgstr ""
+
+#: modules/number/number.module:95
+msgid "Prefix"
+msgstr ""
+
+#: modules/number/number.module:98
+msgid "Define a string that should be prefixed to the value, like $ or €. Leave blank for none. Separate singular and plural values with a pipe (pound|pounds)."
+msgstr ""
+
+#: modules/number/number.module:102
+msgid "Suffix"
+msgstr ""
+
+#: modules/number/number.module:105
+msgid "Define a string that should suffixed to the value, like m², m/s², kb/s. Leave blank for none. Separate singular and plural values with a pipe (pound|pounds)."
+msgstr ""
+
+#: modules/number/number.module:198
+msgid "\"Minimum\" must be a number."
+msgstr ""
+
+#: modules/number/number.module:205
+msgid "\"Maximum\" must be a number."
+msgstr ""
+
+#: modules/number/number.module:222
+msgid "%name: the value may be no smaller than %min."
+msgstr ""
+
+#: modules/number/number.module:225
+msgid "%name: the value may be no larger than %max."
+msgstr ""
+
+#: modules/number/number.module:273
+msgid "unformatted"
+msgstr ""
+
+#: modules/number/number.module:515
+msgid "Only numbers and decimals are allowed in %field."
+msgstr ""
+
+#: modules/number/number.module:538
+msgid "Only numbers are allowed in %field."
+msgstr ""
+
+#: modules/number/number.module:562
+msgid "Only numbers and the decimal character (%decimal) are allowed in %field."
+msgstr ""
+
+#: modules/number/number.module:0
+msgid "number"
+msgstr ""
+
+#: modules/number/number.info:0
+msgid "Number"
+msgstr ""
+
+#: modules/number/number.info:0
+msgid "Defines numeric field types."
+msgstr ""
+

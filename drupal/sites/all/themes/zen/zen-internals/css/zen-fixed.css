@@ -1,0 +1,1595 @@
+/* $Id: zen-fixed.css,v 1.12.2.3 2010/06/26 18:29:22 johnalbin Exp $ */
+
+/* Id: html-reset.css,v 1.6.2.2 2010/06/26 15:36:03 johnalbin Exp */
+
+/**
+ * @file
+ * HTML Element Styling
+ *
+ * Ok, I admit it. I fooled you. This isn't a "reset" stylesheet. Instead this
+ * is the place where you should set (not reset) the default styling for all
+ * HTML elements.
+ *
+ * @see http://meiert.com/en/blog/20080419/reset-style-sheets-are-bad/
+ * @see http://snook.ca/archives/html_and_css/no_css_reset/
+ */
+
+
+/*
+ * Fonts
+ *
+ * Our font size and line height declarations are based on the following ALA
+ * article:
+ *   http://www.alistapart.com/articles/howtosizetextincss
+ *
+ * All modern browsrs use a 16px default font size. Specifying the font-size
+ * and line-height in ems (relative to the 16px default font) allows the user
+ * to resize the font in the browser and produces the most consistent results
+ * across different browsers.
+ */
+body {
+  font-size: 100%; /* Fixes exaggerated text resizing in IE6 and IE7 */
+}
+
+#skip-link,
+#page {
+  /*
+   * To use a 12px font size on the page, delete the 14px declarations.
+   * to use a 14px font size on the page, delete the 12px declarations.
+   */
+
+  /* Use a 12px base font size with a 16px line height */
+  font-size: 0.75em; /* 16px x .75 = 12px */
+  line-height: 1.333em; /* 12px x 1.333 = 16px */
+
+  /* Use a 14px base font size with a 18px line height */
+  font-size: 0.875em; /* 16px x .875 = 14px */
+  line-height: 1.286em; /* 14px x 1.286 = 18px */
+}
+
+body,
+caption,
+th,
+td,
+input,
+textarea,
+select,
+option,
+legend,
+fieldset {
+  /* The following font family declarations are based on the Microsoft core web
+   * fonts which are common fonts available on most computer systems. The DejaVu
+   * fonts are commonly available on Linux systems where the MS fonts are less
+   * common. Tahoma and Helvetica are also widely available.
+   *
+   * A user's web browser will look at the comma-separated list and will
+   * attempt to use each font in turn until it finds one that is available
+   * on the user's computer. The final "generic" font (sans-serif or serif)
+   * hints at what type of font to use if the web browser doesn't find any
+   * of the fonts in the list.
+
+  font-family: "Times New Roman", Times, Georgia, "DejaVu Serif", serif;
+  font-family: Times, "Times New Roman", Georgia, "DejaVu Serif", serif;
+  font-family: Georgia, "Times New Roman", "DejaVu Serif", serif;
+
+  font-family: Verdana, Tahoma, "DejaVu Sans", sans-serif;
+  font-family: Tahoma, Verdana, "DejaVu Sans", sans-serif;
+  font-family: Helvetica, Arial, "Nimbus Sans L", sans-serif;
+  font-family: Arial, Helvetica, "Nimbus Sans L", sans-serif;
+
+  font-family: "Courier New", "DejaVu Sans Mono", monospace;
+
+   */
+
+  font-family: Verdana, Tahoma, "DejaVu Sans", sans-serif;
+}
+
+pre,
+code {
+  font-size: 1.1em; /* Monospace fonts can be hard to read */
+  font-family: "Courier New", "DejaVu Sans Mono", monospace;
+}
+
+/*
+ * Headings
+ */
+h1 {
+  font-size: 2em;
+  line-height: 1.3em;
+  margin-top: 0;
+  margin-bottom: 0.5em; /* 0.5em is equavalent to 1em in the page's base font.
+                           Remember, a margin specified in ems is relative to
+                           the element's font-size, not to the pages' base
+                           font size. So, for example, if we want a 1em margin
+                           (relative to the base font), we have to divide that
+                           length by the element's font-size:
+                           1em / 2em = 0.5em */
+}
+
+h2 {
+  font-size: 1.5em;
+  line-height: 1.3em;
+  margin-top: 0.667em; /* Equivalent to 1em in the page's base font: 1 / 1.5 = 0.667em */
+  margin-bottom: 0.667em;
+}
+
+h3 {
+  font-size: 1.3em;
+  line-height: 1.3em;
+  margin-top: 0.769em; /* Equivalent to 1em in the page's base font: 1 / 1.3 = 0.769 */
+  margin-bottom: 0.769em;
+}
+
+h4,
+h5,
+h6 {
+  font-size: 1.1em;
+  line-height: 1.3em;
+  margin-top: 0.909em; /* Equivalent to 1em in the page's base font: 1 / 1.1 = 0.909 */
+  margin-bottom: 0.909em;
+}
+
+/*
+ * Block-level elements
+ */
+p,
+ul,
+ol,
+dl,
+pre,
+table,
+fieldset {
+  margin: 1em 0;
+}
+
+blockquote {
+  margin: 1em 2em;
+}
+
+/*
+ * Lists
+ *
+ * We need to standardize the list item indentation.
+ */
+ul,
+ol {
+  margin-left: 0;
+  padding-left: 2em; /* LTR */
+}
+
+.block ul,
+.item-list ul /* Drupal overrides */ {
+  margin: 1em 0;
+  padding: 0 0 0 2em; /* LTR */
+}
+
+ul ul, ul ol,
+ol ol, ol ul,
+.block ul ul, .block ul ol,
+.block ol ol, .block ol ul,
+.item-list ul ul, .item-list ul ol,
+.item-list ol ol, .item-list ol ul {
+  margin: 0;
+}
+
+li {
+  margin: 0;
+  padding: 0;
+}
+
+.item-list ul li /* Drupal override */ {
+  margin: 0;
+  padding: 0;
+  list-style: inherit;
+}
+
+ul.menu li,
+li.expanded,
+li.collapsed,
+li.leaf /* Drupal override */ {
+  margin: 0;
+  padding: 0;
+}
+
+ul          { list-style-type: disc; }
+ul ul       { list-style-type: circle; }
+ul ul ul    { list-style-type: square; }
+ul ul ul ul { list-style-type: circle; }
+ol          { list-style-type: decimal; }
+ol ol       { list-style-type: lower-alpha; }
+ol ol ol    { list-style-type: decimal; }
+
+dt {
+  margin: 0;
+  padding: 0;
+}
+
+dd {
+  margin: 0 0 0 2em;
+  padding: 0;
+}
+
+/*
+ * Links
+ *
+ * The order of link states are based on Eric Meyer's article:
+ * http://meyerweb.com/eric/thoughts/2007/06/11/who-ordered-the-link-states
+ */
+a:link {
+}
+
+a:visited {
+}
+
+a:hover,
+a:focus {
+}
+
+a:active {
+}
+
+/*
+ * Tables
+ *
+ * Drupal provides table styling which is only useful for its admin section
+ * forms, so we override this default CSS. (We set it back in forms.css.)
+ */
+table {
+  border-collapse: collapse;
+  /* width: 100%; */ /* Prevent cramped-looking tables */
+}
+
+th,
+thead th,
+tbody th {
+  text-align: left; /* LTR */
+  padding: 0;
+  border-bottom: none;
+}
+
+tbody {
+  border-top: none;
+}
+
+/*
+ * Abbreviations
+ */
+abbr {
+  border-bottom: 1px dotted #666;
+  cursor: help;
+  white-space: nowrap;
+}
+
+abbr.created /* Date-based "abbreviations" show computer-friendly timestamps which are not human-friendly. */ {
+  border: none;
+  cursor: auto;
+  white-space: normal;
+}
+
+/*
+ * Images
+ */
+img {
+  border: 0;
+}
+
+/*
+ * Horizontal rules
+ */
+hr {
+  height: 1px;
+  border: 1px solid #666;
+}
+
+/*
+ * Forms
+ */
+form {
+  margin: 0;
+  padding: 0;
+}
+
+fieldset {
+  margin: 1em 0;
+  padding: 0.5em;
+}
+/* Id: wireframes.css,v 1.10 2009/11/04 21:01:11 johnalbin Exp */
+
+/**
+ * @file
+ * Wireframes Styling
+ *
+ * Add wireframes to the basic layout elements.
+ */
+
+
+.with-wireframes #header .section,
+.with-wireframes #content .section,
+.with-wireframes #navigation .section,
+.with-wireframes .region-sidebar-first .section,
+.with-wireframes .region-sidebar-second .section,
+.with-wireframes #footer .section {
+  margin: 1px;
+  padding: 2px;
+  border: 1px solid #ccc;
+}
+
+.with-wireframes .region-page-closure {
+  margin-top: 1px;
+  padding: 2px;
+  border: 1px solid #ccc;
+}
+/* Id: layout-fixed.css,v 1.17 2009/11/05 12:09:53 johnalbin Exp */
+
+/**
+ * @file
+ * Layout Styling (DIV Positioning)
+ *
+ * Define CSS classes to create a table-free, 3-column, 2-column, or single
+ * column layout depending on whether blocks are enabled in the left or right
+ * columns.
+ *
+ * This layout is based on the Zen Columns layout method.
+ *   http://drupal.org/node/201428
+ *
+ * Only CSS that affects the layout (positioning) of major elements should be
+ * listed here.  Such as:
+ *   display, position, float, clear, width, height, min-width, min-height
+ *   margin, border, padding, overflow
+ */
+
+
+/*
+ * Body
+ */
+body {
+}
+
+#page-wrapper,
+.region-page-closure {
+  /*
+   * If you want to make the page a fixed width and centered in the viewport,
+   * this is the standards-compliant way to do that. See also the ie6.css file
+   * for the necessary IE5/IE6quirks hack to center a div.
+   */
+  margin-left: auto;
+  margin-right: auto;
+  width: 960px;
+}
+
+#page {
+}
+
+/*
+ * Header
+ */
+#header {
+}
+
+#header .section {
+}
+
+#search-box {
+}
+
+.region-header {
+  clear: both; /* Clear the logo */
+}
+
+/*
+ * Main (container for everything else)
+ */
+#main-wrapper {
+  position: relative;
+}
+
+#main {
+}
+
+/*
+ * Content
+ */
+#content,
+.no-sidebars #content {
+  float: left; /* LTR */
+  width: 960px;
+  margin-left: 0; /* LTR */
+  margin-right: -960px; /* LTR */ /* Negative value of #content's width + left margin. */
+  padding: 0; /* DO NOT CHANGE. Add padding or margin to #content .section. */
+}
+
+.sidebar-first #content {
+  width: 760px;
+  margin-left: 200px; /* LTR */ /* The width of .region-sidebar-first. */
+  margin-right: -960px; /* LTR */ /* Negative value of #content's width + left margin. */
+}
+
+.sidebar-second #content {
+  width: 760px;
+  margin-left: 0; /* LTR */
+  margin-right: -760px; /* LTR */ /* Negative value of #content's width + left margin. */
+}
+
+.two-sidebars #content {
+  width: 560px;
+  margin-left: 200px; /* LTR */ /* The width of .region-sidebar-first */
+  margin-right: -760px; /* LTR */ /* Negative value of #content's width + left margin. */
+}
+
+#content .section {
+  margin: 0;
+  padding: 0;
+}
+
+/*
+ * Navigation
+ */
+#navigation {
+  float: left; /* LTR */
+  width: 100%;
+  margin-left: 0; /* LTR */
+  margin-right: -100%; /* LTR */ /* Negative value of #navigation's width + left margin. */
+  padding: 0; /* DO NOT CHANGE. Add padding or margin to #navigation .section. */
+  height: 2.3em; /* The navigation can have any arbritrary height. We picked one
+                    that is the line-height plus 1em: 1.3 + 1 = 2.3
+                    Set this to the same value as the margin-top below. */
+}
+
+.with-navigation #content,
+.with-navigation .region-sidebar-first,
+.with-navigation .region-sidebar-second {
+  margin-top: 2.3em; /* Set this to the same value as the navigation height above. */
+}
+
+#navigation .section {
+}
+
+#navigation ul /* Primary and secondary links */ {
+  margin: 0;
+  padding: 0;
+  text-align: left; /* LTR */
+}
+
+#navigation li /* A simple method to get navigation links to appear in one line. */ {
+  float: left; /* LTR */
+  padding: 0 10px 0 0; /* LTR */
+}
+
+/*
+ * First sidebar
+ */
+.region-sidebar-first {
+  float: left; /* LTR */
+  width: 200px;
+  margin-left: 0; /* LTR */
+  margin-right: -200px; /* LTR */ /* Negative value of .region-sidebar-first's width + left margin. */
+  padding: 0; /* DO NOT CHANGE. Add padding or margin to .region-sidebar-first .section. */
+}
+
+.region-sidebar-first .section {
+  margin: 0 20px 0 0; /* LTR */
+  padding: 0;
+}
+
+/*
+ * Second sidebar
+ */
+.region-sidebar-second {
+  float: left; /* LTR */
+  width: 200px;
+  margin-left: 760px; /* LTR */ /* Width of content + sidebar-first. */
+  margin-right: -960px; /* LTR */ /* Negative value of .region-sidebar-second's width + left margin. */
+  padding: 0; /* DO NOT CHANGE. Add padding or margin to .region-sidebar-second .section. */
+}
+
+.region-sidebar-second .section {
+  margin: 0 0 0 20px; /* LTR */
+  padding: 0;
+}
+
+/*
+ * Footer
+ */
+#footer {
+}
+
+#footer .section {
+}
+
+/*
+ * Closure
+ */
+.region-page-closure /* See also the #page-wrapper declaration above that this div shares. */ {
+}
+
+/*
+ * Prevent overflowing content
+ */
+#header,
+#content,
+#navigation,
+.region-sidebar-first,
+.region-sidebar-second,
+#footer,
+.region-page-closure {
+  overflow: visible;
+  word-wrap: break-word; /* A very nice CSS3 property */
+}
+
+#navigation {
+  overflow: hidden; /* May need to be removed if using a dynamic drop-down menu */
+}
+
+/*
+ * If a div.clearfix doesn't have any content after it and its bottom edge
+ * touches the bottom of the viewport, Firefox and Safari will mistakenly
+ * place several pixels worth of space between the bottom of the div and the
+ * bottom of the viewport. Uncomment this CSS property to fix this.
+ * Note: with some over-large content, this property might cause scrollbars
+ * to appear on the #page-wrapper div.
+ */
+/*
+#page-wrapper {
+  overflow-y: hidden;
+}
+*/
+/* Id: page-backgrounds.css,v 1.8 2009/11/04 20:57:49 johnalbin Exp */
+
+/**
+ * @file
+ * Page Background Styling
+ *
+ * The default layout method of Zen doesn't give themers equal-height columns.
+ * However, equal-height columns are difficult to achieve and totally
+ * unnecessary. Instead, use the Faux Columns method described in the following
+ * ALA article:
+ *   http://www.alistapart.com/articles/fauxcolumns/
+ */
+
+
+body {
+}
+
+#page-wrapper {
+}
+
+#page {
+}
+
+#header {
+}
+
+#header .section {
+}
+
+#main-wrapper {
+}
+
+#main {
+}
+
+#footer {
+}
+
+#footer .section {
+}
+/* Id: tabs.css,v 1.2 2009/08/12 08:03:53 johnalbin Exp */
+
+/**
+ * @file
+ * Tabs Styling
+ *
+ * Adds styles for the primary and secondary tabs.
+ *
+ * Compare this with default CSS found in the system module's stylesheet (a copy
+ * of which is in drupal6-reference.css, line 510.)
+ */
+
+
+div.tabs {
+  margin: 0 0 5px 0;
+}
+
+ul.primary {
+  margin: 0;
+  padding: 0 0 0 10px; /* LTR */
+  border-width: 0;
+  list-style: none;
+  white-space: nowrap;
+  line-height: normal;
+  background: url(../images/tab-bar.png) repeat-x left bottom;
+}
+
+ul.primary li {
+  float: left; /* LTR */
+  margin: 0;
+  padding: 0;
+}
+
+ul.primary li a {
+  display: block;
+  height: 24px;
+  margin: 0;
+  padding: 0 0 0 5px; /* width of tab-left.png */
+  border-width: 0;
+  font-weight: bold;
+  text-decoration: none;
+  color: #777;
+  background-color: transparent;
+  background: url(../images/tab-left.png) no-repeat left -38px;
+}
+
+ul.primary li a .tab {
+  display: block;
+  height: 20px; /* 24px (parent) - 4px (padding) */
+  margin: 0;
+  padding: 4px 13px 0 6px;
+  border-width: 0;
+  line-height: 20px;
+  background: url(../images/tab-right.png) no-repeat right -38px;
+}
+
+ul.primary li a:hover {
+  border-width: 0;
+  background-color: transparent;
+  background: url(../images/tab-left.png) no-repeat left -76px;
+}
+
+ul.primary li a:hover .tab {
+  background: url(../images/tab-right.png) no-repeat right -76px;
+}
+
+ul.primary li.active a,
+ul.primary li.active a:hover {
+  border-width: 0;
+  color: #000;
+  background-color: transparent;
+  background: url(../images/tab-left.png) no-repeat left 0;
+}
+
+ul.primary li.active a .tab,
+ul.primary li.active a:hover .tab {
+  background: url(../images/tab-right.png) no-repeat right 0;
+}
+
+ul.secondary {
+  margin: 0;
+  padding: 0 0 0 5px; /* LTR */
+  border-bottom: 1px solid #c0c0c0;
+  list-style: none;
+  white-space: nowrap;
+  background: url(../images/tab-secondary-bg.png) repeat-x left bottom;
+}
+
+ul.secondary li {
+  float: left; /* LTR */
+  margin: 0 5px 0 0;
+  padding: 5px 0;
+  border-right: none; /* LTR */
+}
+
+ul.secondary a {
+  display: block;
+  height: 24px;
+  margin: 0;
+  padding: 0;
+  border: 1px solid #c0c0c0;
+  text-decoration: none;
+  color: #777;
+  background: url(../images/tab-secondary.png) repeat-x left -56px;
+}
+
+ul.secondary a .tab {
+  display: block;
+  height: 18px; /* 24px (parent) - 6px (padding) */
+  margin: 0;
+  padding: 3px 8px;
+  line-height: 18px;
+}
+
+ul.secondary a:hover {
+  background: url(../images/tab-secondary.png) repeat-x left bottom;
+}
+
+ul.secondary a.active,
+ul.secondary a.active:hover {
+  border: 1px solid #c0c0c0;
+  color: #000;
+  background: url(../images/tab-secondary.png) repeat-x left top;
+}
+/* Id: messages.css,v 1.3 2009/08/12 08:37:42 johnalbin Exp */
+
+/**
+ * @file
+ * Message Styling
+ *
+ * Sensible styling for Drupal's error/warning/status messages.
+ */
+
+
+div.messages,
+div.status,
+div.warning,
+div.error /* Important messages (status, warning, and error) for the user */ {
+  min-height: 21px;
+  margin: 0 1em 5px 1em;
+  border: 2px solid #ff7;
+  padding: 5px 5px 5px 35px; /* LTR */
+  color: #000;
+  background-color: #ffc;
+  background-image: url(../images/messages-status.png);
+  background-repeat: no-repeat;
+  background-position: 5px 5px; /* LTR */
+}
+
+div.status /* Normal priority messages */ {
+}
+
+div.warning /* Medium priority messages */ {
+  border-color: #fc0;
+  background-image: url(../images/messages-warning.png);
+}
+
+div.warning,
+tr.warning {
+  color: #000; /* Drupal core uses #220 */
+  background-color: #ffc;
+}
+
+div.error /* High priority messages. See also the .error declaration in pages.css. */ {
+  /* border: 1px solid #d77; */ /* Drupal core uses: 1px solid #d77 */
+  border-color: #c00;
+  background-image: url(../images/messages-error.png);
+}
+
+div.error,
+tr.error {
+  color: #900; /* Drupal core uses #200 */
+  background-color: #fee;
+}
+
+div.messages ul {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+/* Id: pages.css,v 1.18.2.3 2010/06/26 17:18:58 johnalbin Exp */
+
+/**
+ * @file
+ * Page Styling
+ *
+ * Style the markup found in page.tpl.php. Also includes some styling of
+ * miscellaneous Drupal elements that appear in the $content variable, such as
+ * ul.links, .pager, .more-link, etc.
+ */
+
+
+/*
+ * Body
+ */
+body {
+  margin: 0;
+  padding: 0;
+}
+
+#page-wrapper {
+}
+
+#page {
+}
+
+/*
+ * The skip navigation link will be completely hidden until a user tabs to the
+ * link. See http://www.webaim.org/techniques/skipnav/
+ */
+#skip-link a,
+#skip-link a:visited {
+  position: absolute;
+  display: block;
+  left: 0;
+  top: -500px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  text-align: center;
+  background-color: #666;
+  color: #fff;
+}
+
+#skip-link a:hover,
+#skip-link a:active,
+#skip-link a:focus {
+  position: static;
+  width: 100%;
+  height: auto;
+  padding: 2px 0 3px 0;
+}
+
+/*
+ * Header
+ */
+#header {
+}
+
+#header .section {
+}
+
+#logo /* Wrapping link for logo */ {
+  float: left; /* LTR */
+  margin: 0;
+  padding: 0;
+}
+
+#logo img {
+  vertical-align: bottom;
+}
+
+#name-and-slogan /* Wrapper for website name and slogan */ {
+}
+
+h1#site-name,
+div#site-name /* The name of the website */ {
+  margin: 0;
+  font-size: 2em;
+  line-height: 1.3em;
+}
+
+#site-name a:link,
+#site-name a:visited {
+  color: #000;
+  text-decoration: none;
+}
+
+#site-name a:hover,
+#site-name a:focus {
+  text-decoration: underline;
+}
+
+#site-slogan /* The slogan (or tagline) of a website */ {
+}
+
+.region-header /* Wrapper for any blocks placed in the header region */ {
+}
+
+/*
+ * Main (container for everything else)
+ */
+#main-wrapper {
+}
+
+#main {
+}
+
+/*
+ * Content
+ */
+#content {
+}
+
+#content .section {
+}
+
+#mission /* The mission statement of the site (displayed on homepage) */ {
+}
+
+.region-content-top /* Wrapper for any blocks placed in the "content top" region */ {
+}
+
+.breadcrumb /* The path to the current page in the form of a list of links */ {
+  padding-bottom: 0; /* Undo system.css */
+}
+
+h1.title, /* The title of the page */
+h2.title, /* Block title or the title of a piece of content when it is given in a list of content */
+h3.title /* Comment title */ {
+  margin: 0;
+}
+
+tr.even /* Some tables have rows marked even or odd. */ {
+  /* background-color: #eee; */ /* Drupal core uses a #eee background */
+}
+
+tr.odd {
+  /* background-color: #eee; */ /* Drupal core uses a #eee background */
+}
+
+div.messages /* Important messages (status, warning, and error) for the user. See also the declarations in messages.css. */ {
+}
+
+div.status /* Normal priority messages */ {
+}
+
+div.warning,
+tr.warning /* Medium priority messages */ {
+  /* border: 1px solid #f0c020; */ /* Drupal core uses: 1px solid #f0c020 */
+}
+
+div.error,
+tr.error /* High priority messages. See also the .error declaration below. */ {
+}
+
+.error /* Errors that are separate from div.messages status messages. */ {
+  /* color: #e55; */ /* Drupal core uses a #e55 background */
+}
+
+.warning /* Warnings that are separate from div.messages status messages. */ {
+  /* color: #e09010; */ /* Drupal core uses a #e09010 background */
+}
+
+div.tabs /* See also the tabs.css file. */ {
+}
+
+.help /* Help text on a page */ {
+  margin: 1em 0;
+}
+
+.more-help-link /* Link to more help */ {
+  font-size: 0.85em;
+  text-align: right;
+}
+
+#content-area /* Wrapper for the actual page content */ {
+}
+
+ul.links /* List of links */ {
+  margin: 1em 0;
+  padding: 0;
+}
+
+ul.links.inline {
+  margin: 0;
+  display: inline;
+}
+
+ul.links li {
+  display: inline;
+  list-style-type: none;
+  padding: 0 0.5em;
+}
+
+.pager /* A list of page numbers when more than 1 page of content is available */ {
+  clear: both;
+  margin: 1em 0;
+  text-align: center;
+}
+
+.pager a,
+.pager strong.pager-current /* Each page number in the pager list */ {
+  padding: 0.5em;
+}
+
+.feed-icons /* The links to the RSS or Atom feeds for the current list of content */ {
+  margin: 1em 0;
+}
+
+.more-link /* Aggregator, blog, and forum more link */ {
+  text-align: right; /* LTR */
+}
+
+.region-content-bottom /* Wrapper for any blocks placed in the "content bottom" region */ {
+}
+
+/*
+ * First sidebar (on left in LTR languages, on right in RTL)
+ *
+ * Remember to NOT add padding or margin to your .region-sidebar-first
+ * (see the layout.css file.)
+ */
+.region-sidebar-first {
+}
+
+.region-sidebar-first .section {
+}
+
+/*
+ * Second sidebar (on right in LTR languages, on left in RTL)
+ *
+ * Remember to NOT add padding or margin to your .region-sidebar-second
+ * (see the layout.css file.)
+ */
+.region-sidebar-second {
+}
+
+.region-sidebar-second .section {
+}
+
+/*
+ * Footer
+ */
+#footer {
+}
+
+#footer .section {
+}
+
+#footer-message /* Wrapper for the footer message from Drupal's "Site information"
+                   and for any blocks placed in the footer region */ {
+}
+
+.region-footer {
+}
+
+/*
+ * Closure
+ */
+.region-page-closure /* Wrapper for any blocks placed in the closure region */ {
+}
+
+/*
+ * Drupal boxes
+ *
+ * Wrapper for Comment form, Comment viewing options, Menu admin, and
+ * Search results.
+ */
+.box /* Wrapper for box */ {
+}
+
+.box h2 /* Box title */ {
+}
+
+.box .content /* Box's content wrapper */ {
+}
+
+/*
+ * Markup free clearing (See: http://www.positioniseverything.net/easyclearing.html )
+ */
+.clearfix:after {
+  content: ".";
+  display: block;
+  height: 0;
+  clear: both;
+  visibility: hidden;
+}
+
+/**
+ * Hide elements from all users.
+ *
+ * Used for elements which should not be immediately displayed to any user. An
+ * example would be a collapsible fieldset that will be expanded with a click
+ * from a user. The effect of this class can be toggled with the jQuery show()
+ * and hide() functions.
+ */
+.element-hidden {
+  display: none;
+}
+
+/**
+ * Hide elements visually, but keep them available for screen-readers.
+ *
+ * Used for information required for screen-reader users to understand and use
+ * the site where visual display is undesirable. Information provided in this
+ * manner should be kept concise, to avoid unnecessary burden on the user. Must
+ * not be used for focusable elements (such as links and form elements) as this
+ * causes issues for keyboard only or voice recognition users. "!important" is
+ * used to prevent unintentional overrides.
+ */
+.element-invisible {
+  position: absolute !important;
+  clip: rect(1px 1px 1px 1px); /* IE6, IE7 */
+  clip: rect(1px, 1px, 1px, 1px);
+}
+/* Id: block-editing.css,v 1.3 2009/11/05 14:01:26 johnalbin Exp */
+
+/**
+ * @file
+ * Zen's rollover edit links for blocks.
+ */
+
+
+div.block.with-block-editing {
+  position: relative;
+}
+
+div.block.with-block-editing div.edit {
+  display: none;
+  position: absolute;
+  right: 0; /* LTR */
+  top: 0;
+  z-index: 40;
+  border: 1px solid #eee;
+  padding: 0 2px;
+  font-size: 0.75em;
+  background-color: #fff;
+}
+
+div.block.with-block-editing:hover div.edit {
+  display: block;
+}
+/* Id: blocks.css,v 1.4 2009/11/05 11:05:39 johnalbin Exp */
+
+/**
+ * @file
+ * Block Styling
+ */
+
+
+.block /* Block wrapper */ {
+  margin-bottom: 1em;
+}
+
+.block.region-odd /* Zebra striping for each block in the region */ {
+}
+
+.block.region-even /* Zebra striping for each block in the region */ {
+}
+
+.block.odd /* Zebra striping independent of each region */ {
+}
+
+.block.even /* Zebra striping independent of each region */ {
+}
+
+.region-count-1 /* Incremental count for each block in the region */ {
+}
+
+.count-1 /* Incremental count independent of each region */ {
+}
+
+.block h2.title /* Block title */ {
+}
+
+.block .content /* Block's content wrapper */ {
+}
+
+#block-aggregator-category-1 /* Block for the latest news items in the first category */ {
+}
+
+#block-aggregator-feed-1 /* Block for the latest news items in the first feed */ {
+}
+
+#block-block-1 /* First administrator-defined block */ {
+}
+
+#block-blog-0 /* "Recent blog posts" block */ {
+}
+
+#block-book-0 /* "Book navigation" block for the current book's table of contents */ {
+}
+
+#block-comment-0 /* "Recent comments" block */ {
+}
+
+#block-forum-0 /* "Active forum topics" block */ {
+}
+
+#block-forum-1 /* "New forum topics" block */ {
+}
+
+#block-menu-primary-links /* "Primary links" block */ {
+}
+
+#block-menu-secondary-links /* "Secondary links" block */ {
+}
+
+#block-node-0 /* "Syndicate" block for primary RSS feed */ {
+}
+
+#block-poll-0 /* "Most recent poll" block */ {
+}
+
+#block-profile-0 /* "Author information" block for the profile of the page's author */ {
+}
+
+#block-search-0 /* "Search form" block */ {
+}
+
+#block-statistics-0 /* "Popular content" block */ {
+}
+
+#block-user-0 /* "User login form" block */ {
+}
+
+#block-user-1 /* "Navigation" block for Drupal navigation menu */ {
+}
+
+#block-user-2 /* "Who's new" block for a list of the newest users */ {
+}
+
+#block-user-3 /* "Who's online" block for a list of the online users */ {
+}
+/* Id: navigation.css,v 1.5 2009/11/04 19:42:41 johnalbin Exp */
+
+/**
+ * @file
+ * Navigation Styling
+ */
+
+
+/*
+ * The active item in a Drupal menu
+ */
+li a.active {
+  color: #000;
+}
+
+/*
+ * Navigation bar
+ */
+#navigation {
+}
+
+.region-navigation {
+}
+
+/*
+ * Primary and Secondary menu links
+ */
+#main-menu {
+}
+
+#secondary-menu {
+}
+
+/*
+ * Menu blocks
+ */
+.block-menu {
+}
+
+/*
+ * "Menu block" blocks. See http://drupal.org/project/menu_block
+ */
+.block-menu_block {
+}
+/* Id: panels-styles.css,v 1.1.2.1 2009/12/12 15:31:54 johnalbin Exp */
+
+/**
+ * @file
+ * Panels Styling
+ */
+
+
+/* Id: views-styles.css,v 1.1 2009/08/12 04:25:15 johnalbin Exp */
+
+/**
+ * @file
+ * Views Styling
+ */
+
+
+/* Id: nodes.css,v 1.6 2009/11/02 15:37:29 johnalbin Exp */
+
+/**
+ * @file
+ * Node Styling
+ *
+ * Style anything that isn't in the $content variable.
+ */
+
+
+.node /* Node wrapper */ {
+}
+
+.node-sticky /* A sticky node (displayed before others in a list) */ {
+}
+
+.node-unpublished /* Unpublished nodes */ {
+  /* background-color: #fff4f4; */ /* Drupal core uses a #fff4f4 background */
+}
+
+.node-unpublished div.unpublished,
+.comment-unpublished div.unpublished /* The word "Unpublished" displayed underneath the content. */ {
+  height: 0;
+  overflow: visible;
+  color: #d8d8d8;
+  font-size: 75px;
+  line-height: 1;
+  font-family: Impact, "Arial Narrow", Helvetica, sans-serif;
+  font-weight: bold;
+  text-transform: uppercase;
+  text-align: center;
+  word-wrap: break-word; /* A very nice CSS3 property */
+}
+
+.node-by-viewer /* A node created by the current user */ {
+}
+
+.node-teaser /* A node displayed as teaser */ {
+}
+
+/* All nodes are given a node-type-FOO class that describes the type of
+ * content that it is. If you create a new content type called
+ * "my-custom-type", it will receive a "node-type-my-custom-type" class.
+ */
+.node-type-page /* Page content node */ {
+}
+
+.node-type-story /* Story content node */ {
+}
+
+.node h2.title /* Node title */ {
+}
+
+.marker /* "New" or "Updated" marker for content that is new or updated for the current user */ {
+  color: #c00;
+}
+
+.node .picture /* The picture of the node author */ {
+}
+
+.node.node-unpublished .picture,
+.comment.comment-unpublished .picture {
+  position: relative; /* Otherwise floated pictures will appear below the "Unpublished" text. */
+}
+
+.node .meta /* Wrapper for submitted and terms data */ {
+}
+
+.node .submitted /* The "posted by" information */ {
+}
+
+.node .terms /* Node terms (taxonomy) */ {
+}
+
+.node .content /* Node's content wrapper */ {
+}
+
+.node ul.links /* Node links. See also the ul.links declaration in the pages.css. */ {
+}
+
+.preview .node /* Preview of the content before submitting new or updated content */ {
+  /* background-color: #ffffea; */ /* Drupal core uses a #ffffea background */
+}
+/* Id: comments.css,v 1.5 2009/11/01 20:54:20 johnalbin Exp */
+
+/**
+ * @file
+ * Comment Styling
+ */
+
+
+#comments /* Wrapper for the list of comments and its title */ {
+  margin: 1em 0;
+}
+
+#comments .title /* Heading for the list of comments */ {
+}
+
+.comment /* Wrapper for a single comment */ {
+}
+
+.comment-preview /* Preview of the comment before submitting new or updated comment */ {
+}
+
+.comment.new /* A new comment since the user last viewed the page. */ {
+}
+
+.comment.first /* The first comment in the list of comments */ {
+}
+
+.comment.last /* The last comment in the list of comments */ {
+}
+
+.comment.odd /* An odd-numbered comment in the list of comments */ {
+}
+
+.comment.even /* An even-numbered comment in the list of comments */ {
+}
+
+.comment-unpublished /* Unpublished comments */ {
+  /* background-color: #fff4f4; */ /* Drupal core uses a #fff4f4 background */
+}
+
+.comment-unpublished div.unpublished /* The word "Unpublished" displayed underneath the content. See also the div.unpublished declaration in the nodes.css. */ {
+}
+
+.comment-by-anonymous /* A comment created by an anonymous user */ {
+}
+
+.comment-by-node-author /* A comment created by the node's author */ {
+}
+
+.comment-by-viewer /* A comment created by the current user */ {
+}
+
+.comment h3.title /* Comment title */ {
+}
+
+.new /* "New" marker for comments that are new for the current user */ {
+  color: #c00;
+}
+
+.comment .picture /* The picture of the comment author */ {
+}
+
+.comment .submitted /* The "posted by" information */ {
+}
+
+.comment .content /* Comment's content wrapper */ {
+}
+
+.comment .user-signature /* The user's signature */ {
+}
+
+.comment ul.links /* Comment links. See also the ul.links declaration in the pages.css. */ {
+}
+
+.indented /* Nested comments are indented */ {
+  /* margin-left: 25px; */ /* Drupal core uses a 25px left margin */
+}
+
+.preview .comment /* Preview of the comment before submitting new or updated comment */ {
+  /* background-color: #ffffea; */ /* Drupal core uses a #ffffea background */
+}
+/* Id: forms.css,v 1.3 2009/08/12 08:37:42 johnalbin Exp */
+
+/**
+ * @file
+ * Form Styling
+ */
+
+
+.form-item,
+.form-checkboxes,
+.form-radios /* Wrapper for a form element (or group of form elements) and its label */ {
+  margin: 1em 0;
+}
+
+.form-item input.error,
+.form-item textarea.error,
+.form-item select.error /* Highlight the form elements that caused a form submission error */ {
+  border: 2px solid #c00;
+}
+
+.form-item label /* The label for a form element */ {
+  display: block;
+  font-weight: bold;
+}
+
+.form-item label.option /* The label for a radio button or checkbox */ {
+  display: inline;
+  font-weight: normal;
+}
+
+.form-required /* The part of the label that indicates a required field */ {
+  color: #c00;
+}
+
+.form-item .description /* The descriptive help text (separate from the label) */ {
+  font-size: 0.85em;
+}
+
+.form-checkboxes .form-item,
+.form-radios .form-item /* Pack groups of checkboxes and radio buttons closer together */ {
+  margin: 0.4em 0;
+}
+
+.form-submit /* The submit button */ {
+}
+
+.container-inline div,
+.container-inline label /* Inline labels and form divs */ {
+  display: inline;
+}
+
+.tips /* Tips for Drupal's input formats */ {
+}
+
+
+/*
+ * Search (search-theme-form.tpl.php)
+ */
+#search-box /* Wrapper for the search form */ {
+}
+
+#edit-search-theme-form-1-wrapper label /* Label that says "Search this site:" */ {
+  display: none;
+}
+
+
+/*
+ * Search (search-block-form.tpl.php)
+ */
+#search-block-form /* Wrapper for the search form */ {
+}
+
+#edit-search-block-form-1-wrapper label /* Label that says "Search this site:" */ {
+  display: none;
+}
+
+
+/*
+ * Drupal's default login form block
+ */
+#user-login-form {
+  text-align: left; /* LTR */
+}
+
+
+/*
+ * OpenID
+ *
+ * The default styling for the OpenID login link seems to assume Garland's
+ * styling of list items.
+ */
+
+#user-login-form ul /* OpenID creates a new ul above the login form's links. */ {
+  margin-bottom: 0; /* Position OpenID's ul next to the rest of the links. */
+}
+
+#user-login-form li.openid-link /* The "Log in using OpenID" link. */ {
+  margin-top: 1em;
+  margin-left: -20px; /* LTR */ /* Un-do some of the padding on the ul list. */
+}
+
+#user-login-form li.user-link /* The "Cancel OpenID login" link. */ {
+  margin-top: 1em;
+}
+
+#user-login ul {
+  margin: 1em 0;
+}
+
+#user-login li.openid-link,
+#user-login li.user-link /* The OpenID links on the /user form. */ {
+  margin-left: -2em; /* LTR */ /* Un-do all of the padding on the ul list. */
+}
+
+
+/*
+ * Drupal admin tables
+ *
+ * We overrode these styles in html-elements.css, but restore them for the admin
+ * section of the site.
+ */
+
+form tbody {
+  border-top: 1px solid #ccc;
+}
+
+form th,
+form thead th {
+  text-align: left; /* LTR */
+  padding-right: 1em; /* LTR */
+  border-bottom: 3px solid #ccc;
+}
+
+form tbody th {
+  border-bottom: 1px solid #ccc;
+}
+/* Id: fields.css,v 1.3 2009/08/12 08:03:52 johnalbin Exp */
+
+/**
+ * @file
+ * Field Styling
+ */
+
+
+/*
+ * Field types
+ */
+
+.field /* Wrapper for any CCK field. */ {
+}
+
+.field-type-datetime /* Always use "datetime" when creating new CCK date fields. "date" and "datestamp" are legacy types. */ {
+}
+
+.field-type-filefield /* Field from filefield module */ {
+}
+
+.field-type-nodereference {
+}
+
+.field-type-number-decimal {
+}
+
+.field-type-number-float {
+}
+
+.field-type-number-integer {
+}
+
+.field-type-text {
+}
+
+.field-type-userreference {
+}
+
+
+/*
+ * Named fields
+ */
+
+.field-field-FIELDNAME /* Underscores in field name are replaced with dashes. */ {
+}

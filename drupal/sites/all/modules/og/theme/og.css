@@ -1,0 +1,55 @@
+.og-picture-wrapper {
+  border-bottom:1px dotted;
+  padding:5px 0px;
+  text-align:center;
+}
+
+.og-picture-wrapper .picture {
+  float: none;
+}
+
+#block-og-5 div.item-list ul { padding: 0; margin: 0;  }
+#block-og-5 div.item-list ul ul li {margin:0}
+
+/*tighter search button on group details block*/
+#block-og-0 .form-item {
+  margin-bottom: .4em;
+}
+
+/*no link on group title in group details block*/
+#block-og-0 h2 a {
+  text-decoration:none;
+}
+
+/*used in node-og-group-post.tpl.php*/
+.groups .links  {
+  display: inline;
+}
+
+.view-id-og_members_faces table td, .view-id-og_members_block {
+  text-align: center;
+  vertical-align: bottom;
+}
+
+.view-id-og_members_block .item-list ul li {
+	border-top: #CCCCCC 1px dotted;
+	padding-top: 4px;
+	list-style: none;
+	background: none;
+	margin-left: 0;
+	padding-left: 0em;
+	text-indent: -1em;
+}
+
+.view-id-og_members_faces tr.row-first td, .view-id-og_members_block ul li:first-child {
+  border-top: none;
+}
+
+.view-id-og_members_faces div.picture, .view-id-og_members_block div.picture {
+  float: none;
+}
+
+.views-field-is-admin {
+  font-style: italic;
+}
+

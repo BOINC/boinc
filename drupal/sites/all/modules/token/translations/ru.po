@@ -1,0 +1,612 @@
+# Russian translation of token (6.x-1.x-dev)
+# Copyright (c) 2009 by the Russian translation team
+# Generated from files:
+#  token_actions.module,v 1.4.2.8 2009/03/24 14:20:52 greggles
+#  token.module,v 1.7.4.13 2009/09/28 15:34:59 greggles
+#  token_node.inc,v 1.5.4.17 2009/08/12 15:47:23 greggles
+#  token.rules.inc,v 1.1.2.4 2009/08/05 17:17:10 fago
+#  token_comment.inc,v 1.3.4.5 2009/05/31 15:56:09 greggles
+#  token_taxonomy.inc,v 1.3.4.3 2008/06/28 15:10:22 greggles
+#  token_user.inc,v 1.3.4.2 2008/06/28 15:10:22 greggles
+#  token.info,v 1.2.2.1 2007/10/29 04:40:41 eaton
+#  token_actions.info,v 1.1.2.1 2008/07/08 19:40:17 greggles
+#  tokenSTARTER.module,v 1.1.2.2 2009/05/14 16:06:47 greggles
+#  tokenSTARTER.info,v 1.1.2.1 2009/04/19 21:31:24 greggles
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: token (6.x-1.x-dev)\n"
+"POT-Creation-Date: 2009-12-23 05:23+0300\n"
+"PO-Revision-Date: 2009-12-23 05:30+0300\n"
+"Language-Team: Russian\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=((((n%10)==1)&&((n%100)!=11))?(0):(((((n%10)>=2)&&((n%10)<=4))&&(((n%100)<10)||((n%100)>=20)))?(1):2));\n"
+"Last-Translator: Andy Postnikov <andypost@yandex.ru>\n"
+
+#: token.rules.inc:17
+msgid "Token replacement patterns"
+msgstr "Шаблоны подстановки для маркеров"
+
+#: token.rules.inc:105
+msgid "Replacement patterns for @name"
+msgstr "Шаблоны подстановки для @name"
+
+#: token_comment.inc:78
+msgid "Comment ID"
+msgstr "ID комментария"
+
+#: token_comment.inc:79
+msgid "Comment's node ID"
+msgstr "ID материала из комментария"
+
+#: token_comment.inc:80
+msgid "Comment title"
+msgstr "Заголовок комментария"
+
+#: token_comment.inc:81
+msgid "Comment title. WARNING - raw user input"
+msgstr "Заголовок комментария. ПРЕДУПРЕЖДЕНИЕ: прямой пользовательский ввод."
+
+#: token_comment.inc:82
+msgid "Comment body"
+msgstr "Текст комментария"
+
+#: token_comment.inc:83
+msgid "Comment body. WARNING - raw user input"
+msgstr "Текст комментария. ПРЕДУПРЕЖДЕНИЕ: прямой пользовательский ввод."
+
+#: token_comment.inc:85
+msgid "Comment author's user id"
+msgstr "ID автора комментария"
+
+#: token_comment.inc:86
+msgid "Comment author's user name"
+msgstr "Имя автора комментария"
+
+#: token_comment.inc:87
+msgid "Comment author's user name. WARNING - raw user input"
+msgstr "Имя автора комментария. ПРЕДУПРЕЖДЕНИЕ: прямой пользовательский ввод."
+
+#: token_comment.inc:88
+msgid "Comment author's home page."
+msgstr "Домашняя страница автора комментария."
+
+#: token_comment.inc:90
+msgid "Comment author's e-mail."
+msgstr "Адрес e-mail автора комментария."
+
+#: token_comment.inc:91
+msgid "Comment author's e-mail. WARNING - raw user input."
+msgstr "Адрес e-mail автора комментария. ПРЕДУПРЕЖДЕНИЕ: прямой пользовательский ввод."
+
+#: token_comment.inc:93
+msgid "Comment creation year (four digit)"
+msgstr "Год создания комментария (четыре цифры)"
+
+#: token_comment.inc:94
+msgid "Comment creation year (two digit)"
+msgstr "Год создания комментария (две цифры)"
+
+#: token_comment.inc:95
+msgid "Comment creation month (full word)"
+msgstr "Месяц создания комментария (слово полностью)"
+
+#: token_comment.inc:96
+msgid "Comment creation month (abbreviated)"
+msgstr "Месяц создания комментария (сокращение)"
+
+#: token_comment.inc:97
+msgid "Comment creation month (two digit, zero padded)"
+msgstr "Месяц создания комментария (две цифры с ведущим нулём)"
+
+#: token_comment.inc:98
+msgid "Comment creation month (one or two digit)"
+msgstr "Месяц создания комментария (одна или две цифры)"
+
+#: token_comment.inc:99
+msgid "Comment creation week (two digit)"
+msgstr "Неделя создания комментария (две цифры)"
+
+#: token_comment.inc:100
+msgid "Comment creation date (day of month)"
+msgstr "День создания комментария (день месяца)"
+
+#: token_comment.inc:101
+msgid "Comment creation day (full word)"
+msgstr "День создания комментария (слово полностью)"
+
+#: token_comment.inc:102
+msgid "Comment creation day (abbreviation)"
+msgstr "День создания комментария (сокращение)"
+
+#: token_comment.inc:103
+msgid "Comment creation day (two digit, zero-padded)"
+msgstr "День создания комментария (две цифры с ведущим нулём)"
+
+#: token_comment.inc:104
+msgid "Comment creation day (one or two digit)"
+msgstr "День создания комментария (одна или две цифры)"
+
+#: token_node.inc:183
+msgid "Node ID"
+msgstr "ID материала"
+
+#: token_node.inc:184
+msgid "Node type"
+msgstr "Тип материала"
+
+#: token_node.inc:185
+msgid "Node type (user-friendly version)"
+msgstr "Тип материала (ориентированная на пользователя версия)"
+
+#: token_node.inc:186
+msgid "Node language"
+msgstr "Язык материала"
+
+#: token_node.inc:187
+msgid "Node title"
+msgstr "Заголовок материала"
+
+#: token_node.inc:188
+msgid "Unfiltered node title. WARNING - raw user input."
+msgstr "Необработанный заголовок материала. ПРЕДУПРЕЖДЕНИЕ: прямой пользовательский ввод."
+
+#: token_node.inc:190
+msgid "Node author's user id"
+msgstr "ID автора материала"
+
+#: token_node.inc:191
+msgid "Node author's user name"
+msgstr "Имя автора материала"
+
+#: token_node.inc:192
+msgid "Node author's user name. WARNING - raw user input."
+msgstr "Имя автора материала. ПРЕДУПРЕЖДЕНИЕ: прямой пользовательский ввод."
+
+#: token_node.inc:193
+msgid "Node author's e-mail."
+msgstr "Адрес e-mail автора материала"
+
+#: token_node.inc:194
+msgid "Node author's e-mail. WARNING - raw user input."
+msgstr "Адрес e-mail автора материала.  ПРЕДУПРЕЖДЕНИЕ: прямой пользовательский ввод."
+
+#: token_node.inc:195
+msgid "The number of comments on a node."
+msgstr "Количество комментариев к материалу."
+
+#: token_node.inc:196
+msgid "The number of new comments on a node."
+msgstr "Число новых комментариев к материалу."
+
+#: token_node.inc:198
+msgid "Name of top taxonomy term"
+msgstr "Название верхнего термина таксономии"
+
+#: token_node.inc:199
+msgid "Unfiltered name of top taxonomy term. WARNING - raw user input."
+msgstr "Необработанное название верхнего термина таксономии. ПРЕДУПРЕЖДЕНИЕ: прямой пользовательский ввод."
+
+#: token_node.inc:200
+msgid "ID of top taxonomy term"
+msgstr "ID верхнего термина таксономии"
+
+#: token_node.inc:201
+msgid "Name of top term's vocabulary"
+msgstr "Название словаря верхнего термина"
+
+#: token_node.inc:202
+msgid "Unfiltered name of top term's vocabulary. WARNING - raw user input."
+msgstr "Необработанное название словаря верхнего термина. ПРЕДУПРЕЖДЕНИЕ: прямой пользовательский ввод."
+
+#: token_node.inc:203
+msgid "ID of top term's vocabulary"
+msgstr "ID словаря верхнего термина"
+
+#: token_node.inc:208
+msgid "Node creation year (four digit)"
+msgstr "Год создания материала (четыре цифры)"
+
+#: token_node.inc:209
+msgid "Node creation year (two digit)"
+msgstr "Год создания материала (две цифры)"
+
+#: token_node.inc:210
+msgid "Node creation month (full word)"
+msgstr "Месяц создания материала (слово полностью)"
+
+#: token_node.inc:211
+msgid "Node creation month (abbreviated)"
+msgstr "Месяц создания материала (сокращение)"
+
+#: token_node.inc:212
+msgid "Node creation month (two digit, zero padded)"
+msgstr "Месяц создания материала (две цифры с ведущим нулём)"
+
+#: token_node.inc:213
+msgid "Node creation month (one or two digit)"
+msgstr "Месяц создания материала (одна или две цифры)"
+
+#: token_node.inc:214
+msgid "Node creation week (two digit)"
+msgstr "Неделя создания материала (две цифры)"
+
+#: token_node.inc:215
+msgid "Node creation date (day of month)"
+msgstr "День создания материала (день месяца)"
+
+#: token_node.inc:216
+msgid "Node creation day (full word)"
+msgstr "День создания материала (слово полностью)"
+
+#: token_node.inc:217
+msgid "Node creation day (abbreviation)"
+msgstr "День создания материала (сокращение)"
+
+#: token_node.inc:218
+msgid "Node creation day (two digit, zero-padded)"
+msgstr "День создания материала (две цифры с ведущим нулём)"
+
+#: token_node.inc:219
+msgid "Node creation day (one or two digit)"
+msgstr "День создания материала (одна или две цифры)"
+
+#: token_node.inc:220
+msgid "All tokens for node creation dates can also be used with with the \"mod-\" prefix; doing so will use the modification date rather than the creation date."
+msgstr "Все маркеры для даты создания материала также могут использоваться и с префиксом \"mod-\"; в этом случае будет использоваться дата модификации вместо даты создания."
+
+#: token_node.inc:222
+msgid "The name of the menu the node belongs to."
+msgstr "Название меню, которому принадлежит материал."
+
+#: token_node.inc:223
+msgid "The name of the menu the node belongs to. WARNING - raw user input."
+msgstr "Название меню, которому принадлежит материал. ПРЕДУПРЕЖДЕНИЕ: прямой пользовательский ввод."
+
+#: token_node.inc:224
+msgid "The menu path (as reflected in the breadcrumb), not including Home or [menu]. Separated by /."
+msgstr "Путь меню (как отображается в навигационной цепочке), не включая главную страницу или [menu]. Разделены с помощью /."
+
+#: token_node.inc:225
+msgid "The unfiltered menu path (as reflected in the breadcrumb), not including Home or [menu]. Separated by /. WARNING - raw user input."
+msgstr "Необработанный путь меню (как отображается в навигационной цепочке), не включая главную страницу или [menu]. Разделены с помощью /. ПРЕДУПРЕЖДЕНИЕ: прямой пользовательский ввод."
+
+#: token_node.inc:226
+msgid "The text used in the menu as link text for this item."
+msgstr "Текст ссылки меню данного пункта."
+
+#: token_node.inc:227
+msgid "The unfiltered text used in the menu as link text for this item. WARNING - raw user input."
+msgstr "Необработанный текст ссылки меню данного пункта. ПРЕДУПРЕЖДЕНИЕ: прямой пользовательский ввод."
+
+#: token_node.inc:313
+msgid "The title of the node's book parent."
+msgstr "Заголовок родительского материала страницы подшивки."
+
+#: token_node.inc:314
+msgid "The id of the node's book parent."
+msgstr "ID родительского материала для страницы подшивки."
+
+#: token_node.inc:315
+msgid "The titles of all parents in the node's book hierarchy."
+msgstr "Заголовки всех родителей материала в иерархии подшивки."
+
+#: token_node.inc:317
+msgid "The unfiltered title of the node's book parent. WARNING - raw user input."
+msgstr "Необработанный заголовок родителя материала в подшивке. ПРЕДУПРЕЖДЕНИЕ: прямой пользовательский ввод."
+
+#: token_node.inc:318
+msgid "The unfiltered titles of all parents in the node's book hierarchy. WARNING - raw user input."
+msgstr "Необработанные заголовки всех родителей материала в иерархии подшивки. ПРЕДУПРЕЖДЕНИЕ: прямой пользовательский ввод."
+
+#: token_taxonomy.inc:45
+msgid "The id number of the category's parent vocabulary."
+msgstr "ID родительского словаря категории."
+
+#: token_taxonomy.inc:46
+msgid "The vocabulary that the page's first category belongs to."
+msgstr "Словарь, которому принадлежит первая категория страницы."
+
+#: token_taxonomy.inc:47
+msgid "The name of the category."
+msgstr "Название категории."
+
+#: token_taxonomy.inc:48
+msgid "The id number of the category."
+msgstr "ID категории."
+
+#: token_taxonomy.inc:49
+msgid "The unfiltered vocabulary that the page's first category belongs to. WARNING - raw user input."
+msgstr "Необработанный словарь, которому принадлежит первая категория страницы. ПРЕДУПРЕЖДЕНИЕ: прямой пользовательский ввод."
+
+#: token_taxonomy.inc:50
+msgid "The unfiltered name of the category. WARNING - raw user input."
+msgstr "Необработанное название категории. ПРЕДУПРЕЖДЕНИЕ: прямой пользовательский ввод."
+
+#: token_user.inc:54
+msgid "User's name"
+msgstr "Имя пользователя"
+
+#: token_user.inc:55
+msgid "User's unfiltered name. WARNING - raw user input."
+msgstr "Необработанное имя пользователя. ПРЕДУПРЕЖДЕНИЕ: прямой пользовательский ввод."
+
+#: token_user.inc:57
+msgid "User's ID"
+msgstr "ID пользователя"
+
+#: token_user.inc:58
+msgid "User's email address"
+msgstr "Адрес электронной почты пользователя"
+
+#: token_user.inc:60
+msgid "User's registration date"
+msgstr "Дата регистрации пользователя"
+
+#: token_user.inc:61
+msgid "Days since the user registered"
+msgstr "Количество дней, прошедших со времени регистрации пользователя"
+
+#: token_user.inc:62
+msgid "User's last login date"
+msgstr "Дата последнего входа пользователя"
+
+#: token_user.inc:63
+msgid "Days since the user's last login"
+msgstr "Количество дней, прошедших со времени последнего входа пользователя"
+
+#: token_user.inc:64
+msgid "The current date in the user's timezone"
+msgstr "Текущая дата во временной зоне пользователя"
+
+#: token_user.inc:65
+msgid "The URL of the user's profile page."
+msgstr "URL страницы профиля пользователя."
+
+#: token_user.inc:66
+msgid "The URL the user's account editing page."
+msgstr "URL страницы редактирования учётной записи пользователя."
+
+#: token.module:40
+#: token.info:0
+msgid "Token"
+msgstr "Маркер"
+
+#: token.module:40
+msgid "Replacement value"
+msgstr "Значение для подстановки"
+
+#: token.module:43
+msgid "tokens"
+msgstr "маркеры"
+
+#: token.module:80
+msgid "Anonymous"
+msgstr "Гость"
+
+#: token.module:84
+msgid "Drupal"
+msgstr "Drupal"
+
+#: token.module:126
+msgid "The name of the currently logged in user."
+msgstr "Имя авторизованного в данный момент пользователя."
+
+#: token.module:127
+msgid "The user ID of the currently logged in user."
+msgstr "ID авторизованного в данный момент пользователя."
+
+#: token.module:128
+msgid "The email address of the currently logged in user."
+msgstr "Адрес электронной почты авторизованного в данный момент пользователя."
+
+#: token.module:129
+msgid "The url of the current Drupal website."
+msgstr "URL данного сайта Drupal."
+
+#: token.module:130
+msgid "The name of the current Drupal website."
+msgstr "Название данного сайта Drupal."
+
+#: token.module:131
+msgid "The slogan of the current Drupal website."
+msgstr "Слоган данного сайта Drupal."
+
+#: token.module:132
+msgid "The mission of the current Drupal website."
+msgstr "Миссия данного сайта Drupal."
+
+#: token.module:133
+msgid "The contact email address for the current Drupal website."
+msgstr "Контактный адрес электронной почты для данного сайта Drupal."
+
+#: token.module:134
+msgid "The current date on the site's server."
+msgstr "Текущая дата на сервере сайта."
+
+#: token.module:136
+msgid "The current year (four digit)"
+msgstr "Текущий год (четыре цифры)"
+
+#: token.module:137
+msgid "The current year (two digit)"
+msgstr "Текущий год (две цифры)"
+
+#: token.module:138
+msgid "The current month (full word)"
+msgstr "Текущий месяц (слово целиком)"
+
+#: token.module:139
+msgid "The current month (abbreviated)"
+msgstr "Текущий месяц (сокращение)"
+
+#: token.module:140
+msgid "The current month (two digit, zero padded)"
+msgstr "Текущий месяц (две цифры с ведущим нулём)"
+
+#: token.module:141
+msgid "The current month (one or two digit)"
+msgstr "Текущий месяц (одна или две цифры)"
+
+#: token.module:142
+msgid "The current week (two digit)"
+msgstr "Текущая неделя (две цифры)"
+
+#: token.module:143
+msgid "The current date (day of month)"
+msgstr "Текущая дата (день месяца)"
+
+#: token.module:144
+msgid "The current day (full word)"
+msgstr "Текущий день (слово целиком)"
+
+#: token.module:145
+msgid "The current day of week (abbreviation)"
+msgstr "Текущий день недели (сокращение)"
+
+#: token.module:146
+msgid "The current day (two digit, zero-padded)"
+msgstr "Текущий день (две цифры с ведущим нулём)"
+
+#: token.module:147
+msgid "The current day (one or two digit)"
+msgstr "Текущий день (одна или две цифры)"
+
+#: token.module:148
+msgid "The current page number for paged lists"
+msgstr "Текущий номер страницы для постраничных списков"
+
+#: tokenSTARTER.module:21
+msgid "A randomly generated SHA1 hash."
+msgstr "Случайно генерированный хэш SHA1."
+
+#: tokenSTARTER.module:22
+msgid "The current timestamp in seconds past January 1, 1970."
+msgstr "Текущая отметка времени в секундах, прошедших с 1-го января 1970 года."
+
+#: tokenSTARTER.module:23
+msgid "A randomly generated single-digit number."
+msgstr "Случайно генерированная цифра."
+
+#: tokenSTARTER.module:24
+msgid "A randomly generated three-digit number."
+msgstr "Случайно генерированное трехзначное число."
+
+#: tokenSTARTER.module:25
+msgid "A randomly generated ten-digit number."
+msgstr "Случайно генерированное десятизначное число."
+
+#: tokenSTARTER.module:26
+msgid "Randomly generated single-digit letter."
+msgstr "Случайно генерированная буква."
+
+#: tokenSTARTER.module:27
+msgid "Randomly generated three-digit letters."
+msgstr "Случайно генерированная строка из трех букв."
+
+#: tokenSTARTER.module:28
+msgid "Randomly generated ten-digit letters."
+msgstr "Случайно генерированная строка из десяти букв."
+
+#: token_actions.module:22
+msgid "Display a tokenized message to the user"
+msgstr "Отобразить маркированное сообщение пользователю"
+
+#: token_actions.module:32
+msgid "Send tokenized e-mail"
+msgstr "Отправить маркированное сообщение электронной почты"
+
+#: token_actions.module:43
+msgid "Redirect to a tokenized URL"
+msgstr "Перенаправить на маркированный URL"
+
+#: token_actions.module:77
+msgid "Recipient"
+msgstr "Получатель"
+
+#: token_actions.module:81
+msgid "The email address to which the message should be sent."
+msgstr "Адрес электронной почты, на который следует отправить сообщение."
+
+#: token_actions.module:85
+msgid "Subject"
+msgstr "Тема"
+
+#: token_actions.module:89
+msgid "The subject of the message."
+msgstr "Тема сообщения."
+
+#: token_actions.module:93;153
+msgid "Message"
+msgstr "Сообщение"
+
+#: token_actions.module:97
+msgid "The message that should be sent."
+msgstr "Сообщение, которое следует отправить."
+
+#: token_actions.module:104;164;205
+msgid "Placeholder tokens"
+msgstr "Метки-заполнители"
+
+#: token_actions.module:105
+msgid "The following placeholder tokens can be used in to generate the URL path. Some tokens may not be available, depending on the context in which the action is triggered."
+msgstr "Следующие метки-заполнители могут использоваться для формирования адреса URL. Некоторые метки могут быть недоступны в зависимости от того контекста, в котором выполняется действие."
+
+#: token_actions.module:157
+msgid "The message to be displayed to the current user."
+msgstr "Сообщение, которое будет отображаться текущему пользователю."
+
+#: token_actions.module:165
+msgid "The following placeholder tokens can be used in the custom message text. Some tokens may not be available, depending on the context in which the action is triggered."
+msgstr "Следующие метки-заполнители могут использоваться в пользовательском тексте сообщения. Некоторые метки могут быть недоступны в зависимости от того контекста, в котором выполняется действие."
+
+#: token_actions.module:196
+msgid "URL"
+msgstr "URL"
+
+#: token_actions.module:197
+msgid "The URL to which the user should be redirected. This can be an internal URL like node/1234 or an external URL like http://drupal.org."
+msgstr "Адрес URL, на который следует перенаправить пользователя. Им может быть внутренний адрес (например, node/1234), либо внешний URL (например, http://drupal.org)."
+
+#: token_actions.module:206
+msgid "The following placeholder tokens can be used in the URL path. Some tokens may not be available, depending on the context in which the action is triggered."
+msgstr "Следующие метки-заполнители могут использоваться в адресе URL. Некоторые метки могут быть недоступны в зависимости от того контекста, в котором выполняется действие."
+
+#: token_actions.module:138
+msgid "action"
+msgstr "действие"
+
+#: token_actions.module:138
+msgid "Sent email to %recipient"
+msgstr "Сообщение электронной почты отправлено для %recipient"
+
+#: token_actions.module:141
+msgid "error"
+msgstr "ошибка"
+
+#: token_actions.module:141
+msgid "Unable to send email to %recipient"
+msgstr "Невозможно отправить сообщение электронной почты для %recipient"
+
+#: token.info:0
+msgid "Provides a shared API for replacement of textual placeholders with actual data."
+msgstr "Предоставляет общий API для замены текстовых шаблонов реальными данными."
+
+#: tokenSTARTER.info:0
+msgid "TokenSTARTER"
+msgstr "TokenSTARTER"
+
+#: tokenSTARTER.info:0
+msgid "Provides additional tokens and a base on which to build your own tokens."
+msgstr "Предоставляет дополнительные маркеры и основу на которой строить собственные маркеры."
+
+#: token_actions.info:0
+msgid "Token actions"
+msgstr "Маркированные действия"
+
+#: token_actions.info:0
+msgid "Provides enhanced versions of core Drupal actions using the Token module."
+msgstr "Предоставляет расширенные версии встроенных в Drupal действий, используя модуль Token."
+

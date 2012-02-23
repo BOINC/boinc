@@ -1,0 +1,460 @@
+# Russian translation of Drupal (includes)
+# Copyright 2008 Alexey Osodoev <alexey@osodoev.info>
+# Generated from files:
+#  og.admin.inc,v 1.13 2008/10/29 19:57:53 dww
+#  includes/og.panelscontent.inc: n/a
+#  og.panelscontext.inc,v 1.4 2008/10/29 20:02:28 dww
+#  og.rules.inc,v 1.3 2008/10/29 19:57:56 dww
+#  includes/og.xmlrpc.inc: n/a
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: og-6.x-1.0\n"
+"POT-Creation-Date: 2008-11-02 12:11+0100\n"
+"PO-Revision-Date: 2008-11-19 20:10+0800\n"
+"Last-Translator: Alexey Osodoev <alexey@osodoev.info>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=((((n%10)==1)&&((n%100)!=11))?(0):(((((n%10)>=2)&&((n%10)<=4))&&(((n%100)<10)||((n%100)>=20)))?(1):2));\n"
+"X-Poedit-Language: Russian\n"
+"X-Poedit-Country: RUSSIAN FEDERATION\n"
+"X-Poedit-SourceCharset: utf-8\n"
+
+#: includes/og.admin.inc:11
+msgid "You must designate at least one content type to act as a group node and another as a group post. <a href=\"!create\">Create new content type</a> if needed."
+msgstr "Вы должны назначить как минимум один тип содержимого  в качестве узла группы и другой - в качестве сообщения группы. <a href=\"!create\">Создать новый тип содержимого</a> при необходимости."
+
+#: includes/og.admin.inc:15
+msgid "Content types"
+msgstr "Типы содержимого"
+
+#: includes/og.admin.inc:20
+msgid "Usage"
+msgstr "Использование"
+
+#: includes/og.admin.inc:28
+msgid "Edit"
+msgstr "Редактировать"
+
+#: includes/og.admin.inc:42
+msgid "New groups don't appear in the groups directory. Administrators control the directory exclusively."
+msgstr "Новые группы не отображаются в списке групп. Исключительно администраторы управляют списком."
+
+#: includes/og.admin.inc:43
+msgid "New groups always appear in the groups directory."
+msgstr "Новые группы всегда отображаются в списке групп."
+
+#: includes/og.admin.inc:44
+msgid "Group creator chooses whether her group appears in the directory. Defaults to <em>in directory</em>."
+msgstr "Создатель группы выбирает, отображать ли группу в списке. <em>Отображать в списке</em> по умолчанию."
+
+#: includes/og.admin.inc:45
+msgid "Group creator chooses whether her group appears in the directory. Defaults to <em>not in directory</em>."
+msgstr "Создатель группы выбирает, отображать ли группу в списке. <em>Не отображать в списке</em> по умолчанию."
+
+#: includes/og.admin.inc:49
+msgid "Groups directory control"
+msgstr "Управление списком групп"
+
+#: includes/og.admin.inc:51
+msgid "OG admins always see the checkbox for adding a group to the <em>groups directory</em>. Note that changing this setting has no effect on existing posts. Re-save those posts to acquire this new setting."
+msgstr "Администраторы OG всегда видят флажок для выбора отображения группы в списке.  Обратите внимание, что изменение этой настройки не влияет на существующие сообщения. Пере-сохраните эти сообщения, чтобы применить новые настройки."
+
+#: includes/og.admin.inc:57
+msgid "New groups don't appear on the registration form. Administrators control the form exclusively."
+msgstr "Новые группы не отображаются на форме регистрации. Исключительно администраторы управляют формой."
+
+#: includes/og.admin.inc:58
+msgid "New groups always appear on the registration form."
+msgstr "Новые группы всегда отображаются на форме регистрации."
+
+#: includes/og.admin.inc:59
+msgid "Group creator chooses whether her group appears on the registration form. Defaults to <em>on form</em>."
+msgstr "Создавший группу выбирает, отображается ли группа на форме регистрации. <em>Отображать</em> по умолчанию."
+
+#: includes/og.admin.inc:60
+msgid "Group creator chooses whether her group appears on the registration form. Defaults to <em>not on form</em>."
+msgstr "Создавший группу выбирает, отображается ли группа на форме регистрации. <em>Не отображать</em> по умолчанию."
+
+#: includes/og.admin.inc:64
+msgid "Registration form control"
+msgstr "Управление формой регистрации"
+
+#: includes/og.admin.inc:66
+msgid "OG admins always see the checkbox for adding a group to the <em>registration form</em>. Note that changing this setting has no effect on existing posts. Re-save those posts to acquire this new setting."
+msgstr "Администраторы OG всегда видят флажок отображения группы на <em>форме регистрации</em>. Обратите внимание, что изменение этой настройки не влияет на существующие сообщения. Пере-сохраните эти сообщения чтобы применить новые настройки."
+
+#: includes/og.admin.inc:73
+msgid "Audience checkboxes"
+msgstr "Флажки выбора аудитории"
+
+#: includes/og.admin.inc:75
+msgid "Show each group that the user is a member of as a checkbox in the \"Audience\" section. This enables the member to place her post into multiple groups. If unchecked, simplify the user interface by omitting the checkboxes and assuming user wants to post into the current group. This simplification only applies to new nodes, and not to edits of existing nodes. Group administrators always see checkboxes."
+msgstr "Отображать каждую группу, в которую входит пользователь, как флажок выбора в разделе \"Аудитория\". Это позволяет участнику разместить сообщение одновременно в несколько групп. Если не отмечено, упрощает пользовательский интерфейс, опуская флажки с предположением, что пользователь желает разместить сообщение в текущую группу. Это упрощение затрагивает новые сообщения, но не редактирование существующих сообщений. Администраторы группы всегда видят флажки выбора."
+
+#: includes/og.admin.inc:79
+msgid "Optional"
+msgstr "Необязательно"
+
+#: includes/og.admin.inc:79
+msgid "Required"
+msgstr "Обязательно"
+
+#: includes/og.admin.inc:82
+msgid "Audience required"
+msgstr "Выбор аудитории обязателен"
+
+#: includes/og.admin.inc:85
+msgid "Do you require that all (non administrator) posts be affiliated with a group? Note that changing this setting will affect existing posts when they are edited."
+msgstr "Обязательно ли все сообщения (кроме сообщений администратора) должны быть привязаны к группе? Обратите внимание, что изменение этой настройки повлияет на существующие сообщения при их редактировании."
+
+#: includes/og.admin.inc:92
+msgid "Messaging & Notifications"
+msgstr "Сообщения и Уведомления (Messaging & Notifications)"
+
+#: includes/og.admin.inc:98
+msgid "Format of \"From:\" field"
+msgstr "Формат поля \"От:\""
+
+#: includes/og.admin.inc:100
+msgid "Specify the format of the \"From:\" field on outgoing notifications. Available variables: @user_mail, @user_name, @site_mail, @site_name. Note that the @user_mail token reveals the author's email address. If the admin email examples above appear blank, you need to set your site email in the \"Site information\" panel."
+msgstr "Укажите формат поля \"От:\" для исходящих уведомлений. Доступные переменные: @user_mail, @user_name, @site_mail, @site_name. Обратите внимание, что переменная @user_mail заменяется на адрес эл. почты автора. Если примеры сообщение выше пусты, необходимо установить адрес эл. почты сайта на странице настроек \"Информация о сайте\"."
+
+#: includes/og.admin.inc:104
+msgid "New content subject"
+msgstr "Тема уведомления о новых материалах"
+
+#: includes/og.admin.inc:105
+msgid "Subject of notification message for new content. Available variables: @group, !group_url, @type, @site, !content_url, !reply_url, @title, @subject, @node_full, @node_teaser, @username. %subject contains the comment title in the case of a comment but the node title in the case of a new post. @title is always the node title."
+msgstr "Тема сообщения с уведомлением о новых материалах. Доступные переменные: @group, !group_url, @type, @site, !content_url, !reply_url, @title, @subject, @node_full, @node_teaser, @username. %subject содержит заголовок комментария в случае комментария, и заголовок материала в случае нового материала. @title всегда содержит заголовок материала."
+
+#: includes/og.admin.inc:110
+msgid "New content body"
+msgstr "Текст уведомления о новых материалах"
+
+#: includes/og.admin.inc:112
+msgid "Body of the notification for new content. Available variables: @group, !group_url, @type, @site, !content_url, !reply_url, @title, @subject, @node_full, @node_teaser, @username. @subject contains the comment title in the case of a comment but the node title in the case of a new post. %title is always the node title."
+msgstr "Текст уведомления о новых материалах. Доступные переменные: @group, !group_url, @type, @site, !content_url, !reply_url, @title, @subject, @node_full, @node_teaser, @username. @subject содержит заголовок комментария в случае комментария, и заголовок материала в случае нового материала. %title всегда содержит заголовок материала."
+
+#: includes/og.admin.inc:117
+msgid "Group admin notification body"
+msgstr "Текст уведомления от администратора группы"
+
+#: includes/og.admin.inc:119
+msgid "The body of the message sent to users from the group admin. Available variables: @group, @body, @site, !url_group, !url_unsubscribe"
+msgstr "Текст сообщения, отправляемого пользователям администратором группы. Доступные переменные: @group, @body, @site, !url_group, !url_unsubscribe"
+
+#: includes/og.admin.inc:124
+msgid "User approved notification subject"
+msgstr "Тема уведомления об одобрении пользователя"
+
+#: includes/og.admin.inc:125
+msgid "The subject of the message sent to new approved members. Available variables: !group_url, @title"
+msgstr "Тема сообщения, которые отправляется пользователям, участие которых было одобрено администратором. Доступные переменные: !group_url, @title"
+
+#: includes/og.admin.inc:130
+msgid "User approved notification body"
+msgstr "Текст уведомления об одобрении пользователя"
+
+#: includes/og.admin.inc:132
+msgid "The body of the message sent to new approved members. Available variables: !group_url, @title"
+msgstr "Текст сообщения, которое отправляется пользователям, участие которых было одобрено администратором. Доступные переменные: !group_url, @title"
+
+#: includes/og.admin.inc:137
+msgid "User denied notification subject"
+msgstr "Тема уведомления об отклонении пользователя"
+
+#: includes/og.admin.inc:138
+msgid "The subject of the message sent to denied users. Available variables: !group_url, @title"
+msgstr "Тема сообщения, отправляемое пользователям, запрос на участие от которых был отклонен. Доступные переменные: !group_url, @title"
+
+#: includes/og.admin.inc:143
+msgid "User denied notification body"
+msgstr "Текст уведомления об отклонении пользователя"
+
+#: includes/og.admin.inc:145
+msgid "The body of the message sent to denied users. Available variables: !group_url, @title"
+msgstr "Текст сообщения пользователям, запрос на участие от которых был отклонен. Доступные переменные: !group_url, @title"
+
+#: includes/og.admin.inc:150
+msgid "Invite user notification subject"
+msgstr "Тема уведомления о приглашении"
+
+#: includes/og.admin.inc:151
+msgid "The subject of the message sent to users invited to join a group. Available variables: @group, @site, @description, !group_url, @body"
+msgstr "Тема сообщения, отправляемого пользователям, приглашенным в группу. Доступные переменные: @group, @site, @description, !group_url, @body"
+
+#: includes/og.admin.inc:156
+msgid "Invite user notification body"
+msgstr "Текст уведомления о приглашении"
+
+#: includes/og.admin.inc:158
+msgid "The body of the message sent to users invited to join a group. Available variables: @group, @site, @description, !group_url, @body"
+msgstr "Текс сообщения, отправляемого пользователям, приглашенным в группу. Доступные переменные: @group, @site, @description, !group_url, @body"
+
+#: includes/og.admin.inc:163
+msgid "Request user notification subject"
+msgstr "Тема уведомления о запросе на участие"
+
+#: includes/og.admin.inc:164
+msgid "The subject of the message sent to a user's request to join a group. Available variables: @group, @username, !approve_url, !group_url"
+msgstr "Тема сообщения, отправляемого администратору при запросе пользователя на участие в группе. Доступные переменные: @group, @username, !approve_url, !group_url"
+
+#: includes/og.admin.inc:169
+msgid "Request user notification body"
+msgstr "Текст уведомления о запросе на участие"
+
+#: includes/og.admin.inc:171
+msgid "The body of the message sent to a user's request to join a group. Available variables: @group, @username, !approve_url, !group_url"
+msgstr "Текст сообщения, отправляемого администратору при запросе пользователя на участие в группе. Доступные переменные: @group, @username, !approve_url, !group_url"
+
+#: includes/og.admin.inc:176
+msgid "New admin user notification subject"
+msgstr "Тема уведомления о назначении администратором"
+
+#: includes/og.admin.inc:177
+msgid "The subject of the message sent to a new admin for a group. Available variables: @group, @username, !group_url"
+msgstr "Тема сообщения, отправляемого новому администратору группы. Доступные переменные: @group, @username, !group_url"
+
+#: includes/og.admin.inc:182
+msgid "New admin user notification body"
+msgstr "Текст уведомления о назначении администратором"
+
+#: includes/og.admin.inc:184
+msgid "The body of the message sent to a new admin for a group. Available variables: @group, @username, !group_url, !invite_url"
+msgstr "Текст сообщения, отправляемого новому администратору группы. Доступные переменные: @group, @username, !group_url, !invite_url"
+
+#: includes/og.panelscontent.inc:5
+msgid "Welcome message"
+msgstr "Приветственное сообщение"
+
+#: includes/og.panelscontent.inc:8
+msgid "The welcome message for the group. Specified on group edit form."
+msgstr "Приветственное сообщение группы. Указывается на форме редактирования группы."
+
+#: includes/og.panelscontent.inc:18
+msgid "Group description"
+msgstr "Описание группы"
+
+#: includes/og.panelscontent.inc:21
+msgid "The group description as specified on the group edit form."
+msgstr "Описание группы, как указано на форме редактирования группы."
+
+#: includes/og.panelscontent.inc:30;111;239
+msgid "Group members"
+msgstr "Участники группы"
+
+#: includes/og.panelscontent.inc:33
+msgid "The list of group subscribers or just group admins."
+msgstr "Список подписчиков и администраторов группы."
+
+#: includes/og.panelscontent.inc:45
+msgid "Search this group."
+msgstr "Поиск по этой группе."
+
+#: includes/og.panelscontent.inc:54;147
+msgid "Group faces"
+msgstr "Лица группы"
+
+#: includes/og.panelscontent.inc:57
+msgid "Show a grid of user pictures."
+msgstr "Показать таблицу картинок пользователей."
+
+#: includes/og.panelscontent.inc:68;231
+msgid "Welcome"
+msgstr "Приветствие"
+
+#: includes/og.panelscontent.inc:83
+msgid "Welcome statement goes here."
+msgstr "Здесь приветственное сообщение."
+
+#: includes/og.panelscontent.inc:100
+msgid "Description goes here."
+msgstr "Здесь описание."
+
+#: includes/og.panelscontent.inc:117
+msgid "Member list goes here."
+msgstr "Здесь список участников."
+
+#: includes/og.panelscontent.inc:136
+msgid "Search form goes here."
+msgstr "Здесь форма поиска."
+
+#: includes/og.panelscontent.inc:153
+msgid "Faces go here."
+msgstr "Здесь изображения участников."
+
+#: includes/og.panelscontent.inc:163
+msgid "Number of pictures per row"
+msgstr "Кол-во картинок на строку"
+
+#: includes/og.panelscontent.inc:169
+msgid "Maximum number of rows per page"
+msgstr "Макс. число строк на странице"
+
+#: includes/og.panelscontent.inc:175
+msgid "Pager ID"
+msgstr "ID постраничного просмотра (Pager ID)"
+
+#: includes/og.panelscontent.inc:185
+msgid "Number of members"
+msgstr "Число участников"
+
+#: includes/og.panelscontent.inc:186
+msgid "Maxmimum number of members that should appear on the list"
+msgstr "Максимальное число участников, которое должно отображаться в списке"
+
+#: includes/og.panelscontent.inc:195
+msgid "You may specify which types of group members appear in this listing."
+msgstr "Можно указать, какие типы участников отображать в этом списке."
+
+#: includes/og.panelscontent.inc:199
+msgid "Show more link"
+msgstr "Показывать ссылку \"далее\""
+
+#: includes/og.panelscontent.inc:201
+msgid "Should a <em>more</em> link appear when more members are in the group but not listed."
+msgstr "Показывать ли ссылку <em>далее</em>, когда есть еще не отображенные участники группы."
+
+#: includes/og.panelscontent.inc:205
+msgid "Show pictures"
+msgstr "Показывать изображения пользователей"
+
+#: includes/og.panelscontent.inc:207
+msgid "Should member pictures be shown in addition to member names."
+msgstr "Показывать ли загруженные картинки пользователей в дополнение к именам."
+
+#: includes/og.panelscontent.inc:214
+msgid "Number of members must be an integer."
+msgstr "Число участников должно быть целым."
+
+#: includes/og.panelscontent.inc:222
+msgid "Number of pictures per row must be an integer."
+msgstr "Число изображений на строку должно быть целым."
+
+#: includes/og.panelscontent.inc:225
+msgid "Maximum number of rows per page must be an integer."
+msgstr "Максимальное число строк на страницу должно быть целым."
+
+#: includes/og.panelscontent.inc:243
+msgid "Search"
+msgstr "Поиск"
+
+#: includes/og.panelscontext.inc:37
+msgid "Require this context from an external source (such as containing panel page)."
+msgstr "Требовать контекст из внешнего источника (такого как содержащая страница панели)."
+
+#: includes/og.panelscontext.inc:38
+msgid "If selected, group selection (below) will be ignored."
+msgstr "Если отмечено, выбор группы (ниже) не будет учитываться."
+
+#: includes/og.panelscontext.inc:46
+msgid "Enter the NID of a group"
+msgstr "Введите NID группы"
+
+#: includes/og.panelscontext.inc:56
+msgid "Currently set to \"%title\""
+msgstr "Сейчас установлено значение \"%title\""
+
+#: includes/og.panelscontext.inc:74
+msgid "You must select a node."
+msgstr "Вы должны выбрать узел (node)."
+
+#: includes/og.panelscontext.inc:100
+msgid "Invalid group selected."
+msgstr "Выбрана неверная группа."
+
+#: includes/og.panelscontext.inc:103
+msgid "Node is of type %type which not a group type."
+msgstr "Тип узла - %type, который не является типом группы."
+
+#: includes/og.rules.inc:15
+msgid "User subscribes to group"
+msgstr "Пользователь подписывается на группу"
+
+#: includes/og.rules.inc:16
+msgid "A user has subscribed to a group and is approved. If the user isn't approved then this event won't be triggered."
+msgstr "Пользователь стал участником группы и одобрен. Если запрос на участие будет отклонен, это событие не возникнет."
+
+#: includes/og.rules.inc:21
+msgid "User approved to group by admin"
+msgstr "Участие пользователя в группе одобрено администратором"
+
+#: includes/og.rules.inc:26
+msgid "User unsubscribes from group"
+msgstr "Пользователь покидает группу"
+
+#: includes/og.rules.inc:51
+msgid "User that subscribed to the group"
+msgstr "Пользователь, являющийся участником группы"
+
+#: includes/og.rules.inc:82
+msgid "Subscribe user to group"
+msgstr "Сделать пользователя участником группы"
+
+#: includes/og.rules.inc:86
+msgid "User who will be subscribed"
+msgstr "Пользователь, который будет включен в группу"
+
+#: includes/og.rules.inc:90
+msgid "Group that user will be subscribed to"
+msgstr "Группа, в которую будет включен пользователь"
+
+#: includes/og.rules.inc:96
+msgid "Unsubscribe user from group"
+msgstr "Исключить пользователя из группы"
+
+#: includes/og.rules.inc:99
+msgid "User who will be unsubscribed"
+msgstr "Пользователь, который будет исключен"
+
+#: includes/og.rules.inc:103
+msgid "Group that user will be unsubscribed from"
+msgstr "Группа, из которой будет исключен пользователь"
+
+#: includes/og.rules.inc:128
+msgid "Subscription is approved"
+msgstr "Запрос на участие одобрен"
+
+#: includes/og.rules.inc:129
+msgid "When enabled the user will automatically be approved. When disabled user will be a pending member."
+msgstr "Если включено, пользователь будет автоматически одобрен. Если отключено, пользователь будет ожидать решения."
+
+#: includes/og.rules.inc:148
+msgid "User is group member"
+msgstr "Пользователь является участником группы"
+
+#: includes/og.rules.inc:152
+msgid "User"
+msgstr "Пользователь"
+
+#: includes/og.rules.inc:159
+msgid "Evaluates to TRUE if the user is an approved member of the group. If the user is a pending member this condition will return FALSE."
+msgstr "Возвращает TRUE, если пользователь является одобренным участником группы. Если пользователь еще ожидает решения, будет возвращено FALSE."
+
+#: includes/og.rules.inc:163
+msgid "Content is a group"
+msgstr "Материал является группой"
+
+#: includes/og.rules.inc:170
+msgid "Evaluates to TRUE if the content is a group."
+msgstr "Возвращает TRUE, если материал является группой."
+
+#: includes/og.xmlrpc.inc:13
+msgid "Unrecognized user ID: %uid."
+msgstr "Неопознанный ID пользователя: %uid."
+
+#: includes/og.xmlrpc.inc:17;37;52
+msgid "Wrong username or password."
+msgstr "Неверное имя пользователя или пароль."
+
+#: includes/og.xmlrpc.inc:33
+msgid "User is not a member of the specified group."
+msgstr "Пользователь не является участником указанной группы."
+
+#: includes/og.xmlrpc.inc:48
+msgid "User is not allowed to retrieve membership information for another user."
+msgstr "Пользователю закрыт доступ к информации об участии в группах другого пользователя."
+

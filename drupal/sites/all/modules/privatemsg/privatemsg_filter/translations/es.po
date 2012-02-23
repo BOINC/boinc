@@ -1,0 +1,266 @@
+# $Id: es.po,v 1.1.2.1 2010/08/10 20:12:51 berdir Exp $
+#
+# Spanish translation of Drupal (general)
+# Copyright 2010 Unicorn <unicorn@scenebeta.com>
+# Generated from files:
+#  privatemsg_filter.admin.inc,v 1.1.2.2 2009/11/06 13:06:26 berdir
+#  privatemsg_filter.module,v 1.1.2.30 2009/11/23 19:54:49 berdir
+#  privatemsg_filter.info,v 1.1.2.1 2009/01/25 23:25:18 litwol
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"POT-Creation-Date: 2009-12-05 17:55+0100\n"
+"PO-Revision-Date: 2009-12-05 17:55+0100\n"
+"Last-Translator: Unicorn <unicorn@scenebeta.com>\n"
+"Language-Team: Spanish <unicorn@scenebeta.com>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n!=1);\n"
+
+#: privatemsg_filter.admin.inc:13 privatemsg_filter.module:157;344;550;687;33
+msgid "Tags"
+msgstr "Etiquetas"
+
+#: privatemsg_filter.admin.inc:17
+msgid "Tag"
+msgstr "Etiqueta"
+
+#: privatemsg_filter.admin.inc:24
+msgid "Usage"
+msgstr "Uso"
+
+#: privatemsg_filter.admin.inc:30;92
+msgid "Public"
+msgstr "Público"
+
+#: privatemsg_filter.admin.inc:36
+msgid "Operations"
+msgstr "Operaciones"
+
+#: privatemsg_filter.admin.inc:49
+msgid "Yes"
+msgstr "Sí"
+
+#: privatemsg_filter.admin.inc:50
+msgid "edit"
+msgstr "Editar"
+
+#: privatemsg_filter.admin.inc:51
+msgid "delete"
+msgstr "Eliminar"
+
+#: privatemsg_filter.admin.inc:58
+msgid "No tags available."
+msgstr "No hay etiquetas disponibles."
+
+#: privatemsg_filter.admin.inc:82
+msgid "Edit @tag"
+msgstr "Modificar @tag "
+
+#: privatemsg_filter.admin.inc:86
+msgid "Name"
+msgstr "Nombre"
+
+#: privatemsg_filter.admin.inc:95
+msgid "Public tags are visible for all users, private tags are only visible if they use them."
+msgstr "Las etiquetas públicas son visibles para todos los usuarios, las etiquetas privadas sólo son visibles para quien las utiliza."
+
+#: privatemsg_filter.admin.inc:99
+msgid "Create tag"
+msgstr "Generar etiqueta"
+
+#: privatemsg_filter.admin.inc:99
+msgid "Save tag"
+msgstr "Guardar etiqueta"
+
+#: privatemsg_filter.admin.inc:121
+msgid "Tag already exists, choose a different name."
+msgstr "Ya existe esa etiqueta, elige un nombre diferente."
+
+#: privatemsg_filter.admin.inc:132
+msgid "Tag updated."
+msgstr "Etiqueta actualizada."
+
+#: privatemsg_filter.admin.inc:138
+msgid "Tag created."
+msgstr "Etiqueta creada."
+
+#: privatemsg_filter.admin.inc:154
+msgid "Are you sure you want to delete?"
+msgstr "¿Estás seguro de querer eliminarla?"
+
+#: privatemsg_filter.admin.inc:156
+msgid "This action cannot be undone."
+msgstr "Esta acción no se puede deshacer."
+
+#: privatemsg_filter.admin.inc:157
+msgid "Delete"
+msgstr "Eliminar"
+
+#: privatemsg_filter.admin.inc:158
+msgid "Cancel"
+msgstr "Cancelar"
+
+#: privatemsg_filter.admin.inc:170
+msgid "Tag has been deleted"
+msgstr "La etiqueta ha sido eliminada."
+
+#: privatemsg_filter.module:127
+msgid "Search message body"
+msgstr "Buscar en el cuerpo del mensaje"
+
+#: privatemsg_filter.module:128
+msgid "WARNING: turning on this feature will slow down search performance by a large factor. Gets worse as your messages database increases."
+msgstr "ADVERTENCIA: activar esta opción disminuirá la velocidad de las búsquedas notablemente. Será peor aún cuando aumente el tamaño de la base de datos de mensajes."
+
+#: privatemsg_filter.module:134
+msgid "Position of the tagging textfield"
+msgstr "Posición del campo de texto para las etiquetas"
+
+#: privatemsg_filter.module:135
+msgid "Use higher values to push the form lower down the page, lower or negative values to raise it higher."
+msgstr "Emplea valores más altos para empujar hacia abajo el formulario; menores o negativos para subirlo más arriba."
+
+#: privatemsg_filter.module:152;77
+msgid "Inbox"
+msgstr "Bandeja de entrada"
+
+#: privatemsg_filter.module:152
+msgid "All messages"
+msgstr "Todos los mensajes"
+
+#: privatemsg_filter.module:153
+msgid "Choose the default list option"
+msgstr "Elige las opciones por defecto de la página de lista."
+
+#: privatemsg_filter.module:154
+msgid "Choose which of the two lists are shown by default when following the messages link."
+msgstr "Elige cuál de las dos listas se muestra por defecto al seguir el link de mensajes privados."
+
+#: privatemsg_filter.module:199
+msgid "Tag %tag was ignored because you do not have permission to create new tags."
+msgstr "Se ha ignorado la etiqueta %tag porque no tienes permisos para generar etiquetas nuevas."
+
+#: privatemsg_filter.module:321
+msgid "Filter messages"
+msgstr "Filtrar mensajes"
+
+#: privatemsg_filter.module:327
+msgid "Search messages"
+msgstr "Buscar mensajes"
+
+#: privatemsg_filter.module:327
+msgid "Search subjects"
+msgstr "Buscar asuntos"
+
+#: privatemsg_filter.module:333
+msgid "Participants"
+msgstr "Participantes"
+
+#: privatemsg_filter.module:334
+msgid "Separate multiple names with commas."
+msgstr "Separa varios nombres mediante comas."
+
+#: privatemsg_filter.module:353;422;25
+msgid "Filter"
+msgstr "Filtrar"
+
+#: privatemsg_filter.module:361;409
+msgid "Save filter"
+msgstr "Guardar filtro"
+
+#: privatemsg_filter.module:375
+msgid "Filter messages (active)"
+msgstr "Filtrar mensajes (activo)"
+
+#: privatemsg_filter.module:394;426
+msgid "Reset"
+msgstr "Resetear"
+
+#: privatemsg_filter.module:506
+msgid "Apply tag..."
+msgstr "Aplicar etiqueta..."
+
+#: privatemsg_filter.module:519
+msgid "Apply Tag"
+msgstr "Aplicar etiqueta"
+
+#: privatemsg_filter.module:523
+msgid "Remove Tag..."
+msgstr "Eliminar etiqueta..."
+
+#: privatemsg_filter.module:533
+msgid "Remove Tag"
+msgstr "Eliminar etiqueta"
+
+#: privatemsg_filter.module:590
+msgid "The selected conversations have been tagged."
+msgstr "Las conversaciones seleccionadas han sido etiquetadas correctamente."
+
+#: privatemsg_filter.module:604
+msgid "The tag has been removed from the selected conversations."
+msgstr "Se ha retirado la etiqueta de las conversaciones seleccionadas. "
+
+#: privatemsg_filter.module:703
+msgid "Tags for this conversation"
+msgstr "Etiquetas para esta conversación"
+
+#: privatemsg_filter.module:704
+msgid "Separate multiple tags with commas."
+msgstr "Separa múltiples etiquetas mediante comas."
+
+#: privatemsg_filter.module:712
+msgid "Tag this conversation"
+msgstr "Etiquetar esta conversación"
+
+#: privatemsg_filter.module:733
+msgid "Tagging information has been saved."
+msgstr "Información de etiqueta almacenada correctamente."
+
+#: privatemsg_filter.module:14
+msgid "filter private messages"
+msgstr "Filtrar mensajes privados"
+
+#: privatemsg_filter.module:15
+msgid "tag private messages"
+msgstr "Etiquetar mensajes privados"
+
+#: privatemsg_filter.module:16
+msgid "create private message tags"
+msgstr "Generar etiquetas para mensajes privados"
+
+#: privatemsg_filter.module:26
+msgid "Configure filter settings."
+msgstr "Configurar los ajustes de filtrado."
+
+#: privatemsg_filter.module:34;42;51;60;69
+msgid "Configure tags."
+msgstr "Configurar etiquetas."
+
+#: privatemsg_filter.module:41
+msgid "List"
+msgstr "Lista"
+
+#: privatemsg_filter.module:50;59;68
+msgid "Add"
+msgstr "Añadir"
+
+#: privatemsg_filter.module:85
+msgid "Sent messages"
+msgstr "Mensajes enviados"
+
+#: privatemsg_filter.info:0
+msgid "Privatemsg filter"
+msgstr "Filtro de mensajes privados"
+
+#: privatemsg_filter.info:0
+msgid "Allow users to filter messages using tags or other criteria."
+msgstr "Permitir a los usuarios filtrar mensajes empleando etiquetas u otros criterios."
+
+#: privatemsg_filter.info:0
+msgid "Mail"
+msgstr "e-Mail"
+

@@ -1,0 +1,60 @@
+.privatemsg-box-fb {
+  text-align  : left;
+}
+
+.left-column {
+  float       : left;
+  width       : 100px;
+}
+
+.privatemsg-box-fb .avatar-fb {
+  margin      : 5px;
+  text-align  : center;
+}
+.privatemsg-box-fb .picture {
+ float    : none; 
+ padding  : 0 0 0 0;
+}
+.middle-column {
+  float       : left;
+  width       : 150px;
+  text-align  : right;
+}
+.name {
+  margin      : 5px 15px 0px 0px;
+  font-size   : 11px;
+  font-weight : bold;
+} 
+.date {
+  color         : #777777;
+  font-size     : 9px;
+  margin        : 0px 15px 0pt 0pt;
+} 
+.right-column {
+  margin:0 0 0 250px;
+}
+.clear-both {
+  clear       : both;
+}
+.bottom-border {
+  border-bottom: 1px solid #C5C5C5;
+  margin       : 0 0 10px 250px;
+}
+.message-body {
+  padding     : 0px;
+  margin      : 0 0 0 5px;
+  overflow    : auto;
+}
+
+.message-actions li {
+  list-style-type:none;
+  float:left;
+  padding:5px;
+  background-image:none;
+}
+
+.privatemsg-view-pager {
+  margin: 20px 0 20px 200px;
+  padding-left: 10px;
+  width: 300px;
+}

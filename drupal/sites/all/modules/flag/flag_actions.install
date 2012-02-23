@@ -1,0 +1,69 @@
+<?php
+// $Id: flag_actions.install,v 1.1.2.2 2008/09/30 03:08:49 quicksketch Exp $
+
+/**
+ * @file
+ * Flag actions install file.
+ */
+
+/**
+ * Implementation of hook_install().
+ */
+function flag_actions_install() {
+  drupal_install_schema('flag_actions');
+}
+
+/**
+ * Implementation of hook_uninstall().
+ */
+function flag_actions_uninstall() {
+  drupal_uninstall_schema('flag_actions');
+}
+
+/**
+ * Implementation of hook_schema().
+ */
+function flag_actions_schema() {
+  $schema = array();
+
+  $schema['flag_actions'] = array(
+    'fields' => array(
+      'aid' => array(
+        'type' => 'serial',
+        'not null' => TRUE,
+        'disp-width' => '5',
+      ),
+      'fid' => array(
+        'type' => 'int',
+        'size' => 'small',
+        'not null' => FALSE,
+        'disp-width' => '5',
+      ),
+      'event' => array(
+        'type' => 'varchar',
+        'length' => '255',
+        'not null' => FALSE,
+      ),
+      'threshold' => array(
+        'type' => 'int',
+        'size' => 'small',
+        'not null' => FALSE,
+        'disp-width' => '5',
+      ),
+      'callback' => array(
+        'type' => 'varchar',
+        'length' => '255',
+        'not null' => TRUE,
+        'default' => '',
+      ),
+      'parameters' => array(
+        'type' => 'text',
+        'size' => 'big',
+        'not null' => TRUE,
+      ),
+    ),
+    'primary key' => array('aid'),
+  );
+
+  return $schema;
+}

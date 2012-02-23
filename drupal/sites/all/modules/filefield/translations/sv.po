@@ -1,0 +1,509 @@
+# $Id: sv.po,v 1.4 2010/05/08 04:25:37 quicksketch Exp $
+#
+# Swedish translation of Drupal (filefield)
+# Generated from files:
+#  field_file.inc,v 1.17 2008/08/27 15:05:22 drewish
+#  filefield_field.inc: n/a
+#  filefield_widget.inc,v 1.39 2008/09/13 00:43:27 drewish
+#  filefield_token.module: n/a
+#  filefield.module,v 1.150 2008/09/15 20:58:53 drewish
+#  filefield.install,v 1.13 2008/08/16 20:08:34 drewish
+#  filefield.info,v 1.8 2008/06/27 23:36:31 jpetso
+#  filefield_token.info,v 1.1 2008/07/14 06:19:38 dopry
+#  filefield_meta.info,v 1.5 2008/07/31 01:02:15 drewish
+#  filefield.js,v 1.9 2008/08/08 17:37:48 drewish
+#  filefield_meta.module,v 1.5 2008/07/31 12:22:55 drewish
+#  filefield_meta.install,v 1.4 2008/07/31 01:02:15 drewish
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: FileField 6.x\n"
+"POT-Creation-Date: 2009-03-16 18:10+0100\n"
+"PO-Revision-Date: 2009-03-16 23:44+0100\n"
+"Last-Translator: Magnus Gunnarsson <seals@passagen.se>\n"
+"Language-Team: drupalsverige.se\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n!=1);\n"
+"X-Poedit-Language: Swedish\n"
+"X-Poedit-Country: SWEDEN\n"
+"X-Poedit-SourceCharset: utf-8\n"
+
+#: field_file.inc:162
+msgid "The selected file %name could not be saved."
+msgstr "Den valda filen %name kunde inte sparas."
+
+#: field_file.inc:174
+msgid "File upload error. Could not move uploaded file."
+msgstr "Uppladdningsfel. Kunde inte flytta den uppladdade filen."
+
+#: field_file.inc:317
+msgid "The directory %directory is a file!"
+msgstr "Katalogen %directory är en fil!"
+
+#: field_file.inc:324;323
+msgid "The directory %directory does not exist."
+msgstr "Katalogen %directory finns inte."
+
+#: field_file.inc:331
+msgid "The directory %directory is not writable"
+msgstr "Katalogen %directory är skrivskyddad."
+
+#: field_file.inc:343
+msgid "Security warning: Couldn't write .htaccess file. Please create a .htaccess file in your %directory directory which contains the following lines:<br /><code>!htaccess</code>"
+msgstr "Säkerhetsvarning: Kunde inte skriva filen .htaccess. Skapa denna fil i din katalog %directory som innehåller dessa rader:<br /><code>!htaccess</code>"
+
+#: field_file.inc:86
+#: filefield_widget.inc:138;144
+#: filefield.module:0
+msgid "filefield"
+msgstr "filefield"
+
+#: field_file.inc:86
+msgid "Could not set permissions on destination file: %file"
+msgstr "Kunde inte ange rättigheter för destinationsfilen: %file"
+
+#: field_file.inc:175
+msgid "file"
+msgstr "fil"
+
+#: field_file.inc:175
+msgid "Upload error. Could not move file %file to destination %destination."
+msgstr "Uppladdningsfel. Kunde inte flytta filen %file till destinationen %destination."
+
+#: field_file.inc:316;323;330
+msgid "file system"
+msgstr "filsystem"
+
+#: field_file.inc:316
+msgid "check_directory: The path  %directory is a file."
+msgstr "check_directory: Sökvägen %directory är en fil."
+
+#: field_file.inc:330
+msgid "The directory %directory is not writable, because it does not have the correct permissions set."
+msgstr "Katalogen %directory är skrivskyddad på grund av att den inte har korrekta rättigheter inställda."
+
+#: field_file.inc:344
+msgid "security"
+msgstr "säkerhet"
+
+#: field_file.inc:344
+msgid "Security warning: Couldn't write .htaccess file.  Please create a .htaccess file in your %directory directory which contains the following lines:<br /><code>!htaccess</code>"
+msgstr "Säkerhetsvarning: Kunde inte skriva filen .htaccess. Skapa denna fil i din katalog %directory som innehåller dessa rader:<br /><code>!htaccess</code>"
+
+#: filefield_field.inc:16
+msgid "List field"
+msgstr "Visa fält"
+
+#: filefield_field.inc:17;31
+msgid "Disabled"
+msgstr "Ej aktiverad"
+
+#: filefield_field.inc:17;31
+msgid "Enabled"
+msgstr "Aktiverad"
+
+#: filefield_field.inc:19
+msgid "The \"list\" option lets a user choose if a file should shown in a list when viewing the content after creation."
+msgstr "Alternativet \"lista\" låter en användare välja om en fil skall visas i en lista när innehållet visas efter skapandet."
+
+#: filefield_field.inc:24
+msgid "Files listed by default"
+msgstr "Filer som listas som standard"
+
+#: filefield_field.inc:29
+msgid "Description field"
+msgstr "Beskrivningsfält"
+
+#: filefield_field.inc:32
+msgid "When enabled, will display a text field where users may enter a description about the uploaded file."
+msgstr "Om aktiverad, kommer det att visas ett textfält där användare kan ange en beskrivning om den uppladdade filen."
+
+#: filefield_widget.inc:26
+msgid "Permitted upload file extensions"
+msgstr "Tillåtna filändelser för uppladdningar."
+
+#: filefield_widget.inc:29
+msgid "Extensions a user can upload to this field. Separate extensions with a space and do not include the leading dot. Leaving this blank will allow users to upload a file with any extension."
+msgstr "Ändelser en användare kan ladda upp till detta fält. Separera ändelser med ett mellanslag och inkludera inte den inledande punkten. Om fältet lämnas blankt kommer detta tillåta användare att ladda upp filer alla ändelser."
+
+#: filefield_widget.inc:34
+msgid "Path settings"
+msgstr "Sökvägsinställningar"
+
+#: filefield_widget.inc:42
+#: filefield_token/filefield_token.module:13
+msgid "File path"
+msgstr "Filsökväg"
+
+#: filefield_widget.inc:44
+msgid "Optional subdirectory within the \"%dir\" directory where files will be stored. Do not include trailing slash."
+msgstr "Alternativ underkatalog inuti katalogen \"%dir\" där filer kommer att lagras. Inkludera inte avslutande snedstreck."
+
+#: filefield_widget.inc:51
+msgid "File size restrictions"
+msgstr "Begränsning av filstorlek"
+
+#: filefield_widget.inc:52
+msgid "Limits for the size of files that a user can upload. Note that these settings only apply to newly uploaded files, whereas existing files are not affected."
+msgstr "Gräns för storleken på filer som användaren kan ladda upp. Notera att dessa inställningar endast gäller för nya uppladdade filer, medan existerande filer inte påverkas."
+
+#: filefield_widget.inc:61
+msgid "Maximum upload size per file"
+msgstr "Maximal storlek på uppladdning per fil"
+
+#: filefield_widget.inc:65
+msgid "Specify the size limit that applies to each file separately. Enter a value like \"512\" (bytes), \"80K\" (kilobytes) or \"50M\" (megabytes) in order to restrict the allowed file size. If you leave this empty the file sizes will be limited only by PHP's maximum post and file upload sizes (current limit <strong>%limit</strong>)."
+msgstr "Specificera den filstorlek som gäller för varje fil separat. Ange ett värde som \"512\" (bytes), \"80K\" (kilobytes) eller \"50M\" (megabytes) för att begränsa den tillåtna filstorleken. Om du lämnar detta fält tomt kommer storleken bara att begränsas av PHP:s maximala inläggs- och filuppladdningsstorlekar (nuvarande begränsning <strong>%limit</strong>)."
+
+#: filefield_widget.inc:72
+msgid "Maximum upload size per node"
+msgstr "Maximal uppladdningsstorlek per nod."
+
+#: filefield_widget.inc:76
+msgid "Specify the total size limit for all files in field on a given node. Enter a value like \"512\" (bytes), \"80K\" (kilobytes) or \"50M\" (megabytes) in order to restrict the total size of a node. Leave this empty if there should be no size restriction."
+msgstr "Specificera den totala storleksgränsen för alla filer i fält på en given nod. Ange ett värde som \"512\" (bytes), \"80K\" (kilobytes) eller \"50M\" (megabytes) för att begränsa den tillåtna filstorleken. Lämna detta tomt om det inte skall finnas någon begränsning."
+
+#: filefield_widget.inc:99
+msgid "The \"Maximum file size for each file\" option must contain a valid value. You can either leave the text field empty or enter a string like \"512\" (bytes), \"80K\" (kilobytes) or \"50M\" (megabytes)."
+msgstr "Alternativet \"Maximal filstorlek för varje fil\" måste innehålla ett giltigt värde. Du kan antingen lämna fältet tomt eller ange ett värde som \"512\" (bytes), \"80K\" (kilobytes) eller \"50M\" (megabytes)."
+
+#: filefield_widget.inc:108
+msgid "The \"Maximum file size per node\" option must contain a valid value. You can either leave the text field empty or enter a string like \"512\" (bytes), \"80K\" (kilobytes) or \"50M\" (megabytes)."
+msgstr "Alternativet \"Maximal filstorlek per nod\" måste innehålla ett giltigt värde. Du kan antingen lämna fältet tomt eller ange ett värde som \"512\" (bytes), \"80K\" (kilobytes) eller \"50M\" (megabytes)."
+
+#: filefield_widget.inc:139
+msgid "The file could not be uploaded."
+msgstr "Filen kunde inte laddas upp."
+
+#: filefield_widget.inc:145
+msgid "The file in the @field field was unable to be uploaded."
+msgstr "Filen i fältet @field kunde inte laddas upp."
+
+#: filefield_widget.inc:193
+msgid "Upload"
+msgstr "Ladda upp"
+
+#: filefield_widget.inc:212
+msgid "Remove"
+msgstr "Ta bort"
+
+#: filefield_widget.inc:260
+msgid "Description"
+msgstr "Beskrivning"
+
+#: filefield_widget.inc:268
+msgid "List"
+msgstr "Lista"
+
+#: filefield_widget.inc:402
+msgid "%title field is required."
+msgstr "Fältet %title är obligatoriskt."
+
+#: filefield_widget.inc:406
+msgid "Total filesize for %title, %tsize, exceeds field settings of %msize."
+msgstr "Total filstorlek för %title, %tsize, överskrider fältets inställningar på %msize."
+
+#: filefield_widget.inc:419
+msgid "Save"
+msgstr "Spara"
+
+#: filefield_widget.inc:138
+msgid "The upload directory %directory for the file field %field (content type %type) could not be created or is not accessible. A newly uploaded file could not be saved in this directory as a consequence, and the upload was canceled."
+msgstr "Uppladdningskatalogen %directory för filfältet %field (innehållstyp %type) kunde inte skapas eller är inte tillgänglig. Som en konsekvens kunde en nyligen uppladdad fil inte sparas i denna katalogen och uppladdningen avbröts."
+
+#: filefield_widget.inc:144
+msgid "The file upload failed. %upload"
+msgstr "Filuppladdningen misslyckades. %upload"
+
+#: filefield.module:51;58
+msgid "Changes made to the attachments are not permanent until you save this post."
+msgstr "Ändringar gjorda på bifogningen är inte permanenta förrän du sparar detta inlägg."
+
+#: filefield.module:215
+msgid "Store an arbitrary file."
+msgstr "Lagra en godtycklig fil."
+
+#: filefield.module:350
+msgid "File Upload"
+msgstr "Filuppladdning"
+
+#: filefield.module:354
+msgid "A plain file upload widget."
+msgstr "En enkel filuppladdningsmanick."
+
+#: filefield.module:361
+msgid "(Experimental)An extensible file upload widget."
+msgstr "(Experimentell) En utbyggbar filuppladdningsmanick."
+
+#: filefield.module:372
+msgid "Generic files"
+msgstr "Allmänna filer"
+
+#: filefield.module:375
+msgid "Displays all kinds of files with an icon and a linked file description."
+msgstr "Visar alla typer av filer med en ikon och en länkad filbeskrivning."
+
+#: filefield.module:545
+msgid "Only files with the following extensions are allowed: %files-allowed."
+msgstr "Endast filer med följande ändelser tillåts: %files-allowed."
+
+#: filefield.module:557
+msgid "Allowed Extensions: %ext"
+msgstr "Tillåtna ändelser: %ext"
+
+#: filefield.module:570
+msgid "The file is %filesize exceeding the maximum file size of %maxsize."
+msgstr "Filen är %filesize och överstiger den maximala filstorleken %maxsize."
+
+#: filefield.module:577
+msgid "The file is %filesize which would exceed your disk quota of %quota."
+msgstr "Filen är %filesize vilket skulle överstiga din diskkvot på %quota."
+
+#: filefield.module:584
+msgid "Maximum Filesize: %size"
+msgstr "Maximal filstorlek: %size"
+
+#: filefield.module:598
+msgid "The image was resized to fit within the maximum allowed dimensions of %dimensions pixels."
+msgstr "Storleken på din bild ändrades för att passa inom den maximalt tillåtna bildstorleken på %dimensions pixlar."
+
+#: filefield.module:606
+msgid "The image is too large; the maximum dimensions are %dimensions pixels."
+msgstr "Bilden är för stor. Maximal storlek är %dimensions pixlar."
+
+#: filefield.module:615
+msgid "The image is too small; the minimum dimensions are %dimensions pixels."
+msgstr "Bilden är för liten. Minsta storlek är %dimensions pixlar."
+
+#: filefield.module:627
+msgid "Images must be exactly @min_size pixels"
+msgstr "Bilder måste vara minst @min_size pixlar"
+
+#: filefield.module:630
+msgid "Images must be between @min_size pixels and @max_size"
+msgstr "Bilder måste vara mellan @min_size och @max_size pixlar"
+
+#: filefield.module:635
+msgid "Images larger than @max_size pixels will be scaled"
+msgstr "Bilder större än @max_size pixlar kommer att skalas"
+
+#: filefield.module:638
+msgid "Images must be smaller than @max_size pixels"
+msgstr "Bilder måste vara mindre än @max_size pixlar"
+
+#: filefield.module:643
+msgid "Images must be larger than @max_size pixels"
+msgstr "Bilder måste vara större än @max_size pixlar"
+
+#: filefield.module:651
+msgid "Only JPEG, PNG and GIF images are allowed."
+msgstr "Endast bilder av typen JPEG, PNG och GIF är tillåtna."
+
+#: filefield.module:666
+msgid "Must be a JPEG, PNG or GIF image"
+msgstr "Måste vara en bild av typen JPEG, PNG eller GIF."
+
+#: filefield.install:101
+msgid "Migrating filefield values"
+msgstr "Migrerar filfältsvärden"
+
+#: filefield.install:137
+msgid "The file field %field has been updated with new settings."
+msgstr "Filfältet %field har uppdaterats med nya inställningar."
+
+#: filefield.info:0
+msgid "FileField"
+msgstr "FileField"
+
+#: filefield.info:0
+msgid "Defines a file field type."
+msgstr "Definierar en filfältstyp."
+
+#: filefield.info:0
+#: filefield_meta/filefield_meta.info:0
+#: filefield_token/filefield_token.info:0
+msgid "CCK"
+msgstr "CCK"
+
+#: filefield.js:0
+msgid "The selected file %filename cannot be uploaded. Only files with the following extensions are allowed: %extensions."
+msgstr "Den valda filen %filename kan inte laddas upp. Endast filer med följande ändelser är tillåtna: %extensions."
+
+#: filefield_meta/filefield_meta.module:0
+msgid "filefield_meta"
+msgstr "filefield_meta"
+
+#: filefield_meta/filefield_meta.install:25
+msgid "The table for meta data about filefield files."
+msgstr "Tabellen för metadata om filer av typen FileField."
+
+#: filefield_meta/filefield_meta.install:28
+msgid "The file id."
+msgstr "Filens ID."
+
+#: filefield_meta/filefield_meta.install:34
+#: filefield_meta/includes/filefield_meta.views.inc:40
+msgid "Width of a video or image file in pixels."
+msgstr "Bredd på en video- eller bildfil i pixlar."
+
+#: filefield_meta/filefield_meta.install:40
+#: filefield_meta/includes/filefield_meta.views.inc:56
+msgid "Height of a video or image file in pixels."
+msgstr "Höjd på en video- eller bildfil i pixlar."
+
+#: filefield_meta/filefield_meta.install:46
+#: filefield_meta/includes/filefield_meta.views.inc:72
+msgid "The duration of audio or video files, in seconds."
+msgstr "Längden på en ljud- eller videofil i sekunder."
+
+#: filefield_meta/filefield_meta.install:52;96
+#: filefield_meta/includes/filefield_meta.views.inc:88
+msgid "The audio format."
+msgstr "Ljudformatet."
+
+#: filefield_meta/filefield_meta.install:59;103
+#: filefield_meta/includes/filefield_meta.views.inc:104
+msgid "The sample rate of the audio."
+msgstr "Klassen på ljudprovet för ljudet."
+
+#: filefield_meta/filefield_meta.install:66
+#: filefield_meta/includes/filefield_meta.views.inc:120
+msgid "The number of channels in the audio, by name (stereo or mono)."
+msgstr "Antalet kanaler i ljudet, per namn (stereo eller mono)."
+
+#: filefield_meta/filefield_meta.install:73;117
+#: filefield_meta/includes/filefield_meta.views.inc:136
+msgid "The audio bitrate."
+msgstr "Bithastighet för ljudet."
+
+#: filefield_meta/filefield_meta.install:80
+#: filefield_meta/includes/filefield_meta.views.inc:152
+msgid "The kind of audio bitrate, such as VBR. Usually empty."
+msgstr "Typ av ljudbitshastighet, såsom VBR. Vanligtvis lämnas detta tomt."
+
+#: filefield_meta/filefield_meta.install:110
+msgid "The number of channels in the audio, by name."
+msgstr "Antalet kanaler i ljudet, per namn."
+
+#: filefield_meta/filefield_meta.install:124
+msgid "The kind of audio bitrate."
+msgstr "Typ av ljudbitshastighet."
+
+#: filefield_meta/filefield_meta.info:0
+msgid "FileField Meta"
+msgstr "FileField Meta"
+
+#: filefield_meta/filefield_meta.info:0
+msgid "Add metadata gathering and storage to FileField."
+msgstr "Lägg till uppsamling och lagring av metadata till FileField."
+
+#: filefield_meta/includes/filefield_meta.views.inc:21
+msgid "File"
+msgstr "Fil"
+
+#: filefield_meta/includes/filefield_meta.views.inc:39
+msgid "Video width"
+msgstr "Bredd på video"
+
+#: filefield_meta/includes/filefield_meta.views.inc:55
+msgid "Video height"
+msgstr "Höjd på video"
+
+#: filefield_meta/includes/filefield_meta.views.inc:71
+msgid "Duration"
+msgstr "Varaktighet"
+
+#: filefield_meta/includes/filefield_meta.views.inc:87
+msgid "Audio format"
+msgstr "Ljudformat"
+
+#: filefield_meta/includes/filefield_meta.views.inc:103
+msgid "Audio sample rate"
+msgstr "Klass på ljudprov"
+
+#: filefield_meta/includes/filefield_meta.views.inc:119
+msgid "Audio channel mode"
+msgstr "Typvärde för ljudkanal"
+
+#: filefield_meta/includes/filefield_meta.views.inc:135
+msgid "Audio bitrate"
+msgstr "Ljudbitshastighet"
+
+#: filefield_meta/includes/filefield_meta.views.inc:151
+msgid "Audio bitrate mode"
+msgstr "Typvärde för ljudets bithastighet"
+
+#: filefield_meta/includes/filefield_meta_handler_field_duration.inc:33
+msgid "Time format"
+msgstr "Tidsformat"
+
+#: filefield_meta/includes/filefield_meta_handler_field_duration.inc:36
+msgid "Default (usually mm:ss)"
+msgstr "Förvalt (vanligtvis mm:ss)"
+
+#: filefield_meta/includes/filefield_meta_handler_field_duration.inc:37
+msgid "Hours: h"
+msgstr "Timmar: h"
+
+#: filefield_meta/includes/filefield_meta_handler_field_duration.inc:38
+msgid "Minutes: mm"
+msgstr "Minuter: mm"
+
+#: filefield_meta/includes/filefield_meta_handler_field_duration.inc:39
+msgid "Seconds: ss"
+msgstr "Sekunder: ss"
+
+#: filefield_meta/includes/filefield_meta_handler_field_duration.inc:40
+msgid "Total seconds"
+msgstr "Sekunder totalt"
+
+#: filefield_token/filefield_token.module:10
+msgid "File ID"
+msgstr "Filens ID"
+
+#: filefield_token/filefield_token.module:11
+msgid "File description"
+msgstr "Filbeskrivning"
+
+#: filefield_token/filefield_token.module:12
+msgid "File name"
+msgstr "Filnamn"
+
+#: filefield_token/filefield_token.module:14
+msgid "File MIME type"
+msgstr "Typ av MIME för filen"
+
+#: filefield_token/filefield_token.module:15
+msgid "File size (in bytes)"
+msgstr "Filstorlek (i bytes)"
+
+#: filefield_token/filefield_token.module:16
+msgid "File size (pretty printed)"
+msgstr "Filstorlek (snygg utskrift)"
+
+#: filefield_token/filefield_token.module:17
+msgid "Fully formatted HTML file tag"
+msgstr "Fullt formaterad HTML-tagg för fil"
+
+#: filefield_token/filefield_token.module:18
+msgid "File name without extension."
+msgstr "Filnamn utan ändelse."
+
+#: filefield_token/filefield_token.module:19
+msgid "File extension"
+msgstr "Filändelse"
+
+#: filefield_token/filefield_token.module:0
+msgid "filefield_token"
+msgstr "filefield_token"
+
+#: filefield_token/filefield_token.info:0
+msgid "FileField Tokens"
+msgstr "FileField Tokens"
+
+#: filefield_token/filefield_token.info:0
+msgid "Token Integration for FileField."
+msgstr "Integration med Token för FileField."
+

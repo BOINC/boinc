@@ -1,0 +1,375 @@
+# $Id: general.pot,v 1.1 2009/08/16 19:13:58 hass Exp $
+#
+# LANGUAGE translation of Drupal (general)
+# Copyright YEAR NAME <EMAIL@ADDRESS>
+# Generated from files:
+#  bulk_export.module,v 1.3 2009/07/22 21:12:07 merlinofchaos
+#  page_manager.admin.inc,v 1.25 2009/08/13 22:24:02 merlinofchaos
+#  page.inc,v 1.16 2009/08/13 23:35:26 merlinofchaos
+#  ajax.inc,v 1.10 2009/07/17 21:09:44 merlinofchaos
+#  content.inc,v 1.11 2009/07/21 20:42:56 merlinofchaos
+#  content.menu.inc,v 1.2 2009/07/09 16:54:29 merlinofchaos
+#  node_author.inc,v 1.1 2009/07/18 22:10:48 merlinofchaos
+#  user.inc,v 1.4 2009/05/11 23:02:55 merlinofchaos
+#  context-access-admin.inc,v 1.6 2009/07/10 17:40:09 merlinofchaos
+#  context-admin.inc,v 1.8 2009/07/23 00:09:59 merlinofchaos
+#  page.admin.inc,v 1.16 2009/08/07 23:40:39 merlinofchaos
+#  custom.inc,v 1.8 2009/07/22 19:25:09 merlinofchaos
+#  views.inc,v 1.11 2009/05/12 00:17:27 merlinofchaos
+#  node.inc,v 1.5 2009/08/03 22:19:06 merlinofchaos
+#  node_content.inc,v 1.3 2009/04/20 23:51:44 merlinofchaos
+#  node_links.inc,v 1.2 2009/08/05 16:54:51 sdboyer
+#  export.inc,v 1.18 2009/08/13 22:24:02 merlinofchaos
+#  page_manager.module,v 1.15 2009/08/09 16:25:02 merlinofchaos
+#  context.inc,v 1.33 2009/08/03 21:41:41 merlinofchaos
+#  context.theme.inc,v 1.7 2009/08/03 21:41:41 merlinofchaos
+#  page_manager/theme/page_manager.theme.inc: n/a
+#  views_content_plugin_display_panel_pane.inc,v 1.2 2009/04/20 21:35:25 merlinofchaos
+#  node_access.inc,v 1.7 2009/07/10 17:06:10 merlinofchaos
+#  modal.inc,v 1.7 2009/05/11 23:49:33 merlinofchaos
+#  modal.js,v 1.15 2009/07/22 00:16:08 merlinofchaos
+#  wizard.inc,v 1.9 2009/07/11 19:34:30 merlinofchaos
+#  term_view.inc,v 1.5 2009/08/04 21:43:06 merlinofchaos
+#  terms.inc,v 1.3 2009/07/11 01:17:45 merlinofchaos
+#  term.inc,v 1.6 2009/07/13 17:55:56 merlinofchaos
+#  perm.inc,v 1.6 2009/07/10 17:06:10 merlinofchaos
+#  role.inc,v 1.7 2009/07/10 17:06:10 merlinofchaos
+#  profile_fields.inc,v 1.4 2009/08/13 22:24:02 merlinofchaos
+#  user_picture.inc,v 1.3 2009/08/05 18:11:05 merlinofchaos
+#  user_profile.inc,v 1.4 2009/06/12 23:40:57 merlinofchaos
+#  node_language.inc,v 1.7 2009/07/10 17:06:10 merlinofchaos
+#  node_type.inc,v 1.7 2009/07/18 22:06:33 merlinofchaos
+#  node_attachments.inc,v 1.1 2009/04/18 02:00:34 merlinofchaos
+#  node_body.inc,v 1.2 2009/07/22 21:40:31 merlinofchaos
+#  node_book_nav.inc,v 1.1 2009/04/18 02:00:34 merlinofchaos
+#  node_comment_form.inc,v 1.1 2009/04/18 02:00:34 merlinofchaos
+#  node_comments.inc,v 1.2 2009/05/20 23:26:45 merlinofchaos
+#  node_created.inc,v 1.1 2009/07/18 22:10:48 merlinofchaos
+#  node_title.inc,v 1.2 2009/07/18 22:10:48 merlinofchaos
+#  node_type_desc.inc,v 1.1 2009/04/18 02:00:34 merlinofchaos
+#  node_updated.inc,v 1.1 2009/07/18 22:10:48 merlinofchaos
+#  node.inc,v 1.10 2009/08/05 19:29:17 sdboyer
+#  book_parent.inc,v 1.2 2009/07/20 16:01:20 merlinofchaos
+#  term_from_node.inc,v 1.2 2009/07/20 16:01:20 merlinofchaos
+#  user_from_node.inc,v 1.3 2009/07/20 16:01:20 merlinofchaos
+#  node_add_form.inc,v 1.9 2009/06/13 00:20:31 merlinofchaos
+#  term_vocabulary.inc,v 1.4 2009/07/10 17:06:10 merlinofchaos
+#  term_description.inc,v 1.1 2009/04/18 02:00:35 merlinofchaos
+#  term_list.inc,v 1.3 2009/05/09 07:44:55 merlinofchaos
+#  term_parent.inc,v 1.2 2009/07/20 16:01:20 merlinofchaos
+#  nid.inc,v 1.8 2009/04/22 22:31:29 merlinofchaos
+#  node_add.inc,v 1.3 2009/01/29 22:12:05 merlinofchaos
+#  node_edit.inc,v 1.5 2009/04/22 22:31:29 merlinofchaos
+#  node_edit_form.inc,v 1.10 2009/08/03 22:19:06 merlinofchaos
+#  string.inc,v 1.3 2009/07/11 01:17:44 merlinofchaos
+#  string.inc,v 1.4 2009/07/11 01:17:45 merlinofchaos
+#  term.inc,v 1.5 2009/05/11 23:49:33 merlinofchaos
+#  uid.inc,v 1.9 2009/08/07 23:40:40 merlinofchaos
+#  vid.inc,v 1.4 2009/04/22 22:31:29 merlinofchaos
+#  block.inc,v 1.9 2009/07/17 21:53:41 merlinofchaos
+#  views_content.module,v 1.4 2009/08/07 19:58:33 merlinofchaos
+#  form.inc,v 1.1 2009/04/18 02:00:34 merlinofchaos
+#  node_form_attachments.inc,v 1.1 2009/04/18 02:00:35 merlinofchaos
+#  node_form_author.inc,v 1.1 2009/04/18 02:00:35 merlinofchaos
+#  node_form_book.inc,v 1.1 2009/04/18 02:00:35 merlinofchaos
+#  node_form_buttons.inc,v 1.1 2009/04/18 02:00:35 merlinofchaos
+#  node_form_comment.inc,v 1.1 2009/04/18 02:00:35 merlinofchaos
+#  node_form_input_format.inc,v 1.1 2009/04/18 02:00:35 merlinofchaos
+#  node_form_log.inc,v 1.1 2009/04/18 02:00:35 merlinofchaos
+#  node_form_menu.inc,v 1.1 2009/04/18 02:00:35 merlinofchaos
+#  node_form_path.inc,v 1.1 2009/04/18 02:00:35 merlinofchaos
+#  node_form_publishing.inc,v 1.1 2009/04/18 02:00:35 merlinofchaos
+#  node_form_taxonomy.inc,v 1.1 2009/04/18 02:00:35 merlinofchaos
+#  vocabulary_terms.inc,v 1.3 2009/05/05 23:31:10 merlinofchaos
+#  vocabulary.inc,v 1.3 2009/05/11 23:02:55 merlinofchaos
+#  views_panes.inc,v 1.13 2009/07/20 17:45:21 merlinofchaos
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"POT-Creation-Date: 2009-08-16 20:47+0200\n"
+"PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
+"Last-Translator: NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+
+#: bulk_export/bulk_export.module:165 page_manager/page_manager.admin.inc:663 page_manager/plugins/tasks/page.inc:182
+msgid "Export"
+msgstr ""
+
+#: includes/ajax.inc:123 page_manager/page_manager.admin.inc:906
+msgid "Error"
+msgstr ""
+
+#: includes/content.inc:539 page_manager/page_manager.admin.inc:559
+msgid "Configure"
+msgstr ""
+
+#: includes/content.menu.inc:45 plugins/content_types/node_context/node_author.inc:36 plugins/contexts/user.inc:50
+msgid "Anonymous"
+msgstr ""
+
+#: includes/context-access-admin.inc:174;405 includes/context-admin.inc:565;644;715;826 page_manager/page_manager.admin.inc:1156
+msgid "Save"
+msgstr ""
+
+#: includes/context-access-admin.inc:214 includes/context-admin.inc:793 page_manager/page_manager.admin.inc:72;248;1295 page_manager/plugins/tasks/page.admin.inc:645 plugins/content_types/custom/custom.inc:105
+msgid "Title"
+msgstr ""
+
+#: includes/context-admin.inc:26 page_manager/plugins/tasks/page.inc:158 views_content/plugins/content_types/views.inc:360
+msgid "Arguments"
+msgstr ""
+
+#: includes/context-admin.inc:312;436;874 page_manager/plugins/tasks/page.admin.inc:948
+msgid "Invalid object name."
+msgstr ""
+
+#: includes/context-admin.inc:540;628;690;800 plugins/content_types/node/node.inc:146 plugins/content_types/node_context/node_content.inc:162 plugins/content_types/node_context/node_links.inc:93
+msgid "Identifier"
+msgstr ""
+
+#: includes/context-admin.inc:547;635;697;807 plugins/content_types/custom/custom.inc:138
+msgid "Keyword"
+msgstr ""
+
+#: includes/context-admin.inc:782 includes/export.inc:191;254 page_manager/page_manager.module:499;514 page_manager/plugins/tasks/page.inc:216 views_content/plugins/content_types/views.inc:449
+msgid "Default"
+msgstr ""
+
+#: includes/context.inc:195;196;400 page_manager/plugins/tasks/page.admin.inc:1116;1136
+msgid "No context"
+msgstr ""
+
+#: includes/context.theme.inc:80 page_manager/plugins/tasks/page.admin.inc:687 page_manager/theme/page_manager.theme.inc:103 views_content/plugins/views/views_content_plugin_display_panel_pane.inc:196
+msgid "Weight"
+msgstr ""
+
+#: includes/context.theme.inc:82 plugins/access/node_access.inc:35
+msgid "Operation"
+msgstr ""
+
+#: includes/export.inc:146 page_manager/page_manager.module:365 page_manager/plugins/tasks/page.admin.inc:1452
+msgid "Normal"
+msgstr ""
+
+#: includes/export.inc:184 page_manager/page_manager.admin.inc:1453 page_manager/page_manager.module:508 page_manager/plugins/tasks/page.admin.inc:1481;1495;1506
+msgid "Overridden"
+msgstr ""
+
+#: includes/export.inc:586 page_manager/page_manager.module:635
+msgid "Local"
+msgstr ""
+
+#: includes/modal.inc:54 js/modal.js:0
+msgid "Loading..."
+msgstr ""
+
+#: includes/wizard.inc:273 page_manager/page_manager.admin.inc:1162
+msgid "Cancel"
+msgstr ""
+
+#: page_manager/page_manager.admin.inc:70;219;251 page_manager/plugins/tasks/page.admin.inc:633
+msgid "Type"
+msgstr ""
+
+#: page_manager/page_manager.admin.inc:73;250 page_manager/plugins/tasks/page.admin.inc:394;1240;1366 page_manager/plugins/tasks/page.inc:629 page_manager/plugins/tasks/term_view.inc:258
+msgid "Path"
+msgstr ""
+
+#: page_manager/page_manager.admin.inc:74;226;252 page_manager/plugins/tasks/page.inc:46;574
+msgid "Storage"
+msgstr ""
+
+#: page_manager/page_manager.admin.inc:77 page_manager/plugins/tasks/page.admin.inc:905
+msgid "Operations"
+msgstr ""
+
+#: page_manager/page_manager.admin.inc:153 page_manager/plugins/tasks/page.inc:216
+msgid "In code"
+msgstr ""
+
+#: page_manager/page_manager.admin.inc:171 page_manager/page_manager.module:79 page_manager/plugins/tasks/page.inc:605;647;683 views_content/plugins/views/views_content_plugin_display_panel_pane.inc:120
+msgid "Edit"
+msgstr ""
+
+#: page_manager/page_manager.admin.inc:179;504;510;689;694 page_manager/plugins/tasks/page.inc:580
+msgid "Enable"
+msgstr ""
+
+#: page_manager/page_manager.admin.inc:185;517;523;700;705 page_manager/plugins/tasks/page.inc:584
+msgid "Disable"
+msgstr ""
+
+#: page_manager/page_manager.admin.inc:233;234 page_manager/plugins/tasks/page.inc:585
+msgid "Enabled"
+msgstr ""
+
+#: page_manager/page_manager.admin.inc:234 page_manager/plugins/tasks/page.inc:581
+msgid "Disabled"
+msgstr ""
+
+#: page_manager/page_manager.admin.inc:658 page_manager/plugins/tasks/page.admin.inc:1380 page_manager/plugins/tasks/page.inc:177
+msgid "Clone"
+msgstr ""
+
+#: page_manager/page_manager.admin.inc:669;673 page_manager/plugins/tasks/page.admin.inc:1495 page_manager/plugins/tasks/page.inc:188
+msgid "Revert"
+msgstr ""
+
+#: page_manager/page_manager.admin.inc:679;683 page_manager/plugins/tasks/page.admin.inc:1495 page_manager/plugins/tasks/page.inc:195 plugins/access/node_access.inc:40
+msgid "Delete"
+msgstr ""
+
+#: page_manager/page_manager.admin.inc:795 plugins/access/node_access.inc:39
+msgid "Update"
+msgstr ""
+
+#: page_manager/plugins/tasks/page.admin.inc:367;1358 views_content/plugins/views/views_content_plugin_display_panel_pane.inc:166
+msgid "Administrative title"
+msgstr ""
+
+#: page_manager/plugins/tasks/page.admin.inc:386 views_content/plugins/views/views_content_plugin_display_panel_pane.inc:176;186
+msgid "Administrative description"
+msgstr ""
+
+#: page_manager/plugins/tasks/page.inc:207 plugins/content_types/custom/custom.inc:26;58 plugins/content_types/node/node.inc:27
+msgid "Custom"
+msgstr ""
+
+#: page_manager/plugins/tasks/page.inc:304 page_manager/plugins/tasks/term_view.inc:133 plugins/access/node_access.inc:38
+msgid "View"
+msgstr ""
+
+#: page_manager/plugins/tasks/term_view.inc:230 plugins/arguments/terms.inc:55
+msgid "Inject hierarchy of first term into breadcrumb trail"
+msgstr ""
+
+#: page_manager/plugins/tasks/term_view.inc:233 plugins/arguments/term.inc:94 plugins/arguments/terms.inc:58
+msgid "If checked, taxonomy term parents will appear in the breadcrumb trail."
+msgstr ""
+
+#: plugins/access/node_access.inc:22 plugins/access/perm.inc:20 plugins/access/role.inc:21 plugins/content_types/user_context/profile_fields.inc:15;16 plugins/content_types/user_context/user_picture.inc:13;14 plugins/content_types/user_context/user_profile.inc:13;14 plugins/contexts/user.inc:15
+msgid "User"
+msgstr ""
+
+#: plugins/access/node_access.inc:23 plugins/access/node_language.inc:22 plugins/access/node_type.inc:21 plugins/content_types/node/node.inc:15 plugins/content_types/node_context/node_attachments.inc:13;14 plugins/content_types/node_context/node_author.inc:13;14 plugins/content_types/node_context/node_body.inc:13;14 plugins/content_types/node_context/node_book_nav.inc:14;15 plugins/content_types/node_context/node_comment_form.inc:14;15 plugins/content_types/node_context/node_comments.inc:15;16 plugins/content_types/node_context/node_content.inc:13;14 plugins/content_types/node_context/node_created.inc:13;14 plugins/content_types/node_context/node_links.inc:14;15 plugins/content_types/node_context/node_title.inc:13;14 plugins/content_types/node_context/node_type_desc.inc:13;14 plugins/content_types/node_context/node_updated.inc:13;14 plugins/contexts/node.inc:16 plugins/relationships/book_parent.inc:17 plugins/relationships/term_from_node.inc:17 plugins/relationships/user_from_node.inc:17
+msgid "Node"
+msgstr ""
+
+#: plugins/access/node_type.inc:38 plugins/contexts/node.inc:170 plugins/contexts/node_add_form.inc:21;101
+msgid "Node type"
+msgstr ""
+
+#: plugins/access/term_vocabulary.inc:21 plugins/content_types/term_context/term_description.inc:13 plugins/content_types/term_context/term_list.inc:13 plugins/relationships/term_parent.inc:17
+msgid "Term"
+msgstr ""
+
+#: plugins/arguments/nid.inc:15 plugins/contexts/node.inc:166
+msgid "Node ID"
+msgstr ""
+
+#: plugins/arguments/node_add.inc:15 plugins/contexts/node_add_form.inc:15
+msgid "Node add form"
+msgstr ""
+
+#: plugins/arguments/node_edit.inc:15 plugins/contexts/node_edit_form.inc:15
+msgid "Node edit form"
+msgstr ""
+
+#: plugins/arguments/string.inc:15 plugins/contexts/string.inc:15
+msgid "String"
+msgstr ""
+
+#: plugins/arguments/term.inc:15 plugins/content_types/term_context/term_description.inc:14 plugins/content_types/term_context/term_list.inc:14 plugins/contexts/term.inc:15
+msgid "Taxonomy term"
+msgstr ""
+
+#: plugins/arguments/term.inc:84 plugins/contexts/term.inc:24
+msgid "Term ID"
+msgstr ""
+
+#: plugins/arguments/term.inc:84 plugins/contexts/term.inc:25
+msgid "Term name"
+msgstr ""
+
+#: plugins/arguments/uid.inc:15 plugins/contexts/user.inc:24
+msgid "User ID"
+msgstr ""
+
+#: plugins/arguments/vid.inc:15 plugins/contexts/term.inc:26
+msgid "Vocabulary ID"
+msgstr ""
+
+#: plugins/content_types/block/block.inc:331;336;354;378;388 views_content/views_content.module:56
+msgid "Widgets"
+msgstr ""
+
+#: plugins/content_types/form/form.inc:16;17;43 plugins/content_types/node_form/node_form_attachments.inc:14;15 plugins/content_types/node_form/node_form_author.inc:13;14 plugins/content_types/node_form/node_form_book.inc:14;15 plugins/content_types/node_form/node_form_buttons.inc:13;14 plugins/content_types/node_form/node_form_comment.inc:14;15 plugins/content_types/node_form/node_form_input_format.inc:13;14 plugins/content_types/node_form/node_form_log.inc:13;14 plugins/content_types/node_form/node_form_menu.inc:14;15 plugins/content_types/node_form/node_form_path.inc:14;15 plugins/content_types/node_form/node_form_publishing.inc:19;20 plugins/content_types/node_form/node_form_taxonomy.inc:14;15
+msgid "Form"
+msgstr ""
+
+#: plugins/content_types/node/node.inc:70 plugins/content_types/node_context/node_content.inc:61
+msgid "Edit node"
+msgstr ""
+
+#: plugins/content_types/node/node.inc:71 plugins/content_types/node_context/node_content.inc:62
+msgid "Edit this node"
+msgstr ""
+
+#: plugins/content_types/node/node.inc:106 plugins/contexts/node.inc:81 plugins/contexts/node_edit_form.inc:80
+msgid "Enter the title or NID of a node"
+msgstr ""
+
+#: plugins/content_types/node/node.inc:123 plugins/content_types/node_context/node_content.inc:134
+msgid "Teaser"
+msgstr ""
+
+#: plugins/content_types/node/node.inc:132 plugins/content_types/node_context/node_content.inc:148
+msgid "Display links"
+msgstr ""
+
+#: plugins/content_types/node/node.inc:133 plugins/content_types/node_context/node_content.inc:149
+msgid "Check here to display the links with the post."
+msgstr ""
+
+#: plugins/content_types/node/node.inc:139 plugins/content_types/node_context/node_content.inc:169
+msgid "Leave node title"
+msgstr ""
+
+#: plugins/content_types/node/node.inc:140 plugins/content_types/node_context/node_content.inc:170
+msgid "Advanced: if checked, do not touch the node title; this can cause the node title to appear twice unless your theme is aware of this."
+msgstr ""
+
+#: plugins/content_types/node/node.inc:147 plugins/content_types/node_context/node_content.inc:163
+msgid "Whatever is placed here will appear in $node->panel_identifier in the node template to make it easier to theme a node or part of a node as necessary. This identifier will automatically be added as a node template suggestion: node-panel-IDENTIFIER.tpl.php"
+msgstr ""
+
+#: plugins/content_types/node_context/node_author.inc:10 plugins/relationships/user_from_node.inc:14
+msgid "Node author"
+msgstr ""
+
+#: plugins/content_types/node_context/node_title.inc:10 plugins/contexts/node.inc:168
+msgid "Node title"
+msgstr ""
+
+#: plugins/content_types/vocabulary_context/vocabulary_terms.inc:14;15 plugins/contexts/term.inc:68 plugins/contexts/vocabulary.inc:58 plugins/relationships/term_from_node.inc:52
+msgid "Vocabulary"
+msgstr ""
+
+#: views_content/views_content.module:61 views_content/plugins/content_types/views.inc:99
+msgid "Views"
+msgstr ""
+
+#: views_content/plugins/content_types/views.inc:317 views_content/plugins/content_types/views_panes.inc:341 views_content/plugins/views/views_content_plugin_display_panel_pane.inc:148
+msgid "Use pager"
+msgstr ""
+
+#: views_content/plugins/content_types/views_panes.inc:15;94 views_content/plugins/views/views_content_plugin_display_panel_pane.inc:92
+msgid "View panes"
+msgstr ""
+

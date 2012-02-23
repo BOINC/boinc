@@ -1,0 +1,71 @@
+<!-- $Id: api-handlers.html,v 1.4 2008/09/16 19:26:26 merlinofchaos Exp $ -->
+In Views, a handler is an object that is part of the view and is part of the query building flow. 
+
+Handlers are objects; much of the time, the base handlers will work, but often you'll need to override the handler for something. One typical handler override will be views_handler_filter_operator_in which allows you to have a filter select from a list of options; you'll need to override this to provide your list.
+
+Handlers have two distint code flows; the UI flow and the view building flow.
+
+For the query flow:
+
+<dl>
+<dt>handler-&gt;construct()</dt>
+<dd>Create the initial handler; at this time it is not yet attached to a view. It is here that you can set basic defaults if needed, but there will be no knowledge of the environment yet.</dd>
+<dt>handler-&gt;set_definition()</dt>
+<dd>Set the data from hook_views_data() relevant to the handler.</dd>
+<dt>handler-&gt;init()</dt>
+<dd>Attach the handler to a view, and usually provides the options from the display.</dd>
+<dt>handler-&gt;pre_query()</dt>
+<dd>Run prior to the query() stage to do early processing.</dd>
+<dt>handler-&gt;query()</dt>
+<dd>Do the bulk of the work this handler needs to do to add itself to the query.</dd>
+</dl>
+
+Fields, being the only handlers concerned with output, also have an extended piece of the flow:
+<dl>
+<dt>handler-&gt;pre_render()</dt>
+<dd>Called prior to the actual rendering, this allows handlers to query for extra data; the entire resultset is available here, and this is where items that have "multiple values" per record can do their extra query for all of the records available. There are several examples of this at work in the code.</dd>
+<dt>handler-&gt;render()</dt>
+<dd>This does the actual work of rendering the field.</dd>
+</dl>
+
+Most handlers are just extensions of existing classes with a few tweaks that are specific to the field in question. For example:
+
+<pre>
+/**
+ * Filter by node type
+ */
+class views_handler_filter_node_type extends views_handler_filter_in_operator {
+  function get_value_options() {
+    if (!isset($this-&gt;value_options)) {
+      $this-&gt;value_title = t('Node type');
+      $types = node_get_types();
+      foreach ($types as $type =&gt; $info) {
+        $options[$type] = $info-&gt;name;
+      }
+      $this-&gt;value_options = $options;
+    }
+  }
+}
+</pre>
+
+<i>views_handler_filter_in_operator</i> provides a simple mechanism to set the list used and the rest of the handler is perfectly fine for this.
+
+Handlers are stored in their own files; for these files to be loaded by Views on demand, they must first be registered. Since Views core handlers are also loaded this way, it's imperative that your module also implement this pattern in order to prevent code crashes when your handler's parent class is not yet available.
+
+To register handlers, you must implement <strong>hook_views_handlers()</strong>. This hook returns an array with two keys; the first key is <em>info</em> which contains the modulename (which is only necessary if you're registering handlers on behalf of another module, such as what Views does) and <em>path</em>, which is the search path to find the files. This path is only necessary if your files will not be stored in the same directory as the .module file.
+
+The other key is <em>handlers</em> which contains a full array of handlers and the information for each handler. The key to each handler array is the name of the handler class. It can contain:
+<dl>
+<dt><strong>parent</strong></dt>
+<dd>The class that this handler extends. This is important to make sure that the parent class is included before your handler class. Without this, you may cause people's sites to crash in a difficult to recover state. Be sure you get this right!</dd>
+<dt><strong>file</strong></dt>
+<dd>The filename the handler is in. By default, this will be classname.inc -- however, you can have multiple similar handlers together in one file. However, because there is only one parent, please be sure that the parentage on these handlers matches! Otherwise you will run into whitescreens as not all parents will be loaded.</dd>
+</dl>
+
+You can see examples of this function in any of the various module.views.inc files in the views modules directory.
+
+The best place to learn more about handlers and how they work is to explore <a href="http://views.doc.logrus.com">the views API site</a> and use existing handlers as a guide and a model. Understanding how views_handler and its child classes work is handy but you can do a lot just following these models. You can also explore the views module directory, particularly node.views.inc.
+
+Please note that while all handler names in views are prefixed with views_, you should use your own module's name to prefix your handler names in order to ensure namespace safety. Note that the basic pattern for handler naming goes like this:
+
+[module]_handler_[type]_[tablename]_[fieldname]. Sometimes table and fieldname are not appropriate, but something that resembles what the table/field would be can be used.

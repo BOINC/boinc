@@ -1,0 +1,133 @@
+# Hebrew translation of תיכון בליך
+# Copyright (c) 2007 ami <ami@blich.co.il>
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"POT-Creation-Date: 2006-10-22 11:29-0400\n"
+"PO-Revision-Date: 2007-06-11 09:28-0700\n"
+"Last-Translator: ami <ami@blich.co.il>\n"
+"Language-Team: Hebrew <ami@blich.co.il>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: og_views.inc:47
+msgid ""
+"Displays <em>yes</em> if group automatically sends email notifications to "
+"subscribers"
+msgstr ""
+
+#: og_views.inc:51
+msgid "Displays the language selected for a given group"
+msgstr ""
+
+#: og_views.inc:61
+msgid "Admin specifies whether or not a group appears in the public listings."
+msgstr ""
+
+#: og_views.inc:80;104
+msgid "Displays <em>yes</em> if post is public according to OG."
+msgstr ""
+
+#: og_views.inc:121
+msgid "Og: Group Name"
+msgstr "שם הקבוצה"
+
+#: og_views.inc:125
+msgid "Display the title of the first group a node belongs to."
+msgstr ""
+
+#: og_views.inc:145
+msgid "Og: Subscription email"
+msgstr ""
+
+#: og_views.inc:148
+msgid "Does subscriber receive email notifications for a group."
+msgstr ""
+
+#: og_views.inc:165
+msgid "Og: Group in User Subbed Groups"
+msgstr ""
+
+#: og_views.inc:169
+msgid "Groups are filtered to where current user is a member ."
+msgstr ""
+
+#: og_views.inc:190
+msgid "Og: Post in User Subbed Groups"
+msgstr ""
+
+#: og_views.inc:194
+msgid "Posts are filtered to groups that current user is a member of."
+msgstr ""
+
+#: og_views.inc:204
+msgid "Og: Group nid"
+msgstr ""
+
+#: og_views.inc:206
+msgid "This argument filters for a given organic group"
+msgstr ""
+
+#: og_views.inc:233
+msgid "Shows all activity in subscribed groups."
+msgstr "הצד את כל הפעילויות בקבוצות אליהן הינך רשום."
+
+#: og_views.inc:237
+msgid "recent posts in my groups"
+msgstr "פרסומים אחרונים בקבוצות שלי"
+
+#: og_views.inc:242
+msgid "There are no posts in your subscribed groups."
+msgstr "אין פרסומים בקבוצות אליהן הינך רשום."
+
+#: og_views.inc:249
+msgid "my recent"
+msgstr "רשימת הפרסומים האחרונים שלי"
+
+#: og_views.inc:269
+msgid "Group"
+msgstr ""
+
+#: og_views.inc:275;380
+msgid "Type"
+msgstr "סוג"
+
+#: og_views.inc:301;406
+msgid "Last Post"
+msgstr "פרסום אחרון"
+
+#: og_views.inc:336
+msgid "Shows unread posts in subscribed groups."
+msgstr "הצג פרסומים שלא נקראו בקבוצות הרשומות."
+
+#: og_views.inc:342
+msgid "unread posts in my groups"
+msgstr "פרסומים שלא נקראו בקבוצה שלי"
+
+#: og_views.inc:347
+msgid "There are no new posts in your subscribed groups."
+msgstr "אין פרסומים חדשים בקבוצות אליהן הינך רשום."
+
+#: og_views.inc:354
+msgid "my unread"
+msgstr ""
+
+#: og_views.inc:458
+msgid "external website"
+msgstr ""
+
+#: og_views.inc:470
+msgid "Closed"
+msgstr "סגור"
+
+#: og_views.inc:472
+#, fuzzy
+msgid "Invite only"
+msgstr "כותרת בלבד"
+
+#: og_views.inc:488
+#, fuzzy
+msgid "yes"
+msgstr "סוגים"

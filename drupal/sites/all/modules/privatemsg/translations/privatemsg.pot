@@ -1,0 +1,509 @@
+# $Id: privatemsg.pot,v 1.1.2.7 2010/04/12 12:10:41 berdir Exp $
+#
+# LANGUAGE translation of Drupal (root)
+# Copyright YEAR NAME <EMAIL@ADDRESS>
+# Generated from files:
+#  privatemsg.author-pane.inc,v 1.1.2.4 2009/11/06 13:06:26 berdir
+#  privatemsg.theme.inc,v 1.1.2.10 2009/11/10 19:48:17 berdir
+#  privatemsg.module,v 1.70.2.30.2.91.2.109 2010/03/25 22:29:31 berdir
+#  privatemsg.info,v 1.1.2.1.2.3.2.4 2009/01/25 23:25:18 litwol
+#  pm_block_user.info,v 1.2.2.1 2009/04/10 15:52:48 litwol
+#  pm_email_notify.info,v 1.1.2.1 2009/04/16 16:14:18 litwol
+#  privatemsg_filter.info,v 1.1.2.1 2009/01/25 23:25:18 litwol
+#  privatemsg.views.inc,v 1.1.2.1 2009/11/09 16:44:09 berdir
+#  views_handler_field_privatemsg_link.inc,v 1.1.2.2 2010/01/20 15:54:42 berdir
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"POT-Creation-Date: 2010-04-12 13:53+0200\n"
+"PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
+"Last-Translator: NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+
+#: privatemsg.author-pane.inc:16;16
+msgid "Send private message"
+msgstr ""
+
+#: privatemsg.author-pane.inc:18
+msgid "Send PM"
+msgstr ""
+
+#: privatemsg.theme.inc:167 privatemsg.module:915
+msgid "Subject"
+msgstr ""
+
+#: privatemsg.theme.inc:182 privatemsg.module:488;1479;122;130;195
+msgid "Messages"
+msgstr ""
+
+#: privatemsg.theme.inc:210
+msgid "Last Updated"
+msgstr ""
+
+#: privatemsg.theme.inc:226 privatemsg.module:487
+msgid "Started"
+msgstr ""
+
+#: privatemsg.theme.inc:282
+msgid "No messages available."
+msgstr ""
+
+#: privatemsg.theme.inc:115
+msgid "(1 new)"
+msgid_plural "(@count new)"
+msgstr[0] ""
+msgstr[1] ""
+
+#: privatemsg.theme.inc:300
+msgid "You have a new message, click here to read it"
+msgid_plural "You have @count new messages, click here to read them"
+msgstr[0] ""
+msgstr[1] ""
+
+#: privatemsg.module:97
+msgid " and others"
+msgstr ""
+
+#: privatemsg.module:107
+msgid "From !last"
+msgstr ""
+
+#: privatemsg.module:111
+msgid "Participants: !participants and !last"
+msgstr ""
+
+#: privatemsg.module:422
+msgid "Theming settings"
+msgstr ""
+
+#: privatemsg.module:426
+msgid "Private message display template"
+msgstr ""
+
+#: privatemsg.module:432
+msgid "Inform the user about new messages on login"
+msgstr ""
+
+#: privatemsg.module:434
+msgid "This option can safely be disabled if the \"New message indication\" block is used instead."
+msgstr ""
+
+#: privatemsg.module:441;447
+msgid "Flush deleted messages"
+msgstr ""
+
+#: privatemsg.module:442
+msgid "By default, deleted messages are only hidden from the user but still stored in the database. These settings control if and when messages should be removed."
+msgstr ""
+
+#: privatemsg.module:449
+msgid "Enable the flushing of deleted messages. Requires that cron is enabled"
+msgstr ""
+
+#: privatemsg.module:454
+msgid "Flush messages after they have been deleted for more days than"
+msgstr ""
+
+#: privatemsg.module:461
+msgid "Maximum number of messages to flush per cron run"
+msgstr ""
+
+#: privatemsg.module:468
+msgid "Configure listings"
+msgstr ""
+
+#: privatemsg.module:475
+msgid "Threads per page"
+msgstr ""
+
+#: privatemsg.module:478
+msgid "Choose the number of conversations that should be listed per page."
+msgstr ""
+
+#: privatemsg.module:483
+msgid "Configure fields"
+msgstr ""
+
+#: privatemsg.module:484
+msgid "Select which columns/fields should be displayed in the message listings. Subject and Last updated cannot be disabled."
+msgstr ""
+
+#: privatemsg.module:496
+msgid "Number of messages on thread pages"
+msgstr ""
+
+#: privatemsg.module:497
+msgid "Unlimited"
+msgstr ""
+
+#: privatemsg.module:499
+msgid "Threads will not show more than this number of messages on a single page."
+msgstr ""
+
+#: privatemsg.module:505
+msgid "Display different amount of messages on first thread page"
+msgstr ""
+
+#: privatemsg.module:507
+msgid "By default, the first thread page shows the maximally allowed amount of messages. Enable this checkbox to set a different value."
+msgstr ""
+
+#: privatemsg.module:515
+msgid "Number of messages on first thread page"
+msgstr ""
+
+#: privatemsg.module:517
+msgid "The number of messages to be displayed on first thread page. Displays the newest messages."
+msgstr ""
+
+#: privatemsg.module:615;146
+msgid "Delete message"
+msgstr ""
+
+#: privatemsg.module:620
+msgid "new"
+msgstr ""
+
+#: privatemsg.module:663
+msgid "You do not have sufficient rights to view someone else's messages"
+msgstr ""
+
+#: privatemsg.module:755
+msgid "Display older messages"
+msgstr ""
+
+#: privatemsg.module:757
+msgid "<<"
+msgstr ""
+
+#: privatemsg.module:763
+msgid "Display newer messages"
+msgstr ""
+
+#: privatemsg.module:765
+msgid ">>"
+msgstr ""
+
+#: privatemsg.module:768
+msgid "!previous_link Displaying messages @from - @to of @total !newer_link"
+msgstr ""
+
+#: privatemsg.module:806
+msgid "This conversation is being viewed with escalated priviledges and may not be the same as shown to normal users."
+msgstr ""
+
+#: privatemsg.module:876
+msgid "Write new message to %recipient"
+msgstr ""
+
+#: privatemsg.module:879;1506;154
+msgid "Write new message"
+msgstr ""
+
+#: privatemsg.module:903
+msgid "To"
+msgstr ""
+
+#: privatemsg.module:923
+msgid "Message"
+msgstr ""
+
+#: privatemsg.module:938
+msgid "Preview message"
+msgstr ""
+
+#: privatemsg.module:957
+msgid "Clear"
+msgstr ""
+
+#: privatemsg.module:976
+msgid "<strong>Reply to thread</strong>:<br /> Recipients: !to"
+msgstr ""
+
+#: privatemsg.module:1019
+msgid "The following users will not receive this private message: !invalid"
+msgstr ""
+
+#: privatemsg.module:1101
+msgid "A message has been sent to !recipients."
+msgstr ""
+
+#: privatemsg.module:1104
+msgid "An attempt to send a message <em>may have failed</em> when sending to !recipients."
+msgstr ""
+
+#: privatemsg.module:1409
+msgid "Send this user a message"
+msgstr ""
+
+#: privatemsg.module:1449
+msgid "Privatemsg links"
+msgstr ""
+
+#: privatemsg.module:1453
+msgid "New message indication"
+msgstr ""
+
+#: privatemsg.module:1513;171;179;188 privatemsg.info:0
+msgid "Private messages"
+msgstr ""
+
+#: privatemsg.module:1533
+msgid "Delete this message for all users?"
+msgstr ""
+
+#: privatemsg.module:1534
+msgid "Tick the box to delete the message for all users."
+msgstr ""
+
+#: privatemsg.module:1539
+msgid "Are you sure you want to delete this message?"
+msgstr ""
+
+#: privatemsg.module:1554
+msgid "Message has been deleted for all users."
+msgstr ""
+
+#: privatemsg.module:1558
+msgid "Message has been deleted."
+msgstr ""
+
+#: privatemsg.module:1718
+msgid "Thread %thread_id not found, unable to answer"
+msgstr ""
+
+#: privatemsg.module:1742;1749
+msgid "User @user is not allowed to write messages"
+msgstr ""
+
+#: privatemsg.module:1759;1762
+msgid "Disallowed to send a message without subject"
+msgstr ""
+
+#: privatemsg.module:1769;1772
+msgid "Disallowed to send reply without a message."
+msgstr ""
+
+#: privatemsg.module:1784
+msgid "You are not allowed to use the specified input format."
+msgstr ""
+
+#: privatemsg.module:1787
+msgid "User @user is not allowed to use the specified input format."
+msgstr ""
+
+#: privatemsg.module:1796;1799
+msgid "Disallowed to send a message without at least one valid recipient"
+msgstr ""
+
+#: privatemsg.module:1818;1821
+msgid "Disallowed to send message because all recipients are blocked"
+msgstr ""
+
+#: privatemsg.module:2067
+msgid "Query function %function does not exist"
+msgstr ""
+
+#: privatemsg.module:2165
+msgid "Actions"
+msgstr ""
+
+#: privatemsg.module:2179
+msgid "More actions..."
+msgstr ""
+
+#: privatemsg.module:2194
+msgid "Execute"
+msgstr ""
+
+#: privatemsg.module:2427
+msgid "The previous action can be <a href=\"!undo\">undone</a>."
+msgstr ""
+
+#: privatemsg.module:2478
+msgid "Mark as read"
+msgstr ""
+
+#: privatemsg.module:2485
+msgid "Mark as unread"
+msgstr ""
+
+#: privatemsg.module:1418
+msgid "You have <a href=\"@messages\">1 unread message</a>."
+msgid_plural "You have <a href=\"@messages\">@count unread messages</a>"
+msgstr[0] ""
+msgstr[1] ""
+
+#: privatemsg.module:1477
+msgid "Messages (1 new)"
+msgid_plural "Messages (@count new)"
+msgstr[0] ""
+msgstr[1] ""
+
+#: privatemsg.module:1493
+msgid "New message"
+msgid_plural "New messages"
+msgstr[0] ""
+msgstr[1] ""
+
+#: privatemsg.module:2227
+msgid "Marked 1 thread as unread."
+msgid_plural "Marked @count threads as unread."
+msgstr[0] ""
+msgstr[1] ""
+
+#: privatemsg.module:2230
+msgid "Marked 1 thread as read."
+msgid_plural "Marked @count threads as read."
+msgstr[0] ""
+msgstr[1] ""
+
+#: privatemsg.module:2465
+msgid "Deleted 1 thread."
+msgid_plural "Deleted @count threads."
+msgstr[0] ""
+msgstr[1] ""
+
+#: privatemsg.module:2468
+msgid "Restored 1 thread."
+msgid_plural "Restored @count threads."
+msgstr[0] ""
+msgstr[1] ""
+
+#: privatemsg.module:27
+msgid "read privatemsg"
+msgstr ""
+
+#: privatemsg.module:28
+msgid "read all private messages"
+msgstr ""
+
+#: privatemsg.module:29
+msgid "administer privatemsg settings"
+msgstr ""
+
+#: privatemsg.module:30
+msgid "write privatemsg"
+msgstr ""
+
+#: privatemsg.module:31
+msgid "delete privatemsg"
+msgstr ""
+
+#: privatemsg.module:138
+msgid "Read message"
+msgstr ""
+
+#: privatemsg.module:172;180
+msgid "Configure private messaging settings."
+msgstr ""
+
+#: privatemsg.module:189
+msgid "Undo last thread action"
+msgstr ""
+
+#: privatemsg.info:0
+msgid "Allow private messages between users."
+msgstr ""
+
+#: privatemsg.info:0 pm_block_user/pm_block_user.info:0 pm_email_notify/pm_email_notify.info:0 privatemsg_filter/privatemsg_filter.info:0
+msgid "Mail"
+msgstr ""
+
+#: privatemsg.theme.inc:196 privatemsg.module:486 privatemsg_filter/privatemsg_filter.module:333
+msgid "Participants"
+msgstr ""
+
+#: privatemsg.module:904 privatemsg_filter/privatemsg_filter.module:334
+msgid "Separate multiple names with commas."
+msgstr ""
+
+#: privatemsg.module:945 views/privatemsg.views.inc:11
+msgid "Send message"
+msgstr ""
+
+#: privatemsg.module:951;1543 pm_block_user/pm_block_user.module:465;478 privatemsg_filter/privatemsg_filter.admin.inc:158
+msgid "Cancel"
+msgstr ""
+
+#: privatemsg.module:1541 pm_block_user/pm_block_user.module:463 privatemsg_filter/privatemsg_filter.admin.inc:156
+msgid "This action cannot be undone."
+msgstr ""
+
+#: privatemsg.module:1542;2175 privatemsg_filter/privatemsg_filter.admin.inc:157
+msgid "Delete"
+msgstr ""
+
+#: views/privatemsg.views.inc:10
+msgid "Privatemsg"
+msgstr ""
+
+#: views/privatemsg.views.inc:13
+msgid "Send Privatemsg link"
+msgstr ""
+
+#: views/privatemsg.views.inc:14
+msgid "Displays a link to send a private message to a user."
+msgstr ""
+
+#: views/views_handler_field_privatemsg_link.inc:39
+msgid "Label"
+msgstr ""
+
+#: views/views_handler_field_privatemsg_link.inc:41
+msgid "The label for this field that will be displayed to end users if the style requires it."
+msgstr ""
+
+#: views/views_handler_field_privatemsg_link.inc:46
+msgid "Text to display"
+msgstr ""
+
+#: views/views_handler_field_privatemsg_link.inc:48
+msgid "Define the text to use for the link title. You can use replacement tokens to insert any existing field output."
+msgstr ""
+
+#: views/views_handler_field_privatemsg_link.inc:53
+msgid "Pre-filled subject"
+msgstr ""
+
+#: views/views_handler_field_privatemsg_link.inc:55
+msgid "Define the subject that will be pre-filled in the send message form. You can use replacement tokens to insert any existing field output."
+msgstr ""
+
+#: views/views_handler_field_privatemsg_link.inc:61
+msgid "Fields"
+msgstr ""
+
+#: views/views_handler_field_privatemsg_link.inc:69
+msgid "Arguments"
+msgstr ""
+
+#: views/views_handler_field_privatemsg_link.inc:74
+msgid "<p>You must add some additional fields to this display before using this field. These fields may be marked as <em>Exclude from display</em> if you prefer. Note that due to rendering order, you cannot use fields that come after this field; if you need a field not listed here, rearrange your fields.</p>"
+msgstr ""
+
+#: views/views_handler_field_privatemsg_link.inc:77
+msgid "<p>The following substitution patterns are available for this display. Use the pattern shown on the left to display the value indicated on the right. Note that due to rendering order, you cannot use fields that come after this field; if you need a field not listed here, rearrange your fields.</p>"
+msgstr ""
+
+#: views/views_handler_field_privatemsg_link.inc:93
+msgid "Replacement patterns"
+msgstr ""
+
+#: views/views_handler_field_privatemsg_link.inc:98
+msgid "Return to view after message was sent."
+msgstr ""
+
+#: views/views_handler_field_privatemsg_link.inc:100
+msgid "Should the user be redirected back to the current view when the message was sent."
+msgstr ""
+
+#: views/views_handler_field_privatemsg_link.inc:117
+msgid "Write private message"
+msgstr ""

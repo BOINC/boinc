@@ -1,0 +1,44 @@
+<?php
+// $Id: flag_friend_access.install,v 1.1.2.2 2010/03/24 15:18:35 sirkitree Exp $
+
+/**
+ * @file flag_friend_access.install
+ */
+
+/**
+ * Implementation of hook_install().
+ */
+function flag_friend_access_install() {
+  drupal_install_schema('flag_friend_access');
+  drupal_set_message(t('The flag_friend_access module was successfully installed.'));
+}
+
+/**
+ * Implementation of hook_uninstall().
+ */
+function flag_friend_access_uninstall() {
+  drupal_uninstall_schema('flag_friend_access');
+  drupal_set_message(t('The flag_friend_access module was successfully uninstalled.'));
+}
+
+/**
+ * Implementation of hook_schema().
+ */
+function flag_friend_access_schema() {
+  $schema['flag_friend_access'] = array(
+    'fields' => array(
+      'uid' => array(
+        'type' => 'int', 
+        'unsigned' => TRUE, 
+        'not null' => TRUE, 
+      ),
+      'nid' => array(
+        'type' => 'int', 
+        'unsigned' => TRUE, 
+        'not null' => TRUE, 
+      ),
+    ),
+    'primary key' => array('nid'),
+  );
+  return $schema;
+}

@@ -1,0 +1,191 @@
+# $Id: nl.po,v 1.2 2010/05/01 22:39:42 quicksketch Exp $
+#
+# Dutch translation of Drupal (general)
+# Copyright YEAR NAME <EMAIL@ADDRESS>
+# Generated from files:
+#  imagefield_file.inc,v 1.18 2009/04/14 01:28:52 quicksketch
+#  imagefield_widget.inc,v 1.37 2009/04/20 23:51:35 quicksketch
+#  imagefield.module,v 1.99 2009/04/20 23:57:17 quicksketch
+#  imagefield.install,v 1.31 2009/04/15 20:15:03 quicksketch
+#  imagefield.info,v 1.12 2009/03/01 04:38:48 quicksketch
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"POT-Creation-Date: 2009-05-29 16:24+0200\n"
+"PO-Revision-Date: 2009-05-29 16:36+0100\n"
+"Last-Translator: L.B. Cohn <lichai@999games.nl>\n"
+"Language-Team: Dutch <EMAIL@ADDRESS>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n!=1);\n"
+
+#: imagefield_file.inc:94
+msgid "An image thumbnail was not able to be created."
+msgstr "Er kon geen thumbnail worden gemaakt."
+
+#: imagefield_widget.inc:17
+msgid "Maximum resolution for Images"
+msgstr "Maximumresolutie voor foto's"
+
+#: imagefield_widget.inc:21
+msgid "The maximum allowed image size expressed as WIDTHxHEIGHT (e.g. 640x480). Set to 0 for no restriction. If a larger image is uploaded, it will be resized to reflect the given width and height."
+msgstr "De maximum toegestande fotogrootte in het formaat BREEDTExHOOGTE, bijvoorbeeld 640x480. Vul 0 in voor geen restrictie. Als een foto met grotere waarde wordt geupload zal deze worden herschaald naar deze waardes."
+
+#: imagefield_widget.inc:24
+msgid "Resizing images on upload will cause the loss of <a href=\"http://en.wikipedia.org/wiki/Exchangeable_image_file_format\">EXIF data</a> in the image."
+msgstr "Het herschalen zal <a href=\"http://en.wikipedia.org/wiki/Exchangeable_image_file_format\">EXIF data</a> verwijderen."
+
+#: imagefield_widget.inc:26
+msgid "Minimum resolution for Images"
+msgstr "Minimumresolutie voor foto's"
+
+#: imagefield_widget.inc:31
+msgid "The minimum allowed image size expressed as WIDTHxHEIGHT (e.g. 640x480). Set to 0 for no restriction. If an image that is smaller than these dimensions is uploaded it will be rejected."
+msgstr "De minimum toegestande fotogrootte in het formaat BREEDTExHOOGTE, bijvoorbeeld 640x480. Vul 0 in voor geen restrictie. Als een foto met kleinere waarde wordt geupload zal deze worden verworpen."
+
+#: imagefield_widget.inc:37
+msgid "ALT text settings"
+msgstr "ALT-tekstinstellingen"
+
+#: imagefield_widget.inc:44
+msgid "Enable custom alternate text"
+msgstr "Sta eigen ALT-tekst toe"
+
+#: imagefield_widget.inc:46
+msgid "Enable user input alternate text for images."
+msgstr "Sta door gebruikers gekozen ALT-teksten voor foto's toe."
+
+#: imagefield_widget.inc:50
+msgid "Default ALT text"
+msgstr "Standaard ALT-tekst"
+
+#: imagefield_widget.inc:52
+msgid "This value will be used for alternate text by default."
+msgstr "Deze waarde zal standaard worden gebruikt als alternatieve tekst."
+
+#: imagefield_widget.inc:58
+msgid "Title text settings"
+msgstr "Titeltekstinstellingen"
+
+#: imagefield_widget.inc:65
+msgid "Enable custom title text"
+msgstr "Sta eigen titel toe"
+
+#: imagefield_widget.inc:67
+msgid "Enable user input title text for images."
+msgstr "Sta door gebruikers gekozen titels voor foto's toe."
+
+#: imagefield_widget.inc:71
+msgid "Input type"
+msgstr "Invoertype"
+
+#: imagefield_widget.inc:76
+msgid "Choose type of field to be displayed to the user."
+msgstr "Kies type veld om aan de gebruiker te tonen."
+
+#: imagefield_widget.inc:80
+msgid "Default Title text"
+msgstr "Standaard titeltekst"
+
+#: imagefield_widget.inc:82
+msgid "This value will be used as the image title by default."
+msgstr "Deze waarde zal standaard worden gebruikt als fototitel."
+
+#: imagefield_widget.inc:89
+msgid "Default image"
+msgstr "Standaardfoto"
+
+#: imagefield_widget.inc:99
+msgid "Use default image"
+msgstr "Gebruik standaardfoto"
+
+#: imagefield_widget.inc:101
+msgid "When an image is not uploaded, show a default image on display."
+msgstr "Als een foto niet wordt geupload, toon dan een standaardfoto."
+
+#: imagefield_widget.inc:112
+msgid "Upload image"
+msgstr "Upload foto"
+
+#: imagefield_widget.inc:113
+msgid "Choose a image that will be used as default."
+msgstr "Kies een foto die als standaard zal worden gebruikt."
+
+#: imagefield_widget.inc:136
+msgid "The default image could not be uploaded. The destination %destination does not exist or is not writable by the server."
+msgstr "De standaardfoto kan niet worden geupload. De locatie %destination bestaat niet of is niet beschrijfbaar."
+
+#: imagefield_widget.inc:172
+msgid "Only web-standard images (jpg, gif, and png) are supported through the image widget. If needing to upload other types of images, change the widget to use a standard file upload."
+msgstr "Alleen webstandaardfoto's (jpg, gif en png) zijn toegestaan in de fotowidget. Als je andere soorten wilt uploaden moet je de bestandsuploadwidget gebruiken."
+
+#: imagefield_widget.inc:178
+msgid "Please specify a resolution in the format WIDTHxHEIGHT (e.g. 640x480)."
+msgstr "geef een resolutie op in het formaat BREEDTExHOOGTE, bijvoorbeeld 640x480."
+
+#: imagefield_widget.inc:226
+msgid "Alternate Text"
+msgstr "Alternatieve tekst"
+
+#: imagefield_widget.inc:229
+msgid "This text will be used by screen readers, search engines, or when the image cannot be loaded."
+msgstr "Deze tekst zal worden gebruikt door screenreaders, zoekmachines, of als de foto niet kan worden geladen."
+
+#: imagefield_widget.inc:254
+msgid "Title"
+msgstr "Titel"
+
+#: imagefield_widget.inc:256
+msgid "The title is used as a tool tip when the user hovers the mouse over the image."
+msgstr "De titel wordt gebruikt als een tooltip als de gebruiker zijn muis over de foto beweegt."
+
+#: imagefield.module:18
+msgid "The ImageField module has been disabled. The <a href=\"http://drupal.org/project/filefield\">FileField module</a> needs to be installed for it to work properly."
+msgstr "De Fotoveld-mopdule is uitgeschakeld. De <a href=\"http://drupal.org/project/filefield\">Bestandsveld-module</a> moet worden geinstalleerd om goed te werken."
+
+#: imagefield.module:135;221
+msgid "Image"
+msgstr "Plaatje"
+
+#: imagefield.module:139
+msgid "An edit widget for image files, including a preview of the image."
+msgstr "Een bewerkwidget van foto's, met voorbeeld van de foto."
+
+#: imagefield.module:223;228;233
+msgid "Displays image files in their original size."
+msgstr "Toont foto's in het originele formaat."
+
+#: imagefield.module:226
+msgid "Image linked to node"
+msgstr "Foto naar node gelinkt"
+
+#: imagefield.module:231
+msgid "Image linked to file"
+msgstr "Foto naar bestand gelinkt"
+
+#: imagefield.module:0
+msgid "imagefield"
+msgstr "fotoveld"
+
+#: imagefield.install:62
+msgid "FileField must be updated to Drupal 6 before ImageField can be updated."
+msgstr "Bestandsveld moet worden geupdate naar Drupal 6 voordat Fotoveld kan worden geupdate."
+
+#: imagefield.install:326
+msgid "Deleted admin thumbnails distributed throughout files directory. All thumbnails are now stored in the \"imagefield_thumbs\" directory."
+msgstr "Beheerderthumbnails uit de bestandenmap zijn verwijderd. Alle thumbnails zijn nu opgeslagen in de 'imagefield_thumbs-map."
+
+#: imagefield.info:0
+msgid "ImageField"
+msgstr "Fotoveld"
+
+#: imagefield.info:0
+msgid "Defines an image field type."
+msgstr "Levert een fotoveldtype"
+
+#: imagefield.info:0
+msgid "CCK"
+msgstr "CCK"
+

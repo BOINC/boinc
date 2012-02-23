@@ -1,0 +1,597 @@
+<?php
+// $Id$
+
+/**
+ * @file
+ * Enables BOINC user functionality.
+ *
+ * Integrates user data and features of the existing
+ * BOINC platorm with the Drupal concept of a user.
+ */
+
+
+/*  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *
+ * Includes that provide supporting functions
+ *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  */
+
+require_once('includes/boincuser.forms.inc');
+require_once('includes/boincuser.helpers.inc');
+
+
+/*  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *
+ * Hooks into core modules
+ *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  */
+ 
+/**
+ * Implementation of hook_menu(); determine the actions that correspond
+ * with defined URL paths
+ */
+function boincuser_menu() {
+  $items['admin/settings/boincuser'] = array(
+    'title' => 'BOINC user settings',
+    'description' => 'Change configuration of BOINC account features.',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('boincuser_admin_settings'),
+    'access arguments' => array('administer site configuration'),
+    'type' => MENU_NORMAL_ITEM,
+    'file' => 'boincuser.admin.inc'
+  );
+  $items['create_account.php'] = array(
+    'title' => 'Create Account RPC',
+    'description' => 'RPC for creating user accounts.',
+    'page callback' => 'boincuser_create_account',
+    'access callback' => TRUE,
+    'type' => MENU_CALLBACK
+  );
+  return $items;
+}
+
+/**
+ * Implementation of hook_user(); add custom actions to standard
+ * Drupal user operations
+ */
+function boincuser_user($op, &$edit, &$account, $category = NULL) {
+  switch($op) {
+  case 'load':
+    // User loading; insert BOINC data into the user object
+    $account->boincuser_id = db_result(db_query("SELECT boinc_id FROM {boincuser} WHERE uid = %d", $account->uid));
+    db_set_active('boinc');
+    $account->boincuser_name = db_result(db_query("SELECT name FROM {user} WHERE id = %d", $account->boincuser_id));
+    //$account->boincuser_total_credit = db_result(db_query("SELECT total_credit FROM {user} WHERE id = %d", $account->boincuser_id));
+    db_set_active('default');
+    break;
+    
+  case 'view':
+    // SAMPLE: Add BOINC data to the user profile
+    /*$account->content['summary']['boinc_id'] = array(
+      '#type' => 'user_profile_item',
+      '#title' => t('BIONC ID'),
+      '#value' => $account->boincuser_id,
+      '#attributes' => array('class' => 'boinc-data'),
+      '#weight' => 10
+    );
+    $account->content['summary']['total_credit'] = array(
+      '#type' => 'user_profile_item',
+      '#title' => t('Total Credit'),
+      '#value' => $account->boincuser_total_credit,
+      '#attributes' => array('class' => 'boinc-data'),
+      '#weight' => 10
+    );*/
+    break;
+    
+  case 'validate':
+    if (isset($edit['validation_source'])) {
+      switch ($edit['validation_source']) {
+      case 'user_register':
+        // Information being checked before adding a user
+        if (!boincuser_register_validate($edit)) {
+          // BOINC user validation failed for registration; set an error accordingly
+          form_set_error('mail', t('An account already exists for @email. Log in or request password assistance to access your @project account.', array('@email' => $edit['mail'], '@project' => PROJECT)));
+        } else {
+          // Save profile information for use during Insert
+          $_SESSION['profileInfo'] = array(
+            'country' => $edit['field_country'][0]['value'],
+            'zip' => $edit['field_zip'][0]['value'],                  
+            'url' => $edit['field_url'][0]['value'],
+            'background' => $edit['field_background'][0]['value'],
+            'opinions' => $edit['field_opinions'][0]['value']
+          );
+          // With BOINC validation passed, add a suffix to the the Drupal user
+          // name, since it must be unique
+          $timestamp = dechex(time());
+          $edit['name'] = "{$edit['boincuser_name']}.{$timestamp}";
+        }
+        break;
+        
+      case 'user_account':
+        $error = null;
+        // Data being checked before updating user account info
+        if (!boincuser_account_validate($edit, $account, $error)) {
+          // BOINC user validation failed; set an error accordingly
+          if ($error) {
+            if ($error == 101) form_set_error('mail', t('A BOINC account already exists for @email.', array('@email' => $edit['mail'])));
+            elseif ($error == 102) form_set_error('pass[pass1]', t('Password is required when changing E-mail address.'));
+          }
+        }
+        break;
+      
+      default:
+        
+      }
+      // We don't want to save validation source, so remove it
+      $edit['validation_source'] = null;
+    }
+    break;
+    
+  case 'insert':
+    // New user being added to the system
+    $profile_info = $_SESSION['profileInfo'];
+    $imported = $_SESSION['importedUser'];
+    unset($_SESSION['profileInfo']);
+    unset($_SESSION['importedUser']);
+    
+    if ($profile_info and !$imported) {
+      // Create a BOINC account unless importing from BOINC
+      $user_params = array(
+        'email_addr' => $edit['mail'],
+        'name' => $edit['boincuser_name'],
+        'passwd_hash' => md5($edit['pass'].$edit['mail']),
+        'country' => $profile_info['country'],
+        'postal_code' => $profile_info['zip']
+      );
+      $boinc_user = boincuser_register_make_user($user_params);
+      if (!$boinc_user) {
+        // Account exists with this email addr
+        form_set_error('email', t('Error creating BOINC account.'));
+        return;
+      }
+      // Set profile data in BOINC db
+      db_set_active('boinc');
+      // TODO: add language, image support; error handling
+      $reference = db_query("INSERT INTO {profile} SET userid='%d', response1='%s', response2='%s', verification=0", $boinc_user->id, $profile_info['background'], $profile_info['opinions']);
+      if (!$reference) {
+        drupal_set_message(t('Error creating BOINC profile.'), 'error');
+      }
+      $reference = db_query("UPDATE {user} SET url='%s' WHERE id='%d'", $profile_info['url'], $boinc_user->id);
+      if (!$reference) {
+        drupal_set_message(t('Error updating BOINC account.'), 'error');
+      }
+      db_set_active('default');
+      // Cross reference Drupal account with BOINC
+      $reference = db_query("INSERT INTO {boincuser} SET uid='%d', boinc_id='%d'", $account->uid, $boinc_user->id);
+      if (!$reference) {
+        drupal_set_message(t('Error connecting BOINC account.'), 'error');
+        return;
+      }
+      // Don't save custom fields to the Drupal user object
+      $edit['boincuser_name'] = null;
+    }
+    break;
+    
+  case 'update':
+    if (isset($edit['update_source'])) {
+      if ($edit['update_source'] == 'user_account') {
+        // Verify that BOINC data has been altered
+        $boinc_user = lookup_user_email_addr($account->mail);
+        if ($edit['pass']) {
+          // Update user account information
+          $passwd_hash = md5($edit['pass'].$edit['mail']);
+          $email_addr = $edit['mail'];
+          $result = $boinc_user->update(
+              "email_addr='{$email_addr}', passwd_hash='{$passwd_hash}'"
+          );
+        }
+        if ($edit['boincuser_name'] != $boinc_user->name) {
+          $boincuser_name = $edit['boincuser_name'];
+          $result = $boinc_user->update(
+              "name='{$boincuser_name}'"
+          );
+        }
+      }
+      // We don't want to save update source or custom fields, so remove them
+      $edit['update_source'] = null;
+      $edit['boincuser_name'] = null;
+    }
+    break;
+    
+  default:
+    
+  }
+}
+
+/**
+ * Implementation of hook_nodeapi(); add custom actions to node operations
+ * Obsolete in Drupal 7...
+ */
+function boincuser_nodeapi(&$node, $op, $a3 = null, $a4 = null) {
+  // In Drupal 7, these operation cases will all exist as their own hooks,
+  // so let's approximate that here so that this function can simply be removed
+  // upon migration to 7
+  switch($op) {
+  case 'update':
+    boincuser_node_update($node);
+  }
+}
+
+/**
+ * Implementation of hook_node_update(); add custom actions when a node
+ * is updated (forward compatible to Drupal 7)
+ */
+function boincuser_node_update($node) {
+  global $user;
+  switch($node->type) {
+  case 'profile':
+    // Load the BOINC user record and save the updated account data
+    require_boinc('db');
+    $boinc_user = lookup_user_email_addr($user->mail);
+    $db_result = $boinc_user->update("
+      country = '{$node->field_country[0]['value']}',
+      postal_code = '{$node->field_zip[0]['value']}',
+      url = '{$node->field_url[0]['value']}'"
+    );
+    if (!$db_result) drupal_set_message(t('Error updating BOINC account info.'), 'error');
+    // Also save data to the BOINC profile object
+    $boinc_profile = get_profile($boinc_user->id);
+    $response1 = boinc_real_escape_string($node->field_background[0]['value']);
+    $response2 = boinc_real_escape_string($node->field_opinions[0]['value']);
+    $query = "
+      response1 = '{$response1}',
+      response2 = '{$response2}' ";
+    if ($boinc_profile) {
+      $db_result = BoincProfile::update_aux("
+        {$query}
+        WHERE userid = '{$boinc_user->id}'"
+      );
+      if (!$db_result) drupal_set_message(t('Error updating BOINC profile.'), 'error');
+    } else {
+      $db_result = BoincProfile::insert("
+        SET userid = '{$boinc_user->id}',
+        {$query}"
+      );
+      if (!$db_result) drupal_set_message(t('Error creating BOINC profile.'), 'error');
+      $boinc_user->update('has_profile = 1');
+    }
+    break;
+  default:
+    
+  }
+}
+
+/**
+* Implementation of hook_views_api()
+*/
+function boincuser_views_api() {
+  return array(
+    'api' => 2.0,
+    'path' => drupal_get_path('module', 'boincuser')
+  );
+}
+
+/**
+* Implementation of hook_form_alter()
+*/
+function boincuser_form_alter(&$form, $form_state, $form_id) {
+  switch ($form_id) {
+  // Login form
+  case 'user_login':
+  case 'user_login_block':
+    // Replace name with email in login form
+    unset($form['name']);
+    array_unshift($form, array(
+      'email' => array(
+        '#type' => 'textfield',
+        '#title' => t('Email address'),
+        '#size' => ($form_id == 'user_login_block') ? 15 : 60,
+        '#maxlength' => EMAIL_MAX_LENGTH,
+        '#required' => TRUE,
+        '#attributes' => array('tabindex' => '1'),
+        '#description' => t('Enter your @s email address.', array('@s' => variable_get('site_name', 'BOINC')))
+      ),
+      'validation_source' => array(
+        '#type' => 'hidden',
+        '#value' => 'user_login'
+      )
+    ));
+    $form['#redirect'] = 'account';
+    
+    // Set the tab indices to follow a logical procession...
+    isset($form['pass']['#attributes']) ? array_push($form['pass']['#attributes'], array('tabindex' => '2')) : $form['pass']['#attributes'] = array('tabindex' => '2');
+    isset($form['submit']['#attributes']) ? array_push($form['submit']['#attributes'], array('tabindex' => '3')) : $form['submit']['#attributes'] = array('tabindex' => '3');
+    // If the user login form is being submitted, use BOINC validation handler.
+    if (isset($form_state['post']['email']) and isset($form_state['post']['pass'])) {
+      // Find the local validation function's entry so we can replace it.
+      $array_key = array_search('user_login_authenticate_validate', $form['#validate']);
+      if ($array_key === FALSE) {
+        // Could not find it. Some other module must have run form_alter().
+        // We will simply add our validation just before the final validator.
+        $final_validator = array_pop($form['#validate']);
+        $form['#validate'][] = 'boincuser_login_validate';
+        $form['#validate'][] = $final_validator;
+      } else {
+        // Replace the local validation function with BOINC validation
+        $form['#validate'][$array_key] = 'boincuser_login_validate';
+      }
+    }
+    break;
+    
+  // User profile form
+  case 'user_profile_form':
+    global $user;
+    // Initialize the name field with BOINC user name
+    $account = user_load($user->uid);
+    if (!$edit['boincuser_name']) $edit['boincuser_name'] = $account->boincuser_name;
+    array_unshift($form['account'], array(
+      'boincuser_name' => array(
+        '#type' => 'textfield',
+        '#title' => t('Name'),
+        '#default_value' => $edit['boincuser_name'],
+        '#maxlength' => USERNAME_MAX_LENGTH,
+        '#required' => TRUE,
+        '#description' => t('Spaces are allowed; punctuation is not allowed except for periods, hyphens, and underscores.')
+      )
+    ));
+    array_unshift($form, array(
+      'validation_source' => array(
+        '#type' => 'hidden',
+        '#value' => 'user_account'
+      ),
+      'update_source' => array(
+        '#type' => 'hidden',
+        '#value' => 'user_account'
+      )
+    ));
+    break;
+  
+  // Registration form
+  case 'user_register':
+    array_unshift($form, array(
+      'boincuser_name' => array(
+        '#type' => 'textfield', 
+        '#title' => t('Name'), 
+        '#default_value' => $edit['boincuser_name'], 
+        '#maxlength' => USERNAME_MAX_LENGTH, 
+        '#description' => t('Spaces are allowed; punctuation is not allowed except for periods, hyphens, and underscores.'), 
+        '#required' => TRUE
+      ),
+      'validation_source' => array(
+        '#type' => 'hidden',
+        '#value' => 'user_register'
+      )
+    ));
+    // Set name temporarily to dummy value to beat validation
+    $form['name'] = array(
+      '#type' => 'hidden',
+      '#value' => rand() . '.' . time()
+    );
+    break;
+    
+  // Request new password form
+  case 'user_pass':
+    // Replace name/email text box with email only; retain "name" label
+    // for compatibility with standard Drupal submit function
+    unset($form['name'], $form['submit']);
+    array_unshift($form, array(
+      'heading' => array(
+        '#type' => 'markup',
+        '#value' => '<h3>' . t('1) If you know your account&apos;s email address, and you can receive email there:') . '<h3>'
+      ),
+      'name' => array(
+        '#type' => 'textfield',
+        '#title' => t('Email address'),
+        '#size' => 60,
+        '#maxlength' => EMAIL_MAX_LENGTH,
+        '#required' => TRUE,
+        '#description' => t('Enter the email address and click OK. You will be sent email instructions for resetting your password.')
+      ),
+      'submit' => array(
+        '#type' => 'submit',
+        '#value' => t('OK'),
+        '#name' => 'op'
+      )
+    ));
+    // If the form is being submitted, use BOINC validation handler.
+    if (isset($form_state['post']['name'])) {
+      // Prepend the BOINC validation function to local validation
+      array_unshift($form['#validate'], 'boincuser_request_pass_validate');
+    }
+    break;
+  }
+}
+
+/**
+ * Implementation of hook_theme()
+ * Register theme functions for use in this module.
+ */
+function boincuser_theme($existing, $type, $theme, $path) {
+  return array(
+    'boincuser_user_pass' => array(
+      'arguments' => array()
+    )
+  );
+}
+
+
+/*  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *
+ * Page callbacks from hook_menu()
+ *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  */
+ 
+/**
+ * Page callback for the create account RPC (create_account.php).
+ * Create a new user account based on supplied parameters.
+ */
+function boincuser_create_account() {
+  require_boinc('user');
+  require_boinc('xml');
+  $params = array(
+    'email_addr' => isset($_GET['email_addr']) ? $_GET['email_addr'] : '',
+    'user_name' => isset($_GET['user_name']) ? $_GET['user_name'] : '',
+    'passwd_hash' => isset($_GET['passwd_hash']) ? $_GET['passwd_hash'] : ''
+  );
+  
+  // Begin output
+  xml_header();
+  
+  // Account creation disabled
+  
+  // Invalid invite code
+  
+  // Validate input
+  if (user_validate_mail($params['email_addr']) or !is_valid_email_addr($params['email_addr'])) {
+    xml_error(-205);
+  }
+  if ($error = user_validate_name($params['user_name'])) {
+    xml_error(-205, $error);
+  }
+  if (strlen($params['passwd_hash']) != 32) {
+    xml_error(-1, 'password hash length not 32');
+  }
+  
+  // Process input
+  $boinc_user = lookup_user_email_addr($params['email_addr']);
+  if ($boinc_user) {
+    // Return authenticator for existing users
+    if ($params['passwd_hash'] == $boinc_user->passwd_hash) {
+      $output = array('authenticator' => $boinc_user->authenticator);
+    } else {
+      xml_error(-137);
+    }
+  } else {
+    // Verify that there isn't somehow a Drupal user already (not possible with proper function)
+    if ($existing_user = user_load(array('mail' => $params['email_addr']))) {
+      xml_error(-137, 'account error');
+    }
+    // Create new account
+    $newUser = array(
+      'name' => $params['user_name'],
+      'pass' => null, // $params['passwd_hash'], // note: passing a hash here requires ALL passwords to be hashed via hook prior to interacting with the hash stored in the db
+      'mail' => $params['email_addr'],
+      'status' => 1,
+      'init' => $params['email_addr']
+    );
+    $user = user_save(null, $newUser);
+    $boinc_user = make_user($params['email_addr'], $params['user_name'], $params['passwd_hash'], 'International');
+    if (!$boinc_user) {
+      xml_error(-137);
+    }
+    // Cross reference Drupal account with BOINC
+    $reference = db_query("INSERT INTO {boincuser} SET uid=%d, boinc_id=%d", $user->uid, $boinc_user->id);
+    if (!$reference) {
+      xml_error(-1, 'error connecting BOINC account to Drupal');
+    }
+  }
+  echo " <account_out>\n";
+  echo "   <authenticator>{$boinc_user->authenticator}</authenticator>\n";
+  echo "</account_out>\n";
+}
+
+
+/*  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *
+ * User data access support functions
+ *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  */
+
+/**
+ *
+ */
+function boincuser_get_weak_auth($boinc_id = null) {
+  if (!$boinc_id) {
+    global $user;
+    $account = user_load($user->uid);
+    $boinc_id = $account->boincuser_id;
+  }
+  
+  require_boinc('user');
+  $boinc_user = BoincUser::lookup_id($account->boincuser_id);
+  
+  return weak_auth($boinc_user);
+}
+
+/**
+ * Retrieve the profile image for a user account
+ * User profile image is managed by the content_profile module rather than core
+ * Drupal User so must be inserted into comments, etc. (not so by default)
+ */
+function boincuser_get_user_profile_image($uid) {
+  $image_fid = db_result(db_query("SELECT cfi.field_image_fid FROM {content_field_image} cfi INNER JOIN {node} n ON cfi.nid = n.nid WHERE n.uid = %d AND n.type = '%s'", $uid, 'profile'));
+  $user_image['image'] = field_file_load($image_fid);
+  if (!$user_image['image']['filepath']) {
+    // Load the default image if one does not exist
+    $content_node_widget_settings = db_result(db_query("SELECT widget_settings FROM {content_node_field_instance} WHERE field_name = '%s'", 'field_image'));
+    $content_node_widget_settings = unserialize($content_node_widget_settings);
+    $user_image['image'] = $content_node_widget_settings['default_image'];
+  }
+  $user = user_load($uid);
+  $user_image['alt'] = $user->name;
+  return $user_image;
+}
+
+/**
+ * Generate a table of a user's projects
+ */
+function boincuser_get_projects_table($account = null) {
+  $projects = boincuser_get_projects($account);
+  if (!$projects) return 'no projects...';
+  
+  $output = '';
+  $output .= '<table class="user-projects">' . "\n";
+  $output .= '<thead>' . "\n";
+  $output .= '  <tr>' . "\n";
+  $output .= '    <th>' . t('Name') . '</th>' . "\n";
+  $output .= '    <th>' . t('Avg credit') . '</th>' . "\n";
+  $output .= '    <th>' . t('Total credit') . '</th>' . "\n";
+  $output .= '  </tr>' . "\n";
+  $output .= '</thead>' . "\n";
+  $output .= '<tbody>' . "\n";
+  foreach ($projects AS $project) {
+    $output .= '  <tr>' . "\n";
+    $output .= "    <td>{$project->name}</td>" . "\n";
+    $output .= "    <td>{$project->expavg_credit}</td>" . "\n"; 
+    $output .= "    <td>{$project->total_credit}</td>" . "\n";
+    $output .= '  </tr>' . "\n";
+  }
+  $output .= '</tbody>' . "\n";
+  $output .= '</table>' . "\n";
+  $more_link = ($account) ? "user/{$account->uid}/stats" : 'account/stats';
+  $output .= "<div class=\"more-link\"><a href=\"{$more_link}\">More stats</a></div>" . "\n";
+  return $output;
+}
+
+/**
+ * Make an RPC call to the stats server and retreive user data
+ */
+function boincuser_get_stats_user_data($cpid = null) {
+  
+  // [TODO] Set this stuff in site config!
+  $stats_server = 'stats.gridrepublic.org';
+  $stats_rpc = 'rpc/get_user.php';
+  
+  // Construct query string
+  $get = array(
+    'cpid' => $cpid
+  );
+  $args = array();
+  foreach ($get as $arg => $value) $args[] = "{$arg}=" . rawurlencode($value);
+  $query = '?' . implode('&', $args);
+  
+  // Load XML from RPC
+  return simplexml_load_file("http://{$stats_server}/{$stats_rpc}{$query}");
+  
+}
+
+/**
+ * Get the list of all BOINC projects of a user
+ */
+function boincuser_get_projects($account = null) {
+  
+  // Use the current user by default
+  if (!$account) {
+    global $user;
+    $account = user_load($user->uid);
+  }
+  
+  // Tie into the BOINC code and use CPID to get cross project stats
+  require_boinc('user');
+  $boinc_user = BoincUser::lookup_id($account->boincuser_id);
+  $account_stats = boincuser_get_stats_user_data($boinc_user->cross_project_id);
+  
+  return ($account_stats AND isset($account_stats->project)) ? $account_stats->project : null;
+}

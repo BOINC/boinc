@@ -1,0 +1,55 @@
+# Russian translation of privatemsg (6.x-1.x-dev)
+# Copyright (c) 2009 by the Russian translation team
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: privatemsg (6.x-1.x-dev)\n"
+"POT-Creation-Date: 2009-11-23 16:31+0100\n"
+"PO-Revision-Date: 2009-11-29 16:11+0200\n"
+"Last-Translator: Andy Postnikov <andypoxt@yandex.ru>\n"
+"Language-Team: Russian\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=((((n%10)==1)&&((n%100)!=11))?(0):(((((n%10)>=2)&&((n%10)<=4))&&(((n%100)<10)||((n%100)>=20)))?(1):2));\n"
+
+#: pm_email_notify/pm_email_notify.module:31;158
+msgid "Privatemsg e-mail notification"
+msgstr "Уведомление о ЛС по почте"
+
+#: pm_email_notify/pm_email_notify.module:37
+msgid "Notify users of new private messages by default"
+msgstr "Извещать пользователей о новых личных сообщениях по умолчанию"
+
+#: pm_email_notify/pm_email_notify.module:44
+msgid "Customize the email messages sent to users upon receipt of a new private message. <br />Available variables are: !author, !author_uid, !pm_subject, !pm_body, !thread, !site, !login_url, !uri, !uri_brief, !message (URL) and !settings (URL)."
+msgstr "Измените шаблон email-сообщения, которое получит пользователь при получении нового личного сообщения. <br />Доступны подстановочные переменные: !author, !author_uid, !pm_subject, !pm_body, !thread, !site, !login_url, !uri, !uri_brief, !message (URL) и !settings (URL)."
+
+#: pm_email_notify/pm_email_notify.module:50
+msgid "Subject of notification messages"
+msgstr "Тема сообщения с уведомлением"
+
+#: pm_email_notify/pm_email_notify.module:57
+msgid "Body of notification messages"
+msgstr "Сообщение с уведомлением"
+
+#: pm_email_notify/pm_email_notify.module:165
+msgid "Receive email notification for incoming private messages"
+msgstr "Получать email уведомления о поступлении новых личных сообщений"
+
+#: pm_email_notify/pm_email_notify.module:14
+msgid "E-mail notify"
+msgstr "Уведомления на почту"
+
+#: pm_email_notify/pm_email_notify.module:15
+msgid "E-mail notification settings"
+msgstr "Параметры уведомлений на почту"
+
+#: pm_email_notify/pm_email_notify.info:0
+msgid "Privatemsg Email Notification"
+msgstr "Уведомления на почту о ЛС"
+
+#: pm_email_notify/pm_email_notify.info:0
+msgid "Notifies users about new Private Messages via Email."
+msgstr "Оповещает пользователей о новых личных сообщениях по почте."
+

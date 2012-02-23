@@ -1,0 +1,5 @@
+; $Id$
+name = BOINC user
+description = Enable BOINC user functionality.
+core = 6.x
+package = BOINC

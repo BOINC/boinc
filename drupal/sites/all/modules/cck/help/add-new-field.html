@@ -1,0 +1,58 @@
+<!-- $Id: add-new-field.html,v 1.1.2.3 2008/10/22 21:09:12 karens Exp $ -->
+<p>At the bottom of the <strong>Manage fields</strong> page for a content type,
+you'll find this:</p>
+
+<img src="&path&add-new-field.png">
+
+<p>In order to add a new field to a content type, you need to provide the
+following information:</p>
+<dl>
+  <dt>Label:</dt>
+  <dd>
+    A human-readable name for the field. It will be used in input forms and
+    on displayed content.<br/>
+    All characters are allowed, including spaces, accentuated or non-european
+    characters.
+  </dd>
+
+  <dt>Field name:</dt>
+  <dd>
+    A machine-readable name for the field. It is used internally to identify
+    the field and handle database storage. When doing custom theming, it is
+    this identifier that you'll use to refer to that field.<br/>
+    <strong>Important:</strong> The field name cannot be changed once the field has been
+    created.<br/>
+    Allowed characters: a-z (unaccentuated), 0-9 and the underscore (_).<br/>
+    The length of the field name cannot exceed 32 characters (including the
+    'field_' prefix that gets added automatically - that is, 26 free characters)<br/>
+  </dd>
+
+  <dt>Field type:</dt>
+  <dd>
+    The type of data to be stored in that field.<br/>
+    <strong>Important:</strong> The field type cannot be changed once the field has been
+    created.<br/>
+    The available field types depend on the modules you have enabled on your site. CCK comes with 6
+    basic field types :
+    <ul>
+      <li>Text</li>
+      <li>Integer</li>
+      <li>Float</li>
+      <li>Decimal</li>
+      <li>Node reference</li>
+      <li>User reference</li>
+    </ul>
+    Additional modules can be downloaded to handle other field types such as
+    dates, files, images... Look at the
+    <a href="http://www.drupal.org/project/cck" target="_blank"> CCK project page</a>
+    and the <a href="http://drupal.org/project/Modules/category/88" target="_blank">complete list of CCK-related modules</a>.
+  </dd>
+
+  <dt>Widget:</dt>
+  <dd>
+    The form element that will be used to input data for this field on
+    content forms : text input, select list, etc...<br/>
+    Each field type has its own list of available widgets. When selecting a
+    field type, the list of widgets you can select is automatically updated.
+  </dd>
+</dl>

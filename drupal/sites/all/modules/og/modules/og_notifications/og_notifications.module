@@ -1,0 +1,567 @@
+<?php
+// $Id: og_notifications.module,v 1.24.4.24 2010/02/07 13:36:25 amitaibu Exp $
+
+/**
+ * @file
+ * Provide notifications and messaging support for organic groups.
+ *
+ * @author Karthik Kumar / Zen [ http://drupal.org/user/21209 ].
+ */
+
+/**
+ * Implementation of hook_help().
+ */
+function og_notifications_help($path, $arg) {
+  global $user;
+
+  switch ($path) {
+    case 'user/%/notifications/group':
+      return t('Customize notifications for each of your groups and each of their content types along with their frequency and delivery method.');
+  }
+}
+
+/**
+ * Implementation of hook_menu().
+ */
+function og_notifications_menu() {
+  $items = array();
+  $items['user/%user/notifications/add/grouptype'] = array(
+    'title' => 'Group notifications',
+    'page callback' => 'og_notifications_user_page',
+    'page arguments' => array(1),
+    'access callback' => 'notifications_content_access',
+    'access arguments' => array(1, 'subscribe to content in groups'),
+    'type' => MENU_LOCAL_TASK,
+    'weight' => 10,
+    'file' => 'og_notifications.pages.inc'
+  );
+
+  return $items;
+}
+
+/**
+ * Implementation of hook_perm().
+ */
+function og_notifications_perm() {
+  return array('subscribe to content in groups');
+}
+
+/**
+ * Implementation of hook_user().
+ * Handle uid entry in the og_notifications table.
+ */
+function og_notifications_user($type, &$edit, &$user, $category = NULL) {
+  switch ($type) {
+    case 'insert':
+      db_query("INSERT INTO {og_notifications} (uid) VALUES (%d)", $user->uid);
+      break;
+    case 'update':
+      if (isset($edit['og_notifications_autosubscribe'])) {
+        og_notifications_user_autosubscribe_set($user->uid, $edit['og_notifications_autosubscribe']);
+        unset($edit['og_notifications_autosubscribe']);
+      }
+      break;
+    case 'delete':
+      db_query("DELETE FROM {og_notifications} WHERE uid = %d", $user->uid);
+      break;
+  }
+}
+
+/**
+ * Implementation of hook_form_alter().
+ */
+function og_notifications_form_alter(&$form, $form_state, $form_id) {
+  switch ($form_id) {
+    case 'notifications_content_settings_form':
+      $form['group'] = array(
+        '#type' => 'fieldset',
+        '#title' => t('Group subscriptions'),
+        '#collapsible' => TRUE,
+        '#weight' => 0
+      );
+      // General content settings
+      $select = array();
+      $nodetypes = node_get_types();
+      $ogtypes = og_get_types('group_post');
+      foreach ($ogtypes as $ntype) {
+        $select[$ntype] = $nodetypes[$ntype]->name;
+      }
+
+      $form['group']['og_notifications_content_types'] = array(
+        '#type' => 'checkboxes',
+        '#title' => t('Allowed content types'),
+        '#default_value' => variable_get('og_notifications_content_types', array()),
+        '#options' => $select,
+        '#description' => t('Select specific content types which should be <em>allowed</em> for subscriptions to <em>group + content type</em>.'),
+        '#multiple' => TRUE
+      );
+      break;
+    case 'notifications_add_subscription_form':
+      // Remove unauthorised node types.
+      if ($form['type']['#value'] == 'grouptype') {
+        $content_types = array_filter(variable_get('og_notifications_content_types', array()));
+        $form['info']['fields'][1]['value']['#options'] = array_intersect_key($form['info']['fields'][1]['value']['#options'], $content_types);
+      }
+      break;
+    case 'user_profile_form':
+      // Insert autosubscribe option into the messaging section of the user edit
+      // form.
+      // user_profile_form is, oddly enough, also the form_id for forms in other
+      // sub-tabs such as those added by the profile module.
+      if ($form['_category']['#value'] == 'account') {
+        $account = $form['_account']['#value'];
+        $form['messaging']['og_notifications_autosubscribe'] = array(
+          '#type' => 'checkbox',
+          '#title' => t('Automatically enable notifications for any groups that I join.'),
+          '#description' => t('Group notifications can also be <a href="!manage-url">customized</a> in greater detail if required.', array('!manage-url' => url('user/'. $account->uid .'/notifications/group'))),
+          '#default_value' => og_notifications_user_autosubscribe_get($account->uid),
+          '#access' => notifications_content_access($account, 'subscribe to content in groups'),
+        );
+      }
+      break;
+    case 'og_admin_settings':
+      unset($form['og_new_node_subject'], $form['og_new_node_body']);
+      $form['og_settings']['notifications']['#description'] = t('Node event notifications can be configured via the <a href="!url">messaging templates</a> interface.', array('!url' => url('admin/messaging/template')));
+      // Default autosubscription setting.
+      $form['og_settings']['notifications']['og_notifications_autosubscribe'] = array(
+        '#type' => 'checkbox',
+        '#title' => t('Autosubscribe users to any groups that they join.'),
+        '#description' => t('Automatically enable notifications by default. Users can override this via their account page. Changing this setting will only affect new users and those who have not overridden the system default.'),
+        '#default_value' => variable_get('og_notifications_autosubscribe', 1),
+        '#weight' => -5
+      );
+      break;
+  }
+}
+
+/**
+ * Implementation of hook_nodeapi().
+ */
+function og_notifications_nodeapi(&$node, $op, $arg = 0) {
+  switch ($op) {
+    case 'delete':
+      notifications_delete_subscriptions(array('type' => 'grouptype'), array('group' => $node->nid));
+      break;
+  }
+}
+
+/**
+ * Implementation of hook_og().
+ */
+function og_notifications_og($op, $gid, $uid, $args) {
+  switch ($op) {
+    case 'user insert':
+      $account = user_load(array('uid' => $uid));
+      og_notifications_user_autosubscribe($account, $gid);
+      break;
+    case 'user delete':
+      $account = user_load(array('uid' => $uid));
+      og_notifications_user_unsubscribe($account, $gid);
+      break;
+    case 'user request':
+      // This and other notifications related ops drop down to the same case.
+      // These different ops have been provided for consistency and flexibility
+      // during use by other modules.
+    case 'user approve':
+    case 'admin create':
+    case 'admin new':
+    case 'user broadcast':
+      $destinations = is_array($uid) ? $uid : array($uid);
+      foreach ($destinations as $uid) {
+        notifications_lite_send($uid, $args['subject'], $args['body']);
+      }
+      break;
+  }
+}
+
+/**
+ * Implementation of hook_messaging().
+ */
+function og_notifications_messaging($op, $arg1 = NULL, $arg2 = NULL, $arg3 = NULL, $arg4 = NULL) {
+  switch ($op) {
+    case 'message groups':
+      // Generic notifications event
+      $info['og-notifications'] = array(
+        'module' => 'og_notifications',
+        'name' => t('OG notifications (default)'),
+        'help' => t('Most fields will be provided during the event.'),
+        'description' => t('Notifications for organic groups node events. Other group notification strings can be customized via the <a href="!url">OG config</a> page.', array('!url' => url('admin/og/og')))
+      );
+      $info['og-notifications-insert'] = array(
+        'module' => 'og_notifications',
+        'name' => t('OG notifications for new content'),
+        'help' => t('Most fields will be provided during the event.'),
+        'description' => t('Notifications for organic groups node creation events.')
+      );
+      $info['og-notifications-update'] = array(
+        'module' => 'og_notifications',
+        'name' => t('OG notifications for updated content'),
+        'help' => t('Most fields will be provided during the event.'),
+        'description' => t('Notifications for organic groups node update events.')
+      );
+      $info['og-notifications-comment'] = array(
+        'module' => 'og_notifications',
+        'name' => t('OG notifications for comments'),
+        'help' => t('Most fields will be provided during the event.'),
+        'description' => t('Notifications for organic groups comment events.')
+      );
+      return $info;
+    case 'message keys':
+      switch ($arg1) {
+        case 'og-notifications':
+        case 'og-notifications-insert':
+        case 'og-notifications-update':
+        case 'og-notifications-comment':
+          return array(
+            'subject' => t('Subject'),
+            'header' => t('Body header'),
+            'main' => t('Body'),
+            'footer' => t('Body footer')
+          );
+        break;
+      }
+      break;
+    case 'messages':
+      $template = array(
+        'subject' => t('[site-name] [ogname]: [title]'),
+        'header' => t("Greetings, [user],"),
+        'main' => array(
+          t('A [type-name] has been updated in group [ogname]: [title]'),
+          t('[node-teaser]'),
+          t('Read more at [node-url].')
+        ),
+        'footer' => array(
+          t('This is an automatic message from [site-name]'),
+          t('To manage your subscriptions, browse to [subscriptions-manage]')
+        )
+      );
+      switch ($arg1) {
+        case 'og-notifications':
+        case 'og-notifications-update':
+          return $template;
+        case 'og-notifications-insert':
+          $template['main'] = array(
+            t('A [type-name] has been created in group [ogname]: [title]'),
+            t('[node-teaser]'),
+            t('Read more at [node-url].')
+          );
+          return $template;
+        case 'og-notifications-comment':
+          $template['main'] = array(
+              t('A new comment has been added by [comment-author-name] to this thread in group [ogname]: [comment-title]'),
+              t('[comment-body]'),
+              t('Read more at [comment-url] or reply via [comment-reply-url].')
+          );
+          return $template;
+      }
+      break;
+    case 'tokens':
+      $tokens = array();
+      if (strpos($arg1, 'og-notifications') === 0) {
+        $tokens = array('global', 'subscription', 'user', 'node', 'comment');
+      }
+
+      return $tokens;
+  }
+}
+
+/**
+ * A workaround to ensure that OG can provide custom message templates for
+ * notifications.
+ *
+ * @param Object $message
+ *   The message object.
+ * @param Object $info
+ *   Sending method information.
+ */
+function og_notifications_message_alter(&$message, $info) {
+  if ($sid = _og_notification_check_message($message)) {
+    $event = $message->notifications['events'][0];
+    // Cater for different message groups (actions).
+    $group = 'og-notifications-'. $event->action;
+    $send_method = $message->method;
+    $subscription = notifications_load_subscription($sid);
+
+    $text = array(
+      'subject' => messaging_message_part($group, 'subject', $send_method, $event),
+      'header' => messaging_message_part($group, 'header', $send_method, $event),
+      'main'  => messaging_message_part($group, 'main', $send_method, $event),
+      'footer' => messaging_message_part($group, 'footer', $send_method, $event)
+    );
+
+    $objects = array('user' => $message->account, 'node' => $event->objects['node'], 'subscription' => $subscription);
+    if ($event->action == 'comment') {
+      $objects['comment'] = $event->objects['comment'];
+    }
+
+    $objects = array_merge($objects, $event->objects);
+    $text = messaging_text_replace($text, $objects);
+
+    $message->subject = $text['subject'];
+    unset($text['subject']);
+    $message->body = $text;
+  }
+}
+
+/**
+ * Implementation of hook_notifications().
+ */
+function og_notifications_notifications($op, &$arg0, $arg1 = NULL, $arg2 = NULL) {
+  switch ($op) {
+    case 'names':
+      $subs = &$arg0;
+      if ($subs->event_type == 'node') {
+        if (!empty($subs->fields['group']) && ($group = node_load($subs->fields['group']))) {
+          $subs->names['group'] = t('Group: %name', array('%name' => $group->title));
+        }
+      }
+      break;
+    case 'subscription types':
+      $types['grouptype'] = array(
+        'event_type' => 'node',
+        'title' => t('Content type in group'),
+        'access' => 'subscribe to content in groups',
+        'page callback' => 'og_notifications_user_page',
+        'user page' => 'user/%user/notifications/group',
+        'fields' => array('group', 'type'),
+        'description' => t('Subscribe to specific content within a group.')
+      );
+      return $types;
+    case 'subscription fields':
+      $fields['group'] = array(
+        'name' => t('Group'),
+        'field' => 'nid',
+        'type' => 'int',
+        'options callback' => 'og_notifications_groups',
+        'format callback' => 'notifications_node_nid2title'
+      );
+      // Notifications does not allow custom callbacks for overlapping fields.
+      // This is resolved via a form_alter refines the field to only displsy
+      // authorised node types.
+      $fields['type'] = array(
+        'name' => t('Content type'),
+        'field' => 'type',
+        'type' => 'string',
+        'options callback' => 'notifications_content_types'
+      );
+      return $fields;
+    case 'query':
+      $query = array();
+
+      if ($arg0 == 'event' && $arg1 == 'node' && $node = $arg2->node) {
+        if (!empty($node->og_groups)) {
+          $query[]['fields']['group'] = $node->og_groups;
+        }
+      }
+      else if ($arg0 == 'user' && $arg1 == 'node') {
+        // Called by notifications_autosubscribe; $arg2 holds the nid.
+        $query[]['fields']['group'] = $arg2;
+      }
+
+      return $query;
+    case 'node options':
+      return _og_notifications_node_options($arg0, $arg1);
+    case 'event load':
+      // Piggy-backing on notifications_content.
+      break;
+    case 'event types':
+      // Piggy-backing on notifications_content.
+      break;
+    case 'access':
+      $type = $arg0;
+      $account = $arg1;
+      $object = $arg2;
+      if ($type == 'subscription' && !empty($object->fields['group'])) {
+        if (($group = node_load($object->fields['group'])) && og_is_group_type($group->type) && notifications_content_node_allow($account, $group)) {
+          return array(TRUE);
+        }
+        else {
+          return array(FALSE);
+        }
+      }
+      break;
+  }
+}
+
+/**
+ * Options callback for subscription fields in hook_notifications. Returns a
+ * list of groups for the current user (presuming that this callback is only
+ * relevant in the "add subscriptions" page).
+ *
+ * @return Array $options
+ *   An array of the users organic groups.
+ */
+function og_notifications_groups() {
+  $options = array();
+  $uid = arg(0) == 'user' && is_numeric(arg(1)) ? arg(1) : 0;
+
+  $result = db_query("SELECT n.nid, n.title FROM {og_uid} ogu INNER JOIN {node} n USING (nid) WHERE ogu.uid = %d", $uid);
+  while ($group = db_fetch_object($result)) {
+    $options[$group->nid] = $group->title;
+  }
+
+  return $options;
+}
+
+/**
+ * Handle autosubscriptions for users when they join a group.
+ *
+ * @param Object $account
+ *   The user account object.
+ * @param Integer $gid
+ *   The node ID of the group being subscribed to.
+ */
+function og_notifications_user_autosubscribe($account, $gid) {
+  if (og_notifications_user_autosubscribe_get($account->uid)) {
+    og_notifications_user_subscribe($account, $gid);
+  }
+}
+
+/**
+ * Retrieve autosubscription setting for a particular user. -1 in the
+ * og_notifications table indicates that the site default is to be used.
+ *
+ * @param Integer $uid
+ *   The uid of the user.
+ * @return Integer
+ *   1 or 0 as per the autosubscribe preference.
+ */
+function og_notifications_user_autosubscribe_get($uid) {
+  $autosubscribe = db_result(db_query("SELECT autosubscribe FROM {og_notifications} WHERE uid = %d", $uid));
+  return $autosubscribe == -1 ? variable_get('og_notifications_autosubscribe', 1) : $autosubscribe;
+}
+
+/**
+ * Retrieve autosubscription setting for a particular user.
+ *
+ * @param Integer $uid
+ *   The uid of the user.
+ * @param Integer $autosubscribe
+ *   Autosubscription option: 0 or 1.
+ */
+function og_notifications_user_autosubscribe_set($uid, $autosubscribe) {
+  return db_query("UPDATE {og_notifications} SET autosubscribe = %d WHERE uid = %d", $autosubscribe, $uid);
+}
+
+/**
+ * Subscribe a user to a group or to be more precise, to all subscribe-able
+ * content types within the group. This method is also called during the upgrade
+ * process in .install.
+ *
+ * @param Object $account
+ *   The user account object.
+ * @param Integer $gid
+ *   The node ID of the group being subscribed to.
+ */
+function og_notifications_user_subscribe($account, $gid) {
+  // Remove all existing user->group subscriptions.
+  og_notifications_user_unsubscribe($account, $gid);
+
+  $subscription_default = _notifications_subscription_defaults($account);
+
+  $subscription_default['uid'] = $account->uid;
+  $subscription_default['type'] = 'grouptype';
+  $subscription_default['event_type'] = 'node';
+
+  // Only subscribe the user to enabled types.
+  $content_types = array_filter(variable_get('og_notifications_content_types', array()));
+  // If the types array is empty, subscribe to all group types. This is mainly
+  // only valid during the upgrade.
+  if (empty($content_types)) {
+    $content_types = og_get_types('group_post');
+  }
+  foreach ($content_types as $type) {
+    // Reset $subscription as notifications_save_subscription casts the input
+    // array into an object.
+    $subscription = $subscription_default;
+    // String cast due to notifications requiring it (as the value field is
+    // a varchar).
+    $subscription['fields'] = array(
+      'group' => (string) $gid,
+      'type' => $type
+    );
+    notifications_save_subscription($subscription);
+  }
+}
+
+/**
+ * Unsubscribe a user from a group. This also unsubscribes the user from any
+ * grouptype subscriptions within the group.
+ *
+ * @param Object $account
+ *   The user account object.
+ * @param Integer $gid
+ *   The node ID of the group being subscribed to.
+ */
+function og_notifications_user_unsubscribe($account, $gid) {
+  notifications_delete_subscriptions(array('uid' => $account->uid, 'type' => 'grouptype'), array('group' => $gid));
+}
+
+/**
+ * Options to display for node subscriptions.
+ */
+function _og_notifications_node_options($account, $node) {
+  $options = array();
+
+  // If node is a group type and the user is subscribed to this group.
+  if (og_is_group_type($node->type) && isset($account->og_groups[$node->nid])) {
+    foreach (array_filter(variable_get('og_notifications_content_types', array())) as $type) {
+      $options[] = array(
+        'name' => t('%type posts in %group', array('%group' => $node->title, '%type' => node_get_types('name', $type))),
+        'type' => 'grouptype',
+        'fields' => array('group' => $node->nid, 'type' => $type)
+      );
+    }
+  }
+  // If node is part of a group user may be subscribed to the node through one
+  // of the groups.
+  if (isset($node->og_groups)) {
+    foreach ($node->og_groups as $index => $gid) {
+      // Only members get to see subscription options.
+      if (isset($account->og_groups[$gid]) && in_array($node->type, array_filter(variable_get('og_notifications_content_types', array())))) {
+        // Content type
+        $options[] = array(
+          'name' => t('%type posts in %group', array('%group' => $node->og_groups_both[$gid], '%type' => node_get_types('name', $node->type))),
+          'type' => 'grouptype',
+          'fields' => array('group' => $gid, 'type' => $node->type)
+        );
+      }
+    }
+  }
+
+  return $options;
+}
+
+/**
+ * Helper function for og_notifications_message_alter. This function checks to
+ * see if the message object being passed is an OG notification.
+ *
+ * @param Object $message
+ *   The message object.
+ * @return Integer
+ *   The subscription ID if this is an OG notification message. 0,
+ * otherwise ...
+ */
+function _og_notification_check_message($message) {
+  $sid = 0;
+
+  if (isset($message->notifications) && isset($message->notifications['subscriptions'])) {
+    $params = current($message->notifications['subscriptions']);
+    // Check if "group" is one of the fields. This is a general presumption
+    // that any subscription with at least two fields, one of them being a
+    // group, is an OG subscription.
+    $sid = db_result(db_query("SELECT sid FROM {notifications} WHERE type = 'grouptype' AND sid = %d", $params[0]));
+  }
+
+  return $sid > 0 ? $sid : 0;
+}
+
+// Used by Views field/filter.
+// TODO: Use constants instead of integers.
+function og_notifications_autosubscribe_map() {
+  return array(
+    -1 => t('Site default'),
+    0 => t('Disabled'),
+    1 => t('Enabled'),
+  );
+}

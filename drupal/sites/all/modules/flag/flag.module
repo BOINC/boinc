@@ -1,0 +1,1120 @@
+<?php
+// $Id: flag.module,v 1.11.2.78 2010/01/08 04:47:21 quicksketch Exp $
+
+/**
+ * @file
+ * The Flag module.
+ */
+
+include_once dirname(__FILE__) .'/flag.inc';
+
+/**
+ * Implementation of hook_menu().
+ */
+function flag_menu() {
+  $items = array();
+
+  $items['admin/build/flags'] = array(
+    'title' => 'Flags',
+    'page callback' => 'flag_admin_page',
+    'access callback' => 'user_access',
+    'access arguments' => array('administer flags'),
+    'description' => 'Configure flags for marking content with arbitary information (such as <em>offensive</em> or <em>bookmarked</em>).',
+    'file' => 'includes/flag.admin.inc',
+    'type' => MENU_NORMAL_ITEM,
+  );
+  $items['admin/build/flags/edit'] = array(
+    'title' => 'Edit flags',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('flag_form'),
+    'access callback' => 'user_access',
+    'access arguments' => array('administer flags'),
+    'file' => 'includes/flag.admin.inc',
+    'type' => MENU_CALLBACK,
+  );
+  $items['admin/build/flags/delete'] = array(
+    'title' => 'Delete flags',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('flag_delete_confirm'),
+    'access callback' => 'user_access',
+    'access arguments' => array('administer flags'),
+    'file' => 'includes/flag.admin.inc',
+    'type' => MENU_CALLBACK,
+  );
+  $items['admin/build/flags/list'] = array(
+    'title' => 'List',
+    'page callback' => 'flag_admin_page',
+    'access callback' => 'user_access',
+    'access arguments' => array('administer flags'),
+    'file' => 'includes/flag.admin.inc',
+    'type' => MENU_DEFAULT_LOCAL_TASK,
+    'weight' => -1,
+  );
+  $items['admin/build/flags/add'] = array(
+    'title' => 'Add',
+    'page callback' => 'flag_add_page',
+    'access callback' => 'user_access',
+    'access arguments' => array('administer flags'),
+    'file' => 'includes/flag.admin.inc',
+    'type' => MENU_LOCAL_TASK,
+  );
+  $items['flag'] = array(
+    'title' => 'Flag',
+    'page callback' => 'flag_page',
+    'access callback' => 'user_access',
+    'access arguments' => array('access content'),
+    'type' => MENU_CALLBACK,
+  );
+  $items['flag/confirm'] = array(
+    'title' => 'Flag confirm',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('flag_confirm'),
+    'access callback' => 'user_access',
+    'access arguments' => array('access content'),
+    'type' => MENU_CALLBACK,
+  );
+
+  return $items;
+}
+
+/**
+ * Implementation of hook_init().
+ */
+function flag_init() {
+  $path = drupal_get_path('module', 'flag');
+  if (module_exists('trigger')) {
+    include_once $path .'/includes/flag.actions.inc';
+  }
+  if (module_exists('token')) {
+    include_once $path .'/includes/flag.token.inc';
+  }
+}
+
+/**
+ * Implementation of hook_views_api().
+ */
+function flag_views_api() {
+  return array(
+    'api' => 2.0,
+    'path' => drupal_get_path('module', 'flag') . '/includes',
+  );
+}
+
+/**
+ * Implementation of hook_perm().
+ */
+function flag_perm() {
+  return array('administer flags');
+}
+
+/**
+ * Access checking to check an account for flagging ability.
+ *
+ * See documentation for $flag->user_access().
+ */
+function flag_access($flag, $account = NULL) {
+  return $flag->user_access($account);
+}
+
+/**
+ * Content type checking to see if a flag applies to a certain type of data.
+ *
+ * @param $flag
+ *   The flag object whose available types are being checked.
+ * @param $content_type
+ *   The type of content being checked, usually "node".
+ * @param $content_subtype
+ *   The subtype (node type) being checked.
+ *
+ * @return
+ *   Boolean TRUE if the flag is enabled for this type and subtype.
+ *   FALSE otherwise.
+ */
+function flag_content_enabled($flag, $content_type, $content_subtype = NULL) {
+  $return = $flag->content_type == $content_type && (!isset($content_subtype) || in_array($content_subtype, $flag->types));
+  return $return;
+}
+
+/**
+ * Implementation of hook_link().
+ */
+function flag_link($type, $object = NULL, $teaser = FALSE) {
+  if (!isset($object) || !flag_fetch_definition($type)) {
+    return;
+  }
+  global $user;
+
+  // Anonymous users can't create flags with this system.
+  if (!$user->uid) {
+    return;
+  }
+
+  // Get all possible flags for this content-type.
+  $flags = flag_get_flags($type);
+
+  foreach ($flags as $flag) {
+    if (!$flag->user_access($user)) {
+      // User has no permission to use this flag.
+      continue;
+    }
+    if (!$flag->uses_hook_link($teaser)) {
+      // Flag is not configured to show its link here.
+      continue;
+    }
+    if (!$flag->applies_to_content_object($object)) {
+      // Flag does not apply to this content.
+      continue;
+    }
+
+    $content_id = $flag->get_content_id($object);
+    // The flag links are actually fully rendered theme functions.
+    // The HTML attribute is set to TRUE to allow whatever the themer desires.
+    $links['flag-'. $flag->name] = array(
+      'title' => $flag->theme($flag->is_flagged($content_id) ? 'unflag' : 'flag', $content_id),
+      'html' => TRUE,
+    );
+  }
+
+  if (isset($links)) {
+    return $links;
+  }
+}
+
+/**
+ * Implementation of hook_flag_link().
+ *
+ * When Flag uses a link type provided by this module, it will call this
+ * implementation of hook_flag_link(). It returns a single link's attributes,
+ * using the same structure as hook_link(). Note that "title" is provided by
+ * the Flag configuration if not specified here.
+ *
+ * @param $flag
+ *   The full flag object of for the flag link being generated.
+ * @param $action
+ *   The action this link will perform. Either 'flag' or 'unflag'.
+ * @param $content_id
+ *   The ID of the node, comment, user, or other object being flagged.
+ * @return
+ *   An array defining properties of the link.
+ */
+function flag_flag_link($flag, $action, $content_id) {
+  $token = flag_get_token($content_id);
+  return array(
+    'href' => "flag/". ($flag->link_type == 'confirm' ? 'confirm/' : '') ."$action/$flag->name/$content_id",
+    'query' => drupal_get_destination() . ($flag->link_type == 'confirm' ? '' : '&token='. $token),
+  );
+}
+
+/**
+ * Implementation of hook_flag_link_types().
+ */
+function flag_flag_link_types() {
+  return array(
+    'toggle' => t('JavaScript toggle'),
+    'normal' => t('Normal link'),
+    'confirm' => t('Confirmation form'),
+  );
+}
+
+/**
+ * Implementation of hook_content_extra_fields().
+ *
+ * Informations for non-CCK 'node fields' defined in core.
+ */
+function flag_content_extra_fields($type_name) {
+  $extra = array();
+  $flags = flag_get_flags('node', $type_name);
+
+  // Filter out flags which need to be included on the node form.
+  foreach ($flags as $name => $flag) {
+    if (!$flag->show_on_form) {
+      unset($flags[$name]);
+    }
+  }
+
+  if (!empty($flags)) {
+    $extra['flag'] = array(
+      'label' => t('Flags'),
+      'description' => t('Flags fieldset.'),
+      'weight' => 0
+    );
+  }
+  return $extra;
+}
+
+/**
+ * Implementation of hook_form_alter().
+ */
+function flag_form_alter(&$form, &$form_state, $form_id) {
+
+  global $user;
+  if ($form_id == 'node_type_form' && isset($form['identity']['type'])) {
+    $flags = flag_get_flags('node', $form['#node_type']->type, $user);
+    foreach ($flags as $flag) {
+      if ($flag->show_on_form) {
+        $var = 'flag_'. $flag->name .'_default';
+        $form['workflow']['flag'][$var] = array(
+          '#type' => 'checkbox',
+          '#title' => $flag->get_label('flag_short'),
+          '#default_value' => variable_get($var .'_'. $form['#node_type']->type, 0),
+          '#return_value' => 1,
+        );
+      }
+    }
+
+    if (isset($form['workflow']['flag'])) {
+      $form['workflow']['flag'] += array(
+        '#type' => 'item',
+        '#title' => t('Default flags'),
+        '#description' => t('Above are the <a href="@flag-url">flags</a> you elected to show on the node editing form. You may specify their initial state here.', array('@flag-url' => url('admin/build/flags'))),
+        // Make the spacing a bit more compact:
+        '#prefix' => '<div class="form-checkboxes">',
+        '#suffix' => '</div>',
+      );
+    }
+  }
+  elseif (isset($form['type']) && isset($form['#node'])
+      && ($form_id == $form['type']['#value'] .'_node_form')) {
+    if (!$user->uid) {
+      return;
+    }
+
+    $nid = !empty($form['nid']['#value']) ? $form['nid']['#value'] : NULL;
+
+    $flags = flag_get_flags('node', $form['type']['#value'], $user);
+
+    // Filter out flags which need to be included on the node form.
+    foreach ($flags as $name => $flag) {
+      if (!$flag->show_on_form) {
+        unset($flags[$name]);
+      }
+    }
+
+    if (count($flags)) {
+      $form['flag'] = array(
+        '#type' => 'fieldset',
+        '#weight' => module_exists('content') ? content_extra_field_weight($form['#node']->type, 'flags') : 1,
+        '#tree' => TRUE,
+        '#title' => t('Flags'),
+        '#collapsible' => TRUE,
+      );
+    }
+
+    foreach ($flags as $flag) {
+      if (isset($form['#node']->flag[$flag->name])) {
+        $flag_status = $form['#node']->flag[$flag->name];
+      }
+      else {
+        $flag_status_default = variable_get('flag_' . $flag->name . '_default_' . $form['type']['#value'], 0);
+        $flag_status = $nid ? $flag->is_flagged($nid) : $flag_status_default;
+      }
+      $form['flag'][$flag->name] = array(
+        '#type' => 'checkbox',
+        '#title' => $flag->get_label('flag_short', $nid),
+        '#description' => $flag->get_label('flag_long', $nid),
+        '#default_value' => $flag_status,
+        '#return_value' => 1,
+      );
+    }
+  }
+}
+
+/**
+ * Implementation of hook_nodeapi().
+ */
+function flag_nodeapi(&$node, $op, $teaser = NULL, $page = NULL) {
+  global $user;
+  switch ($op) {
+    case 'update':
+    case 'insert':
+      // Response to the flag checkboxes added to the form in flag_form_alter().
+      $remembered = FALSE;
+      if (isset($node->flag)) {
+        foreach ($node->flag as $name => $state) {
+          $flag = flag_get_flag($name);
+          // Flagging may trigger actions. We want actions to get the current
+          // node, not a stale database-loaded one:
+          if (!$remembered) {
+            $flag->remember_content($node->nid, $node);
+            // Actions may modify a node, and we don't want to overwrite this
+            // modification:
+            $remembered = TRUE;
+          }
+          flag($state ? 'flag' : 'unflag', $name, $node->nid);
+        }
+      }
+      break;
+    case 'delete':
+      foreach (flag_get_flags('node') as $flag) {
+        // If the flag is being tracked by translation set and the node is part
+        // of a translation set, don't delete the flagging record.
+        // Instead, data will be updated in the 'translation_change' op, below.
+        if (!$flag->i18n || empty($node->tnid)) {
+          db_query("DELETE FROM {flag_content} WHERE fid = %d AND content_id = %d", $flag->fid, $node->nid);
+          db_query("DELETE FROM {flag_counts} WHERE fid = %d AND content_id = %d", $flag->fid, $node->nid);
+        }
+      }
+      break;
+    case 'translation_change':
+      if (isset($node->translation_change)) {
+        // If there is only one node remaining, track by nid rather than tnid.
+        // Otherwise, use the new tnid.
+        $content_id = $node->translation_change['new_tnid'] == 0 ? $node->translation_change['remaining_nid'] : $node->translation_change['new_tnid'];
+        foreach (flag_get_flags('node') as $flag) {
+          if ($flag->i18n) {
+            db_query("UPDATE {flag_content} SET content_id = %d WHERE fid = %d AND content_id = %d", $content_id, $flag->fid, $node->translation_change['old_tnid']);
+            db_query("UPDATE {flag_counts} SET content_id = %d WHERE fid = %d AND content_id = %d", $content_id, $flag->fid, $node->translation_change['old_tnid']);
+          }
+        }
+      }
+      break;
+  }
+}
+
+/**
+ * Implementation of hook_user().
+ */
+function flag_user($op, &$edit, &$account, $category = NULL) {
+  switch ($op) {
+    case 'delete':
+      // Remove flags by this user.
+      $result = db_query("SELECT fc.fid, fc.content_id, c.count FROM {flag_content} fc LEFT JOIN {flag_counts} c ON fc.content_id = c.content_id AND fc.content_type = c.content_type WHERE fc.uid = %d", $account->uid);
+      while ($flag_data = db_fetch_object($result)) {
+        $flag_data->count--;
+        db_query("UPDATE {flag_counts} SET count = %d WHERE fid = %d AND content_id = %d", $flag_data->count, $flag_data->fid, $flag_data->content_id);
+      }
+      db_query("DELETE FROM {flag_content} WHERE uid = %d", $account->uid);
+      break;
+    case 'view';
+      $flags = flag_get_flags('user');
+      $flag_items = array();
+      foreach ($flags as $flag) {
+        if (!$flag->user_access()) {
+          // User has no permission to use this flag.
+          continue;
+        }
+        if (!$flag->applies_to_content_object($account)) {
+          // Flag does not apply to this content.
+          continue;
+        }
+        if (!$flag->uses_hook_link(array())){
+          // Flag not set to appear on profile.
+          continue;
+        }
+        $flag_items[$flag->name] = array(
+          '#type' => 'user_profile_item',
+          '#title' => $flag->get_title($account->uid),
+          '#value' => $flag->theme($flag->is_flagged($account->uid) ? 'unflag' : 'flag', $account->uid),
+          '#attributes' => array('class' => 'flag-profile-' . $flag->name),
+        );
+      }
+      if (!empty($flag_items)) {
+        $account->content['flags'] = $flag_items;
+        $account->content['flags'] += array(
+          '#type' => 'user_profile_category',
+          '#title' => t('Actions'),
+          '#attributes' => array('class' => 'flag-profile'),
+        );
+      }
+      break;
+  }
+}
+
+/**
+ * Implementation of hook_node_type().
+ */
+function flag_node_type($op, $info) {
+  switch ($op) {
+    case 'delete':
+      // Remove entry from flaggable content types.
+      db_query("DELETE FROM {flag_types} WHERE type = '%s'", $info->type);
+      break;
+  }
+}
+
+/**
+ * Menu callback for (un)flagging a node.
+ *
+ * Used both for the regular callback as well as the JS version.
+ */
+function flag_page($action = NULL, $flag_name = NULL, $content_id = NULL) {
+  $js = isset($_REQUEST['js']);
+  $token = $_REQUEST['token'];
+
+  // Check the flag token, then perform the flagging.
+  if (!flag_check_token($token, $content_id)) {
+    $error = t('Bad token. You seem to have followed an invalid link.');
+  }
+  else {
+    $result = flag($action, $flag_name, $content_id);
+    if (!$result) {
+      $error = t('You are not allowed to flag, or unflag, this content.');
+    }
+  }
+
+  // If an error was received, set a message and exit.
+  if (isset($error)) {
+    if ($js) {
+      drupal_set_header('Content-Type: text/javascript; charset=utf-8');
+      print drupal_to_js(array(
+        'status' => FALSE,
+        'errorMessage' => $error,
+      ));
+      exit;
+    }
+    else {
+      drupal_set_message($error);
+      drupal_access_denied();
+      return;
+    }
+  }
+
+  // If successful, return data according to the request type.
+  if ($js) {
+    drupal_set_header('Content-Type: text/javascript; charset=utf-8');
+    $flag = flag_get_flag($flag_name);
+    $flag->link_type = 'toggle';
+    print drupal_to_js(array(
+      'status' => TRUE,
+      'newLink' => $flag->theme($flag->is_flagged($content_id) ? 'unflag' : 'flag', $content_id, TRUE),
+      // Further information for the benefit of custom JavaScript event handlers:
+      'contentId' => $content_id,
+      'contentType' => $flag->content_type,
+      'flagName' => $flag->name,
+      'flagStatus' => $flag->is_flagged($content_id) ? 'flagged' : 'unflagged',
+    ));
+    exit;
+  }
+  else {
+    $flag = flag_get_flag($flag_name);
+    drupal_set_message($flag->get_label($action . '_message', $content_id));
+    drupal_goto();
+  }
+}
+
+/**
+ * Form for confirming the (un)flagging of a piece of content.
+ */
+function flag_confirm(&$form_state, $action = 'flag', $flag_name, $content_id = '') {
+  $form = array();
+
+  $form['action'] = array(
+    '#type' => 'value',
+    '#value' => $action,
+  );
+  $form['flag_name'] = array(
+    '#type' => 'value',
+    '#value' => $flag_name,
+  );
+  $form['content_id'] = array(
+    '#type' => 'value',
+    '#value' => $content_id,
+  );
+
+  $flag = flag_get_flag($flag_name);
+  $question = $flag->get_label($action .'_confirmation', $content_id);
+  $path = isset($_GET['destination']) ? $_GET['destination'] : '<front>';
+  $yes = $flag->get_label($action .'_short', $content_id);
+
+  return confirm_form($form, $question, $path, '', $yes);
+}
+
+function flag_confirm_submit(&$form, &$form_state) {
+  $action = $form_state['values']['action'];
+  $flag_name = $form_state['values']['flag_name'];
+  $content_id = $form_state['values']['content_id'];
+
+  $result = flag($action, $flag_name, $content_id);
+  if (!$result) {
+    drupal_set_message(t('You are not allowed to flag, or unflag, this content.'));
+  }
+  else {
+    $flag = flag_get_flag($flag_name);
+    drupal_set_message($flag->get_label($action . '_message', $content_id));
+  }
+}
+
+/**
+ * Flags or unflags an item.
+ *
+ * @param $account
+ *   The user on whose behalf to flag. Leave empty for the current user.
+ * @return
+ *   FALSE if some error occured (e.g., user has no permission, flag isn't
+ *   applicable to the item, etc.), TRUE otherwise.
+ */
+function flag($action, $flag_name, $content_id, $account = NULL) {
+  if (!($flag = flag_get_flag($flag_name))) {
+    // Flag does not exist.
+    return FALSE;
+  }
+  return $flag->flag($action, $content_id, $account);
+}
+
+/**
+ * Implementation of hook_flag(). Trigger actions if any are available.
+ */
+function flag_flag($action, $flag, $content_id, $account) {
+  if (module_exists('trigger')) {
+
+    $flag_action = $flag->get_flag_action($content_id);
+    $flag_action->action = $action;
+    $context = (array)$flag_action;
+    $aids = _trigger_get_hook_aids($action, $action);
+    foreach ($aids as $aid => $action_info) {
+      // The 'if ($aid)' is a safeguard against http://drupal.org/node/271460#comment-886564
+      if ($aid) {
+        actions_do($aid, $flag, $context);
+      }
+    }
+
+  }
+
+  if (module_exists('rules')) {
+    $event_name = ($action == 'flag' ? 'flag_flagged_' : 'flag_unflagged_') . $flag->name;
+    $arguments = array('flag' => $flag, 'flag_content_id' => $content_id, 'flagging_user' => $account);
+    rules_invoke_event($event_name, $arguments);
+  }
+}
+
+/**
+ * Implementation of hook_node_operations().
+ *
+ * Add additional options on the admin/build/node page.
+ */
+function flag_node_operations() {
+  global $user;
+
+  $flags = flag_get_flags('node', NULL, $user);
+  $operations = array();
+
+  foreach ($flags as $flag) {
+    $operations['flag_'. $flag->name] = array(
+      'label' => $flag->get_label('flag_short'),
+      'callback' => 'flag_nodes',
+      'callback arguments' => array('flag', $flag->name),
+      'behavior' => array(),
+    );
+    $operations['unflag_'. $flag->name] = array(
+      'label' => $flag->get_label('unflag_short'),
+      'callback' => 'flag_nodes',
+      'callback arguments' => array('unflag', $flag->name),
+      'behavior' => array(),
+    );
+  }
+  return $operations;
+}
+
+/**
+ * Callback function for hook_node_operations().
+ */
+function flag_nodes($nodes, $action, $flag_name) {
+  $performed = FALSE;
+  foreach ($nodes as $nid) {
+    $performed |= flag($action, $flag_name, $nid);
+  }
+  // Drupal 6 doesn't display a confirmation message itself, so it's our responsibility.
+  if ($performed) {
+    drupal_set_message(t('The update has been performed.'));
+  }
+}
+
+/**
+ * Implementation of hook_mail().
+ */
+function flag_mail($key, &$message, $params) {
+  switch ($key) {
+    case 'over_threshold':
+      $message['subject'] = $params['subject'];
+      $message['body'] = $params['body'];
+      break;
+  }
+}
+
+/**
+ * Implementation of hook_theme().
+ */
+function flag_theme() {
+  $path = drupal_get_path('module', 'flag') .'/theme';
+
+  return array(
+    'flag' => array(
+      'arguments' => array('flag' => NULL, 'action' => NULL, 'content_id' => NULL, 'after_flagging' => FALSE),
+      'template' => 'flag',
+      'pattern' => 'flag__',
+      'path' => $path,
+    ),
+    'flag_token_help' => array(
+      'arguments' => array('types' => NULL, 'prefix' => NULL, 'suffix' => NULL),
+    ),
+    'flag_admin_page' => array(
+      'arguments' => array('flags' => NULL, 'default_flags' => NULL),
+    ),
+    'flag_rules_radios' => array(
+      'arguments' => array(),
+    ),
+  );
+}
+
+/**
+ * A preprocess function for our theme('flag'). It generates the
+ * variables needed there.
+ *
+ * The $variables array initially contains the following arguments:
+ * - $flag
+ * - $action
+ * - $content_id
+ * - $after_flagging
+ *
+ * See 'flag.tpl.php' for their documentation.
+ *
+ * Note: The Drupal 5 version of this module calls this function directly.
+ */
+function template_preprocess_flag(&$variables) {
+  static $first_time = TRUE;
+
+  // Some typing shotcuts:
+  $flag =& $variables['flag'];
+  $action = $variables['action'];
+  $content_id = $variables['content_id'];
+
+  // Generate the link URL.
+  $link_types = flag_get_link_types();
+  $link_type_module = $link_types[$flag->link_type]['module'];
+  $link = module_invoke($link_type_module, 'flag_link', $flag, $action, $content_id);
+  if (isset($link['title']) && empty($link['html'])) {
+    $link['title'] = check_plain($link['title']);
+  }
+
+  if ($flag->link_type == 'toggle' && $first_time) {
+    $variables['setup'] = $first_time;
+    $first_time = FALSE;
+  }
+  else {
+    $variables['setup'] = FALSE;
+  }
+
+  $variables['link_href'] = check_url(url($link['href'], $link));
+  $variables['link_text'] = isset($link['title']) ? $link['title'] : $flag->get_label($action . '_short', $content_id);
+  $variables['link_title'] = isset($link['attributes']['title']) ? check_plain($link['attributes']['title']) : check_plain(strip_tags($flag->get_label($action . '_long', $content_id)));
+  $variables['flag_name_css'] = str_replace('_', '-', $flag->name);
+  $variables['last_action'] = ($action == 'flag' ? 'unflagged' : 'flagged');
+  $variables['flag_classes_array'] = array();
+  $variables['flag_classes_array'][] = 'flag';
+  $variables['flag_classes_array'][] = $variables['action'] .'-action';
+  $variables['flag_classes_array'][] = 'flag-link-'. $flag->link_type;
+
+  if (isset($link['attributes']['class'])) {
+    $variables['flag_classes_array'][] = $link['attributes']['class'];
+  }
+
+  if ($variables['after_flagging']) {
+    $inverse_action = ($action == 'flag' ? 'unflag' : 'flag');
+    $variables['message_text'] = $flag->get_label($inverse_action . '_message', $content_id);
+    $variables['flag_classes_array'][] = $variables['last_action'];
+  }
+
+  $variables['flag_classes'] = implode(' ', $variables['flag_classes_array']);
+}
+
+/**
+ * Format a string containing a count of items.
+ *
+ * _flag_format_plural() is a version of format_plural() which
+ * accepts the format string as a single argument, where the singular and
+ * plural forms are separated by pipe. A 'zero' form is allowed as well.
+ *
+ * _flag_format_plural() is used where we want the admin, not the
+ * programmer, to be able to nicely and easily format a number.
+ *
+ * If three forms are provided, separated by pipes, then the first is
+ * considered the zero form and is used if $count is 0. The zero form may
+ * well be an empty string.
+ *
+ * @param $count
+ *   The item count to display.
+ * @param $format
+ *   The singular, plural, and optionally the zero, forms separated
+ *   by pipe characters.
+ * @return
+ *   A formatted, translated string.
+ *
+ * Examples for $format:
+ *
+ * @code
+ *   "@count"
+ *   "1 vote|@count votes"
+ *   "needs voting|1 vote|@count votes"
+ *   "|1 vote|@count votes"
+ *   "|@count|@count"
+ * @endcode
+ */
+function _flag_format_plural($count, $format) {
+  $elements = explode('|', $format ? $format : '@count', 3);
+
+  if (count($elements) == 3) {
+    list($zero, $singular, $plural) = $elements;
+  }
+  elseif (count($elements) == 2) {
+    list($singular, $plural) = $elements;
+    $zero = NULL;
+  }
+  else { // count($elements) == 1
+    $singular = $plural = $elements[0];
+    $zero = NULL;
+  }
+
+  if (isset($zero) && intval($count) == 0) {
+    return $zero;
+  }
+  else {
+    return format_plural(intval($count), $singular, $plural);
+  }
+}
+
+/**
+ * Return an array of flag names keyed by fid.
+ */
+function _flag_get_flag_names() {
+  $flags = flag_get_flags();
+  $flag_names = array();
+  foreach ($flags as $flag) {
+    $flag_names[$flag->fid] = $flag->name;
+  }
+  return $flag_names;
+}
+
+/**
+ * Return an array of flag link types suitable for a select list or radios.
+ */
+function _flag_link_type_options() {
+  $options = array();
+  $types = flag_get_link_types();
+  foreach ($types as $type_name => $type) {
+    $options[$type_name] = $type['title'];
+  }
+  return $options;
+}
+
+// ---------------------------------------------------------------------------
+// Non-Views public API
+
+/**
+ * Get flag counts for all flags on a node.
+ *
+ * @param $content_type
+ *   The content type (usually 'node').
+ * @param $content_id
+ *   The content ID (usually the node ID).
+ * @param $reset
+ *   Reset the internal cache and execute the SQL query another time.
+ *
+ * @return $flags
+ *   An array of the structure [name] => [number of flags].
+ */
+function flag_get_counts($content_type, $content_id, $reset = FALSE) {
+  static $counts;
+
+  if ($reset) {
+    $counts = array();
+    if (!isset($content_type)) {
+      return;
+    }
+  }
+
+  if (!isset($counts[$content_type][$content_id])) {
+    $counts[$content_type][$content_id] = array();
+    $result = db_query("SELECT f.name, fc.count FROM {flags} f LEFT JOIN {flag_counts} fc ON f.fid = fc.fid WHERE fc.content_type = '%s' AND fc.content_id = %d", $content_type, $content_id);
+    while ($row = db_fetch_object($result)) {
+      $counts[$content_type][$content_id][$row->name] = $row->count;
+    }
+  }
+
+  return $counts[$content_type][$content_id];
+}
+
+/**
+ * Load a single flag either by name or by flag ID.
+ *
+ * @param $name
+ *   The the flag name.
+ * @param $fid
+ *   The the flag id.
+ */
+function flag_get_flag($name = NULL, $fid = NULL) {
+  $flags = flag_get_flags();
+  if (isset($name)) {
+    if (isset($flags[$name])) {
+      return $flags[$name];
+    }
+  }
+  elseif (isset($fid)) {
+    foreach ($flags as $flag) {
+      if ($flag->fid == $fid) {
+        return $flag;
+      }
+    }
+  }
+}
+
+/**
+ * List all flags available.
+ *
+ * If node type or account are entered, a list of all possible flags will be
+ * returned.
+ *
+ * @param $content_type
+ *   Optional. The type of content for which to load the flags. Usually 'node'.
+ * @param $content_subtype
+ *   Optional. The node type for which to load the flags.
+ * @param $account
+ *   Optional. The user accont to filter available flags. If not set, all
+ *   flags for will this node will be returned.
+ * @param $reset
+ *   Optional. Reset the internal query cache.
+ *
+ * @return $flags
+ *   An array of the structure [fid] = flag_object.
+ */
+function flag_get_flags($content_type = NULL, $content_subtype = NULL, $account = NULL, $reset = FALSE) {
+  static $flags;
+
+  // Retrieve a list of all flags, regardless of the parameters.
+  if (!isset($flags) || $reset) {
+    $flags = array();
+
+    // Database flags.
+    $result = db_query("SELECT f.*, fn.type FROM {flags} f LEFT JOIN {flag_types} fn ON fn.fid = f.fid");
+    while ($row = db_fetch_object($result)) {
+      if (!isset($flags[$row->name])) {
+        $flags[$row->name] = flag_flag::factory_by_row($row);
+      }
+      else {
+        $flags[$row->name]->types[] = $row->type;
+      }
+    }
+
+    // Add code-based flags provided by modules.
+    $default_flags = flag_get_default_flags();
+    foreach ($default_flags as $name => $default_flag) {
+      // Insert new enabled flags into the database to give them an FID.
+      if ($default_flag->status && !isset($flags[$name])) {
+        $default_flag->save();
+        $flags[$name] = $default_flag;
+      }
+
+      if (isset($flags[$name])) {
+        // Ensure overridden flags are associated with their parent module.
+        $flags[$name]->module = $default_flag->module;
+
+        // Update the flag with any properties that are "locked" by the code version.
+        if (isset($default_flag->locked)) {
+          $flags[$name]->locked = $default_flag->locked;
+          foreach ($default_flag->locked as $property) {
+            $flags[$name]->$property = $default_flag->$property;
+          }
+        }
+      }
+    }
+  }
+
+  // Make a variable copy to filter types and account.
+  $filtered_flags = $flags;
+
+  // Filter out flags based on type and subtype.
+  if (isset($content_type) || isset($content_subtype)) {
+    foreach ($filtered_flags as $name => $flag) {
+      if (!flag_content_enabled($flag, $content_type, $content_subtype)) {
+        unset($filtered_flags[$name]);
+      }
+    }
+  }
+
+  // Filter out flags based on account permissions.
+  if (isset($account) && $account->uid != 1) {
+    foreach ($filtered_flags as $name => $flag) {
+      if (!flag_access($flag, $account)) {
+        unset($filtered_flags[$name]);
+      }
+    }
+  }
+
+  return $filtered_flags;
+}
+
+/**
+ * Retrieve a list of flags defined by modules.
+ *
+ * @param $include_disabled
+ *   Unless specified, only enabled flags will be returned.
+ * @return
+ *   An array of flag prototypes, not usable for flagging. Use flag_get_flags()
+ *   if needing to perform a flagging with any enabled flag.
+ */
+function flag_get_default_flags($include_disabled = FALSE) {
+  $default_flags = array();
+  $flag_status = variable_get('flag_default_flag_status', array());
+
+  foreach (module_implements('flag_default_flags') as $module) {
+    $function = $module . '_flag_default_flags';
+    foreach ($function() as $config) {
+      $flag = flag_flag::factory_by_array($config);
+      $flag->module = $module;
+      // Add flags that have been enabled.
+      if ((!isset($flag_status[$flag->name]) && (!isset($flag->status) || $flag->status)) || !empty($flag_status[$flag->name])) {
+        $flag->status = TRUE;
+        $default_flags[$flag->name] = $flag;
+      }
+      elseif ($include_disabled) {
+        $flag->status = FALSE;
+        $default_flags[$flag->name] = $flag;
+      }
+    }
+  }
+
+  return $default_flags;
+}
+
+/**
+ * Find what a user has flagged, either a single node or on the entire site.
+ *
+ * @param $content_type
+ *   The type of content that will be retrieved. Usually 'node'.
+ * @param $content_id
+ *   Optional. The content ID to check for flagging. If none given, all
+ *   content flagged by this user will be returned.
+ * @param $uid
+ *   Optional. The user ID whose flags we're checking. If none given, the
+ *   current user will be used.
+ * @param $reset
+ *   Reset the internal cache and execute the SQL query another time.
+ *
+ * @return $flags
+ *   If returning a single node's flags, an array of the structure
+ *   [name] => (fid => [fid], uid => [uid] nid => [nid], timestamp => [timestamp])
+ *
+ *   If returning all nodes, an array of the arrays for each node.
+ *   [nid] => [name] => Object from above.
+ *
+ */
+function flag_get_user_flags($content_type, $content_id = NULL, $uid = NULL, $reset = FALSE) {
+  static $flagged_content;
+
+  if ($reset) {
+    $flagged_content = array();
+    if (!isset($content_type)) {
+      return;
+    }
+  }
+
+  $uid = !isset($uid) ? $GLOBALS['user']->uid : $uid;
+
+  if (isset($content_id)) {
+    if (!isset($flagged_content[$uid][$content_type][$content_id])) {
+      $flag_names = _flag_get_flag_names();
+      $flagged_content[$uid][$content_type][$content_id] = array();
+      $result = db_query("SELECT * FROM {flag_content} WHERE content_type = '%s' AND content_id = %d AND (uid = %d OR uid = 0)", $content_type, $content_id, $uid);
+      while ($flag_content = db_fetch_object($result)) {
+        $flagged_content[$uid][$content_type][$content_id][$flag_names[$flag_content->fid]] = $flag_content;
+      }
+    }
+    return $flagged_content[$uid][$content_type][$content_id];
+  }
+
+  else {
+    if (!isset($flagged_content[$uid]['all'][$content_type])) {
+      $flag_names = _flag_get_flag_names();
+      $flagged_content[$uid]['all'][$content_type] = TRUE;
+      $result = db_query("SELECT * FROM {flag_content} WHERE content_type = '%s' AND (uid = %d OR uid = 0)", $content_type, $uid);
+      while ($flag_content = db_fetch_object($result)) {
+        $flagged_content[$uid][$content_type]['all'][$flag_names[$flag_content->fid]][$flag_content->content_id] = $flag_content;
+      }
+    }
+    return $flagged_content[$uid][$content_type]['all'];
+  }
+
+}
+
+/**
+ * Return a list of users who have flagged a piece of content.
+ */
+function flag_get_content_flags($content_type, $content_id, $reset = FALSE) {
+  static $content_flags;
+
+  if (!isset($content_flags[$content_type][$content_id]) || $reset) {
+    $flag_names = _flag_get_flag_names();
+    $result = db_query("SELECT * FROM {flag_content} WHERE content_type = '%s' AND content_id = %d ORDER BY timestamp DESC", $content_type, $content_id);
+    while ($flag_content = db_fetch_object($result)) {
+      $content_flags[$content_type][$content_id]['users'][$flag_content->uid][$flag_names[$flag_content->fid]] = $flag_content;
+    }
+  }
+
+  return $content_flags[$content_type][$content_id]['users'];
+}
+
+/**
+ * A utility function for outputting a flag link.
+ *
+ * You should call this function from your template when you want to put the
+ * link on the page yourself. For example, you could call this function from
+ * your 'node.tpl.php':
+ *
+ *   <?php print flag_create_link('bookmarks', $node->nid); ?>
+ *
+ * @param $flag_name
+ *   The "machine readable" name of the flag; e.g. 'bookmarks'.
+ * @param $content_id
+ *   The content ID to check for flagging. This is usually a node ID.
+ */
+function flag_create_link($flag_name, $content_id) {
+  $flag = flag_get_flag($flag_name);
+  if (!$flag) {
+    // Flag does not exist.
+    return;
+  }
+  if (!$flag->user_access()) {
+    // User has no permission to use this flag.
+    return;
+  }
+  if (!$flag->applies_to_content_id($content_id)) {
+    // Flag does not apply to this content.
+    return;
+  }
+  return $flag->theme($flag->is_flagged($content_id) ? 'unflag' : 'flag', $content_id);
+}
+
+/**
+ * Return an array of link types provided by modules.
+ */
+function flag_get_link_types($reset = FALSE) {
+  static $link_types;
+
+  if (!isset($link_types) || $reset) {
+    $link_types = array();
+    foreach (module_implements('flag_link_types') as $module) {
+      $module_types = module_invoke($module, 'flag_link_types');
+      foreach ($module_types as $type_name => $type_title) {
+        $link_types[$type_name] = array(
+          'module' => $module,
+          'title' => $type_title,
+        );
+      }
+    }
+  }
+
+  return $link_types;
+}
+
+/**
+ * Get a private token used to protect links from spoofing - CSRF.
+ */
+function flag_get_token($nid) {
+  return drupal_get_token($nid);
+}
+
+/**
+ * Check to see if a token value matches the specified node.
+ */
+function flag_check_token($token, $seed) {
+  return drupal_get_token($seed) == $token;
+}

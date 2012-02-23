@@ -1,0 +1,193 @@
+# Hungarian translation of cck (6.x-2.0-rc10)
+# Copyright (c) 2008 by the Hungarian translation team
+# Generated from files:
+#  content_copy.module,v 1.27.2.13 2008/10/08 12:55:54 karens
+#  content_copy.info,v 1.6 2008/04/23 18:01:48 dww
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: cck (6.x-2.0-rc10)\n"
+"POT-Creation-Date: 2008-10-31 12:16-0500\n"
+"PO-Revision-Date: 2008-10-26 11:48-0500\n"
+"Last-Translator: Balogh Zoltán\n"
+"Language-Team: Drupal.hu Fordítói Csapat <forditas [at] drupal.hu>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n!=1);\n"
+
+#: modules/content_copy/content_copy.module:262,46
+msgid "Import"
+msgstr "Import"
+
+#: modules/content_copy/content_copy.module:139,38
+msgid "Export"
+msgstr "Export"
+
+#: modules/content_copy/content_copy.module:132
+msgid "Content types"
+msgstr "Tartalom típusok"
+
+#: modules/content_copy/content_copy.module:100
+msgid "Groups"
+msgstr "Csoportok"
+
+#: modules/content_copy/content_copy.module:250
+msgid "Content type"
+msgstr "Tartalomtípus"
+
+#: modules/content_copy/content_copy.module:85
+msgid "Types"
+msgstr "Típusok"
+
+#: modules/content_copy/content_copy.module:80
+msgid ""
+"This form will process a content type and one or more fields from that "
+"type and export the settings. The export created by this process can "
+"be copied and pasted as an import into the current or any other "
+"database. The import will add the fields to into an existing content "
+"type or create a new content type that includes the selected fields."
+msgstr ""
+"Ez az űrlap készíti el a tartalomtípus és a típusból egy vagy "
+"több mező beállításainak exportálását. A folyamat által "
+"készített exportot lehet lemásolni és mint importot beilleszteni "
+"az aktuális, vagy bármely más adatbázisba. Az import hozzá fogja "
+"adni a mezőket egy létező tartalom típushoz, vagy létre fog hozni "
+"egy új tartalomtípust, mely tartalmazni fogja a kiválasztott "
+"mezőket."
+
+#: modules/content_copy/content_copy.module:89
+msgid "Select the content type to export."
+msgstr "Tartalomtípus kiválasztása az exporthoz."
+
+#: modules/content_copy/content_copy.module:104
+msgid "Select the group definitions to export from %type."
+msgstr ""
+"Csoport meghatározások kiválasztása az exporthoz a következő "
+"tartalomtípusból: %type."
+
+#: modules/content_copy/content_copy.module:114
+msgid "Select the field definitions to export from %type."
+msgstr ""
+"Mező meghatározások kiválasztása az exporthoz a következő "
+"tartalom típusból: %type."
+
+#: modules/content_copy/content_copy.module:123
+msgid "Export data"
+msgstr "Adatok exportálása"
+
+#: modules/content_copy/content_copy.module:128
+msgid ""
+"Copy the export text and paste it into another content type using the "
+"import function."
+msgstr ""
+"Az export által előállított szöveget át lehet másolni egy "
+"másik tartalomtípusba az import művelet segítségével."
+
+#: modules/content_copy/content_copy.module:245
+msgid ""
+"This form will import field definitions exported from another content "
+"type or another database.<br/>Note that fields cannot be duplicated "
+"within the same content type, so imported fields will be added only if "
+"they do not already exist in the selected type."
+msgstr ""
+"Ez az űrlap importálja a mező meghatározásokat, melyek egy másik "
+"tartalom típusból, vagy egy másik adatbázisból lettek "
+"exportálva.<br/>Megjegyzés: Egy tartalom típuson belül a mezőket "
+"nem lehet többszörözni, így csak azok a mezők lesznek hozzáadva, "
+"melyek még nem szerepelnek a kiválasztott tartalom típusban."
+
+#: modules/content_copy/content_copy.module:248
+msgid "<Create>"
+msgstr "<Létrehozás>"
+
+#: modules/content_copy/content_copy.module:251
+msgid ""
+"Select the content type to import these fields into.<br/>Select "
+"&lt;Create&gt; to create a new content type to contain the fields."
+msgstr ""
+"Tartalom típus kiválasztása a mezők importálásához.<br/>A "
+"&lt;Létrehozás&gt; segítségével új tartalom típus jön létre, "
+"mely tartalmazni fogja a mezőket."
+
+#: modules/content_copy/content_copy.module:256
+msgid "Import data"
+msgstr "Adatok importálása"
+
+#: modules/content_copy/content_copy.module:258
+msgid "Paste the text created by a content export into this field."
+msgstr ""
+"A tartalom exportnál keletkezett szöveget kell ebbe a mezőbe "
+"illeszteni."
+
+#: modules/content_copy/content_copy.module:270
+msgid "A file has been pre-loaded for import."
+msgstr "A fájl előzetesen be lett töltve az importhoz."
+
+#: modules/content_copy/content_copy.module:296
+msgid "The import data is not valid import text."
+msgstr "Az adat nem értelmezhető import szövegként."
+
+#: modules/content_copy/content_copy.module:344
+msgid ""
+"The following modules must be enabled for this import to work: "
+"%modules."
+msgstr ""
+"A következő modulokat engedélyezni kell, hogy ez az import "
+"működjön: %modules."
+
+#: modules/content_copy/content_copy.module:352
+msgid "The content type %type already exists in this database."
+msgstr "%type tartalomtípus már szerepel az adatbázisban."
+
+#: modules/content_copy/content_copy.module:359
+msgid "Exiting. No import performed."
+msgstr "Kilépés. Az importálás nem lett végrehajtva."
+
+#: modules/content_copy/content_copy.module:383
+msgid ""
+"An error has occurred adding the content type %type.<br/>Please check "
+"the errors displayed for more details."
+msgstr ""
+"Hiba történt a következő tartalomtípus hozzáadása közben: "
+"%type.<br />További részletek a megjelenített hibaüzenetekben."
+
+#: modules/content_copy/content_copy.module:409
+msgid ""
+"The imported field %field_label (%field_name) was not added to %type "
+"because that field already exists in %type."
+msgstr ""
+"%field_label (%field_name) mező már létezik, ezért az import "
+"során nem lett hozzáadva a következő tartalomtípushoz: %type."
+
+#: modules/content_copy/content_copy.module:418
+msgid ""
+"The field %field_label (%field_name) was added to the content type "
+"%type."
+msgstr ""
+"%field_label (%field_name) mező hozzá lett adva a következő "
+"tartalomtípushoz: %type."
+
+#: modules/content_copy/content_copy.module:532
+msgid ""
+"An error occurred when exporting the 'display settings' data for the "
+"field %field_name.<br/>The db error is: '%db_err'."
+msgstr ""
+"%field_name mező „Megjelenítési beállítás” adatainak "
+"exportálása közben egy hiba keletkezett. <br />Az adatbázis hiba: "
+"„%db_err”."
+
+#: modules/content_copy/content_copy.module:0
+msgid "content_copy"
+msgstr "content_copy"
+
+#: modules/content_copy/content_copy.info:0
+msgid "Content Copy"
+msgstr "Content Copy"
+
+#: modules/content_copy/content_copy.info:0
+msgid "Enables ability to import/export field definitions."
+msgstr ""
+"Lehetővé teszi a meződefiníciók importálását és "
+"exportálását."
+

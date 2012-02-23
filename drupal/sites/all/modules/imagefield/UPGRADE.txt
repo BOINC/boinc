@@ -1,0 +1,11 @@
+// $Id: UPGRADE.txt,v 1.3 2009/03/04 05:28:24 quicksketch Exp $
+
+Upgrading From 5.x-2.x -> 6.x-3.x
+
+1) If FileField and ImageAPI are not already installed, disable ImageField.
+2) Upgrade Drupal and contributed Modules to 6.x.
+3) Run Update.php.
+4) If FileField and ImageAPI are not already installed:
+  a) Install FileField and ImageAPI.
+  b) Enable ImageField,  FileField, and ImageAPI.
+  c) Run update.php.

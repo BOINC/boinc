@@ -1,0 +1,93 @@
+# Russian translation of Drupal (modules-og_actions)
+# Copyright 2008 Alexey Osodoev <alexey@osodoev.info>
+# Generated from files:
+#  og_actions.module,v 1.5 2008/10/29 20:01:54 dww
+#  og_actions.info,v 1.2 2008/10/29 20:01:46 dww
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: og-6.x-1.0\n"
+"POT-Creation-Date: 2008-11-02 12:11+0100\n"
+"PO-Revision-Date: 2008-11-19 22:49+0800\n"
+"Last-Translator: Alexey Osodoev <alexey@osodoev.info>\n"
+"Language-Team: Russian <alexey@osodoev.info>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=((((n%10)==1)&&((n%100)!=11))?(0):(((((n%10)>=2)&&((n%10)<=4))&&(((n%100)<10)||((n%100)>=20)))?(1):2));\n"
+"X-Poedit-Language: Russian\n"
+"X-Poedit-Country: RUSSIAN FEDERATION\n"
+"X-Poedit-SourceCharset: utf-8\n"
+
+#: modules/og_actions/og_actions.module:11
+msgid "Remove post from all groups"
+msgstr "Изъять сообщение из всех групп"
+
+#: modules/og_actions/og_actions.module:19
+msgid "Add post to the specified group"
+msgstr "Добавить сообщение в указанную группу"
+
+#: modules/og_actions/og_actions.module:27
+msgid "Remove post from the specified group"
+msgstr "Изъять сообщение из указанной группы"
+
+#: modules/og_actions/og_actions.module:38
+msgid "Make post publicly visible"
+msgstr "Сделать сообщение общедоступным"
+
+#: modules/og_actions/og_actions.module:46
+msgid "Make post private to its groups"
+msgstr "Сделать сообщение ограниченно доступным в пределах его групп"
+
+#: modules/og_actions/og_actions.module:115
+msgid "Select the group to add to the node."
+msgstr "Выберите группу для добавления к узлу (node)."
+
+#: modules/og_actions/og_actions.module:121
+msgid "Please <a href=\"!url\">create</a> a group first."
+msgstr "Пожалуйста, сначала <a href=\"!url\">создайте</a> группу."
+
+#: modules/og_actions/og_actions.module:163
+msgid "Select the group to remove from the node."
+msgstr "Выберите группу, из которой нужно удалить узел (node)."
+
+#: modules/og_actions/og_actions.module:169
+msgid "There are no groups. You must have at least one existing group with nodes assigned to use this action."
+msgstr "Нет групп. Должна быть хотя бы одна существующая группа с привязанным содержанием, чтобы использовать это действие."
+
+#: modules/og_actions/og_actions.module:63;73;83;95;143
+msgid "action"
+msgstr "действие"
+
+#: modules/og_actions/og_actions.module:63
+msgid "Set node %id to public."
+msgstr "Узел (node) %id сделан общедоступным."
+
+#: modules/og_actions/og_actions.module:73
+msgid "Set node %id to private."
+msgstr "На узел (node) %id установлен ограниченный доступ."
+
+#: modules/og_actions/og_actions.module:83
+msgid "Removed node %id from all groups."
+msgstr "Узел (node) %id удален из всех групп."
+
+#: modules/og_actions/og_actions.module:95
+msgid "Added node id %id to %group."
+msgstr "Узел (node) %id добавлен в группу %group."
+
+#: modules/og_actions/og_actions.module:143
+msgid "Removed node id %id from %group."
+msgstr "Узел (node) %id удален из группы %group."
+
+#: modules/og_actions/og_actions.module:0
+msgid "og_actions"
+msgstr "og_actions"
+
+#: modules/og_actions/og_actions.info:0
+msgid "Organic groups actions"
+msgstr "Organic groups actions"
+
+#: modules/og_actions/og_actions.info:0
+msgid "Provides actions for use with Organic Groups and Trigger."
+msgstr "Предоставляет действия (actions) для использования с модулями Organic Groups и Trigger."
+

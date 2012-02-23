@@ -1,0 +1,132 @@
+# Russian translation of privatemsg (6.x-1.x-dev)
+# Copyright (c) 2009 by the Russian translation team
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: privatemsg (6.x-1.x-dev)\n"
+"POT-Creation-Date: 2009-11-23 16:31+0100\n"
+"PO-Revision-Date: 2009-11-29 17:39+0200\n"
+"Last-Translator: Andy Postnikov <andypoxt@yandex.ru>\n"
+"Language-Team: Russian\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=((((n%10)==1)&&((n%100)!=11))?(0):(((((n%10)>=2)&&((n%10)<=4))&&(((n%100)<10)||((n%100)>=20)))?(1):2));\n"
+
+#: pm_block_user/pm_block_user.module:25
+msgid "This area is used to define user blocking rules for the Privatemsg module. Rules allow control of who may block messages from whom. By default all users are allowed to block messages from anyone else. However, a site may have groups of users that need to contact or get information to others, for example: the site may have administrative staff or be a forum with moderators. Groups of users are defined by roles, which can be managed on the <a href=\"@roles\">roles configuration page</a>."
+msgstr "Здесь Вы можете настроить правила блокировки пользователей для модуля личных сообщений. Правила позволяют контролировать кто может блокировать сообщения и от кого. По умолчанию всем пользователям разрешено блокировать сообщения от кого угодно. Однако, на сайте могут быть группы пользователей, которым нужно связываться или передавать информацию другим, например: на сайте может быть административный персонал или модераторы форума. Группы пользователей определяются ролями, управление которыми расположено на <a href=\"@roles\">странице настройки ролей</a>."
+
+#: pm_block_user/pm_block_user.module:97
+msgid "More"
+msgstr "Еще"
+
+#: pm_block_user/pm_block_user.module:100
+msgid "Add new rule"
+msgstr "Добавить новое правило"
+
+#: pm_block_user/pm_block_user.module:113
+msgid "Save configuration"
+msgstr "Сохранить конфигурацию"
+
+#: pm_block_user/pm_block_user.module:160
+msgid "Disallow blocking author"
+msgstr "Запретить блокировку пользователя"
+
+#: pm_block_user/pm_block_user.module:161
+msgid "Disallow sending message"
+msgstr "Запретить отправку сообщения"
+
+#: pm_block_user/pm_block_user.module:182
+msgid "Remove"
+msgstr "Удалить"
+
+#: pm_block_user/pm_block_user.module:185
+msgid "Remove rule"
+msgstr "Удалить правило"
+
+#: pm_block_user/pm_block_user.module:247
+msgid "The configuration options have been saved."
+msgstr "Конфигурация сохранена"
+
+#: pm_block_user/pm_block_user.module:327
+msgid "If the author has the role"
+msgstr "Если у автора есть роль"
+
+#: pm_block_user/pm_block_user.module:328
+msgid "And the recipient has the role"
+msgstr "И у получателя есть роль"
+
+#: pm_block_user/pm_block_user.module:329
+msgid "Action"
+msgstr "Действие"
+
+#: pm_block_user/pm_block_user.module:330
+msgid "Enabled"
+msgstr "Включено"
+
+#: pm_block_user/pm_block_user.module:358
+msgid "No rules have been added. All users may block private messages from each other. To limit which users may be blocked, click 'Add new rule'."
+msgstr "Правила добавлены не были. Все пользователи могут блокировать сообщения друг от друга. Для введения ограничений на блокировку, кликните \"Добавить новое правило\"."
+
+#: pm_block_user/pm_block_user.module:461
+msgid "You have previously blocked \"@author\" from sending you any more messages. Are you sure you want to unblock this user?"
+msgstr "Вы уже запретили пользователю \"@author\" отправлять вам сообщения. Уверены, что хотите разрешить?"
+
+#: pm_block_user/pm_block_user.module:464
+msgid "Unblock @author"
+msgstr "Разблокировать @author"
+
+#: pm_block_user/pm_block_user.module:474
+msgid "Are you sure you want to block \"@author\" from sending you any more messages?"
+msgstr "Вы уверены, что хотите запретить пользователю \"@author\"  отправлять вам сообщения?"
+
+#: pm_block_user/pm_block_user.module:477
+msgid "Block @author"
+msgstr "Заблокировать @author"
+
+#: pm_block_user/pm_block_user.module:491
+msgid "@author has been blocked from sending you any further messages."
+msgstr "Пользователю @author отныне запрещено отправлять вам сообщения."
+
+#: pm_block_user/pm_block_user.module:495
+msgid "@author is now allowed to send you new messages."
+msgstr "Пользователю @author отныне разрешено отправлять вам сообщения."
+
+#: pm_block_user/pm_block_user.module:521
+msgid "Sorry, private messaging rules forbid sending messages to !name."
+msgstr "Извините, отправка сообщений для пользователя !name запрещена."
+
+#: pm_block_user/pm_block_user.module:536
+msgid "%name has chosen to not recieve any more messages from you."
+msgstr "Пользователь \"%name\" решил больше не получать сообщения от Вас."
+
+#: pm_block_user/pm_block_user.module:566
+msgid "Unblock author"
+msgstr "Разблокировать автора"
+
+#: pm_block_user/pm_block_user.module:569
+msgid "Block author"
+msgstr "Заблокировать автора"
+
+#: pm_block_user/pm_block_user.module:34
+#: pm_block_user/pm_block_user.info:0
+msgid "Block user messages"
+msgstr "Блокировать сообщения пользователя"
+
+#: pm_block_user/pm_block_user.module:44
+msgid "User blocking rules"
+msgstr "Правила блокировки пользователей"
+
+#: pm_block_user/pm_block_user.module:45
+msgid "Configure rules for which users may block each other."
+msgstr "Задайте правила блокировки пользователями друг друга."
+
+#: pm_block_user/pm_block_user.module:53
+msgid "Javascript block actions form"
+msgstr "Форма действий javascript блокировки"
+
+#: pm_block_user/pm_block_user.info:0
+msgid "Allows users to block other users from sending them messages."
+msgstr "Разрешить пользователя блокировать получение сообщений от других пользователей."
+

@@ -1,0 +1,12 @@
+; $Id: content_permissions.info,v 1.2 2008/04/23 18:01:52 dww Exp $
+name = Content Permissions
+description = Set field-level permissions for CCK fields.
+package = CCK
+core = 6.x
+dependencies[] = content
+; Information added by drupal.org packaging script on 2010-08-11
+version = "6.x-2.8"
+core = "6.x"
+project = "cck"
+datestamp = "1281570988"
+

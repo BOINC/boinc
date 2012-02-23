@@ -1,0 +1,429 @@
+# $Id: modules-og_views.ja.po,v 1.1 2008/11/12 02:59:17 pineray Exp $
+#
+# Japanese translation of Drupal (general)
+# Copyright YEAR NAME <EMAIL@ADDRESS>
+# Generated from files:
+#  og_views.views.inc,v 1.8 2008/11/03 15:02:45 weitzman
+#  og_views.info,v 1.3 2008/10/29 19:59:39 dww
+#  og_views.module,v 1.9 2008/11/03 15:02:45 weitzman
+#  includes/og_views_handler_field_og_is_active.inc: n/a
+#  includes/og_views_handler_field_og_is_admin.inc: n/a
+#  includes/og_views_handler_field_og_is_manager.inc: n/a
+#  includes/og_views_handler_field_og_managelink.inc: n/a
+#  includes/og_views_handler_field_og_managelinkadmin.inc: n/a
+#  includes/og_views_handler_field_og_managelinkmy.inc: n/a
+#  includes/og_views_handler_field_og_subscribe.inc: n/a
+#  includes/og_views_handler_filter_og_is_admin.inc: n/a
+#  includes/og_views_handler_filter_og_type.inc: n/a
+#  includes/og_views_handler_filter_og_type_all.inc: n/a
+#  includes/og_views_plugin_argument_validate_og_group_types.inc: n/a
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"POT-Creation-Date: 2008-11-10 16:26+0900\n"
+"PO-Revision-Date: 2008-11-12 11:57+0900\n"
+"Last-Translator: PineRay <matsudaterutaka@gmail.com>\n"
+"Language-Team: Japanese <EMAIL@ADDRESS>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n!=1);\n"
+
+#: og_views.views.inc:88
+msgid "Group nodes"
+msgstr "グループノード"
+
+#: og_views.views.inc:123;255;333
+#: og_views.info:0
+msgid "Organic groups"
+msgstr "オーガニックグループ"
+
+#: og_views.views.inc:132
+msgid "Group: Description"
+msgstr "グループ: 説明"
+
+#: og_views.views.inc:141
+msgid "Group: Members count"
+msgstr "グループ: メンバー数"
+
+#: og_views.views.inc:145
+msgid "Number of members for a group. Excludes memberships which are pending approval."
+msgstr "グループに参加しているメンバーの数。承認待ちの参加申込は除きます。"
+
+#: og_views.views.inc:149
+msgid "Group: Post count"
+msgstr "グループ: 記事数"
+
+#: og_views.views.inc:153
+msgid "Number of published posts in a group. Can be restricted by node type using the <em>Option</em> dropdown."
+msgstr "グループの掲載済み記事の数。<em>オプション</em>でコンテンツタイプを制限することができます。"
+
+#: og_views.views.inc:158
+msgid "Group: Post count *new*"
+msgstr "グループ: *新着* 記事数"
+
+#: og_views.views.inc:162
+msgid "Number of new posts in a group for the current user."
+msgstr "現在のユーザにとって新着であるグループの記事の数。"
+
+#: og_views.views.inc:166
+msgid "Group: Selective"
+msgstr "グループ: 選択"
+
+#: og_views.views.inc:167
+msgid "The group preference which determines how membership requests are managed (moderated, invite only, etc.)."
+msgstr "参加申請をどのように扱うか (承認待ち、招待のみ、など) についてのグループの選択。"
+
+#: og_views.views.inc:177
+msgid "Group: Private"
+msgstr "グループ: プライベート"
+
+#: og_views.views.inc:178
+msgid "Is the group home page private or not."
+msgstr "グループのホームページがプライベートかどうか。"
+
+#: og_views.views.inc:191
+msgid "Group: List in directory"
+msgstr "グループ: 一覧に表示"
+
+#: og_views.views.inc:192
+msgid "Admin specifies whether or not a group appears in the public listings."
+msgstr "グループを一覧に表示するように管理者が指定しているかどうか。"
+
+#: og_views.views.inc:206
+msgid "Group: Join link"
+msgstr "グループ: 参加リンク"
+
+#: og_views.views.inc:207
+msgid "Displays a link for joining a group when a user is not already a member."
+msgstr "ユーザがメンバーでなければ、グループへ参加するためのリンクを表示します。"
+
+#: og_views.views.inc:214
+msgid "Group: Language"
+msgstr "グループ: 言語"
+
+#: og_views.views.inc:215
+msgid "Displays the language selected for a given group."
+msgstr "与えられたグループに選択されている言語を表示。"
+
+#: og_views.views.inc:232
+msgid "Group types"
+msgstr "グループタイプ"
+
+#: og_views.views.inc:233;241
+msgid "The type of a group (for example, \"blog entry\", \"forum post\", \"story\", etc)."
+msgstr "グループのタイプ (例えば、「blog entry」「forum post」「story」)。"
+
+#: og_views.views.inc:240
+msgid "Group types (all)"
+msgstr "グループタイプ (すべて)"
+
+#: og_views.views.inc:245
+msgid "Restrict to all content types that have been marked as groups."
+msgstr "グループとして指定されているすべてのコンテンツタイプで制限します。"
+
+#: og_views.views.inc:258
+msgid "Group posts"
+msgstr "グループ記事"
+
+#: og_views.views.inc:259
+msgid "Posts which are affiiated with a group."
+msgstr "グループに関連する記事。"
+
+#: og_views.views.inc:268
+msgid "<strong>Posts</strong> are filtered for specified organic groups. The page context (if Display is a page) will be set to the first listed group. That means that blocks and breadcrumbs (and theme and locale, if applicable) will be based upon the first specified node id."
+msgstr "指定したオーガニックグループで<strong>記事</strong>を絞り込みます。(表示がページであれば) ページのコンテクストは最初に一覧に表示されたグループによります。それはつまり、ブロックやパンくず (および、もしもあればテーマやロケール) が、最初に指定したノードIDを元にすることを意味しています。"
+
+#: og_views.views.inc:271
+msgid "Groups"
+msgstr "グループ"
+
+#: og_views.views.inc:272
+msgid "The groups for a post."
+msgstr "記事のグループ。"
+
+#: og_views.views.inc:277;282
+msgid "Group node (post)"
+msgstr "グループノード (記事)"
+
+#: og_views.views.inc:278
+msgid "Bring in information about the group node based on a post's groups."
+msgstr "記事のグループを元に、グループノードについての情報を引き出します。"
+
+#: og_views.views.inc:290
+msgid "Post: in specified group (by number)"
+msgstr "記事: 指定グループ内 (数字)"
+
+#: og_views.views.inc:298
+msgid "Post: Nid"
+msgstr "記事: nid"
+
+#: og_views.views.inc:299
+msgid "The node ID of the node."
+msgstr "ノードのノードID。"
+
+#: og_views.views.inc:305
+msgid "OG: Posts in current group"
+msgstr "OG: 現在のグループの記事"
+
+#: og_views.views.inc:306
+msgid "Posts in current group. Useful for blocks where determining context is hard. If page is not in any group context, no nodes are listed and thus a block would not appear."
+msgstr "現在のグループにある記事。どのグループのものか決まっているようなブロックに役立ちます。ページがどのグループにも属していなければ、一覧にノードが現れず、ブロックは表示されません。"
+
+#: og_views.views.inc:314
+msgid "Post: Public"
+msgstr "記事: パブリック"
+
+#: og_views.views.inc:315
+msgid "Is a given post public or private according to OG."
+msgstr "OGによる設定で、指定の記事がパブリックかプライベートか。"
+
+#: og_views.views.inc:345
+msgid "Group"
+msgstr "グループ"
+
+#: og_views.views.inc:346
+msgid "Group that a member belongs to."
+msgstr "メンバーが属しているグループ。"
+
+#: og_views.views.inc:348;353
+msgid "Group node (member)"
+msgstr "グループノード (メンバー)"
+
+#: og_views.views.inc:349
+msgid "Bring in information about the group node based on a user's membership."
+msgstr "ユーザの参加状況を元に、グループノードについての情報を引き出します。"
+
+#: og_views.views.inc:356
+msgid "Group node"
+msgstr "グループノード"
+
+#: og_views.views.inc:358
+msgid "<strong>Members</strong> are filtered for a specific group."
+msgstr "グループを指定して<strong>メンバー</strong>を絞り込みます。"
+
+#: og_views.views.inc:362
+msgid "Group member"
+msgstr "グループメンバー"
+
+#: og_views.views.inc:366
+msgid "OG: Group in user's groups"
+msgstr "OG: ユーザが参加しているグループ"
+
+#: og_views.views.inc:370
+msgid "OG: Admin manage link"
+msgstr "OG: 管理者管理リンク"
+
+#: og_views.views.inc:371
+msgid "A link to the <em>Admin create or remove</em> page."
+msgstr "<em>管理者作成または除去</em>ページへのリンク。"
+
+#: og_views.views.inc:378
+msgid "OG: Edit membership link"
+msgstr "OG: 参加状況編集リンク"
+
+#: og_views.views.inc:379
+msgid "A link to the <em>My membership</em> page."
+msgstr "<em>参加状況</em>ページへのリンク。"
+
+#: og_views.views.inc:386
+msgid "OG: Approve/Deny/Remove membership link"
+msgstr "OG: 参加状況の承認/拒否/除去リンク"
+
+#: og_views.views.inc:387
+msgid "A link to approve/deny/remove a group member."
+msgstr "グループメンバーを承認/拒否/除去するためのリンク。"
+
+#: og_views.views.inc:394
+msgid "OG: Is member an admin in a group"
+msgstr "OG: メンバーがグループの管理者かどうか"
+
+#: og_views.views.inc:395
+msgid "Add <em>admin</em> text if user is the group manager."
+msgstr "ユーザがグループ管理者であれば、<em>管理者</em>テキストを追加します。"
+
+#: og_views.views.inc:408
+msgid "OG: Is membership approved"
+msgstr "OG: 参加申請が承認されているか"
+
+#: og_views.views.inc:409
+msgid "Add <em>approval needed</em> user if user's membership request is pending."
+msgstr "ユーザの参加申請が承認待ちであれば、<em>要承認</em>ユーザを追加。"
+
+#: og_views.views.inc:422
+msgid "OG: Is the group manager"
+msgstr "OG: グループマネージャかどうか"
+
+#: og_views.views.inc:423
+msgid "Add <em>manager</em> text if user is the group manager."
+msgstr "ユーザがグループマネージャであれば、<em>マネージャ</em>テキストを追加します。"
+
+#: og_views.views.inc:433
+msgid "OG: Membership create date"
+msgstr "OG: 参加状況作成日時"
+
+#: og_views.views.inc:434
+msgid "The date when the membership was created."
+msgstr "参加状況が作成された日時。"
+
+#: og_views.views.inc:447
+msgid "OG: Membership last updated date"
+msgstr "OG: 参加状況の最終更新日"
+
+#: og_views.views.inc:448
+msgid "The date when the membership was last updated."
+msgstr "参加状況が最後に更新された日時。"
+
+#: og_views.views.inc:467
+msgid "Home"
+msgstr "ホーム"
+
+#: og_views.module:57
+msgid "Group search"
+msgstr "グループ検索"
+
+#: og_views.module:60
+msgid "Group notifications (Views enhanced)"
+msgstr "グループの通知 (Viewsによる拡張)"
+
+#: og_views.module:78
+msgid "This group offers a <a href=\"@groupfeed\">RSS feed</a> and an <a href=\"@email\">email subscription</a>."
+msgstr "このグループには、<a href=\"@groupfeed\">RSSフィード</a>や<a href=\"@email\">メール配信</a>が用意されています。"
+
+#: og_views.module:80
+msgid "Or subscribe to these personalized, sitewide feeds:"
+msgstr "またはこれらサイト全体のフィードを個別で配信:"
+
+#: og_views.module:83;87;91
+msgid "Feed"
+msgstr "フィード"
+
+#: og_views.module:84;88;92
+msgid "Page"
+msgstr "ページ"
+
+#: og_views.module:85
+msgid "My unread: !links"
+msgstr "未読記事: !links"
+
+#: og_views.module:89
+msgid "My group: !links"
+msgstr "参加グループ: !links"
+
+#: og_views.module:93
+msgid "All posts: !links"
+msgstr "すべての記事: !links"
+
+#: og_views.module:96
+msgid "Group notifications"
+msgstr "グループの通知"
+
+#: og_views.module:156
+msgid "Group home page view"
+msgstr "グループホームページ用の表示"
+
+#: og_views.module:157
+msgid "Pick a View for your group home page. Only Views whose names start with <strong>og_ghp_</strong> are eligible. The View determines the layout of your group home page. You may alter the presentation using typical Views themeing techniques. See the Theme information link when editing your View and also see the Theme section of the !README. Also note that group admins can override this presentation using the included <em>Organic Groups Panels</em> module."
+msgstr "グループのホームページに使用するビューを選びます。名前が<strong>og_ghp_</strong>で始まるビューだけが選択可能です。グループホームページのレイアウトがビューによって決定されます。一般的なViewsのテーマ作成テクニックを使用して、表現を変更することができます。ビューを編集する際にはテーマの情報に関するリンクを参照してください。また、!READMEのテーマセクションも参照してください。グループの管理者は<em>Organic Groups Panels</em>モジュールを使用して表現を上書きできることにも注意してください。"
+
+#: og_views.module:163
+msgid "Search group"
+msgstr "グループ検索"
+
+#: og_views.module:171
+msgid "The View %name was not found. Check your variables table or settings.php."
+msgstr "ビュー %name が見つかりませんでした。variablesテーブルやsettings.phpを確認してください。"
+
+#: og_views.module:10
+msgid "Faces"
+msgstr "顔写真"
+
+#: og_views.module:0
+msgid "og_views"
+msgstr "og_views"
+
+#: og_views.info:0
+msgid "Organic groups Views integration"
+msgstr "オーガニックグループ Views 統合"
+
+#: og_views.info:0
+msgid "<strong>Highly recommended.</strong>. Use Views to search and display organic groups."
+msgstr "<strong>強く推奨</strong>。オーガニックグループを検索したり表示するのにViewsを使用してください。"
+
+#: includes/og_views_handler_field_og_is_active.inc:11
+msgid "approval needed"
+msgstr "要承認"
+
+#: includes/og_views_handler_field_og_is_admin.inc:12
+msgid "admin"
+msgstr "管理者"
+
+#: includes/og_views_handler_field_og_is_manager.inc:25
+msgid "Manager"
+msgstr "マネージャ"
+
+#: includes/og_views_handler_field_og_managelink.inc:28
+msgid "Remove membership"
+msgstr "参加状況を除去"
+
+#: includes/og_views_handler_field_og_managelink.inc:32
+msgid "Request: <a href=\"@approve\">approve</a> or <a href=\"@deny\">deny</a>."
+msgstr "リクエスト: <a href=\"@approve\">承認</a>または<a href=\"@deny\">拒否</a>."
+
+#: includes/og_views_handler_field_og_managelinkadmin.inc:28
+msgid "Admin: Remove"
+msgstr "管理: 削除"
+
+#: includes/og_views_handler_field_og_managelinkadmin.inc:31
+msgid "Admin: Create"
+msgstr "管理: 作成"
+
+#: includes/og_views_handler_field_og_managelinkmy.inc:10
+msgid "Edit membership"
+msgstr "参加状況を編集"
+
+#: includes/og_views_handler_field_og_subscribe.inc:23
+msgid "Closed"
+msgstr "クローズド"
+
+#: includes/og_views_handler_field_og_subscribe.inc:25
+msgid "Invite only"
+msgstr "招待のみ"
+
+#: includes/og_views_handler_filter_og_is_admin.inc:5
+msgid "Member types"
+msgstr "メンバータイプ"
+
+#: includes/og_views_handler_filter_og_is_admin.inc:6
+msgid "Members"
+msgstr "メンバー"
+
+#: includes/og_views_handler_filter_og_is_admin.inc:6
+msgid "Group administrators"
+msgstr "グループ管理者"
+
+#: includes/og_views_handler_filter_og_type.inc:6
+msgid "Group node type"
+msgstr "グループのノードタイプ"
+
+#: includes/og_views_handler_filter_og_type_all.inc:11
+msgid "You have no node types which are acting as groups. See the notes section of the !readme_file and the content types fieldset at top of <a href=\"!settings\">OG settings</a>."
+msgstr "グループとして動作しているコンテンツタイプがありません。!readme_fileのnotesセクションと、<a href=\"!settings\">OGの設定</a>の上部にあるコンテンツタイプのフィールドセットを参照してください。"
+
+#: includes/og_views_plugin_argument_validate_og_group_types.inc:12
+msgid "Argument type"
+msgstr "引数タイプ"
+
+#: includes/og_views_plugin_argument_validate_og_group_types.inc:14
+msgid "Node ID"
+msgstr "コンテンツ ID"
+
+#: includes/og_views_plugin_argument_validate_og_group_types.inc:15
+msgid "Node ID's separated by , or +"
+msgstr "コンマ (,) やプラス (+) で区切られたノードID"
+
+#: includes/og_views_plugin_argument_validate_og_group_types.inc:24
+msgid "Validate current user is a member of a specified group"
+msgstr "現在のユーザが指定グループのメンバーかどうか検証"
+

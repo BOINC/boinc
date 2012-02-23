@@ -1,0 +1,196 @@
+<?php
+// $Id: og.og_my.view,v 1.5 2009/03/30 19:18:46 weitzman Exp $
+
+$view = new view;
+$view->name = 'og_my';
+$view->description = 'List user\'s subscribed groups and provide link to manage subscription';
+$view->tag = 'og';
+$view->view_php = '';
+$view->base_table = 'node';
+$view->is_cacheable = FALSE;
+$view->api_version = 2;
+$view->disabled = FALSE; /* Edit this to true to make a default view disabled initially */
+$handler = $view->new_display('default', 'Defaults', 'default');
+$handler->override_option('fields', array(
+  'title' => array(
+    'id' => 'title',
+    'table' => 'node',
+    'field' => 'title',
+    'label' => 'Group',
+    'relationship' => 'none',
+    'link_to_node' => 1,
+  ),
+  'name' => array(
+    'id' => 'name',
+    'table' => 'users',
+    'field' => 'name',
+    'label' => 'Manager',
+    'link_to_user' => 1,
+    'relationship' => 'none',
+  ),
+  'managelinkmy' => array(
+    'label' => 'Manage',
+    'exclude' => 0,
+    'id' => 'managelinkmy',
+    'table' => 'og_uid',
+    'field' => 'managelinkmy',
+    'relationship' => 'none',
+  ),
+));
+$handler->override_option('sorts', array(
+  'title' => array(
+    'id' => 'title',
+    'table' => 'node',
+    'field' => 'title',
+  ),
+));
+$handler->override_option('filters', array(
+  'status' => array(
+    'id' => 'status',
+    'table' => 'node',
+    'field' => 'status',
+    'operator' => '=',
+    'value' => 1,
+    'group' => 0,
+    'exposed' => FALSE,
+    'expose' => array(
+      'operator' => FALSE,
+      'label' => '',
+    ),
+    'relationship' => 'none',
+    'expose_button' => array(
+      'button' => 'Expose',
+    ),
+  ),
+  'type_groups_all' => array(
+    'id' => 'type_groups_all',
+    'table' => 'og',
+    'field' => 'type_groups_all',
+    'operator' => '=',
+    'value' => '',
+    'group' => 0,
+    'exposed' => FALSE,
+    'expose' => array(
+      'operator' => FALSE,
+      'label' => '',
+    ),
+    'relationship' => 'none',
+    'expose_button' => array(
+      'button' => 'Expose',
+    ),
+  ),
+  'uid' => array(
+    'operator' => '=',
+    'value' => '1',
+    'group' => 0,
+    'exposed' => FALSE,
+    'expose' => array(
+      'operator' => FALSE,
+      'label' => '',
+    ),
+    'id' => 'uid',
+    'table' => 'og_uid',
+    'field' => 'uid',
+    'relationship' => 'none',
+    'expose_button' => array(
+      'button' => 'Expose',
+    ),
+    'override' => array(
+      'button' => 'Override',
+    ),
+  ),
+));
+$handler->override_option('access', array(
+  'type' => 'role',
+  'role' => array(
+    '2' => 2,
+    '1' => 0,
+  ),
+  'perm' => 'view advanced help topic',
+));
+$handler->override_option('title', 'My groups');
+$handler->override_option('empty', 'Not a member of any groups.');
+$handler->override_option('empty_format', '1');
+$handler->override_option('items_per_page', 50);
+$handler->override_option('use_pager', '1');
+$handler->override_option('use_more', 1);
+$handler->override_option('style_plugin', 'table');
+$handler->override_option('style_options', array(
+  'override' => 1,
+  'order' => 'asc',
+  'columns' => array(
+    'title' => 'title',
+    'name' => 'name',
+    'managelink' => 'managelink',
+  ),
+  'info' => array(
+    'title' => array(
+      'sortable' => 1,
+      'separator' => '',
+    ),
+    'name' => array(
+      'sortable' => 1,
+      'separator' => '',
+    ),
+    'managelink' => array(
+      'separator' => '',
+    ),
+  ),
+  'default' => 'title',
+));
+$handler = $view->new_display('page', 'Page', 'page');
+$handler->override_option('path', 'og/my');
+$handler->override_option('menu', array(
+  'type' => 'tab',
+  'title' => 'My groups',
+  'weight' => '0',
+  'name' => 'navigation',
+));
+$handler->override_option('tab_options', array(
+  'type' => 'none',
+  'title' => '',
+  'weight' => 0,
+));
+$handler = $view->new_display('block', 'Block', 'block_1');
+$handler->override_option('fields', array(
+  'title' => array(
+    'id' => 'title',
+    'table' => 'node',
+    'field' => 'title',
+    'label' => 'Group',
+    'relationship' => 'none',
+    'link_to_node' => 1,
+  ),
+  'post_count_new' => array(
+    'label' => 'New',
+    'set_precision' => FALSE,
+    'precision' => 0,
+    'decimal' => '.',
+    'separator' => ',',
+    'prefix' => '',
+    'suffix' => '',
+    'exclude' => 0,
+    'id' => 'post_count_new',
+    'table' => 'og',
+    'field' => 'post_count_new',
+    'override' => array(
+      'button' => 'Use default',
+    ),
+    'relationship' => 'none',
+  ),
+));
+$handler->override_option('sorts', array(
+  'title' => array(
+    'order' => 'ASC',
+    'id' => 'title',
+    'table' => 'node',
+    'field' => 'title',
+    'override' => array(
+      'button' => 'Use default',
+    ),
+    'relationship' => 'none',
+  ),
+));
+$handler->override_option('use_pager', '0');
+$handler->override_option('block_description', 'My groups');
+$handler->override_option('block_caching', -1);

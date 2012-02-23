@@ -1,0 +1,12 @@
+; $Id: views.info,v 1.7 2007/08/12 06:52:14 merlinofchaos Exp $
+name = Views
+description = Create customized lists and queries from your database.
+package = Views
+core = 6.x
+
+; Information added by drupal.org packaging script on 2010-06-17
+version = "6.x-2.11"
+core = "6.x"
+project = "views"
+datestamp = "1276743614"
+

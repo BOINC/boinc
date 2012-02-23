@@ -1,0 +1,490 @@
+<?php
+// $Id: flag.install,v 1.2.2.34 2010/01/08 05:00:45 quicksketch Exp $
+
+/**
+ * @file
+ * Flag module install/schema/update hooks.
+ */
+
+/**
+ * Implementation of hook_install().
+ */
+function flag_install() {
+  // Load the flag API in case we want to use it when installing.
+  include_once(drupal_get_path('module', 'flag') .'/flag.module');
+
+  // If Views Bookmark is available, skip the install and do an upgrade instead.
+  if (strpos($GLOBALS['db_type'], 'mysql') === 0) {
+    include_once(drupal_get_path('module', 'flag') .'/includes/flag.views_bookmark.inc');
+    if (flag_views_bookmark_update_needed()) {
+      flag_views_bookmark_update();
+      return;
+    }
+  }
+
+  $success = drupal_install_schema('flag');
+
+  if ($success) {
+    // Install a demonstration flag.
+    $flag = flag_flag::factory_by_content_type('node');
+    $configuration = array(
+      'name' => 'bookmarks',
+      'global' => 0,
+      'show_on_page' => 1,
+      'show_on_teaser' => 1,
+      'show_on_form' => 1,
+      // The following UI labels aren't wrapped in t() because they are written
+      // to the DB in English. They are passed to t() later, thus allowing for
+      // multilingual sites.
+      'title' => 'Bookmarks',
+      'flag_short' => 'Bookmark this',
+      'flag_long' => 'Add this post to your bookmarks',
+      'flag_message' => 'This post has been added to your bookmarks',
+      'unflag_short' => 'Unbookmark this',
+      'unflag_long' => 'Remove this post from your bookmarks',
+      'unflag_message' => 'This post has been removed from your bookmarks',
+      'types' => array('story', 'forum', 'blog'),
+    );
+    $flag->form_input($configuration);
+    $flag->save();
+  }
+
+  if ($success) {
+    drupal_set_message(st('Flag module installed tables successfully.'));
+  }
+  else {
+    drupal_set_message(st('The installation of Flag module failed.'), 'error');
+  }
+}
+
+/**
+ * Implementation of hook_uninstall().
+ */
+function flag_uninstall() {
+  drupal_uninstall_schema('flag');
+  $result = db_query("SELECT name FROM {variable} WHERE name LIKE 'flag_%'");
+  while ($row = db_fetch_object($result)) {
+    variable_del($row->name);
+  }
+
+  drupal_set_message(t('Flag has been uninstalled.'));
+}
+
+/**
+ * Implementation of hook_requirements().
+ *
+ * Prevent installing this module if the "Flag content" module is installed as well.
+ */
+function flag_requirements($phase) {
+  $requirements = array();
+  $t = get_t();
+  if ($phase == 'install') {
+    if (!defined('MAINTENANCE_MODE') && _flag_flag_content_installed()) {
+      $requirements['flag_content_clash']['title'] = $t('Flag');
+      $requirements['flag_content_clash']['severity'] = REQUIREMENT_ERROR;
+      $requirements['flag_content_clash']['description'] = _flag_flag_content_message();
+    }
+  }
+
+  if ($phase == 'runtime' && module_exists('translation') && !module_exists('translation_helpers')) {
+    $requirements['flag_translation']['title'] = $t('Flag');
+    $requirements['flag_translation']['severity'] = REQUIREMENT_ERROR;
+    $requirements['flag_translation']['description'] = $t('To have the flag module work with translations, you need to install and enable the <a href="http://drupal.org/project/translation_helpers">Translation helpers</a> module.');
+    $requirements['flag_translation']['value'] = $t('Translation helpers module not found.');
+  }
+  return $requirements;
+}
+
+/**
+ * Returns TRUE if the "Flag content" module, which we aren't compatible with,
+ * is installed.
+ */
+function _flag_flag_content_installed() {
+  $version = @drupal_get_installed_schema_version('flag_content', TRUE);
+  return (isset($version) && $version != SCHEMA_UNINSTALLED);
+}
+
+function _flag_flag_content_message() {
+  $t = get_t();
+  return $t("You are trying to install the <em>Flag</em> module. However, you have the <em>\"Flag content\"</em> module installed, and these two modules aren't compatible (because they happen to use a database table by the same name). To install the <em>Flag</em> module, you'll first have to disable and then <a href='@uninstall-url'>uninstall</a> the <em>\"Flag content\"</em> module.", array('@uninstall-url' => url('admin/build/modules/uninstall')));
+}
+
+/**
+ * Implementation of hook_schema().
+ */
+function flag_schema() {
+  $schema = array();
+
+  $schema['flags'] = array(
+    'fields' => array(
+      'fid' => array(
+        'type' => 'serial',
+        'size' => 'small',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ),
+      'content_type' => array(
+        'type' => 'varchar',
+        'length' => '32',
+        'not null' => TRUE,
+        'default' => '',
+      ),
+      'name' => array(
+        'type' => 'varchar',
+        'length' => '32',
+        'not null' => FALSE,
+        'default' => '',
+      ),
+      'title' => array(
+        'type' => 'varchar',
+        'length' => '255',
+        'not null' => FALSE,
+        'default' => '',
+      ),
+      'roles' => array(
+        'type' => 'varchar',
+        'length' => '255',
+        'not null' => FALSE,
+        'default' => '',
+      ),
+      'global' => array(
+        'type' => 'int',
+        'size' => 'tiny',
+        'not null' => FALSE,
+        'default' => 0,
+      ),
+      'options' => array(
+        'type' => 'text',
+        'not null' => FALSE,
+      ),
+    ),
+    'primary key' => array('fid'),
+    'unique keys' => array(
+      'name' => array('name'),
+    ),
+  );
+
+  $schema['flag_content'] = array(
+    'fields' => array(
+      'fcid' => array(
+        'type' => 'serial',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ),
+      'fid' => array(
+        'type' => 'int',
+        'size' => 'small',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'default' => 0,
+      ),
+      'content_type' => array(
+        'type' => 'varchar',
+        'length' => '32',
+        'not null' => TRUE,
+        'default' => '',
+      ),
+      'content_id' => array(
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'default' => 0,
+      ),
+      'uid' => array(
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'default' => 0,
+      ),
+      'timestamp' => array(
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'default' => 0,
+        'disp-size' => 11,
+      )
+    ),
+    'primary key' => array('fcid'),
+    'unique keys' => array(
+      'fid_content_type_content_id_uid' => array('fid', 'content_type', 'content_id', 'uid'),
+    ),
+    'indexes' => array(
+      'content_type_content_id' => array('content_type', 'content_id'),
+      'content_type_uid' => array('content_type', 'uid'),
+    ),
+  );
+
+  $schema['flag_types'] = array(
+    'fields' => array(
+      'fid' => array(
+        'type' => 'int',
+        'size' => 'small',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'default' => 0,
+      ),
+      'type' => array(
+        'type' => 'varchar',
+        'length' => '32',
+        'not null' => TRUE,
+        'default' => '')
+    ),
+    'indexes' => array(
+      'fid' => array('fid'),
+    ),
+  );
+
+  $schema['flag_counts'] = array(
+    'fields' => array(
+      'fid' => array(
+        'type' => 'int',
+        'size' => 'small',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'default' => 0,
+      ),
+      'content_type' => array(
+        'type' => 'varchar',
+        'length' => '32',
+        'not null' => TRUE,
+        'default' => '',
+      ),
+      'content_id' => array(
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'default' => 0,
+        'disp-width' => '10',
+      ),
+      'count' => array(
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'default' => 0,
+        'disp-width' => '10',
+      )
+    ),
+    'primary key' => array('fid', 'content_type', 'content_id'),
+    'indexes' => array(
+      'fid_content_type' => array('fid', 'content_type'),
+      'content_type_content_id' => array('content_type', 'content_id'),
+    ),
+  );
+
+  return $schema;
+}
+
+/**
+ * Add auto-increment to the flags.fid column for users upgrading from Drupal 5.
+ *
+ * Delete obsolete actions provided by beta3.
+ *
+ * Note: To ease maintenance, this code is compatible with both D5 and D6.
+ *
+ * Check out #305391 for a discussion about this code.
+ */
+function flag_update_6000() {
+  $ret = array();
+
+  // Convert the flags.fid column to auto-increment.
+  db_drop_primary_key($ret, 'flags');
+  db_change_field($ret, 'flags', 'fid', 'fid', array(
+    'type' => 'serial',
+    'size' => 'small',
+    'unsigned' => TRUE,
+    'not null' => TRUE,
+  ), array('primary key' => array('fid')));
+
+  // This conditional ensures we have Actions 2.x, not Actions 1.x.
+  //
+  // At the beginning we had only db_table_exists() checks here. However, it
+  // turned out that db_table_exists() fails when the $db_prefix string contains
+  // a dot. So module_exists() and function_exists() are added, as backup.
+  if (module_exists('trigger') || function_exists('_actions_get_hook_aids') || db_table_exists('actions_assignments') || db_table_exists('trigger_assignments')) {
+
+    // Step 1: Find all actions we need to delete.
+
+    $aids = array();
+    // We can't just search for "actions of type flag" because this isn't future-compatible.
+    $res = db_query("SELECT aid FROM {actions} WHERE callback IN ('flag_action_email', 'flag_action_delete', 'flag_action_unpublish', 'flag_action_moderate')");
+    while ($row = db_fetch_object($res)) {
+      $aids[] = $row->aid;
+    }
+
+    if (!$aids) {
+      $ret[] = array(
+        'success' => TRUE,
+        'query' => t('No old actions to remove.'),
+      );
+    }
+    else {
+      $ret[] = array(
+        'success' => TRUE,
+        'query' => t('Deleting the following actions: @aids', array('@aids' => implode(', ', $aids))),
+      );
+    }
+
+    // Step 2: Delete them through API.
+
+    // We can't do `if (module_exists('actions'))`: this code should work for D6 as
+    // well, and it doesn't have an Actions module.
+    if (function_exists('actions_delete')) {
+      foreach ($aids as $aid) {
+        actions_delete($aid);
+        $ret[] = array(
+          'success' => TRUE,
+          'query' => t('actions_delete("@aid") called.', array('@aid' => $aid)),
+        );
+      }
+    }
+
+    // Step 3: Delete them through SQL, in case Actions/Trigger aren't enabled.
+
+    foreach ($aids as $aid) {
+      foreach (array('actions', 'actions_assignments', 'trigger_assignments') as $table) {
+        if (db_table_exists($table)) {
+          $ret[] = _flag_update_sql("DELETE FROM {{$table}} WHERE aid = '%s'", $aid);
+        }
+      }
+    }
+    // Note: No need to delete from the {actions_aid} table; Actions doesn't do that.
+
+    // Step 4: Remove a bogus record possibly created because of a bug (see
+    // http://drupal.org/node/271460).
+
+    foreach (array('actions_assignments', 'trigger_assignments') as $table) {
+      if (db_table_exists($table)) {
+        $ret[] = _flag_update_sql("DELETE FROM {{$table}} WHERE hook = 'flag' AND aid = ''");
+      }
+    }
+  }
+  else {
+    $ret[] = array(
+      'success' => TRUE,
+      'query' => t('Cleanup of Actions tables is unneeded.'),
+    );
+  }
+
+  return $ret;
+}
+
+/**
+ * Move flag messages and link titles into the options array.
+ */
+function flag_update_6001() {
+  $ret = array();
+
+  if (_flag_column_exists('flags', 'flag_short')) {
+    $result = db_query("SELECT * FROM {flags}");
+    while ($flag = db_fetch_object($result)) {
+      $options = unserialize($flag->options);
+      $options['flag_short'] = $flag->flag_short;
+      $options['flag_long'] = $flag->flag_long;
+      $options['flag_message'] = $flag->flag_message;
+      $options['unflag_short'] = $flag->unflag_short;
+      $options['unflag_long'] = $flag->unflag_long;
+      $options['unflag_message'] = $flag->unflag_message;
+      db_query("UPDATE {flags} SET options = '%s' WHERE fid = %d", serialize($options), $flag->fid);
+    }
+
+    db_drop_field($ret, 'flags', 'flag_short');
+    db_drop_field($ret, 'flags', 'flag_long');
+    db_drop_field($ret, 'flags', 'flag_message');
+    db_drop_field($ret, 'flags', 'unflag_short');
+    db_drop_field($ret, 'flags', 'unflag_long');
+    db_drop_field($ret, 'flags', 'unflag_message');
+  }
+  return $ret;
+}
+
+/**
+ * Add a 'serial' primary key, fcid, to the flag_content table.
+ */
+function flag_update_6002() {
+  $ret = array();
+
+  if (!_flag_column_exists('flag_content', 'fcid')) {
+    db_drop_primary_key($ret, 'flag_content');
+    db_add_field($ret, 'flag_content', 'fcid', array(
+        'type' => 'serial',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ), array(
+        'primary key' => array('fcid'),
+      )
+    );
+    db_add_unique_key($ret, 'flag_content', 'fid_content_type_content_id_uid', array('fid', 'content_type', 'content_id', 'uid'));
+  }
+  return $ret;
+}
+
+/**
+ * Remove the previous default views that are no longer bundled with Flag.
+ *
+ * These views are saved to the database so that they are preserved.
+ */
+function flag_update_6003() {
+  $ret = array();
+
+  // Bail out if Views doesn't exist.
+  if (!function_exists('views_get_view')) {
+    return $ret;
+  }
+
+  drupal_load('module', 'flag');
+  $flags = flag_get_flags();
+  foreach ($flags as $name => $flag) {
+    if ($view = views_get_view('flags_'. $name)) {
+      if (!$view->disabled && $view->type == t('Default')) {
+        $view->save();
+        $ret[] = array('success' => TRUE, 'query' => t('The view %name as been saved to the database. Flag no longer provides this view by default.', array('%name' => $view->name)));
+      }
+    }
+  }
+
+  return $ret;
+}
+
+/**
+ * Add auto-increment to the flags.fid column for users upgrading from Drupal 5.
+ */
+function flag_update_6004() {
+  // Update removed and included in flag_update_6000()
+  return array();
+}
+
+/**
+ * Remove count = 0 rows from the flag_counts table for consistency.
+ */
+function flag_update_6005() {
+  $ret = array();
+  $ret[] = update_sql("DELETE FROM {flag_counts} WHERE count = 0");
+  return $ret;
+}
+
+// This is a replacement for update_sql(). The latter doesn't support placeholders.
+function _flag_update_sql($sql) {
+  $args = func_get_args();
+  array_shift($args);
+  $result = db_query($sql, $args);
+  // Users are going to see '%s' and '%d' in the report and they're going to
+  // think there's a bug. So lets replace the placeholders with something less
+  // suspicious.
+  $sql = strtr($sql, array('%s' => '***', '%d' => '***'));
+  return array('success' => $result !== FALSE, 'query' => check_plain($sql));
+}
+
+// D5/6 compatible version of db_column_exists().
+function _flag_column_exists($table, $column) {
+  if (function_exists('db_column_exists')) {
+    return db_column_exists($table, $column);
+  }
+
+  switch ($GLOBALS['db_type']) {
+    case 'mysql':
+    case 'mysqli':
+      return (bool) db_fetch_object(db_query("SHOW COLUMNS FROM {flags} LIKE 'flag_short'"));
+    case 'pgsql':
+      return (bool) db_result(db_query("SELECT COUNT(pg_attribute.attname) FROM pg_class, pg_attribute WHERE pg_attribute.attrelid = pg_class.oid AND pg_class.relname = '{". db_escape_table($table) ."}' AND attname = '". db_escape_table($column) ."'"));
+  }
+}

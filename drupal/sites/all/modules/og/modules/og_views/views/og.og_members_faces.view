@@ -1,0 +1,171 @@
+<?php
+// $Id: og.og_members_faces.view,v 1.2 2008/10/29 20:00:02 dww Exp $
+
+$view = new view;
+$view->name = 'og_members_faces';
+$view->description = 'Member listing in grid with user pictures';
+$view->tag = 'og';
+$view->view_php = '';
+$view->base_table = 'users';
+$view->is_cacheable = '0';
+$view->api_version = 2;
+$view->disabled = FALSE; // Edit this to true to make a default view disabled initially
+$view->display = array();
+  $display = new views_display;
+  $display->id = 'default';
+  $display->display_title = 'Defaults';
+  $display->display_plugin = 'default';
+  $display->position = '1';
+  $display->display_options = array(
+  'style_plugin' => 'grid',
+  'style_options' => array(
+    'columns' => '5',
+    'alignment' => 'horizontal',
+  ),
+  'row_plugin' => 'fields',
+  'row_options' => array(
+    'inline' => array(
+      'name' => 'name',
+      'is_manager' => 'is_manager',
+      'is_admin' => 'is_admin',
+    ),
+    'separator' => '',
+  ),
+  'relationships' => array(),
+  'fields' => array(
+    'picture' => array(
+      'id' => 'picture',
+      'table' => 'users',
+      'field' => 'picture',
+      'label' => '',
+      'relationship' => 'none',
+    ),
+    'name' => array(
+      'id' => 'name',
+      'table' => 'users',
+      'field' => 'name',
+      'label' => '',
+      'link_to_user' => 1,
+      'relationship' => 'none',
+    ),
+    'is_admin' => array(
+      'id' => 'is_admin',
+      'table' => 'og_uid',
+      'field' => 'is_admin',
+      'label' => '',
+      'relationship' => 'none',
+    ),
+  ),
+  'sorts' => array(
+    'is_admin' => array(
+      'id' => 'is_admin',
+      'table' => 'og_uid',
+      'field' => 'is_admin',
+      'order' => 'DESC',
+      'relationship' => 'none',
+    ),
+    'name' => array(
+      'id' => 'name',
+      'table' => 'users',
+      'field' => 'name',
+      'order' => 'ASC',
+      'relationship' => 'none',
+    ),
+  ),
+  'arguments' => array(
+    'nid' => array(
+      'id' => 'nid',
+      'table' => 'og_uid',
+      'field' => 'nid',
+      'default_action' => 'not found',
+      'style_plugin' => 'default_summary',
+      'style_options' => array(
+        'count' => TRUE,
+        'override' => FALSE,
+        'items_per_page' => 25,
+      ),
+      'wildcard' => 'all',
+      'wildcard_substitution' => 'All',
+      'title' => 'Members of %1',
+      'default_argument_type' => 'fixed',
+      'default_argument' => '',
+      'validate_type' => 'og_group_types',
+      'validate_fail' => 'not found',
+      'break_phrase' => 0,
+      'add_table' => 0,
+      'relationship' => 'none',
+      'default_argument_user' => 0,
+      'default_argument_fixed' => '',
+      'default_argument_php' => '',
+      'validate_argument_node_type' => array(
+        'blog' => 0,
+        'poll' => 0,
+        'book' => 0,
+        'group1' => 0,
+        'group2' => 0,
+        'page' => 0,
+        'story' => 0,
+      ),
+      'validate_argument_node_access' => 0,
+      'validate_argument_nid_type' => 'nid',
+      'validate_argument_vocabulary' => array(
+        '1' => 0,
+        '2' => 0,
+        '3' => 0,
+        '4' => 0,
+      ),
+      'validate_argument_type' => 'tid',
+      'validate_argument_php' => '',
+      'require_value' => 0,
+      'reduce_duplicates' => 0,
+      'validate_argument_is_member' => 1,
+      'not' => 0,
+    ),
+  ),
+  'filters' => array(
+    'status' => array(
+      'id' => 'status',
+      'table' => 'users',
+      'field' => 'status',
+      'operator' => '=',
+      'value' => 1,
+      'group' => 0,
+      'exposed' => FALSE,
+      'expose' => array(
+        'operator' => FALSE,
+        'label' => '',
+      ),
+      'relationship' => 'none',
+      'expose_button' => array(
+        'button' => 'Expose',
+      ),
+    ),
+    'is_active' => array(
+      'id' => 'is_active',
+      'table' => 'og_uid',
+      'field' => 'is_active',
+      'operator' => '=',
+      'value' => 1,
+      'group' => 0,
+      'exposed' => FALSE,
+      'expose' => array(
+        'operator' => FALSE,
+        'label' => '',
+      ),
+      'relationship' => 'none',
+      'expose_button' => array(
+        'button' => 'Expose',
+      ),
+    ),
+  ),
+  'items_per_page' => 25,
+  'use_pager' => '1',
+  'pager_element' => 0,
+  'offset' => 0,
+  'empty' => '',
+  'empty_format' => '1',
+  'distinct' => 0,
+  'use_ajax' => '1',
+  'title' => 'Group faces',
+);
+$view->display['default'] = $display;

@@ -1,0 +1,11 @@
+; $Id: content.info,v 1.6 2007/07/04 23:46:29 yched Exp $
+name = Content
+description = Allows administrators to define new content types.
+package = CCK
+core = 6.x
+; Information added by drupal.org packaging script on 2010-08-11
+version = "6.x-2.8"
+core = "6.x"
+project = "cck"
+datestamp = "1281570988"
+

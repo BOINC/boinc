@@ -1,0 +1,192 @@
+# $Id: modules-fieldgroup.nl.po,v 1.1.2.1 2009/06/03 20:31:08 hass Exp $
+#
+# Dutch translation of Drupal (general)
+# Copyright YEAR NAME <EMAIL@ADDRESS>
+# Generated from files:
+#  fieldgroup.panels.inc,v 1.1.2.5 2009/01/10 22:47:06 yched
+#  fieldgroup.info,v 1.6.2.1 2008/09/22 18:25:21 karens
+#  fieldgroup.module,v 1.79.2.45 2009/02/28 23:56:17 yched
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"POT-Creation-Date: 2009-06-03 14:25+0200\n"
+"PO-Revision-Date: 2009-06-03 14:25+0200\n"
+"Last-Translator: NAME <EMAIL@ADDRESS>\n"
+"Language-Team: Dutch <EMAIL@ADDRESS>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n!=1);\n"
+
+#: fieldgroup.panels.inc:10;27
+msgid "Content fieldgroup"
+msgstr "Inhoudveldgroep"
+
+#: fieldgroup.panels.inc:30
+msgid "All fields from a fieldgroup on the referenced node."
+msgstr "Alle velden van een veldgroep op de gerefereerde node."
+
+#: fieldgroup.panels.inc:31
+msgid "Node"
+msgstr "Node"
+
+#: fieldgroup.panels.inc:32
+msgid "Node context"
+msgstr "Node context"
+
+#: fieldgroup.panels.inc:91
+msgid "@group_label (@group_type_name)"
+msgstr "@group_label (@group_type_name)"
+
+#: fieldgroup.panels.inc:102 fieldgroup.info:0
+msgid "Fieldgroup"
+msgstr "Veldgroep"
+
+#: fieldgroup.panels.inc:112
+msgid "Text to display if group has no data. Note that title will not display unless overridden."
+msgstr ""
+"Tekst om weer te geven als de groep geen data heeft. Merk op dat de "
+"titel niet zal worden getoond tenzij anders ingesteld."
+
+#: fieldgroup.panels.inc:128
+msgid "\"@s\" fieldgroup @name"
+msgstr "\"@s\" veldgroep @name"
+
+#: fieldgroup.module:111
+msgid "Label"
+msgstr "Label"
+
+#: fieldgroup.module:124
+msgid "Form settings"
+msgstr "Formulierinstellingen"
+
+#: fieldgroup.module:125
+msgid "These settings apply to the group in the node editing form."
+msgstr "Deze instellingen zijn voor de groep in het node-bewerkformulier."
+
+#: fieldgroup.module:129
+msgid "Style"
+msgstr "Stijl"
+
+#: fieldgroup.module:132
+msgid "always open"
+msgstr "altijd open"
+
+#: fieldgroup.module:133
+msgid "collapsible"
+msgstr "uitklapbaar"
+
+#: fieldgroup.module:134
+msgid "collapsed"
+msgstr "uitgeklapt"
+
+#: fieldgroup.module:139
+msgid "Help text"
+msgstr "Helptekst"
+
+#: fieldgroup.module:142
+msgid "Instructions to present to the user on the editing form."
+msgstr "Instructies om aan de gebruiker te tonen bij het bewerkformulier."
+
+#: fieldgroup.module:147
+msgid "Display settings"
+msgstr "Weergaveinstellingen"
+
+#: fieldgroup.module:148
+msgid "These settings apply to the group on node display."
+msgstr "Deze instellingen zijn voor de groep van de node-weergave."
+
+#: fieldgroup.module:152
+msgid "Description"
+msgstr "Beschrijving"
+
+#: fieldgroup.module:155
+msgid "A description of the group."
+msgstr "Een beschrijving van de groep"
+
+#: fieldgroup.module:171;335
+msgid "Save"
+msgstr "Opslaan"
+
+#: fieldgroup.module:200
+msgid "Are you sure you want to remove the group %label?"
+msgstr "Weet je zeker dat je de groep %label wilt verwijderen?"
+
+#: fieldgroup.module:202
+msgid "This action cannot be undone."
+msgstr "Deze actie kan niet ongedaan worden gemaakt."
+
+#: fieldgroup.module:203
+msgid "Remove"
+msgstr "Verwijderen"
+
+#: fieldgroup.module:203
+msgid "Cancel"
+msgstr "Annuleren"
+
+#: fieldgroup.module:211
+msgid "The group %group_name has been removed."
+msgstr "De groep %group is verwijderd."
+
+#: fieldgroup.module:260
+msgid "none"
+msgstr "geen"
+
+#: fieldgroup.module:353
+msgid "You need to provide a label."
+msgstr "Je moet een label opgeven."
+
+#: fieldgroup.module:358
+msgid "You need to provide a group name."
+msgstr "Je moet een groepnaam opgeven."
+
+#: fieldgroup.module:372
+msgid "The group name %group_name is invalid. The name must include only lowercase unaccentuated letters, numbers, and underscores."
+msgstr ""
+"De groepnaam %group_name in niet toegestaan. De naam mag alleen kleine "
+"alfanumerieke karakters en underscores bevatten."
+
+#: fieldgroup.module:375
+msgid "The group name %group_name is too long. The name is limited to 32 characters, including the 'group_' prefix."
+msgstr ""
+"De groepnaam %group_name is te lang. De naam mag niet langer zijn dan "
+"32 karakters inclusief 'group_'-voorvoegsel."
+
+#: fieldgroup.module:381
+msgid "The group name %group_name already exists."
+msgstr "De groepnaam %group_name bestaat al."
+
+#: fieldgroup.module:400;403
+msgid "Add new group:"
+msgstr "Voeg nieuwe groep toe:"
+
+#: fieldgroup.module:418
+msgid "Add new group: you need to provide a label."
+msgstr "Voeg een nieuwe groep toe: je moet een label opgeven."
+
+#: fieldgroup.module:419
+msgid "Add new group: you need to provide a group name."
+msgstr "Voeg nieuwe groep toe: je moet een groepnaam opgeven."
+
+#: fieldgroup.module:648
+msgid "Standard group"
+msgstr "Standaardgroep"
+
+#: fieldgroup.module:39;46
+msgid "Edit group"
+msgstr "Bewerk groep"
+
+#: fieldgroup.module:0
+msgid "fieldgroup"
+msgstr "veldgroep"
+
+#: fieldgroup.info:0
+msgid "Create display groups for CCK fields."
+msgstr "Maak weergavegroepen voor CCK-velden."
+
+#: fieldgroup.info:0
+msgid "CCK"
+msgstr "CCK"
+

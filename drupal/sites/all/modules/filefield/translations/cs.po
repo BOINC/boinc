@@ -1,0 +1,445 @@
+# $Id: filefield.pot,v 1.4 2010/04/24 02:47:49 quicksketch Exp $
+#
+# LANGUAGE translation of Drupal (root)
+# Copyright YEAR NAME <EMAIL@ADDRESS>
+# Generated from files:
+#  field_file.inc,v 1.33 2009/04/28 04:03:24 quicksketch
+#  filefield_field.inc,v 1.31 2009/04/20 22:30:08 quicksketch
+#  filefield_widget.inc,v 1.88 2009/05/19 01:58:28 quicksketch
+#  filefield.module,v 1.199 2009/06/06 19:58:21 quicksketch
+#  filefield.token.inc,v 1.4 2009/03/28 06:15:41 quicksketch
+#  filefield.install,v 1.36 2009/05/29 22:32:23 quicksketch
+#  filefield.info,v 1.9 2009/04/01 08:57:49 quicksketch
+#  filefield_meta.info,v 1.6 2009/04/01 08:57:49 quicksketch
+#  filefield.js,v 1.20 2009/04/28 01:39:31 quicksketch
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: Czech translation of the FileField module\n"
+"POT-Creation-Date: 2009-10-29 13:55+0100\n"
+"PO-Revision-Date: 2010-05-08 04:59+0100\n"
+"Last-Translator: Miroslav Abrahám <mira.abraham@gmail.com>\n"
+"Language-Team: Miroslav Abrahám <mira.abraham@gmail.com>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=((n==1)?(0):(((n>=2)&&(n<=4))?(1):2));\n"
+"X-Poedit-Language: Czech\n"
+"X-Poedit-Country: CZECH REPUBLIC\n"
+
+#: field_file.inc:165
+msgid "The selected file %name could not be saved."
+msgstr "Vybraný soubor %name nemohl být uložen."
+
+#: field_file.inc:177
+msgid "File upload error. Could not move uploaded file."
+msgstr "Chyba nahrávání souboru. Nebylo možné soubor přemístit."
+
+#: field_file.inc:324
+msgid "The directory %directory is a file and cannot be overwritten."
+msgstr "Složka %directory je soubor a nemůže být přepsán."
+
+#: field_file.inc:333;331
+msgid "The directory %directory does not exist."
+msgstr "Složka %directory neexistuje."
+
+#: field_file.inc:342
+msgid "The directory %directory is not writable"
+msgstr "Složka %directory není zapisovatelná"
+
+#: field_file.inc:355;356
+msgid "Security warning: Couldn't write .htaccess file. Please create a .htaccess file in your %directory directory which contains the following lines:<br /><code>!htaccess</code>"
+msgstr "Bezpečnostní varování: Soubor .htaccess nemohl být uložen. Vytvořte prosím ve složce %directory soubor .htaccess s tímto obsahem:<br /><code>!htaccess</code>"
+
+#: field_file.inc:88 filefield_field.inc:268 filefield_widget.inc:172;178 filefield.module:0
+msgid "filefield"
+msgstr "filefield"
+
+#: field_file.inc:88
+msgid "Could not set permissions on destination file: %file"
+msgstr "Nebylo možné nastavit oprávnění na cílového souboru: %file"
+
+#: field_file.inc:178
+msgid "file"
+msgstr "soubor"
+
+#: field_file.inc:178
+msgid "Upload error. Could not move file %file to destination %destination."
+msgstr "Chyba nahrávání. Nebylo možné přesunout soubor %file do cílové složky %destination."
+
+#: field_file.inc:322;331;340
+msgid "file system"
+msgstr "souborový systém"
+
+#: field_file.inc:322
+msgid "The path %directory was checked as a directory, but it is a file."
+msgstr "Cesta %directory byla označena jako složka, jde však o soubor."
+
+#: field_file.inc:340
+msgid "The directory %directory is not writable, because it does not have the correct permissions set."
+msgstr "Složka %directory není zapisovatelná, protože nemá nastavena správná oprávnění."
+
+#: field_file.inc:356
+msgid "security"
+msgstr "bezpečnost"
+
+#: filefield.token.inc:17
+msgid "File ID"
+msgstr "ID souboru"
+
+#: filefield.token.inc:18
+msgid "File description"
+msgstr "Popis souboru"
+
+#: filefield.token.inc:19
+msgid "File name"
+msgstr "Název souboru"
+
+#: filefield.token.inc:20 filefield_widget.inc:48
+msgid "File path"
+msgstr "Cesta souboru"
+
+#: filefield.token.inc:21
+msgid "File MIME type"
+msgstr "MIME typ souboru"
+
+#: filefield.token.inc:22
+msgid "File size (in bytes)"
+msgstr "Velikost souboru (v bajtech)"
+
+#: filefield.token.inc:23
+msgid "File size (pretty printed)"
+msgstr "Velikost souboru (v pěkném tvaru)"
+
+#: filefield.token.inc:24
+msgid "Fully formatted HTML file tag"
+msgstr "Plně formátovaný HTML tag souboru"
+
+#: filefield.token.inc:25
+msgid "File name without extension"
+msgstr "Název souboru bez přípony"
+
+#: filefield.token.inc:26
+msgid "File extension"
+msgstr "Přípona souboru"
+
+#: filefield_field.inc:19
+msgid "List field"
+msgstr "V seznamu"
+
+#: filefield_field.inc:20;34
+msgid "Disabled"
+msgstr "Zakázaný"
+
+#: filefield_field.inc:20;34
+msgid "Enabled"
+msgstr "Povolený"
+
+#: filefield_field.inc:22
+msgid "The \"list\" option lets a user choose if a file should be shown in a list when viewing the content after creation."
+msgstr "Možnost \"seznam\" umožňuje uživateli zvolit, jestli bude soubor zobrazený v seznamu při prohlížení obsahu po jeho vytvoření."
+
+#: filefield_field.inc:27
+msgid "Files listed by default"
+msgstr "Standardně uvedené soubory"
+
+#: filefield_field.inc:32
+msgid "Description field"
+msgstr "Pole popisu"
+
+#: filefield_field.inc:35
+msgid "When enabled, will display a text field where users may enter a description about the uploaded file."
+msgstr "Pokud je tato možnost povolena, bude zobrazeno textové pole, kam uživatel může vložit popis k nahrávanému souboru."
+
+#: filefield_field.inc:268
+msgid "FileField was trying to display the file %file, but it does not exist."
+msgstr "FileField se pokusil zobrazit soubor %file, ten však neexistuje."
+
+#: filefield_widget.inc:19
+msgid "Permitted upload file extensions"
+msgstr "Povolené přípony nahrávaného souboru"
+
+#: filefield_widget.inc:22
+msgid "Extensions a user can upload to this field. Separate extensions with a space and do not include the leading dot. Leaving this blank will allow users to upload a file with any extension."
+msgstr "Soubory s příponou, které může uživatel do tohoto pole nahrát. Oddělte přípony mezerou a neuvádějte tečku na začátku. Pokud pole necháte prázdné, uživatelé budou moci nahrát soubory s libovolnou příponou."
+
+#: filefield_widget.inc:28
+msgid "Progress indicator"
+msgstr "Ukazatel průběhu"
+
+#: filefield_widget.inc:30
+msgid "Bar with progress meter"
+msgstr "Sloupec s ukazatelem průběhu"
+
+#: filefield_widget.inc:31
+msgid "Throbber"
+msgstr "Pulzér"
+
+#: filefield_widget.inc:34
+msgid "Your server supports upload progress capabilities. The \"throbber\" display does not indicate progress but takes up less room on the form, you may want to use it if you'll only be uploading small files or if experiencing problems with the progress bar."
+msgstr "Váš server podporuje ukazatel průběhu nahrávání. \"Pulzér\" neukazuje průběh nahrávání, zato zabírá ve formuláři méně místa. Je možné jej použít, pokud budete nahrávat pouze malé soubory nebo pokud máte problémy se sloupcovým ukazatelem průběhu nahrávání."
+
+#: filefield_widget.inc:41
+msgid "Path settings"
+msgstr "Nastavení cesty"
+
+#: filefield_widget.inc:50
+msgid "Optional subdirectory within the \"%directory\" directory where files will be stored. Do not include preceding or trailing slashes."
+msgstr "Volitelná podsložka uvnitř složky \"%directory\", kde budou soubory uloženy. Neuvádějte počáteční ani koncová lomítka."
+
+#: filefield_widget.inc:57
+msgid "File size restrictions"
+msgstr "Omezení velikosti souboru"
+
+#: filefield_widget.inc:58
+msgid "Limits for the size of files that a user can upload. Note that these settings only apply to newly uploaded files, whereas existing files are not affected."
+msgstr "Omezuje velikost souborů, které může uživatel nahrát. Tato nastavení se týkají pouze nově nahraných souborů; existující soubory nebudou ovlivněny."
+
+#: filefield_widget.inc:65;108
+msgid "Maximum upload size per file"
+msgstr "Maximální velikost nahraných dat na soubor"
+
+#: filefield_widget.inc:69
+msgid "Specify the size limit that applies to each file separately. Enter a value like \"512\" (bytes), \"80K\" (kilobytes) or \"50M\" (megabytes) in order to restrict the allowed file size. If you leave this empty the file sizes will be limited only by PHP's maximum post and file upload sizes (current limit <strong>%limit</strong>)."
+msgstr "Specifikujte omezení velikosti, které bude vztaženo na každý nahraný soubor. Aby bylo možné omezit velikost, vložte hodnoty jako \"512\" (bajty), \"80K\" (kilobajty) or \"50M\" (megabajty). Pokud necháte toto pole prázdné, velikosti nahrávaných souborů budou omezeny pouze nastavením maximálního objemu odeslaných dat (max_post_size) a nahrávaných souborů (upload_max_filesize) v PHP (aktuální omezení <strong>%limit</strong>)."
+
+#: filefield_widget.inc:74;117
+msgid "Maximum upload size per node"
+msgstr "Maximální velikost nahraných dat na uzel"
+
+#: filefield_widget.inc:78
+msgid "Specify the total size limit for all files in field on a given node. Enter a value like \"512\" (bytes), \"80K\" (kilobytes) or \"50M\" (megabytes) in order to restrict the total size of a node. Leave this empty if there should be no size restriction."
+msgstr "Specifikujte omezení celkové velikosti všech souborů na uzel. Aby bylo možné omezit celkovou velikost uzlu, vložte hodnoty jako \"512\" (bajty), \"80K\" (kilobbajty) or \"50M\" (megabajty). Pokud nemají být omezení nastavena, ponechejte toto pole prázdné."
+
+#: filefield_widget.inc:99
+msgid "The file path (@file_path) cannot start with the system files directory (@files_directory), as this may cause conflicts when building file URLs."
+msgstr "Cesta k souboru (@file_path) nemůže začínat systémovou složkou souborů (@files_directory), protože by to mohlo způsobit konflikty při vytváření URL adres souboru."
+
+#: filefield_widget.inc:108;117
+msgid "The \"@field\" option must contain a valid value. You can either leave the text field empty or enter a string like \"512\" (bytes), \"80K\" (kilobytes) or \"50M\" (megabytes)."
+msgstr "Možnost \"@field\" musí obsahovat platnou hodnotu. Buď můžete ponechat textové pole prázdné, nebo můžete vložit text jako \"512\" (bajty), \"80K\" (kilobajty) or \"50M\" (megabajty)."
+
+#: filefield_widget.inc:173
+msgid "The file could not be uploaded."
+msgstr "Soubor nemohl být nahrán."
+
+#: filefield_widget.inc:179
+msgid "The file in the @field field was unable to be uploaded."
+msgstr "Soubor v poli @field nemohl být nahrán."
+
+#: filefield_widget.inc:256
+msgid "Upload"
+msgstr "Nahrát"
+
+#: filefield_widget.inc:278
+msgid "Remove"
+msgstr "Odstranit"
+
+#: filefield_widget.inc:362
+msgid "Description"
+msgstr "Popis"
+
+#: filefield_widget.inc:372
+msgid "List"
+msgstr "Seznam"
+
+#: filefield_widget.inc:424
+msgid "Referencing to the file used in the %field field is not allowed."
+msgstr "Odkazování na soubor uvedený v poli %field není povoleno."
+
+#: filefield_widget.inc:429
+msgid "The file referenced by the %field field does not exist."
+msgstr "Soubor, na který je odkazováno v poli %field, neexistuje."
+
+#: filefield_widget.inc:526
+msgid "%title field is required."
+msgstr "Pole %title je vyžadováno."
+
+#: filefield_widget.inc:530
+msgid "Total filesize for %title, %tsize,  exceeds field settings of %msize."
+msgstr "Celková velikost souboru %title, %tsize překračuje nastavení pole, které je %msize."
+
+#: filefield_widget.inc:172
+msgid "The upload directory %directory for the file field %field (content type %type) could not be created or is not accessible. A newly uploaded file could not be saved in this directory as a consequence, and the upload was canceled."
+msgstr "Cílová složka %directory určená k nahrávání uvedená v poli %field (typ obsahu %type) nemohla být vytvořena nebo není přístupná. Z toho důvodu nebude možné do této složky uložit nově nahrávané soubory a nahrávání bude přerušeno."
+
+#: filefield_widget.inc:178
+msgid "The file upload failed. %upload"
+msgstr "Nahrávání souboru selhalo. %upload"
+
+#: filefield.module:241
+msgid "Store an arbitrary file."
+msgstr "Uložte libovolný soubor."
+
+#: filefield.module:386
+msgid "File Upload"
+msgstr "Nahrání souboru"
+
+#: filefield.module:390
+msgid "A plain file upload widget."
+msgstr "Pomůcka pro nahrávání jednoduchých souborů."
+
+#: filefield.module:401
+msgid "Generic files"
+msgstr "Generické soubory"
+
+#: filefield.module:404
+msgid "Displays all kinds of files with an icon and a linked file description."
+msgstr "Zobrazuje všechny typy souborů pomocí ikony a příslušného popisu souboru."
+
+#: filefield.module:407
+msgid "Path to file"
+msgstr "Cesta k souboru"
+
+#: filefield.module:409
+msgid "Displays the file system path to the file."
+msgstr "Zobrazuje systémovou cestu k souboru."
+
+#: filefield.module:412
+msgid "URL to file"
+msgstr "URL k souboru"
+
+#: filefield.module:414
+msgid "Displays a full URL to the file."
+msgstr "Zobrazuje úplnou cestu k souboru."
+
+#: filefield.module:484
+msgid "An unrecoverable error occurred. The uploaded file likely exceeded the maximum file size (@size) that this server supports."
+msgstr "Objevila se neodstranitelná chyba. Nahrávaný soubor nejspíš překročil maximální velikost souboru (@size), jakou server povoluje nahrát."
+
+#: filefield.module:496
+msgid "An unrecoverable error occurred. This form was missing from the server cache. Try reloading the page and submitting again."
+msgstr "Objevila se neodstranitelná chyba. Tento formulář nebyl dostupný ve vyrovnávací paměti serveru. Zkuste znovu načíst stránku a uložte ji ještě jednou."
+
+#: filefield.module:567
+msgid "Starting upload..."
+msgstr "Začínám nahrávání..."
+
+#: filefield.module:575;582
+msgid "Uploading... (@current of @total)"
+msgstr "Nahrávání... (@current z @total)"
+
+#: filefield.module:651
+msgid "The file contents (@type) do not match its extension (@extension)."
+msgstr "Typ souboru (@type) neodpovídá jeho příponě (@extension)."
+
+#: filefield.module:656
+msgid "Only files with the following extensions are allowed: %files-allowed."
+msgstr "Povoleny jsou pouze soubory s následujícími příponami: %files-allowed."
+
+#: filefield.module:668
+msgid "Allowed Extensions: %ext"
+msgstr "Povolené přípony: %ext"
+
+#: filefield.module:694
+msgid "The file is %filesize exceeding the maximum file size of %maxsize."
+msgstr "Velikost tohoto souboru je %filesize, což překračuje maximální velikost souboru %maxsize."
+
+#: filefield.module:701
+msgid "The file is %filesize which would exceed your disk quota of %quota."
+msgstr "Velikost tohoto souboru je %filesize, což by vedlo k překročení vaší diskové kvóty %quota."
+
+#: filefield.module:711
+msgid "Maximum Filesize: %size"
+msgstr "Maximální velikost souboru: %size"
+
+#: filefield.module:742
+msgid "The image must be exactly %dimensions pixels."
+msgstr "Obrázek musí mít rozměry přesně %dimensions pixelů."
+
+#: filefield.module:746
+msgid "The image will not fit between the dimensions of %min_dimensions and %max_dimensions pixels."
+msgstr "Obrázek se nevejde mezi rozměry %min_dimensions a %max_dimensions pixelů."
+
+#: filefield.module:750
+msgid "The image was resized to fit within the maximum allowed dimensions of %dimensions pixels."
+msgstr "Obrázek byl zmenšen, aby se vešel do povolených rozměrů o velikosti %dimensions pixelů."
+
+#: filefield.module:758
+msgid "The image is too large; the maximum dimensions are %dimensions pixels."
+msgstr "Obrázek je příliš velký; maximální rozměry jsou %dimensions pixelů."
+
+#: filefield.module:766
+msgid "The image is too small; the minimum dimensions are %dimensions pixels."
+msgstr "Obrázek je příliš malý; minimální rozměry jsou %dimensions pixelů."
+
+#: filefield.module:781
+msgid "Images must be exactly @min_size pixels"
+msgstr "Obrázky musí mít rozměry přesně %dimensions pixelů"
+
+#: filefield.module:784
+msgid "Images must be between @min_size pixels and @max_size"
+msgstr "Obrázky musí mít rozměry mezi @min_size pixelů a @max_size"
+
+#: filefield.module:789
+msgid "Images larger than @max_size pixels will be scaled"
+msgstr "Obrázky větší než @max_size pixelů budou zmenšeny"
+
+#: filefield.module:792
+msgid "Images must be smaller than @max_size pixels"
+msgstr "Obrázky musí být menší než @max_size pixelů"
+
+#: filefield.module:797
+msgid "Images must be larger than @max_size pixels"
+msgstr "Obrázky musí být větší než @max_size pixelů"
+
+#: filefield.module:821
+msgid "The file is not a known image format."
+msgstr "Soubor má neznámý obrázkový formát."
+
+#: filefield.install:73
+msgid "Your server is capable of displaying file upload progress, but does not have the required libraries. It is recommended to install the <a href=\"http://pecl.php.net/package/uploadprogress\">PECL uploadprogress library</a> (preferred) or to install <a href=\"http://us2.php.net/apc\">APC</a>."
+msgstr "Váš server umožňuje zobrazení ukazatele průběhu nahrávání, ale nemá k dispozici potřebné knihovny. Je doporučeno nainstalovat <a href=\"http://pecl.php.net/package/uploadprogress\">knihovnu PECL uploadprogress</a> (preferovaná) nebo nainstalovat <a href=\"http://us2.php.net/apc\">APC</a>."
+
+#: filefield.install:78
+msgid "Your server is capable of displaying file upload progress using APC RFC1867. Note that only one upload at a time is supported. It is recommended to use the <a href=\"http://pecl.php.net/package/uploadprogress\">PECL uploadprogress library</a> if possible."
+msgstr "Váš server umožňuje zobrazení ukazatele průběhu nahrávání díky APC RFC1867. V tomto případě je však možné nahrávat současně pouze jeden soubor. Je-li to možné, doporučuje se použít <a href=\"http://pecl.php.net/package/uploadprogress\">knihovnu PECL uploadprogress</a>."
+
+#: filefield.install:176
+msgid "Migrating filefield values"
+msgstr "Přesouvám hodnoty pole souboru"
+
+#: filefield.install:213
+msgid "The File field %field has been updated with new settings."
+msgstr "Do FileField pole %field byly uloženy nové hodnoty nastavení."
+
+#: (duplicate) filefield.install:62 ;67 ;72 
+msgid "Not enabled"
+msgstr "Nepovoleno"
+
+#: (duplicate) filefield.install:63 
+msgid "Your server is not capable of displaying file upload progress. File upload progress requires PHP 5.2 and an Apache server."
+msgstr "Váš server není schopen zobrazit ukazatel průběhu nahrávání souboru. Ukazatel vyžaduje PHP 5.2 a Apache server."
+
+#: (duplicate) filefield.install:68 
+msgid "Your server is capable of displaying file upload progress through APC, but it is not enabled. Add <code>apc.rfc1867 = 1</code> to your php.ini configuration. Alternatively, it is recommended to use <a href=\"http://pecl.php.net/package/uploadprogress\">PECL uploadprogress</a>, which supports more than one simultaneous upload."
+msgstr "Váš server je schopen zobrazit ukazatel průběhu nahrávání souboru prostřednictvím APC, to ovšem není povoleno. Vložte <code>apc.rfc1867 = 1</code> do souboru nastavení php.ini. Je však doporučeno použít knihovnu <a href=\"http://pecl.php.net/package/uploadprogress\">PECL uploadprogress</a>, která podporuje více než jedno současné nahrávání."
+
+#: (duplicate) filefield.install:77 
+msgid "Enabled (<a href=\"http://php.net/manual/en/apc.configuration.php#ini.apc.rfc1867\">APC RFC1867</a>)"
+msgstr "Povoleno (<a href=\"http://php.net/manual/en/apc.configuration.php#ini.apc.rfc1867\">APC RFC1867</a>)"
+
+#: (duplicate) filefield.install:82 
+msgid "Enabled (<a href=\"http://pecl.php.net/package/uploadprogress\">PECL uploadprogress</a>)"
+msgstr "Povoleno (<a href=\"http://pecl.php.net/package/uploadprogress\">PECL uploadprogress</a>)"
+
+#: (duplicate) filefield.install:86 
+msgid "Upload progress"
+msgstr "Ukazatel průběhu nahrávání"
+
+#: filefield.info:0
+msgid "FileField"
+msgstr "FileField"
+
+#: filefield.info:0
+msgid "Defines a file field type."
+msgstr "Definuje typ pole souboru."
+
+#: filefield.info:0 filefield_meta/filefield_meta.info:0
+msgid "CCK"
+msgstr "CCK"
+
+#: filefield.js:0
+msgid "The selected file %filename cannot be uploaded. Only files with the following extensions are allowed: %extensions."
+msgstr "Vybraný soubor %filename nemůže být nahrán. Povolené jsou pouze soubory s následujícími příponami: %extensions."

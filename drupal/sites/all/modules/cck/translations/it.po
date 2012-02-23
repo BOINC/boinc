@@ -1,0 +1,846 @@
+# $Id: it.po,v 1.1.2.2 2008/10/06 15:11:40 karens Exp $
+#
+# LANGUAGE translation of Drupal (general)
+# Copyright YEAR NAME <EMAIL@ADDRESS>
+# Generated from files:
+# field.php,v 1.7.2.8 2007/03/01 00:20:35 yched
+# text.module,v 1.41.2.12 2007/03/12 00:50:34 yched
+# number.module,v 1.34.2.20 2007/03/01 04:51:54 yched
+# content_admin.inc,v 1.28.2.35 2007/04/09 14:12:47 yched
+# fieldgroup.module,v 1.1.4.31 2007/03/27 12:27:42 fago
+# content_copy.module,v 1.1.2.7 2007/03/11 23:39:49 yched
+# content.module,v 1.90.2.39 2007/03/11 23:39:49 yched
+# content_crud.inc,v 1.4.2.11 2007/01/26 12:34:56 karens
+# content_views.inc,v 1.2.2.14 2007/04/09 14:12:47 yched
+# nodereference.module,v 1.39.2.17 2007/03/05 21:58:47 yched
+# userreference.module,v 1.30.2.16 2007/03/05 21:58:47 yched
+# optionwidgets.module,v 1.10.2.8 2007/03/29 12:52:13 yched
+# optionwidgets.install,v 1.1.4.5 2007/01/25 17:23:26 yched
+# content.info,v 1.2.2.2 2007/01/05 11:57:46 yched
+# content_copy.info,v 1.1.2.4 2007/01/08 13:29:21 karens
+# fieldgroup.info,v 1.1.2.2 2007/01/05 11:57:46 yched
+# nodereference.info,v 1.2.2.2 2007/01/05 11:57:46 yched
+# number.info,v 1.2.2.2 2007/01/05 11:57:46 yched
+# optionwidgets.info,v 1.2.2.2 2007/01/05 11:57:46 yched
+# text.info,v 1.2.2.2 2007/01/05 11:57:46 yched
+# userreference.info,v 1.2.2.2 2007/01/05 11:57:46 yched
+#
+msgid ""
+""
+msgstr "Project-Id-Version: PROJECT VERSION\n"
+"POT-Creation-Date: 2007-07-08 16:34+0200\n"
+"PO-Revision-Date: 2007-07-09 16:36+0100\n"
+"Last-Translator: Alberto G. <alby115@tiscali.it>\n"
+"Language-Team: Italian <EMAIL@ADDRESS>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1)\n"
+
+#: field.php:106
+#: text.module:34
+msgid "Maximum length"
+msgstr "Lunghezza massima"
+
+#: field.php:109
+#: text.module:37
+msgid "The maximum length of the field in characters. Leave blank for an unlimited size."
+msgstr "Numero massimo di caratteri del campo. Lascialo vuoto per mantenerlo illimitato."
+
+#: field.php:217
+#: number.module:144
+#: text.module:118
+msgid "Illegal value for %name."
+msgstr "Parametro %name non corretto."
+
+#: field.php:352
+#: text.module:213
+msgid "Rows"
+msgstr "Righe"
+
+#: field.php:360
+#: text.module:221
+msgid "\"Rows\" must be a positive integer."
+msgstr "\"Righe\" deve essere un intero positivo."
+
+#: content_admin.inc:15
+msgid "Field name"
+msgstr "Nome del campo"
+
+#: content_admin.inc:15
+msgid "Field type"
+msgstr "Tipo di campo"
+
+#: content_admin.inc:15
+msgid "Used in"
+msgstr "Usato in"
+
+#: content_admin.inc:68
+msgid "There are no groups configured for this content type."
+msgstr "Non ci sono gruppi impostati per questo tipo di contenuto."
+
+#: content_admin.inc:78
+msgid "There are no fields configured for this content type."
+msgstr "Non ci sono campi impostati per questo tipo di contenuto."
+
+#: content_admin.inc:103
+msgid "group"
+msgstr "gruppo"
+
+#: content_admin.inc:106
+msgid "configure"
+msgstr "configura"
+
+#: content_admin.inc:107
+msgid "remove"
+msgstr "rimuovi"
+
+#: content_admin.inc:158
+msgid "body"
+msgstr "corpo"
+
+#: content_admin.inc:179
+msgid "Update"
+msgstr "Aggiorna"
+
+#: content_admin.inc:203
+#: fieldgroup.module:84
+msgid "Label"
+msgstr "Etichetta"
+
+#: content_admin.inc:203
+msgid "Name"
+msgstr "Nome"
+
+#: content_admin.inc:203
+msgid "Type"
+msgstr "Tipo"
+
+#: content_admin.inc:203
+msgid "Weight"
+msgstr "Peso"
+
+#: content_admin.inc:203
+#: fieldgroup.module:512
+msgid "Group"
+msgstr "Gruppo"
+
+#: content_admin.inc:203
+msgid "Operations"
+msgstr "Operazioni"
+
+#: content_admin.inc:271
+msgid "No fields have been added to this group."
+msgstr "Nessun campo è stato aggiunto a questo gruppo."
+
+#: content_admin.inc:276
+msgid "!label (!name)"
+msgstr "!label (!nome)"
+
+#: content_admin.inc:311
+msgid "Updated field groups."
+msgstr "Il campo dei gruppi è stato aggiornato."
+
+#: content_admin.inc:322
+msgid "Updated group weights."
+msgstr "I pesi del gruppo sono stati aggiornati."
+
+#: content_admin.inc:333
+msgid "Updated field weights."
+msgstr "I pesi del campo sono stati aggiornati."
+
+#: content_admin.inc:362
+#: content_copy.module:158
+#: fieldgroup.module:335
+msgid "Submit"
+msgstr "Inoltra"
+
+#: content_admin.inc:367
+msgid "Field"
+msgstr "Campo"
+
+#: content_admin.inc:402
+msgid "Your settings have been saved."
+msgstr "Le tue impostazioni sono state salvate."
+
+#: content_admin.inc:412
+#: fieldgroup.module:479
+msgid "<Hidden>"
+msgstr "<Nascosto>"
+
+#: content_admin.inc:415
+#: fieldgroup.module:478
+msgid "Above"
+msgstr "Sopra"
+
+#: content_admin.inc:416
+msgid "Inline"
+msgstr "Inlinea"
+
+#: content_admin.inc:442
+msgid "Teaser"
+msgstr "Anteprima"
+
+#: content_admin.inc:443
+msgid "Full"
+msgstr "Pieno"
+
+#: content_admin.inc:474
+msgid "Add existing field"
+msgstr "Aggiungi un campo esistente"
+
+#: content_admin.inc:483
+#: content.module:108
+msgid "Add field"
+msgstr "Aggiungi campo"
+
+#: content_admin.inc:509
+msgid "Create new field"
+msgstr "Crea un nuovo campo"
+
+#: content_admin.inc:515
+msgid "The machine-readable name of the field.<br/>Allowed characters : unaccentuated a-z, numbers and _. All other characters will be discarded.<br/>You'll be able to choose a human-readable label for the field on next page"
+msgstr "Il nome del campo leggibile dal calcolatore.<br/>Caratteri ammessi : a-z senza accenti, numeri e _. Tutti gli altri caratteri verranno scartati.<br/>Potrai scegliere una etichetta leggibile dall'utente nella prossima pagina."
+
+#: content_admin.inc:528
+msgid "Create field"
+msgstr "Crea campo"
+
+#: content_admin.inc:540
+msgid "No field modules are enabled. You need to <a href=\"!modules_url\">enable one</a>, such as text.module, before you can add new fields."
+msgstr "Non ci sono moduli di campo abilitati. Devi <a href=\"!modules_url\">abilitarne uno</a>, come il text.module, prima di poter aggiungere nuovi campi."
+
+#: content_admin.inc:596
+msgid "Added field %label."
+msgstr "Aggiunto il campo %label"
+
+#: content_admin.inc:608
+msgid "The field name %field_name already exists."
+msgstr "Il nome del campo %field_name esiste già."
+
+#: content_admin.inc:612
+msgid "The field name %field_name is invalid."
+msgstr "Il nome del campo %field_name non è valido."
+
+#: content_admin.inc:663
+msgid "Created field %label."
+msgstr "Il campo %label è stato creato"
+
+#: content_admin.inc:685
+msgid "Are you sure you want to remove the field %field?"
+msgstr "Sei sicuro di voler eliminare il campo %field?"
+
+#: content_admin.inc:687
+msgid "If you have any content left in this field, it will be lost. This action cannot be undone."
+msgstr "Se hai lasciato dei dati in questo campo, li perderai. Questa azione non può essere annullata."
+
+#: content_admin.inc:688
+#: fieldgroup.module:216
+msgid "Remove"
+msgstr "Elimina"
+
+#: content_admin.inc:688
+#: fieldgroup.module:216
+msgid "Cancel"
+msgstr "Cancella"
+
+#: content_admin.inc:706
+msgid "Removed field %field from %type."
+msgstr "Elimina il campo %field da %$type."
+
+#: content_admin.inc:729
+msgid "Widget settings"
+msgstr "Impostazioni widget"
+
+#: content_admin.inc:730
+msgid "These settings apply only to the %field field as it appears in the %type content type."
+msgstr "Queste impostazioni sono applicate solo al campo %field in quanto appartiene al tipo di contenuto %type."
+
+#: content_admin.inc:744
+msgid "Widget"
+msgstr "Widget"
+
+#: content_admin.inc:765
+#: fieldgroup.module:106
+msgid "Help text"
+msgstr "Testo di aiuto"
+
+#: content_admin.inc:768
+msgid "Instructions to present to the user below this field on the editing form."
+msgstr "Istruzioni da presentare all'utente sotto questo campo nel form di editing"
+
+#: content_admin.inc:777
+msgid "Default value"
+msgstr "Valore di default"
+
+#: content_admin.inc:800
+#: number.module:65
+#: text.module:49
+msgid "Php code"
+msgstr "Codice PHP"
+
+#: content_admin.inc:812
+#: number.module:71
+#: text.module:55
+msgid "Code"
+msgstr "Codice"
+
+#: content_admin.inc:816
+msgid "Advanced Usage Only: PHP code that returns a default value. Should not include &lt;?php ?&gt; delimiters.<br/>If this field is filled out, the value returned by this code will override any value in the textfield above.<br/>Expected format : @sample."
+msgstr "Esclusivo per l'uso avanzato: il codice PHP che restituisce un valore di default non dovrebbe includere i delimitatori &lt;?php ?&gt;.<br/>Se questo campo venisse riempito, il valore restituito dal codice sovrascriverà tutti i valori inseriti nei campi di testo precedenti.<br/> Formattazione attesa : @sample"
+
+#: content_admin.inc:822
+msgid "Data settings"
+msgstr "Impostazioni della data"
+
+#: content_admin.inc:823
+msgid "These settings apply to the %field field in every content type in which it appears."
+msgstr "Queste impostazioni verranno applicate al campo %field in ogni tipo di contenuto in cui esso appare."
+
+#: content_admin.inc:827
+msgid "Required"
+msgstr "Richiesto"
+
+#: content_admin.inc:832
+msgid "Multiple values"
+msgstr "Valori multipli"
+
+#: content_admin.inc:843
+msgid "Save field settings"
+msgstr "Salva le impostazioni del campo"
+
+#: content_admin.inc:903
+msgid "The default value php code returned an incorrect value<br/>Expected format : @sample<br/>Returned value : @value"
+msgstr "Il codice PHP per il valore di default ha restituito un valore errato<br/>Formato atteso : @sample<br/>Valore restituito : @value"
+
+#: content_admin.inc:941
+msgid "The default value php code created @value which is invalid."
+msgstr "Il codice PHP per il valore di default ha creato @value che non è valido."
+
+#: content_admin.inc:944
+msgid "The default value is invalid."
+msgstr "Il valore di default è invalido."
+
+#: content_admin.inc:1001
+msgid "Saved field %field."
+msgstr "Il campo %field è stato salvato."
+
+#: content_admin.inc:1292
+msgid "No PostgreSQL mapping found for %type data type."
+msgstr "Non è stato trovato alcun mapping PostgreSQL per il tipo di dato %type."
+
+#: content_admin.inc:1292
+msgid "database"
+msgstr "database"
+
+#: content_crud.inc:59
+msgid "The content fields table %name has been created."
+msgstr "La tabella dei contenuti dei campi %name è stata creata."
+
+#: content_crud.inc:89
+msgid "Content fields table %old_name has been renamed to %new_name and field instances have been updated."
+msgstr "La tabella dei contenuti dei campi %old_name è stata rinominata in %new_name e le istanze dei campi sono state aggiornate."
+
+#: content_crud.inc:111
+msgid "The content fields table %name has been deleted."
+msgstr "La tabella dei contenuti dei campi %name è stata eliminata."
+
+#: content_views.inc:70
+msgid "Group multiple values"
+msgstr "Raggruppa i valori multipli"
+
+#: content_views.inc:71
+msgid "Do not group multiple values"
+msgstr "Non raggruppare i valori multipli."
+
+#: content.module:18
+msgid "Configure how this content type's fields and field labels should be displayed when it's viewed in teaser and full-page mode."
+msgstr "Imposta come il tipo di contenuto del campo e la sua etichetta vengono visualizzati quando sono visualizzati nell'anteprima e a pagina piena."
+
+#: content.module:67
+#: content_copy.module:129
+msgid "Fields"
+msgstr "Campi"
+
+#: content.module:83
+msgid "Edit"
+msgstr "Modifica"
+
+#: content.module:90
+msgid "Manage fields"
+msgstr "Gestisci campi"
+
+#: content.module:99
+msgid "Display fields"
+msgstr "Visualizza campi"
+
+#: content.module:127
+msgid "Remove field"
+msgstr "Rimuovi campi"
+
+#: content.module:0
+msgid "content"
+msgstr "contenuto"
+
+#: content_copy.module:35
+msgid "Export"
+msgstr "Esporta"
+
+#: content_copy.module:44
+msgid "Import"
+msgstr "Importa"
+
+#: content_copy.module:81
+msgid "This form will process a content type and one or more fields from that type and export the settings. The export created by this process can be copied and pasted as an import into the current or any other database. The import will add the fields to into an existing content type or create a new content type that includes the selected fields."
+msgstr "Questo modulo analizzerà un tipo di contenuto ed uno o più campi dello stesso tipo esportandone le impostazioni. L'esportazione così creata può essere copiata ed incollata, come importazione, nel database corrente o in qualsiasi altro. L'importazione aggiungerà i campi in un tipo di contenuto esistente oppure creerà un nuovo tipo di contenuto includente i campi selezionati."
+
+#: content_copy.module:90
+msgid "Types"
+msgstr "Tipi"
+
+#: content_copy.module:94
+msgid "Select the content type to export."
+msgstr "Seleziona il tipo di contenuto da esportare."
+
+#: content_copy.module:119
+msgid "Groups"
+msgstr "Gruppi"
+
+#: content_copy.module:123
+msgid "Select the group definitions to export from %type."
+msgstr "Seleziona le definizioni del gruppo da esportare da %type."
+
+#: content_copy.module:133
+msgid "Select the field definitions to export from %type."
+msgstr "Seleziona le definizioni del campo da esportare da %type."
+
+#: content_copy.module:143
+msgid "Export data"
+msgstr "Esporta dati"
+
+#: content_copy.module:148
+msgid "Copy the export text and paste it into another content type using the import function."
+msgstr "Copia il testo esportato ed incollalo in un altro tipo di contenuto usanto la funzione importa."
+
+#: content_copy.module:214
+msgid "This form will import field definitions exported from another content type or another database.<br/>Note that fields cannot be duplicated within the same content type, so imported fields will be added only if they do not already exist in the selected type."
+msgstr "Questo modulo importerà le definizioni del campo esportate da un altro tipo di contenuto o da un altro database.<br/>Ricorda che i campi non possono essere duplicati con lo stesso tipo di contenuto, quindi i campi importati verranno aggiunti solo se non esistenti nel tipo selezionato."
+
+#: content_copy.module:217
+msgid "<Create>"
+msgstr "<Crea>"
+
+#: content_copy.module:219
+msgid "Content type"
+msgstr "Tipo di contenuto"
+
+#: content_copy.module:220
+msgid "Select the content type to import these fields into.<br/>Select <Create> to create a new content type to contain the fields."
+msgstr "Seleziona il tipo di contenuto nel quale importare i campi.<br/>Seleziona <Crea> per creare un nuovo tipo di contenuto per i campi."
+
+#: content_copy.module:225
+msgid "Import data"
+msgstr "Importa dati"
+
+#: content_copy.module:227
+msgid "Paste the text created by a content export into this field."
+msgstr "Incolla il testo esportato da un contenuto in questo campo."
+
+#: content_copy.module:255
+msgid "The import data is not valid import text."
+msgstr "I dati dell'importazione non sono validi."
+
+#: content_copy.module:300
+msgid "The following modules must be enabled for this import to work: %modules."
+msgstr "I seguenti moduli devono essere abilitati per permettere l'importazione: %modules."
+
+#: content_copy.module:306
+msgid "<create>"
+msgstr "<crea>"
+
+#: content_copy.module:308
+msgid "The content type %type already exists in this database."
+msgstr "Il tipo di contenuto %type esiste già in questo database."
+
+#: content_copy.module:315
+msgid "Exiting. No import performed."
+msgstr "Chiusura in corso. Nessun dato importato."
+
+#: content_copy.module:332
+msgid "An error has occured adding the content type %type.<br/>Please check the errors displayed for more details."
+msgstr "Errore nell'aggiunta del tipo di contenuto %type.<br/>Controlla gli errori mostrati per maggiori informazioni."
+
+#: content_copy.module:367
+msgid "The imported field %field_label (%field_name) was not added to %type because that field already exists in %type."
+msgstr "Il campo %field_label importato non è stato aggiunto a %type perché è già presente."
+
+#: content_copy.module:388
+msgid "An error has occured adding the field %field_label (%field_name).<br/>Please check the errors displayed for more details."
+msgstr "Errore nell'aggiunta del campo %field_label (%field_name).<br/>Controlla gli errori mostrati per maggiori informazioni."
+
+#: content_copy.module:421
+msgid "The field %field_label (%field_name) was added to the content type %type, but an error has occured updating the field settings.<br/>Please check the errors displayed for more details."
+msgstr "Il campo %field_label (%field_name) è stato aggiunto al tipo di contenuto %type, ma c'è stato un errore aggiornando le impostazioni del campo.<br/>Controlla gli errori mostrati per maggiori informazioni."
+
+#: content_copy.module:0
+msgid "content_copy"
+msgstr "copia_contenuto"
+
+#: fieldgroup.module:18
+msgid "Add group"
+msgstr "Aggiungi gruppo"
+
+#: fieldgroup.module:28
+msgid "Edit group"
+msgstr "Modifica gruppo"
+
+#: fieldgroup.module:66
+msgid "Add"
+msgstr "Aggiungi"
+
+#: fieldgroup.module:73
+msgid "Save"
+msgstr "Salva"
+
+#: fieldgroup.module:92
+msgid "These settings apply to the group in the node editing form"
+msgstr "Queste impostazioni sono applicate al gruppo nella scheda di modifica dei nodi."
+
+#: fieldgroup.module:96
+msgid "style"
+msgstr "stile"
+
+#: fieldgroup.module:99
+msgid "always open"
+msgstr "sempre aperto"
+
+#: fieldgroup.module:100
+msgid "collapsible"
+msgstr "espandibile"
+
+#: fieldgroup.module:101
+msgid "collapsed"
+msgstr "espanso"
+
+#: fieldgroup.module:109
+msgid "Instructions to present to the user on the editing form."
+msgstr "Istruzioni da mostrare all'utente nella scheda di modifica."
+
+#: fieldgroup.module:115
+msgid "These settings apply to the group on node display."
+msgstr "Queste impostazioni sono applicate al gruppo nel visualizza nodi."
+
+#: fieldgroup.module:119
+msgid "Description"
+msgstr "Descrizione"
+
+#: fieldgroup.module:122
+msgid "A description of the group."
+msgstr "Descrizione del gruppo."
+
+#: fieldgroup.module:144
+msgid "The group name %name already exists."
+msgstr "Il nome del gruppo %name esiste già."
+
+#: fieldgroup.module:148
+msgid "The group name %name is invalid."
+msgstr "Il nome del gruppo %name non è valido."
+
+#: fieldgroup.module:213
+msgid "Are you sure you want to remove the group %label?"
+msgstr "Sei sicuro di voler rimuovere il gruppo %label?"
+
+#: fieldgroup.module:215
+msgid "This action cannot be undone."
+msgstr "Questa azione non può essere annullata."
+
+#: fieldgroup.module:277
+msgid "No group"
+msgstr "Nessun gruppo"
+
+#: fieldgroup.module:320
+msgid "Display in group"
+msgstr "Visualizza in gruppi"
+
+#: fieldgroup.module:323
+msgid "Select a group, in which the field will be displayed on the editing form."
+msgstr "Seleziona un gruppo, del quale verrà mostrato il campo nella scheda di modifica."
+
+#: fieldgroup.module:482
+msgid "no styling"
+msgstr "nessuno stile"
+
+#: fieldgroup.module:483
+msgid "simple"
+msgstr "semplice"
+
+#: fieldgroup.module:484
+msgid "fieldset"
+msgstr "impostacampo"
+
+#: fieldgroup.module:485
+msgid "fieldset - collapsible"
+msgstr "impostacampo - espandibile"
+
+#: fieldgroup.module:486
+msgid "fieldset - collapsed"
+msgstr "impostacampo - espanso"
+
+#: fieldgroup.module:0
+msgid "fieldgroup"
+msgstr "gruppocampo"
+
+#: nodereference.module:17
+msgid "node reference autocomplete"
+msgstr "autocompletamento referenza nodo"
+
+#: nodereference.module:42
+msgid "Content types that can be referenced"
+msgstr "Tipi di contenuto che possono essere usati come riferimento"
+
+#: nodereference.module:51
+msgid "Existing Views"
+msgstr "Viste Attuali"
+
+#: nodereference.module:56
+msgid "Default Views"
+msgstr "Viste di default"
+
+#: nodereference.module:61
+msgid "Advanced - Nodes that can be referenced (View)"
+msgstr "Avanzato - Nodi che possono venir usati come riferimento (Visualizza)"
+
+#: nodereference.module:67
+msgid "View"
+msgstr "Vista"
+
+#: nodereference.module:70
+msgid "Choose the \"Views module\" view that selects the nodes that can be referenced.<br>Note :<ul><li>This will discard the \"Content types\" settings above. Use the view's \"filters\" section instead.</li><li>Use the view's \"fields\" section to display additional informations about candidate nodes on node creation/edition form.</li><li>Use the view's \"sort criteria\" section to determine the order in which candidate nodes will be displayed.</li></ul>"
+msgstr "Scegli la vista del \"modulo Views\" che seleziona i tipi di nodo che possono essere riferiti.<br>Nota:<ul><li>Questo escludera' le precedenti impostazioni riguardanti i \"tipi di Contenuto\". Utilizza piuttosto i \"filtri\" del modulo vista.</li><li>Utilizza i \"campi\" vista per visualizzare informazioni addizionali sui nodi candidati nella form per la creazione/modifica dei nodi.</li><li>Utilizza i \"criteri di ordinazione\" per determinare l'ordine in cui i nodi candidati verranno visualizzati</li></ul>"
+
+#: nodereference.module:74
+msgid "View arguments"
+msgstr "Argomenti vista"
+
+#: nodereference.module:77
+msgid "Provide a comma separated list of arguments to pass to the view."
+msgstr "Inserisci una lista di argomenti separati da virgola da passare alla vista."
+
+#: nodereference.module:122
+msgid "%name : This post can't be referenced."
+msgstr "%name : Questo post non può venir usato come riferimento."
+
+#: nodereference.module:202
+#: userreference.module:142
+msgid "<none>"
+msgstr "<nulla>"
+
+#: nodereference.module:304
+msgid "%name : Title mismatch. Please check your selection."
+msgstr "%name : Titolo non adatto. Ricontrolla la tua selezione."
+
+#: nodereference.module:483
+msgid "<empty>"
+msgstr "<vuoto>"
+
+#: nodereference.module:0
+msgid "nodereference"
+msgstr "riferimento nodo"
+
+#: number.module:33
+msgid "Minimum"
+msgstr "Minimo"
+
+#: number.module:38
+msgid "Maximum"
+msgstr "Massimo"
+
+#: number.module:43
+msgid "Prefix"
+msgstr "Prefisso"
+
+#: number.module:46
+msgid "Define a string that should be prefixed to the value, like $ or €. Leave blank for none. Separate singular and plural values with a pipe (pound|pounds)."
+msgstr "Definisci una stringa che può essere anteposta al valore, come $ o €. Altrimenti lascia vuoto. Separa i valori singolari e plurali con un pipe (lira|lire)."
+
+#: number.module:50
+msgid "Suffix"
+msgstr "Suffisso"
+
+#: number.module:53
+msgid "Define a string that should suffixed to the value, like m², m/s², kb/s. Leave blank for none. Separate singular and plural values with a pipe (pound|pounds). "
+msgstr "Definisci una stringa che può essere posposta al valore, come $ o €. Altrimenti lascia vuoto. Separa i valori singolari e plurali con un pipe (lira|lire)."
+
+#: number.module:57
+#: text.module:41
+msgid "Allowed values list"
+msgstr "Lista di valori ammessi"
+
+#: number.module:61
+#: text.module:45
+msgid "The possible values this field can contain. Enter one value per line, in the format key|label. The key is the value that will be stored in the database and it must match the field storage type, %type. The label is optional and the key will be used as the label if no label is specified."
+msgstr "I possibili valori che questo campo può contenere. Inserisci un valore per linea, nella forma chiave|etichetta. La chiave è il valore che verrà memorizzato nel database e deve corrispondere al tipo di campo salvato, %type. L'etichetta è un optional e la chiave sarà usata al suo posto se non verrà specificata."
+
+#: number.module:74
+#: text.module:58
+msgid "Advanced Usage Only: PHP code that returns a keyed array of allowed values. Should not include &lt;?php ?&gt; delimiters. If this field is filled out, the array returned by this code will override the allowed values list above."
+msgstr "Solamente per l'Utilizzo Avanzato: il codice PHP che ritorna un array con chiavi di valori permessi. Non dovrebbe includere i delimitatori &lt;?php ?&gt;. Se questo campo viene riempito, l'array in ritorno da questo codice annullera' i valori elencati sopra."
+
+#: number.module:80
+msgid "\"Minimum\" must be a number."
+msgstr "\"Minimo\" deve essere un numero."
+
+#: number.module:83
+msgid "\"Maximum\" must be a number."
+msgstr "\"Massimo\" deve essere un numero."
+
+#: number.module:138
+msgid "The value of %name may be no smaller than %min."
+msgstr "Il valore di %name non dovrebbe essere minore di %min."
+
+#: number.module:141
+msgid "The value of %name may be no larger than %max."
+msgstr "Il valore di %name non dovrebbe essere maggiore di %max."
+
+#: number.module:0
+msgid "number"
+msgstr "numero"
+
+#: optionwidgets.module:38
+msgid "Create a list of options as a list in <strong>Allowed values</strong> or as an array in Php code at the bottom of this page. These values will be the same for the %field in all content types. "
+msgstr "Crea una lista di opzioni come lista in <strong>Valori validi</strong> o come array in codice PHP alla fine della pagina. Questi valori saranno gli stessi per il campo %field in tutti i tipi di contenuto."
+
+#: optionwidgets.module:40
+msgid " For a single on/off checkbox, define the 'off' value first, then the 'on' value in the <strong>Allowed values</strong> section."
+msgstr "Per una singola checkbox on/off, definisci prima il valore 'off' e successivamente il valore 'on' nella sezione <strong>Valori validi</strong>."
+
+#: optionwidgets.module:43
+msgid " The Check boxes/radio buttons widget will display checkboxes if the multiple values option is selected for this field, otherwise radios will be displayed."
+msgstr "I pulsanti delle Check/Radio boxes all'interno delle widget visualizzeranno delle checkboxes se l'opzione \"valori multipli\" e' attiva, altrimenti, verranno visualizzate delle radioboxes."
+
+#: optionwidgets.module:206
+msgid "N/A"
+msgstr "N/A"
+
+#: optionwidgets.module:0
+msgid "optionwidgets"
+msgstr "widgetopzioni"
+
+#: text.module:25
+msgid "Plain text"
+msgstr "Testo normale"
+
+#: text.module:25
+msgid "Filtered text (user selects input format)"
+msgstr "Testo filtrato (l'utente seleziona il formato di ingresso)"
+
+#: text.module:28
+msgid "Text processing"
+msgstr "Analisi del testo"
+
+#: text.module:127
+msgid "%label is longer than %max characters."
+msgstr "%label supera i %max caratteri."
+
+#: text.module:0
+msgid "text"
+msgstr "testo"
+
+#: userreference.module:27
+msgid "User roles that can be referenced"
+msgstr "Regole utente che possono venir usate come riferimento."
+
+#: userreference.module:65
+msgid "%name : Invalid user."
+msgstr "%name : utente non valido."
+
+#: userreference.module:0
+msgid "userreference"
+msgstr "riferimento utente"
+
+#: optionwidgets.install:77
+msgid "<div>The allowed values list for %field was updated from </div><pre>%start</pre><div> to </div><pre>%end</pre><div>You can go to the field settings page to give each option a more user-friendly label."
+msgstr "<div>La lista sei valori ammessi per %field è stata aggiornata dal </div><pre>%start</pre><div> al </div><pre>%end</pre><div>Puoi andare nella pagina delle impostazioni del campo per assegnare a ciascuna opzione una miglior etichetta."
+
+#: optionwidgets.install:80
+msgid "<div>The allowed values list for %field was not changed from </div><pre>%start</pre>"
+msgstr "<div>La lista sei valori ammessi per %field non è stata cambiata dal </div><pre>%start</pre><div> "
+
+#: content.info:0
+msgid "Content"
+msgstr "Contenuto"
+
+#: content.info:0
+msgid "Allows administrators to define new content types."
+msgstr "Permetti agli amministratori di definire nuovi tipi di contenuto."
+
+#: content.info:0
+#: content_copy.info:0
+#: fieldgroup.info:0
+#: nodereference.info:0
+#: number.info:0
+#: optionwidgets.info:0
+#: text.info:0
+#: userreference.info:0
+msgid "CCK"
+msgstr "CCK"
+
+#: content_copy.info:0
+msgid "Content Copy"
+msgstr "Copia contenuto"
+
+#: content_copy.info:0
+msgid "Enables ability to import/export field definitions."
+msgstr "Abilita la possibilità di importare/esportare le definizioni del campo."
+
+#: fieldgroup.info:0
+msgid "Fieldgroup"
+msgstr "CampoGruppo"
+
+#: fieldgroup.info:0
+msgid "Create field groups for CCK fields."
+msgstr "Crea un campo di gruppi per i campi CCK"
+
+#: nodereference.info:0
+msgid "Node Reference"
+msgstr "Riferimento Nodo"
+
+#: nodereference.info:0
+msgid "Defines a field type for referencing one node from another."
+msgstr "Definisce un tipo di campo come riferimento da un nodo ad un altro."
+
+#: number.info:0
+msgid "Number"
+msgstr "Numero"
+
+#: number.info:0
+msgid "Defines numeric field types."
+msgstr "Definisce i tipi di campo numerici."
+
+#: optionwidgets.info:0
+msgid "Option Widgets"
+msgstr "Opzioni Widgets"
+
+#: optionwidgets.info:0
+msgid "Defines selection, check box and radio button widgets for text and numeric fields."
+msgstr "Definisce la selezione, i widgets check box e radio button per il testo e per i campi numerici."
+
+#: text.info:0
+msgid "Text"
+msgstr "Testo"
+
+#: text.info:0
+msgid "Defines simple text field types."
+msgstr "Definisce dei semplici tipi di campo testo."
+
+#: userreference.info:0
+msgid "User Reference"
+msgstr "Riferimento Utente"
+
+#: userreference.info:0
+msgid "Defines a field type for referencing a user from a node."
+msgstr "Definisce un tipo di campo come riferimento per un utente da un nodo."
+
+#: theme/node-content_example.tpl.php:10
+msgid "!date — !username"
+msgstr "!date — !username"

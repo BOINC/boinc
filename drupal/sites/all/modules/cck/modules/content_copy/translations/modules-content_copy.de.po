@@ -1,0 +1,137 @@
+# $Id: modules-content_copy.de.po,v 1.2.2.8 2008/11/05 12:24:00 hass Exp $
+# German translation of CCK
+# Copyright 2006 Lukas Gangoly <lukas.gangoly@univie.ac.at>
+# Copyright 2006 Jakob Petsovits <jpetso@gmx.at>
+# Generated from files:
+#  field.php,v 1.3 2006/04/16 13:47:13 luke
+#  text.module,v 1.34 2006/06/12 19:59:53 luke
+#  number.module,v 1.28 2006/05/02 13:52:16 luke
+#  content_admin.inc,v 1.16 2006/06/12 19:36:54 luke
+#  content.module,v 1.64 2006/06/12 19:36:54 luke
+#  nodereference.module,v 1.28 2006/06/12 19:36:54 luke
+#  optionwidgets.module,v 1.8 2006/05/01 15:45:29 luke
+#  userreference.module,v 1.24 2006/05/05 14:10:44 luke
+#  weburl.module,v 1.8 2006/06/12 19:36:54 luke
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: German translation of CCK\n"
+"POT-Creation-Date: 2008-11-05 12:54+0100\n"
+"PO-Revision-Date: 2008-11-05 13:17+0100\n"
+"Last-Translator: Alexander Haß\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n!=1);\n"
+"X-Poedit-Language: German\n"
+"X-Poedit-Country: GERMANY\n"
+"X-Poedit-SourceCharset: utf-8\n"
+
+#: modules/content_copy/content_copy_export_form.tpl.php:9
+#: modules/content_copy/content_copy.module:187;38
+msgid "Export"
+msgstr "Exportieren"
+
+#: modules/content_copy/content_copy.module:97
+msgid "This form will process a content type and one or more fields from that type and export the settings. The export created by this process can be copied and pasted as an import into the current or any other database. The import will add the fields to into an existing content type or create a new content type that includes the selected fields."
+msgstr "Dieses Formular verarbeitet einen Inhaltstyp, ein oder mehrere Felder von diesem Typ und exportiert die Einstellungen. Der von diesem Prozess erstellte Export kann kopiert und als Import in die Aktuelle oder jede andere Datenbank eingefügt werden. Der Import wird die Felder zu einem vorhandenen Inhaltstyp hinzufügen oder einen neuen Inhaltstyp mit den ausgewählten Feldern erstellen."
+
+#: modules/content_copy/content_copy.module:103
+msgid "Types"
+msgstr "Typen"
+
+#: modules/content_copy/content_copy.module:107
+msgid "Select the content type to export."
+msgstr "Wählen Sie einen Inhaltstyp für den Export."
+
+#: modules/content_copy/content_copy.module:171
+msgid "Export data"
+msgstr "Daten exportieren"
+
+#: modules/content_copy/content_copy.module:176
+msgid "Copy the export text and paste it into another content type using the import function."
+msgstr "Kopieren Sie den exportierten Text und fügen Sie ihn mit der Importfunktion in einen anderen Inhaltstyp ein."
+
+#: modules/content_copy/content_copy.module:180
+msgid "Content types"
+msgstr "Inhaltstypen"
+
+#: modules/content_copy/content_copy.module:299
+msgid "This form will import field definitions exported from another content type or another database.<br/>Note that fields cannot be duplicated within the same content type, so imported fields will be added only if they do not already exist in the selected type."
+msgstr "Dieses Formular wird Felddefinitionen importieren, die von einem anderen Inhaltstyp oder anderen Datenbank exportiert wurden.<br />Dabei ist zu beachten, dass die Felder nicht innerhalb des gleichen Inhalttyps dupliziert werden können, deshalb werden importierte Felder nur hinzugefügt, wenn diese im ausgewählten Typ noch nicht vorhanden sind."
+
+#: modules/content_copy/content_copy.module:302
+msgid "<Create>"
+msgstr "<Erstellen>"
+
+#: modules/content_copy/content_copy.module:304
+msgid "Content type"
+msgstr "Inhaltstyp"
+
+#: modules/content_copy/content_copy.module:305
+msgid "Select the content type to import these fields into.<br/>Select &lt;Create&gt; to create a new content type to contain the fields."
+msgstr "Wählen Sie den Inhaltstyp zum Aufnehmen der importierten Felder aus.<br/>Wählen Sie &ltErstellen&gt; zum Erstellen eines neuen Inhaltstyps für die zu importierenden Felder."
+
+#: modules/content_copy/content_copy.module:310
+msgid "Import data"
+msgstr "Daten importieren"
+
+#: modules/content_copy/content_copy.module:312
+msgid "Paste the text created by a content export into this field."
+msgstr "Fügen Sie den Text aus einem Inhaltsexport in dieses Feld ein."
+
+#: modules/content_copy/content_copy.module:316;46
+msgid "Import"
+msgstr "Importieren"
+
+# "vorgeladen" sounds strange
+#: modules/content_copy/content_copy.module:324
+#, fuzzy
+msgid "A file has been pre-loaded for import."
+msgstr "Eine Datei wurde für den Import vorgeladen."
+
+#: modules/content_copy/content_copy.module:350
+msgid "The import data is not valid import text."
+msgstr "Die importierten Daten sind kein gültiger Importtext."
+
+#: modules/content_copy/content_copy.module:399
+msgid "The following modules must be enabled for this import to work: %modules."
+msgstr "Die folgenden Module müssen eingeschaltet sein, damit dieser Import erfolgreich durchgeführt werden kann: %modules."
+
+#: modules/content_copy/content_copy.module:407
+msgid "The content type %type already exists in this database."
+msgstr "Der Inhaltstyp %type existiert bereits in dieser Datenbank."
+
+#: modules/content_copy/content_copy.module:414
+msgid "Exiting. No import performed."
+msgstr "Abbruch. Kein Import durchgeführt."
+
+#: modules/content_copy/content_copy.module:438
+msgid "An error has occurred adding the content type %type.<br/>Please check the errors displayed for more details."
+msgstr "Beim Hinzufügen des Inhaltstyps %type trat ein Fehler auf.<br/>Bitte überprüfen Sie die angezeigten Fehler für weitere Details."
+
+#: modules/content_copy/content_copy.module:463
+msgid "The imported field %field_label (%field_name) was not added to %type because that field already exists in %type."
+msgstr "Das importierte Feld %field_label (%field_name) wurde nicht zu %type hinzugefügt, weil dieses Feld bereits in %type existiert."
+
+#: modules/content_copy/content_copy.module:472
+msgid "The field %field_label (%field_name) was added to the content type %type."
+msgstr "Das Feld %field_label (%field_name) wurde zu dem Inhaltstyp %type hinzugefügt."
+
+#: modules/content_copy/content_copy.module:553
+msgid "An error occurred when exporting the 'display settings' data for the field %field_name.<br/>The db error is: '%db_err'."
+msgstr "Beim Exportieren der ‚Anzeige-Einstellungs‘-Daten für das Feld %field_name ist ein Fehler aufgetreten.<br />Der DB-Fehler ist: ‚%db_err‘."
+
+#: modules/content_copy/content_copy.module:0
+msgid "content_copy"
+msgstr "Inhaltskopie"
+
+#: modules/content_copy/content_copy.info:0
+msgid "Content Copy"
+msgstr "Inhaltskopie"
+
+#: modules/content_copy/content_copy.info:0
+msgid "Enables ability to import/export field definitions."
+msgstr "Aktiviert die Möglichkeit zum Importieren und Exportieren von Felddefinitionen."
+

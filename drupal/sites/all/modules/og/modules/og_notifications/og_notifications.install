@@ -1,0 +1,171 @@
+<?php
+// $Id: og_notifications.install,v 1.9.4.3 2009/05/18 05:20:09 karthik Exp $
+
+/**
+ * Implementation of hook_install().
+ */
+function og_notifications_install() {
+  drupal_install_schema('og_notifications');
+
+  if (variable_get('og_notifications_update_required', FALSE)) {
+    og_notifications_og_upgrade();
+  }
+
+  drupal_set_message(t('Organic groups notifications module installation script complete.'));
+}
+
+/**
+ * Definition of hook_schema().
+ */
+function og_notifications_schema() {
+  $schema = array();
+
+  $schema['og_notifications'] = array(
+    'description' => 'Stores autosubscription preferences for each user.',
+    'fields' => array(
+      'uid' => array(
+        'description' => "The user's {user}.uid.",
+        'type' => 'int',
+        'size' => 'normal',
+        'not null' => TRUE
+      ),
+      'autosubscribe' => array(
+        'description' => "The user's autosubscribe preference: -1, 0 or 1 which corresponds to 'Site default', 'Disabled' or 'Enabled' respectively.",
+        'type' => 'int',
+        'size' => 'tiny',
+        'not null' => TRUE,
+        'default' => -1
+      )
+    ),
+    'primary key' => array('uid')
+  );
+
+  return $schema;
+}
+
+/**
+ * Implementation of hook_enable().
+ */
+function og_notifications_enable() {
+  _og_notifications_populate();
+}
+
+/**
+ * Notifications upgrade: Based on the upgrade flag, move existing subscriptions
+ * to the notifications module.
+ */
+function og_notifications_og_upgrade() {
+  $ret = array();
+
+  // Load notifications and dependencies.
+  drupal_load('module', 'og_notifications');
+  drupal_load('module', 'notifications');
+  drupal_load('module', 'token');
+  drupal_load('module', 'messaging');
+
+  // Save notification subscription for each group based on og_uid.mail_type.
+  $result = db_query("SELECT nid, uid FROM {og_uid} WHERE mail_type = 1");
+  while ($subscription = db_fetch_object($result)) {
+    // Resort to subterfuge to avoid repeat calls to user_load.
+    $account = (object) array('uid' => $subscription->uid);
+    og_notifications_user_subscribe($account, $subscription->nid);
+  }
+
+  // Drop field notification.
+  db_query("ALTER TABLE {og} DROP notification");
+  // Drop field mail_type.
+  db_query("ALTER TABLE {og_uid} DROP mail_type");
+
+  // og_email is now effectively only a boolean. Users with
+  // OG_NOTIFICATION_SELECTIVE are equivalent to those with autosubscribe turned
+  // off.
+  $autosubscribe = variable_get('og_notification', 1) == 1 ? 1 : 0;
+  variable_set('og_notifications_autosubscribe', $autosubscribe);
+  variable_del('og_notification');
+
+  db_query("INSERT INTO {og_notifications} (uid, autosubscribe) SELECT oug.uid, oug.og_email FROM {og_uid_global} oug");
+  db_query("UPDATE {og_notifications} SET autosubscribe = 0 WHERE autosubscribe = 2");
+
+  db_query('DROP TABLE {og_uid_global}');
+
+  variable_del('og_notifications_update_required');
+
+  return $ret;
+}
+
+/**
+ * Implementation of hook_uninstall().
+ */
+function og_notifications_uninstall() {
+  drupal_uninstall_schema('og_notifications');
+
+  variable_del('og_notifications_autosubscribe');
+  variable_del('og_notifications_content_types');
+
+  // @TODO: Clear any queued messages in notifications?
+  drupal_set_message(t('Organic groups notifications module uninstallation script complete.'));
+}
+
+/**
+ * Remove direct group subscriptions in favour of grouptype subscriptions. The
+ * upgrade is being performed directly at the DB-level instead of using the
+ * notifications APIs. It is assumed that D5 users will always upgrade to D6
+ * first rather than skip major versions.
+ */
+function og_notifications_update_6001() {
+  $ret = array();
+
+  // Only subscribe the user to enabled types.
+  $content_types = array_filter(variable_get('og_notifications_content_types', array()));
+
+  $result = db_query("SELECT n.*, nof.intval as gid FROM {notifications} n INNER JOIN {notifications_fields} nof USING (sid) WHERE n.type = 'group'");
+  while ($subscription = db_fetch_array($result)) {
+    // Subscription status does not really matter until notifications-6--2.
+    // The current group subscription settings are directly transferred to the
+    // grouptype subscription.
+    foreach ($content_types as $type) {
+      $content_subscription = $subscription;
+      unset($content_subscription['sid'], $content_subscription['gid']);
+      $content_subscription['type'] = 'grouptype';
+      $content_subscription['conditions'] = 2;
+      // Use drupal_write_record as a fail-safe. Notifications would have been
+      // upgraded prior to OGN.
+      $save = drupal_write_record('notifications', $content_subscription);
+      if ($save !== FALSE) {
+        $fields = array(
+          'sid' => $content_subscription['sid'],
+          'field' => 'group',
+          'value' => $subscription['gid'],
+          'intval' => $subscription['gid']
+        );
+        drupal_write_record('notifications_fields', $fields);
+        $fields['field'] = 'type';
+        $fields['value'] = $type;
+        unset($fields['intval']);
+        drupal_write_record('notifications_fields', $fields);
+      }
+    }
+    // Avoid using update_sql for efficiency and to minimise screen spam.
+    db_query("DELETE FROM {notifications} WHERE sid = %d", $subscription['sid']);
+    db_query("DELETE FROM {notifications_fields} WHERE sid = %d", $subscription['sid']);
+    // There's a possibility that we might be losing notifications here. But, in
+    // the interests of keeping things efficient, we're avoiding extended loads
+    // where possible.
+    db_query("DELETE FROM {notifications_queue} WHERE sid = %d", $subscription['sid']);
+  }
+
+  return $ret;
+}
+
+/**
+ * Populate the og_notifications_table with any uids added prior to installation
+ * or when disabled.
+ */
+function _og_notifications_populate() {
+  $sql = 'SELECT u.uid FROM {users} u LEFT JOIN {og_notifications} ogn ON u.uid = ogn.uid WHERE u.uid > 0 AND ogn.uid IS NULL';
+  $result = db_query($sql);
+  while ($row = db_fetch_object($result)) {
+    // autosubscribe is set to the column default.
+    db_query("INSERT INTO {og_notifications} (uid) VALUES (%d)", $row->uid);
+  }
+}

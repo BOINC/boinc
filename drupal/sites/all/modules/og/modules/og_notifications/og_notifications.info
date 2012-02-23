@@ -1,0 +1,18 @@
+; $Id: og_notifications.info,v 1.7 2008/10/29 19:59:23 dww Exp $
+name = Organic Groups Notifications
+description = Allows users to receive notifications and subscribe to group content.
+package = "Organic groups"
+dependencies[] = og
+dependencies[] = notifications
+dependencies[] = notifications_content
+dependencies[] = notifications_lite
+dependencies[] = messaging
+dependencies[] = token
+core = 6.x
+
+; Information added by drupal.org packaging script on 2010-03-16
+version = "6.x-2.1"
+core = "6.x"
+project = "og"
+datestamp = "1268751911"
+

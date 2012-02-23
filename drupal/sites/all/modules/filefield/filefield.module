@@ -1,0 +1,1075 @@
+<?php
+// $Id: filefield.module,v 1.224 2010/06/30 01:37:29 quicksketch Exp $
+
+/**
+ * @file
+ * FileField: Defines a CCK file field type.
+ *
+ * Uses content.module to store the fid and field specific metadata,
+ * and Drupal's {files} table to store the actual file data.
+ */
+
+// FileField API hooks should always be available.
+require_once dirname(__FILE__) . '/field_file.inc';
+require_once dirname(__FILE__) . '/filefield_widget.inc';
+
+/**
+ * Implementation of hook_init().
+ */
+function filefield_init() {
+  // File hooks and callbacks may be used by any module.
+  drupal_add_css(drupal_get_path('module', 'filefield') .'/filefield.css');
+
+  // Conditional module support.
+  if (module_exists('token')) {
+    module_load_include('inc', 'filefield', 'filefield.token');
+  }
+}
+
+/**
+ * Implementation of hook_menu().
+ */
+function filefield_menu() {
+  $items = array();
+
+  $items['filefield/ahah/%/%/%'] = array(
+    'page callback' => 'filefield_js',
+    'page arguments' => array(2, 3, 4),
+    'access callback' => 'filefield_edit_access',
+    'access arguments' => array(2, 3),
+    'type' => MENU_CALLBACK,
+  );
+  $items['filefield/progress'] = array(
+    'page callback' => 'filefield_progress',
+    'access arguments' => array('access content'),
+    'type' => MENU_CALLBACK,
+  );
+
+  return $items;
+}
+
+/**
+ * Implementation of hook_elements().
+ */
+function filefield_elements() {
+  $elements = array();
+  $elements['filefield_widget'] = array(
+    '#input' => TRUE,
+    '#columns' => array('fid', 'list', 'data'),
+    '#process' => array('filefield_widget_process'),
+    '#value_callback' => 'filefield_widget_value',
+    '#element_validate' => array('filefield_widget_validate'),
+  );
+  return $elements;
+}
+
+/**
+ * Implementation of hook_theme().
+ * @todo: autogenerate theme registry entrys for widgets.
+ */
+function filefield_theme() {
+  return array(
+    'filefield_file' => array(
+      'arguments' => array('file' => NULL),
+      'file' => 'filefield_formatter.inc',
+    ),
+    'filefield_icon' => array(
+      'arguments' => array('file' => NULL),
+      'file' => 'filefield.theme.inc',
+    ),
+    'filefield_widget' => array(
+      'arguments' => array('element' => NULL),
+      'file' => 'filefield_widget.inc',
+    ),
+    'filefield_widget_item' => array(
+      'arguments' => array('element' => NULL),
+      'file' => 'filefield_widget.inc',
+    ),
+    'filefield_widget_preview' => array(
+      'arguments' => array('element' => NULL),
+      'file' => 'filefield_widget.inc',
+    ),
+    'filefield_widget_file' => array(
+      'arguments' => array('element' => NULL),
+      'file' => 'filefield_widget.inc',
+    ),
+
+
+    'filefield_formatter_default' => array(
+      'arguments' => array('element' => NULL),
+      'file' => 'filefield_formatter.inc',
+    ),
+    'filefield_formatter_url_plain' => array(
+      'arguments' => array('element' => NULL),
+      'file' => 'filefield_formatter.inc',
+    ),
+    'filefield_formatter_path_plain' => array(
+      'arguments' => array('element' => NULL),
+      'file' => 'filefield_formatter.inc',
+    ),
+    'filefield_item' => array(
+      'arguments' => array('file' => NULL, 'field' => NULL),
+      'file' => 'filefield_formatter.inc',
+    ),
+    'filefield_file' => array(
+      'arguments' => array('file' => NULL),
+      'file' => 'filefield_formatter.inc',
+    ),
+
+ );
+}
+
+/**
+ * Implementation of hook_file_download().
+ */
+function filefield_file_download($filepath) {
+  $filepath = file_create_path($filepath);
+  $result = db_query("SELECT * FROM {files} WHERE filepath = '%s'", $filepath);
+
+  // Ensure case-sensitivity of uploaded file names.
+  while ($file = db_fetch_object($result)) {
+    if (strcmp($file->filepath, $filepath) == 0) {
+      break;
+    }
+  }
+
+  // If the file is not found in the database, we're not responsible for it.
+  if (!isset($file)) {
+    return;
+  }
+
+  // Find out if any file field contains this file, and if so, which field
+  // and node it belongs to. Required for later access checking.
+  $cck_files = array();
+  foreach (content_fields() as $field) {
+    if ($field['type'] == 'filefield' || $field['type'] == 'image') {
+      $db_info = content_database_info($field);
+      $table = $db_info['table'];
+      $fid_column = $db_info['columns']['fid']['column'];
+
+      $columns = array('vid', 'nid');
+      foreach ($db_info['columns'] as $property_name => $column_info) {
+        $columns[] = $column_info['column'] .' AS '. $property_name;
+      }
+      $result = db_query("SELECT ". implode(', ', $columns) ."
+                          FROM {". $table ."}
+                          WHERE ". $fid_column ." = %d", $file->fid);
+
+      while ($content = db_fetch_array($result)) {
+        $content['field'] = $field;
+        $cck_files[$field['field_name']][$content['vid']] = $content;
+      }
+    }
+  }
+
+  // If no file field item is involved with this file, we don't care about it,
+  // unless it's a newly uploaded image that isn't yet associated with a field.
+  if (empty($cck_files) && !($file->status == 0 && isset($_SESSION['filefield_access']) && in_array($file->fid, $_SESSION['filefield_access']))) {
+    return;
+  }
+
+  // So the overall field view permissions are not denied, but if access is
+  // denied for ALL nodes containing the file, deny the download as well.
+  // Node access checks also include checking for 'access content'.
+  $nodes = array();
+  $denied = TRUE;
+  foreach ($cck_files as $field_name => $field_files) {
+    foreach ($field_files as $revision_id => $content) {
+      // Checking separately for each revision is probably not the best idea -
+      // what if 'view revisions' is disabled? So, let's just check for the
+      // current revision of that node.
+      if (isset($nodes[$content['nid']])) {
+        continue; // Don't check the same node twice.
+      }
+      if (($node = node_load($content['nid'])) && (node_access('view', $node) && filefield_view_access($field_name))) {
+        $denied = FALSE;
+        break 2;
+      }
+      $nodes[$content['nid']] = $node;
+    }
+  }
+
+  if ($denied) {
+    return -1;
+  }
+
+  // Access is granted.
+  $name = mime_header_encode($file->filename);
+  $type = mime_header_encode($file->filemime);
+  // By default, serve images, text, and flash content for display rather than
+  // download. Or if variable 'filefield_inline_types' is set, use its patterns.
+  $inline_types = variable_get('filefield_inline_types', array('^text/', '^image/', 'flash$'));
+  $disposition = 'attachment';
+  foreach ($inline_types as $inline_type) {
+    // Exclamation marks are used as delimiters to avoid escaping slashes.
+    if (preg_match('!' . $inline_type . '!', $file->filemime)) {
+      $disposition = 'inline';
+    }
+  }
+  return array(
+    'Content-Type: ' . $type . '; name="' . $name . '"',
+    'Content-Length: ' . $file->filesize,
+    'Content-Disposition: ' . $disposition . '; filename="' . $name . '"',
+    'Cache-Control: private',
+  );
+}
+
+/**
+ * Implementation of hook_views_api().
+ */
+function filefield_views_api() {
+  return array(
+    'api' => 2.0,
+    'path' => drupal_get_path('module', 'filefield') . '/views',
+  );
+}
+
+/**
+ * Implementation of hook_form_alter().
+ *
+ * Set the enctype on forms that need to accept file uploads.
+ */
+function filefield_form_alter(&$form, $form_state, $form_id) {
+  // Field configuration (for default images).
+  if ($form_id == 'content_field_edit_form' && isset($form['#field']) && $form['#field']['type'] == 'filefield') {
+    $form['#attributes']['enctype'] = 'multipart/form-data';
+  }
+
+  // Node forms.
+  if (preg_match('/_node_form$/', $form_id)) {
+    $form['#attributes']['enctype'] = 'multipart/form-data';
+  }
+}
+
+/**
+ * Implementation of CCK's hook_field_info().
+ */
+function filefield_field_info() {
+  return array(
+    'filefield' => array(
+      'label' => t('File'),
+      'description' => t('Store an arbitrary file.'),
+    ),
+  );
+}
+
+/**
+ * Implementation of hook_field_settings().
+ */
+function filefield_field_settings($op, $field) {
+  $return = array();
+
+  module_load_include('inc', 'filefield', 'filefield_field');
+  $op = str_replace(' ', '_', $op);
+  $function = 'filefield_field_settings_'. $op;
+  if (function_exists($function)) {
+    $result = $function($field);
+    if (isset($result) && is_array($result)) {
+      $return = $result;
+    }
+  }
+
+  return $return;
+
+}
+
+/**
+ * Implementation of CCK's hook_field().
+ */
+function filefield_field($op, $node, $field, &$items, $teaser, $page) {
+  module_load_include('inc', 'filefield', 'filefield_field');
+  $op = str_replace(' ', '_', $op);
+  // add filefield specific handlers...
+  $function = 'filefield_field_'. $op;
+  if (function_exists($function)) {
+    return $function($node, $field, $items, $teaser, $page);
+  }
+}
+
+/**
+ * Implementation of CCK's hook_widget_settings().
+ */
+function filefield_widget_settings($op, $widget) {
+  switch ($op) {
+    case 'form':
+      return filefield_widget_settings_form($widget);
+    case 'save':
+      return filefield_widget_settings_save($widget);
+  }
+}
+
+/**
+ * Implementation of hook_widget().
+ */
+function filefield_widget(&$form, &$form_state, $field, $items, $delta = 0) {
+  if (module_exists('devel_themer') && (user_access('access devel theme information') || user_access('access devel information'))) {
+    drupal_set_message(t('Files may not be uploaded while the Theme Developer tool is enabled. It is highly recommended to <a href="!url">disable this module</a> unless it is actively being used.', array('!url' => url('admin/build/modules'))), 'error');
+  }
+
+  // CCK doesn't give a validate callback at the field level...
+  // and FAPI's #require is naive to complex structures...
+  // we validate at the field level ourselves.
+  if (empty($form['#validate']) || !in_array('filefield_node_form_validate', $form['#validate'])) {
+    $form['#validate'][] = 'filefield_node_form_validate';
+  }
+  $form['#attributes']['enctype'] = 'multipart/form-data';
+
+  module_load_include('inc', 'filefield', 'field_widget');
+  module_load_include('inc', $field['widget']['module'], $field['widget']['module'] .'_widget');
+
+  $item = array('fid' => 0, 'list' => $field['list_default'], 'data' => array('description' => ''));
+  if (isset($items[$delta])) {
+    $item = array_merge($item, $items[$delta]);
+  }
+  $element = array(
+    '#title' => $field['widget']['label'],
+    '#type' => $field['widget']['type'],
+    '#default_value' => $item,
+    '#upload_validators' => filefield_widget_upload_validators($field),
+  );
+
+  return $element;
+}
+
+/**
+ * Get the upload validators for a file field.
+ *
+ * @param $field
+ *   A CCK field array.
+ * @return
+ *   An array suitable for passing to file_save_upload() or the file field
+ *   element's '#upload_validators' property.
+ */
+function filefield_widget_upload_validators($field) {
+  $max_filesize = parse_size(file_upload_max_size());
+  if (!empty($field['widget']['max_filesize_per_file']) && parse_size($field['widget']['max_filesize_per_file']) < $max_filesize) {
+    $max_filesize = parse_size($field['widget']['max_filesize_per_file']);
+  }
+
+  // Match the default value if no file extensions have been saved at all.
+  if (!isset($field['widget']['file_extensions'])) {
+    $field['widget']['file_extensions'] = 'txt';
+  }
+
+  $validators = array(
+    // associate the field to the file on validation.
+    'filefield_validate_associate_field' => array($field),
+    'filefield_validate_size' => array($max_filesize),
+    // Override core since it excludes uid 1 on the extension check. 
+    // Filefield only excuses uid 1 of quota requirements.
+    'filefield_validate_extensions' => array($field['widget']['file_extensions']),
+  );
+  return $validators;
+}
+
+/**
+ * Implementation of CCK's hook_content_is_empty().
+ *
+ * The result of this determines whether content.module will save the value of
+ * the field. Note that content module has some interesting behaviors for empty
+ * values. It will always save at least one record for every node revision,
+ * even if the values are all NULL. If it is a multi-value field with an
+ * explicit limit, CCK will save that number of empty entries.
+ */
+function filefield_content_is_empty($item, $field) {
+  return empty($item['fid']) || (int)$item['fid'] == 0;
+}
+
+/**
+ * Implementation of CCK's hook_content_diff_values().
+ */
+function filefield_content_diff_values($node, $field, $items) {
+  $return = array();
+  foreach ($items as $item) {
+    if (is_array($item) && !empty($item['filepath'])) {
+      $return[] = $item['filepath'];
+    }
+  }
+  return $return;
+}
+
+/**
+ * Implementation of CCK's hook_default_value().
+ *
+ * Note this is a widget-level hook, so it does not affect ImageField or other
+ * modules that extend FileField.
+ *
+ * @see content_default_value()
+ */
+function filefield_default_value(&$form, &$form_state, $field, $delta) {
+  // Reduce the default number of upload fields to one. CCK 2 (but not 3) will
+  // automatically add one more field than necessary. We use the
+  // content_multiple_value_after_build function to determine the version.
+  if (!function_exists('content_multiple_value_after_build') && !isset($form_state['item_count'][$field['field_name']])) {
+    $form_state['item_count'][$field['field_name']] = 0;
+  }
+
+  // The default value is actually handled in hook_widget().
+  // hook_default_value() is only helpful for new nodes, and we need to affect
+  // all widgets, such as when a new field is added via "Add another item".
+  return array();
+}
+
+/**
+ * Implementation of CCK's hook_widget_info().
+ */
+function filefield_widget_info() {
+  return array(
+    'filefield_widget' => array(
+      'label' => t('File Upload'),
+      'field types' => array('filefield'),
+      'multiple values' => CONTENT_HANDLE_CORE,
+      'callbacks' => array('default value' => CONTENT_CALLBACK_CUSTOM),
+      'description' => t('A plain file upload widget.'),
+      'file_extensions' => 'txt',
+    ),
+  );
+}
+
+/**
+ * Implementation of CCK's hook_field_formatter_info().
+ */
+function filefield_field_formatter_info() {
+  return array(
+    'default' => array(
+      'label' => t('Generic files'),
+      'field types' => array('filefield'),
+      'multiple values' => CONTENT_HANDLE_CORE,
+      'description' => t('Displays all kinds of files with an icon and a linked file description.'),
+    ),
+    'path_plain' => array(
+      'label' => t('Path to file'),
+      'field types' => array('filefield'),
+      'description' => t('Displays the file system path to the file.'),
+    ),
+    'url_plain' => array(
+      'label' => t('URL to file'),
+      'field types' => array('filefield'),
+      'description' => t('Displays a full URL to the file.'),
+    ),
+  );
+}
+
+/**
+ * Implementation of CCK's hook_content_generate(). Used by generate.module.
+ */
+function filefield_content_generate($node, $field) {
+  module_load_include('inc', 'filefield', 'filefield.devel');
+
+  if (content_handle('widget', 'multiple values', $field) == CONTENT_HANDLE_MODULE) {
+    return content_devel_multiple('_filefield_content_generate', $node, $field);
+  }
+  else {
+    return _filefield_content_generate($node, $field);
+  }
+}
+
+/**
+ * Determine the most appropriate icon for the given file's mimetype.
+ *
+ * @param $file
+ *   A file object.
+ * @return
+ *   The URL of the icon image file, or FALSE if no icon could be found.
+ */
+function filefield_icon_url($file) {
+  module_load_include('inc', 'filefield', 'filefield.theme');
+  return _filefield_icon_url($file);
+}
+
+
+/**
+ * Implementation of hook_filefield_icon_sets().
+ *
+ * Define a list of icon sets and directories that contain the icons.
+ */
+function filefield_filefield_icon_sets() {
+  return array(
+    'default' => drupal_get_path('module', 'filefield') . '/icons',
+  );
+}
+
+/**
+ * Access callback for the JavaScript upload and deletion AHAH callbacks.
+ *
+ * The content_permissions module provides nice fine-grained permissions for
+ * us to check, so we can make sure that the user may actually edit the file.
+ */
+function filefield_edit_access($type_name, $field_name) {
+  if (!content_access('edit', content_fields($field_name, $type_name))) {
+    return FALSE;
+  }
+  // No content permissions to check, so let's fall back to a more general permission.
+  return user_access('access content') || user_access('administer nodes');
+}
+
+/**
+ * Access callback that checks if the current user may view the filefield.
+ */
+function filefield_view_access($field_name) {
+  if (!content_access('view', content_fields($field_name))) {
+    return FALSE;
+  }
+  // No content permissions to check, so let's fall back to a more general permission.
+  return user_access('access content') || user_access('administer nodes');
+}
+
+/**
+ * Menu callback; Shared AHAH callback for uploads and deletions.
+ *
+ * This rebuilds the form element for a particular field item. As long as the
+ * form processing is properly encapsulated in the widget element the form
+ * should rebuild correctly using FAPI without the need for additional callbacks
+ * or processing.
+ */
+function filefield_js($type_name, $field_name, $delta) {
+  $field = content_fields($field_name, $type_name);
+
+  if (empty($field) || empty($_POST['form_build_id'])) {
+    // Invalid request.
+    drupal_set_message(t('An unrecoverable error occurred. The uploaded file likely exceeded the maximum file size (@size) that this server supports.', array('@size' => format_size(file_upload_max_size()))), 'error');
+    print drupal_to_js(array('data' => theme('status_messages')));
+    exit;
+  }
+
+  // Build the new form.
+  $form_state = array('submitted' => FALSE);
+  $form_build_id = $_POST['form_build_id'];
+  $form = form_get_cache($form_build_id, $form_state);
+
+  if (!$form) {
+    // Invalid form_build_id.
+    drupal_set_message(t('An unrecoverable error occurred. This form was missing from the server cache. Try reloading the page and submitting again.'), 'error');
+    print drupal_to_js(array('data' => theme('status_messages')));
+    exit;
+  }
+
+  // Build the form. This calls the file field's #value_callback function and
+  // saves the uploaded file. Since this form is already marked as cached
+  // (the #cache property is TRUE), the cache is updated automatically and we
+  // don't need to call form_set_cache().
+  $args = $form['#parameters'];
+  $form_id = array_shift($args);
+  $form['#post'] = $_POST;
+  $form = form_builder($form_id, $form, $form_state);
+
+  // Update the cached form with the new element at the right place in the form.
+  if (module_exists('fieldgroup') && ($group_name = _fieldgroup_field_get_group($type_name, $field_name))) {
+    if (isset($form['#multigroups']) && isset($form['#multigroups'][$group_name][$field_name])) {
+      $form_element = $form[$group_name][$delta][$field_name];
+    }
+    else {
+      $form_element = $form[$group_name][$field_name][$delta];
+    }
+  }
+  else {
+    $form_element = $form[$field_name][$delta];
+  }
+
+  if (isset($form_element['_weight'])) {
+    unset($form_element['_weight']);
+  }
+
+  $output = drupal_render($form_element);
+
+  // AHAH is not being nice to us and doesn't know the "other" button (that is,
+  // either "Upload" or "Delete") yet. Which in turn causes it not to attach
+  // AHAH behaviours after replacing the element. So we need to tell it first.
+
+  // Loop through the JS settings and find the settings needed for our buttons.
+  $javascript = drupal_add_js(NULL, NULL);
+  $filefield_ahah_settings = array();
+  if (isset($javascript['setting'])) {
+    foreach ($javascript['setting'] as $settings) {
+      if (isset($settings['ahah'])) {
+        foreach ($settings['ahah'] as $id => $ahah_settings) {
+          if (strpos($id, 'filefield-upload') || strpos($id, 'filefield-remove')) {
+            $filefield_ahah_settings[$id] = $ahah_settings;
+          }
+        }
+      }
+    }
+  }
+
+  // Add the AHAH settings needed for our new buttons.
+  if (!empty($filefield_ahah_settings)) {
+    $output .= '<script type="text/javascript">jQuery.extend(Drupal.settings.ahah, '. drupal_to_js($filefield_ahah_settings) .');</script>';
+  }
+
+  $output = theme('status_messages') . $output;
+
+  // For some reason, file uploads don't like drupal_json() with its manual
+  // setting of the text/javascript HTTP header. So use this one instead.
+  $GLOBALS['devel_shutdown'] = FALSE;
+  print drupal_to_js(array('status' => TRUE, 'data' => $output));
+  exit;
+}
+
+/**
+ * Menu callback for upload progress.
+ */
+function filefield_progress($key) {
+  $progress = array(
+    'message' => t('Starting upload...'),
+    'percentage' => -1,
+  );
+
+  $implementation = filefield_progress_implementation();
+  if ($implementation == 'uploadprogress') {
+    $status = uploadprogress_get_info($key);
+    if (isset($status['bytes_uploaded']) && !empty($status['bytes_total'])) {
+      $progress['message'] = t('Uploading... (@current of @total)', array('@current' => format_size($status['bytes_uploaded']), '@total' => format_size($status['bytes_total'])));
+      $progress['percentage'] = round(100 * $status['bytes_uploaded'] / $status['bytes_total']);
+    }
+  }
+  elseif ($implementation == 'apc') {
+    $status = apc_fetch('upload_' . $key);
+    if (isset($status['current']) && !empty($status['total'])) {
+      $progress['message'] = t('Uploading... (@current of @total)', array('@current' => format_size($status['current']), '@total' => format_size($status['total'])));
+      $progress['percentage'] = round(100 * $status['current'] / $status['total']);
+    }
+  }
+
+  drupal_json($progress);
+}
+
+/**
+ * Determine which upload progress implementation to use, if any available.
+ */
+function filefield_progress_implementation() {
+  static $implementation;
+  if (!isset($implementation)) {
+    $implementation = FALSE;
+
+    // We prefer the PECL extension uploadprogress because it supports multiple
+    // simultaneous uploads. APC only supports one at a time.
+    if (extension_loaded('uploadprogress')) {
+      $implementation = 'uploadprogress';
+    }
+    elseif (extension_loaded('apc') && ini_get('apc.rfc1867')) {
+      $implementation = 'apc';
+    }
+  }
+  return $implementation;
+}
+
+/**
+ * Implementation of hook_file_references().
+ */
+function filefield_file_references($file) {
+  $count = filefield_get_file_reference_count($file);
+  return $count ? array('filefield' => $count) : NULL;
+}
+
+/**
+ * Implementation of hook_file_delete().
+ */
+function filefield_file_delete($file) {
+  filefield_delete_file_references($file);
+}
+
+/**
+ * An #upload_validators callback. Check the file matches an allowed extension.
+ *
+ * If the mimedetect module is available, this will also validate that the
+ * content of the file matches the extension. User #1 is included in this check.
+ *
+ * @param $file
+ *   A Drupal file object.
+ * @param $extensions
+ *   A string with a space separated list of allowed extensions.
+ * @return
+ *   An array of any errors cause by this file if it failed validation.
+ */
+function filefield_validate_extensions($file, $extensions) {
+  global $user;
+  $errors = array();
+
+  if (!empty($extensions)) {
+    $regex = '/\.('. ereg_replace(' +', '|', preg_quote($extensions)) .')$/i';
+    $matches = array();
+    if (preg_match($regex, $file->filename, $matches)) {
+      $extension = $matches[1];
+      // If the extension validates, check that the mimetype matches.
+      if (module_exists('mimedetect')) {
+        $type = mimedetect_mime($file);
+        if ($type != $file->filemime) {
+          $errors[] = t('The file contents (@type) do not match its extension (@extension).', array('@type' => $type, '@extension' => $extension));
+        }
+      }
+    }
+    else {
+      $errors[] = t('Only files with the following extensions are allowed: %files-allowed.', array('%files-allowed' => $extensions));
+    }
+  }
+
+  return $errors;
+}
+
+/**
+ * Help text automatically appended to fields that have extension validation.
+ */
+function filefield_validate_extensions_help($extensions) {
+  if (!empty($extensions)) {
+    return t('Allowed Extensions: %ext', array('%ext' => $extensions));
+  }
+  else {
+    return '';
+  }
+}
+
+/**
+ * An #upload_validators callback. Check the file size does not exceed a limit.
+ *
+ * @param $file
+ *   A Drupal file object.
+ * @param $file_limit
+ *   An integer value limiting the maximum file size in bytes.
+ * @param $file_limit
+ *   An integer value limiting the maximum size in bytes a user can upload on
+ *   the entire site.
+ * @return
+ *   An array of any errors cause by this file if it failed validation.
+ */
+function filefield_validate_size($file, $file_limit = 0, $user_limit = 0) {
+  global $user;
+
+  $errors = array();
+
+  if ($file_limit && $file->filesize > $file_limit) {
+    $errors[] = t('The file is %filesize exceeding the maximum file size of %maxsize.', array('%filesize' => format_size($file->filesize), '%maxsize' => format_size($file_limit)));
+  }
+
+  // Bypass user limits for uid  = 1.
+  if ($user->uid != 1) {
+    $total_size = file_space_used($user->uid) + $file->filesize;
+    if ($user_limit && $total_size > $user_limit) {
+      $errors[] = t('The file is %filesize which would exceed your disk quota of %quota.', array('%filesize' => format_size($file->filesize), '%quota' => format_size($user_limit)));
+    }
+  }
+  return $errors;
+}
+
+/**
+ * Automatic help text appended to fields that have file size validation.
+ */
+function filefield_validate_size_help($size) {
+  return t('Maximum Filesize: %size', array('%size' => format_size(parse_size($size))));
+}
+
+/**
+ * An #upload_validators callback. Check an image resolution.
+ *
+ * @param $file
+ *   A Drupal file object.
+ * @param $max_size
+ *   A string in the format WIDTHxHEIGHT. If the image is larger than this size
+ *   the image will be scaled to fit within these dimensions.
+ * @param $min_size
+ *   A string in the format WIDTHxHEIGHT. If the image is smaller than this size
+ *   a validation error will be returned.
+ * @return
+ *   An array of any errors cause by this file if it failed validation.
+ */
+function filefield_validate_image_resolution(&$file, $maximum_dimensions = 0, $minimum_dimensions = 0) {
+  $errors = array();
+
+  @list($max_width, $max_height) = explode('x', $maximum_dimensions);
+  @list($min_width, $min_height) = explode('x', $minimum_dimensions);
+
+  // Check first that the file is an image.
+  if ($info = image_get_info($file->filepath)) {
+    if ($maximum_dimensions) {
+      // Check that it is smaller than the given dimensions.
+      if ($info['width'] > $max_width || $info['height'] > $max_height) {
+        $ratio = min($max_width/$info['width'], $max_height/$info['height']);
+        // Check for exact dimension requirements (scaling allowed).
+        if (strcmp($minimum_dimensions, $maximum_dimensions) == 0 && $info['width']/$max_width != $info['height']/$max_height) {
+          $errors[] = t('The image must be exactly %dimensions pixels.', array('%dimensions' => $maximum_dimensions));
+        }
+        // Check that scaling won't drop the image below the minimum dimensions.
+        elseif ((image_get_toolkit() || module_exists('imageapi')) && (($info['width'] * $ratio < $min_width) || ($info['height'] * $ratio < $min_height))) {
+          $errors[] = t('The image will not fit between the dimensions of %min_dimensions and %max_dimensions pixels.', array('%min_dimensions' => $minimum_dimensions, '%max_dimensions' => $maximum_dimensions));
+        }
+        // Try resizing the image with ImageAPI if available.
+        elseif (module_exists('imageapi') && imageapi_default_toolkit()) {
+          $res = imageapi_image_open($file->filepath);
+          imageapi_image_scale($res, $max_width, $max_height);
+          imageapi_image_close($res, $file->filepath);
+        }
+        // Try to resize the image to fit the dimensions.
+        elseif (image_get_toolkit() && @image_scale($file->filepath, $file->filepath, $max_width, $max_height)) {
+          drupal_set_message(t('The image was resized to fit within the maximum allowed dimensions of %dimensions pixels.', array('%dimensions' => $maximum_dimensions)));
+
+          // Clear the cached filesize and refresh the image information.
+          clearstatcache();
+          $info = image_get_info($file->filepath);
+          $file->filesize = $info['file_size'];
+        }
+        else {
+          $errors[] = t('The image is too large; the maximum dimensions are %dimensions pixels.', array('%dimensions' => $maximum_dimensions));
+        }
+      }
+    }
+
+    if ($minimum_dimensions && empty($errors)) {
+      // Check that it is larger than the given dimensions.
+      if ($info['width'] < $min_width || $info['height'] < $min_height) {
+        $errors[] = t('The image is too small; the minimum dimensions are %dimensions pixels.', array('%dimensions' => $minimum_dimensions));
+      }
+    }
+  }
+
+  return $errors;
+}
+
+/**
+ * Automatic help text appended to fields that have image resolution validation.
+ */
+function filefield_validate_image_resolution_help($max_size = '0', $min_size = '0') {
+  if (!empty($max_size)) {
+    if (!empty($min_size)) {
+      if ($max_size == $min_size) {
+        return t('Images must be exactly @min_size pixels', array('@min_size' => $min_size));
+      }
+      else {
+        return t('Images must be between @min_size pixels and @max_size', array('@max_size' => $max_size, '@min_size' => $min_size));
+      }
+    }
+    else {
+      if (image_get_toolkit()) {
+        return t('Images larger than @max_size pixels will be scaled', array('@max_size' => $max_size));
+      }
+      else {
+        return t('Images must be smaller than @max_size pixels', array('@max_size' => $max_size));
+      }
+    }
+  }
+  if (!empty($min_size)) {
+    return t('Images must be larger than @max_size pixels', array('@max_size' => $min_size));
+  }
+}
+
+
+/**
+ * An #upload_validators callback. Check that a file is an image.
+ *
+ * This check should allow any image that PHP can identify, including png, jpg,
+ * gif, tif, bmp, psd, swc, iff, jpc, jp2, jpx, jb2, xbm, and wbmp.
+ *
+ * This check should be combined with filefield_validate_extensions() to ensure
+ * only web-based images are allowed, however it provides a better check than
+ * extension checking alone if the mimedetect module is not available.
+ *
+ * @param $file
+ *   A Drupal file object.
+ * @return
+ *   An array of any errors cause by this file if it failed validation.
+ */
+function filefield_validate_is_image(&$file) {
+  $errors = array();
+  $info = image_get_info($file->filepath);
+  if (!$info || empty($info['extension'])) {
+    $errors[] = t('The file is not a known image format.');
+  }
+  return $errors;
+}
+
+/**
+ * An #upload_validators callback. Add the field to the file object.
+ *
+ * This validation function adds the field to the file object for later 
+ * use in field aware modules implementing hook_file. It's not truly a
+ * validation at all, rather a convient way to add properties to the uploaded
+ * file.
+ */
+function filefield_validate_associate_field(&$file, $field) {
+  $file->field = $field;
+  return array();
+}
+
+/*******************************************************************************
+ * Public API functions for FileField.
+ ******************************************************************************/
+
+/**
+ * Return an array of file fields within a node type or by field name.
+ *
+ * @param $field
+ *   Optional. May be either a field array or a field name.
+ * @param $node_type
+ *   Optional. The node type to filter the list of fields.
+ */
+function filefield_get_field_list($node_type = NULL, $field = NULL) {
+  // Build the list of fields to be used for retrieval.
+  if (isset($field)) {
+    if (is_string($field)) {
+      $field = content_fields($field, $node_type);
+    }
+    $fields = array($field['field_name'] => $field);
+  }
+  elseif (isset($node_type)) {
+    $type = content_types($node_type);
+    $fields = $type['fields'];
+  }
+  else {
+    $fields = content_fields();
+  }
+
+  // Filter down the list just to file fields.
+  foreach ($fields as $key => $field) {
+    if ($field['type'] != 'filefield') {
+      unset($fields[$key]);
+    }
+  }
+
+  return $fields;
+}
+
+/**
+ * Count the number of times the file is referenced within a field.
+ *
+ * @param $file
+ *   A file object.
+ * @param $field
+ *   Optional. The CCK field array or field name as a string.
+ * @return
+ *   An integer value.
+ */
+function filefield_get_file_reference_count($file, $field = NULL) {
+  $fields = filefield_get_field_list(NULL, $field);
+  $file = (object) $file;
+
+  $references = 0;
+  foreach ($fields as $field) {
+    $db_info = content_database_info($field);
+    $references += db_result(db_query(
+      'SELECT count('. $db_info['columns']['fid']['column'] .')
+        FROM {'. $db_info['table'] .'}
+        WHERE '. $db_info['columns']['fid']['column'] .' = %d', $file->fid
+    ));
+
+    // If a field_name is present in the file object, the file is being deleted
+    // from this field.
+    if (isset($file->field_name) && $field['field_name'] == $file->field_name) {
+      // If deleting the entire node, count how many references to decrement.
+      if (isset($file->delete_nid)) {
+        $node_references = db_result(db_query(
+          'SELECT count('. $db_info['columns']['fid']['column'] .')
+            FROM {'. $db_info['table'] .'}
+            WHERE '. $db_info['columns']['fid']['column'] .' = %d AND nid = %d', $file->fid, $file->delete_nid
+        ));
+        $references = $references - $node_references;
+      }
+      else {
+        $references = $references - 1;
+      }
+    }
+  }
+
+  return $references;
+}
+
+/**
+ * Get a list of node IDs that reference a file.
+ *
+ * @param $file
+ *   The file object for which to find references.
+ * @param $field
+ *   Optional. The CCK field array or field name as a string.
+ * @return
+ *   An array of IDs grouped by NID: array([nid] => array([vid1], [vid2])).
+ */
+function filefield_get_file_references($file, $field = NULL) {
+  $fields = filefield_get_field_list(NULL, $field);
+  $file = (object) $file;
+
+  $references = array();
+  foreach ($fields as $field) {
+    $db_info = content_database_info($field);
+    $sql = 'SELECT nid, vid FROM {'. $db_info['table'] .'} WHERE '. $db_info['columns']['fid']['column'] .' = %d';
+    $result = db_query($sql, $file->fid);
+    while ($row = db_fetch_object($result)) {
+      $references[$row->nid][$row->vid] = $row->vid;
+    }
+  }
+
+  return $references;
+}
+
+/**
+ * Get all FileField files connected to a node ID.
+ *
+ * @param $nid
+ *   The node object.
+ * @param $field_name
+ *   Optional. The CCK field array or field name as a string.
+ * @return
+ *   An array of all files attached to that field (or all fields).
+ */
+function filefield_get_node_files($node, $field = NULL) {
+  $fields = filefield_get_field_list($node->type, $field);
+  $files = array();
+
+  // Get the file rows.
+  foreach ($fields as $field) {
+    $db_info = content_database_info($field);
+    $fields = 'f.*';
+    $fields .= ', c.'. $db_info['columns']['list']['column'] .' AS list';
+    $fields .= ', c.'. $db_info['columns']['data']['column'] .' AS data';
+    $sql =  'SELECT '. $fields .' FROM {files} f INNER JOIN {' . $db_info['table'] . '} c ON f.fid = c.' . $db_info['columns']['fid']['column'] . ' AND c.vid = %d';
+    $result = db_query($sql, $node->vid);
+    while ($file = db_fetch_array($result)) {
+      $file['data'] = unserialize($file['data']);
+      $files[$file['fid']] = $file;
+    }
+  }
+
+  return $files;
+}
+
+/**
+ * Delete all node references of a file.
+ *
+ * @param $file
+ *   The file object for which to find references.
+ * @param $field
+ *   Optional. The CCK field array or field name as a string.
+ */
+function filefield_delete_file_references($file, $field = NULL) {
+  $fields = filefield_get_field_list(NULL, $field);
+  $file = (object) $file;
+
+  $references = filefield_get_file_references($file, $field);
+  foreach ($references as $nid => $node_references) {
+    // Do not update a node if it is already being deleted directly by the user.
+    if (isset($file->delete_nid) && $file->delete_nid == $nid) {
+      continue;
+    }
+
+    foreach ($node_references as $vid) {
+      // Do not update the node revision if that revision is already being
+      // saved or deleted directly by the user.
+      if (isset($file->delete_vid) && $file->delete_vid == $vid) {
+        continue;
+      }
+
+      $node = node_load(array('vid' => $vid));
+      foreach ($fields as $field_name => $field) {
+        if (isset($node->$field_name)) {
+          foreach ($node->$field_name as $delta => $item) {
+            if ($item['fid'] == $file->fid) {
+              unset($node->{$field_name}[$delta]);
+            }
+          }
+          $node->$field_name = array_values(array_filter($node->$field_name));
+        }
+      }
+
+      // Save the node after removing the file references. This flag prevents
+      // FileField from attempting to delete the file again.
+      $node->skip_filefield_delete = TRUE;
+      node_save($node);
+    }
+  }
+}

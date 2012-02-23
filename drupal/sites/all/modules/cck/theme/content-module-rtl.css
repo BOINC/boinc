@@ -1,0 +1,22 @@
+/* $Id: content-module-rtl.css,v 1.1.2.1 2009/03/14 18:45:38 yched Exp $ */
+
+/* Node form display */
+.node-form .content-multiple-table td.content-multiple-drag {
+  padding-left:0;
+  padding-right:0.5em;
+}
+.node-form .content-multiple-table td.content-multiple-drag a.tabledrag-handle{
+  padding-left:.5em;
+}
+
+/* 'Manage fields' overview */
+#content-field-overview-form .advanced-help-link,
+#content-display-overview-form .advanced-help-link {
+  margin: 4px 0 0 4px;
+}
+
+table#content-field-overview .label-add-new-field,
+table#content-field-overview .label-add-existing-field,
+table#content-field-overview .label-add-new-group {
+  float: right;
+}

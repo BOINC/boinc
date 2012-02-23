@@ -67,6 +67,7 @@ ini_set('display_startup_errors', true);
 include_once("../inc/prefs_util.inc");
 include_once("../project/project_specific_prefs.inc");
 
+global $app_types;
 $app_types = get_app_types();
 
 $venues = array("home", "school", "work");

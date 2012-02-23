@@ -1,0 +1,267 @@
+# Russian translation of privatemsg (6.x-1.x-dev)
+# Copyright (c) 2009 by the Russian translation team
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: privatemsg (6.x-1.x-dev)\n"
+"POT-Creation-Date: 2009-11-29 16:35+0300\n"
+"PO-Revision-Date: 2009-11-29 16:16+0200\n"
+"Last-Translator: Andy Postnikov <andypoxt@yandex.ru>\n"
+"Language-Team: Russian\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=((((n%10)==1)&&((n%100)!=11))?(0):(((((n%10)>=2)&&((n%10)<=4))&&(((n%100)<10)||((n%100)>=20)))?(1):2));\n"
+
+#: privatemsg_filter.admin.inc:13
+#: privatemsg_filter.module:157;344;550;687;33
+msgid "Tags"
+msgstr "Метки"
+
+#: privatemsg_filter.admin.inc:17
+msgid "Tag"
+msgstr "Метка"
+
+#: privatemsg_filter.admin.inc:24
+msgid "Usage"
+msgstr "Использование"
+
+#: privatemsg_filter.admin.inc:30;92
+msgid "Public"
+msgstr "Общедоступно"
+
+#: privatemsg_filter.admin.inc:36
+msgid "Operations"
+msgstr "Действия"
+
+#: privatemsg_filter.admin.inc:49
+msgid "Yes"
+msgstr "Да"
+
+#: privatemsg_filter.admin.inc:50
+msgid "edit"
+msgstr "изменить"
+
+#: privatemsg_filter.admin.inc:51
+msgid "delete"
+msgstr "удалить"
+
+#: privatemsg_filter.admin.inc:58
+msgid "No tags available."
+msgstr "Меток нет."
+
+#: privatemsg_filter.admin.inc:82
+msgid "Edit @tag"
+msgstr "Изменить @tag"
+
+#: privatemsg_filter.admin.inc:86
+msgid "Name"
+msgstr "Название"
+
+#: privatemsg_filter.admin.inc:95
+msgid "Public tags are visible for all users, private tags are only visible if they use them."
+msgstr "Общие метки видны всем пользователям, личные метки видны только если пользователь использует их."
+
+#: privatemsg_filter.admin.inc:99
+msgid "Create tag"
+msgstr "Создать метку"
+
+#: privatemsg_filter.admin.inc:99
+msgid "Save tag"
+msgstr "Сохранить метку"
+
+#: privatemsg_filter.admin.inc:121
+msgid "Tag already exists, choose a different name."
+msgstr "Такая метка уже есть, придумайте другую."
+
+#: privatemsg_filter.admin.inc:132
+msgid "Tag updated."
+msgstr "Метка обновлена."
+
+#: privatemsg_filter.admin.inc:138
+msgid "Tag created."
+msgstr "Метка создана."
+
+#: privatemsg_filter.admin.inc:154
+msgid "Are you sure you want to delete?"
+msgstr "Вы уверены что хотите удалить?"
+
+#: privatemsg_filter.admin.inc:156
+msgid "This action cannot be undone."
+msgstr "Это действие не может быть отменено."
+
+#: privatemsg_filter.admin.inc:157
+msgid "Delete"
+msgstr "Удалить"
+
+#: privatemsg_filter.admin.inc:158
+msgid "Cancel"
+msgstr "Отменить"
+
+#: privatemsg_filter.admin.inc:170
+msgid "Tag has been deleted"
+msgstr "Метка удалена"
+
+#: privatemsg_filter.module:127
+msgid "Search message body"
+msgstr "Искать тело сообщения"
+
+#: privatemsg_filter.module:128
+msgid "WARNING: turning on this feature will slow down search performance by a large factor. Gets worse as your messages database increases."
+msgstr "ВНИМАНИЕ: включение данной опции сильно замедлит поиск. Чем больше база сообщений - тем становится хуже."
+
+#: privatemsg_filter.module:134
+msgid "Position of the tagging textfield"
+msgstr "Расположения поля меток"
+
+#: privatemsg_filter.module:135
+msgid "Use higher values to push the form lower down the page, lower or negative values to raise it higher."
+msgstr "Используйте большие значения чтобы опустить форму ниже. Меньшее или отрицательное значение поднимет ее выше."
+
+#: privatemsg_filter.module:152;77
+msgid "Inbox"
+msgstr "Входящие"
+
+#: privatemsg_filter.module:152
+msgid "All messages"
+msgstr "Все сообщения"
+
+#: privatemsg_filter.module:153
+msgid "Choose the default list option"
+msgstr "Выберите список по умолчанию"
+
+#: privatemsg_filter.module:154
+msgid "Choose which of the two lists are shown by default when following the messages link."
+msgstr "Выберите один из списков, который будет показываться по умолчанию."
+
+#: privatemsg_filter.module:199
+msgid "Tag %tag was ignored because you do not have permission to create new tags."
+msgstr "Метка %tag была проигнорирована потому, что у вас нет прав создавать новые метки."
+
+#: privatemsg_filter.module:321
+msgid "Filter messages"
+msgstr "Фильтрация сообщений"
+
+#: privatemsg_filter.module:327
+msgid "Search messages"
+msgstr "Искать сообщения"
+
+#: privatemsg_filter.module:327
+msgid "Search subjects"
+msgstr "Искать темы"
+
+#: privatemsg_filter.module:333
+msgid "Participants"
+msgstr "Участники"
+
+#: privatemsg_filter.module:334
+msgid "Separate multiple names with commas."
+msgstr "Разделяйте несколько меток запятыми."
+
+#: privatemsg_filter.module:353;422;25
+msgid "Filter"
+msgstr "Фильтр"
+
+#: privatemsg_filter.module:361;409
+msgid "Save filter"
+msgstr "Сохранить фильтр"
+
+#: privatemsg_filter.module:375
+msgid "Filter messages (active)"
+msgstr "Фильтрация сообщений (вкл.)"
+
+#: privatemsg_filter.module:394;426
+msgid "Reset"
+msgstr "Сброс"
+
+#: privatemsg_filter.module:506
+msgid "Apply tag..."
+msgstr "Отметить..."
+
+#: privatemsg_filter.module:519
+msgid "Apply Tag"
+msgstr "Отметить"
+
+#: privatemsg_filter.module:523
+msgid "Remove Tag..."
+msgstr "Снятие метки..."
+
+#: privatemsg_filter.module:533
+msgid "Remove Tag"
+msgstr "Снять метку"
+
+#: privatemsg_filter.module:590
+msgid "The selected conversations have been tagged."
+msgstr "Выбранные диалоги отмечены."
+
+#: privatemsg_filter.module:604
+msgid "The tag has been removed from the selected conversations."
+msgstr "Метка удалена c выбранных диалогов."
+
+#: privatemsg_filter.module:703
+msgid "Tags for this conversation"
+msgstr "Метки для этого  разговора"
+
+#: privatemsg_filter.module:704
+msgid "Separate multiple tags with commas."
+msgstr "Разделяйте несколько меток запятыми."
+
+#: privatemsg_filter.module:712
+msgid "Tag this conversation"
+msgstr "Отметить этот разговор"
+
+#: privatemsg_filter.module:733
+msgid "Tagging information has been saved."
+msgstr "Информация о метках сохранена."
+
+#: privatemsg_filter.module:14
+msgid "filter private messages"
+msgstr "фильтр личных сообщений"
+
+#: privatemsg_filter.module:15
+msgid "tag private messages"
+msgstr "отмечать личные сообщения"
+
+#: privatemsg_filter.module:16
+msgid "create private message tags"
+msgstr "создавать метки для ЛС"
+
+#: privatemsg_filter.module:26
+msgid "Configure filter settings."
+msgstr "Настроить параметры фильтра."
+
+#: privatemsg_filter.module:34;42;51;60;69
+msgid "Configure tags."
+msgstr "Настройка меток."
+
+#: privatemsg_filter.module:41
+msgid "List"
+msgstr "Список"
+
+#: privatemsg_filter.module:50;59;68
+msgid "Add"
+msgstr "Добавить"
+
+#: privatemsg_filter.module:85
+msgid "Sent messages"
+msgstr "Отправленные"
+
+#: privatemsg_filter.info:0
+msgid "Privatemsg filter"
+msgstr "Фильтр личных сообщений"
+
+#: privatemsg_filter.info:0
+msgid "Allow users to filter messages using tags or other criteria."
+msgstr "Позволить пользователям фильтровать сообщения используюя метки и другие критерии."
+
+#: privatemsg_filter.info:0
+msgid "Mail"
+msgstr "Адрес e-mail"
+
+#~ msgid "Apply tag"
+#~ msgstr "Отметить"
+#~ msgid "Remove tag..."
+#~ msgstr "Снять метку..."
+#~ msgid "Remove tag"
+#~ msgstr "Снять метку"
+

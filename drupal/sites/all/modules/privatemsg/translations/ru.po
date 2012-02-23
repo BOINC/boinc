@@ -1,0 +1,468 @@
+# Russian translation of privatemsg (6.x-1.x-dev)
+# Copyright (c) 2009 by the Russian translation team
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: privatemsg (6.x-1.x-dev)\n"
+"POT-Creation-Date: 2009-11-29 17:41+0300\n"
+"PO-Revision-Date: 2009-11-29 16:49+0200\n"
+"Last-Translator: Andy Postnikov <andypoxt@yandex.ru>\n"
+"Language-Team: Russian\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=((((n%10)==1)&&((n%100)!=11))?(0):(((((n%10)>=2)&&((n%10)<=4))&&(((n%100)<10)||((n%100)>=20)))?(1):2));\n"
+
+#: privatemsg.api.php:314
+msgid "%name has chosen to not recieve any more messages from you."
+msgstr "%name не желает получать сообщения от Вас."
+
+#: privatemsg.api.php:346
+msgid "My link"
+msgstr "Моя ссылка"
+
+#: privatemsg.author-pane.inc:16;16
+msgid "Send private message"
+msgstr "Отправить личное сообщение"
+
+#: privatemsg.author-pane.inc:18
+msgid "Send PM"
+msgstr "Отправить ЛС"
+
+#: privatemsg.info:0
+#: privatemsg.module:1477;171;179;188
+msgid "Private messages"
+msgstr "Личные сообщения"
+
+#: privatemsg.info:0
+msgid "Allow private messages between users."
+msgstr "Разрешить пользователям обмениваться личными сообщения."
+
+#: privatemsg.info:0
+msgid "Mail"
+msgstr "Адрес e-mail"
+
+#: privatemsg.module:97
+msgid " and others"
+msgstr " и другие"
+
+#: privatemsg.module:107
+msgid "From !last"
+msgstr "От !last"
+
+#: privatemsg.module:111
+msgid "Participants: !participants and !last"
+msgstr "Участники: !participants и !last"
+
+#: privatemsg.module:395
+msgid "Theming settings"
+msgstr "Настройки оформления"
+
+#: privatemsg.module:399
+msgid "Private message display template"
+msgstr "Шаблон отображения личных сообщений"
+
+#: privatemsg.module:405
+msgid "Inform the user about new messages on login"
+msgstr "Информировать пользователя о новых сообщениях при авторизации"
+
+#: privatemsg.module:407
+msgid "This option can safely be disabled if the \"New message indication\" block is used instead."
+msgstr "Эта опция может быть отключена, если используется блок \"Уведомление о новом сообщении\"."
+
+#: privatemsg.module:414;420
+msgid "Flush deleted messages"
+msgstr "Очистить удаленные сообщения"
+
+#: privatemsg.module:415
+msgid "By default, deleted messages are only hidden from the user but still stored in the database. These settings control if and when messages should be removed."
+msgstr "По умолчанию удаленные сообщения просто скрываются от пользователей, однако остаются в базе данных. Эти настройки задают как и когда сообщения будут уничтожены."
+
+#: privatemsg.module:422
+msgid "Enable the flushing of deleted messages. Requires that cron is enabled"
+msgstr "Активировать очистку удаленных сообщений. Требует включенного Cron."
+
+#: privatemsg.module:427
+msgid "Flush messages after they have been deleted for more days than"
+msgstr "Очистить удалённые сообщения насовсем, если они старше, чем"
+
+#: privatemsg.module:434
+msgid "Maximum number of messages to flush per cron run"
+msgstr "Число сообщений, очищаемых за один запуск планировщика."
+
+#: privatemsg.module:441
+msgid "Configure listings"
+msgstr "Настроить списки"
+
+#: privatemsg.module:448
+msgid "Threads per page"
+msgstr "Обсуждений на страницу"
+
+#: privatemsg.module:451
+msgid "Choose the number of conversations that should be listed per page."
+msgstr "Выберите количество разговоров, которое будет отображено на странице."
+
+#: privatemsg.module:456
+msgid "Configure fields"
+msgstr "Настроить поля"
+
+#: privatemsg.module:457
+msgid "Select which columns/fields should be displayed in the message listings. Subject and Last updated cannot be disabled."
+msgstr "Выберите какие колонки/поля должны быть показаны в списках сообщений. Тема и Последнее обновление не могут быть отображены."
+
+#: privatemsg.module:459
+#: privatemsg.theme.inc:196
+msgid "Participants"
+msgstr "Участники"
+
+#: privatemsg.module:460
+#: privatemsg.theme.inc:226
+msgid "Started"
+msgstr "Начало"
+
+#: privatemsg.module:461;1443;122;130;195
+#: privatemsg.theme.inc:182
+msgid "Messages"
+msgstr "Сообщения"
+
+#: privatemsg.module:469
+msgid "Number of messages on thread pages"
+msgstr "Число сообщений на страницах переписки"
+
+#: privatemsg.module:470
+msgid "Unlimited"
+msgstr "Без ограничений"
+
+#: privatemsg.module:472
+msgid "Threads will not show more than this number of messages on a single page."
+msgstr "Ветки обсуждений будут выводить не более данного числа сообщений на страницу."
+
+#: privatemsg.module:478
+msgid "Display different amount of messages on first thread page"
+msgstr "Выводить другое количество сообщений на первой странице переписки"
+
+#: privatemsg.module:480
+msgid "By default, the first thread page shows the maximally allowed amount of messages. Enable this checkbox to set a different value."
+msgstr "По умолчанию первая страница обсуждения отображает максимально разрешенное количество сообщений. Отметьте, чтобы указать другое значение."
+
+#: privatemsg.module:488
+msgid "Number of messages on first thread page"
+msgstr "Число сообщений на первой странице переписки"
+
+#: privatemsg.module:490
+msgid "The number of messages to be displayed on first thread page. Displays the newest messages."
+msgstr "Число сообщений на первой странице ветки обсуждения. Показывает новейшие сообщения."
+
+#: privatemsg.module:588;146
+msgid "Delete message"
+msgstr "Удалить сообщение"
+
+#: privatemsg.module:593
+msgid "new"
+msgstr "новое"
+
+#: privatemsg.module:636
+msgid "You do not have sufficient rights to view someone else's messages"
+msgstr "У Вас недостаточно прав, чтобы просматривать чьи-либо сообщения"
+
+#: privatemsg.module:728
+msgid "Display older messages"
+msgstr "Показать предыдущие сообщения"
+
+#: privatemsg.module:730
+msgid "<<"
+msgstr "<<"
+
+#: privatemsg.module:736
+msgid "Display newer messages"
+msgstr "Показать последние сообщения"
+
+#: privatemsg.module:738
+msgid ">>"
+msgstr ">>"
+
+#: privatemsg.module:741
+msgid "!previous_link Displaying messages @from - @to of @total !newer_link"
+msgstr "!previous_link Сообщения @from - @to из @total !newer_link"
+
+#: privatemsg.module:779
+msgid "This conversation is being viewed with escalated priviledges and may not be the same as shown to normal users."
+msgstr "Эта переписка просматривается с расширенными правами, которыми могут не обладать другие пользователи."
+
+#: privatemsg.module:849
+msgid "Write new message to %recipient"
+msgstr "Написать новое сообщение для %recipient"
+
+#: privatemsg.module:852;1470;154
+msgid "Write new message"
+msgstr "Написать новое сообщение"
+
+#: privatemsg.module:876
+msgid "To"
+msgstr "Для"
+
+#: privatemsg.module:877
+msgid "Separate multiple names with commas."
+msgstr "Разделяйте несколько имен запятыми."
+
+#: privatemsg.module:888
+#: privatemsg.theme.inc:167
+msgid "Subject"
+msgstr "Тема"
+
+#: privatemsg.module:896
+msgid "Message"
+msgstr "Сообщение"
+
+#: privatemsg.module:911
+msgid "Preview message"
+msgstr "Предпросмотр сообщения"
+
+#: privatemsg.module:918
+msgid "Send message"
+msgstr "Отправить сообщение"
+
+#: privatemsg.module:924;1507
+msgid "Cancel"
+msgstr "Отменить"
+
+#: privatemsg.module:930
+msgid "Clear"
+msgstr "Очистить"
+
+#: privatemsg.module:949
+msgid "<strong>Reply to thread</strong>:<br /> Recipients: !to"
+msgstr "<strong>Ответить</strong>:<br /> Получатели: !to"
+
+#: privatemsg.module:992
+msgid "The following users will not receive this private message: !invalid"
+msgstr "Следующие пользователи не получат это личное сообщение: !invalid"
+
+#: privatemsg.module:1074
+msgid "A message has been sent to !recipients."
+msgstr "Сообщение было отправлено !recipients."
+
+#: privatemsg.module:1077
+msgid "An attempt to send a message <em>may have failed</em> when sending to !recipients."
+msgstr "Попытка отправить сообщение для !recipients <em>может оказаться неудачной</em>."
+
+#: privatemsg.module:1373
+msgid "Send this user a message"
+msgstr "Отправить сообщение этому пользователю"
+
+#: privatemsg.module:1382
+msgid "You have <a href=\"@messages\">%unread</a>."
+msgstr "У Вас <a href=\"@messages\">%unread</a>."
+
+#: privatemsg.module:1413
+msgid "Privatemsg links"
+msgstr "Ссылки ЛС"
+
+#: privatemsg.module:1417
+msgid "New message indication"
+msgstr "Уведомление о новом сообщении"
+
+#: privatemsg.module:1497
+msgid "Delete this message for all users?"
+msgstr "Удалить это сообщение для всех пользователей?"
+
+#: privatemsg.module:1498
+msgid "Tick the box to delete the message for all users."
+msgstr "Отметьте, чтобы удалить это сообщение для всех пользователей."
+
+#: privatemsg.module:1503
+msgid "Are you sure you want to delete this message?"
+msgstr "Вы уверены, что хотите удалить данное сообщение?"
+
+#: privatemsg.module:1505
+msgid "This action cannot be undone."
+msgstr "Это действие не может быть отменено."
+
+#: privatemsg.module:1506;2135
+msgid "Delete"
+msgstr "Удалить"
+
+#: privatemsg.module:1518
+msgid "Message has been deleted for all users."
+msgstr "Сообщение удалено для всех пользователей."
+
+#: privatemsg.module:1522
+msgid "Message has been deleted."
+msgstr "Сообщение удалено."
+
+#: privatemsg.module:1678
+msgid "Thread %thread_id not found, unable to answer"
+msgstr "Поток сообщений %thread_id не найден, невозможно ответить"
+
+#: privatemsg.module:1702;1709
+msgid "User @user is not allowed to write messages"
+msgstr "Пользователю @user запрещено создавать сообщения"
+
+#: privatemsg.module:1719;1722
+msgid "Disallowed to send a message without subject"
+msgstr "Нельзя отправить сообщение без темы"
+
+#: privatemsg.module:1729;1732
+msgid "Disallowed to send reply without a message."
+msgstr "Отправка пустых ответов запрещена."
+
+#: privatemsg.module:1744
+msgid "You are not allowed to use the specified input format."
+msgstr "Вам запрещено использовать выбранный формат ввода."
+
+#: privatemsg.module:1747
+msgid "User @user is not allowed to use the specified input format."
+msgstr "Пользователю @user запрещено использовать выбранный формат ввода."
+
+#: privatemsg.module:1756;1759
+msgid "Disallowed to send a message without atleast one valid recipient"
+msgstr "Нельзя отправить сообщение, укажите хотя бы одного действительного получателя"
+
+#: privatemsg.module:1778;1781
+msgid "Disallowed to send message because all recipients are blocked"
+msgstr "Нельзя отправить сообщение, так как все получатели заблокированы"
+
+#: privatemsg.module:2027
+msgid "Query function %function does not exist"
+msgstr "Запрос функции %function не существует"
+
+#: privatemsg.module:2125
+msgid "Actions"
+msgstr "Действия"
+
+#: privatemsg.module:2139
+msgid "More actions..."
+msgstr "Другие действия..."
+
+#: privatemsg.module:2154
+msgid "Execute"
+msgstr "Выполнить"
+
+#: privatemsg.module:2387
+msgid "The previous action can be <a href=\"!undo\">undone</a>."
+msgstr "Предыдущее действие может быть <a href=\"!undo\">отменено</a>."
+
+#: privatemsg.module:2438
+msgid "Mark as read"
+msgstr "Отметить как прочитанное"
+
+#: privatemsg.module:2445
+msgid "Mark as unread"
+msgstr "Отметить как непрочитанное"
+
+#: privatemsg.module:1382
+msgid "1 unread message"
+msgid_plural "@count unread messages"
+msgstr[0] "@count непрочитанное сообщение"
+msgstr[1] "@count непрочитанных сообщения"
+msgstr[2] "@count непрочитанных сообщений"
+
+#: privatemsg.module:1441
+msgid "Messages (1 new)"
+msgid_plural "Messages (@count new)"
+msgstr[0] "Сообщения (@count новое)"
+msgstr[1] "Сообщения (@count новых)"
+msgstr[2] "Сообщения (@count новых)"
+
+#: privatemsg.module:1457
+msgid "New message"
+msgid_plural "New messages"
+msgstr[0] "Новое сообщение"
+msgstr[1] "Новые сообщения"
+msgstr[2] "Новые сообщения"
+
+#: privatemsg.module:2187
+msgid "Marked 1 thread as unread."
+msgid_plural "Marked @count threads as unread."
+msgstr[0] "Отмечена @count ветка обсуждений как непрочитанная."
+msgstr[1] "Отмечено @count ветки обсуждений как непрочитанные."
+msgstr[2] "Отмечено @count веток обсуждений как непрочитанные."
+
+#: privatemsg.module:2190
+msgid "Marked 1 thread as read."
+msgid_plural "Marked @count threads as read."
+msgstr[0] "Отмечена @count ветка обсуждений как прочитанная."
+msgstr[1] "Отмечено @count ветки обсуждений как прочитанные."
+msgstr[2] "Отмечено @count веток обсуждений как прочитанные."
+
+#: privatemsg.module:2425
+msgid "Deleted 1 thread."
+msgid_plural "Deleted @count threads."
+msgstr[0] "Удалена @count ветка обсуждений."
+msgstr[1] "Удалено @count ветки обсуждений."
+msgstr[2] "Удалены @count веток обсуждений."
+
+#: privatemsg.module:2428
+msgid "Restored 1 thread."
+msgid_plural "Restored @count threads."
+msgstr[0] "Восстановлена @count ветка обсуждений."
+msgstr[1] "Восстановлено @count ветки обсуждений."
+msgstr[2] "Восстановлено @count веток обсуждений."
+
+#: privatemsg.module:27
+msgid "read privatemsg"
+msgstr "читать личные сообщения"
+
+#: privatemsg.module:28
+msgid "read all private messages"
+msgstr "читать все ЛС"
+
+#: privatemsg.module:29
+msgid "administer privatemsg settings"
+msgstr "управлять настройками ЛС"
+
+#: privatemsg.module:30
+msgid "write privatemsg"
+msgstr "писать личные сообщения"
+
+#: privatemsg.module:31
+msgid "delete privatemsg"
+msgstr "удалять личные сообщения"
+
+#: privatemsg.module:138
+msgid "Read message"
+msgstr "Прочесть сообщение"
+
+#: privatemsg.module:172;180
+msgid "Configure private messaging settings."
+msgstr "Изменить настройки личных сообщений."
+
+#: privatemsg.module:189
+msgid "Undo last thread action"
+msgstr "Отменить действие с последним обсуждением"
+
+#: privatemsg.theme.inc:210
+msgid "Last Updated"
+msgstr "Последние обновления"
+
+#: privatemsg.theme.inc:282
+msgid "No messages available."
+msgstr "Сообщений нет."
+
+#: privatemsg.theme.inc:115
+msgid "(1 new)"
+msgid_plural "(@count new)"
+msgstr[0] "(@count новое)"
+msgstr[1] "(@count новых)"
+msgstr[2] "(@count новых)"
+
+#: privatemsg.theme.inc:300
+msgid "You have a new message, click here to read it"
+msgid_plural "You have @count new messages, click here to read them"
+msgstr[0] "У Вас есть @count новое сообщение, нажмите здесь для прочтения"
+msgstr[1] "У Вас есть @count новых сообщения, нажмите здесь для прочтения"
+msgstr[2] "У Вас есть @count новых сообщений, нажмите здесь для прочтения"
+
+#~ msgid "Privatemsg"
+#~ msgstr "Privatemsg"
+#~ msgid "Send Privatemsg link"
+#~ msgstr "Ссылка Отправить ЛС"
+#~ msgid "Displays a link to send a private message to a user."
+#~ msgstr "Выводит ссылку для отправки личного сообщения пользователю."
+#~ msgid "Text to display"
+#~ msgstr "Текст для вывода"
+#~ msgid "Replacement patterns"
+#~ msgstr "Шаблоны для замены"
+#~ msgid "Write private message"
+#~ msgstr "Написать личное сообщение"
+

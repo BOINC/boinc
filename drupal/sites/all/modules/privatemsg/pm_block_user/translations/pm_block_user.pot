@@ -1,0 +1,137 @@
+# $Id: pm_block_user.pot,v 1.1.2.3 2010/04/12 12:10:41 berdir Exp $
+#
+# LANGUAGE translation of Privatemsg (pm_block_user)
+# Copyright YEAR NAME <EMAIL@ADDRESS>
+# Generated from files:
+#  pm_block_user.module,v 1.1.2.15 2010/02/18 18:15:33 berdir
+#  pm_block_user.info,v 1.2.2.1 2009/04/10 15:52:48 litwol
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"POT-Creation-Date: 2010-04-12 13:53+0200\n"
+"PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
+"Last-Translator: NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+
+#: pm_block_user/pm_block_user.module:25
+msgid "This area is used to define user blocking rules for the Privatemsg module. Rules allow control of who may block messages from whom. By default all users are allowed to block messages from anyone else. However, a site may have groups of users that need to contact or get information to others, for example: the site may have administrative staff or be a forum with moderators. Groups of users are defined by roles, which can be managed on the <a href=\"@roles\">roles configuration page</a>."
+msgstr ""
+
+#: pm_block_user/pm_block_user.module:97
+msgid "More"
+msgstr ""
+
+#: pm_block_user/pm_block_user.module:100
+msgid "Add new rule"
+msgstr ""
+
+#: pm_block_user/pm_block_user.module:113
+msgid "Save configuration"
+msgstr ""
+
+#: pm_block_user/pm_block_user.module:160
+msgid "Disallow blocking author"
+msgstr ""
+
+#: pm_block_user/pm_block_user.module:161
+msgid "Disallow sending message"
+msgstr ""
+
+#: pm_block_user/pm_block_user.module:182
+msgid "Remove"
+msgstr ""
+
+#: pm_block_user/pm_block_user.module:185
+msgid "Remove rule"
+msgstr ""
+
+#: pm_block_user/pm_block_user.module:247
+msgid "The configuration options have been saved."
+msgstr ""
+
+#: pm_block_user/pm_block_user.module:327
+msgid "If the author has the role"
+msgstr ""
+
+#: pm_block_user/pm_block_user.module:328
+msgid "And the recipient has the role"
+msgstr ""
+
+#: pm_block_user/pm_block_user.module:329
+msgid "Action"
+msgstr ""
+
+#: pm_block_user/pm_block_user.module:330
+msgid "Enabled"
+msgstr ""
+
+#: pm_block_user/pm_block_user.module:358
+msgid "No rules have been added. All users may block private messages from each other. To limit which users may be blocked, click 'Add new rule'."
+msgstr ""
+
+#: pm_block_user/pm_block_user.module:461
+msgid "You have previously blocked \"@author\" from sending you any more messages. Are you sure you want to unblock this user?"
+msgstr ""
+
+#: pm_block_user/pm_block_user.module:464
+msgid "Unblock @author"
+msgstr ""
+
+#: pm_block_user/pm_block_user.module:474
+msgid "Are you sure you want to block \"@author\" from sending you any more messages?"
+msgstr ""
+
+#: pm_block_user/pm_block_user.module:477
+msgid "Block @author"
+msgstr ""
+
+#: pm_block_user/pm_block_user.module:491
+msgid "@author has been blocked from sending you any further messages."
+msgstr ""
+
+#: pm_block_user/pm_block_user.module:495
+msgid "@author is now allowed to send you new messages."
+msgstr ""
+
+#: pm_block_user/pm_block_user.module:522
+msgid "Sorry, private messaging rules forbid sending messages to !name."
+msgstr ""
+
+#: pm_block_user/pm_block_user.module:537
+msgid "%name has chosen to not recieve any more messages from you."
+msgstr ""
+
+#: pm_block_user/pm_block_user.module:567
+msgid "Unblock author"
+msgstr ""
+
+#: pm_block_user/pm_block_user.module:570
+msgid "Block author"
+msgstr ""
+
+#: pm_block_user/pm_block_user.module:34 pm_block_user/pm_block_user.info:0
+msgid "Block user messages"
+msgstr ""
+
+#: pm_block_user/pm_block_user.module:44
+msgid "User blocking rules"
+msgstr ""
+
+#: pm_block_user/pm_block_user.module:45
+msgid "Configure rules for which users may block each other."
+msgstr ""
+
+#: pm_block_user/pm_block_user.module:53
+msgid "Javascript block actions form"
+msgstr ""
+
+#: pm_block_user/pm_block_user.info:0
+msgid "Allows users to block other users from sending them messages."
+msgstr ""
+

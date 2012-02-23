@@ -1,0 +1,501 @@
+<?php
+// $Id: menutrails.module,v 1.4.2.24 2010/03/16 21:18:49 sun Exp $
+
+/**
+ * @file
+ * Menutrails allows the assignment of "trails" which will keep menu items
+ * active for individual node views.
+ */
+
+/**
+ * Implementation of hook_menu().
+ */
+function menutrails_menu() {
+  $items = array();
+  $items['admin/build/menu/trails'] = array(
+    'title' => 'Trails',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('menutrails_settings_form'),
+    'access arguments' => array('administer menu'),
+    'type' => MENU_LOCAL_TASK,
+    'weight' => 6,
+  );
+  return $items;
+}
+
+/**
+ * Implementation of hook_init().
+ *
+ * Detect menutrails for non-node-view pages.
+ * Currently supports og sub-pages only.
+ *
+ * @todo Replace TRUE with settings check.
+ */
+function menutrails_init() {
+  if (module_exists('og') && variable_get('menutrails_og_sub_pages', TRUE)) {
+    if ($group = og_get_group_context()) {
+      $item = menu_get_item();
+      if ($item['page_callback'] != 'node_page_view') {
+        $item = menutrails_node_location($group);
+        if ($item) {
+          menu_set_item(NULL, $item);
+          if (variable_get('menutrails_breadcrumbs', 1)) {
+            $crumbs = menutrails_get_breadcrumbs();
+            $crumbs[] = l($group->title, 'node/'. $group->nid);
+            drupal_set_breadcrumb($crumbs);
+          }
+        }
+      }
+    }
+  }
+}
+
+/**
+ * Implementation of hook_enable().
+ *
+ * Default menutrails to run after core/og modules for fuller control.
+ */
+function menutrails_enable() {
+  db_query("UPDATE {system} SET weight = 1 WHERE name = 'menutrails' AND type = 'module'");
+}
+
+/**
+ * Implementation of hook_nodeapi().
+ *
+ * This will evaluate individual nodes when being viewed and take the necessary
+ * steps to set the active_trail for menus.
+ *
+ * This will retain menu state at the node/view level. For instance, forum nodes
+ * would maintain an active trail to the forum menu item.
+ */
+function menutrails_nodeapi(&$node, $op, $a3 = NULL, $page = FALSE) {
+  if ($op == 'view' && $page == TRUE) {
+    $item = menutrails_node_location($node);
+    if ($item) {
+      menu_set_item(NULL, $item);
+      if (variable_get('menutrails_breadcrumbs', 1)) {
+        drupal_set_breadcrumb(menutrails_get_breadcrumbs());
+      }
+    }
+  }
+}
+
+/**
+ * Set Breadcrumbs based on active menu trail.
+ */
+function menutrails_get_breadcrumbs() {
+  $item = menu_get_item();
+  // Give first priority to the selected menu.
+  $menu = variable_get('menutrails_menu', FALSE);
+  if (!$menu) {
+    $menu = db_result(db_query("SELECT menu_name FROM {menu_links} WHERE link_path = '%s' AND module = 'menu'", $item['href']));
+  }
+  $tree = menu_tree_page_data($menu);
+  $crumbs = array(l(t('Home'), '<front>'));
+  _menutrails_recurse_crumbs($tree, $item, $crumbs);
+
+  return $crumbs;
+}
+
+function _menutrails_recurse_crumbs($tree, $item, &$crumbs, $above = array()) {
+  foreach ($tree as $menu_item) {
+    if (!$menu_item['link']['in_active_trail']) {
+      continue;
+    }
+    if ($menu_item['link']['link_path'] == $item['href']) {
+      foreach ($above as $trail_item) {
+        $crumbs[] = l($trail_item['link']['link_title'], $trail_item['link']['link_path']);
+      }
+      $crumbs[] = l($menu_item['link']['link_title'], $menu_item['link']['link_path']);
+      break;
+    }
+    if (is_array($menu_item['below'])) {
+      _menutrails_recurse_crumbs($menu_item['below'], $item, $crumbs, array_merge($above, array($menu_item)));
+    }
+  }
+}
+
+/**
+ * Determine the menu location of a node.
+ *
+ * Inspired by _menu_get_active_trail().
+ */
+function menutrails_node_location($node) {
+  // This should only fire if the menu isn't already active.
+  $item = menu_get_item();
+  if (db_result(db_query("SELECT count(mlid) FROM {menu_links} WHERE link_path = '%s' AND module = 'menu'", $item['href'])) == 0) {
+    $type_trails = variable_get('menutrails_node_types', array());
+    $href        = $type_trails[$node->type] ? $type_trails[$node->type] : FALSE;
+    $term_trails = variable_get('menutrails_terms', array());
+    if (!empty($node->taxonomy)) {
+      foreach ($node->taxonomy as $term) {
+        if (!empty($term_trails[$term->tid])) {
+          $href = $term_trails[$term->tid];
+        }
+      }
+    }
+  }
+  else {
+    // We may want to do some breadcrumbing.
+    return $item;
+  }
+  // Organic groups support.
+  if (module_exists('og') && !empty($node->og_groups)) {
+    // We can only do one, so we take the first.
+    $group = reset($node->og_groups);
+    if (variable_get('menutrails_og_group_menu', FALSE) != FALSE) {
+      if (db_result(db_query("SELECT count(mlid) FROM {menu_links} WHERE link_path = '%s'", $item['href'])) == 0) {
+        $href = 'node/'. $group;
+      }
+    }
+    else {
+      $group_trails = variable_get('menutrails_og_node', FALSE);
+      if ($group_trails[$group] > 0) {
+        $href = 'node/'. $group;
+      }
+      elseif (variable_get('menutrails_og_post_default', FALSE)) {
+        $href = variable_get('menutrails_og_post_default', FALSE);
+      }
+    }
+  }
+  if (!empty($href)) {
+    $item['href'] = $href;
+    return $item;
+  }
+  return FALSE;
+}
+
+/**
+ * This implements the same functionality as the nodeapi, but for comment urls.
+ */
+function menutrails_comment($comment, $op) {
+  if ($op == 'form' && arg(0) == 'comment') {
+    $node = node_load($comment['nid']['#value']);
+    $item = menutrails_node_location($node);
+    if ($item) {
+      menu_set_item(NULL, $item);
+    }
+  }
+}
+
+/**
+ * Form builder function for settings.
+ *
+ * This is where menutrails rules are set. The interface here could definitely
+ * stand for some improvement. It's especially unhelpful for tagging
+ * vocabularies with lots and lots of terms.
+ */
+function menutrails_settings_form() {
+  $options = array('' => '<none>');
+  $limit   = MENU_MAX_DEPTH - 1;
+
+  // Load up menus.
+  foreach (menu_get_menus() as $menu_id => $menu_name) {
+    $tree = menu_tree_all_data($menu_id, NULL);
+    _menutrails_parents_recurse($tree, $menu_name, '', $options, 0, $limit);
+  }
+
+  $form['description'] = array(
+    '#type' => 'markup',
+    '#weight' => '-10',
+    '#value' => t('Use these settings to configure the "menu trails" for your nodes. This determines what menu items are activated when viewing an individual node. For instance, if you have a menu item for "Blog," you may want to have all blog posts fall under that menu.'),
+    '#prefix' => '<p>',
+    '#suffix' => '</p>',
+  );
+  $form['menutrails_menu'] = array(
+    '#type' => 'select',
+    '#weight' => '-6',
+    '#options' => menu_get_menus(),
+    '#default_value' => variable_get('menutrails_menu', 'primary-links'),
+    '#title' => t('Menutrails Menu'),
+    '#description' => t('What menu are you most interested in assigning trails to? This menu will be used if there is ambiguity about what menu a node falls under.'),
+  );
+  $form['menutrails_breadcrumbs'] = array(
+    '#type' => 'checkbox',
+    '#weight' => '-5',
+    '#default_value' => variable_get('menutrails_breadcrumbs', 1),
+    '#title' => t('Set breadcrumbs?'),
+    '#description' => t('If checked, menutrails will also synchronize the default drupal breadcrumbs with the menu trails, again giving priority to the menu selected above.'),
+  );
+  $form['order'] = array(
+    '#type' => 'markup',
+    '#weight' => '-1',
+    '#value' => t('Menu trails are evaluated in the order they are shown below.'),
+    '#prefix' => '<p>',
+    '#suffix' => '</p>',
+  );
+  $form = array_merge($form, module_invoke_all('menutrails_settings', $options));
+
+  return system_settings_form($form);
+}
+
+/**
+ * Implementation of hook_menutrails_settings().
+ *
+ * Allows other modules to define their own menutrail behavior.
+ *
+ * Please define your input as a fieldset and do not assign a weight. This will
+ * keep the groups of menutrails settings in order.
+ *
+ * @param $options
+ *   Options array to be used by other modules to define their own menutrails.
+ *
+ * @return
+ *   A form element (or array) for the menutrails system settings form.
+ */
+function menutrails_menutrails_settings($options) {
+  $form = array();
+  $node_types = node_get_types('names');
+  $node_trails = variable_get('menutrails_node_types', array());
+  $vocabs = module_exists('taxonomy') ? taxonomy_get_vocabularies() : array();
+  $term_trails = variable_get('menutrails_terms', array());
+  $form['menutrails_node_types'] = array(
+    '#tree' => TRUE,
+    '#type' => 'fieldset',
+    '#collapsible' => TRUE,
+    '#collapsed' => TRUE,
+    '#title' => t('Node types'),
+  );
+  foreach ($node_types as $key => $value) {
+    $form['menutrails_node_types'][$key] = array('#type' => 'select',
+      '#title' => t('Parent item for') ." $value",
+      '#default_value' => isset($node_trails[$key]) ? $node_trails[$key] : NULL,
+      '#options' => $options,
+    );
+  }
+  foreach ($vocabs as $vocab) {
+    // Tagging gets out of hand too fast, so we disallow.
+    if ($vocab->tags != 1) {
+      $form[$vocab->vid]['menutrails_terms'] = array(
+        '#tree' => TRUE,
+        '#type' => 'fieldset',
+        '#collapsible' => TRUE,
+        '#collapsed' => TRUE,
+        '#title' => t('Categories: @vocabulary', array('@vocabulary' => $vocab->name)),
+      );
+      $terms = taxonomy_get_tree($vocab->vid);
+      foreach ($terms as $term) {
+        $form[$vocab->vid]['menutrails_terms'][$term->tid] = array('#type' => 'select',
+          '#title' => t('Parent item for @term', array('@term' => $term->name)),
+          '#default_value' => isset($term_trails[$term->tid]) ? $term_trails[$term->tid] : NULL,
+          '#options' => $options,
+        );
+      }
+    }
+  }
+  // Organic groups support.
+  if (module_exists('og')) {
+    $form['menutrails_og'] = array(
+      '#type' => 'fieldset',
+      '#collapsible' => TRUE,
+      '#collapsed' => TRUE,
+      '#title' => t('Organic groups'),
+      '#description' => t('Settings for nodes withing Organic groups: these override node and taxonomy settings.'),
+    );
+    $form['menutrails_og']['menutrails_og_sub_pages'] = array(
+      '#type' => 'checkbox',
+      '#title' => t('Use group node menu trail for pages in groups'),
+      '#default_value' => variable_get('menutrails_og_sub_pages', TRUE),
+      '#description' => t('Use menutrails present for an organic group node for OG sub pages (e.g. "manage subscription" or "members").'),
+    );
+    $form['menutrails_og']['menutrails_og_post_default'] = array(
+      '#type' => 'select',
+      '#title' => t('Default menu trail for all nodes with group audience'),
+      '#default_value' => variable_get('menutrails_og_post_default', 0),
+      '#description' => t('Default menu trail for any posts in a group.'),
+      '#options' => $options,
+    );
+    $form['menutrails_og']['menutrails_og_node'] = array(
+      '#type' => 'fieldset',
+      '#collapsible' => TRUE,
+      '#collapsed' => TRUE,
+      '#tree' => TRUE,
+      '#title' => t('Individual organic group trails'),
+      '#description' => t('Specific trails for posts within specific groups.'),
+    );
+    $result = db_query('SELECT n.nid, n.title FROM {node} n INNER JOIN {og} og ON n.nid = og.nid ORDER BY n.title');
+    $og_trails = variable_get('menutrails_og_node', array());
+    while ($node = db_fetch_object($result)) {
+      $form['menutrails_og']['menutrails_og_node'][$node->nid] = array(
+        '#type' => 'select',
+        '#title' => t('Group @group', array('@group' => $node->title)),
+        '#default_value' => isset($og_trails[$node->nid]) ? $og_trails[$node->nid] : NULL,
+        '#options' => $options,
+      );
+    }
+    $form['menutrails_og']['menutrails_og_group_menu'] = array(
+      '#type' => 'checkbox',
+      '#title' => t("Use group's menu item for posts"),
+      '#default_value' => variable_get('menutrails_og_group_menu', FALSE),
+      '#description' => t('If a specific group node has an assigned menu item, use this as the trail for nodes which have that group as an audience. If present, this will override all other group settings.'),
+    );
+  }
+  return $form;
+}
+
+function menutrails_token_values($type, $object = NULL, $options = array()) {
+  if ($type == 'node') {
+    $node = $object;
+    $mlid = db_result(db_query("SELECT mlid FROM {menu_links} WHERE link_path = '%s'", 'node/'. $node->nid));
+    if (!empty($mlid) || !empty($node->menu['mlid']) || !empty($node->menu['plid'])) {
+      $menu_link = menu_link_load($mlid);
+      $trail_raw = _menu_titles($menu_link, $node->nid);
+      // Remove the node itself.
+      array_pop($trail_raw);
+    }
+    elseif ($item = menutrails_node_location($node)) {
+      $trail_raw = drupal_map_assoc(explode('/', $item['href']));
+    }
+    $trail = array();
+    if (!empty($trail_raw)) {
+      foreach ($trail_raw as $title) {
+        $trail[] = check_plain($title);
+      }
+      $tokens['menu-trail-parents-path-raw'] = implode('/', $trail_raw);
+      $tokens['menu-trail-parents-path'] = implode('/', $trail);
+    }
+    // Return NULL in case there is no trail.
+    else {
+      $tokens['menu-trail-parents-path-raw'] = NULL;
+      $tokens['menu-trail-parents-path'] = NULL;
+    }
+    return $tokens;
+  }
+}
+
+function menutrails_token_list($type = 'all') {
+  if ($type == 'node' || $type == 'all') {
+    $tokens['menutrails']['menu-trail-parents-path-raw'] = t("The menu trail leading up to but NOT including the node -- RAW");
+    $tokens['menutrails']['menu-trail-parents-path'] = t("The menu trail leading up to but NOT including the node");
+    return $tokens;
+  }
+}
+
+/**
+ * Inspired by _menu_parents_recurse().
+ *
+ * The same as above, except it delivers hrefs rather than coded ids.
+ */
+function _menutrails_parents_recurse($tree, $menu_name, $indent, &$options, $exclude, $depth_limit) {
+  foreach ($tree as $data) {
+    if ($data['link']['depth'] > $depth_limit) {
+      // Don't iterate over any links on this level.
+      break;
+    }
+    if ($data['link']['mlid'] != $exclude && $data['link']['hidden'] >= 0) {
+      $title = $indent .' '. truncate_utf8($data['link']['title'], 30, TRUE, FALSE);
+      if (!$data['link']['hidden']) {
+        $options[$menu_name][$data['link']['href']] = $title;
+      }
+      if ($data['below']) {
+        _menutrails_parents_recurse($data['below'], $menu_name, $indent .'--', $options, $exclude, $depth_limit);
+      }
+    }
+  }
+}
+
+/**
+ * Recursion to find the top tree.
+ */
+function _menutrails_recurse($tree, $href) {
+  foreach ($tree as $link) {
+    if ($link['link']['link_path'] == $href) {
+      $found = $link;
+      break;
+    }
+    if (is_array($link['below'])) {
+      $found = _menutrails_recurse($link['below'], $href);
+    }
+  }
+  return $found;
+}
+
+/**
+ * Return a themed set of links.
+ *
+ * The important difference is that we use the in_active_trail bit here to set
+ * an "active" CSS class, which is what most themes (e.g. garland) use to
+ * denote an active/open menu item. You should alter/override this as your
+ * design needs dictate.
+ *
+ * @param $links
+ *   A keyed array of links to be themed.
+ * @param $attributes
+ *   A keyed array of attributes
+ * @return
+ *   A string containing an unordered list of links.
+ */
+function phptemplate_links($links, $attributes = array('class' => 'links')) {
+  global $language;
+  $output = '';
+
+  if (count($links) > 0) {
+    $output = '<ul'. drupal_attributes($attributes) .'>';
+
+    $num_links = count($links);
+    $i = 1;
+
+    foreach ($links as $key => $link) {
+      $class = $key;
+
+      // Add first, last and active classes to the list of links to help out themers.
+      if ($i == 1) {
+        $class .= ' first';
+      }
+      if ($i == $num_links) {
+        $class .= ' last';
+      }
+      if (isset($link['href']) && ($link['href'] == $_GET['q'] || ($link['href'] == '<front>' && drupal_is_front_page()))
+          && (empty($link['language']) || $link['language']->language == $language->language)) {
+        $class .= ' active';
+      }
+
+      $a = '';
+      if (isset($link['href'])) {
+        // Add active class for containing <li> and <a> if 'active-trail' is set
+        // on the link itself.
+        if (isset($link['attributes']['class']) && strpos($link['attributes']['class'], 'active-trail') !== FALSE && strpos($class, 'active') === FALSE) {
+          $class .= ' active';
+          $link['attributes']['class'] .= ' active';
+        }
+        // Pass in $link as $options, they share the same keys.
+        $a = l($link['title'], $link['href'], $link);
+      }
+      else if (!empty($link['title'])) {
+        // Some links are actually not links, but we wrap these in <span> for adding title and class attributes
+        if (empty($link['html'])) {
+          $link['title'] = check_plain($link['title']);
+        }
+        $span_attributes = '';
+        if (isset($link['attributes'])) {
+          $span_attributes = drupal_attributes($link['attributes']);
+        }
+        $a = '<span'. $span_attributes .'>'. $link['title'] .'</span>';
+      }
+
+      $i++;
+      $output .= '<li'. drupal_attributes(array('class' => $class)) .'>';
+      $output .= $a;
+      $output .= "</li>\n";
+    }
+
+    $output .= '</ul>';
+  }
+
+  return $output;
+}
+
+/**
+ * Implementation of hook_views_pre_view().
+ *
+ * This is invoked for every view before the it is themed, even if the view is
+ * cached.
+ */
+function menutrails_views_pre_view(&$view) {
+  if ($view->display_handler->display->display_plugin == 'page') {
+    if (variable_get('menutrails_breadcrumbs', 1)) {
+      drupal_set_breadcrumb(menutrails_get_breadcrumbs());
+    }
+  }
+}
+

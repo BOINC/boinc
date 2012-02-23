@@ -1,0 +1,88 @@
+<?php
+// $Id: og.subscribe.test,v 1.21.4.2 2009/09/25 17:09:48 weitzman Exp $
+
+/**
+ * @file
+ * Tests for membership related operations in the organic groups module.
+ */
+
+require_once drupal_get_path('module', 'og') . '/tests/og_testcase.php';
+
+class OgSubscribe extends OgTestCase {
+  public static function getInfo() {
+    return array(
+      'name' => t('Organic groups membership tests'),
+      'description' => t("Tests membership functionality and asserts correct behavior with all the different selective settings (e.g. open, moderated, etc'). Note: requires Views"),
+      'group' => t('Organic groups'),
+    );
+  }
+
+  /**
+   * Implementation of setUp().
+   */
+  function setUp() {
+    parent::setUp('og', 'og_access');
+    // Create a user with admin permissions.
+    $this->web_admin = $this->drupalCreateUser(array('administer nodes', 'administer content types', 'access administration pages', 'administer site configuration', 'administer organic groups'));
+    $this->drupalLogin($this->web_admin);
+
+    // Create a group node content type.
+    $og_group_type = $this->drupalCreateContentType();
+    variable_set('og_content_type_usage_'. $og_group_type->name, 'group');
+
+    // Rebuild the menu so the new content types will appear in the menu.
+    menu_rebuild();
+
+    // Create groups with different visibility (open, moderated, etc').
+    $this->selective = array('open' => OG_OPEN, 'moderated' => OG_MODERATED, 'invite' => OG_INVITE_ONLY, 'closed' => OG_CLOSED);
+    $this->nodes = array();
+    foreach ($this->selective as $key => $selective)   {
+      // Create a group node and save the node in $this.
+      $this->nodes[$key] = node_load($this->addOgGroup($og_group_type->name, $selective));
+    }
+
+    // Create web user that will join the groups.
+    $this->web_user = $this->drupalCreateUser(array('access content'));
+  }
+
+  /**
+   * Test a web user subscribing and unsubscribing a group.
+   */
+  function testWebUserSubscribeOg() {
+    $this->drupalLogin($this->web_user);
+    foreach ($this->selective as $key => $selective) {
+      // Get the join page.
+      $this->drupalGet('og/subscribe/'. $this->nodes[$key]->nid);
+      if ($key == 'open' || $key == 'moderated') {
+        $this->assertRaw(t('Are you sure you want to join the group %title?', array('%title' => $this->nodes[$key]->title)), t('Subscribe to @selective group text found.', array('@selective' => $key)));
+        // Click the join button.
+        $this->drupalPost(NULL, array(), t('Join'));
+        // Assert membership approval, waiting for approval text.
+        $this->assertRaw(t($key == 'open' ? 'You are now a member of %title.' : 'Membership request to the %title group awaits approval by an administrator.', array('%title' => $this->nodes[$key]->title)), t('Subscribed @selective group text found.', array('@selective' => $key)));
+        // Assert user is properly subscribed to open group.
+        if ($key == 'open') {
+          // Only in the 'open' group the web user is considered subscribed.
+          $this->assertTrue(array_key_exists($this->nodes[$key]->nid, og_get_subscriptions($this->web_user->uid, 1, TRUE)), t('Subscribed open group is loaded into user object.'));
+        }
+
+        // Unsubscribe a group.
+        $this->drupalGet('og/unsubscribe/'. $this->nodes[$key]->nid .'/'. $this->web_user->uid);
+        $this->assertRaw(t('Are you sure you want to remove @user from the group %title?', array('@user' => $this->web_user->name, '%title' => $this->nodes[$key]->title)), t('Unsubscribe @selective group text found.', array('@selective' => $key)));
+        // Click the join button.
+        $this->drupalPost(NULL, array(), t('Remove'));
+        // Assert membership removal.
+        $this->assertRaw(t('%user removed from %group.', array('%user' => $this->web_user->name, '%group' => $this->nodes[$key]->title)), t('Confirmation of unsubscribing @selective group text found.', array('@selective' => $key)));
+        // Assert user is properly removed to group.
+        if ($key == 'open') {
+          // Assert the group was removed from web user.
+          $this->assertFalse(array_key_exists($this->nodes[$key]->nid, og_get_subscriptions($this->web_user->uid, 1, TRUE)), t('Open group was removed from the og_uid table.'));
+        }
+      }
+      else {
+        // Assert a 403 page is given.
+        $this->assertResponse(403, t('User got a 403 page while trying to access @selective group subscription.', array('@selective' => $key)));
+      }
+    }
+  }
+
+}

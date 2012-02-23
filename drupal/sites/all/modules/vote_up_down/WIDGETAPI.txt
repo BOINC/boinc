@@ -1,0 +1,186 @@
+// $Id: WIDGETAPI.txt,v 1.1.2.10 2010/07/24 23:23:53 marvil07 Exp $
+
+= Widget API - Vote Up/Down =
+
+Vote Up/Down has its own widget API that allows site implementors and
+designers to easily use their own widget themes.
+
+Its easy as 1-2-3! Your widgets can be in a module or even in your theme.
+
+This functionallity relies on 'ctools plugins api'.
+
+
+== Putting widgets in a module or theme ==
+
+If you are putting widgets in a module, your module needs to include the
+following _hook implementation_:
+
+[source,php]
+----
+/**
+ * Implementation of hook_ctools_plugin_dierctory() to let the system
+ * know we implement widget plugins.
+ */
+function MODULENAME_ctools_plugin_directory($module, $plugin) {
+  if ($module == 'vud') {
+    return $plugin;
+  }
+}
+----
+
+If your module includes other CTools plugin types, you will need to
+modify your already existing `hook_ctools_plugin_directory()`
+implementation accordingly.
+
+If you want to put widgets in your theme, add the following line to your
+info file:
+
+[source,ini]
+----
+plugins[vud][widgets] = widgets
+----
+
+In either case, then create the 'widgets' directory in your module or
+your theme.
+
+
+== Quick and dirty widget creation ==
+
+=== On a theme ===
+
+. Set up your module or theme for widgets.
+
+. Copy the 'updown' widget and all its files into your widgets directory.
+You'll need to rename the widget, so for this example, we're going to
+call the widget 'example':
+
+. edit your .info file and add the following line:
++
+[source,ini]
+----
+plugins[vud][widgets] = widgets
+----
+
+. `mkdir` a 'widgets' directory in your theme.
+
+. Copy the 'updown' directory and its files to your widgets directory.
+
+. Rename the 'updown' directory in your 'theme/widgets' directory to
+'example'.
+
+. Rename 'updown.inc' to 'example.inc'.
+
+. Rename 'updown.css' to 'example.css'
+. Edit example.inc:
+..  Change 'vud_updown_vud_widgets' to
+'MODULEORTHEMENAME_example_vud_widgets'
+..  Change the title from `t('Default')` to `t('My example widget')`
+
+. Edit example.css and search-and-replace 'updown' to 'example'.
+
+. Edit widget.tpl.php and search-and-replace 'updown' to 'example'.
+
+. Visit your themes or modules configuration page and submit it, to
+ensure that the caches are cleared so that your new plugin can be
+recognized.
+
+. You should now have a widget that you can assign. Modify it to your
+heart's content!
+
+
+== Creating widgets ==
+
+. In the `widgets/` directory, create a directory with the name of your
+widget.
+
+. Create a directory with the name of your widget.
++
+NOTE: For safety, you should 'namespace' your widgets which means to
+include the module name or something  unique so you don't clash with
+future widgets that may be included with vote up/down.
+
+. In your new widget directory, create a '.inc' file with the name of
+your widget.
+You should then end up with `widgets/my_widget/my_widget.inc` if, for
+example, your widget is named 'my_widget'.
++
+This '.inc' file needs to include one function:
++
+[source,php]
+----
+/**
+ * Specialized implementation of hook_vud_widgets().
+ */
+function MODULEORTHEMENAME_WIDGETNAME_vud_widgets() {
+  return array(
+    'title' => t('Default'),
+    'widget template' => 'widget',
+    'votes template' => 'votes',
+  );
+}
+----
++
+You should include the 'widget template' line if you are including a
+widget.tpl.php and the 'votes template' line if you are including a
+votes.tpl.php. If you want the template named differently, the value of
+this line will set that.
++
+If you create a WIDGETNAME.css file this will automatically be included.
+If you want this file to be different, add
++
+  'css' => 'mycssfile.css',
++
+If you want multiple CSS files, add
++
+  'css' => array('myfile1.css', 'myfile2.css'),
++
+You can do similarly with javascript, though unlike .css files,
+javascript files __will not__ be automatically included, you __must
+specify__ them.
+
+
+== Variables in the template files ==
+
+`$id`              :: Unique CSS ID that should be used for this item.
+`$content_id`      :: Unique content ID.
+`$type`            :: Type of element being voted on.
+`$widget_theme`    :: The name of the widget theme being rendered.
+`$tag`             :: The unique tag associated with each vote.
+`$class_up`        :: Either 'up-active', or 'up-inactive'.
+`$class_down`      :: Either 'down-active' or 'down-inactive'.
+`$link_up`         :: URL used for 'up' voting when JS is disabled.
+`$link_down`       :: URL used for 'down' voting when JS is disabled.
+`$link_class_up`   :: String with the classes that should be put onto the
+'up' link. Needed for javascript.
+`$link_class_down` :: String with the classes that should be put onto the
+"down" link. Needed for javascript.
+`$class`	         :: 'negative', 'positive' or 'neutral' depending on
+number of votes.
+`$vote_label`      :: The pluralized vote label.
+`$raw_points`	     :: Raw value for total vote points for the vote object
+    (It can be a NULL if there are no votes or a signed value).
+`$points`	         :: Number of total vote points for the vote object
+    (signed).
+`$unsigned_points` :: Number of total vote points for the object
+    (unsigned).
+`$up_points`	     :: Number of total positive vote points for the vote object.
+`$down_points`	   :: Number of total positive vote points for the vote object.
+`$vote_count`	     :: Number of total votes for the vote object.
+`$readonly`        :: Boolean that indicates if the actual user can vote
+    on the object where the widget is displayed.
+`$show_links`      :: Boolean that indicates if the links need to be
+show (TRUE when the user has permission to vote or message_on_deny option
+        is set to TRUE).
+
+
+== Advanced features ==
+
+Your widget can specify an 'ajax render' callback. This callback will be
+used to specify a CTools AJAX command packet if you want to do fancy
+rendering. This is not too likely to be needed, and should only be used
+if you have looked at the AJAX rendering code and understand it.
+
+If you want to use a different templating system than PHPtemplate, you
+can! Set 'render function' to the name of a function that will be called
+in place of `drupal_render_template()` and set 'extension' to something
+other than '.tpl.php' if you so desire.

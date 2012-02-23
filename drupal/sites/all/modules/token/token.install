@@ -1,0 +1,19 @@
+<?php
+// $Id: token.install,v 1.2.2.1 2008/06/28 15:10:22 greggles Exp $
+
+/**
+ * @file
+ * The install and update code for the token module.
+ *
+ * @ingroup token
+ */
+
+function token_install() {
+  db_query("UPDATE {system} SET weight = 10 WHERE name = 'token'");
+}
+
+function token_update_1() {
+  $ret = array();
+  $ret[] = update_sql("UPDATE {system} SET weight = 10 WHERE name = 'token'");
+  return $ret;
+}

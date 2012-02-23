@@ -1,0 +1,1086 @@
+# LANGUAGE translation of Drupal (general)
+# Copyright YEAR NAME <EMAIL@ADDRESS>
+# Generated from files:
+#  node.tpl.php,v 1.4.2.2 2006/01/04 23:03:33 weitzman
+#  og.module,v 1.110.2.105 2006/07/26 19:10:58 dww
+#  og_views.inc,v 1.1.2.3 2006/06/30 16:54:37 weitzman
+#  og_basic.module,v 1.1.2.3 2006/06/12 01:07:43 webchick
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: DRUPAL OG.Module \n"
+"POT-Creation-Date: 2006-07-27 03:29-0400\n"
+"PO-Revision-Date: 2006-11-24 05:16+0200\n"
+"Last-Translator: Panagiotis V <velpan@freemail.gr>\n"
+"Language-Team: GREEK <velpan@freemail.gr>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n!=1);\n"
+"X-Poedit-Language: Greek\n"
+"X-Poedit-Country: GREECE\n"
+"X-Poedit-SourceCharset: utf-8\n"
+
+#: node.tpl.php:21
+#: og.module:55;325;753;885;1145
+msgid "groups"
+msgstr "ομάδες"
+
+#: og_views.inc:459
+#: og.module:555;1862
+msgid "subscribe"
+msgstr "εγγραφή"
+
+#: og_views.inc:469
+#: og.module:1845
+msgid "my subscription"
+msgstr "η εγγραφή μου"
+
+#: og_xmlrpc.inc:13
+msgid "unrecognized user ID: %uid"
+msgstr "άγνωστος κωδικός μέλους: %uid"
+
+#: og_xmlrpc.inc:33
+msgid "User is not a member of the specified group"
+msgstr "Ο χρήστης δεν είναι μέλος της συγκεκριμένης ομάδας"
+
+#: og_xmlrpc.inc:48
+msgid "User is not allowed to retrieve subscriptions for another user."
+msgstr "Δεν επιτρέπεται στα μέλη να ανακτούν εγγραφές για άλλους χρήστες."
+
+#: og_basic.module:9
+msgid "A group provides a home page for like minded users. There they post articles about their shared interest."
+msgstr "Μια ομάδα προσφέρει μια κεντρική σελίδα για μέλη που σκέφτονται παρόμοια. Εδώ καταχωρούν άρθρα σχετικά με τα κοινά τους ενδιαφέροντα."
+
+#: og_basic.module:11
+msgid "Basic group node for Organic groups"
+msgstr "Κεντρικός κόμβος ομάδας για Οργανικές ομάδες"
+
+#: og_basic.module:22;34
+msgid "group"
+msgstr "ομάδα"
+
+#: og_basic.module:63
+msgid "Welcome message"
+msgstr "Μήνυμα καλωσορίσματος"
+
+#: og_basic.module:63
+msgid "This message is shown by default at the top of the group home page."
+msgstr "Το μήνυμα αυτό εμφανίζεται πάνω πάνω στη αρχική σελίδα της ομάδας."
+
+#: og_basic.module:55
+msgid "create groups"
+msgstr "δημιουργία ομάδων"
+
+#: og_basic.module:0
+msgid "og_basic"
+msgstr "og_basic"
+
+#: og.module:39
+msgid "Organic groups"
+msgstr "Οργανικές ομάδες"
+
+#: og.module:41
+msgid "Group specific blocks are only visible on group pages and not on systemwide pages like the home page or admin pages."
+msgstr "Μπλοκς σχετιζόμενα με ομάδες εμφανίζονται μόνο στις σελίδες των αντίστοιχων ομάδων κι όχι στις δημόσιες σελίδες ή τις σελίδες διαχείρισης."
+
+#: og.module:43
+msgid "In order to let group admins determine their own group theme, you must enable multiple themes using %page."
+msgstr "Για να αφήσετε την ομάδα να καθορίσει την δική της παραλλαγή, πρέπει να ενεργοποιήσετε τις πολλαπλές παραλλαγές χρησιμοποιώντας την %page."
+
+#: og.module:43
+msgid "theme configuration page"
+msgstr "σελίδα ρυθμίσεων θέματος"
+
+#: og.module:54
+msgid "subscribe to group"
+msgstr "εγγραφή στην ομάδα"
+
+#: og.module:58
+msgid "my groups"
+msgstr "οι ομάδες μου"
+
+#: og.module:59
+msgid "unsubscribe from group"
+msgstr "διαγραφή από την ομάδα"
+
+#: og.module:60
+msgid "approve subscription request"
+msgstr "έγκριση αίτηση εγγραφής"
+
+#: og.module:61
+msgid "deny subscription request"
+msgstr "απόρριψη αίτησης εγγραφής"
+
+#: og.module:62
+msgid "create group administrator"
+msgstr "δημιουργία διαχειριστή ομάδας"
+
+#: og.module:63
+msgid "delete group administrator"
+msgstr "διαγραφή διαχειριστή ομάδας"
+
+#: og.module:64
+msgid "remove post from group"
+msgstr "διαγραφή καταχώρησης από την ομάδα"
+
+#: og.module:65
+msgid "group feed"
+msgstr "τροφοδοσία ομάδας"
+
+#: og.module:73
+msgid "subscriber management"
+msgstr "διαχείριση μέλους ομάδας"
+
+#: og.module:75
+msgid "manage subscription"
+msgstr "διαχείριση εγγραφής"
+
+#: og.module:76
+msgid "send invitation"
+msgstr "στείλε πρόσκληση"
+
+#: og.module:78
+msgid "add subscribers"
+msgstr "πρόσθεσε μέλη"
+
+#: og.module:88
+msgid "email"
+msgstr "email"
+
+#: og.module:265
+msgid "Send email to %group"
+msgstr "Στείλε email στο %group"
+
+#: og.module:273
+msgid "Your email will be sent to %count in this group. Please use this feature sparingly."
+msgstr "Το email σου θα σταλεί σε %count μέλη της ομάδας σου. Παρακαλώ κάντε χρήση της υπηρεσίας με σύνεση."
+
+#: og.module:275
+msgid "Enter a subject for your email."
+msgstr "Πρόσθέστε ένα θέμα στο email σας."
+
+#: og.module:276
+msgid "Enter a body for your email."
+msgstr "Προσθέστε κείμενο στο email σας."
+
+#: og.module:277
+msgid "Send email"
+msgstr "Στείλε το email"
+
+#: og.module:284
+msgid ""
+"\n"
+"\n"
+"--------------------------------\n"
+"This message was sent by an administrator in the '%group' group at %site. To visit this group, browse to %url1. To unsubscribe from this group, visit %url2"
+msgstr ""
+"\n"
+"\n"
+"--------------------------------\n"
+"Το μήνυμα στάλθηκε από ένα διαχειριστή της ομάδας '%group' της ιστοσελίδας %site. Για να επισκεφθείτε αυτή την ομάδα, πλοηγηθείτε στην σελίδα %url1. Για να διαγραφείτε από την ομάδα, επισκεφθείτε την σελίδα %url2"
+
+#: og.module:296
+msgid "%count emails sent."
+msgstr "Στάλθηκαν %count emails."
+
+#: og.module:312
+msgid "You may not unsubscribe from this group because it is a %closed group. You should request unsubscription from a group administrator."
+msgstr "Δεν γίνεται να διαγραφείτε από αυτή την ομάδα γιατί είναι μια %closed ομάδα. Θα πρέπει να ζητήσετε από κάποιον διαχειριστή της ομάδας να σας διαγράψει."
+
+#: og.module:315
+msgid "You may not unsubscribe from this group because you are its owner. A site administrator can assign ownership to another user and then you can unsubscribe."
+msgstr "Δεν γίνεται να διαγραφείτε από αυτή την ομάδα γιατί είστε ο ιδιοκτήτης της. Ο διαχειριστής μια ομάδας μπορεί να αναθέσει την ιδιοκτησία της σε ένα άλλο μέλος και κατόπιν μπορεί να διαγραφεί."
+
+#: og.module:318
+msgid "Unsubscribe from this group"
+msgstr "Διαγραφείτε από αυτή την ομάδα"
+
+#: og.module:319
+msgid "Goodbye"
+msgstr "Γεια χαρά"
+
+#: og.module:319
+msgid "Actions"
+msgstr "Ενέργειες"
+
+#: og.module:321
+msgid "Email notification"
+msgstr "Υπενθύμιση μέσω email"
+
+#: og.module:321;1904
+msgid "enabled"
+msgstr "ενεργοποιήθηκε"
+
+#: og.module:321
+msgid "Do you want to receive an email each time a message is posted to this group?"
+msgstr "Θα ήθελες να λαμβάνεις email κάθε φορά που ένα μήνυμα καταχωρήται σε αυτή την ομάδα;"
+
+#: og.module:325
+msgid "home"
+msgstr "αρχική σελίδα"
+
+#: og.module:335
+msgid "Subscription saved."
+msgstr "Η αίτηση εγγραφής καταχωρήθηκε."
+
+#: og.module:384
+msgid "Subscription request approved."
+msgstr "Η αίτηση εγγραφής εγκρίθηκε."
+
+#: og.module:385
+msgid "Subscription request approved for '%title'"
+msgstr "Η αίτηση εγγραφής εγκρίθηκε για '%title'"
+
+#: og.module:386
+msgid "You may now post messages in this group located at %url"
+msgstr "Μπορείτε τώρα να καταχωρήσετε μηνύματα σε αυτή την ομάδα που ανήκει στη σελίδα %url"
+
+#: og.module:402
+msgid "Subscription request denied."
+msgstr "Η αίτηση εγγραφής απορρίφθηκε."
+
+#: og.module:403
+msgid "Subscription request denied for %title"
+msgstr "Η αίτηση εγγραφής απορρίφθηκε για  %title."
+
+#: og.module:404
+msgid "Sorry, your subscription request was denied."
+msgstr "Λυπούμαστε, αλλά η αίτηση εγγραφής σας απορρίφθηκε."
+
+#: og.module:420
+msgid "User was promoted to %ga"
+msgstr "Το μέλος προήχθει σε %ga"
+
+#: og.module:420;432
+msgid "group administrator"
+msgstr "διαχειριστής ομάδας"
+
+#: og.module:432
+msgid "User is no longer a %ga"
+msgstr "Το μέλος δεν είναι πια %ga"
+
+#: og.module:443
+msgid "Confirmation"
+msgstr "Επιβεβαίωση"
+
+#: og.module:443
+msgid "Remove %title from this group."
+msgstr "Διαγράφη %title από αυτή την ομάδα."
+
+#: og.module:445
+msgid "Remove"
+msgstr "Διαγραφή"
+
+#: og.module:460
+msgid "%title removed from group."
+msgstr "Το %title διαγράφτηκε από την ομάδα."
+
+#: og.module:481
+msgid "Email addresses or usernames"
+msgstr "Διευθυύνσεις email ή ονόματα λογαριασμών"
+
+#: og.module:481
+msgid "Enter up to %max email addresses or usernames. Separate multiple addresses by commas or new lines. Each person will receive an invitation message from you."
+msgstr "Εισάγετε μέχρι το πολύ %max διευθύνσεις email ή ονόματα λογαριασμών. Χωρίστε τις διαφορετικές διευθύνσεις με κόμματα ή σε διαφορετικές γραμμές. Κάθε άτομο θα λάβει ένα μήνυμα πρόσκλησης από εσάς."
+
+#: og.module:482
+msgid "Personal message"
+msgstr "Προσωπικό μήνυμα"
+
+#: og.module:482
+msgid "Optional. Enter a message which will become part of the invitation email."
+msgstr "Επιλογή. Γράψτε ένα μήνυμα που θα γίνει μέρος του email πρόσκλησης."
+
+#: og.module:483
+msgid "Send invitation"
+msgstr "Στείλε πρόσκληση"
+
+#: og.module:497
+msgid "You may not specify more than %max email addresses or usernames."
+msgstr "Δεν επιτρέπεται να καθορίσετε περισσότερες από %max διευθύνσεις email ή ονόματα λογαριασμών. "
+
+#: og.module:521
+msgid "invalid email address or username: "
+msgstr "ακατάλληλη διεύθυνση email ή όνομα λογαριασμού: "
+
+#: og.module:533
+msgid "Invitation to join the group \"%group\" at %site"
+msgstr "Πρόσκληση για εγγραφή στην ομάδα \"%group\" της ιστοσελίδας %site"
+
+#: og.module:534
+msgid ""
+"Hi. I'm a member of '%group' and I welcome you to join this group as well. Please see the link and message below.\n"
+"\n"
+msgstr ""
+"Γεια χαρά. Είμαι μέλος της ομάδας '%group' και σε προσκαλώ να γίνεις κι εσύ επίσης μέλος της ομάδας μας. Ρίξε αν θέλεις μια ματιά στην σύνδεση και το μήνυμα πιο κάτω.\n"
+"\n"
+
+#: og.module:537
+msgid "Subscribe: %url"
+msgstr "Εγγραφή μέλους: %url"
+
+#: og.module:555
+msgid "In order to subscribe to this group, you must login or register a new account. After you have successfully done so, you will need to follow the %subscribe link again."
+msgstr "Για να γίνεται μέλος σε αυτήν την ομάδα, πρέπει να συνδεθείτε στο σύστημα ή να ανοίξετε ένα νέο λογαριασμό. Αφού το κάνετε αυτό, πρέπει να ακολουθήσετε τον σύνδεσμο %subscribe ξανά."
+
+#: og.module:596
+msgid "Subscription request for '%group' from '%name'"
+msgstr "Αίτηση εγγραφής για την ομάδα '%group' από τον '%name'"
+
+#: og.module:597
+msgid "To instantly approve this request, visit %url. "
+msgstr "Για να εγκρίνετε άμεσα την αίτηση, επισκευτείτε την διεύθυνση %url."
+
+#: og.module:598
+msgid "You may deny this request or manage subscribers at %url"
+msgstr "Μπορείτε να απορρίψετε την αίτηση ή να διαχειριστείτε τα μέλη στην διεύθυνση %url."
+
+#: og.module:604
+msgid "Subscription request to the %group group awaits approval by an administrator."
+msgstr "Η αίτηση εγγραφής στην ομάδα %group περιμένει την έγκριση κάποιου από τους διαχειριστές."
+
+#: og.module:610
+msgid "Subscribed to the %group group"
+msgstr "Εγγραφήκατε στην ομάδα %group"
+
+#: og.module:615
+msgid "Subscription request to the %group group was rejected, only group administrators can add users to this group."
+msgstr "Η αίτηση εγγραφής στην ομάδα %group απορρίφθηκε. Μόνο οι διαχειριστές της ομάδας μπορούν να γράφουν νέα μέλη σε αυτή την ομάδα. "
+
+#: og.module:636
+msgid "User unsubscribed from group."
+msgstr "Ο χρήστης διαγράφτηκε από την ομάδα."
+
+#: og.module:666
+msgid "List of users"
+msgstr "Κατάλογος χρηστών"
+
+#: og.module:669
+msgid "Add one or more usernames in order to associate users with this group. Multiple usernames should be separated by a comma."
+msgstr "Πρόσθεσε ένα ή περισσότερα ονόματα λογαριασμών για να συσχετίσεις τους χρήστες με αυτή την ομάδα. Τα διαφορετικά ονόματα λογαριασμών πρέπει να διαχωρίζονται με κόμματα."
+
+#: og.module:691
+msgid "Unrecognized %names: "
+msgstr "Άγνωστα %names: "
+
+#: og.module:707
+msgid "%count added to the group"
+msgstr "%count μέλη προστέθηκαν στην ομάδα"
+
+#: og.module:719
+msgid "manager"
+msgstr "διαχειριστής"
+
+#: og.module:721
+msgid "edit group"
+msgstr "τροποποίηση ομάδας"
+
+#: og.module:733
+msgid "unsubscribe"
+msgstr "διαγραφή"
+
+#: og.module:735
+msgid "admin: remove"
+msgstr "διαχειριστής: διαγραφή"
+
+#: og.module:738
+msgid "admin: create"
+msgstr "διαχειριστής: δημιουργία"
+
+#: og.module:742
+msgid "approve"
+msgstr "έγκριση"
+
+#: og.module:755;781
+msgid "Subscribers"
+msgstr "Μέλη"
+
+#: og.module:781
+msgid "Manager"
+msgstr "Διαχειριστής"
+
+#: og.module:793
+msgid "No groups"
+msgstr "Δεν υπάρχουν ομάδες"
+
+#: og.module:796
+msgid "You may also view an <a href=\"%opml\">OPML file</a> listing RSS feeds from your subscribed groups."
+msgstr "Μπορείτε επίσης να δείτε ένα <a href=\"%opml\">αρχείο OPML</a> που περιέχει λίστα με RSS feeds των ομάδων που είστε μέλος."
+
+#: og.module:891
+msgid " RSS feed"
+msgstr " RSS feed"
+
+#: og.module:930
+msgid "No posts in this group."
+msgstr "Δεν υπάρχουν καταχωρήσεις για αυτή την ομάδα."
+
+#: og.module:933
+msgid "No public posts in this group. Consider subscribing to this group in order to view its posts."
+msgstr "Δεν υπάρχουν δημόσιες καταχωρήσεις γι αυτή την ομάδα. Πρέπει να εγγραφείτε στην ομάδα για να δείτε τις καταχωρήσεις της."
+
+#: og.module:962
+msgid "A brief description for the group details block and the group directory."
+msgstr "Μια σύντομη περιγραφή για το μπλοκ λεπτομερειών ομάδας και τον κατάλογο ομάδων."
+
+#: og.module:963
+msgid "Group website"
+msgstr "Ιστότοπος της ομάδας"
+
+#: og.module:963
+msgid "If your group has its own website, enter the address here."
+msgstr "Αν η ομάδα σας έχει το δικό της ιστότοπο, βάλτε την διεύθυνση εδώ."
+
+#: og.module:971
+msgid "Subscription requests"
+msgstr "Αιτήσεις εγγραφής"
+
+#: og.module:971
+msgid "open - subscription requests are accepted immediately."
+msgstr "ανοιχτή - οι αιτήσεις εγγραφής γίνονται άμεσα δεκτές."
+
+#: og.module:971
+msgid "moderated - subscription requests must be approved."
+msgstr "ελεγχόμενη - οι αιτήσεις εγγραφής πρέπει να εγκριθούν."
+
+#: og.module:971
+msgid "invite only - subscriptions must be created by an administrator."
+msgstr "με πρόσκληση μόνο - οι εγγραφές πρέπει να δημιουργηθούν από κάποιο διαχειριστή."
+
+#: og.module:971
+msgid "closed - subscriptions are fully administered by an administrator."
+msgstr "κλειστή -  οι εγγραφές καθορίζονται αποκλειστικά από κάποιο διαχειριστή."
+
+#: og.module:971
+msgid "How should subscription requests be handled in this group? When you select <em>closed</em>, users will not be able to subscribe <strong>or</strong> unsubscribe."
+msgstr "Πώς διαχειρίζεται τις αιτήσεις εγγραφής αυτή η ομάδα; Αν επιλέξετε <em>κλειστή</em>, οι χρήστες αδυνατούν να εγγραφούν <strong>αλλά και</strong> να διαγραφούν."
+
+#: og.module:992;1932
+msgid "registration form"
+msgstr "αίτηση εγγραφής"
+
+#: og.module:992
+msgid "Should this group be available for subscription during registration?. If checked, a corresponding checkbox will be added to the registration form."
+msgstr "Μπορεί αυτή η ομάδα να είναι διαθέσιμη στους χρήστες κατά την εγγραφή τους; Αν επιλεγεί, ένα σχετικό κουτάκι επιλογής θα προστεθεί στην φόρμα εγγραφής."
+
+#: og.module:1016
+msgid "list in groups directory"
+msgstr "Εμφάνιση στον κατάλογο των ομάδων"
+
+#: og.module:1016
+msgid "Should this group appear on the %page?"
+msgstr "Θέλετε η ομάδα να φαίνεται στην σελίδα %page;"
+
+#: og.module:1016
+msgid "list of groups page"
+msgstr "σελίδα εμφάνισης των ομάδων"
+
+#: og.module:1041
+msgid "subscribe to email notifications"
+msgstr "εγγραφή σε υπενθυμίσεις μέσω email"
+
+#: og.module:1043
+msgid "Should subscribers to this group be automatically notified via email of new posts and comments? Users may always change this setting on their %mysubscription page."
+msgstr "Θέλετε τα μέλη αυτής της ομάδας να ειδοποιούνται μέσω email για νέες καταχωρήσεις ή σχόλια; Τα μέλη μπορούν πάντα να αλλάξουν αυτή την επιλογή στην %mysubscription σελίδα τους."
+
+#: og.module:1043
+msgid "My subscription"
+msgstr "Η συμμετοχή μου"
+
+#: og.module:1055
+msgid "Selecting a different locale will change the interface language of the group. Users who have chosen a preferred language always see their chosen language."
+msgstr "Επιλέγοντας μια διαφορετική μετάφραση, θα αλλάξει η γλώσσα περιβάλλοντος της ομάδας. Οι χρήστες που έχουν διαλέξει μια γλώσσα κατά προτίμηση, πάντα βλέπουν αυτή την επιλεγμένη από αυτούς μετάφραση."
+
+#: og.module:1060
+msgid "Selecting a different theme will change the look and feel of the group."
+msgstr "Επιλέγοντας μια διαφορετική παραλλαγή θα αλλάξει η εμφάνιση και η αίσθηση του περιβάλλοντος της ομάδας."
+
+#: og.module:1088
+msgid "Please enter a valid URL for group website, such as  http://www.example.com/"
+msgstr "Παρακαλώ εισάγετε ένα αποδεκτό URL ως ιστότοπο της ομάδας, όπως για παράδειγμα  http://www.example.gr/"
+
+#: og.module:1283;1286;1944;1945
+msgid "Public"
+msgstr "Δημόσιο"
+
+#: og.module:1283
+msgid "Show this post to everyone, or only to subscribers of the groups checked below. Only uncheck this box if truly needed."
+msgstr "Εμφάνισε αυτή την καταχώρηση σε όλους, ή μόνο στα μέλη των ομάδων που επιλέγονται πιο κάτω. Ξετσέκαρε το κουτάκι, μόνο αν πραγματικά αυτό είναι απαραίτητο."
+
+#: og.module:1286
+msgid "Show this post to everyone, or only to subscribers of the groups checked below. Only check this box if truly needed."
+msgstr "Εμφάνισε αυτή την καταχώρηση σε όλους, ή μόνο στα μέλη των ομάδων που επιλέγονται πιο κάτω.Τσέκαρε το κουτάκι, μόνο αν πραγματικά αυτό είναι απαραίτητο."
+
+#: og.module:1302
+msgid "Audience"
+msgstr "Ακροατήριο"
+
+#: og.module:1302
+msgid "Show this post in these groups."
+msgstr "Εμφάνισε αυτή την καταχώρηση σε αυτές τις ομάδες."
+
+#: og.module:1307;1468;1493
+msgid "Groups"
+msgstr "Ομάδες"
+
+#: og.module:1390
+msgid "%author added '%title' at %site"
+msgstr "Ο %author πρόσθεσε το κόμβο  '%title' στην ιστοσελίδα %site"
+
+#: og.module:1392
+msgid "View original: "
+msgstr "Εμφάνιση πρωτότυπου:"
+
+#: og.module:1393
+msgid "Post reply: "
+msgstr "Καταχώρηση απάντησης:"
+
+#: og.module:1396
+msgid "You are subscribed to the group '%group_name' at '%site'. To manage your subscription, visit %group_url"
+msgstr "Έχετε εγγραφεί στην ομάδα  '%group_name' της ιστοσελίδας '%site'. Για να διαχειριστείτε τις προσωπικές σας επιλογές, επισκεφτείτε την διεύθυνση %group_url"
+
+#: og.module:1461
+msgid "Subscribe to %name."
+msgstr "Εγγραφή του %name."
+
+#: og.module:1464
+msgid "(approval needed)"
+msgstr "(χρειάζεται έγκριση)"
+
+#: og.module:1614
+msgid "Organic groups access control has been disabled. You may now disable the module on the <em>%modules</em> page"
+msgstr "Η πρόσβαση σε οργανικές ομάδες απενεργοποιήθηκε. Πρέπει τώρα να απενεργοποιήσετε την μονάδα στην σελίδα <em>%modules</em>"
+
+#: og.module:1614
+msgid "admin/modules"
+msgstr "admin/modules"
+
+#: og.module:1631
+msgid "Organic groups access control enabled."
+msgstr "Η πρόσβαση σε οργανικές ομάδες ενεργοποιήθηκε."
+
+#: og.module:1659;1917
+msgid "Group details"
+msgstr "Λεπτομέρειες ομάδας"
+
+#: og.module:1664
+msgid "Group authors"
+msgstr "Ιδιοκτήτες ομάδας"
+
+#: og.module:1666;1769
+msgid "New groups"
+msgstr "Νέες ομάδες"
+
+#: og.module:1667;1742
+msgid "My groups"
+msgstr "Οι ομάδες μου"
+
+#: og.module:1668;1720
+msgid "Group notifications"
+msgstr "Ειδοποιήσεις ομάδας"
+
+#: og.module:1693
+msgid "Maximum number of items to show"
+msgstr "Μέγιστος αριθμός αντικειμένων που θα εμφανιστούν"
+
+#: og.module:1711
+msgid "This group offers a %groupfeed and an %email."
+msgstr "Αυτή η ομάδα προσφέρει ένα %groupfeed και ένα %email."
+
+#: og.module:1711
+msgid "email subscription"
+msgstr "συνδρομή email"
+
+#: og.module:1713
+msgid " Or subscribe to these personalized, sitewide feeds:"
+msgstr " Ή εγγραφείτε σε αυτά τα προσωποποιημένα, δημόσια feeds:"
+
+#: og.module:1714
+msgid "my unread: "
+msgstr "τα αδιάβαστα:"
+
+#: og.module:1715
+msgid "my groups: "
+msgstr "οι ομάδες μου:"
+
+#: og.module:1716
+msgid "all posts: "
+msgstr "όλες οι καταχωρήσεις:"
+
+#: og.module:1735
+msgid "Browse all of my groups."
+msgstr "Δες όλες τις ομάδες μου."
+
+#: og.module:1752;1752
+msgid "OPML file"
+msgstr "αρχείο OPML"
+
+#: og.module:1767
+msgid "Browse the newest groups."
+msgstr "Δες τις πιο πρόσφατες ομάδες."
+
+#: og.module:1802
+msgid "View all subscribers."
+msgstr "Εμφάνιση όλων των μελών."
+
+#: og.module:1805
+msgid "Recent authors"
+msgstr "Τρέχοντες ιδιοκτήτες"
+
+#: og.module:1836
+msgid "invite friend"
+msgstr "πρόσκληση φίλου"
+
+#: og.module:1844
+msgid "manager: "
+msgstr "διαχειριστής:"
+
+#: og.module:1847
+msgid "website"
+msgstr "ιστότοπος"
+
+#: og.module:1851
+msgid "Your subscription request awaits approval."
+msgstr "Η αίτηση εγγραφής σας περιμένει έγκριση."
+
+#: og.module:1852
+msgid "delete request"
+msgstr "διαγραφή αίτησης"
+
+#: og.module:1855
+msgid "You must login/register in order to contribute to this group."
+msgstr "Πρέπει να συνδεθείτε/εγγραφείτε για να συμμετάσχετε σε αυτή την ομάδα."
+
+#: og.module:1859
+msgid "request subscription"
+msgstr "αίτηση εγγραφής"
+
+#: og.module:1867
+msgid "This is a %closed group. The group administrators add/remove subscribers as needed."
+msgstr "Είναι μια %closed ομάδα. Οι διαχειριστές της ομάδας προσθέτουν/διαγράφουν μέλη όπως αυτοί κρίνουν απαραίτητο."
+
+#: og.module:1882
+msgid "create %type"
+msgstr "δημιουργία %type"
+
+#: og.module:1882
+msgid "Add a new %s in this group."
+msgstr "Πρόσθεσε ένα καινούριο %s στην ομάδα."
+
+#: og.module:1889;1910
+msgid "Enable"
+msgstr "Ενεργοποίησε"
+
+#: og.module:1893;1905
+msgid "Disable"
+msgstr "Απενεργοποίησε"
+
+#: og.module:1902
+msgid "Organic groups configuration"
+msgstr "Διευθέτηση οργανικών ομάδων"
+
+#: og.module:1906
+msgid "Before disabling this module, use the button below to restore default permissions."
+msgstr "Πριν απενεργοποιήσετε αυτή την μονάδα, χρησιμοποιήστε το κουμπί πιο κάτω για να επαναφέρετε τις αρχικές άδειες."
+
+#: og.module:1911
+msgid "You usually want to enable access control with this module. The button below will delete one record in your node_access table and thus enable node permissions on your site. You may revert by clicking the same button again."
+msgstr "Συνήθως χρειάζεται να ενεργοποιήσετε τον έλεγχο πρόσβασης με αυτή την μονάδα. Το πιο κάτω κουμπί θα σβήσει ένα φάκελο στον πίνακα node_access και έτσι θα ενεργοποιήσει τις άδειες στους κόμβους του ιστοτόπου σας. Μπορείτε να αντιστέψετε την διαδικασία  ξαναπατώντας το ίδιο κουμπί. "
+
+#: og.module:1913
+msgid "Module status"
+msgstr "Κατάσταση μονάδας"
+
+#: og.module:1914
+msgid "Organic groups access control is currently"
+msgstr "Ο έλεγχος πρόσβασης των οργανικών ομάδων είναι  "
+
+#: og.module:1919
+msgid "New groups don't appear in the groups directory. Administrators control the directory exclusively."
+msgstr "Οι νέες ομάδες δεν φαίνονται στον κατάλογο των ομάδων. Οι διαχειριστές ελέγχουν κατ' αποκλειστικότητα τον κατάλογο."
+
+#: og.module:1920
+msgid "New groups always appear in the groups directory."
+msgstr "Οι νέες ομάδες φαίνονται πάντα στον κατάλογο των ομάδων."
+
+#: og.module:1921
+msgid "Group creator chooses whether her group appears in the directory. Defaults to %in."
+msgstr "Ο δημιουργός της ομάδας επιλέγει αν η ομάδα του θα εμφανίζεται στον κατάλογο. Η προεπιλογή είναι %in."
+
+#: og.module:1921
+msgid "in directory"
+msgstr "εμφάνιση στον κατάλογο"
+
+#: og.module:1922
+msgid "Group creator chooses whether her group appears in the directory. Defaults to %out."
+msgstr "Ο δημιουργός της ομάδας επιλέγει αν η ομάδα του θα εμφανίζεται στον κατάλογο. Η προεπιλογή είναι %out."
+
+#: og.module:1922
+msgid "not in directory"
+msgstr "απόκρυψη από τον κατάλογο"
+
+#: og.module:1924
+msgid "Groups directory control"
+msgstr "Έλεγχος καταλόγου ομάδων"
+
+#: og.module:1924;1932
+msgid "OG admins always see the checkbox for adding a group to the %dir. Note that changing this setting has no effect on existing posts. Re-save those posts to acquire this new setting."
+msgstr ""
+
+#: og.module:1924;1940
+msgid "groups directory"
+msgstr "κατάλογος ομάδων"
+
+#: og.module:1927
+msgid "New groups don't appear in on the registration form. Administrators control the form exclusively."
+msgstr "Οι νέες ομάδες δεν φαίνονται στην φόρμα εγγραφής. Οι διαχειριστές ελέγχουν κατ' αποκλειστικότητα την φόρμα εγγραφής."
+
+#: og.module:1928
+msgid "New groups always appear on the registration form."
+msgstr "Οι νέες ομάδες φαίνονται πάντα στην φόρμα εγγραφής."
+
+#: og.module:1929
+msgid "Group creator chooses whether her group appears on the registration form. Defaults to %in."
+msgstr "Ο δημιουργός της ομάδας επιλέγει αν η ομάδα του θα εμφανίζεται στην φόρμα εγγραφής. Η προεπιλογή είναι %in."
+
+#: og.module:1929
+msgid "on form"
+msgstr "εμφάνιση στην φόρμα εγγραφής"
+
+#: og.module:1930
+msgid "Group creator chooses whether her group appears on the registration form. Defaults to %out."
+msgstr "Ο δημιουργός της ομάδας επιλέγει αν η ομάδα του θα εμφανίζεται στην φόρμα εγγραφής. Η προεπιλογή είναι %out."
+
+#: og.module:1930
+msgid "not on form"
+msgstr "απόκρυψη από την φόρμα εγγραφής"
+
+#: og.module:1932
+msgid "Registration form control"
+msgstr "Έλεγχος φόρμας εγγραφής"
+
+#: og.module:1935
+msgid "New group members are never subscribed to email notifications by default. Users may choose to enable this for themselves on their my subscription page."
+msgstr "Τα νέα μέλη της ομάδας δεν εγγράφονται ποτέ αυτόματα σε ειδοποιήσεις μέσω email. Τα μέλη μπορούν να ενεργοποιήσουν τις ειδοποιήσεις για τον εαυτό τους στην σελίδα 'η συμμετοχή μου'."
+
+#: og.module:1936
+msgid "New group members are always subscribed to email notifications by default."
+msgstr "Τα νέα μέλη της ομάδας εγγράφονται αυτόματα σε ειδοποιήσεις μέσω email."
+
+#: og.module:1937
+msgid "Group creator chooses whether her members are automatically subscribed to email notifications. Defaults to %in."
+msgstr "Ο δημιουργός της ομάδας επιλέγει αν τα μέλη θα εγγράφονται άμεσα σε ειδοποιήσεις μέσω email. Η προεπιλογή είναι %in."
+
+#: og.module:1937
+msgid "yes notification"
+msgstr "ναι, να ειδοποιούμαι"
+
+#: og.module:1938
+msgid "Group creator chooses whether her members are automatically subscribed to email notifications. Defaults to %out."
+msgstr "Ο δημιουργός της ομάδας επιλέγει αν τα μέλη θα εγγράφονται άμεσα σε ειδοποιήσεις μέσω email. Η προεπιλογή είναι %out."
+
+#: og.module:1938
+msgid "no notification"
+msgstr "όχι, να μην ειδοποιούμαι"
+
+#: og.module:1940
+msgid "Group email notifications"
+msgstr "Ειδοποίησεις ομάδας μέσω email"
+
+#: og.module:1940
+msgid "Should new subscribers to a group automatically be notified via email when new content is posted to the group? Note that changing this setting has no effect on existing subscriptions."
+msgstr "Τα νέα μέλη της ομάδας να ειδοποιούνται αυτόματα μέσω email για τις νέες καταχωρήσεις της ομάδας; Σημείωστε ότι η αλλαγή αυτής της ρύθμισης δεν επηρεάζει τα ήδη υπάρχοντα μέλη."
+
+#: og.module:1942
+msgid "Node authoring form"
+msgstr "Φόρμα συγγραφής κόμβου"
+
+#: og.module:1943
+msgid "This text will be displayed at the top of the group submission form.  It is useful for helping or instructing your users."
+msgstr "Αυτό το κείμενο θα εμφανίζεται στο πάνω μέρος της σελίδας εγγραφών της ομάδας. Είναι χρήσιμο για να κατευθύνετε ή να βοηθήσετε τα υποψήφια μέλη σας."
+
+#: og.module:1944
+msgid "Visible only within the targeted groups"
+msgstr "Ορατό μόνο μεταξύ των επιλεγμένων ομάδων"
+
+#: og.module:1944
+msgid "Visible within the targeted groups and on other pages"
+msgstr "Ορατό μεταξύ των επιλεγμένων ομάδων και σε άλλες σελίδες"
+
+#: og.module:1944;1944
+msgid "Visibility chosen by author/editor using a checkbox on the posting form. "
+msgstr "Η ορατότητα επιλέχθηκε από τον συγγραφέα/συντάκτη με χρήση ενός κουτιού επιλογής στην φόρμα καταχώρησης."
+
+#: og.module:1944
+msgid "Checkbox defaults to %pub."
+msgstr "Προεπιλογές για το %pub."
+
+#: og.module:1944
+msgid "Checkbox defaults to %pri."
+msgstr "Προεπιλογές για το %pri."
+
+#: og.module:1944
+msgid "Private"
+msgstr "Ιδιωτικό"
+
+#: og.module:1945
+msgid "Visibility of posts"
+msgstr "Ορατότητα των καταχωρήσεων"
+
+#: og.module:1945
+msgid "Determine how broadly available a given post should be when it is affiliated with a group. OG admins always see the checkbox for making a post %pub. Note that changing this setting has no effect on existing posts. Re-save those posts to acquire this new setting."
+msgstr ""
+
+#: og.module:1947
+msgid "optional"
+msgstr "κατ'επιλογή"
+
+#: og.module:1948
+msgid "Audience required"
+msgstr "Απαιτείται ακροατήριο"
+
+#: og.module:1948
+msgid "Do you require that all posts be affiliated with a group? If so, new users will be unable to complete a post until they join a group. Note that changing this setting will affect existing posts when they are edited."
+msgstr ""
+
+#: og.module:1958
+msgid "Omitted content types"
+msgstr "Τύποι περιεχομένου που παραλήφθησαν"
+
+#: og.module:1958
+msgid "Select any node types which should <em>not</em> participate in the Audience targetting system. Node types which are designated as group home page node types (see below) will be automatically excluded."
+msgstr ""
+
+#: og.module:1960
+msgid "Group home page"
+msgstr "Αρχική σελίδα ομάδας"
+
+#: og.module:1961
+msgid "River of News"
+msgstr "Ροή Ειδήσεων"
+
+#: og.module:1961
+msgid "Group by content type"
+msgstr "Ομάδες κατά περιεχόμενο"
+
+#: og.module:1962
+msgid "Presentation style"
+msgstr "Στυλ παρουσίασης"
+
+#: og.module:1962
+msgid "If neither of these presentations suits you, you may override in the theme layer."
+msgstr "Αν καμμιά από τις παρουσιάσεις δεν σας ικανοποιεί, μπορείτε να τις υπερκαλύψετε σε επίπεδο παραλλαγής."
+
+#: og.module:1963
+msgid "Maximum posts on group home page"
+msgstr "Μέγιστος αριθμός καταχωρήσεων στην αρχική σελίδα της ομάδας"
+
+#: og.module:1963
+msgid "If using River of News display, indicate the number of posts on home page. If grouping posts by content type, indicate number of posts per type."
+msgstr "Αν χρησιμοποιείται την εμφάνιση της Ροής Ειδήσεων, προσδιορίστε στον αριθμό των καταχωρήσεων στην αρχική σελίδα. Αν ομαδοποιείτε τις καταχωρήσεις με το περιεχόμενο, προσδιορίστε τον αριθμό των καταχωρήσεων ανά τύπο."
+
+#: og.module:1964
+msgid "Group home page node types"
+msgstr "Τύποι κόμβων αρχικής σελίδας ομάδας"
+
+#: og.module:1964
+msgid "Select the node types which act as group home pages. Usually %group is the best choice."
+msgstr "Επιλέξτε τους τύπους κόμβων που θα λειτουργούν ως αρχικές σελίδες ομάδων. Συνήθως  ο τύπος %group είναι η καλύτερη επιλογή."
+
+#: og.module:1966
+msgid "Member pictures"
+msgstr "Φωτογραφίες μελών"
+
+#: og.module:1966
+msgid "Should member pictures be shown in the group subscribers and group details blocks? You must also enable pictures in %user."
+msgstr "Θέλετε οι φωτογραφίες των μελών να εμφανίζονται στα μέλη της ομάδας και στα μπλοκ λεπτομερειών της ομάδας; Πρέπει να ενεργοποιήσετε επίσης τις φωτογραφίες στο %user."
+
+#: og.module:1966
+msgid "User configuration"
+msgstr "Διευθέτηση χρήστη"
+
+#: og.module:2001
+msgid "(pending approval)"
+msgstr "(εκκρεμής έγκριση)"
+
+#: og.module:2025
+msgid "Subscribe a user to a group"
+msgstr "Εγγραφή χρήστη σε ομάδα"
+
+#: og.module:2030
+msgid "All subscribers for a given group."
+msgstr "Όλα τα μέλη μιας ομάδας"
+
+#: og.module:2035
+msgid "Retrieve the group subscriptions for a given user."
+msgstr "Εύρεση των συμμετοχών σε ομάδες ενός χρήστη."
+
+#: og.module:2046;2052
+msgid "[ogname]"
+msgstr "[ogname]"
+
+#: og.module:2046
+msgid "The name of the organic group this post belongs to."
+msgstr "Το όνομα της οργανικής ομάδας στην οποία ανήκει η καταχώρηση."
+
+#: og.module:272
+msgid "the sole subscriber"
+msgid_plural "all %count subscribers"
+msgstr[0] "το μοναδικό μέλος"
+msgstr[1] "τα %count μέλη της ομάδας"
+
+#: og.module:545
+msgid "%count invitations sent."
+msgid_plural "%count invitations sent."
+msgstr[0] "Στάλθηκε 1 πρόσκληση."
+msgstr[1] "Στάλθηκαν %count πρόσκλησεις."
+
+#: og.module:691
+msgid "name"
+msgid_plural "names"
+msgstr[0] "όνομα"
+msgstr[1] "ονόματα"
+
+#: og.module:1838
+msgid "1 subscriber"
+msgid_plural "%count subscribers"
+msgstr[0] "1 μέλος"
+msgstr[1] "%count μέλη"
+
+#: og.module:155
+msgid "administer organic groups"
+msgstr "διαχείριση οργανικών ομάδων"
+
+#: og.module:0
+msgid "og"
+msgstr "og"
+
+#: og_views.inc:22
+msgid "Og: Group Description"
+msgstr "Og: Περιγραφή Ομάδας"
+
+#: og_views.inc:25
+msgid "Og: Group Website"
+msgstr "Og: Ιστότοπος Ομάδας"
+
+#: og_views.inc:29
+msgid "Og: Subscriber Count"
+msgstr "Og: Αριθμός Μέλων"
+
+#: og_views.inc:35
+msgid "Og: Selective"
+msgstr "Og: Επιλεκτικός"
+
+#: og_views.inc:38
+msgid "Og: Subscribe Link"
+msgstr "Og: Σύνδεσμος Εγγραφής"
+
+#: og_views.inc:47
+msgid "Og: List in directory"
+msgstr "Og: Θέση στον Κατάλογο"
+
+#: og_views.inc:51
+msgid "Admin specifies whether or not a group appears in the public listings."
+msgstr "Ο διαχειριστής καθορίζει για το αν μια ομάδα θα εμφανίζεται ή όχι στους δημόσιους καταλόγους."
+
+#: og_views.inc:84
+msgid "Og: Group Name"
+msgstr "Og: Όνομα Ομάδας"
+
+#: og_views.inc:88
+msgid "Display the title of the first group a node belongs to."
+msgstr "Εμφανίζει τον τίτλο της πρώτης ομάδας στην οποία ανήκει ένας κόμβος."
+
+#: og_views.inc:108
+msgid "Og: Subscription email"
+msgstr "Og: Email εγγραφής"
+
+#: og_views.inc:111
+msgid "Does subscriber receive email notifications for a group."
+msgstr "Τα μέλη λαμβάνουν υπενθυμίσεις για την ομάδα."
+
+#: og_views.inc:114
+msgid "Og: Manage subscription link"
+msgstr "Og: Διαχείριση σύνδεσης εγγραφής"
+
+#: og_views.inc:120
+msgid "Og: is subscriber an admin in a group"
+msgstr "Og: είναι το μέλος διαχειριστής σε κάποια ομάδα"
+
+#: og_views.inc:128
+msgid "Og: Group in User Subbed Groups"
+msgstr "Og: Ομάδα σε  Subbed Ομάδες του Μέλους"
+
+#: og_views.inc:132
+msgid "Groups are filtered to where current user is a member ."
+msgstr "Οι ομάδες φιλτράρονται με το που ο τρέχων χρήστης είναι μέλος."
+
+#: og_views.inc:153
+msgid "Og: Post in User Subbed Groups"
+msgstr "Og: Καταχώρηση στις Subbed Ομάδες του Μέλους"
+
+#: og_views.inc:157
+msgid "Posts are filtered to groups that current user is a member of."
+msgstr "Οι καταχωρήσεις φιλτράρονται ανάλογα με τις ομάδες στις οποίες ο τρέχων χρήστης είναι μέλος."
+
+#: og_views.inc:180
+msgid "Og: Group nid"
+msgstr "Og: Κωδικός Ομάδας"
+
+#: og_views.inc:182
+msgid "This argument filters for a given organic group"
+msgstr "Αυτό το όρισμα φιλτράρει μία δεδομένη οργανική ομάδα"
+
+#: og_views.inc:218
+msgid "Shows all activity in subscribed groups."
+msgstr "Εμφανίζει την δραστηριότητα  στις ομάδες που είσαι μέλος."
+
+#: og_views.inc:222
+msgid "recent posts in my groups"
+msgstr "πρόσφατες καταχωρήσεις στις ομάδες μου"
+
+#: og_views.inc:227
+msgid "There are no posts in your subscribed groups."
+msgstr "Δεν υπάρχουν καταχωρήσεις στις ομάδες που είσαι μέλος."
+
+#: og_views.inc:234
+msgid "my recent"
+msgstr "οι πρόσφατες καταχωρήσεις μου"
+
+#: og_views.inc:254;359
+msgid "Group"
+msgstr "Ομάδα"
+
+#: og_views.inc:286;391
+msgid "Last Post"
+msgstr "Τελευταία Καταχώρηση"
+
+#: og_views.inc:321
+msgid "Shows unread posts in subscribed groups."
+msgstr "Εμφανίζει τις αδιάβαστες καταχωρήσεις στις ομάδες  που είσαι μέλος."
+
+#: og_views.inc:327
+msgid "unread posts in my groups"
+msgstr "αδιάβαστες καταχωρήσεις  στις ομάδες μου"
+
+#: og_views.inc:332
+msgid "There are no new posts in your subscribed groups."
+msgstr "Δεν υπάρχουν νέες καταχωρήσεις στις ομάδες που ανήκεις."
+
+#: og_views.inc:339
+msgid "my unread"
+msgstr "αδιάβαστες καταχωρήσεις"
+
+#: og_views.inc:443
+msgid "external website"
+msgstr "εξωτερικός ιστότοπος"
+
+#: og_views.inc:457
+msgid "Invite only"
+msgstr "Μόνο πρόσκληση"
+
+#: og_views.inc:473
+msgid "yes"
+msgstr "ναι"
+

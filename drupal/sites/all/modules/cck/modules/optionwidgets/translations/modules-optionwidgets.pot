@@ -1,0 +1,71 @@
+# $Id: modules-optionwidgets.pot,v 1.1.2.13 2009/08/17 12:26:44 markuspetrux Exp $
+#
+# LANGUAGE translation of Drupal (modules-optionwidgets)
+# Copyright YEAR NAME <EMAIL@ADDRESS>
+# Generated from files:
+#  optionwidgets.module,v 1.69.2.23 2009/03/18 21:00:58 yched
+#  optionwidgets.info,v 1.7 2008/04/23 18:02:24 dww
+#  text.module,v 1.95.2.29 2009/04/29 20:51:53 karens
+#  text.info,v 1.9 2008/04/23 18:02:31 dww
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"POT-Creation-Date: 2009-06-16 19:00+0200\n"
+"PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
+"Last-Translator: NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+
+#: modules/optionwidgets/optionwidgets.module:19
+msgid "Create a list of options as a list in <strong>Allowed values list</strong> or as an array in PHP code. These values will be the same for %field in all content types."
+msgstr ""
+
+#: modules/optionwidgets/optionwidgets.module:22
+msgid "For a 'single on/off checkbox' widget, define the 'off' value first, then the 'on' value in the <strong>Allowed values</strong> section. Note that the checkbox will be labeled with the label of the 'on' value."
+msgstr ""
+
+#: modules/optionwidgets/optionwidgets.module:25
+msgid "The 'checkboxes/radio buttons' widget will display checkboxes if the multiple values option is selected for this field, otherwise radios will be displayed."
+msgstr ""
+
+#: modules/optionwidgets/optionwidgets.module:37
+msgid "You need to specify the 'allowed values' for this field."
+msgstr ""
+
+#: modules/optionwidgets/optionwidgets.module:96
+msgid "Single on/off checkbox"
+msgstr ""
+
+#: modules/optionwidgets/optionwidgets.module:331
+msgid "%name: this field cannot hold more than @count values."
+msgstr ""
+
+#: modules/optionwidgets/optionwidgets.module:416
+msgid "N/A"
+msgstr ""
+
+#: modules/optionwidgets/optionwidgets.module:420
+msgid "- None -"
+msgstr ""
+
+#: modules/optionwidgets/optionwidgets.module:0
+msgid "optionwidgets"
+msgstr ""
+
+#: modules/optionwidgets/optionwidgets.info:0
+msgid "Option Widgets"
+msgstr ""
+
+#: modules/optionwidgets/optionwidgets.info:0
+msgid "Defines selection, check box and radio button widgets for text and numeric fields."
+msgstr ""
+
+#: modules/text/text.module:41 modules/text/text.info:0
+msgid "Text"
+msgstr ""
+

@@ -1,0 +1,226 @@
+<?php
+// $Id: og.og_members.view,v 1.2.4.1 2009/04/10 03:07:26 weitzman Exp $
+
+$view = new view;
+$view->name = 'og_members';
+$view->description = 'Member listing';
+$view->tag = 'og';
+$view->view_php = '';
+$view->base_table = 'users';
+$view->is_cacheable = FALSE;
+$view->api_version = 2;
+$view->disabled = FALSE; /* Edit this to true to make a default view disabled initially */
+$handler = $view->new_display('default', 'Defaults', 'default');
+$handler->override_option('fields', array(
+  'name' => array(
+    'id' => 'name',
+    'table' => 'users',
+    'field' => 'name',
+    'label' => 'Name',
+    'link_to_user' => 1,
+    'relationship' => 'none',
+  ),
+  'managelink' => array(
+    'id' => 'managelink',
+    'table' => 'og_uid',
+    'field' => 'managelink',
+    'label' => 'Manage',
+    'relationship' => 'none',
+  ),
+  'managelinkadmin' => array(
+    'id' => 'managelinkadmin',
+    'table' => 'og_uid',
+    'field' => 'managelinkadmin',
+    'label' => 'Admin',
+    'relationship' => 'none',
+  ),
+  'is_manager' => array(
+    'label' => '',
+    'alter' => array(
+      'alter_text' => 0,
+      'text' => '',
+      'make_link' => 0,
+      'path' => '',
+      'alt' => '',
+      'prefix' => '',
+      'suffix' => '',
+      'help' => '',
+      'trim' => 0,
+      'max_length' => '',
+      'word_boundary' => 1,
+      'ellipsis' => 1,
+      'strip_tags' => 0,
+      'html' => 0,
+    ),
+    'exclude' => 0,
+    'id' => 'is_manager',
+    'table' => 'og_uid',
+    'field' => 'is_manager',
+    'relationship' => 'none',
+  ),
+  'is_admin' => array(
+    'id' => 'is_admin',
+    'table' => 'og_uid',
+    'field' => 'is_admin',
+    'label' => '',
+    'relationship' => 'none',
+  ),
+  'is_active' => array(
+    'id' => 'is_active',
+    'table' => 'og_uid',
+    'field' => 'is_active',
+    'label' => '',
+    'relationship' => 'none',
+  ),
+));
+$handler->override_option('sorts', array(
+  'is_admin' => array(
+    'id' => 'is_admin',
+    'table' => 'og_uid',
+    'field' => 'is_admin',
+    'order' => 'DESC',
+    'relationship' => 'none',
+  ),
+  'is_active' => array(
+    'id' => 'is_active',
+    'table' => 'og_uid',
+    'field' => 'is_active',
+    'order' => 'ASC',
+    'relationship' => 'none',
+  ),
+  'name' => array(
+    'id' => 'name',
+    'table' => 'users',
+    'field' => 'name',
+    'order' => 'ASC',
+    'relationship' => 'none',
+  ),
+));
+$handler->override_option('arguments', array(
+  'nid' => array(
+    'id' => 'nid',
+    'table' => 'og_uid',
+    'field' => 'nid',
+    'default_action' => 'not found',
+    'style_plugin' => 'default_summary',
+    'style_options' => array(
+      'count' => TRUE,
+      'override' => FALSE,
+      'items_per_page' => 25,
+    ),
+    'wildcard' => 'all',
+    'wildcard_substitution' => 'All',
+    'title' => 'Members of %1',
+    'default_argument_type' => 'fixed',
+    'default_argument' => '',
+    'validate_type' => 'og_group_types',
+    'validate_fail' => 'not found',
+    'break_phrase' => 0,
+    'add_table' => 0,
+    'relationship' => 'none',
+    'default_argument_fixed' => '',
+    'default_argument_php' => '',
+    'validate_argument_node_type' => array(
+      'blog' => 0,
+      'poll' => 0,
+      'book' => 0,
+      'group1' => 0,
+      'group2' => 0,
+      'page' => 0,
+      'story' => 0,
+    ),
+    'validate_argument_php' => '',
+    'require_value' => 0,
+    'reduce_duplicates' => 0,
+    'default_argument_user' => 0,
+    'validate_argument_node_access' => 0,
+    'validate_argument_nid_type' => 'nid',
+    'validate_argument_vocabulary' => array(
+      '1' => 0,
+      '2' => 0,
+      '3' => 0,
+      '4' => 0,
+    ),
+    'validate_argument_type' => 'tid',
+    'not' => 0,
+    'validate_argument_is_member' => 1,
+  ),
+));
+$handler->override_option('filters', array(
+  'status' => array(
+    'id' => 'status',
+    'table' => 'users',
+    'field' => 'status',
+    'operator' => '=',
+    'value' => 1,
+    'group' => 0,
+    'exposed' => FALSE,
+    'expose' => array(
+      'operator' => FALSE,
+      'label' => '',
+    ),
+    'relationship' => 'none',
+    'expose_button' => array(
+      'button' => 'Expose',
+    ),
+  ),
+));
+$handler->override_option('access', array(
+  'type' => 'none',
+));
+$handler->override_option('empty_format', '1');
+$handler->override_option('items_per_page', 90);
+$handler->override_option('use_pager', '1');
+$handler->override_option('distinct', 0);
+$handler->override_option('style_plugin', 'table');
+$handler->override_option('style_options', array(
+  'override' => 0,
+  'order' => 'asc',
+  'columns' => array(
+    'name' => 'name',
+    'managelink' => 'managelink',
+    'managelinkadmin' => 'managelinkadmin',
+    'is_manager' => 'name',
+    'is_admin' => 'name',
+    'is_active' => 'name',
+  ),
+  'info' => array(
+    'name' => array(
+      'sortable' => 0,
+      'separator' => '&nbsp;',
+    ),
+    'managelink' => array(
+      'separator' => '',
+    ),
+    'managelinkadmin' => array(
+      'separator' => '',
+    ),
+    'is_manager' => array(
+      'separator' => '',
+    ),
+    'is_admin' => array(
+      'sortable' => 0,
+      'separator' => '',
+    ),
+    'is_active' => array(
+      'sortable' => 0,
+      'separator' => '',
+    ),
+  ),
+  'default' => '-1',
+));
+$handler = $view->new_display('page', 'Page', 'page');
+$handler->override_option('path', 'og/users/%/list');
+$handler->override_option('menu', array(
+  'type' => 'default tab',
+  'title' => 'List',
+  'description' => '',
+  'weight' => '0',
+  'name' => 'navigation',
+));
+$handler->override_option('tab_options', array(
+  'type' => 'normal',
+  'title' => 'List',
+  'description' => '',
+  'weight' => '0',
+));

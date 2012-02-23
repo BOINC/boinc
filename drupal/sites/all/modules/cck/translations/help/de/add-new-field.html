@@ -1,0 +1,61 @@
+<!-- $Id: add-new-field.html,v 1.1.2.2 2008/11/04 16:29:50 yched Exp $ -->
+<p>Am Ende der <strong>Felder verwalten</strong>-Seite eines Inhaltstypen 
+befindet sich folgendes:</p>
+
+<img src="trans_path:add-new-field.png">
+
+<p>Um ein neues Feld zu einem Inhaltstypen hinzuzufügen, müssen die folgenden 
+Informationen angegeben werden:</p>
+<dl>
+  <dt>Beschriftung:</dt>
+  <dd>
+    Ein Name für das Feld. Diese wird in Eingabeformularen und bei der 
+    Anzeige von Inhalten verwendet.<br/>
+    Alle Zeichen sind zulässig, inklusive Leerzeichen, akzentuierte und 
+    nicht-europäische Zeichen.
+  </dd>
+
+  <dt>Feldname:</dt>
+  <dd>
+    Ein maschinenlesbarer Name für das Feld. Dieser wird intern zur 
+    Identifizierung des Feldes und Speicherung in der Datenbank verwendet.
+    Bei benutzerdefinierten Theming ist dies der zu verwendende Identifikator, 
+    um sich auf dieses Feld zu beziehen.<br/>
+    <strong>Wichtig:</strong> Der Feldname kann nicht mehr geändert werden 
+    sobald das Feld erstellt wurde.<br/>
+    Zulässige Zeichen: a-z (nicht-akzentuiert), 0-9 und der Unterstrich (_).<br/>
+    Die Länge des Feldnamen darf 32 Zeichen nicht überschreiten (inklusive dem 
+    ‚field_‘-Präfix, der automatisch hinzugefügt wird - d.h. 26 verbleibende 
+    Zeichen.
+  </dd>
+
+  <dt>Feldtyp:</dt>
+  <dd>
+    Der Datentyp der in diesem Feld gespeichert werden soll.<br/>
+    <strong>Wichtig:</strong> Der Feldtyp kann nicht mehr geändert werden 
+    sobald das Feld erstellt wurde.<br/>
+    Die verfügbaren Feldtypen hängen von den aktivierten Modulen auf der 
+    Website ab. CCK verfügt über 6 Basis-Feldtypen:
+    <ul>
+      <li>Text</li>
+      <li>Ganzzahl</li>
+      <li>Fließkommazahl</li>
+      <li>Dezimalzahl</li>
+      <li>Beitragsreferenz</li>
+      <li>Benutzerreferenz</li>
+    </ul>
+    Weitere Module können zur Verwendung anderer Feldtypen wie Datum, Dateien, 
+    Bilder... heruntergeladen werden. Nähere Information befindet sich auf der 
+    <a href="http://www.drupal.org/project/cck" target="_blank">CCK-Projekt-Seite</a> 
+    und in der <a href="http://drupal.org/project/Modules/category/88" target="_blank">vollständigen Liste der mit CCK verwandten Module</a>.
+  </dd>
+
+  <dt>Steuerelement:</dt>
+  <dd>
+    Das Formularelement das auf Inhaltsformularen zur Eingabe von Daten in 
+    dieses Feld verwendet wird: Texteingabe, Auswahlliste, etc...<br/>
+    Jeder Feldtyp hat seine eigene Liste von verfügbaren Steuerelementen. Bei 
+    der Auswahl eines Feldtyps, wird die Liste der auszuwählenden Steuerelemente 
+    automatisch aktualisiert.
+  </dd>
+</dl>

@@ -1,0 +1,32 @@
+<?php
+// $Id: vud_term.install,v 1.1.2.2 2009/08/15 21:15:46 lut4rp Exp $
+
+/**
+ * @file
+ * Install, update and uninstall functions for the Vote Up/Down Term module.
+ */
+
+/**
+ * Implementation of hook_install().
+ */
+function vud_term_install() {
+  drupal_install_schema('vud_term');
+}
+
+/**
+ * Implementation of hook_schema().
+ */
+function vud_term_schema() {
+  return array();
+}
+
+/**
+ * Implementation of hook_uninstall().
+ */
+function vud_term_uninstall() {
+  drupal_uninstall_schema('vud_term');
+  variable_del('vud_term_types');
+  variable_del('vud_term_widget');
+  variable_del('vud_term_votetable_show');
+  variable_del('vud_term_reset');
+}

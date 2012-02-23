@@ -1,0 +1,12 @@
+; $Id: flag_friend.info,v 1.2.4.2 2009/02/17 04:48:06 sirkitree Exp $
+name = Flag friend
+description = Flag users as friends. Implements it's own flag and a form for sending a user a message upon flag.
+dependencies[] = flag
+core = 6.x
+package = Flags
+; Information added by drupal.org packaging script on 2010-08-08
+version = "6.x-1.0"
+core = "6.x"
+project = "flag_friend"
+datestamp = "1281273674"
+

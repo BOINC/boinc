@@ -1,0 +1,276 @@
+# $Id: fr.po,v 1.1.2.1 2009/12/06 23:37:27 berdir Exp $
+#
+# French translation of Drupal (general)
+# Copyright YEAR NAME <EMAIL@ADDRESS>
+# Generated from files:
+#  privatemsg_filter.admin.inc,v 1.1.2.2 2009/11/06 13:06:26 berdir
+#  privatemsg_filter.module,v 1.1.2.30 2009/11/23 19:54:49 berdir
+#  privatemsg_filter.info,v 1.1.2.1 2009/01/25 23:25:18 litwol
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"POT-Creation-Date: 2009-12-05 17:55+0100\n"
+"PO-Revision-Date: 2009-12-05 17:55+0100\n"
+"Last-Translator: NAME <EMAIL@ADDRESS>\n"
+"Language-Team: French <EMAIL@ADDRESS>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n!=1);\n"
+
+#: privatemsg_filter.admin.inc:13 privatemsg_filter.module:157;344;550;687;33
+msgid "Tags"
+msgstr "Tags"
+
+#: privatemsg_filter.admin.inc:17
+msgid "Tag"
+msgstr "Étiquette"
+
+#: privatemsg_filter.admin.inc:24
+msgid "Usage"
+msgstr "Usage"
+
+#: privatemsg_filter.admin.inc:30;92
+msgid "Public"
+msgstr "Public"
+
+#: privatemsg_filter.admin.inc:36
+msgid "Operations"
+msgstr "Opérations"
+
+#: privatemsg_filter.admin.inc:49
+msgid "Yes"
+msgstr "Oui"
+
+#: privatemsg_filter.admin.inc:50
+msgid "edit"
+msgstr "Modifier"
+
+#: privatemsg_filter.admin.inc:51
+msgid "delete"
+msgstr "supprimer"
+
+#: privatemsg_filter.admin.inc:58
+msgid "No tags available."
+msgstr "Aucun tag disponible"
+
+#: privatemsg_filter.admin.inc:82
+msgid "Edit @tag"
+msgstr "Modifier @tag "
+
+#: privatemsg_filter.admin.inc:86
+msgid "Name"
+msgstr "Nom"
+
+#: privatemsg_filter.admin.inc:95
+msgid "Public tags are visible for all users, private tags are only visible if they use them."
+msgstr ""
+"Les tags publics sont visibles spar tous les utilisateurs, ceux "
+"privés ne le sont que pour ceux qui les utilisent."
+
+#: privatemsg_filter.admin.inc:99
+msgid "Create tag"
+msgstr "Créer un tag"
+
+#: privatemsg_filter.admin.inc:99
+msgid "Save tag"
+msgstr "Enregistrer un tag"
+
+#: privatemsg_filter.admin.inc:121
+msgid "Tag already exists, choose a different name."
+msgstr "Le tag existe déjà, choisissez un libellé différent."
+
+#: privatemsg_filter.admin.inc:132
+msgid "Tag updated."
+msgstr "Tag mis à jour."
+
+#: privatemsg_filter.admin.inc:138
+msgid "Tag created."
+msgstr "Tag créé."
+
+#: privatemsg_filter.admin.inc:154
+msgid "Are you sure you want to delete?"
+msgstr "Etes-vous sûr de vouloir supprimer ?"
+
+#: privatemsg_filter.admin.inc:156
+msgid "This action cannot be undone."
+msgstr "Cette action est irréversible."
+
+#: privatemsg_filter.admin.inc:157
+msgid "Delete"
+msgstr "Supprimer"
+
+#: privatemsg_filter.admin.inc:158
+msgid "Cancel"
+msgstr "Annuler"
+
+#: privatemsg_filter.admin.inc:170
+msgid "Tag has been deleted"
+msgstr "Le Tag a été supprimé."
+
+#: privatemsg_filter.module:127
+msgid "Search message body"
+msgstr "Rechercher dans le corps des messages"
+
+#: privatemsg_filter.module:128
+msgid "WARNING: turning on this feature will slow down search performance by a large factor. Gets worse as your messages database increases."
+msgstr ""
+"ATTENTION, Activer cette fonctionnalité réduira d'autant plus les "
+"performances que votre base de données augmentera."
+
+#: privatemsg_filter.module:134
+msgid "Position of the tagging textfield"
+msgstr "Position de la zone de texte pour les tags"
+
+#: privatemsg_filter.module:135
+msgid "Use higher values to push the form lower down the page, lower or negative values to raise it higher."
+msgstr ""
+"Plus la valeur est élevé, plus le bloc sera bas, une nombre faible "
+"ou négatif le fera remonter sur la page."
+
+#: privatemsg_filter.module:152;77
+msgid "Inbox"
+msgstr "Messages reçus"
+
+#: privatemsg_filter.module:152
+msgid "All messages"
+msgstr "Tous les messages"
+
+#: privatemsg_filter.module:153
+msgid "Choose the default list option"
+msgstr "Sélectionnez la page de liste par défaut."
+
+#: privatemsg_filter.module:154
+msgid "Choose which of the two lists are shown by default when following the messages link."
+msgstr ""
+"Sélectionnez quelle liste sera affichée par défaut lorsqu'on clique "
+"sur le lien \"Messages\""
+
+#: privatemsg_filter.module:199
+msgid "Tag %tag was ignored because you do not have permission to create new tags."
+msgstr ""
+"Le tag %tag a été ignoré car vous n'avez pas la possibilité de "
+"créer de nouveaux tags"
+
+#: privatemsg_filter.module:321
+msgid "Filter messages"
+msgstr "Filtrer les messages"
+
+#: privatemsg_filter.module:327
+msgid "Search messages"
+msgstr "Rechercher dans les messages"
+
+#: privatemsg_filter.module:327
+msgid "Search subjects"
+msgstr "Rechercher dans les sujets"
+
+#: privatemsg_filter.module:333
+msgid "Participants"
+msgstr "Participants"
+
+#: privatemsg_filter.module:334
+msgid "Separate multiple names with commas."
+msgstr "Séparer les noms par des virgules."
+
+#: privatemsg_filter.module:353;422;25
+msgid "Filter"
+msgstr "Filtre"
+
+#: privatemsg_filter.module:361;409
+msgid "Save filter"
+msgstr "Enregistrer le filtre"
+
+#: privatemsg_filter.module:375
+msgid "Filter messages (active)"
+msgstr "Filtre des massages (activé)"
+
+#: privatemsg_filter.module:394;426
+msgid "Reset"
+msgstr "Réinitialiser"
+
+#: privatemsg_filter.module:506
+msgid "Apply tag..."
+msgstr "Tag en train d'être appliqué..."
+
+#: privatemsg_filter.module:519
+msgid "Apply Tag"
+msgstr "Appliquer le tag"
+
+#: privatemsg_filter.module:523
+msgid "Remove Tag..."
+msgstr "Tag en train d'être retiré.."
+
+#: privatemsg_filter.module:533
+msgid "Remove Tag"
+msgstr "Retirer le tag"
+
+#: privatemsg_filter.module:590
+msgid "The selected conversations have been tagged."
+msgstr "La conversation sélectionnée a été taggée."
+
+#: privatemsg_filter.module:604
+msgid "The tag has been removed from the selected conversations."
+msgstr "Le tag a été retiré des conversations sélectionnées. "
+
+#: privatemsg_filter.module:703
+msgid "Tags for this conversation"
+msgstr "Tags pour cette conversation"
+
+#: privatemsg_filter.module:704
+msgid "Separate multiple tags with commas."
+msgstr "Séparer les tags par une virgule"
+
+#: privatemsg_filter.module:712
+msgid "Tag this conversation"
+msgstr "Tagger cette conversation"
+
+#: privatemsg_filter.module:733
+msgid "Tagging information has been saved."
+msgstr "Les informations de tag ont été enregistrées."
+
+#: privatemsg_filter.module:14
+msgid "filter private messages"
+msgstr "Filtrer le smessages privés"
+
+#: privatemsg_filter.module:15
+msgid "tag private messages"
+msgstr "Tagger des messages privés"
+
+#: privatemsg_filter.module:16
+msgid "create private message tags"
+msgstr "Créer un tag pour un message privé"
+
+#: privatemsg_filter.module:26
+msgid "Configure filter settings."
+msgstr "Configurer les paramètres de filtre."
+
+#: privatemsg_filter.module:34;42;51;60;69
+msgid "Configure tags."
+msgstr "Configurer les tags."
+
+#: privatemsg_filter.module:41
+msgid "List"
+msgstr "Liste"
+
+#: privatemsg_filter.module:50;59;68
+msgid "Add"
+msgstr "Ajouter"
+
+#: privatemsg_filter.module:85
+msgid "Sent messages"
+msgstr "Messages envoyés"
+
+#: privatemsg_filter.info:0
+msgid "Privatemsg filter"
+msgstr "Tags des messages privés"
+
+#: privatemsg_filter.info:0
+msgid "Allow users to filter messages using tags or other criteria."
+msgstr "Permet de filtrer des messages privés par tag ou d'autres critères"
+
+#: privatemsg_filter.info:0
+msgid "Mail"
+msgstr "E-Mail"
+

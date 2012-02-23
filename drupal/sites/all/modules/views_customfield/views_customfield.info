@@ -1,0 +1,12 @@
+; $Id: views_customfield.info,v 1.1.4.2 2009/01/09 18:32:33 casey Exp $
+name = Views Custom Field
+description = "Provides a number of custom fields (rownumber, phpcode, ...)."
+core = 6.x
+package = Views
+dependencies[] = views
+; Information added by drupal.org packaging script on 2009-04-28
+version = "6.x-1.0"
+core = "6.x"
+project = "views_customfield"
+datestamp = "1240962075"
+

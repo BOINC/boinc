@@ -1,0 +1,32 @@
+<?php
+// $Id: vud_comment.install,v 1.1.2.2 2009/08/15 21:15:45 lut4rp Exp $
+
+/**
+ * @file
+ * Install, update and uninstall functions for the Vote Up/Down Comment module.
+ */
+
+/**
+ * Implementation of hook_install().
+ */
+function vud_comment_install() {
+  drupal_install_schema('vud_comment');
+}
+
+/**
+ * Implementation of hook_schema().
+ */
+function vud_comment_schema() {
+  return array();
+}
+
+/**
+ * Implementation of hook_uninstall().
+ */
+function vud_comment_uninstall() {
+  drupal_uninstall_schema('vud_comment');
+  variable_del('vud_comment_node_types');
+  variable_del('vud_comment_widget');
+  variable_del('vud_comment_votes');
+  variable_del('vud_comment_reset');
+}

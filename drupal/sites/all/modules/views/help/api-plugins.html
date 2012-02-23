@@ -1,0 +1,80 @@
+<!-- $Id: api-plugins.html,v 1.7 2009/01/09 16:47:07 merlinofchaos Exp $ -->
+In Views, a plugin is a bit like a handler, but plugins are not directly responsible for building the query. Instead, they are objects that are used to display the view or make other modifications.
+
+There are 6 types of plugins in Views:
+<dl>
+<dt>Display</dt>
+<dd>Display plugins are responsible for controlling <strong>where</strong> a view lives. Page and block are the most common displays, as well as the ubiquitous 'default' display which is likely what will be embedded.</dd>
+<dt>Style</dt>
+<dd>Style plugins control how a view is displayed. For the most part they are object wrappers around theme templates.
+<dt>Row style</dt>
+<dd>Row styles handle each individual record from a node.</dd>
+<dt>Argument default</dt>
+<dd>Argument default plugins allow pluggable ways of providing arguments for blocks. Views includes plugins to extract node and user IDs from the URL; additional plugins could be used for a wide variety of tasks.</dd>
+<dt>Argument validator</dt>
+<dd>Validator plugins can ensure arguments are valid, and even do transformations on the arguments.</dd>
+<dt>Access</dt>
+<dd>Access plugins are responsible for controlling access to the view.</dd>
+</dl>
+
+Plugins are registered by implementing <strong>hook_views_plugins()</strong> in your modulename.views.inc file and returning an array of data.
+
+The array will look something like this:
+<code>
+  return array(
+    'display' => array(
+      // ... list of display plugins,
+     ),
+    'style' => array(
+      // ... list of style plugins,
+     ),
+    'row' => array(
+      // ... list of row style plugins,
+     ),
+    'argument default' => array(
+      // ... list of argument default plugins,
+     ),
+    'argument validator' => array(
+      // ... list of argument validator plugins,
+     ),
+     'access' => array(
+      // ... list of access plugins,
+     ),
+  );
+</code>
+
+Each plugin will be registered with an identifier for the plugin, plus a fairly lengthy list of items that can define how and where the plugin is used. Here is an example from Views core:
+
+<code>
+      'node' => array(
+        'title' => t('Node'),
+        'help' => t('Display the node with standard node view.'),
+        'handler' => 'views_plugin_row_node_view',
+        'path' => drupal_get_path('module', 'views') . '/modules/node', // not necessary for most modules
+        'theme' => 'views_view_row_node',
+        'base' => array('node'), // only works with 'node' as base.
+        'uses options' => TRUE,
+        'type' => 'normal',
+      ),
+</code>
+
+Of particular interest is the <em>path</em> directive, which works a little differently from handler registration; each plugin must define its own path, rather than relying on a global info for the paths. Also, there is an optional <em>parent</em> directive which is automatically filled in to be the base parent for the plugin type. Usually this is enough, but if your plugin derives from something other than the base, it must be filled in. For example:
+
+<code>
+      'feed' => array(
+        'title' => t('Feed'),
+        'help' => t('Display the view as a feed, such as an RSS feed.'),
+        'handler' => 'views_plugin_display_feed',
+        'parent' => 'page', // so it knows to load the page plugin .inc file
+        'uses hook menu' => TRUE,
+        'use ajax' => FALSE,
+        'use pager' => FALSE,
+        'accept attachments' => FALSE,
+        'admin' => t('Feed'),
+        'help topic' => 'display-feed',
+      ),
+</code>
+
+Note that unlike handler registration, where parentage is referred to by object name, with plugins it is referred to by the unique plugin identifier. Please be sure to prefix your plugin identifiers with your module name to ensure namespace safety; after all, two different modules could try to implement the 'grid2' plugin, and that would cause one plugin to completely fail.
+
+...TODO: Finish this document....

@@ -1,0 +1,587 @@
+<?php
+// $Id: flag_actions.module,v 1.1.2.14 2010/05/08 01:30:33 quicksketch Exp $
+
+/**
+ * @file
+ * Actions support for the Flag module.
+ */
+
+/**
+ * Implementation of hook_flag(). Trigger actions if any are available.
+ */
+function flag_actions_flag($event, $flag, $content_id, $account) {
+  flag_actions_do($event, $flag, $content_id, $account);
+}
+
+/**
+ * Implementation of hook_menu().
+ */
+function flag_actions_menu() {
+  $items = array();
+
+  $items['admin/build/flags/actions'] = array(
+    'title' => 'Actions',
+    'page callback' => 'flag_actions_page',
+    'access callback' => 'user_access',
+    'access arguments' => array('administer actions'),
+    'type' => MENU_LOCAL_TASK,
+  );
+  $items['admin/build/flags/actions/add'] = array(
+    'title' => 'Add action',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('flag_actions_form', NULL, 5),
+    'access callback' => 'user_access',
+    'access arguments' => array('administer actions'),
+    'type' => MENU_CALLBACK,
+  );
+  $items['admin/build/flags/actions/delete'] = array(
+    'title' => 'Delete action',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('flag_actions_delete_form', 5),
+    'access callback' => 'user_access',
+    'access arguments' => array('administer actions'),
+    'type' => MENU_CALLBACK,
+  );
+  $items['admin/build/flags/actions/configure'] = array(
+    'title' => 'Edit action',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('flag_actions_form', 5),
+    'access callback' => 'user_access',
+    'access arguments' => array('administer actions'),
+    'type' => MENU_CALLBACK,
+  );
+
+  return $items;
+}
+
+/**
+ * Implementation of hook_theme().
+ */
+function flag_actions_theme() {
+  return array(
+    'flag_actions_page' => array(
+      'arguments' => array('actions' => NULL),
+    ),
+    'flag_actions_add_form' => array(
+      'arguments' => array('form' => NULL),
+    ),
+    'flag_actions_flag_form' => array(
+      'arguments' => array('form' => NULL),
+    ),
+  );
+}
+
+function flag_actions_get_action($aid) {
+  $actions = flag_actions_get_actions();
+  return $actions[$aid];
+}
+
+function flag_actions_get_actions($flag_name = NULL, $reset = FALSE) {
+  static $flag_actions;
+
+  // Get a list of all possible actions defined by modules.
+  $actions = module_invoke_all('action_info');
+
+  // Retrieve the list of user-defined flag actions.
+  if (!isset($flag_actions) || $reset) {
+    $flag_actions = array();
+    $result = db_query("SELECT a.*, f.name as flag FROM {flag_actions} a INNER JOIN {flags} f ON a.fid = f.fid");
+    while ($action = db_fetch_object($result)) {
+      if (!isset($actions[$action->callback])) {
+        $actions[$action->callback] = array(
+          'description' => t('Missing action "@action-callback". Module providing it was either uninstalled or disabled.', array('@action-callback' => $action->callback)),
+          'configurable' => FALSE,
+          'type' => 'node',
+          'missing' => TRUE,
+        );
+      }
+      $action->parameters = unserialize($action->parameters);
+      $action->description = $actions[$action->callback]['description'];
+      $action->configurable = $actions[$action->callback]['configurable'];
+      $action->behavior = isset($actions[$action->callback]['behavior']) ? $actions[$action->callback]['behavior'] : array();
+      $action->type = $actions[$action->callback]['type'];
+      $action->missing = !empty($actions[$action->callback]['missing']);
+
+      $flag_actions[$action->aid] = $action;
+    }
+  }
+
+  // Filter actions to a specified flag.
+  if (isset($flag_name)) {
+    $specific_flag_actions = array();
+    foreach ($flag_actions as $aid => $action) {
+      if ($action->flag == $flag_name) {
+        $specific_flag_actions[$aid] = $action;
+      }
+    }
+    return $specific_flag_actions;
+  }
+
+  return $flag_actions;
+}
+
+/**
+ * Insert a new flag action.
+ *
+ * @param $fid
+ *   The flag object ID.
+ * @param $threshold
+ *   The flagging threshold at which this action will be executed.
+ * @param $callback
+ *   The action callback to be executed.
+ * @param $parameters
+ *   The action parameters.
+ */
+function flag_actions_insert_action($fid, $event, $threshold, $callback, $parameters) {
+  db_query("INSERT INTO {flag_actions} (fid, event, threshold, callback, parameters) VALUES (%d, '%s', %d, '%s', '%s')", $fid, $event, $threshold, $callback, serialize($parameters));
+  return db_last_insert_id('flag_actions', 'aid');
+}
+
+/**
+ * Update an existing flag action.
+ *
+ * @param $aid
+ *   The flag action ID to update.
+ * @param $threshold
+ *   The flagging threshold at which this action will be executed.
+ * @param $parameters
+ *   The action parameters.
+ */
+function flag_actions_update_action($aid, $event, $threshold, $parameters) {
+  return db_query("UPDATE {flag_actions} SET event = '%s', threshold = %d, parameters = '%s' WHERE aid = %d", $event, $threshold, serialize($parameters), $aid);
+}
+
+/**
+ * Delete a flag action.
+ *
+ * @param $aid
+ *   The flag action ID to delete.
+ */
+function flag_actions_delete_action($aid) {
+  return db_query('DELETE FROM {flag_actions} WHERE aid = %d', $aid);
+}
+
+/**
+ * Perform flag actions.
+ */
+function flag_actions_do($event, $flag, $content_id, $account) {
+  $actions = flag_actions_get_actions($flag->name);
+  if (!$actions) {
+    return;
+  }
+
+  $flag_action = $flag->get_flag_action($content_id);
+  $flag_action->action = $event;
+  $flag_action->count = $count = $flag->get_count($content_id);
+  $relevant_objects = $flag->get_relevant_action_objects($content_id);
+  $node_changed = FALSE;
+  foreach ($actions as $aid => $action) {
+    $threshold = ($action->event == $event) &&
+                (($action->event == 'flag'   && $count == $action->threshold) ||
+                 ($action->event == 'unflag' && $count == $action->threshold - 1));
+    if ($threshold && !$action->missing) {
+      $context = $action->parameters;
+      $context['callback'] = $action->callback;
+      // We're setting 'hook' to something, to prevent PHP warnings by actions
+      // who read it. Maybe we should set it to nodeapi/comment/user, depending
+      // on the flag, because these three are among the only hooks some actions
+      // in system.module "know" to work with.
+      $context['hook'] = 'flag';
+      $context['type'] = $action->type;
+      $context['account'] = $account;
+      $context['flag'] = $flag;
+      $context['flag-action'] = $flag_action;
+      // We add to the $context all the objects we know about:
+      $context = array_merge($relevant_objects, $context);
+      $callback = $action->callback;
+
+      if (isset($relevant_objects[$action->type])) {
+        $callback($relevant_objects[$action->type], $context);
+      }
+      else {
+        // What object shall we send as last resort? Let's send a node, or
+        // the flag's object.
+        if (isset($relevant_objects['node'])) {
+          $callback($relevant_objects['node'], $context);
+        }
+        else {
+          $callback($relevant_objects[$flag->content_type], $context);
+        }
+      }
+
+      if (is_array($action->behavior) && in_array('changes_node_property', $action->behavior)) {
+        $node_changed = TRUE;
+      }
+    }
+  }
+  if ($node_changed) {
+    node_save_action($relevant_objects['node']);
+    // Remember this modified node for the next round, if there's any.
+    $flag->remember_content($content_id, $relevant_objects['node']);
+  }
+}
+
+/**
+ * Menu callback for admin/build/flags/actions.
+ */
+function flag_actions_page() {
+  $actions = flag_actions_get_actions();
+  $add_action_form = drupal_get_form('flag_actions_add_form');
+
+  return theme('flag_actions_page', $actions, $add_action_form);
+}
+
+/**
+ * Theme the list of actions currently in place for flags.
+ */
+function theme_flag_actions_page($actions, $add_action_form) {
+  $rows = array();
+  foreach ($actions as $action) {
+    $flag = flag_get_flag($action->flag);
+
+    $row = array();
+    $row[] = $flag->get_title();
+    $row[] = ($action->event == 'flag' ? '≥ ' : '< ') . $action->threshold;
+    $row[] = empty($action->missing) ? $action->description : '<div class="error">' . $action->description . '</div>';
+    $row[] = l(t('edit'), 'admin/build/flags/actions/configure/'. $action->aid);
+    $row[] = l(t('delete'), 'admin/build/flags/actions/delete/'. $action->aid);
+    $rows[] = $row;
+  }
+
+  if (empty($rows)) {
+    $rows[] = array(array('data' => t('Currently no flag actions. Use the <em>Add new flag action</em> form to add an action.'), 'colspan' => 6));
+  }
+
+  $header = array(
+    t('Flag'),
+    t('Threshold'),
+    t('Action'),
+    array('data' => t('Operations'), 'colspan' => 2),
+  );
+
+  $output = '';
+  $output .= theme('table', $header, $rows);
+  $output .= $add_action_form;
+  return $output;
+}
+
+/**
+ * Modified version of the Add action form that redirects back to the flag list.
+ */
+function flag_actions_add_form($form_state) {
+  $flags = flag_get_flags();
+  $options = array();
+  foreach ($flags as $flag) {
+    $options[$flag->name] = $flag->get_title();
+  }
+
+  if (empty($options)) {
+    $options[] = t('No flag available');
+  }
+
+  $form = array();
+
+  $form['flag'] = array(
+    '#type' => 'select',
+    '#options' => empty($options) ? array(t('No flag available')) : $options,
+    '#disabled' => empty($options),
+    '#title' => t('Select a flag'),
+  );
+
+  $form['submit'] = array(
+    '#type' => 'submit',
+    '#value' => t('Add action'),
+  );
+
+  return $form;
+}
+
+function flag_actions_add_form_submit($form, &$form_state) {
+  if ($form_state['values']['flag']) {
+    $form_state['redirect'] = array('admin/build/flags/actions/add/'. $form_state['values']['flag']);
+  }
+}
+
+function theme_flag_actions_add_form($form) {
+  $fieldset = array(
+    '#type' => 'fieldset',
+    '#title' => t('Add a new flag action'),
+    '#children' => '<div class="container-inline">'. drupal_render($form['flag']) . drupal_render($form['submit']) .'</div>',
+  );
+
+  return drupal_render($fieldset) . drupal_render($form);
+}
+
+/**
+ * Generic configuration form for configuration of flag actions.
+ *
+ * @param $form_state
+ *   The form state.
+ * @param $aid
+ *   If editing an action, an action ID must be passed in.
+ * @param $flag_name
+ *   If adding a new action to a flag, a flag name must be specified.
+ *
+ */
+function flag_actions_form($form_state, $aid = NULL, $flag_name = NULL) {
+  // This is a multistep form. Get the callback value if set and continue.
+  if (isset($form_state['storage']['callback'])) {
+    $callback = $form_state['storage']['callback'];
+    unset($form_state['storage']['callback']);
+  }
+
+  if (isset($aid)) {
+    $action = flag_actions_get_action($aid);
+    $callback = $action->callback;
+    $flag = flag_get_flag($action->flag);
+    drupal_set_title(t('Edit the "@action" action for the @title flag', array('@action' => $action->description, '@title' => $flag->get_title())));
+  }
+  elseif (isset($flag_name)) {
+    $flag = flag_get_flag($flag_name);
+  }
+
+  if (empty($flag)) {
+    drupal_not_found();
+  }
+
+  $form = array();
+
+  $form['new'] = array(
+    '#type' => 'value',
+    '#value' => isset($callback) ? FALSE: TRUE,
+  );
+
+  if (!isset($callback)) {
+    drupal_set_title(t('Add an action to the @title flag', array('@title' => $flag->get_title())));
+
+    $actions = $flag->get_valid_actions();
+    $options = array();
+    foreach($actions as $key => $action) {
+      $options[$key] = $action['description'];
+    }
+
+    $form['callback'] = array(
+      '#title' => t('Select an action'),
+      '#type' => 'select',
+      '#options' => $options,
+    );
+
+    $form['submit'] = array(
+      '#type' => 'submit',
+      '#value' => t('Continue'),
+    );
+
+    return $form;
+  }
+  elseif (!isset($action)) {
+    $actions = $flag->get_valid_actions();
+    $action = (object)$actions[$callback];
+    $action->parameters = array();
+    $action->event = 'flag';
+    $action->threshold = 10;
+    drupal_set_title(t('Add "@action" action to the @title flag', array('@action' => $action->description, '@title' => $flag->get_title())));
+  }
+
+  $form['flag'] = array(
+    '#tree' => TRUE,
+    '#weight' => -9,
+    '#theme' => 'flag_actions_flag_form',
+    '#action' => $action,
+  );
+
+  $form['flag']['flag'] = array(
+    '#type' => 'value',
+    '#value' => $flag,
+  );
+
+  $form['flag']['callback'] = array(
+    '#type' => 'value',
+    '#value' => $callback,
+  );
+
+  $form['flag']['aid'] = array(
+    '#type' => 'value',
+    '#value' => $aid,
+  );
+
+  $form['flag']['event'] = array(
+    '#type' => 'select',
+    '#options' => array(
+      'flag' => t('reaches'),
+      'unflag' => t('falls below'),
+    ),
+    '#default_value' => $action->event,
+  );
+
+  $form['flag']['threshold'] = array(
+    '#type' => 'textfield',
+    '#size' => 6,
+    '#maxlength' => 6,
+    '#default_value' => $action->threshold,
+    '#required' => TRUE,
+  );
+
+  $action_form = $callback .'_form';
+  if (function_exists($action_form)) {
+    $edit = $action->parameters;
+    $edit['actions_description'] = $action->description;
+    $edit['actions_type'] = $action->type;
+    $form = array_merge($form, $action_form($edit));
+  }
+
+  $flag_actions_form = 'flag_actions_'. $callback .'_form';
+  if (function_exists($flag_actions_form)) {
+    $flag_actions_form($form, $flag, isset($edit) ? $edit : array());
+  }
+
+  $form['submit'] = array(
+    '#type' => 'submit',
+    '#value' => t('Submit'),
+  );
+
+  return $form;
+}
+
+/**
+ * Generic submit handler for validating flag actions.
+ */
+function flag_actions_form_validate($form, &$form_state) {
+  // Special validation handlers may be needed to save this form properly.
+  // Try to load the action's validation routine if needed.
+  $callback = $form_state['values']['flag']['callback'];
+  $validate_function = $callback . '_validate';
+  if (function_exists($validate_function)) {
+    $validate_function($form, $form_state);
+  }
+}
+
+/**
+ * Generic submit handler for saving flag actions.
+ */
+function flag_actions_form_submit($form, &$form_state) {
+  // If simply gathering the callback, save it to form state storage and
+  // rebuild the form to gather the complete information.
+  if ($form_state['values']['new']) {
+    $form_state['storage']['callback'] = $form_state['values']['callback'];
+    $form_state['rebuild'] = TRUE;
+    return;
+  }
+
+  $aid        = $form_state['values']['flag']['aid'];
+  $flag       = $form_state['values']['flag']['flag'];
+  $event      = $form_state['values']['flag']['event'];
+  $threshold  = $form_state['values']['flag']['threshold'];
+  $callback   = $form_state['values']['flag']['callback'];
+
+  // Specialized forms may need to execute their own submit handlers on save.
+  $submit_function = $callback . '_submit';
+  $parameters = function_exists($submit_function) ? $submit_function($form, $form_state) : array();
+
+  if (empty($aid)) {
+    $aid = flag_actions_insert_action($flag->fid, $event, $threshold, $callback, $parameters);
+    $form_state['values']['flag']['aid'] = $aid;
+    $form_state['values']['flag']['is_new'] = TRUE;
+  }
+  else {
+    flag_actions_update_action($aid, $event, $threshold, $parameters);
+  }
+
+  $action = flag_actions_get_action($aid);
+
+  drupal_set_message(t('The "@action" action for the @title flag has been saved.', array('@action' => $action->description, '@title' => $flag->get_title())));
+  $form_state['redirect'] = 'admin/build/flags/actions';
+}
+
+function theme_flag_actions_flag_form($form) {
+  $event = drupal_render($form['event']);
+  $threshold = drupal_render($form['threshold']);
+  $action = $form['#action']->description;
+
+  $output  = '';
+  $output .= '<div class="container-inline">';
+  $output .= t('Perform action when content !event !threshold flags', array('!event' => $event, '!threshold' => $threshold));
+  $output .= '</div>';
+
+  $element = array(
+    '#title' => t('Flagging threshold'),
+    '#description' => t('Set the event for which this action should be executed.'),
+    '#required' => TRUE,
+  );
+
+  $output = theme('form_element', $element, $output);
+
+  return $output . drupal_render($form);
+}
+
+function flag_actions_delete_form($form_state, $aid) {
+  $action = flag_actions_get_action($aid);
+  $flag = flag_get_flag($action->flag);
+  $form = array();
+
+  $form['action'] = array(
+    '#type' => 'value',
+    '#value' => $action,
+  );
+
+  $form['flag'] = array(
+    '#type' => 'value',
+    '#value' => $flag,
+  );
+
+  $question = t('Delete the "@action" action for the @title flag?', array('@action' => $action->description, '@title' => $flag->get_title()));
+  $path = 'admin/build/flags/actions';
+
+  return confirm_form($form, $question, $path, NULL, t('Delete'));
+}
+
+function flag_actions_delete_form_submit(&$form, &$form_state) {
+  flag_actions_delete_action($form_state['values']['action']->aid);
+  drupal_set_message(t('The "@action" action for the @title flag has been deleted.', array('@action' => $form_state['values']['action']->description, '@title' => $form_state['values']['flag']->get_title())));
+  $form_state['redirect'] = 'admin/build/flags/actions';
+}
+
+function flag_actions_system_send_email_action_form(&$form, &$flag, $context) {
+  $form['flag_tip'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Tip'),
+    '#description' => module_exists('token_actions')
+      ? t('The "Send tokenized e-mail" action is preferable to the "Send e-mail" action you are now using. It provides you with many more tokens to use. This is especially useful when flagging users and comments.')
+      : t('You may wish to enable the <em>Token actions</em> module, which is shipped with the <a href="@token-url">Token</a> module. That module provides a "Send tokenized e-mail" action, which is similar to the "Send e-mail" action you are now using, except it provides you with many more tokens to use. This is especially useful when flagging users and comments.', array('@token-url' => 'http://drupal.org/project/token')),
+    '#weight' => -1,
+  );
+  return $form;
+}
+
+function flag_actions_token_actions_send_email_action_form(&$form, &$flag, $context) {
+  if (!isset($context['recipient'])) {
+    $form['recipient']['#default_value'] = '[site-mail]';
+  }
+
+  if (!isset($context['subject'])) {
+    $form['subject']['#default_value'] = t('Content Flagged @flag_title', array('@flag_title' => $flag->get_title()));
+  }
+
+  if (!isset($context['message'])) {
+    $form['message']['#default_value'] = t("The @flag_content_type [flag-content-title] has been flagged [flag-count] times with the @flag_title flag.\n\nView this @flag_content_type at [flag-content-url].", array('@flag_content_type' => $flag->content_type, '@flag_title' => $flag->get_title()));
+  }
+
+  $form['help'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Tokens'),
+    '#description' => t('The following tokens can be used in the recipient, subject, or message.'),
+    '#collapsible' => TRUE,
+    '#collapsed' => TRUE,
+  );
+  $form['help']['basic'] = array(
+    '#value' => theme('flag_token_help', array('flag', 'flag-action')),
+  );
+
+  $form['help']['tokens'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('More tokens'),
+    '#description' => t("Depending on the type of the content being flagged, the following tokens can be used in the recipients, subject, or message. For example, if the content being flagged is a node, you can use any of the node tokens --but you can't use the comment tokens: they won't be recognized. Similarly, if the content being flagged is a user, you can use only the user tokens."),
+    '#value' => theme('flag_token_help', $flag->get_labels_token_types()),
+    '#collapsible' => TRUE,
+    '#collapsed' => TRUE,
+  );
+}

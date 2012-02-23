@@ -1,0 +1,15 @@
+name = Chaos Tools (CTools) Plugin Example
+description = Shows how an external module can provide ctools plugins (for Panels, etc.).
+package = Chaos tool suite
+dependencies[] = ctools
+dependencies[] = panels
+dependencies[] = page_manager
+dependencies[] = advanced_help
+core = 6.x
+
+; Information added by drupal.org packaging script on 2010-10-29
+version = "6.x-1.8"
+core = "6.x"
+project = "ctools"
+datestamp = "1288393844"
+

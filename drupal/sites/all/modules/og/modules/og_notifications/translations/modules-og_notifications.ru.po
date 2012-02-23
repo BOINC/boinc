@@ -1,0 +1,186 @@
+# Russian translation of Drupal (modules-og_notifications) 
+# Copyright 2008 Alexey Osodoev <alexey@osodoev.info> 
+# Generated from files: 
+#  og_notifications.module,v 1.15 2008/11/03 15:08:17 weitzman 
+#  og_notifications.install,v 1.8 2008/10/29 19:59:27 dww 
+#  og_notifications.info,v 1.7 2008/10/29 19:59:23 dww 
+# 
+msgid ""
+msgstr ""
+"Project-Id-Version: og-6.x-1.0\n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: 2008-11-20 02:52+0800\n"
+"Last-Translator: Alexey Osodoev <alexey@osodoev.info>\n"
+"Language-Team: Russian <alexey@osodoev.info>\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=((((n%10)==1)&&((n%100)!=11))?(0):(((((n%10)>=2)&&((n%10)<=4))&&(((n%100)<10)||((n%100)>=20)))?(1):2));\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Language: Russian\n"
+"X-Poedit-Country: RUSSIAN FEDERATION\n"
+"X-Poedit-SourceCharset: utf-8\n"
+
+#: modules/og_notifications/og_notifications.module:19
+msgid "Customise notifications for each of your groups along with their frequency and delivery method. If so desired, you can also restrict notifications only for certain content types in each group."
+msgstr "Настроить уведомления для каждой их ваших групп также как и частоту рассылки и метод доставки. Если пожелаете, можете также ограничить уведомления только определенными типами материалов в каждой группе."
+
+#: modules/og_notifications/og_notifications.module:85
+msgid "Group subscriptions"
+msgstr "Подписки групп"
+
+#: modules/og_notifications/og_notifications.module:99
+msgid "Allowed content types"
+msgstr "Разрешенные типы материалов"
+
+#: modules/og_notifications/og_notifications.module:102
+msgid "Select specific content types which should be <em>allowed</em> for subscriptions to <em>group + content type</em>."
+msgstr "Выберите определенные типы материалов, которые <em>разрешены</em> в подписках на <em>группу + тип материала</em>."
+
+#: modules/og_notifications/og_notifications.module:115
+msgid "Automatically enable notifications for any groups that I join."
+msgstr "Автоматически включить уведомления для любых групп, к которым я присоединюсь."
+
+#: modules/og_notifications/og_notifications.module:116
+msgid "Group notifications can also be <a href=\"!manage-url\">customised</a> in greater detail if required."
+msgstr "Уведомления для групп при необходимости можно <a href=\"!manage-url\">настроить</a> более точно."
+
+#: modules/og_notifications/og_notifications.module:125
+msgid "Autosubscribe users to any groups that they join."
+msgstr "Автоматически подписывать пользователей на группы, в которые они входят."
+
+#: modules/og_notifications/og_notifications.module:126
+msgid "Automatically enable notifications by default. Users can override this via their account page. Changing this setting will only affect new users and those who have not overridden the system default."
+msgstr "Автоматически включить уведомления по умолчанию. Пользователи могут переопределить это через страницу своей учетной записи. Изменения в этой настройке затронут только новых пользователей и тех, кто не переопределил значения по умолчанию."
+
+#: modules/og_notifications/og_notifications.module:185
+msgid "OG notifications"
+msgstr "Уведомления OG"
+
+#: modules/og_notifications/og_notifications.module:186
+msgid "Most fields will be provided during the event."
+msgstr "Большинство полей будут предоставлены во время события."
+
+#: modules/og_notifications/og_notifications.module:194
+msgid "Subject for event notifications"
+msgstr "Тема для уведомлений о событии"
+
+#: modules/og_notifications/og_notifications.module:195
+msgid "Body header for event notifications"
+msgstr "Шапка текста уведомления о событии"
+
+#: modules/og_notifications/og_notifications.module:196
+msgid "Body for event notifications"
+msgstr "Текст уведомления о событии"
+
+#: modules/og_notifications/og_notifications.module:197
+msgid "Body footer for event notifications"
+msgstr "Подвал текста уведомления о событии"
+
+#: modules/og_notifications/og_notifications.module:207
+msgid "[site-name] subscription update for [user]"
+msgstr "Обновления на сайте [site-name] по подписке пользователя [user]"
+
+#: modules/og_notifications/og_notifications.module:208
+msgid ""
+"Greetings, [user].\n"
+"\n"
+"These are your messages"
+msgstr ""
+"Здравствуйте, [user].\n"
+"\n"
+"Сообщения для вас"
+
+#: modules/og_notifications/og_notifications.module:209
+msgid ""
+"A [type] has been updated: [title]\n"
+"\n"
+"[event_list]"
+msgstr ""
+"Материал [type] был обновлен: [title]\n"
+"\n"
+"[event_list]"
+
+#: modules/og_notifications/og_notifications.module:211
+msgid "This is an automatic message from [site-name]"
+msgstr "Это автоматическое сообщение от сайта [site-name]"
+
+#: modules/og_notifications/og_notifications.module:212
+msgid "To manage your subscriptions, browse to [subscriptions-manage]"
+msgstr "Для управления подписками, зайдите на страницу [subscriptions-manage]"
+
+#: modules/og_notifications/og_notifications.module:229
+msgid "Group: %name"
+msgstr "Группа: %name"
+
+#: modules/og_notifications/og_notifications.module:243
+msgid "Content type in group"
+msgstr "Тип материала в группе"
+
+#: modules/og_notifications/og_notifications.module:313
+msgid "Group Type"
+msgstr "Тип группы"
+
+#: modules/og_notifications/og_notifications.module:346
+msgid "All"
+msgstr "Все"
+
+#: modules/og_notifications/og_notifications.module:366
+msgid "Send interval"
+msgstr "Интервал между отправками"
+
+#: modules/og_notifications/og_notifications.module:366
+msgid "Send method"
+msgstr "Метод отправки"
+
+#: modules/og_notifications/og_notifications.module:375
+msgid "%type posts in this group"
+msgstr "Сообщения %type в этой группе"
+
+#: modules/og_notifications/og_notifications.module:394
+msgid "There are no active group subscriptions available."
+msgstr "Нет доступных активных подписок на группы."
+
+#: modules/og_notifications/og_notifications.module:598
+msgid "All posts in %group"
+msgstr "Все сообщения в группе %group"
+
+#: modules/og_notifications/og_notifications.module:605;624
+msgid "%type posts in %group"
+msgstr "Сообщения %type в группе %group"
+
+#: modules/og_notifications/og_notifications.module:619
+msgid "Posts in group %name"
+msgstr "Сообщения в группе %name"
+
+#: modules/og_notifications/og_notifications.module:53
+msgid "subscribe to content in groups"
+msgstr "Подписываться на материалы в группах"
+
+#: modules/og_notifications/og_notifications.module:0
+msgid "og_notifications"
+msgstr "og_notifications"
+
+#: modules/og_notifications/og_notifications.install:14
+msgid "Organic groups notifications module installation script complete."
+msgstr "Скрипт установки модуля Organic groups notifications завершен."
+
+#: modules/og_notifications/og_notifications.install:24
+msgid "Stores autosubscription preferences for each user."
+msgstr "Хранит предпочтения автоматической подписки для каждого пользователя."
+
+#: modules/og_notifications/og_notifications.install:27
+msgid "The user's {user}.uid."
+msgstr "{user}.uid пользователя."
+
+#: modules/og_notifications/og_notifications.install:105
+msgid "Organic groups notifications module uninstallation script complete."
+msgstr "Скрипт отключения модуля Organic groups notifications завершен."
+
+#: modules/og_notifications/og_notifications.info:0
+msgid "Organic Groups Notifications"
+msgstr "Organic Groups Notifications"
+
+#: modules/og_notifications/og_notifications.info:0
+msgid "Allows users to receive notifications and subscribe to group content."
+msgstr "Позволяет пользователям получать уведомления и подписываться на материалы групп."
+

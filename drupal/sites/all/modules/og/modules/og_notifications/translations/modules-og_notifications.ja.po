@@ -1,0 +1,195 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: 2008-11-10 18:53+0900\n"
+"Last-Translator: PineRay <matsudaterutaka@gmail.com>\n"
+"Language-Team: Japanese <EMAIL@ADDRESS>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: og_notifications.module:19
+msgid "Customise notifications for each of your groups along with their frequency and delivery method. If so desired, you can also restrict notifications only for certain content types in each group."
+msgstr "送信間隔や送信方法を設定して、あなたのグループに関する通知をカスタマイズしてください。望むのであれば、それぞれのグループで特定のコンテンツタイプだけに通知を制限することもできます。"
+
+#: og_notifications.module:85
+msgid "Group subscriptions"
+msgstr "グループの配信"
+
+#: og_notifications.module:99
+msgid "Allowed content types"
+msgstr "コンテンツタイプの許可"
+
+#: og_notifications.module:102
+msgid "Select specific content types which should be <em>allowed</em> for subscriptions to <em>group + content type</em>."
+msgstr "<em>グループ + コンテンツタイプに</em>で配信を<em>許可</em>するコンテンツタイプを選択してください。"
+
+#: og_notifications.module:115
+msgid "Automatically enable notifications for any groups that I join."
+msgstr "参加しているグループに関する通知を自動的に有効にする。"
+
+#: og_notifications.module:116
+msgid "Group notifications can also be <a href=\"!manage-url\">customised</a> in greater detail if required."
+msgstr "必要であれば、グループの通知をより詳細に<a href=\"!manage-url\">カスタマイズ</a>することもできます。"
+
+#: og_notifications.module:125
+msgid "Autosubscribe users to any groups that they join."
+msgstr "ユーザが参加しているグループを自動配信。"
+
+#: og_notifications.module:126
+msgid "Automatically enable notifications by default. Users can override this via their account page. Changing this setting will only affect new users and those who have not overridden the system default."
+msgstr "デフォルトで通知を自動的に有効にします。ユーザは自分のアカウントページでこの設定を上書きできます。この設定の変更は、新しいユーザとシステムのデフォルトを上書きしていないユーザにしか影響しません。"
+
+#: og_notifications.module:185
+msgid "OG notifications"
+msgstr "OG 通知"
+
+#: og_notifications.module:186
+msgid "Most fields will be provided during the event."
+msgstr "ほとんどのフィールドはイベントの間に提供されます。"
+
+#: og_notifications.module:194
+msgid "Subject for event notifications"
+msgstr "イベント通知の件名"
+
+#: og_notifications.module:195
+msgid "Body header for event notifications"
+msgstr "イベント通知の本文ヘッダ"
+
+#: og_notifications.module:196
+msgid "Body for event notifications"
+msgstr "イベント通知の本文"
+
+#: og_notifications.module:197
+msgid "Body footer for event notifications"
+msgstr "イベント通知の本文フッタ"
+
+#: og_notifications.module:207
+msgid "[site-name] subscription update for [user]"
+msgstr "[user]さんへ[site-name]の更新に関する通知"
+
+#: og_notifications.module:208
+msgid ""
+"Greetings, [user].\n"
+"\n"
+"These are your messages"
+msgstr ""
+"こんにちわ、[user]さん。\n"
+"\n"
+"あなたにメッセージがあります。"
+
+#: og_notifications.module:209
+msgid ""
+"A [type] has been updated: [title]\n"
+"\n"
+"[event_list]"
+msgstr ""
+"[type]が更新されました: [title]\n"
+"\n"
+"[event_list]"
+
+#: og_notifications.module:211
+msgid "This is an automatic message from [site-name]"
+msgstr "このメッセージは、[site-name]から自動的に配信されたものです。"
+
+#: og_notifications.module:212
+msgid "To manage your subscriptions, browse to [subscriptions-manage]"
+msgstr "配信を管理するには、[subscriptions-manage]を閲覧してください。"
+
+#: og_notifications.module:236
+msgid "Group: %name"
+msgstr "グループ: %name"
+
+#: og_notifications.module:243;29
+msgid "Groups"
+msgstr "グループ"
+
+#: og_notifications.module:250
+msgid "Content type in group"
+msgstr "グループ内のコンテンツタイプ"
+
+#: og_notifications.module:317
+msgid "Group"
+msgstr "グループ"
+
+#: og_notifications.module:320
+msgid "Group Type"
+msgstr "グループタイプ"
+
+#: og_notifications.module:353
+msgid "All"
+msgstr "すべて"
+
+#: og_notifications.module:373
+msgid "Type"
+msgstr "タイプ"
+
+#: og_notifications.module:373
+msgid "Send interval"
+msgstr "送信間隔"
+
+#: og_notifications.module:373
+msgid "Send method"
+msgstr "送信方法"
+
+#: og_notifications.module:382
+msgid "%type posts in this group"
+msgstr "このグループの%typeの記事"
+
+#: og_notifications.module:397
+msgid "Save"
+msgstr "保存"
+
+#: og_notifications.module:401
+msgid "There are no active group subscriptions available."
+msgstr "活動中で利用可能なグループの配信がありません。"
+
+#: og_notifications.module:605
+msgid "All posts in %group"
+msgstr "%groupのすべての記事"
+
+#: og_notifications.module:612;631
+msgid "%type posts in %group"
+msgstr "%groupの%typeの記事"
+
+#: og_notifications.module:626
+msgid "Posts in group %name"
+msgstr "グループ%nameの記事"
+
+#: og_notifications.module:53
+msgid "subscribe to content in groups"
+msgstr "グループのコンテンツを配信"
+
+#: og_notifications.module:0
+msgid "og_notifications"
+msgstr "og_notifications"
+
+#: og_notifications.install:14
+msgid "Organic groups notifications module installation script complete."
+msgstr "オーガニックグループ通知モジュールのインストールスクリプトが完了しました。"
+
+#: og_notifications.install:24
+msgid "Stores autosubscription preferences for each user."
+msgstr "各ユーザの自動配信についての選択を格納します。"
+
+#: og_notifications.install:27
+msgid "The user's {user}.uid."
+msgstr "ユーザの{user}.uid。"
+
+#: og_notifications.install:106
+msgid "Organic groups notifications module uninstallation script complete."
+msgstr "オーガニックグループ通知モジュールのアンインストールスクリプトが完了しました。"
+
+#: og_notifications.info:0
+msgid "Organic Groups Notifications"
+msgstr "オーガニックグループ通知"
+
+#: og_notifications.info:0
+msgid "Allows users to receive notifications and subscribe to group content."
+msgstr "グループのコンテンツに関する通知や配信をユーザが受け取ることができるようになります。"
+
+#: og_notifications.info:0
+msgid "Organic groups"
+msgstr "オーガニックグループ"
+

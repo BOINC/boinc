@@ -1,0 +1,79 @@
+# $Id: includes-views-handlers.pot,v 1.1.2.5 2009/06/16 17:05:11 hass Exp $
+#
+# LANGUAGE translation of Drupal (includes-views-handlers)
+# Copyright YEAR NAME <EMAIL@ADDRESS>
+# Generated from files:
+#  content_handler_field.inc,v 1.1.2.15 2009/03/30 22:54:16 yched
+#  content_handler_field_multiple.inc,v 1.1.2.18 2009/05/07 15:06:36 yched
+#  content_handler_relationship.inc,v 1.1.2.3 2008/10/24 12:31:58 yched
+#  content_handler_sort.inc,v 1.1.2.6 2008/10/25 00:36:41 yched
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"POT-Creation-Date: 2009-06-16 19:00+0200\n"
+"PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
+"Last-Translator: NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+
+#: includes/views/handlers/content_handler_field.inc:59
+msgid "None"
+msgstr ""
+
+#: includes/views/handlers/content_handler_field.inc:60
+msgid "Widget label (@label)"
+msgstr ""
+
+#: includes/views/handlers/content_handler_field.inc:61
+msgid "Custom"
+msgstr ""
+
+#: includes/views/handlers/content_handler_field.inc:67
+msgid "Custom label"
+msgstr ""
+
+#: includes/views/handlers/content_handler_field.inc:83
+msgid "Format"
+msgstr ""
+
+#: includes/views/handlers/content_handler_field_multiple.inc:63
+msgid "Group multiple values"
+msgstr ""
+
+#: includes/views/handlers/content_handler_field_multiple.inc:66
+msgid "If unchecked, each item in the field will create a new row, which may appear to cause duplicates. This setting is not compatible with click-sorting in table displays."
+msgstr ""
+
+#: includes/views/handlers/content_handler_field_multiple.inc:70
+msgid "Show @count value(s)"
+msgstr ""
+
+#: includes/views/handlers/content_handler_field_multiple.inc:81
+msgid "starting from @count"
+msgstr ""
+
+#: includes/views/handlers/content_handler_field_multiple.inc:92
+msgid "Reversed (start from last values)"
+msgstr ""
+
+#: includes/views/handlers/content_handler_relationship.inc:40 includes/views/handlers/content_handler_sort.inc:41
+msgid "All"
+msgstr ""
+
+#: includes/views/handlers/content_handler_relationship.inc:48 includes/views/handlers/content_handler_sort.inc:49
+msgid "Delta"
+msgstr ""
+
+#: includes/views/handlers/content_handler_relationship.inc:49
+msgid "The delta allows you to select which item in a multiple value field to key the relationship off of. Select \"1\" to use the first item, \"2\" for the second item, and so on. If you select \"All\", each item in the field will create a new row, which may appear to cause duplicates."
+msgstr ""
+
+#: includes/views/handlers/content_handler_sort.inc:50
+msgid "The delta allows you to select which item in a multiple value field will be used for sorting. Select \"1\" to use the first item, \"2\" for the second item, and so on. If you select \"All\", each item in the field will create a new row, which may appear to cause duplicates."
+msgstr ""
+

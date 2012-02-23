@@ -1,0 +1,361 @@
+// $Id: CHANGELOG.txt,v 1.163.2.17 2010/06/26 19:31:19 johnalbin Exp $
+
+Zen 6.x-2.0, 2010-06-26
+-----------------------
+- #791056 by meatsack and JohnAlbin: Zen clobbers Views 3 classes
+- #838338: element-invisible class doesn't fully hide elements
+- #723514 by kmonty: Link in STARTERKIT description incorrect
+- Skip navigation's ID changed from #skip-to-nav to #skip-link
+- Added $block_html_id to block.tpl.php
+- #772488 by andreiashu: Fatal error: Call to undefined function
+  ctools_menu_primary_local_tasks()
+- #707410 by agentrickard and JohnAlbin: Add page-views and page-panels body classes
+- #691426: Add D7-style named implementations of theme_links in page.tpl
+- #683904: SUBTHEME_process functions do not work
+- #552156: broken clearfix class causes overlapping containers in IE7
+- #593290 by sfyn and JohnAlbin: Chaos Tools/Panels edit tab not working with Zen
+- #661628 by Jacine and JohnAlbin: Integration with Skinr module
+- by Jacine: Added views-view.tpl.php with support for $classes variables
+- by caroltron, gleroux02, _natron, and JohnAlbin: Add panels 3 layouts using
+  Zen layout method
+
+Zen 6.x-2.0-beta1, 2009-11-10
+-----------------------------
+- #478134 by mithrill: Improve docs about sites/all/themes and sites/default/themes folders
+- #628070 by Aren Cambre: Change "jquery" to "JavaScript" in STARTERKIT.info.txt
+- #626868 by alefteris: Replace Bitstream Vera with DejaVu fonts
+- #624818 by Aren Cambre and Garrett Albright: Tahoma shouldn't be first font pick
+- #600344 by mgifford: Use of absolute font size in block editing links breaks WCAG 2.0
+- #546904 by Jennifer_M: List $node as available variable in page.tpl.php
+- #583716 by droidenator: Empty title can cause breadcrumbs to display incorrectly
+- #600920 by kto.3decb: Fix incorrect comment block class name
+- #624046: Replace zen_id_safe() with drupal_html_class() and drupal_html_id()
+- Renamed $closure_region region to $page_closure
+- #622324: Update page.tpl to use ideas from D7
+  - Renamed #page and #page-inner to #page-wrapper and #page
+  - Added <span> around site name
+  - Moved #skip-to-nav styling to pages.css
+  - Removed #navigation link anchor
+  - Renamed div#header-inner to div.section which can be themed with #header .section
+  - Renamed #main and #main-inner to #main-wrapper and #main
+  - Renamed div#content-inner to div.section which can be themed with #content .section
+  - Removed #content-header div
+  - Added $highlight region
+  - Renamed #navbar div to #navigation
+  - Renamed $navbar region to $navigation
+  - Renamed .with-navbar class to .with-navigation
+  - Added #navigation .section div
+  - Removed #sidebar-first, #sidebar-first-inner, #sidebar-second, #sidebar-second-inner and moved styles to .region-sidebar-first, .region-sidebar-first .section, .region-sidebar-second, .region-sidebar-second .section
+  - Added #footer .section div
+- Added region-sidebar.tpl.php template suggestion
+- #308254: Make "skip to nav" styling more useful and less intrusive
+- #621798: Change sidebar variables to be RTL friendly and $shows_blocks compatible
+- #547696: Update node.tpl to use ideas from D7
+  - Renamed $picture to $user_picture in node.tpl.php
+  - Renamed .sticky class to .node-sticky in node.tpl.php
+  - Removed #node-inner div
+  - Added $display_submitted variable and deprecated $submitted variable
+  - Renamed the .node-mine class to .node-by-viewer
+- #620794: Update block.tpl to use ideas from D7
+  - Removed .block-inner div
+  - Renamed $block->subject variable to $title
+  - Renamed $block->content variable to $content
+- #548994: Update comment.tpl and comment-wrapper.tpl to use ideas from D7
+  - Renamed comment-wrapper's h2#comments-title to #comments h2.title
+  - Added $created to comment.tpl and deprecated $submitted
+  - Removed #comment-inner div
+  - comment div classes changed:
+    - .comment-by-anon changed to .comment-by-anonymous
+    - .comment-by-author changed to .comment-by-node-author
+    - .comment-mine changed to .comment-by-viewer
+    - .comment-published was removed
+- #311458: Search box gets disabled after arbitrary amount of time
+- Added $classes and $classes_array to all templates, not just Zen's templates
+- Renamed page.tpl's $body_classes and $body_classes_array to $classes and $classes_array
+- #564068: Views classes are missing from $classes variable
+- Simplified header, content_top, content_bottom, navbar, and footer region markup
+- Add region.tpl.php template
+- Render $edit_links_array in zen_process_block
+- #546858: Add THEME_process_HOOK functions to Zen
+- #317417 by JohnAlbin and quicksketch: Fix off-line maintenance page since drupal_get_path('theme', 'zen') won't work
+- #549798 by caroltron: page-backgrounds.css missing from .info file
+- Remove ie5.css from STARTERKIT and deprecate support for IE5
+- #547696: Update node.tpl to use ideas from D7
+- Renamed $picture to $user_picture in node.tpl.php
+- Renamed sticky class to node-sticky in node.tpl.php
+- Added $build_mode variable to node.tpl.php
+- #445814: Change primary/secondary link rendering and move secondary menu to footer
+- #445822: Simplify wrapper divs around logo, site name, slogan
+- #546862: Add D7's element-hidden and element-invisible for accessibility features
+- #547382: Rename Zen's reset stylesheet to html-reset.css from html-elements.css
+- #527494: Follow Drupal's proposed CSS coding standards
+- #480610 by kdebaas: css class .field-type-image does not exist anymore in 6.x version of the module
+- #545320 by Deslack: Use of split() generate E_DEPRECATED warnings on PHP 5.3.0
+- #542818: Using alternate layout method causes .clearfix class to disappear
+- #546828: Move tpl.php files to a templates folder in the root zen directory
+- #546792: Remove box.tpl.php
+- #513926: Sub-themes cannot reorder the stylesheets of the base theme
+- #456136: Move zen stylesheets into STARTERKIT/css
+- #544750 by kdebaas: Wrong sidebar class naming in maintenance-page.tpl.php
+- #529796: Make block edit links easier to edit/turn off individually
+- Added $classes_array variable to node, block and comment templates
+- Add layout.css in Zen's .info file to properly position sub-theme's layout.css
+- #379902: Make all stylesheets RTL compatible
+- #472694: Drupal 6.11 broke Zen's OpenID overrides
+- #375976 by JohnAlbin and Amitaibu: Flip sidebar positioning on RTL
+- #375953 by Amitaibu and JohnAlbin: Change sidebar names to be RTL friendly
+- Updated screenshot.png to use Zen logo since an actual screenshot is boring
+- Changed "or" back to "||" in node.tpl.php since themers do need to learn a little PHP
+- #254821: Sub-theme's .info file triggers incorrect "out of date" flag in update module
+- Added blockquote indent stlying
+- Removed navigation-top named anchor from page templates
+- #382598: .node div.links ruleset doesn't match html in node template
+- #452118: Removed redundant wrapper div around comment links
+- #382480 by Ognyan Kulev: #block-menu-2 should be #block-menu-primary-links
+- #374349: breadcrumb often broken when zen_breadcrumb_title is on
+- #426750: Removed Zen Classic sub theme
+- #445830: Rename clear-block CSS class to clearfix
+- #445790: Move search box to header
+- #445562: q0rban and JohnAlbin: Allow modules to declare their own block edit links
+- Added optional node-type-specific preprocess functions
+- Added notes about mobile stylesheets to STARTERKIT.info
+- #200495 by JohnAlbin, caroltron, and Toe: Split up monolithic zen.css into smaller, logical stylesheets
+- #328221 by kmonty and JohnAlbin: Split up ie.css to remove CSS hacks
+
+Zen 6.x-1.1, 2009-11-10
+-----------------------
+- #478134 by mithrill: Improve docs about sites/all/themes and sites/default/themes folders
+- #600758 by mattyoung: Secondary links run together in one line with primary links
+- #600344 by mgifford: Use of absolute font size in block editing links breaks WCAG 2.0
+- #546904 by Jennifer_M: List $node as available variable in page.tpl.php
+- #583716 by droidenator: Empty title can cause breadcrumbs to display incorrectly
+- #600920 by kto.3decb: Fix incorrect comment block class name
+- #297084: Remove ctype_lower() from zen_id_safe() to prevent WSOD/Fatal error on some systems
+- #317417 by JohnAlbin and quicksketch: Fix off-line maintenance page since drupal_get_path('theme', 'zen') won't work
+- #545320 by Deslack: Use of split() generate E_DEPRECATED warnings on PHP 5.3.0
+- #472694: Drupal 6.11 broke Zen's OpenID overrides
+- Updated screenshot.png to use Zen logo since an actual screenshot is boring
+- Changed "or" back to "||" in node.tpl.php since themers do need to learn a little PHP
+- #254821: Sub-theme's .info file triggers incorrect "out of date" flag in update module
+- #327455 by grendzy and erifneerg: name and id mismatch in named anchor causing validation error
+- #382598: .node div.links ruleset doesn't match html in node template
+- #382480 by Ognyan Kulev: #block-menu-2 should be #block-menu-primary-links
+- #374349: breadcrumb often broken when zen_breadcrumb_title is on
+- #426750: Removed Zen Classic sub theme
+- #445562: q0rban and JohnAlbin: Allow modules to declare their own block edit links
+
+Zen 6.x-1.0, 2009-02-14
+-----------------------
+- #342004 by Amitaibu: Add css hint to prevent cramped-looking tables
+- #290657: Liquid layout does not have min-width enforced
+- #329769 by kmonty: Update zen_id_safe to remove underscores
+- #275832: hook_theme implementation breaks maintenance page when database is down
+- #362104: layout breaks on Zen-themed maintenance page
+- Changed "or" back to "||" in template files since themers do need to learn a little PHP
+- #346867 by debonator: navbar-inner is missing the "clear-block" class
+- #325610 by Garrett Albright: Site name and logo don't link to frontpage on multilingual site
+- #281106: Erroneous whitespace when div.clear-block touches bottom edge of viewport
+- #365631: Zen's table-styling-fix breaks update module's styling
+- #322480 by grendzy, mr.baileys, Bevan, and JohnAlbin: Make registry rebuild warning less obtrusive
+- #325630: Broken link in "Theme registry rebuilt" warning when Clean URLs is off
+- #324104 by JohnAlbin and dalin: Broken block editing link for Views 2
+- #365205: block editing link doesn't work with Menu Block 6.x-2.1 and later
+- #308251 by Garrett Albright: Improve icon placement on status, warning, and error messages
+- Added $body_classes_array variable to page template
+- #343945: Fix zen_breadcrumb_title setting to use proper menu_get_active_item()
+- #279896 by lutegrass: Help prevent double H1 tags on homepage that is not /node
+- #310507 by MikeyLikesIt: Footer region not output in Zen Classic
+- #347195: Remove theme registry fix that was needed for broken Drupal 6.0 - 6.6
+- #346706 by jsaints: Content clipped after page one when printing in Firefox
+- #311529: Remove core's page-ARG0 body class, leaving zen's page-PATH
+- Simplified body class generation code
+- #334956 by hansrossel: Remove no-longer-needed fix for "Flash of Unstyled Content in IE"
+- Fixed theme settings CSS for IE6 users
+- Added Photoshop file for STARTERKIT screenshot
+- Added Photoshop file for messages
+- Allow easier CSS rule overriding by including THEMENAME.css file last
+- Fixed message styling in Zen Classic
+- #308957: html-elements.css not enabled in STARTERKIT
+- #288213 by budda: Tabs in IE have a text select cursor rather than hand pointer
+- #310818: Auto theme-registry rebuild warns themer multiple times
+
+Zen 6.x-1.0-beta3, 2008-09-15
+-----------------------------
+- #308251: Add useful styling for status, warning, and error messages
+- #307309: Add feature to rebuild theme registry during theme development
+- Removed path_to_zentheme() since we're not conditionally including wireframes.css or block-editing.css
+- #245832: Add IE conditional stylesheets to .info file
+- #263228: Allow sub-themes to override wireframes.css
+- #260605: Can't override block-editing.css
+- #308266: Don't display footer if no footer message or footer blocks
+- Changed $block_classes to $classes and $comment_classes to $classes and $node_classes to $classes
+- #290838 by thehong: Only display comments block when comments content is not empty
+- Don't display comment wrapper title on forums
+- #299397: Synchronize Zen's tpl files with core's tpl files
+- #281106 by kmonty: Erroneous whitespace when div.clear-block touches bottom edge of viewport
+- Changed "||" to "or" in template files since its more intuitive to PHP newbies
+- #279896: Help prevent double H1 tags on homepage that is not /node
+- #279896: Moved styles to zen.css that should never have been in layout.css
+- #255265 by kmonty: Don't "skip to nav" if there's no nav
+- Re-arranged sidebar classes so they are in no-sidebars -> two-sidebars order in the layout CSS files
+- #306856: Optimize code by adding conditional includes
+- Moved some comments from zen to STARTERKIT where they belong
+- Optimized zen_breadcrumb()
+- Folded template-menus.php back into template.php since its not conditionally included
+- Removed theme_username from STARTERKIT and zen_classic since it was fixed in Drupal 6.3
+- Optimized zen_menu_item_link()
+- #305311: CSS files makes reference to to drupal5-reference.css
+- #299419: Remove empty zen.css in sub-themes
+- #284798: PHP warning when settings section of .info file is missing
+- #272655: Make STARTERKIT_theme easier to extend
+
+Zen 6.x-1.0-beta2, 2008-05-20
+-----------------------------
+- #260016: PHP 4 Parse error: syntax error, unexpected '&'
+
+Zen 6.x-1.0-beta1, 2008-05-15
+-----------------------------
+- #253609 by jjeff: Add 'region' class to regions
+- #258123 by jjeff: Rearrange placement of #site-name strong
+- #248103: Allow themes to set defaults for settings in their .info files
+- #249532: Allow subthemes to have preprocess hooks without tpl files
+- #223518: Option to show page title in breadcrumbs
+- #253249: zen_id_safe fails when first character is extended latin
+- #251632: Make the closure region more useful
+- #199682: 'Submitted by' text is shown for content even if setting is disabled
+- #222339: Blocks in Zen Classic header and closure lack padding
+- #248780: admin table styles override update_status styling
+- #232840: OpenID login block displaying incorrectly
+- #246110 by jjeff: zen.css breaks .container-inline
+- #229661: Search Box doesn't return any results or warnings
+- #244023 by jjeff: Make block editing links go to actual menu edit pages
+- #245968 by jjeff: Put the word "Comments" above comments
+- #238387: Update README on how to edit the .info file
+- #227297 by Aragorn450: CSS Include for wireframes broken
+- Prevented "notice: Undefined variable: edit_links" for anonymous users
+- Made block-editing.css a "theme"-type CSS file
+- #224416 by sykora: <span> displaying on mouse over on block heading
+- Added complete Drupal 6 CSS for easy reference by theme developers
+- Added Photoshop file for tabs
+- #222299: Block editing link in Zen Classic footer is white on white
+
+Zen 5.x-1.2, 2009-02-15
+-----------------------
+- #342004 by Amitaibu: Add css hint to prevent cramped-looking tables
+- #290657: Liquid layout does not have min-width enforced
+- #279896 by lutegrass: Help prevent double H1 tags on homepage that is not /node
+- #346706 by jsaints: Content clipped after page one when printing in Firefox
+- Added $body_classes_array variable to page template
+- Simplified body class generation code
+- Fixed theme settings CSS for IE6 users
+- #288213 by budda: Tabs in IE have a text select cursor rather than hand pointer
+- #249823: Add options to toggle display of primary and secondary links
+- #281106 by kmonty: Erroneous whitespace when div.clear-block touches bottom edge of viewport
+- #279896: Help prevent double H1 tags on homepage that is not /node
+- #279896: Moved styles to zen.css that should never have been in layout.css
+- #255265 by kmonty: Don't "skip to nav" if there's no nav
+- #263228: Allow sub-themes to override wireframes.css
+- Added sample override template file for search block's form
+- Fixed _zen_hook() to look in sub-theme directory when $hook is not valid PHP function name
+- #223518: Option to show page title in breadcrumbs
+- #255263: Don't call preprocess functions twice when Zen is active theme
+- #253249: zen_id_safe fails when first character is extended latin
+
+Zen 5.x-1.1, 2008-04-21
+-----------------------
+- #246109: Add MODULE_preprocess_HOOK functions to Zen
+- #199682: 'Submitted by' text is shown for content even if setting is disabled
+- #247960: Add THEME_preprocess() hook to Zen
+- #222339: Blocks in Zen Classic header and closure lack padding
+- #248720 by matt@antinomia: Only UPDATE {system} table WHERE type = 'theme'
+- #248780: admin table styles override update_status styling
+- #246110 by jjeff: zen.css breaks .container-inline
+- Prevented "notice: Undefined variable: edit_links" for anonymous users
+- Made block-editing.css a "theme"-type CSS file
+- Added Photoshop file for tabs
+- #222299: Block editing link in Zen Classic footer is white on white
+
+Zen 5.x-1.0, 2008-02-14
+-----------------------
+- #220161: Change SUBTHEME to STARTERKIT to prevent accidental WSOD
+- #221545 by jjeff: Add theme_comment_wrapper() and theme_username() from Zengine
+- #220551: IE6: sidebars disappear when resizing window
+- Added body classes: section-node-add, section-node-edit, section-node-delete
+- Prevented display of empty help from node_help()
+- #219401: Add theme override examples for all functions used in Zen core
+
+Zen 5.x-1.0-beta2, 2008-01-29
+-----------------------------
+- #214777: sub-theme's search-theme-form.tpl is ignored
+- #206707: tr.even/odd border-bottom is missing in IE
+- #207743 by jjeff: Added translatable "Unpublished" text as background
+- #207743 by jjeff: Added block editing links on hover
+- Added extended block classes (zebra class by jjeff)
+- #207743 by jjeff: Allow a sub-theme to add/alter block variables
+- #110897: oversize content causes IE6 layout breakage (now fixed in Zen Classic)
+- #211156 by jjeff: $subtheme_directory variable in page.tpl.php never gets populated
+- #206060: changed inline styling method for navbar links from inline to float
+
+Zen 5.x-1.0-beta1, 2008-01-06
+-----------------------------
+- Removed named anchors from doc flow to prevent any styles from appearing
+- #203213 by kdebaas: Add node-teaser class to nodes displayed as teasers
+- #203112 by kdebaas: Un-localizable string in search-theme-form.tpl.php
+- #201793: Fixed fatal error when no settings are added to a sub-theme's settings
+- #196181: _phptemplate_callback doesn't look in sub-theme folder for .tpl.php files
+- Added sample override template file for drupal search form
+- Added SUBTHEME directory as a starter sub-theme for developers
+- #199036 by joachim: Make padding on #squeeze conditional
+- #199578: Fatal error on Zen Classic theme settings when using admin theme
+- #200380 by psynaptic: missing semi-colon in layout-fixed.css
+- #196230: Tabs broken in IE5 and IE6
+- #199682: 'Submitted by' text is shown even if setting is disabled
+- #171201: Remove un-localizable date/time format from base theme
+- Added theme settings to control layout method and wireframes inclusion
+- Added fixed layout stylesheet
+
+Zen 5.x-0.8, 2007-11-29
+-----------------------
+- #196223: IE5 always loads @import print stylesheet
+- #184232: Add README documentation
+- #121991: Source rendering order needs adjustment
+- #110897: oversize content causes IE6 layout breakage
+- Added unique classes for each page and website section
+- Added customizable breadcrumb settings
+- Split template.php into multiple files to ease theme developer overload
+- Add prettier tab styling
+- #141784: Add conditional IE stylesheets
+- Merge zen-fixed with zen_classic
+- Add optional Theme Settings API integration
+- #169359: Base CSS and tpl files don't get loaded (sub-theme with page.tpl.php)
+- #171464: Create starter theme; migrate current style to a sub-theme
+- Add ability to change regions in a sub-theme
+- Add complete Drupal 5 CSS for easy reference by theme developers
+- #183936: Backport Drupal 6 $body_classes
+
+Zen 5.x-0.7, 2007-10-15
+-----------------------
+- #100894: For SEO, H1#site-name should be div#site-name strong
+- #118467 by leandrosiow: Screen redraw errors with resizable textareas in Firefox
+- #154937 by msonnabaum: add skip navigation for screen readers/mobility impaired
+- #122592: Ability to theme each primary link
+- #178560 by incognito: Shifting avatars in the comment blocks
+- #110553 by rport: Use png instead of gif for images
+- #120052: Add linux fonts
+- #183360: Empty H2 appears on blocks with no titles
+- #121101: zen.css does not validate
+- #110902: IE6: text falls outside and to the left of content area
+- #183354: Add a div around the feed icons
+- #120341: Sidebar has unwanted 5em bottom margin
+- #122938: Enabling CSS aggregation messes up the CSS in Safari
+- #110897: oversize content causes IE6 layout breakage
+- #119270: profile pictures indenting
+- #118170 by mr700: blockquote css border has two widths
+- #110810: change .submitted span to div
+- #100899: don't use sidebar class for widths
+- #182130 by joachim: links in h2 and h3 different sizes
+- #182556: Added CHANGELOG
+
+Zen 5.x-0.6, 2007-01-17
+-----------------------
+- Initial pre-release

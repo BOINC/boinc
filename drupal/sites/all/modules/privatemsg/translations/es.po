@@ -1,0 +1,463 @@
+# $Id: es.po,v 1.1.2.1 2010/04/12 11:35:31 berdir Exp $
+#
+# Spanish translation of Privatemsg (6.x-1.1)
+# Copyright 2010 Unicorn <unicorn@scenebeta.com>
+# Generated from files:
+#  privatemsg.api.php,v 1.1.2.9 2009/11/06 13:06:26 berdir
+#  privatemsg.author-pane.inc,v 1.1.2.4 2009/11/06 13:06:26 berdir
+#  privatemsg.theme.inc,v 1.1.2.10 2009/11/10 19:48:17 berdir
+#  privatemsg.module,v 1.70.2.30.2.91.2.103 2009/11/29 22:34:50 berdir
+#  privatemsg.views.inc,v 1.1.2.1 2009/11/09 16:44:09 berdir
+#  privatemsg.info,v 1.1.2.1.2.3.2.4 2009/01/25 23:25:18 litwol
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: Drupal Privatemsg 6.x-1.1\n"
+"POT-Creation-Date: 2009-12-05 17:54+0100\n"
+"PO-Revision-Date: 2009-12-05 17:54+0100\n"
+"Last-Translator: Unicorn <unicorn@scenebeta.com>\n"
+"Language-Team: SceneBeta <www@scenebeta.com>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n!=1);\n"
+
+#: privatemsg.api.php:314
+msgid "%name has chosen to not recieve any more messages from you."
+msgstr "%name no quiere recibir tus mensajes privados."
+
+#: privatemsg.api.php:346
+msgid "My link"
+msgstr "Mi enlace"
+
+#: privatemsg.author-pane.inc:16;16
+msgid "Send private message"
+msgstr "Enviar mensaje privado"
+
+#: privatemsg.author-pane.inc:18
+msgid "Send PM"
+msgstr "Enviar MP"
+
+#: privatemsg.theme.inc:167 privatemsg.module:912
+msgid "Subject"
+msgstr "Asunto"
+
+#: privatemsg.theme.inc:182 privatemsg.module:485;1467;122;130;195
+msgid "Messages"
+msgstr "Mensajes"
+
+#: privatemsg.theme.inc:196 privatemsg.module:483
+msgid "Participants"
+msgstr "Participantes"
+
+#: privatemsg.theme.inc:210
+msgid "Last Updated"
+msgstr "Actualizado"
+
+#: privatemsg.theme.inc:226 privatemsg.module:484
+msgid "Started"
+msgstr "Comenzado"
+
+#: privatemsg.theme.inc:282
+msgid "No messages available."
+msgstr "No hay mensajes disponibles."
+
+#: privatemsg.theme.inc:115
+msgid "(1 new)"
+msgid_plural "(@count new)"
+msgstr[0] "(1 nuevo)"
+msgstr[1] "(@count nuevos)"
+
+#: privatemsg.theme.inc:300
+msgid "You have a new message, click here to read it"
+msgid_plural "You have @count new messages, click here to read them"
+msgstr[0] "Tienes un mensaje nuevo, click aquí para leerlo."
+msgstr[1] "Tienes @count mensajes nuevos, click aquí para leerlos."
+
+#: privatemsg.module:97
+msgid " and others"
+msgstr " y otros"
+
+#: privatemsg.module:107
+msgid "From !last"
+msgstr "Desde !last"
+
+#: privatemsg.module:111
+msgid "Participants: !participants and !last"
+msgstr "Participantes: !participants y !last"
+
+#: privatemsg.module:419
+msgid "Theming settings"
+msgstr "Ajustes de tema"
+
+#: privatemsg.module:423
+msgid "Private message display template"
+msgstr "Pantilla para mostrar mensajes privados"
+
+#: privatemsg.module:429
+msgid "Inform the user about new messages on login"
+msgstr "Informar al usuario acerca de nuevos mensajes tras logarse."
+
+#: privatemsg.module:431
+msgid "This option can safely be disabled if the \"New message indication\" block is used instead."
+msgstr "Esta opción puede desactivarse tranquilamente si se está usando el bloque \"Aviso de mensajes nuevos\"."
+
+#: privatemsg.module:438;444
+msgid "Flush deleted messages"
+msgstr "Suprimir definitivamente los mensajes eliminados"
+
+#: privatemsg.module:439
+msgid "By default, deleted messages are only hidden from the user but still stored in the database. These settings control if and when messages should be removed."
+msgstr "Por defecto, los mensajes eliminados se ocultan al usuario pero permanecen en la base de datos. Estos ajustes controlan si son eliminados definitivamente y en qué momento lo hacen."
+
+#: privatemsg.module:446
+msgid "Enable the flushing of deleted messages. Requires that cron is enabled"
+msgstr "Activar la eliminación definitiva de los mensajes borrados. El cron debe estar habilitado."
+
+#: privatemsg.module:451
+msgid "Flush messages after they have been deleted for more days than"
+msgstr "Eliminar los mensajes que han sido borrados desde hace (en días)"
+
+#: privatemsg.module:458
+msgid "Maximum number of messages to flush per cron run"
+msgstr "Número máximo de mensajes a eliminar en cada ejecución del cron."
+
+#: privatemsg.module:465
+msgid "Configure listings"
+msgstr "Configurar listado"
+
+#: privatemsg.module:472
+msgid "Threads per page"
+msgstr "Conversaciones por página"
+
+#: privatemsg.module:475
+msgid "Choose the number of conversations that should be listed per page."
+msgstr "Elige el número de conversaciones que se muestran por página."
+
+#: privatemsg.module:480
+msgid "Configure fields"
+msgstr "Configurar campos"
+
+#: privatemsg.module:481
+msgid "Select which columns/fields should be displayed in the message listings. Subject and Last updated cannot be disabled."
+msgstr "Elige qué columnas/campos se mostrarán en la lista de mensajes. Asunto y Fecha de actualización no pueden ser desactivados"
+
+#: privatemsg.module:493
+msgid "Number of messages on thread pages"
+msgstr "Número de mensajes en las páginas de conversación"
+
+#: privatemsg.module:494
+msgid "Unlimited"
+msgstr "Ilimitados"
+
+#: privatemsg.module:496
+msgid "Threads will not show more than this number of messages on a single page."
+msgstr "Las conversaciones no mostrarán más que este número de mensajes en una misma página."
+
+#: privatemsg.module:502
+msgid "Display different amount of messages on first thread page"
+msgstr "Mostrar un número distinto de mensajes en la primera página"
+
+#: privatemsg.module:504
+msgid "By default, the first thread page shows the maximally allowed amount of messages. Enable this checkbox to set a different value."
+msgstr "Por defecto, la primera página muestra la cantidad máxima de mensajes permitidos. Activa esta casilla para establecer un valor distinto."
+
+#: privatemsg.module:512
+msgid "Number of messages on first thread page"
+msgstr "Número de mensajes en la primera página de conversaciones."
+
+#: privatemsg.module:514
+msgid "The number of messages to be displayed on first thread page. Displays the newest messages."
+msgstr "El número de mensajes que se muestran en la primera página. Muestra los mensajes más nuevos."
+
+#: privatemsg.module:612;146
+msgid "Delete message"
+msgstr "Borrar mensaje"
+
+#: privatemsg.module:617
+msgid "new"
+msgstr "nuevo"
+
+#: privatemsg.module:660
+msgid "You do not have sufficient rights to view someone else's messages"
+msgstr "No tienes suficientes privilegios para ver mensajes privados de otra persona."
+
+#: privatemsg.module:752
+msgid "Display older messages"
+msgstr "Muestra mensajes más antiguos"
+
+#: privatemsg.module:754
+msgid "<<"
+msgstr "<<"
+
+#: privatemsg.module:760
+msgid "Display newer messages"
+msgstr "Muestra mensajes más nuevos"
+
+#: privatemsg.module:762
+msgid ">>"
+msgstr ">>"
+
+#: privatemsg.module:765
+msgid "!previous_link Displaying messages @from - @to of @total !newer_link"
+msgstr "!previous_link Muestra los mensajes de @from - @to de @total !newer_link"
+
+#: privatemsg.module:803
+msgid "This conversation is being viewed with escalated priviledges and may not be the same as shown to normal users."
+msgstr "Esta conversación se está visualizando con escalada de privilegios y puede no ser exactamente la misma que la que se muestra al resto de usuarios."
+
+#: privatemsg.module:873
+msgid "Write new message to %recipient"
+msgstr "Escribir un mensaje nuevo a %recipient"
+
+#: privatemsg.module:876;1494;154
+msgid "Write new message"
+msgstr "Escribir mensaje nuevo"
+
+#: privatemsg.module:900
+msgid "To"
+msgstr "A"
+
+#: privatemsg.module:901
+msgid "Separate multiple names with commas."
+msgstr "Separa varios destinatarios por comas."
+
+#: privatemsg.module:920
+msgid "Message"
+msgstr "Mensaje"
+
+#: privatemsg.module:935
+msgid "Preview message"
+msgstr "Vista previa de mensaje"
+
+#: privatemsg.module:942 views/privatemsg.views.inc:11
+msgid "Send message"
+msgstr "Enviar mensaje"
+
+#: privatemsg.module:948;1531
+msgid "Cancel"
+msgstr "Cancelar"
+
+#: privatemsg.module:954
+msgid "Clear"
+msgstr "Borrar"
+
+#: privatemsg.module:973
+msgid "<strong>Reply to thread</strong>:<br /> Recipients: !to"
+msgstr "<strong>Responder a la conversación</strong>:<br /> Destinatarios : !to"
+
+#: privatemsg.module:1016
+msgid "The following users will not receive this private message: !invalid"
+msgstr "Los siguientes usuarios no recibirán este mensaje: !invalid"
+
+#: privatemsg.module:1098
+msgid "A message has been sent to !recipients."
+msgstr "Se ha enviado un mensaje a !recipients."
+
+#: privatemsg.module:1101
+msgid "An attempt to send a message <em>may have failed</em> when sending to !recipients."
+msgstr "<em>Puede haber fallado</em> el envío de mensaje a !recipients."
+
+#: privatemsg.module:1397
+msgid "Send this user a message"
+msgstr "Enviar un mensaje a este usuario"
+
+#: privatemsg.module:1406
+msgid "You have <a href=\"@messages\">%unread</a>."
+msgstr "Tienes <a href=\"@messages\">%unread</a>."
+
+#: privatemsg.module:1437
+msgid "Privatemsg links"
+msgstr "Enlaces de mensajes privados"
+
+#: privatemsg.module:1441
+msgid "New message indication"
+msgstr "Aviso de mensajes nuevos"
+
+#: privatemsg.module:1501;171;179;188 privatemsg.info:0
+msgid "Private messages"
+msgstr "Mensajes privados"
+
+#: privatemsg.module:1521
+msgid "Delete this message for all users?"
+msgstr "¿Eliminar este mensaje a todos los usuarios?"
+
+#: privatemsg.module:1522
+msgid "Tick the box to delete the message for all users."
+msgstr "Click en la casilla para eliminar el mensaje a todos los usuarios."
+
+#: privatemsg.module:1527
+msgid "Are you sure you want to delete this message?"
+msgstr "¿Estás seguro de querer eliminar este mensaje?"
+
+#: privatemsg.module:1529
+msgid "This action cannot be undone."
+msgstr "Esta acción no se puede deshacer."
+
+#: privatemsg.module:1530;2163
+msgid "Delete"
+msgstr "Eliminar"
+
+#: privatemsg.module:1542
+msgid "Message has been deleted for all users."
+msgstr "El mensaje ha sido eliminado a todos los usuarios."
+
+#: privatemsg.module:1546
+msgid "Message has been deleted."
+msgstr "El mensaje ha sido eliminado."
+
+#: privatemsg.module:1706
+msgid "Thread %thread_id not found, unable to answer"
+msgstr "No se encuentra la conversación %thread_id, imposible responder. "
+
+#: privatemsg.module:1730;1737
+msgid "User @user is not allowed to write messages"
+msgstr "El usuario @user no está autorizado a escribir mensajes."
+
+#: privatemsg.module:1747;1750
+msgid "Disallowed to send a message without subject"
+msgstr "No puedes enviar mensajes sin asunto."
+
+#: privatemsg.module:1757;1760
+msgid "Disallowed to send reply without a message."
+msgstr "No puedes enviar una respuesta sin mensaje."
+
+#: privatemsg.module:1772
+msgid "You are not allowed to use the specified input format."
+msgstr "No estás autorizado a emplear ese formato de entrada específico."
+
+#: privatemsg.module:1775
+msgid "User @user is not allowed to use the specified input format."
+msgstr "El usuario @user no está autorizado a emplear ese formato de entrada específico."
+
+#: privatemsg.module:1784;1787
+msgid "Disallowed to send a message without atleast one valid recipient"
+msgstr "No puedes enviar un mensaje sin al menos un destinatario válido."
+
+#: privatemsg.module:1806;1809
+msgid "Disallowed to send message because all recipients are blocked"
+msgstr "No puedes enviar el mensaje porque todos los destinatarios están bloqueados."
+
+#: privatemsg.module:2055
+msgid "Query function %function does not exist"
+msgstr "La función %function no existe."
+
+#: privatemsg.module:2153
+msgid "Actions"
+msgstr "Acciones"
+
+#: privatemsg.module:2167
+msgid "More actions..."
+msgstr "Más acciones..."
+
+#: privatemsg.module:2182
+msgid "Execute"
+msgstr "Ejecutar"
+
+#: privatemsg.module:2415
+msgid "The previous action can be <a href=\"!undo\">undone</a>."
+msgstr "La acción anterior se puede <a href=\"!undo\">deshacer</a>."
+
+#: privatemsg.module:2466
+msgid "Mark as read"
+msgstr "Marcar como leído"
+
+#: privatemsg.module:2473
+msgid "Mark as unread"
+msgstr "Marcar como sin leer"
+
+#: privatemsg.module:1406
+msgid "1 unread message"
+msgid_plural "@count unread messages"
+msgstr[0] "1 mensaje sin leer"
+msgstr[1] "@count mensajes sin leer"
+
+#: privatemsg.module:1465
+msgid "Messages (1 new)"
+msgid_plural "Messages (@count new)"
+msgstr[0] "Mensajes (1 nuevo)"
+msgstr[1] "Mensajes (@count nuevos)"
+
+#: privatemsg.module:1481
+msgid "New message"
+msgid_plural "New messages"
+msgstr[0] "Mensaje nuevo"
+msgstr[1] "Mensajes nuevos"
+
+#: privatemsg.module:2215
+msgid "Marked 1 thread as unread."
+msgid_plural "Marked @count threads as unread."
+msgstr[0] "1 conversación marcada como no leída."
+msgstr[1] "@count conversaciones marcadas como no leídas."
+
+#: privatemsg.module:2218
+msgid "Marked 1 thread as read."
+msgid_plural "Marked @count threads as read."
+msgstr[0] "1 conversación marcada como leída."
+msgstr[1] "@count conversaciones marcadas como leídas."
+
+#: privatemsg.module:2453
+msgid "Deleted 1 thread."
+msgid_plural "Deleted @count threads."
+msgstr[0] "1 conversación eliminada."
+msgstr[1] "@count conversaciones eliminadas."
+
+#: privatemsg.module:2456
+msgid "Restored 1 thread."
+msgid_plural "Restored @count threads."
+msgstr[0] "1 conversación restaurada."
+msgstr[1] "@count conversaciones restauradas."
+
+#: privatemsg.module:27
+msgid "read privatemsg"
+msgstr "Leer mensajes privados"
+
+#: privatemsg.module:28
+msgid "read all private messages"
+msgstr "Leer todos los mensajes privados"
+
+#: privatemsg.module:29
+msgid "administer privatemsg settings"
+msgstr "Gestionar ajustes de mensajes privados"
+
+#: privatemsg.module:30
+msgid "write privatemsg"
+msgstr "Escribir mensaje privado"
+
+#: privatemsg.module:31
+msgid "delete privatemsg"
+msgstr "Borrar mensaje privado"
+
+#: privatemsg.module:138
+msgid "Read message"
+msgstr "Leer mensaje"
+
+#: privatemsg.module:172;180
+msgid "Configure private messaging settings."
+msgstr "Configurar los ajustes de mensajes privados"
+
+#: privatemsg.module:189
+msgid "Undo last thread action"
+msgstr "Deshacer la última acción"
+
+#: privatemsg.info:0
+msgid "Allow private messages between users."
+msgstr "Permitir mensajes privados entre usuarios."
+
+#: privatemsg.info:0
+msgid "Mail"
+msgstr "e-mail"
+
+#: views/privatemsg.views.inc:10
+msgid "Privatemsg"
+msgstr "Mensajes privados"
+
+#: views/privatemsg.views.inc:13
+msgid "Send Privatemsg link"
+msgstr "Enlace Enviar mensaje privado"
+
+#: views/privatemsg.views.inc:14
+msgid "Displays a link to send a private message to a user."
+msgstr "Muestra un enlace para enviar un mensaje privado a un usuario."
+

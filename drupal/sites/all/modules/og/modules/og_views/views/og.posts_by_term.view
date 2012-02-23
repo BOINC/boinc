@@ -1,0 +1,291 @@
+<?php
+// $Id: og.posts_by_term.view,v 1.3 2008/11/15 15:05:37 weitzman Exp $
+
+if (!module_exists('taxonomy')) {
+  return;
+}
+
+$view = new view;
+$view->name = 'posts_by_term';
+$view->description = 'Shows group posts categorized by taxonomy term';
+$view->tag = 'og';
+$view->view_php = '';
+$view->base_table = 'node';
+$view->is_cacheable = FALSE;
+$view->api_version = 2;
+$view->disabled = TRUE; /* Edit this to true to make a default view disabled initially */
+$handler = $view->new_display('default', 'Defaults', 'default');
+$handler->override_option('fields', array(
+  'type' => array(
+    'id' => 'type',
+    'table' => 'node',
+    'field' => 'type',
+    'label' => 'Type',
+  ),
+  'name_1' => array(
+    'label' => 'Term',
+    'link_to_taxonomy' => 0,
+    'exclude' => 0,
+    'id' => 'name_1',
+    'table' => 'term_data',
+    'field' => 'name',
+    'relationship' => 'none',
+  ),
+  'title' => array(
+    'id' => 'title',
+    'table' => 'node',
+    'field' => 'title',
+    'label' => 'Title',
+    'link_to_node' => TRUE,
+  ),
+  'name' => array(
+    'id' => 'name',
+    'table' => 'users',
+    'field' => 'name',
+    'label' => 'Author',
+    'link_to_user' => TRUE,
+  ),
+  'comment_count' => array(
+    'id' => 'comment_count',
+    'table' => 'node_comment_statistics',
+    'field' => 'comment_count',
+    'label' => 'Replies',
+    'set_precision' => FALSE,
+    'precision' => 0,
+    'decimal' => '.',
+    'separator' => ',',
+    'prefix' => '',
+    'suffix' => '',
+  ),
+  'last_comment_timestamp' => array(
+    'id' => 'last_comment_timestamp',
+    'table' => 'node_comment_statistics',
+    'field' => 'last_comment_timestamp',
+    'label' => 'Last Post',
+    'date_format' => 'small',
+    'custom_date_format' => '',
+  ),
+  'timestamp' => array(
+    'id' => 'timestamp',
+    'table' => 'history_user',
+    'field' => 'timestamp',
+    'label' => '',
+    'comments' => 1,
+    'relationship' => 'none',
+    'link_to_node' => 0,
+    'comment' => 1,
+  ),
+  'new_comments' => array(
+    'id' => 'new_comments',
+    'table' => 'node',
+    'field' => 'new_comments',
+    'label' => '',
+    'set_precision' => FALSE,
+    'precision' => 0,
+    'decimal' => '.',
+    'separator' => ',',
+    'prefix' => '',
+    'suffix' => ' new',
+    'link_to_comment' => 1,
+    'no_empty' => 1,
+    'relationship' => 'none',
+  ),
+));
+$handler->override_option('sorts', array(
+  'last_comment_timestamp' => array(
+    'id' => 'last_comment_timestamp',
+    'table' => 'node_comment_statistics',
+    'field' => 'last_comment_timestamp',
+    'order' => 'ASC',
+    'granularity' => 'second',
+  ),
+));
+$handler->override_option('arguments', array(
+  'group_nid' => array(
+    'default_action' => 'ignore',
+    'style_plugin' => 'default_summary',
+    'style_options' => array(
+      'count' => 1,
+      'override' => 0,
+      'items_per_page' => '25',
+    ),
+    'wildcard' => 'all',
+    'wildcard_substitution' => 'All',
+    'title' => '%1',
+    'default_argument_type' => 'fixed',
+    'default_argument' => '',
+    'validate_type' => 'og_group_types',
+    'validate_fail' => 'not found',
+    'break_phrase' => 0,
+    'not' => 0,
+    'id' => 'group_nid',
+    'table' => 'og_ancestry',
+    'field' => 'group_nid',
+    'relationship' => 'none',
+    'default_options_div_prefix' => '',
+    'default_argument_user' => 0,
+    'default_argument_fixed' => '',
+    'default_argument_php' => '',
+    'validate_argument_node_type' => array(
+      'abc' => 0,
+      'page' => 0,
+      'story' => 0,
+    ),
+    'validate_argument_node_access' => 0,
+    'validate_argument_nid_type' => 'nid',
+    'validate_argument_vocabulary' => array(
+      '1' => 0,
+    ),
+    'validate_argument_type' => 'tid',
+    'validate_argument_is_member' => 0,
+    'validate_argument_php' => '',
+    'override' => array(
+      'button' => 'Override',
+    ),
+  ),
+  'tid' => array(
+    'default_action' => 'summary asc',
+    'style_plugin' => 'default_summary',
+    'style_options' => array(
+      'count' => 1,
+      'override' => 0,
+      'items_per_page' => '25',
+    ),
+    'wildcard' => 'all',
+    'wildcard_substitution' => 'All',
+    'title' => '',
+    'default_argument_type' => 'fixed',
+    'default_argument' => '',
+    'validate_type' => 'none',
+    'validate_fail' => 'not found',
+    'break_phrase' => 0,
+    'add_table' => 0,
+    'require_value' => 1,
+    'reduce_duplicates' => 0,
+    'set_breadcrumb' => 0,
+    'id' => 'tid',
+    'table' => 'term_node',
+    'field' => 'tid',
+    'relationship' => 'none',
+    'default_options_div_prefix' => '',
+    'default_argument_user' => 0,
+    'default_argument_fixed' => '',
+    'default_argument_php' => '',
+    'validate_argument_node_type' => array(
+      'abc' => 0,
+      'page' => 0,
+      'story' => 0,
+    ),
+    'validate_argument_node_access' => 0,
+    'validate_argument_nid_type' => 'nid',
+    'validate_argument_vocabulary' => array(
+      '1' => 0,
+    ),
+    'validate_argument_type' => 'tid',
+    'validate_argument_is_member' => 0,
+    'validate_argument_php' => '',
+    'override' => array(
+      'button' => 'Override',
+    ),
+  ),
+));
+$handler->override_option('filters', array(
+  'status' => array(
+    'id' => 'status',
+    'table' => 'node',
+    'field' => 'status',
+    'operator' => '=',
+    'value' => '1',
+    'group' => 0,
+    'exposed' => FALSE,
+    'expose' => array(
+      'operator' => FALSE,
+      'label' => '',
+    ),
+    'status' => array(
+      'id' => 'status',
+      'table' => 'comments',
+      'field' => 'status',
+      'operator' => '=',
+      'value' => 0,
+      'group' => 0,
+      'exposed' => FALSE,
+      'expose' => array(
+        'operator' => FALSE,
+        'label' => '',
+      ),
+      'relationship' => 'none',
+    ),
+  ),
+));
+$handler->override_option('access', array(
+  'type' => 'none',
+  'role' => array(),
+  'perm' => '',
+));
+$handler->override_option('title', 'Posts by term');
+$handler->override_option('items_per_page', '25');
+$handler->override_option('use_pager', TRUE);
+$handler->override_option('style_plugin', 'table');
+$handler->override_option('style_options', array(
+  'grouping' => 'name_1',
+  'override' => 1,
+  'sticky' => 0,
+  'order' => 'desc',
+  'columns' => array(
+    'type' => 'type',
+    'name_1' => 'name_1',
+    'title' => 'title',
+    'name' => 'name',
+    'comment_count' => 'comment_count',
+    'last_comment_timestamp' => 'last_comment_timestamp',
+    'timestamp' => 'title',
+    'new_comments' => 'comment_count',
+  ),
+  'info' => array(
+    'type' => array(
+      'sortable' => 1,
+      'separator' => '',
+    ),
+    'name_1' => array(
+      'sortable' => 0,
+      'separator' => '',
+    ),
+    'title' => array(
+      'sortable' => 1,
+      'separator' => '&nbsp;',
+    ),
+    'name' => array(
+      'sortable' => 1,
+      'separator' => '',
+    ),
+    'comment_count' => array(
+      'sortable' => 1,
+      'separator' => '<br />',
+    ),
+    'last_comment_timestamp' => array(
+      'sortable' => 1,
+      'separator' => '&nbsp;',
+    ),
+    'timestamp' => array(
+      'separator' => '',
+    ),
+    'new_comments' => array(
+      'separator' => '',
+    ),
+  ),
+  'default' => 'last_comment_timestamp',
+));
+$handler = $view->new_display('page', 'Page', 'page');
+$handler->override_option('path', 'node/%/by_subject');
+$handler->override_option('menu', array(
+  'type' => 'tab',
+  'title' => 'By term',
+  'weight' => '0',
+  'name' => 'navigation',
+));
+$handler->override_option('tab_options', array(
+  'type' => 'none',
+  'title' => NULL,
+  'weight' => NULL,
+));

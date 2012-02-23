@@ -1,0 +1,10 @@
+<?php
+// $Id: content_permissions.install,v 1.1.2.2 2008/10/04 13:14:22 karens Exp $
+
+/**
+ * @file
+ * Implementation of hook_install().
+ */
+function content_permissions_install() {
+  drupal_set_message(t('Please <a href="!url">configure your field permissions</a> immediately. All fields are inaccessible by default.', array('!url' => url('admin/user/permissions', array('fragment' => 'content_permissions')))));
+}

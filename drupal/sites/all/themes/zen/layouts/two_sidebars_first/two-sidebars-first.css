@@ -1,0 +1,53 @@
+/* $Id: two-sidebars-first.css,v 1.1.2.2 2009/12/12 15:54:47 johnalbin Exp $ */
+
+/**
+ * @file
+ * Zen panel layout
+ *
+ * This layout does include the standar Zen navbar, content and right sidebar
+ * layout.  Markup has been reordered for Accessibility and SEO optimizations.
+ * The markup order is: content, sidebar, sidebar but the display will show
+ * sidebar, sidebar, content.
+ */
+
+.zen-two-sidebars-first { 
+/*  overflow: hidden;  */
+  position: relative;
+  margin-top: 0;
+  padding-top: 0;
+}
+
+.zen-two-sidebars-first .panel-sidebar-first {
+}
+
+.zen-two-sidebars-first .panel-content {
+  float: left; /* LTR */
+  width: 460px;
+  margin-left: 500px; /* LTR */
+  margin-right: -960px; /* LTR */ /* Negative value of #content's width + left margin. */
+  padding: 0; /* DO NOT CHANGE. Add padding or margin to #content-inner. */
+}
+
+.zen-two-sidebars-first .panel-sidebar-first {
+  float: left; /* LTR */
+  width: 250px;
+  margin-left: 0px; /* LTR */ /* Width of #content. */
+  margin-right: -250px; /* LTR */ /* Negative value of #sidebar-first's width + left margin. */
+  padding: 0; /* DO NOT CHANGE. Add padding or margin to #sidebar-first-inner. */
+}
+
+.zen-two-sidebars-first .panel-sidebar-first .panel-sidebar-first-inner {
+  margin-right: 20px;
+}
+
+.zen-two-sidebars-first .panel-sidebar-second {
+  float: left; /* LTR */
+  width: 250px;
+  margin-left: 250px; /* LTR */ /* Width of #content. */
+  margin-right: -500px; /* LTR */ /* Negative value of #sidebar-first's width + left margin. */
+  padding: 0; /* DO NOT CHANGE. Add padding or margin to #sidebar-first-inner. */
+}
+
+.zen-two-sidebars-first .panel-sidebar-second .panel-sidebar-second-inner {
+  margin-right: 20px;
+}

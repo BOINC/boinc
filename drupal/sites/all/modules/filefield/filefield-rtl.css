@@ -1,0 +1,21 @@
+/* $Id: filefield-rtl.css,v 1.2 2010/06/29 23:49:11 quicksketch Exp $ */
+
+.filefield-icon {
+  margin: 0 0 0 2px;
+}
+
+.filefield-element .widget-preview {
+  float: right;
+  padding: 0 0 0 10px;
+  border-size: 0 0 0 1px;
+  margin: 0 0 0 10px;
+}
+
+.filefield-element .widget-edit {
+  float: right;
+}
+
+.filefield-element div.ahah-progress,
+.filefield-element div.throbber {
+  padding: 1px 3px 2px 13px;
+}

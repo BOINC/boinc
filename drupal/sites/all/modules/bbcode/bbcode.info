@@ -1,0 +1,11 @@
+name = BBCode
+description = Allow the use of BBCode in your posts.
+package = "Input filters"
+core = 6.x
+
+; Information added by drupal.org packaging script on 2008-11-30
+version = "6.x-1.2"
+core = "6.x"
+project = "bbcode"
+datestamp = "1228042502"
+

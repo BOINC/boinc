@@ -1,0 +1,156 @@
+<?php
+// $Id: text.install,v 1.37.2.10 2008/10/22 12:53:40 yched Exp $
+
+/**
+ * @file
+ * Implementation of hook_install().
+ */
+function text_install() {
+  drupal_load('module', 'content');
+  content_notify('install', 'text');
+}
+
+/**
+ * Implementation of hook_uninstall().
+ */
+function text_uninstall() {
+  drupal_load('module', 'content');
+  content_notify('uninstall', 'text');
+}
+
+/**
+ * Implementation of hook_enable().
+ *
+ * Notify content module when this module is enabled.
+ */
+function text_enable() {
+  drupal_load('module', 'content');
+  content_notify('enable', 'text');
+}
+
+/**
+ * Implementation of hook_disable().
+ *
+ * Notify content module when this module is disabled.
+ */
+function text_disable() {
+  drupal_load('module', 'content');
+  content_notify('disable', 'text');
+}
+
+function text_update_last_removed() {
+  return 5;
+}
+
+/**
+ * Rename widgets to match hook_elements values.
+ *
+ * The change in field_types will keep content_update_6000() from correctly updating
+ * the module names in the field and instance tables, so do it here.
+ *
+ */
+function text_update_6000() {
+  if ($abort = content_check_update('text')) {
+    return $abort;
+  }
+
+  $ret = array();
+
+  drupal_load('module', 'content');
+  $result = db_query("SELECT * FROM {". content_instance_tablename() ."} WHERE widget_type = 'text'");
+  while ($field_instance = db_fetch_array($result)) {
+    $widget_settings = unserialize($field_instance['widget_settings']);
+    $new_widget_type = ($widget_settings['rows'] > 1) ? 'text_textarea' : 'text_textfield';
+    $ret[] = update_sql("UPDATE {". content_instance_tablename() ."} SET widget_module = 'text', widget_type = '". $new_widget_type ."' WHERE field_name = '{$field_instance['field_name']}' AND type_name = '{$field_instance['type_name']}'");
+  }
+  content_associate_fields('text');
+  return $ret;
+}
+
+/**
+ * Set all columns to accept NULL values and set empty string values in the
+ * database to NULL.
+ *
+ * Leaving it up to module developers to handle conversion of numbers to
+ * NULL values, since there are times when zeros are valid data and times
+ * when they should be NULL.
+ *
+ */
+function text_update_6001(&$sandbox) {
+  include_once('./'. drupal_get_path('module', 'content') .'/content.install');
+  drupal_load('module', 'content');
+
+  $ret = array();
+
+  if (!isset($sandbox['progress'])) {
+    if ($abort = content_check_update('text')) {
+      return $abort;
+    }
+
+    // Get the latest cache values and schema.
+    content_clear_type_cache(TRUE, TRUE);
+    $types = content_types_install();
+
+    if (empty($types)) {
+      return $ret;
+    }
+
+    $sandbox['fields'] = array();
+    foreach ($types as $type_name => $fields) {
+      foreach ($fields as $field) {
+        if ($field['type'] == 'text') {
+          $sandbox['fields'][] = $field;
+        }
+      }
+    }
+
+    if (empty($sandbox['fields'])) {
+      return $ret;
+    }
+
+    $sandbox['progress'] = 0;
+    $sandbox['visited'] = array();
+  }
+
+  $field = $sandbox['fields'][$sandbox['progress']];
+
+  // We only want to process a field once -- if we hit it a second time,
+  // that means it's its own table and it should have already been updated.
+  if (!in_array($field['field_name'], $sandbox['visited'])) {
+    $db_info = content_database_info($field);
+    $table = $db_info['table'];
+    foreach ($db_info['columns'] as $column => $attributes) {
+      $attributes['not null'] = FALSE;
+      $column = $attributes['column'];
+      db_change_field($ret, $table, $column, $column, $attributes);
+      // TODO: errors on text/blob columns: no default value allowed (!)
+      db_field_set_no_default($ret, $table, $column);
+      if ($attributes['type'] == 'varchar' || $attributes['type'] == 'text') {
+        $ret[] = update_sql("UPDATE {". $table ."} SET ". $column ." = NULL WHERE ". $column ." = ''");
+      }
+      else {
+        // TODO: replace format = 0 with format = NULL ?? Is this right ?
+        $ret[] = update_sql("UPDATE {". $table ."} SET ". $column ." = NULL WHERE ". $column ." = 0");
+      }
+    }
+    $sandbox['visited'][] = $field['field_name'];
+  }
+
+  $sandbox['progress']++;
+  $ret['#finished'] = $sandbox['progress'] / count($sandbox['fields']);
+
+  return $ret;
+}
+
+/**
+ * Update 6000 and 6001 were possibly broken if they were executed while
+ * the modules were still disabled, so we re-run them.
+ * Having them run a second time on sites that got updated correctly has no
+ * side-effect (see http://drupal.org/node/310873).
+ */
+function text_update_6002() {
+  return text_update_6000();
+}
+function text_update_6003(&$sandbox) {
+  return text_update_6001($sandbox);
+}

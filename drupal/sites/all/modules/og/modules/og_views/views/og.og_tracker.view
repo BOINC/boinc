@@ -1,0 +1,221 @@
+<?php
+// $Id: og.og_tracker.view,v 1.5 2008/11/21 05:00:18 weitzman Exp $
+
+if (!module_exists('comment')) {
+  return;
+}
+
+$view = new view;
+$view->name = 'og_tracker';
+$view->description = 'Shows active posts across the whole site.';
+$view->tag = 'og';
+$view->view_php = '';
+$view->base_table = 'node';
+$view->is_cacheable = FALSE;
+$view->api_version = 2;
+$view->disabled = FALSE; /* Edit this to true to make a default view disabled initially */
+$handler = $view->new_display('default', 'Defaults', 'default');
+$handler->override_option('fields', array(
+  'type' => array(
+    'id' => 'type',
+    'table' => 'node',
+    'field' => 'type',
+    'label' => 'Type',
+    'relationship' => 'none',
+    'link_to_node' => 1,
+  ),
+  'title' => array(
+    'id' => 'title',
+    'table' => 'node',
+    'field' => 'title',
+    'label' => 'Title',
+    'relationship' => 'none',
+    'link_to_node' => 1,
+  ),
+  'name' => array(
+    'id' => 'name',
+    'table' => 'users',
+    'field' => 'name',
+    'label' => 'Author',
+    'link_to_user' => 1,
+    'relationship' => 'none',
+  ),
+  'comment_count' => array(
+    'id' => 'comment_count',
+    'table' => 'node_comment_statistics',
+    'field' => 'comment_count',
+    'label' => 'Replies',
+    'set_precision' => FALSE,
+    'precision' => 0,
+    'decimal' => '.',
+    'separator' => ',',
+    'prefix' => '',
+    'suffix' => '',
+    'relationship' => 'none',
+  ),
+  'group_nid' => array(
+    'id' => 'group_nid',
+    'table' => 'og_ancestry',
+    'field' => 'group_nid',
+    'label' => 'Groups',
+    'type' => 'separator',
+    'separator' => ', ',
+    'empty' => '',
+    'relationship' => 'none',
+  ),
+  'last_comment_timestamp' => array(
+    'id' => 'last_comment_timestamp',
+    'table' => 'node_comment_statistics',
+    'field' => 'last_comment_timestamp',
+    'label' => 'Last post',
+    'date_format' => 'small',
+    'custom_date_format' => '',
+    'relationship' => 'none',
+  ),
+  'timestamp' => array(
+    'id' => 'timestamp',
+    'table' => 'history_user',
+    'field' => 'timestamp',
+    'label' => '',
+    'comments' => 1,
+    'relationship' => 'none',
+    'link_to_node' => 0,
+  ),
+  'new_comments' => array(
+    'id' => 'new_comments',
+    'table' => 'node',
+    'field' => 'new_comments',
+    'label' => '',
+    'set_precision' => FALSE,
+    'precision' => 0,
+    'decimal' => '.',
+    'separator' => ',',
+    'prefix' => '',
+    'suffix' => 'new',
+    'link_to_comment' => 1,
+    'no_empty' => 1,
+    'relationship' => 'none',
+  ),
+));
+$handler->override_option('sorts', array(
+  'last_comment_timestamp' => array(
+    'id' => 'last_comment_timestamp',
+    'table' => 'node_comment_statistics',
+    'field' => 'last_comment_timestamp',
+    'order' => 'DESC',
+    'granularity' => 'second',
+    'relationship' => 'none',
+  ),
+));
+$handler->override_option('filters', array(
+  'status' => array(
+    'id' => 'status',
+    'table' => 'node',
+    'field' => 'status',
+    'operator' => '=',
+    'value' => 1,
+    'group' => 0,
+    'exposed' => FALSE,
+    'expose' => array(
+      'operator' => FALSE,
+      'label' => '',
+    ),
+    'relationship' => 'none',
+    'expose_button' => array(
+      'button' => 'Expose',
+    ),
+  ),
+));
+$handler->override_option('access', array(
+  'type' => 'none',
+));
+$handler->override_option('title', 'Recent posts across whole site');
+$handler->override_option('items_per_page', 25);
+$handler->override_option('use_pager', '1');
+$handler->override_option('style_plugin', 'table');
+$handler->override_option('style_options', array(
+  'override' => 1,
+  'order' => 'desc',
+  'columns' => array(
+    'type' => 'type',
+    'title' => 'title',
+    'name' => 'name',
+    'comment_count' => 'comment_count',
+    'group_nid' => 'group_nid',
+    'last_comment_timestamp' => 'last_comment_timestamp',
+    'timestamp' => 'title',
+    'new_comments' => 'comment_count',
+  ),
+  'info' => array(
+    'type' => array(
+      'sortable' => 1,
+      'separator' => '',
+    ),
+    'title' => array(
+      'sortable' => 1,
+      'separator' => '&nbsp;',
+    ),
+    'name' => array(
+      'sortable' => 1,
+      'separator' => '',
+    ),
+    'comment_count' => array(
+      'sortable' => 1,
+      'separator' => '<br />',
+    ),
+    'group_nid' => array(
+      'separator' => '',
+    ),
+    'last_comment_timestamp' => array(
+      'sortable' => 1,
+      'separator' => '&nbsp;',
+    ),
+    'timestamp' => array(
+      'separator' => '',
+    ),
+    'new_comments' => array(
+      'separator' => '',
+    ),
+  ),
+  'default' => 'last_comment_timestamp',
+));
+$handler = $view->new_display('page', 'Page', 'page');
+$handler->override_option('path', 'group/tracker');
+$handler->override_option('menu', array(
+  'type' => 'tab',
+  'title' => 'Recent posts',
+  'weight' => '5',
+  'name' => 'navigation',
+));
+$handler->override_option('tab_options', array(
+  'type' => 'none',
+  'title' => '',
+  'weight' => 0,
+));
+$handler = $view->new_display('feed', 'Feed', 'feed');
+$handler->override_option('style_plugin', 'rss');
+$handler->override_option('style_options', array(
+  'mission_description' => FALSE,
+  'description' => '',
+));
+$handler->override_option('row_plugin', 'node_rss');
+$handler->override_option('row_options', array(
+  'item_length' => 'default',
+));
+$handler->override_option('path', 'group/tracker/feed');
+$handler->override_option('menu', array(
+  'type' => 'none',
+  'title' => '',
+  'weight' => 0,
+  'name' => 'navigation',
+));
+$handler->override_option('tab_options', array(
+  'type' => 'none',
+  'title' => '',
+  'weight' => 0,
+));
+$handler->override_option('displays', array(
+  'page' => 'page',
+  'default' => 0,
+));
+$handler->override_option('sitename_title', FALSE);

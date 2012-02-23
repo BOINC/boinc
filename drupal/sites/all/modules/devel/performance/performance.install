@@ -1,0 +1,150 @@
+<?php
+// $Id: performance.install,v 1.1.4.12 2010/02/08 03:56:14 kbahey Exp $
+
+/**
+ * @file
+ * Install and update for Performance Logging
+ *
+ * Copyright Khalid Baheyeldin 2008 of http://2bits.com
+ */
+
+// Minimum APC shm memory size to require
+define('PERFORMANCE_MIN_MEMORY', 48);
+
+function performance_schema() {
+  $schema = array();
+
+  $schema['performance_summary'] = array(
+    'fields' => array(
+      'path'            => array('type' => 'varchar', 'length' => '255', 'not null' => TRUE, 'default' => ''),
+      'last_access'     => array('type' => 'int', 'not null' => TRUE, 'default' => 0, 'disp-width' => '11'),
+      'bytes_max'       => array('type' => 'int', 'not null' => TRUE, 'default' => 0, 'disp-width' => '11'),
+      'bytes_avg'       => array('type' => 'int', 'not null' => TRUE, 'default' => 0, 'disp-width' => '11'),
+      'ms_max'          => array('type' => 'int', 'not null' => TRUE, 'default' => 0, 'disp-width' => '11'),
+      'ms_avg'          => array('type' => 'int', 'not null' => TRUE, 'default' => 0, 'disp-width' => '11'),
+      'query_count_max' => array('type' => 'int', 'not null' => TRUE, 'default' => 0, 'disp-width' => '11'),
+      'query_count_avg' => array('type' => 'int', 'not null' => TRUE, 'default' => 0, 'disp-width' => '11'),
+      'query_timer_max' => array('type' => 'int', 'not null' => TRUE, 'default' => 0, 'disp-width' => '11'),
+      'query_timer_avg' => array('type' => 'int', 'not null' => TRUE, 'default' => 0, 'disp-width' => '11'),
+      'num_accesses'    => array('type' => 'int', 'not null' => TRUE, 'default' => 0, 'disp-width' => '11'),
+    ),
+    'primary key' => array('path'),
+    'indexes' => array(
+      'last_access' => array('last_access')),
+  );
+
+  $schema['performance_detail'] = array(
+    'fields' => array(
+      'pid'         => array('type' => 'serial', 'not null' => TRUE, 'disp-width' => '11'),
+      'timestamp'   => array('type' => 'int', 'not null' => TRUE,  'default' => 0, 'disp-width' => '11'),
+      'bytes'       => array('type' => 'int', 'not null' => TRUE,  'default' => 0, 'disp-width' => '11'),
+      'ms'          => array('type' => 'int', 'not null' => TRUE,  'default' => 0, 'disp-width' => '11'),
+      'query_count' => array('type' => 'int', 'not null' => TRUE,  'default' => 0, 'disp-width' => '11'),
+      'query_timer' => array('type' => 'int', 'not null' => TRUE,  'default' => 0, 'disp-width' => '11'),
+      'anon'        => array('type' => 'int', 'not null' => FALSE, 'default' => 1, 'disp-width' => '1'),
+      'path'        => array('type' => 'varchar', 'length' => '255', 'not null' => FALSE),
+      'data'        => array('type' => 'blob', 'not null' => FALSE, 'size' => 'big'),
+    ),
+    'primary key' => array('pid'),
+    'indexes' => array(
+      'timestamp' => array('timestamp')),
+  );
+
+  return $schema;
+}
+
+function performance_install() {
+  drupal_install_schema('performance');
+
+  // Set the weight so this module runs last
+  db_query("UPDATE {system} SET weight = 3000 WHERE name = 'performance'");
+}
+
+function performance_uninstall() {
+  drupal_uninstall_schema('performance');
+  db_query("DELETE FROM {variable} WHERE name LIKE 'performance%'");
+}
+
+function performance_requirements($phase) {
+  $requirements = array();
+
+  if ($phase != 'runtime') {
+    return $requirements;
+  }
+
+  if (variable_get('performance_detail', 0)) {
+    $requirements['performance_detail'] = array(
+      'title'       => t('Performance logging details'),
+      'value'       => 'Enabled',
+      'severity'    => REQUIREMENT_WARNING,
+      'description' => t('Performance detailed logging is <a href="@link">enabled</a>. This can cause severe issues on live sites.', array('@link' => url('admin/settings/performance_logging'))),
+    );
+  }
+
+  if (variable_get('dev_query', 0)) {
+    if (variable_get('performance_detail', 0) ||
+        variable_get('performance_summary_db', 0) ||
+        variable_get('performance_summary_apc', 0)) {
+      $requirements['performance_query'] = array(
+        'title'       => t('Performance logging query'),
+        'value'       => 'Enabled',
+        'severity'    => REQUIREMENT_WARNING,
+        'description' => t('Query timing and count logging is <a href="@link">enabled</a>. This can cause memory size per page to be larger than normal.', array('@link' => url('admin/settings/performance_logging'))),
+      );
+    }
+  }
+
+  if (!function_exists('apc_fetch')) {
+    $requirements['performance_apc'] = array(
+      'title'       => t('Performance logging APC'),
+      'value'       => 'Disabled',
+      'severity'    => REQUIREMENT_WARNING,
+      'description' => t('Performance logging on live web sites works best if APC is enabled.'),
+    );
+  }
+
+  $shm_size = ini_get('apc.shm_size');
+  if (function_exists('apc_fetch') && $shm_size < PERFORMANCE_MIN_MEMORY) {
+    $requirements['performance_apc_mem'] = array(
+      'title'       => t('Performance logging APC memory size'),
+      'value'       => $shm_size,
+      'severity'    => REQUIREMENT_WARNING,
+      'description' => t('APC has been configured for !size, which is less than the recommended !min_memory MB of memory. If you encounter errors when viewing the summary report, then try to increase that limit for APC.', array('!size' => 1*$shm_size, '!min_memory' => PERFORMANCE_MIN_MEMORY)),
+    );
+  }
+
+  return $requirements;
+}
+
+function performance_update_1() {
+  $ret = array();
+  db_drop_field($ret, 'performance_detail', 'title');
+  db_drop_field($ret, 'performance_summary', 'title');
+  return $ret;
+}
+
+function performance_update_2() {
+  $ret = array();
+  db_add_field($ret, 'performance_detail', 'data', array('type' => 'blob', 'not null' => FALSE, 'size' => 'big'));
+  return $ret;
+}
+
+/**
+ * Harmonize notations for milliseconds to "ms".
+ *
+ * @return array
+ */
+function performance_update_6001() {
+  $int_field = array('type' => 'int', 'not null' => TRUE, 'default' => 0, 'disp-width' => '11');
+
+  $ret = array();
+  db_change_field($ret, 'performance_summary', 'millisecs_max', 'ms_max', $int_field);
+  db_change_field($ret, 'performance_summary', 'millisecs_avg', 'ms_avg', $int_field);
+  db_change_field($ret, 'performance_detail',  'millisecs',     'ms',     $int_field);
+
+  // We don't have a cache update method, so it's better to clear it 
+  if (function_exists('apc_fetch')) {
+    apc_clear_cache('user');
+  }
+  return $ret;
+}

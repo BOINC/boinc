@@ -1,0 +1,11 @@
+name = Flag friend access control
+description = Allows users to specify that only their friends can view this piece of content
+package = Flags
+dependencies[] = flag_friend
+core = 6.x
+; Information added by drupal.org packaging script on 2010-08-08
+version = "6.x-1.0"
+core = "6.x"
+project = "flag_friend"
+datestamp = "1281273674"
+

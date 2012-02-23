@@ -1,0 +1,39 @@
+<!-- $Id: using-advanced-help.html,v 1.1 2008/10/27 20:50:21 merlinofchaos Exp $ -->
+<p>Das System der <em>erweiterten Hilfe</em> ist ein modulares System, das erweiterte Hilfemöglichkeiten für Drupal und seine Module bereitstellt. Obwohl die erweiterte Hilfe selbst keine allgemeine Hilfe bereitstellt, stellt es ein mächtiges und einfaches Rahmenwerk zur Verfügung, das Module verwenden können, um ihre eigene Hilfe bereitzustellen.
+</p>
+
+<p>
+Module die die <em>erweiterte Hilfe</em> verwenden sollten ein Unterverzeichnis 'help' innerhalb des Modulverzeichnisses bereitstellen. Die Datei MODULENAME.help.ini muss in diesem Unterverzeichnis platziert werden, formatiert entsprechend dem nachfolgenden Beispiel:
+</p>
+<pre>
+[buses]
+title = "How buses are tied into the system"
+file = buses
+
+[TOPIC_ID]
+title = "Title of topic".
+file = filename of topic, without the .html extension.
+weight = How important the topic is on the index page.
+parent = The optional topic parent to use in the breadcrumb, 
+         either topic or module%topic.
+</pre>
+
+<p>
+Alle Themen werden durch das Modul, das die Hilfe bereitstellt, und die Themen-ID adressiert. Um Links einzubetten muss das folgende Format verwendet werden:
+</p>
+<code>
+$output .= theme('advanced_help_topic', $module, $topic);
+</code>
+
+<p>Innerhalb der Hilfedatei können andere Hilfethemen durch Verwendung des Formats <strong>&lt;a href=&quot;topic:module/topic"&gt;</strong> verlinkt werden. Dieses Format stellt sicher, dass der Popup-Status konsistent bleibt, wenn zwischen Links umgeschaltet wird.</p>
+
+<p>Mit <strong>&lt;a href=&quot;path:example.jpg"&gt;</strong> können Elemente innerhalb des Hilfe-Verzeichnisses referenziert werden wie z.B. Bilder, die im Hilfetext eingebettet werden sollen.</p>
+
+<p>Mit <strong>&lt;a href=&quot;base_url:admin/settings/site-configuration"&gt;</strong> kann jeder normale Pfad der Website referenziert werden.</p>
+
+<p>Wenn das Modul Search aktiviert ist, werden die Inhalte des Hilfesystems von Cron indexiert. Wenn neue Module aktiviert werden und der Hilfetext sofort indexiert werden soll, muss "Verwalten -> Berichte -> Statusreport" aufgerufen und der Link "Cron von hand starten" aufgerufen werden.</p>
+
+<p>Beispiel: <a href="path:nowhere.jpg">Nicht anklicken!</a></p>
+
+<p>Siehe: <a href="topic:advanced_help/ini-file">ini file format</a></p>
+<p><strong>Hinweis: </strong> In älteren Versionen der erweiterten Hilfe war es nicht erforderlich &amp;'s wrapped around the topic:, path:, and base_url: links.  Dies wird momentan noch unterstützt, wird in einer zukünftigen Version aber möglicherweise entfernt. Durch das Hinzufügen der &'s sind diese Token jetzt nicht auf href=""- and src=""-Paramater begrenzt.</p>

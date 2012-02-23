@@ -1,0 +1,12 @@
+; $Id: vud_node.info,v 1.1.2.3 2009/08/15 12:21:32 lut4rp Exp $;
+name = Vote Up/Down Nodes
+description = "Allows adding an up/down voting widget to selected content types."
+dependencies[] = vud
+package = Voting
+core = 6.x
+; Information added by drupal.org packaging script on 2010-10-23
+version = "6.x-2.1"
+core = "6.x"
+project = "vote_up_down"
+datestamp = "1287804648"
+

@@ -1,0 +1,48 @@
+<?php
+// $Id: vud_node.install,v 1.1.2.4 2010/01/15 02:36:29 marvil07 Exp $
+
+/**
+ * @file
+ * Install, update and uninstall functions for the Vote Up/Down Node module.
+ */
+
+/**
+ * Implementation of hook_install().
+ */
+function vud_node_install() {
+  drupal_install_schema('vud_node');
+}
+
+/**
+ * Implementation of hook_schema().
+ */
+function vud_node_schema() {
+  return array();
+}
+
+/**
+ * Implementation of hook_uninstall().
+ */
+function vud_node_uninstall() {
+  drupal_uninstall_schema('vud_node');
+  variable_del('vud_node_types');
+  variable_del('vud_node_widget');
+  variable_del('vud_node_widget_show');
+  variable_del('vud_node_votes');
+  variable_del('vud_node_reset');
+  variable_del('vud_node_widget_vote_on_teaser');
+}
+
+/**
+ * use new constants to manage count/widget visibility
+ */
+function vud_node_update_6201() {
+  $ret = array();
+  $widget_visibility = variable_get('vud_node_widget_show', NULL);
+  if (!is_null($widget_visibility)) {
+    $widget_visibility++;
+    variable_set('vud_node_widget_show', $widget_visibility);
+  }
+  // no DB updates
+  return $ret;
+}

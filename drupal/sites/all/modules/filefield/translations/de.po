@@ -1,0 +1,453 @@
+# $Id: filefield.de.po,v 1.6 2010/05/07 22:32:36 quicksketch Exp $
+#
+# German translation of Drupal (general)
+# Copyright 2008 <dvc@drupalcenter.de>
+# Generated from files:
+#  filefield.module,v 1.50.2.2 2007/09/25 16:06:07 jpetso
+#  filefield.info,v 1.5 2007/06/18 22:53:42 dww
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"POT-Creation-Date: 2009-06-06 23:22+0200\n"
+"PO-Revision-Date: 2009-06-06 23:58+0100\n"
+"Last-Translator: Alexander Haß\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n!=1);\n"
+"X-Poedit-Language: German\n"
+"X-Poedit-Country: GERMANY\n"
+
+#: field_file.inc:165
+msgid "The selected file %name could not be saved."
+msgstr "Die ausgewählte Datei %name konnte nicht gespeichert werden."
+
+#: field_file.inc:177
+msgid "File upload error. Could not move uploaded file."
+msgstr "Fehler beim Hochladen der Datei. Die hochgeladene Datei konnte nicht verschoben werden."
+
+#: field_file.inc:324
+msgid "The directory %directory is a file and cannot be overwritten."
+msgstr "Das Verzeichnis %directory ist eine Datei und kann nicht überschrieben werden."
+
+#: field_file.inc:333;331
+msgid "The directory %directory does not exist."
+msgstr "Das Verzeichnis %directory ist nicht vorhanden."
+
+#: field_file.inc:342
+msgid "The directory %directory is not writable"
+msgstr "Das Verzeichnis %directory ist nicht beschreibbar."
+
+#: field_file.inc:355;356
+msgid "Security warning: Couldn't write .htaccess file. Please create a .htaccess file in your %directory directory which contains the following lines:<br /><code>!htaccess</code>"
+msgstr "Sicherheitswarnung: Die .htaccess-Datei konnte nicht geschrieben werden. Im Verzeichnis %directory muss eine .htaccess-Datei mit den folgenden Zeilen erstellt werden:<br /><code>!htaccess</code>"
+
+#: field_file.inc:88
+#: filefield_field.inc:268
+#: filefield_widget.inc:172;178
+#: filefield.module:0
+msgid "filefield"
+msgstr "Dateifeld"
+
+#: field_file.inc:88
+msgid "Could not set permissions on destination file: %file"
+msgstr "Die Berechtigungen für die Zieldatei konnten nicht gespeichert werden: %file"
+
+#: field_file.inc:178
+msgid "file"
+msgstr "Datei"
+
+#: field_file.inc:178
+msgid "Upload error. Could not move file %file to destination %destination."
+msgstr "Fehler beim Hochladen. Die Datei %file konnte nicht zum Ziel %destination verschoben werden."
+
+#: field_file.inc:322;331;340
+msgid "file system"
+msgstr "Dateisystem"
+
+#: field_file.inc:322
+msgid "The path %directory was checked as a directory, but it is a file."
+msgstr "Der Pfad %directory wurde als Verzeichnis überprüft, ist aber eine Datei."
+
+#: field_file.inc:340
+msgid "The directory %directory is not writable, because it does not have the correct permissions set."
+msgstr "Das Verzeichnis %directory ist nicht beschreibbar, da nicht die richtigen Berechtigungen gesetzt sind."
+
+#: field_file.inc:356
+msgid "security"
+msgstr "Sicherheit"
+
+#: filefield.token.inc:17
+msgid "File ID"
+msgstr "Datei-ID"
+
+#: filefield.token.inc:18
+msgid "File description"
+msgstr "Dateibeschreibung"
+
+#: filefield.token.inc:19
+msgid "File name"
+msgstr "Dateiname"
+
+#: filefield.token.inc:20
+#: filefield_widget.inc:48
+msgid "File path"
+msgstr "Dateipfad"
+
+#: filefield.token.inc:21
+msgid "File MIME type"
+msgstr "MIME-Typ der Datei"
+
+#: filefield.token.inc:22
+msgid "File size (in bytes)"
+msgstr "Dateigröße (in Bytes)"
+
+#: filefield.token.inc:23
+msgid "File size (pretty printed)"
+msgstr "Dateigröße (gut lesbar)"
+
+#: filefield.token.inc:24
+msgid "Fully formatted HTML file tag"
+msgstr "Vollständig formatierter HTML-Datei-Tag"
+
+#: filefield.token.inc:25
+msgid "File name without extension"
+msgstr "Dateiname ohne Erweiterung"
+
+#: filefield.token.inc:26
+msgid "File extension"
+msgstr "Dateierweiterung"
+
+#: filefield_field.inc:19
+msgid "List field"
+msgstr "Listenfeld"
+
+#: filefield_field.inc:20;34
+msgid "Disabled"
+msgstr "Deaktiviert"
+
+#: filefield_field.inc:20;34
+msgid "Enabled"
+msgstr "Aktiviert"
+
+#: filefield_field.inc:22
+msgid "The \"list\" option lets a user choose if a file should shown in a list when viewing the content after creation."
+msgstr ""
+
+#: filefield_field.inc:27
+msgid "Files listed by default"
+msgstr "Standardmäßig anzuzeigende Dateien"
+
+#: filefield_field.inc:32
+msgid "Description field"
+msgstr "Beschreibungsfeld"
+
+#: filefield_field.inc:35
+msgid "When enabled, will display a text field where users may enter a description about the uploaded file."
+msgstr "Sobald aktiviert, wird ein Textfeld angezeigt in das Benutzer eine Beschreibung über die hochgeladene Datei eingeben können."
+
+#: filefield_field.inc:268
+#, fuzzy
+msgid "FileField was trying to display the file %file, but it does not exist."
+msgstr "Dateifeld versuchte die Datei %file anzuzeigen, diese ist aber nicht vorhanden."
+
+#: filefield_widget.inc:19
+msgid "Permitted upload file extensions"
+msgstr "Erlaubte Dateiendungen"
+
+# not literally
+#: filefield_widget.inc:22
+msgid "Extensions a user can upload to this field. Separate extensions with a space and do not include the leading dot. Leaving this blank will allow users to upload a file with any extension."
+msgstr "Die zulässigen Dateiendungen eingeben, die ein Benutzer hochladen darf. Die Dateierweiterungen ohne führenden Punkt mit einem Leerzeichen voneinander trennen. Sollte dieses Feld freigelassen werden können Benutzer beliebige Dateiendungen hochladen."
+
+#: filefield_widget.inc:28
+#, fuzzy
+msgid "Progress indicator"
+msgstr "Forstschrittsanzeige"
+
+#: filefield_widget.inc:30
+msgid "Bar with progress meter"
+msgstr ""
+
+# http://de.wikipedia.org/wiki/Throbber
+#: filefield_widget.inc:31
+msgid "Throbber"
+msgstr "Throbber"
+
+#: filefield_widget.inc:34
+msgid "Your server supports upload progress capabilities. The \"throbber\" display does not indicate progress but takes up less room on the form, you may want to use it if you'll only be uploading small files or if experiencing problems with the progress bar."
+msgstr ""
+
+#: filefield_widget.inc:41
+msgid "Path settings"
+msgstr "Pfadeinstellungen"
+
+#: filefield_widget.inc:50
+msgid "Optional subdirectory within the \"%directory\" directory where files will be stored. Do not include preceding or trailing slashes."
+msgstr "Optionales Unterverzeichnis innerhalb von „%directory“, in dem die Dateien gespeichert werden. Keine vorrangestellten oder nachfolgenden Schrägstriche verwenden."
+
+#: filefield_widget.inc:57
+msgid "File size restrictions"
+msgstr "Dateigrößenbeschränkungen"
+
+#: filefield_widget.inc:58
+msgid "Limits for the size of files that a user can upload. Note that these settings only apply to newly uploaded files, whereas existing files are not affected."
+msgstr "Begrenzungen für die Größe von Dateien, die ein Benutzer hochladen kann. Diese Einstellungen treffen nur auf Dateien zu die neu hochgeladen werden, wohingegen vorhandene Dateien davon nicht betroffen sind."
+
+# upload size != Dateigröße
+#: filefield_widget.inc:65;108
+#, fuzzy
+msgid "Maximum upload size per file"
+msgstr "Maximale Dateigröße pro Datei"
+
+#: filefield_widget.inc:69
+msgid "Specify the size limit that applies to each file separately. Enter a value like \"512\" (bytes), \"80K\" (kilobytes) or \"50M\" (megabytes) in order to restrict the allowed file size. If you leave this empty the file sizes will be limited only by PHP's maximum post and file upload sizes (current limit <strong>%limit</strong>)."
+msgstr ""
+
+# upload size != Dateigröße
+#: filefield_widget.inc:74;117
+#, fuzzy
+msgid "Maximum upload size per node"
+msgstr "Maximale Dateigröße pro Beitrag"
+
+#: filefield_widget.inc:78
+msgid "Specify the total size limit for all files in field on a given node. Enter a value like \"512\" (bytes), \"80K\" (kilobytes) or \"50M\" (megabytes) in order to restrict the total size of a node. Leave this empty if there should be no size restriction."
+msgstr ""
+
+#: filefield_widget.inc:99
+msgid "The file path (@file_path) cannot start with the system files directory (@files_directory), as this may cause conflicts when building file URLs."
+msgstr ""
+
+#: filefield_widget.inc:108;117
+msgid "The \"@field\" option must contain a valid value. You can either leave the text field empty or enter a string like \"512\" (bytes), \"80K\" (kilobytes) or \"50M\" (megabytes)."
+msgstr "Die „@field“-Option muss einen gültigen Wert enthalten. Entweder kann das Textfeld leergelassen werden oder eine Zeichenkette wie „512“ (Bytes), „80K“ (Kilobytes) oder „50M“ (Megabytes) eingegeben werden."
+
+#: filefield_widget.inc:173
+msgid "The file could not be uploaded."
+msgstr "Die Datei konnt nicht hochgeladen werden."
+
+#: filefield_widget.inc:179
+msgid "The file in the @field field was unable to be uploaded."
+msgstr "Die Datei im @field-Feld konnt nicht hochgeladen werden."
+
+#: filefield_widget.inc:256
+msgid "Upload"
+msgstr "Upload"
+
+#: filefield_widget.inc:278
+msgid "Remove"
+msgstr "Entfernen"
+
+#: filefield_widget.inc:362
+msgid "Description"
+msgstr "Beschreibung"
+
+#: filefield_widget.inc:372
+msgid "List"
+msgstr "Liste"
+
+#: filefield_widget.inc:424
+msgid "Referencing to the file used in the %field field is not allowed."
+msgstr ""
+
+#: filefield_widget.inc:429
+msgid "The file referenced by the %field field does not exist."
+msgstr "Die mit dem %field-Feld verknüpfte Datei ist nicht vorhanden."
+
+#: filefield_widget.inc:526
+msgid "%title field is required."
+msgstr "Das Feld %title ist erforderlich."
+
+#: filefield_widget.inc:530
+msgid "Total filesize for %title, %tsize, exceeds field settings of %msize."
+msgstr "Die gesamte Dateigröße für %title, %tsize, überschreitet die Feldeinstellungen von %msize."
+
+#: filefield_widget.inc:172
+msgid "The upload directory %directory for the file field %field (content type %type) could not be created or is not accessible. A newly uploaded file could not be saved in this directory as a consequence, and the upload was canceled."
+msgstr "Das Uploadverzeichnis %directory für das Dateifeld %field (Inhaltstyp %type) konnte nicht erstellt werden oder ist nicht zugänglich. Die gerade hochgeladene Datei konnte nicht in diesem Verzeichnis gespeichert werden und in dieser Konsequenz wurde der Upload abgebrochen."
+
+#: filefield_widget.inc:178
+msgid "The file upload failed. %upload"
+msgstr "Der Dateiupload ist fehlgeschlafen. %upload"
+
+#: filefield.module:241
+msgid "Store an arbitrary file."
+msgstr "Eine beliebige Datei speichern."
+
+#: filefield.module:386
+msgid "File Upload"
+msgstr "Dateiupload"
+
+#: filefield.module:390
+msgid "A plain file upload widget."
+msgstr "Ein einfaches Dateiupload-Steuerelement."
+
+#: filefield.module:401
+msgid "Generic files"
+msgstr "Allgemeine Dateien"
+
+#: filefield.module:404
+msgid "Displays all kinds of files with an icon and a linked file description."
+msgstr "Alle Arten von Dateien mit einem Symbol und einer verlinkten Dateibeschreibung anzeigen."
+
+#: filefield.module:407
+msgid "Path to file"
+msgstr "Pfad zur Datei"
+
+#: filefield.module:409
+msgid "Displays the file system path to the file."
+msgstr "Zeigt den Dateisystempfad zur Datei an."
+
+#: filefield.module:412
+msgid "URL to file"
+msgstr "URL zur Datei"
+
+#: filefield.module:414
+msgid "Displays a full URL to the file."
+msgstr "Zeigt eine vollständige URL zur Datei an."
+
+#: filefield.module:484
+msgid "An unrecoverable error occurred. The uploaded file likely exceeded the maximum file size (@size) that this server supports."
+msgstr ""
+
+#: filefield.module:496
+msgid "An unrecoverable error occurred. This form was missing from the server cache. Try reloading the page and submitting again."
+msgstr ""
+
+#: filefield.module:567
+msgid "Starting upload..."
+msgstr ""
+
+#: filefield.module:575;582
+msgid "Uploading... (@current of @total)"
+msgstr ""
+
+#: filefield.module:651
+msgid "The file contents (@type) do not match its extension (@extension)."
+msgstr "Die Dateiinhalte (@type) entsprechen nicht ihrer Erweiterung (@extension)."
+
+#: filefield.module:656
+msgid "Only files with the following extensions are allowed: %files-allowed."
+msgstr "Nur Dateien mit folgenden Erweiterungen sind zulässig: %files-allowed."
+
+#: filefield.module:668
+msgid "Allowed Extensions: %ext"
+msgstr "Zulässige Erweiterungen: %ext"
+
+#: filefield.module:694
+msgid "The file is %filesize exceeding the maximum file size of %maxsize."
+msgstr "Die Dateigröße beträgt %filesize und überschreitet damit die maximale Dateigröße von %maxsize."
+
+#: filefield.module:701
+msgid "The file is %filesize which would exceed your disk quota of %quota."
+msgstr "Die Dateigröße beträgt %filesize und würde damit den verfügbaren Festplattenplatz von %quota überschreiten."
+
+#: filefield.module:711
+msgid "Maximum Filesize: %size"
+msgstr "Maximale Dateigröße: %size"
+
+#: filefield.module:742
+msgid "The image must be exactly %dimensions pixels."
+msgstr "Das Bild muss genau %dimensions Pixel groß sein."
+
+#: filefield.module:746
+msgid "The image will not fit between the dimensions of %min_dimensions and %max_dimensions pixels."
+msgstr "Das Bild wird nicht in die Abmessungen von %min_dimensions und %max_dimensions Pixel reinpassen."
+
+#: filefield.module:750
+msgid "The image was resized to fit within the maximum allowed dimensions of %dimensions pixels."
+msgstr "Die Bildgröße wurde an die maximal zulässigen Abmessungen von %dimensions Pixel angepasst."
+
+#: filefield.module:758
+msgid "The image is too large; the maximum dimensions are %dimensions pixels."
+msgstr "Das Bild ist zu groß, die maximal zulässigen Abmessungen sind %dimensions Pixel."
+
+#: filefield.module:766
+msgid "The image is too small; the minimum dimensions are %dimensions pixels."
+msgstr "Das Bild ist zu klein, die minimalen Abmessungen sind %dimensions Pixel."
+
+#: filefield.module:781
+msgid "Images must be exactly @min_size pixels"
+msgstr "Bilder müssen genau @min_size Pixel haben."
+
+#: filefield.module:784
+msgid "Images must be between @min_size pixels and @max_size"
+msgstr "Bilder müssen zwischen @min_size pixels und @max_size Pixel haben."
+
+# not literally
+#: filefield.module:789
+msgid "Images larger than @max_size pixels will be scaled"
+msgstr "Bilder die größer als @max_size Pixel sind werden verkleinert."
+
+#: filefield.module:792
+msgid "Images must be smaller than @max_size pixels"
+msgstr "Bilder müssen kleiner als @max_size Pixel sein."
+
+#: filefield.module:797
+msgid "Images must be larger than @max_size pixels"
+msgstr "Bilder müssen größer als @max_size Pixel sein."
+
+#: filefield.module:821
+msgid "The file is not a known image format."
+msgstr "Die Datei ist kein bekanntes Bildformat."
+
+#: filefield.install:73
+msgid "Your server is capable of displaying file upload progress, but does not have the required libraries. It is recommended to install the <a href=\"http://pecl.php.net/package/uploadprogress\">PECL uploadprogress library</a> (preferred) or to install <a href=\"http://us2.php.net/apc\">APC</a>."
+msgstr ""
+
+#: filefield.install:78
+msgid "Your server is capable of displaying file upload progress using APC RFC1867. Note that only one upload at a time is supported. It is recommended to use the <a href=\"http://pecl.php.net/package/uploadprogress\">PECL uploadprogress library</a> if possible."
+msgstr ""
+
+#: filefield.install:176
+msgid "Migrating filefield values"
+msgstr "Dateifeld-Werte migrieren"
+
+#: filefield.install:213
+msgid "The file field %field has been updated with new settings."
+msgstr "Das Dateifeld %field wurde mit neuen Einstellungen aktualisiert."
+
+#: (duplicate) filefield.install:62
+#: ;67 ;72
+msgid "Not enabled"
+msgstr "Nicht aktiviert"
+
+#: (duplicate) filefield.install:63
+msgid "Your server is not capable of displaying file upload progress. File upload progress requires PHP 5.2 and an Apache server."
+msgstr ""
+
+#: (duplicate) filefield.install:68
+msgid "Your server is capable of displaying file upload progress through APC, but it is not enabled. Add <code>apc.rfc1867 = 1</code> to your php.ini configuration. Alternatively, it is recommended to use <a href=\"http://pecl.php.net/package/uploadprogress\">PECL uploadprogress</a>, which supports more than one simultaneous upload."
+msgstr ""
+
+#: (duplicate) filefield.install:77
+msgid "Enabled (<a href=\"http://php.net/manual/en/apc.configuration.php#ini.apc.rfc1867\">APC RFC1867</a>)"
+msgstr "Aktiviert (<a href=\"http://php.net/manual/en/apc.configuration.php#ini.apc.rfc1867\">APC RFC1867</a>)"
+
+#: (duplicate) filefield.install:82
+msgid "Enabled (<a href=\"http://pecl.php.net/package/uploadprogress\">PECL uploadprogress</a>)"
+msgstr "Aktiviert (<a href=\"http://pecl.php.net/package/uploadprogress\">PECL uploadprogress</a>)"
+
+#: (duplicate) filefield.install:86
+msgid "Upload progress"
+msgstr ""
+
+#: filefield.info:0
+msgid "FileField"
+msgstr "Dateifeld"
+
+#: filefield.info:0
+msgid "Defines a file field type."
+msgstr "Definiert einen Dateifeld Typen."
+
+#: filefield.info:0
+#: filefield_meta/filefield_meta.info:0
+msgid "CCK"
+msgstr "CCK"
+
+#: filefield.js:0
+msgid "The selected file %filename cannot be uploaded. Only files with the following extensions are allowed: %extensions."
+msgstr "Die ausgewählte Datei %filename konnte nicht hochgeladen werden. Nur Dateien mit den folgenden Erweiterungen sind zulässig: %extensions."
+

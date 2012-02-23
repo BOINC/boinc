@@ -1,0 +1,13 @@
+; $Id: vud_term.info,v 1.1.2.3 2009/08/15 21:15:46 lut4rp Exp $
+name = Vote Up/Down Terms
+description = "Allows adding an up/down voting widget to taxonomy terms on a node."
+dependencies[] = taxonomy
+dependencies[] = vud
+package = Voting
+core = 6.x
+; Information added by drupal.org packaging script on 2010-10-23
+version = "6.x-2.1"
+core = "6.x"
+project = "vote_up_down"
+datestamp = "1287804648"
+

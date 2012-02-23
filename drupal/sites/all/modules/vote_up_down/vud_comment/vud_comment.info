@@ -1,0 +1,14 @@
+; $Id: vud_comment.info,v 1.1.2.2 2009/08/15 21:15:45 lut4rp Exp $
+name = Vote Up/Down Comments
+description = "Allows adding an up/down voting widget to comments."
+dependencies[] = comment
+dependencies[] = vud
+package = Voting
+core = 6.x
+
+; Information added by drupal.org packaging script on 2010-10-23
+version = "6.x-2.1"
+core = "6.x"
+project = "vote_up_down"
+datestamp = "1287804648"
+

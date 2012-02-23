@@ -1,0 +1,589 @@
+# Dansk translation of filefield (6.x-3.0)
+# Copyright (c) 2009 by the Dansk translation team
+# Generated from files:
+#  filefield_field.inc,v 1.31 2009/04/20 22:30:08 quicksketch
+#  field_file.inc,v 1.32 2009/04/12 21:22:17 quicksketch
+#  filefield.module,v 1.197 2009/04/16 01:00:59 quicksketch
+#  filefield_widget.inc,v 1.86 2009/04/20 22:51:44 quicksketch
+#  filefield.install,v 1.31 2009/04/20 16:51:49 quicksketch
+#  filefield_meta_handler_field_duration.inc,v 1.2 2009/03/19 03:43:37 quicksketch
+#  filefield.info,v 1.9 2009/04/01 08:57:49 quicksketch
+#  filefield_meta.info,v 1.6 2009/04/01 08:57:49 quicksketch
+#  filefield_meta.views.inc,v 1.1 2009/03/11 06:02:24 quicksketch
+#  filefield.token.inc,v 1.4 2009/03/28 06:15:41 quicksketch
+#  filefield.js,v 1.19 2009/04/08 20:01:06 quicksketch
+#  filefield_meta.module,v 1.14 2009/04/20 22:29:24 quicksketch
+#  filefield_meta.install,v 1.6 2009/03/11 06:02:24 quicksketch
+#  filefield_handler_field_data.inc,v 1.1 2009/04/12 19:14:02 quicksketch
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: filefield (6.x-3.0)\n"
+"POT-Creation-Date: 2009-05-30 02:56-0700\n"
+"PO-Revision-Date: 2009-05-30 12:00+0100\n"
+"Language-Team: Dansk <dansk@klid.dk>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n!=1);\n"
+"Last-Translator: Morten Wulff <wulff@ratatosk.net>\n"
+"X-Poedit-Language: Danish\n"
+"X-Poedit-Country: DENMARK\n"
+
+#: filefield_field.inc:20,34
+msgid "Disabled"
+msgstr "Deaktiveret"
+
+#: filefield_field.inc:20,34
+msgid "Enabled"
+msgstr "Aktiveret"
+
+#: field_file.inc:331,329
+msgid "The directory %directory does not exist."
+msgstr "Mappen %directory eksisterer ikke."
+
+#: field_file.inc:340
+msgid "The directory %directory is not writable"
+msgstr "Der kan ikke skrives til mappen %directory."
+
+#: field_file.inc:175
+msgid "File upload error. Could not move uploaded file."
+msgstr "Fejl under upload. Kunne ikke flytte den uploadede fil."
+
+#: filefield.module:656
+msgid "Only files with the following extensions are allowed: %files-allowed."
+msgstr "Kun filer med følgende filendelser er tilladt: %files-allowed."
+
+#: filefield.module:694
+msgid "The file is %filesize exceeding the maximum file size of %maxsize."
+msgstr "Filen er %filesize, som overskrider den maksimale filstørrelse på %maxsize."
+
+#: filefield.module:701
+msgid "The file is %filesize which would exceed your disk quota of %quota."
+msgstr "Filen er på %filesize, som overskrider din kvote på %quota."
+
+#: filefield.module:750
+msgid "The image was resized to fit within the maximum allowed dimensions of %dimensions pixels."
+msgstr "Dit billede er blevet skaleret for at passe til den maksimale opløsning på %dimensions pixels."
+
+#: filefield.module:758
+msgid "The image is too large; the maximum dimensions are %dimensions pixels."
+msgstr "Billedet er for stort; de maksimale dimensioner er %dimensions pixels."
+
+#: filefield.module:766
+msgid "The image is too small; the minimum dimensions are %dimensions pixels."
+msgstr "Billede er for lille; de minimale dimensioner er %dimensions pixels."
+
+#: field_file.inc:320,329,338
+msgid "file system"
+msgstr "filsystem"
+
+#: field_file.inc:338
+msgid "The directory %directory is not writable, because it does not have the correct permissions set."
+msgstr "Der kan ikke skrives til mappen %directory fordi tilladelserne er forkerte."
+
+#: field_file.inc:354
+msgid "security"
+msgstr "sikkerhed"
+
+#: field_file.inc:176
+msgid "file"
+msgstr "fil"
+
+#: filefield_widget.inc:359
+msgid "Description"
+msgstr "Beskrivelse"
+
+#: filefield_widget.inc:369
+msgid "List"
+msgstr "Vis"
+
+#: filefield_widget.inc:275
+msgid "Remove"
+msgstr "Fjern"
+
+#: filefield.install:61,66,71
+msgid "Not enabled"
+msgstr "Ikke aktiveret"
+
+#: filefield_widget.inc:256
+msgid "Upload"
+msgstr "Upload"
+
+#: filefield_meta/includes/filefield_meta_handler_field_duration.inc:38
+msgid "Time format"
+msgstr "Tidsformat"
+
+#: filefield.info:0;
+#: filefield_meta/filefield_meta.info:0
+msgid "CCK"
+msgstr "CCK"
+
+#: filefield_field.inc:32
+msgid "Description field"
+msgstr "Beskrivelse"
+
+#: filefield_meta/includes/filefield_meta.views.inc:39
+msgid "Video width"
+msgstr "Video bredde"
+
+#: filefield_meta/includes/filefield_meta.views.inc:55
+msgid "Video height"
+msgstr "Video højde"
+
+#: filefield_meta/includes/filefield_meta.views.inc:103
+msgid "Audio sample rate"
+msgstr "Lyd samplingsfrekevens"
+
+#: filefield_meta/includes/filefield_meta.views.inc:135
+msgid "Audio bitrate"
+msgstr "Lyd bithastighed"
+
+#: field_file.inc:88
+msgid "Could not set permissions on destination file: %file"
+msgstr "Kan ikke sætte tilladelser på filen %file"
+
+#: filefield.token.inc:19
+msgid "File name"
+msgstr "Filnavn"
+
+#: filefield_meta/includes/filefield_meta.views.inc:21
+msgid "File"
+msgstr "Fil"
+
+#: filefield.token.inc:17
+msgid "File ID"
+msgstr "Fil-ID"
+
+#: filefield.module:407
+msgid "Path to file"
+msgstr "Sti til fil"
+
+#: filefield.module:412
+msgid "URL to file"
+msgstr "URL til fil"
+
+#: filefield.install:175
+msgid "Migrating filefield values"
+msgstr "Flytter filefield-værdier"
+
+#: filefield_meta/includes/filefield_meta.views.inc:71
+msgid "Duration"
+msgstr "Varighed"
+
+#: filefield.js:0
+msgid "The selected file %filename cannot be uploaded. Only files with the following extensions are allowed: %extensions."
+msgstr "Den valgte fil %filename kan ikke uploades. Kun filer med følgende endelser er tilladt: %extensions."
+
+#: filefield_widget.inc:19
+msgid "Permitted upload file extensions"
+msgstr "Tilladte filendelser"
+
+#: filefield_widget.inc:22
+msgid "Extensions a user can upload to this field. Separate extensions with a space and do not include the leading dot. Leaving this blank will allow users to upload a file with any extension."
+msgstr "Filendelser som brugeren kan uploade til dette felt. Adskil endelser med mellemrum og udelad punktummet. Lad feltet stå tomt for at lade brugerne uploade filer med alle endelser."
+
+#: filefield.token.inc:20;
+#: filefield_widget.inc:48
+msgid "File path"
+msgstr "Filsti"
+
+#: filefield.token.inc:18
+msgid "File description"
+msgstr "Filbeskrivelse"
+
+#: filefield.token.inc:21
+msgid "File MIME type"
+msgstr "Fil MIME-type"
+
+#: filefield.token.inc:24
+msgid "Fully formatted HTML file tag"
+msgstr "Fuldt formatteret HTML fil-tag"
+
+#: field_file.inc:88;
+#: filefield_field.inc:268;
+#: filefield_widget.inc:172,178;
+#: filefield.module:0
+msgid "filefield"
+msgstr "filefield"
+
+#: filefield.info:0
+msgid "Defines a file field type."
+msgstr "Definerer en fil felttype."
+
+#: filefield_meta/filefield_meta.module:0
+msgid "filefield_meta"
+msgstr "filefield_meta"
+
+#: field_file.inc:163
+msgid "The selected file %name could not be saved."
+msgstr "Den valgte fil %name kan ikke gemmes."
+
+#: field_file.inc:176
+msgid "Upload error. Could not move file %file to destination %destination."
+msgstr "Fejl ved upload. Kan ikke flytte filen %file til destinationen %destination."
+
+#: filefield_field.inc:35
+msgid "When enabled, will display a text field where users may enter a description about the uploaded file."
+msgstr "Viser et tekstfelt hvor brugerne kan indtaste en beskrivelse af den uploadede fil."
+
+#: filefield_widget.inc:41
+msgid "Path settings"
+msgstr "Indstillinger for sti"
+
+#: filefield_widget.inc:57
+msgid "File size restrictions"
+msgstr "Grænser for filstørrelse"
+
+#: filefield_widget.inc:58
+msgid "Limits for the size of files that a user can upload. Note that these settings only apply to newly uploaded files, whereas existing files are not affected."
+msgstr "Grænser for størrelsen af filer en bruger kan uploade. Bemærk at disse indstillinger kun gælder for nye filer, mens eksiterende filer ikke påvirkes."
+
+#: filefield_widget.inc:65,108
+msgid "Maximum upload size per file"
+msgstr "Maksimal upload-størrelse pr. fil"
+
+#: filefield_widget.inc:74,117
+msgid "Maximum upload size per node"
+msgstr "Maksimal upload-størrelse pr. indholdselement"
+
+#: filefield_widget.inc:78
+msgid "Specify the total size limit for all files in field on a given node. Enter a value like \"512\" (bytes), \"80K\" (kilobytes) or \"50M\" (megabytes) in order to restrict the total size of a node. Leave this empty if there should be no size restriction."
+msgstr "Angiv den samlede størrelsesgrænse for alle filer i feltet på et givet indholdselement. Indtast en værdi som \"512\" (bytes), \"80K\" (kilobytes) eller \"50M\" (megabytes) for at begrænse den samlede størrelse af et indholdselement. Lad feltet stå tomt hvis der ikke skal være nogen begrænsning."
+
+#: filefield_widget.inc:173
+msgid "The file could not be uploaded."
+msgstr "Filen kan ikke uploades."
+
+#: filefield_widget.inc:523
+msgid "%title field is required."
+msgstr "%title-feltet er obligatorisk."
+
+#: filefield_widget.inc:527
+msgid "Total filesize for %title, %tsize, exceeds field settings of %msize."
+msgstr "Samlet filstørrelse for %title, %tsize, overskrider feltindstillingerne på %msize."
+
+#: filefield_widget.inc:172
+msgid "The upload directory %directory for the file field %field (content type %type) could not be created or is not accessible. A newly uploaded file could not be saved in this directory as a consequence, and the upload was canceled."
+msgstr "Upload-mappen %directory for feltet %field (indholdstype %type) kan ikke oprettes eller er ikke tilgængelig. En nyligt uploadet fil kan ikke gemmes i denne mappe, og overførslen er annulleret."
+
+#: filefield_widget.inc:178
+msgid "The file upload failed. %upload"
+msgstr "Upload af fil mislykkedes. %upload"
+
+#: filefield.module:241
+msgid "Store an arbitrary file."
+msgstr "Gem en vilkårlig fil."
+
+#: filefield.module:386
+msgid "File Upload"
+msgstr "Fil upload"
+
+#: filefield.module:390
+msgid "A plain file upload widget."
+msgstr "En simpel upload-widget."
+
+#: filefield.module:401
+msgid "Generic files"
+msgstr "Generiske filer"
+
+#: filefield.module:404
+msgid "Displays all kinds of files with an icon and a linked file description."
+msgstr "Viser alle typer af filer med et ikon og en link til en filbeskrivelse."
+
+#: filefield.module:668
+msgid "Allowed Extensions: %ext"
+msgstr "Tilladte endelser: %ext"
+
+#: filefield.module:711
+msgid "Maximum Filesize: %size"
+msgstr "Maksimal filstørrelse: %size"
+
+#: filefield.module:781
+msgid "Images must be exactly @min_size pixels"
+msgstr "Billedet skal være præcis @min_size pixels"
+
+#: filefield.module:784
+msgid "Images must be between @min_size pixels and @max_size"
+msgstr "Billedet skal være mellem @min_size og @max_size"
+
+#: filefield.module:789
+msgid "Images larger than @max_size pixels will be scaled"
+msgstr "Billeder større en @max_size skaleres"
+
+#: filefield.module:792
+msgid "Images must be smaller than @max_size pixels"
+msgstr "Billeder skal være mindre en @max_size pixels"
+
+#: filefield.module:797
+msgid "Images must be larger than @max_size pixels"
+msgstr "Billeder skal være større end @max_size pixels"
+
+#: filefield.token.inc:22
+msgid "File size (in bytes)"
+msgstr "Filstørrelse (i bytes)"
+
+#: filefield.token.inc:23
+msgid "File size (pretty printed)"
+msgstr "Filstørrelse (læsevenlig)"
+
+#: filefield.info:0
+msgid "FileField"
+msgstr "FileField"
+
+#: filefield_meta/filefield_meta.install:25
+msgid "The table for meta data about filefield files."
+msgstr "Tabel med metadata om filefield filer."
+
+#: filefield_meta/filefield_meta.install:28
+msgid "The file id."
+msgstr "Fil IDet."
+
+#: filefield_meta/filefield_meta.install:34;
+#: filefield_meta/includes/filefield_meta.views.inc:40
+msgid "Width of a video or image file in pixels."
+msgstr "Bredden af en video- eller billedfil i pixels."
+
+#: filefield_meta/filefield_meta.install:40;
+#: filefield_meta/includes/filefield_meta.views.inc:56
+msgid "Height of a video or image file in pixels."
+msgstr "Højden af en video- eller billedfil i pixels."
+
+#: filefield_meta/filefield_meta.install:46;
+#: filefield_meta/includes/filefield_meta.views.inc:72
+msgid "The duration of audio or video files, in seconds."
+msgstr "Varigheden af en lyd- eller videofil i sekunder."
+
+#: filefield_meta/filefield_meta.info:0
+msgid "FileField Meta"
+msgstr "FileField Meta"
+
+#: filefield_meta/filefield_meta.info:0
+msgid "Add metadata gathering and storage to FileField."
+msgstr "Tilføj håndtering af metadata til FileField."
+
+#: field_file.inc:353,354
+msgid "Security warning: Couldn't write .htaccess file. Please create a .htaccess file in your %directory directory which contains the following lines:<br /><code>!htaccess</code>"
+msgstr "Sikkerhedsadvarsel: Kan ikke skrive .htaccess-fil. Opret venligst en .htaccess-fil i mappen %directory med følgende indhold:<br /><code>!htaccess</code>"
+
+#: filefield_widget.inc:69
+msgid "Specify the size limit that applies to each file separately. Enter a value like \"512\" (bytes), \"80K\" (kilobytes) or \"50M\" (megabytes) in order to restrict the allowed file size. If you leave this empty the file sizes will be limited only by PHP's maximum post and file upload sizes (current limit <strong>%limit</strong>)."
+msgstr "Angiv størrelsesgrænse for hver enkelt fil. Indtast en værdi som \"512\" (bytes), \"80K\" (kilobytes) eller \"50M\" (megabytes) for at begrænse den tilladte filstørrelse. Hvis du lader feltet stå tomt begrænses filstørrelsen kun af PHPs maksimale post- og file_upload-størrelser (aktuel grænse <strong>%limit</strong>)."
+
+#: filefield.token.inc:26
+msgid "File extension"
+msgstr "Filendelse"
+
+#: field_file.inc:322
+msgid "The directory %directory is a file and cannot be overwritten."
+msgstr "Mappen %directory er en fil og kan ikke overskrives."
+
+#: field_file.inc:320
+msgid "The path %directory was checked as a directory, but it is a file."
+msgstr "Stien %directory blev undersøgt som en mappe, men det er en fil."
+
+#: filefield.token.inc:25
+msgid "File name without extension"
+msgstr "Filnavn uden udvidelse"
+
+#: filefield_field.inc:19
+msgid "List field"
+msgstr "Vis-felt"
+
+#: filefield_field.inc:22
+msgid "The \"list\" option lets a user choose if a file should shown in a list when viewing the content after creation."
+msgstr "Feltet \"Vis\" lader brugeren vælge om filen skal vises på en listen når indholdet vises efter oprettelse."
+
+#: filefield_field.inc:27
+msgid "Files listed by default"
+msgstr "Filer vises som standard"
+
+#: filefield_field.inc:268
+msgid "FileField was trying to display the file %file, but it does not exist."
+msgstr "FileField forsøgte at vise filen %file, men den eksisterer ikke."
+
+#: filefield_widget.inc:28
+msgid "Progress indicator"
+msgstr "Fremdriftsindikator"
+
+#: filefield_widget.inc:30
+msgid "Bar with progress meter"
+msgstr "Bjælke med fremdriftsmåler"
+
+#: filefield_widget.inc:31
+msgid "Throbber"
+msgstr "Throbber"
+
+#: filefield_widget.inc:34
+msgid "Your server supports upload progress capabilities. The \"throbber\" display does not indicate progress but takes up less room on the form, you may want to use it if you'll only be uploading small files or if experiencing problems with the progress bar."
+msgstr "Din server er i stand til at vise upload-fremdrift. \"Throbber\"-visningen indikerer ikke fremdrift, men bruger mindre plads i formularen, så det kan være en ide at bruge den hvis du kun uploader mindre filer eller hvis du oplever problemer med fremdriftslinjen."
+
+#: filefield_widget.inc:50
+msgid "Optional subdirectory within the \"%directory\" directory where files will be stored. Do not include preceding or trailing slashes."
+msgstr "Valgfri undermappen i \"%directory\"-mappen hvor filer gemmes. Udelad indledende og afsluttende skråstreger."
+
+#: filefield_widget.inc:99
+msgid "The file path (@file_path) cannot start with the system files directory (@files_directory), as this may cause conflicts when building file URLs."
+msgstr "Filstien (@file_path) kan ikke starte med systemets filmappe (@directory), da det kan give problemer ved opbygning af fil-URLer."
+
+#: filefield_widget.inc:108,117
+msgid "The \"@field\" option must contain a valid value. You can either leave the text field empty or enter a string like \"512\" (bytes), \"80K\" (kilobytes) or \"50M\" (megabytes)."
+msgstr "\"@field\" skal indeholde en gyldig værdi. Du kan enten lade feltet stå tomt eller indtaste en tekststreng som \"512\" (bytes), \"80K\" (kilobytes) eller \"50M\" (megabytes)."
+
+#: filefield_widget.inc:179
+msgid "The file in the @field field was unable to be uploaded."
+msgstr "Filen i @field kunne ikke uploades."
+
+#: filefield_widget.inc:421
+msgid "Referencing to the file used in the %field field is not allowed."
+msgstr "Det er ikke tilladt at referere til filen i %field-feltet."
+
+#: filefield_widget.inc:426
+msgid "The file referenced by the %field field does not exist."
+msgstr "Filen der refereres til fra %field-feltet eksisterer ikke."
+
+#: filefield.module:409
+msgid "Displays the file system path to the file."
+msgstr "Viser filens filsystemsti."
+
+#: filefield.module:414
+msgid "Displays a full URL to the file."
+msgstr "Viser filens fulde URL."
+
+#: filefield.module:484
+msgid "An unrecoverable error occurred. The uploaded file likely exceeded the maximum file size (@size) that this server supports."
+msgstr "Der opstod en uoprettelig fejl. Den uploadede fil overskred sandsynligvis den maksimale filstørrelse (@size) som denne server understøtter."
+
+#: filefield.module:496
+msgid "An unrecoverable error occurred. This form was missing from the server cache. Try reloading the page and submitting again."
+msgstr "Der opstod en uoprettelig fejl. Denne formular mangler i serverens cache. Prøv at genindlæse siden og indsende formularen igen."
+
+#: filefield.module:567
+msgid "Starting upload..."
+msgstr "Starter upload…"
+
+#: filefield.module:575,582
+msgid "Uploading... (@current of @total)"
+msgstr "Uploader… (@current of @total)"
+
+#: filefield.module:651
+msgid "The file contents (@type) do not match its extension (@extension)."
+msgstr "Filens indhold (@type) svare ikke til dens endelse (@extension)."
+
+#: filefield.module:742
+msgid "The image must be exactly %dimensions pixels."
+msgstr "Billedet skal være nøjagtigt %dimensions pixels."
+
+#: filefield.module:746
+msgid "The image will not fit between the dimensions of %min_dimensions and %max_dimensions pixels."
+msgstr "Billedet passer ikke mellem grænserne på %min_dimensions og %max_dimensions pixels."
+
+#: filefield.module:821
+msgid "The file is not a known image format."
+msgstr "Filen er ikke et kendt billedformat."
+
+#: filefield.install:72
+msgid "Your server is capable of displaying file upload progress, but does not have the required libraries. It is recommended to install the <a href=\"http://pecl.php.net/package/uploadprogress\">PECL uploadprogress library<a> (prefered) or to install <a href=\"http://us2.php.net/apc\">APC</a>."
+msgstr "Din server er i stand til at vise upload-fremdrift, men har ikke de nødvendige biblioteker. Det anbefales at installere <a href=\"http://pecl.php.net/package/uploadprogress\">PECL uploadprogress</a> (foretrukket) eller <a href=\"http://php.net/apc\">APC</a>."
+
+#: filefield.install:77
+msgid "Your server is capable of displaying file upload progress using APC RFC1867. Note that only one upload at a time is supported. It is recommneded to use the <a href=\"http://pecl.php.net/package/uploadprogress\">PECL uploadprogress library<a> if possible."
+msgstr "Din server kan vise upload-fremdrift gennem APC RFC1867. Bemærk at kun én upload ad gangen er understøttet. Det anbefales at bruge <a href=\"http://pecl.php.net/package/uploadprogress\">PECL uploadprogress</a>, som understøtter mere end én samtidige uploads."
+
+#: filefield.install:212
+msgid "The file field %field has been updated with new settings."
+msgstr "File-feltet %felt er blevet opdateret med nye indstillinger."
+
+#: filefield.install:62
+msgid "Your server is not capable of displaying file upload progress. File upload progress requires PHP 5.2 and an Apache server."
+msgstr "Din server er ikke i stand til at vise upload-fremdrift. Upload-fremdrift kræver PHP 5.2 og en Apache server."
+
+#: filefield.install:67
+msgid "Your server is capable of displaying file upload progress through APC, but it is not enabled. Add <code>apc.rfc1867 = 1</code> to your php.ini configuration. Alternatively, it is recommended to use <a href=\"http://pecl.php.net/package/uploadprogress\">PECL uploadprogress</a>, which supports more than one simultaneous upload."
+msgstr "Din server kan vise upload-fremdrift gennem APC, men det er ikke aktiveret. Tilføj <code>apc.rfc1867 = 1</code> til din php.ini-konfiguration. Alternativt anbefales det at bruge <a href=\"http://pecl.php.net/package/uploadprogress\">PECL uploadprogress</a>, som understøtter mere end én samtidige uploads."
+
+#: filefield.install:76
+msgid "Enabled (<a href=\"http://php.net/manual/en/apc.configuration.php#ini.apc.rfc1867\">APC RFC1867</a>)"
+msgstr "Aktiveret (<a href=\"http://php.net/manual/en/apc.configuration.php#ini.apc.rfc1867\">APC RFC1867</a>)"
+
+#: filefield.install:81
+msgid "Enabled (<a href=\"http://pecl.php.net/package/uploadprogress\">PECL uploadprogress</a>)"
+msgstr "Aktiveret (<a href=\"http://pecl.php.net/package/uploadprogress\">PECL uploadprogress</a>)"
+
+#: filefield.install:85
+msgid "Upload progress"
+msgstr "Upload-fremdrift"
+
+#: filefield_meta/filefield_meta.install:52,96;
+#: filefield_meta/includes/filefield_meta.views.inc:88
+msgid "The audio format."
+msgstr "Lydformatet"
+
+#: filefield_meta/filefield_meta.install:59,103;
+#: filefield_meta/includes/filefield_meta.views.inc:104
+msgid "The sample rate of the audio."
+msgstr "Lydens samplingsfrekvens"
+
+#: filefield_meta/filefield_meta.install:66;
+#: filefield_meta/includes/filefield_meta.views.inc:120
+msgid "The number of channels in the audio, by name (stereo or mono)."
+msgstr "Antallet af kanaler, efter navn (stereo eller mono)."
+
+#: filefield_meta/filefield_meta.install:73,117;
+#: filefield_meta/includes/filefield_meta.views.inc:136
+msgid "The audio bitrate."
+msgstr "Lydens bithastighed"
+
+#: filefield_meta/filefield_meta.install:80;
+#: filefield_meta/includes/filefield_meta.views.inc:152
+msgid "The kind of audio bitrate, such as VBR. Usually empty."
+msgstr "Typen af bithastighed, som f.eks. VBR. Normalt tom."
+
+#: filefield_meta/filefield_meta.install:110
+msgid "The number of channels in the audio, by name."
+msgstr "Antallet af kanaler, efter navn."
+
+#: filefield_meta/filefield_meta.install:124
+msgid "The kind of audio bitrate."
+msgstr "Typen af bithastighed."
+
+#: filefield_meta/includes/filefield_meta.views.inc:87
+msgid "Audio format"
+msgstr "Lydformat"
+
+#: filefield_meta/includes/filefield_meta.views.inc:119
+msgid "Audio channel mode"
+msgstr "Lyd kanaltilstand"
+
+#: filefield_meta/includes/filefield_meta.views.inc:151
+msgid "Audio bitrate mode"
+msgstr "Lyd bithastighedstilstand"
+
+#: filefield_meta/includes/filefield_meta_handler_field_duration.inc:41
+msgid "Default (usually mm:ss)"
+msgstr "Standard (typisk mm:ss)"
+
+#: filefield_meta/includes/filefield_meta_handler_field_duration.inc:42
+msgid "Hours: h"
+msgstr "Timer: h"
+
+#: filefield_meta/includes/filefield_meta_handler_field_duration.inc:43
+msgid "Minutes: mm"
+msgstr "Minutter: mm"
+
+#: filefield_meta/includes/filefield_meta_handler_field_duration.inc:44
+msgid "Seconds: ss"
+msgstr "Sekunder: ss"
+
+#: filefield_meta/includes/filefield_meta_handler_field_duration.inc:45
+msgid "Total seconds"
+msgstr "Sekunder totalt"
+
+#: views/filefield_handler_field_data.inc:21
+msgid "Data key"
+msgstr "Datanøgle"
+
+#: views/filefield_handler_field_data.inc:27
+msgid "The data column may (or may not) contain any of the following data. Select the data that should be output for this field."
+msgstr "Datakolonnen kan indeholde følgende data. Vælg data som skal udskrives for dette felt."
+

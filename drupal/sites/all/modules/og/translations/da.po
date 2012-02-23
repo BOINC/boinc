@@ -1,0 +1,625 @@
+# Danish translation of Drupal (og.module)
+# Copyright 2005 Lennart Kiil <lennart@zensci.com>
+msgid ""
+msgstr ""
+"Project-Id-Version: Danish translation of Drupal (og.module) $Id: da.po,v 1.1 2008/05/04 21:41:54 hass Exp $\n"
+"POT-Creation-Date: 2005-06-08 10:55+0200\n"
+"PO-Revision-Date: 2006-01-13 15:29+0100\n"
+"Last-Translator: Morten Wulff <wulff@tem.dtu.dk>\n"
+"Language-Team: Danish Language Team <danish@psyke.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Poedit-Language: Danish\n"
+"X-Poedit-Country: DENMARK\n"
+
+msgid "Organic groups"
+msgstr "Organiske grupper"
+
+msgid "A group provides home page for like minded users. There they post articles about their shared interest."
+msgstr "En gruppe giver en hjemmeside for brugere med fælles iteresse. Her kan de kommunikere den fælles interesse."
+
+msgid "Group specific blocks are only visible on group pages and not on systemwide pages like the home page or admin pages."
+msgstr "Gruppeblokke er kun synlige på gruppesider og ikke på systemsider som forsiden og administrationssiderne."
+
+msgid "In order to let group admins determine their own group theme, you must enable mutliple themes using %page. To enable admins to upload a group image, you must activate and configure image.module (see Contributions repository)."
+msgstr "Hvis du vil lade gruppe administratorer bestemme deres eget tema, skal du først aktivere flere temaer med %page. For at lade administratorer overføre et gruppebillede, skal du først aktivere og konfigurere image.module (se Contributions arkivet)."
+
+msgid "theme configuration page"
+msgstr "Tema konfigurationsside"
+
+msgid "subscribe to group"
+msgstr "Abonnér på gruppe"
+
+msgid "group image (large)"
+msgstr "gruppebillede (stort)"
+
+msgid "group"
+msgstr "gruppe"
+
+msgid "groups"
+msgstr "grupper"
+
+msgid "unsubscribe from group"
+msgstr "Opsig abonnement på gruppe"
+
+msgid "approve subscription request"
+msgstr "Godkend abonnementsansøgning"
+
+msgid "deny subscription request"
+msgstr "Nægt abonnementsansøgning"
+
+msgid "create group administrator"
+msgstr "Opret gruppe-administrator"
+
+msgid "delete group administrator"
+msgstr "Slet gruppe-administrator"
+
+msgid "remove post from group"
+msgstr "Fjern indlæg fra gruppe"
+
+msgid "group feed"
+msgstr "gruppe feed"
+
+msgid "albums"
+msgstr "albums"
+
+msgid "album"
+msgstr "album"
+
+msgid "subscriber management"
+msgstr "Abonnemtsstyring"
+
+msgid "list"
+msgstr "liste"
+
+msgid "add subscribers"
+msgstr "tilføj abonnementer"
+
+msgid "manage subscription"
+msgstr "håndter abonnementer"
+
+msgid "send invitation"
+msgstr "send invitation"
+
+msgid "email"
+msgstr "e-mail"
+
+msgid "home"
+msgstr "hjem"
+
+msgid "Send email to %group"
+msgstr "Send email til %group"
+
+msgid "Your email body may not be blank"
+msgstr "Din e-mail må ikke være tom"
+
+msgid "Your email subject may not be blank"
+msgstr "Din e-mails emne må ikke være tomt"
+
+msgid ""
+"\n"
+"\n"
+"--------------------------------\n"
+"This message was sent by an administrator in the '%group' group at %site. To visit this group, browse to %url1. To unsubscribe from this group, visit %url2"
+msgstr ""
+"\n"
+"\n"
+"--------------------------------\n"
+"Denne besked blev sent af en administrator i '%group' gruppe fra %site. For at besøge gruppen, gå til %url1. For at opsige dit abonnement på denne gruppe, besøg %url2"
+
+msgid "%count emails sent."
+msgstr "%count e-mails sendt"
+
+msgid "Your email will be sent to %count in this group. Please use this feature sparingly."
+msgstr "Din e-mail vil blive sendt til %count i denne gruppe. Brug venligst denne funktion sjældent."
+
+msgid "Subject"
+msgstr "Emne"
+
+msgid "Enter a subject for your email."
+msgstr "Skriv et emne for din e-mail."
+
+msgid "Body"
+msgstr "Indhold"
+
+msgid "Enter a body for your email."
+msgstr "Skriv indhold i din e-mail."
+
+msgid "Send email"
+msgstr "Send e-mail"
+
+msgid "Subscription saved."
+msgstr "Abonnement gemt."
+
+msgid "Goodbye"
+msgstr "Farvel"
+
+msgid "Unsubscribe from this group"
+msgstr "Opsig abonnement på denne gruppe"
+
+msgid "disabled"
+msgstr "Ikke aktiveret"
+
+msgid "enabled"
+msgstr "Aktiveret"
+
+msgid "Do you want to receive an email each time a message is posted to this group?"
+msgstr "Vil du modtage en e-mail hver gang en besked skrives her i denne gruppe?"
+
+msgid "Submit"
+msgstr "Indsend"
+
+msgid "Subscription request approved."
+msgstr "Abonnementansøgning godkendt"
+
+msgid "Subscription request approved for '%title'"
+msgstr "Abonnementansøgning godkendt for '%title'"
+
+msgid "You may now post messages in this group located at %url"
+msgstr "Du kan nu skrive beskeder i gruppen her %url"
+
+msgid "Subscription request denied."
+msgstr "Abonnementansøgning afvist"
+
+msgid "Subscription request denied for %title"
+msgstr "Abonnementansøgning afvist for %title"
+
+msgid "Sorry, your subscription request was denied."
+msgstr "Desværre, din abonnementansøgning blev afvist"
+
+msgid "User was promoted to <em> group administrator</em>"
+msgstr "Bruger blev forfremmet til <em> gruppe-administrator </em>"
+
+msgid "User is no longer a group administrator"
+msgstr "Bruger er ikke længere gruppe-administrator"
+
+msgid "Post removed from group."
+msgstr "Indlæg fjernet fra gruppen."
+
+msgid "Confirmation"
+msgstr "Bekræftelse"
+
+msgid "Remove %title from this group."
+msgstr "Fjern %title fra denne gruppe"
+
+msgid "Remove"
+msgstr "Fjern"
+
+# c:\Contributions\modules\og\og.module:328
+msgid "You may not specify more than %max email addresses."
+msgstr "Du kan ikke angive flere end %max e-post adresser."
+
+msgid "invalid email address: "
+msgstr "ugyldig e-mail adresse"
+
+msgid "Invitation to join the group \"%group\" at %site"
+msgstr "Invitation til at blive medlem af gruppen \"%group\" på %site"
+
+msgid ""
+"Hi. I'm a member of '%group' and I welcome you to join this group as well. Please see the link and message below.\n"
+"\n"
+msgstr ""
+"Hej. Jeg er medlem af '%group' , og jeg inviterer dig til at indmelde dig også. Se venligst link og besked nedenfor.\n"
+"\n"
+
+msgid "Subscribe: %url"
+msgstr "Abonnér: %url"
+
+msgid "%count invitations sent."
+msgstr "%count invitationer sendt"
+
+msgid "Email addresses"
+msgstr "E-mail adresser"
+
+# c:\Contributions\modules\og\og.module:376
+msgid "Enter up to %max email addresses. Separate multiple addresses by commas. Each will receive an invitation message from you."
+msgstr "Indtast op til %max e-post adresser. Adskil adresser med komma. Hver adresse modtager en invitaion fra dig."
+
+msgid "Personal message"
+msgstr "Personlig besked"
+
+msgid "Optional. Enter a message which will become part of the invitation email"
+msgstr "Valgfrit. Skriv en besked, der vil blive en del af invitations e-mailen"
+
+msgid "Send invitation"
+msgstr "Send invitation"
+
+msgid "In order to subscribe to this group, you must login or register a new account. After you have successfully done so, you will need to follow the <em>subscribe</em> link again."
+msgstr "For at abonnere på denne gruppe, må du først logge ind eller oprette en konto. Efter du har gjort det, kan du følge <em>abonnér</em> linket igen. "
+
+msgid "Subscription request awaits approval by an administrator."
+msgstr "Abonnementansøgning venter på behandling fra en administrator."
+
+msgid "User subscribed to group,"
+msgstr "Bruger abonnerede på gruppe,"
+
+msgid "Subscription request for '%group' from '%name'"
+msgstr "Abonnementansøgning til '%group' fra '%name'"
+
+msgid "You may approve or deny this request at %url"
+msgstr "Du kan godkende eller afvise denne ansøgning ved %url"
+
+msgid "User unsubscribed from group."
+msgstr "Bruger opsagt abonnement på gruppe."
+
+msgid "%count added to the group"
+msgstr "%count tilføjet til gruppen"
+
+msgid "Unrecognized %names: "
+msgstr "Ukendte %names:"
+
+msgid "List of users"
+msgstr "Liste over brugere"
+
+msgid "Add one or more usernames in order to associate users with this group. Multiple usernames should be separated by a comma."
+msgstr "Tilføj et eller flere brugernavne til gruppen. Flere brugernavne adskilles med komma."
+
+msgid "Name"
+msgstr "Navn"
+
+msgid "Operations"
+msgstr "Handlinger"
+
+msgid "manager"
+msgstr "manager"
+
+msgid "edit group"
+msgstr "rediger gruppe"
+
+msgid "unsubscribe"
+msgstr "opsig abonnement"
+
+msgid "admin: remove"
+msgstr "admin: fjern"
+
+msgid "admin: create"
+msgstr "admin: tilføj"
+
+msgid "approve"
+msgstr "godkend"
+
+msgid "deny"
+msgstr "afvis"
+
+msgid "Home"
+msgstr "Hjem"
+
+msgid "Subscribers"
+msgstr "Abonnementer"
+
+msgid "Title"
+msgstr "Titel"
+
+msgid "Owner"
+msgstr "Ejer"
+
+msgid "Description"
+msgstr "Beskrivelse"
+
+msgid "No groups"
+msgstr "Ingen grupper"
+
+msgid "No posts in this group."
+msgstr "Ingen indlæg i denne gruppe."
+
+msgid "Subscription requests"
+msgstr "Abonnementsansøgninger"
+
+msgid "open - subscription requests are accepted immediately"
+msgstr "åben - abonnementansøgninger godkendes straks"
+
+msgid "moderated - subscription requests must be approved."
+msgstr "modereret - abonnemtansøgninger skal godkendes"
+
+msgid "invite only - subscriptions must be created by an administrator."
+msgstr "invitation kræves - abonnementer kan kun tilføjes af administrator"
+
+msgid "How should subscription requests be handled in this group?"
+msgstr "Hvordan behandles abonnementansøgninger i denne gruppe?"
+
+# c:\Contributions\modules\og\og.module:709
+msgid "registration form"
+msgstr "registreringsformular"
+
+msgid "Should this group be available for subscription during registration?. If checked, a corresponding checkbox will be added to the registration form."
+msgstr "Skal gruppem være tilgængelig for abonnement under registrering? Hvis afkrydset, vil en tilsvarende afkrydsningsboks blive tilføjet registreringsformularen."
+
+# c:\Contributions\modules\og\og.module:710
+msgid "list in groups directory"
+msgstr "vis i gruppeoversigt"
+
+# c:\Contributions\modules\og\og.module:710
+msgid "Should this group appear on the %page"
+msgstr "Skal gruppen vises på %page"
+
+msgid "Thumbnail"
+msgstr "Thumbnail"
+
+msgid "Image"
+msgstr "Billede"
+
+msgid "Click \"Browse...\" to select an image to upload."
+msgstr "Klik \"Browse...\" for at vælge et billede at uploade."
+
+msgid "Screenshot for %theme theme"
+msgstr "Screenshot for %theme tema"
+
+msgid "no screenshot"
+msgstr "Intet screenshot"
+
+msgid "Screenshot"
+msgstr "Screenshot"
+
+msgid "Selected"
+msgstr "Valgt"
+
+msgid "Group theme"
+msgstr "Gruppetema"
+
+msgid "Select a theme for your group."
+msgstr "Vælg a tema til din gruppe."
+
+msgid "You must select an audience in order to post."
+msgstr "Du skal vælge et publikum for at kunne indsende."
+
+msgid "%name must be a subscriber in order to post into %group"
+msgstr "%name skal være abonnement for at kunne indsende til %group"
+
+msgid "You must subscribe to a group before posting."
+msgstr "Du skal abonnere på en gruppe før indsending."
+
+msgid "Admins: If you want to assign this post to a group whose checkbox does not appear below, you must first change the %author. The author's subscriptions are always shown."
+msgstr "Admins: Hvis du vil tilføje dette indlæg til en gruppe hvis afkrydsningsfelt ikke findes nedenfor, må du først ændre %author. Forfatterens abonnementer bliver altid vist."
+
+msgid "Author"
+msgstr "Forfatter"
+
+msgid "Public"
+msgstr "Offentlig"
+
+msgid "Show this post to everyone or only to members of the checked selected below."
+msgstr "Hvis indlægget til alle eller kun til medlemmer af afkrydsede herunder."
+
+msgid "Audience"
+msgstr "Publikum"
+
+msgid "Show this post in these groups."
+msgstr "Vis dette indlæg i disse grupper."
+
+msgid "%author added '%title' at %site"
+msgstr "%author tilføjede '%title' på %site"
+
+msgid "EXCERPT"
+msgstr "UDDRAG"
+
+msgid "FULL POST"
+msgstr "HELT INDLÆG"
+
+msgid "You are subscribed to the group '%group_name' at '%site'. To manage your subscription, visit %group_url"
+msgstr "Du abonnerer på gruppen '%group_name' på '%site'. For at håndtere dit abonnement, besøg %group_url "
+
+msgid "Subscribe to %name"
+msgstr "Abonnér på %name"
+
+msgid "(approval needed)"
+msgstr "(godkendelse nødvendig)"
+
+msgid "Groups"
+msgstr "Grupper"
+
+# c:\Contributions\modules\og\og.module:1082
+msgid "your group subscriptions are here for your convenience. they do not appear on the public profile page."
+msgstr "dine gruppeabonnementer vises her som en hjælp til dig. De optræder ikke på din offentlige profilside."
+
+msgid "Organic groups access control has been disabled. You may now disable the module on the <em>%modules</em> page"
+msgstr "Organiske grupper adgangskontrol er deaktiveret. Du kan nu deaktivere modulet på <em>%modules</em> siden"
+
+msgid "admin/modules"
+msgstr "admin/modules"
+
+msgid "Organic groups access control enabled."
+msgstr "Organiske grupper adgangskontrol aktiveret"
+
+msgid "add to this album"
+msgstr "tilføj til dette album"
+
+msgid "Album Title"
+msgstr "Album titel"
+
+msgid "Photo"
+msgstr "Foto"
+
+msgid "You must specify an album title."
+msgstr "Du skal specificere en album titel."
+
+msgid "album saved."
+msgstr "album gemt."
+
+msgid "Group details"
+msgstr "Gruppe detaljer"
+
+msgid "Group albums"
+msgstr "Gruppe albums"
+
+msgid "Group subscribers"
+msgstr "Gruppemedlemmer"
+
+msgid "New groups"
+msgstr "Nye grupper"
+
+msgid "My groups"
+msgstr "Mine grupper"
+
+# c:\Contributions\modules\og\og.module:1376
+msgid "Maximum number of items to show"
+msgstr "Antal elementer der vises"
+
+msgid "more"
+msgstr "mere"
+
+msgid "Browse the newest groups."
+msgstr "Gennemse nyeste grupper."
+
+msgid "submitted by %name. "
+msgstr "indsendt af %name."
+
+msgid "Albums"
+msgstr "Albums"
+
+msgid "View all subscribers."
+msgstr "Se alle abonnementer."
+
+msgid "Recent subscribers"
+msgstr "Nylige abonnementer"
+
+msgid "invite friend"
+msgstr "inviter en ven"
+
+msgid "age: %age"
+msgstr "alder: %age"
+
+msgid "group manager: "
+msgstr "gruppe manager:"
+
+msgid "my subscription"
+msgstr "mit abonnement"
+
+msgid "Your subscription request awaits approval."
+msgstr "Din abonnementansøgning afventer godkendelse."
+
+msgid "delete request"
+msgstr "slet forespørgsel"
+
+msgid "request subscription"
+msgstr "ansøg om abonnement"
+
+msgid "subscribe"
+msgstr "abonnér"
+
+msgid "create %type"
+msgstr "tilføj %type"
+
+msgid "Add a new %s in this group."
+msgstr "Tilføj en ny %s i denne gruppe."
+
+msgid "create album"
+msgstr "tilføj album"
+
+msgid "remove from group"
+msgstr "fjern fra denne gruppe"
+
+msgid "Organic groups configuration"
+msgstr "Organiske grupper konfiguration"
+
+msgid "Enable"
+msgstr "Aktiver"
+
+msgid "Disable"
+msgstr "Deaktiver"
+
+msgid "Organic groups access control is currently"
+msgstr "Organiske grupper adgangskontrol er på nuværende tidspunkt"
+
+msgid "Module status"
+msgstr "Modul status"
+
+msgid "After enabling this module via the module settings page or before disabling this module, use the above button to restore default permissions."
+msgstr "Efter aktivering af dette modul via modul opsætningssiden eller før deaktivering af modulet, brug knappen ovenfor for at genoprette standard tilladelser."
+
+msgid "Explanation or submission guidelines"
+msgstr "Forklaring eller indsendelsesretningslinjer"
+
+msgid "This text will be displayed at the top of the group submission form.  It is useful for helping or instructing your users."
+msgstr "Denne tekst vil blive vist på toppen af gruppe indsendelsesblanketten. Den er hjælpsom som guide til brugere."
+
+msgid "Unlimited albums"
+msgstr "Ubegrænset antal albums"
+
+msgid "If you want to limit your groups to a single album, uncheck this box."
+msgstr "Hvis du ønsker at begrænse antallet af album en gruppe kan have til et enkelt, så fjern krydset i boksen."
+
+msgid "Visible only within the targeted groups"
+msgstr "Kun synlig indenfor de specificerede grupper"
+
+msgid "Visible within the targeted groups and on other pages"
+msgstr "Synlig indenfor specificerede grupper og på andre sider"
+
+msgid "Visibility to be determined by the author/editor using a checkbox on the posting form"
+msgstr "Synlighed afhænger af forfatterens/redaktørens brug af afkrydsningsbokse"
+
+msgid "Visibility of posts"
+msgstr "Synlighed af indlæg"
+
+msgid "Determine how broadly available a given post should be when it is affiliated with a group. OG admins always see the checkbox for making a post %pub. Note that changing this setting has no effect on existing posts. Re-save those posts to acquire this new setting."
+msgstr "Bestem hvor alment tilgængeligt et givent indlæg skal være, når det er knyttet til en gruppe. OG administratorer ser altid afkrydsningsfelt for at gøre et indlæg %pub. Bemærk at denne indstilling påvirker eksisterende indlæg når de redigeres."
+
+msgid "Maximum posts on group home page"
+msgstr "Maksimum antal indlæg på gruppe hjemmesiden"
+
+msgid "How many posts of a given type should display on the group home page."
+msgstr "Hvor mange indlæg af en given type skal vises på gruppe hjemmesiden"
+
+msgid "Show member pictures"
+msgstr "Vis medlemsbilleder"
+
+msgid "Should member pictures be shown in the group subscribers and group details blocks? You must also enable pictures in %user."
+msgstr "Skal medlemsbilleder vises i gruppe medlems og gruppe detalje boksene? Du skal også aktivere billeder i %user."
+
+msgid "User configuration"
+msgstr "Bruger konfiguration"
+
+msgid "optional"
+msgstr "frivillig"
+
+msgid "required"
+msgstr "påkrævet"
+
+msgid "Audience required"
+msgstr "Publikum påkrævet"
+
+msgid "Do you require that all posts be affiliated with a group? If so, new users will be unable to complete a post until they join a group. Note that changing this setting has affect existing posts when they are edited."
+msgstr "Ønsker du at alle indlæg skal knyttes til en gruppe? Hvis ja, vil nye brugere være ude af stand til at færdiggøre et indlæg indtil de har tilmeldt sig en gruppe. Bemærk at denne indstilling påvirker eksisterende indlæg når de redigeres."
+
+msgid "Omitted content types"
+msgstr "Udeladte indholdstyper"
+
+msgid "Select any node types which should <em>not</em> participate in the Audience targetting system."
+msgstr "Vælg enhver indholdstype der <em>ikke</em> skal være med i det publikumspecifikke system."
+
+msgid "Replies"
+msgstr "Svar"
+
+msgid "Last reply"
+msgstr "Sidste svar"
+
+msgid "1 user"
+msgid_plural "%count users"
+msgstr[0] "1 bruger"
+msgstr[1] "%count brugere"
+
+msgid "name"
+msgid_plural "names"
+msgstr[0] "navn"
+msgstr[1] "navne"
+
+msgid "1 image"
+msgid_plural "%count images"
+msgstr[0] "1 billede"
+msgstr[1] "%count billeder"
+
+msgid "1 subscriber"
+msgid_plural "%count subscribers"
+msgstr[0] "1 abonnent"
+msgstr[1] "%count abonnenter"
+
+msgid "create groups"
+msgstr "tilføj grupper"
+
+msgid "administer organic groups"
+msgstr "administrer organiske grupper"
+
+msgid "og"
+msgstr "og"
+

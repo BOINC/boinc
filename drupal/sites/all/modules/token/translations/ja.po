@@ -1,0 +1,618 @@
+# $Id: ja.po,v 1.1 2008/04/02 10:05:12 imagine Exp $
+#
+# Japanese translation of Drupal (token)
+# Copyright 2008 0829 <hixarg+0829@gmail.com>
+# Generated from files:
+#  token_actions.info,v 1.1 2007/07/31 21:21:31 eaton Exp
+#  token_taxonomy.inc,v 1.3.4.2 2007/11/08 14:48:00 greggles Exp
+#  token_user.inc,v 1.3.4.1 2007/10/29 04:40:41 eaton Exp
+#  token_cck.inc,v 1.2.2.1 2007/10/29 04:40:41 eaton Exp
+#  token_node.inc,v 1.5.4.2 2007/11/08 14:48:00 greggles Exp
+#  token_actions.module,v 1.4 2007/08/01 02:13:16 eaton Exp
+#  token_comment.inc,v 1.3.4.1 2007/10/29 04:40:41 eaton Exp
+#  token.info,v 1.2.2.1 2007/10/29 04:40:41 eaton Exp
+#  token.module,v 1.7.4.5 2008/01/29 15:12:19 eaton Exp
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Drupal 6.x\n"
+"POT-Creation-Date: 2008-03-09 15:34+0900\n"
+"PO-Revision-Date: 2008-03-09 15:35+0900\n"
+"Last-Translator: 0829 <hixarg+0829@gmail.com>\n"
+"Language-Team: DRUPAL*DRUPAL <hixarg+0829@gmail.com>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n!=1);\n"
+
+#: modules/token/token_actions.info:0
+msgid "Token actions"
+msgstr "トークンアクション"
+
+#: modules/token/token_actions.info:0
+msgid "Provides enhanced versions of core Drupal actions using the Token module."
+msgstr "Token モジュールを利用して、Drupal コアへの強化されたアクションを提供します。"
+
+#: modules/token/token_taxonomy.inc:32
+msgid "The id number of the category's parent vocabulary."
+msgstr "カテゴリが属するボキャブラリの ID"
+
+#: modules/token/token_taxonomy.inc:33
+msgid "The vocabulary that the page's first category belongs to."
+msgstr "コンテンツの 1番目のカテゴリが属するボキャブラリ名"
+
+#: modules/token/token_taxonomy.inc:34
+msgid "The name of the category."
+msgstr "カテゴリ名"
+
+#: modules/token/token_taxonomy.inc:35
+msgid "The id number of the category."
+msgstr "カテゴリ ID"
+
+#: modules/token/token_taxonomy.inc:36
+msgid "The unfiltered vocabulary that the page's first category belongs to. WARNING - raw user input."
+msgstr "コンテンツの 1番目のカテゴリが属するフィルタを通していないボキャブラリ名（注： ユーザが入力した RAW データ）"
+
+#: modules/token/token_taxonomy.inc:37
+msgid "The unfiltered name of the category. WARNING - raw user input."
+msgstr "フィルタを通していないカテゴリ名（注： ユーザが入力した RAW データ）"
+
+#: modules/token/token_user.inc:41
+msgid "User's name"
+msgstr "ユーザ名"
+
+#: modules/token/token_user.inc:42
+msgid "User's unfiltered name. WARNING - raw user input."
+msgstr "フィルタを通していないユーザ名（注： ユーザが入力した RAW データ）"
+
+#: modules/token/token_user.inc:44
+msgid "User's ID"
+msgstr "ユーザ ID"
+
+#: modules/token/token_user.inc:45
+msgid "User's email address"
+msgstr "ユーザのメールアドレス"
+
+#: modules/token/token_user.inc:47
+msgid "User's registration date"
+msgstr "ユーザの登録日時"
+
+#: modules/token/token_user.inc:48
+msgid "Days since the user registered"
+msgstr "ユーザ登録からの経過日数"
+
+#: modules/token/token_user.inc:49
+msgid "User's last login date"
+msgstr "ユーザの最終ログイン日時"
+
+#: modules/token/token_user.inc:50
+msgid "Days since the user's last login"
+msgstr "ユーザの最終ログインからの経過日数"
+
+#: modules/token/token_user.inc:51
+msgid "The current date in the user's timezone"
+msgstr "ユーザのタイムゾーンにおける現在日時"
+
+#: modules/token/token_user.inc:52
+msgid "The URL of the user's profile page."
+msgstr "ユーザプロフィールページの URL"
+
+#: modules/token/token_user.inc:53
+msgid "The URL the user's account editing page."
+msgstr "ユーザアカウント編集ページの URL"
+
+#: modules/token/token_cck.inc:60
+msgid "Referenced node ID."
+msgstr "参照コンテンツの ID"
+
+#: modules/token/token_cck.inc:61
+msgid "Referenced node title."
+msgstr "参照コンテンツのタイトル"
+
+#: modules/token/token_cck.inc:62
+msgid "Formatted html link to the node."
+msgstr "HTML フォーマットのコンテンツへのリンク"
+
+#: modules/token/token_cck.inc:88
+msgid "Raw number value."
+msgstr "そのままの数値"
+
+#: modules/token/token_cck.inc:89
+msgid "Formatted number value."
+msgstr "フォーマット済みの数値"
+
+#: modules/token/token_cck.inc:114
+msgid "Raw, unfiltered text."
+msgstr "フィルタを通していないそのままのテキスト"
+
+#: modules/token/token_cck.inc:115
+msgid "Formatted and filtered text."
+msgstr "フォーマットおよびフィルタを行ったテキスト"
+
+#: modules/token/token_cck.inc:137
+msgid "Referenced user ID"
+msgstr "参照ユーザの ID"
+
+#: modules/token/token_cck.inc:138
+msgid "Referenced user name"
+msgstr "参照ユーザの名前"
+
+#: modules/token/token_cck.inc:139
+msgid "Formatted html link to referenced user"
+msgstr "HTML フォーマットの参照ユーザへのリンク"
+
+#: modules/token/token_cck.inc:164
+msgid "Link URL"
+msgstr "リンク URL"
+
+#: modules/token/token_cck.inc:165
+msgid "Link title"
+msgstr "リンクタイトル"
+
+#: modules/token/token_cck.inc:166
+msgid "Formatted html link"
+msgstr "HTML フォーマットのリンク"
+
+#: modules/token/token_cck.inc:192
+msgid "Image file ID"
+msgstr "画像のファイル ID"
+
+#: modules/token/token_cck.inc:193
+msgid "Image title"
+msgstr "画像のタイトル"
+
+#: modules/token/token_cck.inc:194
+msgid "Image alt text"
+msgstr "画像の alt 属性に設定されたテキスト"
+
+#: modules/token/token_cck.inc:195
+msgid "Image file name"
+msgstr "画像のファイル名"
+
+#: modules/token/token_cck.inc:196
+msgid "Image path"
+msgstr "画像のパス"
+
+#: modules/token/token_cck.inc:197
+msgid "Image MIME type"
+msgstr "画像の MIME タイプ"
+
+#: modules/token/token_cck.inc:198
+msgid "Image file size"
+msgstr "画像のファイルサイズ"
+
+#: modules/token/token_cck.inc:199
+msgid "Fully formatted HTML image tag"
+msgstr "完全な HTML フォーマットの img タグ"
+
+#: modules/token/token_cck.inc:230
+msgid "The raw date value."
+msgstr "そのままの日付"
+
+#: modules/token/token_cck.inc:231
+msgid "The formatted date."
+msgstr "フォーマット済みの日付"
+
+#: modules/token/token_cck.inc:232
+msgid "The raw date timestamp."
+msgstr "そのままのタイムスタンプの日付"
+
+#: modules/token/token_cck.inc:233
+msgid "Date year (four digit)"
+msgstr "日付の年（4桁）"
+
+#: modules/token/token_cck.inc:234
+msgid "Date year (two digit)"
+msgstr "日付の年（2桁）"
+
+#: modules/token/token_cck.inc:235
+msgid "Date month (full word)"
+msgstr "日付の月（january のような完全な単語）"
+
+#: modules/token/token_cck.inc:236
+msgid "Date month (abbreviated)"
+msgstr "日付の月（jan のような省略形）"
+
+#: modules/token/token_cck.inc:237
+msgid "Date month (two digit, zero padded)"
+msgstr "日付の月（2桁、0補完）"
+
+#: modules/token/token_cck.inc:238
+msgid "Date month (one or two digit)"
+msgstr "日付の月（1桁 または 2桁）"
+
+#: modules/token/token_cck.inc:239
+msgid "Date week (two digit)"
+msgstr "日付の週（2桁）"
+
+#: modules/token/token_cck.inc:240
+msgid "Date date (day of month)"
+msgstr "日付の曜日（月曜日を 1 とする 1～7 の数値）"
+
+#: modules/token/token_cck.inc:241
+msgid "Date day (full word)"
+msgstr "日付の曜日（sunday のような完全な単語）"
+
+#: modules/token/token_cck.inc:242
+msgid "Date day (abbreviation)"
+msgstr "日付の曜日（sun のような省略形）"
+
+#: modules/token/token_cck.inc:243
+msgid "Date day (two digit, zero-padded)"
+msgstr "日付の日（2桁、0補完）"
+
+#: modules/token/token_cck.inc:244
+msgid "Date day (one or two digit)"
+msgstr "日付の日（1桁 または 2桁）"
+
+#: modules/token/token_cck.inc:246
+msgid "If the field has a to-date defined, the same tokens exist in the form: [to-????], where ???? is the normal token."
+msgstr "終了日時（フィールドに終了日時が定義されていれば、日付を表すトークンに [to-dd] のような形式で \"to-\" の接頭語を付けることで、終了日時のトークンとして利用できます。）"
+
+#: modules/token/token_node.inc:154
+msgid "Node ID"
+msgstr "コンテンツ ID"
+
+#: modules/token/token_node.inc:155
+msgid "Node type"
+msgstr "コンテンツタイプ"
+
+#: modules/token/token_node.inc:156
+msgid "Node type (user-friendly version)"
+msgstr "コンテンツタイプ（コンピュータ用ではない、通常使用されている「名前」）"
+
+#: modules/token/token_node.inc:157
+msgid "Node title"
+msgstr "コンテンツタイトル"
+
+#: modules/token/token_node.inc:158
+msgid "Unfiltered node title. WARNING - raw user input."
+msgstr "フィルタを通していないコンテンツタイトル（注： ユーザが入力した RAW データ）"
+
+#: modules/token/token_node.inc:160
+msgid "Node author's user id"
+msgstr "コンテンツ投稿者のユーザ ID"
+
+#: modules/token/token_node.inc:161
+msgid "Node author's user name"
+msgstr "コンテンツ投稿者のユーザ名"
+
+#: modules/token/token_node.inc:162
+msgid "Node author's user name. WARNING - raw user input."
+msgstr "コンテンツ投稿者のフィルタを通していないユーザ名（注： ユーザが入力した RAW データ）"
+
+#: modules/token/token_node.inc:164
+msgid "Name of top taxonomy term"
+msgstr "最上位のタクソノミーターム名"
+
+#: modules/token/token_node.inc:165
+msgid "Unfiltered name of top taxonomy term. WARNING - raw user input."
+msgstr "フィルタを通していない最上位のタクソノミーターム名（注： ユーザが入力した RAW データ）"
+
+#: modules/token/token_node.inc:166
+msgid "ID of top taxonomy term"
+msgstr "最上位のタクソノミーターム ID"
+
+#: modules/token/token_node.inc:167
+msgid "Name of top term's vocabulary"
+msgstr "最上位のタームが属するボキャブラリの名前"
+
+#: modules/token/token_node.inc:168
+msgid "Unfiltered name of top term's vocabulary. WARNING - raw user input."
+msgstr "最上位のタームが属するボキャブラリのフィルタを通していない名前（注： ユーザが入力した RAW データ）"
+
+#: modules/token/token_node.inc:169
+msgid "ID of top term's vocabulary"
+msgstr "最上位のタームが属するボキャブラリの ID"
+
+#: modules/token/token_node.inc:174
+msgid "Node creation year (four digit)"
+msgstr "コンテンツの投稿年（4桁）"
+
+#: modules/token/token_node.inc:175
+msgid "Node creation year (two digit)"
+msgstr "コンテンツの投稿年（2桁）"
+
+#: modules/token/token_node.inc:176
+msgid "Node creation month (full word)"
+msgstr "コンテンツの投稿月（january のような完全な単語）"
+
+#: modules/token/token_node.inc:177
+msgid "Node creation month (abbreviated)"
+msgstr "コンテンツの投稿月（jan のような省略形）"
+
+#: modules/token/token_node.inc:178
+msgid "Node creation month (two digit, zero padded)"
+msgstr "コンテンツの投稿月（2桁、0補完）"
+
+#: modules/token/token_node.inc:179
+msgid "Node creation month (one or two digit)"
+msgstr "コンテンツの投稿月（1桁 または 2桁）"
+
+#: modules/token/token_node.inc:180
+msgid "Node creation week (two digit)"
+msgstr "コンテンツの投稿週（2桁）"
+
+#: modules/token/token_node.inc:181
+msgid "Node creation date (day of month)"
+msgstr "コンテンツの投稿曜日（月曜日を 1 とする 1～7 の数値）"
+
+#: modules/token/token_node.inc:182
+msgid "Node creation day (full word)"
+msgstr "コンテンツの投稿曜日（sunday のような完全な単語）"
+
+#: modules/token/token_node.inc:183
+msgid "Node creation day (abbreviation)"
+msgstr "コンテンツの投稿曜日（sun のような省略形）"
+
+#: modules/token/token_node.inc:184
+msgid "Node creation day (two digit, zero-padded)"
+msgstr "コンテンツの投稿日（2桁、0補完）"
+
+#: modules/token/token_node.inc:185
+msgid "Node creation day (one or two digit)"
+msgstr "コンテンツの投稿日（1桁 または 2桁）"
+
+#: modules/token/token_node.inc:186
+msgid "All tokens for node creation dates can also be used with with the \"mod-\" prefix; doing so will use the modification date rather than the creation date."
+msgstr "コンテンツの更新日時（投稿日時を表すトークンに [mod-dd] のような形式で \"mod-\" の接頭語を付けて使用してください。 この接頭語はコンテンツの投稿日時に関するすべてのトークンで利用できます。 ※URL エイリアス自動生成モジュールの設定時にエラーが表示される場合がありますので、その都度、動作に問題がないかどうか確認してください。）"
+
+#: modules/token/token_node.inc:188
+msgid "The name of the menu the node belongs to."
+msgstr "メニュー項目として設定されたコンテンツのメニューリンクのタイトル"
+
+#: modules/token/token_node.inc:189
+msgid "The name of the menu the node belongs to. WARNING - raw user input."
+msgstr "メニュー項目として設定されたコンテンツのフィルタを通していないメニューリンクのタイトル（注： ユーザが入力した RAW データ）"
+
+#: modules/token/token_node.inc:190
+msgid "The menu path (as reflected in the breadcrumb), not including Home or [menu]. Separated by /."
+msgstr "Home および [menu] トークンを除外して /（スラッシュ）で区切った、パンくずリストのようなメニューのパス"
+
+#: modules/token/token_node.inc:191
+msgid "The unfiltered menu path (as reflected in the breadcrumb), not including Home or [menu]. Separated by /. WARNING - raw user input."
+msgstr "Home および [menu] トークンを除外して /（スラッシュ）で区切った、フィルタを通していないパンくずリストのようなメニューパス（注： ユーザが入力した RAW データ）"
+
+#: modules/token/token_node.inc:236
+msgid "The title of the node's book parent."
+msgstr "コンテンツの上位となるブックのタイトル"
+
+#: modules/token/token_node.inc:237
+msgid "The id of the node's book parent."
+msgstr "コンテンツの上位となるブックの ID"
+
+#: modules/token/token_node.inc:238
+msgid "The titles of all parents in the node's book hierarchy."
+msgstr "コンテンツの上位の階層にあるすべてのブックのタイトル"
+
+#: modules/token/token_node.inc:240
+msgid "The unfiltered title of the node's book parent. WARNING - raw user input."
+msgstr "コンテンツの上位となるブックのフィルタを通していないタイトル（注： ユーザが入力した RAW データ）"
+
+#: modules/token/token_node.inc:241
+msgid "The unfiltered titles of all parents in the node's book hierarchy. WARNING - raw user input."
+msgstr "コンテンツの上位の階層にあるすべてのブックのフィルタを通していないタイトル（注： ユーザが入力した RAW データ）"
+
+#: modules/token/token_actions.module:11
+msgid "Display a tokenized message to the user"
+msgstr "トークンを利用したメッセージをユーザに表示します。"
+
+#: modules/token/token_actions.module:21
+msgid "Send tokenized e-mail"
+msgstr "トークンを利用したメールアドレスへメッセージを送信します。"
+
+#: modules/token/token_actions.module:32
+msgid "Redirect to a tokenized URL"
+msgstr "トークンを使用した URL へリダイレクトします。"
+
+#: modules/token/token_actions.module:66
+msgid "Recipient"
+msgstr "受信者"
+
+#: modules/token/token_actions.module:70
+msgid "The email address to which the message should be sent."
+msgstr "メッセージの送信先メールアドレスです。"
+
+#: modules/token/token_actions.module:74
+msgid "Subject"
+msgstr "件名"
+
+#: modules/token/token_actions.module:78
+msgid "The subject of the message."
+msgstr "メッセージの件名を入力してください。"
+
+#: modules/token/token_actions.module:82;144
+msgid "Message"
+msgstr "メッセージ"
+
+#: modules/token/token_actions.module:86
+msgid "The message that should be sent."
+msgstr "送信するメッセージの内容です。"
+
+#: modules/token/token_actions.module:93;155;199
+msgid "Placeholder tokens"
+msgstr "プレースホルダートークン"
+
+#: modules/token/token_actions.module:94
+msgid "The following placeholder tokens can be used in to generate the URL path. Some tokens may not be available, depending on the context in which the action is triggered."
+msgstr "生成する URL のパス中に以下のプレースホルダートークンを使用することができます。 いくつかのトークンは、アクションの実行状況によって有効でない場合があります。"
+
+#: modules/token/token_actions.module:148
+msgid "The message to be displayed to the current user."
+msgstr "現在のユーザに表示されるメッセージです。"
+
+#: modules/token/token_actions.module:156
+msgid "The following placeholder tokens can be used in the custom message text. Some tokens may not be available, depending on the context in which the action is triggered."
+msgstr "カスタムメッセージのテキスト中に以下のプレースホルダートークンを使用することができます。 いくつかのトークンは、アクションの実行状況によって有効でない場合があります。"
+
+#: modules/token/token_actions.module:190
+msgid "URL"
+msgstr "URL"
+
+#: modules/token/token_actions.module:191
+msgid "The URL to which the user should be redirected. This can be an internal URL like node/1234 or an external URL like http://drupal.org."
+msgstr "ユーザがリダイレクトされるURLを入力してください。 node/1234 のような内部リンクと、http://drupal.org のような外部リンクが使用できます。"
+
+#: modules/token/token_actions.module:200
+msgid "The following placeholder tokens can be used in the URL path. Some tokens may not be available, depending on the context in which the action is triggered."
+msgstr "URL のパス中に以下のプレースホルダートークンを使用することができます。 いくつかのトークンは、アクションの実行状況によって有効でない場合があります。"
+
+#: modules/token/token_actions.module:134
+msgid "action"
+msgstr "アクション"
+
+#: modules/token/token_actions.module:134
+msgid "Sent email to %recipient"
+msgstr "%recipient へメールが送信されました"
+
+#: modules/token/token_actions.module:137
+msgid "error"
+msgstr "エラー"
+
+#: modules/token/token_actions.module:137
+msgid "Unable to send email to %recipient"
+msgstr "%recipient へメールが送信できませんでした"
+
+#: modules/token/token_actions.module:0
+msgid "token_actions"
+msgstr "トークンアクション"
+
+#: modules/token/token_comment.inc:52
+msgid "Comment ID"
+msgstr "コメント ID"
+
+#: modules/token/token_comment.inc:53
+msgid "Comment title"
+msgstr "コメントタイトル"
+
+#: modules/token/token_comment.inc:54
+msgid "Comment title. WARNING - raw user input"
+msgstr "コメントタイトル（注： ユーザが入力した RAW データ）"
+
+#: modules/token/token_comment.inc:55
+msgid "Comment body"
+msgstr "コメント本文"
+
+#: modules/token/token_comment.inc:56
+msgid "Comment body. WARNING - raw user input"
+msgstr "コメント本文（注： ユーザが入力した RAW データ）"
+
+#: modules/token/token_comment.inc:58
+msgid "Comment author's user id"
+msgstr "コメント投稿者のユーザ ID"
+
+#: modules/token/token_comment.inc:59
+msgid "Comment author's user name"
+msgstr "コメント投稿者のユーザ名"
+
+#: modules/token/token_comment.inc:60
+msgid "Comment author's user name. WARNING - raw user input"
+msgstr "コメント投稿者のユーザ名（注： ユーザが入力した RAW データ）"
+
+#: modules/token/token_comment.inc:62
+msgid "Comment creation year (four digit)"
+msgstr "コメントの投稿年（4桁）"
+
+#: modules/token/token_comment.inc:63
+msgid "Comment creation year (two digit)"
+msgstr "コメントの投稿年（2桁）"
+
+#: modules/token/token_comment.inc:64
+msgid "Comment creation month (full word)"
+msgstr "コメントの投稿月（january のような完全な単語）"
+
+#: modules/token/token_comment.inc:65
+msgid "Comment creation month (abbreviated)"
+msgstr "コメントの投稿月（jan のような省略形）"
+
+#: modules/token/token_comment.inc:66
+msgid "Comment creation month (two digit, zero padded)"
+msgstr "コメントの投稿月（2桁、0補完）"
+
+#: modules/token/token_comment.inc:67
+msgid "Comment creation month (one or two digit)"
+msgstr "コメントの投稿月（1桁 または 2桁）"
+
+#: modules/token/token_comment.inc:68
+msgid "Comment creation week (two digit)"
+msgstr "コメントの投稿週（2桁）"
+
+#: modules/token/token_comment.inc:69
+msgid "Comment creation date (day of month)"
+msgstr "コメントの投稿曜日（月曜日を 1 とする 1～7 の数値）"
+
+#: modules/token/token_comment.inc:70
+msgid "Comment creation day (full word)"
+msgstr "コメントの投稿曜日（sunday のような完全な単語）"
+
+#: modules/token/token_comment.inc:71
+msgid "Comment creation day (abbreviation)"
+msgstr "コメントの投稿曜日（sun のような省略形）"
+
+#: modules/token/token_comment.inc:72
+msgid "Comment creation day (two digit, zero-padded)"
+msgstr "コメントの投稿日（2桁、0補完）"
+
+#: modules/token/token_comment.inc:73
+msgid "Comment creation day (one or two digit)"
+msgstr "コメントの投稿日（1桁 または 2桁）"
+
+#: modules/token/token.info:0 modules/token/token.module:28
+msgid "Token"
+msgstr "トークン"
+
+#: modules/token/token.info:0
+msgid "Provides a shared API for replacement of textual placeholders with actual data."
+msgstr "テキストのプレースホルダーを実際のデータと置き換えるための共用 API を提供します。"
+
+#: modules/token/token.module:28
+msgid "Replacement value"
+msgstr "置換する値"
+
+#: modules/token/token.module:31
+msgid "tokens"
+msgstr "トークン"
+
+#: modules/token/token.module:68
+msgid "Anonymous"
+msgstr "匿名ユーザ"
+
+#: modules/token/token.module:72
+msgid "Drupal"
+msgstr "Drupal"
+
+#: modules/token/token.module:96
+msgid "The name of the currently logged in user."
+msgstr "現在のログインユーザ名"
+
+#: modules/token/token.module:97
+msgid "The user ID of the currently logged in user."
+msgstr "現在のログインユーザ ID"
+
+#: modules/token/token.module:98
+msgid "The email address of the currently logged in user."
+msgstr "現在のログインユーザのメールアドレス"
+
+#: modules/token/token.module:99
+msgid "The url of the current Drupal website."
+msgstr "このサイトの URL"
+
+#: modules/token/token.module:100
+msgid "The name of the current Drupal website."
+msgstr "このサイトの名前"
+
+#: modules/token/token.module:101
+msgid "The slogan of the current Drupal website."
+msgstr "このサイトのスローガン"
+
+#: modules/token/token.module:102
+msgid "The contact email address for the current Drupal website."
+msgstr "このサイト全般で使用されているメールアドレス"
+
+#: modules/token/token.module:103
+msgid "The current date on the site's server."
+msgstr "サーバの現在日時"
+
+#: modules/token/token.module:0
+msgid "token"
+msgstr "トークン"

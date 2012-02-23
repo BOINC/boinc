@@ -1,0 +1,90 @@
+<?php
+// $Id: flag_friend.install,v 1.2.4.10 2009/07/29 03:26:52 sirkitree Exp $
+
+/**
+ * @file flag_friend.install
+ */
+
+/**
+ * Implementation of hook_install().
+ */
+function flag_friend_install() {
+  // Create tables.
+  drupal_install_schema('flag_friend');
+  drupal_set_message(st('The flag_friend module installed its tables successfully. Please <a href="@enable">enable the friend flag</a>.', array('@enable' => url('admin/build/flags/edit/friend'))));
+}
+
+/**
+ * Implementation of hook_uninstall().
+ */
+function flag_friend_uninstall() {
+  // Remove default flag if it's enabled.
+  if ($flag = flag_get_flag('friend')) {
+    $flag->delete();
+  }
+  // Remove tables.
+  drupal_uninstall_schema('flag_friend');
+  drupal_set_message(t('The flag_friend module was successfully uninstalled.'));
+}
+
+function flag_friend_schema() {
+  $schema['flag_friend'] = array(
+    'fields' => array(
+      'uid' => array(
+        'type' => 'int', 
+        'unsigned' => TRUE, 
+        'not null' => TRUE, 
+        'disp-width' => '10'
+      ),
+      'friend_uid' => array(
+        'type' => 'int', 
+        'unsigned' => TRUE, 
+        'not null' => TRUE, 
+        'disp-width' => '10'
+      ),
+      'created' => array(
+        'type' => 'int', 
+        'not null' => FALSE, 
+        'disp-width' => '11'
+      )
+    ),
+    'primary key' => array('uid', 'friend_uid'),
+    'indexes' => array(
+      'friend_uid' => array('friend_uid'),
+    ),
+  );
+
+  $schema['flag_friend_message'] = array(
+    'fields' => array(
+      'fcid' => array(
+        'type' => 'serial',
+        'not null' => TRUE,
+      ),
+      'message' => array(
+        'type' => 'text', 
+        'not null' => TRUE
+      )
+    ),
+    'primary key' => array('fcid'),
+  );
+  return $schema;
+}
+
+/**
+ * Update to change the flag_friend_message:fcid from int to serial.
+ */
+function flag_friend_update_6000() {
+  $ret = array();  
+  db_drop_primary_key($ret, 'flag_friend_message');
+  db_change_field($ret, 'flag_friend_message', 'fcid', 'fcid', array('type' => 'serial', 'unsigned' => TRUE, 'not null' => TRUE), array('primary key' => array('fcid')));
+  return $ret;
+}
+
+/**
+ * Add additional index by friend_uid to the flag_friend table.
+ */
+function flag_friend_update_6001() {
+  $ret = array();
+  db_add_index($ret, 'flag_friend', 'friend_uid', array('friend_uid'));
+  return $ret;
+}

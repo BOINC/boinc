@@ -1,0 +1,13 @@
+; $Id: filefield.info,v 1.9 2009/04/01 08:57:49 quicksketch Exp $
+name = FileField
+description = Defines a file field type.
+dependencies[] = content
+package = CCK
+core = 6.x
+php = 5.0
+; Information added by drupal.org packaging script on 2010-07-01
+version = "6.x-3.7"
+core = "6.x"
+project = "filefield"
+datestamp = "1277943012"
+

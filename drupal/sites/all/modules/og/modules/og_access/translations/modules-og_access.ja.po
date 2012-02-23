@@ -1,0 +1,132 @@
+# $Id: modules-og_access.ja.po,v 1.1 2008/11/10 09:55:38 pineray Exp $
+#
+# Japanese translation of Drupal (general)
+# Copyright 2008 PineRay <matsudaterutaka@gmail.com>
+# Generated from files:
+#  og_access.module,v 1.28 2008/11/02 13:27:40 weitzman
+#  og_access.info: n/a
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: og-6.x-1.0-rc7\n"
+"POT-Creation-Date: 2008-11-10 16:02+0900\n"
+"PO-Revision-Date: 2008-11-10 18:00+0900\n"
+"Last-Translator: PineRay <matsudaterutaka@gmail.com>\n"
+"Language-Team: Japanese <matsudaterutaka@gmail.com>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n!=1);\n"
+
+#: og_access.module:31
+msgid "Visible only within the targeted groups."
+msgstr "指定したグループでのみ閲覧可能。"
+
+#: og_access.module:32
+msgid "Visible within the targeted groups and on other pages."
+msgstr "指定したグループとその他のページで閲覧可能。"
+
+#: og_access.module:33
+msgid "Visibility chosen by author/editor using a checkbox on the posting form. Checkbox defaults to <em>public</em>."
+msgstr "投稿者/編集者が投稿フォームにあるチェックボックスで閲覧範囲を選択。チェックボックスのデフォルトは<em>パブリック</em>。"
+
+#: og_access.module:34
+msgid "Visibility chosen by author/editor using a checkbox on the posting form. Checkbox defaults to <em>private</em>."
+msgstr "投稿者/編集者が投稿フォームにあるチェックボックスで閲覧範囲を選択。チェックボックスのデフォルトは<em>プライベート</em>。"
+
+#: og_access.module:38
+msgid "Visibility of posts"
+msgstr "記事の閲覧範囲"
+
+#: og_access.module:40
+msgid "Determine how broadly available a given post should be when it is affiliated with a group. OG admins always see the checkbox for making a post public. Note that changing this setting has no effect on existing posts. Re-save those posts to acquire this new setting. If the setting you want is disabled here, check the settings under <em>Private Groups</em> setting below. You cannot set node visibility to always be public if private groups are set to always on and vice versa."
+msgstr "グループの関連記事をどこまで表示するか決定します。グループ管理者には記事をパブリックにするチェックボックスが常に表示されます。この設定を変更しても、すでに存在する記事には影響しないことに注意してください。記事を保存しなおすと、新しい設定が適用されます。設定したい項目が無効であれば、下記の<em>プライベートグループ</em>以下にある設定を確認してください。常にプライベートグループとする設定であれば、ノードを常にパブリックとする設定にはできませんし、その逆もまたしかりです。"
+
+#: og_access.module:46
+msgid "New group home pages and default audience are always public."
+msgstr "新しいグループのホームページとデフォルトの読者は常にパブリック。"
+
+#: og_access.module:47
+msgid "New group home pages and default audience are always private."
+msgstr "新しいグループのホームページとデフォルトの読者は常にプライベート。"
+
+#: og_access.module:48
+msgid "Group administrator chooses whether her group homepage and audience are private or not. Defaults to <em>private</em>."
+msgstr "グループ管理者は、自分のグループのホームページと読者がプライベートかどうかを選択します。デフォルトは<em>プライベート</em>。"
+
+#: og_access.module:49
+msgid "Group administrator chooses whether her group homepage and audience are private or not. Defaults to <em>public</em>."
+msgstr "グループ管理者は、自分のグループのホームページと読者がプライベートかどうかを選択します。デフォルトは<em>パブリック</em>。"
+
+#: og_access.module:53
+msgid "Private groups"
+msgstr "プライベートグループ"
+
+#: og_access.module:56
+msgid "A private group's group home page cannot be seen by non-members, and new posts created in the group will default to being private. This setting controls what private groups options can be used when creating a new group or editing an existing group. If you select one of the <em>group administrator chooses</em> options then it will be up to group admins whether their new groups are private or not, with the default you specify here."
+msgstr "プライベートグループのホームページはメンバーでなければ閲覧できず、そのグループに新しく投稿された記事はデフォルトでプライベートとなります。この設定は、新しくグループを作成する際または既存のグループを編集する際の公開オプションに影響します。もしも、<em>グループ管理者が選択する</em>オプションを選択していれば、あなたがここで指定した設定をデフォルトとして、新しいグループがプライベートかどうかはグループ管理者が決定します。"
+
+#: og_access.module:56
+msgid "Note that the privacy of all <em>content</em> in the group is determined as each node is created or edited, according to the <em>Visibility of Posts</em> setting on this page. Note also that changing this setting only affects the default for new groups being created, not the privacy of any existing groups! To change those you must edit the groups and their individual content nodes directly. If the setting you want is disabled here, check <em>Visibility of Posts</em> above. You cannot choose to only have private groups if node visibility is set to be always public, and vice versa."
+msgstr "グループの<em>コンテンツ</em>すべての公開設定は、このページにある<em>記事の閲覧範囲</em>の設定にしたがって、作成時または編集時に決定されることに注意してください。また、この設定の変更は、新しくグループを作成するさいのデフォルトにしか影響せず、既存のグループの公開設定には影響しないことにも注意してください。それらを変更するには、グループとそのコンテンツそれぞれを直接編集しなければなりません。設定したいと思う項目が無効である場合、上記の<em>記事の閲覧範囲</em>を確認してください。ノードを常に公開する設定であれば、プライベートグループだけを選択することはできませんし、その逆もまたしかりです。"
+
+#: og_access.module:68;107
+msgid "Private group"
+msgstr "プライベートグループ"
+
+#: og_access.module:69
+msgid "Checkbox for visibility of group home page to non-members."
+msgstr "グループのホームページを非メンバーが閲覧可能とするかどうかのチェックボックス。"
+
+#: og_access.module:110
+msgid "Should this group be visible only to its members? Disabled if the group is set to <em>List in Directory</em> or <em>Membership requests: open</em>."
+msgstr "このグループをメンバーだけが閲覧できるようにしますか？　グループの設定が<em>グループ一覧に表示</em>または<em>参加申込: オープン</em>であれば無効です。"
+
+#: og_access.module:169;178
+msgid "Public"
+msgstr "パブリック"
+
+#: og_access.module:171;180
+msgid "Show this post to everyone, or only to members of the groups checked above. Posts without any groups are always <em>public</em>."
+msgstr "この記事を全員または上記でチェックしたグループのメンバーだけに表示します。グループが割り当てられていない記事は常に<em>パブリック</em>となります。"
+
+#: og_access.module:188
+msgid "Groups"
+msgstr "グループ"
+
+#: og_access.module:319
+msgid "All users may view this node."
+msgstr "すべてのユーザがこのノードを閲覧できます。"
+
+#: og_access.module:323
+msgid "Members of <a href=\"@group-node\">@group-name</a> may view this node."
+msgstr "<a href=\"@group-node\">@group-name</a>のメンバーがこのノードを閲覧できます。"
+
+#: og_access.module:327
+msgid "Group admins of <a href=\"@group-node\">@group-name</a> may view/edit/delete this node."
+msgstr "<a href=\"@group-node\">@group-name</a>のグループ管理者がこのノードを閲覧・編集・削除できます。"
+
+#: og_access.module:18
+msgid "Organic groups access configuration"
+msgstr "オーガニックグループのアクセス設定"
+
+#: og_access.module:19
+msgid "Choose whether new groups should be private or public."
+msgstr "新しいグループをプライベートにするかパブリックにするか選択してください。"
+
+#: og_access.module:0
+msgid "og_access"
+msgstr "og_access"
+
+#: og_access.info:0
+msgid "Organic groups access control"
+msgstr "オーガニックグループ・アクセス制御"
+
+#: og_access.info:0
+msgid "Enable access control for private posts and private groups."
+msgstr "プライベートな記事やグループのためにアクセス制御を有効にします。"
+
+#: og_access.info:0
+msgid "Organic groups"
+msgstr "オーガニックグループ"
+

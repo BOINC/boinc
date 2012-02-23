@@ -1,0 +1,146 @@
+# $Id: modules-content_copy.nl.po,v 1.1.2.1 2009/06/03 20:31:09 hass Exp $
+#
+# Dutch translation of Drupal (general)
+# Copyright YEAR NAME <EMAIL@ADDRESS>
+# Generated from files:
+#  content_copy_export_form.tpl.php,v 1.1.2.2 2008/10/28 02:11:49 yched
+#  content_copy.module,v 1.27.2.21 2009/02/26 23:15:54 yched
+#  content_copy.info,v 1.6 2008/04/23 18:01:48 dww
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"POT-Creation-Date: 2009-06-03 14:25+0200\n"
+"PO-Revision-Date: 2009-06-03 14:27+0100\n"
+"Last-Translator: L.B. Cohn <lichai@999games.nl>\n"
+"Language-Team: Dutch <EMAIL@ADDRESS>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n!=1);\n"
+
+#: content_copy_export_form.tpl.php:9
+#: content_copy.module:191;38
+msgid "Export"
+msgstr "Exporteren"
+
+#: content_copy_export_form.tpl.php:10
+msgid "Label"
+msgstr "Label"
+
+#: content_copy_export_form.tpl.php:11
+msgid "Name"
+msgstr "Naam"
+
+#: content_copy_export_form.tpl.php:12
+msgid "Type"
+msgstr "Type"
+
+#: content_copy.module:97
+msgid "This form will process a content type and one or more fields from that type and export the settings. The export created by this process can be copied and pasted as an import into the current or any other database. The import will add the fields to into an existing content type or create a new content type that includes the selected fields."
+msgstr "Dit formulier zal een inhoudstype en één of meerdere velden van dat type exporteren. Dit kan worden gekopieerd en geplakt in deze of een andere database. Importeren zal deze velden aan een bestanden inhoudstype toevoegen of een nieuw inhoudstype maken met de geselecteerde velden."
+
+#: content_copy.module:103
+msgid "Types"
+msgstr "Typen"
+
+#: content_copy.module:107
+msgid "Select the content type to export."
+msgstr "Selecteer de inhoudstypes om te exporteren"
+
+#: content_copy.module:175
+msgid "Export data"
+msgstr "Exporteer data"
+
+#: content_copy.module:180
+msgid "Copy the export text and paste it into another content type using the import function."
+msgstr "Kopieer de geexporteerde tekst en plak het in een ander inhoudstype of gebruik de importeerfunctie."
+
+#: content_copy.module:184
+msgid "Content types"
+msgstr "Inhoudstypen"
+
+#: content_copy.module:251
+msgid "Save field settings"
+msgstr "Veldinstellingen indienen"
+
+#: content_copy.module:303
+msgid "This form will import field definitions exported from another content type or another database.<br/>Note that fields cannot be duplicated within the same content type, so imported fields will be added only if they do not already exist in the selected type."
+msgstr "Dit formulier zal veldinformatie importeren die zijn geexporteerd uit een ander inhoudstype of database.<br />Merk op dat velden niet kunnen worden gedupliceerd in hetzelfde inhoudstype, dus geimporteerde velden zullen alleen worden toegevoegd als ze nog niet bestaan in het geselecteerde inhoudstype."
+
+#: content_copy.module:306
+msgid "<Create>"
+msgstr "<Maak>"
+
+#: content_copy.module:308
+msgid "Content type"
+msgstr "Inhoudstype"
+
+#: content_copy.module:309
+msgid "Select the content type to import these fields into.<br/>Select &lt;Create&gt; to create a new content type to contain the fields."
+msgstr "Selecteer het inhoudstype waarin deze velden moeten worden geimporteerd.<br />Selecteer &lt;Maak&gt; om een nieuw inhoudstype te maken waarin de velden komen."
+
+#: content_copy.module:314
+msgid "Import data"
+msgstr "Importeer data"
+
+#: content_copy.module:316
+msgid "Paste the text created by a content export into this field."
+msgstr "Plak de tekst die is geexporteerd in dit veld."
+
+#: content_copy.module:320;46
+msgid "Import"
+msgstr "Importeren"
+
+#: content_copy.module:328
+msgid "A file has been pre-loaded for import."
+msgstr "Een bestand is voorgeladen voor het importeren."
+
+#: content_copy.module:354
+msgid "The import data is not valid import text."
+msgstr "De geimporteerde data is geen valide importeertekst."
+
+#: content_copy.module:403
+msgid "The following modules must be enabled for this import to work: %modules."
+msgstr "De volgende modules moeten worden aangezet om te kunnen importeren: %modules."
+
+#: content_copy.module:411
+msgid "The content type %type already exists in this database."
+msgstr "Het inhoudstype %type bestaat al in de database."
+
+#: content_copy.module:418
+msgid "Exiting. No import performed."
+msgstr "Gestopt, er is niks geimporteerd."
+
+#: content_copy.module:442
+msgid "An error has occurred adding the content type %type.<br/>Please check the errors displayed for more details."
+msgstr "Er is een fout opgetreden tijden het toevoegen van het inhoudstype %type.<br />Bekijk de foutmeldingen voor meer informatie."
+
+#: content_copy.module:467
+msgid "The imported field %field_label (%field_name) was not added to %type because that field already exists in %type."
+msgstr "Het geimporteerde veld %field_label (%field_name) is niet toegevoegd aan %type omdat het veld al bestaat in %type."
+
+#: content_copy.module:476
+msgid "The field %field_label (%field_name) was added to the content type %type."
+msgstr "Het veld %field_label (%field_name) is toegevoegd aan het inhoudstype %type."
+
+#: content_copy.module:581
+msgid "An error occurred when exporting the 'display settings' data for the field %field_name.<br/>The db error is: '%db_err'."
+msgstr "Er is een fout opgetreden tijdens het exporteren van de weergaveinstellingendata voor het veld %field_name.<br />De databasefoutmelding is: '%db_err'."
+
+#: content_copy.module:0
+msgid "content_copy"
+msgstr "content_copy"
+
+#: content_copy.info:0
+msgid "Content Copy"
+msgstr "Kopieer inhoud"
+
+#: content_copy.info:0
+msgid "Enables ability to import/export field definitions."
+msgstr "Laat velddefinities geimporteerd en geexporteerd worden."
+
+#: content_copy.info:0
+msgid "CCK"
+msgstr "CCK"
+

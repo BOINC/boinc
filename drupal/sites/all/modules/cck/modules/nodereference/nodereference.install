@@ -1,0 +1,165 @@
+<?php
+// $Id: nodereference.install,v 1.25.2.8 2009/07/19 13:03:56 markuspetrux Exp $
+
+/**
+ * @file
+ * Implementation of hook_install().
+ */
+function nodereference_install() {
+  drupal_load('module', 'content');
+  content_notify('install', 'nodereference');
+}
+
+/**
+ * Implementation of hook_uninstall().
+ */
+function nodereference_uninstall() {
+  drupal_load('module', 'content');
+  content_notify('uninstall', 'nodereference');
+}
+
+/**
+ * Implementation of hook_enable().
+ *
+ * Notify content module when this module is enabled.
+ */
+function nodereference_enable() {
+  drupal_load('module', 'content');
+  content_notify('enable', 'nodereference');
+}
+
+/**
+ * Implementation of hook_disable().
+ *
+ * Notify content module when this module is disabled.
+ */
+function nodereference_disable() {
+  drupal_load('module', 'content');
+  content_notify('disable', 'nodereference');
+}
+
+function nodereference_update_last_removed() {
+  return 3;
+}
+
+/**
+ * All fields must allow NULL values to indicate empty fields.
+ */
+function nodereference_update_6000(&$sandbox) {
+  include_once('./'. drupal_get_path('module', 'content') .'/content.install');
+  drupal_load('module', 'content');
+
+  $ret = array();
+
+  if (!isset($sandbox['progress'])) {
+    if ($abort = content_check_update('nodereference')) {
+      return $abort;
+    }
+
+    // Get the latest cache values and schema.
+    content_clear_type_cache(TRUE, TRUE);
+    $types = content_types_install();
+
+    if (empty($types)) {
+      return $ret;
+    }
+
+    $sandbox['fields'] = array();
+    foreach ($types as $type_name => $fields) {
+      foreach ($fields as $field) {
+        if ($field['type'] == 'nodereference') {
+          $sandbox['fields'][] = $field;
+        }
+      }
+    }
+
+    if (empty($sandbox['fields'])) {
+      return $ret;
+    }
+
+    $sandbox['progress'] = 0;
+    $sandbox['visited'] = array();
+  }
+
+  $field = $sandbox['fields'][$sandbox['progress']];
+
+  // We only want to process a field once -- if we hit it a second time,
+  // that means it's its own table and it should have already been updated.
+  if (!in_array($field['field_name'], $sandbox['visited'])) {
+    $db_info = content_database_info($field);
+    $table = $db_info['table'];
+    $attributes = $db_info['columns']['nid'];
+    $column = $attributes['column'];
+    $attributes['not null'] = FALSE;
+    db_change_field($ret, $table, $column, $column, array('type' => 'int', 'not null' => FALSE));
+    db_field_set_no_default($ret, $db_info['table'], $column);
+    $ret[] = update_sql("UPDATE {". $db_info['table'] ."} SET ". $column ." = NULL WHERE ". $column ." = 0");
+
+    $sandbox['visited'][] = $field['field_name'];
+  }
+
+  $sandbox['progress']++;
+  $ret['#finished'] = $sandbox['progress'] / count($sandbox['fields']);
+
+  return $ret;
+}
+
+/**
+ * Create an index by node reference column for all fields.
+ */
+function nodereference_update_6001(&$sandbox) {
+  include_once('./'. drupal_get_path('module', 'content') .'/content.install');
+  drupal_load('module', 'content');
+
+  $ret = array();
+
+  if (!isset($sandbox['progress'])) {
+    if ($abort = content_check_update('nodereference')) {
+      return $abort;
+    }
+
+    // Get the latest cache values and schema.
+    content_clear_type_cache(TRUE, TRUE);
+    $types = content_types_install();
+
+    if (empty($types)) {
+      return $ret;
+    }
+
+    $sandbox['fields'] = array();
+    foreach ($types as $type_name => $fields) {
+      foreach ($fields as $field) {
+        if ($field['type'] == 'nodereference') {
+          $sandbox['fields'][] = $field;
+        }
+      }
+    }
+
+    if (empty($sandbox['fields'])) {
+      return $ret;
+    }
+
+    $sandbox['progress'] = 0;
+    $sandbox['visited'] = array();
+  }
+
+  $field = $sandbox['fields'][$sandbox['progress']];
+
+  // We only want to process a field once -- if we hit it a second time,
+  // that means it's its own table and it should have already been updated.
+  if (!in_array($field['field_name'], $sandbox['visited'])) {
+    $db_info = content_database_info($field);
+    $table = $db_info['table'];
+    $attributes = $db_info['columns']['nid'];
+    $column = $attributes['column'];
+    if (!content_db_index_exists($table, $column)) {
+      db_add_index($ret, $table, $column, array($column));
+    }
+    $sandbox['visited'][] = $field['field_name'];
+  }
+
+  $sandbox['progress']++;
+  $ret['#finished'] = $sandbox['progress'] / count($sandbox['fields']);
+
+  return $ret;
+}

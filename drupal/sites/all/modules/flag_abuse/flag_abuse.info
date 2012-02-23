@@ -1,0 +1,13 @@
+; $Id: flag_abuse.info,v 1.1 2009/03/19 22:11:19 sirkitree Exp $
+name = Flag abuse
+description = Utilizes Flag and Views to create social content moderation tools.
+package = Flags
+dependencies[] = flag
+dependencies[] = views
+core = 6.x
+; Information added by drupal.org packaging script on 2010-08-26
+version = "6.x-2.0-rc1"
+core = "6.x"
+project = "flag_abuse"
+datestamp = "1282852007"
+

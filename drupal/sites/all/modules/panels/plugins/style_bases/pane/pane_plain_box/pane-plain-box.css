@@ -1,0 +1,11 @@
+%style {
+  margin-bottom: 10px;
+  color: %text;
+  background-color: %background;
+}
+
+%style h2 {
+  color: %header-text;
+  background-color: %header-background;
+}
+

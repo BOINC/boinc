@@ -1,0 +1,235 @@
+<?php
+// $Id: og_views.module,v 1.18.4.4 2009/06/09 11:42:46 weitzman Exp $
+
+/**
+ * Implementation of hook_menu().
+ */
+function og_views_menu() {
+  // This exists because I can't easily restrict access based on pictures_enabled using Views.
+  $items['og/users/%node/faces'] = array(
+    'title' => 'Faces',
+    'page callback' => 'og_views_users_faces',
+    'page arguments' => array('og_members_faces', 'default', 2),
+    'type' => MENU_LOCAL_TASK,
+    'access callback' => 'og_menu_access_picture',
+    'access arguments' => array(2),
+  );
+
+  // Group feed
+  $items['node/%node/feed'] = array(
+    'page callback' => 'og_views_feed',
+    'page arguments' => array(1),
+    'title callback' => 'node_page_title',
+    'title arguments' => array(1),
+    'type' => MENU_CALLBACK,
+    'access callback' => 'node_access',
+    'access arguments' => array('view', 1),
+  );
+
+  return $items;
+}
+
+// An menu access callback.
+function og_menu_access_picture($gid) {
+  $view = views_get_view('og_members_faces');
+  // Not working properly. See  http://drupal.org/node/345144.
+  return og_is_picture() && og_is_group_member($gid) && !$view->disabled;
+}
+
+/**
+ * A menu callback. Extracts the nid from $node and passes along to views_page().
+ *
+ */
+function og_views_users_faces($view_name, $display, $node) {
+  $arg = $node->nid;
+  return views_page($view_name, $display, $arg);
+}
+
+
+/**
+ * Implementation of hook_views_api().
+ */
+function og_views_views_api() {
+  return array(
+    'api' => 2,
+  );
+}
+
+/**
+ * Menu callback. Render group feed.
+ */
+function og_views_feed($node) {
+  $view = views_get_view(variable_get('og_home_page_view', 'og_ghp_ron'));
+  $view->is_cacheable = FALSE;
+  $view->set_display('feed');
+  // TODOL: not working
+  $view->override_path = "node/$node->nid";
+  $view->set_arguments(array($node->nid));
+  $view->display_handler->set_option('style_options', array('description' => $node->og_description));
+  print $view->render();
+}
+
+function og_views_block($op = 'list', $delta = 0, $edit = array()) {
+  if ($op == 'list') {
+    $blocks[0]['info'] = t('Group search');
+    $blocks[0]['cache'] = BLOCK_NO_CACHE;
+
+    $blocks[1]['info'] = t('Group notifications (Views enhanced)');
+    $blocks[1]['cache'] = BLOCK_NO_CACHE;
+    return $blocks;
+  }
+  elseif ($op == 'view') {
+    switch($delta) {
+      case 0:
+        return og_views_block_search();
+      case 1:
+        return og_views_block_notifications();
+    }
+  }
+}
+
+function og_views_block_notifications() {
+  global $user;
+
+  if ($groupnode = og_get_group_context()) {
+    $content = t('This group offers an <a href="@groupfeed">RSS feed</a>', array('@groupfeed' => url("node/$groupnode->nid/feed")));
+    if (module_exists('og_notifications') && $user->uid) {
+      $content .= t(' and supports <a href="@notifications">notifications</a>.', array('@notifications' => url("user/$user->uid/notifications")));
+    }
+    else {
+      $content .= '.';
+    }
+    // NOTE: See og.css for styling specific to these lists
+    $content .= ' '. t('Or subscribe to these personalized, sitewide feeds:');
+    $inline = array('class' => 'links inline');
+    if ($user->uid) {
+      $l1[] = array('title' => t('Feed'), 'href' => 'group/myunread/feed');
+      $l1[] = array('title' => t('Page'), 'href' => 'group/myunread');
+      $links['my_unread'] = t('My unread: !links', array('!links' => theme('links', $l1, $inline)));
+
+      $l2[] = array('title' => t('Feed'), 'href' => 'group/mytracker/feed');
+      $l2[] = array('title' => t('Page'), 'href' => 'group/mytracker');
+      $links['my_group'] = t('My group: !links', array('!links' => theme('links', $l2, $inline)));
+    }
+    $l3[] = array('title' => t('Feed'), 'href' => 'group/tracker/feed');
+    $l3[] = array('title' => t('Page'), 'href' => 'group/tracker');
+    $links['all_posts'] = array('data' => t('All posts: !links', array('!links' => theme('links', $l3, $inline))));
+    $content .= theme('item_list', $links);
+    $block['content'] = $content;
+    $block['subject'] = t('Group notifications');
+    return $block;
+  }
+}
+
+function og_views_block_search() {
+  if (!module_exists('search') || !user_access('search content')) {
+    return;
+  }
+  if ($groupnode = og_get_group_context()) {
+    $block['content'] = og_views_block_search_form($groupnode);
+    $block['subject'] = l($groupnode->title, "node/$groupnode->nid");
+    return $block;
+  }
+}
+
+function og_views_block_search_form($groupnode) {
+  // Render our display programmatically after adding an argument. Take that!
+  $view = views_get_view('og_search');
+  $view->set_display('default');
+  $view->set_arguments(array($groupnode->nid));
+  $block = $view->display_handler->view_special_blocks('-exp');
+  return $block['content'];
+}
+
+// An implementation of hook_og_links_alter().
+// Hyperlink the members count to the members listing.
+function og_views_og_links_alter(&$links, $node) {
+  if (isset($links['subscribers'])) {
+    $txt = strip_tags($links['subscribers']);
+    $links['subscribers'] = og_is_picture() ? l($txt, "og/users/$node->nid/faces") : l($txt, "og/users/$node->nid");
+  }
+}
+
+function og_views_nodeapi(&$node, $op, $teaser = NULL, $page = NULL) {
+  switch ($op) {
+    case 'view':
+      if (og_is_group_type($node->type) && !$teaser && $page) {
+        og_views_view_group($node, $teaser, $page);
+      }
+    break;
+  }
+}
+
+/**
+ * Implementation of hook_form_TAG_alter().
+ */
+function og_views_form_og_admin_settings_alter(&$form, $form_state) {
+  $views = views_get_all_views();
+
+  $options = array();
+  foreach ($views as $key => $view) {
+    if (substr($key, 0, strlen('og_ghp_')) == 'og_ghp_') {
+      $options[$key] = $view->name;
+    }
+  }
+  $form['og_settings']['group_details']['og_home_page_view'] = array(
+    '#type' => 'select',
+    '#title' => t('Group home page view'),
+    '#description' => t('Pick a View for your group home page. Only Views whose names start with <strong>og_ghp_</strong> are eligible. The View determines the layout of your group home page. You may alter the presentation using typical Views themeing techniques. See the Theme information link when editing your View and also see the Theme section of the !README. Also note that group admins can override this presentation using the included <em>Organic Groups Panels</em> module.', array('!README' => og_readme())),
+    '#options' => array(0 => t('None')) + $options,
+    '#default_value' => variable_get('og_home_page_view', 'og_ghp_ron'),
+  );
+}
+
+/**
+ * Implementation of hook_form_alter().
+ */
+function og_views_form_alter(&$form, $form_state, $form_id) {
+  if ($form_id == 'views_exposed_form' && $form_state['view']->name == 'og_search') {
+    $form['submit']['#value'] = t('Search group');
+  }
+}
+
+/**
+ * Embed the configured group homepage.
+ */
+function og_views_view_group($node, $teaser, $page) {
+  if ($name = variable_get('og_home_page_view', 'og_ghp_ron')) {
+    // There is a view defiened to act as the group's home page.
+    $view = views_get_view($name);
+    if (!$view) {
+      drupal_set_message(t('The View %name was not found. Check your variables table or settings.php.', array('%name' => $name)), 'error');
+    }
+    else {
+      $built = $view->preview('default', array($node->nid));
+    }
+
+    // Views will set either total_rows or num_rows depending on whether
+    // View has a pager, or might show an empty text.
+    if (!empty($view->total_rows) || !empty($view->num_rows) || !empty($view->page_empty) || $view->display_handler->get_option('empty')) {
+      $node->content['view'] = array('#value' => $built);
+    }
+    elseif (empty($_POST)) {
+      // If views hasn't show any text we show og's empty text.
+      // Otherwise show it to everybody.
+      og_home_empty($node);
+    }
+    
+    drupal_set_title(filter_xss_admin($view->build_info['title']));
+    drupal_add_feed(url("node/$node->nid/feed"), drupal_get_title());
+  }
+  else {
+    drupal_set_title(filter_xss_admin($node->title));
+  }
+}
+
+/**
+ * An implementation of hook_views_pre_view().
+ */
+function og_views_views_pre_view(&$view, &$display_id, &$args) {
+  if ($view->name == 'og_my') {
+    if (!$view->display_handler->get_option('footer')) {
+      $view->attachment_after = theme('opml_icon', url('og/opml'));
+    }
+  }
+}

@@ -1,0 +1,188 @@
+# $Id: imagefield.pot,v 1.5 2010/05/01 22:39:42 quicksketch Exp $
+#
+# LANGUAGE translation of Drupal (general)
+# Copyright YEAR NAME <EMAIL@ADDRESS>
+# Generated from files:
+#  imagefield_file.inc,v 1.18 2009/04/14 01:28:52 quicksketch
+#  imagefield_widget.inc,v 1.40 2009/09/18 15:30:18 quicksketch
+#  imagefield.module,v 1.103 2009/08/28 03:53:15 quicksketch
+#  imagefield.install,v 1.31 2009/04/15 20:15:03 quicksketch
+#  imagefield.info,v 1.12 2009/03/01 04:38:48 quicksketch
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"POT-Creation-Date: 2009-10-29 13:55+0100\n"
+"PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
+"Last-Translator: NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+
+#: imagefield_file.inc:94
+msgid "An image thumbnail was not able to be created."
+msgstr ""
+
+#: imagefield_widget.inc:21
+msgid "Maximum resolution for Images"
+msgstr ""
+
+#: imagefield_widget.inc:25
+msgid "The maximum allowed image size expressed as WIDTHxHEIGHT (e.g. 640x480). Set to 0 for no restriction. If a larger image is uploaded, it will be resized to reflect the given width and height."
+msgstr ""
+
+#: imagefield_widget.inc:28
+msgid "Resizing images on upload will cause the loss of <a href=\"http://en.wikipedia.org/wiki/Exchangeable_image_file_format\">EXIF data</a> in the image."
+msgstr ""
+
+#: imagefield_widget.inc:30
+msgid "Minimum resolution for Images"
+msgstr ""
+
+#: imagefield_widget.inc:35
+msgid "The minimum allowed image size expressed as WIDTHxHEIGHT (e.g. 640x480). Set to 0 for no restriction. If an image that is smaller than these dimensions is uploaded it will be rejected."
+msgstr ""
+
+#: imagefield_widget.inc:41
+msgid "ALT text settings"
+msgstr ""
+
+#: imagefield_widget.inc:48
+msgid "Enable custom alternate text"
+msgstr ""
+
+#: imagefield_widget.inc:50
+msgid "Enable user input alternate text for images."
+msgstr ""
+
+#: imagefield_widget.inc:54
+msgid "Default ALT text"
+msgstr ""
+
+#: imagefield_widget.inc:56
+msgid "This value will be used for alternate text by default."
+msgstr ""
+
+#: imagefield_widget.inc:62
+msgid "Title text settings"
+msgstr ""
+
+#: imagefield_widget.inc:69
+msgid "Enable custom title text"
+msgstr ""
+
+#: imagefield_widget.inc:71
+msgid "Enable user input title text for images."
+msgstr ""
+
+#: imagefield_widget.inc:75
+msgid "Input type"
+msgstr ""
+
+#: imagefield_widget.inc:80
+msgid "Choose type of field to be displayed to the user."
+msgstr ""
+
+#: imagefield_widget.inc:84
+msgid "Default Title text"
+msgstr ""
+
+#: imagefield_widget.inc:86
+msgid "This value will be used as the image title by default."
+msgstr ""
+
+#: imagefield_widget.inc:93
+msgid "Default image"
+msgstr ""
+
+#: imagefield_widget.inc:103
+msgid "Use default image"
+msgstr ""
+
+#: imagefield_widget.inc:105
+msgid "When an image is not uploaded, show a default image on display."
+msgstr ""
+
+#: imagefield_widget.inc:116
+msgid "Upload image"
+msgstr ""
+
+#: imagefield_widget.inc:117
+msgid "Choose a image that will be used as default."
+msgstr ""
+
+#: imagefield_widget.inc:140
+msgid "The default image could not be uploaded. The destination %destination does not exist or is not writable by the server."
+msgstr ""
+
+#: imagefield_widget.inc:176
+msgid "Only web-standard images (jpg, gif, and png) are supported through the image widget. If needing to upload other types of images, change the widget to use a standard file upload."
+msgstr ""
+
+#: imagefield_widget.inc:182
+msgid "Please specify a resolution in the format WIDTHxHEIGHT (e.g. 640x480)."
+msgstr ""
+
+#: imagefield_widget.inc:230
+msgid "Alternate Text"
+msgstr ""
+
+#: imagefield_widget.inc:233
+msgid "This text will be used by screen readers, search engines, or when the image cannot be loaded."
+msgstr ""
+
+#: imagefield_widget.inc:258
+msgid "Title"
+msgstr ""
+
+#: imagefield_widget.inc:260
+msgid "The title is used as a tool tip when the user hovers the mouse over the image."
+msgstr ""
+
+#: imagefield.module:21
+msgid "The ImageField module has been disabled. The <a href=\"http://drupal.org/project/filefield\">FileField module</a> needs to be installed for it to work properly."
+msgstr ""
+
+#: imagefield.module:135;221
+msgid "Image"
+msgstr ""
+
+#: imagefield.module:139
+msgid "An edit widget for image files, including a preview of the image."
+msgstr ""
+
+#: imagefield.module:223;228;233
+msgid "Displays image files in their original size."
+msgstr ""
+
+#: imagefield.module:226
+msgid "Image linked to node"
+msgstr ""
+
+#: imagefield.module:231
+msgid "Image linked to file"
+msgstr ""
+
+#: imagefield.install:62
+msgid "FileField must be updated to Drupal 6 before ImageField can be updated."
+msgstr ""
+
+#: imagefield.install:326
+msgid "Deleted admin thumbnails distributed throughout files directory. All thumbnails are now stored in the \"imagefield_thumbs\" directory."
+msgstr ""
+
+#: imagefield.info:0
+msgid "ImageField"
+msgstr ""
+
+#: imagefield.info:0
+msgid "Defines an image field type."
+msgstr ""
+
+#: imagefield.info:0
+msgid "CCK"
+msgstr ""
+

@@ -1,0 +1,61 @@
+# $Id: pm_email_notify.pot,v 1.1.2.3 2010/04/12 12:10:41 berdir Exp $
+#
+# LANGUAGE translation of Privatemsg (pm_email_notify)
+# Copyright YEAR NAME <EMAIL@ADDRESS>
+# Generated from files:
+#  pm_email_notify.module,v 1.1.2.13 2010/03/12 16:20:52 berdir
+#  pm_email_notify.info,v 1.1.2.1 2009/04/16 16:14:18 litwol
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"POT-Creation-Date: 2010-04-12 13:53+0200\n"
+"PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
+"Last-Translator: NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+
+#: pm_email_notify/pm_email_notify.module:31;158
+msgid "Privatemsg e-mail notification"
+msgstr ""
+
+#: pm_email_notify/pm_email_notify.module:37
+msgid "Notify users of new private messages by default"
+msgstr ""
+
+#: pm_email_notify/pm_email_notify.module:44
+msgid "Customize the email messages sent to users upon receipt of a new private message. <br />Available variables are: !author, !author_uid, !pm_subject, !pm_body, !thread, !site, !login_url, !uri, !uri_brief, !message (URL) and !settings (URL)."
+msgstr ""
+
+#: pm_email_notify/pm_email_notify.module:50
+msgid "Subject of notification messages"
+msgstr ""
+
+#: pm_email_notify/pm_email_notify.module:57
+msgid "Body of notification messages"
+msgstr ""
+
+#: pm_email_notify/pm_email_notify.module:165
+msgid "Receive email notification for incoming private messages"
+msgstr ""
+
+#: pm_email_notify/pm_email_notify.module:14
+msgid "E-mail notify"
+msgstr ""
+
+#: pm_email_notify/pm_email_notify.module:15
+msgid "E-mail notification settings"
+msgstr ""
+
+#: pm_email_notify/pm_email_notify.info:0
+msgid "Privatemsg Email Notification"
+msgstr ""
+
+#: pm_email_notify/pm_email_notify.info:0
+msgid "Notifies users about new Private Messages via Email."
+msgstr ""
+

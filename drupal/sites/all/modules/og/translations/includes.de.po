@@ -1,0 +1,482 @@
+# LANGUAGE translation of Drupal (c:\Contributions\modules\og\og.module)
+# Copyright YEAR NAME <EMAIL@ADDRESS>
+# Generated from file: og.module,v 1.81 2005/06/30 04:30:49 weitzman
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: German translation of OG\n"
+"POT-Creation-Date: 2008-11-15 20:51+0100\n"
+"PO-Revision-Date: 2008-11-15 22:43+0100\n"
+"Last-Translator: Alexander Haß\n"
+"Language-Team: DE\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Poedit-Language: German\n"
+"X-Poedit-Country: GERMANY\n"
+
+#: includes/og.admin.inc:11
+msgid "You must designate at least one content type to act as a group node and another as a group post. <a href=\"!create\">Create new content type</a> if needed."
+msgstr "Es muss mindestens ein Inhaltstyp festgelegt werden, der als Gruppe und ein weiterer der als Gruppenbeitrag fungiert. Nach Bedarf kann ein <a href=\"!create\">neuer Inhaltstyp</a> erstellt werden."
+
+#: includes/og.admin.inc:15
+msgid "Content types"
+msgstr "Inhaltstypen"
+
+#: includes/og.admin.inc:20
+msgid "Usage"
+msgstr "Verwendung"
+
+#: includes/og.admin.inc:28
+msgid "Edit"
+msgstr "Bearbeiten"
+
+# rewrite second sentence
+#: includes/og.admin.inc:42
+#, fuzzy
+msgid "New groups don't appear in the groups directory. Administrators control the directory exclusively."
+msgstr "Neue Gruppen erscheinen nicht im Gruppenverzeichnis. Ausschließlich Administratoren steuern das Verzeichnis."
+
+#: includes/og.admin.inc:43
+msgid "New groups always appear in the groups directory."
+msgstr "Neue Gruppen erscheinen immer im Gruppenverzeichnis."
+
+#: includes/og.admin.inc:44
+msgid "Group creator chooses whether her group appears in the directory. Defaults to <em>in directory</em>."
+msgstr "Der Ersteller einer Gruppe legt fest, ob seine Gruppe im Verzeichnis erscheint. Standardmäßig erscheint diese <em>im Verzeichnis</em>."
+
+#: includes/og.admin.inc:45
+msgid "Group creator chooses whether her group appears in the directory. Defaults to <em>not in directory</em>."
+msgstr "Der Ersteller einer Gruppe legt fest, ob seine Gruppe im Verzeichnis erscheint. Standardmäßig erscheint diese <em>nicht im Verzeichnis</em>."
+
+#: includes/og.admin.inc:49
+msgid "Groups directory control"
+msgstr "Gruppen-Verzeichnis-Steuerung"
+
+#: includes/og.admin.inc:51
+msgid "OG admins always see the checkbox for adding a group to the <em>groups directory</em>. Note that changing this setting has no effect on existing posts. Re-save those posts to acquire this new setting."
+msgstr "OG-Administratoren sehen immer das Ankreuzfeld, um die Gruppe zum <em>Gruppenverzeichnis</em> hinzuzufügen. Eine Änderung dieser Einstellung hat keine Auswirkungen auf vorhandene Beiträge. Diese Beiträge müssen erneut gespeichert werden, um diese neue Einstellung zu übernehmen."
+
+# rewrite second sentence
+#: includes/og.admin.inc:57
+#, fuzzy
+msgid "New groups don't appear on the registration form. Administrators control the form exclusively."
+msgstr "Neue Gruppen erscheinen nicht im Registrierungsformular. Ausschließlich Administratoren steuern das Formular."
+
+#: includes/og.admin.inc:58
+msgid "New groups always appear on the registration form."
+msgstr "Neue Gruppen erscheinen immer im Registrierungsformular."
+
+#: includes/og.admin.inc:59
+msgid "Group creator chooses whether her group appears on the registration form. Defaults to <em>on form</em>."
+msgstr "Der Ersteller einer Gruppe legt fest, ob seine Gruppe im Registrierungsformular erscheint. Standardmäßig erscheint diese <em>im Formular</em>."
+
+#: includes/og.admin.inc:60
+msgid "Group creator chooses whether her group appears on the registration form. Defaults to <em>not on form</em>."
+msgstr "Der Ersteller einer Gruppe legt fest, ob seine Gruppe im Registrierungsformular erscheint. Standardmäßig erscheint diese <em>nicht im Formular</em>."
+
+#: includes/og.admin.inc:64
+msgid "Registration form control"
+msgstr "Registrierungs-Formular-Steuerung"
+
+#: includes/og.admin.inc:66
+msgid "OG admins always see the checkbox for adding a group to the <em>registration form</em>. Note that changing this setting has no effect on existing posts. Re-save those posts to acquire this new setting."
+msgstr "OG-Administratoren sehen immer das Ankreuzfeld, um eine Gruppe zum <em>Registrierungsformular</em> hinzuzufügen. Eine Änderung dieser Einstellung hat keine Auswirkungen auf vorhandene Beiträge. Diese Beiträge müssen erneut gespeichert werden, um diese neue Einstellung zu übernehmen."
+
+#: includes/og.admin.inc:73
+msgid "Audience checkboxes"
+msgstr "Ankreuzfelder für die Zielgruppen"
+
+#: includes/og.admin.inc:75
+msgid "Show each group that the user is a member of as a checkbox in the \"Audience\" section. This enables the member to place her post into multiple groups. If unchecked, simplify the user interface by omitting the checkboxes and assuming user wants to post into the current group. This simplification only applies to new nodes, and not to edits of existing nodes. Group administrators always see checkboxes."
+msgstr "Zeigt jede Gruppe zu der ein Benutzer gehört als Ankreuzfeld im „Zielgruppen“-Bereich an. Dies ermöglicht dem Mitglied einen Beitrag in mehrere Gruppen einzustellen. Sobald deaktiviert, wird die Benutzeroberfläche durch Weglassen der Ankreuzfelder vereinfacht und angenommen, dass der Benutzer den Beitrag in die aktuelle Gruppe einstellen möchte. Diese Vereinfachung trifft nur auf neue Beiträge zu und nicht auf Bearbeitungen vorhandener Beiträge. Gruppen-Administratoren sehen die Ankreuzfelder immer."
+
+#: includes/og.admin.inc:79
+msgid "Optional"
+msgstr "Optional"
+
+#: includes/og.admin.inc:79
+msgid "Required"
+msgstr "Erforderlich"
+
+# TODO: English could be "Audience" only as the options have the values optional/required.
+#: includes/og.admin.inc:82
+#, fuzzy
+msgid "Audience required"
+msgstr "Festlegung einer Zielgruppe erforderlich"
+
+#: includes/og.admin.inc:85
+msgid "Do you require that all (non administrator) posts be affiliated with a group? Note that changing this setting will affect existing posts when they are edited."
+msgstr "Müssen alle (auch nicht-administrative) Beiträge einer Gruppe zugewiesen werden? Eine Änderung dieser Einstellung wird Auswirkungen auf vorhandene Beiträge haben, wenn diese bearbeitet werden."
+
+#: includes/og.admin.inc:92
+msgid "Messaging & Notifications"
+msgstr "Nachrichtenvermittlung & Benachrichtigungen"
+
+#: includes/og.admin.inc:98
+msgid "Format of \"From:\" field"
+msgstr "Format des „Von:“-Feldes"
+
+#: includes/og.admin.inc:100
+msgid "Specify the format of the \"From:\" field on outgoing notifications. Available variables: @user_mail, @user_name, @site_mail, @site_name. Note that the @user_mail token reveals the author's email address. If the admin email examples above appear blank, you need to set your site email in the \"Site information\" panel."
+msgstr "Das Format des „Von:“-Feldes für ausgehende Benachrichtigungen festlegen. Verfügbare Variablen sind: @user_mail, @user_name, @site_mail und @site_name. Bitte beachten Sie, dass der Platzhalter @user_mail die E-Mail-Adresse des Autors anzeigt. Sollten die oben aufgeführten administrativen E-Mail-Beispiele leer gelassen werden, muss die E-Mail der Website in den „Website-Informationen“ eingetragen werden."
+
+#: includes/og.admin.inc:104
+msgid "New content subject"
+msgstr "Neuer Inhaltsbetreff"
+
+#: includes/og.admin.inc:105
+msgid "Subject of notification message for new content. Available variables: @group, !group_url, @type, @site, !content_url, !reply_url, @title, @subject, @node_full, @node_teaser, @username. %subject contains the comment title in the case of a comment but the node title in the case of a new post. @title is always the node title."
+msgstr "Der Betreff einer Benachrichtigungsmitteilung für neuen Inhalt. Verfügbare Variablen: @group, !group_url, @type, @site, !content_url, !reply_url, @title, @subject, @node_full, @node_teaser und @username. %subject enthält bei einem Kommentar den Kommentartitel und bei einem neuen Beitrag den Beitragstitel. @title enthält immer den Titel des Beitrags."
+
+#: includes/og.admin.inc:110
+msgid "New content body"
+msgstr "Neuer Inhaltstextkörper"
+
+#: includes/og.admin.inc:112
+msgid "Body of the notification for new content. Available variables: @group, !group_url, @type, @site, !content_url, !reply_url, @title, @subject, @node_full, @node_teaser, @username. @subject contains the comment title in the case of a comment but the node title in the case of a new post. %title is always the node title."
+msgstr "Der Textkörper einer Benachrichtigung für neuen Inhalt. Verfügbare Variablen: @group, !group_url, @type, @site, !content_url, !reply_url, @title, @subject, @node_full, @node_teaser und @username. @subject enthält bei einem Kommentar den Kommentartitel und bei einem neuen Beitrag den Beitragstitel. %title enthält immer den Titel des Beitrags."
+
+#: includes/og.admin.inc:117
+msgid "Group admin notification body"
+msgstr "Textkörper der Benachrichtigung an einen Gruppenadministrator"
+
+#: includes/og.admin.inc:119
+msgid "The body of the message sent to users from the group admin. Available variables: @group, @body, @site, !url_group, !url_unsubscribe"
+msgstr "Der Textkörper der Nachricht, die vom Gruppenadministrator an Benutzer gesendet wird. Verfügbare Variablen: @group, @body, @site, !url_group, !url_unsubscribe."
+
+#: includes/og.admin.inc:124
+msgid "User approved notification subject"
+msgstr "Betreff der Benachrichtigung an akzeptierte Benutzer"
+
+#: includes/og.admin.inc:125
+msgid "The subject of the message sent to new approved members. Available variables: !group_url, @title"
+msgstr "Der Betreff der Nachricht, die an neue akzeptierte Mitglieder gesendet wird. Verfügbare Variablen: !group_url, @title."
+
+#: includes/og.admin.inc:130
+msgid "User approved notification body"
+msgstr "Textkörper der Benachrichtigung an akzeptierte Benutzer"
+
+#: includes/og.admin.inc:132
+msgid "The body of the message sent to new approved members. Available variables: !group_url, @title"
+msgstr "Der Textkörper der Nachricht, die an neue akzeptierte Mitglieder gesendet wird. Verfügbare Variablen: !group_url, @title."
+
+#: includes/og.admin.inc:137
+msgid "User denied notification subject"
+msgstr "Betreff der Benachrichtigung an abgelehnte Benutzer"
+
+#: includes/og.admin.inc:138
+msgid "The subject of the message sent to denied users. Available variables: !group_url, @title"
+msgstr "Der Betreff der Nachricht, die an abgelehnte Benutzer gesendet wird. Verfügbare Variablen: !group_url, @title."
+
+#: includes/og.admin.inc:143
+msgid "User denied notification body"
+msgstr "Textkörper der Benachrichtigung an abgelehnte Benutzer"
+
+#: includes/og.admin.inc:145
+msgid "The body of the message sent to denied users. Available variables: !group_url, @title"
+msgstr "Der Textkörper der Nachricht, die an abgelehnte Benutzer gesendet wird. Verfügbare Variablen: !group_url, @title."
+
+#: includes/og.admin.inc:150
+msgid "Invite user notification subject"
+msgstr "Betreff der Einladungsbenachrichtigung an Benutzer"
+
+#: includes/og.admin.inc:151
+msgid "The subject of the message sent to users invited to join a group. Available variables: @group, @site, @description, !group_url, @body"
+msgstr "Der Betreff der Nachricht, die an eingeladenen Benutzer zum Beitritt in eine Gruppe verschickt wird. Verfügbare Variablen: @group, @site, @description, !group_url, @body."
+
+#: includes/og.admin.inc:156
+msgid "Invite user notification body"
+msgstr "Textkörper der Einladungsbenachrichtigung an Benutzer"
+
+#: includes/og.admin.inc:158
+msgid "The body of the message sent to users invited to join a group. Available variables: @group, @site, @description, !group_url, @body"
+msgstr "Der Betreff der Nachricht, die an eingeladenen Benutzer zum Beitritt in eine Gruppe verschickt wird. Verfügbare Variablen: @group, @site, @description, !group_url, @body."
+
+#: includes/og.admin.inc:163
+msgid "Request user notification subject"
+msgstr "Betreff der Benachrichtigung für die Anfrage eines Benutzers"
+
+#: includes/og.admin.inc:164
+msgid "The subject of the message sent to a user's request to join a group. Available variables: @group, @username, !approve_url, !group_url"
+msgstr "Der Betreff der Nachricht, die bei einer Gruppenbeitrittsanfrage eines Benutzers verschickt wird. Verfügbare Variablen: @group, @username, !approve_url, !group_url."
+
+#: includes/og.admin.inc:169
+msgid "Request user notification body"
+msgstr "Textkörper der Benachrichtigung für den Anfrage eines Benutzers"
+
+#: includes/og.admin.inc:171
+msgid "The body of the message sent to a user's request to join a group. Available variables: @group, @username, !approve_url, !group_url"
+msgstr "Der Textkörper der Nachricht, die bei einer Gruppenbeitrittsanfrage eines Benutzers verschickt wird. Verfügbare Variablen: @group, @username, !approve_url, !group_url."
+
+#: includes/og.admin.inc:176
+msgid "New admin user notification subject"
+msgstr "Betreff der Benachrichtigung an einen neuen Administrator"
+
+#: includes/og.admin.inc:177
+msgid "The subject of the message sent to a new admin for a group. Available variables: @group, @username, !group_url"
+msgstr "Der Betreff der E-Mail, die an einen neuen Administrator für eine Gruppe gesendet wird. Verfügbare Variablen: @group, @username, !group_url."
+
+#: includes/og.admin.inc:182
+msgid "New admin user notification body"
+msgstr "Textkörper der Benachrichtigung an einen neuen Administrator"
+
+#: includes/og.admin.inc:184
+msgid "The body of the message sent to a new admin for a group. Available variables: @group, @username, !group_url, !invite_url"
+msgstr "Der Textkörper der E-Mail, die an einen neuen Administrator einer Gruppe gesendet wird. Verfügbare Variablen: @group, @username, !group_url, !invite_url."
+
+#: includes/og.panelscontent.inc:5
+msgid "Welcome message"
+msgstr "Willkommensmitteilung"
+
+#: includes/og.panelscontent.inc:8
+msgid "The welcome message for the group. Specified on group edit form."
+msgstr "Die Willkommensmeldung für die Gruppe. Diese wird auf dem „Bearbeiten“-Formular der Gruppe angegeben."
+
+#: includes/og.panelscontent.inc:18
+msgid "Group description"
+msgstr "Eine Beschreibung der Gruppe."
+
+#: includes/og.panelscontent.inc:21
+msgid "The group description as specified on the group edit form."
+msgstr "Die Gruppenbeschreibung, wie diese auf dem „Bearbeiten“-Formular der Gruppe angegeben wurde."
+
+#: includes/og.panelscontent.inc:30;111;239
+msgid "Group members"
+msgstr "Gruppenmitglieder"
+
+#: includes/og.panelscontent.inc:33
+msgid "The list of group subscribers or just group admins."
+msgstr "Die Liste von Gruppenmitgliedern oder nur Gruppenadministratoren."
+
+#: includes/og.panelscontent.inc:45
+msgid "Search this group."
+msgstr "Diese Gruppe durchsuchen."
+
+#: includes/og.panelscontent.inc:54;147
+msgid "Group faces"
+msgstr "Gruppengesichter"
+
+#: includes/og.panelscontent.inc:57
+msgid "Show a grid of user pictures."
+msgstr "Ein Raster von Benutzerbildern anzeigen."
+
+#: includes/og.panelscontent.inc:68;231
+msgid "Welcome"
+msgstr "Willkommen"
+
+#: includes/og.panelscontent.inc:83
+msgid "Welcome statement goes here."
+msgstr "Die Willkommensmeldung wird hier angezeigt."
+
+#: includes/og.panelscontent.inc:100
+msgid "Description goes here."
+msgstr "Die Beschreibung wird hier angezeigt."
+
+#: includes/og.panelscontent.inc:117
+msgid "Member list goes here."
+msgstr "Die Mitgliederliste wird hier angezeigt."
+
+#: includes/og.panelscontent.inc:136
+msgid "Search form goes here."
+msgstr "Das Suchformular wird hier angezeigt."
+
+#: includes/og.panelscontent.inc:153
+msgid "Faces go here."
+msgstr "Die Gesichter werden hier angezeigt."
+
+#: includes/og.panelscontent.inc:163
+msgid "Number of pictures per row"
+msgstr "Anzahl an Bildern pro Zeile"
+
+#: includes/og.panelscontent.inc:169
+msgid "Maximum number of rows per page"
+msgstr "Die maximale Anzahl an Einträgen pro Seite"
+
+#: includes/og.panelscontent.inc:175
+msgid "Pager ID"
+msgstr "Pager-ID"
+
+#: includes/og.panelscontent.inc:185
+msgid "Number of members"
+msgstr "Anzahl von Mitgliedern"
+
+# TODO: period is missing in english
+#: includes/og.panelscontent.inc:186
+msgid "Maxmimum number of members that should appear on the list"
+msgstr "Die maximale Anzahl an Mitgliedern, die in der Liste erscheinen sollen."
+
+#: includes/og.panelscontent.inc:195
+msgid "You may specify which types of group members appear in this listing."
+msgstr "Hier kann angegeben werden, welche Typen von Gruppenmitgliedern in der Auflistung angezeigt werden."
+
+#: includes/og.panelscontent.inc:199
+msgid "Show more link"
+msgstr "„Mehr“-Link anzeigen"
+
+#: includes/og.panelscontent.inc:201
+msgid "Should a <em>more</em> link appear when more members are in the group but not listed."
+msgstr "Soll ein <em>mehr</em>-Link erscheinen, wenn mehr als Mitglieder in der Gruppe sind als angezeigt werden."
+
+#: includes/og.panelscontent.inc:205
+msgid "Show pictures"
+msgstr "Bilder anzeigen"
+
+#: includes/og.panelscontent.inc:207
+msgid "Should member pictures be shown in addition to member names."
+msgstr "Sollen Mitgliederbilder zusätzlich zu den Mitgliedernamen angezeigt werden."
+
+#: includes/og.panelscontent.inc:214
+msgid "Number of members must be an integer."
+msgstr "Die Anzahl von Mitgliedern muss eine Zahl sein."
+
+#: includes/og.panelscontent.inc:222
+msgid "Number of pictures per row must be an integer."
+msgstr "Die Anzahl von Bildern pro Zeile muss eine Zahl sein."
+
+#: includes/og.panelscontent.inc:225
+msgid "Maximum number of rows per page must be an integer."
+msgstr "Die maximale Anzahl von Zeilen muss eine Zahl sein."
+
+#: includes/og.panelscontent.inc:243
+msgid "Search"
+msgstr "Suchen"
+
+#: includes/og.panelscontext.inc:37
+msgid "Require this context from an external source (such as containing panel page)."
+msgstr "Diesen Kontext von einer externen Quelle anfragen (wie z.B. eine beinhaltete Panel-Seite)"
+
+# TODO: English -> enabled/checked
+#: includes/og.panelscontext.inc:38
+msgid "If selected, group selection (below) will be ignored."
+msgstr "Sobald aktiviert, wird die (nachfolgende) Gruppenauswahl ignoriert."
+
+#: includes/og.panelscontext.inc:46
+msgid "Enter the NID of a group"
+msgstr "Die Beitrags-ID einer Gruppe eingeben"
+
+#: includes/og.panelscontext.inc:56
+msgid "Currently set to \"%title\""
+msgstr "Derzeit eingestellt auf „%title“"
+
+#: includes/og.panelscontext.inc:74
+msgid "You must select a node."
+msgstr "Ein Beitrag muss ausgewählt werden."
+
+#: includes/og.panelscontext.inc:100
+msgid "Invalid group selected."
+msgstr "Ungültige Gruppe ausgewählt."
+
+#: includes/og.panelscontext.inc:103
+msgid "Node is of type %type which not a group type."
+msgstr "Der Beitrag vom Typ %type ist kein Gruppentyp."
+
+# subscribe?
+#: includes/og.rules.inc:15
+#, fuzzy
+msgid "User subscribes to group"
+msgstr "Benutzer tritt der Gruppe bei"
+
+#: includes/og.rules.inc:16
+msgid "A user has subscribed to a group and is approved. If the user isn't approved then this event won't be triggered."
+msgstr "Ein Benutzer ist einer Gruppe beigetreten und wurde akzeptiert. Wenn der Benutzer nicht akzeptiert ist, wird das Ereignis nicht ausgeführt."
+
+# unsubscribe?
+#: includes/og.rules.inc:21
+#, fuzzy
+msgid "User approved to group by admin"
+msgstr "Benutzer wurde vom Administrator für die Gruppe akzeptiert"
+
+# unsubscribe?
+#: includes/og.rules.inc:26
+#, fuzzy
+msgid "User unsubscribes from group"
+msgstr "Benutzer tritt aus der Gruppe aus"
+
+# subscribe?
+#: includes/og.rules.inc:51
+#, fuzzy
+msgid "User that subscribed to the group"
+msgstr "Benutzer, der dieser Gruppe beigetreten ist"
+
+# subscribe?
+#: includes/og.rules.inc:82
+#, fuzzy
+msgid "Subscribe user to group"
+msgstr "Benutzer zur Gruppe hinzufügen"
+
+# subscribe?
+#: includes/og.rules.inc:86
+#, fuzzy
+msgid "User who will be subscribed"
+msgstr "Benutzer, der hinzugefügt wird"
+
+# subscribe?
+#: includes/og.rules.inc:90
+#, fuzzy
+msgid "Group that user will be subscribed to"
+msgstr "Gruppe zu der dieser Benutzer hinzugefügt wird"
+
+# unsubscribe?
+#: includes/og.rules.inc:96
+#, fuzzy
+msgid "Unsubscribe user from group"
+msgstr "Benutzer aus Gruppe entfernen"
+
+# unsubscribe?
+#: includes/og.rules.inc:99
+#, fuzzy
+msgid "User who will be unsubscribed"
+msgstr "Benutzer, der entfernt wird"
+
+# unsubscribe?
+#: includes/og.rules.inc:103
+#, fuzzy
+msgid "Group that user will be unsubscribed from"
+msgstr "Gruppe aus der dieser Benutzer entfernt wird"
+
+#: includes/og.rules.inc:128
+msgid "Subscription is approved"
+msgstr "Mitgliedschaft wurde bestätigt"
+
+#: includes/og.rules.inc:129
+msgid "When enabled the user will automatically be approved. When disabled user will be a pending member."
+msgstr "Sobald aktiviert, wird ein Benutzer automatisch akzeptiert. Sobald deaktiviert, wird der Benutzer ein unbestätigtes Mitglied."
+
+#: includes/og.rules.inc:148
+msgid "User is group member"
+msgstr "Benutzer ist ein Gruppenmitglied"
+
+#: includes/og.rules.inc:152
+msgid "User"
+msgstr "Benutzer"
+
+#: includes/og.rules.inc:159
+msgid "Evaluates to TRUE if the user is an approved member of the group. If the user is a pending member this condition will return FALSE."
+msgstr "Gibt TRUE zurück, wenn der Benutzer ein bestätigtes Mitglied der Gruppe ist. Sollte der Benutzer ein unbestätigtes Mitglied sein, wird die Bedindung FALSE zurückgeben."
+
+#: includes/og.rules.inc:163
+msgid "Content is a group"
+msgstr "Inhalt ist eine Gruppe"
+
+#: includes/og.rules.inc:170
+msgid "Evaluates to TRUE if the content is a group."
+msgstr "Gibt TRUE zurück, wenn der Inhalt eine Gruppe ist."
+
+#: includes/og.xmlrpc.inc:13
+msgid "Unrecognized user ID: %uid."
+msgstr "Unerkannte Benutzer-ID: %uid."
+
+#: includes/og.xmlrpc.inc:17;37;52
+msgid "Wrong username or password."
+msgstr "Der Benutzername oder das Passwort ist falsch."
+
+#: includes/og.xmlrpc.inc:33
+msgid "User is not a member of the specified group."
+msgstr "Der Benutzer ist kein Mitglied der angegebenen Gruppe"
+
+#: includes/og.xmlrpc.inc:48
+msgid "User is not allowed to retrieve membership information for another user."
+msgstr "Der Benutzer ist nicht berechtigt, Mitgliedschaftsinformationen über andere Benutzer abzufragen."
+

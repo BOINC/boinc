@@ -1,0 +1,382 @@
+<?php
+// $Id: token.test,v 1.1.2.14 2010/08/09 18:39:54 davereid Exp $
+
+/**
+ * @file
+ * Tests for the token and token_actions modules.
+ */
+
+/**
+ * Helper test class with some added functions for testing.
+ */
+class TokenTestHelper extends DrupalWebTestCase {
+  function setUp() {
+    // Call parent::setUp() allowing test cases to pass further modules.
+    $modules = func_get_args();
+    $modules = array_merge(array('path', 'token'), $modules);
+    
+    $parent_callback = 'parent::setUp';
+    if (version_compare(PHP_VERSION, '5.3.0', '<')) {
+      $parent_callback = array($this, 'parent::setUp');
+    }
+    call_user_func_array($parent_callback, $modules);
+  }
+
+  function assertToken($type, $object, $token, $expected, array $options = array()) {
+    $this->assertTokens($type, $object, array($token => $expected), $options);
+  }
+
+  function assertTokens($type, $object, array $tokens, array $options = array()) {
+    $values = token_get_values($type, $object, TRUE, $options);
+    $values = array_combine($values->tokens, $values->values);
+    foreach ($tokens as $token => $expected) {
+      $this->assertIdentical($values[$token], $expected, t("Token value for [@token] was '@actual', expected value '@expected'.", array('@token' => $token, '@actual' => $values[$token], '@expected' => $expected)));
+    }
+  }
+}
+
+class TokenUnitTestCase extends TokenTestHelper {
+  public static function getInfo() {
+    return array(
+      'name' => 'Token unit tests',
+      'description' => 'Test basic, low-level token functions.',
+      'group' => 'Token',
+    );
+  }
+
+  /**
+   * Test token_get_invalid_tokens() and token_get_invalid_tokens_by_context().
+   */
+  public function testGetInvalidTokens() {
+    $tests = array();
+    $tests[] = array(
+      'valid tokens' => array(
+        '[title-raw]',
+        '[yyyy]',
+        '[mod-yyyy]',
+        '[site-name]',
+        '[site-slogan]',
+      ),
+      'invalid tokens' => array(
+        '[title-invalid]',
+        '[invalid]',
+        '[mod-invalid]',
+        '[invalid-title]',
+        '[site-invalid]',
+      ),
+      'types' => array('node'),
+    );
+
+    foreach ($tests as $test) {
+      $tokens = array_merge($test['valid tokens'], $test['invalid tokens']);
+      shuffle($tokens);
+
+      $invalid_tokens = token_get_invalid_tokens_by_context(implode(' ', $tokens), $test['types']);
+
+      sort($invalid_tokens);
+      sort($test['invalid tokens']);
+      $this->assertEqual($invalid_tokens, $test['invalid tokens'], 'Invalid tokens detected properly.');
+    }
+  }
+}
+
+class TokenNodeTestCase extends TokenTestHelper {
+  public static function getInfo() {
+    return array(
+      'name' => 'Node token tests',
+      'description' => 'Test the node tokens.',
+      'group' => 'Token',
+    );
+  }
+
+  function testNodeTokens() {
+    $time = time();
+    $created = gmmktime(0, 0, 0, 11, 19, 1978);
+    $changed = gmmktime(0, 0, 0, 7, 4, 1984);
+    $node = $this->drupalCreateNode(array(
+      'type' => 'page',
+      'language' => 'und',
+      'created' => $created,
+      'log' => '<blink>' . $this->randomName() . '</blink>',
+    ));
+    $node->changed = $changed;
+    path_set_alias('node/' . $node->nid, 'content/first-node');
+
+    $tokens = array(
+      'nid' => $node->nid,
+      'type' => 'page',
+      'type-name' => 'Page',
+      'language' => 'und',
+      'node-path' => 'content/first-node',
+      'node-url' => url('node/' . $node->nid, array('absolute' => TRUE)),
+      'small' => '11/19/1978 - 00:00',
+      'yyyy' => '1978',
+      'yy' => '78',
+      'month' => 'November',
+      'mon' => 'Nov',
+      'mm' => '11',
+      'm' => '11',
+      'ww' => '46',
+      'date' => '7',
+      'day' => 'Sunday',
+      'ddd' => 'Sun',
+      'dd' => '19',
+      'd' => '19',
+      'raw' => 280281600,
+      'since' => format_interval($time - 280281600),
+      'mod-small' => '07/04/1984 - 00:00',
+      'mod-yyyy' => '1984',
+      'mod-yy' => '84',
+      'mod-month' => 'July',
+      'mod-mon' => 'Jul',
+      'mod-mm' => '07',
+      'mod-m' => '7',
+      'mod-ww' => '27',
+      'mod-date' => '3',
+      'mod-day' => 'Wednesday',
+      'mod-ddd' => 'Wed',
+      'mod-dd' => '04',
+      'mod-d' => '4',
+      'mod-raw' => 457747200,
+      'mod-since' => format_interval($time - 457747200),
+      'log' => filter_xss($node->log),
+      'log-raw' => $node->log,
+    );
+    $this->assertTokens('node', $node, $tokens);
+  }
+}
+
+class TokenCommentTestCase extends TokenTestHelper {
+  protected $node;
+
+  public static function getInfo() {
+    return array(
+      'name' => 'Comment token tests',
+      'description' => 'Test the comment tokens.',
+      'group' => 'Token',
+    );
+  }
+
+  function setUp() {
+    parent::setUp('comment');
+    $this->node = $this->drupalCreateNode(array('comment' => 2));
+  }
+
+  function loadComment($cid) {
+    return db_fetch_object(db_query('SELECT c.cid, c.pid, c.nid, c.subject, c.comment, c.format, c.timestamp, c.name, c.mail, c.homepage, u.uid, u.name AS registered_name, u.signature, u.signature_format, u.picture, u.data, c.status FROM {comments} c INNER JOIN {users} u ON c.uid = u.uid WHERE c.cid = %d', $cid));
+  }
+
+  function createComment(array $comment) {
+    $comment += array(
+      'cid' => 0,
+      'nid' => $this->node->nid,
+      'pid' => 0,
+      'uid' => 0,
+      'subject' => $this->randomName(),
+      'comment' => $this->randomName(64),
+      'format' => 1,
+      'timestamp' => gmmktime(0, 0, 0, 7, 4, 1984),
+      'status' => COMMENT_PUBLISHED,
+    );
+
+    $cid = comment_save($comment);
+    return $this->loadComment($cid);
+  }
+
+  function testCommentTokens() {
+    $time = time();
+    $comment = $this->createComment(array(
+      'timestamp' => gmmktime(0, 0, 0, 7, 4, 1984),
+    ));
+
+    $tokens = array(
+      'comment-cid' => $comment->cid,
+      'comment-nid' => $this->node->nid,
+      'comment-yyyy' => '1984',
+      'comment-yy' => '84',
+      'comment-month' => 'July',
+      'comment-mon' => 'Jul',
+      'comment-mm' => '07',
+      'comment-m' => '7',
+      'comment-ww' => '27',
+      'comment-date' => '3',
+      'comment-day' => 'Wednesday',
+      'comment-ddd' => 'Wed',
+      'comment-dd' => '04',
+      'comment-d' => '4',
+      'comment-raw' => '457747200',
+      'comment-since' => format_interval($time - 457747200),
+      'comment-node-title' => check_plain($this->node->title),
+      'comment-node-title-raw' => $this->node->title,
+    );
+    $this->assertTokens('comment', $comment, $tokens);
+
+  }
+}
+
+class TokenTaxonomyTestCase extends TokenTestHelper {
+  protected $vocabulary;
+
+  public static function getInfo() {
+    return array(
+      'name' => 'Taxonomy token tests',
+      'description' => 'Test the taxonomy tokens.',
+      'group' => 'Token',
+    );
+  }
+
+  function setUp() {
+    parent::setUp('taxonomy');
+    // Reset the static taxonomy.module caches.
+    taxonomy_vocabulary_load(0, TRUE);
+    taxonomy_get_term(0, TRUE);
+  }
+
+  function addVocabulary(array $vocabulary = array()) {
+    $vocabulary += array(
+      'name' => drupal_strtolower($this->randomName(5)),
+      'nodes' => array('story' => 'story'),
+    );
+    taxonomy_save_vocabulary($vocabulary);
+    return (object) $vocabulary;
+  }
+
+  function addTerm(stdClass $vocabulary, array $term = array()) {
+    $term += array(
+      'name' => drupal_strtolower($this->randomName(5)),
+      'vid' => $vocabulary->vid,
+    );
+    taxonomy_save_term($term);
+    return (object) $term;
+  }
+
+  function testTaxonomyTokens() {
+    $vocabulary = $this->addVocabulary(array(
+      'name' => '<blink>Vocab Name</blink>',
+      'description' => '<blink>Vocab Description</blink>',
+    ));
+    $term = $this->addTerm($vocabulary, array(
+      'name' => '<blink>Term Name</blink>',
+      'description' => '<blink>Term Description</blink>',
+    ));
+
+    $tokens = array(
+      'tid' => $term->tid,
+      'cat' => check_plain($term->name),
+      'cat-raw' => $term->name,
+      'cat-description' => 'Term Description',
+      'vid' => $vocabulary->vid,
+      'vocab' => check_plain($vocabulary->name),
+      'vocab-raw' => $vocabulary->name,
+      'vocab-description' => 'Vocab Description',
+    );
+    $this->assertTokens('taxonomy', $term, $tokens);
+  }
+}
+
+class TokenMenuTestCase extends TokenTestHelper {
+  public static function getInfo() {
+    return array(
+      'name' => 'Menu token tests',
+      'description' => 'Test the menu tokens.',
+      'group' => 'Token',
+    );
+  }
+
+  function setUp() {
+    parent::setUp('menu');
+  }
+
+  function testMenuTokens() {
+    $root_link = array(
+      'link_path' => '<front>',
+      'link_title' => 'Front link',
+      'menu_name' => 'primary-links',
+    );
+    menu_link_save($root_link);
+
+    $node_link = array(
+      'enabled' => TRUE,
+      'link_title' => 'Node link',
+      'plid' => $root_link['mlid'],
+      'customized' => 0,
+    );
+    $node = $this->drupalCreateNode(array('menu' => $node_link));
+
+    // Test [node:menu] tokens.
+    $tokens = array(
+      'menu' => 'Primary links',
+      'menu-link-title' => 'Node link',
+      'menu-link-mlid' => $node->menu['mlid'],
+      'menu-link-plid' => $node->menu['plid'],
+      'menu-link-plid' => $root_link['mlid'],
+    );
+    $this->assertTokens('node', $node, $tokens);
+  }
+}
+
+class TokenTestCase extends DrupalWebTestCase {
+  public static function getInfo() {
+    return array(
+      'name' => t('Token and token action tests'),
+      'description' => t('Test some of the token actions and tokens.'),
+      'group' => t('Token'),
+    );
+  }
+
+  function setUp() {
+    parent::setUp('token', 'token_actions', 'trigger');
+  }
+
+  /**
+   * Test various behaviors for anonymous users.
+   */
+  function testTokenActionsFunctionalTest() {
+    // Create a user with permission to view the actions administration pages.
+    $user = $this->drupalCreateUser(array('administer actions', 'administer site configuration', 'administer users'));
+    $this->drupalLogin($user);
+
+    // Set the site name to something more exciting than Drupal / simpletest@example.com.
+    $settings = array();
+    $site_name = $this->randomName();
+    $site_mail = $this->randomName() .'@example.com';
+    $settings['site_name'] = $site_name;
+    $settings['site_mail'] = $site_mail;
+
+    $this->drupalPost('admin/settings/site-information', $settings, t('Save configuration'));
+    $this->assertText('saved', 'Site settings saved.');
+
+    // Create an action to display to users
+    $action = array();
+    $action['action'] = md5('token_actions_message_action');
+    $this->drupalPost('admin/settings/actions', $action, t('Create'));
+
+    // Configure the action to use a handful of tokens.
+    $action = array();
+    $action_description = $this->randomName();
+    $action['actions_description'] = $action_description;
+    $action['message'] = 'Hello simpletest | [user-name] | [user-id] | [user-mail] | [site-name] | [site-mail]';
+    $this->drupalPost('admin/settings/actions/configure/'. md5('token_actions_message_action'), $action, t('Save'));
+
+    // Trigger the action when a user is created.
+    $trigger = array();
+    $trigger['aid'] = md5('1'); //TODO don't hardcode the 1.
+    // TODO this should be assigned to a specific aid like aid_4, but that's not possible b/c actions creates non-unique form names.
+    // so instead we use "aid" which is the "after a user is created" trigger.
+    $this->drupalPost('admin/build/trigger/user', $trigger, t('Assign'));
+    // TODOXXX confirm each post gets saved.
+
+    // Create a user to trigger the action.
+    $edit = array();
+    $edit['name']   = $this->randomName();
+    $edit['mail']   = $edit['name'] .'@example.com';
+    $pass = user_password();
+    $edit['pass[pass1]']   = $pass;
+    $edit['pass[pass2]']   = $pass;
+
+    $this->drupalPost('admin/user/user/create', $edit, t('Create new account'));
+    $this->assertText('Hello simpletest | '. $user->name  .' | '. $user->uid .' | '. $user->mail .' | '. $site_name .' | '. $site_mail, 'Tokenized message displays');
+
+  }
+
+}

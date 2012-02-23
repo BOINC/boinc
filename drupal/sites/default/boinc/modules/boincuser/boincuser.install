@@ -1,0 +1,49 @@
+<?php
+// $Id$
+
+/**
+ * Implementation of hook_install()
+ */
+function boincuser_install() {
+  // Use schema API to create database table
+  drupal_install_schema('boincuser');
+}
+
+/**
+* Implementation of hook_uninstall().
+*/
+function boincuser_uninstall() {
+  // Use schema API to delete database table.
+  drupal_uninstall_schema('boincuser');
+  // Delete our module's variable from the variables table.
+  variable_del('boincuser_integration');
+}
+
+/**
+* Implementation of hook_schema().
+*/
+function boincuser_schema() {
+  $schema['boincuser'] = array(
+    'description' => t('Cross references user accounts in Drupal with BOINC user accounts.'),
+    'fields' => array(
+      'uid' => array(               
+        'description' => t('The {user}.uid of the Drupal user.'),
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'default' => 0
+      ),
+      'boinc_id' => array(
+        'description' => t('The uid of the user in the BOINC database.'),
+        'type' => 'int',      
+        'unsigned' => TRUE,
+        'not null' => TRUE,       
+        'default' => 0
+      )
+    ),
+    'primary key' => array(
+      'uid', 'boinc_id'
+    )
+  );
+  return $schema;
+}

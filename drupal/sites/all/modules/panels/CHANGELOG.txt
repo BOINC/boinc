@@ -1,0 +1,244 @@
+Panels 3.x-dev
+==============
+#1025716: Panels fields broken in last update.
+
+Panels 3.x-3.9 (2011-Jan-12)
+==============
+#959206: Legacy mode rendering fails with flexible due to CSS file not getting added.
+#964334: Panels breaks views' row styles with the panels fields style.
+#961662 by Nick Lewis: Account for pager info in simple caching.
+Scrub css id and css class on panes.
+
+Panels 6.x-3.8 (2010-Oct-29)
+==============
+hook_panels_pre_render() and hook_panels_post_render() getting empty displays.
+#865704: Editing mini panels styles failed badly due to missing piece of cache.
+Custom style could crash if trying to enable style reuse without first enabling stylizer.module.
+In Flexible, the "class" would not stick when adding a new region/row/column but would when editing.
+#861426: Editing a mini panel while that same mini panel is displayed on the page resulted in a crash.
+#871730: Panel nodes with IPE enabled let anyone use IPE.
+#877810: Multiple "Add flexible layout" tabs appearing based on number of flexible layouts stored.
+#873224 by thsutton: hook_requirements() could cause notice error.
+#867340 by cedarm: Restore removed but deprecated panels_render_layout() function.
+#871942 by dwatson: Invalid CSS made dragger image not appear during IPE.
+#867864: Fix a admin title and edit link problems with custom content types.
+#570194: Add support for the "checkall" module in the content permissions page.
+#696846: Mini panels conflated displayed title with admin title.
+#889824: Custom class could would cause stylizer class to become malformed.
+Add a simple "Panels" row style to Views that lets you put fields in a panel layout.
+Add two new Page Wizards to more easily create some of the most commonly used Panel pages.
+#869766 by rupl: flexible layout builder could fail with multiple columns in only one row. (Needs clear cache to see changes in generated CSS.)
+#897214: Mini panel uninstall tried to order mini panels by a non-existing field.
+#893456 by omerida: Change FAPI definition of panel node "body" field to be more consistent with other node body fields.
+#812658 by naxoc: Caching should take language into account.
+#890086: Possible crash in flexible layout by not having CTools export.inc loaded.
+#899456 by yareckon: IPE customize button needs to be reset to "static" instead of "normal".
+#806874 by ximo: Allow panes to specify "render first" as well as "render last".
+#920266 by dereine: Typo in cache.inc caused wsods in rare circumstances.
+#879482 by mvc: Ensure Panels and CTools module files are loaded during update. Apparently could cause WSOD if not.
+#917614 by jskulski: IPE broken in IE.
+#906520: Improve CSS for rounded shadow boxes on IE7.
+#923894 by yareckon: IPE save/cancel buttons can fail due to translation issues.
+#932632 by mikeytown2: Fix notice in .install file.
+#927840: Add clear-block to dashboard HTML to ensure themes do not do weird things to it.
+#941806: Fix incorrect link to configure mini panel on block config page.
+#869766: Fix occasional problem with flexible layout pushing the entire layout to the left in certain fixed-width only configurations.
+#949310: E_STRICT violation on declaration of render_pane() method of display renderers.
+#827628: "Add content" dialog could lose content with the same title as other content.
+#955102: Fix notice in panel nodes when legacy rendering is not on.
+
+Panels 6.x-3.7 (2010-Jul-26)
+==============
+Experimentally introduced the In-Place Editor (IPE).
+Updated Panels Stylizer to use CTools' new Export UI.
+Deprecated panels_get_panels() function. This will be eventually disappear. Use panels_get_regions() instead.
+#834084: Reusable flexible layout introduced. Admin UI at admin/build/panels/layouts.
+Clean up flexible. Attempt to reduce the use of unnecessary divs. 
+Add more ability to control flexible classes.
+Add ability to fix flexible canvas to a set width.
+Allow disabling of scaling for IE6 in flexible.
+Fixes to IPE:
+  Add pane would add the new pane outside region styling
+  Add pane would not appear in empty regions
+  Panes could not be dragged to empty regions
+  Save would lose content if they were inside stylizer styled regions
+#822234 by Amitaibu: Missing url() caused IPE to not work on sites not using top level URLs.
+#844062: Turned the normal drag and drop editor into a renderer plugin, made the IPE part of it. Also some fairly serious code reorganization.
+Improve the renderer selection framework. This framework has no UI, but it utilizes exportables and new choices can be hand crafted.
+Improve the IPE to use the proper cache if it is set, and to respect locking.
+#847784: IPE displayed "Edit" link when no such link should have existed.
+#843758: Legacy renderer caused "missing argument" warning when rendering.
+Made it possible to override jQuery UI sortable options via settings in the renderer plugin.
+Moved Panels stylizer to CTools. You must update CTools at the same time as Panels.
+#737602: Generic NOT checkbox for all access tests.
+#369628: Sort results by export key when bulk exporting.
+#690902: Improvement to export.module integration of panel nodes.
+#690814 by neclimdul: Panels mini edit form could overwrite page title.
+#675220 by dereine: Provide a watchdog message if a layout can't be loaded when rendering a panel.
+#713526 by psynaptic: Omit top and bottom region divs in stacked layouts if regions are empty.
+#823216 by jonathan1055: Put quotes around url() in rounded corners CSS.
+#603150 by hefox: Protect against the panels node add form being used in unusual places.
+#841824 by levacjeep: Extend panels_edit and panels_edit_layout to allow more options with the $destination.
+#842976 by drewish: Make sure the theme knows path and file information for plugin supplied themes.
+#743850 by foripepe: Add delete panel node permissions.
+#532900: Flexible sometimes did not update links when region settings changed.
+#723036: Node pane previews did not include node content as they should.
+#831216: It should not be possible to remove the Canvas.
+#216076: Make sure that empty panes are not rendered. Note: Legacy mode region styles can still render empty panes anyway.
+#609626: Static caching loading mini panels.
+#848712 by josh_k: Use panel nodes with IPE.
+#860306 by jcmarco: "Substitutions" fieldset would not open due to missing js.
+#856964: "Custom style" selection was not working.
+#863302: Allow IPE to cope with empty panes.
+#865344: by jrockowitz: Panel node access hook should use $account.
+
+Panels 6.x-3.5 (2010-May-28)
+==============
+Replaced panels_load_include() with ctools_include().
+Restored (and deprecated) panels_print_layout(), as other modules were relying on it.
+
+Panels 6.x-3.4 (2010-May-19)
+==============
+Introduced Panels Stylizer.
+Removed superfluous function, panels_sanitize_display().
+#655268: Fix a problem retrieving cached content created by #634746.
+Removed the old and crufty panels_print_layout().
+#745808 by Robbert: use number_format() in flexible width calculations to ensure locale settings cannot bork generated CSS.
+Stopped wasting cycles trying to render a mini panel in a block when we know the mini panel doesn't exist.
+#765978 by joshk: Added watchdoggery and a hook to panels_display_save().
+#746568 by mgriego: Disable block caching for mini panels.
+#798954 by dixon: Pass $form_state to style plugins' validate and submit callbacks.
+#779012 by c960657: implement the callback for a single content_type subtype in panels_mini to improve performance with  large numbers of mini panels.
+#763584 by neclimdul: Add a link to the block configuration page for mini-panels that takes the user to edit that mini- panel.
+Security updates: protect the importer with the 'use PHP for block visibility' permission.
+
+Panels 6.x-3.3 (2010-Feb-01)
+==============
+
+#612850: Fix crash bug with panes referencing deleted/missing views.
+#614178: Transition to panels-pane.tpl.php caused empty panes to display again.
+#634746 by joshk: Allow pane caching to modify the content during cache storage.
+#612116 by johnskulski: panels-pane preprocess was incorrectly rendering $links
+#612704 by c960657: panels_get_pane_content() inappropriately created a blank context when no contexts were available.
+#618624 by johnskulski: Better classes for panel panes.
+#651306 by joachim: Add "edit any panel node" permission. Not sure why this was never there.
+#497042: Add update.php to remove unused panels_page_router_store table, if it exists.
+#683162: Convert all plugins to use new $plugin = array() format. This is less brittle than the specially named hook.
+#543898: Fix notice error when a layout has no regions.
+#647706: Mini panel names can only be 32 characters, but the form failed to restrict the limit.
+Introduce the Panels stylizer module which builds on the CTools stylizer base to create user definable, recolorable styles.
+
+Panels 6.x-3.2 (2009-Oct-21)
+==============
+
+#606980 by Deciphered and sethfreach: Typo caused panel-pane class to disappear if another class was assigned.
+#607242: Using the wrong variable in hook_block can cause title to not be overridable.
+#608062: Visibility rules did not appear in the list when added to a pane (though they still applied).
+
+Panels 6.x-3.1 (2009-Oct-15)
+==============
+
+#552846 by eMPee584: Fix notice with tablesorts on mini panels page if no mini panels exist.
+#568218: Links to clone, export, delete/revert, enable/disable variants from the main summary page were incorrect and led to an operation trail not found message.
+#533724: Prevent Panels from upgrading while uninstalled, as that upgrades into broken pages.
+#529816: Allow flexible layout to add custom classes to each region.
+Rearrange the pane dropdown menus to be better organized and look a little nicer.
+Add a new field to allow setting a panel title from one of its panes.
+#562560 by Damien McKenna: Integration with export.module
+#583172 by jacine: Turn panel pane into a template, as it always should have been.
+#604404: Make sure caching does not trigger for form POSTs.
+
+Panels 6.x-3.0 (2009-Aug-19)
+==============
+
+#529258 by stella: Attempting to modify CSS properties on mini panel causes ajax failure.
+#537430 by dereine: Fix untranslatable strings in panels dashboard template.
+#530104 by stella: Fix import problem with mini panels.
+#535606: Mini panel deletion deleted all block config of all mini panels.
+#539418 by esmerel: Remove reference to panel page from module description.
+#535722: Fix incorrect "title" tag on categories in add content modal.
+Fix a bug with drag and drop UI that caused panes to break after other panes were added.
+#538900: Fix bug with flexible when having multiple regions of the same name if they have a space.
+#552014: Hide Substitutions fieldset if there are no contexts.
+#552006: Add Content modal now opens to explanatory text instead of the first category.
+#553392 by lee20: Fix node allowed layouts not properly respected on edit layout screen.
+
+Panels 6.x-3.0-rc1
+==================
+
+#515316: Add permission to view Panels admin dashboard.
+#298174: Recursion defense for mini panels.
+#502670: Extra HTML designed only for flexible layout admin accidentally rendered.
+#507516: "Default" panel style on regions not being properly utilized.
+#476440: Seriously, cloning variants really realy fixed.
+#518360 by joshk: Panels node form doesn't have format properly associated.
+#525340 by markus_petrux: Dashboard improperly initializing a variable.
+#460902 by dmmckenna: Fix problem installing panels from an install profile.
+#488278: Preview on panel nodes prior to creation caused errors.
+#475920: Create "use panels dashboard" permission to more easily control who can and cannot use it.
+#384552: Fix incompatibilities with theme developer. Drag & drop screen does not need to be themable.
+
+Panels 6.x-3.0-beta4
+====================
+Note: beta3 skipped to stay even with CTools beta numbers.
+Removal of non-functioning bulk export module in favor of the new one in CTools.
+Update to require CTools API 1.1.0
+Updates to work with the new Page Manager UI in CTools.
+
+Panels 6.x-3.0-beta2
+====================
+Update to require CTools based upon its advertised API version number.
+Update code to ensure that the dead 'panels simple cache' module is really dead.
+Attempt to go back further in history for a Panels 1 upgrade path.
+Fix for making sure Panels completely disables itself if using incompatible version of CTools.
+Update CSS caching on panel page and panel context to use ctools_css_store instead of remembering the filename.
+Infinite loop protection in panel nodes.
+#459078: Provide the "read more" flag for teasers of panel nodes.
+Fix broken styling when dragging a panel pane.
+Integrate with CTools tab system so we can add edit tabs to all our panel pages.
+#454208: pgsql does not support concat(), so use || instead for postgres.
+#445828: Remove "Settings" link if a content type has no settings form.
+#460200: Allow regions and columns that have only 'fixed' width items. Disallow changing a 'fixed' item to 'fluid.'
+
+Panels 6.x-3.0-beta1
+====================
+
+#422712: Panel page import button went to wrong place.
+#423288: Profile template plugin had wrong path.
+#424176: Panel nodes: Remove unused layout screen, fix some notice errors, give context a description.
+New simpler panel page task that doesn't bother with handlers at all.
+#317121: Respect 'hide title' option in display settings.
+#422404: Update to exportables left mini panels kind of broken.
+#422180 by joshk: Fix panel node_access to accept incoming $account.
+Moved content types to CTools.
+Better add content dialog.
+#437742 by jcmarco: Missing include.
+#440142 by jcmarco: Did not change panels_get_content_types to ctools_get_content_types.
+Add a live preview widget to the panel content edit page.
+Fix panel page type to actually respect the contexts.
+Upgrades from as far back as Drupal 5 can now be supported.
+Rearranged the menus, created the Panel dashboard.
+Returned the allowed content settings form to panel page
+Added allowed layouts to settings form for panel pages, nodes, minis.
+#362754 by dereine: Fix invalid XHTML in 3col 33/34/33 template.
+#375686: Create panels_get_current_page_display() to replace the old panels_get_current_page() function.
+#424798: Respond to a cloned handler by properly cloning the display as well.
+#424290: Ensure content.inc is loaded during panels display save so that everything can be found.
+#422090: Ensure the first item added to a row is fluid. Fixed can then be added after that.
+
+Panels 6.x-3.0-alpha3
+=====================
+Note: This changelog is incomplete, as it was started sometime after alpha2.ls
+
+#349979 by Dave Reid: Proper use of link alter.
+#374628: Add a check for broken display to the admin summary to prevent crashes.
+Retool flexible layout into a nice javascripty visual layout builder.
+Retool mini panels to use ctools export class and provide a .inc file for its content type as a better example.
+Store a panel task handler's display in the database.
+Add a mechanism to fetch information about just one content subtype (i.e, single view, single block) instead of fetching them all.
+Overhaul node_content_type creating a .inc file.
+Add 'content type' property to content types.
+Add 'defaults' property to content types.
+Panels views cleanup, including making exposed form blocks available.
+#391788 by guix: Simple cache should not unserialize data that is now already unserialized.
+#367635 by lee20: View title built too early and so lost arguments.

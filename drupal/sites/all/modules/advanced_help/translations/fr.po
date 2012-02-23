@@ -1,0 +1,96 @@
+# French translation of Advanced Help
+msgid ""
+msgstr ""
+"Project-Id-Version: advanced_help (6.x-1.1)\n"
+"POT-Creation-Date: 2008-10-05 22:43+0200\n"
+"PO-Revision-Date: \n"
+"Last-Translator: Mimoune Walid <mi.walid@gmail.com>\n"
+"Language-Team: French\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"X-Poedit-Language: French\n"
+"X-Poedit-Country: ALGERIA\n"
+"X-Poedit-SourceCharset: utf8\n"
+
+#: advanced_help.module:121
+msgid "Search results"
+msgstr "Résultats de la recherche"
+
+#: advanced_help.module:124
+msgid "Your search yielded no results"
+msgstr "Votre recherche n'a donné aucun résultat"
+
+#: advanced_help.module:163
+msgid "Enable the search module to search help."
+msgstr "Activez le module Search pour chercher l'aide."
+
+#: advanced_help.module:177
+msgid "@module help index"
+msgstr "index d'aide de @module"
+
+#: advanced_help.module:207
+msgid "Module help index"
+msgstr "Index d'aide de module"
+
+#: advanced_help.module:289;49
+msgid "Search help"
+msgstr "Chercher l'aide"
+
+#: advanced_help.module:304
+msgid "Please enter some keywords."
+msgstr "Veuillez entrer des mots-clés."
+
+#: advanced_help.module:378;426;668
+msgid "Help"
+msgstr "Aide"
+
+#: advanced_help.module:382
+msgid "Missing help topic."
+msgstr "Sujet d'aide manquant."
+
+#: advanced_help.module:403
+msgid "view advanced help topic"
+msgstr "accéder au rubrique d'aide avancé"
+
+#: advanced_help.module:403
+msgid "view advanced help popup"
+msgstr "accéder au popup d'aide avancé"
+
+#: advanced_help.module:403
+msgid "view advanced help index"
+msgstr "accéder à l'index d'aide avancé"
+
+#: advanced_help.module:0
+msgid "advanced_help"
+msgstr "advanced_help"
+
+#: advanced_help.install:23
+msgid "Stores search index correlations for advanced help topics."
+msgstr "Sauvegarde les corrélations de l'index de recherche pour les rubriques d'aide."
+
+#: advanced_help.install:29
+msgid "The primary key to give to the search engine for this topic."
+msgstr "La clé primaire à donner au moteur de recherche pour ce sujet."
+
+#: advanced_help.install:37
+msgid "The module that owns this topic."
+msgstr "Le module propriétaire de ce sujet."
+
+#: advanced_help.install:44
+msgid "The topic id."
+msgstr "Id de sujet"
+
+#: advanced_help.install:51
+msgid "The language this search index relates to."
+msgstr "La langue reliée à cet index de recherche."
+
+#: advanced_help.info:0
+msgid "Advanced help"
+msgstr "Aide Avancé"
+
+#: advanced_help.info:0
+msgid "Allow advanced help and documentation."
+msgstr "Permet l'aide avancé et la documentation."
+

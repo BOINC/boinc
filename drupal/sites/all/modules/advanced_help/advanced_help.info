@@ -1,0 +1,11 @@
+; $Id: advanced_help.info,v 1.2 2008/04/19 16:45:57 merlinofchaos Exp $
+name = Advanced help
+description = Allow advanced help and documentation.
+core = 6.x
+
+; Information added by drupal.org packaging script on 2009-04-05
+version = "6.x-1.2"
+core = "6.x"
+project = "advanced_help"
+datestamp = "1238954409"
+

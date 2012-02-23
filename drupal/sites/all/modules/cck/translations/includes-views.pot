@@ -1,0 +1,39 @@
+# $Id: includes-views.pot,v 1.1.2.6 2009/06/16 17:05:11 hass Exp $
+#
+# LANGUAGE translation of Drupal (includes-views)
+# Copyright YEAR NAME <EMAIL@ADDRESS>
+# Generated from file: content.views.inc,v 1.1.2.25 2009/04/11 14:50:53 yched
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"POT-Creation-Date: 2009-06-16 19:00+0200\n"
+"PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
+"Last-Translator: NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+
+#: includes/views/content.views.inc:252;268
+msgid "@label (!name)"
+msgstr ""
+
+#: includes/views/content.views.inc:256
+msgid "@label (!name) - !column"
+msgstr ""
+
+#: includes/views/content.views.inc:257
+msgid "@label-truncated - !column"
+msgstr ""
+
+#: includes/views/content.views.inc:264
+msgid "Appears in: @types"
+msgstr ""
+
+#: includes/views/content.views.inc:286
+msgid "<No value>"
+msgstr ""
+

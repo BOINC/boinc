@@ -1,0 +1,51 @@
+<?php
+// $Id: vud.install,v 1.1.2.5 2009/08/16 19:22:05 lut4rp Exp $
+
+/**
+ * @file
+ * Install, update and uninstall functions for the Vote Up/Down core module.
+ */
+
+/**
+ * Implementation of hook_install().
+ */
+function vud_install() {
+  drupal_install_schema('vud');
+}
+
+/**
+ * Implementation of hook_schema().
+ */
+function vud_schema() {
+  return array();
+}
+
+/**
+ * Implementation of hook_uninstall().
+ */
+function vud_uninstall() {
+  drupal_uninstall_schema('vud');
+  variable_del('vud_tag');
+  variable_del('vud_reset_vote');
+}
+
+/**
+ * First update - Deprecate UpDown in favor of Vote Up/Down.
+ */
+function vud_update_6200() {
+  $ret = array();
+  $ret[] = update_sql("DELETE FROM {variable} WHERE name LIKE('updown%')");
+  $ret[] = update_sql("UPDATE {votingapi_vote} SET tag = 'vote' WHERE tag LIKE('updown')");
+  $ret[] = update_sql("UPDATE {votingapi_cache} SET tag = 'vote' WHERE tag LIKE('updown')");
+
+  if (module_exists('updown')) {
+    $ret[] = drupal_uninstall_schema('updown');
+    drupal_uninstall_module('updown');
+  }
+  if (module_exists('updown_node')) {
+    $ret[] = drupal_uninstall_schema('updown_node');
+    drupal_uninstall_module('updown_node');
+  }
+
+  return $ret;
+}

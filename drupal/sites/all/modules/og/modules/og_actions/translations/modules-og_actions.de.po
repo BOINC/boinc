@@ -1,0 +1,91 @@
+# LANGUAGE translation of Drupal (c:\Contributions\modules\og\og.module)
+# Copyright YEAR NAME <EMAIL@ADDRESS>
+# Generated from file: og.module,v 1.81 2005/06/30 04:30:49 weitzman
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: German translation of OG\n"
+"POT-Creation-Date: 2008-11-15 20:51+0100\n"
+"PO-Revision-Date: 2008-11-15 21:34+0100\n"
+"Last-Translator: Alexander Haß\n"
+"Language-Team: DE\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Poedit-Language: German\n"
+"X-Poedit-Country: GERMANY\n"
+
+#: modules/og_actions/og_actions.module:11
+msgid "Remove post from all groups"
+msgstr "Beitrag aus allen Gruppen entfernen"
+
+#: modules/og_actions/og_actions.module:19
+msgid "Add post to the specified group"
+msgstr "Beitrag zu der angegebenen Gruppe hinzufügen"
+
+#: modules/og_actions/og_actions.module:27
+msgid "Remove post from the specified group"
+msgstr "Beitrag aus der angegebenen Gruppe entfernen"
+
+#: modules/og_actions/og_actions.module:38
+msgid "Make post publicly visible"
+msgstr "Den Beitrag öffentlich sichbar machen."
+
+# Sounds mechanic
+#: modules/og_actions/og_actions.module:46
+msgid "Make post private to its groups"
+msgstr "Den Beitrag für seine Gruppen nicht öffentlich machen."
+
+#: modules/og_actions/og_actions.module:115
+msgid "Select the group to add to the node."
+msgstr "Die zum Beitrag hinzuzufügende Gruppe auswählen."
+
+#: modules/og_actions/og_actions.module:121
+msgid "Please <a href=\"!url\">create</a> a group first."
+msgstr "Als erstes eine Gruppe <a href=\"!url\">erstellen</a>."
+
+#: modules/og_actions/og_actions.module:163
+msgid "Select the group to remove from the node."
+msgstr "Die vom Beitrag zu entfernende Gruppe auswählen."
+
+#: modules/og_actions/og_actions.module:169
+msgid "There are no groups. You must have at least one existing group with nodes assigned to use this action."
+msgstr "Es sind Gruppen vorhanden. Um diese Aktion zu verwenden, muss mindestens eine Gruppe mit zugewiesenen Beiträgen vorhanden sein."
+
+#: modules/og_actions/og_actions.module:63;73;83;95;143
+msgid "action"
+msgstr "Aktion"
+
+#: modules/og_actions/og_actions.module:63
+msgid "Set node %id to public."
+msgstr "Die Beitrags-ID %id öffentlich anzeigen."
+
+#: modules/og_actions/og_actions.module:73
+msgid "Set node %id to private."
+msgstr "Die Beitrags-ID %id nicht öffentlich anzeigen."
+
+#: modules/og_actions/og_actions.module:83
+msgid "Removed node %id from all groups."
+msgstr "Die Beitrags-ID %id wurde aus allen Gruppen entfernt."
+
+#: modules/og_actions/og_actions.module:95
+msgid "Added node id %id to %group."
+msgstr "Die Beitrags-ID %id wurde zu %group hinzugefügt."
+
+#: modules/og_actions/og_actions.module:143
+msgid "Removed node id %id from %group."
+msgstr "Die Beitrags-ID %id wurde aus %group entfernt."
+
+#: modules/og_actions/og_actions.module:0
+msgid "og_actions"
+msgstr "og_actions"
+
+#: modules/og_actions/og_actions.info:0
+msgid "Organic groups actions"
+msgstr "Aktionen für organische Gruppen"
+
+#: modules/og_actions/og_actions.info:0
+msgid "Provides actions for use with Organic Groups and Trigger."
+msgstr "Ermöglicht die Verwendung von Aktionen bei organischen Gruppen und Triggern."
+

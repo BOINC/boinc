@@ -1,0 +1,10 @@
+name = Organic groups
+description = "Enable users to create and manage groups.  OG Views integration module is recommended for best experience."
+package = "Organic groups"
+core = 6.x
+; Information added by drupal.org packaging script on 2010-03-16
+version = "6.x-2.1"
+core = "6.x"
+project = "og"
+datestamp = "1268751911"
+

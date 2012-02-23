@@ -1,0 +1,57 @@
+<?php
+// $Id: og.post.test,v 1.14.4.1 2009/06/10 13:48:29 weitzman Exp $
+
+/**
+ * @file
+ * Posting test for the organic groups module.
+ */
+
+require_once drupal_get_path('module', 'og') . '/tests/og_testcase.php';
+ 
+class OgPost extends OgTestCase {
+
+  /**
+   * Implementation of getInfo().
+   */
+  public static function getInfo() {
+    return array(
+      'name'  => t('Organic groups posting test'),
+      'description' => t('Tests posting a group post into a group node.'),
+      'group' => t('Organic groups'),
+    );
+  }
+
+  /**
+   * Implementation of setUp().
+   */
+  function setUp() {
+    parent::setUp('og', 'og_access');
+    // Create a user with admin permissions.
+    $web_admin = $this->drupalCreateUser(array('administer nodes', 'administer content types', 'access administration pages', 'administer site configuration', 'administer organic groups'));
+    $this->drupalLogin($web_admin);
+  }
+
+  /**
+   * Test the simple case of creation of a group node and a group post
+   * by the same user.
+   */
+  function testOgPost() {
+    // Create a group node content type.
+    $og_group_type = $this->drupalCreateContentType();
+    variable_set('og_content_type_usage_'. $og_group_type->name, 'group');
+
+    // Create a group post content type.
+    $og_post_type = $this->drupalCreateContentType();
+    variable_set('og_content_type_usage_'. $og_post_type->name, 'group_post_standard');
+
+    // Rebuild the menu so the new content types will appear in the menu.
+    menu_rebuild();
+
+    // Create a group node.
+    $gid = $this->addOgGroup($og_group_type->name);
+
+    // Create a post node.
+    $this->addOgPost($og_post_type->name, array($gid));
+  }
+}
+

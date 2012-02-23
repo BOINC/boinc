@@ -1,0 +1,13 @@
+; $Id: views_or.info,v 1.4 2009/05/14 21:13:16 darrenoh Exp $
+name = "Views Or"
+description = "Allows Views to combine filters or arguments with OR and fields with COALESCE."
+dependencies[] = views
+package = Views
+core = 6.x
+
+; Information added by drupal.org packaging script on 2010-11-12
+version = "6.x-1.x-dev"
+core = "6.x"
+project = "views_or"
+datestamp = "1289564921"
+

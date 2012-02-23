@@ -1,0 +1,306 @@
+# Russian translation of Drupal (modules-og_views)
+# Copyright 2008 Alexey Osodoev <alexey@osodoev.info>
+# Generated from files:
+#  og_views.views.inc,v 1.8 2008/11/03 15:02:45 weitzman
+#  og_views.module,v 1.9 2008/11/03 15:02:45 weitzman
+#  og_views.info,v 1.3 2008/10/29 19:59:39 dww
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: og-6.x-1.0\n"
+"POT-Creation-Date: 2008-11-03 16:10+0100\n"
+"PO-Revision-Date: 2008-11-21 06:31+0800\n"
+"Last-Translator: Alexey Osodoev <alexey@osodoev.info>\n"
+"Language-Team: Russian <alexey@osodoev.info>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=((((n%10)==1)&&((n%100)!=11))?(0):(((((n%10)>=2)&&((n%10)<=4))&&(((n%100)<10)||((n%100)>=20)))?(1):2));\n"
+"X-Poedit-Language: Russian\n"
+"X-Poedit-Country: RUSSIAN FEDERATION\n"
+"X-Poedit-SourceCharset: utf-8\n"
+
+#: modules/og_views/og_views.views.inc:88
+msgid "Group nodes"
+msgstr "Узлы групп"
+
+#: modules/og_views/og_views.views.inc:132
+msgid "Group: Description"
+msgstr "Группа: Описание"
+
+#: modules/og_views/og_views.views.inc:141
+msgid "Group: Members count"
+msgstr "Группа: Число участников"
+
+#: modules/og_views/og_views.views.inc:145
+msgid "Number of members for a group. Excludes memberships which are pending approval."
+msgstr "Число участников группы. Не включает участников, ожидающих одобрения."
+
+#: modules/og_views/og_views.views.inc:149
+msgid "Group: Post count"
+msgstr "Группа: Число сообщений"
+
+#: modules/og_views/og_views.views.inc:153
+msgid "Number of published posts in a group. Can be restricted by node type using the <em>Option</em> dropdown."
+msgstr "Количество опубликованных сообщений в группе. Можно дополнительно ограничить определенным типом с помощью выпадающего списка <em>Настройка</em>"
+
+#: modules/og_views/og_views.views.inc:158
+msgid "Group: Post count *new*"
+msgstr "Группа: Число сообщений *новое*"
+
+#: modules/og_views/og_views.views.inc:162
+msgid "Number of new posts in a group for the current user."
+msgstr "Число новых для текущего пользователя сообщений."
+
+#: modules/og_views/og_views.views.inc:166
+msgid "Group: Selective"
+msgstr "Группа: Выборочное участие"
+
+#: modules/og_views/og_views.views.inc:167
+msgid "The group preference which determines how membership requests are managed (moderated, invite only, etc.)."
+msgstr "Настройка группы, которая определяет, как обрабатываются запросы на участие (модерируемые, только по приглашению и т.д.)"
+
+#: modules/og_views/og_views.views.inc:177
+msgid "Group: Private"
+msgstr "Группа: Ограниченный доступ"
+
+#: modules/og_views/og_views.views.inc:178
+msgid "Is the group home page private or not."
+msgstr "Ограничен ли доступ к главной странице группы или нет."
+
+#: modules/og_views/og_views.views.inc:191
+msgid "Group: List in directory"
+msgstr "Группа: Отображать в списке"
+
+#: modules/og_views/og_views.views.inc:192
+msgid "Admin specifies whether or not a group appears in the public listings."
+msgstr "Администратор группы определяет, отображать ли группу в общедоступных списках."
+
+#: modules/og_views/og_views.views.inc:206
+msgid "Group: Join link"
+msgstr "Группа: Ссылка \"стать участником\""
+
+#: modules/og_views/og_views.views.inc:207
+msgid "Displays a link for joining a group when a user is not already a member."
+msgstr "Отображает ссылку, позволяющую стать участником группы, если пользователь еще таковым не является."
+
+#: modules/og_views/og_views.views.inc:214
+msgid "Group: Language"
+msgstr "Группа: Язык"
+
+#: modules/og_views/og_views.views.inc:215
+msgid "Displays the language selected for a given group."
+msgstr "Отображает язык, выбранный для данной группы."
+
+#: modules/og_views/og_views.views.inc:232
+msgid "Group types"
+msgstr "Типы группы"
+
+#: modules/og_views/og_views.views.inc:233;241
+msgid "The type of a group (for example, \"blog entry\", \"forum post\", \"story\", etc)."
+msgstr "Тип группы (например, \"запись блога\", \"сообщение форума\", \"новость\" и т.д.)."
+
+#: modules/og_views/og_views.views.inc:240
+msgid "Group types (all)"
+msgstr "Типы групп (все)"
+
+#: modules/og_views/og_views.views.inc:245
+msgid "Restrict to all content types that have been marked as groups."
+msgstr "Ограничивает типами материалов, отмеченными как группы."
+
+#: modules/og_views/og_views.views.inc:259
+msgid "Posts which are affiiated with a group."
+msgstr "Записи, привязанные к группе."
+
+#: modules/og_views/og_views.views.inc:268
+msgid "<strong>Posts</strong> are filtered for specified organic groups. The page context (if Display is a page) will be set to the first listed group. That means that blocks and breadcrumbs (and theme and locale, if applicable) will be based upon the first specified node id."
+msgstr "<strong>Записи</strong> фильтруются на принадлежность к указанным группам. Контекст страницы (если отображение является страницей) будет установлен по первой из перечисленных групп. Это означает, что блоки и цепочка навигации (а также тема оформления и язык) будут основываться на первом указанном id узла (node)."
+
+#: modules/og_views/og_views.views.inc:272
+msgid "The groups for a post."
+msgstr "Группы записи."
+
+#: modules/og_views/og_views.views.inc:277;282
+msgid "Group node (post)"
+msgstr "Узел (node) группы (для сообщения)"
+
+#: modules/og_views/og_views.views.inc:278
+msgid "Bring in information about the group node based on a post's groups."
+msgstr "Получить информацию об узле (node) группы на основании групп сообщения."
+
+#: modules/og_views/og_views.views.inc:290
+msgid "Post: in specified group (by number)"
+msgstr "Сообщение: в указанной группе (по номеру)"
+
+#: modules/og_views/og_views.views.inc:298
+msgid "Post: Nid"
+msgstr "Сообщение: Nid"
+
+#: modules/og_views/og_views.views.inc:299
+msgid "The node ID of the node."
+msgstr "ID узла (node) текущего узла."
+
+#: modules/og_views/og_views.views.inc:305
+msgid "OG: Posts in current group"
+msgstr "OG: Сообщения в текущей группе"
+
+#: modules/og_views/og_views.views.inc:306
+msgid "Posts in current group. Useful for blocks where determining context is hard. If page is not in any group context, no nodes are listed and thus a block would not appear."
+msgstr "Сообщения в текущей группе. Полезно для блоков, когда определение контекста затруднено. Если страница не входит в контекст какой-либо группы, сообщения не выводятся, таким образом, блок не будет отображен."
+
+#: modules/og_views/og_views.views.inc:314
+msgid "Post: Public"
+msgstr "Сообщение: Общедоступно"
+
+#: modules/og_views/og_views.views.inc:315
+msgid "Is a given post public or private according to OG."
+msgstr "Является ли данное сообщение общедоступным либо с ограниченным доступом, в соответствии с OG"
+
+#: modules/og_views/og_views.views.inc:346
+msgid "Group that a member belongs to."
+msgstr "Группа, которой принадлежит участник."
+
+#: modules/og_views/og_views.views.inc:348;353
+msgid "Group node (member)"
+msgstr "Узел группы (для участника)"
+
+#: modules/og_views/og_views.views.inc:349
+msgid "Bring in information about the group node based on a user's membership."
+msgstr "Получить информацию об узле группы на основании участия пользователя."
+
+#: modules/og_views/og_views.views.inc:358
+msgid "<strong>Members</strong> are filtered for a specific group."
+msgstr "<strong>Участники</strong> фильтруются на принадлежность к определенной группе."
+
+#: modules/og_views/og_views.views.inc:362
+msgid "Group member"
+msgstr "Участник группы"
+
+#: modules/og_views/og_views.views.inc:366
+msgid "OG: Group in user's groups"
+msgstr "OG: Группа из групп пользователя"
+
+#: modules/og_views/og_views.views.inc:370
+msgid "OG: Admin manage link"
+msgstr "OG: Ссылка управления административными полномочиями"
+
+#: modules/og_views/og_views.views.inc:371
+msgid "A link to the <em>Admin create or remove</em> page."
+msgstr "Ссылка на страницу <em>Предоставления или снятия административных полномочий</em>."
+
+#: modules/og_views/og_views.views.inc:378
+msgid "OG: Edit membership link"
+msgstr "OG: Ссылка управления участием"
+
+#: modules/og_views/og_views.views.inc:379
+msgid "A link to the <em>My membership</em> page."
+msgstr "Ссылка на страницу <em>Мое участие</em>."
+
+#: modules/og_views/og_views.views.inc:386
+msgid "OG: Approve/Deny/Remove membership link"
+msgstr "OG: Ссылка одобрения/отклонения/удаления участия"
+
+#: modules/og_views/og_views.views.inc:387
+msgid "A link to approve/deny/remove a group member."
+msgstr "Ссылка, позволяющая одобрить/отклонить/удалить участие пользователя в группе."
+
+#: modules/og_views/og_views.views.inc:394
+msgid "OG: Is member an admin in a group"
+msgstr "OG: Является ли участник администратором группы"
+
+#: modules/og_views/og_views.views.inc:395
+msgid "Add <em>admin</em> text if user is the group manager."
+msgstr "Добавить текст <em>администратор</em> если пользователь является руководителем группы."
+
+#: modules/og_views/og_views.views.inc:408
+msgid "OG: Is membership approved"
+msgstr "OG: Одобрено ли участие"
+
+#: modules/og_views/og_views.views.inc:409
+msgid "Add <em>approval needed</em> user if user's membership request is pending."
+msgstr "Добавить текст <em>необходимо одобрение</em> если запрос на участие в группе ожидает рассмотрения."
+
+#: modules/og_views/og_views.views.inc:422
+msgid "OG: Is the group manager"
+msgstr "OG: Является ли руководителем группы"
+
+#: modules/og_views/og_views.views.inc:423
+msgid "Add <em>manager</em> text if user is the group manager."
+msgstr "Добавить текст <em>руководитель</em>, если пользователь является руководителем группы."
+
+#: modules/og_views/og_views.views.inc:433
+msgid "OG: Membership create date"
+msgstr "OG: Дата вступления в группу"
+
+#: modules/og_views/og_views.views.inc:434
+msgid "The date when the membership was created."
+msgstr "Дата, когда пользователь стал участником группы."
+
+#: modules/og_views/og_views.views.inc:447
+msgid "OG: Membership last updated date"
+msgstr "OG: Дата последнего изменения данных об участии"
+
+#: modules/og_views/og_views.views.inc:448
+msgid "The date when the membership was last updated."
+msgstr "Дата, когда информация об участии в последний раз обновлялась."
+
+#: modules/og_views/og_views.module:60
+msgid "Group notifications (Views enhanced)"
+msgstr "Уведомления группы (исп. Views)"
+
+#: modules/og_views/og_views.module:78
+msgid "This group offers a <a href=\"@groupfeed\">RSS feed</a> and an <a href=\"@email\">email subscription</a>."
+msgstr "Эта группа предлагает <a href=\"@groupfeed\">RSS-ленту</a> и <a href=\"@email\">e-mail подписку</a>."
+
+#: modules/og_views/og_views.module:80
+msgid "Or subscribe to these personalized, sitewide feeds:"
+msgstr "Можно подписаться на эти ленты сайта:"
+
+#: modules/og_views/og_views.module:83;87;91
+msgid "Feed"
+msgstr "Лента"
+
+#: modules/og_views/og_views.module:84;88;92
+msgid "Page"
+msgstr "Страница"
+
+#: modules/og_views/og_views.module:85
+msgid "My unread: !links"
+msgstr "Мои непрочитанные: !links"
+
+#: modules/og_views/og_views.module:89
+msgid "My group: !links"
+msgstr "Мои группы: !links"
+
+#: modules/og_views/og_views.module:93
+msgid "All posts: !links"
+msgstr "Все сообщения: !links"
+
+#: modules/og_views/og_views.module:156
+msgid "Group home page view"
+msgstr "View главной страницы группы"
+
+#: modules/og_views/og_views.module:157
+msgid "Pick a View for your group home page. Only Views whose names start with <strong>og_ghp_</strong> are eligible. The View determines the layout of your group home page. You may alter the presentation using typical Views themeing techniques. See the Theme information link when editing your View and also see the Theme section of the !README. Also note that group admins can override this presentation using the included <em>Organic Groups Panels</em> module."
+msgstr "Выберите View для использования в качестве главной страницы группы. Можно выбрать только View, чьи названия начинаются с <strong>og_ghp_</strong>. Этот View определяет компоновку вашей главной страницы группы. Можно изменить внешний вид использую обычные способы оформления Views. См. ссылку Theme information при редактировании View, а также раздел Theme файла !README. Также обратите внимание. что администраторы групп могут переопределить внешний вид с помощью модуля <em>Organic Groups Panels</em>, входящего в состав пакета."
+
+#: modules/og_views/og_views.module:163
+msgid "Search group"
+msgstr "Поиск по группе"
+
+#: modules/og_views/og_views.module:171
+msgid "The View %name was not found. Check your variables table or settings.php."
+msgstr "View %name не найден. Проверьте таблицу переменных или settings.php."
+
+#: modules/og_views/og_views.module:0
+msgid "og_views"
+msgstr "og_views"
+
+#: modules/og_views/og_views.info:0
+msgid "Organic groups Views integration"
+msgstr "Интеграция Organic groups с модулем Views"
+
+#: modules/og_views/og_views.info:0
+msgid "<strong>Highly recommended.</strong>. Use Views to search and display organic groups."
+msgstr "<strong>Настоятельно рекомендуется</strong>. Используйте Views для поиска и отображения групп."
+

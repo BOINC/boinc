@@ -1,0 +1,14 @@
+; $Id: nodereference.info,v 1.8 2008/04/23 18:02:07 dww Exp $
+name = Node Reference
+description = Defines a field type for referencing one node from another.
+dependencies[] = content
+dependencies[] = text
+dependencies[] = optionwidgets
+package = CCK
+core = 6.x
+; Information added by drupal.org packaging script on 2010-08-11
+version = "6.x-2.8"
+core = "6.x"
+project = "cck"
+datestamp = "1281570988"
+

@@ -1,0 +1,44 @@
+/* $Id: one-sidebar-second-admin.css,v 1.1.2.2 2009/12/12 15:54:47 johnalbin Exp $ */
+
+/**
+ * @file
+ * Page manager layout
+ *
+ * We are using percentages in the admin instead of fixed widths so that the
+ * admin can work nicely in different admin themes.
+ */
+
+#page-manager-edit .zen-one-sidebar-second .panel-header {
+  height: auto;
+  margin-bottom: 10px;
+}
+
+#page-manager-edit .zen-one-sidebar-second .panel-content {
+  float: left; /* LTR */
+  width: 66%;
+  margin-left: 0; /* LTR */
+  margin-right: -66%; /* LTR */ /* Negative value of #content's width + left margin. */
+  padding: 0; /* DO NOT CHANGE. Add padding or margin to #content-inner. */
+  margin-top: 0px;
+}
+
+#page-manager-edit .zen-one-sidebar-second .panel-content .inside {
+  margin-right: 10px;
+}
+
+#page-manager-edit .zen-one-sidebar-second .with-panel-header .panel-content,
+#page-manager-edit .zen-one-sidebar-second .with-panel-header .panel-sidebar-first {
+  margin-top: 0; /* Set this to the same value as the navbar height above. */
+}
+
+#page-manager-edit .zen-one-sidebar-second .panel-sidebar-first {
+  float: left; /* LTR */
+  width: 34%;
+  margin-left: 66%; /* LTR */ /* Width of #content. */
+  margin-right: -100%; /* LTR */ /* Negative value of #sidebar-first's width + left margin. */
+  padding: 0; /* DO NOT CHANGE. Add padding or margin to #sidebar-first-inner. */
+}
+
+.zen-one-sidebar-second .panel-sidebar-first .panel-sidebar-first-inner {
+  margin: 0 0 0 0;
+}

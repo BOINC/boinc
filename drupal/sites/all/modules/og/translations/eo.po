@@ -1,0 +1,2023 @@
+# $Id: og.pot,v 1.2 2008/07/18 19:50:38 hass Exp $
+# 
+# LANGUAGE translation of Drupal (general)
+# Copyright YEAR NAME <EMAIL@ADDRESS>
+# Generated from files:
+# node-og-group-post.tpl.php,v 1.1 2008/04/25 04:21:45 weitzman
+# og.views.inc,v 1.34 2008/07/16 14:30:00 weitzman
+# og.module,v 1.555 2008/07/17 02:37:03 weitzman
+# og_access.module,v 1.23 2008/07/16 19:40:56 weitzman
+# og_panels.module,v 1.38 2008/07/15 19:17:22 weitzman
+# og.admin.inc,v 1.9 2008/07/15 00:59:45 weitzman
+# og.info: n/a
+# og_access.info: n/a
+# og_panels.info,v 1.3 2008/05/20 01:45:09 weitzman
+# includes/groupcontent.inc: n/a
+# og_workflow_ng.inc,v 1.2 2008/05/25 23:02:45 weitzman
+# og_xmlrpc.inc: n/a
+# tests/og_testcase.php: n/a
+# og.install,v 1.59 2008/07/15 00:59:45 weitzman
+# groupcontext.inc,v 1.3 2008/05/26 13:57:32 weitzman
+# 
+#, fuzzy
+msgid ""
+""
+msgstr "Project-Id-Version: PROJECT VERSION\n"
+"POT-Creation-Date: 2008-04-24 19:53+0200\n"
+"PO-Revision-Date: 2008-08-12 HH:MM+ZZZZ\n"
+"Last-Translator: Chuck Smith <chuck@chucksmith.de>\n"
+"Language-Team: Esperanto <chuck@chucksmith.de>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+
+#: node-og-group-post.tpl.php:77
+#: og.views.inc:310
+#: og.module:1182
+#: og_access.module:173
+#: og_panels.module:264
+msgid "Groups"
+msgstr "Grupoj"
+
+#: og.admin.inc:11
+msgid "You must designate at least one content type to act as a group node and another as a group post. <a href=\"!create\">Create new content type</a> if needed."
+msgstr "Vi devas elekti almenaŭ unu enhavspecon por agi kiel grupa nodo kaj alia kiel grupa afiŝo. <a href=\"!create\">Krei novan enhavspecon</a> se bezonata."
+
+#: og.admin.inc:15
+msgid "Content types"
+msgstr "Enhavspecoj"
+
+#: og.admin.inc:20
+msgid "Type"
+msgstr "Speco"
+
+#: og.admin.inc:20
+msgid "Usage"
+msgstr "Uzado"
+
+#: og.admin.inc:20
+#: og_panels.module:238
+msgid "Operations"
+msgstr "Operacioj"
+
+#: og.admin.inc:28
+msgid "Edit"
+msgstr "Redakti"
+
+#: og.admin.inc:36
+#: og.module:2572
+msgid "Group details"
+msgstr "Grupaj detaloj"
+
+#: og.admin.inc:42
+msgid "New groups don't appear in the groups directory. Administrators control the directory exclusively."
+msgstr "Novaj grupoj ne aperos en la grupa adresaro. Administrantoj regas la dosierujon ekskluzive."
+
+#: og.admin.inc:43
+msgid "New groups always appear in the groups directory."
+msgstr "Novaj grupoj ĉiam aperas en la grupa adresaro."
+
+#: og.admin.inc:44
+msgid "Group creator chooses whether her group appears in the directory. Defaults to <em>in directory</em>."
+msgstr "Grupa kreinto elektas ĉu ties grupo aperas en la dosierujo.  Defaŭltas al <em>en dosierujo</em>."
+
+#: og.admin.inc:45
+msgid "Group creator chooses whether her group appears in the directory. Defaults to <em>not in directory</em>."
+msgstr "Grupa kreinto elektas ĉu ties grupo aperas en la adresaro. Defaŭltas al <em>ne en adresaro</em>."
+
+#: og.admin.inc:49
+msgid "Groups directory control"
+msgstr "Regilo de grupa adresaro"
+
+#: og.admin.inc:51
+msgid "OG admins always see the checkbox for adding a group to the <em>groups directory</em>. Note that changing this setting has no effect on existing posts. Re-save those posts to acquire this new setting."
+msgstr "OG-administrantoj ĉiam vidas la markobutonon por aldoni grupon al la <em>grupa adresaro</em>. Rimarku ke ŝanĝi ĉi tiun agordon neniel influas ekzistantajn afiŝojn. Rekonservu tiujn afiŝojn por akiri tiun novan agordon."
+
+#: og.admin.inc:57
+msgid "New groups don't appear on the registration form. Administrators control the form exclusively."
+msgstr "Novaj grupoj ne aperas en la registriĝa formularo. Administrantoj regas la formularon ekskluzive."
+
+#: og.admin.inc:58
+msgid "New groups always appear on the registration form."
+msgstr "Novaj grupoj ĉiam aperas sur la registriĝa formularo."
+
+#: og.admin.inc:59
+msgid "Group creator chooses whether her group appears on the registration form. Defaults to <em>on form</em>."
+msgstr "Grupa kreinto elektas ĉu ties grupo aperas sur la registriĝa formularo. Defaŭltas al <em>sur formularo</em>."
+
+#: og.admin.inc:60
+msgid "Group creator chooses whether her group appears on the registration form. Defaults to <em>not on form</em>."
+msgstr "Grupa kreinto elektas ĉu ties grupo aperas sur la registriĝa formularo. Defaŭltas al <em>ne sur formularo</em>."
+
+#: og.admin.inc:64
+msgid "Registration form control"
+msgstr "Registriĝa formulara regado "
+
+#: og.admin.inc:66
+msgid "OG admins always see the checkbox for adding a group to the <em>registration form</em>. Note that changing this setting has no effect on existing posts. Re-save those posts to acquire this new setting."
+msgstr "OG-administrantoj ĉiam vidas la markobutonon por aldoni grupon al la <em>registriĝa formularo</em>. Rimarku ke ŝanĝi ĉi tiun agordon ne influas ekzistantajn afiŝojn. Rekonservu tiujn afiŝojn por akiri tiun novan agordon."
+
+#: og.admin.inc:72
+msgid "New members are not subscribed to group email notifications by default. A member may choose to enable this from her profile page or her \"My membership\" page."
+msgstr "Novaj membroj ne abonas grupajn retpoŝtajn atentigojn aŭtomate. Membro povas elekti ŝalti tion de sia profila paĝo aŭ sia paĝo de \"Mia membreco\"."
+
+#: og.admin.inc:73
+msgid "New members are subscribed to group email notifications by default. A member may choose to disable this from her profile page."
+msgstr "Novaj membroj abonas grupajn retpoŝtajn atentigojn aŭtomate. Membro povas elekti malŝalti tion de sia profila paĝo."
+
+#: og.admin.inc:77
+msgid "Group email notifications"
+msgstr "Grupaj retpoŝtaj atentigoj"
+
+#: og.admin.inc:79
+msgid "Should new members automatically be notified via email when new content is posted to their group? Note that changing this setting has no effect on existing members."
+msgstr "Ĉu novaj membroj aŭtomate ricevu atentigojn retpoŝte kiam nova enhavo estas afiŝita al sia grupo? Rimarku ke ŝanĝi ĉi tiun agordon ne influas ekzistantajn membrojn."
+
+#: og.admin.inc:86
+msgid "Audience checkboxes"
+msgstr "Markobutonoj de legantaro"
+
+#: og.admin.inc:88
+msgid "Show each group that the user is a member of as a checkbox in the \"Audience\" section. This enables the member to place her post into multiple groups. If unchecked, simplify the user interface by omitting the checkboxes and assuming user wants to post into the current group. This simplification only applies to new nodes, and not to edits of existing nodes. Group administrators always see checkboxes."
+msgstr "Montru ĉiun grupon de kiu la uzanto estas membro kiel markobutono en la sekcio de \"Legantaro\". Tio ebligas ke la membro povu meti sian afiŝon en multaj grupoj. Se malŝaltita, simpligu la uzantan interfacon per forigo de la markobutonoj kaj antaŭsupozu ke la uzanto volas afiŝi en la nuna grupo. Tiu simpliga nur aplikiĝas al novaj nodoj, kaj ne al redaktoj de ekzistantaj nodoj. Grupaj administrantoj ĉiam vidas markobutonojn."
+
+#: og.admin.inc:92
+msgid "Optional"
+msgstr "Nedeviga"
+
+#: og.admin.inc:92
+msgid "Required"
+msgstr "Bezonata"
+
+#: og.admin.inc:95
+msgid "Audience required"
+msgstr "Legantaro bezonata"
+
+#: og.admin.inc:98
+msgid "Do you require that all (non administrator) posts be affiliated with a group? Note that changing this setting will affect existing posts when they are edited."
+msgstr "Ĉu vi volas ke ĉiuj (neadministrantaj) afiŝoj estu ligita kun grupo? Rimarku ke ŝanĝi tiun agordon ne influos ekzistantajn afiŝojn kiam ili redaktiĝas."
+
+#: og.admin.inc:104
+msgid "Email settings"
+msgstr "Retpoŝtaj agordoj"
+
+#: og.admin.inc:111
+msgid "Format of \"From:\" field"
+msgstr "Formato de kampo  \"De:\""
+
+#: og.admin.inc:113
+msgid "Specify the format of the \"From:\" field on outgoing notifications. Available variables: @user_mail, @user_name, @site_mail, @site_name. Note that the @user_mail token reveals the author's email address. If the admin email examples above appear blank, you need to set your site email in the \"Site information\" panel."
+msgstr "Indiku la formaton de la kampo \"De:\" por elirantaj atentigoj. Eblaj variabloj: @user_mail, @user_name, @site_mail, @site_name. Rimarku ke la @user_mail ĵetono montras la retpoŝtadreson de la aŭtoro. Se la administraj retpoŝtaj ekzemple supre aperas malplenaj, vi devas agordi vian retpoŝtan de via retejo en la panelo de \"Retejaj informoj\"."
+
+#: og.admin.inc:117
+msgid "New content subject"
+msgstr "Nova enhava temo"
+
+#: og.admin.inc:122
+msgid "New content body"
+msgstr "Nova enhava korpo"
+
+#: og.admin.inc:124
+msgid "Body of email for new content. Available variables: @group, !group_url, @type, @site, !content_url, !reply_url, @title, @subject, @node_full, @node_teaser, @username. @subject contains the comment title in the case of a comment but the node title in the case of a new post. %title is always the node title."
+msgstr "Korpo de retpoŝto por nova enhavo. Uzeblaj variabloj: @group, !group_url, @type, @site, !content_url, !reply_url, @title, @subject, @node_full, @node_teaser, @username. @subject enhavas la komentan titolon en la kazo de komento, sed la noda titolo en la kazo de nova afiŝo. %title ĉiam estas la noda titolo."
+
+#: og.admin.inc:129
+msgid "Group admin email body"
+msgstr "Grupa administra retpoŝta korpo"
+
+#: og.admin.inc:131
+msgid "The body of the email sent to users from the group admin. Available variables: @group, @body, @site, !url_group, !url_unsubscribe."
+msgstr "La korpo de la retpoŝto sendota al uzantoj de la grupa administranto. Uzeblaj variabloj: @group, @body, @site, !url_group, !url_unsubscribe."
+
+#: og.admin.inc:136
+msgid "User approved email subject"
+msgstr "Retpoŝta temo aprobita de uzanto"
+
+#: og.admin.inc:137
+msgid "The subject of the email sent to new approved members. Available variables: !group_url, @title."
+msgstr "La temo de la retpoŝto sendota al novaj aprobitaj membroj. Uzeblaj variabloj: !group_url, @title."
+
+#: og.admin.inc:142
+msgid "User approved email body"
+msgstr "Retpoŝta korpo aprobita de uzanto"
+
+#: og.admin.inc:144
+msgid "The body of the email sent to new approved members. Available variables: !group_url, @title."
+msgstr "La korpo de la retpoŝto sendita al novaj aprobitaj membroj. Uzeblaj variabloj: !group_url, @title."
+
+#: og.admin.inc:149
+msgid "User denied email subject"
+msgstr "Retpoŝta temo aprobita de uzanto"
+
+#: og.admin.inc:150
+msgid "The subject of the email sent to denied users. Available variables: !group_url, @title."
+msgstr "La temo de la retpoŝto sendita al neaprobitaj uzantoj. Uzeblaj variabloj: !group_url, @title."
+
+#: og.admin.inc:155
+msgid "User denied email body"
+msgstr "Uzanto-neaprobita retpoŝta korpo."
+
+#: og.admin.inc:157
+msgid "The body of the email sent to denied users. Available variables: !group_url, @title."
+msgstr "La korpo de la retpoŝto sendota al neaprobitaj uzantoj. Uzeblaj variabloj: !group_url, @title."
+
+#: og.admin.inc:162
+msgid "Invite user email subject"
+msgstr "Retpoŝta temo por inviti uzanton"
+
+#: og.admin.inc:163
+msgid "The subject of the email sent to users invited to join a group. Available variables: @group, @site, @description, !group_url, @body."
+msgstr "La temo de la retpoŝto sendota al uzantoj invititaj por aliĝi al grupo. Uzeblaj variabloj: @group, @site, @description, !group_url, @body."
+
+#: og.admin.inc:168
+msgid "Invite user email body"
+msgstr "Repoŝta korpo por inviti uzanton"
+
+#: og.admin.inc:170
+msgid "The body of the email sent to users invited to join a group. Available variables: @group, @site, @description, !group_url, @body."
+msgstr "La korpo de la retpoŝto sendota al uzantoj invititaj aliĝi al grupo. Uzeblaj variabloj: @group, @site, @description, !group_url, @body."
+
+#: og.admin.inc:175
+msgid "Request user email subject"
+msgstr "Retpoŝta temo por peti uzanton"
+
+#: og.admin.inc:176
+msgid "The subject of the email sent to a user's request to join a group. Available variables: @group, @username, !approve_url, !group_url."
+msgstr "La temo de la retpoŝto sendota kiam uzanto petas aliĝi al grupo. Uzeblaj variabloj: @group, @username, !approve_url, !group_url."
+
+#: og.admin.inc:181
+msgid "Request user email body"
+msgstr "Retpoŝta korpo por peti uzanton"
+
+#: og.admin.inc:183
+msgid "The body of the email sent to a user's request to join a group. Available variables: @group, @username, !approve_url, !group_url."
+msgstr "La korpo de la retpoŝto sendota al uzanta peto por aliĝi al grupo. Uzeblaj variabloj: @group, @username, !approve_url, !group_url"
+
+#: og.admin.inc:188
+msgid "New admin user email subject"
+msgstr "Nova retpoŝta temo por administra uzanto"
+
+#: og.admin.inc:189
+msgid "The subject of the email sent to a new admin for a group. Available variables: @group, @username, !group_url."
+msgstr "La temo de la retpoŝto sendota al nova administranto por grupo. Uzeblaj variabloj: @group, @username, !group_url."
+
+#: og.admin.inc:194
+msgid "New admin user email body"
+msgstr "Nova retpoŝta korpo por administra uzanto"
+
+#: og.admin.inc:196
+msgid "The body of the email sent to a new admin for a group. Available variables: @group, @username, !group_url, !invite_url."
+msgstr "La korpo de la retpoŝto sendota al nova administranto por grupo. Uzeblaj variabloj: @group, @username, !group_url, !invite_url."
+
+#: og.views.inc:28
+#: og.module:1712
+#: og_panels.module:643
+#: og.info:0
+#: og_access.info:0
+#: og_panels.info:0
+#: includes/groupcontent.inc:10
+msgid "Organic groups"
+msgstr "Organaj grupoj"
+
+#: og.views.inc:37
+msgid "Group: Description"
+msgstr "Grupo: Priskribo"
+
+#: og.views.inc:45
+msgid "Group: Members count"
+msgstr "Grupo: Nombro da membroj"
+
+#: og.views.inc:49
+msgid "Number of members for a group. Excludes memberships which are pending approval."
+msgstr "Nombro da membroj por grupo. Ekskluzivas membrecoj kiuj atendas aprobon."
+
+#: og.views.inc:53
+msgid "Group: Post count"
+msgstr "Grupo: Nombro da afiŝoj"
+
+#: og.views.inc:57
+msgid "Number of published posts in a group. Can be restricted by node type using the <em>Option</em> dropdown."
+msgstr "Nombro da eldonitaj afiŝoj en grupo. Povas esti limigita laŭ noda speco uzante la falmenuon <em>Opcia</em>."
+
+#: og.views.inc:62
+msgid "Group: Post count *new*"
+msgstr "Grupo: Nombro da *novaj* afiŝoj"
+
+#: og.views.inc:66
+msgid "Number of new posts in a group for the current user."
+msgstr "Nombro da novaj afiŝoj en grupo por la nuna uzanto."
+
+#: og.views.inc:71
+msgid "Group: Selective"
+msgstr "Grupo: Elektema"
+
+#: og.views.inc:72
+msgid "The group preference which determines how membership requests are managed (moderated, invite only, etc.)."
+msgstr "La grupaj preferoj kiuj determinas kiel oni administru petojn por membreco (moderata, nur per invito, ktp.) "
+
+#: og.views.inc:81
+msgid "Group: Private"
+msgstr "Grupo: Privata"
+
+#: og.views.inc:82
+msgid "Is the group home page private or not."
+msgstr "Ĉu la grupa hejmpaĝo estas privata aŭ ne."
+
+#: og.views.inc:94
+msgid "Group: List in directory"
+msgstr "Grupo: Listigi en adresaro"
+
+#: og.views.inc:95
+msgid "Admin specifies whether or not a group appears in the public listings."
+msgstr "Administranto indikas ĉu aŭ ne grupo aperas en la publika adresaro."
+
+#: og.views.inc:107
+msgid "Group: Join link"
+msgstr "Grupo: Ligilo por aliĝi"
+
+#: og.views.inc:108
+msgid "Displays a links for joining a group when a user is not already a member."
+msgstr "Montras ligilojn por aliĝi al grupo kiam uzanto ankoraŭ ne estas membro."
+
+#: og.views.inc:114
+msgid "Group: Notification"
+msgstr "Grupo: Atentigo"
+
+#: og.views.inc:115
+msgid "Does group sending email notifications to its members by default"
+msgstr "Ĉu grupo sendas retpoŝtajn atentigojn al siaj membroj defaŭlte"
+
+#: og.views.inc:128
+msgid "Group: Language"
+msgstr "Grupo: Lingvo"
+
+#: og.views.inc:129
+msgid "Displays the language selected for a given group."
+msgstr "Montras la lingvon elektitan por grupo"
+
+#: og.views.inc:146
+msgid "Group types"
+msgstr "Grupaj specoj"
+
+#: og.views.inc:147
+msgid "The type of a group (for example, \"blog entry\", \"forum post\", \"story\", etc)."
+msgstr "La speco de grupo (ekzemple, \"blog-enskribo\", \"foruma afiŝo\", \"rakonto\", ktp)."
+
+#: og.views.inc:155
+msgid "Group types (all)"
+msgstr "Grupaj specoj (ĉiuj)"
+
+#: og.views.inc:160
+msgid "Restrict to all content types that have been marked as groups."
+msgstr "Limigu al ĉiuj enhavspecoj kiuj estas markitaj kiel grupoj."
+
+#: og.views.inc:208
+#: og.module:2937
+msgid "You have no node types which are acting as groups. See the notes section of the !readme_file and the content types fieldset at top of <a href=\"!settings\">OG settings</a>."
+msgstr "Vi havas neniujn nodajn specojn kiuj agas kiel grupoj. Vidu la sekcion de rimarkoj de la !readme_file kaj la kamparo de enhavspecoj supre de <a href=\"agordoj\">OG-agordoj</a>."
+
+#: og.views.inc:217
+msgid "Group node type"
+msgstr "Grupa noda speco"
+
+#: og.views.inc:281
+#: og.module:1243
+msgid "Closed"
+msgstr "Fermita"
+
+#: og.views.inc:283
+#: og.module:1242
+msgid "Invite only"
+msgstr "Nur per invito"
+
+#: og.views.inc:297
+#: og.module:1759
+msgid "Group posts"
+msgstr "Grupaj afiŝoj"
+
+#: og.views.inc:298
+msgid "Posts which are affiiated with a group."
+msgstr "Afiŝoj ligitaj kun grupo."
+
+#: og.views.inc:308
+msgid "Filter for posts in specified organic groups. <em>Value</em> should be a one or more node ids (i.e. integers), separated by commas or pluses. Like taxonomy, pluses indicate that the post must appear in one of the specified groups, whereas commas indicate that the post must appear in every specified group. The page context (if View is a page) will be set to the first listed group. That means that blocks and breadcrumbs (and theme and locale, if applicable) will be based upon the first specified node id."
+msgstr "Filtrilo por afiŝoj en specifaj organaj grupoj. <em>Valoro</em> devas esti unu aŭ pli da nodaj identigiloj (ekz. entjeroj), disigita per komoj aŭ plusoj. Kiel taksonomio, plusoj indikas ke la afiŝo devas aperi en unu el la indikitaj grupoj, kaj komoj indikas ke la afiŝo devas aperi en ĉiu indikita grupo. La paĝa konteksto (se Vido estas paĝo) agordiĝos al la unue listita grupo. Tio signifas ke blokoj kaj paĝnivelaj navigiloj (kaj haŭto kaj lokaĵaro, se aplikebla) baziĝos sur la unue indikita noda id."
+
+#: og.views.inc:311
+msgid "The groups for a post."
+msgstr "La grupoj por afiŝo."
+
+#: og.views.inc:316
+msgid "Group node (post)"
+msgstr "Grupa nodo (afiŝo)"
+
+#: og.views.inc:317
+msgid "Bring in information about the group node based on a post's groups."
+msgstr "Enportu informojn pri la grupa nodo bazita sur grupo de afiŝo."
+
+#: og.views.inc:329
+msgid "Post: in specified group (by number)"
+msgstr "Afiŝo: en indikita grupo (laŭ membro)"
+
+#: og.views.inc:338
+msgid "Post: Nid"
+msgstr "Afiŝo: Nid"
+
+#: og.views.inc:339
+msgid "The node ID of the node."
+msgstr "La noda ID de la nodo."
+
+#: og.views.inc:346
+msgid "OG: Posts in current group"
+msgstr "OG: Afiŝoj en nuna grupo"
+
+#: og.views.inc:347
+msgid "Posts in current group. Useful for blocks where determining context is hard. If page is not in any group context, no nodes are listed and thus a block would not appear."
+msgstr "Afiŝoj en nuna grupo. Utila por blokoj kiam malfacilas determini kontektston. Se paĝo ne estas en grupa kontekto, neniuj nodoj listiĝas kaj tiel bloko ne aperus."
+
+#: og.views.inc:355
+msgid "Post: Public"
+msgstr "Afiŝo: Publika"
+
+#: og.views.inc:356
+msgid "Is a given post public or private according to OG."
+msgstr "Se afiŝo estas publika aŭ privata laŭ OG."
+
+#: og.views.inc:443
+#: og_workflow_ng.inc:44
+#: og_panels.module:544
+#: includes/groupcontent.inc:9
+msgid "Group"
+msgstr "Grupo"
+
+#: og.views.inc:444
+msgid "Group that a member belongs to."
+msgstr "Grupo al kiu membro apertenas."
+
+#: og.views.inc:446
+msgid "Group node (member)"
+msgstr "Grupa nodo (membro)"
+
+#: og.views.inc:447
+msgid "Bring in information about the group node based on a user's membership."
+msgstr "Enigu informojn pri la grupa nodo bazita sur membreco de uzanto."
+
+#: og.views.inc:454
+#: og.module:2488
+msgid "Group node"
+msgstr "Grupa nodo"
+
+#: og.views.inc:456
+msgid "Members are filtered for a specific group."
+msgstr "Membroj filtriĝas por indikita grupo."
+
+#: og.views.inc:461
+msgid "Group member"
+msgstr "Grupa membro"
+
+#: og.views.inc:465
+msgid "OG: Group in user's groups"
+msgstr "OG: Grupo en grupoj de uzanto"
+
+#: og.views.inc:471
+msgid "OG: Notification email"
+msgstr "OG: Atentiga retpoŝto"
+
+#: og.views.inc:472
+msgid "Does member receive email notifications for a group."
+msgstr "Ĉu membro ricevas retpoŝtajn atentigojn por grupo."
+
+#: og.views.inc:481
+msgid "OG: Admin manage link"
+msgstr "OG: Ligilo por administri"
+
+#: og.views.inc:482
+msgid "A link to the <em>Admin create or remove</em> page."
+msgstr "Ligilo al la paĝo <em>Krei aŭ forigi administranton</em>."
+
+#: og.views.inc:489
+msgid "OG: Edit membership link"
+msgstr "OG: Ligilo por redakti membrecon"
+
+#: og.views.inc:490
+msgid "A link to the <em>My membership</em> page."
+msgstr "Ligilo al la paĝo <em>Mia membreco</em>."
+
+#: og.views.inc:497
+msgid "OG: Approve/Deny/Remove membership link"
+msgstr "OG: Ligilo Aprobi/Malaprobi/Forigi membrecon"
+
+#: og.views.inc:498
+msgid "A link to approve/deny/remove a group member."
+msgstr "Ligilo por aprobi/malaprobi/forigi grupan membron."
+
+#: og.views.inc:505
+msgid "OG: Is member an admin in a group"
+msgstr "OG: Ĉu la membro estas administranto en grupo?"
+
+#: og.views.inc:506
+msgid "Add <em>admin</em> text if user is the group manager."
+msgstr "Aldonu <em>administran</em> tekston se uzanto estas la grupestro."
+
+#: og.views.inc:519
+msgid "OG: Is membership approved"
+msgstr "OG: Ĉu membreco aprobita?"
+
+#: og.views.inc:520
+msgid "Add <em>approval needed</em> user if user's membership request is pending."
+msgstr "Aldoni uzanton kiu <em>bezonas aprobon</em> se membreca peto atendiĝas."
+
+#: og.views.inc:533
+msgid "OG: Is the group manager"
+msgstr "OG: Ĉu la grupestro?"
+
+#: og.views.inc:534
+msgid "Add <em>manager</em> text if user is the group manager."
+msgstr "Aldonu tekston de <em>administrado</em> se uzanto estas la grupestro."
+
+#: og.views.inc:544
+msgid "OG: Membership create date"
+msgstr "OG: Dato de membriĝo"
+
+#: og.views.inc:545
+msgid "The date when the membership was created."
+msgstr "La dato kiam membreco kreiĝis."
+
+#: og.views.inc:558
+msgid "OG: Membership last updated date"
+msgstr "OG: Dato de lasta ĝisdatigo de membreco "
+
+#: og.views.inc:559
+msgid "The date when the membership was last updated."
+msgstr "La dato kiam la membreco estis laste ĝisdatigita."
+
+#: og.views.inc:601
+msgid "Member types"
+msgstr "Specoj de membroj"
+
+#: og.views.inc:602
+msgid "Members"
+msgstr "Membroj"
+
+#: og.views.inc:602
+msgid "Group administrators"
+msgstr "Grupaj administrantoj"
+
+#: og.views.inc:629
+msgid "approval needed"
+msgstr "aprobo bezonata"
+
+#: og.views.inc:645
+msgid "admin"
+msgstr "administranto"
+
+#: og.views.inc:673
+#: og.module:1137
+msgid "Manager"
+msgstr "Administranto"
+
+#: og.views.inc:704
+msgid "Admin: Remove"
+msgstr "Admin: Forigi"
+
+#: og.views.inc:707
+msgid "Admin: Create"
+msgstr "Admin: Krei"
+
+#: og.views.inc:739
+msgid "Remove membership"
+msgstr "Forigi membrecon"
+
+#: og.views.inc:743
+msgid "Request: <a href=\"@approve\">approve</a> or <a href=\"@deny\">deny</a>."
+msgstr "Peto: <a href=\"@approve\">aprobi</a> aŭ <a href=\"@deny\">malaprobi</a>."
+
+#: og.views.inc:757
+msgid "Edit membership"
+msgstr "Redakti membrecon"
+
+#: og.views.inc:768
+msgid "Group nodes"
+msgstr "Grupaj nodoj"
+
+#: og.views.inc:785
+msgid "Argument type"
+msgstr "Speco de argumento"
+
+#: og.views.inc:787
+msgid "Node ID"
+msgstr "Noda ID"
+
+#: og.views.inc:788
+msgid "Node ID's separated by , or +"
+msgstr "Nodaj ID-oj disigitaj per , aŭ +"
+
+#: og.views.inc:797
+msgid "Validate current user is a member of a specified group"
+msgstr "Validigu ke nuna uzanto estas membro de indikita grupo"
+
+#: og.views.inc:882
+#: og.module:1181
+#: og_panels.module:263
+msgid "Home"
+msgstr "Hejmo"
+
+#: og_workflow_ng.inc:15
+msgid "User joins group"
+msgstr "Uzanto aliĝas al grupo"
+
+#: og_workflow_ng.inc:16
+msgid "OG"
+msgstr "OG"
+
+#: og_workflow_ng.inc:20
+msgid "User approved to group by admin"
+msgstr "Administranto aprobis uzanton al grupo"
+
+#: og_workflow_ng.inc:22
+msgid "A pending member is approved by a group administrator."
+msgstr "Grupa administranto aprobis membron."
+
+#: og_workflow_ng.inc:26
+msgid "User leaves group"
+msgstr "Uzanto forlasas grupon"
+
+#: og_workflow_ng.inc:43
+msgid "User, who joins group"
+msgstr "Uzanto, kiu aliĝas al grupo"
+
+#: og_xmlrpc.inc:13
+msgid "Unrecognized user ID: %uid."
+msgstr "Nekonata uzanta ID: %uid."
+
+#: og_xmlrpc.inc:17
+msgid "Wrong username or password."
+msgstr "Malĝusta uzantnomo aŭ pasvorto."
+
+#: og_xmlrpc.inc:33
+msgid "User is not a member of the specified group."
+msgstr "Uzanto ne estas membro de la indikita grupo."
+
+#: og_xmlrpc.inc:48
+msgid "User is not allowed to retrieve membership information for another user."
+msgstr "Uzanto ne estas permesita preni membrajn informojn por alia uzanto."
+
+#: og.module:31
+msgid "Group specific blocks are only visible on group pages and not on systemwide pages like the home page or admin pages."
+msgstr "Grup-specifaj blokoj nur videblas en grupaj paĝoj kaj ne en tutsistemaj paĝoj kiel la hejmpaĝo aŭ admin-paĝoj. "
+
+#: og.module:34
+msgid "In order to let group admins determine their own group theme, you must enable multiple themes using <a href=\"@url\">theme configuration page</a>."
+msgstr "Por permesi ke grupaj administrantoj povu elekti sian propran grupan haŭton, vi devas ŝalti multajn haŭtojn uzante <a href=\"@url\">paĝon de haŭta agordo</a>."
+
+#: og.module:490
+msgid "Send email to %group"
+msgstr "Sendu retpoŝton al %group"
+
+#: og.module:493
+msgid "Your email will be sent to all members of this group. Please use this feature sparingly."
+msgstr "Via retpoŝto estis sendita al ĉiuj membroj de ĉi tiu grupo. Bonvolu uzi ĉi tiun funkcion malofte."
+
+#: og.module:498
+msgid "Subject"
+msgstr "Temo"
+
+#: og.module:501
+msgid "Enter a subject for your email."
+msgstr "Enmetu temon por via retpoŝto."
+
+#: og.module:506
+msgid "Body"
+msgstr "Korpo"
+
+#: og.module:509
+msgid "Enter a body for your email."
+msgstr "Enmetu korpon por via retpoŝto."
+
+#: og.module:512
+msgid "Send email"
+msgstr "Sendi retpoŝton"
+
+#: og.module:563
+msgid "You may not leave this group because it is a <em>closed</em> group. You should request removal from a group administrator."
+msgstr "Vi ne rajtas forlasi ĉi tiun grupon, ĉar ĝi estas <em>fermita</em> grupo. Vi devas peti forigon de grupa administranto."
+
+#: og.module:566
+msgid "You may not leave this group because you are its owner. A site administrator can assign ownership to another user and then you may leave."
+msgstr "Vi ne rajtas forlasi ĉi tiun grupon, ĉar vi estas ĝia estro. Retestro povas doni estrecon al alia uzanto kaj tiam vi povas forlasi."
+
+#: og.module:569
+msgid "Leave this group"
+msgstr "Forlasu ĉi tiun grupon"
+
+#: og.module:584
+msgid "Email notification"
+msgstr "Retpoŝta atentigo"
+
+#: og.module:587
+msgid "Enabled"
+msgstr "Ŝaltita"
+
+#: og.module:588
+msgid "Disabled"
+msgstr "Malŝaltita"
+
+#: og.module:590
+msgid "Do you want to receive an email each time a message is posted to this group?"
+msgstr "Ĉu vi volas ricevi retpoŝton ĉiufoje kiam oni afiŝas mesaĝon al ĉi tiu grupo?"
+
+#: og.module:598
+msgid "Your <a href=\"!prof\">user profile</a> is configured to: <em>Always receive email notifications</em>."
+msgstr "Via <a href=\"!prof\">uzantoprofilo</a> estas agordita al: <em>Ĉiam ricevi retpoŝtajn atentigojn</em>."
+
+#: og.module:605
+msgid "Your <a href=\"!prof\">user profile</a> is configured to: <em>Never receive email notifications</em>."
+msgstr "Via <a href=\"!prof\">uzantoprofilo</a> estas agordita al: <em>Neniam ricevi retpoŝtajn atentigojn</em>."
+
+#: og.module:610
+#: og_panels.module:496
+#: tests/og_testcase.php:19
+msgid "Save"
+msgstr "Konservi"
+
+#: og.module:621
+msgid "Membership saved."
+msgstr "Membreco konservita."
+
+#: og.module:669
+msgid "Bad token. You seem to have followed an invalid link."
+msgstr "Malbona ĵetono. Vi ŝajne sekvis nevalidan ligilon."
+
+#: og.module:675
+msgid "!name already approved to group %group."
+msgstr "!name estas jam aprobita al grupo %group."
+
+#: og.module:680
+msgid "Membership request approved."
+msgstr "Membreca peto aprobita."
+
+#: og.module:700
+msgid "Membership request denied."
+msgstr "Membreca peto malaprobita."
+
+#: og.module:719
+msgid "Are you sure you want to make %name a group administrator for the group %title?"
+msgstr "Ĉu vi certas ke vi volas ke %name estu grupa administranto por la grupo %title?"
+
+#: og.module:722
+msgid "Confirm"
+msgstr "Konfirmi"
+
+#: og.module:723
+#: og_panels.module:146
+msgid "Cancel"
+msgstr "Nuligi"
+
+#: og.module:734
+msgid "%name was promoted to <em>group administrator</em>."
+msgstr "%name estis promociita al <em>grupa administranto</em>."
+
+#: og.module:753
+msgid "Are you sure you want to remove %name as a group administrator for the group %title?"
+msgstr "Ĉu vi certas ke vi volas forigi %name kiel grupa administranto por la grupo %title?"
+
+#: og.module:756
+msgid "Remove"
+msgstr "Forigi"
+
+#: og.module:768
+msgid "%name is no longer a <em>group administrator</em>."
+msgstr "%name ne plu estas <em>grupa administranto</em>."
+
+#: og.module:780
+msgid "Email addresses or usernames"
+msgstr "Retpoŝtadresoj aŭ uzantnomoj."
+
+#: og.module:781
+msgid "Enter up to %max email addresses or usernames. Separate multiple addresses by commas or new lines. Each person will receive an invitation message from you."
+msgstr "Enmetu ĝis %max retpoŝtajn adresojn aŭ uzantnomojn. Disigu multajn adresojn per komoj aŭ novaj linioj. Ĉiu persono ricevos inviton de vi."
+
+#: og.module:785
+msgid "Personal message"
+msgstr "Persona mesaĝo"
+
+#: og.module:786
+msgid "Optional. Enter a message which will become part of the invitation email."
+msgstr "Nedeviga. Enmetu mesaĝon kiu poste iĝos parto de la invita retpoŝto."
+
+#: og.module:788
+msgid "Send invitation"
+msgstr "Sendi inviton"
+
+#: og.module:803
+msgid "You may not specify more than %max email addresses or usernames."
+msgstr "Vi ne rajtas indiki pli ol %max retpoŝtadresojn aŭ uzantnomojn."
+
+#: og.module:806
+msgid "You may not invite yourself - @self."
+msgstr "Vi ne rajtas inviti vin mem. - @self."
+
+#: og.module:830
+msgid "Invalid email address or username: @value."
+msgstr "Nevalida retpoŝtadreso aŭ uzantnomo: @value."
+
+#: og.module:866
+msgid "In order to join this group, you must login or register a new account. After you have successfully done so, you will need to request membership again."
+msgstr "Por aliĝi al ĉi tiu grupo, vi devas ensaluti aŭ registri novan konton. Post kiam vi sukcese faris tion, vi devos peti membrecon denove."
+
+#: og.module:886
+msgid "@user is already a member the group @group."
+msgstr "@user jam estas membro de la grupon @group."
+
+#: og.module:903
+msgid "Additional details"
+msgstr "Aldonaj detaloj"
+
+#: og.module:904
+msgid "Add any detail which will help an administrator decide whether to approve or deny your membership request."
+msgstr "Aldonu detalojn kiuj helpos al administranto decidi ĉu aprobi aŭ malaprobi vian peton por membreco."
+
+#: og.module:914
+msgid "Are you sure you want to join the group %title?"
+msgstr "Ĉu vi certas ke vi volas aliĝi al la grupo %title?"
+
+#: og.module:916
+msgid "Join"
+msgstr "Aliĝi"
+
+#: og.module:963
+msgid "Membership request to the %group group awaits approval by an administrator."
+msgstr "Membreca peto al la grupo %group atendas aprobon de la administranto."
+
+#: og.module:969
+msgid "You are now a member of the %group."
+msgstr "Vi nun estas membro de la grupon %group."
+
+#: og.module:979
+msgid "Membership request to the %group group was rejected, only group administrators can add users to this group."
+msgstr "La peto membriĝi al la grupo %group estis malaprobita, nur grupaj administrantoj povas aldoni uzantojn al ĉi tiu grupo."
+
+#: og.module:992
+msgid "Are you sure you want to remove !name from the group %title?"
+msgstr "Ĉu vi certas ke vi volas forigi !name de la grupo %title?"
+
+#: og.module:1004
+msgid "%user removed from %group."
+msgstr "%user forigita de %group."
+
+#: og.module:1064
+msgid "List of users"
+msgstr "Listo de uzantoj"
+
+#: og.module:1069
+msgid "Add one or more usernames in order to associate users with this group. Multiple usernames should be separated by a comma."
+msgstr "Aldoni unu aŭ pli da uzantnomoj por ligi uzantojn kun ĉi tiu grupo. Multaj uzantnomoj devas esti disigita per komo."
+
+#: og.module:1072
+msgid "Add users"
+msgstr "Aldoni uzantojn"
+
+#: og.module:1136
+#: og_panels.module:238
+msgid "Title"
+msgstr "Titolo"
+
+#: og.module:1138
+msgid "Posts"
+msgstr "Afiŝoj"
+
+#: og.module:1139
+msgid "Comments"
+msgstr "Komentoj"
+
+#: og.module:1140
+msgid "Age"
+msgstr "Aĝo"
+
+#: og.module:1141
+msgid "Last comment"
+msgstr "Lasta komento"
+
+#: og.module:1155
+msgid "No groups available."
+msgstr "Neniuj grupoj ekzistas."
+
+#: og.module:1175
+#: includes/groupcontent.inc:94
+msgid "Description"
+msgstr "Priskribo"
+
+#: og.module:1223
+msgid "No posts in this group."
+msgstr "Neniuj afiŝoj en ĉi tiu grupo."
+
+#: og.module:1226
+msgid "No public posts in this group."
+msgstr "Neniuj publikaj afiŝoj en ĉi tiu grupo."
+
+#: og.module:1228
+msgid "You must <a href=\"!register\">register</a> or <a href=\"!login\">login</a> and become a member in order to post messages, and view any private posts."
+msgstr "Vi devas <a href=\"!register\">registriĝi</a> aŭ <a href=\"!login\">ensaluti</a> kaj iĝi membro por afiŝi mesaĝojn kaj vidi privatajn afiŝojn."
+
+#: og.module:1232
+msgid "Consider <a href=\"!url\">joining this group</a> in order to view its posts."
+msgstr "Konsideru <a href=\"!url\">aliĝi al ĉi tiu grupo</a> por vidi ĝiajn afiŝojn."
+
+#: og.module:1240
+msgid "Open"
+msgstr "Malfermita"
+
+#: og.module:1241
+msgid "Moderated"
+msgstr "Prizorgata"
+
+#: og.module:1274
+msgid "A brief description for the group details block and the group directory."
+msgstr "Priskribeto por la detala bloko kaj adresaro de la grupo."
+
+#: og.module:1280
+msgid "Open - membership requests are accepted immediately."
+msgstr "Malfermita - membrecaj petoj akceptiĝas tuj."
+
+#: og.module:1281
+msgid "Moderated - membership requests must be approved."
+msgstr "Moderata - membrecaj petoj devas esti aprobita."
+
+#: og.module:1282
+msgid "Invite only - membership must be created by an administrator."
+msgstr "Nur per invito - membreco devas esti kreita de administranto."
+
+#: og.module:1283
+msgid "Closed - membership is exclusively managed by an administrator."
+msgstr "Fermita - membreco estas ekskluzive administrata de administranto."
+
+#: og.module:1287
+msgid "Membership requests"
+msgstr "Membrecaj petoj"
+
+#: og.module:1291
+msgid "How should membership requests be handled in this group? When you select <em>closed</em>, users will not be able to join <strong>or</strong> leave."
+msgstr "Kiel oni traktu membrecajn petojn en ĉi tiu grupo? Kiam vi elektas <em>fermita</em>, uzantoj ne povos aliĝi <strong>aŭ</strong> malaliĝi."
+
+#: og.module:1317
+msgid "Registration form"
+msgstr "Registriĝa formularo"
+
+#: og.module:1319
+msgid "May users join this group during registration? If checked, a corresponding checkbox will be added to the registration form."
+msgstr "Ĉu uzantoj rajtas aliĝi al ĉi tiu grupo dum registriĝo? Se ŝaltita, tia markobutono aldoniĝos al la formularo."
+
+#: og.module:1347
+msgid "List in groups directory"
+msgstr "Listoj en grupa adresaro"
+
+#: og.module:1349
+msgid "Should this group appear on the <a href=\"@url\">list of groups page</a>? Disabled if the group is set to <em>private group</em>."
+msgstr "Ĉu ĉi tiu grupo aperu en la <a href=\"@url\">paĝo de listo de grupoj</a>? Malŝaltita se la grupo estas agordita al <em>privata grupo</em>."
+
+#: og.module:1357
+msgid "Language"
+msgstr "Lingvo"
+
+#: og.module:1360
+msgid "Selecting a different locale will change the interface language of the group. Users who have chosen a preferred language always see their chosen language."
+msgstr "Elekti malsaman lokaĵaron ŝanĝos la interfacan lingvon de la grupo. Uzantoj kiuj elektis preferatan lingvon ĉiam vidas sian elektitan lingvon."
+
+#: og.module:1365
+msgid "Selecting a different theme will change the look and feel of the group."
+msgstr "Elekti malsaman haŭton ŝanĝos la aspekton de la grupo."
+
+#: og.module:1535
+msgid "The group manager %name, must have an email address in his <a href=\"@profile\">user profile</a>."
+msgstr "La grupestro %name, devas havi retpoŝtadreson en sia <a href=\"@profile\">uzantoprofilo</a>."
+
+#: og.module:1541
+msgid "You must use the default input format when authoring a group node."
+msgstr "Vi devas uzi la defaŭltan enmetan formaton kiam aŭtorante grupan nodon."
+
+#: og.module:1548
+msgid "You must <a href=\"@join\">join a group</a> before posting on this web site."
+msgstr "Vi devas <a href=\"@join\">aliĝi al grupo</a> antaŭ ol afiŝi en ĉi tiu retejo."
+
+#: og.module:1602
+msgid "OG: notify group members about node %nid - !link."
+msgstr "OG: atentigi grupajn membrojn pri nodo %nid - !link."
+
+#: og.module:1675
+msgid "Mission statement"
+msgstr "Celaro"
+
+#: og.module:1676
+msgid "A welcome greeting for your group home page. Consider listing the group objectives and mission."
+msgstr "Bonveniga saluto por via grupa hejmpaĝo. Konsideru listigi la grupajn celojn."
+
+#: og.module:1679
+msgid "Group manager"
+msgstr "Grupestro"
+
+#: og.module:1680
+msgid "Sticky at top of group home page and other lists."
+msgstr "Fiksite supre de grupa hejmpaĝo kaj aliaj listoj."
+
+#: og.module:1720
+msgid "Organic groups usage"
+msgstr "Uzado de organaj grupoj"
+
+#: og.module:1723
+msgid "Specify how organic groups should treat nodes of this type. Nodes may behave as a group, as group posts, or may not participate in organic groups at all."
+msgstr "Indiki kiel organaj grupoj devas trakti nodojn de ĉi tiu speco. Nodoj agas kiel grupo, kiel grupaj afiŝoj, aŭ ne rajtas partopreni en organaj grupoj entute."
+
+#: og.module:1752
+msgid "Do nothing."
+msgstr "Fari nenion."
+
+#: og.module:1753
+msgid "Delete all group posts which don't also belong to another group."
+msgstr "Forigi ĉiujn grupajn afiŝojn kiuj ne apartenas al alia grupo."
+
+#: og.module:1755
+msgid "Move all group posts to the group listed below."
+msgstr "Movi ĉiujn grupajn afiŝojn al la grupo listita sube."
+
+#: og.module:1762
+msgid "In addition to deleting this group, you may choose how to disposition the posts within it."
+msgstr "Aldone al forigi ĉi tiun grupon, vi povas elekti kiel alilokigi la afiŝojn ene de ĝi. "
+
+#: og.module:1769
+msgid "Target group"
+msgstr "Celgrupo"
+
+#: og.module:1773
+msgid "If you chose <strong>Move all group posts</strong> above, specify a destination group."
+msgstr "Se vi elektis <strong>Movi ĉiujn grupajn afiŝojn</strong> supre, indiku destinan grupon."
+
+#: og.module:1779
+msgid "Delete group"
+msgstr "Forigi grupon"
+
+#: og.module:1905
+msgid "My groups"
+msgstr "Miaj grupoj"
+
+#: og.module:1906
+msgid "Other groups"
+msgstr "Aliaj grupoj"
+
+#: og.module:1982
+msgid "Audience"
+msgstr "Legantaro"
+
+#: og.module:2006
+msgid "You must <a href=\"@join\">join a group</a> before posting a %type."
+msgstr "Vi devas <a href=\"@join\">aliĝi al grupo</a> antaŭ ol afiŝi %type."
+
+#: og.module:2031
+msgid "OG: Notify group members about comment %id on !link."
+msgstr "OG: Atentigi grupajn membrojn pri komento %id sur !link."
+
+#: og.module:2123
+msgid "Read more"
+msgstr "Legi pli"
+
+#: og.module:2123
+msgid "View original"
+msgstr "Vidi originalan"
+
+#: og.module:2294
+msgid "@group: '@title' at @site"
+msgstr "@group: '@title' ĉe @site"
+
+#: og.module:2296
+msgid "@type '@subject' by @username\n\n@node_teaser\n\n!read_more: !content_url\nPost reply: !reply_url\n\n--\nYou are subscribed from the group '@group' at @site.\nTo manage your subscription, visit !group_url"
+msgstr "@type '@subject' de @username\n\n@node_teaser\n\n!read_more: !content_url\nAfiŝa respondo: !reply_url\n\nVi abonas al la grupo '@group' ĉe @site.\nPor administri vian abonon, vizitu !group_url"
+
+#: og.module:2300
+msgid "@body\n\n--\nThis message was sent by an administrator in the '@group' group at @site. To visit this group, browse to !url_group. To unsubscribe from this group, visit !url_unsubscribe"
+msgstr "@body\n\n--\nĈi tiu mesaĝo estis sendita de administranto en la grupo '@group' ĉe @site. Por viziti ĉi tiun grupon, iru al !url_group. Por malaboni de la grupo, vizitu !url_unsubscribe"
+
+#: og.module:2302
+msgid "Membership request approved for '@title'"
+msgstr "Membreca peto aprobita por '@title'"
+
+#: og.module:2304
+msgid "You may now post messages in this group located at !group_url"
+msgstr "Vi nun rajtas afiŝi mesaĝojn en ĉi tiu grupo ĉe !group_url"
+
+#: og.module:2306
+msgid "Membership request denied for '@title'"
+msgstr "Membreca peto malaprobita por '@title'"
+
+#: og.module:2308
+msgid "Sorry, your membership request was denied."
+msgstr "Bedaŭrinde via membreca peto estis malaprobita."
+
+#: og.module:2310
+msgid "Invitation to join the group '@group' at @site"
+msgstr "Invito por aliĝi al la grupo '@group' ĉe @site"
+
+#: og.module:2312
+msgid "Hi. I'm a member of '@group' and I welcome you to join this group as well. Please see the link and message below.\n\n@group\n@description\nJoin: !group_url\n@body"
+msgstr "Saluton. Mi estas membro de '@group' kaj mi bonvenigas vin aliĝi ankaŭ al ĉi tiu grupo.  Bonvolu vidi la ligilon kaj mesaĝon sube.\n\n@group\n@description\nAliĝi: !group_url\n@body"
+
+#: og.module:2314
+msgid "Membership request for '@group' from '@username'"
+msgstr "Membreca peto por '@group' de '@username'"
+
+#: og.module:2316
+msgid "To instantly approve this request, visit !approve_url.\nYou may deny this request or manage members at !group_url. \n\nPersonal message from @username:\n------------------\n\n@request"
+msgstr "Por tuj aprobi ĉi tiun peton, vizitu !approve_url.\nVi povas malaprobi ĉi tiun peton aŭ administri membrojn ĉe !group_url. \n\nPersona mesaĝo de @username:\n------------------\n\n@request"
+
+#: og.module:2318
+msgid "You are now an administrator for the group '@group'"
+msgstr "Vi nun estas administranto por la grupo '@group'"
+
+#: og.module:2320
+msgid "@username, you are now an administrator for the group '@group'.\n\nYou can administer this group by logging in here:\n !group_url"
+msgstr "@username, vi nun estas administranto por la grupo '@group'.\n\nVi povas administri ĉi tiun grupon ensalutante ĉi tien:\n !group_url"
+
+#: og.module:2361
+msgid "Join %name."
+msgstr "Aliĝi al @name."
+
+#: og.module:2363
+msgid "(approval needed)"
+msgstr "(aprobo bezonata)"
+
+#: og.module:2380
+msgid "Organic groups settings"
+msgstr "Agordoj de organaj grupoj"
+
+#: og.module:2385
+msgid "Never send email notifications. Useful when tracking activity via RSS feed instead."
+msgstr "Neniam sendi retpoŝtajn atentigojn. Utile por atentadi aktivaĵojn per RSS-fluo anstataŭe."
+
+#: og.module:2386
+msgid "Always send email notifications."
+msgstr "Ĉiam sendi retpoŝtajn atentigojn."
+
+#: og.module:2387
+msgid "Selectively send email notification based on the checkbox for each of my group's <em>My membership</em> page."
+msgstr "Elekteme sendi retpoŝtajn atentigojn bazita sur la markobutono de la paĝoj de <em>Mia membreco</em> de ĉiuj miaj grupoj."
+
+#: og.module:2391
+msgid "Email notifications"
+msgstr "Retpoŝtaj atentigoj"
+
+#: og.module:2394
+msgid "When posts are submitted into your groups, you may be notified via email."
+msgstr "Kiam afiŝoj estas senditaj al viaj grupoj, vi povas ricevi atentigon retpoŝte."
+
+#: og.module:2489
+msgid "May not be posted into a group."
+msgstr "Ne rajtas afiŝi al grupo."
+
+#: og.module:2490
+msgid "Standard group post (typically only author may edit). Sends email notifications."
+msgstr "Norma grupa afiŝo (kutime nur aŭtoro povas redakti). Sendas retpoŝtajn atentigojn."
+
+#: og.module:2491
+msgid "Standard group post (typically only author may edit). No email notification."
+msgstr "Norma grupa afiŝo (kutime nur aŭtoro povas redakti). Neniu retpoŝta atentigo."
+
+#: og.module:2495
+msgid "Wiki group post (any group member may edit). Sends email notifications."
+msgstr "Vikia grupa afiŝo (ajna grupa membro rajtas redakti). Sendas retpoŝtajn atentigojn."
+
+#: og.module:2496
+msgid "Wiki group post (any group member may edit). No email notification."
+msgstr "Vikia grupa afiŝo (ajna grupano rajtas redakti). Neniu retpoŝta atentigo."
+
+#: og.module:2578
+msgid "New groups"
+msgstr "Novaj grupoj"
+
+#: og.module:2584
+msgid "Group notifications"
+msgstr "Grupaj atentigoj"
+
+#: og.module:2618
+msgid "Maximum number of members to show"
+msgstr "Maksimuma nombro da membroj por montri"
+
+#: og.module:2624
+#: includes/groupcontent.inc:192
+msgid "Group roles"
+msgstr "Grupaj roloj"
+
+#: og.module:2627
+#: includes/groupcontent.inc:194
+msgid "Standard members"
+msgstr "Normaj membroj"
+
+#: og.module:2628
+#: includes/groupcontent.inc:194
+msgid "Administrators"
+msgstr "Administrantoj"
+
+#: og.module:2630
+msgid "You may specify which types of group members appear in the listing."
+msgstr "Vi povas indiki kiujn specoj de grupaj membroj aperas en la listo."
+
+#: og.module:2634
+msgid "Maximum number of groups to show"
+msgstr "Maksimuma nombro da grupoj por montri"
+
+#: og.module:2661
+msgid "This group offers a <a href=\"@groupfeed\">RSS feed</a> and an <a href=\"@email\">email subscription</a>."
+msgstr "Ĉi tiu grupo ofertas <a href=\"@groupfeed\">RSS-fluon</a> kaj <a href=\"@email\">retpoŝtan abonon</a>."
+
+#: og.module:2663
+msgid "Or subscribe to these personalized, sitewide feeds:"
+msgstr "Aŭ abonu al ĉi tiuj personigitaj, retejaj fluoj:"
+
+#: og.module:2666
+msgid "Feed"
+msgstr "Fluo"
+
+#: og.module:2667
+msgid "Page"
+msgstr "Paĝo"
+
+#: og.module:2668
+msgid "My unread: !links."
+msgstr "Miaj nelegitaj: !links."
+
+#: og.module:2672
+msgid "My group: !links."
+msgstr "Mia grupo: !links."
+
+#: og.module:2676
+msgid "All posts: !links"
+msgstr "Ĉiuj afiŝoj: !links"
+
+#: og.module:2688
+msgid "OPML feed"
+msgstr "OPML-fluo"
+
+#: og.module:2703
+msgid "more"
+msgstr "pli"
+
+#: og.module:2703
+msgid "Browse the newest groups."
+msgstr "Foliumi la plej novajn grupojn."
+
+#: og.module:2722
+msgid "Invite friend"
+msgstr "Inviti amikon"
+
+#: og.module:2725
+msgid "Manager: !name"
+msgstr "Administranto: !name"
+
+#: og.module:2728
+msgid "My membership"
+msgstr "Mia membreco"
+
+#: og.module:2738
+msgid "Your membership request awaits approval."
+msgstr "Via membreca peto atendas aprobon."
+
+#: og.module:2739
+msgid "Delete request"
+msgstr "Forigi peton"
+
+#: og.module:2743
+msgid "You must <a href=\"!register\">register</a>/<a href=\"!login\">login</a> in order to post into this group."
+msgstr "Vi devas <a href=\"!register\">registriĝi</a>/<a href=\"!login\">ensaluti</a? por afiŝi en ĉi tiu grupo."
+
+#: og.module:2749
+msgid "This is an <em>invite only</em> group. The group administrators add/remove members as needed."
+msgstr "Ĉi tio estas grupo <em>nur per invito</em>. La grupestroj aldonas/forigas membrojn kiel necese."
+
+#: og.module:2752
+msgid "This is a <em>closed</em> group. The group administrators add/remove members as needed."
+msgstr "Ĉi tio estas <em>fermita</em> grupo. La grupestroj aldonas/forigas membrojn kiel necese."
+
+#: og.module:2797
+msgid "Request membership"
+msgstr "Peti membrecon"
+
+#: og.module:2818
+msgid "Create !type"
+msgstr "Krei !type"
+
+#: og.module:2819
+msgid "Add a new !type in this group."
+msgstr "Aldoni novan !type en ĉi tiu grupo."
+
+#: og.module:2837
+#: includes/groupcontent.inc:243
+msgid "Search"
+msgstr "Serĉi"
+
+#: og.module:2859
+msgid "(pending approval)"
+msgstr "(atendas aprobon)"
+
+#: og.module:2874
+msgid "Add a user to a group."
+msgstr "Aldoni uzanton al grupo."
+
+#: og.module:2879
+msgid "All members for a given group."
+msgstr "Ĉiuj membroj por indikita grupo."
+
+#: og.module:2884
+msgid "Retrieve the group memberships for a given user."
+msgstr "Preni la grupajn membrecojn por indikita uzanto."
+
+#: og.module:2893
+msgid "Title of top group"
+msgstr "Titolo de supra grupo"
+
+#: og.module:2894
+msgid "Unfiltered title of top group. WARNING - raw user input."
+msgstr "Nefiltrita titolo de supra group. ATENTU - kruda uzanta enmeto."
+
+#: og.module:2895
+msgid "ID of top group"
+msgstr "ID de supra grupo"
+
+#: og.module:2966
+msgid "README file"
+msgstr "LEGUMIN-dosiero"
+
+#: og.module:2936
+msgid "Organic groups group type"
+msgstr "Grupa speco de organaj grupoj"
+
+#: og.module:2944
+msgid "Organic groups modules"
+msgstr "Moduloj de organaj grupoj"
+
+#: og.module:2945
+msgid "Organic groups works best when <a href=\"@job_queue\">job_queue.module</a> is enabled. See the integration section of the !readme_file."
+msgstr "Organaj grupoj funkcias plej bone kiam <a href=\"@job-queue\">job_queue.module</a> estas ŝaltita. Vidu la integrigan sekcion de la !readme_file."
+
+#: og.module:2952
+#: og_access.info:0
+msgid "Organic groups access control"
+msgstr "Alira regado de organaj grupoj"
+
+#: og.module:2953
+msgid "Organic groups access control module is disabled. See the <a href=\"@modules\">modules page</a>."
+msgstr "Alira regada modulo de organaj grupoj estas malŝaltita. Vidu la <a href=\"@modules\">paĝo de moduloj</a>."
+
+#: og.module:539
+msgid "1 email sent."
+msgid_plural "@count emails sent."
+msgstr[0] "1 retpoŝto sendita."
+msgstr[1] "@count retpoŝtoj senditaj."
+
+#: og.module:856
+msgid "1 invitation sent."
+msgid_plural "@count invitations sent."
+msgstr[0] "1 invito sendita."
+msgstr[1] "@count invitoj senditaj."
+
+#: og.module:1092
+msgid "Unrecognized name: %bad."
+msgid_plural "Unrecognized names: %bad."
+msgstr[0] "Nekonata nomo: %bad."
+msgstr[1] "Nekonataj nomoj: %bad."
+
+#: og.module:1108
+msgid "1 user added to the group."
+msgid_plural "@count users added to the group."
+msgstr[0] "1 uzanto aldonita al la grupo."
+msgstr[1] "@count uzantoj aldonitaj al la grupo."
+
+#: og.module:1630
+msgid "1 group"
+msgid_plural "@count groups"
+msgstr[0] "1 grupo"
+msgstr[1] "@count grupoj"
+
+#: og.module:2000
+msgid "Show this post in this group."
+msgid_plural "Show this post in these groups."
+msgstr[0] "Montri ĉi tiun afiŝon en ĉi tiu grupo."
+msgstr[1] "Montri ĉi tiun afiŝon en ĉi tiuj grupoj."
+
+#: og.module:2789
+msgid "1 member"
+msgid_plural "@count members"
+msgstr[0] "1 membro"
+msgstr[1] "@count membroj"
+
+#: og.module:376
+msgid "administer organic groups"
+msgstr "administri organaj grupoj"
+
+#: og.module:48
+msgid "Join group"
+msgstr "Aliĝi al grupo"
+
+#: og.module:55
+msgid "OPML"
+msgstr "OPML"
+
+#: og.module:63
+msgid "Leave group"
+msgstr "Forlasi grupon"
+
+#: og.module:72
+msgid "Approve membership request"
+msgstr "Aprobi membrecan peton"
+
+#: og.module:80
+msgid "Deny membership request"
+msgstr "Malaprobi membrecan peton"
+
+#: og.module:88
+msgid "Create group administrator"
+msgstr "Krei grupan administranton"
+
+#: og.module:96
+msgid "Delete group administrator"
+msgstr "Forigi grupan administranton"
+
+#: og.module:113
+msgid "Manage membership"
+msgstr "Administri membrecon"
+
+#: og.module:118
+msgid "Group activity"
+msgstr "Grupaj aktivaĵoj"
+
+#: og.module:126
+msgid "Administer the suite of Organic groups modules."
+msgstr "Administri la modularon de Organaj grupoj."
+
+#: og.module:137
+msgid "Organic groups configuration"
+msgstr "Agordo de organaj grupoj"
+
+#: og.module:139
+msgid "Configure the main Organic groups module (og)."
+msgstr "Agordi la ĉefan modulon de Organaj grupoj (og)."
+
+#: og.module:146
+#: includes/groupcontent.inc:247
+msgid "Faces"
+msgstr "Vizaĝoj"
+
+#: og.module:157
+msgid "Add members"
+msgstr "Aldoni membrojn"
+
+#: og.module:167
+msgid "E-mail"
+msgstr "Retpoŝto"
+
+#: og.module:0
+msgid "og"
+msgstr "og"
+
+#: og_access.module:31
+msgid "Visible only within the targeted groups."
+msgstr "Videbla nur ene de celataj grupoj."
+
+#: og_access.module:32
+msgid "Visible within the targeted groups and on other pages."
+msgstr "Videbla ene de celataj grupoj kaj en aliaj paĝoj."
+
+#: og_access.module:33
+msgid "Visibility chosen by author/editor using a checkbox on the posting form. Checkbox defaults to <em>public</em>."
+msgstr "Videbleco elektita de aŭtoro/redaktanto uzante markobutonon de la afiŝa formularo. Markobutonoj defaŭltas al <em>publika</em>."
+
+#: og_access.module:34
+msgid "Visibility chosen by author/editor using a checkbox on the posting form. Checkbox defaults to <em>private</em>."
+msgstr "Videbleco elektita de aŭtoro/redaktanto uzante markobutonon sur la afiŝa formularo. Markobutono defaŭltas al <em>privata</em>."
+
+#: og_access.module:38
+msgid "Visibility of posts"
+msgstr "Videbleco de afiŝoj"
+
+#: og_access.module:40
+msgid "Determine how broadly available a given post should be when it is affiliated with a group. OG admins always see the checkbox for making a post public. Note that changing this setting has no effect on existing posts. Re-save those posts to acquire this new setting. If the setting you want is disabled here, check the settings under <em>Private Groups</em> setting below. You cannot set node visibility to always be public if private groups are set to always on and vice versa."
+msgstr "Determinu kiel vaste alirebla indikita afiŝo devas esti kiam ĝi ne estas ligita kun grupo. OG-administrantoj ĉiam vidas la markobutonon por publikigi afiŝon. Rimarku ke ŝanĝi ĉi tiun agordon neniel influas ekzistantajn afiŝojn. Rekonservu tiujn afiŝojn por akiri ĉi tiun novan agordon. Se la agordo kiun vi volas estas malŝaltita ĉi tie, kontrolu la agordojn sub la agordo de <em>Privataj Grupoj</em> sube. Vi ne povas agordi nodan videblecon por ĉiam esti publika se privataj grupoj ĉiam estas ŝaltita kaj inverse."
+
+#: og_access.module:46
+msgid "New group home pages and default audience are always public."
+msgstr "Novaj grupaj hejmpaĝoj kaj defaŭlta legantaro estas ĉiam publikaj."
+
+#: og_access.module:47
+msgid "New group home pages and default audience are always private."
+msgstr "Novaj grupaj hejmpaĝoj kaj defaŭlta legantaro estas ĉiam privataj."
+
+#: og_access.module:48
+msgid "Group administrator chooses whether her group homepage and audience are private or not. Defaults to <em>private</em>."
+msgstr "Grupa administranto elektas ĉu ties grupa hejmpaĝo kaj legantaro estas privata aŭ ne. Defaŭltas al <em>privata</em>."
+
+#: og_access.module:49
+msgid "Group administrator chooses whether her group homepage and audience are private or not. Defaults to <em>public</em>."
+msgstr "Grupa administranto elektas ĉu ties grupa hejmpaĝo kaj legantaro estas privata aŭ ne. Defaŭltas al <em>publika</em>."
+
+#: og_access.module:53
+msgid "Private groups"
+msgstr "Privataj grupoj"
+
+#: og_access.module:56
+msgid "A private group's group home page cannot be seen by non-members, and new posts created in the group will default to being private. This setting controls what private groups options can be used when creating a new group or editing an existing group. If you select one of the <em>group administrator chooses</em> options then it will be up to group admins whether their new groups are private or not, with the default you specify here."
+msgstr "Grupa hejmpaĝo de privata grupo ne videblas de nemembroj, kaj novaj afiŝoj en la grupo defaŭltos al privataj.  Ĉi tio agordas kiuj privataj grupaj opcioj povas esti uzataj kiam oni kreas novan grupon aŭ redaktas ekzistantan grupon. Se vi elektas unu el la opcioj de <em>Grupestro elektas</em>, tiam la grupestroj devas decidi ĉu siaj grupoj estas privataj aŭ ne, kun la defaŭlto kiun vi elektas ĉi tie."
+
+#: og_access.module:56
+msgid "Note that the privacy of all <em>content</em> in the group is determined as each node is created or edited, according to the <em>Visibility of Posts</em> setting on this page. Note also that changing this setting only affects the default for new groups being created, not the privacy of any existing groups! To change those you must edit the groups and their individual content nodes directly. If the setting you want is disabled here, check <em>Visibility of Posts</em> above. You cannot choose to only have private groups if node visibility is set to be always public, and vice versa."
+msgstr "Rimarku ke la privateco de ĉiu <em>enhavero</em> en la grupo estas determinita kiam ĉiu nodo estas kreita aŭ redaktita, laŭ la agordo de <em>Videbleco de Afiŝoj</em> sur ĉi tiu paĝo. Rimarku ankaŭ ke ŝanĝi ĉi tiun agordon nur influas la defaŭlton por novaj grupoj kreotaj, ne la privateco de jam ekzistantaj grupoj!  Por ŝanĝi tiujn, vi devas redakti la grupojn kaj ties individuajn enhavajn nodojn rekte. Se la agordo kiun vi volas estas malŝaltita ĉi tie, kontrolu <em>Videbleco de Afiŝoj</em> supre. Vi ne povas elekti havi nur privatajn grupojn se noda videbleco estas agordita al ĉiam publika, kaj inverse."
+
+#: og_access.module:93
+msgid "Private group"
+msgstr "Privata grupo"
+
+#: og_access.module:95
+msgid "Should this group be visible only to its members? Disabled if the group is set to <em>List in Directory</em> or <em>Membership requests: open</em>."
+msgstr "Ĉu ĉi tiu grupo estu videbla nur al ĝiaj membroj? Malŝaltita se la grupo estas agordita al <em>Listigi en Adresaro</em> aŭ <em>Membrecaj petoj: malfermita</em>."
+
+#: og_access.module:154
+msgid "Public"
+msgstr "Publika"
+
+#: og_access.module:156
+msgid "Show this post to everyone, or only to members of the groups checked above. Posts without any groups are always <em>public</em>."
+msgstr "Montri ĉi tiun afiŝon al ĉiuj, aŭ nur al membroj de la grupoj ŝaltitaj supre. Afiŝoj sen ajna grupo estas ĉiam <em>publikaj</em>."
+
+#: og_access.module:304
+msgid "All users may view this node."
+msgstr "Ĉiuj uzantoj povas vidi ĉi tiun nodon."
+
+#: og_access.module:308
+msgid "Members of !group_n may view this node."
+msgstr "Membroj de !group_n povas vidi ĉi tiun nodon."
+
+#: og_access.module:312
+msgid "Group admins of !group_n may view/edit/delete this node."
+msgstr "Grupaj administrantoj de !group_n povas vidi/redakti/forigi ĉi tiun nodon."
+
+#: og_access.module:18
+msgid "Organic groups access configuration"
+msgstr "Alira agordo por Organaj grupoj "
+
+#: og_access.module:19
+msgid "Choose whether new groups should be private or public."
+msgstr "Elekti ĉu novaj grupoj devas esti privata aŭ publika."
+
+#: og_access.module:0
+msgid "og_access"
+msgstr "og_access"
+
+#: og_panels.module:7
+msgid "After enabling this module, visit the new \"Pages\" tab on any group. There, group admins may create as many pages as desired for their group. The pages may contain any layout that the site offers and admins may arrange many different types of content as desired. Site admins can restrict the types of content that may be added on the <a href=\"!settings\">og_panels settings</a> page. You might want to make some Views available using <a href=\"!apv\">admin/panels/views</a>. Group admins may designate one page as their group home page."
+msgstr "Post ŝaltado de ĉi tiu modulo, vizitu la novan langeton de \"Paĝoj\" sur ajna grupo. Tie, grupestroj povas krei tiel multe da paĝoj kiel dezirata por ties grupo. La paĝoj povas enhavi ajnan haŭton kiun la retejo ofertas kaj administrantoj povas aranĝi multajn diversajn specojn de enhavo kiel dezirata. Retejestroj povas limigi la specojn de enhavo kiu povas esti aldonita sur la paĝo de <a href=\"!settings\">agordoj de og_panels</a>. Vi eble volas alirebligi kelkajn Vidojn uzante <a href=\"!apv\">admin/panels/views</a>. Grupestroj rajtas elekti unu paĝon kiel la hejmpaĝo por ties grupo."
+
+#: og_panels.module:9
+msgid "Create custom pages for your group. Use custom pages to organize your content in a pretty and informative manner. Your group can group to be a whole website within a web site. Each custom page becomes a tab when viewing your group. One of your custom pages should be designated as your <em>group home page</em>. That page will then display when visitors first arrive at your group."
+msgstr "Kreu proprajn paĝojn por via grupo. Uzu proprajn paĝojn por organizi vian enhavon en bela kaj informa maniero. Via grupo povas grupigi por esti plena retejo ene de retejo. Ĉiu propra paĝo tiam montros kiam vizitantoj unue alvenas al via grupo. "
+
+#: og_panels.module:9
+msgid "Start by clicking the <a href=\"!url\">Add new page</a> tab. Then you will choose a custom layout for your page. Then you will want to <em>edit content</em> for your custom page."
+msgstr "Komencu alklakante la langeton de <a href=\"!url\">Aldoni novan paĝon</a>. Tiam vi elektos propran haŭton por via paĝo. Tiam vi volos <em>redakti enhavon</em> por via propra paĝo."
+
+#: og_panels.module:143
+msgid "Are you sure you want to delete %title?"
+msgstr "Ĉu vi certas ke vi volas forigi %title?"
+
+#: og_panels.module:145
+msgid "This action cannot be undone."
+msgstr "Ĉi tiu ago ne povas esti malfarata."
+
+#: og_panels.module:146
+msgid "Delete"
+msgstr "Forigi"
+
+#: og_panels.module:152
+msgid "%title has been deleted"
+msgstr "%title estis forigita."
+
+#: og_panels.module:184
+msgid "Edit content"
+msgstr "Redakti enhavon"
+
+#: og_panels.module:185
+msgid "Change layout"
+msgstr "Ŝanĝi haŭton"
+
+#: og_panels.module:186
+msgid "Edit layout settings"
+msgstr "Redakti haŭtajn agordojn"
+
+#: og_panels.module:187
+msgid "Edit page"
+msgstr "Redakti paĝon"
+
+#: og_panels.module:188
+msgid "Delete page"
+msgstr "Forigi paĝon"
+
+#: og_panels.module:207
+msgid "Save settings"
+msgstr "Konservi agordojn"
+
+#: og_panels.module:238
+msgid "Home page"
+msgstr "Hejmpaĝo"
+
+#: og_panels.module:238
+msgid "Weight"
+msgstr "Pezo"
+
+#: og_panels.module:249
+msgid "Updated panels configuration."
+msgstr "Ĝisdatigis agordon de paneloj."
+
+#: og_panels.module:273
+msgid "@name at @site"
+msgstr "@name ĉe @site"
+
+#: og_panels.module:301
+msgid "Page title"
+msgstr "Paĝa titolo"
+
+#: og_panels.module:305
+msgid "This is the title of the page and of the tab."
+msgstr "Ĉi tio estas la titolo de la paĝo kaj de la langeto."
+
+#: og_panels.module:311
+msgid "Path"
+msgstr "Vojo"
+
+#: og_panels.module:316
+msgid "This page is currently your default group home page and has no configurable path."
+msgstr "Ĉi tiu paĝo nun estas via defaŭlta grupa hejmpaĝo kaj havas neniun agordeblan vojon."
+
+#: og_panels.module:327
+msgid "Show blocks"
+msgstr "Montru blokojn"
+
+#: og_panels.module:330
+msgid "If unchecked, the standard group blocks will not be shown unless you place them into your page content. This gives admin more control over page presentation."
+msgstr "Se malŝaltita, la normaj grupaj blokoj ne montriĝos ĝis kiam vi lokigas ilin en la enhavo de via paĝa. Tio donas al administranto pli da rego pri paĝa prezentado. "
+
+#: og_panels.module:334
+msgid "Published"
+msgstr "Publikigita"
+
+#: og_panels.module:336
+msgid "If unchecked, this page is only accessible by group or site administrators. Thats useful while you are configuring the page."
+msgstr "Se malŝaltita, ĉi tiu paĝo estas nur alirebla de grupaj aŭ retejaj administrantoj. Tio utilas dum vi agordas la paĝon."
+
+#: og_panels.module:341
+msgid "Update page"
+msgstr "Ĝisdatigi paĝon"
+
+#: og_panels.module:341
+msgid "Create page"
+msgstr "Krei paĝon"
+
+#: og_panels.module:424
+msgid "%path is a reserved system path, and cannot be used for a group page. Please enter another path."
+msgstr "%path estas rezervita sistema vojo, kaj ne povas esti uzata por grupa paĝo. Bonvolu enmeti alian vojon."
+
+#: og_panels.module:427
+msgid "Panel paths may only contain alphanumeric characters and dashes."
+msgstr "Panelaj vojo povas nur enhavi alfanumerajn signojn kaj steketojn."
+
+#: og_panels.module:430
+msgid "That path is currently in use by another one of your group's pages. Please enter another path."
+msgstr "Tiu vojo nun estas uzata de alia el viaj grupaj paĝoj. Bonvolu enmeti alian vojon."
+
+#: og_panels.module:443
+msgid "Group page updated."
+msgstr "Grupa paĝo ĝisdatigita."
+
+#: og_panels.module:451
+msgid "Group page created."
+msgstr "Grupa paĝo kreita."
+
+#: og_panels.module:461
+msgid "Pages"
+msgstr "Paĝoj"
+
+#: og_panels.module:475
+msgid "Organic groups panel pages deleted."
+msgstr "Panelaj paĝoj de organaj grupoj forigitaj."
+
+#: og_panels.module:545
+msgid "A node object that is flagged as an OG group type."
+msgstr "Noda objekto kiu estas flagita kiel OG-grupa speco."
+
+#: og_panels.module:561
+msgid "OG mission"
+msgstr "OG-misio"
+
+#: og_panels.module:573
+msgid "OG description"
+msgstr "OG-priskribo"
+
+#: og_panels.module:581
+msgid "OG members"
+msgstr "OG-membroj"
+
+#: og_panels.module:594
+#: includes/groupcontent.inc:42
+msgid "Group search"
+msgstr "Grupa serĉo"
+
+#: og_panels.module:604
+msgid "OG faces"
+msgstr "OG-vizaĝoj"
+
+#: og_panels.module:623
+msgid "Group from node"
+msgstr "Grupo de nodo"
+
+#: og_panels.module:625
+msgid "Adds a group from a node context; if multiple groups are associated with a node, this will get the \"first\" group only."
+msgstr "Aldonas grupon de noda konteksto; se multaj grupoj estas ligita kun nodo, tio ricevos nur la \"unuan\" grupon."
+
+#: og_panels.module:626
+msgid "Node"
+msgstr "Nodo"
+
+#: og_panels.module:132
+msgid "manage OG panels pages"
+msgstr "administri OG-panelajn paĝojn"
+
+#: og_panels.module:17
+#: og_panels.info:0
+msgid "Organic groups panels"
+msgstr "Paneloj de organaj grupaj"
+
+#: og_panels.module:18
+msgid "Configure the content that is available to group admins when creating group pages."
+msgstr "Agordi la enhavon kiu estas alirebla al grupestroj kiam kreante grupajn paĝojn."
+
+#: og_panels.module:40
+msgid "List"
+msgstr "Listo"
+
+#: og_panels.module:0
+msgid "og_panels"
+msgstr "og_panels"
+
+#: og.install:16
+msgid "Stores information about each group."
+msgstr "Konservas informojn pri ĉiu grupo."
+
+#: og.install:19
+msgid "The group's {node}.nid."
+msgstr "La grupa {node}.nid."
+
+#: og.install:25
+msgid "Determines how subscription requests are handled (open, moderated, invite only, closed)."
+msgstr "Determinas kiel abonaj petoj estas traktataj (malfermita, prizorgata, nur per invito, fermita)."
+
+#: og.install:32
+msgid "Group description. Shows up by default on group directory."
+msgstr "Grupa priskribo. Montriĝas defaŭlte en grupa adresaro."
+
+#: og.install:38
+msgid "The group specific theme (if any). See {system}.name."
+msgstr "La grupo indikas haŭton (se ekzistas). Vidu {system}.name."
+
+#: og.install:44
+msgid "Should users be able to join this group from registration form."
+msgstr "Ĉu uzantoj povu aliĝi al ĉi tiu grupo per registriĝa formularo?"
+
+#: og.install:51
+msgid "Should this group appear in the groups directory."
+msgstr "Ĉu ĉi tiu grupo aperu en la grupa adresaro?"
+
+#: og.install:58
+msgid "Not currently used."
+msgstr "Ne nun uzata."
+
+#: og.install:65
+msgid "Group specific language. See {languages}.language."
+msgstr "Grup-elektita lingvo. Vidu {languages}.language."
+
+#: og.install:72
+msgid "Is group home page private or public."
+msgstr "Ĉu la grupa hejmpaĝo estas privata aŭ publika?"
+
+#: og.install:83
+msgid "Group memberships"
+msgstr "Grupaj membrecoj"
+
+#: og.install:86
+msgid "Group's {node}.nid."
+msgstr "Grupa {node}.nid."
+
+#: og.install:99
+msgid "Is this membership active or pending?"
+msgstr "Ĉu ĉi tiu membreco estas aktiva aŭ atendanta?"
+
+#: og.install:106
+msgid "Is this user a group administrator?"
+msgstr "Ĉu ĉi tiu uzanto estas grupestro?"
+
+#: og.install:113
+msgid "The user for this membership. See {users}.uid."
+msgstr "La uzanto por ĉi tiu membreco. Vidu {users}.uid."
+
+#: og.install:119
+msgid "Email notification preference."
+msgstr "Retpoŝta atentiga prefero."
+
+#: og.install:125
+msgid "Time when this membership was created."
+msgstr "Tempo kiam ĉi tiu membreco kreiĝis."
+
+#: og.install:132
+msgid "Time when this membership was last changed."
+msgstr "Tempo kiam ĉi tiu membreco laste ŝanĝiĝis."
+
+#: og.install:142
+msgid "User preferences that are not group specific."
+msgstr "Preferoj de uzantaj kiuj ne estas grup-specifaj."
+
+#: og.install:145
+msgid "The user. See {users}.uid."
+msgstr "La uzanto. Vidu {users}.uid."
+
+#: og.install:151
+msgid "Notification preference for group posts (always, never, depends per group)."
+msgstr "Atentiga prefero por grupaj afiŝoj (ĉiam, neniam, dependas de grupo)."
+
+#: og.install:164
+msgid "The post's {node}.nid."
+msgstr "La afiŝa {node}.nid."
+
+#: og.install:176
+msgid "Is this a public or private post? This value is always the same across all groups for a given post."
+msgstr "Ĉu ĉi tiu estas publika aŭ privata afiŝo? Ĉi tiu valoro estas la sama trans ĉiuj grupoj por indikita afiŝo."
+
+#: og.install:203
+msgid "Organic groups module enabled. Please see the included !readme_file for further installation instructions."
+msgstr "Modulo de organaj grupoj ŝaltita. Bonvolu vidi la inkluzivitan !readme_file por pliaj instrukcioj pri instalado."
+
+#: og.info:0
+msgid "Enable users to create and manage their own 'groups'"
+msgstr "Ebligi ke uzantoj povu krei kaj administri siajn proprajn 'grupojn'"
+
+#: og_access.info:0
+msgid "Enable access control for private posts and private groups."
+msgstr "Ebligi aliran regadon por privataj afiŝoj kaj privataj grupoj."
+
+#: og_panels.info:0
+msgid "Enable group admins to create panel pages."
+msgstr "Ebligi ke grupestroj povu krei panelajn paĝojn."
+
+#: includes/groupcontent.inc:5
+msgid "Welcome message"
+msgstr "Bonveniga mesaĝo"
+
+#: includes/groupcontent.inc:8
+msgid "The welcome message for the group. Specified on group edit form."
+msgstr "La bonveniga mesaĝo por la grupo. Indikita en la formularo por redakti grupon."
+
+#: includes/groupcontent.inc:18
+msgid "Group description"
+msgstr "Grupa priskribo"
+
+#: includes/groupcontent.inc:21
+msgid "The group description as specified on the group edit form."
+msgstr "La grupa priskribo kiel indikita en la formularo por redakti grupon."
+
+#: includes/groupcontent.inc:30
+msgid "Group members"
+msgstr "Grupanoj"
+
+#: includes/groupcontent.inc:33
+msgid "The list of group subscribers or just group admins."
+msgstr "La listo de grupabonantoj aŭ simple grupestroj."
+
+#: includes/groupcontent.inc:45
+msgid "Search this group."
+msgstr "Serĉi ĉi tiun grupon."
+
+#: includes/groupcontent.inc:54
+msgid "Group faces"
+msgstr "Grupaj vizaĝoj"
+
+#: includes/groupcontent.inc:57
+msgid "Show a grid of user pictures."
+msgstr "Montri kradon de bildoj de uzantaj."
+
+#: includes/groupcontent.inc:68
+msgid "Welcome"
+msgstr "Bonvenon"
+
+#: includes/groupcontent.inc:83
+msgid "Welcome statement goes here."
+msgstr "Bonveniga diraĵo ĉi tie."
+
+#: includes/groupcontent.inc:100
+msgid "Description goes here."
+msgstr "Priskribo ĉi tie."
+
+#: includes/groupcontent.inc:117
+msgid "Member list goes here."
+msgstr "Membrolisto ĉi tie."
+
+#: includes/groupcontent.inc:136
+msgid "Search form goes here."
+msgstr "Serĉa formularo ĉi tie."
+
+#: includes/groupcontent.inc:153
+msgid "Faces go here."
+msgstr "Vizaĝoj ĉi tie."
+
+#: includes/groupcontent.inc:163
+msgid "Number of pictures per row"
+msgstr "Nombro da bildoj por ĉiu vico"
+
+#: includes/groupcontent.inc:169
+msgid "Maximum number of rows per page"
+msgstr "Maksimuma nombro da vicoj por ĉiu paĝo"
+
+#: includes/groupcontent.inc:175
+msgid "Pager ID"
+msgstr "Paĝila ID"
+
+#: includes/groupcontent.inc:185
+msgid "Number of members"
+msgstr "Nombro da membroj"
+
+#: includes/groupcontent.inc:186
+msgid "Maxmimum number of members that should appear on the list"
+msgstr "Maksimuma nombro da membroj kiuj aperu en la listo"
+
+#: includes/groupcontent.inc:195
+msgid "You may specify which types of group members appear in this listing."
+msgstr "Vi povas indiki kiujn specojn da grupanoj aperu en ĉi tiu listigo."
+
+#: includes/groupcontent.inc:199
+msgid "Show more link"
+msgstr "Montri plian ligilon"
+
+#: includes/groupcontent.inc:201
+msgid "Should a <em>more</em> link appear when more members are in the group but not listed."
+msgstr "Ĉu <em>pli</em>-ligilo aperu kiam pli da membroj estas en la grupo, sed ne listita."
+
+#: includes/groupcontent.inc:205
+msgid "Show pictures"
+msgstr "Montri bildojn"
+
+#: includes/groupcontent.inc:207
+msgid "Should member pictures be shown in addition to member names."
+msgstr "Ĉu membraj bildoj montriĝu aldone al membraj nomoj?"
+
+#: includes/groupcontent.inc:214
+msgid "Number of members must be an integer."
+msgstr "Nombro da membroj devas esti entjero."
+
+#: includes/groupcontent.inc:222
+msgid "Number of pictures per row must be an integer."
+msgstr "Nombro da bildoj por ĉiu vico devas esti entjero."
+
+#: includes/groupcontent.inc:225
+msgid "Maximum number of rows per page must be an integer."
+msgstr "Maksimuma nombro da vicoj por ĉiu paĝo devas esti entjero."
+
+#: includes/groupcontext.inc:37
+msgid "Require this context from an external source (such as containing panel page)."
+msgstr "Devigi ke ĉi tiu konteksto de eksteraj fontoj (kiel enhavante panelan paĝon)."
+
+#: includes/groupcontext.inc:38
+msgid "If selected, group selection (below) will be ignored."
+msgstr "Se elektita, grupa elektado (sube) estos ignorata."
+
+#: includes/groupcontext.inc:46
+msgid "Enter the NID of a group"
+msgstr "Enmetu la NID de grupo"
+
+#: includes/groupcontext.inc:56
+msgid "Currently set to \"%title\""
+msgstr "Nun agordita al \"%title\""
+
+#: includes/groupcontext.inc:74
+msgid "You must select a node."
+msgstr "Vi devas elekti nodon."
+
+#: includes/groupcontext.inc:100
+msgid "Invalid group selected."
+msgstr "Nevalida grupo elektita."
+
+#: includes/groupcontext.inc:103
+msgid "Node is of type %type which not a group type."
+msgstr "Nodo estas de speco %type kiu ne estas grupa speco."
+
+#: tests/og_testcase.php:7
+msgid "Og testing functionality"
+msgstr "Og testa funkciado"
+
+#: tests/og_testcase.php:8
+msgid "Setup and teardown functionality for organic groups"
+msgstr "Agordo kaj foriga funkciado por organaj grupoj"
+
+#: tests/og_testcase.php:20
+msgid "has been created"
+msgstr "estis kreita"

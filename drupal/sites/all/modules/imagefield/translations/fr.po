@@ -1,0 +1,193 @@
+# $Id: fr.po,v 1.2 2009/03/26 17:30:08 slybud Exp $
+#
+# French translation of Drupal (general)
+# Copyright YEAR NAME <EMAIL@ADDRESS>
+# Generated from files:
+#  imagefield_field.inc: n/a
+#  imagefield_widget.inc,v 1.30 2009/03/19 03:36:52 quicksketch
+#  imagefield.module,v 1.87 2009/03/20 06:37:36 quicksketch
+#  imagefield.install,v 1.28 2009/03/15 09:29:54 quicksketch
+#  imagefield.info,v 1.12 2009/03/01 04:38:48 quicksketch
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: franch translation for imagefield drupal module\n"
+"POT-Creation-Date: 2009-03-26 17:43+0100\n"
+"PO-Revision-Date: 2009-03-26 18:18+0100\n"
+"Last-Translator: Sylvain Moreau <sylvain.moreau@ows.fr>\n"
+"Language-Team: Sylvain Moreau, OWS <sylvain.moreau@ows.fr>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n>1);\n"
+"X-Poedit-Language: French\n"
+"X-Poedit-Country: FRANCE\n"
+
+#: imagefield_field.inc:17
+msgid "Default image"
+msgstr "Image par défaut"
+
+#: imagefield_field.inc:23
+msgid "Use default image"
+msgstr "utiliser l'image par défaut"
+
+#: imagefield_field.inc:25
+msgid "Check here if you want to use a image as default."
+msgstr "Cochez cette case si vous souhaitez utiliser une image comme image par défaut"
+
+#: imagefield_field.inc:35
+msgid "Upload image"
+msgstr "Téléverser une image"
+
+#: imagefield_field.inc:36
+msgid "Choose a image that will be used as default."
+msgstr "Choisissez une image qui sera utilisée par défaut."
+
+#: imagefield_field.inc:62
+msgid "Has Image"
+msgstr "Possède une Image"
+
+#: imagefield_field.inc:80
+msgid "The default image could not be uploaded. The destination(%d) does not exist or is not writable by the webserver."
+msgstr "L'image par défaut n'a pas pu être téléversée. Le chemin de destination (%d) n'existe pas ou n'est pas accessible en écriture par le serveur web."
+
+#: imagefield_widget.inc:26
+msgid "Maximum resolution for Images"
+msgstr "Résolution maximale pour les Images"
+
+#: imagefield_widget.inc:30
+msgid "The maximum allowed image size expressed as WIDTHxHEIGHT (e.g. 640x480). Set to 0 for no restriction. If a larger image is uploaded, it will be resized to reflect the given width and height."
+msgstr "La taille maximale d'image autorisée exprimée sous la forme LARGEURxHAUTEUR (par exemple 640x480). Régler à 0 pour aucune restriction. Si une image plus grande est téléversée, elle sera redimensionnée pour s'accorder à la largeur et la hauteur définies."
+
+#: imagefield_widget.inc:35
+msgid "Minimum resolution for Images"
+msgstr "Résolution minimale des Images"
+
+#: imagefield_widget.inc:40
+msgid "The minimum allowed image size expressed as WIDTHxHEIGHT (e.g. 640x480). Set to 0 for no restriction. If an image that is smaller than these dimensions is uploaded it will be rejected."
+msgstr "La taille minimale autorisée pour les images exprimée dans le format LARGEURxHAUTEUR (par ex : 640x480). Si une image est plus petite que ces dimensions, son téléversement sera rejeté."
+
+#: imagefield_widget.inc:46
+msgid "Permitted upload file extensions"
+msgstr "Extensions de fichiers téléversés autorisées"
+
+#: imagefield_widget.inc:50
+msgid "Extensions a user can upload to this field. Separate extensions with a space and do not include the leading dot. Only jpg, png, and gif images are supported with this widget."
+msgstr "Les extensions qu'un utilisateur peut téléverser dans ce champ. Séparez les extensions avec un espace et n'incluez pas le point initial. Seules les images jpg, png, et gif sont supportées avec ce widget."
+
+#: imagefield_widget.inc:56
+msgid "ALT text settings"
+msgstr "Réglages du texte ALT"
+
+#: imagefield_widget.inc:63
+msgid "Enable custom alternate text"
+msgstr "Activer le texte alternatif personnalisé"
+
+#: imagefield_widget.inc:65
+msgid "Enable user input alternate text for images."
+msgstr "Active la saisie utilisateur pour le texte alternatif des images."
+
+#: imagefield_widget.inc:69
+msgid "Default ALT text"
+msgstr "Texte ALT par défaut"
+
+#: imagefield_widget.inc:71
+msgid "This value will be used for alternate text by default."
+msgstr "Cette valeur sera utilisée par défaut pour le texte  alternatif."
+
+#: imagefield_widget.inc:77
+msgid "Title text settings"
+msgstr "Paramètres du texte de titre"
+
+#: imagefield_widget.inc:84
+msgid "Enable custom title text"
+msgstr "Activer le texte de titre personnalisé"
+
+#: imagefield_widget.inc:86
+msgid "Enable user input title text for images."
+msgstr "Active la saisie utilisateur pour le texte de titre des images."
+
+#: imagefield_widget.inc:90
+msgid "Default Title text"
+msgstr "Texte de titre par défaut"
+
+#: imagefield_widget.inc:92
+msgid "This value will be used as the image title by default."
+msgstr "Cette valeur sera utilisée par défaut comme titre de l'image."
+
+#: imagefield_widget.inc:106
+msgid "Only web-standard images (jpg, gif, and png) are supported through the image widget. If needing to upload other types of images, change the widget to use a standard file upload."
+msgstr "Seules les images aux standards du web ( jpg, gif et png) sont supportées au travers de ce widget image. Si vous avez besoin de téléverser d'autres types d'images, modifier le widget pour utiliser un téléversement de fichier standard."
+
+#: imagefield_widget.inc:112
+msgid "Please specify a resolution in the format WIDTHxHEIGHT (e.g. 640x480)."
+msgstr "Veuillez spécifier une résolution au format LARGEURxHAUTEUR (par ex. 640x480)."
+
+#: imagefield_widget.inc:161
+msgid "Alternate Text"
+msgstr "Texte Alternatif"
+
+#: imagefield_widget.inc:164
+msgid "This text will be used by screen readers, search engines, or when the image cannot be loaded."
+msgstr "Ce texte sera utilisé par les lecteurs d'écran, les moteurs de recherche, ou lorsque l'image ne peut être chargée."
+
+#: imagefield_widget.inc:180
+msgid "Title"
+msgstr "Titre"
+
+#: imagefield_widget.inc:182
+msgid "The title is used as a tool tip when the user hovers the mouse over the image."
+msgstr "Le titre est utilisé en tant qu'indication lorsque l'utilisateur survole l'image avec sa souris."
+
+#: imagefield.module:92
+msgid "Changes made to the attachments are not permanent until you save this post."
+msgstr "Les changements apportés aux fichiers attachés ne sont pas permanents tant que vous n'avez pas sauvegardé ce formulaire"
+
+#: imagefield.module:127;194
+msgid "Image"
+msgstr "Image"
+
+#: imagefield.module:131
+msgid "An edit widget for image files, including a preview of the image."
+msgstr "Un widget d'édition pour les les fichiers image, incluant la prévisualisation de l'image."
+
+#: imagefield.module:196;201;206
+msgid "Displays image files in their original size."
+msgstr "Affiche les fichiers image dans leur taille d'origine."
+
+#: imagefield.module:199
+msgid "Image linked to node"
+msgstr "Image liée au noeud"
+
+#: imagefield.module:204
+msgid "Image linked to file"
+msgstr "Image liée au fichier"
+
+#: imagefield.module:25
+msgid "view imagefield uploads"
+msgstr "voir les téléversements imagefield"
+
+#: imagefield.module:0
+msgid "imagefield"
+msgstr "imagefield"
+
+#: imagefield.install:62
+msgid "FileField must be updated to Drupal 6 before ImageField can be updated."
+msgstr "FileField doit être mis à jour en Drupal 6 avant que ImageField puisse être mis à jour."
+
+#: imagefield.install:272
+msgid "Deleted admin thumbnails distributed throughout files directory. All thumbnails are now stored in the \"imagefield_thumbs\" directory."
+msgstr "Les vignettes admin ont été supprimées dans le répertoire de fichiers. Toutes les vignettes sont maintenant stockées dans le répertoire \"imagefield_thumbs\"."
+
+#: imagefield.info:0
+msgid "ImageField"
+msgstr "ImageField"
+
+#: imagefield.info:0
+msgid "Defines an image field type."
+msgstr "Définit un type de champ image."
+
+#: imagefield.info:0
+msgid "CCK"
+msgstr "CCK"
+

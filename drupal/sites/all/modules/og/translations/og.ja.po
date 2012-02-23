@@ -1,0 +1,1445 @@
+# $Id: og.ja.po,v 1.2 2008/11/13 06:14:48 imagine Exp $
+#
+# Japanese translation of Drupal (general)
+# Copyright YEAR NAME <EMAIL@ADDRESS>
+# Generated from files:
+#  og.module,v 1.605 2008/11/09 17:17:54 weitzman
+#  includes/og.panelscontent.inc: n/a
+#  node-og-group-post.tpl.php,v 1.3 2008/11/09 17:17:54 weitzman
+#  og.info: n/a
+#  og_testcase.php,v 1.10 2008/10/09 12:39:50 weitzman
+#  og.admin.inc,v 1.14 2008/11/06 02:16:01 weitzman
+#  og.install,v 1.69 2008/10/09 15:06:31 weitzman
+#  og.rules.inc,v 1.3 2008/10/29 19:57:56 dww
+#  og.panelscontext.inc,v 1.4 2008/10/29 20:02:28 dww
+#  includes/og.xmlrpc.inc: n/a
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"POT-Creation-Date: 2008-11-10 16:12+0900\n"
+"PO-Revision-Date: 2008-11-12 11:22+0900\n"
+"Last-Translator: PineRay <pineray@nifty.com>\n"
+"Language-Team: Japanese <EMAIL@ADDRESS>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n!=1);\n"
+
+#: og.module:32
+msgid "Group specific blocks are only visible on group pages and not on systemwide pages like the home page or admin pages."
+msgstr "グループ固有のブロックはグループページにだけ表示され、ホームや管理画面などその他のページには表示されません。"
+
+#: og.module:35
+msgid "In order to let group admins determine their own group theme, you must enable multiple themes using <a href=\"@url\">theme configuration page</a>."
+msgstr "管理者がグループのテーマを選択できるようにするためには、<a href=\"@url\">テーマ設定ページ</a>で複数のテーマを有効にしておく必要があります。"
+
+#: og.module:551
+msgid "Send message to %group"
+msgstr "%groupにメッセージを送信"
+
+#: og.module:554
+msgid "Your message will be sent to all members of this group."
+msgstr "このグループのすべてのメンバーに対して、あなたのメッセージが送信されます。"
+
+#: og.module:559
+msgid "Subject"
+msgstr "件名"
+
+#: og.module:562
+msgid "Enter a subject for your message."
+msgstr "メッセージの件名を入力してください。"
+
+#: og.module:567;1673
+msgid "Body"
+msgstr "本文"
+
+#: og.module:570
+msgid "Enter a body for your message."
+msgstr "メッセージの本文を入力してください。"
+
+#: og.module:573
+msgid "Send message"
+msgstr "メッセージを送信"
+
+#: og.module:626
+msgid "You may not leave this group because it is a <em>closed</em> group. You should request removal from a group administrator."
+msgstr "<em>クローズド</em>グループのため、このグループを脱退できません。グループからの除去を管理者に申請してください。"
+
+#: og.module:629
+msgid "You may not leave this group because you are its owner. A site administrator can assign ownership to another user and then you may leave."
+msgstr "あなたがこのグループの所有者であるため脱退できません。サイト管理者は所有権を他のユーザに移すことができ、そうすれば脱退できるようになります。"
+
+#: og.module:632
+msgid "Leave this group"
+msgstr "このグループを脱退"
+
+#: og.module:646
+msgid "Membership saved."
+msgstr "参加状況を保存しました。"
+
+#: og.module:688;717
+msgid "Bad token. You seem to have followed an invalid link."
+msgstr "不良トークン。適切でないリンクを参照したようです。"
+
+#: og.module:694
+msgid "!name already approved to group %group."
+msgstr "!name はグループ %group にすでに承認されています。"
+
+#: og.module:699
+msgid "Membership request approved."
+msgstr "参加申請を承認しました。"
+
+#: og.module:722
+msgid "Membership request denied."
+msgstr "参加申請を拒否しました。"
+
+#: og.module:745
+msgid "Are you sure you want to make %name a group administrator for the group %title?"
+msgstr "本当に%nameをグループ%titleのグループ管理者にしますか？"
+
+#: og.module:748
+msgid "Confirm"
+msgstr "確認"
+
+#: og.module:749;789;957;1045
+msgid "Cancel"
+msgstr "キャンセル"
+
+#: og.module:760
+msgid "%name was promoted to <em>group administrator</em>."
+msgstr "%nameが<em>グループ管理者</em>に昇格しました。"
+
+#: og.module:785
+msgid "Are you sure you want to remove %name as a group administrator for the group %title?"
+msgstr "本当に%nameをグループ%titleのグループ管理者から除去しますか？"
+
+#: og.module:788;1045
+msgid "Remove"
+msgstr "除去"
+
+#: og.module:800
+msgid "%name is no longer a <em>group administrator</em>."
+msgstr "%nameはもはや<em>グループ管理者</em>ではありません。"
+
+#: og.module:812
+msgid "Email addresses or usernames"
+msgstr "メールアドレスまたはユーザ名"
+
+#: og.module:813
+msgid "Enter up to %max email addresses or usernames. Separate multiple addresses by commas or new lines. Each person will receive an invitation message from you."
+msgstr "メールアドレスやユーザ名を%max件まで入力してください。複数のアドレスは、コンマ (,) または改行で区切ります。それぞれがあなたからの招待メッセージを受け取ります。"
+
+#: og.module:817
+msgid "Personal message"
+msgstr "個別メッセージ"
+
+#: og.module:818
+msgid "Optional. Enter a message which will become part of the invitation email."
+msgstr "任意。招待状メールの一部となるメッセージを入力してください。"
+
+#: og.module:820;106
+msgid "Send invitation"
+msgstr "招待状を送信"
+
+#: og.module:835
+msgid "You may not specify more than %max email addresses or usernames."
+msgstr "%max件より多くのメールアドレスやユーザ名を指定することはできません。"
+
+#: og.module:838
+msgid "You may not invite yourself - @self."
+msgstr "自分自身 - @self を招待することはできません。"
+
+#: og.module:862
+msgid "Invalid email address or username: @value."
+msgstr "無効なメールアドレスまたはユーザ名: @value"
+
+#: og.module:907
+msgid "In order to join this group, you must login or register a new account. After you have successfully done so, you will need to request membership again."
+msgstr "このグループに参加するには、ログインまたはユーザ登録しなくてはなりません。その後、参加申請をする必要があります。"
+
+#: og.module:927
+msgid "@user is already a member the group @group."
+msgstr "@user はすでにグループ @group のメンバーです。"
+
+#: og.module:944
+msgid "Additional details"
+msgstr "さらなる情報"
+
+#: og.module:945
+msgid "Add any detail which will help an administrator decide whether to approve or deny your membership request."
+msgstr "管理者があなたの参加申請を承認するか拒否するか決定する際に役立つ情報を追加します。"
+
+#: og.module:955
+msgid "Are you sure you want to join the group %title?"
+msgstr "グループ %title に本当に参加しますか？"
+
+#: og.module:957;2533
+msgid "Join"
+msgstr "参加"
+
+#: og.module:995
+msgid ""
+"\n"
+"\n"
+"Personal message from @name:\n"
+"------------------\n"
+"\n"
+"@request"
+msgstr ""
+"\n"
+"\n"
+"@name からの個別メッセージ:\n"
+"------------------\n"
+"\n"
+"@request"
+
+#: og.module:1015
+msgid "Membership request to the %group group awaits approval by an administrator."
+msgstr "%groupグループへの参加申請は管理者による承認待ちです。"
+
+#: og.module:1021
+msgid "You are now a member of the %group."
+msgstr "あなたは%groupのメンバーとなりました。"
+
+#: og.module:1031
+msgid "Membership request to the %group group was rejected, only group administrators can add users to this group."
+msgstr "%groupグループへの参加申請は排除されました。このグループにユーザを追加できるのはグループ管理者だけです。"
+
+#: og.module:1044
+msgid "Are you sure you want to remove !name from the group %title?"
+msgstr "グループ %title から !name を本当に除去しますか？"
+
+#: og.module:1061
+msgid "%user removed from %group."
+msgstr "%groupから%userを除去しました。"
+
+#: og.module:1118
+msgid "List of users"
+msgstr "ユーザリスト"
+
+#: og.module:1123
+msgid "Add one or more usernames in order to associate users with this group. Multiple usernames should be separated by a comma."
+msgstr "このグループにユーザを関連付けるためには1つ以上のユーザ名を追加してください。複数のユーザ名はコンマ (,) で区切ります。"
+
+#: og.module:1126
+msgid "Add users"
+msgstr "ユーザを追加"
+
+#: og.module:1190
+msgid "Title"
+msgstr "タイトル"
+
+#: og.module:1191
+msgid "Manager"
+msgstr "マネージャ"
+
+#: og.module:1192
+msgid "Posts"
+msgstr "投稿"
+
+#: og.module:1193
+msgid "Comments"
+msgstr "コメント"
+
+#: og.module:1194
+msgid "Age"
+msgstr "経過"
+
+#: og.module:1195
+msgid "Last comment"
+msgstr "最新のコメント"
+
+#: og.module:1209
+msgid "No groups available."
+msgstr "利用可能なグループがありません。"
+
+#: og.module:1229;1300;1709
+#: includes/og.panelscontent.inc:94;235
+msgid "Description"
+msgstr "説明"
+
+#: og.module:1254
+msgid "No posts in this group."
+msgstr "このグループには記事がありません。"
+
+#: og.module:1257
+msgid "No public posts in this group."
+msgstr "このグループにはパブリックの記事がありません。"
+
+#: og.module:1259
+msgid "You must <a href=\"!register\">register</a> or <a href=\"!login\">login</a> and become a member in order to post messages, and view any private posts."
+msgstr "メッセージを投稿したりプライベートな記事を閲覧するには、<a href=\"!register\">ユーザ登録</a>または<a href=\"!login\">ログイン</a>して、メンバーとならなければなりません。"
+
+#: og.module:1263
+msgid "Consider <a href=\"!url\">joining this group</a> in order to view its posts."
+msgstr "記事を閲覧するには<a href=\"!url\">グループに参加</a>してください。"
+
+#: og.module:1271
+msgid "Open"
+msgstr "オープン"
+
+#: og.module:1272
+msgid "Moderated"
+msgstr "承認待ち"
+
+#: og.module:1273
+msgid "Invite only"
+msgstr "招待のみ"
+
+#: og.module:1274
+msgid "Closed"
+msgstr "クローズド"
+
+#: og.module:1305
+msgid "A brief description for the group details block and the group directory."
+msgstr "グループ詳細ブロックやグループ一覧で表示する簡潔な説明。"
+
+#: og.module:1311
+msgid "Open - membership requests are accepted immediately."
+msgstr "オープン - 参加申請は即座に承認されます。"
+
+#: og.module:1312
+msgid "Moderated - membership requests must be approved."
+msgstr "承認待ち - 参加申請は承認を受けなければなりません。"
+
+#: og.module:1313
+msgid "Invite only - membership must be created by an administrator."
+msgstr "招待のみ - 管理者だけが参加者を追加できます。"
+
+#: og.module:1314
+msgid "Closed - membership is exclusively managed by an administrator."
+msgstr "クローズド - 参加状況を管理者が完全に管理します。"
+
+#: og.module:1318;1714
+msgid "Membership requests"
+msgstr "参加申請"
+
+#: og.module:1323
+msgid "How should membership requests be handled in this group? When you select <em>closed</em>, users will not be able to join <strong>or</strong> leave."
+msgstr "このグループでは参加申請をどのように扱いますか？ <em>クローズド</em>を選択すると、ユーザは参加<strong>も</strong>脱退<strong>も</strong>できなくなります。"
+
+#: og.module:1349;1718
+msgid "Registration form"
+msgstr "登録フォーム"
+
+#: og.module:1352
+msgid "May users join this group during registration? If checked, a corresponding checkbox will be added to the registration form."
+msgstr "ユーザ登録の際にこのグループに参加できるようにしますか？　チェックがあれば、対応するチェックボックスが登録フォームに追加されます。"
+
+#: og.module:1380;1722
+msgid "List in groups directory"
+msgstr "グループ一覧に表示"
+
+#: og.module:1383
+msgid "Should this group appear on the <a href=\"@url\">list of groups page</a> (requires OG Views module)? Disabled if the group is set to <em>private group</em>."
+msgstr "このグループを<a href=\"@url\">グループ一覧ページ</a>に表示しますか (OG Viewsモジュールが必要)？　グループが<em>プライベートグループ</em>であれば無効となります。"
+
+#: og.module:1391;1728
+msgid "Group language"
+msgstr "グループの言語"
+
+#: og.module:1393
+msgid "Language neutral"
+msgstr "ニュートラル言語"
+
+#: og.module:1395
+msgid "Selecting a different locale will change the interface language for all group pages and emails. Users who have chosen a preferred language always see their chosen language."
+msgstr "異なるロケールを選択すると、すべてのグループページやメールのインターフェースの言語が変更されます。ユーザが各自の言語を選択している場合は、その選択している言語で表示されます。"
+
+#: og.module:1400
+msgid "Selecting a different theme will change the look and feel of the group."
+msgstr "異なるテーマを選択すると、グループのルックアンドフィールが変更されます。"
+
+#: og.module:1509
+msgid "Home"
+msgstr "ホーム"
+
+#: og.module:1511;1702;2182;2215
+#: theme/node-og-group-post.tpl.php:77
+msgid "Groups"
+msgstr "グループ"
+
+#: og.module:1557
+msgid "You must <a href=\"@join\">join a group</a> before posting on this web site."
+msgstr "このウェブサイトに記事を投稿する前に、<a href=\"@join\">グループに参加</a>しなくてはなりません。"
+
+#: og.module:1674
+msgid "Mission statement"
+msgstr "ミッション"
+
+#: og.module:1675
+msgid "A welcome greeting for your group home page. Consider listing the group objectives and mission."
+msgstr "グループのホームページに表示する歓迎メッセージ。グループの目的やミッションを並べてみてはいかがでしょう。"
+
+#: og.module:1678
+msgid "Group manager"
+msgstr "グループマネージャ"
+
+#: og.module:1679
+msgid "Sticky at top of group home page and other lists."
+msgstr "グループのホームページやその他の一覧の上部に固定。"
+
+#: og.module:1703
+msgid "OG audience & Public checkbox."
+msgstr "オーガニックグループの読者と公開についてのチェックボックス。"
+
+#: og.module:1703
+msgid "OG audience."
+msgstr "OG読者"
+
+#: og.module:1710
+msgid "Group description."
+msgstr "グループの説明。"
+
+#: og.module:1715
+msgid "Handling of group membership requests."
+msgstr "グループ参加申請の扱い。"
+
+#: og.module:1719
+msgid "Checkbox for visibility on registration form."
+msgstr "登録フォームに表示するかどうかのチェックボックス。"
+
+#: og.module:1723
+msgid "Checkbox for visibility in the groups directory."
+msgstr "グループ一覧に表示するかどうかのチェックボックス。"
+
+#: og.module:1729
+msgid "The default interface language for this group."
+msgstr "このグループのデフォルトのインターフェース言語。"
+
+#: og.module:1756;126
+#: og.info:0;0
+#: includes/og.panelscontent.inc:10;23;35;47;59
+msgid "Organic groups"
+msgstr "オーガニックグループ"
+
+#: og.module:1764
+msgid "Organic groups usage"
+msgstr "オーガニックグループの扱い"
+
+#: og.module:1767
+msgid "Specify how organic groups should treat nodes of this type. Nodes may behave as a group, as group posts, or may not participate in organic groups at all."
+msgstr "このタイプのノードをオーガニックグループがどのように扱うかを指定してください。グループとして、またはグループの記事としてノードを扱うことができますし、あるいはオーガニックグループと全く関係させないようにもできます。"
+
+#: og.module:1798
+msgid "Do nothing."
+msgstr "何もしない。"
+
+#: og.module:1799
+msgid "Delete all group posts which don't also belong to another group."
+msgstr "他のグループに属していないグループの記事をすべて削除。"
+
+#: og.module:1801
+msgid "Move all group posts to the group listed below."
+msgstr "下記の一覧にあるグループへ、グループの記事をすべて移動。"
+
+#: og.module:1802
+msgid "Move all group posts and memberships to the group listed below."
+msgstr "下記の一覧にあるグループへ、グループの記事と参加者をすべて移動。"
+
+#: og.module:1806
+msgid "Group posts"
+msgstr "グループ記事"
+
+#: og.module:1810
+msgid "In addition to deleting this group, you choose how to disposition the posts and memberships within it."
+msgstr "グループを削除する際の、グループに含まれる記事や参加者の扱いを選択することができます。"
+
+#: og.module:1817
+msgid "Target group"
+msgstr "対象のグループ"
+
+#: og.module:1821
+msgid "If you chose <strong>Move all group posts</strong> above, specify a destination group."
+msgstr "<strong>グループの記事を全て移動</strong>を選択する場合、移動先のグループを指定してください。"
+
+#: og.module:1830
+msgid "Delete group"
+msgstr "グループ削除"
+
+#: og.module:1983;2012
+msgid "My groups"
+msgstr "参加しているグループ"
+
+#: og.module:1984;2013
+msgid "Other groups"
+msgstr "その他のグループ"
+
+#: og.module:2064;2078
+msgid "Audience"
+msgstr "読者"
+
+#: og.module:2088
+msgid "You must <a href=\"@join\">join a group</a> before posting a %type."
+msgstr "%typeを投稿する前に、<a href=\"@join\">グループに参加</a>しなくてはなりません。"
+
+#: og.module:2107
+msgid "@group: '@title' at @site"
+msgstr "@site の @group 「@title」"
+
+#: og.module:2109
+msgid ""
+"@type '@subject' by @username\n"
+"\n"
+"@node_teaser\n"
+"\n"
+"!read_more: !content_url\n"
+"Post reply: !reply_url\n"
+"\n"
+"--\n"
+"You are subscribed from the group '@group' at @site.\n"
+"To manage your subscription, visit !group_url"
+msgstr ""
+"@type 「@subject」 by @username\n"
+"\n"
+"@node_teaser\n"
+"\n"
+"!read_more: !content_url\n"
+"返信: !reply_url\n"
+"\n"
+"--\n"
+"あなたは@siteのグループ「@group」からの配信を受けています。\n"
+"配信を管理するには、!group_url にアクセスしてください。"
+
+#: og.module:2113
+msgid ""
+"@body\n"
+"\n"
+"--\n"
+"This message was sent by an administrator in the '@group' group at @site. To visit this group, browse to !url_group. To unsubscribe from this group, visit !url_unsubscribe"
+msgstr ""
+"@body\n"
+"\n"
+"--\n"
+"このメッセージは、@site の「@group」グループの管理者が送信したものです。\n"
+"このグループを表示するには、!url_group にアクセスしてください。\n"
+"このグループから脱退するには、!url_unsubscribe にアクセスしてください。"
+
+#: og.module:2115
+msgid "Membership request approved for '@title'"
+msgstr "「@title」への参加申請が承認されました"
+
+#: og.module:2117
+msgid "You may now post messages in this group located at !group_url"
+msgstr "!group_url にあるこのグループにメッセージを投稿できます。"
+
+#: og.module:2119
+msgid "Membership request denied for '@title'"
+msgstr "「@title」への参加申請が拒否されました"
+
+#: og.module:2121
+msgid "Sorry, your membership request was denied."
+msgstr "申し訳ございませんが、あなたの参加申込は拒否されました。"
+
+#: og.module:2124
+msgid "Invitation to join the group '@group' at @site"
+msgstr "@siteのグループ「@group」への招待状"
+
+#: og.module:2126
+msgid ""
+"Hi. I'm a member of '@group' and I welcome you to join this group as well. Please see the link and message below.\n"
+"\n"
+"@group\n"
+"@description\n"
+"Join: !group_url\n"
+"@body"
+msgstr ""
+"こんにちは。私は「@group」のメンバーで、あなたがこのグループに参加していただけることを歓迎します。下記のリンクとメッセージを参照してください。\n"
+"\n"
+"@group\n"
+"@description\n"
+"参加: !group_url\n"
+"@body"
+
+#: og.module:2128
+msgid "Membership request for '@group' from '@username'"
+msgstr "「@username」から「@group」への参加申請"
+
+#: og.module:2130
+msgid ""
+"To instantly approve this request, visit !approve_url.\n"
+"You may deny this request or manage members at !group_url. \n"
+"\n"
+"Personal message from @username:\n"
+"------------------\n"
+"\n"
+"@request"
+msgstr ""
+"この申請を簡単に承認するには、!approve_url にアクセスします。\n"
+"!group_url でこの申請を拒否したりメンバーを管理することができます。\n"
+"\n"
+"@usernameからの個別メッセージ:\n"
+"------------------\n"
+"\n"
+"@request"
+
+#: og.module:2132
+msgid "You are now an administrator for the group '@group'"
+msgstr "あなたはグループ「@group」の管理者となりました"
+
+#: og.module:2134
+msgid ""
+"@username, you are now an administrator for the group '@group'.\n"
+"\n"
+"You can administer this group by logging in here:\n"
+" !group_url"
+msgstr ""
+"@usernameさん、あなたはグループ「@group」の管理者となりました。\n"
+"\n"
+"下記からログインすることで、このグループを管理できます:\n"
+" !group_url"
+
+#: og.module:2175
+msgid "Join %name."
+msgstr "%nameに参加。"
+
+#: og.module:2177
+msgid "(approval needed)"
+msgstr "(要承認)"
+
+#: og.module:2266
+msgid "Group node"
+msgstr "グループノード"
+
+#: og.module:2267
+msgid "May not be posted into a group."
+msgstr "グループに投稿できません。"
+
+#: og.module:2268
+msgid "Standard group post (typically only author may edit)."
+msgstr "標準的なグループ記事 (投稿者だけが編集可能)。"
+
+#: og.module:2272
+msgid "Wiki group post (any group member may edit)."
+msgstr "Wiki形式のグループ記事 (すべてのグループメンバーが編集可能)。"
+
+#: og.module:2327
+#: includes/og.admin.inc:36
+msgid "Group details"
+msgstr "グループ詳細"
+
+#: og.module:2333;2443
+msgid "New groups"
+msgstr "新しいグループ"
+
+#: og.module:2339;2417
+msgid "Group notifications"
+msgstr "グループの通知"
+
+#: og.module:2372
+msgid "Maximum number of members to show"
+msgstr "最大表示メンバー数"
+
+#: og.module:2378
+#: includes/og.panelscontent.inc:192
+msgid "Group roles"
+msgstr "グループロール"
+
+#: og.module:2381
+#: includes/og.panelscontent.inc:194
+msgid "Standard members"
+msgstr "標準メンバー"
+
+#: og.module:2382
+#: includes/og.panelscontent.inc:194
+msgid "Administrators"
+msgstr "管理者"
+
+#: og.module:2384
+msgid "You may specify which types of group members appear in the listing."
+msgstr "どのタイプのグループメンバーが一覧に表示されるかを指定することができます。"
+
+#: og.module:2388
+msgid "Maximum number of groups to show"
+msgstr "最大表示グループ数"
+
+#: og.module:2415
+msgid "This group offers a <a href=\"@subscription\">subscription option</a>."
+msgstr "このグループには、<a href=\"@subscription\">配信オプション</a>が用意されています。"
+
+#: og.module:2426;2426
+msgid "OPML feed"
+msgstr "OPMLフィード"
+
+#: og.module:2441
+msgid "more"
+msgstr "もっと見る"
+
+#: og.module:2441
+msgid "Browse the newest groups."
+msgstr "最新のグループを表示"
+
+#: og.module:2459
+msgid "Invite friend"
+msgstr "友達を招待"
+
+#: og.module:2462
+msgid "Manager: !name"
+msgstr "マネージャ: !name"
+
+#: og.module:2465
+msgid "My membership"
+msgstr "参加状況"
+
+#: og.module:2471
+msgid "Your membership request awaits approval."
+msgstr "参加申請は承認待ちです。"
+
+#: og.module:2472
+msgid "Delete request"
+msgstr "申請を削除"
+
+#: og.module:2476
+msgid "You must <a href=\"!register\">register</a>/<a href=\"!login\">login</a> in order to post into this group."
+msgstr "このグループに投稿するためには、<a href=\"!register\">ユーザ登録</a>または<a href=\"!login\">ログイン</a>しなくてはなりません。"
+
+#: og.module:2482
+msgid "This is an <em>invite only</em> group. The group administrators add/remove members as needed."
+msgstr "<em>招待のみ</em>のグループです。グループ管理者が必要に応じてメンバーを追加/除去します。"
+
+#: og.module:2485
+msgid "This is a <em>closed</em> group. The group administrators add/remove members as needed."
+msgstr "<em>クローズド</em>のグループです。グループ管理者が必要に応じてメンバーを追加/除去します。"
+
+#: og.module:2530
+msgid "Request membership"
+msgstr "参加申請"
+
+#: og.module:2551
+msgid "Create !type"
+msgstr "!typeを作成"
+
+#: og.module:2552
+msgid "Add a new !type in this group."
+msgstr "このグループに新しく!typeを追加します。"
+
+#: og.module:2568
+msgid "(pending approval)"
+msgstr "(承認待ち)"
+
+#: og.module:2583
+msgid "Add a user to a group."
+msgstr "ユーザをグループに追加。"
+
+#: og.module:2588
+msgid "All members for a given group."
+msgstr "指定したグループのすべてのメンバー。"
+
+#: og.module:2593
+msgid "Retrieve the group memberships for a given user."
+msgstr "指定したユーザのグループ参加状況を扱います。"
+
+#: og.module:2602
+msgid "Title of top group"
+msgstr "トップグループのタイトル"
+
+#: og.module:2603
+msgid "Unfiltered title of top group. WARNING - raw user input."
+msgstr "フィルタ適用無しのトップグループのタイトル。警告 - ユーザが入力したままの値です。"
+
+#: og.module:2604
+msgid "ID of top group"
+msgstr "トップグループのID"
+
+#: og.module:2641
+msgid "README file"
+msgstr "READMEファイル"
+
+#: og.module:607
+msgid "1 message queued for delivery."
+msgid_plural "@count messages queued for delivery."
+msgstr[0] "1通の送信待ちメッセージ"
+msgstr[1] "@count通の送信待ちメッセージ"
+
+#: og.module:888
+msgid "1 invitation sent."
+msgid_plural "@count invitations sent."
+msgstr[0] "1通の招待状を送信しました。"
+msgstr[1] "@count通の招待状を送信しました。"
+
+#: og.module:1146
+msgid "Unrecognized name: %bad."
+msgid_plural "Unrecognized names: %bad."
+msgstr[0] "認められていない名前: %bad"
+msgstr[1] "認められていない名前: %bad"
+
+#: og.module:1162
+msgid "1 user added to the group."
+msgid_plural "@count users added to the group."
+msgstr[0] "1名のユーザをグループに追加しました。"
+msgstr[1] "@count名のユーザをグループに追加しました。"
+
+#: og.module:1625
+msgid "1 group"
+msgid_plural "@count groups"
+msgstr[0] "1個のグループ"
+msgstr[1] "@group個のグループ"
+
+#: og.module:1877
+msgid "Deleted 1 orphan post."
+msgid_plural "Deleted @count orphan posts."
+msgstr[0] "残された記事を1個削除しました。"
+msgstr[1] "残された記事を@count個削除しました。"
+
+#: og.module:1880
+msgid "Moved 1 orphan post."
+msgid_plural "Moved @count orphan posts."
+msgstr[0] "残された記事を1個移動しました。"
+msgstr[1] "残された記事を@count個移動しました。"
+
+#: og.module:1902
+msgid "Moved 1 membership."
+msgid_plural "Moved @count memberships."
+msgstr[0] "1名の参加者を移動しました。"
+msgstr[1] "@count名の参加者を移動しました。"
+
+#: og.module:2082
+msgid "Show this post in this group."
+msgid_plural "Show this post in these groups."
+msgstr[0] "この記事をこのグループで表示。"
+msgstr[1] "この記事をこれらのグループで表示。"
+
+#: og.module:2522
+msgid "1 member"
+msgid_plural "@count members"
+msgstr[0] "1人のメンバー"
+msgstr[1] "@count人のメンバー"
+
+#: og.module:406
+msgid "administer organic groups"
+msgstr "オーガニックグループの管理"
+
+#: og.module:49
+msgid "Join group"
+msgstr "グループに参加"
+
+#: og.module:56
+msgid "OPML"
+msgstr "OPML"
+
+#: og.module:64
+msgid "Leave group"
+msgstr "グループを脱退"
+
+#: og.module:73
+msgid "Approve membership request"
+msgstr "参加申請を承認"
+
+#: og.module:81
+msgid "Deny membership request"
+msgstr "参加申請を拒否"
+
+#: og.module:89
+msgid "Create group administrator"
+msgstr "グループ管理者を作成"
+
+#: og.module:97
+msgid "Delete group administrator"
+msgstr "グループ管理者を削除"
+
+#: og.module:114
+msgid "Manage membership"
+msgstr "参加状況の管理"
+
+#: og.module:119
+msgid "Group activity"
+msgstr "グループの活動状況"
+
+#: og.module:127
+msgid "Administer the suite of Organic groups modules."
+msgstr "オーガニックグループに関するモジュールの設定を行います。"
+
+#: og.module:138
+msgid "Organic groups configuration"
+msgstr "オーガニックグループの設定"
+
+#: og.module:140
+msgid "Configure the main Organic groups module (og)."
+msgstr "オーガニックグループモジュール (og) のメイン機能を設定します。"
+
+#: og.module:149
+msgid "Add members"
+msgstr "メンバーを追加"
+
+#: og.module:159
+msgid "Broadcast"
+msgstr "配信"
+
+#: og.module:0
+msgid "og"
+msgstr "og"
+
+#: og.install:16
+msgid "Stores information about each group."
+msgstr "各グループの情報を格納します。"
+
+#: og.install:19;138
+msgid "The group's {node}.nid."
+msgstr "グループの{node}.nid。"
+
+#: og.install:25
+msgid "Determines how subscription requests are handled (open, moderated, invite only, closed)."
+msgstr "参加申請の取り扱いを決定します (オープン、承認待ち、招待のみ、クローズド)。"
+
+#: og.install:32
+msgid "Group description. Shows up by default on group directory."
+msgstr "グループの説明。デフォルトでグループ一覧に表示されます。"
+
+#: og.install:38
+msgid "The group specific theme (if any). See {system}.name."
+msgstr "グループ特有のテーマ (もしあれば)。{system}.nameを参照。"
+
+#: og.install:44
+msgid "Should users be able to join this group from registration form."
+msgstr "ユーザが登録フォームからこのグループに参加できるかどうか。"
+
+#: og.install:51
+msgid "Should this group appear in the groups directory."
+msgstr "このグループをグループ一覧に表示するかどうか。"
+
+#: og.install:58
+msgid "Group specific language. See {languages}.language."
+msgstr "グループの指定言語。{languages}.languageを参照。"
+
+#: og.install:65
+msgid "Is group home page private or public."
+msgstr "グループのホームページがプライベートかパブリックか。"
+
+#: og.install:76
+msgid "Group memberships"
+msgstr "グループの参加状況"
+
+#: og.install:79
+msgid "Group's {node}.nid."
+msgstr "グループの{node}.nid。"
+
+#: og.install:85
+msgid "Not currently used."
+msgstr "現在は使われていません。"
+
+#: og.install:92
+msgid "Is this membership active or pending?"
+msgstr "この参加状況が動作中か承認待ちか？"
+
+#: og.install:99
+msgid "Is this user a group administrator?"
+msgstr "このユーザがグループ管理者かどうか？"
+
+#: og.install:106
+msgid "The user for this membership. See {users}.uid."
+msgstr "この参加状況のユーザ。{users}.uidを参照。"
+
+#: og.install:112
+msgid "Time when this membership was created."
+msgstr "この参加状況が作成された時間。"
+
+#: og.install:119
+msgid "Time when this membership was last changed."
+msgstr "この参加状況が最後に更新された時間。"
+
+#: og.install:132
+msgid "The post's {node}.nid."
+msgstr "記事の{node}.nid。"
+
+#: og.install:144
+msgid "Is this a public or private post? This value is always the same across all groups for a given post."
+msgstr "この記事がパブリックかプライベートか？　記事と関連づいたすべてのグループでこの値は常に同じとなります。"
+
+#: og.install:171
+msgid "Organic groups module enabled. Please see the included !readme_file for further installation instructions."
+msgstr "Organic groupsモジュールが有効になりました。インストールに関する更なる情報は、!readme_fileを参照してください。"
+
+#: (duplicate) og.install:447
+msgid "Organic groups group type"
+msgstr "オーガニックグループのグループタイプ"
+
+#: (duplicate) og.install:448
+msgid "You have no node types which are acting as groups. See the notes section of the !readme_file and the content types fieldset at top of <a href=\"!settings\">OG settings</a>."
+msgstr "グループとして動作中のコンテンツタイプがありません。!readme_fileのnotesセクションと<a href=\"!settings\">OG設定</a>の最上部にあるコンテンツタイプのフィールドセットを参照してください。"
+
+#: (duplicate) og.install:455
+msgid "Organic groups access control"
+msgstr "オーガニックグループのアクセス制御"
+
+#: (duplicate) og.install:456
+msgid "Organic groups access control module is disabled. See the <a href=\"@modules\">modules page</a>."
+msgstr "オーガニックグループのアクセス制御モジュールが無効になっています。<a href=\"@modules\">モジュールページ</a>を参照してください。"
+
+#: og.info:0
+msgid "Enable users to create and manage groups.  OG Views integration module is recommended for best experience."
+msgstr "ユーザがグループを作成したり管理できるようになります。最高の体験のために、OG View統合モジュールをオススメします。"
+
+#: includes/og.admin.inc:11
+msgid "You must designate at least one content type to act as a group node and another as a group post. <a href=\"!create\">Create new content type</a> if needed."
+msgstr "少なくとも1つのコンテンツタイプをグループノード、もう1つをグループ記事として指定しなくてはなりません。必要であれば、<a href=\"!create\">新しいコンテンツタイプを作成</a>してください。"
+
+#: includes/og.admin.inc:15
+msgid "Content types"
+msgstr "コンテンツタイプ"
+
+#: includes/og.admin.inc:20
+msgid "Type"
+msgstr "タイプ"
+
+#: includes/og.admin.inc:20
+msgid "Usage"
+msgstr "扱い"
+
+#: includes/og.admin.inc:20
+msgid "Operations"
+msgstr "操作"
+
+#: includes/og.admin.inc:28
+msgid "Edit"
+msgstr "編集"
+
+#: includes/og.admin.inc:42
+msgid "New groups don't appear in the groups directory. Administrators control the directory exclusively."
+msgstr "新しいグループをグループ一覧に表示しません。管理者だけが一覧を設定できます。"
+
+#: includes/og.admin.inc:43
+msgid "New groups always appear in the groups directory."
+msgstr "新しいグループを常にグループ一覧に表示します。"
+
+#: includes/og.admin.inc:44
+msgid "Group creator chooses whether her group appears in the directory. Defaults to <em>in directory</em>."
+msgstr "グループを一覧に表示するかどうかを、グループの作成者が選択します。デフォルトは<em>一覧に表示</em>。"
+
+#: includes/og.admin.inc:45
+msgid "Group creator chooses whether her group appears in the directory. Defaults to <em>not in directory</em>."
+msgstr "グループを一覧に表示するかどうかを、グループの作成者が選択します。デフォルトは<em>一覧に非表示</em>。"
+
+#: includes/og.admin.inc:49
+msgid "Groups directory control"
+msgstr "グループ一覧の設定"
+
+#: includes/og.admin.inc:51
+msgid "OG admins always see the checkbox for adding a group to the <em>groups directory</em>. Note that changing this setting has no effect on existing posts. Re-save those posts to acquire this new setting."
+msgstr "<em>グループ一覧</em>にグループを追加するかどうかのチェックボックスを、OG管理者に常に表示します。この設定の変更は、既存の記事には影響しないことに注意してください。この新しい設定を適用するには、記事を保存しなおしてください。"
+
+#: includes/og.admin.inc:57
+msgid "New groups don't appear on the registration form. Administrators control the form exclusively."
+msgstr "新しいグループを登録フォームに表示しません。管理者だけがフォームを設定できます。"
+
+#: includes/og.admin.inc:58
+msgid "New groups always appear on the registration form."
+msgstr "新しいグループを常に登録フォームに表示します。"
+
+#: includes/og.admin.inc:59
+msgid "Group creator chooses whether her group appears on the registration form. Defaults to <em>on form</em>."
+msgstr "グループを登録フォームに表示するかどうかを、グループの作成者が選択します。デフォルトは<em>フォームに表示</em>。"
+
+#: includes/og.admin.inc:60
+msgid "Group creator chooses whether her group appears on the registration form. Defaults to <em>not on form</em>."
+msgstr "グループを登録フォームに表示するかどうかを、グループの作成者が選択します。デフォルトは<em>フォームに非表示</em>。"
+
+#: includes/og.admin.inc:64
+msgid "Registration form control"
+msgstr "登録フォームの設定"
+
+#: includes/og.admin.inc:66
+msgid "OG admins always see the checkbox for adding a group to the <em>registration form</em>. Note that changing this setting has no effect on existing posts. Re-save those posts to acquire this new setting."
+msgstr "<em>登録フォーム</em>にグループを追加するかどうかのチェックボックスを、OG管理者に常に表示します。この設定の変更は、既存の記事には影響しないことに注意してください。この新しい設定を適用するには、記事を保存しなおしてください。"
+
+#: includes/og.admin.inc:73
+msgid "Audience checkboxes"
+msgstr "読者のチェックボックス"
+
+#: includes/og.admin.inc:75
+msgid "Show each group that the user is a member of as a checkbox in the \"Audience\" section. This enables the member to place her post into multiple groups. If unchecked, simplify the user interface by omitting the checkboxes and assuming user wants to post into the current group. This simplification only applies to new nodes, and not to edits of existing nodes. Group administrators always see checkboxes."
+msgstr "ユーザがメンバーとなっているグループをチェックボックスとして「読者」セクションに表示します。これにより、メンバーは1つの記事を複数のグループに対して投稿できるようになります。チェックが無ければ、インターフェースからチェックボックスが無くなり、ユーザは現在のグループに対して記事を投稿しているものと扱われます。この簡略化は、新しいコンテンツに対してのみ適用され、既存の記事の編集には反映されません。グループ管理者には常にチェックボックスを表示します。"
+
+#: includes/og.admin.inc:79
+msgid "Optional"
+msgstr "任意"
+
+#: includes/og.admin.inc:79
+msgid "Required"
+msgstr "必須"
+
+#: includes/og.admin.inc:82
+msgid "Audience required"
+msgstr "読者が必要"
+
+#: includes/og.admin.inc:85
+msgid "Do you require that all (non administrator) posts be affiliated with a group? Note that changing this setting will affect existing posts when they are edited."
+msgstr "すべての (管理者以外が作成した) 記事をグループに関連付けますか？　既存の記事に対しては、記事を編集した場合にだけこの設定の変更が反映されることに注意してください。"
+
+#: includes/og.admin.inc:92
+msgid "Messaging & Notifications"
+msgstr "メッセージと通知"
+
+#: includes/og.admin.inc:98
+msgid "Format of \"From:\" field"
+msgstr "「差出人:」フィールドの書式"
+
+#: includes/og.admin.inc:100
+msgid "Specify the format of the \"From:\" field on outgoing notifications. Available variables: @user_mail, @user_name, @site_mail, @site_name. Note that the @user_mail token reveals the author's email address. If the admin email examples above appear blank, you need to set your site email in the \"Site information\" panel."
+msgstr "送信する通知の「差出人:」フィールドの書式を指定します。利用可能な変数: @user_mail, @user_name、@site_mail、@site_name。@user_mailトークンは投稿者のメールアドレスをさらしてしまうことに注意してください。もしも管理者のメールアドレスが空白で表示されるならば、「サイト情報」パネルでサイトのメールアドレスを設定する必要があります。"
+
+#: includes/og.admin.inc:104
+msgid "New content subject"
+msgstr "新しいコンテンツの件名"
+
+#: includes/og.admin.inc:105
+msgid "Subject of notification message for new content. Available variables: @group, !group_url, @type, @site, !content_url, !reply_url, @title, @subject, @node_full, @node_teaser, @username. %subject contains the comment title in the case of a comment but the node title in the case of a new post. @title is always the node title."
+msgstr "新しいコンテンツに関する通知メッセージの件名。利用可能な変数: @group、!group_url、@type、@site、!content_url、!reply_url、@title、@subject、@node_full、@node_teaser、@username。%subjectには、コメントの場合はコメントのタイトルが、新しい記事の場合はコンテンツのタイトルが含まれています。@titleには常にコンテンツのタイトルが含まれています。"
+
+#: includes/og.admin.inc:110
+msgid "New content body"
+msgstr "新しいコンテンツの本文"
+
+#: includes/og.admin.inc:112
+msgid "Body of the notification for new content. Available variables: @group, !group_url, @type, @site, !content_url, !reply_url, @title, @subject, @node_full, @node_teaser, @username. @subject contains the comment title in the case of a comment but the node title in the case of a new post. %title is always the node title."
+msgstr "新しいコンテンツに関する通知メッセージの本文。利用可能な変数: @group、!group_url、@type、@site、!content_url、!reply_url、@title、@subject、@node_full、@node_teaser、@username。@subjectには、コメントの場合はコメントのタイトルが、新しい記事の場合はコンテンツのタイトルが含まれています。%titleには常にコンテンツのタイトルが含まれています。"
+
+#: includes/og.admin.inc:117
+msgid "Group admin notification body"
+msgstr "グループ管理者による通知の本文"
+
+#: includes/og.admin.inc:119
+msgid "The body of the message sent to users from the group admin. Available variables: @group, @body, @site, !url_group, !url_unsubscribe"
+msgstr "グループ管理者からユーザへ送信するメッセージの本文。利用可能な変数: @group、@body、@site、!url_group、!url_unsubscribe"
+
+#: includes/og.admin.inc:124
+msgid "User approved notification subject"
+msgstr "ユーザ承認に関する通知の件名"
+
+#: includes/og.admin.inc:125
+msgid "The subject of the message sent to new approved members. Available variables: !group_url, @title"
+msgstr "新しく承認されたメンバーに送信するメッセージの件名。利用可能な変数: !group_url、@title"
+
+#: includes/og.admin.inc:130
+msgid "User approved notification body"
+msgstr "ユーザ承認に関する通知の本文"
+
+#: includes/og.admin.inc:132
+msgid "The body of the message sent to new approved members. Available variables: !group_url, @title"
+msgstr "新しく承認されたメンバーに送信するメッセージの本文。利用可能な変数: !group_url、@title"
+
+#: includes/og.admin.inc:137
+msgid "User denied notification subject"
+msgstr "ユーザ拒否に関する通知の件名"
+
+#: includes/og.admin.inc:138
+msgid "The subject of the message sent to denied users. Available variables: !group_url, @title"
+msgstr "拒否されたユーザに送信するメッセージの件名。利用可能な変数: !group_url、@title"
+
+#: includes/og.admin.inc:143
+msgid "User denied notification body"
+msgstr "ユーザ拒否に関する通知の本文"
+
+#: includes/og.admin.inc:145
+msgid "The body of the message sent to denied users. Available variables: !group_url, @title"
+msgstr "拒否されたユーザに送信するメッセージの本文。利用可能な変数: !group_url、@title"
+
+#: includes/og.admin.inc:150
+msgid "Invite user notification subject"
+msgstr "ユーザの招待に関する通知の件名"
+
+#: includes/og.admin.inc:151
+msgid "The subject of the message sent to users invited to join a group. Available variables: @group, @site, @description, !group_url, @body"
+msgstr "グループへの参加を招待するため、ユーザに送信するメッセージの件名。利用可能な変数: @group、@site、@description、!group_url、@body"
+
+#: includes/og.admin.inc:156
+msgid "Invite user notification body"
+msgstr "ユーザの招待に関する通知の本文"
+
+#: includes/og.admin.inc:158
+msgid "The body of the message sent to users invited to join a group. Available variables: @group, @site, @description, !group_url, @body"
+msgstr "グループへの参加を招待するため、ユーザに送信するメッセージの本文。利用可能な変数: @group、@site、@description、!group_url、@body"
+
+#: includes/og.admin.inc:163
+msgid "Request user notification subject"
+msgstr "ユーザの参加申請に関する通知の件名"
+
+#: includes/og.admin.inc:164
+msgid "The subject of the message sent to a user's request to join a group. Available variables: @group, @username, !approve_url, !group_url"
+msgstr "ユーザがグループへの参加を申請した際に送信するメッセージの件名。利用可能な変数: @group、@username、!approve_url、!group_url"
+
+#: includes/og.admin.inc:169
+msgid "Request user notification body"
+msgstr "ユーザの参加申請に関する通知の本文"
+
+#: includes/og.admin.inc:171
+msgid "The body of the message sent to a user's request to join a group. Available variables: @group, @username, !approve_url, !group_url"
+msgstr "ユーザがグループへの参加を申請した際に送信するメッセージの本文。利用可能な変数: @group、@username、!approve_url、!group_url"
+
+#: includes/og.admin.inc:176
+msgid "New admin user notification subject"
+msgstr "新しい管理者ユーザへの通知の件名"
+
+#: includes/og.admin.inc:177
+msgid "The subject of the message sent to a new admin for a group. Available variables: @group, @username, !group_url"
+msgstr "グループの新しい管理者へ送信するメッセージの件名。利用可能な変数: @group、@username、!group_url"
+
+#: includes/og.admin.inc:182
+msgid "New admin user notification body"
+msgstr "新しい管理者ユーザへの通知の本文"
+
+#: includes/og.admin.inc:184
+msgid "The body of the message sent to a new admin for a group. Available variables: @group, @username, !group_url, !invite_url"
+msgstr "グループの新しい管理者へ送信するメッセージの本文。利用可能な変数: @group、@username、!group_url、!invite_url"
+
+#: includes/og.panelscontent.inc:5
+msgid "Welcome message"
+msgstr "歓迎メッセージ"
+
+#: includes/og.panelscontent.inc:8
+msgid "The welcome message for the group. Specified on group edit form."
+msgstr "グループの歓迎メッセージ。グループ編集フォームで指定します。"
+
+#: includes/og.panelscontent.inc:9;22;34;46;58
+#: includes/og.rules.inc:56;156;167
+msgid "Group"
+msgstr "グループ"
+
+#: includes/og.panelscontent.inc:18
+msgid "Group description"
+msgstr "グループの説明"
+
+#: includes/og.panelscontent.inc:21
+msgid "The group description as specified on the group edit form."
+msgstr "グループ編集フォームで指定されたグループの説明文。"
+
+#: includes/og.panelscontent.inc:30;111;239
+msgid "Group members"
+msgstr "グループメンバー"
+
+#: includes/og.panelscontent.inc:33
+msgid "The list of group subscribers or just group admins."
+msgstr "グループ参加者やグループ管理者の一覧。"
+
+#: includes/og.panelscontent.inc:42;128
+msgid "Group search"
+msgstr "グループの検索"
+
+#: includes/og.panelscontent.inc:45
+msgid "Search this group."
+msgstr "このグループを検索します。"
+
+#: includes/og.panelscontent.inc:54;147
+msgid "Group faces"
+msgstr "グループの顔写真"
+
+#: includes/og.panelscontent.inc:57
+msgid "Show a grid of user pictures."
+msgstr "ユーザの顔写真を格子状に表示します。"
+
+#: includes/og.panelscontent.inc:68;231
+msgid "Welcome"
+msgstr "歓迎"
+
+#: includes/og.panelscontent.inc:83
+msgid "Welcome statement goes here."
+msgstr "歓迎分がここに入ります。"
+
+#: includes/og.panelscontent.inc:100
+msgid "Description goes here."
+msgstr "説明がここに入ります。"
+
+#: includes/og.panelscontent.inc:117
+msgid "Member list goes here."
+msgstr "メンバーリストがここに入ります。"
+
+#: includes/og.panelscontent.inc:136
+msgid "Search form goes here."
+msgstr "検索フォームがここに入ります。"
+
+#: includes/og.panelscontent.inc:153
+msgid "Faces go here."
+msgstr "顔写真がここに入ります。"
+
+#: includes/og.panelscontent.inc:163
+msgid "Number of pictures per row"
+msgstr "1行あたりの写真の数"
+
+#: includes/og.panelscontent.inc:169
+msgid "Maximum number of rows per page"
+msgstr "1ページあたりの最大行数"
+
+#: includes/og.panelscontent.inc:175
+msgid "Pager ID"
+msgstr "ページャーID"
+
+#: includes/og.panelscontent.inc:185
+msgid "Number of members"
+msgstr "メンバー数"
+
+#: includes/og.panelscontent.inc:186
+msgid "Maxmimum number of members that should appear on the list"
+msgstr "リストに表示する最大メンバー数"
+
+#: includes/og.panelscontent.inc:195
+msgid "You may specify which types of group members appear in this listing."
+msgstr "どのタイプのグループメンバーをリストに表示するか指定できます。"
+
+#: includes/og.panelscontent.inc:199
+msgid "Show more link"
+msgstr "もっと見るリンクを表示"
+
+#: includes/og.panelscontent.inc:201
+msgid "Should a <em>more</em> link appear when more members are in the group but not listed."
+msgstr "グループには他にメンバーがいるけれど一覧にはない場合に、<em>もっと見る</em>リンクを表示します。"
+
+#: includes/og.panelscontent.inc:205
+msgid "Show pictures"
+msgstr "写真を表示"
+
+#: includes/og.panelscontent.inc:207
+msgid "Should member pictures be shown in addition to member names."
+msgstr "メンバー名に加えて、メンバーの顔写真を表示します。"
+
+#: includes/og.panelscontent.inc:214
+msgid "Number of members must be an integer."
+msgstr "メンバーの数は整数で指定してください。"
+
+#: includes/og.panelscontent.inc:222
+msgid "Number of pictures per row must be an integer."
+msgstr "写真の数は整数で指定してください。"
+
+#: includes/og.panelscontent.inc:225
+msgid "Maximum number of rows per page must be an integer."
+msgstr "1行あたりの最大数は整数で指定してください。"
+
+#: includes/og.panelscontent.inc:243
+msgid "Search"
+msgstr "検索"
+
+#: includes/og.panelscontent.inc:247
+msgid "Faces"
+msgstr "顔写真"
+
+#: includes/og.panelscontext.inc:37
+msgid "Require this context from an external source (such as containing panel page)."
+msgstr "外部ソースからのコンテクスト (パネルページにあるような) が必要。"
+
+#: includes/og.panelscontext.inc:38
+msgid "If selected, group selection (below) will be ignored."
+msgstr "選択されていれば、グループの選択 (下記) は無視されます。"
+
+#: includes/og.panelscontext.inc:46
+msgid "Enter the NID of a group"
+msgstr "グループのNIDを入力"
+
+#: includes/og.panelscontext.inc:56
+msgid "Currently set to \"%title\""
+msgstr "現在は「%title」に設定されています"
+
+#: includes/og.panelscontext.inc:74
+msgid "You must select a node."
+msgstr "コンテンツを選択してください。"
+
+#: includes/og.panelscontext.inc:100
+msgid "Invalid group selected."
+msgstr "無効なグループを選択しています。"
+
+#: includes/og.panelscontext.inc:103
+msgid "Node is of type %type which not a group type."
+msgstr "ノードはグループのタイプでない%typeタイプです。"
+
+#: includes/og.rules.inc:15
+msgid "User subscribes to group"
+msgstr "ユーザがグループに参加"
+
+#: includes/og.rules.inc:16
+msgid "A user has subscribed to a group and is approved. If the user isn't approved then this event won't be triggered."
+msgstr "ユーザがグループに参加申請して承認されます。ユーザが承認されなければ、このイベントは起きません。"
+
+#: includes/og.rules.inc:21
+msgid "User approved to group by admin"
+msgstr "グループの管理者がユーザを承認"
+
+#: includes/og.rules.inc:26
+msgid "User unsubscribes from group"
+msgstr "ユーザがグループから脱退"
+
+#: includes/og.rules.inc:51
+msgid "User that subscribed to the group"
+msgstr "グループに参加しているユーザ"
+
+#: includes/og.rules.inc:82
+msgid "Subscribe user to group"
+msgstr "ユーザをグループへ参加させる"
+
+#: includes/og.rules.inc:86
+msgid "User who will be subscribed"
+msgstr "参加するユーザ"
+
+#: includes/og.rules.inc:90
+msgid "Group that user will be subscribed to"
+msgstr "ユーザが参加するグループ"
+
+#: includes/og.rules.inc:96
+msgid "Unsubscribe user from group"
+msgstr "ユーザをグループから脱退させる"
+
+#: includes/og.rules.inc:99
+msgid "User who will be unsubscribed"
+msgstr "脱退するユーザ"
+
+#: includes/og.rules.inc:103
+msgid "Group that user will be unsubscribed from"
+msgstr "ユーザが脱退するグループ"
+
+#: includes/og.rules.inc:128
+msgid "Subscription is approved"
+msgstr "参加申請を承認"
+
+#: includes/og.rules.inc:129
+msgid "When enabled the user will automatically be approved. When disabled user will be a pending member."
+msgstr "有効であればユーザは自動的に承認されます。無効であればユーザは承認待ちのメンバーとなります。"
+
+#: includes/og.rules.inc:148
+msgid "User is group member"
+msgstr "ユーザがグループのメンバー"
+
+#: includes/og.rules.inc:152
+msgid "User"
+msgstr "ユーザ"
+
+#: includes/og.rules.inc:159
+msgid "Evaluates to TRUE if the user is an approved member of the group. If the user is a pending member this condition will return FALSE."
+msgstr "ユーザがグループの承認済みメンバーであれば、TRUEと評価します。ユーザが承認待ちのメンバーであれば、この条件はFALSEを返します。"
+
+#: includes/og.rules.inc:163
+msgid "Content is a group"
+msgstr "コンテンツがグループ"
+
+#: includes/og.rules.inc:170
+msgid "Evaluates to TRUE if the content is a group."
+msgstr "コンテンツがグループであれば、TRUEと評価します。"
+
+#: includes/og.xmlrpc.inc:13
+msgid "Unrecognized user ID: %uid."
+msgstr "認められていないユーザID: %uid"
+
+#: includes/og.xmlrpc.inc:17;37;52
+msgid "Wrong username or password."
+msgstr "ユーザ名かパスワードが不正です。"
+
+#: includes/og.xmlrpc.inc:33
+msgid "User is not a member of the specified group."
+msgstr "ユーザは指定したグループのメンバーではありません。"
+
+#: includes/og.xmlrpc.inc:48
+msgid "User is not allowed to retrieve membership information for another user."
+msgstr "ユーザは他のユーザの参加状況を扱うことができません。"
+
+#: tests/og_testcase.php:61
+msgid "Group post"
+msgstr "グループの記事"
+
+#: tests/og_testcase.php:88
+msgid "!type %title has been created."
+msgstr "!typeの%titleを作成しました。"
+
+#: tests/og_testcase.php:88
+msgid "%og_type created."
+msgstr "%og_typeを作成しました。"
+
+#: tests/og_testcase.php:93
+msgid "%og_type loaded properly."
+msgstr "%og_typeを正常にロードしました。"
+

@@ -1,0 +1,31 @@
+# $Id: modules-userreference-panels-relationships.pot,v 1.1.2.1 2009/06/16 17:05:11 hass Exp $
+#
+# LANGUAGE translation of Drupal (modules-userreference-panels-relationships)
+# Copyright YEAR NAME <EMAIL@ADDRESS>
+# Generated from file: user_from_userref.inc,v 1.1.2.1 2009/06/02 12:24:04 yched
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"POT-Creation-Date: 2009-06-16 19:00+0200\n"
+"PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
+"Last-Translator: NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+
+#: modules/userreference/panels/relationships/user_from_userref.inc:14
+msgid "User from reference"
+msgstr ""
+
+#: modules/userreference/panels/relationships/user_from_userref.inc:16
+msgid "Adds a user from a user reference in a node context; if multiple users are referenced, this will get the first referenced user only."
+msgstr ""
+
+#: modules/userreference/panels/relationships/user_from_userref.inc:50
+msgid "User reference field"
+msgstr ""
+

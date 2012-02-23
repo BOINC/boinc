@@ -1,0 +1,1259 @@
+<?php
+// $Id$
+
+/**
+ * @file
+ * Exposes BOINC work data to Views.
+ */
+
+/**
+ * Implementation of hook_views_data().
+ * Defines the structure of data and how Views should handle it (i.e. which
+ * relationships exist; is data text, integer, float; what sort options exist).
+ */
+function boincwork_views_data() {
+  
+  // -----------------------------------------------------------------------------------------------
+  // Definition for host table
+  // -----------------------------------------------------------------------------------------------
+  
+  $data['host']['table']['group'] = t('BOINC');
+  
+  $data['host']['table']['base'] = array(
+      'field' => 'id',
+      'title' => t('BOINC host'),
+      'help' => t('Computers attached to BOINC'),
+      'database' => 'boinc'
+  );
+  
+  // This table references the {user} table.
+  // This join creates an 'implicit' relationship to the user table, so that when
+  // "User" is the base table, the fields are automatically available.
+  
+  // Index this array by the table name to which this table refers.
+  // 'left_field' is the primary key in the referenced table.
+  // 'field' is the foreign key in this table.
+  
+  $data['host']['table']['join'] = array(
+    'user' => array(
+      'left_field' => 'id',
+      'field' => 'userid',
+    )
+  );
+
+  // Describe each of the individual fields in this table to Views. For
+  // each field, you may define what field, sort, argument, and/or filter
+  // handlers it supports. This will determine where in the Views interface you
+  // may use the field.
+  
+  // Primary keys allowed as arguments
+  
+  $data['host']['id'] = array(
+    'title' => t('Computer ID'),
+    'help' => t('The ID number of this host.'),
+    'field' => array(
+      'handler' => 'views_handler_field_numeric',
+      'click sortable' => TRUE
+    ),
+    'argument' => array(
+      'handler' => 'views_handler_argument',
+      'name field' => 'title',
+      'numeric' => TRUE,
+      'validate type' => 'id'
+    ),
+    'filter' => array(
+      'handler' => 'views_handler_filter_numeric'
+    ),
+    'sort' => array(
+      'handler' => 'views_handler_sort_numeric'
+    )
+  );
+  
+  // Foreign key fields
+  
+  $data['host']['userid'] = array(
+    'title' => t('User ID'),
+    'help' => t('The owner of this host.'),
+    // Because this is a foreign key to the {user} table. This allows us to
+    // have, when the view is configured with this relationship, all the fields
+    // for the related node available.
+    'argument' => array(
+      'handler' => 'views_handler_argument_boincuser_id',
+      'name field' => 'title',
+      'numeric' => TRUE,
+      'validate type' => 'id'
+    ),
+    'relationship' => array(
+      'base' => 'user',
+      'field' => 'userid',
+      'handler' => 'views_handler_relationship',
+      'label' => t('User')
+    ),
+    'field' => array(
+      'handler' => 'views_handler_field_numeric',
+      'click sortable' => TRUE
+    ),
+    'filter' => array(
+      'handler' => 'views_handler_filter_numeric'
+    ),
+    'sort' => array(
+      'handler' => 'views_handler_sort_numeric'
+    )
+  );
+  
+  // Descriptions of general host fields (alphabetized)
+  
+  $data['host']['active_frac'] = array(
+    'title' => t('While BOINC running, % of time work is allowed'),
+    'help' => t('The percentage of time that work is allowed.'),
+    'field' => array(
+      'handler' => 'views_handler_field_numeric',
+      'click sortable' => TRUE,
+      'float' => TRUE
+    ),
+    'filter' => array(
+      'handler' => 'views_handler_filter_numeric'
+    ),
+    'sort' => array(
+      'handler' => 'views_handler_sort_numeric'
+    )
+  );
+  $data['host']['avg_turnaround'] = array(
+    'title' => t('Average turnaround time'),
+    'help' => t('The average time required for work to be completed.'),
+    'field' => array(
+      'handler' => 'views_handler_field_numeric',
+      'click sortable' => TRUE,
+      'float' => TRUE
+    ),
+    'filter' => array(
+      'handler' => 'views_handler_filter_numeric'
+    ),
+    'sort' => array(
+      'handler' => 'views_handler_sort_numeric'
+    )
+  );
+  $data['host']['create_time'] = array(
+    'title' => t('Created'),
+    'help' => t('The time the host record was created.'),
+    'field' => array(
+      'handler' => 'views_handler_field_date',
+      'click sortable' => TRUE
+    ),
+    'filter' => array(
+      'handler' => 'views_handler_filter_date'
+    ),
+    'sort' => array(
+      'handler' => 'views_handler_sort_date'
+    )
+  );
+  $data['host']['connected_frac'] = array(
+    'title' => t('While BOINC running, % of time host has an Internet connection'),
+    'help' => t('The percentage of time that the host has an Internet connection.'),
+    'field' => array(
+      'handler' => 'views_handler_field_numeric',
+      'click sortable' => TRUE,
+      'float' => TRUE
+    ),
+    'filter' => array(
+      'handler' => 'views_handler_filter_numeric'
+    ),
+    'sort' => array(
+      'handler' => 'views_handler_sort_numeric'
+    )
+  );
+  $data['host']['cpu_efficiency'] = array(
+    'title' => t('Average CPU efficiency'),
+    'help' => t('The average efficiency of the host CPU.'),
+    'field' => array(
+      'handler' => 'views_handler_field_numeric',
+      'click sortable' => TRUE,
+      'float' => TRUE
+    ),
+    'filter' => array(
+      'handler' => 'views_handler_filter_numeric'
+    ),
+    'sort' => array(
+      'handler' => 'views_handler_sort_numeric'
+    )
+  );
+  $data['host']['d_free'] = array(
+    'title' => t('Free disk space'),
+    'help' => t('The amount of disk space that is not in use.'),
+    'field' => array(
+      'handler' => 'views_handler_field_numeric',
+      'click sortable' => TRUE
+    ),
+    'filter' => array(
+      'handler' => 'views_handler_filter_numeric'
+    ),
+    'sort' => array(
+      'handler' => 'views_handler_sort_numeric'
+    )
+  );
+  $data['host']['d_total'] = array(
+    'title' => t('Total disk space'),
+    'help' => t('The size of the disk on which BOINC is installed.'),
+    'field' => array(
+      'handler' => 'views_handler_field_numeric',
+      'click sortable' => TRUE
+    ),
+    'filter' => array(
+      'handler' => 'views_handler_filter_numeric'
+    ),
+    'sort' => array(
+      'handler' => 'views_handler_sort_numeric'
+    )
+  );
+  $data['host']['domain_name'] = array(
+    'title' => t('Domain name'),
+    'help' => t('The name of the host.'),
+    'field' => array(
+      'handler' => 'views_handler_field',
+      'click sortable' => TRUE
+    ),
+    'filter' => array(
+      'handler' => 'views_handler_filter_string'
+    ),
+    'sort' => array(
+      'handler' => 'views_handler_sort_string'
+    )
+  );
+  $data['host']['duration_correction_factor'] = array(
+    'title' => t('Task duration correction factor'),
+    'help' => t('Task duration correction factor.'),
+    'field' => array(
+      'handler' => 'views_handler_field_numeric',
+      'click sortable' => TRUE,
+      'float' => TRUE
+    ),
+    'filter' => array(
+      'handler' => 'views_handler_filter_numeric'
+    ),
+    'sort' => array(
+      'handler' => 'views_handler_sort_numeric'
+    )
+  );
+  $data['host']['expavg_credit'] = array(
+    'title' => t('Recent average credit'),
+    'help' => t('A decaying average of credit per day.'),
+    'field' => array(
+      'handler' => 'views_handler_field_numeric',
+      'click sortable' => TRUE,
+      'float' => TRUE
+    ),
+    'filter' => array(
+      'handler' => 'views_handler_filter_numeric'
+    ),
+    'sort' => array(
+      'handler' => 'views_handler_sort_numeric'
+    )
+  );
+  $data['host']['external_ip_addr'] = array(
+    'title' => t('External IP address'),
+    'help' => t('The IP address from which the host last communicated.'),
+    'field' => array(
+      'handler' => 'views_handler_field',
+      'click sortable' => TRUE
+    ),
+    'filter' => array(
+      'handler' => 'views_handler_filter_string'
+    ),
+    'sort' => array(
+      'handler' => 'views_handler_sort_string'
+    )
+  );
+  $data['host']['host_cpid'] = array(
+    'title' => t('Cross project ID'),
+    'help' => t('The consistent identifier of the host across projects.'),
+    'field' => array(
+      'handler' => 'views_handler_field',
+      'click sortable' => TRUE
+    ),
+    'filter' => array(
+      'handler' => 'views_handler_filter_string'
+    ),
+    'sort' => array(
+      'handler' => 'views_handler_sort_string'
+    )
+  );
+  $data['host']['last_ip_addr'] = array(
+    'title' => t('Last IP address'),
+    'help' => t('The IP address of the host at last communication.'),
+    'field' => array(
+      'handler' => 'views_handler_field',
+      'click sortable' => TRUE
+    ),
+    'filter' => array(
+      'handler' => 'views_handler_filter_string'
+    ),
+    'sort' => array(
+      'handler' => 'views_handler_sort_string'
+    )
+  );
+  $data['host']['m_cache'] = array(
+    'title' => t('Cache'),
+    'help' => t('The amount of cache on the processor(s).'),
+    'field' => array(
+      'handler' => 'views_handler_field_numeric',
+      'click sortable' => TRUE
+    ),
+    'filter' => array(
+      'handler' => 'views_handler_filter_numeric'
+    ),
+    'sort' => array(
+      'handler' => 'views_handler_sort_numeric'
+    )
+  );
+  $data['host']['m_nbytes'] = array(
+    'title' => t('Memory'),
+    'help' => t('The amount of memory installed.'),
+    'field' => array(
+      'handler' => 'views_handler_field_numeric',
+      'click sortable' => TRUE
+    ),
+    'filter' => array(
+      'handler' => 'views_handler_filter_numeric'
+    ),
+    'sort' => array(
+      'handler' => 'views_handler_sort_numeric'
+    )
+  );
+  $data['host']['m_swap'] = array(
+    'title' => t('Swap space'),
+    'help' => t('The amount of swap space configured.'),
+    'field' => array(
+      'handler' => 'views_handler_field_numeric',
+      'click sortable' => TRUE
+    ),
+    'filter' => array(
+      'handler' => 'views_handler_filter_numeric'
+    ),
+    'sort' => array(
+      'handler' => 'views_handler_sort_numeric'
+    )
+  );
+  $data['host']['max_results_day'] = array(
+    'title' => t('Maximum daily WU quota per CPU'),
+    'help' => t('The maximum number of work units to be allocated per CPU.'),
+    'field' => array(
+      'handler' => 'views_handler_field_numeric',
+      'click sortable' => TRUE
+    ),
+    'filter' => array(
+      'handler' => 'views_handler_filter_numeric'
+    ),
+    'sort' => array(
+      'handler' => 'views_handler_sort_numeric'
+    )
+  );
+  $data['host']['n_bwdown'] = array(
+    'title' => t('Average download rate'),
+    'help' => t('The average rate at which new work is downloaded.'),
+    'field' => array(
+      'handler' => 'views_handler_field_numeric',
+      'click sortable' => TRUE,
+      'float' => TRUE
+    ),
+    'filter' => array(
+      'handler' => 'views_handler_filter_numeric'
+    ),
+    'sort' => array(
+      'handler' => 'views_handler_sort_numeric'
+    )
+  );
+  $data['host']['n_bwup'] = array(
+    'title' => t('Average upload rate'),
+    'help' => t('The average rate at which completed work is uploaded.'),
+    'field' => array(
+      'handler' => 'views_handler_field_numeric',
+      'click sortable' => TRUE,
+      'float' => TRUE
+    ),
+    'filter' => array(
+      'handler' => 'views_handler_filter_numeric'
+    ),
+    'sort' => array(
+      'handler' => 'views_handler_sort_numeric'
+    )
+  );
+  $data['host']['nsame_ip_addr'] = array(
+    'title' => t('Same IP address count'),
+    'help' => t('The number of times the last IP address.'),
+    'field' => array(
+      'handler' => 'views_handler_field',
+      'click sortable' => TRUE
+    ),
+    'filter' => array(
+      'handler' => 'views_handler_filter_string'
+    ),
+    'sort' => array(
+      'handler' => 'views_handler_sort_string'
+    )
+  );
+  $data['host']['on_frac'] = array(
+    'title' => t('% of time BOINC client is running'),
+    'help' => t('The percentage of time that the BOINC client is running.'),
+    'field' => array(
+      'handler' => 'views_handler_field_numeric',
+      'click sortable' => TRUE,
+      'float' => TRUE
+    ),
+    'filter' => array(
+      'handler' => 'views_handler_filter_numeric'
+    ),
+    'sort' => array(
+      'handler' => 'views_handler_sort_numeric'
+    )
+  );
+  $data['host']['os_name'] = array(
+    'title' => t('Operating system'),
+    'help' => t('The name of the host operating system.'),
+    'field' => array(
+      'handler' => 'views_handler_field',
+      'click sortable' => TRUE
+    ),
+    'filter' => array(
+      'handler' => 'views_handler_filter_string'
+    ),
+    'sort' => array(
+      'handler' => 'views_handler_sort_string'
+    )
+  );  
+  $data['host']['os_version'] = array(
+    'title' => t('Operating system version'),
+    'help' => t('The version of the host operating system.'),
+    'field' => array(
+      'handler' => 'views_handler_field',
+      'click sortable' => TRUE
+    ),
+    'filter' => array(
+      'handler' => 'views_handler_filter_string'
+    ),
+    'sort' => array(
+      'handler' => 'views_handler_sort_string'
+    )
+  );
+  $data['host']['p_fpops'] = array(
+    'title' => t('Measured floating point speed'),
+    'help' => t('The capability of the host in floating point operations per second.'),
+    'field' => array(
+      'handler' => 'views_handler_field_numeric',
+      'click sortable' => TRUE,
+      'float' => TRUE
+    ),
+    'filter' => array(
+      'handler' => 'views_handler_filter_numeric'
+    ),
+    'sort' => array(
+      'handler' => 'views_handler_sort_numeric'
+    )
+  );
+  $data['host']['p_iops'] = array(
+    'title' => t('Measured integer speed'),
+    'help' => t('The capability of the host in integer operations per second.'),
+    'field' => array(
+      'handler' => 'views_handler_field_numeric',
+      'click sortable' => TRUE,
+      'float' => TRUE
+    ),
+    'filter' => array(
+      'handler' => 'views_handler_filter_numeric'
+    ),
+    'sort' => array(
+      'handler' => 'views_handler_sort_numeric'
+    )
+  );
+  $data['host']['p_model'] = array(
+    'title' => t('CPU model'),
+    'help' => t('The model of the CPU in the host.'),
+    'field' => array(
+      'handler' => 'views_handler_field',
+      'click sortable' => TRUE
+    ),
+    'filter' => array(
+      'handler' => 'views_handler_filter_string'
+    ),
+    'sort' => array(
+      'handler' => 'views_handler_sort_string'
+    )
+  );
+  $data['host']['p_ncpus'] = array(
+    'title' => t('Number of CPUs'),
+    'help' => t('The count of CPU cores in the system.'),
+    'field' => array(
+      'handler' => 'views_handler_field',
+      'click sortable' => TRUE
+    ),
+    'filter' => array(
+      'handler' => 'views_handler_filter_string'
+    ),
+    'sort' => array(
+      'handler' => 'views_handler_sort_string'
+    )
+  );
+  $data['host']['p_vendor'] = array(
+    'title' => t('CPU vendor'),
+    'help' => t('The manufacturer of the CPU in the host.'),
+    'field' => array(
+      'handler' => 'views_handler_field',
+      'click sortable' => TRUE
+    ),
+    'filter' => array(
+      'handler' => 'views_handler_filter_string'
+    ),
+    'sort' => array(
+      'handler' => 'views_handler_sort_string'
+    )
+  );
+  $data['host']['rpc_seqno'] = array(
+    'title' => t('Number of times client has contacted server'),
+    'help' => t('The number of times the client has contacted the server.'),
+    'field' => array(
+      'handler' => 'views_handler_field_numeric',
+      'click sortable' => TRUE
+    ),
+    'filter' => array(
+      'handler' => 'views_handler_filter_numeric'
+    ),
+    'sort' => array(
+      'handler' => 'views_handler_sort_numeric'
+    )
+  );
+  $data['host']['rpc_time'] = array(
+    'title' => t('Last contact'),
+    'help' => t('The time of the last RPC contact with the host.'),
+    'field' => array(
+      'handler' => 'views_handler_field_date',
+      'click sortable' => TRUE
+    ),
+    'filter' => array(
+      'handler' => 'views_handler_filter_date'
+    ),
+    'sort' => array(
+      'handler' => 'views_handler_sort_date'
+    )
+  );
+  $data['host']['serialnum'] = array(
+    'title' => t('Serial number'),
+    'help' => t('Contains the release number of the BOINC application in use and the GPU of the host.'),
+    'field' => array(
+      'handler' => 'views_handler_field',
+      'click sortable' => TRUE
+    ),
+    'filter' => array(
+      'handler' => 'views_handler_filter_string'
+    ),
+    'sort' => array(
+      'handler' => 'views_handler_sort_string'
+    )
+  );
+  $data['host']['timezone'] = array(
+    'title' => t('Timezone'),
+    'help' => t('The UTC offset of the local time.'),
+    'field' => array(
+      'handler' => 'views_handler_field_numeric',
+      'click sortable' => TRUE
+    ),
+    'filter' => array(
+      'handler' => 'views_handler_filter_numeric'
+    ),
+    'sort' => array(
+      'handler' => 'views_handler_sort_numeric'
+    )
+  );
+  $data['host']['total_credit'] = array(
+    'title' => t('Total Credit'),
+    'help' => t('The total accumulated BOINC credit.'),
+    'field' => array(
+      'handler' => 'views_handler_field_numeric',
+      'click sortable' => TRUE,
+      'float' => TRUE
+    ),
+    'filter' => array(
+      'handler' => 'views_handler_filter_numeric'
+    ),
+    'sort' => array(
+      'handler' => 'views_handler_sort_numeric'
+    )
+  );
+  
+  // ------------------------------------------------------------------------------------------------
+  // Definition for result (task) table
+  // ------------------------------------------------------------------------------------------------
+  
+  $data['result']['table']['group'] = t('BOINC');
+  $data['result']['table']['base'] = array(
+      'field' => 'id',
+      'title' => t('BOINC result'),
+      'help' => t('Results produced by BOINC'),
+      'database' => 'boinc'
+  );
+  
+  // Create implicit relationships to the user, workunit, and host tables
+  
+  $data['result']['table']['join'] = array(
+    'user' => array(
+      'left_field' => 'id',
+      'field' => 'userid'
+    ),
+    'workunit' => array(
+      'left_field' => 'id',
+      'field' => 'workunitid'
+    ),
+    'host' => array(
+      'left_field' => 'id',
+      'field' => 'hostid'
+    )
+  );
+  
+  // Primary keys allowed as arguments
+
+  $data['result']['id'] = array(
+    'title' => t('Result ID'),
+    'help' => t('The ID number of this result.'),
+    'field' => array(
+      'handler' => 'views_handler_field_numeric',
+      'click sortable' => TRUE
+    ),
+    'argument' => array(
+      'handler' => 'views_handler_argument',
+      'name field' => 'title',
+      'numeric' => TRUE,
+      'validate type' => 'id'
+    ),
+    'filter' => array(
+      'handler' => 'views_handler_filter_numeric'
+    ),
+    'sort' => array(
+      'handler' => 'views_handler_sort_numeric'
+    )
+  );
+  
+  // Foreign key fields
+  
+  $data['result']['userid'] = array(
+    'title' => t('User ID'),
+    'help' => t('The owner of this result.'),
+    // Foreign key to the {user} table
+    'argument' => array(
+      'handler' => 'views_handler_argument_boincuser_id',
+      'name field' => 'title',
+      'numeric' => TRUE,
+      'validate type' => 'id'
+    ),
+    'relationship' => array(
+      'base' => 'user',
+      'field' => 'userid',
+      'handler' => 'views_handler_relationship',
+      'label' => t('User')
+    )
+  );
+  $data['result']['workunitid'] = array(
+    'title' => t('Work unit ID'),
+    'help' => t('The work unit associated with this result.'),
+    // Foreign key to the {workunit} table
+    'argument' => array(
+      'handler' => 'views_handler_argument',
+      'name field' => 'title',
+      'numeric' => TRUE,
+      'validate type' => 'id'
+    ),
+    'relationship' => array(
+      'base' => 'workunit',
+      'field' => 'workunitid',
+      'handler' => 'views_handler_relationship',
+      'label' => t('WorkUnit')
+    ),
+    'field' => array(
+      'handler' => 'views_handler_field_numeric',
+      'click sortable' => TRUE
+    ),
+    'filter' => array(
+      'handler' => 'views_handler_filter_numeric'
+    ),
+    'sort' => array(
+      'handler' => 'views_handler_sort_numeric'
+    )
+  );
+  $data['result']['hostid'] = array(
+    'title' => t('Host ID'),
+    'help' => t('The host associated with this result.'),
+    // Foreign key to the {host} table
+    'argument' => array(
+      'handler' => 'views_handler_argument',
+      'name field' => 'title',
+      'numeric' => TRUE,
+      'validate type' => 'id'
+    ),
+    'relationship' => array(
+      'base' => 'host',
+      'field' => 'hostid',
+      'handler' => 'views_handler_relationship',
+      'label' => t('Host')
+    ),
+    'field' => array(
+      'handler' => 'views_handler_field_numeric',
+      'click sortable' => TRUE
+    ),
+    'filter' => array(
+      'handler' => 'views_handler_filter_numeric'
+    ),
+    'sort' => array(
+      'handler' => 'views_handler_sort_numeric'
+    )
+  );
+  
+  // Descriptions of result fields (alphabetized)
+  
+  $data['result']['app_version_id'] = array(
+    'title' => t('Application version'),
+    'help' => t('The ID of the application.'),
+    'field' => array(
+      'handler' => 'views_handler_field_numeric',
+      'click sortable' => TRUE
+    ),
+    'filter' => array(
+      'handler' => 'views_handler_filter_numeric'
+    ),
+    'sort' => array(
+      'handler' => 'views_handler_sort_numeric'
+    )
+  );
+  $data['result']['claimed_credit'] = array(
+    'title' => t('Claimed credit'),
+    'help' => t('The credit claimed for this result.'),
+    'field' => array(
+      'handler' => 'views_handler_field_numeric',
+      'click sortable' => TRUE,
+      'float' => TRUE
+    ),
+    'filter' => array(
+      'handler' => 'views_handler_filter_numeric'
+    ),
+    'sort' => array(
+      'handler' => 'views_handler_sort_numeric'
+    )
+  );
+  $data['result']['client_state'] = array(
+    'title' => t('Client state'),
+    'help' => t('The state of the task on the client side.'),
+    'field' => array(
+      'handler' => 'views_handler_field_numeric',
+      'click sortable' => TRUE
+    ),
+    'filter' => array(
+      'handler' => 'views_handler_filter_numeric'
+    ),
+    'sort' => array(
+      'handler' => 'views_handler_sort_numeric'
+    )
+  );
+  $data['result']['cpu_time'] = array(
+    'title' => t('CPU time'),
+    'help' => t('The CPU time spent on the task.'),
+    'field' => array(
+      'handler' => 'views_handler_field_numeric',
+      'click sortable' => TRUE,
+      'float' => TRUE
+    ),
+    'filter' => array(
+      'handler' => 'views_handler_filter_numeric'
+    ),
+    'sort' => array(
+      'handler' => 'views_handler_sort_numeric'
+    )
+  );
+  $data['result']['create_time'] = array(
+    'title' => t('Created'),
+    'help' => t('The time that the task was created.'),
+    'field' => array(
+      'handler' => 'views_handler_field_date',
+      'click sortable' => TRUE
+    ),
+    'filter' => array(
+      'handler' => 'views_handler_filter_date'
+    ),
+    'sort' => array(
+      'handler' => 'views_handler_sort_date'
+    )
+  );
+  $data['result']['elapsed_time'] = array(
+    'title' => t('Run time'),
+    'help' => t('The run time of the task.'),
+    'field' => array(
+      'handler' => 'views_handler_field_numeric',
+      'click sortable' => TRUE,
+      'float' => TRUE
+    ),
+    'filter' => array(
+      'handler' => 'views_handler_filter_numeric'
+    ),
+    'sort' => array(
+      'handler' => 'views_handler_sort_numeric'
+    )
+  );
+  $data['result']['exit_status'] = array(
+    'title' => t('Exit status'),
+    'help' => t('The exit code of the task.'),
+    'field' => array(
+      'handler' => 'views_handler_field_numeric',
+      'click sortable' => TRUE
+    ),
+    'filter' => array(
+      'handler' => 'views_handler_filter_numeric'
+    ),
+    'sort' => array(
+      'handler' => 'views_handler_sort_numeric'
+    )
+  );
+  $data['result']['granted_credit'] = array(
+    'title' => t('Granted credit'),
+    'help' => t('The credit granted for this result.'),
+    'field' => array(
+      'handler' => 'views_handler_field_numeric',
+      'click sortable' => TRUE,
+      'float' => TRUE
+    ),
+    'filter' => array(
+      'handler' => 'views_handler_filter_numeric'
+    ),
+    'sort' => array(
+      'handler' => 'views_handler_sort_numeric'
+    )
+  );
+  $data['result']['name'] = array(
+    'title' => t('Name'),
+    'help' => t('The name of the task.'),
+    'field' => array(
+      'handler' => 'views_handler_field',
+      'click sortable' => TRUE
+    ),
+    'filter' => array(
+      'handler' => 'views_handler_filter_string'
+    ),
+    'sort' => array(
+      'handler' => 'views_handler_sort_string'
+    )
+  );
+  $data['result']['outcome'] = array(
+    'title' => t('Outcome'),
+    'help' => t('The outcome of the task.'),
+    'field' => array(
+      'handler' => 'views_handler_field_numeric',
+      'click sortable' => TRUE
+    ),
+    'filter' => array(
+      'handler' => 'views_handler_filter_numeric'
+    ),
+    'sort' => array(
+      'handler' => 'views_handler_sort_numeric'
+    )
+  );
+  $data['result']['received_time'] = array(
+    'title' => t('Received time'),
+    'help' => t('The time that the result was received.'),
+    'field' => array(
+      'handler' => 'views_handler_field_date',
+      'click sortable' => TRUE
+    ),
+    'filter' => array(
+      'handler' => 'views_handler_filter_date'
+    ),
+    'sort' => array(
+      'handler' => 'views_handler_sort_date'
+    )
+  );
+  $data['result']['report_deadline'] = array(
+    'title' => t('Report deadline'),
+    'help' => t('The deadline for the task.'),
+    'field' => array(
+      'handler' => 'views_handler_field_date',
+      'click sortable' => TRUE
+    ),
+    'filter' => array(
+      'handler' => 'views_handler_filter_date'
+    ),
+    'sort' => array(
+      'handler' => 'views_handler_sort_date'
+    )
+  );
+  $data['result']['sent_time'] = array(
+    'title' => t('Sent'),
+    'help' => t('The time that the task was sent.'),
+    'field' => array(
+      'handler' => 'views_handler_field_date',
+      'click sortable' => TRUE
+    ),
+    'filter' => array(
+      'handler' => 'views_handler_filter_date'
+    ),
+    'sort' => array(
+      'handler' => 'views_handler_sort_date'
+    )
+  );
+  $data['result']['server_state'] = array(
+    'title' => t('Server state'),
+    'help' => t('The state of task on the server side.'),
+    'field' => array(
+      'handler' => 'views_handler_field_numeric',
+      'click sortable' => TRUE
+    ),
+    'filter' => array(
+      'handler' => 'views_handler_filter_numeric'
+    ),
+    'sort' => array(
+      'handler' => 'views_handler_sort_numeric'
+    )
+  );
+  $data['result']['stderr_out'] = array(
+    'title' => t('Stderr out'),
+    'help' => t('The output to standard error.'),
+    'field' => array(
+      'handler' => 'views_handler_field',
+      'click sortable' => TRUE
+    ),
+    'filter' => array(
+      'handler' => 'views_handler_filter_string'
+    ),
+    'sort' => array(
+      'handler' => 'views_handler_sort_string'
+    )
+  );
+  $data['result']['validate_state'] = array(
+    'title' => t('Validation state'),
+    'help' => t('The state of validation of this result.'),
+    'field' => array(
+      'handler' => 'views_handler_field_numeric',
+      'click sortable' => TRUE
+    ),
+    'filter' => array(
+      'handler' => 'views_handler_filter_numeric'
+    ),
+    'sort' => array(
+      'handler' => 'views_handler_sort_numeric'
+    )
+  );
+  
+  // ------------------------------------------------------------------------------------------------
+  // Definition for workunit table
+  // ------------------------------------------------------------------------------------------------
+  
+  $data['workunit']['table']['group'] = t('BOINC');
+  $data['workunit']['table']['base'] = array(
+      'field' => 'id',
+      'title' => t('BOINC workunit'),
+      'help' => t('Workunits produced by BOINC'),
+      'database' => 'boinc'
+  );
+  
+  // Create implicit relationship to the app table
+  
+  $data['workunit']['table']['join'] = array(
+    'app' => array(
+      'left_field' => 'id',
+      'field' => 'appid'
+    )
+  );
+  
+  // Primary keys allowed as arguments
+  
+  $data['workunit']['id'] = array(
+    'title' => t('Workunit ID'),
+    'help' => t('The ID number of this workunit.'),
+    'field' => array(
+      'handler' => 'views_handler_field_numeric',
+      'click sortable' => TRUE
+    ),
+    'argument' => array(
+      'handler' => 'views_handler_argument',
+      'name field' => 'title',
+      'numeric' => TRUE,
+      'validate type' => 'id'
+    ),
+    'filter' => array(
+      'handler' => 'views_handler_filter_numeric'
+    ),
+    'sort' => array(
+      'handler' => 'views_handler_sort_numeric'
+    )
+  );
+  
+  // Foreign key fields
+  
+  $data['workunit']['appid'] = array(
+    'title' => t('App ID'),
+    'help' => t('The application associated with this workunit.'), 
+    'argument' => array( // foreign key to the {app} table
+      'handler' => 'views_handler_argument',
+      'name field' => 'title',
+      'numeric' => TRUE,
+      'validate type' => 'id'
+    ),
+    'relationship' => array(
+      'base' => 'app',
+      'field' => 'appid',
+      'handler' => 'views_handler_relationship',
+      'label' => t('Application')
+    ),
+    'field' => array(
+      'handler' => 'views_handler_field_numeric',
+      'click sortable' => TRUE
+    ),
+    'filter' => array(
+      'handler' => 'views_handler_filter_numeric'
+    ),
+    'sort' => array(
+      'handler' => 'views_handler_sort_numeric'
+    )
+  );
+  
+  // Descriptions of workunit fields (alphabetized)
+  
+  $data['workunit']['canonical_credit'] = array(
+    'title' => t('Canonical credit'),
+    'help' => t('The canonical credit of the workunit.'),
+    'field' => array(
+      'handler' => 'views_handler_field_numeric',
+      'click sortable' => TRUE,
+      'float' => TRUE
+    ),
+    'filter' => array(
+      'handler' => 'views_handler_filter_numeric'
+    ),
+    'sort' => array(
+      'handler' => 'views_handler_sort_numeric'
+    )
+  );
+  $data['workunit']['canonical_resultid'] = array(
+    'title' => t('Canonical result ID'),
+    'help' => t('The ID of the canonical result associated with the workunit.'),
+    'field' => array(
+      'handler' => 'views_handler_field_numeric',
+      'click sortable' => TRUE
+    ),
+    'filter' => array(
+      'handler' => 'views_handler_filter_numeric'
+    ),
+    'sort' => array(
+      'handler' => 'views_handler_sort_numeric'
+    )
+  );
+  $data['workunit']['create_time'] = array(
+    'title' => t('Created time'),
+    'help' => t('The time that the workunit was created.'),
+    'field' => array(
+      'handler' => 'views_handler_field_date',
+      'click sortable' => TRUE
+    ),
+    'filter' => array(
+      'handler' => 'views_handler_filter_date'
+    ),
+    'sort' => array(
+      'handler' => 'views_handler_sort_date'
+    )
+  );
+  $data['workunit']['error_mask'] = array(
+    'title' => t('Error mask'),
+    'help' => t('Error mask of the workunit.'),
+    'field' => array(
+      'handler' => 'views_handler_field_numeric',
+      'click sortable' => TRUE
+    ),
+    'filter' => array(
+      'handler' => 'views_handler_filter_numeric'
+    ),
+    'sort' => array(
+      'handler' => 'views_handler_sort_numeric'
+    )
+  );
+  $data['workunit']['min_quorum'] = array(
+    'title' => t('Minimum quorum'),
+    'help' => t('Minimum quorum of the workunit.'),
+    'field' => array(
+      'handler' => 'views_handler_field_numeric',
+      'click sortable' => TRUE
+    ),
+    'filter' => array(
+      'handler' => 'views_handler_filter_numeric'
+    ),
+    'sort' => array(
+      'handler' => 'views_handler_sort_numeric'
+    )
+  );
+  $data['workunit']['name'] = array(
+    'title' => t('Name'),
+    'help' => t('The name of the workunit.'),
+    'field' => array(
+      'handler' => 'views_handler_field',
+      'click sortable' => TRUE
+    ),
+    'filter' => array(
+      'handler' => 'views_handler_filter_string'
+    ),
+    'sort' => array(
+      'handler' => 'views_handler_sort_string'
+    )
+  );
+  $data['workunit']['max_error_results'] = array(
+    'title' => t('Max error tasks'),
+    'help' => t('The maximum number of error tasks in the workunit.'),
+    'field' => array(
+      'handler' => 'views_handler_field_numeric',
+      'click sortable' => TRUE
+    ),
+    'filter' => array(
+      'handler' => 'views_handler_filter_numeric'
+    ),
+    'sort' => array(
+      'handler' => 'views_handler_sort_numeric'
+    )
+  );
+  $data['workunit']['max_success_results'] = array(
+    'title' => t('Max success tasks'),
+    'help' => t('The maximum number of successful tasks in the workunit.'),
+    'field' => array(
+      'handler' => 'views_handler_field_numeric',
+      'click sortable' => TRUE
+    ),
+    'filter' => array(
+      'handler' => 'views_handler_filter_numeric'
+    ),
+    'sort' => array(
+      'handler' => 'views_handler_sort_numeric'
+    )
+  );
+  $data['workunit']['max_total_results'] = array(
+    'title' => t('Max total tasks'),
+    'help' => t('The maximum number of total tasks in the workunit.'),
+    'field' => array(
+      'handler' => 'views_handler_field_numeric',
+      'click sortable' => TRUE
+    ),
+    'filter' => array(
+      'handler' => 'views_handler_filter_numeric'
+    ),
+    'sort' => array(
+      'handler' => 'views_handler_sort_numeric'
+    )
+  );
+  $data['workunit']['need_validate'] = array(
+    'title' => t('Needs validation'),
+    'help' => t('Whether or not a workunit needs validation.'),
+    'field' => array(
+      'handler' => 'views_handler_field_numeric',
+      'click sortable' => TRUE
+    ),
+    'filter' => array(
+      'handler' => 'views_handler_filter_numeric'
+    ),
+    'sort' => array(
+      'handler' => 'views_handler_sort_numeric'
+    )
+  );
+  $data['workunit']['target_nresults'] = array(
+    'title' => t('Initial replication'),
+    'help' => t('The target number of results for the workunit.'),
+    'field' => array(
+      'handler' => 'views_handler_field_numeric',
+      'click sortable' => TRUE
+    ),
+    'filter' => array(
+      'handler' => 'views_handler_filter_numeric'
+    ),
+    'sort' => array(
+      'handler' => 'views_handler_sort_numeric'
+    )
+  );
+  
+  // ------------------------------------------------------------------------------------------------
+  // Definition for app table
+  // ------------------------------------------------------------------------------------------------
+  
+  $data['app']['table']['group'] = t('BOINC');
+  $data['app']['table']['base'] = array(
+      'field' => 'id',
+      'title' => t('BOINC app'),
+      'help' => t('Research applications run by BOINC'),
+      'database' => 'boinc'
+  );
+  
+  // Primary keys allowed as arguments
+
+  $data['app']['id'] = array(
+    'title' => t('Application ID'),
+    'help' => t('The ID number of this application.'),
+    'field' => array(
+      'handler' => 'views_handler_field_numeric',
+      'click sortable' => TRUE
+    ),
+    'argument' => array(
+      'handler' => 'views_handler_argument',
+      'name field' => 'title',
+      'numeric' => TRUE,
+      'validate type' => 'id'
+    ),
+    'filter' => array(
+      'handler' => 'views_handler_filter_numeric'
+    ),
+    'sort' => array(
+      'handler' => 'views_handler_sort_numeric'
+    )
+  );
+  
+  // Descriptions of app fields (alphabetized)
+  
+  $data['app']['target_nresults'] = array(
+    'title' => t('Target number of results'),
+    'help' => t('The number of times to replicate tasks in this application.'),
+    'field' => array(
+      'handler' => 'views_handler_field_numeric',
+      'click sortable' => TRUE
+    ),
+    'filter' => array(
+      'handler' => 'views_handler_filter_numeric'
+    ),
+    'sort' => array(
+      'handler' => 'views_handler_sort_numeric'
+    )
+  );
+  $data['app']['user_friendly_name'] = array(
+    'title' => t('Name'),
+    'help' => t('The user friendly name of the application.'),
+    'field' => array(
+      'handler' => 'views_handler_field',
+      'click sortable' => TRUE
+    ),
+    'filter' => array(
+      'handler' => 'views_handler_filter_string'
+    ),
+    'sort' => array(
+      'handler' => 'views_handler_sort_string'
+    )
+  );
+  
+  return $data;
+}
+
+/*
+ * hook_views_handlers(): Reference custom handlers for data.
+ * Custom handlers can manipulate data in useful ways. The boincuser_id
+ * argument takes a Drupal user ID and converts it to BOINC ID via a
+ * reference table for seamless access of user data in the BOINC database.
+ */
+
+function boincwork_views_handlers() {
+  
+  // The custom handler for boincuser_id is in the boincuser module, so
+  // the path is set to that module directory.
+  return array(
+    'info' => array(
+      'path' => drupal_get_path('module', 'boincuser') . '/views',
+    ),
+    'handlers' => array(
+      'views_handler_argument_boincuser_id' => array(
+        'parent' => 'views_handler_argument_numeric'
+      )
+    )
+  );
+}

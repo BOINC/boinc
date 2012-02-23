@@ -1,0 +1,500 @@
+<?php
+// $Id: og.install,v 1.71.4.6 2009/09/17 12:52:42 weitzman Exp $
+
+/**
+ * TODO: upgrade all update_14+ updates to d6
+ */
+
+
+/**
+ * Definition of hook_schema();
+ */
+function og_schema() {
+  $schema = array();
+
+  $schema['og'] = array(
+    'description'     => 'Stores information about each group.',
+    'fields'          => array(
+      'nid'             => array(
+        'description'     => "The group's {node}.nid.",
+        'type'            => 'int',
+        'size'            => 'normal',
+        'not null'        => TRUE,
+      ),
+      'og_selective'       => array(
+        'description'     => 'Determines how subscription requests are handled (open, moderated, invite only, closed).',
+        'type'            => 'int',
+        'size'            => 'normal',
+        'not null'        => TRUE,
+        'default'         => 0,
+      ),
+      'og_description'     => array(
+        'description'     => 'Group description. Shows up by default on group directory.',
+        'type'            => 'varchar',
+        'length'          => 255,
+        'not null'        => FALSE,
+      ),
+      'og_theme'           => array(
+        'description'     => 'The group specific theme (if any). See {system}.name.',
+        'type'            => 'varchar',
+        'length'          => 255,
+        'not null'        => FALSE,
+      ),
+      'og_register'        => array(
+        'description'     => 'Should users be able to join this group from registration form.',
+        'type'            => 'int',
+        'size'            => 'tiny',
+        'not null'        => TRUE,
+        'default'         => 0,
+      ),
+      'og_directory'       => array(
+        'description'     => 'Should this group appear in the groups directory.',
+        'type'            => 'int',
+        'size'            => 'tiny',
+        'not null'        => TRUE,
+        'default'         => 0,
+      ),
+      'og_language'        => array(
+        'description'     => 'Group specific language. See {languages}.language.',
+        'type'            => 'varchar',
+        'length'          => 12,
+        'not null'        => TRUE,
+        'default'         => '',
+      ),
+      'og_private'         => array(
+        'description'     => 'Is group home page private or public.',
+        'type'            => 'int',
+        'size'            => 'tiny',
+        'not null'        => TRUE,
+        'default'         => 0,
+      ),
+    ),
+    'primary key'       => array('nid'),
+  );
+
+  $schema['og_uid'] = array(
+    'description'     => 'Group memberships',
+    'fields'          => array(
+      'nid'             => array(
+        'description'     => "Group's {node}.nid.",
+        'type'            => 'int',
+        'size'            => 'normal',
+        'not null'        => TRUE,
+      ),
+      'og_role'         => array(
+        'description'     => 'Not currently used.',
+        'type'            => 'int',
+        'size'            => 'tiny',
+        'not null'        => TRUE,
+        'default'         => 0,
+      ),
+      'is_active'       => array(
+        'description'     => 'Is this membership active or pending?',
+        'type'            => 'int',
+        'size'            => 'tiny',
+        'not null'        => TRUE,
+        'default'         => 0,
+      ),
+      'is_admin'        => array(
+        'description'     => 'Is this user a group administrator?',
+        'type'            => 'int',
+        'size'            => 'tiny',
+        'not null'        => TRUE,
+        'default'         => 0,
+      ),
+      'uid'             => array(
+        'description'     => 'The user for this membership. See {users}.uid.',
+        'type'            => 'int',
+        'size'            => 'normal',
+        'not null'        => TRUE,
+      ),
+      'created'         => array(
+        'description'     => 'Time when this membership was created.',
+        'type'            => 'int',
+        'size'            => 'normal',
+        'not null'        => FALSE,
+        'default'         => 0,
+      ),
+      'changed'         => array(
+        'description'     => 'Time when this membership was last changed.',
+        'type'            => 'int',
+        'size'            => 'normal',
+        'not null'        => FALSE,
+        'default'         => 0,
+      ),
+    ),
+    'primary key'       => array('nid', 'uid'),
+  );
+  $schema['og_ancestry'] = array(
+    'description'     => '',
+    'fields'          => array(
+      'nid'             => array(
+        'description'     => "The post's {node}.nid.",
+        'type'            => 'int',
+        'size'            => 'normal',
+        'not null'        => TRUE,
+      ),
+      'group_nid'       => array(
+        'description'     => "The group's {node}.nid.",
+        'type'            => 'int',
+        'size'            => 'normal',
+        'not null'        => TRUE,
+      ),
+    ),
+    'primary key'       => array('nid', 'group_nid'),
+  );
+
+  return $schema;
+}
+
+function og_install() {
+  drupal_install_schema('og');
+
+  // enable standard og blocks. for custom profiles, block may not be included yet.
+  if (function_exists('_block_rehash')) {
+    _block_rehash();
+  }
+
+
+  // Need og_readme() function.
+  include_once dirname(__FILE__) . '/og.module';
+  drupal_set_message(t('Organic groups module enabled. Please see the included !readme_file for further installation instructions.', array('!readme_file' => og_readme())));
+}
+
+// First 5.x update.
+// use the new na_arbitrator way of writing to node_access table
+function og_update_14() {
+  switch ($GLOBALS['db_type']) {
+    case 'mysql':
+    case 'mysqli':
+      $ret[] = update_sql("CREATE TABLE {og_ancestry} (
+        nid int(11) NOT NULL,
+        group_nid int(11) NOT NULL,
+        is_public int(1) NULL,
+        KEY  (nid),
+        KEY  (group_nid)
+      ) /*!40100 DEFAULT CHARACTER SET utf8 */;");
+    break;
+    case 'pgsql':
+      db_query("CREATE TABLE {og_ancestry} (
+        nid int NOT NULL,
+        group_nid int NOT NULL,
+        is_public smallint NOT NULL
+      );");
+      db_query("CREATE INDEX {og_ancestry}_nid_idx ON {og_ancestry} (nid);");
+      db_query("CREATE INDEX {og_ancestry}_group_nid_idx ON {og_ancestry} (group_nid);");
+    break;
+  }
+  og_migrate_type_basic_14();
+
+  // populate og_ancestry.
+  $result = db_query_temporary(
+    "SELECT na.nid, na.gid, IF(MIN(na.realm) = 'og_all', 1, 0) AS is_public
+     FROM {node_access} na INNER JOIN {node} n ON na.nid=n.nid
+     WHERE realm IN ('og_all', 'og_subscriber') AND n.type NOT IN ('%s') GROUP BY na.nid, na.gid ORDER BY nid ASC",
+       implode(', ', variable_get('og_node_types', array('og'))), 'og_migrate');
+  $sql = "INSERT INTO {og_ancestry} (nid, group_nid, is_public) SELECT nid, gid, is_public FROM {og_migrate}";
+  db_query($sql);
+
+  // rebuild takes care of writing new access records
+  // too bad this part can't be performed over multiple updates
+  node_access_rebuild();
+  return array();
+}
+
+// Create a user managed node type which replaces the deprecated og_basic module
+// helper function for og_update_14
+function og_migrate_type_basic_14() {
+  if (og_is_group_type('og')) {
+    $info = array('type' => 'og', 'name' => 'group', 'module' => 'node', 'has_title' => 1, 'title_label' => 'Group name', 'has_body' => 1, 'body_label' => 'Welcome message', 'description' => 'A group provides a home page for like minded users. There they post articles about their shared interest.', 'help' => '', 'min_word_count' => 0, 'custom' => 1, 'modified' => 1, 'locked' => 0, 'orig_type' => 'og');
+    node_type_save((object)$info);
+    module_disable(array('og_basic'));
+    node_types_rebuild();
+  }
+}
+
+// Safely add primary key to og_ancestry table. Called from og.istall and og_access.install.
+function og_ancestry_dedupe(&$ret) {
+  $schema['og_ancestry_new'] = array(
+    'description'     => '',
+    'fields'          => array(
+      'nid'             => array(
+        'description'     => "The post's {node}.nid.",
+        'type'            => 'int',
+        'size'            => 'normal',
+        'not null'        => TRUE,
+      ),
+      'group_nid'       => array(
+        'description'     => "The group's {node}.nid.",
+        'type'            => 'int',
+        'size'            => 'normal',
+        'not null'        => TRUE,
+      ),
+    ),
+  );
+  db_create_table($ret, 'og_ancestry_new', $schema['og_ancestry_new']);
+  $ret[] = update_sql("INSERT INTO {og_ancestry_new} SELECT DISTINCT * FROM {og_ancestry}");
+  db_drop_table($ret, 'og_ancestry');
+  db_rename_table($ret, 'og_ancestry_new', 'og_ancestry');
+  db_add_primary_key($ret, 'og_ancestry', array('nid', 'group_nid'));
+}
+
+function og_update_15() {
+  variable_del('og_max_posts');
+  variable_del('og_home_page_presentation');
+  return array();
+}
+
+function og_update_16() {
+  // we are no longer denying access to nodes without groups. see http://drupal.org/node/107289
+  if (variable_get('og_enabled', 0)) {
+    node_access_rebuild();
+  }
+  return array();
+}
+
+function og_update_17() {
+  // we are once again putting group nodes into the node access system. see http://drupal.org/node/128306
+  if (variable_get('og_enabled', 0)) {
+    node_access_rebuild();
+  }
+  return array();
+}
+
+function og_update_18() {
+  // woops. got it a bit wrong last time
+  if (variable_get('og_enabled', 0)) {
+    node_access_rebuild();
+  }
+  return array();
+}
+
+// Formerly contained og_uid_global code which is no longer required.
+function og_update_19() {
+  return array();
+}
+
+function og_update_20() {
+  switch ($GLOBALS['db_type']) {
+  case 'mysql':
+  case 'mysqli':
+    $ret[] = update_sql("ALTER TABLE {og} ADD private int(1) NOT NULL default 0");
+    break;
+  case 'pgsql':
+    $ret[] = update_sql("ALTER TABLE {og} ADD private smallint NOT NULL default 0");
+    break;
+  }
+  return $ret;
+}
+
+/**
+ * Changes '@body' to '@node_teaser' in existing e-mail templates.
+ */
+function og_update_5600() {
+  $ret = array();
+  $variables = array('og_new_node_body', 'og_new_node_subject');
+  foreach ($variables as $variable) {
+    $value = variable_get($variable, '');
+    if (!empty($value)) {
+      variable_set($variable, str_replace('@body', '@node_teaser', $value));
+      $ret[] = array('success' => TRUE, 'query' => "Replaced @body with @node_teaser in $variable");
+    }
+  }
+  return $ret;
+}
+
+/**
+ * Enable og_access module if needed
+ */
+function og_update_5700() {
+  $ret = array();
+  if (variable_get('og_enabled', FALSE) && !module_exists('og_access')) {
+    drupal_install_modules('og_access');
+  }
+  // variable_del('og_enabled'); is harmless to leave around, and will help if someone reruns the update.
+
+  return $ret;
+}
+
+/**
+ * Update variables to new content type system. Also rebuild node_access for new grants system.
+ *
+ * @return void
+ **/
+function og_update_5701() {
+  $ret = array();
+  $types = node_get_types();
+  foreach ($types as $type) {
+    if (in_array($type->type, variable_get('og_node_types', array('og')))) {
+      variable_set('og_content_type_usage_'. $type->type, 'group');
+    }
+    elseif (in_array($type->type, variable_get('og_omitted', array('og')))) {
+      variable_set('og_content_type_usage_'. $type->type, 'omitted');
+    }
+    elseif (in_array($type->type, variable_get('og_omitted_email_node_types', array('og')))) {
+     variable_set('og_content_type_usage_'. $type->type, 'group_post_standard_nomail');
+    }
+    else {
+      variable_set('og_content_type_usage_'. $type->type, 'group_post_standard_mail');
+    }
+  }
+
+ node_access_rebuild();
+ return $ret;
+}
+
+/**
+ * Notifications upgrade: Set flag to indicate that this is an upgraded
+ * installation.
+ */
+function og_update_5703() {
+  // Remove mail / no mail options from OG group types and move preferences to
+  // og_notifications.
+  include_once dirname(__FILE__) . '/og.module';
+  $types = og_get_types('group_post');
+  $mail_types = array();
+  foreach ($types as $type) {
+    $variable = 'og_content_type_usage_'. $type;
+    $usage = variable_get($variable, '');
+    switch ($usage) {
+      case 'group_post_standard_mail':
+        $mail_types[$type] = $type;
+      case 'group_post_standard_nomail':
+        variable_set($variable, 'group_post_standard');
+        break;
+      case 'group_post_wiki_mail':
+        $mail_types[$type] = $type;
+      case 'group_post_wiki_nomail':
+        variable_set($variable, 'group_post_wiki');
+        break;
+    }
+  }
+  // Set variable for og_notifications. If it is never enabled, this variable
+  // is also deleted in og_uninstall.
+  variable_set('og_notifications_content_types', $mail_types);
+
+  // Vestigial variable.
+  variable_del('og_omitted_email_node_types');
+
+  // Set update flag for og_notifications.
+  variable_set('og_notifications_update_required', 1);
+
+  return array();
+}
+
+function og_update_6000() {
+  $ret = array();
+  // Fix how we append the custom request text from a group join request.
+  $name = 'og_request_user_body';
+  if ($txt = variable_get($name, FALSE)) {
+    $txt .= "\n\nPersonal message from @username:\n------------------\n\n@request";
+    variable_set($name, $txt);
+  }
+  return $ret;
+}
+
+// Update to support views modularization while retaining backward compatibility.
+function og_update_6001() {
+  $ret = array();
+  drupal_install_modules(array('og_views'));
+  //enable the og_views block instead of the plain og one
+  $ret[] = update_sql("UPDATE {blocks} SET module = 'og_views', delta = '1' WHERE module = 'og' AND delta = '5'");
+  return $ret;
+}
+
+// Change field names in {og} table. Enables use of drupal_write_record()
+function og_update_6002() {
+  $ret = array();
+
+  $schema = drupal_get_schema_unprocessed('og', 'og');
+  $fields = $schema['fields'];
+  db_change_field($ret, 'og', 'selective', 'og_selective', $fields['og_selective']);
+  db_change_field($ret, 'og', 'register', 'og_register', $fields['og_register']);
+  db_change_field($ret, 'og', 'theme', 'og_theme', $fields['og_theme']);
+  db_change_field($ret, 'og', 'directory', 'og_directory', $fields['og_directory']);
+  db_change_field($ret, 'og', 'description', 'og_description', $fields['og_description']);
+  db_change_field($ret, 'og', 'language', 'og_language', $fields['og_language']);
+  db_change_field($ret, 'og', 'private', 'og_private', $fields['og_private']);
+  return $ret;
+}
+
+// Migrate the is_public column from og_ancestry to a new og_nid table. Denormalizing.
+function og_update_6203() {
+  $ret = array();
+  if (module_exists('og_access')) {
+    // Do nothing. An og_access update handles this.
+  }
+  else {
+    db_drop_field($ret, 'og_ancestry', 'is_public');
+    og_ancestry_dedupe($ret);
+  }
+
+  return $ret;
+}
+
+// end updates //
+
+function og_uninstall() {
+  drupal_uninstall_schema('og');
+
+  // In case og_notifications has never been enabled, the vestigial
+  // og_uid_global table will still be around.
+  if (variable_get('og_notifications_update_required', FALSE)) {
+    db_query('DROP TABLE {og_uid_global}');
+  }
+
+  // Delete variables
+  $variables = array(
+    'og_help', 'og_block_cnt_2', 'og_block_cnt_3',
+    'og_audience_checkboxes', 'og_omitted', 'og_content_type_usage',
+    'og_audience_required',
+    'og_visibility_directory', 'og_visibility_registration',
+    'og_home_page_view', 'og_email_max', 'og_node_types',
+    'og_admin_email_body', 'og_email_notification_pattern',
+    'og_approve_user_body', 'og_approve_user_subject',
+    'og_deny_user_body', 'og_deny_user_subject',
+    'og_invite_user_body', 'og_invite_user_subject',
+    'og_new_admin_body', 'og_new_admin_subject',
+    'og_new_node_body', 'og_new_node_subject',
+    'og_request_user_body', 'og_request_user_subject',
+    'og_notifications_update_required', 'og_notifications_content_types'
+  );
+
+  foreach (node_get_types() as $type_name => $type) {
+    $variables[] = 'og_max_groups_' . $type_name;
+  }
+
+  foreach ($variables as $variable) {
+    variable_del($variable);
+  }
+}
+
+function og_requirements($phase) {
+  // Need og_readme() function.
+  include_once dirname(__FILE__) . '/og.module';
+
+  $requirements = array();
+  // Ensure translations don't break at install time
+  $t = get_t();
+  if ($phase == 'runtime') {
+    $og_types = og_get_types('group');
+    $all_types = array_keys(node_get_types('types'));
+    if (!count(array_intersect($og_types, $all_types))) {
+      $requirements['og_group_types']  = array(
+        'title' => $t('Organic groups group type'),
+        'value' => $t('You have no node types which are acting as groups. See the notes section of the !readme_file and the content types fieldset at top of <a href="!settings">OG settings</a>.', array('!readme_file' => og_readme(), '!settings' => url('admin/og/og'))),
+        'severity' => REQUIREMENT_ERROR,
+      );
+    }
+
+    if (!module_exists('og_access')) {
+      $requirements['og_access'] = array(
+        'title' => $t('Organic groups access control'),
+        'value' => $t('Organic groups access control module is disabled. See the <a href="@modules">modules page</a>.', array('@modules' => url('admin/build/modules'))),
+        'severity' => REQUIREMENT_INFO
+      );
+    }
+  }
+
+  return $requirements;
+}

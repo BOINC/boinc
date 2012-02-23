@@ -1,0 +1,87 @@
+# $Id: modules-og_views-includes.pot,v 1.4 2008/11/15 21:44:44 hass Exp $
+#
+# LANGUAGE translation of Drupal (modules-og_views-includes)
+# Copyright YEAR NAME <EMAIL@ADDRESS>
+# Generated from files:
+#  modules/og_views/includes/og_views_handler_field_og_is_active.inc: n/a
+#  modules/og_views/includes/og_views_handler_field_og_is_admin.inc: n/a
+#  modules/og_views/includes/og_views_handler_field_og_managelink.inc: n/a
+#  modules/og_views/includes/og_views_handler_field_og_managelinkadmin.inc: n/a
+#  modules/og_views/includes/og_views_handler_field_og_managelinkmy.inc: n/a
+#  modules/og_views/includes/og_views_handler_filter_og_is_admin.inc: n/a
+#  modules/og_views/includes/og_views_handler_filter_og_type.inc: n/a
+#  modules/og_views/includes/og_views_plugin_argument_validate_og_group_types.inc: n/a
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"POT-Creation-Date: 2008-11-15 20:51+0100\n"
+"PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
+"Last-Translator: NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+
+#: modules/og_views/includes/og_views_handler_field_og_is_active.inc:11
+msgid "approval needed"
+msgstr ""
+
+#: modules/og_views/includes/og_views_handler_field_og_is_admin.inc:12
+msgid "admin"
+msgstr ""
+
+#: modules/og_views/includes/og_views_handler_field_og_managelink.inc:28
+msgid "Remove membership"
+msgstr ""
+
+#: modules/og_views/includes/og_views_handler_field_og_managelink.inc:32
+msgid "Request: <a href=\"@approve\">approve</a> or <a href=\"@deny\">deny</a>."
+msgstr ""
+
+#: modules/og_views/includes/og_views_handler_field_og_managelinkadmin.inc:28
+msgid "Admin: Remove"
+msgstr ""
+
+#: modules/og_views/includes/og_views_handler_field_og_managelinkadmin.inc:31
+msgid "Admin: Create"
+msgstr ""
+
+#: modules/og_views/includes/og_views_handler_field_og_managelinkmy.inc:10
+msgid "Edit membership"
+msgstr ""
+
+#: modules/og_views/includes/og_views_handler_filter_og_is_admin.inc:5
+msgid "Member types"
+msgstr ""
+
+#: modules/og_views/includes/og_views_handler_filter_og_is_admin.inc:6
+msgid "Members"
+msgstr ""
+
+#: modules/og_views/includes/og_views_handler_filter_og_is_admin.inc:6
+msgid "Group administrators"
+msgstr ""
+
+#: modules/og_views/includes/og_views_handler_filter_og_type.inc:6
+msgid "Group node type"
+msgstr ""
+
+#: modules/og_views/includes/og_views_plugin_argument_validate_og_group_types.inc:12
+msgid "Argument type"
+msgstr ""
+
+#: modules/og_views/includes/og_views_plugin_argument_validate_og_group_types.inc:14
+msgid "Node ID"
+msgstr ""
+
+#: modules/og_views/includes/og_views_plugin_argument_validate_og_group_types.inc:15
+msgid "Node ID's separated by , or +"
+msgstr ""
+
+#: modules/og_views/includes/og_views_plugin_argument_validate_og_group_types.inc:24
+msgid "Validate current user is a member of a specified group"
+msgstr ""
+

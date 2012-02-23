@@ -1,0 +1,99 @@
+<?php
+// $Id: pm_block_user.test,v 1.1.4.3 2010/02/20 08:51:36 berdir Exp $
+/**
+ * @file
+ * Test file for pm_block_user.module
+ */
+
+class PrivatemsgBlockUserCase extends DrupalWebTestCase {
+  /**
+   * Implements getInfo().
+   */
+  function getInfo() {
+    return array
+    (
+      'name' => t('User blocking functionality.'),
+      'description' => t('Test blocking and unblocking of users'),
+      'group' => t('Privatemsg'),
+    );
+  }
+
+  function setUp() {
+    parent::setUp('privatemsg', 'pm_block_user');
+  }
+
+  function testBlockAndUnblock() {
+    // Create needed users.
+    $user1 = $this->drupalCreateUser(array('write privatemsg', 'read privatemsg'));
+    $user2 = $this->drupalCreateUser(array('write privatemsg', 'read privatemsg'));
+    $user3 = $this->drupalCreateUser(array('write privatemsg', 'read privatemsg'));
+
+    // Set up a simple conversation.
+    $return = privatemsg_new_thread(array($user2, $user3), $subject = $this->randomName(10), $this->randomString(50), array('author' => $user1));
+    privatemsg_reply($return['message']['thread_id'], $this->randomString(50), array('author' => $user2));
+    privatemsg_reply($return['message']['thread_id'], $this->randomString(50), array('author' => $user3));
+
+    $this->drupalLogin($user1);
+    $this->drupalGet('messages');
+    $this->clickLink($subject);
+
+    // Block user2.
+    $this->clickLink(t('Block author'));
+    $this->drupalPost(NULL, array(), t('Block @user', array('@user' => $user2->name)));
+    $this->assertText(t('@user has been blocked from sending you any further messages.', array('@user' => $user2->name)), t('Confirmation message displayed'));
+
+    // Block user3.
+    $this->clickLink(t('Block author'));
+    $this->drupalPost(NULL, array(), t('Block @user', array('@user' => $user3->name)));
+    $this->assertText(t('@user has been blocked from sending you any further messages.', array('@user' => $user3->name)), t('Confirmation message displayed'));
+
+    $this->drupalGet('messages');
+    $this->clickLink($subject);
+
+    $this->assertNoText(t('Block user'), t('No "Block user" links displayed.'));
+
+    // Log in as user2 and try to send messages to user1.
+    $this->drupalLogin($user2);
+
+    $edit = array(
+      'recipient' => $user1->name,
+      'subject' => $subject2 = $this->randomName(20),
+      'body'    => $this->randomName(50),
+    );
+    $this->drupalPost('messages/new', $edit, t('Send message'));
+    $this->assertRaw(t('%user has chosen to not recieve any more messages from you.', array('%user' => $user1->name)), t('User 1 blocks user 2 message displayed'));
+    $this->assertText(t('Disallowed to send message because all recipients are blocked'), t('Disallowed to send message displayed'));
+
+    $edit = array(
+      'recipient' => $user1->name . ', ' . $user3->name,
+      'subject' => $subject3 = $this->randomName(20),
+      'body'    => $this->randomName(50),
+    );
+    $this->drupalPost('messages/new', $edit, t('Send message'));
+    $this->assertRaw(t('%user has chosen to not recieve any more messages from you.', array('%user' => $user1->name)), t('User 1 blocks user 2 message displayed'));
+    $this->assertText(t('A message has been sent to @user.', array('@user' => $user3->name)), t('Message sent to user 3'));
+  
+    
+    // Try to reply to an existing thread.
+    $this->drupalGet('messages');
+    $this->clickLink($subject);
+
+    $this->assertText(t('Recipients: @user', array('@user' => $user3->name)), t('User1 is not displayed as recipient'));
+    $edit = array('body' => $reply = $this->randomName(50));
+    $this->drupalPost(NULL, $edit, t('Send message'));
+    $this->assertRaw(t('%user has chosen to not recieve any more messages from you.', array('%user' => $user1->name)), t('User 1 blocks user 2 message displayed'));
+    $this->assertText(t('A message has been sent to @user.', array('@user' => $user3->name)), t('Message sent to user 3'));
+  
+    // Login as user1 again and check that we didn't recieve the messages.
+    $this->drupalLogin($user1);
+    $this->drupalGet('messages');
+
+    // Check that we didn't get the new messages.
+    $this->assertNoLink($subject2);
+    $this->assertNoLink($subject3);
+
+    // Check that we don't see the new messages.
+    $this->clickLink($subject);
+    $this->assertNoText($reply);
+  }
+}

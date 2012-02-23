@@ -1,0 +1,671 @@
+<?php
+// $Id: pathauto.test,v 1.1.2.10 2010/08/11 19:38:26 davereid Exp $
+
+/**
+ * @file
+ * Functionality tests for Pathauto.
+ *
+ * @ingroup pathauto
+ */
+
+/**
+ * Helper test class with some added functions for testing.
+ */
+class PathautoTestHelper extends DrupalWebTestCase {
+  function setUp() {
+    $args = func_get_args();
+
+    // Call parent::setUp() allowing test cases to pass further modules.
+    $modules = array('path', 'token', 'pathauto');
+    if (isset($args[0]) && is_array($args[0])) {
+      $modules = array_merge($modules, $args[0]);
+    }
+
+    $parent_callback = 'parent::setUp';
+    if (version_compare(PHP_VERSION, '5.3.0', '<')) {
+      $parent_callback = array($this, 'parent::setUp');
+    }
+    call_user_func_array($parent_callback, $modules);
+  }
+
+  function assertToken($type, $object, $token, $expected) {
+    $tokens = pathauto_token_values($type, $object);
+    $this->assertEqual($tokens[$token], $expected, t("Token value for [@token] was '!actual', expected value '!expected'.", array('@token' => $token, '!actual' => $tokens[$token], '!expected' => $expected)));
+  }
+
+  function saveAlias($source, $alias, $language = '') {
+    path_set_alias($source, $alias, NULL, $language);
+    return db_fetch_array(db_query_range("SELECT * FROM {url_alias} WHERE src = '%s' AND dst = '%s' AND language = '%s' ORDER BY pid DESC", $source, $alias, $language, 0, 1));
+  }
+
+  function saveEntityAlias($entity_type, $entity, $alias, $language = '') {
+    $uri = $this->entity_uri($entity_type, $entity);
+    return $this->saveAlias($uri['path'], $alias, $language);
+  }
+
+  function assertEntityAlias($entity_type, $entity, $expected_alias, $language = '') {
+    $uri = $this->entity_uri($entity_type, $entity);
+    $this->assertAlias($uri['path'], $expected_alias, $language);
+  }
+
+  function assertEntityAliasExists($entity_type, $entity) {
+    $uri = $this->entity_uri($entity_type, $entity);
+    return $this->assertAliasExists(array('source' => $uri['path']));
+  }
+
+  function assertNoEntityAlias($entity_type, $entity, $language = '') {
+    $uri = $this->entity_uri($entity_type, $entity);
+    $this->assertEntityAlias($entity_type, $entity, $uri['path'], $language);
+  }
+
+  function assertNoEntityAliasExists($entity_type, $entity) {
+    $uri = $this->entity_uri($entity_type, $entity);
+    $this->assertNoAliasExists(array('source' => $uri['path']));
+  }
+
+  function assertAlias($source, $expected_alias, $language = '') {
+    drupal_clear_path_cache();
+    $alias = drupal_get_path_alias($source, $language);
+    $this->assertIdentical($alias, $expected_alias, t("Alias for %source with language '@language' was %actual, expected %expected.", array('%source' => $source, '%actual' => $alias, '%expected' => $expected_alias, '@language' => $language)));
+  }
+
+  function assertAliasExists($conditions) {
+    $path = $this->path_load($conditions);
+    $this->assertTrue($path, t('Alias with conditions @conditions found.', array('@conditions' => var_export($conditions, TRUE))));
+    return $path;
+  }
+
+  function assertNoAliasExists($conditions) {
+    $alias = $this->path_load($conditions);
+    $this->assertFalse($alias, t('Alias with conditions @conditions not found.', array('@conditions' => var_export($conditions, TRUE))));
+  }
+
+  /**
+   * Backport of Drupal 7's entity_uri() function.
+   */
+  protected function entity_uri($entity_type, $entity) {
+    $uri = array();
+
+    switch ($entity_type) {
+      case 'node':
+        $uri['path'] = 'node/' . $entity->nid;
+        break;
+      case 'taxonomy_term':
+        $uri['path'] = taxonomy_term_path($entity);
+        break;
+      case 'user':
+        $uri['path'] = 'user/' . $entity->uid;
+        break;
+      default:
+        return $this->fail(t('Unknown entity @type.', array('@type' => $entity_type)));
+    }
+
+    return $uri;
+  }
+
+  /**
+   * Backport of Drupal 7's path_load() function.
+   */
+  protected function path_load($conditions) {
+    if (is_numeric($conditions)) {
+      $conditions = array('pid' => $conditions);
+    }
+    elseif (is_string($conditions)) {
+      $conditions = array('src' => $conditions);
+    }
+
+    // Adjust for some D7 {url_alias} column name changes so we can keep
+    // the test files in sync.
+    if (isset($conditions['source'])) {
+      $conditions['src'] = $conditions['source'];
+      unset($conditions['source']);
+    }
+    if (isset($conditions['alias'])) {
+      $conditions['dst'] = $conditions['alias'];
+      unset($conditions['alias']);
+    }
+
+    $args = array();
+    $schema = drupal_get_schema_unprocessed('system', 'url_alias');
+    foreach ($conditions as $field => $value) {
+      $field_type = $schema['fields'][$field]['type'];
+      if (is_array($value)) {
+        $conditions[$field] = "$field = " . db_placeholders($value, $field_type);
+        $args = array_merge($args, $value);
+      }
+      else {
+        $placeholder = db_type_placeholder($field_type);
+        $conditions[$field] = "$field = $placeholder";
+        $args[] = $value;
+      }
+
+    }
+
+    $sql = "SELECT * FROM {url_alias} WHERE " . implode(' AND ', $conditions);
+    return db_fetch_array(db_query_range($sql, $args, 0, 1));
+  }
+
+  function deleteAllAliases() {
+    db_query("DELETE FROM {url_alias}");
+    drupal_clear_path_cache();
+  }
+
+  function addVocabulary(array $vocabulary = array()) {
+    $vocabulary += array(
+      'name' => drupal_strtolower($this->randomName(5)),
+      'nodes' => array('story' => 'story'),
+    );
+    taxonomy_save_vocabulary($vocabulary);
+    return (object) $vocabulary;
+  }
+
+  function addTerm(stdClass $vocabulary, array $term = array()) {
+    $term += array(
+      'name' => drupal_strtolower($this->randomName(5)),
+      'vid' => $vocabulary->vid,
+    );
+    taxonomy_save_term($term);
+    return (object) $term;
+  }
+}
+
+/**
+ * Unit tests for Pathauto functions.
+ */
+class PathautoUnitTestCase extends PathautoTestHelper {
+  public static function getInfo() {
+    return array(
+      'name' => 'Pathauto unit tests',
+      'description' => 'Unit tests for Pathauto functions.',
+      'group' => 'Pathauto',
+      'dependencies' => array('token'),
+    );
+  }
+
+  function setUp() {
+    parent::setUp();
+    module_load_include('inc', 'pathauto');
+  }
+
+  /**
+   * Test _pathauto_get_schema_alias_maxlength().
+   */
+  function testGetSchemaAliasMaxLength() {
+    $this->assertIdentical(_pathauto_get_schema_alias_maxlength(), 128);
+  }
+
+  /**
+   * Test pathauto_cleanstring().
+   */
+  function testCleanString() {
+    $tests = array();
+    variable_set('pathauto_ignore_words', ', in, is,that, the  , this, with, ');
+    variable_set('pathauto_max_component_length', 35);
+
+    // Test the 'ignored words' removal.
+    $tests['this'] = 'this';
+    $tests['this with that'] = 'this-with-that';
+    $tests['this thing with that thing'] = 'thing-thing';
+
+    // Test length truncation and duplicate separator removal.
+    $tests[' - Pathauto is the greatest - module ever in Drupal history - '] = 'pathauto-greatest-module-ever-drupa';
+
+    foreach ($tests as $input => $expected) {
+      $output = pathauto_cleanstring($input);
+      $this->assertEqual($output, $expected, t("pathauto_cleanstring('@input') expected '@expected', actual '@output'", array('@input' => $input, '@expected' => $expected, '@output' => $output)));
+    }
+  }
+
+  /**
+   * Test the feed alias functionality of pathauto_create_alias().
+   */
+  function testFeedAliases() {
+    variable_set('pathauto_node_pattern', '[title-raw]');
+    variable_set('pathauto_node_applytofeeds', '');
+
+    // Create a node with an empty title, which should not create an alias.
+    $node = $this->drupalCreateNode(array('title' => ''));
+    $this->assertNoAliasExists(array('source' => "node/{$node->nid}"));
+    $this->assertNoAliasExists(array('source' => "node/{$node->nid}/feed"));
+
+    // Add a title to the node. This should still not generate a feed alias.
+    $node->title = 'Node title';
+    pathauto_nodeapi($node, 'update');
+    $this->assertAliasExists(array('source' => "node/{$node->nid}", 'alias' => 'node-title'));
+    $this->assertNoAliasExists(array('source' => "node/{$node->nid}/feed"));
+
+    // Enable feeds for nodes. A feed alias should now be generated.
+    variable_set('pathauto_node_applytofeeds', ' feed ');
+    pathauto_nodeapi($node, 'update');
+    $this->assertAliasExists(array('source' => "node/{$node->nid}/feed", 'alias' => 'node-title/feed'));
+  }
+
+  /**
+   * Test _pathauto_get_raw_tokens().
+   */
+  function testGetRawTokens() {
+    $raw_tokens = _pathauto_get_raw_tokens();
+    $this->assertFalse(in_array('node-path', $raw_tokens), 'Non-raw tokens not included.');
+    $this->assertTrue(in_array('node-path-raw', $raw_tokens), 'Token [catpath] has a matching raw token.');
+    $this->assertFalse(in_array('node-url-raw', $raw_tokens), 'Token [catalias] does not have a matching raw token.');
+  }
+
+  /**
+   * Test the different update actions in pathauto_create_alias().
+   */
+  function testUpdateActions() {
+    // Test PATHAUTO_UPDATE_ACTION_NO_NEW with unaliased node and 'insert'.
+    variable_set('pathauto_update_action', 0);
+    $node = $this->drupalCreateNode(array('title' => 'First title'));
+    $this->assertEntityAlias('node', $node, 'content/first-title');
+
+    // Default action is PATHAUTO_UPDATE_ACTION_DELETE.
+    variable_set('pathauto_update_action', 2);
+    $node->title = 'Second title';
+    pathauto_nodeapi($node, 'update');
+    $this->assertEntityAlias('node', $node, 'content/second-title');
+    $this->assertNoAliasExists(array('alias' => 'content/first-title'));
+
+    // Test PATHAUTO_UPDATE_ACTION_LEAVE.
+    variable_set('pathauto_update_action', 1);
+    $node->title = 'Third title';
+    pathauto_nodeapi($node, 'update');
+    $this->assertEntityAlias('node', $node, 'content/third-title');
+    $this->assertAliasExists(array('source' => "node/{$node->nid}", 'alias' => 'content/second-title'));
+
+    variable_set('pathauto_update_action', 2);
+    $node->title = 'Fourth title';
+    pathauto_nodeapi($node, 'update');
+    $this->assertEntityAlias('node', $node, 'content/fourth-title');
+    $this->assertNoAliasExists(array('alias' => 'content/third-title'));
+    // The older second alias is not deleted yet.
+    $older_path = $this->assertAliasExists(array('source' => "node/{$node->nid}", 'alias' => 'content/second-title'));
+    path_set_alias(NULL, NULL, $older_path['pid']);
+
+    variable_set('pathauto_update_action', 0);
+    $node->title = 'Fifth title';
+    pathauto_nodeapi($node, 'update');
+    $this->assertEntityAlias('node', $node, 'content/fourth-title');
+    $this->assertNoAliasExists(array('alias' => 'content/fith-title'));
+
+    // Test PATHAUTO_UPDATE_ACTION_NO_NEW with unaliased node and 'update'.
+    $this->deleteAllAliases();
+    pathauto_nodeapi($node, 'update');
+    $this->assertEntityAlias('node', $node, 'content/fifth-title');
+
+    // Test PATHAUTO_UPDATE_ACTION_NO_NEW with unaliased node and 'bulkupdate'.
+    $this->deleteAllAliases();
+    $node->title = 'Sixth title';
+    pathauto_node_update_alias($node, 'bulkupdate');
+    $this->assertEntityAlias('node', $node, 'content/sixth-title');
+  }
+
+  /**
+   * Test that pathauto_create_alias() will not create an alias for a pattern
+   * that does not get any tokens replaced.
+   */
+  function testNoTokensNoAlias() {
+    $node = $this->drupalCreateNode(array('title' => ''));
+    $this->assertNoEntityAlias('node', $node);
+
+    $node->title = 'hello';
+    pathauto_nodeapi($node, 'update');
+    $this->assertEntityAlias('node', $node, 'content/hello');
+  }
+
+  /**
+   * Test the handling of path vs non-path tokens in pathauto_clean_token_values().
+   *
+   * @see PathautoBookTokenTestCase::testBookPathAlias()
+   */
+  //function testPathTokens() {
+  //}
+}
+
+/**
+ * Helper test class with some added functions for testing.
+ */
+class PathautoFunctionalTestHelper extends PathautoTestHelper {
+  protected $admin_user;
+
+  function setUp() {
+    $args = func_get_args();
+
+    // Call parent::setUp() allowing test cases to pass further modules.
+    $modules = array();
+    if (isset($args[0]) && is_array($args[0])) {
+      $modules = array_merge($modules, $args[0]);
+    }
+    parent::setUp($modules);
+
+    // Set pathauto settings we assume to be as-is in this test.
+    variable_set('pathauto_node_page_pattern', 'content/[title-raw]');
+
+    // Allow other modules to add additional permissions for the admin user.
+    $permissions = array(
+      'administer pathauto',
+      'administer url aliases',
+      'create url aliases',
+      'administer nodes',
+      'administer users',
+    );
+    if (isset($args[1]) && is_array($args[1])) {
+      $permissions = array_merge($permissions, $args[1]);
+    }
+    $this->admin_user = $this->drupalCreateUser($permissions);
+
+    $this->drupalLogin($this->admin_user);
+  }
+}
+
+/**
+ * Test basic pathauto functionality.
+ */
+class PathautoFunctionalTestCase extends PathautoFunctionalTestHelper {
+  public static function getInfo() {
+    return array(
+      'name' => 'Pathauto basic tests',
+      'description' => 'Test basic pathauto functionality.',
+      'group' => 'Pathauto',
+    );
+  }
+
+  /**
+   * Basic functional testing of Pathauto.
+   */
+  function testNodeEditing() {
+    // Create node for testing.
+    $random_title = $this->randomName(10);
+    $title = ' Simpletest title ' . $random_title . ' [';
+    $automatic_alias = 'content/simpletest-title-' . strtolower($random_title);
+    $node = $this->drupalCreateNode(array('title' => $title, 'type' => 'page'));
+
+    // Look for alias generated in the form.
+    $this->drupalGet('node/' . $node->nid . '/edit');
+    $this->assertFieldChecked('edit-pathauto-perform-alias');
+    $this->assertFieldByName('path', $automatic_alias, 'Proper automated alias generated.');
+
+    // Check whether the alias actually works.
+    $this->drupalGet($automatic_alias);
+    $this->assertText($title, 'Node accessible through automatic alias.');
+
+    // Manually set the node's alias.
+    $manual_alias = 'content/' . $node->nid;
+    $edit = array(
+      'pathauto_perform_alias' => FALSE,
+      'path' => $manual_alias,
+    );
+    $this->drupalPost('node/' . $node->nid . '/edit', $edit, t('Save'));
+    $this->assertText(t('@type @title has been updated', array('@type' => 'Page', '@title' => $title)));
+
+    // Check that the automatic alias checkbox is now unchecked by default.
+    $this->drupalGet('node/' . $node->nid . '/edit');
+    $this->assertNoFieldChecked('edit-pathauto-perform-alias');
+    $this->assertFieldByName('path', $manual_alias);
+
+    // Submit the node form with the default values.
+    $this->drupalPost(NULL, array(), t('Save'));
+    $this->assertText(t('@type @title has been updated', array('@type' => 'Page', '@title' => $title)));
+
+    // Test that the old (automatic) alias has been deleted and only accessible
+    // through the new (manual) alias.
+    $this->drupalGet($automatic_alias);
+    $this->assertResponse(404, 'Node not accessible through automatic alias.');
+    $this->drupalGet($manual_alias);
+    $this->assertText($title, 'Node accessible through manual alias.');
+  }
+
+  /**
+   * Test node operations.
+   */
+  function testNodeOperations() {
+    $node1 = $this->drupalCreateNode(array('title' => 'node1'));
+    $node2 = $this->drupalCreateNode(array('title' => 'node2'));
+
+    // Delete all current URL aliases.
+    $this->deleteAllAliases();
+
+    $edit = array(
+      'operation' => 'pathauto_update_alias',
+      "nodes[{$node1->nid}]" => TRUE,
+    );
+    $this->drupalPost('admin/content/node', $edit, t('Update'));
+    $this->assertText('Updated URL alias for 1 node.');
+
+    $this->assertEntityAlias('node', $node1, 'content/' . $node1->title);
+    $this->assertEntityAlias('node', $node2, 'node/' . $node2->nid);
+  }
+
+  /**
+   * Test user operations.
+   */
+  function testUserOperations() {
+    $account = $this->drupalCreateUser();
+
+    // Delete all current URL aliases.
+    $this->deleteAllAliases();
+
+    $edit = array(
+      'operation' => 'pathauto_update_alias',
+      "accounts[{$account->uid}]" => TRUE,
+    );
+    $this->drupalPost('admin/user/user', $edit, t('Update'));
+    $this->assertText('Updated URL alias for 1 user account.');
+
+    $this->assertEntityAlias('user', $account, 'users/' . drupal_strtolower($account->name));
+    $this->assertEntityAlias('user', $this->admin_user, 'user/' . $this->admin_user->uid);
+  }
+
+  function testSettingsValidation() {
+    $edit = array();
+    $edit['pathauto_max_length'] = 'abc';
+    $edit['pathauto_max_component_length'] = 'abc';
+    $this->drupalPost('admin/build/path/pathauto', $edit, 'Save configuration');
+    $this->assertText('The field Maximum alias length is not a valid number.');
+    $this->assertText('The field Maximum component length is not a valid number.');
+    $this->assertNoText('The configuration options have been saved.');
+
+    $edit['pathauto_max_length'] = '0';
+    $edit['pathauto_max_component_length'] = '0';
+    $this->drupalPost('admin/build/path/pathauto', $edit, 'Save configuration');
+    $this->assertText('The field Maximum alias length cannot be less than 1.');
+    $this->assertText('The field Maximum component length cannot be less than 1.');
+    $this->assertNoText('The configuration options have been saved.');
+
+    $edit['pathauto_max_length'] = '999';
+    $edit['pathauto_max_component_length'] = '999';
+    $this->drupalPost('admin/build/path/pathauto', $edit, 'Save configuration');
+    $this->assertText('The field Maximum alias length cannot be greater than 128.');
+    $this->assertText('The field Maximum component length cannot be greater than 128.');
+    $this->assertNoText('The configuration options have been saved.');
+
+    $edit['pathauto_max_length'] = '50';
+    $edit['pathauto_max_component_length'] = '50';
+    $this->drupalPost('admin/build/path/pathauto', $edit, 'Save configuration');
+    $this->assertText('The configuration options have been saved.');
+  }
+
+  function testPatternsValidation() {
+    $edit = array();
+    $edit['pathauto_node_pattern'] = '[title-raw]/[user-created-small]/[cat]/[term]';
+    $edit['pathauto_node_page_pattern'] = 'page';
+    $this->drupalPost('admin/build/path/pathauto', $edit, 'Save configuration');
+    $this->assertText('The Default path pattern (applies to all node types with blank patterns below) is using the following invalid tokens: [user-created-small], [cat].');
+    $this->assertText('The Pattern for all Page paths should contain at least one token to ensure unique URL aliases are created.');
+    $this->assertNoText('The configuration options have been saved.');
+
+    $edit['pathauto_node_pattern'] = '[title-raw]';
+    $edit['pathauto_node_page_pattern'] = 'page/[title-raw]';
+    $edit['pathauto_node_story_pattern'] = '';
+    $this->drupalPost('admin/build/path/pathauto', $edit, 'Save configuration');
+    $this->assertText('The configuration options have been saved.');
+  }
+}
+
+class PathautoLocaleTestCase extends PathautoFunctionalTestHelper {
+  public static function getInfo() {
+    return array(
+      'name' => 'Pathauto localization tests',
+      'description' => 'Test pathauto functionality with localization and translation.',
+      'group' => 'Pathauto',
+    );
+  }
+
+  function setUp() {
+    parent::setUp(array('locale', 'translation'), array('administer languages'));
+
+    // Add predefined French language and reset the locale cache.
+    require_once './includes/locale.inc';
+    locale_add_language('fr', NULL, NULL, LANGUAGE_LTR, '', 'fr');
+    language_list('language', TRUE);
+    drupal_init_language();
+  }
+
+  /**
+   * Test that when an English node is updated, its old English alias is
+   * updated and its newer French alias is left intact.
+   */
+  function testLanguageAliases() {
+    $node = array(
+      'title' => 'English node',
+      'language' => 'en',
+      'path' => 'english-node',
+      'pathauto_perform_alias' => FALSE,
+    );
+    $node = $this->drupalCreateNode($node);
+    $english_alias = $this->path_load(array('alias' => 'english-node'));
+    $this->assertTrue($english_alias, 'Alias created with proper language.');
+
+    // Also save a French alias that should not be left alone, even though
+    // it is the newer alias.
+    $this->saveEntityAlias('node', $node, 'french-node', 'fr');
+
+    // Add an alias with the soon-to-be generated alias, causing the upcoming
+    // alias update to generate a unique alias with the '-0' suffix.
+    $this->saveAlias('node/invalid', 'content/english-node', '');
+
+    // Update the node, triggering a change in the English alias.
+    $node->pathauto_perform_alias = TRUE;
+    pathauto_nodeapi($node, 'update');
+
+    // Check that the new English alias replaced the old one.
+    $this->assertEntityAlias('node', $node, 'content/english-node-0', 'en');
+    $this->assertEntityAlias('node', $node, 'french-node', 'fr');
+    $this->assertAliasExists(array('pid' => $english_alias['pid'], 'alias' => 'content/english-node-0'));
+  }
+}
+
+/*
+ * Unit tests for the book tokens provided by Pathauto.
+ */
+class PathautoBookTokenTestCase extends PathautoTestHelper {
+  public static function getInfo() {
+    return array(
+      'name' => 'Pathauto book tokens',
+      'description' => 'Unit tests for the book tokens provided by Pathauto.',
+      'group' => 'Pathauto',
+    );
+  }
+
+  function setUp() {
+    parent::setUp(array('book'));
+    variable_set('book_allowed_types', array('book', 'page'));
+    variable_set('pathauto_node_book_pattern', '[bookpathalias]/[title-raw]');
+  }
+
+  function testBookPathAlias() {
+    // Add a non-book node.
+    $non_book_node = $this->drupalCreateNode(array('type' => 'book'));
+    $this->assertToken('node', $non_book_node, 'bookpathalias', '');
+
+    // Add a root book page.
+    $parent_node = $this->drupalCreateNode(array('type' => 'book', 'title' => 'Root', 'book' => array('bid' => 'new')));
+    $this->assertToken('node', $parent_node, 'bookpathalias', '');
+
+    // Add a first child page.
+    $child_node1 = $this->drupalCreateNode(array('type' => 'book', 'title' => 'Sub page1', 'book' => array('bid' => $parent_node->book['bid'], 'plid' => $parent_node->book['mlid'])));
+    $this->assertToken('node', $child_node1, 'bookpathalias', 'root');
+
+    // Add a second child page.
+    $child_node2 = $this->drupalCreateNode(array('type' => 'book', 'title' => 'Sub page2', 'book' => array('bid' => $parent_node->book['bid'], 'plid' => $parent_node->book['mlid'])));
+    $this->assertToken('node', $child_node2, 'bookpathalias', 'root');
+
+    // Add a child page on an existing child page.
+    $sub_child_node1 = $this->drupalCreateNode(array('type' => 'book', 'title' => 'Sub-sub Page1', 'book' => array('bid' => $parent_node->book['bid'], 'plid' => $child_node1->book['mlid'])));
+    $this->assertToken('node', $sub_child_node1, 'bookpathalias', 'root/sub-page1');
+
+    // Test that path tokens should not be altered.
+    $this->saveEntityAlias('node', $child_node1, 'My Crazy/Alias/');
+    pathauto_nodeapi($sub_child_node1, 'update');
+    $this->assertEntityAlias('node', $sub_child_node1, 'My Crazy/Alias/sub-sub-page1');
+  }
+}
+
+/*
+ * Unit tests for the taxonomy tokens provided by Pathauto.
+ */
+class PathautoTaxonomyTokenTestCase extends PathautoFunctionalTestHelper {
+  protected $vocab;
+
+  public static function getInfo() {
+    return array(
+      'name' => 'Pathauto taxonomy tokens',
+      'description' => 'Unit tests for the taxonomy tokens provided by Pathauto.',
+      'group' => 'Pathauto',
+    );
+  }
+
+  function setUp() {
+    parent::setUp(array('taxonomy'));
+    variable_set('pathauto_taxonomy_pattern', 'category/[vocab-raw]/[cat-raw]');
+    // Reset the static taxonomy.module caches.
+    taxonomy_vocabulary_load(0, TRUE);
+    taxonomy_get_term(0, TRUE);
+    $this->vocab = $this->addVocabulary();
+  }
+
+  /**
+   * Test the [catpath] and [catalias] tokens.
+   */
+  function testCatTokens() {
+    $term1 = $this->addTerm($this->vocab);
+    $this->assertToken('taxonomy', $term1, 'catpath', $term1->name);
+    $this->assertToken('taxonomy', $term1, 'catalias', "category/{$this->vocab->name}/{$term1->name}");
+
+    // Change the term name to check that the alias is also changed.
+    // Regression test for http://drupal.org/node/822174.
+    $term1->oldname = $term1->name;
+    $term1->name = drupal_strtolower($this->randomName());
+    $form_values = (array) $term1;
+    taxonomy_save_term($form_values);
+    $this->assertToken('taxonomy', $term1, 'catpath', $term1->name);
+
+    $term2 = $this->addTerm($this->vocab, array('parent' => $term1->tid));
+    $this->assertToken('taxonomy', $term2, 'catpath', "{$term1->name}/{$term2->name}");
+    $this->assertToken('taxonomy', $term2, 'catalias', "category/{$this->vocab->name}/{$term2->name}");
+
+    $term3 = $this->addTerm($this->vocab, array('parent' => $term2->tid, 'name' => ' foo/bar fer|zle '));
+    $this->assertToken('taxonomy', $term3, 'catpath', "{$term1->name}/{$term2->name}/foobar-ferzle");
+    $this->assertToken('taxonomy', $term3, 'catalias', "category/{$this->vocab->name}/foobar-ferzle");
+  }
+
+  /**
+   * Test the [termpath] token.
+   */
+  function testTermTokens() {
+    $term1 = $this->addTerm($this->vocab, array('weight' => 5));
+    $term2 = $this->addTerm($this->vocab, array('weight' => -5));
+    $term3 = $this->addTerm($this->vocab, array('weight' => 0));
+
+    $node = $this->drupalCreateNode(array(
+      'type' => 'story',
+      'taxonomy' => array($term1->tid, $term2->tid, $term3->tid),
+    ));
+    $this->assertToken('node', $node, 'termpath', $term2->name);
+    $this->assertToken('node', $node, 'termalias', "category/{$this->vocab->name}/{$term2->name}");
+
+    $non_term_node = $this->drupalCreateNode(array('type' => 'story'));
+    $this->assertToken('node', $non_term_node, 'termpath', '');
+    $this->assertToken('node', $non_term_node, 'termalias', '');
+  }
+}
