@@ -23,7 +23,10 @@
 
 #include <Cocoa/Cocoa.h>
 
-#include "boinc_api.h"
+// For unknown reason, "boinc_api.h" gets a compile 
+// error here so just declare boinc_is_standalone()
+//#include "boinc_api.h"
+extern int boinc_is_standalone(void);
 
 void MacGLUTFix(bool isScreenSaver);
 void BringAppToFront(void);

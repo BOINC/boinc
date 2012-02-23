@@ -2081,3 +2081,9 @@ David  22 Feb 2012
 
     client/
         hostinfo_unix.cpp
+
+Charlie 22 Feb 2012
+    - API: fix compile error on Mac.
+    
+    api/
+        macglutfix.m
