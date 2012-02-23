@@ -422,7 +422,7 @@ static void parse_cpuinfo_linux(HOST_INFO& host) {
     strcpy(features, "");
     while (fgets(buf, 1024, f)) {
         strip_whitespace(buf);
-         if (
+        if (
                 /* there might be conflicts if we dont #ifdef */
 #ifdef __ia64__
             strstr(buf, "vendor     : ")
@@ -442,46 +442,48 @@ static void parse_cpuinfo_linux(HOST_INFO& host) {
                 vendor_found = true;
                 strlcpy(host.p_vendor, strchr(buf, ':') + 2, sizeof(host.p_vendor));
             } else if (!vendor_found) {
-            vendor_found = true;
-        strlcpy(buf2, strchr(buf, ':') + 2, sizeof(host.p_vendor) - strlen(host.p_vendor) - 1);
-        strcat(host.p_vendor, buf2);
+                vendor_found = true;
+                strlcpy(buf2, strchr(buf, ':') + 2,
+                    sizeof(host.p_vendor) - strlen(host.p_vendor) - 1
+                );
+                strlcat(host.p_vendor, buf2, sizeof(host.p_vendor));
             }
         }
         if (
 #ifdef __ia64__
-        strstr(buf, "family     : ") || strstr(buf, "model name : ")
+            strstr(buf, "family     : ") || strstr(buf, "model name : ")
 #elif __powerpc__ || __sparc__
-        strstr(buf, "cpu\t\t: ")
+            strstr(buf, "cpu\t\t: ")
 #else
-        strstr(buf, "model name\t: ") || strstr(buf, "cpu model\t\t: ")
+            strstr(buf, "model name\t: ") || strstr(buf, "cpu model\t\t: ")
 #endif
-                ) {
+        ) {
             if (!model_hack && !model_found) {
                 model_found = true;
 #ifdef __powerpc__
-        char *coma = NULL;
-            if ((coma = strrchr(buf, ','))) {   /* we have ", altivec supported" */
-            *coma = '\0';    /* strip the unwanted line */
-                strcpy(features, "altivec");
-                features_found = true;
-            }
+                char *coma = NULL;
+                if ((coma = strrchr(buf, ','))) {   /* we have ", altivec supported" */
+                    *coma = '\0';    /* strip the unwanted line */
+                    strcpy(features, "altivec");
+                    features_found = true;
+                }
 #endif
                 strlcpy(host.p_model, strchr(buf, ':') + 2, sizeof(host.p_model));
             } else if (!model_found) {
 #ifdef __ia64__
-        /* depending on kernel version, family can be either
-        a number or a string. If number, we have a model name,
-        else we don't */
-        char *testc = NULL;
-        testc = strrchr(buf, ':')+2;
-        if (isdigit(*testc)) {
-            family = atoi(testc);
-            continue;    /* skip this line */
-        }
+                /* depending on kernel version, family can be either
+                a number or a string. If number, we have a model name,
+                else we don't */
+                char *testc = NULL;
+                testc = strrchr(buf, ':')+2;
+                if (isdigit(*testc)) {
+                    family = atoi(testc);
+                    continue;    /* skip this line */
+                }
 #endif
-        model_found = true;
-        strlcpy(buf2, strchr(buf, ':') + 2, sizeof(host.p_model) - strlen(host.p_model) - 1);
-        strcat(host.p_model, buf2);
+                model_found = true;
+                strlcpy(buf2, strchr(buf, ':') + 2, sizeof(host.p_model) - strlen(host.p_model) - 1);
+                strcat(host.p_model, buf2);
             }
         }
 #ifndef __hppa__
@@ -536,7 +538,7 @@ static void parse_cpuinfo_linux(HOST_INFO& host) {
             } else if ((strstr(buf, "features\t\t: ") == buf)) {
                 strlcpy(features, strchr(buf, ':') + 2, sizeof(features));
             } else if ((strstr(buf, "features   : ") == buf)) {    /* ia64 */
-            strlcpy(features, strchr(buf, ':') + 2, sizeof(features));
+                strlcpy(features, strchr(buf, ':') + 2, sizeof(features));
             }
             if (strlen(features)) {
                 features_found = true;
@@ -607,7 +609,11 @@ void use_cpuid(HOST_INFO& host) {
     if (has3DNowExt) strncat(capabilities, "3dnowext ", 9);
     if (hasMMX) strncat(capabilities, "mmx ", 4);
     strip_whitespace(capabilities);
-    snprintf(host.p_model, sizeof(host.p_model), "%s [] [%s]", host.p_model, capabilities);
+    char buf[1024];
+    snprintf(buf, sizeof(buf), "%s [] [%s]",
+        host.p_model, capabilities
+    );
+    strlcat(host.p_model, buf, sizeof(host.p_model));
 }
 #endif
 #endif
@@ -827,7 +833,9 @@ static void get_cpu_info_haiku(HOST_INFO& host) {
 
 // detect the network usage totals for the host.
 //
-int get_network_usage_totals(unsigned int& total_received, unsigned int& total_sent) {
+int get_network_usage_totals(
+    unsigned int& total_received, unsigned int& total_sent
+) {
     static size_t  sysctlBufferSize = 0;
     static uint8_t *sysctlBuffer = NULL;
 
@@ -937,8 +945,7 @@ typedef struct {
 
 static io_connect_t conn;
 
-kern_return_t SMCOpen()
-{
+kern_return_t SMCOpen() {
     kern_return_t       result;
     mach_port_t         masterPort;
     io_iterator_t       iterator;
@@ -948,30 +955,26 @@ kern_return_t SMCOpen()
 
     CFMutableDictionaryRef matchingDictionary = IOServiceMatching("AppleSMC");
     result = IOServiceGetMatchingServices(masterPort, matchingDictionary, &iterator);
-    if (result != kIOReturnSuccess)
-    {
+    if (result != kIOReturnSuccess) {
         return result;
     }
 
     device = IOIteratorNext(iterator);
     IOObjectRelease(iterator);
-    if (device == 0)
-    {
+    if (device == 0) {
         return result;
     }
 
     result = IOServiceOpen(device, mach_task_self(), 0, &conn);
     IOObjectRelease(device);
-    if (result != kIOReturnSuccess)
-    {
+    if (result != kIOReturnSuccess) {
         return result;
     }
 
     return kIOReturnSuccess;
 }
 
-kern_return_t SMCClose()
-{
+kern_return_t SMCClose() {
     if (conn) {
         return IOServiceClose(conn);
     }
@@ -993,20 +996,20 @@ kern_return_t SMCReadKey(UInt32 key, SMCBytes_t val) {
 
 #if MAC_OS_X_VERSION_MIN_REQUIRED >= MAC_OS_X_VERSION_10_5
     result = IOConnectCallStructMethod(conn,
-                                       KERNEL_INDEX_SMC,
-                                       &inputStructure,
-                                       sizeof(inputStructure),
-                                       &outputStructure,
-                                       &structureOutputSize
-                                       );
+        KERNEL_INDEX_SMC,
+        &inputStructure,
+        sizeof(inputStructure),
+        &outputStructure,
+        &structureOutputSize
+    );
 #else
     result = IOConnectMethodStructureIStructureO(conn,
-                                                 KERNEL_INDEX_SMC,
-                                                 sizeof(inputStructure),
-                                                 &structureOutputSize,
-                                                 &inputStructure,
-                                                 &outputStructure
-                                                 );
+        KERNEL_INDEX_SMC,
+        sizeof(inputStructure),
+        &structureOutputSize,
+        &inputStructure,
+        &outputStructure
+    );
 #endif
     if (result != kIOReturnSuccess) {
         return result;
@@ -1017,20 +1020,20 @@ kern_return_t SMCReadKey(UInt32 key, SMCBytes_t val) {
 
 #if MAC_OS_X_VERSION_MIN_REQUIRED >= MAC_OS_X_VERSION_10_5
     result = IOConnectCallStructMethod(conn,
-                                       KERNEL_INDEX_SMC,
-                                       &inputStructure,
-                                       sizeof(inputStructure),
-                                       &outputStructure,
-                                       &structureOutputSize
-                                       );
+        KERNEL_INDEX_SMC,
+        &inputStructure,
+        sizeof(inputStructure),
+        &outputStructure,
+        &structureOutputSize
+    );
 #else
     result = IOConnectMethodStructureIStructureO(conn,
-                                                 KERNEL_INDEX_SMC,
-                                                 sizeof(inputStructure),
-                                                 &structureOutputSize,
-                                                 &inputStructure,
-                                                 &outputStructure
-                                                 );
+        KERNEL_INDEX_SMC,
+        sizeof(inputStructure),
+        &structureOutputSize,
+        &inputStructure,
+        &outputStructure
+    );
 #endif
     if (result != kIOReturnSuccess) {
         return result;
@@ -1119,9 +1122,9 @@ int HOST_INFO::get_virtualbox_version() {
     OSStatus status = noErr;
 
     // First try to locate the VirtualBox application by Bundle ID and Creator Code
-    status = LSFindApplicationForInfo('VBOX', CFSTR("org.virtualbox.app.VirtualBox"),   
-                                        NULL, &theFSRef, NULL
-                                    );
+    status = LSFindApplicationForInfo(
+        'VBOX', CFSTR("org.virtualbox.app.VirtualBox"), NULL, &theFSRef, NULL
+    );
     if (status == noErr) {
         status = FSRefMakePath(&theFSRef, (unsigned char *)path, sizeof(path));
     }

@@ -2073,3 +2073,11 @@ David  22 Feb 2012
         client_types.cpp,h
         app.h
         app_control.cpp
+
+David  22 Feb 2012
+    - client: fix an instance of
+        sprintf(buf, "%s...", buf)
+        on Unix
+
+    client/
+        hostinfo_unix.cpp
