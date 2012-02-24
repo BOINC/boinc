@@ -2142,3 +2142,10 @@ Charlie 24 Feb 2012
     clientgui/
         mac/
             SetupSecurity.cpp
+
+Rom    24 Feb 2012
+    - MGR: Rename the "Remaining" column to "Remaining (Estimated)" in the
+        Advanced GUI/Work view.
+        
+    clientgui/
+        ViewWork.cpp
