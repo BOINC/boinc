@@ -107,6 +107,7 @@ sched_PROGRAMS = \
     db_purge \
     feeder \
     file_deleter \
+    antique_file_deleter \
     message_handler \
     sample_assimilator \
     sample_dummy_assimilator \
@@ -190,6 +191,9 @@ show_shmem_LDADD = $(SERVERLIBS)
 
 file_deleter_SOURCES = file_deleter.cpp
 file_deleter_LDADD = $(SERVERLIBS)
+
+antique_file_deleter_SOURCES = antique_file_deleter.cpp
+antique_file_deleter_LDADD = $(SERVERLIBS)
 
 VALIDATOR_SOURCES = \
 	credit.cpp \

@@ -2334,20 +2334,18 @@ int DB_FILESET_SCHED_TRIGGER_ITEM_SET::contains_trigger(const char* fileset_name
 
 void DB_VDA_FILE::db_print(char* buf){
     sprintf(buf,
+        "create_time=%f, "
         "dir='%s', "
         "name='%s', "
         "size=%f, "
-        "chunk_size=%f, "
-        "created=%f, "
         "need_update=%d, "
-        "inited=%d",
+        "initialized=%d",
+        create_time,
         dir,
         name,
         size,
-        chunk_size,
-        created,
         need_update?1:0,
-        inited?1:0
+        initialized?1:0
     );
 }
 
@@ -2355,44 +2353,49 @@ void DB_VDA_FILE::db_parse(MYSQL_ROW &r) {
     int i=0;
     clear();
     id = atoi(r[i++]);
+    create_time = atof(r[i++]);
     strcpy(dir, r[i++]);
     strcpy(name, r[i++]);
     size = atof(r[i++]);
-    chunk_size = atof(r[i++]);
-    created = atof(r[i++]);
     need_update = (atoi(r[i++]) != 0);
-    inited = (atoi(r[i++]) != 0);
+    initialized = (atoi(r[i++]) != 0);
 }
 
 void DB_VDA_CHUNK_HOST::db_print(char* buf) {
     sprintf(buf,
+        "create_time=%f, "
         "vda_file_id=%d, "
-        "host_id=%d, "
         "name='%s', "
+        "host_id=%d, "
         "present_on_host=%d, "
         "transfer_in_progress=%d, "
         "transfer_wait=%d, "
-        "transition_time=%f ",
+        "transfer_request_time=%f, "
+        "transfer_send_time=%f ",
+        create_time,
         vda_file_id,
-        host_id,
         name,
+        host_id,
         present_on_host,
         transfer_in_progress,
         transfer_wait,
-        transition_time
+        transfer_request_time,
+        transfer_send_time
     );
 }
 
 void DB_VDA_CHUNK_HOST::db_parse(MYSQL_ROW &r) {
     int i=0;
     clear();
+    create_time = atof(r[i++]);
     vda_file_id = atoi(r[i++]);
-    host_id = atoi(r[i++]);
     strcpy(name, r[i++]);
+    host_id = atoi(r[i++]);
     present_on_host = (atoi(r[i++]) != 0);
     transfer_in_progress = (atoi(r[i++]) != 0);
     transfer_wait = (atoi(r[i++]) != 0);
-    transition_time = atof(r[i++]);
+    transfer_request_time = atof(r[i++]);
+    transfer_send_time = atof(r[i++]);
 }
 
 const char *BOINC_RCSID_ac374386c8 = "$Id$";

@@ -25,12 +25,6 @@
 #define WUS_PER_ENUM        500
 #define RESULTS_PER_ENUM    1500
 
-// how long to wait until delete antiques, and how often to do it
-//
-#define ANTIQUE_DELAY       3600
-#define ANTIQUE_INTERVAL    86400
-#define ANTIQUE_LIMIT       50000
-
 // how often to retry errors
 //
 #define ERROR_INTERVAL      3600
@@ -68,18 +62,15 @@
 #define PIDFILE  "file_deleter.pid"
 
 #define DEFAULT_SLEEP_INTERVAL 5
-#define RESULTS_PER_WU 4        // an estimate of redundancy
+#define RESULTS_PER_WU 4        // an estimate of redundancy 
 
 int id_modulus=0, id_remainder=0, appid=0;
 bool dont_retry_errors = false;
-bool dont_delete_antiques = false;
 bool dont_delete_batches = false;
-int antique_delay = ANTIQUE_DELAY;
-int antique_interval = ANTIQUE_INTERVAL;
-int antique_limit = ANTIQUE_LIMIT;
 bool do_input_files = true;
 bool do_output_files = true;
 int sleep_interval = DEFAULT_SLEEP_INTERVAL;
+static pthread_t thread_handle;
 
 void usage(char *name) {
     fprintf(stderr, "Deletes files that are no longer needed.\n\n"
@@ -90,22 +81,13 @@ void usage(char *name) {
         "3) repeat from 1)\n"
         "4) every 1 hour, enumerate everything in state FILE_DELETE_ERROR\n"
         "   and try to delete it.\n"
-        "5) after 1 hour, and every 24 hours thereafter,\n"
-        "   scan for and delete all files in the upload directories\n"
-        "   that are older than any WU in the database,\n"
-        "   and were created at least one month ago.\n"
-        "   This deletes files uploaded by hosts after the WU was deleted.\n\n"
         "Usage: %s [OPTION]...\n\n"
         "Options:\n"
         "  -d N | --debug_level N          set debug output level (1 to 4)\n"
         "  --mod M R                       handle only WUs with ID mod M == R\n"
         "  --appid ID                      handle only WUs of a particular app\n"
         "  --one_pass                      instead of sleeping in 2), exit\n"
-        "  --delete_antiques_now           do 5) immediately\n"
         "  --dont_retry_error              don't do 4)\n"
-        "  --dont_delete_antiques          don't do 5)\n"
-        "  --delete_antiques_interval      change the interval between delete antique passes (in seconds, defaults to 24h)\n"
-        "  --delete_antiques_limit         change the maximum number of files deleted in one delete antique pass (defaults to 50000)\n"
         "  --preserve_result_files         update the DB, but don't delete output files.\n"
         "                                  For debugging.\n"
         "  --preserve_wu_files             update the DB, but don't delete input files.\n"
@@ -143,12 +125,12 @@ int wu_delete_files(WORKUNIT& wu) {
     char* p;
     char filename[256], pathname[256], buf[BLOB_SIZE];
     bool no_delete=false;
-    int count_deleted = 0, count_deleted_md5 = 0, retval, mthd_retval = 0;
+    int count_deleted = 0, retval, mthd_retval = 0;
 
     if (strstr(wu.name, "nodelete")) return 0;
 
     safe_strcpy(buf, wu.xml_doc);
-
+    
     p = strtok(buf, "\n");
     strcpy(filename, "");
     while (p) {
@@ -167,7 +149,7 @@ int wu_delete_files(WORKUNIT& wu) {
                 if (retval == ERR_OPENDIR) {
                     log_messages.printf(MSG_CRITICAL,
                         "[WU#%d] missing dir for %s\n",
-                        wu.id, pathname
+                        wu.id, filename
                     );
                     mthd_retval = ERR_UNLINK;
                 } else if (retval) {
@@ -176,14 +158,14 @@ int wu_delete_files(WORKUNIT& wu) {
                         wu.id, filename, boincerror(retval)
                     );
                 } else {
-                    log_messages.printf(MSG_DEBUG,
-                        "[WU#%d] deleting %s\n", wu.id, pathname
+                    log_messages.printf(MSG_NORMAL,
+                        "[WU#%d] deleting %s\n", wu.id, filename
                     );
                     retval = unlink(pathname);
                     if (retval) {
                         log_messages.printf(MSG_CRITICAL,
                             "[WU#%d] unlink %s failed: %s\n",
-                            wu.id, pathname, boincerror(retval)
+                            wu.id, filename, boincerror(retval)
                         );
                         mthd_retval = ERR_UNLINK;
                     } else {
@@ -193,17 +175,15 @@ int wu_delete_files(WORKUNIT& wu) {
                     //
                     if (config.cache_md5_info) {
                         strcat(pathname,".md5");
-                        log_messages.printf(MSG_DEBUG,
-                            "[WU#%d] deleting %s\n", wu.id, pathname
+                        log_messages.printf(MSG_NORMAL,
+                            "[WU#%d] deleting %s\n", wu.id, filename
                         );
                         retval = unlink(pathname);
                         if (retval) {
                             log_messages.printf(MSG_CRITICAL,
                                 "[WU#%d] unlink %s failed: %s\n",
-                                wu.id, pathname, boincerror(retval)
+                                wu.id, filename, boincerror(retval)
                             );
-                        } else {
-                            count_deleted_md5++;
                         }
                     }
                 }
@@ -211,9 +191,8 @@ int wu_delete_files(WORKUNIT& wu) {
         }
         p = strtok(0, "\n");
     }
-    log_messages.printf(MSG_NORMAL,
-        "[WU#%d] deleted %d input files and %d cached md5 files\n",
-        wu.id, count_deleted, count_deleted_md5
+    log_messages.printf(MSG_DEBUG,
+        "[WU#%d] deleted %d file(s)\n", wu.id, count_deleted
     );
     return mthd_retval;
 }
@@ -272,7 +251,7 @@ int result_delete_files(RESULT& result) {
                         );
                     } else {
                         count_deleted++;
-                        log_messages.printf(MSG_DEBUG,
+                        log_messages.printf(MSG_NORMAL,
                             "[RESULT#%d] unlinked %s\n", result.id, pathname
                         );
                     }
@@ -282,8 +261,8 @@ int result_delete_files(RESULT& result) {
         p = strtok(0, "\n");
     }
 
-    log_messages.printf(MSG_NORMAL,
-        "[RESULT#%d] deleted %d output file(s)\n", result.id, count_deleted
+    log_messages.printf(MSG_DEBUG,
+        "[RESULT#%d] deleted %d file(s)\n", result.id, count_deleted
     );
     return mthd_retval;
 }
@@ -357,7 +336,7 @@ bool do_pass(bool retry_error) {
                 );
                 did_something = true;
             }
-        }
+        } 
     }
 
     sprintf(buf,
@@ -390,7 +369,7 @@ bool do_pass(bool retry_error) {
             new_state = FILE_DELETE_DONE;
         }
         if (new_state != result.file_delete_state) {
-            sprintf(buf, "file_delete_state=%d", new_state);
+            sprintf(buf, "file_delete_state=%d", new_state); 
             retval = result.update_field(buf);
             if (retval) {
                 log_messages.printf(MSG_CRITICAL,
@@ -402,8 +381,8 @@ bool do_pass(bool retry_error) {
                 );
                 did_something = true;
             }
-        }
-    }
+        } 
+    } 
 
     return did_something;
 }
@@ -424,231 +403,13 @@ bool operator < (const FILE_RECORD& fr1, const FILE_RECORD& fr2) {
     return false;
 }
 
-// list of antique files to delete,
-// sorted by mod time (primary key) and name(secondary key)
-//
-std::list<FILE_RECORD> files_to_delete;
-
-// delete files in antique files list, and empty the list.
-// Returns number of files deleted, or negative for error.
-//
-// TODO: the list contains filenames, and we convert these to paths.
-// This is wacked.  The list should contain paths.
-//
-int delete_antique_files() {
-    int nfiles=0;
-
-    log_messages.printf(MSG_DEBUG,
-        "delete_antique_files(): start (%d files)\n",
-        (int)files_to_delete.size()
-    );
-    while (!files_to_delete.empty()) {
-        char timestamp[128];
-        char pathname[1024];
-        int retval;
-
-        FILE_RECORD fr = files_to_delete.front();
-        check_stop_daemons();
-
-        retval = get_file_path(
-            fr.name.c_str(), config.upload_dir,
-            config.uldl_dir_fanout, pathname
-        );
-        if (retval) {
-            log_messages.printf(MSG_CRITICAL,
-                "get_file_path(%s) failed: %s\n", fr.name.c_str(), boincerror(retval)
-            );
-            return retval;
-        }
-
-        strcpy(timestamp, time_to_string(fr.date_modified));
-        log_messages.printf(MSG_DEBUG,
-            "deleting [antique %s] %s\n",
-            timestamp, pathname
-        );
-        if (unlink(pathname)) {
-            int save_error=errno;
-            log_messages.printf(MSG_CRITICAL,
-                "unlink(%s) failed: %s\n",
-                pathname, strerror(save_error)
-            );
-            return retval;
-        } else {
-            nfiles++;
-            files_to_delete.pop_front();
-        }
-    }
-    log_messages.printf(MSG_DEBUG,
-        "delete_antique_files(): done, deleted %d files\n", nfiles
-    );
-    return 0;
-}
-
-
-// construct a list "file_to_delete" of old files.
-// Return number of files added to list, or negative for error.
-//
-int add_antiques_to_list(int days) {
-    char command[256];
-    char single_line[1024];
-    FILE *fp;
-    int dirlen=strlen(config.upload_dir);
-    struct passwd *apache_info=getpwnam(config.httpd_user);
-    int del_time=time(0)-86400*days;
-    int nfiles=0;
-
-    if (!apache_info) {
-        log_messages.printf(MSG_CRITICAL,
-            "default httpd_user '%s' found - add <httpd_user> entry in config.xml\n",
-            config.httpd_user
-        );
-        return -1;
-    }
-    log_messages.printf(MSG_DEBUG,
-        "Searching for antique files older than %d days\n", days
-    );
-
-    sprintf(command, "find %s -type f -mtime +%d -follow | head -%d", config.upload_dir, days, antique_limit);
-
-    // Now execute the command, read output on a stream.  We could use
-    // find to also exec a 'delete' command.  But we want to log all
-    // file names into the log, and do lots of sanity checking, so
-    // this way is better.
-    //
-    if (!(fp=popen(command, "r"))) {
-        log_messages.printf(MSG_CRITICAL,
-            "command %s failed\n", command
-        );
-        return -2;
-    }
-
-    while (fgets(single_line, 1024, fp)) {
-        char pathname[1024];
-        char *fname_at_end=NULL;
-        int nchars=strlen(single_line);
-        struct stat statbuf;
-        const char *err=NULL;
-        FILE_RECORD fr;
-
-        // We can interrupt this at any point.
-        // pclose() is called when process exits.
-        check_stop_daemons();
-
-        // Do serious sanity checking on the path before
-        // adding the file!!
-        //
-        if (!err && nchars > 1022) err="line too long";
-        if (!err && nchars < dirlen + 1) err="path shorter than upload directory name";
-        if (!err && single_line[nchars-1] != '\n') err="no newline terminator in line";
-        if (!err && strncmp(config.upload_dir, single_line, dirlen)) err="upload directory not in path";
-        if (!err && single_line[dirlen] != '/') err="no slash separator in path";
-        if (!err) single_line[nchars-1]='\0';
-        if (!err && stat(single_line, &statbuf)) err="stat failed";
-        if (!err && statbuf.st_mtime > del_time) err="file too recent";
-        if (!err && apache_info->pw_uid != statbuf.st_uid) err="file not owned by httpd user";
-        if (!err && !(fname_at_end=rindex(single_line+dirlen, '/'))) err="no trailing filename";
-        if (!err) fname_at_end++;
-        if (!err && !strlen(fname_at_end)) err="trailing filename too short";
-
-        // skip NFS file system markers of form .nfs*
-        //
-        if (!err && !strncmp(fname_at_end, ".nfs", 4)) {
-            log_messages.printf(MSG_CRITICAL,
-                "Ignoring antique (stale) NFS lockfile %s\n", single_line
-            );
-            continue;
-        }
-
-        if (!err && get_file_path(fname_at_end, config.upload_dir, config.uldl_dir_fanout, pathname)) err="get_file_path() failed";
-        if (!err && strcmp(pathname, single_line)) err="file in wrong hierarchical upload subdirectory";
-
-        if (err) {
-            log_messages.printf(MSG_CRITICAL,
-                "Can't list %s for deletion: %s\n",
-                single_line, err
-            );
-            // This file deleting business is SERIOUS.  Give up at the
-            // first sign of ANYTHING amiss.
-            //
-            pclose(fp);
-            return -3;
-        }
-
-        // insert this file onto the list
-        fr.date_modified = statbuf.st_mtime;
-        fr.name = fname_at_end;
-        files_to_delete.push_back(fr);
-        nfiles++;
-
-    } // while (fgets(single_line, 1024, fp)) {
-    pclose(fp);
-    log_messages.printf(MSG_DEBUG,
-        "Found %d antique files to delete\n",
-        nfiles
-    );
-    files_to_delete.sort();
-    files_to_delete.unique();
-    return nfiles;
-}
-
-// returns number of files found & added, or negative for error.
-//
-int find_antique_files() {
-    char buf[256];
-    DB_WORKUNIT wu;
-
-    check_stop_daemons();
-
-    // Find the oldest workunit.  We could add
-    // "where file_delete_state!=FILE_DELETE_DONE" to the query,
-    // but this might create some race condition
-    // with the 'regular' file delete mechanism,
-    // so better to do it like this.
-    //
-    sprintf(buf, "order by id limit 1");
-    if (!wu.enumerate(buf)) {
-        // Don't ever delete files younger than a month.
-        //
-        int days = 1 + (time(0) - wu.create_time)/86400;
-        if (days<31) days=31;
-
-        return add_antiques_to_list(days);
-    }
-    return 0;
-}
-
-void do_antique_pass() {
-    int retval;
-
-    // If any problems appear in deleting antique files
-    // immediately DISABLE this feature.
-    //
-    retval = find_antique_files();
-    if (retval < 0) {
-        log_messages.printf(MSG_CRITICAL,
-            "Problem 1 [%s] in antique file deletion: turning OFF --delete_antiques switch\n",
-            boincerror(retval)
-        );
-        dont_delete_antiques = true;
-        return;
-    }
-
-    retval = delete_antique_files();
-    if (retval) {
-        log_messages.printf(MSG_CRITICAL,
-            "Problem 2 [%s] in antique file deletion: turning OFF --delete_antiques switch\n",
-            boincerror(retval)
-        );
-        dont_delete_antiques = true;
-    }
-}
 
 int main(int argc, char** argv) {
     int retval;
     bool one_pass = false;
     int i;
     DB_APP app;
-
+    
     check_stop_daemons();
 
     *app.name='\0';
@@ -688,18 +449,21 @@ int main(int argc, char** argv) {
             id_modulus   = atoi(argv[++i]);
             id_remainder = atoi(argv[++i]);
         } else if (is_arg(argv[i], "dont_delete_antiques")) {
-            dont_delete_antiques = true;
+            log_messages.printf(MSG_CRITICAL, "'%s' has no effect, this file deleter does no antique files deletion\n", argv[i]);
+        } else if (is_arg(argv[i], "antiques_deletion_dry_run")) {
+            log_messages.printf(MSG_CRITICAL, "'%s' has no effect, this file deleter does no antique files deletion\n", argv[i]);
         } else if (is_arg(argv[i], "delete_antiques_interval")) {
-            antique_interval = atoi(argv[++i]);
+            log_messages.printf(MSG_CRITICAL, "'%s' has no effect, this file deleter does no antique files deletion\n", argv[i]);
+        } else if (is_arg(argv[i], "delete_antiques_usleep")) {
+            log_messages.printf(MSG_CRITICAL, "'%s' has no effect, this file deleter does no antique files deletion\n", argv[i]);
         } else if (is_arg(argv[i], "delete_antiques_limit")) {
-            antique_limit = atoi(argv[++i]);
+            log_messages.printf(MSG_CRITICAL, "'%s' has no effect, this file deleter does no antique files deletion\n", argv[i]);
         } else if (is_arg(argv[i], "dont_delete_batches")) {
             dont_delete_batches = true;
         } else if (is_arg(argv[i], "delete_antiques_now")) {
-            antique_delay = 0;
+            log_messages.printf(MSG_CRITICAL, "'%s' has no effect, this file deleter does no antique files deletion\n", argv[i]);
         } else if (is_arg(argv[i], "input_files_only")) {
             do_output_files = false;
-            dont_delete_antiques = true;
         } else if (is_arg(argv[i], "output_files_only")) {
             do_input_files = false;
         } else if (is_arg(argv[i], "sleep_interval")) {
@@ -753,7 +517,7 @@ int main(int argc, char** argv) {
     }
 
     if (*app.name && !appid) {
-      char buf[256];
+      char buf[256];      
       sprintf(buf, "where name='%s'", app.name);
       retval = app.lookup(buf);
       if (retval) {
@@ -768,7 +532,6 @@ int main(int argc, char** argv) {
 
     bool retry_errors_now = !dont_retry_errors;
     double next_error_time=0;
-    double next_antique_time = dtime() + antique_delay;
     while (1) {
         bool got_any = do_pass(false);
         if (retry_errors_now) {
@@ -783,16 +546,9 @@ int main(int argc, char** argv) {
                 );
             }
         }
+        if (one_pass) break;
         if (!got_any) {
-            if (one_pass) break;
             sleep(sleep_interval);
-        }
-        if (!dont_delete_antiques && (dtime() > next_antique_time)) {
-            log_messages.printf(MSG_DEBUG,
-                "Doing antique deletion pass\n"
-            );
-            do_antique_pass();
-            next_antique_time = dtime() + antique_interval;
         }
         if (!dont_retry_errors && !retry_errors_now && (dtime() > next_error_time)) {
             retry_errors_now = true;

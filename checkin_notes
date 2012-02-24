@@ -2095,3 +2095,23 @@ Charlie 22 Feb 2012
         
     client/
         coproc_detect.cpp
+
+David  22 Feb 2012
+    - server: split out the "antique file deletion" feature of
+        file_deleter.cpp into a separate program,
+        since it blocks normal file deletion while it's running.
+        From Bernd.
+    - storage stuff
+
+    db/
+        boinc_db.cpp,h
+        schema_vda.sql
+    sched/
+        file_deleter.cpp
+        antique_file_deleter.cpp (new)
+        Makefile.am
+    vda/
+        vdad.cpp
+        vda_lib.cpp
+        vda_lib2.cpp
+        vda.cpp

@@ -263,7 +263,8 @@ int META_CHUNK::recovery_plan() {
         c->in_recovery_set = false;
         c->data_needed = false;
         c->data_now_present = false;
-        c->recovery_plan();
+        int retval = c->recovery_plan();
+        if (retval) return retval;
         switch (c->status) {
         case PRESENT:
             present.push_back(c);
@@ -334,6 +335,8 @@ int CHUNK::recovery_plan() {
 
 int META_CHUNK::recovery_action(double now) {
     unsigned int i;
+    int retval;
+
     if (data_now_present) {
         status = PRESENT;
     }
@@ -363,7 +366,8 @@ int META_CHUNK::recovery_action(double now) {
         case UNRECOVERABLE:
             break;
         }
-        c->recovery_action(now);
+        retval = c->recovery_action(now);
+        if (retval) return retval;
     }
 
     // because of recovery action, some of our children may have changed

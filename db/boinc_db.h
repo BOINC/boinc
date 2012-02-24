@@ -1133,24 +1133,27 @@ public:
 
 struct VDA_FILE {
     int id;
+    double create_time;
     char dir[256];
     char name[256];
     double size;
-    double chunk_size;
-    double created;
     bool need_update;
-    bool inited;
+    bool initialized;
     void clear();
 };
 
 struct VDA_CHUNK_HOST {
+    double create_time;
     int vda_file_id;
-    int host_id;        // zero if we're waiting for a host
-    char name[256];
+    char name[256];     // C1.C2.Cn
+    int host_id;
     bool present_on_host;
     bool transfer_in_progress;
     bool transfer_wait;
-    double transition_time;
+    double transfer_request_time;
+        // when vdad assigned this chunk to this host
+    double transfer_send_time;
+        // when transfer request was sent to host
 
     // the following not in DB
     //

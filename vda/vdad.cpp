@@ -230,6 +230,7 @@ int VDA_FILE_AUX::get_state() {
         if (n != 1) return -1;
     }
     fclose(f);
+    meta_chunk = new META_CHUNK(this, NULL);
     int retval = meta_chunk->get_state(dir, name, policy, 0);
     if (retval) return retval;
     DB_VDA_CHUNK_HOST vch;
@@ -240,8 +241,14 @@ int VDA_FILE_AUX::get_state() {
         if (retval) return retval;
         vector<int> chunk_numbers;
         retval = get_chunk_numbers(vch, chunk_numbers);
-        if (retval) return retval;
+        if (retval) {
+            log_messages.printf(MSG_CRITICAL,
+                "get_chunk_numbers(): %d\n", retval
+            );
+            return retval;
+        }
         if ((int)(chunk_numbers.size()) != policy.coding_levels) {
+            log_messages.printf(MSG_CRITICAL, "too many get_chunk_numbers\n");
             return -1;
         }
         META_CHUNK* mc = meta_chunk;
@@ -260,29 +267,44 @@ int VDA_FILE_AUX::get_state() {
     return 0;
 }
 
-int handle_file(VDA_FILE_AUX& vf) {
+int handle_file(VDA_FILE_AUX& vf, DB_VDA_FILE& dvf) {
     int retval;
     char buf[1024];
+
+    log_messages.printf(MSG_NORMAL, "processing file%d\n", vf.id);
 
     // read the policy file
     //
     sprintf(buf, "%s/boinc_meta.txt", vf.dir);
     retval = vf.policy.parse(buf);
     if (retval) {
-        fprintf(stderr, "Can't parse policy file %s\n", buf);
+        log_messages.printf(MSG_CRITICAL, "Can't parse policy file %s\n", buf);
         return retval;
     }
-    if (vf.inited) {
+    if (vf.initialized) {
         retval = vf.get_state();
-        if (retval) return retval;
+        if (retval) {
+            log_messages.printf(MSG_CRITICAL, "vf.get_state failed %d\n", retval);
+            return retval;
+        }
     } else {
         retval = vf.init();
-        if (retval) return retval;
+        if (retval) {
+            log_messages.printf(MSG_CRITICAL, "vf.init failed %d\n", retval);
+            return retval;
+        }
+        dvf.update_field("initialized=1");
     }
     retval = vf.meta_chunk->recovery_plan();
-    if (retval) return retval;
+    if (retval) {
+        log_messages.printf(MSG_CRITICAL, "vf.recovery_plan failed %d\n", retval);
+        return retval;
+    }
     retval = vf.meta_chunk->recovery_action(dtime());
-    if (retval) return retval;
+    if (retval) {
+        log_messages.printf(MSG_CRITICAL, "vf.recovery_action failed %d\n", retval);
+        return retval;
+    }
     return 0;
 }
 
@@ -297,14 +319,16 @@ bool scan_files() {
         retval = vf.enumerate("where need_update<>0");
         if (retval == ERR_DB_NOT_FOUND) break;
         if (retval) {
-            fprintf(stderr, "VDA_FILE enumerate failed\n");
+            log_messages.printf(MSG_CRITICAL, "VDA_FILE enumerate failed\n");
             exit(1);
         }
         VDA_FILE_AUX vfa(vf);
         found = true;
-        retval = handle_file(vfa);
+        retval = handle_file(vfa, vf);
         if (retval) {
-            fprintf(stderr, "handle_file() failed: %d\n", retval);
+            log_messages.printf(
+                MSG_CRITICAL, "handle_file() failed: %d\n", retval
+            );
             exit(1);
         } else {
             vf.need_update = 0;
@@ -321,16 +345,29 @@ int handle_host(DB_HOST& h) {
     char buf[256];
     int retval;
 
+    log_messages.printf(MSG_NORMAL, "processing dead host %d\n", h.id);
+
     sprintf(buf, "where host_id=%d", h.id);
     while (1) {
         retval = ch.enumerate(buf);
         if (retval == ERR_DB_NOT_FOUND) break;
         if (retval) return retval;
+        log_messages.printf(MSG_NORMAL, "   updating file%d\n", ch.vda_file_id);
         DB_VDA_FILE vf;
         retval = vf.lookup_id(ch.vda_file_id);
-        if (retval) return retval;
+        if (retval) {
+            log_messages.printf(MSG_CRITICAL,
+                "   file lookup failed%d\n", ch.vda_file_id
+            );
+            return retval;
+        }
         retval = vf.update_field("need_update=1");
-        if (retval) return retval;
+        if (retval) {
+            log_messages.printf(MSG_CRITICAL,
+                "   file update failed%d\n", ch.vda_file_id
+            );
+            return retval;
+        }
     }
     return 0;
 }
@@ -348,30 +385,43 @@ bool scan_hosts() {
         retval = h.enumerate(buf);
         if (retval == ERR_DB_NOT_FOUND) break;
         if (retval) {
-            fprintf(stderr, "host.enumerate() failed\n");
+            log_messages.printf(MSG_CRITICAL, "host.enumerate() failed\n");
             exit(1);
         }
         found = true;
         retval = handle_host(h);
         if (retval) {
-            fprintf(stderr, "handle_host() failed: %d\n", retval);
+            log_messages.printf(MSG_CRITICAL, "handle_host() failed: %d\n", retval);
             exit(1);
         }
+        retval = h.update_field("cpu_efficiency=1e12");
+        if (retval) {
+            log_messages.printf(MSG_CRITICAL, "h.update_field() failed: %d\n", retval);
+            exit(1);
+        }
+
     }
     return found;
 }
 
 int main(int argc, char** argv) {
+    for (int i=1; i<argc; i++) {
+        if (!strcmp(argv[i], "-d") || !strcmp(argv[i], "--debug_level")) {
+            int dl = atoi(argv[++i]);
+            log_messages.set_debug_level(dl);
+            if (dl == 4) g_print_queries = true;
+        }
+    }
     int retval = config.parse_file();
     if (retval) {
-        fprintf(stderr, "can't parse config file\n");
+        log_messages.printf(MSG_CRITICAL, "can't parse config file\n");
         exit(1);
     }
     retval = boinc_db.open(
         config.db_name, config.db_host, config.db_user, config.db_passwd
     );
     if (retval) {
-        fprintf(stderr, "can't open DB\n");
+        log_messages.printf(MSG_CRITICAL, "can't open DB\n");
         exit(1);
     }
 

@@ -18,6 +18,7 @@
 // code used in vda and vdad, but not in the simulator
 
 #include "error_numbers.h"
+#include "sched_msgs.h"
 #include "util.h"
 
 #include "vda_lib.h"
@@ -37,11 +38,18 @@ int CHUNK::assign() {
         return ERR_NOT_FOUND;
     }
     DB_VDA_CHUNK_HOST ch;
-    ch.host_id = host_id;
+    ch.create_time = dtime();
+    ch.vda_file_id = parent->dfile->id;
     strcpy(ch.name, name);
+    ch.host_id = host_id;
+    ch.present_on_host = 0;
+    ch.transfer_in_progress = true;
+    ch.transfer_wait = true;
+    ch.transfer_request_time = ch.create_time;
+    ch.transfer_send_time = 0;
     int retval = ch.insert();
     if (retval) {
-        fprintf(stderr, "ch.insert() failed\n");
+        log_messages.printf(MSG_CRITICAL, "ch.insert() failed\n");
         return retval;
     }
     return 0;
@@ -65,20 +73,73 @@ char* host_alive_clause() {
 }
 
 // Pick a host to send a chunk of this file to.
-// Let N(H) be the number of chunks of this file on host H.
-// We maintain a cache of hosts with N(H)=0.
+// The host must:
+// 1) be alive (recent RPC time)
+// 2) not have any chunks of this file
+//
+// We maintain a cache of such hosts
 // The policy is:
 //
 // - scan the cache, removing hosts that are no longer alive;
 //   return if find a live host
 // - pick a random starting point in host ID space,
 //   and enumerate 100 live hosts; wrap around if needed.
-//   If find any with N(H)=0, return one and put the rest in cache
-// - else return the one for which N(H) is least
+//   Return one and put the rest in cache
 //
 int VDA_FILE_AUX::choose_host() {
-    DB_HOST host;
     int retval;
+    DB_HOST host;
+
+    // replenish cache if needed
+    //
+    if (!available_hosts.size()) {
+        int nhosts_scanned = 0;
+        int rand_id;
+        for (int i=0; i<2; i++) {
+            char buf[256];
+            if (i == 0) {
+                retval = host.max_id(rand_id, "");
+                if (retval) {
+                    log_messages.printf(MSG_CRITICAL, "host.max_id() failed\n");
+                    return 0;
+                }
+                rand_id = (int)(((double)id)*drand());
+                sprintf(buf,
+                    "where %s and id>=%d order by id limit 100",
+                    host_alive_clause(), rand_id
+                );
+            } else {
+                sprintf(buf,
+                    "where %s and id<%d order by id limit %d",
+                    host_alive_clause(), rand_id, 100-nhosts_scanned
+                );
+            }
+            while (1) {
+                retval = host.enumerate(buf);
+                if (retval == ERR_DB_NOT_FOUND) break;
+                if (retval) {
+                    log_messages.printf(MSG_CRITICAL, "host enum failed\n");
+                    return 0;
+                }
+                nhosts_scanned++;
+                DB_VDA_CHUNK_HOST ch;
+                char buf2[256];
+                int count;
+                sprintf(buf2, "where vda_file_id=%d and host_id=%d", id, host.id);
+                retval = ch.count(count, buf2);
+                if (retval) {
+                    log_messages.printf(MSG_CRITICAL, "ch.count failed\n");
+                    return 0;
+                }
+                if (count == 0) {
+                    available_hosts.push_back(host.id);
+                }
+                if (nhosts_scanned == 100) break;
+            }
+            if (nhosts_scanned == 100) break;
+        }
+    }
+
     while (available_hosts.size()) {
         int hostid = available_hosts.back();
         available_hosts.pop_back();
@@ -89,69 +150,6 @@ int VDA_FILE_AUX::choose_host() {
         return hostid;
     }
 
-    int host0_id = 0;   // ID of host with N(H)=0, if any
-    int best_host_id = 0;
-    int best_host_n = 0;
-    int nhosts_scanned = 0;
-    for (int i=0; i<2; i++) {
-        char buf[256];
-        int rand_id;
-        if (i == 0) {
-            retval = host.max_id(rand_id, "");
-            if (retval) {
-                fprintf(stderr, "host.max_id() failed\n");
-                return 0;
-            }
-            rand_id = (int)(((double)id)*drand());
-            sprintf(buf,
-                "where %s and id>=%d order by id limit 100",
-                host_alive_clause(), rand_id
-            );
-        } else {
-            sprintf(buf,
-                "where %s and id<%d order by id limit %d",
-                host_alive_clause(), rand_id, 100-nhosts_scanned
-            );
-        }
-        while (1) {
-            retval = host.enumerate(buf);
-            if (retval == ERR_DB_NOT_FOUND) break;
-            if (retval) {
-                fprintf(stderr, "host enum failed\n");
-                return 0;
-            }
-            nhosts_scanned++;
-            DB_VDA_CHUNK_HOST ch;
-            char buf2[256];
-            int count;
-            sprintf(buf2, "vda_file_id=%d and host_id=%d", id, host.id);
-            retval = ch.count(count, buf2);
-            if (retval) {
-                fprintf(stderr, "ch.count failed\n");
-                return 0;
-            }
-            if (count == 0) {
-                if (host0_id) {
-                    available_hosts.push_back(host.id);
-                } else {
-                    host0_id = host.id;
-                }
-            } else {
-                if (best_host_id) {
-                    if (count < best_host_n) {
-                        best_host_n = count;
-                        best_host_id = host.id;
-                    }
-                } else {
-                    best_host_n = count;
-                    best_host_id = host.id;
-                }
-            }
-        }
-        if (nhosts_scanned == 100) break;
-    }
-    if (host0_id) return host0_id;
-    if (best_host_id) return best_host_id;
-    fprintf(stderr, "No hosts available\n");
+    log_messages.printf(MSG_CRITICAL, "No hosts available\n");
     return 0;
 }

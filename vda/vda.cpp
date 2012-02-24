@@ -23,6 +23,7 @@
 #include <stdio.h>
 
 #include "boinc_db.h"
+#include "filesys.h"
 #include "sched_config.h"
 #include "util.h"
 
@@ -37,6 +38,14 @@ int handle_add(const char* path) {
     char dir[256], filename[256], buf[1024];
     DB_VDA_FILE vf;
     POLICY policy;
+    double size;
+    int retval;
+
+    retval = file_size(path, size);
+    if (retval) {
+        fprintf(stderr, "no file %s\n", path);
+        return -1;
+    }
 
     strcpy(dir, path);
     char* p = strrchr(dir, '/');
@@ -46,7 +55,7 @@ int handle_add(const char* path) {
     // make sure there's a policy file in the dir
     //
     sprintf(buf, "%s/boinc_meta.txt", dir);
-    int retval = policy.parse(buf);
+    retval = policy.parse(buf);
     if (retval) {
         fprintf(stderr, "Can't parse policy file.\n");
         return -1;
@@ -54,11 +63,12 @@ int handle_add(const char* path) {
 
     // add a DB record and schedule it for updating
     //
+    vf.create_time = dtime();
     strcpy(vf.dir, dir);
     strcpy(vf.name, filename);
-    vf.created = dtime();
+    vf.size = size;
     vf.need_update = 1;
-    vf.inited = 0;
+    vf.initialized = 0;
     retval = vf.insert();
     if (retval) {
         fprintf(stderr, "Can't insert DB record\n");
