@@ -2149,3 +2149,10 @@ Rom    24 Feb 2012
         
     clientgui/
         ViewWork.cpp
+
+David  24 Feb 2012
+    - client: amend checkin of 18 Feb to not request work if
+        work buffer is above upper limit
+
+    client/
+        work_fetch.cpp

@@ -222,6 +222,8 @@ PROJECT* RSC_WORK_FETCH::choose_project_hyst(bool enforce_hyst) {
     if (enforce_hyst) {
         if (saturated_time > gstate.work_buf_min()) return NULL;
     }
+    if (saturated_time > gstate.work_buf_total()) return NULL;
+
     for (unsigned i=0; i<gstate.projects.size(); i++) {
         PROJECT* p = gstate.projects[i];
         if (!p->pwf.can_fetch_work) continue;
