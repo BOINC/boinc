@@ -35,7 +35,7 @@
 static OSStatus UpdateNestedDirectories(char * basepath);
 static OSStatus MakeXMLFilesPrivate(char * basepath);
 static OSStatus GetAuthorization(void);
-OSStatus DoPrivilegedExec(const char *pathToTool, char *arg1, char *arg2, char *arg3, char *arg4, char *arg5);
+OSStatus DoPrivilegedExec(const char *pathToTool, char *arg1, char *arg2, char *arg3, char *arg4, char *arg5, char *arg6);
 #ifndef __x86_64__
 static pascal Boolean ErrorDlgFilterProc(DialogPtr theDialog, EventRecord *theEvent, short *theItemHit);
 #endif
@@ -151,12 +151,12 @@ saverName[2] = "Progress Thru Processors";
     // chmod -R u=rwx,g=rwx,o=rx path/BOINCManager.app
     // 0775 = S_IRUSR | S_IWUSR | S_IXUSR | S_IRGRP | S_IXGRP | S_IROTH | S_IXOTH
     // Set read, write permission for user;  read and execute permission for group and others
-    err = DoPrivilegedExec(chmodPath, "-R", "u=rwx,g=rwx,o=rx", fullpath, NULL, NULL);
+    err = DoPrivilegedExec(chmodPath, "-R", "u=rwx,g=rwx,o=rx", fullpath, NULL, NULL, NULL);
 #else
     // chmod -R u=rx,g=rx,o=rx path/BOINCManager.app
     // 0555 = S_IRUSR | S_IXUSR | S_IRGRP | S_IXGRP | S_IROTH | S_IXOTH
     // Set read, write permission for user;  read and execute permission for group and others
-    err = DoPrivilegedExec(chmodPath, "-R", "u=rx,g=rx,o=rx", fullpath, NULL, NULL);
+    err = DoPrivilegedExec(chmodPath, "-R", "u=rx,g=rx,o=rx", fullpath, NULL, NULL, NULL);
 #endif
     if (err)
         return err;
@@ -174,7 +174,7 @@ saverName[2] = "Progress Thru Processors";
 
     sprintf(buf1, "%s:%s", boinc_master_user_name, boinc_master_group_name);
     // chown boinc_master:boinc_master path/BOINCManager.app/Contents/MacOS/BOINCManager
-    err = DoPrivilegedExec(chownPath, buf1, fullpath, NULL, NULL, NULL);
+    err = DoPrivilegedExec(chownPath, buf1, fullpath, NULL, NULL, NULL, NULL);
     if (err)
         return err;
 
@@ -182,12 +182,12 @@ saverName[2] = "Progress Thru Processors";
         // chmod u=rwx,g=rwx,o=rx path/BOINCManager.app/Contents/MacOS/BOINCManager
         // 0775 = S_IRUSR | S_IWUSR | S_IXUSR | S_IRGRP | S_IWGRP | S_IXGRP | S_IROTH | S_IXOTH
         // Set read, write and execute permission for user & group, read & execute for others
-        err = DoPrivilegedExec(chmodPath, "u=rwx,g=rwx,o=rx", fullpath, NULL, NULL, NULL);
+        err = DoPrivilegedExec(chmodPath, "u=rwx,g=rwx,o=rx", fullpath, NULL, NULL, NULL, NULL);
 #else
         // chmod u=rx,g=rx,o=rx path/BOINCManager.app/Contents/MacOS/BOINCManager
         // 0555 = S_IRUSR | S_IXUSR | S_IRGRP | S_IXGRP | S_IROTH | S_IXOTH
         // Set read and execute permission for user, group & others
-        err = DoPrivilegedExec(chmodPath, "u=rx,g=rx,o=rx", fullpath, NULL, NULL, NULL);
+        err = DoPrivilegedExec(chmodPath, "u=rx,g=rx,o=rx", fullpath, NULL, NULL, NULL, NULL);
 #endif
     if (err)
         return err;
@@ -202,7 +202,7 @@ saverName[2] = "Progress Thru Processors";
     
     sprintf(buf1, "%s:%s", boinc_master_user_name, boinc_master_group_name);
     // chown boinc_master:boinc_master path/BOINCManager.app/Contents/Resources/boinc
-    err = DoPrivilegedExec(chownPath, buf1, fullpath, NULL, NULL, NULL);
+    err = DoPrivilegedExec(chownPath, buf1, fullpath, NULL, NULL, NULL, NULL);
     if (err)
         return err;
 
@@ -210,12 +210,12 @@ saverName[2] = "Progress Thru Processors";
         // chmod u=rwsx,g=rwsx,o=rx path/BOINCManager.app/Contents/Resources/boinc
         // 06775 = S_ISUID | S_ISGID | S_IRUSR | S_IWUSR | S_IXUSR | S_IRGRP | S_IWGRP | S_IXGRP | S_IROTH | S_IXOTH
         // Set setuid-on-execution, setgid-on-execution plus read, write and execute permission for user & group, read & execute for others
-        err = DoPrivilegedExec(chmodPath, "u=rwsx,g=rwsx,o=rx", fullpath, NULL, NULL, NULL);
+        err = DoPrivilegedExec(chmodPath, "u=rwsx,g=rwsx,o=rx", fullpath, NULL, NULL, NULL, NULL);
 #else
         // chmod u=rsx,g=rsx,o=rx path/BOINCManager.app/Contents/Resources/boinc
         // 06555 = S_ISUID | S_ISGID | S_IRUSR | S_IXUSR | S_IRGRP | S_IXGRP | S_IROTH | S_IXOTH
         // Set setuid-on-execution, setgid-on-execution plus read and execute permission for user, group & others
-        err = DoPrivilegedExec(chmodPath, "u=rsx,g=rsx,o=rx", fullpath, NULL, NULL, NULL);
+        err = DoPrivilegedExec(chmodPath, "u=rsx,g=rsx,o=rx", fullpath, NULL, NULL, NULL, NULL);
 #endif
     if (err)
         return err;
@@ -233,27 +233,27 @@ saverName[2] = "Progress Thru Processors";
 #ifdef _DEBUG
             sprintf(buf1, "%s:%s", boinc_master_user_name, boinc_master_group_name);
             // chown boinc_master:boinc_master "/Library/Screen Savers/BOINCSaver.saver/Contents/Resources/gfx_switcher"
-            err = DoPrivilegedExec(chownPath, buf1, fullpath, NULL, NULL, NULL);
+            err = DoPrivilegedExec(chownPath, buf1, fullpath, NULL, NULL, NULL, NULL);
             if (err)
                 return err;
 
             // chmod u=rwx,g=rwx,o=rx "/Library/Screen Savers/BOINCSaver.saver/Contents/Resources/gfx_switcher"
             // 0775 = S_IRUSR | S_IWUSR | S_IXUSR | S_IRGRP | S_IWGRP | S_IXGRP | S_IROTH | S_IXOTH
             // Set read, write and execute permission for user & group;  read and execute permission for others
-            err = DoPrivilegedExec(chmodPath, "u=rwx,g=rwx,o=rx", fullpath, NULL, NULL, NULL);
+            err = DoPrivilegedExec(chmodPath, "u=rwx,g=rwx,o=rx", fullpath, NULL, NULL, NULL, NULL);
             if (err)
                 return err;
 #else
             sprintf(buf1, "root:%s", boinc_master_group_name);
             // chown root:boinc_master "/Library/Screen Savers/BOINCSaver.saver/Contents/Resources/gfx_switcher"
-            err = DoPrivilegedExec(chownPath, buf1, fullpath, NULL, NULL, NULL);
+            err = DoPrivilegedExec(chownPath, buf1, fullpath, NULL, NULL, NULL, NULL);
             if (err)
                 return err;
 
             // chmod u=rsx,g=rx,o=rx "/Library/Screen Savers/BOINCSaver.saver/Contents/Resources/gfx_switcher"
             // 04555 = S_ISUID | S_IRUSR | S_IXUSR | S_IRGRP | S_IXGRP | S_IROTH | S_IXOTH
             // Set setuid-on-execution plus read and execute permission for user, group & others
-            err = DoPrivilegedExec(chmodPath, "u=rsx,g=rx,o=rx", fullpath, NULL, NULL, NULL);
+            err = DoPrivilegedExec(chmodPath, "u=rsx,g=rx,o=rx", fullpath, NULL, NULL, NULL, NULL);
             if (err)
                 return err;
 #endif
@@ -289,7 +289,7 @@ int SetBOINCDataOwnersGroupsAndPermissions() {
     // Set owner and group of BOINC Data directory's contents
     sprintf(buf1, "%s:%s", boinc_master_user_name, boinc_master_group_name);
     // chown -R boinc_master:boinc_master "/Library/Application Support/BOINC Data"
-    err = DoPrivilegedExec(chownPath, "-R", buf1, BOINCDataDirPath, NULL, NULL);
+    err = DoPrivilegedExec(chownPath, "-R", buf1, BOINCDataDirPath, NULL, NULL, NULL);
     if (err)
         return err;
 
@@ -297,7 +297,7 @@ int SetBOINCDataOwnersGroupsAndPermissions() {
     // Set owner and group of BOINC Data directory itself
     sprintf(buf1, "%s:%s", boinc_master_user_name, boinc_master_group_name);
     // chown boinc_master:boinc_master "/Library/Application Support/BOINC Data"
-    err = DoPrivilegedExec(chownPath, buf1, BOINCDataDirPath, NULL, NULL, NULL);
+    err = DoPrivilegedExec(chownPath, buf1, BOINCDataDirPath, NULL, NULL, NULL, NULL);
     if (err)
         return err;
 #endif
@@ -312,7 +312,7 @@ int SetBOINCDataOwnersGroupsAndPermissions() {
     // chmod -R u+rw,g+rw,o+r-w "/Library/Application Support/BOINC Data"
     // 0661 = S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH
     // Set read and write permission for user and group, read-only for others (leaves execute bits unchanged)
-    err = DoPrivilegedExec(chmodPath, "-R", "u+rw,g+rw,o+r-w", BOINCDataDirPath, NULL, NULL);
+    err = DoPrivilegedExec(chmodPath, "-R", "u+rw,g+rw,o+r-w", BOINCDataDirPath, NULL, NULL, NULL);
     if (err)
         return err;
     
@@ -329,14 +329,14 @@ int SetBOINCDataOwnersGroupsAndPermissions() {
         // Set owner and group of gui_rpc_auth.cfg file
         sprintf(buf1, "%s:%s", boinc_master_user_name, boinc_master_group_name);
         // chown boinc_master:boinc_master "/Library/Application Support/BOINC Data/gui_rpc_auth.cfg"
-        err = DoPrivilegedExec(chownPath, buf1, fullpath, NULL, NULL, NULL);
+        err = DoPrivilegedExec(chownPath, buf1, fullpath, NULL, NULL, NULL, NULL);
         if (err)
             return err;
 
         // chmod u=rw,g=rw,o= "/Library/Application Support/BOINC Data/gui_rpc_auth.cfg"
         // 0660 = S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP
         // Set read and write permission for user and group, no access for others
-        err = DoPrivilegedExec(chmodPath, "u=rw,g=rw,o=", fullpath, NULL, NULL, NULL);
+        err = DoPrivilegedExec(chmodPath, "u=rw,g=rw,o=", fullpath, NULL, NULL, NULL, NULL);
         if (err)
             return err;
     }           // gui_rpc_auth.cfg
@@ -359,14 +359,14 @@ int SetBOINCDataOwnersGroupsAndPermissions() {
         // Set owner and group of ss_config.xml file
         sprintf(buf1, "%s:%s", boinc_master_user_name, boinc_master_group_name);
         // chown boinc_master:boinc_master "/Library/Application Support/BOINC Data/ss_config.xml"
-        err = DoPrivilegedExec(chownPath, buf1, fullpath, NULL, NULL, NULL);
+        err = DoPrivilegedExec(chownPath, buf1, fullpath, NULL, NULL, NULL, NULL);
         if (err)
             return err;
 
         // chmod u=rw,g=rw,o=r "/Library/Application Support/BOINC Data/ss_config.xml"
         // 0664 = S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH
         // Set read and write permission for user and group, read-only for others
-        err = DoPrivilegedExec(chmodPath, "u=rw,g=rw,o=r", fullpath, NULL, NULL, NULL);
+        err = DoPrivilegedExec(chmodPath, "u=rw,g=rw,o=r", fullpath, NULL, NULL, NULL, NULL);
         if (err)
             return err;
     }           // ss_config.xml
@@ -376,7 +376,7 @@ int SetBOINCDataOwnersGroupsAndPermissions() {
     // chmod u=rwx,g=rwx,o=x "/Library/Application Support/BOINC Data"
     // 0771 = S_IRUSR | S_IWUSR | S_IXUSR | S_IRGRP | S_IWGRP | S_IXGRP | S_IXOTH
     // Set read, write and execute permission for user & group; execute-only permission for others
-    err = DoPrivilegedExec(chmodPath, "u=rwx,g=rwx,o=x", BOINCDataDirPath, NULL, NULL, NULL);
+    err = DoPrivilegedExec(chmodPath, "u=rwx,g=rwx,o=x", BOINCDataDirPath, NULL, NULL, NULL, NULL);
     if (err)
         return err;
 
@@ -391,7 +391,7 @@ int SetBOINCDataOwnersGroupsAndPermissions() {
         // Set owner and group of projects directory and it's contents
         sprintf(buf1, "%s:%s", boinc_master_user_name, boinc_project_group_name);
         // chown -R boinc_master:boinc_project "/Library/Application Support/BOINC Data/projects"
-        err = DoPrivilegedExec(chownPath, "-Rh", buf1, fullpath, NULL, NULL);
+        err = DoPrivilegedExec(chownPath, "-Rh", buf1, fullpath, NULL, NULL, NULL);
         if (err)
             return err;
 
@@ -399,7 +399,7 @@ int SetBOINCDataOwnersGroupsAndPermissions() {
         // Set owner and group of projects directory itself
         sprintf(buf1, "%s:%s", boinc_master_user_name, boinc_project_group_name);
         // chown -R boinc_master:boinc_project "/Library/Application Support/BOINC Data/projects"
-        err = DoPrivilegedExec(chownPath, buf1, fullpath, NULL, NULL, NULL);
+        err = DoPrivilegedExec(chownPath, buf1, fullpath, NULL, NULL, NULL, NULL);
         if (err)
             return err;
 #endif
@@ -410,7 +410,7 @@ int SetBOINCDataOwnersGroupsAndPermissions() {
         // chmod -R u+rw,g+rw,o+r-w "/Library/Application Support/BOINC Data/projects"
         // 0664 = S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH
         // set read and write permission for user and group, no access for others (leaves execute bits unchanged)
-        err = DoPrivilegedExec(chmodPath, "-R", "u+rw,g+rw,o+r-w", fullpath, NULL, NULL);
+        err = DoPrivilegedExec(chmodPath, "-R", "u+rw,g+rw,o+r-w", fullpath, NULL, NULL, NULL);
         if (err)
             return err;
 
@@ -418,7 +418,7 @@ int SetBOINCDataOwnersGroupsAndPermissions() {
         // chmod u=rwx,g=rwx,o= "/Library/Application Support/BOINC Data/projects"
         // 0770 = S_IRUSR | S_IWUSR | S_IXUSR | S_IRGRP | S_IWGRP | S_IXGRP
         // Set read, write and execute permission for user & group, no access for others
-        err = DoPrivilegedExec(chmodPath, "u=rwx,g=rwx,o=", fullpath, NULL, NULL, NULL);
+        err = DoPrivilegedExec(chmodPath, "u=rwx,g=rwx,o=", fullpath, NULL, NULL, NULL, NULL);
         if (err)
             return err;
 
@@ -438,7 +438,7 @@ int SetBOINCDataOwnersGroupsAndPermissions() {
         // Set owner and group of slots directory and it's contents
         sprintf(buf1, "%s:%s", boinc_master_user_name, boinc_project_group_name);
         // chown -R boinc_master:boinc_project "/Library/Application Support/BOINC Data/slots"
-        err = DoPrivilegedExec(chownPath, "-Rh", buf1, fullpath, NULL, NULL);
+        err = DoPrivilegedExec(chownPath, "-Rh", buf1, fullpath, NULL, NULL, NULL);
         if (err)
             return err;
 
@@ -446,7 +446,7 @@ int SetBOINCDataOwnersGroupsAndPermissions() {
         // Set owner and group of slots directory itself
         sprintf(buf1, "%s:%s", boinc_master_user_name, boinc_project_group_name);
         // chown boinc_master:boinc_project "/Library/Application Support/BOINC Data/slots"
-        err = DoPrivilegedExec(chownPath, buf1, fullpath, NULL, NULL, NULL);
+        err = DoPrivilegedExec(chownPath, buf1, fullpath, NULL, NULL, NULL, NULL);
         if (err)
             return err;
 #endif
@@ -457,7 +457,7 @@ int SetBOINCDataOwnersGroupsAndPermissions() {
         // chmod -R u+rw,g+rw,o+r-w "/Library/Application Support/BOINC Data/slots"
         // 0664 = S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH
         // set read and write permission for user and group, no access for others (leaves execute bits unchanged)
-        err = DoPrivilegedExec(chmodPath, "-R", "u+rw,g+rw,o+r-w", fullpath, NULL, NULL);
+        err = DoPrivilegedExec(chmodPath, "-R", "u+rw,g+rw,o+r-w", fullpath, NULL, NULL, NULL);
         if (err)
             return err;
 
@@ -465,7 +465,7 @@ int SetBOINCDataOwnersGroupsAndPermissions() {
         // chmod u=rwx,g=rwx,o= "/Library/Application Support/BOINC Data/slots"
         // 0770 = S_IRUSR | S_IWUSR | S_IXUSR | S_IRGRP | S_IWGRP | S_IXGRP
         // Set read, write and execute permission for user & group, no access for others
-        err = DoPrivilegedExec(chmodPath, "u=rwx,g=rwx,o=", fullpath, NULL, NULL, NULL);
+        err = DoPrivilegedExec(chmodPath, "u=rwx,g=rwx,o=", fullpath, NULL, NULL, NULL, NULL);
         if (err)
             return err;
 
@@ -485,7 +485,7 @@ int SetBOINCDataOwnersGroupsAndPermissions() {
         // Set owner and group of locale directory and all its contents
         sprintf(buf1, "%s:%s", boinc_master_user_name, boinc_master_group_name);
         // chown -R boinc_master:boinc_master "/Library/Application Support/BOINC Data/locale"
-        err = DoPrivilegedExec(chownPath, "-R", buf1, fullpath, NULL, NULL);
+        err = DoPrivilegedExec(chownPath, "-R", buf1, fullpath, NULL, NULL, NULL);
         if (err)
             return err;
 #endif
@@ -493,9 +493,9 @@ int SetBOINCDataOwnersGroupsAndPermissions() {
         // chmod -R u+r-w,g+r-w,o+r-w "/Library/Application Support/BOINC Data/locale"
         // 0550 = S_IRUSR | S_IXUSR | S_IRGRP | S_IXUSR | S_IROTH | S_IXOTH 
         // Set execute permission for user, group, and others if it was set for any
-        err = DoPrivilegedExec(chmodPath, "-R", "+X", fullpath, NULL, NULL);
+        err = DoPrivilegedExec(chmodPath, "-R", "+X", fullpath, NULL, NULL, NULL);
         // Set read-only permission for user, group, and others (leaves execute bits unchanged)
-        err = DoPrivilegedExec(chmodPath, "-R", "u+r-w,g+r-w,o+r-w", fullpath, NULL, NULL);
+        err = DoPrivilegedExec(chmodPath, "-R", "u+r-w,g+r-w,o+r-w", fullpath, NULL, NULL, NULL);
         if (err)
             return err;
     }       // locale directory
@@ -511,7 +511,7 @@ int SetBOINCDataOwnersGroupsAndPermissions() {
         // Set owner and group of switcher directory
         sprintf(buf1, "%s:%s", boinc_master_user_name, boinc_master_group_name);
         // chown boinc_master:boinc_master "/Library/Application Support/BOINC Data/switcher"
-        err = DoPrivilegedExec(chownPath, buf1, fullpath, NULL, NULL, NULL);
+        err = DoPrivilegedExec(chownPath, buf1, fullpath, NULL, NULL, NULL, NULL);
         if (err)
             return err;
 #endif
@@ -519,7 +519,7 @@ int SetBOINCDataOwnersGroupsAndPermissions() {
         // chmod u=rx,g=rx,o= "/Library/Application Support/BOINC Data/switcher"
         // 0550 = S_IRUSR | S_IXUSR | S_IRGRP | S_IXGRP
         // Set read and execute permission for user and group, no access for others
-        err = DoPrivilegedExec(chmodPath, "u=rx,g=rx,o=", fullpath, NULL, NULL, NULL);
+        err = DoPrivilegedExec(chmodPath, "u=rx,g=rx,o=", fullpath, NULL, NULL, NULL, NULL);
         if (err)
             return err;
     }       // switcher directory
@@ -531,7 +531,7 @@ int SetBOINCDataOwnersGroupsAndPermissions() {
         // Set owner and group of switcher application
         sprintf(buf1, "root:%s", boinc_master_group_name);
         // chown root:boinc_master "/Library/Application Support/BOINC Data/switcher/switcher"
-        err = DoPrivilegedExec(chownPath, buf1, fullpath, NULL, NULL, NULL);
+        err = DoPrivilegedExec(chownPath, buf1, fullpath, NULL, NULL, NULL, NULL);
         if (err)
             return err;
 
@@ -539,7 +539,7 @@ int SetBOINCDataOwnersGroupsAndPermissions() {
         // chmod u=s,g=rx,o= "/Library/Application Support/BOINC Data/switcher/switcher"
         // 04050 = S_ISUID | S_IRGRP | S_IXGRP
         // Set setuid-on-execution plus read and execute permission for group boinc_master only
-        err = DoPrivilegedExec(chmodPath, "u=s,g=rx,o=", fullpath, NULL, NULL, NULL);
+        err = DoPrivilegedExec(chmodPath, "u=s,g=rx,o=", fullpath, NULL, NULL, NULL, NULL);
         if (err)
             return err;
     }       // switcher application
@@ -554,7 +554,7 @@ int SetBOINCDataOwnersGroupsAndPermissions() {
         // Set owner and group of setprojectgrp application
         sprintf(buf1, "%s:%s", boinc_master_user_name, boinc_project_group_name);
         // chown boinc_master:boinc_project "/Library/Application Support/BOINC Data/switcher/setprojectgrp"
-        err = DoPrivilegedExec(chownPath, buf1, fullpath, NULL, NULL, NULL);
+        err = DoPrivilegedExec(chownPath, buf1, fullpath, NULL, NULL, NULL, NULL);
         if (err)
             return err;
 
@@ -562,7 +562,7 @@ int SetBOINCDataOwnersGroupsAndPermissions() {
         // chmod u=rx,g=s,o= "/Library/Application Support/BOINC Data/switcher/setprojectgrp"
         // 02500 = S_ISGID | S_IRUSR | S_IXUSR
         // Set setgid-on-execution plus read and execute permission for user only
-        err = DoPrivilegedExec(chmodPath, "u=rx,g=s,o=", fullpath, NULL, NULL, NULL);
+        err = DoPrivilegedExec(chmodPath, "u=rx,g=s,o=", fullpath, NULL, NULL, NULL, NULL);
         if (err)
             return err;
     }       // setprojectgrp application
@@ -579,7 +579,7 @@ int SetBOINCDataOwnersGroupsAndPermissions() {
         // Set owner and group of AppStats application (must be setuid root)
         sprintf(buf1, "root:%s", boinc_master_group_name);
         // chown root:boinc_project "/Library/Application Support/BOINC Data/switcher/AppStats"
-        err = DoPrivilegedExec(chownPath, buf1, fullpath, NULL, NULL, NULL);
+        err = DoPrivilegedExec(chownPath, buf1, fullpath, NULL, NULL, NULL, NULL);
         if (err)
             return err;
 
@@ -587,7 +587,7 @@ int SetBOINCDataOwnersGroupsAndPermissions() {
         // chmod u=rsx,g=rx,o= "/Library/Application Support/BOINC Data/switcher/AppStats"
         // 04550 = S_ISUID | S_IRUSR | S_IXUSR | S_IRGRP | S_IXGRP
         // Set setuid-on-execution plus read and execute permission for user and group
-        err = DoPrivilegedExec(chmodPath, "u=rsx,g=rx,o=", fullpath, NULL, NULL, NULL);
+        err = DoPrivilegedExec(chmodPath, "u=rsx,g=rx,o=", fullpath, NULL, NULL, NULL, NULL);
         if (err)
             return err;
     }       // setprojectgrp application
@@ -632,7 +632,7 @@ static OSStatus MakeXMLFilesPrivate(char * basepath) {
         // chmod u+rw,g+rw,o= "/Library/Application Support/BOINC Data/????.xml"
         // 0660 = S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP0
         // Set read and write permission for user and group, no access for others
-        retval = DoPrivilegedExec(chmodPath, "u+rw,g+rw,o=", fullpath, NULL, NULL, NULL);
+        retval = DoPrivilegedExec(chmodPath, "u+rw,g+rw,o=", fullpath, NULL, NULL, NULL, NULL);
         if (retval)
             break;
     }       // End while (true)
@@ -684,7 +684,7 @@ static OSStatus UpdateNestedDirectories(char * basepath) {
             // chmod u=rwx,g=rwx,o=rx fullpath
             // 0775 = S_IRUSR | S_IWUSR | S_IXUSR | S_IRGRP | S_IWGRP | S_IXGRP | S_IROTH | S_IXOTH
             // Set read, write and execute permission for user & group;  read and execute permission for others
-            retval = DoPrivilegedExec(chmodPath, "u=rwx,g=rwx,o=rx", fullpath, NULL, NULL, NULL);
+            retval = DoPrivilegedExec(chmodPath, "u=rwx,g=rwx,o=rx", fullpath, NULL, NULL, NULL, NULL);
             if (retval)
                 break;
 
@@ -695,7 +695,7 @@ static OSStatus UpdateNestedDirectories(char * basepath) {
             // Since we are changing ownership from boinc_project to boinc_master, 
             // make sure executable-by-group bit is set if executable-by-owner is set 
             if ((sbuf.st_mode & 0110) == 0100) {    // If executable by owner but not by group
-                retval = DoPrivilegedExec(chmodPath, "g+x", fullpath, NULL, NULL, NULL);
+                retval = DoPrivilegedExec(chmodPath, "g+x", fullpath, NULL, NULL, NULL, NULL);
             }
         }
             
@@ -721,6 +721,7 @@ static OSStatus CreateUserAndGroup(char * user_name, char * group_name) {
     char            buf1[80];
     char            buf2[80];
     char            buf3[80];
+    char            buf4[80];
     SInt32          response;
    
     err = Gestalt(gestaltSystemVersion, &response);
@@ -743,8 +744,11 @@ static OSStatus CreateUserAndGroup(char * user_name, char * group_name) {
         groupExists = true;
     }
     
+    sprintf(buf1, "/groups/%s", group_name);
+    sprintf(buf2, "/users/%s", user_name);
+
     if ( userExists && groupExists )
-        return noErr;       // User and group already exist
+        goto setRealName;       // User and group already exist
 
     // If only user or only group exists, try to use the same ID for the one we create
     if (userExists) {      // User exists but group does not
@@ -795,51 +799,59 @@ static OSStatus CreateUserAndGroup(char * user_name, char * group_name) {
         }
     }
     
-    sprintf(buf1, "/groups/%s", group_name);
-    sprintf(buf2, "%d", groupid);
+    sprintf(buf3, "%d", groupid);
+    sprintf(buf4, "%d", userid);
 
     if (! groupExists) {             // If we need to create group
         // Something like "dscl . -create /groups/boinc_master"
-        err = DoPrivilegedExec(dsclPath, ".", "-create", buf1, NULL, NULL);
+        err = DoPrivilegedExec(dsclPath, ".", "-create", buf1, NULL, NULL, NULL);
         if (err)
             return err;
  
         // Something like "dscl . -create /groups/boinc_master gid 33"
-        err = DoPrivilegedExec(dsclPath, ".", "-create", buf1, "gid", buf2);
+        err = DoPrivilegedExec(dsclPath, ".", "-create", buf1, "gid", buf3, NULL);
         if (err)
             return err;
     }           // if (! groupExists)
-
-    sprintf(buf1, "/users/%s", user_name);
-    sprintf(buf2, "%d", groupid);
-    sprintf(buf3, "%d", userid);
         
     if (! userExists) {             // If we need to create user
         // Something like "dscl . -create /users/boinc_master"
-        err = DoPrivilegedExec(dsclPath, ".", "-create", buf1, NULL, NULL);
+        err = DoPrivilegedExec(dsclPath, ".", "-create", buf2, NULL, NULL, NULL);
         if (err)
             return err;
 
         // Something like "dscl . -create /users/boinc_master uid 33"
-        err = DoPrivilegedExec(dsclPath, ".", "-create", buf1, "uid", buf3);
+        err = DoPrivilegedExec(dsclPath, ".", "-create", buf2, "uid", buf4, NULL);
         if (err)
             return err;
 
         // Prevent a security hole by not allowing a login from this user
         // Something like "dscl . -create /users/boinc_master shell /usr/bin/false"
-        err = DoPrivilegedExec(dsclPath, ".", "-create", buf1, "shell", "/usr/bin/false");
+        err = DoPrivilegedExec(dsclPath, ".", "-create", buf2, "shell", "/usr/bin/false", NULL);
         if (err)
             return err;
 
         // Something like "dscl . -create /users/boinc_master home /var/empty"
-        err = DoPrivilegedExec(dsclPath, ".", "-create", buf1, "home", "/var/empty");
+        err = DoPrivilegedExec(dsclPath, ".", "-create", buf2, "home", "/var/empty", NULL);
         if (err)
             return err;
     }           // if (! userExists)
 
     // Always set the user gid if we created either the user or the group or both
     // Something like "dscl . -create /users/boinc_master gid 33"
-    err = DoPrivilegedExec(dsclPath, ".", "-create", buf1, "gid", buf2);
+    err = DoPrivilegedExec(dsclPath, ".", "-create", buf2, "gid", buf3, NULL);
+    if (err)
+        return err;
+
+setRealName:
+    // Always set the RealName field to an empty string
+    // Something like "dscl . -create /users/boinc_master RealName tempName"
+    err = DoPrivilegedExec(dsclPath, ".", "-create", buf2, "RealName", "tempName", NULL);
+    if (err)
+        return err;
+
+    // Something like 'dscl . -change /users/boinc_master RealName ""'
+    err = DoPrivilegedExec(dsclPath, ".", "-change", buf2, "RealName", "tempName", "");
     if (err)
         return err;
 
@@ -861,7 +873,7 @@ int AddAdminUserToGroups(char *user_name, bool add_to_boinc_project) {
     sprintf(buf1, "/groups/%s", boinc_master_group_name);
 
     // "dscl . -merge /groups/boinc_master users user_name"
-    err = DoPrivilegedExec(dsclPath, ".", "-merge", buf1, "users", user_name);
+    err = DoPrivilegedExec(dsclPath, ".", "-merge", buf1, "users", user_name, NULL);
     if (err)
         return err;
 
@@ -869,7 +881,7 @@ int AddAdminUserToGroups(char *user_name, bool add_to_boinc_project) {
         sprintf(buf1, "/groups/%s", boinc_project_group_name);
 
         // "dscl . -merge /groups/boinc_project users user_name"
-        err = DoPrivilegedExec(dsclPath, ".", "-merge", buf1, "users", user_name);
+        err = DoPrivilegedExec(dsclPath, ".", "-merge", buf1, "users", user_name, NULL);
         if (err)
             return err;
     }
@@ -1024,7 +1036,7 @@ static OSStatus GetAuthorization (void) {
     return err;
 }
 
-OSStatus DoPrivilegedExec(const char *pathToTool, char *arg1, char *arg2, char *arg3, char *arg4, char *arg5) {
+OSStatus DoPrivilegedExec(const char *pathToTool, char *arg1, char *arg2, char *arg3, char *arg4, char *arg5, char *arg6) {
     short               i;
     char                *args[8];
     OSStatus            err;
@@ -1043,7 +1055,8 @@ OSStatus DoPrivilegedExec(const char *pathToTool, char *arg1, char *arg2, char *
             args[2] = arg3;
             args[3] = arg4;
             args[4] = arg5;
-            args[5] = NULL;
+            args[5] = arg6;
+            args[6] = NULL;
 
             err = AuthorizationExecuteWithPrivileges (gOurAuthRef, pathToTool, 0, args, &ioPipe);
             if (ioPipe) {
