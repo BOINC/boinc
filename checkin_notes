@@ -2134,7 +2134,7 @@ Charlie 23 Feb 2012
     clientgui/skins/Progress Thru Processors/
         skin.xml
 
-Charlie 243 Feb 2012
+Charlie 24 Feb 2012
     - Mac installer: Create RealName field for users boinc_master and 
         boinc_project and set it to empty string (following new advice from 
         Apple Developer technical Suport.)
